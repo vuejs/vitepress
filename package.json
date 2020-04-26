@@ -1,0 +1,23 @@
+{
+  "name": "vitepress",
+  "version": "0.1.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "vitepress": "bin/vitepress.js"
+  },
+  "scripts": {
+    "dev": "tsc -w -p ."
+  },
+  "keywords": [
+    "vite",
+    "vuepress"
+  ],
+  "author": "Evan You",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^3.8.3"
+  }
+}
