@@ -17,5 +17,5 @@
     "removeComments": false,
     "preserveSymlinks": true
   },
-  "include": ["src"]
+  "include": ["lib"]
 }
