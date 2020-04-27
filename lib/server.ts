@@ -1,34 +1,52 @@
 import path from 'path'
-import { createServer as createViteServer, cachedRead, Plugin } from 'vite'
+import {
+  createServer as createViteServer,
+  cachedRead,
+  Plugin,
+  Resolver
+} from 'vite'
 
 const debug = require('debug')('vitepress')
 
 // built ts files are placed into /dist
-const resolveAppFile = (file: string) =>
-  path.join(__dirname, '../lib/app', file)
-
+const appPath = path.join(__dirname, '../lib/app')
 // TODO detect user configured theme
-const resolveThemeFile = (file: string) =>
-  path.join(__dirname, '../lib/theme-default', file)
+const themePath = path.join(__dirname, '../lib/theme-default')
 
-const VitePressPlugin: Plugin = ({ root, app }) => {
-  app.use(async (ctx, next) => {
-    // detect and serve vitepress app files
-    if (ctx.path.startsWith('/@app')) {
-      const file = ctx.path.replace(/^\/@app\/?/, '')
-      ctx.type = path.extname(file)
-      ctx.body = await cachedRead(resolveAppFile(file))
-
-      debug(`serving app file: ${ctx.url}`)
-      return next()
+const VitePressResolver: Resolver = {
+  publicToFile(publicPath) {
+    if (publicPath.startsWith('/@app')) {
+      return path.join(appPath, publicPath.replace(/^\/@app\/?/, ''))
     }
+    if (publicPath.startsWith('/@theme')) {
+      return path.join(themePath, publicPath.replace(/^\/@theme\/?/, ''))
+    }
+  },
+  fileToPublic(filePath) {
+    if (filePath.startsWith(appPath)) {
+      return `/@app/${path.relative(appPath, filePath)}`
+    }
+    if (filePath.startsWith(themePath)) {
+      return `/@theme/${path.relative(themePath, filePath)}`
+    }
+  }
+}
 
-    if (ctx.path.startsWith('/@theme')) {
-      const file = ctx.path.replace(/^\/@theme\/?/, '')
+const VitePressPlugin: Plugin = ({ app, root, watcher }) => {
+  // watch theme files if it's outside of project root
+  if (path.relative(root, themePath).startsWith('..')) {
+    debug(`watching theme dir outside of project root: ${themePath}`)
+    watcher.add(themePath)
+  }
+
+  app.use(async (ctx, next) => {
+    // detect and serve vitepress files
+    const file = VitePressResolver.publicToFile(ctx.path, root)
+    if (file) {
       ctx.type = path.extname(file)
-      ctx.body = await cachedRead(resolveThemeFile(file))
+      ctx.body = await cachedRead(file)
 
-      debug(`serving theme file: ${ctx.url}`)
+      debug(`serving file: ${ctx.url}`)
       return next()
     }
 
@@ -37,16 +55,18 @@ const VitePressPlugin: Plugin = ({ root, app }) => {
     }
 
     await next()
+
     // serve our index.html after vite history fallback
     if (ctx.url === '/index.html') {
       ctx.type = 'text/html'
-      ctx.body = await cachedRead(resolveAppFile('index-dev.html'))
+      ctx.body = await cachedRead(path.join(appPath, 'index-dev.html'))
     }
   })
 }
 
 export function createServer() {
   return createViteServer({
-    plugins: [VitePressPlugin]
+    plugins: [VitePressPlugin],
+    resolvers: [VitePressResolver]
   })
 }
