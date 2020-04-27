@@ -24,7 +24,9 @@ const VitePressPlugin: Plugin = ({ app, root, watcher, resolver }) => {
     }
   })
 
+  // inject Koa middleware
   app.use(async (ctx, next) => {
+    // handle .md -> vue transforms
     if (ctx.path.endsWith('.md')) {
       const file = resolver.publicToFile(ctx.path)
       await cachedRead(ctx, file)
@@ -35,7 +37,7 @@ const VitePressPlugin: Plugin = ({ app, root, watcher, resolver }) => {
       return next()
     }
 
-    // detect and serve vitepress files
+    // detect and serve vitepress @app / @theme files
     const file = VitePressResolver.publicToFile(ctx.path, root)
     if (file) {
       ctx.type = path.extname(file)

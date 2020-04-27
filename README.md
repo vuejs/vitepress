@@ -1,7 +1,3 @@
-## Problems to Fix
+# (WIP) vitepress 📝💨
 
-- Should not require vue-router
-- Should not require chunk metadata for each page
-- Should only inline site metadata that is used in runtime code (detect via proxy created with `useSiteData()`)
-- Should use stringified site metadata
-- i18n data should be fetched on demand
+> [VuePress](http://vuepress.vuejs.org/)' little brother, built on top of [vite](https://github.com/vuejs/vite)
