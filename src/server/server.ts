@@ -1,5 +1,10 @@
 import path from 'path'
-import { createServer as createViteServer, cachedRead, Plugin } from 'vite'
+import {
+  createServer as createViteServer,
+  cachedRead,
+  Plugin,
+  ServerConfig
+} from 'vite'
 import { createMarkdownToVueRenderFn } from '../markdown/markdownToVue'
 import { VitePressResolver, THEME_PATH, APP_PATH } from './resolver'
 
@@ -56,8 +61,9 @@ const VitePressPlugin: Plugin = ({ app, root, watcher, resolver }) => {
   })
 }
 
-export function createServer() {
+export function createServer(options: ServerConfig = {}) {
   return createViteServer({
+    ...options,
     plugins: [VitePressPlugin],
     resolvers: [VitePressResolver]
   })
