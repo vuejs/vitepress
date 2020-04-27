@@ -1,13 +1,13 @@
 import path from 'path'
 import { createServer as createViteServer, cachedRead, Plugin } from 'vite'
-import { createMarkdownFn } from './markdownToVue'
+import { createMarkdownToVueRenderFn } from '../markdown/markdownToVue'
 import { VitePressResolver, THEME_PATH, APP_PATH } from './resolver'
 
 const debug = require('debug')('vitepress:serve')
 const debugHmr = require('debug')('vitepress:hmr')
 
 const VitePressPlugin: Plugin = ({ app, root, watcher, resolver }) => {
-  const markdownToVue = createMarkdownFn(root)
+  const markdownToVue = createMarkdownToVueRenderFn(root)
 
   // watch theme files if it's outside of project root
   if (path.relative(root, THEME_PATH).startsWith('..')) {

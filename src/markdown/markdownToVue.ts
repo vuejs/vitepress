@@ -1,14 +1,17 @@
 import path from 'path'
-import { createMarkdownRenderer, MarkdownOpitons } from './markdown/index'
+import { createMarkdownRenderer, MarkdownOpitons } from './markdown'
 import LRUCache from 'lru-cache'
 
+const matter = require('gray-matter')
 const debug = require('debug')('vitepress:md')
 const cache = new LRUCache<string, string>({ max: 1024 })
 
-const matter = require('gray-matter')
-
-export function createMarkdownFn(root: string, options: MarkdownOpitons = {}) {
+export function createMarkdownToVueRenderFn(
+  root: string,
+  options: MarkdownOpitons = {}
+) {
   const md = createMarkdownRenderer(options)
+
   return (src: string, file: string) => {
     file = path.relative(root, file)
     const cached = cache.get(src)
@@ -21,9 +24,10 @@ export function createMarkdownFn(root: string, options: MarkdownOpitons = {}) {
     const { content, data } = matter(src)
     const { html } = md.render(content)
 
-    // TODO make use of data
+    // TODO validate links?
 
-    const vueSrc = `<template>${html}</template>`
+    const vueSrc =
+      `<template>${html}</template>` + (data.hoistedTags || []).join('\n')
     debug(`[render] ${file} in ${Date.now() - start}ms.`, data)
     cache.set(src, vueSrc)
     return vueSrc

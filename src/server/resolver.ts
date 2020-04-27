@@ -2,9 +2,9 @@ import path from 'path'
 import { Resolver } from "vite"
 
 // built ts files are placed into /dist
-export const APP_PATH = path.join(__dirname, '../lib/app')
+export const APP_PATH = path.join(__dirname, '../../lib/app')
 // TODO detect user configured theme
-export const THEME_PATH = path.join(__dirname, '../lib/theme-default')
+export const THEME_PATH = path.join(__dirname, '../../lib/theme-default')
 
 export const VitePressResolver: Resolver = {
   publicToFile(publicPath) {

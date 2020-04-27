@@ -3,11 +3,12 @@
 // 2. normalize internal links to end with `.html`
 
 import MarkdownIt from 'markdown-it'
+import { MarkdownParsedData } from '../markdown'
 
 const indexRE = /(^|.*\/)(index|readme).md(#?.*)$/i
 
 export const linkPlugin = (
-  md: MarkdownIt,
+  md: MarkdownIt & { __data: MarkdownParsedData },
   externalAttrs: Record<string, string>
 ) => {
   md.renderer.rules.link_open = (tokens, idx, options, env, self) => {
@@ -30,7 +31,7 @@ export const linkPlugin = (
   }
 
   function normalizeHref(hrefAttr: [string, string]) {
-    const data = (md as any).__data
+    const data = md.__data
     let url = hrefAttr[1]
 
     // convert link to filename and export it for existence check

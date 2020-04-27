@@ -1,15 +1,15 @@
 import MarkdownIt from 'markdown-it'
 import { parseHeaders } from '../utils/parseHeaders'
-import { highlight } from './highlight'
-import { slugify } from './slugify'
-import { highlightLinePlugin } from './highlightLines'
-import { lineNumberPlugin } from './lineNumbers'
-import { componentPlugin } from './component'
-import { containerPlugin } from './containers'
-import { snippetPlugin } from './snippet'
-import { hoistPlugin } from './hoist'
-import { preWrapperPlugin } from './preWrapper'
-import { linkPlugin } from './link'
+import { highlight } from './plugins/highlight'
+import { slugify } from './plugins/slugify'
+import { highlightLinePlugin } from './plugins/highlightLines'
+import { lineNumberPlugin } from './plugins/lineNumbers'
+import { componentPlugin } from './plugins/component'
+import { containerPlugin } from './plugins/containers'
+import { snippetPlugin } from './plugins/snippet'
+import { hoistPlugin } from './plugins/hoist'
+import { preWrapperPlugin } from './plugins/preWrapper'
+import { linkPlugin } from './plugins/link'
 
 const emoji = require('markdown-it-emoji')
 const anchor = require('markdown-it-anchor')
@@ -28,8 +28,13 @@ export interface MarkdownOpitons extends MarkdownIt.Options {
   externalLinks?: Record<string, string>
 }
 
+export interface MarkdownParsedData {
+  hoistedTags?: string[]
+  links?: string[]
+}
+
 export interface MarkdownRenderer {
-  __data?: any
+  __data: MarkdownParsedData
   render: (src: string, env?: any) => { html: string; data: any }
 }
 
@@ -91,13 +96,7 @@ export const createMarkdownRenderer = (
     md.use(lineNumberPlugin)
   }
 
-  dataReturnable(md)
-
-  return md as any
-}
-
-export const dataReturnable = (md: MarkdownIt) => {
-  // override render to allow custom plugins return data
+  // wrap render so that we can return both the html and extracted data.
   const render = md.render
   const wrappedRender: MarkdownRenderer['render'] = (src) => {
     (md as any).__data = {}
@@ -107,6 +106,7 @@ export const dataReturnable = (md: MarkdownIt) => {
       data: (md as any).__data
     }
   }
-
   ;(md as any).render = wrappedRender
+
+  return md as any
 }

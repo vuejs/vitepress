@@ -1,6 +1,9 @@
 import MarkdownIt from 'markdown-it'
+import { MarkdownParsedData } from '../markdown'
 
-export const hoistPlugin = (md: MarkdownIt & { __data: any }) => {
+// hoist <script> and <style> tags out of the returned html
+// so that they can be placed outside as SFC blocks.
+export const hoistPlugin = (md: MarkdownIt & { __data: MarkdownParsedData }) => {
   const RE = /^<(script|style)(?=(\s|>|$))/i
 
   md.renderer.rules.html_block = (tokens, idx) => {
