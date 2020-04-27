@@ -1,10 +1,12 @@
 import path from 'path'
+import { promises  as fs } from 'fs'
 import {
   createServer as createViteServer,
   cachedRead,
   Plugin,
   Resolver
 } from 'vite'
+import { markdownToVue } from './markdown'
 
 const debug = require('debug')('vitepress')
 
@@ -32,34 +34,46 @@ const VitePressResolver: Resolver = {
   }
 }
 
-const VitePressPlugin: Plugin = ({ app, root, watcher }) => {
+const VitePressPlugin: Plugin = ({ app, root, watcher, resolver }) => {
   // watch theme files if it's outside of project root
   if (path.relative(root, themePath).startsWith('..')) {
     debug(`watching theme dir outside of project root: ${themePath}`)
     watcher.add(themePath)
   }
 
+  // hot reload .md files as .vue files
+  watcher.on('change', async (file) => {
+    if (file.endsWith('.md')) {
+      const content = await fs.readFile(file, 'utf-8')
+      watcher.handleVueReload(file, Date.now(), markdownToVue(content))
+    }
+  })
+
   app.use(async (ctx, next) => {
+    if (ctx.path.endsWith('.md')) {
+      await cachedRead(ctx, resolver.publicToFile(ctx.path))
+      // let vite know this is supposed to be treated as vue file
+      ctx.vue = true
+      ctx.body = markdownToVue(ctx.body)
+      debug(`serving ${ctx.url}`)
+      return next()
+    }
+
     // detect and serve vitepress files
     const file = VitePressResolver.publicToFile(ctx.path, root)
     if (file) {
       ctx.type = path.extname(file)
-      ctx.body = await cachedRead(file)
+      await cachedRead(ctx, file)
 
       debug(`serving file: ${ctx.url}`)
       return next()
-    }
-
-    if (ctx.path.endsWith('.md')) {
-      debug(`serving .md: ${ctx.path}`)
     }
 
     await next()
 
     // serve our index.html after vite history fallback
     if (ctx.url === '/index.html') {
-      ctx.type = 'text/html'
-      ctx.body = await cachedRead(path.join(appPath, 'index-dev.html'))
+      await cachedRead(ctx, path.join(appPath, 'index-dev.html'))
     }
   })
 }
