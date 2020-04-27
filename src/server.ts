@@ -3,20 +3,22 @@ import { createServer as createViteServer, cachedRead, Plugin } from 'vite'
 import { createMarkdownFn } from './markdownToVue'
 import { VitePressResolver, THEME_PATH, APP_PATH } from './resolver'
 
-const debug = require('debug')('vitepress')
+const debug = require('debug')('vitepress:serve')
+const debugHmr = require('debug')('vitepress:hmr')
 
 const VitePressPlugin: Plugin = ({ app, root, watcher, resolver }) => {
   const markdownToVue = createMarkdownFn(root)
 
   // watch theme files if it's outside of project root
   if (path.relative(root, THEME_PATH).startsWith('..')) {
-    debug(`watching theme dir outside of project root: ${THEME_PATH}`)
+    debugHmr(`watching theme dir outside of project root: ${THEME_PATH}`)
     watcher.add(THEME_PATH)
   }
 
   // hot reload .md files as .vue files
   watcher.on('change', async (file) => {
     if (file.endsWith('.md')) {
+      debugHmr(`reloading ${file}`)
       const content = await cachedRead(null, file)
       watcher.handleVueReload(file, Date.now(), markdownToVue(content, file))
     }
@@ -29,7 +31,7 @@ const VitePressPlugin: Plugin = ({ app, root, watcher, resolver }) => {
       // let vite know this is supposed to be treated as vue file
       ctx.vue = true
       ctx.body = markdownToVue(ctx.body, file)
-      debug(`serving ${ctx.url}`)
+      debug(ctx.url)
       return next()
     }
 
@@ -39,7 +41,7 @@ const VitePressPlugin: Plugin = ({ app, root, watcher, resolver }) => {
       ctx.type = path.extname(file)
       await cachedRead(ctx, file)
 
-      debug(`serving file: ${ctx.url}`)
+      debug(ctx.url)
       return next()
     }
 
