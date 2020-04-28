@@ -18,12 +18,11 @@ export const linkPlugin = (
       const hrefAttr = token.attrs![hrefIndex]
       const url = hrefAttr[1]
       const isExternal = /^https?:/.test(url)
-      const isSourceLink = /(\/|\.md|\.html)(#.*)?$/.test(url)
       if (isExternal) {
         Object.entries(externalAttrs).forEach(([key, val]) => {
           token.attrSet(key, val)
         })
-      } else if (isSourceLink) {
+      } else if (!url.startsWith('#')) {
         normalizeHref(hrefAttr)
       }
     }
@@ -31,12 +30,7 @@ export const linkPlugin = (
   }
 
   function normalizeHref(hrefAttr: [string, string]) {
-    const data = md.__data
     let url = hrefAttr[1]
-
-    // convert link to filename and export it for existence check
-    const links = data.links || (data.links = [])
-    links.push(url)
 
     const indexMatch = url.match(indexRE)
     if (indexMatch) {
@@ -50,6 +44,11 @@ export const linkPlugin = (
     if (!url.startsWith('/')) {
       url = ensureBeginningDotSlash(url)
     }
+
+    // export it for existence check
+    const data = md.__data
+    const links = data.links || (data.links = [])
+    links.push(url)
 
     // markdown-it encodes the uri
     hrefAttr[1] = decodeURI(url)

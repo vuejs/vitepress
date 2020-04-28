@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "baseUrl": "../",
     "lib": ["ESNext", "DOM"],
     "moduleResolution": "node",
     "checkJs": true,

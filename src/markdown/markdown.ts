@@ -1,5 +1,5 @@
 import MarkdownIt from 'markdown-it'
-import { parseHeaders } from '../utils/parseHeaders'
+import { parseHeader } from '../utils/parseHeader'
 import { highlight } from './plugins/highlight'
 import { slugify } from './plugins/slugify'
 import { highlightLinePlugin } from './plugins/highlightLines'
@@ -10,6 +10,7 @@ import { snippetPlugin } from './plugins/snippet'
 import { hoistPlugin } from './plugins/hoist'
 import { preWrapperPlugin } from './plugins/preWrapper'
 import { linkPlugin } from './plugins/link'
+import { extractHeaderPlugin, Header } from './plugins/header'
 
 const emoji = require('markdown-it-emoji')
 const anchor = require('markdown-it-anchor')
@@ -31,6 +32,7 @@ export interface MarkdownOpitons extends MarkdownIt.Options {
 export interface MarkdownParsedData {
   hoistedTags?: string[]
   links?: string[]
+  headers?: Header[]
 }
 
 export interface MarkdownRenderer {
@@ -55,6 +57,7 @@ export const createMarkdownRenderer = (
     .use(snippetPlugin)
     .use(hoistPlugin)
     .use(containerPlugin)
+    .use(extractHeaderPlugin)
     .use(linkPlugin, {
       target: '_blank',
       rel: 'noopener noreferrer',
@@ -81,7 +84,7 @@ export const createMarkdownRenderer = (
         {
           slugify,
           includeLevel: [2, 3],
-          format: parseHeaders
+          format: parseHeader
         },
         options.toc
       )

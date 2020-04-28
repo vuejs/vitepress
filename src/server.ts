@@ -11,7 +11,7 @@ import {
   getConfigPath,
   resolveSiteData
 } from './resolveConfig'
-import { createMarkdownToVueRenderFn } from './markdown/markdownToVue'
+import { createMarkdownToVueRenderFn } from './markdownToVue'
 import { APP_PATH, SITE_DATA_REQUEST_PATH } from './utils/pathResolver'
 
 const debug = require('debug')('vitepress:serve')
@@ -43,7 +43,12 @@ function createVitePressPlugin(config: ResolvedConfig): Plugin {
       if (file.endsWith('.md')) {
         debugHmr(`reloading ${file}`)
         const content = await cachedRead(null, file)
-        watcher.handleVueReload(file, Date.now(), markdownToVue(content, file))
+        const timestamp = Date.now()
+        watcher.handleVueReload(
+          file,
+          timestamp,
+          markdownToVue(content, file, timestamp)
+        )
       }
     })
 
@@ -85,7 +90,7 @@ function createVitePressPlugin(config: ResolvedConfig): Plugin {
         await cachedRead(ctx, file)
         // let vite know this is supposed to be treated as vue file
         ctx.vue = true
-        ctx.body = markdownToVue(ctx.body, file)
+        ctx.body = markdownToVue(ctx.body, file, ctx.lastModified.getTime())
         debug(ctx.url, ctx.status)
         return next()
       }

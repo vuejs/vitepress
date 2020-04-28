@@ -21,11 +21,6 @@ export interface SiteData<ThemeConfig = any> {
   description: string
   base: string
   themeConfig: ThemeConfig
-  pages: PageData[]
-}
-
-export interface PageData {
-  path: string
 }
 
 export interface ResolvedConfig<ThemeConfig = any> {
@@ -60,7 +55,7 @@ export async function resolveConfig(root: string): Promise<ResolvedConfig> {
 }
 
 export async function resolveSiteData(root: string): Promise<SiteData> {
-  // 1. load user config
+  // load user config
   const configPath = getConfigPath(root)
   let hasUserConfig = false
   try {
@@ -73,16 +68,10 @@ export async function resolveSiteData(root: string): Promise<SiteData> {
   delete require.cache[configPath]
   const userConfig: UserConfig = hasUserConfig ? require(configPath) : {}
 
-  // 2. TODO scan pages data
-
-  // 3. resolve site data
-  const site: SiteData = {
+  return {
     title: userConfig.title || 'VitePress',
     description: userConfig.description || 'A VitePress site',
     base: userConfig.base || '/',
-    themeConfig: userConfig.themeConfig || {},
-    pages: []
+    themeConfig: userConfig.themeConfig || {}
   }
-
-  return site
 }

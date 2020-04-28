@@ -46,7 +46,7 @@ const compose = (...processors: ((str: string) => string)[]) => {
 }
 
 // Unescape html, parse emojis and remove some md tokens.
-export const parseHeaders = compose(
+export const parseHeader = compose(
   unescapeHtml,
   parseEmojis,
   removeMarkdownTokens,
@@ -56,7 +56,7 @@ export const parseHeaders = compose(
 // Also clean the html that isn't wrapped by code.
 // Because we want to support using VUE components in headers.
 // e.g. https://vuepress.vuejs.org/guide/using-vue.html#badge
-export const deeplyParseHeaders = compose(
+export const deeplyParseHeader = compose(
   removeNonCodeWrappedHTML,
-  parseHeaders
+  parseHeader
 )
