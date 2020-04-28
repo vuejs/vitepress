@@ -38,7 +38,7 @@ function createVitePressPlugin({
     app.use(async (ctx, next) => {
       // handle .md -> vue transforms
       if (ctx.path.endsWith('.md')) {
-        const file = resolver.publicToFile(ctx.path)
+        const file = resolver.requestToFile(ctx.path)
         await cachedRead(ctx, file)
         // let vite know this is supposed to be treated as vue file
         ctx.vue = true
@@ -48,7 +48,7 @@ function createVitePressPlugin({
       }
 
       // detect and serve vitepress @app / @theme files
-      const file = vitepressResolver.publicToFile(ctx.path, root)
+      const file = vitepressResolver.requestToFile(ctx.path, root)
       if (file) {
         await cachedRead(ctx, file)
         debug(ctx.url, ctx.status)

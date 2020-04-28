@@ -10,7 +10,7 @@ export const APP_PATH = path.join(__dirname, '../../lib/app')
 // vite HMR can send the correct update notifications to the client.
 export function createResolver(themePath: string): Resolver {
   return {
-    publicToFile(publicPath) {
+    requestToFile(publicPath) {
       if (publicPath.startsWith('/@app')) {
         return path.join(APP_PATH, publicPath.replace(/^\/@app\/?/, ''))
       }
@@ -18,12 +18,17 @@ export function createResolver(themePath: string): Resolver {
         return path.join(themePath, publicPath.replace(/^\/@theme\/?/, ''))
       }
     },
-    fileToPublic(filePath) {
+    fileToRequest(filePath) {
       if (filePath.startsWith(APP_PATH)) {
         return `/@app/${path.relative(APP_PATH, filePath)}`
       }
       if (filePath.startsWith(themePath)) {
         return `/@theme/${path.relative(themePath, filePath)}`
+      }
+    },
+    idToRequest(id) {
+      if (id === 'vitepress') {
+        return '/@app/exports.js'
       }
     }
   }
