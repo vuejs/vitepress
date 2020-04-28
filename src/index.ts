@@ -1,2 +1,2 @@
-export * from './server/server'
+export * from './server'
 export * from './build/build'

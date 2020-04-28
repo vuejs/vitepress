@@ -13,8 +13,12 @@ if (!command || command === 'dev') {
   if (root) {
     argv.root = root
   }
-  require('../dist').createServer(argv).listen(port, () => {
-    console.log(`listening at http://localhost:${port}`)
+  require('../dist').createServer(argv).then(server => {
+    server.listen(port, () => {
+      console.log(`listening at http://localhost:${port}`)
+    })
+  }).catch(err => {
+    console.error(`failed to start server. error: `, err)
   })
 } else if (command === 'build') {
   require('../dist').build(argv).catch(err => {

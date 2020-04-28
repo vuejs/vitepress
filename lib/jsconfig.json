@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "lib": ["ESNext", "DOM"],
+    "moduleResolution": "node",
+    "checkJs": true,
+    "noUnusedLocals": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "paths": {
+      "/@app/*": ["lib/app/*"],
+      "/@theme/*": ["lib/theme-default/*"]
+    }
+  },
+  "include": ["."]
+}

@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "outDir": "./dist",
+    "outDir": "../dist",
     "module": "commonjs",
-    "lib": ["ESNext", "DOM"],
+    "lib": ["ESNext"],
     "sourceMap": false,
     "target": "esnext",
     "moduleResolution": "node",
@@ -16,11 +16,7 @@
     "strictNullChecks": true,
     "noImplicitAny": true,
     "removeComments": false,
-    "preserveSymlinks": true,
-    "paths": {
-      "/@app/*": ["lib/app/*"],
-      "/@theme/*": ["lib/theme-default/*"]
-    }
+    "preserveSymlinks": true
   },
-  "include": ["src", "lib"]
+  "include": ["."]
 }
