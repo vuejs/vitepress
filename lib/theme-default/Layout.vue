@@ -13,10 +13,12 @@
 import { useSiteData, usePageData } from 'vitepress'
 
 export default {
-  data: () => ({
-    site: useSiteData(),
-    page: usePageData()
-  })
+  setup() {
+    return {
+      site: useSiteData(),
+      page: usePageData()
+    }
+  }
 }
 </script>
 

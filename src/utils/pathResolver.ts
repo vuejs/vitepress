@@ -4,6 +4,9 @@ import { Resolver } from "vite"
 // built ts files are placed into /dist
 export const APP_PATH = path.join(__dirname, '../../lib/app')
 
+// speical virtual file
+export const SITE_DATA_REQUEST_PATH = '/@siteData'
+
 // this is a path resolver that is passed to vite
 // so that we can resolve custom requests that start with /@app or /@theme
 // we also need to map file paths back to their public served paths so that
@@ -24,6 +27,9 @@ export function createResolver(themePath: string): Resolver {
       }
       if (filePath.startsWith(themePath)) {
         return `/@theme/${path.relative(themePath, filePath)}`
+      }
+      if (filePath === SITE_DATA_REQUEST_PATH) {
+        return SITE_DATA_REQUEST_PATH
       }
     },
     idToRequest(id) {

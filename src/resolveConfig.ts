@@ -5,7 +5,7 @@ import { Resolver } from 'vite'
 
 const debug = require('debug')('vitepress:config')
 
-export interface UserConfig<ThemeConfig = Record<string, any>> {
+export interface UserConfig<ThemeConfig = any> {
   base?: string
   title?: string
   description?: string
@@ -16,7 +16,7 @@ export interface UserConfig<ThemeConfig = Record<string, any>> {
   // TODO locales support etc.
 }
 
-export interface SiteData<ThemeConfig = Record<string, any>> {
+export interface SiteData<ThemeConfig = any> {
   title: string
   description: string
   base: string
@@ -28,22 +28,49 @@ export interface PageData {
   path: string
 }
 
-export interface ResolvedConfig<ThemeConfig = Record<string, any>> {
+export interface ResolvedConfig<ThemeConfig = any> {
   site: SiteData<ThemeConfig>
-  root: string // project root on file system
   themePath: string
   resolver: Resolver
 }
 
+export const getConfigPath = (root: string) =>
+  path.join(root, '.vitepress/config.js')
+
 export async function resolveConfig(root: string): Promise<ResolvedConfig> {
+  const site = await resolveSiteData(root)
+
+  // resolve theme path
+  const userThemePath = path.join(root, '.vitepress/theme')
+  let themePath: string
+  try {
+    await fs.stat(userThemePath)
+    themePath = userThemePath
+  } catch (e) {
+    themePath = path.join(__dirname, '../lib/theme-default')
+  }
+
+  const config: ResolvedConfig = {
+    site,
+    themePath,
+    resolver: createResolver(themePath)
+  }
+
+  return config
+}
+
+export async function resolveSiteData(root: string): Promise<SiteData> {
   // 1. load user config
-  const configPath = path.join(root, '.vitepress/config.js')
+  const configPath = getConfigPath(root)
   let hasUserConfig = false
   try {
     await fs.stat(configPath)
     hasUserConfig = true
     debug(`loading user config at ${configPath}`)
   } catch (e) {}
+
+  // always delete cache first before loading config
+  delete require.cache[configPath]
   const userConfig: UserConfig = hasUserConfig ? require(configPath) : {}
 
   // 2. TODO scan pages data
@@ -57,22 +84,5 @@ export async function resolveConfig(root: string): Promise<ResolvedConfig> {
     pages: []
   }
 
-  // 4. resolve theme path
-  const userThemePath = path.join(root, '.vitepress/theme')
-  let themePath: string
-  try {
-    await fs.stat(userThemePath)
-    themePath = userThemePath
-  } catch (e) {
-    themePath = path.join(__dirname, '../lib/theme-default')
-  }
-
-  const config: ResolvedConfig = {
-    root,
-    site,
-    themePath,
-    resolver: createResolver(themePath)
-  }
-
-  return config
+  return site
 }

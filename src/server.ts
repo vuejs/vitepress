@@ -5,17 +5,25 @@ import {
   Plugin,
   ServerConfig
 } from 'vite'
-import { resolveConfig, ResolvedConfig } from './resolveConfig'
+import {
+  resolveConfig,
+  ResolvedConfig,
+  getConfigPath,
+  resolveSiteData
+} from './resolveConfig'
 import { createMarkdownToVueRenderFn } from './markdown/markdownToVue'
-import { APP_PATH } from './utils/pathResolver'
+import { APP_PATH, SITE_DATA_REQUEST_PATH } from './utils/pathResolver'
 
 const debug = require('debug')('vitepress:serve')
 const debugHmr = require('debug')('vitepress:hmr')
 
-function createVitePressPlugin({
-  themePath,
-  resolver: vitepressResolver
-}: ResolvedConfig): Plugin {
+function createVitePressPlugin(config: ResolvedConfig): Plugin {
+  const {
+    themePath,
+    site: initialSiteData,
+    resolver: vitepressResolver
+  } = config
+
   return ({ app, root, watcher, resolver }) => {
     const markdownToVue = createMarkdownToVueRenderFn(root)
 
@@ -39,8 +47,38 @@ function createVitePressPlugin({
       }
     })
 
+    // hot reload handling for siteData
+    // the data is stringified twice so it is sent to the client as a string
+    // it is then parsed on the client via JSON.parse() which is faster than
+    // parsing the object literal as JavaScript.
+    let siteData = initialSiteData
+    let stringifiedData = JSON.stringify(JSON.stringify(initialSiteData))
+    const configPath = getConfigPath(root)
+    watcher.add(configPath)
+    watcher.on('change', async (file) => {
+      if (file === configPath) {
+        const newData = await resolveSiteData(root)
+        stringifiedData = JSON.stringify(JSON.stringify(newData))
+        if (newData.base !== siteData.base) {
+          console.warn(
+            `[vitepress]: config.base has changed. Please restart the dev server.`
+          )
+        }
+        siteData = newData
+        watcher.handleJSReload(SITE_DATA_REQUEST_PATH)
+      }
+    })
+
     // inject Koa middleware
     app.use(async (ctx, next) => {
+      // serve siteData (which is a virtual file)
+      if (ctx.path === SITE_DATA_REQUEST_PATH) {
+        ctx.type = 'js'
+        ctx.body = `export default ${stringifiedData}`
+        debug(ctx.url)
+        return
+      }
+
       // handle .md -> vue transforms
       if (ctx.path.endsWith('.md')) {
         const file = resolver.requestToFile(ctx.path)
