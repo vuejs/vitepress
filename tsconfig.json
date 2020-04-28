@@ -3,19 +3,24 @@
     "baseUrl": ".",
     "outDir": "./dist",
     "module": "commonjs",
-    "lib": ["ESNext"],
+    "lib": ["ESNext", "DOM"],
     "sourceMap": false,
     "target": "esnext",
     "moduleResolution": "node",
     "esModuleInterop": true,
     "declaration": true,
-    "allowJs": false,
+    "allowJs": true,
+    "checkJs": true,
     "allowSyntheticDefaultImports": true,
     "noUnusedLocals": true,
     "strictNullChecks": true,
     "noImplicitAny": true,
     "removeComments": false,
-    "preserveSymlinks": true
+    "preserveSymlinks": true,
+    "paths": {
+      "/@app/*": ["lib/app/*"],
+      "/@theme/*": ["lib/theme-default/*"]
+    }
   },
-  "include": ["src"]
+  "include": ["src", "lib"]
 }
