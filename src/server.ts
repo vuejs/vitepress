@@ -107,7 +107,7 @@ function createVitePressPlugin(config: ResolvedConfig): Plugin {
       await next()
 
       // serve our index.html after vite history fallback
-      if (ctx.url === '/index.html') {
+      if (ctx.url.endsWith('.html')) {
         await cachedRead(ctx, path.join(APP_PATH, 'index-dev.html'))
       }
     })

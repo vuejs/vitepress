@@ -4,6 +4,7 @@
 
 import MarkdownIt from 'markdown-it'
 import { MarkdownParsedData } from '../markdown'
+import { URL } from 'url'
 
 const indexRE = /(^|.*\/)(index|readme).md(#?.*)$/i
 
@@ -37,7 +38,17 @@ export const linkPlugin = (
       const [, path, , hash] = indexMatch
       url = path + hash
     } else {
-      url = url.replace(/\.md$/, '.html').replace(/\.md(#.*)$/, '.html$1')
+      let cleanUrl = url.replace(/\#.*$/, '').replace(/\?.*$/, '')
+      // .md -> .html
+      if (cleanUrl.endsWith('.md')) {
+        cleanUrl = cleanUrl.replace(/\.md$/, '.html')
+      }
+      // ./foo -> ./foo.html
+      if (!cleanUrl.endsWith('.html')) {
+        cleanUrl += '.html'
+      }
+      const parsed = new URL(url, 'http://a.com')
+      url = cleanUrl + parsed.search + parsed.hash
     }
 
     // relative path usage.
@@ -48,7 +59,7 @@ export const linkPlugin = (
     // export it for existence check
     const data = md.__data
     const links = data.links || (data.links = [])
-    links.push(url)
+    links.push(url.replace(/\.html$/, ''))
 
     // markdown-it encodes the uri
     hrefAttr[1] = decodeURI(url)
