@@ -19,6 +19,11 @@ function createVitePressPlugin({
   return ({ app, root, watcher, resolver }) => {
     const markdownToVue = createMarkdownToVueRenderFn(root)
 
+    // watch vitepress container app (only when developing vitepress itself)
+    if (process.env.VITEPRESS_DEV) {
+      watcher.add(APP_PATH)
+    }
+
     // watch theme files if it's outside of project root
     if (path.relative(root, themePath).startsWith('..')) {
       debugHmr(`watching theme dir outside of project root: ${themePath}`)
