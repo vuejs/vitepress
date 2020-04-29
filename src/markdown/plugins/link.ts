@@ -6,7 +6,7 @@ import MarkdownIt from 'markdown-it'
 import { MarkdownParsedData } from '../markdown'
 import { URL } from 'url'
 
-const indexRE = /(^|.*\/)(index|readme).md(#?.*)$/i
+const indexRE = /(^|.*\/)index.md(#?.*)$/i
 
 export const linkPlugin = (
   md: MarkdownIt & { __data: MarkdownParsedData },
@@ -35,7 +35,7 @@ export const linkPlugin = (
 
     const indexMatch = url.match(indexRE)
     if (indexMatch) {
-      const [, path, , hash] = indexMatch
+      const [, path, hash] = indexMatch
       url = path + hash
     } else {
       let cleanUrl = url.replace(/\#.*$/, '').replace(/\?.*$/, '')
@@ -44,16 +44,16 @@ export const linkPlugin = (
         cleanUrl = cleanUrl.replace(/\.md$/, '.html')
       }
       // ./foo -> ./foo.html
-      if (!cleanUrl.endsWith('.html')) {
+      if (!cleanUrl.endsWith('.html') && !cleanUrl.endsWith('/')) {
         cleanUrl += '.html'
       }
       const parsed = new URL(url, 'http://a.com')
       url = cleanUrl + parsed.search + parsed.hash
     }
 
-    // relative path usage.
-    if (!url.startsWith('/')) {
-      url = ensureBeginningDotSlash(url)
+    // ensure leading . for relative paths
+    if (!url.startsWith('/') && !/^\.\//.test(url)) {
+      url = './' + url
     }
 
     // export it for existence check
@@ -64,12 +64,4 @@ export const linkPlugin = (
     // markdown-it encodes the uri
     hrefAttr[1] = decodeURI(url)
   }
-}
-
-const beginningSlashRE = /^\.\//
-const ensureBeginningDotSlash = (path: string) => {
-  if (beginningSlashRE.test(path)) {
-    return path
-  }
-  return './' + path
 }

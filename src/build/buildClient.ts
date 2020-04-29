@@ -1,5 +1,6 @@
 import path from 'path'
 import globby from 'globby'
+import slash from 'slash'
 import { promises as fs } from 'fs'
 import { APP_PATH, createResolver } from '../utils/pathResolver'
 import { build, BuildOptions } from 'vite'
@@ -59,8 +60,16 @@ export async function buildClient(options: BuildOptions) {
             chunk.facadeModuleId &&
             chunk.facadeModuleId.endsWith('.md')
           ) {
-            const relativePath = path.relative(root, chunk.facadeModuleId)
-            chunk.fileName = relativePath + '.js'
+            // foo/bar.md -> js/foo_bar.md.js
+            chunk.fileName = path.join(
+              'js/',
+              slash(path.relative(root, chunk.facadeModuleId)).replace(
+                /\//g,
+                '_'
+              ) + '.js'
+            )
+          } else {
+            chunk.fileName = path.join('js/', chunk.fileName)
           }
         }
       }
@@ -76,7 +85,6 @@ export async function buildClient(options: BuildOptions) {
     cdn: false,
     resolvers: [resolver, ...resolvers],
     srcRoots: [APP_PATH, config.themePath, ...srcRoots],
-    indexPath: path.resolve(APP_PATH, 'index.html'),
     rollupInputOptions: {
       ...rollupInputOptions,
       input: [path.resolve(APP_PATH, 'index.js'), ...pages],
@@ -86,6 +94,7 @@ export async function buildClient(options: BuildOptions) {
       dir: path.resolve(root, '.vitepress/dist'),
       ...rollupOutputOptions
     },
+    cssFileName: 'css/style.css',
     debug: !!process.env.DEBUG
   })
 }
