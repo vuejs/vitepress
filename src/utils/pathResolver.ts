@@ -20,6 +20,9 @@ export function createResolver(themePath: string): Resolver {
       if (publicPath.startsWith('/@theme')) {
         return path.join(themePath, publicPath.replace(/^\/@theme\/?/, ''))
       }
+      if (publicPath === SITE_DATA_REQUEST_PATH) {
+        return SITE_DATA_REQUEST_PATH
+      }
     },
     fileToRequest(filePath) {
       if (filePath.startsWith(APP_PATH)) {
