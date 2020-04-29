@@ -49,16 +49,16 @@ export async function bundle(
             chunk.facadeModuleId &&
             chunk.facadeModuleId.endsWith('.md')
           ) {
-            // foo/bar.md -> js/foo_bar.md.js
+            // foo/bar.md -> _assets/foo_bar.md.js
             chunk.fileName = path.join(
-              'js/',
+              '_assets/',
               slash(path.relative(root, chunk.facadeModuleId)).replace(
                 /\//g,
                 '_'
               ) + '.js'
             )
           } else {
-            chunk.fileName = path.join('js/', chunk.fileName)
+            chunk.fileName = path.join('_assets/', chunk.fileName)
           }
         }
       }
@@ -79,7 +79,7 @@ export async function bundle(
     silent: true,
     resolvers: [resolver],
     srcRoots: [APP_PATH, config.themeDir],
-    cssFileName: 'css/style.css',
+    cssFileName: '_assets/style.css',
     rollupPluginVueOptions,
     rollupInputOptions: {
       ...rollupInputOptions,
@@ -90,9 +90,10 @@ export async function bundle(
       ...rollupOutputOptions,
       dir: config.outDir
     },
-    debug: !!process.env.DEBUG
+    minify: !process.env.DEBUG
   }
 
+  console.log('building client bundle...')
   const clientResult = await build({
     ...sharedOptions,
     rollupOutputOptions: {
@@ -101,6 +102,7 @@ export async function bundle(
     }
   })
 
+  console.log('building server bundle...')
   const serverResult = await build({
     ...sharedOptions,
     rollupPluginVueOptions: {
@@ -116,7 +118,9 @@ export async function bundle(
       dir: config.tempDir,
       format: 'cjs',
       exports: 'named'
-    }
+    },
+    // server build doesn't need minification
+    minify: false
   })
 
   return [clientResult, serverResult]

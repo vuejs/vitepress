@@ -7,13 +7,15 @@ import { Resolver } from 'vite'
 
 const debug = require('debug')('vitepress:config')
 
+export type HeadConfig =
+  | [string, Record<string, string>]
+  | [string, Record<string, string>, string]
+
 export interface UserConfig<ThemeConfig = any> {
   base?: string
   title?: string
   description?: string
-  head?:
-    | [string, Record<string, string>]
-    | [string, Record<string, string>, string]
+  head?: HeadConfig[]
   themeConfig?: ThemeConfig
   // TODO locales support etc.
 }
@@ -22,6 +24,7 @@ export interface SiteData<ThemeConfig = any> {
   title: string
   description: string
   base: string
+  head: HeadConfig[]
   themeConfig: ThemeConfig
 }
 
@@ -90,6 +93,7 @@ export async function resolveSiteData(root: string): Promise<SiteData> {
     title: userConfig.title || 'VitePress',
     description: userConfig.description || 'A VitePress site',
     base: userConfig.base || '/',
+    head: userConfig.head || [],
     themeConfig: userConfig.themeConfig || {}
   }
 }
