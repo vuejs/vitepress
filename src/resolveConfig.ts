@@ -1,4 +1,5 @@
 import path from 'path'
+import chalk from 'chalk'
 import { promises as fs } from 'fs'
 import { createResolver } from './utils/pathResolver'
 import { Resolver } from 'vite'
@@ -61,12 +62,16 @@ export async function resolveSiteData(root: string): Promise<SiteData> {
   try {
     await fs.stat(configPath)
     hasUserConfig = true
-    debug(`loading user config at ${configPath}`)
   } catch (e) {}
 
   // always delete cache first before loading config
   delete require.cache[configPath]
   const userConfig: UserConfig = hasUserConfig ? require(configPath) : {}
+  if (hasUserConfig) {
+    debug(`loaded config at ${chalk.yellow(configPath)}`)
+  } else {
+    debug(`no config file found.`)
+  }
 
   return {
     title: userConfig.title || 'VitePress',

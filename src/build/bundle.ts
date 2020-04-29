@@ -3,20 +3,20 @@ import globby from 'globby'
 import slash from 'slash'
 import { promises as fs } from 'fs'
 import { APP_PATH, createResolver } from '../utils/pathResolver'
-import { build, BuildOptions } from 'vite'
+import { build } from 'vite'
+import { BuildOptions } from './build'
 import { resolveConfig } from '../resolveConfig'
 import { Plugin } from 'rollup'
 import { createMarkdownToVueRenderFn } from '../markdownToVue'
 
-export async function buildClient(options: BuildOptions) {
+// bundles the VitePress app for both client AND server.
+export async function bundle(options: BuildOptions) {
   const root = options.root || process.cwd()
   const config = await resolveConfig(root)
   const resolver = createResolver(config.themePath)
   const markdownToVue = createMarkdownToVueRenderFn(root)
 
   const {
-    resolvers = [],
-    srcRoots = [],
     rollupInputOptions = {},
     rollupOutputOptions = {}
   } = options
@@ -83,18 +83,27 @@ export async function buildClient(options: BuildOptions) {
   await build({
     ...options,
     cdn: false,
-    resolvers: [resolver, ...resolvers],
-    srcRoots: [APP_PATH, config.themePath, ...srcRoots],
+    silent: true,
+    resolvers: [resolver],
+    srcRoots: [APP_PATH, config.themePath],
+    cssFileName: 'css/style.css',
     rollupInputOptions: {
       ...rollupInputOptions,
       input: [path.resolve(APP_PATH, 'index.js'), ...pages],
       plugins: [VitePressPlugin, ...(rollupInputOptions.plugins || [])]
     },
-    rollupOutputOptions: {
-      dir: path.resolve(root, '.vitepress/dist'),
-      ...rollupOutputOptions
-    },
-    cssFileName: 'css/style.css',
+    rollupOutputOptions: [
+      {
+        dir: path.resolve(root, '.vitepress/dist'),
+        ...rollupOutputOptions
+      },
+      {
+        dir: path.resolve(root, '.vitepress/temp'),
+        ...rollupOutputOptions,
+        format: 'cjs',
+        exports: 'named'
+      }
+    ],
     debug: !!process.env.DEBUG
   })
 }
