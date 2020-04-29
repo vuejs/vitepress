@@ -320,6 +320,14 @@
     "@vue/shared" "3.0.0-beta.4"
     csstype "^2.6.8"
 
+"@vue/server-renderer@^3.0.0-beta.4":
+  version "3.0.0-beta.4"
+  resolved "https://registry.yarnpkg.com/@vue/server-renderer/-/server-renderer-3.0.0-beta.4.tgz#08bbd34f8917f01298cfb70a0b000349868f770b"
+  integrity sha512-CQGaKWV4UL4EjpquQHWZWlXBYgYcqFWIcEIHckJAMiZTsI0UEE77B/2KTQEBHmdNHhISRTl4+KHP3gf3+cJHcA==
+  dependencies:
+    "@vue/compiler-ssr" "3.0.0-beta.4"
+    "@vue/shared" "3.0.0-beta.4"
+
 "@vue/shared@3.0.0-beta.4":
   version "3.0.0-beta.4"
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.0.0-beta.4.tgz#2c1f18896d598549a9241641b406f0886a710494"

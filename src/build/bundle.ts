@@ -1,25 +1,23 @@
 import path from 'path'
-import globby from 'globby'
 import slash from 'slash'
 import { promises as fs } from 'fs'
 import { APP_PATH, createResolver } from '../utils/pathResolver'
-import { build } from 'vite'
+import { build, BuildOptions as ViteBuildOptions, BuildResult } from 'vite'
 import { BuildOptions } from './build'
-import { resolveConfig } from '../resolveConfig'
+import { SiteConfig } from '../config'
 import { Plugin } from 'rollup'
 import { createMarkdownToVueRenderFn } from '../markdownToVue'
 
 // bundles the VitePress app for both client AND server.
-export async function bundle(options: BuildOptions) {
-  const root = options.root || process.cwd()
-  const config = await resolveConfig(root)
-  const resolver = createResolver(config.themePath)
+export async function bundle(
+  config: SiteConfig,
+  options: BuildOptions
+): Promise<BuildResult[]> {
+  const root = config.root
+  const resolver = createResolver(config.themeDir)
   const markdownToVue = createMarkdownToVueRenderFn(root)
 
-  const {
-    rollupInputOptions = {},
-    rollupOutputOptions = {}
-  } = options
+  const { rollupInputOptions = {}, rollupOutputOptions = {} } = options
 
   const VitePressPlugin: Plugin = {
     name: 'vitepress',
@@ -32,17 +30,8 @@ export async function bundle(options: BuildOptions) {
       if (id === '/@siteData') {
         return `export default ${JSON.stringify(JSON.stringify(config.site))}`
       }
-      // generate facade module for .md files
-      // and request virtual .md.vue file
-      if (id.endsWith('.md')) {
-        return (
-          `import Comp, { __pageData } from "${id + '.vue'}"\n` +
-          `export default Comp\n` +
-          `export { __pageData }`
-        )
-      }
       // compile md into vue src for .md.vue virtual files
-      if (id.endsWith('.md.vue')) {
+      if (id.endsWith('.md')) {
         const filePath = id.replace(/\.vue$/, '')
         const content = await fs.readFile(filePath, 'utf-8')
         const lastUpdated = (await fs.stat(filePath)).mtimeMs
@@ -76,34 +65,59 @@ export async function bundle(options: BuildOptions) {
     }
   }
 
-  const pages = (
-    await globby(['**.md'], { cwd: root, ignore: ['node_modules'] })
-  ).map((file) => path.resolve(root, file))
+  // convert page files to absolute paths
+  const pages = config.pages.map(file => path.resolve(root, file))
 
-  await build({
+  // let rollup-plugin-vue compile .md files as well
+  const rollupPluginVueOptions = {
+    include: /\.(vue|md)$/
+  }
+
+  const sharedOptions: ViteBuildOptions = {
     ...options,
     cdn: false,
     silent: true,
     resolvers: [resolver],
-    srcRoots: [APP_PATH, config.themePath],
+    srcRoots: [APP_PATH, config.themeDir],
     cssFileName: 'css/style.css',
+    rollupPluginVueOptions,
     rollupInputOptions: {
       ...rollupInputOptions,
       input: [path.resolve(APP_PATH, 'index.js'), ...pages],
       plugins: [VitePressPlugin, ...(rollupInputOptions.plugins || [])]
     },
-    rollupOutputOptions: [
-      {
-        dir: path.resolve(root, '.vitepress/dist'),
-        ...rollupOutputOptions
-      },
-      {
-        dir: path.resolve(root, '.vitepress/temp'),
-        ...rollupOutputOptions,
-        format: 'cjs',
-        exports: 'named'
-      }
-    ],
+    rollupOutputOptions: {
+      ...rollupOutputOptions,
+      dir: config.outDir
+    },
     debug: !!process.env.DEBUG
+  }
+
+  const clientResult = await build({
+    ...sharedOptions,
+    rollupOutputOptions: {
+      ...rollupOutputOptions,
+      dir: config.outDir
+    }
   })
+
+  const serverResult = await build({
+    ...sharedOptions,
+    rollupPluginVueOptions: {
+      ...rollupPluginVueOptions,
+      target: 'node'
+    },
+    rollupInputOptions: {
+      ...sharedOptions.rollupInputOptions,
+      external: ['vue', '@vue/server-renderer']
+    },
+    rollupOutputOptions: {
+      ...rollupOutputOptions,
+      dir: config.tempDir,
+      format: 'cjs',
+      exports: 'named'
+    }
+  })
+
+  return [clientResult, serverResult]
 }

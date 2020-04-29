@@ -11,14 +11,14 @@ export const SITE_DATA_REQUEST_PATH = '/@siteData'
 // so that we can resolve custom requests that start with /@app or /@theme
 // we also need to map file paths back to their public served paths so that
 // vite HMR can send the correct update notifications to the client.
-export function createResolver(themePath: string): Resolver {
+export function createResolver(themeDir: string): Resolver {
   return {
     requestToFile(publicPath) {
       if (publicPath.startsWith('/@app')) {
         return path.join(APP_PATH, publicPath.replace(/^\/@app\/?/, ''))
       }
       if (publicPath.startsWith('/@theme')) {
-        return path.join(themePath, publicPath.replace(/^\/@theme\/?/, ''))
+        return path.join(themeDir, publicPath.replace(/^\/@theme\/?/, ''))
       }
       if (publicPath === SITE_DATA_REQUEST_PATH) {
         return SITE_DATA_REQUEST_PATH
@@ -28,8 +28,8 @@ export function createResolver(themePath: string): Resolver {
       if (filePath.startsWith(APP_PATH)) {
         return `/@app/${path.relative(APP_PATH, filePath)}`
       }
-      if (filePath.startsWith(themePath)) {
-        return `/@theme/${path.relative(themePath, filePath)}`
+      if (filePath.startsWith(themeDir)) {
+        return `/@theme/${path.relative(themeDir, filePath)}`
       }
       if (filePath === SITE_DATA_REQUEST_PATH) {
         return SITE_DATA_REQUEST_PATH

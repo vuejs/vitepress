@@ -1,7 +1,8 @@
 import path from 'path'
 import chalk from 'chalk'
+import globby from 'globby'
 import { promises as fs } from 'fs'
-import { createResolver } from './utils/pathResolver'
+import { createResolver, APP_PATH } from './utils/pathResolver'
 import { Resolver } from 'vite'
 
 const debug = require('debug')('vitepress:config')
@@ -24,32 +25,44 @@ export interface SiteData<ThemeConfig = any> {
   themeConfig: ThemeConfig
 }
 
-export interface ResolvedConfig<ThemeConfig = any> {
+export interface SiteConfig<ThemeConfig = any> {
+  root: string
   site: SiteData<ThemeConfig>
-  themePath: string
+  configPath: string
+  themeDir: string
+  outDir: string
+  tempDir: string
   resolver: Resolver
+  pages: string[]
 }
 
-export const getConfigPath = (root: string) =>
-  path.join(root, '.vitepress/config.js')
+const resolve = (root: string, file: string) =>
+  path.join(root, `.vitepress`, file)
 
-export async function resolveConfig(root: string): Promise<ResolvedConfig> {
+export async function resolveConfig(
+  root: string = process.cwd()
+): Promise<SiteConfig> {
   const site = await resolveSiteData(root)
 
   // resolve theme path
-  const userThemePath = path.join(root, '.vitepress/theme')
-  let themePath: string
+  const userThemeDir = resolve(root, 'theme')
+  let themeDir: string
   try {
-    await fs.stat(userThemePath)
-    themePath = userThemePath
+    await fs.stat(userThemeDir)
+    themeDir = userThemeDir
   } catch (e) {
-    themePath = path.join(__dirname, '../lib/theme-default')
+    themeDir = path.join(__dirname, '../lib/theme-default')
   }
 
-  const config: ResolvedConfig = {
+  const config: SiteConfig = {
+    root,
     site,
-    themePath,
-    resolver: createResolver(themePath)
+    themeDir,
+    pages: await globby(['**.md'], { cwd: root, ignore: ['node_modules'] }),
+    configPath: resolve(root, 'config.js'),
+    outDir: resolve(root, 'dist'),
+    tempDir: path.resolve(APP_PATH, 'temp'),
+    resolver: createResolver(themeDir)
   }
 
   return config
@@ -57,7 +70,7 @@ export async function resolveConfig(root: string): Promise<ResolvedConfig> {
 
 export async function resolveSiteData(root: string): Promise<SiteData> {
   // load user config
-  const configPath = getConfigPath(root)
+  const configPath = resolve(root, 'config.js')
   let hasUserConfig = false
   try {
     await fs.stat(configPath)

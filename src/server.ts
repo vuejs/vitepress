@@ -7,19 +7,18 @@ import {
 } from 'vite'
 import {
   resolveConfig,
-  ResolvedConfig,
-  getConfigPath,
+  SiteConfig,
   resolveSiteData
-} from './resolveConfig'
+} from './config'
 import { createMarkdownToVueRenderFn } from './markdownToVue'
 import { APP_PATH, SITE_DATA_REQUEST_PATH } from './utils/pathResolver'
 
 const debug = require('debug')('vitepress:serve')
 const debugHmr = require('debug')('vitepress:hmr')
 
-function createVitePressPlugin(config: ResolvedConfig): Plugin {
+function createVitePressPlugin(config: SiteConfig): Plugin {
   const {
-    themePath,
+    themeDir,
     site: initialSiteData,
     resolver: vitepressResolver
   } = config
@@ -33,9 +32,9 @@ function createVitePressPlugin(config: ResolvedConfig): Plugin {
     }
 
     // watch theme files if it's outside of project root
-    if (path.relative(root, themePath).startsWith('..')) {
-      debugHmr(`watching theme dir outside of project root: ${themePath}`)
-      watcher.add(themePath)
+    if (path.relative(root, themeDir).startsWith('..')) {
+      debugHmr(`watching theme dir outside of project root: ${themeDir}`)
+      watcher.add(themeDir)
     }
 
     // hot reload .md files as .vue files
@@ -68,10 +67,9 @@ function createVitePressPlugin(config: ResolvedConfig): Plugin {
     // parsing the object literal as JavaScript.
     let siteData = initialSiteData
     let stringifiedData = JSON.stringify(JSON.stringify(initialSiteData))
-    const configPath = getConfigPath(root)
-    watcher.add(configPath)
+    watcher.add(config.configPath)
     watcher.on('change', async (file) => {
-      if (file === configPath) {
+      if (file === config.configPath) {
         const newData = await resolveSiteData(root)
         stringifiedData = JSON.stringify(JSON.stringify(newData))
         if (newData.base !== siteData.base) {
@@ -129,7 +127,7 @@ function createVitePressPlugin(config: ResolvedConfig): Plugin {
 }
 
 export async function createServer(options: ServerConfig = {}) {
-  const config = await resolveConfig(options.root || process.cwd())
+  const config = await resolveConfig(options.root)
 
   return createViteServer({
     ...options,
