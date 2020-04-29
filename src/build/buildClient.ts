@@ -53,14 +53,15 @@ export async function buildClient(options: BuildOptions) {
       // for each .md entry chunk, adjust its name to its correct path.
       for (const name in bundle) {
         const chunk = bundle[name]
-        if (
-          chunk.type === 'chunk' &&
-          chunk.isEntry &&
-          chunk.facadeModuleId &&
-          chunk.facadeModuleId.endsWith('.md')
-        ) {
-          const relativePath = path.relative(root, chunk.facadeModuleId)
-          chunk.fileName = relativePath + '.js'
+        if (chunk.type === 'chunk') {
+          if (
+            chunk.isEntry &&
+            chunk.facadeModuleId &&
+            chunk.facadeModuleId.endsWith('.md')
+          ) {
+            const relativePath = path.relative(root, chunk.facadeModuleId)
+            chunk.fileName = relativePath + '.js'
+          }
         }
       }
     }
