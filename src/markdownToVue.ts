@@ -6,7 +6,19 @@ import { Header } from './markdown/plugins/header'
 import { deeplyParseHeader } from './utils/parseHeader'
 
 const debug = require('debug')('vitepress:md')
-const cache = new LRUCache<string, string>({ max: 1024 })
+const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
+
+interface MarkdownCompileResult {
+  vueSrc: string
+  pageData: PageData
+}
+
+export interface PageData {
+  title: string
+  frontmatter: Record<string, any>
+  headers: Header[]
+  lastUpdated: number
+}
 
 export function createMarkdownToVueRenderFn(
   root: string,
@@ -29,38 +41,36 @@ export function createMarkdownToVueRenderFn(
     // TODO validate data.links?
 
     // inject page data
+    const pageData: PageData = {
+      title: inferTitle(frontmatter, content),
+      frontmatter,
+      headers: data.headers,
+      lastUpdated
+    }
+
     const additionalBlocks = injectPageData(
       data.hoistedTags || [],
-      content,
-      frontmatter,
-      data.headers || [],
-      lastUpdated
+      pageData
     )
 
     const vueSrc =
       `<template><div class="vitepress-content">${html}</div></template>\n` +
       additionalBlocks.join('\n')
     debug(`[render] ${file} in ${Date.now() - start}ms.`)
-    cache.set(src, vueSrc)
-    return vueSrc
+
+    const result = { vueSrc, pageData }
+    cache.set(src, result)
+    return result
   }
 }
 
 const scriptRE = /<\/script>/
+
 function injectPageData(
   tags: string[],
-  content: string,
-  frontmatter: object,
-  headers: Header[],
-  lastUpdated: number
+  data: PageData
 ) {
-  const code = `\nexport const __pageData = ${JSON.stringify({
-    title: inferTitle(frontmatter, content),
-    frontmatter,
-    headers,
-    lastUpdated
-  })}`
-
+  const code = `\nexport const __pageData = ${JSON.stringify(data)}`
   const existingScriptIndex = tags.findIndex((tag) => scriptRE.test(tag))
   if (existingScriptIndex > -1) {
     tags[existingScriptIndex] = tags[existingScriptIndex].replace(
@@ -85,4 +95,5 @@ const inferTitle = (frontmatter: any, content: string) => {
   if (match) {
     return deeplyParseHeader(match[1].trim())
   }
+  return ''
 }

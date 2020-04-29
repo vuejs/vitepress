@@ -44,11 +44,21 @@ function createVitePressPlugin(config: ResolvedConfig): Plugin {
         debugHmr(`reloading ${file}`)
         const content = await cachedRead(null, file)
         const timestamp = Date.now()
-        watcher.handleVueReload(
-          file,
-          timestamp,
-          markdownToVue(content, file, timestamp)
-        )
+        const { pageData, vueSrc } = markdownToVue(content, file, timestamp)
+
+        // notify the client to update page data
+        watcher.send({
+          type: 'custom',
+          id: 'vitepress:pageData',
+          customData: {
+            path: resolver.fileToRequest(file),
+            pageData
+          },
+          timestamp: Date.now()
+        })
+
+        // reload the content component
+        watcher.handleVueReload(file, timestamp, vueSrc)
       }
     })
 
@@ -90,7 +100,11 @@ function createVitePressPlugin(config: ResolvedConfig): Plugin {
         await cachedRead(ctx, file)
         // let vite know this is supposed to be treated as vue file
         ctx.vue = true
-        ctx.body = markdownToVue(ctx.body, file, ctx.lastModified.getTime())
+        ctx.body = markdownToVue(
+          ctx.body,
+          file,
+          ctx.lastModified.getTime()
+        ).vueSrc
         debug(ctx.url, ctx.status)
         return next()
       }

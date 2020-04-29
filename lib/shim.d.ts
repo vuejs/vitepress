@@ -14,5 +14,6 @@ declare module "@siteData" {
 declare module "@hmr" {
   export declare const hot: {
     accept(path: string, cb: (module: any) => void)
+    on(event: string, cb: (data: any) => void)
   }
 }

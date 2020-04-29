@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "lib": ["ESNext", "DOM"],
     "moduleResolution": "node",
     "checkJs": true,
@@ -7,9 +8,9 @@
     "strictNullChecks": true,
     "noImplicitAny": true,
     "paths": {
-      "/@app/*": ["lib/app/*"],
-      "/@theme/*": ["lib/theme-default/*"],
-      "vitepress": ["lib/app/exports.js"]
+      "/@app/*": ["app/*"],
+      "/@theme/*": ["theme-default/*"],
+      "vitepress": ["app/exports.js"]
     }
   },
   "include": ["."]
