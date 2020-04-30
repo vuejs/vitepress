@@ -56,7 +56,7 @@ As a reference, the [Composition API RFC repo](https://github.com/vuejs/composit
 
 Fundamentally, this is because VuePress is a webpack app under the hood. Even with just two pages, it's a full on webpack project (including all the theme source files) being compiled. It gets even worse when the project has many pages - every page must first be fully compiled before the server can even display anything!
 
-Incidentally, [vite](https://github.com/vuejs/vite) solves these problems really well: nearly instant server start, on-demand compilation that only compiles the page being served, and fast-as-lightning HMR. Plus, there a a few additional design issues I have noted in VuePress over time, but never had the time to fix due to the amount of refactoring it would require.
+Incidentally, [vite](https://github.com/vuejs/vite) solves these problems really well: nearly instant server start, on-demand compilation that only compiles the page being served, and lightning fast HMR. Plus, there are a few additional design issues I have noted in VuePress over time, but never had the time to fix due to the amount of refactoring it would require.
 
 Now, with `vite` and Vue 3, it is time to rethink what a "Vue-powered static site generator" can really be.
 
