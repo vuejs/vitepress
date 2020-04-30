@@ -5,11 +5,7 @@ import {
   Plugin,
   ServerConfig
 } from 'vite'
-import {
-  resolveConfig,
-  SiteConfig,
-  resolveSiteData
-} from './config'
+import { resolveConfig, SiteConfig, resolveSiteData } from './config'
 import { createMarkdownToVueRenderFn } from './markdownToVue'
 import { APP_PATH, SITE_DATA_REQUEST_PATH } from './utils/pathResolver'
 
@@ -43,7 +39,16 @@ function createVitePressPlugin(config: SiteConfig): Plugin {
         debugHmr(`reloading ${file}`)
         const content = await cachedRead(null, file)
         const timestamp = Date.now()
-        const { pageData, vueSrc } = markdownToVue(content, file, timestamp)
+        const { pageData, vueSrc } = markdownToVue(
+          content,
+          file,
+          timestamp,
+          // do not inject pageData on HMR
+          // it leads to vite to think <script> has changed and reloads the
+          // component instead of re-rendering.
+          // pageData needs separate HMR logic anyway (see below)
+          false
+        )
 
         // notify the client to update page data
         watcher.send({

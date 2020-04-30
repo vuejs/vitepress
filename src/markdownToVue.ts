@@ -19,7 +19,12 @@ export function createMarkdownToVueRenderFn(
 ) {
   const md = createMarkdownRenderer(options)
 
-  return (src: string, file: string, lastUpdated: number) => {
+  return (
+    src: string,
+    file: string,
+    lastUpdated: number,
+    injectData = true
+  ) => {
     file = path.relative(root, file)
     const cached = cache.get(src)
     if (cached) {
@@ -41,10 +46,9 @@ export function createMarkdownToVueRenderFn(
       lastUpdated
     }
 
-    const additionalBlocks = injectPageData(
-      data.hoistedTags || [],
-      pageData
-    )
+    const additionalBlocks = injectData
+      ? injectPageData(data.hoistedTags || [], pageData)
+      : data.hoistedTags || []
 
     // double wrapping since tempalte root node is never hoisted or turned into
     // a static node.
@@ -61,11 +65,10 @@ export function createMarkdownToVueRenderFn(
 
 const scriptRE = /<\/script>/
 
-function injectPageData(
-  tags: string[],
-  data: PageData
-) {
-  const code = `\nexport const __pageData = ${JSON.stringify(data)}`
+function injectPageData(tags: string[], data: PageData) {
+  const code = `\nexport const __pageData = ${JSON.stringify(
+    JSON.stringify(data)
+  )}`
   const existingScriptIndex = tags.findIndex((tag) => scriptRE.test(tag))
   if (existingScriptIndex > -1) {
     tags[existingScriptIndex] = tags[existingScriptIndex].replace(
