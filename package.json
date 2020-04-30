@@ -12,13 +12,39 @@
     "lib",
     "dist"
   ],
-  "scripts": {
-    "dev": "tsc -w -p src"
-  },
   "keywords": [
     "vite",
+    "vue",
     "vuepress"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vuejs/vitepress.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vuejs/vitepress/issues"
+  },
+  "homepage": "https://github.com/vuejs/vitepress/tree/master/#readme",
+  "scripts": {
+    "dev": "tsc -w -p src",
+    "build": "tsc -p src",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "prepublishOnly": "yarn build && yarn changelog"
+  },
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write"
+    ],
+    "*.ts": [
+      "prettier --parser=typescript --write"
+    ]
+  },
   "author": "Evan You",
   "license": "MIT",
   "dependencies": {
@@ -45,6 +71,10 @@
     "@types/lru-cache": "^5.1.0",
     "@types/markdown-it": "^10.0.1",
     "@types/node": "^13.13.4",
-    "typescript": "^3.8.3"
+    "conventional-changelog-cli": "^2.0.31",
+    "lint-staged": "^10.2.1",
+    "prettier": "^2.0.5",
+    "typescript": "^3.8.3",
+    "yorkie": "^2.0.0"
   }
 }
