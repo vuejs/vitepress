@@ -27,7 +27,7 @@
   "homepage": "https://github.com/vuejs/vitepress/tree/master/#readme",
   "scripts": {
     "dev": "tsc -w -p src",
-    "build": "tsc -p src",
+    "build": "rm -rf dist && tsc -p src",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "prepublishOnly": "yarn build && yarn changelog"
   },
