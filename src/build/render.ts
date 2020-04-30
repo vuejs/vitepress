@@ -28,7 +28,9 @@ export async function renderPage(
   const html = `
 <html lang="en-US">
   <head>
-    <title>${config.site.title}</title>
+    <title>${__pageData.title ? __pageData.title + ` | ` : ``}${
+    config.site.title
+  }</title>
     <meta name="description" content="${config.site.description}">
     <link rel="stylesheet" href="${assetPath}/style.css">${renderHead(
     config.site.head
