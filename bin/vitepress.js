@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-const path = require('path')
 const chalk = require('chalk')
 const argv = require('minimist')(process.argv.slice(2))
 
@@ -18,11 +17,11 @@ if (!command || command === 'dev') {
       console.log(`listening at http://localhost:${port}`)
     })
   }).catch(err => {
-    console.error(`failed to start server. error: `, err)
+    console.error(chalk.red(`failed to start server. error:\n`), err)
   })
 } else if (command === 'build') {
   require('../dist').build(argv).catch(err => {
-    console.error(`build error: `, err)
+    console.error(chalk.red(`build error:\n`), err)
   })
 } else {
   console.log(chalk.red(`unknown command "${command}".`))

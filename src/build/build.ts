@@ -20,6 +20,6 @@ export async function build(buildOptions: BuildOptions = {}) {
     }
   } finally {
     await fs.rmdir(siteConfig.tempDir, { recursive: true })
-    console.log('done.')
   }
+  console.log('done.')
 }

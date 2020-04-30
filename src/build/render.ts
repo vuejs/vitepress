@@ -24,17 +24,18 @@ export async function renderPage(
     '_assets',
     pageJsPath
   ))
+  const pageData = JSON.parse(__pageData)
 
   const html = `
 <html lang="en-US">
   <head>
-    <title>${__pageData.title ? __pageData.title + ` | ` : ``}${
+    <title>${pageData.title ? pageData.title + ` | ` : ``}${
     config.site.title
   }</title>
     <meta name="description" content="${config.site.description}">
     <link rel="stylesheet" href="${assetPath}/style.css">${renderHead(
     config.site.head
-  )}${renderHead(__pageData.frontmatter.head)}
+  )}${renderHead(pageData.frontmatter.head)}
   </head>
   <body>
     <div id="app">${content}</div>
