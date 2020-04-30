@@ -101,15 +101,29 @@ function createVitePressPlugin(config: SiteConfig): Plugin {
       if (ctx.path.endsWith('.md')) {
         const file = resolver.requestToFile(ctx.path)
         await cachedRead(ctx, file)
+
         // let vite know this is supposed to be treated as vue file
         ctx.vue = true
-        ctx.body = markdownToVue(
+
+        const { vueSrc, pageData } = markdownToVue(
           ctx.body,
           file,
-          ctx.lastModified.getTime()
-        ).vueSrc
+          ctx.lastModified.getTime(),
+          false
+        )
+        ctx.body = vueSrc
         debug(ctx.url, ctx.status)
-        return next()
+
+        await next()
+
+        // make sure this is the main <script> block
+        if (!ctx.query.type) {
+          // inject pageData to generated script
+          ctx.body += `\nexport const __pageData = ${JSON.stringify(
+            JSON.stringify(pageData)
+          )}`
+        }
+        return
       }
 
       // detect and serve vitepress @app / @theme files
