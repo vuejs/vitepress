@@ -1,3 +1,6 @@
 <div id="app"></div>
-<script>window.__DEV__ = true</script>
+<script>
+window.__DEV__ = true
+window.process = { env: { NODE_ENV: 'development'} }
+</script>
 <script type="module" src="/@app/index.js"></script>
