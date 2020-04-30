@@ -10,7 +10,8 @@
     "paths": {
       "/@app/*": ["app/*"],
       "/@theme/*": ["theme-default/*"],
-      "vitepress": ["app/exports.js"]
+      "vitepress": ["app/exports.js"],
+      "src": ["../dist/index.d.ts"]
     }
   },
   "include": ["."]

@@ -2,8 +2,8 @@ import path from 'path'
 import matter from 'gray-matter'
 import LRUCache from 'lru-cache'
 import { createMarkdownRenderer, MarkdownOpitons } from './markdown/markdown'
-import { Header } from './markdown/plugins/header'
 import { deeplyParseHeader } from './utils/parseHeader'
+import { PageData } from './config'
 
 const debug = require('debug')('vitepress:md')
 const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
@@ -11,13 +11,6 @@ const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
 interface MarkdownCompileResult {
   vueSrc: string
   pageData: PageData
-}
-
-export interface PageData {
-  title: string
-  frontmatter: Record<string, any>
-  headers: Header[]
-  lastUpdated: number
 }
 
 export function createMarkdownToVueRenderFn(
@@ -53,8 +46,10 @@ export function createMarkdownToVueRenderFn(
       pageData
     )
 
+    // double wrapping since tempalte root node is never hoisted or turned into
+    // a static node.
     const vueSrc =
-      `<template><div class="vitepress-content">${html}</div></template>\n` +
+      `<template><div><div class="vitepress-content">${html}</div></div></template>\n` +
       additionalBlocks.join('\n')
     debug(`[render] ${file} in ${Date.now() - start}ms.`)
 

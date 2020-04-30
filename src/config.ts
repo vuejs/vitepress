@@ -4,6 +4,7 @@ import globby from 'globby'
 import { promises as fs } from 'fs'
 import { createResolver, APP_PATH } from './utils/pathResolver'
 import { Resolver } from 'vite'
+import { Header } from './markdown/plugins/header'
 
 const debug = require('debug')('vitepress:config')
 
@@ -20,14 +21,6 @@ export interface UserConfig<ThemeConfig = any> {
   // TODO locales support etc.
 }
 
-export interface SiteData<ThemeConfig = any> {
-  title: string
-  description: string
-  base: string
-  head: HeadConfig[]
-  themeConfig: ThemeConfig
-}
-
 export interface SiteConfig<ThemeConfig = any> {
   root: string
   site: SiteData<ThemeConfig>
@@ -37,6 +30,21 @@ export interface SiteConfig<ThemeConfig = any> {
   tempDir: string
   resolver: Resolver
   pages: string[]
+}
+
+export interface SiteData<ThemeConfig = any> {
+  title: string
+  description: string
+  base: string
+  head: HeadConfig[]
+  themeConfig: ThemeConfig
+}
+
+export interface PageData {
+  title: string
+  frontmatter: Record<string, any>
+  headers: Header[]
+  lastUpdated: number
 }
 
 const resolve = (root: string, file: string) =>
