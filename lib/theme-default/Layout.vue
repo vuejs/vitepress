@@ -7,16 +7,6 @@
   <Debug/>
 </template>
 
-<script>
-import { Debug } from 'vitepress'
-
-export default {
-  components: {
-    Debug: __DEV__ ? Debug : () => null
-  }
-}
-</script>
-
 <style>
 .theme-container {
   font-family: Arial, Helvetica, sans-serif;
