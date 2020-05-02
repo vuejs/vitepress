@@ -14,11 +14,11 @@ export type BuildOptions = Pick<
 export async function build(buildOptions: BuildOptions = {}) {
   const siteConfig = await resolveConfig(buildOptions.root)
   try {
-    const result = await bundle(siteConfig, buildOptions)
+    const [clientResult] = await bundle(siteConfig, buildOptions)
 
     console.log('rendering pages...')
     for (const page of siteConfig.pages) {
-      await renderPage(siteConfig, page, result)
+      await renderPage(siteConfig, page, clientResult)
     }
 
     if (await exists(siteConfig.publicDir)) {
