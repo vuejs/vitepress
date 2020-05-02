@@ -1,10 +1,10 @@
 import path from 'path'
 import chalk from 'chalk'
 import globby from 'globby'
-import { promises as fs } from 'fs'
 import { createResolver, APP_PATH } from './utils/pathResolver'
 import { Resolver } from 'vite'
 import { Header } from './markdown/plugins/header'
+import { exists } from './utils/fs'
 
 const debug = require('debug')('vitepress:config')
 
@@ -26,6 +26,7 @@ export interface SiteConfig<ThemeConfig = any> {
   site: SiteData<ThemeConfig>
   configPath: string
   themeDir: string
+  publicDir: string
   outDir: string
   tempDir: string
   resolver: Resolver
@@ -57,13 +58,9 @@ export async function resolveConfig(
 
   // resolve theme path
   const userThemeDir = resolve(root, 'theme')
-  let themeDir: string
-  try {
-    await fs.stat(userThemeDir)
-    themeDir = userThemeDir
-  } catch (e) {
-    themeDir = path.join(__dirname, '../lib/theme-default')
-  }
+  const themeDir = (await exists(userThemeDir))
+    ? userThemeDir
+    : path.join(__dirname, '../lib/theme-default')
 
   const config: SiteConfig = {
     root,
@@ -71,6 +68,7 @@ export async function resolveConfig(
     themeDir,
     pages: await globby(['**.md'], { cwd: root, ignore: ['node_modules'] }),
     configPath: resolve(root, 'config.js'),
+    publicDir: resolve(root, 'public'),
     outDir: resolve(root, 'dist'),
     tempDir: path.resolve(APP_PATH, 'temp'),
     resolver: createResolver(themeDir)
@@ -82,12 +80,7 @@ export async function resolveConfig(
 export async function resolveSiteData(root: string): Promise<SiteData> {
   // load user config
   const configPath = resolve(root, 'config.js')
-  let hasUserConfig = false
-  try {
-    await fs.stat(configPath)
-    hasUserConfig = true
-  } catch (e) {}
-
+  const hasUserConfig = await exists(configPath)
   // always delete cache first before loading config
   delete require.cache[configPath]
   const userConfig: UserConfig = hasUserConfig ? require(configPath) : {}
