@@ -1,8 +1,12 @@
+<p align="center">
+  <img height="120" src="https://raw.githubusercontent.com/vuejs/vitepress/master/lib/theme-default/vitepress.png" alt="Vite Press">
+</p>
+
 # (WIP) VitePress 📝💨
 
 > [VuePress](http://vuepress.vuejs.org/)' little brother, built on top of [vite](https://github.com/vuejs/vite)
 
-``` bash
+```bash
 npm install -D vitepress
 echo '# Hello VitePress' > index.md
 
@@ -26,7 +30,7 @@ You can develop your custom theme by adding the following files:
 ```vue
 <template>
   <h1>Custom Layout!</h1>
-  <Content/><!-- make sure to include markdown outlet -->
+  <Content /><!-- make sure to include markdown outlet -->
 </template>
 ```
 
@@ -63,11 +67,13 @@ Now, with `vite` and Vue 3, it is time to rethink what a "Vue-powered static sit
 ## Improvements over VuePress
 
 - Uses Vue 3.
-  - Leverages Vue 3's improved template static analysis to stringify static content as much as possible. Static content is sent as string literals instead of JavaScript render function code - the JS payload is therefore *much* cheaper to parse, and hydration also becomes faster.
+
+  - Leverages Vue 3's improved template static analysis to stringify static content as much as possible. Static content is sent as string literals instead of JavaScript render function code - the JS payload is therefore _much_ cheaper to parse, and hydration also becomes faster.
 
     Note the optimization is applied while still allowing the user to freely mix Vue components inside markdown content - the compiler does the static/dynamic separation for you automatically and you never need to think about it.
 
 - Uses `vite` under the hood:
+
   - Faster dev server start
   - Faster hot updates
   - Faster build (uses Rollup internally)

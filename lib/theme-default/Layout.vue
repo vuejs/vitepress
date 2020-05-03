@@ -1,14 +1,34 @@
 <template>
   <div class="theme-container">
-    <h1>{{ $site.title }}</h1>
-    <p>{{ $site.description }}</p>
-    <Content/>
+    <img src="./vitepress.png" :alt="$site.title" srcset />
+    <h2>{{ $site.description }}</h2>
+    <Content />
   </div>
-  <Debug/>
+  <Debug />
 </template>
 
 <style>
 .theme-container {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: #333;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+
+  min-height: 100vh;
+}
+
+h2 {
+  margin-top: 10px;
+  color: #6c7695;
+  font-weight: 300;
+}
+
+img {
+  height: 120px;
 }
 </style>
