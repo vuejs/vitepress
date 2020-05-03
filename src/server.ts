@@ -12,13 +12,11 @@ import { APP_PATH, SITE_DATA_REQUEST_PATH } from './utils/pathResolver'
 const debug = require('debug')('vitepress:serve')
 const debugHmr = require('debug')('vitepress:hmr')
 
-function createVitePressPlugin(config: SiteConfig): Plugin {
-  const {
-    themeDir,
-    site: initialSiteData,
-    resolver: vitepressResolver
-  } = config
-
+function createVitePressPlugin({
+  themeDir,
+  configPath,
+  site: initialSiteData
+}: SiteConfig): Plugin {
   return ({ app, root, watcher, resolver }) => {
     const markdownToVue = createMarkdownToVueRenderFn(root)
 
@@ -72,9 +70,9 @@ function createVitePressPlugin(config: SiteConfig): Plugin {
     // parsing the object literal as JavaScript.
     let siteData = initialSiteData
     let stringifiedData = JSON.stringify(JSON.stringify(initialSiteData))
-    watcher.add(config.configPath)
+    watcher.add(configPath)
     watcher.on('change', async (file) => {
-      if (file === config.configPath) {
+      if (file === configPath) {
         const newData = await resolveSiteData(root)
         stringifiedData = JSON.stringify(JSON.stringify(newData))
         if (newData.base !== siteData.base) {
@@ -123,15 +121,6 @@ function createVitePressPlugin(config: SiteConfig): Plugin {
             JSON.stringify(pageData)
           )}`
         }
-        return
-      }
-
-      // detect and serve vitepress @app / @theme files
-      const file = vitepressResolver.requestToFile(ctx.path, root)
-      if (file) {
-        await cachedRead(ctx, file)
-        debug(ctx.url, ctx.status)
-        await next()
         return
       }
 

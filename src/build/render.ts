@@ -4,6 +4,7 @@ import { SiteConfig, HeadConfig } from '../config'
 import { BuildResult } from 'vite'
 import { renderToString } from '@vue/server-renderer'
 import { OutputChunk } from 'rollup'
+import { ASSETS_DIR } from './build'
 
 const escape = require('escape-html')
 
@@ -12,7 +13,11 @@ export async function renderPage(
   page: string, // foo.md
   result: BuildResult
 ) {
-  const { createApp } = require(path.join(config.tempDir, '_assets/index.js'))
+  const { createApp } = require(path.join(
+    config.tempDir,
+    ASSETS_DIR,
+    'index.js'
+  ))
   const { app, router } = createApp()
   const routePath = `/${page.replace(/\.md$/, '')}`
   router.go(routePath)
@@ -23,14 +28,14 @@ export async function renderPage(
   // resolve page data so we can render head tags
   const { __pageData } = require(path.join(
     config.tempDir,
-    '_assets',
+    ASSETS_DIR,
     pageJsFileName
   ))
   const pageData = JSON.parse(__pageData)
 
-  const assetPath = `${config.site.base}_assets`
+  const assetPath = `${config.site.base}${ASSETS_DIR}`
   const renderScript = (file: string) => {
-    return `<script type="module" async src="${assetPath}/${file}"></script>`
+    return `<script type="module" async src="${assetPath}${file}"></script>`
   }
 
   // resolve imports for index.js + page.md.js and inject script tags for
@@ -48,7 +53,7 @@ export async function renderPage(
     config.site.title
   }</title>
     <meta name="description" content="${config.site.description}">
-    <link rel="stylesheet" href="${assetPath}/style.css">${renderHead(
+    <link rel="stylesheet" href="${assetPath}style.css">${renderHead(
     config.site.head
   )}${renderHead(pageData.frontmatter.head)}
   </head>
@@ -70,11 +75,11 @@ function resolvePageImports(
 ) {
   // find the page's js chunk and inject script tags for its imports so that
   // they are start fetching as early as possible
-  const indexChunk = result.js.find(
-    (chunk) => chunk.type === 'chunk' && chunk.fileName === `_assets/index.js`
+  const indexChunk = result.assets.find(
+    (chunk) => chunk.type === 'chunk' && chunk.fileName === `index.js`
   ) as OutputChunk
   const srcPath = path.join(config.root, page)
-  const pageChunk = result.js.find(
+  const pageChunk = result.assets.find(
     (chunk) => chunk.type === 'chunk' && chunk.facadeModuleId === srcPath
   ) as OutputChunk
   return Array.from(new Set([...indexChunk.imports, ...pageChunk.imports]))

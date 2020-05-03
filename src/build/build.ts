@@ -11,11 +11,12 @@ export type BuildOptions = Pick<
   'root' | 'rollupInputOptions' | 'rollupOutputOptions'
 >
 
+export const ASSETS_DIR = '_assets/'
+
 export async function build(buildOptions: BuildOptions = {}) {
   const siteConfig = await resolveConfig(buildOptions.root)
   try {
     const [clientResult] = await bundle(siteConfig, buildOptions)
-
     console.log('rendering pages...')
     for (const page of siteConfig.pages) {
       await renderPage(siteConfig, page, clientResult)
