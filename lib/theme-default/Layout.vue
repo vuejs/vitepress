@@ -1,6 +1,6 @@
 <template>
   <div class="theme-container">
-    <img src="./vitepress.png" :alt="$site.title" srcset />
+    <img src="./vitepress.png" :alt="$site.title" />
     <h2>{{ $site.description }}</h2>
     <Content />
   </div>
