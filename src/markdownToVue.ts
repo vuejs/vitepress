@@ -1,7 +1,7 @@
 import path from 'path'
 import matter from 'gray-matter'
 import LRUCache from 'lru-cache'
-import { createMarkdownRenderer, MarkdownOpitons } from './markdown/markdown'
+import { createMarkdownRenderer, MarkdownOptions } from './markdown/markdown'
 import { deeplyParseHeader } from './utils/parseHeader'
 import { PageData } from './config'
 
@@ -15,7 +15,7 @@ interface MarkdownCompileResult {
 
 export function createMarkdownToVueRenderFn(
   root: string,
-  options: MarkdownOpitons = {}
+  options: MarkdownOptions = {}
 ) {
   const md = createMarkdownRenderer(options)
 

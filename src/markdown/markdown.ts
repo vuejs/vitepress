@@ -16,7 +16,7 @@ const emoji = require('markdown-it-emoji')
 const anchor = require('markdown-it-anchor')
 const toc = require('markdown-it-table-of-contents')
 
-export interface MarkdownOpitons extends MarkdownIt.Options {
+export interface MarkdownOptions extends MarkdownIt.Options {
   lineNumbers?: boolean
   config?: (md: MarkdownIt) => void
   anchor?: {
@@ -41,7 +41,7 @@ export interface MarkdownRenderer {
 }
 
 export const createMarkdownRenderer = (
-  options: MarkdownOpitons = {}
+  options: MarkdownOptions = {}
 ): MarkdownRenderer => {
   const md = MarkdownIt({
     html: true,
@@ -50,8 +50,7 @@ export const createMarkdownRenderer = (
   })
 
   // custom plugins
-  md
-    .use(componentPlugin)
+  md.use(componentPlugin)
     .use(highlightLinePlugin)
     .use(preWrapperPlugin)
     .use(snippetPlugin)
@@ -102,7 +101,7 @@ export const createMarkdownRenderer = (
   // wrap render so that we can return both the html and extracted data.
   const render = md.render
   const wrappedRender: MarkdownRenderer['render'] = (src) => {
-    (md as any).__data = {}
+    ;(md as any).__data = {}
     const html = render.call(md, src)
     return {
       html,
