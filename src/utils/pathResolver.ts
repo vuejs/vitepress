@@ -4,7 +4,7 @@ import { Resolver } from "vite"
 // built ts files are placed into /dist
 export const APP_PATH = path.join(__dirname, '../../lib/app')
 
-// speical virtual file
+// special virtual file
 export const SITE_DATA_REQUEST_PATH = '/@siteData'
 
 // this is a path resolver that is passed to vite
