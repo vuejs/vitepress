@@ -2,11 +2,16 @@ import path from 'path'
 import slash from 'slash'
 import { promises as fs } from 'fs'
 import { APP_PATH, createResolver } from '../utils/pathResolver'
-import { build, BuildOptions as ViteBuildOptions, BuildResult } from 'vite'
 import { BuildOptions, ASSETS_DIR } from './build'
 import { SiteConfig } from '../config'
 import { Plugin } from 'rollup'
 import { createMarkdownToVueRenderFn } from '../markdownToVue'
+import {
+  build,
+  ssrBuild,
+  BuildOptions as ViteBuildOptions,
+  BuildResult
+} from 'vite'
 
 // bundles the VitePress app for both client AND server.
 export async function bundle(
@@ -16,8 +21,6 @@ export async function bundle(
   const root = config.root
   const resolver = createResolver(config.themeDir)
   const markdownToVue = createMarkdownToVueRenderFn(root)
-
-  const { rollupInputOptions = {}, rollupOutputOptions = {} } = options
 
   const VitePressPlugin: Plugin = {
     name: 'vitepress',
@@ -63,22 +66,25 @@ export async function bundle(
   // convert page files to absolute paths
   const pages = config.pages.map((file) => path.resolve(root, file))
 
-  // let rollup-plugin-vue compile .md files as well
-  const rollupPluginVueOptions = {
-    include: /\.(vue|md)$/
-  }
-
-  const clientOptions: ViteBuildOptions = {
+  // resolve options to pass to vite
+  const { rollupInputOptions = {}, rollupOutputOptions = {} } = options
+  const viteOptions: ViteBuildOptions = {
     ...options,
     cdn: false,
-    silent: true,
     resolvers: [resolver],
     srcRoots: [APP_PATH, config.themeDir],
     outDir: config.outDir,
     assetsDir: ASSETS_DIR,
-    rollupPluginVueOptions,
+    // let rollup-plugin-vue compile .md files as well
+    rollupPluginVueOptions: {
+      include: /\.(vue|md)$/
+    },
     rollupInputOptions: {
       ...rollupInputOptions,
+      // use our custom input
+      // this is a multi-entry build - every page is considered an entry chunk
+      // the loading is done via filename conversion rules so that the
+      // metadata doesn't need to be included in the main chunk.
       input: [path.resolve(APP_PATH, 'index.js'), ...pages],
       plugins: [VitePressPlugin, ...(rollupInputOptions.plugins || [])]
     },
@@ -87,29 +93,13 @@ export async function bundle(
   }
 
   console.log('building client bundle...')
-  const clientResult = await build(clientOptions)
+  const clientResult = await build(viteOptions)
 
   console.log('building server bundle...')
-  const serverResult = await build({
-    ...clientOptions,
-    outDir: config.tempDir,
-    rollupPluginVueOptions: {
-      ...rollupPluginVueOptions,
-      target: 'node'
-    },
-    rollupInputOptions: {
-      ...clientOptions.rollupInputOptions,
-      external: ['vue', '@vue/server-renderer']
-    },
-    rollupOutputOptions: {
-      ...rollupOutputOptions,
-      format: 'cjs',
-      exports: 'named'
-    },
-    // server build doesn't need to emit static assets
-    emitAssets: false,
-    // server build doesn't need minification
-    minify: false
+  const serverResult = await ssrBuild({
+    ...viteOptions,
+    silent: true,
+    outDir: config.tempDir
   })
 
   return [clientResult, serverResult]
