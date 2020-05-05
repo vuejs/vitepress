@@ -7,13 +7,19 @@ import {
 } from 'vite'
 import { resolveConfig, SiteConfig, resolveSiteData } from './config'
 import { createMarkdownToVueRenderFn } from './markdownToVue'
-import { APP_PATH, SITE_DATA_REQUEST_PATH } from './utils/pathResolver'
+import {
+  APP_PATH,
+  SITE_DATA_REQUEST_PATH,
+  COMPONENTS_DATA_REQUEST_PATH
+} from './utils/pathResolver'
+import { promises as fs, readdirSync } from 'fs'
 
 const debug = require('debug')('vitepress:serve')
 const debugHmr = require('debug')('vitepress:hmr')
 
 function createVitePressPlugin({
   themeDir,
+  componentDir,
   configPath,
   site: initialSiteData
 }: SiteConfig): Plugin {
@@ -64,6 +70,14 @@ function createVitePressPlugin({
       }
     })
 
+    // TODO watch if for dirChanges
+    let componentsFiles = readdirSync(componentDir).map((x) => [
+      path.basename(x, path.extname(x)),
+      path.extname(x).slice(1)
+    ])
+    let componentsString = JSON.stringify(componentsFiles)
+    watcher.add(COMPONENTS_DATA_REQUEST_PATH)
+
     // hot reload handling for siteData
     // the data is stringified twice so it is sent to the client as a string
     // it is then parsed on the client via JSON.parse() which is faster than
@@ -83,6 +97,9 @@ function createVitePressPlugin({
         siteData = newData
         watcher.handleJSReload(SITE_DATA_REQUEST_PATH)
       }
+      if (file.startsWith(componentDir)) {
+        watcher.handleJSReload(resolver.fileToRequest(file))
+      }
     })
 
     // inject Koa middleware
@@ -92,6 +109,12 @@ function createVitePressPlugin({
         ctx.type = 'js'
         ctx.body = `export default ${stringifiedData}`
         debug(ctx.url)
+        return
+      }
+
+      if (ctx.path === COMPONENTS_DATA_REQUEST_PATH) {
+        ctx.type = 'js'
+        ctx.body = `export default ${componentsString}`
         return
       }
 

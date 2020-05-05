@@ -26,6 +26,7 @@ export interface SiteConfig<ThemeConfig = any> {
   site: SiteData<ThemeConfig>
   configPath: string
   themeDir: string
+  componentDir: string
   publicDir: string
   outDir: string
   tempDir: string
@@ -61,6 +62,7 @@ export async function resolveConfig(
   const themeDir = (await exists(userThemeDir))
     ? userThemeDir
     : path.join(__dirname, '../lib/theme-default')
+  const componentDir = resolve(root, 'components')
 
   const config: SiteConfig = {
     root,
@@ -69,9 +71,10 @@ export async function resolveConfig(
     pages: await globby(['**.md'], { cwd: root, ignore: ['node_modules'] }),
     configPath: resolve(root, 'config.js'),
     publicDir: resolve(root, 'public'),
+    componentDir: componentDir,
     outDir: resolve(root, 'dist'),
     tempDir: path.resolve(APP_PATH, 'temp'),
-    resolver: createResolver(themeDir)
+    resolver: createResolver(themeDir, componentDir)
   }
 
   return config

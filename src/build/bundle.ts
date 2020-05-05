@@ -14,7 +14,7 @@ export async function bundle(
   options: BuildOptions
 ): Promise<BuildResult[]> {
   const root = config.root
-  const resolver = createResolver(config.themeDir)
+  const resolver = createResolver(config.themeDir, config.componentDir)
   const markdownToVue = createMarkdownToVueRenderFn(root)
 
   const { rollupInputOptions = {}, rollupOutputOptions = {} } = options
