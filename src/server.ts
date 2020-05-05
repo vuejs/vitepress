@@ -12,7 +12,7 @@ import {
   SITE_DATA_REQUEST_PATH,
   COMPONENTS_DATA_REQUEST_PATH
 } from './utils/pathResolver'
-import { promises as fs, readdirSync } from 'fs'
+import { readdirSync } from 'fs'
 
 const debug = require('debug')('vitepress:serve')
 const debugHmr = require('debug')('vitepress:hmr')
