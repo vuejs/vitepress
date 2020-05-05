@@ -1,4 +1,4 @@
-import { promises as fs } from 'fs'
+import fs from 'fs-extra'
 import { bundle } from './bundle'
 import { BuildOptions as ViteBuildOptions } from 'vite'
 import { resolveConfig } from '../config'
@@ -6,7 +6,10 @@ import { renderPage } from './render'
 
 export type BuildOptions = Pick<
   ViteBuildOptions,
-  'root' | 'rollupInputOptions' | 'rollupOutputOptions'
+  | 'root'
+  | 'rollupInputOptions'
+  | 'rollupOutputOptions'
+  | 'rollupPluginVueOptions'
 >
 
 export const ASSETS_DIR = '_assets/'
@@ -20,7 +23,7 @@ export async function build(buildOptions: BuildOptions = {}) {
       await renderPage(siteConfig, page, clientResult)
     }
   } finally {
-    await fs.rmdir(siteConfig.tempDir, { recursive: true })
+    await fs.remove(siteConfig.tempDir)
   }
   console.log('done.')
 }

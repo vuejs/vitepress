@@ -53,6 +53,7 @@
     "debug": "^4.1.1",
     "diacritics": "^1.3.0",
     "escape-html": "^1.0.3",
+    "fs-extra": "^9.0.0",
     "globby": "^11.0.0",
     "gray-matter": "^4.0.2",
     "lru-cache": "^5.1.1",
@@ -68,6 +69,7 @@
     "vue": "^3.0.0-beta.9"
   },
   "devDependencies": {
+    "@types/fs-extra": "^8.1.0",
     "@types/lru-cache": "^5.1.0",
     "@types/markdown-it": "^10.0.1",
     "@types/node": "^13.13.4",

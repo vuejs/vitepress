@@ -1,5 +1,5 @@
 import path from 'path'
-import { promises as fs } from 'fs'
+import fs from 'fs-extra'
 import { SiteConfig, HeadConfig } from '../config'
 import { BuildResult } from 'vite'
 import { renderToString } from '@vue/server-renderer'
@@ -64,7 +64,7 @@ export async function renderPage(
   </body>
 </html>`.trim()
   const htmlFileName = path.join(config.outDir, page.replace(/\.md$/, '.html'))
-  await fs.mkdir(path.dirname(htmlFileName), { recursive: true })
+  await fs.ensureDir(path.dirname(htmlFileName))
   await fs.writeFile(htmlFileName, html)
 }
 

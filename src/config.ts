@@ -1,10 +1,10 @@
 import path from 'path'
+import fs from 'fs-extra'
 import chalk from 'chalk'
 import globby from 'globby'
 import { createResolver, APP_PATH } from './utils/pathResolver'
 import { Resolver } from 'vite'
 import { Header } from './markdown/plugins/header'
-import { exists } from './utils/fs'
 
 const debug = require('debug')('vitepress:config')
 
@@ -57,7 +57,7 @@ export async function resolveConfig(
 
   // resolve theme path
   const userThemeDir = resolve(root, 'theme')
-  const themeDir = (await exists(userThemeDir))
+  const themeDir = (await fs.pathExists(userThemeDir))
     ? userThemeDir
     : path.join(__dirname, '../lib/theme-default')
 
@@ -78,7 +78,7 @@ export async function resolveConfig(
 export async function resolveSiteData(root: string): Promise<SiteData> {
   // load user config
   const configPath = resolve(root, 'config.js')
-  const hasUserConfig = await exists(configPath)
+  const hasUserConfig = await fs.pathExists(configPath)
   // always delete cache first before loading config
   delete require.cache[configPath]
   const userConfig: UserConfig = hasUserConfig ? require(configPath) : {}

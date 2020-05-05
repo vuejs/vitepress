@@ -1,6 +1,6 @@
 import path from 'path'
 import slash from 'slash'
-import { promises as fs } from 'fs'
+import fs from 'fs-extra'
 import { APP_PATH, createResolver } from '../utils/pathResolver'
 import { BuildOptions, ASSETS_DIR } from './build'
 import { SiteConfig } from '../config'
