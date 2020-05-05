@@ -33,6 +33,17 @@ export async function bundle(
       if (id === '/@siteData') {
         return `export default ${JSON.stringify(JSON.stringify(config.site))}`
       }
+
+      if (id === '/@components') {
+        const componentsFiles = (
+          await fs.readdir(config.componentDir)
+        ).map((x) => [
+          path.basename(x, path.extname(x)),
+          path.extname(x).slice(1)
+        ])
+        return `export default ${JSON.stringify(componentsFiles)}`
+      }
+
       // compile md into vue src for .md.vue virtual files
       if (id.endsWith('.md')) {
         const filePath = id.replace(/\.vue$/, '')

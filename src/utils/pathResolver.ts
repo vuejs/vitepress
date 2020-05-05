@@ -24,11 +24,8 @@ export function createResolver(
       if (publicPath.startsWith('/@theme')) {
         return path.join(themeDir, publicPath.replace(/^\/@theme\/?/, ''))
       }
-      if (publicPath.startsWith('/@components/index')) {
-        return path.join(
-          componentDir,
-          publicPath.replace(/^\/@components\/?/, '')
-        )
+      if (publicPath === '/@components') {
+        return publicPath
       }
       if (publicPath.startsWith('/@components')) {
         return path.join(
