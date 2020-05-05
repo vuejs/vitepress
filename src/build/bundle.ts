@@ -86,9 +86,13 @@ export async function bundle(
       // the loading is done via filename conversion rules so that the
       // metadata doesn't need to be included in the main chunk.
       input: [path.resolve(APP_PATH, 'index.js'), ...pages],
+      // important so that each page chunk and the index export things for each
+      // other
+      preserveEntrySignatures: 'allow-extension',
       plugins: [VitePressPlugin, ...(rollupInputOptions.plugins || [])]
     },
     rollupOutputOptions,
+    silent: !process.env.DEBUG,
     minify: !process.env.DEBUG
   }
 
@@ -98,7 +102,6 @@ export async function bundle(
   console.log('building server bundle...')
   const serverResult = await ssrBuild({
     ...viteOptions,
-    silent: true,
     outDir: config.tempDir
   })
 
