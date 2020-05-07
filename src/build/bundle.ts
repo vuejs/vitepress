@@ -72,7 +72,6 @@ export async function bundle(
     ...options,
     cdn: false,
     resolvers: [resolver],
-    srcRoots: [APP_PATH, config.themeDir],
     outDir: config.outDir,
     assetsDir: ASSETS_DIR,
     // let rollup-plugin-vue compile .md files as well
