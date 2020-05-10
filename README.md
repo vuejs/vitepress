@@ -2,6 +2,8 @@
 
 > [VuePress](http://vuepress.vuejs.org/)' little brother, built on top of [vite](https://github.com/vuejs/vite)
 
+**Note this is early WIP! Currently the focus is on making Vite stable and feature complete first. It is not recommended to start using this for anything yet.**
+
 ``` bash
 npm install -D vitepress
 echo '# Hello VitePress' > index.md
@@ -12,8 +14,6 @@ npx vitepress
 # build > .vitepress/dist
 npx vitepress build
 ```
-
-Note this is early WIP! The default theme is non-existent, but the basic workflow is there.
 
 ## Customization
 
