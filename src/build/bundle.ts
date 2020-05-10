@@ -9,7 +9,7 @@ import { createMarkdownToVueRenderFn } from '../markdownToVue'
 import {
   build,
   ssrBuild,
-  BuildOptions as ViteBuildOptions,
+  BuildConfig as ViteBuildOptions,
   BuildResult
 } from 'vite'
 
@@ -70,7 +70,6 @@ export async function bundle(
   const { rollupInputOptions = {}, rollupOutputOptions = {} } = options
   const viteOptions: ViteBuildOptions = {
     ...options,
-    cdn: false,
     resolvers: [resolver],
     outDir: config.outDir,
     assetsDir: ASSETS_DIR,

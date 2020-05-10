@@ -1,11 +1,15 @@
 import path from 'path'
-import { Resolver } from "vite"
+import { Resolver } from 'vite'
 
 // built ts files are placed into /dist
 export const APP_PATH = path.join(__dirname, '../../lib/app')
 
 // special virtual file
-export const SITE_DATA_REQUEST_PATH = '/@siteData'
+// we can't directly import '/@siteData' becase
+// - it's not an actual file so we can't use tsconfig paths to redirect it
+// - TS doesn't allow shimming a module that starts with '/'
+export const SITE_DATA_ID = '@siteData'
+export const SITE_DATA_REQUEST_PATH = '/' + SITE_DATA_ID
 
 // this is a path resolver that is passed to vite
 // so that we can resolve custom requests that start with /@app or /@theme
@@ -35,9 +39,12 @@ export function createResolver(themeDir: string): Resolver {
         return SITE_DATA_REQUEST_PATH
       }
     },
-    idToRequest(id) {
+    alias(id) {
       if (id === 'vitepress') {
         return '/@app/exports.js'
+      }
+      if (id === SITE_DATA_ID) {
+        return SITE_DATA_REQUEST_PATH
       }
     }
   }

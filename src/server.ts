@@ -2,8 +2,8 @@ import path from 'path'
 import {
   createServer as createViteServer,
   cachedRead,
-  Plugin,
-  ServerConfig
+  ServerConfig,
+  ServerPlugin
 } from 'vite'
 import { resolveConfig, SiteConfig, resolveSiteData } from './config'
 import { createMarkdownToVueRenderFn } from './markdownToVue'
@@ -16,7 +16,7 @@ function createVitePressPlugin({
   themeDir,
   configPath,
   site: initialSiteData
-}: SiteConfig): Plugin {
+}: SiteConfig): ServerPlugin {
   return ({ app, root, watcher, resolver }) => {
     const markdownToVue = createMarkdownToVueRenderFn(root)
 

@@ -1,6 +1,6 @@
 import fs from 'fs-extra'
 import { bundle } from './bundle'
-import { BuildOptions as ViteBuildOptions } from 'vite'
+import { BuildConfig as ViteBuildOptions } from 'vite'
 import { resolveConfig } from '../config'
 import { renderPage } from './render'
 
