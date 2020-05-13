@@ -4,9 +4,10 @@ import Token from 'markdown-it/lib/token'
 const container = require('markdown-it-container')
 
 export const containerPlugin = (md: MarkdownIt) => {
-  md.use(...createContainer('tip', 'TIP'))
-    .use(...createContainer('warning', 'WARNING'))
-    .use(...createContainer('danger', 'WARNING'))
+  md.use(...createContainer('tip', 'Tip'))
+    .use(...createContainer('warning', 'Warning'))
+    .use(...createContainer('danger', 'Danger'))
+    .use(...createContainer('info', 'Info'))
     // explicitly escape Vue syntax
     .use(container, 'v-pre', {
       render: (tokens: Token[], idx: number) =>
