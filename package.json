@@ -29,7 +29,8 @@
     "dev": "tsc -w -p src",
     "build": "rm -rf dist && tsc -p src",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
-    "prepublishOnly": "yarn build && yarn changelog"
+    "prepublishOnly": "yarn build && yarn changelog",
+    "doc": "bin/vitepress.js dev documentation"
   },
   "engines": {
     "node": ">=10.0.0"

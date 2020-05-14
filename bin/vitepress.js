@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const chalk = require('chalk')
 const argv = require('minimist')(process.argv.slice(2))
+const { join } = require('path')
 
 console.log(chalk.cyan(`vitepress v${require('../package.json').version}`))
 console.log(chalk.cyan(`vite v${require('vite/package.json').version}`))
@@ -11,8 +12,11 @@ if (!command || command === 'dev') {
   const port = argv.port || 3000
   const root = command === 'dev' && argv._[1]
   if (root) {
-    argv.root = root
+    // normalize path it update argv by a custom root
+    argv.root =
+      root.indexOf(process.cwd()) === -1 ? join(__dirname, '..', root) : root
   }
+
   require('../dist')
     .createServer(argv)
     .then((server) => {

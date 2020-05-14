@@ -77,11 +77,13 @@ export async function resolveConfig(
 
 export async function resolveSiteData(root: string): Promise<SiteData> {
   // load user config
+
   const configPath = resolve(root, 'config.js')
   const hasUserConfig = await fs.pathExists(configPath)
   // always delete cache first before loading config
   delete require.cache[configPath]
   const userConfig: UserConfig = hasUserConfig ? require(configPath) : {}
+
   if (hasUserConfig) {
     debug(`loaded config at ${chalk.yellow(configPath)}`)
   } else {

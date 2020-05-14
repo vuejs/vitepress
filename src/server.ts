@@ -3,7 +3,7 @@ import {
   createServer as createViteServer,
   cachedRead,
   ServerConfig,
-  ServerPlugin
+  PluginContext
 } from 'vite'
 import { resolveConfig, SiteConfig, resolveSiteData } from './config'
 import { createMarkdownToVueRenderFn } from './markdownToVue'
@@ -16,8 +16,8 @@ function createVitePressPlugin({
   themeDir,
   configPath,
   site: initialSiteData
-}: SiteConfig): ServerPlugin {
-  return ({ app, root, watcher, resolver }) => {
+}: SiteConfig) {
+  return ({ app, root, watcher, resolver }: PluginContext) => {
     const markdownToVue = createMarkdownToVueRenderFn(root)
 
     // watch vitepress container app (only when developing vitepress itself)
