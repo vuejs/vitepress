@@ -7,7 +7,7 @@ import {
 } from 'vite'
 import { resolveConfig, SiteConfig, resolveSiteData } from './config'
 import { createMarkdownToVueRenderFn } from './markdownToVue'
-import { APP_PATH, SITE_DATA_REQUEST_PATH } from './utils/pathResolver'
+import { APP_PATH, SITE_DATA_REQUEST_PATH } from './resolver'
 
 const debug = require('debug')('vitepress:serve')
 const debugHmr = require('debug')('vitepress:hmr')

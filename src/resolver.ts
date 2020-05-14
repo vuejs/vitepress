@@ -2,7 +2,7 @@ import path from 'path'
 import { Resolver } from 'vite'
 
 // built ts files are placed into /dist
-export const APP_PATH = path.join(__dirname, '../../lib/app')
+export const APP_PATH = path.join(__dirname, '../lib/app')
 
 // special virtual file
 // we can't directly import '/@siteData' becase

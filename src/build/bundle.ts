@@ -1,7 +1,7 @@
 import path from 'path'
 import slash from 'slash'
 import fs from 'fs-extra'
-import { APP_PATH, createResolver } from '../utils/pathResolver'
+import { APP_PATH, createResolver, SITE_DATA_REQUEST_PATH } from '../resolver'
 import { BuildOptions, ASSETS_DIR } from './build'
 import { SiteConfig } from '../config'
 import { Plugin } from 'rollup'
@@ -25,12 +25,12 @@ export async function bundle(
   const VitePressPlugin: Plugin = {
     name: 'vitepress',
     resolveId(id) {
-      if (id.endsWith('.md.vue')) {
+      if (id === SITE_DATA_REQUEST_PATH || id.endsWith('.md.vue')) {
         return id
       }
     },
     async load(id) {
-      if (id === '/@siteData') {
+      if (id === SITE_DATA_REQUEST_PATH) {
         return `export default ${JSON.stringify(JSON.stringify(config.site))}`
       }
       // compile md into vue src for .md.vue virtual files
@@ -63,6 +63,7 @@ export async function bundle(
     }
   }
 
+  const appEntry = path.resolve(APP_PATH, 'index.js')
   // convert page files to absolute paths
   const pages = config.pages.map((file) => path.resolve(root, file))
 
@@ -83,7 +84,7 @@ export async function bundle(
       // this is a multi-entry build - every page is considered an entry chunk
       // the loading is done via filename conversion rules so that the
       // metadata doesn't need to be included in the main chunk.
-      input: [path.resolve(APP_PATH, 'index.js'), ...pages],
+      input: [appEntry, ...pages],
       // important so that each page chunk and the index export things for each
       // other
       preserveEntrySignatures: 'allow-extension',

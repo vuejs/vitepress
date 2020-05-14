@@ -2,7 +2,7 @@ import path from 'path'
 import fs from 'fs-extra'
 import chalk from 'chalk'
 import globby from 'globby'
-import { createResolver, APP_PATH } from './utils/pathResolver'
+import { createResolver, APP_PATH } from './resolver'
 import { Resolver } from 'vite'
 import { Header } from './markdown/plugins/header'
 
