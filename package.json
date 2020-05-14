@@ -30,7 +30,8 @@
     "build": "rm -rf dist && tsc -p src",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "prepublishOnly": "yarn build && yarn changelog",
-    "doc": "bin/vitepress.js dev documentation"
+    "doc:dev": "bin/vitepress.js dev documentation",
+    "doc:build": "bin/vitepress.js build documentation"
   },
   "engines": {
     "node": ">=10.0.0"

@@ -83,6 +83,8 @@ function injectPageData(tags: string[], data: PageData) {
 }
 
 const inferTitle = (frontmatter: any, content: string) => {
+  // TODO is it worth it to have this if you want to add translation later ?
+  // by default it will take the first h1 as title
   if (frontmatter.home) {
     return 'Home'
   }
