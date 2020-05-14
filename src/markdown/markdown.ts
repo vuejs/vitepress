@@ -90,6 +90,8 @@ export const createMarkdownRenderer = (
     )
 
   // apply user config
+  // TODO: there is never options passed it alway empty object
+  console.log(options)
   if (options.config) {
     options.config(md)
   }

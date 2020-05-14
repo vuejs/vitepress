@@ -91,6 +91,8 @@ const inferTitle = (frontmatter: any, content: string) => {
   if (frontmatter.title) {
     return deeplyParseHeader(frontmatter.title)
   }
+
+  // Here if no title or home it will take the the first # in the contect as title
   const match = content.match(/^\s*#+\s+(.*)/m)
   if (match) {
     return deeplyParseHeader(match[1].trim())
