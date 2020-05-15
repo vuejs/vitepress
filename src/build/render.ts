@@ -34,17 +34,19 @@ export async function renderPage(
   const pageData = JSON.parse(__pageData)
 
   const assetPath = `${config.site.base}${ASSETS_DIR}`
-  const renderScript = (file: string) => {
-    return `<script type="module" async src="${assetPath}${file}"></script>`
-  }
 
-  // resolve imports for index.js + page.md.js and inject script tags for
-  // them as well so we fetch everything as early as possible without having
-  // to wait for entry chunks to parse
-  const pageImports = resolvePageImports(config, page, result)
-  const pageImportScripts = pageImports.length
-    ? pageImports.map((i) => renderScript(i)).join('\n') + `\n    `
-    : ``
+  const preloadLinks = [
+    // resolve imports for index.js + page.md.js and inject script tags for
+    // them as well so we fetch everything as early as possible without having
+    // to wait for entry chunks to parse
+    ...resolvePageImports(config, page, result),
+    pageJsFileName,
+    'index.js'
+  ]
+    .map((file) => {
+      return `<link rel="modulepreload" href="${assetPath}${file}">`
+    })
+    .join('\n    ')
 
   const html = `
 <html lang="en-US">
@@ -53,14 +55,14 @@ export async function renderPage(
     config.site.title
   }</title>
     <meta name="description" content="${config.site.description}">
-    <link rel="stylesheet" href="${assetPath}style.css">${renderHead(
-    config.site.head
-  )}${renderHead(pageData.frontmatter.head)}
+    <link rel="stylesheet" href="${assetPath}style.css">
+    ${preloadLinks}
+    ${renderHead(config.site.head)}
+    ${renderHead(pageData.frontmatter.head)}
   </head>
   <body>
     <div id="app">${content}</div>
-    ${pageImportScripts}${renderScript(pageJsFileName)}
-    ${renderScript(`index.js`)}
+    <script type="module" async src="${assetPath}index.js"></script>
   </body>
 </html>`.trim()
   const htmlFileName = path.join(config.outDir, page.replace(/\.md$/, '.html'))
@@ -89,19 +91,16 @@ function renderHead(head: HeadConfig[]) {
   if (!head || !head.length) {
     return ''
   }
-  return (
-    `\n    ` +
-    head
-      .map(([tag, attrs = {}, innerHTML = '']) => {
-        const openTag = `<${tag}${renderAttrs(attrs)}>`
-        if (tag !== 'link' && tag !== 'meta') {
-          return `${openTag}${innerHTML}</${tag}>`
-        } else {
-          return openTag
-        }
-      })
-      .join('\n    ')
-  )
+  return head
+    .map(([tag, attrs = {}, innerHTML = '']) => {
+      const openTag = `<${tag}${renderAttrs(attrs)}>`
+      if (tag !== 'link' && tag !== 'meta') {
+        return `${openTag}${innerHTML}</${tag}>`
+      } else {
+        return openTag
+      }
+    })
+    .join('\n    ')
 }
 
 function renderAttrs(attrs: Record<string, string>): string {

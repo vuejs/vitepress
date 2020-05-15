@@ -50,10 +50,8 @@ export function createMarkdownToVueRenderFn(
       ? injectPageData(data.hoistedTags || [], pageData)
       : data.hoistedTags || []
 
-    // double wrapping since tempalte root node is never hoisted or turned into
-    // a static node.
     const vueSrc =
-      `<template><div><div class="vitepress-content">${html}</div></div></template>\n` +
+      `<template><div class="vitepress-content">${html}</div></template>\n` +
       additionalBlocks.join('\n')
     debug(`[render] ${file} in ${Date.now() - start}ms.`)
 
