@@ -45,6 +45,7 @@ export const createMarkdownRenderer = (
 ): MarkdownRenderer => {
   const md = MarkdownIt({
     html: true,
+    linkify: true,
     highlight,
     ...options
   })

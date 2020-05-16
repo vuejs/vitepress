@@ -22,6 +22,8 @@ export async function bundle(
   const resolver = createResolver(config.themeDir)
   const markdownToVue = createMarkdownToVueRenderFn(root)
 
+  let isClientBuild = true
+
   const VitePressPlugin: Plugin = {
     name: 'vitepress',
     resolveId(id) {
@@ -58,6 +60,18 @@ export async function bundle(
               /\//g,
               '_'
             ) + '.js'
+
+          if (isClientBuild) {
+            // inject another chunk with the content stripped
+            bundle[name + '-lean'] = {
+              ...chunk,
+              fileName: chunk.fileName.replace(/\.js$/, '.lean.js'),
+              code: chunk.code.replace(
+                /createStaticVNode\([^)]+, (\d+)\)/g,
+                `createStaticVNode("", $1)`
+              )
+            }
+          }
         }
       }
     }
@@ -99,6 +113,7 @@ export async function bundle(
   const clientResult = await build(viteOptions)
 
   console.log('building server bundle...')
+  isClientBuild = false
   const serverResult = await ssrBuild({
     ...viteOptions,
     outDir: config.tempDir

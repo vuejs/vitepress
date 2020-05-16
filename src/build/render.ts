@@ -40,7 +40,9 @@ export async function renderPage(
     // them as well so we fetch everything as early as possible without having
     // to wait for entry chunks to parse
     ...resolvePageImports(config, page, result),
-    pageJsFileName,
+    // for any initial page load, we only need the lean version of the page js
+    // since the static content is already on the page!
+    pageJsFileName.replace(/\.js$/, '.lean.js'),
     'index.js'
   ]
     .map((file) => {
