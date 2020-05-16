@@ -85,6 +85,7 @@ export async function bundle(
   const { rollupInputOptions = {}, rollupOutputOptions = {} } = options
   const viteOptions: ViteBuildOptions = {
     ...options,
+    base: config.site.base,
     resolvers: [resolver],
     outDir: config.outDir,
     assetsDir: ASSETS_DIR,
