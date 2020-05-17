@@ -24,9 +24,9 @@ export async function build(buildOptions: BuildOptions = {}) {
     )
     console.log('rendering pages...')
 
-    const indexChunk = clientResult.assets.find(
+    const appChunk = clientResult.assets.find(
       (chunk) =>
-        chunk.type === 'chunk' && chunk.fileName.match(/^index\.\w+\.js$/)
+        chunk.type === 'chunk' && chunk.fileName.match(/^app\.\w+\.js$/)
     ) as OutputChunk
 
     // We embed the hash map string into each page directly so that it doesn't
@@ -40,7 +40,7 @@ export async function build(buildOptions: BuildOptions = {}) {
         siteConfig,
         page,
         clientResult,
-        indexChunk,
+        appChunk,
         pageToHashMap,
         hashMapStirng
       )

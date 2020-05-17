@@ -12,15 +12,11 @@ export async function renderPage(
   config: SiteConfig,
   page: string, // foo.md
   result: BuildResult,
-  indexChunk: OutputChunk,
+  appChunk: OutputChunk,
   pageToHashMap: Record<string, string>,
   hashMapStirng: string
 ) {
-  const { createApp } = require(path.join(
-    config.tempDir,
-    ASSETS_DIR,
-    'index.js'
-  ))
+  const { createApp } = require(path.join(config.tempDir, ASSETS_DIR, 'app.js'))
   const { app, router } = createApp()
   const routePath = `/${page.replace(/\.md$/, '')}`
   router.go(routePath)
@@ -47,9 +43,9 @@ export async function renderPage(
     // resolve imports for index.js + page.md.js and inject script tags for
     // them as well so we fetch everything as early as possible without having
     // to wait for entry chunks to parse
-    ...resolvePageImports(config, page, result, indexChunk),
+    ...resolvePageImports(config, page, result, appChunk),
     pageClientJsFileName,
-    indexChunk.fileName
+    appChunk.fileName
   ]
     .map((file) => {
       return `<link rel="modulepreload" href="${assetPath}${file}">`
@@ -71,9 +67,7 @@ export async function renderPage(
   <body>
     <div id="app">${content}</div>
     <script>__VP_HASH_MAP__ = JSON.parse(${hashMapStirng})</script>
-    <script type="module" async src="${assetPath}${
-    indexChunk.fileName
-  }"></script>
+    <script type="module" async src="${assetPath}${appChunk.fileName}"></script>
   </body>
 </html>`.trim()
   const htmlFileName = path.join(config.outDir, page.replace(/\.md$/, '.html'))

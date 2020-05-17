@@ -13,6 +13,7 @@ import {
   BuildResult
 } from 'vite'
 
+const hashRE = /\.(\w+)\.js$/
 const staticInjectMarkerRE = /\b(const _hoisted_\d+ = \/\*#__PURE__\*\/createStaticVNode)\("(.*)", (\d+)\)/g
 const staticStripRE = /__VP_STATIC_START__.*?__VP_STATIC_END__/g
 const staticRestoreRE = /__VP_STATIC_(START|END)__/g
@@ -81,37 +82,37 @@ export async function bundle(
       // for each .md entry chunk, adjust its name to its correct path.
       for (const name in bundle) {
         const chunk = bundle[name]
-        if (isPageChunk(chunk)) {
-          // foo/bar.md -> foo_bar.md.js
-          const hash = isClientBuild
-            ? chunk.fileName.match(/\.(\w+)\.js$/)![1]
-            : ``
-          const pageName = slash(
-            path.relative(root, chunk.facadeModuleId)
-          ).replace(/\//g, '_')
-          chunk.fileName = `${pageName}${hash ? `.${hash}` : ``}.js`
+        if (isPageChunk(chunk) && isClientBuild) {
+          // record page -> hash relations
+          const hash = chunk.fileName.match(hashRE)![1]
+          const pageName = chunk.fileName.replace(hashRE, '')
+          pageToHashMap[pageName] = hash
 
-          if (isClientBuild) {
-            // record page -> hash relations
-            pageToHashMap[pageName] = hash
-
-            // inject another chunk with the content stripped
-            bundle[name + '-lean'] = {
-              ...chunk,
-              fileName: chunk.fileName.replace(/\.js$/, '.lean.js'),
-              code: chunk.code.replace(staticStripRE, ``)
-            }
-            // remove static markers from orginal code
-            chunk.code = chunk.code.replace(staticRestoreRE, '')
+          // inject another chunk with the content stripped
+          bundle[name + '-lean'] = {
+            ...chunk,
+            fileName: chunk.fileName.replace(/\.js$/, '.lean.js'),
+            code: chunk.code.replace(staticStripRE, ``)
           }
+          // remove static markers from orginal code
+          chunk.code = chunk.code.replace(staticRestoreRE, '')
         }
       }
     }
   }
 
-  const appEntry = path.resolve(APP_PATH, 'index.js')
-  // convert page files to absolute paths
-  const pages = config.pages.map((file) => path.resolve(root, file))
+  // define custom rollup input
+  // this is a multi-entry build - every page is considered an entry chunk
+  // the loading is done via filename conversion rules so that the
+  // metadata doesn't need to be included in the main chunk.
+  const input: Record<string, string> = {
+    app: path.resolve(APP_PATH, 'index.js')
+  }
+  config.pages.forEach((file) => {
+    // page filename conversion
+    // foo/bar.md -> foo_bar.md
+    input[slash(file).replace(/\//g, '_')] = path.resolve(root, file)
+  })
 
   // resolve options to pass to vite
   const { rollupInputOptions = {}, rollupOutputOptions = {} } = options
@@ -127,11 +128,7 @@ export async function bundle(
     },
     rollupInputOptions: {
       ...rollupInputOptions,
-      // use our custom input
-      // this is a multi-entry build - every page is considered an entry chunk
-      // the loading is done via filename conversion rules so that the
-      // metadata doesn't need to be included in the main chunk.
-      input: [appEntry, ...pages],
+      input,
       // important so that each page chunk and the index export things for each
       // other
       preserveEntrySignatures: 'allow-extension',
