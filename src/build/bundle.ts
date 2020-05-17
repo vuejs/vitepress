@@ -4,7 +4,7 @@ import fs from 'fs-extra'
 import { APP_PATH, createResolver, SITE_DATA_REQUEST_PATH } from '../resolver'
 import { BuildOptions, ASSETS_DIR } from './build'
 import { SiteConfig } from '../config'
-import { Plugin } from 'rollup'
+import { Plugin, OutputAsset, OutputChunk } from 'rollup'
 import { createMarkdownToVueRenderFn } from '../markdownToVue'
 import {
   build,
@@ -12,6 +12,20 @@ import {
   BuildConfig as ViteBuildOptions,
   BuildResult
 } from 'vite'
+
+const staticInjectMarkerRE = /\b(const _hoisted_\d+ = \/\*#__PURE__\*\/createStaticVNode)\("(.*)", (\d+)\)/g
+const staticStripRE = /__VP_STATIC_START__.*?__VP_STATIC_END__/g
+const staticRestoreRE = /__VP_STATIC_(START|END)__/g
+
+const isPageChunk = (
+  chunk: OutputAsset | OutputChunk
+): chunk is OutputChunk & { facadeModuleId: string } =>
+  !!(
+    chunk.type === 'chunk' &&
+    chunk.isEntry &&
+    chunk.facadeModuleId &&
+    chunk.facadeModuleId.endsWith('.md')
+  )
 
 // bundles the VitePress app for both client AND server.
 export async function bundle(
@@ -44,16 +58,29 @@ export async function bundle(
         return vueSrc
       }
     },
+
+    renderChunk(code, chunk) {
+      if (isClientBuild && isPageChunk(chunk as OutputChunk)) {
+        // For each page chunk, inject marker for start/end of static strings.
+        // we do this here because in generateBundle the chunks would have been
+        // minified and we won't be able to safely locate the strings.
+        // Using a regexp relies on specific output from Vue compiler core,
+        // which is a reasonable trade-off considering the massive perf win over
+        // a full AST parse.
+        code = code.replace(
+          staticInjectMarkerRE,
+          '$1("__VP_STATIC_START__$2__VP_STATIC_END__", $3)'
+        )
+        return code
+      }
+      return null
+    },
+
     generateBundle(_options, bundle) {
       // for each .md entry chunk, adjust its name to its correct path.
       for (const name in bundle) {
         const chunk = bundle[name]
-        if (
-          chunk.type === 'chunk' &&
-          chunk.isEntry &&
-          chunk.facadeModuleId &&
-          chunk.facadeModuleId.endsWith('.md')
-        ) {
+        if (isPageChunk(chunk)) {
           // foo/bar.md -> foo_bar.md.js
           chunk.fileName =
             slash(path.relative(root, chunk.facadeModuleId)).replace(
@@ -66,11 +93,10 @@ export async function bundle(
             bundle[name + '-lean'] = {
               ...chunk,
               fileName: chunk.fileName.replace(/\.js$/, '.lean.js'),
-              code: chunk.code.replace(
-                /createStaticVNode\([^)]+, (\d+)\)/g,
-                `createStaticVNode("", $1)`
-              )
+              code: chunk.code.replace(staticStripRE, ``)
             }
+            // remove static markers from orginal code
+            chunk.code = chunk.code.replace(staticRestoreRE, '')
           }
         }
       }
