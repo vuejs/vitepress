@@ -11,7 +11,10 @@ const escape = require('escape-html')
 export async function renderPage(
   config: SiteConfig,
   page: string, // foo.md
-  result: BuildResult
+  result: BuildResult,
+  indexChunk: OutputChunk,
+  pageToHashMap: Record<string, string>,
+  hashMapStirng: string
 ) {
   const { createApp } = require(path.join(
     config.tempDir,
@@ -23,27 +26,30 @@ export async function renderPage(
   router.go(routePath)
   const content = await renderToString(app)
 
-  const pageJsFileName = page.replace(/\//g, '_') + '.js'
+  const pageName = page.replace(/\//g, '_')
+  // server build doesn't need hash
+  const pageServerJsFileName = pageName + '.js'
+  // for any initial page load, we only need the lean version of the page js
+  // since the static content is already on the page!
+  const pageHash = pageToHashMap[pageName]
+  const pageClientJsFileName = pageName + `.` + pageHash + '.lean.js'
 
   // resolve page data so we can render head tags
   const { __pageData } = require(path.join(
     config.tempDir,
     ASSETS_DIR,
-    pageJsFileName
+    pageServerJsFileName
   ))
   const pageData = JSON.parse(__pageData)
 
   const assetPath = `${config.site.base}${ASSETS_DIR}`
-
   const preloadLinks = [
     // resolve imports for index.js + page.md.js and inject script tags for
     // them as well so we fetch everything as early as possible without having
     // to wait for entry chunks to parse
-    ...resolvePageImports(config, page, result),
-    // for any initial page load, we only need the lean version of the page js
-    // since the static content is already on the page!
-    pageJsFileName.replace(/\.js$/, '.lean.js'),
-    'index.js'
+    ...resolvePageImports(config, page, result, indexChunk),
+    pageClientJsFileName,
+    indexChunk.fileName
   ]
     .map((file) => {
       return `<link rel="modulepreload" href="${assetPath}${file}">`
@@ -64,7 +70,10 @@ export async function renderPage(
   </head>
   <body>
     <div id="app">${content}</div>
-    <script type="module" async src="${assetPath}index.js"></script>
+    <script>__VP_HASH_MAP__ = JSON.parse(${hashMapStirng})</script>
+    <script type="module" async src="${assetPath}${
+    indexChunk.fileName
+  }"></script>
   </body>
 </html>`.trim()
   const htmlFileName = path.join(config.outDir, page.replace(/\.md$/, '.html'))
@@ -75,13 +84,12 @@ export async function renderPage(
 function resolvePageImports(
   config: SiteConfig,
   page: string,
-  result: BuildResult
+  result: BuildResult,
+  indexChunk: OutputChunk
 ) {
   // find the page's js chunk and inject script tags for its imports so that
   // they are start fetching as early as possible
-  const indexChunk = result.assets.find(
-    (chunk) => chunk.type === 'chunk' && chunk.fileName === `index.js`
-  ) as OutputChunk
+
   const srcPath = path.join(config.root, page)
   const pageChunk = result.assets.find(
     (chunk) => chunk.type === 'chunk' && chunk.facadeModuleId === srcPath

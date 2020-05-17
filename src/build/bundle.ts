@@ -31,12 +31,13 @@ const isPageChunk = (
 export async function bundle(
   config: SiteConfig,
   options: BuildOptions
-): Promise<BuildResult[]> {
+): Promise<[BuildResult, BuildResult, Record<string, string>]> {
   const root = config.root
   const resolver = createResolver(config.themeDir)
   const markdownToVue = createMarkdownToVueRenderFn(root)
 
   let isClientBuild = true
+  const pageToHashMap = Object.create(null)
 
   const VitePressPlugin: Plugin = {
     name: 'vitepress',
@@ -82,13 +83,18 @@ export async function bundle(
         const chunk = bundle[name]
         if (isPageChunk(chunk)) {
           // foo/bar.md -> foo_bar.md.js
-          chunk.fileName =
-            slash(path.relative(root, chunk.facadeModuleId)).replace(
-              /\//g,
-              '_'
-            ) + '.js'
+          const hash = isClientBuild
+            ? chunk.fileName.match(/\.(\w+)\.js$/)![1]
+            : ``
+          const pageName = slash(
+            path.relative(root, chunk.facadeModuleId)
+          ).replace(/\//g, '_')
+          chunk.fileName = `${pageName}${hash ? `.${hash}` : ``}.js`
 
           if (isClientBuild) {
+            // record page -> hash relations
+            pageToHashMap[pageName] = hash
+
             // inject another chunk with the content stripped
             bundle[name + '-lean'] = {
               ...chunk,
@@ -131,13 +137,22 @@ export async function bundle(
       preserveEntrySignatures: 'allow-extension',
       plugins: [VitePressPlugin, ...(rollupInputOptions.plugins || [])]
     },
-    rollupOutputOptions,
+    rollupOutputOptions: {
+      ...rollupOutputOptions,
+      chunkFileNames: `common-[hash].js`
+    },
     silent: !process.env.DEBUG,
     minify: !process.env.DEBUG
   }
 
   console.log('building client bundle...')
-  const clientResult = await build(viteOptions)
+  const clientResult = await build({
+    ...viteOptions,
+    rollupOutputOptions: {
+      ...viteOptions.rollupOutputOptions,
+      entryFileNames: `[name].[hash].js`
+    }
+  })
 
   console.log('building server bundle...')
   isClientBuild = false
@@ -146,5 +161,5 @@ export async function bundle(
     outDir: config.tempDir
   })
 
-  return [clientResult, serverResult]
+  return [clientResult, serverResult, pageToHashMap]
 }
