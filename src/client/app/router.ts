@@ -88,17 +88,17 @@ export function createRouter(
       (e) => {
         const link = (e.target as Element).closest('a')
         if (link) {
-          const { href, target } = link
-          const targetUrl = new URL(href)
+          const { href, protocol, hostname, pathname, hash, target } = link
           const currentUrl = window.location
+          // only intercept inbound links
           if (
             target !== `_blank` &&
-            targetUrl.protocol === currentUrl.protocol &&
-            targetUrl.hostname === currentUrl.hostname
+            protocol === currentUrl.protocol &&
+            hostname === currentUrl.hostname
           ) {
-            if (targetUrl.pathname === currentUrl.pathname) {
+            if (pathname === currentUrl.pathname) {
               // smooth scroll bewteen hash anchors in the same page
-              if (targetUrl.hash !== currentUrl.hash) {
+              if (hash !== currentUrl.hash) {
                 e.preventDefault()
                 window.scrollTo({
                   left: 0,

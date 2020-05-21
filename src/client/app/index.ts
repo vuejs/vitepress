@@ -7,8 +7,7 @@ import { Content } from './components/Content'
 import Debug from './components/Debug.vue'
 import Theme from '/@theme/index'
 import { hot } from 'vite/hmr'
-
-const inBrowser = typeof window !== 'undefined'
+import { inBrowser, pathToFile } from './utils'
 
 const NotFound = Theme.NotFound || (() => '404 Not Found')
 
@@ -38,38 +37,17 @@ export function createApp() {
   let initialPath: string
 
   const router = createRouter((route) => {
-    let pagePath = route.path.replace(/\.html$/, '')
-    if (pagePath.endsWith('/')) {
-      pagePath += 'index'
-    }
+    let pagePath = pathToFile(route.path)
 
     if (isInitialPageLoad) {
       initialPath = pagePath
     }
 
-    if (__DEV__) {
-      // awlays force re-fetch content in dev
-      pagePath += `.md?t=${Date.now()}`
-    } else {
-      // in production, each .md file is built into a .md.js file following
-      // the path conversion scheme.
-      // /foo/bar.html -> ./foo_bar.md
-
-      if (inBrowser) {
-        pagePath = pagePath.slice(__BASE__.length).replace(/\//g, '_') + '.md'
-        // client production build needs to account for page hash, which is
-        // injected directly in the page's html
-        const pageHash = __VP_HASH_MAP__[pagePath]
-        // use lean build if this is the initial page load or navigating back
-        // to the initial loaded path (the static vnodes already adopted the
-        // static content on that load so no need to re-fetch the page)
-        const ext =
-          isInitialPageLoad || initialPath === pagePath ? 'lean.js' : 'js'
-        pagePath = `${__BASE__}_assets/${pagePath}.${pageHash}.${ext}`
-      } else {
-        // ssr build uses much simpler name mapping
-        pagePath = `./${pagePath.slice(1).replace(/\//g, '_')}.md.js`
-      }
+    // use lean build if this is the initial page load or navigating back
+    // to the initial loaded path (the static vnodes already adopted the
+    // static content on that load so no need to re-fetch the page)
+    if (isInitialPageLoad || initialPath === pagePath) {
+      pagePath = pagePath.replace(/\.js$/, '.lean.js')
     }
 
     if (inBrowser) {
