@@ -73,8 +73,24 @@ export function usePrefetch() {
 
     rIC(() => {
       document.querySelectorAll('.vitepress-content a').forEach((link) => {
-        if ((link as HTMLAnchorElement).hostname === location.hostname) {
-          observer!.observe(link)
+        const { target, hostname, pathname } = link as HTMLAnchorElement
+        if (
+          // only prefetch same page navigation, since a new page will load
+          // the lean js chunk instead.
+          target !== `_blank` &&
+          // only prefetch inbound links
+          hostname === location.hostname
+        ) {
+          if (pathname !== location.pathname) {
+            observer!.observe(link)
+          } else {
+            // No need to prefetch chunk for the current page, but also mark
+            // it as already fetched. This is because the initial page uses its
+            // lean chunk, and if we don't mark it, navigation to another page
+            // with a link back to the first page will fetch its full chunk
+            // which isn't needed.
+            hasFetched.add(pathname)
+          }
         }
       })
     })
