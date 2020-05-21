@@ -1,5 +1,5 @@
-import { PageData } from '../../../../types/shared'
 import { inject, InjectionKey, Ref } from 'vue'
+import { PageData } from '../../../../types/shared'
 
 export type PageDataRef = Ref<PageData>
 
