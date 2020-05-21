@@ -139,7 +139,7 @@ export async function createServer(options: ServerConfig = {}) {
 
   return createViteServer({
     ...options,
-    plugins: [createVitePressPlugin(config)],
+    configureServer: createVitePressPlugin(config),
     resolvers: [config.resolver]
   })
 }

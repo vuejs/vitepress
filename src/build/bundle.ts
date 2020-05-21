@@ -2,7 +2,7 @@ import path from 'path'
 import slash from 'slash'
 import fs from 'fs-extra'
 import { APP_PATH, createResolver, SITE_DATA_REQUEST_PATH } from '../resolver'
-import { BuildOptions, ASSETS_DIR } from './build'
+import { BuildOptions } from './build'
 import { SiteConfig } from '../config'
 import { Plugin, OutputAsset, OutputChunk } from 'rollup'
 import { createMarkdownToVueRenderFn } from '../markdownToVue'
@@ -121,7 +121,6 @@ export async function bundle(
     base: config.site.base,
     resolvers: [resolver],
     outDir: config.outDir,
-    assetsDir: ASSETS_DIR,
     // let rollup-plugin-vue compile .md files as well
     rollupPluginVueOptions: {
       include: /\.(vue|md)$/
@@ -143,13 +142,7 @@ export async function bundle(
   }
 
   console.log('building client bundle...')
-  const clientResult = await build({
-    ...viteOptions,
-    rollupOutputOptions: {
-      ...viteOptions.rollupOutputOptions,
-      entryFileNames: `[name].[hash].js`
-    }
-  })
+  const clientResult = await build(viteOptions)
 
   console.log('building server bundle...')
   isClientBuild = false

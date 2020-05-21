@@ -3,8 +3,7 @@ import fs from 'fs-extra'
 import { SiteConfig, HeadConfig } from '../config'
 import { BuildResult } from 'vite'
 import { renderToString } from '@vue/server-renderer'
-import { OutputChunk } from 'rollup'
-import { ASSETS_DIR } from './build'
+import { OutputChunk, OutputAsset } from 'rollup'
 
 const escape = require('escape-html')
 
@@ -13,10 +12,11 @@ export async function renderPage(
   page: string, // foo.md
   result: BuildResult,
   appChunk: OutputChunk,
+  cssChunk: OutputAsset,
   pageToHashMap: Record<string, string>,
   hashMapStirng: string
 ) {
-  const { createApp } = require(path.join(config.tempDir, ASSETS_DIR, 'app.js'))
+  const { createApp } = require(path.join(config.tempDir, 'app.js'))
   const { app, router } = createApp()
   const routePath = `/${page.replace(/\.md$/, '')}`
   router.go(routePath)
@@ -33,12 +33,11 @@ export async function renderPage(
   // resolve page data so we can render head tags
   const { __pageData } = require(path.join(
     config.tempDir,
-    ASSETS_DIR,
     pageServerJsFileName
   ))
   const pageData = JSON.parse(__pageData)
 
-  const assetPath = `${config.site.base}${ASSETS_DIR}`
+  const assetPath = `${config.site.base}_assets/`
   const preloadLinks = [
     // resolve imports for index.js + page.md.js and inject script tags for
     // them as well so we fetch everything as early as possible without having
@@ -59,7 +58,7 @@ export async function renderPage(
     config.site.title
   }</title>
     <meta name="description" content="${config.site.description}">
-    <link rel="stylesheet" href="${assetPath}style.css">
+    <link rel="stylesheet" href="${assetPath}${cssChunk.fileName}">
     ${preloadLinks}
     ${renderHead(config.site.head)}
     ${renderHead(pageData.frontmatter.head)}

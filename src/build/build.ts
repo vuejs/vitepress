@@ -3,7 +3,7 @@ import { bundle } from './bundle'
 import { BuildConfig as ViteBuildOptions } from 'vite'
 import { resolveConfig } from '../config'
 import { renderPage } from './render'
-import { OutputChunk } from 'rollup'
+import { OutputChunk, OutputAsset } from 'rollup'
 
 export type BuildOptions = Pick<
   ViteBuildOptions,
@@ -12,8 +12,6 @@ export type BuildOptions = Pick<
   | 'rollupOutputOptions'
   | 'rollupPluginVueOptions'
 >
-
-export const ASSETS_DIR = '_assets/'
 
 export async function build(buildOptions: BuildOptions = {}) {
   const siteConfig = await resolveConfig(buildOptions.root)
@@ -29,6 +27,10 @@ export async function build(buildOptions: BuildOptions = {}) {
         chunk.type === 'chunk' && chunk.fileName.match(/^app\.\w+\.js$/)
     ) as OutputChunk
 
+    const cssChunk = clientResult.assets.find(
+      (chunk) => chunk.type === 'asset' && chunk.fileName.endsWith('.css')
+    ) as OutputAsset
+
     // We embed the hash map string into each page directly so that it doesn't
     // alter the main chunk's hash on every build. It's also embedded as a
     // string and JSON.parsed from the client because it's faster than embedding
@@ -41,6 +43,7 @@ export async function build(buildOptions: BuildOptions = {}) {
         page,
         clientResult,
         appChunk,
+        cssChunk,
         pageToHashMap,
         hashMapStirng
       )
