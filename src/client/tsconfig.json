@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "../../dist/client",
+    "module": "esnext",
+    "lib": ["ESNext", "DOM"],
+    "paths": {
+      "/@app/*": ["app/*"],
+      "/@theme/*": ["theme-default/*"],
+      "vitepress": ["app/exports.ts"]
+    }
+  },
+  "include": [".", "../../types/shared.d.ts"]
+}

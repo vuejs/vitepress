@@ -13,7 +13,7 @@ if (!command || command === 'dev') {
   if (root) {
     argv.root = root
   }
-  require('../dist')
+  require('../dist/node')
     .createServer(argv)
     .then((server) => {
       server.listen(port, () => {
@@ -24,7 +24,7 @@ if (!command || command === 'dev') {
       console.error(chalk.red(`failed to start server. error:\n`), err)
     })
 } else if (command === 'build') {
-  require('../dist')
+  require('../dist/node')
     .build(argv)
     .catch((err) => {
       console.error(chalk.red(`build error:\n`), err)
