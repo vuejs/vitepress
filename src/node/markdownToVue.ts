@@ -51,8 +51,7 @@ export function createMarkdownToVueRenderFn(
       : data.hoistedTags || []
 
     const vueSrc =
-      additionalBlocks.join('\n') +
-      `\n<template><div class="vitepress-content">${html}</div></template>`
+      additionalBlocks.join('\n') + `\n<template><div>${html}</div></template>`
 
     debug(`[render] ${file} in ${Date.now() - start}ms.`)
 
