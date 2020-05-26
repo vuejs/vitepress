@@ -22,15 +22,15 @@ export default {
 <style>
 .debug {
   position: fixed;
+  z-index: 999;
   cursor: pointer;
-  top: 0;
+  bottom: 0;
   right: 0;
-  width: 40px;
-  height: 25px;
+  width: 50px;
+  height: 20px;
   padding: 5px;
   overflow: hidden;
   color: #eeeeee;
-  margin-top: -15px;
   transition: all .15s ease;
   background-color: rgba(0,0,0,0.85);
 }
@@ -46,5 +46,6 @@ export default {
 .debug pre {
   font-family: Hack, monospace;
   font-size: 13px;
+  margin: 0;
 }
 </style>

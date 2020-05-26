@@ -1,7 +1,6 @@
 import serialized from '@siteData'
 import { ref, readonly, Ref } from 'vue'
 import { SiteData } from '../../../../types/shared'
-import { hot } from 'vite/hmr'
 
 const parse = (data: string) => readonly(JSON.parse(data) as SiteData)
 
@@ -12,8 +11,8 @@ export function useSiteData() {
 }
 
 // hmr
-if (__DEV__) {
-  hot.accept('/@siteData', (m) => {
+if (import.meta.hot) {
+  import.meta.hot.acceptDeps('/@siteData', (m) => {
     siteDataRef.value = parse(m.default)
   })
 }

@@ -96,18 +96,19 @@ export function createRouter(
             protocol === currentUrl.protocol &&
             hostname === currentUrl.hostname
           ) {
+            e.preventDefault()
             if (pathname === currentUrl.pathname) {
               // smooth scroll bewteen hash anchors in the same page
               if (hash !== currentUrl.hash) {
-                e.preventDefault()
+                // calculate the offset based on app's offset
+                const pageOffset = document.getElementById('app')!.offsetTop
                 window.scrollTo({
                   left: 0,
-                  top: link.offsetTop,
+                  top: link.offsetTop - pageOffset - 15,
                   behavior: 'smooth'
                 })
               }
             } else {
-              e.preventDefault()
               go(href)
             }
           }

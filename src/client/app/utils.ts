@@ -17,11 +17,12 @@ export function pathToFile(path: string): string {
     // the path conversion scheme.
     // /foo/bar.html -> ./foo_bar.md
     if (inBrowser) {
-      pagePath = pagePath.slice(__BASE__.length).replace(/\//g, '_') + '.md'
+      const base = process.env.BASE_URL
+      pagePath = pagePath.slice(base.length).replace(/\//g, '_') + '.md'
       // client production build needs to account for page hash, which is
       // injected directly in the page's html
       const pageHash = __VP_HASH_MAP__[pagePath]
-      pagePath = `${__BASE__}_assets/${pagePath}.${pageHash}.js`
+      pagePath = `${base}_assets/${pagePath}.${pageHash}.js`
     } else {
       // ssr build uses much simpler name mapping
       pagePath = `./${pagePath.slice(1).replace(/\//g, '_')}.md.js`

@@ -43,20 +43,21 @@ export async function bundle(
   const VitePressPlugin: Plugin = {
     name: 'vitepress',
     resolveId(id) {
-      if (id === SITE_DATA_REQUEST_PATH || id.endsWith('.md.vue')) {
+      if (id === SITE_DATA_REQUEST_PATH) {
         return id
       }
     },
+
     async load(id) {
       if (id === SITE_DATA_REQUEST_PATH) {
         return `export default ${JSON.stringify(JSON.stringify(config.site))}`
       }
-      // compile md into vue src for .md.vue virtual files
+      // compile md into vue src
       if (id.endsWith('.md')) {
-        const filePath = id.replace(/\.vue$/, '')
-        const content = await fs.readFile(filePath, 'utf-8')
-        const lastUpdated = (await fs.stat(filePath)).mtimeMs
-        const { vueSrc } = markdownToVue(content, filePath, lastUpdated)
+        const content = await fs.readFile(id, 'utf-8')
+        // TODO use git timestamp
+        const lastUpdated = (await fs.stat(id)).mtimeMs
+        const { vueSrc } = markdownToVue(content, id, lastUpdated)
         return vueSrc
       }
     },

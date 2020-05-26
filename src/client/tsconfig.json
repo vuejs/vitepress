@@ -5,6 +5,7 @@
     "outDir": "../../dist/client",
     "module": "esnext",
     "lib": ["ESNext", "DOM"],
+    "types": ["vite/hmr"],
     "paths": {
       "/@app/*": ["app/*"],
       "/@theme/*": ["theme-default/*"],

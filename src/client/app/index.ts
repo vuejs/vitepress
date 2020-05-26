@@ -6,7 +6,6 @@ import { pageDataSymbol } from './composables/pageData'
 import { Content } from './components/Content'
 import Debug from './components/Debug.vue'
 import Theme from '/@theme/index'
-import { hot } from 'vite/hmr'
 import { inBrowser, pathToFile } from './utils'
 
 const NotFound = Theme.NotFound || (() => '404 Not Found')
@@ -21,9 +20,9 @@ export function createApp() {
     useUpdateHead(pageDataRef)
   }
 
-  if (__DEV__ && inBrowser) {
+  if (import.meta.hot) {
     // hot reload pageData
-    hot.on('vitepress:pageData', (data) => {
+    import.meta.hot.on('vitepress:pageData', (data) => {
       if (
         data.path.replace(/(\bindex)?\.md$/, '') ===
         location.pathname.replace(/(\bindex)?\.html$/, '')
@@ -86,6 +85,11 @@ export function createApp() {
     $page: {
       get() {
         return pageDataRef.value
+      }
+    },
+    $theme: {
+      get() {
+        return siteDataRef.value.themeConfig
       }
     }
   })

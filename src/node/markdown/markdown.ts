@@ -67,29 +67,20 @@ export const createMarkdownRenderer = (
 
     // 3rd party plugins
     .use(emoji)
-    .use(
-      anchor,
-      Object.assign(
-        {
-          slugify,
-          permalink: true,
-          permalinkBefore: true,
-          permalinkSymbol: '#'
-        },
-        options.anchor
-      )
-    )
-    .use(
-      toc,
-      Object.assign(
-        {
-          slugify,
-          includeLevel: [2, 3],
-          format: parseHeader
-        },
-        options.toc
-      )
-    )
+    .use(anchor, {
+      slugify,
+      permalink: true,
+      permalinkBefore: true,
+      permalinkSymbol: '#',
+      permalinkAttrs: () => ({ 'aria-hidden': true }),
+      ...options.anchor
+    })
+    .use(toc, {
+      slugify,
+      includeLevel: [2, 3],
+      format: parseHeader,
+      ...options.toc
+    })
 
   // apply user config
   if (options.config) {
