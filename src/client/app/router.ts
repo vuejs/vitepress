@@ -1,4 +1,4 @@
-import { reactive, inject, nextTick, markRaw } from 'vue'
+import { reactive, inject, markRaw } from 'vue'
 import type { Component, InjectionKey } from 'vue'
 
 export interface Route {
@@ -12,6 +12,10 @@ export interface Router {
 }
 
 export const RouterSymbol: InjectionKey<Router> = Symbol()
+
+// we are just using URL to parse the pathname and hash - the base doesn't
+// matter and is only passed to support same-host hrefs.
+const fakeHost = `http://a.com`
 
 const getDefaultRoute = (): Route => ({
   path: '/',
@@ -27,6 +31,12 @@ export function createRouter(
 
   function go(href?: string) {
     href = href || (inBrowser ? location.href : '/')
+    // ensure correct deep link so page refresh lands on correct files.
+    const url = new URL(href, fakeHost)
+    if (!url.pathname.endsWith('/') && !url.pathname.endsWith('.html')) {
+      url.pathname += '.html'
+      href = url.href
+    }
     if (inBrowser) {
       // save scroll position before changing url
       history.replaceState({ scrollPosition: window.scrollY }, document.title)
@@ -36,11 +46,8 @@ export function createRouter(
   }
 
   async function loadPage(href: string, scrollPosition = 0) {
-    // we are just using URL to parse the pathname and hash - the base doesn't
-    // matter and is only passed to support same-host hrefs.
-    const targetLoc = new URL(href, `http://vuejs.org`)
+    const targetLoc = new URL(href, fakeHost)
     const pendingPath = (route.path = targetLoc.pathname)
-
     try {
       let comp = loadComponent(route)
       // only await if it returns a Promise - this allows sync resolution
@@ -54,19 +61,17 @@ export function createRouter(
         }
         route.contentComponent = markRaw(comp)
         if (inBrowser) {
-          await nextTick()
-
-          if (targetLoc.hash && !scrollPosition) {
-            const target = document.querySelector(targetLoc.hash) as HTMLElement
-            if (target) {
-              scrollPosition = target.offsetTop
+          setTimeout(() => {
+            if (targetLoc.hash && !scrollPosition) {
+              const target = document.querySelector(
+                targetLoc.hash
+              ) as HTMLElement
+              if (target) {
+                scrollTo(target, targetLoc.hash, false)
+                return
+              }
             }
-          }
-
-          window.scrollTo({
-            left: 0,
-            top: scrollPosition,
-            behavior: 'auto'
+            window.scrollTo(0, scrollPosition)
           })
         }
       }
@@ -99,14 +104,9 @@ export function createRouter(
             e.preventDefault()
             if (pathname === currentUrl.pathname) {
               // smooth scroll bewteen hash anchors in the same page
-              if (hash !== currentUrl.hash) {
-                // calculate the offset based on app's offset
-                const pageOffset = document.getElementById('app')!.offsetTop
-                window.scrollTo({
-                  left: 0,
-                  top: link.offsetTop - pageOffset - 15,
-                  behavior: 'smooth'
-                })
+              if (hash && hash !== currentUrl.hash) {
+                history.pushState(null, '', hash)
+                scrollTo(link, hash)
               }
             } else {
               go(href)
@@ -119,6 +119,10 @@ export function createRouter(
 
     window.addEventListener('popstate', (e) => {
       loadPage(location.href, (e.state && e.state.scrollPosition) || 0)
+    })
+
+    window.addEventListener('hashchange', (e) => {
+      e.preventDefault()
     })
   }
 
@@ -139,4 +143,27 @@ export function useRouter(): Router {
 
 export function useRoute(): Route {
   return useRouter().route
+}
+
+function scrollTo(el: HTMLElement, hash: string, smooth = true) {
+  const pageOffset = document.getElementById('app')!.offsetTop
+  const target = el.classList.contains('.header-anchor')
+    ? el
+    : document.querySelector(hash)
+  if (target) {
+    const targetTop = (target as HTMLElement).offsetTop - pageOffset - 15
+    const currentTop = window.scrollY
+    const distance = Math.abs(targetTop - currentTop)
+    // only smooth scroll if distance is smaller than 1.5 x
+    // screen height.
+    if (!smooth || distance > window.innerHeight * 1.5) {
+      window.scrollTo(0, targetTop)
+    } else {
+      window.scrollTo({
+        left: 0,
+        top: targetTop,
+        behavior: 'smooth'
+      })
+    }
+  }
 }

@@ -20,8 +20,8 @@ export const lineNumberPlugin = (md: MarkdownIt) => {
     const lineNumbersWrapperCode = `<div class="line-numbers-wrapper">${lineNumbersCode}</div>`
 
     const finalCode = rawCode
-      .replace('<!--beforeend-->', `${lineNumbersWrapperCode}<!--beforeend-->`)
-      .replace('extra-class', 'line-numbers-mode')
+      .replace(/<\/div>$/, `${lineNumbersWrapperCode}</div>`)
+      .replace(/"(language-\w+)"/, '"$1 line-numbers-mode"')
 
     return finalCode
   }

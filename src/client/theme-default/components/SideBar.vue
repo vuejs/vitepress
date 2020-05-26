@@ -1,5 +1,5 @@
 <template>
-  <ul>
+  <ul class="sidebar">
     <li>sidebar</li>
   </ul>
 </template>

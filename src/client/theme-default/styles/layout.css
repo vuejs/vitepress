@@ -9,11 +9,8 @@ body {
 .theme {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial,
     sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-  --border-color: rgb(226, 232, 240);
-  --header-height: 4rem;
-  --sidebar-width: 18rem;
-  --text-color: #2c3e50;
-  --accent-color: #3eaf7c;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   color: var(--text-color);
 }
 
@@ -54,6 +51,65 @@ a {
   text-decoration: none;
 }
 
-h1, h2, h3, h4, h5, h6, strong, b {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+strong,
+b {
   font-weight: 600;
+  line-height: 1.6;
+}
+
+h1 {
+  font-size: 2.2rem;
+}
+
+h2 {
+  font-size: 1.65rem;
+  padding-bottom: .3rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+h3 {
+  font-size: 1.35rem;
+}
+
+h4 {
+  font-size: 1.15rem;
+}
+
+a.header-anchor {
+  font-size: 0.85em;
+  float: left;
+  margin-left: -0.87em;
+  padding-right: 0.23em;
+  margin-top: 0.125em;
+  opacity: 0;
+}
+
+a.header-anchor:hover {
+  text-decoration: none;
+}
+
+h1:hover .header-anchor,
+h2:hover .header-anchor,
+h3:hover .header-anchor,
+h4:hover .header-anchor,
+h5:hover .header-anchor,
+h6:hover .header-anchor {
+  opacity: 1;
+}
+
+p,
+ol,
+ul {
+  line-height: 1.6;
+}
+
+ul,
+ol {
+  padding-left: 1.25em;
 }

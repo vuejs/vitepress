@@ -27,6 +27,7 @@
 </template>
 
 <script>
+// TODO dropdowns
 import { computed } from 'vue'
 import { useSiteData, useRoute } from 'vitepress'
 import { withBase } from '../utils'
@@ -81,7 +82,7 @@ export default {
 .nav-link {
   color: var(--text-color);
   margin-left: 1.5rem;
-  font-weight: 500;
+  font-weight: 600;
   display: inline-block;
   height: 1.75rem;
   line-height: 1.75rem;
