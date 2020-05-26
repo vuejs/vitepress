@@ -3,7 +3,6 @@ import fs from 'fs-extra'
 import { SiteConfig } from '../config'
 import { HeadConfig } from '../../../types/shared'
 import { BuildResult } from 'vite'
-import { renderToString } from '@vue/server-renderer'
 import { OutputChunk, OutputAsset } from 'rollup'
 
 const escape = require('escape-html')
@@ -21,7 +20,8 @@ export async function renderPage(
   const { app, router } = createApp()
   const routePath = `/${page.replace(/\.md$/, '')}`
   router.go(routePath)
-  const content = await renderToString(app)
+  // lazy require server-renderer for production build
+  const content = await require('@vue/server-renderer').renderToString(app)
 
   const pageName = page.replace(/\//g, '_')
   // server build doesn't need hash

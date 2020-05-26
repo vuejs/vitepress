@@ -14,6 +14,7 @@ export type BuildOptions = Pick<
 >
 
 export async function build(buildOptions: BuildOptions = {}) {
+  process.env.NODE_ENV = 'production'
   const siteConfig = await resolveConfig(buildOptions.root)
   try {
     const [clientResult, , pageToHashMap] = await bundle(
