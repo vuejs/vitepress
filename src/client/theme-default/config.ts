@@ -37,11 +37,16 @@ export namespace DefaultTheme {
     [path: string]: SideBarConfig
   }
 
-  export type SideBarItem = string | [string, string] | SideBarGroup
+  export type SideBarItem = SideBarLink | SideBarGroup
+
+  export interface SideBarLink {
+    text: string
+    link: string
+  }
 
   export interface SideBarGroup {
-    title: string
-    path?: string
+    text: string
+    link?: string
     /**
      * @default false
      */

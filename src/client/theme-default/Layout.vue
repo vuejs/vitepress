@@ -15,7 +15,7 @@
 
 <script>
 import NavBar from './components/NavBar.vue'
-import SideBar from './components/Sidebar.vue'
+import SideBar from './components/SideBar.vue'
 import Page from './components/Page.vue'
 
 export default {

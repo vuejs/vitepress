@@ -22,4 +22,8 @@
 .content img {
   max-width: 100%;
 }
+/*
+.content div > h1:first-child, .content div > h2:first-child {
+  margin-top: 0;
+} */
 </style>

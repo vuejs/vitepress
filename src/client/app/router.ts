@@ -67,7 +67,7 @@ export function createRouter(
                 targetLoc.hash
               ) as HTMLElement
               if (target) {
-                scrollTo(target, targetLoc.hash, false)
+                scrollTo(target, targetLoc.hash)
                 return
               }
             }
@@ -103,10 +103,11 @@ export function createRouter(
           ) {
             e.preventDefault()
             if (pathname === currentUrl.pathname) {
-              // smooth scroll bewteen hash anchors in the same page
+              // scroll bewteen hash anchors in the same page
               if (hash && hash !== currentUrl.hash) {
                 history.pushState(null, '', hash)
-                scrollTo(link, hash)
+                // use smooth scroll when clicking on header anchor links
+                scrollTo(link, hash, link.classList.contains('header-anchor'))
               }
             } else {
               go(href)
@@ -145,18 +146,15 @@ export function useRoute(): Route {
   return useRouter().route
 }
 
-function scrollTo(el: HTMLElement, hash: string, smooth = true) {
+function scrollTo(el: HTMLElement, hash: string, smooth = false) {
   const pageOffset = document.getElementById('app')!.offsetTop
   const target = el.classList.contains('.header-anchor')
     ? el
     : document.querySelector(hash)
   if (target) {
     const targetTop = (target as HTMLElement).offsetTop - pageOffset - 15
-    const currentTop = window.scrollY
-    const distance = Math.abs(targetTop - currentTop)
-    // only smooth scroll if distance is smaller than 1.5 x
-    // screen height.
-    if (!smooth || distance > window.innerHeight * 1.5) {
+    // only smooth scroll if distance is smaller than screen height.
+    if (!smooth || Math.abs(targetTop - window.scrollY) > window.innerHeight) {
       window.scrollTo(0, targetTop)
     } else {
       window.scrollTo({
