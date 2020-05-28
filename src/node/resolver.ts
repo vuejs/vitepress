@@ -16,33 +16,19 @@ export const SITE_DATA_REQUEST_PATH = '/' + SITE_DATA_ID
 // vite HMR can send the correct update notifications to the client.
 export function createResolver(themeDir: string): Resolver {
   return {
+    alias: {
+      '/@app/': APP_PATH,
+      '/@theme/': themeDir,
+      vitepress: '/@app/exports.js',
+      [SITE_DATA_ID]: SITE_DATA_REQUEST_PATH
+    },
     requestToFile(publicPath) {
-      if (publicPath.startsWith('/@app')) {
-        return path.join(APP_PATH, publicPath.replace(/^\/@app\/?/, ''))
-      }
-      if (publicPath.startsWith('/@theme')) {
-        return path.join(themeDir, publicPath.replace(/^\/@theme\/?/, ''))
-      }
       if (publicPath === SITE_DATA_REQUEST_PATH) {
         return SITE_DATA_REQUEST_PATH
       }
     },
     fileToRequest(filePath) {
-      if (filePath.startsWith(APP_PATH)) {
-        return `/@app/${path.relative(APP_PATH, filePath)}`
-      }
-      if (filePath.startsWith(themeDir)) {
-        return `/@theme/${path.relative(themeDir, filePath)}`
-      }
       if (filePath === SITE_DATA_REQUEST_PATH) {
-        return SITE_DATA_REQUEST_PATH
-      }
-    },
-    alias(id) {
-      if (id === 'vitepress') {
-        return '/@app/exports.js'
-      }
-      if (id === SITE_DATA_ID) {
         return SITE_DATA_REQUEST_PATH
       }
     }
