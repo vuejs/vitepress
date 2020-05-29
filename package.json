@@ -68,6 +68,7 @@
     "markdown-it-emoji": "^1.4.0",
     "markdown-it-table-of-contents": "^0.4.4",
     "minimist": "^1.2.5",
+    "portfinder": "^1.0.26",
     "prismjs": "^1.20.0",
     "slash": "^3.0.0",
     "vite": "^0.18.0",
