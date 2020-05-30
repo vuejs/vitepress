@@ -13,23 +13,11 @@ const debug = require('debug')('vitepress:serve')
 const debugHmr = require('debug')('vitepress:hmr')
 
 function createVitePressPlugin({
-  themeDir,
   configPath,
   site: initialSiteData
 }: SiteConfig): ServerPlugin {
   return ({ app, root, watcher, resolver }) => {
     const markdownToVue = createMarkdownToVueRenderFn(root)
-
-    // watch vitepress container app (only when developing vitepress itself)
-    if (process.env.VITEPRESS_DEV) {
-      watcher.add(APP_PATH)
-    }
-
-    // watch theme files if it's outside of project root
-    if (path.relative(root, themeDir).startsWith('..')) {
-      debugHmr(`watching theme dir outside of project root: ${themeDir}`)
-      watcher.add(themeDir)
-    }
 
     // hot reload .md files as .vue files
     watcher.on('change', async (file) => {
