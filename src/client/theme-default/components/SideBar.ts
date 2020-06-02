@@ -2,6 +2,7 @@ import { useSiteData, usePageData, useRoute } from 'vitepress'
 import { computed, h, FunctionalComponent } from 'vue'
 import { Header } from '../../../../types/shared'
 import { DefaultTheme } from '../config'
+import { useActiveSidebarLinks } from '../composables/activeSidebarLink'
 
 const SideBarItem: FunctionalComponent<{
   item: ResolvedSidebarItem
@@ -29,6 +30,8 @@ export default {
     const pageData = usePageData()
     const siteData = useSiteData()
     const route = useRoute()
+
+    useActiveSidebarLinks()
 
     const resolveSidebar = () => {
       const {

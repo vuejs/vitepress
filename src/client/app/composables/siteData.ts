@@ -12,7 +12,7 @@ export function useSiteData() {
 
 // hmr
 if (import.meta.hot) {
-  import.meta.hot.acceptDeps('/@siteData', (m) => {
+  import.meta.hot!.acceptDeps('/@siteData', (m) => {
     siteDataRef.value = parse(m.default)
   })
 }

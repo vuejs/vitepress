@@ -35,7 +35,7 @@ aside {
   left: 0;
   height: 100%;
   width: var(--sidebar-width);
-  padding: calc(var(--header-height) + 1.5rem) 1.5rem 1.5rem 0;
+  padding: calc(var(--header-height) + 1.5rem) 0 1.5rem 0;
   border-right: 1px solid var(--border-color);
   background-color: #fff;
   z-index: 3;

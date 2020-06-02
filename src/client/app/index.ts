@@ -22,7 +22,7 @@ export function createApp() {
 
   if (import.meta.hot) {
     // hot reload pageData
-    import.meta.hot.on('vitepress:pageData', (data) => {
+    import.meta.hot!.on('vitepress:pageData', (data) => {
       if (
         data.path.replace(/(\bindex)?\.md$/, '') ===
         location.pathname.replace(/(\bindex)?\.html$/, '')

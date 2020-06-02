@@ -1,4 +1,4 @@
-import { reactive, inject, markRaw } from 'vue'
+import { reactive, inject, markRaw, nextTick } from 'vue'
 import type { Component, InjectionKey } from 'vue'
 
 export interface Route {
@@ -61,7 +61,7 @@ export function createRouter(
         }
         route.contentComponent = markRaw(comp)
         if (inBrowser) {
-          setTimeout(() => {
+          nextTick(() => {
             if (targetLoc.hash && !scrollPosition) {
               const target = document.querySelector(
                 targetLoc.hash
