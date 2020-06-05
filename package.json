@@ -78,6 +78,7 @@
     "@types/lru-cache": "^5.1.0",
     "@types/markdown-it": "^10.0.1",
     "@types/node": "^13.13.4",
+    "@types/postcss-load-config": "^2.0.1",
     "chokidar": "^3.4.0",
     "conventional-changelog-cli": "^2.0.31",
     "lint-staged": "^10.2.1",

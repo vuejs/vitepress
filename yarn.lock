@@ -254,6 +254,14 @@
   resolved "https://registry.yarnpkg.com/@types/parse-json/-/parse-json-4.0.0.tgz#2f8bb441434d163b35fb8ffdccd7138927ffb8c0"
   integrity sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==
 
+"@types/postcss-load-config@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@types/postcss-load-config/-/postcss-load-config-2.0.1.tgz#76c789032dfc6823eab1900ad7cc95ebadf24d49"
+  integrity sha512-63mTPi6hlJQ5nV0sB4gKPfqWFOx3cvvr7gUQz+vVIuye3CVLA5qiy181VwlesvHknWAQJ+nfB/z2VIh4KUOA9Q==
+  dependencies:
+    cosmiconfig "^6.0.0"
+    postcss "^7.0.0"
+
 "@types/qs@*":
   version "6.9.1"
   resolved "https://registry.yarnpkg.com/@types/qs/-/qs-6.9.1.tgz#937fab3194766256ee09fcd40b781740758617e7"
@@ -2889,6 +2897,15 @@ postcss@^6.0.1:
     chalk "^2.4.1"
     source-map "^0.6.1"
     supports-color "^5.4.0"
+
+postcss@^7.0.0:
+  version "7.0.32"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-7.0.32.tgz#4310d6ee347053da3433db2be492883d62cec59d"
+  integrity sha512-03eXong5NLnNCD05xscnGKGDZ98CyzoqPSMjOe6SuoQY7Z2hIj0Ld1g/O/UQRuOle2aRtiIRDg9tDcTGAkLfKw==
+  dependencies:
+    chalk "^2.4.2"
+    source-map "^0.6.1"
+    supports-color "^6.1.0"
 
 postcss@^7.0.1, postcss@^7.0.27:
   version "7.0.27"
