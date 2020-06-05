@@ -9,7 +9,7 @@ export function pathToFile(path: string): string {
     pagePath += 'index'
   }
 
-  if (__DEV__) {
+  if (process.env.NODE_ENV !== 'production') {
     // awlays force re-fetch content in dev
     pagePath += `.md?t=${Date.now()}`
   } else {

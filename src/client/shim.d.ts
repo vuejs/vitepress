@@ -1,4 +1,3 @@
-declare const __DEV__: boolean
 declare const __VP_HASH_MAP__: Record<string, string>
 declare const process: {
   env: Record<string, string>

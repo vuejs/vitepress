@@ -33,38 +33,36 @@ export default {
 
     useActiveSidebarLinks()
 
-    const resolveSidebar = () => {
-      const {
-        headers,
-        frontmatter: { sidebar, sidebarDepth = 2 }
-      } = pageData.value
-
-      if (sidebar === 'auto') {
-        // auto, render headers of current page
-        return resolveAutoSidebar(headers, sidebarDepth)
-      } else if (Array.isArray(sidebar)) {
-        // in-page array config
-        return resolveArraySidebar(sidebar, sidebarDepth)
-      } else if (sidebar === false) {
-        return []
-      } else {
-        // no explicit page sidebar config
-        // check global theme config
-        const { sidebar: themeSidebar } = siteData.value.themeConfig
-        if (themeSidebar === 'auto') {
-          return resolveAutoSidebar(headers, sidebarDepth)
-        } else if (Array.isArray(themeSidebar)) {
-          return resolveArraySidebar(themeSidebar, sidebarDepth)
-        } else if (themeSidebar === false) {
-          return []
-        } else if (typeof themeSidebar === 'object') {
-          return resolveMultiSidebar(themeSidebar, route.path, sidebarDepth)
-        }
-      }
-    }
-
     return {
-      items: __DEV__ ? computed(resolveSidebar) : resolveSidebar()
+      items: computed(() => {
+        const {
+          headers,
+          frontmatter: { sidebar, sidebarDepth = 2 }
+        } = pageData.value
+
+        if (sidebar === 'auto') {
+          // auto, render headers of current page
+          return resolveAutoSidebar(headers, sidebarDepth)
+        } else if (Array.isArray(sidebar)) {
+          // in-page array config
+          return resolveArraySidebar(sidebar, sidebarDepth)
+        } else if (sidebar === false) {
+          return []
+        } else {
+          // no explicit page sidebar config
+          // check global theme config
+          const { sidebar: themeSidebar } = siteData.value.themeConfig
+          if (themeSidebar === 'auto') {
+            return resolveAutoSidebar(headers, sidebarDepth)
+          } else if (Array.isArray(themeSidebar)) {
+            return resolveArraySidebar(themeSidebar, sidebarDepth)
+          } else if (themeSidebar === false) {
+            return []
+          } else if (typeof themeSidebar === 'object') {
+            return resolveMultiSidebar(themeSidebar, route.path, sidebarDepth)
+          }
+        }
+      })
     }
   }
 }

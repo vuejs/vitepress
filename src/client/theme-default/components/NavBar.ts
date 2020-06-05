@@ -24,10 +24,12 @@ export default {
     return {
       withBase,
       isActiveLink,
-      // use computed in dev for hot reload
-      navData: __DEV__
-        ? computed(() => useSiteData().value.themeConfig.nav)
-        : useSiteData().value.themeConfig.nav
+      navData:
+        process.env.NODE_ENV === 'production'
+          ? // navbar items do not change in production
+            useSiteData().value.themeConfig.nav
+          : // use computed in dev for hot reload
+            computed(() => useSiteData().value.themeConfig.nav)
     }
   }
 }

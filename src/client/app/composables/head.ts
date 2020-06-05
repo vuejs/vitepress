@@ -8,7 +8,7 @@ export function useUpdateHead(pageDataRef: PageDataRef) {
 
   let isFirstUpdate = true
   const updateHeadTags = (newTags: HeadConfig[]) => {
-    if (!__DEV__ && isFirstUpdate) {
+    if (process.env.NODE_ENV === 'production' && isFirstUpdate) {
       // in production, the initial meta tags are already pre-rendered so we
       // skip the first update.
       isFirstUpdate = false

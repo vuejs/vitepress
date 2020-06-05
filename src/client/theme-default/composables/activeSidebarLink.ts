@@ -59,7 +59,7 @@ export function useActiveSidebarLinks() {
     }
   }
 
-  const onScroll = debounce(setActiveLink, 100)
+  const onScroll = throttleAndDebounce(setActiveLink, 300)
   onMounted(() => {
     setActiveLink()
     window.addEventListener('scroll', onScroll)
@@ -75,10 +75,19 @@ export function useActiveSidebarLinks() {
   })
 }
 
-function debounce(fn: () => void, delay: number): () => void {
+function throttleAndDebounce(fn: () => void, delay: number): () => void {
   let timeout: number
+  let called = false
   return () => {
     if (timeout) clearTimeout(timeout)
-    timeout = setTimeout(fn, delay)
+    if (!called) {
+      fn()
+      called = true
+      setTimeout(() => {
+        called = false
+      }, delay)
+    } else {
+      timeout = setTimeout(fn, delay)
+    }
   }
 }

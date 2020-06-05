@@ -5,7 +5,7 @@ import { usePrefetch } from '../composables/preFetch'
 export const Content = {
   setup() {
     const route = useRoute()
-    if (!__DEV__) {
+    if (process.env.NODE_ENV === 'production') {
       // in prod mode, enable intersectionObserver based pre-fetch.
       usePrefetch()
     }

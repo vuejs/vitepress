@@ -66,15 +66,19 @@ export function createApp() {
     }
   }, NotFound)
 
-  const app = __DEV__
-    ? createClientApp(Theme.Layout)
-    : createSSRApp(Theme.Layout)
+  const app =
+    process.env.NODE_ENV === 'production'
+      ? createSSRApp(Theme.Layout)
+      : createClientApp(Theme.Layout)
 
   app.provide(RouterSymbol, router)
   app.provide(pageDataSymbol, pageDataRef)
 
   app.component('Content', Content)
-  app.component('Debug', __DEV__ ? Debug : () => null)
+  app.component(
+    'Debug',
+    process.env.NODE_ENV === 'production' ? () => null : Debug
+  )
 
   Object.defineProperties(app.config.globalProperties, {
     $site: {
