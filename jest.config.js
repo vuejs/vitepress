@@ -3,7 +3,7 @@ module.exports = {
   testEnvironment: 'node',
   globals: {
     'ts-jest': {
-      tsConfig: 'src/tsconfig.json'
+      tsConfig: './tsconfig.base.json'
     }
   },
   moduleNameMapper: {
