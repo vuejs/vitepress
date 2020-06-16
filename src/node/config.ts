@@ -29,7 +29,7 @@ export interface SiteConfig<ThemeConfig = any> {
 }
 
 const resolve = (root: string, file: string) =>
-  path.join(root, `.vitepress`, file)
+  path.resolve(root, `.vitepress`, file)
 
 export async function resolveConfig(
   root: string = process.cwd()
