@@ -76,7 +76,7 @@ export function useActiveSidebarLinks() {
 }
 
 function throttleAndDebounce(fn: () => void, delay: number): () => void {
-  let timeout: number
+  let timeout: NodeJS.Timeout
   let called = false
   return () => {
     if (timeout) clearTimeout(timeout)

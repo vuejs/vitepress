@@ -26,7 +26,7 @@ function createVitePressPlugin({
         const content = await cachedRead(null, file)
         const timestamp = Date.now()
         const { pageData, vueSrc } = markdownToVue(
-          content,
+          content.toString(),
           file,
           timestamp,
           // do not inject pageData on HMR
