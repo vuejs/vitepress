@@ -84,7 +84,7 @@ function resolvePageImports(
   // find the page's js chunk and inject script tags for its imports so that
   // they are start fetching as early as possible
 
-  const srcPath = path.join(config.root, page)
+  const srcPath = path.resolve(config.root, page)
   const pageChunk = result.assets.find(
     (chunk) => chunk.type === 'chunk' && chunk.facadeModuleId === srcPath
   ) as OutputChunk
