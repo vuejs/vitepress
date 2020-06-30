@@ -17,7 +17,7 @@ npx vitepress build
 
 ## Customization
 
-Configuration can be done via `.vitepress/config.js` (see `src/config.ts`)
+Configuration can be done via `.vitepress/config.js` (see `src/node/config.ts`)
 
 You can develop your custom theme by adding the following files:
 
