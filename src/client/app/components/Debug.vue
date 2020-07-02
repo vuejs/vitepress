@@ -21,6 +21,7 @@ export default {
 
 <style>
 .debug {
+  box-sizing: border-box;
   position: fixed;
   z-index: 999;
   cursor: pointer;
