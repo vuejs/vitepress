@@ -88,6 +88,10 @@ Now, with `vite` and Vue 3, it is time to rethink what a "Vue-powered static sit
 
 Maybe! It's currently under a different name so that we don't over commit to the compatibility with the current VuePress ecosystem (mostly themes and plugins). We'll see how close we can get without compromising the design goals listed above. But the overall idea is that VitePress will have a drastically more minimal theming API (preferring JavaScript APIs instead of file layout conventions) and likely no plugins (all customization is done in themes).
 
+## Want to contribute?
+
+Check out our [contributing guide](https://github.com/vuejs/vitepress/blob/master/CONTRIBUTING.md) for more information!
+
 ## License
 
 MIT
