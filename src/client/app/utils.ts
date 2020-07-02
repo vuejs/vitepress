@@ -9,7 +9,7 @@ export function pathToFile(path: string): string {
     pagePath += 'index'
   }
 
-  if (process.env.NODE_ENV !== 'production') {
+  if (import.meta.env.DEV) {
     // awlays force re-fetch content in dev
     pagePath += `.md?t=${Date.now()}`
   } else {
@@ -17,7 +17,7 @@ export function pathToFile(path: string): string {
     // the path conversion scheme.
     // /foo/bar.html -> ./foo_bar.md
     if (inBrowser) {
-      const base = process.env.BASE_URL
+      const base = import.meta.env.BASE_URL
       pagePath = pagePath.slice(base.length).replace(/\//g, '_') + '.md'
       // client production build needs to account for page hash, which is
       // injected directly in the page's html
