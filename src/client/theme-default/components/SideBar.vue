@@ -19,10 +19,6 @@
   padding-left: 1rem;
 }
 
-.sidebar-items .sidebar-item + .sidebar-item {
-  margin-top: 0;
-}
-
 .sidebar-items .sidebar-items .sidebar-link {
   border-left: 0;
 }
@@ -34,12 +30,8 @@
 .sidebar-items .sidebar-link {
   padding: .35rem 1rem .35rem 2rem;
   line-height: 1.4;
-  font-size: 1em;
+  font-size: 0.9em;
   font-weight: 400;
-}
-
-.sidebar-item + .sidebar-item {
-  margin-top: .75rem;
 }
 
 .sidebar-link {
@@ -48,8 +40,8 @@
   border-left: .25rem solid transparent;
   padding: .35rem 1.5rem .35rem 1.25rem;
   line-height: 1.7;
-  font-size: 1.1em;
-  font-weight: 700;
+  font-size: 1em;
+  font-weight: 600;
   color: var(--text-color);
 }
 
