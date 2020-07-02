@@ -43,8 +43,7 @@ function createVitePressPlugin({
           customData: {
             path: resolver.fileToRequest(file),
             pageData
-          },
-          timestamp: Date.now()
+          }
         })
 
         // reload the content component

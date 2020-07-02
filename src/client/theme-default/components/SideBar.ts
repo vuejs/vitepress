@@ -1,6 +1,7 @@
 import { useSiteData, usePageData, useRoute } from 'vitepress'
-import { computed, h, FunctionalComponent } from 'vue'
+import { computed, h, FunctionalComponent, VNode } from 'vue'
 import { Header } from '../../../../types/shared'
+import { isActive } from '../utils'
 import { DefaultTheme } from '../config'
 import { useActiveSidebarLinks } from '../composables/activeSidebarLink'
 
@@ -10,14 +11,16 @@ const SideBarItem: FunctionalComponent<{
   const {
     item: { link, text, children }
   } = props
-  return h('li', [
-    h('a', { href: link }, text),
-    children
-      ? h(
-          'ul',
-          children.map((c) => h(SideBarItem, { item: c }))
-        )
-      : null
+
+  const route = useRoute()
+  const pageData = usePageData()
+
+  const active = isActive(route, link)
+  const headers = pageData.value.headers
+
+  return h('li', { class: 'sidebar-item' }, [
+    createLink(active, text, link),
+    createChildren(active, children, headers)
   ])
 }
 
@@ -67,6 +70,10 @@ export default {
   }
 }
 
+interface HeaderWithChildren extends Header {
+  children?: Header[]
+}
+
 type ResolvedSidebar = ResolvedSidebarItem[]
 
 interface ResolvedSidebarItem {
@@ -104,7 +111,7 @@ function resolveArraySidebar(
   config: DefaultTheme.SideBarItem[],
   depth: number
 ): ResolvedSidebar {
-  return []
+  return config
 }
 
 function resolveMultiSidebar(
@@ -113,4 +120,60 @@ function resolveMultiSidebar(
   depth: number
 ): ResolvedSidebar {
   return []
+}
+
+function createLink(active: boolean, text: string, link?: string): VNode {
+  const tag = link ? 'a' : 'p'
+
+  const component = {
+    class: { 'sidebar-link': true, active },
+    href: link
+  }
+
+  return h(tag, component, text)
+}
+
+function createChildren(
+  active: boolean,
+  children?: ResolvedSidebarItem[],
+  headers?: Header[]
+): VNode | null {
+  if (children && children.length > 0) {
+    return h(
+      'ul',
+      { class: 'sidebar-items' },
+      children.map((c) => {
+        return h(SideBarItem, { item: c })
+      })
+    )
+  }
+
+  return active && headers
+    ? createChildren(false, resolveHeaders(headers))
+    : null
+}
+
+function resolveHeaders(headers: Header[]): ResolvedSidebarItem[] {
+  return mapHeaders(groupHeaders(headers))
+}
+
+function groupHeaders(headers: Header[]): HeaderWithChildren[] {
+  headers = headers.map((h) => Object.assign({}, h))
+  let lastH2: HeaderWithChildren
+  headers.forEach((h) => {
+    if (h.level === 2) {
+      lastH2 = h
+    } else if (lastH2) {
+      ;(lastH2.children || (lastH2.children = [])).push(h)
+    }
+  })
+  return headers.filter((h) => h.level === 2)
+}
+
+function mapHeaders(headers: HeaderWithChildren[]): ResolvedSidebarItem[] {
+  return headers.map((header) => ({
+    text: header.title,
+    link: `#${header.slug}`,
+    children: header.children ? mapHeaders(header.children) : undefined
+  }))
 }

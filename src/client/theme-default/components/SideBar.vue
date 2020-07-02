@@ -1,43 +1,61 @@
 <template>
-  <div class="sidebar">
-    <ul>
-      <SideBarItem v-for="item of items" :item="item"></SideBarItem>
-    </ul>
-  </div>
+  <ul class="sidebar">
+    <SideBarItem v-for="item of items" :item="item" />
+  </ul>
 </template>
 
 <script src="./SideBar"></script>
 
 <style>
-.sidebar ul {
+.sidebar,
+.sidebar-items {
   list-style-type: none;
   line-height: 2;
   padding: 0;
   margin: 0;
 }
 
-.sidebar a {
-  display: inline-block;
-  color: var(--text-color);
-  padding-left: 1.5rem;
+.sidebar-items .sidebar-items {
+  padding-left: 1rem;
 }
 
-.sidebar a:hover {
-  color: var(--accent-color);
+.sidebar-items .sidebar-items .sidebar-link {
+  border-left: 0;
 }
 
-.sidebar a.active {
-  color: var(--accent-color);
+.sidebar-items .sidebar-items .sidebar-link.active {
   font-weight: 500;
 }
 
-.sidebar > ul > li > a.active {
-  padding-left: 1.25rem;
-  border-left: .25rem solid var(--accent-color);
+.sidebar-items .sidebar-link {
+  padding: .35rem 1rem .35rem 2rem;
+  line-height: 1.4;
+  font-size: 0.9em;
+  font-weight: 400;
 }
 
-.sidebar ul ul {
-  font-size: 0.9em;
-  padding-left: 1rem;
+.sidebar-link {
+  display: block;
+  margin: 0;
+  border-left: .25rem solid transparent;
+  padding: .35rem 1.5rem .35rem 1.25rem;
+  line-height: 1.7;
+  font-size: 1em;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+a.sidebar-link {
+  transition: color .15s ease;
+}
+
+a.sidebar-link:hover {
+  color: var(--accent-color);
+}
+
+a.sidebar-link.active {
+  border-left-color: var(--accent-color);
+  font-weight: 600;
+  color: var(--accent-color);
 }
 </style>
