@@ -8,6 +8,7 @@ import {
 import { resolveConfig, SiteConfig, resolveSiteData } from './config'
 import { createMarkdownToVueRenderFn } from './markdownToVue'
 import { APP_PATH, SITE_DATA_REQUEST_PATH } from './resolver'
+import { existsSync } from 'fs'
 
 const debug = require('debug')('vitepress:serve')
 const debugHmr = require('debug')('vitepress:hmr')
@@ -85,6 +86,10 @@ function createVitePressPlugin({
       // handle .md -> vue transforms
       if (ctx.path.endsWith('.md')) {
         const file = resolver.requestToFile(ctx.path)
+        if (!existsSync(file)) {
+          return next()
+        }
+
         await cachedRead(ctx, file)
 
         // let vite know this is supposed to be treated as vue file
