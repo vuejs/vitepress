@@ -2,9 +2,14 @@ import { useSiteData, Route } from 'vitepress'
 
 export const hashRE = /#.*$/
 export const extRE = /\.(md|html)$/
+export const outboundRE = /^[a-z]+:/i
 
 export function withBase(path: string) {
   return (useSiteData().value.base + path).replace(/\/+/g, '/')
+}
+
+export function isExternal(path: string): boolean {
+  return outboundRE.test(path)
 }
 
 export function isActive(route: Route, path?: string): boolean {
