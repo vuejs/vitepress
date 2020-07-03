@@ -1,29 +1,14 @@
-// TODO dropdowns
 import { computed } from 'vue'
-import { useSiteData, useRoute } from 'vitepress'
-import { withBase } from '../utils'
-
-const normalizePath = (path: string): string => {
-  path = path
-    .replace(/#.*$/, '')
-    .replace(/\?.*$/, '')
-    .replace(/\.html$/, '')
-  if (path.endsWith('/')) {
-    path += 'index'
-  }
-  return path
-}
+import { useSiteData } from 'vitepress'
+import NavBarLink from './NavBarLink.vue'
 
 export default {
-  setup() {
-    const route = useRoute()
-    const isActiveLink = (link: string): boolean => {
-      return normalizePath(withBase(link)) === normalizePath(route.path)
-    }
+  components: {
+    NavBarLink
+  },
 
+  setup() {
     return {
-      withBase,
-      isActiveLink,
       navData:
         process.env.NODE_ENV === 'production'
           ? // navbar items do not change in production

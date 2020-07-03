@@ -13,16 +13,11 @@
     <span>{{ $site.title }}</span>
   </a>
   <nav class="nav-links" v-if="navData">
-    <a
-      class="nav-link"
-      v-for="{ text, link, target, rel, ariaLabel } of navData"
-      :class="{ active: isActiveLink(link) }"
-      :href="withBase(link)"
-      :target="target"
-      :rel="rel"
-      :aria-label="ariaLabel"
-      >{{ text }}</a
-    >
+    <NavBarLink
+      v-for="item of navData"
+      :key="item.link"
+      :item="item"
+    />
   </nav>
 </template>
 
@@ -43,19 +38,5 @@
 
 .nav-links {
   list-style-type: none;
-}
-
-.nav-link {
-  color: var(--text-color);
-  margin-left: 1.5rem;
-  font-weight: 600;
-  display: inline-block;
-  height: 1.75rem;
-  line-height: 1.75rem;
-}
-
-.nav-link:hover,
-.nav-link.active {
-  border-bottom: 2px solid var(--accent-color);
 }
 </style>
