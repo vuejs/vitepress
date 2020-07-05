@@ -3,7 +3,7 @@
   "version": "0.4.1",
   "description": "",
   "main": "dist/node/index.js",
-  "types": "index.d.ts",
+  "typings": "types/index.d.ts",
   "bin": {
     "vitepress": "bin/vitepress.js"
   },
