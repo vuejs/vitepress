@@ -1,9 +1,11 @@
-import { watchEffect } from 'vue'
-import { siteDataRef } from './siteData'
+import { watchEffect, Ref } from 'vue'
 import { PageDataRef } from './pageData'
-import { HeadConfig } from '../../../../types/shared'
+import { HeadConfig, SiteData } from '../../../../types/shared'
 
-export function useUpdateHead(pageDataRef: PageDataRef) {
+export function useUpdateHead(
+  pageDataRef: PageDataRef,
+  siteDataByRouteRef: Ref<SiteData>
+) {
   const metaTags: HTMLElement[] = Array.from(document.querySelectorAll('meta'))
 
   let isFirstUpdate = true
@@ -27,7 +29,7 @@ export function useUpdateHead(pageDataRef: PageDataRef) {
 
   watchEffect(() => {
     const pageData = pageDataRef.value
-    const siteData = siteDataRef.value
+    const siteData = siteDataByRouteRef.value
     const pageTitle = pageData && pageData.title
     document.title = (pageTitle ? pageTitle + ` | ` : ``) + siteData.title
     updateHeadTags([

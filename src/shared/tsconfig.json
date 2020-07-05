@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "../../dist/client/shared",
+    "module": "esnext",
+    "lib": ["ESNext", "DOM"],
+  },
+  "include": [
+    ".", 
+    "../../types/shared.d.ts",
+  ]
+}

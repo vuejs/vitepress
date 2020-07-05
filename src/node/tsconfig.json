@@ -1,10 +1,10 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "../../dist/node",
+    "outDir": "../../dist",
     "module": "commonjs",
     "lib": ["ESNext", "DOM"],
     "sourceMap": true
   },
-  "include": [".", "../../types/shared.d.ts"]
+  "include": [".", "../shared", "../../types/shared.d.ts"]
 }

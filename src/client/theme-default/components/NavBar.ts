@@ -1,5 +1,5 @@
 import { computed } from 'vue'
-import { useSiteData } from 'vitepress'
+import { useSiteDataByRoute } from 'vitepress'
 import NavBarLink from './NavBarLink.vue'
 import NavDropdownLink from './NavDropdownLink.vue'
 
@@ -14,9 +14,9 @@ export default {
       navData:
         process.env.NODE_ENV === 'production'
           ? // navbar items do not change in production
-            useSiteData().value.themeConfig.nav
+            useSiteDataByRoute().value.themeConfig.nav
           : // use computed in dev for hot reload
-            computed(() => useSiteData().value.themeConfig.nav)
+            computed(() => useSiteDataByRoute().value.themeConfig.nav)
     }
   }
 }
