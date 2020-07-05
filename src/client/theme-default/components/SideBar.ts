@@ -1,7 +1,7 @@
 import { useSiteData, usePageData, useRoute } from 'vitepress'
 import { computed, h, FunctionalComponent, VNode } from 'vue'
 import { Header } from '../../../../types/shared'
-import { isActive } from '../utils'
+import { isActive, resolvePath } from '../utils'
 import { DefaultTheme } from '../config'
 import { useActiveSidebarLinks } from '../composables/activeSidebarLink'
 
@@ -62,7 +62,12 @@ export default {
           } else if (themeSidebar === false) {
             return []
           } else if (typeof themeSidebar === 'object') {
-            return resolveMultiSidebar(themeSidebar, route.path, sidebarDepth)
+            return resolveMultiSidebar(
+              themeSidebar,
+              route.path,
+              headers,
+              sidebarDepth
+            )
           }
         }
       })
@@ -117,8 +122,19 @@ function resolveArraySidebar(
 function resolveMultiSidebar(
   config: DefaultTheme.MultiSideBarConfig,
   path: string,
+  headers: Header[],
   depth: number
 ): ResolvedSidebar {
+  const item = config[resolvePath(path)]
+
+  if (Array.isArray(item)) {
+    return resolveArraySidebar(item, depth)
+  }
+
+  if (item === 'auto') {
+    return resolveAutoSidebar(headers, depth)
+  }
+
   return []
 }
 
