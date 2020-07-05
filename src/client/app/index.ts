@@ -7,6 +7,7 @@ import Debug from './components/Debug.vue'
 import Theme from '/@theme/index'
 import { inBrowser, pathToFile } from './utils'
 import { useSiteDataByRoute } from './composables/siteDataByRoute'
+import { siteDataRef } from './composables/siteData'
 
 const NotFound = Theme.NotFound || (() => '404 Not Found')
 
@@ -84,6 +85,11 @@ export function createApp() {
 
   Object.defineProperties(app.config.globalProperties, {
     $site: {
+      get() {
+        return siteDataRef.value
+      }
+    },
+    $siteByRoute: {
       get() {
         return siteDataByRouteRef.value
       }

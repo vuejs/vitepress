@@ -16,5 +16,8 @@
   "include": [
     ".", 
     "../../types/shared.d.ts",
+  ],
+  "exclude": [
+    "../shared"
   ]
 }

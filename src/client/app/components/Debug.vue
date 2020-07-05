@@ -1,8 +1,9 @@
 <template>
   <div class="debug" :class="{ open }" @click="open = !open">
     <pre>debug</pre>
-    <pre>$site {{ $site }}</pre>
     <pre>$page {{ $page }}</pre>
+    <pre>$siteByRoute {{ $siteByRoute }}</pre>
+    <pre>$site {{ $site }}</pre>
   </div>
 </template>
 
@@ -27,8 +28,8 @@ export default {
   cursor: pointer;
   bottom: 0;
   right: 0;
-  width: 50px;
-  height: 20px;
+  width: 80px;
+  height: 30px;
   padding: 5px;
   overflow: hidden;
   color: #eeeeee;
@@ -40,7 +41,7 @@ export default {
   width: 500px;
   height: 100%;
   margin-top: 0;
-  padding: 5px 20px;
+  padding: 0 0;
   overflow: scroll;
 }
 
@@ -48,5 +49,7 @@ export default {
   font-family: Hack, monospace;
   font-size: 13px;
   margin: 0;
+  padding: 5px 10px;
+  border-bottom: 1px solid #eee;
 }
 </style>
