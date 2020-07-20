@@ -27,7 +27,7 @@ export function normalize(path: string): string {
  * path is `/guide/getting-started.html`, this method will return `/guide/`.
  * Always with a trailing slash.
  */
-export function resolvePath(path: string): string {
+export function getPathDirName(path: string): string {
   const segments = path.split('/')
 
   if (segments[segments.length - 1]) {
