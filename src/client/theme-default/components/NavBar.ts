@@ -1,4 +1,5 @@
 import { computed } from 'vue'
+import { withBase } from '../utils'
 import { useSiteDataByRoute } from 'vitepress'
 import NavBarLink from './NavBarLink.vue'
 import NavDropdownLink from './NavDropdownLink.vue'
@@ -11,6 +12,7 @@ export default {
 
   setup() {
     return {
+      withBase,
       navData:
         process.env.NODE_ENV === 'production'
           ? // navbar items do not change in production
