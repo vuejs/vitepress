@@ -26,3 +26,22 @@ export function isActive(route: Route, path?: string): boolean {
 export function normalize(path: string): string {
   return decodeURI(path).replace(hashRE, '').replace(extRE, '')
 }
+
+/**
+ * get the path without filename (the last segment). for example, if the given
+ * path is `/guide/getting-started.html`, this method will return `/guide/`.
+ * Always with a trailing slash.
+ */
+export function getPathDirName(path: string): string {
+  const segments = path.split('/')
+
+  if (segments[segments.length - 1]) {
+    segments.pop()
+  }
+
+  return ensureEndingSlash(segments.join('/'))
+}
+
+export function ensureEndingSlash(path: string): string {
+  return /(\.html|\/)$/.test(path) ? path : `${path}/`
+}
