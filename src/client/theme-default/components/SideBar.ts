@@ -1,4 +1,4 @@
-import { useSiteData, usePageData, useRoute } from 'vitepress'
+import { usePageData, useRoute, useSiteDataByRoute } from 'vitepress'
 import { computed, h, FunctionalComponent, VNode } from 'vue'
 import { Header } from '../../../../types/shared'
 import { isActive, getPathDirName } from '../utils'
@@ -31,7 +31,7 @@ export default {
 
   setup() {
     const pageData = usePageData()
-    const siteData = useSiteData()
+    const siteData = useSiteDataByRoute()
     const route = useRoute()
 
     useActiveSidebarLinks()

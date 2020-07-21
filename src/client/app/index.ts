@@ -1,12 +1,13 @@
 import { createApp as createClientApp, createSSRApp, ref, readonly } from 'vue'
 import { createRouter, RouterSymbol } from './router'
 import { useUpdateHead } from './composables/head'
-import { siteDataRef } from './composables/siteData'
 import { pageDataSymbol } from './composables/pageData'
 import { Content } from './components/Content'
 import Debug from './components/Debug.vue'
 import Theme from '/@theme/index'
 import { inBrowser, pathToFile } from './utils'
+import { useSiteDataByRoute } from './composables/siteDataByRoute'
+import { siteDataRef } from './composables/siteData'
 
 const NotFound = Theme.NotFound || (() => '404 Not Found')
 
@@ -14,11 +15,6 @@ export function createApp() {
   // unlike site data which is static across all requests, page data is
   // distinct per-request.
   const pageDataRef = ref()
-
-  if (inBrowser) {
-    // dynamically update head tags
-    useUpdateHead(pageDataRef)
-  }
 
   if (import.meta.hot) {
     // hot reload pageData
@@ -80,10 +76,22 @@ export function createApp() {
     process.env.NODE_ENV === 'production' ? () => null : Debug
   )
 
+  const siteDataByRouteRef = useSiteDataByRoute(router.route)
+
+  if (inBrowser) {
+    // dynamically update head tags
+    useUpdateHead(pageDataRef, siteDataByRouteRef)
+  }
+
   Object.defineProperties(app.config.globalProperties, {
     $site: {
       get() {
         return siteDataRef.value
+      }
+    },
+    $siteByRoute: {
+      get() {
+        return siteDataByRouteRef.value
       }
     },
     $page: {
@@ -93,7 +101,7 @@ export function createApp() {
     },
     $theme: {
       get() {
-        return siteDataRef.value.themeConfig
+        return siteDataByRouteRef.value.themeConfig
       }
     }
   })
@@ -102,7 +110,7 @@ export function createApp() {
     Theme.enhanceApp({
       app,
       router,
-      siteData: siteDataRef
+      siteData: siteDataByRouteRef
     })
   }
 

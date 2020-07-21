@@ -2,15 +2,22 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "outDir": "../../dist/client",
+    "outDir": "../../dist",
     "module": "esnext",
     "lib": ["ESNext", "DOM"],
     "types": ["vite"],
     "paths": {
       "/@app/*": ["app/*"],
       "/@theme/*": ["theme-default/*"],
+      "/@shared/*": ["../shared/*"],
       "vitepress": ["app/exports.ts"]
     }
   },
-  "include": [".", "../../types/shared.d.ts"]
+  "include": [
+    ".", 
+    "../../types/shared.d.ts",
+  ],
+  "exclude": [
+    "../shared"
+  ]
 }

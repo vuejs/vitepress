@@ -1,6 +1,6 @@
 import path from 'path'
 import fs from 'fs-extra'
-import { SiteConfig } from '../config'
+import { SiteConfig, resolveSiteDataByRoute } from '../config'
 import { HeadConfig } from '../../../types/shared'
 import { BuildResult } from 'vite'
 import { OutputChunk, OutputAsset } from 'rollup'
@@ -19,6 +19,7 @@ export async function renderPage(
   const { createApp } = require(path.join(config.tempDir, 'app.js'))
   const { app, router } = createApp()
   const routePath = `/${page.replace(/\.md$/, '')}`
+  const siteData = resolveSiteDataByRoute(config.site, routePath)
   router.go(routePath)
   // lazy require server-renderer for production build
   const content = await require('@vue/server-renderer').renderToString(app)
@@ -38,7 +39,7 @@ export async function renderPage(
   ))
   const pageData = JSON.parse(__pageData)
 
-  const assetPath = `${config.site.base}_assets/`
+  const assetPath = `${siteData.base}_assets/`
   const preloadLinks = [
     // resolve imports for index.js + page.md.js and inject script tags for
     // them as well so we fetch everything as early as possible without having
@@ -53,15 +54,15 @@ export async function renderPage(
     .join('\n    ')
 
   const html = `
-<html lang="en-US">
+<html lang="${siteData.lang}">
   <head>
     <title>${pageData.title ? pageData.title + ` | ` : ``}${
-    config.site.title
+    siteData.title
   }</title>
-    <meta name="description" content="${config.site.description}">
+    <meta name="description" content="${siteData.description}">
     <link rel="stylesheet" href="${assetPath}${cssChunk.fileName}">
     ${preloadLinks}
-    ${renderHead(config.site.head)}
+    ${renderHead(siteData.head)}
     ${renderHead(pageData.frontmatter.head)}
   </head>
   <body>

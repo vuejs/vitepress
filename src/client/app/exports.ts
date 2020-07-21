@@ -7,6 +7,7 @@ export * from './theme'
 // composables
 export { useSiteData } from './composables/siteData'
 export { usePageData } from './composables/pageData'
+export { useSiteDataByRoute } from './composables/siteDataByRoute'
 export { useRouter, useRoute, Router, Route } from './router'
 
 // components
