@@ -1,10 +1,12 @@
 import { computed } from 'vue'
 import { useSiteData } from 'vitepress'
 import NavBarLink from './NavBarLink.vue'
+import NavDropdownLink from './NavDropdownLink.vue'
 
 export default {
   components: {
-    NavBarLink
+    NavBarLink,
+    NavDropdownLink
   },
 
   setup() {

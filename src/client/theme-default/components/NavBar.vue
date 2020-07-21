@@ -13,11 +13,10 @@
     <span>{{ $site.title }}</span>
   </a>
   <nav class="nav-links" v-if="navData">
-    <NavBarLink
-      v-for="item of navData"
-      :key="item.link"
-      :item="item"
-    />
+    <template v-for="item of navData">
+      <NavDropdownLink v-if='item.items' :item="item"/>
+      <NavBarLink v-else :item="item"/>
+    </template>
   </nav>
 </template>
 
