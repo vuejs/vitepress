@@ -75,6 +75,7 @@ export namespace DefaultTheme {
 
   export interface EditLinkConfig {
     repo: string
+    docsRepo?: string
     dir?: string
     branch?: string
     text?: string

@@ -2,6 +2,7 @@
   <div class="content">
     <Content />
     <NextAndPrevLinks />
+    <PageEdit />
   </div>
 </template>
 
@@ -35,3 +36,9 @@ export default {
   margin-top: 0;
 } */
 </style>
+<script>
+  import PageEdit from './PageEdit.vue'
+  export default {
+    components: { PageEdit }
+  }
+</script>
