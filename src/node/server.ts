@@ -106,7 +106,7 @@ function createVitePressPlugin({
 
         const pageDataWithLinks = {
           ...pageData,
-          ...getNextAndPrev(siteData.themeConfig.sidebar, ctx.path)
+          ...getNextAndPrev(siteData.themeConfig, ctx.path)
         }
         await next()
 
@@ -131,7 +131,11 @@ function createVitePressPlugin({
   }
 }
 
-function getNextAndPrev(sidebar: { [key: string]: any }, pagePath: string) {
+function getNextAndPrev(themeConfig: any, pagePath: string) {
+  if (!themeConfig.sidebar) {
+    return
+  }
+  const sidebar = themeConfig.sidebar
   let candidates: { text: string; link: string }[] = []
   Object.keys(sidebar).forEach((k) => {
     if (!pagePath.startsWith(k)) {
@@ -149,12 +153,14 @@ function getNextAndPrev(sidebar: { [key: string]: any }, pagePath: string) {
 
   const path = pagePath.replace(/\.(md|html)$/, '')
   const currentLinkIndex = candidates.findIndex((v) => v.link === path)
+  const hideNextLink = themeConfig.nextLinks === false
+  const hidePrevLink = themeConfig.prevLinks === false
 
   return {
-    ...(currentLinkIndex !== -1
+    ...(currentLinkIndex !== -1 && !hideNextLink
       ? { next: candidates[currentLinkIndex + 1] }
       : {}),
-    ...(currentLinkIndex !== -1
+    ...(currentLinkIndex !== -1 && !hidePrevLink
       ? { prev: candidates[currentLinkIndex - 1] }
       : {})
   }
