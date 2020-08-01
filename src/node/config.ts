@@ -17,6 +17,7 @@ export interface UserConfig<ThemeConfig = any> {
   head?: HeadConfig[]
   themeConfig?: ThemeConfig
   locales?: Record<string, LocaleConfig>
+  alias?: Record<string, string>
   // TODO locales support etc.
 }
 
@@ -37,6 +38,7 @@ const resolve = (root: string, file: string) =>
 export async function resolveConfig(
   root: string = process.cwd()
 ): Promise<SiteConfig> {
+  const userConfig = await resolveUserConfig(root)
   const site = await resolveSiteData(root)
 
   // resolve theme path
@@ -53,13 +55,13 @@ export async function resolveConfig(
     configPath: resolve(root, 'config.js'),
     outDir: resolve(root, 'dist'),
     tempDir: path.resolve(APP_PATH, 'temp'),
-    resolver: createResolver(themeDir)
+    resolver: createResolver(themeDir, userConfig)
   }
 
   return config
 }
 
-export async function resolveSiteData(root: string): Promise<SiteData> {
+export async function resolveUserConfig(root: string) {
   // load user config
   const configPath = resolve(root, 'config.js')
   const hasUserConfig = await fs.pathExists(configPath)
@@ -71,6 +73,12 @@ export async function resolveSiteData(root: string): Promise<SiteData> {
   } else {
     debug(`no config file found.`)
   }
+
+  return userConfig
+}
+
+export async function resolveSiteData(root: string): Promise<SiteData> {
+  const userConfig = await resolveUserConfig(root)
 
   return {
     lang: userConfig.lang || 'en-US',
