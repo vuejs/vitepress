@@ -98,6 +98,7 @@ export function createRouter(
           // only intercept inbound links
           if (
             target !== `_blank` &&
+            !(e.ctrlKey || e.shiftKey || e.altKey || e.metaKey) &&
             protocol === currentUrl.protocol &&
             hostname === currentUrl.hostname
           ) {
