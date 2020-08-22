@@ -97,6 +97,7 @@ export function createRouter(
           const currentUrl = window.location
           // only intercept inbound links
           if (
+            !e.ctrlKey &&
             target !== `_blank` &&
             protocol === currentUrl.protocol &&
             hostname === currentUrl.hostname
