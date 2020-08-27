@@ -129,7 +129,8 @@ function resolveMultiSidebar(
   headers: Header[],
   depth: number
 ): ResolvedSidebar {
-  const item = config[getPathDirName(path)]
+  const paths = [path, Object.keys(config)[0]]
+  const item = paths.map((x) => config[getPathDirName(x)]).find(Boolean)
 
   if (Array.isArray(item)) {
     return resolveArraySidebar(item, depth)
