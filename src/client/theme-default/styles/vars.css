@@ -6,4 +6,9 @@
   --text-color-light: #476582;
   --code-bg-color: #282c34;
   --accent-color: #3eaf7c;
+
+  /* responsive breakpoints */
+  /* --mq-narrow: 959px; */
+  /* --mq-mobile: 719px; */
+  /* --mq-mobile-narrow: 419px; */
 }

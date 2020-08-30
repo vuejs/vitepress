@@ -28,6 +28,11 @@ header {
   justify-content: space-between;
   padding: 0 1.75rem 0 1.5rem;
 }
+@media screen and (max-width: 719px) {
+  header {
+    padding: 0 1.75rem 0 4rem;
+  }
+}
 
 aside {
   position: fixed;
@@ -41,10 +46,24 @@ aside {
   z-index: 3;
   overflow-y: auto;
 }
+@media screen and (max-width: 719px) {
+  aside {
+    transition: transform .2s ease;
+    transform: translateX(-100%);
+  }
+  aside.open {
+    transform: translateX(0);
+  }
+}
 
 main {
   margin-top: var(--header-height);
   margin-left: var(--sidebar-width);
+}
+@media screen and (max-width: 719px) {
+  main {
+    margin-left: 0;
+  }
 }
 
 a {
@@ -69,7 +88,7 @@ h1 {
 
 h2 {
   font-size: 1.65rem;
-  padding-bottom: .3rem;
+  padding-bottom: 0.3rem;
   border-bottom: 1px solid var(--border-color);
 }
 
