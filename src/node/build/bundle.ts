@@ -3,7 +3,7 @@ import slash from 'slash'
 import fs from 'fs-extra'
 import { APP_PATH, createResolver, SITE_DATA_REQUEST_PATH } from '../resolver'
 import { BuildOptions } from './build'
-import { SiteConfig } from '../config'
+import { resolveUserConfig, SiteConfig } from '../config'
 import { Plugin, OutputAsset, OutputChunk } from 'rollup'
 import { createMarkdownToVueRenderFn } from '../markdownToVue'
 import {
@@ -34,7 +34,8 @@ export async function bundle(
   options: BuildOptions
 ): Promise<[BuildResult, BuildResult, Record<string, string>]> {
   const root = config.root
-  const resolver = createResolver(config.themeDir)
+  const userConfig = await resolveUserConfig(root)
+  const resolver = createResolver(config.themeDir, userConfig)
   const markdownToVue = createMarkdownToVueRenderFn(root)
 
   let isClientBuild = true
