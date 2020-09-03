@@ -1,4 +1,9 @@
-import { usePageData, useRoute, useSiteDataByRoute } from 'vitepress'
+import {
+  usePageData,
+  useRoute,
+  useSiteDataByRoute,
+  useSiteData
+} from 'vitepress'
 import { computed, h, FunctionalComponent, VNode } from 'vue'
 import { Header } from '../../../../types/shared'
 import { isActive, getPathDirName } from '../utils'
@@ -9,12 +14,14 @@ const SideBarItem: FunctionalComponent<{
   item: ResolvedSidebarItem
 }> = (props) => {
   const {
-    item: { link, text, children }
+    item: { link: relLink, text, children }
   } = props
 
   const route = useRoute()
   const pageData = usePageData()
+  const siteData = useSiteData()
 
+  const link = `${siteData.value.base}${relLink || ''}`
   const active = isActive(route, link)
   const headers = pageData.value.headers
 
