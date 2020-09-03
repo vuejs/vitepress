@@ -26,6 +26,8 @@ export interface PageData {
   frontmatter: Record<string, any>
   headers: Header[]
   lastUpdated: number
+  next?: { text: string; link: string }
+  prev?: { text: string; link: string }
 }
 
 export interface Header {

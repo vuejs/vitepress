@@ -1,8 +1,16 @@
 <template>
   <div class="content">
     <Content />
+    <NextAndPrevLinks />
   </div>
 </template>
+
+<script>
+import NextAndPrevLinks from './NextAndPrevLinks.vue'
+export default {
+  components:{ NextAndPrevLinks }
+}
+</script>
 
 <style>
 .content {

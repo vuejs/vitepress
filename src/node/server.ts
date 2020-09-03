@@ -104,13 +104,17 @@ function createVitePressPlugin({
         ctx.body = vueSrc
         debug(ctx.url, ctx.status)
 
+        const pageDataWithLinks = {
+          ...pageData,
+          ...getNextAndPrev(siteData.themeConfig, ctx.path)
+        }
         await next()
 
         // make sure this is the main <script> block
         if (!ctx.query.type) {
           // inject pageData to generated script
           ctx.body += `\nexport const __pageData = ${JSON.stringify(
-            JSON.stringify(pageData)
+            JSON.stringify(pageDataWithLinks)
           )}`
         }
         return
@@ -124,6 +128,41 @@ function createVitePressPlugin({
         ctx.status = 200
       }
     })
+  }
+}
+
+function getNextAndPrev(themeConfig: any, pagePath: string) {
+  if (!themeConfig.sidebar) {
+    return
+  }
+  const sidebar = themeConfig.sidebar
+  let candidates: { text: string; link: string }[] = []
+  Object.keys(sidebar).forEach((k) => {
+    if (!pagePath.startsWith(k)) {
+      return
+    }
+    sidebar[k].forEach((sidebarItem: { [key: string]: any }) => {
+      if (!sidebarItem.children) {
+        return
+      }
+      sidebarItem.children.forEach((candidate: any) => {
+        candidates.push(candidate)
+      })
+    })
+  })
+
+  const path = pagePath.replace(/\.(md|html)$/, '')
+  const currentLinkIndex = candidates.findIndex((v) => v.link === path)
+  const hideNextLink = themeConfig.nextLinks === false
+  const hidePrevLink = themeConfig.prevLinks === false
+
+  return {
+    ...(currentLinkIndex !== -1 && !hideNextLink
+      ? { next: candidates[currentLinkIndex + 1] }
+      : {}),
+    ...(currentLinkIndex !== -1 && !hidePrevLink
+      ? { prev: candidates[currentLinkIndex - 1] }
+      : {})
   }
 }
 
