@@ -8,8 +8,9 @@
 
 <script>
 import NextAndPrevLinks from './NextAndPrevLinks.vue'
+import PageEdit from './PageEdit.vue'
 export default {
-  components:{ NextAndPrevLinks }
+  components:{ NextAndPrevLinks, PageEdit }
 }
 </script>
 
@@ -36,9 +37,3 @@ export default {
   margin-top: 0;
 } */
 </style>
-<script>
-  import PageEdit from './PageEdit.vue'
-  export default {
-    components: { PageEdit }
-  }
-</script>
