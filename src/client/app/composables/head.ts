@@ -33,6 +33,14 @@ export function useUpdateHead(
     const pageTitle = pageData && pageData.title
     document.title = (pageTitle ? pageTitle + ` | ` : ``) + siteData.title
     updateHeadTags([
+      ['meta', { charset: 'utf-8' }],
+      [
+        'meta',
+        {
+          name: 'viewport',
+          content: 'width=device-width,initial-scale=1'
+        }
+      ],
       [
         'meta',
         {
