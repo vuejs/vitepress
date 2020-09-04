@@ -1,5 +1,6 @@
 import path from 'path'
 import { Resolver } from 'vite'
+import { UserConfig } from './config'
 
 export const APP_PATH = path.join(__dirname, '../client/app')
 export const SHARED_PATH = path.join(__dirname, '../client/shared')
@@ -15,9 +16,13 @@ export const SITE_DATA_REQUEST_PATH = '/' + SITE_DATA_ID
 // so that we can resolve custom requests that start with /@app or /@theme
 // we also need to map file paths back to their public served paths so that
 // vite HMR can send the correct update notifications to the client.
-export function createResolver(themeDir: string): Resolver {
+export function createResolver(
+  themeDir: string,
+  userConfig: UserConfig
+): Resolver {
   return {
     alias: {
+      ...userConfig.alias,
       '/@app/': APP_PATH,
       '/@theme/': themeDir,
       '/@shared/': SHARED_PATH,
