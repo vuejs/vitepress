@@ -6,7 +6,7 @@ import {
 } from 'vitepress'
 import { computed, h, FunctionalComponent, VNode } from 'vue'
 import { Header } from '../../../../types/shared'
-import { isActive, getPathDirName } from '../utils'
+import { isActive, joinUrl, getPathDirName } from '../utils'
 import { DefaultTheme } from '../config'
 import { useActiveSidebarLinks } from '../composables/activeSidebarLink'
 
@@ -21,7 +21,7 @@ const SideBarItem: FunctionalComponent<{
   const pageData = usePageData()
   const siteData = useSiteData()
 
-  const link = `${siteData.value.base}${relLink || ''}`
+  const link = resolveLink(siteData.value.base, relLink || '')
   const active = isActive(route, link)
   const headers = pageData.value.headers
 
@@ -148,6 +148,10 @@ function resolveMultiSidebar(
   }
 
   return []
+}
+
+function resolveLink(base: string, path: string): string | undefined {
+  return path ? joinUrl(base, path || '') : undefined
 }
 
 function createLink(active: boolean, text: string, link?: string): VNode {

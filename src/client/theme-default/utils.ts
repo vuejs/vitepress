@@ -27,6 +27,21 @@ export function normalize(path: string): string {
   return decodeURI(path).replace(hashRE, '').replace(extRE, '')
 }
 
+export function joinUrl(base: string, path: string): string {
+  const baseEndsWithSlash = base.endsWith('/')
+  const pathStartsWithSlash = path.startsWith('/')
+
+  if (baseEndsWithSlash && pathStartsWithSlash) {
+    return base.slice(0, -1) + path
+  }
+
+  if (!baseEndsWithSlash && !pathStartsWithSlash) {
+    return `${base}/${path}`
+  }
+
+  return base + path
+}
+
 /**
  * get the path without filename (the last segment). for example, if the given
  * path is `/guide/getting-started.html`, this method will return `/guide/`.
