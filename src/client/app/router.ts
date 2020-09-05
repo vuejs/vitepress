@@ -107,7 +107,7 @@ export function createRouter(
           ) {
             e.preventDefault()
             if (pathname === currentUrl.pathname) {
-              // scroll bewteen hash anchors in the same page
+              // scroll between hash anchors in the same page
               if (hash && hash !== currentUrl.hash) {
                 history.pushState(null, '', hash)
                 // use smooth scroll when clicking on header anchor links
