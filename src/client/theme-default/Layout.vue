@@ -7,7 +7,11 @@
     <aside :class="{ open }">
       <SideBar/>
     </aside>
-    <div class="sidebar-mask" :class="{ 'sidebar-open': open }" @click="toggleSidebar(false)" />
+    <div
+      class="sidebar-mask"
+      :class="{ 'sidebar-open': open }"
+      @click="toggleSidebar(false)"
+    />
     <main>
       <Page />
     </main>
@@ -17,7 +21,6 @@
 
 <script>
 import { ref } from 'vue'
-
 import NavBar from './components/NavBar.vue'
 import ToggleSideBarButton from './components/ToggleSideBarButton.vue'
 import SideBar from './components/SideBar.vue'
@@ -30,15 +33,15 @@ export default {
     SideBar,
     Page
   },
+
   setup() {
-    let open = ref(false)
+    const open = ref(false)
+
     const toggleSidebar = (to) => {
       open.value = typeof to === 'boolean' ? to : !open.value
     }
-    return {
-      open,
-      toggleSidebar,
-    }
+
+    return { open, toggleSidebar }
   }
 }
 </script>
