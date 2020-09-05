@@ -7,6 +7,7 @@
     <aside :class="{ open }">
       <SideBar/>
     </aside>
+    <div class="sidebar-mask" :class="{ 'sidebar-open': open }" @click="toggleSidebar(false)" />
     <main>
       <Page />
     </main>
@@ -31,12 +32,12 @@ export default {
   },
   setup() {
     let open = ref(false)
-    const toggleSidebar = () => {
-      open.value = !open.value
+    const toggleSidebar = (to) => {
+      open.value = typeof to === 'boolean' ? to : !open.value
     }
     return {
       open,
-      toggleSidebar
+      toggleSidebar,
     }
   }
 }

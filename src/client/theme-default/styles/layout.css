@@ -59,6 +59,17 @@ aside {
   }
 }
 
+.sidebar-mask {
+  z-index: 2;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  display: none;
+}
+.sidebar-mask.sidebar-open{
+  display: block;
+}
+
 main {
   margin-top: var(--header-height);
   margin-left: var(--sidebar-width);
