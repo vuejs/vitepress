@@ -36,6 +36,16 @@
 }
 
 .nav-links {
+  display: flex;
+  align-items: center;
+  height: 35px;
   list-style-type: none;
+  transform: translateY(1px);
+}
+
+@media screen and (max-width: 719px) {
+  .nav-links {
+    display: none;
+  }
 }
 </style>
