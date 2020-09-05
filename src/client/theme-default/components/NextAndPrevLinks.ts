@@ -1,6 +1,5 @@
 import { defineComponent, computed } from 'vue'
-import { usePageData } from 'vitepress'
-import { useSiteData } from 'vitepress'
+import { usePageData, useSiteData } from 'vitepress'
 
 export default defineComponent({
   setup() {
