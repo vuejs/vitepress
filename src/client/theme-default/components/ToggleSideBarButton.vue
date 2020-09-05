@@ -25,14 +25,14 @@ export default {
 
 <style>
 .sidebar-button {
-  cursor: pointer;
-  display: none;
-  width: 1.25rem;
-  height: 1.25rem;
   position: absolute;
-  top: 1.25rem;
+  top: 0.6rem;
   left: 1rem;
+  display: none;
+  padding: 0.6rem;
+  cursor: pointer;
 }
+
 .sidebar-button .icon {
   display: block;
   width: 1.25rem;
