@@ -22,6 +22,8 @@
   .nav-links {
     display: block;
     height: auto;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
   }
 }
 </style>
