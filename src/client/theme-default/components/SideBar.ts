@@ -9,6 +9,7 @@ import { Header } from '../../../../types/shared'
 import { isActive, joinUrl, getPathDirName } from '../utils'
 import { DefaultTheme } from '../config'
 import { useActiveSidebarLinks } from '../composables/activeSidebarLink'
+import NavBarLinks from './NavBarLinks.vue'
 
 const SideBarItem: FunctionalComponent<{
   item: ResolvedSidebarItem
@@ -33,6 +34,7 @@ const SideBarItem: FunctionalComponent<{
 
 export default {
   components: {
+    NavBarLinks,
     SideBarItem
   },
 

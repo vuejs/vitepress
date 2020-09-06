@@ -10,7 +10,7 @@
       <span class="arrow" :class="open ? 'down' : 'right'" />
     </button>
 
-    <ul v-show="open" class="nav-dropdown">
+    <ul class="nav-dropdown">
       <li v-for="(subItem, index) in item.items" :key="subItem.link || index" class="dropdown-item">
         <h4 v-if="subItem.items">{{ subItem.text }}</h4>
         <ul v-if="subItem.items" class="dropdown-subitem-wrapper">
@@ -46,7 +46,7 @@
 .dropdown-wrapper {
   position: relative;
   cursor: pointer;
-  display: inline-block;
+  display: block;
   margin-left: 1.5rem;
 }
 .dropdown-wrapper .dropdown-title {
@@ -129,7 +129,7 @@
 }
 .dropdown-wrapper:hover .nav-dropdown,
 .dropdown-wrapper.open .nav-dropdown {
-  display: block !important;
+  display: block;
 }
 .dropdown-wrapper.open:blur {
   display: none;
@@ -157,5 +157,26 @@
   border-radius: 0.25rem;
   white-space: nowrap;
   margin: 0;
+}
+
+@media screen and (max-width: 719px) {
+  .dropdown-wrapper {
+    height: auto;
+    margin-left: 1.25rem;
+  }
+
+  .dropdown-wrapper .nav-dropdown {
+    position: relative;
+    top: none;
+    right: none;
+    border: none;
+    background-color: transparent;
+  }
+  .dropdown-wrapper:hover .nav-dropdown {
+    display: none;
+  }
+  .dropdown-wrapper.open .nav-dropdown {
+    display: block;
+  }
 }
 </style>

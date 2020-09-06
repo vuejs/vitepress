@@ -25,7 +25,7 @@
 }
 
 .nav-link {
-  display: inline-block;
+  display: block;
   margin-bottom: -2px;
   border-bottom: 2px solid transparent;
   font-size: 0.9rem;
@@ -42,5 +42,24 @@
 
 .nav-link.external:hover {
   border-bottom-color: transparent;
+}
+
+@media screen and (max-width: 719px) {
+  .nav-item {
+    margin-left: 0;
+    padding: 0.35rem 1.5rem 0.35rem 1.25rem;
+  }
+
+  .nav-link {
+    line-height: 1.7;
+    font-size: 1em;
+    font-weight: 600;
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+  .nav-link:hover,
+  .nav-link.active {
+    color: var(--accent-color);
+  }
 }
 </style>
