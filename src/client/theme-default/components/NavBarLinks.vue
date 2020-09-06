@@ -22,7 +22,7 @@
   .nav-links {
     display: block;
     height: auto;
-    padding-bottom: 0.5rem;
+    padding: 0.5rem 0 1rem;
     border-bottom: 1px solid var(--border-color);
   }
 }

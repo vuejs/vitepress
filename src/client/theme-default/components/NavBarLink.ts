@@ -1,4 +1,3 @@
-// TODO dropdowns
 import { defineComponent, computed, PropType } from 'vue'
 import { useRoute } from 'vitepress'
 import { withBase, isExternal } from '../utils'

@@ -7,8 +7,6 @@ export default {
   },
 
   setup() {
-    return {
-      withBase
-    }
+    return { withBase }
   }
 }
