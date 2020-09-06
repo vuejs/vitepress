@@ -25,7 +25,7 @@
 }
 
 .nav-link {
-  display: inline-block;
+  display: block;
   margin-bottom: -2px;
   border-bottom: 2px solid transparent;
   font-size: 0.9rem;

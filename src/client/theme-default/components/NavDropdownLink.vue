@@ -46,7 +46,7 @@
 .dropdown-wrapper {
   position: relative;
   cursor: pointer;
-  display: inline-block;
+  display: block;
   margin-left: 1.5rem;
 }
 .dropdown-wrapper .dropdown-title {

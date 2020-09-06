@@ -12,7 +12,7 @@
     />
     <span>{{ $site.title }}</span>
   </a>
-  <NavBarLinks />
+  <NavBarLinks class="hide-mobile"/>
 </template>
 
 <script src="./NavBar"></script>
@@ -28,5 +28,11 @@
   margin-right: 0.75rem;
   height: 1.3rem;
   vertical-align: bottom;
+}
+
+@media screen and (max-width: 719px) {
+  .hide-mobile {
+    display: none;
+  }
 }
 </style>

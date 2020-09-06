@@ -1,4 +1,5 @@
 <template>
+  <NavBarLinks class="show-mobile"/>
   <ul class="sidebar">
     <SideBarItem v-for="item of items" :item="item" />
   </ul>
@@ -7,6 +8,15 @@
 <script src="./SideBar"></script>
 
 <style>
+.show-mobile {
+  display: none;
+}
+@media screen and (max-width: 719px) {
+  .show-mobile {
+    display: block;
+  }
+}
+
 .sidebar,
 .sidebar-items {
   list-style-type: none;

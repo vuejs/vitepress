@@ -20,7 +20,8 @@
 
 @media screen and (max-width: 719px) {
   .nav-links {
-    display: none;
+    display: block;
+    height: auto;
   }
 }
 </style>
