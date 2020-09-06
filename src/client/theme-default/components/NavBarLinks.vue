@@ -1,0 +1,26 @@
+<template>
+  <nav class="nav-links" v-if="navData">
+    <template v-for="item of navData">
+      <NavDropdownLink v-if='item.items' :item="item"/>
+      <NavBarLink v-else :item="item"/>
+    </template>
+  </nav>
+</template>
+
+<script src="./NavBarLinks"></script>
+
+<style>
+.nav-links {
+  display: flex;
+  align-items: center;
+  height: 35px;
+  list-style-type: none;
+  transform: translateY(1px);
+}
+
+@media screen and (max-width: 719px) {
+  .nav-links {
+    display: none;
+  }
+}
+</style>
