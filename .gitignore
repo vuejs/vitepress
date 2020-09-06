@@ -1,4 +1,5 @@
 .DS_Store
+.fixtures
 node_modules
 dist
 TODOs.md
