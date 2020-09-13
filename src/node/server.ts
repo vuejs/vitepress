@@ -145,9 +145,14 @@ function getNextAndPrev(themeConfig: any, pagePath: string) {
       if (!sidebarItem.children) {
         return
       }
-      sidebarItem.children.forEach((candidate: any) => {
-        candidates.push(candidate)
-      })
+      sidebarItem.children.forEach(
+        (candidate: { text: string; link: string }) => {
+          candidates.push({
+            text: candidate.text,
+            link: convertToAbsolutePath(candidate.link)
+          })
+        }
+      )
     })
   })
 
@@ -164,6 +169,13 @@ function getNextAndPrev(themeConfig: any, pagePath: string) {
       ? { prev: candidates[currentLinkIndex - 1] }
       : {})
   }
+}
+
+function convertToAbsolutePath(path: string) {
+  if (!path.startsWith('/')) {
+    return `/${path}`
+  }
+  return path
 }
 
 export async function createServer(options: ServerConfig = {}) {
