@@ -1,8 +1,10 @@
 <template>
   <div class="content">
+    <slot name="top" />
     <Content />
     <NextAndPrevLinks />
     <PageEdit />
+    <slot name="bottom" />
   </div>
 </template>
 
@@ -10,7 +12,7 @@
 import NextAndPrevLinks from './NextAndPrevLinks.vue'
 import PageEdit from './PageEdit.vue'
 export default {
-  components:{ NextAndPrevLinks, PageEdit }
+  components: { NextAndPrevLinks, PageEdit }
 }
 </script>
 
@@ -18,6 +20,7 @@ export default {
 .content {
   margin: 0 auto;
   padding: 0.025rem 2.5rem 2rem;
+  /* if this is moved to a variable, add it to BuySellAds.vue */
   max-width: 50rem;
 }
 

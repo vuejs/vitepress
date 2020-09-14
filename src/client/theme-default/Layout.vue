@@ -8,13 +8,13 @@
       <SideBar>
         <template #top>
           <slot name="sidebar-top">
-            <!-- <CarbonAds
+            <!-- use the title to force a new ad for every navigation -->
+            <CarbonAds
               v-if="$site.themeConfig.carbonAds"
               :key="$page.title"
               :serve="$site.themeConfig.carbonAds.serve"
               :placement="$site.themeConfig.carbonAds.placement"
-            /> -->
-            Hello
+            />
           </slot>
         </template>
         <template #bottom>
@@ -28,7 +28,22 @@
       @click="toggleSidebar(false)"
     />
     <main>
-      <Page />
+      <Page>
+        <template #top>
+          <slot name="page-top" />
+        </template>
+        <template #bottom>
+          <slot name="page-bottom">
+            <!-- use the title to force a new ad for every navigation -->
+            <BuySellAds
+              v-if="$site.themeConfig.carbonAds"
+              :key="$page.title"
+              :serve="$site.themeConfig.carbonAds.serve"
+              :placement="$site.themeConfig.carbonAds.placement"
+            />
+          </slot>
+        </template>
+      </Page>
     </main>
   </div>
   <Debug />
@@ -41,6 +56,7 @@ import ToggleSideBarButton from './components/ToggleSideBarButton.vue'
 import SideBar from './components/SideBar.vue'
 import Page from './components/Page.vue'
 import CarbonAds from './components/CarbonAds.vue'
+import BuySellAds from './components/BuySellAds.vue'
 
 export default {
   components: {
@@ -48,7 +64,8 @@ export default {
     ToggleSideBarButton,
     SideBar,
     Page,
-    CarbonAds
+    CarbonAds,
+    BuySellAds
   },
 
   setup() {
