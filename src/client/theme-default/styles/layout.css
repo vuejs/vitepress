@@ -9,7 +9,8 @@ body {
 }
 
 .theme {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 16px;
@@ -58,7 +59,7 @@ aside {
 
 @media screen and (max-width: 719px) {
   aside {
-    transition: transform .2s ease;
+    transition: transform 0.2s ease;
     transform: translateX(-100%);
   }
 
@@ -75,7 +76,7 @@ aside {
   display: none;
 }
 
-.sidebar-mask.sidebar-open{
+.sidebar-mask.sidebar-open {
   display: block;
 }
 
@@ -155,4 +156,22 @@ ul {
 ul,
 ol {
   padding-left: 1.25em;
+}
+
+table {
+  border-collapse: collapse;
+  margin: 1rem 0;
+  display: block;
+  overflow-x: auto;
+}
+tr {
+  border-top: 1px solid #dfe2e5;
+}
+tr:nth-child(2n) {
+  background-color: #f6f8fa;
+}
+th,
+td {
+  border: 1px solid #dfe2e5;
+  padding: 0.6em 1em;
 }
