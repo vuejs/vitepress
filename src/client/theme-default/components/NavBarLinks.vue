@@ -1,8 +1,11 @@
 <template>
-  <nav class="nav-links" v-if="navData">
-    <template v-for="item of navData">
-      <NavDropdownLink v-if='item.items' :item="item"/>
-      <NavBarLink v-else :item="item"/>
+  <nav class="nav-links">
+    <template v-if="navData">
+      <template v-for="item of navData">
+        <NavDropdownLink v-if="item.items" :item="item" />
+        <NavBarLink v-else :item="item" />
+      </template>
+      <NavRepoLink v-if="editLinkConfig" :edit-link-config="editLinkConfig" />
     </template>
   </nav>
 </template>

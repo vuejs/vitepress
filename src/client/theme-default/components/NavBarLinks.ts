@@ -1,12 +1,14 @@
 import { computed } from 'vue'
-import { useSiteDataByRoute } from 'vitepress'
+import { useSiteData, useSiteDataByRoute } from 'vitepress'
 import NavBarLink from './NavBarLink.vue'
 import NavDropdownLink from './NavDropdownLink.vue'
+import NavRepoLink from './NavRepoLink.vue'
 
 export default {
   components: {
     NavBarLink,
-    NavDropdownLink
+    NavDropdownLink,
+    NavRepoLink
   },
 
   setup() {
@@ -16,7 +18,8 @@ export default {
           ? // navbar items do not change in production
             useSiteDataByRoute().value.themeConfig.nav
           : // use computed in dev for hot reload
-            computed(() => useSiteDataByRoute().value.themeConfig.nav)
+            computed(() => useSiteDataByRoute().value.themeConfig.nav),
+      editLinkConfig: computed(() => useSiteData().value.themeConfig.editLink)
     }
   }
 }
