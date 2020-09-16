@@ -5,7 +5,7 @@
         <NavDropdownLink v-if="item.items" :item="item" />
         <NavBarLink v-else :item="item" />
       </template>
-      <NavRepoLink v-if="editLinkConfig" :edit-link-config="editLinkConfig" />
+      <NavBarLink v-if="repoInfo" :item="repoInfo" />
     </template>
   </nav>
 </template>

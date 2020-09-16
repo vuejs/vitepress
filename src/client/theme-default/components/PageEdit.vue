@@ -1,15 +1,10 @@
 <template>
   <footer class="page-edit">
-    <div
-      v-if="editLink"
-      class="edit-link"
-    >
-      <a
-        :href="editLink"
-        target="_blank"
-        rel="noopener noreferrer"
-      >{{ editLinkText }}</a>
-      <OutboundLink />
+    <div v-if="editLink" class="edit-link">
+      <a :href="editLink" target="_blank" rel="noopener noreferrer">
+        {{ editLinkText }}
+        <OutboundLink />
+      </a>
     </div>
   </footer>
 </template>
@@ -27,6 +22,6 @@
 }
 .page-edit .edit-link a {
   color: #4e6e8e;
-  margin-right: 0.25rem
+  margin-right: 0.25rem;
 }
 </style>

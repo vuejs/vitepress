@@ -1,7 +1,8 @@
-import { defineComponent, computed } from 'vue'
+import { computed } from 'vue'
 import OutboundLink from './icons/OutboundLink.vue'
 import { endingSlashRE, isExternal } from '/@theme/utils'
-import { usePageData, useSiteData, useSiteDataByRoute } from 'vitepress'
+import { usePageData, useSiteData } from 'vitepress'
+import { DefaultTheme } from '../config'
 
 function createEditLink(
   repo: string,
@@ -35,47 +36,46 @@ function createEditLink(
   )
 }
 
-export default defineComponent({
+export default {
   components: {
     OutboundLink
   },
 
   setup() {
     const pageData = usePageData()
-    const siteData = useSiteData()
-    const siteDataByRoute = useSiteDataByRoute()
-
-    const {
-      repo,
-      text,
-      dir = '',
-      branch = 'master',
-      docsRepo = repo
-    } = siteData.value.themeConfig.editLink
-    const { relativePath } = pageData.value
+    const siteData = useSiteData<DefaultTheme.Config>()
 
     const editLink = computed(() => {
-      const showEditLink =
+      const showEditLink: boolean | undefined =
         pageData.value.frontmatter.editLink == null
-          ? siteData.value.themeConfig.editLink
+          ? siteData.value.themeConfig.editLinks
           : pageData.value.frontmatter.editLink
+      const {
+        repo,
+        docsDir = '',
+        docsBranch = 'master',
+        docsRepo = repo
+      } = siteData.value.themeConfig
 
-      if (showEditLink && relativePath) {
-        return createEditLink(repo, docsRepo, dir, branch, relativePath)
+      const { relativePath } = pageData.value
+      if (showEditLink && relativePath && repo) {
+        return createEditLink(
+          repo,
+          docsRepo || repo,
+          docsDir,
+          docsBranch,
+          relativePath
+        )
       }
       return null
     })
-    const editLinkText = computed(() => {
-      return (
-        siteDataByRoute.value.themeConfig.editLink.text ||
-        text ||
-        `Edit this page`
-      )
-    })
+    const editLinkText = computed(
+      () => siteData.value.themeConfig.editLinkText || 'Edit this page'
+    )
 
     return {
       editLink,
       editLinkText
     }
   }
-})
+}
