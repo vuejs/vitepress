@@ -62,7 +62,7 @@
     "fs-extra": "^9.0.0",
     "globby": "^11.0.1",
     "gray-matter": "^4.0.2",
-    "lru-cache": "^5.1.1",
+    "lru-cache": "^6.0.0",
     "markdown-it": "^10.0.0",
     "markdown-it-anchor": "^5.2.7",
     "markdown-it-container": "^2.0.0",
@@ -75,7 +75,7 @@
     "vue": "3.0.0-rc.10"
   },
   "devDependencies": {
-    "@types/fs-extra": "^8.1.0",
+    "@types/fs-extra": "^9.0.1",
     "@types/lru-cache": "^5.1.0",
     "@types/markdown-it": "^10.0.2",
     "@types/node": "^13.13.4",
