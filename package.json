@@ -54,8 +54,8 @@
   "author": "Evan You",
   "license": "MIT",
   "dependencies": {
-    "@vue/compiler-sfc": "3.0.0-rc.10",
-    "@vue/server-renderer": "3.0.0-rc.10",
+    "@vue/compiler-sfc": "^3.0.0-rc.11",
+    "@vue/server-renderer": "^3.0.0-rc.11",
     "debug": "^4.1.1",
     "diacritics": "^1.3.0",
     "escape-html": "^1.0.3",
@@ -72,7 +72,7 @@
     "prismjs": "^1.20.0",
     "slash": "^3.0.0",
     "vite": "^1.0.0-rc.4",
-    "vue": "3.0.0-rc.10"
+    "vue": "^3.0.0-rc.11"
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.1",

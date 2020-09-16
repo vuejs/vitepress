@@ -1,8 +1,8 @@
-import { defineComponent, computed } from 'vue'
+import { computed } from 'vue'
 import { usePageData, useSiteData } from 'vitepress'
 import { DefaultTheme } from '../config'
 
-export default defineComponent({
+export default {
   setup() {
     const pageData = usePageData()
     // TODO: could this be useSiteData<DefaultTheme.Config> or is the siteData
@@ -51,4 +51,4 @@ export default defineComponent({
       hasLinks
     }
   }
-})
+}

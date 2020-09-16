@@ -153,7 +153,12 @@ function resolveMultiSidebar(
 }
 
 function resolveLink(base: string, path: string): string | undefined {
-  return path ? joinUrl(base, path || '') : undefined
+  return path
+    ? // keep relative hash to the same page
+      path.startsWith('#')
+      ? path
+      : joinUrl(base, path)
+    : undefined
 }
 
 function createLink(active: boolean, text: string, link?: string): VNode {
