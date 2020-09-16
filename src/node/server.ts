@@ -106,6 +106,7 @@ function createVitePressPlugin({
 
         const pageDataWithLinks = {
           ...pageData,
+          // TODO: this doesn't work with locales
           ...getNextAndPrev(siteData.themeConfig, ctx.path)
         }
         await next()
@@ -131,21 +132,31 @@ function createVitePressPlugin({
   }
 }
 
+// TODO: share types from SideBarLink, SideBarGroup, etc. We are also assuming
+// all themes follow this structure, in which case, we should expose the type
+// instead of having any for themeConfig or not nest `sidebar` inside
+// `themeConfig`, specially given it must be specified inside `locales` if there
+// are any
+interface SideBarLink {
+  text: string
+  link: string
+}
+
 function getNextAndPrev(themeConfig: any, pagePath: string) {
   if (!themeConfig.sidebar) {
     return
   }
   const sidebar = themeConfig.sidebar
-  let candidates: { text: string; link: string }[] = []
+  let candidates: SideBarLink[] = []
   Object.keys(sidebar).forEach((k) => {
     if (!pagePath.startsWith(k)) {
       return
     }
-    sidebar[k].forEach((sidebarItem: { [key: string]: any }) => {
+    sidebar[k].forEach((sidebarItem: { children?: SideBarLink[] }) => {
       if (!sidebarItem.children) {
         return
       }
-      sidebarItem.children.forEach((candidate: any) => {
+      sidebarItem.children.forEach((candidate) => {
         candidates.push(candidate)
       })
     })
@@ -153,17 +164,22 @@ function getNextAndPrev(themeConfig: any, pagePath: string) {
 
   const path = pagePath.replace(/\.(md|html)$/, '')
   const currentLinkIndex = candidates.findIndex((v) => v.link === path)
-  const hideNextLink = themeConfig.nextLinks === false
-  const hidePrevLink = themeConfig.prevLinks === false
 
-  return {
-    ...(currentLinkIndex !== -1 && !hideNextLink
-      ? { next: candidates[currentLinkIndex + 1] }
-      : {}),
-    ...(currentLinkIndex !== -1 && !hidePrevLink
-      ? { prev: candidates[currentLinkIndex - 1] }
-      : {})
+  const nextAndPrev: { prev?: SideBarLink; next?: SideBarLink } = {}
+
+  if (
+    themeConfig.nextLinks !== false &&
+    currentLinkIndex > -1 &&
+    currentLinkIndex < candidates.length - 1
+  ) {
+    nextAndPrev.next = candidates[currentLinkIndex + 1]
   }
+
+  if (themeConfig.prevLinks !== false && currentLinkIndex > 0) {
+    nextAndPrev.next = candidates[currentLinkIndex - 1]
+  }
+
+  return nextAndPrev
 }
 
 export async function createServer(options: ServerConfig = {}) {

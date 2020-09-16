@@ -6,8 +6,8 @@ const parse = (data: string) => readonly(JSON.parse(data)) as SiteData
 
 export const siteDataRef: Ref<SiteData> = ref(parse(serialized))
 
-export function useSiteData() {
-  return siteDataRef
+export function useSiteData<T = any>() {
+  return siteDataRef as Ref<SiteData<T>>
 }
 
 // hmr
