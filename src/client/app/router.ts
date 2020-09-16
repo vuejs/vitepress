@@ -26,7 +26,8 @@ export function createRouter(
   loadComponent: (route: Route) => Component | Promise<Component>,
   fallbackComponent?: Component
 ): Router {
-  const route = reactive(getDefaultRoute())
+  // TODO: the cast shouldn't be necessary
+  const route = reactive(getDefaultRoute()) as Route
   const inBrowser = typeof window !== 'undefined'
 
   function go(href?: string) {
