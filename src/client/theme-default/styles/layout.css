@@ -91,6 +91,12 @@ main {
   }
 }
 
+@media screen and (max-width: 719px) {
+  main {
+    margin-left: 0;
+  }
+}
+
 a {
   text-decoration: none;
 }
