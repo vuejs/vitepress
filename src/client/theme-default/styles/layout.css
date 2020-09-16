@@ -170,12 +170,15 @@ table {
   display: block;
   overflow-x: auto;
 }
+
 tr {
   border-top: 1px solid #dfe2e5;
 }
+
 tr:nth-child(2n) {
   background-color: #f6f8fa;
 }
+
 th,
 td {
   border: 1px solid #dfe2e5;
