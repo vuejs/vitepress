@@ -1,12 +1,12 @@
 <template>
-  <nav class="nav-links">
+  <nav class="nav-links" v-if="navData || repoInfo">
     <template v-if="navData">
       <template v-for="item of navData">
         <NavDropdownLink v-if="item.items" :item="item" />
         <NavBarLink v-else :item="item" />
       </template>
-      <NavBarLink v-if="repoInfo" :item="repoInfo" />
     </template>
+    <NavBarLink v-if="repoInfo" :item="repoInfo" />
   </nav>
 </template>
 
