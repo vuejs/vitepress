@@ -19,13 +19,6 @@ export default {
     const siteData = useSiteData()
     const repoInfo = computed(() => {
       const theme = siteData.value.themeConfig as DefaultTheme.Config
-      // return theme.editLinks
-      //   ? {
-      //       repo: theme.docsRepo || theme.repo,
-      //       label: theme.repoLabel
-      //     }
-      //   : null
-
       const repo = theme.docsRepo || theme.repo
       let text: string | undefined = theme.repoLabel
 
