@@ -32,10 +32,9 @@
     "dev-client-copy": "node scripts/watchAndCopy",
     "dev-node": "tsc -w -p src/node",
     "dev-shared": "tsc -w -p src/shared",
+    "release": "bash scripts/release.sh",
     "build": "rimraf -rf dist && tsc -p src/client && tsc -p src/node && tsc -p src/shared && node scripts/copy",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
-    "prepublishOnly": "yarn build && yarn changelog",
-    "postpublish": "git add CHANGELOG.md && git commit -m 'chore: changelog [ci skip]'"
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
   "engines": {
     "node": ">=10.0.0"
