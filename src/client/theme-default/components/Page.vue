@@ -2,13 +2,15 @@
   <div class="content">
     <Content />
     <NextAndPrevLinks />
+    <PageEdit />
   </div>
 </template>
 
 <script>
 import NextAndPrevLinks from './NextAndPrevLinks.vue'
+import PageEdit from './PageEdit.vue'
 export default {
-  components:{ NextAndPrevLinks }
+  components:{ NextAndPrevLinks, PageEdit }
 }
 </script>
 
