@@ -5,7 +5,14 @@
       <ToggleSideBarButton @toggle="toggleSidebar" />
     </header>
     <aside :class="{ open }">
-      <SideBar/>
+      <SideBar>
+        <template #top>
+          <slot name="sidebar-top" />
+        </template>
+        <template #bottom>
+          <slot name="sidebar-bottom" />
+        </template>
+      </SideBar>
     </aside>
     <div
       class="sidebar-mask"
@@ -13,7 +20,14 @@
       @click="toggleSidebar(false)"
     />
     <main>
-      <Page />
+      <Page>
+        <template #top>
+          <slot name="page-top" />
+        </template>
+        <template #bottom>
+          <slot name="page-bottom" />
+        </template>
+      </Page>
     </main>
   </div>
   <Debug />
