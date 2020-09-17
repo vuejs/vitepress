@@ -1,6 +1,6 @@
 import { computed } from 'vue'
 import OutboundLink from './icons/OutboundLink.vue'
-import { endingSlashRE, isExternal } from '/@theme/utils'
+import { endingSlashRE, isExternal } from '../utils'
 import { usePageData, useSiteData } from 'vitepress'
 import { DefaultTheme } from '../config'
 
