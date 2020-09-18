@@ -1,5 +1,7 @@
 # (WIP) VitePress 📝💨
 
+[![npm](https://img.shields.io/npm/v/vitepress)](https://www.npmjs.com/package/vitepress)
+
 > [VuePress](http://vuepress.vuejs.org/)' little brother, built on top of [vite](https://github.com/vuejs/vite)
 
 **Note this is early WIP! Currently the focus is on making Vite stable and feature complete first. It is not recommended to use this for anything serious yet.**
