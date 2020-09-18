@@ -4,21 +4,23 @@
       <NavBar />
       <ToggleSideBarButton @toggle="toggleSidebar" />
     </header>
-    <aside :class="{ open }">
-      <SideBar>
-        <template #top>
-          <slot name="sidebar-top" />
-        </template>
-        <template #bottom>
-          <slot name="sidebar-bottom" />
-        </template>
-      </SideBar>
-    </aside>
-    <div
-      class="sidebar-mask"
-      :class="{ 'sidebar-open': open }"
-      @click="toggleSidebar(false)"
-    />
+    <template v-if="!$page.frontmatter.home">
+      <aside :class="{ open }">
+        <SideBar>
+          <template #top>
+            <slot name="sidebar-top" />
+          </template>
+          <template #bottom>
+            <slot name="sidebar-bottom" />
+          </template>
+        </SideBar>
+      </aside>
+      <div
+        class="sidebar-mask"
+        :class="{ 'sidebar-open': open }"
+        @click="toggleSidebar(false)"
+      />
+    </template>
     <main>
       <Page>
         <template #top>
