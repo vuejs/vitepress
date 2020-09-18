@@ -1,12 +1,15 @@
-import { defineComponent, computed } from 'vue'
+import { computed } from 'vue'
 import { usePageData, useSiteData } from 'vitepress'
+import { DefaultTheme } from '../config'
 
-export default defineComponent({
+export default {
   setup() {
     const pageData = usePageData()
+    // TODO: could this be useSiteData<DefaultTheme.Config> or is the siteData
+    // resolved and has a different structure?
     const siteData = useSiteData()
     const resolveLink = (targetLink: string) => {
-      let target: any = undefined
+      let target: DefaultTheme.SideBarLink | undefined
       Object.keys(siteData.value.themeConfig.sidebar).some((k) => {
         return siteData.value.themeConfig.sidebar[k].some(
           (v: { children: any }) => {
@@ -48,4 +51,4 @@ export default defineComponent({
       hasLinks
     }
   }
-})
+}

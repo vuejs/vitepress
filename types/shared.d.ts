@@ -25,6 +25,7 @@ export interface PageData {
   title: string
   frontmatter: Record<string, any>
   headers: Header[]
+  relativePath: string
   lastUpdated: number
   next?: { text: string; link: string }
   prev?: { text: string; link: string }

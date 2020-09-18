@@ -65,3 +65,7 @@ This is a guide to help those who are interested in contributing to VitePress!
     ```
 
 And with that, you are now ready to contribute to the VitePress project! 🎉
+
+## Releasing
+
+After making sure tests are passing, run `yarn run release` (to be tested in non-unix environments like Windows) to run the bash script `scripts/release.sh`.

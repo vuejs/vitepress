@@ -12,7 +12,7 @@
     />
     <span>{{ $site.title }}</span>
   </a>
-  <NavBarLinks class="hide-mobile"/>
+  <NavBarLinks class="hide-mobile" />
 </template>
 
 <script src="./NavBar"></script>

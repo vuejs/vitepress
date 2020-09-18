@@ -43,6 +43,7 @@ export function createMarkdownToVueRenderFn(
       title: inferTitle(frontmatter, content),
       frontmatter,
       headers: data.headers,
+      relativePath: file.replace(/\\/g, '/'),
       lastUpdated
     }
 
