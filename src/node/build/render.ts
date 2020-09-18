@@ -54,6 +54,7 @@ export async function renderPage(
     .join('\n    ')
 
   const html = `
+<!DOCTYPE html>
 <html lang="${siteData.lang}">
   <head>
     <meta charset="utf-8">
