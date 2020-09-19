@@ -44,6 +44,10 @@ export default {
 
     const localeCandidates = computed(() => {
       const localeKeys = Object.keys(siteData.value.locales)
+      if (localeKeys.length <= 1) {
+        return null
+      }
+
       const currentLangBase = localeKeys.find((v) => {
         if (v === '/') {
           return false
