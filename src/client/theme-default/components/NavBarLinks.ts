@@ -64,9 +64,13 @@ export default {
           link: `${v}${currentContentPath}`
         }
       })
+
+      const currentLangKey = currentLangBase ? currentLangBase : '/'
+      const selectText = siteData.value.locales[currentLangKey].selectText
+        ? siteData.value.locales[currentLangKey].selectText
+        : 'Languages'
       return {
-        // TODO i18n text
-        text: 'Languages',
+        text: selectText,
         items: candidates
       }
     })
