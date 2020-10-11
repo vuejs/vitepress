@@ -6,8 +6,8 @@
         <NavBarLink v-else :item="item" />
       </template>
     </template>
-    <NavBarLink v-if="repoInfo" :item="repoInfo" />
     <NavDropdownLink v-if="localeCandidates" :item="localeCandidates" />
+    <NavBarLink v-if="repoInfo" :item="repoInfo" />
   </nav>
 </template>
 
