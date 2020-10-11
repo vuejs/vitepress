@@ -2,6 +2,7 @@
 
 export interface LocaleConfig {
   lang: string
+  selectText?: string
   label?: string
   title?: string
   description?: string
