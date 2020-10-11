@@ -43,7 +43,8 @@ export default {
     })
 
     const localeCandidates = computed(() => {
-      const localeKeys = Object.keys(siteData.value.locales)
+      const locales = siteData.value.themeConfig.locales
+      const localeKeys = Object.keys(locales)
       if (localeKeys.length <= 1) {
         return null
       }
@@ -59,15 +60,14 @@ export default {
         : route.path
       const candidates = localeKeys.map((v) => {
         return {
-          text:
-            siteData.value.locales[v].label || siteData.value.locales[v].lang,
+          text: locales[v].label || locales[v].lang,
           link: `${v}${currentContentPath}`
         }
       })
 
       const currentLangKey = currentLangBase ? currentLangBase : '/'
-      const selectText = siteData.value.locales[currentLangKey].selectText
-        ? siteData.value.locales[currentLangKey].selectText
+      const selectText = locales[currentLangKey].selectText
+        ? locales[currentLangKey].selectText
         : 'Languages'
       return {
         text: selectText,
