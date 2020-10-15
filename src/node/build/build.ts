@@ -53,4 +53,5 @@ export async function build(buildOptions: BuildOptions = {}) {
     await fs.remove(siteConfig.tempDir)
   }
   console.log('done.')
+  process.exit()
 }
