@@ -1,7 +1,11 @@
 <template>
   <div class="theme">
     <header>
-      <NavBar />
+      <NavBar>
+        <template #search>
+          <slot name="navbar-search" />
+        </template>
+      </NavBar>
       <ToggleSideBarButton @toggle="toggleSidebar" />
     </header>
     <aside :class="{ open }">
