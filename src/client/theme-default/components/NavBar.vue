@@ -12,7 +12,9 @@
     />
     <span>{{ $site.title }}</span>
   </a>
+  <div class="flex-grow"></div>
   <NavBarLinks class="hide-mobile" />
+  <slot name="search" />
 </template>
 
 <script src="./NavBar"></script>
@@ -22,6 +24,10 @@
   font-size: 1.3rem;
   font-weight: 600;
   color: var(--text-color);
+}
+
+.flex-grow {
+  flex-grow: 1;
 }
 
 .logo {
