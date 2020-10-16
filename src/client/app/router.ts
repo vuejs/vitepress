@@ -36,7 +36,7 @@ export function createRouter(
     const url = new URL(href, fakeHost)
     if (!url.pathname.endsWith('/') && !url.pathname.endsWith('.html')) {
       url.pathname += '.html'
-      href = url.href
+      href = url.pathname + url.search + url.hash
     }
     if (inBrowser) {
       // save scroll position before changing url
