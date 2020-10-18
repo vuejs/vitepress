@@ -44,6 +44,9 @@ export default {
 
     const localeCandidates = computed(() => {
       const locales = siteData.value.themeConfig.locales
+      if (!locales) {
+        return null
+      }
       const localeKeys = Object.keys(locales)
       if (localeKeys.length <= 1) {
         return null
