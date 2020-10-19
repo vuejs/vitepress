@@ -17,7 +17,7 @@ body {
   color: var(--text-color);
 }
 
-header {
+.theme header {
   position: fixed;
   top: 0;
   left: 0;
@@ -33,12 +33,12 @@ header {
 }
 
 @media screen and (max-width: 719px) {
-  header {
+  .theme header {
     padding-left: 4rem;
   }
 }
 
-aside {
+.theme aside {
   position: fixed;
   top: 0;
   left: 0;
@@ -52,18 +52,18 @@ aside {
 }
 
 @media screen and (max-width: 959px) {
-  aside {
+  .theme aside {
     width: 16.4rem;
   }
 }
 
 @media screen and (max-width: 719px) {
-  aside {
+  .theme aside {
     transition: transform 0.2s ease;
     transform: translateX(-100%);
   }
 
-  aside.open {
+  .theme aside.open {
     transform: translateX(0);
   }
 }
@@ -80,19 +80,19 @@ aside {
   display: block;
 }
 
-main {
+.theme main {
   margin-top: var(--header-height);
   margin-left: var(--sidebar-width);
 }
 
 @media screen and (max-width: 959px) {
-  main {
+  .theme main {
     margin-left: 16.4rem;
   }
 }
 
 @media screen and (max-width: 719px) {
-  main {
+  .theme main {
     margin-left: 0;
   }
 }
@@ -187,8 +187,8 @@ td {
 
 blockquote {
   margin: 1rem 0;
-  border-left: .2rem solid #dfe2e5;
-  padding: .25rem 0 .25rem 1rem;
+  border-left: 0.2rem solid #dfe2e5;
+  padding: 0.25rem 0 0.25rem 1rem;
   font-size: 1rem;
   color: #999;
 }
