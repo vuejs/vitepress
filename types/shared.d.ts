@@ -2,11 +2,11 @@
 
 export interface LocaleConfig {
   lang: string
-  selectText?: string
-  label?: string
   title?: string
   description?: string
   head?: HeadConfig[]
+  label?: string
+  selectText?: string
 }
 
 export interface SiteData<ThemeConfig = any> {
