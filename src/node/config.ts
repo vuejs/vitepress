@@ -41,6 +41,13 @@ export async function resolveConfig(
   const userConfig = await resolveUserConfig(root)
   const site = await resolveSiteData(root)
 
+  // force base path to be `/` when it's running in a non-production
+  // environment. currently, it's hard to implement `base` feature while
+  // making it work with Vite HMR, and this is an easy workaround.
+  if (process.env.NODE_ENV !== 'production') {
+    site.base = '/'
+  }
+
   // resolve theme path
   const userThemeDir = resolve(root, 'theme')
   const themeDir = (await fs.pathExists(userThemeDir))
