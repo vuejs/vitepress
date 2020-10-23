@@ -1,4 +1,5 @@
 import { SiteData } from '../../types/shared'
+const inBrowser = typeof window !== 'undefined'
 
 function findMatchRoot(route: string, roots: string[]) {
   // first match to the routes with the most deep level.
@@ -27,6 +28,12 @@ function resolveLocales<T>(
 
 // this merges the locales data to the main data by the route
 export function resolveSiteDataByRoute(siteData: SiteData, route: string) {
+  if (inBrowser) {
+    const siteBaseWithoutSuffix = siteData.base.endsWith('/')
+      ? siteData.base.slice(0, -1)
+      : siteData.base
+    route = route.slice(siteBaseWithoutSuffix.length)
+  }
   const localeData = resolveLocales(siteData.locales || {}, route) || {}
   const localeThemeConfig =
     resolveLocales<any>(

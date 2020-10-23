@@ -88,13 +88,11 @@ export default {
       }
     })
 
+    const navData = computed(() => {
+      return siteDataByRoute.value.themeConfig.nav
+    })
     return {
-      navData:
-        process.env.NODE_ENV === 'production'
-          ? // navbar items do not change in production
-            siteDataByRoute.value.themeConfig.nav
-          : // use computed in dev for hot reload
-            computed(() => siteDataByRoute.value.themeConfig.nav),
+      navData,
       repoInfo,
       localeCandidates
     }
