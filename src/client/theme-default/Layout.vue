@@ -21,7 +21,17 @@
     <!-- TODO: make this button accessible -->
     <div class="sidebar-mask" @click="toggleSidebar(false)" />
     <main class="home" aria-labelledby="main-title" v-if="enableHome">
-      <Home />
+      <Home>
+        <template #hero>
+          <slot name="home-hero" />
+        </template>
+        <template #features>
+          <slot name="home-features" />
+        </template>
+        <template #footer>
+          <slot name="home-footer" />
+        </template>
+      </Home>
     </main>
     <main v-else>
       <Page>

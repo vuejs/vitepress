@@ -26,6 +26,7 @@
     >
       <NavBarLink :item="actionLink" />
     </p>
+    <slot name="hero" />
   </header>
 
   <div
@@ -40,6 +41,7 @@
       <h2>{{ feature.title }}</h2>
       <p>{{ feature.details }}</p>
     </div>
+    <slot name="features" />
   </div>
 
   <div
@@ -47,6 +49,7 @@
     class="footer"
   >
     {{ data.footer }}
+    <slot name="footer" />
   </div>
 </template>
 
