@@ -1,5 +1,6 @@
 import { computed } from 'vue'
 import { useSiteData, useSiteDataByRoute, useRoute } from 'vitepress'
+import { inBrowser } from '/@app/utils'
 import NavBarLink from './NavBarLink.vue'
 import NavDropdownLink from './NavDropdownLink.vue'
 import { DefaultTheme } from '../config'
@@ -52,19 +53,28 @@ export default {
         return null
       }
 
+      // handle site base
+      const siteBase = inBrowser ? siteData.value.base : '/'
+      const siteBaseWithoutSuffix = siteBase.endsWith('/')
+        ? siteBase.slice(0, -1)
+        : siteBase
+      // remove site base in browser env
+      const routerPath = route.path.slice(siteBaseWithoutSuffix.length)
+
       const currentLangBase = localeKeys.find((v) => {
         if (v === '/') {
           return false
         }
-        return route.path.startsWith(v)
+        return routerPath.startsWith(v)
       })
       const currentContentPath = currentLangBase
-        ? route.path.substring(currentLangBase.length - 1)
-        : route.path
+        ? routerPath.substring(currentLangBase.length - 1)
+        : routerPath
       const candidates = localeKeys.map((v) => {
+        const localePath = v.endsWith('/') ? v.slice(0, -1) : v
         return {
           text: locales[v].label || locales[v].lang,
-          link: `${v}${currentContentPath}`
+          link: `${localePath}${currentContentPath}`
         }
       })
 
@@ -78,13 +88,12 @@ export default {
       }
     })
 
+    const navData = computed(() => {
+      return siteDataByRoute.value.themeConfig.nav
+    })
+
     return {
-      navData:
-        process.env.NODE_ENV === 'production'
-          ? // navbar items do not change in production
-            siteDataByRoute.value.themeConfig.nav
-          : // use computed in dev for hot reload
-            computed(() => siteDataByRoute.value.themeConfig.nav),
+      navData,
       repoInfo,
       localeCandidates
     }
