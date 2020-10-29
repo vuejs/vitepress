@@ -1,9 +1,9 @@
 import { computed } from 'vue'
 import { useSiteData, useSiteDataByRoute, useRoute } from 'vitepress'
+import { inBrowser } from '/@app/utils'
 import NavBarLink from './NavBarLink.vue'
 import NavDropdownLink from './NavDropdownLink.vue'
 import { DefaultTheme } from '../config'
-import { inBrowser } from '/@app/utils'
 
 const platforms = ['GitHub', 'GitLab', 'Bitbucket'].map(
   (platform) => [platform, new RegExp(platform, 'i')] as const
@@ -91,6 +91,7 @@ export default {
     const navData = computed(() => {
       return siteDataByRoute.value.themeConfig.nav
     })
+
     return {
       navData,
       repoInfo,

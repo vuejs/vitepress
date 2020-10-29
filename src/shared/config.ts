@@ -1,4 +1,5 @@
 import { SiteData } from '../../types/shared'
+
 const inBrowser = typeof window !== 'undefined'
 
 function findMatchRoot(route: string, roots: string[]) {
@@ -28,12 +29,8 @@ function resolveLocales<T>(
 
 // this merges the locales data to the main data by the route
 export function resolveSiteDataByRoute(siteData: SiteData, route: string) {
-  if (inBrowser) {
-    const siteBaseWithoutSuffix = siteData.base.endsWith('/')
-      ? siteData.base.slice(0, -1)
-      : siteData.base
-    route = route.slice(siteBaseWithoutSuffix.length)
-  }
+  route = cleanRoute(siteData, route)
+
   const localeData = resolveLocales(siteData.locales || {}, route) || {}
   const localeThemeConfig =
     resolveLocales<any>(
@@ -52,4 +49,18 @@ export function resolveSiteDataByRoute(siteData: SiteData, route: string) {
     },
     locales: {}
   }
+}
+
+/**
+ * Clean up the route by removing the `base` path if it's set in config.
+ */
+function cleanRoute(siteData: SiteData, route: string): string {
+  if (!inBrowser) {
+    return route
+  }
+
+  const base = siteData.base
+  const baseWithoutSuffix = base.endsWith('/') ? base.slice(0, -1) : base
+
+  return route.slice(baseWithoutSuffix.length)
 }
