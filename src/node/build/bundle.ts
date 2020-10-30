@@ -118,7 +118,7 @@ export async function bundle(
 
   // resolve options to pass to vite
   const { rollupInputOptions = {}, rollupOutputOptions = {} } = options
-  const viteOptions: ViteBuildOptions = {
+  const viteOptions: Partial<ViteBuildOptions> = {
     ...options,
     base: config.site.base,
     resolvers: [resolver],
@@ -153,5 +153,5 @@ export async function bundle(
     outDir: config.tempDir
   })
 
-  return [clientResult, serverResult, pageToHashMap]
+  return [clientResult[0], serverResult[0], pageToHashMap]
 }

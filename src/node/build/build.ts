@@ -6,7 +6,7 @@ import { renderPage } from './render'
 import { OutputChunk, OutputAsset } from 'rollup'
 
 export type BuildOptions = Pick<
-  ViteBuildOptions,
+  Partial<ViteBuildOptions>,
   | 'root'
   | 'rollupInputOptions'
   | 'rollupOutputOptions'

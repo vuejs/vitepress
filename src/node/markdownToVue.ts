@@ -63,6 +63,8 @@ export function createMarkdownToVueRenderFn(
 }
 
 const scriptRE = /<\/script>/
+const defaultExportRE = /((?:^|\n|;)\s*)export(\s*)default/
+const namedDefaultExportRE = /((?:^|\n|;)\s*)export(.+)as(\s*)default/
 
 function injectPageData(tags: string[], data: PageData) {
   const code = `\nexport const __pageData = ${JSON.stringify(
@@ -70,9 +72,14 @@ function injectPageData(tags: string[], data: PageData) {
   )}`
   const existingScriptIndex = tags.findIndex((tag) => scriptRE.test(tag))
   if (existingScriptIndex > -1) {
-    tags[existingScriptIndex] = tags[existingScriptIndex].replace(
+    const tagSrc = tags[existingScriptIndex]
+    // user has <script> tag inside markdown
+    // if it doesn't have export default it will error out on build
+    const hasDefaultExport =
+      defaultExportRE.test(tagSrc) || namedDefaultExportRE.test(tagSrc)
+    tags[existingScriptIndex] = tagSrc.replace(
       scriptRE,
-      code + `</script>`
+      code + (hasDefaultExport ? `` : `\nexport default{}\n`) + `</script>`
     )
   } else {
     tags.push(`<script>${code}\nexport default {}</script>`)
