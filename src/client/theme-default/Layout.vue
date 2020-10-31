@@ -93,12 +93,12 @@ export default {
     const showSidebar = computed(() => {
       const { frontmatter } = pageData.value
       const { themeConfig } = siteRouteData.value
-      const ret = (
+      return (
         !frontmatter.home
         && frontmatter.sidebar !== false
-        && (Array.isArray(themeConfig.sidebar) && themeConfig.sidebar.length != 0)
+        && ((typeof themeConfig.sidebar === 'object') && (Object.keys(themeConfig.sidebar).length != 0)
+        || (Array.isArray(themeConfig.sidebar) && themeConfig.sidebar.length != 0))
       )
-      return ret
     })
 
     const pageClasses = computed(() => {
