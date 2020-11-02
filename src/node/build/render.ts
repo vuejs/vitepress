@@ -16,7 +16,7 @@ export async function renderPage(
   pageToHashMap: Record<string, string>,
   hashMapStirng: string
 ) {
-  const { createApp } = require(path.join(config.tempDir, 'app.js'))
+  const { createApp } = require(path.join(config.tempDir, `_assets/app.js`))
   const { app, router } = createApp()
   const routePath = `/${page.replace(/\.md$/, '')}`
   const siteData = resolveSiteDataByRoute(config.site, routePath)
@@ -35,6 +35,7 @@ export async function renderPage(
   // resolve page data so we can render head tags
   const { __pageData } = require(path.join(
     config.tempDir,
+    `_assets`,
     pageServerJsFileName
   ))
   const pageData = JSON.parse(__pageData)
