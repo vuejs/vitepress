@@ -17,7 +17,7 @@ body {
   color: var(--text-color);
 }
 
-.theme header {
+.theme .navbar {
   position: fixed;
   top: 0;
   left: 0;
@@ -33,7 +33,7 @@ body {
 }
 
 @media screen and (max-width: 719px) {
-  .theme header {
+  .theme .navbar {
     padding-left: 4rem;
   }
 }
@@ -49,6 +49,24 @@ body {
   background-color: #fff;
   z-index: 3;
   overflow-y: auto;
+}
+
+.theme.sidebar-open .sidebar-mask {
+  display: block;
+}
+
+.theme.no-navbar > h1,
+.theme.no-navbar > h2,
+.theme.no-navbar > h3,
+.theme.no-navbar > h4,
+.theme.no-navbar > h5,
+.theme.no-navbar > h6 {
+  margin-top: 1.5rem;
+  padding-top: 0;
+}
+
+.theme.no-navbar aside {
+  top: 0;
 }
 
 @media screen and (max-width: 959px) {
@@ -76,13 +94,18 @@ body {
   display: none;
 }
 
-.sidebar-mask.sidebar-open {
-  display: block;
-}
-
 .theme main {
   margin-top: var(--header-height);
   margin-left: var(--sidebar-width);
+}
+
+@media screen and (min-width: 720px) {
+  .theme.no-sidebar aside {
+    display: none;
+  }
+  .theme.no-sidebar main {
+    margin-left: 0;
+  }
 }
 
 @media screen and (max-width: 959px) {
@@ -94,6 +117,20 @@ body {
 @media screen and (max-width: 719px) {
   .theme main {
     margin-left: 0;
+  }
+}
+
+.theme main.home {
+  padding: var(--header-height) 2rem 0;
+  max-width: 960px;
+  margin: 0px auto;
+  display: block;
+}
+
+@media screen and (max-width: 429px) {
+  .theme main.home {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
   }
 }
 
