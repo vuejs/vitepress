@@ -48,7 +48,7 @@ export function createApp() {
     if (inBrowser) {
       isInitialPageLoad = false
       // in browser: native dynamic import
-      return import(pagePath).then((page) => {
+      return import(/*@vite-ignore*/ pagePath).then((page) => {
         if (page.__pageData) {
           pageDataRef.value = readonly(JSON.parse(page.__pageData))
         }
