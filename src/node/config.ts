@@ -2,24 +2,13 @@ import path from 'path'
 import fs from 'fs-extra'
 import chalk from 'chalk'
 import globby from 'globby'
-import { createResolver, APP_PATH } from './resolver'
 import { Resolver } from 'vite'
 import { SiteData, HeadConfig, LocaleConfig } from '../../types/shared'
-export { resolveSiteDataByRoute } from '../shared/config'
+import { createResolver, APP_PATH } from './resolver'
 
 const debug = require('debug')('vitepress:config')
 
-export interface UserConfig<ThemeConfig = any> {
-  lang?: string
-  base?: string
-  title?: string
-  description?: string
-  head?: HeadConfig[]
-  themeConfig?: ThemeConfig
-  locales?: Record<string, LocaleConfig>
-  alias?: Record<string, string>
-  // TODO locales support etc.
-}
+const inBrowser = typeof window !== 'undefined'
 
 export interface SiteConfig<ThemeConfig = any> {
   root: string
@@ -30,6 +19,17 @@ export interface SiteConfig<ThemeConfig = any> {
   tempDir: string
   resolver: Resolver
   pages: string[]
+}
+
+export interface UserConfig<ThemeConfig = any> {
+  lang?: string
+  base?: string
+  title?: string
+  description?: string
+  head?: HeadConfig[]
+  themeConfig?: ThemeConfig
+  locales?: Record<string, LocaleConfig>
+  alias?: Record<string, string>
 }
 
 const resolve = (root: string, file: string) =>
@@ -89,4 +89,69 @@ export async function resolveSiteData(root: string): Promise<SiteData> {
     themeConfig: userConfig.themeConfig || {},
     locales: userConfig.locales || {}
   }
+}
+
+/**
+ * This method merges the locales data to the main data by the route.
+ */
+export function resolveSiteDataByRoute(siteData: SiteData, route: string) {
+  route = cleanRoute(siteData, route)
+
+  const localeData = resolveLocales(siteData.locales || {}, route) || {}
+  const localeThemeConfig =
+    resolveLocales<any>(
+      (siteData.themeConfig && siteData.themeConfig.locales) || {},
+      route
+    ) || {}
+
+  return {
+    ...siteData,
+    ...localeData,
+    themeConfig: {
+      ...siteData.themeConfig,
+      ...localeThemeConfig,
+      // clean the locales to reduce the bundle size
+      locales: {}
+    },
+    locales: {}
+  }
+}
+
+function resolveLocales<T>(
+  locales: Record<string, T>,
+  route: string
+): T | undefined {
+  const localeRoot = findMatchRoot(route, Object.keys(locales))
+  return localeRoot ? locales[localeRoot] : undefined
+}
+
+function findMatchRoot(route: string, roots: string[]) {
+  // first match to the routes with the most deep level.
+  roots.sort((a, b) => {
+    const levelDelta = b.split('/').length - a.split('/').length
+    if (levelDelta !== 0) {
+      return levelDelta
+    } else {
+      return b.length - a.length
+    }
+  })
+
+  for (const r of roots) {
+    if (route.startsWith(r)) return r
+  }
+  return undefined
+}
+
+/**
+ * Clean up the route by removing the `base` path if it's set in config.
+ */
+function cleanRoute(siteData: SiteData, route: string): string {
+  if (!inBrowser) {
+    return route
+  }
+
+  const base = siteData.base
+  const baseWithoutSuffix = base.endsWith('/') ? base.slice(0, -1) : base
+
+  return route.slice(baseWithoutSuffix.length)
 }

@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "outDir": "../../dist",
+    "outDir": "../../dist/client",
     "module": "esnext",
     "lib": ["ESNext", "DOM"],
     "types": ["vite"],
@@ -14,10 +14,7 @@
     }
   },
   "include": [
-    ".", 
+    ".",
     "../../types/shared.d.ts",
-  ],
-  "exclude": [
-    "../shared"
   ]
 }
