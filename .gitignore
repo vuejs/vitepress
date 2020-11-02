@@ -1,6 +1,4 @@
-.DS_Store
-node_modules
-dist
-TODOs.md
+/dist
+/node_modules
 *.log
-test/temp
+.DS_Store
