@@ -17,7 +17,7 @@
       v-if="data.tagline !== null"
       class="description"
     >
-      {{ data.tagline || siteDescription || 'Welcome to your VuePress site' }}
+      {{ data.tagline || siteDescription || 'Welcome to your VitePress site' }}
     </p>
 
     <p
@@ -192,7 +192,7 @@ export default defineComponent({
     max-height: 210px;
     margin: 2rem auto 1.2rem;
   }
-  
+
   .hero h1 {
     font-size: 2rem;
   }
@@ -216,5 +216,4 @@ export default defineComponent({
     font-size: 1.25rem;
   }
 }
-
 </style>
