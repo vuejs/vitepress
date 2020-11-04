@@ -2,12 +2,12 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "outDir": "../../dist/client/shared",
-    "module": "esnext",
-    "lib": ["ESNext", "DOM"],
+    "paths": {
+      "/@types/*": ["../../types/*"]
+    }
   },
   "include": [
-    ".", 
-    "../../types/shared.d.ts",
+    ".",
+    "../../types/shared.d.ts"
   ]
 }
