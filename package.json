@@ -33,9 +33,9 @@
     "dev-node": "tsc -w -p src/node",
     "dev-shared": "node scripts/copyShared",
     "dev-watch": "node scripts/watchAndCopy",
-    "release": "bash scripts/release.sh",
     "build": "rimraf -rf dist && node scripts/copyShared && tsc -p src/client && tsc -p src/node && node scripts/copyClient",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "release": "bash scripts/release.sh"
   },
   "engines": {
     "node": ">=10.0.0"
