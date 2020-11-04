@@ -35,7 +35,9 @@
     "dev-watch": "node scripts/watchAndCopy",
     "build": "rimraf -rf dist && node scripts/copyShared && tsc -p src/client && tsc -p src/node && node scripts/copyClient",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
-    "release": "bash scripts/release.sh"
+    "release": "bash scripts/release.sh",
+    "docs": "cd docs && yarn dev",
+    "docs-build": "cd docs && yarn build"
   },
   "engines": {
     "node": ">=10.0.0"

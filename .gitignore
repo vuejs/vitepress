@@ -1,4 +1,6 @@
 /dist
+/docs/node_modules
+/docs/src/.vitepress/dist
 /node_modules
 /src/client/shared
 /src/node/shared
