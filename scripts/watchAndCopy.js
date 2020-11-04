@@ -1,4 +1,3 @@
-// copy and watch non-ts files in src/client
 const fs = require('fs-extra')
 const chokidar = require('chokidar')
 
