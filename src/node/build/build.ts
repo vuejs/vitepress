@@ -32,6 +32,12 @@ export async function build(buildOptions: BuildOptions = {}) {
       (chunk) => chunk.type === 'asset' && chunk.fileName.endsWith('.css')
     ) as OutputAsset
 
+    Object.keys(pageToHashMap).forEach((key) => {
+      if (!pageToHashMap[key.toLocaleLowerCase()]) {
+        pageToHashMap[key.toLocaleLowerCase()] = pageToHashMap[key]
+      }
+    })
+
     // We embed the hash map string into each page directly so that it doesn't
     // alter the main chunk's hash on every build. It's also embedded as a
     // string and JSON.parsed from the client because it's faster than embedding
