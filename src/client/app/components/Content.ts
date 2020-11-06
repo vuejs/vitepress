@@ -9,6 +9,6 @@ export const Content = {
       // in prod mode, enable intersectionObserver based pre-fetch.
       usePrefetch()
     }
-    return () => (route.contentComponent ? h(route.contentComponent) : null)
+    return () => (route.component ? h(route.component) : null)
   }
 }

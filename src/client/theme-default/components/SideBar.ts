@@ -1,9 +1,4 @@
-import {
-  usePageData,
-  useRoute,
-  useSiteDataByRoute,
-  useSiteData
-} from 'vitepress'
+import { useRoute, useSiteDataByRoute, useSiteData } from 'vitepress'
 import { computed, h, FunctionalComponent, VNode } from 'vue'
 import { Header } from '../../../../types/shared'
 import { isActive, joinUrl, getPathDirName } from '../utils'
@@ -19,12 +14,11 @@ const SideBarItem: FunctionalComponent<{
   } = props
 
   const route = useRoute()
-  const pageData = usePageData()
   const siteData = useSiteData()
 
   const link = resolveLink(siteData.value.base, relLink || '')
   const active = isActive(route, link)
-  const headers = pageData.value.headers
+  const headers = route.data.headers
 
   return h('li', { class: 'sidebar-item' }, [
     createLink(active, text, link),
@@ -39,9 +33,8 @@ export default {
   },
 
   setup() {
-    const pageData = usePageData()
-    const siteData = useSiteDataByRoute()
     const route = useRoute()
+    const siteData = useSiteDataByRoute()
 
     useActiveSidebarLinks()
 
@@ -50,7 +43,7 @@ export default {
         const {
           headers,
           frontmatter: { sidebar, sidebarDepth = 2 }
-        } = pageData.value
+        } = route.data
 
         if (sidebar === 'auto') {
           // auto, render headers of current page

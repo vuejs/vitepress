@@ -57,7 +57,7 @@
 import { defineComponent, computed } from 'vue'
 import NavBarLink from './NavBarLink.vue'
 import { withBase } from '../utils'
-import { usePageData, useSiteData } from 'vitepress'
+import { useRoute, useSiteData } from 'vitepress'
 
 export default defineComponent({
   components: {
@@ -65,10 +65,10 @@ export default defineComponent({
   },
 
   setup() {
-    const pageData = usePageData()
+    const route = useRoute()
     const siteData = useSiteData()
 
-    const data = computed(() => pageData.value.frontmatter)
+    const data = computed(() => route.data.frontmatter)
     const actionLink = computed(() => ({
       link: data.value.actionLink,
       text: data.value.actionText

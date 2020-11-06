@@ -50,6 +50,8 @@ export function useActiveSidebarLinks() {
         (scrollTop >= getAnchorTop(anchor) &&
           (!nextAnchor || scrollTop < getAnchorTop(nextAnchor)))
 
+      // TODO: fix case when at page bottom
+
       if (isActive) {
         const targetHash = decode(anchor.hash)
         history.replaceState(null, document.title, targetHash)

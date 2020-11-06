@@ -1,13 +1,14 @@
 import { computed } from 'vue'
-import { usePageData, useSiteData } from 'vitepress'
+import { useRoute, useSiteData } from 'vitepress'
 import { DefaultTheme } from '../config'
 
 export default {
   setup() {
-    const pageData = usePageData()
+    const route = useRoute()
     // TODO: could this be useSiteData<DefaultTheme.Config> or is the siteData
     // resolved and has a different structure?
     const siteData = useSiteData()
+
     const resolveLink = (targetLink: string) => {
       let target: DefaultTheme.SideBarLink | undefined
       Object.keys(siteData.value.themeConfig.sidebar).some((k) => {
@@ -24,27 +25,33 @@ export default {
       })
       return target
     }
+
     const next = computed(() => {
-      if (pageData.value.frontmatter.next === false) {
+      const pageData = route.data
+      if (pageData.frontmatter.next === false) {
         return undefined
       }
-      if (typeof pageData.value.frontmatter.next === 'string') {
-        return resolveLink(pageData.value.frontmatter.next)
+      if (typeof pageData.frontmatter.next === 'string') {
+        return resolveLink(pageData.frontmatter.next)
       }
-      return pageData.value.next
+      return pageData.next
     })
+
     const prev = computed(() => {
-      if (pageData.value.frontmatter.prev === false) {
+      const pageData = route.data
+      if (pageData.frontmatter.prev === false) {
         return undefined
       }
-      if (typeof pageData.value.frontmatter.prev === 'string') {
-        return resolveLink(pageData.value.frontmatter.prev)
+      if (typeof pageData.frontmatter.prev === 'string') {
+        return resolveLink(pageData.frontmatter.prev)
       }
-      return pageData.value.prev
+      return pageData.prev
     })
+
     const hasLinks = computed(() => {
       return !!next || !!prev
     })
+
     return {
       next,
       prev,

@@ -1,9 +1,11 @@
-import { reactive, inject, markRaw, nextTick } from 'vue'
+import { reactive, inject, markRaw, nextTick, readonly } from 'vue'
 import type { Component, InjectionKey } from 'vue'
+import { PageData } from '../../../types/shared'
 
 export interface Route {
   path: string
-  contentComponent: Component | null
+  data: PageData
+  component: Component | null
 }
 
 export interface Router {
@@ -19,19 +21,26 @@ const fakeHost = `http://a.com`
 
 const getDefaultRoute = (): Route => ({
   path: '/',
-  contentComponent: null
+  component: null,
+  // this will be set upon initial page load, which is before
+  // the app is mounted, so it's guaranteed to be avaiable in
+  // components
+  data: null as any
 })
 
+interface PageModule {
+  __pageData: string
+  default: Component
+}
+
 export function createRouter(
-  loadComponent: (route: Route) => Component | Promise<Component>,
+  loadPageModule: (route: Route) => PageModule | Promise<PageModule>,
   fallbackComponent?: Component
 ): Router {
-  // TODO: the cast shouldn't be necessary
-  const route = reactive(getDefaultRoute()) as Route
+  const route = reactive(getDefaultRoute())
   const inBrowser = typeof window !== 'undefined'
 
-  function go(href?: string) {
-    href = href || (inBrowser ? location.href : '/')
+  function go(href: string = inBrowser ? location.href : '/') {
     // ensure correct deep link so page refresh lands on correct files.
     const url = new URL(href, fakeHost)
     if (!url.pathname.endsWith('/') && !url.pathname.endsWith('.html')) {
@@ -46,21 +55,30 @@ export function createRouter(
     return loadPage(href)
   }
 
+  let latestPendingPath: string | null = null
+
   async function loadPage(href: string, scrollPosition = 0) {
     const targetLoc = new URL(href, fakeHost)
-    const pendingPath = (route.path = targetLoc.pathname)
+    const pendingPath = (latestPendingPath = targetLoc.pathname)
     try {
-      let comp = loadComponent(route)
+      let page = loadPageModule(route)
       // only await if it returns a Promise - this allows sync resolution
       // on initial render in SSR.
-      if ('then' in comp && typeof comp.then === 'function') {
-        comp = await comp
+      if ('then' in page && typeof page.then === 'function') {
+        page = await page
       }
-      if (route.path === pendingPath) {
+      if (latestPendingPath === pendingPath) {
+        latestPendingPath = null
+
+        const { default: comp, __pageData } = page as PageModule
         if (!comp) {
           throw new Error(`Invalid route component: ${comp}`)
         }
-        route.contentComponent = markRaw(comp)
+
+        route.path = pendingPath
+        route.component = markRaw(comp)
+        route.data = readonly(JSON.parse(__pageData)) as PageData
+
         if (inBrowser) {
           nextTick(() => {
             if (targetLoc.hash && !scrollPosition) {
@@ -80,10 +98,10 @@ export function createRouter(
       if (!err.message.match(/fetch/)) {
         console.error(err)
       }
-      if (route.path === pendingPath) {
-        route.contentComponent = fallbackComponent
-          ? markRaw(fallbackComponent)
-          : null
+      if (latestPendingPath === pendingPath) {
+        latestPendingPath = null
+        route.path = pendingPath
+        route.component = fallbackComponent ? markRaw(fallbackComponent) : null
       }
     }
   }
