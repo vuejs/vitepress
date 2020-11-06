@@ -1,4 +1,4 @@
-import { SiteData } from '../../types/shared'
+import { SiteData } from '/@types/shared'
 
 const inBrowser = typeof window !== 'undefined'
 

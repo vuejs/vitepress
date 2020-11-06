@@ -1,4 +1,6 @@
 /dist
 /node_modules
+/src/client/shared
+/src/node/shared
 *.log
 .DS_Store

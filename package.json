@@ -27,14 +27,15 @@
   },
   "homepage": "https://github.com/vuejs/vitepress/tree/master/#readme",
   "scripts": {
-    "dev": "run-p dev-client dev-client-copy dev-node dev-shared",
+    "dev": "yarn dev-shared && yarn dev-start",
+    "dev-start": "run-p dev-client dev-node dev-watch",
     "dev-client": "tsc -w -p src/client",
-    "dev-client-copy": "node scripts/watchAndCopy",
     "dev-node": "tsc -w -p src/node",
-    "dev-shared": "tsc -w -p src/shared",
-    "release": "bash scripts/release.sh",
-    "build": "rimraf -rf dist && tsc -p src/client && tsc -p src/node && tsc -p src/shared && node scripts/copy",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
+    "dev-shared": "node scripts/copyShared",
+    "dev-watch": "node scripts/watchAndCopy",
+    "build": "rimraf -rf dist && node scripts/copyShared && tsc -p src/client && tsc -p src/node && node scripts/copyClient",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "release": "bash scripts/release.sh"
   },
   "engines": {
     "node": ">=10.0.0"
