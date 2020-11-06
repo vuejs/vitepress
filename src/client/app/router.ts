@@ -34,7 +34,7 @@ interface PageModule {
 }
 
 export function createRouter(
-  loadPageModule: (route: Route) => PageModule | Promise<PageModule>,
+  loadPageModule: (path: string) => PageModule | Promise<PageModule>,
   fallbackComponent?: Component
 ): Router {
   const route = reactive(getDefaultRoute())
@@ -61,7 +61,7 @@ export function createRouter(
     const targetLoc = new URL(href, fakeHost)
     const pendingPath = (latestPendingPath = targetLoc.pathname)
     try {
-      let page = loadPageModule(route)
+      let page = loadPageModule(pendingPath)
       // only await if it returns a Promise - this allows sync resolution
       // on initial render in SSR.
       if ('then' in page && typeof page.then === 'function') {

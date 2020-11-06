@@ -14,27 +14,27 @@ export function createApp() {
   let isInitialPageLoad = inBrowser
   let initialPath: string
 
-  const router = createRouter((route) => {
-    let pagePath = pathToFile(route.path)
+  const router = createRouter((path) => {
+    let pageFilePath = pathToFile(path)
 
     if (isInitialPageLoad) {
-      initialPath = pagePath
+      initialPath = pageFilePath
     }
 
     // use lean build if this is the initial page load or navigating back
     // to the initial loaded path (the static vnodes already adopted the
     // static content on that load so no need to re-fetch the page)
-    if (isInitialPageLoad || initialPath === pagePath) {
-      pagePath = pagePath.replace(/\.js$/, '.lean.js')
+    if (isInitialPageLoad || initialPath === pageFilePath) {
+      pageFilePath = pageFilePath.replace(/\.js$/, '.lean.js')
     }
 
     if (inBrowser) {
       isInitialPageLoad = false
       // in browser: native dynamic import
-      return import(/*@vite-ignore*/ pagePath)
+      return import(/*@vite-ignore*/ pageFilePath)
     } else {
       // SSR, sync require
-      return require(pagePath)
+      return require(pageFilePath)
     }
   }, NotFound)
 

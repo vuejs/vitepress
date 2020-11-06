@@ -1,30 +1,20 @@
-import { useRoute, useSiteDataByRoute, useSiteData } from 'vitepress'
-import { computed, h, FunctionalComponent, VNode } from 'vue'
+import { useRoute, useSiteDataByRoute } from 'vitepress'
+import { computed } from 'vue'
 import { Header } from '../../../../types/shared'
-import { isActive, joinUrl, getPathDirName } from '../utils'
+import { getPathDirName } from '../utils'
 import { DefaultTheme } from '../config'
 import { useActiveSidebarLinks } from '../composables/activeSidebarLink'
 import NavBarLinks from './NavBarLinks.vue'
+import { SideBarItem } from './SideBarItem'
 
-const SideBarItem: FunctionalComponent<{
-  item: ResolvedSidebarItem
-}> = (props) => {
-  const {
-    item: { link: relLink, text, children }
-  } = props
-
-  const route = useRoute()
-  const siteData = useSiteData()
-
-  const link = resolveLink(siteData.value.base, relLink || '')
-  const active = isActive(route, link)
-  const headers = route.data.headers
-
-  return h('li', { class: 'sidebar-item' }, [
-    createLink(active, text, link),
-    createChildren(active, children, headers)
-  ])
+export interface ResolvedSidebarItem {
+  text: string
+  link?: string
+  isGroup?: boolean
+  children?: ResolvedSidebarItem[]
 }
+
+type ResolvedSidebar = ResolvedSidebarItem[]
 
 export default {
   components: {
@@ -75,19 +65,6 @@ export default {
       })
     }
   }
-}
-
-interface HeaderWithChildren extends Header {
-  children?: Header[]
-}
-
-type ResolvedSidebar = ResolvedSidebarItem[]
-
-interface ResolvedSidebarItem {
-  text: string
-  link?: string
-  isGroup?: boolean
-  children?: ResolvedSidebarItem[]
 }
 
 function resolveAutoSidebar(headers: Header[], depth: number): ResolvedSidebar {
@@ -143,69 +120,4 @@ function resolveMultiSidebar(
   }
 
   return []
-}
-
-function resolveLink(base: string, path: string): string | undefined {
-  return path
-    ? // keep relative hash to the same page
-      path.startsWith('#')
-      ? path
-      : joinUrl(base, path)
-    : undefined
-}
-
-function createLink(active: boolean, text: string, link?: string): VNode {
-  const tag = link ? 'a' : 'p'
-
-  const component = {
-    class: { 'sidebar-link': true, active },
-    href: link
-  }
-
-  return h(tag, component, text)
-}
-
-function createChildren(
-  active: boolean,
-  children?: ResolvedSidebarItem[],
-  headers?: Header[]
-): VNode | null {
-  if (children && children.length > 0) {
-    return h(
-      'ul',
-      { class: 'sidebar-items' },
-      children.map((c) => {
-        return h(SideBarItem, { item: c })
-      })
-    )
-  }
-
-  return active && headers
-    ? createChildren(false, resolveHeaders(headers))
-    : null
-}
-
-function resolveHeaders(headers: Header[]): ResolvedSidebarItem[] {
-  return mapHeaders(groupHeaders(headers))
-}
-
-function groupHeaders(headers: Header[]): HeaderWithChildren[] {
-  headers = headers.map((h) => Object.assign({}, h))
-  let lastH2: HeaderWithChildren
-  headers.forEach((h) => {
-    if (h.level === 2) {
-      lastH2 = h
-    } else if (lastH2) {
-      ;(lastH2.children || (lastH2.children = [])).push(h)
-    }
-  })
-  return headers.filter((h) => h.level === 2)
-}
-
-function mapHeaders(headers: HeaderWithChildren[]): ResolvedSidebarItem[] {
-  return headers.map((header) => ({
-    text: header.title,
-    link: `#${header.slug}`,
-    children: header.children ? mapHeaders(header.children) : undefined
-  }))
 }
