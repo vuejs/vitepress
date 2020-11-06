@@ -170,7 +170,8 @@ export function useRoute(): Route {
 }
 
 function scrollTo(el: HTMLElement, hash: string, smooth = false) {
-  const pageOffset = document.getElementById('app')!.offsetTop
+  const pageOffset = (document.querySelector('.navbar') as HTMLElement)
+    .offsetHeight
   const target = el.classList.contains('.header-anchor')
     ? el
     : document.querySelector(decodeURIComponent(hash))

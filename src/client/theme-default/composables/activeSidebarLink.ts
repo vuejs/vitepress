@@ -36,7 +36,8 @@ export function useActiveSidebarLinks() {
         sidebarLinks.some((sidebarLink) => sidebarLink.hash === anchor.hash)
       ) as HTMLAnchorElement[]
 
-    const pageOffset = document.getElementById('app')!.offsetTop
+    const pageOffset = (document.querySelector('.navbar') as HTMLElement)
+      .offsetHeight
     const scrollTop = window.scrollY
 
     const getAnchorTop = (anchor: HTMLAnchorElement): number =>
