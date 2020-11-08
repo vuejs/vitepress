@@ -1,7 +1,7 @@
 import { computed } from 'vue'
 import OutboundLink from './icons/OutboundLink.vue'
 import { endingSlashRE, isExternal } from '../utils'
-import { usePageData, useSiteData } from 'vitepress'
+import { useRoute, useSiteData } from 'vitepress'
 import { DefaultTheme } from '../config'
 
 function createEditLink(
@@ -42,14 +42,15 @@ export default {
   },
 
   setup() {
-    const pageData = usePageData()
+    const route = useRoute()
     const siteData = useSiteData<DefaultTheme.Config>()
 
     const editLink = computed(() => {
+      const pageData = route.data
       const showEditLink: boolean | undefined =
-        pageData.value.frontmatter.editLink == null
+        pageData.frontmatter.editLink == null
           ? siteData.value.themeConfig.editLinks
-          : pageData.value.frontmatter.editLink
+          : pageData.frontmatter.editLink
       const {
         repo,
         docsDir = '',
@@ -57,7 +58,7 @@ export default {
         docsRepo = repo
       } = siteData.value.themeConfig
 
-      const { relativePath } = pageData.value
+      const { relativePath } = pageData
       if (showEditLink && relativePath && repo) {
         return createEditLink(
           repo,
@@ -69,6 +70,7 @@ export default {
       }
       return null
     })
+
     const editLinkText = computed(
       () => siteData.value.themeConfig.editLinkText || 'Edit this page'
     )

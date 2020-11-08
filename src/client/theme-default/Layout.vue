@@ -54,7 +54,7 @@ import Home from './components/Home.vue'
 import ToggleSideBarButton from './components/ToggleSideBarButton.vue'
 import SideBar from './components/SideBar.vue'
 import Page from './components/Page.vue'
-import { useRoute, usePageData, useSiteData, useSiteDataByRoute } from 'vitepress'
+import { useRoute, useSiteData, useSiteDataByRoute } from 'vitepress'
 
 export default {
   components: {
@@ -67,16 +67,15 @@ export default {
 
   setup() {
     const route = useRoute()
-    const pageData = usePageData()
     const siteData = useSiteData()
     const siteRouteData = useSiteDataByRoute()
 
     const openSideBar = ref(false)
-    const enableHome = computed(() => !!pageData.value.frontmatter.home)
+    const enableHome = computed(() => !!route.data.frontmatter.home)
 
     const showNavbar = computed(() => {
       const { themeConfig } = siteRouteData.value
-      const { frontmatter } = pageData.value
+      const { frontmatter } = route.data
       if (
         frontmatter.navbar === false
         || themeConfig.navbar === false) {
@@ -91,7 +90,7 @@ export default {
     })
 
     const showSidebar = computed(() => {
-      const { frontmatter } = pageData.value
+      const { frontmatter } = route.data
       const { themeConfig } = siteRouteData.value
       return (
         !frontmatter.home

@@ -95,8 +95,8 @@ body {
 }
 
 .theme main {
-  margin-top: var(--header-height);
-  margin-left: var(--sidebar-width);
+  padding-top: var(--header-height);
+  padding-left: var(--sidebar-width);
 }
 
 @media screen and (min-width: 720px) {

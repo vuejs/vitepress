@@ -6,7 +6,7 @@ import { createResolver, APP_PATH } from './resolver'
 import { Resolver } from 'vite'
 import { SiteData, HeadConfig, LocaleConfig } from '../../types/shared'
 import { MarkdownOptions } from './markdown/markdown'
-export { resolveSiteDataByRoute } from '../shared/config'
+export { resolveSiteDataByRoute } from './shared/config'
 
 const debug = require('debug')('vitepress:config')
 

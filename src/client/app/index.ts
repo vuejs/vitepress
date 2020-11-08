@@ -1,7 +1,6 @@
-import { createApp as createClientApp, createSSRApp, ref, readonly } from 'vue'
+import { createApp as createClientApp, createSSRApp } from 'vue'
 import { createRouter, RouterSymbol } from './router'
 import { useUpdateHead } from './composables/head'
-import { pageDataSymbol } from './composables/pageData'
 import { Content } from './components/Content'
 import Debug from './components/Debug.vue'
 import Theme from '/@theme/index'
@@ -12,55 +11,45 @@ import { siteDataRef } from './composables/siteData'
 const NotFound = Theme.NotFound || (() => '404 Not Found')
 
 export function createApp() {
-  // unlike site data which is static across all requests, page data is
-  // distinct per-request.
-  const pageDataRef = ref()
-
-  if (import.meta.hot) {
-    // hot reload pageData
-    import.meta.hot!.on('vitepress:pageData', (data) => {
-      if (
-        data.path.replace(/(\bindex)?\.md$/, '') ===
-        location.pathname.replace(/(\bindex)?\.html$/, '')
-      ) {
-        pageDataRef.value = data.pageData
-      }
-    })
-  }
-
   let isInitialPageLoad = inBrowser
   let initialPath: string
 
-  const router = createRouter((route) => {
-    let pagePath = pathToFile(route.path)
+  const router = createRouter((path) => {
+    let pageFilePath = pathToFile(path)
 
     if (isInitialPageLoad) {
-      initialPath = pagePath
+      initialPath = pageFilePath
     }
 
     // use lean build if this is the initial page load or navigating back
     // to the initial loaded path (the static vnodes already adopted the
     // static content on that load so no need to re-fetch the page)
-    if (isInitialPageLoad || initialPath === pagePath) {
-      pagePath = pagePath.replace(/\.js$/, '.lean.js')
+    if (isInitialPageLoad || initialPath === pageFilePath) {
+      pageFilePath = pageFilePath.replace(/\.js$/, '.lean.js')
     }
 
     if (inBrowser) {
       isInitialPageLoad = false
       // in browser: native dynamic import
-      return import(/*@vite-ignore*/ pagePath).then((page) => {
-        if (page.__pageData) {
-          pageDataRef.value = readonly(JSON.parse(page.__pageData))
-        }
-        return page.default
-      })
+      return import(/*@vite-ignore*/ pageFilePath)
     } else {
       // SSR, sync require
-      const page = require(pagePath)
-      pageDataRef.value = JSON.parse(page.__pageData)
-      return page.default
+      return require(pageFilePath)
     }
   }, NotFound)
+
+  // update route.data on HMR updates of active page
+  if (import.meta.hot) {
+    // hot reload pageData
+    import.meta.hot!.on('vitepress:pageData', (payload) => {
+      if (
+        payload.path.replace(/(\bindex)?\.md$/, '') ===
+        location.pathname.replace(/(\bindex)?\.html$/, '')
+      ) {
+        router.route.data = payload.pageData
+      }
+    })
+  }
 
   const app =
     process.env.NODE_ENV === 'production'
@@ -68,7 +57,6 @@ export function createApp() {
       : createClientApp(Theme.Layout)
 
   app.provide(RouterSymbol, router)
-  app.provide(pageDataSymbol, pageDataRef)
 
   app.component('Content', Content)
   app.component(
@@ -80,7 +68,7 @@ export function createApp() {
 
   if (inBrowser) {
     // dynamically update head tags
-    useUpdateHead(pageDataRef, siteDataByRouteRef)
+    useUpdateHead(router.route, siteDataByRouteRef)
   }
 
   Object.defineProperties(app.config.globalProperties, {
@@ -96,7 +84,7 @@ export function createApp() {
     },
     $page: {
       get() {
-        return pageDataRef.value
+        return router.route.data
       }
     },
     $theme: {

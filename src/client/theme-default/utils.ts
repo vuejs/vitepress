@@ -1,7 +1,7 @@
 import { useSiteData, Route } from 'vitepress'
 
 export const hashRE = /#.*$/
-export const extRE = /\.(md|html)$/
+export const extRE = /(index)?\.(md|html)$/
 export const endingSlashRE = /\/$/
 export const outboundRE = /^[a-z]+:/i
 
