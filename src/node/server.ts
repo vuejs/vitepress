@@ -5,7 +5,12 @@ import {
   ServerConfig,
   ServerPlugin
 } from 'vite'
-import { resolveConfig, SiteConfig, resolveSiteData } from './config'
+import {
+  resolveConfig,
+  SiteConfig,
+  resolveSiteData,
+  resolveUserConfig
+} from './config'
 import { createMarkdownToVueRenderFn } from './markdownToVue'
 import { APP_PATH, SITE_DATA_REQUEST_PATH } from './resolver'
 import { existsSync } from 'fs'
@@ -17,8 +22,9 @@ function createVitePressPlugin({
   configPath,
   site: initialSiteData
 }: SiteConfig): ServerPlugin {
-  return ({ app, root, watcher, resolver }) => {
-    const markdownToVue = createMarkdownToVueRenderFn(root)
+  return async ({ app, root, watcher, resolver }) => {
+    const userConfig = await resolveUserConfig(root)
+    const markdownToVue = createMarkdownToVueRenderFn(root, userConfig.markdown)
 
     // hot reload .md files as .vue files
     watcher.on('change', async (file) => {

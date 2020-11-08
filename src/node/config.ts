@@ -5,6 +5,7 @@ import globby from 'globby'
 import { createResolver, APP_PATH } from './resolver'
 import { Resolver } from 'vite'
 import { SiteData, HeadConfig, LocaleConfig } from '../../types/shared'
+import { MarkdownOptions } from './markdown/markdown'
 export { resolveSiteDataByRoute } from '../shared/config'
 
 const debug = require('debug')('vitepress:config')
@@ -18,6 +19,7 @@ export interface UserConfig<ThemeConfig = any> {
   themeConfig?: ThemeConfig
   locales?: Record<string, LocaleConfig>
   alias?: Record<string, string>
+  markdown?: MarkdownOptions
   // TODO locales support etc.
 }
 
