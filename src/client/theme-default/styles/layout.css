@@ -96,7 +96,12 @@ body {
 
 .theme main {
   padding-top: var(--header-height);
-  padding-left: var(--sidebar-width);
+}
+
+@media screen and (min-width: 960px) {
+  .theme main {
+    padding-left: var(--sidebar-width);
+  }
 }
 
 @media screen and (min-width: 720px) {
