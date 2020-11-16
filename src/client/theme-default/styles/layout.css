@@ -182,15 +182,22 @@ a.header-anchor {
   opacity: 0;
 }
 
+a.header-anchor:focus,
 a.header-anchor:hover {
   text-decoration: none;
 }
 
+h1:focus .header-anchor,
 h1:hover .header-anchor,
+h2:focus .header-anchor,
 h2:hover .header-anchor,
+h3:focus .header-anchor,
 h3:hover .header-anchor,
+h4:focus .header-anchor,
 h4:hover .header-anchor,
+h5:focus .header-anchor,
 h5:hover .header-anchor,
+h6:focus .header-anchor,
 h6:hover .header-anchor {
   opacity: 1;
 }
