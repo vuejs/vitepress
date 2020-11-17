@@ -1,12 +1,12 @@
 import { createApp as createClientApp, createSSRApp } from 'vue'
+import { inBrowser, pathToFile } from './utils'
 import { createRouter, RouterSymbol } from './router'
+import { siteDataRef } from './composables/siteData'
+import { useSiteDataByRoute } from './composables/siteDataByRoute'
 import { useUpdateHead } from './composables/head'
 import { Content } from './components/Content'
 import Debug from './components/Debug.vue'
 import Theme from '/@theme/index'
-import { inBrowser, pathToFile } from './utils'
-import { useSiteDataByRoute } from './composables/siteDataByRoute'
-import { siteDataRef } from './composables/siteData'
 
 const NotFound = Theme.NotFound || (() => '404 Not Found')
 
@@ -23,7 +23,7 @@ export function createApp() {
 
     // use lean build if this is the initial page load or navigating back
     // to the initial loaded path (the static vnodes already adopted the
-    // static content on that load so no need to re-fetch the page)
+    // static content on that load so no need to re-fetch the page).
     if (isInitialPageLoad || initialPath === pageFilePath) {
       pageFilePath = pageFilePath.replace(/\.js$/, '.lean.js')
     }

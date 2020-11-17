@@ -8,41 +8,46 @@ export namespace DefaultTheme {
     /**
      * GitHub repository following the format <user>/<project>.
      *
-     * @example vuejs/vue-next
+     * @example `"vuejs/vue-next"`
      */
     repo?: string
+
     /**
-     * Customize the header label. Defaults to GitHub/Gitlab/Bitbucket depending
-     * on the provided repo
+     * Customize the header label. Defaults to GitHub/Gitlab/Bitbucket
+     * depending on the provided repo.
      *
      * @exampe `"Contribute!"`
      */
     repoLabel?: string
 
     /**
-     * If your docs are in a different repository from your main project
+     * If your docs are in a different repository from your main project.
      *
      * @example `"vuejs/docs-next"`
      */
     docsRepo?: string
+
     /**
      * If your docs are not at the root of the repo.
      *
      * @example `"docs"`
      */
     docsDir?: string
+
     /**
-     * If your docs are in a different branch. Defaults to `master`
+     * If your docs are in a different branch. Defaults to `master`.
+     *
      * @example `"next"`
      */
     docsBranch?: string
 
     /**
-     * Enable links to edit pages at the bottom of the page
+     * Enable links to edit pages at the bottom of the page.
      */
     editLinks?: boolean
+
     /**
-     * Custom text for edit link. Defaults to "Edit this page"
+     * Custom text for edit link. Defaults to "Edit this page".
      */
     editLinkText?: string
 
@@ -88,10 +93,12 @@ export namespace DefaultTheme {
   export interface SideBarGroup {
     text: string
     link?: string
+
     /**
      * @default false
      */
     collapsable?: boolean
+
     children: SideBarItem[]
   }
 
@@ -102,10 +109,12 @@ export namespace DefaultTheme {
      * @default 5
      */
     maxSuggestions?: number
+
     /**
      * @default ''
      */
     placeholder?: string
+
     algolia?: {
       apiKey: string
       indexName: string

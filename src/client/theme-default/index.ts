@@ -3,7 +3,7 @@ import './styles/layout.css'
 import './styles/code.css'
 import './styles/custom-blocks.css'
 
-import { Theme } from '/@app/theme'
+import { Theme } from 'vitepress'
 import Layout from './Layout.vue'
 import NotFound from './NotFound.vue'
 
