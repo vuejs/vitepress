@@ -1,6 +1,9 @@
 // exports in this file are exposed to themes and md files via 'vitepress'
 // so the user can do `import { useRoute, useSiteData } from 'vitepress'`.
 
+// generic types
+export type { SiteData, PageData } from '/@types/shared'
+
 // theme types
 export * from './theme'
 
@@ -8,6 +11,7 @@ export * from './theme'
 export { useRouter, useRoute, Router, Route } from './router'
 export { useSiteData } from './composables/siteData'
 export { useSiteDataByRoute } from './composables/siteDataByRoute'
+export { usePageData } from './composables/pageData'
 
 // components
 export { Content } from './components/Content'

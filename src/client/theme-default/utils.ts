@@ -5,6 +5,10 @@ export const extRE = /(index)?\.(md|html)$/
 export const endingSlashRE = /\/$/
 export const outboundRE = /^[a-z]+:/i
 
+export function isNullish(value: any): value is null | undefined {
+  return value === null || value === undefined
+}
+
 export function withBase(path: string) {
   return (useSiteData().value.base + path).replace(/\/+/g, '/')
 }

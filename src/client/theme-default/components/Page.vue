@@ -1,42 +1,39 @@
 <template>
-  <div class="content">
+  <div class="page">
     <slot name="top" />
-    <Content />
+
+    <div class="content">
+      <Content />
+    </div>
+
+    <EditLink />
     <NextAndPrevLinks />
-    <PageEdit />
+
     <slot name="bottom" />
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue'
+import EditLink from './EditLink.vue'
 import NextAndPrevLinks from './NextAndPrevLinks.vue'
-import PageEdit from './PageEdit.vue'
-export default {
-  components: { NextAndPrevLinks, PageEdit }
-}
+
+export default defineComponent({
+  components: {
+    EditLink,
+    NextAndPrevLinks
+  }
+})
 </script>
 
-<style>
-.content {
+<style scoped>
+.page {
   margin: 0 auto;
-  padding: 0.025rem 2.5rem 2rem;
-  /* if this is moved to a variable, add it to BuySellAds.vue */
+  padding: 0 1.5rem 4rem;
   max-width: 50rem;
 }
 
-.content a {
-  color: var(--accent-color);
+.content {
+  padding-bottom: 1.5rem;
 }
-
-.content a:hover {
-  text-decoration: underline;
-}
-
-.content img {
-  max-width: 100%;
-}
-/*
-.content div > h1:first-child, .content div > h2:first-child {
-  margin-top: 0;
-} */
 </style>

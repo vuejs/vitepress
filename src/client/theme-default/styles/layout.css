@@ -157,10 +157,6 @@ main {
   }
 }
 
-a {
-  text-decoration: none;
-}
-
 h1,
 h2,
 h3,
@@ -189,7 +185,13 @@ h6:focus .header-anchor {
 }
 
 h1 {
-  font-size: 2.2rem;
+  font-size: 1.9rem;
+}
+
+@media screen and (min-width: 420px) {
+  h1 {
+    font-size: 2.2rem;
+  }
 }
 
 h2 {
@@ -206,12 +208,27 @@ h4 {
   font-size: 1.15rem;
 }
 
+p,
+ol,
+ul {
+  line-height: 1.7;
+}
+
+a {
+  text-decoration: none;
+  color: var(--accent-color);
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
 a.header-anchor {
-  font-size: 0.85em;
   float: left;
-  margin-left: -0.87em;
-  padding-right: 0.23em;
-  margin-top: 0.125em;
+  margin-top: .125em;
+  margin-left: -.87em;
+  padding-right: .23em;
+  font-size: .85em;
   opacity: 0;
 }
 
@@ -220,10 +237,8 @@ a.header-anchor:focus {
   text-decoration: none;
 }
 
-p,
-ol,
-ul {
-  line-height: 1.7;
+img {
+  max-width: 100%;
 }
 
 ul,
