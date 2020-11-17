@@ -8,7 +8,9 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue'
+
 const msgs = [
   `There's nothing here.`,
   `How did we get here?`,
@@ -16,11 +18,11 @@ const msgs = [
   `Looks like we've got some broken links.`
 ]
 
-export default {
+export default defineComponent({
   setup: () => ({
     getMsg() {
       return msgs[Math.floor(Math.random() * msgs.length)]
     }
   })
-}
+})
 </script>
