@@ -1,7 +1,7 @@
 {
   "name": "vitepress",
   "version": "0.7.4",
-  "description": "",
+  "description": "Vite & Vue powered static site generator",
   "main": "dist/node/index.js",
   "typings": "types/index.d.ts",
   "bin": {
@@ -13,19 +13,6 @@
     "dist",
     "types"
   ],
-  "keywords": [
-    "vite",
-    "vue",
-    "vuepress"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/vuejs/vitepress.git"
-  },
-  "bugs": {
-    "url": "https://github.com/vuejs/vitepress/issues"
-  },
-  "homepage": "https://github.com/vuejs/vitepress/tree/master/#readme",
   "scripts": {
     "dev": "yarn dev-shared && yarn dev-start",
     "dev-start": "run-p dev-client dev-node dev-watch",
@@ -34,6 +21,9 @@
     "dev-shared": "node scripts/copyShared",
     "dev-watch": "node scripts/watchAndCopy",
     "build": "rimraf -rf dist && node scripts/copyShared && tsc -p src/client && tsc -p src/node && node scripts/copyClient",
+    "lint": "yarn lint:js && yarn lint:ts",
+    "lint:js": "prettier --check --write \"{bin,scripts,src}/**/*.js\"",
+    "lint:ts": "prettier --check --write --parser typescript \"{src,types}/**/*.ts\"",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "release": "bash scripts/release.sh"
   },
@@ -51,8 +41,21 @@
       "prettier --parser=typescript --write"
     ]
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vuejs/vitepress.git"
+  },
+  "keywords": [
+    "vite",
+    "vue",
+    "vuepress"
+  ],
   "author": "Evan You",
   "license": "MIT",
+  "homepage": "https://github.com/vuejs/vitepress/tree/master/#readme",
+  "bugs": {
+    "url": "https://github.com/vuejs/vitepress/issues"
+  },
   "dependencies": {
     "@vue/compiler-sfc": "^3.0.2",
     "@vue/server-renderer": "^3.0.2",
