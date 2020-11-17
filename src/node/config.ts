@@ -32,6 +32,7 @@ export interface SiteConfig<ThemeConfig = any> {
   tempDir: string
   resolver: Resolver
   pages: string[]
+  markdown?: MarkdownOptions
 }
 
 const resolve = (root: string, file: string) =>
@@ -57,7 +58,8 @@ export async function resolveConfig(
     configPath: resolve(root, 'config.js'),
     outDir: resolve(root, 'dist'),
     tempDir: path.resolve(APP_PATH, 'temp'),
-    resolver: createResolver(themeDir, userConfig)
+    resolver: createResolver(themeDir, userConfig),
+    markdown: userConfig.markdown
   }
 
   return config
