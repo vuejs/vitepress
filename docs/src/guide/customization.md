@@ -5,7 +5,7 @@ You can develop your custom theme by adding the `.vitepress/theme/index.js` file
 ```bash
 .
 ├─ docs
-│  ├─ .vuepress
+│  ├─ .vitepress
 │  │  ├─ theme
 │  │  │  └─ index.js
 │  │  └─ config.js
