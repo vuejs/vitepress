@@ -59,11 +59,10 @@ main {
 
 .theme aside {
   position: fixed;
-  top: 0;
+  top: var(--header-height);
+  bottom: 0;
   left: 0;
-  height: 100%;
   width: var(--sidebar-width);
-  padding: var(--header-height) 0 1.5rem 0;
   border-right: 1px solid var(--border-color);
   background-color: #fff;
   z-index: 3;
