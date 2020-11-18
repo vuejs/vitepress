@@ -15,10 +15,11 @@ const debugHmr = require('debug')('vitepress:hmr')
 
 function createVitePressPlugin({
   configPath,
+  markdown,
   site: initialSiteData
 }: SiteConfig): ServerPlugin {
   return ({ app, root, watcher, resolver }) => {
-    const markdownToVue = createMarkdownToVueRenderFn(root)
+    const markdownToVue = createMarkdownToVueRenderFn(root, markdown)
 
     // hot reload .md files as .vue files
     watcher.on('change', async (file) => {

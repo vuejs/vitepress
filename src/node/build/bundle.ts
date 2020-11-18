@@ -36,7 +36,7 @@ export async function bundle(
   const root = config.root
   const userConfig = await resolveUserConfig(root)
   const resolver = createResolver(config.themeDir, userConfig)
-  const markdownToVue = createMarkdownToVueRenderFn(root)
+  const markdownToVue = createMarkdownToVueRenderFn(root, userConfig.markdown)
 
   let isClientBuild = true
   const pageToHashMap = Object.create(null)
