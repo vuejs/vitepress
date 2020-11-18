@@ -1,16 +1,18 @@
 <template>
   <div v-if="hasLinks" class="next-and-prev-link">
-    <div class="prev">
-      <a v-if="prev" class="link" :href="prev.link">
-        <ArrowLeft class="icon icon-prev" />
-        <span class="text">{{ prev.text }}</span>
-      </a>
-    </div>
-    <div class="next">
-      <a v-if="next" class="link" :href="next.link">
-        <span class="text">{{ next.text }}</span>
-        <ArrowRight class="icon icon-next" />
-      </a>
+    <div class="container">
+      <div class="prev">
+        <a v-if="prev" class="link" :href="prev.link">
+          <ArrowLeft class="icon icon-prev" />
+          <span class="text">{{ prev.text }}</span>
+        </a>
+      </div>
+      <div class="next">
+        <a v-if="next" class="link" :href="next.link">
+          <span class="text">{{ next.text }}</span>
+          <ArrowRight class="icon icon-next" />
+        </a>
+      </div>
     </div>
   </div>
 </template>
@@ -41,6 +43,10 @@ export default defineComponent({
 
 <style scoped>
 .next-and-prev-link {
+  padding-top: 1rem;
+}
+
+.container {
   display: flex;
   justify-content: space-between;
   border-top: 1px solid var(--border-color);
@@ -82,8 +88,8 @@ export default defineComponent({
 .icon {
   display: block;
   flex-shrink: 0;
-  width: 1rem;
-  height: 1rem;
+  width: 16px;
+  height: 16px;
   fill: var(--text-color);
 }
 

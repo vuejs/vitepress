@@ -49,5 +49,6 @@ export default defineComponent({
   margin-left: 4px;
   width: 1rem;
   height: 1rem;
+  transform: translateY(-1px);
 }
 </style>
