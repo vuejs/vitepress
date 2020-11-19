@@ -1,4 +1,4 @@
 {
-  "name": "vitepress-docs",
-  "private": true
+  "private": true,
+  "name": "vitepress-docs"
 }
