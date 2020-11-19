@@ -83,11 +83,8 @@
   color: var(--text-color);
 }
 
-a.sidebar-link {
-  transition: color 0.15s ease;
-}
-
 a.sidebar-link:hover {
+  text-decoration: none;
   color: var(--accent-color);
 }
 

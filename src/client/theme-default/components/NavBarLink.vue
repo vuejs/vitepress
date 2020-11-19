@@ -46,6 +46,7 @@
 .nav-link:hover,
 .nav-link.active {
   border-bottom-color: var(--accent-color);
+  text-decoration: none;
 }
 
 .nav-link.external:hover {
