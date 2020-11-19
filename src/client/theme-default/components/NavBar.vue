@@ -26,6 +26,10 @@
   color: var(--text-color);
 }
 
+.title:hover {
+  text-decoration: none;
+}
+
 .flex-grow {
   flex-grow: 1;
 }
