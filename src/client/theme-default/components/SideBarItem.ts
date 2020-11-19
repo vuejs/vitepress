@@ -2,7 +2,13 @@ import { useRoute, useSiteData } from 'vitepress'
 import { FunctionalComponent, h, VNode } from 'vue'
 import { Header } from '../../../../types/shared'
 import { joinUrl, isActive } from '../utils'
-import { ResolvedSidebarItem } from './SideBar'
+
+export interface ResolvedSidebarItem {
+  text: string
+  link?: string
+  isGroup?: boolean
+  children?: ResolvedSidebarItem[]
+}
 
 interface HeaderWithChildren extends Header {
   children?: Header[]

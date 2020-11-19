@@ -15,28 +15,12 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-import { useNextAndPrevLinks } from '../composables/nextAndPrevLinks'
+<script setup lang="ts">
 import ArrowLeft from './icons/ArrowLeft.vue'
 import ArrowRight from './icons/ArrowRight.vue'
+import { useNextAndPrevLinks } from '../composables/nextAndPrevLinks'
 
-export default defineComponent({
-  components: {
-    ArrowLeft,
-    ArrowRight
-  },
-
-  setup () {
-    const { hasLinks, prev, next } = useNextAndPrevLinks()
-
-    return {
-      hasLinks,
-      prev,
-      next
-    }
-  }
-})
+const { hasLinks, prev, next } = useNextAndPrevLinks()
 </script>
 
 <style scoped>

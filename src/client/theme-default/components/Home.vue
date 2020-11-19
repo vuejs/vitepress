@@ -4,88 +4,53 @@
       v-if="data.heroImage"
       :src="heroImageSrc"
       :alt="data.heroAlt || 'hero'"
-    >
+    />
 
-    <h1
-      v-if="data.heroText !== null"
-      id="main-title"
-    >
+    <h1 v-if="data.heroText !== null" id="main-title">
       {{ data.heroText || siteTitle || 'Hello' }}
     </h1>
 
-    <p
-      v-if="data.tagline !== null"
-      class="description"
-    >
+    <p v-if="data.tagline !== null" class="description">
       {{ data.tagline || siteDescription || 'Welcome to your VitePress site' }}
     </p>
 
-    <p
-      v-if="data.actionText && data.actionLink"
-      class="action"
-    >
+    <p v-if="data.actionText && data.actionLink" class="action">
       <NavBarLink :item="actionLink" />
     </p>
     <slot name="hero" />
   </header>
 
-  <div
-    v-if="data.features && data.features.length"
-    class="features"
-  >
-    <div
-      v-for="(feature, index) in data.features"
-      :key="index"
-      class="feature"
-    >
+  <div v-if="data.features && data.features.length" class="features">
+    <div v-for="(feature, index) in data.features" :key="index" class="feature">
       <h2>{{ feature.title }}</h2>
       <p>{{ feature.details }}</p>
     </div>
     <slot name="features" />
   </div>
 
-  <div
-    v-if="data.footer"
-    class="footer"
-  >
+  <div v-if="data.footer" class="footer">
     {{ data.footer }}
     <slot name="footer" />
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue'
+<script setup lang="ts">
+import { computed } from 'vue'
 import NavBarLink from './NavBarLink.vue'
 import { withBase } from '../utils'
 import { useRoute, useSiteData } from 'vitepress'
 
-export default defineComponent({
-  components: {
-    NavBarLink
-  },
+const route = useRoute()
+const siteData = useSiteData()
 
-  setup() {
-    const route = useRoute()
-    const siteData = useSiteData()
-
-    const data = computed(() => route.data.frontmatter)
-    const actionLink = computed(() => ({
-      link: data.value.actionLink,
-      text: data.value.actionText
-    }))
-    const heroImageSrc = computed(() => withBase(data.value.heroImage))
-    const siteTitle = computed(() => siteData.value.title)
-    const siteDescription = computed(() => siteData.value.description)
-
-    return {
-      data,
-      actionLink,
-      heroImageSrc,
-      siteTitle,
-      siteDescription
-    }
-  }
-})
+const data = computed(() => route.data.frontmatter)
+const actionLink = computed(() => ({
+  link: data.value.actionLink,
+  text: data.value.actionText
+}))
+const heroImageSrc = computed(() => withBase(data.value.heroImage))
+const siteTitle = computed(() => siteData.value.title)
+const siteDescription = computed(() => siteData.value.description)
 </script>
 
 <style scoped>
@@ -126,7 +91,7 @@ export default defineComponent({
   margin-left: 0;
   padding: 0.8rem 1.6rem;
   border-radius: 4px;
-  transition: background-color .1s ease;
+  transition: background-color 0.1s ease;
   box-sizing: border-box;
   /* TODO: calculating darken 10% color with using style vars from `--accent-color` */
   border-bottom: 1px solid #389d70;

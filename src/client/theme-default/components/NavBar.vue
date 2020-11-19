@@ -17,7 +17,10 @@
   <slot name="search" />
 </template>
 
-<script src="./NavBar"></script>
+<script setup lang="ts">
+import { withBase } from '../utils'
+import NavBarLinks from './NavBarLinks.vue'
+</script>
 
 <style>
 .title {
