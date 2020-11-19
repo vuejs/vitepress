@@ -1,8 +1,7 @@
-/dist
-/docs/node_modules
-/docs/src/.vitepress/dist
-/node_modules
+node_modules
+dist
 /src/client/shared
 /src/node/shared
 *.log
 .DS_Store
+TODOs.md

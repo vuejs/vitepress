@@ -37,8 +37,8 @@
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "release": "bash scripts/release.sh",
     "docs": "run-p dev docs-dev",
-    "docs-dev": "cd docs && yarn dev",
-    "docs-build": "yarn build && cd docs && yarn build"
+    "docs-dev": "node ./bin/vitepress dev docs",
+    "docs-build": "yarn build && node ./bin/vitepress build docs"
   },
   "engines": {
     "node": ">=10.0.0"

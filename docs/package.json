@@ -1,7 +1,4 @@
 {
-  "private": true,
-  "scripts": {
-    "dev": "node ../bin/vitepress dev src",
-    "build": "node ../bin/vitepress build src"
-  }
+  "name": "vitepress-docs",
+  "private": true
 }
