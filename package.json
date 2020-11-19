@@ -75,6 +75,7 @@
     "markdown-it-emoji": "^1.4.0",
     "markdown-it-table-of-contents": "^0.4.4",
     "minimist": "^1.2.5",
+    "ora": "^5.1.0",
     "prismjs": "^1.20.0",
     "slash": "^3.0.0",
     "vite": "^1.0.0-rc.9",

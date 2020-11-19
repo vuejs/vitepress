@@ -12,6 +12,10 @@ import {
   BuildConfig as ViteBuildOptions,
   BuildResult
 } from 'vite'
+import ora from 'ora'
+
+export const okMark = '\x1b[32m✓\x1b[0m'
+export const failMark = '\x1b[31m✖\x1b[0m'
 
 const hashRE = /\.(\w+)\.js$/
 const staticInjectMarkerRE = /\b(const _hoisted_\d+ = \/\*#__PURE__\*\/createStaticVNode)\("(.*)", (\d+)\)/g
@@ -143,14 +147,37 @@ export async function bundle(
     minify: !process.env.DEBUG
   }
 
-  console.log('building client bundle...')
-  const clientResult = await build(viteOptions)
+  let clientResult, serverResult
 
-  console.log('building server bundle...')
+  const spinner = ora()
+  spinner.start('building client bundle...')
+  try {
+    clientResult = await build(viteOptions)
+  } catch (e) {
+    spinner.stopAndPersist({
+      symbol: failMark
+    })
+    throw e
+  }
+  spinner.stopAndPersist({
+    symbol: okMark
+  })
+
+  spinner.start('building server bundle...')
   isClientBuild = false
-  const serverResult = await ssrBuild({
-    ...viteOptions,
-    outDir: config.tempDir
+  try {
+    serverResult = await ssrBuild({
+      ...viteOptions,
+      outDir: config.tempDir
+    })
+  } catch (e) {
+    spinner.stopAndPersist({
+      symbol: failMark
+    })
+    throw e
+  }
+  spinner.stopAndPersist({
+    symbol: okMark
   })
 
   return [clientResult[0], serverResult[0], pageToHashMap]
