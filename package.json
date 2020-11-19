@@ -25,7 +25,10 @@
     "lint:js": "prettier --check --write \"{bin,scripts,src}/**/*.js\"",
     "lint:ts": "prettier --check --write --parser typescript \"{src,types}/**/*.ts\"",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
-    "release": "bash scripts/release.sh"
+    "release": "bash scripts/release.sh",
+    "docs": "run-p dev docs-dev",
+    "docs-dev": "node ./bin/vitepress dev docs",
+    "docs-build": "yarn build && node ./bin/vitepress build docs"
   },
   "engines": {
     "node": ">=10.0.0"

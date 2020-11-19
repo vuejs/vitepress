@@ -1,4 +1,4 @@
-# Contributing
+# VitePress Contributing Guide
 
 This is a guide to help those who are interested in contributing to VitePress!
 
@@ -11,11 +11,11 @@ This is a guide to help those who are interested in contributing to VitePress!
 ### Setup VitePress dev environment
 
 1. Clone the VitePress repo
-1. Install dependencies
+2. Install dependencies
     ```
     yarn
     ```
-1. Create symlink to allow projects to link to local VitePress dev environment
+3. Create symlink to allow projects to link to local VitePress dev environment
     ```bash
     yarn link
     ```
@@ -25,12 +25,10 @@ This is a guide to help those who are interested in contributing to VitePress!
     info You can now run `yarn link "vitepress"` in the projects where you want to use this package and it will be used instead.
     ✨  Done in 0.05s.
     ```
-1. Start VitePress local dev environment
+4. Start VitePress local dev environment
     ```bash
     yarn dev
     ```
-
-
 
 ### Setup local VitePress project
 
@@ -65,7 +63,3 @@ This is a guide to help those who are interested in contributing to VitePress!
     ```
 
 And with that, you are now ready to contribute to the VitePress project! 🎉
-
-## Releasing
-
-After making sure tests are passing, run `yarn run release` (to be tested in non-unix environments like Windows) to run the bash script `scripts/release.sh`.
