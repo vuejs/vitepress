@@ -85,10 +85,13 @@ export async function bundle(
     },
 
     generateBundle(_options, bundle) {
+      if (!isClientBuild) {
+        return
+      }
       // for each .md entry chunk, adjust its name to its correct path.
       for (const name in bundle) {
         const chunk = bundle[name]
-        if (isPageChunk(chunk) && isClientBuild) {
+        if (isPageChunk(chunk)) {
           // record page -> hash relations
           const hash = chunk.fileName.match(hashRE)![1]
           const pageName = chunk.fileName.replace(hashRE, '')
