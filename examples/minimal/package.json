@@ -1,0 +1,7 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "node ../../bin/vitepress dev",
+    "build": "node ../../bin/vitepress build"
+  }
+}
