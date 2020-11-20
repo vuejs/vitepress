@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "name": "vitepress-example-minimal",
+  "scripts": {
+    "dev": "node ../../bin/vitepress dev",
+    "build": "node ../../bin/vitepress build",
+    "serve": "node ../../bin/vitepress serve"
+  }
+}
