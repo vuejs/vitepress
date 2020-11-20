@@ -32,7 +32,8 @@ This section will help you build a basic VuePress documentation site from ground
   {
     "scripts": {
       "docs:dev": "vitepress dev docs",
-      "docs:build": "vitepress build docs"
+      "docs:build": "vitepress build docs",
+      "docs:serve": "vitepress serve docs"
     }
   }
   ```
@@ -44,3 +45,7 @@ This section will help you build a basic VuePress documentation site from ground
   ```
 
   VitePress will start a hot-reloading development server at http://localhost:3000.
+
+By now, you should have a basic but functional VuePress documentation site.
+
+When your documentation site starts to take shape, be sure to read the [deployment guide](./deploy).

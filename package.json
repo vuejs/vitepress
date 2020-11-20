@@ -22,13 +22,14 @@
     "dev-watch": "node scripts/watchAndCopy",
     "build": "rimraf -rf dist && node scripts/copyShared && tsc -p src/client && tsc -p src/node && node scripts/copyClient",
     "lint": "yarn lint:js && yarn lint:ts",
-    "lint:js": "prettier --check --write \"{bin,scripts,src}/**/*.js\"",
-    "lint:ts": "prettier --check --write --parser typescript \"{src,types}/**/*.ts\"",
+    "lint:js": "prettier --check --write \"{bin,docs,scripts,src}/**/*.js\"",
+    "lint:ts": "prettier --check --write --parser typescript \"{src,docs,types}/**/*.ts\"",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "release": "bash scripts/release.sh",
     "docs": "run-p dev docs-dev",
     "docs-dev": "node ./bin/vitepress dev docs",
-    "docs-build": "yarn build && node ./bin/vitepress build docs"
+    "docs-build": "yarn build && node ./bin/vitepress build docs",
+    "docs-serve": "yarn docs-build && node ./bin/vitepress serve --root docs"
   },
   "engines": {
     "node": ">=10.0.0"
@@ -85,12 +86,16 @@
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.1",
+    "@types/koa": "^2.11.6",
+    "@types/koa-static": "^4.0.1",
     "@types/lru-cache": "^5.1.0",
     "@types/markdown-it": "^10.0.2",
     "@types/node": "^13.13.4",
     "@types/postcss-load-config": "^2.0.1",
     "chokidar": "^3.4.2",
     "conventional-changelog-cli": "^2.1.0",
+    "koa": "^2.13.0",
+    "koa-static": "^5.0.0",
     "lint-staged": "^10.3.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.0.5",
