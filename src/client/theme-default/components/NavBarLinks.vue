@@ -27,7 +27,7 @@
     display: block;
     height: auto;
     padding: 0.5rem 0 1rem;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--c-divider);
   }
 }
 </style>

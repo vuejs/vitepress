@@ -23,7 +23,7 @@
 .title {
   font-size: 1.3rem;
   font-weight: 600;
-  color: var(--text-color);
+  color: var(--c-text);
 }
 
 .title:hover {

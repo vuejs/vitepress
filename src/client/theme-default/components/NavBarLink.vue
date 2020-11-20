@@ -39,13 +39,13 @@
   font-size: 0.9rem;
   font-weight: 500;
   line-height: 1.4rem;
-  color: var(--text-color);
+  color: var(--c-text);
   white-space: nowrap;
 }
 
 .nav-link:hover,
 .nav-link.active {
-  border-bottom-color: var(--accent-color);
+  border-bottom-color: var(--c-brand);
   text-decoration: none;
 }
 
@@ -64,7 +64,7 @@
 
   .nav-link:hover,
   .nav-link.active {
-    color: var(--accent-color);
+    color: var(--c-brand);
   }
 }
 </style>

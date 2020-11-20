@@ -52,7 +52,7 @@
 
 .dropdown-wrapper .dropdown-title {
   font: inherit;
-  color: var(--text-color);
+  color: var(--c-text);
   font-size: 0.9rem;
   font-weight: 500;
   display: inline-block;
@@ -114,18 +114,18 @@
 }
 
 .dropdown-wrapper .nav-dropdown .dropdown-item a:hover {
-  color: var(--accent-color);
+  color: var(--c-brand);
 }
 
 .dropdown-wrapper .nav-dropdown .dropdown-item a.active {
-  color: var(--accent-color);
+  color: var(--c-brand);
 }
 
 .dropdown-wrapper .nav-dropdown .dropdown-item a.active::after {
   content: '';
   width: 0;
   height: 0;
-  border-left: 5px solid var(--accent-color);
+  border-left: 5px solid var(--c-brand);
   border-top: 3px solid transparent;
   border-bottom: 3px solid transparent;
   position: absolute;

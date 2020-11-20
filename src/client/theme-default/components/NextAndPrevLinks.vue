@@ -49,7 +49,7 @@ export default defineComponent({
 .container {
   display: flex;
   justify-content: space-between;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid var(--c-divider);
   padding-top: 1rem;
 }
 
@@ -90,7 +90,7 @@ export default defineComponent({
   flex-shrink: 0;
   width: 16px;
   height: 16px;
-  fill: var(--text-color);
+  fill: var(--c-text);
 }
 
 .icon-prev { margin-right: 8px; }

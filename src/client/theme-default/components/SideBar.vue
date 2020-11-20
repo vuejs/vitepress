@@ -80,17 +80,17 @@
   line-height: 1.7;
   font-size: 1.05em;
   font-weight: 700;
-  color: var(--text-color);
+  color: var(--c-text);
 }
 
 a.sidebar-link:hover {
   text-decoration: none;
-  color: var(--accent-color);
+  color: var(--c-brand);
 }
 
 a.sidebar-link.active {
-  border-left-color: var(--accent-color);
+  border-left-color: var(--c-brand);
   font-weight: 600;
-  color: var(--accent-color);
+  color: var(--c-brand);
 }
 </style>

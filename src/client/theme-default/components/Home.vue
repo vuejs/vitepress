@@ -114,7 +114,7 @@ export default defineComponent({
   max-width: 35rem;
   font-size: 1.6rem;
   line-height: 1.3;
-  /* TODO: calculating lighten 40% color with using style :vars from `--text-color` */
+  /* TODO: calculating lighten 40% color with using style :vars from `--c-text` */
   color: #6a8bad;
 }
 
@@ -122,23 +122,23 @@ export default defineComponent({
   display: inline-block;
   font-size: 1.2rem;
   color: #fff;
-  background-color: var(--accent-color);
+  background-color: var(--c-brand);
   margin-left: 0;
   padding: 0.8rem 1.6rem;
   border-radius: 4px;
   transition: background-color .1s ease;
   box-sizing: border-box;
-  /* TODO: calculating darken 10% color with using style vars from `--accent-color` */
+  /* TODO: calculating darken 10% color with using style vars from `--c-brand` */
   border-bottom: 1px solid #389d70;
 }
 
 ::v-deep(.nav-link:hover) {
-  /* TODO: calculating lighten 10% color with using style vars from `--accent-color` */
+  /* TODO: calculating lighten 10% color with using style vars from `--c-brand` */
   background-color: #4abf8a;
 }
 
 .features {
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid var(--c-divider);
   padding: 1.2rem 0;
   margin-top: 2.5rem;
   display: flex;
@@ -159,20 +159,20 @@ export default defineComponent({
   font-weight: 500;
   border-bottom: none;
   padding-bottom: 0;
-  /* TODO: calculating lighten 10% color with using style :vars from `--text-color` */
+  /* TODO: calculating lighten 10% color with using style :vars from `--c-text` */
   color: #3a5169;
 }
 
 .feature p {
-  /* TODO: calculating lighten 25% color with using style :vars from `--text-color` */
+  /* TODO: calculating lighten 25% color with using style :vars from `--c-text` */
   color: #4e6e8e;
 }
 
 .footer {
   padding: 2.5rem;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid var(--c-divider);
   text-align: center;
-  /* TODO: calculating lighten 25% color with using style :vars from `--text-color` */
+  /* TODO: calculating lighten 25% color with using style :vars from `--c-text` */
   color: #4e6e8e;
 }
 

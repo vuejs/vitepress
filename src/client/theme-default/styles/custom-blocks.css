@@ -28,7 +28,7 @@
 }
 
 .custom-block.warning a {
-  color: var(--text-color);
+  color: var(--c-text);
 }
 
 .custom-block.danger {
@@ -42,7 +42,7 @@
 }
 
 .custom-block.danger a {
-  color: var(--text-color);
+  color: var(--c-text);
 }
 
 .custom-block.details {

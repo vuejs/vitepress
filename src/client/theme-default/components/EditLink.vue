@@ -35,20 +35,17 @@ export default defineComponent({
 }
 
 .link {
+  display: inline-block;
   font-weight: 500;
-  color: var(--text-color-light);
+  color: var(--c-text-light);
 }
 
 .link:hover {
   text-decoration: none;
-  color: var(--accent-color);
+  color: var(--c-brand);
 }
 
 .icon {
-  display: inline-block;
   margin-left: 4px;
-  width: 1rem;
-  height: 1rem;
-  transform: translateY(-1px);
 }
 </style>
