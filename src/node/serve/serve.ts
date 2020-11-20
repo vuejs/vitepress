@@ -8,7 +8,7 @@ export interface ServeOptions {
 }
 
 export async function serve(options: ServeOptions = {}) {
-  const port = options.port ?? 3000
+  const port = options.port !== undefined ? options.port : 3000
   const site = await resolveConfig(options.root)
 
   const app = new Koa()
