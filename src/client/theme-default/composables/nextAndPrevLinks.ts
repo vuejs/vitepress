@@ -1,59 +1,102 @@
 import { computed } from 'vue'
-import { useRoute, useSiteData } from 'vitepress'
+import { useSiteDataByRoute, usePageData } from 'vitepress'
+import { isArray, getPathDirName, ensureStartingSlash } from '../utils'
 import { DefaultTheme } from '../config'
 
 export function useNextAndPrevLinks() {
-  const route = useRoute()
-  // TODO: could this be useSiteData<DefaultTheme.Config> or is the siteData
-  // resolved and has a different structure?
-  const siteData = useSiteData()
+  const site = useSiteDataByRoute()
+  const page = usePageData()
 
-  const resolveLink = (targetLink: string) => {
-    let target: DefaultTheme.SideBarLink | undefined
-    Object.keys(siteData.value.themeConfig.sidebar).some((k) => {
-      return siteData.value.themeConfig.sidebar[k].some(
-        (v: { children: any }) => {
-          if (Array.isArray(v.children)) {
-            target = v.children.find((value: any) => {
-              return value.link === targetLink
-            })
-          }
-          return !!target
-        }
-      )
+  const candidates = computed(() => {
+    const path = ensureStartingSlash(page.value.relativePath)
+    const sidebar = site.value.themeConfig.sidebar
+
+    return getFlatSidebarLinks(path, sidebar)
+  })
+
+  const currentPath = computed(() => {
+    const path = ensureStartingSlash(page.value.relativePath)
+
+    return path.replace(/(index)?\.(md|html)$/, '')
+  })
+
+  const currentIndex = computed(() => {
+    return candidates.value.findIndex((item) => {
+      return item.link === currentPath.value
     })
-    return target
-  }
+  })
 
   const next = computed(() => {
-    const pageData = route.data
-    if (pageData.frontmatter.next === false) {
-      return undefined
+    if (
+      site.value.themeConfig.nextLinks !== false &&
+      currentIndex.value > -1 &&
+      currentIndex.value < candidates.value.length - 1
+    ) {
+      return candidates.value[currentIndex.value + 1]
     }
-    if (typeof pageData.frontmatter.next === 'string') {
-      return resolveLink(pageData.frontmatter.next)
-    }
-    return pageData.next
   })
 
   const prev = computed(() => {
-    const pageData = route.data
-    if (pageData.frontmatter.prev === false) {
-      return undefined
+    if (site.value.themeConfig.prevLinks !== false && currentIndex.value > 0) {
+      return candidates.value[currentIndex.value - 1]
     }
-    if (typeof pageData.frontmatter.prev === 'string') {
-      return resolveLink(pageData.frontmatter.prev)
-    }
-    return pageData.prev
   })
 
-  const hasLinks = computed(() => {
-    return !!next.value || !!prev.value
-  })
+  const hasLinks = computed(() => !!next.value || !!prev.value)
 
   return {
     next,
     prev,
     hasLinks
   }
+}
+
+function getFlatSidebarLinks(
+  path: string,
+  sidebar?: DefaultTheme.SideBarConfig
+): DefaultTheme.SideBarLink[] {
+  if (!sidebar || sidebar === 'auto') {
+    return []
+  }
+
+  return isArray(sidebar)
+    ? getFlatSidebarLinksFromArray(path, sidebar)
+    : getFlatSidebarLinksFromObject(path, sidebar)
+}
+
+function getFlatSidebarLinksFromArray(
+  path: string,
+  sidebar: DefaultTheme.SideBarItem[]
+): DefaultTheme.SideBarLink[] {
+  return sidebar.reduce<DefaultTheme.SideBarLink[]>((links, item) => {
+    if (item.link) {
+      links.push({ text: item.text, link: item.link })
+    }
+
+    if (isSideBarGroup(item)) {
+      links = [...links, ...getFlatSidebarLinks(path, item.children)]
+    }
+
+    return links
+  }, [])
+}
+
+function getFlatSidebarLinksFromObject(
+  path: string,
+  sidebar: DefaultTheme.MultiSideBarConfig
+): DefaultTheme.SideBarLink[] {
+  const paths = [path, Object.keys(sidebar)[0]]
+  const item = paths.map((p) => sidebar[getPathDirName(p)]).find(Boolean)
+
+  if (isArray(item)) {
+    return getFlatSidebarLinksFromArray(path, item)
+  }
+
+  return []
+}
+
+function isSideBarGroup(
+  item: DefaultTheme.SideBarItem
+): item is DefaultTheme.SideBarGroup {
+  return (item as DefaultTheme.SideBarGroup).children !== undefined
 }
