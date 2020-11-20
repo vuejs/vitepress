@@ -6,6 +6,8 @@ module.exports = {
   themeConfig: {
     repo: 'vuejs/vitepress',
     docsDir: 'docs',
+
+    editLinks: true,
     editLinkText: 'Edit this page on GitHub',
 
     nav: [
