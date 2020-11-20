@@ -1,15 +1,9 @@
-.custom-block .custom-block-title {
-  font-weight: 600;
-  margin-bottom: -0.4rem;
-}
-
 .custom-block.tip,
 .custom-block.warning,
 .custom-block.danger {
-  padding: 0.1rem 1.5rem;
-  border-left-width: 0.5rem;
-  border-left-style: solid;
   margin: 1rem 0;
+  border-left: .5rem solid;
+  padding: .1rem 1.5rem;
 }
 
 .custom-block.tip {
@@ -18,9 +12,9 @@
 }
 
 .custom-block.warning {
-  background-color: rgba(255, 229, 100, 0.3);
   border-color: #e7c000;
   color: #6b5900;
+  background-color: rgba(255, 229, 100, .3);
 }
 
 .custom-block.warning .custom-block-title {
@@ -32,9 +26,9 @@
 }
 
 .custom-block.danger {
-  background-color: #ffe6e6;
   border-color: #c00;
   color: #4d0000;
+  background-color: #ffe6e6;
 }
 
 .custom-block.danger .custom-block-title {
@@ -46,8 +40,8 @@
 }
 
 .custom-block.details {
-  display: block;
   position: relative;
+  display: block;
   border-radius: 2px;
   margin: 1.6em 0;
   padding: 1.6em;
@@ -67,4 +61,9 @@
 .custom-block.details summary {
   outline: none;
   cursor: pointer;
+}
+
+.custom-block-title {
+  margin-bottom: -.4rem;
+  font-weight: 600;
 }
