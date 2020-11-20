@@ -1,5 +1,6 @@
 import { computed } from 'vue'
 import { useSiteDataByRoute, usePageData } from 'vitepress'
+import { isArray, getPathDirName, ensureStartingSlash } from '../utils'
 import { DefaultTheme } from '../config'
 
 export function useNextAndPrevLinks() {
@@ -7,11 +8,17 @@ export function useNextAndPrevLinks() {
   const page = usePageData()
 
   const candidates = computed(() => {
-    return getFlatSidebarLinks(site.value.themeConfig?.sidebar)
+    const path = ensureStartingSlash(page.value.relativePath)
+    const sidebar = site.value.themeConfig?.sidebar
+
+    return getFlatSidebarLinks(path, sidebar)
   })
 
   const currentPath = computed(() => {
-    return '/' + page.value.relativePath.replace(/(index)?\.(md|html)$/, '')
+    return ensureStartingSlash(page.value.relativePath).replace(
+      /(index)?\.(md|html)$/,
+      ''
+    )
   })
 
   const currentIndex = computed(() => {
@@ -46,24 +53,51 @@ export function useNextAndPrevLinks() {
 }
 
 function getFlatSidebarLinks(
+  path: string,
   sidebar?: DefaultTheme.SideBarConfig
 ): DefaultTheme.SideBarLink[] {
   if (!sidebar || sidebar === 'auto') {
     return []
   }
 
+  return isArray(sidebar)
+    ? getFlatSidebarLinksFromArray(path, sidebar)
+    : getFlatSidebarLinksFromObject(path, sidebar)
+}
+
+function getFlatSidebarLinksFromArray(
+  path: string,
+  sidebar: DefaultTheme.SideBarItem[]
+): DefaultTheme.SideBarLink[] {
   return sidebar.reduce<DefaultTheme.SideBarLink[]>((links, item) => {
     if (item.link) {
       links.push({ text: item.text, link: item.link })
     }
 
-    if ((item as DefaultTheme.SideBarGroup).children) {
-      links = [
-        ...links,
-        ...getFlatSidebarLinks((item as DefaultTheme.SideBarGroup).children)
-      ]
+    if (isSideBarGroup(item)) {
+      links = [...links, ...getFlatSidebarLinks(path, item.children)]
     }
 
     return links
   }, [])
+}
+
+function getFlatSidebarLinksFromObject(
+  path: string,
+  sidebar: DefaultTheme.MultiSideBarConfig
+): DefaultTheme.SideBarLink[] {
+  const paths = [path, Object.keys(sidebar)[0]]
+  const item = paths.map((p) => sidebar[getPathDirName(p)]).find(Boolean)
+
+  if (isArray(item)) {
+    return getFlatSidebarLinksFromArray(path, item)
+  }
+
+  return []
+}
+
+function isSideBarGroup(
+  item: DefaultTheme.SideBarItem
+): item is DefaultTheme.SideBarGroup {
+  return (item as DefaultTheme.SideBarGroup).children !== undefined
 }

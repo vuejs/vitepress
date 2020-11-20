@@ -9,6 +9,10 @@ export function isNullish(value: any): value is null | undefined {
   return value === null || value === undefined
 }
 
+export function isArray(value: any): value is any[] {
+  return Array.isArray(value)
+}
+
 export function withBase(path: string) {
   return (useSiteData().value.base + path).replace(/\/+/g, '/')
 }
@@ -60,6 +64,10 @@ export function getPathDirName(path: string): string {
   }
 
   return ensureEndingSlash(segments.join('/'))
+}
+
+export function ensureStartingSlash(path: string): string {
+  return /^\//.test(path) ? path : `/${path}`
 }
 
 export function ensureEndingSlash(path: string): string {
