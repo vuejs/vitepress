@@ -1,3 +1,10 @@
+## [0.8.1](https://github.com/vuejs/vitepress/compare/v0.8.0...v0.8.1) (2020-11-20)
+
+### Bug Fixes
+
+* fix "next and prev link" not working when `link` has extention ([6dcf6b3](https://github.com/vuejs/vitepress/commit/6dcf6b3796bb3d6e703fddd79c6b0c0a7adfd567))
+* fix "next and prev links" not working when the `base` option is set ([#139](https://github.com/vuejs/vitepress/issues/139)) ([018a9b4](https://github.com/vuejs/vitepress/commit/018a9b46d924d0d08f7ff67f18a813348c84ab0a))
+
 # [0.8.0](https://github.com/vuejs/vitepress/compare/v0.7.4...v0.8.0) (2020-11-20)
 
 ### Bug Fixes
