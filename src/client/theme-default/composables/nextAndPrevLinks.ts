@@ -9,7 +9,7 @@ export function useNextAndPrevLinks() {
 
   const candidates = computed(() => {
     const path = ensureStartingSlash(page.value.relativePath)
-    const sidebar = site.value.themeConfig?.sidebar
+    const sidebar = site.value.themeConfig.sidebar
 
     return getFlatSidebarLinks(path, sidebar)
   })
