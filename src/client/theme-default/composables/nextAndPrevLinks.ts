@@ -15,10 +15,9 @@ export function useNextAndPrevLinks() {
   })
 
   const currentPath = computed(() => {
-    return ensureStartingSlash(page.value.relativePath).replace(
-      /(index)?\.(md|html)$/,
-      ''
-    )
+    const path = ensureStartingSlash(page.value.relativePath)
+
+    return path.replace(/(index)?\.(md|html)$/, '')
   })
 
   const currentIndex = computed(() => {
@@ -29,7 +28,7 @@ export function useNextAndPrevLinks() {
 
   const next = computed(() => {
     if (
-      site.value.themeConfig?.nextLinks !== false &&
+      site.value.themeConfig.nextLinks !== false &&
       currentIndex.value > -1 &&
       currentIndex.value < candidates.value.length - 1
     ) {
@@ -38,7 +37,7 @@ export function useNextAndPrevLinks() {
   })
 
   const prev = computed(() => {
-    if (site.value.themeConfig?.prevLinks !== false && currentIndex.value > 0) {
+    if (site.value.themeConfig.prevLinks !== false && currentIndex.value > 0) {
       return candidates.value[currentIndex.value - 1]
     }
   })
