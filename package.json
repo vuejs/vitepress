@@ -23,7 +23,8 @@
     "build": "rimraf -rf dist && node scripts/copyShared && tsc -p src/client && tsc -p src/node && node scripts/copyClient",
     "lint": "yarn lint:js && yarn lint:ts",
     "lint:js": "prettier --check --write \"{bin,docs,scripts,src}/**/*.js\"",
-    "lint:ts": "prettier --check --write --parser typescript \"{src,docs,types}/**/*.ts\"",
+    "lint:ts": "prettier --check --write --parser typescript \"{__tests__,src,docs,types}/**/*.ts\"",
+    "test": "jest",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "release": "node scripts/release.js",
     "docs": "run-p dev docs-dev",
@@ -86,6 +87,7 @@
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.1",
+    "@types/jest": "^26.0.15",
     "@types/koa": "^2.11.6",
     "@types/koa-static": "^4.0.1",
     "@types/lru-cache": "^5.1.0",
@@ -96,6 +98,7 @@
     "conventional-changelog-cli": "^2.1.0",
     "enquirer": "^2.3.6",
     "execa": "^4.1.0",
+    "jest": "^26.6.3",
     "koa": "^2.13.0",
     "koa-static": "^5.0.0",
     "lint-staged": "^10.3.0",
@@ -103,6 +106,7 @@
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
     "semver": "^7.3.2",
+    "ts-jest": "^26.4.4",
     "typescript": "^3.8.3",
     "yorkie": "^2.0.0"
   }
