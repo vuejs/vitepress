@@ -91,6 +91,7 @@ export default defineComponent({
   width: 16px;
   height: 16px;
   fill: var(--c-text);
+  transform: translateY(1px);
 }
 
 .icon-prev { margin-right: 8px; }
