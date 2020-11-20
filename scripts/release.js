@@ -76,21 +76,26 @@ async function main() {
 
   // Commit changes to the Git.
   step('\nCommitting changes...')
-  // await run('git', ['add', '-A'])
-  // await run('git', ['commit', '-m', `release: v${targetVersion}`])
+  await run('git', ['add', '-A'])
+  await run('git', ['commit', '-m', `release: v${targetVersion}`])
 
   // Publish the package.
   step('\nPublishing the package...')
-  // await run ('yarn', [
-  //   'publish', '--tag', tag, '--new-version', targetVersion,
-  //   '--no-commit-hooks', '--no-git-tag-version'
-  // ])
+  await run('yarn', [
+    'publish',
+    '--tag',
+    tag,
+    '--new-version',
+    targetVersion,
+    '--no-commit-hooks',
+    '--no-git-tag-version'
+  ])
 
   // Push to GitHub.
   step('\nPushing to GitHub...')
-  // await run('git', ['tag', `v${targetVersion}`])
-  // await run('git', ['push', 'origin', `refs/tags/v${targetVersion}`])
-  // await run('git', ['push'])
+  await run('git', ['tag', `v${targetVersion}`])
+  await run('git', ['push', 'origin', `refs/tags/v${targetVersion}`])
+  await run('git', ['push'])
 }
 
 function updatePackage(version) {
