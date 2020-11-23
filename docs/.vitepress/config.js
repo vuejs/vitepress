@@ -7,6 +7,12 @@ module.exports = {
     repo: 'vuejs/vitepress',
     docsDir: 'docs',
 
+    carbonAds: {
+      carbon: 'CEBDT27Y',
+      custom: 'CKYD62QM',
+      placement: 'vuejsorg'
+    },
+
     editLinks: true,
     editLinkText: 'Edit this page on GitHub',
     lastUpdated: 'Last Updated',
