@@ -1,33 +1,31 @@
-import { useRoute, useSiteData } from 'vitepress'
 import { FunctionalComponent, h, VNode } from 'vue'
-import { Header } from '../../../../types/shared'
+import { useRoute, useSiteData } from 'vitepress'
+import { Header } from '/@types/shared'
+import { DefaultTheme } from '../config'
 import { joinUrl, isActive } from '../utils'
-import { ResolvedSidebarItem } from './SideBar'
 
 interface HeaderWithChildren extends Header {
   children?: Header[]
 }
 
-export const SideBarItem: FunctionalComponent<{
-  item: ResolvedSidebarItem
+export const SideBarLink: FunctionalComponent<{
+  item: DefaultTheme.SideBarItem
 }> = (props) => {
-  const {
-    item: { link: relLink, text, children }
-  } = props
-
   const route = useRoute()
-  const siteData = useSiteData()
+  const site = useSiteData()
 
-  const link = resolveLink(siteData.value.base, relLink || '')
-  const active = isActive(route, link)
   const headers = route.data.headers
+  const text = props.item.text
+  const link = resolveLink(site.value.base, props.item.link)
+  const children = (props.item as DefaultTheme.SideBarGroup).children
+  const active = isActive(route, link)
   const childItems = createChildren(active, children, headers)
 
-  return h('li', { class: 'sidebar-item' }, [
+  return h('li', { class: 'sidebar-link' }, [
     h(
       link ? 'a' : 'p',
       {
-        class: { 'sidebar-link': true, active },
+        class: { 'sidebar-link-item': true, active },
         href: link
       },
       text
@@ -36,26 +34,30 @@ export const SideBarItem: FunctionalComponent<{
   ])
 }
 
-function resolveLink(base: string, path: string): string | undefined {
-  return path
-    ? // keep relative hash to the same page
-      path.startsWith('#')
-      ? path
-      : joinUrl(base, path)
-    : undefined
+function resolveLink(base: string, path?: string): string | undefined {
+  if (path === undefined) {
+    return path
+  }
+
+  // keep relative hash to the same page
+  if (path.startsWith('#')) {
+    return path
+  }
+
+  return joinUrl(base, path)
 }
 
 function createChildren(
   active: boolean,
-  children?: ResolvedSidebarItem[],
+  children?: DefaultTheme.SideBarItem[],
   headers?: Header[]
 ): VNode | null {
   if (children && children.length > 0) {
     return h(
       'ul',
-      { class: 'sidebar-items' },
+      { class: 'sidebar-links' },
       children.map((c) => {
-        return h(SideBarItem, { item: c })
+        return h(SideBarLink, { item: c })
       })
     )
   }
@@ -65,7 +67,7 @@ function createChildren(
     : null
 }
 
-function resolveHeaders(headers: Header[]): ResolvedSidebarItem[] {
+function resolveHeaders(headers: Header[]): DefaultTheme.SideBarItem[] {
   return mapHeaders(groupHeaders(headers))
 }
 
@@ -82,7 +84,7 @@ function groupHeaders(headers: Header[]): HeaderWithChildren[] {
   return headers.filter((h) => h.level === 2)
 }
 
-function mapHeaders(headers: HeaderWithChildren[]): ResolvedSidebarItem[] {
+function mapHeaders(headers: HeaderWithChildren[]): DefaultTheme.SideBarItem[] {
   return headers.map((header) => ({
     text: header.title,
     link: `#${header.slug}`,

@@ -1,70 +1,69 @@
 <template>
-  <div class="nav-item">
+  <div class="navbar-link">
     <a
-      class="nav-link"
+      class="item"
       :class="classes"
       :href="href"
       :target="target"
       :rel="rel"
       :aria-label="item.ariaLabel"
     >
-      {{ item.text }}
-      <OutboundLink v-if="isExternalLink" />
+      {{ item.text }} <OutboundLink v-if="isExternalLink" />
     </a>
   </div>
 </template>
 
 <script src="./NavBarLink"></script>
 
-<style>
-.nav-item {
+<style scoped>
+.navbar-link {
   position: relative;
-  display: inline-block;
-  margin-left: 1.5rem;
-  line-height: 2rem;
+  padding: 0 1.5rem;
 }
 
-@media screen and (max-width: 719px) {
-  .nav-item {
-    display: block;
-    margin-left: 0;
-    padding: 0.3rem 1.5rem;
+@media (min-width: 720px) {
+  .navbar-link {
+    padding: 0;
+  }
+
+  .navbar-link + .navbar-link,
+  .dropdown-wrapper + .navbar-link {
+    padding-left: 1.5rem;
   }
 }
 
-.nav-link {
+.item {
   display: block;
   margin-bottom: -2px;
-  border-bottom: 2px solid transparent;
-  font-size: 0.9rem;
-  font-weight: 500;
-  line-height: 1.4rem;
+  line-height: 40px;
+  font-size: 1rem;
+  font-weight: 600;
   color: var(--c-text);
   white-space: nowrap;
 }
 
-.nav-link:hover,
-.nav-link.active {
-  border-bottom-color: var(--c-brand);
+.item:hover,
+.item.active {
   text-decoration: none;
+  color: var(--c-brand);
 }
 
-.nav-link.external:hover {
-  border-bottom-color: transparent;
-}
-
-@media screen and (max-width: 719px) {
-  .nav-link {
-    line-height: 1.7;
-    font-size: 1em;
-    font-weight: 600;
-    border-bottom: none;
-    margin-bottom: 0;
+@media (min-width: 720px) {
+  .item {
+    border-bottom: 2px solid transparent;
+    line-height: 1.5rem;
+    font-size: .9rem;
+    font-weight: 500;
   }
 
-  .nav-link:hover,
-  .nav-link.active {
-    color: var(--c-brand);
+  .item:hover,
+  .item.active {
+    color: var(--c-text);
+    border-bottom-color: var(--c-brand);
+  }
+
+  .item.external:hover {
+    border-bottom-color: transparent;
   }
 }
 </style>

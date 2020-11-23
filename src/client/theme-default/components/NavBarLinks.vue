@@ -1,5 +1,5 @@
 <template>
-  <nav class="nav-links" v-if="navData || repoInfo">
+  <nav v-if="navData || repoInfo" class="navbar-links">
     <template v-if="navData">
       <template v-for="item of navData">
         <NavDropdownLink v-if="item.items" :item="item" />
@@ -13,21 +13,17 @@
 
 <script src="./NavBarLinks"></script>
 
-<style>
-.nav-links {
-  display: flex;
-  align-items: center;
-  height: 35px;
-  list-style-type: none;
-  transform: translateY(1px);
+<style scoped>
+.navbar-links {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--c-divider);
 }
 
-@media screen and (max-width: 719px) {
-  .nav-links {
-    display: block;
-    height: auto;
-    padding: 0.5rem 0 1rem;
-    border-bottom: 1px solid var(--c-divider);
+@media (min-width: 720px) {
+  .navbar-links {
+    display: flex;
+    align-items: center;
+    border-bottom: 0;
   }
 }
 </style>

@@ -23,11 +23,17 @@
   --font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 
   /**
+   * Z Indexes
+   * --------------------------------------------------------------------- */
+
+  --z-index-navbar: 1100;
+  --z-index-sidebar: 1000;
+
+  /**
    * Sizes
    * --------------------------------------------------------------------- */
 
   --header-height: 3.6rem;
-  --sidebar-width: 16.4rem;
 }
 
 /** Fallback Styles */

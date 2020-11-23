@@ -42,7 +42,7 @@
 
 @media screen and (max-width: 719px) {
   .hide-mobile {
-    display: none;
+    display: none !important;
   }
 }
 </style>

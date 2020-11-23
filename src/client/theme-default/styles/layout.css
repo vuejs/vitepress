@@ -197,7 +197,7 @@ blockquote > p {
   height: var(--header-height);
   background-color: #fff;
   border-bottom: 1px solid var(--c-divider);
-  z-index: 4;
+  z-index: var(--z-index-navbar);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -208,18 +208,6 @@ blockquote > p {
   .theme .navbar {
     padding-left: 4rem;
   }
-}
-
-.theme aside {
-  position: fixed;
-  top: var(--header-height);
-  bottom: 0;
-  left: 0;
-  width: var(--sidebar-width);
-  border-right: 1px solid var(--c-divider);
-  background-color: #fff;
-  z-index: 3;
-  overflow-y: auto;
 }
 
 .theme.sidebar-open .sidebar-mask {
@@ -246,17 +234,6 @@ blockquote > p {
   }
 }
 
-@media screen and (max-width: 719px) {
-  .theme aside {
-    transition: transform 0.2s ease;
-    transform: translateX(-100%);
-  }
-
-  .theme aside.open {
-    transform: translateX(0);
-  }
-}
-
 .sidebar-mask {
   z-index: 2;
   position: fixed;
@@ -271,7 +248,7 @@ blockquote > p {
 
 @media screen and (min-width: 960px) {
   .theme main {
-    padding-left: var(--sidebar-width);
+    padding-left: 20rem;
   }
 }
 
@@ -286,7 +263,7 @@ blockquote > p {
 
 @media screen and (max-width: 959px) {
   .theme main {
-    margin-left: var(--sidebar-width);
+    margin-left: 16.4rem;
   }
 }
 

@@ -30,7 +30,7 @@ export default defineComponent({
 .page {
   margin: 0 auto;
   padding: 0 1.5rem 4rem;
-  max-width: 50rem;
+  max-width: 48rem;
 }
 
 .content {
