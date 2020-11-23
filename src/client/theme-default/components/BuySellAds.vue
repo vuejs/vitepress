@@ -15,12 +15,12 @@ export default {
   props: {
     code: {
       type: String,
-      required: true,
+      required: true
     },
     placement: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
 
   setup(props) {
@@ -29,7 +29,7 @@ export default {
         _bsa.init('default', props.code, `placement:${props.placement}`, {
           target: '.bsa-cpc',
           align: 'horizontal',
-          disable_css: 'true',
+          disable_css: 'true'
         })
       }
     }
@@ -47,7 +47,7 @@ export default {
         load()
       }
     })
-  },
+  }
 }
 </script>
 

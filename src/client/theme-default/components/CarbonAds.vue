@@ -10,12 +10,12 @@ export default {
   props: {
     code: {
       type: String,
-      required: true,
+      required: true
     },
     placement: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
 
   setup(props) {
@@ -29,7 +29,7 @@ export default {
     })
 
     return { el }
-  },
+  }
 }
 </script>
 
