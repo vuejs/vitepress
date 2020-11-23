@@ -1,6 +1,6 @@
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
-  font-size: 0.85em;
+  font-size: var(--code-font-size);
   color: var(--c-text-light);
   background-color: rgba(27, 31, 35, 0.05);
   padding: 0.25rem 0.5rem;
@@ -59,9 +59,9 @@ div[class*='language-'] {
 /* Line highlighting */
 
 .highlight-lines {
-  font-size: 0.9em;
+  font-size: var(--code-font-size);
   user-select: none;
-  padding-top: 1.3rem;
+  padding-top: var(--code-padding-vertical);
   position: absolute;
   top: 0;
   left: 0;
@@ -87,8 +87,8 @@ div[class*='language-'].line-numbers-mode {
   text-align: center;
   color: #888;
   line-height: 1.5;
-  font-size: 0.9em;
-  padding: 1.3rem 0;
+  font-size: var(--code-font-size);
+  padding: var(--code-padding-vertical) 0;
   border-right: 1px solid rgba(0,0,0,50%);
   z-index: 4;
 }

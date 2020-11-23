@@ -34,6 +34,8 @@
    * --------------------------------------------------------------------- */
 
   --header-height: 3.6rem;
+  --code-font-size: 0.85em;
+  --code-padding-vertical: 1.5rem;
 }
 
 /** Fallback Styles */
