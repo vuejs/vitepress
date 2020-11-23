@@ -107,6 +107,18 @@ ul {
   line-height: 1.7;
 }
 
+a,
+area,
+button,
+[role="button"],
+input,
+label,
+select,
+summary,
+textarea {
+  touch-action: manipulation;
+}
+
 a {
   text-decoration: none;
   color: var(--c-brand);
