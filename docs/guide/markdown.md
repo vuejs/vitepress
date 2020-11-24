@@ -4,25 +4,23 @@
 
 Headers automatically get anchor links applied. Rendering of anchors can be configured using the `markdown.anchor` option.
 
-<!-- TODO: link to option description (../config/README.md#markdown-anchor) -->
-
 ## Links
 
 ### Internal Links
 
-Internal links are converted to router link for SPA navigation. Also, every `README.md` or `index.md` contained in each sub-directory will automatically be converted to `index.html`, with corresponding URL `/`.
+Internal links are converted to router link for SPA navigation. Also, every `index.md` contained in each sub-directory will automatically be converted to `index.html`, with corresponding URL `/`.
 
 For example, given the following directory structure:
 
 ```
 .
-├─ README.md
+├─ index.md
 ├─ foo
-│  ├─ README.md
+│  ├─ index.md
 │  ├─ one.md
 │  └─ two.md
 └─ bar
-   ├─ README.md
+   ├─ index.md
    ├─ three.md
    └─ four.md
 ```
@@ -30,28 +28,17 @@ For example, given the following directory structure:
 And providing you are in `foo/one.md`:
 
 ```md
-[Home](/) <!-- Sends the user to the root README.md -->
-[foo](/foo/) <!-- Sends the user to index.html of directory foo -->
-[foo heading](./#heading) <!-- Anchors user to a heading in the foo README file -->
-[bar - three](../bar/three.md) <!-- You can append .md (recommended) -->
-[bar - four](../bar/four.html) <!-- Or you can append .html -->
+[Home](/) <!-- sends the user to the root README.md -->
+[foo](/foo/) <!-- sends the user to index.html of directory foo -->
+[foo heading](./#heading) <!-- anchors user to a heading in the foo README file -->
+[bar - three](../bar/three) <!-- you can omit extention -->
+[bar - three](../bar/three.md) <!-- you can append .md -->
+[bar - four](../bar/four.html) <!-- or you can append .html -->
 ```
-
-### Redirection for URLs
-
-VitePress supports redirecting to clean links. If a link `/foo` is not found, VitePress will look for a existing `/foo/` or `/foo.html`. Conversely, when one of `/foo/` or `/foo.html` is not found, VitePress will try the other. With this feature, we can customize your website’s URLs with the official plugin [vuepress-plugin-clean-urls](https://vuepress.github.io/plugins/clean-urls/).
-
-::: tip
-Regardless of whether the permalink and clean-urls plugins are used, your relative path should be defined by the current file structure. In the above example, even though you set the path of `/foo/one.md` to `/foo/one/`, you should still access `/foo/two.md` via `./two.md`.
-:::
 
 ### Page Suffix
 
 Pages and internal links get generated with the `.html` suffix by default.
-
-<!-- TODO: support pageSuffix
-You can customize this by setting [config.markdown.pageSuffix](../config/README.md#markdown-pagesuffix).
--->
 
 ### External Links
 
@@ -59,8 +46,6 @@ Outbound links automatically get `target="_blank" rel="noopener noreferrer"`:
 
 - [vuejs.org](https://vuejs.org)
 - [VitePress on GitHub](https://github.com/vuejs/vitepress)
-
-You can customize the attributes added to external links by setting [config.markdown.externalLinks](../config/README.md#markdown-externallinks).
 
 ## Frontmatter
 
@@ -71,14 +56,9 @@ You can customize the attributes added to external links by setting [config.mark
 title: Blogging Like a Hacker
 lang: en-US
 ---
-
 ```
 
 This data will be available to the rest of the page, along with all custom and theming components.
-
-<!-- TODO: port frontmatter
-For more details, see [Frontmatter](./frontmatter.md).
--->
 
 ## GitHub-Style Tables
 
@@ -124,13 +104,7 @@ A [list of all emojis](https://github.com/markdown-it/markdown-it-emoji/blob/mas
 
 **Output**
 
-<!--lint disable no-shortcut-reference-link no-undefined-references-->
-
 [[toc]]
-
-<!--lint enable no-shortcut-reference-link no-undefined-references-->
-
-<!-- TODO: link to config docs, was (../config/README.md#markdown-toc) -->
 
 Rendering of the TOC can be configured using the `markdown.toc` option.
 
@@ -154,10 +128,6 @@ This is a warning
 ::: danger
 This is a dangerous warning
 :::
-
-::: details
-This is a details block, which does not work in IE / Edge
-:::
 ```
 
 **Output**
@@ -174,13 +144,6 @@ This is a warning
 This is a dangerous warning
 :::
 
-<!-- TODO: details block not working
-
-::: details
-This is a details block, which does not work in Internet Explorer or Edge.
-:::
--->
-
 ### Custom Title
 
 **Input**
@@ -191,30 +154,11 @@ Danger zone, do not proceed
 :::
 ```
 
-<!-- TODO: details block not working
-::: details Click me to view the code
-
-```js
-console.log('Hello, VitePress!')
-```
-:::
--->
-
 **Output**
 
 ::: danger STOP
 Danger zone, do not proceed
 :::
-
-<!-- TODO: details block not working
-::: details Click me to view the code
-
-```js
-console.log('Hello, VitePress!')
-```
-
-:::
--->
 
 ## Syntax Highlighting in Code Blocks
 
@@ -223,7 +167,7 @@ VitePress uses [Prism](https://prismjs.com/) to highlight language syntax in Mar
 **Input**
 
 ````
-``` js
+```js
 export default {
   name: 'MyComponent',
   // ...
@@ -243,12 +187,9 @@ export default {
 **Input**
 
 ````
-``` html
+```html
 <ul>
-  <li
-    v-for="todo in todos"
-    :key="todo.id"
-  >
+  <li v-for="todo in todos" :key="todo.id">
     {{ todo.text }}
   </li>
 </ul>
@@ -259,10 +200,7 @@ export default {
 
 ```html
 <ul>
-  <li
-    v-for="todo in todos"
-    :key="todo.id"
-  >
+  <li v-for="todo in todos" :key="todo.id">
     {{ todo.text }}
   </li>
 </ul>
@@ -275,7 +213,7 @@ A [list of valid languages](https://prismjs.com/#languages-list) is available on
 **Input**
 
 ````
-``` js{4}
+```js{4}
 export default {
   data () {
     return {
@@ -307,7 +245,7 @@ In addition to a single line, you can also specify multiple single lines, ranges
 **Input**
 
 ````
-``` js{1,4,6-7}
+```js{1,4,6-7}
 export default { // Highlighted
   data () {
     return {
@@ -350,95 +288,39 @@ module.exports = {
 }
 ```
 
-<!-- TODO Support line numbers for specific fence block -->
-
 - Demo:
 
 <picture>
-  <source srcset="../images/line-numbers-desktop.png" media="(min-width: 719px)">
-  <img src="../images/line-numbers-desktop.png" class="line-numbers-desktop-snap" alt="Image">
+  <source srcset="../images/line-numbers-mobile.gif" media="(max-width: 719px)">
+  <img class="line-numbers-mobile-snap" src="../images/line-numbers-mobile.gif" alt="Image">
 </picture>
 
 <picture>
-  <source srcset="../images/line-numbers-mobile.gif" media="(max-width: 719px)">
-  <img src="../images/line-numbers-mobile.gif" class="line-numbers-mobile-snap" alt="Image">
+  <source srcset="../images/line-numbers-desktop.png" media="(min-width: 720px)">
+  <img class="line-numbers-desktop-snap" src="../images/line-numbers-desktop.png" alt="Image">
 </picture>
 
 <style>
-  @media screen and (min-width:  719px) {
-    .line-numbers-mobile-snap {
-       display: none;
-    }
+  .line-numbers-mobile-snap {
+    margin: 0 -1.5rem;
+    width: 100vw;
+    max-width: none !important;
   }
-  @media screen and (max-width:  719px) {
-    .line-numbers-desktop-snap {
+
+  .line-numbers-desktop-snap {
+    display: none;
+  }
+
+  @media (min-width:  720px) {
+    .line-numbers-mobile-snap {
        display: none;
     }
-    .line-numbers-mobile-snap {
-      max-width: none!important;
-      margin: 0 -1.5rem;
-      width: 100vw;
+
+    .line-numbers-desktop-snap {
+      display: block;
     }
   }
 </style>
-
-## Import Code Snippets
-
-You can import code snippets from existing files via following syntax:
-
-```md
-<<< @/filepath
-```
-
-It also supports [line highlighting](#line-highlighting-in-code-blocks):
-
-```md
-<<< @/filepath{highlightLines}
-```
-
-**Input**
-
-```md
-<<< @/../@vitepress/markdown/**tests**/fragments/snippet.js{2}
-```
-
-**Output**
-
-<!--lint disable strong-marker-->
-
-<!-- TODO: snippets
-<<< @/../@vitepress/markdown/**tests**/fragments/snippet.js{2}
--->
-
-<!--lint enable strong-marker-->
-
-::: tip
-Since the import of the code snippets will be executed before webpack compilation, you can’t use the path alias in webpack. The default value of `@` is `process.cwd()`.
-:::
-
-You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/codebasics#_folding) to only include the corresponding part of the code file. You can provide a custom region name after a `#` following the filepath (`snippet` by default):
-
-**Input**
-
-```md
-<<< @/../@vitepress/markdown/**tests**/fragments/snippet-with-region.js#snippet{1}
-```
-
-**Code file**
-
-<!--lint disable strong-marker-->
-<!-- TODO: snippets
-<<< @/../@vitepress/markdown/**tests**/fragments/snippet-with-region.js
--->
-<!--lint enable strong-marker-->
-
-**Output**
-
-<!--lint disable strong-marker-->
-<!-- TODO: snippets
-<<< @/../@vitepress/markdown/**tests**/fragments/snippet-with-region.js#snippet{1}
--->
-<!--lint enable strong-marker-->
 
 ## Advanced Configuration
 
@@ -449,8 +331,10 @@ module.exports = {
   markdown: {
     // options for markdown-it-anchor
     anchor: { permalink: false },
+
     // options for markdown-it-toc
     toc: { includeLevel: [1, 2] },
+
     config: (md) => {
       // use more markdown-it plugins!
       md.use(require('markdown-it-xxx'))
