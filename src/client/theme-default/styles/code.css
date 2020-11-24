@@ -22,9 +22,19 @@ div[class*='language-'] {
   background-color: var(--code-bg-color);
 }
 
+li > div[class*='language-'] {
+  border-radius: 6px 0 0 6px;
+  margin: 1rem -1.5rem 1rem -1.25rem;
+}
+
 @media (min-width: 420px) {
   div[class*='language-'] {
     margin: 1rem 0;
+    border-radius: 6px;
+  }
+
+  li > div[class*='language-'] {
+    margin: 1rem 0 1rem 0rem;
     border-radius: 6px;
   }
 }
