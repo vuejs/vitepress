@@ -4,13 +4,13 @@ The following guides are based on some shared assumptions:
 
 - You are placing your docs inside the `docs` directory of your project;
 - You are using the default build output location (`.vitepress/dist`);
-- VuePress is installed as a local dependency in your project, and you have setup the following npm scripts:
+- VitePress is installed as a local dependency in your project, and you have setup the following npm scripts:
 
 ```json
 {
   "scripts": {
-    "docs:build": "vuepress build docs",
-    "docs:serve": "vuepress serve docs"
+    "docs:build": "vitepress build docs",
+    "docs:serve": "vitepress serve docs"
   }
 }
 ```
@@ -41,7 +41,7 @@ You may configure the port of the server py passing `--port` flag as an argument
 ```json
 {
   "scripts": {
-    "docs:serve": "vuepress serve docs --port 8080"
+    "docs:serve": "vitepress serve docs --port 8080"
   }
 }
 ```
