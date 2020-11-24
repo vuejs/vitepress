@@ -96,14 +96,16 @@ function isAnchorActive(
   nextAnchor: HTMLAnchorElement
 ): [boolean, string | null] {
   const scrollTop = window.scrollY
-  const anchorTop = getAnchorTop(anchor)
-  const nextAnchorTop = getAnchorTop(nextAnchor)
 
   if (index === 0 && scrollTop === 0) {
     return [true, null]
   }
 
-  if (scrollTop >= anchorTop && (!nextAnchor || scrollTop < nextAnchorTop)) {
+  if (scrollTop < getAnchorTop(anchor)) {
+    return [false, null]
+  }
+
+  if (!nextAnchor || scrollTop < getAnchorTop(nextAnchor)) {
     return [true, decodeURIComponent(anchor.hash)]
   }
 
