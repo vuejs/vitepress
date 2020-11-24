@@ -60,6 +60,8 @@ lang: en-US
 
 This data will be available to the rest of the page, along with all custom and theming components.
 
+For more details, see [Frontmatter](./frontmatter.md).
+
 ## GitHub-Style Tables
 
 **Input**
