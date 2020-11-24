@@ -1,4 +1,4 @@
-/** Base styles */
+/** Base Styles */
 :root {
 
   /**
@@ -34,8 +34,6 @@
    * --------------------------------------------------------------------- */
 
   --header-height: 3.6rem;
-  --code-font-size: 0.85em;
-  --code-padding-vertical: 1.5rem;
 }
 
 /** Fallback Styles */
@@ -48,6 +46,8 @@
 
   --c-bg: var(--c-white);
 
+  --code-padding-vertical: 1.5rem;
+  --code-font-size: .85em;
   --code-bg-color: #282c34;
 
 }
