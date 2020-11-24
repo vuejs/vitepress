@@ -9,8 +9,8 @@ The following guides are based on some shared assumptions:
 ```json
 {
   "scripts": {
-    "docs:build": "vuepress build docs",
-    "docs:serve": "vuepress serve docs"
+    "docs:build": "vitepress build docs",
+    "docs:serve": "vitepress serve docs"
   }
 }
 ```
@@ -41,7 +41,7 @@ You may configure the port of the server py passing `--port` flag as an argument
 ```json
 {
   "scripts": {
-    "docs:serve": "vuepress serve docs --port 8080"
+    "docs:serve": "vitepress serve docs --port 8080"
   }
 }
 ```
