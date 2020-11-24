@@ -1,6 +1,6 @@
 # Getting Started
 
-This section will help you build a basic VuePress documentation site from ground up. If you already have an existing project and would like to keep documentation inside the project, start from Step 3.
+This section will help you build a basic VitePress documentation site from ground up. If you already have an existing project and would like to keep documentation inside the project, start from Step 3.
 
 - **Step. 1:** Create and change into a new directory.
 
@@ -14,7 +14,7 @@ This section will help you build a basic VuePress documentation site from ground
   $ yarn init
   ```
 
-- **Step. 3:** Install VuePress locally.
+- **Step. 3:** Install VitePress locally.
 
   ```bash
   $ yarn add --dev vitepress
@@ -46,6 +46,6 @@ This section will help you build a basic VuePress documentation site from ground
 
   VitePress will start a hot-reloading development server at http://localhost:3000.
 
-By now, you should have a basic but functional VuePress documentation site.
+By now, you should have a basic but functional VitePress documentation site.
 
 When your documentation site starts to take shape, be sure to read the [deployment guide](./deploy).
