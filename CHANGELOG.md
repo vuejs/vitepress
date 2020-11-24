@@ -1,3 +1,17 @@
+# [0.9.0](https://github.com/vuejs/vitepress/compare/v0.8.1...v0.9.0) (2020-11-24)
+
+### Bug Fixes
+
+* avoid 300ms click delay on touch devices ([621ca3e](https://github.com/vuejs/vitepress/commit/621ca3e26f65e13e504724aef76aba3f3361ce81))
+* fix nested list having too much margin ([b0cf2be](https://github.com/vuejs/vitepress/commit/b0cf2be5614505731a3b6dcebeab949c3639c2b2))
+* fix sidebar active status not working as expected ([#140](https://github.com/vuejs/vitepress/issues/140)) ([#149](https://github.com/vuejs/vitepress/issues/149)) ([0b181e7](https://github.com/vuejs/vitepress/commit/0b181e7582ea4be7dca51ec399c697e32b7116f3))
+* make code block look prettier ([#146](https://github.com/vuejs/vitepress/issues/146)) ([242fcc1](https://github.com/vuejs/vitepress/commit/242fcc1098f606f13e7d8e123c081e73a3d89366))
+* some color in code block not working as expected ([#143](https://github.com/vuejs/vitepress/issues/143)) ([da09266](https://github.com/vuejs/vitepress/commit/da09266f5eede3796bb150ccd9d6a173e90354a4))
+
+### Features
+
+* add "last updated" feature ([40d204b](https://github.com/vuejs/vitepress/commit/40d204b2f68b90bd2c5e9940cd128c4c16cd5274))
+
 ## [0.8.1](https://github.com/vuejs/vitepress/compare/v0.8.0...v0.8.1) (2020-11-20)
 
 ### Bug Fixes
