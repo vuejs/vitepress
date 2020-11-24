@@ -28,7 +28,7 @@ This section will help you build a basic VuePress documentation site from ground
 
 - **Step. 5:** Add some scripts to `package.json`.
 
-  ```json{3,5,7}
+  ```json
   {
     "scripts": {
       "docs:dev": "vitepress dev docs",
