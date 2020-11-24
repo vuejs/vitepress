@@ -152,6 +152,11 @@ ol {
   padding-left: 1.25em;
 }
 
+li > ul,
+li > ol {
+  margin: 0;
+}
+
 table {
   display: block;
   border-collapse: collapse;
