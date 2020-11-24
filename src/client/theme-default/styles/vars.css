@@ -21,6 +21,7 @@
    * --------------------------------------------------------------------- */
 
   --font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  --font-family-mono: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 
   /**
    * Z Indexes
@@ -46,7 +47,10 @@
 
   --c-bg: var(--c-white);
 
-  --code-padding-vertical: 1.5rem;
+  --code-line-height: 24px;
+  --code-font-family: var(--font-family-mono);
+  --code-font-size: 14px;
+  --code-inline-bg-color: rgba(27, 31, 35, .05);
   --code-bg-color: #282c34;
 
 }
