@@ -259,7 +259,12 @@ export default {
 
 ```html
 <ul>
-  <li v-for="todo in todos" :key="todo.id">{{ todo.text }}</li>
+  <li
+    v-for="todo in todos"
+    :key="todo.id"
+  >
+    {{ todo.text }}
+  </li>
 </ul>
 ```
 
@@ -285,7 +290,7 @@ export default {
 
 ```js{4}
 export default {
-  data() {
+  data () {
     return {
       msg: 'Highlighted!'
     }
@@ -320,15 +325,14 @@ export default { // Highlighted
 **Output**
 
 ```js{1,4,6-8}
-export default {
-  // Highlighted
-  data() {
+export default { // Highlighted
+  data () {
     return {
       msg: `Highlighted!
       This line isn't highlighted,
       but this and the next 2 are.`,
       motd: 'VitePress is awesome',
-      lorem: 'ipsum'
+      lorem: 'ipsum',
     }
   }
 }
