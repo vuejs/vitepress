@@ -28,14 +28,9 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.edit-link {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  overflow: auto;
-}
-
 .link {
   display: inline-block;
+  font-size: 1rem;
   font-weight: 500;
   color: var(--c-text-light);
 }

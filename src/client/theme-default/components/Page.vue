@@ -6,7 +6,8 @@
       <Content />
     </div>
 
-    <EditLink />
+    <PageFooter />
+
     <NextAndPrevLinks />
 
     <slot name="bottom" />
@@ -15,12 +16,12 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import EditLink from './EditLink.vue'
+import PageFooter from './PageFooter.vue'
 import NextAndPrevLinks from './NextAndPrevLinks.vue'
 
 export default defineComponent({
   components: {
-    EditLink,
+    PageFooter,
     NextAndPrevLinks
   }
 })
