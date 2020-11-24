@@ -1,4 +1,4 @@
-/** Base styles */
+/** Base Styles */
 :root {
 
   /**
@@ -46,6 +46,8 @@
 
   --c-bg: var(--c-white);
 
+  --code-padding-vertical: 1.5rem;
+  --code-font-size: .85em;
   --code-bg-color: #282c34;
 
 }
