@@ -70,7 +70,7 @@ div[class*='language-'] {
 }
 
 .highlight-lines .highlighted {
-  background-color: rgba(0, 0, 0, 66%);
+  background-color: rgba(0, 0, 0, 0.66);
 }
 
 /* Line numbers mode */
@@ -89,7 +89,7 @@ div[class*='language-'].line-numbers-mode {
   line-height: 1.5;
   font-size: var(--code-font-size);
   padding: var(--code-padding-vertical) 0;
-  border-right: 1px solid rgba(0,0,0,50%);
+  border-right: 1px solid rgba(0,0,0,0.5);
   z-index: 4;
 }
 
