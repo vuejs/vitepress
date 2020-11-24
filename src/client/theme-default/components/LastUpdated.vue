@@ -6,13 +6,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, ref, computed, onMounted } from 'vue'
 import { useSiteDataByRoute, usePageData } from 'vitepress'
 
 export default defineComponent({
   setup() {
     const site = useSiteDataByRoute()
     const page = usePageData()
+
+    const datetime = ref('')
 
     const hasLastUpdated = computed(() => {
       const lu = site.value.themeConfig.lastUpdated
@@ -26,8 +28,8 @@ export default defineComponent({
       return p === true ? 'Last Updated' : p
     })
 
-    const datetime = computed(() => {
-      return new Date(page.value.lastUpdated).toLocaleString('en-US')
+    onMounted(() => {
+      datetime.value = new Date(page.value.lastUpdated).toLocaleString('en-US')
     })
 
     return {
