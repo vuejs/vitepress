@@ -37,6 +37,7 @@ function getGuideSidebar() {
         { text: 'Getting Started', link: '/guide/getting-started' },
         { text: 'Configuration', link: '/guide/configuration' },
         { text: 'Markdown Extensions', link: '/guide/markdown' },
+        { text: 'Frontmatter', link: '/guide/frontmatter' },
         { text: 'Customization', link: '/guide/customization' },
         { text: 'Deploying', link: '/guide/deploy' }
       ]
