@@ -34,7 +34,7 @@
     <main v-else>
       <Page>
         <template #top>
-          <slot name="page-top">
+          <slot name="page-top-ads">
             <CarbonAds
               v-if="$site.themeConfig.carbonAds"
               :key="'carbon' + $page.path"
@@ -42,9 +42,11 @@
               :placement="$site.themeConfig.carbonAds.placement"
             />
           </slot>
+          <slot name="page-top" />
         </template>
         <template #bottom>
-          <slot name="page-bottom">
+          <slot name="page-bottom" />
+          <slot name="page-bottom-ads">
             <BuySellAds
               v-if="$site.themeConfig.carbonAds"
               :key="'custom' + $page.path"
