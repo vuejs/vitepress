@@ -14,7 +14,7 @@ This is the `$site` value of the site you’re currently reading:
   "locales": {},
   "base": "/",
   "head": [],
-  "themeConfig: $theme
+  "themeConfig: $themeConfig
 }
 ```
 
@@ -55,7 +55,7 @@ Reference of [\$page](#page).frontmatter.
 }
 ```
 
-## \$theme
+## \$themeConfig
 
 Refers to `$site.themeConfig`.
 

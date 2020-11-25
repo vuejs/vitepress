@@ -92,7 +92,7 @@ export function createApp() {
         return router.route.data.frontmatter
       }
     },
-    $theme: {
+    $themeConfig: {
       get() {
         return siteDataByRouteRef.value.themeConfig
       }

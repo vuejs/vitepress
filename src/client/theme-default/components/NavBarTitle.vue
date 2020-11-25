@@ -5,9 +5,9 @@
     :aria-label="`${$site.title}, back to home`"
   >
     <img
-      v-if="$theme.logo"
+      v-if="$themeConfig.logo"
       class="logo"
-      :src="withBase($theme.logo)"
+      :src="withBase($themeConfig.logo)"
       alt="Logo"
     />
     {{ $site.title }}
@@ -37,7 +37,7 @@ export default defineComponent({
 }
 
 .logo {
-  margin-right: .75rem;
+  margin-right: 0.75rem;
   height: 1.3rem;
   vertical-align: bottom;
 }

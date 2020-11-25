@@ -19,7 +19,7 @@ title: Docs with VitePress
 editLink: true
 ---
 
-# {{ $page.frontmatter.title }}
+# {{ $frontmatter.title }}
 
 Guide content
 ```
