@@ -15,7 +15,9 @@
     </p>
 
     <p v-if="data.actionText && data.actionLink" class="action">
-      <NavBarLink :item="actionLink" />
+      <a class="action-link" :href="actionLink.link">
+        {{ actionLink.text }}
+      </a>
     </p>
     <slot name="hero" />
   </header>
@@ -36,13 +38,11 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import NavBarLink from './NavBarLink.vue'
-import { withBase } from '../utils'
 import { useRoute, useSiteData } from 'vitepress'
+import { withBase } from '../utils'
 
 const route = useRoute()
 const siteData = useSiteData()
-
 const data = computed(() => route.data.frontmatter)
 const actionLink = computed(() => ({
   link: data.value.actionLink,
@@ -79,31 +79,38 @@ const siteDescription = computed(() => siteData.value.description)
   max-width: 35rem;
   font-size: 1.6rem;
   line-height: 1.3;
-  /* TODO: calculating lighten 40% color with using style :vars from `--text-color` */
+  /* TODO: calculating lighten 40% color with using style :vars from `--c-text` */
   color: #6a8bad;
 }
 
-::v-deep(.nav-link) {
+.action-link {
   display: inline-block;
-  font-size: 1.2rem;
-  color: #fff;
-  background-color: var(--accent-color);
-  margin-left: 0;
-  padding: 0.8rem 1.6rem;
   border-radius: 4px;
-  transition: background-color 0.1s ease;
-  box-sizing: border-box;
-  /* TODO: calculating darken 10% color with using style vars from `--accent-color` */
-  border-bottom: 1px solid #389d70;
+  padding: 0 20px;
+  line-height: 48px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #ffffff;
+  background-color: var(--c-brand);
+  transition: background-color .1s ease;
 }
 
-::v-deep(.nav-link:hover) {
-  /* TODO: calculating lighten 10% color with using style vars from `--accent-color` */
-  background-color: #4abf8a;
+.action-link:hover {
+  text-decoration: none;
+  background-color: var(--c-brand-light);
+}
+
+@media (min-width: 420px) {
+  .action-link {
+    padding: 0 24px;
+    line-height: 56px;
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
 }
 
 .features {
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid var(--c-divider);
   padding: 1.2rem 0;
   margin-top: 2.5rem;
   display: flex;
@@ -124,20 +131,20 @@ const siteDescription = computed(() => siteData.value.description)
   font-weight: 500;
   border-bottom: none;
   padding-bottom: 0;
-  /* TODO: calculating lighten 10% color with using style :vars from `--text-color` */
+  /* TODO: calculating lighten 10% color with using style :vars from `--c-text` */
   color: #3a5169;
 }
 
 .feature p {
-  /* TODO: calculating lighten 25% color with using style :vars from `--text-color` */
+  /* TODO: calculating lighten 25% color with using style :vars from `--c-text` */
   color: #4e6e8e;
 }
 
 .footer {
   padding: 2.5rem;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid var(--c-divider);
   text-align: center;
-  /* TODO: calculating lighten 25% color with using style :vars from `--text-color` */
+  /* TODO: calculating lighten 25% color with using style :vars from `--c-text` */
   color: #4e6e8e;
 }
 
@@ -163,18 +170,12 @@ const siteDescription = computed(() => siteData.value.description)
   }
 
   .hero h1,
-  .hero .description,
-  .hero .action {
+  .hero .description {
     margin: 1.2rem auto;
   }
 
   .hero .description {
     font-size: 1.2rem;
-  }
-
-  .hero .action-button {
-    font-size: 1rem;
-    padding: 0.6rem 1.2rem;
   }
 
   .feature h2 {

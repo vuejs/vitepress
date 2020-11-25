@@ -9,6 +9,10 @@ export function isNullish(value: any): value is null | undefined {
   return value === null || value === undefined
 }
 
+export function isArray(value: any): value is any[] {
+  return Array.isArray(value)
+}
+
 export function withBase(path: string) {
   return (useSiteData().value.base + path).replace(/\/+/g, '/')
 }
@@ -62,6 +66,22 @@ export function getPathDirName(path: string): string {
   return ensureEndingSlash(segments.join('/'))
 }
 
+export function ensureSlash(path: string): string {
+  return ensureEndingSlash(ensureStartingSlash(path))
+}
+
+export function ensureStartingSlash(path: string): string {
+  return /^\//.test(path) ? path : `/${path}`
+}
+
 export function ensureEndingSlash(path: string): string {
   return /(\.html|\/)$/.test(path) ? path : `${path}/`
+}
+
+/**
+ * Remove `.md` or `.html` extention from the given path. It also converts
+ * `index` to slush.
+ */
+export function removeExtention(path: string): string {
+  return path.replace(/(index)?(\.(md|html))?$/, '') || '/'
 }

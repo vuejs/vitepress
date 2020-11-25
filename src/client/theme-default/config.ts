@@ -51,7 +51,13 @@ export namespace DefaultTheme {
      */
     editLinkText?: string
 
+    /**
+     * Show last updated time at the bottom of the page. Defaults to `false`.
+     * If given a string, it will be displayed as a prefix (default value:
+     * "Last Updated").
+     */
     lastUpdated?: string | boolean
+
     prevLink?: boolean
     nextLink?: boolean
   }

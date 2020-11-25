@@ -67,5 +67,5 @@ export async function build(buildOptions: BuildOptions = {}) {
   } finally {
     await fs.remove(siteConfig.tempDir)
   }
-  console.log(`✨ done in ${((Date.now() - start) / 1000).toFixed(2)}s.`)
+  console.log(`build complete in ${((Date.now() - start) / 1000).toFixed(2)}s.`)
 }

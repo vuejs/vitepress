@@ -6,7 +6,8 @@
       <Content />
     </div>
 
-    <EditLink />
+    <PageFooter />
+
     <NextAndPrevLinks />
 
     <slot name="bottom" />
@@ -14,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import EditLink from './EditLink.vue'
+import PageFooter from './PageFooter.vue'
 import NextAndPrevLinks from './NextAndPrevLinks.vue'
 </script>
 
@@ -22,7 +23,7 @@ import NextAndPrevLinks from './NextAndPrevLinks.vue'
 .page {
   margin: 0 auto;
   padding: 0 1.5rem 4rem;
-  max-width: 50rem;
+  max-width: 48rem;
 }
 
 .content {

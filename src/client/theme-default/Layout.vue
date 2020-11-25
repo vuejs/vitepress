@@ -8,16 +8,14 @@
       </NavBar>
       <ToggleSideBarButton @toggle="toggleSidebar" />
     </header>
-    <aside :class="{ open: openSideBar }">
-      <SideBar>
-        <template #top>
-          <slot name="sidebar-top" />
-        </template>
-        <template #bottom>
-          <slot name="sidebar-bottom" />
-        </template>
-      </SideBar>
-    </aside>
+    <SideBar :open="openSideBar">
+      <template #sidebar-top>
+        <slot name="sidebar-top" />
+      </template>
+      <template #sidebar-bottom>
+        <slot name="sidebar-bottom" />
+      </template>
+    </SideBar>
     <!-- TODO: make this button accessible -->
     <div class="sidebar-mask" @click="toggleSidebar(false)" />
     <main class="home" aria-labelledby="main-title" v-if="enableHome">

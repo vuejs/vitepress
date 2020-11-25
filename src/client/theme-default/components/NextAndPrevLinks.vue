@@ -1,33 +1,40 @@
 <template>
   <div v-if="hasLinks" class="next-and-prev-link">
-    <div class="prev">
-      <a v-if="prev" class="link" :href="prev.link">
-        <ArrowLeft class="icon icon-prev" />
-        <span class="text">{{ prev.text }}</span>
-      </a>
-    </div>
-    <div class="next">
-      <a v-if="next" class="link" :href="next.link">
-        <span class="text">{{ next.text }}</span>
-        <ArrowRight class="icon icon-next" />
-      </a>
+    <div class="container">
+      <div class="prev">
+        <a v-if="prev" class="link" :href="withBase(prev.link)">
+          <ArrowLeft class="icon icon-prev" />
+          <span class="text">{{ prev.text }}</span>
+        </a>
+      </div>
+      <div class="next">
+        <a v-if="next" class="link" :href="withBase(next.link)">
+          <span class="text">{{ next.text }}</span>
+          <ArrowRight class="icon icon-next" />
+        </a>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useNextAndPrevLinks } from '../composables/nextAndPrevLinks'
+import { withBase } from '../utils'
 import ArrowLeft from './icons/ArrowLeft.vue'
 import ArrowRight from './icons/ArrowRight.vue'
-import { useNextAndPrevLinks } from '../composables/nextAndPrevLinks'
 
 const { hasLinks, prev, next } = useNextAndPrevLinks()
 </script>
 
 <style scoped>
 .next-and-prev-link {
+  padding-top: 1rem;
+}
+
+.container {
   display: flex;
   justify-content: space-between;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid var(--c-divider);
   padding-top: 1rem;
 }
 
@@ -66,11 +73,16 @@ const { hasLinks, prev, next } = useNextAndPrevLinks()
 .icon {
   display: block;
   flex-shrink: 0;
-  width: 1rem;
-  height: 1rem;
-  fill: var(--text-color);
+  width: 16px;
+  height: 16px;
+  fill: var(--c-text);
+  transform: translateY(1px);
 }
 
-.icon-prev { margin-right: 8px; }
-.icon-next { margin-left: 8px; }
+.icon-prev {
+  margin-right: 8px;
+}
+.icon-next {
+  margin-left: 8px;
+}
 </style>

@@ -11,7 +11,7 @@ Without any configuration, the page is pretty minimal, and the user has no way t
 └─ package.json
 ````
 
-The essential file for configuring a VitePress site is `.vuepress/config.js`, which should export a JavaScript object:
+The essential file for configuring a VitePress site is `.vitepress/config.js`, which should export a JavaScript object:
 
 ```js
 module.exports = {

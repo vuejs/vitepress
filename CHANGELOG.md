@@ -1,3 +1,40 @@
+# [0.9.0](https://github.com/vuejs/vitepress/compare/v0.8.1...v0.9.0) (2020-11-24)
+
+### Bug Fixes
+
+* avoid 300ms click delay on touch devices ([621ca3e](https://github.com/vuejs/vitepress/commit/621ca3e26f65e13e504724aef76aba3f3361ce81))
+* fix nested list having too much margin ([b0cf2be](https://github.com/vuejs/vitepress/commit/b0cf2be5614505731a3b6dcebeab949c3639c2b2))
+* fix sidebar active status not working as expected ([#140](https://github.com/vuejs/vitepress/issues/140)) ([#149](https://github.com/vuejs/vitepress/issues/149)) ([0b181e7](https://github.com/vuejs/vitepress/commit/0b181e7582ea4be7dca51ec399c697e32b7116f3))
+* make code block look prettier ([#146](https://github.com/vuejs/vitepress/issues/146)) ([242fcc1](https://github.com/vuejs/vitepress/commit/242fcc1098f606f13e7d8e123c081e73a3d89366))
+* some color in code block not working as expected ([#143](https://github.com/vuejs/vitepress/issues/143)) ([da09266](https://github.com/vuejs/vitepress/commit/da09266f5eede3796bb150ccd9d6a173e90354a4))
+
+### Features
+
+* add "last updated" feature ([40d204b](https://github.com/vuejs/vitepress/commit/40d204b2f68b90bd2c5e9940cd128c4c16cd5274))
+
+## [0.8.1](https://github.com/vuejs/vitepress/compare/v0.8.0...v0.8.1) (2020-11-20)
+
+### Bug Fixes
+
+* fix "next and prev link" not working when `link` has extention ([6dcf6b3](https://github.com/vuejs/vitepress/commit/6dcf6b3796bb3d6e703fddd79c6b0c0a7adfd567))
+* fix "next and prev links" not working when the `base` option is set ([#139](https://github.com/vuejs/vitepress/issues/139)) ([018a9b4](https://github.com/vuejs/vitepress/commit/018a9b46d924d0d08f7ff67f18a813348c84ab0a))
+
+# [0.8.0](https://github.com/vuejs/vitepress/compare/v0.7.4...v0.8.0) (2020-11-20)
+
+### Bug Fixes
+
+* exit process with non-zero code on error ([fb09f8e](https://github.com/vuejs/vitepress/commit/fb09f8e638c06aec32494f731554fb1b989daaf0))
+* fix edit link and prev and next links display ([#97](https://github.com/vuejs/vitepress/issues/97)) ([c3b7172](https://github.com/vuejs/vitepress/commit/c3b71729513592112e233165782e60c9c5b425c4))
+* fix next and prev links not working ([#130](https://github.com/vuejs/vitepress/issues/130)) ([fdd498b](https://github.com/vuejs/vitepress/commit/fdd498be70cc09a4331dadd17c4a5339318f21bf))
+* display header-anchor links when using keyboard navigation ([ddc3640](https://github.com/vuejs/vitepress/commit/ddc3640ce66f606894b31e1b7ebeacaaf7b0f1b5))
+* show top part of scrollbar in sidebar ([#129](https://github.com/vuejs/vitepress/issues/129)) ([1ba209a](https://github.com/vuejs/vitepress/commit/1ba209a4d2b606bee1abb7ec1d383467d98cf198))
+
+### Features
+
+* add ability to configure markdown options ([#127](https://github.com/vuejs/vitepress/issues/127)) ([#128](https://github.com/vuejs/vitepress/issues/128)) ([463a03a](https://github.com/vuejs/vitepress/commit/463a03a9815ce8fc9f55293dda07bc211ef4f62b))
+* add serve command ([#136](https://github.com/vuejs/vitepress/issues/136)) ([67868bd](https://github.com/vuejs/vitepress/commit/67868bd9281077a4ce708e666bf61a7824afb8b2))
+* better build command output ([e435eec](https://github.com/vuejs/vitepress/commit/e435eec94a841ab0e1c14d59bb13608d5ad6a011))
+
 ## [0.7.4](https://github.com/vuejs/vitepress/compare/v0.7.3...v0.7.4) (2020-11-11)
 
 ### Bug Fixes

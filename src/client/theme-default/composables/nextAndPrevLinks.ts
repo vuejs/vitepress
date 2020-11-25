@@ -1,55 +1,45 @@
 import { computed } from 'vue'
-import { useRoute, useSiteData } from 'vitepress'
-import { DefaultTheme } from '../config'
+import { useSiteDataByRoute, usePageData } from 'vitepress'
+import { isArray, ensureStartingSlash, removeExtention } from '../utils'
+import { getSideBarConfig, getFlatSideBarLinks } from '../support/sideBar'
 
 export function useNextAndPrevLinks() {
-  const route = useRoute()
-  // TODO: could this be useSiteData<DefaultTheme.Config> or is the siteData
-  // resolved and has a different structure?
-  const siteData = useSiteData()
+  const site = useSiteDataByRoute()
+  const page = usePageData()
 
-  const resolveLink = (targetLink: string) => {
-    let target: DefaultTheme.SideBarLink | undefined
-    Object.keys(siteData.value.themeConfig.sidebar).some((k) => {
-      return siteData.value.themeConfig.sidebar[k].some(
-        (v: { children: any }) => {
-          if (Array.isArray(v.children)) {
-            target = v.children.find((value: any) => {
-              return value.link === targetLink
-            })
-          }
-          return !!target
-        }
-      )
+  const path = computed(() => {
+    return removeExtention(ensureStartingSlash(page.value.relativePath))
+  })
+
+  const candidates = computed(() => {
+    const config = getSideBarConfig(site.value.themeConfig.sidebar, path.value)
+
+    return isArray(config) ? getFlatSideBarLinks(config) : []
+  })
+
+  const index = computed(() => {
+    return candidates.value.findIndex((item) => {
+      return item.link === path.value
     })
-    return target
-  }
+  })
 
   const next = computed(() => {
-    const pageData = route.data
-    if (pageData.frontmatter.next === false) {
-      return undefined
+    if (
+      site.value.themeConfig.nextLinks !== false &&
+      index.value > -1 &&
+      index.value < candidates.value.length - 1
+    ) {
+      return candidates.value[index.value + 1]
     }
-    if (typeof pageData.frontmatter.next === 'string') {
-      return resolveLink(pageData.frontmatter.next)
-    }
-    return pageData.next
   })
 
   const prev = computed(() => {
-    const pageData = route.data
-    if (pageData.frontmatter.prev === false) {
-      return undefined
+    if (site.value.themeConfig.prevLinks !== false && index.value > 0) {
+      return candidates.value[index.value - 1]
     }
-    if (typeof pageData.frontmatter.prev === 'string') {
-      return resolveLink(pageData.frontmatter.prev)
-    }
-    return pageData.prev
   })
 
-  const hasLinks = computed(() => {
-    return !!next.value || !!prev.value
-  })
+  const hasLinks = computed(() => !!next.value || !!prev.value)
 
   return {
     next,

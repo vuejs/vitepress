@@ -1,65 +1,48 @@
 # VitePress Contributing Guide
 
-This is a guide to help those who are interested in contributing to VitePress!
+Hi! We're really excited that you are interested in contributing to VitePress. Before submitting your contribution, please make sure to take a moment and read through the following guidelines:
 
-## Prerequisites
+- [Code of Conduct](https://github.com/vuejs/vue/blob/dev/.github/CODE_OF_CONDUCT.md)
+- [Pull Request Guidelines](#pull-request-guidelines)
 
-- [yarn](https://classic.yarnpkg.com/en/docs/cli/install/)
+## Pull Request Guidelines
 
-## Instructions
+- Checkout a topic branch from the relevant branch, e.g. `master`, and merge back against that branch.
 
-### Setup VitePress dev environment
+- If adding a new feature:
 
-1. Clone the VitePress repo
-2. Install dependencies
-    ```
-    yarn
-    ```
-3. Create symlink to allow projects to link to local VitePress dev environment
-    ```bash
-    yarn link
-    ```
-    - If it's successful, you should see the following message:
-    ```
-    success Registered "vitepress".
-    info You can now run `yarn link "vitepress"` in the projects where you want to use this package and it will be used instead.
-    ✨  Done in 0.05s.
-    ```
-4. Start VitePress local dev environment
-    ```bash
-    yarn dev
-    ```
+  - Provide a convincing reason to add this feature. Ideally, you should open a suggestion issue first and have it approved before working on it.
 
-### Setup local VitePress project
+- If fixing bug:
 
-1. Open up terminal
-1. Create a new folder
-1. Initialize with `npm init`
-1. Create a `docs` directory
-1. Create an `index.md` file with some content inside of `/docs`
-1. Add dependency to local VitePress dev environment
-    ```bash
-    yarn link vitepress
-    ```
-1. Add script to run VitePress in `package.json`
-    - The following sample uses the command `dev` and assumes your VitePress site will live in the folder `docs`
-    ```json
-    {
-      "name": "vitepress-project",
-      "dependencies": {},
-      "devDependencies": {},
-      "scripts": {
-        "dev": "vitepress dev docs",
-        "test": "echo \"Error: no test specified\" && exit 1"
-      }
-    }
-    ```
-    - If successful, you should see a similar message to the following;
-    ```
-    $ vitepress dev docs
-    vitepress v0.3.1
-    vite v0.20.2
-    listening at http://localhost:3000
-    ```
+  - Provide a detailed description of the bug in the PR. Live demo preferred.
 
-And with that, you are now ready to contribute to the VitePress project! 🎉
+- It's OK to have multiple small commits as you work on the PR - GitHub can automatically squash them before merging.
+
+- Commit messages must follow the [commit message convention](./commit-convention.md) so that changelogs can be automatically generated.
+
+## Development Setup
+
+You will need [Yarn](https://classic.yarnpkg.com/en/docs/cli/install/)/
+
+After cloning the repo, run:
+
+```bash
+$ yarn # install the dependencies of the project
+```
+
+### Setup VitePress Dev Environment
+
+You may start VitePress local dev environment by running `yarn dev`.
+
+```bash
+$ yarn dev
+```
+
+The easiest way to start testing out VitePress is to tweak the VitePress docs. You may run `yarn docs` folder to boot up VitePress documentation site locally, with live reloading of the source code.
+
+```bash
+$ yarn docs
+```
+
+After executing the above command, visit http://localhost:3000 and try modifying the source code. You'll get live update.

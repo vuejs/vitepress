@@ -1,51 +1,32 @@
 <template>
-  <a
-    class="title"
-    :aria-label="$site.title + ', back to home'"
-    :href="$site.base"
-  >
-    <img
-      class="logo"
-      v-if="$theme.logo"
-      :src="withBase($theme.logo)"
-      alt="logo"
-    />
-    <span>{{ $site.title }}</span>
-  </a>
-  <div class="flex-grow"></div>
-  <NavBarLinks class="hide-mobile" />
+  <NavBarTitle />
+
+  <div class="flex-grow" />
+
+  <div class="nav">
+    <NavBarLinks />
+  </div>
+
   <slot name="search" />
 </template>
 
 <script setup lang="ts">
-import { withBase } from '../utils'
+import NavBarTitle from './NavBarTitle.vue'
 import NavBarLinks from './NavBarLinks.vue'
 </script>
 
-<style>
-.title {
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: var(--text-color);
-}
-
-.title:hover {
-  text-decoration: none;
-}
-
+<style scoped>
 .flex-grow {
   flex-grow: 1;
 }
 
-.logo {
-  margin-right: 0.75rem;
-  height: 1.3rem;
-  vertical-align: bottom;
+.nav {
+  display: none;
 }
 
-@media screen and (max-width: 719px) {
-  .hide-mobile {
-    display: none;
+@media (min-width: 720px) {
+  .nav {
+    display: block;
   }
 }
 </style>
