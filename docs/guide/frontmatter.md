@@ -2,7 +2,7 @@
 
 Any Markdown file that contains a YAML frontmatter block will be processed by [gray-matter](https://github.com/jonschlinkert/gray-matter). The frontmatter must be at the top of the Markdown file, and must take the form of valid YAML set between triple-dashed lines. Example:
 
-```markdown
+```md
 ---
 title: Docs with VitePress
 editLink: true
@@ -13,7 +13,7 @@ Between the triple-dashed lines, you can set [predefined variables](#predefined-
 
 Here’s an example of how you could use it in your Markdown file:
 
-```markdown
+```md
 ---
 title: Docs with VitePress
 editLink: true
@@ -26,13 +26,13 @@ Guide content
 
 ## Alternative frontmatter Formats
 
-VuePress also supports JSON frontmatter syntax, starting and ending in curly braces:
+VitePress also supports JSON frontmatter syntax, starting and ending in curly braces:
 
-```
+```json
 ---
 {
   "title": "Blogging Like a Hacker",
-  "editLink": "true"
+  "editLink": true
 }
 ---
 ```
@@ -63,10 +63,7 @@ head:
     - name: keywords
       content: super duper SEO
 ---
-
 ```
-
-## Predefined Variables Powered By Default Theme
 
 ### navbar
 
@@ -85,6 +82,6 @@ You can decide to show the sidebar on a specific page with `sidebar: auto` or di
 ### editLink
 
 - Type: `boolean`
-- Default: `siteData.editLinks`
+- Default: `undefined`
 
 Define if this page should include an edit link.
