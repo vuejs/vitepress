@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineOptions } from 'vue'
+import { computed, defineProps } from 'vue'
 import { useRoute } from 'vitepress'
 import { withBase, isExternal } from '../utils'
 import type { DefaultTheme } from '../config'
@@ -32,13 +32,9 @@ const normalizePath = (path: string): string => {
   return path
 }
 
-const { props } = defineOptions<{
-  props: {
-    item: DefaultTheme.NavItemWithLink
-  }
+const { item } = defineProps<{
+  item: DefaultTheme.NavItemWithLink
 }>()
-
-const item = props.item
 
 const route = useRoute()
 

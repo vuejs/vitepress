@@ -46,14 +46,12 @@
 
 <script setup lang="ts">
 import NavBarLink from './NavBarLink.vue'
-import { ref, watch, defineOptions } from 'vue'
+import { ref, watch, defineProps } from 'vue'
 import { useRoute } from 'vitepress'
 import type { DefaultTheme } from '../config'
 
-defineOptions<{
-  props: {
-    item: DefaultTheme.NavItemWithChildren
-  }
+defineProps<{
+  item: DefaultTheme.NavItemWithChildren
 }>()
 
 const open = ref(false)
