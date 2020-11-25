@@ -1,3 +1,0 @@
-# Config Reference
-
-Coming soon...

@@ -13,7 +13,7 @@ module.exports = {
 
     nav: [
       { text: 'Guide', link: '/' },
-      { text: 'Config Reference', link: '/config/' },
+      { text: 'Config Reference', link: '/config/basics' },
       {
         text: 'Release Notes',
         link: 'https://github.com/vuejs/vitepress/releases'
@@ -51,5 +51,10 @@ function getGuideSidebar() {
 }
 
 function getConfigSidebar() {
-  return [{ text: 'Config Reference', link: '/config/' }]
+  return [
+    {
+      text: 'App Config',
+      children: [{ text: 'Basics', link: '/config/basics' }]
+    }
+  ]
 }
