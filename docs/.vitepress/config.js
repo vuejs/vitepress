@@ -38,6 +38,7 @@ function getGuideSidebar() {
         { text: 'Configuration', link: '/guide/configuration' },
         { text: 'Markdown Extensions', link: '/guide/markdown' },
         { text: 'Frontmatter', link: '/guide/frontmatter' },
+        { text: 'Global Computed', link: '/guide/global-computed' },
         { text: 'Customization', link: '/guide/customization' },
         { text: 'Deploying', link: '/guide/deploy' }
       ]
