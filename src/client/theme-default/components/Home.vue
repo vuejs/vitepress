@@ -24,7 +24,9 @@
       v-if="data.actionText && data.actionLink"
       class="action"
     >
-      <NavBarLink :item="actionLink" />
+      <a class="action-link" :href="actionLink.link">
+        {{ actionLink.text }}
+      </a>
     </p>
     <slot name="hero" />
   </header>
@@ -55,15 +57,10 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import NavBarLink from './NavBarLink.vue'
-import { withBase } from '../utils'
 import { useRoute, useSiteData } from 'vitepress'
+import { withBase } from '../utils'
 
 export default defineComponent({
-  components: {
-    NavBarLink
-  },
-
   setup() {
     const route = useRoute()
     const siteData = useSiteData()
@@ -118,23 +115,30 @@ export default defineComponent({
   color: #6a8bad;
 }
 
-::v-deep(.nav-link) {
+.action-link {
   display: inline-block;
-  font-size: 1.2rem;
-  color: #fff;
-  background-color: var(--c-brand);
-  margin-left: 0;
-  padding: 0.8rem 1.6rem;
   border-radius: 4px;
+  padding: 0 20px;
+  line-height: 48px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #ffffff;
+  background-color: var(--c-brand);
   transition: background-color .1s ease;
-  box-sizing: border-box;
-  /* TODO: calculating darken 10% color with using style vars from `--c-brand` */
-  border-bottom: 1px solid #389d70;
 }
 
-::v-deep(.nav-link:hover) {
-  /* TODO: calculating lighten 10% color with using style vars from `--c-brand` */
-  background-color: #4abf8a;
+.action-link:hover {
+  text-decoration: none;
+  background-color: var(--c-brand-light);
+}
+
+@media (min-width: 420px) {
+  .action-link {
+    padding: 0 24px;
+    line-height: 56px;
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
 }
 
 .features {
@@ -198,18 +202,12 @@ export default defineComponent({
   }
 
   .hero h1,
-  .hero .description,
-  .hero .action {
+  .hero .description {
     margin: 1.2rem auto;
   }
 
   .hero .description {
     font-size: 1.2rem;
-  }
-
-  .hero .action-button {
-    font-size: 1rem;
-    padding: 0.6rem 1.2rem;
   }
 
   .feature h2 {
