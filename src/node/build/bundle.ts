@@ -153,26 +153,15 @@ export async function bundle(
   let clientResult, serverResult
 
   const spinner = ora()
-  spinner.start('building client bundle...')
+  spinner.start('building client + server bundles...')
   try {
-    clientResult = await build(viteOptions)
-  } catch (e) {
-    spinner.stopAndPersist({
-      symbol: failMark
-    })
-    throw e
-  }
-  spinner.stopAndPersist({
-    symbol: okMark
-  })
-
-  spinner.start('building server bundle...')
-  isClientBuild = false
-  try {
-    serverResult = await ssrBuild({
-      ...viteOptions,
-      outDir: config.tempDir
-    })
+    ;[clientResult, serverResult] = await Promise.all([
+      build(viteOptions),
+      ssrBuild({
+        ...viteOptions,
+        outDir: config.tempDir
+      })
+    ])
   } catch (e) {
     spinner.stopAndPersist({
       symbol: failMark
