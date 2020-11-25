@@ -3,7 +3,9 @@
     <header class="navbar" v-if="showNavbar">
       <NavBar>
         <template #search>
-          <slot name="navbar-search" />
+          <slot name="navbar-search">
+            <AlgoliaSearchBox :options="$site.themeConfig.algolia" />
+          </slot>
         </template>
       </NavBar>
       <ToggleSideBarButton @toggle="toggleSidebar" />
@@ -53,6 +55,7 @@ import ToggleSideBarButton from './components/ToggleSideBarButton.vue'
 import SideBar from './components/SideBar.vue'
 import Page from './components/Page.vue'
 import { useRoute, useSiteData, useSiteDataByRoute } from 'vitepress'
+import AlgoliaSearchBox from './components/AlgoliaSearchBox.vue'
 
 const route = useRoute()
 const siteData = useSiteData()
@@ -107,3 +110,10 @@ watch(route, hideSidebar)
 // TODO: route only changes when the pathname changes
 // listening to hashchange does nothing because it's prevented in router
 </script>
+
+<style>
+/* remove margin added by user agent */
+.DocSearch-SearchBar form {
+  margin-block-end: 0;
+}
+</style>

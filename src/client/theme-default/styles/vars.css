@@ -28,8 +28,8 @@
    * Z Indexes
    * --------------------------------------------------------------------- */
 
-  --z-index-navbar: 1100;
-  --z-index-sidebar: 1000;
+  --z-index-navbar: 10;
+  --z-index-sidebar: 6;
 
   /**
    * Sizes
