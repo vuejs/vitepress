@@ -44,6 +44,7 @@ function getGuideSidebar() {
       text: 'Advanced',
       children: [
         { text: 'Frontmatter', link: '/guide/frontmatter' },
+        { text: 'Global Computed', link: '/guide/global-computed' },
         { text: 'Customization', link: '/guide/customization' }
       ]
     }

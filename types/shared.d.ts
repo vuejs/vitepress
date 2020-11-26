@@ -24,10 +24,11 @@ export type HeadConfig =
   | [string, Record<string, string>, string]
 
 export interface PageData {
-  title: string
-  frontmatter: Record<string, any>
-  headers: Header[]
   relativePath: string
+  title: string
+  description: string
+  headers: Header[]
+  frontmatter: Record<string, any>
   lastUpdated: number
 }
 

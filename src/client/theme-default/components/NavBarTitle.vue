@@ -5,24 +5,17 @@
     :aria-label="`${$site.title}, back to home`"
   >
     <img
-      v-if="$theme.logo"
+      v-if="$themeConfig.logo"
       class="logo"
-      :src="withBase($theme.logo)"
+      :src="withBase($themeConfig.logo)"
       alt="Logo"
     />
     {{ $site.title }}
   </a>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
 import { withBase } from '../utils'
-
-export default defineComponent({
-  setup() {
-    return { withBase }
-  }
-})
 </script>
 
 <style scoped>

@@ -3,7 +3,7 @@ import matter from 'gray-matter'
 import LRUCache from 'lru-cache'
 import { createMarkdownRenderer, MarkdownOptions } from './markdown/markdown'
 import { deeplyParseHeader } from './utils/parseHeader'
-import { PageData } from '../../types/shared'
+import { PageData, HeadConfig } from '../../types/shared'
 
 const debug = require('debug')('vitepress:md')
 const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
@@ -41,6 +41,7 @@ export function createMarkdownToVueRenderFn(
     // inject page data
     const pageData: PageData = {
       title: inferTitle(frontmatter, content),
+      description: inferDescription(frontmatter),
       frontmatter,
       headers: data.headers,
       relativePath: file.replace(/\\/g, '/'),
@@ -105,4 +106,27 @@ const inferTitle = (frontmatter: any, content: string) => {
     return deeplyParseHeader(match[1].trim())
   }
   return ''
+}
+
+const inferDescription = (frontmatter: Record<string, any>) => {
+  if (!frontmatter.head) {
+    return ''
+  }
+
+  return getHeadMetaContent(frontmatter.head, 'description') || ''
+}
+
+const getHeadMetaContent = (
+  head: HeadConfig[],
+  name: string
+): string | undefined => {
+  if (!head || !head.length) {
+    return undefined
+  }
+
+  const meta = head.find(([tag, attrs = {}]) => {
+    return tag === 'meta' && attrs.name === name && attrs.content
+  })
+
+  return meta && meta[1].content
 }

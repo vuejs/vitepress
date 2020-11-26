@@ -82,14 +82,31 @@ export function createApp() {
         return siteDataByRouteRef.value
       }
     },
+    $themeConfig: {
+      get() {
+        return siteDataByRouteRef.value.themeConfig
+      }
+    },
     $page: {
       get() {
         return router.route.data
       }
     },
-    $theme: {
+    $frontmatter: {
       get() {
-        return siteDataByRouteRef.value.themeConfig
+        return router.route.data.frontmatter
+      }
+    },
+    $title: {
+      get() {
+        return router.route.data.title || siteDataByRouteRef.value.title
+      }
+    },
+    $description: {
+      get() {
+        return (
+          router.route.data.description || siteDataByRouteRef.value.description
+        )
       }
     }
   })
