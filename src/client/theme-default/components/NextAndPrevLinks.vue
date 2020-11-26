@@ -18,8 +18,8 @@
 </template>
 
 <script setup lang="ts">
-import { useNextAndPrevLinks } from '../composables/nextAndPrevLinks'
 import { withBase } from '../utils'
+import { useNextAndPrevLinks } from '../composables/nextAndPrevLinks'
 import ArrowLeft from './icons/ArrowLeft.vue'
 import ArrowRight from './icons/ArrowRight.vue'
 

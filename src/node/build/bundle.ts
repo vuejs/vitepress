@@ -88,6 +88,7 @@ export async function bundle(
       if (!isClientBuild) {
         return
       }
+
       // for each .md entry chunk, adjust its name to its correct path.
       for (const name in bundle) {
         const chunk = bundle[name]

@@ -20,6 +20,10 @@ import { withBase, isExternal } from '../utils'
 import type { DefaultTheme } from '../config'
 import OutboundLink from './icons/OutboundLink.vue'
 
+const { item } = defineProps<{
+  item: DefaultTheme.NavItemWithLink
+}>()
+
 const normalizePath = (path: string): string => {
   path = path
     .replace(/#.*$/, '')
@@ -30,10 +34,6 @@ const normalizePath = (path: string): string => {
   }
   return path
 }
-
-const { item } = defineProps<{
-  item: DefaultTheme.NavItemWithLink
-}>()
 
 const route = useRoute()
 

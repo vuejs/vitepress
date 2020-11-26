@@ -71,9 +71,11 @@ function injectPageData(tags: string[], data: PageData) {
   const code = `\nexport const __pageData = ${JSON.stringify(
     JSON.stringify(data)
   )}`
-  const existingScriptIndex = tags.findIndex(
-    (tag) => scriptRE.test(tag) && !scriptSetupRE.test(tag)
-  )
+
+  const existingScriptIndex = tags.findIndex((tag) => {
+    return scriptRE.test(tag) && !scriptSetupRE.test(tag)
+  })
+
   if (existingScriptIndex > -1) {
     const tagSrc = tags[existingScriptIndex]
     // user has <script> tag inside markdown
