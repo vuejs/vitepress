@@ -71,3 +71,11 @@ Value of the `<title>` label used for the current page.
 ## $description
 
 The content value of the `<meta name= "description" content= "...">` for the current page.
+
+## $withBase
+
+Helper method to generate correct path by prepending the `base` path configured in `.vitepress/config.js`. It's useful when you want to link to [public files with base path](./assets#public-files).
+
+```html
+<img :src="$withBase('/foo.png')" alt="foo">
+```
