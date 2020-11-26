@@ -1,8 +1,11 @@
-import { computed } from 'vue'
-import { useRoute } from '../router'
+import { Ref, computed } from 'vue'
+import { PageData } from '/@types/shared'
+import { Route, useRoute } from '../router'
 
-export function usePageData() {
-  const route = useRoute()
+export type PageDataRef = Ref<PageData>
 
-  return computed(() => route.data)
+export function usePageData(route?: Route) {
+  const r = route || useRoute()
+
+  return computed(() => r.data)
 }

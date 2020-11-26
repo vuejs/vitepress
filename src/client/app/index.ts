@@ -1,11 +1,11 @@
 import { createApp as createClientApp, createSSRApp } from 'vue'
 import { inBrowser, pathToFile } from './utils'
 import { createRouter, RouterSymbol } from './router'
+import { mixinGlobalComputed, mixinGlobalComponents } from './mixin'
 import { siteDataRef } from './composables/siteData'
 import { useSiteDataByRoute } from './composables/siteDataByRoute'
+import { usePageData } from './composables/PageData'
 import { useUpdateHead } from './composables/head'
-import { Content } from './components/Content'
-import Debug from './components/Debug.vue'
 import Theme from '/@theme/index'
 
 const NotFound = Theme.NotFound || (() => '404 Not Found')
@@ -58,58 +58,17 @@ export function createApp() {
 
   app.provide(RouterSymbol, router)
 
-  app.component('Content', Content)
-  app.component(
-    'Debug',
-    process.env.NODE_ENV === 'production' ? () => null : Debug
-  )
+  mixinGlobalComponents(app)
 
   const siteDataByRouteRef = useSiteDataByRoute(router.route)
+  const pageDataRef = usePageData(router.route)
 
   if (inBrowser) {
     // dynamically update head tags
     useUpdateHead(router.route, siteDataByRouteRef)
   }
 
-  Object.defineProperties(app.config.globalProperties, {
-    $site: {
-      get() {
-        return siteDataRef.value
-      }
-    },
-    $siteByRoute: {
-      get() {
-        return siteDataByRouteRef.value
-      }
-    },
-    $themeConfig: {
-      get() {
-        return siteDataByRouteRef.value.themeConfig
-      }
-    },
-    $page: {
-      get() {
-        return router.route.data
-      }
-    },
-    $frontmatter: {
-      get() {
-        return router.route.data.frontmatter
-      }
-    },
-    $title: {
-      get() {
-        return router.route.data.title || siteDataByRouteRef.value.title
-      }
-    },
-    $description: {
-      get() {
-        return (
-          router.route.data.description || siteDataByRouteRef.value.description
-        )
-      }
-    }
-  })
+  mixinGlobalComputed(app, siteDataRef, siteDataByRouteRef, pageDataRef)
 
   if (Theme.enhanceApp) {
     Theme.enhanceApp({
@@ -124,6 +83,7 @@ export function createApp() {
 
 if (inBrowser) {
   const { app, router } = createApp()
+
   // wait unitl page component is fetched before mounting
   router.go().then(() => {
     app.mount('#app')
