@@ -1,18 +1,18 @@
 <template>
-  <div class="bsa-cpc-wrapper">
-    <div class="bsa-cpc"></div>
+  <div class="buy-sell-ads">
+    <div class="bsa-cpc" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { defineProps, onMounted } from 'vue'
 
-/* global _bsa */
+// global _bsa
 const ID = 'bsa-cpc-script'
-const { code, placement } = defineProps<{ code: string; placement: string }>()
 
 declare global {
   var _bsa: BSA | undefined
+
   interface BSA {
     init(
       name: string,
@@ -27,6 +27,26 @@ declare global {
   }
 }
 
+const { code, placement } = defineProps<{
+  code: string
+  placement: string
+}>()
+
+onMounted(() => {
+  if (!document.getElementById(ID)) {
+    const s = document.createElement('script')
+
+    s.id = ID
+    s.src = '//m.servedby-buysellads.com/monetization.js'
+
+    document.head.appendChild(s)
+
+    s.onload = () => { load() }
+  } else {
+    load()
+  }
+})
+
 function load() {
   if (typeof _bsa !== 'undefined' && _bsa) {
     _bsa.init('default', code, `placement:${placement}`, {
@@ -36,90 +56,91 @@ function load() {
     })
   }
 }
-
-onMounted(() => {
-  if (!document.getElementById(ID)) {
-    const s = document.createElement('script')
-    s.id = ID
-    s.src = `//m.servedby-buysellads.com/monetization.js`
-    document.head.appendChild(s)
-    s.onload = () => {
-      load()
-    }
-  } else {
-    load()
-  }
-})
 </script>
 
-<style>
-.bsa-cpc-wrapper {
-  font-size: 0.95rem;
-  /* from Page.vue */
-  max-width: 50rem;
-  margin: 0px auto;
-  padding: 1rem 2rem 0;
-  margin-bottom: -1rem;
-}
-
-@media (max-width: 419px) {
-  .bsa-cpc-wrapper {
-    padding: 0 1.5rem;
-  }
+<style scoped>
+.buy-sell-ads {
+  margin: 0 auto;
+  padding-top: 2rem;
+  font-size: .85rem;
 }
 
 .bsa-cpc {
-  font-size: 0.9em;
-  background-color: #f8f8f8;
   border-radius: 6px;
+  background-color: #f8f8f8;
 }
 
-.bsa-cpc .default-text {
-  display: inline;
-}
-
-.bsa-cpc a._default_ {
-  text-align: left;
-  display: block;
-  text-decoration: none;
-  padding: 10px 15px 12px;
+.bsa-cpc ::v-deep(a._default_) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
   margin-bottom: 20px;
-  color: #666;
+  padding: 12px;
+  text-decoration: none;
+  line-height: 1.4;
   font-weight: 400;
-  line-height: 18px;
+  color: var(--c-text-light);
 }
 
-.bsa-cpc a._default_ .default-image img {
-  height: 20px;
-  border-radius: 3px;
-  vertical-align: middle;
-  position: relative;
-  top: -1px;
+@media (min-width: 512px) {
+  .bsa-cpc ::v-deep(a._default_) {
+    flex-wrap: nowrap;
+  }
 }
 
-.bsa-cpc a._default_ .default-title {
-  font-weight: 600;
-}
-
-.bsa-cpc a._default_ .default-description:after {
-  font-size: 0.85em;
-  content: 'Sponsored';
-  color: #1c90f3;
-  border: 1px solid #1c90f3;
-  border-radius: 3px;
-  padding: 0 4px 1px;
-  margin-left: 6px;
-}
-
-.bsa-cpc .default-ad {
+.bsa-cpc ::v-deep(.default-ad) {
   display: none;
 }
 
-.bsa-cpc a._default_ .default-image,
-.bsa-cpc a._default_ .default-title,
-.bsa-cpc a._default_ .default-description {
-  display: inline;
+.bsa-cpc ::v-deep(a._default_ .default-image) {
+  flex-shrink: 0;
+  margin-right: 12px;
+  width: 24px;
+}
+
+.bsa-cpc ::v-deep(a._default_ .default-image img) {
+  border-radius: 4px;
+  height: 24px;
   vertical-align: middle;
-  margin-right: 6px;
+}
+
+.bsa-cpc ::v-deep(._default_::after) {
+  border: 1px solid #1c90f3;
+  border-radius: 4px;
+  margin-top: 8px;
+  margin-left: 36px;
+  padding: 0 8px;
+  line-height: 22px;
+  font-size: .85em;
+  font-weight: 500;
+  color: #1c90f3;
+  content: 'Sponsored';
+}
+
+@media (min-width: 512px) {
+  .bsa-cpc ::v-deep(._default_::after) {
+    margin-top: 0px;
+    margin-left: 12px;
+  }
+}
+
+.bsa-cpc ::v-deep(.default-text) {
+  flex-grow: 1;
+  align-self: center;
+  width: calc(100% - 36px);
+}
+
+@media (min-width: 512px) {
+  .bsa-cpc ::v-deep(.default-text) {
+    width: auto;
+  }
+}
+
+.bsa-cpc ::v-deep(.default-title) {
+  font-weight: 600;
+}
+
+.bsa-cpc ::v-deep(.default-description) {
+  padding-left: 8px;
 }
 </style>
