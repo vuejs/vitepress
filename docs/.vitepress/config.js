@@ -60,7 +60,10 @@ function getConfigSidebar() {
   return [
     {
       text: 'App Config',
-      children: [{ text: 'Basics', link: '/config/basics' }]
+      children: [
+        { text: 'Basics', link: '/config/basics' },
+        { text: 'Carbon Ads', link: '/config/carbon-ads' }
+      ]
     }
   ]
 }
