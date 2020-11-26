@@ -2,7 +2,7 @@
 
 In VitePress, some core [computed properties](https://v3.vuejs.org/guide/computed.html#computed-properties) can be used by the default theme or custom themes. Or directly in Markdown pages using vue, for example using `{{ $frontmatter.title }}` to access the title defined in the frontmatter section of the page.
 
-## \$site
+## $site
 
 This is the `$site` value of the site you’re currently reading:
 
@@ -18,7 +18,7 @@ This is the `$site` value of the site you’re currently reading:
 }
 ```
 
-## \$page
+## $page
 
 This is the `$page` value of the page you’re currently reading:
 
@@ -44,9 +44,9 @@ This is the `$page` value of the page you’re currently reading:
 }
 ```
 
-## \$frontmatter
+## $frontmatter
 
-Reference of [\$page](#page).frontmatter.
+Reference of [$page](#page).frontmatter.
 
 ```json
 {
@@ -55,15 +55,15 @@ Reference of [\$page](#page).frontmatter.
 }
 ```
 
-## \$title
+## $title
 
 Value of the `<title>` label used for the current page.
 
-## \$description
+## $description
 
 The content value of the `<meta name= "description" content= "...">` for the current page.
 
-## \$themeConfig
+## $themeConfig
 
 Refers to `$site.themeConfig`.
 
