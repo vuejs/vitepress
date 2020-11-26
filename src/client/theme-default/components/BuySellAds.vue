@@ -4,51 +4,52 @@
   </div>
 </template>
 
-<script>
-import { onMounted } from 'vue'
+<script setup lang="ts">
+import { defineProps, onMounted } from 'vue'
 
 /* global _bsa */
 const ID = 'bsa-cpc-script'
+const { code, placement } = defineProps<{ code: string; placement: string }>()
 
-export default {
-  name: 'BuySellAds',
-  props: {
-    code: {
-      type: String,
-      required: true
-    },
-    placement: {
-      type: String,
-      required: true
-    }
-  },
-
-  setup(props) {
-    function load() {
-      if (typeof _bsa !== 'undefined' && _bsa) {
-        _bsa.init('default', props.code, `placement:${props.placement}`, {
-          target: '.bsa-cpc',
-          align: 'horizontal',
-          disable_css: 'true'
-        })
+declare global {
+  var _bsa: BSA | undefined
+  interface BSA {
+    init(
+      name: string,
+      code: string,
+      placement: string,
+      options: {
+        target: string
+        align: string
+        disable_css?: 'true' | 'false'
       }
-    }
+    ): void
+  }
+}
 
-    onMounted(() => {
-      if (!document.getElementById(ID)) {
-        const s = document.createElement('script')
-        s.id = ID
-        s.src = `//m.servedby-buysellads.com/monetization.js`
-        document.head.appendChild(s)
-        s.onload = () => {
-          load()
-        }
-      } else {
-        load()
-      }
+function load() {
+  if (typeof _bsa !== 'undefined' && _bsa) {
+    _bsa.init('default', code, `placement:${placement}`, {
+      target: '.bsa-cpc',
+      align: 'horizontal',
+      disable_css: 'true'
     })
   }
 }
+
+onMounted(() => {
+  if (!document.getElementById(ID)) {
+    const s = document.createElement('script')
+    s.id = ID
+    s.src = `//m.servedby-buysellads.com/monetization.js`
+    document.head.appendChild(s)
+    s.onload = () => {
+      load()
+    }
+  } else {
+    load()
+  }
+})
 </script>
 
 <style>

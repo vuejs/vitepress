@@ -2,35 +2,22 @@
   <div class="carbon-ads" ref="el"></div>
 </template>
 
-<script>
-import { onMounted, ref } from 'vue'
+<script setup lang="ts">
+import { defineProps, onMounted, ref } from 'vue'
 
-export default {
-  name: 'CarbonAds',
-  props: {
-    code: {
-      type: String,
-      required: true
-    },
-    placement: {
-      type: String,
-      required: true
-    }
-  },
+const { code, placement } = defineProps<{
+  code: string
+  placement: string
+}>()
 
-  setup(props) {
-    const el = ref()
+const el = ref()
 
-    onMounted(() => {
-      const s = document.createElement('script')
-      s.id = '_carbonads_js'
-      s.src = `//cdn.carbonads.com/carbon.js?serve=${props.code}&placement=${props.placement}`
-      el.value.appendChild(s)
-    })
-
-    return { el }
-  }
-}
+onMounted(() => {
+  const s = document.createElement('script')
+  s.id = '_carbonads_js'
+  s.src = `//cdn.carbonads.com/carbon.js?serve=${code}&placement=${placement}`
+  el.value.appendChild(s)
+})
 </script>
 
 <style>
