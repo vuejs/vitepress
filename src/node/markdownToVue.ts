@@ -109,6 +109,10 @@ const inferTitle = (frontmatter: any, content: string) => {
 }
 
 const inferDescription = (frontmatter: Record<string, any>) => {
+  if (!frontmatter.head) {
+    return ''
+  }
+
   return getHeadMetaContent(frontmatter.head, 'description') || ''
 }
 
@@ -119,8 +123,10 @@ const getHeadMetaContent = (
   if (!head || !head.length) {
     return undefined
   }
+
   const meta = head.find(([tag, attrs = {}]) => {
     return tag === 'meta' && attrs.name === name && attrs.content
   })
+
   return meta && meta[1].content
 }

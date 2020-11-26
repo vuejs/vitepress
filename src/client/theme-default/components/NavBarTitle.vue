@@ -14,15 +14,8 @@
   </a>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
 import { withBase } from '../utils'
-
-export default defineComponent({
-  setup() {
-    return { withBase }
-  }
-})
 </script>
 
 <style scoped>
@@ -37,7 +30,7 @@ export default defineComponent({
 }
 
 .logo {
-  margin-right: 0.75rem;
+  margin-right: .75rem;
   height: 1.3rem;
   vertical-align: bottom;
 }

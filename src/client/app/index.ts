@@ -82,6 +82,11 @@ export function createApp() {
         return siteDataByRouteRef.value
       }
     },
+    $themeConfig: {
+      get() {
+        return siteDataByRouteRef.value.themeConfig
+      }
+    },
     $page: {
       get() {
         return router.route.data
@@ -102,11 +107,6 @@ export function createApp() {
         return (
           router.route.data.description || siteDataByRouteRef.value.description
         )
-      }
-    },
-    $themeConfig: {
-      get() {
-        return siteDataByRouteRef.value.themeConfig
       }
     }
   })
