@@ -34,10 +34,26 @@
     <main v-else>
       <Page>
         <template #top>
+          <slot name="page-top-ads">
+            <CarbonAds
+              v-if="$site.themeConfig.carbonAds"
+              :key="'carbon' + $page.path"
+              :code="$site.themeConfig.carbonAds.carbon"
+              :placement="$site.themeConfig.carbonAds.placement"
+            />
+          </slot>
           <slot name="page-top" />
         </template>
         <template #bottom>
           <slot name="page-bottom" />
+          <slot name="page-bottom-ads">
+            <BuySellAds
+              v-if="$site.themeConfig.carbonAds"
+              :key="'custom' + $page.path"
+              :code="$site.themeConfig.carbonAds.custom"
+              :placement="$site.themeConfig.carbonAds.placement"
+            />
+          </slot>
         </template>
       </Page>
     </main>
@@ -53,6 +69,8 @@ import ToggleSideBarButton from './components/ToggleSideBarButton.vue'
 import SideBar from './components/SideBar.vue'
 import Page from './components/Page.vue'
 import { useRoute, useSiteData, useSiteDataByRoute } from 'vitepress'
+import CarbonAds from './components/CarbonAds.vue'
+import BuySellAds from './components/BuySellAds.vue'
 
 const route = useRoute()
 const siteData = useSiteData()
