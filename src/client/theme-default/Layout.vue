@@ -4,7 +4,10 @@
       <NavBar>
         <template #search>
           <slot name="navbar-search">
-            <AlgoliaSearchBox :options="$site.themeConfig.algolia" />
+            <AlgoliaSearchBox
+              v-if="$site.themeConfig.algolia"
+              :options="$site.themeConfig.algolia"
+            />
           </slot>
         </template>
       </NavBar>
