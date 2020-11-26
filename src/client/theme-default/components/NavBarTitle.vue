@@ -7,16 +7,12 @@
     <img
       v-if="$themeConfig.logo"
       class="logo"
-      :src="withBase($themeConfig.logo)"
+      :src="$withBase($themeConfig.logo)"
       alt="Logo"
     />
     {{ $site.title }}
   </a>
 </template>
-
-<script setup lang="ts">
-import { withBase } from '../utils'
-</script>
 
 <style scoped>
 .nav-bar-title {

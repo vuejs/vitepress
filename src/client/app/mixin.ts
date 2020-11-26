@@ -1,4 +1,5 @@
 import { App } from 'vue'
+import { joinPath } from './utils'
 import { SiteDataRef } from './composables/siteData'
 import { PageDataRef } from './composables/PageData'
 import { Content } from './components/Content'
@@ -31,7 +32,7 @@ export function mixinGlobalComputed(
 
     $page: {
       get() {
-        return page
+        return page.value
       }
     },
 
@@ -50,6 +51,12 @@ export function mixinGlobalComputed(
     $description: {
       get() {
         return page.value.description || siteByRoute.value.description
+      }
+    },
+
+    $withBase: {
+      value(path: string) {
+        return joinPath(site.value.base, path)
       }
     }
   })

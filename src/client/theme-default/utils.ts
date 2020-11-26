@@ -1,4 +1,4 @@
-import { useSiteData, Route } from 'vitepress'
+import { Route } from 'vitepress'
 
 export const hashRE = /#.*$/
 export const extRE = /(index)?\.(md|html)$/
@@ -11,10 +11,6 @@ export function isNullish(value: any): value is null | undefined {
 
 export function isArray(value: any): value is any[] {
   return Array.isArray(value)
-}
-
-export function withBase(path: string) {
-  return (useSiteData().value.base + path).replace(/\/+/g, '/')
 }
 
 export function isExternal(path: string): boolean {

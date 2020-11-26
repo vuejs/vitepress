@@ -16,8 +16,9 @@
 <script setup lang="ts">
 import { computed, defineProps } from 'vue'
 import { useRoute } from 'vitepress'
-import { withBase, isExternal } from '../utils'
+import { isExternal } from '../utils'
 import type { DefaultTheme } from '../config'
+import { useUrl } from '../composables/url'
 import OutboundLink from './icons/OutboundLink.vue'
 
 const { item } = defineProps<{
@@ -35,6 +36,7 @@ const normalizePath = (path: string): string => {
   return path
 }
 
+const { withBase } = useUrl()
 const route = useRoute()
 
 const classes = computed(() => ({

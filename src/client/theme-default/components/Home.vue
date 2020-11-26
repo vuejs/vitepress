@@ -2,7 +2,7 @@
   <header class="hero">
     <img
       v-if="data.heroImage"
-      :src="heroImageSrc"
+      :src="$withBase(heroImageSrc)"
       :alt="data.heroAlt || 'hero'"
     />
 
@@ -39,7 +39,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute, useSiteData } from 'vitepress'
-import { withBase } from '../utils'
 
 const route = useRoute()
 const siteData = useSiteData()
@@ -48,7 +47,7 @@ const actionLink = computed(() => ({
   link: data.value.actionLink,
   text: data.value.actionText
 }))
-const heroImageSrc = computed(() => withBase(data.value.heroImage))
+const heroImageSrc = computed(() => data.value.heroImage)
 const siteTitle = computed(() => siteData.value.title)
 const siteDescription = computed(() => siteData.value.description)
 </script>
