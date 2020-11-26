@@ -42,6 +42,7 @@ function getGuideSidebar() {
         { text: 'What is VitePress?', link: '/' },
         { text: 'Getting Started', link: '/guide/getting-started' },
         { text: 'Configuration', link: '/guide/configuration' },
+        { text: 'Asset Handling', link: '/guide/assets' },
         { text: 'Markdown Extensions', link: '/guide/markdown' },
         { text: 'Deploying', link: '/guide/deploy' }
       ]
