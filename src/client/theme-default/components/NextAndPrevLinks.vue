@@ -17,30 +17,13 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-import { useNextAndPrevLinks } from '../composables/nextAndPrevLinks'
+<script setup lang="ts">
 import { withBase } from '../utils'
+import { useNextAndPrevLinks } from '../composables/nextAndPrevLinks'
 import ArrowLeft from './icons/ArrowLeft.vue'
 import ArrowRight from './icons/ArrowRight.vue'
 
-export default defineComponent({
-  components: {
-    ArrowLeft,
-    ArrowRight
-  },
-
-  setup () {
-    const { hasLinks, prev, next } = useNextAndPrevLinks()
-
-    return {
-      hasLinks,
-      prev,
-      next,
-      withBase,
-    }
-  }
-})
+const { hasLinks, prev, next } = useNextAndPrevLinks()
 </script>
 
 <style scoped>
@@ -96,6 +79,10 @@ export default defineComponent({
   transform: translateY(1px);
 }
 
-.icon-prev { margin-right: 8px; }
-.icon-next { margin-left: 8px; }
+.icon-prev {
+  margin-right: 8px;
+}
+.icon-next {
+  margin-left: 8px;
+}
 </style>

@@ -2,15 +2,11 @@
   <div class="theme">
     <h1>404</h1>
     <blockquote>{{ getMsg() }}</blockquote>
-    <a :href="$site.base" aria-label="go to home">
-      Take me home.
-    </a>
+    <a :href="$site.base" aria-label="go to home">Take me home.</a>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-
+<script setup lang="ts">
 const msgs = [
   `There's nothing here.`,
   `How did we get here?`,
@@ -18,11 +14,7 @@ const msgs = [
   `Looks like we've got some broken links.`
 ]
 
-export default defineComponent({
-  setup: () => ({
-    getMsg() {
-      return msgs[Math.floor(Math.random() * msgs.length)]
-    }
-  })
-})
+function getMsg() {
+  return msgs[Math.floor(Math.random() * msgs.length)]
+}
 </script>

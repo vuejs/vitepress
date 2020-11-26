@@ -11,7 +11,11 @@
     </button>
 
     <ul class="nav-dropdown">
-      <li v-for="(subItem, index) in item.items" :key="subItem.link || index" class="dropdown-item">
+      <li
+        v-for="(subItem, index) in item.items"
+        :key="subItem.link || index"
+        class="dropdown-item"
+      >
         <h4 v-if="subItem.items">{{ subItem.text }}</h4>
         <ul v-if="subItem.items" class="dropdown-subitem-wrapper">
           <li
@@ -22,10 +26,10 @@
             <NavBarLink
               :item="childSubItem"
               @focusout="
-                  isLastItemOfArray(childSubItem, subItem.items) &&
-                    isLastItemOfArray(subItem, item.items) &&
-                    setOpen(false)
-                "
+                isLastItemOfArray(childSubItem, subItem.items) &&
+                  isLastItemOfArray(subItem, item.items) &&
+                  setOpen(false)
+              "
             />
           </li>
         </ul>
@@ -40,7 +44,34 @@
   </div>
 </template>
 
-<script src="./NavDropdownLink"></script>
+<script setup lang="ts">
+import NavBarLink from './NavBarLink.vue'
+import { ref, watch, defineProps } from 'vue'
+import { useRoute } from 'vitepress'
+import type { DefaultTheme } from '../config'
+
+defineProps<{
+  item: DefaultTheme.NavItemWithChildren
+}>()
+
+const open = ref(false)
+const route = useRoute()
+
+watch(
+  () => route.path,
+  () => {
+    open.value = false
+  }
+)
+
+const setOpen = (value: boolean) => {
+  open.value = value
+}
+
+const isLastItemOfArray = <T>(item: T, array: T[]) => {
+  return array.length && array.indexOf(item) === array.length - 1
+}
+</script>
 
 <style>
 .dropdown-wrapper {
