@@ -14,7 +14,7 @@ const msgs = [
   `Looks like we've got some broken links.`
 ]
 
-const getMsg = () => {
+function getMsg() {
   return msgs[Math.floor(Math.random() * msgs.length)]
 }
 </script>
