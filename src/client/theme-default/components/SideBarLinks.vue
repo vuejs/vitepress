@@ -1,29 +1,12 @@
 <template>
   <ul v-if="items.length > 0" class="sidebar-links">
-    <SideBarLink
-      v-for="item of items"
-      :key="item.text"
-      :item="item"
-    />
+    <SideBarLink v-for="item of items" :key="item.text" :item="item" />
   </ul>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
 import { useSideBar } from '../composables/sideBar'
 import { SideBarLink } from './SideBarLink'
 
-export default defineComponent({
-  components: {
-    SideBarLink
-  },
-
-  setup() {
-    const items = useSideBar()
-
-    return {
-      items
-    }
-  }
-})
+const items = useSideBar()
 </script>

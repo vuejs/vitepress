@@ -10,17 +10,9 @@
   <slot name="search" />
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
 import NavBarTitle from './NavBarTitle.vue'
 import NavBarLinks from './NavBarLinks.vue'
-
-export default defineComponent({
-  components: {
-    NavBarTitle,
-    NavBarLinks
-  }
-})
 </script>
 
 <style scoped>

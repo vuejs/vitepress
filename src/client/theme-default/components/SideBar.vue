@@ -12,20 +12,13 @@
   </aside>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
+import { defineProps } from 'vue'
 import NavBarLinks from './NavBarLinks.vue'
 import SideBarLinks from './SideBarLinks.vue'
 
-export default defineComponent({
-  components: {
-    NavBarLinks,
-    SideBarLinks
-  },
-
-  props: {
-    open: { type: Boolean, required: true }
-  }
+defineProps({
+  open: { type: Boolean, required: true }
 })
 </script>
 
@@ -41,7 +34,7 @@ export default defineComponent({
   background-color: var(--c-bg);
   overflow-y: auto;
   transform: translateX(-100%);
-  transition: transform .25s ease;
+  transition: transform 0.25s ease;
 }
 
 @media (min-width: 720px) {
