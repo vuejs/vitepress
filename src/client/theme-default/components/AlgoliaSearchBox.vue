@@ -3,6 +3,7 @@
 </template>
 
 <script setup lang="ts">
+import type { AlgoliaSearchOptions } from 'algoliasearch'
 import { useRoute, useRouter } from 'vitepress'
 import { defineProps, getCurrentInstance, onMounted, watch } from 'vue'
 
@@ -26,7 +27,7 @@ function getRelativePath(absoluteUrl: string) {
 
 const { options } = defineProps<{
   // Using a regular import breaks at runtime
-  options: import('algoliasearch').AlgoliaSearchOptions
+  options: AlgoliaSearchOptions
 }>()
 
 const route = useRoute()
