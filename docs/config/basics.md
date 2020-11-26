@@ -43,7 +43,7 @@ module.exports = {
 }
 ```
 
-## Description
+## description
 
 - Type: `string`
 - Default: `A VitePress site`
