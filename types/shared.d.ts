@@ -25,6 +25,7 @@ export type HeadConfig =
 
 export interface PageData {
   title: string
+  description: string
   frontmatter: Record<string, any>
   headers: Header[]
   relativePath: string

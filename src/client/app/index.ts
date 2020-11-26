@@ -92,6 +92,18 @@ export function createApp() {
         return router.route.data.frontmatter
       }
     },
+    $title: {
+      get() {
+        return router.route.data.title || siteDataByRouteRef.value.title
+      }
+    },
+    $description: {
+      get() {
+        return (
+          router.route.data.description || siteDataByRouteRef.value.description
+        )
+      }
+    },
     $themeConfig: {
       get() {
         return siteDataByRouteRef.value.themeConfig

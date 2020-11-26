@@ -55,6 +55,14 @@ Reference of [\$page](#page).frontmatter.
 }
 ```
 
+## \$title
+
+Value of the `<title>` label used for the current page.
+
+## \$description
+
+The content value of the `<meta name= "description" content= "...">` for the current page.
+
 ## \$themeConfig
 
 Refers to `$site.themeConfig`.
