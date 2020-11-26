@@ -52,6 +52,6 @@ Description for the site. This will render as a `<meta>` tag in the page HTML.
 
 ```js
 module.exports = {
-  title: 'A VitePress site'
+  description: 'A VitePress site'
 }
 ```
