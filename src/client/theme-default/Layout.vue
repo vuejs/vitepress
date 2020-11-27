@@ -131,10 +131,3 @@ watch(route, hideSidebar)
 // TODO: route only changes when the pathname changes
 // listening to hashchange does nothing because it's prevented in router
 </script>
-
-<style>
-/* remove margin added by user agent */
-.DocSearch-SearchBar form {
-  margin-block-end: 0;
-}
-</style>

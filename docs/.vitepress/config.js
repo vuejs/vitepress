@@ -11,16 +11,15 @@ module.exports = {
     editLinkText: 'Edit this page on GitHub',
     lastUpdated: 'Last Updated',
 
+    algolia: {
+      apiKey: 'c57105e511faa5558547599f120ceeba',
+      indexName: 'vitepress'
+    },
+
     carbonAds: {
       carbon: 'CEBDT27Y',
       custom: 'CKYD62QM',
       placement: 'vuejsorg'
-    },
-
-    algolia: {
-      apiKey: 'c57105e511faa5558547599f120ceeba',
-      indexName: 'vitepress'
-      // algoliaOptions: { facetFilters: ['tags:guide,api'] }
     },
 
     nav: [

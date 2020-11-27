@@ -1,11 +1,25 @@
 <template>
-  <div id="docsearch"></div>
+  <div class="algolia-search-box" id="docsearch" />
 </template>
 
 <script setup lang="ts">
 import type { AlgoliaSearchOptions } from 'algoliasearch'
 import { useRoute, useRouter } from 'vitepress'
 import { defineProps, getCurrentInstance, onMounted, watch } from 'vue'
+
+const { options } = defineProps<{
+  options: AlgoliaSearchOptions
+}>()
+
+const vm = getCurrentInstance()
+const route = useRoute()
+const router = useRouter()
+
+watch(() => options, (value) => { update(value) })
+
+onMounted(() => {
+  initialize(options)
+})
 
 function isSpecialClick(event: MouseEvent) {
   return (
@@ -19,31 +33,13 @@ function isSpecialClick(event: MouseEvent) {
 
 function getRelativePath(absoluteUrl: string) {
   const { pathname, hash } = new URL(absoluteUrl)
-  // const url = pathname.replace(this.$site.base, '/') + hash
-  const url = pathname + hash
 
-  return url
+  return pathname + hash
 }
-
-const { options } = defineProps<{
-  // Using a regular import breaks at runtime
-  options: AlgoliaSearchOptions
-}>()
-
-const route = useRoute()
-const router = useRouter()
-const vm = getCurrentInstance()
-
-watch(
-  () => options,
-  (newValue) => {
-    update(newValue)
-  }
-)
 
 function update(options: any) {
   if (vm && vm.vnode.el) {
-    vm.vnode.el.innerHTML = '<div id="docsearch"></div>'
+    vm.vnode.el.innerHTML = '<div class="algolia-search-box" id="docsearch"></div>'
     initialize(options)
   }
 }
@@ -52,33 +48,21 @@ function initialize(userOptions: any) {
   Promise.all([
     import('@docsearch/js'),
     import('@docsearch/css')
-    // import(/* webpackChunkName: "docsearch" */ '@docsearch/js'),
-    // Promise.resolve(docsearch),
-    // import(/* webpackChunkName: "docsearch" */ '@docsearch/css'),
   ]).then(([docsearch]) => {
-    docsearch = docsearch.default
-
-    docsearch(
+    docsearch.default(
       Object.assign({}, userOptions, {
         container: '#docsearch',
-        // #697 Make DocSearch work well in i18n mode.
-        searchParameters: Object.assign(
-          {},
-          // lang && {
-          //   facetFilters: [`lang:${lang}`].concat(
-          //     userOptions.facetFilters || []
-          //   )
-          // },
-          userOptions.searchParameters
-        ),
+
+        searchParameters: Object.assign({}, userOptions.searchParameters),
+
         navigator: {
           navigate: ({ suggestionUrl }: { suggestionUrl: string }) => {
             const { pathname: hitPathname } = new URL(
               window.location.origin + suggestionUrl
             )
 
-            // Vue Router doesn't handle same-page navigation so we use
-            // the native browser location API for anchor navigation.
+            // Router doesn't handle same-page navigation so we use the native
+            // browser location API for anchor navigation
             if (route.path === hitPathname) {
               window.location.assign(window.location.origin + suggestionUrl)
             } else {
@@ -86,6 +70,7 @@ function initialize(userOptions: any) {
             }
           }
         },
+
         transformItems: (items) => {
           return items.map((item) => {
             return Object.assign({}, item, {
@@ -93,6 +78,7 @@ function initialize(userOptions: any) {
             })
           })
         },
+
         hitComponent: ({ hit, children }) => {
           const relativeHit = hit.url.startsWith('http')
             ? getRelativePath(hit.url as string)
@@ -110,15 +96,15 @@ function initialize(userOptions: any) {
                   return
                 }
 
-                // We rely on the native link scrolling when user is
-                // already on the right anchor because Vue Router doesn't
-                // support duplicated history entries.
+                // we rely on the native link scrolling when user is already on
+                // the right anchor because Router doesn't support duplicated
+                // history entries
                 if (route.path === relativeHit) {
                   return
                 }
 
-                // If the hits goes to another page, we prevent the native link behavior
-                // to leverage the Vue Router loading feature.
+                // if the hits goes to another page, we prevent the native link
+                // behavior to leverage the Router loading feature
                 if (route.path !== relativeHit) {
                   event.preventDefault()
                 }
@@ -133,16 +119,37 @@ function initialize(userOptions: any) {
     )
   })
 }
-
-onMounted(() => {
-  initialize(options)
-})
 </script>
 
 <style>
+.algolia-search-box {
+  padding-top: 1px;
+}
+
+@media (min-width: 720px) {
+  .algolia-search-box {
+    padding-left: 8px;
+  }
+}
+
+@media (min-width: 751px) {
+  .algolia-search-box {
+    padding-left: 8px;
+  }
+
+  .algolia-search-box .DocSearch-Button-Placeholder {
+    padding-left: 8px;
+    font-size: .9rem;
+    font-weight: 500;
+  }
+}
+
 .DocSearch {
   --docsearch-primary-color: #42b983;
   --docsearch-highlight-color: var(--docsearch-primary-color);
   --docsearch-searchbox-shadow: inset 0 0 0 2px var(--docsearch-primary-color);
+  --docsearch-text-color: var(--c-text-light);
+  --docsearch-muted-color: var(--c-text-lighter);
+  --docsearch-searchbox-background: #f2f2f2;
 }
 </style>
