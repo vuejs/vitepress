@@ -67,14 +67,15 @@ function getConfigSidebar() {
   return [
     {
       text: 'App Config',
-      children: [
-        { text: 'Basics', link: '/config/basics' },
-        { text: 'Carbon Ads', link: '/config/carbon-ads' }
-      ]
+      children: [{ text: 'Basics', link: '/config/basics' }]
     },
     {
       text: 'Theme Config',
-      children: [{ text: 'Homepage', link: '/config/homepage' }]
+      children: [
+        { text: 'Homepage', link: '/config/homepage' },
+        { text: 'Algolia Search', link: '/config/algolia-search' },
+        { text: 'Carbon Ads', link: '/config/carbon-ads' }
+      ]
     }
   ]
 }
