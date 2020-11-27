@@ -144,6 +144,10 @@ a.header-anchor:focus {
   text-decoration: none;
 }
 
+figure {
+  margin: 0;
+}
+
 img {
   max-width: 100%;
 }
@@ -257,6 +261,10 @@ blockquote > p {
   .theme main {
     padding-left: 20rem;
   }
+
+  .theme main.main-home {
+    padding-left: 0;
+  }
 }
 
 @media screen and (min-width: 720px) {
@@ -277,19 +285,5 @@ blockquote > p {
 @media screen and (max-width: 719px) {
   .theme main {
     margin-left: 0;
-  }
-}
-
-.theme main.home {
-  padding: var(--header-height) 2rem 0;
-  max-width: 960px;
-  margin: 0px auto;
-  display: block;
-}
-
-@media screen and (max-width: 429px) {
-  .theme main.home {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
   }
 }
