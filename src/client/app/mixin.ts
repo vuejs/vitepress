@@ -44,7 +44,9 @@ export function mixinGlobalComputed(
 
     $title: {
       get() {
-        return page.value.title || siteByRoute.value.title
+        return page.value.title
+          ? page.value.title + ' | ' + siteByRoute.value.title
+          : siteByRoute.value.title
       }
     },
 
