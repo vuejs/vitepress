@@ -4,7 +4,7 @@ import { createRouter, RouterSymbol } from './router'
 import { mixinGlobalComputed, mixinGlobalComponents } from './mixin'
 import { siteDataRef } from './composables/siteData'
 import { useSiteDataByRoute } from './composables/siteDataByRoute'
-import { usePageData } from './composables/PageData'
+import { usePageData } from './composables/pageData'
 import { useUpdateHead } from './composables/head'
 import Theme from '/@theme/index'
 
