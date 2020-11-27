@@ -21,11 +21,23 @@ a.sidebar-link-item.active {
 }
 
 .sidebar > .sidebar-links {
-  padding: 1.5rem 0;
+  padding: .75rem 0 5rem;
+}
+
+@media (min-width: 720px) {
+  .sidebar > .sidebar-links {
+    padding: 1.5rem 0;
+  }
 }
 
 .sidebar > .sidebar-links > .sidebar-link + .sidebar-link {
-  padding-top: 1rem;
+  padding-top: .5rem;
+}
+
+@media (min-width: 720px) {
+  .sidebar > .sidebar-links > .sidebar-link + .sidebar-link {
+    padding-top: 1.25rem;
+  }
 }
 
 .sidebar > .sidebar-links > .sidebar-link > .sidebar-link-item {

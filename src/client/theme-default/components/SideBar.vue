@@ -1,8 +1,6 @@
 <template>
   <aside class="sidebar" :class="{ open }">
-    <div class="nav">
-      <NavBarLinks class="show-mobile" />
-    </div>
+    <NavLinks class="nav" />
 
     <slot name="sidebar-top" />
 
@@ -14,7 +12,7 @@
 
 <script setup lang="ts">
 import { defineProps } from 'vue'
-import NavBarLinks from './NavBarLinks.vue'
+import NavLinks from './NavLinks.vue'
 import SideBarLinks from './SideBarLinks.vue'
 
 defineProps({

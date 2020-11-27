@@ -4,7 +4,7 @@
   <div class="flex-grow" />
 
   <div class="nav">
-    <NavBarLinks />
+    <NavLinks />
   </div>
 
   <slot name="search" />
@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import NavBarTitle from './NavBarTitle.vue'
-import NavBarLinks from './NavBarLinks.vue'
+import NavLinks from './NavLinks.vue'
 </script>
 
 <style scoped>

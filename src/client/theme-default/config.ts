@@ -60,11 +60,20 @@ export namespace DefaultTheme {
 
     prevLink?: boolean
     nextLink?: boolean
+
+    locales?: Record<string, LocaleConfig & Omit<Config, 'locales'>>
   }
 
   // navbar --------------------------------------------------------------------
 
   export type NavItem = NavItemWithLink | NavItemWithChildren
+
+  export interface NavItemBase {
+    text: string
+    target?: string
+    rel?: string
+    ariaLabel?: string
+  }
 
   export interface NavItemWithLink extends NavItemBase {
     link: string
@@ -72,13 +81,6 @@ export namespace DefaultTheme {
 
   export interface NavItemWithChildren extends NavItemBase {
     items: NavItem[]
-  }
-
-  export interface NavItemBase {
-    text: string
-    target?: string
-    rel?: string
-    ariaLabel?: string
   }
 
   // sidebar -------------------------------------------------------------------
@@ -125,5 +127,19 @@ export namespace DefaultTheme {
       apiKey: string
       indexName: string
     }
+  }
+
+  // locales --------------------------------------------------------------------
+
+  export interface LocaleConfig {
+    /**
+     * Text for the language dropdown.
+     */
+    selectText?: string
+
+    /**
+     * Label for this locale in the language dropdown.
+     */
+    label?: string
   }
 }
