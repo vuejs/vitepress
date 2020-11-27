@@ -74,7 +74,7 @@ export function createApp() {
     Theme.enhanceApp({
       app,
       router,
-      siteData: siteDataByRouteRef
+      siteData: siteDataRef
     })
   }
 
