@@ -18,7 +18,7 @@
     </SideBar>
     <!-- TODO: make this button accessible -->
     <div class="sidebar-mask" @click="toggleSidebar(false)" />
-    <main class="home" aria-labelledby="main-title" v-if="enableHome">
+    <main class="main-home" aria-labelledby="main-title" v-if="enableHome">
       <Home>
         <template #hero>
           <slot name="home-hero" />

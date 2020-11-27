@@ -66,6 +66,10 @@ function getConfigSidebar() {
         { text: 'Basics', link: '/config/basics' },
         { text: 'Carbon Ads', link: '/config/carbon-ads' }
       ]
+    },
+    {
+      text: 'Theme Config',
+      children: [{ text: 'Homepage', link: '/config/homepage' }]
     }
   ]
 }
