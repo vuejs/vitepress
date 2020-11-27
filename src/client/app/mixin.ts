@@ -1,7 +1,7 @@
 import { App } from 'vue'
 import { joinPath } from './utils'
 import { SiteDataRef } from './composables/siteData'
-import { PageDataRef } from './composables/PageData'
+import { PageDataRef } from './composables/pageData'
 import { Content } from './components/Content'
 import Debug from './components/Debug.vue'
 
