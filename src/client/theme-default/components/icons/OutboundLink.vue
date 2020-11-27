@@ -1,13 +1,13 @@
 <template functional>
   <svg
-    class="icon"
+    class="icon outbound"
     xmlns="http://www.w3.org/2000/svg"
     aria-hidden="true"
     x="0px"
     y="0px"
     viewBox="0 0 100 100"
-    width="16"
-    height="16"
+    width="15"
+    height="15"
   >
     <path
       fill="currentColor"
@@ -21,11 +21,11 @@
 </template>
 
 <style>
-.icon {
+.icon.outbound {
   position: relative;
   top: -1px;
   display: inline-block;
-  color: #aaa;
   vertical-align: middle;
+  color: var(--c-text-lighter);
 }
 </style>

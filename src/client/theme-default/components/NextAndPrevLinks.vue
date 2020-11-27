@@ -2,13 +2,13 @@
   <div v-if="hasLinks" class="next-and-prev-link">
     <div class="container">
       <div class="prev">
-        <a v-if="prev" class="link" :href="withBase(prev.link)">
+        <a v-if="prev" class="link" :href="$withBase(prev.link)">
           <ArrowLeft class="icon icon-prev" />
           <span class="text">{{ prev.text }}</span>
         </a>
       </div>
       <div class="next">
-        <a v-if="next" class="link" :href="withBase(next.link)">
+        <a v-if="next" class="link" :href="$withBase(next.link)">
           <span class="text">{{ next.text }}</span>
           <ArrowRight class="icon icon-next" />
         </a>
@@ -18,7 +18,6 @@
 </template>
 
 <script setup lang="ts">
-import { withBase } from '../utils'
 import { useNextAndPrevLinks } from '../composables/nextAndPrevLinks'
 import ArrowLeft from './icons/ArrowLeft.vue'
 import ArrowRight from './icons/ArrowRight.vue'

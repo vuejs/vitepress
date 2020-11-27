@@ -20,6 +20,7 @@ div[class*='language-'] {
   position: relative;
   margin: 1rem -1.5rem;
   background-color: var(--code-bg-color);
+  overflow-x: auto;
 }
 
 li > div[class*='language-'] {

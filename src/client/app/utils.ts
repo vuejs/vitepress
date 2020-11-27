@@ -1,6 +1,13 @@
 export const inBrowser = typeof window !== 'undefined'
 
 /**
+ * Join two paths by resolving the slash collision.
+ */
+export function joinPath(base: string, path: string): string {
+  return `${base}${path}`.replace(/\/+/g, '/')
+}
+
+/**
  * Converts a url path to the corresponding js chunk filename.
  */
 export function pathToFile(path: string): string {

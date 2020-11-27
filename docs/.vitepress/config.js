@@ -11,6 +11,12 @@ module.exports = {
     editLinkText: 'Edit this page on GitHub',
     lastUpdated: 'Last Updated',
 
+    carbonAds: {
+      carbon: 'CEBDT27Y',
+      custom: 'CKYD62QM',
+      placement: 'vuejsorg'
+    },
+
     nav: [
       { text: 'Guide', link: '/' },
       { text: 'Config Reference', link: '/config/basics' },
@@ -36,6 +42,7 @@ function getGuideSidebar() {
         { text: 'What is VitePress?', link: '/' },
         { text: 'Getting Started', link: '/guide/getting-started' },
         { text: 'Configuration', link: '/guide/configuration' },
+        { text: 'Asset Handling', link: '/guide/assets' },
         { text: 'Markdown Extensions', link: '/guide/markdown' },
         { text: 'Deploying', link: '/guide/deploy' }
       ]
@@ -44,6 +51,7 @@ function getGuideSidebar() {
       text: 'Advanced',
       children: [
         { text: 'Frontmatter', link: '/guide/frontmatter' },
+        { text: 'Global Computed', link: '/guide/global-computed' },
         { text: 'Customization', link: '/guide/customization' }
       ]
     }
@@ -54,7 +62,10 @@ function getConfigSidebar() {
   return [
     {
       text: 'App Config',
-      children: [{ text: 'Basics', link: '/config/basics' }]
+      children: [
+        { text: 'Basics', link: '/config/basics' },
+        { text: 'Carbon Ads', link: '/config/carbon-ads' }
+      ]
     }
   ]
 }
