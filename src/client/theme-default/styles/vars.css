@@ -26,11 +26,12 @@
   --font-family-mono: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 
   /**
-   * Z Indexes
+   * Z Indexes Algolia SearchBox has a z-index of 200, so make sure not to go
+   * above that value.
    * --------------------------------------------------------------------- */
 
-  --z-index-navbar: 1100;
-  --z-index-sidebar: 1000;
+  --z-index-navbar: 10;
+  --z-index-sidebar: 6;
 
   /**
    * Sizes
