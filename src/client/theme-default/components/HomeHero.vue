@@ -1,77 +1,42 @@
 <template>
   <header v-if="showHero" class="home-hero">
-    <figure v-if="hasHeroImage" class="figure">
-      <img class="image" :src="heroImage" :alt="heroAlt">
+    <figure v-if="$frontmatter.heroImage" class="figure">
+      <img
+        class="image"
+        :src="$withBase($frontmatter.heroImage)"
+        :alt="$frontmatter.heroAlt"
+      >
     </figure>
 
     <h1 v-if="hasHeroText" class="title">{{ heroText }}</h1>
     <p v-if="hasTagline" class="description">{{ tagline }}</p>
 
     <div v-if="hasAction" class="action">
-      <a class="action-link" :href="actionLink">
-        {{ actionText }}
+      <a class="action-link" :href="$frontmatter.actionLink">
+        {{ $frontmatter.actionText }}
       </a>
     </div>
   </header>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue'
-import { useRoute, useSiteDataByRoute } from 'vitepress'
-import { withBase } from '../utils'
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useSiteDataByRoute, useFrontmatter } from 'vitepress'
 
-export default defineComponent({
-  setup() {
-    const route = useRoute()
-    const siteData = useSiteDataByRoute()
+ref: site = useSiteDataByRoute()
+ref: data = useFrontmatter()
 
-    const data = computed(() => route.data.frontmatter)
-
-    const showHero = computed(() => {
-      return hasHeroImage.value
-        || hasHeroText.value
-        || hasTagline.value
-        || hasAction.value
-    })
-
-    const hasHeroImage = computed(() => !!data.value.heroImage)
-    const heroImage = computed(() => withBase(data.value.heroImage))
-    const heroAlt = computed(() => data.value.heroAlt || 'Hero image')
-
-    const hasHeroText = computed(() => data.value.heroText !== null)
-
-    const heroText = computed(() => {
-      return data.value.heroText || siteData.value.title
-    })
-
-    const hasTagline = computed(() => data.value.tagline !== null)
-
-    const tagline = computed(() => {
-      return data.value.tagline || siteData.value.description
-    })
-
-    const hasAction = computed(() => {
-      return data.value.actionLink && data.value.actionText
-    })
-
-    const actionLink = computed(() => data.value.actionLink)
-    const actionText = computed(() => data.value.actionText)
-
-    return {
-      showHero,
-      hasHeroImage,
-      heroImage,
-      heroAlt,
-      hasHeroText,
-      heroText,
-      hasTagline,
-      tagline,
-      hasAction,
-      actionLink,
-      actionText
-    }
-  }
+ref: showHero = computed(() => {
+  return data.heroImage || hasHeroText || hasTagline || hasAction
 })
+
+ref: hasHeroText = computed(() => data.heroText !== null)
+ref: heroText = computed(() => data.heroText || site.title)
+
+ref: hasTagline = computed(() => data.tagline !== null)
+ref: tagline = computed(() => data.tagline || site.description)
+
+ref: hasAction = computed(() => data.actionLink && data.actionText)
 </script>
 
 <style scoped>

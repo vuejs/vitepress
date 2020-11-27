@@ -13,33 +13,14 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue'
-import { useRoute, useSiteDataByRoute } from 'vitepress'
-import { withBase } from '../utils'
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useSiteDataByRoute, useFrontmatter } from 'vitepress'
 
-export default defineComponent({
-  setup() {
-    const route = useRoute()
-    const siteData = useSiteDataByRoute()
+ref: data = useFrontmatter()
 
-    const data = computed(() => route.data.frontmatter)
-
-    const hasFeatures = computed(() => {
-      return data.value.features && data.value.features.length > 0
-    })
-
-    const features = computed(() => {
-      return data.value.features ? data.value.features : []
-    })
-
-    return {
-      data,
-      hasFeatures,
-      features
-    }
-  }
-})
+ref: hasFeatures = computed(() => data.features && data.features.length > 0)
+ref: features = computed(() => data.features ? data.features : [])
 </script>
 
 <style scoped>

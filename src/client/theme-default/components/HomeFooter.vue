@@ -1,27 +1,10 @@
 <template>
-  <footer v-if="footer" class="footer">
+  <footer v-if="$frontmatter.footer" class="footer">
     <div class="container">
-      <p class="text">{{ footer }}</p>
+      <p class="text">{{ $frontmatter.footer }}</p>
     </div>
   </footer>
 </template>
-
-<script lang="ts">
-import { defineComponent, computed } from 'vue'
-import { useRoute } from 'vitepress'
-
-export default defineComponent({
-  setup() {
-    const route = useRoute()
-
-    const footer = computed(() => route.data.frontmatter.footer)
-
-    return {
-      footer
-    }
-  }
-})
-</script>
 
 <style scoped>
 .footer {
