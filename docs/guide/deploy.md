@@ -52,9 +52,9 @@ Now the `docs:serve` method will launch the server at http://localhost:8080.
 
 1. Set the correct `base` in `docs/.vitepress/config.js`.
 
-   If you are deploying to `https://<USERNAME>.github.io/`, you can omit `base` as it defaults to `"/"`.
+   If you are deploying to `https://<USERNAME>.github.io/`, you can omit `base` as it defaults to `'/'`.
 
-   If you are deploying to `https://<USERNAME>.github.io/<REPO>/`, for example your repository is at `https://github.com/<USERNAME>/<REPO>`, then set `base` to `"/<REPO>/"`.
+   If you are deploying to `https://<USERNAME>.github.io/<REPO>/`, for example your repository is at `https://github.com/<USERNAME>/<REPO>`, then set `base` to `'/<REPO>/'`.
 
 2. Inside your project, create `deploy.sh` with the following content (with highlighted lines uncommented appropriately), and run it to deploy:
 
@@ -91,16 +91,16 @@ You can also run the above script in your CI setup to enable automatic deploymen
 :::
 
 ::: warning
-GitHub pages have issues with the underscore in the dist `_assets` folder. To fix this an empty file name `.nojekyll` needs to be placed in the docs `public/`. See [Bypassing Jekyll on GitHub Pages](https://github.blog/2009-12-29-bypassing-jekyll-on-github-pages/).
+GitHub pages have issues with the underscore in the dist `_assets` folder. To fix this an empty file name `.nojekyll` needs to be placed in the docs `public` directory. See [Bypassing Jekyll on GitHub Pages](https://github.blog/2009-12-29-bypassing-jekyll-on-github-pages/).
 :::
 
 ### GitHub Pages and Travis CI
 
 1. Set the correct `base` in `docs/.vitepress/config.js`.
 
-   If you are deploying to `https://<USERNAME or GROUP>.github.io/`, you can omit `base` as it defaults to `"/"`.
+   If you are deploying to `https://<USERNAME or GROUP>.github.io/`, you can omit `base` as it defaults to `'/'`.
 
-   If you are deploying to `https://<USERNAME or GROUP>.github.io/<REPO>/`, for example your repository is at `https://github.com/<USERNAME>/<REPO>`, then set `base` to `"/<REPO>/"`.
+   If you are deploying to `https://<USERNAME or GROUP>.github.io/<REPO>/`, for example your repository is at `https://github.com/<USERNAME>/<REPO>`, then set `base` to `'/<REPO>/'`.
 
 2. Create a file named `.travis.yml` in the root of your project.
 
@@ -120,19 +120,21 @@ deploy:
   provider: pages
   skip_cleanup: true
   local_dir: docs/.vitepress/dist
-  github_token: $GITHUB_TOKEN # A token generated on GitHub allowing Travis to push code on you repository. Set in the Travis settings page of your repository, as a secure variable
+  # A token generated on GitHub allowing Travis to push code on you repository.
+  # Set in the Travis settings page of your repository, as a secure variable.
+  github_token: $GITHUB_TOKEN
   keep_history: true
   on:
     branch: master
 ```
 
-### GitLab Pages and GitLab CI
+## GitLab Pages and GitLab CI
 
 1. Set the correct `base` in `docs/.vitepress/config.js`.
 
-   If you are deploying to `https://<USERNAME or GROUP>.gitlab.io/`, you can omit `base` as it defaults to `"/"`.
+    If you are deploying to `https://<USERNAME or GROUP>.gitlab.io/`, you can omit `base` as it defaults to `'/'`.
 
-   If you are deploying to `https://<USERNAME or GROUP>.gitlab.io/<REPO>/`, for example your repository is at `https://gitlab.com/<USERNAME>/<REPO>`, then set `base` to `"/<REPO>/"`.
+    If you are deploying to `https://<USERNAME or GROUP>.gitlab.io/<REPO>/`, for example your repository is at `https://gitlab.com/<USERNAME>/<REPO>`, then set `base` to `'/<REPO>/'`.
 
 2. Set `dest` in `.vitepress/config.js` to `public`.
 
@@ -144,7 +146,6 @@ pages:
   cache:
     paths:
       - node_modules/
-
   script:
     - yarn install # npm install
     - yarn docs:build # npm run docs:build
@@ -170,26 +171,26 @@ pages:
 
 2. Create `firebase.json` and `.firebaserc` at the root of your project with the following content:
 
-`firebase.json`:
+ `firebase.json`:
 
-```json
-{
-  "hosting": {
-    "public": "./docs/.vitepress/dist",
-    "ignore": []
+  ```json
+  {
+    "hosting": {
+      "public": "./docs/.vitepress/dist",
+      "ignore": []
+    }
   }
-}
-```
+  ```
 
-`.firebaserc`:
+  `.firebaserc`:
 
-```js
-{
- "projects": {
-   "default": "<YOUR_FIREBASE_ID>"
- }
-}
-```
+  ```js
+  {
+   "projects": {
+     "default": "<YOUR_FIREBASE_ID>"
+   }
+  }
+  ```
 
 3. After running `yarn docs:build` or `npm run docs:build`, deploy using the command `firebase deploy`.
 
@@ -211,19 +212,19 @@ You can also deploy to a [custom domain](http://surge.sh/help/adding-a-custom-do
 
 3. Run `heroku login` and fill in your Heroku credentials:
 
-   ```bash
-   heroku login
-   ```
+```bash
+$ heroku login
+```
 
 4. Create a file called `static.json` in the root of your project with the below content:
 
-   `static.json`:
+`static.json`:
 
-   ```json
-   {
-     "root": "./docs/.vitepress/dist"
-   }
-   ```
+```json
+{
+  "root": "./docs/.vitepress/dist"
+}
+```
 
 This is the configuration of your site; read more at [heroku-buildpack-static](https://github.com/heroku/heroku-buildpack-static).
 
@@ -231,25 +232,25 @@ This is the configuration of your site; read more at [heroku-buildpack-static](h
 
 ```bash
 # version change
-git init
-git add .
-git commit -m "My site ready for deployment."
+$ git init
+$ git add .
+$ git commit -m "My site ready for deployment."
 
 # creates a new app with a specified name
-heroku apps:create example
+$ heroku apps:create example
 
 # set buildpack for static sites
-heroku buildpacks:set https://github.com/heroku/heroku-buildpack-static.git
+$ heroku buildpacks:set https://github.com/heroku/heroku-buildpack-static.git
 ```
 
 6. Deploy your site:
 
 ```bash
 # publish site
-git push heroku master
+$ git push heroku master
 
 # opens a browser to view the Dashboard version of Heroku CI
-heroku open
+$ heroku open
 ```
 
 ## Vercel
