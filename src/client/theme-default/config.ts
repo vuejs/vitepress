@@ -3,7 +3,6 @@ export namespace DefaultTheme {
     logo?: string
     nav?: NavItem[] | false
     sidebar?: SideBarConfig | MultiSideBarConfig
-    search?: SearchConfig | false
 
     /**
      * GitHub repository following the format <user>/<project>.
@@ -62,6 +61,14 @@ export namespace DefaultTheme {
     nextLink?: boolean
 
     locales?: Record<string, LocaleConfig & Omit<Config, 'locales'>>
+
+    algolia?: AlgoliaSearchOptions
+
+    carbonAds?: {
+      carbon: string
+      custom?: string
+      placement: string
+    }
   }
 
   // navbar --------------------------------------------------------------------
@@ -110,26 +117,19 @@ export namespace DefaultTheme {
     children: SideBarItem[]
   }
 
-  // search --------------------------------------------------------------------
-
-  export interface SearchConfig {
-    /**
-     * @default 5
-     */
-    maxSuggestions?: number
-
-    /**
-     * @default ''
-     */
+  // algolia  ------------------------------------------------------------------
+  // partially copied from @docsearch/react/dist/esm/DocSearch.d.ts
+  export interface AlgoliaSearchOptions {
+    appId?: string
+    apiKey: string
+    indexName: string
     placeholder?: string
-
-    algolia?: {
-      apiKey: string
-      indexName: string
-    }
+    searchParameters?: any
+    disableUserPersonalization?: boolean
+    initialQuery?: string
   }
 
-  // locales --------------------------------------------------------------------
+  // locales -------------------------------------------------------------------
 
   export interface LocaleConfig {
     /**

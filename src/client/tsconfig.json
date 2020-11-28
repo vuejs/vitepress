@@ -7,7 +7,6 @@
     "lib": ["ESNext", "DOM"],
     "types": ["vite"],
     "paths": {
-      "/@app/*": ["app/*"],
       "/@theme/*": ["theme-default/*"],
       "/@shared/*": ["shared/*"],
       "/@types/*": ["../../types/*"],

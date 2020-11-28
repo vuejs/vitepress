@@ -1,5 +1,4 @@
-import { useSiteData } from 'vitepress'
-import { joinPath } from '/@app/utils'
+import { useSiteData, joinPath } from 'vitepress'
 
 export function useUrl() {
   const site = useSiteData()

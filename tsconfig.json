@@ -16,11 +16,8 @@
       "node/*": ["src/node/*"],
       "shared/*": ["src/shared/*"],
       "tests/*": ["__tests__/*"],
-      "/@app/*": ["src/client/app/*"],
-      "/@theme/*": ["src/client/theme-default/*"],
       "/@shared/*": ["src/client/shared/*"],
-      "/@types/*": ["types/*"],
-      "vitepress": ["src/client/app/exports.ts"]
+      "/@types/*": ["types/*"]
     }
   },
   "include": [
