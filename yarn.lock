@@ -1155,7 +1155,7 @@ ajv@^6.12.3:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-algoliasearch@^4.0.0, algoliasearch@^4.8.1:
+algoliasearch@^4.0.0:
   version "4.8.1"
   resolved "https://registry.yarnpkg.com/algoliasearch/-/algoliasearch-4.8.1.tgz#ccaa1674459f2266cdc565a041bc59bd41218638"
   integrity sha512-rK0VQiOC/9DFD6cwAZIl1dq8SrmtSLVmrz9rk2IQ0/jpTKVAE7xstOaml3nvxjBZWcFQsS4+P2qtzsg6NaLaWw==
