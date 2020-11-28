@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { watch, defineProps } from 'vue'
+import { defineProps, ref, watch } from 'vue'
 import { useRoute } from 'vitepress'
 import type { DefaultTheme } from '../config'
 import NavDropdownLinkItem from './NavDropdownLinkItem.vue'
@@ -25,12 +25,12 @@ defineProps<{
 
 const route = useRoute()
 
-ref: open = false
+const open = ref(false)
 
-watch(() => route.path, () => { open = false })
+watch(() => route.path, () => { open.value = false })
 
 function toggle() {
-  open = !open
+  open.value = !open.value
 }
 </script>
 

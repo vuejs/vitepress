@@ -17,10 +17,15 @@
 import { computed } from 'vue'
 import { useSiteDataByRoute, useFrontmatter } from 'vitepress'
 
-ref: data = useFrontmatter()
+const data = useFrontmatter()
 
-ref: hasFeatures = computed(() => data.features && data.features.length > 0)
-ref: features = computed(() => data.features ? data.features : [])
+const hasFeatures = computed(() => {
+  return data.value.features && data.value.features.length > 0
+})
+
+const features = computed(() => {
+  return data.value.features ? data.value.features : []
+})
 </script>
 
 <style scoped>

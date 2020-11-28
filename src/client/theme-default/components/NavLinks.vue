@@ -25,13 +25,13 @@ import { useRepo } from '../composables/repo'
 import NavLink from './NavLink.vue'
 import NavDropdownLink from './NavDropdownLink.vue'
 
-ref: siteByRoute = useSiteDataByRoute()
-ref: localeLinks = useLocaleLinks()
-ref: repo = useRepo()
+const site = useSiteDataByRoute()
+const localeLinks = useLocaleLinks()
+const repo = useRepo()
 
-ref: show = computed(() => links || repo)
+const show = computed(() => links.value || repo.value)
 
-ref: links = computed(() => siteByRoute.themeConfig.nav)
+const links = computed(() => site.value.themeConfig.nav)
 </script>
 
 <style scoped>

@@ -23,20 +23,23 @@
 import { computed } from 'vue'
 import { useSiteDataByRoute, useFrontmatter } from 'vitepress'
 
-ref: site = useSiteDataByRoute()
-ref: data = useFrontmatter()
+const site = useSiteDataByRoute()
+const data = useFrontmatter()
 
-ref: showHero = computed(() => {
-  return data.heroImage || hasHeroText || hasTagline || hasAction
+const showHero = computed(() => {
+  return data.value.heroImage
+    || hasHeroText.value
+    || hasTagline.value
+    || hasAction.value
 })
 
-ref: hasHeroText = computed(() => data.heroText !== null)
-ref: heroText = computed(() => data.heroText || site.title)
+const hasHeroText = computed(() => data.value.heroText !== null)
+const heroText = computed(() => data.value.heroText || site.value.title)
 
-ref: hasTagline = computed(() => data.tagline !== null)
-ref: tagline = computed(() => data.tagline || site.description)
+const hasTagline = computed(() => data.value.tagline !== null)
+const tagline = computed(() => data.value.tagline || site.value.description)
 
-ref: hasAction = computed(() => data.actionLink && data.actionText)
+const hasAction = computed(() => data.value.actionLink && data.value.actionText)
 </script>
 
 <style scoped>
