@@ -64,6 +64,14 @@ Reference of `$page.frontmatter`.
 }
 ```
 
+## $lang
+
+The language of the current page. Default: `en-US`.
+
+## $localePath
+
+The locale path prefix for the current page. Default: `/`.
+
 ## $title
 
 Value of the `<title>` label used for the current page.
@@ -77,5 +85,5 @@ The content value of the `<meta name= "description" content= "...">` for the cur
 Helper method to generate correct path by prepending the `base` path configured in `.vitepress/config.js`. It's useful when you want to link to [public files with base path](./assets#public-files).
 
 ```html
-<img :src="$withBase('/foo.png')" alt="foo">
+<img :src="$withBase('/foo.png')" alt="foo" />
 ```

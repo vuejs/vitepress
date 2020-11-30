@@ -56,6 +56,24 @@ export function mixinGlobalComputed(
       }
     },
 
+    $lang: {
+      get() {
+        return siteByRoute.value.lang
+      }
+    },
+
+    $localePath: {
+      get() {
+        const { locales } = site.value
+        const { lang } = siteByRoute.value
+        return (
+          (locales &&
+            Object.keys(locales).find((lp) => locales[lp].lang === lang)) ||
+          '/'
+        )
+      }
+    },
+
     $withBase: {
       value(path: string) {
         return joinPath(site.value.base, path)
