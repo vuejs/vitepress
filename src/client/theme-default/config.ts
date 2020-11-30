@@ -57,8 +57,8 @@ export namespace DefaultTheme {
      */
     lastUpdated?: string | boolean
 
-    prevLink?: boolean
-    nextLink?: boolean
+    prevLinks?: boolean
+    nextLinks?: boolean
 
     locales?: Record<string, LocaleConfig & Omit<Config, 'locales'>>
 
