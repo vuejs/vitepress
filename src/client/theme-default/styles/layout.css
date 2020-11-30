@@ -199,32 +199,6 @@ form {
   margin: 0;
 }
 
-.theme {
-  font-size: 16px;
-  color: var(--c-text);
-}
-
-.theme .navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: var(--header-height);
-  background-color: #fff;
-  border-bottom: 1px solid var(--c-divider);
-  z-index: var(--z-index-navbar);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.7rem 1.5rem;
-}
-
-@media screen and (max-width: 719px) {
-  .theme .navbar {
-    padding-left: 4rem;
-  }
-}
-
 .theme.sidebar-open .sidebar-mask {
   display: block;
 }
@@ -243,51 +217,20 @@ form {
   top: 0;
 }
 
-@media screen and (max-width: 959px) {
-  .theme aside {
-    width: var(--sidebar-width);
-  }
-}
-
-.sidebar-mask {
-  z-index: 2;
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  display: none;
-}
-
-.theme main {
-  padding-top: var(--header-height);
-}
-
-@media screen and (min-width: 960px) {
-  .theme main {
-    padding-left: 20rem;
-  }
-
-  .theme main.main-home {
-    padding-left: 0;
-  }
-}
-
 @media screen and (min-width: 720px) {
   .theme.no-sidebar aside {
     display: none;
   }
+
   .theme.no-sidebar main {
     margin-left: 0;
   }
 }
 
-@media screen and (max-width: 959px) {
-  .theme main {
-    margin-left: 16.4rem;
-  }
-}
-
-@media screen and (max-width: 719px) {
-  .theme main {
-    margin-left: 0;
-  }
+.sidebar-mask {
+  position: fixed;
+  z-index: 2;
+  display: none;
+  width: 100vw;
+  height: 100vh;
 }

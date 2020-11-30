@@ -1,15 +1,13 @@
 <template>
   <div class="theme" :class="pageClasses">
-    <header class="navbar" v-if="showNavbar">
-      <NavBar>
-        <template #search>
-          <slot name="navbar-search">
-            <AlgoliaSearchBox v-if="theme.algolia" :options="theme.algolia" />
-          </slot>
-        </template>
-      </NavBar>
-      <ToggleSideBarButton @toggle="toggleSidebar" />
-    </header>
+    <NavBar v-if="showNavbar" @toggle="toggleSidebar">
+      <template #search>
+        <slot name="navbar-search">
+          <AlgoliaSearchBox v-if="theme.algolia" :options="theme.algolia" />
+        </slot>
+      </template>
+    </NavBar>
+
     <SideBar :open="openSideBar">
       <template #sidebar-top>
         <slot name="sidebar-top" />
@@ -20,46 +18,45 @@
     </SideBar>
     <!-- TODO: make this button accessible -->
     <div class="sidebar-mask" @click="toggleSidebar(false)" />
-    <main class="main-home" aria-labelledby="main-title" v-if="enableHome">
-      <Home>
-        <template #hero>
-          <slot name="home-hero" />
-        </template>
-        <template #features>
-          <slot name="home-features" />
-        </template>
-        <template #footer>
-          <slot name="home-footer" />
-        </template>
-      </Home>
-    </main>
-    <main v-else>
-      <Page>
-        <template #top>
-          <slot name="page-top-ads">
-            <CarbonAds
-              v-if="theme.carbonAds"
-              :key="'carbon' + page.relativePath"
-              :code="theme.carbonAds.carbon"
-              :placement="theme.carbonAds.placement"
-            />
-          </slot>
-          <slot name="page-top" />
-        </template>
-        <template #bottom>
-          <slot name="page-bottom" />
-          <slot name="page-bottom-ads">
-            <BuySellAds
-              v-if="theme.carbonAds && theme.carbonAds.custom"
-              :key="'custom' + page.relativePath"
-              :code="theme.carbonAds.custom"
-              :placement="theme.carbonAds.placement"
-            />
-          </slot>
-        </template>
-      </Page>
-    </main>
+
+    <Home v-if="enableHome">
+      <template #hero>
+        <slot name="home-hero" />
+      </template>
+      <template #features>
+        <slot name="home-features" />
+      </template>
+      <template #footer>
+        <slot name="home-footer" />
+      </template>
+    </Home>
+
+    <Page v-else>
+      <template #top>
+        <slot name="page-top-ads">
+          <CarbonAds
+            v-if="theme.carbonAds"
+            :key="'carbon' + page.relativePath"
+            :code="theme.carbonAds.carbon"
+            :placement="theme.carbonAds.placement"
+          />
+        </slot>
+        <slot name="page-top" />
+      </template>
+      <template #bottom>
+        <slot name="page-bottom" />
+        <slot name="page-bottom-ads">
+          <BuySellAds
+            v-if="theme.carbonAds && theme.carbonAds.custom"
+            :key="'custom' + page.relativePath"
+            :code="theme.carbonAds.custom"
+            :placement="theme.carbonAds.placement"
+          />
+        </slot>
+      </template>
+    </Page>
   </div>
+
   <Debug />
 </template>
 
@@ -76,7 +73,6 @@ import type { DefaultTheme } from './config'
 // components
 import NavBar from './components/NavBar.vue'
 import Home from './components/Home.vue'
-import ToggleSideBarButton from './components/ToggleSideBarButton.vue'
 import SideBar from './components/SideBar.vue'
 import Page from './components/Page.vue'
 const CarbonAds = defineAsyncComponent(

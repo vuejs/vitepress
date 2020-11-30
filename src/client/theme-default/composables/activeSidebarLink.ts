@@ -81,7 +81,7 @@ function getAnchors(sidebarLinks: HTMLAnchorElement[]): HTMLAnchorElement[] {
 }
 
 function getPageOffset(): number {
-  return (document.querySelector('.navbar') as HTMLElement).offsetHeight
+  return (document.querySelector('.nav-bar') as HTMLElement).offsetHeight
 }
 
 function getAnchorTop(anchor: HTMLAnchorElement): number {
