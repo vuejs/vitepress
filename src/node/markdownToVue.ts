@@ -42,7 +42,7 @@ export function createMarkdownToVueRenderFn(
     const pageData: PageData = {
       title: inferTitle(frontmatter, content),
       description: inferDescription(frontmatter),
-      frontmatter,
+      frontmatter: withHeadDescriptionRemoved(frontmatter),
       headers: data.headers,
       relativePath: file.replace(/\\/g, '/'),
       lastUpdated
@@ -109,11 +109,11 @@ const inferTitle = (frontmatter: any, content: string) => {
 }
 
 const inferDescription = (frontmatter: Record<string, any>) => {
-  if (!frontmatter.head) {
-    return ''
+  const { description, head } = frontmatter
+  if (description !== undefined) {
+    return description
   }
-
-  return getHeadMetaContent(frontmatter.head, 'description') || ''
+  return (head && getHeadMetaContent(head, 'description')) || ''
 }
 
 const getHeadMetaContent = (
@@ -129,4 +129,26 @@ const getHeadMetaContent = (
   })
 
   return meta && meta[1].content
+}
+
+function isMetaDescription(headConfig: HeadConfig) {
+  return (
+    headConfig[0] === 'meta' &&
+    headConfig[1] &&
+    headConfig[1].name === 'description'
+  )
+}
+
+function rejectHeadDescription(head: HeadConfig[]) {
+  return head.filter((h: HeadConfig) => !isMetaDescription(h))
+}
+
+function withHeadDescriptionRemoved(frontmatter: Record<string, any>) {
+  if (frontmatter.head) {
+    return {
+      ...frontmatter,
+      head: rejectHeadDescription(frontmatter.head)
+    }
+  }
+  return frontmatter
 }

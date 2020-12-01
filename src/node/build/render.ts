@@ -63,7 +63,9 @@ export async function renderPage(
     <title>
       ${pageData.title ? pageData.title + ` | ` : ``}${siteData.title}
     </title>
-    <meta name="description" content="${siteData.description}">
+    <meta name="description" content="${
+      pageData.description || siteData.description
+    }">
     <link rel="stylesheet" href="${assetPath}${cssChunk.fileName}">
     ${preloadLinks}
     ${renderHead(siteData.head)}

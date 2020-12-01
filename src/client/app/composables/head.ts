@@ -28,6 +28,7 @@ export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
     const pageData = route.data
     const siteData = siteDataByRouteRef.value
     const pageTitle = pageData && pageData.title
+    const pageDescription = pageData && pageData.description
     document.title = (pageTitle ? pageTitle + ` | ` : ``) + siteData.title
     updateHeadTags([
       ['meta', { charset: 'utf-8' }],
@@ -42,7 +43,7 @@ export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
         'meta',
         {
           name: 'description',
-          content: siteData.description
+          content: pageDescription || siteData.description
         }
       ],
       ...siteData.head,
