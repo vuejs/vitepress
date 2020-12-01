@@ -39,7 +39,7 @@ export async function renderPage(
     pageServerJsFileName
   ))
   const pageData = JSON.parse(__pageData)
-
+  const frontmatterHead = pageData.frontmatter.head
   const assetPath = `${siteData.base}_assets/`
   const preloadLinks = [
     // resolve imports for index.js + page.md.js and inject script tags for
@@ -69,7 +69,7 @@ export async function renderPage(
     <link rel="stylesheet" href="${assetPath}${cssChunk.fileName}">
     ${preloadLinks}
     ${renderHead(siteData.head)}
-    ${renderHead(pageData.frontmatter.head)}
+    ${renderHead(frontmatterHead && rejectHeadDescription(frontmatterHead))}
   </head>
   <body>
     <div id="app">${content}</div>
@@ -120,4 +120,16 @@ function renderAttrs(attrs: Record<string, string>): string {
       return ` ${key}="${escape(attrs[key])}"`
     })
     .join('')
+}
+
+function isMetaDescription(headConfig: HeadConfig) {
+  return (
+    headConfig[0] === 'meta' &&
+    headConfig[1] &&
+    headConfig[1].name === 'description'
+  )
+}
+
+function rejectHeadDescription(head: HeadConfig[]) {
+  return head.filter((h: HeadConfig) => !isMetaDescription(h))
 }

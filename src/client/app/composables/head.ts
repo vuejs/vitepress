@@ -29,6 +29,7 @@ export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
     const siteData = siteDataByRouteRef.value
     const pageTitle = pageData && pageData.title
     const pageDescription = pageData && pageData.description
+    const frontmatterHead = pageData && pageData.frontmatter.head
     document.title = (pageTitle ? pageTitle + ` | ` : ``) + siteData.title
     updateHeadTags([
       ['meta', { charset: 'utf-8' }],
@@ -47,7 +48,7 @@ export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
         }
       ],
       ...siteData.head,
-      ...((pageData && pageData.frontmatter.head) || [])
+      ...((frontmatterHead && rejectHeadDescription(frontmatterHead)) || [])
     ])
   })
 }
@@ -61,4 +62,16 @@ function createHeadElement([tag, attrs, innerHTML]: HeadConfig) {
     el.innerHTML = innerHTML
   }
   return el
+}
+
+function isMetaDescription(headConfig: HeadConfig) {
+  return (
+    headConfig[0] === 'meta' &&
+    headConfig[1] &&
+    headConfig[1].name === 'description'
+  )
+}
+
+function rejectHeadDescription(head: HeadConfig[]) {
+  return head.filter((h: HeadConfig) => !isMetaDescription(h))
 }
