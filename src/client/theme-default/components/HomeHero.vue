@@ -12,7 +12,7 @@
     <p v-if="hasTagline" class="description">{{ tagline }}</p>
 
     <div v-if="hasAction" class="action">
-      <a class="action-link" :href="$frontmatter.actionLink">
+      <a class="action-link" :href="$withBase($frontmatter.actionLink)">
         {{ $frontmatter.actionText }}
       </a>
     </div>
