@@ -6,7 +6,7 @@ export const Content = {
   setup() {
     const route = useRoute()
 
-    if (process.env.NODE_ENV === 'production') {
+    if (import.meta.env.PROD) {
       // in prod mode, enable intersectionObserver based pre-fetch
       usePrefetch()
     }
