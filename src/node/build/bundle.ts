@@ -145,7 +145,12 @@ export async function bundle(
     },
     rollupOutputOptions: {
       ...rollupOutputOptions,
-      chunkFileNames: `common-[hash].js`
+      chunkFileNames: (chunk) => {
+        if (/runtime-dom/.test(chunk.name)) {
+          return `framework.[hash].js`
+        }
+        return `[name].[hash].js`
+      }
     },
     silent: !process.env.DEBUG,
     minify: !process.env.DEBUG
