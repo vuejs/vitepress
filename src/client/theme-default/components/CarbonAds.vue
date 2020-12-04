@@ -26,14 +26,14 @@ onMounted(() => {
   border-radius: 4px;
   margin: 0 auto;
   max-width: 280px;
-  font-size: .75rem;
-  background-color: rgba(255, 255, 255, .8);
+  font-size: 0.75rem;
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
 .carbon-ads::after {
   clear: both;
   display: block;
-  content: "";
+  content: '';
 }
 
 @media (min-width: 420px) {
@@ -46,6 +46,13 @@ onMounted(() => {
     padding: 8px;
     width: 146px;
     max-width: 100%;
+  }
+}
+
+@media (max-width: 420px) {
+  .carbon-ads {
+    /* Avoid layout shift */
+    height: 105px;
   }
 }
 
@@ -62,7 +69,7 @@ onMounted(() => {
 
 .carbon-ads ::v-deep(.carbon-img) {
   float: left;
-  margin-right: .75rem;
+  margin-right: 0.75rem;
   max-width: 100px;
   border: 1px solid var(--c-divider);
 }

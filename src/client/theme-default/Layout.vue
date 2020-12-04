@@ -37,7 +37,7 @@
       <template #top>
         <slot name="page-top-ads">
           <CarbonAds
-            v-if="theme.carbonAds"
+            v-if="theme.carbonAds && theme.carbonAds.carbon"
             :key="'carbon' + page.relativePath"
             :code="theme.carbonAds.carbon"
             :placement="theme.carbonAds.placement"
