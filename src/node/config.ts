@@ -2,7 +2,7 @@ import path from 'path'
 import fs from 'fs-extra'
 import chalk from 'chalk'
 import globby from 'globby'
-import { createResolver, APP_PATH } from './resolver'
+import { createResolver, APP_PATH, DEFAULT_THEME_PATH } from './resolver'
 import { Resolver } from 'vite'
 import { SiteData, HeadConfig, LocaleConfig } from '../../types/shared'
 import { MarkdownOptions } from './markdown/markdown'
@@ -48,7 +48,7 @@ export async function resolveConfig(
   const userThemeDir = resolve(root, 'theme')
   const themeDir = (await fs.pathExists(userThemeDir))
     ? userThemeDir
-    : path.join(__dirname, '../client/theme-default')
+    : DEFAULT_THEME_PATH
 
   const config: SiteConfig = {
     root,

@@ -2,7 +2,6 @@
 // so the user can do `import { useRoute, useSiteData } from 'vitepress'`
 
 // generic types
-export type { SiteData, PageData } from '/@types/shared'
 export type { Router, Route } from './router'
 
 // theme types
@@ -25,3 +24,6 @@ import { ComponentOptions } from 'vue'
 import _Debug from './components/Debug.vue'
 const Debug = _Debug as ComponentOptions
 export { Debug }
+
+// default theme
+export { default as defaultTheme } from '/@default-theme/index'

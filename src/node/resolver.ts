@@ -4,6 +4,10 @@ import { UserConfig } from './config'
 
 export const APP_PATH = path.join(__dirname, '../client/app')
 export const SHARED_PATH = path.join(__dirname, '../client/shared')
+export const DEFAULT_THEME_PATH = path.join(
+  __dirname,
+  '../client/theme-default'
+)
 
 // special virtual file
 // we can't directly import '/@siteData' becase
@@ -25,6 +29,7 @@ export function createResolver(
       ...userConfig.alias,
       '/@app/': APP_PATH,
       '/@theme/': themeDir,
+      '/@default-theme/': DEFAULT_THEME_PATH,
       '/@shared/': SHARED_PATH,
       vitepress: '/@app/exports.js',
       [SITE_DATA_ID]: SITE_DATA_REQUEST_PATH

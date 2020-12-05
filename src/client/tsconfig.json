@@ -8,6 +8,7 @@
     "types": ["vite"],
     "paths": {
       "/@theme/*": ["theme-default/*"],
+      "/@default-theme/*": ["theme-default/*"],
       "/@shared/*": ["shared/*"],
       "/@types/*": ["../../types/*"],
       "vitepress": ["app/exports.ts"]
