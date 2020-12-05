@@ -11,17 +11,14 @@
     <h1 v-if="hasHeroText" class="title">{{ heroText }}</h1>
     <p v-if="hasTagline" class="description">{{ tagline }}</p>
 
-    <div v-if="hasAction" class="action">
-      <a class="action-link" :href="$frontmatter.actionLink">
-        {{ $frontmatter.actionText }}
-      </a>
-    </div>
+    <NavLink v-if="hasAction" :item="action" class="action" />
   </header>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useSiteDataByRoute, useFrontmatter } from 'vitepress'
+import NavLink from './NavLink.vue'
 
 const site = useSiteDataByRoute()
 const data = useFrontmatter()
@@ -40,6 +37,10 @@ const hasTagline = computed(() => data.value.tagline !== null)
 const tagline = computed(() => data.value.tagline || site.value.description)
 
 const hasAction = computed(() => data.value.actionLink && data.value.actionText)
+const action = computed(() => ({
+  link: data.value.actionLink,
+  text: data.value.actionText,
+}))
 </script>
 
 <style scoped>
@@ -115,7 +116,7 @@ const hasAction = computed(() => data.value.actionLink && data.value.actionText)
   }
 }
 
-.action-link {
+.action ::v-deep(.item) {
   display: inline-block;
   border-radius: 4px;
   padding: 0 20px;
@@ -127,13 +128,14 @@ const hasAction = computed(() => data.value.actionLink && data.value.actionText)
   transition: background-color .1s ease;
 }
 
-.action-link:hover {
+.action ::v-deep(.item:hover) {
   text-decoration: none;
+  color: #ffffff;
   background-color: var(--c-brand-light);
 }
 
 @media (min-width: 420px) {
-  .action-link {
+  .action ::v-deep(.item) {
     padding: 0 24px;
     line-height: 56px;
     font-size: 1.2rem;
