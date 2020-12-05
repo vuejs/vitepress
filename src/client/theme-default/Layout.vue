@@ -19,18 +19,7 @@
     <!-- TODO: make this button accessible -->
     <div class="sidebar-mask" @click="toggleSidebar(false)" />
 
-    <Home v-if="enableHome">
-      <template #hero>
-        <slot name="home-hero" />
-      </template>
-      <template #features>
-        <slot name="home-features" />
-      </template>
-      <template #footer>
-        <slot name="home-footer" />
-      </template>
-    </Home>
-
+    <Content v-if="isCustomLayout"/>
     <Page v-else>
       <template #top>
         <slot name="page-top-ads">
@@ -72,7 +61,6 @@ import type { DefaultTheme } from './config'
 
 // components
 import NavBar from './components/NavBar.vue'
-import Home from './components/Home.vue'
 import SideBar from './components/SideBar.vue'
 import Page from './components/Page.vue'
 const CarbonAds = defineAsyncComponent(
@@ -92,8 +80,8 @@ const siteRouteData = useSiteDataByRoute()
 const theme = computed(() => siteData.value.themeConfig)
 const page = usePageData()
 
-// home
-const enableHome = computed(() => !!route.data.frontmatter.home)
+// custom layout
+const isCustomLayout = computed(() => !!route.data.frontmatter.customLayout)
 
 // navbar
 const showNavbar = computed(() => {
@@ -117,7 +105,7 @@ const showSidebar = computed(() => {
   const { frontmatter } = route.data
   const { themeConfig } = siteRouteData.value
   return (
-    !frontmatter.home &&
+    !frontmatter.customLayout &&
     frontmatter.sidebar !== false &&
     ((typeof themeConfig.sidebar === 'object' &&
       Object.keys(themeConfig.sidebar).length != 0) ||
