@@ -1,4 +1,4 @@
-import { App, createApp as createClientApp, createSSRApp } from 'vue'
+import { App, createApp as createClientApp, createSSRApp, h } from 'vue'
 import { inBrowser, pathToFile } from './utils'
 import { Router, RouterSymbol, createRouter } from './router'
 import { mixinGlobalComputed, mixinGlobalComponents } from './mixin'
@@ -7,8 +7,20 @@ import { useSiteDataByRoute } from './composables/siteDataByRoute'
 import { usePageData } from './composables/pageData'
 import { useUpdateHead } from './composables/head'
 import Theme from '/@theme/index'
+import { usePrefetch } from './composables/preFetch'
 
 const NotFound = Theme.NotFound || (() => '404 Not Found')
+
+const VitePressApp = {
+  name: 'VitePressApp',
+  setup() {
+    if (import.meta.env.PROD) {
+      // in prod mode, enable intersectionObserver based pre-fetch
+      usePrefetch()
+    }
+    return () => h(Theme.Layout)
+  }
+}
 
 export function createApp() {
   const router = newRouter()
@@ -43,8 +55,8 @@ export function createApp() {
 
 function newApp(): App {
   return process.env.NODE_ENV === 'production'
-    ? createSSRApp(Theme.Layout)
-    : createClientApp(Theme.Layout)
+    ? createSSRApp(VitePressApp)
+    : createClientApp(VitePressApp)
 }
 
 function newRouter(): Router {
