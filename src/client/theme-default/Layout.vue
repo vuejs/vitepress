@@ -36,12 +36,16 @@
     <Page v-else>
       <template #top>
         <slot name="page-top-ads">
-          <CarbonAds
+          <div
+            id="ads-container"
             v-if="theme.carbonAds && theme.carbonAds.carbon"
-            :key="'carbon' + page.relativePath"
-            :code="theme.carbonAds.carbon"
-            :placement="theme.carbonAds.placement"
-          />
+          >
+            <CarbonAds
+              :key="'carbon' + page.relativePath"
+              :code="theme.carbonAds.carbon"
+              :placement="theme.carbonAds.placement"
+            />
+          </div>
         </slot>
         <slot name="page-top" />
       </template>
@@ -150,3 +154,34 @@ const pageClasses = computed(() => {
   ]
 })
 </script>
+
+<style>
+#ads-container {
+  margin: 0 auto;
+}
+
+@media (min-width: 420px) {
+  #ads-container {
+    position: relative;
+    right: 0;
+    float: right;
+    margin: -8px -8px 24px 24px;
+    width: 146px;
+  }
+}
+
+@media (max-width: 420px) {
+  #ads-container {
+    /* Avoid layout shift */
+    height: 105px;
+  }
+}
+
+@media (min-width: 1400px) {
+  #ads-container {
+    position: fixed;
+    right: 8px;
+    bottom: 8px;
+  }
+}
+</style>

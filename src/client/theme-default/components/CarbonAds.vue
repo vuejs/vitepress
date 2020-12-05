@@ -38,30 +38,17 @@ onMounted(() => {
 
 @media (min-width: 420px) {
   .carbon-ads {
-    position: relative;
-    right: -8px;
     z-index: 1;
     float: right;
     margin: -8px -8px 24px 24px;
     padding: 8px;
     width: 146px;
-    max-width: 100%;
-  }
-}
-
-@media (max-width: 420px) {
-  .carbon-ads {
-    /* Avoid layout shift */
-    height: 105px;
   }
 }
 
 @media (min-width: 1400px) {
   .carbon-ads {
-    position: fixed;
-    top: auto;
     right: 8px;
-    bottom: 8px;
     float: none;
     margin: 0;
   }
