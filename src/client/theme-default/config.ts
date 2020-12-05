@@ -87,7 +87,7 @@ export namespace DefaultTheme {
   }
 
   export interface NavItemWithChildren extends NavItemBase {
-    items: NavItem[]
+    items: NavItemWithLink[]
   }
 
   // sidebar -------------------------------------------------------------------

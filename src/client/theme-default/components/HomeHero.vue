@@ -116,7 +116,7 @@ const action = computed(() => ({
   }
 }
 
-.action ::v-deep(.item) {
+.action :deep(.item) {
   display: inline-block;
   border-radius: 4px;
   padding: 0 20px;
@@ -128,14 +128,14 @@ const action = computed(() => ({
   transition: background-color .1s ease;
 }
 
-.action ::v-deep(.item:hover) {
+.action :deep(.item:hover) {
   text-decoration: none;
   color: #ffffff;
   background-color: var(--c-brand-light);
 }
 
 @media (min-width: 420px) {
-  .action ::v-deep(.item) {
+  .action :deep(.item) {
     padding: 0 24px;
     line-height: 56px;
     font-size: 1.2rem;
