@@ -1,65 +1,67 @@
-## [0.9.1](https://github.com/vuejs/vitepress/compare/v0.9.0...v0.9.1) (2020-12-05)
+## [0.9.2](https://github.com/vuejs/vitepress/compare/v0.9.1...v0.9.2) (2020-12-10)
 
+Fix build files
+
+## [0.9.1](https://github.com/vuejs/vitepress/compare/v0.9.0...v0.9.1) (2020-12-05)
 
 ### Bug Fixes
 
-* **theme:** the actionLink miss withBase ([#168](https://github.com/vuejs/vitepress/issues/168)) ([#169](https://github.com/vuejs/vitepress/issues/169)) ([ffaca73](https://github.com/vuejs/vitepress/commit/ffaca73992675cef789fe8e13dd8132ae14bbd53))
-* align $title with vuepress ([#158](https://github.com/vuejs/vitepress/issues/158)) ([#163](https://github.com/vuejs/vitepress/issues/163)) ([30740d3](https://github.com/vuejs/vitepress/commit/30740d3516e3f7cce0e083faa90a732d9916f9af))
-* fix h2 anchor hover ([9bd79e8](https://github.com/vuejs/vitepress/commit/9bd79e8de1827251796d1647b5d258818a94f3b3)), closes [#174](https://github.com/vuejs/vitepress/issues/174)
-* fix inline code not inheriting the parent font size ([f5a570f](https://github.com/vuejs/vitepress/commit/f5a570f640c539d96cfa2104613521a70cf2f199))
-* fix link prefetch ([ade6ddd](https://github.com/vuejs/vitepress/commit/ade6dddbb5ea72cc7569fcfc46f5e6a362af58ce))
-* hydration mismatch when home page having action link ([a7686b7](https://github.com/vuejs/vitepress/commit/a7686b7691a3e3d7d10226fd4f7971929701965a))
-* make home page look better ([#154](https://github.com/vuejs/vitepress/issues/154)) ([a084cd3](https://github.com/vuejs/vitepress/commit/a084cd3f782f2aaf78a6542b0c86f67676580a73))
-* prevLinks and nextLinks config type ([#165](https://github.com/vuejs/vitepress/issues/165)) ([1b6981a](https://github.com/vuejs/vitepress/commit/1b6981a9157588bc4e29e591ba8a0d9ca5c9c9e8))
-* siteData passed to enhanceApp being siteDataByRoute ([#159](https://github.com/vuejs/vitepress/issues/159)) ([01d2837](https://github.com/vuejs/vitepress/commit/01d2837474caef19daaf0be4b3c283dbe85a09da))
-
+- **theme:** the actionLink miss withBase ([#168](https://github.com/vuejs/vitepress/issues/168)) ([#169](https://github.com/vuejs/vitepress/issues/169)) ([ffaca73](https://github.com/vuejs/vitepress/commit/ffaca73992675cef789fe8e13dd8132ae14bbd53))
+- align $title with vuepress ([#158](https://github.com/vuejs/vitepress/issues/158)) ([#163](https://github.com/vuejs/vitepress/issues/163)) ([30740d3](https://github.com/vuejs/vitepress/commit/30740d3516e3f7cce0e083faa90a732d9916f9af))
+- fix h2 anchor hover ([9bd79e8](https://github.com/vuejs/vitepress/commit/9bd79e8de1827251796d1647b5d258818a94f3b3)), closes [#174](https://github.com/vuejs/vitepress/issues/174)
+- fix inline code not inheriting the parent font size ([f5a570f](https://github.com/vuejs/vitepress/commit/f5a570f640c539d96cfa2104613521a70cf2f199))
+- fix link prefetch ([ade6ddd](https://github.com/vuejs/vitepress/commit/ade6dddbb5ea72cc7569fcfc46f5e6a362af58ce))
+- hydration mismatch when home page having action link ([a7686b7](https://github.com/vuejs/vitepress/commit/a7686b7691a3e3d7d10226fd4f7971929701965a))
+- make home page look better ([#154](https://github.com/vuejs/vitepress/issues/154)) ([a084cd3](https://github.com/vuejs/vitepress/commit/a084cd3f782f2aaf78a6542b0c86f67676580a73))
+- prevLinks and nextLinks config type ([#165](https://github.com/vuejs/vitepress/issues/165)) ([1b6981a](https://github.com/vuejs/vitepress/commit/1b6981a9157588bc4e29e591ba8a0d9ca5c9c9e8))
+- siteData passed to enhanceApp being siteDataByRoute ([#159](https://github.com/vuejs/vitepress/issues/159)) ([01d2837](https://github.com/vuejs/vitepress/commit/01d2837474caef19daaf0be4b3c283dbe85a09da))
 
 ### Features
 
-* built-in ClientOnly component ([8809d2d](https://github.com/vuejs/vitepress/commit/8809d2dbfc6818ba1618fa43368a45130d940890))
-* **default-theme:** support customLayout: true in frontmatter ([f32771f](https://github.com/vuejs/vitepress/commit/f32771fe8646701410ba4b231a2b0ce38230ab64))
-* add `$withBase` global app function ([15e18df](https://github.com/vuejs/vitepress/commit/15e18df01e6e5ca8af605365896fee0024244b37))
-* add Algolia DocSearch ([#40](https://github.com/vuejs/vitepress/issues/40)) ([#153](https://github.com/vuejs/vitepress/issues/153)) ([5bb4730](https://github.com/vuejs/vitepress/commit/5bb4730f7f48153ae006d7878431d0b58b0fffee))
-* add native support for carbon ads ([#86](https://github.com/vuejs/vitepress/issues/86)) ([9d6b8ca](https://github.com/vuejs/vitepress/commit/9d6b8cadcc6cd59bde6b9b20037f9038190672ce))
-* support customizing default theme via slots ([b8e892e](https://github.com/vuejs/vitepress/commit/b8e892e94a2fd2cedf7b25651548a08a758ccbdb))
-* add more global and computed properties (#152) ([c6bdcfb](https://github.com/vuejs/vitepress/commit/c6bdcfbf4f14916f20a7192b44941d33d4bee51e)), closes [#152](https://github.com/vuejs/vitepress/issues/152)
+- built-in ClientOnly component ([8809d2d](https://github.com/vuejs/vitepress/commit/8809d2dbfc6818ba1618fa43368a45130d940890))
+- **default-theme:** support customLayout: true in frontmatter ([f32771f](https://github.com/vuejs/vitepress/commit/f32771fe8646701410ba4b231a2b0ce38230ab64))
+- add `$withBase` global app function ([15e18df](https://github.com/vuejs/vitepress/commit/15e18df01e6e5ca8af605365896fee0024244b37))
+- add Algolia DocSearch ([#40](https://github.com/vuejs/vitepress/issues/40)) ([#153](https://github.com/vuejs/vitepress/issues/153)) ([5bb4730](https://github.com/vuejs/vitepress/commit/5bb4730f7f48153ae006d7878431d0b58b0fffee))
+- add native support for carbon ads ([#86](https://github.com/vuejs/vitepress/issues/86)) ([9d6b8ca](https://github.com/vuejs/vitepress/commit/9d6b8cadcc6cd59bde6b9b20037f9038190672ce))
+- support customizing default theme via slots ([b8e892e](https://github.com/vuejs/vitepress/commit/b8e892e94a2fd2cedf7b25651548a08a758ccbdb))
+- add more global and computed properties (#152) ([c6bdcfb](https://github.com/vuejs/vitepress/commit/c6bdcfbf4f14916f20a7192b44941d33d4bee51e)), closes [#152](https://github.com/vuejs/vitepress/issues/152)
 
 # [0.9.0](https://github.com/vuejs/vitepress/compare/v0.8.1...v0.9.0) (2020-11-24)
 
 ### Bug Fixes
 
-* avoid 300ms click delay on touch devices ([621ca3e](https://github.com/vuejs/vitepress/commit/621ca3e26f65e13e504724aef76aba3f3361ce81))
-* fix nested list having too much margin ([b0cf2be](https://github.com/vuejs/vitepress/commit/b0cf2be5614505731a3b6dcebeab949c3639c2b2))
-* fix sidebar active status not working as expected ([#140](https://github.com/vuejs/vitepress/issues/140)) ([#149](https://github.com/vuejs/vitepress/issues/149)) ([0b181e7](https://github.com/vuejs/vitepress/commit/0b181e7582ea4be7dca51ec399c697e32b7116f3))
-* make code block look prettier ([#146](https://github.com/vuejs/vitepress/issues/146)) ([242fcc1](https://github.com/vuejs/vitepress/commit/242fcc1098f606f13e7d8e123c081e73a3d89366))
-* some color in code block not working as expected ([#143](https://github.com/vuejs/vitepress/issues/143)) ([da09266](https://github.com/vuejs/vitepress/commit/da09266f5eede3796bb150ccd9d6a173e90354a4))
+- avoid 300ms click delay on touch devices ([621ca3e](https://github.com/vuejs/vitepress/commit/621ca3e26f65e13e504724aef76aba3f3361ce81))
+- fix nested list having too much margin ([b0cf2be](https://github.com/vuejs/vitepress/commit/b0cf2be5614505731a3b6dcebeab949c3639c2b2))
+- fix sidebar active status not working as expected ([#140](https://github.com/vuejs/vitepress/issues/140)) ([#149](https://github.com/vuejs/vitepress/issues/149)) ([0b181e7](https://github.com/vuejs/vitepress/commit/0b181e7582ea4be7dca51ec399c697e32b7116f3))
+- make code block look prettier ([#146](https://github.com/vuejs/vitepress/issues/146)) ([242fcc1](https://github.com/vuejs/vitepress/commit/242fcc1098f606f13e7d8e123c081e73a3d89366))
+- some color in code block not working as expected ([#143](https://github.com/vuejs/vitepress/issues/143)) ([da09266](https://github.com/vuejs/vitepress/commit/da09266f5eede3796bb150ccd9d6a173e90354a4))
 
 ### Features
 
-* add "last updated" feature ([40d204b](https://github.com/vuejs/vitepress/commit/40d204b2f68b90bd2c5e9940cd128c4c16cd5274))
+- add "last updated" feature ([40d204b](https://github.com/vuejs/vitepress/commit/40d204b2f68b90bd2c5e9940cd128c4c16cd5274))
 
 ## [0.8.1](https://github.com/vuejs/vitepress/compare/v0.8.0...v0.8.1) (2020-11-20)
 
 ### Bug Fixes
 
-* fix "next and prev link" not working when `link` has extention ([6dcf6b3](https://github.com/vuejs/vitepress/commit/6dcf6b3796bb3d6e703fddd79c6b0c0a7adfd567))
-* fix "next and prev links" not working when the `base` option is set ([#139](https://github.com/vuejs/vitepress/issues/139)) ([018a9b4](https://github.com/vuejs/vitepress/commit/018a9b46d924d0d08f7ff67f18a813348c84ab0a))
+- fix "next and prev link" not working when `link` has extention ([6dcf6b3](https://github.com/vuejs/vitepress/commit/6dcf6b3796bb3d6e703fddd79c6b0c0a7adfd567))
+- fix "next and prev links" not working when the `base` option is set ([#139](https://github.com/vuejs/vitepress/issues/139)) ([018a9b4](https://github.com/vuejs/vitepress/commit/018a9b46d924d0d08f7ff67f18a813348c84ab0a))
 
 # [0.8.0](https://github.com/vuejs/vitepress/compare/v0.7.4...v0.8.0) (2020-11-20)
 
 ### Bug Fixes
 
-* exit process with non-zero code on error ([fb09f8e](https://github.com/vuejs/vitepress/commit/fb09f8e638c06aec32494f731554fb1b989daaf0))
-* fix edit link and prev and next links display ([#97](https://github.com/vuejs/vitepress/issues/97)) ([c3b7172](https://github.com/vuejs/vitepress/commit/c3b71729513592112e233165782e60c9c5b425c4))
-* fix next and prev links not working ([#130](https://github.com/vuejs/vitepress/issues/130)) ([fdd498b](https://github.com/vuejs/vitepress/commit/fdd498be70cc09a4331dadd17c4a5339318f21bf))
-* display header-anchor links when using keyboard navigation ([ddc3640](https://github.com/vuejs/vitepress/commit/ddc3640ce66f606894b31e1b7ebeacaaf7b0f1b5))
-* show top part of scrollbar in sidebar ([#129](https://github.com/vuejs/vitepress/issues/129)) ([1ba209a](https://github.com/vuejs/vitepress/commit/1ba209a4d2b606bee1abb7ec1d383467d98cf198))
+- exit process with non-zero code on error ([fb09f8e](https://github.com/vuejs/vitepress/commit/fb09f8e638c06aec32494f731554fb1b989daaf0))
+- fix edit link and prev and next links display ([#97](https://github.com/vuejs/vitepress/issues/97)) ([c3b7172](https://github.com/vuejs/vitepress/commit/c3b71729513592112e233165782e60c9c5b425c4))
+- fix next and prev links not working ([#130](https://github.com/vuejs/vitepress/issues/130)) ([fdd498b](https://github.com/vuejs/vitepress/commit/fdd498be70cc09a4331dadd17c4a5339318f21bf))
+- display header-anchor links when using keyboard navigation ([ddc3640](https://github.com/vuejs/vitepress/commit/ddc3640ce66f606894b31e1b7ebeacaaf7b0f1b5))
+- show top part of scrollbar in sidebar ([#129](https://github.com/vuejs/vitepress/issues/129)) ([1ba209a](https://github.com/vuejs/vitepress/commit/1ba209a4d2b606bee1abb7ec1d383467d98cf198))
 
 ### Features
 
-* add ability to configure markdown options ([#127](https://github.com/vuejs/vitepress/issues/127)) ([#128](https://github.com/vuejs/vitepress/issues/128)) ([463a03a](https://github.com/vuejs/vitepress/commit/463a03a9815ce8fc9f55293dda07bc211ef4f62b))
-* add serve command ([#136](https://github.com/vuejs/vitepress/issues/136)) ([67868bd](https://github.com/vuejs/vitepress/commit/67868bd9281077a4ce708e666bf61a7824afb8b2))
-* better build command output ([e435eec](https://github.com/vuejs/vitepress/commit/e435eec94a841ab0e1c14d59bb13608d5ad6a011))
+- add ability to configure markdown options ([#127](https://github.com/vuejs/vitepress/issues/127)) ([#128](https://github.com/vuejs/vitepress/issues/128)) ([463a03a](https://github.com/vuejs/vitepress/commit/463a03a9815ce8fc9f55293dda07bc211ef4f62b))
+- add serve command ([#136](https://github.com/vuejs/vitepress/issues/136)) ([67868bd](https://github.com/vuejs/vitepress/commit/67868bd9281077a4ce708e666bf61a7824afb8b2))
+- better build command output ([e435eec](https://github.com/vuejs/vitepress/commit/e435eec94a841ab0e1c14d59bb13608d5ad6a011))
 
 ## [0.7.4](https://github.com/vuejs/vitepress/compare/v0.7.3...v0.7.4) (2020-11-11)
 
