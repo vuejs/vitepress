@@ -104,7 +104,7 @@ export async function bundle(
             fileName: chunk.fileName.replace(/\.js$/, '.lean.js'),
             code: chunk.code.replace(staticStripRE, ``)
           }
-          // remove static markers from orginal code
+          // remove static markers from original code
           chunk.code = chunk.code.replace(staticRestoreRE, '')
         }
       }
@@ -145,7 +145,7 @@ export async function bundle(
     },
     rollupOutputOptions: {
       ...rollupOutputOptions,
-      chunkFileNames: (chunk) => {
+      chunkFileNames(chunk): string {
         if (/runtime-dom/.test(chunk.name)) {
           return `framework.[hash].js`
         }

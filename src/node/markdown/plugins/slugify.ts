@@ -12,7 +12,7 @@ export const slugify = (str: string): string => {
       .replace(rControl, '')
       // Replace special characters
       .replace(rSpecial, '-')
-      // Remove continous separators
+      // Remove continuos separators
       .replace(/\-{2,}/g, '-')
       // Remove prefixing and trailing separtors
       .replace(/^\-+|\-+$/g, '')

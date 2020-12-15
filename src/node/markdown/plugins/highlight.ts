@@ -37,7 +37,7 @@ export const highlight = (str: string, lang: string) => {
     } catch (e) {
       console.warn(
         chalk.yellow(
-          `[vuepress] Syntax highlight for language "${lang}" is not supported.`
+          `[vitepress] Syntax highlight for language "${lang}" is not supported.`
         )
       )
     }

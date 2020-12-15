@@ -10,7 +10,7 @@ export const DEFAULT_THEME_PATH = path.join(
 )
 
 // special virtual file
-// we can't directly import '/@siteData' becase
+// we can't directly import '/@siteData' because
 // - it's not an actual file so we can't use tsconfig paths to redirect it
 // - TS doesn't allow shimming a module that starts with '/'
 export const SITE_DATA_ID = '@siteData'

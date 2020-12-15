@@ -43,7 +43,7 @@ export async function build(buildOptions: BuildOptions = {}) {
       // alter the main chunk's hash on every build. It's also embedded as a
       // string and JSON.parsed from the client because it's faster than embedding
       // as JS object literal.
-      const hashMapStirng = JSON.stringify(JSON.stringify(pageToHashMap))
+      const hashMapString = JSON.stringify(JSON.stringify(pageToHashMap))
 
       for (const page of siteConfig.pages) {
         await renderPage(
@@ -53,7 +53,7 @@ export async function build(buildOptions: BuildOptions = {}) {
           appChunk,
           cssChunk,
           pageToHashMap,
-          hashMapStirng
+          hashMapString
         )
       }
     } catch (e) {
