@@ -5,39 +5,29 @@
   </p>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed, onMounted } from 'vue'
+<script setup lang="ts">
+import { ref, computed, onMounted } from 'vue'
 import { useSiteDataByRoute, usePageData } from 'vitepress'
 
-export default defineComponent({
-  setup() {
-    const site = useSiteDataByRoute()
-    const page = usePageData()
+const site = useSiteDataByRoute()
+const page = usePageData()
 
-    const datetime = ref('')
+const datetime = ref('')
 
-    const hasLastUpdated = computed(() => {
-      const lu = site.value.themeConfig.lastUpdated
+const hasLastUpdated = computed(() => {
+  const lu = site.value.themeConfig.lastUpdated
 
-      return lu !== undefined && lu !== false
-    })
+  return lu !== undefined && lu !== false
+})
 
-    const prefix = computed(() => {
-      const p = site.value.themeConfig.lastUpdated
+const prefix = computed(() => {
+  const p = site.value.themeConfig.lastUpdated
 
-      return p === true ? 'Last Updated' : p
-    })
+  return p === true ? 'Last Updated' : p
+})
 
-    onMounted(() => {
-      datetime.value = new Date(page.value.lastUpdated).toLocaleString('en-US')
-    })
-
-    return {
-      hasLastUpdated,
-      prefix,
-      datetime
-    }
-  }
+onMounted(() => {
+  datetime.value = new Date(page.value.lastUpdated).toLocaleString('en-US')
 })
 </script>
 
