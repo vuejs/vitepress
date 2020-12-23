@@ -32,7 +32,7 @@ export function getSideBarConfig(
     return sidebar
   }
 
-  // get the very first segment of the path to compare with nulti sidebar keys
+  // get the very first segment of the path to compare with multiple sidebar keys
   // and make sure it's surrounded by slash
   path = removeExtention(path)
   path = ensureStartingSlash(path).split('/')[1] || '/'

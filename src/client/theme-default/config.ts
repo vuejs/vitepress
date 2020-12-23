@@ -15,7 +15,7 @@ export namespace DefaultTheme {
      * Customize the header label. Defaults to GitHub/Gitlab/Bitbucket
      * depending on the provided repo.
      *
-     * @exampe `"Contribute!"`
+     * @example `"Contribute!"`
      */
     repoLabel?: string
 
