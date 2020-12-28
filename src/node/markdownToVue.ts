@@ -1,12 +1,19 @@
+import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 import LRUCache from 'lru-cache'
 import { createMarkdownRenderer, MarkdownOptions } from './markdown/markdown'
 import { deeplyParseHeader } from './utils/parseHeader'
 import { PageData, HeadConfig } from '../../types/shared'
+import slash from 'slash'
 
 const debug = require('debug')('vitepress:md')
-const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
+const cache = new LRUCache<string, MarkdownCompileCachedResult>({ max: 1024 })
+
+interface MarkdownCompileCachedResult extends MarkdownCompileResult {
+  tagsWithPageData: string
+  tagsWithoutPageData: string
+}
 
 interface MarkdownCompileResult {
   vueSrc: string
@@ -22,44 +29,63 @@ export function createMarkdownToVueRenderFn(
   return (
     src: string,
     file: string,
-    lastUpdated: number,
     injectData = true
-  ) => {
-    file = path.relative(root, file)
+  ): MarkdownCompileResult => {
+    const relativePath = slash(path.relative(root, file))
+
     const cached = cache.get(src)
     if (cached) {
-      debug(`[cache hit] ${file}`)
-      return cached
+      debug(`[cache hit] ${relativePath}`)
+      return pickResult(cached, injectData)
     }
+
     const start = Date.now()
 
     const { content, data: frontmatter } = matter(src)
     const { html, data } = md.render(content)
 
-    // TODO validate data.links?
+    const vueSrc = `\n<template><div>${html}</div></template>`
 
-    // inject page data
+    // TODO validate data.links?
     const pageData: PageData = {
       title: inferTitle(frontmatter, content),
       description: inferDescription(frontmatter),
       frontmatter,
       headers: data.headers,
-      relativePath: file.replace(/\\/g, '/'),
-      lastUpdated
+      relativePath,
+      // TODO use git timestamp?
+      lastUpdated: fs.statSync(file).mtimeMs
     }
 
-    const additionalBlocks = injectData
-      ? injectPageData(data.hoistedTags || [], pageData)
-      : data.hoistedTags || []
+    const tagsWithPageData = genPageDataCode(
+      data.hoistedTags || [],
+      pageData
+    ).join('\n')
 
-    const vueSrc =
-      additionalBlocks.join('\n') + `\n<template><div>${html}</div></template>`
+    const tagsWithoutPageData = (data.hoistedTags || []).join('\n')
 
     debug(`[render] ${file} in ${Date.now() - start}ms.`)
 
-    const result = { vueSrc, pageData }
+    const result = {
+      vueSrc,
+      pageData,
+      tagsWithPageData,
+      tagsWithoutPageData
+    }
     cache.set(src, result)
-    return result
+    return pickResult(result, injectData)
+  }
+}
+
+function pickResult(
+  res: MarkdownCompileCachedResult,
+  injectData: boolean
+): MarkdownCompileResult {
+  return {
+    vueSrc:
+      res.vueSrc +
+      (injectData ? res.tagsWithPageData : res.tagsWithoutPageData),
+    pageData: res.pageData
   }
 }
 
@@ -68,7 +94,7 @@ const scriptSetupRE = /<\s*script[^>]*\bsetup\b[^>]*/
 const defaultExportRE = /((?:^|\n|;)\s*)export(\s*)default/
 const namedDefaultExportRE = /((?:^|\n|;)\s*)export(.+)as(\s*)default/
 
-function injectPageData(tags: string[], data: PageData) {
+function genPageDataCode(tags: string[], data: PageData) {
   const code = `\nexport const __pageData = ${JSON.stringify(
     JSON.stringify(data)
   )}`

@@ -2,10 +2,10 @@ import path from 'path'
 import fs from 'fs-extra'
 import chalk from 'chalk'
 import globby from 'globby'
-import { createResolver, APP_PATH, DEFAULT_THEME_PATH } from './resolver'
-import { Resolver } from 'vite'
+import { APP_PATH, createAlias, DEFAULT_THEME_PATH } from './resolver'
 import { SiteData, HeadConfig, LocaleConfig } from '../../types/shared'
 import { MarkdownOptions } from './markdown/markdown'
+import { AliasOptions } from 'vite'
 export { resolveSiteDataByRoute } from './shared/config'
 
 const debug = require('debug')('vitepress:config')
@@ -30,7 +30,7 @@ export interface SiteConfig<ThemeConfig = any> {
   themeDir: string
   outDir: string
   tempDir: string
-  resolver: Resolver
+  aliases: AliasOptions
   pages: string[]
   markdown?: MarkdownOptions
 }
@@ -58,8 +58,8 @@ export async function resolveConfig(
     configPath: resolve(root, 'config.js'),
     outDir: resolve(root, 'dist'),
     tempDir: path.resolve(APP_PATH, 'temp'),
-    resolver: createResolver(themeDir, userConfig),
-    markdown: userConfig.markdown
+    markdown: userConfig.markdown,
+    aliases: createAlias(themeDir, userConfig)
   }
 
   return config

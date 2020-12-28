@@ -1,6 +1,6 @@
 import fs from 'fs-extra'
 import { bundle, okMark, failMark } from './bundle'
-import { BuildConfig as ViteBuildOptions } from 'vite'
+import { BuildOptions as ViteBuildOptions } from 'vite'
 import { resolveConfig } from '../config'
 import { renderPage } from './render'
 import { OutputChunk, OutputAsset } from 'rollup'

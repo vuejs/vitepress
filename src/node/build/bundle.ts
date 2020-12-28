@@ -6,12 +6,7 @@ import { BuildOptions } from './build'
 import { resolveUserConfig, SiteConfig } from '../config'
 import { Plugin, OutputAsset, OutputChunk } from 'rollup'
 import { createMarkdownToVueRenderFn } from '../markdownToVue'
-import {
-  build,
-  ssrBuild,
-  BuildConfig as ViteBuildOptions,
-  BuildResult
-} from 'vite'
+import { build, BuildOptions as ViteBuildOptions } from 'vite'
 import ora from 'ora'
 
 export const okMark = '\x1b[32m✓\x1b[0m'
@@ -60,9 +55,7 @@ export async function bundle(
       // compile md into vue src
       if (id.endsWith('.md')) {
         const content = await fs.readFile(id, 'utf-8')
-        // TODO use git timestamp
-        const lastUpdated = (await fs.stat(id)).mtimeMs
-        const { vueSrc } = markdownToVue(content, id, lastUpdated)
+        const { vueSrc } = markdownToVue(content, id)
         return vueSrc
       }
     },

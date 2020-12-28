@@ -14,11 +14,12 @@ if (root) {
 }
 
 if (!command || command === 'dev') {
-  const port = argv.port || 3000
-  createServer(argv)
+  createServer(root, argv)
     .then((server) => {
-      server.listen(port, () => {
-        console.log(`listening at http://localhost:${port}`)
+      return server.listen().then(() => {
+        console.log(
+          `listening at http://localhost:${server.config.server.port}`
+        )
       })
     })
     .catch((err) => {
