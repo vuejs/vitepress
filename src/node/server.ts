@@ -10,7 +10,7 @@ export async function createServer(
 
   return createViteServer({
     root,
-    logLevel: 'warn',
+    // logLevel: 'warn',
     plugins: createVitePressPlugin(root, config),
     server: serverOptions
   })

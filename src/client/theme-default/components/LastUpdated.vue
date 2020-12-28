@@ -12,8 +12,6 @@ import { useSiteDataByRoute, usePageData } from 'vitepress'
 const site = useSiteDataByRoute()
 const page = usePageData()
 
-const datetime = ref('')
-
 const hasLastUpdated = computed(() => {
   const lu = site.value.themeConfig.lastUpdated
 
@@ -22,12 +20,11 @@ const hasLastUpdated = computed(() => {
 
 const prefix = computed(() => {
   const p = site.value.themeConfig.lastUpdated
-
   return p === true ? 'Last Updated' : p
 })
 
-onMounted(() => {
-  datetime.value = new Date(page.value.lastUpdated).toLocaleString('en-US')
+const datetime = computed(() => {
+  return new Date(page.value.lastUpdated).toLocaleString('en-US')
 })
 </script>
 

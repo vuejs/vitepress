@@ -8,12 +8,7 @@ import { PageData, HeadConfig } from '../../types/shared'
 import slash from 'slash'
 
 const debug = require('debug')('vitepress:md')
-const cache = new LRUCache<string, MarkdownCompileCachedResult>({ max: 1024 })
-
-interface MarkdownCompileCachedResult extends MarkdownCompileResult {
-  tagsWithPageData: string
-  tagsWithoutPageData: string
-}
+const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
 
 interface MarkdownCompileResult {
   vueSrc: string
@@ -26,25 +21,19 @@ export function createMarkdownToVueRenderFn(
 ) {
   const md = createMarkdownRenderer(options)
 
-  return (
-    src: string,
-    file: string,
-    injectData = true
-  ): MarkdownCompileResult => {
+  return (src: string, file: string): MarkdownCompileResult => {
     const relativePath = slash(path.relative(root, file))
 
     const cached = cache.get(src)
     if (cached) {
       debug(`[cache hit] ${relativePath}`)
-      return pickResult(cached, injectData)
+      return cached
     }
 
     const start = Date.now()
 
     const { content, data: frontmatter } = matter(src)
     const { html, data } = md.render(content)
-
-    const vueSrc = `\n<template><div>${html}</div></template>`
 
     // TODO validate data.links?
     const pageData: PageData = {
@@ -54,38 +43,21 @@ export function createMarkdownToVueRenderFn(
       headers: data.headers,
       relativePath,
       // TODO use git timestamp?
-      lastUpdated: fs.statSync(file).mtimeMs
+      lastUpdated: Math.round(fs.statSync(file).mtimeMs)
     }
 
-    const tagsWithPageData = genPageDataCode(
-      data.hoistedTags || [],
-      pageData
-    ).join('\n')
-
-    const tagsWithoutPageData = (data.hoistedTags || []).join('\n')
+    const vueSrc =
+      genPageDataCode(data.hoistedTags || [], pageData).join('\n') +
+      `\n<template><div>${html}</div></template>`
 
     debug(`[render] ${file} in ${Date.now() - start}ms.`)
 
     const result = {
       vueSrc,
-      pageData,
-      tagsWithPageData,
-      tagsWithoutPageData
+      pageData
     }
     cache.set(src, result)
-    return pickResult(result, injectData)
-  }
-}
-
-function pickResult(
-  res: MarkdownCompileCachedResult,
-  injectData: boolean
-): MarkdownCompileResult {
-  return {
-    vueSrc:
-      res.vueSrc +
-      (injectData ? res.tagsWithPageData : res.tagsWithoutPageData),
-    pageData: res.pageData
+    return result
   }
 }
 

@@ -15,13 +15,7 @@ if (root) {
 
 if (!command || command === 'dev') {
   createServer(root, argv)
-    .then((server) => {
-      return server.listen().then(() => {
-        console.log(
-          `listening at http://localhost:${server.config.server.port}`
-        )
-      })
-    })
+    .then((server) => server.listen())
     .catch((err) => {
       console.error(chalk.red(`failed to start server. error:\n`), err)
       process.exit(1)

@@ -17,7 +17,6 @@ export function createVitePressPlugin(
   })
 
   let siteData = initialSiteData
-  let stringifiedData = JSON.stringify(JSON.stringify(initialSiteData))
 
   const vitePressPlugin: Plugin = {
     name: 'vitepress',
@@ -37,7 +36,7 @@ export function createVitePressPlugin(
 
     load(id) {
       if (id === SITE_DATA_REQUEST_PATH) {
-        return `export default ${stringifiedData}`
+        return `export default ${JSON.stringify(JSON.stringify(siteData))}`
       }
     },
 
@@ -62,30 +61,22 @@ export function createVitePressPlugin(
     },
 
     async handleHotUpdate(file, mods, read, server) {
+      // handle config hmr
       if (file === configPath) {
         const newData = await resolveSiteData(root)
-        stringifiedData = JSON.stringify(JSON.stringify(newData))
         if (newData.base !== siteData.base) {
           console.warn(
             `[vitepress]: config.base has changed. Please restart the dev server.`
           )
         }
         siteData = newData
-        return
+        return [server.moduleGraph.getModuleById(SITE_DATA_REQUEST_PATH)!]
       }
 
       // hot reload .md files as .vue files
       if (file.endsWith('.md')) {
         const content = await read()
-        const { pageData, vueSrc } = markdownToVue(
-          content.toString(),
-          file,
-          // do not inject pageData on HMR
-          // it leads to plugin-vue to think <script> has changed and reloads
-          // the component instead of re-rendering.
-          // pageData needs separate HMR logic anyway (see below)
-          false
-        )
+        const { pageData, vueSrc } = markdownToVue(content, file)
 
         // notify the client to update page data
         server.ws.send({
