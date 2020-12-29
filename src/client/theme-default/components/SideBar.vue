@@ -2,11 +2,12 @@
   <aside class="sidebar" :class="{ open }">
     <NavLinks class="nav" />
 
-    <slot name="sidebar-top" />
+    <!-- temporarily disabled due to ssr/hydration bug in vue core -->
+    <!-- <slot name="sidebar-top" /> -->
 
     <SideBarLinks />
 
-    <slot name="sidebar-bottom" />
+    <!-- <slot name="sidebar-bottom" /> -->
   </aside>
 </template>
 
