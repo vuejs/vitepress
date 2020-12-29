@@ -18,5 +18,6 @@ declare module '@docsearch/js' {
 }
 
 declare module '@docsearch/css' {
-  export default string
+  const css: string
+  export default css
 }
