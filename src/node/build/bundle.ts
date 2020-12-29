@@ -1,108 +1,22 @@
+import ora from 'ora'
 import path from 'path'
 import slash from 'slash'
-import fs from 'fs-extra'
-import { APP_PATH, createResolver, SITE_DATA_REQUEST_PATH } from '../resolver'
-import { BuildOptions } from './build'
-import { resolveUserConfig, SiteConfig } from '../config'
-import { Plugin, OutputAsset, OutputChunk } from 'rollup'
-import { createMarkdownToVueRenderFn } from '../markdownToVue'
-import { build, BuildOptions as ViteBuildOptions } from 'vite'
-import ora from 'ora'
+import { APP_PATH } from '../alias'
+import { SiteConfig } from '../config'
+import { RollupOutput, ExternalOption } from 'rollup'
+import { build, BuildOptions, UserConfig as ViteUserConfig } from 'vite'
+import { createVitePressPlugin } from '../plugin'
 
 export const okMark = '\x1b[32m✓\x1b[0m'
 export const failMark = '\x1b[31m✖\x1b[0m'
-
-const hashRE = /\.(\w+)\.js$/
-const staticInjectMarkerRE = /\b(const _hoisted_\d+ = \/\*#__PURE__\*\/createStaticVNode)\("(.*)", (\d+)\)/g
-const staticStripRE = /__VP_STATIC_START__.*?__VP_STATIC_END__/g
-const staticRestoreRE = /__VP_STATIC_(START|END)__/g
-
-const isPageChunk = (
-  chunk: OutputAsset | OutputChunk
-): chunk is OutputChunk & { facadeModuleId: string } =>
-  !!(
-    chunk.type === 'chunk' &&
-    chunk.isEntry &&
-    chunk.facadeModuleId &&
-    chunk.facadeModuleId.endsWith('.md')
-  )
 
 // bundles the VitePress app for both client AND server.
 export async function bundle(
   config: SiteConfig,
   options: BuildOptions
-): Promise<[BuildResult, BuildResult, Record<string, string>]> {
+): Promise<[RollupOutput, RollupOutput, Record<string, string>]> {
   const root = config.root
-  const userConfig = await resolveUserConfig(root)
-  const resolver = createResolver(config.themeDir, userConfig)
-  const markdownToVue = createMarkdownToVueRenderFn(root, userConfig.markdown)
-
-  let isClientBuild = true
   const pageToHashMap = Object.create(null)
-
-  const VitePressPlugin: Plugin = {
-    name: 'vitepress',
-    resolveId(id) {
-      if (id === SITE_DATA_REQUEST_PATH) {
-        return id
-      }
-    },
-
-    async load(id) {
-      if (id === SITE_DATA_REQUEST_PATH) {
-        return `export default ${JSON.stringify(JSON.stringify(config.site))}`
-      }
-      // compile md into vue src
-      if (id.endsWith('.md')) {
-        const content = await fs.readFile(id, 'utf-8')
-        const { vueSrc } = markdownToVue(content, id)
-        return vueSrc
-      }
-    },
-
-    renderChunk(code, chunk) {
-      if (isClientBuild && isPageChunk(chunk as OutputChunk)) {
-        // For each page chunk, inject marker for start/end of static strings.
-        // we do this here because in generateBundle the chunks would have been
-        // minified and we won't be able to safely locate the strings.
-        // Using a regexp relies on specific output from Vue compiler core,
-        // which is a reasonable trade-off considering the massive perf win over
-        // a full AST parse.
-        code = code.replace(
-          staticInjectMarkerRE,
-          '$1("__VP_STATIC_START__$2__VP_STATIC_END__", $3)'
-        )
-        return code
-      }
-      return null
-    },
-
-    generateBundle(_options, bundle) {
-      if (!isClientBuild) {
-        return
-      }
-
-      // for each .md entry chunk, adjust its name to its correct path.
-      for (const name in bundle) {
-        const chunk = bundle[name]
-        if (isPageChunk(chunk)) {
-          // record page -> hash relations
-          const hash = chunk.fileName.match(hashRE)![1]
-          const pageName = chunk.fileName.replace(hashRE, '')
-          pageToHashMap[pageName] = hash
-
-          // inject another chunk with the content stripped
-          bundle[name + '-lean'] = {
-            ...chunk,
-            fileName: chunk.fileName.replace(/\.js$/, '.lean.js'),
-            code: chunk.code.replace(staticStripRE, ``)
-          }
-          // remove static markers from original code
-          chunk.code = chunk.code.replace(staticRestoreRE, '')
-        }
-      }
-    }
-  }
 
   // define custom rollup input
   // this is a multi-entry build - every page is considered an entry chunk
@@ -118,49 +32,57 @@ export async function bundle(
   })
 
   // resolve options to pass to vite
-  const { rollupInputOptions = {}, rollupOutputOptions = {} } = options
-  const viteOptions: Partial<ViteBuildOptions> = {
-    ...options,
-    base: config.site.base,
-    resolvers: [resolver],
-    outDir: config.outDir,
-    // let rollup-plugin-vue compile .md files as well
-    rollupPluginVueOptions: {
-      include: /\.(vue|md)$/
-    },
-    rollupInputOptions: {
-      ...rollupInputOptions,
-      input,
-      // important so that each page chunk and the index export things for each
-      // other
-      preserveEntrySignatures: 'allow-extension',
-      plugins: [VitePressPlugin, ...(rollupInputOptions.plugins || [])]
-    },
-    rollupOutputOptions: {
-      ...rollupOutputOptions,
-      chunkFileNames(chunk): string {
-        if (/runtime-dom/.test(chunk.name)) {
-          return `framework.[hash].js`
-        }
-        return `[name].[hash].js`
-      }
-    },
-    silent: !process.env.DEBUG,
-    minify: !process.env.DEBUG
-  }
+  const { rollupOptions } = options
 
-  let clientResult, serverResult
+  const resolveViteConfig = (ssr: boolean): ViteUserConfig => ({
+    logLevel: 'warn',
+    plugins: createVitePressPlugin(root, config, ssr, pageToHashMap),
+    build: {
+      ...options,
+      base: config.site.base,
+      outDir: ssr ? config.tempDir : config.outDir,
+      cssCodeSplit: !ssr,
+      rollupOptions: {
+        ...rollupOptions,
+        input,
+        external: ssr
+          ? resolveExternal(rollupOptions?.external)
+          : rollupOptions?.external,
+        // important so that each page chunk and the index export things for each
+        // other
+        preserveEntrySignatures: 'allow-extension',
+        output: {
+          ...rollupOptions?.output,
+          ...(ssr
+            ? {
+                format: 'cjs',
+                exports: 'named',
+                entryFileNames: '[name].js'
+              }
+            : {
+                chunkFileNames(chunk): string {
+                  if (!chunk.isEntry && /runtime/.test(chunk.name)) {
+                    return `assets/framework.[hash].js`
+                  }
+                  return `assets/[name].[hash].js`
+                }
+              })
+        }
+      },
+      minify: false //ssr ? false : !process.env.DEBUG
+    }
+  })
+
+  let clientResult: RollupOutput
+  let serverResult: RollupOutput
 
   const spinner = ora()
   spinner.start('building client + server bundles...')
   try {
-    ;[clientResult, serverResult] = await Promise.all([
-      build(viteOptions),
-      ssrBuild({
-        ...viteOptions,
-        outDir: config.tempDir
-      })
-    ])
+    ;[clientResult, serverResult] = await (Promise.all([
+      build(resolveViteConfig(false)),
+      build(resolveViteConfig(true))
+    ]) as Promise<[RollupOutput, RollupOutput]>)
   } catch (e) {
     spinner.stopAndPersist({
       symbol: failMark
@@ -171,5 +93,26 @@ export async function bundle(
     symbol: okMark
   })
 
-  return [clientResult[0], serverResult[0], pageToHashMap]
+  return [clientResult, serverResult, pageToHashMap]
+}
+
+function resolveExternal(
+  userExternal: ExternalOption | undefined
+): ExternalOption {
+  const required = ['vue', /^@vue\//]
+  if (!userExternal) {
+    return required
+  }
+  if (Array.isArray(userExternal)) {
+    return [...required, ...userExternal]
+  } else if (typeof userExternal === 'function') {
+    return (src, importer, isResolved) => {
+      if (src === 'vue' || /^@vue\//.test(src)) {
+        return true
+      }
+      return userExternal(src, importer, isResolved)
+    }
+  } else {
+    return [...required, userExternal]
+  }
 }

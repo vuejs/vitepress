@@ -2,18 +2,37 @@ import path from 'path'
 import { Plugin } from 'vite'
 import { SiteConfig, resolveSiteData } from './config'
 import { createMarkdownToVueRenderFn } from './markdownToVue'
-import { APP_PATH, SITE_DATA_REQUEST_PATH } from './resolver'
+import { APP_PATH, SITE_DATA_REQUEST_PATH } from './alias'
 import createVuePlugin from '@vitejs/plugin-vue'
 import slash from 'slash'
+import { OutputAsset, OutputChunk } from 'rollup'
+
+const hashRE = /\.(\w+)\.js$/
+const staticInjectMarkerRE = /\b(const _hoisted_\d+ = \/\*#__PURE__\*\/createStaticVNode)\("(.*)", (\d+)\)/g
+const staticStripRE = /__VP_STATIC_START__.*?__VP_STATIC_END__/g
+const staticRestoreRE = /__VP_STATIC_(START|END)__/g
+
+const isPageChunk = (
+  chunk: OutputAsset | OutputChunk
+): chunk is OutputChunk & { facadeModuleId: string } =>
+  !!(
+    chunk.type === 'chunk' &&
+    chunk.isEntry &&
+    chunk.facadeModuleId &&
+    chunk.facadeModuleId.endsWith('.md')
+  )
 
 export function createVitePressPlugin(
   root: string,
-  { configPath, aliases, markdown, site: initialSiteData }: SiteConfig
+  { configPath, aliases, markdown, site: initialSiteData }: SiteConfig,
+  ssr = false,
+  pageToHashMap?: Record<string, string>
 ): Plugin[] {
   const markdownToVue = createMarkdownToVueRenderFn(root, markdown)
 
   const vuePlugin = createVuePlugin({
-    include: [/\.vue$/, /\.md$/]
+    include: [/\.vue$/, /\.md$/],
+    ssr
   })
 
   let siteData = initialSiteData
@@ -51,12 +70,62 @@ export function createVitePressPlugin(
       // serve our index.html after vite history fallback
       const indexPath = `/@fs/${path.join(APP_PATH, 'index.html')}`
       return () => {
+        // @ts-ignore
         server.app.use((req, _, next) => {
           if (req.url!.endsWith('.html')) {
             req.url = indexPath
           }
           next()
         })
+      }
+    },
+
+    renderChunk(code, chunk) {
+      if (!ssr && isPageChunk(chunk as OutputChunk)) {
+        // For each page chunk, inject marker for start/end of static strings.
+        // we do this here because in generateBundle the chunks would have been
+        // minified and we won't be able to safely locate the strings.
+        // Using a regexp relies on specific output from Vue compiler core,
+        // which is a reasonable trade-off considering the massive perf win over
+        // a full AST parse.
+        code = code.replace(
+          staticInjectMarkerRE,
+          '$1("__VP_STATIC_START__$2__VP_STATIC_END__", $3)'
+        )
+        return code
+      }
+      return null
+    },
+
+    generateBundle(_options, bundle) {
+      if (ssr) {
+        // ssr build:
+        // delete all asset chunks
+        for (const name in bundle) {
+          if (bundle[name].type === 'asset') {
+            delete bundle[name]
+          }
+        }
+      } else {
+        // client build:
+        // for each .md entry chunk, adjust its name to its correct path.
+        for (const name in bundle) {
+          const chunk = bundle[name]
+          if (isPageChunk(chunk)) {
+            // record page -> hash relations
+            const hash = chunk.fileName.match(hashRE)![1]
+            pageToHashMap![chunk.name] = hash
+
+            // inject another chunk with the content stripped
+            bundle[name + '-lean'] = {
+              ...chunk,
+              fileName: chunk.fileName.replace(/\.js$/, '.lean.js'),
+              code: chunk.code.replace(staticStripRE, ``)
+            }
+            // remove static markers from original code
+            chunk.code = chunk.code.replace(staticRestoreRE, '')
+          }
+        }
       }
     },
 

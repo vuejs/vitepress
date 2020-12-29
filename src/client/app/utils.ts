@@ -29,7 +29,7 @@ export function pathToFile(path: string): string {
       // client production build needs to account for page hash, which is
       // injected directly in the page's html
       const pageHash = __VP_HASH_MAP__[pagePath]
-      pagePath = `${base}_assets/${pagePath}.${pageHash}.js`
+      pagePath = `${base}assets/${pagePath}.${pageHash}.js`
     } else {
       // ssr build uses much simpler name mapping
       pagePath = `./${pagePath.slice(1).replace(/\//g, '_')}.md.js`
