@@ -23,8 +23,11 @@ const prefix = computed(() => {
   return p === true ? 'Last Updated' : p
 })
 
-const datetime = computed(() => {
-  return new Date(page.value.lastUpdated).toLocaleString('en-US')
+const datetime = ref('')
+onMounted(() => {
+  // locale string might be different based on end user
+  // and will lead to potential hydration mismatch if calculated at build time
+  datetime.value = new Date(page.value.lastUpdated).toLocaleString('en-US')
 })
 </script>
 
@@ -33,7 +36,7 @@ const datetime = computed(() => {
   display: inline-block;
   margin: 0;
   line-height: 1.4;
-  font-size: .9rem;
+  font-size: 0.9rem;
   color: var(--c-text-light);
 }
 
