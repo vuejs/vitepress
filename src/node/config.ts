@@ -2,7 +2,7 @@ import path from 'path'
 import fs from 'fs-extra'
 import chalk from 'chalk'
 import globby from 'globby'
-import { createAlias, APP_PATH, DEFAULT_THEME_PATH } from './alias'
+import { resolveAliases, APP_PATH, DEFAULT_THEME_PATH } from './alias'
 import { SiteData, HeadConfig, LocaleConfig } from '../../types/shared'
 import { MarkdownOptions } from './markdown/markdown'
 import { AliasOptions } from 'vite'
@@ -59,7 +59,7 @@ export async function resolveConfig(
     outDir: resolve(root, 'dist'),
     tempDir: path.resolve(APP_PATH, 'temp'),
     markdown: userConfig.markdown,
-    aliases: createAlias(themeDir, userConfig)
+    aliases: resolveAliases(root, themeDir, userConfig)
   }
 
   return config

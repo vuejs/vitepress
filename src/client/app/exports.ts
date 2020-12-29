@@ -24,3 +24,6 @@ import { ComponentOptions } from 'vue'
 import _Debug from './components/Debug.vue'
 const Debug = _Debug as ComponentOptions
 export { Debug }
+
+// default theme
+export { default as DefaultTheme } from '../theme-default'
