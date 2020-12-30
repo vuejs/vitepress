@@ -69,7 +69,7 @@ export async function bundle(
               })
         }
       },
-      minify: false //ssr ? false : !process.env.DEBUG
+      minify: ssr ? false : !process.env.DEBUG
     }
   })
 
