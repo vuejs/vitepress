@@ -41,7 +41,7 @@ export async function bundle(
       ...options,
       base: config.site.base,
       outDir: ssr ? config.tempDir : config.outDir,
-      cssCodeSplit: !ssr,
+      cssCodeSplit: false,
       rollupOptions: {
         ...rollupOptions,
         input,
