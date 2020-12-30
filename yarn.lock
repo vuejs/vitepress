@@ -6031,10 +6031,10 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-vite@^2.0.0-alpha.4:
-  version "2.0.0-alpha.4"
-  resolved "https://registry.yarnpkg.com/vite/-/vite-2.0.0-alpha.4.tgz#4c36681353cbac696addd2b3222b2a3240d4461c"
-  integrity sha512-dM3yJ9YguoK5aT5dFyn5C4cHcjFZ2aygJI0HgvT6Ta19nlDObYZuaI1cEc3ORFGwzO6oDcfPT6locvOadGhBzQ==
+vite@^2.0.0-alpha.5:
+  version "2.0.0-alpha.5"
+  resolved "https://registry.yarnpkg.com/vite/-/vite-2.0.0-alpha.5.tgz#e7e840c0caafbc3d1264efb7b7cf5f08000bff24"
+  integrity sha512-cRm1/ZlcmIcl43ehvxs5Hr+5WapCYe3Zf4i6GM0a+VJPUgE0SJFzEO/SgZhJEc7PINmo+4TXKWAokZU+XvvwoA==
   dependencies:
     esbuild "^0.8.26"
     postcss "^8.2.1"

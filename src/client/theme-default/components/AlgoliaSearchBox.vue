@@ -2,13 +2,8 @@
   <div class="algolia-search-box" id="docsearch" />
 </template>
 
-<script lang="ts">
-// TODO: @vue/compiler-sfc currently has a bug that removes `import 'foo'`
-// statements in <script setup> so we put it here for now
-import '@docsearch/css'
-</script>
-
 <script setup lang="ts">
+import '@docsearch/css'
 import { useRoute, useRouter } from 'vitepress'
 import { defineProps, getCurrentInstance, onMounted, watch } from 'vue'
 import docsearch from '@docsearch/js'
