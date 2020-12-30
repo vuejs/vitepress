@@ -77,15 +77,18 @@ import NavBar from './components/NavBar.vue'
 import SideBar from './components/SideBar.vue'
 import Page from './components/Page.vue'
 const Home = defineAsyncComponent(() => import('./components/Home.vue'))
-const CarbonAds = defineAsyncComponent(
+
+const NoopComponent = () => null
+
+const CarbonAds = __CARBON__ ? defineAsyncComponent(
   () => import('./components/CarbonAds.vue')
-)
-const BuySellAds = defineAsyncComponent(
+) : NoopComponent
+const BuySellAds = __BSA__ ? defineAsyncComponent(
   () => import('./components/BuySellAds.vue')
-)
-const AlgoliaSearchBox = defineAsyncComponent(
+) : NoopComponent
+const AlgoliaSearchBox = __ALGOLIA__ ? defineAsyncComponent(
   () => import('./components/AlgoliaSearchBox.vue')
-)
+) : NoopComponent
 
 // generic state
 const route = useRoute()

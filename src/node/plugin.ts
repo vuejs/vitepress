@@ -2,7 +2,7 @@ import path from 'path'
 import { Plugin } from 'vite'
 import { SiteConfig, resolveSiteData } from './config'
 import { createMarkdownToVueRenderFn } from './markdownToVue'
-import { APP_PATH, SITE_DATA_REQUEST_PATH } from './alias'
+import { APP_PATH, DEFAULT_THEME_PATH, SITE_DATA_REQUEST_PATH } from './alias'
 import createVuePlugin from '@vitejs/plugin-vue'
 import slash from 'slash'
 import { OutputAsset, OutputChunk } from 'rollup'
@@ -24,7 +24,7 @@ const isPageChunk = (
 
 export function createVitePressPlugin(
   root: string,
-  { configPath, aliases, markdown, site: initialSiteData }: SiteConfig,
+  { configPath, aliases, markdown, themeDir, site }: SiteConfig,
   ssr = false,
   pageToHashMap?: Record<string, string>
 ): Plugin[] {
@@ -35,7 +35,9 @@ export function createVitePressPlugin(
     ssr
   })
 
-  let siteData = initialSiteData
+  let siteData = site
+
+  const isUsingDefaultTheme = themeDir === DEFAULT_THEME_PATH
 
   const vitePressPlugin: Plugin = {
     name: 'vitepress',
@@ -43,7 +45,14 @@ export function createVitePressPlugin(
     config() {
       return {
         alias: aliases,
-        transformInclude: /\.md$/
+        transformInclude: /\.md$/,
+        define: isUsingDefaultTheme
+          ? {
+              __CARBON__: !!site.themeConfig.carbonAds?.carbon,
+              __BSA__: !!site.themeConfig.carbonAds?.custom,
+              __ALGOLIA__: !!site.themeConfig.algolia
+            }
+          : {}
       }
     },
 
