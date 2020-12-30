@@ -1,3 +1,18 @@
+## [0.10.1](https://github.com/vuejs/vitepress/compare/v0.10.0...v0.10.1) (2020-12-30)
+
+### Bug Fixes
+
+- disable css code split ([04dc058](https://github.com/vuejs/vitepress/commit/04dc058cd9977b47eb29c6d2d043e33d92802af8))
+- minify ([e3d7fc0](https://github.com/vuejs/vitepress/commit/e3d7fc035376d6d73e350be661925058c84828a8))
+
+### Features
+
+- production ready serve ([2d77eaf](https://github.com/vuejs/vitepress/commit/2d77eafe3b05e9fe76031af9a6c5386c4c6586ac))
+
+### Performance Improvements
+
+- avoid including optional features in build when not used ([c878e6d](https://github.com/vuejs/vitepress/commit/c878e6d3b56ecbd71bd75ff4360446d6dacbd70b))
+
 # [0.10.0](https://github.com/vuejs/vitepress/compare/v0.9.2...v0.10.0) (2020-12-30)
 
 - Upgrade to Vite 2.0
