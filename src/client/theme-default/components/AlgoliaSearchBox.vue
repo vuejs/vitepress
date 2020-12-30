@@ -139,6 +139,7 @@ function initialize(userOptions: any) {
 @media (min-width: 720px) {
   .algolia-search-box {
     padding-left: 8px;
+    min-width: 176.3px; /* avoid layout shift */
   }
 }
 

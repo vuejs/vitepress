@@ -76,6 +76,7 @@ import type { DefaultTheme } from './config'
 import NavBar from './components/NavBar.vue'
 import SideBar from './components/SideBar.vue'
 import Page from './components/Page.vue'
+
 const Home = defineAsyncComponent(() => import('./components/Home.vue'))
 
 const NoopComponent = () => null

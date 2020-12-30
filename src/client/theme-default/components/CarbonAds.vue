@@ -28,6 +28,7 @@ onMounted(() => {
   max-width: 280px;
   font-size: .75rem;
   background-color: rgba(255, 255, 255, .8);
+  min-height: 105.38px; /* avoid layout shift on mobile */
 }
 
 .carbon-ads::after {
@@ -46,6 +47,7 @@ onMounted(() => {
     padding: 8px;
     width: 146px;
     max-width: 100%;
+    min-height: 200px;
   }
 }
 
@@ -60,7 +62,7 @@ onMounted(() => {
   }
 }
 
-.carbon-ads ::v-deep(.carbon-img) {
+.carbon-ads :deep(.carbon-img) {
   float: left;
   margin-right: .75rem;
   max-width: 100px;
@@ -68,7 +70,7 @@ onMounted(() => {
 }
 
 @media (min-width: 420px) {
-  .carbon-ads ::v-deep(.carbon-img) {
+  .carbon-ads :deep(.carbon-img) {
     float: none;
     display: block;
     margin-right: 0;
@@ -76,24 +78,24 @@ onMounted(() => {
   }
 }
 
-.carbon-ads ::v-deep(.carbon-img img) {
+.carbon-ads :deep(.carbon-img img) {
   display: block;
   width: 100%;
 }
 
 @media (min-width: 420px) {
-  .carbon-ads ::v-deep(.carbon-text) {
+  .carbon-ads :deep(.carbon-text) {
     padding-top: 8px;
   }
 }
 
-.carbon-ads ::v-deep(.carbon-text) {
+.carbon-ads :deep(.carbon-text) {
   display: block;
   font-weight: 400;
   color: var(--c-text-light);
 }
 
-.carbon-ads ::v-deep(.carbon-poweredby) {
+.carbon-ads :deep(.carbon-poweredby) {
   display: block;
   padding-top: 2px;
   font-weight: 400;
