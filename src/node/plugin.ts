@@ -77,12 +77,16 @@ export function createVitePressPlugin(
 
     configureServer(server) {
       // serve our index.html after vite history fallback
-      const indexPath = `/@fs/${path.join(APP_PATH, 'index.html')}`
       return () => {
         // @ts-ignore
-        server.app.use((req, _, next) => {
+        server.app.use((req, res, next) => {
           if (req.url!.endsWith('.html')) {
-            req.url = indexPath
+            res.statusCode = 200
+            res.end(
+              `<div id="app"></div>\n` +
+                `<script type="module" src="/@fs/${APP_PATH}/index.js"></script>`
+            )
+            return
           }
           next()
         })
