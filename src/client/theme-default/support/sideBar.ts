@@ -1,10 +1,5 @@
 import { DefaultTheme } from '../config'
-import {
-  isArray,
-  ensureSlash,
-  ensureStartingSlash,
-  removeExtention
-} from '../utils'
+import { isArray, ensureStartingSlash, removeExtention } from '../utils'
 
 export function isSideBarConfig(
   sidebar: DefaultTheme.SideBarConfig | DefaultTheme.MultiSideBarConfig
@@ -32,15 +27,11 @@ export function getSideBarConfig(
     return sidebar
   }
 
-  // get the very first segment of the path to compare with multiple sidebar keys
-  // and make sure it's surrounded by slash
-  path = removeExtention(path)
-  path = ensureStartingSlash(path).split('/')[1] || '/'
-  path = ensureSlash(path)
+  path = ensureStartingSlash(path)
 
   for (const dir in sidebar) {
-    // make sure the multi sidebar key is surrounded by slash too
-    if (path === ensureSlash(dir)) {
+    // make sure the multi sidebar key starts with slash too
+    if (path.startsWith(ensureStartingSlash(dir))) {
       return sidebar[dir]
     }
   }

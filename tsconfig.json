@@ -17,7 +17,7 @@
       "tests/*": ["__tests__/*"],
       "/@shared/*": ["src/client/shared/*"],
       "/@types/*": ["types/*"],
-      "vitepress": ["src/client/app/exports.ts"]
+      "vitepress": ["src/client/index.ts"]
     }
   },
   "include": [

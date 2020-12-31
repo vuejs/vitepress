@@ -32,9 +32,9 @@ module.exports = {
     ],
 
     sidebar: {
-      '/': getGuideSidebar(),
       '/guide/': getGuideSidebar(),
-      '/config/': getConfigSidebar()
+      '/config/': getConfigSidebar(),
+      '/': getGuideSidebar()
     }
   }
 }
