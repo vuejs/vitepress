@@ -1,3 +1,9 @@
+## [0.10.2](https://github.com/vuejs/vitepress/compare/v0.10.1...v0.10.2) (2020-12-31)
+
+### Bug Fixes
+
+- adjust multi sidebar matching logic ([7e4b16e](https://github.com/vuejs/vitepress/commit/7e4b16ee524efc87c150a3d57a3215aac76b3669))
+
 ## [0.10.1](https://github.com/vuejs/vitepress/compare/v0.10.0...v0.10.1) (2020-12-30)
 
 ### Bug Fixes
