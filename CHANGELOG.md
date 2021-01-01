@@ -1,3 +1,16 @@
+## [0.10.3](https://github.com/vuejs/vitepress/compare/v0.10.2...v0.10.3) (2021-01-01)
+
+### Bug Fixes
+
+- always define theme globals ([8769b4b](https://github.com/vuejs/vitepress/commit/8769b4b49f398c5244354fbb93fcbecdb9b9c638))
+- avoid unexpected vite define replacements in markdown content ([a41928e](https://github.com/vuejs/vitepress/commit/a41928ef83eaf9dcb68be26b1e1f8a3edadfb74a))
+- loosen navLink active matching ([8a2ff33](https://github.com/vuejs/vitepress/commit/8a2ff33bf8043b5b0ec21826d7962d7e6337e394))
+
+### Features
+
+- **theme-default:** nav.item.activeMatch ([e262ef6](https://github.com/vuejs/vitepress/commit/e262ef63d89b2bc90c7e42bfc302ba6c602fab16))
+- add altAction for home ([9a17ddf](https://github.com/vuejs/vitepress/commit/9a17ddfdfb3cf7afd70d28d697245a298de090e1))
+
 ## [0.10.2](https://github.com/vuejs/vitepress/compare/v0.10.1...v0.10.2) (2020-12-31)
 
 ### Bug Fixes
