@@ -1,3 +1,10 @@
+## [0.10.4](https://github.com/vuejs/vitepress/compare/v0.10.3...v0.10.4) (2021-01-01)
+
+### Bug Fixes
+
+- ensure the same vue dep in all cases ([d6b8568](https://github.com/vuejs/vitepress/commit/d6b8568c52d51d66423a32293879f8bb57756954))
+- respect root during build ([055e3fd](https://github.com/vuejs/vitepress/commit/055e3fd043b6ec425f1b0a0cf529bc1ff66acda5))
+
 ## [0.10.3](https://github.com/vuejs/vitepress/compare/v0.10.2...v0.10.3) (2021-01-01)
 
 ### Bug Fixes
