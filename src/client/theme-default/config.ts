@@ -80,6 +80,7 @@ export namespace DefaultTheme {
     target?: string
     rel?: string
     ariaLabel?: string
+    activeMatch?: string
   }
 
   export interface NavItemWithLink extends NavItemBase {

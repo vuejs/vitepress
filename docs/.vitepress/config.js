@@ -23,8 +23,12 @@ module.exports = {
     },
 
     nav: [
-      { text: 'Guide', link: '/' },
-      { text: 'Config Reference', link: '/config/basics' },
+      { text: 'Guide', link: '/', activeMatch: '^/$|^/guide/' },
+      {
+        text: 'Config Reference',
+        link: '/config/basics',
+        activeMatch: '^/config/'
+      },
       {
         text: 'Release Notes',
         link: 'https://github.com/vuejs/vitepress/releases'
