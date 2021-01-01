@@ -2,7 +2,7 @@ import path from 'path'
 import { Plugin } from 'vite'
 import { SiteConfig, resolveSiteData } from './config'
 import { createMarkdownToVueRenderFn } from './markdownToVue'
-import { APP_PATH, DEFAULT_THEME_PATH, SITE_DATA_REQUEST_PATH } from './alias'
+import { APP_PATH, SITE_DATA_REQUEST_PATH } from './alias'
 import createVuePlugin from '@vitejs/plugin-vue'
 import slash from 'slash'
 import { OutputAsset, OutputChunk } from 'rollup'
@@ -37,8 +37,6 @@ export function createVitePressPlugin(
 
   let siteData = site
 
-  const isUsingDefaultTheme = themeDir === DEFAULT_THEME_PATH
-
   const vitePressPlugin: Plugin = {
     name: 'vitepress',
 
@@ -46,13 +44,11 @@ export function createVitePressPlugin(
       return {
         alias: aliases,
         transformInclude: /\.md$/,
-        define: isUsingDefaultTheme
-          ? {
-              __CARBON__: !!site.themeConfig.carbonAds?.carbon,
-              __BSA__: !!site.themeConfig.carbonAds?.custom,
-              __ALGOLIA__: !!site.themeConfig.algolia
-            }
-          : {}
+        define: {
+          __CARBON__: !!site.themeConfig.carbonAds?.carbon,
+          __BSA__: !!site.themeConfig.carbonAds?.custom,
+          __ALGOLIA__: !!site.themeConfig.algolia
+        }
       }
     },
 
