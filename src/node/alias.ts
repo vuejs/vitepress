@@ -37,28 +37,18 @@ export function resolveAliases(
     {
       find: /^vitepress$/,
       replacement: path.join(__dirname, '../client/index')
+    },
+    // alias for local linked development
+    { find: /^vitepress\//, replacement: PKG_ROOT + '/' },
+    // make sure it always use the same vue dependency that comes with
+    // vitepress itself
+    {
+      find: /^vue$/,
+      replacement: require.resolve(
+        '@vue/runtime-dom/dist/runtime-dom.esm-bundler.js'
+      )
     }
   ]
-
-  let isLinked = false
-  try {
-    require.resolve('vitepress', { paths: [root] })
-  } catch (e) {
-    isLinked = true
-  }
-
-  if (isLinked) {
-    // aliases for local linked development
-    aliases.push(
-      { find: /^vitepress\//, replacement: PKG_ROOT + '/' },
-      {
-        find: /^vue$/,
-        replacement: require.resolve(
-          '@vue/runtime-dom/dist/runtime-dom.esm-bundler.js'
-        )
-      }
-    )
-  }
 
   return aliases
 }
