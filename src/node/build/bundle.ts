@@ -35,6 +35,7 @@ export async function bundle(
   const { rollupOptions } = options
 
   const resolveViteConfig = (ssr: boolean): ViteUserConfig => ({
+    root,
     logLevel: 'warn',
     plugins: createVitePressPlugin(root, config, ssr, pageToHashMap),
     build: {
