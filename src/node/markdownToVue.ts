@@ -33,7 +33,12 @@ export function createMarkdownToVueRenderFn(
     const start = Date.now()
 
     const { content, data: frontmatter } = matter(src)
-    const { html, data } = md.render(content)
+    let { html, data } = md.render(content)
+
+    // avoid env variables being replaced by vite
+    html = html
+      .replace(/import\.meta/g, 'import.<wbr/>meta')
+      .replace(/process\.env/g, 'process.<wbr/>env')
 
     // TODO validate data.links?
     const pageData: PageData = {
