@@ -13,8 +13,9 @@ export function useNavLink(item: DefaultTheme.NavItemWithLink) {
   const props = computed(() => {
     return {
       class: {
-        active:
-          normalizePath(withBase(item.link)) === normalizePath(route.path),
+        active: normalizePath(route.path).startsWith(
+          normalizePath(withBase(item.link))
+        ),
         isExternal
       },
       href: isExternal ? item.link : withBase(item.link),
@@ -31,14 +32,8 @@ export function useNavLink(item: DefaultTheme.NavItemWithLink) {
 }
 
 function normalizePath(path: string): string {
-  path = path
+  return path
     .replace(/#.*$/, '')
     .replace(/\?.*$/, '')
-    .replace(/\.html$/, '')
-
-  if (path.endsWith('/')) {
-    path += 'index'
-  }
-
-  return path
+    .replace(/\.(html|md)$/, '')
 }
