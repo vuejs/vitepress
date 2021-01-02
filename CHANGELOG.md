@@ -1,3 +1,9 @@
+## [0.10.5](https://github.com/vuejs/vitepress/compare/v0.10.4...v0.10.5) (2021-01-02)
+
+### Bug Fixes
+
+- vite 2.0.0-beta.2 compat ([991a443](https://github.com/vuejs/vitepress/commit/991a443c70c6173aa0100fcccf57f3565e9e38d9))
+
 ## [0.10.4](https://github.com/vuejs/vitepress/compare/v0.10.3...v0.10.4) (2021-01-01)
 
 ### Bug Fixes
