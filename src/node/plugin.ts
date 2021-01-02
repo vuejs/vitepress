@@ -138,8 +138,9 @@ export function createVitePressPlugin(
       }
     },
 
-    async handleHotUpdate(file, mods, read, server) {
+    async handleHotUpdate(ctx) {
       // handle config hmr
+      const { file, read, server } = ctx
       if (file === configPath) {
         const newData = await resolveSiteData(root)
         if (newData.base !== siteData.base) {
@@ -167,7 +168,10 @@ export function createVitePressPlugin(
         })
 
         // reload the content component
-        return vuePlugin.handleHotUpdate!(file, mods, () => vueSrc, server)
+        return vuePlugin.handleHotUpdate!({
+          ...ctx,
+          read: () => vueSrc
+        })
       }
     }
   }
