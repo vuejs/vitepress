@@ -1,15 +1,8 @@
 <template>
   <div class="nav-dropdown-link-item">
-    <a
-      class="item"
-      :class="classes"
-      :href="href"
-      :target="target"
-      :rel="rel"
-      :aria-label="ariaLabel"
-    >
+    <a class="item" v-bind="linkProps">
       <span class="arrow" />
-      <span class="text">{{ text }}</span>
+      <span class="text">{{ item.text }}</span>
       <span class="icon"><OutboundLink v-if="isExternal" /></span>
     </a>
   </div>
@@ -22,19 +15,10 @@ import { useNavLink } from '../composables/navLink'
 import OutboundLink from './icons/OutboundLink.vue'
 
 const { item } = defineProps<{
-  item: DefaultTheme.NavItem
+  item: DefaultTheme.NavItemWithLink
 }>()
 
-const {
-  classes,
-  isActive,
-  isExternal,
-  href,
-  target,
-  rel,
-  ariaLabel,
-  text
-} = useNavLink(item)
+const { props: linkProps, isExternal } = useNavLink(item)
 </script>
 
 <style scoped>
@@ -42,7 +26,7 @@ const {
   display: block;
   padding: 0 1.5rem 0 2.5rem;
   line-height: 32px;
-  font-size: .9rem;
+  font-size: 0.9rem;
   font-weight: 500;
   color: var(--c-text);
   white-space: nowrap;
@@ -52,7 +36,7 @@ const {
   .item {
     padding: 0 24px 0 12px;
     line-height: 32px;
-    font-size: .85rem;
+    font-size: 0.85rem;
     font-weight: 500;
     color: var(--c-text);
     white-space: nowrap;

@@ -5,7 +5,7 @@
 //
 // But header's parsing in the markdown content is done by the markdown
 // loader based on markdown-it. markdown-it parser will will always keep
-// HTML in headers, so in VuePress, after being parsed by the markdiwn
+// HTML in headers, so in VuePress, after being parsed by the markdown
 // loader, the raw HTML in headers will finally be parsed by Vue-loader.
 // so that we can write HTML/Vue in the header. One exception is the HTML
 // wrapped by <code>(markdown token: '`') tag.
@@ -28,9 +28,9 @@ const unescapeHtml = (html: string) =>
 
 const removeMarkdownTokens = (str: string) =>
   String(str)
-    .replace(/\[(.*)\]\(.*\)/, '$1') // []()
+    .replace(/(\[(.[^\]]+)\]\((.[^)]+)\))/g, '$2') // []()
     .replace(/(`|\*{1,3}|_)(.*?[^\\])\1/g, '$2') // `{t}` | *{t}* | **{t}** | ***{t}*** | _{t}_
-    .replace(/(\\)(\*|_|`|\!)/g, '$2') // remove escape char '\'
+    .replace(/(\\)(\*|_|`|\!|<|\$)/g, '$2') // remove escape char '\'
 
 const trim = (str: string) => str.trim()
 
@@ -39,7 +39,7 @@ const trim = (str: string) => str.trim()
 // Input: "<a> b",   Output: "b"
 // Input: "`<a>` b", Output: "`<a>` b"
 export const removeNonCodeWrappedHTML = (str: string) => {
-  return String(str).replace(/(^|[^><`])<.*>([^><`]|$)/g, '$1$2')
+  return String(str).replace(/(^|[^><`\\])<.*>([^><`]|$)/g, '$1$2')
 }
 
 const compose = (...processors: ((str: string) => string)[]) => {

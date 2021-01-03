@@ -4,5 +4,6 @@ import { usePageData } from './pageData'
 export type FrontmatterRef = Ref<Record<string, any>>
 
 export function useFrontmatter() {
-  return computed(() => usePageData().value.frontmatter)
+  const pageData = usePageData()
+  return computed(() => pageData.value.frontmatter)
 }

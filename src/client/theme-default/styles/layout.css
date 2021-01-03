@@ -86,7 +86,7 @@ h2 {
   padding-bottom: .3rem;
   line-height: 1.25;
   font-size: 1.65rem;
-  overflow-x: auto;
+  /* overflow-x: auto; */
 }
 
 h2 + h3 {

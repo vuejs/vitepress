@@ -1,7 +1,8 @@
 // Customized pre-fetch for page chunks based on
 // https://github.com/GoogleChromeLabs/quicklink
 
-import { onMounted, onUnmounted, onUpdated } from 'vue'
+import { useRoute } from '../router'
+import { onMounted, onUnmounted, watch } from 'vue'
 import { inBrowser, pathToFile } from '../utils'
 
 const hasFetched = new Set<string>()
@@ -72,10 +73,10 @@ export function usePrefetch() {
     })
 
     rIC(() => {
-      document.querySelectorAll('.vitepress-content a').forEach((link) => {
+      document.querySelectorAll('#app a').forEach((link) => {
         const { target, hostname, pathname } = link as HTMLAnchorElement
         if (
-          // only prefetch same page navigation, since a new page will load
+          // only prefetch same tab navigation, since a new tab will load
           // the lean js chunk instead.
           target !== `_blank` &&
           // only prefetch inbound links
@@ -97,7 +98,9 @@ export function usePrefetch() {
   }
 
   onMounted(observeLinks)
-  onUpdated(observeLinks)
+
+  const route = useRoute()
+  watch(() => route.path, observeLinks)
 
   onUnmounted(() => {
     observer && observer.disconnect()

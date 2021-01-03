@@ -53,6 +53,9 @@ export function useLocaleLinks() {
       ? locales[currentLangKey].selectText
       : 'Languages'
 
-    return { text: selectText, items: candidates }
+    return {
+      text: selectText,
+      items: candidates
+    } as DefaultTheme.NavItemWithChildren
   })
 }

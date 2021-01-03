@@ -5,39 +5,29 @@
   </p>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed, onMounted } from 'vue'
+<script setup lang="ts">
+import { ref, computed, onMounted } from 'vue'
 import { useSiteDataByRoute, usePageData } from 'vitepress'
 
-export default defineComponent({
-  setup() {
-    const site = useSiteDataByRoute()
-    const page = usePageData()
+const site = useSiteDataByRoute()
+const page = usePageData()
 
-    const datetime = ref('')
+const hasLastUpdated = computed(() => {
+  const lu = site.value.themeConfig.lastUpdated
 
-    const hasLastUpdated = computed(() => {
-      const lu = site.value.themeConfig.lastUpdated
+  return lu !== undefined && lu !== false
+})
 
-      return lu !== undefined && lu !== false
-    })
+const prefix = computed(() => {
+  const p = site.value.themeConfig.lastUpdated
+  return p === true ? 'Last Updated' : p
+})
 
-    const prefix = computed(() => {
-      const p = site.value.themeConfig.lastUpdated
-
-      return p === true ? 'Last Updated' : p
-    })
-
-    onMounted(() => {
-      datetime.value = new Date(page.value.lastUpdated).toLocaleString('en-US')
-    })
-
-    return {
-      hasLastUpdated,
-      prefix,
-      datetime
-    }
-  }
+const datetime = ref('')
+onMounted(() => {
+  // locale string might be different based on end user
+  // and will lead to potential hydration mismatch if calculated at build time
+  datetime.value = new Date(page.value.lastUpdated).toLocaleString('en-US')
 })
 </script>
 
@@ -46,7 +36,7 @@ export default defineComponent({
   display: inline-block;
   margin: 0;
   line-height: 1.4;
-  font-size: .9rem;
+  font-size: 0.9rem;
   color: var(--c-text-light);
 }
 

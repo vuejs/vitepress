@@ -19,7 +19,9 @@
     <!-- TODO: make this button accessible -->
     <div class="sidebar-mask" @click="toggleSidebar(false)" />
 
-    <Home v-if="enableHome">
+    <Content v-if="isCustomLayout" />
+
+    <Home v-else-if="enableHome">
       <template #hero>
         <slot name="home-hero" />
       </template>
@@ -72,18 +74,22 @@ import type { DefaultTheme } from './config'
 
 // components
 import NavBar from './components/NavBar.vue'
-import Home from './components/Home.vue'
 import SideBar from './components/SideBar.vue'
 import Page from './components/Page.vue'
-const CarbonAds = defineAsyncComponent(
+
+const Home = defineAsyncComponent(() => import('./components/Home.vue'))
+
+const NoopComponent = () => null
+
+const CarbonAds = __CARBON__ ? defineAsyncComponent(
   () => import('./components/CarbonAds.vue')
-)
-const BuySellAds = defineAsyncComponent(
+) : NoopComponent
+const BuySellAds = __BSA__ ? defineAsyncComponent(
   () => import('./components/BuySellAds.vue')
-)
-const AlgoliaSearchBox = defineAsyncComponent(
+) : NoopComponent
+const AlgoliaSearchBox = __ALGOLIA__ ? defineAsyncComponent(
   () => import('./components/AlgoliaSearchBox.vue')
-)
+) : NoopComponent
 
 // generic state
 const route = useRoute()
@@ -92,6 +98,8 @@ const siteRouteData = useSiteDataByRoute()
 const theme = computed(() => siteData.value.themeConfig)
 const page = usePageData()
 
+// custom layout
+const isCustomLayout = computed(() => !!route.data.frontmatter.customLayout)
 // home
 const enableHome = computed(() => !!route.data.frontmatter.home)
 

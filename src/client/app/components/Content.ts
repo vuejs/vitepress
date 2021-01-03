@@ -1,16 +1,10 @@
-import { h } from 'vue'
+import { defineComponent, h } from 'vue'
 import { useRoute } from '../router'
-import { usePrefetch } from '../composables/preFetch'
 
-export const Content = {
+export const Content = defineComponent({
+  name: 'VitePressContent',
   setup() {
     const route = useRoute()
-
-    if (process.env.NODE_ENV === 'production') {
-      // in prod mode, enable intersectionObserver based pre-fetch
-      usePrefetch()
-    }
-
     return () => (route.component ? h(route.component) : null)
   }
-}
+})

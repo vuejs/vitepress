@@ -16,8 +16,8 @@ describe('client/theme-default/support/sideBar', () => {
 
   it('gets the correct sidebar items from the given path', () => {
     const sidebar = {
-      '/': [{ text: 'R', link: 'r' }],
-      '/guide/': [{ text: 'G', link: 'g' }]
+      '/guide/': [{ text: 'G', link: 'g' }],
+      '/': [{ text: 'R', link: 'r' }]
     }
 
     expect(getSideBarConfig(sidebar, '/')).toEqual(sidebar['/'])
@@ -31,7 +31,8 @@ describe('client/theme-default/support/sideBar', () => {
     }
 
     expect(getSideBarConfig(s, '/guide/')).toEqual(s['/guide/'])
-    expect(getSideBarConfig(s, '/guide')).toEqual(s['/guide/'])
+    // no ending slash should not match
+    expect(getSideBarConfig(s, '/guide')).not.toEqual(s['/guide/'])
     expect(getSideBarConfig(s, 'guide/')).toEqual(s['/guide/'])
     expect(getSideBarConfig(s, 'guide/nested')).toEqual(s['/guide/'])
     expect(getSideBarConfig(s, '/guide/nested')).toEqual(s['/guide/'])

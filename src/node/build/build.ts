@@ -1,24 +1,16 @@
 import fs from 'fs-extra'
 import { bundle, okMark, failMark } from './bundle'
-import { BuildConfig as ViteBuildOptions } from 'vite'
+import { BuildOptions } from 'vite'
 import { resolveConfig } from '../config'
 import { renderPage } from './render'
 import { OutputChunk, OutputAsset } from 'rollup'
 import ora from 'ora'
 
-export type BuildOptions = Pick<
-  Partial<ViteBuildOptions>,
-  | 'root'
-  | 'rollupInputOptions'
-  | 'rollupOutputOptions'
-  | 'rollupPluginVueOptions'
->
-
-export async function build(buildOptions: BuildOptions = {}) {
+export async function build(root: string, buildOptions: BuildOptions = {}) {
   const start = Date.now()
 
   process.env.NODE_ENV = 'production'
-  const siteConfig = await resolveConfig(buildOptions.root)
+  const siteConfig = await resolveConfig(root)
 
   try {
     const [clientResult, , pageToHashMap] = await bundle(
@@ -30,12 +22,11 @@ export async function build(buildOptions: BuildOptions = {}) {
     spinner.start('rendering pages...')
 
     try {
-      const appChunk = clientResult.assets.find(
-        (chunk) =>
-          chunk.type === 'chunk' && chunk.fileName.match(/^app\.\w+\.js$/)
+      const appChunk = clientResult.output.find(
+        (chunk) => chunk.type === 'chunk' && chunk.isEntry && chunk
       ) as OutputChunk
 
-      const cssChunk = clientResult.assets.find(
+      const cssChunk = clientResult.output.find(
         (chunk) => chunk.type === 'asset' && chunk.fileName.endsWith('.css')
       ) as OutputAsset
 
@@ -43,7 +34,7 @@ export async function build(buildOptions: BuildOptions = {}) {
       // alter the main chunk's hash on every build. It's also embedded as a
       // string and JSON.parsed from the client because it's faster than embedding
       // as JS object literal.
-      const hashMapStirng = JSON.stringify(JSON.stringify(pageToHashMap))
+      const hashMapString = JSON.stringify(JSON.stringify(pageToHashMap))
 
       for (const page of siteConfig.pages) {
         await renderPage(
@@ -53,7 +44,7 @@ export async function build(buildOptions: BuildOptions = {}) {
           appChunk,
           cssChunk,
           pageToHashMap,
-          hashMapStirng
+          hashMapString
         )
       }
     } catch (e) {
