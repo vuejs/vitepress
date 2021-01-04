@@ -40,6 +40,8 @@ export async function bundle(
     plugins: createVitePressPlugin(root, config, ssr, pageToHashMap),
     build: {
       ...options,
+      // @ts-ignore
+      ssr,
       base: config.site.base,
       outDir: ssr ? config.tempDir : config.outDir,
       cssCodeSplit: false,
