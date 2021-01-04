@@ -23,7 +23,12 @@ export const linkPlugin = (
         Object.entries(externalAttrs).forEach(([key, val]) => {
           token.attrSet(key, val)
         })
-      } else if (!url.startsWith('#')) {
+      } else if (
+        // internal anchor links
+        !url.startsWith('#') &&
+        // mail links
+        !url.startsWith('mailto:')
+      ) {
         normalizeHref(hrefAttr)
       }
     }

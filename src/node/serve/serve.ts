@@ -1,5 +1,5 @@
-import Koa from 'koa'
-import koaServe from 'koa-static'
+import sirv from 'sirv'
+import compression from 'compression'
 import { resolveConfig } from '../config'
 
 export interface ServeOptions {
@@ -8,14 +8,28 @@ export interface ServeOptions {
 }
 
 export async function serve(options: ServeOptions = {}) {
-  const port = options.port !== undefined ? options.port : 3000
+  const port = options.port !== undefined ? options.port : 5000
   const site = await resolveConfig(options.root)
 
-  const app = new Koa()
+  const compress = compression()
+  const serve = sirv(site.outDir, {
+    etag: true,
+    single: true,
+    maxAge: 31536000,
+    immutable: true,
+    setHeaders(res, pathname) {
+      if (!pathname.includes('/assets/')) {
+        // force server validation for non-asset files since they are not
+        // fingerprinted.
+        res.setHeader('cache-control', 'no-cache')
+      }
+    }
+  })
 
-  app.use(koaServe(site.outDir))
-
-  app.listen(port)
-
-  console.log(`listening at http://localhost:${port}`)
+  require('polka')()
+    .use(compress, serve)
+    .listen(port, (err: any) => {
+      if (err) throw err
+      console.log(`Built site served at http://localhost:${port}.\n`)
+    })
 }

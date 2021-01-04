@@ -28,9 +28,9 @@ const unescapeHtml = (html: string) =>
 
 const removeMarkdownTokens = (str: string) =>
   String(str)
-    .replace(/\[(.*)\]\(.*\)/, '$1') // []()
+    .replace(/(\[(.[^\]]+)\]\((.[^)]+)\))/g, '$2') // []()
     .replace(/(`|\*{1,3}|_)(.*?[^\\])\1/g, '$2') // `{t}` | *{t}* | **{t}** | ***{t}*** | _{t}_
-    .replace(/(\\)(\*|_|`|\!)/g, '$2') // remove escape char '\'
+    .replace(/(\\)(\*|_|`|\!|<|\$)/g, '$2') // remove escape char '\'
 
 const trim = (str: string) => str.trim()
 
@@ -39,7 +39,7 @@ const trim = (str: string) => str.trim()
 // Input: "<a> b",   Output: "b"
 // Input: "`<a>` b", Output: "`<a>` b"
 export const removeNonCodeWrappedHTML = (str: string) => {
-  return String(str).replace(/(^|[^><`])<.*>([^><`]|$)/g, '$1$2')
+  return String(str).replace(/(^|[^><`\\])<.*>([^><`]|$)/g, '$1$2')
 }
 
 const compose = (...processors: ((str: string) => string)[]) => {

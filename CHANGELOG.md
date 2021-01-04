@@ -1,3 +1,68 @@
+## [0.10.6](https://github.com/vuejs/vitepress/compare/v0.10.5...v0.10.6) (2021-01-04)
+
+### Bug Fixes
+
+- bump vite and fix win32 path resolving ([#198](https://github.com/vuejs/vitepress/issues/198)) ([da2c4f6](https://github.com/vuejs/vitepress/commit/da2c4f694e6dd2d11ff061b8eb7cae2354ae930d))
+
+## [0.10.5](https://github.com/vuejs/vitepress/compare/v0.10.4...v0.10.5) (2021-01-02)
+
+### Bug Fixes
+
+- vite 2.0.0-beta.2 compat ([991a443](https://github.com/vuejs/vitepress/commit/991a443c70c6173aa0100fcccf57f3565e9e38d9))
+
+## [0.10.4](https://github.com/vuejs/vitepress/compare/v0.10.3...v0.10.4) (2021-01-01)
+
+### Bug Fixes
+
+- ensure the same vue dep in all cases ([d6b8568](https://github.com/vuejs/vitepress/commit/d6b8568c52d51d66423a32293879f8bb57756954))
+- respect root during build ([055e3fd](https://github.com/vuejs/vitepress/commit/055e3fd043b6ec425f1b0a0cf529bc1ff66acda5))
+
+## [0.10.3](https://github.com/vuejs/vitepress/compare/v0.10.2...v0.10.3) (2021-01-01)
+
+### Bug Fixes
+
+- always define theme globals ([8769b4b](https://github.com/vuejs/vitepress/commit/8769b4b49f398c5244354fbb93fcbecdb9b9c638))
+- avoid unexpected vite define replacements in markdown content ([a41928e](https://github.com/vuejs/vitepress/commit/a41928ef83eaf9dcb68be26b1e1f8a3edadfb74a))
+- loosen navLink active matching ([8a2ff33](https://github.com/vuejs/vitepress/commit/8a2ff33bf8043b5b0ec21826d7962d7e6337e394))
+
+### Features
+
+- **theme-default:** nav.item.activeMatch ([e262ef6](https://github.com/vuejs/vitepress/commit/e262ef63d89b2bc90c7e42bfc302ba6c602fab16))
+- add altAction for home ([9a17ddf](https://github.com/vuejs/vitepress/commit/9a17ddfdfb3cf7afd70d28d697245a298de090e1))
+
+## [0.10.2](https://github.com/vuejs/vitepress/compare/v0.10.1...v0.10.2) (2020-12-31)
+
+### Bug Fixes
+
+- adjust multi sidebar matching logic ([7e4b16e](https://github.com/vuejs/vitepress/commit/7e4b16ee524efc87c150a3d57a3215aac76b3669))
+
+## [0.10.1](https://github.com/vuejs/vitepress/compare/v0.10.0...v0.10.1) (2020-12-30)
+
+### Bug Fixes
+
+- disable css code split ([04dc058](https://github.com/vuejs/vitepress/commit/04dc058cd9977b47eb29c6d2d043e33d92802af8))
+- minify ([e3d7fc0](https://github.com/vuejs/vitepress/commit/e3d7fc035376d6d73e350be661925058c84828a8))
+
+### Features
+
+- production ready serve ([2d77eaf](https://github.com/vuejs/vitepress/commit/2d77eafe3b05e9fe76031af9a6c5386c4c6586ac))
+
+### Performance Improvements
+
+- avoid including optional features in build when not used ([c878e6d](https://github.com/vuejs/vitepress/commit/c878e6d3b56ecbd71bd75ff4360446d6dacbd70b))
+
+# [0.10.0](https://github.com/vuejs/vitepress/compare/v0.9.2...v0.10.0) (2020-12-30)
+
+- Upgrade to Vite 2.0
+
+### Bug Fixes
+
+- port fixes to parseHeader utils from vuepress ([#172](https://github.com/vuejs/vitepress/issues/172)) ([dd312ce](https://github.com/vuejs/vitepress/commit/dd312ce86bf9daf4b169e025d4215c05e2ad63c5))
+- revert datetime handling ([a1daf2b](https://github.com/vuejs/vitepress/commit/a1daf2b8a012a8a248b3a832d80d6933778087d0))
+- style pollution on custom theme ([#190](https://github.com/vuejs/vitepress/issues/190)) ([46e99ba](https://github.com/vuejs/vitepress/commit/46e99babc2d1a0e456d47081c2e7beb961bcd1d5))
+- temporarily disable slot usage causing hydration mismatch ([0239159](https://github.com/vuejs/vitepress/commit/02391593bcdd21b621a60aaa0ea2c8cf2ef450d8))
+- **md:** avoid normalising markdown "mailto:" links ([#173](https://github.com/vuejs/vitepress/issues/173)) ([18d18d2](https://github.com/vuejs/vitepress/commit/18d18d2eb15a569113ca68ccbb9ba52dfd46c80a))
+
 ## [0.9.2](https://github.com/vuejs/vitepress/compare/v0.9.1...v0.9.2) (2020-12-10)
 
 Fix build files
