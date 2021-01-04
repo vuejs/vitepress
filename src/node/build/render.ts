@@ -2,6 +2,7 @@ import path from 'path'
 import fs from 'fs-extra'
 import { SiteConfig, resolveSiteDataByRoute } from '../config'
 import { HeadConfig } from '../../../types/shared'
+import { normalizePath } from 'vite'
 import { RollupOutput, OutputChunk, OutputAsset } from 'rollup'
 
 const escape = require('escape-html')
@@ -88,7 +89,7 @@ function resolvePageImports(
   // find the page's js chunk and inject script tags for its imports so that
   // they are start fetching as early as possible
 
-  const srcPath = path.resolve(config.root, page)
+  const srcPath = normalizePath(path.resolve(config.root, page))
   const pageChunk = result.output.find(
     (chunk) => chunk.type === 'chunk' && chunk.facadeModuleId === srcPath
   ) as OutputChunk
