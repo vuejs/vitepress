@@ -1,3 +1,4 @@
+import 'vite/dynamic-import-polyfill'
 import { App, createApp as createClientApp, createSSRApp, h } from 'vue'
 import { inBrowser, pathToFile } from './utils'
 import { Router, RouterSymbol, createRouter } from './router'
