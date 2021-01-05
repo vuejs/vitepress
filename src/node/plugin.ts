@@ -43,7 +43,6 @@ export function createVitePressPlugin(
     config() {
       return {
         alias: aliases,
-        transformInclude: /\.md$/,
         define: {
           __CARBON__: !!site.themeConfig.carbonAds?.carbon,
           __BSA__: !!site.themeConfig.carbonAds?.custom,
