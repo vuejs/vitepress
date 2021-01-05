@@ -6,7 +6,7 @@
     "target": "esnext",
     "module": "esnext",
     "lib": ["ESNext", "DOM"],
-    "types": ["vite"],
+    "types": ["vite/client"],
     "paths": {
       "/@shared/*": ["shared/*"],
       "/@types/*": ["../../types/*"],

@@ -65,13 +65,11 @@ export function mixinGlobalComputed(
 }
 
 export function mixinGlobalComponents(app: App) {
-  const isProd = process.env.NODE_ENV === 'production'
-
   app.component('Content', Content)
   app.component('ClientOnly', ClientOnly)
   app.component(
     'Debug',
-    isProd
+    import.meta.env.PROD
       ? () => null
       : defineAsyncComponent(() => import('./components/Debug.vue'))
   )

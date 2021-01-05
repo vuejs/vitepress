@@ -54,7 +54,7 @@ export function createApp() {
 }
 
 function newApp(): App {
-  return process.env.NODE_ENV === 'production'
+  return import.meta.env.PROD
     ? createSSRApp(VitePressApp)
     : createClientApp(VitePressApp)
 }
@@ -85,6 +85,7 @@ function newRouter(): Router {
     }
 
     // SSR: sync require
+    // @ts-ignore
     return require(pageFilePath)
   }, NotFound)
 }
