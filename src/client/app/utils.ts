@@ -17,7 +17,7 @@ export function pathToFile(path: string): string {
   }
 
   if (import.meta.env.DEV) {
-    // awlays force re-fetch content in dev
+    // always force re-fetch content in dev
     pagePath += `.md?t=${Date.now()}`
   } else {
     // in production, each .md file is built into a .md.js file following
