@@ -29,7 +29,7 @@ export async function renderPage(
   const pageServerJsFileName = pageName + '.js'
   // for any initial page load, we only need the lean version of the page js
   // since the static content is already on the page!
-  const pageHash = pageToHashMap[pageName]
+  const pageHash = pageToHashMap[pageName.toLowerCase()]
   const pageClientJsFileName = `assets/${pageName}.${pageHash}.lean.js`
 
   // resolve page data so we can render head tags
