@@ -1,6 +1,6 @@
 {
   "name": "vitepress",
-  "version": "0.10.7",
+  "version": "0.10.8",
   "description": "Vite & Vue powered static site generator",
   "main": "dist/node/index.js",
   "typings": "types/index.d.ts",
