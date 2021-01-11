@@ -113,7 +113,7 @@ function shouldHotReload(payload: any): boolean {
 if (inBrowser) {
   const { app, router } = createApp()
 
-  // wait unitl page component is fetched before mounting
+  // wait until page component is fetched before mounting
   router.go().then(() => {
     app.mount('#app')
   })

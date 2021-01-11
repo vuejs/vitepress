@@ -17,7 +17,7 @@ export function pathToFile(path: string): string {
   }
 
   if (import.meta.env.DEV) {
-    // awlays force re-fetch content in dev
+    // always force re-fetch content in dev
     pagePath += `.md?t=${Date.now()}`
   } else {
     // in production, each .md file is built into a .md.js file following
@@ -28,7 +28,7 @@ export function pathToFile(path: string): string {
       pagePath = pagePath.slice(base.length).replace(/\//g, '_') + '.md'
       // client production build needs to account for page hash, which is
       // injected directly in the page's html
-      const pageHash = __VP_HASH_MAP__[pagePath]
+      const pageHash = __VP_HASH_MAP__[pagePath.toLowerCase()]
       pagePath = `${base}assets/${pagePath}.${pageHash}.js`
     } else {
       // ssr build uses much simpler name mapping

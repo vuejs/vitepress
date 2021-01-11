@@ -122,7 +122,7 @@ export function createVitePressPlugin(
           if (isPageChunk(chunk)) {
             // record page -> hash relations
             const hash = chunk.fileName.match(hashRE)![1]
-            pageToHashMap![chunk.name] = hash
+            pageToHashMap![chunk.name.toLowerCase()] = hash
 
             // inject another chunk with the content stripped
             bundle[name + '-lean'] = {

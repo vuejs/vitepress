@@ -23,7 +23,7 @@ const getDefaultRoute = (): Route => ({
   path: '/',
   component: null,
   // this will be set upon initial page load, which is before
-  // the app is mounted, so it's guaranteed to be avaiable in
+  // the app is mounted, so it's guaranteed to be available in
   // components
   data: null as any
 })
