@@ -24,7 +24,7 @@ const isPageChunk = (
 
 export function createVitePressPlugin(
   root: string,
-  { configPath, aliases, markdown, themeDir, site }: SiteConfig,
+  { configPath, alias, markdown, site }: SiteConfig,
   ssr = false,
   pageToHashMap?: Record<string, string>
 ): Plugin[] {
@@ -42,7 +42,7 @@ export function createVitePressPlugin(
 
     config() {
       return {
-        alias: aliases,
+        alias,
         define: {
           __CARBON__: !!site.themeConfig.carbonAds?.carbon,
           __BSA__: !!site.themeConfig.carbonAds?.custom,

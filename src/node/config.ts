@@ -30,7 +30,7 @@ export interface SiteConfig<ThemeConfig = any> {
   themeDir: string
   outDir: string
   tempDir: string
-  aliases: AliasOptions
+  alias: AliasOptions
   pages: string[]
   markdown?: MarkdownOptions
 }
@@ -59,7 +59,7 @@ export async function resolveConfig(
     outDir: resolve(root, 'dist'),
     tempDir: path.resolve(APP_PATH, 'temp'),
     markdown: userConfig.markdown,
-    aliases: resolveAliases(root, themeDir, userConfig)
+    alias: resolveAliases(root, themeDir, userConfig)
   }
 
   return config
