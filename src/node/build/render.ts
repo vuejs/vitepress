@@ -88,12 +88,18 @@ function resolvePageImports(
 ) {
   // find the page's js chunk and inject script tags for its imports so that
   // they are start fetching as early as possible
-
   const srcPath = normalizePath(path.resolve(config.root, page))
   const pageChunk = result.output.find(
     (chunk) => chunk.type === 'chunk' && chunk.facadeModuleId === srcPath
   ) as OutputChunk
-  return Array.from(new Set([...indexChunk.imports, ...pageChunk.imports]))
+  return Array.from(
+    new Set([
+      ...indexChunk.imports,
+      ...indexChunk.dynamicImports,
+      ...pageChunk.imports,
+      ...pageChunk.dynamicImports
+    ])
+  )
 }
 
 function renderHead(head: HeadConfig[]) {
