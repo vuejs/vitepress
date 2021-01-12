@@ -31,7 +31,7 @@
     "docs-dev": "node ./bin/vitepress dev docs",
     "docs-debug": "node --inspect-brk ./bin/vitepress dev docs",
     "docs-build": "yarn build && node ./bin/vitepress build docs",
-    "docs-serve": "yarn docs-build && node ./bin/vitepress serve docs"
+    "docs-serve": "node ./bin/vitepress serve docs"
   },
   "engines": {
     "node": ">=12.0.0"
