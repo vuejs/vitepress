@@ -1,3 +1,20 @@
+# [0.11.0](https://github.com/vuejs/vitepress/compare/v0.10.8...v0.11.0) (2021-01-12)
+
+### Code Refactoring
+
+- move default theme to 'vitepress/theme' ([a79e1e1](https://github.com/vuejs/vitepress/commit/a79e1e1916a71271728e6fe7c2b734fc2f209518))
+
+### Features
+
+- support customData in config ([4072dc5](https://github.com/vuejs/vitepress/commit/4072dc5f7ede381709fce49e9a29d6af4f7ab81a))
+
+### BREAKING CHANGES
+
+- the default theme is now exposed via 'vitepress/theme',
+  instead of a named export from 'vitepress'. This change fixes the case where
+  when a completely custom theme is used, importing anything from 'vitepress'
+  also imports the entire default theme.
+
 ## [0.10.8](https://github.com/vuejs/vitepress/compare/v0.10.7...v0.10.8) (2021-01-11)
 
 ### Bug Fixes
