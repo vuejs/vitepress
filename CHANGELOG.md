@@ -1,3 +1,13 @@
+## [0.11.2](https://github.com/vuejs/vitepress/compare/v0.11.1...v0.11.2) (2021-01-12)
+
+### Bug Fixes
+
+- aria label id ([a0f463a](https://github.com/vuejs/vitepress/commit/a0f463af8fd828d24d9a01c3d808d85af8a71c9f))
+
+### Performance Improvements
+
+- generate preload directives for dynamicImport chunks too ([b9fc0cb](https://github.com/vuejs/vitepress/commit/b9fc0cb78d43949b417376498939daa892a33334))
+
 ## [0.11.1](https://github.com/vuejs/vitepress/compare/v0.11.0...v0.11.1) (2021-01-12)
 
 ### Features
