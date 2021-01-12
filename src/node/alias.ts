@@ -38,6 +38,10 @@ export function resolveAliases(
       find: /^vitepress$/,
       replacement: path.join(__dirname, '../client/index')
     },
+    {
+      find: /^vitepress\/theme$/,
+      replacement: path.join(__dirname, '../client/theme-default/index')
+    },
     // alias for local linked development
     { find: /^vitepress\//, replacement: PKG_ROOT + '/' },
     // make sure it always use the same vue dependency that comes with
