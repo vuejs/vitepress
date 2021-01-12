@@ -20,7 +20,7 @@ export interface UserConfig<ThemeConfig = any> {
   locales?: Record<string, LocaleConfig>
   alias?: Record<string, string>
   markdown?: MarkdownOptions
-  // TODO locales support etc.
+  customData?: any
 }
 
 export interface SiteConfig<ThemeConfig = any> {
@@ -91,6 +91,7 @@ export async function resolveSiteData(root: string): Promise<SiteData> {
     base: userConfig.base ? userConfig.base.replace(/([^/])$/, '$1/') : '/',
     head: userConfig.head || [],
     themeConfig: userConfig.themeConfig || {},
-    locales: userConfig.locales || {}
+    locales: userConfig.locales || {},
+    customData: userConfig.customData || {}
   }
 }
