@@ -59,7 +59,7 @@ export async function resolveConfig(
     outDir: resolve(root, 'dist'),
     tempDir: path.resolve(APP_PATH, 'temp'),
     markdown: userConfig.markdown,
-    alias: resolveAliases(root, themeDir, userConfig)
+    alias: resolveAliases(themeDir, userConfig)
   }
 
   return config

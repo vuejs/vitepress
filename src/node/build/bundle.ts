@@ -3,7 +3,7 @@ import path from 'path'
 import slash from 'slash'
 import { APP_PATH } from '../alias'
 import { SiteConfig } from '../config'
-import { RollupOutput, ExternalOption } from 'rollup'
+import { RollupOutput } from 'rollup'
 import { build, BuildOptions, UserConfig as ViteUserConfig } from 'vite'
 import { createVitePressPlugin } from '../plugin'
 
@@ -38,8 +38,12 @@ export async function bundle(
     root,
     logLevel: 'warn',
     plugins: createVitePressPlugin(root, config, ssr, pageToHashMap),
+    ssr: {
+      noExternal: ['vitepress']
+    },
     build: {
       ...options,
+      emptyOutDir: true,
       ssr,
       base: config.site.base,
       outDir: ssr ? config.tempDir : config.outDir,
@@ -47,20 +51,13 @@ export async function bundle(
       rollupOptions: {
         ...rollupOptions,
         input,
-        external: ssr
-          ? resolveExternal(rollupOptions?.external)
-          : rollupOptions?.external,
         // important so that each page chunk and the index export things for each
         // other
         preserveEntrySignatures: 'allow-extension',
         output: {
           ...rollupOptions?.output,
           ...(ssr
-            ? {
-                format: 'cjs',
-                exports: 'named',
-                entryFileNames: '[name].js'
-              }
+            ? {}
             : {
                 chunkFileNames(chunk): string {
                   if (!chunk.isEntry && /runtime/.test(chunk.name)) {
@@ -96,25 +93,4 @@ export async function bundle(
   })
 
   return [clientResult, serverResult, pageToHashMap]
-}
-
-function resolveExternal(
-  userExternal: ExternalOption | undefined
-): ExternalOption {
-  const required = ['vue', /^@vue\//]
-  if (!userExternal) {
-    return required
-  }
-  if (Array.isArray(userExternal)) {
-    return [...required, ...userExternal]
-  } else if (typeof userExternal === 'function') {
-    return (src, importer, isResolved) => {
-      if (src === 'vue' || /^@vue\//.test(src)) {
-        return true
-      }
-      return userExternal(src, importer, isResolved)
-    }
-  } else {
-    return [...required, userExternal]
-  }
 }

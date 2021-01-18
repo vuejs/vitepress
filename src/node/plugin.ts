@@ -31,8 +31,7 @@ export function createVitePressPlugin(
   const markdownToVue = createMarkdownToVueRenderFn(root, markdown)
 
   const vuePlugin = createVuePlugin({
-    include: [/\.vue$/, /\.md$/],
-    ssr
+    include: [/\.vue$/, /\.md$/]
   })
 
   let siteData = site
@@ -73,8 +72,7 @@ export function createVitePressPlugin(
     configureServer(server) {
       // serve our index.html after vite history fallback
       return () => {
-        // @ts-ignore
-        server.app.use((req, res, next) => {
+        server.middlewares.use((req, res, next) => {
           if (req.url!.endsWith('.html')) {
             res.statusCode = 200
             res.end(

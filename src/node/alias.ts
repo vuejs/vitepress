@@ -18,7 +18,6 @@ export const SITE_DATA_ID = '@siteData'
 export const SITE_DATA_REQUEST_PATH = '/' + SITE_DATA_ID
 
 export function resolveAliases(
-  root: string,
   themeDir: string,
   userConfig: UserConfig
 ): AliasOptions {
