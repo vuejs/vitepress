@@ -5,7 +5,7 @@
 export type { Router, Route } from './app/router'
 
 // theme types
-export * from './app/theme'
+export type { Theme, EnhanceAppContext } from './app/theme'
 
 // composables
 export { useRouter, useRoute } from './app/router'
@@ -24,6 +24,3 @@ import { ComponentOptions } from 'vue'
 import _Debug from './app/components/Debug.vue'
 const Debug = _Debug as ComponentOptions
 export { Debug }
-
-// default theme
-export { default as DefaultTheme } from './theme-default'

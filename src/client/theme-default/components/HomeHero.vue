@@ -4,7 +4,7 @@
       <img class="image" :src="$withBase($frontmatter.heroImage)" :alt="$frontmatter.heroAlt" />
     </figure>
 
-    <h1 v-if="hasHeroText" class="title">{{ heroText }}</h1>
+    <h1 v-if="hasHeroText" id="main-title" class="title">{{ heroText }}</h1>
     <p v-if="hasTagline" class="description">{{ tagline }}</p>
 
     <NavLink

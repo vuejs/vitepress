@@ -29,7 +29,7 @@ export async function renderPage(
   const pageServerJsFileName = pageName + '.js'
   // for any initial page load, we only need the lean version of the page js
   // since the static content is already on the page!
-  const pageHash = pageToHashMap[pageName]
+  const pageHash = pageToHashMap[pageName.toLowerCase()]
   const pageClientJsFileName = `assets/${pageName}.${pageHash}.lean.js`
 
   // resolve page data so we can render head tags
@@ -88,14 +88,20 @@ function resolvePageImports(
 ) {
   // find the page's js chunk and inject script tags for its imports so that
   // they are start fetching as early as possible
-
   const srcPath = normalizePath(
     fs.realpathSync(path.resolve(config.root, page))
   )
   const pageChunk = result.output.find(
     (chunk) => chunk.type === 'chunk' && chunk.facadeModuleId === srcPath
   ) as OutputChunk
-  return Array.from(new Set([...indexChunk.imports, ...pageChunk.imports]))
+  return Array.from(
+    new Set([
+      ...indexChunk.imports,
+      ...indexChunk.dynamicImports,
+      ...pageChunk.imports,
+      ...pageChunk.dynamicImports
+    ])
+  )
 }
 
 function renderHead(head: HeadConfig[]) {

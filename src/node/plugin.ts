@@ -24,7 +24,7 @@ const isPageChunk = (
 
 export function createVitePressPlugin(
   root: string,
-  { configPath, aliases, markdown, themeDir, site }: SiteConfig,
+  { configPath, alias, markdown, site }: SiteConfig,
   ssr = false,
   pageToHashMap?: Record<string, string>
 ): Plugin[] {
@@ -42,8 +42,7 @@ export function createVitePressPlugin(
 
     config() {
       return {
-        alias: aliases,
-        transformInclude: /\.md$/,
+        alias,
         define: {
           __CARBON__: !!site.themeConfig.carbonAds?.carbon,
           __BSA__: !!site.themeConfig.carbonAds?.custom,
@@ -123,7 +122,7 @@ export function createVitePressPlugin(
           if (isPageChunk(chunk)) {
             // record page -> hash relations
             const hash = chunk.fileName.match(hashRE)![1]
-            pageToHashMap![chunk.name] = hash
+            pageToHashMap![chunk.name.toLowerCase()] = hash
 
             // inject another chunk with the content stripped
             bundle[name + '-lean'] = {
