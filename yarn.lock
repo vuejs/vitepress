@@ -948,10 +948,10 @@
   dependencies:
     "@types/yargs-parser" "*"
 
-"@vitejs/plugin-vue@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@vitejs/plugin-vue/-/plugin-vue-1.0.3.tgz#2df3c22802f2d2142ae3bd8d3e93623df790446d"
-  integrity sha512-sOVHFS97zxuRLAMj10C9Vaiv3WeEwnhtee9V+yv/G/xoJTXPJIRct4Nj2unPtp5zAUoCL+iTVbIC6LnNmNE4Hw==
+"@vitejs/plugin-vue@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@vitejs/plugin-vue/-/plugin-vue-1.1.0.tgz#8ae0b11388897b07259c9e5198c0e3fb5e4b37d9"
+  integrity sha512-ExlAt3nb3PB31jV9AgRZSMoGd+aQRU53fc/seghV8/l0JCzaX2mqlgpG8iytWkRxbBPgtAx4TpCPdiVKnTFT/A==
 
 "@vue/compiler-core@3.0.5":
   version "3.0.5"
