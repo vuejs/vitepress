@@ -90,10 +90,6 @@ cd -
 You can also run the above script in your CI setup to enable automatic deployment on each push.
 :::
 
-::: warning
-GitHub pages have issues with the underscore in the dist `_assets` folder. To fix this an empty file name `.nojekyll` needs to be placed in the docs `public` directory. See [Bypassing Jekyll on GitHub Pages](https://github.blog/2009-12-29-bypassing-jekyll-on-github-pages/).
-:::
-
 ### GitHub Pages and Travis CI
 
 1. Set the correct `base` in `docs/.vitepress/config.js`.
