@@ -42,6 +42,25 @@ export function mixinGlobalComputed(
       }
     },
 
+    $lang: {
+      get() {
+        return siteByRoute.value.lang
+      }
+    },
+
+    $localePath: {
+      get() {
+        const { locales } = site.value
+        const { lang } = siteByRoute.value
+
+        const path = Object.keys(locales).find(
+          (lp) => locales[lp].lang === lang
+        )
+
+        return (locales && path) || '/'
+      }
+    },
+
     $title: {
       get() {
         return page.value.title
@@ -53,24 +72,6 @@ export function mixinGlobalComputed(
     $description: {
       get() {
         return page.value.description || siteByRoute.value.description
-      }
-    },
-
-    $lang: {
-      get() {
-        return siteByRoute.value.lang
-      }
-    },
-
-    $localePath: {
-      get() {
-        const { locales } = site.value
-        const { lang } = siteByRoute.value
-        return (
-          (locales &&
-            Object.keys(locales).find((lp) => locales[lp].lang === lang)) ||
-          '/'
-        )
       }
     },
 
