@@ -3,6 +3,9 @@
     <HomeHero />
     <slot name="hero" />
     <HomeFeatures />
+    <div class="home-content">
+      <Content />
+    </div>
     <slot name="features" />
     <HomeFooter />
     <slot name="footer" />
@@ -18,5 +21,18 @@ import HomeFooter from './HomeFooter.vue'
 <style scoped>
 .home {
   padding-top: var(--header-height);
+}
+
+.home-content {
+  max-width: 960px;
+  margin: 0px auto;
+  padding: 0 1.5rem;
+}
+
+@media (max-width: 720px) {
+  .home-content {
+    max-width: 392px;
+    padding: 0;
+  }
 }
 </style>

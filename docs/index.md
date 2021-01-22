@@ -20,7 +20,7 @@ Now, with Vite and Vue 3, it is time to rethink what a "Vue-powered static site 
 
 ## Improvements Over VuePress
 
-There're couple of things that are improved from VuePress.
+There're couple of things that are improved from VuePress....
 
 ### It Uses Vue 3
 

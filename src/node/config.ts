@@ -2,10 +2,10 @@ import path from 'path'
 import fs from 'fs-extra'
 import chalk from 'chalk'
 import globby from 'globby'
-import { createResolver, APP_PATH, DEFAULT_THEME_PATH } from './resolver'
-import { Resolver } from 'vite'
+import { resolveAliases, APP_PATH, DEFAULT_THEME_PATH } from './alias'
 import { SiteData, HeadConfig, LocaleConfig } from '../../types/shared'
 import { MarkdownOptions } from './markdown/markdown'
+import { AliasOptions } from 'vite'
 export { resolveSiteDataByRoute } from './shared/config'
 
 const debug = require('debug')('vitepress:config')
@@ -20,7 +20,7 @@ export interface UserConfig<ThemeConfig = any> {
   locales?: Record<string, LocaleConfig>
   alias?: Record<string, string>
   markdown?: MarkdownOptions
-  // TODO locales support etc.
+  customData?: any
 }
 
 export interface SiteConfig<ThemeConfig = any> {
@@ -30,7 +30,7 @@ export interface SiteConfig<ThemeConfig = any> {
   themeDir: string
   outDir: string
   tempDir: string
-  resolver: Resolver
+  alias: AliasOptions
   pages: string[]
   markdown?: MarkdownOptions
 }
@@ -58,8 +58,8 @@ export async function resolveConfig(
     configPath: resolve(root, 'config.js'),
     outDir: resolve(root, 'dist'),
     tempDir: path.resolve(APP_PATH, 'temp'),
-    resolver: createResolver(themeDir, userConfig),
-    markdown: userConfig.markdown
+    markdown: userConfig.markdown,
+    alias: resolveAliases(themeDir, userConfig)
   }
 
   return config
@@ -91,6 +91,7 @@ export async function resolveSiteData(root: string): Promise<SiteData> {
     base: userConfig.base ? userConfig.base.replace(/([^/])$/, '$1/') : '/',
     head: userConfig.head || [],
     themeConfig: userConfig.themeConfig || {},
-    locales: userConfig.locales || {}
+    locales: userConfig.locales || {},
+    customData: userConfig.customData || {}
   }
 }

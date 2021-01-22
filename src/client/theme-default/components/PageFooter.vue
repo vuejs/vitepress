@@ -9,17 +9,9 @@
   </footer>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
 import EditLink from './EditLink.vue'
 import LastUpdated from './LastUpdated.vue'
-
-export default defineComponent({
-  components: {
-    EditLink,
-    LastUpdated
-  }
-})
 </script>
 
 <style scoped>

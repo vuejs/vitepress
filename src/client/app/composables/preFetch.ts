@@ -75,6 +75,11 @@ export function usePrefetch() {
     rIC(() => {
       document.querySelectorAll('#app a').forEach((link) => {
         const { target, hostname, pathname } = link as HTMLAnchorElement
+        const extMatch = pathname.match(/\.\w+$/)
+        if (extMatch && extMatch[0] !== '.html') {
+          return
+        }
+
         if (
           // only prefetch same tab navigation, since a new tab will load
           // the lean js chunk instead.

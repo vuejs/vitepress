@@ -8,8 +8,6 @@ const currentVersion = require('../package.json').version
 
 const versionIncrements = ['patch', 'minor', 'major']
 
-const tags = ['latest', 'next']
-
 const inc = (i) => semver.inc(currentVersion, i)
 const bin = (name) => path.resolve(__dirname, `../node_modules/.bin/${name}`)
 const run = (bin, args, opts = {}) =>
@@ -43,19 +41,10 @@ async function main() {
     throw new Error(`Invalid target version: ${targetVersion}`)
   }
 
-  const { tag } = await prompt({
-    type: 'select',
-    name: 'tag',
-    message: 'Select tag type',
-    choices: tags
-  })
-
-  console.log(tag)
-
   const { yes: tagOk } = await prompt({
     type: 'confirm',
     name: 'yes',
-    message: `Releasing v${targetVersion} with the "${tag}" tag. Confirm?`
+    message: `Releasing v${targetVersion}. Confirm?`
   })
 
   if (!tagOk) {
@@ -73,6 +62,7 @@ async function main() {
   // Generate the changelog.
   step('\nGenerating the changelog...')
   await run('yarn', ['changelog'])
+  await run('yarn', ['prettier', '--write', 'CHANGELOG.md'])
 
   const { yes: changelogOk } = await prompt({
     type: 'confirm',
@@ -84,17 +74,16 @@ async function main() {
     return
   }
 
-  // Commit changes to the Git.
+  // Commit changes to the Git and create a tag.
   step('\nCommitting changes...')
-  await run('git', ['add', '-A'])
+  await run('git', ['add', 'CHANGELOG.md', 'package.json'])
   await run('git', ['commit', '-m', `release: v${targetVersion}`])
+  await run('git', ['tag', `v${targetVersion}`])
 
   // Publish the package.
   step('\nPublishing the package...')
   await run('yarn', [
     'publish',
-    '--tag',
-    tag,
     '--new-version',
     targetVersion,
     '--no-commit-hooks',
@@ -103,7 +92,6 @@ async function main() {
 
   // Push to GitHub.
   step('\nPushing to GitHub...')
-  await run('git', ['tag', `v${targetVersion}`])
   await run('git', ['push', 'origin', `refs/tags/v${targetVersion}`])
   await run('git', ['push'])
 }

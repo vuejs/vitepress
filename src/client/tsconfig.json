@@ -3,15 +3,15 @@
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "../../dist/client",
+    "target": "esnext",
     "module": "esnext",
     "lib": ["ESNext", "DOM"],
-    "types": ["vite"],
+    "types": ["vite/client"],
     "paths": {
-      "/@theme/*": ["theme-default/*"],
-      "/@default-theme/*": ["theme-default/*"],
       "/@shared/*": ["shared/*"],
       "/@types/*": ["../../types/*"],
-      "vitepress": ["app/exports.ts"]
+      "/@theme/*": ["theme-default/*"],
+      "vitepress": ["index.ts"]
     }
   },
   "include": [

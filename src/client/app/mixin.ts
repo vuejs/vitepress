@@ -1,9 +1,8 @@
-import { App } from 'vue'
+import { App, defineAsyncComponent } from 'vue'
 import { joinPath } from './utils'
 import { SiteDataRef } from './composables/siteData'
 import { PageDataRef } from './composables/pageData'
 import { Content } from './components/Content'
-import Debug from './components/Debug.vue'
 import { ClientOnly } from './components/ClientOnly'
 
 export function mixinGlobalComputed(
@@ -43,6 +42,25 @@ export function mixinGlobalComputed(
       }
     },
 
+    $lang: {
+      get() {
+        return siteByRoute.value.lang
+      }
+    },
+
+    $localePath: {
+      get() {
+        const { locales } = site.value
+        const { lang } = siteByRoute.value
+
+        const path = Object.keys(locales).find(
+          (lp) => locales[lp].lang === lang
+        )
+
+        return (locales && path) || '/'
+      }
+    },
+
     $title: {
       get() {
         return page.value.title
@@ -66,9 +84,12 @@ export function mixinGlobalComputed(
 }
 
 export function mixinGlobalComponents(app: App) {
-  const isProd = process.env.NODE_ENV === 'production'
-
   app.component('Content', Content)
   app.component('ClientOnly', ClientOnly)
-  app.component('Debug', isProd ? () => null : Debug)
+  app.component(
+    'Debug',
+    import.meta.env.PROD
+      ? () => null
+      : defineAsyncComponent(() => import('./components/Debug.vue'))
+  )
 }

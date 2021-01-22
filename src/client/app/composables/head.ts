@@ -7,7 +7,7 @@ export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
 
   let isFirstUpdate = true
   const updateHeadTags = (newTags: HeadConfig[]) => {
-    if (process.env.NODE_ENV === 'production' && isFirstUpdate) {
+    if (import.meta.env.PROD && isFirstUpdate) {
       // in production, the initial meta tags are already pre-rendered so we
       // skip the first update.
       isFirstUpdate = false

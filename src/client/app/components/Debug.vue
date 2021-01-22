@@ -8,24 +8,15 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, watch } from 'vue'
+<script setup lang="ts">
+import { ref, watch } from 'vue'
 
-export default defineComponent({
-  setup() {
-    const el = ref<HTMLElement | null>(null)
-    const open = ref(false)
+const el = ref<HTMLElement | null>(null)
+const open = ref(false)
 
-    watch(open, (value) => {
-      if (value === false) {
-        el.value!.scrollTop = 0
-      }
-    })
-
-    return {
-      el,
-      open
-    }
+watch(open, (value) => {
+  if (value === false) {
+    el.value!.scrollTop = 0
   }
 })
 </script>
