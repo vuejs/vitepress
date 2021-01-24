@@ -36,8 +36,10 @@ export async function bundle(
 
   const resolveViteConfig = (ssr: boolean): ViteUserConfig => ({
     root,
+    base: config.site.base,
     logLevel: 'warn',
     plugins: createVitePressPlugin(root, config, ssr, pageToHashMap),
+    // @ts-ignore
     ssr: {
       noExternal: ['vitepress']
     },
@@ -45,7 +47,6 @@ export async function bundle(
       ...options,
       emptyOutDir: true,
       ssr,
-      base: config.site.base,
       outDir: ssr ? config.tempDir : config.outDir,
       cssCodeSplit: false,
       rollupOptions: {
