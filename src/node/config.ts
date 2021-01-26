@@ -21,6 +21,7 @@ export interface UserConfig<ThemeConfig = any> {
   alias?: Record<string, string>
   markdown?: MarkdownOptions
   customData?: any
+  isCustomElement?: (tag: string) => boolean | void
 }
 
 export interface SiteConfig<ThemeConfig = any> {
@@ -33,6 +34,7 @@ export interface SiteConfig<ThemeConfig = any> {
   alias: AliasOptions
   pages: string[]
   markdown?: MarkdownOptions
+  isCustomElement?: (tag: string) => boolean | void
 }
 
 const resolve = (root: string, file: string) =>
@@ -59,7 +61,8 @@ export async function resolveConfig(
     outDir: resolve(root, 'dist'),
     tempDir: path.resolve(APP_PATH, 'temp'),
     markdown: userConfig.markdown,
-    alias: resolveAliases(themeDir, userConfig)
+    alias: resolveAliases(themeDir, userConfig),
+    isCustomElement: userConfig.isCustomElement
   }
 
   return config

@@ -24,14 +24,17 @@ const isPageChunk = (
 
 export function createVitePressPlugin(
   root: string,
-  { configPath, alias, markdown, site }: SiteConfig,
+  { configPath, alias, markdown, site, isCustomElement }: SiteConfig,
   ssr = false,
   pageToHashMap?: Record<string, string>
 ): Plugin[] {
   const markdownToVue = createMarkdownToVueRenderFn(root, markdown)
 
   const vuePlugin = createVuePlugin({
-    include: [/\.vue$/, /\.md$/]
+    include: [/\.vue$/, /\.md$/],
+    template: {
+      compilerOptions: { isCustomElement }
+    }
   })
 
   let siteData = site
