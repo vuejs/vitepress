@@ -1,3 +1,15 @@
+## [0.11.5](https://github.com/vuejs/vitepress/compare/v0.11.4...v0.11.5) (2021-01-29)
+
+### Bug Fixes
+
+- avoid layout shift due to ads ([#176](https://github.com/vuejs/vitepress/issues/176)) ([78b026c](https://github.com/vuejs/vitepress/commit/78b026cb7aa5b40a7dd98a1337646b38b1fc5367))
+- support symbolic links in building docs dist ([#184](https://github.com/vuejs/vitepress/issues/184)) ([#185](https://github.com/vuejs/vitepress/issues/185)) ([5190604](https://github.com/vuejs/vitepress/commit/51906043d318b2485ea8fc3aff4b4644c95dd3f4))
+- update base option usage ([8cfdd19](https://github.com/vuejs/vitepress/commit/8cfdd1912dda9153daa7cb4db8e5c9f0cab4d654))
+
+### Features
+
+- $lang and $localePath globals ([#166](https://github.com/vuejs/vitepress/issues/166)) ([#167](https://github.com/vuejs/vitepress/issues/167)) ([481c451](https://github.com/vuejs/vitepress/commit/481c4513d78450951add6177824b7996b89ae034))
+
 ## [0.11.4](https://github.com/vuejs/vitepress/compare/v0.11.3...v0.11.4) (2021-01-19)
 
 - Latest Vite beta.32 compat (internal changes).
