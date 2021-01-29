@@ -46,6 +46,9 @@ export function createVitePressPlugin(
           __CARBON__: !!site.themeConfig.carbonAds?.carbon,
           __BSA__: !!site.themeConfig.carbonAds?.custom,
           __ALGOLIA__: !!site.themeConfig.algolia
+        },
+        optimizeDeps: {
+          exclude: ['@docsearch/js']
         }
       }
     },
