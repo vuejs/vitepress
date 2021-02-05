@@ -1,33 +1,33 @@
-# Migrating from VuePress
+# Differences from VuePress
 
-VitePress follows VuePress config and default theme API where possible to ease the migration path. However, there are some features that are not present in VitePress because of differences in the [design goals](../index.md) of the two projects. VitePress aims to have bare minimal features for authoring docs and most features are pushed to the Themes, whereas VuePress has those features enabled by plugins.
+VitePress and VuePress have different [design goals](../index.md). Both projects share similar config naming conventions. VitePress aims to have the bare minimum features needed for authoring docs. Other features are pushed to Themes. On the other hand, VuePress has more features out-of-the-box or enabled by its ecosystem of plugins.
 
-This is a list of changes and removed features compared to [VuePress v1.7.1](https://github.com/vuejs/vuepress/releases/tag/v1.7.1)
+::: tip
+If you are using VuePress, there is no need to migrate to VitePress. Both projects are going to continue to co-exist for the foreseeable future.
+:::
 
 ::: warning
-
-Note this is early WIP! Currently the focus is on making Vite stable and feature complete first. It is not recommended to use this for anything serious yet.
-
-Some of these differences may be gone before Vitepress 1.0 is released.
-
+Note this is early WIP! Currently, the focus is on making Vite stable and feature-complete first. It is not recommended to use this for anything serious yet.
 :::
+
+In case you decide to move your project to VitePress, this is a list of differences from [VuePress v1.7.1](https://github.com/vuejs/vuepress/releases/tag/v1.7.1) that you need to take into account.
 
 ## General
 
-- Removed
+- Missing
   - YAML and TOML are not supported formats for site config. Only javascript is supported for `.vitepress/config.js`
   - [Plugins](https://vuepress.vuejs.org/plugin/) support, features are implemented in themes
   - [permalink support](https://vuepress.vuejs.org/guide/permalinks.html)
   - `.vitepress/templates`
   - Components in `.vitepress/components` [are not auto registered as global components](https://vuepress.vuejs.org/)
-- Changed
-  - [Public files](https://vuepress.vuejs.org/guide/assets.html#public-files) that are directly copied to dist root moved from `.vitepress/public/` to `public/`
-  - [styling](https://vuepress.vuejs.org/config/#styling) `.vitepress/styles/index.styl` and `.vitepress/styles/palette.styl` changed to `.vitepress/style.styl`
-  - [App Level Enhancements](https://vuepress.vuejs.org/guide/basic-config.html#app-level-enhancements) API, app enhancements moved from `.vitepress/enhanceApp.js` to `.vitepress/theme/index.js`.
+- Differences
+  - [Public files](https://vuepress.vuejs.org/guide/assets.html#public-files) that are directly copied to dist root moved from `.vitepress/public/` is `public/`
+  - [styling](https://vuepress.vuejs.org/config/#styling) `.vitepress/styles/index.styl` and `.vitepress/styles/palette.styl` is `.vitepress/style.styl`
+  - [App Level Enhancements](https://vuepress.vuejs.org/guide/basic-config.html#app-level-enhancements) API, app enhancements `.vitepress/enhanceApp.js` is `.vitepress/theme/index.js`.
 
 ## Markdown
 
-- Removed
+- Missing
   - Support for [toml in frontmatter](https://vuepress.vuejs.org/guide/frontmatter.html#alternative-frontmatter-formats)
   - [details block](https://vuepress.vuejs.org/guide/markdown.html#custom-containers)
   - [markdown slots](https://vuepress.vuejs.org/guide/markdown-slot.html)
@@ -36,7 +36,7 @@ Some of these differences may be gone before Vitepress 1.0 is released.
 
 ## Site Config
 
-- Removed
+- Missing
   - `temp`
   - `dest`
   - [`theme` from a dependency](https://vuepress.vuejs.org/theme/using-a-theme.html#using-a-theme-from-a-dependency)
@@ -57,30 +57,30 @@ Some of these differences may be gone before Vitepress 1.0 is released.
 
 ## Default Theme Config
 
-- Removed
+- Missing
   - [`smoothScroll`](https://vuepress.vuejs.org/theme/default-theme-config.html#smooth-scrolling)
   - [`displayAllHeaders`](https://vuepress.vuejs.org/theme/default-theme-config.html#displaying-header-links-of-all-pages)
   - [`activeHeaderLinks`](https://vuepress.vuejs.org/theme/default-theme-config.html#active-header-links)
   - `sidebarDepth` and `initialOpenGroupIndex` for [sidebar groups](https://vuepress.vuejs.org/theme/default-theme-config.html#sidebar-groups)
-- Renamed
-  - `searchMaxSuggestions` to `search.maxSuggestions`
-  - `algolia` to `search.algolia`
-  - `searchPlaceholder` to `search.placeholder`
+- Differences
+  - `searchMaxSuggestions` is `search.maxSuggestions`
+  - `algolia` is `search.algolia`
+  - `searchPlaceholder` is `search.placeholder`
 
 # Default Theme
 
-- Removed
+- Missing
   - [`<code-group>` and `<code-block>`](https://vuepress.vuejs.org/theme/default-theme-config.html#code-groups-and-code-blocks)
 
 ## Computed Globals
 
-- Removed
+- Missing
   - `$lang`
   - `$localePath`
 
 ## Frontmatter Predefined Variables
 
-- Removed
+- Missing
   - `description`
   - [`meta`](https://vuepress.vuejs.org/guide/frontmatter.html#meta)
   - [`metaTitle`](https://vuepress.vuejs.org/guide/frontmatter.html#predefined-variables)
@@ -91,7 +91,7 @@ Some of these differences may be gone before Vitepress 1.0 is released.
 
 ## Frontmatter Default Theme Variables
 
-- Removed
+- Missing
   - `prev`, `next`
   - [`search`](https://vuepress.vuejs.org/guide/frontmatter.html#search)
   - [`tags`](https://vuepress.vuejs.org/guide/frontmatter.html#tags)
@@ -100,18 +100,18 @@ Some of these differences may be gone before Vitepress 1.0 is released.
 
 ## siteData
 
-- Removed
+- Missing
   - [`pages`](https://vuepress.vuejs.org/theme/writing-a-theme.html#site-and-page-metadata)
 
 ## pageData
 
-- Removed
+- Missing
   - `key`
   - `path`
   - `regularPath`
 
 ## Default Components
 
-- Removed
+- Missing
   - [`<ClientOnly>`](https://vuepress.vuejs.org/guide/using-vue.html#browser-api-access-restrictions)
   - [`<Badge>`](https://vuepress.vuejs.org/guide/using-vue.html#badge)

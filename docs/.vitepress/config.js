@@ -54,8 +54,8 @@ function getGuideSidebar() {
         { text: 'Global Computed', link: '/guide/global-computed' },
         { text: 'Customization', link: '/guide/customization' },
         {
-          text: 'Migrating from Vuepress',
-          link: '/guide/migrating-from-vuepress'
+          text: 'Differences from Vuepress',
+          link: '/guide/differences-from-vuepress'
         }
       ]
     }
