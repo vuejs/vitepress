@@ -1,3 +1,80 @@
+## [0.11.5](https://github.com/vuejs/vitepress/compare/v0.11.4...v0.11.5) (2021-01-29)
+
+### Bug Fixes
+
+- avoid layout shift due to ads ([#176](https://github.com/vuejs/vitepress/issues/176)) ([78b026c](https://github.com/vuejs/vitepress/commit/78b026cb7aa5b40a7dd98a1337646b38b1fc5367))
+- support symbolic links in building docs dist ([#184](https://github.com/vuejs/vitepress/issues/184)) ([#185](https://github.com/vuejs/vitepress/issues/185)) ([5190604](https://github.com/vuejs/vitepress/commit/51906043d318b2485ea8fc3aff4b4644c95dd3f4))
+- update base option usage ([8cfdd19](https://github.com/vuejs/vitepress/commit/8cfdd1912dda9153daa7cb4db8e5c9f0cab4d654))
+
+### Features
+
+- $lang and $localePath globals ([#166](https://github.com/vuejs/vitepress/issues/166)) ([#167](https://github.com/vuejs/vitepress/issues/167)) ([481c451](https://github.com/vuejs/vitepress/commit/481c4513d78450951add6177824b7996b89ae034))
+
+## [0.11.4](https://github.com/vuejs/vitepress/compare/v0.11.3...v0.11.4) (2021-01-19)
+
+- Latest Vite beta.32 compat (internal changes).
+
+## [0.11.3](https://github.com/vuejs/vitepress/compare/v0.11.2...v0.11.3) (2021-01-13)
+
+### Bug Fixes
+
+- ignore non-html links in router and prefetch ([3e6e61b](https://github.com/vuejs/vitepress/commit/3e6e61bcea8d4a34079428fcce3ecd25af1ae4f7))
+
+## [0.11.2](https://github.com/vuejs/vitepress/compare/v0.11.1...v0.11.2) (2021-01-12)
+
+### Bug Fixes
+
+- aria label id ([a0f463a](https://github.com/vuejs/vitepress/commit/a0f463af8fd828d24d9a01c3d808d85af8a71c9f))
+
+### Performance Improvements
+
+- generate preload directives for dynamicImport chunks too ([b9fc0cb](https://github.com/vuejs/vitepress/commit/b9fc0cb78d43949b417376498939daa892a33334))
+
+## [0.11.1](https://github.com/vuejs/vitepress/compare/v0.11.0...v0.11.1) (2021-01-12)
+
+### Features
+
+- render content on home page ([ca631c7](https://github.com/vuejs/vitepress/commit/ca631c7f516ad6c643d252dd81e03e29fb3b9e05))
+
+# [0.11.0](https://github.com/vuejs/vitepress/compare/v0.10.8...v0.11.0) (2021-01-12)
+
+### Code Refactoring
+
+- move default theme to 'vitepress/theme' ([a79e1e1](https://github.com/vuejs/vitepress/commit/a79e1e1916a71271728e6fe7c2b734fc2f209518))
+
+### Features
+
+- support customData in config ([4072dc5](https://github.com/vuejs/vitepress/commit/4072dc5f7ede381709fce49e9a29d6af4f7ab81a))
+
+### BREAKING CHANGES
+
+- the default theme is now exposed via 'vitepress/theme',
+  instead of a named export from 'vitepress'. This change fixes the case where
+  when a completely custom theme is used, importing anything from 'vitepress'
+  also imports the entire default theme.
+
+## [0.10.8](https://github.com/vuejs/vitepress/compare/v0.10.7...v0.10.8) (2021-01-11)
+
+### Bug Fixes
+
+- resolve page hash case-insenstively, close [#202](https://github.com/vuejs/vitepress/issues/202) ([#203](https://github.com/vuejs/vitepress/issues/203)) ([bac1ce2](https://github.com/vuejs/vitepress/commit/bac1ce2d01469ff7586437f43b0d665b1c5eb278))
+
+## [0.10.7](https://github.com/vuejs/vitepress/compare/v0.10.6...v0.10.7) (2021-01-05)
+
+### Features
+
+Bump to Vite 2.0.0-beta.8
+
+### Bug Fixes
+
+- scrollbar when using line highlight ([#200](https://github.com/vuejs/vitepress/issues/200)) ([b6ba8a9](https://github.com/vuejs/vitepress/commit/b6ba8a943cc0488410a438c6c2f277c1c33a90bf))
+
+## [0.10.6](https://github.com/vuejs/vitepress/compare/v0.10.5...v0.10.6) (2021-01-04)
+
+### Bug Fixes
+
+- bump vite and fix win32 path resolving ([#198](https://github.com/vuejs/vitepress/issues/198)) ([da2c4f6](https://github.com/vuejs/vitepress/commit/da2c4f694e6dd2d11ff061b8eb7cae2354ae930d))
+
 ## [0.10.5](https://github.com/vuejs/vitepress/compare/v0.10.4...v0.10.5) (2021-01-02)
 
 ### Bug Fixes

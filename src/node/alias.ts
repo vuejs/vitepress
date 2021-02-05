@@ -18,7 +18,6 @@ export const SITE_DATA_ID = '@siteData'
 export const SITE_DATA_REQUEST_PATH = '/' + SITE_DATA_ID
 
 export function resolveAliases(
-  root: string,
   themeDir: string,
   userConfig: UserConfig
 ): AliasOptions {
@@ -37,6 +36,10 @@ export function resolveAliases(
     {
       find: /^vitepress$/,
       replacement: path.join(__dirname, '../client/index')
+    },
+    {
+      find: /^vitepress\/theme$/,
+      replacement: path.join(__dirname, '../client/theme-default/index')
     },
     // alias for local linked development
     { find: /^vitepress\//, replacement: PKG_ROOT + '/' },

@@ -42,6 +42,25 @@ export function mixinGlobalComputed(
       }
     },
 
+    $lang: {
+      get() {
+        return siteByRoute.value.lang
+      }
+    },
+
+    $localePath: {
+      get() {
+        const { locales } = site.value
+        const { lang } = siteByRoute.value
+
+        const path = Object.keys(locales).find(
+          (lp) => locales[lp].lang === lang
+        )
+
+        return (locales && path) || '/'
+      }
+    },
+
     $title: {
       get() {
         return page.value.title
@@ -65,13 +84,11 @@ export function mixinGlobalComputed(
 }
 
 export function mixinGlobalComponents(app: App) {
-  const isProd = process.env.NODE_ENV === 'production'
-
   app.component('Content', Content)
   app.component('ClientOnly', ClientOnly)
   app.component(
     'Debug',
-    isProd
+    import.meta.env.PROD
       ? () => null
       : defineAsyncComponent(() => import('./components/Debug.vue'))
   )

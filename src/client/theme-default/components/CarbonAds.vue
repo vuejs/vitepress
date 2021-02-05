@@ -26,21 +26,19 @@ onMounted(() => {
   border-radius: 4px;
   margin: 0 auto;
   max-width: 280px;
-  font-size: .75rem;
-  background-color: rgba(255, 255, 255, .8);
+  font-size: 0.75rem;
+  background-color: rgba(255, 255, 255, 0.8);
   min-height: 105.38px; /* avoid layout shift on mobile */
 }
 
 .carbon-ads::after {
   clear: both;
   display: block;
-  content: "";
+  content: '';
 }
 
 @media (min-width: 420px) {
   .carbon-ads {
-    position: relative;
-    right: -8px;
     z-index: 1;
     float: right;
     margin: -8px -8px 24px 24px;
@@ -53,10 +51,7 @@ onMounted(() => {
 
 @media (min-width: 1400px) {
   .carbon-ads {
-    position: fixed;
-    top: auto;
     right: 8px;
-    bottom: 8px;
     float: none;
     margin: 0;
   }
@@ -64,7 +59,7 @@ onMounted(() => {
 
 .carbon-ads :deep(.carbon-img) {
   float: left;
-  margin-right: .75rem;
+  margin-right: 0.75rem;
   max-width: 100px;
   border: 1px solid var(--c-divider);
 }

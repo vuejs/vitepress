@@ -24,15 +24,14 @@ const isPageChunk = (
 
 export function createVitePressPlugin(
   root: string,
-  { configPath, aliases, markdown, themeDir, site }: SiteConfig,
+  { configPath, alias, markdown, site }: SiteConfig,
   ssr = false,
   pageToHashMap?: Record<string, string>
 ): Plugin[] {
   const markdownToVue = createMarkdownToVueRenderFn(root, markdown)
 
   const vuePlugin = createVuePlugin({
-    include: [/\.vue$/, /\.md$/],
-    ssr
+    include: [/\.vue$/, /\.md$/]
   })
 
   let siteData = site
@@ -42,12 +41,14 @@ export function createVitePressPlugin(
 
     config() {
       return {
-        alias: aliases,
-        transformInclude: /\.md$/,
+        alias,
         define: {
           __CARBON__: !!site.themeConfig.carbonAds?.carbon,
           __BSA__: !!site.themeConfig.carbonAds?.custom,
           __ALGOLIA__: !!site.themeConfig.algolia
+        },
+        optimizeDeps: {
+          exclude: ['@docsearch/js']
         }
       }
     },
@@ -74,8 +75,7 @@ export function createVitePressPlugin(
     configureServer(server) {
       // serve our index.html after vite history fallback
       return () => {
-        // @ts-ignore
-        server.app.use((req, res, next) => {
+        server.middlewares.use((req, res, next) => {
           if (req.url!.endsWith('.html')) {
             res.statusCode = 200
             res.end(
@@ -123,7 +123,7 @@ export function createVitePressPlugin(
           if (isPageChunk(chunk)) {
             // record page -> hash relations
             const hash = chunk.fileName.match(hashRE)![1]
-            pageToHashMap![chunk.name] = hash
+            pageToHashMap![chunk.name.toLowerCase()] = hash
 
             // inject another chunk with the content stripped
             bundle[name + '-lean'] = {

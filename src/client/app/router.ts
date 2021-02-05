@@ -23,7 +23,7 @@ const getDefaultRoute = (): Route => ({
   path: '/',
   component: null,
   // this will be set upon initial page load, which is before
-  // the app is mounted, so it's guaranteed to be avaiable in
+  // the app is mounted, so it's guaranteed to be available in
   // components
   data: null as any
 })
@@ -114,6 +114,7 @@ export function createRouter(
         if (link) {
           const { href, protocol, hostname, pathname, hash, target } = link
           const currentUrl = window.location
+          const extMatch = pathname.match(/\.\w+$/)
           // only intercept inbound links
           if (
             !e.ctrlKey &&
@@ -122,7 +123,8 @@ export function createRouter(
             !e.metaKey &&
             target !== `_blank` &&
             protocol === currentUrl.protocol &&
-            hostname === currentUrl.hostname
+            hostname === currentUrl.hostname &&
+            !(extMatch && extMatch[0] !== '.html')
           ) {
             e.preventDefault()
             if (pathname === currentUrl.pathname) {

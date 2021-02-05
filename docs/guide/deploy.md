@@ -34,7 +34,7 @@ $ yarn docs:build
 $ yarn docs:serve
 ```
 
-The `serve` command will boot up local static web server that serves the files from `.vitepress/dist` at http://localhost:3000. It's an easy way to check if the production build looks OK in your local environment.
+The `serve` command will boot up local static web server that serves the files from `.vitepress/dist` at http://localhost:5000. It's an easy way to check if the production build looks OK in your local environment.
 
 You may configure the port of the server py passing `--port` flag as an argument.
 
@@ -88,10 +88,6 @@ cd -
 
 ::: tip
 You can also run the above script in your CI setup to enable automatic deployment on each push.
-:::
-
-::: warning
-GitHub pages have issues with the underscore in the dist `_assets` folder. To fix this an empty file name `.nojekyll` needs to be placed in the docs `public` directory. See [Bypassing Jekyll on GitHub Pages](https://github.blog/2009-12-29-bypassing-jekyll-on-github-pages/).
 :::
 
 ### GitHub Pages and Travis CI

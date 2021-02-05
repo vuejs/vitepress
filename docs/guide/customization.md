@@ -39,11 +39,11 @@ export default {
 }
 ```
 
-If you want to extend the default theme, you can import it from `vitepress/dist/client/theme-default`.
+If you want to extend the default theme, you can import it from `vitepress/theme`.
 
 ```js
 // .vitepress/theme/index.js
-import DefaultTheme from 'vitepress/dist/client/theme-default'
+import DefaultTheme from 'vitepress/theme'
 
 export default {
   ...DefaultTheme

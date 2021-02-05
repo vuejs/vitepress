@@ -64,6 +64,14 @@ Reference of `$page.frontmatter`.
 }
 ```
 
+## $lang
+
+The language of the current page. Default: `en-US`.
+
+## $localePath
+
+The locale path prefix for the current page. Default: `/`.
+
 ## $title
 
 Value of the `<title>` label used for the current page.

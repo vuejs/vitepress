@@ -1,5 +1,4 @@
 export * from './shared'
 export * from '../dist/node/index'
-export * from '../dist/client/app/exports'
+export * from '../dist/client/index'
 export * from '../dist/client/theme-default/config'
-export { default as defaultTheme } from '../dist/client/theme-default/index'

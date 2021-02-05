@@ -30,6 +30,6 @@ export async function serve(options: ServeOptions = {}) {
     .use(compress, serve)
     .listen(port, (err: any) => {
       if (err) throw err
-      console.log(`Built site served at http://localhost:${port}.\n`)
+      console.log(`Built site served at http://localhost:${port}/\n`)
     })
 }
