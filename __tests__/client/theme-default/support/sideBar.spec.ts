@@ -1,9 +1,19 @@
 import {
+  isSideBarEmpty,
   getSideBarConfig,
   getFlatSideBarLinks
 } from 'client/theme-default/support/sideBar'
 
 describe('client/theme-default/support/sideBar', () => {
+  it('checks if the given sidebar is empty', () => {
+    expect(isSideBarEmpty(undefined)).toBe(true)
+    expect(isSideBarEmpty(false)).toBe(true)
+    expect(isSideBarEmpty([])).toBe(true)
+
+    expect(isSideBarEmpty('auto')).toBe(false)
+    expect(isSideBarEmpty([{ text: 'a', link: '/a' }])).toBe(false)
+  })
+
   it('gets the correct sidebar items', () => {
     expect(getSideBarConfig(false, '')).toEqual(false)
     expect(getSideBarConfig('auto', '')).toEqual('auto')
