@@ -156,7 +156,7 @@ function initialize(userOptions: any) {
 }
 
 .DocSearch {
-  --docsearch-primary-color: #42b983;
+  --docsearch-primary-color: var(--c-brand);
   --docsearch-highlight-color: var(--docsearch-primary-color);
   --docsearch-searchbox-shadow: inset 0 0 0 2px var(--docsearch-primary-color);
   --docsearch-text-color: var(--c-text-light);
