@@ -48,7 +48,7 @@ export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
         }
       ],
       ...siteData.head,
-      ...((frontmatterHead && rejectHeadDescription(frontmatterHead)) || [])
+      ...((frontmatterHead && filterOutHeadDescription(frontmatterHead)) || [])
     ])
   })
 }
@@ -72,6 +72,6 @@ function isMetaDescription(headConfig: HeadConfig) {
   )
 }
 
-function rejectHeadDescription(head: HeadConfig[]) {
+function filterOutHeadDescription(head: HeadConfig[]) {
   return head.filter((h: HeadConfig) => !isMetaDescription(h))
 }

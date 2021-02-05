@@ -67,7 +67,7 @@ export async function renderPage(
     <link rel="stylesheet" href="${siteData.base}${cssChunk.fileName}">
     ${preloadLinks}
     ${renderHead(siteData.head)}
-    ${renderHead(frontmatterHead && rejectHeadDescription(frontmatterHead))}
+    ${renderHead(frontmatterHead && filterOutHeadDescription(frontmatterHead))}
   </head>
   <body>
     <div id="app">${content}</div>
@@ -130,6 +130,6 @@ function isMetaDescription(headConfig: HeadConfig) {
   )
 }
 
-function rejectHeadDescription(head: HeadConfig[]) {
+function filterOutHeadDescription(head: HeadConfig[]) {
   return head.filter((h: HeadConfig) => !isMetaDescription(h))
 }
