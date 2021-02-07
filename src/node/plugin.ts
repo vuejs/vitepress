@@ -79,8 +79,10 @@ export function createVitePressPlugin(
           if (req.url!.endsWith('.html')) {
             res.statusCode = 200
             res.end(
-              `<div id="app"></div>\n` +
-                `<script type="module" src="/@fs/${APP_PATH}/index.js"></script>`
+              '<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body>' +
+                '<div id="app"></div>' +
+                `<script type="module" src="/@fs/${APP_PATH}/index.js"></script>` +
+              '</body></html>'
             )
             return
           }
