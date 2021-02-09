@@ -6,6 +6,7 @@ import { resolveAliases, APP_PATH, DEFAULT_THEME_PATH } from './alias'
 import { SiteData, HeadConfig, LocaleConfig } from '../../types/shared'
 import { MarkdownOptions } from './markdown/markdown'
 import { AliasOptions } from 'vite'
+import { Options as VuePluginOptions } from '@vitejs/plugin-vue'
 export { resolveSiteDataByRoute } from './shared/config'
 
 const debug = require('debug')('vitepress:config')
@@ -21,6 +22,7 @@ export interface UserConfig<ThemeConfig = any> {
   alias?: Record<string, string>
   markdown?: MarkdownOptions
   customData?: any
+  vueOptions?: VuePluginOptions
 }
 
 export interface SiteConfig<ThemeConfig = any> {
@@ -33,6 +35,7 @@ export interface SiteConfig<ThemeConfig = any> {
   alias: AliasOptions
   pages: string[]
   markdown?: MarkdownOptions
+  vueOptions?: VuePluginOptions
 }
 
 const resolve = (root: string, file: string) =>
@@ -59,7 +62,8 @@ export async function resolveConfig(
     outDir: resolve(root, 'dist'),
     tempDir: path.resolve(APP_PATH, 'temp'),
     markdown: userConfig.markdown,
-    alias: resolveAliases(themeDir, userConfig)
+    alias: resolveAliases(themeDir, userConfig),
+    vueOptions: userConfig.vueOptions
   }
 
   return config
