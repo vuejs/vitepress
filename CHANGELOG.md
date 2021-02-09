@@ -1,3 +1,22 @@
+# [0.12.0](https://github.com/vuejs/vitepress/compare/v0.11.5...v0.12.0) (2021-02-09)
+
+### Bug Fixes
+
+- `base` option not working on dev mode ([#223](https://github.com/vuejs/vitepress/issues/223)) ([0b5b306](https://github.com/vuejs/vitepress/commit/0b5b306f85ada7e670345d31cb52931d0e46f784))
+- frontmatter description duplication ([#194](https://github.com/vuejs/vitepress/issues/194)) ([#170](https://github.com/vuejs/vitepress/issues/170)) ([338e845](https://github.com/vuejs/vitepress/commit/338e8453d8c5f3955923d98bafcbb92261a8f045))
+- sidebar 'auto' not working ([#178](https://github.com/vuejs/vitepress/issues/178)) ([#224](https://github.com/vuejs/vitepress/issues/224)) ([5deaf6a](https://github.com/vuejs/vitepress/commit/5deaf6a2cdeb1622ae5afc1c8e522d57ff39e4e1))
+- render document with standards mode in dev ([#207](https://github.com/vuejs/vitepress/issues/207)) ([8a0db65](https://github.com/vuejs/vitepress/commit/8a0db65a8a8939e4505b004b884e9395e25e983b))
+- utf-8 character not working on safari in dev mode ([#228](https://github.com/vuejs/vitepress/issues/228)) ([b82d8f2](https://github.com/vuejs/vitepress/commit/b82d8f2ecee31d6ffdc6f74b0bad4fe2c74d40de))
+- use brand color in algolia search box ([2330023](https://github.com/vuejs/vitepress/commit/2330023d99741ea18fd606a7601ab19815333f7c))
+
+### Features
+
+- add vue options config (expose @vitejs/plugin-vue) ([#215](https://github.com/vuejs/vitepress/issues/215)) ([5b34c6a](https://github.com/vuejs/vitepress/commit/5b34c6a94ad7d2eecf667844c60504e776f15afc))
+
+### BREAKING CHANGES
+
+- If sidebar option is `undefined` it will be treated as `auto`, where previsouly it looked like it was treated as `false`. It was always treated as `auto`, but due to [this bug](https://github.com/vuejs/vitepress/issues/178), the sidebar was hidden, therefore it looked like it was treated as `false`.
+
 ## [0.11.5](https://github.com/vuejs/vitepress/compare/v0.11.4...v0.11.5) (2021-01-29)
 
 ### Bug Fixes
