@@ -44,7 +44,7 @@ export function createMarkdownToVueRenderFn(
     const pageData: PageData = {
       title: inferTitle(frontmatter, content),
       description: inferDescription(frontmatter),
-      frontmatter: frontmatter,
+      frontmatter,
       headers: data.headers,
       relativePath,
       // TODO use git timestamp?
@@ -113,9 +113,11 @@ const inferTitle = (frontmatter: any, content: string) => {
 
 const inferDescription = (frontmatter: Record<string, any>) => {
   const { description, head } = frontmatter
+
   if (description !== undefined) {
     return description
   }
+
   return (head && getHeadMetaContent(head, 'description')) || ''
 }
 

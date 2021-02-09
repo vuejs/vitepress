@@ -73,5 +73,5 @@ function isMetaDescription(headConfig: HeadConfig) {
 }
 
 function filterOutHeadDescription(head: HeadConfig[]) {
-  return head.filter((h: HeadConfig) => !isMetaDescription(h))
+  return head.filter((h) => !isMetaDescription(h))
 }
