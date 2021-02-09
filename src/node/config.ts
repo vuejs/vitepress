@@ -2,12 +2,12 @@ import path from 'path'
 import fs from 'fs-extra'
 import chalk from 'chalk'
 import globby from 'globby'
-import { resolveAliases, APP_PATH, DEFAULT_THEME_PATH } from './alias'
-import { SiteData, HeadConfig, LocaleConfig } from '../../types/shared'
-import { MarkdownOptions } from './markdown/markdown'
 import { AliasOptions } from 'vite'
 import { Options as VuePluginOptions } from '@vitejs/plugin-vue'
+import { SiteData, HeadConfig, LocaleConfig } from '../../types/shared'
 export { resolveSiteDataByRoute } from './shared/config'
+import { resolveAliases, APP_PATH, DEFAULT_THEME_PATH } from './alias'
+import { MarkdownOptions } from './markdown/markdown'
 
 const debug = require('debug')('vitepress:config')
 
