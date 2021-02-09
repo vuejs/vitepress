@@ -38,6 +38,7 @@ export async function renderPage(
     pageServerJsFileName
   ))
   const pageData = JSON.parse(__pageData)
+  const frontmatterHead = pageData.frontmatter.head
 
   const preloadLinks = [
     // resolve imports for index.js + page.md.js and inject script tags for
@@ -61,11 +62,13 @@ export async function renderPage(
     <title>
       ${pageData.title ? pageData.title + ` | ` : ``}${siteData.title}
     </title>
-    <meta name="description" content="${siteData.description}">
+    <meta name="description" content="${
+      pageData.description || siteData.description
+    }">
     <link rel="stylesheet" href="${siteData.base}${cssChunk.fileName}">
     ${preloadLinks}
     ${renderHead(siteData.head)}
-    ${renderHead(pageData.frontmatter.head)}
+    ${renderHead(frontmatterHead && filterOutHeadDescription(frontmatterHead))}
   </head>
   <body>
     <div id="app">${content}</div>
@@ -126,4 +129,16 @@ function renderAttrs(attrs: Record<string, string>): string {
       return ` ${key}="${escape(attrs[key])}"`
     })
     .join('')
+}
+
+function isMetaDescription(headConfig: HeadConfig) {
+  return (
+    headConfig[0] === 'meta' &&
+    headConfig[1] &&
+    headConfig[1].name === 'description'
+  )
+}
+
+function filterOutHeadDescription(head: HeadConfig[]) {
+  return head.filter((h) => !isMetaDescription(h))
 }
