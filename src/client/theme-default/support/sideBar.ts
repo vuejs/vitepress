@@ -13,6 +13,10 @@ export function isSideBarGroup(
   return (item as DefaultTheme.SideBarGroup).children !== undefined
 }
 
+export function isSideBarEmpty(sidebar?: DefaultTheme.SideBarConfig): boolean {
+  return isArray(sidebar) ? sidebar.length === 0 : !sidebar
+}
+
 /**
  * Get the `SideBarConfig` from sidebar option. This method will ensure to get
  * correct sidebar config from `MultiSideBarConfig` with various path

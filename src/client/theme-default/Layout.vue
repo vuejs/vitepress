@@ -74,6 +74,7 @@ import {
   usePageData,
   useSiteDataByRoute
 } from 'vitepress'
+import { isSideBarEmpty, getSideBarConfig } from './support/sideBar'
 import type { DefaultTheme } from './config'
 
 // components
@@ -127,14 +128,14 @@ const openSideBar = ref(false)
 
 const showSidebar = computed(() => {
   const { frontmatter } = route.data
+
+  if (frontmatter.home || frontmatter.sidebar === false) {
+    return false
+  }
+
   const { themeConfig } = siteRouteData.value
-  return (
-    !frontmatter.home &&
-    frontmatter.sidebar !== false &&
-    ((typeof themeConfig.sidebar === 'object' &&
-      Object.keys(themeConfig.sidebar).length != 0) ||
-      (Array.isArray(themeConfig.sidebar) && themeConfig.sidebar.length != 0))
-  )
+
+  return !isSideBarEmpty(getSideBarConfig(themeConfig.sidebar, route.path))
 })
 
 const toggleSidebar = (to?: boolean) => {
