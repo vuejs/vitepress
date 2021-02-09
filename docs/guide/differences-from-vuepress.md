@@ -110,8 +110,7 @@ In case you decide to move your project to VitePress, this is a list of differen
   - `path`
   - `regularPath`
 
-## Default Components
+## Global Components
 
 - Missing
-  - [`<ClientOnly>`](https://vuepress.vuejs.org/guide/using-vue.html#browser-api-access-restrictions)
   - [`<Badge>`](https://vuepress.vuejs.org/guide/using-vue.html#badge)
