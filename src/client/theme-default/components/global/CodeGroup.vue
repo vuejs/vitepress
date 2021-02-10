@@ -1,7 +1,7 @@
 <script lang="ts">
-import { defineComponent, h } from "vue";
-import { CodeGroupTabState } from "/@theme/components/global/types";
-import CodeBlock from "/@theme/components/global/CodeBlock.vue";
+import { defineComponent, h } from "vue"
+import { CodeGroupTabState } from "/@theme/components/global/types"
+import CodeBlock from "/@theme/components/global/CodeBlock.vue"
 
 export default defineComponent({
   name: "CodeGroup",
@@ -13,14 +13,14 @@ export default defineComponent({
     }
   },
   mounted() {
-    let activeTabIndex = -1;
-    const tabs: CodeGroupTabState[] = [];
+    let activeTabIndex = -1
+    const tabs: CodeGroupTabState[] = []
 
-    const blocks = (this.$slots.default?.() || []).filter(s => s.type.name === 'CodeBlock');
+    const blocks = (this.$slots.default?.() || []).filter(s => s.type.name === 'CodeBlock')
 
     blocks.forEach(({ props: { title, active = false }, children }, index) => {
-      if (activeTabIndex === -1 && typeof active === 'string') {
-        activeTabIndex = index;
+      if (activeTabIndex === -1 && typeof active === 'string' || active) {
+        activeTabIndex = index
       }
 
       tabs.push({
@@ -28,11 +28,10 @@ export default defineComponent({
         title: title,
         content: children?.length
       })
-    });
+    })
 
     this.tabs = tabs
     this.activeTabIndex = activeTabIndex
-    console.log(this)
   },
   render() {
     const hCodeBlocks = this.tabs.map(

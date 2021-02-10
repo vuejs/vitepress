@@ -5,9 +5,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { defineComponent, PropType } from "vue"
 
 export default defineComponent({
+  name: "CodeBlock",
   props: {
     title: {
       type: String,
@@ -22,11 +23,6 @@ export default defineComponent({
         return false
       }
     }
-  },
-  name: "CodeBlock"
+  }
 })
 </script>
-
-<style scoped>
-
-</style>
