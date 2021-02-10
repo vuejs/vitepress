@@ -22,7 +22,6 @@ onMounted(() => {
 
 <style scoped>
 .carbon-ads {
-  padding: 1.75rem 0 0;
   border-radius: 4px;
   margin: 0 auto;
   max-width: 280px;
