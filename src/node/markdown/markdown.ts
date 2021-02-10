@@ -42,7 +42,8 @@ export interface MarkdownRenderer {
 }
 
 export const createMarkdownRenderer = (
-  options: MarkdownOptions = {}
+  options: MarkdownOptions = {},
+  root: string
 ): MarkdownRenderer => {
   const md = MarkdownIt({
     html: true,
@@ -55,7 +56,7 @@ export const createMarkdownRenderer = (
   md.use(componentPlugin)
     .use(highlightLinePlugin)
     .use(preWrapperPlugin)
-    .use(snippetPlugin)
+    .use(snippetPlugin, root)
     .use(hoistPlugin)
     .use(containerPlugin)
     .use(extractHeaderPlugin)
