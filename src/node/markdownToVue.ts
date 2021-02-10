@@ -19,7 +19,7 @@ export function createMarkdownToVueRenderFn(
   root: string,
   options: MarkdownOptions = {}
 ) {
-  const md = createMarkdownRenderer(options)
+  const md = createMarkdownRenderer(root, options)
 
   return (src: string, file: string): MarkdownCompileResult => {
     const relativePath = slash(path.relative(root, file))
