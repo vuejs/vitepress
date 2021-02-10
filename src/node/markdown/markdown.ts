@@ -42,8 +42,8 @@ export interface MarkdownRenderer {
 }
 
 export const createMarkdownRenderer = (
-  options: MarkdownOptions = {},
-  root: string
+  root: string,
+  options: MarkdownOptions = {}
 ): MarkdownRenderer => {
   const md = MarkdownIt({
     html: true,
