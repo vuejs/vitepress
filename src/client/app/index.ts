@@ -9,6 +9,8 @@ import { usePageData } from './composables/pageData'
 import { useUpdateHead } from './composables/head'
 import Theme from '/@theme/index'
 import { usePrefetch } from './composables/preFetch'
+import CodeGroup from '/@theme/components/global/CodeGroup.vue'
+import CodeBlock from '/@theme/components/global/CodeBlock.vue'
 
 const NotFound = Theme.NotFound || (() => '404 Not Found')
 
@@ -29,6 +31,8 @@ export function createApp() {
   handleHMR(router)
 
   const app = newApp()
+  app.component('CodeGroup', CodeGroup)
+  app.component('CodeBlock', CodeBlock)
 
   app.provide(RouterSymbol, router)
 
