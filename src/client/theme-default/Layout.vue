@@ -179,6 +179,7 @@ const pageClasses = computed(() => {
   #ads-container {
     /* Avoid layout shift */
     height: 105px;
+    margin: 1.75rem 0;
   }
 }
 

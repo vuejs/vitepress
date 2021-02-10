@@ -47,4 +47,11 @@ import NextAndPrevLinks from './NextAndPrevLinks.vue'
 .content {
   padding-bottom: 1.5rem;
 }
+
+@media (max-width: 420px) {
+  .content {
+    /* fix carbon ads display */
+    clear: both;
+  }
+}
 </style>
