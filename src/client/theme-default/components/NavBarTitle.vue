@@ -1,8 +1,8 @@
 <template>
   <a
     class="nav-bar-title"
-    :href="$site.base"
-    :aria-label="`${$site.title}, back to home`"
+    :href="$withBase($localePath)"
+    :aria-label="`${$siteByRoute.title}, back to home`"
   >
     <img
       v-if="$themeConfig.logo"
