@@ -20,7 +20,21 @@ export async function renderPage(
   const { app, router } = createApp()
   const routePath = `/${page.replace(/\.md$/, '')}`
   const siteData = resolveSiteDataByRoute(config.site, routePath)
+
   router.go(routePath)
+
+  // inject `base` path to the route path.
+  //
+  // when a page is rendered on the browser, `route.path` will contain the
+  // `base` path because that is the url users are actually on. however, when
+  // rendering the app here, it doesn't contain the `base` path, as you can
+  // see on the above `router.go` call.
+  //
+  // this causes hydration mismatch because app uses `route.path`, for example,
+  // to do active link check in the navbar. therefore, we inject `base` path
+  // here to make sure the rendering result is consistent.
+  router.route.path = `${siteData.base}${router.route.path}`.replace('//', '/')
+
   // lazy require server-renderer for production build
   const content = await require('@vue/server-renderer').renderToString(app)
 
