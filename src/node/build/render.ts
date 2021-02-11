@@ -21,7 +21,6 @@ export async function renderPage(
   const routePath = `/${page.replace(/\.md$/, '')}`
   const siteData = resolveSiteDataByRoute(config.site, routePath)
   router.go(routePath)
-
   // lazy require server-renderer for production build
   const content = await require('@vue/server-renderer').renderToString(app)
 
