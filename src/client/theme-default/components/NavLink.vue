@@ -14,9 +14,11 @@ import OutboundLink from './icons/OutboundLink.vue'
 
 const props = defineProps<{
   item: DefaultTheme.NavItemWithLink,
-}>();
-const propsRefs = toRefs(props);
-const { props: linkProps, isExternal } = useNavLink(propsRefs.item);
+}>()
+
+const propsRefs = toRefs(props)
+
+const { props: linkProps, isExternal } = useNavLink(propsRefs.item)
 </script>
 
 <style scoped>
