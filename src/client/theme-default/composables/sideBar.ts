@@ -30,7 +30,7 @@ export function useSideBar() {
     // now, there's no sidebar setting at frontmatter; let's see the configs
     const themeSidebar = getSideBarConfig(
       site.value.themeConfig.sidebar,
-      route.path
+      route.data.relativePath
     )
 
     if (themeSidebar === false) {
