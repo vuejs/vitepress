@@ -1,23 +1,23 @@
-import { computed } from 'vue'
+import { computed, Ref } from 'vue'
 import { useRoute } from 'vitepress'
 import type { DefaultTheme } from '../config'
 import { isExternal as isExternalCheck } from '../utils'
 import { useUrl } from '../composables/url'
 
-export function useNavLink(item: DefaultTheme.NavItemWithLink) {
+export function useNavLink(item: Ref<DefaultTheme.NavItemWithLink>) {
   const route = useRoute()
   const { withBase } = useUrl()
 
-  const isExternal = isExternalCheck(item.link)
+  const isExternal = isExternalCheck(item.value.link)
 
   const props = computed(() => {
     const routePath = normalizePath(route.path)
 
     let active = false
-    if (item.activeMatch) {
-      active = new RegExp(item.activeMatch).test(routePath)
+    if (item.value.activeMatch) {
+      active = new RegExp(item.value.activeMatch).test(routePath)
     } else {
-      const itemPath = normalizePath(withBase(item.link))
+      const itemPath = normalizePath(withBase(item.value.link))
       active =
         itemPath === '/'
           ? itemPath === routePath
@@ -29,10 +29,10 @@ export function useNavLink(item: DefaultTheme.NavItemWithLink) {
         active,
         isExternal
       },
-      href: isExternal ? item.link : withBase(item.link),
-      target: item.target || isExternal ? `_blank` : null,
-      rel: item.rel || isExternal ? `noopener noreferrer` : null,
-      'aria-label': item.ariaLabel
+      href: isExternal ? item.value.link : withBase(item.value.link),
+      target: item.value.target || isExternal ? `_blank` : null,
+      rel: item.value.rel || isExternal ? `noopener noreferrer` : null,
+      'aria-label': item.value.ariaLabel
     }
   })
 
