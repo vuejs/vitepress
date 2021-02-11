@@ -53,6 +53,7 @@ function getGuideSidebar() {
         { text: 'Configuration', link: '/guide/configuration' },
         { text: 'Asset Handling', link: '/guide/assets' },
         { text: 'Markdown Extensions', link: '/guide/markdown' },
+        { text: 'Using Vue in Markdown', link: '/guide/using-vue' },
         { text: 'Deploying', link: '/guide/deploy' }
       ]
     },
