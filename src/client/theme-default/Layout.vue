@@ -135,7 +135,9 @@ const showSidebar = computed(() => {
 
   const { themeConfig } = siteRouteData.value
 
-  return !isSideBarEmpty(getSideBarConfig(themeConfig.sidebar, route.path))
+  return !isSideBarEmpty(
+    getSideBarConfig(themeConfig.sidebar, route.data.relativePath)
+  )
 })
 
 const toggleSidebar = (to?: boolean) => {
