@@ -344,6 +344,14 @@ It also supports [line highlighting](#line-highlighting-in-code-blocks):
 <<< @/snippets/snippet.js{2}
 ```
 
+**Code file**
+
+<!--lint disable strong-marker-->
+
+<<< @/snippets/snippet.js
+
+<!--lint enable strong-marker-->
+
 **Output**
 
 <!--lint disable strong-marker-->
