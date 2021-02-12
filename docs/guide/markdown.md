@@ -329,31 +329,31 @@ module.exports = {
 You can import code snippets from existing files via following syntax:
 
 ``` md
-<<< ./filepath
+<<< @/filepath
 ```
 
 It also supports [line highlighting](#line-highlighting-in-code-blocks):
 
 ``` md
-<<< ./filepath{highlightLines}
+<<< @/filepath{highlightLines}
 ```
 
 **Input**
 
 ``` md
-<<< ./../__tests__/node/markdown/fragments/snippet.js{2}
+<<< @/snippets/snippet.js{2}
 ```
 
 **Output**
 
 <!--lint disable strong-marker-->
 
-<<< ./../__tests__/node/markdown/fragments/snippet.js{2}
+<<< @/snippets/snippet.js{2}
 
 <!--lint enable strong-marker-->
 
 ::: tip
-The value of `.` corresponds to `process.cwd()`.
+The value of `@` corresponds to `process.cwd()`.
 :::
 
 You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/codebasics#_folding) to only include the corresponding part of the code file. You can provide a custom region name after a `#` following the filepath (`snippet` by default):
@@ -361,14 +361,14 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 **Input**
 
 ``` md
-<<< ./../__tests__/node/markdown/fragments/snippet-with-region.js{1}
+<<< @/snippets/snippet-with-region.js{1}
 ```
 
 **Code file**
 
 <!--lint disable strong-marker-->
 
-<<< ./../__tests__/node/markdown/fragments/snippet-with-region.js
+<<< @/snippets/snippet-with-region.js
 
 <!--lint enable strong-marker-->
 
@@ -376,7 +376,7 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 
 <!--lint disable strong-marker-->
 
-<<< ./../__tests__/node/markdown/fragments/snippet-with-region.js#snippet{1}
+<<< @/snippets/snippet-with-region.js#snippet{1}
 
 <!--lint enable strong-marker-->
 
