@@ -341,14 +341,14 @@ It also supports [line highlighting](#line-highlighting-in-code-blocks):
 **Input**
 
 ``` md
-<<< ./snippets/snippet.js{2}
+<<< ./../__tests__/node/markdown/fragments/snippet.js{2}
 ```
 
 **Output**
 
 <!--lint disable strong-marker-->
 
-<<< ./snippets/snippet.js{2}
+<<< ./../__tests__/node/markdown/fragments/snippet.js{2}
 
 <!--lint enable strong-marker-->
 
@@ -361,14 +361,14 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 **Input**
 
 ``` md
-<<< ./snippets/snippet-with-region.js{1}
+<<< ./../__tests__/node/markdown/fragments/snippet-with-region.js{1}
 ```
 
 **Code file**
 
 <!--lint disable strong-marker-->
 
-<<< ./snippets/snippet-with-region.js
+<<< ./../__tests__/node/markdown/fragments/snippet-with-region.js
 
 <!--lint enable strong-marker-->
 
@@ -376,7 +376,7 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 
 <!--lint disable strong-marker-->
 
-<<< ./snippets/snippet-with-region.js#snippet{1}
+<<< ./../__tests__/node/markdown/fragments/snippet-with-region.js#snippet{1}
 
 <!--lint enable strong-marker-->
 
