@@ -1,3 +1,9 @@
+## [0.12.2](https://github.com/vuejs/vitepress/compare/v0.12.1...v0.12.2) (2021-02-15)
+
+### Bug Fixes
+
+- **theme-default:** avoid ad image distortion on mobile ([4a40e1f](https://github.com/vuejs/vitepress/commit/4a40e1faf477c4e779b78f55ac1604eeb52b2499))
+
 ## [0.12.1](https://github.com/vuejs/vitepress/compare/v0.12.0...v0.12.1) (2021-02-15)
 
 ### Bug Fixes
