@@ -1,3 +1,13 @@
+## [0.12.1](https://github.com/vuejs/vitepress/compare/v0.12.0...v0.12.1) (2021-02-15)
+
+### Bug Fixes
+
+- `@` alias for import code snippet being always `undefined` ([#204](https://github.com/vuejs/vitepress/issues/204)) ([2aa8ab2](https://github.com/vuejs/vitepress/commit/2aa8ab26e2fcf87ced27999c0be67798d5b4bb88))
+- `base` option not generating correct multi sidebar ([#231](https://github.com/vuejs/vitepress/issues/231)) ([#234](https://github.com/vuejs/vitepress/issues/234)) ([a613df4](https://github.com/vuejs/vitepress/commit/a613df46e8cd7709dd2ad0f411ff52aa431850b6))
+- ads display causing layout break in mobile view ([#230](https://github.com/vuejs/vitepress/issues/230)) ([7ceaf34](https://github.com/vuejs/vitepress/commit/7ceaf344d20f8a51c0452eed264e07b47d104043))
+- home action link not being reactive ([#195](https://github.com/vuejs/vitepress/issues/195)) ([#212](https://github.com/vuejs/vitepress/issues/212)) ([5678dc3](https://github.com/vuejs/vitepress/commit/5678dc3a255c90309d5d7d9b609f3dc7ec7f9d00))
+- nav home title not having locale based link ([#195](https://github.com/vuejs/vitepress/issues/195)) ([#233](https://github.com/vuejs/vitepress/issues/233)) ([6538c8e](https://github.com/vuejs/vitepress/commit/6538c8e70aac60823fd2374e36cb502420184b44))
+
 # [0.12.0](https://github.com/vuejs/vitepress/compare/v0.11.5...v0.12.0) (2021-02-09)
 
 ### Bug Fixes
