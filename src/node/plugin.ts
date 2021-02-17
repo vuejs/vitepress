@@ -4,7 +4,7 @@ import { SiteConfig, resolveSiteData } from './config'
 import { createMarkdownToVueRenderFn } from './markdownToVue'
 import { APP_PATH, SITE_DATA_REQUEST_PATH } from './alias'
 import createVuePlugin from '@vitejs/plugin-vue'
-import slash from 'slash'
+import { slash } from './utils/slash'
 import { OutputAsset, OutputChunk } from 'rollup'
 
 const hashRE = /\.(\w+)\.js$/
@@ -24,11 +24,11 @@ const isPageChunk = (
 
 export function createVitePressPlugin(
   root: string,
-  { configPath, alias, markdown, site, vueOptions }: SiteConfig,
+  { configPath, alias, markdown, site, vueOptions, pages }: SiteConfig,
   ssr = false,
   pageToHashMap?: Record<string, string>
 ): Plugin[] {
-  const markdownToVue = createMarkdownToVueRenderFn(root, markdown)
+  const markdownToVue = createMarkdownToVueRenderFn(root, markdown, pages)
 
   const vuePlugin = createVuePlugin({
     include: [/\.vue$/, /\.md$/],
@@ -36,6 +36,7 @@ export function createVitePressPlugin(
   })
 
   let siteData = site
+  let hasDeadLinks = false
 
   const vitePressPlugin: Plugin = {
     name: 'vitepress',
@@ -71,7 +72,17 @@ export function createVitePressPlugin(
     transform(code, id) {
       if (id.endsWith('.md')) {
         // transform .md files into vueSrc so plugin-vue can handle it
-        return markdownToVue(code, id).vueSrc
+        const { vueSrc, deadLinks } = markdownToVue(code, id)
+        if (deadLinks.length) {
+          hasDeadLinks = true
+        }
+        return vueSrc
+      }
+    },
+
+    renderStart() {
+      if (hasDeadLinks) {
+        throw new Error(`One or more pages contain dead links.`)
       }
     },
 

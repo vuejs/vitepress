@@ -5,7 +5,8 @@ import LRUCache from 'lru-cache'
 import { createMarkdownRenderer, MarkdownOptions } from './markdown/markdown'
 import { deeplyParseHeader } from './utils/parseHeader'
 import { PageData, HeadConfig } from '../../types/shared'
-import slash from 'slash'
+import { slash } from './utils/slash'
+import chalk from 'chalk'
 
 const debug = require('debug')('vitepress:md')
 const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
@@ -13,13 +14,16 @@ const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
 interface MarkdownCompileResult {
   vueSrc: string
   pageData: PageData
+  deadLinks: string[]
 }
 
 export function createMarkdownToVueRenderFn(
   root: string,
-  options: MarkdownOptions = {}
+  options: MarkdownOptions = {},
+  pages: string[]
 ) {
   const md = createMarkdownRenderer(root, options)
+  pages = pages.map((p) => slash(p.replace(/\.md$/, '')))
 
   return (src: string, file: string): MarkdownCompileResult => {
     const relativePath = slash(path.relative(root, file))
@@ -40,7 +44,31 @@ export function createMarkdownToVueRenderFn(
       .replace(/import\.meta/g, 'import.<wbr/>meta')
       .replace(/process\.env/g, 'process.<wbr/>env')
 
-    // TODO validate data.links?
+    // validate data.links
+    const deadLinks = []
+    if (data.links) {
+      const dir = path.dirname(file)
+      for (let url of data.links) {
+        url = url.replace(/[?#].*$/, '').replace(/\.(html|md)$/, '')
+        if (url.endsWith('/')) url += `index`
+        const resolved = slash(
+          url.startsWith('/')
+            ? url.slice(1)
+            : path.relative(root, path.resolve(dir, url))
+        )
+        if (!pages.includes(resolved)) {
+          console.warn(
+            chalk.yellow(
+              `\n(!) Found dead link ${chalk.cyan(
+                url
+              )} in file ${chalk.white.dim(file)}`
+            )
+          )
+          deadLinks.push(url)
+        }
+      }
+    }
+
     const pageData: PageData = {
       title: inferTitle(frontmatter, content),
       description: inferDescription(frontmatter),
@@ -59,7 +87,8 @@ export function createMarkdownToVueRenderFn(
 
     const result = {
       vueSrc,
-      pageData
+      pageData,
+      deadLinks
     }
     cache.set(src, result)
     return result

@@ -6090,10 +6090,10 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-vite@^2.0.0-beta.67:
-  version "2.0.0-beta.67"
-  resolved "https://registry.yarnpkg.com/vite/-/vite-2.0.0-beta.67.tgz#2d4e7a62a925539448bd18154008afb2b4484a07"
-  integrity sha512-QNxIRajidVG3ejikBUb17NgCV1bJ9UyKHBdItgw1O/ljQ1hBoph5I2/DrviqV4G9H3WP7teXk5vwQWuCVS9fqQ==
+vite@^2.0.0-beta.70:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/vite/-/vite-2.0.0.tgz#156f35eadaa7947629aa8a24eb23129b07116ee3"
+  integrity sha512-rNli5g0DaQ6+btlRqkmaR06neWaJGApmt40gocqrYDNi2XoEXYQgKiHSWzMeUgc1Cdva2HduqazaE+RaKjBpdQ==
   dependencies:
     esbuild "^0.8.34"
     postcss "^8.2.1"
