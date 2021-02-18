@@ -1,6 +1,6 @@
 import ora from 'ora'
 import path from 'path'
-import slash from 'slash'
+import { slash } from '../utils/slash'
 import { APP_PATH } from '../alias'
 import { SiteConfig } from '../config'
 import { RollupOutput } from 'rollup'

@@ -22,7 +22,7 @@ export function isActive(route: Route, path?: string): boolean {
     return false
   }
 
-  const routePath = normalize(route.path)
+  const routePath = normalize(`/${route.data.relativePath}`)
   const pagePath = normalize(path)
 
   return routePath === pagePath
