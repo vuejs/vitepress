@@ -156,7 +156,7 @@ div[class*='language-'].line-numbers-mode {
 }
 
 [class~='language-js']:before,
-[class~='language-typescript']:before {
+[class~='language-javascript']:before {
   content: 'js';
 }
 
