@@ -1,5 +1,5 @@
 import serialized from '@siteData'
-import { SiteData } from '/@types/shared'
+import { SiteData } from '../../../../types/shared'
 import { Ref, ref, readonly } from 'vue'
 
 export type SiteDataRef<T = any> = Ref<SiteData<T>>
