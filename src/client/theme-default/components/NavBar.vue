@@ -36,7 +36,7 @@ defineEmit(['toggle'])
   border-bottom: 1px solid var(--c-divider);
   padding: .7rem 1.5rem .7rem 4rem;
   height: var(--header-height);
-  background-color: var(--c-bg);
+  background-color: inherit;
 }
 
 @media (min-width: 720px) {
