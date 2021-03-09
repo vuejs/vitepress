@@ -29,7 +29,7 @@ If your site is deployed to a non-root URL, you will need to set the `base` opti
 With a base URL, to reference an image in `public`, you'd have to use URLs like `/bar/image.png`. But this is brittle if you ever decide to change the base. To help with that, VitePress provides a built-in helper `$withBase` (injected onto Vue's prototype) that generates the correct path:
 
 ```html
-<img :src="$withBase('/foo.png')" alt="foo">
+<img :src="$withBase('/foo.png')" alt="foo" />
 ```
 
 Note you can use the above syntax not only in theme components, but in your Markdown files as well.

@@ -34,14 +34,14 @@ defineEmit(['toggle'])
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid var(--c-divider);
-  padding: .7rem 1.5rem .7rem 4rem;
+  padding: 0.7rem 1.5rem 0.7rem 4rem;
   height: var(--header-height);
   background-color: #ffffff;
 }
 
 @media (min-width: 720px) {
   .nav-bar {
-    padding: .7rem 1.5rem;
+    padding: 0.7rem 1.5rem;
   }
 }
 

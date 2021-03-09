@@ -128,9 +128,9 @@ deploy:
 
 1. Set the correct `base` in `docs/.vitepress/config.js`.
 
-    If you are deploying to `https://<USERNAME or GROUP>.gitlab.io/`, you can omit `base` as it defaults to `'/'`.
+   If you are deploying to `https://<USERNAME or GROUP>.gitlab.io/`, you can omit `base` as it defaults to `'/'`.
 
-    If you are deploying to `https://<USERNAME or GROUP>.gitlab.io/<REPO>/`, for example your repository is at `https://gitlab.com/<USERNAME>/<REPO>`, then set `base` to `'/<REPO>/'`.
+   If you are deploying to `https://<USERNAME or GROUP>.gitlab.io/<REPO>/`, for example your repository is at `https://gitlab.com/<USERNAME>/<REPO>`, then set `base` to `'/<REPO>/'`.
 
 2. Set `dest` in `.vitepress/config.js` to `public`.
 
@@ -167,26 +167,26 @@ pages:
 
 2. Create `firebase.json` and `.firebaserc` at the root of your project with the following content:
 
- `firebase.json`:
+`firebase.json`:
 
-  ```json
-  {
-    "hosting": {
-      "public": "./docs/.vitepress/dist",
-      "ignore": []
-    }
+```json
+{
+  "hosting": {
+    "public": "./docs/.vitepress/dist",
+    "ignore": []
   }
-  ```
+}
+```
 
-  `.firebaserc`:
+`.firebaserc`:
 
-  ```js
-  {
-   "projects": {
-     "default": "<YOUR_FIREBASE_ID>"
-   }
-  }
-  ```
+```js
+{
+ "projects": {
+   "default": "<YOUR_FIREBASE_ID>"
+ }
+}
+```
 
 3. After running `yarn docs:build` or `npm run docs:build`, deploy using the command `firebase deploy`.
 

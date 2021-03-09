@@ -24,7 +24,7 @@ There're couple of things that are improved from VuePress....
 
 ### It Uses Vue 3
 
-Leverages Vue 3's improved template static analysis to stringify static content as much as possible. Static content is sent as string literals instead of JavaScript render function code – the JS payload is therefore *much* cheaper to parse, and hydration also becomes faster.
+Leverages Vue 3's improved template static analysis to stringify static content as much as possible. Static content is sent as string literals instead of JavaScript render function code – the JS payload is therefore _much_ cheaper to parse, and hydration also becomes faster.
 
 Note the optimization is applied while still allowing the user to freely mix Vue components inside markdown content – the compiler does the static/dynamic separation for you automatically and you never need to think about it.
 

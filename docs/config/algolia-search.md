@@ -4,7 +4,7 @@ The `themeConfig.algolia` option allows you to use [Algolia DocSearch](https://d
 
 ```js
 module.exports = {
-  themeConfig:{
+  themeConfig: {
     algolia: {
       apiKey: 'your_api_key',
       indexName: 'index_name'

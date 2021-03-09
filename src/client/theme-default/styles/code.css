@@ -1,9 +1,9 @@
 code {
   margin: 0;
   border-radius: 3px;
-  padding: .25rem .5rem;
+  padding: 0.25rem 0.5rem;
   font-family: var(--code-font-family);
-  font-size: .85em;
+  font-size: 0.85em;
   color: var(--c-text-light);
   background-color: var(--code-inline-bg-color);
 }
@@ -89,7 +89,7 @@ li > div[class*='language-'] {
 }
 
 .highlight-lines .highlighted {
-  background-color: rgba(0, 0, 0, .66);
+  background-color: rgba(0, 0, 0, 0.66);
 }
 
 /* Line numbers mode */
@@ -104,7 +104,7 @@ div[class*='language-'].line-numbers-mode {
   bottom: 0;
   left: 0;
   z-index: 3;
-  border-right: 1px solid rgba(0, 0, 0, .5);
+  border-right: 1px solid rgba(0, 0, 0, 0.5);
   padding: 1.25rem 0;
   width: 3.5rem;
   text-align: center;
@@ -118,10 +118,10 @@ div[class*='language-'].line-numbers-mode {
 
 [class*='language-']:before {
   position: absolute;
-  top: .6em;
+  top: 0.6em;
   right: 1em;
   z-index: 2;
-  font-size: .8rem;
+  font-size: 0.8rem;
   color: #888;
 }
 

@@ -34,12 +34,12 @@ watch(open, (value) => {
   color: #eeeeee;
   overflow: hidden;
   cursor: pointer;
-  background-color: rgba(0, 0, 0, .85);
-  transition: all .15s ease;
+  background-color: rgba(0, 0, 0, 0.85);
+  transition: all 0.15s ease;
 }
 
 .debug:hover {
-  background-color: rgba(0, 0, 0, .75);
+  background-color: rgba(0, 0, 0, 0.75);
 }
 
 .debug.open {
@@ -60,7 +60,7 @@ watch(open, (value) => {
 }
 
 .debug.open:hover {
-  background-color: rgba(0, 0, 0, .85);
+  background-color: rgba(0, 0, 0, 0.85);
 }
 
 .title {
@@ -72,13 +72,13 @@ watch(open, (value) => {
 
 .block {
   margin: 2px 0 0;
-  border-top: 1px solid rgba(255, 255, 255, .16);
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
   padding: 8px 16px;
   font-family: Hack, monospace;
   font-size: 13px;
 }
 
-.block +.block {
+.block + .block {
   margin-top: 8px;
 }
 </style>

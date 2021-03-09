@@ -38,7 +38,7 @@
   margin: 0;
   text-align: center;
   line-height: 1.4;
-  font-size: .9rem;
+  font-size: 0.9rem;
   color: var(--c-text-light);
 }
 </style>

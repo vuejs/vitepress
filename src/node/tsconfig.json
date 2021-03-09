@@ -11,8 +11,5 @@
       "/@types/*": ["../../types/*"]
     }
   },
-  "include": [
-    ".",
-    "../../types/shared.d.ts"
-  ]
+  "include": [".", "../../types/shared.d.ts"]
 }

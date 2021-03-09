@@ -1,6 +1,12 @@
 <template>
   <div class="edit-link">
-    <a v-if="url" class="link" :href="url" target="_blank" rel="noopener noreferrer">
+    <a
+      v-if="url"
+      class="link"
+      :href="url"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       {{ text }} <OutboundLink class="icon" />
     </a>
   </div>
