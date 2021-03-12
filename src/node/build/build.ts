@@ -23,7 +23,7 @@ export async function build(root: string, buildOptions: BuildOptions = {}) {
 
     try {
       const appChunk = clientResult.output.find(
-        (chunk) => chunk.type === 'chunk' && chunk.isEntry && chunk
+        (chunk) => chunk.type === 'chunk' && chunk.isEntry
       ) as OutputChunk
 
       const cssChunk = clientResult.output.find(
