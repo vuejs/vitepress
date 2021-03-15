@@ -41,7 +41,9 @@ onMounted(() => {
 
     document.head.appendChild(s)
 
-    s.onload = () => { load() }
+    s.onload = () => {
+      load()
+    }
   } else {
     load()
   }
@@ -62,7 +64,7 @@ function load() {
 .buy-sell-ads {
   margin: 0 auto;
   padding-top: 2rem;
-  font-size: .85rem;
+  font-size: 0.85rem;
 }
 
 .bsa-cpc {
@@ -111,7 +113,7 @@ function load() {
   margin-left: 36px;
   padding: 0 8px;
   line-height: 22px;
-  font-size: .85em;
+  font-size: 0.85em;
   font-weight: 500;
   color: #1c90f3;
   content: 'Sponsored';

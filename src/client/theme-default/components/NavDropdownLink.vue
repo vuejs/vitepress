@@ -27,7 +27,12 @@ const route = useRoute()
 
 const open = ref(false)
 
-watch(() => route.path, () => { open.value = false })
+watch(
+  () => route.path,
+  () => {
+    open.value = false
+  }
+)
 
 function toggle() {
   open.value = !open.value
@@ -82,7 +87,7 @@ function toggle() {
     border-bottom: 2px solid transparent;
     padding: 0;
     line-height: 24px;
-    font-size: .9rem;
+    font-size: 0.9rem;
     font-weight: 500;
   }
 }

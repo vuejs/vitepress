@@ -11,7 +11,7 @@ You can develop your custom theme by adding the `.vitepress/theme/index.js` file
 │  │  └─ config.js
 │  └─ index.md
 └─ package.json
-````
+```
 
 In `.vitepress/theme/index.js`, you must export theme object and register your own theme layout. Let's say you have your own `Layout` component like this.
 
@@ -19,7 +19,7 @@ In `.vitepress/theme/index.js`, you must export theme object and register your o
 <!-- .vitepress/theme/Layout.vue -->
 <template>
   <h1>Custom Layout!</h1>
-  <Content/><!-- make sure to include markdown outlet -->
+  <Content /><!-- make sure to include markdown outlet -->
 </template>
 ```
 

@@ -1,7 +1,11 @@
 <template>
   <header v-if="showHero" class="home-hero">
     <figure v-if="$frontmatter.heroImage" class="figure">
-      <img class="image" :src="$withBase($frontmatter.heroImage)" :alt="$frontmatter.heroAlt" />
+      <img
+        class="image"
+        :src="$withBase($frontmatter.heroImage)"
+        :alt="$frontmatter.heroAlt"
+      />
     </figure>
 
     <h1 v-if="hasHeroText" id="main-title" class="title">{{ heroText }}</h1>
@@ -30,10 +34,12 @@ const site = useSiteDataByRoute()
 const data = useFrontmatter()
 
 const showHero = computed(() => {
-  return data.value.heroImage
-    || hasHeroText.value
-    || hasTagline.value
-    || hasAction.value
+  return (
+    data.value.heroImage ||
+    hasHeroText.value ||
+    hasTagline.value ||
+    hasAction.value
+  )
 })
 
 const hasHeroText = computed(() => data.value.heroText !== null)
@@ -43,7 +49,9 @@ const hasTagline = computed(() => data.value.tagline !== null)
 const tagline = computed(() => data.value.tagline || site.value.description)
 
 const hasAction = computed(() => data.value.actionLink && data.value.actionText)
-const hasAltAction = computed(() => data.value.altActionLink && data.value.altActionText)
+const hasAltAction = computed(
+  () => data.value.altActionLink && data.value.altActionText
+)
 </script>
 
 <style scoped>

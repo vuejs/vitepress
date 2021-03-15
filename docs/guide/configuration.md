@@ -9,7 +9,7 @@ Without any configuration, the page is pretty minimal, and the user has no way t
 │  │  └─ config.js
 │  └─ index.md
 └─ package.json
-````
+```
 
 The essential file for configuring a VitePress site is `.vitepress/config.js`, which should export a JavaScript object:
 
