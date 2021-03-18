@@ -26,7 +26,7 @@ onMounted(() => {
   margin: 0 auto;
   max-width: 280px;
   font-size: 0.75rem;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: var(--c-bg-accent);
   min-height: 105.38px; /* avoid layout shift on mobile */
 }
 

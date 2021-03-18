@@ -69,7 +69,7 @@ function load() {
 
 .bsa-cpc {
   border-radius: 6px;
-  background-color: #f8f8f8;
+  background-color: var(--c-bg-accent);
 }
 
 .bsa-cpc ::v-deep(a._default_) {

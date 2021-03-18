@@ -5,6 +5,7 @@
    * --------------------------------------------------------------------- */
 
   --c-white: #ffffff;
+  --c-white-dark: #f8f8f8;
   --c-black: #000000;
 
   --c-divider-light: rgba(60, 60, 67, 0.12);
@@ -63,6 +64,7 @@
   --c-text-lighter: var(--c-text-light-3);
 
   --c-bg: var(--c-white);
+  --c-bg-accent: var(--c-white-dark);
 
   --code-line-height: 24px;
   --code-font-family: var(--font-family-mono);

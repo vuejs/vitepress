@@ -140,20 +140,20 @@ const hasAltAction = computed(
   line-height: 44px;
   font-size: 1rem;
   font-weight: 500;
-  color: #ffffff;
+  color: var(--c-bg);
   background-color: var(--c-brand);
   border: 2px solid var(--c-brand);
   transition: background-color 0.1s ease;
 }
 
 .action.alt :deep(.item) {
-  background-color: #fff;
+  background-color: var(--c-bg);
   color: var(--c-brand);
 }
 
 .action :deep(.item:hover) {
   text-decoration: none;
-  color: #ffffff;
+  color: var(--c-bg);
   background-color: var(--c-brand-light);
 }
 

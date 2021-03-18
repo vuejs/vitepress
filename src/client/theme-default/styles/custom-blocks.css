@@ -9,7 +9,7 @@
 
 .custom-block.tip {
   background-color: #f3f5f7;
-  border-color: #42b983;
+  border-color: var(--c-brand);
 }
 
 .custom-block.warning {
