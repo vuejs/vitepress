@@ -15,7 +15,7 @@ const theme: Theme = {
     const { googleAnalytics: GA_ID } = siteData.value.themeConfig
     if (
       GA_ID &&
-      process.env.NODE_ENV !== 'production' &&
+      process.env.NODE_ENV === 'production' &&
       typeof window !== 'undefined'
     ) {
       installGoogleAnalytics(GA_ID, router)
