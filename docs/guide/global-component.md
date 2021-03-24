@@ -26,3 +26,8 @@ If you are using or demoing components that are not SSR-friendly (for example, c
   <NonSSRFriendlyComponent />
 </ClientOnly>
 ```
+
+## OutboundLink
+
+The indicator `OutboundLink` is used to denote external links. In VitePress, this component has been followed by every external link.
+
