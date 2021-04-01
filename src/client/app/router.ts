@@ -1,6 +1,7 @@
 import { reactive, inject, markRaw, nextTick, readonly } from 'vue'
 import type { Component, InjectionKey } from 'vue'
 import { PageData } from '../../../types/shared'
+import { inBrowser } from './utils'
 
 export interface Route {
   path: string
@@ -38,7 +39,6 @@ export function createRouter(
   fallbackComponent?: Component
 ): Router {
   const route = reactive(getDefaultRoute())
-  const inBrowser = typeof window !== 'undefined'
 
   function go(href: string = inBrowser ? location.href : '/') {
     // ensure correct deep link so page refresh lands on correct files.
