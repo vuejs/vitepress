@@ -4,6 +4,7 @@ import { PageData } from '../../../types/shared'
 
 export interface Route {
   path: string
+  hash: string
   data: PageData
   component: Component | null
 }
@@ -21,6 +22,7 @@ const fakeHost = `http://a.com`
 
 const getDefaultRoute = (): Route => ({
   path: '/',
+  hash: '',
   component: null,
   // this will be set upon initial page load, which is before
   // the app is mounted, so it's guaranteed to be available in
@@ -60,6 +62,7 @@ export function createRouter(
   async function loadPage(href: string, scrollPosition = 0) {
     const targetLoc = new URL(href, fakeHost)
     const pendingPath = (latestPendingPath = targetLoc.pathname)
+    const pendingHash = decodeURIComponent(targetLoc.hash)
     try {
       let page = loadPageModule(pendingPath)
       // only await if it returns a Promise - this allows sync resolution
@@ -76,17 +79,16 @@ export function createRouter(
         }
 
         route.path = pendingPath
+        route.hash = pendingHash
         route.component = markRaw(comp)
         route.data = readonly(JSON.parse(__pageData)) as PageData
 
         if (inBrowser) {
           nextTick(() => {
-            if (targetLoc.hash && !scrollPosition) {
-              const target = document.querySelector(
-                decodeURIComponent(targetLoc.hash)
-              ) as HTMLElement
+            if (pendingHash && !scrollPosition) {
+              const target = document.querySelector(pendingHash) as HTMLElement
               if (target) {
-                scrollTo(target, targetLoc.hash)
+                scrollTo(target, pendingHash)
                 return
               }
             }
@@ -101,6 +103,7 @@ export function createRouter(
       if (latestPendingPath === pendingPath) {
         latestPendingPath = null
         route.path = pendingPath
+        route.hash = pendingHash
         route.component = fallbackComponent ? markRaw(fallbackComponent) : null
       }
     }
@@ -171,12 +174,12 @@ export function useRoute(): Route {
   return useRouter().route
 }
 
-function scrollTo(el: HTMLElement, hash: string, smooth = false) {
+function scrollTo(el: HTMLElement, selector: string, smooth = false) {
   const pageOffset = (document.querySelector('.nav-bar') as HTMLElement)
     .offsetHeight
   const target = el.classList.contains('.header-anchor')
     ? el
-    : document.querySelector(decodeURIComponent(hash))
+    : document.querySelector(selector)
   if (target) {
     const targetTop = (target as HTMLElement).offsetTop - pageOffset - 15
     // only smooth scroll if distance is smaller than screen height.
