@@ -29,7 +29,6 @@ const VitePressApp = {
       watch(
         () => siteData.value.lang,
         (lang: string) => {
-          console.log('lang', lang)
           document.documentElement.lang = lang
         },
         { immediate: true }
