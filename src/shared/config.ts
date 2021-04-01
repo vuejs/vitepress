@@ -1,6 +1,6 @@
 import { SiteData } from '/@types/shared'
 
-const inBrowser = typeof window !== 'undefined'
+export const inBrowser = typeof window !== 'undefined'
 
 function findMatchRoot(route: string, roots: string[]) {
   // first match to the routes with the most deep level.
