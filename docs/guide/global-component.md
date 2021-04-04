@@ -4,7 +4,7 @@ VitePress comes with few built-in component that can be used globally. You may u
 
 ## Content
 
-The `Content` component displays the rendered markdown contents. Useful [when creating your own theme](http://localhost:3000/guide/customization.html).
+The `Content` component displays the rendered markdown contents. Useful [when creating your own theme](https://vitepress.vuejs.org/guide/customization.html).
 
 ```vue
 <template>

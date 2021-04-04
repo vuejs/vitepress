@@ -1,4 +1,6 @@
-export const inBrowser = typeof window !== 'undefined'
+import { inBrowser } from '/@shared/config'
+
+export { inBrowser }
 
 /**
  * Join two paths by resolving the slash collision.

@@ -22,8 +22,6 @@ module.exports = {
 
 The `lang` attribute for the site. This will render as a `<html lang="en-US">` tag in the page HTML.
 
-Note that the `lang` attribute will only be added when building the site via `vitepress build`. You will not see this rendered during `vitepress dev`.
-
 ```js
 module.exports = {
   lang: 'en-US'

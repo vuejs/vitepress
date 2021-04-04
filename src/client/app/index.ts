@@ -1,5 +1,12 @@
 import 'vite/dynamic-import-polyfill'
-import { App, createApp as createClientApp, createSSRApp, h } from 'vue'
+import {
+  App,
+  createApp as createClientApp,
+  createSSRApp,
+  h,
+  onMounted,
+  watch
+} from 'vue'
 import { inBrowser, pathToFile } from './utils'
 import { Router, RouterSymbol, createRouter } from './router'
 import { mixinGlobalComputed, mixinGlobalComponents } from './mixin'
@@ -15,6 +22,19 @@ const NotFound = Theme.NotFound || (() => '404 Not Found')
 const VitePressApp = {
   name: 'VitePressApp',
   setup() {
+    const siteData = useSiteDataByRoute()
+
+    // change the language on the HTML element based on the current lang
+    onMounted(() => {
+      watch(
+        () => siteData.value.lang,
+        (lang: string) => {
+          document.documentElement.lang = lang
+        },
+        { immediate: true }
+      )
+    })
+
     if (import.meta.env.PROD) {
       // in prod mode, enable intersectionObserver based pre-fetch
       usePrefetch()
