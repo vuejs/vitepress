@@ -55,7 +55,7 @@ export async function renderPage(
 
   const stylesheetLink = cssChunk
     ? `<link rel="stylesheet" href="${siteData.base}${cssChunk.fileName}">`
-    : ``
+    : ''
 
   const html = `
 <!DOCTYPE html>
