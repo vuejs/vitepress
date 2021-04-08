@@ -1,3 +1,19 @@
+# [0.13.0](https://github.com/vuejs/vitepress/compare/v0.12.2...v0.13.0) (2021-04-08)
+
+### Bug Fixes
+
+- build fails without css chunks ([#209](https://github.com/vuejs/vitepress/issues/209)) ([#239](https://github.com/vuejs/vitepress/issues/239)) ([fa469fd](https://github.com/vuejs/vitepress/commit/fa469fd2750ac74417238de7547cd8e7cd939cb0))
+- **css:** reuse css vars ([#256](https://github.com/vuejs/vitepress/issues/256)) ([8d91524](https://github.com/vuejs/vitepress/commit/8d915245c6740874abad0e11f374703aa07afec3))
+- **docs:** global-component link ([#271](https://github.com/vuejs/vitepress/issues/271)) ([a43933c](https://github.com/vuejs/vitepress/commit/a43933c8ab4474c905005a337da3620621878a1c))
+- **locales:** use correct lang ([#276](https://github.com/vuejs/vitepress/issues/276)) ([f505db9](https://github.com/vuejs/vitepress/commit/f505db945af3ca4e4ce0a06b5aa2a4d32d47bac7))
+- **navbar:** use css var for background-color ([#264](https://github.com/vuejs/vitepress/issues/264)) ([f385bc4](https://github.com/vuejs/vitepress/commit/f385bc467306c075871485e6a9bfe773fc9054a1))
+- badge for language-javascript ([#245](https://github.com/vuejs/vitepress/issues/245)) ([f8b4aa5](https://github.com/vuejs/vitepress/commit/f8b4aa5baa7f2fba843427f2f4f3985222c3c78d))
+
+### Features
+
+- detect dead links ([74f5ada](https://github.com/vuejs/vitepress/commit/74f5adafcde8a597939fbb37422aa68187b6dad4))
+- import code snippet with region ([#237](https://github.com/vuejs/vitepress/issues/237)) ([#238](https://github.com/vuejs/vitepress/issues/238)) ([d1a62e1](https://github.com/vuejs/vitepress/commit/d1a62e1c6630b289777b78eea359acd49174148d))
+
 ## [0.12.2](https://github.com/vuejs/vitepress/compare/v0.12.1...v0.12.2) (2021-02-15)
 
 ### Bug Fixes
