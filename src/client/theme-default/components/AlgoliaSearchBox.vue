@@ -9,6 +9,9 @@ import { defineProps, getCurrentInstance, onMounted, watch } from 'vue'
 import docsearch from '@docsearch/js'
 import type { DefaultTheme } from '../config'
 import type { DocSearchHit } from '@docsearch/react/dist/esm/types'
+import { useSiteDataByRoute } from 'vitepress'
+
+const siteData = useSiteDataByRoute()
 
 const props = defineProps<{
   options: DefaultTheme.AlgoliaSearchOptions
@@ -58,7 +61,13 @@ function initialize(userOptions: any) {
     Object.assign({}, userOptions, {
       container: '#docsearch',
 
-      searchParameters: Object.assign({}, userOptions.searchParameters),
+      searchParameters: Object.assign({}, userOptions.searchParameters, {
+        // pass a custom lang facetFilter to allow multiple language search
+        // https://github.com/algolia/docsearch-configs/pull/3942
+        facetFilters: ['language:' + siteData.value.lang].concat(
+          userOptions.facetFilters || []
+        )
+      }),
 
       navigator: {
         navigate: ({ suggestionUrl }: { suggestionUrl: string }) => {
