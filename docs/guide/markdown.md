@@ -323,6 +323,70 @@ module.exports = {
   }
 </style>
 
+## Import Code Snippets
+
+You can import code snippets from existing files via following syntax:
+
+```md
+<<< @/filepath
+```
+
+It also supports [line highlighting](#line-highlighting-in-code-blocks):
+
+```md
+<<< @/filepath{highlightLines}
+```
+
+**Input**
+
+```md
+<<< @/snippets/snippet.js{2}
+```
+
+**Code file**
+
+<!--lint disable strong-marker-->
+
+<<< @/snippets/snippet.js
+
+<!--lint enable strong-marker-->
+
+**Output**
+
+<!--lint disable strong-marker-->
+
+<<< @/snippets/snippet.js{2}
+
+<!--lint enable strong-marker-->
+
+::: tip
+The value of `@` corresponds to `process.cwd()`.
+:::
+
+You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/codebasics#_folding) to only include the corresponding part of the code file. You can provide a custom region name after a `#` following the filepath (`snippet` by default):
+
+**Input**
+
+```md
+<<< @/snippets/snippet-with-region.js{1}
+```
+
+**Code file**
+
+<!--lint disable strong-marker-->
+
+<<< @/snippets/snippet-with-region.js
+
+<!--lint enable strong-marker-->
+
+**Output**
+
+<!--lint disable strong-marker-->
+
+<<< @/snippets/snippet-with-region.js#snippet{1}
+
+<!--lint enable strong-marker-->
+
 ## Advanced Configuration
 
 VitePress uses [markdown-it](https://github.com/markdown-it/markdown-it) as the Markdown renderer. A lot of the extensions above are implemented via custom plugins. You can further customize the `markdown-it` instance using the `markdown` option in `.vitepress/config.js`:
