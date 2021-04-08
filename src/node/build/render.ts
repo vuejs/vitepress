@@ -53,6 +53,10 @@ export async function renderPage(
     })
     .join('\n    ')
 
+  const stylesheetLink = cssChunk
+    ? `<link rel="stylesheet" href="${siteData.base}${cssChunk.fileName}">`
+    : ''
+
   const html = `
 <!DOCTYPE html>
 <html lang="${siteData.lang}">
@@ -65,7 +69,7 @@ export async function renderPage(
     <meta name="description" content="${
       pageData.description || siteData.description
     }">
-    <link rel="stylesheet" href="${siteData.base}${cssChunk.fileName}">
+    ${stylesheetLink}
     ${preloadLinks}
     ${renderHead(siteData.head)}
     ${renderHead(frontmatterHead && filterOutHeadDescription(frontmatterHead))}
