@@ -328,19 +328,19 @@ module.exports = {
 
 You can import code snippets from existing files via following syntax:
 
-``` md
+```md
 <<< @/filepath
 ```
 
 It also supports [line highlighting](#line-highlighting-in-code-blocks):
 
-``` md
+```md
 <<< @/filepath{highlightLines}
 ```
 
 **Input**
 
-``` md
+```md
 <<< @/snippets/snippet.js{2}
 ```
 
@@ -368,7 +368,7 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 
 **Input**
 
-``` md
+```md
 <<< @/snippets/snippet-with-region.js{1}
 ```
 
@@ -387,7 +387,6 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 <<< @/snippets/snippet-with-region.js#snippet{1}
 
 <!--lint enable strong-marker-->
-
 
 ## Advanced Configuration
 
