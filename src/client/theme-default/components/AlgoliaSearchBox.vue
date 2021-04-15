@@ -70,7 +70,7 @@ function initialize(userOptions: any) {
         // pass a custom lang facetFilter to allow multiple language search
         // https://github.com/algolia/docsearch-configs/pull/3942
         facetFilters: facetFilters.concat(
-          userOptions.facetFilters || []
+          (userOptions.searchParameters || {}).facetFilters || []
         )
       }),
 
