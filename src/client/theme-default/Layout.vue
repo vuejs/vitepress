@@ -3,7 +3,7 @@
     <NavBar v-if="showNavbar" @toggle="toggleSidebar">
       <template #search>
         <slot name="navbar-search">
-          <AlgoliaSearchBox v-if="theme.algolia" :options="theme.algolia" />
+          <AlgoliaSearchBox v-if="theme.algolia" :options="theme.algolia" :key="siteRouteData.lang" />
         </slot>
       </template>
     </NavBar>
