@@ -139,12 +139,12 @@ function initialize(userOptions: any) {
 @media (min-width: 720px) {
   .algolia-search-box {
     padding-left: 8px;
-    min-width: 176.3px; /* avoid layout shift */
   }
 }
 
 @media (min-width: 751px) {
   .algolia-search-box {
+    min-width: 176.3px; /* avoid layout shift */
     padding-left: 8px;
   }
 
