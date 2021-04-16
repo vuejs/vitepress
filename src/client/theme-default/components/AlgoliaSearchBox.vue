@@ -14,7 +14,7 @@ import { useSiteDataByRoute } from 'vitepress'
 const siteData = useSiteDataByRoute()
 
 const props = defineProps<{
-  options: DefaultTheme.AlgoliaSearchOptions,
+  options: DefaultTheme.AlgoliaSearchOptions
   multilang?: boolean
 }>()
 
@@ -60,7 +60,9 @@ function update(options: any) {
 function initialize(userOptions: any) {
   // if the user has multiple locales, the search results should be filtered
   // based on the language
-  const facetFilters = props.multilang ? ['language:' + siteData.value.lang] : []
+  const facetFilters = props.multilang
+    ? ['language:' + siteData.value.lang]
+    : []
 
   docsearch(
     Object.assign({}, userOptions, {
