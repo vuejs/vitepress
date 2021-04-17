@@ -145,7 +145,6 @@ function initialize(userOptions: any) {
 @media (min-width: 751px) {
   .algolia-search-box {
     min-width: 176.3px; /* avoid layout shift */
-    padding-left: 8px;
   }
 
   .algolia-search-box .DocSearch-Button-Placeholder {
