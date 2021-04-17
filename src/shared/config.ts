@@ -47,6 +47,7 @@ export function resolveSiteDataByRoute(siteData: SiteData, route: string) {
       // clean the locales to reduce the bundle size
       locales: {}
     },
+    lang: localeThemeConfig.lang || siteData.lang,
     locales: {}
   }
 }
