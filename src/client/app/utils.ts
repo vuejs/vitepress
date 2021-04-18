@@ -6,6 +6,7 @@ export { inBrowser }
  * Join two paths by resolving the slash collision.
  */
 export function joinPath(base: string, path: string): string {
+  if (path.charAt(0) !== '/') return path
   return `${base}${path}`.replace(/\/+/g, '/')
 }
 
