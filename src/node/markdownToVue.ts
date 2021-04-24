@@ -56,7 +56,10 @@ export function createMarkdownToVueRenderFn(
             ? url.slice(1)
             : path.relative(root, path.resolve(dir, url))
         )
-        if (!pages.includes(resolved)) {
+        if (
+          !pages.includes(resolved) &&
+          !fs.existsSync(path.resolve(dir, 'public', `${resolved}.html`))
+        ) {
           console.warn(
             chalk.yellow(
               `\n(!) Found dead link ${chalk.cyan(
