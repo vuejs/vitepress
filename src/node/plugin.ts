@@ -1,5 +1,5 @@
 import path from 'path'
-import { Plugin } from 'vite'
+import { Plugin, ResolvedConfig } from 'vite'
 import { SiteConfig, resolveSiteData } from './config'
 import { createMarkdownToVueRenderFn } from './markdownToVue'
 import { APP_PATH, SITE_DATA_REQUEST_PATH } from './alias'
@@ -37,9 +37,14 @@ export function createVitePressPlugin(
 
   let siteData = site
   let hasDeadLinks = false
+  let config: ResolvedConfig
 
   const vitePressPlugin: Plugin = {
     name: 'vitepress',
+
+    configResolved(resolvedConfig) {
+      config = resolvedConfig
+    },
 
     config() {
       return {
@@ -72,7 +77,7 @@ export function createVitePressPlugin(
     transform(code, id) {
       if (id.endsWith('.md')) {
         // transform .md files into vueSrc so plugin-vue can handle it
-        const { vueSrc, deadLinks } = markdownToVue(code, id)
+        const { vueSrc, deadLinks } = markdownToVue(code, id, config.publicDir)
         if (deadLinks.length) {
           hasDeadLinks = true
         }
@@ -176,7 +181,11 @@ export function createVitePressPlugin(
       // hot reload .md files as .vue files
       if (file.endsWith('.md')) {
         const content = await read()
-        const { pageData, vueSrc } = markdownToVue(content, file)
+        const { pageData, vueSrc } = markdownToVue(
+          content,
+          file,
+          config.publicDir
+        )
 
         // notify the client to update page data
         server.ws.send({

@@ -25,7 +25,11 @@ export function createMarkdownToVueRenderFn(
   const md = createMarkdownRenderer(root, options)
   pages = pages.map((p) => slash(p.replace(/\.md$/, '')))
 
-  return (src: string, file: string): MarkdownCompileResult => {
+  return (
+    src: string,
+    file: string,
+    publicDir: string
+  ): MarkdownCompileResult => {
     const relativePath = slash(path.relative(root, file))
 
     const cached = cache.get(src)
@@ -58,7 +62,7 @@ export function createMarkdownToVueRenderFn(
         )
         if (
           !pages.includes(resolved) &&
-          !fs.existsSync(path.resolve(dir, 'public', `${resolved}.html`))
+          !fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`))
         ) {
           console.warn(
             chalk.yellow(
