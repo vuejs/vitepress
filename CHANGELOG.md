@@ -1,3 +1,9 @@
+## [0.13.2](https://github.com/vuejs/vitepress/compare/v0.13.1...v0.13.2) (2021-04-26)
+
+### Bug Fixes
+
+- **search:** silence warning for prop ([0716ffa](https://github.com/vuejs/vitepress/commit/0716ffade743c65c240d616329c1a6bc3e83c4bd))
+
 ## [0.13.1](https://github.com/vuejs/vitepress/compare/v0.13.0...v0.13.1) (2021-04-26)
 
 ### Bug Fixes
