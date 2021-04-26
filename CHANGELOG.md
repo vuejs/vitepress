@@ -1,3 +1,9 @@
+## [0.13.1](https://github.com/vuejs/vitepress/compare/v0.13.0...v0.13.1) (2021-04-26)
+
+### Bug Fixes
+
+- **locales:** use correct lang ([#283](https://github.com/vuejs/vitepress/issues/283)) ([de89c1e](https://github.com/vuejs/vitepress/commit/de89c1e5ebf09557532eec93269b7143f454f9d1))
+
 # [0.13.0](https://github.com/vuejs/vitepress/compare/v0.12.2...v0.13.0) (2021-04-08)
 
 ### Bug Fixes
