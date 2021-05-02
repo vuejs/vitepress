@@ -8,19 +8,19 @@ VitePress is [VuePress](https://vuepress.vuejs.org/)' little brother, built on t
 
 ## Motivation
 
-We love VuePress, but being built on top of Webpack, the time it takes to spin up the dev server for a simple doc site with a few pages is just becoming unbearable. Even HMR updates can take up to seconds to reflect in the browser!
+We love VuePress v1, but being built on top of Webpack, the time it takes to spin up the dev server for a simple doc site with a few pages is just becoming unbearable. Even HMR updates can take up to seconds to reflect in the browser!
 
 As a reference, the [Composition API RFC repo](https://github.com/vuejs/composition-api-rfc) is just two pages, but it takes 4 seconds to spin up the server and almost 2 seconds for any edit to reflect in the browser.
 
-Fundamentally, this is because VuePress is a Webpack app under the hood. Even with just two pages, it's a full on Webpack project (including all the theme source files) being compiled. It gets even worse when the project has many pages – every page must first be fully compiled before the server can even display anything!
+Fundamentally, this is because VuePress v1 is a Webpack app under the hood. Even with just two pages, it's a full on Webpack project (including all the theme source files) being compiled. It gets even worse when the project has many pages – every page must first be fully compiled before the server can even display anything!
 
-Incidentally, Vite solves these problems really well: nearly instant server start, an on-demand compilation that only compiles the page being served, and lightning-fast HMR. Plus, there are a few additional design issues I have noted in VuePress over time but never had the time to fix due to the amount of refactoring it would require.
+Incidentally, Vite solves these problems really well: nearly instant server start, an on-demand compilation that only compiles the page being served, and lightning-fast HMR. Plus, there are a few additional design issues I have noted in VuePress v1 over time but never had the time to fix due to the amount of refactoring it would require.
 
 Now, with Vite and Vue 3, it is time to rethink what a "Vue-powered static site generator" can really be.
 
-## Improvements Over VuePress
+## Improvements Over VuePress v1
 
-There're couple of things that are improved from VuePress....
+There're couple of things that are improved from VuePress v1....
 
 ### It Uses Vue 3
 
@@ -49,4 +49,6 @@ VitePress is future oriented: VitePress only targets browsers that support nativ
 
 ## Will This Become The Next VuePress in The Future?
 
-Probably not. It's currently under a different name so that we don't over commit to the compatibility with the current VuePress ecosystem (mostly themes and plugins). We'll see how close we can get without compromising the design goals listed above. But the overall idea is that VitePress will have a drastically more minimal theming API (preferring JavaScript APIs instead of file layout conventions) and likely no plugins (all customization is done in themes).
+We already have [vuepress-next](https://github.com/vuepress/vuepress-next), which would be the next major version of VuePress. It also makes lots of improvements over VuePress v1, and also supports Vite now.
+
+VitePress is not compatible with the current VuePress ecosystem (mostly themes and plugins). The overall idea is that VitePress will have a drastically more minimal theming API (preferring JavaScript APIs instead of file layout conventions) and likely no plugins (all customization is done in themes).
