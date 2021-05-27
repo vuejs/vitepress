@@ -1,10 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "/@types/*": ["../../types/*"]
-    }
+    "baseUrl": "."
   },
   "include": [".", "../../types/shared.d.ts"]
 }
