@@ -6,6 +6,7 @@
     "strict": true,
     "declaration": true,
     "noUnusedLocals": true,
+    "skipLibCheck": true,
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
     "types": ["node", "jest"],

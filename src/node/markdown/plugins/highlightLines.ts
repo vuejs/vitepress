@@ -24,7 +24,7 @@ export const highlightLinePlugin = (md: MarkdownIt) => {
       .map((v) => v.split('-').map((v) => parseInt(v, 10)))
 
     const code = options.highlight
-      ? options.highlight(token.content, langName)
+      ? options.highlight(token.content, langName, '')
       : token.content
 
     const rawCode = code.replace(wrapperRE, '')
