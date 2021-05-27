@@ -1,4 +1,3 @@
-import 'vite/dynamic-import-polyfill'
 import {
   App,
   createApp as createClientApp,
