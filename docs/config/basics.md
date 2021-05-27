@@ -33,7 +33,7 @@ module.exports = {
 - Type: `string`
 - Default: `VitePress`
 
-Title for the site. This will be the prefix for all page titles, and displayed in the navbar.
+Title for the site. This will be the suffix for all page titles, and displayed in the navbar.
 
 ```js
 module.exports = {
