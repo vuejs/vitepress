@@ -1,3 +1,18 @@
+# [0.14.0](https://github.com/vuejs/vitepress/compare/v0.13.2...v0.14.0) (2021-05-27)
+
+### Bug Fixes
+
+- chinese filenames can't build ([#217](https://github.com/vuejs/vitepress/issues/217)) ([#262](https://github.com/vuejs/vitepress/issues/262)) ([b940397](https://github.com/vuejs/vitepress/commit/b940397cd0e5135e7433bac6fc99da8553915053))
+- **theme:** set search box min-width for >=751px ([#286](https://github.com/vuejs/vitepress/issues/286)) ([9589a5d](https://github.com/vuejs/vitepress/commit/9589a5d0e6458da07054a84d2df6ef99a5ad1dbd))
+- detect public folder for dead link ([#290](https://github.com/vuejs/vitepress/issues/290)) ([3aa185f](https://github.com/vuejs/vitepress/commit/3aa185fa9f9dd49e32cfd60f96a30da8616e419e))
+- remove unnecessary 'vite/dynamic-import-polyfill' ([6b4a4aa](https://github.com/vuejs/vitepress/commit/6b4a4aa7a6cd2f2e044a5cc54c5bf72a50f9df67))
+
+### Features
+
+- Vite version bumped to `^2.3.4`
+- exclude option ([#281](https://github.com/vuejs/vitepress/issues/281)) ([71a5e1c](https://github.com/vuejs/vitepress/commit/71a5e1c2a2b552ced8a994dc60201c4be89b4ac9))
+- Render titles for social sharing and improve home page sharing ([#263](https://github.com/vuejs/vitepress/issues/263)) ([e651f97](https://github.com/vuejs/vitepress/commit/e651f977d6b9f50fef25f6d736f8d4880c997305))
+
 ## [0.13.2](https://github.com/vuejs/vitepress/compare/v0.13.1...v0.13.2) (2021-04-26)
 
 ### Bug Fixes
