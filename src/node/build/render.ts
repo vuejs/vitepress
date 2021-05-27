@@ -38,7 +38,6 @@ export async function renderPage(
     pageServerJsFileName
   ))
   const pageData = JSON.parse(__pageData)
-  const frontmatterHead = pageData.frontmatter.head
 
   const preloadLinks = [
     // resolve imports for index.js + page.md.js and inject script tags for
@@ -57,22 +56,30 @@ export async function renderPage(
     ? `<link rel="stylesheet" href="${siteData.base}${cssChunk.fileName}">`
     : ''
 
+  const title: string =
+    pageData.title && pageData.title !== 'Home'
+      ? `${pageData.title} | ${siteData.title}`
+      : siteData.title
+
+  const head = addSocialTags(
+    title,
+    ...siteData.head,
+    ...filterOutHeadDescription(pageData.frontmatter.head)
+  )
+
   const html = `
 <!DOCTYPE html>
 <html lang="${siteData.lang}">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>
-      ${pageData.title ? pageData.title + ` | ` : ``}${siteData.title}
-    </title>
+    <title>${title}</title>
     <meta name="description" content="${
       pageData.description || siteData.description
     }">
     ${stylesheetLink}
     ${preloadLinks}
-    ${renderHead(siteData.head)}
-    ${renderHead(frontmatterHead && filterOutHeadDescription(frontmatterHead))}
+    ${renderHead(head)}
   </head>
   <body>
     <div id="app">${content}</div>
@@ -112,9 +119,6 @@ function resolvePageImports(
 }
 
 function renderHead(head: HeadConfig[]) {
-  if (!head || !head.length) {
-    return ''
-  }
   return head
     .map(([tag, attrs = {}, innerHTML = '']) => {
       const openTag = `<${tag}${renderAttrs(attrs)}>`
@@ -136,13 +140,27 @@ function renderAttrs(attrs: Record<string, string>): string {
 }
 
 function isMetaDescription(headConfig: HeadConfig) {
-  return (
-    headConfig[0] === 'meta' &&
-    headConfig[1] &&
-    headConfig[1].name === 'description'
-  )
+  const [type, attrs] = headConfig
+  return type === 'meta' && attrs?.name === 'description'
 }
 
-function filterOutHeadDescription(head: HeadConfig[]) {
-  return head.filter((h) => !isMetaDescription(h))
+function filterOutHeadDescription(head: HeadConfig[] | undefined) {
+  return head ? head.filter((h) => !isMetaDescription(h)) : []
+}
+
+function hasTag(head: HeadConfig[], tag: HeadConfig) {
+  const [tagType, tagAttrs] = tag
+  const [attr, value] = Object.entries(tagAttrs)[0] // First key
+  return head.some(([type, attrs]) => type === tagType && attrs[attr] === value)
+}
+
+function addSocialTags(title: string, ...head: HeadConfig[]) {
+  const tags: HeadConfig[] = [
+    ['meta', { name: 'twitter:title', content: title }],
+    ['meta', { property: 'og:title', content: title }]
+  ]
+  tags.filter((tagAttrs) => {
+    if (!hasTag(head, tagAttrs)) head.push(tagAttrs)
+  })
+  return head
 }
