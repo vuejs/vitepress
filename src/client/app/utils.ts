@@ -14,6 +14,7 @@ export function joinPath(base: string, path: string): string {
  */
 export function pathToFile(path: string): string {
   let pagePath = path.replace(/\.html$/, '')
+  pagePath = decodeURIComponent(pagePath)
   if (pagePath.endsWith('/')) {
     pagePath += 'index'
   }
