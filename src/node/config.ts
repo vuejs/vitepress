@@ -23,6 +23,7 @@ export interface UserConfig<ThemeConfig = any> {
   markdown?: MarkdownOptions
   customData?: any
   vueOptions?: VuePluginOptions
+  exclude?: string[]
 }
 
 export interface SiteConfig<ThemeConfig = any> {
@@ -57,7 +58,7 @@ export async function resolveConfig(
     root,
     site,
     themeDir,
-    pages: await globby(['**.md'], { cwd: root, ignore: ['node_modules'] }),
+    pages: await globby(['**.md'], { cwd: root, ignore: ['**/node_modules', ...userConfig.exclude || [] ] }),
     configPath: resolve(root, 'config.js'),
     outDir: resolve(root, 'dist'),
     tempDir: path.resolve(APP_PATH, 'temp'),
