@@ -67,7 +67,7 @@ In case you decide to move your project to VitePress, this is a list of differen
   - `algolia` is `search.algolia`
   - `searchPlaceholder` is `search.placeholder`
 
-# Default Theme
+## Default Theme
 
 - Missing
   - [`<code-group>` and `<code-block>`](https://vuepress.vuejs.org/theme/default-theme-config.html#code-groups-and-code-blocks)
