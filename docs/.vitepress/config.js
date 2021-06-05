@@ -32,6 +32,10 @@ module.exports = {
       {
         text: 'Release Notes',
         link: 'https://github.com/vuejs/vitepress/releases'
+      },
+      {
+        text: 'Translations',
+        items: [{ text: '中文', link: 'https://cn-vitepress.netlify.app/' }]
       }
     ],
 
