@@ -1,3 +1,9 @@
+## [0.14.1](https://github.com/vuejs/vitepress/compare/v0.14.0...v0.14.1) (2021-06-08)
+
+### Bug Fixes
+
+- functional templates with vue v3.1 ([#312](https://github.com/vuejs/vitepress/issues/312)) ([8988aad](https://github.com/vuejs/vitepress/commit/8988aadbcbd781a81df0a8d1a4a6964d324c58a3))
+
 # [0.14.0](https://github.com/vuejs/vitepress/compare/v0.13.2...v0.14.0) (2021-05-27)
 
 ### Bug Fixes
