@@ -10,15 +10,35 @@ This section will help you build a basic VitePress documentation site from groun
 
 - **Step. 2:** Initialize with your preferred package manager.
 
+  <CodeGroup>
+  <CodeBlock title="YARN" active>
   ```bash
   $ yarn init
   ```
+  </CodeBlock>
+  
+  <CodeBlock title="NPM">
+  ```bash
+  $ npm init
+  ```
+  </CodeBlock>
+  </CodeGroup>
 
 - **Step. 3:** Install VitePress locally.
 
+  <CodeGroup>
+  <CodeBlock title="YARN" active>
   ```bash
   $ yarn add --dev vitepress
   ```
+  </CodeBlock>
+
+  <CodeBlock title="NPM">
+  ```bash
+  $ npm install --dev vitepress
+  ```
+  </CodeBlock>
+  </CodeGroup>
 
 - **Step. 4:** Create your first document.
 
@@ -40,9 +60,19 @@ This section will help you build a basic VitePress documentation site from groun
 
 - **Step. 6:** Serve the documentation site in the local server.
 
+  <CodeGroup>
+  <CodeBlock title="YARN" active>
   ```bash
   $ yarn docs:dev
   ```
+  </CodeBlock>
+
+  <CodeBlock title="NPM">
+  ```bash
+  $ yarn run docs:dev
+  ```
+  </CodeBlock>
+  </CodeGroup>
 
   VitePress will start a hot-reloading development server at http://localhost:3000.
 

@@ -7,4 +7,5 @@
 dist
 node_modules
 TODOs.md
+.idea
 .vscode
