@@ -7,7 +7,6 @@
             v-if="theme.algolia"
             :options="theme.algolia"
             :multilang="!!theme.locales"
-            :key="siteRouteData.lang"
           />
         </slot>
       </template>
