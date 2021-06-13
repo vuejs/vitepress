@@ -1,9 +1,3 @@
-<template>
-  <div class="buy-sell-ads">
-    <div class="bsa-cpc" />
-  </div>
-</template>
-
 <script setup lang="ts">
 import { defineProps, onMounted } from 'vue'
 
@@ -59,6 +53,12 @@ function load() {
   }
 }
 </script>
+
+<template>
+  <div class="buy-sell-ads">
+    <div class="bsa-cpc" />
+  </div>
+</template>
 
 <style scoped>
 .buy-sell-ads {

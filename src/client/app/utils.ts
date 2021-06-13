@@ -1,3 +1,4 @@
+import { siteDataRef } from './data'
 import { inBrowser } from '/@shared/config'
 
 export { inBrowser }
@@ -7,6 +8,10 @@ export { inBrowser }
  */
 export function joinPath(base: string, path: string): string {
   return `${base}${path}`.replace(/\/+/g, '/')
+}
+
+export function withBase(path: string) {
+  return joinPath(siteDataRef.value.base, path)
 }
 
 /**

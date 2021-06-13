@@ -1,5 +1,5 @@
 import { FunctionalComponent, h, VNode } from 'vue'
-import { useRoute, useSiteData } from 'vitepress'
+import { useRoute, useData } from 'vitepress'
 import { Header } from '/@types/shared'
 import { DefaultTheme } from '../config'
 import { joinUrl, isActive } from '../utils'
@@ -12,7 +12,7 @@ export const SideBarLink: FunctionalComponent<{
   item: DefaultTheme.SideBarItem
 }> = (props) => {
   const route = useRoute()
-  const site = useSiteData()
+  const { site } = useData()
 
   const headers = route.data.headers
   const text = props.item.text

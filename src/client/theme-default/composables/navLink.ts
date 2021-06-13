@@ -1,12 +1,10 @@
 import { computed, Ref } from 'vue'
-import { useRoute } from 'vitepress'
-import type { DefaultTheme } from '../config'
+import { useRoute, withBase } from 'vitepress'
 import { isExternal as isExternalCheck } from '../utils'
-import { useUrl } from '../composables/url'
+import type { DefaultTheme } from '../config'
 
 export function useNavLink(item: Ref<DefaultTheme.NavItemWithLink>) {
   const route = useRoute()
-  const { withBase } = useUrl()
 
   const isExternal = isExternalCheck(item.value.link)
 

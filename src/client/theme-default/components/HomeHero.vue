@@ -1,58 +1,55 @@
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useData, withBase } from 'vitepress'
+import NavLink from './NavLink.vue'
+
+const { site, frontmatter } = useData()
+
+const showHero = computed(() => {
+  const {
+    heroImage,
+    heroText,
+    tagline,
+    actionLink,
+    actionText
+  } = frontmatter.value
+  return heroImage || heroText || tagline || (actionLink && actionText)
+})
+
+const heroText = computed(() => frontmatter.value.heroText || site.value.title)
+</script>
+
 <template>
   <header v-if="showHero" class="home-hero">
-    <figure v-if="$frontmatter.heroImage" class="figure">
+    <figure v-if="frontmatter.heroImage" class="figure">
       <img
         class="image"
-        :src="$withBase($frontmatter.heroImage)"
-        :alt="$frontmatter.heroAlt"
+        :src="withBase(frontmatter.heroImage)"
+        :alt="frontmatter.heroAlt"
       />
     </figure>
 
-    <h1 v-if="hasHeroText" id="main-title" class="title">{{ heroText }}</h1>
-    <p v-if="hasTagline" class="description">{{ tagline }}</p>
+    <h1 v-if="heroText" id="main-title" class="title">{{ heroText }}</h1>
+    <p v-if="frontmatter.tagline" class="description">
+      {{ frontmatter.tagline }}
+    </p>
 
     <NavLink
-      v-if="hasAction"
-      :item="{ link: data.actionLink, text: data.actionText }"
+      v-if="frontmatter.actionLink && frontmatter.actionText"
+      :item="{ link: frontmatter.actionLink, text: frontmatter.actionText }"
       class="action"
     />
 
     <NavLink
-      v-if="hasAltAction"
-      :item="{ link: data.altActionLink, text: data.altActionText }"
+      v-if="frontmatter.altActionLink && frontmatter.altActionText"
+      :item="{
+        link: frontmatter.altActionLink,
+        text: frontmatter.altActionText
+      }"
       class="action alt"
     />
   </header>
 </template>
-
-<script setup lang="ts">
-import { computed } from 'vue'
-import { useSiteDataByRoute, useFrontmatter } from 'vitepress'
-import NavLink from './NavLink.vue'
-
-const site = useSiteDataByRoute()
-const data = useFrontmatter()
-
-const showHero = computed(() => {
-  return (
-    data.value.heroImage ||
-    hasHeroText.value ||
-    hasTagline.value ||
-    hasAction.value
-  )
-})
-
-const hasHeroText = computed(() => data.value.heroText !== null)
-const heroText = computed(() => data.value.heroText || site.value.title)
-
-const hasTagline = computed(() => data.value.tagline !== null)
-const tagline = computed(() => data.value.tagline || site.value.description)
-
-const hasAction = computed(() => data.value.actionLink && data.value.actionText)
-const hasAltAction = computed(
-  () => data.value.altActionLink && data.value.altActionText
-)
-</script>
 
 <style scoped>
 .home-hero {

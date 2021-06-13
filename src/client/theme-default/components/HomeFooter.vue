@@ -1,7 +1,13 @@
+<script setup lang="ts">
+import { useData } from 'vitepress'
+
+const { frontmatter } = useData()
+</script>
+
 <template>
-  <footer v-if="$frontmatter.footer" class="footer">
+  <footer v-if="frontmatter.footer" class="footer">
     <div class="container">
-      <p class="text">{{ $frontmatter.footer }}</p>
+      <p class="text">{{ frontmatter.footer }}</p>
     </div>
   </footer>
 </template>

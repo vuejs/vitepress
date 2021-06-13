@@ -1,3 +1,8 @@
+<script setup lang="ts">
+import PageFooter from './PageFooter.vue'
+import NextAndPrevLinks from './NextAndPrevLinks.vue'
+</script>
+
 <template>
   <main class="page">
     <div class="container">
@@ -15,11 +20,6 @@
     </div>
   </main>
 </template>
-
-<script setup lang="ts">
-import PageFooter from './PageFooter.vue'
-import NextAndPrevLinks from './NextAndPrevLinks.vue'
-</script>
 
 <style scoped>
 .page {

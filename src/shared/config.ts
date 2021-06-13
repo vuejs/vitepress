@@ -28,7 +28,10 @@ function resolveLocales<T>(
 }
 
 // this merges the locales data to the main data by the route
-export function resolveSiteDataByRoute(siteData: SiteData, route: string) {
+export function resolveSiteDataByRoute(
+  siteData: SiteData,
+  route: string
+): SiteData {
   route = cleanRoute(siteData, route)
 
   const localeData = resolveLocales(siteData.locales || {}, route) || {}

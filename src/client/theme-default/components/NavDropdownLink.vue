@@ -1,18 +1,3 @@
-<template>
-  <div class="nav-dropdown-link" :class="{ open }">
-    <button class="button" :aria-label="item.ariaLabel" @click="toggle">
-      <span class="button-text">{{ item.text }}</span>
-      <span class="button-arrow" :class="open ? 'down' : 'right'" />
-    </button>
-
-    <ul class="dialog">
-      <li v-for="item in item.items" :key="item.text" class="dialog-item">
-        <NavDropdownLinkItem :item="item" />
-      </li>
-    </ul>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { defineProps, ref, watch } from 'vue'
 import { useRoute } from 'vitepress'
@@ -38,6 +23,21 @@ function toggle() {
   open.value = !open.value
 }
 </script>
+
+<template>
+  <div class="nav-dropdown-link" :class="{ open }">
+    <button class="button" :aria-label="item.ariaLabel" @click="toggle">
+      <span class="button-text">{{ item.text }}</span>
+      <span class="button-arrow" :class="open ? 'down' : 'right'" />
+    </button>
+
+    <ul class="dialog">
+      <li v-for="item in item.items" :key="item.text" class="dialog-item">
+        <NavDropdownLinkItem :item="item" />
+      </li>
+    </ul>
+  </div>
+</template>
 
 <style scoped>
 .nav-dropdown-link {

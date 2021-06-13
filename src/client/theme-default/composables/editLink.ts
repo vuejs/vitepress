@@ -1,25 +1,22 @@
 import { computed } from 'vue'
-import { useSiteDataByRoute, usePageData } from 'vitepress'
-import { endingSlashRE, isNullish, isExternal } from '../utils'
+import { useData } from 'vitepress'
+import { endingSlashRE, isExternal } from '../utils'
 
 const bitbucketRE = /bitbucket.org/
 
 export function useEditLink() {
-  const site = useSiteDataByRoute()
-  const page = usePageData()
+  const { page, theme, frontmatter } = useData()
 
   const url = computed(() => {
-    const showEditLink = isNullish(page.value.frontmatter.editLink)
-      ? site.value.themeConfig.editLinks
-      : page.value.frontmatter.editLink
-
     const {
       repo,
       docsDir = '',
       docsBranch = 'master',
-      docsRepo = repo
-    } = site.value.themeConfig
+      docsRepo = repo,
+      editLinks
+    } = theme.value
 
+    const showEditLink = frontmatter.value.editLink || editLinks
     const { relativePath } = page.value
 
     if (!showEditLink || !relativePath || !repo) {
@@ -30,7 +27,7 @@ export function useEditLink() {
   })
 
   const text = computed(() => {
-    return site.value.themeConfig.editLinkText || 'Edit this page'
+    return theme.value.editLinkText || 'Edit this page'
   })
 
   return {

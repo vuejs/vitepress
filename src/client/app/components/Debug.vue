@@ -1,16 +1,8 @@
-<template>
-  <div class="debug" :class="{ open }" ref="el" @click="open = !open">
-    <p class="title">Debug</p>
-
-    <pre class="block">$page {{ $page }}</pre>
-    <pre class="block">$siteByRoute {{ $siteByRoute }}</pre>
-    <pre class="block">$site {{ $site }}</pre>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+import { useData } from '../data'
 
+const data = useData()
 const el = ref<HTMLElement | null>(null)
 const open = ref(false)
 
@@ -20,6 +12,13 @@ watch(open, (value) => {
   }
 })
 </script>
+
+<template>
+  <div class="debug" :class="{ open }" ref="el" @click="open = !open">
+    <p class="title">Debug</p>
+    <pre class="block">{{ data }}</pre>
+  </div>
+</template>
 
 <style scoped>
 .debug {

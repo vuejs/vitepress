@@ -1,7 +1,3 @@
-<template>
-  <div class="carbon-ads" ref="el" />
-</template>
-
 <script setup lang="ts">
 import { defineProps, ref, onMounted } from 'vue'
 
@@ -19,6 +15,10 @@ onMounted(() => {
   el.value.appendChild(s)
 })
 </script>
+
+<template>
+  <div class="carbon-ads" ref="el" />
+</template>
 
 <style scoped>
 .carbon-ads {

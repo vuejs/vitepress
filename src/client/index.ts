@@ -8,14 +8,11 @@ export type { Router, Route } from './app/router'
 export type { Theme, EnhanceAppContext } from './app/theme'
 
 // composables
+export { useData } from './app/data'
 export { useRouter, useRoute } from './app/router'
-export { useSiteData } from './app/composables/siteData'
-export { useSiteDataByRoute } from './app/composables/siteDataByRoute'
-export { usePageData } from './app/composables/pageData'
-export { useFrontmatter } from './app/composables/frontmatter'
 
 // utilities
-export { inBrowser, joinPath } from './app/utils'
+export { inBrowser, joinPath, withBase } from './app/utils'
 
 // components
 export { Content } from './app/components/Content'

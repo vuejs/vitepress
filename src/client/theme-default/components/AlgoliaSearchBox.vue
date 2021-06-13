@@ -1,17 +1,10 @@
-<template>
-  <div class="algolia-search-box" id="docsearch" />
-</template>
-
 <script setup lang="ts">
 import '@docsearch/css'
-import { useRoute, useRouter } from 'vitepress'
-import { defineProps, getCurrentInstance, onMounted, watch } from 'vue'
 import docsearch from '@docsearch/js'
+import { useRoute, useRouter, useData } from 'vitepress'
+import { defineProps, getCurrentInstance, onMounted, watch } from 'vue'
 import type { DefaultTheme } from '../config'
 import type { DocSearchHit } from '@docsearch/react/dist/esm/types'
-import { useSiteDataByRoute } from 'vitepress'
-
-const siteData = useSiteDataByRoute()
 
 const props = defineProps<{
   options: DefaultTheme.AlgoliaSearchOptions
@@ -57,12 +50,12 @@ function update(options: any) {
   }
 }
 
+const { lang } = useData()
+
 function initialize(userOptions: any) {
   // if the user has multiple locales, the search results should be filtered
   // based on the language
-  const facetFilters = props.multilang
-    ? ['language:' + siteData.value.lang]
-    : []
+  const facetFilters = props.multilang ? ['language:' + lang.value] : []
 
   docsearch(
     Object.assign({}, userOptions, {
@@ -146,6 +139,10 @@ function initialize(userOptions: any) {
   )
 }
 </script>
+
+<template>
+  <div class="algolia-search-box" id="docsearch" />
+</template>
 
 <style>
 .algolia-search-box {
