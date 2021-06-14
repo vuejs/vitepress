@@ -38,6 +38,10 @@ export interface UserConfig<ThemeConfig = any> {
    * @deprecated use `srcExclude` instead
    */
   exclude?: string[]
+  /**
+   * @deprecated use `vue` instead
+   */
+  vueOptions?: VuePluginOptions
 }
 
 export interface SiteConfig<ThemeConfig = any> {
@@ -62,6 +66,20 @@ export async function resolveConfig(
   root: string = process.cwd()
 ): Promise<SiteConfig> {
   const userConfig = await resolveUserConfig(root)
+
+  if (userConfig.vueOptions) {
+    console.warn(
+      chalk.yellow(`[vitepress] "vueOptions" option has been renamed to "vue".`)
+    )
+  }
+  if (userConfig.exclude) {
+    console.warn(
+      chalk.yellow(
+        `[vitepress] "exclude" option has been renamed to "ssrExclude".`
+      )
+    )
+  }
+
   const site = await resolveSiteData(root, userConfig)
 
   const srcDir = path.resolve(root, userConfig.srcDir || '.')
@@ -79,10 +97,7 @@ export async function resolveConfig(
     themeDir,
     pages: await globby(['**.md'], {
       cwd: srcDir,
-      ignore: [
-        '**/node_modules',
-        ...(userConfig.srcExclude || userConfig.exclude || [])
-      ]
+      ignore: ['**/node_modules', ...(userConfig.srcExclude || [])]
     }),
     configPath: resolve(root, 'config.js'),
     outDir: resolve(root, 'dist'),
