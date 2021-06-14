@@ -47,7 +47,7 @@ export async function resolveConfig(
   root: string = process.cwd()
 ): Promise<SiteConfig> {
   const userConfig = await resolveUserConfig(root)
-  const site = await resolveSiteData(root)
+  const site = await resolveSiteData(root, userConfig)
 
   // resolve theme path
   const userThemeDir = resolve(root, 'theme')
@@ -90,9 +90,11 @@ export async function resolveUserConfig(root: string) {
   return userConfig
 }
 
-export async function resolveSiteData(root: string): Promise<SiteData> {
-  const userConfig = await resolveUserConfig(root)
-
+export async function resolveSiteData(
+  root: string,
+  userConfig?: UserConfig
+): Promise<SiteData> {
+  userConfig = userConfig || (await resolveUserConfig(root))
   return {
     lang: userConfig.lang || 'en-US',
     title: userConfig.title || 'VitePress',
