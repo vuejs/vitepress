@@ -6,7 +6,7 @@ const { site, theme, localePath } = useData()
 <template>
   <a
     class="nav-bar-title"
-    :href="withBase(localePath)"
+    :href="localePath"
     :aria-label="`${site.title}, back to home`"
   >
     <img

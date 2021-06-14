@@ -27,9 +27,9 @@ const route = useRoute()
 const { site, page, theme, frontmatter } = useData()
 
 // custom layout
-const isCustomLayout = computed(() => !!route.data.frontmatter.customLayout)
+const isCustomLayout = computed(() => !!frontmatter.value.customLayout)
 // home
-const enableHome = computed(() => !!route.data.frontmatter.home)
+const enableHome = computed(() => !!frontmatter.value.home)
 
 // navbar
 const showNavbar = computed(() => {

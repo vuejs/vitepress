@@ -1,4 +1,4 @@
-import { App, Ref, ComponentOptions } from 'vue'
+import { App, Ref, Component } from 'vue'
 import { Router } from './router'
 import { SiteData } from '../../../types/shared'
 
@@ -9,7 +9,7 @@ export interface EnhanceAppContext {
 }
 
 export interface Theme {
-  Layout: ComponentOptions
-  NotFound?: ComponentOptions
+  Layout: Component
+  NotFound?: Component
   enhanceApp?: (ctx: EnhanceAppContext) => void
 }

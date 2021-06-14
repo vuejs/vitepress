@@ -12,7 +12,7 @@ export { useData } from './app/data'
 export { useRouter, useRoute } from './app/router'
 
 // utilities
-export { inBrowser, joinPath, withBase } from './app/utils'
+export { inBrowser, withBase } from './app/utils'
 
 // components
 export { Content } from './app/components/Content'

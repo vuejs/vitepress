@@ -70,6 +70,13 @@ export function createApp() {
       : defineAsyncComponent(() => import('./components/Debug.vue'))
   )
 
+  // expose $frontmatter
+  Object.defineProperty(app.config.globalProperties, '$frontmatter', {
+    get() {
+      return data.frontmatter.value
+    }
+  })
+
   if (Theme.enhanceApp) {
     Theme.enhanceApp({
       app,

@@ -3,18 +3,19 @@ import { Route } from './router'
 import { PageData, SiteData } from '/@types/shared'
 import serializedSiteData from '@siteData'
 import { resolveSiteDataByRoute } from '../shared/config'
+import { withBase } from './utils'
 
 export const dataSymbol: InjectionKey<VitePressData> = Symbol()
 
 export interface VitePressData {
   site: Ref<SiteData>
-  theme: Ref<any>
   page: Ref<PageData>
-  frontmatter: Ref<any>
-  lang: Ref<string>
-  localePath: Ref<string>
+  theme: Ref<any>
+  frontmatter: Ref<PageData['frontmatter']>
   title: Ref<string>
   description: Ref<string>
+  lang: Ref<string>
+  localePath: Ref<string>
 }
 
 // site data is a singleton
@@ -48,7 +49,7 @@ export function initData(route: Route): VitePressData {
     localePath: computed(() => {
       const { locales, lang } = site.value
       const path = Object.keys(locales).find((lp) => locales[lp].lang === lang)
-      return (locales && path) || '/'
+      return withBase((locales && path) || '/')
     }),
     title: computed(() => {
       return route.data.title
