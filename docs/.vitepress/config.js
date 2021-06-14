@@ -61,9 +61,8 @@ function getGuideSidebar() {
       text: 'Advanced',
       children: [
         { text: 'Frontmatter', link: '/guide/frontmatter' },
-        { text: 'Global Computed', link: '/guide/global-computed' },
-        { text: 'Global Component', link: '/guide/global-component' },
-        { text: 'Customization', link: '/guide/customization' },
+        { text: 'Theming', link: '/guide/theming' },
+        { text: 'API Reference', link: '/guide/api' },
         {
           text: 'Differences from Vuepress',
           link: '/guide/differences-from-vuepress'

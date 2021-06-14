@@ -1,7 +1,11 @@
+---
+sidebarDepth: 1
+---
+
 # What is VitePress?
 
 ::: warning WARNING
-VitePress is early WIP! Currently the focus is on making Vite stable and feature complete first. It is not recommended to use this for anything serious yet.
+VitePress is currently in 0.x status. It is already suitable for out-of-the-box documentation use, but the config and theming API may still change between minor releases.
 :::
 
 VitePress is [VuePress](https://vuepress.vuejs.org/)' little brother, built on top of [Vite](https://github.com/vitejs/vite).
@@ -9,8 +13,6 @@ VitePress is [VuePress](https://vuepress.vuejs.org/)' little brother, built on t
 ## Motivation
 
 We love VuePress v1, but being built on top of Webpack, the time it takes to spin up the dev server for a simple doc site with a few pages is just becoming unbearable. Even HMR updates can take up to seconds to reflect in the browser!
-
-As a reference, the [Composition API RFC repo](https://github.com/vuejs/composition-api-rfc) is just two pages, but it takes 4 seconds to spin up the server and almost 2 seconds for any edit to reflect in the browser.
 
 Fundamentally, this is because VuePress v1 is a Webpack app under the hood. Even with just two pages, it's a full on Webpack project (including all the theme source files) being compiled. It gets even worse when the project has many pages – every page must first be fully compiled before the server can even display anything!
 
