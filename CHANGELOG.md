@@ -1,3 +1,42 @@
+# [0.15.0](https://github.com/vuejs/vitepress/compare/v0.14.1...v0.15.0) (2021-06-14)
+
+### Bug Fixes
+
+- fix frontmatter sidebarDepth for headers ([424a4ca](https://github.com/vuejs/vitepress/commit/424a4ca379f028e3542e2e9598cb5beacaf50067))
+- fix vue code block type indication ([76fa173](https://github.com/vuejs/vitepress/commit/76fa1733fff4e3aa4356df08272e4811db996dab))
+
+### Features
+
+- more efficient `useData()` method that exposes all data ([0661063](https://github.com/vuejs/vitepress/commit/0661063d29c0e1dce108cac608be0ff754d2d4c1))
+
+### BREAKING CHANGES
+
+- The following methods are removed.
+
+  - `useSiteData`
+  - `useSiteDataByRoute`
+  - `usePageData`
+  - `useFrontmatter`
+
+  Instead, use the new `useData()` method:
+
+  ```js
+  // before
+  import { useSiteDataByRoute, usePageData } from 'vitepress'
+  const site = useSiteDataByRoute()
+  const page = usePageData()
+  const theme = computed(() => site.value.themeConfig)
+
+  // after
+  import { useData } from 'vitepress'
+  const { site, page, theme } = useData()
+  ```
+
+  All destructured values are computed refs injected from app root
+  so they are created only once globally.
+
+- All global mixin properties (e.g. `$site`) except `$frontmatter` are removed. Always use `useData()` to retrieve VitePress data in Vue components.
+
 ## [0.14.1](https://github.com/vuejs/vitepress/compare/v0.14.0...v0.14.1) (2021-06-08)
 
 ### Bug Fixes
