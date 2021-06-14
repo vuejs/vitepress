@@ -8,8 +8,6 @@
     "lib": ["ESNext", "DOM"],
     "types": ["vite/client"],
     "paths": {
-      "/@shared/*": ["shared/*"],
-      "/@types/*": ["../../types/*"],
       "/@theme/*": ["theme-default/*"],
       "vitepress": ["index.ts"]
     }

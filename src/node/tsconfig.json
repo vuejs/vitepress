@@ -6,10 +6,7 @@
     "outDir": "../../dist/node",
     "module": "commonjs",
     "lib": ["ESNext", "DOM"],
-    "sourceMap": true,
-    "paths": {
-      "/@types/*": ["../../types/*"]
-    }
+    "sourceMap": true
   },
   "include": [".", "../../types/shared.d.ts"]
 }

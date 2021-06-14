@@ -1,6 +1,6 @@
 import { reactive, inject, markRaw, nextTick, readonly } from 'vue'
 import type { Component, InjectionKey } from 'vue'
-import { PageData } from '../../../types/shared'
+import { PageData } from '../shared'
 import { inBrowser } from './utils'
 
 export interface Route {

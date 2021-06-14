@@ -3,11 +3,11 @@ const chokidar = require('chokidar')
 
 function toClientAndNode(method, file) {
   if (method === 'copy') {
-    fs.copy(file, file.replace(/^src\//, 'src/node/'))
-    fs.copy(file, file.replace(/^src\//, 'src/client/'))
+    fs.copy(file, file.replace(/^src\/shared\//, 'src/node/'))
+    fs.copy(file, file.replace(/^src\/shared\//, 'src/client/'))
   } else if (method === 'remove') {
-    fs.remove(file.replace(/^src\//, 'src/node/'))
-    fs.remove(file.replace(/^src\//, 'src/client/'))
+    fs.remove(file.replace(/^src\/shared\//, 'src/node/'))
+    fs.remove(file.replace(/^src\/shared\//, 'src/client/'))
   }
 }
 

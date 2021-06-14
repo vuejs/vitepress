@@ -17,7 +17,6 @@
       "shared/*": ["src/shared/*"],
       "tests/*": ["__tests__/*"],
       "/@shared/*": ["src/client/shared/*"],
-      "/@types/*": ["types/*"],
       "vitepress": ["src/client/index.ts"]
     }
   },

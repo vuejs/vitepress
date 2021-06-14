@@ -1,5 +1,5 @@
 import { watchEffect, Ref } from 'vue'
-import { HeadConfig, SiteData } from '../../../../types/shared'
+import { HeadConfig, SiteData } from '../../shared'
 import { Route } from '../router'
 
 export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {

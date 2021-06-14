@@ -1,5 +1,5 @@
 import { siteDataRef } from './data'
-import { inBrowser } from '/@shared/config'
+import { inBrowser } from '../shared'
 
 export { inBrowser }
 

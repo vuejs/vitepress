@@ -1,7 +1,7 @@
 import path from 'path'
 import fs from 'fs-extra'
 import { SiteConfig, resolveSiteDataByRoute } from '../config'
-import { HeadConfig } from '../../../types/shared'
+import { HeadConfig } from '../shared'
 import { normalizePath } from 'vite'
 import { RollupOutput, OutputChunk, OutputAsset } from 'rollup'
 

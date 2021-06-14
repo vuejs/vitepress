@@ -4,7 +4,7 @@ import matter from 'gray-matter'
 import LRUCache from 'lru-cache'
 import { createMarkdownRenderer, MarkdownOptions } from './markdown/markdown'
 import { deeplyParseHeader } from './utils/parseHeader'
-import { PageData, HeadConfig } from '../../types/shared'
+import { PageData, HeadConfig } from './shared'
 import { slash } from './utils/slash'
 import chalk from 'chalk'
 

@@ -65,6 +65,7 @@
   "dependencies": {
     "@docsearch/css": "^1.0.0-alpha.28",
     "@docsearch/js": "^1.0.0-alpha.28",
+    "@types/markdown-it": "^12.0.1",
     "@vitejs/plugin-vue": "^1.2.3",
     "@vue/compiler-sfc": "^3.1.1",
     "@vue/server-renderer": "^3.1.1",
@@ -97,7 +98,6 @@
     "@types/koa": "^2.13.1",
     "@types/koa-static": "^4.0.1",
     "@types/lru-cache": "^5.1.0",
-    "@types/markdown-it": "^12.0.1",
     "@types/node": "^15.6.1",
     "@types/postcss-load-config": "^3.0.1",
     "chokidar": "^3.5.1",

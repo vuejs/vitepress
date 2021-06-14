@@ -1,8 +1,7 @@
 import { InjectionKey, Ref, ref, readonly, computed, inject } from 'vue'
 import { Route } from './router'
-import { PageData, SiteData } from '/@types/shared'
 import serializedSiteData from '@siteData'
-import { resolveSiteDataByRoute } from '../shared/config'
+import { resolveSiteDataByRoute, PageData, SiteData } from '../shared'
 import { withBase } from './utils'
 
 export const dataSymbol: InjectionKey<VitePressData> = Symbol()

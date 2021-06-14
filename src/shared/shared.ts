@@ -1,4 +1,12 @@
-import { SiteData } from '/@types/shared'
+import { SiteData } from '../../types/shared'
+
+export type {
+  SiteData,
+  PageData,
+  HeadConfig,
+  LocaleConfig,
+  Header
+} from '../../types/shared'
 
 export const inBrowser = typeof window !== 'undefined'
 
@@ -14,7 +22,7 @@ function findMatchRoot(route: string, roots: string[]) {
   })
 
   for (const r of roots) {
-    if (route.startsWith(r)) return r
+    if (route.startsWith(r)) return
   }
   return undefined
 }

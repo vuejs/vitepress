@@ -4,10 +4,11 @@ import chalk from 'chalk'
 import globby from 'globby'
 import { AliasOptions } from 'vite'
 import { Options as VuePluginOptions } from '@vitejs/plugin-vue'
-import { SiteData, HeadConfig, LocaleConfig } from '../../types/shared'
-export { resolveSiteDataByRoute } from './shared/config'
+import { SiteData, HeadConfig, LocaleConfig } from './shared'
 import { resolveAliases, APP_PATH, DEFAULT_THEME_PATH } from './alias'
 import { MarkdownOptions } from './markdown/markdown'
+
+export { resolveSiteDataByRoute } from './shared'
 
 const debug = require('debug')('vitepress:config')
 
@@ -58,7 +59,10 @@ export async function resolveConfig(
     root,
     site,
     themeDir,
-    pages: await globby(['**.md'], { cwd: root, ignore: ['**/node_modules', ...userConfig.exclude || [] ] }),
+    pages: await globby(['**.md'], {
+      cwd: root,
+      ignore: ['**/node_modules', ...(userConfig.exclude || [])]
+    }),
     configPath: resolve(root, 'config.js'),
     outDir: resolve(root, 'dist'),
     tempDir: path.resolve(APP_PATH, 'temp'),
