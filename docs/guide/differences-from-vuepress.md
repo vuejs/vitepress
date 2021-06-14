@@ -1,3 +1,6 @@
+---
+sidebarDepth: 2
+---
 # Differences from VuePress
 
 VitePress and VuePress have different [design goals](../index.md). Both projects share similar config naming conventions. VitePress aims to have the bare minimum features needed for authoring docs. Other features are pushed to Themes. On the other hand, VuePress has more features out-of-the-box or enabled by its ecosystem of plugins.

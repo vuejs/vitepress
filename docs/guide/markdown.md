@@ -1,3 +1,7 @@
+---
+sidebarDepth: 3
+---
+
 # Markdown Extensions
 
 ## Header Anchors

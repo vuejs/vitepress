@@ -1,3 +1,7 @@
+---
+sidebarDepth: 3
+---
+
 # Deploying
 
 The following guides are based on some shared assumptions:

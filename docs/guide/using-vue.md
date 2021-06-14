@@ -1,3 +1,7 @@
+---
+sidebarDepth: 3
+---
+
 # Using Vue in Markdown
 
 In VitePress, each markdown file is compiled into HTML and then processed as a Vue Single-File Component. This means you can use any Vue features inside the markdown, including dynamic templating, using Vue components, or arbitrary in-page Vue component logic by adding a `<script>` tag.
