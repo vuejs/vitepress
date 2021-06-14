@@ -19,10 +19,11 @@ interface MarkdownCompileResult {
 
 export function createMarkdownToVueRenderFn(
   root: string,
+  srcDir: string,
   options: MarkdownOptions = {},
   pages: string[]
 ) {
-  const md = createMarkdownRenderer(root, options)
+  const md = createMarkdownRenderer(srcDir, options)
   pages = pages.map((p) => slash(p.replace(/\.md$/, '')))
 
   return (
@@ -30,7 +31,7 @@ export function createMarkdownToVueRenderFn(
     file: string,
     publicDir: string
   ): MarkdownCompileResult => {
-    const relativePath = slash(path.relative(root, file))
+    const relativePath = slash(path.relative(srcDir, file))
 
     const cached = cache.get(src)
     if (cached) {
@@ -58,7 +59,7 @@ export function createMarkdownToVueRenderFn(
         const resolved = slash(
           url.startsWith('/')
             ? url.slice(1)
-            : path.relative(root, path.resolve(dir, url))
+            : path.relative(srcDir, path.resolve(dir, url))
         )
         if (
           !pages.includes(resolved) &&

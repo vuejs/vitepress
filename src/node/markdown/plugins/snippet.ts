@@ -78,7 +78,7 @@ function findRegion(lines: Array<string>, regionName: string) {
   return null
 }
 
-export const snippetPlugin = (md: MarkdownIt, root: string) => {
+export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
   const parser: RuleBlock = (state, startLine, endLine, silent) => {
     const CH = '<'.charCodeAt(0)
     const pos = state.bMarks[startLine] + state.tShift[startLine]
@@ -107,12 +107,13 @@ export const snippetPlugin = (md: MarkdownIt, root: string) => {
      *
      * captures: ['/path/to/file.extension', 'extension', '#region', '{meta}']
      */
-    const rawPathRegexp = /^(.+(?:\.([a-z]+)))(?:(#[\w-]+))?(?: ?({\d+(?:[,-]\d+)*}))?$/
+    const rawPathRegexp =
+      /^(.+(?:\.([a-z]+)))(?:(#[\w-]+))?(?: ?({\d+(?:[,-]\d+)*}))?$/
 
     const rawPath = state.src
       .slice(start, end)
       .trim()
-      .replace(/^@/, root)
+      .replace(/^@/, srcDir)
       .trim()
     const [filename = '', extension = '', region = '', meta = ''] = (
       rawPathRegexp.exec(rawPath) || []

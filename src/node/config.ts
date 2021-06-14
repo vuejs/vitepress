@@ -30,11 +30,19 @@ export interface UserConfig<ThemeConfig = any> {
    */
   vite?: ViteConfig
   customData?: any
+
+  srcDir?: string
+  srcExclude?: string[]
+
+  /**
+   * @deprecated use `srcExclude` instead
+   */
   exclude?: string[]
 }
 
 export interface SiteConfig<ThemeConfig = any> {
   root: string
+  srcDir: string
   site: SiteData<ThemeConfig>
   configPath: string
   themeDir: string
@@ -56,6 +64,8 @@ export async function resolveConfig(
   const userConfig = await resolveUserConfig(root)
   const site = await resolveSiteData(root, userConfig)
 
+  const srcDir = path.resolve(root, userConfig.srcDir || '.')
+
   // resolve theme path
   const userThemeDir = resolve(root, 'theme')
   const themeDir = (await fs.pathExists(userThemeDir))
@@ -64,11 +74,15 @@ export async function resolveConfig(
 
   const config: SiteConfig = {
     root,
+    srcDir,
     site,
     themeDir,
     pages: await globby(['**.md'], {
-      cwd: root,
-      ignore: ['**/node_modules', ...(userConfig.exclude || [])]
+      cwd: srcDir,
+      ignore: [
+        '**/node_modules',
+        ...(userConfig.srcExclude || userConfig.exclude || [])
+      ]
     }),
     configPath: resolve(root, 'config.js'),
     outDir: resolve(root, 'dist'),

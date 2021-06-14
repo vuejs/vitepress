@@ -26,6 +26,7 @@ const isPageChunk = (
 export function createVitePressPlugin(
   root: string,
   {
+    srcDir,
     configPath,
     alias,
     markdown,
@@ -37,7 +38,12 @@ export function createVitePressPlugin(
   ssr = false,
   pageToHashMap?: Record<string, string>
 ): Plugin[] {
-  const markdownToVue = createMarkdownToVueRenderFn(root, markdown, pages)
+  const markdownToVue = createMarkdownToVueRenderFn(
+    root,
+    srcDir,
+    markdown,
+    pages
+  )
 
   const vuePlugin = createVuePlugin({
     include: [/\.vue$/, /\.md$/],
@@ -204,7 +210,7 @@ export function createVitePressPlugin(
           type: 'custom',
           event: 'vitepress:pageData',
           data: {
-            path: `/${slash(path.relative(root, file))}`,
+            path: `/${slash(path.relative(srcDir, file))}`,
             pageData
           }
         })

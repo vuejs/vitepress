@@ -15,7 +15,7 @@ export async function bundle(
   config: SiteConfig,
   options: BuildOptions
 ): Promise<[RollupOutput, RollupOutput, Record<string, string>]> {
-  const root = config.root
+  const { root, srcDir } = config
   const pageToHashMap = Object.create(null)
 
   // define custom rollup input
@@ -28,14 +28,14 @@ export async function bundle(
   config.pages.forEach((file) => {
     // page filename conversion
     // foo/bar.md -> foo_bar.md
-    input[slash(file).replace(/\//g, '_')] = path.resolve(root, file)
+    input[slash(file).replace(/\//g, '_')] = path.resolve(srcDir, file)
   })
 
   // resolve options to pass to vite
   const { rollupOptions } = options
 
   const resolveViteConfig = (ssr: boolean): ViteUserConfig => ({
-    root,
+    root: srcDir,
     base: config.site.base,
     logLevel: 'warn',
     plugins: createVitePressPlugin(root, config, ssr, pageToHashMap),
