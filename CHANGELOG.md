@@ -1,3 +1,21 @@
+## [0.15.1](https://github.com/vuejs/vitepress/compare/v0.15.0...v0.15.1) (2021-06-14)
+
+### Features
+
+- support passing vite config in vitepress config file via `vite` option ([3737b10](https://github.com/vuejs/vitepress/commit/3737b1055dc1145dc70b10994564c6d83affd15d))
+- support srcDir config option ([aaf4910](https://github.com/vuejs/vitepress/commit/aaf4910d938f4449fdab576ffd0ae853b5aace24))
+
+### Performance Improvements
+
+- avoid double resolve user config on startup ([5733fc6](https://github.com/vuejs/vitepress/commit/5733fc625ea33ab1b07ddfd4f8412e15473d8cca))
+
+### BREAKING CHANGES
+
+- Some config options have changed.
+
+  - `vueOptions` renamed to `vue`
+  - `alias` option has been removed. Use `vite.resovle.alias` instead.
+
 # [0.15.0](https://github.com/vuejs/vitepress/compare/v0.14.1...v0.15.0) (2021-06-14)
 
 ### Bug Fixes
