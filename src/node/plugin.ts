@@ -1,5 +1,5 @@
 import path from 'path'
-import { Plugin, ResolvedConfig } from 'vite'
+import { mergeConfig, Plugin, ResolvedConfig } from 'vite'
 import { SiteConfig, resolveSiteData } from './config'
 import { createMarkdownToVueRenderFn } from './markdownToVue'
 import { APP_PATH, SITE_DATA_REQUEST_PATH } from './alias'
@@ -8,7 +8,8 @@ import { slash } from './utils/slash'
 import { OutputAsset, OutputChunk } from 'rollup'
 
 const hashRE = /\.(\w+)\.js$/
-const staticInjectMarkerRE = /\b(const _hoisted_\d+ = \/\*#__PURE__\*\/createStaticVNode)\("(.*)", (\d+)\)/g
+const staticInjectMarkerRE =
+  /\b(const _hoisted_\d+ = \/\*#__PURE__\*\/createStaticVNode)\("(.*)", (\d+)\)/g
 const staticStripRE = /__VP_STATIC_START__.*?__VP_STATIC_END__/g
 const staticRestoreRE = /__VP_STATIC_(START|END)__/g
 
@@ -24,7 +25,15 @@ const isPageChunk = (
 
 export function createVitePressPlugin(
   root: string,
-  { configPath, alias, markdown, site, vueOptions, pages }: SiteConfig,
+  {
+    configPath,
+    alias,
+    markdown,
+    site,
+    vue: userVuePluginOptions,
+    vite: userViteConfig,
+    pages
+  }: SiteConfig,
   ssr = false,
   pageToHashMap?: Record<string, string>
 ): Plugin[] {
@@ -32,7 +41,7 @@ export function createVitePressPlugin(
 
   const vuePlugin = createVuePlugin({
     include: [/\.vue$/, /\.md$/],
-    ...vueOptions
+    ...userVuePluginOptions
   })
 
   let siteData = site
@@ -47,7 +56,7 @@ export function createVitePressPlugin(
     },
 
     config() {
-      return {
+      const baseConfig = {
         resolve: {
           alias
         },
@@ -60,6 +69,9 @@ export function createVitePressPlugin(
           exclude: ['@docsearch/js']
         }
       }
+      return userViteConfig
+        ? mergeConfig(userViteConfig, baseConfig)
+        : baseConfig
     },
 
     resolveId(id) {

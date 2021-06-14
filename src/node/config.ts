@@ -2,7 +2,7 @@ import path from 'path'
 import fs from 'fs-extra'
 import chalk from 'chalk'
 import globby from 'globby'
-import { AliasOptions } from 'vite'
+import { AliasOptions, UserConfig as ViteConfig } from 'vite'
 import { Options as VuePluginOptions } from '@vitejs/plugin-vue'
 import { SiteData, HeadConfig, LocaleConfig } from './shared'
 import { resolveAliases, APP_PATH, DEFAULT_THEME_PATH } from './alias'
@@ -20,10 +20,16 @@ export interface UserConfig<ThemeConfig = any> {
   head?: HeadConfig[]
   themeConfig?: ThemeConfig
   locales?: Record<string, LocaleConfig>
-  alias?: Record<string, string>
   markdown?: MarkdownOptions
+  /**
+   * Opitons to pass on to @vitejs/plugin-vue
+   */
+  vue?: VuePluginOptions
+  /**
+   * Vite config
+   */
+  vite?: ViteConfig
   customData?: any
-  vueOptions?: VuePluginOptions
   exclude?: string[]
 }
 
@@ -36,8 +42,9 @@ export interface SiteConfig<ThemeConfig = any> {
   tempDir: string
   alias: AliasOptions
   pages: string[]
-  markdown?: MarkdownOptions
-  vueOptions?: VuePluginOptions
+  markdown: MarkdownOptions | undefined
+  vue: VuePluginOptions | undefined
+  vite: ViteConfig | undefined
 }
 
 const resolve = (root: string, file: string) =>
@@ -68,7 +75,8 @@ export async function resolveConfig(
     tempDir: path.resolve(APP_PATH, 'temp'),
     markdown: userConfig.markdown,
     alias: resolveAliases(themeDir, userConfig),
-    vueOptions: userConfig.vueOptions
+    vue: userConfig.vue,
+    vite: userConfig.vite
   }
 
   return config

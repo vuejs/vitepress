@@ -22,7 +22,6 @@ export function resolveAliases(
   userConfig: UserConfig
 ): AliasOptions {
   const paths: Record<string, string> = {
-    ...userConfig.alias,
     '/@theme': themeDir,
     '/@shared': SHARED_PATH,
     [SITE_DATA_ID]: SITE_DATA_REQUEST_PATH
