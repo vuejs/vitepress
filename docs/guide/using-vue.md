@@ -103,7 +103,7 @@ This is a .md using a custom component
 
 ### Registering global components in the theme
 
-If the components are going to be used across several pages in the docs, they can be registered globally in the theme (or as part of extending the default VitePress theme). Check out the [Customization Guide](./customization.md) for more information.
+If the components are going to be used across several pages in the docs, they can be registered globally in the theme (or as part of extending the default VitePress theme). Check out the [Theming Guide](./theming.md) for more information.
 
 In `.vitepress/theme/index.js`, the `enhanceApp` function receives the Vue `app` instance so you can [register components](https://v3.vuejs.org/guide/component-registration.html#component-registration) as you would do in a regular Vue application.
 
