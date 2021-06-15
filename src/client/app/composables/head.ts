@@ -3,9 +3,9 @@ import { HeadConfig, SiteData } from '../../shared'
 import { Route } from '../router'
 
 export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
-  const metaTags: HTMLElement[] = Array.from(document.querySelectorAll('meta'))
-
+  let metaTagEls: HTMLElement[] = Array.from(document.querySelectorAll('meta'))
   let isFirstUpdate = true
+
   const updateHeadTags = (newTags: HeadConfig[]) => {
     if (import.meta.env.PROD && isFirstUpdate) {
       // in production, the initial meta tags are already pre-rendered so we
@@ -13,15 +13,41 @@ export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
       isFirstUpdate = false
       return
     }
-    metaTags.forEach((el) => document.head.removeChild(el))
-    metaTags.length = 0
-    if (newTags && newTags.length) {
-      newTags.forEach((headConfig) => {
-        const el = createHeadElement(headConfig)
-        document.head.appendChild(el)
-        metaTags.push(el)
-      })
+
+    const newEls: HTMLElement[] = []
+    const commonLength = Math.min(metaTagEls.length, newTags.length)
+    for (let i = 0; i < commonLength; i++) {
+      let el = metaTagEls[i]
+      const [tag, attrs] = newTags[i]
+      if (el.tagName.toLocaleLowerCase() === tag) {
+        for (const key in attrs) {
+          if (el.getAttribute(key) !== attrs[key]) {
+            el.setAttribute(key, attrs[key])
+          }
+        }
+        for (let i = 0; i < el.attributes.length; i++) {
+          const name = el.attributes[i].name
+          if (!(name in attrs)) {
+            el.removeAttribute(name)
+          }
+        }
+      } else {
+        document.head.removeChild(el)
+        el = createHeadElement(newTags[i])
+        document.head.append(el)
+      }
+      newEls.push(el)
     }
+
+    metaTagEls
+      .slice(commonLength)
+      .forEach((el) => document.head.removeChild(el))
+    newTags.slice(commonLength).forEach((headConfig) => {
+      const el = createHeadElement(headConfig)
+      document.head.appendChild(el)
+      newEls.push(el)
+    })
+    metaTagEls = newEls
   }
 
   watchEffect(() => {
