@@ -72,6 +72,8 @@ export function createVitePressPlugin(
           __ALGOLIA__: !!site.themeConfig.algolia
         },
         optimizeDeps: {
+          // force include vue to avoid duplicated copies when linked + optimized
+          include: ['vue'],
           exclude: ['@docsearch/js']
         }
       }
