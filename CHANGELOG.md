@@ -1,3 +1,11 @@
+## [0.15.3](https://github.com/vuejs/vitepress/compare/v0.15.2...v0.15.3) (2021-06-15)
+
+### Bug Fixes
+
+- avoid error when theme does not have .nav-bar class ([a9d5800](https://github.com/vuejs/vitepress/commit/a9d580069fff90298b197808379cd0c4b756d463))
+- avoid resetting head tags on hmr/page switch ([f52f20e](https://github.com/vuejs/vitepress/commit/f52f20e02f6908411ad9cddb341583456a3c2a8c))
+- watch config file when using srcDir ([348f19a](https://github.com/vuejs/vitepress/commit/348f19a537930b1d4c7272e05e91edcb72219f34))
+
 ## [0.15.2](https://github.com/vuejs/vitepress/compare/v0.15.1...v0.15.2) (2021-06-15)
 
 ### Bug Fixes
