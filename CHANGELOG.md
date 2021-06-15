@@ -1,3 +1,9 @@
+## [0.15.2](https://github.com/vuejs/vitepress/compare/v0.15.1...v0.15.2) (2021-06-15)
+
+### Bug Fixes
+
+- force optimize vue to avoid duplication when linked ([eefba39](https://github.com/vuejs/vitepress/commit/eefba398b0e5a4b5afb47ce6e06b0c39a6be55d2))
+
 ## [0.15.1](https://github.com/vuejs/vitepress/compare/v0.15.0...v0.15.1) (2021-06-14)
 
 ### Features
