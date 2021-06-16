@@ -6,10 +6,10 @@ import { withBase } from './utils'
 
 export const dataSymbol: InjectionKey<VitePressData> = Symbol()
 
-export interface VitePressData {
-  site: Ref<SiteData>
+export interface VitePressData<T = any> {
+  site: Ref<SiteData<T>>
   page: Ref<PageData>
-  theme: Ref<any>
+  theme: Ref<T>
   frontmatter: Ref<PageData['frontmatter']>
   title: Ref<string>
   description: Ref<string>
@@ -61,7 +61,7 @@ export function initData(route: Route): VitePressData {
   }
 }
 
-export function useData(): VitePressData {
+export function useData<T = any>(): VitePressData<T> {
   const data = inject(dataSymbol)
   if (!data) {
     throw new Error('vitepress data not properly injected in app')
