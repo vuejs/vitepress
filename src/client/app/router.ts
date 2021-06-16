@@ -172,13 +172,11 @@ export function useRoute(): Route {
 }
 
 function scrollTo(el: HTMLElement, hash: string, smooth = false) {
-  const nav = document.querySelector('.nav-bar')
-  const pageOffset = nav ? (nav as HTMLElement).offsetHeight : 0
   const target = el.classList.contains('.header-anchor')
     ? el
     : document.querySelector(decodeURIComponent(hash))
   if (target) {
-    const targetTop = (target as HTMLElement).offsetTop - pageOffset - 15
+    const targetTop = (target as HTMLElement).offsetTop
     // only smooth scroll if distance is smaller than screen height.
     if (!smooth || Math.abs(targetTop - window.scrollY) > window.innerHeight) {
       window.scrollTo(0, targetTop)

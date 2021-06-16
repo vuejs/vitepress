@@ -8,12 +8,8 @@ import NextAndPrevLinks from './NextAndPrevLinks.vue'
     <div class="container">
       <slot name="top" />
 
-      <div class="content">
-        <Content />
-      </div>
-
+      <Content class="content" />
       <PageFooter />
-
       <NextAndPrevLinks />
 
       <slot name="bottom" />
