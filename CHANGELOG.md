@@ -1,3 +1,9 @@
+## [0.15.4](https://github.com/vuejs/vitepress/compare/v0.15.3...v0.15.4) (2021-06-19)
+
+### Bug Fixes
+
+- avoid scroll behavior reliance on .nav-bar class ([9b35dfc](https://github.com/vuejs/vitepress/commit/9b35dfcde4c00e6f10b2631103f95e97cbf4af9e))
+
 ## [0.15.3](https://github.com/vuejs/vitepress/compare/v0.15.2...v0.15.3) (2021-06-15)
 
 ### Bug Fixes
