@@ -9,9 +9,15 @@ export interface Route {
   component: Component | null
 }
 
+export interface RouterHooks {
+  before?: (route: Route) => void
+  after?: (route: Route) => void
+}
+
 export interface Router {
   route: Route
   go: (href?: string) => Promise<void>
+  hooks?: RouterHooks
 }
 
 export const RouterSymbol: InjectionKey<Router> = Symbol()
@@ -29,6 +35,11 @@ const getDefaultRoute = (): Route => ({
   data: null as any
 })
 
+const getDefaultHooks = (): RouterHooks => ({
+  before: undefined,
+  after: undefined
+})
+
 interface PageModule {
   __pageData: string
   default: Component
@@ -39,6 +50,7 @@ export function createRouter(
   fallbackComponent?: Component
 ): Router {
   const route = reactive(getDefaultRoute())
+  const hooks = reactive(getDefaultHooks())
 
   function go(href: string = inBrowser ? location.href : '/') {
     // ensure correct deep link so page refresh lands on correct files.
@@ -78,6 +90,9 @@ export function createRouter(
         route.path = pendingPath
         route.component = markRaw(comp)
         route.data = readonly(JSON.parse(__pageData)) as PageData
+        if (hooks.before) {
+          hooks.before(route)
+        }
 
         if (inBrowser) {
           nextTick(() => {
@@ -103,6 +118,9 @@ export function createRouter(
         route.path = pendingPath
         route.component = fallbackComponent ? markRaw(fallbackComponent) : null
       }
+    }
+    if (hooks.after) {
+      hooks.after(route)
     }
   }
 
@@ -154,7 +172,8 @@ export function createRouter(
 
   return {
     route,
-    go
+    go,
+    hooks
   }
 }
 
