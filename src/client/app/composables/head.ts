@@ -3,7 +3,7 @@ import { HeadConfig, SiteData } from '../../shared'
 import { Route } from '../router'
 
 export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
-  let metaTagEls: HTMLElement[] = Array.from(document.querySelectorAll('meta'))
+  let managedHeadTags: HTMLElement[] = []
   let isFirstUpdate = true
 
   const updateHeadTags = (newTags: HeadConfig[]) => {
@@ -14,11 +14,14 @@ export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
       return
     }
 
+    console.log(managedHeadTags)
+    console.log(newTags)
+
     const newEls: HTMLElement[] = []
-    const commonLength = Math.min(metaTagEls.length, newTags.length)
+    const commonLength = Math.min(managedHeadTags.length, newTags.length)
     for (let i = 0; i < commonLength; i++) {
-      let el = metaTagEls[i]
-      const [tag, attrs] = newTags[i]
+      let el = managedHeadTags[i]
+      const [tag, attrs, innerHTML = ''] = newTags[i]
       if (el.tagName.toLocaleLowerCase() === tag) {
         for (const key in attrs) {
           if (el.getAttribute(key) !== attrs[key]) {
@@ -31,6 +34,9 @@ export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
             el.removeAttribute(name)
           }
         }
+        if (el.innerHTML !== innerHTML) {
+          el.innerHTML = innerHTML
+        }
       } else {
         document.head.removeChild(el)
         el = createHeadElement(newTags[i])
@@ -39,7 +45,7 @@ export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
       newEls.push(el)
     }
 
-    metaTagEls
+    managedHeadTags
       .slice(commonLength)
       .forEach((el) => document.head.removeChild(el))
     newTags.slice(commonLength).forEach((headConfig) => {
@@ -47,7 +53,7 @@ export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
       document.head.appendChild(el)
       newEls.push(el)
     })
-    metaTagEls = newEls
+    managedHeadTags = newEls
   }
 
   watchEffect(() => {
@@ -56,25 +62,17 @@ export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
     const pageTitle = pageData && pageData.title
     const pageDescription = pageData && pageData.description
     const frontmatterHead = pageData && pageData.frontmatter.head
+
+    // update title and description
     document.title = (pageTitle ? pageTitle + ` | ` : ``) + siteData.title
+    document
+      .querySelector(`meta[name=description]`)!
+      .setAttribute('content', pageDescription || siteData.description)
+
     updateHeadTags([
-      ['meta', { charset: 'utf-8' }],
-      [
-        'meta',
-        {
-          name: 'viewport',
-          content: 'width=device-width,initial-scale=1'
-        }
-      ],
-      [
-        'meta',
-        {
-          name: 'description',
-          content: pageDescription || siteData.description
-        }
-      ],
-      ...siteData.head,
-      ...((frontmatterHead && filterOutHeadDescription(frontmatterHead)) || [])
+      // site head can only change during dev
+      ...(import.meta.env.DEV ? siteData.head : []),
+      ...(frontmatterHead ? filterOutHeadDescription(frontmatterHead) : [])
     ])
   })
 }
