@@ -14,9 +14,6 @@ export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
       return
     }
 
-    console.log(managedHeadTags)
-    console.log(newTags)
-
     const newEls: HTMLElement[] = []
     const commonLength = Math.min(managedHeadTags.length, newTags.length)
     for (let i = 0; i < commonLength; i++) {
