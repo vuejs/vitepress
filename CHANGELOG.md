@@ -1,3 +1,14 @@
+## [0.15.5](https://github.com/vuejs/vitepress/compare/v0.15.4...v0.15.5) (2021-06-23)
+
+### Bug Fixes
+
+- **nav:** display nav if locales are present ([#321](https://github.com/vuejs/vitepress/issues/321)) ([e76e6ec](https://github.com/vuejs/vitepress/commit/e76e6ecd54f8a202a9d5051afd72553080f898c9))
+- **search:** correctly detect multilang ([c046905](https://github.com/vuejs/vitepress/commit/c046905b032a765352ff6bb9944f72db76c5cf45)), closes [#316](https://github.com/vuejs/vitepress/issues/316)
+
+### Performance Improvements
+
+- only update necessary head tags in prod ([e6bb5a4](https://github.com/vuejs/vitepress/commit/e6bb5a4806bb16f1ace26f27f43b5ed83885bf1a))
+
 ## [0.15.4](https://github.com/vuejs/vitepress/compare/v0.15.3...v0.15.4) (2021-06-19)
 
 ### Bug Fixes
