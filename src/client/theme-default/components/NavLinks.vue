@@ -9,7 +9,7 @@ import NavDropdownLink from './NavDropdownLink.vue'
 const { theme } = useData()
 const localeLinks = useLocaleLinks()
 const repo = useRepo()
-const show = computed(() => theme.value.value || repo.value)
+const show = computed(() => theme.value.nav || repo.value || localeLinks.value)
 </script>
 
 <template>
