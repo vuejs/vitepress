@@ -1,7 +1,10 @@
 import path from 'path'
 import { mergeConfig, Plugin, ResolvedConfig } from 'vite'
 import { SiteConfig, resolveSiteData } from './config'
-import { createMarkdownToVueRenderFn } from './markdownToVue'
+import {
+  createMarkdownToVueRenderFn,
+  MarkdownCompileResult
+} from './markdownToVue'
 import { APP_PATH, SITE_DATA_REQUEST_PATH } from './alias'
 import createVuePlugin from '@vitejs/plugin-vue'
 import { slash } from './utils/slash'
@@ -38,12 +41,11 @@ export function createVitePressPlugin(
   ssr = false,
   pageToHashMap?: Record<string, string>
 ): Plugin[] {
-  const markdownToVue = createMarkdownToVueRenderFn(
-    root,
-    srcDir,
-    markdown,
-    pages
-  )
+  let markdownToVue: (
+    src: string,
+    file: string,
+    publicDir: string
+  ) => MarkdownCompileResult
 
   const vuePlugin = createVuePlugin({
     include: [/\.vue$/, /\.md$/],
@@ -59,6 +61,13 @@ export function createVitePressPlugin(
 
     configResolved(resolvedConfig) {
       config = resolvedConfig
+      markdownToVue = createMarkdownToVueRenderFn(
+        srcDir,
+        markdown,
+        pages,
+        config.define,
+        config.command === 'build'
+      )
     },
 
     config() {

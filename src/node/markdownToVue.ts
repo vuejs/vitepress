@@ -11,17 +11,18 @@ import chalk from 'chalk'
 const debug = require('debug')('vitepress:md')
 const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
 
-interface MarkdownCompileResult {
+export interface MarkdownCompileResult {
   vueSrc: string
   pageData: PageData
   deadLinks: string[]
 }
 
 export function createMarkdownToVueRenderFn(
-  root: string,
   srcDir: string,
   options: MarkdownOptions = {},
-  pages: string[]
+  pages: string[],
+  userDefines: Record<string, any> | undefined,
+  isBuild = false
 ) {
   const md = createMarkdownRenderer(srcDir, options)
   pages = pages.map((p) => slash(p.replace(/\.md$/, '')))
@@ -44,10 +45,23 @@ export function createMarkdownToVueRenderFn(
     const { content, data: frontmatter } = matter(src)
     let { html, data } = md.render(content)
 
-    // avoid env variables being replaced by vite
-    html = html
-      .replace(/import\.meta/g, 'import.<wbr/>meta')
-      .replace(/process\.env/g, 'process.<wbr/>env')
+    if (isBuild) {
+      // avoid env variables being replaced by vite
+      html = html
+        .replace(/\bimport\.meta/g, 'import.<wbr/>meta')
+        .replace(/\bprocess\.env/g, 'process.<wbr/>env')
+
+      // also avoid replacing vite user defines
+      if (userDefines) {
+        const regex = new RegExp(
+          `\\b(${Object.keys(userDefines)
+            .map((key) => key.replace(/[-[\]/{}()*+?.\\^$|]/g, '\\$&'))
+            .join('|')})`,
+          'g'
+        )
+        html = html.replace(regex, (_) => `${_[0]}<wbr/>${_.slice(1)}`)
+      }
+    }
 
     // validate data.links
     const deadLinks = []
