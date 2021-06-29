@@ -117,7 +117,7 @@ The default theme's `<Layout/>` component has a few slots that can be used to in
 ```js
 // .vitepress/theme/index.js
 import DefaultTheme from 'vitepress/theme'
-import MyLayout fro './MyLayout.vue'
+import MyLayout from './MyLayout.vue'
 
 export default {
   ...DefaultTheme,
