@@ -8,6 +8,8 @@ export type {
   Header
 } from '../../types/shared'
 
+export const EXTERNAL_URL_RE = /^https?:/i
+
 export const inBrowser = typeof window !== 'undefined'
 
 function findMatchRoot(route: string, roots: string[]) {

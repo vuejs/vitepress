@@ -1,5 +1,5 @@
 import { siteDataRef } from './data'
-import { inBrowser } from '../shared'
+import { inBrowser, EXTERNAL_URL_RE } from '../shared'
 
 export { inBrowser }
 
@@ -11,7 +11,9 @@ export function joinPath(base: string, path: string): string {
 }
 
 export function withBase(path: string) {
-  return joinPath(siteDataRef.value.base, path)
+  return EXTERNAL_URL_RE.test(path)
+    ? path
+    : joinPath(siteDataRef.value.base, path)
 }
 
 /**
