@@ -121,7 +121,7 @@ export function createVitePressPlugin(
     },
 
     configureServer(server) {
-      console.log(configPath)
+      // console.log(configPath) 
       server.watcher.add(configPath)
 
       // serve our index.html after vite history fallback
