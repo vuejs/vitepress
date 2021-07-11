@@ -28,8 +28,8 @@ export function useNavLink(item: Ref<DefaultTheme.NavItemWithLink>) {
         isExternal
       },
       href: isExternal ? item.value.link : withBase(item.value.link),
-      target: item.value.target || isExternal ? `_blank` : null,
-      rel: item.value.rel || isExternal ? `noopener noreferrer` : null,
+      target: item.value.target || (isExternal ? `_blank` : null),
+      rel: item.value.rel || (isExternal ? `noopener noreferrer` : null),
       'aria-label': item.value.ariaLabel
     }
   })
