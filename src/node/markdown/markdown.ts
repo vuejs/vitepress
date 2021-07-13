@@ -67,7 +67,6 @@ export const createMarkdownRenderer = (
     })
 
     // 3rd party plugins
-    .use(emoji)
     .use(anchor, {
       slugify,
       permalink: true,
@@ -82,6 +81,7 @@ export const createMarkdownRenderer = (
       format: parseHeader,
       ...options.toc
     })
+    .use(emoji)
 
   // apply user config
   if (options.config) {
