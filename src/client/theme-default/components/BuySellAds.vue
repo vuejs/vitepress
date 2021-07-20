@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, onMounted } from 'vue'
+import { onMounted } from 'vue'
 
 // global _bsa
 const ID = 'bsa-cpc-script'
