@@ -111,20 +111,19 @@ export async function resolveConfig(
   return config
 }
 
-export async function resolveUserConfig(root: string) {
-  // load user config
-  const configPath = resolve(root, 'config.js')
-  const hasUserConfig = await fs.pathExists(configPath)
-  // always delete cache first before loading config
-  delete require.cache[configPath]
-  const userConfig: UserConfig = hasUserConfig ? require(configPath) : {}
-  if (hasUserConfig) {
-    debug(`loaded config at ${chalk.yellow(configPath)}`)
-  } else {
-    debug(`no config file found.`)
+export async function resolveUserConfig(root: string): Promise<UserConfig> {
+  for (const name of ['config.cjs', 'config.js']) {
+    // load user config
+    const configPath = resolve(root, name)
+    // always delete cache first before loading config
+    delete require.cache[configPath]
+    if (await fs.pathExists(configPath)) {
+      debug(`loaded config at ${chalk.yellow(configPath)}`)
+      return require(configPath)
+    }
   }
-
-  return userConfig
+  debug(`no config file found.`)
+  return {}
 }
 
 export async function resolveSiteData(

@@ -20,4 +20,9 @@ module.exports = {
 }
 ```
 
+::: warning
+If your project uses [ES modules](https://nodejs.org/api/esm.html),
+name this file `.vitepress/config.cjs` instead.
+:::
+
 Check out the [Config Reference](/config/basics) for a full list of options.
