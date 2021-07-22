@@ -17,7 +17,7 @@ export function useEditLink() {
     } = theme.value
 
     const showEditLink =
-      frontmatter.value.editLink !== undefined
+      frontmatter.value.editLink != null
         ? frontmatter.value.editLink
         : editLinks
     const { relativePath } = page.value
