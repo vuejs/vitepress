@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import { spawnSync } from 'child_process'
 import matter from 'gray-matter'
 import LRUCache from 'lru-cache'
 import { createMarkdownRenderer, MarkdownOptions } from './markdown/markdown'
@@ -91,14 +92,33 @@ export function createMarkdownToVueRenderFn(
       }
     }
 
+    /* forked from @vuepress/plugin-last-updated */
+    const getGitLastUpdatedTimeStamp = (filePath: string) => {
+      let lastUpdated = 0
+
+      try {
+        lastUpdated =
+          parseInt(
+            spawnSync(
+              'git',
+              ['log', '-1', '--format=%at', path.basename(filePath)],
+              { cwd: path.dirname(filePath) }
+            ).stdout.toString('utf-8')
+          ) * 1000
+      } catch (e) {
+        /* do not handle for now */
+      }
+
+      return lastUpdated
+    }
+
     const pageData: PageData = {
       title: inferTitle(frontmatter, content),
       description: inferDescription(frontmatter),
       frontmatter,
       headers: data.headers,
       relativePath,
-      // TODO use git timestamp?
-      lastUpdated: Math.round(fs.statSync(file).mtimeMs)
+      lastUpdated: getGitLastUpdatedTimeStamp(file)
     }
 
     const vueSrc =

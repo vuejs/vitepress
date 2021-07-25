@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUpdated } from 'vue'
 import { useData } from 'vitepress'
 
 const { theme, page } = useData()
@@ -16,9 +16,14 @@ const prefix = computed(() => {
 })
 
 const datetime = ref('')
+
 onMounted(() => {
   // locale string might be different based on end user
   // and will lead to potential hydration mismatch if calculated at build time
+  datetime.value = new Date(page.value.lastUpdated).toLocaleString('en-US')
+})
+
+onUpdated(() => {
   datetime.value = new Date(page.value.lastUpdated).toLocaleString('en-US')
 })
 </script>
