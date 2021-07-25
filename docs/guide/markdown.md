@@ -401,7 +401,7 @@ module.exports = {
     // options for markdown-it-anchor
     anchor: { permalink: false },
 
-    // options for markdown-it-toc
+    // options for markdown-it-table-of-contents
     toc: { includeLevel: [1, 2] },
 
     config: (md) => {
