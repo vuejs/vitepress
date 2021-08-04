@@ -133,7 +133,9 @@ const pageClasses = computed(() => {
               :key="'carbon' + page.relativePath"
               :code="theme.carbonAds.carbon"
               :placement="theme.carbonAds.placement"
-            />
+            >
+              <slot name="carbon-ads-blocked"></slot>
+            </CarbonAds>
           </div>
         </slot>
         <slot name="page-top" />

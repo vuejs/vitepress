@@ -7,17 +7,32 @@ const { code, placement } = defineProps<{
 }>()
 
 const el = ref()
+const isBlocked = ref(false)
 
 onMounted(() => {
+  const src = `//cdn.carbonads.com/carbon.js?serve=${code}&placement=${placement}`
+  fetch('https:' + src, {
+    method: 'HEAD',
+    mode: 'no-cors'
+  })
+    .then(() => {
+      isBlocked.value = false
+    })
+    .catch(() => {
+      isBlocked.value = true
+    })
+
   const s = document.createElement('script')
   s.id = '_carbonads_js'
-  s.src = `//cdn.carbonads.com/carbon.js?serve=${code}&placement=${placement}`
+  s.src = src
   el.value.appendChild(s)
 })
 </script>
 
 <template>
-  <div class="carbon-ads" ref="el" />
+  <div class="carbon-ads" ref="el">
+    <slot v-if="isBlocked" />
+  </div>
 </template>
 
 <style scoped>
