@@ -36,6 +36,15 @@ function resolveLocales<T>(
   return localeRoot ? locales[localeRoot] : undefined
 }
 
+export function createLangDictionary(locales: any | undefined) {
+  return locales
+    ? Object.keys(locales).reduce((langs, path) => {
+        langs[path] = locales![path].label
+        return langs
+      }, {} as Record<string, string>)
+    : {}
+}
+
 // this merges the locales data to the main data by the route
 export function resolveSiteDataByRoute(
   siteData: SiteData,
@@ -61,12 +70,7 @@ export function resolveSiteDataByRoute(
     lang: (localeData || siteData).lang,
     // clean the locales to reduce the bundle size
     locales: {},
-    langs: siteData.themeConfig.locales
-      ? Object.keys(siteData.themeConfig.locales).reduce((locales, path) => {
-          locales[path] = siteData.themeConfig.locales![path].label
-          return locales
-        }, {} as Record<string, string>)
-      : {}
+    langs: createLangDictionary(siteData.themeConfig.locales)
   }
 }
 
