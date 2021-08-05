@@ -1,5 +1,5 @@
 import { computed } from 'vue'
-import { useData } from 'vitepress'
+import { useData, useRoute } from 'vitepress'
 import type { DefaultTheme } from '../config'
 
 export function useLanguageLinks() {
@@ -13,16 +13,15 @@ export function useLanguageLinks() {
       return null
     }
 
-    const routerPath = localePath.value
+    const route = useRoute()
 
-    const candidates = localePaths.map((v) => {
-      const localePath = v.endsWith('/') ? v.slice(0, -1) : v
+    // intentionally remove the leading slash because each locale has one
+    const currentPath = route.path.replace(localePath.value, '')
 
-      return {
-        text: langs[v],
-        link: `${localePath}${routerPath}`
-      }
-    })
+    const candidates = localePaths.map((v) => ({
+      text: langs[v].label,
+      link: `${v}${currentPath}`
+    }))
 
     const selectText = theme.value.selectText || 'Languages'
 

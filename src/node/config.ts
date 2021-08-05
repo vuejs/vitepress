@@ -147,9 +147,7 @@ export async function resolveSiteData(
     head: userConfig.head || [],
     themeConfig: userConfig.themeConfig || {},
     locales: userConfig.locales || {},
-    langs: createLangDictionary(
-      userConfig.themeConfig && userConfig.themeConfig.locales
-    ),
+    langs: createLangDictionary(userConfig),
     customData: userConfig.customData || {}
   }
 }

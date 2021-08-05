@@ -46,9 +46,11 @@ export function initData(route: Route): VitePressData {
     frontmatter: computed(() => route.data.frontmatter),
     lang: computed(() => site.value.lang),
     localePath: computed(() => {
-      const { locales, lang } = site.value
-      const path = Object.keys(locales).find((lp) => locales[lp].lang === lang)
-      return withBase((locales && path) || '/')
+      const { langs } = site.value
+      const path = Object.keys(langs).find(
+        (lp) => langs[lp].lang === site.value.lang
+      )
+      return withBase(path || '/')
     }),
     title: computed(() => {
       return route.data.title

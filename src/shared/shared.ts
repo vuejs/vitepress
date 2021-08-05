@@ -1,4 +1,4 @@
-import { SiteData } from '../../types/shared'
+import { LocaleConfig, SiteData } from '../../types/shared'
 
 export type {
   SiteData,
@@ -36,12 +36,20 @@ function resolveLocales<T>(
   return localeRoot ? locales[localeRoot] : undefined
 }
 
-export function createLangDictionary(locales: any | undefined) {
-  return locales
+export function createLangDictionary(siteData: {
+  themeConfig?: any
+  locales?: Record<string, LocaleConfig>
+}) {
+  const { locales } = siteData.themeConfig
+  const siteLocales = siteData.locales
+  return locales && siteLocales
     ? Object.keys(locales).reduce((langs, path) => {
-        langs[path] = locales![path].label
+        langs[path] = {
+          label: locales![path].label,
+          lang: siteLocales[path].lang
+        }
         return langs
-      }, {} as Record<string, string>)
+      }, {} as Record<string, { lang: string; label: string }>)
     : {}
 }
 
@@ -70,7 +78,7 @@ export function resolveSiteDataByRoute(
     lang: (localeData || siteData).lang,
     // clean the locales to reduce the bundle size
     locales: {},
-    langs: createLangDictionary(siteData.themeConfig.locales)
+    langs: createLangDictionary(siteData)
   }
 }
 

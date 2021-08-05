@@ -17,7 +17,7 @@ export interface SiteData<ThemeConfig = any> {
   head: HeadConfig[]
   themeConfig: ThemeConfig
   locales: Record<string, LocaleConfig>
-  langs: Record<string, string>
+  langs: Record<string, { lang: string; label: string }>
   customData: any
 }
 
