@@ -2,7 +2,7 @@
 import '@docsearch/css'
 import docsearch from '@docsearch/js'
 import { useRoute, useRouter, useData } from 'vitepress'
-import { defineProps, getCurrentInstance, onMounted, watch } from 'vue'
+import { getCurrentInstance, onMounted, watch } from 'vue'
 import type { DefaultTheme } from '../config'
 import type { DocSearchHit } from '@docsearch/react/dist/esm/types'
 
