@@ -12,7 +12,7 @@ export const EXTERNAL_URL_RE = /^https?:/i
 
 export const inBrowser = typeof window !== 'undefined'
 
-function findMatchRoot(route: string, roots: string[]) {
+function findMatchRoot(route: string, roots: string[]): string | undefined {
   // first match to the routes with the most deep level.
   roots.sort((a, b) => {
     const levelDelta = b.split('/').length - a.split('/').length
@@ -24,9 +24,8 @@ function findMatchRoot(route: string, roots: string[]) {
   })
 
   for (const r of roots) {
-    if (route.startsWith(r)) return
+    if (route.startsWith(r)) return r
   }
-  return undefined
 }
 
 function resolveLocales<T>(
@@ -44,12 +43,11 @@ export function resolveSiteDataByRoute(
 ): SiteData {
   route = cleanRoute(siteData, route)
 
-  const localeData = resolveLocales(siteData.locales || {}, route) || {}
-  const localeThemeConfig =
-    resolveLocales<any>(
-      (siteData.themeConfig && siteData.themeConfig.locales) || {},
-      route
-    ) || {}
+  const localeData = resolveLocales(siteData.locales || {}, route)
+  const localeThemeConfig = resolveLocales<any>(
+    siteData.themeConfig.locales || {},
+    route
+  )
 
   return {
     ...siteData,
@@ -60,8 +58,15 @@ export function resolveSiteDataByRoute(
       // clean the locales to reduce the bundle size
       locales: {}
     },
-    lang: localeThemeConfig.lang || siteData.lang,
-    locales: {}
+    lang: (localeData || siteData).lang,
+    // clean the locales to reduce the bundle size
+    locales: {},
+    langs: siteData.themeConfig.locales
+      ? Object.keys(siteData.themeConfig.locales).reduce((locales, path) => {
+          locales[path] = siteData.themeConfig.locales![path].label
+          return locales
+        }, {} as Record<string, string>)
+      : {}
   }
 }
 
