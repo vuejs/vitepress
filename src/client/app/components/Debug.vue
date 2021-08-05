@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, reactive } from 'vue'
 import { useData } from '../data'
 
-const data = useData()
+// FIXME: remove reactive in next vue version
+const data = reactive(useData())
 const el = ref<HTMLElement | null>(null)
 const open = ref(false)
 
