@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, reactive } from 'vue'
 import { useData } from '../data'
 
 const data = useData()
 const el = ref<HTMLElement | null>(null)
 const open = ref(false)
+
+// FIXME: remove in next Vue release
+const tempData = reactive(data)
 
 watch(open, (value) => {
   if (!value) {
@@ -16,7 +19,7 @@ watch(open, (value) => {
 <template>
   <div class="debug" :class="{ open }" ref="el" @click="open = !open">
     <p class="title">Debug</p>
-    <pre class="block">{{ data }}</pre>
+    <pre class="block">{{ tempData }}</pre>
   </div>
 </template>
 
