@@ -1,6 +1,7 @@
 import { computed } from 'vue'
 import { useData } from 'vitepress'
 import type { DefaultTheme } from '../config'
+import { EXTERNAL_URL_RE } from '../../shared'
 
 export const platforms = ['GitHub', 'GitLab', 'Bitbucket'].map((platform) => {
   return [platform, new RegExp(platform, 'i')] as const
@@ -26,7 +27,7 @@ export function useRepo() {
 
 function getRepoUrl(repo: string): string {
   // if the full url is not provided, default to GitHub repo
-  return /^https?:/.test(repo) ? repo : `https://github.com/${repo}`
+  return EXTERNAL_URL_RE.test(repo) ? repo : `https://github.com/${repo}`
 }
 
 function getRepoText(url: string, text?: string): string {

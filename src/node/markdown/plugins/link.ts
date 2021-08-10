@@ -5,6 +5,7 @@
 import MarkdownIt from 'markdown-it'
 import { MarkdownParsedData } from '../markdown'
 import { URL } from 'url'
+import { EXTERNAL_URL_RE } from '../../shared'
 
 const indexRE = /(^|.*\/)index.md(#?.*)$/i
 
@@ -18,7 +19,7 @@ export const linkPlugin = (
     if (hrefIndex >= 0) {
       const hrefAttr = token.attrs![hrefIndex]
       const url = hrefAttr[1]
-      const isExternal = /^https?:/.test(url)
+      const isExternal = EXTERNAL_URL_RE.test(url)
       if (isExternal) {
         Object.entries(externalAttrs).forEach(([key, val]) => {
           token.attrSet(key, val)
