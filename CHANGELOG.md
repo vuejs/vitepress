@@ -1,3 +1,12 @@
+# [0.16.0](https://github.com/vuejs/vitepress/compare/v0.15.6...v0.16.0) (2021-08-10)
+
+This version uses Vue 3.2.0.
+
+### Bug Fixes
+
+- override target and rel links attribute in config ([#332](https://github.com/vuejs/vitepress/issues/332)) ([9d98dbb](https://github.com/vuejs/vitepress/commit/9d98dbbe60d477a78d6dc0e80d16fdddedcd4ed5))
+- **edit-link:** let frontmatter overwrite global editLink ([#340](https://github.com/vuejs/vitepress/issues/340)) ([cfbba80](https://github.com/vuejs/vitepress/commit/cfbba80a0a6e33bcb2ca3d4450fb9624dcd6d140))
+
 ## [0.15.6](https://github.com/vuejs/vitepress/compare/v0.15.5...v0.15.6) (2021-07-02)
 
 ### Bug Fixes
