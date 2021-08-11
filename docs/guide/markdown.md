@@ -128,6 +128,10 @@ Custom containers can be defined by their types, titles, and contents.
 This is a tip
 :::
 
+::: info
+This is an info box
+:::
+
 ::: warning
 This is a warning
 :::
@@ -141,6 +145,10 @@ This is a dangerous warning
 
 ::: tip
 This is a tip
+:::
+
+::: info
+This is an info box
 :::
 
 ::: warning

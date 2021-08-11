@@ -5,6 +5,7 @@ const container = require('markdown-it-container')
 
 export const containerPlugin = (md: MarkdownIt) => {
   md.use(...createContainer('tip', 'TIP'))
+    .use(...createContainer('info', 'INFO'))
     .use(...createContainer('warning', 'WARNING'))
     .use(...createContainer('danger', 'WARNING'))
     // explicitly escape Vue syntax
