@@ -1,3 +1,9 @@
+## [0.16.1](https://github.com/vuejs/vitepress/compare/v0.16.0...v0.16.1) (2021-08-11)
+
+### Features
+
+- info custom container ([4925fb5](https://github.com/vuejs/vitepress/commit/4925fb5c29c59b7e17d050ab4346f71afc0463cd))
+
 # [0.16.0](https://github.com/vuejs/vitepress/compare/v0.15.6...v0.16.0) (2021-08-10)
 
 This version uses Vue 3.2.0.
