@@ -116,7 +116,9 @@ function newRouter(): Router {
     if (inBrowser) {
       isInitialPageLoad = false
 
-      return import(/*@vite-ignore*/ pageFilePath)
+      const page = import(/*@vite-ignore*/ pageFilePath)
+      page.catch(() => (location.href = import.meta.env.BASE_URL))
+      return page
     }
 
     // SSR: sync require
