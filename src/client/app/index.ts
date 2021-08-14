@@ -117,6 +117,7 @@ function newRouter(): Router {
       isInitialPageLoad = false
 
       const page = import(/*@vite-ignore*/ pageFilePath)
+      // fallback to base url when visit a non-exist page at first
       page.catch(() => (location.href = import.meta.env.BASE_URL))
       return page
     }
