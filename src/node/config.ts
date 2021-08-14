@@ -2,7 +2,7 @@ import path from 'path'
 import fs from 'fs-extra'
 import chalk from 'chalk'
 import globby from 'globby'
-import { AliasOptions, UserConfig as ViteConfig } from 'vite'
+import { normalizePath, AliasOptions, UserConfig as ViteConfig } from 'vite'
 import { Options as VuePluginOptions } from '@vitejs/plugin-vue'
 import { SiteData, HeadConfig, LocaleConfig } from './shared'
 import { resolveAliases, APP_PATH, DEFAULT_THEME_PATH } from './alias'
@@ -60,7 +60,7 @@ export interface SiteConfig<ThemeConfig = any> {
 }
 
 const resolve = (root: string, file: string) =>
-  path.resolve(root, `.vitepress`, file)
+  normalizePath(path.resolve(root, `.vitepress`, file))
 
 export async function resolveConfig(
   root: string = process.cwd()
@@ -116,7 +116,7 @@ export async function resolveUserConfig(root: string): Promise<UserConfig> {
   const configPath = resolve(root, 'config.js')
   const hasUserConfig = await fs.pathExists(configPath)
   // always delete cache first before loading config
-  delete require.cache[configPath]
+  delete require.cache[require.resolve(configPath)]
   const userConfig: UserConfig | (() => UserConfig) = hasUserConfig
     ? require(configPath)
     : {}
