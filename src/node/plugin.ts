@@ -106,9 +106,18 @@ export function createVitePressPlugin(
     transform(code, id) {
       if (id.endsWith('.md')) {
         // transform .md files into vueSrc so plugin-vue can handle it
-        const { vueSrc, deadLinks } = markdownToVue(code, id, config.publicDir)
+        const { vueSrc, deadLinks, includes } = markdownToVue(
+          code,
+          id,
+          config.publicDir
+        )
         if (deadLinks.length) {
           hasDeadLinks = true
+        }
+        if (includes.length) {
+          includes.forEach((i) => {
+            this.addWatchFile(i)
+          })
         }
         return vueSrc
       }
