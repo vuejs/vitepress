@@ -111,20 +111,22 @@ export async function resolveConfig(
   return config
 }
 
-export async function resolveUserConfig(root: string) {
+export async function resolveUserConfig(root: string): Promise<UserConfig> {
   // load user config
   const configPath = resolve(root, 'config.js')
   const hasUserConfig = await fs.pathExists(configPath)
   // always delete cache first before loading config
   delete require.cache[configPath]
-  const userConfig: UserConfig = hasUserConfig ? require(configPath) : {}
+  const userConfig: UserConfig | (() => UserConfig) = hasUserConfig
+    ? require(configPath)
+    : {}
   if (hasUserConfig) {
     debug(`loaded config at ${chalk.yellow(configPath)}`)
   } else {
     debug(`no config file found.`)
   }
 
-  return userConfig
+  return typeof userConfig === 'function' ? userConfig() : userConfig
 }
 
 export async function resolveSiteData(

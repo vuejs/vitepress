@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { defineEmit } from 'vue'
 import NavBarTitle from './NavBarTitle.vue'
 import NavLinks from './NavLinks.vue'
 import ToggleSideBarButton from './ToggleSideBarButton.vue'
 
-defineEmit(['toggle'])
+defineEmits(['toggle'])
 </script>
 
 <template>

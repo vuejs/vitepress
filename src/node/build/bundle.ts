@@ -64,7 +64,9 @@ export async function bundle(
                   if (!chunk.isEntry && /runtime/.test(chunk.name)) {
                     return `assets/framework.[hash].js`
                   }
-                  return `assets/[name].[hash].js`
+                  return adComponentRE.test(chunk.name)
+                    ? `assets/ui-custom.[hash].js`
+                    : `assets/[name].[hash].js`
                 }
               })
         }
@@ -95,3 +97,5 @@ export async function bundle(
 
   return [clientResult, serverResult, pageToHashMap]
 }
+
+const adComponentRE = /(?:Carbon|BuySell)Ads/

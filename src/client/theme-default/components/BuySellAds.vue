@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, onMounted } from 'vue'
+import { onMounted } from 'vue'
 
 // global _bsa
 const ID = 'bsa-cpc-script'
@@ -45,6 +45,10 @@ onMounted(() => {
 
 function load() {
   if (typeof _bsa !== 'undefined' && _bsa) {
+    const parent = document.querySelector('.bsa-cpc')!
+    // cleanup any existing ad to avoid them stacking
+    parent.innerHTML = ''
+
     _bsa.init('default', code, `placement:${placement}`, {
       target: '.bsa-cpc',
       align: 'horizontal',

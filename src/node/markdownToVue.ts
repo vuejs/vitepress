@@ -11,11 +11,13 @@ import chalk from 'chalk'
 
 const debug = require('debug')('vitepress:md')
 const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
+const includesRE = /<!--\s*@include:\s*(.*?)\s*-->/g
 
 export interface MarkdownCompileResult {
   vueSrc: string
   pageData: PageData
   deadLinks: string[]
+  includes: string[]
 }
 
 export function createMarkdownToVueRenderFn(
@@ -34,6 +36,7 @@ export function createMarkdownToVueRenderFn(
     publicDir: string
   ): MarkdownCompileResult => {
     const relativePath = slash(path.relative(srcDir, file))
+    const dir = path.dirname(file)
 
     const cached = cache.get(src)
     if (cached) {
@@ -42,6 +45,16 @@ export function createMarkdownToVueRenderFn(
     }
 
     const start = Date.now()
+
+    // resolve includes
+    let includes: string[] = []
+    src = src.replace(includesRE, (_, m1) => {
+      const includePath = path.join(dir, m1)
+      console.log(includePath)
+      const content = fs.readFileSync(includePath, 'utf-8')
+      includes.push(slash(includePath))
+      return content
+    })
 
     const { content, data: frontmatter } = matter(src)
     let { html, data } = md.render(content)
@@ -130,7 +143,8 @@ export function createMarkdownToVueRenderFn(
     const result = {
       vueSrc,
       pageData,
-      deadLinks
+      deadLinks,
+      includes
     }
     cache.set(src, result)
     return result
