@@ -12,18 +12,16 @@ import { preWrapperPlugin } from './plugins/preWrapper'
 import { linkPlugin } from './plugins/link'
 import { extractHeaderPlugin } from './plugins/header'
 import { Header } from '../shared'
+import anchor, { AnchorOptions } from 'markdown-it-anchor'
 
 const emoji = require('markdown-it-emoji')
-const anchor = require('markdown-it-anchor')
 const toc = require('markdown-it-table-of-contents')
 
 export interface MarkdownOptions extends MarkdownIt.Options {
   lineNumbers?: boolean
   config?: (md: MarkdownIt) => void
   anchor?: {
-    permalink?: boolean
-    permalinkBefore?: boolean
-    permalinkSymbol?: string
+    permalink?: AnchorOptions['permalink']
   }
   // https://github.com/Oktavilla/markdown-it-table-of-contents
   toc?: any
@@ -70,10 +68,7 @@ export const createMarkdownRenderer = (
     .use(emoji)
     .use(anchor, {
       slugify,
-      permalink: true,
-      permalinkBefore: true,
-      permalinkSymbol: '#',
-      permalinkAttrs: () => ({ 'aria-hidden': true }),
+      permalink: anchor.permalink.ariaHidden({}),
       ...options.anchor
     })
     .use(toc, {
