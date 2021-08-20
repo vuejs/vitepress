@@ -47,7 +47,9 @@ export function initData(route: Route): VitePressData {
     lang: computed(() => site.value.lang),
     localePath: computed(() => {
       const { langs, lang } = site.value
-      const path = Object.keys(langs).find((lp) => langs[lp].lang === lang)
+      const path = Object.keys(langs).find(
+        (langPath) => langs[langPath].lang === lang
+      )
       return withBase(path || '/')
     }),
     title: computed(() => {

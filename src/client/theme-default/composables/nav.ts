@@ -9,6 +9,7 @@ export function useLanguageLinks() {
     const langs = site.value.langs
     const localePaths = Object.keys(langs)
 
+    // one language
     if (localePaths.length < 2) {
       return null
     }
@@ -18,9 +19,9 @@ export function useLanguageLinks() {
     // intentionally remove the leading slash because each locale has one
     const currentPath = route.path.replace(localePath.value, '')
 
-    const candidates = localePaths.map((v) => ({
-      text: langs[v].label,
-      link: `${v}${currentPath}`
+    const candidates = localePaths.map((localePath) => ({
+      text: langs[localePath].label,
+      link: `${localePath}${currentPath}`
     }))
 
     const selectText = theme.value.selectText || 'Languages'
