@@ -1,57 +1,30 @@
 import { computed } from 'vue'
-import { useRoute, useData, inBrowser } from 'vitepress'
+import { useData, useRoute } from 'vitepress'
 import type { DefaultTheme } from '../config'
 
-export function useLocaleLinks() {
-  const route = useRoute()
-  const { site } = useData()
+export function useLanguageLinks() {
+  const { site, localePath, theme } = useData()
 
   return computed(() => {
-    const theme = site.value.themeConfig as DefaultTheme.Config
-    const locales = theme.locales
+    const langs = site.value.langs
+    const localePaths = Object.keys(langs)
 
-    if (!locales) {
+    // one language
+    if (localePaths.length < 2) {
       return null
     }
 
-    const localeKeys = Object.keys(locales)
+    const route = useRoute()
 
-    if (localeKeys.length <= 1) {
-      return null
-    }
+    // intentionally remove the leading slash because each locale has one
+    const currentPath = route.path.replace(localePath.value, '')
 
-    // handle site base
-    const siteBase = inBrowser ? site.value.base : '/'
+    const candidates = localePaths.map((localePath) => ({
+      text: langs[localePath].label,
+      link: `${localePath}${currentPath}`
+    }))
 
-    const siteBaseWithoutSuffix = siteBase.endsWith('/')
-      ? siteBase.slice(0, -1)
-      : siteBase
-
-    // remove site base in browser env
-    const routerPath = route.path.slice(siteBaseWithoutSuffix.length)
-
-    const currentLangBase = localeKeys.find((key) => {
-      return key === '/' ? false : routerPath.startsWith(key)
-    })
-
-    const currentContentPath = currentLangBase
-      ? routerPath.substring(currentLangBase.length - 1)
-      : routerPath
-
-    const candidates = localeKeys.map((v) => {
-      const localePath = v.endsWith('/') ? v.slice(0, -1) : v
-
-      return {
-        text: locales[v].label,
-        link: `${localePath}${currentContentPath}`
-      }
-    })
-
-    const currentLangKey = currentLangBase ? currentLangBase : '/'
-
-    const selectText = locales[currentLangKey].selectText
-      ? locales[currentLangKey].selectText
-      : 'Languages'
+    const selectText = theme.value.selectText || 'Languages'
 
     return {
       text: selectText,

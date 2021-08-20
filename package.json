@@ -79,7 +79,7 @@
     "gray-matter": "^4.0.3",
     "lru-cache": "^6.0.0",
     "markdown-it": "^12.0.6",
-    "markdown-it-anchor": "^7.1.0",
+    "markdown-it-anchor": "^8.1.2",
     "markdown-it-container": "^3.0.0",
     "markdown-it-emoji": "^2.0.0",
     "markdown-it-table-of-contents": "^0.5.2",

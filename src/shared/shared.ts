@@ -1,4 +1,4 @@
-import { SiteData } from '../../types/shared'
+import { LocaleConfig, SiteData } from '../../types/shared'
 
 export type {
   SiteData,
@@ -12,7 +12,7 @@ export const EXTERNAL_URL_RE = /^https?:/i
 
 export const inBrowser = typeof window !== 'undefined'
 
-function findMatchRoot(route: string, roots: string[]) {
+function findMatchRoot(route: string, roots: string[]): string | undefined {
   // first match to the routes with the most deep level.
   roots.sort((a, b) => {
     const levelDelta = b.split('/').length - a.split('/').length
@@ -24,9 +24,8 @@ function findMatchRoot(route: string, roots: string[]) {
   })
 
   for (const r of roots) {
-    if (route.startsWith(r)) return
+    if (route.startsWith(r)) return r
   }
-  return undefined
 }
 
 function resolveLocales<T>(
@@ -37,6 +36,23 @@ function resolveLocales<T>(
   return localeRoot ? locales[localeRoot] : undefined
 }
 
+export function createLangDictionary(siteData: {
+  themeConfig?: any
+  locales?: Record<string, LocaleConfig>
+}) {
+  const { locales } = siteData.themeConfig
+  const siteLocales = siteData.locales
+  return locales && siteLocales
+    ? Object.keys(locales).reduce((langs, path) => {
+        langs[path] = {
+          label: locales![path].label,
+          lang: siteLocales[path].lang
+        }
+        return langs
+      }, {} as Record<string, { lang: string; label: string }>)
+    : {}
+}
+
 // this merges the locales data to the main data by the route
 export function resolveSiteDataByRoute(
   siteData: SiteData,
@@ -44,12 +60,11 @@ export function resolveSiteDataByRoute(
 ): SiteData {
   route = cleanRoute(siteData, route)
 
-  const localeData = resolveLocales(siteData.locales || {}, route) || {}
-  const localeThemeConfig =
-    resolveLocales<any>(
-      (siteData.themeConfig && siteData.themeConfig.locales) || {},
-      route
-    ) || {}
+  const localeData = resolveLocales(siteData.locales || {}, route)
+  const localeThemeConfig = resolveLocales<any>(
+    siteData.themeConfig.locales || {},
+    route
+  )
 
   return {
     ...siteData,
@@ -60,8 +75,10 @@ export function resolveSiteDataByRoute(
       // clean the locales to reduce the bundle size
       locales: {}
     },
-    lang: localeThemeConfig.lang || siteData.lang,
-    locales: {}
+    lang: (localeData || siteData).lang,
+    // clean the locales to reduce the bundle size
+    locales: {},
+    langs: createLangDictionary(siteData)
   }
 }
 

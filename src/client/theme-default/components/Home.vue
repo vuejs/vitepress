@@ -28,11 +28,4 @@ import HomeFooter from './HomeFooter.vue'
   margin: 0px auto;
   padding: 0 1.5rem;
 }
-
-@media (max-width: 720px) {
-  .home-content {
-    max-width: 392px;
-    padding: 0;
-  }
-}
 </style>
