@@ -4,7 +4,12 @@ import chalk from 'chalk'
 import globby from 'globby'
 import { AliasOptions, UserConfig as ViteConfig } from 'vite'
 import { Options as VuePluginOptions } from '@vitejs/plugin-vue'
-import { SiteData, HeadConfig, LocaleConfig } from './shared'
+import {
+  SiteData,
+  HeadConfig,
+  LocaleConfig,
+  createLangDictionary
+} from './shared'
 import { resolveAliases, APP_PATH, DEFAULT_THEME_PATH } from './alias'
 import { MarkdownOptions } from './markdown/markdown'
 
@@ -142,6 +147,7 @@ export async function resolveSiteData(
     head: userConfig.head || [],
     themeConfig: userConfig.themeConfig || {},
     locales: userConfig.locales || {},
+    langs: createLangDictionary(userConfig),
     customData: userConfig.customData || {}
   }
 }

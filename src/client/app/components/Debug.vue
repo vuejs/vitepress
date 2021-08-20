@@ -7,7 +7,7 @@ const el = ref<HTMLElement | null>(null)
 const open = ref(false)
 
 watch(open, (value) => {
-  if (value === false) {
+  if (!value) {
     el.value!.scrollTop = 0
   }
 })
