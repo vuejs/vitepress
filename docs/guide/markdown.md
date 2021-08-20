@@ -60,7 +60,6 @@ Outbound links automatically get `target="_blank" rel="noopener noreferrer"`:
 title: Blogging Like a Hacker
 lang: en-US
 ---
-
 ```
 
 This data will be available to the rest of the page, along with all custom and theming components.
@@ -404,10 +403,15 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 VitePress uses [markdown-it](https://github.com/markdown-it/markdown-it) as the Markdown renderer. A lot of the extensions above are implemented via custom plugins. You can further customize the `markdown-it` instance using the `markdown` option in `.vitepress/config.js`:
 
 ```js
+const anchor = require('markdown-it-anchor')
+
 module.exports = {
   markdown: {
     // options for markdown-it-anchor
-    anchor: { permalink: false },
+    // https://github.com/valeriangalliat/markdown-it-anchor#permalinks
+    anchor: {
+      permalink: anchor.permalink.headerLink()
+    },
 
     // options for markdown-it-toc
     toc: { includeLevel: [1, 2] },
