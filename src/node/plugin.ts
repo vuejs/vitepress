@@ -1,5 +1,5 @@
 import path from 'path'
-import { mergeConfig, Plugin, ResolvedConfig } from 'vite'
+import { defineConfig, mergeConfig, Plugin, ResolvedConfig } from 'vite'
 import { SiteConfig, resolveSiteData } from './config'
 import {
   createMarkdownToVueRenderFn,
@@ -71,7 +71,7 @@ export function createVitePressPlugin(
     },
 
     config() {
-      const baseConfig = {
+      const baseConfig = defineConfig({
         resolve: {
           alias
         },
@@ -84,8 +84,13 @@ export function createVitePressPlugin(
           // force include vue to avoid duplicated copies when linked + optimized
           include: ['vue'],
           exclude: ['@docsearch/js']
+        },
+        server: {
+          fs: {
+            allow: [APP_PATH, srcDir]
+          }
         }
-      }
+      })
       return userViteConfig
         ? mergeConfig(userViteConfig, baseConfig)
         : baseConfig
