@@ -202,7 +202,7 @@ pages:
 
 3. Deploy to surge by typing `surge docs/.vitepress/dist`.
 
-You can also deploy to a [custom domain](http://surge.sh/help/adding-a-custom-domain) by adding `surge docs/.vitepress/dist yourdomain.com`.
+You can also deploy to a [custom domain](https://surge.sh/help/adding-a-custom-domain) by adding `surge docs/.vitepress/dist yourdomain.com`.
 
 ## Heroku
 
