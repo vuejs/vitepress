@@ -1,3 +1,28 @@
+# [0.17.0](https://github.com/vuejs/vitepress/compare/v0.16.1...v0.17.0) (2021-08-31)
+
+### Bug Fixes
+
+- allow vite server access to theme and local files ([9b9fdc7](https://github.com/vuejs/vitepress/commit/9b9fdc710a6cedb3e278805eb07bed669ca2075e))
+- **code:** code block highlight bug in ul ([#352](https://github.com/vuejs/vitepress/issues/352)) ([9245226](https://github.com/vuejs/vitepress/commit/9245226b16f6113c722e5e8c7b876bea1cf1c255))
+- **css:** remove 720px breakpoint in home layout ([#347](https://github.com/vuejs/vitepress/issues/347)) ([0c1a1f2](https://github.com/vuejs/vitepress/commit/0c1a1f2ef43cd7d995f3e9d43f19be8b3f961cb1))
+- **i18n:** fix locales reading, add site.langs ([#353](https://github.com/vuejs/vitepress/issues/353)) ([bc78adb](https://github.com/vuejs/vitepress/commit/bc78adb468bce8ce2d4e2543423adacc9351cf51)), closes [/vuepress.vuejs.org/guide/i18n.html#site-level-i18](https://github.com//vuepress.vuejs.org/guide/i18n.html/issues/site-level-i18) [/v2.vuepress.vuejs.org/guide/i18n.html#site-i18](https://github.com//v2.vuepress.vuejs.org/guide/i18n.html/issues/site-i18)
+- include emoji text in nav link to match toc ([#284](https://github.com/vuejs/vitepress/issues/284)) ([80ff360](https://github.com/vuejs/vitepress/commit/80ff36066ef6a4ed4a18548993bc5d8d9a6dab58))
+- use useData() instead of $site ([#365](https://github.com/vuejs/vitepress/issues/365)) ([1e64773](https://github.com/vuejs/vitepress/commit/1e6477393308a5d8bd03a614cecf9573466f6e6c))
+
+### Features
+
+- support function config ([e74c5f0](https://github.com/vuejs/vitepress/commit/e74c5f06d1d5890fad6dd728df9bf85dcfda87d1))
+- support partial include directive ([7b3a9e5](https://github.com/vuejs/vitepress/commit/7b3a9e59b44e9e354692eed6c1ca453be9cb7a86))
+- upgrade markdown-it-anchor ([#350](https://github.com/vuejs/vitepress/issues/350)) ([26b5aa9](https://github.com/vuejs/vitepress/commit/26b5aa931f1935bd67dcd1d511461ff5fa8a00ec))
+
+### BREAKING CHANGES
+
+- the `markdown.anchor` option is updated. Refer to
+  valeriangalliat/markdown-it-anchor#permalinks for
+  instructions to upgrade your existing `markdown.anchor.permalink`
+  option. **This doesn't affect you if you weren't changing the header
+  permalinks behavior**.
+
 ## [0.16.1](https://github.com/vuejs/vitepress/compare/v0.16.0...v0.16.1) (2021-08-11)
 
 ### Features
