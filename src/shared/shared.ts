@@ -37,10 +37,10 @@ function resolveLocales<T>(
 }
 
 export function createLangDictionary(siteData: {
-  themeConfig?: any
+  themeConfig?: Record<string, any>
   locales?: Record<string, LocaleConfig>
 }) {
-  const { locales } = siteData.themeConfig
+  const { locales } = siteData.themeConfig || {}
   const siteLocales = siteData.locales
   return locales && siteLocales
     ? Object.keys(locales).reduce((langs, path) => {
