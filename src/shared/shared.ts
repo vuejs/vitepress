@@ -66,20 +66,18 @@ export function resolveSiteDataByRoute(
     route
   )
 
-  return {
-    ...siteData,
-    ...localeData,
-    themeConfig: {
-      ...siteData.themeConfig,
-      ...localeThemeConfig,
+  // avoid object rest spread since this is going to run in the browser
+  // and spread is going to result in polyfill code
+  return Object.assign({}, siteData, localeData, {
+    themeConfig: Object.assign({}, siteData.themeConfig, localeThemeConfig, {
       // clean the locales to reduce the bundle size
       locales: {}
-    },
+    }),
     lang: (localeData || siteData).lang,
     // clean the locales to reduce the bundle size
     locales: {},
     langs: createLangDictionary(siteData)
-  }
+  })
 }
 
 /**
