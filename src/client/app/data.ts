@@ -1,4 +1,4 @@
-import { InjectionKey, Ref, ref, readonly, computed, inject } from 'vue'
+import { InjectionKey, Ref, shallowRef, readonly, computed, inject } from 'vue'
 import { Route } from './router'
 import serializedSiteData from '@siteData'
 import { resolveSiteDataByRoute, PageData, SiteData } from '../shared'
@@ -20,7 +20,7 @@ export interface VitePressData<T = any> {
 // site data is a singleton
 export type SiteDataRef<T = any> = Ref<SiteData<T>>
 
-export const siteDataRef: Ref<SiteData> = ref(parse(serializedSiteData))
+export const siteDataRef: Ref<SiteData> = shallowRef(parse(serializedSiteData))
 
 function parse(data: string): SiteData {
   return readonly(JSON.parse(data)) as SiteData
