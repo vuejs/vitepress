@@ -38,7 +38,6 @@ export interface UserConfig<ThemeConfig = any> {
    * Vite config
    */
   vite?: ViteConfig
-  customData?: any
 
   srcDir?: string
   srcExclude?: string[]
@@ -195,7 +194,6 @@ export async function resolveSiteData(
     head: userConfig.head || [],
     themeConfig: userConfig.themeConfig || {},
     locales: userConfig.locales || {},
-    langs: createLangDictionary(userConfig),
-    customData: userConfig.customData || {}
+    langs: createLangDictionary(userConfig)
   }
 }

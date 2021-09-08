@@ -41,7 +41,6 @@ export interface SiteData<ThemeConfig = any> {
       label: string
     }
   >
-  customData: any
 }
 
 export type HeadConfig =
