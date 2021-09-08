@@ -1,3 +1,15 @@
+## [0.17.1](https://github.com/vuejs/vitepress/compare/v0.17.0...v0.17.1) (2021-09-08)
+
+### Bug Fixes
+
+- avoid using spread for client code ([03abee7](https://github.com/vuejs/vitepress/commit/03abee7f7c0fac95806f31ff5761b9e912a1f232))
+- **default-theme:** use description as tagline by default ([b94c827](https://github.com/vuejs/vitepress/commit/b94c82710a7b230a918790ac0b6aa1d2f5afc1c3))
+- handle case when there is no themeConfig ([034c737](https://github.com/vuejs/vitepress/commit/034c7375ad2de4b42c0ac861c2dd18183511771d))
+
+### Performance Improvements
+
+- minor optimizations ([96bcdda](https://github.com/vuejs/vitepress/commit/96bcddabedac9af4e1c817ed651bb4ce692c75e7))
+
 # [0.17.0](https://github.com/vuejs/vitepress/compare/v0.16.1...v0.17.0) (2021-08-31)
 
 ### Bug Fixes
