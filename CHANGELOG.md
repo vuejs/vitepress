@@ -1,3 +1,13 @@
+## [0.17.2](https://github.com/vuejs/vitepress/compare/v0.17.1...v0.17.2) (2021-09-08)
+
+### Bug Fixes
+
+- improve fs allow ([2e9264f](https://github.com/vuejs/vitepress/commit/2e9264f03259354e7739e2a56a7c1306fb167843))
+
+### Features
+
+- support config.extends ([f749b27](https://github.com/vuejs/vitepress/commit/f749b272d4603a3b8eaf251b0feebe2d33da3983))
+
 ## [0.17.1](https://github.com/vuejs/vitepress/compare/v0.17.0...v0.17.1) (2021-09-08)
 
 ### Bug Fixes
