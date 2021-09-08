@@ -2,7 +2,11 @@ import path from 'path'
 import fs from 'fs-extra'
 import chalk from 'chalk'
 import globby from 'globby'
-import { AliasOptions, UserConfig as ViteConfig } from 'vite'
+import {
+  AliasOptions,
+  UserConfig as ViteConfig,
+  mergeConfig as mergeViteConfig
+} from 'vite'
 import { Options as VuePluginOptions } from '@vitejs/plugin-vue'
 import {
   SiteData,
@@ -47,7 +51,14 @@ export interface UserConfig<ThemeConfig = any> {
    * @deprecated use `vue` instead
    */
   vueOptions?: VuePluginOptions
+
+  extends?: RawConfigExports
 }
+
+type RawConfigExports =
+  | UserConfig
+  | Promise<UserConfig>
+  | (() => UserConfig | Promise<UserConfig>)
 
 export interface SiteConfig<ThemeConfig = any> {
   root: string
@@ -122,16 +133,53 @@ export async function resolveUserConfig(root: string): Promise<UserConfig> {
   const hasUserConfig = await fs.pathExists(configPath)
   // always delete cache first before loading config
   delete require.cache[configPath]
-  const userConfig: UserConfig | (() => UserConfig) = hasUserConfig
-    ? require(configPath)
-    : {}
+  const userConfig: RawConfigExports = hasUserConfig ? require(configPath) : {}
   if (hasUserConfig) {
     debug(`loaded config at ${chalk.yellow(configPath)}`)
   } else {
     debug(`no config file found.`)
   }
+  return resolveConfigExtends(userConfig)
+}
 
-  return typeof userConfig === 'function' ? userConfig() : userConfig
+async function resolveConfigExtends(
+  config: RawConfigExports
+): Promise<UserConfig> {
+  const resolved = await (typeof config === 'function' ? config() : config)
+  if (resolved.extends) {
+    const base = await resolveConfigExtends(resolved.extends)
+    return mergeConfig(base, resolved)
+  }
+  return resolved
+}
+
+function mergeConfig(a: UserConfig, b: UserConfig, isRoot = true) {
+  const merged: Record<string, any> = { ...a }
+  for (const key in b) {
+    const value = b[key as keyof UserConfig]
+    if (value == null) {
+      continue
+    }
+    const existing = merged[key]
+    if (Array.isArray(existing) && Array.isArray(value)) {
+      merged[key] = [...existing, ...value]
+      continue
+    }
+    if (isObject(existing) && isObject(value)) {
+      if (isRoot && key === 'vite') {
+        merged[key] = mergeViteConfig(existing, value)
+      } else {
+        merged[key] = mergeConfig(existing, value, false)
+      }
+      continue
+    }
+    merged[key] = value
+  }
+  return merged
+}
+
+function isObject(value: unknown): value is Record<string, any> {
+  return Object.prototype.toString.call(value) === '[object Object]'
 }
 
 export async function resolveSiteData(
