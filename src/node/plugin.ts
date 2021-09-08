@@ -5,7 +5,7 @@ import {
   createMarkdownToVueRenderFn,
   MarkdownCompileResult
 } from './markdownToVue'
-import { APP_PATH, SITE_DATA_REQUEST_PATH } from './alias'
+import { DIST_CLIENT_PATH, APP_PATH, SITE_DATA_REQUEST_PATH } from './alias'
 import createVuePlugin from '@vitejs/plugin-vue'
 import { slash } from './utils/slash'
 import { OutputAsset, OutputChunk } from 'rollup'
@@ -87,7 +87,7 @@ export function createVitePressPlugin(
         },
         server: {
           fs: {
-            allow: [APP_PATH, srcDir]
+            allow: [DIST_CLIENT_PATH, srcDir, process.cwd()]
           }
         }
       })

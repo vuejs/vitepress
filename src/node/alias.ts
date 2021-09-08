@@ -2,12 +2,10 @@ import path from 'path'
 import { Alias, AliasOptions } from 'vite'
 
 const PKG_ROOT = path.join(__dirname, '../../')
-export const APP_PATH = path.join(__dirname, '../client/app')
-export const SHARED_PATH = path.join(__dirname, '../client/shared')
-export const DEFAULT_THEME_PATH = path.join(
-  __dirname,
-  '../client/theme-default'
-)
+export const DIST_CLIENT_PATH = path.join(__dirname, '../client')
+export const APP_PATH = path.join(DIST_CLIENT_PATH, 'app')
+export const SHARED_PATH = path.join(DIST_CLIENT_PATH, 'shared')
+export const DEFAULT_THEME_PATH = path.join(DIST_CLIENT_PATH, 'theme-default')
 
 // special virtual file
 // we can't directly import '/@siteData' because
