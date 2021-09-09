@@ -133,6 +133,8 @@ export function createRouter(
               // scroll between hash anchors in the same page
               if (hash && hash !== currentUrl.hash) {
                 history.pushState(null, '', hash)
+                // still emit the event so we can listen to it in themes
+                window.dispatchEvent(new Event('hashchange'))
                 // use smooth scroll when clicking on header anchor links
                 scrollTo(link, hash, link.classList.contains('header-anchor'))
               }
