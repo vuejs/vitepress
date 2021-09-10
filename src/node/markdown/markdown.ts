@@ -19,6 +19,7 @@ const toc = require('markdown-it-table-of-contents')
 
 export interface MarkdownOptions extends MarkdownIt.Options {
   lineNumbers?: boolean
+  preConfig?: (md: MarkdownIt) => void
   config?: (md: MarkdownIt) => void
   anchor?: {
     permalink?: AnchorOptions['permalink']
@@ -49,6 +50,10 @@ export const createMarkdownRenderer = (
     highlight,
     ...options
   })
+
+  if (options.preConfig) {
+    options.preConfig(md)
+  }
 
   // custom plugins
   md.use(componentPlugin)
