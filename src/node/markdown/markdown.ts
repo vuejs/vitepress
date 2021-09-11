@@ -14,6 +14,7 @@ import { extractHeaderPlugin } from './plugins/header'
 import { Header } from '../shared'
 import anchor, { AnchorOptions } from 'markdown-it-anchor'
 
+const attrs = require('markdown-it-attrs')
 const emoji = require('markdown-it-emoji')
 const toc = require('markdown-it-table-of-contents')
 
@@ -22,6 +23,11 @@ export interface MarkdownOptions extends MarkdownIt.Options {
   config?: (md: MarkdownIt) => void
   anchor?: {
     permalink?: AnchorOptions['permalink']
+  }
+  attrs?: {
+    leftDelimiter?: string
+    rightDelimiter?: string
+    allowedAttributes?: string[]
   }
   // https://github.com/Oktavilla/markdown-it-table-of-contents
   toc?: any
@@ -64,6 +70,12 @@ export const createMarkdownRenderer = (
       ...options.externalLinks
     })
 
+    .use(attrs, {
+      leftDelimiter: '{',
+      rightDelimiter: '}',
+      allowedAttributes: [],
+      ...options.attrs
+    })
     // 3rd party plugins
     .use(anchor, {
       slugify,
