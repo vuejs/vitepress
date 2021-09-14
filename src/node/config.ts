@@ -22,6 +22,7 @@ export { resolveSiteDataByRoute } from './shared'
 const debug = require('debug')('vitepress:config')
 
 export interface UserConfig<ThemeConfig = any> {
+  extends?: RawConfigExports
   lang?: string
   base?: string
   title?: string
@@ -43,15 +44,9 @@ export interface UserConfig<ThemeConfig = any> {
   srcExclude?: string[]
 
   /**
-   * @deprecated use `srcExclude` instead
+   * Enable MPA / zero-JS mode
    */
-  exclude?: string[]
-  /**
-   * @deprecated use `vue` instead
-   */
-  vueOptions?: VuePluginOptions
-
-  extends?: RawConfigExports
+  mpa?: boolean
 }
 
 type RawConfigExports =
@@ -72,6 +67,7 @@ export interface SiteConfig<ThemeConfig = any> {
   markdown: MarkdownOptions | undefined
   vue: VuePluginOptions | undefined
   vite: ViteConfig | undefined
+  mpa: boolean
 }
 
 const resolve = (root: string, file: string) =>
@@ -81,22 +77,7 @@ export async function resolveConfig(
   root: string = process.cwd()
 ): Promise<SiteConfig> {
   const userConfig = await resolveUserConfig(root)
-
-  if (userConfig.vueOptions) {
-    console.warn(
-      chalk.yellow(`[vitepress] "vueOptions" option has been renamed to "vue".`)
-    )
-  }
-  if (userConfig.exclude) {
-    console.warn(
-      chalk.yellow(
-        `[vitepress] "exclude" option has been renamed to "ssrExclude".`
-      )
-    )
-  }
-
   const site = await resolveSiteData(root, userConfig)
-
   const srcDir = path.resolve(root, userConfig.srcDir || '.')
 
   // resolve theme path
@@ -120,7 +101,8 @@ export async function resolveConfig(
     markdown: userConfig.markdown,
     alias: resolveAliases(themeDir),
     vue: userConfig.vue,
-    vite: userConfig.vite
+    vite: userConfig.vite,
+    mpa: !!userConfig.mpa
   }
 
   return config

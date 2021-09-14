@@ -39,18 +39,20 @@ export async function renderPage(
   ))
   const pageData = JSON.parse(__pageData)
 
-  const preloadLinks = [
-    // resolve imports for index.js + page.md.js and inject script tags for
-    // them as well so we fetch everything as early as possible without having
-    // to wait for entry chunks to parse
-    ...resolvePageImports(config, page, result, appChunk),
-    pageClientJsFileName,
-    appChunk.fileName
-  ]
-    .map((file) => {
-      return `<link rel="modulepreload" href="${siteData.base}${file}">`
-    })
-    .join('\n    ')
+  const preloadLinks = config.mpa
+    ? ''
+    : [
+        // resolve imports for index.js + page.md.js and inject script tags for
+        // them as well so we fetch everything as early as possible without having
+        // to wait for entry chunks to parse
+        ...resolvePageImports(config, page, result, appChunk),
+        pageClientJsFileName,
+        appChunk.fileName
+      ]
+        .map((file) => {
+          return `<link rel="modulepreload" href="${siteData.base}${file}">`
+        })
+        .join('\n    ')
 
   const stylesheetLink = cssChunk
     ? `<link rel="stylesheet" href="${siteData.base}${cssChunk.fileName}">`
@@ -83,11 +85,12 @@ export async function renderPage(
   </head>
   <body>
     <div id="app">${content}</div>
-    <script>__VP_HASH_MAP__ = JSON.parse(${hashMapString})</script>
-    <script type="module" async src="${siteData.base}${
-    appChunk.fileName
-  }"></script>
-  </body>
+    ${
+      config.mpa
+        ? ``
+        : `<script>__VP_HASH_MAP__ = JSON.parse(${hashMapString})</script>` +
+          `<script type="module" async src="${siteData.base}${appChunk.fileName}"></script>`
+    }</body>
 </html>`.trim()
   const htmlFileName = path.join(config.outDir, page.replace(/\.md$/, '.html'))
   await fs.ensureDir(path.dirname(htmlFileName))

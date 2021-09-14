@@ -6,14 +6,22 @@ import { renderPage } from './render'
 import { OutputChunk, OutputAsset } from 'rollup'
 import ora from 'ora'
 
-export async function build(root: string, buildOptions: BuildOptions = {}) {
+export async function build(
+  root: string,
+  buildOptions: BuildOptions & { mpa?: string } = {}
+) {
   const start = Date.now()
 
   process.env.NODE_ENV = 'production'
   const siteConfig = await resolveConfig(root)
 
+  if (buildOptions.mpa) {
+    siteConfig.mpa = true
+    delete buildOptions.mpa
+  }
+
   try {
-    const [clientResult, , pageToHashMap] = await bundle(
+    const [clientResult, serverResult, pageToHashMap] = await bundle(
       siteConfig,
       buildOptions
     )
@@ -22,11 +30,13 @@ export async function build(root: string, buildOptions: BuildOptions = {}) {
     spinner.start('rendering pages...')
 
     try {
-      const appChunk = clientResult.output.find(
-        (chunk) => chunk.type === 'chunk' && chunk.isEntry
-      ) as OutputChunk
+      const appChunk =
+        clientResult &&
+        (clientResult.output.find(
+          (chunk) => chunk.type === 'chunk' && chunk.isEntry
+        ) as OutputChunk)
 
-      const cssChunk = clientResult.output.find(
+      const cssChunk = (clientResult || serverResult).output.find(
         (chunk) => chunk.type === 'asset' && chunk.fileName.endsWith('.css')
       ) as OutputAsset
 

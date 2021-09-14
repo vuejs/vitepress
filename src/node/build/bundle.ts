@@ -1,5 +1,6 @@
 import ora from 'ora'
 import path from 'path'
+import fs from 'fs-extra'
 import { slash } from '../utils/slash'
 import { APP_PATH } from '../alias'
 import { SiteConfig } from '../config'
@@ -71,7 +72,8 @@ export async function bundle(
               })
         }
       },
-      minify: ssr ? false : !process.env.DEBUG
+      // minify with esbuild in MPA mode (for CSS)
+      minify: ssr ? (config.mpa ? 'esbuild' : false) : !process.env.DEBUG
     }
   })
 
@@ -82,7 +84,7 @@ export async function bundle(
   spinner.start('building client + server bundles...')
   try {
     ;[clientResult, serverResult] = await (Promise.all([
-      build(resolveViteConfig(false)),
+      config.mpa ? null : build(resolveViteConfig(false)),
       build(resolveViteConfig(true))
     ]) as Promise<[RollupOutput, RollupOutput]>)
   } catch (e) {
@@ -94,6 +96,23 @@ export async function bundle(
   spinner.stopAndPersist({
     symbol: okMark
   })
+
+  if (config.mpa) {
+    // in MPA mode, we need to copy over the non-js asset files from the
+    // server build since there is no client-side build.
+    for (const chunk of serverResult.output) {
+      if (!chunk.fileName.endsWith('.js')) {
+        const tempPath = path.resolve(config.tempDir, chunk.fileName)
+        const outPath = path.resolve(config.outDir, chunk.fileName)
+        await fs.copy(tempPath, outPath)
+      }
+    }
+    // also copy over public dir
+    const publicDir = path.resolve(config.srcDir, 'public')
+    if (fs.existsSync(publicDir)) {
+      await fs.copy(publicDir, config.outDir)
+    }
+  }
 
   return [clientResult, serverResult, pageToHashMap]
 }
