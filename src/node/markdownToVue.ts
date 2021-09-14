@@ -133,6 +133,7 @@ export function createMarkdownToVueRenderFn(
 
 const scriptRE = /<\/script>/
 const scriptSetupRE = /<\s*script[^>]*\bsetup\b[^>]*/
+const scriptClientRe = /<\s*script[^>]*\bclient\b[^>]*/
 const defaultExportRE = /((?:^|\n|;)\s*)export(\s*)default/
 const namedDefaultExportRE = /((?:^|\n|;)\s*)export(.+)as(\s*)default/
 
@@ -142,7 +143,11 @@ function genPageDataCode(tags: string[], data: PageData) {
   )}`
 
   const existingScriptIndex = tags.findIndex((tag) => {
-    return scriptRE.test(tag) && !scriptSetupRE.test(tag)
+    return (
+      scriptRE.test(tag) &&
+      !scriptSetupRE.test(tag) &&
+      !scriptClientRe.test(tag)
+    )
   })
 
   if (existingScriptIndex > -1) {

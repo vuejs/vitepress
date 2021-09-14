@@ -45,6 +45,7 @@ export interface UserConfig<ThemeConfig = any> {
 
   /**
    * Enable MPA / zero-JS mode
+   * @experimental
    */
   mpa?: boolean
 }

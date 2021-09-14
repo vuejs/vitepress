@@ -21,7 +21,7 @@ export async function build(
   }
 
   try {
-    const [clientResult, serverResult, pageToHashMap] = await bundle(
+    const { clientResult, serverResult, pageToHashMap } = await bundle(
       siteConfig,
       buildOptions
     )
@@ -36,7 +36,9 @@ export async function build(
           (chunk) => chunk.type === 'chunk' && chunk.isEntry
         ) as OutputChunk)
 
-      const cssChunk = (clientResult || serverResult).output.find(
+      const cssChunk = (
+        siteConfig.mpa ? serverResult : clientResult
+      ).output.find(
         (chunk) => chunk.type === 'asset' && chunk.fileName.endsWith('.css')
       ) as OutputAsset
 

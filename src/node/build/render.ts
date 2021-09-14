@@ -4,15 +4,16 @@ import { SiteConfig, resolveSiteDataByRoute } from '../config'
 import { HeadConfig } from '../shared'
 import { normalizePath } from 'vite'
 import { RollupOutput, OutputChunk, OutputAsset } from 'rollup'
+import { slash } from '../utils/slash'
 
 const escape = require('escape-html')
 
 export async function renderPage(
   config: SiteConfig,
   page: string, // foo.md
-  result: RollupOutput,
-  appChunk: OutputChunk,
-  cssChunk: OutputAsset,
+  result: RollupOutput | null,
+  appChunk: OutputChunk | undefined,
+  cssChunk: OutputAsset | undefined,
   pageToHashMap: Record<string, string>,
   hashMapString: string
 ) {
@@ -39,20 +40,26 @@ export async function renderPage(
   ))
   const pageData = JSON.parse(__pageData)
 
-  const preloadLinks = config.mpa
-    ? ''
-    : [
-        // resolve imports for index.js + page.md.js and inject script tags for
-        // them as well so we fetch everything as early as possible without having
-        // to wait for entry chunks to parse
-        ...resolvePageImports(config, page, result, appChunk),
-        pageClientJsFileName,
-        appChunk.fileName
-      ]
-        .map((file) => {
-          return `<link rel="modulepreload" href="${siteData.base}${file}">`
-        })
-        .join('\n    ')
+  const preloadLinks = (
+    config.mpa
+      ? appChunk
+        ? [appChunk.fileName]
+        : []
+      : result && appChunk
+      ? [
+          // resolve imports for index.js + page.md.js and inject script tags for
+          // them as well so we fetch everything as early as possible without having
+          // to wait for entry chunks to parse
+          ...resolvePageImports(config, page, result, appChunk),
+          pageClientJsFileName,
+          appChunk.fileName
+        ]
+      : []
+  )
+    .map((file) => {
+      return `<link rel="modulepreload" href="${siteData.base}${file}">`
+    })
+    .join('\n    ')
 
   const stylesheetLink = cssChunk
     ? `<link rel="stylesheet" href="${siteData.base}${cssChunk.fileName}">`
@@ -68,6 +75,23 @@ export async function renderPage(
     ...siteData.head,
     ...filterOutHeadDescription(pageData.frontmatter.head)
   )
+
+  let inlinedScript = ''
+  if (config.mpa && result) {
+    const matchingChunk = result.output.find(
+      (chunk) =>
+        chunk.type === 'chunk' &&
+        chunk.facadeModuleId === slash(path.join(config.srcDir, page))
+    ) as OutputChunk
+    if (matchingChunk) {
+      if (!matchingChunk.code.includes('import')) {
+        inlinedScript = `<script type="module">${matchingChunk.code}</script>`
+        fs.removeSync(path.resolve(config.outDir, matchingChunk.fileName))
+      } else {
+        inlinedScript = `<script type="module" src="${siteData.base}${matchingChunk.fileName}"></script>`
+      }
+    }
+  }
 
   const html = `
 <!DOCTYPE html>
@@ -87,10 +111,16 @@ export async function renderPage(
     <div id="app">${content}</div>
     ${
       config.mpa
-        ? ``
-        : `<script>__VP_HASH_MAP__ = JSON.parse(${hashMapString})</script>` +
-          `<script type="module" async src="${siteData.base}${appChunk.fileName}"></script>`
-    }</body>
+        ? ''
+        : `<script>__VP_HASH_MAP__ = JSON.parse(${hashMapString})</script>`
+    }
+    ${
+      appChunk
+        ? `<script type="module" async src="${siteData.base}${appChunk.fileName}"></script>`
+        : ``
+    }
+    ${inlinedScript}
+  </body>
 </html>`.trim()
   const htmlFileName = path.join(config.outDir, page.replace(/\.md$/, '.html'))
   await fs.ensureDir(path.dirname(htmlFileName))

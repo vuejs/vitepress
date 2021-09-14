@@ -7,6 +7,7 @@ import { SiteConfig } from '../config'
 import { RollupOutput } from 'rollup'
 import { build, BuildOptions, UserConfig as ViteUserConfig } from 'vite'
 import { createVitePressPlugin } from '../plugin'
+import { buildMPAClient } from './buildMPAClient'
 
 export const okMark = '\x1b[32m✓\x1b[0m'
 export const failMark = '\x1b[31m✖\x1b[0m'
@@ -15,9 +16,14 @@ export const failMark = '\x1b[31m✖\x1b[0m'
 export async function bundle(
   config: SiteConfig,
   options: BuildOptions
-): Promise<[RollupOutput, RollupOutput, Record<string, string>]> {
+): Promise<{
+  clientResult: RollupOutput
+  serverResult: RollupOutput
+  pageToHashMap: Record<string, string>
+}> {
   const { root, srcDir } = config
   const pageToHashMap = Object.create(null)
+  const clientJSMap = Object.create(null)
 
   // define custom rollup input
   // this is a multi-entry build - every page is considered an entry chunk
@@ -39,7 +45,13 @@ export async function bundle(
     root: srcDir,
     base: config.site.base,
     logLevel: 'warn',
-    plugins: createVitePressPlugin(root, config, ssr, pageToHashMap),
+    plugins: createVitePressPlugin(
+      root,
+      config,
+      ssr,
+      pageToHashMap,
+      clientJSMap
+    ),
     // @ts-ignore
     ssr: {
       noExternal: ['vitepress']
@@ -112,9 +124,13 @@ export async function bundle(
     if (fs.existsSync(publicDir)) {
       await fs.copy(publicDir, config.outDir)
     }
+    // build <script client> bundle
+    if (Object.keys(clientJSMap).length) {
+      clientResult = (await buildMPAClient(clientJSMap, config)) as RollupOutput
+    }
   }
 
-  return [clientResult, serverResult, pageToHashMap]
+  return { clientResult, serverResult, pageToHashMap }
 }
 
 const adComponentRE = /(?:Carbon|BuySell)Ads/

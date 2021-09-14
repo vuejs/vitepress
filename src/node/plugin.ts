@@ -16,6 +16,11 @@ const staticInjectMarkerRE =
 const staticStripRE = /__VP_STATIC_START__.*?__VP_STATIC_END__/g
 const staticRestoreRE = /__VP_STATIC_(START|END)__/g
 
+// matches client-side js blocks in MPA mode.
+// in the future we may add different execution strategies like visible or
+// media queries.
+const scriptClientRE = /<script\b[^>]*client\b[^>]*>([^]*?)<\/script>/
+
 const isPageChunk = (
   chunk: OutputAsset | OutputChunk
 ): chunk is OutputChunk & { facadeModuleId: string } =>
@@ -28,7 +33,12 @@ const isPageChunk = (
 
 export function createVitePressPlugin(
   root: string,
-  {
+  siteConfig: SiteConfig,
+  ssr = false,
+  pageToHashMap?: Record<string, string>,
+  clientJSMap?: Record<string, string>
+): Plugin[] {
+  const {
     srcDir,
     configPath,
     alias,
@@ -37,10 +47,8 @@ export function createVitePressPlugin(
     vue: userVuePluginOptions,
     vite: userViteConfig,
     pages
-  }: SiteConfig,
-  ssr = false,
-  pageToHashMap?: Record<string, string>
-): Plugin[] {
+  } = siteConfig
+
   let markdownToVue: (
     src: string,
     file: string,
@@ -51,6 +59,15 @@ export function createVitePressPlugin(
     include: [/\.vue$/, /\.md$/],
     ...userVuePluginOptions
   })
+
+  const processClientJS = (code: string, id: string) => {
+    return scriptClientRE.test(code)
+      ? code.replace(scriptClientRE, (_, content) => {
+          if (ssr && clientJSMap) clientJSMap[id] = content
+          return `\n`.repeat(_.split('\n').length - 1)
+        })
+      : code
+  }
 
   let siteData = site
   let hasDeadLinks = false
@@ -109,7 +126,9 @@ export function createVitePressPlugin(
     },
 
     transform(code, id) {
-      if (id.endsWith('.md')) {
+      if (id.endsWith('.vue')) {
+        return processClientJS(code, id)
+      } else if (id.endsWith('.md')) {
         // transform .md files into vueSrc so plugin-vue can handle it
         const { vueSrc, deadLinks, includes } = markdownToVue(
           code,
@@ -124,7 +143,7 @@ export function createVitePressPlugin(
             this.addWatchFile(i)
           })
         }
-        return vueSrc
+        return processClientJS(vueSrc, id)
       }
     },
 
