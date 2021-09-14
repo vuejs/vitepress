@@ -1,3 +1,10 @@
+# [0.18.0](https://github.com/vuejs/vitepress/compare/v0.17.3...v0.18.0) (2021-09-14)
+
+### Features
+
+- map mode + remove deprecated options ([b94b163](https://github.com/vuejs/vitepress/commit/b94b163a3a931fe03e69547391d6ac22eb41b789))
+- support `<script client>` in mpa mode ([e0b6997](https://github.com/vuejs/vitepress/commit/e0b69973f840bfa281fae209da1f1c674c1301a8))
+
 ## [0.17.3](https://github.com/vuejs/vitepress/compare/v0.17.2...v0.17.3) (2021-09-09)
 
 ### Bug Fixes
