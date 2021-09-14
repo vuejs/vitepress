@@ -5,11 +5,7 @@
 
 ---
 
-**:fire: Note this is early WIP! Currently the focus is on making Vite stable and feature complete first. It is not recommended to use this for anything serious yet.**
-
----
-
-VitePress is [VuePress](http://vuepress.vuejs.org/)' little brother, built on top of [vite](https://github.com/vuejs/vite).
+VitePress is [VuePress](http://vuepress.vuejs.org/)' spiritual successor, built on top of [vite](https://github.com/vuejs/vite).
 
 ## Documentation
 
