@@ -16,6 +16,7 @@ import {
 } from './shared'
 import { resolveAliases, APP_PATH, DEFAULT_THEME_PATH } from './alias'
 import { MarkdownOptions } from './markdown/markdown'
+import { createHash } from 'crypto'
 
 export { resolveSiteDataByRoute } from './shared'
 
@@ -87,15 +88,32 @@ export async function resolveConfig(
     ? userThemeDir
     : DEFAULT_THEME_PATH
 
+  // Important: globby/fast-glob doesn't guarantee order of the returned files.
+  // We must sort the pages so the input list to rollup is stable across
+  // builds - otherwise different input order could result in different exports
+  // order in shared chunks which in turns invalidates the hash of every chunk!
+  // JavaScript built-in sort() is mandated to be stable as of ES2019 and
+  // supported in Node 12+, which is required by Vite.
+  const pages = (
+    await globby(['**.md'], {
+      cwd: srcDir,
+      ignore: ['**/node_modules', ...(userConfig.srcExclude || [])]
+    })
+  ).sort()
+
+  const hash = createHash('sha256')
+    .update(pages.join(','))
+    .digest('hex')
+    .slice(0, 8)
+
+  console.log(hash)
+
   const config: SiteConfig = {
     root,
     srcDir,
     site,
     themeDir,
-    pages: await globby(['**.md'], {
-      cwd: srcDir,
-      ignore: ['**/node_modules', ...(userConfig.srcExclude || [])]
-    }),
+    pages,
     configPath: resolve(root, 'config.js'),
     outDir: resolve(root, 'dist'),
     tempDir: path.resolve(APP_PATH, 'temp'),
