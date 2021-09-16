@@ -273,5 +273,5 @@ export function createVitePressPlugin(
     }
   }
 
-  return [vitePressPlugin, vuePlugin, ...(userViteConfig.plugins || [])]
+  return [vitePressPlugin, vuePlugin, ...(userViteConfig?.plugins || []) as Plugin[]]
 }
