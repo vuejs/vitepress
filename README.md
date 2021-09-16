@@ -13,7 +13,7 @@ To check out docs, visit [vitepress.vuejs.org](https://vitepress.vuejs.org).
 
 ## Changelog
 
-Detailed changes for each release are documented in the [release notes](https://github.com/vuejs/vitepress/releases).
+Detailed changes for each release are documented in the [CHANGELOG](https://github.com/vuejs/vitepress/blob/master/CHANGELOG.md).
 
 ## Contribution
 
