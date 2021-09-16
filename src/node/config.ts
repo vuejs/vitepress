@@ -16,7 +16,6 @@ import {
 } from './shared'
 import { resolveAliases, APP_PATH, DEFAULT_THEME_PATH } from './alias'
 import { MarkdownOptions } from './markdown/markdown'
-import { createHash } from 'crypto'
 
 export { resolveSiteDataByRoute } from './shared'
 
@@ -100,13 +99,6 @@ export async function resolveConfig(
       ignore: ['**/node_modules', ...(userConfig.srcExclude || [])]
     })
   ).sort()
-
-  const hash = createHash('sha256')
-    .update(pages.join(','))
-    .digest('hex')
-    .slice(0, 8)
-
-  console.log(hash)
 
   const config: SiteConfig = {
     root,
