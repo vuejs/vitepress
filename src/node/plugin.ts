@@ -136,6 +136,8 @@ export function createVitePressPlugin(
           config.publicDir
         )
         if (deadLinks.length) {
+          console.info(deadLinks,'deadLink');
+          console.info(id,'deadLink Path');
           hasDeadLinks = true
         }
         if (includes.length) {
