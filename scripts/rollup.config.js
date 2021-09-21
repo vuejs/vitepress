@@ -25,7 +25,7 @@ export default defineConfig({
     commonjs(),
     nodeResolve(),
     esbuild({
-      target: 'esnext'
+      target: 'node12'
     }),
     json()
   ],
