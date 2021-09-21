@@ -23,7 +23,7 @@ export async function renderPage(
   const siteData = resolveSiteDataByRoute(config.site, routePath)
   router.go(routePath)
   // lazy require server-renderer for production build
-  const content = await require('@vue/server-renderer').renderToString(app)
+  const content = await require('vue/server-renderer').renderToString(app)
 
   const pageName = page.replace(/\//g, '_')
   // server build doesn't need hash
