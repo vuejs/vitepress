@@ -1,3 +1,10 @@
+# [0.19.0](https://github.com/vuejs/vitepress/compare/v0.18.1...v0.19.0) (2021-09-21)
+
+### Features
+
+- upgrade vue, simplify deps ([9030486](https://github.com/vuejs/vitepress/commit/9030486409f10a59115d874b9365f71348ed76c2))
+- use `markdown-it-attrs` for markdown-it plugins ([#393](https://github.com/vuejs/vitepress/issues/393)) ([610e9b7](https://github.com/vuejs/vitepress/commit/610e9b7111462d3aace878017fa4d359cd2ae7ea))
+
 ## [0.18.1](https://github.com/vuejs/vitepress/compare/v0.18.0...v0.18.1) (2021-09-16)
 
 ### Bug Fixes
