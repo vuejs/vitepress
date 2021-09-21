@@ -7,8 +7,9 @@ import { deeplyParseHeader } from './utils/parseHeader'
 import { PageData, HeadConfig } from './shared'
 import { slash } from './utils/slash'
 import chalk from 'chalk'
+import _debug from 'debug'
 
-const debug = require('debug')('vitepress:md')
+const debug = _debug('vitepress:md')
 const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
 const includesRE = /<!--\s*@include:\s*(.*?)\s*-->/g
 

@@ -5,8 +5,7 @@ import { HeadConfig } from '../shared'
 import { normalizePath } from 'vite'
 import { RollupOutput, OutputChunk, OutputAsset } from 'rollup'
 import { slash } from '../utils/slash'
-
-const escape = require('escape-html')
+import escape from 'escape-html'
 
 export async function renderPage(
   config: SiteConfig,

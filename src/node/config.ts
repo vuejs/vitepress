@@ -16,10 +16,11 @@ import {
 } from './shared'
 import { resolveAliases, APP_PATH, DEFAULT_THEME_PATH } from './alias'
 import { MarkdownOptions } from './markdown/markdown'
+import _debug from 'debug'
 
 export { resolveSiteDataByRoute } from './shared'
 
-const debug = require('debug')('vitepress:config')
+const debug = _debug('vitepress:config')
 
 export type { MarkdownOptions }
 

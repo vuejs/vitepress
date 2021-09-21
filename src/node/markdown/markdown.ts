@@ -13,10 +13,9 @@ import { linkPlugin } from './plugins/link'
 import { extractHeaderPlugin } from './plugins/header'
 import { Header } from '../shared'
 import anchor, { AnchorOptions } from 'markdown-it-anchor'
-
-const attrs = require('markdown-it-attrs')
-const emoji = require('markdown-it-emoji')
-const toc = require('markdown-it-table-of-contents')
+import attrs from 'markdown-it-attrs'
+import emoji from 'markdown-it-emoji'
+import toc from 'markdown-it-table-of-contents'
 
 export interface MarkdownOptions extends MarkdownIt.Options {
   lineNumbers?: boolean
