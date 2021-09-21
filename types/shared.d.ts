@@ -36,7 +36,7 @@ export interface SiteData<ThemeConfig = any> {
       lang: string
       /**
        * Label to display in the language menu.
-       * @example `English', `简体中文`
+       * @example `English`, `简体中文`
        */
       label: string
     }

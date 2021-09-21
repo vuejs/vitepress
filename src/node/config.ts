@@ -21,6 +21,8 @@ export { resolveSiteDataByRoute } from './shared'
 
 const debug = require('debug')('vitepress:config')
 
+export type { MarkdownOptions }
+
 export interface UserConfig<ThemeConfig = any> {
   extends?: RawConfigExports
   lang?: string
@@ -32,7 +34,7 @@ export interface UserConfig<ThemeConfig = any> {
   locales?: Record<string, LocaleConfig>
   markdown?: MarkdownOptions
   /**
-   * Opitons to pass on to @vitejs/plugin-vue
+   * Opitons to pass on to `@vitejs/plugin-vue`
    */
   vue?: VuePluginOptions
   /**
@@ -50,7 +52,7 @@ export interface UserConfig<ThemeConfig = any> {
   mpa?: boolean
 }
 
-type RawConfigExports =
+export type RawConfigExports =
   | UserConfig
   | Promise<UserConfig>
   | (() => UserConfig | Promise<UserConfig>)
