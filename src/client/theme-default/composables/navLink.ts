@@ -9,7 +9,7 @@ export function useNavLink(item: Ref<DefaultTheme.NavItemWithLink>) {
   const isExternal = isExternalCheck(item.value.link)
 
   const props = computed(() => {
-    const routePath = normalizePath(`/${route.data.relativePath}`)
+    const routePath = normalizePath(withBase(`/${route.data.relativePath}`))
 
     let active = false
     if (item.value.activeMatch) {
