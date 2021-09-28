@@ -30,6 +30,15 @@ export function createMarkdownToVueRenderFn(
   const md = createMarkdownRenderer(srcDir, options)
   pages = pages.map((p) => slash(p.replace(/\.md$/, '')))
 
+  const userDefineRegex = userDefines
+    ? new RegExp(
+        `\\b(${Object.keys(userDefines)
+          .map((key) => key.replace(/[-[\]/{}()*+?.\\^$|]/g, '\\$&'))
+          .join('|')})`,
+        'g'
+      )
+    : null
+
   return (
     src: string,
     file: string,
@@ -66,14 +75,11 @@ export function createMarkdownToVueRenderFn(
         .replace(/\bprocess\.env/g, 'process.<wbr/>env')
 
       // also avoid replacing vite user defines
-      if (userDefines) {
-        const regex = new RegExp(
-          `\\b(${Object.keys(userDefines)
-            .map((key) => key.replace(/[-[\]/{}()*+?.\\^$|]/g, '\\$&'))
-            .join('|')})`,
-          'g'
+      if (userDefineRegex) {
+        html = html.replace(
+          userDefineRegex,
+          (_) => `${_[0]}<wbr/>${_.slice(1)}`
         )
-        html = html.replace(regex, (_) => `${_[0]}<wbr/>${_.slice(1)}`)
       }
     }
 
