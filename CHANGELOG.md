@@ -1,3 +1,9 @@
+## [0.19.2](https://github.com/vuejs/vitepress/compare/v0.19.1...v0.19.2) (2021-09-28)
+
+### Bug Fixes
+
+- encode urls that conflict w/ vite built-in replacements ([3940625](https://github.com/vuejs/vitepress/commit/3940625121455b7ad6e5ea8ebb3e1cf2faf9c7fc))
+
 ## [0.19.1](https://github.com/vuejs/vitepress/compare/v0.19.0...v0.19.1) (2021-09-21)
 
 - Fix build
