@@ -82,7 +82,7 @@ The `<Content/>` component displays the rendered markdown contents. Useful [when
 
 ### `<ClientOnly/>`
 
-The `<ClientOnly/>` component renderes its slot only at client side.
+The `<ClientOnly/>` component renders its slot only at client side.
 
 Because VitePress applications are server-rendered in Node.js when generating static builds, any Vue usage must conform to the universal code requirements. In short, make sure to only access Browser / DOM APIs in beforeMount or mounted hooks.
 
