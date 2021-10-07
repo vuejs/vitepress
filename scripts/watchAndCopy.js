@@ -3,19 +3,13 @@ const chokidar = require('chokidar')
 const { normalizePath } = require('vite')
 
 function toClientAndNode(method, file) {
-  const normalize_file = normalizePath(file)
+  file = normalizePath(file)
   if (method === 'copy') {
-    fs.copy(
-      normalize_file,
-      normalize_file.replace(/^src\/shared\//, 'src/node/')
-    )
-    fs.copy(
-      normalize_file,
-      normalize_file.replace(/^src\/shared\//, 'src/client/')
-    )
+    fs.copy(file, file.replace(/^src\/shared\//, 'src/node/'))
+    fs.copy(file, file.replace(/^src\/shared\//, 'src/client/'))
   } else if (method === 'remove') {
-    fs.remove(normalize_file.replace(/^src\/shared\//, 'src/node/'))
-    fs.remove(normalize_file.replace(/^src\/shared\//, 'src/client/'))
+    fs.remove(file.replace(/^src\/shared\//, 'src/node/'))
+    fs.remove(file.replace(/^src\/shared\//, 'src/client/'))
   }
 }
 
