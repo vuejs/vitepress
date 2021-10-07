@@ -1,3 +1,21 @@
+# [0.20.0](https://github.com/vuejs/vitepress/compare/v0.19.2...v0.20.0) (2021-10-07)
+
+### Bug Fixes
+
+- fix code line hightlighting ([4c042b6](https://github.com/vuejs/vitepress/commit/4c042b61e7beb70d0a0b77cc9a00d725c7863089)), closes [#408](https://github.com/vuejs/vitepress/issues/408)
+- invalid active props when `base` option is added ([#342](https://github.com/vuejs/vitepress/issues/342)) ([383d8ff](https://github.com/vuejs/vitepress/commit/383d8ffbba5283774e0f1e39302a29efc0db7e79))
+- make config hmr work in window ([#364](https://github.com/vuejs/vitepress/issues/364)) ([58663bb](https://github.com/vuejs/vitepress/commit/58663bbd02aa3da0efd939bd27de2ee5c0ab14d8))
+- print urls again ([df69b76](https://github.com/vuejs/vitepress/commit/df69b76427ab2c770010cd79e1076a1c414fb3bc))
+- support vite plugins provided via `config.vite` ([#394](https://github.com/vuejs/vitepress/issues/394)) ([4b76617](https://github.com/vuejs/vitepress/commit/4b7661762143b033e82fad526e256f7bc54df9af))
+- **theme-default/algolia:** avoid creating multiple algolia searches ([#292](https://github.com/vuejs/vitepress/issues/292)) ([389e863](https://github.com/vuejs/vitepress/commit/389e863b4d5e69c856d1e647d4d4c1807bd94c5d))
+- **theme:** fix algolia search filter ([5fd7db2](https://github.com/vuejs/vitepress/commit/5fd7db2b7fcd947d77c97b1e9bdaf83845c1321d))
+- tolerant invalid hash ([#399](https://github.com/vuejs/vitepress/issues/399)) ([efc5e1b](https://github.com/vuejs/vitepress/commit/efc5e1b2566eedc47a9420accae3dfba1a594ba4))
+
+### Features
+
+- support ts/esm config file + defineConfig() helper ([d3b1521](https://github.com/vuejs/vitepress/commit/d3b1521ebef831e0d0307b3b12e4fc1f6ce4721a)), closes [#339](https://github.com/vuejs/vitepress/issues/339) [#376](https://github.com/vuejs/vitepress/issues/376)
+- **theme-default:** home slot for customizing the entire homepage easily ([#314](https://github.com/vuejs/vitepress/issues/314)) ([07bf145](https://github.com/vuejs/vitepress/commit/07bf1451909ad615565e01d719e8a350ea07e69e))
+
 ## [0.19.2](https://github.com/vuejs/vitepress/compare/v0.19.1...v0.19.2) (2021-09-28)
 
 ### Bug Fixes
