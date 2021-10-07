@@ -68,14 +68,8 @@ export const createMarkdownRenderer = (
       rel: 'noopener noreferrer',
       ...options.externalLinks
     })
-
-    .use(attrs, {
-      leftDelimiter: '{',
-      rightDelimiter: '}',
-      allowedAttributes: [],
-      ...options.attrs
-    })
     // 3rd party plugins
+    .use(attrs, options.attrs)
     .use(anchor, {
       slugify,
       permalink: anchor.permalink.ariaHidden({}),
