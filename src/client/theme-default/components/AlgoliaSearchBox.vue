@@ -52,11 +52,29 @@ function update(options: any) {
 
 const { lang } = useData()
 
-function initialize(userOptions: any) {
-  // if the user has multiple locales, the search results should be filtered
-  // based on the language
-  const facetFilters = props.multilang ? ['language:' + lang.value] : []
+// if the user has multiple locales, the search results should be filtered
+// based on the language
+const facetFilters: string[] = props.multilang
+  ? ['language:' + lang.value]
+  : []
 
+if (props.options.searchParameters?.facetFilters) {
+  facetFilters.push(...props.options.searchParameters.facetFilters)
+}
+
+watch(
+  lang,
+  (newLang, oldLang) => {
+    const index = facetFilters.findIndex(
+      (filter) => filter === 'language:' + oldLang
+    )
+    if (index > -1) {
+      facetFilters.splice(index, 1, 'language:' + newLang)
+    }
+  }
+)
+
+function initialize(userOptions: any) {
   docsearch(
     Object.assign({}, userOptions, {
       container: '#docsearch',
@@ -64,9 +82,7 @@ function initialize(userOptions: any) {
       searchParameters: Object.assign({}, userOptions.searchParameters, {
         // pass a custom lang facetFilter to allow multiple language search
         // https://github.com/algolia/docsearch-configs/pull/3942
-        facetFilters: facetFilters.concat(
-          userOptions.searchParameters?.facetFilters || []
-        )
+        facetFilters
       }),
 
       navigator: {

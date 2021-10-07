@@ -88,8 +88,7 @@ const pageClasses = computed(() => {
           <AlgoliaSearchBox
             v-if="theme.algolia"
             :options="theme.algolia"
-            :multilang="isMultiLang"
-            :key="site.lang"
+            :multilang="!!theme.locales"
           />
         </slot>
       </template>
