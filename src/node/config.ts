@@ -3,6 +3,7 @@ import fs from 'fs-extra'
 import chalk from 'chalk'
 import globby from 'globby'
 import {
+  normalizePath,
   AliasOptions,
   UserConfig as ViteConfig,
   mergeConfig as mergeViteConfig
@@ -75,7 +76,7 @@ export interface SiteConfig<ThemeConfig = any> {
 }
 
 const resolve = (root: string, file: string) =>
-  path.resolve(root, `.vitepress`, file)
+  normalizePath(path.resolve(root, `.vitepress`, file))
 
 export async function resolveConfig(
   root: string = process.cwd()
@@ -127,7 +128,7 @@ export async function resolveUserConfig(root: string): Promise<UserConfig> {
   const configPath = resolve(root, 'config.js')
   const hasUserConfig = await fs.pathExists(configPath)
   // always delete cache first before loading config
-  delete require.cache[configPath]
+  delete require.cache[require.resolve(configPath)]
   const userConfig: RawConfigExports = hasUserConfig ? require(configPath) : {}
   if (hasUserConfig) {
     debug(`loaded config at ${chalk.yellow(configPath)}`)
