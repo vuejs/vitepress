@@ -57,15 +57,15 @@ importers:
       sirv: ^1.0.12
       ts-jest: ^27.0.1
       typescript: ^4.3.2
-      vite: ^2.6.2
+      vite: ^2.6.5
       vue: ^3.2.19
       yorkie: ^2.0.0
     dependencies:
       '@docsearch/css': 1.0.0-alpha.28
       '@docsearch/js': 1.0.0-alpha.28
-      '@vitejs/plugin-vue': 1.9.2_vite@2.6.4
+      '@vitejs/plugin-vue': 1.9.2_vite@2.6.5
       prismjs: 1.25.0
-      vite: 2.6.4
+      vite: 2.6.5
       vue: 3.2.19
     devDependencies:
       '@microsoft/api-extractor': 7.18.11
@@ -1294,13 +1294,13 @@ packages:
       '@types/yargs-parser': 20.2.1
     dev: true
 
-  /@vitejs/plugin-vue/1.9.2_vite@2.6.4:
+  /@vitejs/plugin-vue/1.9.2_vite@2.6.5:
     resolution: {integrity: sha512-QnUQJvGmY+YT9xTidLcjr6NAjKWNdSuul1M+BZ6uwTQaO5vpAY9USBncXESATk742dYMZGJenegJgeJhG/HMNQ==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
       vite: ^2.5.10
     dependencies:
-      vite: 2.6.4
+      vite: 2.6.5
     dev: false
 
   /@vue/compiler-core/3.2.19:
@@ -5382,8 +5382,8 @@ packages:
     engines: {node: '>= 0.8'}
     dev: true
 
-  /vite/2.6.4:
-    resolution: {integrity: sha512-zNGZgjKGprdLKJ1g1taAvNt51JbGAdrAUU9hpLzgtlks+cXBxTZUsEAGEtLbF3UvlYOVAPXS8r9E9gxYAv6z+A==}
+  /vite/2.6.5:
+    resolution: {integrity: sha512-vavXMChDUb4Oh4YunrK9BrH5Ox74cu0eOp0VuyI/iqFz1FqbWD72So2c9I87lLL2n0+6tFPV5ijow60KrtxuZg==}
     engines: {node: '>=12.2.0'}
     hasBin: true
     peerDependencies:
