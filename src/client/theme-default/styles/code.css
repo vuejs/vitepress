@@ -55,6 +55,7 @@ li > div[class*='language-'] {
   -moz-hyphens: none;
   -ms-hyphens: none;
   hyphens: none;
+  background: transparent;
 }
 
 [class*='language-'] pre {
@@ -62,7 +63,6 @@ li > div[class*='language-'] {
   z-index: 1;
   margin: 0;
   padding: 1.25rem 1.5rem;
-  background: transparent;
   overflow-x: auto;
 }
 
