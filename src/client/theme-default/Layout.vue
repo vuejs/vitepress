@@ -31,6 +31,9 @@ const isCustomLayout = computed(() => !!frontmatter.value.customLayout)
 // home
 const enableHome = computed(() => !!frontmatter.value.home)
 
+// automatic multilang check for AlgoliaSearchBox
+const isMultiLang = computed(() => Object.keys(site.value.langs).length > 1)
+
 // navbar
 const showNavbar = computed(() => {
   const themeConfig = theme.value
@@ -85,7 +88,7 @@ const pageClasses = computed(() => {
           <AlgoliaSearchBox
             v-if="theme.algolia"
             :options="theme.algolia"
-            :multilang="!!theme.locales"
+            :multilang="isMultiLang"
           />
         </slot>
       </template>
