@@ -37,7 +37,7 @@ export function createVitePressPlugin(
   ssr = false,
   pageToHashMap?: Record<string, string>,
   clientJSMap?: Record<string, string>
-): Plugin[] {
+) {
   const {
     srcDir,
     configPath,
@@ -273,5 +273,5 @@ export function createVitePressPlugin(
     }
   }
 
-  return [vitePressPlugin, vuePlugin]
+  return [vitePressPlugin, vuePlugin, ...(userViteConfig?.plugins || [])]
 }
