@@ -32,6 +32,13 @@ export const linkPlugin = (
       ) {
         normalizeHref(hrefAttr)
       }
+
+      // encode vite-specific replace strings in case they appear in URLs
+      // this also excludes them from build-time replacements (which injects
+      // <wbr/> and will break URLs)
+      hrefAttr[1] = hrefAttr[1]
+        .replace(/\bimport\.meta/g, 'import%2Emeta')
+        .replace(/\bprocess\.env/g, 'process%2Eenv')
     }
     return self.renderToken(tokens, idx, options)
   }

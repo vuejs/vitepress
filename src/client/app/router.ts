@@ -77,7 +77,9 @@ export function createRouter(
 
         route.path = pendingPath
         route.component = markRaw(comp)
-        route.data = readonly(JSON.parse(__pageData)) as PageData
+        route.data = import.meta.env.PROD
+          ? markRaw(JSON.parse(__pageData))
+          : (readonly(JSON.parse(__pageData)) as PageData)
 
         if (inBrowser) {
           nextTick(() => {
@@ -94,7 +96,7 @@ export function createRouter(
           })
         }
       }
-    } catch (err) {
+    } catch (err: any) {
       if (!err.message.match(/fetch/)) {
         console.error(err)
       }
@@ -131,6 +133,8 @@ export function createRouter(
               // scroll between hash anchors in the same page
               if (hash && hash !== currentUrl.hash) {
                 history.pushState(null, '', hash)
+                // still emit the event so we can listen to it in themes
+                window.dispatchEvent(new Event('hashchange'))
                 // use smooth scroll when clicking on header anchor links
                 scrollTo(link, hash, link.classList.contains('header-anchor'))
               }

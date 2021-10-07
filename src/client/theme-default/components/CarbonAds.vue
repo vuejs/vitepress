@@ -24,6 +24,7 @@ onMounted(() => {
 .carbon-ads {
   border-radius: 4px;
   margin: 0 auto;
+  padding: 8px;
   max-width: 280px;
   font-size: 0.75rem;
   background-color: var(--c-bg-accent);
@@ -41,7 +42,6 @@ onMounted(() => {
     z-index: 1;
     float: right;
     margin: -8px -8px 24px 24px;
-    padding: 8px;
     width: 146px;
     max-width: 100%;
     min-height: 200px;

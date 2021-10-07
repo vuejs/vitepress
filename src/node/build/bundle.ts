@@ -1,11 +1,13 @@
 import ora from 'ora'
 import path from 'path'
+import fs from 'fs-extra'
 import { slash } from '../utils/slash'
 import { APP_PATH } from '../alias'
 import { SiteConfig } from '../config'
 import { RollupOutput } from 'rollup'
 import { build, BuildOptions, UserConfig as ViteUserConfig } from 'vite'
 import { createVitePressPlugin } from '../plugin'
+import { buildMPAClient } from './buildMPAClient'
 
 export const okMark = '\x1b[32m✓\x1b[0m'
 export const failMark = '\x1b[31m✖\x1b[0m'
@@ -14,9 +16,14 @@ export const failMark = '\x1b[31m✖\x1b[0m'
 export async function bundle(
   config: SiteConfig,
   options: BuildOptions
-): Promise<[RollupOutput, RollupOutput, Record<string, string>]> {
+): Promise<{
+  clientResult: RollupOutput
+  serverResult: RollupOutput
+  pageToHashMap: Record<string, string>
+}> {
   const { root, srcDir } = config
   const pageToHashMap = Object.create(null)
+  const clientJSMap = Object.create(null)
 
   // define custom rollup input
   // this is a multi-entry build - every page is considered an entry chunk
@@ -38,7 +45,13 @@ export async function bundle(
     root: srcDir,
     base: config.site.base,
     logLevel: 'warn',
-    plugins: createVitePressPlugin(root, config, ssr, pageToHashMap),
+    plugins: createVitePressPlugin(
+      root,
+      config,
+      ssr,
+      pageToHashMap,
+      clientJSMap
+    ),
     // @ts-ignore
     ssr: {
       noExternal: ['vitepress']
@@ -64,12 +77,15 @@ export async function bundle(
                   if (!chunk.isEntry && /runtime/.test(chunk.name)) {
                     return `assets/framework.[hash].js`
                   }
-                  return `assets/[name].[hash].js`
+                  return adComponentRE.test(chunk.name)
+                    ? `assets/ui-custom.[hash].js`
+                    : `assets/[name].[hash].js`
                 }
               })
         }
       },
-      minify: ssr ? false : !process.env.DEBUG
+      // minify with esbuild in MPA mode (for CSS)
+      minify: ssr ? (config.mpa ? 'esbuild' : false) : !process.env.DEBUG
     }
   })
 
@@ -80,7 +96,7 @@ export async function bundle(
   spinner.start('building client + server bundles...')
   try {
     ;[clientResult, serverResult] = await (Promise.all([
-      build(resolveViteConfig(false)),
+      config.mpa ? null : build(resolveViteConfig(false)),
       build(resolveViteConfig(true))
     ]) as Promise<[RollupOutput, RollupOutput]>)
   } catch (e) {
@@ -93,5 +109,28 @@ export async function bundle(
     symbol: okMark
   })
 
-  return [clientResult, serverResult, pageToHashMap]
+  if (config.mpa) {
+    // in MPA mode, we need to copy over the non-js asset files from the
+    // server build since there is no client-side build.
+    for (const chunk of serverResult.output) {
+      if (!chunk.fileName.endsWith('.js')) {
+        const tempPath = path.resolve(config.tempDir, chunk.fileName)
+        const outPath = path.resolve(config.outDir, chunk.fileName)
+        await fs.copy(tempPath, outPath)
+      }
+    }
+    // also copy over public dir
+    const publicDir = path.resolve(config.srcDir, 'public')
+    if (fs.existsSync(publicDir)) {
+      await fs.copy(publicDir, config.outDir)
+    }
+    // build <script client> bundle
+    if (Object.keys(clientJSMap).length) {
+      clientResult = (await buildMPAClient(clientJSMap, config)) as RollupOutput
+    }
+  }
+
+  return { clientResult, serverResult, pageToHashMap }
 }
+
+const adComponentRE = /(?:Carbon|BuySell)Ads/

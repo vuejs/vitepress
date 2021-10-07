@@ -57,12 +57,12 @@ async function main() {
 
   // Build the package.
   step('\nBuilding the package...')
-  await run('yarn', ['build'])
+  await run('pnpm', ['build'])
 
   // Generate the changelog.
   step('\nGenerating the changelog...')
-  await run('yarn', ['changelog'])
-  await run('yarn', ['prettier', '--write', 'CHANGELOG.md'])
+  await run('pnpm', ['changelog'])
+  await run('pnpm', ['prettier', '--write', 'CHANGELOG.md'])
 
   const { yes: changelogOk } = await prompt({
     type: 'confirm',
@@ -82,13 +82,7 @@ async function main() {
 
   // Publish the package.
   step('\nPublishing the package...')
-  await run('yarn', [
-    'publish',
-    '--new-version',
-    targetVersion,
-    '--no-commit-hooks',
-    '--no-git-tag-version'
-  ])
+  await run('pnpm', ['publish', '--ignore-scripts', '--no-git-checks'])
 
   // Push to GitHub.
   step('\nPushing to GitHub...')

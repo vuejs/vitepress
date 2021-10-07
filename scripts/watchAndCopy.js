@@ -1,7 +1,9 @@
 const fs = require('fs-extra')
 const chokidar = require('chokidar')
+const { normalizePath } = require('vite')
 
 function toClientAndNode(method, file) {
+  file = normalizePath(file)
   if (method === 'copy') {
     fs.copy(file, file.replace(/^src\/shared\//, 'src/node/'))
     fs.copy(file, file.replace(/^src\/shared\//, 'src/client/'))
@@ -12,7 +14,7 @@ function toClientAndNode(method, file) {
 }
 
 function toDist(file) {
-  return file.replace(/^src\//, 'dist/')
+  return normalizePath(file).replace(/^src\//, 'dist/')
 }
 
 // copy shared files to the client and node directory whenever they change.

@@ -6,17 +6,15 @@ import NavLink from './NavLink.vue'
 const { site, frontmatter } = useData()
 
 const showHero = computed(() => {
-  const {
-    heroImage,
-    heroText,
-    tagline,
-    actionLink,
-    actionText
-  } = frontmatter.value
+  const { heroImage, heroText, tagline, actionLink, actionText } =
+    frontmatter.value
   return heroImage || heroText || tagline || (actionLink && actionText)
 })
 
 const heroText = computed(() => frontmatter.value.heroText || site.value.title)
+const tagline = computed(
+  () => frontmatter.value.tagline || site.value.description
+)
 </script>
 
 <template>
@@ -30,9 +28,7 @@ const heroText = computed(() => frontmatter.value.heroText || site.value.title)
     </figure>
 
     <h1 v-if="heroText" id="main-title" class="title">{{ heroText }}</h1>
-    <p v-if="frontmatter.tagline" class="description">
-      {{ frontmatter.tagline }}
-    </p>
+    <p v-if="tagline" class="tagline">{{ tagline }}</p>
 
     <NavLink
       v-if="frontmatter.actionLink && frontmatter.actionText"
@@ -99,7 +95,7 @@ const heroText = computed(() => frontmatter.value.heroText || site.value.title)
   }
 }
 
-.description {
+.tagline {
   margin: 0;
   margin-top: 0.25rem;
   line-height: 1.3;
@@ -108,7 +104,7 @@ const heroText = computed(() => frontmatter.value.heroText || site.value.title)
 }
 
 @media (min-width: 420px) {
-  .description {
+  .tagline {
     line-height: 1.2;
     font-size: 1.6rem;
   }

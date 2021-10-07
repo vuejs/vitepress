@@ -1,11 +1,11 @@
 import path from 'path'
-import { mergeConfig, Plugin, ResolvedConfig } from 'vite'
+import { defineConfig, mergeConfig, Plugin, ResolvedConfig } from 'vite'
 import { SiteConfig, resolveSiteData } from './config'
 import {
   createMarkdownToVueRenderFn,
   MarkdownCompileResult
 } from './markdownToVue'
-import { APP_PATH, SITE_DATA_REQUEST_PATH } from './alias'
+import { DIST_CLIENT_PATH, APP_PATH, SITE_DATA_REQUEST_PATH } from './alias'
 import createVuePlugin from '@vitejs/plugin-vue'
 import { slash } from './utils/slash'
 import { OutputAsset, OutputChunk } from 'rollup'
@@ -15,6 +15,11 @@ const staticInjectMarkerRE =
   /\b(const _hoisted_\d+ = \/\*#__PURE__\*\/createStaticVNode)\("(.*)", (\d+)\)/g
 const staticStripRE = /__VP_STATIC_START__.*?__VP_STATIC_END__/g
 const staticRestoreRE = /__VP_STATIC_(START|END)__/g
+
+// matches client-side js blocks in MPA mode.
+// in the future we may add different execution strategies like visible or
+// media queries.
+const scriptClientRE = /<script\b[^>]*client\b[^>]*>([^]*?)<\/script>/
 
 const isPageChunk = (
   chunk: OutputAsset | OutputChunk
@@ -28,7 +33,12 @@ const isPageChunk = (
 
 export function createVitePressPlugin(
   root: string,
-  {
+  siteConfig: SiteConfig,
+  ssr = false,
+  pageToHashMap?: Record<string, string>,
+  clientJSMap?: Record<string, string>
+): Plugin[] {
+  const {
     srcDir,
     configPath,
     alias,
@@ -37,10 +47,8 @@ export function createVitePressPlugin(
     vue: userVuePluginOptions,
     vite: userViteConfig,
     pages
-  }: SiteConfig,
-  ssr = false,
-  pageToHashMap?: Record<string, string>
-): Plugin[] {
+  } = siteConfig
+
   let markdownToVue: (
     src: string,
     file: string,
@@ -51,6 +59,15 @@ export function createVitePressPlugin(
     include: [/\.vue$/, /\.md$/],
     ...userVuePluginOptions
   })
+
+  const processClientJS = (code: string, id: string) => {
+    return scriptClientRE.test(code)
+      ? code.replace(scriptClientRE, (_, content) => {
+          if (ssr && clientJSMap) clientJSMap[id] = content
+          return `\n`.repeat(_.split('\n').length - 1)
+        })
+      : code
+  }
 
   let siteData = site
   let hasDeadLinks = false
@@ -71,7 +88,7 @@ export function createVitePressPlugin(
     },
 
     config() {
-      const baseConfig = {
+      const baseConfig = defineConfig({
         resolve: {
           alias
         },
@@ -84,8 +101,13 @@ export function createVitePressPlugin(
           // force include vue to avoid duplicated copies when linked + optimized
           include: ['vue'],
           exclude: ['@docsearch/js']
+        },
+        server: {
+          fs: {
+            allow: [DIST_CLIENT_PATH, srcDir, process.cwd()]
+          }
         }
-      }
+      })
       return userViteConfig
         ? mergeConfig(userViteConfig, baseConfig)
         : baseConfig
@@ -104,13 +126,24 @@ export function createVitePressPlugin(
     },
 
     transform(code, id) {
-      if (id.endsWith('.md')) {
+      if (id.endsWith('.vue')) {
+        return processClientJS(code, id)
+      } else if (id.endsWith('.md')) {
         // transform .md files into vueSrc so plugin-vue can handle it
-        const { vueSrc, deadLinks } = markdownToVue(code, id, config.publicDir)
+        const { vueSrc, deadLinks, includes } = markdownToVue(
+          code,
+          id,
+          config.publicDir
+        )
         if (deadLinks.length) {
           hasDeadLinks = true
         }
-        return vueSrc
+        if (includes.length) {
+          includes.forEach((i) => {
+            this.addWatchFile(i)
+          })
+        }
+        return processClientJS(vueSrc, id)
       }
     },
 

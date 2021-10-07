@@ -31,7 +31,7 @@ interface EnhanceAppContext {
 }
 ```
 
-The theme entry file shoud export the theme as its default export:
+The theme entry file should export the theme as its default export:
 
 ```js
 // .vitepress/theme/index.js
@@ -47,7 +47,7 @@ export default {
 }
 ```
 
-...where the `Layout` component could like this:
+...where the `Layout` component could look like this:
 
 ```vue
 <!-- .vitepress/theme/Layout.vue -->

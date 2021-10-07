@@ -1,6 +1,7 @@
 import sirv from 'sirv'
 import compression from 'compression'
 import { resolveConfig } from '../config'
+import polka from 'polka'
 
 export interface ServeOptions {
   root?: string
@@ -26,7 +27,7 @@ export async function serve(options: ServeOptions = {}) {
     }
   })
 
-  require('polka')()
+  polka()
     .use(compress, serve)
     .listen(port, (err: any) => {
       if (err) throw err

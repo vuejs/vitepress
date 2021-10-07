@@ -26,6 +26,7 @@ div[class*='language-'] {
 li > div[class*='language-'] {
   border-radius: 6px 0 0 6px;
   margin: 1rem -1.5rem 1rem -1.25rem;
+  line-height: initial;
 }
 
 @media (min-width: 420px) {

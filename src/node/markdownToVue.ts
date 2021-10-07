@@ -7,14 +7,17 @@ import { deeplyParseHeader } from './utils/parseHeader'
 import { PageData, HeadConfig } from './shared'
 import { slash } from './utils/slash'
 import chalk from 'chalk'
+import _debug from 'debug'
 
-const debug = require('debug')('vitepress:md')
+const debug = _debug('vitepress:md')
 const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
+const includesRE = /<!--\s*@include:\s*(.*?)\s*-->/g
 
 export interface MarkdownCompileResult {
   vueSrc: string
   pageData: PageData
   deadLinks: string[]
+  includes: string[]
 }
 
 export function createMarkdownToVueRenderFn(
@@ -27,12 +30,22 @@ export function createMarkdownToVueRenderFn(
   const md = createMarkdownRenderer(srcDir, options)
   pages = pages.map((p) => slash(p.replace(/\.md$/, '')))
 
+  const userDefineRegex = userDefines
+    ? new RegExp(
+        `\\b(${Object.keys(userDefines)
+          .map((key) => key.replace(/[-[\]/{}()*+?.\\^$|]/g, '\\$&'))
+          .join('|')})`,
+        'g'
+      )
+    : null
+
   return (
     src: string,
     file: string,
     publicDir: string
   ): MarkdownCompileResult => {
     const relativePath = slash(path.relative(srcDir, file))
+    const dir = path.dirname(file)
 
     const cached = cache.get(src)
     if (cached) {
@@ -41,6 +54,16 @@ export function createMarkdownToVueRenderFn(
     }
 
     const start = Date.now()
+
+    // resolve includes
+    let includes: string[] = []
+    src = src.replace(includesRE, (_, m1) => {
+      const includePath = path.join(dir, m1)
+      console.log(includePath)
+      const content = fs.readFileSync(includePath, 'utf-8')
+      includes.push(slash(includePath))
+      return content
+    })
 
     const { content, data: frontmatter } = matter(src)
     let { html, data } = md.render(content)
@@ -52,14 +75,11 @@ export function createMarkdownToVueRenderFn(
         .replace(/\bprocess\.env/g, 'process.<wbr/>env')
 
       // also avoid replacing vite user defines
-      if (userDefines) {
-        const regex = new RegExp(
-          `\\b(${Object.keys(userDefines)
-            .map((key) => key.replace(/[-[\]/{}()*+?.\\^$|]/g, '\\$&'))
-            .join('|')})`,
-          'g'
+      if (userDefineRegex) {
+        html = html.replace(
+          userDefineRegex,
+          (_) => `${_[0]}<wbr/>${_.slice(1)}`
         )
-        html = html.replace(regex, (_) => `${_[0]}<wbr/>${_.slice(1)}`)
       }
     }
 
@@ -110,7 +130,8 @@ export function createMarkdownToVueRenderFn(
     const result = {
       vueSrc,
       pageData,
-      deadLinks
+      deadLinks,
+      includes
     }
     cache.set(src, result)
     return result
@@ -119,6 +140,7 @@ export function createMarkdownToVueRenderFn(
 
 const scriptRE = /<\/script>/
 const scriptSetupRE = /<\s*script[^>]*\bsetup\b[^>]*/
+const scriptClientRe = /<\s*script[^>]*\bclient\b[^>]*/
 const defaultExportRE = /((?:^|\n|;)\s*)export(\s*)default/
 const namedDefaultExportRE = /((?:^|\n|;)\s*)export(.+)as(\s*)default/
 
@@ -128,7 +150,11 @@ function genPageDataCode(tags: string[], data: PageData) {
   )}`
 
   const existingScriptIndex = tags.findIndex((tag) => {
-    return scriptRE.test(tag) && !scriptSetupRE.test(tag)
+    return (
+      scriptRE.test(tag) &&
+      !scriptSetupRE.test(tag) &&
+      !scriptClientRe.test(tag)
+    )
   })
 
   if (existingScriptIndex > -1) {
