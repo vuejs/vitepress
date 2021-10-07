@@ -107,17 +107,22 @@ const pageClasses = computed(() => {
 
     <Content v-if="isCustomLayout" />
 
-    <Home v-else-if="enableHome">
-      <template #hero>
-        <slot name="home-hero" />
-      </template>
-      <template #features>
-        <slot name="home-features" />
-      </template>
-      <template #footer>
-        <slot name="home-footer" />
-      </template>
-    </Home>
+    <template v-else-if="enableHome">
+      <!-- A slot for customizing the entire homepage easily -->
+      <slot name="home">
+        <Home>
+          <template #hero>
+            <slot name="home-hero" />
+          </template>
+          <template #features>
+            <slot name="home-features" />
+          </template>
+          <template #footer>
+            <slot name="home-footer" />
+          </template>
+        </Home>
+      </slot>
+    </template>
 
     <Page v-else>
       <template #top>
