@@ -15,7 +15,7 @@ export function useNavLink(item: Ref<DefaultTheme.NavItemWithLink>) {
     if (item.value.activeMatch) {
       active = new RegExp(item.value.activeMatch).test(routePath)
     } else {
-      const itemPath = normalizePath(withBase(item.value.link))
+      const itemPath = normalizePath(item.value.link)
       active =
         itemPath === '/'
           ? itemPath === routePath
