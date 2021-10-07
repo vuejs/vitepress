@@ -6,7 +6,8 @@ import {
   normalizePath,
   AliasOptions,
   UserConfig as ViteConfig,
-  mergeConfig as mergeViteConfig
+  mergeConfig as mergeViteConfig,
+  loadConfigFromFile
 } from 'vite'
 import { Options as VuePluginOptions } from '@vitejs/plugin-vue'
 import {
@@ -63,7 +64,7 @@ export interface SiteConfig<ThemeConfig = any> {
   root: string
   srcDir: string
   site: SiteData<ThemeConfig>
-  configPath: string
+  configPath: string | undefined
   themeDir: string
   outDir: string
   tempDir: string
@@ -78,10 +79,19 @@ export interface SiteConfig<ThemeConfig = any> {
 const resolve = (root: string, file: string) =>
   normalizePath(path.resolve(root, `.vitepress`, file))
 
+/**
+ * Type config helper
+ */
+export function defineConfig(config: RawConfigExports) {
+  return config
+}
+
 export async function resolveConfig(
-  root: string = process.cwd()
+  root: string = process.cwd(),
+  command: 'serve' | 'build' = 'serve',
+  mode = 'development'
 ): Promise<SiteConfig> {
-  const userConfig = await resolveUserConfig(root)
+  const [userConfig, configPath] = await resolveUserConfig(root, command, mode)
   const site = await resolveSiteData(root, userConfig)
   const srcDir = path.resolve(root, userConfig.srcDir || '.')
 
@@ -110,7 +120,7 @@ export async function resolveConfig(
     site,
     themeDir,
     pages,
-    configPath: resolve(root, 'config.js'),
+    configPath,
     outDir: resolve(root, 'dist'),
     tempDir: path.resolve(APP_PATH, 'temp'),
     markdown: userConfig.markdown,
@@ -123,19 +133,43 @@ export async function resolveConfig(
   return config
 }
 
-export async function resolveUserConfig(root: string): Promise<UserConfig> {
+const supportedConfigExtensions = ['js', 'ts', '.mjs', 'mts']
+
+async function resolveUserConfig(
+  root: string,
+  command: 'serve' | 'build',
+  mode: string
+): Promise<[UserConfig, string | undefined]> {
   // load user config
-  const configPath = resolve(root, 'config.js')
-  const hasUserConfig = await fs.pathExists(configPath)
-  // always delete cache first before loading config
-  delete require.cache[require.resolve(configPath)]
-  const userConfig: RawConfigExports = hasUserConfig ? require(configPath) : {}
-  if (hasUserConfig) {
+  let configPath
+  for (const ext of supportedConfigExtensions) {
+    const p = resolve(root, `config.${ext}`)
+    if (await fs.pathExists(p)) {
+      configPath = p
+      break
+    }
+  }
+
+  const userConfig: RawConfigExports = configPath
+    ? ((
+        await loadConfigFromFile(
+          {
+            command,
+            mode
+          },
+          configPath,
+          root
+        )
+      )?.config as any)
+    : {}
+
+  if (configPath) {
     debug(`loaded config at ${chalk.yellow(configPath)}`)
   } else {
     debug(`no config file found.`)
   }
-  return resolveConfigExtends(userConfig)
+
+  return [await resolveConfigExtends(userConfig), configPath]
 }
 
 async function resolveConfigExtends(
@@ -180,9 +214,11 @@ function isObject(value: unknown): value is Record<string, any> {
 
 export async function resolveSiteData(
   root: string,
-  userConfig?: UserConfig
+  userConfig?: UserConfig,
+  command: 'serve' | 'build' = 'serve',
+  mode = 'development'
 ): Promise<SiteData> {
-  userConfig = userConfig || (await resolveUserConfig(root))
+  userConfig = userConfig || (await resolveUserConfig(root, command, mode))[0]
   return {
     lang: userConfig.lang || 'en-US',
     title: userConfig.title || 'VitePress',

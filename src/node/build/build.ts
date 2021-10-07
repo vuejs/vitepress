@@ -13,7 +13,7 @@ export async function build(
   const start = Date.now()
 
   process.env.NODE_ENV = 'production'
-  const siteConfig = await resolveConfig(root)
+  const siteConfig = await resolveConfig(root, 'build', 'production')
 
   if (buildOptions.mpa) {
     siteConfig.mpa = true

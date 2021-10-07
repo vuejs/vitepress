@@ -10,7 +10,7 @@ export interface ServeOptions {
 
 export async function serve(options: ServeOptions = {}) {
   const port = options.port !== undefined ? options.port : 5000
-  const site = await resolveConfig(options.root)
+  const site = await resolveConfig(options.root, 'serve', 'production')
 
   const compress = compression()
   const serve = sirv(site.outDir, {
