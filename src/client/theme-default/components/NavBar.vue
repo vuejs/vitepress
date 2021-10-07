@@ -1,3 +1,11 @@
+<script setup lang="ts">
+import NavBarTitle from './NavBarTitle.vue'
+import NavLinks from './NavLinks.vue'
+import ToggleSideBarButton from './ToggleSideBarButton.vue'
+
+defineEmits(['toggle'])
+</script>
+
 <template>
   <header class="nav-bar">
     <ToggleSideBarButton @toggle="$emit('toggle')" />
@@ -13,15 +21,6 @@
     <slot name="search" />
   </header>
 </template>
-
-<script setup lang="ts">
-import { defineEmit } from 'vue'
-import NavBarTitle from './NavBarTitle.vue'
-import NavLinks from './NavLinks.vue'
-import ToggleSideBarButton from './ToggleSideBarButton.vue'
-
-defineEmit(['toggle'])
-</script>
 
 <style scoped>
 .nav-bar {

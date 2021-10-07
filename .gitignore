@@ -1,6 +1,6 @@
 /coverage
-/src/client/shared
-/src/node/shared
+/src/client/shared.ts
+/src/node/shared.ts
 *.log
 .DS_Store
 .vite_opt_cache

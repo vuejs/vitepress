@@ -1,6 +1,6 @@
 import { reactive, inject, markRaw, nextTick, readonly } from 'vue'
 import type { Component, InjectionKey } from 'vue'
-import { PageData } from '../../../types/shared'
+import { PageData } from '../shared'
 import { inBrowser } from './utils'
 
 export interface Route {
@@ -77,7 +77,9 @@ export function createRouter(
 
         route.path = pendingPath
         route.component = markRaw(comp)
-        route.data = readonly(JSON.parse(__pageData)) as PageData
+        route.data = import.meta.env.PROD
+          ? markRaw(JSON.parse(__pageData))
+          : (readonly(JSON.parse(__pageData)) as PageData)
 
         if (inBrowser) {
           nextTick(() => {
@@ -94,7 +96,7 @@ export function createRouter(
           })
         }
       }
-    } catch (err) {
+    } catch (err: any) {
       if (!err.message.match(/fetch/)) {
         console.error(err)
       }
@@ -131,6 +133,8 @@ export function createRouter(
               // scroll between hash anchors in the same page
               if (hash && hash !== currentUrl.hash) {
                 history.pushState(null, '', hash)
+                // still emit the event so we can listen to it in themes
+                window.dispatchEvent(new Event('hashchange'))
                 // use smooth scroll when clicking on header anchor links
                 scrollTo(link, hash, link.classList.contains('header-anchor'))
               }
@@ -172,13 +176,11 @@ export function useRoute(): Route {
 }
 
 function scrollTo(el: HTMLElement, hash: string, smooth = false) {
-  const pageOffset = (document.querySelector('.nav-bar') as HTMLElement)
-    .offsetHeight
   const target = el.classList.contains('.header-anchor')
     ? el
     : document.querySelector(decodeURIComponent(hash))
   if (target) {
-    const targetTop = (target as HTMLElement).offsetTop - pageOffset - 15
+    const targetTop = (target as HTMLElement).offsetTop
     // only smooth scroll if distance is smaller than screen height.
     if (!smooth || Math.abs(targetTop - window.scrollY) > window.innerHeight) {
       window.scrollTo(0, targetTop)

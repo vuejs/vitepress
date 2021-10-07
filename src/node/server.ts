@@ -9,7 +9,7 @@ export async function createServer(
   const config = await resolveConfig(root)
 
   return createViteServer({
-    root,
+    root: config.srcDir,
     base: config.site.base,
     // logLevel: 'warn',
     plugins: createVitePressPlugin(root, config),

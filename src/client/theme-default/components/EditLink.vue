@@ -1,3 +1,10 @@
+<script setup lang="ts">
+import { useEditLink } from '../composables/editLink'
+import OutboundLink from './icons/OutboundLink.vue'
+
+const { url, text } = useEditLink()
+</script>
+
 <template>
   <div class="edit-link">
     <a
@@ -11,13 +18,6 @@
     </a>
   </div>
 </template>
-
-<script setup lang="ts">
-import { useEditLink } from '../composables/editLink'
-import OutboundLink from './icons/OutboundLink.vue'
-
-const { url, text } = useEditLink()
-</script>
 
 <style scoped>
 .link {

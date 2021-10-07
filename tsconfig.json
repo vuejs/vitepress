@@ -4,8 +4,8 @@
     "module": "esnext",
     "moduleResolution": "node",
     "strict": true,
-    "declaration": true,
     "noUnusedLocals": true,
+    "skipLibCheck": true,
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
     "types": ["node", "jest"],
@@ -16,7 +16,6 @@
       "shared/*": ["src/shared/*"],
       "tests/*": ["__tests__/*"],
       "/@shared/*": ["src/client/shared/*"],
-      "/@types/*": ["types/*"],
       "vitepress": ["src/client/index.ts"]
     }
   },

@@ -1,18 +1,17 @@
 import { computed } from 'vue'
-import { useSiteDataByRoute, usePageData } from 'vitepress'
+import { useData } from 'vitepress'
 import { isArray, ensureStartingSlash, removeExtention } from '../utils'
 import { getSideBarConfig, getFlatSideBarLinks } from '../support/sideBar'
 
 export function useNextAndPrevLinks() {
-  const site = useSiteDataByRoute()
-  const page = usePageData()
+  const { page, theme } = useData()
 
   const path = computed(() => {
     return removeExtention(ensureStartingSlash(page.value.relativePath))
   })
 
   const candidates = computed(() => {
-    const config = getSideBarConfig(site.value.themeConfig.sidebar, path.value)
+    const config = getSideBarConfig(theme.value.sidebar, path.value)
 
     return isArray(config) ? getFlatSideBarLinks(config) : []
   })
@@ -25,7 +24,7 @@ export function useNextAndPrevLinks() {
 
   const next = computed(() => {
     if (
-      site.value.themeConfig.nextLinks !== false &&
+      theme.value.nextLinks !== false &&
       index.value > -1 &&
       index.value < candidates.value.length - 1
     ) {
@@ -34,7 +33,7 @@ export function useNextAndPrevLinks() {
   })
 
   const prev = computed(() => {
-    if (site.value.themeConfig.prevLinks !== false && index.value > 0) {
+    if (theme.value.prevLinks !== false && index.value > 0) {
       return candidates.value[index.value - 1]
     }
   })

@@ -26,10 +26,30 @@ Note that you should reference files placed in `public` using root absolute path
 
 If your site is deployed to a non-root URL, you will need to set the `base` option in `.vitepress/config.js`. For example, if you plan to deploy your site to `https://foo.github.io/bar/`, then `base` should be set to `'/bar/'` (it should always start and end with a slash).
 
-With a base URL, to reference an image in `public`, you'd have to use URLs like `/bar/image.png`. But this is brittle if you ever decide to change the base. To help with that, VitePress provides a built-in helper `$withBase` (injected onto Vue's prototype) that generates the correct path:
+All your static asset paths are automatically processed to adjust for different `base` config values. For example, if you have an absolute reference to an asset under `public` in your markdown:
 
-```html
-<img :src="$withBase('/foo.png')" alt="foo" />
+```md
+![An image](/image-inside-public.png)
 ```
 
-Note you can use the above syntax not only in theme components, but in your Markdown files as well.
+You do **not** need to update it when you change the `base` config value in this case.
+
+However, if you are authoring a theme component that links to assets dynamically, e.g. an image whose `src` is based on a theme config value:
+
+```vue
+<img :src="theme.logoPath" />
+```
+
+In this case it is recommended to wrap the path with the [`withBase` helper](/guide/api.html#withbase) provided by VitePress:
+
+```vue
+<script setup>
+import { withBase, useData } from 'vitepress'
+
+const { theme } = useData()
+</script>
+
+<template>
+  <img :src="withBase(theme.logoPath)" />
+</template>
+```

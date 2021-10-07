@@ -1,16 +1,25 @@
 import path from 'path'
-import { Plugin } from 'vite'
+import { defineConfig, mergeConfig, Plugin, ResolvedConfig } from 'vite'
 import { SiteConfig, resolveSiteData } from './config'
-import { createMarkdownToVueRenderFn } from './markdownToVue'
-import { APP_PATH, SITE_DATA_REQUEST_PATH } from './alias'
+import {
+  createMarkdownToVueRenderFn,
+  MarkdownCompileResult
+} from './markdownToVue'
+import { DIST_CLIENT_PATH, APP_PATH, SITE_DATA_REQUEST_PATH } from './alias'
 import createVuePlugin from '@vitejs/plugin-vue'
 import { slash } from './utils/slash'
 import { OutputAsset, OutputChunk } from 'rollup'
 
 const hashRE = /\.(\w+)\.js$/
-const staticInjectMarkerRE = /\b(const _hoisted_\d+ = \/\*#__PURE__\*\/createStaticVNode)\("(.*)", (\d+)\)/g
+const staticInjectMarkerRE =
+  /\b(const _hoisted_\d+ = \/\*#__PURE__\*\/createStaticVNode)\("(.*)", (\d+)\)/g
 const staticStripRE = /__VP_STATIC_START__.*?__VP_STATIC_END__/g
 const staticRestoreRE = /__VP_STATIC_(START|END)__/g
+
+// matches client-side js blocks in MPA mode.
+// in the future we may add different execution strategies like visible or
+// media queries.
+const scriptClientRE = /<script\b[^>]*client\b[^>]*>([^]*?)<\/script>/
 
 const isPageChunk = (
   chunk: OutputAsset | OutputChunk
@@ -24,25 +33,62 @@ const isPageChunk = (
 
 export function createVitePressPlugin(
   root: string,
-  { configPath, alias, markdown, site, vueOptions, pages }: SiteConfig,
+  siteConfig: SiteConfig,
   ssr = false,
-  pageToHashMap?: Record<string, string>
+  pageToHashMap?: Record<string, string>,
+  clientJSMap?: Record<string, string>
 ): Plugin[] {
-  const markdownToVue = createMarkdownToVueRenderFn(root, markdown, pages)
+  const {
+    srcDir,
+    configPath,
+    alias,
+    markdown,
+    site,
+    vue: userVuePluginOptions,
+    vite: userViteConfig,
+    pages
+  } = siteConfig
+
+  let markdownToVue: (
+    src: string,
+    file: string,
+    publicDir: string
+  ) => MarkdownCompileResult
 
   const vuePlugin = createVuePlugin({
     include: [/\.vue$/, /\.md$/],
-    ...vueOptions
+    ...userVuePluginOptions
   })
+
+  const processClientJS = (code: string, id: string) => {
+    return scriptClientRE.test(code)
+      ? code.replace(scriptClientRE, (_, content) => {
+          if (ssr && clientJSMap) clientJSMap[id] = content
+          return `\n`.repeat(_.split('\n').length - 1)
+        })
+      : code
+  }
 
   let siteData = site
   let hasDeadLinks = false
+  let config: ResolvedConfig
 
   const vitePressPlugin: Plugin = {
     name: 'vitepress',
 
+    configResolved(resolvedConfig) {
+      config = resolvedConfig
+      markdownToVue = createMarkdownToVueRenderFn(
+        srcDir,
+        markdown,
+        pages,
+        config.define,
+        config.command === 'build'
+      )
+    },
+
     config() {
-      return {
+      const baseConfig = defineConfig({
         resolve: {
           alias
         },
@@ -52,9 +98,19 @@ export function createVitePressPlugin(
           __ALGOLIA__: !!site.themeConfig.algolia
         },
         optimizeDeps: {
+          // force include vue to avoid duplicated copies when linked + optimized
+          include: ['vue'],
           exclude: ['@docsearch/js']
+        },
+        server: {
+          fs: {
+            allow: [DIST_CLIENT_PATH, srcDir, process.cwd()]
+          }
         }
-      }
+      })
+      return userViteConfig
+        ? mergeConfig(userViteConfig, baseConfig)
+        : baseConfig
     },
 
     resolveId(id) {
@@ -70,13 +126,24 @@ export function createVitePressPlugin(
     },
 
     transform(code, id) {
-      if (id.endsWith('.md')) {
+      if (id.endsWith('.vue')) {
+        return processClientJS(code, id)
+      } else if (id.endsWith('.md')) {
         // transform .md files into vueSrc so plugin-vue can handle it
-        const { vueSrc, deadLinks } = markdownToVue(code, id)
+        const { vueSrc, deadLinks, includes } = markdownToVue(
+          code,
+          id,
+          config.publicDir
+        )
         if (deadLinks.length) {
           hasDeadLinks = true
         }
-        return vueSrc
+        if (includes.length) {
+          includes.forEach((i) => {
+            this.addWatchFile(i)
+          })
+        }
+        return processClientJS(vueSrc, id)
       }
     },
 
@@ -87,6 +154,8 @@ export function createVitePressPlugin(
     },
 
     configureServer(server) {
+      server.watcher.add(configPath)
+
       // serve our index.html after vite history fallback
       return () => {
         server.middlewares.use((req, res, next) => {
@@ -96,7 +165,10 @@ export function createVitePressPlugin(
 <!DOCTYPE html>
 <html>
   <head>
+    <title></title>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="">
   </head>
   <body>
     <div id="app"></div>
@@ -176,14 +248,18 @@ export function createVitePressPlugin(
       // hot reload .md files as .vue files
       if (file.endsWith('.md')) {
         const content = await read()
-        const { pageData, vueSrc } = markdownToVue(content, file)
+        const { pageData, vueSrc } = markdownToVue(
+          content,
+          file,
+          config.publicDir
+        )
 
         // notify the client to update page data
         server.ws.send({
           type: 'custom',
           event: 'vitepress:pageData',
           data: {
-            path: `/${slash(path.relative(root, file))}`,
+            path: `/${slash(path.relative(srcDir, file))}`,
             pageData
           }
         })

@@ -11,19 +11,22 @@ import { hoistPlugin } from './plugins/hoist'
 import { preWrapperPlugin } from './plugins/preWrapper'
 import { linkPlugin } from './plugins/link'
 import { extractHeaderPlugin } from './plugins/header'
-import { Header } from '../../../types/shared'
-
-const emoji = require('markdown-it-emoji')
-const anchor = require('markdown-it-anchor')
-const toc = require('markdown-it-table-of-contents')
+import { Header } from '../shared'
+import anchor from 'markdown-it-anchor'
+import attrs from 'markdown-it-attrs'
+import emoji from 'markdown-it-emoji'
+import toc from 'markdown-it-table-of-contents'
 
 export interface MarkdownOptions extends MarkdownIt.Options {
   lineNumbers?: boolean
   config?: (md: MarkdownIt) => void
   anchor?: {
-    permalink?: boolean
-    permalinkBefore?: boolean
-    permalinkSymbol?: string
+    permalink?: anchor.AnchorOptions['permalink']
+  }
+  attrs?: {
+    leftDelimiter?: string
+    rightDelimiter?: string
+    allowedAttributes?: string[]
   }
   // https://github.com/Oktavilla/markdown-it-table-of-contents
   toc?: any
@@ -42,7 +45,7 @@ export interface MarkdownRenderer {
 }
 
 export const createMarkdownRenderer = (
-  root: string,
+  srcDir: string,
   options: MarkdownOptions = {}
 ): MarkdownRenderer => {
   const md = MarkdownIt({
@@ -56,7 +59,7 @@ export const createMarkdownRenderer = (
   md.use(componentPlugin)
     .use(highlightLinePlugin)
     .use(preWrapperPlugin)
-    .use(snippetPlugin, root)
+    .use(snippetPlugin, srcDir)
     .use(hoistPlugin)
     .use(containerPlugin)
     .use(extractHeaderPlugin)
@@ -66,14 +69,16 @@ export const createMarkdownRenderer = (
       ...options.externalLinks
     })
 
+    .use(attrs, {
+      leftDelimiter: '{',
+      rightDelimiter: '}',
+      allowedAttributes: [],
+      ...options.attrs
+    })
     // 3rd party plugins
-    .use(emoji)
     .use(anchor, {
       slugify,
-      permalink: true,
-      permalinkBefore: true,
-      permalinkSymbol: '#',
-      permalinkAttrs: () => ({ 'aria-hidden': true }),
+      permalink: anchor.permalink.ariaHidden({}),
       ...options.anchor
     })
     .use(toc, {
@@ -82,6 +87,7 @@ export const createMarkdownRenderer = (
       format: parseHeader,
       ...options.toc
     })
+    .use(emoji)
 
   // apply user config
   if (options.config) {
