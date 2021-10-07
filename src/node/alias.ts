@@ -40,9 +40,7 @@ export function resolveAliases(themeDir: string): AliasOptions {
     // vitepress itself
     {
       find: /^vue$/,
-      replacement: require.resolve(
-        '@vue/runtime-dom/dist/runtime-dom.esm-bundler.js'
-      )
+      replacement: require.resolve('vue/dist/vue.runtime.esm-bundler.js')
     }
   ]
 
