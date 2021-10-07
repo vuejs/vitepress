@@ -84,9 +84,14 @@ export function createRouter(
         if (inBrowser) {
           nextTick(() => {
             if (targetLoc.hash && !scrollPosition) {
-              const target = document.querySelector(
-                decodeURIComponent(targetLoc.hash)
-              ) as HTMLElement
+              let target: HTMLElement | null = null
+              try {
+                target = document.querySelector(
+                  decodeURIComponent(targetLoc.hash)
+                ) as HTMLElement
+              } catch (e) {
+                console.warn(e)
+              }
               if (target) {
                 scrollTo(target, targetLoc.hash)
                 return
@@ -176,9 +181,16 @@ export function useRoute(): Route {
 }
 
 function scrollTo(el: HTMLElement, hash: string, smooth = false) {
-  const target = el.classList.contains('.header-anchor')
-    ? el
-    : document.querySelector(decodeURIComponent(hash))
+  let target: Element | null = null
+
+  try {
+    target = el.classList.contains('.header-anchor')
+      ? el
+      : document.querySelector(decodeURIComponent(hash))
+  } catch (e) {
+    console.warn(e)
+  }
+
   if (target) {
     const targetTop = (target as HTMLElement).offsetTop
     // only smooth scroll if distance is smaller than screen height.
