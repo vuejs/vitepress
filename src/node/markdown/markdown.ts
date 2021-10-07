@@ -12,7 +12,7 @@ import { preWrapperPlugin } from './plugins/preWrapper'
 import { linkPlugin } from './plugins/link'
 import { extractHeaderPlugin } from './plugins/header'
 import { Header } from '../shared'
-import anchor, { AnchorOptions } from 'markdown-it-anchor'
+import anchor from 'markdown-it-anchor'
 import attrs from 'markdown-it-attrs'
 import emoji from 'markdown-it-emoji'
 import toc from 'markdown-it-table-of-contents'
@@ -21,7 +21,7 @@ export interface MarkdownOptions extends MarkdownIt.Options {
   lineNumbers?: boolean
   config?: (md: MarkdownIt) => void
   anchor?: {
-    permalink?: AnchorOptions['permalink']
+    permalink?: anchor.AnchorOptions['permalink']
   }
   attrs?: {
     leftDelimiter?: string

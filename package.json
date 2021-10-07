@@ -13,20 +13,20 @@
     "types"
   ],
   "scripts": {
-    "dev": "yarn dev-shared && yarn dev-start",
+    "dev": "pnpm run dev-shared && pnpm run dev-start",
     "dev-start": "run-p dev-client dev-node dev-watch",
     "dev-client": "tsc -w -p src/client",
     "dev-node": "tsc -w -p src/node",
     "dev-shared": "node scripts/copyShared",
     "dev-watch": "node scripts/watchAndCopy",
-    "prebuild": "rimraf -rf dist && node scripts/copyShared",
-    "build": "run-s build-client build-node build-types",
+    "build": "run-s build-prepare build-client build-node build-types",
+    "build-prepare": "rimraf -rf dist && node scripts/copyShared",
     "build-client": "tsc -p src/client && node scripts/copyClient",
     "build-node": "rollup -c scripts/rollup.config.js",
     "build-types": "run-s build-types-client build-types-node",
     "build-types-client": "tsc -p src/client --declaration --emitDeclarationOnly --outDir dist/temp && api-extractor run -c api-extractor.client.json && rimraf dist/temp",
     "build-types-node": "tsc -p src/node --declaration --emitDeclarationOnly --outDir dist/temp && api-extractor run -c api-extractor.node.json && rimraf dist/temp",
-    "lint": "yarn lint:js && yarn lint:ts",
+    "lint": "pnpm run lint:js && pnpm run lint:ts",
     "lint:js": "prettier --check --write \"{bin,docs,scripts,src}/**/*.js\"",
     "lint:ts": "prettier --check --write --parser typescript \"{__tests__,src,docs,types}/**/*.ts\"",
     "test": "jest",
@@ -35,8 +35,9 @@
     "docs": "run-p dev docs-dev",
     "docs-dev": "node ./bin/vitepress dev docs",
     "docs-debug": "node --inspect-brk ./bin/vitepress dev docs",
-    "docs-build": "yarn build && node ./bin/vitepress build docs",
-    "docs-serve": "node ./bin/vitepress serve docs"
+    "docs-build": "pnpm run build && node ./bin/vitepress build docs",
+    "docs-serve": "node ./bin/vitepress serve docs",
+    "ci-docs": "run-s build docs-build"
   },
   "engines": {
     "node": ">=12.0.0"
@@ -71,9 +72,10 @@
     "@docsearch/css": "^1.0.0-alpha.28",
     "@docsearch/js": "^1.0.0-alpha.28",
     "@vitejs/plugin-vue": "^1.9.0",
+    "@vue/runtime-dom": "^3.2.18",
+    "prismjs": "^1.23.0",
     "vite": "^2.5.0",
-    "vue": "^3.2.13",
-    "prismjs": "^1.23.0"
+    "vue": "^3.2.13"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.18.9",
@@ -117,6 +119,7 @@
     "minimist": "^1.2.5",
     "npm-run-all": "^4.1.5",
     "ora": "^5.4.0",
+    "pnpm": "^6.15.1",
     "polka": "^0.5.2",
     "prettier": "^2.3.0",
     "rimraf": "^3.0.2",
