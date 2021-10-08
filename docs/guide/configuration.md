@@ -14,10 +14,15 @@ Without any configuration, the page is pretty minimal, and the user has no way t
 The essential file for configuring a VitePress site is `.vitepress/config.js`, which should export a JavaScript object:
 
 ```js
-module.exports = {
+/**
+ * @type {import('vitepress').UserConfig}
+ */
+const config = {
   title: 'Hello VitePress',
   description: 'Just playing around.'
 }
+
+module.exports = config
 ```
 
 If you are using TypeScript, you can use `.vitepress/config.ts` instead to get better types hint for VitePress Config.
@@ -25,10 +30,12 @@ If you are using TypeScript, you can use `.vitepress/config.ts` instead to get b
 ```ts
 import type { UserConfig } from 'vitepress'
 
-export default {
+const config = {
   title: 'Hello VitePress',
   description: 'Just playing around.'
-} as UserConfig
+}
+
+export default config
 ```
 
 Check out the [Config Reference](/config/basics) for a full list of options.

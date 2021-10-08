@@ -1,6 +1,6 @@
 import type { UserConfig } from 'vitepress'
 
-export default {
+const config: UserConfig = {
   lang: 'en-US',
   title: 'VitePress',
   description: 'Vite & Vue powered static site generator.',
@@ -43,7 +43,9 @@ export default {
       '/': getGuideSidebar()
     }
   }
-} as UserConfig
+}
+
+export default config
 
 function getGuideSidebar() {
   return [
