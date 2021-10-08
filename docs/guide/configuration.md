@@ -25,7 +25,7 @@ const config = {
 module.exports = config
 ```
 
-If you are using TypeScript, you can use `.vitepress/config.ts` instead to get better types hint for VitePress Config.
+If you are using TypeScript, you can use it in your config too by using the `.ts` extension instead of the `.js` one:
 
 ```ts
 import type { UserConfig } from 'vitepress'
