@@ -20,4 +20,15 @@ module.exports = {
 }
 ```
 
+If you are using TypeScript, you can use `.vitepress/config.ts` instead to get better types hint for VitePress Config.
+
+```ts
+import type { UserConfig } from 'vitepress'
+
+export default {
+  title: 'Hello VitePress',
+  description: 'Just playing around.'
+} as UserConfig
+```
+
 Check out the [Config Reference](/config/basics) for a full list of options.

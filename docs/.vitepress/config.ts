@@ -1,3 +1,5 @@
+import type { UserConfig } from 'vitepress'
+
 export default {
   lang: 'en-US',
   title: 'VitePress',
@@ -41,7 +43,7 @@ export default {
       '/': getGuideSidebar()
     }
   }
-}
+} as UserConfig
 
 function getGuideSidebar() {
   return [
