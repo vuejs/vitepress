@@ -59,7 +59,6 @@ export function createMarkdownToVueRenderFn(
     let includes: string[] = []
     src = src.replace(includesRE, (_, m1) => {
       const includePath = path.join(dir, m1)
-      console.log(includePath)
       const content = fs.readFileSync(includePath, 'utf-8')
       includes.push(slash(includePath))
       return content
