@@ -304,13 +304,13 @@ module.exports = {
 - Demo:
 
 <picture>
-  <source srcset="../images/line-numbers-mobile.gif" media="(max-width: 719px)">
-  <img class="line-numbers-mobile-snap" src="../images/line-numbers-mobile.gif" alt="Image">
+  <source srcset="../../images/line-numbers-mobile.gif" media="(max-width: 719px)">
+  <img class="line-numbers-mobile-snap" src="../../images/line-numbers-mobile.gif" alt="Image">
 </picture>
 
 <picture>
-  <source srcset="../images/line-numbers-desktop.png" media="(min-width: 720px)">
-  <img class="line-numbers-desktop-snap" src="../images/line-numbers-desktop.png" alt="Image">
+  <source srcset="../../images/line-numbers-desktop.png" media="(min-width: 720px)">
+  <img class="line-numbers-desktop-snap" src="../../images/line-numbers-desktop.png" alt="Image">
 </picture>
 
 <style>
