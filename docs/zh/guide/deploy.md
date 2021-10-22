@@ -260,7 +260,7 @@ $ heroku open
 
 访问https://vercel.com/import/git 并使用你的Git选择（GitHub、GitLab或BitBucket）导入项目。使用向导来选择项目根目录，并使用`yarn docs:build`或`npm run docs:build`来覆盖构建步骤，输出目录为`./docs/.vitepress/dist`。
 
-![Override Vercel Configuration](../images/vercel-configuration.png)
+![Override Vercel Configuration](../../images/vercel-configuration.png)
 
 在项目被导入后，所有后续的推送分支都会生成预览部署，并且所有在生产分支（通常是“main”）上的更改都会生成生产部署。
 
