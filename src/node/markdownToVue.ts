@@ -89,10 +89,12 @@ export function createMarkdownToVueRenderFn(
       for (let url of data.links) {
         url = url.replace(/[?#].*$/, '').replace(/\.(html|md)$/, '')
         if (url.endsWith('/')) url += `index`
-        const resolved = slash(
-          url.startsWith('/')
-            ? url.slice(1)
-            : path.relative(srcDir, path.resolve(dir, url))
+        const resolved = decodeURIComponent(
+          slash(
+            url.startsWith('/')
+              ? url.slice(1)
+              : path.relative(srcDir, path.resolve(dir, url))
+          )
         )
         if (
           !pages.includes(resolved) &&
