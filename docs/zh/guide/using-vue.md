@@ -91,7 +91,7 @@ const { page } = useData()
 
 ```md
 <script setup>
-import CustomComponent from '../components/CustomComponent.vue'
+import CustomComponent from '../../components/CustomComponent.vue'
 </script>
 
 # 文档
@@ -186,7 +186,7 @@ npm install -D stylus
 </style>
 
 <script>
-import ComponentInHeader from '../components/ComponentInHeader.vue'
+import ComponentInHeader from '../../components/ComponentInHeader.vue'
 
 export default {
   props: ['slot-key'],
