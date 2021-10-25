@@ -94,9 +94,9 @@ export const createMarkdownRenderer = (
 
   // wrap render so that we can return both the html and extracted data.
   const render = md.render
-  const wrappedRender: MarkdownRenderer['render'] = (src) => {
+  const wrappedRender: MarkdownRenderer['render'] = (src,env={}) => {
     ;(md as any).__data = {}
-    const html = render.call(md, src)
+    const html = render.call(md, src,env)
     return {
       html,
       data: (md as any).__data
