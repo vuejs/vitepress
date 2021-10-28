@@ -224,7 +224,7 @@ export function createVitePressPlugin(
             bundle[name + '-lean'] = {
               ...chunk,
               fileName: chunk.fileName.replace(/\.js$/, '.lean.js'),
-              code: chunk.code.replace(staticStripRE, ``)
+              code: chunk.code.replace(staticRestoreRE, ``)
             }
             // remove static markers from original code
             chunk.code = chunk.code.replace(staticRestoreRE, '')
