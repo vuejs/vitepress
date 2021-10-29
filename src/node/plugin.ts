@@ -5,7 +5,8 @@ import {
   createMarkdownToVueRenderFn,
   MarkdownCompileResult
 } from './markdownToVue'
-import { DIST_CLIENT_PATH, APP_PATH, SITE_DATA_REQUEST_PATH } from './alias'
+import { DIST_CLIENT_PATH, SITE_DATA_REQUEST_PATH } from './alias'
+import { APP_HTML } from './utils/html'
 import createVuePlugin from '@vitejs/plugin-vue'
 import { slash } from './utils/slash'
 import { OutputAsset, OutputChunk } from 'rollup'
@@ -160,23 +161,15 @@ export function createVitePressPlugin(
 
       // serve our index.html after vite history fallback
       return () => {
-        server.middlewares.use((req, res, next) => {
+        server.middlewares.use(async (req, res, next) => {
           if (req.url!.endsWith('.html')) {
             res.statusCode = 200
-            res.end(`
-<!DOCTYPE html>
-<html>
-  <head>
-    <title></title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="description" content="">
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/@fs/${APP_PATH}/index.js"></script>
-  </body>
-</html>`)
+            const html = await server.transformIndexHtml(
+              req.url!,
+              APP_HTML,
+              req.originalUrl
+            )
+            res.end(html)
             return
           }
           next()
