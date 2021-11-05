@@ -1,3 +1,9 @@
+## [0.20.1](https://github.com/vuejs/vitepress/compare/v0.20.0...v0.20.1) (2021-11-05)
+
+### Bug Fixes
+
+- **hmr:** avoid relying on revertd vite hmr behavior ([4114674](https://github.com/vuejs/vitepress/commit/4114674c69f917ff2e611ec30eb72d224f175f62))
+
 # [0.20.0](https://github.com/vuejs/vitepress/compare/v0.19.2...v0.20.0) (2021-10-07)
 
 ### Bug Fixes
