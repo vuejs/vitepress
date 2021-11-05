@@ -266,11 +266,8 @@ export function createVitePressPlugin(
           }
         })
 
-        // reload the content component
-        return vuePlugin.handleHotUpdate!({
-          ...ctx,
-          read: () => vueSrc
-        })
+        // overwrite src so vue plugin can handle the HMR
+        ctx.read = () => vueSrc
       }
     }
   }
