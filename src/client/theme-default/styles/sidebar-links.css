@@ -105,3 +105,22 @@ a.sidebar-link-item.active {
   font-size: 0.9rem;
   font-weight: 400;
 }
+
+.sidebar
+> .sidebar-links
+> .sidebar-link
+> .sidebar-links
+> .sidebar-link
+> .sidebar-links
+> .sidebar-link
+> .sidebar-links
+> .sidebar-link
+> .sidebar-links
+> .sidebar-link
+> .sidebar-link-item {
+  display: block;
+  padding: 0.3rem 1.5rem 0.3rem 5rem;
+  line-height: 1.4;
+  font-size: 0.8rem;
+  font-weight: 400;
+}
