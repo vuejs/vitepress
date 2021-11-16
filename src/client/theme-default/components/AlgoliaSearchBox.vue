@@ -86,17 +86,17 @@ function initialize(userOptions: any) {
       }),
 
       navigator: {
-        navigate: ({ suggestionUrl }: { suggestionUrl: string }) => {
+        navigate: ({ itemUrl }: { itemUrl: string }) => {
           const { pathname: hitPathname } = new URL(
-            window.location.origin + suggestionUrl
+            window.location.origin + itemUrl
           )
 
           // Router doesn't handle same-page navigation so we use the native
           // browser location API for anchor navigation
           if (route.path === hitPathname) {
-            window.location.assign(window.location.origin + suggestionUrl)
+            window.location.assign(window.location.origin + itemUrl)
           } else {
-            router.go(suggestionUrl)
+            router.go(itemUrl)
           }
         }
       },
@@ -148,7 +148,8 @@ function initialize(userOptions: any) {
               router.go(relativeHit)
             },
             children
-          }
+          },
+          __v: null
         }
       }
     })
