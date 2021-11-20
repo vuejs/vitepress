@@ -136,7 +136,7 @@ deploy:
 
    If you are deploying to `https://<USERNAME or GROUP>.gitlab.io/<REPO>/`, for example your repository is at `https://gitlab.com/<USERNAME>/<REPO>`, then set `base` to `'/<REPO>/'`.
 
-2. Set `dest` in `.vitepress/config.js` to `public`.
+2. Set `outDir` in `.vitepress/config.js` to `../public`.
 
 3. Create a file called `.gitlab-ci.yml` in the root of your project with the content below. This will build and deploy your site whenever you make changes to your content:
 

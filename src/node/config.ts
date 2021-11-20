@@ -37,7 +37,7 @@ export interface UserConfig<ThemeConfig = any> {
   locales?: Record<string, LocaleConfig>
   markdown?: MarkdownOptions
   /**
-   * Opitons to pass on to `@vitejs/plugin-vue`
+   * Options to pass on to `@vitejs/plugin-vue`
    */
   vue?: VuePluginOptions
   /**
