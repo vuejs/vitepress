@@ -6,7 +6,6 @@ import {
   MarkdownCompileResult
 } from './markdownToVue'
 import { DIST_CLIENT_PATH, APP_PATH, SITE_DATA_REQUEST_PATH } from './alias'
-import createVuePlugin from '@vitejs/plugin-vue'
 import { slash } from './utils/slash'
 import { OutputAsset, OutputChunk } from 'rollup'
 
@@ -55,7 +54,8 @@ export function createVitePressPlugin(
     publicDir: string
   ) => MarkdownCompileResult
 
-  const vuePlugin = createVuePlugin({
+  // lazy require plugin-vue to respect NODE_ENV in @vue/compiler-x
+  const vuePlugin = require('@vitejs/plugin-vue')({
     include: [/\.vue$/, /\.md$/],
     ...userVuePluginOptions
   })
