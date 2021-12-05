@@ -12,7 +12,7 @@ import { OutputAsset, OutputChunk } from 'rollup'
 const hashRE = /\.(\w+)\.js$/
 const staticInjectMarkerRE =
   /\b(const _hoisted_\d+ = \/\*(?:#|@)__PURE__\*\/\s*createStaticVNode)\("(.*)", (\d+)\)/g
-const staticStripRE = /__VP_STATIC_START__[^]*?__VP_STATIC_END__/g
+const staticStripRE = /['"`]__VP_STATIC_START__[^]*?__VP_STATIC_END__['"`]/g
 const staticRestoreRE = /__VP_STATIC_(START|END)__/g
 
 // matches client-side js blocks in MPA mode.
@@ -224,7 +224,7 @@ export function createVitePressPlugin(
             bundle[name + '-lean'] = {
               ...chunk,
               fileName: chunk.fileName.replace(/\.js$/, '.lean.js'),
-              code: chunk.code.replace(staticStripRE, ``)
+              code: chunk.code.replace(staticStripRE, `""`)
             }
 
             // remove static markers from original code
