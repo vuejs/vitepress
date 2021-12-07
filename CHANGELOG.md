@@ -1,3 +1,9 @@
+## [0.20.4](https://github.com/vuejs/vitepress/compare/v0.20.3...v0.20.4) (2021-12-07)
+
+### Bug Fixes
+
+- **build:** fix typing files ([ae11dc0](https://github.com/vuejs/vitepress/commit/ae11dc0b59ac90375079f1ebf0efacf1b1e58e8d))
+
 ## [0.20.3](https://github.com/vuejs/vitepress/compare/v0.20.2...v0.20.3) (2021-12-07)
 
 ### Features
