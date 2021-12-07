@@ -7,7 +7,7 @@ Hi! We're really excited that you are interested in contributing to VitePress. B
 
 ## Pull Request Guidelines
 
-- Checkout a topic branch from the relevant branch, e.g. `master`, and merge back against that branch.
+- Checkout a topic branch from the relevant branch, e.g. `main`, and merge back against that branch.
 
 - If adding a new feature:
 
@@ -23,26 +23,27 @@ Hi! We're really excited that you are interested in contributing to VitePress. B
 
 ## Development Setup
 
-You will need [Yarn](https://classic.yarnpkg.com/en/docs/cli/install/)/
+You will need [pnpm](https://pnpm.io/)
 
 After cloning the repo, run:
 
 ```bash
-$ yarn # install the dependencies of the project
+# install the dependencies of the project
+$ pnpm install
 ```
 
 ### Setup VitePress Dev Environment
 
-You may start VitePress local dev environment by running `yarn dev`.
+You may start VitePress local dev environment by running `pnpm run dev`.
 
 ```bash
-$ yarn dev
+$ pnpm run dev
 ```
 
-The easiest way to start testing out VitePress is to tweak the VitePress docs. You may run `yarn docs` folder to boot up VitePress documentation site locally, with live reloading of the source code.
+The easiest way to start testing out VitePress is to tweak the VitePress docs. You may run `pnpm run docs` folder to boot up VitePress documentation site locally, with live reloading of the source code.
 
 ```bash
-$ yarn docs
+$ pnpm run docs
 ```
 
 After executing the above command, visit http://localhost:3000 and try modifying the source code. You'll get live update.
