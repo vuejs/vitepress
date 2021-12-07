@@ -1,3 +1,9 @@
+## [0.20.3](https://github.com/vuejs/vitepress/compare/v0.20.2...v0.20.3) (2021-12-07)
+
+### Features
+
+- expose createMarkdownRenderer ([d54c7d8](https://github.com/vuejs/vitepress/commit/d54c7d8c56973dac138bfe96ff16dfab162ef64b))
+
 ## [0.20.2](https://github.com/vuejs/vitepress/compare/v0.20.1...v0.20.2) (2021-12-06)
 
 ### Bug Fixes
