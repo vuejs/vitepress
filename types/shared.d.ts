@@ -1,5 +1,7 @@
 // types shared between server and client
 
+export { DefaultTheme } from './default-theme'
+
 export interface LocaleConfig {
   lang: string
   title?: string
@@ -9,7 +11,7 @@ export interface LocaleConfig {
   selectText?: string
 }
 
-export interface SiteData<ThemeConfig = any> {
+export interface SiteData<T = any> {
   base: string
   /**
    * Language of the site as it should be set on the `html` element.
@@ -19,7 +21,7 @@ export interface SiteData<ThemeConfig = any> {
   title: string
   description: string
   head: HeadConfig[]
-  themeConfig: ThemeConfig
+  themeConfig: T
   locales: Record<string, LocaleConfig>
   /**
    * Available locales for the site when it has defined `locales` in its
