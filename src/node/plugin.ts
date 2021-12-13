@@ -6,14 +6,13 @@ import {
   MarkdownCompileResult
 } from './markdownToVue'
 import { DIST_CLIENT_PATH, APP_PATH, SITE_DATA_REQUEST_PATH } from './alias'
-import createVuePlugin from '@vitejs/plugin-vue'
 import { slash } from './utils/slash'
 import { OutputAsset, OutputChunk } from 'rollup'
 
 const hashRE = /\.(\w+)\.js$/
 const staticInjectMarkerRE =
-  /\b(const _hoisted_\d+ = \/\*#__PURE__\*\/createStaticVNode)\("(.*)", (\d+)\)/g
-const staticStripRE = /__VP_STATIC_START__.*?__VP_STATIC_END__/g
+  /\b(const _hoisted_\d+ = \/\*(?:#|@)__PURE__\*\/\s*createStaticVNode)\("(.*)", (\d+)\)/g
+const staticStripRE = /['"`]__VP_STATIC_START__[^]*?__VP_STATIC_END__['"`]/g
 const staticRestoreRE = /__VP_STATIC_(START|END)__/g
 
 // matches client-side js blocks in MPA mode.
@@ -55,7 +54,8 @@ export function createVitePressPlugin(
     publicDir: string
   ) => MarkdownCompileResult
 
-  const vuePlugin = createVuePlugin({
+  // lazy require plugin-vue to respect NODE_ENV in @vue/compiler-x
+  const vuePlugin = require('@vitejs/plugin-vue')({
     include: [/\.vue$/, /\.md$/],
     ...userVuePluginOptions
   })
@@ -224,8 +224,9 @@ export function createVitePressPlugin(
             bundle[name + '-lean'] = {
               ...chunk,
               fileName: chunk.fileName.replace(/\.js$/, '.lean.js'),
-              code: chunk.code.replace(staticStripRE, ``)
+              code: chunk.code.replace(staticStripRE, `""`)
             }
+
             // remove static markers from original code
             chunk.code = chunk.code.replace(staticRestoreRE, '')
           }

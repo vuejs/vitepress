@@ -1,3 +1,32 @@
+## [0.20.5](https://github.com/vuejs/vitepress/compare/v0.20.4...v0.20.5) (2021-12-12)
+
+- Bump vue & vite versions
+
+## [0.20.4](https://github.com/vuejs/vitepress/compare/v0.20.3...v0.20.4) (2021-12-07)
+
+### Bug Fixes
+
+- **build:** fix typing files ([ae11dc0](https://github.com/vuejs/vitepress/commit/ae11dc0b59ac90375079f1ebf0efacf1b1e58e8d))
+
+## [0.20.3](https://github.com/vuejs/vitepress/compare/v0.20.2...v0.20.3) (2021-12-07)
+
+### Features
+
+- expose createMarkdownRenderer ([d54c7d8](https://github.com/vuejs/vitepress/commit/d54c7d8c56973dac138bfe96ff16dfab162ef64b))
+
+## [0.20.2](https://github.com/vuejs/vitepress/compare/v0.20.1...v0.20.2) (2021-12-06)
+
+### Bug Fixes
+
+- handle potential string quote mismatch in generated code ([dfa7c05](https://github.com/vuejs/vitepress/commit/dfa7c0525f010994437acb060867d9ca1572867d))
+- improve createStaticVNode match for rollup codegen compat ([abb1b57](https://github.com/vuejs/vitepress/commit/abb1b578cdedf184ae386ce455e60a23672adfcb))
+- lazy require @vitejs/plugin-vue to respect NODE_ENV ([a051e66](https://github.com/vuejs/vitepress/commit/a051e66f1ae211174cf470d4430427dc0189194b))
+- static string strip regex for mulitiline static strings ([bc486aa](https://github.com/vuejs/vitepress/commit/bc486aae563fd77f38da44d9ae3ea28c021f6df0))
+
+### Features
+
+- upgrade docsearch version ([#441](https://github.com/vuejs/vitepress/issues/441)) ([1b245e2](https://github.com/vuejs/vitepress/commit/1b245e22d8a00ea7c01c052ac1ea3d8d94aaeefb))
+
 ## [0.20.1](https://github.com/vuejs/vitepress/compare/v0.20.0...v0.20.1) (2021-11-05)
 
 ### Bug Fixes

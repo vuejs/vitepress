@@ -44,6 +44,8 @@ export interface MarkdownRenderer {
   render: (src: string, env?: any) => { html: string; data: any }
 }
 
+export type { Header }
+
 export const createMarkdownRenderer = (
   srcDir: string,
   options: MarkdownOptions = {}

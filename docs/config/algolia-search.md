@@ -47,7 +47,7 @@ module.exports = {
 }
 ```
 
-VitePress will automatically add a `language` _facetFilter_ to the `searchParams.facetFilter` array with the correct language value. **Make sure to properly configure your DocSearch config as well** by adding `language` as a _custom attribute for faceting_ and by setting it based on the `lang` attribute of the `<html>` element. Here is a short example of DocSearch config:
+VitePress will automatically add a `language` _facetFilter_ to the `searchParameters.facetFilter` array with the correct language value. **Make sure to properly configure your DocSearch config as well** by adding `language` as a _custom attribute for faceting_ and by setting it based on the `lang` attribute of the `<html>` element. Here is a short example of DocSearch config:
 
 ```json
 {
