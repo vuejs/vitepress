@@ -1,3 +1,9 @@
+## [0.20.7](https://github.com/vuejs/vitepress/compare/v0.20.6...v0.20.7) (2021-12-14)
+
+### Features
+
+- **types:** re-export vite client type ([4caa7b2](https://github.com/vuejs/vitepress/commit/4caa7b231753ddedb83365a37b8c259ae461bd37))
+
 ## [0.20.6](https://github.com/vuejs/vitepress/compare/v0.20.4...v0.20.6) (2021-12-14)
 
 ### Features
