@@ -10,7 +10,8 @@
   "files": [
     "bin",
     "dist",
-    "types"
+    "types",
+    "client.d.ts"
   ],
   "scripts": {
     "dev": "run-s dev-shared dev-start",
