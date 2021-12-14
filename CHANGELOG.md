@@ -1,3 +1,9 @@
+## [0.20.6](https://github.com/vuejs/vitepress/compare/v0.20.4...v0.20.6) (2021-12-14)
+
+### Features
+
+- support static data loaders ([26fe81c](https://github.com/vuejs/vitepress/commit/26fe81c88618d7df5d623d041ac3df96e7d7ee7b))
+
 ## [0.20.5](https://github.com/vuejs/vitepress/compare/v0.20.4...v0.20.5) (2021-12-12)
 
 - Bump vue & vite versions
