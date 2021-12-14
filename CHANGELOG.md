@@ -1,3 +1,5 @@
+## [0.20.8](https://github.com/vuejs/vitepress/compare/v0.20.7...v0.20.8) (2021-12-14)
+
 ## [0.20.7](https://github.com/vuejs/vitepress/compare/v0.20.6...v0.20.7) (2021-12-14)
 
 ### Features
