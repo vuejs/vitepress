@@ -1,3 +1,10 @@
+## [0.20.9](https://github.com/vuejs/vitepress/compare/v0.20.8...v0.20.9) (2021-12-15)
+
+### Features
+
+- shouldPreload hook ([e721d60](https://github.com/vuejs/vitepress/commit/e721d605851be4e27f4948d96d5c3bab6d23ead2))
+- support array of patterns in data loaders ([f5308d7](https://github.com/vuejs/vitepress/commit/f5308d746f3089ef6818b0139fe249827a47628b))
+
 ## [0.20.8](https://github.com/vuejs/vitepress/compare/v0.20.7...v0.20.8) (2021-12-14)
 
 ## [0.20.7](https://github.com/vuejs/vitepress/compare/v0.20.6...v0.20.7) (2021-12-14)
