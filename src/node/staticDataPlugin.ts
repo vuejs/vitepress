@@ -9,12 +9,17 @@ const loaderMatch = /\.data\.(j|t)s$/
 let server: ViteDevServer
 
 interface LoaderModule {
+  watch: string[] | string | undefined
+  load: () => any
+}
+
+interface CachedLoaderModule {
   base: string
-  pattern: string | undefined
+  pattern: string[] | undefined
   loader: () => any
 }
 
-const idToLoaderModulesMap: Record<string, LoaderModule | undefined> =
+const idToLoaderModulesMap: Record<string, CachedLoaderModule | undefined> =
   Object.create(null)
 
 // During build, the load hook will be called on the same file twice
@@ -50,7 +55,7 @@ export const staticDataPlugin: Plugin = {
       }
 
       const base = dirname(id)
-      let pattern: string | undefined
+      let pattern: string[] | undefined
       let loader: () => any
 
       const existing = idToLoaderModulesMap[id]
@@ -60,10 +65,15 @@ export const staticDataPlugin: Plugin = {
         // use vite's load config util as a away to load Node.js file with
         // TS & native ESM support
         const loaderModule = (await loadConfigFromFile({} as any, id))
-          ?.config as any
-        pattern = loaderModule.watch
-        if (pattern && pattern.startsWith('./')) {
-          pattern = pattern.slice(2)
+          ?.config as LoaderModule
+        pattern =
+          typeof loaderModule.watch === 'string'
+            ? [loaderModule.watch]
+            : loaderModule.watch
+        if (pattern) {
+          pattern = pattern.map((p) => {
+            return p.startsWith('./') ? p.slice(2) : p
+          })
         }
         loader = loaderModule.load
       }
@@ -91,7 +101,7 @@ export const staticDataPlugin: Plugin = {
       const { base, pattern } = idToLoaderModulesMap[id]!
       ;(server as any)._globImporters[id] = {
         module: server.moduleGraph.getModuleById(id),
-        importGlobs: [{ base, pattern }]
+        importGlobs: pattern?.map((pattern) => ({ base, pattern }))
       }
     }
     return null
