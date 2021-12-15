@@ -46,12 +46,14 @@ export async function renderPage(
         : []
       : result && appChunk
       ? [
-          // resolve imports for index.js + page.md.js and inject script tags for
-          // them as well so we fetch everything as early as possible without having
-          // to wait for entry chunks to parse
-          ...resolvePageImports(config, page, result, appChunk),
-          pageClientJsFileName,
-          appChunk.fileName
+          ...new Set([
+            // resolve imports for index.js + page.md.js and inject script tags for
+            // them as well so we fetch everything as early as possible without having
+            // to wait for entry chunks to parse
+            ...resolvePageImports(config, page, result, appChunk),
+            pageClientJsFileName,
+            appChunk.fileName
+          ])
         ]
       : []
   )
@@ -130,7 +132,7 @@ function resolvePageImports(
   config: SiteConfig,
   page: string,
   result: RollupOutput,
-  indexChunk: OutputChunk
+  appChunk: OutputChunk
 ) {
   // find the page's js chunk and inject script tags for its imports so that
   // they are start fetching as early as possible
@@ -140,14 +142,12 @@ function resolvePageImports(
   const pageChunk = result.output.find(
     (chunk) => chunk.type === 'chunk' && chunk.facadeModuleId === srcPath
   ) as OutputChunk
-  return Array.from(
-    new Set([
-      ...indexChunk.imports,
-      ...indexChunk.dynamicImports,
-      ...pageChunk.imports,
-      ...pageChunk.dynamicImports
-    ])
-  )
+  return [
+    ...appChunk.imports,
+    ...appChunk.dynamicImports,
+    ...pageChunk.imports,
+    ...pageChunk.dynamicImports
+  ]
 }
 
 function renderHead(head: HeadConfig[]) {
