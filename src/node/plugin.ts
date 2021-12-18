@@ -8,6 +8,7 @@ import {
 import { DIST_CLIENT_PATH, APP_PATH, SITE_DATA_REQUEST_PATH } from './alias'
 import { slash } from './utils/slash'
 import { OutputAsset, OutputChunk } from 'rollup'
+import { staticDataPlugin } from './staticDataPlugin'
 
 const hashRE = /\.(\w+)\.js$/
 const staticInjectMarkerRE =
@@ -273,5 +274,10 @@ export function createVitePressPlugin(
     }
   }
 
-  return [vitePressPlugin, vuePlugin, ...(userViteConfig?.plugins || [])]
+  return [
+    vitePressPlugin,
+    vuePlugin,
+    ...(userViteConfig?.plugins || []),
+    staticDataPlugin
+  ]
 }

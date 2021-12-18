@@ -47,6 +47,7 @@ export interface UserConfig<ThemeConfig = any> {
 
   srcDir?: string
   srcExclude?: string[]
+  shouldPreload?: (link: string, page: string) => boolean
 
   /**
    * Enable MPA / zero-JS mode
@@ -60,7 +61,11 @@ export type RawConfigExports =
   | Promise<UserConfig>
   | (() => UserConfig | Promise<UserConfig>)
 
-export interface SiteConfig<ThemeConfig = any> {
+export interface SiteConfig<ThemeConfig = any>
+  extends Pick<
+    UserConfig,
+    'markdown' | 'vue' | 'vite' | 'shouldPreload' | 'mpa'
+  > {
   root: string
   srcDir: string
   site: SiteData<ThemeConfig>
@@ -70,10 +75,6 @@ export interface SiteConfig<ThemeConfig = any> {
   tempDir: string
   alias: AliasOptions
   pages: string[]
-  markdown: MarkdownOptions | undefined
-  vue: VuePluginOptions | undefined
-  vite: ViteConfig | undefined
-  mpa: boolean
 }
 
 const resolve = (root: string, file: string) =>
@@ -127,6 +128,7 @@ export async function resolveConfig(
     alias: resolveAliases(themeDir),
     vue: userConfig.vue,
     vite: userConfig.vite,
+    shouldPreload: userConfig.shouldPreload,
     mpa: !!userConfig.mpa
   }
 
