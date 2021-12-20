@@ -39,24 +39,40 @@ export async function renderPage(
   ))
   const pageData = JSON.parse(__pageData)
 
-  const preloadLinks = (
-    config.mpa
-      ? appChunk
-        ? [appChunk.fileName]
-        : []
-      : result && appChunk
-      ? [
+  let preloadLinks = config.mpa
+    ? appChunk
+      ? [appChunk.fileName]
+      : []
+    : result && appChunk
+    ? [
+        ...new Set([
           // resolve imports for index.js + page.md.js and inject script tags for
           // them as well so we fetch everything as early as possible without having
           // to wait for entry chunks to parse
           ...resolvePageImports(config, page, result, appChunk),
           pageClientJsFileName,
           appChunk.fileName
-        ]
-      : []
-  )
+        ])
+      ]
+    : []
+
+  let prefetchLinks: string[] = []
+
+  const { shouldPreload } = config
+  if (shouldPreload) {
+    prefetchLinks = preloadLinks.filter((link) => !shouldPreload(link, page))
+    preloadLinks = preloadLinks.filter((link) => shouldPreload(link, page))
+  }
+
+  const preloadLinksString = preloadLinks
     .map((file) => {
       return `<link rel="modulepreload" href="${siteData.base}${file}">`
+    })
+    .join('\n    ')
+
+  const prefetchLinkString = prefetchLinks
+    .map((file) => {
+      return `<link rel="prefetch" href="${siteData.base}${file}">`
     })
     .join('\n    ')
 
@@ -103,7 +119,8 @@ export async function renderPage(
       pageData.description || siteData.description
     }">
     ${stylesheetLink}
-    ${preloadLinks}
+    ${preloadLinksString}
+    ${prefetchLinkString}
     ${renderHead(head)}
   </head>
   <body>
@@ -130,24 +147,22 @@ function resolvePageImports(
   config: SiteConfig,
   page: string,
   result: RollupOutput,
-  indexChunk: OutputChunk
+  appChunk: OutputChunk
 ) {
   // find the page's js chunk and inject script tags for its imports so that
-  // they are start fetching as early as possible
+  // they start fetching as early as possible
   const srcPath = normalizePath(
     fs.realpathSync(path.resolve(config.srcDir, page))
   )
   const pageChunk = result.output.find(
     (chunk) => chunk.type === 'chunk' && chunk.facadeModuleId === srcPath
   ) as OutputChunk
-  return Array.from(
-    new Set([
-      ...indexChunk.imports,
-      ...indexChunk.dynamicImports,
-      ...pageChunk.imports,
-      ...pageChunk.dynamicImports
-    ])
-  )
+  return [
+    ...appChunk.imports,
+    ...appChunk.dynamicImports,
+    ...pageChunk.imports,
+    ...pageChunk.dynamicImports
+  ]
 }
 
 function renderHead(head: HeadConfig[]) {
