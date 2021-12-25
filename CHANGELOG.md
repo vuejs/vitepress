@@ -1,3 +1,9 @@
+## [0.20.10](https://github.com/vuejs/vitepress/compare/v0.20.9...v0.20.10) (2021-12-25)
+
+### Features
+
+- minify head inline scripts ([e61db62](https://github.com/vuejs/vitepress/commit/e61db62a1c49cb5f368a152221bfa60737dbbc6a))
+
 ## [0.20.9](https://github.com/vuejs/vitepress/compare/v0.20.8...v0.20.9) (2021-12-15)
 
 ### Features
