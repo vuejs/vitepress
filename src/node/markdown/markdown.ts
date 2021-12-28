@@ -17,6 +17,7 @@ import anchor from 'markdown-it-anchor'
 import attrs from 'markdown-it-attrs'
 import emoji from 'markdown-it-emoji'
 import toc from 'markdown-it-table-of-contents'
+import { SiteConfig } from 'config'
 
 export interface MarkdownOptions extends MarkdownIt.Options {
   lineNumbers?: boolean
@@ -51,7 +52,8 @@ export type { Header }
 export const createMarkdownRenderer = (
   srcDir: string,
   options: MarkdownOptions = {},
-  base: string
+  base: string,
+  cleanUrls: boolean = false,
 ): MarkdownRenderer => {
   const md = MarkdownIt({
     html: true,
@@ -76,7 +78,7 @@ export const createMarkdownRenderer = (
         rel: 'noopener noreferrer',
         ...options.externalLinks
       },
-      base
+      base, cleanUrls
     )
     // 3rd party plugins
     .use(attrs, options.attrs)

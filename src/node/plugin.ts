@@ -43,7 +43,8 @@ export function createVitePressPlugin(
     site,
     vue: userVuePluginOptions,
     vite: userViteConfig,
-    pages
+    pages,
+    cleanUrls
   } = siteConfig
 
   let markdownToVue: ReturnType<typeof createMarkdownToVueRenderFn>
@@ -79,7 +80,8 @@ export function createVitePressPlugin(
         config.define,
         config.command === 'build',
         config.base,
-        siteConfig.lastUpdated
+        siteConfig.lastUpdated,
+        cleanUrls
       )
     },
 

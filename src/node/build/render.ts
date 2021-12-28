@@ -150,9 +150,17 @@ export async function renderPage(
     ${inlinedScript}
   </body>
 </html>`.trim()
-  const htmlFileName = path.join(config.outDir, page.replace(/\.md$/, '.html'))
+  const htmlFileName = path.join(config.outDir, transformHTMLFileName(page, config.cleanUrls));
   await fs.ensureDir(path.dirname(htmlFileName))
   await fs.writeFile(htmlFileName, html)
+}
+
+function transformHTMLFileName(page: string, shouldCleanUrls: boolean): string {
+  if (page === 'index.md' || page.endsWith('/index.md')) {
+    return page.replace(/\.md$/, '.html');
+  }
+
+  return page.replace(/\.md$/, shouldCleanUrls ? '/index.html' : '.html');
 }
 
 function resolvePageImports(
