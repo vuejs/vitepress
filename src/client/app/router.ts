@@ -48,12 +48,12 @@ export function createRouter(
   const route = reactive(getDefaultRoute())
 
   function go(href: string = inBrowser ? location.href : '/') {
+    const url = new URL(href, fakeHost)
     // ensure correct deep link so page refresh lands on correct files.
     if (siteDataRef.value.cleanUrls) {
-      // TODO
+      // Should we replace `/foo.html` -> `/foo` ? :thinking:
     }
     else {
-      const url = new URL(href, fakeHost)
       if (!url.pathname.endsWith('/') && !url.pathname.endsWith('.html')) {
         url.pathname += '.html'
         href = url.pathname + url.search + url.hash
