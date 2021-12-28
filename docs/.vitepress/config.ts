@@ -1,3 +1,4 @@
+
 export default {
   lang: 'en-US',
   title: 'VitePress',

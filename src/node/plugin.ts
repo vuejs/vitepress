@@ -80,7 +80,7 @@ export function createVitePressPlugin(
     configResolved(resolvedConfig) {
       config = resolvedConfig
       markdownToVue = createMarkdownToVueRenderFn(
-        srcDir,
+        siteConfig,
         markdown,
         pages,
         config.define,

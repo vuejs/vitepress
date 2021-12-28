@@ -54,6 +54,14 @@ export interface UserConfig<ThemeConfig = any> {
    * @experimental
    */
   mpa?: boolean
+
+  /** 
+   * Always use "clean URLs" without the `.html`.
+   * Also generate static files as `foo/index.html` insted of `foo.html`.
+   * (default: false)
+   * @experimental (Works better with mpa mode)
+   */
+  cleanUrls?: boolean
 }
 
 export type RawConfigExports =
@@ -73,6 +81,7 @@ export interface SiteConfig<ThemeConfig = any>
   themeDir: string
   outDir: string
   tempDir: string
+  cleanUrls: boolean;
   alias: AliasOptions
   pages: string[]
 }
@@ -124,6 +133,7 @@ export async function resolveConfig(
     configPath,
     outDir: resolve(root, 'dist'),
     tempDir: path.resolve(APP_PATH, 'temp'),
+    cleanUrls: !!userConfig.cleanUrls,
     markdown: userConfig.markdown,
     alias: resolveAliases(themeDir),
     vue: userConfig.vue,
@@ -229,6 +239,7 @@ export async function resolveSiteData(
     head: userConfig.head || [],
     themeConfig: userConfig.themeConfig || {},
     locales: userConfig.locales || {},
-    langs: createLangDictionary(userConfig)
+    langs: createLangDictionary(userConfig),
+    cleanUrls: userConfig.cleanUrls || false
   }
 }

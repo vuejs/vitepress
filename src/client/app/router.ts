@@ -2,6 +2,7 @@ import { reactive, inject, markRaw, nextTick, readonly } from 'vue'
 import type { Component, InjectionKey } from 'vue'
 import { PageData } from '../shared'
 import { inBrowser } from './utils'
+import { siteDataRef } from './data'
 
 export interface Route {
   path: string
@@ -42,10 +43,15 @@ export function createRouter(
 
   function go(href: string = inBrowser ? location.href : '/') {
     // ensure correct deep link so page refresh lands on correct files.
-    const url = new URL(href, fakeHost)
-    if (!url.pathname.endsWith('/') && !url.pathname.endsWith('.html')) {
-      url.pathname += '.html'
-      href = url.pathname + url.search + url.hash
+    if (siteDataRef.value.cleanUrls) {
+      // TODO
+    }
+    else {
+      const url = new URL(href, fakeHost)
+      if (!url.pathname.endsWith('/') && !url.pathname.endsWith('.html')) {
+        url.pathname += '.html'
+        href = url.pathname + url.search + url.hash
+      }
     }
     if (inBrowser) {
       // save scroll position before changing url
