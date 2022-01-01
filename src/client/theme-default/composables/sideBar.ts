@@ -22,7 +22,7 @@ export function useSideBar() {
       return []
     }
 
-    // if it's `atuo`, render headers of the current page
+    // if it's `auto`, render headers of the current page
     if (frontSidebar === 'auto') {
       return resolveAutoSidebar(headers, sidebarDepth)
     }
