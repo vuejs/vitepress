@@ -2,7 +2,8 @@ import { FunctionalComponent, h, VNode } from 'vue'
 import { useRoute, useData } from 'vitepress'
 import { Header } from '../../shared'
 import { DefaultTheme } from '../config'
-import { joinUrl, isActive } from '../utils'
+import { joinUrl, isActive, isExternal as isExternalCheck } from '../utils'
+import OutboundLink from './icons/OutboundLink.vue'
 
 interface HeaderWithChildren extends Header {
   children?: Header[]
@@ -19,7 +20,8 @@ export const SideBarLink: FunctionalComponent<{
 
   const headers = route.data.headers
   const text = props.item.text
-  const link = resolveLink(site.value.base, props.item.link)
+  const isExternal = props.item.link && isExternalCheck(props.item.link)
+  const link = isExternal ? props.item.link : resolveLink(site.value.base, props.item.link)
   const children = (props.item as DefaultTheme.SideBarGroup).children
   const active = isActive(route, props.item.link)
   const childItems =
@@ -32,9 +34,16 @@ export const SideBarLink: FunctionalComponent<{
       link ? 'a' : 'p',
       {
         class: { 'sidebar-link-item': true, active },
-        href: link
-      },
-      text
+        href: link,
+        target: isExternal ? `_blank` : null,
+        rel: isExternal ? `noopener noreferrer` : null
+      }, isExternal
+      ? [
+        text,
+        ' ',
+        h(OutboundLink),
+      ]
+      : text
     ),
     childItems
   ])
