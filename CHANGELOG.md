@@ -1,3 +1,9 @@
+## [0.21.1](https://github.com/vuejs/vitepress/compare/v0.21.0...v0.21.1) (2022-01-06)
+
+### Performance Improvements
+
+- do not include head config in client bundle for production ([6f3a96f](https://github.com/vuejs/vitepress/commit/6f3a96f06daec4baad4420b54137a7afb1512e7f))
+
 # [0.21.0](https://github.com/vuejs/vitepress/compare/v0.20.10...v0.21.0) (2022-01-06)
 
 ### Bug Fixes
