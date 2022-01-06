@@ -1,3 +1,9 @@
+## [0.21.3](https://github.com/vuejs/vitepress/compare/v0.21.2...v0.21.3) (2022-01-06)
+
+### Bug Fixes
+
+- prioritize vue installed in user project root ([9b3243b](https://github.com/vuejs/vitepress/commit/9b3243b75752209943af5b247f5d38e641d4ff6d))
+
 ## [0.21.2](https://github.com/vuejs/vitepress/compare/v0.21.1...v0.21.2) (2022-01-06)
 
 ## [0.21.1](https://github.com/vuejs/vitepress/compare/v0.21.0...v0.21.1) (2022-01-06)
