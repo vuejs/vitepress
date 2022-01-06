@@ -4,4 +4,11 @@ export * from './serve/serve'
 export * from './config'
 export * from './markdown/markdown'
 
-export type { SiteData, HeadConfig, LocaleConfig, DefaultTheme } from '../../types/shared'
+// shared types
+export type {
+  SiteData,
+  HeadConfig,
+  Header,
+  LocaleConfig,
+  DefaultTheme
+} from '../../types/shared'
