@@ -38,7 +38,7 @@ export interface UserConfig<ThemeConfig = any> {
   locales?: Record<string, LocaleConfig>
   markdown?: MarkdownOptions
   /**
-   * Opitons to pass on to `@vitejs/plugin-vue`
+   * Options to pass on to `@vitejs/plugin-vue`
    */
   vue?: VuePluginOptions
   /**
@@ -48,6 +48,7 @@ export interface UserConfig<ThemeConfig = any> {
 
   srcDir?: string
   srcExclude?: string[]
+  outDir?: string
   shouldPreload?: (link: string, page: string) => boolean
 
   /**
@@ -105,6 +106,7 @@ export async function resolveConfig(
   const [userConfig, configPath] = await resolveUserConfig(root, command, mode)
   const site = await resolveSiteData(root, userConfig)
   const srcDir = path.resolve(root, userConfig.srcDir || '.')
+  const outDir = userConfig.outDir ? path.resolve(root, userConfig.outDir) : resolve(root, 'dist')
 
   // resolve theme path
   const userThemeDir = resolve(root, 'theme')
@@ -132,7 +134,7 @@ export async function resolveConfig(
     themeDir,
     pages,
     configPath,
-    outDir: resolve(root, 'dist'),
+    outDir,
     tempDir: resolve(root, '.tmp'),
     markdown: userConfig.markdown,
     alias: resolveAliases(themeDir),
