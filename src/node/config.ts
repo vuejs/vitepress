@@ -14,7 +14,8 @@ import {
   SiteData,
   HeadConfig,
   LocaleConfig,
-  createLangDictionary
+  createLangDictionary,
+  DefaultTheme
 } from './shared'
 import { resolveAliases, APP_PATH, DEFAULT_THEME_PATH } from './alias'
 import { MarkdownOptions } from './markdown/markdown'
@@ -27,7 +28,7 @@ const debug = _debug('vitepress:config')
 export type { MarkdownOptions }
 
 export interface UserConfig<ThemeConfig = any> {
-  extends?: RawConfigExports
+  extends?: RawConfigExports<ThemeConfig>
   lang?: string
   base?: string
   title?: string
@@ -56,10 +57,10 @@ export interface UserConfig<ThemeConfig = any> {
   mpa?: boolean
 }
 
-export type RawConfigExports =
-  | UserConfig
-  | Promise<UserConfig>
-  | (() => UserConfig | Promise<UserConfig>)
+export type RawConfigExports<ThemeConfig = any> =
+  | UserConfig<ThemeConfig>
+  | Promise<UserConfig<ThemeConfig>>
+  | (() => UserConfig<ThemeConfig> | Promise<UserConfig<ThemeConfig>>)
 
 export interface SiteConfig<ThemeConfig = any>
   extends Pick<
@@ -83,7 +84,16 @@ const resolve = (root: string, file: string) =>
 /**
  * Type config helper
  */
-export function defineConfig(config: RawConfigExports) {
+export function defineConfig(config: UserConfig<DefaultTheme.Config>) {
+  return config
+}
+
+/**
+ * Type config helper for custom theme config
+ */
+export function defineConfigWithTheme<ThemeConfig>(
+  config: UserConfig<ThemeConfig>
+) {
   return config
 }
 
