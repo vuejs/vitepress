@@ -106,7 +106,9 @@ export async function resolveConfig(
   const [userConfig, configPath] = await resolveUserConfig(root, command, mode)
   const site = await resolveSiteData(root, userConfig)
   const srcDir = path.resolve(root, userConfig.srcDir || '.')
-  const outDir = userConfig.outDir ? path.resolve(root, userConfig.outDir) : resolve(root, 'dist')
+  const outDir = userConfig.outDir
+    ? path.resolve(root, userConfig.outDir)
+    : resolve(root, 'dist')
 
   // resolve theme path
   const userThemeDir = resolve(root, 'theme')
@@ -135,7 +137,7 @@ export async function resolveConfig(
     pages,
     configPath,
     outDir,
-    tempDir: resolve(root, '.tmp'),
+    tempDir: resolve(root, '.temp'),
     markdown: userConfig.markdown,
     alias: resolveAliases(themeDir),
     vue: userConfig.vue,
