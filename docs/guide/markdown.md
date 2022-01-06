@@ -138,6 +138,10 @@ This is a warning
 ::: danger
 This is a dangerous warning
 :::
+
+::: details
+This is a details block, which does not work in Internet Explorer or Edge.
+:::
 ```
 
 **Output**
@@ -158,20 +162,36 @@ This is a warning
 This is a dangerous warning
 :::
 
+::: details
+This is a details block, which does not work in Internet Explorer or Edge.
+:::
+
 ### Custom Title
 
 **Input**
 
-```md
+````md
 ::: danger STOP
 Danger zone, do not proceed
 :::
+
+::: details Click me to view the code
+```js
+console.log('Hello, VitePress!')
 ```
+:::
+````
 
 **Output**
 
 ::: danger STOP
 Danger zone, do not proceed
+:::
+
+::: details Click me to view the code
+```js
+console.log('Hello, VitePress!')
+```
 :::
 
 ## Syntax Highlighting in Code Blocks
