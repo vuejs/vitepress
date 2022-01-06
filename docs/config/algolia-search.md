@@ -47,41 +47,4 @@ module.exports = {
 }
 ```
 
-VitePress will automatically add a `language` _facetFilter_ to the `searchParameters.facetFilter` array with the correct language value. **Make sure to properly configure your DocSearch config as well** by adding `language` as a _custom attribute for faceting_ and by setting it based on the `lang` attribute of the `<html>` element. Here is a short example of DocSearch config:
-
-```json
-{
-  "index_name": "<the name of your library>",
-  "start_urls": [
-    {
-      "url": "<your deployed url>"
-    }
-  ],
-  "stop_urls": ["(?:(?<!\\.html)(?<!/))$"],
-  "selectors": {
-    "lvl0": {
-      "selector": ".sidebar > .sidebar-links > .sidebar-link .sidebar-link-item.active",
-      "global": true,
-      "default_value": "Documentation"
-    },
-    "lvl1": ".content h1",
-    "lvl2": ".content h2",
-    "lvl3": ".content h3",
-    "lvl4": ".content h4",
-    "lvl5": ".content h5",
-    "lvl6": ".content p, .content li",
-    "text": ".content [class^=language-]",
-    "language": {
-      "selector": "/html/@lang",
-      "type": "xpath",
-      "global": true,
-      "default_value": "en-US"
-    }
-  },
-  "custom_settings": {
-    "attributesForFaceting": ["language"]
-  }
-}
-```
-
-You can take a look at the [DocSearch config used by Vue Router](https://github.com/algolia/docsearch-configs/blob/master/configs/next_router_vuejs.json) for a complete example.
+VitePress will automatically add a `lang` _facetFilter_ to the `searchParameters.facetFilter` array with the correct language value. Algolia automatically adds the correct facet filter based on the `lang` attribute on the `<html>` tag. This will match search results with the currently viewed language of the page.
