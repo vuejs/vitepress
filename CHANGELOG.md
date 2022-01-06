@@ -1,3 +1,23 @@
+# [0.21.0](https://github.com/vuejs/vitepress/compare/v0.20.10...v0.21.0) (2022-01-06)
+
+### Bug Fixes
+
+- Chinese file link build failed ([#425](https://github.com/vuejs/vitepress/issues/425)) ([ae029ae](https://github.com/vuejs/vitepress/commit/ae029ae9e17fa6df1d2f89043f1891271e9c5b9b)), closes [#424](https://github.com/vuejs/vitepress/issues/424)
+- initial render of 404 pages ([#418](https://github.com/vuejs/vitepress/issues/418)) ([a3bf52f](https://github.com/vuejs/vitepress/commit/a3bf52fed53e82b9756c844f6bdd576662d2e726))
+- remove `.` for mjs in `supportedConfigExtensions` ([#447](https://github.com/vuejs/vitepress/issues/447)) ([fb6a4ad](https://github.com/vuejs/vitepress/commit/fb6a4ad3e008af9ce4393fb3ca37645f4efba951))
+- **serve:** respect base config in serve mode ([#470](https://github.com/vuejs/vitepress/issues/470)) ([08a0b12](https://github.com/vuejs/vitepress/commit/08a0b129928cef44e613ff410d769a7ac7bf5fa3)), closes [#416](https://github.com/vuejs/vitepress/issues/416)
+- set tempDir outside package root ([#439](https://github.com/vuejs/vitepress/issues/439)) ([bd35451](https://github.com/vuejs/vitepress/commit/bd35451ed42d7b5c47e2b49a7e659807cd7d7a0c)), closes [#435](https://github.com/vuejs/vitepress/issues/435)
+- use algolia search lang ([#459](https://github.com/vuejs/vitepress/issues/459)) ([444562c](https://github.com/vuejs/vitepress/commit/444562c3a763bab7a9c0ebfca5eec635e142a61f))
+
+### Features
+
+- add details custom container ([#455](https://github.com/vuejs/vitepress/issues/455)) ([a8f147f](https://github.com/vuejs/vitepress/commit/a8f147f153efdd17989a02eb620c3ae9ab0d13dd))
+- catch localhost links as dead links ([7387649](https://github.com/vuejs/vitepress/commit/7387649ff7c621402e49e26493b4eed25006fb4b))
+- expose `__path` and `__relativePath` on md instance for md plugins ([4cec660](https://github.com/vuejs/vitepress/commit/4cec660401d8d01830e5a11b9c66bc0ac5a935db))
+- improve typescript support for config file, add `defineConfigWithTheme` ([#465](https://github.com/vuejs/vitepress/issues/465)) ([ba41bb9](https://github.com/vuejs/vitepress/commit/ba41bb90551c01b9f84de2d2d3bc1920ce2ebe93))
+- properly remove `{#custom-anchor}` syntax in headers ([6120da2](https://github.com/vuejs/vitepress/commit/6120da25a87f6bec3918be804e95f2b3c8afb6c8))
+- user configurable `outDir` ([#448](https://github.com/vuejs/vitepress/issues/448)) ([5b04bb9](https://github.com/vuejs/vitepress/commit/5b04bb9eb5ced720414f4b0d729fde36432dd451))
+
 ## [0.20.10](https://github.com/vuejs/vitepress/compare/v0.20.9...v0.20.10) (2021-12-25)
 
 ### Features
