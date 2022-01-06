@@ -10,7 +10,7 @@ import { snippetPlugin } from './plugins/snippet'
 import { hoistPlugin } from './plugins/hoist'
 import { preWrapperPlugin } from './plugins/preWrapper'
 import { linkPlugin } from './plugins/link'
-import { extractHeaderPlugin } from './plugins/header'
+import { headingPlugin } from './plugins/headings'
 import { Header } from '../shared'
 import anchor from 'markdown-it-anchor'
 import attrs from 'markdown-it-attrs'
@@ -65,7 +65,7 @@ export const createMarkdownRenderer = (
     .use(snippetPlugin, srcDir)
     .use(hoistPlugin)
     .use(containerPlugin)
-    .use(extractHeaderPlugin)
+    .use(headingPlugin)
     .use(linkPlugin, {
       target: '_blank',
       rel: 'noopener noreferrer',
