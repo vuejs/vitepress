@@ -39,15 +39,10 @@ export interface MarkdownParsedData {
   headers?: Header[]
 }
 
-export interface MarkdownRenderer {
+export interface MarkdownRenderer extends MarkdownIt {
   __path: string
   __relativePath: string
   __data: MarkdownParsedData
-  render: (
-    src: string,
-    path: string,
-    relatiovePath: string
-  ) => { html: string; data: any }
 }
 
 export type { Header }
@@ -100,20 +95,5 @@ export const createMarkdownRenderer = (
     md.use(lineNumberPlugin)
   }
 
-  const wrappedMd = md as any as MarkdownRenderer
-
-  // wrap render so that we can return both the html and extracted data.
-  const render = md.render
-  wrappedMd.render = (src, path, relativePath) => {
-    wrappedMd.__data = {}
-    wrappedMd.__path = path
-    wrappedMd.__relativePath = relativePath
-    const html = render.call(md, src)
-    return {
-      html,
-      data: wrappedMd.__data
-    }
-  }
-
-  return wrappedMd
+  return md as MarkdownRenderer
 }

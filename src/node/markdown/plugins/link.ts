@@ -3,7 +3,7 @@
 // 2. normalize internal links to end with `.html`
 
 import MarkdownIt from 'markdown-it'
-import { MarkdownParsedData } from '../markdown'
+import { MarkdownRenderer } from '../markdown'
 import { URL } from 'url'
 import { EXTERNAL_URL_RE } from '../../shared'
 
@@ -81,7 +81,7 @@ export const linkPlugin = (
   }
 
   function pushLink(link: string) {
-    const data = (md as any).__data as MarkdownParsedData
+    const data = (md as MarkdownRenderer).__data
     const links = data.links || (data.links = [])
     links.push(link)
   }

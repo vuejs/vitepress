@@ -65,7 +65,14 @@ export function createMarkdownToVueRenderFn(
     })
 
     const { content, data: frontmatter } = matter(src)
-    let { html, data } = md.render(content, file, relativePath)
+
+    // reset state before render
+    md.__path = file
+    md.__relativePath = relativePath
+    md.__data = {}
+
+    let html = md.render(content)
+    const data = md.__data
 
     if (isBuild) {
       // avoid env variables being replaced by vite
@@ -125,7 +132,7 @@ export function createMarkdownToVueRenderFn(
       title: inferTitle(frontmatter, content),
       description: inferDescription(frontmatter),
       frontmatter,
-      headers: data.headers,
+      headers: data.headers || [],
       relativePath,
       // TODO use git timestamp?
       lastUpdated: Math.round(fs.statSync(file).mtimeMs)
