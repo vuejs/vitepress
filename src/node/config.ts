@@ -17,7 +17,7 @@ import {
   createLangDictionary,
   DefaultTheme
 } from './shared'
-import { resolveAliases, APP_PATH, DEFAULT_THEME_PATH } from './alias'
+import { resolveAliases, DEFAULT_THEME_PATH } from './alias'
 import { MarkdownOptions } from './markdown/markdown'
 import _debug from 'debug'
 
@@ -133,7 +133,7 @@ export async function resolveConfig(
     pages,
     configPath,
     outDir: resolve(root, 'dist'),
-    tempDir: path.resolve(APP_PATH, 'temp'),
+    tempDir: resolve(root, '.tmp'),
     markdown: userConfig.markdown,
     alias: resolveAliases(themeDir),
     vue: userConfig.vue,
