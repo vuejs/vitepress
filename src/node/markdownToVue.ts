@@ -65,7 +65,7 @@ export function createMarkdownToVueRenderFn(
     })
 
     const { content, data: frontmatter } = matter(src)
-    let { html, data } = md.render(content)
+    let { html, data } = md.render(content, file, relativePath)
 
     if (isBuild) {
       // avoid env variables being replaced by vite
