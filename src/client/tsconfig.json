@@ -12,5 +12,5 @@
       "vitepress": ["index.ts"]
     }
   },
-  "include": [".", "../../types/shared.d.ts"]
+  "include": ["."]
 }

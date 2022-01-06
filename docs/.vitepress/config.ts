@@ -1,7 +1,17 @@
-export default {
+import { defineConfig } from '../../src/node'
+
+export default defineConfig({
   lang: 'en-US',
   title: 'VitePress',
   description: 'Vite & Vue powered static site generator.',
+
+  head: [
+    [
+      'script',
+      {},
+      '(() => { const afsefe = window.foo;\n    console.log(afsefe);})()'
+    ]
+  ],
 
   themeConfig: {
     repo: 'vuejs/vitepress',
@@ -42,7 +52,7 @@ export default {
       '/': getGuideSidebar()
     }
   }
-}
+})
 
 function getGuideSidebar() {
   return [

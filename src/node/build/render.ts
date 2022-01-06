@@ -2,7 +2,7 @@ import path from 'path'
 import fs from 'fs-extra'
 import { SiteConfig, resolveSiteDataByRoute } from '../config'
 import { HeadConfig } from '../shared'
-import { normalizePath } from 'vite'
+import { normalizePath, transformWithEsbuild } from 'vite'
 import { RollupOutput, OutputChunk, OutputAsset } from 'rollup'
 import { slash } from '../utils/slash'
 import escape from 'escape-html'
@@ -121,7 +121,7 @@ export async function renderPage(
     ${stylesheetLink}
     ${preloadLinksString}
     ${prefetchLinkString}
-    ${renderHead(head)}
+    ${await renderHead(head)}
   </head>
   <body>
     <div id="app">${content}</div>
@@ -165,17 +165,24 @@ function resolvePageImports(
   ]
 }
 
-function renderHead(head: HeadConfig[]) {
-  return head
-    .map(([tag, attrs = {}, innerHTML = '']) => {
+function renderHead(head: HeadConfig[]): Promise<string> {
+  return Promise.all(
+    head.map(async ([tag, attrs = {}, innerHTML = '']) => {
       const openTag = `<${tag}${renderAttrs(attrs)}>`
       if (tag !== 'link' && tag !== 'meta') {
+        if (tag === 'script') {
+          innerHTML = (
+            await transformWithEsbuild(innerHTML, 'inline-script.js', {
+              minify: true
+            })
+          ).code.trim()
+        }
         return `${openTag}${innerHTML}</${tag}>`
       } else {
         return openTag
       }
     })
-    .join('\n    ')
+  ).then((tags) => tags.join('\n  '))
 }
 
 function renderAttrs(attrs: Record<string, string>): string {

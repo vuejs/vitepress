@@ -1,5 +1,7 @@
 // types shared between server and client
 
+export { DefaultTheme } from './default-theme'
+
 export interface LocaleConfig {
   lang: string
   title?: string

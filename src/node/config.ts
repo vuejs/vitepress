@@ -14,9 +14,10 @@ import {
   SiteData,
   HeadConfig,
   LocaleConfig,
-  createLangDictionary
+  createLangDictionary,
+  DefaultTheme
 } from './shared'
-import { resolveAliases, APP_PATH, DEFAULT_THEME_PATH } from './alias'
+import { resolveAliases, DEFAULT_THEME_PATH } from './alias'
 import { MarkdownOptions } from './markdown/markdown'
 import _debug from 'debug'
 
@@ -27,7 +28,7 @@ const debug = _debug('vitepress:config')
 export type { MarkdownOptions }
 
 export interface UserConfig<ThemeConfig = any> {
-  extends?: RawConfigExports
+  extends?: RawConfigExports<ThemeConfig>
   lang?: string
   base?: string
   title?: string
@@ -57,10 +58,10 @@ export interface UserConfig<ThemeConfig = any> {
   mpa?: boolean
 }
 
-export type RawConfigExports =
-  | UserConfig
-  | Promise<UserConfig>
-  | (() => UserConfig | Promise<UserConfig>)
+export type RawConfigExports<ThemeConfig = any> =
+  | UserConfig<ThemeConfig>
+  | Promise<UserConfig<ThemeConfig>>
+  | (() => UserConfig<ThemeConfig> | Promise<UserConfig<ThemeConfig>>)
 
 export interface SiteConfig<ThemeConfig = any>
   extends Pick<
@@ -84,7 +85,16 @@ const resolve = (root: string, file: string) =>
 /**
  * Type config helper
  */
-export function defineConfig(config: RawConfigExports) {
+export function defineConfig(config: UserConfig<DefaultTheme.Config>) {
+  return config
+}
+
+/**
+ * Type config helper for custom theme config
+ */
+export function defineConfigWithTheme<ThemeConfig>(
+  config: UserConfig<ThemeConfig>
+) {
   return config
 }
 
@@ -125,7 +135,7 @@ export async function resolveConfig(
     pages,
     configPath,
     outDir,
-    tempDir: path.resolve(APP_PATH, 'temp'),
+    tempDir: resolve(root, '.tmp'),
     markdown: userConfig.markdown,
     alias: resolveAliases(themeDir),
     vue: userConfig.vue,
@@ -137,7 +147,7 @@ export async function resolveConfig(
   return config
 }
 
-const supportedConfigExtensions = ['js', 'ts', '.mjs', 'mts']
+const supportedConfigExtensions = ['js', 'ts', 'mjs', 'mts']
 
 async function resolveUserConfig(
   root: string,
