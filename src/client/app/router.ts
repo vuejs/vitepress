@@ -25,8 +25,8 @@ const getDefaultRoute = (): Route => ({
   component: null,
   // this will be set upon initial page load, which is before
   // the app is mounted, so it's guaranteed to be available in
-  // components
-  data: null as any
+  // components. We just need enough data for 404 pages to render.
+  data: { frontmatter: {} } as any
 })
 
 interface PageModule {
