@@ -4,7 +4,7 @@ import matter from 'gray-matter'
 import LRUCache from 'lru-cache'
 import { createMarkdownRenderer, MarkdownOptions } from './markdown/markdown'
 import { deeplyParseHeader } from './utils/parseHeader'
-import { PageData, HeadConfig } from './shared'
+import { PageData, HeadConfig, EXTERNAL_URL_RE } from './shared'
 import { slash } from './utils/slash'
 import chalk from 'chalk'
 import _debug from 'debug'
@@ -68,7 +68,14 @@ export function createMarkdownToVueRenderFn(
     })
 
     const { content, data: frontmatter } = matter(src)
-    let { html, data } = md.render(content)
+
+    // reset state before render
+    md.__path = file
+    md.__relativePath = relativePath
+    md.__data = {}
+
+    let html = md.render(content)
+    const data = md.__data
 
     if (isBuild) {
       // avoid env variables being replaced by vite
@@ -86,29 +93,40 @@ export function createMarkdownToVueRenderFn(
     }
 
     // validate data.links
-    const deadLinks = []
+    const deadLinks: string[] = []
+    const recordDeadLink = (url: string) => {
+      console.warn(
+        chalk.yellow(
+          `\n(!) Found dead link ${chalk.cyan(url)} in file ${chalk.white.dim(
+            file
+          )}`
+        )
+      )
+      deadLinks.push(url)
+    }
+
     if (data.links) {
       const dir = path.dirname(file)
       for (let url of data.links) {
+        if (url.replace(EXTERNAL_URL_RE, '').startsWith('//localhost:')) {
+          recordDeadLink(url)
+          continue
+        }
+
         url = url.replace(/[?#].*$/, '').replace(/\.(html|md)$/, '')
         if (url.endsWith('/')) url += `index`
-        const resolved = slash(
-          url.startsWith('/')
-            ? url.slice(1)
-            : path.relative(srcDir, path.resolve(dir, url))
+        const resolved = decodeURIComponent(
+          slash(
+            url.startsWith('/')
+              ? url.slice(1)
+              : path.relative(srcDir, path.resolve(dir, url))
+          )
         )
         if (
           !pages.includes(resolved) &&
           !fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`))
         ) {
-          console.warn(
-            chalk.yellow(
-              `\n(!) Found dead link ${chalk.cyan(
-                url
-              )} in file ${chalk.white.dim(file)}`
-            )
-          )
-          deadLinks.push(url)
+          recordDeadLink(url)
         }
       }
     }
@@ -117,7 +135,7 @@ export function createMarkdownToVueRenderFn(
       title: inferTitle(frontmatter, content),
       description: inferDescription(frontmatter),
       frontmatter,
-      headers: data.headers,
+      headers: data.headers || [],
       relativePath,
       // TODO use git timestamp?
       lastUpdated: Math.round(fs.statSync(file).mtimeMs)

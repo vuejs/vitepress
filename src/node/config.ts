@@ -14,9 +14,10 @@ import {
   SiteData,
   HeadConfig,
   LocaleConfig,
-  createLangDictionary
+  createLangDictionary,
+  DefaultTheme
 } from './shared'
-import { resolveAliases, APP_PATH, DEFAULT_THEME_PATH } from './alias'
+import { resolveAliases, DEFAULT_THEME_PATH } from './alias'
 import { MarkdownOptions } from './markdown/markdown'
 import _debug from 'debug'
 
@@ -27,7 +28,7 @@ const debug = _debug('vitepress:config')
 export type { MarkdownOptions }
 
 export interface UserConfig<ThemeConfig = any> {
-  extends?: RawConfigExports
+  extends?: RawConfigExports<ThemeConfig>
   lang?: string
   base?: string
   title?: string
@@ -37,7 +38,7 @@ export interface UserConfig<ThemeConfig = any> {
   locales?: Record<string, LocaleConfig>
   markdown?: MarkdownOptions
   /**
-   * Opitons to pass on to `@vitejs/plugin-vue`
+   * Options to pass on to `@vitejs/plugin-vue`
    */
   vue?: VuePluginOptions
   /**
@@ -47,6 +48,7 @@ export interface UserConfig<ThemeConfig = any> {
 
   srcDir?: string
   srcExclude?: string[]
+  outDir?: string
   shouldPreload?: (link: string, page: string) => boolean
 
   /**
@@ -64,10 +66,10 @@ export interface UserConfig<ThemeConfig = any> {
   cleanUrls?: boolean
 }
 
-export type RawConfigExports =
-  | UserConfig
-  | Promise<UserConfig>
-  | (() => UserConfig | Promise<UserConfig>)
+export type RawConfigExports<ThemeConfig = any> =
+  | UserConfig<ThemeConfig>
+  | Promise<UserConfig<ThemeConfig>>
+  | (() => UserConfig<ThemeConfig> | Promise<UserConfig<ThemeConfig>>)
 
 export interface SiteConfig<ThemeConfig = any>
   extends Pick<
@@ -92,7 +94,16 @@ const resolve = (root: string, file: string) =>
 /**
  * Type config helper
  */
-export function defineConfig(config: RawConfigExports) {
+export function defineConfig(config: UserConfig<DefaultTheme.Config>) {
+  return config
+}
+
+/**
+ * Type config helper for custom theme config
+ */
+export function defineConfigWithTheme<ThemeConfig>(
+  config: UserConfig<ThemeConfig>
+) {
   return config
 }
 
@@ -104,6 +115,9 @@ export async function resolveConfig(
   const [userConfig, configPath] = await resolveUserConfig(root, command, mode)
   const site = await resolveSiteData(root, userConfig)
   const srcDir = path.resolve(root, userConfig.srcDir || '.')
+  const outDir = userConfig.outDir
+    ? path.resolve(root, userConfig.outDir)
+    : resolve(root, 'dist')
 
   // resolve theme path
   const userThemeDir = resolve(root, 'theme')
@@ -131,11 +145,11 @@ export async function resolveConfig(
     themeDir,
     pages,
     configPath,
-    outDir: resolve(root, 'dist'),
-    tempDir: path.resolve(APP_PATH, 'temp'),
+    outDir,
+    tempDir: resolve(root, '.temp'),
     cleanUrls: !!userConfig.cleanUrls,
     markdown: userConfig.markdown,
-    alias: resolveAliases(themeDir),
+    alias: resolveAliases(root, themeDir),
     vue: userConfig.vue,
     vite: userConfig.vite,
     shouldPreload: userConfig.shouldPreload,
@@ -145,7 +159,7 @@ export async function resolveConfig(
   return config
 }
 
-const supportedConfigExtensions = ['js', 'ts', '.mjs', 'mts']
+const supportedConfigExtensions = ['js', 'ts', 'mjs', 'mts']
 
 async function resolveUserConfig(
   root: string,

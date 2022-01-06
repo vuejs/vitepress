@@ -122,7 +122,12 @@ export function createVitePressPlugin(
 
     load(id) {
       if (id === SITE_DATA_REQUEST_PATH) {
-        return `export default ${JSON.stringify(JSON.stringify(siteData))}`
+        let data = siteData
+        // head info is not needed by the client in production build
+        if (config.command === 'build') {
+          data = { ...siteData, head: [] }
+        }
+        return `export default ${JSON.stringify(JSON.stringify(data))}`
       }
     },
 

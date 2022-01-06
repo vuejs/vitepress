@@ -24,6 +24,9 @@ const { site, theme, localePath } = useData()
   font-size: 1.3rem;
   font-weight: 600;
   color: var(--c-text);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .nav-bar-title:hover {
