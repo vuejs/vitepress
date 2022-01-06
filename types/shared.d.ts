@@ -11,7 +11,7 @@ export interface LocaleConfig {
   selectText?: string
 }
 
-export interface SiteData<T = any> {
+export interface SiteData<ThemeConfig = any> {
   base: string
   /**
    * Language of the site as it should be set on the `html` element.
@@ -21,7 +21,7 @@ export interface SiteData<T = any> {
   title: string
   description: string
   head: HeadConfig[]
-  themeConfig: T
+  themeConfig: ThemeConfig
   locales: Record<string, LocaleConfig>
   /**
    * Available locales for the site when it has defined `locales` in its

@@ -15,7 +15,7 @@ import {
   HeadConfig,
   LocaleConfig,
   createLangDictionary,
-  DefaultTheme,
+  DefaultTheme
 } from './shared'
 import { resolveAliases, APP_PATH, DEFAULT_THEME_PATH } from './alias'
 import { MarkdownOptions } from './markdown/markdown'
@@ -27,16 +27,14 @@ const debug = _debug('vitepress:config')
 
 export type { MarkdownOptions }
 
-export type ThemeConfig = any;
-
-export interface UserConfig<T extends ThemeConfig = ThemeConfig> {
-  extends?: RawConfigExports<T>
+export interface UserConfig<ThemeConfig = any> {
+  extends?: RawConfigExports<ThemeConfig>
   lang?: string
   base?: string
   title?: string
   description?: string
   head?: HeadConfig[]
-  themeConfig?: T
+  themeConfig?: ThemeConfig
   locales?: Record<string, LocaleConfig>
   markdown?: MarkdownOptions
   /**
@@ -58,15 +56,15 @@ export interface UserConfig<T extends ThemeConfig = ThemeConfig> {
   mpa?: boolean
 }
 
-export type RawConfigExports<T extends ThemeConfig = ThemeConfig> =
-  | UserConfig<T>
-  | Promise<UserConfig<T>>
-  | (() => UserConfig<T> | Promise<UserConfig<T>>)
+export type RawConfigExports<ThemeConfig = any> =
+  | UserConfig<ThemeConfig>
+  | Promise<UserConfig<ThemeConfig>>
+  | (() => UserConfig<ThemeConfig> | Promise<UserConfig<ThemeConfig>>)
 
-export interface SiteConfig<T = ThemeConfig> {
+export interface SiteConfig<ThemeConfig = any> {
   root: string
   srcDir: string
-  site: SiteData<T>
+  site: SiteData<ThemeConfig>
   configPath: string | undefined
   themeDir: string
   outDir: string
@@ -85,12 +83,16 @@ const resolve = (root: string, file: string) =>
 /**
  * Type config helper
  */
- export function defineConfig<T extends ThemeConfig = ThemeConfig>(
-  config: UserConfig<T>,
-  usingCustomTheme: true
-): void
-export function defineConfig(config: UserConfig<DefaultTheme.Config>): void
-export function defineConfig(config: ThemeConfig) {
+export function defineConfig(config: UserConfig<DefaultTheme.Config>) {
+  return config
+}
+
+/**
+ * Type config helper for custom theme config
+ */
+export function defineConfigWithTheme<ThemeConfig>(
+  config: UserConfig<ThemeConfig>
+) {
   return config
 }
 
@@ -158,7 +160,7 @@ async function resolveUserConfig(
     }
   }
 
-  const userConfig: RawConfigExports<ThemeConfig> = configPath
+  const userConfig: RawConfigExports = configPath
     ? ((
         await loadConfigFromFile(
           {
@@ -181,7 +183,7 @@ async function resolveUserConfig(
 }
 
 async function resolveConfigExtends(
-  config: RawConfigExports<ThemeConfig>
+  config: RawConfigExports
 ): Promise<UserConfig> {
   const resolved = await (typeof config === 'function' ? config() : config)
   if (resolved.extends) {
