@@ -16,17 +16,20 @@ const prefix = computed(() => {
 })
 
 const datetime = ref('')
+const datetimeFormatted = computed(() =>
+  datetime.value.replace(/T/, ' ').replace(/\.\d\d\dZ/, ' UTC')
+)
 onMounted(() => {
   // locale string might be different based on end user
   // and will lead to potential hydration mismatch if calculated at build time
-  datetime.value = new Date(page.value.lastUpdated).toLocaleString('en-US')
+  datetime.value = new Date(page.value.lastUpdated).toISOString()
 })
 </script>
 
 <template>
   <p v-if="hasLastUpdated" class="last-updated">
     <span class="prefix">{{ prefix }}:</span>
-    <span class="datetime">{{ datetime }}</span>
+    <time :datetime="datetime">{{ datetimeFormatted }}</time>
   </p>
 </template>
 
@@ -50,7 +53,7 @@ onMounted(() => {
   font-weight: 500;
 }
 
-.datetime {
+time {
   display: inline-block;
   margin-left: 6px;
   font-weight: 400;
