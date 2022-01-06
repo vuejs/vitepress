@@ -10,7 +10,7 @@ import { snippetPlugin } from './plugins/snippet'
 import { hoistPlugin } from './plugins/hoist'
 import { preWrapperPlugin } from './plugins/preWrapper'
 import { linkPlugin } from './plugins/link'
-import { extractHeaderPlugin } from './plugins/header'
+import { headingPlugin } from './plugins/headings'
 import { Header } from '../shared'
 import anchor from 'markdown-it-anchor'
 import attrs from 'markdown-it-attrs'
@@ -40,9 +40,10 @@ export interface MarkdownParsedData {
   headers?: Header[]
 }
 
-export interface MarkdownRenderer {
+export interface MarkdownRenderer extends MarkdownIt {
+  __path: string
+  __relativePath: string
   __data: MarkdownParsedData
-  render: (src: string, env?: any) => { html: string; data: any }
 }
 
 export type { Header }
@@ -65,7 +66,7 @@ export const createMarkdownRenderer = (
     .use(snippetPlugin, siteConfig.srcDir)
     .use(hoistPlugin)
     .use(containerPlugin)
-    .use(extractHeaderPlugin)
+    .use(headingPlugin)
     .use(linkPlugin, {
       target: '_blank',
       rel: 'noopener noreferrer',
@@ -95,17 +96,5 @@ export const createMarkdownRenderer = (
     md.use(lineNumberPlugin)
   }
 
-  // wrap render so that we can return both the html and extracted data.
-  const render = md.render
-  const wrappedRender: MarkdownRenderer['render'] = (src) => {
-    ;(md as any).__data = {}
-    const html = render.call(md, src)
-    return {
-      html,
-      data: (md as any).__data
-    }
-  }
-  ;(md as any).render = wrappedRender
-
-  return md as any
+  return md as MarkdownRenderer
 }

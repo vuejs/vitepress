@@ -3,7 +3,7 @@
 // 2. normalize internal links to end with `.html`
 
 import MarkdownIt from 'markdown-it'
-import { MarkdownParsedData } from '../markdown'
+import { MarkdownRenderer } from '../markdown'
 import { URL } from 'url'
 import { EXTERNAL_URL_RE } from '../../shared'
 
@@ -25,6 +25,10 @@ export const linkPlugin = (
         Object.entries(externalAttrs).forEach(([key, val]) => {
           token.attrSet(key, val)
         })
+        // catch localhost links as dead link
+        if (url.replace(EXTERNAL_URL_RE, '').startsWith('//localhost:')) {
+          pushLink(url)
+        }
       } else if (
         // internal anchor links
         !url.startsWith('#') &&
@@ -71,11 +75,15 @@ export const linkPlugin = (
     }
 
     // export it for existence check
-    const data = (md as any).__data as MarkdownParsedData
-    const links = data.links || (data.links = [])
-    links.push(url.replace(/\.html$/, ''))
+    pushLink(url.replace(/\.html$/, ''))
 
     // markdown-it encodes the uri
     hrefAttr[1] = decodeURI(url)
+  }
+
+  function pushLink(link: string) {
+    const data = (md as MarkdownRenderer).__data
+    const links = data.links || (data.links = [])
+    links.push(link)
   }
 }

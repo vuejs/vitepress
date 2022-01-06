@@ -55,7 +55,7 @@ const { lang } = useData()
 // if the user has multiple locales, the search results should be filtered
 // based on the language
 const facetFilters: string[] = props.multilang
-  ? ['language:' + lang.value]
+  ? ['lang:' + lang.value]
   : []
 
 if (props.options.searchParameters?.facetFilters) {
@@ -66,10 +66,10 @@ watch(
   lang,
   (newLang, oldLang) => {
     const index = facetFilters.findIndex(
-      (filter) => filter === 'language:' + oldLang
+      (filter) => filter === 'lang:' + oldLang
     )
     if (index > -1) {
-      facetFilters.splice(index, 1, 'language:' + newLang)
+      facetFilters.splice(index, 1, 'lang:' + newLang)
     }
   }
 )

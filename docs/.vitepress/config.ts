@@ -1,5 +1,6 @@
+import { defineConfig } from '../../src/node'
 
-export default {
+export default defineConfig({
   lang: 'en-US',
   title: 'VitePress',
   description: 'Vite & Vue powered static site generator.',
@@ -51,7 +52,7 @@ export default {
       '/': getGuideSidebar()
     }
   }
-}
+})
 
 function getGuideSidebar() {
   return [
