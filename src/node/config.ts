@@ -139,7 +139,7 @@ export async function resolveConfig(
     outDir,
     tempDir: resolve(root, '.temp'),
     markdown: userConfig.markdown,
-    alias: resolveAliases(themeDir),
+    alias: resolveAliases(root, themeDir),
     vue: userConfig.vue,
     vite: userConfig.vite,
     shouldPreload: userConfig.shouldPreload,

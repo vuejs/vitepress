@@ -14,11 +14,22 @@ export const DEFAULT_THEME_PATH = path.join(DIST_CLIENT_PATH, 'theme-default')
 export const SITE_DATA_ID = '@siteData'
 export const SITE_DATA_REQUEST_PATH = '/' + SITE_DATA_ID
 
-export function resolveAliases(themeDir: string): AliasOptions {
+const vueRuntimePath = 'vue/dist/vue.runtime.esm-bundler.js'
+
+export function resolveAliases(root: string, themeDir: string): AliasOptions {
   const paths: Record<string, string> = {
     '/@theme': themeDir,
     '/@shared': SHARED_PATH,
     [SITE_DATA_ID]: SITE_DATA_REQUEST_PATH
+  }
+
+  // prioritize vue installed in project root and fallback to
+  // vue that comes with vitepress itself.
+  let vuePath
+  try {
+    vuePath = require.resolve(vueRuntimePath, { paths: [root] })
+  } catch (e) {
+    vuePath = require.resolve(vueRuntimePath)
   }
 
   const aliases: Alias[] = [
@@ -40,7 +51,7 @@ export function resolveAliases(themeDir: string): AliasOptions {
     // vitepress itself
     {
       find: /^vue$/,
-      replacement: require.resolve('vue/dist/vue.runtime.esm-bundler.js')
+      replacement: vuePath
     }
   ]
 
