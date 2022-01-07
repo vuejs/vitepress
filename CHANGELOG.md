@@ -1,3 +1,9 @@
+## [0.21.4](https://github.com/vuejs/vitepress/compare/v0.21.3...v0.21.4) (2022-01-07)
+
+### Bug Fixes
+
+- set \_\_data in md.render ([dfbc932](https://github.com/vuejs/vitepress/commit/dfbc932fac50d39b047b211cedca0dcce05aebc8))
+
 ## [0.21.3](https://github.com/vuejs/vitepress/compare/v0.21.2...v0.21.3) (2022-01-06)
 
 ### Bug Fixes
