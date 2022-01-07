@@ -12,6 +12,7 @@
     "dist",
     "types",
     "client.d.ts"
+    "theme.d.ts"
   ],
   "scripts": {
     "dev": "run-s dev-shared dev-start",
