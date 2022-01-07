@@ -69,7 +69,6 @@ export function createMarkdownToVueRenderFn(
     // reset state before render
     md.__path = file
     md.__relativePath = relativePath
-    md.__data = {}
 
     let html = md.render(content)
     const data = md.__data

@@ -56,7 +56,7 @@ export const createMarkdownRenderer = (
     linkify: true,
     highlight,
     ...options
-  })
+  }) as MarkdownRenderer
 
   // custom plugins
   md.use(componentPlugin)
@@ -95,5 +95,11 @@ export const createMarkdownRenderer = (
     md.use(lineNumberPlugin)
   }
 
-  return md as MarkdownRenderer
+  const originalRender = md.render
+  md.render = (...args) => {
+    md.__data = {}
+    return originalRender.call(md, ...args)
+  }
+
+  return md
 }
