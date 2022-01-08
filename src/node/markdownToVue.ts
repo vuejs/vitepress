@@ -191,11 +191,11 @@ function genPageDataCode(tags: string[], data: PageData) {
 }
 
 const inferTitle = (frontmatter: any, content: string) => {
-  if (frontmatter.home) {
-    return 'Home'
-  }
   if (frontmatter.title) {
     return deeplyParseHeader(frontmatter.title)
+  }
+  if (frontmatter.home) {
+    return 'Home'
   }
   const match = content.match(/^\s*#+\s+(.*)/m)
   if (match) {
