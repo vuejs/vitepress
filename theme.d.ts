@@ -1,3 +1,4 @@
 // so that users can do `import DefaultTheme from 'vitepress/theme'`
-import DefaultTheme from './dist/client/theme-default/index'
-export default DefaultTheme
+import { Theme } from 'vitepress'
+declare const theme: Theme
+export default theme

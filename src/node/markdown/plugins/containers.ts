@@ -33,7 +33,9 @@ function createContainer(klass: string, defaultTitle: string): ContainerArgs {
         const info = token.info.trim().slice(klass.length).trim()
         if (token.nesting === 1) {
           if (klass === 'details') {
-            return `<details class="${klass} custom-block">${info ? `<summary>${info}</summary>` : ''}\n`
+            return `<details class="${klass} custom-block">${
+              info ? `<summary>${info}</summary>` : ''
+            }\n`
           }
           return `<div class="${klass} custom-block"><p class="custom-block-title">${
             info || defaultTitle
