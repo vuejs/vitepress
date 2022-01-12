@@ -3,6 +3,7 @@ export namespace DefaultTheme {
     logo?: string
     nav?: NavItem[] | false
     sidebar?: SideBarConfig | MultiSideBarConfig
+    sidebarDepth?: number
 
     /**
      * GitHub repository following the format <user>/<project>.

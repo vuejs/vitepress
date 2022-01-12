@@ -15,7 +15,8 @@ export function useSideBar() {
     // at first, we'll check if we can find the sidebar setting in frontmatter.
     const headers = route.data.headers
     const frontSidebar = route.data.frontmatter.sidebar
-    const sidebarDepth = route.data.frontmatter.sidebarDepth
+    const sidebarDepth =
+      route.data.frontmatter.sidebarDepth || site.value.themeConfig.sidebarDepth
 
     // if it's `false`, we'll just return an empty array here.
     if (frontSidebar === false) {
