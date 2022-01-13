@@ -15,6 +15,7 @@
 
 .custom-block.info {
   background-color: #f3f5f7;
+  color: var(--c-text-light-2);
   border-color: var(--c-text-light-2);
 }
 
