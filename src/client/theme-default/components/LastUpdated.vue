@@ -7,7 +7,7 @@ const { theme, page } = useData()
 const hasLastUpdated = computed(() => {
   const lu = theme.value.lastUpdated
 
-  return lu !== undefined && lu !== false
+  return lu !== undefined && lu !== false && page.value.lastUpdated !== 0
 })
 
 const prefix = computed(() => {
