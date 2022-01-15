@@ -1,5 +1,6 @@
 ---
 sidebarDepth: 2
+image: ./images/vue.png
 ---
 
 # What is VitePress?

@@ -20,6 +20,7 @@ export interface SiteData<ThemeConfig = any> {
   lang: string
   title: string
   description: string
+  socialImage: string
   head: HeadConfig[]
   themeConfig: ThemeConfig
   locales: Record<string, LocaleConfig>

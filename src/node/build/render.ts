@@ -99,6 +99,7 @@ export async function renderPage(
 
   const head = addSocialTags(
     title,
+    pageData.frontmatter.image || siteData.socialImage,
     ...siteData.head,
     ...filterOutHeadDescription(pageData.frontmatter.head)
   )
@@ -220,11 +221,16 @@ function hasTag(head: HeadConfig[], tag: HeadConfig) {
   return head.some(([type, attrs]) => type === tagType && attrs[attr] === value)
 }
 
-function addSocialTags(title: string, ...head: HeadConfig[]) {
+function addSocialTags(title: string, image: string, ...head: HeadConfig[]) {
   const tags: HeadConfig[] = [
     ['meta', { name: 'twitter:title', content: title }],
     ['meta', { property: 'og:title', content: title }]
   ]
+  if (image){
+    tags.push(['meta', {name: 'twitter:image', content: image}])
+    tags.push(['meta', {property: 'og:image', content: image}])
+  }
+
   tags.filter((tagAttrs) => {
     if (!hasTag(head, tagAttrs)) head.push(tagAttrs)
   })

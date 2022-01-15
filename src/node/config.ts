@@ -33,6 +33,7 @@ export interface UserConfig<ThemeConfig = any> {
   base?: string
   title?: string
   description?: string
+  socialImage?: string
   head?: HeadConfig[]
   themeConfig?: ThemeConfig
   locales?: Record<string, LocaleConfig>
@@ -239,6 +240,7 @@ export async function resolveSiteData(
     lang: userConfig.lang || 'en-US',
     title: userConfig.title || 'VitePress',
     description: userConfig.description || 'A VitePress site',
+    socialImage: userConfig.socialImage || '',
     base: userConfig.base ? userConfig.base.replace(/([^/])$/, '$1/') : '/',
     head: userConfig.head || [],
     themeConfig: userConfig.themeConfig || {},
