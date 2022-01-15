@@ -1,3 +1,9 @@
 // so that users can do `import DefaultTheme from 'vitepress/theme'`
-import DefaultTheme from './dist/client/theme-default/index'
-export default DefaultTheme
+import { ComponentOptions } from 'vue'
+
+declare const defaultTheme: {
+  Layout: ComponentOptions
+  NotFound: ComponentOptions
+}
+
+export default defaultTheme
