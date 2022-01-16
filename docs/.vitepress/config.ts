@@ -5,14 +5,6 @@ export default defineConfig({
   title: 'VitePress',
   description: 'Vite & Vue powered static site generator.',
 
-  head: [
-    [
-      'script',
-      {},
-      '(() => { const afsefe = window.foo;\n    console.log(afsefe);})()'
-    ]
-  ],
-
   themeConfig: {
     repo: 'vuejs/vitepress',
     docsDir: 'docs',
