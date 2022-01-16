@@ -1,3 +1,14 @@
+## [0.21.5](https://github.com/vuejs/vitepress/compare/v0.21.4...v0.21.5) (2022-01-16)
+
+### Bug Fixes
+
+- allow overriding title if home is true ([#493](https://github.com/vuejs/vitepress/issues/493)) ([88d57a9](https://github.com/vuejs/vitepress/commit/88d57a93ef2689a8f5344b7f38b26db5ea86759b))
+- **types:** fix vitepress/theme type ([eabf6d2](https://github.com/vuejs/vitepress/commit/eabf6d2aa69d2a5452042bbb59edbbbc95aece87)), closes [#489](https://github.com/vuejs/vitepress/issues/489) [#438](https://github.com/vuejs/vitepress/issues/438) [#494](https://github.com/vuejs/vitepress/issues/494) [#442](https://github.com/vuejs/vitepress/issues/442)
+
+### Features
+
+- scrollOffset option ([b66785d](https://github.com/vuejs/vitepress/commit/b66785d68a86c118a7a036f3de8b3e504390f1da))
+
 ## [0.21.4](https://github.com/vuejs/vitepress/compare/v0.21.3...v0.21.4) (2022-01-07)
 
 ### Bug Fixes
