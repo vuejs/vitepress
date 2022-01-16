@@ -76,7 +76,7 @@
     "@vitejs/plugin-vue": "^2.0.0",
     "prismjs": "^1.25.0",
     "vite": "^2.8.0-beta.2",
-    "vue": "^3.2.26"
+    "vue": "^3.2.27"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.18.9",
@@ -132,5 +132,15 @@
     "ts-jest": "^27.0.1",
     "typescript": "^4.3.2",
     "yorkie": "^2.0.0"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "@algolia/client-search",
+        "react",
+        "react-dom",
+        "@types/react"
+      ]
+    }
   }
 }
