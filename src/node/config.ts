@@ -52,6 +52,12 @@ export interface UserConfig<ThemeConfig = any> {
   shouldPreload?: (link: string, page: string) => boolean
 
   /**
+   * Configure the scroll offset when the theme has a sticky header.
+   * Can be a number or a selector element to get the offset from.
+   */
+  scrollOffset?: number | string
+
+  /**
    * Enable MPA / zero-JS mode
    * @experimental
    */
@@ -243,6 +249,7 @@ export async function resolveSiteData(
     head: userConfig.head || [],
     themeConfig: userConfig.themeConfig || {},
     locales: userConfig.locales || {},
-    langs: createLangDictionary(userConfig)
+    langs: createLangDictionary(userConfig),
+    scrollOffset: userConfig.scrollOffset || 90
   }
 }

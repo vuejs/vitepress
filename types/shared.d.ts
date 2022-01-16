@@ -22,6 +22,7 @@ export interface SiteData<ThemeConfig = any> {
   description: string
   head: HeadConfig[]
   themeConfig: ThemeConfig
+  scrollOffset: number | string
   locales: Record<string, LocaleConfig>
   /**
    * Available locales for the site when it has defined `locales` in its

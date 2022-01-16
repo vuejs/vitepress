@@ -2,6 +2,7 @@ import { reactive, inject, markRaw, nextTick, readonly } from 'vue'
 import type { Component, InjectionKey } from 'vue'
 import { PageData } from '../shared'
 import { inBrowser } from './utils'
+import { siteDataRef } from './data'
 
 export interface Route {
   path: string
@@ -192,7 +193,20 @@ function scrollTo(el: HTMLElement, hash: string, smooth = false) {
   }
 
   if (target) {
-    const targetTop = (target as HTMLElement).offsetTop
+    let offset = siteDataRef.value.scrollOffset
+    if (typeof offset === 'string') {
+      offset =
+        document.querySelector(offset)!.getBoundingClientRect().bottom + 24
+    }
+    const targetPadding = parseInt(
+      window.getComputedStyle(target as HTMLElement).paddingTop,
+      10
+    )
+    const targetTop =
+      window.scrollY +
+      (target as HTMLElement).getBoundingClientRect().top -
+      offset +
+      targetPadding
     // only smooth scroll if distance is smaller than screen height.
     if (!smooth || Math.abs(targetTop - window.scrollY) > window.innerHeight) {
       window.scrollTo(0, targetTop)
