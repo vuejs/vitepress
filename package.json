@@ -75,7 +75,7 @@
     "@docsearch/js": "^3.0.0-alpha.41",
     "@vitejs/plugin-vue": "^2.0.0",
     "prismjs": "^1.25.0",
-    "vite": "^2.8.0-beta.2",
+    "vite": "^2.7.12",
     "vue": "^3.2.27"
   },
   "devDependencies": {
@@ -87,7 +87,7 @@
     "@types/compression": "^1.7.0",
     "@types/debug": "^4.1.7",
     "@types/fs-extra": "^9.0.11",
-    "@types/jest": "^26.0.23",
+    "@types/jest": "^27.0.0",
     "@types/koa": "^2.13.1",
     "@types/koa-static": "^4.0.1",
     "@types/lru-cache": "^5.1.0",
