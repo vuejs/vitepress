@@ -6,11 +6,12 @@ export type {
   HeadConfig,
   LocaleConfig,
   Header,
-  DefaultTheme,
+  DefaultTheme
 } from '../../types/shared'
 
 export const EXTERNAL_URL_RE = /^https?:/i
 
+// @ts-ignore
 export const inBrowser = typeof window !== 'undefined'
 
 function findMatchRoot(route: string, roots: string[]): string | undefined {

@@ -1,12 +1,12 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../tsconfig.json",
   "compilerOptions": {
     "target": "es2019",
     "baseUrl": ".",
     "outDir": "../../dist/node",
     "module": "commonjs",
-    "lib": ["ESNext", "DOM"],
+    "types": ["node"],
     "sourceMap": true
   },
-  "include": [".", "../../types/shared.d.ts"]
+  "include": ["."]
 }
