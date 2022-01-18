@@ -23,7 +23,8 @@ export type SiteDataRef<T = any> = Ref<SiteData<T>>
 export const siteDataRef: Ref<SiteData> = shallowRef(parse(serializedSiteData))
 
 function parse(data: string): SiteData {
-  return readonly(JSON.parse(data)) as SiteData
+  const parsed = JSON.parse(data)
+  return (import.meta.env.DEV ? readonly(parsed) : parsed) as SiteData
 }
 
 // hmr
