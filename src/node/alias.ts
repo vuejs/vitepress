@@ -19,7 +19,6 @@ const vueRuntimePath = 'vue/dist/vue.runtime.esm-bundler.js'
 export function resolveAliases(root: string, themeDir: string): AliasOptions {
   const paths: Record<string, string> = {
     '/@theme': themeDir,
-    '/@shared': SHARED_PATH,
     [SITE_DATA_ID]: SITE_DATA_REQUEST_PATH
   }
 
