@@ -84,7 +84,8 @@ export function createVitePressPlugin(
         markdown,
         pages,
         config.define,
-        config.command === 'build'
+        config.command === 'build',
+        config.base
       )
     },
 
