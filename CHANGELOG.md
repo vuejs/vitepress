@@ -1,3 +1,9 @@
+## [0.21.6](https://github.com/vuejs/vitepress/compare/v0.21.5...v0.21.6) (2022-01-19)
+
+### Perf
+
+- Avoid wrapping siteData as readonly proxy in production builds
+
 ## [0.21.5](https://github.com/vuejs/vitepress/compare/v0.21.4...v0.21.5) (2022-01-16)
 
 ### Bug Fixes
