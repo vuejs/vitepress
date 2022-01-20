@@ -4,7 +4,7 @@ import matter from 'gray-matter'
 import LRUCache from 'lru-cache'
 import { createMarkdownRenderer, MarkdownOptions } from './markdown/markdown'
 import { deeplyParseHeader } from './utils/parseHeader'
-import { PageData, HeadConfig, EXTERNAL_URL_RE } from './shared'
+import { PageData, HeadConfig, LOCALHOST_URL_RE } from './shared'
 import { slash } from './utils/slash'
 import chalk from 'chalk'
 import _debug from 'debug'
@@ -104,7 +104,7 @@ export function createMarkdownToVueRenderFn(
     if (data.links) {
       const dir = path.dirname(file)
       for (let url of data.links) {
-        if (url.replace(EXTERNAL_URL_RE, '').startsWith('//localhost:')) {
+        if (LOCALHOST_URL_RE.test(url)) {
           recordDeadLink(url)
           continue
         }
