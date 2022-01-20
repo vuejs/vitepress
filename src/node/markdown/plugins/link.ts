@@ -11,7 +11,8 @@ const indexRE = /(^|.*\/)index.md(#?.*)$/i
 
 export const linkPlugin = (
   md: MarkdownIt,
-  externalAttrs: Record<string, string>
+  externalAttrs: Record<string, string>,
+  base: string
 ) => {
   md.renderer.rules.link_open = (tokens, idx, options, env, self) => {
     const token = tokens[idx]
@@ -75,6 +76,11 @@ export const linkPlugin = (
 
     // export it for existence check
     pushLink(url.replace(/\.html$/, ''))
+
+    // append base to internal (non-relative) urls
+    if (url.startsWith('/')) {
+      url = `${base}${url}`.replace(/\/+/g, '/')
+    }
 
     // markdown-it encodes the uri
     hrefAttr[1] = decodeURI(url)
