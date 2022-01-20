@@ -9,7 +9,7 @@ export type {
   DefaultTheme
 } from '../../types/shared'
 
-export const EXTERNAL_URL_RE = /^https?:|\.(?!html|md)\w+$/i
+export const EXTERNAL_URL_RE = /:\/\/|\.(?!html|md)\w+$/i
 
 // @ts-ignore
 export const inBrowser = typeof window !== 'undefined'
