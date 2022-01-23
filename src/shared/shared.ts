@@ -10,7 +10,7 @@ export type {
 } from '../../types/shared'
 
 export const EXTERNAL_URL_RE = /:\/\/|\.(?!html|md)\w+($|\?)/i
-export const LOCALHOST_URL_RE = /:\/\/localhost:/
+export const LOCALHOST_URL_RE = /^https?:\/\/localhost:/
 
 // @ts-ignore
 export const inBrowser = typeof window !== 'undefined'
