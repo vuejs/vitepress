@@ -1,4 +1,5 @@
 import path from 'path'
+import fs from 'fs-extra'
 import { defineConfig, mergeConfig, Plugin, ResolvedConfig } from 'vite'
 import { SiteConfig, resolveSiteData } from './config'
 import {
@@ -275,6 +276,15 @@ export function createVitePressPlugin(
 
         // overwrite src so vue plugin can handle the HMR
         ctx.read = () => vueSrc
+      }
+    },
+
+    writeBundle(_options) {
+      if (ssr && _options.dir && _options.format === 'cjs') {
+        fs.writeFileSync(
+          path.join(_options.dir, 'package.json'),
+          JSON.stringify({ type: 'commonjs' })
+        )
       }
     }
   }
