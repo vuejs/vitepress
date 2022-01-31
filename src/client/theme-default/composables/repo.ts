@@ -12,7 +12,7 @@ export function useRepo() {
 
   return computed(() => {
     const theme = site.value.themeConfig as DefaultTheme.Config
-    const name = theme.docsRepo || theme.repo
+    const name = theme.repo || theme.docsRepo
 
     if (!name) {
       return null
