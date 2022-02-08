@@ -53,7 +53,7 @@ Outbound links automatically get `target="_blank" rel="noopener noreferrer"`:
 
 ## Frontmatter
 
-[YAML frontmatter](https://jekyllrb.com/docs/frontmatter) is supported out of the box:
+[YAML frontmatter](https://jekyllrb.com/docs/front-matter/) is supported out of the box:
 
 ```yaml
 ---

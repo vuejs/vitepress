@@ -158,7 +158,7 @@ pages:
 
 ## Netlify
 
-1. On [Netlify](https://netlify.com), setup up a new project from GitHub with the following settings:
+1. On [Netlify](https://www.netlify.com/), setup up a new project from GitHub with the following settings:
 
 - **Build Command:** `vitepress build docs` or `yarn docs:build` or `npm run docs:build`
 - **Publish directory:** `docs/.vitepress/dist`
@@ -255,9 +255,9 @@ $ heroku open
 
 ## Vercel
 
-To deploy your VitePress app with a [Vercel for Git](https://vercel.com/docs/git), make sure it has been pushed to a Git repository.
+To deploy your VitePress app with a [Vercel for Git](https://vercel.com/docs/concepts/git), make sure it has been pushed to a Git repository.
 
-Go to https://vercel.com/import/git and import the project into Vercel using your Git of choice (GitHub, GitLab or BitBucket). Follow the wizard to select the project root with the project's `package.json` and override the build step using `yarn docs:build` or `npm run docs:build` and the output dir to be `./docs/.vitepress/dist`
+Go to https://vercel.com/new and import the project into Vercel using your Git of choice (GitHub, GitLab or BitBucket). Follow the wizard to select the project root with the project's `package.json` and override the build step using `yarn docs:build` or `npm run docs:build` and the output dir to be `./docs/.vitepress/dist`
 
 ![Override Vercel Configuration](../images/vercel-configuration.png)
 

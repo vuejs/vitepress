@@ -13,7 +13,7 @@ module.exports = {
 }
 ```
 
-For more options, check out [Algolia DocSearch's documentation](https://docsearch.algolia.com/docs/api). You can pass any extra option alongside other options, e.g. passing `searchParameters`:
+For more options, check out [Algolia DocSearch's documentation](https://docsearch.algolia.com/docs/api/). You can pass any extra option alongside other options, e.g. passing `searchParameters`:
 
 ```js
 module.exports = {

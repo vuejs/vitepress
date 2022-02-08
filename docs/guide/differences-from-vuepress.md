@@ -20,7 +20,7 @@ In case you decide to move your project to VitePress, this is a list of differen
 
 - Missing
   - YAML and TOML are not supported formats for site config. Only javascript is supported for `.vitepress/config.js`
-  - [Plugins](https://vuepress.vuejs.org/plugin) support, features are implemented in themes
+  - [Plugins](https://vuepress.vuejs.org/plugin/) support, features are implemented in themes
   - [permalink support](https://vuepress.vuejs.org/guide/permalinks.html)
   - `.vitepress/templates`
   - Components in `.vitepress/components` [are not auto registered as global components](https://vuepress.vuejs.org)
