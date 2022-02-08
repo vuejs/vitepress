@@ -22,7 +22,7 @@ module.exports = {
 }
 ```
 
-Check out the [Config Reference](/config/basics) for a full list of options.
+Check out the [Config Reference](../config/basics) for a full list of options.
 
 ## Config Intellisense
 

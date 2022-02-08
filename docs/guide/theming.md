@@ -57,7 +57,7 @@ export default {
 </template>
 ```
 
-The default export is the only contract for a custom theme. Inside your custom theme, it works just like a normal Vite + Vue 3 application. Do note the theme also needs to be [SSR-compatible](/guide/using-vue.html#browser-api-access-restrictions).
+The default export is the only contract for a custom theme. Inside your custom theme, it works just like a normal Vite + Vue 3 application. Do note the theme also needs to be [SSR-compatible](./using-vue#browser-api-access-restrictions).
 
 To distribute a theme, simply export the object in your package entry. To consume an external theme, import and re-export it from the custom theme entry:
 
@@ -108,7 +108,7 @@ export default DefaultTheme
 }
 ```
 
-See [default theme CSS variables](https://github.com/vuejs/vitepress/blob/master/src/client/theme-default/styles/vars.css) that can be overridden.
+See [default theme CSS variables](https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css) that can be overridden.
 
 ### Layout Slots
 
@@ -135,9 +135,7 @@ const { Layout } = DefaultTheme
 
 <template>
   <Layout>
-    <template #sidebar-top>
-      My custom sidebar top content
-    </template>
+    <template #sidebar-top>My custom sidebar top content</template>
   </Layout>
 </template>
 ```

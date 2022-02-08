@@ -1,6 +1,6 @@
 name: "\U0001F41E Bug report"
 description: Create a report to help us improve
-labels: ["bug: pending triage"]
+labels: ['bug: pending triage']
 body:
   - type: markdown
     attributes:
@@ -52,9 +52,9 @@ body:
       label: Validations
       description: Before submitting the issue, please make sure you do the following
       options:
-        - label: Follow our [Code of Conduct](https://vuejs.org/coc)
+        - label: Follow our [Code of Conduct](https://vuejs.org/about/coc.html)
           required: true
-        - label: Read the [docs](https://vitepress.vuejs.org/).
+        - label: Read the [docs](https://vitepress.vuejs.org).
           required: true
         - label: Check that there isn't already an issue that reports the same bug to avoid creating a duplicate.
           required: true

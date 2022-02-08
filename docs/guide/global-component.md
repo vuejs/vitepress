@@ -4,7 +4,7 @@ VitePress comes with few built-in component that can be used globally. You may u
 
 ## Content
 
-The `Content` component displays the rendered markdown contents. Useful [when creating your own theme](https://vitepress.vuejs.org/guide/customization.html).
+The `Content` component displays the rendered markdown contents. Useful [when creating your own theme](./theming).
 
 ```vue
 <template>
@@ -30,4 +30,3 @@ If you are using or demoing components that are not SSR-friendly (for example, c
 ## OutboundLink
 
 The indicator `OutboundLink` is used to denote external links. In VitePress, this component has been followed by every external link.
-
