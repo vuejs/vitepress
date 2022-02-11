@@ -1,3 +1,7 @@
+# [0.22.0](https://github.com/vuejs/vitepress/compare/v0.21.6...v0.22.0) (2022-02-11)
+
+- Upgrade to Vite 2.8
+
 ## [0.21.6](https://github.com/vuejs/vitepress/compare/v0.21.5...v0.21.6) (2022-01-19)
 
 ### Perf
