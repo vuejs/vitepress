@@ -12,6 +12,7 @@ importers:
       '@rollup/plugin-json': ^4.1.0
       '@rollup/plugin-node-resolve': ^13.0.4
       '@types/compression': ^1.7.0
+      '@types/cross-spawn': ^6.0.2
       '@types/debug': ^4.1.7
       '@types/fs-extra': ^9.0.11
       '@types/koa': ^2.13.1
@@ -26,6 +27,7 @@ importers:
       chokidar: ^3.5.1
       compression: ^1.7.4
       conventional-changelog-cli: ^2.1.1
+      cross-spawn: ^7.0.3
       debug: ^4.3.2
       diacritics: ^1.3.0
       enquirer: ^2.3.6
@@ -75,6 +77,7 @@ importers:
       '@rollup/plugin-json': 4.1.0_rollup@2.57.0
       '@rollup/plugin-node-resolve': 13.0.5_rollup@2.57.0
       '@types/compression': 1.7.2
+      '@types/cross-spawn': 6.0.2
       '@types/debug': 4.1.7
       '@types/fs-extra': 9.0.13
       '@types/koa': 2.13.4
@@ -88,6 +91,7 @@ importers:
       chokidar: 3.5.2
       compression: 1.7.4
       conventional-changelog-cli: 2.1.1
+      cross-spawn: 7.0.3
       debug: 4.3.2
       diacritics: 1.3.0
       enquirer: 2.3.6
@@ -541,6 +545,12 @@ packages:
       '@types/connect': 3.4.35
       '@types/express': 4.17.13
       '@types/keygrip': 1.0.2
+      '@types/node': 15.14.9
+    dev: true
+
+  /@types/cross-spawn/6.0.2:
+    resolution: {integrity: sha512-KuwNhp3eza+Rhu8IFI5HUXRP0LIhqH5cAjubUvGXXthh4YYBuP2ntwEX+Cz8GJoZUHlKo247wPWOfA9LYEq4cw==}
+    dependencies:
       '@types/node': 15.14.9
     dev: true
 

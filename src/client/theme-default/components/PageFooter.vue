@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import EditLink from './EditLink.vue'
 import LastUpdated from './LastUpdated.vue'
+import { useData } from 'vitepress'
+
+const { page } = useData()
 </script>
 
 <template>
@@ -9,7 +12,7 @@ import LastUpdated from './LastUpdated.vue'
       <EditLink />
     </div>
     <div class="updated">
-      <LastUpdated />
+      <LastUpdated v-if="page.lastUpdated" />
     </div>
   </footer>
 </template>

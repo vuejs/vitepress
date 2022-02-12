@@ -8,6 +8,7 @@ import { PageData, HeadConfig, EXTERNAL_URL_RE } from './shared'
 import { slash } from './utils/slash'
 import chalk from 'chalk'
 import _debug from 'debug'
+import { getGitTimestamp } from './utils/getGitTimestamp'
 
 const debug = _debug('vitepress:md')
 const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
@@ -25,7 +26,8 @@ export function createMarkdownToVueRenderFn(
   options: MarkdownOptions = {},
   pages: string[],
   userDefines: Record<string, any> | undefined,
-  isBuild = false
+  isBuild = false,
+  includeLastUpdatedData = false
 ) {
   const md = createMarkdownRenderer(srcDir, options)
   pages = pages.map((p) => slash(p.replace(/\.md$/, '')))
@@ -39,11 +41,11 @@ export function createMarkdownToVueRenderFn(
       )
     : null
 
-  return (
+  return async (
     src: string,
     file: string,
     publicDir: string
-  ): MarkdownCompileResult => {
+  ): Promise<MarkdownCompileResult> => {
     const relativePath = slash(path.relative(srcDir, file))
     const dir = path.dirname(file)
 
@@ -132,9 +134,11 @@ export function createMarkdownToVueRenderFn(
       description: inferDescription(frontmatter),
       frontmatter,
       headers: data.headers || [],
-      relativePath,
-      // TODO use git timestamp?
-      lastUpdated: Math.round(fs.statSync(file).mtimeMs)
+      relativePath
+    }
+
+    if (includeLastUpdatedData) {
+      pageData.lastUpdated = await getGitTimestamp(file)
     }
 
     const vueSrc =
