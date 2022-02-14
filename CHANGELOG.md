@@ -1,3 +1,12 @@
+## [0.22.1](https://github.com/vuejs/vitepress/compare/v0.22.0...v0.22.1) (2022-02-14)
+
+### Features
+
+- automatically update hash map + retry on failed page fetch ([2324948](https://github.com/vuejs/vitepress/commit/23249483d60da1952c64a1f764873652b587c2dc))
+- use git-based lastUpdated data ([d32d8d4](https://github.com/vuejs/vitepress/commit/d32d8d441917dcb480a6735da78c2d6fc3e589c0))
+
+  Note: lastUpdated data is now disabled by default due to the performance overhead of retrieving the git information. This also means each page's metadata object no longer contains the `lastUpdated` property by default - it will only be present if the new `lastUpdated: true` config option is enabled.
+
 # [0.22.0](https://github.com/vuejs/vitepress/compare/v0.21.6...v0.22.0) (2022-02-11)
 
 - Upgrade to Vite 2.8
