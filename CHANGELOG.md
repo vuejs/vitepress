@@ -1,3 +1,9 @@
+## [0.22.2](https://github.com/vuejs/vitepress/compare/v0.22.1...v0.22.2) (2022-02-14)
+
+### Features
+
+- improve default chunk strategy + page hash stability ([1ef69e2](https://github.com/vuejs/vitepress/commit/1ef69e212f91e43431b4fe4bdba17ca4f29a7b49))
+
 ## [0.22.1](https://github.com/vuejs/vitepress/compare/v0.22.0...v0.22.1) (2022-02-14)
 
 ### Features
