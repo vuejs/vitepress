@@ -4,11 +4,10 @@ import { useRoute, useData } from 'vitepress'
 import { isSideBarEmpty, getSideBarConfig } from './support/sideBar'
 
 // components
+import Home from './components/Home.vue'
 import NavBar from './components/NavBar.vue'
 import SideBar from './components/SideBar.vue'
 import Page from './components/Page.vue'
-
-const Home = defineAsyncComponent(() => import('./components/Home.vue'))
 
 const NoopComponent = () => null
 
