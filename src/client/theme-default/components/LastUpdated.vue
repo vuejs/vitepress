@@ -2,10 +2,10 @@
 import { ref, computed, onMounted, watchEffect } from 'vue'
 import { useData } from 'vitepress'
 
-const { theme, page } = useData()
+const { theme, page, frontmatter } = useData()
 
 const hasLastUpdated = computed(() => {
-  const lu = theme.value.lastUpdated
+  const lu = frontmatter.value.lastUpdated ?? theme.value.lastUpdated
 
   return lu !== undefined && lu !== false
 })
