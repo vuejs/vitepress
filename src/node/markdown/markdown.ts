@@ -50,7 +50,8 @@ export type { Header }
 
 export const createMarkdownRenderer = (
   srcDir: string,
-  options: MarkdownOptions = {}
+  options: MarkdownOptions = {},
+  base: string
 ): MarkdownRenderer => {
   const md = MarkdownIt({
     html: true,
@@ -68,11 +69,15 @@ export const createMarkdownRenderer = (
     .use(containerPlugin)
     .use(headingPlugin)
     .use(imagePlugin)
-    .use(linkPlugin, {
-      target: '_blank',
-      rel: 'noopener noreferrer',
-      ...options.externalLinks
-    })
+    .use(
+      linkPlugin,
+      {
+        target: '_blank',
+        rel: 'noopener noreferrer',
+        ...options.externalLinks
+      },
+      base
+    )
     // 3rd party plugins
     .use(attrs, options.attrs)
     .use(anchor, {
