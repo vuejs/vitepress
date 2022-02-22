@@ -33,7 +33,9 @@ export const linkPlugin = (
         // internal anchor links
         !url.startsWith('#') &&
         // mail links
-        !url.startsWith('mailto:')
+        !url.startsWith('mailto:') &&
+        // links to files (other than html/md)
+        !/\.(?!html|md)\w+($|\?)/i.test(url)
       ) {
         normalizeHref(hrefAttr)
       }
@@ -56,7 +58,7 @@ export const linkPlugin = (
       const [, path, hash] = indexMatch
       url = path + hash
     } else {
-      let cleanUrl = url.replace(/\#.*$/, '').replace(/\?.*$/, '')
+      let cleanUrl = url.replace(/[?#].*$/, '')
       // .md -> .html
       if (cleanUrl.endsWith('.md')) {
         cleanUrl = cleanUrl.replace(/\.md$/, '.html')

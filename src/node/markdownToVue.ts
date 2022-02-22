@@ -107,6 +107,8 @@ export function createMarkdownToVueRenderFn(
     if (data.links) {
       const dir = path.dirname(file)
       for (let url of data.links) {
+        if (/\.(?!html|md)\w+($|\?)/i.test(url)) continue
+
         if (url.replace(EXTERNAL_URL_RE, '').startsWith('//localhost:')) {
           recordDeadLink(url)
           continue
