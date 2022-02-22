@@ -21,13 +21,19 @@ export const RouterSymbol: InjectionKey<Router> = Symbol()
 // matter and is only passed to support same-host hrefs.
 const fakeHost = `http://a.com`
 
+const notFoundPageData: PageData = {
+  relativePath: '',
+  title: '404',
+  description: 'Not Found',
+  headers: [],
+  frontmatter: {},
+  lastUpdated: 0
+}
+
 const getDefaultRoute = (): Route => ({
   path: '/',
   component: null,
-  // this will be set upon initial page load, which is before
-  // the app is mounted, so it's guaranteed to be available in
-  // components. We just need enough data for 404 pages to render.
-  data: { frontmatter: {} } as any
+  data: notFoundPageData
 })
 
 interface PageModule {
@@ -123,15 +129,7 @@ export function createRouter(
         latestPendingPath = null
         route.path = pendingPath
         route.component = fallbackComponent ? markRaw(fallbackComponent) : null
-        // reset page data
-        route.data = {
-          relativePath: '',
-          title: '404',
-          description: 'Not Found',
-          headers: [],
-          frontmatter: {},
-          lastUpdated: 0
-        }
+        route.data = notFoundPageData
       }
     }
   }
