@@ -11,6 +11,7 @@ import { hoistPlugin } from './plugins/hoist'
 import { preWrapperPlugin } from './plugins/preWrapper'
 import { linkPlugin } from './plugins/link'
 import { headingPlugin } from './plugins/headings'
+import { imagePlugin } from './plugins/image'
 import { Header } from '../shared'
 import anchor from 'markdown-it-anchor'
 import attrs from 'markdown-it-attrs'
@@ -67,6 +68,7 @@ export const createMarkdownRenderer = (
     .use(hoistPlugin)
     .use(containerPlugin)
     .use(headingPlugin)
+    .use(imagePlugin)
     .use(
       linkPlugin,
       {
