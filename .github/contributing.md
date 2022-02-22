@@ -19,7 +19,7 @@ Hi! We're really excited that you are interested in contributing to VitePress. B
 
 - It's OK to have multiple small commits as you work on the PR - GitHub can automatically squash them before merging.
 
-- Commit messages must follow the [commit message convention](./commit-convention) so that changelogs can be automatically generated.
+- Commit messages must follow the [commit message convention](./commit-convention.md) so that changelogs can be automatically generated.
 
 ## Development Setup
 
