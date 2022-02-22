@@ -182,7 +182,10 @@ function renderHead(head: HeadConfig[]): Promise<string> {
     head.map(async ([tag, attrs = {}, innerHTML = '']) => {
       const openTag = `<${tag}${renderAttrs(attrs)}>`
       if (tag !== 'link' && tag !== 'meta') {
-        if (tag === 'script') {
+        if (
+          tag === 'script' &&
+          (attrs.type === undefined || attrs.type.includes('javascript'))
+        ) {
           innerHTML = (
             await transformWithEsbuild(innerHTML, 'inline-script.js', {
               minify: true
