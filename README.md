@@ -13,14 +13,14 @@ To check out docs, visit [vitepress.vuejs.org](https://vitepress.vuejs.org).
 
 ## Changelog
 
-Detailed changes for each release are documented in the [CHANGELOG](./CHANGELOG).
+Detailed changes for each release are documented in the [CHANGELOG](https://github.com/vuejs/vitepress/blob/main/CHANGELOG.md).
 
 ## Contribution
 
-Please make sure to read the [Contributing Guide](./.github/contributing) before making a pull request.
+Please make sure to read the [Contributing Guide](https://github.com/vuejs/vitepress/blob/main/.github/contributing.md) before making a pull request.
 
 ## License
 
-[MIT](./LICENSE)
+[MIT](https://github.com/vuejs/vitepress/blob/main/LICENSE)
 
 Copyright (c) 2019-present, Yuxi (Evan) You
