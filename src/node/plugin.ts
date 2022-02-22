@@ -1,10 +1,7 @@
 import path from 'path'
 import { defineConfig, mergeConfig, Plugin, ResolvedConfig } from 'vite'
 import { SiteConfig, resolveSiteData } from './config'
-import {
-  createMarkdownToVueRenderFn,
-  MarkdownCompileResult
-} from './markdownToVue'
+import { createMarkdownToVueRenderFn } from './markdownToVue'
 import { DIST_CLIENT_PATH, APP_PATH, SITE_DATA_REQUEST_PATH } from './alias'
 import { slash } from './utils/slash'
 import { OutputAsset, OutputChunk } from 'rollup'
@@ -49,11 +46,7 @@ export function createVitePressPlugin(
     pages
   } = siteConfig
 
-  let markdownToVue: (
-    src: string,
-    file: string,
-    publicDir: string
-  ) => MarkdownCompileResult
+  let markdownToVue: ReturnType<typeof createMarkdownToVueRenderFn>
 
   // lazy require plugin-vue to respect NODE_ENV in @vue/compiler-x
   const vuePlugin = require('@vitejs/plugin-vue')({
@@ -85,7 +78,8 @@ export function createVitePressPlugin(
         pages,
         config.define,
         config.command === 'build',
-        config.base
+        config.base,
+        siteConfig.lastUpdated
       )
     },
 
@@ -132,12 +126,12 @@ export function createVitePressPlugin(
       }
     },
 
-    transform(code, id) {
+    async transform(code, id) {
       if (id.endsWith('.vue')) {
         return processClientJS(code, id)
       } else if (id.endsWith('.md')) {
         // transform .md files into vueSrc so plugin-vue can handle it
-        const { vueSrc, deadLinks, includes } = markdownToVue(
+        const { vueSrc, deadLinks, includes } = await markdownToVue(
           code,
           id,
           config.publicDir
@@ -258,7 +252,7 @@ export function createVitePressPlugin(
       // hot reload .md files as .vue files
       if (file.endsWith('.md')) {
         const content = await read()
-        const { pageData, vueSrc } = markdownToVue(
+        const { pageData, vueSrc } = await markdownToVue(
           content,
           file,
           config.publicDir

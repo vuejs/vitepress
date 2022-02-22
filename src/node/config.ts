@@ -37,6 +37,7 @@ export interface UserConfig<ThemeConfig = any> {
   themeConfig?: ThemeConfig
   locales?: Record<string, LocaleConfig>
   markdown?: MarkdownOptions
+  lastUpdated?: boolean
   /**
    * Options to pass on to `@vitejs/plugin-vue`
    */
@@ -72,7 +73,7 @@ export type RawConfigExports<ThemeConfig = any> =
 export interface SiteConfig<ThemeConfig = any>
   extends Pick<
     UserConfig,
-    'markdown' | 'vue' | 'vite' | 'shouldPreload' | 'mpa'
+    'markdown' | 'vue' | 'vite' | 'shouldPreload' | 'mpa' | 'lastUpdated'
   > {
   root: string
   srcDir: string
@@ -145,6 +146,7 @@ export async function resolveConfig(
     outDir,
     tempDir: resolve(root, '.temp'),
     markdown: userConfig.markdown,
+    lastUpdated: userConfig.lastUpdated,
     alias: resolveAliases(root, themeDir),
     vue: userConfig.vue,
     vite: userConfig.vite,

@@ -73,13 +73,25 @@ export async function bundle(
           ...(ssr
             ? {}
             : {
-                chunkFileNames(chunk): string {
-                  if (!chunk.isEntry && /runtime/.test(chunk.name)) {
-                    return `assets/framework.[hash].js`
+                chunkFileNames(chunk) {
+                  // avoid ads chunk being intercepted by adblock
+                  return /(?:Carbon|BuySell)Ads/.test(chunk.name)
+                    ? `assets/chunks/ui-custom.[hash].js`
+                    : `assets/chunks/[name].[hash].js`
+                },
+                manualChunks(id, ctx) {
+                  // move known framework code into a stable chunk so that
+                  // custom theme changes do not invalidate hash for all pages
+                  if (id.includes('plugin-vue:export-helper')) {
+                    return 'framework'
                   }
-                  return adComponentRE.test(chunk.name)
-                    ? `assets/ui-custom.[hash].js`
-                    : `assets/[name].[hash].js`
+                  if (
+                    isEagerChunk(id, ctx) &&
+                    (/@vue\/(runtime|shared|reactivity)/.test(id) ||
+                      /vitepress\/dist\/client/.test(id))
+                  ) {
+                    return 'framework'
+                  }
                 }
               })
         }
@@ -133,4 +145,53 @@ export async function bundle(
   return { clientResult, serverResult, pageToHashMap }
 }
 
-const adComponentRE = /(?:Carbon|BuySell)Ads/
+const cache = new Map<string, boolean>()
+
+/**
+ * Check if a module is statically imported by at least one entry.
+ */
+function isEagerChunk(id: string, { getModuleInfo }: any) {
+  if (
+    id.includes('node_modules') &&
+    !/\.css($|\\?)/.test(id) &&
+    staticImportedByEntry(id, getModuleInfo, cache)
+  ) {
+    return 'vendor'
+  }
+}
+
+function staticImportedByEntry(
+  id: string,
+  getModuleInfo: any,
+  cache: Map<string, boolean>,
+  importStack: string[] = []
+): boolean {
+  if (cache.has(id)) {
+    return cache.get(id) as boolean
+  }
+  if (importStack.includes(id)) {
+    // circular deps!
+    cache.set(id, false)
+    return false
+  }
+  const mod = getModuleInfo(id)
+  if (!mod) {
+    cache.set(id, false)
+    return false
+  }
+
+  if (mod.isEntry) {
+    cache.set(id, true)
+    return true
+  }
+  const someImporterIs = mod.importers.some((importer: string) =>
+    staticImportedByEntry(
+      importer,
+      getModuleInfo,
+      cache,
+      importStack.concat(id)
+    )
+  )
+  cache.set(id, someImporterIs)
+  return someImporterIs
+}

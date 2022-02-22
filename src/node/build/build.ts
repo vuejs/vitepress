@@ -5,6 +5,7 @@ import { resolveConfig } from '../config'
 import { renderPage } from './render'
 import { OutputChunk, OutputAsset } from 'rollup'
 import ora from 'ora'
+import path from 'path'
 
 export async function build(
   root: string,
@@ -68,6 +69,13 @@ export async function build(
     spinner.stopAndPersist({
       symbol: okMark
     })
+
+    // emit page hash map for the case where a user session is open
+    // when the site got redeployed (which invalidates current hash map)
+    fs.writeJSONSync(
+      path.join(siteConfig.outDir, 'hashmap.json'),
+      pageToHashMap
+    )
   } finally {
     await fs.remove(siteConfig.tempDir)
   }

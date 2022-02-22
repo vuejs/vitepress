@@ -8,7 +8,7 @@ export interface PageData {
   description: string
   headers: Header[]
   frontmatter: Record<string, any>
-  lastUpdated: number
+  lastUpdated?: number
 }
 
 export interface SiteData<ThemeConfig = any> {

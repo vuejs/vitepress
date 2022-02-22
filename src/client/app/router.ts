@@ -58,7 +58,7 @@ export function createRouter(
 
   let latestPendingPath: string | null = null
 
-  async function loadPage(href: string, scrollPosition = 0) {
+  async function loadPage(href: string, scrollPosition = 0, isRetry = false) {
     const targetLoc = new URL(href, fakeHost)
     const pendingPath = (latestPendingPath = targetLoc.pathname)
     try {
@@ -106,6 +106,19 @@ export function createRouter(
       if (!err.message.match(/fetch/)) {
         console.error(err)
       }
+
+      // retry on fetch fail: the page to hash map may have been invalidated
+      // because a new deploy happened while the page is open. Try to fetch
+      // the updated pageToHash map and fetch again.
+      if (!isRetry) {
+        try {
+          const res = await fetch(siteDataRef.value.base + 'hashmap.json')
+          ;(window as any).__VP_HASH_MAP__ = await res.json()
+          await loadPage(href, scrollPosition, true)
+          return
+        } catch (e) {}
+      }
+
       if (latestPendingPath === pendingPath) {
         latestPendingPath = null
         route.path = pendingPath
