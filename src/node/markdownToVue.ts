@@ -27,9 +27,10 @@ export function createMarkdownToVueRenderFn(
   pages: string[],
   userDefines: Record<string, any> | undefined,
   isBuild = false,
+  base: string,
   includeLastUpdatedData = false
 ) {
-  const md = createMarkdownRenderer(srcDir, options)
+  const md = createMarkdownRenderer(srcDir, options, base)
   pages = pages.map((p) => slash(p.replace(/\.md$/, '')))
 
   const userDefineRegex = userDefines

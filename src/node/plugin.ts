@@ -78,6 +78,7 @@ export function createVitePressPlugin(
         pages,
         config.define,
         config.command === 'build',
+        config.base,
         siteConfig.lastUpdated
       )
     },
