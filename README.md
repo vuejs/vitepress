@@ -5,7 +5,7 @@
 
 ---
 
-VitePress is [VuePress](http://vuepress.vuejs.org/)' spiritual successor, built on top of [vite](https://github.com/vuejs/vite).
+VitePress is [VuePress](https://vuepress.vuejs.org)' spiritual successor, built on top of [vite](https://github.com/vitejs/vite).
 
 ## Documentation
 
@@ -13,14 +13,14 @@ To check out docs, visit [vitepress.vuejs.org](https://vitepress.vuejs.org).
 
 ## Changelog
 
-Detailed changes for each release are documented in the [CHANGELOG](https://github.com/vuejs/vitepress/blob/master/CHANGELOG.md).
+Detailed changes for each release are documented in the [CHANGELOG](./CHANGELOG).
 
 ## Contribution
 
-Please make sure to read the [Contributing Guide](./.github/contributing.md) before making a pull request.
+Please make sure to read the [Contributing Guide](./.github/contributing) before making a pull request.
 
 ## License
 
-[MIT](https://opensource.org/licenses/MIT)
+[MIT](./LICENSE)
 
 Copyright (c) 2019-present, Yuxi (Evan) You

@@ -4,7 +4,7 @@
 
 The following methods are globally importable from `vitepress` and are typically used in custom theme Vue components. However, they are also usable inside `.md` pages because markdown files are compiled into Vue single-file components.
 
-Methods that start with `use*` indicates that it is a [Vue 3 Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html) function that can only be used inside `setup()` or `<script setup>`.
+Methods that start with `use*` indicates that it is a [Vue 3 Composition API](https://vuejs.org/guide/introduction.html#composition-api) function that can only be used inside `setup()` or `<script setup>`.
 
 ### `useData`
 
@@ -63,7 +63,7 @@ interface Router {
 
 - **Type**: `(path: string) => string`
 
-  Appends the configured [`base`](/config/basics.html#base) to a given URL path. Also see [Base URL](/guide/assets.html#base-url).
+  Appends the configured [`base`](../config/basics#base) to a given URL path. Also see [Base URL](./assets#base-url).
 
 ## Global Components
 
@@ -71,7 +71,7 @@ VitePress comes with few built-in component that can be used globally. You may u
 
 ### `<Content/>`
 
-The `<Content/>` component displays the rendered markdown contents. Useful [when creating your own theme](https://vitepress.vuejs.org/guide/customization.html).
+The `<Content/>` component displays the rendered markdown contents. Useful [when creating your own theme](./theming).
 
 ```vue
 <template>

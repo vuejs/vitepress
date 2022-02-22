@@ -40,7 +40,7 @@ Directives also work:
 
 ### Access to Site & Page Data
 
-You can use the [`useData` helper](/guide/api.html#usedata) in a `<script>` block and expose the data to the page.
+You can use the [`useData` helper](./api#usedata) in a `<script>` block and expose the data to the page.
 
 **Input**
 
@@ -107,9 +107,9 @@ This is a .md using a custom component
 
 ### Registering global components in the theme
 
-If the components are going to be used across several pages in the docs, they can be registered globally in the theme (or as part of extending the default VitePress theme). Check out the [Theming Guide](./theming.md) for more information.
+If the components are going to be used across several pages in the docs, they can be registered globally in the theme (or as part of extending the default VitePress theme). Check out the [Theming Guide](./theming) for more information.
 
-In `.vitepress/theme/index.js`, the `enhanceApp` function receives the Vue `app` instance so you can [register components](https://v3.vuejs.org/guide/component-registration.html#component-registration) as you would do in a regular Vue application.
+In `.vitepress/theme/index.js`, the `enhanceApp` function receives the Vue `app` instance so you can [register components](https://vuejs.org/guide/components/registration.html) as you would do in a regular Vue application.
 
 ```js
 import DefaultTheme from 'vitepress/theme'
@@ -200,7 +200,7 @@ export default {
 
 ## Built-In Components
 
-VitePress provides Built-In Vue Components like `ClientOnly` and `OutboundLink`, check out the [Global Component Guide](./global-component.md) for more information.
+VitePress provides Built-In Vue Components like `ClientOnly` and `OutboundLink`, check out the [Global Component Guide](./global-component) for more information.
 
 **Also see:**
 
@@ -208,7 +208,7 @@ VitePress provides Built-In Vue Components like `ClientOnly` and `OutboundLink`,
 
 ## Browser API Access Restrictions
 
-Because VitePress applications are server-rendered in Node.js when generating static builds, any Vue usage must conform to the [universal code requirements](https://ssr.vuejs.org/en/universal.html). In short, make sure to only access Browser / DOM APIs in `beforeMount` or `mounted` hooks.
+Because VitePress applications are server-rendered in Node.js when generating static builds, any Vue usage must conform to the [universal code requirements](https://vuejs.org/guide/scaling-up/ssr.html). In short, make sure to only access Browser / DOM APIs in `beforeMount` or `mounted` hooks.
 
 If you are using or demoing components that are not SSR-friendly (for example, contain custom directives), you can wrap them inside the built-in `<ClientOnly>` component:
 
@@ -258,4 +258,4 @@ export default {
 
 **Also see:**
 
-- [Vue.js > Dynamic Components](https://v3.vuejs.org/guide/component-dynamic-async.html)
+- [Vue.js > Dynamic Components](https://vuejs.org/guide/essentials/component-basics.html#dynamic-components)

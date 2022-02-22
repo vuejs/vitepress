@@ -53,7 +53,7 @@ Outbound links automatically get `target="_blank" rel="noopener noreferrer"`:
 
 ## Frontmatter
 
-[YAML frontmatter](https://jekyllrb.com/docs/frontmatter/) is supported out of the box:
+[YAML frontmatter](https://jekyllrb.com/docs/front-matter/) is supported out of the box:
 
 ```yaml
 ---
@@ -64,7 +64,7 @@ lang: en-US
 
 This data will be available to the rest of the page, along with all custom and theming components.
 
-For more details, see [Frontmatter](./frontmatter.md).
+For more details, see [Frontmatter](./frontmatter).
 
 ## GitHub-Style Tables
 
@@ -176,9 +176,11 @@ Danger zone, do not proceed
 :::
 
 ::: details Click me to view the code
+
 ```js
 console.log('Hello, VitePress!')
 ```
+
 :::
 ````
 
@@ -189,14 +191,16 @@ Danger zone, do not proceed
 :::
 
 ::: details Click me to view the code
+
 ```js
 console.log('Hello, VitePress!')
 ```
+
 :::
 
 ## Syntax Highlighting in Code Blocks
 
-VitePress uses [Prism](https://prismjs.com/) to highlight language syntax in Markdown code blocks, using coloured text. Prism supports a wide variety of programming languages. All you need to do is append a valid language alias to the beginning backticks for the code block:
+VitePress uses [Prism](https://prismjs.com) to highlight language syntax in Markdown code blocks, using coloured text. Prism supports a wide variety of programming languages. All you need to do is append a valid language alias to the beginning backticks for the code block:
 
 **Input**
 

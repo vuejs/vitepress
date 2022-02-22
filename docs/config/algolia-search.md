@@ -1,6 +1,6 @@
 # Theme Config: Algolia Search
 
-The `themeConfig.algolia` option allows you to use [Algolia DocSearch](https://docsearch.algolia.com/). To enable it, you need to provide at least apiKey and indexName:
+The `themeConfig.algolia` option allows you to use [Algolia DocSearch](https://docsearch.algolia.com). To enable it, you need to provide at least apiKey and indexName:
 
 ```js
 module.exports = {
@@ -13,7 +13,7 @@ module.exports = {
 }
 ```
 
-For more options, check out [Algolia DocSearch's documentation](https://docsearch.algolia.com/docs/behavior). You can pass any extra option alongside other options, e.g. passing `searchParameters`:
+For more options, check out [Algolia DocSearch's documentation](https://docsearch.algolia.com/docs/api/). You can pass any extra option alongside other options, e.g. passing `searchParameters`:
 
 ```js
 module.exports = {
