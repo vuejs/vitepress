@@ -123,6 +123,15 @@ export function createRouter(
         latestPendingPath = null
         route.path = pendingPath
         route.component = fallbackComponent ? markRaw(fallbackComponent) : null
+        // reset page data
+        route.data = {
+          relativePath: '',
+          title: '404',
+          description: 'Not Found',
+          headers: [],
+          frontmatter: {},
+          lastUpdated: 0
+        }
       }
     }
   }
