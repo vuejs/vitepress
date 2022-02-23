@@ -1,9 +1,9 @@
 code {
   margin: 0;
   border-radius: 3px;
-  padding: .25rem .5rem;
+  padding: 0.25rem 0.5rem;
   font-family: var(--code-font-family);
-  font-size: .85em;
+  font-size: 0.85em;
   color: var(--c-text-light);
   background-color: var(--code-inline-bg-color);
 }
@@ -26,6 +26,7 @@ div[class*='language-'] {
 li > div[class*='language-'] {
   border-radius: 6px 0 0 6px;
   margin: 1rem -1.5rem 1rem -1.25rem;
+  line-height: initial;
 }
 
 @media (min-width: 420px) {
@@ -54,6 +55,7 @@ li > div[class*='language-'] {
   -moz-hyphens: none;
   -ms-hyphens: none;
   hyphens: none;
+  background: transparent;
 }
 
 [class*='language-'] pre {
@@ -61,7 +63,6 @@ li > div[class*='language-'] {
   z-index: 1;
   margin: 0;
   padding: 1.25rem 1.5rem;
-  background: transparent;
   overflow-x: auto;
 }
 
@@ -89,7 +90,7 @@ li > div[class*='language-'] {
 }
 
 .highlight-lines .highlighted {
-  background-color: rgba(0, 0, 0, .66);
+  background-color: rgba(0, 0, 0, 0.66);
 }
 
 /* Line numbers mode */
@@ -104,7 +105,7 @@ div[class*='language-'].line-numbers-mode {
   bottom: 0;
   left: 0;
   z-index: 3;
-  border-right: 1px solid rgba(0, 0, 0, .5);
+  border-right: 1px solid rgba(0, 0, 0, 0.5);
   padding: 1.25rem 0;
   width: 3.5rem;
   text-align: center;
@@ -116,100 +117,104 @@ div[class*='language-'].line-numbers-mode {
 
 /* Language marker */
 
-[class*='language-']:before {
+div[class*='language-']:before {
   position: absolute;
-  top: .6em;
+  top: 0.6em;
   right: 1em;
   z-index: 2;
-  font-size: .8rem;
+  font-size: 0.8rem;
   color: #888;
 }
 
-[class~='language-html']:before,
-[class~='language-markup']:before {
+div[class~='language-html']:before,
+div[class~='language-markup']:before {
   content: 'html';
 }
 
-[class~='language-md']:before,
-[class~='language-markdown']:before {
+div[class~='language-md']:before,
+div[class~='language-markdown']:before {
   content: 'md';
 }
 
-[class~='language-css']:before {
+div[class~='language-css']:before {
   content: 'css';
 }
 
-[class~='language-sass']:before {
+div[class~='language-sass']:before {
   content: 'sass';
 }
 
-[class~='language-scss']:before {
+div[class~='language-scss']:before {
   content: 'scss';
 }
 
-[class~='language-less']:before {
+div[class~='language-less']:before {
   content: 'less';
 }
 
-[class~='language-stylus']:before {
+div[class~='language-stylus']:before {
   content: 'styl';
 }
 
-[class~='language-js']:before,
-[class~='language-typescript']:before {
+div[class~='language-js']:before,
+div[class~='language-javascript']:before {
   content: 'js';
 }
 
-[class~='language-ts']:before,
-[class~='language-typescript']:before {
+div[class~='language-ts']:before,
+div[class~='language-typescript']:before {
   content: 'ts';
 }
 
-[class~='language-json']:before {
+div[class~='language-json']:before {
   content: 'json';
 }
 
-[class~='language-rb']:before,
-[class~='language-ruby']:before {
+div[class~='language-rb']:before,
+div[class~='language-ruby']:before {
   content: 'rb';
 }
 
-[class~='language-py']:before,
-[class~='language-python']:before {
+div[class~='language-py']:before,
+div[class~='language-python']:before {
   content: 'py';
 }
 
-[class~='language-sh']:before,
-[class~='language-bash']:before {
+div[class~='language-sh']:before,
+div[class~='language-bash']:before {
   content: 'sh';
 }
 
-[class~='language-php']:before {
+div[class~='language-php']:before {
   content: 'php';
 }
 
-[class~='language-go']:before {
+div[class~='language-go']:before {
   content: 'go';
 }
 
-[class~='language-rust']:before {
+div[class~='language-rust']:before {
   content: 'rust';
 }
 
-[class~='language-java']:before {
+div[class~='language-java']:before {
   content: 'java';
 }
 
-[class~='language-c']:before {
+div[class~='language-c']:before {
   content: 'c';
 }
 
-[class~='language-yaml']:before {
+div[class~='language-yaml']:before {
   content: 'yaml';
 }
 
-[class~='language-dockerfile']:before {
+div[class~='language-dockerfile']:before {
   content: 'dockerfile';
+}
+
+div[class~='language-vue']:before {
+  content: 'vue';
 }
 
 /**

@@ -1,25 +1,27 @@
-<template>
-  <div class="debug" :class="{ open }" ref="el" @click="open = !open">
-    <p class="title">Debug</p>
-
-    <pre class="block">$page {{ $page }}</pre>
-    <pre class="block">$siteByRoute {{ $siteByRoute }}</pre>
-    <pre class="block">$site {{ $site }}</pre>
-  </div>
-</template>
-
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, reactive } from 'vue'
+import { useData } from '../data'
 
+const data = useData()
 const el = ref<HTMLElement | null>(null)
 const open = ref(false)
 
+// FIXME: remove in next Vue release
+const tempData = reactive(data)
+
 watch(open, (value) => {
-  if (value === false) {
+  if (!value) {
     el.value!.scrollTop = 0
   }
 })
 </script>
+
+<template>
+  <div class="debug" :class="{ open }" ref="el" @click="open = !open">
+    <p class="title">Debug</p>
+    <pre class="block">{{ tempData }}</pre>
+  </div>
+</template>
 
 <style scoped>
 .debug {
@@ -34,12 +36,12 @@ watch(open, (value) => {
   color: #eeeeee;
   overflow: hidden;
   cursor: pointer;
-  background-color: rgba(0, 0, 0, .85);
-  transition: all .15s ease;
+  background-color: rgba(0, 0, 0, 0.85);
+  transition: all 0.15s ease;
 }
 
 .debug:hover {
-  background-color: rgba(0, 0, 0, .75);
+  background-color: rgba(0, 0, 0, 0.75);
 }
 
 .debug.open {
@@ -60,7 +62,7 @@ watch(open, (value) => {
 }
 
 .debug.open:hover {
-  background-color: rgba(0, 0, 0, .85);
+  background-color: rgba(0, 0, 0, 0.85);
 }
 
 .title {
@@ -72,13 +74,13 @@ watch(open, (value) => {
 
 .block {
   margin: 2px 0 0;
-  border-top: 1px solid rgba(255, 255, 255, .16);
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
   padding: 8px 16px;
   font-family: Hack, monospace;
   font-size: 13px;
 }
 
-.block +.block {
+.block + .block {
   margin-top: 8px;
 }
 </style>

@@ -1,5 +1,9 @@
 # App Config: Basics
 
+::: tip
+The config reference is incomplete since the config format may still receive further changes. For a complete reference of the current available options, refer to [config.ts](https://github.com/vuejs/vitepress/blob/45b65ce8b63bd54f345bfc3383eb2416b6769dc9/src/node/config.ts#L30-L65).
+:::
+
 ## base
 
 - Type: `string`
@@ -22,8 +26,6 @@ module.exports = {
 
 The `lang` attribute for the site. This will render as a `<html lang="en-US">` tag in the page HTML.
 
-Note that the `lang` attribute will only be added when building the site via `vitepress build`. You will not see this rendered during `vitepress dev`.
-
 ```js
 module.exports = {
   lang: 'en-US'
@@ -35,7 +37,7 @@ module.exports = {
 - Type: `string`
 - Default: `VitePress`
 
-Title for the site. This will be the prefix for all page titles, and displayed in the navbar.
+Title for the site. This will be the suffix for all page titles, and displayed in the navbar.
 
 ```js
 module.exports = {

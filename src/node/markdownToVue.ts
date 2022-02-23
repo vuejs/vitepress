@@ -4,29 +4,51 @@ import matter from 'gray-matter'
 import LRUCache from 'lru-cache'
 import { createMarkdownRenderer, MarkdownOptions } from './markdown/markdown'
 import { deeplyParseHeader } from './utils/parseHeader'
-import { PageData, HeadConfig } from '../../types/shared'
+import { PageData, HeadConfig, EXTERNAL_URL_RE } from './shared'
 import { slash } from './utils/slash'
 import chalk from 'chalk'
+import _debug from 'debug'
+import { getGitTimestamp } from './utils/getGitTimestamp'
 
-const debug = require('debug')('vitepress:md')
+const debug = _debug('vitepress:md')
 const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
+const includesRE = /<!--\s*@include:\s*(.*?)\s*-->/g
 
-interface MarkdownCompileResult {
+export interface MarkdownCompileResult {
   vueSrc: string
   pageData: PageData
   deadLinks: string[]
+  includes: string[]
 }
 
 export function createMarkdownToVueRenderFn(
-  root: string,
+  srcDir: string,
   options: MarkdownOptions = {},
-  pages: string[]
+  pages: string[],
+  userDefines: Record<string, any> | undefined,
+  isBuild = false,
+  base: string,
+  includeLastUpdatedData = false
 ) {
-  const md = createMarkdownRenderer(root, options)
+  const md = createMarkdownRenderer(srcDir, options, base)
   pages = pages.map((p) => slash(p.replace(/\.md$/, '')))
 
-  return (src: string, file: string): MarkdownCompileResult => {
-    const relativePath = slash(path.relative(root, file))
+  const userDefineRegex = userDefines
+    ? new RegExp(
+        `\\b(${Object.keys(userDefines)
+          .map((key) => key.replace(/[-[\]/{}()*+?.\\^$|]/g, '\\$&'))
+          .join('|')})`,
+        'g'
+      )
+    : null
+
+  return async (
+    src: string,
+    file: string,
+    publicDir: string
+  ): Promise<MarkdownCompileResult> => {
+    const relativePath = slash(path.relative(srcDir, file))
+    const dir = path.dirname(file)
 
     const cached = cache.get(src)
     if (cached) {
@@ -36,35 +58,76 @@ export function createMarkdownToVueRenderFn(
 
     const start = Date.now()
 
-    const { content, data: frontmatter } = matter(src)
-    let { html, data } = md.render(content)
+    // resolve includes
+    let includes: string[] = []
+    src = src.replace(includesRE, (_, m1) => {
+      const includePath = path.join(dir, m1)
+      const content = fs.readFileSync(includePath, 'utf-8')
+      includes.push(slash(includePath))
+      return content
+    })
 
-    // avoid env variables being replaced by vite
-    html = html
-      .replace(/import\.meta/g, 'import.<wbr/>meta')
-      .replace(/process\.env/g, 'process.<wbr/>env')
+    const { content, data: frontmatter } = matter(src)
+
+    // reset state before render
+    md.__path = file
+    md.__relativePath = relativePath
+
+    let html = md.render(content)
+    const data = md.__data
+
+    if (isBuild) {
+      // avoid env variables being replaced by vite
+      html = html
+        .replace(/\bimport\.meta/g, 'import.<wbr/>meta')
+        .replace(/\bprocess\.env/g, 'process.<wbr/>env')
+
+      // also avoid replacing vite user defines
+      if (userDefineRegex) {
+        html = html.replace(
+          userDefineRegex,
+          (_) => `${_[0]}<wbr/>${_.slice(1)}`
+        )
+      }
+    }
 
     // validate data.links
-    const deadLinks = []
+    const deadLinks: string[] = []
+    const recordDeadLink = (url: string) => {
+      console.warn(
+        chalk.yellow(
+          `\n(!) Found dead link ${chalk.cyan(url)} in file ${chalk.white.dim(
+            file
+          )}`
+        )
+      )
+      deadLinks.push(url)
+    }
+
     if (data.links) {
       const dir = path.dirname(file)
       for (let url of data.links) {
+        if (/\.(?!html|md)\w+($|\?)/i.test(url)) continue
+
+        if (url.replace(EXTERNAL_URL_RE, '').startsWith('//localhost:')) {
+          recordDeadLink(url)
+          continue
+        }
+
         url = url.replace(/[?#].*$/, '').replace(/\.(html|md)$/, '')
         if (url.endsWith('/')) url += `index`
-        const resolved = slash(
-          url.startsWith('/')
-            ? url.slice(1)
-            : path.relative(root, path.resolve(dir, url))
-        )
-        if (!pages.includes(resolved)) {
-          console.warn(
-            chalk.yellow(
-              `\n(!) Found dead link ${chalk.cyan(
-                url
-              )} in file ${chalk.white.dim(file)}`
-            )
+        const resolved = decodeURIComponent(
+          slash(
+            url.startsWith('/')
+              ? url.slice(1)
+              : path.relative(srcDir, path.resolve(dir, url))
           )
-          deadLinks.push(url)
+        )
+        if (
+          !pages.includes(resolved) &&
+          !fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`))
+        ) {
+          recordDeadLink(url)
         }
       }
     }
@@ -73,10 +136,12 @@ export function createMarkdownToVueRenderFn(
       title: inferTitle(frontmatter, content),
       description: inferDescription(frontmatter),
       frontmatter,
-      headers: data.headers,
-      relativePath,
-      // TODO use git timestamp?
-      lastUpdated: Math.round(fs.statSync(file).mtimeMs)
+      headers: data.headers || [],
+      relativePath
+    }
+
+    if (includeLastUpdatedData) {
+      pageData.lastUpdated = await getGitTimestamp(file)
     }
 
     const vueSrc =
@@ -88,7 +153,8 @@ export function createMarkdownToVueRenderFn(
     const result = {
       vueSrc,
       pageData,
-      deadLinks
+      deadLinks,
+      includes
     }
     cache.set(src, result)
     return result
@@ -97,6 +163,7 @@ export function createMarkdownToVueRenderFn(
 
 const scriptRE = /<\/script>/
 const scriptSetupRE = /<\s*script[^>]*\bsetup\b[^>]*/
+const scriptClientRe = /<\s*script[^>]*\bclient\b[^>]*/
 const defaultExportRE = /((?:^|\n|;)\s*)export(\s*)default/
 const namedDefaultExportRE = /((?:^|\n|;)\s*)export(.+)as(\s*)default/
 
@@ -106,7 +173,11 @@ function genPageDataCode(tags: string[], data: PageData) {
   )}`
 
   const existingScriptIndex = tags.findIndex((tag) => {
-    return scriptRE.test(tag) && !scriptSetupRE.test(tag)
+    return (
+      scriptRE.test(tag) &&
+      !scriptSetupRE.test(tag) &&
+      !scriptClientRe.test(tag)
+    )
   })
 
   if (existingScriptIndex > -1) {
@@ -127,11 +198,11 @@ function genPageDataCode(tags: string[], data: PageData) {
 }
 
 const inferTitle = (frontmatter: any, content: string) => {
-  if (frontmatter.home) {
-    return 'Home'
-  }
   if (frontmatter.title) {
     return deeplyParseHeader(frontmatter.title)
+  }
+  if (frontmatter.home) {
+    return 'Home'
   }
   const match = content.match(/^\s*#+\s+(.*)/m)
   if (match) {

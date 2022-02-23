@@ -1,9 +1,5 @@
-<template>
-  <div class="carbon-ads" ref="el" />
-</template>
-
 <script setup lang="ts">
-import { defineProps, ref, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 
 const { code, placement } = defineProps<{
   code: string
@@ -20,13 +16,18 @@ onMounted(() => {
 })
 </script>
 
+<template>
+  <div class="carbon-ads" ref="el" />
+</template>
+
 <style scoped>
 .carbon-ads {
   border-radius: 4px;
   margin: 0 auto;
+  padding: 8px;
   max-width: 280px;
   font-size: 0.75rem;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: var(--c-bg-accent);
   min-height: 105.38px; /* avoid layout shift on mobile */
 }
 
@@ -41,7 +42,6 @@ onMounted(() => {
     z-index: 1;
     float: right;
     margin: -8px -8px 24px 24px;
-    padding: 8px;
     width: 146px;
     max-width: 100%;
     min-height: 200px;

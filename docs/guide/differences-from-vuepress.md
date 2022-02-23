@@ -1,3 +1,7 @@
+---
+sidebarDepth: 2
+---
+
 # Differences from VuePress
 
 VitePress and VuePress have different [design goals](../index.md). Both projects share similar config naming conventions. VitePress aims to have the bare minimum features needed for authoring docs. Other features are pushed to Themes. On the other hand, VuePress has more features out-of-the-box or enabled by its ecosystem of plugins.
@@ -19,11 +23,11 @@ In case you decide to move your project to VitePress, this is a list of differen
   - [Plugins](https://vuepress.vuejs.org/plugin/) support, features are implemented in themes
   - [permalink support](https://vuepress.vuejs.org/guide/permalinks.html)
   - `.vitepress/templates`
-  - Components in `.vitepress/components` [are not auto registered as global components](https://vuepress.vuejs.org/)
+  - Components in `.vitepress/components` [are not auto registered as global components](https://vuepress.vuejs.org)
 - Differences
   - [Public files](https://vuepress.vuejs.org/guide/assets.html#public-files) that are directly copied to dist root moved from `.vitepress/public/` is `public/`
-  - [styling](https://vuepress.vuejs.org/config/#styling) `.vitepress/styles/index.styl` and `.vitepress/styles/palette.styl` is `.vitepress/style.styl`
-  - [App Level Enhancements](https://vuepress.vuejs.org/guide/basic-config.html#app-level-enhancements) API, app enhancements `.vitepress/enhanceApp.js` is `.vitepress/theme/index.js`.
+  - [styling](https://vuepress.vuejs.org/config/#styling) `.vitepress/styles/index.styl` and `.vitepress/styles/palette.styl` is not supported. See [Customizing CSS](./theming#customizing-css).
+  - [App Level Enhancements](https://vuepress.vuejs.org/guide/basic-config.html#app-level-enhancements) API, app enhancements `.vitepress/enhanceApp.js` is now done in `.vitepress/theme/index.js`. See [Extending the Default Theme](./theming#extending-the-default-theme).
 
 ## Markdown
 
@@ -31,7 +35,6 @@ In case you decide to move your project to VitePress, this is a list of differen
   - Support for [toml in frontmatter](https://vuepress.vuejs.org/guide/frontmatter.html#alternative-frontmatter-formats)
   - [details block](https://vuepress.vuejs.org/guide/markdown.html#custom-containers)
   - [markdown slots](https://vuepress.vuejs.org/guide/markdown-slot.html)
-    guide/using-vue.html#using-components).
   - `~` prefix to explicitly specify a url is a [webpack module request](https://vuepress.vuejs.org/guide/assets.html#relative-urls)
 
 ## Site Config
@@ -67,7 +70,7 @@ In case you decide to move your project to VitePress, this is a list of differen
   - `algolia` is `search.algolia`
   - `searchPlaceholder` is `search.placeholder`
 
-# Default Theme
+## Default Theme
 
 - Missing
   - [`<code-group>` and `<code-block>`](https://vuepress.vuejs.org/theme/default-theme-config.html#code-groups-and-code-blocks)

@@ -1,3 +1,29 @@
+<script setup lang="ts">
+import { ref, watch } from 'vue'
+import { useRoute } from 'vitepress'
+import type { DefaultTheme } from '../config'
+import NavDropdownLinkItem from './NavDropdownLinkItem.vue'
+
+defineProps<{
+  item: DefaultTheme.NavItemWithChildren
+}>()
+
+const route = useRoute()
+
+const open = ref(false)
+
+watch(
+  () => route.path,
+  () => {
+    open.value = false
+  }
+)
+
+function toggle() {
+  open.value = !open.value
+}
+</script>
+
 <template>
   <div class="nav-dropdown-link" :class="{ open }">
     <button class="button" :aria-label="item.ariaLabel" @click="toggle">
@@ -12,27 +38,6 @@
     </ul>
   </div>
 </template>
-
-<script setup lang="ts">
-import { defineProps, ref, watch } from 'vue'
-import { useRoute } from 'vitepress'
-import type { DefaultTheme } from '../config'
-import NavDropdownLinkItem from './NavDropdownLinkItem.vue'
-
-defineProps<{
-  item: DefaultTheme.NavItemWithChildren
-}>()
-
-const route = useRoute()
-
-const open = ref(false)
-
-watch(() => route.path, () => { open.value = false })
-
-function toggle() {
-  open.value = !open.value
-}
-</script>
 
 <style scoped>
 .nav-dropdown-link {
@@ -82,7 +87,7 @@ function toggle() {
     border-bottom: 2px solid transparent;
     padding: 0;
     line-height: 24px;
-    font-size: .9rem;
+    font-size: 0.9rem;
     font-weight: 500;
   }
 }

@@ -1,6 +1,8 @@
 import { reactive, inject, markRaw, nextTick, readonly } from 'vue'
 import type { Component, InjectionKey } from 'vue'
-import { PageData } from '../../../types/shared'
+import { PageData } from '../shared'
+import { inBrowser } from './utils'
+import { siteDataRef } from './data'
 
 export interface Route {
   path: string
@@ -19,13 +21,19 @@ export const RouterSymbol: InjectionKey<Router> = Symbol()
 // matter and is only passed to support same-host hrefs.
 const fakeHost = `http://a.com`
 
+const notFoundPageData: PageData = {
+  relativePath: '',
+  title: '404',
+  description: 'Not Found',
+  headers: [],
+  frontmatter: {},
+  lastUpdated: 0
+}
+
 const getDefaultRoute = (): Route => ({
   path: '/',
   component: null,
-  // this will be set upon initial page load, which is before
-  // the app is mounted, so it's guaranteed to be available in
-  // components
-  data: null as any
+  data: notFoundPageData
 })
 
 interface PageModule {
@@ -38,7 +46,6 @@ export function createRouter(
   fallbackComponent?: Component
 ): Router {
   const route = reactive(getDefaultRoute())
-  const inBrowser = typeof window !== 'undefined'
 
   function go(href: string = inBrowser ? location.href : '/') {
     // ensure correct deep link so page refresh lands on correct files.
@@ -57,7 +64,7 @@ export function createRouter(
 
   let latestPendingPath: string | null = null
 
-  async function loadPage(href: string, scrollPosition = 0) {
+  async function loadPage(href: string, scrollPosition = 0, isRetry = false) {
     const targetLoc = new URL(href, fakeHost)
     const pendingPath = (latestPendingPath = targetLoc.pathname)
     try {
@@ -77,14 +84,21 @@ export function createRouter(
 
         route.path = pendingPath
         route.component = markRaw(comp)
-        route.data = readonly(JSON.parse(__pageData)) as PageData
+        route.data = import.meta.env.PROD
+          ? markRaw(JSON.parse(__pageData))
+          : (readonly(JSON.parse(__pageData)) as PageData)
 
         if (inBrowser) {
           nextTick(() => {
             if (targetLoc.hash && !scrollPosition) {
-              const target = document.querySelector(
-                decodeURIComponent(targetLoc.hash)
-              ) as HTMLElement
+              let target: HTMLElement | null = null
+              try {
+                target = document.querySelector(
+                  decodeURIComponent(targetLoc.hash)
+                ) as HTMLElement
+              } catch (e) {
+                console.warn(e)
+              }
               if (target) {
                 scrollTo(target, targetLoc.hash)
                 return
@@ -94,14 +108,28 @@ export function createRouter(
           })
         }
       }
-    } catch (err) {
+    } catch (err: any) {
       if (!err.message.match(/fetch/)) {
         console.error(err)
       }
+
+      // retry on fetch fail: the page to hash map may have been invalidated
+      // because a new deploy happened while the page is open. Try to fetch
+      // the updated pageToHash map and fetch again.
+      if (!isRetry) {
+        try {
+          const res = await fetch(siteDataRef.value.base + 'hashmap.json')
+          ;(window as any).__VP_HASH_MAP__ = await res.json()
+          await loadPage(href, scrollPosition, true)
+          return
+        } catch (e) {}
+      }
+
       if (latestPendingPath === pendingPath) {
         latestPendingPath = null
         route.path = pendingPath
         route.component = fallbackComponent ? markRaw(fallbackComponent) : null
+        route.data = notFoundPageData
       }
     }
   }
@@ -131,6 +159,8 @@ export function createRouter(
               // scroll between hash anchors in the same page
               if (hash && hash !== currentUrl.hash) {
                 history.pushState(null, '', hash)
+                // still emit the event so we can listen to it in themes
+                window.dispatchEvent(new Event('hashchange'))
                 // use smooth scroll when clicking on header anchor links
                 scrollTo(link, hash, link.classList.contains('header-anchor'))
               }
@@ -172,13 +202,31 @@ export function useRoute(): Route {
 }
 
 function scrollTo(el: HTMLElement, hash: string, smooth = false) {
-  const pageOffset = (document.querySelector('.nav-bar') as HTMLElement)
-    .offsetHeight
-  const target = el.classList.contains('.header-anchor')
-    ? el
-    : document.querySelector(decodeURIComponent(hash))
+  let target: Element | null = null
+
+  try {
+    target = el.classList.contains('header-anchor')
+      ? el
+      : document.querySelector(decodeURIComponent(hash))
+  } catch (e) {
+    console.warn(e)
+  }
+
   if (target) {
-    const targetTop = (target as HTMLElement).offsetTop - pageOffset - 15
+    let offset = siteDataRef.value.scrollOffset
+    if (typeof offset === 'string') {
+      offset =
+        document.querySelector(offset)!.getBoundingClientRect().bottom + 24
+    }
+    const targetPadding = parseInt(
+      window.getComputedStyle(target as HTMLElement).paddingTop,
+      10
+    )
+    const targetTop =
+      window.scrollY +
+      (target as HTMLElement).getBoundingClientRect().top -
+      offset +
+      targetPadding
     // only smooth scroll if distance is smaller than screen height.
     if (!smooth || Math.abs(targetTop - window.scrollY) > window.innerHeight) {
       window.scrollTo(0, targetTop)

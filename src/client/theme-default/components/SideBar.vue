@@ -1,3 +1,10 @@
+<script setup lang="ts">
+import NavLinks from './NavLinks.vue'
+import SideBarLinks from './SideBarLinks.vue'
+
+defineProps<{ open: boolean }>()
+</script>
+
 <template>
   <aside class="sidebar" :class="{ open }">
     <NavLinks class="nav" />
@@ -9,16 +16,6 @@
     <slot name="sidebar-bottom" />
   </aside>
 </template>
-
-<script setup lang="ts">
-import { defineProps } from 'vue'
-import NavLinks from './NavLinks.vue'
-import SideBarLinks from './SideBarLinks.vue'
-
-defineProps({
-  open: { type: Boolean, required: true }
-})
-</script>
 
 <style scoped>
 .sidebar {

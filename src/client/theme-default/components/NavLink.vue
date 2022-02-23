@@ -1,3 +1,18 @@
+<script setup lang="ts">
+import { toRefs } from 'vue'
+import type { DefaultTheme } from '../config'
+import { useNavLink } from '../composables/navLink'
+import OutboundLink from './icons/OutboundLink.vue'
+
+const props = defineProps<{
+  item: DefaultTheme.NavItemWithLink
+}>()
+
+const propsRefs = toRefs(props)
+
+const { props: linkProps, isExternal } = useNavLink(propsRefs.item)
+</script>
+
 <template>
   <div class="nav-link">
     <a class="item" v-bind="linkProps">
@@ -5,21 +20,6 @@
     </a>
   </div>
 </template>
-
-<script setup lang="ts">
-import { defineProps, toRefs } from 'vue'
-import type { DefaultTheme } from '../config'
-import { useNavLink } from '../composables/navLink'
-import OutboundLink from './icons/OutboundLink.vue'
-
-const props = defineProps<{
-  item: DefaultTheme.NavItemWithLink,
-}>()
-
-const propsRefs = toRefs(props)
-
-const { props: linkProps, isExternal } = useNavLink(propsRefs.item)
-</script>
 
 <style scoped>
 .item {

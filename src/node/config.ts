@@ -2,16 +2,33 @@ import path from 'path'
 import fs from 'fs-extra'
 import chalk from 'chalk'
 import globby from 'globby'
-import { AliasOptions } from 'vite'
+import {
+  normalizePath,
+  AliasOptions,
+  UserConfig as ViteConfig,
+  mergeConfig as mergeViteConfig,
+  loadConfigFromFile
+} from 'vite'
 import { Options as VuePluginOptions } from '@vitejs/plugin-vue'
-import { SiteData, HeadConfig, LocaleConfig } from '../../types/shared'
-export { resolveSiteDataByRoute } from './shared/config'
-import { resolveAliases, APP_PATH, DEFAULT_THEME_PATH } from './alias'
+import {
+  SiteData,
+  HeadConfig,
+  LocaleConfig,
+  createLangDictionary,
+  DefaultTheme
+} from './shared'
+import { resolveAliases, DEFAULT_THEME_PATH } from './alias'
 import { MarkdownOptions } from './markdown/markdown'
+import _debug from 'debug'
 
-const debug = require('debug')('vitepress:config')
+export { resolveSiteDataByRoute } from './shared'
+
+const debug = _debug('vitepress:config')
+
+export type { MarkdownOptions }
 
 export interface UserConfig<ThemeConfig = any> {
+  extends?: RawConfigExports<ThemeConfig>
   lang?: string
   base?: string
   title?: string
@@ -19,33 +36,86 @@ export interface UserConfig<ThemeConfig = any> {
   head?: HeadConfig[]
   themeConfig?: ThemeConfig
   locales?: Record<string, LocaleConfig>
-  alias?: Record<string, string>
   markdown?: MarkdownOptions
-  customData?: any
-  vueOptions?: VuePluginOptions
+  lastUpdated?: boolean
+  /**
+   * Options to pass on to `@vitejs/plugin-vue`
+   */
+  vue?: VuePluginOptions
+  /**
+   * Vite config
+   */
+  vite?: ViteConfig
+
+  srcDir?: string
+  srcExclude?: string[]
+  outDir?: string
+  shouldPreload?: (link: string, page: string) => boolean
+
+  /**
+   * Configure the scroll offset when the theme has a sticky header.
+   * Can be a number or a selector element to get the offset from.
+   */
+  scrollOffset?: number | string
+
+  /**
+   * Enable MPA / zero-JS mode
+   * @experimental
+   */
+  mpa?: boolean
 }
 
-export interface SiteConfig<ThemeConfig = any> {
+export type RawConfigExports<ThemeConfig = any> =
+  | UserConfig<ThemeConfig>
+  | Promise<UserConfig<ThemeConfig>>
+  | (() => UserConfig<ThemeConfig> | Promise<UserConfig<ThemeConfig>>)
+
+export interface SiteConfig<ThemeConfig = any>
+  extends Pick<
+    UserConfig,
+    'markdown' | 'vue' | 'vite' | 'shouldPreload' | 'mpa' | 'lastUpdated'
+  > {
   root: string
+  srcDir: string
   site: SiteData<ThemeConfig>
-  configPath: string
+  configPath: string | undefined
   themeDir: string
   outDir: string
   tempDir: string
   alias: AliasOptions
   pages: string[]
-  markdown?: MarkdownOptions
-  vueOptions?: VuePluginOptions
 }
 
 const resolve = (root: string, file: string) =>
-  path.resolve(root, `.vitepress`, file)
+  normalizePath(path.resolve(root, `.vitepress`, file))
+
+/**
+ * Type config helper
+ */
+export function defineConfig(config: UserConfig<DefaultTheme.Config>) {
+  return config
+}
+
+/**
+ * Type config helper for custom theme config
+ */
+export function defineConfigWithTheme<ThemeConfig>(
+  config: UserConfig<ThemeConfig>
+) {
+  return config
+}
 
 export async function resolveConfig(
-  root: string = process.cwd()
+  root: string = process.cwd(),
+  command: 'serve' | 'build' = 'serve',
+  mode = 'development'
 ): Promise<SiteConfig> {
-  const userConfig = await resolveUserConfig(root)
-  const site = await resolveSiteData(root)
+  const [userConfig, configPath] = await resolveUserConfig(root, command, mode)
+  const site = await resolveSiteData(root, userConfig)
+  const srcDir = path.resolve(root, userConfig.srcDir || '.')
+  const outDir = userConfig.outDir
+    ? path.resolve(root, userConfig.outDir)
+    : resolve(root, 'dist')
 
   // resolve theme path
   const userThemeDir = resolve(root, 'theme')
@@ -53,41 +123,126 @@ export async function resolveConfig(
     ? userThemeDir
     : DEFAULT_THEME_PATH
 
+  // Important: globby/fast-glob doesn't guarantee order of the returned files.
+  // We must sort the pages so the input list to rollup is stable across
+  // builds - otherwise different input order could result in different exports
+  // order in shared chunks which in turns invalidates the hash of every chunk!
+  // JavaScript built-in sort() is mandated to be stable as of ES2019 and
+  // supported in Node 12+, which is required by Vite.
+  const pages = (
+    await globby(['**.md'], {
+      cwd: srcDir,
+      ignore: ['**/node_modules', ...(userConfig.srcExclude || [])]
+    })
+  ).sort()
+
   const config: SiteConfig = {
     root,
+    srcDir,
     site,
     themeDir,
-    pages: await globby(['**.md'], { cwd: root, ignore: ['node_modules'] }),
-    configPath: resolve(root, 'config.js'),
-    outDir: resolve(root, 'dist'),
-    tempDir: path.resolve(APP_PATH, 'temp'),
+    pages,
+    configPath,
+    outDir,
+    tempDir: resolve(root, '.temp'),
     markdown: userConfig.markdown,
-    alias: resolveAliases(themeDir, userConfig),
-    vueOptions: userConfig.vueOptions
+    lastUpdated: userConfig.lastUpdated,
+    alias: resolveAliases(root, themeDir),
+    vue: userConfig.vue,
+    vite: userConfig.vite,
+    shouldPreload: userConfig.shouldPreload,
+    mpa: !!userConfig.mpa
   }
 
   return config
 }
 
-export async function resolveUserConfig(root: string) {
+const supportedConfigExtensions = ['js', 'ts', 'mjs', 'mts']
+
+async function resolveUserConfig(
+  root: string,
+  command: 'serve' | 'build',
+  mode: string
+): Promise<[UserConfig, string | undefined]> {
   // load user config
-  const configPath = resolve(root, 'config.js')
-  const hasUserConfig = await fs.pathExists(configPath)
-  // always delete cache first before loading config
-  delete require.cache[configPath]
-  const userConfig: UserConfig = hasUserConfig ? require(configPath) : {}
-  if (hasUserConfig) {
+  let configPath
+  for (const ext of supportedConfigExtensions) {
+    const p = resolve(root, `config.${ext}`)
+    if (await fs.pathExists(p)) {
+      configPath = p
+      break
+    }
+  }
+
+  const userConfig: RawConfigExports = configPath
+    ? ((
+        await loadConfigFromFile(
+          {
+            command,
+            mode
+          },
+          configPath,
+          root
+        )
+      )?.config as any)
+    : {}
+
+  if (configPath) {
     debug(`loaded config at ${chalk.yellow(configPath)}`)
   } else {
     debug(`no config file found.`)
   }
 
-  return userConfig
+  return [await resolveConfigExtends(userConfig), configPath]
 }
 
-export async function resolveSiteData(root: string): Promise<SiteData> {
-  const userConfig = await resolveUserConfig(root)
+async function resolveConfigExtends(
+  config: RawConfigExports
+): Promise<UserConfig> {
+  const resolved = await (typeof config === 'function' ? config() : config)
+  if (resolved.extends) {
+    const base = await resolveConfigExtends(resolved.extends)
+    return mergeConfig(base, resolved)
+  }
+  return resolved
+}
 
+function mergeConfig(a: UserConfig, b: UserConfig, isRoot = true) {
+  const merged: Record<string, any> = { ...a }
+  for (const key in b) {
+    const value = b[key as keyof UserConfig]
+    if (value == null) {
+      continue
+    }
+    const existing = merged[key]
+    if (Array.isArray(existing) && Array.isArray(value)) {
+      merged[key] = [...existing, ...value]
+      continue
+    }
+    if (isObject(existing) && isObject(value)) {
+      if (isRoot && key === 'vite') {
+        merged[key] = mergeViteConfig(existing, value)
+      } else {
+        merged[key] = mergeConfig(existing, value, false)
+      }
+      continue
+    }
+    merged[key] = value
+  }
+  return merged
+}
+
+function isObject(value: unknown): value is Record<string, any> {
+  return Object.prototype.toString.call(value) === '[object Object]'
+}
+
+export async function resolveSiteData(
+  root: string,
+  userConfig?: UserConfig,
+  command: 'serve' | 'build' = 'serve',
+  mode = 'development'
+): Promise<SiteData> {
+  userConfig = userConfig || (await resolveUserConfig(root, command, mode))[0]
   return {
     lang: userConfig.lang || 'en-US',
     title: userConfig.title || 'VitePress',
@@ -96,6 +251,7 @@ export async function resolveSiteData(root: string): Promise<SiteData> {
     head: userConfig.head || [],
     themeConfig: userConfig.themeConfig || {},
     locales: userConfig.locales || {},
-    customData: userConfig.customData || {}
+    langs: createLangDictionary(userConfig),
+    scrollOffset: userConfig.scrollOffset || 90
   }
 }

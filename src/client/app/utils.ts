@@ -1,4 +1,7 @@
-export const inBrowser = typeof window !== 'undefined'
+import { siteDataRef } from './data'
+import { inBrowser, EXTERNAL_URL_RE } from '../shared'
+
+export { inBrowser }
 
 /**
  * Join two paths by resolving the slash collision.
@@ -7,11 +10,18 @@ export function joinPath(base: string, path: string): string {
   return `${base}${path}`.replace(/\/+/g, '/')
 }
 
+export function withBase(path: string) {
+  return EXTERNAL_URL_RE.test(path)
+    ? path
+    : joinPath(siteDataRef.value.base, path)
+}
+
 /**
  * Converts a url path to the corresponding js chunk filename.
  */
 export function pathToFile(path: string): string {
   let pagePath = path.replace(/\.html$/, '')
+  pagePath = decodeURIComponent(pagePath)
   if (pagePath.endsWith('/')) {
     pagePath += 'index'
   }

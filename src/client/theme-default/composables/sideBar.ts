@@ -1,13 +1,13 @@
 import { computed } from 'vue'
-import { useRoute, useSiteDataByRoute } from 'vitepress'
-import { Header } from '/@types/shared'
+import { useRoute, useData } from 'vitepress'
+import { Header } from '../../shared'
 import { useActiveSidebarLinks } from '../composables/activeSidebarLink'
 import { getSideBarConfig } from '../support/sideBar'
 import { DefaultTheme } from '../config'
 
 export function useSideBar() {
   const route = useRoute()
-  const site = useSiteDataByRoute()
+  const { site } = useData()
 
   useActiveSidebarLinks()
 
@@ -22,7 +22,7 @@ export function useSideBar() {
       return []
     }
 
-    // if it's `atuo`, render headers of the current page
+    // if it's `auto`, render headers of the current page
     if (frontSidebar === 'auto') {
       return resolveAutoSidebar(headers, sidebarDepth)
     }

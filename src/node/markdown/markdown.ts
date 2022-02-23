@@ -10,20 +10,24 @@ import { snippetPlugin } from './plugins/snippet'
 import { hoistPlugin } from './plugins/hoist'
 import { preWrapperPlugin } from './plugins/preWrapper'
 import { linkPlugin } from './plugins/link'
-import { extractHeaderPlugin } from './plugins/header'
-import { Header } from '../../../types/shared'
-
-const emoji = require('markdown-it-emoji')
-const anchor = require('markdown-it-anchor')
-const toc = require('markdown-it-table-of-contents')
+import { headingPlugin } from './plugins/headings'
+import { imagePlugin } from './plugins/image'
+import { Header } from '../shared'
+import anchor from 'markdown-it-anchor'
+import attrs from 'markdown-it-attrs'
+import emoji from 'markdown-it-emoji'
+import toc from 'markdown-it-table-of-contents'
 
 export interface MarkdownOptions extends MarkdownIt.Options {
   lineNumbers?: boolean
   config?: (md: MarkdownIt) => void
   anchor?: {
-    permalink?: boolean
-    permalinkBefore?: boolean
-    permalinkSymbol?: string
+    permalink?: anchor.AnchorOptions['permalink']
+  }
+  attrs?: {
+    leftDelimiter?: string
+    rightDelimiter?: string
+    allowedAttributes?: string[]
   }
   // https://github.com/Oktavilla/markdown-it-table-of-contents
   toc?: any
@@ -36,44 +40,49 @@ export interface MarkdownParsedData {
   headers?: Header[]
 }
 
-export interface MarkdownRenderer {
+export interface MarkdownRenderer extends MarkdownIt {
+  __path: string
+  __relativePath: string
   __data: MarkdownParsedData
-  render: (src: string, env?: any) => { html: string; data: any }
 }
 
+export type { Header }
+
 export const createMarkdownRenderer = (
-  root: string,
-  options: MarkdownOptions = {}
+  srcDir: string,
+  options: MarkdownOptions = {},
+  base: string
 ): MarkdownRenderer => {
   const md = MarkdownIt({
     html: true,
     linkify: true,
     highlight,
     ...options
-  })
+  }) as MarkdownRenderer
 
   // custom plugins
   md.use(componentPlugin)
     .use(highlightLinePlugin)
     .use(preWrapperPlugin)
-    .use(snippetPlugin, root)
+    .use(snippetPlugin, srcDir)
     .use(hoistPlugin)
     .use(containerPlugin)
-    .use(extractHeaderPlugin)
-    .use(linkPlugin, {
-      target: '_blank',
-      rel: 'noopener noreferrer',
-      ...options.externalLinks
-    })
-
+    .use(headingPlugin)
+    .use(imagePlugin)
+    .use(
+      linkPlugin,
+      {
+        target: '_blank',
+        rel: 'noopener noreferrer',
+        ...options.externalLinks
+      },
+      base
+    )
     // 3rd party plugins
-    .use(emoji)
+    .use(attrs, options.attrs)
     .use(anchor, {
       slugify,
-      permalink: true,
-      permalinkBefore: true,
-      permalinkSymbol: '#',
-      permalinkAttrs: () => ({ 'aria-hidden': true }),
+      permalink: anchor.permalink.ariaHidden({}),
       ...options.anchor
     })
     .use(toc, {
@@ -82,6 +91,7 @@ export const createMarkdownRenderer = (
       format: parseHeader,
       ...options.toc
     })
+    .use(emoji)
 
   // apply user config
   if (options.config) {
@@ -92,17 +102,11 @@ export const createMarkdownRenderer = (
     md.use(lineNumberPlugin)
   }
 
-  // wrap render so that we can return both the html and extracted data.
-  const render = md.render
-  const wrappedRender: MarkdownRenderer['render'] = (src) => {
-    ;(md as any).__data = {}
-    const html = render.call(md, src)
-    return {
-      html,
-      data: (md as any).__data
-    }
+  const originalRender = md.render
+  md.render = (...args) => {
+    md.__data = {}
+    return originalRender.call(md, ...args)
   }
-  ;(md as any).render = wrappedRender
 
-  return md as any
+  return md
 }

@@ -1,3 +1,7 @@
+---
+sidebarDepth: 3
+---
+
 # Markdown Extensions
 
 ## Header Anchors
@@ -28,9 +32,9 @@ For example, given the following directory structure:
 And providing you are in `foo/one.md`:
 
 ```md
-[Home](/) <!-- sends the user to the root README.md -->
+[Home](/) <!-- sends the user to the root index.md -->
 [foo](/foo/) <!-- sends the user to index.html of directory foo -->
-[foo heading](./#heading) <!-- anchors user to a heading in the foo README file -->
+[foo heading](./#heading) <!-- anchors user to a heading in the foo index file -->
 [bar - three](../bar/three) <!-- you can omit extention -->
 [bar - three](../bar/three.md) <!-- you can append .md -->
 [bar - four](../bar/four.html) <!-- or you can append .html -->
@@ -49,7 +53,7 @@ Outbound links automatically get `target="_blank" rel="noopener noreferrer"`:
 
 ## Frontmatter
 
-[YAML frontmatter](https://jekyllrb.com/docs/frontmatter/) is supported out of the box:
+[YAML frontmatter](https://jekyllrb.com/docs/front-matter/) is supported out of the box:
 
 ```yaml
 ---
@@ -60,7 +64,7 @@ lang: en-US
 
 This data will be available to the rest of the page, along with all custom and theming components.
 
-For more details, see [Frontmatter](./frontmatter.md).
+For more details, see [Frontmatter](./frontmatter).
 
 ## GitHub-Style Tables
 
@@ -123,12 +127,20 @@ Custom containers can be defined by their types, titles, and contents.
 This is a tip
 :::
 
+::: info
+This is an info box
+:::
+
 ::: warning
 This is a warning
 :::
 
 ::: danger
 This is a dangerous warning
+:::
+
+::: details
+This is a details block, which does not work in Internet Explorer or Edge.
 :::
 ```
 
@@ -138,6 +150,10 @@ This is a dangerous warning
 This is a tip
 :::
 
+::: info
+This is an info box
+:::
+
 ::: warning
 This is a warning
 :::
@@ -146,15 +162,27 @@ This is a warning
 This is a dangerous warning
 :::
 
+::: details
+This is a details block, which does not work in Internet Explorer or Edge.
+:::
+
 ### Custom Title
 
 **Input**
 
-```md
+````md
 ::: danger STOP
 Danger zone, do not proceed
 :::
+
+::: details Click me to view the code
+
+```js
+console.log('Hello, VitePress!')
 ```
+
+:::
+````
 
 **Output**
 
@@ -162,9 +190,17 @@ Danger zone, do not proceed
 Danger zone, do not proceed
 :::
 
+::: details Click me to view the code
+
+```js
+console.log('Hello, VitePress!')
+```
+
+:::
+
 ## Syntax Highlighting in Code Blocks
 
-VitePress uses [Prism](https://prismjs.com/) to highlight language syntax in Markdown code blocks, using coloured text. Prism supports a wide variety of programming languages. All you need to do is append a valid language alias to the beginning backticks for the code block:
+VitePress uses [Prism](https://prismjs.com) to highlight language syntax in Markdown code blocks, using coloured text. Prism supports a wide variety of programming languages. All you need to do is append a valid language alias to the beginning backticks for the code block:
 
 **Input**
 
@@ -202,9 +238,7 @@ export default {
 
 ```html
 <ul>
-  <li v-for="todo in todos" :key="todo.id">
-    {{ todo.text }}
-  </li>
+  <li v-for="todo in todos" :key="todo.id">{{ todo.text }}</li>
 </ul>
 ```
 
@@ -324,17 +358,86 @@ module.exports = {
   }
 </style>
 
+## Import Code Snippets
+
+You can import code snippets from existing files via following syntax:
+
+```md
+<<< @/filepath
+```
+
+It also supports [line highlighting](#line-highlighting-in-code-blocks):
+
+```md
+<<< @/filepath{highlightLines}
+```
+
+**Input**
+
+```md
+<<< @/snippets/snippet.js{2}
+```
+
+**Code file**
+
+<!--lint disable strong-marker-->
+
+<<< @/snippets/snippet.js
+
+<!--lint enable strong-marker-->
+
+**Output**
+
+<!--lint disable strong-marker-->
+
+<<< @/snippets/snippet.js{2}
+
+<!--lint enable strong-marker-->
+
+::: tip
+The value of `@` corresponds to the source root. By default it's the VitePress project root, unless `srcDir` is configured.
+:::
+
+You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/codebasics#_folding) to only include the corresponding part of the code file. You can provide a custom region name after a `#` following the filepath (`snippet` by default):
+
+**Input**
+
+```md
+<<< @/snippets/snippet-with-region.js{1}
+```
+
+**Code file**
+
+<!--lint disable strong-marker-->
+
+<<< @/snippets/snippet-with-region.js
+
+<!--lint enable strong-marker-->
+
+**Output**
+
+<!--lint disable strong-marker-->
+
+<<< @/snippets/snippet-with-region.js#snippet{1}
+
+<!--lint enable strong-marker-->
+
 ## Advanced Configuration
 
 VitePress uses [markdown-it](https://github.com/markdown-it/markdown-it) as the Markdown renderer. A lot of the extensions above are implemented via custom plugins. You can further customize the `markdown-it` instance using the `markdown` option in `.vitepress/config.js`:
 
 ```js
+const anchor = require('markdown-it-anchor')
+
 module.exports = {
   markdown: {
     // options for markdown-it-anchor
-    anchor: { permalink: false },
+    // https://github.com/valeriangalliat/markdown-it-anchor#permalinks
+    anchor: {
+      permalink: anchor.permalink.headerLink()
+    },
 
-    // options for markdown-it-toc
+    // options for markdown-it-table-of-contents
     toc: { includeLevel: [1, 2] },
 
     config: (md) => {

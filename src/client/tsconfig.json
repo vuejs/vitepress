@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../tsconfig.json",
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "../../dist/client",
@@ -8,14 +8,9 @@
     "lib": ["ESNext", "DOM"],
     "types": ["vite/client"],
     "paths": {
-      "/@shared/*": ["shared/*"],
-      "/@types/*": ["../../types/*"],
       "/@theme/*": ["theme-default/*"],
       "vitepress": ["index.ts"]
     }
   },
-  "include": [
-    ".",
-    "../../types/shared.d.ts",
-  ]
+  "include": ["."]
 }

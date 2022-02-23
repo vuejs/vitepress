@@ -1,18 +1,21 @@
+<script setup lang="ts">
+import EditLink from './EditLink.vue'
+import LastUpdated from './LastUpdated.vue'
+import { useData } from 'vitepress'
+
+const { page } = useData()
+</script>
+
 <template>
   <footer class="page-footer">
     <div class="edit">
       <EditLink />
     </div>
     <div class="updated">
-      <LastUpdated />
+      <LastUpdated v-if="page.lastUpdated" />
     </div>
   </footer>
 </template>
-
-<script setup lang="ts">
-import EditLink from './EditLink.vue'
-import LastUpdated from './LastUpdated.vue'
-</script>
 
 <style scoped>
 .page-footer {

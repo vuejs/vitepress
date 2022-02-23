@@ -1,6 +1,6 @@
 // string.js slugify drops non ascii chars so we have to
 // use a custom implementation here
-const removeDiacritics = require('diacritics').remove
+import { remove as removeDiacritics } from 'diacritics'
 // eslint-disable-next-line no-control-regex
 const rControl = /[\u0000-\u001f]/g
 const rSpecial = /[\s~`!@#$%^&*()\-_+=[\]{}|\\;:"'<>,.?/]+/g
@@ -12,9 +12,9 @@ export const slugify = (str: string): string => {
       .replace(rControl, '')
       // Replace special characters
       .replace(rSpecial, '-')
-      // Remove continuos separators
+      // Remove continuous separators
       .replace(/\-{2,}/g, '-')
-      // Remove prefixing and trailing separtors
+      // Remove prefixing and trailing separators
       .replace(/^\-+|\-+$/g, '')
       // ensure it doesn't start with a number (#121)
       .replace(/^(\d)/, '_$1')
