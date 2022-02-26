@@ -27,7 +27,7 @@ export function createMarkdownToVueRenderFn(
   pages: string[],
   userDefines: Record<string, any> | undefined,
   isBuild = false,
-  base: string,
+  base = '/',
   includeLastUpdatedData = false
 ) {
   const md = createMarkdownRenderer(srcDir, options, base)

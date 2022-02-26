@@ -51,7 +51,7 @@ export type { Header }
 export const createMarkdownRenderer = (
   srcDir: string,
   options: MarkdownOptions = {},
-  base: string
+  base = '/'
 ): MarkdownRenderer => {
   const md = MarkdownIt({
     html: true,
