@@ -3,14 +3,16 @@
 // 2. normalize internal links to end with `.html`
 
 import MarkdownIt from 'markdown-it'
-import { MarkdownParsedData } from '../markdown'
+import { MarkdownRenderer } from '../markdown'
 import { URL } from 'url'
+import { EXTERNAL_URL_RE } from '../../shared'
 
 const indexRE = /(^|.*\/)index.md(#?.*)$/i
 
 export const linkPlugin = (
   md: MarkdownIt,
-  externalAttrs: Record<string, string>
+  externalAttrs: Record<string, string>,
+  base: string
 ) => {
   md.renderer.rules.link_open = (tokens, idx, options, env, self) => {
     const token = tokens[idx]
@@ -18,19 +20,32 @@ export const linkPlugin = (
     if (hrefIndex >= 0) {
       const hrefAttr = token.attrs![hrefIndex]
       const url = hrefAttr[1]
-      const isExternal = /^https?:/.test(url)
+      const isExternal = EXTERNAL_URL_RE.test(url)
       if (isExternal) {
         Object.entries(externalAttrs).forEach(([key, val]) => {
           token.attrSet(key, val)
         })
+        // catch localhost links as dead link
+        if (url.replace(EXTERNAL_URL_RE, '').startsWith('//localhost:')) {
+          pushLink(url)
+        }
       } else if (
         // internal anchor links
         !url.startsWith('#') &&
         // mail links
-        !url.startsWith('mailto:')
+        !url.startsWith('mailto:') &&
+        // links to files (other than html/md)
+        !/\.(?!html|md)\w+($|\?)/i.test(url)
       ) {
         normalizeHref(hrefAttr)
       }
+
+      // encode vite-specific replace strings in case they appear in URLs
+      // this also excludes them from build-time replacements (which injects
+      // <wbr/> and will break URLs)
+      hrefAttr[1] = hrefAttr[1]
+        .replace(/\bimport\.meta/g, 'import%2Emeta')
+        .replace(/\bprocess\.env/g, 'process%2Eenv')
     }
     return self.renderToken(tokens, idx, options)
   }
@@ -43,7 +58,7 @@ export const linkPlugin = (
       const [, path, hash] = indexMatch
       url = path + hash
     } else {
-      let cleanUrl = url.replace(/\#.*$/, '').replace(/\?.*$/, '')
+      let cleanUrl = url.replace(/[?#].*$/, '')
       // .md -> .html
       if (cleanUrl.endsWith('.md')) {
         cleanUrl = cleanUrl.replace(/\.md$/, '.html')
@@ -62,11 +77,20 @@ export const linkPlugin = (
     }
 
     // export it for existence check
-    const data = (md as any).__data as MarkdownParsedData
-    const links = data.links || (data.links = [])
-    links.push(url.replace(/\.html$/, ''))
+    pushLink(url.replace(/\.html$/, ''))
+
+    // append base to internal (non-relative) urls
+    if (url.startsWith('/')) {
+      url = `${base}${url}`.replace(/\/+/g, '/')
+    }
 
     // markdown-it encodes the uri
     hrefAttr[1] = decodeURI(url)
+  }
+
+  function pushLink(link: string) {
+    const data = (md as MarkdownRenderer).__data
+    const links = data.links || (data.links = [])
+    links.push(link)
   }
 }

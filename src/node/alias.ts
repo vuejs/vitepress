@@ -1,14 +1,11 @@
 import path from 'path'
 import { Alias, AliasOptions } from 'vite'
-import { UserConfig } from './config'
 
 const PKG_ROOT = path.join(__dirname, '../../')
-export const APP_PATH = path.join(__dirname, '../client/app')
-export const SHARED_PATH = path.join(__dirname, '../client/shared')
-export const DEFAULT_THEME_PATH = path.join(
-  __dirname,
-  '../client/theme-default'
-)
+export const DIST_CLIENT_PATH = path.join(__dirname, '../client')
+export const APP_PATH = path.join(DIST_CLIENT_PATH, 'app')
+export const SHARED_PATH = path.join(DIST_CLIENT_PATH, 'shared')
+export const DEFAULT_THEME_PATH = path.join(DIST_CLIENT_PATH, 'theme-default')
 
 // special virtual file
 // we can't directly import '/@siteData' because
@@ -17,15 +14,22 @@ export const DEFAULT_THEME_PATH = path.join(
 export const SITE_DATA_ID = '@siteData'
 export const SITE_DATA_REQUEST_PATH = '/' + SITE_DATA_ID
 
-export function resolveAliases(
-  themeDir: string,
-  userConfig: UserConfig
-): AliasOptions {
+const vueRuntimePath = 'vue/dist/vue.runtime.esm-bundler.js'
+
+export function resolveAliases(root: string, themeDir: string): AliasOptions {
   const paths: Record<string, string> = {
-    ...userConfig.alias,
     '/@theme': themeDir,
-    '/@shared': SHARED_PATH,
+    '@theme': themeDir,
     [SITE_DATA_ID]: SITE_DATA_REQUEST_PATH
+  }
+
+  // prioritize vue installed in project root and fallback to
+  // vue that comes with vitepress itself.
+  let vuePath
+  try {
+    vuePath = require.resolve(vueRuntimePath, { paths: [root] })
+  } catch (e) {
+    vuePath = require.resolve(vueRuntimePath)
   }
 
   const aliases: Alias[] = [
@@ -47,9 +51,7 @@ export function resolveAliases(
     // vitepress itself
     {
       find: /^vue$/,
-      replacement: require.resolve(
-        '@vue/runtime-dom/dist/runtime-dom.esm-bundler.js'
-      )
+      replacement: vuePath
     }
   ]
 

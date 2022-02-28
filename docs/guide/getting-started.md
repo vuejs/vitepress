@@ -44,7 +44,7 @@ This section will help you build a basic VitePress documentation site from groun
   $ yarn docs:dev
   ```
 
-  VitePress will start a hot-reloading development server at http://localhost:3000.
+  VitePress will start a hot-reloading development server at `http://localhost:3000`.
 
 By now, you should have a basic but functional VitePress documentation site.
 

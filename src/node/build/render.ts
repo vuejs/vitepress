@@ -1,18 +1,18 @@
 import path from 'path'
 import fs from 'fs-extra'
 import { SiteConfig, resolveSiteDataByRoute } from '../config'
-import { HeadConfig } from '../../../types/shared'
-import { normalizePath } from 'vite'
+import { HeadConfig } from '../shared'
+import { normalizePath, transformWithEsbuild } from 'vite'
 import { RollupOutput, OutputChunk, OutputAsset } from 'rollup'
-
-const escape = require('escape-html')
+import { slash } from '../utils/slash'
+import escape from 'escape-html'
 
 export async function renderPage(
   config: SiteConfig,
   page: string, // foo.md
-  result: RollupOutput,
-  appChunk: OutputChunk,
-  cssChunk: OutputAsset,
+  result: RollupOutput | null,
+  appChunk: OutputChunk | undefined,
+  cssChunk: OutputAsset | undefined,
   pageToHashMap: Record<string, string>,
   hashMapString: string
 ) {
@@ -21,8 +21,20 @@ export async function renderPage(
   const routePath = `/${page.replace(/\.md$/, '')}`
   const siteData = resolveSiteDataByRoute(config.site, routePath)
   router.go(routePath)
+
   // lazy require server-renderer for production build
-  const content = await require('@vue/server-renderer').renderToString(app)
+  // prioritize project root over vitepress' own dep
+  let rendererPath
+  try {
+    rendererPath = require.resolve('vue/server-renderer', {
+      paths: [config.root]
+    })
+  } catch (e) {
+    rendererPath = require.resolve('vue/server-renderer')
+  }
+
+  // render page
+  const content = await require(rendererPath).renderToString(app)
 
   const pageName = page.replace(/\//g, '_')
   // server build doesn't need hash
@@ -38,20 +50,75 @@ export async function renderPage(
     pageServerJsFileName
   ))
   const pageData = JSON.parse(__pageData)
-  const frontmatterHead = pageData.frontmatter.head
 
-  const preloadLinks = [
-    // resolve imports for index.js + page.md.js and inject script tags for
-    // them as well so we fetch everything as early as possible without having
-    // to wait for entry chunks to parse
-    ...resolvePageImports(config, page, result, appChunk),
-    pageClientJsFileName,
-    appChunk.fileName
-  ]
+  let preloadLinks = config.mpa
+    ? appChunk
+      ? [appChunk.fileName]
+      : []
+    : result && appChunk
+    ? [
+        ...new Set([
+          // resolve imports for index.js + page.md.js and inject script tags for
+          // them as well so we fetch everything as early as possible without having
+          // to wait for entry chunks to parse
+          ...resolvePageImports(config, page, result, appChunk),
+          pageClientJsFileName,
+          appChunk.fileName
+        ])
+      ]
+    : []
+
+  let prefetchLinks: string[] = []
+
+  const { shouldPreload } = config
+  if (shouldPreload) {
+    prefetchLinks = preloadLinks.filter((link) => !shouldPreload(link, page))
+    preloadLinks = preloadLinks.filter((link) => shouldPreload(link, page))
+  }
+
+  const preloadLinksString = preloadLinks
     .map((file) => {
       return `<link rel="modulepreload" href="${siteData.base}${file}">`
     })
     .join('\n    ')
+
+  const prefetchLinkString = prefetchLinks
+    .map((file) => {
+      return `<link rel="prefetch" href="${siteData.base}${file}">`
+    })
+    .join('\n    ')
+
+  const stylesheetLink = cssChunk
+    ? `<link rel="stylesheet" href="${siteData.base}${cssChunk.fileName}">`
+    : ''
+
+  const title: string =
+    pageData.title && pageData.title !== 'Home'
+      ? `${pageData.title} | ${siteData.title}`
+      : siteData.title
+
+  const head = addSocialTags(
+    title,
+    ...siteData.head,
+    ...filterOutHeadDescription(pageData.frontmatter.head)
+  )
+
+  let inlinedScript = ''
+  if (config.mpa && result) {
+    const matchingChunk = result.output.find(
+      (chunk) =>
+        chunk.type === 'chunk' &&
+        chunk.facadeModuleId === slash(path.join(config.srcDir, page))
+    ) as OutputChunk
+    if (matchingChunk) {
+      if (!matchingChunk.code.includes('import')) {
+        inlinedScript = `<script type="module">${matchingChunk.code}</script>`
+        fs.removeSync(path.resolve(config.outDir, matchingChunk.fileName))
+      } else {
+        inlinedScript = `<script type="module" src="${siteData.base}${matchingChunk.fileName}"></script>`
+      }
+    }
+  }
 
   const html = `
 <!DOCTYPE html>
@@ -59,23 +126,28 @@ export async function renderPage(
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>
-      ${pageData.title ? pageData.title + ` | ` : ``}${siteData.title}
-    </title>
+    <title>${title}</title>
     <meta name="description" content="${
       pageData.description || siteData.description
     }">
-    <link rel="stylesheet" href="${siteData.base}${cssChunk.fileName}">
-    ${preloadLinks}
-    ${renderHead(siteData.head)}
-    ${renderHead(frontmatterHead && filterOutHeadDescription(frontmatterHead))}
+    ${stylesheetLink}
+    ${preloadLinksString}
+    ${prefetchLinkString}
+    ${await renderHead(head)}
   </head>
   <body>
     <div id="app">${content}</div>
-    <script>__VP_HASH_MAP__ = JSON.parse(${hashMapString})</script>
-    <script type="module" async src="${siteData.base}${
-    appChunk.fileName
-  }"></script>
+    ${
+      config.mpa
+        ? ''
+        : `<script>__VP_HASH_MAP__ = JSON.parse(${hashMapString})</script>`
+    }
+    ${
+      appChunk
+        ? `<script type="module" async src="${siteData.base}${appChunk.fileName}"></script>`
+        : ``
+    }
+    ${inlinedScript}
   </body>
 </html>`.trim()
   const htmlFileName = path.join(config.outDir, page.replace(/\.md$/, '.html'))
@@ -87,40 +159,45 @@ function resolvePageImports(
   config: SiteConfig,
   page: string,
   result: RollupOutput,
-  indexChunk: OutputChunk
+  appChunk: OutputChunk
 ) {
   // find the page's js chunk and inject script tags for its imports so that
-  // they are start fetching as early as possible
+  // they start fetching as early as possible
   const srcPath = normalizePath(
-    fs.realpathSync(path.resolve(config.root, page))
+    fs.realpathSync(path.resolve(config.srcDir, page))
   )
   const pageChunk = result.output.find(
     (chunk) => chunk.type === 'chunk' && chunk.facadeModuleId === srcPath
   ) as OutputChunk
-  return Array.from(
-    new Set([
-      ...indexChunk.imports,
-      ...indexChunk.dynamicImports,
-      ...pageChunk.imports,
-      ...pageChunk.dynamicImports
-    ])
-  )
+  return [
+    ...appChunk.imports,
+    ...appChunk.dynamicImports,
+    ...pageChunk.imports,
+    ...pageChunk.dynamicImports
+  ]
 }
 
-function renderHead(head: HeadConfig[]) {
-  if (!head || !head.length) {
-    return ''
-  }
-  return head
-    .map(([tag, attrs = {}, innerHTML = '']) => {
+function renderHead(head: HeadConfig[]): Promise<string> {
+  return Promise.all(
+    head.map(async ([tag, attrs = {}, innerHTML = '']) => {
       const openTag = `<${tag}${renderAttrs(attrs)}>`
       if (tag !== 'link' && tag !== 'meta') {
+        if (
+          tag === 'script' &&
+          (attrs.type === undefined || attrs.type.includes('javascript'))
+        ) {
+          innerHTML = (
+            await transformWithEsbuild(innerHTML, 'inline-script.js', {
+              minify: true
+            })
+          ).code.trim()
+        }
         return `${openTag}${innerHTML}</${tag}>`
       } else {
         return openTag
       }
     })
-    .join('\n    ')
+  ).then((tags) => tags.join('\n  '))
 }
 
 function renderAttrs(attrs: Record<string, string>): string {
@@ -132,13 +209,27 @@ function renderAttrs(attrs: Record<string, string>): string {
 }
 
 function isMetaDescription(headConfig: HeadConfig) {
-  return (
-    headConfig[0] === 'meta' &&
-    headConfig[1] &&
-    headConfig[1].name === 'description'
-  )
+  const [type, attrs] = headConfig
+  return type === 'meta' && attrs?.name === 'description'
 }
 
-function filterOutHeadDescription(head: HeadConfig[]) {
-  return head.filter((h) => !isMetaDescription(h))
+function filterOutHeadDescription(head: HeadConfig[] | undefined) {
+  return head ? head.filter((h) => !isMetaDescription(h)) : []
+}
+
+function hasTag(head: HeadConfig[], tag: HeadConfig) {
+  const [tagType, tagAttrs] = tag
+  const [attr, value] = Object.entries(tagAttrs)[0] // First key
+  return head.some(([type, attrs]) => type === tagType && attrs[attr] === value)
+}
+
+function addSocialTags(title: string, ...head: HeadConfig[]) {
+  const tags: HeadConfig[] = [
+    ['meta', { name: 'twitter:title', content: title }],
+    ['meta', { property: 'og:title', content: title }]
+  ]
+  tags.filter((tagAttrs) => {
+    if (!hasTag(head, tagAttrs)) head.push(tagAttrs)
+  })
+  return head
 }

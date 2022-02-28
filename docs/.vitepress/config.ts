@@ -1,18 +1,22 @@
-module.exports = {
+import { defineConfig } from '../../src/node'
+
+export default defineConfig({
   lang: 'en-US',
   title: 'VitePress',
   description: 'Vite & Vue powered static site generator.',
+  lastUpdated: true,
 
   themeConfig: {
     repo: 'vuejs/vitepress',
     docsDir: 'docs',
-
+    docsBranch: 'main',
     editLinks: true,
     editLinkText: 'Edit this page on GitHub',
     lastUpdated: 'Last Updated',
 
     algolia: {
-      apiKey: 'c57105e511faa5558547599f120ceeba',
+      appId: '8J64VVRP8K',
+      apiKey: 'a18e2f4cc5665f6602c5631fd868adfd',
       indexName: 'vitepress'
     },
 
@@ -41,7 +45,7 @@ module.exports = {
       '/': getGuideSidebar()
     }
   }
-}
+})
 
 function getGuideSidebar() {
   return [
@@ -61,9 +65,8 @@ function getGuideSidebar() {
       text: 'Advanced',
       children: [
         { text: 'Frontmatter', link: '/guide/frontmatter' },
-        { text: 'Global Computed', link: '/guide/global-computed' },
-        { text: 'Global Component', link: '/guide/global-component' },
-        { text: 'Customization', link: '/guide/customization' },
+        { text: 'Theming', link: '/guide/theming' },
+        { text: 'API Reference', link: '/guide/api' },
         {
           text: 'Differences from Vuepress',
           link: '/guide/differences-from-vuepress'

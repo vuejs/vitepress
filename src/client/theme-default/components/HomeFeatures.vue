@@ -1,3 +1,23 @@
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useData } from 'vitepress'
+
+const { frontmatter } = useData()
+
+const hasFeatures = computed(() => {
+  return frontmatter.value.features && frontmatter.value.features.length > 0
+})
+
+interface Feature {
+  title?: string
+  details?: string
+}
+
+const features = computed<Feature[]>(() => {
+  return frontmatter.value.features ? frontmatter.value.features : []
+})
+</script>
+
 <template>
   <div v-if="hasFeatures" class="home-features">
     <div class="wrapper">
@@ -16,21 +36,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { computed } from 'vue'
-import { useSiteDataByRoute, useFrontmatter } from 'vitepress'
-
-const data = useFrontmatter()
-
-const hasFeatures = computed(() => {
-  return data.value.features && data.value.features.length > 0
-})
-
-const features = computed(() => {
-  return data.value.features ? data.value.features : []
-})
-</script>
 
 <style scoped>
 .home-features {

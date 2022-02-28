@@ -5,15 +5,24 @@ import { resolveConfig } from '../config'
 import { renderPage } from './render'
 import { OutputChunk, OutputAsset } from 'rollup'
 import ora from 'ora'
+import path from 'path'
 
-export async function build(root: string, buildOptions: BuildOptions = {}) {
+export async function build(
+  root: string,
+  buildOptions: BuildOptions & { mpa?: string } = {}
+) {
   const start = Date.now()
 
   process.env.NODE_ENV = 'production'
-  const siteConfig = await resolveConfig(root)
+  const siteConfig = await resolveConfig(root, 'build', 'production')
+
+  if (buildOptions.mpa) {
+    siteConfig.mpa = true
+    delete buildOptions.mpa
+  }
 
   try {
-    const [clientResult, , pageToHashMap] = await bundle(
+    const { clientResult, serverResult, pageToHashMap } = await bundle(
       siteConfig,
       buildOptions
     )
@@ -22,11 +31,15 @@ export async function build(root: string, buildOptions: BuildOptions = {}) {
     spinner.start('rendering pages...')
 
     try {
-      const appChunk = clientResult.output.find(
-        (chunk) => chunk.type === 'chunk' && chunk.isEntry
-      ) as OutputChunk
+      const appChunk =
+        clientResult &&
+        (clientResult.output.find(
+          (chunk) => chunk.type === 'chunk' && chunk.isEntry
+        ) as OutputChunk)
 
-      const cssChunk = clientResult.output.find(
+      const cssChunk = (
+        siteConfig.mpa ? serverResult : clientResult
+      ).output.find(
         (chunk) => chunk.type === 'asset' && chunk.fileName.endsWith('.css')
       ) as OutputAsset
 
@@ -56,6 +69,13 @@ export async function build(root: string, buildOptions: BuildOptions = {}) {
     spinner.stopAndPersist({
       symbol: okMark
     })
+
+    // emit page hash map for the case where a user session is open
+    // when the site got redeployed (which invalidates current hash map)
+    fs.writeJSONSync(
+      path.join(siteConfig.outDir, 'hashmap.json'),
+      pageToHashMap
+    )
   } finally {
     await fs.remove(siteConfig.tempDir)
   }

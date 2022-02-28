@@ -1,20 +1,40 @@
-import 'vite/dynamic-import-polyfill'
-import { App, createApp as createClientApp, createSSRApp, h } from 'vue'
+import {
+  App,
+  createApp as createClientApp,
+  createSSRApp,
+  defineAsyncComponent,
+  h,
+  onMounted,
+  watch
+} from 'vue'
 import { inBrowser, pathToFile } from './utils'
 import { Router, RouterSymbol, createRouter } from './router'
-import { mixinGlobalComputed, mixinGlobalComponents } from './mixin'
-import { siteDataRef } from './composables/siteData'
-import { useSiteDataByRoute } from './composables/siteDataByRoute'
-import { usePageData } from './composables/pageData'
+import { siteDataRef, useData } from './data'
 import { useUpdateHead } from './composables/head'
 import Theme from '/@theme/index'
 import { usePrefetch } from './composables/preFetch'
+import { dataSymbol, initData } from './data'
+import { Content } from './components/Content'
+import { ClientOnly } from './components/ClientOnly'
 
 const NotFound = Theme.NotFound || (() => '404 Not Found')
 
 const VitePressApp = {
   name: 'VitePressApp',
   setup() {
+    const { site } = useData()
+
+    // change the language on the HTML element based on the current lang
+    onMounted(() => {
+      watch(
+        () => site.value.lang,
+        (lang: string) => {
+          document.documentElement.lang = lang
+        },
+        { immediate: true }
+      )
+    })
+
     if (import.meta.env.PROD) {
       // in prod mode, enable intersectionObserver based pre-fetch
       usePrefetch()
@@ -32,16 +52,30 @@ export function createApp() {
 
   app.provide(RouterSymbol, router)
 
-  const siteDataByRouteRef = useSiteDataByRoute(router.route)
-  const pageDataRef = usePageData(router.route)
+  const data = initData(router.route)
+  app.provide(dataSymbol, data)
 
   if (inBrowser) {
     // dynamically update head tags
-    useUpdateHead(router.route, siteDataByRouteRef)
+    useUpdateHead(router.route, data.site)
   }
 
-  mixinGlobalComputed(app, siteDataRef, siteDataByRouteRef, pageDataRef)
-  mixinGlobalComponents(app)
+  // install global components
+  app.component('Content', Content)
+  app.component('ClientOnly', ClientOnly)
+  app.component(
+    'Debug',
+    import.meta.env.PROD
+      ? () => null
+      : defineAsyncComponent(() => import('./components/Debug.vue'))
+  )
+
+  // expose $frontmatter
+  Object.defineProperty(app.config.globalProperties, '$frontmatter', {
+    get() {
+      return data.frontmatter.value
+    }
+  })
 
   if (Theme.enhanceApp) {
     Theme.enhanceApp({

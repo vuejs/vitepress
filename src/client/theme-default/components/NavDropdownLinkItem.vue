@@ -1,15 +1,5 @@
-<template>
-  <div class="nav-dropdown-link-item">
-    <a class="item" v-bind="linkProps">
-      <span class="arrow" />
-      <span class="text">{{ item.text }}</span>
-      <span class="icon"><OutboundLink v-if="isExternal" /></span>
-    </a>
-  </div>
-</template>
-
 <script setup lang="ts">
-import { defineProps, toRefs } from 'vue'
+import { toRefs } from 'vue'
 import type { DefaultTheme } from '../config'
 import { useNavLink } from '../composables/navLink'
 import OutboundLink from './icons/OutboundLink.vue'
@@ -22,6 +12,16 @@ const propsRefs = toRefs(props)
 
 const { props: linkProps, isExternal } = useNavLink(propsRefs.item)
 </script>
+
+<template>
+  <div class="nav-dropdown-link-item">
+    <a class="item" v-bind="linkProps">
+      <span class="arrow" />
+      <span class="text">{{ item.text }}</span>
+      <span class="icon"><OutboundLink v-if="isExternal" /></span>
+    </a>
+  </div>
+</template>
 
 <style scoped>
 .item {

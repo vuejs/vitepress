@@ -1,3 +1,7 @@
+---
+sidebarDepth: 3
+---
+
 # Deploying
 
 The following guides are based on some shared assumptions:
@@ -34,7 +38,7 @@ $ yarn docs:build
 $ yarn docs:serve
 ```
 
-The `serve` command will boot up local static web server that serves the files from `.vitepress/dist` at http://localhost:5000. It's an easy way to check if the production build looks OK in your local environment.
+The `serve` command will boot up local static web server that serves the files from `.vitepress/dist` at `http://localhost:5000`. It's an easy way to check if the production build looks OK in your local environment.
 
 You may configure the port of the server py passing `--port` flag as an argument.
 
@@ -46,7 +50,7 @@ You may configure the port of the server py passing `--port` flag as an argument
 }
 ```
 
-Now the `docs:serve` method will launch the server at http://localhost:8080.
+Now the `docs:serve` method will launch the server at `http://localhost:8080`.
 
 ## GitHub Pages
 
@@ -78,10 +82,10 @@ git add -A
 git commit -m 'deploy'
 
 # if you are deploying to https://<USERNAME>.github.io
-# git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git master
+# git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git main
 
 # if you are deploying to https://<USERNAME>.github.io/<REPO>
-# git push -f git@github.com:<USERNAME>/<REPO>.git master:gh-pages
+# git push -f git@github.com:<USERNAME>/<REPO>.git main:gh-pages
 
 cd -
 ```
@@ -102,7 +106,7 @@ You can also run the above script in your CI setup to enable automatic deploymen
 
 3. Run `yarn` or `npm install` locally and commit the generated lockfile (that is `yarn.lock` or `package-lock.json`).
 
-4. Use the GitHub Pages deploy provider template, and follow the [Travis CI documentation](https://docs.travis-ci.com/user/deployment/pages/).
+4. Use the GitHub Pages deploy provider template, and follow the [Travis CI documentation](https://docs.travis-ci.com/user/deployment/pages).
 
 ```yaml
 language: node_js
@@ -121,7 +125,7 @@ deploy:
   github_token: $GITHUB_TOKEN
   keep_history: true
   on:
-    branch: master
+    branch: main
 ```
 
 ## GitLab Pages and GitLab CI
@@ -132,7 +136,7 @@ deploy:
 
    If you are deploying to `https://<USERNAME or GROUP>.gitlab.io/<REPO>/`, for example your repository is at `https://gitlab.com/<USERNAME>/<REPO>`, then set `base` to `'/<REPO>/'`.
 
-2. Set `dest` in `.vitepress/config.js` to `public`.
+2. Set `outDir` in `.vitepress/config.js` to `../public`.
 
 3. Create a file called `.gitlab-ci.yml` in the root of your project with the content below. This will build and deploy your site whenever you make changes to your content:
 
@@ -149,12 +153,12 @@ pages:
     paths:
       - public
   only:
-    - master
+    - main
 ```
 
 ## Netlify
 
-1. On [Netlify](https://netlify.com), setup up a new project from GitHub with the following settings:
+1. On [Netlify](https://www.netlify.com/), setup up a new project from GitHub with the following settings:
 
 - **Build Command:** `vitepress build docs` or `yarn docs:build` or `npm run docs:build`
 - **Publish directory:** `docs/.vitepress/dist`
@@ -198,7 +202,7 @@ pages:
 
 3. Deploy to surge by typing `surge docs/.vitepress/dist`.
 
-You can also deploy to a [custom domain](http://surge.sh/help/adding-a-custom-domain) by adding `surge docs/.vitepress/dist yourdomain.com`.
+You can also deploy to a [custom domain](https://surge.sh/help/adding-a-custom-domain) by adding `surge docs/.vitepress/dist yourdomain.com`.
 
 ## Heroku
 
@@ -243,7 +247,7 @@ $ heroku buildpacks:set https://github.com/heroku/heroku-buildpack-static.git
 
 ```bash
 # publish site
-$ git push heroku master
+$ git push heroku main
 
 # opens a browser to view the Dashboard version of Heroku CI
 $ heroku open
@@ -251,9 +255,9 @@ $ heroku open
 
 ## Vercel
 
-To deploy your VitePress app with a [Vercel for Git](https://vercel.com/docs/git), make sure it has been pushed to a Git repository.
+To deploy your VitePress app with a [Vercel for Git](https://vercel.com/docs/concepts/git), make sure it has been pushed to a Git repository.
 
-Go to https://vercel.com/import/git and import the project into Vercel using your Git of choice (GitHub, GitLab or BitBucket). Follow the wizard to select the project root with the project's `package.json` and override the build step using `yarn docs:build` or `npm run docs:build` and the output dir to be `./docs/.vitepress/dist`
+Go to https://vercel.com/new and import the project into Vercel using your Git of choice (GitHub, GitLab or BitBucket). Follow the wizard to select the project root with the project's `package.json` and override the build step using `yarn docs:build` or `npm run docs:build` and the output dir to be `./docs/.vitepress/dist`
 
 ![Override Vercel Configuration](../images/vercel-configuration.png)
 

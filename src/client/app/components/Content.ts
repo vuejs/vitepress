@@ -5,6 +5,9 @@ export const Content = defineComponent({
   name: 'VitePressContent',
   setup() {
     const route = useRoute()
-    return () => (route.component ? h(route.component) : null)
+    return () =>
+      h('div', { style: { position: 'relative' } }, [
+        route.component ? h(route.component) : null
+      ])
   }
 })

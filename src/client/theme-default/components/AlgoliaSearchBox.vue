@@ -1,17 +1,14 @@
-<template>
-  <div class="algolia-search-box" id="docsearch" />
-</template>
-
 <script setup lang="ts">
 import '@docsearch/css'
-import { useRoute, useRouter } from 'vitepress'
-import { defineProps, getCurrentInstance, onMounted, watch } from 'vue'
 import docsearch from '@docsearch/js'
+import { useRoute, useRouter, useData } from 'vitepress'
+import { getCurrentInstance, onMounted, watch } from 'vue'
 import type { DefaultTheme } from '../config'
 import type { DocSearchHit } from '@docsearch/react/dist/esm/types'
 
 const props = defineProps<{
   options: DefaultTheme.AlgoliaSearchOptions
+  multilang?: boolean
 }>()
 
 const vm = getCurrentInstance()
@@ -53,25 +50,46 @@ function update(options: any) {
   }
 }
 
+const { lang } = useData()
+
+// if the user has multiple locales, the search results should be filtered
+// based on the language
+const facetFilters: string[] = props.multilang ? ['lang:' + lang.value] : []
+
+if (props.options.searchParameters?.facetFilters) {
+  facetFilters.push(...props.options.searchParameters.facetFilters)
+}
+
+watch(lang, (newLang, oldLang) => {
+  const index = facetFilters.findIndex((filter) => filter === 'lang:' + oldLang)
+  if (index > -1) {
+    facetFilters.splice(index, 1, 'lang:' + newLang)
+  }
+})
+
 function initialize(userOptions: any) {
   docsearch(
     Object.assign({}, userOptions, {
       container: '#docsearch',
 
-      searchParameters: Object.assign({}, userOptions.searchParameters),
+      searchParameters: Object.assign({}, userOptions.searchParameters, {
+        // pass a custom lang facetFilter to allow multiple language search
+        // https://github.com/algolia/docsearch-configs/pull/3942
+        facetFilters
+      }),
 
       navigator: {
-        navigate: ({ suggestionUrl }: { suggestionUrl: string }) => {
+        navigate: ({ itemUrl }: { itemUrl: string }) => {
           const { pathname: hitPathname } = new URL(
-            window.location.origin + suggestionUrl
+            window.location.origin + itemUrl
           )
 
           // Router doesn't handle same-page navigation so we use the native
           // browser location API for anchor navigation
           if (route.path === hitPathname) {
-            window.location.assign(window.location.origin + suggestionUrl)
+            window.location.assign(window.location.origin + itemUrl)
           } else {
-            router.go(suggestionUrl)
+            router.go(itemUrl)
           }
         }
       },
@@ -123,13 +141,18 @@ function initialize(userOptions: any) {
               router.go(relativeHit)
             },
             children
-          }
+          },
+          __v: null
         }
       }
     })
   )
 }
 </script>
+
+<template>
+  <div class="algolia-search-box" id="docsearch" />
+</template>
 
 <style>
 .algolia-search-box {
@@ -139,13 +162,12 @@ function initialize(userOptions: any) {
 @media (min-width: 720px) {
   .algolia-search-box {
     padding-left: 8px;
-    min-width: 176.3px; /* avoid layout shift */
   }
 }
 
 @media (min-width: 751px) {
   .algolia-search-box {
-    padding-left: 8px;
+    min-width: 176.3px; /* avoid layout shift */
   }
 
   .algolia-search-box .DocSearch-Button-Placeholder {
