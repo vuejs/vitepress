@@ -40,68 +40,7 @@ a.sidebar-link-item.active {
   }
 }
 
-.sidebar > .sidebar-links > .sidebar-link > .sidebar-link-item {
-  padding: 0.35rem 1.5rem 0.35rem 1.25rem;
-  font-size: 1.1rem;
-  font-weight: 700;
-}
-
 .sidebar > .sidebar-links > .sidebar-link > a.sidebar-link-item.active {
   border-left-color: var(--c-brand);
   font-weight: 600;
-}
-
-.sidebar
-  > .sidebar-links
-  > .sidebar-link
-  > .sidebar-links
-  > .sidebar-link
-  > .sidebar-link-item {
-  display: block;
-  padding: 0.35rem 1.5rem 0.35rem 2rem;
-  line-height: 1.4;
-  font-size: 1rem;
-  font-weight: 400;
-}
-
-.sidebar
-  > .sidebar-links
-  > .sidebar-link
-  > .sidebar-links
-  > .sidebar-link
-  > a.sidebar-link-item.active {
-  border-left-color: var(--c-brand);
-  font-weight: 600;
-}
-
-.sidebar
-  > .sidebar-links
-  > .sidebar-link
-  > .sidebar-links
-  > .sidebar-link
-  > .sidebar-links
-  > .sidebar-link
-  > .sidebar-link-item {
-  display: block;
-  padding: 0.3rem 1.5rem 0.3rem 3rem;
-  line-height: 1.4;
-  font-size: 0.9rem;
-  font-weight: 400;
-}
-
-.sidebar
-  > .sidebar-links
-  > .sidebar-link
-  > .sidebar-links
-  > .sidebar-link
-  > .sidebar-links
-  > .sidebar-link
-  > .sidebar-links
-  > .sidebar-link
-  > .sidebar-link-item {
-  display: block;
-  padding: 0.3rem 1.5rem 0.3rem 4rem;
-  line-height: 1.4;
-  font-size: 0.9rem;
-  font-weight: 400;
 }
