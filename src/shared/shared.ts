@@ -1,4 +1,9 @@
-import { HeadConfig, LocaleConfig, SiteData, PageData } from '../../types/shared'
+import {
+  HeadConfig,
+  LocaleConfig,
+  SiteData,
+  PageData
+} from '../../types/shared'
 
 export type {
   SiteData,
@@ -97,8 +102,11 @@ function cleanRoute(siteData: SiteData, route: string): string {
 }
 
 /**
- * Process `head` configuration. 
+ * Process `head` configuration.
  */
-export function processHead(head: HeadConfig[] | ((pageData: PageData) => HeadConfig[]), pageData: PageData) : HeadConfig[] {
-  return !head ? [] : typeof head === 'function' ? head(pageData) : head;
+export function processHead(
+  head: HeadConfig[] | ((pageData: PageData) => HeadConfig[]),
+  pageData: PageData
+): HeadConfig[] {
+  return !head ? [] : typeof head === 'function' ? head(pageData) : head
 }

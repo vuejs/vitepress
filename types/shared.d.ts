@@ -20,7 +20,7 @@ export interface SiteData<ThemeConfig = any> {
   lang: string
   title: string
   description: string
-  head: HeadConfig[] | ( (pageData: PageData) => HeadConfig[])
+  head: HeadConfig[] | ((pageData: PageData) => HeadConfig[])
   themeConfig: ThemeConfig
   scrollOffset: number | string
   locales: Record<string, LocaleConfig>
