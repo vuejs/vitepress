@@ -1,5 +1,6 @@
 import { watchEffect, Ref } from 'vue'
 import { HeadConfig, SiteData } from '../../shared'
+import { processHead } from '../../../shared/shared'
 import { Route } from '../router'
 
 export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
@@ -68,7 +69,7 @@ export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
 
     updateHeadTags([
       // site head can only change during dev
-      ...(import.meta.env.DEV ? siteData.head : []),
+      ...(import.meta.env.DEV ? processHead(siteData.head, pageData) : []),
       ...(frontmatterHead ? filterOutHeadDescription(frontmatterHead) : [])
     ])
   })

@@ -12,6 +12,7 @@ import {
 import { Options as VuePluginOptions } from '@vitejs/plugin-vue'
 import {
   SiteData,
+  PageData,
   HeadConfig,
   LocaleConfig,
   createLangDictionary,
@@ -33,7 +34,7 @@ export interface UserConfig<ThemeConfig = any> {
   base?: string
   title?: string
   description?: string
-  head?: HeadConfig[]
+  head?: HeadConfig[] | ((pageData: PageData) => HeadConfig[])
   themeConfig?: ThemeConfig
   locales?: Record<string, LocaleConfig>
   markdown?: MarkdownOptions

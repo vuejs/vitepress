@@ -5,6 +5,18 @@ export default defineConfig({
   title: 'VitePress',
   description: 'Vite & Vue powered static site generator.',
   lastUpdated: true,
+  head: ()=>[
+    ['meta', { name: 'author', content: '‹div›RIOTS' }],
+    [
+      'meta',
+      {
+        name: 'keywords',
+        content:
+          'designsystems, design-systems, react, vue, svelte, angular, webcomponent, webcomponents, web-component, web-components',
+      },
+    ],
+  ],
+  //cleanUrls: true,
 
   themeConfig: {
     repo: 'vuejs/vitepress',
