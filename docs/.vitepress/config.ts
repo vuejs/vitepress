@@ -1,10 +1,16 @@
-import { defineConfig } from '../../src/node'
+import { defineConfig, HeadConfig, PageData } from '../../src/node'
+
+const lang = 'en-US';
+const title = 'VitePress';
+const description = 'Vite & Vue powered static site generator.';
 
 export default defineConfig({
-  lang: 'en-US',
-  title: 'VitePress',
-  description: 'Vite & Vue powered static site generator.',
+  lang,
+  title,
+  description,
   lastUpdated: true,
+
+  head: getHead,
 
   themeConfig: {
     repo: 'vuejs/vitepress',
@@ -90,5 +96,36 @@ function getConfigSidebar() {
         { text: 'Carbon Ads', link: '/config/carbon-ads' }
       ]
     }
+  ]
+}
+
+function getHead(pageData: PageData): HeadConfig[] {
+
+  const site = 'https://vitepress.vuejs.org/';
+  const canonicalURL = `${site}${pageData.relativePath}`.replace(/.md$/, '.html');
+ 
+  return [
+        // Twitter
+        ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+        ['meta', { name: 'twitter:site', content: '@vuejs' }],
+        ['meta', { name: 'twitter:title', content: pageData.title }],
+        ['meta', { name: 'twitter:description', content: pageData.description || description }],
+
+        // Open Graph
+        ['meta', { property: 'og:type', content: 'website' }],
+        ['meta', { property: 'og:locale', content: lang }],
+        ['meta', { property: 'og:site', content: site }],
+        ['meta', { property: 'og:site_name', content: 'VitePress' }],
+        ['meta', { property: 'og:title', content: pageData.title }],
+        ['meta', { property: 'og:description', content: pageData.description || description }],
+
+        // Canonical
+        [
+          'link',
+          {
+            rel: 'canonical',
+            href: canonicalURL,
+          },
+        ]
   ]
 }
