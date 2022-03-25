@@ -3,7 +3,6 @@ import { Route } from './router'
 import serializedSiteData from '@siteData'
 import { resolveSiteDataByRoute, PageData, SiteData } from '../shared'
 import { withBase } from './utils'
-import { HeadConfig } from 'dist/vitepress'
 
 export const dataSymbol: InjectionKey<VitePressData> = Symbol()
 
@@ -11,7 +10,6 @@ export interface VitePressData<T = any> {
   site: Ref<SiteData<T>>
   page: Ref<PageData>
   theme: Ref<T>
-  head: Ref<HeadConfig[] | ((pageData: PageData) => HeadConfig[])>
   frontmatter: Ref<PageData['frontmatter']>
   title: Ref<string>
   description: Ref<string>
@@ -45,7 +43,6 @@ export function initData(route: Route): VitePressData {
   return {
     site,
     theme: computed(() => site.value.themeConfig),
-    head: computed(() => site.value.head),
     page: computed(() => route.data),
     frontmatter: computed(() => route.data.frontmatter),
     lang: computed(() => site.value.lang),
