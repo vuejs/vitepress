@@ -109,5 +109,6 @@ export function processHead(
   pageData: PageData
 ): HeadConfig[] {
   const combineHead = !head ? [] : typeof head === 'function' ? head(pageData) : head
-  return [...combineHead];
+  const frontmatterHead = pageData && pageData.frontmatter.head
+  return [...combineHead, ...(frontmatterHead || [])]
 }
