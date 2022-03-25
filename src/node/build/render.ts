@@ -1,8 +1,7 @@
 import path from 'path'
 import fs from 'fs-extra'
 import { SiteConfig, resolveSiteDataByRoute } from '../config'
-import { HeadConfig } from '../shared'
-import { processHead } from '../../shared/shared'
+import { HeadConfig, processHead } from '../shared'
 import { normalizePath, transformWithEsbuild } from 'vite'
 import { RollupOutput, OutputChunk, OutputAsset } from 'rollup'
 import { slash } from '../utils/slash'
@@ -130,7 +129,7 @@ export async function renderPage(
     ${stylesheetLink}
     ${preloadLinksString}
     ${prefetchLinkString}
-    ${await renderHead([...head, ...pageData.head])}
+    ${await renderHead(head)}
   </head>
   <body>
     <div id="app">${content}</div>

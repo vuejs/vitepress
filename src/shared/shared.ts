@@ -108,5 +108,6 @@ export function processHead(
   head: HeadConfig[] | ((pageData: PageData) => HeadConfig[]),
   pageData: PageData
 ): HeadConfig[] {
-  return !head ? [] : typeof head === 'function' ? head(pageData) : head
+  const combineHead = !head ? [] : typeof head === 'function' ? head(pageData) : head
+  return [...combineHead];
 }

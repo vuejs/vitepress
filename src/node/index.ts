@@ -7,6 +7,7 @@ export * from './markdown/markdown'
 // shared types
 export type {
   SiteData,
+  PageData,
   HeadConfig,
   Header,
   LocaleConfig,

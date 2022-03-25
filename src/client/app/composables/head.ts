@@ -1,6 +1,5 @@
 import { watchEffect, Ref } from 'vue'
-import { HeadConfig, SiteData } from '../../shared'
-import { processHead } from '../../../shared/shared'
+import { HeadConfig, SiteData, processHead } from '../../shared'
 import { Route } from '../router'
 
 export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
@@ -58,20 +57,15 @@ export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
     const pageData = route.data
     const siteData = siteDataByRouteRef.value
     const pageTitle = pageData && pageData.title
-    const pageDescription = pageData && pageData.description
-    const frontmatterHead = pageData && pageData.frontmatter.head
-
+    //const pageDescription = pageData && pageData.description
+  
     // update title and description
     document.title = (pageTitle ? pageTitle + ` | ` : ``) + siteData.title
     document
       .querySelector(`meta[name=description]`)!
-      .setAttribute('content', pageDescription || siteData.description)
+      .setAttribute('content', JSON.stringify(siteData.head))//pageDescription || siteData.description)
 
-    updateHeadTags([
-      // site head can only change during dev
-      ...(import.meta.env.DEV ? processHead(siteData.head, pageData) : []),
-      ...(frontmatterHead ? filterOutHeadDescription(frontmatterHead) : [])
-    ])
+    updateHeadTags(processHead(siteData.head, pageData))
   })
 }
 
@@ -84,16 +78,4 @@ function createHeadElement([tag, attrs, innerHTML]: HeadConfig) {
     el.innerHTML = innerHTML
   }
   return el
-}
-
-function isMetaDescription(headConfig: HeadConfig) {
-  return (
-    headConfig[0] === 'meta' &&
-    headConfig[1] &&
-    headConfig[1].name === 'description'
-  )
-}
-
-function filterOutHeadDescription(head: HeadConfig[]) {
-  return head.filter((h) => !isMetaDescription(h))
 }
