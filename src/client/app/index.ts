@@ -10,7 +10,6 @@ import {
 import { inBrowser, pathToFile } from './utils'
 import { Router, RouterSymbol, createRouter } from './router'
 import { siteDataRef, useData } from './data'
-import { useUpdateHead } from './composables/head'
 import Theme from '/@theme/index'
 import { usePrefetch } from './composables/preFetch'
 import { dataSymbol, initData } from './data'
@@ -54,11 +53,6 @@ export function createApp() {
 
   const data = initData(router.route)
   app.provide(dataSymbol, data)
-
-  if (inBrowser) {
-    // dynamically update head tags
-    useUpdateHead(router.route, data.site)
-  }
 
   // install global components
   app.component('Content', Content)
