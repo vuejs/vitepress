@@ -55,11 +55,6 @@ export function createApp() {
   const data = initData(router.route)
   app.provide(dataSymbol, data)
 
-  if (inBrowser) {
-    // dynamically update head tags
-    useUpdateHead(router.route, data.site)
-  }
-
   // install global components
   app.component('Content', Content)
   app.component('ClientOnly', ClientOnly)
@@ -85,7 +80,7 @@ export function createApp() {
     })
   }
 
-  return { app, router }
+  return { app, router, data }
 }
 
 function newApp(): App {
@@ -145,10 +140,12 @@ function shouldHotReload(payload: any): boolean {
 }
 
 if (inBrowser) {
-  const { app, router } = createApp()
+  const { app, router, data } = createApp()
 
   // wait until page component is fetched before mounting
   router.go().then(() => {
+    // dynamically update head tags
+    useUpdateHead(router.route, data.site)
     app.mount('#app')
   })
 }
