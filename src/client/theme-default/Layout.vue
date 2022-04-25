@@ -20,6 +20,9 @@ const BuySellAds = __BSA__
 const AlgoliaSearchBox = __ALGOLIA__
   ? defineAsyncComponent(() => import('./components/AlgoliaSearchBox.vue'))
   : NoopComponent
+const PrintPDF = __PDF__
+  ? defineAsyncComponent(() => import('./components/PrintPDF.vue'))
+  : NoopComponent
 
 // generic state
 const route = useRoute()
@@ -90,6 +93,9 @@ const pageClasses = computed(() => {
             :multilang="isMultiLang"
           />
         </slot>
+      </template>
+      <template #print>
+        <PrintPDF v-if="theme.printPDF" />
       </template>
     </NavBar>
 

@@ -72,6 +72,12 @@ watch(open, (value) => {
   font-size: 13px;
 }
 
+@media print {
+  .debug {
+    display: none;
+  }
+}
+
 .block {
   margin: 2px 0 0;
   border-top: 1px solid rgba(255, 255, 255, 0.16);

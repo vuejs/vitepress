@@ -31,6 +31,12 @@ const { hasLinks, prev, next } = useNextAndPrevLinks()
   padding-top: 1rem;
 }
 
+@media print {
+  .next-and-prev-link {
+    display: none;
+  }
+}
+
 .container {
   display: flex;
   justify-content: space-between;

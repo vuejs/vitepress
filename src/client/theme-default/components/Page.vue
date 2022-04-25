@@ -34,10 +34,22 @@ import NextAndPrevLinks from './NextAndPrevLinks.vue'
   }
 }
 
+@media print {
+  .page {
+    padding-top: 0;
+  }
+}
+
 .container {
   margin: 0 auto;
   padding: 0 1.5rem 4rem;
   max-width: 48rem;
+}
+
+@media print {
+  .container {
+    padding-bottom: 0;
+  }
 }
 
 .content {
@@ -48,6 +60,12 @@ import NextAndPrevLinks from './NextAndPrevLinks.vue'
   .content {
     /* fix carbon ads display */
     clear: both;
+  }
+}
+
+@media print {
+  .content {
+    padding-bottom: 0;
   }
 }
 </style>

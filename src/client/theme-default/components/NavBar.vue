@@ -19,6 +19,7 @@ defineEmits(['toggle'])
     </div>
 
     <slot name="search" />
+    <slot name="print" />
   </header>
 </template>
 
@@ -41,6 +42,12 @@ defineEmits(['toggle'])
 @media (min-width: 720px) {
   .nav-bar {
     padding: 0.7rem 1.5rem;
+  }
+}
+
+@media print{
+  .nav-bar {
+    display: none;
   }
 }
 

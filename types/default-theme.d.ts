@@ -69,6 +69,8 @@ export namespace DefaultTheme {
       custom?: string
       placement: string
     }
+
+    printPDF?: boolean
   }
 
   // navbar --------------------------------------------------------------------

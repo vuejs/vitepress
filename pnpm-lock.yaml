@@ -1,4 +1,4 @@
-lockfileVersion: 5.3
+lockfileVersion: 5.4
 
 importers:
 
@@ -20,6 +20,7 @@ importers:
       '@types/lru-cache': ^5.1.0
       '@types/markdown-it': ^12.0.1
       '@types/micromatch': ^4.0.2
+      '@types/minimist': ^1.2.2
       '@types/node': ^15.6.1
       '@types/polka': ^0.5.3
       '@vitejs/plugin-vue': ^2.2.0
@@ -85,6 +86,7 @@ importers:
       '@types/lru-cache': 5.1.1
       '@types/markdown-it': 12.2.1
       '@types/micromatch': 4.0.2
+      '@types/minimist': 1.2.2
       '@types/node': 15.14.9
       '@types/polka': 0.5.3
       chalk: 4.1.2
@@ -105,7 +107,7 @@ importers:
       lint-staged: 11.1.2
       lru-cache: 6.0.0
       markdown-it: 12.3.2
-      markdown-it-anchor: 8.4.1_940cc64b929ea62ef73eba29fd968cec
+      markdown-it-anchor: 8.4.1_sqgmms4st2tc55z6xiu73fum5q
       markdown-it-attrs: 4.1.3_markdown-it@12.3.2
       markdown-it-container: 3.0.0
       markdown-it-emoji: 2.0.0
@@ -118,7 +120,7 @@ importers:
       prettier: 2.4.1
       rimraf: 3.0.2
       rollup: 2.57.0
-      rollup-plugin-esbuild: 4.8.2_esbuild@0.14.3+rollup@2.57.0
+      rollup-plugin-esbuild: 4.8.2_ofyf2sflbd3x5kuhhv7zkdsvfy
       semver: 7.3.5
       sirv: 1.0.17
       typescript: 4.4.3
@@ -2663,7 +2665,7 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /markdown-it-anchor/8.4.1_940cc64b929ea62ef73eba29fd968cec:
+  /markdown-it-anchor/8.4.1_sqgmms4st2tc55z6xiu73fum5q:
     resolution: {integrity: sha512-sLODeRetZ/61KkKLJElaU3NuU2z7MhXf12Ml1WJMSdwpngeofneCRF+JBbat8HiSqhniOMuTemXMrsI7hA6XyA==}
     peerDependencies:
       '@types/markdown-it': '*'
@@ -3285,7 +3287,7 @@ packages:
       glob: 7.2.0
     dev: true
 
-  /rollup-plugin-esbuild/4.8.2_esbuild@0.14.3+rollup@2.57.0:
+  /rollup-plugin-esbuild/4.8.2_ofyf2sflbd3x5kuhhv7zkdsvfy:
     resolution: {integrity: sha512-wsaYNOjzTb6dN1qCIZsMZ7Q0LWiPJklYs2TDI8vJA2LUbvtPUY+17TC8C0vSat3jPMInfR9XWKdA7ttuwkjsGQ==}
     engines: {node: '>=12'}
     peerDependencies:

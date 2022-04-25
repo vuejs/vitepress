@@ -91,7 +91,8 @@ export function createVitePressPlugin(
         define: {
           __CARBON__: !!site.themeConfig.carbonAds?.carbon,
           __BSA__: !!site.themeConfig.carbonAds?.custom,
-          __ALGOLIA__: !!site.themeConfig.algolia
+          __ALGOLIA__: !!site.themeConfig.algolia,
+          __PDF__: !!site.themeConfig.printPDF
         },
         optimizeDeps: {
           // force include vue to avoid duplicated copies when linked + optimized

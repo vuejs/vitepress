@@ -26,6 +26,8 @@ export default defineConfig({
       placement: 'vuejsorg'
     },
 
+    printPDF: true,
+
     nav: [
       { text: 'Guide', link: '/', activeMatch: '^/$|^/guide/' },
       {
