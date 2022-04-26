@@ -1,4 +1,4 @@
-lockfileVersion: 5.3
+lockfileVersion: 5.4
 
 importers:
 
@@ -7,6 +7,7 @@ importers:
       '@docsearch/css': ^3.0.0
       '@docsearch/js': ^3.0.0
       '@microsoft/api-extractor': ^7.23.1
+      '@napi-rs/simple-git': ^0.1.7
       '@rollup/plugin-alias': ^3.1.5
       '@rollup/plugin-commonjs': ^20.0.0
       '@rollup/plugin-json': ^4.1.0
@@ -20,6 +21,7 @@ importers:
       '@types/lru-cache': ^5.1.0
       '@types/markdown-it': ^12.0.1
       '@types/micromatch': ^4.0.2
+      '@types/minimist': ^1.2.2
       '@types/node': ^15.6.1
       '@types/polka': ^0.5.3
       '@vitejs/plugin-vue': ^2.3.2
@@ -47,7 +49,7 @@ importers:
       markdown-it-emoji: ^2.0.0
       markdown-it-table-of-contents: ^0.6.0
       micromatch: ^4.0.4
-      minimist: ^1.2.5
+      minimist: ^1.2.6
       npm-run-all: ^4.1.5
       ora: ^5.4.0
       polka: ^0.5.2
@@ -72,6 +74,7 @@ importers:
       vue: 3.2.33
     devDependencies:
       '@microsoft/api-extractor': 7.23.1
+      '@napi-rs/simple-git': 0.1.7
       '@rollup/plugin-alias': 3.1.9_rollup@2.72.0
       '@rollup/plugin-commonjs': 20.0.0_rollup@2.72.0
       '@rollup/plugin-json': 4.1.0_rollup@2.72.0
@@ -85,6 +88,7 @@ importers:
       '@types/lru-cache': 5.1.1
       '@types/markdown-it': 12.2.3
       '@types/micromatch': 4.0.2
+      '@types/minimist': 1.2.2
       '@types/node': 15.14.9
       '@types/polka': 0.5.4
       chalk: 4.1.2
@@ -105,7 +109,7 @@ importers:
       lint-staged: 11.2.6
       lru-cache: 6.0.0
       markdown-it: 12.3.2
-      markdown-it-anchor: 8.6.3_d643ca6eb40ae68ab966a77bead78073
+      markdown-it-anchor: 8.6.3_2zb4u3vubltivolgu556vv4aom
       markdown-it-attrs: 4.1.3_markdown-it@12.3.2
       markdown-it-container: 3.0.0
       markdown-it-emoji: 2.0.2
@@ -118,7 +122,7 @@ importers:
       prettier: 2.6.2
       rimraf: 3.0.2
       rollup: 2.72.0
-      rollup-plugin-esbuild: 4.9.1_esbuild@0.14.38+rollup@2.72.0
+      rollup-plugin-esbuild: 4.9.1_zdwxx76xd73ibjgz5r322rbegy
       semver: 7.3.7
       sirv: 1.0.19
       typescript: 4.6.4
@@ -361,6 +365,123 @@ packages:
 
   /@microsoft/tsdoc/0.14.1:
     resolution: {integrity: sha512-6Wci+Tp3CgPt/B9B0a3J4s3yMgLNSku6w5TV6mN+61C71UqsRBv2FUibBf3tPGlNxebgPHMEUzKpb1ggE8KCKw==}
+    dev: true
+
+  /@napi-rs/simple-git-android-arm-eabi/0.1.7:
+    resolution: {integrity: sha512-1ZNMZJ+3NhwI3HGB08nRsAzMP81du6RnZ1X9YhZ6uusuSH7p4EWs3d44TshJ+vHdjPi6eitfMN9jK5iw6dHKow==}
+    engines: {node: '>= 10'}
+    cpu: [arm]
+    os: [android]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@napi-rs/simple-git-android-arm64/0.1.7:
+    resolution: {integrity: sha512-Xy3b8IfuIhwYx8xns7fUnJslbytjq4knTG9i0PhyF+o59se81RkLgcj86LmuD4GhzDrYQTwFgnPx3aKUUObn3Q==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [android]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@napi-rs/simple-git-darwin-arm64/0.1.7:
+    resolution: {integrity: sha512-uHO0JOwHjc39rX6nEt/tctx7IcsS33HWlHYtjt8h8YlfdvwAidPMVZDwg/dBPMTl+mdAyuFUM8ce6S91OguGNQ==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@napi-rs/simple-git-darwin-x64/0.1.7:
+    resolution: {integrity: sha512-33nWHRBMf+twLabVdxyj9c/xsAY4lgWip7Sa5ogpMWdzPDDZjPliz//7hScmcRcetfFoPpfqbbLW2YCEmhQYGA==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [darwin]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@napi-rs/simple-git-linux-arm-gnueabihf/0.1.7:
+    resolution: {integrity: sha512-oqC/TngHfXaeynapp5YP+1PMoQXFP7IrCRlKbwkVxTXOW5O9A8KaeFn00WRLHvm/wkAbW7757mU6Nz5csy4qPw==}
+    engines: {node: '>= 10'}
+    cpu: [arm]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@napi-rs/simple-git-linux-arm64-gnu/0.1.7:
+    resolution: {integrity: sha512-T/QQIaQviWPfHUhPnQQQYuzlAHVlr68xK99Hd5b6xPp8LsLcDBsTg7P3pAilAkgzXKz1O6/pYVtwJD1BTayu9A==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@napi-rs/simple-git-linux-arm64-musl/0.1.7:
+    resolution: {integrity: sha512-afbdrfmEGptPp+yBykR0uVWrKxvZwC5C80GYMROa63/BdzvODWsDt+FJcTWuj/kXHms7hGRLWCyOAnuLAjdBow==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@napi-rs/simple-git-linux-x64-gnu/0.1.7:
+    resolution: {integrity: sha512-pb2jPxPX0TCaJMuDbyWj87s5ylZExt2E8Nz0i9DT706LmcRrEsGjPVD/XITBDukPv2fPWwW7E4gw0fAQBYt4Ag==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@napi-rs/simple-git-linux-x64-musl/0.1.7:
+    resolution: {integrity: sha512-1tUBN6FdC5EmRkxaKA51IpbGdnJYSmPjKKaaLyMXpUcyc2PJxGymzYy5Oj2XfxUcu2BdO2SdIpt9N4APOERkSg==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@napi-rs/simple-git-win32-arm64-msvc/0.1.7:
+    resolution: {integrity: sha512-pGoGppekJ1T+J78g+oWpwOux9mQLy2vRZMAp7DM+8Wv0RkA41JROISlQHpkmxvNTB4VQ7OyP2ASeizBS4rNrhg==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [win32]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@napi-rs/simple-git-win32-x64-msvc/0.1.7:
+    resolution: {integrity: sha512-/qHNi8TlEhjFTXl5CvlU5RhkibWAnFisLG6yKY8pNHaxEJMjE+HS58USDGtQ0gwgM3pmvJtaqRtMwQyoboTOXg==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [win32]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@napi-rs/simple-git/0.1.7:
+    resolution: {integrity: sha512-53fsesi8pmCh5ctuFMpSgfmYy4WtXJV5R5BW48B7P49ypvoTaySx0uKUN+cv6pRRWILWFIrPH2cJiPoiONM3vg==}
+    engines: {node: '>= 10'}
+    requiresBuild: true
+    optionalDependencies:
+      '@napi-rs/simple-git-android-arm-eabi': 0.1.7
+      '@napi-rs/simple-git-android-arm64': 0.1.7
+      '@napi-rs/simple-git-darwin-arm64': 0.1.7
+      '@napi-rs/simple-git-darwin-x64': 0.1.7
+      '@napi-rs/simple-git-linux-arm-gnueabihf': 0.1.7
+      '@napi-rs/simple-git-linux-arm64-gnu': 0.1.7
+      '@napi-rs/simple-git-linux-arm64-musl': 0.1.7
+      '@napi-rs/simple-git-linux-x64-gnu': 0.1.7
+      '@napi-rs/simple-git-linux-x64-musl': 0.1.7
+      '@napi-rs/simple-git-win32-arm64-msvc': 0.1.7
+      '@napi-rs/simple-git-win32-x64-msvc': 0.1.7
     dev: true
 
   /@nodelib/fs.scandir/2.1.5:
@@ -2560,7 +2681,7 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /markdown-it-anchor/8.6.3_d643ca6eb40ae68ab966a77bead78073:
+  /markdown-it-anchor/8.6.3_2zb4u3vubltivolgu556vv4aom:
     resolution: {integrity: sha512-3IiHYh/kJHY2IcuKv5qv+IKNxDwXjVoYQ5FvbBUPywcwCQ4ICLIw5z0QrhYBtcD7h88MfFK3zKAkABTvPMxm7A==}
     peerDependencies:
       '@types/markdown-it': '*'
@@ -3183,7 +3304,7 @@ packages:
       glob: 7.2.0
     dev: true
 
-  /rollup-plugin-esbuild/4.9.1_esbuild@0.14.38+rollup@2.72.0:
+  /rollup-plugin-esbuild/4.9.1_zdwxx76xd73ibjgz5r322rbegy:
     resolution: {integrity: sha512-qn/x7Wz9p3Xnva99qcb+nopH0d2VJwVnsxJTGEg+Sh2Z3tqQl33MhOwzekVo1YTKgv+yAmosjcBRJygMfGrtLw==}
     engines: {node: '>=12'}
     peerDependencies:

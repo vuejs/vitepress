@@ -70,6 +70,10 @@ function getGuideSidebar() {
         {
           text: 'Differences from Vuepress',
           link: '/guide/differences-from-vuepress'
+        },
+        {
+          text: 'Display latest updated time',
+          link: '/guide/display-last-updated'
         }
       ]
     }
