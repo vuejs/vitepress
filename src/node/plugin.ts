@@ -164,6 +164,7 @@ export function createVitePressPlugin(
         server.middlewares.use((req, res, next) => {
           if (req.url!.endsWith('.html')) {
             res.statusCode = 200
+            res.setHeader('Content-Type', 'text/html')
             res.end(`
 <!DOCTYPE html>
 <html>
