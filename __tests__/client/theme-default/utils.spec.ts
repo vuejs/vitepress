@@ -1,6 +1,37 @@
 import * as Utils from 'client/theme-default/utils'
 
 describe('client/theme-default/utils', () => {
+  describe('getPathDirName', () => {
+    it('should get path without filename (the last segment).', () => {
+      expect(Utils.getPathDirName('/path/page.html')).toBe('/path/')
+      expect(Utils.getPathDirName('/path/')).toBe('/path/')
+      expect(Utils.getPathDirName('/path')).toBe('/')
+      expect(Utils.getPathDirName('path')).toBe('/')
+      expect(Utils.getPathDirName('path/page.html')).toBe('path/')
+      expect(Utils.getPathDirName('/path/nested/page.html')).toBe(
+        '/path/nested/'
+      )
+      expect(Utils.getPathDirName('/path/nested/')).toBe('/path/nested/')
+      expect(Utils.getPathDirName('/path/nested')).toBe('/path/')
+      expect(Utils.getPathDirName('path/nested/')).toBe('path/nested/')
+      expect(Utils.getPathDirName('path/nested/page.html')).toBe('path/nested/')
+    })
+  })
+
+  describe('ensureSlash', () => {
+    it('should add slash to the beginning and end of the given path', () => {
+      expect(Utils.ensureSlash('path')).toBe('/path/')
+      expect(Utils.ensureSlash('path/nested')).toBe('/path/nested/')
+      expect(Utils.ensureSlash('/path')).toBe('/path/')
+      expect(Utils.ensureSlash('/path/nested')).toBe('/path/nested/')
+      expect(Utils.ensureSlash('path')).toBe('/path/')
+      expect(Utils.ensureSlash('path/nested')).toBe('/path/nested/')
+      expect(Utils.ensureSlash('path/')).toBe('/path/')
+      expect(Utils.ensureSlash('path/nested/')).toBe('/path/nested/')
+      expect(Utils.ensureSlash('path/page.html')).toBe('/path/page.html')
+    })
+  })
+
   describe('ensureStartingSlash', () => {
     it('should add slash to the beginning of the given path', () => {
       expect(Utils.ensureStartingSlash('path')).toBe('/path')
