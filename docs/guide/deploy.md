@@ -141,8 +141,9 @@ deploy:
 3. Create a file called `.gitlab-ci.yml` in the root of your project with the content below. This will build and deploy your site whenever you make changes to your content:
 
 ```yaml
-image: node:10.22.0
+image: node:16.5.0
 pages:
+  stage: deploy
   cache:
     paths:
       - node_modules/
@@ -152,8 +153,8 @@ pages:
   artifacts:
     paths:
       - public
-  only:
-    - main
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 ```
 
 ## Netlify
