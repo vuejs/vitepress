@@ -121,7 +121,7 @@ export namespace DefaultTheme {
   // algolia  ------------------------------------------------------------------
   // partially copied from @docsearch/react/dist/esm/DocSearch.d.ts
   export interface AlgoliaSearchOptions {
-    appId?: string
+    appId: string
     apiKey: string
     indexName: string
     placeholder?: string
