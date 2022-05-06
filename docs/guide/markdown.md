@@ -403,7 +403,7 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 **Input**
 
 ```md
-<<< @/snippets/snippet-with-region.js{1}
+<<< @/snippets/snippet-with-region.js#snippet{1}
 ```
 
 **Code file**
