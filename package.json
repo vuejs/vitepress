@@ -37,7 +37,7 @@
     "docs": "run-p dev docs-dev",
     "docs-dev": "node ./bin/vitepress dev docs",
     "docs-debug": "node --inspect-brk ./bin/vitepress dev docs",
-    "docs-build": "npm run build && node ./bin/vitepress build docs",
+    "docs-build": "run-s build docs-build-only",
     "docs-build-only": "node ./bin/vitepress build docs",
     "docs-serve": "node ./bin/vitepress serve docs",
     "ci-docs": "run-s build docs-build"

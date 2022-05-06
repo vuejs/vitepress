@@ -5,6 +5,7 @@ function toDest(file) {
   return file.replace(/^src\//, 'dist/')
 }
 
-glob.sync('src/client/**/!(*.ts|tsconfig.json)').forEach((file) => {
+glob.sync('src/client/**').forEach((file) => {
+  if (/(\.ts|tsconfig\.json)$/.test(file)) return
   fs.copy(file, toDest(file))
 })
