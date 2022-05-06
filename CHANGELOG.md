@@ -1,3 +1,10 @@
+## [0.22.4](https://github.com/vuejs/vitepress/compare/v0.22.3...v0.22.4) (2022-05-06)
+
+### Bug Fixes
+
+- **plugin:** set content-type header for serving index.html ([#616](https://github.com/vuejs/vitepress/issues/616)) ([1656f03](https://github.com/vuejs/vitepress/commit/1656f0365ae7aa07b008d4e367e5b1b382118897))
+- remove 404 from title on initial route ([#590](https://github.com/vuejs/vitepress/issues/590)) ([216e129](https://github.com/vuejs/vitepress/commit/216e12950b312f9f5b8af74cac0ce243693e37ee)), closes [#589](https://github.com/vuejs/vitepress/issues/589)
+
 ## [0.22.3](https://github.com/vuejs/vitepress/compare/v0.22.2...v0.22.3) (2022-02-22)
 
 ### Bug Fixes
