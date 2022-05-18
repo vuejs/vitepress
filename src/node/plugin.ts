@@ -162,10 +162,9 @@ export function createVitePressPlugin(
       // serve our index.html after vite history fallback
       return () => {
         server.middlewares.use((req, res, next) => {
-          if (req.url!.endsWith('.html')) {
-            res.statusCode = 200
-            res.setHeader('Content-Type', 'text/html')
-            res.end(`
+          res.statusCode = 200
+          res.setHeader('Content-Type', 'text/html')
+          res.end(`
 <!DOCTYPE html>
 <html>
   <head>
@@ -179,9 +178,6 @@ export function createVitePressPlugin(
     <script type="module" src="/@fs/${APP_PATH}/index.js"></script>
   </body>
 </html>`)
-            return
-          }
-          next()
         })
       }
     },
