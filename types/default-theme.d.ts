@@ -1,125 +1,156 @@
 export namespace DefaultTheme {
   export interface Config {
+    /**
+     * The logo file of the site.
+     *
+     * @example '/logo.svg'
+     */
     logo?: string
-    nav?: NavItem[] | false
-    sidebar?: SideBarConfig | MultiSideBarConfig
 
     /**
-     * GitHub repository following the format <user>/<project>.
-     *
-     * @example `"vuejs/vue-next"`
+     * The nav items.
      */
-    repo?: string
+    nav?: NavItem[]
 
     /**
-     * Customize the header label. Defaults to GitHub/Gitlab/Bitbucket
-     * depending on the provided repo.
-     *
-     * @example `"Contribute!"`
+     * The sidebar items.
      */
-    repoLabel?: string
+    sidebar?: Sidebar
 
     /**
-     * If your docs are in a different repository from your main project.
-     *
-     * @example `"vuejs/docs-next"`
+     * Info for the edit link. If it's undefined, the edit link feature will
+     * be disabled.
      */
-    docsRepo?: string
+    editLink?: EditLink
 
     /**
-     * If your docs are not at the root of the repo.
-     *
-     * @example `"docs"`
+     * The social links to be displayed at the end of the nav bar. Perfect for
+     * placing links to social services such as GitHub, Twitter, Facebook, etc.
      */
-    docsDir?: string
+    socialLinks?: SocialLink[]
 
     /**
-     * If your docs are in a different branch. Defaults to `master`.
-     *
-     * @example `"next"`
+     * Adds locale menu to the nav. This option should be used when you have
+     * your translated sites outside of the project.
      */
-    docsBranch?: string
+    localeLinks?: LocaleLinks
 
     /**
-     * Enable links to edit pages at the bottom of the page.
+     * The algolia options. Leave it undefined to disable the search feature.
      */
-    editLinks?: boolean
-
-    /**
-     * Custom text for edit link. Defaults to "Edit this page".
-     */
-    editLinkText?: string
-
-    /**
-     * Show last updated time at the bottom of the page. Defaults to `false`.
-     * If given a string, it will be displayed as a prefix (default value:
-     * "Last Updated").
-     */
-    lastUpdated?: string | boolean
-
-    prevLinks?: boolean
-    nextLinks?: boolean
-
-    locales?: Record<string, LocaleConfig & Omit<Config, 'locales'>>
-
     algolia?: AlgoliaSearchOptions
 
-    carbonAds?: {
-      carbon: string
-      custom?: string
-      placement: string
-    }
+    /**
+     * The carbon ads options. Leave it undefined to disable the ads feature.
+     */
+    carbonAds?: CarbonAdsOptions
   }
 
-  // navbar --------------------------------------------------------------------
+  // nav -----------------------------------------------------------------------
 
   export type NavItem = NavItemWithLink | NavItemWithChildren
 
-  export interface NavItemBase {
+  export type NavItemWithLink = {
     text: string
-    target?: string
-    rel?: string
-    ariaLabel?: string
+    link: string
+
+    /**
+     * `activeMatch` is expected to be a regex string. We can't use actual
+     * RegExp object here because it isn't serializable
+     */
     activeMatch?: string
   }
 
-  export interface NavItemWithLink extends NavItemBase {
-    link: string
-  }
-
-  export interface NavItemWithChildren extends NavItemBase {
+  export interface NavItemWithChildren {
+    text?: string
     items: NavItemWithLink[]
   }
 
   // sidebar -------------------------------------------------------------------
 
-  export type SideBarConfig = SideBarItem[] | 'auto' | false
+  export type Sidebar = SidebarGroup[] | SidebarMulti
 
-  export interface MultiSideBarConfig {
-    [path: string]: SideBarConfig
+  export interface SidebarMulti {
+    [path: string]: SidebarGroup[]
   }
 
-  export type SideBarItem = SideBarLink | SideBarGroup
+  export interface SidebarGroup {
+    text: string
+    items: SidebarItem[]
+  }
 
-  export interface SideBarLink {
+  export interface SidebarItem {
     text: string
     link: string
   }
 
-  export interface SideBarGroup {
-    text: string
-    link?: string
+  // edit link -----------------------------------------------------------------
+
+  export interface EditLink {
+    /**
+     * Repo of the site.
+     *
+     * @example 'vuejs/docs'
+     */
+    repo: string
 
     /**
-     * @default false
+     * Branch of the repo.
+     *
+     * @default 'main'
      */
-    collapsable?: boolean
+    branch?: string
 
-    children: SideBarItem[]
+    /**
+     * If your docs are not at the root of the repo.
+     *
+     * @example 'docs'
+     */
+    dir?: string
+
+    /**
+     * Custom text for edit link.
+     *
+     * @default 'Edit this page'
+     */
+    text?: string
   }
 
-  // algolia  ------------------------------------------------------------------
-  // partially copied from @docsearch/react/dist/esm/DocSearch.d.ts
+  // social link ---------------------------------------------------------------
+
+  export interface SocialLink {
+    icon: SocialLinkIcon
+    link: string
+  }
+
+  export type SocialLinkIcon =
+    | 'discord'
+    | 'facebook'
+    | 'github'
+    | 'instagram'
+    | 'linkedin'
+    | 'slack'
+    | 'twitter'
+    | 'youtube'
+
+  // locales -------------------------------------------------------------------
+
+  export interface LocaleLinks {
+    text: string
+    items: LocaleLink[]
+  }
+
+  export interface LocaleLink {
+    text: string
+    link: string
+  }
+
+  // algolia ------------------------------------------------------------------
+
+  /**
+   * The Algolia search options. Partially copied from
+   * `@docsearch/react/dist/esm/DocSearch.d.ts`
+   */
   export interface AlgoliaSearchOptions {
     appId: string
     apiKey: string
@@ -130,17 +161,11 @@ export namespace DefaultTheme {
     initialQuery?: string
   }
 
-  // locales -------------------------------------------------------------------
+  // carbon ads ----------------------------------------------------------------
 
-  export interface LocaleConfig {
-    /**
-     * Text for the language dropdown.
-     */
-    selectText?: string
-
-    /**
-     * Label for this locale in the language dropdown.
-     */
-    label?: string
+  export interface CarbonAdsOptions {
+    carbon: string
+    custom?: string
+    placement: string
   }
 }

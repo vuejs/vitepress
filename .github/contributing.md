@@ -40,7 +40,7 @@ You may start VitePress local dev environment by running `pnpm run dev`.
 $ pnpm run dev
 ```
 
-The easiest way to start testing out VitePress is to tweak the VitePress docs. You may run `pnpm run docs` folder to boot up VitePress documentation site locally, with live reloading of the source code.
+The easiest way to start testing out VitePress is to tweak the VitePress docs. You may run `pnpm run docs` to boot up VitePress documentation site locally, with live reloading of the source code.
 
 ```bash
 $ pnpm run docs

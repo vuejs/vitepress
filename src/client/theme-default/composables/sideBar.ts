@@ -1,77 +1,71 @@
-import { computed } from 'vue'
+import { Ref, ref, computed, watchEffect, onMounted, onUnmounted } from 'vue'
 import { useRoute, useData } from 'vitepress'
-import { Header } from '../../shared'
-import { useActiveSidebarLinks } from '../composables/activeSidebarLink'
-import { getSideBarConfig } from '../support/sideBar'
-import { DefaultTheme } from '../config'
+import { getSidebar } from '../support/sidebar'
 
-export function useSideBar() {
+export function useSidebar() {
   const route = useRoute()
-  const { site } = useData()
+  const { theme, frontmatter } = useData()
 
-  useActiveSidebarLinks()
+  const isOpen = ref(false)
 
-  return computed(() => {
-    // at first, we'll check if we can find the sidebar setting in frontmatter.
-    const headers = route.data.headers
-    const frontSidebar = route.data.frontmatter.sidebar
-    const sidebarDepth = route.data.frontmatter.sidebarDepth
+  const sidebar = computed(() => {
+    const sidebarConfig = theme.value.sidebar
+    const relativePath = route.data.relativePath
 
-    // if it's `false`, we'll just return an empty array here.
-    if (frontSidebar === false) {
-      return []
-    }
-
-    // if it's `auto`, render headers of the current page
-    if (frontSidebar === 'auto') {
-      return resolveAutoSidebar(headers, sidebarDepth)
-    }
-
-    // now, there's no sidebar setting at frontmatter; let's see the configs
-    const themeSidebar = getSideBarConfig(
-      site.value.themeConfig.sidebar,
-      route.data.relativePath
-    )
-
-    if (themeSidebar === false) {
-      return []
-    }
-
-    if (themeSidebar === 'auto') {
-      return resolveAutoSidebar(headers, sidebarDepth)
-    }
-
-    return themeSidebar
+    return sidebarConfig ? getSidebar(sidebarConfig, relativePath) : []
   })
-}
 
-function resolveAutoSidebar(
-  headers: Header[],
-  depth: number
-): DefaultTheme.SideBarItem[] {
-  const ret: DefaultTheme.SideBarItem[] = []
+  const hasSidebar = computed(() => {
+    return frontmatter.value.sidebar !== false && sidebar.value.length > 0
+  })
 
-  if (headers === undefined) {
-    return []
+  function open() {
+    isOpen.value = true
   }
 
-  let lastH2: DefaultTheme.SideBarItem | undefined = undefined
-  headers.forEach(({ level, title, slug }) => {
-    if (level - 1 > depth) {
-      return
-    }
+  function close() {
+    isOpen.value = false
+  }
 
-    const item: DefaultTheme.SideBarItem = {
-      text: title,
-      link: `#${slug}`
-    }
-    if (level === 2) {
-      lastH2 = item
-      ret.push(item)
-    } else if (lastH2) {
-      ;((lastH2 as any).children || ((lastH2 as any).children = [])).push(item)
-    }
+  function toggle() {
+    isOpen.value ? close() : open()
+  }
+
+  return {
+    isOpen,
+    sidebar,
+    hasSidebar,
+    open,
+    close,
+    toggle
+  }
+}
+
+/**
+ * a11y: cache the element that opened the Sidebar (the menu button) then
+ * focus that button again when Menu is closed with Escape key.
+ */
+export function useCloseSidebarOnEscape(isOpen: Ref<boolean>, close: () => {}) {
+  let triggerElement: HTMLButtonElement | undefined
+
+  watchEffect(() => {
+    triggerElement = isOpen.value
+      ? (document.activeElement as HTMLButtonElement)
+      : undefined
   })
 
-  return ret
+  onMounted(() => {
+    window.addEventListener('keyup', onEscape)
+  })
+
+  onUnmounted(() => {
+    window.removeEventListener('keyup', onEscape)
+  })
+
+  function onEscape(e: KeyboardEvent) {
+    if (e.key === 'Escape' && isOpen.value) {
+      close()
+      triggerElement?.focus()
+    }
+  }
 }
