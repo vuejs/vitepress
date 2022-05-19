@@ -10,6 +10,7 @@ export type {
 } from '../../types/shared'
 
 export const EXTERNAL_URL_RE = /^https?:/i
+export const APPEARANCE_KEY = 'vitepress-theme-appearance'
 
 // @ts-ignore
 export const inBrowser = typeof window !== 'undefined'

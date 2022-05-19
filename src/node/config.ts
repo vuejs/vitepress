@@ -14,26 +14,27 @@ import {
   SiteData,
   HeadConfig,
   LocaleConfig,
-  createLangDictionary,
-  DefaultTheme
+  DefaultTheme,
+  APPEARANCE_KEY,
+  createLangDictionary
 } from './shared'
 import { resolveAliases, DEFAULT_THEME_PATH } from './alias'
 import { MarkdownOptions } from './markdown/markdown'
 import _debug from 'debug'
 
 export { resolveSiteDataByRoute } from './shared'
+export type { MarkdownOptions }
 
 const debug = _debug('vitepress:config')
 
-export type { MarkdownOptions }
-
 export interface UserConfig<ThemeConfig = any> {
   extends?: RawConfigExports<ThemeConfig>
-  lang?: string
   base?: string
+  lang?: string
   title?: string
   description?: string
   head?: HeadConfig[]
+  appearance?: boolean
   themeConfig?: ThemeConfig
   locales?: Record<string, LocaleConfig>
   markdown?: MarkdownOptions
@@ -243,15 +244,41 @@ export async function resolveSiteData(
   mode = 'development'
 ): Promise<SiteData> {
   userConfig = userConfig || (await resolveUserConfig(root, command, mode))[0]
+
   return {
     lang: userConfig.lang || 'en-US',
     title: userConfig.title || 'VitePress',
     description: userConfig.description || 'A VitePress site',
     base: userConfig.base ? userConfig.base.replace(/([^/])$/, '$1/') : '/',
-    head: userConfig.head || [],
+    head: resolveSiteDataHead(userConfig),
+    appearance: userConfig.appearance ?? true,
     themeConfig: userConfig.themeConfig || {},
     locales: userConfig.locales || {},
     langs: createLangDictionary(userConfig),
     scrollOffset: userConfig.scrollOffset || 90
   }
+}
+
+function resolveSiteDataHead(userConfig?: UserConfig): HeadConfig[] {
+  const head = userConfig?.head ?? []
+
+  // add inline script to apply dark mode, if user enables the feature.
+  // this is required to prevent "flush" on initial page load.
+  if (userConfig?.appearance ?? true) {
+    head.push([
+      'script',
+      {},
+      `
+        ;(() => {
+          const saved = localStorage.getItem('${APPEARANCE_KEY}')
+          const prefereDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+          if (!saved || saved === 'auto' ? prefereDark : saved === 'dark') {
+            document.documentElement.classList.add('dark')
+          }
+        })()
+      `
+    ])
+  }
+
+  return head
 }

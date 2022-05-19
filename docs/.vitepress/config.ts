@@ -5,28 +5,10 @@ export default defineConfig({
   title: 'VitePress',
   description: 'Vite & Vue powered static site generator.',
 
-  // TODO: Do something about this.
-  head: [
-    [
-      'script',
-      {},
-      `
-        ;(() => {
-          const saved = localStorage.getItem('vitepress-theme-appearance')
-          const prefereDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-
-          if (!saved || saved === 'auto' ? prefereDark : saved === 'dark') {
-            document.documentElement.classList.add('dark')
-          }
-        })()
-      `
-    ]
-  ],
-
   themeConfig: {
     nav: [
       { text: 'Guide', link: '/guide/what-is-vitepress' },
-      { text: 'Config', link: '/config/app-basics' },
+      { text: 'Configs', link: '/config/app-configs' },
       {
         text: 'Release Notes',
         link: 'https://github.com/vuejs/vitepress/releases'
@@ -70,8 +52,11 @@ function getGuideSidebar() {
 function getConfigSidebar() {
   return [
     {
-      text: 'App Config',
-      items: [{ text: 'Basics', link: '/config/app-basics' }]
+      text: 'Config',
+      items: [
+        { text: 'App Configs', link: '/config/app-configs' },
+        { text: 'Theme Configs', link: '/config/theme-configs' }
+      ]
     }
   ]
 }

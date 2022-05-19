@@ -84,6 +84,7 @@ defineEmits<{
 
 .menu + .translations::before,
 .menu + .appearance::before,
+.menu + .social-links::before,
 .translations + .appearance::before,
 .appearance + .social-links::before {
   margin-right: 8px;

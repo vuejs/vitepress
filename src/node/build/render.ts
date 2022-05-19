@@ -97,6 +97,8 @@ export async function renderPage(
       ? `${pageData.title} | ${siteData.title}`
       : siteData.title
 
+  const description: string = pageData.description || siteData.description
+
   const head = addSocialTags(
     title,
     ...siteData.head,
@@ -127,9 +129,7 @@ export async function renderPage(
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>${title}</title>
-    <meta name="description" content="${
-      pageData.description || siteData.description
-    }">
+    <meta name="description" content="${description}">
     ${stylesheetLink}
     ${preloadLinksString}
     ${prefetchLinkString}

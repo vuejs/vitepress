@@ -4,7 +4,7 @@ import VPFlyout from './VPFlyout.vue'
 import VPSwitchAppearance from './VPSwitchAppearance.vue'
 import VPSocialLinks from './VPSocialLinks.vue'
 
-const { theme } = useData()
+const { site, theme } = useData()
 </script>
 
 <template>
@@ -23,7 +23,7 @@ const { theme } = useData()
       </div>
     </div>
 
-    <div class="group">
+    <div v-if="site.appearance" class="group">
       <div class="item">
         <p class="label">Appearance</p>
         <div class="appearance-action">
