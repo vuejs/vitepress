@@ -18,7 +18,7 @@ export default defineConfig({
     sidebar: {
       '/guide/': getGuideSidebar(),
       '/config/': getConfigSidebar(),
-      '/': getGuideSidebar()
+      // '/': getGuideSidebar()
     },
 
     editLink: {
@@ -54,8 +54,10 @@ function getConfigSidebar() {
     {
       text: 'Config',
       items: [
+        { text: 'Introduction', link: '/config/introduction' },
         { text: 'App Configs', link: '/config/app-configs' },
-        { text: 'Theme Configs', link: '/config/theme-configs' }
+        { text: 'Theme Configs', link: '/config/theme-configs' },
+        { text: 'Frontmatter Configs', link: '/config/frontmatter-configs' }
       ]
     }
   ]

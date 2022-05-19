@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useData } from 'vitepress'
-import VPContentDocOutline from './VPContentDocOutline.vue'
-import VPContentDocFooter from './VPContentDocFooter.vue'
+import VPDocOutline from './VPDocOutline.vue'
+import VPDocFooter from './VPDocFooter.vue'
 
 const { page } = useData()
 
@@ -12,13 +12,13 @@ const pageName = computed(() => {
 </script>
 
 <template>
-  <div class="VPContentDoc has-aside">
+  <div class="VPDoc has-aside">
     <div class="container">
       <div class="aside">
         <div class="aside-container">
           <div class="aside-curtain" />
           <div class="aside-content">
-            <VPContentDocOutline v-if="page.headers" />
+            <VPDocOutline v-if="page.headers" />
           </div>
         </div>
       </div>
@@ -28,49 +28,49 @@ const pageName = computed(() => {
           <Content class="vp-doc" :class="pageName" />
         </main>
 
-        <VPContentDocFooter />
+        <VPDocFooter />
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.VPContentDoc {
+.VPDoc {
   padding: 32px 24px 96px;
 }
 
 @media (min-width: 768px) {
-  .VPContentDoc {
+  .VPDoc {
     padding: 48px 32px 128px;
   }
 }
 
 @media (min-width: 960px) {
-  .VPContentDoc {
+  .VPDoc {
     padding: 32px 64px 96px;
   }
 }
 
 @media (min-width: 1280px) {
-  .VPContentDoc {
+  .VPDoc {
     padding: 32px 0 128px 64px;
   }
 
-  .VPContentDoc:not(.has-sidebar.has-aside) {
+  .VPDoc:not(.has-sidebar.has-aside) {
     padding-left: calc((100vw - 688px) / 2);
   }
 
-  .VPContentDoc.has-aside:not(.has-sidebar) {
+  .VPDoc.has-aside:not(.has-sidebar) {
     padding-left: calc((100vw - 688px - 320px) / 2);
   }
 
-  .VPContentDoc:not(.has-aside) .content {
+  .VPDoc:not(.has-aside) .content {
     min-width: 688px;
   }
 }
 
 @media (min-width: 1440px) {
-  .VPContentDoc {
+  .VPDoc {
     padding: 32px 0 128px 96px;
   }
 }

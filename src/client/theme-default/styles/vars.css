@@ -185,8 +185,15 @@
  * -------------------------------------------------------------------------- */
 
 :root {
+  --vp-nav-height: var(--vp-nav-height-mobile);
   --vp-nav-height-mobile: 56px;
   --vp-nav-height-desktop: 72px;
+}
+
+@media (min-width: 960px) {
+  :root {
+    --vp-nav-height: var(--vp-nav-height-desktop);
+  }
 }
 
 /**
@@ -211,4 +218,16 @@
 
 .dark {
   --vp-code-block-bg: var(--vp-c-bg-sidebar);
+}
+
+/**
+ * Component: Home
+ * -------------------------------------------------------------------------- */
+
+:root {
+
+}
+
+.dark {
+
 }

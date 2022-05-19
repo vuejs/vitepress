@@ -13,7 +13,7 @@ const control = usePrevNext()
 </script>
 
 <template>
-  <footer v-if="control.prev || control.next" class="VPContentDocFooter">
+  <footer v-if="control.prev || control.next" class="VPDocFooter">
     <div v-if="theme.editLink && frontmatter.editLink !== false" class="edit-link">
       <VPLink class="edit-link-button" :href="editLink.url" :no-icon="true">
         <VPIconEdit class="edit-link-icon" />
@@ -39,7 +39,7 @@ const control = usePrevNext()
 </template>
 
 <style scoped>
-.VPContentDocFooter {
+.VPDocFooter {
   margin-top: 64px;
 }
 
@@ -94,6 +94,7 @@ const control = usePrevNext()
   }
 
   .pager.has-prev {
+    padding-top: 0;
     padding-left: 16px;
   }
 }

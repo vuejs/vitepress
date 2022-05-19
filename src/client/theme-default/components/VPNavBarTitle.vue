@@ -1,39 +1,52 @@
 <script setup lang="ts">
 import { useData } from 'vitepress'
+import { useSidebar } from '../composables/sidebar'
 
 const { site, theme } = useData()
+const { hasSidebar } = useSidebar()
 </script>
 
 <template>
-  <a class="VPNavBarTitle" href="/">
-    <img v-if="theme.logo" class="logo" :src="theme.logo" :alt="site.title">
-    {{ site.title }}
-  </a>
+  <div class="VPNavBarTitle" :class="{ 'has-sidebar': hasSidebar }">
+    <a class="title" href="/">
+      <img v-if="theme.logo" class="logo" :src="theme.logo" :alt="site.title">
+      {{ site.title }}
+    </a>
+  </div>
 </template>
 
 <style scoped>
 .VPNavBarTitle {
+  flex-shrink: 0;
+}
+
+@media (min-width: 960px) {
+  .VPNavBarTitle.has-sidebar {
+    margin-right: 32px;
+    width: calc(var(--vp-sidebar-width) - 64px);
+    border-bottom: 1px solid var(--vp-c-divider-light);
+    background-color: var(--vp-c-bg-sidebar);
+  }
+}
+
+.title {
   display: flex;
   align-items: center;
-  height: var(--vp-nav-height-mobile);
+  width: 100%;
+  height: var(--vp-nav-height);
   font-size: 16px;
   font-weight: 600;
   color: var(--vp-c-text-1);
-  transition: background-color 0.5s, opacity 0.25s;
+  transition: opacity 0.25s;
 }
 
-.VPNavBarTitle:hover {
+.title:hover {
   opacity: 0.6;
 }
 
 @media (min-width: 960px) {
-  .VPNavBarTitle {
+  .title {
     flex-shrink: 0;
-    margin-right: 32px;
-    border-bottom: 1px solid var(--vp-c-divider-light);
-    width: calc(var(--vp-sidebar-width) - 64px);
-    height: var(--vp-nav-height-desktop);
-    background-color: var(--vp-c-bg-sidebar);
   }
 }
 

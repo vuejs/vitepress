@@ -123,6 +123,10 @@
   list-style: disc;
 }
 
+.vp-doc li + li {
+  margin-top: 8px;
+}
+
 /**
  * Table
  * -------------------------------------------------------------------------- */
@@ -331,6 +335,8 @@
 .vp-doc [class~='language-ts']:before       { content: 'ts'; }
 .vp-doc [class~='language-tsx']:before      { content: 'tsx'; }
 .vp-doc [class~='language-json']:before     { content: 'json'; }
+.vp-doc [class~='language-yaml']:before     { content: 'yaml'; }
+.vp-doc [class~='language-yml']:before      { content: 'yaml'; }
 .vp-doc [class~='language-sh']:before       { content: 'sh'; }
 .vp-doc [class~='language-bash']:before     { content: 'sh'; }
 

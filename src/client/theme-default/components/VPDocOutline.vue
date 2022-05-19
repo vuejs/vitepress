@@ -22,7 +22,7 @@ function handleClick({ target: el }: Event) {
 </script>
 
 <template>
-  <div class="VPContentDocOutline" ref="container">
+  <div class="VPDocOutline" ref="container">
     <div class="outline-marker" ref="marker" />
 
     <div class="outline-title">On this page</div>
@@ -54,7 +54,7 @@ function handleClick({ target: el }: Event) {
 </template>
 
 <style scoped>
-.VPContentDocOutline {
+.VPDocOutline {
   position: relative;
   border-left: 1px solid var(--vp-c-divider-light);
   padding-left: 16px;
