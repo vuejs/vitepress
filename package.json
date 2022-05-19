@@ -94,6 +94,7 @@
     "@types/lru-cache": "^5.1.0",
     "@types/markdown-it": "^12.0.1",
     "@types/micromatch": "^4.0.2",
+    "@types/minimist": "^1.2.2",
     "@types/node": "^15.6.1",
     "@types/polka": "^0.5.3",
     "chalk": "^4.1.1",

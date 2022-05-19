@@ -1,4 +1,4 @@
-lockfileVersion: 5.3
+lockfileVersion: 5.4
 
 importers:
 
@@ -20,6 +20,7 @@ importers:
       '@types/lru-cache': ^5.1.0
       '@types/markdown-it': ^12.0.1
       '@types/micromatch': ^4.0.2
+      '@types/minimist': ^1.2.2
       '@types/node': ^15.6.1
       '@types/polka': ^0.5.3
       '@vitejs/plugin-vue': ^2.3.2
@@ -85,6 +86,7 @@ importers:
       '@types/lru-cache': 5.1.1
       '@types/markdown-it': 12.2.3
       '@types/micromatch': 4.0.2
+      '@types/minimist': 1.2.2
       '@types/node': 15.14.9
       '@types/polka': 0.5.4
       chalk: 4.1.2
@@ -105,7 +107,7 @@ importers:
       lint-staged: 11.2.6
       lru-cache: 6.0.0
       markdown-it: 12.3.2
-      markdown-it-anchor: 8.6.3_d643ca6eb40ae68ab966a77bead78073
+      markdown-it-anchor: 8.6.3_2zb4u3vubltivolgu556vv4aom
       markdown-it-attrs: 4.1.3_markdown-it@12.3.2
       markdown-it-container: 3.0.0
       markdown-it-emoji: 2.0.2
@@ -118,7 +120,7 @@ importers:
       prettier: 2.6.2
       rimraf: 3.0.2
       rollup: 2.72.0
-      rollup-plugin-esbuild: 4.9.1_esbuild@0.14.38+rollup@2.72.0
+      rollup-plugin-esbuild: 4.9.1_zdwxx76xd73ibjgz5r322rbegy
       semver: 7.3.7
       sirv: 1.0.19
       typescript: 4.6.4
@@ -264,7 +266,6 @@ packages:
   /@babel/helper-validator-identifier/7.16.7:
     resolution: {integrity: sha512-hsEnFemeiW4D08A5gUAZxLBTXpZ39P+a+DGDsHw1yxqyQ/jzFEnxf5uTEGp+3bzAbNOxU1paTgYS4ECU/IgfDw==}
     engines: {node: '>=6.9.0'}
-    dev: true
 
   /@babel/highlight/7.17.9:
     resolution: {integrity: sha512-J9PfEKCbFIv2X5bjTMiZu6Vf341N05QIY+d6FvVKynkG1S7G0j3I0QoRtWIrXhZ+/Nlb5Q0MzqL7TokEJ5BNHg==}
@@ -279,6 +280,16 @@ packages:
     resolution: {integrity: sha512-n2Q6i+fnJqzOaq2VkdXxy2TCPCWQZHiCo0XqmrCvDWcZQKRyZzYi4Z0yxlBuN0w+r2ZHmre+Q087DSrw3pbJDQ==}
     engines: {node: '>=6.0.0'}
     hasBin: true
+    dependencies:
+      '@babel/types': 7.17.10
+    dev: false
+
+  /@babel/types/7.17.10:
+    resolution: {integrity: sha512-9O26jG0mBYfGkUYCYZRnBwbVLd1UZOICEr2Em6InB6jVfsAv1GKgwXHmrSg+WFWDmeKTA6vyTZiN8tCSM5Oo3A==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      '@babel/helper-validator-identifier': 7.16.7
+      to-fast-properties: 2.0.0
     dev: false
 
   /@docsearch/css/3.0.0:
@@ -1187,6 +1198,8 @@ packages:
       on-headers: 1.0.2
       safe-buffer: 5.1.2
       vary: 1.1.2
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /concat-map/0.0.1:
@@ -1409,6 +1422,11 @@ packages:
 
   /debug/2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
     dependencies:
       ms: 2.0.0
     dev: true
@@ -2560,7 +2578,7 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /markdown-it-anchor/8.6.3_d643ca6eb40ae68ab966a77bead78073:
+  /markdown-it-anchor/8.6.3_2zb4u3vubltivolgu556vv4aom:
     resolution: {integrity: sha512-3IiHYh/kJHY2IcuKv5qv+IKNxDwXjVoYQ5FvbBUPywcwCQ4ICLIw5z0QrhYBtcD7h88MfFK3zKAkABTvPMxm7A==}
     peerDependencies:
       '@types/markdown-it': '*'
@@ -3183,7 +3201,7 @@ packages:
       glob: 7.2.0
     dev: true
 
-  /rollup-plugin-esbuild/4.9.1_esbuild@0.14.38+rollup@2.72.0:
+  /rollup-plugin-esbuild/4.9.1_zdwxx76xd73ibjgz5r322rbegy:
     resolution: {integrity: sha512-qn/x7Wz9p3Xnva99qcb+nopH0d2VJwVnsxJTGEg+Sh2Z3tqQl33MhOwzekVo1YTKgv+yAmosjcBRJygMfGrtLw==}
     engines: {node: '>=12'}
     peerDependencies:
@@ -3556,6 +3574,11 @@ packages:
     resolution: {integrity: sha512-2+40EP4D3sFYy42UkgkFFB+kiX2Tg3URG/lVvAZFfLxgGpnWl5qQJuBw1gaLttq8UOS+2p3C0WrhJnQigLTT2Q==}
     engines: {node: '>=14.0.0'}
     dev: true
+
+  /to-fast-properties/2.0.0:
+    resolution: {integrity: sha1-3F5pjL0HkmW8c+A3doGk5Og/YW4=}
+    engines: {node: '>=4'}
+    dev: false
 
   /to-regex-range/5.0.1:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
