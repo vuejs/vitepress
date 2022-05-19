@@ -1,6 +1,7 @@
 import { Ref, onMounted, onUpdated, onUnmounted } from 'vue'
 import { Header } from 'vitepress'
 import { useMediaQuery } from '@vueuse/core'
+import { throttleAndDebounce } from '../support/utils'
 
 interface HeaderWithChildren extends Header {
   children?: Header[]
@@ -161,25 +162,4 @@ function isAnchorActive(
   }
 
   return [false, null]
-}
-
-function throttleAndDebounce(fn: () => void, delay: number): () => void {
-  let timeout: number
-  let called = false
-
-  return () => {
-    if (timeout) {
-      clearTimeout(timeout)
-    }
-
-    if (!called) {
-      fn()
-      called = true
-      setTimeout(() => {
-        called = false
-      }, delay)
-    } else {
-      timeout = setTimeout(fn, delay)
-    }
-  }
 }

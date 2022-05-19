@@ -52,6 +52,9 @@
   --vp-c-indigo: #213547;
   --vp-c-indigo-soft: #476582;
   --vp-c-indigo-light: #aac8e4;
+  --vp-c-indigo-lighter: #c9def1;
+  --vp-c-indigo-dark: #1d2f3f;
+  --vp-c-indigo-darker: #14212e;
 
   --vp-c-blue: #3b8eed;
   --vp-c-blue-light: #549ced;
@@ -109,7 +112,11 @@
 
   --vp-c-brand: var(--vp-c-green);
   --vp-c-brand-light: var(--vp-c-green-light);
+  --vp-c-brand-lighter: var(--vp-c-green-lighter);
   --vp-c-brand-dark: var(--vp-c-green-dark);
+  --vp-c-brand-darker: var(--vp-c-green-darker);
+
+  --vp-c-sponsor: #fd1d7c;
 }
 
 .dark {
@@ -168,8 +175,9 @@
 :root {
   --vp-z-index-local-nav: 10;
   --vp-z-index-nav: 20;
-  --vp-z-backdrop: 30;
+  --vp-z-index-backdrop: 30;
   --vp-z-index-sidebar: 40;
+  --vp-z-index-footer: 50;
 }
 
 /**
@@ -221,13 +229,71 @@
 }
 
 /**
+ * Component: Button
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --vp-button-brand-border: var(--vp-c-brand-light);
+  --vp-button-brand-text: var(--vp-c-text-dark-1);
+  --vp-button-brand-bg: var(--vp-c-brand);
+  --vp-button-brand-hover-border: var(--vp-c-brand-light);
+  --vp-button-brand-hover-text: var(--vp-c-text-dark-1);
+  --vp-button-brand-hover-bg: var(--vp-c-brand-light);
+  --vp-button-brand-active-border: var(--vp-c-brand-light);
+  --vp-button-brand-active-text: var(--vp-c-text-dark-1);
+  --vp-button-brand-active-bg: var(--vp-button-brand-bg);
+
+  --vp-button-alt-border: var(--vp-c-gray-light-3);
+  --vp-button-alt-text: var(--vp-c-text-light-1);
+  --vp-button-alt-bg: var(--vp-c-gray-light-5);
+  --vp-button-alt-hover-border: var(--vp-c-gray-light-3);
+  --vp-button-alt-hover-text: var(--vp-c-text-light-1);
+  --vp-button-alt-hover-bg: var(--vp-c-gray-light-4);
+  --vp-button-alt-active-border: var(--vp-c-gray-light-3);
+  --vp-button-alt-active-text: var(--vp-c-text-light-1);
+  --vp-button-alt-active-bg: var(--vp-c-gray-light-3);
+
+  --vp-button-sponsor-border: var(--vp-c-gray-light-3);
+  --vp-button-sponsor-text: var(--vp-c-text-light-2);
+  --vp-button-sponsor-bg: transparent;
+  --vp-button-sponsor-hover-border: var(--vp-c-sponsor);
+  --vp-button-sponsor-hover-text: var(--vp-c-sponsor);
+  --vp-button-sponsor-hover-bg: transparent;
+  --vp-button-sponsor-active-border: var(--vp-c-sponsor);
+  --vp-button-sponsor-active-text: var(--vp-c-sponsor);
+  --vp-button-sponsor-active-bg: transparent;
+}
+
+.dark {
+  --vp-button-brand-border: var(--vp-c-brand-lighter);
+  --vp-button-brand-text: var(--vp-c-text-light-1);
+  --vp-button-brand-bg: var(--vp-c-brand-light);
+  --vp-button-brand-hover-border: var(--vp-c-brand-lighter);
+  --vp-button-brand-hover-text: var(--vp-c-text-light-1);
+  --vp-button-brand-hover-bg: var(--vp-c-brand-lighter);
+  --vp-button-brand-active-border: var(--vp-c-brand-lighter);
+  --vp-button-brand-active-text: var(--vp-c-text-light-1);
+  --vp-button-brand-active-bg: var(--vp-button-brand-bg);
+
+  --vp-button-alt-border: var(--vp-c-gray-dark-2);
+  --vp-button-alt-text: var(--vp-c-text-dark-1);
+  --vp-button-alt-bg: var(--vp-c-bg-mute);
+  --vp-button-alt-hover-border: var(--vp-c-gray-dark-2);
+  --vp-button-alt-hover-text: var(--vp-c-text-dark-1);
+  --vp-button-alt-hover-bg: var(--vp-c-gray-dark-3);
+  --vp-button-alt-active-border: var(--vp-c-gray-dark-2);
+  --vp-button-alt-active-text: var(--vp-c-text-dark-1);
+  --vp-button-alt-active-bg: var(--vp-button-alt-bg);
+
+  --vp-button-sponsor-border: var(--vp-c-gray-dark-1);
+  --vp-button-sponsor-text: var(--vp-c-text-dark-2);
+}
+
+/**
  * Component: Home
  * -------------------------------------------------------------------------- */
 
 :root {
-
-}
-
-.dark {
-
+  --vp-home-hero-name-color: var(--vp-c-brand);
+  --vp-home-hero-name-background: transparent;
 }

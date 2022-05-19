@@ -71,7 +71,7 @@ export default {
 - Type: `boolean`
 - Default: `true`
 
-Whether to enable "Dark Mode" or not. If the option is set to `true`, it adds `.dark` class to the `<html>` tag.
+Whether to enable "Dark Mode" or not. If the option is set to `true`, it adds `.dark` class to the `<html>` tag depending on the users preference.
 
 It also injects inline script that tries to read users settings from local storage by `vitepress-theme-appearance` key and restores users preferred color mode.
 

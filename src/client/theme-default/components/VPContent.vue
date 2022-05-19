@@ -15,19 +15,36 @@ const { hasSidebar } = useSidebar()
   <div
     class="VPContent"
     id="VPContent"
-    :class="{ 'has-sidebar': hasSidebar }"
+    :class="{
+      'has-sidebar': hasSidebar,
+      'is-home': frontmatter.layout === 'home'
+    }"
   >
     <NotFound v-if="route.component === NotFound" />
+
     <VPPage v-else-if="frontmatter.layout === 'page'" />
-    <VPHome v-else-if="frontmatter.layout === 'home'" />
+
+    <VPHome v-else-if="frontmatter.layout === 'home'">
+      <template #home-hero-before><slot name="home-hero-before" /></template>
+      <template #home-hero-after><slot name="home-hero-after" /></template>
+      <template #home-features-before><slot name="home-features-before" /></template>
+      <template #home-features-after><slot name="home-features-after" /></template>
+    </VPHome>
+
     <VPDoc v-else :class="{ 'has-sidebar': hasSidebar }" />
   </div>
 </template>
 
 <style scoped>
 .VPContent {
+  flex-grow: 1;
   margin: 0 auto;
   max-width: var(--vp-layout-max-width);
+}
+
+.VPContent.is-home {
+  width: 100%;
+  max-width: 100%;
 }
 
 @media (max-width: 768px) {

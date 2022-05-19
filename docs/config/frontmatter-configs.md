@@ -72,18 +72,80 @@ hero:
   name: VuePress
   text: Vite & Vue powered static site generator.
   tagline: Lorem ipsum...
+  actions:
+    - theme: brand
+      text: Get Started
+      link: /guide/what-is-vitepress
+    - theme: alt
+      text: View on GitHub
+      link: https://github.com/vuejs/vitepress
 ---
 ```
 
 ```ts
 interface Hero {
-  // The string shown top of `text`. Best used for product name.
-  name: string
+  // The string shown top of `text`. Comes with brand color
+  // and expected to be short, such as product name.
+  name?: string
 
-  // The main text for the hero section. This will be defined as `h1`.
+  // The main text for the hero section. This will be defined
+  // as `h1` tag.
   text: string
 
   // Tagline displayed below `text`.
-  tagline: string
+  tagline?: string
+
+  // Action buttons to display in home hero section.
+  actions?: HeroAction[]
+}
+
+interface HeroAction {
+  // Color theme of the button. Defaults to `brand`.
+  theme?: 'brand' | 'alt'
+
+  // Label of the button.
+  text: string
+
+  // Destination link of the button.
+  link: string
+}
+```
+
+## features
+
+- Type: `Feature[]`
+
+This option only take effect when `layout` is set to `home`.
+
+It defines items to display in features section.
+
+```yaml
+---
+layout: home
+
+features:
+  - icon: ⚡️
+    title: Vite, The DX that can't be beat
+    details: Lorem ipsum...
+  - icon: 🖖
+    title: Power of Vue meets Markdown
+    details: Lorem ipsum...
+  - icon: 🛠️
+    title: Simple and minimal, always
+    details: Lorem ipsum...
+---
+```
+
+```ts
+interface Feature {
+  // Show icon on each feature box. Currently, only emojis
+  // are supported.
+  icon?: string
+
+  // Title of the feature.
+  title: string
+
+  // Details of the feature.
+  details: string
 }
 ```

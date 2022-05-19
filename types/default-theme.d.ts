@@ -30,6 +30,11 @@ export namespace DefaultTheme {
     socialLinks?: SocialLink[]
 
     /**
+     * The footer configuration.
+     */
+    footer?: Footer
+
+    /**
      * Adds locale menu to the nav. This option should be used when you have
      * your translated sites outside of the project.
      */
@@ -132,6 +137,13 @@ export namespace DefaultTheme {
     | 'slack'
     | 'twitter'
     | 'youtube'
+
+  // footer --------------------------------------------------------------------
+
+  export interface Footer {
+    message?: string
+    copyright?: string
+  }
 
   // locales -------------------------------------------------------------------
 

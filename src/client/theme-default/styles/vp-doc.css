@@ -221,7 +221,7 @@
 @media (min-width: 640px) {
   .vp-doc div[class*='language-'] {
     border-radius: 8px;
-    margin: 20px 0;
+    margin: 24px 0;
   }
 }
 

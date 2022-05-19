@@ -7,6 +7,7 @@ import VPNav from './components/VPNav.vue'
 import VPLocalNav from './components/VPLocalNav.vue'
 import VPSidebar from './components/VPSidebar.vue'
 import VPContent from './components/VPContent.vue'
+import VPFooter from './components/VPFooter.vue'
 
 const {
   isOpen: isSidebarOpen,
@@ -26,6 +27,22 @@ provide('close-sidebar', closeSidebar)
     <VPNav />
     <VPLocalNav :open="isSidebarOpen" @open-menu="openSidebar" />
     <VPSidebar :open="isSidebarOpen" />
-    <VPContent />
+
+    <VPContent>
+      <template #home-hero-before><slot name="home-hero-before" /></template>
+      <template #home-hero-after><slot name="home-hero-after" /></template>
+      <template #home-features-before><slot name="home-features-before" /></template>
+      <template #home-features-after><slot name="home-features-after" /></template>
+    </VPContent>
+
+    <VPFooter />
   </div>
 </template>
+
+<style scoped>
+.Layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+</style>

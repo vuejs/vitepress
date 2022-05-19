@@ -6,19 +6,11 @@ export default defineConfig({
   description: 'Vite & Vue powered static site generator.',
 
   themeConfig: {
-    nav: [
-      { text: 'Guide', link: '/guide/what-is-vitepress' },
-      { text: 'Configs', link: '/config/app-configs' },
-      {
-        text: 'Release Notes',
-        link: 'https://github.com/vuejs/vitepress/releases'
-      }
-    ],
+    nav: nav(),
 
     sidebar: {
-      '/guide/': getGuideSidebar(),
-      '/config/': getConfigSidebar(),
-      // '/': getGuideSidebar()
+      '/guide/': sidebarGuide(),
+      '/config/': sidebarConfig()
     },
 
     editLink: {
@@ -32,6 +24,11 @@ export default defineConfig({
       { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
     ],
 
+    footer: {
+      message: 'Released under the MIT License.',
+      copyright: 'Copyright © 2019-present Evan You'
+    },
+
     algolia: {
       appId: '8J64VVRP8K',
       apiKey: 'a18e2f4cc5665f6602c5631fd868adfd',
@@ -40,16 +37,40 @@ export default defineConfig({
   }
 })
 
-function getGuideSidebar() {
+function nav() {
   return [
+    { text: 'Guide', link: '/guide/what-is-vitepress' },
+    { text: 'Configs', link: '/config/introduction' },
     {
-      text: 'Introduction',
-      items: [{ text: 'What is VitePress?', link: '/guide/what-is-vitepress' }]
+      text: 'Release Notes',
+      link: 'https://github.com/vuejs/vitepress/releases'
     }
   ]
 }
 
-function getConfigSidebar() {
+function sidebarGuide() {
+  return [
+    {
+      text: 'Introduction',
+      items: [{ text: 'What is VitePress?', link: '/guide/what-is-vitepress' }]
+    },
+    {
+      text: 'Migrations',
+      items: [
+        {
+          text: 'Migration from VuePress',
+          link: '/guide/migration-from-vuepress'
+        },
+        {
+          text: 'Migration from VitePress 0.x',
+          link: '/guide/migration-from-vitepress-0'
+        }
+      ]
+    }
+  ]
+}
+
+function sidebarConfig() {
   return [
     {
       text: 'Config',
