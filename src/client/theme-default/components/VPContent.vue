@@ -4,7 +4,7 @@ import { useSidebar } from '../composables/sidebar'
 import NotFound from '../NotFound.vue'
 import VPPage from './VPPage.vue'
 import VPHome from './VPHome.vue'
-import VPContentDoc from './VPContentDoc.vue'
+import VPDoc from './VPDoc.vue'
 
 const route = useRoute()
 const { frontmatter } = useData()
@@ -20,7 +20,7 @@ const { hasSidebar } = useSidebar()
     <NotFound v-if="route.component === NotFound" />
     <VPPage v-else-if="frontmatter.layout === 'page'" />
     <VPHome v-else-if="frontmatter.layout === 'home'" />
-    <VPContentDoc v-else :class="{ 'has-sidebar': hasSidebar }" />
+    <VPDoc v-else :class="{ 'has-sidebar': hasSidebar }" />
   </div>
 </template>
 
