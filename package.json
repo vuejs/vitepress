@@ -1,6 +1,7 @@
 {
   "name": "vitepress",
   "version": "0.22.4",
+  "packageManager": "pnpm@7.1.2",
   "description": "Vite & Vue powered static site generator",
   "main": "dist/node/index.js",
   "typings": "types/index.d.ts",
