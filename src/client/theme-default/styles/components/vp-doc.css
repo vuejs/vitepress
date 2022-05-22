@@ -241,12 +241,6 @@
   font-size: 0.9em;
 }
 
-@media (min-width: 768px) {
-  .vp-doc :not(pre) > code {
-    white-space: nowrap;
-  }
-}
-
 .vp-doc a > code {
   color: var(--vp-c-brand-dark);
 }
