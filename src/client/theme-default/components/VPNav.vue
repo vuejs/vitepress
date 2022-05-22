@@ -28,6 +28,7 @@ provide('close-screen', closeScreen)
 @media (min-width: 960px) {
   .VPNav {
     position: fixed;
+    backdrop-filter: saturate(50%) blur(8px);
   }
 }
 </style>
