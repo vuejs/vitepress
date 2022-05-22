@@ -66,7 +66,7 @@ defineEmits<{
   display: flex;
   justify-content: space-between;
   margin: 0 auto;
-  max-width: var(--vp-layout-max-width);
+  max-width: calc(var(--vp-layout-max-width) - 64px);
 }
 
 .content {

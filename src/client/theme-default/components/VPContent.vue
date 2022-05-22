@@ -31,27 +31,21 @@ const { hasSidebar } = useSidebar()
       <template #home-features-after><slot name="home-features-after" /></template>
     </VPHome>
 
-    <VPDoc v-else :class="{ 'has-sidebar': hasSidebar }" />
+    <VPDoc v-else />
   </div>
 </template>
 
 <style scoped>
 .VPContent {
   flex-grow: 1;
+  flex-shrink: 0;
   margin: 0 auto;
   width: 100%;
-  max-width: var(--vp-layout-max-width);
 }
 
 .VPContent.is-home {
   width: 100%;
   max-width: 100%;
-}
-
-@media (max-width: 768px) {
-  .VPContent {
-    overflow-x: hidden;
-  }
 }
 
 @media (min-width: 960px) {
@@ -62,14 +56,13 @@ const { hasSidebar } = useSidebar()
   .VPContent.has-sidebar {
     margin: 0;
     padding-left: var(--vp-sidebar-width);
-    max-width: 100%;
   }
 }
 
 @media (min-width: 1440px) {
   .VPContent.has-sidebar {
     padding-right: calc((100vw - var(--vp-layout-max-width)) / 2);
-    padding-left: calc((100vw - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width) - 32px);
+    padding-left: calc((100vw - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));
   }
 }
 </style>

@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useData } from 'vitepress'
+import { useSidebar } from '../composables/sidebar'
 import VPDocOutline from './VPDocOutline.vue'
 import VPDocFooter from './VPDocFooter.vue'
 
 const { page } = useData()
+const { hasSidebar } = useSidebar()
 
 const pageName = computed(() => {
   return page.value.relativePath.slice(0, page.value.relativePath.indexOf('/'))
@@ -12,7 +14,7 @@ const pageName = computed(() => {
 </script>
 
 <template>
-  <div class="VPDoc has-aside">
+  <div class="VPDoc" :class="{ 'has-sidebar': hasSidebar }">
     <div class="container">
       <div class="aside">
         <div class="aside-container">
@@ -24,11 +26,13 @@ const pageName = computed(() => {
       </div>
 
       <div class="content">
-        <main class="main">
-          <Content class="vp-doc" :class="pageName" />
-        </main>
+        <div class="content-container">
+          <main class="main">
+            <Content class="vp-doc" :class="pageName" />
+          </main>
 
-        <VPDocFooter />
+          <VPDocFooter />
+        </div>
       </div>
     </div>
   </div>
@@ -48,60 +52,63 @@ const pageName = computed(() => {
 
 @media (min-width: 960px) {
   .VPDoc {
-    padding: 32px 64px 96px;
+    padding: 32px 32px 128px;
+  }
+
+  .VPDoc:not(.has-sidebar) .container {
+    display: flex;
+    justify-content: center;
+    max-width: 992px;
+  }
+
+  .VPDoc:not(.has-sidebar) .aside {
+    display: block;
+  }
+
+  .VPDoc:not(.has-sidebar) .content {
+    max-width: 752px;
   }
 }
 
 @media (min-width: 1280px) {
-  .VPDoc {
-    padding: 32px 0 128px 64px;
+  .VPDoc .container {
+    display: flex;
+    justify-content: center;
   }
 
-  .VPDoc:not(.has-sidebar.has-aside) {
-    padding-left: calc((100vw - 688px) / 2);
-  }
-
-  .VPDoc.has-aside:not(.has-sidebar) {
-    padding-left: calc((100vw - 688px - 320px) / 2);
-  }
-
-  .VPDoc:not(.has-aside) .content {
-    min-width: 688px;
+  .VPDoc .aside {
+    display: block;
   }
 }
 
 @media (min-width: 1440px) {
-  .VPDoc {
-    padding: 32px 0 128px 96px;
+  .VPDoc:not(.has-sidebar) .content {
+    max-width: 784px;
+  }
+
+  .VPDoc:not(.has-sidebar) .container {
+    max-width: 1104px;
   }
 }
 
-@media (min-width: 1280px) {
-  .container {
-    display: flex;
-  }
+.container {
+  margin: 0 auto;
+  width: 100%;
 }
 
 .aside {
   position: relative;
   display: none;
   order: 2;
-  flex-shrink: 0;
   flex-grow: 1;
-  padding-left: 64px;
-  padding-right: 32px;
-  min-width: 320px;
-}
-
-@media (min-width: 1280px) {
-  .aside {
-    display: block;
-  }
+  flex-shrink: 0;
+  padding-left: 32px;
+  min-width: 240px;
 }
 
 @media (min-width: 1440px) {
   .aside {
-    padding-left: 96px;
+    padding-left: 64px;
   }
 }
 
@@ -110,7 +117,7 @@ const pageName = computed(() => {
   top: var(--vp-nav-height-desktop);
   bottom: 0;
   padding-top: 32px;
-  width: 224px;
+  width: 208px;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -141,15 +148,31 @@ const pageName = computed(() => {
 .content {
   position: relative;
   margin: 0 auto;
-  max-width: 688px;
+}
+
+@media (min-width: 960px) {
+  .content {
+    padding: 0 32px;
+  }
 }
 
 @media (min-width: 1280px) {
   .content {
     order: 1;
     margin: 0;
-    min-width: 632px;
+    min-width: 640px;
   }
+}
+
+@media (min-width: 1440px) {
+  .content {
+    padding-left: 64px;
+  }
+}
+
+.content-container {
+  margin: 0 auto;
+  max-width: 688px;
 }
 
 .edit-link {

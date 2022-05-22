@@ -1,9 +1,15 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useData } from 'vitepress'
-import { resolveHeaders, useActiveAnchor } from '../composables/outline'
+import {
+  resolveHeaders,
+  useOutline,
+  useActiveAnchor
+} from '../composables/outline'
 
 const { page, frontmatter } = useData()
+
+const { hasOutline } = useOutline()
 
 const container = ref()
 const marker = ref()
@@ -22,7 +28,7 @@ function handleClick({ target: el }: Event) {
 </script>
 
 <template>
-  <div class="VPDocOutline" ref="container">
+  <div class="VPDocOutline" :class="{ 'has-outline': hasOutline }" ref="container">
     <div class="outline-marker" ref="marker" />
 
     <div class="outline-title">On this page</div>
@@ -56,10 +62,15 @@ function handleClick({ target: el }: Event) {
 <style scoped>
 .VPDocOutline {
   position: relative;
+  display: none;
   border-left: 1px solid var(--vp-c-divider-light);
   padding-left: 16px;
   font-size: 13px;
   font-weight: 500;
+}
+
+.VPDocOutline.has-outline {
+  display: block;
 }
 
 .outline-marker {

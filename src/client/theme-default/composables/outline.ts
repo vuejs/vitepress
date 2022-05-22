@@ -1,5 +1,5 @@
-import { Ref, onMounted, onUpdated, onUnmounted } from 'vue'
-import { Header } from 'vitepress'
+import { Ref, computed, onMounted, onUpdated, onUnmounted } from 'vue'
+import { Header, useData } from 'vitepress'
 import { useMediaQuery } from '@vueuse/core'
 import { throttleAndDebounce } from '../support/utils'
 
@@ -17,6 +17,18 @@ interface MenuItemWithLinkAndChildren {
 
 // magic number to avoid repeated retrieval
 const PAGE_OFFSET = 56
+
+export function useOutline() {
+  const { page } = useData()
+
+  const hasOutline = computed(() => {
+    return page.value.headers.length > 0
+  })
+
+  return {
+    hasOutline
+  }
+}
 
 export function resolveHeaders(headers: Header[]) {
   return mapHeaders(groupHeaders(headers))
