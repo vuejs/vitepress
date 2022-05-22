@@ -39,6 +39,7 @@ const { hasSidebar } = useSidebar()
 .VPContent {
   flex-grow: 1;
   margin: 0 auto;
+  width: 100%;
   max-width: var(--vp-layout-max-width);
 }
 

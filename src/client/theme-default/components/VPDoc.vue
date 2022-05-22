@@ -37,6 +37,7 @@ const pageName = computed(() => {
 <style scoped>
 .VPDoc {
   padding: 32px 24px 96px;
+  width: 100%;
 }
 
 @media (min-width: 768px) {
