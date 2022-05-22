@@ -44,7 +44,7 @@ const control = usePrevNext()
 }
 
 .edit-link {
-  padding-bottom: 8px;
+  padding-bottom: 14px;
 }
 
 .edit-link-button {
