@@ -1,4 +1,4 @@
-import { LocaleConfig, SiteData } from '../../types/shared'
+import { SiteData, PageData, LocaleConfig } from '../../types/shared'
 
 export type {
   SiteData,
@@ -81,6 +81,36 @@ export function resolveSiteDataByRoute(
     locales: {},
     langs: createLangDictionary(siteData)
   })
+}
+
+/**
+ * Create the page title string based on configs.
+ */
+export function createTitle(siteData: SiteData, pageData: PageData): string {
+  const title = pageData.title || siteData.title
+  const template = pageData.titleTemplate ?? siteData.titleTemplate
+  const templateString = createTitleTemplate(siteData.title, template)
+
+  return `${title}${templateString}`
+}
+
+function createTitleTemplate(
+  siteTitle: string,
+  template?: string | boolean
+): string {
+  if (template === false) {
+    return ''
+  }
+
+  if (template === true || template === undefined) {
+    return ` | ${siteTitle}`
+  }
+
+  if (siteTitle === template) {
+    return ''
+  }
+
+  return ` | ${template}`
 }
 
 /**

@@ -1,5 +1,5 @@
 import { watchEffect, Ref } from 'vue'
-import { HeadConfig, SiteData } from '../../shared'
+import { HeadConfig, SiteData, createTitle } from '../../shared'
 import { Route } from '../router'
 
 export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
@@ -56,12 +56,12 @@ export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
   watchEffect(() => {
     const pageData = route.data
     const siteData = siteDataByRouteRef.value
-    const pageTitle = pageData && pageData.title
     const pageDescription = pageData && pageData.description
     const frontmatterHead = pageData && pageData.frontmatter.head
 
     // update title and description
-    document.title = (pageTitle ? pageTitle + ` | ` : ``) + siteData.title
+    document.title = createTitle(siteData, pageData)
+
     document
       .querySelector(`meta[name=description]`)!
       .setAttribute('content', pageDescription || siteData.description)

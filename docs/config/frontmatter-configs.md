@@ -27,6 +27,19 @@ title: VitePress
 ---
 ```
 
+## titleTemplate
+
+- Type: `string | boolean`
+
+The suffix for the title. It's same as [config.titleTemplate](../config/app-configs#titleTemplate), and it overrides the app config.
+
+```yaml
+---
+title: VitePress,
+titleTemplate: Vite & Vue powered static site generator.
+---
+```
+
 ## description
 
 - Type: `string`

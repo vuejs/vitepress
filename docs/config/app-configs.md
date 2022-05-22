@@ -45,11 +45,26 @@ export default {
 - Type: `string`
 - Default: `VitePress`
 
-Title for the site. This will be the suffix for all page titles, and displayed in the nav bar.
+Title for the site. This will be displayed in the nav bar. Also used as the suffix for all page titles unless `titleTemplate` is defined.
 
 ```ts
 export default {
   title: 'VitePress'
+}
+```
+
+## titleTemplate
+
+- Type: `string | boolean`
+
+The suffix for the title. For example, if you set `title` as `VitePress` and set `titleTemplate` as `My Site`, the html title becomes `VitePress | My Site`.
+
+Set `false` to disable the feature. If the option is `undefined`, then the value of `title` option will be used.
+
+```ts
+export default {
+  title: 'VitePress',
+  titleTemplate: 'Vite & Vue powered static site generator.'
 }
 ```
 

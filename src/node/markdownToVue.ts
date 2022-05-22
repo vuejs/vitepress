@@ -134,6 +134,7 @@ export function createMarkdownToVueRenderFn(
 
     const pageData: PageData = {
       title: inferTitle(frontmatter, content),
+      titleTemplate: frontmatter.titleTemplate,
       description: inferDescription(frontmatter),
       frontmatter,
       headers: data.headers || [],
@@ -197,17 +198,17 @@ function genPageDataCode(tags: string[], data: PageData) {
   return tags
 }
 
-const inferTitle = (frontmatter: any, content: string) => {
+const inferTitle = (frontmatter: Record<string, any>, content: string) => {
   if (frontmatter.title) {
     return deeplyParseHeader(frontmatter.title)
   }
-  if (frontmatter.home) {
-    return 'Home'
-  }
+
   const match = content.match(/^\s*#+\s+(.*)/m)
+
   if (match) {
     return deeplyParseHeader(match[1].trim())
   }
+
   return ''
 }
 

@@ -1,7 +1,7 @@
 import path from 'path'
 import fs from 'fs-extra'
 import { SiteConfig, resolveSiteDataByRoute } from '../config'
-import { HeadConfig } from '../shared'
+import { HeadConfig, createTitle } from '../shared'
 import { normalizePath, transformWithEsbuild } from 'vite'
 import { RollupOutput, OutputChunk, OutputAsset } from 'rollup'
 import { slash } from '../utils/slash'
@@ -92,11 +92,7 @@ export async function renderPage(
     ? `<link rel="stylesheet" href="${siteData.base}${cssChunk.fileName}">`
     : ''
 
-  const title: string =
-    pageData.title && pageData.title !== 'Home'
-      ? `${pageData.title} | ${siteData.title}`
-      : siteData.title
-
+  const title: string = createTitle(siteData, pageData)
   const description: string = pageData.description || siteData.description
 
   const head = addSocialTags(

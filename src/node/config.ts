@@ -32,6 +32,7 @@ export interface UserConfig<ThemeConfig = any> {
   base?: string
   lang?: string
   title?: string
+  titleTemplate?: string | boolean
   description?: string
   head?: HeadConfig[]
   appearance?: boolean
@@ -248,6 +249,7 @@ export async function resolveSiteData(
   return {
     lang: userConfig.lang || 'en-US',
     title: userConfig.title || 'VitePress',
+    titleTemplate: userConfig.titleTemplate,
     description: userConfig.description || 'A VitePress site',
     base: userConfig.base ? userConfig.base.replace(/([^/])$/, '$1/') : '/',
     head: resolveSiteDataHead(userConfig),

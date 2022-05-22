@@ -1,7 +1,12 @@
 import { InjectionKey, Ref, shallowRef, readonly, computed, inject } from 'vue'
 import { Route } from './router'
 import serializedSiteData from '@siteData'
-import { resolveSiteDataByRoute, PageData, SiteData } from '../shared'
+import {
+  PageData,
+  SiteData,
+  resolveSiteDataByRoute,
+  createTitle
+} from '../shared'
 import { withBase } from './utils'
 
 export const dataSymbol: InjectionKey<VitePressData> = Symbol()
@@ -54,9 +59,7 @@ export function initData(route: Route): VitePressData {
       return withBase(path || '/')
     }),
     title: computed(() => {
-      return route.data.title
-        ? route.data.title + ' | ' + site.value.title
-        : site.value.title
+      return createTitle(site.value, route.data)
     }),
     description: computed(() => {
       return route.data.description || site.value.description

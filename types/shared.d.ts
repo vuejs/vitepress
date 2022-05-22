@@ -5,6 +5,7 @@ export { DefaultTheme } from './default-theme'
 export interface PageData {
   relativePath: string
   title: string
+  titleTemplate?: string | boolean
   description: string
   headers: Header[]
   frontmatter: Record<string, any>
@@ -28,6 +29,7 @@ export interface SiteData<ThemeConfig = any> {
   lang: string
 
   title: string
+  titleTemplate?: string | boolean
   description: string
   head: HeadConfig[]
   appearance: boolean
@@ -64,6 +66,7 @@ export type HeadConfig =
 export interface LocaleConfig {
   lang: string
   title?: string
+  titleTemplate?: string | boolean
   description?: string
   head?: HeadConfig[]
   label?: string
