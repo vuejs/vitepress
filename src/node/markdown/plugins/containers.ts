@@ -6,7 +6,7 @@ export const containerPlugin = (md: MarkdownIt) => {
   md.use(...createContainer('tip', 'TIP'))
     .use(...createContainer('info', 'INFO'))
     .use(...createContainer('warning', 'WARNING'))
-    .use(...createContainer('danger', 'WARNING'))
+    .use(...createContainer('danger', 'DANGER'))
     .use(...createContainer('details', 'Details'))
     // explicitly escape Vue syntax
     .use(container, 'v-pre', {
@@ -34,7 +34,7 @@ function createContainer(klass: string, defaultTitle: string): ContainerArgs {
         if (token.nesting === 1) {
           if (klass === 'details') {
             return `<details class="${klass} custom-block">${
-              info ? `<summary>${info}</summary>` : ''
+              info ? `<summary>${info}</summary>` : `<summary>Details</summary>`
             }\n`
           }
           return `<div class="${klass} custom-block"><p class="custom-block-title">${

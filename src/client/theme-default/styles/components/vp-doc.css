@@ -115,16 +115,25 @@
 
 .vp-doc ul,
 .vp-doc ol {
+  padding-left: 1.25rem;
   margin: 16px 0;
 }
 
 .vp-doc ul {
-  padding-left: 1.25rem;
   list-style: disc;
+}
+
+.vp-doc ol {
+  list-style: decimal;
 }
 
 .vp-doc li + li {
   margin-top: 8px;
+}
+
+.vp-doc li > ol,
+.vp-doc li > ul {
+  margin: 8px 0 0;
 }
 
 /**
@@ -175,6 +184,38 @@
   margin: 16px 0;
   border: none;
   border-top: 1px solid var(--vp-c-divider-light);
+}
+
+/**
+ * Custom Block
+ * -------------------------------------------------------------------------- */
+
+.vp-doc .custom-block {
+  margin: 16px 0;
+}
+
+.vp-doc .custom-block p {
+  margin: 8px 0;
+  line-height: 24px;
+}
+
+.vp-doc .custom-block p:first-child {
+  margin: 0;
+}
+
+.vp-doc .custom-block a {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  transition: opacity .25s;
+}
+
+.vp-doc .custom-block a:hover {
+  opacity: 0.6;
+}
+
+.vp-doc .custom-block div[class*='language-'] {
+  margin: 8px 0;
 }
 
 /**

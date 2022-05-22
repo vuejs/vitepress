@@ -52,7 +52,11 @@ function sidebarGuide() {
   return [
     {
       text: 'Introduction',
-      items: [{ text: 'What is VitePress?', link: '/guide/what-is-vitepress' }]
+      items: [
+        { text: 'What is VitePress?', link: '/guide/what-is-vitepress' },
+        { text: 'Markdown Extensions', link: '/guide/markdown-extensions' },
+        { text: 'Frontmatter', link: '/guide/frontmatter' }
+      ]
     },
     {
       text: 'Migrations',

@@ -52,6 +52,30 @@ description: VitePress
 ---
 ```
 
+### head
+
+- Type: `Head[]`
+
+Specify extra head tags to be injected:
+
+```yaml
+---
+head:
+  - - meta
+    - name: description
+      content: hello
+  - - meta
+    - name: keywords
+      content: super duper SEO
+---
+```
+
+```ts
+type Head =
+  | [string, Record<string, string>]
+  | [string, Record<string, string>, string]
+```
+
 ## layout
 
 - Type: `doc | home | page`
