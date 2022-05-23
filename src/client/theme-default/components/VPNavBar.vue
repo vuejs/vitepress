@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { useSidebar } from '../composables/sidebar'
 import VPNavBarTitle from './VPNavBarTitle.vue'
 import VPNavBarSearch from './VPNavBarSearch.vue'
 import VPNavBarMenu from './VPNavBarMenu.vue'
@@ -7,7 +8,6 @@ import VPNavBarAppearance from './VPNavBarAppearance.vue'
 import VPNavBarSocialLinks from './VPNavBarSocialLinks.vue'
 import VPNavBarExtra from './VPNavBarExtra.vue'
 import VPNavBarHamburger from './VPNavBarHamburger.vue'
-import { useSidebar } from '../composables/sidebar'
 
 const { hasSidebar } = useSidebar()
 
@@ -21,11 +21,11 @@ defineEmits<{
 </script>
 
 <template>
-  <div class="VPNavBar">
+  <div class="VPNavBar" :class="{ 'has-sidebar' : hasSidebar }">
     <div class="container">
       <VPNavBarTitle />
 
-      <div class="content" :class="{ 'has-sidebar' : hasSidebar }">
+      <div class="content">
         <VPNavBarSearch class="search" />
         <VPNavBarMenu class="menu" />
         <VPNavBarTranslations class="translations" />
@@ -63,6 +63,10 @@ defineEmits<{
     height: var(--vp-nav-height-desktop);
     border-bottom: 0;
   }
+
+  .VPNavBar.has-sidebar .content {
+    backdrop-filter: saturate(50%) blur(8px);
+  }
 }
 
 .container {
@@ -77,12 +81,6 @@ defineEmits<{
   justify-content: flex-end;
   align-items: center;
   flex-grow: 1;
-}
-
-@media (min-width: 960px) {
-  .has-sidebar {
-    backdrop-filter: saturate(50%) blur(8px);
-  }
 }
 
 .menu + .translations::before,

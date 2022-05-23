@@ -2,6 +2,7 @@
 import { provide } from 'vue'
 import { useSidebar } from '../composables/sidebar'
 import { useNav } from '../composables/nav'
+import { useSidebar } from '../composables/sidebar'
 import VPNavBar from './VPNavBar.vue'
 import VPNavScreen from './VPNavScreen.vue'
 
@@ -31,10 +32,8 @@ provide('close-screen', closeScreen)
   .VPNav {
     position: fixed;
   }
-}
 
-@media (min-width: 960px) {
-  .no-sidebar {
+  .VPNav.no-sidebar {
     backdrop-filter: saturate(50%) blur(8px);
   }
 }
