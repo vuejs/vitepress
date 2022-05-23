@@ -1,14 +1,12 @@
 <script setup lang="ts">
 import { provide } from 'vue'
-import { useData } from 'vitepress'
+import { useSidebar } from '../composables/sidebar'
 import { useNav } from '../composables/nav'
 import VPNavBar from './VPNavBar.vue'
 import VPNavScreen from './VPNavScreen.vue'
-import { useSidebar } from '../composables/sidebar'
 
-const { frontmatter } = useData()
-const { hasSidebar } = useSidebar()
 const { isScreenOpen, closeScreen, toggleScreen } = useNav()
+const { hasSidebar } = useSidebar()
 
 provide('close-screen', closeScreen)
 </script>
