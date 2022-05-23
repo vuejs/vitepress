@@ -17,8 +17,8 @@ const pageName = computed(() => {
   <div class="VPDoc" :class="{ 'has-sidebar': hasSidebar }">
     <div class="container">
       <div class="aside">
+        <div class="aside-curtain" />
         <div class="aside-container">
-          <div class="aside-curtain" />
           <div class="aside-content">
             <VPDocOutline v-if="page.headers" />
           </div>
@@ -113,11 +113,12 @@ const pageName = computed(() => {
 }
 
 .aside-container {
-  position: fixed;
-  top: var(--vp-nav-height-desktop);
-  bottom: 0;
-  padding-top: 32px;
+  position: sticky;
+  top: 0;
+  margin-top: calc(var(--vp-nav-height-desktop) * -1 - 32px);
+  padding-top: calc(var(--vp-nav-height-desktop) + 32px);
   width: 208px;
+  max-height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -133,12 +134,12 @@ const pageName = computed(() => {
 }
 
 .aside-curtain {
-  position: fixed;
-  top: var(--vp-nav-height-desktop);
+  position: absolute;
+  bottom: 0;
   z-index: 10;
   width: 100%;
-  height: 40px;
-  background: linear-gradient(var(--vp-c-bg-content), transparent);
+  height: 64px;
+  background: linear-gradient(transparent, var(--vp-c-bg-content));
 }
 
 .aside-content {
