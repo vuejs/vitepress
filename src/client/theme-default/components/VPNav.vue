@@ -34,6 +34,7 @@ provide('close-screen', closeScreen)
 
   .VPNav.no-sidebar {
     backdrop-filter: saturate(50%) blur(8px);
+    -webkit-backdrop-filter: saturate(50%) blur(8px);
   }
 }
 </style>

@@ -66,6 +66,7 @@ const { hasSidebar } = useSidebar()
 
   .VPNavBar.has-sidebar .content {
     backdrop-filter: saturate(50%) blur(8px);
+    -webkit-backdrop-filter: saturate(50%) blur(8px);
   }
 }
 
