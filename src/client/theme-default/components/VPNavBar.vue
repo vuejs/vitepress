@@ -9,8 +9,6 @@ import VPNavBarSocialLinks from './VPNavBarSocialLinks.vue'
 import VPNavBarExtra from './VPNavBarExtra.vue'
 import VPNavBarHamburger from './VPNavBarHamburger.vue'
 
-const { hasSidebar } = useSidebar()
-
 defineProps<{
   isScreenOpen: boolean
 }>()
@@ -18,6 +16,8 @@ defineProps<{
 defineEmits<{
   (e: 'toggle-screen'): void
 }>()
+
+const { hasSidebar } = useSidebar()
 </script>
 
 <template>

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { provide } from 'vue'
-import { useSidebar } from '../composables/sidebar'
 import { useNav } from '../composables/nav'
 import { useSidebar } from '../composables/sidebar'
 import VPNavBar from './VPNavBar.vue'
