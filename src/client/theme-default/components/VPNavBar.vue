@@ -7,6 +7,9 @@ import VPNavBarAppearance from './VPNavBarAppearance.vue'
 import VPNavBarSocialLinks from './VPNavBarSocialLinks.vue'
 import VPNavBarExtra from './VPNavBarExtra.vue'
 import VPNavBarHamburger from './VPNavBarHamburger.vue'
+import { useSidebar } from '../composables/sidebar'
+
+const { hasSidebar } = useSidebar()
 
 defineProps<{
   isScreenOpen: boolean
@@ -22,7 +25,7 @@ defineEmits<{
     <div class="container">
       <VPNavBarTitle />
 
-      <div class="content">
+      <div class="content" :class="{ 'has-sidebar' : hasSidebar }">
         <VPNavBarSearch class="search" />
         <VPNavBarMenu class="menu" />
         <VPNavBarTranslations class="translations" />
@@ -74,6 +77,12 @@ defineEmits<{
   justify-content: flex-end;
   align-items: center;
   flex-grow: 1;
+}
+
+@media (min-width: 960px) {
+  .has-sidebar {
+    backdrop-filter: saturate(50%) blur(8px);
+  }
 }
 
 .menu + .translations::before,
