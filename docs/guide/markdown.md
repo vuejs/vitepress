@@ -238,7 +238,9 @@ export default {
 
 ```html
 <ul>
-  <li v-for="todo in todos" :key="todo.id">{{ todo.text }}</li>
+  <li v-for="todo in todos" :key="todo.id">
+      {{ todo.text }}
+  </li>
 </ul>
 ```
 
@@ -281,7 +283,7 @@ In addition to a single line, you can also specify multiple single lines, ranges
 **Input**
 
 ````
-```js{1,4,6-7}
+```js{1,4,6-8}
 export default { // Highlighted
   data () {
     return {
