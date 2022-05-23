@@ -2,7 +2,7 @@
 import { ref, computed, onMounted, watchEffect } from 'vue'
 import { useData } from 'vitepress'
 
-const { theme, page } = useData()
+const { site, theme, page } = useData()
 
 const hasLastUpdated = computed(() => {
   const lu = theme.value.lastUpdated
@@ -20,7 +20,9 @@ onMounted(() => {
   watchEffect(() => {
     // locale string might be different based on end user
     // and will lead to potential hydration mismatch if calculated at build time
-    datetime.value = new Date(page.value.lastUpdated!).toLocaleString('en-US')
+    datetime.value = new Date(page.value.lastUpdated!).toLocaleString(
+      site.value.lang || 'en-US'
+    )
   })
 })
 </script>
