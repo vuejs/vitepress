@@ -1,6 +1,7 @@
 import { Ref, computed, onMounted, onUpdated, onUnmounted } from 'vue'
 import { Header, useData } from 'vitepress'
 import { useMediaQuery } from '@vueuse/core'
+import { useSidebar } from '../composables/sidebar'
 import { throttleAndDebounce } from '../support/utils'
 
 interface HeaderWithChildren extends Header {
@@ -65,7 +66,14 @@ export function useActiveAnchor(
   container: Ref<HTMLElement>,
   marker: Ref<HTMLElement>
 ) {
-  const isOutlineEnabled = useMediaQuery('(min-width: 1280px)')
+  const { hasSidebar } = useSidebar()
+  const is960 = useMediaQuery('(min-width: 960px)')
+  const is1280 = useMediaQuery('(min-width: 1280px)')
+
+  const isOutlineEnabled = computed(() => {
+    return hasSidebar.value ? is1280.value : is960.value
+  })
+
   const onScroll = throttleAndDebounce(setActiveLink, 100)
 
   let prevActiveLink: HTMLAnchorElement | null = null
