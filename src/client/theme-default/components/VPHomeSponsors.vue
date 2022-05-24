@@ -50,7 +50,7 @@ defineProps<{
 .VPHomeSponsors {
   border-top: 1px solid var(--vp-c-divider-light);
   padding: 88px 24px 96px;
-  background-color: var(--vp-c-bg-content);
+  background-color: var(--vp-c-bg);
 }
 
 .container {

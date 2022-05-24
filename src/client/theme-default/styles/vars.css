@@ -77,12 +77,9 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-  /* TODO: Clean these styles up */
   --vp-c-bg: var(--vp-c-white);
   --vp-c-bg-soft: var(--vp-c-white-soft);
   --vp-c-bg-mute: var(--vp-c-white-mute);
-  --vp-c-bg-content: var(--vp-c-white);
-  --vp-c-bg-sidebar: var(--vp-c-white-soft);
   --vp-c-bg-alt: var(--vp-c-white-soft);
 
   --vp-c-divider: var(--vp-c-divider-light-1);
@@ -113,12 +110,9 @@
 }
 
 .dark {
-  /* TODO: Clean these styles up */
-  --vp-c-bg: var(--vp-c-black);
-  --vp-c-bg-soft: var(--vp-c-black-soft);
-  --vp-c-bg-mute: var(--vp-c-black-mute);
-  --vp-c-bg-content: var(--vp-c-black-soft);
-  --vp-c-bg-sidebar: var(--vp-c-black);
+  --vp-c-bg: var(--vp-c-black-soft);
+  --vp-c-bg-soft: var(--vp-c-black-mute);
+  --vp-c-bg-mute: var(--vp-c-gray-dark-4);
   --vp-c-bg-alt: var(--vp-c-black);
 
   --vp-c-divider: var(--vp-c-divider-dark-1);

@@ -20,7 +20,7 @@ body {
   font-size: 16px;
   font-weight: 400;
   color: var(--vp-c-text-1);
-  background-color: var(--vp-c-bg-content);
+  background-color: var(--vp-c-bg);
   direction: ltr;
   font-synthesis: none;
   text-rendering: optimizeLegibility;

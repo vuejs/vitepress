@@ -21,7 +21,7 @@ const { hasSidebar } = useSidebar()
   z-index: var(--vp-z-index-footer);
   border-top: 1px solid var(--vp-c-divider-light);
   padding: 32px 24px;
-  background-color: var(--vp-c-bg-content);
+  background-color: var(--vp-c-bg);
 }
 
 .VPFooter.has-sidebar {

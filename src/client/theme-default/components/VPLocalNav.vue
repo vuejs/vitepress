@@ -45,7 +45,7 @@ function scrollToTop() {
   justify-content: space-between;
   border-bottom: 1px solid var(--vp-c-divider-light);
   width: 100%;
-  background-color: var(--vp-c-bg-content);
+  background-color: var(--vp-c-bg);
   transition: border-color 0.5s, background-color 0.5s;
 }
 

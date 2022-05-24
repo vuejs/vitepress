@@ -161,12 +161,12 @@ function load() {
     padding: 0 10px 0 12px;
     width: 100%;
     height: 40px;
-    background-color: var(--vp-c-bg-sidebar);
+    background-color: var(--vp-c-bg-alt);
   }
 
   .DocSearch-Button:hover {
     border-color: var(--vp-c-brand);
-    background: var(--vp-c-bg-sidebar);
+    background: var(--vp-c-bg-alt);
   }
 }
 

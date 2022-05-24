@@ -139,7 +139,7 @@ const pageName = computed(() => {
   z-index: 10;
   width: 100%;
   height: 64px;
-  background: linear-gradient(transparent, var(--vp-c-bg-content));
+  background: linear-gradient(transparent, var(--vp-c-bg));
 }
 
 .aside-content {
