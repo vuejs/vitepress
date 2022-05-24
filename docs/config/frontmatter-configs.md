@@ -89,7 +89,7 @@ Determines the layout of the page.
 
 ```yaml
 ---
-type: doc
+layout: doc
 ---
 ```
 

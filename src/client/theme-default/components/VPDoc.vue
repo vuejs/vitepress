@@ -149,6 +149,7 @@ const pageName = computed(() => {
 .content {
   position: relative;
   margin: 0 auto;
+  width: 100%;
 }
 
 @media (min-width: 960px) {

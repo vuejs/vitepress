@@ -73,6 +73,8 @@ function sidebarGuide() {
       text: 'Theme',
       items: [
         { text: 'Introduction', link: '/guide/theme-introduction' },
+        { text: 'Layout', link: '/guide/theme-layout' },
+        { text: 'Home Page', link: '/guide/theme-home-page' },
         { text: 'Carbon Ads', link: '/guide/theme-carbon-ads' }
       ]
     },

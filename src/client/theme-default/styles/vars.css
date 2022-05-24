@@ -112,7 +112,7 @@
 .dark {
   --vp-c-bg: var(--vp-c-black-soft);
   --vp-c-bg-soft: var(--vp-c-black-mute);
-  --vp-c-bg-mute: var(--vp-c-gray-dark-4);
+  --vp-c-bg-mute: var(--vp-c-gray-dark-3);
   --vp-c-bg-alt: var(--vp-c-black);
 
   --vp-c-divider: var(--vp-c-divider-dark-1);
@@ -190,7 +190,7 @@
 }
 
 .dark {
-  --vp-code-block-bg: var(--vp-c-bg-sidebar);
+  --vp-code-block-bg: var(--vp-c-bg-alt);
 }
 
 /**
