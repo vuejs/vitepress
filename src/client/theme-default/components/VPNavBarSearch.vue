@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import '@docsearch/css'
-import { useData } from 'vitepress'
 import { defineAsyncComponent, ref, onMounted, onUnmounted } from 'vue'
+import { useData } from 'vitepress'
 
-const VPAlgoliaSearchBox = defineAsyncComponent(() => {
-  return import('./VPAlgoliaSearchBox.vue')
-})
+const VPAlgoliaSearchBox = __ALGOLIA__
+  ? defineAsyncComponent(() => import('./VPAlgoliaSearchBox.vue'))
+  : () => null
 
 const { theme } = useData()
 

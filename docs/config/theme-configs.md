@@ -56,3 +56,29 @@ export interface Footer {
   copyright?: string
 }
 ```
+
+## carbonAds
+
+- Type: `CarbonAds`
+
+A option to display [Carbon Ads](https://www.carbonads.net/).
+
+```ts
+export default {
+  themeConfig: {
+    carbonAds: {
+      code: 'your-carbon-code',
+      placement: 'your-carbon-placement'
+    }
+  }
+}
+```
+
+```ts
+export interface CarbonAds {
+  code: string,
+  placement: string
+}
+```
+
+Learn more in [Theme: Carbon Ads](../guide/theme-carbon-ads)

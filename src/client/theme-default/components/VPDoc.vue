@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { useData } from 'vitepress'
 import { useSidebar } from '../composables/sidebar'
-import VPDocOutline from './VPDocOutline.vue'
+import VPDocAside from './VPDocAside.vue'
 import VPDocFooter from './VPDocFooter.vue'
 
 const { page } = useData()
@@ -20,7 +20,7 @@ const pageName = computed(() => {
         <div class="aside-curtain" />
         <div class="aside-container">
           <div class="aside-content">
-            <VPDocOutline v-if="page.headers" />
+            <VPDocAside />
           </div>
         </div>
       </div>

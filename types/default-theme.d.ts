@@ -176,8 +176,7 @@ export namespace DefaultTheme {
   // carbon ads ----------------------------------------------------------------
 
   export interface CarbonAdsOptions {
-    carbon: string
-    custom?: string
+    code: string
     placement: string
   }
 }

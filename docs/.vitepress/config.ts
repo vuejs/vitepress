@@ -33,6 +33,11 @@ export default defineConfig({
       appId: '8J64VVRP8K',
       apiKey: 'a18e2f4cc5665f6602c5631fd868adfd',
       indexName: 'vitepress'
+    },
+
+    carbonAds: {
+      code: 'CEBDT27Y',
+      placement: 'vuejsorg'
     }
   }
 })
@@ -66,7 +71,10 @@ function sidebarGuide() {
     },
     {
       text: 'Theme',
-      items: [{ text: 'Introduction', link: '/guide/theme-introduction' }]
+      items: [
+        { text: 'Introduction', link: '/guide/theme-introduction' },
+        { text: 'Carbon Ads', link: '/guide/theme-carbon-ads' }
+      ]
     },
     {
       text: 'Migrations',

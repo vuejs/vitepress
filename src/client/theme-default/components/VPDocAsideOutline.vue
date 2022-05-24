@@ -28,7 +28,7 @@ function handleClick({ target: el }: Event) {
 </script>
 
 <template>
-  <div class="VPDocOutline" :class="{ 'has-outline': hasOutline }" ref="container">
+  <div class="VPDocAsideOutline" :class="{ 'has-outline': hasOutline }" ref="container">
     <div class="outline-marker" ref="marker" />
 
     <div class="outline-title">On this page</div>
@@ -60,7 +60,7 @@ function handleClick({ target: el }: Event) {
 </template>
 
 <style scoped>
-.VPDocOutline {
+.VPDocAsideOutline {
   position: relative;
   display: none;
   border-left: 1px solid var(--vp-c-divider-light);
@@ -69,7 +69,7 @@ function handleClick({ target: el }: Event) {
   font-weight: 500;
 }
 
-.VPDocOutline.has-outline {
+.VPDocAsideOutline.has-outline {
   display: block;
 }
 
