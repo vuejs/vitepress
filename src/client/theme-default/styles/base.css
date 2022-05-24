@@ -92,6 +92,10 @@ ul {
   padding: 0;
 }
 
+blockquote {
+  margin: 0;
+}
+
 pre,
 code,
 kbd,
