@@ -39,8 +39,8 @@ export default defineConfig({
 
 function nav() {
   return [
-    { text: 'Guide', link: '/guide/what-is-vitepress' },
-    { text: 'Configs', link: '/config/introduction' },
+    { text: 'Guide', link: '/guide/what-is-vitepress', activeMatch: '/guide/' },
+    { text: 'Configs', link: '/config/introduction', activeMatch: '/config/' },
     {
       text: 'Release Notes',
       link: 'https://github.com/vuejs/vitepress/releases'
