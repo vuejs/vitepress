@@ -52,7 +52,7 @@ const pageName = computed(() => {
 
 @media (min-width: 960px) {
   .VPDoc {
-    padding: 32px 32px 128px;
+    padding: 32px 32px 32px;
   }
 
   .VPDoc:not(.has-sidebar) .container {
@@ -114,6 +114,7 @@ const pageName = computed(() => {
   max-height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
+  scrollbar-width: none;
 }
 
 .aside-container::-webkit-scrollbar {
@@ -121,12 +122,12 @@ const pageName = computed(() => {
 }
 
 .aside-curtain {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   z-index: 10;
-  width: 100%;
+  width: 224px;
   height: 64px;
-  background: linear-gradient(transparent, var(--vp-c-bg));
+  background: linear-gradient(transparent, var(--vp-c-bg) 80%);
 }
 
 .aside-content {
@@ -141,7 +142,7 @@ const pageName = computed(() => {
 
 @media (min-width: 960px) {
   .content {
-    padding: 0 32px;
+    padding: 0 32px 96px;
   }
 }
 
