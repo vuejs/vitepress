@@ -23,7 +23,7 @@ It also provides documentation specific features listed below. These features ar
 - Edit Link
 - Prev Next Link
 - Outline
-- Carbon Ads
+- [Carbon Ads](./theme-carbon-ads)
 
 ## Page Layout
 
@@ -35,4 +35,4 @@ Note that even in this layout, sidebar will still show up if the page has a matc
 
 ## Home Layout
 
-Option `home` will generate templated "Home Page". In this layout, you can set extra options such as `hero` and `features` to customize the content further. Please visit [Theme: Home Page](./theme-home-page) for more details.
+Option `home` will generate templated "Home Page". In this layout, you can set extra options such as `hero` and `features` to customize the content further. Please visit [Theme: Home Page](./theme-homepage) for more details.

@@ -74,7 +74,8 @@ function sidebarGuide() {
       items: [
         { text: 'Introduction', link: '/guide/theme-introduction' },
         { text: 'Layout', link: '/guide/theme-layout' },
-        { text: 'Home Page', link: '/guide/theme-home-page' },
+        { text: 'Homepage', link: '/guide/theme-homepage' },
+        { text: 'Footer', link: '/guide/theme-footer' },
         { text: 'Carbon Ads', link: '/guide/theme-carbon-ads' }
       ]
     },

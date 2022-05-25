@@ -1,3 +1,0 @@
-# Home Page
-
-Coming soon...
