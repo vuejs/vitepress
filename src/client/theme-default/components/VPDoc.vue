@@ -101,15 +101,9 @@ const pageName = computed(() => {
   display: none;
   order: 2;
   flex-grow: 1;
-  flex-shrink: 0;
   padding-left: 32px;
-  min-width: 240px;
-}
-
-@media (min-width: 1440px) {
-  .aside {
-    padding-left: 64px;
-  }
+  width: 100%;
+  max-width: 256px;
 }
 
 .aside-container {
@@ -117,7 +111,6 @@ const pageName = computed(() => {
   top: 0;
   margin-top: calc(var(--vp-nav-height-desktop) * -1 - 32px);
   padding-top: calc(var(--vp-nav-height-desktop) + 32px);
-  width: 208px;
   max-height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
@@ -125,12 +118,6 @@ const pageName = computed(() => {
 
 .aside-container::-webkit-scrollbar {
   display: none;
-}
-
-@media (min-width: 1440px) {
-  .aside-container {
-    width: 256px;
-  }
 }
 
 .aside-curtain {
@@ -163,12 +150,6 @@ const pageName = computed(() => {
     order: 1;
     margin: 0;
     min-width: 640px;
-  }
-}
-
-@media (min-width: 1440px) {
-  .content {
-    padding-left: 64px;
   }
 }
 
