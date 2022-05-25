@@ -43,7 +43,7 @@ if (carbonOptions) {
 
 <style>
 .VPCarbonAds {
-  padding: 32px 32px 28px;
+  padding: 24px;
   border-radius: 8px;
   min-height: 240px;
   text-align: center;
