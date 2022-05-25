@@ -23,10 +23,6 @@ defineProps<{
   background-color: var(--vp-c-bg-soft);
 }
 
-.dark .VPBox {
-  background-color: var(--vp-c-bg-mute);
-}
-
 .icon {
   display: flex;
   justify-content: center;

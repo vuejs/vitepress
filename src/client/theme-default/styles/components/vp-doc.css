@@ -253,6 +253,11 @@
 }
 
 .vp-doc a > code {
+  color: var(--vp-c-brand);
+  transition: color 0.25s;
+}
+
+.vp-doc a:hover > code {
   color: var(--vp-c-brand-dark);
 }
 
