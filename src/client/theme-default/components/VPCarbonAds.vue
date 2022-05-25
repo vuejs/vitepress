@@ -43,7 +43,7 @@ if (carbonOptions) {
 
 <style>
 .VPCarbonAds {
-  padding: 24px 24px 20px;
+  padding: 32px 32px 28px;
   border-radius: 8px;
   min-height: 240px;
   text-align: center;
@@ -52,12 +52,6 @@ if (carbonOptions) {
   font-weight: 500;
   background-color: var(--vp-c-bg-alt);
   transition: color 0.5s, background-color 0.5s;
-}
-
-@media (min-width: 1440px) {
-  .VPCarbonAds {
-    padding: 32px 32px 28px;
-  }
 }
 
 .VPCarbonAds img {
