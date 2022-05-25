@@ -85,7 +85,7 @@ Because VitePress applications are server-rendered in Node.js when generating st
 
 If you are using or demoing components that are not SSR-friendly (for example, contain custom directives), you can wrap them inside the `ClientOnly` component.
 
-```html
+```vue-html
 <ClientOnly>
   <NonSSRFriendlyComponent />
 </ClientOnly>

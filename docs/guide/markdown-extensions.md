@@ -198,7 +198,7 @@ console.log('Hello, VitePress!')
 
 ## Syntax Highlighting in Code Blocks
 
-VitePress uses [Prism](https://prismjs.com) to highlight language syntax in Markdown code blocks, using coloured text. Prism supports a wide variety of programming languages. All you need to do is append a valid language alias to the beginning backticks for the code block:
+VitePress uses [Shiki](https://shiki.matsu.io/) to highlight language syntax in Markdown code blocks, using coloured text. Shiki supports a wide variety of programming languages. All you need to do is append a valid language alias to the beginning backticks for the code block:
 
 **Input**
 
@@ -240,7 +240,7 @@ export default {
 </ul>
 ```
 
-A [list of valid languages](https://prismjs.com/#languages-list) is available on Prism’s site.
+A [list of valid languages](https://github.com/shikijs/shiki/blob/main/docs/languages.md) is available on Shiki’s repository.
 
 ## Line Highlighting in Code Blocks
 

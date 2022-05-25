@@ -303,7 +303,7 @@
   position: relative;
   z-index: 1;
   margin: 0;
-  padding: 16px 24px;
+  padding: 14px 24px;
   background: transparent;
   overflow-x: auto;
 }
@@ -372,100 +372,32 @@
   transition: color 0.5s;
 }
 
-.vp-doc [class~='language-vue']:before      { content: 'vue'; }
-.vp-doc [class~='language-html']:before     { content: 'html'; }
-.vp-doc [class~='language-vue-html']:before { content: 'template'; }
-.vp-doc [class~='language-css']:before      { content: 'css'; }
-.vp-doc [class~='language-js']:before       { content: 'js'; }
-.vp-doc [class~='language-jsx']:before      { content: 'jsx'; }
-.vp-doc [class~='language-ts']:before       { content: 'ts'; }
-.vp-doc [class~='language-tsx']:before      { content: 'tsx'; }
-.vp-doc [class~='language-json']:before     { content: 'json'; }
-.vp-doc [class~='language-yaml']:before     { content: 'yaml'; }
-.vp-doc [class~='language-yml']:before      { content: 'yaml'; }
-.vp-doc [class~='language-sh']:before       { content: 'sh'; }
-.vp-doc [class~='language-bash']:before     { content: 'sh'; }
-
-/**
- * Code: Highlight
- *
- * prism.js tomorrow night eighties theme.
- * https://github.com/chriskempson/tomorrow-theme
- *
- * @author Rose Pritchard
- * -------------------------------------------------------------------------- */
-
-.token.comment,
-.token.block-comment,
-.token.prolog,
-.token.doctype,
-.token.cdata {
-  color: #999;
-}
-
-.token.punctuation {
-  color: #ccc;
-}
-
-.token.tag,
-.token.attr-name,
-.token.namespace,
-.token.deleted {
-  color: #e2777a;
-}
-
-.token.function-name {
-  color: #6196cc;
-}
-
-.token.boolean,
-.token.number,
-.token.function {
-  color: #f08d49;
-}
-
-.token.property,
-.token.class-name,
-.token.constant,
-.token.symbol {
-  color: #f8c555;
-}
-
-.token.selector,
-.token.important,
-.token.atrule,
-.token.keyword,
-.token.builtin {
-  color: #cc99cd;
-}
-
-.token.string,
-.token.char,
-.token.attr-value,
-.token.regex,
-.token.variable {
-  color: #7ec699;
-}
-
-.token.operator,
-.token.entity,
-.token.url {
-  color: #67cdcc;
-}
-
-.token.important,
-.token.bold {
-  font-weight: bold;
-}
-
-.token.italic {
-  font-style: italic;
-}
-
-.token.entity {
-  cursor: help;
-}
-
-.token.inserted {
-  color: green;
-}
+.vp-doc [class~='language-vue']:before        { content: 'vue'; }
+.vp-doc [class~='language-html']:before       { content: 'html'; }
+.vp-doc [class~='language-vue-html']:before   { content: 'template'; }
+.vp-doc [class~='language-md']:before         { content: 'md' }
+.vp-doc [class~='language-markdown']:before   { content: 'md'; }
+.vp-doc [class~='language-css']:before        { content: 'css'; }
+.vp-doc [class~='language-sass']:before       { content: 'sass'; }
+.vp-doc [class~='language-scss']:before       { content: 'scss'; }
+.vp-doc [class~='language-less']:before       { content: 'less'; }
+.vp-doc [class~='language-stylus']:before     { content: 'styl'; }
+.vp-doc [class~='language-js']:before         { content: 'js'; }
+.vp-doc [class~='language-javascript']:before { content: 'js'; }
+.vp-doc [class~='language-jsx']:before        { content: 'jsx'; }
+.vp-doc [class~='language-ts']:before         { content: 'ts'; }
+.vp-doc [class~='language-typescript']:before { content: 'ts'; }
+.vp-doc [class~='language-tsx']:before        { content: 'tsx'; }
+.vp-doc [class~='language-json']:before       { content: 'json'; }
+.vp-doc [class~='language-rb']:before         { content: 'rb'; }
+.vp-doc [class~='language-ruby']:before       { content: 'rb'; }
+.vp-doc [class~='language-py']:before         { content: 'py'; }
+.vp-doc [class~='language-python']:before     { content: 'py'; }
+.vp-doc [class~='language-php']:before        { content: 'php'; }
+.vp-doc [class~='language-go']:before         { content: 'go'; }
+.vp-doc [class~='language-rust']:before       { content: 'rust'; }
+.vp-doc [class~='language-java']:before       { content: 'java'; }
+.vp-doc [class~='language-c']:before          { content: 'c'; }
+.vp-doc [class~='language-yaml']:before       { content: 'yaml'; }
+.vp-doc [class~='language-sh']:before         { content: 'sh'; }
+.vp-doc [class~='language-bash']:before       { content: 'sh'; }

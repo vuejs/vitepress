@@ -79,7 +79,7 @@
     "@vitejs/plugin-vue": "^2.3.2",
     "@vueuse/core": "^8.5.0",
     "body-scroll-lock": "^4.0.0-beta.0",
-    "prismjs": "^1.25.0",
+    "shiki": "^0.10.1",
     "vite": "^2.9.7",
     "vue": "3.2.33"
   },

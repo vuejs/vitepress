@@ -41,11 +41,11 @@ export async function bundle(
   // resolve options to pass to vite
   const { rollupOptions } = options
 
-  const resolveViteConfig = (ssr: boolean): ViteUserConfig => ({
+  const resolveViteConfig = async (ssr: boolean): Promise<ViteUserConfig> => ({
     root: srcDir,
     base: config.site.base,
     logLevel: 'warn',
-    plugins: createVitePressPlugin(
+    plugins: await createVitePressPlugin(
       root,
       config,
       ssr,
@@ -108,8 +108,8 @@ export async function bundle(
   spinner.start('building client + server bundles...')
   try {
     ;[clientResult, serverResult] = await (Promise.all([
-      config.mpa ? null : build(resolveViteConfig(false)),
-      build(resolveViteConfig(true))
+      config.mpa ? null : build(await resolveViteConfig(false)),
+      build(await resolveViteConfig(true))
     ]) as Promise<[RollupOutput, RollupOutput]>)
   } catch (e) {
     spinner.stopAndPersist({

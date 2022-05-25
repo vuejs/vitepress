@@ -182,7 +182,7 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-  --vp-code-line-height: 24px;
+  --vp-code-line-height: 1.5;
   --vp-code-font-size: 14px;
 
   --vp-code-block-color: var(--vp-c-text-dark-1);

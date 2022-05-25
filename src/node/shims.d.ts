@@ -23,16 +23,6 @@ declare module 'escape-html' {
   export default def
 }
 
-declare module 'prismjs' {
-  const def: any
-  export default def
-}
-
-declare module 'prismjs/components/index' {
-  const def: any
-  export default def
-}
-
 declare module 'diacritics' {
   export const remove: (str: string) => string
 }
