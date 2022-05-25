@@ -211,17 +211,6 @@ export default {
 ```
 ````
 
-**Output**
-
-```js
-export default {
-  name: 'MyComponent'
-  // ...
-}
-```
-
-**Input**
-
 ````
 ```html
 <ul>
@@ -234,13 +223,24 @@ export default {
 
 **Output**
 
+```js
+export default {
+  name: 'MyComponent'
+  // ...
+}
+```
+
 ```html
 <ul>
-  <li v-for="todo in todos" :key="todo.id">{{ todo.text }}</li>
+  <li v-for="todo in todos" :key="todo.id">
+    {{ todo.text }}
+  </li>
 </ul>
 ```
 
 A [list of valid languages](https://github.com/shikijs/shiki/blob/main/docs/languages.md) is available on Shiki’s repository.
+
+You may also customize syntax highlight theme in app config. Please see [`markdown` options](../config/app-configs#markdown) for more details.
 
 ## Line Highlighting in Code Blocks
 
@@ -287,7 +287,7 @@ export default { // Highlighted
       This line isn't highlighted,
       but this and the next 2 are.`,
       motd: 'VitePress is awesome',
-      lorem: 'ipsum',
+      lorem: 'ipsum'
     }
   }
 }
@@ -315,12 +315,14 @@ export default { // Highlighted
 You can enable line numbers for each code blocks via config:
 
 ```js
-module.exports = {
+export default {
   markdown: {
     lineNumbers: true
   }
 }
 ```
+
+Please see [`markdown` options](../config/app-configs#markdown) for more details.
 
 ## Import Code Snippets
 

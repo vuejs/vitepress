@@ -1,9 +1,8 @@
 import escapeHtml from 'escape-html'
+import { getHighlighter } from 'shiki'
 
 export const highlight = async (theme = 'material-palenight') => {
-  const highlighter = await require('shiki').getHighlighter({
-    theme
-  })
+  const highlighter = await getHighlighter({ theme })
 
   return (str: string, lang: string) => {
     if (!lang || lang === 'text') {

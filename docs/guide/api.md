@@ -16,9 +16,9 @@ interface VitePressData {
   page: Ref<PageData>
   theme: Ref<any> // themeConfig from .vitepress/config.js
   frontmatter: Ref<PageData['frontmatter']>
+  lang: Ref<string>
   title: Ref<string>
   description: Ref<string>
-  lang: Ref<string>
   localePath: Ref<string>
 }
 ```
