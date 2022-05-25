@@ -23,7 +23,6 @@ import { MarkdownOptions } from './markdown/markdown'
 import _debug from 'debug'
 
 export { resolveSiteDataByRoute } from './shared'
-export type { MarkdownOptions }
 
 const debug = _debug('vitepress:config')
 

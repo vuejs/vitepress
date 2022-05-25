@@ -1,11 +1,12 @@
-const fs = require('fs-extra')
-const glob = require('globby')
+import { copy } from 'fs-extra'
+import { sync } from 'globby'
 
 function toDest(file) {
   return file.replace(/^src\//, 'dist/')
 }
 
-glob.sync('src/client/**').forEach((file) => {
-  if (/(\.ts|tsconfig\.json)$/.test(file)) return
-  fs.copy(file, toDest(file))
+sync('src/client/**').forEach((file) => {
+  if (/(\.ts|tsconfig\.json)$/.test(file)) 
+  return
+  copy(file, toDest(file))
 })

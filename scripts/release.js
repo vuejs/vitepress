@@ -1,17 +1,16 @@
-const fs = require('fs')
-const path = require('path')
-const chalk = require('chalk')
-const semver = require('semver')
-const { prompt } = require('enquirer')
-const execa = require('execa')
-const currentVersion = require('../package.json').version
+import { readFileSync, writeFileSync } from 'fs'
+import { resolve } from 'path'
+import { cyan } from 'chalk'
+import { inc as _inc, valid } from 'semver'
+import { prompt } from 'enquirer'
+import execa from 'execa'
+import { version as currentVersion } from '../package.json'
 
 const versionIncrements = ['patch', 'minor', 'major']
 
-const inc = (i) => semver.inc(currentVersion, i)
-const run = (bin, args, opts = {}) =>
-  execa(bin, args, { stdio: 'inherit', ...opts })
-const step = (msg) => console.log(chalk.cyan(msg))
+const inc = (i) => _inc(currentVersion, i)
+const run = (bin, args, opts = {}) => execa(bin, args, { stdio: 'inherit', ...opts })
+const step = (msg) => console.log(cyan(msg))
 
 async function main() {
   let targetVersion
@@ -36,7 +35,7 @@ async function main() {
     targetVersion = release.match(/\((.*)\)/)[1]
   }
 
-  if (!semver.valid(targetVersion)) {
+  if (!valid(targetVersion)) {
     throw new Error(`Invalid target version: ${targetVersion}`)
   }
 
@@ -90,12 +89,12 @@ async function main() {
 }
 
 function updatePackage(version) {
-  const pkgPath = path.resolve(path.resolve(__dirname, '..'), 'package.json')
-  const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'))
+  const pkgPath = resolve(resolve(__dirname, '..'), 'package.json')
+  const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'))
 
   pkg.version = version
 
-  fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n')
+  writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n')
 }
 
 main().catch((err) => console.error(err))

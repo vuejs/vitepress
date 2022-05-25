@@ -1,10 +1,17 @@
 {
   "name": "vitepress",
   "version": "1.0.0-draft.4",
+  "type": "module",
   "packageManager": "pnpm@7.0.1",
   "description": "Vite & Vue powered static site generator",
   "main": "dist/node/index.js",
   "typings": "types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "import": "./dist/node/index.js"
+    }
+  },
   "bin": {
     "vitepress": "bin/vitepress.js"
   },
@@ -34,19 +41,16 @@
     "node": ">=14.0.0"
   },
   "scripts": {
-    "dev": "run-s dev-shared dev-start",
+    "dev": "rimraf dist && run-s dev-shared dev-start",
     "dev-start": "run-p dev-client dev-node dev-watch",
     "dev-client": "tsc -w -p src/client",
-    "dev-node": "tsc -w -p src/node",
+    "dev-node": "pnpm run build-node -w",
     "dev-shared": "node scripts/copyShared",
     "dev-watch": "node scripts/watchAndCopy",
-    "build": "run-s build-prepare build-client build-node build-types",
-    "build-prepare": "rimraf -rf dist && node scripts/copyShared",
+    "build": "run-s build-prepare build-client build-node",
+    "build-prepare": "rimraf dist && node scripts/copyShared",
     "build-client": "tsc -p src/client && node scripts/copyClient",
-    "build-node": "rollup -c scripts/rollup.config.js",
-    "build-types": "run-s build-types-client build-types-node",
-    "build-types-client": "tsc -p src/client --declaration --emitDeclarationOnly --outDir dist/temp && api-extractor run -c api-extractor.client.json && rimraf dist/temp",
-    "build-types-node": "tsc -p src/node --declaration --emitDeclarationOnly --outDir dist/temp && api-extractor run -c api-extractor.node.json && rimraf dist/temp",
+    "build-node": "rollup --config rollup.config.ts --configPlugin esbuild",
     "lint": "run-s lint:js lint:ts",
     "lint:js": "prettier --check --write \"{bin,docs,scripts,src}/**/*.js\"",
     "lint:ts": "prettier --check --write --parser typescript \"{__tests__,src,docs,types}/**/*.ts\"",
@@ -84,7 +88,6 @@
     "vue": "3.2.33"
   },
   "devDependencies": {
-    "@microsoft/api-extractor": "^7.23.1",
     "@rollup/plugin-alias": "^3.1.5",
     "@rollup/plugin-commonjs": "^20.0.0",
     "@rollup/plugin-json": "^4.1.0",
@@ -133,6 +136,7 @@
     "prettier": "^2.3.0",
     "rimraf": "^3.0.2",
     "rollup": "^2.56.3",
+    "rollup-plugin-dts": "^4.2.2",
     "rollup-plugin-esbuild": "^4.8.2",
     "semver": "^7.3.5",
     "sirv": "^1.0.12",
