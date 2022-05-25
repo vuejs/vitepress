@@ -31,6 +31,7 @@ export async function createMarkdownToVueRenderFn(
   includeLastUpdatedData = false
 ) {
   const md = await createMarkdownRenderer(srcDir, options, base)
+
   pages = pages.map((p) => slash(p.replace(/\.md$/, '')))
 
   const userDefineRegex = userDefines
