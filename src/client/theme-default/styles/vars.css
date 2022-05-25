@@ -245,7 +245,7 @@
   --vp-button-alt-bg: var(--vp-c-bg-mute);
   --vp-button-alt-hover-border: var(--vp-c-gray-dark-2);
   --vp-button-alt-hover-text: var(--vp-c-text-dark-1);
-  --vp-button-alt-hover-bg: var(--vp-c-gray-dark-3);
+  --vp-button-alt-hover-bg: var(--vp-c-gray-dark-2);
   --vp-button-alt-active-border: var(--vp-c-gray-dark-2);
   --vp-button-alt-active-text: var(--vp-c-text-dark-1);
   --vp-button-alt-active-bg: var(--vp-button-alt-bg);
