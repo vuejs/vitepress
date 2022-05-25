@@ -198,7 +198,7 @@ console.log('Hello, VitePress!')
 
 ## Syntax Highlighting in Code Blocks
 
-VitePress uses [Prism](https://prismjs.com) to highlight language syntax in Markdown code blocks, using coloured text. Prism supports a wide variety of programming languages. All you need to do is append a valid language alias to the beginning backticks for the code block:
+VitePress uses [Shiki](https://shiki.matsu.io/) to highlight language syntax in Markdown code blocks, using coloured text. Shiki supports a wide variety of programming languages. All you need to do is append a valid language alias to the beginning backticks for the code block:
 
 **Input**
 
@@ -210,17 +210,6 @@ export default {
 }
 ```
 ````
-
-**Output**
-
-```js
-export default {
-  name: 'MyComponent'
-  // ...
-}
-```
-
-**Input**
 
 ````
 ```html
@@ -234,13 +223,24 @@ export default {
 
 **Output**
 
+```js
+export default {
+  name: 'MyComponent'
+  // ...
+}
+```
+
 ```html
 <ul>
-  <li v-for="todo in todos" :key="todo.id">{{ todo.text }}</li>
+  <li v-for="todo in todos" :key="todo.id">
+    {{ todo.text }}
+  </li>
 </ul>
 ```
 
-A [list of valid languages](https://prismjs.com/#languages-list) is available on Prism’s site.
+A [list of valid languages](https://github.com/shikijs/shiki/blob/main/docs/languages.md) is available on Shiki’s repository.
+
+You may also customize syntax highlight theme in app config. Please see [`markdown` options](../config/app-configs#markdown) for more details.
 
 ## Line Highlighting in Code Blocks
 
@@ -287,7 +287,7 @@ export default { // Highlighted
       This line isn't highlighted,
       but this and the next 2 are.`,
       motd: 'VitePress is awesome',
-      lorem: 'ipsum',
+      lorem: 'ipsum'
     }
   }
 }
@@ -315,12 +315,14 @@ export default { // Highlighted
 You can enable line numbers for each code blocks via config:
 
 ```js
-module.exports = {
+export default {
   markdown: {
     lineNumbers: true
   }
 }
 ```
+
+Please see [`markdown` options](../config/app-configs#markdown) for more details.
 
 ## Import Code Snippets
 

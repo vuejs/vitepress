@@ -1,4 +1,5 @@
 import MarkdownIt from 'markdown-it'
+import { Theme } from 'shiki'
 import { parseHeader } from '../utils/parseHeader'
 import { highlight } from './plugins/highlight'
 import { slugify } from './plugins/slugify'
@@ -29,6 +30,7 @@ export interface MarkdownOptions extends MarkdownIt.Options {
     rightDelimiter?: string
     allowedAttributes?: string[]
   }
+  theme?: Theme
   // https://github.com/Oktavilla/markdown-it-table-of-contents
   toc?: any
   externalLinks?: Record<string, string>
@@ -48,15 +50,15 @@ export interface MarkdownRenderer extends MarkdownIt {
 
 export type { Header }
 
-export const createMarkdownRenderer = (
+export const createMarkdownRenderer = async (
   srcDir: string,
   options: MarkdownOptions = {},
   base: string
-): MarkdownRenderer => {
+): Promise<MarkdownRenderer> => {
   const md = MarkdownIt({
     html: true,
     linkify: true,
-    highlight,
+    highlight: await highlight(options.theme),
     ...options
   }) as MarkdownRenderer
 
