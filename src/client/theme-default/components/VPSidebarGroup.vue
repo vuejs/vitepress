@@ -28,16 +28,10 @@ const { page } = useData()
   padding: 6px 0;
 }
 
-@media (min-width: 960px) {
-  .title {
-    padding: 4px 0;
-  }
-}
-
 .title-text {
   line-height: 20px;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 700;
   color: var(--vp-c-text-1);
   transition: color 0.5s;
 }

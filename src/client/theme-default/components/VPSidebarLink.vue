@@ -31,25 +31,18 @@ const closeSideBar = inject('close-sidebar') as () => void
 }
 
 .link:hover .link-text {
-  color: var(--vp-c-brand);
+  color: var(--vp-c-text-1);
   transition: color 0.25s;
 }
 
 .link.active .link-text {
-  font-weight: 600;
   color: var(--vp-c-brand);
   transition: color 0.25s;
 }
 
-@media (min-width: 960px) {
-  .link {
-    padding: 4px 0;
-  }
-}
-
 .link-text {
   line-height: 20px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--vp-c-text-2);
   transition: color 0.5s;

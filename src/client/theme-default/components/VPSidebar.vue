@@ -103,12 +103,12 @@ watchPostEffect(async () => {
 .group + .group {
   margin-top: 32px;
   border-top: 1px solid var(--vp-c-divider-light);
-  padding-top: 8px;
+  padding-top: 10px;
 }
 
 @media (min-width: 960px) {
   .group {
-    padding-top: 8px;
+    padding-top: 10px;
   }
 
   .group + .group {
