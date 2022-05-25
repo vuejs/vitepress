@@ -131,7 +131,7 @@
   --vp-c-text-inverse-3: var(--vp-c-text-light-3);
   --vp-c-text-inverse-4: var(--vp-c-text-light-4);
 
-  --vp-c-text-code: var(--vp-c-indigo-light);
+  --vp-c-text-code: var(--vp-c-indigo-lighter);
 }
 
 /**
