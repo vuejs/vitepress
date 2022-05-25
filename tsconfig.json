@@ -1,12 +1,17 @@
 {
   "compilerOptions": {
     "module": "esnext",
+    "target": "esnext",
     "moduleResolution": "node",
     "strict": true,
     "noUnusedLocals": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "lib": ["ESNext"]
+    "resolveJsonModule": true,
+    "lib": ["ESNext", "DOM"],
   },
-  "include": ["../types/shared.d.ts"]
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }

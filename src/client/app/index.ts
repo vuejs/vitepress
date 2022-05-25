@@ -116,7 +116,7 @@ function newRouter(): Router {
 
     // SSR: sync require
     // @ts-ignore
-    return require(pageFilePath)
+    return import(pageFilePath)
   }, NotFound)
 }
 

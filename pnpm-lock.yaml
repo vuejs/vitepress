@@ -59,6 +59,7 @@ importers:
       prismjs: ^1.25.0
       rimraf: ^3.0.2
       rollup: ^2.56.3
+      rollup-plugin-dts: ^4.2.2
       rollup-plugin-esbuild: ^4.8.2
       semver: ^7.3.5
       sirv: ^1.0.12
@@ -126,6 +127,7 @@ importers:
       prettier: 2.4.1
       rimraf: 3.0.2
       rollup: 2.57.0
+      rollup-plugin-dts: 4.2.2_uqij4qbui2sihvymklsku23n6q
       rollup-plugin-esbuild: 4.8.2_ofyf2sflbd3x5kuhhv7zkdsvfy
       semver: 7.3.5
       sirv: 1.0.17
@@ -256,6 +258,15 @@ packages:
       '@babel/highlight': 7.14.5
     dev: true
 
+  /@babel/code-frame/7.16.7:
+    resolution: {integrity: sha512-iAXqUn8IIeBTNd72xsFlgaXHkMBMt6y4HJp1tIaK465CWLT/fG1aqB7ykr95gHHmlBdGbFeWWfyB4NJJ0nmeIg==}
+    engines: {node: '>=6.9.0'}
+    requiresBuild: true
+    dependencies:
+      '@babel/highlight': 7.17.12
+    dev: true
+    optional: true
+
   /@babel/helper-validator-identifier/7.16.7:
     resolution: {integrity: sha512-hsEnFemeiW4D08A5gUAZxLBTXpZ39P+a+DGDsHw1yxqyQ/jzFEnxf5uTEGp+3bzAbNOxU1paTgYS4ECU/IgfDw==}
     engines: {node: '>=6.9.0'}
@@ -268,6 +279,16 @@ packages:
       chalk: 2.4.2
       js-tokens: 4.0.0
     dev: true
+
+  /@babel/highlight/7.17.12:
+    resolution: {integrity: sha512-7yykMVF3hfZY2jsHZEEgLc+3x4o1O+fYyULu11GynEUQNwB6lua+IIQn1FiJxNucd5UlyJryrwsOh8PL9Sn8Qg==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      '@babel/helper-validator-identifier': 7.16.7
+      chalk: 2.4.2
+      js-tokens: 4.0.0
+    dev: true
+    optional: true
 
   /@babel/parser/7.16.4:
     resolution: {integrity: sha512-6V0qdPUaiVHH3RtZeLIsc+6pDhbYzHR8ogA8w+f+Wc77DuXto19g2QUwveINoS34Uw+W8/hQDGJCx+i4n7xcng==}
@@ -2720,6 +2741,13 @@ packages:
     dependencies:
       sourcemap-codec: 1.4.8
 
+  /magic-string/0.26.2:
+    resolution: {integrity: sha512-NzzlXpclt5zAbmo6h6jNc8zl2gNRGHvmsZW4IvZhTC4W7k4OlLP+S5YLussa/r3ixNT66KOQfNORlXHSOy/X4A==}
+    engines: {node: '>=12'}
+    dependencies:
+      sourcemap-codec: 1.4.8
+    dev: true
+
   /map-obj/1.0.1:
     resolution: {integrity: sha1-2TPOuSBdgr3PSIb2dCvcK03qFG0=}
     engines: {node: '>=0.10.0'}
@@ -3350,6 +3378,20 @@ packages:
     hasBin: true
     dependencies:
       glob: 7.2.0
+    dev: true
+
+  /rollup-plugin-dts/4.2.2_uqij4qbui2sihvymklsku23n6q:
+    resolution: {integrity: sha512-A3g6Rogyko/PXeKoUlkjxkP++8UDVpgA7C+Tdl77Xj4fgEaIjPSnxRmR53EzvoYy97VMVwLAOcWJudaVAuxneQ==}
+    engines: {node: '>=v12.22.11'}
+    peerDependencies:
+      rollup: ^2.55
+      typescript: ^4.1
+    dependencies:
+      magic-string: 0.26.2
+      rollup: 2.57.0
+      typescript: 4.6.4
+    optionalDependencies:
+      '@babel/code-frame': 7.16.7
     dev: true
 
   /rollup-plugin-esbuild/4.8.2_ofyf2sflbd3x5kuhhv7zkdsvfy:
