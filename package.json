@@ -5,12 +5,13 @@
   "packageManager": "pnpm@7.0.1",
   "description": "Vite & Vue powered static site generator",
   "main": "dist/node/index.js",
-  "typings": "types/index.d.ts",
+  "types": "types/index.d.ts",
   "exports": {
     ".": {
       "types": "./types/index.d.ts",
       "import": "./dist/node/index.js"
-    }
+    },
+    "./dist/client/*": "./dist/client/*"
   },
   "bin": {
     "vitepress": "bin/vitepress.js"
