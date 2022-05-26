@@ -15,7 +15,9 @@ const props = defineProps<{
 const collapsed = ref(!!props.collapsed)
 
 function toggle() {
-  collapsed.value = !collapsed.value
+  if (props.collapsible) {
+    collapsed.value = !collapsed.value
+  }
 }
 </script>
 
