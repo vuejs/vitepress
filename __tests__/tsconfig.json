@@ -1,14 +1,8 @@
 {
+  "extends": "../tsconfig.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "strict": true,
-    "noUnusedLocals": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "lib": ["ESNext", "DOM"],
-    "types": ["node", "vitest/global"],
+    "types": ["node", "vitest/globals"],
     "paths": {
       "node/*": ["../src/node/*"],
       "client/*": ["../src/client/*"]
