@@ -82,6 +82,7 @@ export namespace DefaultTheme {
   export interface SidebarGroup {
     text: string
     items: SidebarItem[]
+    collapsible?: boolean
   }
 
   export interface SidebarItem {
