@@ -7,6 +7,7 @@ const props = defineProps<{
   text: string
   items: DefaultTheme.SidebarItem[]
   collapsible?: boolean
+  collapsed?: boolean
 }>()
 
 const collapsed = ref(false)
@@ -14,16 +15,20 @@ const itemsDiv = ref<HTMLDivElement | null>(null)
 const height = ref('')
 
 const storeHeight = () => {
-  height.value = itemsDiv.value?.clientHeight + 'px'
+  if (!collapsed.value) height.value = itemsDiv.value?.clientHeight + 'px'
 }
 
 const toggle = () => {
   if (!props.collapsible) return
-  if (!collapsed.value) storeHeight()
+  storeHeight()
   collapsed.value = !collapsed.value
 }
 
-onMounted(storeHeight)
+onMounted(() => {
+  if (!props.collapsible) return
+  storeHeight()
+  collapsed.value = !!props.collapsed 
+})
 </script>
 
 <template>
@@ -84,13 +89,13 @@ onMounted(storeHeight)
 }
 
 .items {
-  height: v-bind('height');
-  transition: height 0.5s;
+  max-height: v-bind('height');
+  transition: max-height 0.5s;
   overflow: hidden;
 }
 
 .items.collapsed {
-  height: 0;
+  max-height: 0;
   margin-bottom: -22px;
 }
 

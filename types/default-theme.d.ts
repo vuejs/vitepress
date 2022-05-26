@@ -82,7 +82,12 @@ export namespace DefaultTheme {
   export interface SidebarGroup {
     text: string
     items: SidebarItem[]
+    // If `true`, toggle button is shown.
+    // Default: false
     collapsible?: boolean
+    // If `true`, collapsible group is collapsed by default.
+    // Default: false
+    collapsed?: boolean
   }
 
   export interface SidebarItem {
