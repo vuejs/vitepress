@@ -6,7 +6,6 @@ function toDest(file) {
 }
 
 sync('src/client/**').forEach((file) => {
-  if (/(\.ts|tsconfig\.json)$/.test(file)) 
-  return
+  if (/(\.ts|tsconfig\.json)$/.test(file)) return
   copy(file, toDest(file))
 })

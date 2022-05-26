@@ -1,21 +1,24 @@
 import { readFileSync, writeFileSync } from 'fs'
 import { resolve } from 'path'
-import { cyan } from 'chalk'
+import c from 'picocolors'
 import { inc as _inc, valid } from 'semver'
-import { prompt } from 'enquirer'
-import execa from 'execa'
+import prompts from 'prompts'
+import { execa } from 'execa'
 import { version as currentVersion } from '../package.json'
+import { fileURLToPath } from 'url'
 
 const versionIncrements = ['patch', 'minor', 'major']
 
+const dir = dirname(fileURLToPath(import.meta.url))
 const inc = (i) => _inc(currentVersion, i)
-const run = (bin, args, opts = {}) => execa(bin, args, { stdio: 'inherit', ...opts })
-const step = (msg) => console.log(cyan(msg))
+const run = (bin, args, opts = {}) =>
+  execa(bin, args, { stdio: 'inherit', ...opts })
+const step = (msg) => console.log(c.cyan(msg))
 
 async function main() {
   let targetVersion
 
-  const { release } = await prompt({
+  const { release } = await prompts({
     type: 'select',
     name: 'release',
     message: 'Select release type',
@@ -24,7 +27,7 @@ async function main() {
 
   if (release === 'custom') {
     targetVersion = (
-      await prompt({
+      await prompts({
         type: 'input',
         name: 'version',
         message: 'Input custom version',
@@ -39,7 +42,7 @@ async function main() {
     throw new Error(`Invalid target version: ${targetVersion}`)
   }
 
-  const { yes: tagOk } = await prompt({
+  const { yes: tagOk } = await prompts({
     type: 'confirm',
     name: 'yes',
     message: `Releasing v${targetVersion}. Confirm?`
@@ -62,7 +65,7 @@ async function main() {
   await run('pnpm', ['changelog'])
   await run('pnpm', ['prettier', '--write', 'CHANGELOG.md'])
 
-  const { yes: changelogOk } = await prompt({
+  const { yes: changelogOk } = await prompts({
     type: 'confirm',
     name: 'yes',
     message: `Changelog generated. Does it look good?`
@@ -89,7 +92,7 @@ async function main() {
 }
 
 function updatePackage(version) {
-  const pkgPath = resolve(resolve(__dirname, '..'), 'package.json')
+  const pkgPath = resolve(resolve(dir, '..'), 'package.json')
   const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'))
 
   pkg.version = version

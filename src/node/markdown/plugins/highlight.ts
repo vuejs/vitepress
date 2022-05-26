@@ -1,4 +1,4 @@
-import chalk from 'chalk'
+import c from 'picocolors'
 import escapeHtml from 'escape-html'
 import prism from 'prismjs'
 // @ts-expect-error
@@ -37,7 +37,7 @@ export const highlight = (str: string, lang: string) => {
       loadLanguages([lang])
     } catch (e) {
       console.warn(
-        chalk.yellow(
+        c.yellow(
           `[vitepress] Syntax highlight for language "${lang}" is not supported.`
         )
       )
