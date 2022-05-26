@@ -197,6 +197,8 @@
   --vp-code-line-highlight-color: rgba(0, 0, 0, 0.5);
 
   --vp-code-line-number-color: var(--vp-c-text-dark-3);
+
+  --vp-code-copy-code-hover-bg: rgba(255, 255, 255, 0.05);
 }
 
 .dark {
