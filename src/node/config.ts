@@ -1,7 +1,7 @@
 import path from 'path'
 import fs from 'fs-extra'
 import c from 'picocolors'
-import globby from 'globby'
+import fg from 'fast-glob'
 import {
   normalizePath,
   AliasOptions,
@@ -124,14 +124,14 @@ export async function resolveConfig(
     ? userThemeDir
     : DEFAULT_THEME_PATH
 
-  // Important: globby/fast-glob doesn't guarantee order of the returned files.
+  // Important: fast-glob doesn't guarantee order of the returned files.
   // We must sort the pages so the input list to rollup is stable across
   // builds - otherwise different input order could result in different exports
   // order in shared chunks which in turns invalidates the hash of every chunk!
   // JavaScript built-in sort() is mandated to be stable as of ES2019 and
   // supported in Node 12+, which is required by Vite.
   const pages = (
-    await globby(['**.md'], {
+    await fg(['**.md'], {
       cwd: srcDir,
       ignore: ['**/node_modules', ...(userConfig.srcExclude || [])]
     })

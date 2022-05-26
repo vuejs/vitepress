@@ -52,9 +52,8 @@
     "build-prepare": "rimraf dist && node scripts/copyShared",
     "build-client": "tsc -p src/client && node scripts/copyClient",
     "build-node": "rollup --config rollup.config.ts --configPlugin esbuild",
-    "lint": "run-s lint:js lint:ts",
-    "lint:js": "prettier --check --write \"{bin,docs,scripts,src}/**/*.js\"",
-    "lint:ts": "prettier --check --write --parser typescript \"{__tests__,src,docs,types}/**/*.ts\"",
+    "format": "prettier --write .",
+    "lint": "pnpm run format",
     "test": "vitest run __tests__ -c __tests__/vitest.config.js --global",
     "test:all": "run-s lint test",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
@@ -65,7 +64,7 @@
     "docs-build": "run-s build docs-build-only",
     "docs-build-only": "node ./bin/vitepress build docs",
     "docs-serve": "node ./bin/vitepress serve docs",
-    "ci-docs": "run-s build docs-build"
+    "ci-docs": "run-s docs-build"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
@@ -120,7 +119,6 @@
     "execa": "^6.1.0",
     "fast-glob": "^3.2.7",
     "fs-extra": "^10.0.0",
-    "globby": "^11.0.3",
     "gray-matter": "^4.0.3",
     "lint-staged": "^11.0.0",
     "lru-cache": "^6.0.0",
