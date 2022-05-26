@@ -1,6 +1,7 @@
 // Modified from https://github.com/egoist/markdown-it-highlight-lines
 import MarkdownIt from 'markdown-it'
 
+const RE = /{([\d,-]+)}/
 const wrapperRE = /^<pre .*?><code>/
 
 export const highlightLinePlugin = (md: MarkdownIt) => {
@@ -12,13 +13,27 @@ export const highlightLinePlugin = (md: MarkdownIt) => {
     // due to use of markdown-it-attrs, the {0} syntax would have been converted
     // to attrs on the token
     const attr = token.attrs && token.attrs[0]
+    let lines = null
     if (!attr) {
-      return fence(...args)
+      // markdown-it-attrs maybe disabled
+
+      const rawInfo = token.info
+      if (!rawInfo || !RE.test(rawInfo)) {
+        return fence(...args)
+      }
+
+      const langName = rawInfo.replace(RE, '').trim()
+      // ensure the next plugin get the correct lang.
+      token.info = langName
+
+      lines = RE.exec(rawInfo)![1]
     }
 
-    const lines = attr[0]
-    if (!lines || !/[\d,-]+/.test(lines)) {
-      return fence(...args)
+    if (!lines) {
+      lines = attr![0]
+      if (!lines || !/[\d,-]+/.test(lines)) {
+        return fence(...args)
+      }
     }
 
     const lineNumbers = lines

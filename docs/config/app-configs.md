@@ -119,6 +119,7 @@ interface MarkdownOptions extends MarkdownIt.Options {
     leftDelimiter?: string
     rightDelimiter?: string
     allowedAttributes?: string[]
+    disable?: boolean
   }
 
   // markdown-it-table-of-contents cplugin options
