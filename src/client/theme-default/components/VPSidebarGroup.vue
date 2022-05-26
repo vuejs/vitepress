@@ -12,7 +12,7 @@ const props = defineProps<{
   collapsed?: boolean
 }>()
 
-const collapsed = ref(!!props.collapsed)
+const collapsed = ref(props.collapsible && props.collapsed)
 
 function toggle() {
   if (props.collapsible) {
@@ -23,7 +23,7 @@ function toggle() {
 
 <template>
   <section class="VPSidebarGroup" :class="{ collapsible, collapsed }">
-    <div class="title" role="button" @click="toggle">
+    <div class="title" :role="collapsible ? 'button' : undefined" @click="toggle">
       <h2 class="title-text">{{ text }}</h2>
       <div class="action">
         <VPIconMinusSquare class="icon minus" />
@@ -45,10 +45,6 @@ function toggle() {
   justify-content: space-between;
   align-items: flex-start;
   z-index: 2;
-}
-
-.VPSidebarGroup.collapsible .title {
-  cursor: pointer;
 }
 
 .title-text {
