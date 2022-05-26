@@ -34,7 +34,12 @@ watchPostEffect(async () => {
       </span>
 
       <div v-for="group in sidebar" :key="group.text" class="group">
-        <VPSidebarGroup :text="group.text" :items="group.items" />
+        <VPSidebarGroup
+          :text="group.text"
+          :items="group.items"
+          :collapsible="group.collapsible"
+          :collapsed="group.collapsed"
+        />
       </div>
     </nav>
   </aside>

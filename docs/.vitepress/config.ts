@@ -57,6 +57,7 @@ function sidebarGuide() {
   return [
     {
       text: 'Introduction',
+      collapsible: true,
       items: [
         { text: 'What is VitePress?', link: '/guide/what-is-vitepress' },
         { text: 'Getting Started', link: '/guide/getting-started' },
@@ -71,6 +72,7 @@ function sidebarGuide() {
     },
     {
       text: 'Theme',
+      collapsible: true,
       items: [
         { text: 'Introduction', link: '/guide/theme-introduction' },
         { text: 'Layout', link: '/guide/theme-layout' },
@@ -81,6 +83,7 @@ function sidebarGuide() {
     },
     {
       text: 'Migrations',
+      collapsible: true,
       items: [
         {
           text: 'Migration from VuePress',
