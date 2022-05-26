@@ -1,51 +1,14 @@
-import c from 'picocolors'
 import escapeHtml from 'escape-html'
-import prism from 'prismjs'
-// @ts-expect-error
-import loadLanguages from 'prismjs/components/index.js'
+import { getHighlighter } from 'shiki'
 
-// required to make embedded highlighting work...
-loadLanguages(['markup', 'css', 'javascript'])
+export const highlight = async (theme = 'material-palenight') => {
+  const highlighter = await getHighlighter({ theme })
 
-function wrap(code: string, lang: string): string {
-  if (lang === 'text') {
-    code = escapeHtml(code)
-  }
-  return `<pre v-pre><code>${code}</code></pre>`
-}
-
-export const highlight = (str: string, lang: string) => {
-  if (!lang) {
-    return wrap(str, 'text')
-  }
-  lang = lang.toLowerCase()
-  const rawLang = lang
-  if (lang === 'vue' || lang === 'html') {
-    lang = 'markup'
-  }
-  if (lang === 'md') {
-    lang = 'markdown'
-  }
-  if (lang === 'ts') {
-    lang = 'typescript'
-  }
-  if (lang === 'py') {
-    lang = 'python'
-  }
-  if (!prism.languages[lang]) {
-    try {
-      loadLanguages([lang])
-    } catch (e) {
-      console.warn(
-        c.yellow(
-          `[vitepress] Syntax highlight for language "${lang}" is not supported.`
-        )
-      )
+  return (str: string, lang: string) => {
+    if (!lang || lang === 'text') {
+      return `<pre v-pre><code>${escapeHtml(str)}</code></pre>`
     }
+
+    return highlighter.codeToHtml(str, { lang }).replace(/^<pre.*?>/, '<pre v-pre>')
   }
-  if (prism.languages[lang]) {
-    const code = prism.highlight(str, prism.languages[lang], lang)
-    return wrap(code, rawLang)
-  }
-  return wrap(str, 'text')
 }

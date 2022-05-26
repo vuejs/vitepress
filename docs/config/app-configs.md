@@ -81,6 +81,56 @@ export default {
 }
 ```
 
+## markdown
+
+- Type: `MarkdownOption`
+
+Configre Markdown parser options. VitePress uses [Markdown-it](https://github.com/markdown-it/markdown-it) as the parser, and [Shiki](https://shiki.matsu.io/) to highlight language syntax. Inside this option, you may pass various Markdown related options to fit your needs.
+
+```js
+export default {
+  markdown: {
+    theme: 'material-palenight',
+    lineNumbers: true
+  }
+}
+```
+
+Below shows the the full option you may define within this object.
+
+```ts
+interface MarkdownOptions extends MarkdownIt.Options {
+  // Syntax highlight theme for Shiki.
+  // See: https://github.com/shikijs/shiki/blob/main/docs/themes.md#all-themes
+  theme?: Shiki.Theme
+
+  // Enable line numbers in code block.
+  lineNumbers?: boolean
+
+  // markdown-it-anchor plugin options.
+  // See: https://github.com/valeriangalliat/markdown-it-anchor
+  anchor?: {
+    permalink?: anchor.AnchorOptions['permalink']
+  }
+
+  // markdown-it-attrs plugin options.
+  // See: https://github.com/arve0/markdown-it-attrs
+  attrs?: {
+    leftDelimiter?: string
+    rightDelimiter?: string
+    allowedAttributes?: string[]
+  }
+
+  // markdown-it-table-of-contents cplugin options
+  // https://github.com/Oktavilla/markdown-it-table-of-contents
+  toc?: any
+
+  // Configure the Markdown-it instance to fully customize
+  // how it works.
+  config?: (md: MarkdownIt) => void
+}
+```
+
 ## appearance
 
 - Type: `boolean`

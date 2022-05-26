@@ -21,7 +21,7 @@ export interface MarkdownCompileResult {
   includes: string[]
 }
 
-export function createMarkdownToVueRenderFn(
+export async function createMarkdownToVueRenderFn(
   srcDir: string,
   options: MarkdownOptions = {},
   pages: string[],
@@ -30,7 +30,8 @@ export function createMarkdownToVueRenderFn(
   base: string,
   includeLastUpdatedData = false
 ) {
-  const md = createMarkdownRenderer(srcDir, options, base)
+  const md = await createMarkdownRenderer(srcDir, options, base)
+
   pages = pages.map((p) => slash(p.replace(/\.md$/, '')))
 
   const userDefineRegex = userDefines

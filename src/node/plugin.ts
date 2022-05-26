@@ -7,6 +7,8 @@ import { slash } from './utils/slash'
 import { OutputAsset, OutputChunk } from 'rollup'
 import { staticDataPlugin } from './staticDataPlugin'
 
+type Awaited<T> = T extends Promise<infer P> ? P : never
+
 const hashRE = /\.(\w+)\.js$/
 const staticInjectMarkerRE =
   /\b(const _hoisted_\d+ = \/\*(?:#|@)__PURE__\*\/\s*createStaticVNode)\("(.*)", (\d+)\)/g
@@ -46,7 +48,7 @@ export async function createVitePressPlugin(
     pages
   } = siteConfig
 
-  let markdownToVue: ReturnType<typeof createMarkdownToVueRenderFn>
+  let markdownToVue: Awaited<ReturnType<typeof createMarkdownToVueRenderFn>>
 
   // lazy require plugin-vue to respect NODE_ENV in @vue/compiler-x
   const vuePlugin = await import('@vitejs/plugin-vue').then((r) =>
@@ -72,9 +74,9 @@ export async function createVitePressPlugin(
   const vitePressPlugin: Plugin = {
     name: 'vitepress',
 
-    configResolved(resolvedConfig) {
+    async configResolved(resolvedConfig) {
       config = resolvedConfig
-      markdownToVue = createMarkdownToVueRenderFn(
+      markdownToVue = await createMarkdownToVueRenderFn(
         srcDir,
         markdown,
         pages,

@@ -188,15 +188,21 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-  --vp-code-line-height: 24px;
-  --vp-code-font-size: 14px;
+  --vp-code-line-height: 1.7;
+  --vp-code-font-size: 0.875em;
 
   --vp-code-block-color: var(--vp-c-text-dark-1);
   --vp-code-block-bg: #292d3e;
+
+  --vp-code-line-highlight-color: rgba(0, 0, 0, 0.5);
+
+  --vp-code-line-number-color: var(--vp-c-text-dark-3);
 }
 
 .dark {
   --vp-code-block-bg: var(--vp-c-bg-alt);
+
+  --vp-code-line-number-color: var(--vp-c-text-dark-3);
 }
 
 /**
