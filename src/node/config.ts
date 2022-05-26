@@ -1,6 +1,6 @@
 import path from 'path'
 import fs from 'fs-extra'
-import chalk from 'chalk'
+import c from 'picocolors'
 import globby from 'globby'
 import {
   normalizePath,
@@ -189,7 +189,7 @@ async function resolveUserConfig(
     : {}
 
   if (configPath) {
-    debug(`loaded config at ${chalk.yellow(configPath)}`)
+    debug(`loaded config at ${c.yellow(configPath)}`)
   } else {
     debug(`no config file found.`)
   }

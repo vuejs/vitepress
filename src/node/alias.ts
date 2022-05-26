@@ -1,10 +1,10 @@
 import { createRequire } from 'module'
-import {resolve, join} from 'path'
+import { resolve, join } from 'path'
 import { fileURLToPath } from 'url'
 import { Alias, AliasOptions } from 'vite'
 
 const require = createRequire(import.meta.url)
-const PKG_ROOT = resolve(fileURLToPath(import.meta.url), '../../../')
+const PKG_ROOT = resolve(fileURLToPath(import.meta.url), '../..')
 export const DIST_CLIENT_PATH = resolve(PKG_ROOT, 'client')
 export const APP_PATH = join(DIST_CLIENT_PATH, 'app')
 export const SHARED_PATH = join(DIST_CLIENT_PATH, 'shared')

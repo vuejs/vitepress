@@ -37,7 +37,7 @@ export async function renderPage(
   }
 
   // render page
-  const content = await import(rendererPath).then(r=>r.renderToString(app))
+  const content = await import(rendererPath).then((r) => r.renderToString(app))
 
   const pageName = page.replace(/\//g, '_')
   // server build doesn't need hash
@@ -48,10 +48,9 @@ export async function renderPage(
   const pageClientJsFileName = `assets/${pageName}.${pageHash}.lean.js`
 
   // resolve page data so we can render head tags
-  const { __pageData } = await import(path.join(
-    config.tempDir,
-    pageServerJsFileName
-  ))
+  const { __pageData } = await import(
+    path.join(config.tempDir, pageServerJsFileName)
+  )
   const pageData = JSON.parse(__pageData)
 
   let preloadLinks = config.mpa

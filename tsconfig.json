@@ -3,15 +3,15 @@
     "module": "esnext",
     "target": "esnext",
     "moduleResolution": "node",
-    "strict": true,
-    "noUnusedLocals": true,
-    "skipLibCheck": true,
     "esModuleInterop": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "noUnusedLocals": true,
     "resolveJsonModule": true,
-    "lib": ["ESNext", "DOM"],
+    "lib": ["ESNext", "DOM"]
   },
   "exclude": [
-    "node_modules",
-    "dist"
+    "**/node_modules/**",
+    "**/dist/**"
   ]
 }

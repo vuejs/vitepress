@@ -51,10 +51,12 @@ export async function createVitePressPlugin(
   let markdownToVue: Awaited<ReturnType<typeof createMarkdownToVueRenderFn>>
 
   // lazy require plugin-vue to respect NODE_ENV in @vue/compiler-x
-  const vuePlugin = await import('@vitejs/plugin-vue').then(r=>r.default({
-    include: [/\.vue$/, /\.md$/],
-    ...userVuePluginOptions
-  }))
+  const vuePlugin = await import('@vitejs/plugin-vue').then((r) =>
+    r.default({
+      include: [/\.vue$/, /\.md$/],
+      ...userVuePluginOptions
+    })
+  )
 
   const processClientJS = (code: string, id: string) => {
     return scriptClientRE.test(code)

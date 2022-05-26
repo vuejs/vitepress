@@ -6,7 +6,7 @@ import { createMarkdownRenderer, MarkdownOptions } from './markdown/markdown'
 import { deeplyParseHeader } from './utils/parseHeader'
 import { PageData, HeadConfig, EXTERNAL_URL_RE } from './shared'
 import { slash } from './utils/slash'
-import chalk from 'chalk'
+import c from 'picocolors'
 import _debug from 'debug'
 import { getGitTimestamp } from './utils/getGitTimestamp'
 
@@ -96,10 +96,8 @@ export async function createMarkdownToVueRenderFn(
     const deadLinks: string[] = []
     const recordDeadLink = (url: string) => {
       console.warn(
-        chalk.yellow(
-          `\n(!) Found dead link ${chalk.cyan(url)} in file ${chalk.white.dim(
-            file
-          )}`
+        c.yellow(
+          `\n(!) Found dead link ${c.cyan(url)} in file ${c.white(c.dim(file))}`
         )
       )
       deadLinks.push(url)
