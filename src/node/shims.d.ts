@@ -8,11 +8,6 @@ declare module 'markdown-it-emoji' {
   export default def
 }
 
-declare module 'markdown-it-table-of-contents' {
-  const def: any
-  export default def
-}
-
 declare module 'markdown-it-container' {
   const def: any
   export default def

@@ -17,7 +17,7 @@ import { Header } from '../shared'
 import anchor from 'markdown-it-anchor'
 import attrs from 'markdown-it-attrs'
 import emoji from 'markdown-it-emoji'
-import toc from 'markdown-it-table-of-contents'
+import toc from 'markdown-it-toc-done-right'
 
 export interface MarkdownOptions extends MarkdownIt.Options {
   lineNumbers?: boolean
@@ -31,7 +31,7 @@ export interface MarkdownOptions extends MarkdownIt.Options {
     allowedAttributes?: string[]
   }
   theme?: Theme
-  // https://github.com/Oktavilla/markdown-it-table-of-contents
+  // https://github.com/nagaozen/markdown-it-toc-done-right
   toc?: any
   externalLinks?: Record<string, string>
 }
@@ -89,7 +89,7 @@ export const createMarkdownRenderer = async (
     })
     .use(toc, {
       slugify,
-      includeLevel: [2, 3],
+      level: [2, 3],
       format: parseHeader,
       ...options.toc
     })

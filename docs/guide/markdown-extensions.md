@@ -403,8 +403,8 @@ module.exports = {
       permalink: anchor.permalink.headerLink()
     },
 
-    // options for markdown-it-table-of-contents
-    toc: { includeLevel: [1, 2] },
+    // options for markdown-it-toc-done-right
+    toc: { level: [1, 2] },
 
     config: (md) => {
       // use more markdown-it plugins!
