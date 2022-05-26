@@ -47,8 +47,8 @@ function nav() {
     { text: 'Guide', link: '/guide/what-is-vitepress', activeMatch: '/guide/' },
     { text: 'Configs', link: '/config/introduction', activeMatch: '/config/' },
     {
-      text: 'Release Notes',
-      link: 'https://github.com/vuejs/vitepress/releases'
+      text: 'Changelog',
+      link: 'https://github.com/vuejs/vitepress/blob/main/CHANGELOG.md'
     }
   ]
 }
