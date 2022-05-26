@@ -91,6 +91,7 @@ export const createMarkdownRenderer = async (
       slugify,
       level: [2, 3],
       format: parseHeader,
+      listType: 'ul',
       ...options.toc
     })
     .use(emoji)
