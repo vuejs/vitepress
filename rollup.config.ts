@@ -17,8 +17,7 @@ const r = (p: string) => resolve(ROOT, '..', p)
 const external = [
   ...Object.keys(pkg.dependencies),
   'buffer',
-  'punycode',
-  'prismjs/components/index.js'
+  'punycode'
 ]
 
 export default defineConfig([
