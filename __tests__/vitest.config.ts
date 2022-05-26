@@ -1,11 +1,14 @@
-import path from 'path'
+import { dirname, resolve } from 'path'
+import { fileURLToPath } from 'url'
 import { defineConfig } from 'vite'
+
+const dir = dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
   resolve: {
     alias: {
-      node: path.resolve(__dirname, '../src/node'),
-      client: path.resolve(__dirname, '../src/client')
+      node: resolve(dir, '../src/node'),
+      client: resolve(dir, '../src/client')
     }
   },
   test: {
