@@ -121,8 +121,8 @@ interface MarkdownOptions extends MarkdownIt.Options {
     allowedAttributes?: string[]
   }
 
-  // markdown-it-table-of-contents cplugin options
-  // https://github.com/Oktavilla/markdown-it-table-of-contents
+  // markdown-it-toc-done-right plugin options
+  // https://github.com/nagaozen/markdown-it-toc-done-right
   toc?: any
 
   // Configure the Markdown-it instance to fully customize
