@@ -39,7 +39,7 @@
     "url": "https://github.com/vuejs/vitepress/issues"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=14.6.0"
   },
   "scripts": {
     "dev": "rimraf dist && run-s dev-shared dev-start",
