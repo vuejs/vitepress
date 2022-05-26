@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useData } from 'vitepress'
-import { useCopyCode } from '../composables/copy-code'
 import { useSidebar } from '../composables/sidebar'
 import VPDocAside from './VPDocAside.vue'
 import VPDocFooter from './VPDocFooter.vue'
@@ -12,8 +11,6 @@ const { hasSidebar } = useSidebar()
 const pageName = computed(() => {
   return page.value.relativePath.slice(0, page.value.relativePath.indexOf('/'))
 })
-
-useCopyCode()
 </script>
 
 <template>
