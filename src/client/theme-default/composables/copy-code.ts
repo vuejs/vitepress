@@ -1,27 +1,6 @@
 import { nextTick, watch } from 'vue'
 import { inBrowser, useData } from 'vitepress'
 
-const handleElement = (el: HTMLElement) => {
-  el.onclick = () => {
-    const parent = el.parentElement
-    if (!parent) return
-
-    const isShell =
-      parent.classList.contains('language-sh') ||
-      parent.classList.contains('language-bash')
-
-    let { innerText: text = '' } = parent
-    if (isShell) text = text.replace(/^ *\$ /gm, '')
-
-    navigator.clipboard.writeText(text).then(() => {
-      el.classList.add('copied')
-      setTimeout(() => {
-        el.classList.remove('copied')
-      }, 800)
-    })
-  }
-}
-
 export function useCopyCode() {
   const { page } = useData()
 
@@ -39,4 +18,31 @@ export function useCopyCode() {
       },
       { immediate: true, flush: 'post' }
     )
+}
+
+function handleElement(el: HTMLElement) {
+  el.onclick = () => {
+    const parent = el.parentElement
+
+    if (!parent) {
+      return
+    }
+
+    const isShell =
+      parent.classList.contains('language-sh') ||
+      parent.classList.contains('language-bash')
+
+    let { innerText: text = '' } = parent
+
+    if (isShell) {
+      text = text.replace(/^ *\$ /gm, '')
+    }
+
+    navigator.clipboard.writeText(text).then(() => {
+      el.classList.add('copied')
+      setTimeout(() => {
+        el.classList.remove('copied')
+      }, 3000)
+    })
+  }
 }
