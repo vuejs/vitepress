@@ -1,6 +1,8 @@
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { DefaultTheme } from '../config'
+import VPIconPlusSquare from './icons/VPIconPlusSquare.vue'
+import VPIconMinusSquare from './icons/VPIconMinusSquare.vue'
 import VPSidebarLink from './VPSidebarLink.vue'
 
 const props = defineProps<{
@@ -10,48 +12,24 @@ const props = defineProps<{
   collapsed?: boolean
 }>()
 
-const collapsed = ref(false)
-const itemsDiv = ref<HTMLDivElement | null>(null)
-const height = ref('')
+const collapsed = ref(!!props.collapsed)
 
-const storeHeight = () => {
-  if (!collapsed.value) height.value = itemsDiv.value?.clientHeight + 'px'
-}
-
-const toggle = () => {
-  if (!props.collapsible) return
-  storeHeight()
+function toggle() {
   collapsed.value = !collapsed.value
 }
-
-onMounted(() => {
-  if (!props.collapsible) return
-  storeHeight()
-  collapsed.value = !!props.collapsed 
-})
 </script>
 
 <template>
-  <section class="VPSidebarGroup">
-    <div class="title" :class="{ collapsible }" @click="toggle">
+  <section class="VPSidebarGroup" :class="{ collapsible, collapsed }">
+    <div class="title" role="button" @click="toggle">
       <h2 class="title-text">{{ text }}</h2>
-      <svg
-        v-if="collapsible"
-        xmlns="http://www.w3.org/2000/svg"
-        class="chevron"
-        :class="{ collapsed }"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-      >
-        <path
-          fill-rule="evenodd"
-          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-          clip-rule="evenodd"
-        />
-      </svg>
+      <div class="action">
+        <VPIconMinusSquare class="icon minus" />
+        <VPIconPlusSquare class="icon plus" />
+      </div>
     </div>
 
-    <div class="items" :class="{ collapsed }" ref="itemsDiv">
+    <div class="items">
       <template v-for="item in items" :key="item.link">
         <VPSidebarLink :item="item" />
       </template>
@@ -61,46 +39,70 @@ onMounted(() => {
 
 <style scoped>
 .title {
-  padding: 6px 0;
   display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   z-index: 2;
 }
 
-.title.collapsible {
+.VPSidebarGroup.collapsible .title {
   cursor: pointer;
 }
 
 .title-text {
+  padding-top: 6px;
+  padding-bottom: 6px;
   line-height: 20px;
   font-size: 14px;
   font-weight: 700;
   color: var(--vp-c-text-1);
-  transition: color 0.5s;
 }
 
-.chevron {
-  height: 20px;
-  margin-left: 5px;
-  transition: transform 0.5s;
+.action {
+  display: none;
+  position: relative;
+  margin-right: -8px;
+  border-radius: 4px;
+  width: 32px;
+  height: 32px;
+  color: var(--vp-c-text-3);
+  transition: color 0.25s;
 }
 
-.chevron.collapsed {
-  transform: rotate(-90deg);
+.VPSidebarGroup.collapsible .action {
+  display: block;
 }
+
+.title:hover .action {
+  color: var(--vp-c-text-2);
+}
+
+.icon {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+.icon.minus { opacity: 1; }
+.icon.plus  { opacity: 0; }
+
+.VPSidebarGroup.collapsed .icon.minus { opacity: 0; }
+.VPSidebarGroup.collapsed .icon.plus  { opacity: 1; }
 
 .items {
-  max-height: v-bind('height');
-  transition: max-height 0.5s;
   overflow: hidden;
 }
 
-.items.collapsed {
-  max-height: 0;
+.VPSidebarGroup.collapsed .items {
   margin-bottom: -22px;
+  max-height: 0;
 }
 
 @media (min-width: 960px) {
-  .items.collapsed {
+  .VPSidebarGroup.collapsed .items {
     margin-bottom: -14px;
   }
 }

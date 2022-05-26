@@ -57,6 +57,7 @@ function sidebarGuide() {
   return [
     {
       text: 'Introduction',
+      collapsible: true,
       items: [
         { text: 'What is VitePress?', link: '/guide/what-is-vitepress' },
         { text: 'Getting Started', link: '/guide/getting-started' },
@@ -67,22 +68,22 @@ function sidebarGuide() {
         { text: 'Using Vue in Markdown', link: '/guide/using-vue' },
         { text: 'API Reference', link: '/guide/api' },
         { text: 'Deploying', link: '/guide/deploying' }
-      ],
-      collapsible: true
+      ]
     },
     {
       text: 'Theme',
+      collapsible: true,
       items: [
         { text: 'Introduction', link: '/guide/theme-introduction' },
         { text: 'Layout', link: '/guide/theme-layout' },
         { text: 'Homepage', link: '/guide/theme-homepage' },
         { text: 'Footer', link: '/guide/theme-footer' },
         { text: 'Carbon Ads', link: '/guide/theme-carbon-ads' }
-      ],
-      collapsible: true
+      ]
     },
     {
       text: 'Migrations',
+      collapsible: true,
       items: [
         {
           text: 'Migration from VuePress',
@@ -92,8 +93,7 @@ function sidebarGuide() {
           text: 'Migration from VitePress 0.x',
           link: '/guide/migration-from-vitepress-0'
         }
-      ],
-      collapsible: true
+      ]
     }
   ]
 }
