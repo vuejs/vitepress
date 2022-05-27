@@ -216,7 +216,7 @@
 
 .vp-doc .custom-block code {
   font-size: var(--vp-custom-block-code-font-size);
-  font-weight: 600;
+  font-weight: 700;
   color: inherit;
 }
 
