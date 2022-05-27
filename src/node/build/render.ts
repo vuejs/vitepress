@@ -1,12 +1,12 @@
-import path from 'path'
+import { createRequire } from 'module'
 import fs from 'fs-extra'
-import { SiteConfig, resolveSiteDataByRoute } from '../config'
-import { HeadConfig, createTitle } from '../shared'
+import path from 'path'
+import escape from 'escape-html'
 import { normalizePath, transformWithEsbuild } from 'vite'
 import { RollupOutput, OutputChunk, OutputAsset } from 'rollup'
+import { HeadConfig, createTitle } from '../shared'
 import { slash } from '../utils/slash'
-import escape from 'escape-html'
-import { createRequire } from 'module'
+import { SiteConfig, resolveSiteDataByRoute } from '../config'
 
 const require = createRequire(import.meta.url)
 

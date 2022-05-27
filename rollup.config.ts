@@ -1,14 +1,14 @@
-import { RollupOptions, defineConfig } from 'rollup'
 import { promises as fs } from 'fs'
+import { resolve } from 'path'
+import { fileURLToPath } from 'url'
+import { RollupOptions, defineConfig } from 'rollup'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import esbuild from 'rollup-plugin-esbuild'
 import json from '@rollup/plugin-json'
 import replace from '@rollup/plugin-replace'
-import dts from 'rollup-plugin-dts'
 import alias from '@rollup/plugin-alias'
-import { resolve } from 'path'
-import { fileURLToPath } from 'url'
+import dts from 'rollup-plugin-dts'
 import pkg from './package.json'
 
 const DEV = !!process.env.DEV

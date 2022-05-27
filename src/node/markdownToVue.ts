@@ -1,14 +1,14 @@
 import fs from 'fs'
 import path from 'path'
+import c from 'picocolors'
 import matter from 'gray-matter'
 import LRUCache from 'lru-cache'
-import { createMarkdownRenderer, MarkdownOptions } from './markdown/markdown'
-import { deeplyParseHeader } from './utils/parseHeader'
 import { PageData, HeadConfig, EXTERNAL_URL_RE } from './shared'
 import { slash } from './utils/slash'
-import c from 'picocolors'
-import _debug from 'debug'
+import { deeplyParseHeader } from './utils/parseHeader'
 import { getGitTimestamp } from './utils/getGitTimestamp'
+import { createMarkdownRenderer, MarkdownOptions } from './markdown/markdown'
+import _debug from 'debug'
 
 const debug = _debug('vitepress:md')
 const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
