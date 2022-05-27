@@ -114,6 +114,7 @@ watchPostEffect(async () => {
 @media (min-width: 960px) {
   .group {
     padding-top: 10px;
+    width: calc(var(--vp-sidebar-width) - 64px);
   }
 
   .group + .group {
