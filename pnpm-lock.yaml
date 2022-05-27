@@ -48,7 +48,7 @@ importers:
       markdown-it-attrs: ^4.1.3
       markdown-it-container: ^3.0.0
       markdown-it-emoji: ^2.0.0
-      markdown-it-table-of-contents: ^0.6.0
+      markdown-it-toc-done-right: ^4.2.0
       micromatch: ^4.0.4
       minimist: ^1.2.5
       npm-run-all: ^4.1.5
@@ -119,7 +119,7 @@ importers:
       markdown-it-attrs: 4.1.3_markdown-it@12.3.2
       markdown-it-container: 3.0.0
       markdown-it-emoji: 2.0.0
-      markdown-it-table-of-contents: 0.6.0
+      markdown-it-toc-done-right: 4.2.0
       micromatch: 4.0.4
       minimist: 1.2.5
       npm-run-all: 4.1.5
@@ -2600,9 +2600,8 @@ packages:
     resolution: {integrity: sha512-39j7/9vP/CPCKbEI44oV8yoPJTpvfeReTn/COgRhSpNrjWF3PfP/JUxxB0hxV6ynOY8KH8Y8aX9NMDdo6z+6YQ==}
     dev: true
 
-  /markdown-it-table-of-contents/0.6.0:
-    resolution: {integrity: sha512-jHvEjZVEibyW97zEYg19mZCIXO16lHbvRaPDkEuOfMPBmzlI7cYczMZLMfUvwkhdOVQpIxu3gx6mgaw46KsNsQ==}
-    engines: {node: '>6.4.0'}
+  /markdown-it-toc-done-right/4.2.0:
+    resolution: {integrity: sha512-UB/IbzjWazwTlNAX0pvWNlJS8NKsOQ4syrXZQ/C72j+jirrsjVRT627lCaylrKJFBQWfRsPmIVQie8x38DEhAQ==}
     dev: true
 
   /markdown-it/12.3.2:
