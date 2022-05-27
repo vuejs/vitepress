@@ -15,16 +15,18 @@ defineProps<{
 <style scoped>
 .VPMenuLink {
   display: block;
-  padding: 0 16px;
-  line-height: 28px;
-  font-size: 13px;
+  border-radius: 6px;
+  padding: 0 24px 0 12px;
+  line-height: 32px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--vp-c-text-1);
   white-space: nowrap;
-  transition: color 0.25s;
+  transition: background-color 0.25s, color 0.25s;
 }
 
 .VPMenuLink:hover {
   color: var(--vp-c-brand);
+  background-color: var(--vp-c-bg-soft);
 }
 </style>

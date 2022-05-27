@@ -141,7 +141,7 @@ function onBlur() {
   transition: opacity 0.25s, visibility 0.25s, transform 0.25s;
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 960px) {
   .menu {
     top: calc(var(--vp-nav-height-desktop) / 2 + 20px);
   }

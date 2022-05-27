@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useData } from 'vitepress'
 import VPFlyout from './VPFlyout.vue'
+import VPMenuLink from './VPMenuLink.vue'
 import VPSwitchAppearance from './VPSwitchAppearance.vue'
 import VPSocialLinks from './VPSocialLinks.vue'
 
@@ -10,21 +11,15 @@ const { site, theme } = useData()
 <template>
   <VPFlyout class="VPNavBarExtra" label="extra navigation">
     <div v-if="theme.localeLinks" class="group">
-      <div class="trans">
-        <p class="trans-title">
-          {{ theme.localeLinks.text }}
-        </p>
+      <p class="trans-title">{{ theme.localeLinks.text }}</p>
 
-        <ul class="trans-list">
-          <li v-for="locale in theme.localeLinks.items" :key="locale.link" class="trans-item">
-            <a class="trans-link" :href="locale.link">{{ locale.text }}</a>
-          </li>
-        </ul>
-      </div>
+      <template v-for="locale in theme.localeLinks.items" :key="locale.link">
+        <VPMenuLink :item="locale" />
+      </template>
     </div>
 
     <div v-if="site.appearance" class="group">
-      <div class="item">
+      <div class="item appearance">
         <p class="label">Appearance</p>
         <div class="appearance-action">
           <VPSwitchAppearance />
@@ -33,8 +28,8 @@ const { site, theme } = useData()
     </div>
 
     <div v-if="theme.socialLinks" class="group">
-      <div class="item">
-        <VPSocialLinks class="social-links" :links="theme.socialLinks" />
+      <div class="item social-links">
+        <VPSocialLinks class="social-links-list" :links="theme.socialLinks" />
       </div>
     </div>
   </VPFlyout>
@@ -63,45 +58,29 @@ const { site, theme } = useData()
 }
 
 .trans-title {
-  display: flex;
-  align-items: center;
-  font-size: 13px;
-  font-weight: 600;
+  padding: 0 24px 0 12px;
+  line-height: 32px;
+  font-size: 14px;
+  font-weight: 700;
   color: var(--vp-c-text-1);
 }
 
-.trans-icon {
-  margin-right: 12px;
-  width: 16px;
-  height: 16px;
-  fill: currentColor;
-}
-
-.trans-list {
-  padding: 2px 0 0 0;
-}
-
-.trans-link {
-  line-height: 28px;
-  font-size: 13px;
-  color: var(--vp-c-text-1);
-  transition: color 0.25s;
-}
-
-.trans-link:hover {
-  color: var(--vp-c-brand);
-}
-
-.item {
+.item.appearance,
+.item.social-links {
   display: flex;
   align-items: center;
+  padding: 0 24px;
+}
+
+.item.appearance {
+  min-width: 176px;
 }
 
 .appearance-action {
   margin-right: -2px;
 }
 
-.social-links {
+.social-links-list {
   margin: -4px -8px;
 }
 </style>

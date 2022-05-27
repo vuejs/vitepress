@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { DefaultTheme, useData } from 'vitepress'
+import { useData } from 'vitepress'
 import { isActive } from '../support/utils'
-import { NavItemWithLink } from '../config'
+import { DefaultTheme } from '../config'
 import VPLink from './VPLink.vue'
 
 defineProps<{
@@ -34,7 +34,7 @@ const { page } = useData()
   align-items: center;
   padding: 0 12px;
   line-height: var(--vp-nav-height-mobile);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--vp-c-text-1);
   transition: color 0.25s;

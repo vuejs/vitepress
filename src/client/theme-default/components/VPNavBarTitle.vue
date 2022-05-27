@@ -19,6 +19,7 @@ const { hasSidebar } = useSidebar()
 .VPNavBarTitle {
   flex-shrink: 0;
   border-bottom: 1px solid transparent;
+  transition: background-color 0.5s;
 }
 
 @media (min-width: 960px) {
