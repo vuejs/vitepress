@@ -78,7 +78,7 @@
   color: inherit;
   font-weight: 600;
   text-decoration: underline;
-  transition: opacity .25s;
+  transition: opacity 0.25s;
 }
 
 .custom-block a:hover {
