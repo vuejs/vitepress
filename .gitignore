@@ -3,10 +3,10 @@
 /src/node/shared.ts
 *.log
 .DS_Store
+.idea
 .vite_opt_cache
+.vscode
 dist
 node_modules
-TODOs.md
-.vscode
-.idea
 pnpm-global
+TODOs.md
