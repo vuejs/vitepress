@@ -14,7 +14,7 @@ import emojiData from 'markdown-it-emoji/lib/data/full.json'
 const parseEmojis = (str: string) => {
   return str.replace(
     /:(.+?):/g,
-    (placeholder, key) => emojiData[key] || placeholder
+    (placeholder, key) => (emojiData as any)[key] || placeholder
   )
 }
 

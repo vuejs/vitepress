@@ -6,6 +6,9 @@ import { normalizePath, transformWithEsbuild } from 'vite'
 import { RollupOutput, OutputChunk, OutputAsset } from 'rollup'
 import { slash } from '../utils/slash'
 import escape from 'escape-html'
+import { createRequire } from 'module'
+
+const require = createRequire(import.meta.url)
 
 export async function renderPage(
   config: SiteConfig,
@@ -16,7 +19,7 @@ export async function renderPage(
   pageToHashMap: Record<string, string>,
   hashMapString: string
 ) {
-  const { createApp } = require(path.join(config.tempDir, `app.js`))
+  const { createApp } = await import(path.join(config.tempDir, `app.js`))
   const { app, router } = createApp()
   const routePath = `/${page.replace(/\.md$/, '')}`
   const siteData = resolveSiteDataByRoute(config.site, routePath)
@@ -34,7 +37,7 @@ export async function renderPage(
   }
 
   // render page
-  const content = await require(rendererPath).renderToString(app)
+  const content = await import(rendererPath).then((r) => r.renderToString(app))
 
   const pageName = page.replace(/\//g, '_')
   // server build doesn't need hash
@@ -45,10 +48,9 @@ export async function renderPage(
   const pageClientJsFileName = `assets/${pageName}.${pageHash}.lean.js`
 
   // resolve page data so we can render head tags
-  const { __pageData } = require(path.join(
-    config.tempDir,
-    pageServerJsFileName
-  ))
+  const { __pageData } = await import(
+    path.join(config.tempDir, pageServerJsFileName)
+  )
   const pageData = JSON.parse(__pageData)
 
   let preloadLinks = config.mpa

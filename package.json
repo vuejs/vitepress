@@ -1,10 +1,19 @@
 {
   "name": "vitepress",
   "version": "1.0.0-draft.4",
+  "type": "module",
   "packageManager": "pnpm@7.0.1",
   "description": "Vite & Vue powered static site generator",
   "main": "dist/node/index.js",
-  "typings": "types/index.d.ts",
+  "types": "types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "import": "./dist/node/index.js",
+      "require": "./dist/node-cjs/index.cjs"
+    },
+    "./dist/client/*": "./dist/client/*"
+  },
   "bin": {
     "vitepress": "bin/vitepress.js"
   },
@@ -31,27 +40,22 @@
     "url": "https://github.com/vuejs/vitepress/issues"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=14.6.0"
   },
   "scripts": {
-    "dev": "run-s dev-shared dev-start",
+    "dev": "rimraf dist && run-s dev-shared dev-start",
     "dev-start": "run-p dev-client dev-node dev-watch",
     "dev-client": "tsc -w -p src/client",
-    "dev-node": "tsc -w -p src/node",
+    "dev-node": "DEV=true pnpm run build-node -w",
     "dev-shared": "node scripts/copyShared",
     "dev-watch": "node scripts/watchAndCopy",
-    "build": "run-s build-prepare build-client build-node build-types",
-    "build-prepare": "rimraf -rf dist && node scripts/copyShared",
+    "build": "run-s build-prepare build-client build-node",
+    "build-prepare": "rimraf dist && node scripts/copyShared",
     "build-client": "tsc -p src/client && node scripts/copyClient",
-    "build-node": "rollup -c scripts/rollup.config.js",
-    "build-types": "run-s build-types-client build-types-node",
-    "build-types-client": "tsc -p src/client --declaration --emitDeclarationOnly --outDir dist/temp && api-extractor run -c api-extractor.client.json && rimraf dist/temp",
-    "build-types-node": "tsc -p src/node --declaration --emitDeclarationOnly --outDir dist/temp && api-extractor run -c api-extractor.node.json && rimraf dist/temp",
-    "lint": "run-s lint:js lint:ts",
-    "lint:js": "prettier --check --write \"{bin,docs,scripts,src}/**/*.js\"",
-    "lint:ts": "prettier --check --write --parser typescript \"{__tests__,src,docs,types}/**/*.ts\"",
-    "test": "vitest run __tests__ -c __tests__/vitest.config.js --global",
-    "test:all": "run-s lint test",
+    "build-node": "rollup --config rollup.config.ts --configPlugin esbuild",
+    "format": "prettier --write .",
+    "lint": "pnpm run format",
+    "test": "vitest -r __tests__",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "release": "node scripts/release.js",
     "docs": "run-p dev docs-dev",
@@ -60,18 +64,7 @@
     "docs-build": "run-s build docs-build-only",
     "docs-build-only": "node ./bin/vitepress build docs",
     "docs-serve": "node ./bin/vitepress serve docs",
-    "ci-docs": "run-s build docs-build"
-  },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.js": [
-      "prettier --write"
-    ],
-    "*.ts": [
-      "prettier --parser=typescript --write"
-    ]
+    "ci-docs": "run-s docs-build"
   },
   "dependencies": {
     "@docsearch/css": "^3.0.0",
@@ -84,11 +77,11 @@
     "vue": "3.2.33"
   },
   "devDependencies": {
-    "@microsoft/api-extractor": "^7.23.1",
     "@rollup/plugin-alias": "^3.1.5",
     "@rollup/plugin-commonjs": "^20.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.0.4",
+    "@rollup/plugin-replace": "^4.0.0",
     "@types/body-scroll-lock": "^3.1.0",
     "@types/compression": "^1.7.0",
     "@types/cross-spawn": "^6.0.2",
@@ -102,7 +95,7 @@
     "@types/minimist": "^1.2.2",
     "@types/node": "^15.6.1",
     "@types/polka": "^0.5.3",
-    "chalk": "^4.1.1",
+    "@types/prompts": "^2.0.14",
     "chokidar": "^3.5.1",
     "compression": "^1.7.4",
     "conventional-changelog-cli": "^2.1.1",
@@ -112,10 +105,9 @@
     "enquirer": "^2.3.6",
     "esbuild": "^0.14.0",
     "escape-html": "^1.0.3",
-    "execa": "^5.0.0",
+    "execa": "^6.1.0",
     "fast-glob": "^3.2.7",
     "fs-extra": "^10.0.0",
-    "globby": "^11.0.3",
     "gray-matter": "^4.0.3",
     "lint-staged": "^11.0.0",
     "lru-cache": "^6.0.0",
@@ -129,16 +121,20 @@
     "minimist": "^1.2.5",
     "npm-run-all": "^4.1.5",
     "ora": "^5.4.0",
+    "picocolors": "^1.0.0",
     "polka": "^0.5.2",
     "prettier": "^2.3.0",
+    "prompts": "^2.4.2",
     "rimraf": "^3.0.2",
     "rollup": "^2.56.3",
+    "rollup-plugin-dts": "^4.2.2",
     "rollup-plugin-esbuild": "^4.8.2",
     "semver": "^7.3.5",
+    "simple-git-hooks": "^2.7.0",
     "sirv": "^1.0.12",
-    "typescript": "^4.6.4",
-    "vitest": "^0.10.4",
-    "yorkie": "^2.0.0"
+    "supports-color": "^9.2.2",
+    "typescript": "^4.7.2",
+    "vitest": "^0.10.4"
   },
   "pnpm": {
     "peerDependencyRules": {
@@ -149,5 +145,13 @@
         "@types/react"
       ]
     }
+  },
+  "simple-git-hooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*": [
+      "prettier --write --ignore-unknown"
+    ]
   }
 }

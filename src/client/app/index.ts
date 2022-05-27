@@ -107,16 +107,11 @@ function newRouter(): Router {
       pageFilePath = pageFilePath.replace(/\.js$/, '.lean.js')
     }
 
-    // in browser: native dynamic import
     if (inBrowser) {
       isInitialPageLoad = false
-
-      return import(/*@vite-ignore*/ pageFilePath)
     }
 
-    // SSR: sync require
-    // @ts-ignore
-    return require(pageFilePath)
+    return import(/*@vite-ignore*/ pageFilePath)
   }, NotFound)
 }
 
