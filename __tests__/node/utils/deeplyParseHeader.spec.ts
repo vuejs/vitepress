@@ -3,27 +3,27 @@ import { deeplyParseHeader } from 'node/utils/parseHeader'
 
 test('deeplyParseHeader', () => {
   const asserts: Record<string, string> = {
-    // Remove tail html
+    // remove tail html
     '# `H1` <Comp></Comp>': '# H1',
     '# *H1* <Comp/>': '# H1',
 
-    // Reserve code-wrapped tail html
+    // reserve code-wrapped tail html
     '# `H1` `<Comp></Comp>`': '# H1 <Comp></Comp>',
     '# *H1* `<Comp/>`': '# H1 <Comp/>',
 
-    // Remove leading html
+    // remove leading html
     '# <Comp></Comp> `H1`': '#  H1',
     '# <Comp/> *H1*': '#  H1',
 
-    // Reserve code-wrapped leading html
+    // reserve code-wrapped leading html
     '# `<Comp></Comp>` `H1`': '# <Comp></Comp> H1',
     '# `<Comp/>` *H1*': '# <Comp/> H1',
 
-    // Remove middle html
+    // remove middle html
     '# `H1` <Comp></Comp> `H2`': '# H1  H2',
     '# `H1` <Comp/> `H2`': '# H1  H2',
 
-    // Reserve middle html
+    // reserve middle html
     '# `H1` `<Comp></Comp>` `H2`': '# H1 <Comp></Comp> H2',
     '# `H1` `<Comp/>` `H2`': '# H1 <Comp/> H2'
   }
