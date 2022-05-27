@@ -29,6 +29,7 @@ export interface MarkdownOptions extends MarkdownIt.Options {
     leftDelimiter?: string
     rightDelimiter?: string
     allowedAttributes?: string[]
+    disable?: boolean
   }
   theme?: Theme
   // https://github.com/nagaozen/markdown-it-toc-done-right
@@ -80,13 +81,17 @@ export const createMarkdownRenderer = async (
       },
       base
     )
-    // 3rd party plugins
-    .use(attrs, options.attrs)
-    .use(anchor, {
-      slugify,
-      permalink: anchor.permalink.ariaHidden({}),
-      ...options.anchor
-    })
+
+  // 3rd party plugins
+  if (!options.attrs?.disable) {
+    md.use(attrs, options.attrs)
+  }
+
+  md.use(anchor, {
+    slugify,
+    permalink: anchor.permalink.ariaHidden({}),
+    ...options.anchor
+  })
     .use(toc, {
       slugify,
       level: [2, 3],
