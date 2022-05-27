@@ -156,10 +156,6 @@
   background-color: var(--vp-c-bg-soft);
 }
 
-.dark .vp-doc tr:nth-child(2n) {
-  background-color: var(--vp-c-bg-mute);
-}
-
 .vp-doc th,
 .vp-doc td {
   border: 1px solid var(--vp-c-divider);
