@@ -9,7 +9,8 @@
   "exports": {
     ".": {
       "types": "./types/index.d.ts",
-      "import": "./dist/node/index.js"
+      "import": "./dist/node/index.js",
+      "require": "./dist/node-cjs/index.cjs"
     },
     "./dist/client/*": "./dist/client/*"
   },
@@ -45,7 +46,7 @@
     "dev": "rimraf dist && run-s dev-shared dev-start",
     "dev-start": "run-p dev-client dev-node dev-watch",
     "dev-client": "tsc -w -p src/client",
-    "dev-node": "pnpm run build-node -w",
+    "dev-node": "DEV=true pnpm run build-node -w",
     "dev-shared": "node scripts/copyShared",
     "dev-watch": "node scripts/watchAndCopy",
     "build": "run-s build-prepare build-client build-node",
