@@ -53,10 +53,6 @@ const { site, theme } = useData()
   }
 }
 
-.trans {
-  padding: 2px 16px 0;
-}
-
 .trans-title {
   padding: 0 24px 0 12px;
   line-height: 32px;
@@ -69,7 +65,7 @@ const { site, theme } = useData()
 .item.social-links {
   display: flex;
   align-items: center;
-  padding: 0 24px;
+  padding: 0 12px;
 }
 
 .item.appearance {

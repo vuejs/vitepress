@@ -11,6 +11,7 @@ const { frontmatter: fm } = useData()
       :name="fm.hero.name"
       :text="fm.hero.text"
       :tagline="fm.hero.tagline"
+      :image="fm.hero.image"
       :actions="fm.hero.actions"
     />
   </div>

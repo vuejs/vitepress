@@ -2,11 +2,11 @@
 layout: home
 
 title: VitePress
-titleTemplate: Vite & Vue powered static site generator.
+titleTemplate: Vite & Vue Powered Static Site Generator
 
 hero:
   name: VitePress
-  text: Vite & Vue powered static site generator.
+  text: Vite & Vue Powered Static Site Generator
   tagline: Simple, minimal, yet strikingly powerful. Meet the modern SSG framework you've always wanted.
   actions:
     - theme: brand

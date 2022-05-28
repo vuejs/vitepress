@@ -7,30 +7,45 @@ export interface HeroAction {
   link: string
 }
 
+export interface Image {
+  light: string
+  dark: string
+}
+
 defineProps<{
   name?: string
   text: string
   tagline?: string
+  image?: Image
   actions?: HeroAction[]
 }>()
 </script>
 
 <template>
-  <div class="VPHero">
+  <div class="VPHero" :class="{ 'has-image': image }">
     <div class="container">
-      <p v-if="name" class="name"><span class="clip">{{ name }}</span></p>
-      <h1 v-if="text" class="text">{{ text }}</h1>
-      <p v-if="tagline" class="tagline">{{ tagline }}</p>
+      <div class="main">
+        <p v-if="name" class="name"><span class="clip">{{ name }}</span></p>
+        <h1 v-if="text" class="text">{{ text }}</h1>
+        <p v-if="tagline" class="tagline">{{ tagline }}</p>
 
-      <div v-if="actions" class="actions">
-        <div v-for="action in actions" :key="action.link" class="action">
-          <VPButton
-            tag="a"
-            size="big"
-            :theme="action.theme"
-            :text="action.text"
-            :href="action.link"
-          />
+        <div v-if="actions" class="actions">
+          <div v-for="action in actions" :key="action.link" class="action">
+            <VPButton
+              tag="a"
+              size="medium"
+              :theme="action.theme"
+              :text="action.text"
+              :href="action.link"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div v-if="image" class="image">
+        <div class="image-container">
+          <img class="image-src light" :src="image.light">
+          <img class="image-src dark" :src="image.dark">
         </div>
       </div>
     </div>
@@ -41,6 +56,7 @@ defineProps<{
 .VPHero {
   margin-top: calc(var(--vp-nav-height) * -1);
   padding: calc(var(--vp-nav-height) + 48px) 24px 48px;
+  overflow: hidden;
 }
 
 @media (min-width: 640px) {
@@ -50,66 +66,113 @@ defineProps<{
 }
 
 .container {
+  display: flex;
+  flex-direction: column;
   margin: 0 auto;
   max-width: 960px;
 }
 
+@media (min-width: 960px) {
+  .container {
+    flex-direction: row;
+  }
+}
+
+.main {
+  position: relative;
+  z-index: 10;
+  order: 2;
+  flex-grow: 1;
+  flex-shrink: 0;
+}
+
+.VPHero.has-image .container {
+  text-align: center;
+}
+
+@media (min-width: 960px) {
+  .VPHero.has-image .container {
+    text-align: left;
+  }
+}
+
+@media (min-width: 960px) {
+  .main {
+    order: 1;
+  }
+}
+
+@media (min-width: 960px) {
+  .main {
+    width: 100%;
+    max-width: calc((100% / 3) * 2);
+  }
+}
+
 .name,
 .text {
-  line-height: 48px;
-  font-size: 40px;
+  max-width: 392px;
+  letter-spacing: -0.4px;
+  line-height: 40px;
+  font-size: 32px;
   font-weight: 700;
 }
 
+.VPHero.has-image .name,
+.VPHero.has-image .text {
+  margin: 0 auto;
+}
+
 .name {
-  padding-bottom: 4px;
   color: var(--vp-home-hero-name-color);
 }
 
 .clip {
   background: var(--vp-home-hero-name-background);
-  -webkit-text-fill-color: var(--vp-home-hero-name-color);
   -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: var(--vp-home-hero-name-color);
 }
 
 @media (min-width: 640px) {
   .name,
   .text {
-    max-width: 640px;
+    max-width: 576px;
     line-height: 56px;
     font-size: 48px;
-  }
-
-  .name {
-    padding-bottom: 6px;
   }
 }
 
 @media (min-width: 960px) {
   .name,
   .text {
-    max-width: 720px;
     line-height: 64px;
     font-size: 56px;
   }
 
-  .name {
-    padding-bottom: 6px;
+  .VPHero.has-image .name,
+  .VPHero.has-image .text {
+    margin: 0;
   }
 }
 
 .tagline {
   padding-top: 16px;
+  max-width: 392px;
   line-height: 28px;
   font-size: 18px;
   font-weight: 500;
   color: var(--vp-c-text-2);
 }
 
+.VPHero.has-image .tagline {
+  margin: 0 auto;
+}
+
 @media (min-width: 640px) {
   .tagline {
     padding-top: 24px;
-    max-width: 540px;
+    max-width: 576px;
     line-height: 32px;
     font-size: 20px;
   }
@@ -118,17 +181,24 @@ defineProps<{
 @media (min-width: 960px) {
   .tagline {
     padding-top: 24px;
-    max-width: 640px;
     line-height: 36px;
     font-size: 24px;
+  }
+
+  .VPHero.has-image .tagline {
+    margin: 0;
   }
 }
 
 .actions {
   display: flex;
   flex-wrap: wrap;
-  margin: -8px;
+  margin: -6px;
   padding-top: 24px;
+}
+
+.VPHero.has-image .actions {
+  justify-content: center;
 }
 
 @media (min-width: 640px) {
@@ -137,8 +207,79 @@ defineProps<{
   }
 }
 
+@media (min-width: 960px) {
+  .VPHero.has-image .actions {
+    justify-content: flex-start;
+  }
+}
+
 .action {
   flex-shrink: 0;
-  padding: 8px;
+  padding: 6px;
+}
+
+.image {
+  order: 1;
+  margin: -76px -24px -48px;
+}
+
+@media (min-width: 640px) {
+  .image {
+    margin: -108px -24px -48px;
+  }
+}
+
+.image-container {
+  position: relative;
+  margin: 0 auto;
+  width: 320px;
+  height: 320px;
+}
+
+@media (min-width: 640px) {
+  .image-container {
+    width: 392px;
+    height: 392px;
+  }
+}
+
+.image-src {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  max-width: 392px;
+  transform: translate(-50%, -50%);
+}
+
+.image-src.light { opacity: 1; }
+.image-src.dark  { opacity: 0; }
+
+.dark .image-src.light { opacity: 0; }
+.dark .image-src.dark  { opacity: 1; }
+
+@media (min-width: 640px) {
+  .image-src {
+    max-width: 512px;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@media (min-width: 960px) {
+  .image {
+    order: 2;
+    margin: -8px 0;
+    width: calc(100% / 3);
+    min-height: 100%;
+  }
+
+  .image-container {
+    width: 100%;
+    height: 100%;
+  }
+
+  .image-src {
+    max-width: 640px;
+    transform: translate(calc(-50% - 32px), calc(-50% - 32px));
+  }
 }
 </style>

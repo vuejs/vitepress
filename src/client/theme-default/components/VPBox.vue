@@ -17,7 +17,7 @@ defineProps<{
 <style scoped>
 .VPBox {
   border: 1px solid var(--vp-c-divider-light);
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 24px;
   height: 100%;
   background-color: var(--vp-c-bg-soft);

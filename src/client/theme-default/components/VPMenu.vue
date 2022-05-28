@@ -42,7 +42,7 @@ defineProps<{
 
 .VPMenu :deep(.group + .group) {
   border-top: 1px solid var(--vp-c-divider-light);
-  padding: 11px 0 12px;
+  padding: 11px 12px 12px;
 }
 
 .VPMenu :deep(.group:last-child) {
