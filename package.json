@@ -151,7 +151,7 @@
     }
   },
   "simple-git-hooks": {
-    "pre-commit": "lint-staged"
+    "pre-commit": "pnpm lint-staged"
   },
   "lint-staged": {
     "*": [
