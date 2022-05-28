@@ -14,6 +14,8 @@ const { page, theme } = useData()
     <VPDocAsideOutline v-if="page.headers.length" />
     <slot name="aside-outline-after" />
 
+    <div class="spacer" />
+
     <slot name="aside-ads-before" />
     <VPDocAsideCarbonAds v-if="theme.carbonAds" />
     <slot name="aside-ads-after" />
@@ -23,8 +25,18 @@ const { page, theme } = useData()
 </template>
 
 <style scoped>
-.VPDocAside :deep(.VPDocAsideOutline + .VPDocAsideSponsors),
-.VPDocAside :deep(.VPDocAsideOutline + .VPDocAsideCarbonAds) {
+.VPDocAside {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.spacer {
+  flex-grow: 1;
+}
+
+.VPDocAside :deep(.spacer + .VPDocAsideSponsors),
+.VPDocAside :deep(.spacer + .VPDocAsideCarbonAds) {
   margin-top: 24px;
 }
 
