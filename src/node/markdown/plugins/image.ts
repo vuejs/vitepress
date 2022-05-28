@@ -10,6 +10,11 @@ export const imagePlugin = (md: MarkdownIt) => {
     if (url && !EXTERNAL_URL_RE.test(url) && !/^\.?\//.test(url)) {
       token.attrSet('src', './' + url)
     }
+    
+    // https://github.com/markdown-it/markdown-it/blob/1529ff4944329eb8080a8558dab85164b6c212cd/lib/renderer.js#L101
+    if (token.attrIndex('alt') && token.children !== null) {
+      token.attrs![token.attrIndex('alt')][1] = self.renderInlineAsText(token.children, options, env);
+    }
     return self.renderToken(tokens, idx, options)
   }
 }
