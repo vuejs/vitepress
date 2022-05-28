@@ -8,6 +8,11 @@ export namespace DefaultTheme {
     logo?: string
 
     /**
+     * Hide title when logo is avaiable
+     */
+    hideTitle?: boolean
+
+    /**
      * The nav items.
      */
     nav?: NavItem[]

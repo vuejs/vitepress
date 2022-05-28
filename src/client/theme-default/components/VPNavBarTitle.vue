@@ -10,8 +10,9 @@ const { hasSidebar } = useSidebar()
   <div class="VPNavBarTitle" :class="{ 'has-sidebar': hasSidebar }">
     <a class="title" href="/">
       <img v-if="theme.logo" class="logo" :src="theme.logo" :alt="site.title">
-      {{ site.title }}
+      <template v-if="!(theme.hideTitle && theme.logo)">{{ site.title }}</template>
     </a>
+
   </div>
 </template>
 
