@@ -54,6 +54,3 @@ VitePress is future oriented: VitePress only targets browsers that support nativ
 We already have [vuepress-next](https://github.com/vuepress/vuepress-next), which would be the next major version of VuePress. It also makes lots of improvements over VuePress v1, and also supports Vite now.
 
 VitePress is not compatible with the current VuePress ecosystem (mostly themes and plugins). The overall idea is that VitePress will have a drastically more minimal theming API (preferring JavaScript APIs instead of file layout conventions) and likely no plugins (all customization is done in themes).
-
-
-![sdsd](/vue-logo.png "Title Here")
