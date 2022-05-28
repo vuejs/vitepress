@@ -1,8 +1,56 @@
+/**
+ * VPSponsors styles are defined as global because a new class gets
+ * allied in onMounted` hook and we can't use socped style.
+ */
+.vp-sponsor {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.vp-sponsor.aside {
+  border-radius: 12px;
+}
+
+.vp-sponsor-section + .vp-sponsor-section {
+  margin-top: 4px;
+}
+
+.vp-sponsor-tier {
+  margin-bottom: 4px;
+  text-align: center;
+  letter-spacing: 1px;
+  line-height: 24px;
+  width: 100%;
+  font-weight: 600;
+  color: var(--vp-c-text-2);
+  background-color: var(--vp-c-bg-soft);
+}
+
+.vp-sponsor.normal .vp-sponsor-tier {
+  padding: 13px 0 11px;
+  font-size: 14px;
+}
+
+.vp-sponsor.aside .vp-sponsor-tier {
+  padding: 9px 0 7px;
+  font-size: 12px;
+}
+
+.vp-sponsor-grid + .vp-sponsor-tier {
+  margin-top: 4px;
+}
+
 .vp-sponsor-grid {
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
 }
+
+.vp-sponsor-grid.xmini .vp-sponsor-grid-link   { height: 64px; }
+.vp-sponsor-grid.xmini .vp-sponsor-grid-image  { max-width: 64px; max-height: 22px }
+
+.vp-sponsor-grid.mini .vp-sponsor-grid-link   { height: 72px; }
+.vp-sponsor-grid.mini .vp-sponsor-grid-image  { max-width: 96px; max-height: 24px }
 
 .vp-sponsor-grid.small .vp-sponsor-grid-link   { height: 96px; }
 .vp-sponsor-grid.small .vp-sponsor-grid-image  { max-width: 96px; max-height: 24px }
@@ -36,12 +84,12 @@
 .vp-sponsor-grid-item {
   flex-shrink: 0;
   width: 100%;
-  background-color: var(--vp-c-white-soft);
+  background-color: var(--vp-c-bg-soft);
   transition: background-color 0.25s;
 }
 
 .vp-sponsor-grid-item:hover {
-  background-color: var(--vp-c-white-mute);
+  background-color: var(--vp-c-bg-mute);
 }
 
 .vp-sponsor-grid-item:hover .vp-sponsor-grid-image {
@@ -49,11 +97,7 @@
 }
 
 .vp-sponsor-grid-item.empty:hover {
-  background-color: var(--vp-c-white-soft);
-}
-
-.dark .vp-sponsor-grid-item {
-  background-color: var(--vp-c-black-mute);
+  background-color: var(--vp-c-bg-soft);
 }
 
 .dark .vp-sponsor-grid-item:hover {

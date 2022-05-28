@@ -9,7 +9,7 @@ export interface Sponsor {
 }
 
 const props = defineProps<{
-  size?: 'small' | 'medium' | 'big'
+  size?: 'xmini' | 'mini' | 'small' | 'medium' | 'big'
   data: Sponsor[]
 }>()
 

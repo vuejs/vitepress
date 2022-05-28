@@ -15,13 +15,16 @@ export interface Sponsor {
 }
 
 const props = defineProps<{
+  mode?: 'normal' | 'aside'
   tier?: string
-  size?: 'small' | 'medium' | 'big'
+  size?: 'xmini' | 'small' | 'medium' | 'big'
   data: Sponsors[] | Sponsor[]
 }>()
 
 const sponsors = computed(() => {
-  const isSponsors = props.data.some((s: any) => s.items)
+  const isSponsors = props.data.some((s) => {
+    return !!(s as Sponsors).items
+  })
 
   if (isSponsors) {
     return props.data
@@ -36,42 +39,14 @@ const sponsors = computed(() => {
 </script>
 
 <template>
-  <div class="VPSponsors">
-    <section v-for="(sponsor, index) in sponsors" :key="index" class="section">
-      <h3 v-if="sponsor.tier" class="tier">{{ sponsor.tier }}</h3>
+  <div class="VPSponsors vp-sponsor" :class="[mode ?? 'normal']">
+    <section
+      v-for="(sponsor, index) in sponsors"
+      :key="index"
+      class="vp-sponsor-section"
+    >
+      <h3 v-if="sponsor.tier" class="vp-sponsor-tier">{{ sponsor.tier }}</h3>
       <VPSponsorsGrid :size="sponsor.size" :data="sponsor.items" />
     </section>
   </div>
 </template>
-
-<style scoped>
-.VPSponsors {
-  border-radius: 16px;
-  overflow: hidden;
-}
-
-.section + .section {
-  margin-top: 4px;
-}
-
-.tier {
-  margin-bottom: 4px;
-  padding: 13px 0 11px;
-  text-align: center;
-  letter-spacing: 1px;
-  line-height: 24px;
-  width: 100%;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--vp-c-text-2);
-  background-color: var(--vp-c-white-soft);
-}
-
-.dark .tier {
-  background-color: var(--vp-c-black-mute);
-}
-
-.VPSponsorsGrid + .tier {
-  margin-top: 4px;
-}
-</style>

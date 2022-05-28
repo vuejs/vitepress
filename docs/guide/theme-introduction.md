@@ -172,7 +172,14 @@ export default {
 
 Full list of slots available in the default theme layout:
 
-- Only when `layout: 'home'` is enabled via frontmatter:
+- When `layout: 'doc'` (default) is enabled via frontmatter:
+  - `aside-top`
+  - `aside-bottom`
+  - `aside-outline-before`
+  - `aside-outline-after`
+  - `aside-ads-before`
+  - `aside-ads-after`
+- When `layout: 'home'` is enabled via frontmatter:
   - `home-hero-before`
   - `home-hero-after`
   - `home-features-before`

@@ -33,6 +33,13 @@ provide('close-sidebar', closeSidebar)
       <template #home-hero-after><slot name="home-hero-after" /></template>
       <template #home-features-before><slot name="home-features-before" /></template>
       <template #home-features-after><slot name="home-features-after" /></template>
+
+      <template #aside-top><slot name="aside-top" /></template>
+      <template #aside-bottom><slot name="aside-bottom" /></template>
+      <template #aside-outline-before><slot name="aside-outline-before" /></template>
+      <template #aside-outline-after><slot name="aside-outline-after" /></template>
+      <template #aside-ads-before><slot name="aside-ads-before" /></template>
+      <template #aside-ads-after><slot name="aside-ads-after" /></template>
     </VPContent>
 
     <VPFooter />

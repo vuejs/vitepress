@@ -36,7 +36,7 @@ defineProps<{
 }
 
 .dark .icon {
-  background-color: var(--vp-c-bg-soft);
+  background-color: var(--vp-c-bg);
 }
 
 .title {

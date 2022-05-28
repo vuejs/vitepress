@@ -27,6 +27,10 @@ defineProps<{
 
 .VPMenuLink:hover {
   color: var(--vp-c-brand);
+  background-color: var(--vp-c-bg-mute);
+}
+
+.dark .VPMenuLink:hover {
   background-color: var(--vp-c-bg-soft);
 }
 </style>

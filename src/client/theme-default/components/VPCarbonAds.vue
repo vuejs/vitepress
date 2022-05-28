@@ -47,13 +47,13 @@ if (carbonOptions) {
   justify-content: center;
   align-items: center;
   padding: 24px;
-  border-radius: 8px;
+  border-radius: 12px;
   min-height: 240px;
   text-align: center;
   line-height: 18px;
   font-size: 12px;
   font-weight: 500;
-  background-color: var(--vp-c-bg-alt);
+  background-color: var(--vp-c-bg-soft);
   transition: color 0.5s, background-color 0.5s;
 }
 
