@@ -119,6 +119,10 @@ object {
   vertical-align: middle;
 }
 
+figure {
+  margin: 0;
+}
+
 img,
 video {
   max-width: 100%;

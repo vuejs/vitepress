@@ -42,7 +42,6 @@ const component = computed(() => {
 .VPButton {
   display: inline-block;
   border: 1px solid transparent;
-
   text-align: center;
   font-weight: 500;
   white-space: nowrap;

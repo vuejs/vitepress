@@ -42,6 +42,7 @@ const grid = computed(() => {
 
 <style scoped>
 .VPHomeFeatures {
+  position: relative;
   padding: 0 24px;
 }
 
