@@ -16,7 +16,7 @@ defineProps<{
 .VPMenuLink {
   display: block;
   border-radius: 6px;
-  padding: 0 24px 0 12px;
+  padding: 0 12px;
   line-height: 32px;
   font-size: 14px;
   font-weight: 500;
