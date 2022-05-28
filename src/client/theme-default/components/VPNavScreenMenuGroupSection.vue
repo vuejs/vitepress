@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { DefaultTheme } from 'vitepress'
+import { DefaultTheme } from '../config'
 import VPNavScreenMenuGroupLink from './VPNavScreenMenuGroupLink.vue'
 
 defineProps<{

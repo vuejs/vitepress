@@ -1,12 +1,11 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { DefaultTheme } from 'vitepress'
 import { useFlyout } from '../composables/flyout'
 import VPIconChevronDown from './icons/VPIconChevronDown.vue'
 import VPIconMoreHorizontal from './icons/VPIconMoreHorizontal.vue'
 import VPMenu from './VPMenu.vue'
 
-const props = defineProps<{
+defineProps<{
   icon?: any
   button?: string
   label?: string

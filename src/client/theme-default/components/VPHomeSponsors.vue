@@ -3,13 +3,13 @@ import VPIconHeart from './icons/VPIconHeart.vue'
 import VPButton from './VPButton.vue'
 import VPSponsors from './VPSponsors.vue'
 
-interface Sponsors {
+export interface Sponsors {
   tier: string
   size?: 'medium' | 'big'
   items: Sponsor[]
 }
 
-interface Sponsor {
+export interface Sponsor {
   name: string
   img: string
   url: string

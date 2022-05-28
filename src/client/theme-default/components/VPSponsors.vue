@@ -2,13 +2,13 @@
 import { computed } from 'vue'
 import VPSponsorsGrid from './VPSponsorsGrid.vue'
 
-interface Sponsors {
+export interface Sponsors {
   tier?: string
   size?: 'small' | 'medium' | 'big'
   items: Sponsor[]
 }
 
-interface Sponsor {
+export interface Sponsor {
   name: string
   img: string
   url: string
@@ -17,7 +17,7 @@ interface Sponsor {
 const props = defineProps<{
   tier?: string
   size?: 'small' | 'medium' | 'big'
-  data: Sposors[] | Sponsor[]
+  data: Sponsors[] | Sponsor[]
 }>()
 
 const sponsors = computed(() => {

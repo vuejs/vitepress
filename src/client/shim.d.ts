@@ -19,6 +19,10 @@ declare module '@docsearch/js' {
   export default docsearch
 }
 
+declare module '@docsearch/react/dist/esm/types' {
+  export type DocSearchHit = any
+}
+
 declare module '@docsearch/css' {
   const css: string
   export default css

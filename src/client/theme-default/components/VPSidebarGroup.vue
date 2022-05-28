@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { DefaultTheme } from '../config'
 import VPIconPlusSquare from './icons/VPIconPlusSquare.vue'
 import VPIconMinusSquare from './icons/VPIconMinusSquare.vue'

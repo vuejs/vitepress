@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import VPButton from './VPButton.vue'
 
-interface HeroAction {
+export interface HeroAction {
   theme?: 'brand' | 'alt'
   text: string
   link: string

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { DefaultTheme } from 'vitepress'
+import { DefaultTheme } from '../config'
 import VPIconDiscord from './icons/VPIconDiscord.vue'
 import VPIconFacebook from './icons/VPIconFacebook.vue'
 import VPIconGitHub from './icons/VPIconGitHub.vue'
@@ -9,7 +9,7 @@ import VPIconSlack from './icons/VPIconSlack.vue'
 import VPIconTwitter from './icons/VPIconTwitter.vue'
 import VPIconYouTube from './icons/VPIconYouTube.vue'
 
-const props = defineProps<{
+defineProps<{
   icon: DefaultTheme.SocialLinkIcon
   link: string
 }>()

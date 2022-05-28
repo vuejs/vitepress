@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { useSponsorsGrid } from '../composables/sponsor-grid'
 
-interface Sponsor {
+export interface Sponsor {
   name: string
   img: string
   url: string

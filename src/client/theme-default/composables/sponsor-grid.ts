@@ -9,7 +9,7 @@ export type GridSize = 'small' | 'medium' | 'big'
 
 export interface UseSponsorsGridOprions {
   el: Ref<HTMLElement | null>
-  size: GridSize
+  size?: GridSize
 }
 
 /**
@@ -44,7 +44,10 @@ const GridSettings: GridSetting = {
   ]
 }
 
-export function useSponsorsGrid(options: UseSponsorsGridOprions) {
+export function useSponsorsGrid({
+  el,
+  size = 'medium'
+}: UseSponsorsGridOprions) {
   const onResize = throttleAndDebounce(manage, 100)
 
   onMounted(() => {
@@ -57,7 +60,7 @@ export function useSponsorsGrid(options: UseSponsorsGridOprions) {
   })
 
   function manage() {
-    adjustSlots(options.el.value!, options.size)
+    adjustSlots(el.value!, size)
   }
 }
 
