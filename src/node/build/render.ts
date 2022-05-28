@@ -1,7 +1,7 @@
 import { createRequire } from 'module'
 import fs from 'fs-extra'
 import path from 'path'
-import escape from 'escape-html'
+import { pathToFileURL } from 'url'
 import { normalizePath, transformWithEsbuild } from 'vite'
 import { RollupOutput, OutputChunk, OutputAsset } from 'rollup'
 import { HeadConfig, createTitle } from '../shared'
@@ -19,7 +19,9 @@ export async function renderPage(
   pageToHashMap: Record<string, string>,
   hashMapString: string
 ) {
-  const { createApp } = await import(path.join(config.tempDir, `app.js`))
+  const { createApp } = await import(
+    pathToFileURL(path.join(config.tempDir, `app.js`)).toString()
+  )
   const { app, router } = createApp()
   const routePath = `/${page.replace(/\.md$/, '')}`
   const siteData = resolveSiteDataByRoute(config.site, routePath)
@@ -37,7 +39,9 @@ export async function renderPage(
   }
 
   // render page
-  const content = await import(rendererPath).then((r) => r.renderToString(app))
+  const content = await import(pathToFileURL(rendererPath).toString()).then(
+    (r) => r.renderToString(app)
+  )
 
   const pageName = page.replace(/\//g, '_')
   // server build doesn't need hash
@@ -49,7 +53,7 @@ export async function renderPage(
 
   // resolve page data so we can render head tags
   const { __pageData } = await import(
-    path.join(config.tempDir, pageServerJsFileName)
+    pathToFileURL(path.join(config.tempDir, pageServerJsFileName)).toString()
   )
   const pageData = JSON.parse(__pageData)
 
