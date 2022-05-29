@@ -8,6 +8,11 @@ export namespace DefaultTheme {
     logo?: string
 
     /**
+     * Custom site title in navbar
+     */
+    siteTitle?: string | false
+
+    /**
      * The nav items.
      */
     nav?: NavItem[]
