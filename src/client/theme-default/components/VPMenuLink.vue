@@ -1,20 +1,19 @@
 <script lang="ts" setup>
 import { useData } from 'vitepress'
-import VPLink from './VPLink.vue'
 import { isActive } from '../support/utils'
-const { page } = useData()
+import VPLink from './VPLink.vue'
 
 defineProps<{
   item: any
 }>()
+
+const { page } = useData()
 </script>
 
 <template>
   <VPLink 
-    :class="{
-      VPMenuLink: true,
-      active: isActive(page.relativePath, item.activeMatch || item.link)
-    }"
+    class="VPMenuLink"
+    :class="{ active: isActive(page.relativePath, item.activeMatch || item.link) }"
     :href="item.link"
   >
     {{ item.text }}
@@ -34,10 +33,6 @@ defineProps<{
   transition: background-color 0.25s, color 0.25s;
 }
 
-.VPMenuLink.active {
-  color: var(--vp-c-brand);
-}
-
 .VPMenuLink:hover {
   color: var(--vp-c-brand);
   background-color: var(--vp-c-bg-mute);
@@ -45,5 +40,9 @@ defineProps<{
 
 .dark .VPMenuLink:hover {
   background-color: var(--vp-c-bg-soft);
+}
+
+.VPMenuLink.active {
+  color: var(--vp-c-brand);
 }
 </style>
