@@ -395,7 +395,7 @@
 .vp-doc [class*='language-'] > span.copy:hover.copied {
   border-radius: 0 4px 4px 0;
   background-color: var(--vp-code-copy-code-hover-bg);
-  background-image: var(--vp-icon-coied);
+  background-image: var(--vp-icon-copied);
 }
 
 .vp-doc [class*='language-'] > span.copy.copied::before,
