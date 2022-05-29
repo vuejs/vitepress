@@ -146,3 +146,16 @@ export default {
   appearance: true
 }
 ```
+
+## lastUpdated
+
+- Type: `boolean`
+- Default: `false`
+
+Use git commit to get the timestamp. Some themes may use it.
+
+```ts
+export default {
+  lastUpdated: true
+}
+```

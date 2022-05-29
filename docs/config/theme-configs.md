@@ -33,6 +33,13 @@ export default {
 }
 ```
 
+## lastUpdated
+
+- Type: `string`
+- Default: `Last Updated`
+
+The Last Updated prompt text.
+
 ## footer
 
 - Type: `Footer`

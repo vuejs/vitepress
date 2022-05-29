@@ -18,7 +18,7 @@ onMounted(() => {
 
 <template>
   <div>
-    {{ theme.lastUpdated ?? 'Edit this page' }}:
+    {{ theme.lastUpdated ?? 'Last Updated' }}:
     <time :datatime="isoDatetime">
       {{ datetime }}
     </time>
