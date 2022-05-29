@@ -203,14 +203,14 @@
   --vp-code-block-color: var(--vp-c-text-dark-1);
   --vp-code-block-bg: var(--vp-c-bg-alt);
 
-  --vp-code-line-highlight-color: rgba(0, 0, 0, 0.5);
-
+  --vp-code-line-highlight-color: rgba(225, 225, 225, 0.5);
   --vp-code-line-number-color: var(--vp-c-text-dark-3);
 
   --vp-code-copy-code-hover-bg: rgba(125, 125, 125, 0.1);
 }
 
 .dark {
+  --vp-code-line-highlight-color: rgba(0, 0, 0, 0.5);
   --vp-code-line-number-color: var(--vp-c-text-dark-3);
 }
 
