@@ -33,6 +33,20 @@ export default {
 }
 ```
 
+## siteTitle
+
+- Type: `string | false`
+
+You can customize this item to replace the default site title (`title` in app config) in nav. When you set `logo`, you can set it to `false` to hide the title.
+
+```ts
+export default {
+  themeConfig: {
+    siteTitle: 'Hello World'
+  }
+}
+```
+
 ## footer
 
 - Type: `Footer`
