@@ -347,4 +347,7 @@
 :root {
   --vp-home-hero-name-color: var(--vp-c-brand);
   --vp-home-hero-name-background: transparent;
+
+  --vp-home-hero-image-background-image: none;
+  --vp-home-hero-image-filter: none;
 }

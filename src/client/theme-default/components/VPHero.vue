@@ -8,8 +8,8 @@ export interface HeroAction {
 }
 
 export interface Image {
-  light: string
-  dark: string
+  src: string
+  alt?: string
 }
 
 defineProps<{
@@ -44,8 +44,8 @@ defineProps<{
 
       <div v-if="image" class="image">
         <div class="image-container">
-          <img class="image-src light" :src="image.light">
-          <img class="image-src dark" :src="image.dark">
+          <div class="image-bg" />
+          <img class="image-src" :src="image.src" :alt="image.alt">
         </div>
       </div>
     </div>
@@ -56,7 +56,6 @@ defineProps<{
 .VPHero {
   margin-top: calc(var(--vp-nav-height) * -1);
   padding: calc(var(--vp-nav-height) + 48px) 24px 48px;
-  overflow: hidden;
 }
 
 @media (min-width: 640px) {
@@ -229,6 +228,15 @@ defineProps<{
   }
 }
 
+@media (min-width: 960px) {
+  .image {
+    order: 2;
+    margin: 0;
+    width: calc(100% / 3);
+    min-height: 100%;
+  }
+}
+
 .image-container {
   position: relative;
   margin: 0 auto;
@@ -243,43 +251,60 @@ defineProps<{
   }
 }
 
-.image-src {
+@media (min-width: 960px) {
+  .image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    transform: translate(-32px, -32px);
+  }
+}
+
+.image-bg {
   position: absolute;
   top: 50%;
   left: 50%;
-  max-width: 392px;
+  border-radius: 50%;
+  width: 192px;
+  height: 192px;
+  background-image: var(--vp-home-hero-image-background-image);
+  filter: var(--vp-home-hero-image-filter);
   transform: translate(-50%, -50%);
 }
 
-.image-src.light { opacity: 1; }
-.image-src.dark  { opacity: 0; }
-
-.dark .image-src.light { opacity: 0; }
-.dark .image-src.dark  { opacity: 1; }
-
 @media (min-width: 640px) {
-  .image-src {
-    max-width: 512px;
-    transform: translate(-50%, -50%);
+  .image-bg {
+    width: 256px;
+    height: 256px;
   }
 }
 
 @media (min-width: 960px) {
-  .image {
-    order: 2;
-    margin: -8px 0;
-    width: calc(100% / 3);
-    min-height: 100%;
+  .image-bg {
+    width: 320px;
+    height: 320px;
   }
+}
 
-  .image-container {
-    width: 100%;
-    height: 100%;
-  }
+.image-src {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  max-width: 192px;
+  transform: translate(-50%, -50%);
+}
 
+@media (min-width: 640px) {
   .image-src {
-    max-width: 640px;
-    transform: translate(calc(-50% - 32px), calc(-50% - 32px));
+    max-width: 256px;
+  }
+}
+
+@media (min-width: 960px) {
+  .image-src {
+    max-width: 320px;
   }
 }
 </style>
