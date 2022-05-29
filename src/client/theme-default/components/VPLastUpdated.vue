@@ -3,15 +3,15 @@ import { ref, onMounted, watchEffect } from 'vue'
 import { useData } from 'vitepress'
 
 const { theme, page } = useData()
-const data = new Date(page.value.lastUpdated!)
-const isoDatetime = data.toISOString()
+const date = new Date(page.value.lastUpdated!)
+const isoDatetime = date.toISOString()
 const datetime = ref('')
 
 onMounted(() => {
   watchEffect(() => {
     // locale string might be different based on end user
     // and will lead to potential hydration mismatch if calculated at build time
-    datetime.value = data.toLocaleString(window.navigator.language)
+    datetime.value = date.toLocaleString(window.navigator.language)
   })
 })
 </script>

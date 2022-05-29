@@ -40,6 +40,14 @@ export default {
 
 The Last Updated prompt text.
 
+```ts
+export default {
+  themeConfig: {
+    lastUpdated: 'Updated Date'
+  }
+}
+```
+
 ## footer
 
 - Type: `Footer`
