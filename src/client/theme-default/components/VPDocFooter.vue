@@ -22,9 +22,7 @@ const control = usePrevNext()
           {{ editLink.text }}
         </VPLink>
       </div>
-      <div v-if="page.lastUpdated">
-        <VPLastUpdated />
-      </div>
+      <VPLastUpdated v-if="page.lastUpdated"/>
     </div>
 
     <div class="prev-next">
