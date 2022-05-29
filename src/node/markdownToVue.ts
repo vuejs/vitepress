@@ -188,10 +188,16 @@ function genPageDataCode(tags: string[], data: PageData) {
       defaultExportRE.test(tagSrc) || namedDefaultExportRE.test(tagSrc)
     tags[existingScriptIndex] = tagSrc.replace(
       scriptRE,
-      code + (hasDefaultExport ? `` : `\nexport default{}\n`) + `</script>`
+      code +
+        (hasDefaultExport
+          ? ``
+          : `\nexport default {name:'${data.relativePath}'}`) +
+        `</script>`
     )
   } else {
-    tags.unshift(`<script>${code}\nexport default {}</script>`)
+    tags.unshift(
+      `<script>${code}\nexport default {name:'${data.relativePath}'}</script>`
+    )
   }
 
   return tags
