@@ -19,6 +19,8 @@ import attrs from 'markdown-it-attrs'
 import emoji from 'markdown-it-emoji'
 import toc from 'markdown-it-toc-done-right'
 
+export type ThemeOptions = Theme | { light: Theme; dark: Theme }
+
 export interface MarkdownOptions extends MarkdownIt.Options {
   lineNumbers?: boolean
   config?: (md: MarkdownIt) => void
@@ -31,7 +33,7 @@ export interface MarkdownOptions extends MarkdownIt.Options {
     allowedAttributes?: string[]
     disable?: boolean
   }
-  theme?: Theme
+  theme?: ThemeOptions
   // https://github.com/nagaozen/markdown-it-toc-done-right
   toc?: any
   externalLinks?: Record<string, string>
