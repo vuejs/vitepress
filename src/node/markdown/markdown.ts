@@ -95,7 +95,8 @@ export const createMarkdownRenderer = async (
     .use(toc, {
       slugify,
       level: [2, 3],
-      format: parseHeader,
+      format: (x: string, htmlencode: (s: string) => string) =>
+        htmlencode(parseHeader(x)),
       listType: 'ul',
       ...options.toc
     })
