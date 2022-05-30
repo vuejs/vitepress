@@ -71,6 +71,21 @@ export interface Footer {
 }
 ```
 
+## lastUpdatedText
+
+- Type: `string`
+- Default: `Last updated`
+
+The prefix text showing right before the last updated time.
+
+```ts
+export default {
+  themeConfig: {
+    lastUpdatedText: 'Updated Date'
+  }
+}
+```
+
 ## carbonAds
 
 - Type: `CarbonAds`

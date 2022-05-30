@@ -5,8 +5,9 @@ import { useEditLink } from '../composables/edit-link'
 import { usePrevNext } from '../composables/prev-next'
 import VPIconEdit from './icons/VPIconEdit.vue'
 import VPLink from './VPLink.vue'
+import VPDocFooterLastUpdated from './VPDocFooterLastUpdated.vue'
 
-const { theme, frontmatter } = useData()
+const { theme, page, frontmatter } = useData()
 
 const editLink = useEditLink()
 const control = usePrevNext()
@@ -14,11 +15,17 @@ const control = usePrevNext()
 
 <template>
   <footer v-if="control.prev || control.next" class="VPDocFooter">
-    <div v-if="theme.editLink && frontmatter.editLink !== false" class="edit-link">
-      <VPLink class="edit-link-button" :href="editLink.url" :no-icon="true">
-        <VPIconEdit class="edit-link-icon" />
-        {{ editLink.text }}
-      </VPLink>
+    <div class="edit-info">
+      <div v-if="theme.editLink && frontmatter.editLink !== false" class="edit-link">
+        <VPLink class="edit-link-button" :href="editLink.url" :no-icon="true">
+          <VPIconEdit class="edit-link-icon" />
+          {{ editLink.text }}
+        </VPLink>
+      </div>
+
+      <div v-if="page.lastUpdated" class="last-updated">
+        <VPDocFooterLastUpdated />
+      </div>
     </div>
 
     <div class="prev-next">
@@ -29,7 +36,7 @@ const control = usePrevNext()
         </a>
       </div>
       <div class="pager" :class="{ 'has-prev': control.prev }">
-        <a v-if="control.next"  class="pager-link next" :href="normalizeLink(control.next.link)">
+        <a v-if="control.next" class="pager-link next" :href="normalizeLink(control.next.link)">
           <span class="desc">Next page</span>
           <span class="title">{{ control.next.text }}</span>
         </a>
@@ -43,18 +50,29 @@ const control = usePrevNext()
   margin-top: 64px;
 }
 
+.edit-info {
+  padding-bottom: 18px;
+}
+
+@media (min-width: 640px) {
+  .edit-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: 14px;
+  }
+}
+
 .edit-link {
-  padding-bottom: 14px;
+  line-height: 32px;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .edit-link-button {
   display: flex;
   align-items: center;
   border: 0;
-  padding: 10px 0;
-  line-height: 20px;
-  font-size: 14px;
-  font-weight: 500;
   color: var(--vp-c-brand);
   transition: color 0.25s;
 }

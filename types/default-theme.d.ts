@@ -30,6 +30,13 @@ export namespace DefaultTheme {
     editLink?: EditLink
 
     /**
+     * Set custom last updated text.
+     *
+     * @default 'Last updated'
+     */
+    lastUpdatedText?: string
+
+    /**
      * The social links to be displayed at the end of the nav bar. Perfect for
      * placing links to social services such as GitHub, Twitter, Facebook, etc.
      */

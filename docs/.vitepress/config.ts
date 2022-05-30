@@ -5,6 +5,8 @@ export default defineConfig({
   title: 'VitePress',
   description: 'Vite & Vue powered static site generator.',
 
+  lastUpdated: true,
+
   themeConfig: {
     nav: nav(),
 
