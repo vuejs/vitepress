@@ -5,7 +5,7 @@ import { useEditLink } from '../composables/edit-link'
 import { usePrevNext } from '../composables/prev-next'
 import VPIconEdit from './icons/VPIconEdit.vue'
 import VPLink from './VPLink.vue'
-import VPLastUpdated from './VPLastUpdated.vue'
+import VPDocFooterLastUpdated from './VPDocFooterLastUpdated.vue'
 
 const { theme, page, frontmatter } = useData()
 
@@ -22,7 +22,10 @@ const control = usePrevNext()
           {{ editLink.text }}
         </VPLink>
       </div>
-      <VPLastUpdated v-if="page.lastUpdated"/>
+
+      <div class="last-updated">
+        <VPDocFooterLastUpdated v-if="page.lastUpdated" />
+      </div>
     </div>
 
     <div class="prev-next">
@@ -48,23 +51,28 @@ const control = usePrevNext()
 }
 
 .edit-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  line-height: 20px;
-  font-size: 14px;
-  font-weight: 500;
+  padding-bottom: 18px;
+}
+
+@media (min-width: 640px) {
+  .edit-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: 14px;
+  }
 }
 
 .edit-link {
-  padding-bottom: 14px;
+  line-height: 32px;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .edit-link-button {
   display: flex;
   align-items: center;
   border: 0;
-  padding: 10px 0;
   color: var(--vp-c-brand);
   transition: color 0.25s;
 }

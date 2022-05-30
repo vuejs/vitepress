@@ -24,11 +24,11 @@ export namespace DefaultTheme {
     editLink?: EditLink
 
     /**
-     * Show last updated time at the bottom of the page. Defaults to `false`.
-     * If given a string, it will be displayed as a prefix (default value:
-     * "Last Updated").
+     * Set custom last updated text.
+     *
+     * @default 'Last updated'
      */
-    lastUpdated?: string | boolean
+    lastUpdatedText?: string
 
     /**
      * The social links to be displayed at the end of the nav bar. Perfect for

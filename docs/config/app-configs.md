@@ -152,7 +152,7 @@ export default {
 - Type: `boolean`
 - Default: `false`
 
-Use git commit to get the timestamp. Some themes may use it.
+Use git commit to get the timestamp. This option enables the default theme to display the page's last updated time. You can customize the text via [`themeConfig.lastUpdatedText`](theme-configs#lastupdatedtext) option.
 
 ```ts
 export default {

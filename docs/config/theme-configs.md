@@ -33,21 +33,6 @@ export default {
 }
 ```
 
-## lastUpdated
-
-- Type: `string`
-- Default: `Last Updated`
-
-The Last Updated prompt text.
-
-```ts
-export default {
-  themeConfig: {
-    lastUpdated: 'Updated Date'
-  }
-}
-```
-
 ## footer
 
 - Type: `Footer`
@@ -69,6 +54,21 @@ export default {
 export interface Footer {
   message?: string
   copyright?: string
+}
+```
+
+## lastUpdatedText
+
+- Type: `string`
+- Default: `Last updated`
+
+The prefix text showing right before the last updated time.
+
+```ts
+export default {
+  themeConfig: {
+    lastUpdatedText: 'Updated Date'
+  }
 }
 ```
 
