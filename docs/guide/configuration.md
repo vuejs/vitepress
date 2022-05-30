@@ -20,4 +20,4 @@ export default {
 }
 ```
 
-Learn everything about VitePress configuration at [configuration page](../config/introduction).
+Learn everything about VitePress features at [Theme: Introduction](./theme-introduction). You may also find all configuration references [configuration page](../config/introduction).

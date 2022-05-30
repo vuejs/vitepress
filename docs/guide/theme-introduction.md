@@ -1,6 +1,14 @@
 # Theme Introduction
 
-VitePress comes with its own default theme, and provides a way to customize it, or evenr create your own theme. At this page, we'll go through the basics of theme customizations.
+VitePress comes with its default theme providing many features out of the box. Learn more about each feature on its dedicated page listed below.
+
+- [Nav](./theme-nav)
+- [Layout](./theme-layout)
+- [Homepage](./theme-homepage)
+- [Footer](./theme-footer)
+- [Carbon Ads](./theme-carbon-ads)
+
+If you don't find the features you're looking for, or you would rather create your own theme, you may customize VitePress to fit your requirements.
 
 ## Using a Custom Theme
 
@@ -121,7 +129,7 @@ See [default theme CSS variables](https://github.com/vuejs/vitepress/blob/main/s
 
 ### Layout Slots
 
-The default theme's `<Layout/>` component has a few slots that can be used to inject content at certain locations of the page. Here's an example of injecting a component into the top of the sidebar:
+The default theme's `<Layout/>` component has a few slots that can be used to inject content at certain locations of the page. Here's an example of injecting a component into the before outline:
 
 ```js
 // .vitepress/theme/index.js
@@ -146,7 +154,7 @@ const { Layout } = DefaultTheme
 
 <template>
   <Layout>
-    <template #sidebar-top>
+    <template #aside-outline-before>
       My custom sidebar top content
     </template>
   </Layout>

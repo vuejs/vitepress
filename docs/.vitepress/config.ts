@@ -77,6 +77,7 @@ function sidebarGuide() {
       collapsible: true,
       items: [
         { text: 'Introduction', link: '/guide/theme-introduction' },
+        { text: 'Nav', link: '/guide/theme-nav' },
         { text: 'Layout', link: '/guide/theme-layout' },
         { text: 'Homepage', link: '/guide/theme-homepage' },
         { text: 'Footer', link: '/guide/theme-footer' },

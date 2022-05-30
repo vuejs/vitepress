@@ -4,7 +4,7 @@ layout: doc
 
 # Layout
 
-You may switch the of each page by setting `layout` option to the page [frontmatter](./frontmatter). There are 3 layout options, `doc`, `page`, and `home`. If don't specify the `layout` otpion, then the page is treated as option set to `doc`.
+You may choose the page layout by setting `layout` option to the page [frontmatter](./frontmatter). There are 3 layout options, `doc`, `page`, and `home`. If nothing is specified, then the page is treated as `doc` page.
 
 ```yaml
 ---
@@ -27,7 +27,7 @@ It also provides documentation specific features listed below. These features ar
 
 ## Page Layout
 
-Option `page` is treated as "blank page". The Markdown will still be parsed, and all of the [Markdown Extensions](./markdown-extensions) work as same as `doc` layout, but it wouldn't apply default styling.
+Option `page` is treated as "blank page". The Markdown will still be parsed, and all of the [Markdown Extensions](./markdown-extensions) work as same as `doc` layout, but it wouldn't get any default stylings.
 
 The page layout will let you style everything by you without VitePress theme affecting the markup. This is useful when you want to create your own custom page.
 
@@ -35,4 +35,4 @@ Note that even in this layout, sidebar will still show up if the page has a matc
 
 ## Home Layout
 
-Option `home` will generate templated "Home Page". In this layout, you can set extra options such as `hero` and `features` to customize the content further. Please visit [Theme: Home Page](./theme-homepage) for more details.
+Option `home` will generate templated "Homepage". In this layout, you can set extra options such as `hero` and `features` to customize the content further. Please visit [Theme: Home Page](./theme-homepage) for more details.
