@@ -304,14 +304,15 @@
   position: relative;
   z-index: 1;
   margin: 0;
-  padding: 16px 24px;
+  padding: 16px 0;
   background: transparent;
   overflow-x: auto;
 }
 
 .vp-doc [class*='language-'] code {
   display: block;
-  padding: 0;
+  padding: 0 24px;
+  width: fit-content;
   line-height: var(--vp-code-line-height);
   font-size: var(--vp-code-font-size);
   color: var(--vp-code-block-color);
