@@ -310,7 +310,7 @@
 }
 
 .vp-doc [class*='language-'] code {
-  display: inline-block;
+  display: block;
   padding: 0;
   line-height: var(--vp-code-line-height);
   font-size: var(--vp-code-font-size);
