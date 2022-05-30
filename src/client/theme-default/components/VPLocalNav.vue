@@ -102,7 +102,7 @@ function scrollToTop() {
 
 @media (min-width: 768px) {
   .top-link {
-    padding: 0 32px;
+    padding: 12px 32px 11px;
   }
 }
 </style>
