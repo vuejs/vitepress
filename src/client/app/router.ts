@@ -1,4 +1,4 @@
-import { reactive, inject, markRaw, nextTick, readonly } from 'vue'
+import { reactive, inject, markRaw, readonly } from 'vue'
 import type { Component, InjectionKey } from 'vue'
 import { PageData } from '../shared'
 import { inBrowser, withBase } from './utils'
@@ -89,7 +89,7 @@ export function createRouter(
           : (readonly(JSON.parse(__pageData)) as PageData)
 
         if (inBrowser) {
-          nextTick(() => {
+          setTimeout(() => {
             if (targetLoc.hash && !scrollPosition) {
               let target: HTMLElement | null = null
               try {
