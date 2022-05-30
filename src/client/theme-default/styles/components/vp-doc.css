@@ -410,7 +410,7 @@
   text-align: center;
   font-size: 12px;
   font-weight: 500;
-  color: var(--vp-c-text-code);
+  color: var(--vp-code-copy-code-active-text);
   background-color: var(--vp-code-copy-code-hover-bg);
   white-space: nowrap;
   content: "Copied";
