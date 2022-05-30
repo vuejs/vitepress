@@ -11,17 +11,24 @@ const { page } = useData()
 </script>
 
 <template>
-  <VPLink 
-    class="VPMenuLink"
-    :class="{ active: isActive(page.relativePath, item.activeMatch || item.link) }"
-    :href="item.link"
-  >
-    {{ item.text }}
-  </VPLink>
+  <div class="VPMenuLink">
+    <VPLink 
+      :class="{ active: isActive(page.relativePath, item.activeMatch || item.link) }"
+      :href="item.link"
+    >
+      {{ item.text }}
+    </VPLink>
+  </div>
 </template>
 
 <style scoped>
-.VPMenuLink {
+.VPMenuGroup + .VPMenuLink {
+  margin: 12px -12px 0;
+  border-top: 1px solid var(--vp-c-divider-light);
+  padding: 12px 12px 0;
+}
+
+.link {
   display: block;
   border-radius: 6px;
   padding: 0 12px;
@@ -33,16 +40,16 @@ const { page } = useData()
   transition: background-color 0.25s, color 0.25s;
 }
 
-.VPMenuLink:hover {
+.link:hover {
   color: var(--vp-c-brand);
   background-color: var(--vp-c-bg-mute);
 }
 
-.dark .VPMenuLink:hover {
+.dark .link:hover {
   background-color: var(--vp-c-bg-soft);
 }
 
-.VPMenuLink.active {
+.link.active {
   color: var(--vp-c-brand);
 }
 </style>
