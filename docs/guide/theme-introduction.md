@@ -4,9 +4,13 @@ VitePress comes with its default theme providing many features out of the box. L
 
 - [Nav](./theme-nav)
 - [Sidebar](./theme-sidebar)
+- [Prev Next Link](./theme-prev-next-link)
+- [Edit Link](./theme-edit-link)
+- [Last Updated](./theme-last-updated)
 - [Layout](./theme-layout)
 - [Homepage](./theme-homepage)
 - [Footer](./theme-footer)
+- [Search](./theme-search)
 - [Carbon Ads](./theme-carbon-ads)
 
 If you don't find the features you're looking for, or you would rather create your own theme, you may customize VitePress to fit your requirements.

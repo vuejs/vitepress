@@ -413,3 +413,5 @@ module.exports = {
   }
 }
 ```
+
+See full list of configurable properties in [Configs: App Configs](../config/app-configs#markdown).

@@ -79,9 +79,13 @@ function sidebarGuide() {
         { text: 'Introduction', link: '/guide/theme-introduction' },
         { text: 'Nav', link: '/guide/theme-nav' },
         { text: 'Sidebar', link: '/guide/theme-sidebar' },
+        { text: 'Prev Next Link', link: '/guide/theme-prev-next-link' },
+        { text: 'Edit Link', link: '/guide/theme-edit-link' },
+        { text: 'Last Updated', link: '/guide/theme-last-updated' },
         { text: 'Layout', link: '/guide/theme-layout' },
         { text: 'Homepage', link: '/guide/theme-homepage' },
         { text: 'Footer', link: '/guide/theme-footer' },
+        { text: 'Search', link: '/guide/theme-search' },
         { text: 'Carbon Ads', link: '/guide/theme-carbon-ads' }
       ]
     },
