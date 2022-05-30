@@ -79,8 +79,8 @@ function load() {
           <span class="DocSearch-Button-Placeholder">Search</span>
         </span>
         <span class="DocSearch-Button-Keys">
-          <span class="DocSearch-Button-Key" ref="metaKey">Meta</span>
-          <span class="DocSearch-Button-Key">K</span>
+          <kbd class="DocSearch-Button-Key" ref="metaKey">Meta</kbd>
+          <kbd class="DocSearch-Button-Key">K</kbd>
         </span>
       </button>
     </div>
@@ -241,6 +241,7 @@ function load() {
   width: auto;
   height: 22px;
   line-height: 22px;
+  font-family: var(--vp-font-family-base);
   font-size: 12px;
   font-weight: 500;
   transition: color 0.5s, border-color 0.5s;
