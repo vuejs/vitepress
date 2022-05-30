@@ -64,7 +64,7 @@ Set `false` to disable the feature. If the option is `undefined`, then the value
 ```ts
 export default {
   title: 'VitePress',
-  titleTemplate: 'Vite & Vue powered static site generator.'
+  titleTemplate: 'Vite & Vue powered static site generator'
 }
 ```
 

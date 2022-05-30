@@ -3,6 +3,7 @@
 VitePress comes with its default theme providing many features out of the box. Learn more about each feature on its dedicated page listed below.
 
 - [Nav](./theme-nav)
+- [Sidebar](./theme-sidebar)
 - [Layout](./theme-layout)
 - [Homepage](./theme-homepage)
 - [Footer](./theme-footer)

@@ -78,6 +78,7 @@ function sidebarGuide() {
       items: [
         { text: 'Introduction', link: '/guide/theme-introduction' },
         { text: 'Nav', link: '/guide/theme-nav' },
+        { text: 'Sidebar', link: '/guide/theme-sidebar' },
         { text: 'Layout', link: '/guide/theme-layout' },
         { text: 'Homepage', link: '/guide/theme-homepage' },
         { text: 'Footer', link: '/guide/theme-footer' },
