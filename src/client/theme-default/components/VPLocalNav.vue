@@ -43,6 +43,7 @@ function scrollToTop() {
   z-index: var(--vp-z-index-local-nav);
   display: flex;
   justify-content: space-between;
+  align-items: center;
   border-bottom: 1px solid var(--vp-c-divider-light);
   width: 100%;
   background-color: var(--vp-c-bg);
@@ -85,6 +86,7 @@ function scrollToTop() {
 }
 
 .top-link {
+  display: block;
   padding: 12px 24px 11px;
   line-height: 24px;
   font-size: 12px;
