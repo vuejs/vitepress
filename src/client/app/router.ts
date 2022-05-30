@@ -1,7 +1,7 @@
 import { reactive, inject, markRaw, nextTick, readonly } from 'vue'
 import type { Component, InjectionKey } from 'vue'
 import { PageData } from '../shared'
-import { inBrowser } from './utils'
+import { inBrowser, withBase } from './utils'
 import { siteDataRef } from './data'
 
 export interface Route {
@@ -82,7 +82,7 @@ export function createRouter(
           throw new Error(`Invalid route component: ${comp}`)
         }
 
-        route.path = pendingPath
+        route.path = inBrowser ? pendingPath : withBase(pendingPath)
         route.component = markRaw(comp)
         route.data = import.meta.env.PROD
           ? markRaw(JSON.parse(__pageData))
@@ -127,7 +127,7 @@ export function createRouter(
 
       if (latestPendingPath === pendingPath) {
         latestPendingPath = null
-        route.path = pendingPath
+        route.path = inBrowser ? pendingPath : withBase(pendingPath)
         route.component = fallbackComponent ? markRaw(fallbackComponent) : null
         route.data = notFoundPageData
       }
