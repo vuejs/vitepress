@@ -23,8 +23,8 @@ const control = usePrevNext()
         </VPLink>
       </div>
 
-      <div class="last-updated">
-        <VPDocFooterLastUpdated v-if="page.lastUpdated" />
+      <div v-if="page.lastUpdated" class="last-updated">
+        <VPDocFooterLastUpdated />
       </div>
     </div>
 
