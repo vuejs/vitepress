@@ -58,8 +58,8 @@ function scrollToTop() {
 .menu {
   display: flex;
   align-items: center;
-  padding: 0 24px;
-  line-height: 47px;
+  padding: 12px 24px 11px;
+  line-height: 24px;
   font-size: 12px;
   font-weight: 500;
   color: var(--vp-c-text-2);
@@ -85,8 +85,8 @@ function scrollToTop() {
 }
 
 .top-link {
-  padding: 0 24px;
-  line-height: 47px;
+  padding: 12px 24px 11px;
+  line-height: 24px;
   font-size: 12px;
   font-weight: 500;
   color: var(--vp-c-text-2);
