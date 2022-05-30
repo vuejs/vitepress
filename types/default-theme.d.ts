@@ -8,6 +8,12 @@ export namespace DefaultTheme {
     logo?: string
 
     /**
+     * Custom site title in navbar. If the value is undefined,
+     * `config.title` will be used.
+     */
+    siteTitle?: string | false
+
+    /**
      * The nav items.
      */
     nav?: NavItem[]
