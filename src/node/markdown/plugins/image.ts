@@ -11,7 +11,7 @@ export const imagePlugin = (md: MarkdownIt) => {
       token.attrSet('src', './' + url)
     }
 
-    if (token.attrIndex('alt') && token.children !== null) {
+    if (token.attrIndex('alt') && token.children != null) {
       token.attrs![token.attrIndex('alt')][1] = self.renderInlineAsText(
         token.children,
         options,
