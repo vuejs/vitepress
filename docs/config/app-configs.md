@@ -102,7 +102,7 @@ Below shows the the full option you may define within this object.
 interface MarkdownOptions extends MarkdownIt.Options {
   // Syntax highlight theme for Shiki.
   // See: https://github.com/shikijs/shiki/blob/main/docs/themes.md#all-themes
-  theme?: Shiki.Theme
+  theme?: Shiki.Theme | { light: Shiki.Theme, dark: Shiki.Theme }
 
   // Enable line numbers in code block.
   lineNumbers?: boolean

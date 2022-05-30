@@ -1,14 +1,28 @@
-import escapeHtml from 'escape-html'
 import { getHighlighter } from 'shiki'
+import type { ThemeOptions } from '../markdown'
 
-export const highlight = async (theme = 'material-palenight') => {
-  const highlighter = await getHighlighter({ theme })
+export async function highlight(theme: ThemeOptions = 'material-palenight') {
+  const themes = typeof theme === 'string' ? [theme] : [theme.dark, theme.light]
+  const highlighter = await getHighlighter({ themes })
+  const preRE = /^<pre.*?>/
 
   return (str: string, lang: string) => {
-    if (!lang || lang === 'text') {
-      return `<pre v-pre><code>${escapeHtml(str)}</code></pre>`
+    lang = lang || 'text'
+
+    if (typeof theme === 'string') {
+      return highlighter
+        .codeToHtml(str, { lang, theme })
+        .replace(preRE, '<pre v-pre>')
     }
 
-    return highlighter.codeToHtml(str, lang).replace(/^<pre.*?>/, '<pre v-pre>')
+    const dark = highlighter
+      .codeToHtml(str, { lang, theme: theme.dark })
+      .replace(preRE, '<pre v-pre class="vp-code-dark">')
+
+    const light = highlighter
+      .codeToHtml(str, { lang, theme: theme.light })
+      .replace(preRE, '<pre v-pre class="vp-code-light">')
+
+    return dark + light
   }
 }

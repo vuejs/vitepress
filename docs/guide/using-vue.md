@@ -26,8 +26,8 @@ Directives also work:
 
 **Input**
 
-```md
-<span v-for="i in 3">{{ i }} </span>
+```html
+<span v-for="i in 3">{{ i }}</span>
 ```
 
 **Output**
@@ -40,7 +40,7 @@ You can use the [`useData` helper](./api#usedata) in a `<script>` block and expo
 
 **Input**
 
-```md
+```html
 <script setup>
 import { useData } from 'vitepress'
 
