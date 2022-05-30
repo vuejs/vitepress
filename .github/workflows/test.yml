@@ -10,7 +10,7 @@ jobs:
         node-version: [14, 16]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2.0.1
@@ -18,7 +18,7 @@ jobs:
           version: 7.0.1
 
       - name: Set node version to ${{ matrix.node_version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node_version }}
           cache: 'pnpm'

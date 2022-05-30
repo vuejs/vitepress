@@ -296,7 +296,7 @@ export default { // Highlighted
 
 **Output**
 
-```js{1,4,6-8}
+```js{1,4,6-7}
 export default { // Highlighted
   data () {
     return {
