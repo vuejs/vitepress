@@ -10,6 +10,15 @@ export const imagePlugin = (md: MarkdownIt) => {
     if (url && !EXTERNAL_URL_RE.test(url) && !/^\.?\//.test(url)) {
       token.attrSet('src', './' + url)
     }
+
+    if (token.attrIndex('alt') && token.children != null) {
+      token.attrs![token.attrIndex('alt')][1] = self.renderInlineAsText(
+        token.children,
+        options,
+        env
+      )
+    }
+
     return self.renderToken(tokens, idx, options)
   }
 }
