@@ -24,5 +24,5 @@ features:
   - title: Power of Vue meets Markdown
     details: The project structure that helps you focus on writing, yet fully customizable for any website development.
   - title: Fully static yet still dynamic
-    details: Go wild with the true SSG + SPA architecture. Static on the page load, engage users with 100% interactive from there.
+    details: Go wild with true SSG + SPA architecture. Static on page load, but engage users with 100% interactivity from there.
 ---
