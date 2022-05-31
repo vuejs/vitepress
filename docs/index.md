@@ -20,7 +20,7 @@ features:
   - title: Vite: The DX that can't be beat
     details: Feel the speed of Vite. Instant server start and lightning fast HMR that stays fast regardless of the app size.
   - title: Power of Vue meets Markdown
-    details: Enjoy the outstanding feature set of Vue Component in markdown, and develop custom themes with Vue.
+    details: With Markdown-centered content, it's built to help you focus on writing and deployed with minimum configuration.
   - title: Simple and minimal, always
     details: The project structure that helps you focus on writing, yet fully customizable for any website development.
   - title: Fully static, but dynammic
