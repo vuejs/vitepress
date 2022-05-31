@@ -1,11 +1,47 @@
 <script lang="ts" setup>
+import { APPEARANCE_KEY } from '../../shared'
 import VPSwitch from './VPSwitch.vue'
 import VPIconSun from './icons/VPIconSun.vue'
 import VPIconMoon from './icons/VPIconMoon.vue'
-import { useDark, useToggle } from '@vueuse/core'
+import { ref } from 'vue'
 
-const isDark = useDark()
-const toggleDark = useToggle(isDark)
+const { toggle, isDark } = useAppearance()
+
+const toggleDark = typeof localStorage !== 'undefined' ?  toggle: () => {}
+
+function useAppearance() {
+  const query = window.matchMedia('(prefers-color-scheme: dark)')
+  const classList = document.documentElement.classList
+
+  let userPreference = localStorage.getItem(APPEARANCE_KEY) || 'auto'
+
+  let isDark = ref(userPreference === 'auto'
+    ? query.matches
+    : userPreference === 'dark')
+
+  query.onchange = (e) => {
+    if (userPreference === 'auto') {
+      setClass((isDark.value = e.matches))
+    }
+  }
+
+  function toggle() {
+    isDark.value = !isDark.value
+    setClass(isDark.value)
+
+    userPreference = isDark.value
+      ? query.matches ? 'auto' : 'dark'
+      : query.matches ? 'light' : 'auto'
+
+    localStorage.setItem(APPEARANCE_KEY, userPreference)
+  }
+
+  function setClass(dark: boolean): void {
+    classList[dark ? 'add' : 'remove']('dark')
+  }
+
+  return { toggle, isDark }
+}
 </script>
 
 <template>
