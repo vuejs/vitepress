@@ -2,7 +2,22 @@
 
 If you're coming from VitePress 0.x version, there're several breaking changes due to new features and enhancement. Please follow this guide to see how to migrate your app over to the latest VitePress.
 
-## Config: Frontmatter
+## App Config
 
-- `home: true` option has changed to `layout: home`. Also, many Homepage related settings have been modified to provide additional features. See [Homepage guide](../guide/theme-homepage) for details.
+- The internationalization feature is not yet implemented.
+
+## Theme Config
+
+- `sidebar` option has changed its structure.
+  - `children` key is now named `items`.
+  - Top level item may not contain `link` at the moment. We're planning to bring it back.
+- `repo`, `repoLabel`, `docsDir`, `docsBranch`, `editLinks`, `editLinkText` are removed in favor of more flexible api.
+  - For adding GitHub link with icon to the nav, use [Social Links](./theme-nav.html#navigation-links) feature.
+  - For adding "Edit this page" feature, use [Edit Link](./theme-edit-link) feature.
+- `lastUpdated` option is now split into `config.lastUpdated` and `themeConfig.lastUpdatedText`.
+- `carbonAds.carbon` is changed to `carbonAds.code`.
+
+## Frontmatter Config
+
+- `home: true` option has changed to `layout: home`. Also, many Homepage related settings have been modified to provide additional features. See [Homepage guide](./theme-homepage) for details.
 - `footer` option is moved to [`themeConfig.footer`](../config/theme-configs#footer).
