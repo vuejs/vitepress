@@ -64,12 +64,18 @@ function sidebarGuide() {
         { text: 'What is VitePress?', link: '/guide/what-is-vitepress' },
         { text: 'Getting Started', link: '/guide/getting-started' },
         { text: 'Configuration', link: '/guide/configuration' },
+        { text: 'Deploying', link: '/guide/deploying' }
+      ]
+    },
+    {
+      text: 'Writing',
+      collapsible: true,
+      items: [
+        { text: 'Markdown', link: '/guide/markdown' },
         { text: 'Asset Handling', link: '/guide/asset-handling' },
-        { text: 'Markdown Extensions', link: '/guide/markdown-extensions' },
         { text: 'Frontmatter', link: '/guide/frontmatter' },
         { text: 'Using Vue in Markdown', link: '/guide/using-vue' },
-        { text: 'API Reference', link: '/guide/api' },
-        { text: 'Deploying', link: '/guide/deploying' }
+        { text: 'API Reference', link: '/guide/api' }
       ]
     },
     {

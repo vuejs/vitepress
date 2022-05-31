@@ -20,4 +20,8 @@ export default {
 }
 ```
 
-Learn everything about VitePress features at [Theme: Introduction](./theme-introduction). You may also find all configuration references [configuration page](../config/introduction).
+In the above example, the site will have the title of `VitePress`, and `Just playing around` as description meta tag.
+
+Learn everything about VitePress features at [Theme: Introduction](./theme-introduction) to find how to configure specific features with in this config file.
+
+You may also find all configuration references at [Configs](../config/introduction).

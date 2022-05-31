@@ -27,7 +27,7 @@ It also provides documentation specific features listed below. These features ar
 
 ## Page Layout
 
-Option `page` is treated as "blank page". The Markdown will still be parsed, and all of the [Markdown Extensions](./markdown-extensions) work as same as `doc` layout, but it wouldn't get any default stylings.
+Option `page` is treated as "blank page". The Markdown will still be parsed, and all of the [Markdown Extensions](./markdown) work as same as `doc` layout, but it wouldn't get any default stylings.
 
 The page layout will let you style everything by you without VitePress theme affecting the markup. This is useful when you want to create your own custom page.
 
