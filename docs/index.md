@@ -21,7 +21,7 @@ features:
     details: Feel the speed of Vite. Instant server start and lightning fast HMR that stays fast regardless of the app size.
   - title: Power of Vue meets Markdown
     details: With Markdown-centered content, it's built to help you focus on writing and deployed with minimum configuration.
-  - title: Simple and minimal, always
+  - title: Power of Vue meets Markdown
     details: The project structure that helps you focus on writing, yet fully customizable for any website development.
   - title: Fully static, but dynammic
     details: Go wild with the true SSG + SPA architecture. Static on the page load, engage users with 100% interactive from there.
