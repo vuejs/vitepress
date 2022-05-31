@@ -19,7 +19,7 @@ hero:
 features:
   - title: Vite: The DX that can't be beat
     details: Feel the speed of Vite. Instant server start and lightning fast HMR that stays fast regardless of the app size.
-  - title: Power of Vue meets Markdown
+  - title: Designed to be simplicity first
     details: With Markdown-centered content, it's built to help you focus on writing and deployed with minimum configuration.
   - title: Power of Vue meets Markdown
     details: Enhance your content with all the amazing features of Vue Components in Markdown, while being able to customize your site with Vue.
