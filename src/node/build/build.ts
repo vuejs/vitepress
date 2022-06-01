@@ -1,11 +1,11 @@
 import fs from 'fs-extra'
-import { bundle, okMark, failMark } from './bundle'
+import path from 'path'
+import ora from 'ora'
 import { BuildOptions } from 'vite'
+import { OutputChunk, OutputAsset } from 'rollup'
 import { resolveConfig } from '../config'
 import { renderPage } from './render'
-import { OutputChunk, OutputAsset } from 'rollup'
-import ora from 'ora'
-import path from 'path'
+import { bundle, okMark, failMark } from './bundle'
 
 export async function build(
   root: string,

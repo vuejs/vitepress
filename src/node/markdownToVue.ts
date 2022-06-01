@@ -1,14 +1,14 @@
 import fs from 'fs'
 import path from 'path'
+import c from 'picocolors'
 import matter from 'gray-matter'
 import LRUCache from 'lru-cache'
-import { createMarkdownRenderer, MarkdownOptions } from './markdown/markdown'
-import { deeplyParseHeader } from './utils/parseHeader'
 import { PageData, HeadConfig, EXTERNAL_URL_RE } from './shared'
 import { slash } from './utils/slash'
-import chalk from 'chalk'
-import _debug from 'debug'
+import { deeplyParseHeader } from './utils/parseHeader'
 import { getGitTimestamp } from './utils/getGitTimestamp'
+import { createMarkdownRenderer, MarkdownOptions } from './markdown/markdown'
+import _debug from 'debug'
 
 const debug = _debug('vitepress:md')
 const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
@@ -21,7 +21,7 @@ export interface MarkdownCompileResult {
   includes: string[]
 }
 
-export function createMarkdownToVueRenderFn(
+export async function createMarkdownToVueRenderFn(
   srcDir: string,
   options: MarkdownOptions = {},
   pages: string[],
@@ -30,7 +30,8 @@ export function createMarkdownToVueRenderFn(
   base: string,
   includeLastUpdatedData = false
 ) {
-  const md = createMarkdownRenderer(srcDir, options, base)
+  const md = await createMarkdownRenderer(srcDir, options, base)
+
   pages = pages.map((p) => slash(p.replace(/\.md$/, '')))
 
   const userDefineRegex = userDefines
@@ -95,10 +96,8 @@ export function createMarkdownToVueRenderFn(
     const deadLinks: string[] = []
     const recordDeadLink = (url: string) => {
       console.warn(
-        chalk.yellow(
-          `\n(!) Found dead link ${chalk.cyan(url)} in file ${chalk.white.dim(
-            file
-          )}`
+        c.yellow(
+          `\n(!) Found dead link ${c.cyan(url)} in file ${c.white(c.dim(file))}`
         )
       )
       deadLinks.push(url)
@@ -134,6 +133,7 @@ export function createMarkdownToVueRenderFn(
 
     const pageData: PageData = {
       title: inferTitle(frontmatter, content),
+      titleTemplate: frontmatter.titleTemplate,
       description: inferDescription(frontmatter),
       frontmatter,
       headers: data.headers || [],
@@ -188,26 +188,32 @@ function genPageDataCode(tags: string[], data: PageData) {
       defaultExportRE.test(tagSrc) || namedDefaultExportRE.test(tagSrc)
     tags[existingScriptIndex] = tagSrc.replace(
       scriptRE,
-      code + (hasDefaultExport ? `` : `\nexport default{}\n`) + `</script>`
+      code +
+        (hasDefaultExport
+          ? ``
+          : `\nexport default {name:'${data.relativePath}'}`) +
+        `</script>`
     )
   } else {
-    tags.unshift(`<script>${code}\nexport default {}</script>`)
+    tags.unshift(
+      `<script>${code}\nexport default {name:'${data.relativePath}'}</script>`
+    )
   }
 
   return tags
 }
 
-const inferTitle = (frontmatter: any, content: string) => {
+const inferTitle = (frontmatter: Record<string, any>, content: string) => {
   if (frontmatter.title) {
     return deeplyParseHeader(frontmatter.title)
   }
-  if (frontmatter.home) {
-    return 'Home'
-  }
+
   const match = content.match(/^\s*#+\s+(.*)/m)
+
   if (match) {
     return deeplyParseHeader(match[1].trim())
   }
+
   return ''
 }
 

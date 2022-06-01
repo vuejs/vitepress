@@ -1,14 +1,14 @@
----
-sidebarDepth: 3
----
-
 # Markdown Extensions
+
+VitePress comes with built in Markdown Extensions.
 
 ## Header Anchors
 
 Headers automatically get anchor links applied. Rendering of anchors can be configured using the `markdown.anchor` option.
 
 ## Links
+
+Both internal and external links gets special treatments.
 
 ### Internal Links
 
@@ -123,50 +123,52 @@ Custom containers can be defined by their types, titles, and contents.
 **Input**
 
 ```md
-::: tip
-This is a tip
+::: info
+This is an info box.
 :::
 
-::: info
-This is an info box
+::: tip
+This is a tip.
 :::
 
 ::: warning
-This is a warning
+This is a warning.
 :::
 
 ::: danger
-This is a dangerous warning
+This is a dangerous warning.
 :::
 
 ::: details
-This is a details block, which does not work in Internet Explorer or old versions of Edge.
+This is a details block.
 :::
 ```
 
 **Output**
 
-::: tip
-This is a tip
+::: info
+This is an info box.
 :::
 
-::: info
-This is an info box
+::: tip
+This is a tip.
 :::
 
 ::: warning
-This is a warning
+This is a dangerous warning.
 :::
 
 ::: danger
-This is a dangerous warning
+This is a dangerous warning.
 :::
 
 ::: details
-This is a details block, which does not work in Internet Explorer or Edge.
+This is a details block.
 :::
 
 ### Custom Title
+
+You may set custom title by appending the text right after the "type" of the container.
 
 **Input**
 
@@ -176,11 +178,9 @@ Danger zone, do not proceed
 :::
 
 ::: details Click me to view the code
-
 ```js
 console.log('Hello, VitePress!')
 ```
-
 :::
 ````
 
@@ -191,16 +191,14 @@ Danger zone, do not proceed
 :::
 
 ::: details Click me to view the code
-
 ```js
 console.log('Hello, VitePress!')
 ```
-
 :::
 
 ## Syntax Highlighting in Code Blocks
 
-VitePress uses [Prism](https://prismjs.com) to highlight language syntax in Markdown code blocks, using coloured text. Prism supports a wide variety of programming languages. All you need to do is append a valid language alias to the beginning backticks for the code block:
+VitePress uses [Shiki](https://shiki.matsu.io/) to highlight language syntax in Markdown code blocks, using coloured text. Shiki supports a wide variety of programming languages. All you need to do is append a valid language alias to the beginning backticks for the code block:
 
 **Input**
 
@@ -212,17 +210,6 @@ export default {
 }
 ```
 ````
-
-**Output**
-
-```js
-export default {
-  name: 'MyComponent'
-  // ...
-}
-```
-
-**Input**
 
 ````
 ```html
@@ -236,15 +223,24 @@ export default {
 
 **Output**
 
+```js
+export default {
+  name: 'MyComponent'
+  // ...
+}
+```
+
 ```html
 <ul>
   <li v-for="todo in todos" :key="todo.id">
-      {{ todo.text }}
+    {{ todo.text }}
   </li>
 </ul>
 ```
 
-A [list of valid languages](https://prismjs.com/#languages-list) is available on Prism’s site.
+A [list of valid languages](https://github.com/shikijs/shiki/blob/main/docs/languages.md) is available on Shiki’s repository.
+
+You may also customize syntax highlight theme in app config. Please see [`markdown` options](../config/app-configs#markdown) for more details.
 
 ## Line Highlighting in Code Blocks
 
@@ -283,7 +279,7 @@ In addition to a single line, you can also specify multiple single lines, ranges
 **Input**
 
 ````
-```js{1,4,6-8}
+```js{1,4,6-7}
 export default { // Highlighted
   data () {
     return {
@@ -291,7 +287,7 @@ export default { // Highlighted
       This line isn't highlighted,
       but this and the next 2 are.`,
       motd: 'VitePress is awesome',
-      lorem: 'ipsum',
+      lorem: 'ipsum'
     }
   }
 }
@@ -300,7 +296,7 @@ export default { // Highlighted
 
 **Output**
 
-```js{1,4,6-8}
+```js{1,4,6-7}
 export default { // Highlighted
   data () {
     return {
@@ -319,46 +315,14 @@ export default { // Highlighted
 You can enable line numbers for each code blocks via config:
 
 ```js
-module.exports = {
+export default {
   markdown: {
     lineNumbers: true
   }
 }
 ```
 
-- Demo:
-
-<picture>
-  <source srcset="../images/line-numbers-mobile.gif" media="(max-width: 719px)">
-  <img class="line-numbers-mobile-snap" src="../images/line-numbers-mobile.gif" alt="Image">
-</picture>
-
-<picture>
-  <source srcset="../images/line-numbers-desktop.png" media="(min-width: 720px)">
-  <img class="line-numbers-desktop-snap" src="../images/line-numbers-desktop.png" alt="Image">
-</picture>
-
-<style>
-  .line-numbers-mobile-snap {
-    margin: 0 -1.5rem;
-    width: 100vw;
-    max-width: none !important;
-  }
-
-  .line-numbers-desktop-snap {
-    display: none;
-  }
-
-  @media (min-width:  720px) {
-    .line-numbers-mobile-snap {
-       display: none;
-    }
-
-    .line-numbers-desktop-snap {
-      display: block;
-    }
-  }
-</style>
+Please see [`markdown` options](../config/app-configs#markdown) for more details.
 
 ## Import Code Snippets
 
@@ -439,8 +403,8 @@ module.exports = {
       permalink: anchor.permalink.headerLink()
     },
 
-    // options for markdown-it-table-of-contents
-    toc: { includeLevel: [1, 2] },
+    // options for markdown-it-toc-done-right
+    toc: { level: [1, 2] },
 
     config: (md) => {
       // use more markdown-it plugins!
@@ -449,3 +413,5 @@ module.exports = {
   }
 }
 ```
+
+See full list of configurable properties in [Configs: App Configs](../config/app-configs#markdown).

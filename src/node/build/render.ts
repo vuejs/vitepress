@@ -1,11 +1,15 @@
-import path from 'path'
+import { createRequire } from 'module'
 import fs from 'fs-extra'
-import { SiteConfig, resolveSiteDataByRoute } from '../config'
-import { HeadConfig } from '../shared'
+import path from 'path'
+import { pathToFileURL } from 'url'
+import escape from 'escape-html'
 import { normalizePath, transformWithEsbuild } from 'vite'
 import { RollupOutput, OutputChunk, OutputAsset } from 'rollup'
+import { HeadConfig, createTitle } from '../shared'
 import { slash } from '../utils/slash'
-import escape from 'escape-html'
+import { SiteConfig, resolveSiteDataByRoute } from '../config'
+
+const require = createRequire(import.meta.url)
 
 export async function renderPage(
   config: SiteConfig,
@@ -16,7 +20,9 @@ export async function renderPage(
   pageToHashMap: Record<string, string>,
   hashMapString: string
 ) {
-  const { createApp } = require(path.join(config.tempDir, `app.js`))
+  const { createApp } = await import(
+    pathToFileURL(path.join(config.tempDir, `app.js`)).toString()
+  )
   const { app, router } = createApp()
   const routePath = `/${page.replace(/\.md$/, '')}`
   const siteData = resolveSiteDataByRoute(config.site, routePath)
@@ -34,7 +40,9 @@ export async function renderPage(
   }
 
   // render page
-  const content = await require(rendererPath).renderToString(app)
+  const content = await import(pathToFileURL(rendererPath).toString()).then(
+    (r) => r.renderToString(app)
+  )
 
   const pageName = page.replace(/\//g, '_')
   // server build doesn't need hash
@@ -45,10 +53,9 @@ export async function renderPage(
   const pageClientJsFileName = `assets/${pageName}.${pageHash}.lean.js`
 
   // resolve page data so we can render head tags
-  const { __pageData } = require(path.join(
-    config.tempDir,
-    pageServerJsFileName
-  ))
+  const { __pageData } = await import(
+    pathToFileURL(path.join(config.tempDir, pageServerJsFileName)).toString()
+  )
   const pageData = JSON.parse(__pageData)
 
   let preloadLinks = config.mpa
@@ -92,10 +99,8 @@ export async function renderPage(
     ? `<link rel="stylesheet" href="${siteData.base}${cssChunk.fileName}">`
     : ''
 
-  const title: string =
-    pageData.title && pageData.title !== 'Home'
-      ? `${pageData.title} | ${siteData.title}`
-      : siteData.title
+  const title: string = createTitle(siteData, pageData)
+  const description: string = pageData.description || siteData.description
 
   const head = addSocialTags(
     title,
@@ -127,9 +132,7 @@ export async function renderPage(
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>${title}</title>
-    <meta name="description" content="${
-      pageData.description || siteData.description
-    }">
+    <meta name="description" content="${description}">
     ${stylesheetLink}
     ${preloadLinksString}
     ${prefetchLinkString}

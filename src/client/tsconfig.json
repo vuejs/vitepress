@@ -1,10 +1,12 @@
 {
-  "extends": "../tsconfig.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "../../dist/client",
     "target": "esnext",
     "module": "esnext",
+    "declaration": true,
+    "declarationDir": "../../dist/client-types",
     "lib": ["ESNext", "DOM"],
     "types": ["vite/client"],
     "paths": {

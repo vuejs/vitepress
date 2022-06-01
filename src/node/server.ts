@@ -12,7 +12,7 @@ export async function createServer(
     root: config.srcDir,
     base: config.site.base,
     // logLevel: 'warn',
-    plugins: createVitePressPlugin(root, config),
+    plugins: await createVitePressPlugin(root, config),
     server: serverOptions
   })
 }

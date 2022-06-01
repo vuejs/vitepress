@@ -7,11 +7,11 @@ import {
   onMounted,
   watch
 } from 'vue'
+import Theme from '/@theme/index'
 import { inBrowser, pathToFile } from './utils'
 import { Router, RouterSymbol, createRouter } from './router'
 import { siteDataRef, useData } from './data'
 import { useUpdateHead } from './composables/head'
-import Theme from '/@theme/index'
 import { usePrefetch } from './composables/preFetch'
 import { dataSymbol, initData } from './data'
 import { Content } from './components/Content'
@@ -107,16 +107,11 @@ function newRouter(): Router {
       pageFilePath = pageFilePath.replace(/\.js$/, '.lean.js')
     }
 
-    // in browser: native dynamic import
     if (inBrowser) {
       isInitialPageLoad = false
-
-      return import(/*@vite-ignore*/ pageFilePath)
     }
 
-    // SSR: sync require
-    // @ts-ignore
-    return require(pageFilePath)
+    return import(/*@vite-ignore*/ pageFilePath)
   }, NotFound)
 }
 

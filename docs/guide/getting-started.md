@@ -1,51 +1,87 @@
 # Getting Started
 
-This section will help you build a basic VitePress documentation site from ground up. If you already have an existing project and would like to keep documentation inside the project, start from Step 3.
+This section will help you build a basic VitePress documentation site from ground up. If you already have an existing project and would like to keep documentation inside the project, start from Step 2.
 
-- **Step. 1:** Create and change into a new directory.
+::: warning
+VitePress is currently in `alpha` status. It is already suitable for out-of-the-box documentation use, but the config and theming API may still change between minor releases.
+:::
 
-  ```bash
-  $ mkdir vitepress-starter && cd vitepress-starter
-  ```
+## Step. 1: Create a new project
 
-- **Step. 2:** Initialize with your preferred package manager.
+Create and change into a new directory.
 
-  ```bash
-  $ yarn init
-  ```
+```bash
+$ mkdir vitepress-starter && cd vitepress-starter
+```
 
-- **Step. 3:** Install VitePress locally.
+Then, initialize with your preferred package manager.
 
-  ```bash
-  $ yarn add --dev vitepress
-  ```
+```bash
+$ yarn init
+```
 
-- **Step. 4:** Create your first document.
+## Step. 2: Install VitePress
 
-  ```bash
-  $ mkdir docs && echo '# Hello VitePress' > docs/index.md
-  ```
+Add VitePress as a dependency for the project.
 
-- **Step. 5:** Add some scripts to `package.json`.
+```bash
+$ yarn add --dev vitepress
+```
 
-  ```json
-  {
-    "scripts": {
-      "docs:dev": "vitepress dev docs",
-      "docs:build": "vitepress build docs",
-      "docs:serve": "vitepress serve docs"
-    }
-  }
-  ```
+Create your first document.
 
-- **Step. 6:** Serve the documentation site in the local server.
+```bash
+$ mkdir docs && echo '# Hello VitePress' > docs/index.md
+```
 
-  ```bash
-  $ yarn docs:dev
-  ```
+## Step. 3: Boot up dev environment
 
-  VitePress will start a hot-reloading development server at `http://localhost:3000`.
+Add some scripts to `package.json`.
 
-By now, you should have a basic but functional VitePress documentation site.
+```json
+{
+  ...
+  "scripts": {
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:serve": "vitepress serve docs"
+  },
+  ...
+}
+```
 
-When your documentation site starts to take shape, be sure to read the [deployment guide](./deploy).
+Serve the documentation site in the local server.
+
+```bash
+$ yarn docs:dev
+```
+
+VitePress will start a hot-reloading development server at `http://localhost:3000`.
+
+## Step. 4: Add more pages
+
+Let's add another page to the site. Create a file name `getting-started.md` along with `index.md` you've created in Step. 2. Now your directory structure should look like this.
+
+```
+.
+├─ docs
+│  ├─ getting-started.md
+│  └─ index.md
+└─ package.json
+```
+
+Then, try to access `http://localhost:3000/getting-started` and you should see the content of `getting-started` is shown.
+
+This is how VitePress works basically. The directory structure corresponds with the URL path. You add files, and just try to access it.
+
+## What's next?
+
+By now, you should have a basic but functional VitePress documentation site. But currently, the user has no way to navigate around the site because it's missing for example sidebar menu we have on this site.
+
+To enable those navigations, we must add some configurations to the site. Head to [configuration guide](./configuration) to learn how to configure VitePress.
+
+If you would like to know more about what you can do within the page, for example, writing markdown contents, or using Vue Component, check out the "Writing" section of the docs. [Markdown guide](./markdown) would be a greate starting point.
+
+If you want to know how to customize how the site looks (Theme), and find out the features VitePress's default theme provides, visit [Theme: Introduction](./theme-introduction).
+
+When your documentation site starts to take shape, be sure to read the [deployment guide](./deploying).

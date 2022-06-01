@@ -1,14 +1,17 @@
-import path from 'path'
+import { createRequire } from 'module'
+import { resolve, join } from 'path'
+import { fileURLToPath } from 'url'
 import { Alias, AliasOptions } from 'vite'
 
-const PKG_ROOT = path.join(__dirname, '../../')
-export const DIST_CLIENT_PATH = path.join(__dirname, '../client')
-export const APP_PATH = path.join(DIST_CLIENT_PATH, 'app')
-export const SHARED_PATH = path.join(DIST_CLIENT_PATH, 'shared')
-export const DEFAULT_THEME_PATH = path.join(DIST_CLIENT_PATH, 'theme-default')
+const require = createRequire(import.meta.url)
+const PKG_ROOT = resolve(fileURLToPath(import.meta.url), '../..')
 
-// special virtual file
-// we can't directly import '/@siteData' because
+export const DIST_CLIENT_PATH = resolve(PKG_ROOT, 'client')
+export const APP_PATH = join(DIST_CLIENT_PATH, 'app')
+export const SHARED_PATH = join(DIST_CLIENT_PATH, 'shared')
+export const DEFAULT_THEME_PATH = join(DIST_CLIENT_PATH, 'theme-default')
+
+// special virtual file. we can't directly import '/@siteData' because
 // - it's not an actual file so we can't use tsconfig paths to redirect it
 // - TS doesn't allow shimming a module that starts with '/'
 export const SITE_DATA_ID = '@siteData'
@@ -39,16 +42,19 @@ export function resolveAliases(root: string, themeDir: string): AliasOptions {
     })),
     {
       find: /^vitepress$/,
-      replacement: path.join(__dirname, '../client/index')
+      replacement: join(DIST_CLIENT_PATH, '/index')
     },
     {
       find: /^vitepress\/theme$/,
-      replacement: path.join(__dirname, '../client/theme-default/index')
+      replacement: join(DIST_CLIENT_PATH, '/theme-default/index')
     },
     // alias for local linked development
-    { find: /^vitepress\//, replacement: PKG_ROOT + '/' },
-    // make sure it always use the same vue dependency that comes with
-    // vitepress itself
+    {
+      find: /^vitepress\//,
+      replacement: PKG_ROOT + '/'
+    },
+    // make sure it always use the same vue dependency that comes
+    // with vitepress itself
     {
       find: /^vue$/,
       replacement: vuePath

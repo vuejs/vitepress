@@ -7,6 +7,8 @@ import { slash } from './utils/slash'
 import { OutputAsset, OutputChunk } from 'rollup'
 import { staticDataPlugin } from './staticDataPlugin'
 
+type Awaited<T> = T extends Promise<infer P> ? P : never
+
 const hashRE = /\.(\w+)\.js$/
 const staticInjectMarkerRE =
   /\b(const _hoisted_\d+ = \/\*(?:#|@)__PURE__\*\/\s*createStaticVNode)\("(.*)", (\d+)\)/g
@@ -28,7 +30,7 @@ const isPageChunk = (
     chunk.facadeModuleId.endsWith('.md')
   )
 
-export function createVitePressPlugin(
+export async function createVitePressPlugin(
   root: string,
   siteConfig: SiteConfig,
   ssr = false,
@@ -46,13 +48,15 @@ export function createVitePressPlugin(
     pages
   } = siteConfig
 
-  let markdownToVue: ReturnType<typeof createMarkdownToVueRenderFn>
+  let markdownToVue: Awaited<ReturnType<typeof createMarkdownToVueRenderFn>>
 
   // lazy require plugin-vue to respect NODE_ENV in @vue/compiler-x
-  const vuePlugin = require('@vitejs/plugin-vue')({
-    include: [/\.vue$/, /\.md$/],
-    ...userVuePluginOptions
-  })
+  const vuePlugin = await import('@vitejs/plugin-vue').then((r) =>
+    r.default({
+      include: [/\.vue$/, /\.md$/],
+      ...userVuePluginOptions
+    })
+  )
 
   const processClientJS = (code: string, id: string) => {
     return scriptClientRE.test(code)
@@ -70,9 +74,9 @@ export function createVitePressPlugin(
   const vitePressPlugin: Plugin = {
     name: 'vitepress',
 
-    configResolved(resolvedConfig) {
+    async configResolved(resolvedConfig) {
       config = resolvedConfig
-      markdownToVue = createMarkdownToVueRenderFn(
+      markdownToVue = await createMarkdownToVueRenderFn(
         srcDir,
         markdown,
         pages,
@@ -89,9 +93,8 @@ export function createVitePressPlugin(
           alias
         },
         define: {
-          __CARBON__: !!site.themeConfig.carbonAds?.carbon,
-          __BSA__: !!site.themeConfig.carbonAds?.custom,
-          __ALGOLIA__: !!site.themeConfig.algolia
+          __ALGOLIA__: !!site.themeConfig.algolia,
+          __CARBON__: !!site.themeConfig.carbonAds
         },
         optimizeDeps: {
           // force include vue to avoid duplicated copies when linked + optimized

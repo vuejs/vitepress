@@ -1,4 +1,5 @@
 import MarkdownIt from 'markdown-it'
+import { Theme } from 'shiki'
 import { parseHeader } from '../utils/parseHeader'
 import { highlight } from './plugins/highlight'
 import { slugify } from './plugins/slugify'
@@ -16,7 +17,9 @@ import { Header } from '../shared'
 import anchor from 'markdown-it-anchor'
 import attrs from 'markdown-it-attrs'
 import emoji from 'markdown-it-emoji'
-import toc from 'markdown-it-table-of-contents'
+import toc from 'markdown-it-toc-done-right'
+
+export type ThemeOptions = Theme | { light: Theme; dark: Theme }
 
 export interface MarkdownOptions extends MarkdownIt.Options {
   lineNumbers?: boolean
@@ -28,8 +31,10 @@ export interface MarkdownOptions extends MarkdownIt.Options {
     leftDelimiter?: string
     rightDelimiter?: string
     allowedAttributes?: string[]
+    disable?: boolean
   }
-  // https://github.com/Oktavilla/markdown-it-table-of-contents
+  theme?: ThemeOptions
+  // https://github.com/nagaozen/markdown-it-toc-done-right
   toc?: any
   externalLinks?: Record<string, string>
 }
@@ -48,15 +53,15 @@ export interface MarkdownRenderer extends MarkdownIt {
 
 export type { Header }
 
-export const createMarkdownRenderer = (
+export const createMarkdownRenderer = async (
   srcDir: string,
   options: MarkdownOptions = {},
   base: string
-): MarkdownRenderer => {
+): Promise<MarkdownRenderer> => {
   const md = MarkdownIt({
     html: true,
     linkify: true,
-    highlight,
+    highlight: await highlight(options.theme),
     ...options
   }) as MarkdownRenderer
 
@@ -78,17 +83,23 @@ export const createMarkdownRenderer = (
       },
       base
     )
-    // 3rd party plugins
-    .use(attrs, options.attrs)
-    .use(anchor, {
-      slugify,
-      permalink: anchor.permalink.ariaHidden({}),
-      ...options.anchor
-    })
+
+  // 3rd party plugins
+  if (!options.attrs?.disable) {
+    md.use(attrs, options.attrs)
+  }
+
+  md.use(anchor, {
+    slugify,
+    permalink: anchor.permalink.ariaHidden({}),
+    ...options.anchor
+  })
     .use(toc, {
       slugify,
-      includeLevel: [2, 3],
-      format: parseHeader,
+      level: [2, 3],
+      format: (x: string, htmlencode: (s: string) => string) =>
+        htmlencode(parseHeader(x)),
+      listType: 'ul',
       ...options.toc
     })
     .use(emoji)

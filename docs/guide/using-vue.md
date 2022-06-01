@@ -1,7 +1,3 @@
----
-sidebarDepth: 3
----
-
 # Using Vue in Markdown
 
 In VitePress, each markdown file is compiled into HTML and then processed as a Vue Single-File Component. This means you can use any Vue features inside the markdown, including dynamic templating, using Vue components, or arbitrary in-page Vue component logic by adding a `<script>` tag.
@@ -30,8 +26,8 @@ Directives also work:
 
 **Input**
 
-```md
-<span v-for="i in 3">{{ i }} </span>
+```html
+<span v-for="i in 3">{{ i }}</span>
 ```
 
 **Output**
@@ -44,9 +40,10 @@ You can use the [`useData` helper](./api#usedata) in a `<script>` block and expo
 
 **Input**
 
-```md
+```html
 <script setup>
 import { useData } from 'vitepress'
+
 const { page } = useData()
 </script>
 
@@ -107,7 +104,7 @@ This is a .md using a custom component
 
 ### Registering global components in the theme
 
-If the components are going to be used across several pages in the docs, they can be registered globally in the theme (or as part of extending the default VitePress theme). Check out the [Theming Guide](./theming) for more information.
+If the components are going to be used across several pages in the docs, they can be registered globally in the theme (or as part of extending the default VitePress theme). Check out the [Theming Guide](./theme-introduction) for more information.
 
 In `.vitepress/theme/index.js`, the `enhanceApp` function receives the Vue `app` instance so you can [register components](https://vuejs.org/guide/components/registration.html) as you would do in a regular Vue application.
 
@@ -200,7 +197,7 @@ export default {
 
 ## Built-In Components
 
-VitePress provides Built-In Vue Components like `ClientOnly` and `OutboundLink`, check out the [Global Component Guide](./global-component) for more information.
+VitePress provides Built-In Vue Components like `ClientOnly` and `OutboundLink`, check out the [Global Component Guide](./api) for more information.
 
 **Also see:**
 
@@ -214,7 +211,7 @@ If you are using or demoing components that are not SSR-friendly (for example, c
 
 ```md
 <ClientOnly>
-  <NonSSRFriendlyComponent/>
+  <NonSSRFriendlyComponent />
 </ClientOnly>
 ```
 
@@ -236,7 +233,10 @@ If your module `export default` a Vue component, you can register it dynamically
 
 ```vue
 <template>
-  <component v-if="dynamicComponent" :is="dynamicComponent"></component>
+  <component
+    v-if="dynamicComponent"
+    :is="dynamicComponent">
+  </component>
 </template>
 
 <script>
