@@ -1,13 +1,15 @@
 import { readFileSync, writeFileSync } from 'fs'
 import { resolve } from 'path'
+import { fileURLToPath } from 'url'
 import c from 'picocolors'
-import { inc as _inc, valid } from 'semver'
 import prompts from 'prompts'
 import { execa } from 'execa'
+import { inc as _inc, valid } from 'semver'
 import { version as currentVersion } from '../package.json'
-import { fileURLToPath } from 'url'
 
 const versionIncrements = ['patch', 'minor', 'major']
+
+const tags = ['latest', 'next']
 
 const dir = dirname(fileURLToPath(import.meta.url))
 const inc = (i) => _inc(currentVersion, i)
@@ -42,10 +44,17 @@ async function main() {
     throw new Error(`Invalid target version: ${targetVersion}`)
   }
 
+  const { tag } = await enquirer.prompt({
+    type: 'select',
+    name: 'tag',
+    message: 'Select tag type',
+    choices: tags
+  })
+
   const { yes: tagOk } = await prompts({
     type: 'confirm',
     name: 'yes',
-    message: `Releasing v${targetVersion}. Confirm?`
+    message: `Releasing v${targetVersion} in ${tag}. Confirm?`
   })
 
   if (!tagOk) {
@@ -83,7 +92,13 @@ async function main() {
 
   // Publish the package.
   step('\nPublishing the package...')
-  await run('pnpm', ['publish', '--ignore-scripts', '--no-git-checks'])
+  await run('pnpm', [
+    'publish',
+    '--tag',
+    tag,
+    '--ignore-scripts',
+    '--no-git-checks'
+  ])
 
   // Push to GitHub.
   step('\nPushing to GitHub...')
