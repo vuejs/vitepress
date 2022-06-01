@@ -4,14 +4,17 @@ import { fileURLToPath } from 'url'
 import c from 'picocolors'
 import prompts from 'prompts'
 import { execa } from 'execa'
-import { inc as _inc, valid } from 'semver'
-import { version as currentVersion } from '../package.json'
+import semver from 'semver'
+import pkg from '../package.json' assert { type: 'json' }
+
+const { version: currentVersion } = pkg
+const { inc: _inc, valid } = semver
 
 const versionIncrements = ['patch', 'minor', 'major']
 
 const tags = ['latest', 'next']
 
-const dir = dirname(fileURLToPath(import.meta.url))
+const dir = fileURLToPath(new URL('.', import.meta.url))
 const inc = (i) => _inc(currentVersion, i)
 const run = (bin, args, opts = {}) =>
   execa(bin, args, { stdio: 'inherit', ...opts })
@@ -20,31 +23,35 @@ const step = (msg) => console.log(c.cyan(msg))
 async function main() {
   let targetVersion
 
+  const versions = versionIncrements
+    .map((i) => `${i} (${inc(i)})`)
+    .concat(['custom'])
+
   const { release } = await prompts({
     type: 'select',
     name: 'release',
     message: 'Select release type',
-    choices: versionIncrements.map((i) => `${i} (${inc(i)})`).concat(['custom'])
+    choices: versions
   })
-
-  if (release === 'custom') {
+  console.log(release, release === 3)
+  if (release === 3) {
     targetVersion = (
       await prompts({
-        type: 'input',
+        type: 'text',
         name: 'version',
         message: 'Input custom version',
         initial: currentVersion
       })
     ).version
   } else {
-    targetVersion = release.match(/\((.*)\)/)[1]
+    targetVersion = versions[release].match(/\((.*)\)/)[1]
   }
 
   if (!valid(targetVersion)) {
     throw new Error(`Invalid target version: ${targetVersion}`)
   }
 
-  const { tag } = await enquirer.prompt({
+  const { tag } = await prompts({
     type: 'select',
     name: 'tag',
     message: 'Select tag type',
@@ -54,7 +61,7 @@ async function main() {
   const { yes: tagOk } = await prompts({
     type: 'confirm',
     name: 'yes',
-    message: `Releasing v${targetVersion} in ${tag}. Confirm?`
+    message: `Releasing v${targetVersion} on ${tags[tag]}. Confirm?`
   })
 
   if (!tagOk) {
@@ -95,7 +102,7 @@ async function main() {
   await run('pnpm', [
     'publish',
     '--tag',
-    tag,
+    tags[tag],
     '--ignore-scripts',
     '--no-git-checks'
   ])
