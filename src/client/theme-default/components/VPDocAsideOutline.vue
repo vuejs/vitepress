@@ -7,7 +7,7 @@ import {
   useActiveAnchor
 } from '../composables/outline'
 
-const { page, frontmatter } = useData()
+const { page, frontmatter, theme } = useData()
 
 const { hasOutline } = useOutline()
 
@@ -32,7 +32,9 @@ function handleClick({ target: el }: Event) {
     <div class="content">
       <div class="outline-marker" ref="marker" />
 
-      <div class="outline-title">On this page</div>
+      <div class="outline-title">
+        {{ theme.outlineTitle || 'On this page' }}
+      </div>
 
       <nav aria-labelledby="doc-outline-aria-label">
         <span class="visually-hidden" id="doc-outline-aria-label">
