@@ -120,6 +120,13 @@ export namespace DefaultTheme {
 
   export interface EditLink {
     /**
+     * Domain of git repo
+     *
+     * @example 'github.com' or 'https://github.com'
+     */
+    domain?: string
+
+    /**
      * Repo of the site.
      *
      * @example 'vuejs/docs'

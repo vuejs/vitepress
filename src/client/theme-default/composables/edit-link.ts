@@ -6,7 +6,7 @@ export function useEditLink() {
 
   return computed(() => {
     const url = [
-      'https://github.com',
+      `https://${theme.value.editLink?.domain || 'github.com'}`,
       theme.value.editLink?.repo || '???',
       'edit',
       theme.value.editLink?.branch || 'main',

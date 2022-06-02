@@ -188,6 +188,61 @@ export interface Footer {
 }
 ```
 
+## editLink
+
+- Type: `EditLink`
+
+Edit link configuration. You can then customize git repo link and display text.
+
+```ts
+export default {
+  themeConfig: {
+    editLink: {
+      domain: 'github.com'
+      repo: 'vuejs/vitepress',
+      branch: 'next',
+      dir: 'docs',
+      text: 'Edit this page on GitHub'
+    },
+  }
+}
+```
+
+```ts
+export interface EditLink {
+  /** 
+   * Domain of git repo
+   * 
+   * @example 'github.com' or 'https://github.com'
+   */
+  domain?: string
+  /**
+   * Repo of the site.
+   *
+   * @example 'vuejs/docs'
+   */
+  repo: string
+  /**
+   * Branch of the repo.
+   *
+   * @default 'main'
+   */
+  branch?: string
+  /**
+   * If your docs are not at the root of the repo.
+   *
+   * @example 'docs'
+   */
+  dir?: string
+  /**
+   * Custom text for edit link.
+   *
+   * @default 'Edit this page'
+   */
+  text?: string
+}
+```
+
 ## lastUpdatedText
 
 - Type: `string`
