@@ -226,7 +226,7 @@ export interface EditLink {
    */
   style?: 'github' | 'gitlab' | 'bitbucket' | string
   /** 
-   * Domain of git repo
+   * Domain of the git service.
    * 
    * @example 'github.com' or 'https://github.com'
    */
