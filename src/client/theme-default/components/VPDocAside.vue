@@ -37,10 +37,10 @@ const { page, theme } = useData()
 
 .VPDocAside :deep(.spacer + .VPDocAsideSponsors),
 .VPDocAside :deep(.spacer + .VPDocAsideCarbonAds) {
-  margin-top: 24px;
+  margin-top: 1.5rem;
 }
 
 .VPDocAside :deep(.VPDocAsideSponsors + .VPDocAsideCarbonAds) {
-  margin-top: 16px;
+  margin-top: 1rem;
 }
 </style>

@@ -23,17 +23,17 @@ const { page } = useData()
 
 <style scoped>
 .VPMenuGroup + .VPMenuLink {
-  margin: 12px -12px 0;
-  border-top: 1px solid var(--vp-c-divider-light);
-  padding: 12px 12px 0;
+  margin: .75rem -0.75rem 0;
+  border-top: .0625rem solid var(--vp-c-divider-light);
+  padding: .75rem .75rem 0;
 }
 
 .link {
   display: block;
   border-radius: 6px;
-  padding: 0 12px;
-  line-height: 32px;
-  font-size: 14px;
+  padding: 0 .75rem;
+  line-height: 2rem;
+  font-size: .875rem;
   font-weight: 500;
   color: var(--vp-c-text-1);
   white-space: nowrap;

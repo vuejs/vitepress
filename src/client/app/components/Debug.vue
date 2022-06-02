@@ -27,11 +27,11 @@ watch(open, (value) => {
 .debug {
   box-sizing: border-box;
   position: fixed;
-  right: 8px;
-  bottom: 8px;
+  right: .5rem;
+  bottom: .5rem;
   z-index: 9999;
   border-radius: 4px;
-  width: 74px;
+  width: 4.625rem;
   height: 32px;
   color: #eeeeee;
   overflow: hidden;
@@ -57,7 +57,7 @@ watch(open, (value) => {
 
 @media (min-width: 512px) {
   .debug.open {
-    width: 512px;
+    width: 32rem;
   }
 }
 
@@ -67,20 +67,20 @@ watch(open, (value) => {
 
 .title {
   margin: 0;
-  padding: 6px 16px 6px;
-  line-height: 20px;
-  font-size: 13px;
+  padding: .375rem 1rem .375rem;
+  line-height: 1.25rem;
+  font-size: .8125rem;
 }
 
 .block {
-  margin: 2px 0 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.16);
-  padding: 8px 16px;
+  margin: .125rem 0 0;
+  border-top: .0625rem solid rgba(255, 255, 255, 0.16);
+  padding: .5rem 1rem;
   font-family: Hack, monospace;
-  font-size: 13px;
+  font-size: .8125rem;
 }
 
 .block + .block {
-  margin-top: 8px;
+  margin-top: .5rem;
 }
 </style>

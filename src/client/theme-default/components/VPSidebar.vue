@@ -52,9 +52,9 @@ watchPostEffect(async () => {
   bottom: 0;
   left: 0;
   z-index: var(--vp-z-index-sidebar);
-  padding: 32px 32px 96px;
-  width: calc(100vw - 64px);
-  max-width: 320px;
+  padding: 2rem 2rem 6rem;
+  width: calc(100vw - 4rem);
+  max-width: 20rem;
   background-color: var(--vp-c-bg);
   opacity: 0;
   box-shadow: var(--vp-c-shadow-3);
@@ -81,7 +81,7 @@ watchPostEffect(async () => {
   .VPSidebar {
     z-index: 1;
     padding-top: var(--vp-nav-height-desktop);
-    padding-bottom: 128px;
+    padding-bottom: 8rem;
     width: var(--vp-sidebar-width);
     max-width: 100%;
     width: var(--vp-sidebar-width);
@@ -96,8 +96,8 @@ watchPostEffect(async () => {
 
 @media (min-width: 1440px) {
   .VPSidebar {
-    padding-left: calc((100% - (var(--vp-layout-max-width) - 64px)) / 2);
-    width: calc((100% - (var(--vp-layout-max-width) - 64px)) / 2 + var(--vp-sidebar-width) - 32px);
+    padding-left: calc((100% - (var(--vp-layout-max-width) - 4rem)) / 2);
+    width: calc((100% - (var(--vp-layout-max-width) - 4rem)) / 2 + var(--vp-sidebar-width) - 2rem);
   }
 }
 
@@ -106,19 +106,19 @@ watchPostEffect(async () => {
 }
 
 .group + .group {
-  margin-top: 32px;
-  border-top: 1px solid var(--vp-c-divider-light);
-  padding-top: 10px;
+  margin-top: 2rem;
+  border-top: .0625rem solid var(--vp-c-divider-light);
+  padding-top: .625rem;
 }
 
 @media (min-width: 960px) {
   .group {
-    padding-top: 10px;
-    width: calc(var(--vp-sidebar-width) - 64px);
+    padding-top: .625rem;
+    width: calc(var(--vp-sidebar-width) - 4rem);
   }
 
   .group + .group {
-    margin-top: 24px;
+    margin-top: 1.5rem;
   }
 }
 </style>

@@ -44,8 +44,8 @@ const icons = {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 36px;
-  height: 36px;
+  width: 2.25rem;
+  height: 2.25rem;
   color: var(--vp-c-text-2);
   transition: color .5s;
 }
@@ -56,8 +56,8 @@ const icons = {
 }
 
 .icon {
-  width: 20px;
-  height: 20px;
+  width: 1.25rem;
+  height: 1.25rem;
   fill: currentColor;
 }
 </style>

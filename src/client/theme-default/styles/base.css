@@ -6,7 +6,7 @@
 
 html {
   line-height: 1.4;
-  font-size: 16px;
+  font-size: 1rem;
   -webkit-text-size-adjust: 100%;
 }
 
@@ -17,11 +17,11 @@ html.dark {
 body {
   margin: 0;
   width: 100%;
-  min-width: 320px;
+  min-width: 20rem;
   min-height: 100vh;
-  line-height: 24px;
+  line-height: 1.5rem;
   font-family: var(--vp-font-family-base);
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 400;
   color: var(--vp-c-text-1);
   background-color: var(--vp-c-bg);
@@ -43,8 +43,8 @@ h4,
 h5,
 h6 {
   margin: 0;
-  line-height: 24px;
-  font-size: 16px;
+  line-height: 1.5rem;
+  font-size: 1rem;
   font-weight: 400;
 }
 
@@ -154,8 +154,8 @@ button,
 
 button:focus,
 button:focus-visible {
-  outline: 1px dotted;
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: .0625rem dotted;
+  outline: .25rem auto -webkit-focus-ring-color;
 }
 
 button:focus:not(:focus-visible) {

@@ -1,7 +1,7 @@
 .visually-hidden {
   position: absolute;
-  width: 1px;
-  height: 1px;
+  width: .0625rem;
+  height: .0625rem;
   white-space: nowrap;
   clip: rect(0 0 0 0);
   clip-path: inset(50%);

@@ -13,10 +13,10 @@
   position: relative;
   border-radius: 11px;
   display: block;
-  width: 40px;
-  height: 22px;
+  width: 2.5rem;
+  height: 1.375rem;
   flex-shrink: 0;
-  border: 1px solid var(--vp-c-divider);
+  border: .0625rem solid var(--vp-c-divider);
   background-color: var(--vp-c-bg-mute);
   transition: border-color 0.25s, background-color 0.25s;
 }
@@ -27,10 +27,10 @@
 
 .check {
   position: absolute;
-  top: 1px;
-  left: 1px;
-  width: 18px;
-  height: 18px;
+  top: .0625rem;
+  left: .0625rem;
+  width: 1.125rem;
+  height: 1.125rem;
   border-radius: 50%;
   background-color: var(--vp-c-white);
   box-shadow: var(--vp-shadow-1);
@@ -44,18 +44,18 @@
 .icon {
   position: relative;
   display: block;
-  width: 18px;
-  height: 18px;
+  width: 1.125rem;
+  height: 1.125rem;
   border-radius: 50%;
   overflow: hidden;
 }
 
 .icon :deep(svg) {
   position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 12px;
-  height: 12px;
+  top: .1875rem;
+  left: .1875rem;
+  width: .75rem;
+  height: .75rem;
   fill: var(--vp-c-text-2);
 }
 

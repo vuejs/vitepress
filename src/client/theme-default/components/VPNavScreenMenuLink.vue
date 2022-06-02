@@ -19,10 +19,10 @@ const closeScreen = inject('close-screen') as () => void
 <style scoped>
 .VPNavScreenMenuLink {
   display: block;
-  border-bottom: 1px solid var(--vp-c-divider-light);
-  padding: 12px 0 11px;
-  line-height: 24px;
-  font-size: 14px;
+  border-bottom: .0625rem solid var(--vp-c-divider-light);
+  padding: .75rem 0 .6875rem;
+  line-height: 1.5rem;
+  font-size: .875rem;
   font-weight: 500;
   color: var(--vp-c-text-1);
   transition: border-color 0.5s, color 0.25s;

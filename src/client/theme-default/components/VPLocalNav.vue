@@ -44,7 +44,7 @@ function scrollToTop() {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid var(--vp-c-divider-light);
+  border-bottom: .0625rem solid var(--vp-c-divider-light);
   width: 100%;
   background-color: var(--vp-c-bg);
   transition: border-color 0.5s, background-color 0.5s;
@@ -59,9 +59,9 @@ function scrollToTop() {
 .menu {
   display: flex;
   align-items: center;
-  padding: 12px 24px 11px;
-  line-height: 24px;
-  font-size: 12px;
+  padding: .75rem 1.5rem .6875rem;
+  line-height: 1.5rem;
+  font-size: .75rem;
   font-weight: 500;
   color: var(--vp-c-text-2);
   transition: color 0.5s;
@@ -74,22 +74,22 @@ function scrollToTop() {
 
 @media (min-width: 768px) {
   .menu {
-    padding: 0 32px;
+    padding: 0 2rem;
   }
 }
 
 .menu-icon {
-  margin-right: 8px;
-  width: 16px;
-  height: 16px;
+  margin-right: .5rem;
+  width: 1rem;
+  height: 1rem;
   fill: currentColor;
 }
 
 .top-link {
   display: block;
-  padding: 12px 24px 11px;
-  line-height: 24px;
-  font-size: 12px;
+  padding: .75rem 1.5rem .6875rem;
+  line-height: 1.5rem;
+  font-size: .75rem;
   font-weight: 500;
   color: var(--vp-c-text-2);
   transition: color 0.5s;
@@ -102,7 +102,7 @@ function scrollToTop() {
 
 @media (min-width: 768px) {
   .top-link {
-    padding: 12px 32px 11px;
+    padding: .75rem 2rem .6875rem;
   }
 }
 </style>

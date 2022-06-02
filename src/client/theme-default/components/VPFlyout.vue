@@ -82,7 +82,7 @@ function onBlur() {
 .button {
   display: flex;
   align-items: center;
-  padding: 0 12px;
+  padding: 0 .75rem;
   height: var(--vp-nav-height-mobile);
   color: var(--vp-c-text-1);
   transition: color 0.5s;
@@ -98,7 +98,7 @@ function onBlur() {
   display: flex;
   align-items: center;
   line-height: var(--vp-nav-height-mobile);
-  font-size: 13px;
+  font-size: .8125rem;
   font-weight: 500;
   color: var(--vp-c-text-1);
   transition: color 0.25s;
@@ -111,29 +111,29 @@ function onBlur() {
 }
 
 .option-icon {
-  margin-right: 0px;
-  width: 16px;
-  height: 16px;
+  margin-right: 0rem;
+  width: 1rem;
+  height: 1rem;
   fill: currentColor;
 }
 
 .text-icon {
-  margin-left: 4px;
-  width: 14px;
-  height: 14px;
+  margin-left: .25rem;
+  width: .875rem;
+  height: .875rem;
   fill: currentColor;
 }
 
 .icon {
-  width: 20px;
-  height: 20px;
+  width: 1.25rem;
+  height: 1.25rem;
   fill: currentColor;
   transition: fill 0.25s;
 }
 
 .menu {
   position: absolute;
-  top: calc(var(--vp-nav-height-mobile) / 2 + 20px);
+  top: calc(var(--vp-nav-height-mobile) / 2 + 1.25rem);
   right: 0;
   opacity: 0;
   visibility: hidden;
@@ -142,7 +142,7 @@ function onBlur() {
 
 @media (min-width: 960px) {
   .menu {
-    top: calc(var(--vp-nav-height-desktop) / 2 + 20px);
+    top: calc(var(--vp-nav-height-desktop) / 2 + 1.25rem);
   }
 }
 </style>

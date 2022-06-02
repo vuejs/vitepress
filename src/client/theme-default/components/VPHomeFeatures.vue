@@ -43,28 +43,28 @@ const grid = computed(() => {
 <style scoped>
 .VPHomeFeatures {
   position: relative;
-  padding: 0 24px;
+  padding: 0 1.5rem;
 }
 
 @media (min-width: 640px) {
   .VPHomeFeatures {
-    padding: 0 48px;
+    padding: 0 3rem;
   }
 }
 
 .container {
   margin: 0 auto;
-  max-width: 960px;
+  max-width: 60rem;
 }
 
 .items {
   display: flex;
   flex-wrap: wrap;
-  margin: -8px;
+  margin: -0.5rem;
 }
 
 .item {
-  padding: 8px;
+  padding: .5rem;
   width: 100%;
 }
 

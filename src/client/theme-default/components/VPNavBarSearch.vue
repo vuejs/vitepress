@@ -96,13 +96,13 @@ function load() {
 @media (min-width: 768px) {
   .VPNavBarSearch {
     flex-grow: 1;
-    padding-left: 24px;
+    padding-left: 1.5rem;
   }
 }
 
 @media (min-width: 960px) {
   .VPNavBarSearch {
-    padding-left: 32px;
+    padding-left: 2rem;
   }
 }
 
@@ -134,8 +134,8 @@ function load() {
   align-items: center;
   margin: 0;
   padding: 0;
-  width: 32px;
-  height: 55px;
+  width: 2rem;
+  height: 3.4375rem;
   background: transparent;
   transition: border-color 0.25s;
 }
@@ -145,8 +145,8 @@ function load() {
 }
 
 .DocSearch-Button:focus {
-  outline: 1px dotted;
-  outline: 5px auto -webkit-focus-ring-color;
+  outline: .0625rem dotted;
+  outline: .3125rem auto -webkit-focus-ring-color;
 }
 
 .DocSearch-Button:focus:not(:focus-visible) {
@@ -156,11 +156,11 @@ function load() {
 @media (min-width: 768px) {
   .DocSearch-Button {
     justify-content: flex-start;
-    border: 1px solid transparent;
+    border: .0625rem solid transparent;
     border-radius: 8px;
-    padding: 0 10px 0 12px;
+    padding: 0 .625rem 0 .75rem;
     width: 100%;
-    height: 40px;
+    height: 2.5rem;
     background-color: var(--vp-c-bg-alt);
   }
 
@@ -177,8 +177,8 @@ function load() {
 
 .DocSearch-Button .DocSearch-Search-Icon {
   position: relative;
-  width: 16px;
-  height: 16px;
+  width: 1rem;
+  height: 1rem;
   color: var(--vp-c-text-1);
   fill: currentColor;
   transition: color 0.5s;
@@ -190,19 +190,19 @@ function load() {
 
 @media (min-width: 768px) {
   .DocSearch-Button .DocSearch-Search-Icon {
-    top: 1px;
-    margin-right: 8px;
-    width: 14px;
-    height: 14px;
+    top: .0625rem;
+    margin-right: .5rem;
+    width: .875rem;
+    height: .875rem;
     color: var(--vp-c-text-2);
   }
 }
 
 .DocSearch-Button .DocSearch-Button-Placeholder {
   display: none;
-  margin-top: 2px;
-  padding: 0 16px 0 0;
-  font-size: 13px;
+  margin-top: .125rem;
+  padding: 0 1rem 0 0;
+  font-size: .8125rem;
   font-weight: 500;
   color: var(--vp-c-text-2);
   transition: color 0.5s;
@@ -232,35 +232,35 @@ function load() {
 
 .DocSearch-Button .DocSearch-Button-Key {
   display: block;
-  margin: 2px 0 0 0;
-  border: 1px solid var(--vp-c-divider);
+  margin: .125rem 0 0 0;
+  border: .0625rem solid var(--vp-c-divider);
   border-right: none;
   border-radius: 4px 0 0 4px;
-  padding-left: 6px;
+  padding-left: .375rem;
   min-width: 0;
   width: auto;
-  height: 22px;
-  line-height: 22px;
+  height: 1.375rem;
+  line-height: 1.375rem;
   font-family: var(--vp-font-family-base);
-  font-size: 12px;
+  font-size: .75rem;
   font-weight: 500;
   transition: color 0.5s, border-color 0.5s;
 }
 
 .DocSearch-Button .DocSearch-Button-Key + .DocSearch-Button-Key {
-  border-right: 1px solid var(--vp-c-divider);
+  border-right: .0625rem solid var(--vp-c-divider);
   border-left: none;
   border-radius: 0 4px 4px 0;
-  padding-left: 2px;
-  padding-right: 6px;
+  padding-left: .125rem;
+  padding-right: .375rem;
 }
 
 .dark .DocSearch-Footer {
-  border-top: 1px solid var(--vp-c-divider);
+  border-top: .0625rem solid var(--vp-c-divider);
 }
 
 .DocSearch-Form {
-  border: 1px solid var(--vp-c-brand);
+  border: .0625rem solid var(--vp-c-brand);
   background-color: var(--vp-c-white);
 }
 

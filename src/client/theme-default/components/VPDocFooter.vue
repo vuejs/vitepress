@@ -47,25 +47,24 @@ const control = usePrevNext()
 
 <style scoped>
 .VPDocFooter {
-  margin-top: 64px;
+  margin-top: 4rem;
 }
 
 .edit-info {
-  padding-bottom: 18px;
+  padding-bottom: 1.125rem;
 }
 
 @media (min-width: 640px) {
   .edit-info {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
-    padding-bottom: 14px;
+    padding-bottom: .875rem;
   }
 }
 
 .edit-link {
-  line-height: 32px;
-  font-size: 14px;
+  line-height: 2rem;
+  font-size: .875rem;
   font-weight: 500;
 }
 
@@ -82,15 +81,15 @@ const control = usePrevNext()
 }
 
 .edit-link-icon {
-  margin-right: 8px;
-  width: 14px;
-  height: 14px;
+  margin-right: .5rem;
+  width: .875rem;
+  height: .875rem;
   fill: currentColor;
 }
 
 .prev-next {
-  border-top: 1px solid var(--vp-c-divider-light);
-  padding-top: 24px;
+  border-top: .0625rem solid var(--vp-c-divider-light);
+  padding-top: 1.5rem;
 }
 
 @media (min-width: 640px) {
@@ -100,7 +99,7 @@ const control = usePrevNext()
 }
 
 .pager.has-prev {
-  padding-top: 8px;
+  padding-top: .5rem;
 }
 
 @media (min-width: 640px) {
@@ -113,15 +112,15 @@ const control = usePrevNext()
 
   .pager.has-prev {
     padding-top: 0;
-    padding-left: 16px;
+    padding-left: 1rem;
   }
 }
 
 .pager-link {
   display: block;
-  border: 1px solid var(--vp-c-divider-light);
+  border: .0625rem solid var(--vp-c-divider-light);
   border-radius: 8px;
-  padding: 11px 16px 13px;
+  padding: .6875rem 1rem .8125rem;
   width: 100%;
   height: 100%;
   transition: border-color 0.25s;
@@ -142,16 +141,16 @@ const control = usePrevNext()
 
 .desc {
   display: block;
-  line-height: 20px;
-  font-size: 12px;
+  line-height: 1.25rem;
+  font-size: .75rem;
   font-weight: 500;
   color: var(--vp-c-text-2);
 }
 
 .title {
   display: block;
-  line-height: 20px;
-  font-size: 14px;
+  line-height: 1.25rem;
+  font-size: .875rem;
   font-weight: 500;
   color: var(--vp-c-brand);
   transition: color 0.25s;

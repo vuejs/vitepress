@@ -55,12 +55,12 @@ defineProps<{
 <style scoped>
 .VPHero {
   margin-top: calc(var(--vp-nav-height) * -1);
-  padding: calc(var(--vp-nav-height) + 48px) 24px 48px;
+  padding: calc(var(--vp-nav-height) + 3rem) 1.5rem 3rem;
 }
 
 @media (min-width: 640px) {
   .VPHero {
-    padding: calc(var(--vp-nav-height) + 80px) 48px 64px;
+    padding: calc(var(--vp-nav-height) + 5rem) 3rem 4rem;
   }
 }
 
@@ -68,7 +68,7 @@ defineProps<{
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  max-width: 960px;
+  max-width: 60rem;
 }
 
 @media (min-width: 960px) {
@@ -110,10 +110,10 @@ defineProps<{
 
 .name,
 .text {
-  max-width: 392px;
-  letter-spacing: -0.4px;
-  line-height: 40px;
-  font-size: 32px;
+  max-width: 24.5rem;
+  letter-spacing: -0.025rem;
+  line-height: 2.5rem;
+  font-size: 2rem;
   font-weight: 700;
 }
 
@@ -136,17 +136,17 @@ defineProps<{
 @media (min-width: 640px) {
   .name,
   .text {
-    max-width: 576px;
-    line-height: 56px;
-    font-size: 48px;
+    max-width: 36rem;
+    line-height: 3.5rem;
+    font-size: 3rem;
   }
 }
 
 @media (min-width: 960px) {
   .name,
   .text {
-    line-height: 64px;
-    font-size: 56px;
+    line-height: 4rem;
+    font-size: 3.5rem;
   }
 
   .VPHero.has-image .name,
@@ -156,10 +156,10 @@ defineProps<{
 }
 
 .tagline {
-  padding-top: 16px;
-  max-width: 392px;
-  line-height: 28px;
-  font-size: 18px;
+  padding-top: 1rem;
+  max-width: 24.5rem;
+  line-height: 1.75rem;
+  font-size: 1.125rem;
   font-weight: 500;
   color: var(--vp-c-text-2);
 }
@@ -170,18 +170,18 @@ defineProps<{
 
 @media (min-width: 640px) {
   .tagline {
-    padding-top: 24px;
-    max-width: 576px;
-    line-height: 32px;
-    font-size: 20px;
+    padding-top: 1.5rem;
+    max-width: 36rem;
+    line-height: 2rem;
+    font-size: 1.25rem;
   }
 }
 
 @media (min-width: 960px) {
   .tagline {
-    padding-top: 24px;
-    line-height: 36px;
-    font-size: 24px;
+    padding-top: 1.5rem;
+    line-height: 2.25rem;
+    font-size: 1.5rem;
   }
 
   .VPHero.has-image .tagline {
@@ -192,8 +192,8 @@ defineProps<{
 .actions {
   display: flex;
   flex-wrap: wrap;
-  margin: -6px;
-  padding-top: 24px;
+  margin: -0.375rem;
+  padding-top: 1.5rem;
 }
 
 .VPHero.has-image .actions {
@@ -202,7 +202,7 @@ defineProps<{
 
 @media (min-width: 640px) {
   .actions {
-    padding-top: 32px;
+    padding-top: 2rem;
   }
 }
 
@@ -214,17 +214,17 @@ defineProps<{
 
 .action {
   flex-shrink: 0;
-  padding: 6px;
+  padding: .375rem;
 }
 
 .image {
   order: 1;
-  margin: -76px -24px -48px;
+  margin: -4.75rem -1.5rem -3rem;
 }
 
 @media (min-width: 640px) {
   .image {
-    margin: -108px -24px -48px;
+    margin: -6.75rem -1.5rem -3rem;
   }
 }
 
@@ -240,14 +240,14 @@ defineProps<{
 .image-container {
   position: relative;
   margin: 0 auto;
-  width: 320px;
-  height: 320px;
+  width: 20rem;
+  height: 20rem;
 }
 
 @media (min-width: 640px) {
   .image-container {
-    width: 392px;
-    height: 392px;
+    width: 24.5rem;
+    height: 24.5rem;
   }
 }
 
@@ -258,7 +258,7 @@ defineProps<{
     align-items: center;
     width: 100%;
     height: 100%;
-    transform: translate(-32px, -32px);
+    transform: translate(-2rem, -2rem);
   }
 }
 
@@ -267,8 +267,8 @@ defineProps<{
   top: 50%;
   left: 50%;
   border-radius: 50%;
-  width: 192px;
-  height: 192px;
+  width: 12rem;
+  height: 12rem;
   background-image: var(--vp-home-hero-image-background-image);
   filter: var(--vp-home-hero-image-filter);
   transform: translate(-50%, -50%);
@@ -276,15 +276,15 @@ defineProps<{
 
 @media (min-width: 640px) {
   .image-bg {
-    width: 256px;
-    height: 256px;
+    width: 16rem;
+    height: 16rem;
   }
 }
 
 @media (min-width: 960px) {
   .image-bg {
-    width: 320px;
-    height: 320px;
+    width: 20rem;
+    height: 20rem;
   }
 }
 
@@ -292,19 +292,19 @@ defineProps<{
   position: absolute;
   top: 50%;
   left: 50%;
-  max-width: 192px;
+  max-width: 12rem;
   transform: translate(-50%, -50%);
 }
 
 @media (min-width: 640px) {
   .image-src {
-    max-width: 256px;
+    max-width: 16rem;
   }
 }
 
 @media (min-width: 960px) {
   .image-src {
-    max-width: 320px;
+    max-width: 20rem;
   }
 }
 </style>

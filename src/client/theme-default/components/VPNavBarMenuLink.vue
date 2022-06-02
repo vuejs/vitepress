@@ -32,9 +32,9 @@ const { page } = useData()
 .VPNavBarMenuLink {
   display: flex;
   align-items: center;
-  padding: 0 12px;
+  padding: 0 .75rem;
   line-height: var(--vp-nav-height-mobile);
-  font-size: 14px;
+  font-size: .875rem;
   font-weight: 500;
   color: var(--vp-c-text-1);
   transition: color 0.25s;

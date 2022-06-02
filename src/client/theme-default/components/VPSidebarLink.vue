@@ -27,7 +27,7 @@ const closeSideBar = inject('close-sidebar') as () => void
 <style scoped>
 .link {
   display: block;
-  padding: 6px 0;
+  padding: .375rem 0;
 }
 
 .link:hover .link-text {
@@ -41,8 +41,8 @@ const closeSideBar = inject('close-sidebar') as () => void
 }
 
 .link-text {
-  line-height: 20px;
-  font-size: 14px;
+  line-height: 1.25rem;
+  font-size: .875rem;
   font-weight: 500;
   color: var(--vp-c-text-2);
   transition: color 0.5s;

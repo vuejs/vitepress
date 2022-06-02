@@ -46,12 +46,12 @@ if (carbonOptions) {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 24px;
+  padding: 1.5rem;
   border-radius: 12px;
-  min-height: 240px;
+  min-height: 15rem;
   text-align: center;
-  line-height: 18px;
-  font-size: 12px;
+  line-height: 1.125rem;
+  font-size: .75rem;
   font-weight: 500;
   background-color: var(--vp-c-bg-soft);
   transition: color 0.5s, background-color 0.5s;
@@ -65,7 +65,7 @@ if (carbonOptions) {
 .VPCarbonAds .carbon-text {
   display: block;
   margin: 0 auto;
-  padding-top: 12px;
+  padding-top: .75rem;
   color: var(--vp-c-text-1);
   transition: color 0.25s;
 }
@@ -76,8 +76,8 @@ if (carbonOptions) {
 
 .VPCarbonAds .carbon-poweredby {
   display: block;
-  padding-top: 6px;
-  font-size: 11px;
+  padding-top: .375rem;
+  font-size: .6875rem;
   font-weight: 500;
   color: var(--vp-c-text-2);
   text-transform: uppercase;

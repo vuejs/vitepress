@@ -38,7 +38,7 @@ const { site, theme } = useData()
 <style scoped>
 .VPNavBarExtra {
   display: none;
-  margin-right: -12px;
+  margin-right: -0.75rem;
 }
 
 @media (min-width: 768px) {
@@ -54,9 +54,9 @@ const { site, theme } = useData()
 }
 
 .trans-title {
-  padding: 0 24px 0 12px;
-  line-height: 32px;
-  font-size: 14px;
+  padding: 0 1.5rem 0 .75rem;
+  line-height: 2rem;
+  font-size: .875rem;
   font-weight: 700;
   color: var(--vp-c-text-1);
 }
@@ -65,18 +65,18 @@ const { site, theme } = useData()
 .item.social-links {
   display: flex;
   align-items: center;
-  padding: 0 12px;
+  padding: 0 .75rem;
 }
 
 .item.appearance {
-  min-width: 176px;
+  min-width: 11rem;
 }
 
 .appearance-action {
-  margin-right: -2px;
+  margin-right: -0.125rem;
 }
 
 .social-links-list {
-  margin: -4px -8px;
+  margin: -0.25rem -0.5rem;
 }
 </style>

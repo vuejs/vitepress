@@ -28,10 +28,10 @@ const isExternal = computed(() => props.href && /^[a-z]+:/i.test(props.href))
 <style scoped>
 .icon {
   display: inline-block;
-  margin-top: -1px;
-  margin-left: 4px;
-  width: 11px;
-  height: 11px;
+  margin-top: -0.0625rem;
+  margin-left: .25rem;
+  width: .6875rem;
+  height: .6875rem;
   fill: var(--vp-c-text-3);
   transition: fill 0.25s;
 }

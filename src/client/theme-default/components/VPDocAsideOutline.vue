@@ -72,34 +72,34 @@ function handleClick({ target: el }: Event) {
 
 .content {
   position: relative;
-  border-left: 1px solid var(--vp-c-divider-light);
-  padding-left: 16px;
-  font-size: 13px;
+  border-left: .0625rem solid var(--vp-c-divider-light);
+  padding-left: 1rem;
+  font-size: .8125rem;
   font-weight: 500;
 }
 
 .outline-marker {
   position: absolute;
-  top: 32px;
-  left: -1px;
+  top: 2rem;
+  left: -0.0625rem;
   z-index: 0;
   opacity: 0;
-  width: 1px;
-  height: 18px;
+  width: .0625rem;
+  height: 1.125rem;
   background-color: var(--vp-c-brand);
   transition: top 0.25s cubic-bezier(0, 1, 0.5, 1), background-color 0.5s, opacity 0.25s;
 }
 
 .outline-title {
-  letter-spacing: 0.4px;
-  line-height: 28px;
-  font-size: 13px;
+  letter-spacing: .025rem;
+  line-height: 1.75rem;
+  font-size: .8125rem;
   font-weight: 600;
 }
 
 .outline-link {
   display: block;
-  line-height: 28px;
+  line-height: 1.75rem;
   color: var(--vp-c-text-2);
   white-space: nowrap;
   overflow: hidden;
@@ -114,7 +114,7 @@ function handleClick({ target: el }: Event) {
 }
 
 .outline-link.nested {
-  padding-left: 13px;
+  padding-left: .8125rem;
 }
 
 .root {

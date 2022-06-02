@@ -1,9 +1,9 @@
 .custom-block {
-  border: 1px solid transparent;
+  border: .0625rem solid transparent;
   border-radius: 8px;
-  padding: 16px 16px 8px;
-  line-height: 24px;
-  font-size: 14px;
+  padding: 1rem 1rem .5rem;
+  line-height: 1.5rem;
+  font-size: .875rem;
   color: var(--vp-c-text-2);
 }
 
@@ -62,16 +62,16 @@
 }
 
 .custom-block p + p {
-  margin: 8px 0;
+  margin: .5rem 0;
 }
 
 .custom-block.details summary {
-  margin: 0 0 8px;
+  margin: 0 0 .5rem;
   font-weight: 700;
 }
 
 .custom-block.details summary + p {
-  margin: 8px 0;
+  margin: .5rem 0;
 }
 
 .custom-block a {

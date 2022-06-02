@@ -45,8 +45,8 @@ const { hasSidebar } = useSidebar()
 <style scoped>
 .VPNavBar {
   position: relative;
-  border-bottom: 1px solid var(--vp-c-divider-light);
-  padding: 0 8px 0 24px;
+  border-bottom: .0625rem solid var(--vp-c-divider-light);
+  padding: 0 .5rem 0 1.5rem;
   height: var(--vp-nav-height-mobile);
   background-color: var(--vt-c-bg);
   transition: border-color 0.5s, background-color 0.5s;
@@ -54,7 +54,7 @@ const { hasSidebar } = useSidebar()
 
 @media (min-width: 768px) {
   .VPNavBar {
-    padding: 0 32px;
+    padding: 0 2rem;
   }
 }
 
@@ -84,7 +84,7 @@ const { hasSidebar } = useSidebar()
   display: flex;
   justify-content: space-between;
   margin: 0 auto;
-  max-width: calc(var(--vp-layout-max-width) - 64px);
+  max-width: calc(var(--vp-layout-max-width) - 4rem);
 }
 
 .content {
@@ -99,24 +99,24 @@ const { hasSidebar } = useSidebar()
 .menu + .social-links::before,
 .translations + .appearance::before,
 .appearance + .social-links::before {
-  margin-right: 8px;
-  margin-left: 8px;
-  width: 1px;
-  height: 24px;
+  margin-right: .5rem;
+  margin-left: .5rem;
+  width: .0625rem;
+  height: 1.5rem;
   background-color: var(--vp-c-divider-light);
   content: "";
 }
 
 .menu + .appearance::before,
 .translations + .appearance::before {
-  margin-right: 16px;
+  margin-right: 1rem;
 }
 
 .appearance + .social-links::before {
-  margin-left: 16px;
+  margin-left: 1rem;
 }
 
 .social-links {
-  margin-right: -8px;
+  margin-right: -0.5rem;
 }
 </style>

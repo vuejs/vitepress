@@ -19,8 +19,8 @@ const { hasSidebar } = useSidebar()
 .VPFooter {
   position: relative;
   z-index: var(--vp-z-index-footer);
-  border-top: 1px solid var(--vp-c-divider-light);
-  padding: 32px 24px;
+  border-top: .0625rem solid var(--vp-c-divider-light);
+  padding: 2rem 1.5rem;
   background-color: var(--vp-c-bg);
 }
 
@@ -30,7 +30,7 @@ const { hasSidebar } = useSidebar()
 
 @media (min-width: 768px) {
   .VPFooter {
-    padding: 32px;
+    padding: 2rem;
   }
 }
 
@@ -42,8 +42,8 @@ const { hasSidebar } = useSidebar()
 
 .message,
 .copyright {
-  line-height: 24px;
-  font-size: 14px;
+  line-height: 1.5rem;
+  font-size: .875rem;
   font-weight: 500;
   color: var(--vp-c-text-2);
 }

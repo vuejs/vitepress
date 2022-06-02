@@ -39,12 +39,12 @@ function focusOnTargetAnchor({ target }: Event) {
 
 <style scoped>
 .VPSkipLink {
-  top: 8px;
-  left: 8px;
-  padding: 8px 16px;
+  top: .5rem;
+  left: .5rem;
+  padding: .5rem 1rem;
   z-index: 999;
   border-radius: 8px;
-  font-size: 12px;
+  font-size: .75rem;
   font-weight: bold;
   text-decoration: none;
   color: var(--vp-c-brand);
@@ -65,8 +65,8 @@ function focusOnTargetAnchor({ target }: Event) {
 
 @media (min-width: 1280px) {
   .VPSkipLink {
-    top: 14px;
-    left: 16px;
+    top: .875rem;
+    left: 1rem;
   }
 }
 </style>

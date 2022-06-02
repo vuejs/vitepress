@@ -19,12 +19,12 @@ const closeScreen = inject('close-screen') as () => void
 <style scoped>
 .VPNavScreenMenuGroupLink {
   display: block;
-  line-height: 32px;
-  font-size: 13px;
+  line-height: 2rem;
+  font-size: .8125rem;
   font-weight: 400;
   color: var(--vp-c-text-1);
   transition: color 0.25s;
-  margin-left: 12px;
+  margin-left: .75rem;
 }
 
 .VPNavScreenMenuGroupLink:hover {

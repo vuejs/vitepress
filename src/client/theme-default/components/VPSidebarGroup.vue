@@ -48,10 +48,10 @@ function toggle() {
 }
 
 .title-text {
-  padding-top: 6px;
-  padding-bottom: 6px;
-  line-height: 20px;
-  font-size: 14px;
+  padding-top: .375rem;
+  padding-bottom: .375rem;
+  line-height: 1.25rem;
+  font-size: .875rem;
   font-weight: 700;
   color: var(--vp-c-text-1);
 }
@@ -59,10 +59,10 @@ function toggle() {
 .action {
   display: none;
   position: relative;
-  margin-right: -8px;
+  margin-right: -0.5rem;
   border-radius: 4px;
-  width: 32px;
-  height: 32px;
+  width: 2rem;
+  height: 2rem;
   color: var(--vp-c-text-3);
   transition: color 0.25s;
 }
@@ -77,10 +77,10 @@ function toggle() {
 
 .icon {
   position: absolute;
-  top: 8px;
-  left: 8px;
-  width: 16px;
-  height: 16px;
+  top: .5rem;
+  left: .5rem;
+  width: 1rem;
+  height: 1rem;
   fill: currentColor;
 }
 
@@ -95,13 +95,13 @@ function toggle() {
 }
 
 .VPSidebarGroup.collapsed .items {
-  margin-bottom: -22px;
+  margin-bottom: -1.375rem;
   max-height: 0;
 }
 
 @media (min-width: 960px) {
   .VPSidebarGroup.collapsed .items {
-    margin-bottom: -14px;
+    margin-bottom: -0.875rem;
   }
 }
 </style>

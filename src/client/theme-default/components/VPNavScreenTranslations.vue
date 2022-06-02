@@ -31,7 +31,7 @@ function toggle() {
 
 <style scoped>
 .VPNavScreenTranslations {
-  height: 24px;
+  height: 1.5rem;
   overflow: hidden;
 }
 
@@ -42,32 +42,32 @@ function toggle() {
 .title {
   display: flex;
   align-items: center;
-  font-size: 14px;
+  font-size: .875rem;
   font-weight: 500;
   color: var(--vp-c-text-1);
 }
 
 .icon {
-  width: 16px;
-  height: 16px;
+  width: 1rem;
+  height: 1rem;
   fill: currentColor;
 }
 
 .icon.lang {
-  margin-right: 8px;
+  margin-right: .5rem;
 }
 
 .icon.chevron {
-  margin-left: 4px;
+  margin-left: .25rem;
 }
 
 .list {
-  padding: 4px 0 0 24px;
+  padding: .25rem 0 0 1.5rem;
 }
 
 .link {
-  line-height: 32px;
-  font-size: 13px;
+  line-height: 2rem;
+  font-size: .8125rem;
   color: var(--vp-c-text-1);
 }
 </style>

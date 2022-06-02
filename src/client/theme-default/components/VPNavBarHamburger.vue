@@ -31,7 +31,7 @@ defineEmits<{
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 48px;
+  width: 3rem;
   height: var(--vp-nav-height);
 }
 
@@ -43,8 +43,8 @@ defineEmits<{
 
 .container {
   position: relative;
-  width: 16px;
-  height: 14px;
+  width: 1rem;
+  height: .875rem;
   overflow: hidden;
 }
 
@@ -52,9 +52,9 @@ defineEmits<{
 .container:hover .middle { top: 6; left: 0; transform: translateX(0); }
 .container:hover .bottom { top: 12px; left: 0; transform: translateX(8px); }
 
-.container.active .top    { top: 6px; transform: translateX(0) rotate(225deg); }
-.container.active .middle { top: 6px; transform: translateX(16px); }
-.container.active .bottom { top: 6px; transform: translateX(0) rotate(135deg); }
+.container.active .top    { top: .375rem; transform: translateX(0) rotate(225deg); }
+.container.active .middle { top: .375rem; transform: translateX(16px); }
+.container.active .bottom { top: .375rem; transform: translateX(0) rotate(135deg); }
 
 .container.active:hover .top,
 .container.active:hover .middle,
@@ -67,13 +67,13 @@ defineEmits<{
 .middle,
 .bottom {
   position: absolute;
-  width: 16px;
-  height: 2px;
+  width: 1rem;
+  height: .125rem;
   background-color: var(--vp-c-text-1);
   transition: top .25s, background-color .5s, transform .25s;
 }
 
 .top    { top: 0; left: 0; transform: translateX(0); }
-.middle { top: 6px; left: 0; transform: translateX(8px); }
-.bottom { top: 12px; left: 0; transform: translateX(4px); }
+.middle { top: .375rem; left: 0; transform: translateX(8px); }
+.bottom { top: .75rem; left: 0; transform: translateX(4px); }
 </style>

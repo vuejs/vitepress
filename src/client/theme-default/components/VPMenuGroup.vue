@@ -19,9 +19,9 @@ defineProps<{
 
 <style scoped>
 .VPMenuGroup {
-  margin: 12px -12px 0;
-  border-top: 1px solid var(--vp-c-divider-light);
-  padding: 12px 12px 0;
+  margin: .75rem -0.75rem 0;
+  border-top: .0625rem solid var(--vp-c-divider-light);
+  padding: .75rem .75rem 0;
 }
 
 .VPMenuGroup:first-child {
@@ -31,14 +31,14 @@ defineProps<{
 }
 
 .VPMenuGroup + .VPMenuGroup {
-  margin-top: 12px;
-  border-top: 1px solid var(--vp-c-divider-light);
+  margin-top: .75rem;
+  border-top: .0625rem solid var(--vp-c-divider-light);
 }
 
 .title {
-  padding: 0 12px;
-  line-height: 32px;
-  font-size: 14px;
+  padding: 0 .75rem;
+  line-height: 2rem;
+  font-size: .875rem;
   font-weight: 600;
   color: var(--vp-c-text-2);
   transition: color 0.25s;

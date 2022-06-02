@@ -23,9 +23,9 @@ defineProps<{
 <style scoped>
 .VPMenu {
   border-radius: 12px;
-  padding: 12px;
-  min-width: 128px;
-  border: 1px solid var(--vp-c-divider-light);
+  padding: .75rem;
+  min-width: 8rem;
+  border: .0625rem solid var(--vp-c-divider-light);
   background-color: var(--vp-c-bg);
   box-shadow: var(--vp-shadow-3);
   transition: background-color 0.5s;
@@ -36,13 +36,13 @@ defineProps<{
 }
 
 .VPMenu :deep(.group) {
-  margin: 0 -12px;
-  padding: 0 12px 12px;
+  margin: 0 -0.75rem;
+  padding: 0 .75rem .75rem;
 }
 
 .VPMenu :deep(.group + .group) {
-  border-top: 1px solid var(--vp-c-divider-light);
-  padding: 11px 12px 12px;
+  border-top: .0625rem solid var(--vp-c-divider-light);
+  padding: .6875rem .75rem .75rem;
 }
 
 .VPMenu :deep(.group:last-child) {
@@ -50,25 +50,25 @@ defineProps<{
 }
 
 .VPMenu :deep(.group + .item) {
-  border-top: 1px solid var(--vp-c-divider-light);
-  padding: 11px 16px 0;
+  border-top: .0625rem solid var(--vp-c-divider-light);
+  padding: .6875rem 1rem 0;
 }
 
 .VPMenu :deep(.item) {
-  padding: 0 16px;
+  padding: 0 1rem;
   white-space: nowrap;
 }
 
 .VPMenu :deep(.label) {
   flex-grow: 1;
-  line-height: 28px;
-  font-size: 12px;
+  line-height: 1.75rem;
+  font-size: .75rem;
   font-weight: 500;
   color: var(--vp-c-text-2);
   transition: color .5s;
 }
 
 .VPMenu :deep(.action) {
-  padding-left: 24px;
+  padding-left: 1.5rem;
 }
 </style>

@@ -41,7 +41,7 @@ const component = computed(() => {
 <style scoped>
 .VPButton {
   display: inline-block;
-  border: 1px solid transparent;
+  border: .0625rem solid transparent;
   text-align: center;
   font-weight: 500;
   white-space: nowrap;
@@ -54,16 +54,16 @@ const component = computed(() => {
 
 .VPButton.medium {
   border-radius: 20px;
-  padding: 0 20px;
-  line-height: 38px;
-  font-size: 14px;
+  padding: 0 1.25rem;
+  line-height: 2.375rem;
+  font-size: .875rem;
 }
 
 .VPButton.big {
   border-radius: 24px;
-  padding: 0 24px;
-  line-height: 46px;
-  font-size: 16px;
+  padding: 0 1.5rem;
+  line-height: 2.875rem;
+  font-size: 1rem;
 }
 
 .VPButton.brand {

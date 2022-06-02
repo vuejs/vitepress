@@ -45,7 +45,7 @@ function unlockBodyScroll() {
   right: 0;
   bottom: 0;
   left: 0;
-  padding: 0 32px;
+  padding: 0 2rem;
   width: 100%;
   background-color: var(--vp-c-bg);
   overflow-y: auto;
@@ -69,7 +69,7 @@ function unlockBodyScroll() {
 
 .VPNavScreen.fade-enter-from .container,
 .VPNavScreen.fade-leave-to .container {
-  transform: translateY(-8px);
+  transform: translateY(-0.5rem);
 }
 
 @media (min-width: 768px) {
@@ -80,21 +80,21 @@ function unlockBodyScroll() {
 
 .container {
   margin: 0 auto;
-  padding: 24px 0 96px;
-  max-width: 288px;
+  padding: 1.5rem 0 6rem;
+  max-width: 18rem;
 }
 
 .menu + .translations,
 .menu + .appearance,
 .translations + .appearance {
-  margin-top: 24px;
+  margin-top: 1.5rem;
 }
 
 .menu + .social-links {
-  margin-top: 16px;
+  margin-top: 1rem;
 }
 
 .appearance + .social-links {
-  margin-top: 16px;
+  margin-top: 1rem;
 }
 </style>
