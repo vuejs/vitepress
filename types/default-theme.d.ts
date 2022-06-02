@@ -120,7 +120,14 @@ export namespace DefaultTheme {
 
   export interface EditLink {
     /**
-     * Domain of git repo
+     * Git service edit link style.
+     *
+     * @default 'github'
+     */
+    style?: 'github' | 'gitlab' | 'bitbucket' | string
+
+    /**
+     * Domain of the git service.
      *
      * @example 'github.com' or 'https://github.com'
      */

@@ -16,8 +16,9 @@ export default defineConfig({
     },
 
     editLink: {
+      domain: 'gitlab.com',
       repo: 'vuejs/vitepress',
-      branch: 'next',
+      branch: 'main',
       dir: 'docs',
       text: 'Edit this page on GitHub'
     },

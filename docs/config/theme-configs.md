@@ -194,13 +194,22 @@ export interface Footer {
 
 Edit link configuration. You can then customize git repo link and display text.
 
+We have built-in recognition of common git services, you just need to configure the domain. If you're using a self-built service (like GitLab) you can specify or customize the link style.
+
+
+Available parameters:
+  - `:repo`: The `repo` you configured
+  - `:branch`: Ibid
+  - `:path`: `dir` + file path
+
 ```ts
 export default {
   themeConfig: {
     editLink: {
-      domain: 'github.com'
+      style: ':repo/edit/:branch/:path',
+      domain: 'github.com',
       repo: 'vuejs/vitepress',
-      branch: 'next',
+      branch: 'main',
       dir: 'docs',
       text: 'Edit this page on GitHub'
     },
@@ -210,6 +219,12 @@ export default {
 
 ```ts
 export interface EditLink {
+  /**
+   * Git service edit link style.
+   * 
+   * @default 'github'
+   */
+  style?: 'github' | 'gitlab' | 'bitbucket' | string
   /** 
    * Domain of git repo
    * 
