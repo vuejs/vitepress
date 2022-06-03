@@ -215,6 +215,17 @@ export async function createVitePressPlugin(
             delete bundle[name]
           }
         }
+
+        // in Vite v3
+        // we generate a fake package.json to make the output `.js` as ESM
+        // @ts-ignore
+        if (config.ssr?.format === 'esm') {
+          this.emitFile({
+            type: 'asset',
+            fileName: 'package.json',
+            source: '{ "private": true, "type": "module" }'
+          })
+        }
       } else {
         // client build:
         // for each .md entry chunk, adjust its name to its correct path.
