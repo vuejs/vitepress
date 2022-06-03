@@ -17,7 +17,6 @@ export default defineConfig({
 
     editLink: {
       repo: 'vuejs/vitepress',
-      branch: 'next',
       dir: 'docs',
       text: 'Edit this page on GitHub'
     },
