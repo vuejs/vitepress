@@ -56,7 +56,7 @@ export type { Header }
 export const createMarkdownRenderer = async (
   srcDir: string,
   options: MarkdownOptions = {},
-  base: string
+  base = '/'
 ): Promise<MarkdownRenderer> => {
   const md = MarkdownIt({
     html: true,

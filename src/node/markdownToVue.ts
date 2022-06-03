@@ -27,7 +27,7 @@ export async function createMarkdownToVueRenderFn(
   pages: string[],
   userDefines: Record<string, any> | undefined,
   isBuild = false,
-  base: string,
+  base = '/',
   includeLastUpdatedData = false
 ) {
   const md = await createMarkdownRenderer(srcDir, options, base)
