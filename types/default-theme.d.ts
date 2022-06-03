@@ -81,7 +81,7 @@ export namespace DefaultTheme {
 
   export interface NavItemWithChildren {
     text?: string
-    items: NavItemWithLink[]
+    items: NavItem[]
   }
 
   // sidebar -------------------------------------------------------------------
