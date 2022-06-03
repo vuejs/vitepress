@@ -64,6 +64,12 @@ export interface UserConfig<ThemeConfig = any> {
    * @experimental
    */
   mpa?: boolean
+
+  /**
+   * Build end hook: called when SSG finish.
+   * @param siteConfig The resolved configuration.
+   */
+  buildEnd?: (siteConfig: SiteConfig) => Promise<void>
 }
 
 export type RawConfigExports<ThemeConfig = any> =
@@ -74,7 +80,7 @@ export type RawConfigExports<ThemeConfig = any> =
 export interface SiteConfig<ThemeConfig = any>
   extends Pick<
     UserConfig,
-    'markdown' | 'vue' | 'vite' | 'shouldPreload' | 'mpa' | 'lastUpdated'
+    'markdown' | 'vue' | 'vite' | 'shouldPreload' | 'mpa' | 'lastUpdated' | 'buildEnd'
   > {
   root: string
   srcDir: string
@@ -152,7 +158,8 @@ export async function resolveConfig(
     vue: userConfig.vue,
     vite: userConfig.vite,
     shouldPreload: userConfig.shouldPreload,
-    mpa: !!userConfig.mpa
+    mpa: !!userConfig.mpa,
+    buildEnd: userConfig.buildEnd
   }
 
   return config
