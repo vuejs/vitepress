@@ -1,7 +1,7 @@
 import sirv from 'sirv'
 import compression from 'compression'
-import { resolveConfig } from '../config'
 import polka from 'polka'
+import { resolveConfig } from '../config'
 
 function trimChar(str: string, char: string) {
   while (str.charAt(0) === char) {
@@ -33,8 +33,8 @@ export async function serve(options: ServeOptions = {}) {
     immutable: true,
     setHeaders(res, pathname) {
       if (!pathname.includes('/assets/')) {
-        // force server validation for non-asset files since they are not
-        // fingerprinted.
+        // force server validation for non-asset files since they
+        // are not fingerprinted
         res.setHeader('cache-control', 'no-cache')
       }
     }

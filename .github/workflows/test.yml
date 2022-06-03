@@ -10,15 +10,15 @@ jobs:
         node-version: [14, 16]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2.0.1
         with:
-          version: 6.15.1
+          version: 7.0.1
 
       - name: Set node version to ${{ matrix.node_version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node_version }}
           cache: 'pnpm'
@@ -26,8 +26,11 @@ jobs:
       - name: Install deps
         run: pnpm install
 
-      - name: Build
-        run: pnpm run build
+      - name: Lint
+        run: pnpm run lint-fail
 
       - name: Test
-        run: pnpm run test
+        run: pnpm run test-run
+
+      - name: Build
+        run: pnpm run build

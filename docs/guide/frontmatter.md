@@ -9,7 +9,7 @@ editLink: true
 ---
 ```
 
-Between the triple-dashed lines, you can set [predefined variables](#predefined-variables), or even create custom ones of your own. These variables can be used via the special <code>$frontmatter</code> variable.
+Between the triple-dashed lines, you can set [predefined variables](../config/frontmatter-configs), or even create custom ones of your own. These variables can be used via the special <code>$frontmatter</code> variable.
 
 Here’s an example of how you could use it in your Markdown file:
 
@@ -24,7 +24,7 @@ editLink: true
 Guide content
 ```
 
-## Alternative frontmatter Formats
+## Alternative Frontmatter Formats
 
 VitePress also supports JSON frontmatter syntax, starting and ending in curly braces:
 
@@ -36,52 +36,3 @@ VitePress also supports JSON frontmatter syntax, starting and ending in curly br
 }
 ---
 ```
-
-## Predefined Variables
-
-### title
-
-- Type: `string`
-- Default: `h1_title || siteData.title`
-
-Title of the current page.
-
-### head
-
-- Type: `array`
-- Default: `undefined`
-
-Specify extra head tags to be injected:
-
-```yaml
----
-head:
-  - - meta
-    - name: description
-      content: hello
-  - - meta
-    - name: keywords
-      content: super duper SEO
----
-```
-
-### navbar
-
-- Type: `boolean`
-- Default: `undefined`
-
-You can disable the navbar on a specific page with `navbar: false`
-
-### sidebar
-
-- Type: `boolean|'auto'`
-- Default: `undefined`
-
-You can decide to show the sidebar on a specific page with `sidebar: auto` or disable it with `sidebar: false`
-
-### editLink
-
-- Type: `boolean`
-- Default: `undefined`
-
-Define if this page should include an edit link.

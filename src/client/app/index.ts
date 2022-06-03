@@ -7,11 +7,11 @@ import {
   onMounted,
   watch
 } from 'vue'
+import Theme from '/@theme/index'
 import { inBrowser, pathToFile } from './utils'
 import { Router, RouterSymbol, createRouter } from './router'
 import { siteDataRef, useData } from './data'
 import { useUpdateHead } from './composables/head'
-import Theme from '/@theme/index'
 import { usePrefetch } from './composables/preFetch'
 import { dataSymbol, initData } from './data'
 import { Content } from './components/Content'
@@ -55,11 +55,6 @@ export function createApp() {
   const data = initData(router.route)
   app.provide(dataSymbol, data)
 
-  if (inBrowser) {
-    // dynamically update head tags
-    useUpdateHead(router.route, data.site)
-  }
-
   // install global components
   app.component('Content', Content)
   app.component('ClientOnly', ClientOnly)
@@ -85,7 +80,7 @@ export function createApp() {
     })
   }
 
-  return { app, router }
+  return { app, router, data }
 }
 
 function newApp(): App {
@@ -112,16 +107,11 @@ function newRouter(): Router {
       pageFilePath = pageFilePath.replace(/\.js$/, '.lean.js')
     }
 
-    // in browser: native dynamic import
     if (inBrowser) {
       isInitialPageLoad = false
-
-      return import(/*@vite-ignore*/ pageFilePath)
     }
 
-    // SSR: sync require
-    // @ts-ignore
-    return require(pageFilePath)
+    return import(/*@vite-ignore*/ pageFilePath)
   }, NotFound)
 }
 
@@ -145,10 +135,12 @@ function shouldHotReload(payload: any): boolean {
 }
 
 if (inBrowser) {
-  const { app, router } = createApp()
+  const { app, router, data } = createApp()
 
   // wait until page component is fetched before mounting
   router.go().then(() => {
+    // dynamically update head tags
+    useUpdateHead(router.route, data.site)
     app.mount('#app')
   })
 }

@@ -1,7 +1,7 @@
 import path from 'path'
 import fs from 'fs-extra'
-import chalk from 'chalk'
-import globby from 'globby'
+import c from 'picocolors'
+import fg from 'fast-glob'
 import {
   normalizePath,
   AliasOptions,
@@ -14,8 +14,9 @@ import {
   SiteData,
   HeadConfig,
   LocaleConfig,
-  createLangDictionary,
-  DefaultTheme
+  DefaultTheme,
+  APPEARANCE_KEY,
+  createLangDictionary
 } from './shared'
 import { resolveAliases, DEFAULT_THEME_PATH } from './alias'
 import { MarkdownOptions } from './markdown/markdown'
@@ -25,15 +26,15 @@ export { resolveSiteDataByRoute } from './shared'
 
 const debug = _debug('vitepress:config')
 
-export type { MarkdownOptions }
-
 export interface UserConfig<ThemeConfig = any> {
   extends?: RawConfigExports<ThemeConfig>
-  lang?: string
   base?: string
+  lang?: string
   title?: string
+  titleTemplate?: string | boolean
   description?: string
   head?: HeadConfig[]
+  appearance?: boolean
   themeConfig?: ThemeConfig
   locales?: Record<string, LocaleConfig>
   markdown?: MarkdownOptions
@@ -123,14 +124,14 @@ export async function resolveConfig(
     ? userThemeDir
     : DEFAULT_THEME_PATH
 
-  // Important: globby/fast-glob doesn't guarantee order of the returned files.
+  // Important: fast-glob doesn't guarantee order of the returned files.
   // We must sort the pages so the input list to rollup is stable across
   // builds - otherwise different input order could result in different exports
   // order in shared chunks which in turns invalidates the hash of every chunk!
   // JavaScript built-in sort() is mandated to be stable as of ES2019 and
   // supported in Node 12+, which is required by Vite.
   const pages = (
-    await globby(['**.md'], {
+    await fg(['**.md'], {
       cwd: srcDir,
       ignore: ['**/node_modules', ...(userConfig.srcExclude || [])]
     })
@@ -188,7 +189,7 @@ async function resolveUserConfig(
     : {}
 
   if (configPath) {
-    debug(`loaded config at ${chalk.yellow(configPath)}`)
+    debug(`loaded config at ${c.yellow(configPath)}`)
   } else {
     debug(`no config file found.`)
   }
@@ -243,15 +244,42 @@ export async function resolveSiteData(
   mode = 'development'
 ): Promise<SiteData> {
   userConfig = userConfig || (await resolveUserConfig(root, command, mode))[0]
+
   return {
     lang: userConfig.lang || 'en-US',
     title: userConfig.title || 'VitePress',
+    titleTemplate: userConfig.titleTemplate,
     description: userConfig.description || 'A VitePress site',
     base: userConfig.base ? userConfig.base.replace(/([^/])$/, '$1/') : '/',
-    head: userConfig.head || [],
+    head: resolveSiteDataHead(userConfig),
+    appearance: userConfig.appearance ?? true,
     themeConfig: userConfig.themeConfig || {},
     locales: userConfig.locales || {},
     langs: createLangDictionary(userConfig),
     scrollOffset: userConfig.scrollOffset || 90
   }
+}
+
+function resolveSiteDataHead(userConfig?: UserConfig): HeadConfig[] {
+  const head = userConfig?.head ?? []
+
+  // add inline script to apply dark mode, if user enables the feature.
+  // this is required to prevent "flush" on initial page load.
+  if (userConfig?.appearance ?? true) {
+    head.push([
+      'script',
+      {},
+      `
+        ;(() => {
+          const saved = localStorage.getItem('${APPEARANCE_KEY}')
+          const prefereDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+          if (!saved || saved === 'auto' ? prefereDark : saved === 'dark') {
+            document.documentElement.classList.add('dark')
+          }
+        })()
+      `
+    ])
+  }
+
+  return head
 }
