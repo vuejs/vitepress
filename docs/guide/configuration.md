@@ -15,12 +15,12 @@ The essential file for configuring a VitePress site is `.vitepress/config.js`, w
 
 ```js
 export default {
-  title: 'Hello VitePress',
+  title: 'VitePress',
   description: 'Just playing around.'
 }
 ```
 
-In the above example, the site will have the title of `VitePress`, and `Just playing around` as description meta tag.
+In the above example, the site will have the title of `VitePress`, and `Just playing around.` as the description meta tag.
 
 Learn everything about VitePress features at [Theme: Introduction](./theme-introduction) to find how to configure specific features with in this config file.
 
