@@ -54,7 +54,10 @@ export async function bundle(
     ),
     // @ts-ignore
     ssr: {
-      noExternal: ['vitepress']
+      noExternal: [
+        'vitepress',
+        '@docsearch/css'
+      ]
     },
     build: {
       ...options,

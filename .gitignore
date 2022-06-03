@@ -6,6 +6,7 @@
 .idea
 .vite_opt_cache
 .vscode
+.temp
 dist
 node_modules
 pnpm-global
