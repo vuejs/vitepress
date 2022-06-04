@@ -146,6 +146,13 @@ export namespace DefaultTheme {
      * @default 'Edit this page'
      */
     text?: string
+
+    /**
+     * Custom pattern for edit link.
+     *
+     * @example ':repo/-/edit/:branch/:path'
+     */
+    pattern?: string
   }
 
   // social link ---------------------------------------------------------------

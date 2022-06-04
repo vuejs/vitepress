@@ -10,10 +10,11 @@ const editLinkPatterns = {
 }
 
 function resolveRepoType(repo: string) {
+  if (/github\.com/.test(repo)) return 'GitHub'
   if (/bitbucket\.org/.test(repo)) return 'Bitbucket'
   if (/gitlab\.com/.test(repo)) return 'GitLab'
   if (/gitee\.com/.test(repo)) return 'Gitee'
-  return 'GitHub'
+  return null
 }
 
 export function useEditLink() {
@@ -21,16 +22,19 @@ export function useEditLink() {
 
   return computed(() => {
     const {
-      repo = '???',
+      repo = '',
       branch = 'main',
       dir = '',
-      text = 'Edit this page'
+      text = 'Edit this page',
+      pattern = ''
     } = theme.value.editLink || {}
     const { relativePath } = page.value
 
     const base = /:\/\//.test(repo) ? repo : `https://github.com/${repo}`
-    const pattern = editLinkPatterns[resolveRepoType(base)]
-    const url = pattern
+    const type = resolveRepoType(base)
+    const urlPattern = pattern || !type ? pattern : editLinkPatterns[type]
+
+    const url = urlPattern
       .replace(/:repo/g, base)
       .replace(/:branch/g, branch)
       .replace(/:path/g, `${dir}/${relativePath}`)
