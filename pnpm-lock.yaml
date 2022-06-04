@@ -26,6 +26,7 @@ importers:
       '@types/polka': ^0.5.3
       '@types/prompts': ^2.0.14
       '@vitejs/plugin-vue': ^2.3.2
+      '@vue/devtools-api': ^6.1.4
       '@vueuse/core': ^8.5.0
       body-scroll-lock: ^4.0.0-beta.0
       chokidar: ^3.5.1
@@ -74,6 +75,7 @@ importers:
       '@docsearch/css': 3.1.0
       '@docsearch/js': 3.1.0
       '@vitejs/plugin-vue': 2.3.3_vite@2.9.9+vue@3.2.33
+      '@vue/devtools-api': 6.1.4
       '@vueuse/core': 8.5.0_vue@3.2.33
       body-scroll-lock: 4.0.0-beta.0
       shiki: 0.10.1
@@ -720,6 +722,10 @@ packages:
     dependencies:
       '@vue/compiler-dom': 3.2.33
       '@vue/shared': 3.2.33
+    dev: false
+
+  /@vue/devtools-api/6.1.4:
+    resolution: {integrity: sha512-IiA0SvDrJEgXvVxjNkHPFfDx6SXw0b/TUkqMcDZWNg9fnCAHbTpoo59YfJ9QLFkwa3raau5vSlRVzMSLDnfdtQ==}
     dev: false
 
   /@vue/reactivity-transform/3.2.33:

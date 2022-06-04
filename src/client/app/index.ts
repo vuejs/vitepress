@@ -2,7 +2,6 @@ import {
   App,
   createApp as createClientApp,
   createSSRApp,
-  defineAsyncComponent,
   h,
   onMounted,
   watch
@@ -11,6 +10,7 @@ import Theme from '/@theme/index'
 import { inBrowser, pathToFile } from './utils'
 import { Router, RouterSymbol, createRouter } from './router'
 import { siteDataRef, useData } from './data'
+import { setupDevtools } from './devtools'
 import { useUpdateHead } from './composables/head'
 import { usePrefetch } from './composables/preFetch'
 import { dataSymbol, initData } from './data'
@@ -58,12 +58,6 @@ export function createApp() {
   // install global components
   app.component('Content', Content)
   app.component('ClientOnly', ClientOnly)
-  app.component(
-    'Debug',
-    import.meta.env.PROD
-      ? () => null
-      : defineAsyncComponent(() => import('./components/Debug.vue'))
-  )
 
   // expose $frontmatter
   Object.defineProperty(app.config.globalProperties, '$frontmatter', {
@@ -78,6 +72,11 @@ export function createApp() {
       router,
       siteData: siteDataRef
     })
+  }
+
+  // setup devtools in dev mode
+  if (import.meta.env.DEV) {
+    setupDevtools(app, router, data)
   }
 
   return { app, router, data }
