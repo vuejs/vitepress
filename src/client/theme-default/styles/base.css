@@ -32,6 +32,21 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+body::-webkit-scrollbar-thumb {
+  background: var(--vp-c-text-4) content-box;
+  border: 2px solid transparent;
+  border-radius: 5px;
+}
+
+body::-webkit-scrollbar {
+  width: 10px;
+  background: transparent;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: var(--vp-c-text-3) content-box;
+}
+
 main {
   display: block;
 }

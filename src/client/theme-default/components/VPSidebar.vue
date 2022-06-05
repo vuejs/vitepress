@@ -120,5 +120,25 @@ watchPostEffect(async () => {
   .group + .group {
     margin-top: 24px;
   }
+
+  .VPSidebar:hover::-webkit-scrollbar {
+    display: block;
+  }
+
+  .VPSidebar::-webkit-scrollbar {
+    display: none;
+    width: 10px;
+    background: transparent;
+  }
+
+  .VPSidebar::-webkit-scrollbar-thumb {
+    background: var(--vp-c-text-4) content-box;
+    border: 2px solid transparent;
+    border-radius: 5px;
+  }
+
+  .VPSidebar::-webkit-scrollbar-thumb:hover {
+    background: var(--vp-c-text-3) content-box;
+  }
 }
 </style>
