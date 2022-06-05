@@ -75,7 +75,7 @@ export function createApp() {
   }
 
   // setup devtools in dev mode
-  if (import.meta.env.DEV) {
+  if (import.meta.env.DEV || __VUE_PROD_DEVTOOLS__) {
     setupDevtools(app, router, data)
   }
 
