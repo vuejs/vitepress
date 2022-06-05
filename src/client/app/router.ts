@@ -48,12 +48,6 @@ export function createRouter(
   const route = reactive(getDefaultRoute())
 
   function go(href: string = inBrowser ? location.href : '/') {
-    // ensure correct deep link so page refresh lands on correct files.
-    const url = new URL(href, fakeHost)
-    if (!url.pathname.endsWith('/') && !url.pathname.endsWith('.html')) {
-      url.pathname += '.html'
-      href = url.pathname + url.search + url.hash
-    }
     if (inBrowser) {
       // save scroll position before changing url
       history.replaceState({ scrollPosition: window.scrollY }, document.title)

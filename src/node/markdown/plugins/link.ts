@@ -58,15 +58,7 @@ export const linkPlugin = (
       const [, path, hash] = indexMatch
       url = path + hash
     } else {
-      let cleanUrl = url.replace(/[?#].*$/, '')
-      // .md -> .html
-      if (cleanUrl.endsWith('.md')) {
-        cleanUrl = cleanUrl.replace(/\.md$/, '.html')
-      }
-      // ./foo -> ./foo.html
-      if (!cleanUrl.endsWith('.html') && !cleanUrl.endsWith('/')) {
-        cleanUrl += '.html'
-      }
+      const cleanUrl = url.replace(/[?#].*$/, '').replace(/\.md$/, '')
       const parsed = new URL(url, 'http://a.com')
       url = cleanUrl + parsed.search + parsed.hash
     }
