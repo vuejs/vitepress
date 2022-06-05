@@ -102,11 +102,10 @@ export async function renderPage(
   const title: string = createTitle(siteData, pageData)
   const description: string = pageData.description || siteData.description
 
-  const head = addSocialTags(
-    title,
+  const head = [
     ...siteData.head,
     ...filterOutHeadDescription(pageData.frontmatter.head)
-  )
+  ]
 
   let inlinedScript = ''
   if (config.mpa && result) {
@@ -218,21 +217,4 @@ function isMetaDescription(headConfig: HeadConfig) {
 
 function filterOutHeadDescription(head: HeadConfig[] | undefined) {
   return head ? head.filter((h) => !isMetaDescription(h)) : []
-}
-
-function hasTag(head: HeadConfig[], tag: HeadConfig) {
-  const [tagType, tagAttrs] = tag
-  const [attr, value] = Object.entries(tagAttrs)[0] // First key
-  return head.some(([type, attrs]) => type === tagType && attrs[attr] === value)
-}
-
-function addSocialTags(title: string, ...head: HeadConfig[]) {
-  const tags: HeadConfig[] = [
-    ['meta', { name: 'twitter:title', content: title }],
-    ['meta', { property: 'og:title', content: title }]
-  ]
-  tags.filter((tagAttrs) => {
-    if (!hasTag(head, tagAttrs)) head.push(tagAttrs)
-  })
-  return head
 }
