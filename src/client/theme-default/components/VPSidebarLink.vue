@@ -27,7 +27,7 @@ const closeSideBar = inject('close-sidebar') as () => void
 <style scoped>
 .link {
   display: block;
-  padding: 6px 0;
+  padding: 4px 0;
   color: var(--vp-c-text-2);
   transition: color 0.5s;
 }
