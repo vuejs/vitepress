@@ -98,7 +98,7 @@ function onBlur() {
   display: flex;
   align-items: center;
   line-height: var(--vp-nav-height-mobile);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--vp-c-text-1);
   transition: color 0.25s;

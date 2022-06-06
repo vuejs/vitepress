@@ -364,12 +364,12 @@ It also supports [line highlighting](#line-highlighting-in-code-blocks):
 The value of `@` corresponds to the source root. By default it's the VitePress project root, unless `srcDir` is configured.
 :::
 
-You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/codebasics#_folding) to only include the corresponding part of the code file. You can provide a custom region name after a `#` following the filepath (`snippet` by default):
+You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/codebasics#_folding) to only include the corresponding part of the code file. You can provide a custom region name after a `#` following the filepath:
 
 **Input**
 
 ```md
-<<< @/snippets/snippet-with-region.js{1}
+<<< @/snippets/snippet-with-region.js#snippet{1}
 ```
 
 **Code file**
