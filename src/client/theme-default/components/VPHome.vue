@@ -13,13 +13,7 @@ import VPHomeFeatures from './VPHomeFeatures.vue'
     <VPHomeFeatures />
     <slot name="home-features-after" />
 
-    <div class="content">
-      <div class="content-container">
-        <main class="main">
-          <Content class="vp-doc" />
-        </main>
-      </div>
-    </div>
+    <Content />
   </div>
 </template>
 
