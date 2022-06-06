@@ -25,13 +25,6 @@ const closeSideBar = inject('close-sidebar') as () => void
 </template>
 
 <style scoped>
-:deep(.icon) {
-  margin-top: -2px;
-  width: 14px;
-  height: 14px;
-  fill: currentColor;
-}
-
 .link {
   display: block;
   padding: 6px 0;
@@ -41,12 +34,16 @@ const closeSideBar = inject('close-sidebar') as () => void
 
 .link:hover {
   color: var(--vp-c-text-1);
-  transition: color 0.25s;
 }
 
 .link.active {
   color: var(--vp-c-brand);
-  transition: color 0.25s;
+}
+
+.link :deep(.icon) {
+  width: 12px;
+  height: 12px;
+  fill: currentColor;
 }
 
 .link-text {
