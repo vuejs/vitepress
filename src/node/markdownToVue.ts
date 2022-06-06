@@ -162,8 +162,9 @@ export async function createMarkdownToVueRenderFn(
 }
 
 const scriptRE = /<\/script>/
+const scriptLangTsRE = /<\s*script[^>]*\blang=['"]ts['"][^>]*/
 const scriptSetupRE = /<\s*script[^>]*\bsetup\b[^>]*/
-const scriptClientRe = /<\s*script[^>]*\bclient\b[^>]*/
+const scriptClientRE = /<\s*script[^>]*\bclient\b[^>]*/
 const defaultExportRE = /((?:^|\n|;)\s*)export(\s*)default/
 const namedDefaultExportRE = /((?:^|\n|;)\s*)export(.+)as(\s*)default/
 
@@ -176,9 +177,11 @@ function genPageDataCode(tags: string[], data: PageData) {
     return (
       scriptRE.test(tag) &&
       !scriptSetupRE.test(tag) &&
-      !scriptClientRe.test(tag)
+      !scriptClientRE.test(tag)
     )
   })
+
+  const isUsingTS = tags.findIndex((tag) => scriptLangTsRE.test(tag)) > -1
 
   if (existingScriptIndex > -1) {
     const tagSrc = tags[existingScriptIndex]
@@ -196,7 +199,9 @@ function genPageDataCode(tags: string[], data: PageData) {
     )
   } else {
     tags.unshift(
-      `<script>${code}\nexport default {name:'${data.relativePath}'}</script>`
+      `<script ${isUsingTS ? 'lang="ts"' : ''}>${code}\nexport default {name:'${
+        data.relativePath
+      }'}</script>`
     )
   }
 
