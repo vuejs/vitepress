@@ -76,6 +76,19 @@ type Head =
   | [string, Record<string, string>, string]
 ```
 
+## lastUpdated
+
+- Type: `boolean`
+- Default: `true`
+
+Whether to display [Last Updated](../guide/theme-last-updated) text in the current page.
+
+```yaml
+---
+lastUpdated: false
+---
+```
+
 ## layout
 
 - Type: `doc | home | page`
