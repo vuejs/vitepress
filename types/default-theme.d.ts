@@ -127,18 +127,18 @@ export namespace DefaultTheme {
 
   export interface EditLink {
     /**
-     * Custom text for edit link.
-     *
-     * @default 'Edit this page'
-     */
-    text?: string
-
-    /**
      * Pattern for edit link.
      *
      * @example 'https://github.com/vuejs/vitepress/edit/main/docs/:path'
      */
     pattern: string
+
+    /**
+     * Custom text for edit link.
+     *
+     * @default 'Edit this page'
+     */
+    text?: string
   }
 
   // social link ---------------------------------------------------------------
