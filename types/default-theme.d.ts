@@ -120,27 +120,6 @@ export namespace DefaultTheme {
 
   export interface EditLink {
     /**
-     * Repo of the site.
-     *
-     * @example 'vuejs/docs'
-     */
-    repo: string
-
-    /**
-     * Branch of the repo.
-     *
-     * @default 'main'
-     */
-    branch?: string
-
-    /**
-     * If your docs are not at the root of the repo.
-     *
-     * @example 'docs'
-     */
-    dir?: string
-
-    /**
      * Custom text for edit link.
      *
      * @default 'Edit this page'
@@ -148,11 +127,11 @@ export namespace DefaultTheme {
     text?: string
 
     /**
-     * Custom pattern for edit link.
+     * Pattern for edit link.
      *
-     * @example ':repo/-/edit/:branch/:path'
+     * @example 'https://github.com/vuejs/vitepress/edit/main/docs/:path'
      */
-    pattern?: string
+    pattern: string
   }
 
   // social link ---------------------------------------------------------------
