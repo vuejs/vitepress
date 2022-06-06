@@ -1,19 +1,14 @@
 <script lang="ts" setup>
 import { useData } from 'vitepress'
 import VPSocialLinks from './VPSocialLinks.vue'
-import { useSidebar } from '../composables/sidebar'
 
 const { theme } = useData()
-const { hasSidebar } = useSidebar()
 </script>
 
 <template>
   <VPSocialLinks
     v-if="theme.socialLinks"
-    :class="{
-      'VPNavBarSocialLinks' : true,
-      'has-sidebar' : hasSidebar
-    }"
+    class="VPNavBarSocialLinks"
     :links="theme.socialLinks"
   />
 </template>
@@ -28,9 +23,5 @@ const { hasSidebar } = useSidebar()
     display: flex;
     align-items: center;
   }
-}
-
-.has-sidebar {
-  padding-right: 32px;
 }
 </style>

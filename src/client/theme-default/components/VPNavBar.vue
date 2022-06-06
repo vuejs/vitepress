@@ -52,13 +52,6 @@ const { hasSidebar } = useSidebar()
   transition: border-color 0.5s, background-color 0.5s;
 }
 
-
-@media (min-width: 768px) {
-  .VPNavBar.has-sidebar {
-    padding-right: 0;
-  }
-}
-
 @media (min-width: 768px) {
   .VPNavBar {
     padding: 0 32px;
@@ -72,6 +65,8 @@ const { hasSidebar } = useSidebar()
   }
 
   .VPNavBar.has-sidebar .content {
+    margin-right: -32px;
+    padding-right: 32px;
     backdrop-filter: saturate(50%) blur(8px);
     -webkit-backdrop-filter: saturate(50%) blur(8px);
   }
