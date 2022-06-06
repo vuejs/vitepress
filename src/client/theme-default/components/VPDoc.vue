@@ -1,16 +1,13 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useData } from 'vitepress'
+import { useRoute } from 'vitepress'
 import { useSidebar } from '../composables/sidebar'
 import VPDocAside from './VPDocAside.vue'
 import VPDocFooter from './VPDocFooter.vue'
 
-const { page } = useData()
+const { path } = useRoute()
 const { hasSidebar } = useSidebar()
 
-const pageName = computed(() => {
-  return page.value.relativePath.slice(0, page.value.relativePath.indexOf('/'))
-})
+const pageName = path.replace(/[./]+/g, '_').replace(/_html$/, '')
 </script>
 
 <template>
