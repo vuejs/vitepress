@@ -12,6 +12,8 @@ import VPHomeFeatures from './VPHomeFeatures.vue'
     <slot name="home-features-before" />
     <VPHomeFeatures />
     <slot name="home-features-after" />
+
+    <Content />
   </div>
 </template>
 
