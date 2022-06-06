@@ -34,7 +34,7 @@ $ yarn docs:serve
 
 The `serve` command will boot up local static web server that serves the files from `.vitepress/dist` at `http://localhost:5000`. It's an easy way to check if the production build looks OK in your local environment.
 
-You may configure the port of the server py passing `--port` flag as an argument.
+You may configure the port of the server by passing `--port` flag as an argument.
 
 ```json
 {
