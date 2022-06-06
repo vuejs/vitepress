@@ -65,6 +65,8 @@ const { hasSidebar } = useSidebar()
   }
 
   .VPNavBar.has-sidebar .content {
+    margin-right: -32px;
+    padding-right: 32px;
     -webkit-backdrop-filter: saturate(50%) blur(8px);
     backdrop-filter: saturate(50%) blur(8px);
     background: rgba(255, 255, 255, 0.7);
