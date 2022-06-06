@@ -93,7 +93,7 @@ export namespace DefaultTheme {
   }
 
   export interface SidebarGroup {
-    text: string
+    text?: string
     items: SidebarItem[]
 
     /**
