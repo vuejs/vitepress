@@ -14,6 +14,13 @@ export namespace DefaultTheme {
     siteTitle?: string | false
 
     /**
+     * Custom outline title in the aside component.
+     *
+     * @default 'On this page'
+     */
+    outlineTitle?: string
+
+    /**
      * The nav items.
      */
     nav?: NavItem[]
