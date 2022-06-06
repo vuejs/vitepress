@@ -20,7 +20,7 @@
 }
 
 .vp-doc h2 {
-  margin: 48px 0 0;
+  margin: 48px 0 16px;
   border-top: 1px solid var(--vp-c-divider-light);
   padding-top: 24px;
   letter-spacing: -0.02em;
@@ -461,3 +461,26 @@
 .vp-doc [class~='language-tsx']:before        { content: 'tsx'; }
 .vp-doc [class~='language-vue']:before        { content: 'vue'; }
 .vp-doc [class~='language-yaml']:before       { content: 'yaml'; }
+
+/**
+ * Component: Team
+ * -------------------------------------------------------------------------- */
+
+.vp-doc .VPTeamMembers {
+  margin-top: 24px;
+}
+
+.vp-doc .VPTeamMembers.small.count-1 .container {
+  margin: 0 !important;
+  max-width: calc((100% - 24px) / 2) !important;
+}
+
+.vp-doc .VPTeamMembers.small.count-2 .container,
+.vp-doc .VPTeamMembers.small.count-3 .container {
+  max-width: 100% !important;
+}
+
+.vp-doc .VPTeamMembers.medium.count-1 .container {
+  margin: 0 !important;
+  max-width: calc((100% - 24px) / 2) !important;
+}
