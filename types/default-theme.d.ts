@@ -93,7 +93,7 @@ export namespace DefaultTheme {
 
   // nav -----------------------------------------------------------------------
 
-  export type ThemeableImage = Image | { light: Image, dark: Image }
+  export type ThemeableImage = Image | { light: Image; dark: Image }
   export type Image = string | { src: string; alt?: string }
 
   // sidebar -------------------------------------------------------------------
