@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import type { DefaultTheme } from 'vitepress/theme';
 import VPButton from './VPButton.vue'
+import VPImage from './VPImage.vue'
 
 export interface HeroAction {
   theme?: 'brand' | 'alt'
@@ -7,16 +9,11 @@ export interface HeroAction {
   link: string
 }
 
-export interface Image {
-  src: string
-  alt?: string
-}
-
 defineProps<{
   name?: string
   text: string
   tagline?: string
-  image?: Image
+  image?: DefaultTheme.ThemeableImage
   actions?: HeroAction[]
 }>()
 </script>
@@ -45,7 +42,7 @@ defineProps<{
       <div v-if="image" class="image">
         <div class="image-container">
           <div class="image-bg" />
-          <img class="image-src" :src="image.src" :alt="image.alt">
+          <VPImage class="image-src" :image="image" />
         </div>
       </div>
     </div>
