@@ -126,3 +126,12 @@ function cleanRoute(siteData: SiteData, route: string): string {
 
   return route.slice(baseWithoutSuffix.length)
 }
+
+export const notFoundPageData: PageData = {
+  relativePath: '',
+  title: '404',
+  description: 'Not Found',
+  headers: [],
+  frontmatter: {},
+  lastUpdated: 0
+}

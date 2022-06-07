@@ -5,7 +5,7 @@ import { pathToFileURL } from 'url'
 import escape from 'escape-html'
 import { normalizePath, transformWithEsbuild } from 'vite'
 import { RollupOutput, OutputChunk, OutputAsset } from 'rollup'
-import { HeadConfig, createTitle, PageData } from '../shared'
+import { HeadConfig, createTitle, PageData, notFoundPageData } from '../shared'
 import { slash } from '../utils/slash'
 import { SiteConfig, resolveSiteDataByRoute } from '../config'
 
@@ -64,14 +64,7 @@ export async function renderPage(
   } catch (e) {
     if (page === '404.md') {
       hasCustom404 = false
-      pageData = {
-        relativePath: '',
-        title: '404',
-        description: 'Not Found',
-        headers: [],
-        frontmatter: {},
-        lastUpdated: 0
-      }
+      pageData = notFoundPageData
     } else throw e
   }
 
