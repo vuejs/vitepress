@@ -109,7 +109,7 @@ export function createRouter(
         }
       }
     } catch (err: any) {
-      if (!err.message.match(/fetch/) && !href.match(/404\.html/)) {
+      if (!err.message.match(/fetch/) && !href.match(/^[\\/]404\.html$/)) {
         console.error(err)
       }
 
