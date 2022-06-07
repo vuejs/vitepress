@@ -52,14 +52,14 @@ defineEmits<{
 .container:hover .middle { top: 6; left: 0; transform: translateX(0); }
 .container:hover .bottom { top: 12px; left: 0; transform: translateX(8px); }
 
-.container.active .top    { top: 6px; transform: translateX(0) rotate(225deg); }
-.container.active .middle { top: 6px; transform: translateX(16px); }
-.container.active .bottom { top: 6px; transform: translateX(0) rotate(135deg); }
+.active .container .top    { top: 6px; transform: translateX(0) rotate(225deg); }
+.active .container .middle { top: 6px; transform: translateX(16px); }
+.active .container .bottom { top: 6px; transform: translateX(0) rotate(135deg); }
 
-.container.active:hover .top,
-.container.active:hover .middle,
-.container.active:hover .bottom {
-  background-color: var(--vt-c-text-2);
+.active .container:hover .top,
+.active .container:hover .middle,
+.active .container:hover .bottom {
+  background-color: var(--vp-c-text-2);
   transition: top .25s, background-color .25s, transform .25s;
 }
 
