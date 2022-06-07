@@ -91,7 +91,7 @@ export namespace DefaultTheme {
     items: NavItem[]
   }
 
-  // nav -----------------------------------------------------------------------
+  // image -----------------------------------------------------------------------
 
   export type ThemeableImage = Image | { light: Image; dark: Image }
   export type Image = string | { src: string; alt?: string }
