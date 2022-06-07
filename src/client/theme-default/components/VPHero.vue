@@ -115,6 +115,7 @@ defineProps<{
   line-height: 40px;
   font-size: 32px;
   font-weight: 700;
+  white-space: pre-wrap;
 }
 
 .VPHero.has-image .name,
@@ -161,6 +162,7 @@ defineProps<{
   line-height: 28px;
   font-size: 18px;
   font-weight: 500;
+  white-space: pre-wrap;
   color: var(--vp-c-text-2);
 }
 
