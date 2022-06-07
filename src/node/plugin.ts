@@ -6,6 +6,7 @@ import { DIST_CLIENT_PATH, APP_PATH, SITE_DATA_REQUEST_PATH } from './alias'
 import { slash } from './utils/slash'
 import { OutputAsset, OutputChunk } from 'rollup'
 import { staticDataPlugin } from './staticDataPlugin'
+import { PageDataPayload } from './shared'
 
 type Awaited<T> = T extends Promise<infer P> ? P : never
 
@@ -262,14 +263,16 @@ export async function createVitePressPlugin(
           config.publicDir
         )
 
+        const payload: PageDataPayload = {
+          path: `/${slash(path.relative(srcDir, file))}`,
+          pageData
+        }
+
         // notify the client to update page data
         server.ws.send({
           type: 'custom',
           event: 'vitepress:pageData',
-          data: {
-            path: `/${slash(path.relative(srcDir, file))}`,
-            pageData
-          }
+          data: payload
         })
 
         // overwrite src so vue plugin can handle the HMR
