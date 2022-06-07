@@ -23,15 +23,20 @@ const { hasSidebar } = useSidebar()
 <template>
   <div class="VPNavBar" :class="{ 'has-sidebar' : hasSidebar }">
     <div class="container">
-      <VPNavBarTitle />
+      <VPNavBarTitle>
+        <template #nav-bar-title-before><slot name="nav-bar-title-before" /></template>
+        <template #nav-bar-title-after><slot name="nav-bar-title-after" /></template>
+      </VPNavBarTitle>
 
       <div class="content">
+        <slot name="nav-bar-content-before" />
         <VPNavBarSearch class="search" />
         <VPNavBarMenu class="menu" />
         <VPNavBarTranslations class="translations" />
         <VPNavBarAppearance class="appearance" />
         <VPNavBarSocialLinks class="social-links" />
         <VPNavBarExtra class="extra" />
+        <slot name="nav-bar-content-after" />
         <VPNavBarHamburger
           class="hamburger"
           :active="isScreenOpen"
