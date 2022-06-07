@@ -1,21 +1,21 @@
 <script setup lang="ts">
 import type { DefaultTheme } from 'vitepress/theme'
-import { computed } from 'vue';
 
-const props = defineProps<{
-  image: DefaultTheme.ThemeableImage,
-  class?: string
+defineProps<{
+  image: DefaultTheme.ThemeableImage
 }>()
-
-const normalized = computed(() => typeof props.image === 'string' ? { src: props.image } : props.image)
 </script>
 
 <template>
-  <template v-if="normalized">
-    <img v-if="'src' in normalized" class="VPImage" v-bind="normalized" :class="props.class">
-    <template v-else-if="'dark' in normalized">
-      <VPImage :image="normalized.dark" class="dark" :class="props.class" />
-      <VPImage :image="normalized.light" class="light" :class="props.class" />
+  <template v-if="image">
+    <img
+      v-if="typeof image === 'string' || 'src' in image"
+      class="VPImage"
+      v-bind="typeof image === 'string' ? { src: image } : image"
+    >
+    <template v-else>
+      <VPImage class="dark" :image="image.dark" v-bind="$attrs"/>
+      <VPImage class="light" :image="image.light" v-bind="$attrs"/>
     </template>
   </template>
 </template>
