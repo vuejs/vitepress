@@ -76,7 +76,7 @@ function load() {
               stroke-linejoin="round"
             />
           </svg>
-          <span class="DocSearch-Button-Placeholder">Search</span>
+          <span class="DocSearch-Button-Placeholder">{{ theme.algolia?.buttonText || 'Search' }}</span>
         </span>
         <span class="DocSearch-Button-Keys">
           <kbd class="DocSearch-Button-Key" ref="metaKey">Meta</kbd>
