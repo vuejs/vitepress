@@ -17,7 +17,7 @@ const closeSideBar = inject('close-sidebar') as () => void
 <template>
   <VPLink
     :class="{ active: isActive(page.relativePath, item.link) }"
-    :href="normalizeLink(item.link)"
+    :href="item.link"
     @click="closeSideBar"
   >
     <span class="link-text">{{ item.text }}</span>
