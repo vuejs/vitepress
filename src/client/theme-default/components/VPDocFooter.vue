@@ -19,7 +19,7 @@ const hasLastUpdated = computed(() => {
 </script>
 
 <template>
-  <footer v-if="control.prev || control.next" class="VPDocFooter">
+  <footer class="VPDocFooter">
     <div class="edit-info">
       <div v-if="theme.editLink && frontmatter.editLink !== false" class="edit-link">
         <VPLink class="edit-link-button" :href="editLink.url" :no-icon="true">
