@@ -50,6 +50,12 @@ function scrollToTop() {
   transition: border-color 0.5s, background-color 0.5s;
 }
 
+@media print {
+  .VPLocalNav {
+    display: none;
+  }
+}
+
 @media (min-width: 960px) {
   .VPLocalNav {
     display: none;

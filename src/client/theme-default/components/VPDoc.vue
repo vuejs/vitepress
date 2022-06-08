@@ -166,16 +166,6 @@ const pageName = path.replace(/[./]+/g, '_').replace(/_html$/, '')
   max-width: 688px;
 }
 
-.edit-link {
-  margin: 0 0 32px;
-}
-
-.edit-link .vt-link {
-  font-size: 14px;
-  color: var(--vt-c-brand);
-  font-weight: 500;
-}
-
 .vt-icon {
   width: 18px;
   height: 18px;

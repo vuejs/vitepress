@@ -19,25 +19,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <p class="VPLastUpdated">
+  <div>
     {{ theme.lastUpdatedText ?? 'Last updated' }}:
     <time :datatime="isoDatetime">{{ datetime }}</time>
-  </p>
+  </div>
 </template>
-
-<style scoped>
-.VPLastUpdated {
-  line-height: 24px;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--vp-c-text-2);
-}
-
-@media (min-width: 640px) {
-  .VPLastUpdated {
-    line-height: 32px;
-    font-size: 14px;
-    font-weight: 500;
-  }
-}
-</style>

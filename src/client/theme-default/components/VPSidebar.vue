@@ -64,6 +64,12 @@ watchPostEffect(async () => {
   transition: background-color 0.5s, opacity 0.5s, transform 0.25s ease;
 }
 
+@media print {
+  .VPSidebar {
+    display: none;
+  }
+}
+
 .VPSidebar.open {
   opacity: 1;
   visibility: visible;

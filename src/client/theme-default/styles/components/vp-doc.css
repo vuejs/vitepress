@@ -272,6 +272,13 @@
   }
 }
 
+@media print {
+  .vp-doc div[class*='language-'] {
+    border-radius: 8px;
+    margin: 16px 0;
+  }
+}
+
 @media (max-width: 639px) {
   .vp-doc li div[class*='language-'] {
     border-radius: 8px 0 0 8px;

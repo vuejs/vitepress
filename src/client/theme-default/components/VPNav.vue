@@ -27,6 +27,12 @@ provide('close-screen', closeScreen)
   width: 100%;
 }
 
+@media print {
+  .VPNav {
+    display: none;
+  }
+}
+
 @media (min-width: 960px) {
   .VPNav {
     position: fixed;

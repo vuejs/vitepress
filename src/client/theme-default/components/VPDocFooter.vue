@@ -28,9 +28,7 @@ const hasLastUpdated = computed(() => {
         </VPLink>
       </div>
 
-      <div v-if="hasLastUpdated" class="last-updated">
-        <VPDocFooterLastUpdated />
-      </div>
+      <VPDocFooterLastUpdated v-if="hasLastUpdated" />
     </div>
 
     <div class="prev-next">
@@ -56,6 +54,10 @@ const hasLastUpdated = computed(() => {
 }
 
 .edit-info {
+  line-height: 24px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--vp-c-text-2);
   padding-bottom: 18px;
 }
 
@@ -65,6 +67,13 @@ const hasLastUpdated = computed(() => {
     justify-content: space-between;
     align-items: center;
     padding-bottom: 14px;
+  }
+}
+
+
+@media print {
+  .edit-link {
+    display: none;
   }
 }
 
@@ -98,6 +107,12 @@ const hasLastUpdated = computed(() => {
 @media (min-width: 640px) {
   .prev-next {
     display: flex;
+  }
+}
+
+@media print {
+  .prev-next {
+    display: none;
   }
 }
 
