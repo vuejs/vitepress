@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { withBase } from 'vitepress'
 import VPButton from './VPButton.vue'
 
 export interface HeroAction {
@@ -45,7 +46,7 @@ defineProps<{
       <div v-if="image" class="image">
         <div class="image-container">
           <div class="image-bg" />
-          <img class="image-src" :src="image.src" :alt="image.alt">
+          <img class="image-src" :src="withBase(image.src)" :alt="image.alt">
         </div>
       </div>
     </div>
