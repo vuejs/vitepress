@@ -34,7 +34,7 @@ $ yarn docs:serve
 
 The `serve` command will boot up local static web server that serves the files from `.vitepress/dist` at `http://localhost:5000`. It's an easy way to check if the production build looks OK in your local environment.
 
-You may configure the port of the server py passing `--port` flag as an argument.
+You may configure the port of the server by passing `--port` flag as an argument.
 
 ```json
 {
@@ -135,7 +135,7 @@ deploy:
 3. Create a file called `.gitlab-ci.yml` in the root of your project with the content below. This will build and deploy your site whenever you make changes to your content:
 
 ```yaml
-image: node:10.22.0
+image: node:16
 pages:
   cache:
     paths:

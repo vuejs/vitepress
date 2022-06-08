@@ -1,6 +1,6 @@
 {
   "name": "vitepress",
-  "version": "1.0.0-draft.8",
+  "version": "1.0.0-alpha.1",
   "description": "Vite & Vue powered static site generator",
   "type": "module",
   "packageManager": "pnpm@7.1.7",

@@ -6,7 +6,7 @@ import VPIconMinusSquare from './icons/VPIconMinusSquare.vue'
 import VPSidebarLink from './VPSidebarLink.vue'
 
 const props = defineProps<{
-  text: string
+  text?: string
   items: DefaultTheme.SidebarItem[]
   collapsible?: boolean
   collapsed?: boolean
@@ -23,7 +23,12 @@ function toggle() {
 
 <template>
   <section class="VPSidebarGroup" :class="{ collapsible, collapsed }">
-    <div class="title" :role="collapsible ? 'button' : undefined" @click="toggle">
+    <div
+      v-if="text"
+      class="title"
+      :role="collapsible ? 'button' : undefined"
+      @click="toggle"
+    >
       <h2 class="title-text">{{ text }}</h2>
       <div class="action">
         <VPIconMinusSquare class="icon minus" />

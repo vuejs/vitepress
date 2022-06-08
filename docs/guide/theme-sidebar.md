@@ -68,7 +68,7 @@ export default {
 
 ## Multiple Sidebars
 
-You may show different sidebar depending on the page path. For example, as shown on this site, you might want to create a separate sections of content in your documentation like "Guide" page and `Config` page.
+You may show different sidebar depending on the page path. For example, as shown on this site, you might want to create a separate sections of content in your documentation like "Guide" page and "Config" page.
 
 To do so, first organize your pages into directories for each desired section:
 
@@ -92,27 +92,31 @@ export default {
     sidebar: {
       // This sidebar gets displayed when user is
       // under `guide` directory.
-      '/guide/': {
-        text: 'Guide',
-        items: [
-          // This shows `/guide/index.md` page.
-          { text: 'Index', link: '/guide/' },  // /guide/index.md
-          { text: 'One', link: '/guide/one' }, // /guide/one.md
-          { text: 'Two', link: '/guide/two' }  // /guide/two.md
-        ]
-      },
+      '/guide/': [
+        {
+          text: 'Guide',
+          items: [
+            // This shows `/guide/index.md` page.
+            { text: 'Index', link: '/guide/' }, // /guide/index.md
+            { text: 'One', link: '/guide/one' }, // /guide/one.md
+            { text: 'Two', link: '/guide/two' } // /guide/two.md
+          ]
+        }
+      ],
 
       // This sidebar gets displayed when user is
       // under `config` directory.
-      '/config/': {
-        text: 'Config',
-        items: [
-          // This shows `/guide/index.md` page.
-          { text: 'Index', link: '/config/' },      // /config/index.mdasdfasdfasdfasdfaf
-          { text: 'Three', link: '/config/three' }, // /config/three.md
-          { text: 'Four', link: '/config/four' }    // /config/four.md
-        ]
-      }
+      '/config/': [
+        {
+          text: 'Config',
+          items: [
+            // This shows `/guide/index.md` page.
+            { text: 'Index', link: '/config/' }, // /config/index.md
+            { text: 'Three', link: '/config/three' }, // /config/three.md
+            { text: 'Four', link: '/config/four' } // /config/four.md
+          ]
+        }
+      ]
     }
   }
 }

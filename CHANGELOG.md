@@ -1,3 +1,7 @@
+# [1.0.0-alpha.1](https://github.com/vuejs/vitepress/compare/v0.22.4...v1.0.0-alpha.1) (2022-06-01)
+
+Complete rewrite on default theme, with bunch of features added. Please refer to the docs for the new feature and changes.
+
 ## [0.22.4](https://github.com/vuejs/vitepress/compare/v0.22.3...v0.22.4) (2022-05-06)
 
 ### Bug Fixes

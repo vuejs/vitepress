@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useData } from 'vitepress'
 import { normalizeLink } from '../support/utils'
 import { useEditLink } from '../composables/edit-link'
@@ -11,6 +12,10 @@ const { theme, page, frontmatter } = useData()
 
 const editLink = useEditLink()
 const control = usePrevNext()
+
+const hasLastUpdated = computed(() => {
+  return page.value.lastUpdated && frontmatter.value.lastUpdated !== false
+})
 </script>
 
 <template>
@@ -23,7 +28,7 @@ const control = usePrevNext()
         </VPLink>
       </div>
 
-      <div v-if="page.lastUpdated" class="last-updated">
+      <div v-if="hasLastUpdated" class="last-updated">
         <VPDocFooterLastUpdated />
       </div>
     </div>
@@ -58,21 +63,18 @@ const control = usePrevNext()
   .edit-info {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: center;
     padding-bottom: 14px;
   }
-}
-
-.edit-link {
-  line-height: 32px;
-  font-size: 14px;
-  font-weight: 500;
 }
 
 .edit-link-button {
   display: flex;
   align-items: center;
   border: 0;
+  line-height: 32px;
+  font-size: 14px;
+  font-weight: 500;
   color: var(--vp-c-brand);
   transition: color 0.25s;
 }
