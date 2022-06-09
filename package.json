@@ -73,6 +73,7 @@
   "dependencies": {
     "@docsearch/css": "^3.0.0",
     "@docsearch/js": "^3.0.0",
+    "@fontsource/inter": "^4.5.11",
     "@vitejs/plugin-vue": "^2.3.2",
     "@vue/devtools-api": "^6.1.4",
     "@vueuse/core": "^8.5.0",

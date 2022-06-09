@@ -1,4 +1,4 @@
-import './styles/fonts.css'
+import '@fontsource/inter/variable-full.css'
 import './styles/vars.css'
 import './styles/base.css'
 import './styles/utils.css'

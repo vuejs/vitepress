@@ -6,6 +6,7 @@ importers:
     specifiers:
       '@docsearch/css': ^3.0.0
       '@docsearch/js': ^3.0.0
+      '@fontsource/inter': ^4.5.11
       '@rollup/plugin-alias': ^3.1.5
       '@rollup/plugin-commonjs': ^20.0.0
       '@rollup/plugin-json': ^4.1.0
@@ -74,6 +75,7 @@ importers:
     dependencies:
       '@docsearch/css': 3.1.0
       '@docsearch/js': 3.1.0
+      '@fontsource/inter': 4.5.11
       '@vitejs/plugin-vue': 2.3.3_vite@2.9.9+vue@3.2.33
       '@vue/devtools-api': 6.1.4
       '@vueuse/core': 8.5.0_vue@3.2.33
@@ -326,6 +328,10 @@ packages:
       '@algolia/autocomplete-core': 1.6.3
       '@docsearch/css': 3.1.0
       algoliasearch: 4.11.0
+    dev: false
+
+  /@fontsource/inter/4.5.11:
+    resolution: {integrity: sha512-toizzQkfXL8YJcG/f8j3EYXYGQe4OxiDEItThSigvHU+cYNDw8HPp3wLYQX745hddsnHqOGCM4exitFSBOU8+w==}
     dev: false
 
   /@hutson/parse-repository-url/3.0.2:
