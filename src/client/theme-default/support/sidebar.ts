@@ -29,14 +29,16 @@ export function getSidebar(
 
 export function getFlatSideBarLinks(
   sidebar: DefaultTheme.SidebarGroup[]
-): DefaultTheme.SidebarItem[] {
+): { links: DefaultTheme.SidebarItem[], edges: number[] } {
   const links: DefaultTheme.SidebarItem[] = []
+  const edges: number[] = []
 
   for (const group of sidebar) {
     for (const link of group.items) {
       links.push(link)
     }
+    edges.push(links.length - 1)
   }
-
-  return links
+  
+  return { links, edges }
 }

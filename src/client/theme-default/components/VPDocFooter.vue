@@ -35,13 +35,13 @@ const hasLastUpdated = computed(() => {
 
     <div class="prev-next">
       <div class="pager">
-        <a v-if="control.prev" class="pager-link prev" :href="normalizeLink(control.prev.link)">
+        <a v-if="control.prev.link" class="pager-link prev" :href="normalizeLink(control.prev.link)">
           <span class="desc">Previous page</span>
           <span class="title">{{ control.prev.text }} </span>
         </a>
       </div>
       <div class="pager" :class="{ 'has-prev': control.prev }">
-        <a v-if="control.next" class="pager-link next" :href="normalizeLink(control.next.link)">
+        <a v-if="control.next.link" class="pager-link next" :href="normalizeLink(control.next.link)">
           <span class="desc">Next page</span>
           <span class="title">{{ control.next.text }}</span>
         </a>
