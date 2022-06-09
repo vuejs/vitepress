@@ -1,4 +1,5 @@
 import MarkdownIt from 'markdown-it'
+import { RenderRule } from 'markdown-it/lib/renderer'
 import Token from 'markdown-it/lib/token'
 import container from 'markdown-it-container'
 
@@ -15,31 +16,23 @@ export const containerPlugin = (md: MarkdownIt) => {
     })
 }
 
-type ContainerArgs = [
-  typeof container,
-  string,
-  {
-    render(tokens: Token[], idx: number): string
-  }
-]
+type ContainerArgs = [typeof container, string, { render: RenderRule }]
 
 function createContainer(klass: string, defaultTitle: string): ContainerArgs {
   return [
     container,
     klass,
     {
-      render(tokens, idx) {
+      render(tokens, idx, options, env) {
+        const md = new MarkdownIt().set(options)
         const token = tokens[idx]
         const info = token.info.trim().slice(klass.length).trim()
         if (token.nesting === 1) {
+          const title = md.renderInline(info || defaultTitle, env)
           if (klass === 'details') {
-            return `<details class="${klass} custom-block">${
-              info ? `<summary>${info}</summary>` : `<summary>Details</summary>`
-            }\n`
+            return `<details class="${klass} custom-block"><summary>${title}</summary>\n`
           }
-          return `<div class="${klass} custom-block"><p class="custom-block-title">${
-            info || defaultTitle
-          }</p>\n`
+          return `<div class="${klass} custom-block"><p class="custom-block-title">${title}</p>\n`
         } else {
           return klass === 'details' ? `</details>\n` : `</div>\n`
         }
