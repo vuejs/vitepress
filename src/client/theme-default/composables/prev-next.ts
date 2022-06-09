@@ -14,11 +14,19 @@ export function usePrevNext() {
       return isActive(page.value.relativePath, link.link)
     })
 
-    const prev = { text: candidates[index - 1]?.text, link: candidates[index - 1]?.link }
-    const next = { text: candidates[index + 1]?.text, link: candidates[index + 1]?.link }
+    const prev = {
+      text: candidates[index - 1]?.text,
+      link: candidates[index - 1]?.link
+    }
+    const next = {
+      text: candidates[index + 1]?.text,
+      link: candidates[index + 1]?.link
+    }
 
-    if (edges.includes(index - 1)) prev.text += ` | ${sidebar[edges.indexOf(index - 1) + 1]?.text}`
-    else if (edges.includes(index)) next.text += ` | ${sidebar[edges.indexOf(index) + 1]?.text}`
+    if (edges.includes(index - 1))
+      prev.text += ` | ${sidebar[edges.indexOf(index - 1) + 1]?.text}`
+    else if (edges.includes(index))
+      next.text += ` | ${sidebar[edges.indexOf(index) + 1]?.text}`
 
     return { prev, next }
   })

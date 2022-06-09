@@ -27,9 +27,10 @@ export function getSidebar(
   return []
 }
 
-export function getFlatSideBarLinks(
-  sidebar: DefaultTheme.SidebarGroup[]
-): { links: DefaultTheme.SidebarItem[], edges: number[] } {
+export function getFlatSideBarLinks(sidebar: DefaultTheme.SidebarGroup[]): {
+  links: DefaultTheme.SidebarItem[]
+  edges: number[]
+} {
   const links: DefaultTheme.SidebarItem[] = []
   const edges: number[] = []
 
@@ -39,6 +40,6 @@ export function getFlatSideBarLinks(
     }
     edges.push(links.length - 1)
   }
-  
+
   return { links, edges }
 }
