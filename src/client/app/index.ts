@@ -15,6 +15,7 @@ import { usePrefetch } from './composables/preFetch'
 import { dataSymbol, initData } from './data'
 import { Content } from './components/Content'
 import { ClientOnly } from './components/ClientOnly'
+import { PageDataPayload } from '../shared'
 
 const NotFound = Theme.NotFound || (() => '404 Not Found')
 
@@ -119,7 +120,7 @@ function handleHMR(router: Router): void {
   // update route.data on HMR updates of active page
   if (import.meta.hot) {
     // hot reload pageData
-    import.meta.hot!.on('vitepress:pageData', (payload) => {
+    import.meta.hot!.on('vitepress:pageData', (payload: PageDataPayload) => {
       if (shouldHotReload(payload)) {
         router.route.data = payload.pageData
       }
@@ -127,7 +128,7 @@ function handleHMR(router: Router): void {
   }
 }
 
-function shouldHotReload(payload: any): boolean {
+function shouldHotReload(payload: PageDataPayload): boolean {
   const payloadPath = payload.path.replace(/(\bindex)?\.md$/, '')
   const locationPath = location.pathname.replace(/(\bindex)?\.html$/, '')
 

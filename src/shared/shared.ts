@@ -6,7 +6,8 @@ export type {
   HeadConfig,
   LocaleConfig,
   Header,
-  DefaultTheme
+  DefaultTheme,
+  PageDataPayload
 } from '../../types/shared'
 
 export const EXTERNAL_URL_RE = /^https?:/i
