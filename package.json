@@ -74,6 +74,7 @@
     "@docsearch/css": "^3.0.0",
     "@docsearch/js": "^3.0.0",
     "@vitejs/plugin-vue": "^2.3.2",
+    "@vue/devtools-api": "^6.1.4",
     "@vueuse/core": "^8.5.0",
     "body-scroll-lock": "^4.0.0-beta.0",
     "shiki": "^0.10.1",

@@ -2,7 +2,6 @@ import {
   App,
   createApp as createClientApp,
   createSSRApp,
-  defineAsyncComponent,
   h,
   onMounted,
   watch
@@ -58,12 +57,6 @@ export function createApp() {
   // install global components
   app.component('Content', Content)
   app.component('ClientOnly', ClientOnly)
-  app.component(
-    'Debug',
-    import.meta.env.PROD
-      ? () => null
-      : defineAsyncComponent(() => import('./components/Debug.vue'))
-  )
 
   // expose $frontmatter
   Object.defineProperty(app.config.globalProperties, '$frontmatter', {
@@ -78,6 +71,13 @@ export function createApp() {
       router,
       siteData: siteDataRef
     })
+  }
+
+  // setup devtools in dev mode
+  if (import.meta.env.DEV || __VUE_PROD_DEVTOOLS__) {
+    import('./devtools').then(({ setupDevtools }) =>
+      setupDevtools(app, router, data)
+    )
   }
 
   return { app, router, data }
