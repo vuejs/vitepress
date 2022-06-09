@@ -10,7 +10,6 @@ import Theme from '/@theme/index'
 import { inBrowser, pathToFile } from './utils'
 import { Router, RouterSymbol, createRouter } from './router'
 import { siteDataRef, useData } from './data'
-import { setupDevtools } from './devtools'
 import { useUpdateHead } from './composables/head'
 import { usePrefetch } from './composables/preFetch'
 import { dataSymbol, initData } from './data'
@@ -76,7 +75,9 @@ export function createApp() {
 
   // setup devtools in dev mode
   if (import.meta.env.DEV || __VUE_PROD_DEVTOOLS__) {
-    setupDevtools(app, router, data)
+    import('./devtools').then(({ setupDevtools }) =>
+      setupDevtools(app, router, data)
+    )
   }
 
   return { app, router, data }
