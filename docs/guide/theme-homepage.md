@@ -8,7 +8,7 @@ layout: home
 ---
 ```
 
-However, this option alone wouldn't do much. You can add several different pre templated "sections" to the homepage by setting additional other options such as `hero` and `feaures`.
+However, this option alone wouldn't do much. You can add several different pre templated "sections" to the homepage by setting additional other options such as `hero` and `features`.
 
 ## Hero Section
 
