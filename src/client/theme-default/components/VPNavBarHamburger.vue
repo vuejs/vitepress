@@ -18,7 +18,7 @@ defineEmits<{
     aria-controls="VPNavScreen"
     @click="$emit('click')"
   >
-    <span class="container">
+    <span class="menu-container">
       <span class="top" />
       <span class="middle" />
       <span class="bottom" />
@@ -41,24 +41,24 @@ defineEmits<{
   }
 }
 
-.container {
+.menu-container {
   position: relative;
   width: 16px;
   height: 14px;
   overflow: hidden;
 }
 
-.container:hover .top    { top: 0; left: 0; transform: translateX(4px); }
-.container:hover .middle { top: 6; left: 0; transform: translateX(0); }
-.container:hover .bottom { top: 12px; left: 0; transform: translateX(8px); }
+.menu-container:hover .top    { top: 0; left: 0; transform: translateX(4px); }
+.menu-container:hover .middle { top: 6; left: 0; transform: translateX(0); }
+.menu-container:hover .bottom { top: 12px; left: 0; transform: translateX(8px); }
 
-.active .container .top    { top: 6px; transform: translateX(0) rotate(225deg); }
-.active .container .middle { top: 6px; transform: translateX(16px); }
-.active .container .bottom { top: 6px; transform: translateX(0) rotate(135deg); }
+.active .menu-container .top    { top: 6px; transform: translateX(0) rotate(225deg); }
+.active .menu-container .middle { top: 6px; transform: translateX(16px); }
+.active .menu-container .bottom { top: 6px; transform: translateX(0) rotate(135deg); }
 
-.active .container:hover .top,
-.active .container:hover .middle,
-.active .container:hover .bottom {
+.active .menu-container:hover .top,
+.active .menu-container:hover .middle,
+.active .menu-container:hover .bottom {
   background-color: var(--vp-c-text-2);
   transition: top .25s, background-color .25s, transform .25s;
 }
