@@ -9,7 +9,7 @@ defineProps<{
 <template>
   <article class="VPBox">
     <div v-if="icon" class="icon">{{ icon }}</div>
-    <h1 class="title">{{ title }}</h1>
+    <h2 class="title">{{ title }}</h2>
     <p class="details">{{ details }}</p>
   </article>
 </template>
