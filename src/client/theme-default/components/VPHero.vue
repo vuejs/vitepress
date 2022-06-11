@@ -25,8 +25,8 @@ defineProps<{
   <div class="VPHero" :class="{ 'has-image': image }">
     <div class="container">
       <div class="main">
-        <p v-if="name" class="name"><span class="clip">{{ name }}</span></p>
-        <h1 v-if="text" class="text">{{ text }}</h1>
+        <h1 v-if="name" class="name"><span class="clip">{{ name }}</span></h1>
+        <p v-if="text" class="text">{{ text }}</p>
         <p v-if="tagline" class="tagline">{{ tagline }}</p>
 
         <div v-if="actions" class="actions">
