@@ -8,7 +8,7 @@ layout: home
 ---
 ```
 
-However, this option alone wouldn't do much. You can add several different pre templated "sections" to the homepage by setting additional other options such as `hero` and `feaures`.
+However, this option alone wouldn't do much. You can add several different pre templated "sections" to the homepage by setting additional other options such as `hero` and `features`.
 
 ## Hero Section
 
@@ -82,7 +82,7 @@ Also you may customize it further by combining `--vp-home-hero-name-background` 
 
 ## Features Section
 
-In Features section, you can list any number of features you would like to show right after the Hero section. To cinfugure it, pass `features` option to the frontmatter.
+In Features section, you can list any number of features you would like to show right after the Hero section. To configure it, pass `features` option to the frontmatter.
 
 ```yaml
 ---
