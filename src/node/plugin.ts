@@ -126,7 +126,9 @@ export async function createVitePressPlugin(
         if (config.command === 'build') {
           data = { ...siteData, head: [] }
         }
-        return `export default ${JSON.stringify(JSON.stringify(data))}`
+        return `export default JSON.parse(${JSON.stringify(
+          JSON.stringify(data)
+        )})`
       }
     },
 
