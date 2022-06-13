@@ -32,7 +32,7 @@ const removeMarkdownTokens = (str: string) =>
     .replace(/(`|\*{1,3}|_)(.*?[^\\])\1/g, '$2') // `{t}` | *{t}* | **{t}** | ***{t}*** | _{t}_
     .replace(/(\\)(\*|_|`|\!|<|\$)/g, '$2') // remove escape char '\'
 
-const remvoeCustomAnchor = (str: string) =>
+const removeCustomAnchor = (str: string) =>
   str.replace(/\{#([a-z0-9\-_]+?)\}\s*$/, '') // {#custom-header}
 
 const trim = (str: string) => str.trim()
@@ -57,7 +57,7 @@ const compose = (...processors: ((str: string) => string)[]) => {
 export const parseHeader = compose(
   unescapeHtml,
   parseEmojis,
-  remvoeCustomAnchor,
+  removeCustomAnchor,
   removeMarkdownTokens,
   trim
 )
