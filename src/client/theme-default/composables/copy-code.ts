@@ -7,14 +7,14 @@ if (navigator.clipboard) {
   copyToClipboard = (text: string) => navigator.clipboard.writeText(text);
 } else {
   copyToClipboard = async (text: string) => {
-    const tmp = document.createElement('TEXTAREA');
-    const focus = document.activeElement;
+    const tmp = document.createElement('TEXTAREA') as HTMLTextAreaElement;
+    const activeElement = document.activeElement;
     tmp.value = text;
     document.body.appendChild(tmp);
     tmp.select();
     document.execCommand('copy');
     document.body.removeChild(tmp);
-    focus.focus();
+    activeElement.focus();
   };
 }
 
