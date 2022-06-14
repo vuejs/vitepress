@@ -17,15 +17,15 @@ $ mkdir vitepress-starter && cd vitepress-starter
 Then, initialize with your preferred package manager.
 
 ```bash
-$ yarn init -2
+$ yarn init
 ```
 
 ## Step. 2: Install VitePress
 
-Add VitePress and Vue as (dev-)dependencies for the project.
+Add VitePress and Vue as dev dependencies for the project.
 
 ```bash
-$ yarn add --dev vitepress@latest vue@latest
+$ yarn add --dev vitepress vue
 ```
 
 Create your first document.
