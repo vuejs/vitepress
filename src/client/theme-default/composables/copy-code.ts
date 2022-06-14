@@ -1,21 +1,23 @@
 import { nextTick, watch } from 'vue'
 import { inBrowser, useData } from 'vitepress'
 
-let copyToClipboard: (text: string) => Promise<void>;
+let copyToClipboard: (text: string) => Promise<void>
 
 if (navigator.clipboard) {
-  copyToClipboard = (text: string) => navigator.clipboard.writeText(text);
+  copyToClipboard = (text: string) => navigator.clipboard.writeText(text)
 } else {
   copyToClipboard = async (text: string) => {
-    const tmp = document.createElement('TEXTAREA') as HTMLTextAreaElement;
-    const activeElement = document.activeElement;
-    tmp.value = text;
-    document.body.appendChild(tmp);
-    tmp.select();
-    document.execCommand('copy');
-    document.body.removeChild(tmp);
-    activeElement.focus();
-  };
+    const tmp = document.createElement('TEXTAREA') as HTMLTextAreaElement
+    const activeElement = document.activeElement as HTMLElement
+    
+    tmp.value = text
+    document.body.appendChild(tmp)
+    tmp.select()
+    document.execCommand('copy')
+    document.body.removeChild(tmp)
+    
+    activeElement?.focus()
+  }
 }
 
 export function useCopyCode() {
