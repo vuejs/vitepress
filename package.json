@@ -139,7 +139,7 @@
     "sirv": "^1.0.12",
     "supports-color": "^9.2.2",
     "typescript": "^4.7.2",
-    "vitest": "^0.10.4"
+    "vitest": "^0.14.2"
   },
   "pnpm": {
     "peerDependencyRules": {
