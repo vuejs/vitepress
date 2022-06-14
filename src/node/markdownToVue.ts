@@ -169,9 +169,9 @@ const defaultExportRE = /((?:^|\n|;)\s*)export(\s*)default/
 const namedDefaultExportRE = /((?:^|\n|;)\s*)export(.+)as(\s*)default/
 
 function genPageDataCode(tags: string[], data: PageData) {
-  const code = `\nexport const __pageData = ${JSON.stringify(
+  const code = `\nexport const __pageData = JSON.parse(${JSON.stringify(
     JSON.stringify(data)
-  )}`
+  )})`
 
   const existingScriptIndex = tags.findIndex((tag) => {
     return (

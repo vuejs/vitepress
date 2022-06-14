@@ -60,7 +60,7 @@ export async function renderPage(
     const { __pageData } = await import(
       pathToFileURL(path.join(config.tempDir, pageServerJsFileName)).toString()
     )
-    pageData = JSON.parse(__pageData)
+    pageData = __pageData
   } catch (e) {
     if (page === '404.md') {
       hasCustom404 = false

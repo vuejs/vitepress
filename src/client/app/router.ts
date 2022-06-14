@@ -29,7 +29,7 @@ const getDefaultRoute = (): Route => ({
 })
 
 interface PageModule {
-  __pageData: string
+  __pageData: PageData
   default: Component
 }
 
@@ -77,8 +77,8 @@ export function createRouter(
         route.path = inBrowser ? pendingPath : withBase(pendingPath)
         route.component = markRaw(comp)
         route.data = import.meta.env.PROD
-          ? markRaw(JSON.parse(__pageData))
-          : (readonly(JSON.parse(__pageData)) as PageData)
+          ? markRaw(__pageData)
+          : (readonly(__pageData) as PageData)
 
         if (inBrowser) {
           nextTick(() => {
