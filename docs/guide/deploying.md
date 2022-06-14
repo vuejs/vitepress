@@ -258,3 +258,7 @@ Go to https://vercel.com/new and import the project into Vercel using your Git o
 After your project has been imported, all subsequent pushes to branches will generate Preview Deployments, and all changes made to the Production Branch (commonly "main") will result in a Production Deployment.
 
 Once deployed, you will get a URL to see your app live, such as the following: https://vitepress.vercel.app
+
+## Layer0
+
+See [Creating and Deploying a VitePress App with Layer0](https://docs.layer0.co/guides/vitepress).
