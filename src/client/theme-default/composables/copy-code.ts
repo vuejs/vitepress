@@ -1,6 +1,23 @@
 import { nextTick, watch } from 'vue'
 import { inBrowser, useData } from 'vitepress'
 
+let copyToClipboard: (text: string) => Promise<void>;
+
+if (navigator.clipboard) {
+  copyToClipboard = (text: string) => navigator.clipboard.writeText(text);
+} else {
+  copyToClipboard = async (text: string) => {
+    const tmp = document.createElement('TEXTAREA');
+    const focus = document.activeElement;
+    tmp.value = text;
+    document.body.appendChild(tmp);
+    tmp.select();
+    document.execCommand('copy');
+    document.body.removeChild(tmp);
+    focus.focus();
+  };
+}
+
 export function useCopyCode() {
   const { page } = useData()
 
@@ -38,7 +55,7 @@ function handleElement(el: HTMLElement) {
       text = text.replace(/^ *\$ /gm, '')
     }
 
-    navigator.clipboard.writeText(text).then(() => {
+    copyToClipboard(text).then(() => {
       el.classList.add('copied')
       setTimeout(() => {
         el.classList.remove('copied')
