@@ -31,7 +31,7 @@ const pageName = path.replace(/[./]+/g, '_').replace(/_html$/, '')
 
       <div class="content">
         <div class="content-container">
-          <template #doc-before><slot name="doc-before" /></template>
+          <slot name="doc-before" />
 
           <main class="main">
             <Content class="vp-doc" :class="pageName" />
@@ -39,7 +39,7 @@ const pageName = path.replace(/[./]+/g, '_').replace(/_html$/, '')
 
           <VPDocFooter />
 
-          <template #doc-after><slot name="doc-after" /></template>
+          <slot name="doc-after" />
         </div>
       </div>
     </div>
