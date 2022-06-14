@@ -5,7 +5,7 @@ import { pathToFileURL } from 'url'
 import escape from 'escape-html'
 import { normalizePath, transformWithEsbuild } from 'vite'
 import { RollupOutput, OutputChunk, OutputAsset } from 'rollup'
-import { HeadConfig, createTitle, PageData, notFoundPageData } from '../shared'
+import { HeadConfig, PageData, createTitle, notFoundPageData } from '../shared'
 import { slash } from '../utils/slash'
 import { SiteConfig, resolveSiteDataByRoute } from '../config'
 
@@ -65,7 +65,9 @@ export async function renderPage(
     if (page === '404.md') {
       hasCustom404 = false
       pageData = notFoundPageData
-    } else throw e
+    } else {
+      throw e
+    }
   }
 
   let preloadLinks =
@@ -76,9 +78,9 @@ export async function renderPage(
       : result && appChunk
       ? [
           ...new Set([
-            // resolve imports for index.js + page.md.js and inject script tags for
-            // them as well so we fetch everything as early as possible without having
-            // to wait for entry chunks to parse
+            // resolve imports for index.js + page.md.js and inject script tags
+            // for them as well so we fetch everything as early as possible
+            // without having to wait for entry chunks to parse
             ...resolvePageImports(config, page, result, appChunk),
             pageClientJsFileName,
             appChunk.fileName

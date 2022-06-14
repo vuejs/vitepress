@@ -15,6 +15,15 @@ export const APPEARANCE_KEY = 'vitepress-theme-appearance'
 // @ts-ignore
 export const inBrowser = typeof window !== 'undefined'
 
+export const notFoundPageData: PageData = {
+  relativePath: '',
+  title: '404',
+  description: 'Not Found',
+  headers: [],
+  frontmatter: {},
+  lastUpdated: 0
+}
+
 function findMatchRoot(route: string, roots: string[]): string | undefined {
   // first match to the routes with the most deep level.
   roots.sort((a, b) => {
@@ -125,13 +134,4 @@ function cleanRoute(siteData: SiteData, route: string): string {
   const baseWithoutSuffix = base.endsWith('/') ? base.slice(0, -1) : base
 
   return route.slice(baseWithoutSuffix.length)
-}
-
-export const notFoundPageData: PageData = {
-  relativePath: '',
-  title: '404',
-  description: 'Not Found',
-  headers: [],
-  frontmatter: {},
-  lastUpdated: 0
 }

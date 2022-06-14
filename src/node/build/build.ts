@@ -50,6 +50,7 @@ export async function build(
       const hashMapString = JSON.stringify(JSON.stringify(pageToHashMap))
 
       const pages = ['404.md', ...siteConfig.pages]
+
       for (const page of pages) {
         await renderPage(
           siteConfig,
