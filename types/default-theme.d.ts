@@ -86,9 +86,14 @@ export namespace DefaultTheme {
     activeMatch?: string
   }
 
+  export type NavItemChildren = {
+    text?: string
+    items: NavItemWithLink[]
+  }
+
   export interface NavItemWithChildren {
     text?: string
-    items: NavItem[]
+    items: (NavItemChildren | NavItemWithLink)[]
   }
 
   // sidebar -------------------------------------------------------------------
