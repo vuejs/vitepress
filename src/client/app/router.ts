@@ -1,6 +1,7 @@
 import { reactive, inject, markRaw, nextTick, readonly } from 'vue'
 import type { Component, InjectionKey } from 'vue'
-import { PageData, notFoundPageData } from '../shared'
+import { notFoundPageData } from '../shared'
+import type { PageData, PageDataPayload } from '../shared'
 import { inBrowser, withBase } from './utils'
 import { siteDataRef } from './data'
 
@@ -173,6 +174,8 @@ export function createRouter(
     })
   }
 
+  handleHMR(route)
+
   return {
     route,
     go
@@ -229,4 +232,22 @@ function scrollTo(el: HTMLElement, hash: string, smooth = false) {
       })
     }
   }
+}
+
+function handleHMR(route: Route): void {
+  // update route.data on HMR updates of active page
+  if (import.meta.hot) {
+    // hot reload pageData
+    import.meta.hot!.on('vitepress:pageData', (payload: PageDataPayload) => {
+      if (shouldHotReload(payload)) {
+        route.data = payload.pageData
+      }
+    })
+  }
+}
+
+function shouldHotReload(payload: PageDataPayload): boolean {
+  const payloadPath = payload.path.replace(/(\bindex)?\.md$/, '')
+  const locationPath = location.pathname.replace(/(\bindex)?\.html$/, '')
+  return payloadPath === locationPath
 }
