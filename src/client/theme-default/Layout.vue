@@ -34,6 +34,9 @@ provide('close-sidebar', closeSidebar)
       <template #home-features-before><slot name="home-features-before" /></template>
       <template #home-features-after><slot name="home-features-after" /></template>
 
+      <template #doc-before><slot name="doc-before" /></template>
+      <template #doc-after><slot name="doc-after" /></template>
+
       <template #aside-top><slot name="aside-top" /></template>
       <template #aside-bottom><slot name="aside-bottom" /></template>
       <template #aside-outline-before><slot name="aside-outline-before" /></template>
