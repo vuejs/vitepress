@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { inject } from 'vue'
 import { useData } from 'vitepress'
-import { DefaultTheme } from '../config'
+import type { DefaultTheme } from '..'
 import { isActive, normalizeLink } from '../support/utils'
 import VPLink from './VPLink.vue'
 

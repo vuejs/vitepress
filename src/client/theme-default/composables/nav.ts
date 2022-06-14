@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue'
 import { useData, useRoute } from 'vitepress'
-import type { DefaultTheme } from '../config'
+import type { DefaultTheme } from '..'
 
 export function useNav() {
   const isScreenOpen = ref(false)

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useData } from 'vitepress'
 import { isActive } from '../support/utils'
-import { DefaultTheme } from '../config'
+import type { DefaultTheme } from '..'
 import VPLink from './VPLink.vue'
 
 defineProps<{

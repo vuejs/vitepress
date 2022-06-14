@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { DefaultTheme } from '../config'
+import type { DefaultTheme } from '..'
 import VPIconDiscord from './icons/VPIconDiscord.vue'
 import VPIconFacebook from './icons/VPIconFacebook.vue'
 import VPIconGitHub from './icons/VPIconGitHub.vue'

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { DefaultTheme } from '../config'
+import type { DefaultTheme } from '..'
 import VPIconPlusSquare from './icons/VPIconPlusSquare.vue'
 import VPIconMinusSquare from './icons/VPIconMinusSquare.vue'
 import VPSidebarLink from './VPSidebarLink.vue'

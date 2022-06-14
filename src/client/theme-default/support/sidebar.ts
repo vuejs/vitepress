@@ -1,4 +1,4 @@
-import { DefaultTheme } from '../config'
+import type { DefaultTheme } from '..'
 import { ensureStartingSlash } from './utils'
 
 /**
