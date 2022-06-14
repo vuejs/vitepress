@@ -261,4 +261,4 @@ Once deployed, you will get a URL to see your app live, such as the following: h
 
 ## Layer0
 
-See [Creating and Deploying a VitePress App with Layer0](https://docs.layer0.co/guides/vitepress)
+See [Creating and Deploying a VitePress App with Layer0](https://docs.layer0.co/guides/vitepress).
