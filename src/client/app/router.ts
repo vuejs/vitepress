@@ -1,6 +1,6 @@
 import { reactive, inject, markRaw, nextTick, readonly } from 'vue'
 import type { Component, InjectionKey } from 'vue'
-import { PageData } from '../shared'
+import { PageData, notFoundPageData } from '../shared'
 import { inBrowser, withBase } from './utils'
 import { siteDataRef } from './data'
 
@@ -20,15 +20,6 @@ export const RouterSymbol: InjectionKey<Router> = Symbol()
 // we are just using URL to parse the pathname and hash - the base doesn't
 // matter and is only passed to support same-host hrefs.
 const fakeHost = `http://a.com`
-
-const notFoundPageData: PageData = {
-  relativePath: '',
-  title: '404',
-  description: 'Not Found',
-  headers: [],
-  frontmatter: {},
-  lastUpdated: 0
-}
 
 const getDefaultRoute = (): Route => ({
   path: '/',
@@ -109,7 +100,7 @@ export function createRouter(
         }
       }
     } catch (err: any) {
-      if (!err.message.match(/fetch/)) {
+      if (!err.message.match(/fetch/) && !href.match(/^[\\/]404\.html$/)) {
         console.error(err)
       }
 
