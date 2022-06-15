@@ -316,6 +316,12 @@
   overflow-x: auto;
 }
 
+@media print {
+  .vp-doc [class*='language-'] pre {
+    overflow-x: hidden;
+  }
+}
+
 .vp-doc [class*='language-'] code {
   display: block;
   padding: 0 24px;
@@ -324,6 +330,12 @@
   font-size: var(--vp-code-font-size);
   color: var(--vp-code-block-color);
   transition: color 0.5s;
+}
+
+@media print {
+  .vp-doc [class*='language-'] code {
+    white-space: pre-wrap;
+  }
 }
 
 .vp-doc .highlight-lines {
