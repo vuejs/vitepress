@@ -262,3 +262,19 @@ Once deployed, you will get a URL to see your app live, such as the following: h
 ## Layer0
 
 See [Creating and Deploying a VitePress App with Layer0](https://docs.layer0.co/guides/vitepress).
+
+## Cloudflare Pages
+
+1. Go to [Cloudflare dashboard](https://dash.cloudflare.com/) > Account Home > Pages and selecting **Create a project**.
+2. You will see three options, just select first **Connect to a git provider**.
+3. Click Connect GitHub or Connect GitLab. Then select the repo you want to deploy.
+4. Set up build docs command, like `npm run build` or `npm run docs:build`.
+5. Now deploy, you will get a domain like `my-project.pages.dev`.
+
+::: warning Do not Auto Minify HTML
+If you want or are using Cloudflare's Auto minify feature, you should not check the html box.
+
+With Auto Minify, Cloudflare will automatically remove the comments in the html file, however, html comments for Vue has meanings. For example, it works as a placeholder for `v-if`.
+
+If it gets removed, then you will probably see a hydration mismatch error.
+:::
