@@ -50,7 +50,6 @@ async function copyToClipboard(text: string) {
     element.selectionEnd = text.length
 
     document.execCommand('copy')
-
     document.body.removeChild(element)
 
     if (originalRange) {
