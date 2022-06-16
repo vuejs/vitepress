@@ -42,7 +42,7 @@ async function copyToClipboard(text: string) {
       ? selection.rangeCount > 0 && selection.getRangeAt(0)
       : null
 
-    document.body.append(element)
+    document.body.appendChild(element)
     element.select()
 
     // Explicit selection workaround for iOS
@@ -51,7 +51,7 @@ async function copyToClipboard(text: string) {
 
     document.execCommand('copy')
 
-    element.remove()
+    document.body.removeChild(element)
 
     if (originalRange) {
       selection!.removeAllRanges() // originalRange can't be truthy when selection is falsy
