@@ -7,8 +7,6 @@ import { slash } from './utils/slash'
 import { OutputAsset, OutputChunk } from 'rollup'
 import { staticDataPlugin } from './staticDataPlugin'
 
-type Awaited<T> = T extends Promise<infer P> ? P : never
-
 const hashRE = /\.(\w+)\.js$/
 const staticInjectMarkerRE =
   /\b(const _hoisted_\d+ = \/\*(?:#|@)__PURE__\*\/\s*createStaticVNode)\("(.*)", (\d+)\)/g
