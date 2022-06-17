@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { withBase } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
 
 defineProps<{
@@ -11,7 +12,8 @@ defineProps<{
     <img
       v-if="typeof image === 'string' || 'src' in image"
       class="VPImage"
-      v-bind="typeof image === 'string' ? { src: image } : image"
+      v-bind="typeof image === 'string' ? {} : image"
+      :src="withBase(typeof image === 'string' ? image : image.src)"
     >
     <template v-else>
       <VPImage class="dark" :image="image.dark" v-bind="$attrs"/>
