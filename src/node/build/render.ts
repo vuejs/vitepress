@@ -20,11 +20,7 @@ export async function renderPage(
   pageToHashMap: Record<string, string>,
   hashMapString: string
 ) {
-  const entryPath = [
-    path.join(config.tempDir, `app.mjs`),
-    path.join(config.tempDir, `app.js`)
-  ].find((i) => fs.existsSync(i))!
-
+  const entryPath = path.join(config.tempDir, 'app.js')
   const { createApp } = await import(pathToFileURL(entryPath).toString())
   const { app, router } = createApp()
   const routePath = `/${page.replace(/\.md$/, '')}`
