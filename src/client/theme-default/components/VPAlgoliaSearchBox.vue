@@ -1,9 +1,8 @@
 <script setup lang="ts">
+import type { DefaultTheme } from 'vitepress/theme'
 import docsearch from '@docsearch/js'
-import { DocSearchHit } from '@docsearch/react/dist/esm/types'
 import { onMounted } from 'vue'
 import { useRouter, useRoute, useData } from 'vitepress'
-import { DefaultTheme } from '../config'
 
 const router = useRouter()
 const route = useRoute()
@@ -52,7 +51,7 @@ function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
       }
     },
 
-    transformItems(items: DocSearchHit[]) {
+    transformItems(items: any[]) {
       return items.map((item) => {
         return Object.assign({}, item, {
           url: getRelativePath(item.url)
@@ -60,7 +59,7 @@ function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
       })
     },
 
-    hitComponent({ hit, children }: { hit: DocSearchHit, children: any }) {
+    hitComponent({ hit, children }: { hit: any; children: any }) {
       const relativeHit = hit.url.startsWith('http')
         ? getRelativePath(hit.url as string)
         : hit.url

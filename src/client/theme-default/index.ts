@@ -11,8 +11,6 @@ import { Theme } from 'vitepress'
 import Layout from './Layout.vue'
 import NotFound from './NotFound.vue'
 
-export { DefaultTheme } from './config'
-
 export { default as VPHomeHero } from './components/VPHomeHero.vue'
 export { default as VPHomeFeatures } from './components/VPHomeFeatures.vue'
 export { default as VPHomeSponsors } from './components/VPHomeSponsors.vue'

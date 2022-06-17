@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { DefaultTheme } from '../config'
+import type { DefaultTheme } from 'vitepress/theme'
 import VPFlyout from './VPFlyout.vue'
 
 defineProps<{
