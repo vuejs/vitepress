@@ -1,6 +1,7 @@
 import { reactive, inject, markRaw, nextTick, readonly } from 'vue'
 import type { Component, InjectionKey } from 'vue'
-import { PageData } from '../shared'
+import { notFoundPageData } from '../shared'
+import type { PageData, PageDataPayload } from '../shared'
 import { inBrowser, withBase } from './utils'
 import { siteDataRef } from './data'
 
@@ -21,15 +22,6 @@ export const RouterSymbol: InjectionKey<Router> = Symbol()
 // matter and is only passed to support same-host hrefs.
 const fakeHost = `http://a.com`
 
-const notFoundPageData: PageData = {
-  relativePath: '',
-  title: '404',
-  description: 'Not Found',
-  headers: [],
-  frontmatter: {},
-  lastUpdated: 0
-}
-
 const getDefaultRoute = (): Route => ({
   path: '/',
   component: null,
@@ -37,7 +29,7 @@ const getDefaultRoute = (): Route => ({
 })
 
 interface PageModule {
-  __pageData: string
+  __pageData: PageData
   default: Component
 }
 
@@ -85,8 +77,8 @@ export function createRouter(
         route.path = inBrowser ? pendingPath : withBase(pendingPath)
         route.component = markRaw(comp)
         route.data = import.meta.env.PROD
-          ? markRaw(JSON.parse(__pageData))
-          : (readonly(JSON.parse(__pageData)) as PageData)
+          ? markRaw(__pageData)
+          : (readonly(__pageData) as PageData)
 
         if (inBrowser) {
           nextTick(() => {
@@ -109,7 +101,7 @@ export function createRouter(
         }
       }
     } catch (err: any) {
-      if (!err.message.match(/fetch/)) {
+      if (!err.message.match(/fetch/) && !href.match(/^[\\/]404\.html$/)) {
         console.error(err)
       }
 
@@ -182,6 +174,8 @@ export function createRouter(
     })
   }
 
+  handleHMR(route)
+
   return {
     route,
     go
@@ -238,4 +232,22 @@ function scrollTo(el: HTMLElement, hash: string, smooth = false) {
       })
     }
   }
+}
+
+function handleHMR(route: Route): void {
+  // update route.data on HMR updates of active page
+  if (import.meta.hot) {
+    // hot reload pageData
+    import.meta.hot!.on('vitepress:pageData', (payload: PageDataPayload) => {
+      if (shouldHotReload(payload)) {
+        route.data = payload.pageData
+      }
+    })
+  }
+}
+
+function shouldHotReload(payload: PageDataPayload): boolean {
+  const payloadPath = payload.path.replace(/(\bindex)?\.md$/, '')
+  const locationPath = location.pathname.replace(/(\bindex)?\.html$/, '')
+  return payloadPath === locationPath
 }

@@ -5,13 +5,20 @@ export namespace DefaultTheme {
      *
      * @example '/logo.svg'
      */
-    logo?: string
+    logo?: ThemeableImage
 
     /**
      * Custom site title in navbar. If the value is undefined,
      * `config.title` will be used.
      */
     siteTitle?: string | false
+
+    /**
+     * Custom outline title in the aside component.
+     *
+     * @default 'On this page'
+     */
+    outlineTitle?: string
 
     /**
      * The nav items.
@@ -79,10 +86,20 @@ export namespace DefaultTheme {
     activeMatch?: string
   }
 
-  export interface NavItemWithChildren {
+  export type NavItemChildren = {
     text?: string
     items: NavItemWithLink[]
   }
+
+  export interface NavItemWithChildren {
+    text?: string
+    items: (NavItemChildren | NavItemWithLink)[]
+  }
+
+  // image -----------------------------------------------------------------------
+
+  export type ThemeableImage = Image | { light: Image; dark: Image }
+  export type Image = string | { src: string; alt?: string }
 
   // sidebar -------------------------------------------------------------------
 
@@ -93,7 +110,7 @@ export namespace DefaultTheme {
   }
 
   export interface SidebarGroup {
-    text: string
+    text?: string
     items: SidebarItem[]
 
     /**
@@ -120,25 +137,11 @@ export namespace DefaultTheme {
 
   export interface EditLink {
     /**
-     * Repo of the site.
+     * Pattern for edit link.
      *
-     * @example 'vuejs/docs'
+     * @example 'https://github.com/vuejs/vitepress/edit/main/docs/:path'
      */
-    repo: string
-
-    /**
-     * Branch of the repo.
-     *
-     * @default 'main'
-     */
-    branch?: string
-
-    /**
-     * If your docs are not at the root of the repo.
-     *
-     * @example 'docs'
-     */
-    dir?: string
+    pattern: string
 
     /**
      * Custom text for edit link.

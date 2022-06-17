@@ -5,7 +5,7 @@ import { pathToFileURL } from 'url'
 import escape from 'escape-html'
 import { normalizePath, transformWithEsbuild } from 'vite'
 import { RollupOutput, OutputChunk, OutputAsset } from 'rollup'
-import { HeadConfig, createTitle } from '../shared'
+import { HeadConfig, PageData, createTitle, notFoundPageData } from '../shared'
 import { slash } from '../utils/slash'
 import { SiteConfig, resolveSiteDataByRoute } from '../config'
 
@@ -55,28 +55,41 @@ export async function renderPage(
   const pageHash = pageToHashMap[pageName.toLowerCase()]
   const pageClientJsFileName = `assets/${pageName}.${pageHash}.lean.js`
 
-  // resolve page data so we can render head tags
-  const { __pageData } = await import(
-    pathToFileURL(path.join(config.tempDir, pageServerJsFileName)).toString()
-  )
-  const pageData = JSON.parse(__pageData)
+  let pageData: PageData
+  let hasCustom404 = true
 
-  let preloadLinks = config.mpa
-    ? appChunk
-      ? [appChunk.fileName]
+  try {
+    // resolve page data so we can render head tags
+    const { __pageData } = await import(
+      pathToFileURL(path.join(config.tempDir, pageServerJsFileName)).toString()
+    )
+    pageData = __pageData
+  } catch (e) {
+    if (page === '404.md') {
+      hasCustom404 = false
+      pageData = notFoundPageData
+    } else {
+      throw e
+    }
+  }
+
+  let preloadLinks =
+    config.mpa || (!hasCustom404 && page === '404.md')
+      ? appChunk
+        ? [appChunk.fileName]
+        : []
+      : result && appChunk
+      ? [
+          ...new Set([
+            // resolve imports for index.js + page.md.js and inject script tags
+            // for them as well so we fetch everything as early as possible
+            // without having to wait for entry chunks to parse
+            ...resolvePageImports(config, page, result, appChunk),
+            pageClientJsFileName,
+            appChunk.fileName
+          ])
+        ]
       : []
-    : result && appChunk
-    ? [
-        ...new Set([
-          // resolve imports for index.js + page.md.js and inject script tags for
-          // them as well so we fetch everything as early as possible without having
-          // to wait for entry chunks to parse
-          ...resolvePageImports(config, page, result, appChunk),
-          pageClientJsFileName,
-          appChunk.fileName
-        ])
-      ]
-    : []
 
   let prefetchLinks: string[] = []
 
@@ -105,11 +118,10 @@ export async function renderPage(
   const title: string = createTitle(siteData, pageData)
   const description: string = pageData.description || siteData.description
 
-  const head = addSocialTags(
-    title,
+  const head = [
     ...siteData.head,
     ...filterOutHeadDescription(pageData.frontmatter.head)
-  )
+  ]
 
   let inlinedScript = ''
   if (config.mpa && result) {
@@ -221,21 +233,4 @@ function isMetaDescription(headConfig: HeadConfig) {
 
 function filterOutHeadDescription(head: HeadConfig[] | undefined) {
   return head ? head.filter((h) => !isMetaDescription(h)) : []
-}
-
-function hasTag(head: HeadConfig[], tag: HeadConfig) {
-  const [tagType, tagAttrs] = tag
-  const [attr, value] = Object.entries(tagAttrs)[0] // First key
-  return head.some(([type, attrs]) => type === tagType && attrs[attr] === value)
-}
-
-function addSocialTags(title: string, ...head: HeadConfig[]) {
-  const tags: HeadConfig[] = [
-    ['meta', { name: 'twitter:title', content: title }],
-    ['meta', { property: 'og:title', content: title }]
-  ]
-  tags.filter((tagAttrs) => {
-    if (!hasTag(head, tagAttrs)) head.push(tagAttrs)
-  })
-  return head
 }

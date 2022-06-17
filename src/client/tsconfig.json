@@ -7,11 +7,13 @@
     "module": "esnext",
     "declaration": true,
     "declarationDir": "../../dist/client-types",
+    "jsx": "preserve",
     "lib": ["ESNext", "DOM"],
     "types": ["vite/client"],
     "paths": {
       "/@theme/*": ["theme-default/*"],
-      "vitepress": ["index.ts"]
+      "vitepress": ["index.ts"],
+      "vitepress/theme": ["../../types/default-theme.d"]
     }
   },
   "include": ["."]

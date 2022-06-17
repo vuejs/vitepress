@@ -7,8 +7,10 @@ const dir = dirname(fileURLToPath(import.meta.url))
 export default defineConfig({
   resolve: {
     alias: {
+      '@siteData': resolve(dir, './shims.ts'),
+      client: resolve(dir, '../src/client'),
       node: resolve(dir, '../src/node'),
-      client: resolve(dir, '../src/client')
+      vitepress: resolve(dir, '../src/client')
     }
   },
   test: {

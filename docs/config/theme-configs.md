@@ -188,6 +188,30 @@ export interface Footer {
 }
 ```
 
+## editLink
+
+- Type: `EditLink`
+
+Edit Link lets you display a link to edit the page on Git management services such as GitHub, or GitLab. See [Theme: Edit Link](../guide/theme-edit-link) for more details.
+
+```js
+export default {
+  themeConfig: {
+    editLink: {
+      pattern: 'https://github.com/vuejs/vitepress/edit/main/docs/:path',
+      text: 'Edit this page on GitHub'
+    }
+  }
+}
+```
+
+```ts
+export interface EditLink {
+  pattern: string
+  text?: string
+}
+```
+
 ## lastUpdatedText
 
 - Type: `string`

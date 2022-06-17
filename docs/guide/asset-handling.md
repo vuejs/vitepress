@@ -16,7 +16,7 @@ All **static** path references, including absolute paths, should be based on you
 
 ## Public Files
 
-Sometimes you may need to provide static assets that are not directly referenced in any of your Markdown or theme components (for example, favicons and PWA icons). The `public` directory under project root can be used as an escape hatch to provide static assets that either are never referenced in source code (e.g. `robots.txt`), or must retain the exact same file name (without hashing).
+Sometimes you may need to provide static assets that are not directly referenced in any of your Markdown or theme components (for example, favicons and PWA icons). The `public` directory under project root (`docs` folder if you're running `vitepress build docs`) can be used as an escape hatch to provide static assets that either are never referenced in source code (e.g. `robots.txt`), or must retain the exact same file name (without hashing).
 
 Assets placed in `public` will be copied to the root of the dist directory as-is.
 

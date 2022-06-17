@@ -34,7 +34,7 @@ $ yarn docs:serve
 
 The `serve` command will boot up local static web server that serves the files from `.vitepress/dist` at `http://localhost:5000`. It's an easy way to check if the production build looks OK in your local environment.
 
-You may configure the port of the server py passing `--port` flag as an argument.
+You may configure the port of the server by passing `--port` flag as an argument.
 
 ```json
 {
@@ -135,7 +135,7 @@ deploy:
 3. Create a file called `.gitlab-ci.yml` in the root of your project with the content below. This will build and deploy your site whenever you make changes to your content:
 
 ```yaml
-image: node:10.22.0
+image: node:16
 pages:
   cache:
     paths:
@@ -258,3 +258,23 @@ Go to https://vercel.com/new and import the project into Vercel using your Git o
 After your project has been imported, all subsequent pushes to branches will generate Preview Deployments, and all changes made to the Production Branch (commonly "main") will result in a Production Deployment.
 
 Once deployed, you will get a URL to see your app live, such as the following: https://vitepress.vercel.app
+
+## Layer0
+
+See [Creating and Deploying a VitePress App with Layer0](https://docs.layer0.co/guides/vitepress).
+
+## Cloudflare Pages
+
+1. Go to [Cloudflare dashboard](https://dash.cloudflare.com/) > Account Home > Pages and selecting **Create a project**.
+2. You will see three options, just select first **Connect to a git provider**.
+3. Click Connect GitHub or Connect GitLab. Then select the repo you want to deploy.
+4. Set up build docs command, like `npm run build` or `npm run docs:build`.
+5. Now deploy, you will get a domain like `my-project.pages.dev`.
+
+::: warning Do not Auto Minify HTML
+If you want or are using Cloudflare's Auto minify feature, you should not check the html box.
+
+With Auto Minify, Cloudflare will automatically remove the comments in the html file, however, html comments for Vue has meanings. For example, it works as a placeholder for `v-if`.
+
+If it gets removed, then you will probably see a hydration mismatch error.
+:::

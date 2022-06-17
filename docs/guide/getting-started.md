@@ -22,10 +22,10 @@ $ yarn init
 
 ## Step. 2: Install VitePress
 
-Add VitePress as a dependency for the project.
+Add VitePress and Vue as dev dependencies for the project.
 
 ```bash
-$ yarn add --dev vitepress
+$ yarn add --dev vitepress vue
 ```
 
 Create your first document.
