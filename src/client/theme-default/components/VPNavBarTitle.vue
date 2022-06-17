@@ -53,7 +53,7 @@ const { hasSidebar } = useSidebar()
   }
 }
 
-.logo {
+:deep(.logo) {
   margin-right: 8px;
   height: 24px;
 }

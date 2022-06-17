@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { DefaultTheme } from 'vitepress/theme';
+import type { DefaultTheme } from 'vitepress/theme'
 import VPButton from './VPButton.vue'
 import VPImage from './VPImage.vue'
 
@@ -22,7 +22,9 @@ defineProps<{
   <div class="VPHero" :class="{ 'has-image': image }">
     <div class="container">
       <div class="main">
-        <h1 v-if="name" class="name"><span class="clip">{{ name }}</span></h1>
+        <h1 v-if="name" class="name">
+          <span class="clip">{{ name }}</span>
+        </h1>
         <p v-if="text" class="text">{{ text }}</p>
         <p v-if="tagline" class="tagline">{{ tagline }}</p>
 
@@ -290,7 +292,7 @@ defineProps<{
   }
 }
 
-.image-src {
+:deep(.image-src) {
   position: absolute;
   top: 50%;
   left: 50%;

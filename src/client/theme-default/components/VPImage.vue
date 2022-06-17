@@ -20,10 +20,10 @@ export default {
       class="VPImage"
       v-bind="typeof image === 'string' ? $attrs : { ...image, ...$attrs }"
       :src="withBase(typeof image === 'string' ? image : image.src)"
-    >
+    />
     <template v-else>
-      <VPImage class="dark" :image="image.dark" v-bind="$attrs"/>
-      <VPImage class="light" :image="image.light" v-bind="$attrs"/>
+      <VPImage class="dark" :image="image.dark" v-bind="$attrs" />
+      <VPImage class="light" :image="image.light" v-bind="$attrs" />
     </template>
   </template>
 </template>
