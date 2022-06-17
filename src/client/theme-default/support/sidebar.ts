@@ -1,4 +1,4 @@
-import type { DefaultTheme } from '..'
+import type { DefaultTheme } from 'vitepress/theme'
 import { ensureStartingSlash } from './utils'
 
 /**

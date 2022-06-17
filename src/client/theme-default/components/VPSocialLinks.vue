@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { DefaultTheme } from '..'
+import type { DefaultTheme } from 'vitepress/theme'
 import VPSocialLink from './VPSocialLink.vue'
 
 defineProps<{
