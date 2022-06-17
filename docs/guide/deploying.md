@@ -278,3 +278,45 @@ With Auto Minify, Cloudflare will automatically remove the comments in the html 
 
 If it gets removed, then you will probably see a hydration mismatch error.
 :::
+
+## Azure Static Web App using GitHub Actions
+
+1. Go to https://portal.azure.com
+2. Create [Azure Static Web App](https://azure.microsoft.com/en-us/services/app-service/static/) free tier.
+3. Don't connect GitHub to Azure Static Web App.
+4. When the resource is deployed open it click on 'Manage deployment token' and copy the token.
+5. Open your GitHub repository and go to 'Settings' -> 'Secrets' -> 'Actions' -> 'New repository secret'
+6. Enter name 'AZURE_STATIC_WEB_APP_TOKEN'
+7. Paste deployment token from Azure Static Web App
+8. In GiHub repository create '.github/workflows/cd.yml' and fill it like this:
+
+``` yaml
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_deploy_job:
+    runs-on: ubuntu-latest
+    name: Build and Deploy Job
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+            node-version: "16.13.2"
+      - run: |
+          npm ci
+          npm run build
+      - name: Deploy
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          skip_app_build: true
+          app_location: "/dist"
+          action: "upload"
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APP_TOKEN }}
+```
+
+Now with every push to main it will deploy vite press website in Azure Static Web App. 
