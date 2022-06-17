@@ -7,12 +7,18 @@ defineProps<{
 }>()
 </script>
 
+<script lang="ts">
+export default {
+  inheritAttrs: false
+}
+</script>
+
 <template>
   <template v-if="image">
     <img
       v-if="typeof image === 'string' || 'src' in image"
       class="VPImage"
-      v-bind="typeof image === 'string' ? {} : image"
+      v-bind="typeof image === 'string' ? $attrs : { ...image, ...$attrs }"
       :src="withBase(typeof image === 'string' ? image : image.src)"
     >
     <template v-else>
