@@ -5,7 +5,7 @@ export namespace DefaultTheme {
      *
      * @example '/logo.svg'
      */
-    logo?: string
+    logo?: ThemeableImage
 
     /**
      * Custom site title in navbar. If the value is undefined,
@@ -95,6 +95,11 @@ export namespace DefaultTheme {
     text?: string
     items: (NavItemChildren | NavItemWithLink)[]
   }
+
+  // image -----------------------------------------------------------------------
+
+  export type ThemeableImage = Image | { light: Image; dark: Image }
+  export type Image = string | { src: string; alt?: string }
 
   // sidebar -------------------------------------------------------------------
 

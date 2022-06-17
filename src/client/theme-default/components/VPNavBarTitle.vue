@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useData } from 'vitepress'
 import { useSidebar } from '../composables/sidebar'
+import VPImage from './VPImage.vue'
 
 const { site, theme } = useData()
 const { hasSidebar } = useSidebar()
@@ -9,7 +10,7 @@ const { hasSidebar } = useSidebar()
 <template>
   <div class="VPNavBarTitle" :class="{ 'has-sidebar': hasSidebar }">
     <a class="title" :href="site.base">
-      <img v-if="theme.logo" class="logo" :src="theme.logo">
+      <VPImage class="logo" :image="theme.logo" />
       <template v-if="theme.siteTitle">{{ theme.siteTitle }}</template>
       <template v-else-if="theme.siteTitle === undefined">{{ site.title }}</template>
     </a>
@@ -52,7 +53,7 @@ const { hasSidebar } = useSidebar()
   }
 }
 
-.logo {
+:deep(.logo) {
   margin-right: 8px;
   height: 24px;
 }

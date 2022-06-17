@@ -12,7 +12,8 @@
     "types": ["vite/client"],
     "paths": {
       "/@theme/*": ["theme-default/*"],
-      "vitepress": ["index.ts"]
+      "vitepress": ["index.ts"],
+      "vitepress/theme": ["../../types/default-theme.d"]
     }
   },
   "include": ["."]
