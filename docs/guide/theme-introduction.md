@@ -177,7 +177,7 @@ export default {
   ...DefaultTheme,
   Layout() {
     return h(DefaultTheme.Layout, null, {
-      'sidebar-top': () => h(MyComponent)
+      'aside-outline-before': () => h(MyComponent)
     })
   }
 }
@@ -186,6 +186,8 @@ export default {
 Full list of slots available in the default theme layout:
 
 - When `layout: 'doc'` (default) is enabled via frontmatter:
+  - `doc-before`
+  - `doc-after`
   - `aside-top`
   - `aside-bottom`
   - `aside-outline-before`

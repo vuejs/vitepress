@@ -31,11 +31,15 @@ const pageName = path.replace(/[./]+/g, '_').replace(/_html$/, '')
 
       <div class="content">
         <div class="content-container">
+          <slot name="doc-before" />
+
           <main class="main">
             <Content class="vp-doc" :class="pageName" />
           </main>
 
           <VPDocFooter />
+
+          <slot name="doc-after" />
         </div>
       </div>
     </div>

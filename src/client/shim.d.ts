@@ -1,6 +1,7 @@
 declare const __VP_HASH_MAP__: Record<string, string>
 declare const __ALGOLIA__: boolean
 declare const __CARBON__: boolean
+declare const __VUE_PROD_DEVTOOLS__: boolean
 
 declare module '*.vue' {
   import { ComponentOptions } from 'vue'
@@ -9,7 +10,8 @@ declare module '*.vue' {
 }
 
 declare module '@siteData' {
-  const data: string
+  import type { SiteData } from './shared'
+  const data: SiteData
   export default data
 }
 

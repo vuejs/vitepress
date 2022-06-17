@@ -72,3 +72,8 @@ export interface LocaleConfig {
   label?: string
   selectText?: string
 }
+
+export interface PageDataPayload {
+  path: string
+  pageData: PageData
+}

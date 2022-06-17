@@ -6,8 +6,7 @@ import { DIST_CLIENT_PATH, APP_PATH, SITE_DATA_REQUEST_PATH } from './alias'
 import { slash } from './utils/slash'
 import { OutputAsset, OutputChunk } from 'rollup'
 import { staticDataPlugin } from './staticDataPlugin'
-
-type Awaited<T> = T extends Promise<infer P> ? P : never
+import { PageDataPayload } from './shared'
 
 const hashRE = /\.(\w+)\.js$/
 const staticInjectMarkerRE =
@@ -125,7 +124,9 @@ export async function createVitePressPlugin(
         if (config.command === 'build') {
           data = { ...siteData, head: [] }
         }
-        return `export default ${JSON.stringify(JSON.stringify(data))}`
+        return `export default JSON.parse(${JSON.stringify(
+          JSON.stringify(data)
+        )})`
       }
     },
 
@@ -262,14 +263,16 @@ export async function createVitePressPlugin(
           config.publicDir
         )
 
+        const payload: PageDataPayload = {
+          path: `/${slash(path.relative(srcDir, file))}`,
+          pageData
+        }
+
         // notify the client to update page data
         server.ws.send({
           type: 'custom',
           event: 'vitepress:pageData',
-          data: {
-            path: `/${slash(path.relative(srcDir, file))}`,
-            pageData
-          }
+          data: payload
         })
 
         // overwrite src so vue plugin can handle the HMR

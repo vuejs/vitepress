@@ -1,6 +1,6 @@
 import { InjectionKey, Ref, shallowRef, readonly, computed, inject } from 'vue'
 import { Route } from './router'
-import serializedSiteData from '@siteData'
+import siteData from '@siteData'
 import {
   PageData,
   SiteData,
@@ -25,17 +25,14 @@ export interface VitePressData<T = any> {
 // site data is a singleton
 export type SiteDataRef<T = any> = Ref<SiteData<T>>
 
-export const siteDataRef: Ref<SiteData> = shallowRef(parse(serializedSiteData))
-
-function parse(data: string): SiteData {
-  const parsed = JSON.parse(data)
-  return (import.meta.env.DEV ? readonly(parsed) : parsed) as SiteData
-}
+export const siteDataRef: Ref<SiteData> = shallowRef(
+  import.meta.env.PROD ? siteData : readonly(siteData)
+)
 
 // hmr
 if (import.meta.hot) {
   import.meta.hot!.accept('/@siteData', (m) => {
-    siteDataRef.value = parse(m.default)
+    siteDataRef.value = m.default
   })
 }
 
