@@ -15,6 +15,18 @@ The following guides are based on some shared assumptions:
 }
 ```
 
+
+::: tip Use pages hosting provided by Git service
+
+Services such as GitHub, GitLab and other git services provide page hosting. (GitHub is used as an example below)
+
+If you deploy a page to a repository that does not match the `<USERNAME>.github.io` name assigned to you by the platform, the page will be deployed under `<USERNAME>.github.io/<REPO>`.
+
+You have to set the [`base`](../config/app-configs.md#base) of `docs/.vitepress/config.js` to your repository name.
+
+In fact once you deploy your site to a subdirectory of your domain you will need to set `base`. It tells vitepress in which directory of the domain it is running. If no `base` is set, it is considered to be running in the root directory.
+:::
+
 ## Build and test locally
 
 You may run `yarn docs:build` command to build the docs.
@@ -48,13 +60,9 @@ Now the `docs:serve` method will launch the server at `http://localhost:8080`.
 
 ## GitHub Pages
 
-1. Set the correct `base` in `docs/.vitepress/config.js`.
+### Local
 
-   If you are deploying to `https://<USERNAME>.github.io/`, you can omit `base` as it defaults to `'/'`.
-
-   If you are deploying to `https://<USERNAME>.github.io/<REPO>/`, for example your repository is at `https://github.com/<USERNAME>/<REPO>`, then set `base` to `'/<REPO>/'`.
-
-2. Inside your project, create `deploy.sh` with the following content (with highlighted lines uncommented appropriately), and run it to deploy:
+Inside your project, create `deploy.sh` with the following content (with highlighted lines uncommented appropriately), and run it to deploy:
 
 ```bash{13,20,23}
 #!/usr/bin/env sh
@@ -88,19 +96,13 @@ cd -
 You can also run the above script in your CI setup to enable automatic deployment on each push.
 :::
 
-## GitHub Pages and Travis CI
+### Travis CI
 
-1. Set the correct `base` in `docs/.vitepress/config.js`.
+1. Create a file named `.travis.yml` in the root of your project.
 
-   If you are deploying to `https://<USERNAME or GROUP>.github.io/`, you can omit `base` as it defaults to `'/'`.
+2. Run `yarn` or `npm install` locally and commit the generated lockfile (that is `yarn.lock` or `package-lock.json`).
 
-   If you are deploying to `https://<USERNAME or GROUP>.github.io/<REPO>/`, for example your repository is at `https://github.com/<USERNAME>/<REPO>`, then set `base` to `'/<REPO>/'`.
-
-2. Create a file named `.travis.yml` in the root of your project.
-
-3. Run `yarn` or `npm install` locally and commit the generated lockfile (that is `yarn.lock` or `package-lock.json`).
-
-4. Use the GitHub Pages deploy provider template, and follow the [Travis CI documentation](https://docs.travis-ci.com/user/deployment/pages).
+3. Use the GitHub Pages deploy provider template, and follow the [Travis CI documentation](https://docs.travis-ci.com/user/deployment/pages).
 
 ```yaml
 language: node_js
@@ -122,17 +124,52 @@ deploy:
     branch: main
 ```
 
+### Actions
+
+1. Select a branch as GitHub pages source in repo settings. (By default you use the `gh-pages` branch below)
+
+2. Create a file named `deploy.yml` in `.github/workflow` of your project with the following content.
+
+```yaml
+name: Deploy
+
+on:
+  push:
+    branches:
+      - "master"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Set node version to 16.x
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16.x
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build
+      run: npm run docs:build
+    
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: docs/.vitepress/dist
+```
+
+3. Now push commit to `master`, pages will deploy automaticlly
+
 ## GitLab Pages and GitLab CI
 
-1. Set the correct `base` in `docs/.vitepress/config.js`.
+1. Set `outDir` in `.vitepress/config.js` to `../public`.
 
-   If you are deploying to `https://<USERNAME or GROUP>.gitlab.io/`, you can omit `base` as it defaults to `'/'`.
-
-   If you are deploying to `https://<USERNAME or GROUP>.gitlab.io/<REPO>/`, for example your repository is at `https://gitlab.com/<USERNAME>/<REPO>`, then set `base` to `'/<REPO>/'`.
-
-2. Set `outDir` in `.vitepress/config.js` to `../public`.
-
-3. Create a file called `.gitlab-ci.yml` in the root of your project with the content below. This will build and deploy your site whenever you make changes to your content:
+2. Create a file called `.gitlab-ci.yml` in the root of your project with the content below. This will build and deploy your site whenever you make changes to your content:
 
 ```yaml
 image: node:16
