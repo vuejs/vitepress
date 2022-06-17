@@ -1,4 +1,35 @@
-# [1.0.0-alpha.1](https://github.com/vuejs/vitepress/compare/v0.22.4...v1.0.0-alpha.1) (2022-06-01)
+## [1.0.0-alpha.2](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.1...v1.0.0-alpha.2) (2022-06-14)
+
+### Bug Fixes
+
+* use h1 for title in hero instead of p ([#776](https://github.com/vuejs/vitepress/issues/776)) ([919d230](https://github.com/vuejs/vitepress/commit/919d23079b636c188ea2049039461b88e0c02fc2))
+* add background color in navbar to avoid contrast issues ([#695](https://github.com/vuejs/vitepress/issues/695)) ([305bcc0](https://github.com/vuejs/vitepress/commit/305bcc02e68f8f9aea0000e6950e78455cf572f5))
+* add default value for base in `createMarkdownRenderer` ([#555](https://github.com/vuejs/vitepress/issues/555)) ([#556](https://github.com/vuejs/vitepress/issues/556)) ([78a2e84](https://github.com/vuejs/vitepress/commit/78a2e84e7bb7acfda50e686bbd404961babb91e8))
+* allow lang='ts' on scripts in markdown ([#693](https://github.com/vuejs/vitepress/issues/693)) ([#701](https://github.com/vuejs/vitepress/issues/701)) ([59df105](https://github.com/vuejs/vitepress/commit/59df10590b958bbc39cc2e8c81a2209eda9d431b))
+* better nav item types ([#714](https://github.com/vuejs/vitepress/issues/714)) ([263607b](https://github.com/vuejs/vitepress/commit/263607b279cbfd3db80bbe0ea66000560d24993a))
+* double base in sidebar links ([#756](https://github.com/vuejs/vitepress/issues/756)) ([aa65cb5](https://github.com/vuejs/vitepress/commit/aa65cb58f508bb8e79c20b6370bdfe1b7e470abf))
+* use `pre-wrap` for text and tagline ([#746](https://github.com/vuejs/vitepress/issues/746)) ([94704c9](https://github.com/vuejs/vitepress/commit/94704c95637f1cc844d526d4743818d38d1cbae0))
+* nav nested items type error ([#710](https://github.com/vuejs/vitepress/issues/710)) ([#711](https://github.com/vuejs/vitepress/issues/711)) ([e5bf15a](https://github.com/vuejs/vitepress/commit/e5bf15a21ee777b4e56ad86ec5ebb5b0e161b721))
+* page layout breaks when page name matches the css class name ([#696](https://github.com/vuejs/vitepress/issues/696)) ([#699](https://github.com/vuejs/vitepress/issues/699)) ([9c0ed93](https://github.com/vuejs/vitepress/commit/9c0ed9397f35827a261d45c789d23ce7faa7ecee))
+* remove title bg transition to avoid flush on sidebar on/off ([1942418](https://github.com/vuejs/vitepress/commit/1942418f9570feb81d8066a2413d70b0f36fb8ce))
+* sidebar right blur notch ([#712](https://github.com/vuejs/vitepress/issues/712)) ([64c3654](https://github.com/vuejs/vitepress/commit/64c3654b4ba82c16fefdf396106f3077d066c67b))
+* typo ([#708](https://github.com/vuejs/vitepress/issues/708)) ([#716](https://github.com/vuejs/vitepress/issues/716)) ([1fe5153](https://github.com/vuejs/vitepress/commit/1fe5153f47465efed05e087119c93d50da6e92a3))
+* title in containers not working with markdown content ([#765](https://github.com/vuejs/vitepress/issues/765)) ([#768](https://github.com/vuejs/vitepress/issues/768)) ([c5c3c64](https://github.com/vuejs/vitepress/commit/c5c3c64851b240279a304198fd97e3dc8b5f2fd0))
+* use base in links ([#717](https://github.com/vuejs/vitepress/issues/717)) ([#718](https://github.com/vuejs/vitepress/issues/718)) ([8e50154](https://github.com/vuejs/vitepress/commit/8e5015462c8f42c5404525ac8de33af8862c204d))
+* use h2 for feature headers ([#774](https://github.com/vuejs/vitepress/issues/774)) ([b1ff725](https://github.com/vuejs/vitepress/commit/b1ff72561182c91b4912ebef44204a53ee3aca5e))
+
+### Features
+
+* add `lastUpdated` option to frontmatter ([b31fbf3](https://github.com/vuejs/vitepress/commit/b31fbf3621bbd7f627a1b80c581b7a8444bc6b0d))
+* add doc before and after slot ([#762](https://github.com/vuejs/vitepress/issues/762)) ([#786](https://github.com/vuejs/vitepress/issues/786)) ([9c2a36f](https://github.com/vuejs/vitepress/commit/9c2a36f5428bd98eafb6e2e9bc63f5e532b596b7))
+* allow custom edit links ([#698](https://github.com/vuejs/vitepress/issues/698)) ([535e176](https://github.com/vuejs/vitepress/commit/535e176b9a230f692f58a79813a12d2ffbe90be3)), closes [#694](https://github.com/vuejs/vitepress/issues/694) [#697](https://github.com/vuejs/vitepress/issues/697)
+* allow custom outline title ([#689](https://github.com/vuejs/vitepress/issues/689)) ([#690](https://github.com/vuejs/vitepress/issues/690)) ([a8a1623](https://github.com/vuejs/vitepress/commit/a8a16237cd8e3e4bb180fbd523a4668a4555b732))
+* allow external links in sidebar ([#205](https://github.com/vuejs/vitepress/issues/205)) ([#686](https://github.com/vuejs/vitepress/issues/686)) ([ce17f50](https://github.com/vuejs/vitepress/commit/ce17f5035cbbd1e07373ce0f44913f25269bd80b))
+* support custom content in home layout ([#702](https://github.com/vuejs/vitepress/issues/702)) ([92659a2](https://github.com/vuejs/vitepress/commit/92659a2e9dde13e35fadf2d2dca157d648bc9013))
+* emit 404.html on build ([#729](https://github.com/vuejs/vitepress/issues/729)) ([#740](https://github.com/vuejs/vitepress/issues/740)) ([23276ba](https://github.com/vuejs/vitepress/commit/23276bae050190b6c1d57347424360fe2c3a57be))
+* setup devtools and remove debug component ([#721](https://github.com/vuejs/vitepress/issues/721)) ([421f641](https://github.com/vuejs/vitepress/commit/421f641a76ddc0e8b0f23ab7ad711833fc98c245))
+
+## [1.0.0-alpha.1](https://github.com/vuejs/vitepress/compare/v0.22.4...v1.0.0-alpha.1) (2022-06-01)
 
 Complete rewrite on default theme, with bunch of features added. Please refer to the docs for the new feature and changes.
 

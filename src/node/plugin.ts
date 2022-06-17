@@ -8,8 +8,6 @@ import { OutputAsset, OutputChunk } from 'rollup'
 import { staticDataPlugin } from './staticDataPlugin'
 import { PageDataPayload } from './shared'
 
-type Awaited<T> = T extends Promise<infer P> ? P : never
-
 const hashRE = /\.(\w+)\.js$/
 const staticInjectMarkerRE =
   /\b(const _hoisted_\d+ = \/\*(?:#|@)__PURE__\*\/\s*createStaticVNode)\("(.*)", (\d+)\)/g
@@ -126,7 +124,9 @@ export async function createVitePressPlugin(
         if (config.command === 'build') {
           data = { ...siteData, head: [] }
         }
-        return `export default ${JSON.stringify(JSON.stringify(data))}`
+        return `export default JSON.parse(${JSON.stringify(
+          JSON.stringify(data)
+        )})`
       }
     },
 

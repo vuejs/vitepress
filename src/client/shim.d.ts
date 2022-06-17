@@ -10,7 +10,8 @@ declare module '*.vue' {
 }
 
 declare module '@siteData' {
-  const data: string
+  import type { SiteData } from './shared'
+  const data: SiteData
   export default data
 }
 

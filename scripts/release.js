@@ -33,7 +33,7 @@ async function main() {
     message: 'Select release type',
     choices: versions
   })
-  console.log(release, release === 3)
+
   if (release === 3) {
     targetVersion = (
       await prompts({

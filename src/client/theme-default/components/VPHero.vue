@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import type { DefaultTheme } from 'vitepress/theme'
 import VPButton from './VPButton.vue'
+import VPImage from './VPImage.vue'
 
 export interface HeroAction {
   theme?: 'brand' | 'alt'
@@ -7,16 +9,11 @@ export interface HeroAction {
   link: string
 }
 
-export interface Image {
-  src: string
-  alt?: string
-}
-
 defineProps<{
   name?: string
   text: string
   tagline?: string
-  image?: Image
+  image?: DefaultTheme.ThemeableImage
   actions?: HeroAction[]
 }>()
 </script>
@@ -25,7 +22,9 @@ defineProps<{
   <div class="VPHero" :class="{ 'has-image': image }">
     <div class="container">
       <div class="main">
-        <h1 v-if="name" class="name"><span class="clip">{{ name }}</span></h1>
+        <h1 v-if="name" class="name">
+          <span class="clip">{{ name }}</span>
+        </h1>
         <p v-if="text" class="text">{{ text }}</p>
         <p v-if="tagline" class="tagline">{{ tagline }}</p>
 
@@ -45,7 +44,7 @@ defineProps<{
       <div v-if="image" class="image">
         <div class="image-container">
           <div class="image-bg" />
-          <img class="image-src" :src="image.src" :alt="image.alt">
+          <VPImage class="image-src" :image="image" />
         </div>
       </div>
     </div>
@@ -64,11 +63,17 @@ defineProps<{
   }
 }
 
+@media (min-width: 960px) {
+  .VPHero {
+    padding: calc(var(--vp-nav-height) + 80px) 64px 64px;
+  }
+}
+
 .container {
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  max-width: 960px;
+  max-width: 1152px;
 }
 
 @media (min-width: 960px) {
@@ -98,13 +103,11 @@ defineProps<{
 @media (min-width: 960px) {
   .main {
     order: 1;
+    width: calc((100% / 3) * 2);
   }
-}
 
-@media (min-width: 960px) {
-  .main {
-    width: 100%;
-    max-width: calc((100% / 3) * 2);
+  .VPHero.has-image .main {
+    max-width: 592px;
   }
 }
 
@@ -157,7 +160,7 @@ defineProps<{
 }
 
 .tagline {
-  padding-top: 16px;
+  padding-top: 8px;
   max-width: 392px;
   line-height: 28px;
   font-size: 18px;
@@ -172,7 +175,7 @@ defineProps<{
 
 @media (min-width: 640px) {
   .tagline {
-    padding-top: 24px;
+    padding-top: 12px;
     max-width: 576px;
     line-height: 32px;
     font-size: 20px;
@@ -181,7 +184,6 @@ defineProps<{
 
 @media (min-width: 960px) {
   .tagline {
-    padding-top: 24px;
     line-height: 36px;
     font-size: 24px;
   }
@@ -232,9 +234,9 @@ defineProps<{
 
 @media (min-width: 960px) {
   .image {
+    flex-grow: 1;
     order: 2;
     margin: 0;
-    width: calc(100% / 3);
     min-height: 100%;
   }
 }
@@ -290,7 +292,7 @@ defineProps<{
   }
 }
 
-.image-src {
+:deep(.image-src) {
   position: absolute;
   top: 50%;
   left: 50%;
