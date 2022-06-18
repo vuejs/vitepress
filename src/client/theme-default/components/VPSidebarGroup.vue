@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { DefaultTheme } from 'vitepress/theme'
-import { ref } from 'vue'
+import { ref, watchEffect } from 'vue'
 import VPIconPlusSquare from './icons/VPIconPlusSquare.vue'
 import VPIconMinusSquare from './icons/VPIconMinusSquare.vue'
 import VPSidebarLink from './VPSidebarLink.vue'
@@ -12,7 +12,10 @@ const props = defineProps<{
   collapsed?: boolean
 }>()
 
-const collapsed = ref(props.collapsible && props.collapsed)
+const collapsed = ref(false)
+watchEffect(() => {
+  collapsed.value = !!(props.collapsible && props.collapsed)
+})
 
 function toggle() {
   if (props.collapsible) {
