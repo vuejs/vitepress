@@ -22,6 +22,7 @@ provide('close-sidebar', closeSidebar)
 
 <template>
   <div class="Layout">
+    <slot name="layout-top" />
     <VPSkipLink />
     <VPBackdrop class="backdrop" :show="isSidebarOpen" @click="closeSidebar" />
     <VPNav />
@@ -46,6 +47,7 @@ provide('close-sidebar', closeSidebar)
     </VPContent>
 
     <VPFooter />
+    <slot name="layout-bottom" />
   </div>
 </template>
 
