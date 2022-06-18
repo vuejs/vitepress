@@ -278,3 +278,11 @@ With Auto Minify, Cloudflare will automatically remove the comments in the html 
 
 If it gets removed, then you will probably see a hydration mismatch error.
 :::
+
+## Render
+1. On [Render dashboard](https://dashboard.render.com), setup a new [static site](https://render.com/docs/static-sites) project from GitHub with the following settings:
+
+* Build Command: `vitepress build docs` or `yarn docs:build` or `npm run docs:build`
+* Publish directory: docs/.vitepress/dist
+
+2. Hit the **Create Static Site** button
