@@ -1,7 +1,9 @@
 import { copy } from 'fs-extra'
 import fg from 'fast-glob'
 
-fg.sync('src/shared/**/*.ts').map(async (file) => {
-  await copy(file, file.replace(/^src\/shared\//, 'src/node/'))
-  await copy(file, file.replace(/^src\/shared\//, 'src/client/'))
+fg.sync('src/shared/**/*.ts').forEach(async (file) => {
+  await Promise.all([
+    copy(file, file.replace(/^src\/shared\//, 'src/node/')),
+    copy(file, file.replace(/^src\/shared\//, 'src/client/'))
+  ])
 })
