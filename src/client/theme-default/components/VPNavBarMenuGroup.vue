@@ -11,10 +11,16 @@ const { page } = useData()
 </script>
 
 <template>
-  <VPFlyout :class="{
-    VPNavBarMenuGroup: true,
-    active: isActive(page.relativePath,
-      item.activeMatch,
-      !!item.activeMatch)
-  }" :button="item.text" :items="item.items" />
+  <VPFlyout
+    :class="{
+      VPNavBarMenuGroup: true,
+      active: isActive(
+        page.relativePath,
+        item.activeMatch,
+        !!item.activeMatch
+      )
+    }"
+    :button="item.text"
+    :items="item.items"
+  />
 </template>
