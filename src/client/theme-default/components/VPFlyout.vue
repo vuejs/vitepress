@@ -23,9 +23,20 @@ function onBlur() {
 </script>
 
 <template>
-  <div class="VPFlyout" ref="el" @mouseenter="open = true" @mouseleave="open = false">
-    <button type="button" class="button" aria-haspopup="true" :aria-expanded="open" :aria-label="label"
-      @click="open = !open">
+  <div
+    class="VPFlyout"
+    ref="el"
+    @mouseenter="open = true"
+    @mouseleave="open = false"
+  >
+    <button
+      type="button"
+      class="button"
+      aria-haspopup="true"
+      :aria-expanded="open"
+      :aria-label="label"
+      @click="open = !open"
+    >
       <span v-if="button || icon" class="text">
         <component v-if="icon" :is="icon" class="option-icon" />
         {{ button }}
@@ -66,7 +77,7 @@ function onBlur() {
 }
 
 .VPFlyout:hover .menu,
-.button[aria-expanded="true"]+.menu {
+.button[aria-expanded="true"] + .menu {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
