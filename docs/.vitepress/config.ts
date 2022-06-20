@@ -49,7 +49,7 @@ function nav() {
     {
       text: 'Changelog',
       link: 'https://github.com/vuejs/vitepress/blob/main/CHANGELOG.md'
-    },
+    }
   ]
 }
 
