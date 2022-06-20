@@ -44,11 +44,15 @@ export default defineConfig({
 
 function nav() {
   return [
-    { text: 'Guide', link: '/guide/what-is-vitepress', activeMatch: '/guide/' },
+    // { text: 'Guide', link: '/guide/what-is-vitepress', activeMatch: '/guide/' },
     { text: 'Configs', link: '/config/introduction', activeMatch: '/config/' },
     {
       text: 'Changelog',
       link: 'https://github.com/vuejs/vitepress/blob/main/CHANGELOG.md'
+    },{
+      text:'Gruop Nav',  
+      activeMatch: '/guide/',
+      items: [{ text: 'Guide', link: '/guide/what-is-vitepress', },]
     }
   ]
 }
