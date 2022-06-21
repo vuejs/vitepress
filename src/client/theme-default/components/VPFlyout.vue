@@ -59,10 +59,6 @@ function onBlur() {
   position: relative;
 }
 
-.VPFlyout.active .text {
-  color: var(--vp-c-brand);
-}
-
 .VPFlyout:hover {
   color: var(--vp-c-bland);
   transition: color 0.25s;
@@ -74,6 +70,14 @@ function onBlur() {
 
 .VPFlyout:hover .icon {
   fill: var(--vp-c-text-2);
+}
+
+.VPFlyout.active .text {
+  color: var(--vp-c-brand);
+}
+
+.VPFlyout.active:hover .text {
+  color: var(--vp-c-brand-dark);
 }
 
 .VPFlyout:hover .menu,
