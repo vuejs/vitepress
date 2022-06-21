@@ -83,6 +83,7 @@ type NavItemWithLink = {
 interface NavItemWithChildren {
   text?: string
   items: NavItemWithLink[]
+  activeMatch?: string
 }
 ```
 
