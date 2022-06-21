@@ -33,7 +33,7 @@ const hasLastUpdated = computed(() => {
       </div>
     </div>
 
-    <div class="prev-next">
+    <div v-if="control.prev || control.next" class="prev-next">
       <div class="pager">
         <a v-if="control.prev" class="pager-link prev" :href="normalizeLink(control.prev.link)">
           <span class="desc">Previous page</span>
