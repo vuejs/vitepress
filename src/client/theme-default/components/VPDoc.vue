@@ -169,24 +169,4 @@ const pageName = path.replace(/[./]+/g, '_').replace(/_html$/, '')
   margin: 0 auto;
   max-width: 688px;
 }
-
-.edit-link {
-  margin: 0 0 32px;
-}
-
-.edit-link .vt-link {
-  font-size: 14px;
-  color: var(--vt-c-brand);
-  font-weight: 500;
-}
-
-.vt-icon {
-  width: 18px;
-  height: 18px;
-  color: var(--vt-c-brand);
-  display: inline-block;
-  margin-right: 8px;
-  position: relative;
-  top: -1px;
-}
 </style>
