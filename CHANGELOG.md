@@ -1,3 +1,24 @@
+## [1.0.0-alpha.3](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.2...v1.0.0-alpha.3) (2022-06-22)
+
+### Bug Fixes
+
+* **theme:** italic fonts are missing ([#759](https://github.com/vuejs/vitepress/issues/759)) ([#777](https://github.com/vuejs/vitepress/issues/777)) ([fa00c83](https://github.com/vuejs/vitepress/commit/fa00c83af4aa5fa619cf2e3da8d5aab77984ba7c))
+* **theme:** copy code in non-secure contexts ([#792](https://github.com/vuejs/vitepress/issues/792)) ([2935ed2](https://github.com/vuejs/vitepress/commit/2935ed22954010fa0d48d0625e5f2b0136991e0b))
+* **theme:** copy code button has wrong tag closing syntax ([#816](https://github.com/vuejs/vitepress/issues/816)) ([75ca9e4](https://github.com/vuejs/vitepress/commit/75ca9e4302c65e3bcc9518f7df928318380f6cf6))
+* **theme:** edit link gets hidden when a page don't have siblings ([#751](https://github.com/vuejs/vitepress/issues/751)) ([9bc4330](https://github.com/vuejs/vitepress/commit/9bc43306a1fe7bfd54b738642fd1737917a3af41))
+* **theme:** nav close icon not working correctly ([#744](https://github.com/vuejs/vitepress/issues/744)) ([75c9d80](https://github.com/vuejs/vitepress/commit/75c9d809d21c0484c0ae8ce691d598cf229c9525))
+* **theme:** sidebar is shown on home layout ([#825](https://github.com/vuejs/vitepress/issues/825)) ([#829](https://github.com/vuejs/vitepress/issues/829)) ([42cbd31](https://github.com/vuejs/vitepress/commit/42cbd31327b789ff9525919afb39b3092f1d445b))
+* **theme:** sidebar collapsed option not working on layout change ([#809](https://github.com/vuejs/vitepress/issues/809)) ([#811](https://github.com/vuejs/vitepress/issues/811)) ([7737699](https://github.com/vuejs/vitepress/commit/773769926b74cabfbb3577d6c6e654fe976c0b76))
+* **theme:** `DefaultTheme` type causes error in some cases ([#804](https://github.com/vuejs/vitepress/issues/804)) ([107724a](https://github.com/vuejs/vitepress/commit/107724ac6f24e5272964d3bdbff54169fa4d91ae))
+
+### Features
+
+* **build:** allow setting `base` from command line ([2952638](https://github.com/vuejs/vitepress/commit/295263807df5a0cdff3b04d5131a3cebc76ec491))
+* **theme:** add active status to nav menu group ([#820](https://github.com/vuejs/vitepress/issues/820)) ([fdb5720](https://github.com/vuejs/vitepress/commit/fdb5720acda9f8f2dd1e4f33d0810a6e9ca9e7de))
+* **theme:** add global layout slots ([#760](https://github.com/vuejs/vitepress/issues/760)) ([#812](https://github.com/vuejs/vitepress/issues/812)) ([1f1e298](https://github.com/vuejs/vitepress/commit/1f1e298864f7b8af9672b55251958ba766678e0b))
+* **theme:** support themeable images for logo and hero ([#745](https://github.com/vuejs/vitepress/issues/745)) ([42813ce](https://github.com/vuejs/vitepress/commit/42813ce936d9fb141241969651cb0e3a02345442))
+* **theme:** add team page feature ([#828](https://github.com/vuejs/vitepress/issues/828)) ([7cfe0f0](https://github.com/vuejs/vitepress/commit/7cfe0f05ab013904c66c48d8529d2ba4747869cb))
+
 ## [1.0.0-alpha.2](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.1...v1.0.0-alpha.2) (2022-06-14)
 
 ### Bug Fixes
