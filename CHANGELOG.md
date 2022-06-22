@@ -1,3 +1,9 @@
+## [1.0.0-alpha.4](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.3...v1.0.0-alpha.4) (2022-06-22)
+
+### Bug Fixes
+
+* **theme:** home image style is broken in big view port ([2bd960d](https://github.com/vuejs/vitepress/commit/2bd960d5f5a84df614035a4fb941331fdf9d84f2))
+
 ## [1.0.0-alpha.3](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.2...v1.0.0-alpha.3) (2022-06-22)
 
 ### Bug Fixes
