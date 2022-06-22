@@ -1,11 +1,15 @@
 import MarkdownIt from 'markdown-it'
+import anchorPlugin from 'markdown-it-anchor'
+import attrsPlugin from 'markdown-it-attrs'
+import emojiPlugin from 'markdown-it-emoji'
+import tocPlugin from 'markdown-it-toc-done-right'
+import { componentPlugin } from '@mdit-vue/plugin-component'
 import { IThemeRegistration } from 'shiki'
 import { parseHeader } from '../utils/parseHeader'
 import { highlight } from './plugins/highlight'
 import { slugify } from './plugins/slugify'
 import { highlightLinePlugin } from './plugins/highlightLines'
 import { lineNumberPlugin } from './plugins/lineNumbers'
-import { componentPlugin } from './plugins/component'
 import { containerPlugin } from './plugins/containers'
 import { snippetPlugin } from './plugins/snippet'
 import { hoistPlugin } from './plugins/hoist'
@@ -14,10 +18,6 @@ import { linkPlugin } from './plugins/link'
 import { headingPlugin } from './plugins/headings'
 import { imagePlugin } from './plugins/image'
 import { Header } from '../shared'
-import anchor from 'markdown-it-anchor'
-import attrs from 'markdown-it-attrs'
-import emoji from 'markdown-it-emoji'
-import toc from 'markdown-it-toc-done-right'
 
 export type ThemeOptions =
   | IThemeRegistration
@@ -27,7 +27,7 @@ export interface MarkdownOptions extends MarkdownIt.Options {
   lineNumbers?: boolean
   config?: (md: MarkdownIt) => void
   anchor?: {
-    permalink?: anchor.AnchorOptions['permalink']
+    permalink?: anchorPlugin.AnchorOptions['permalink']
   }
   attrs?: {
     leftDelimiter?: string
@@ -88,15 +88,15 @@ export const createMarkdownRenderer = async (
 
   // 3rd party plugins
   if (!options.attrs?.disable) {
-    md.use(attrs, options.attrs)
+    md.use(attrsPlugin, options.attrs)
   }
 
-  md.use(anchor, {
+  md.use(anchorPlugin, {
     slugify,
-    permalink: anchor.permalink.ariaHidden({}),
+    permalink: anchorPlugin.permalink.ariaHidden({}),
     ...options.anchor
   })
-    .use(toc, {
+    .use(tocPlugin, {
       slugify,
       level: [2, 3],
       format: (x: string, htmlencode: (s: string) => string) =>
@@ -104,7 +104,7 @@ export const createMarkdownRenderer = async (
       listType: 'ul',
       ...options.toc
     })
-    .use(emoji)
+    .use(emojiPlugin)
 
   // apply user config
   if (options.config) {
