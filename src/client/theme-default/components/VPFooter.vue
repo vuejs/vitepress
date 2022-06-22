@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { useData } from 'vitepress'
+import { computed } from 'vue'
 import { useSidebar } from '../composables/sidebar'
 
-const { theme } = useData()
+const { theme, frontmatter } = useData()
 const { hasSidebar } = useSidebar()
+const showFooter = computed(() => theme.value.footer && (frontmatter.value.layout === 'home' || frontmatter.value.layout === 'page'))
 </script>
 
 <template>
-  <footer v-if="theme.footer" class="VPFooter" :class="{ 'has-sidebar': hasSidebar }">
+  <footer v-if="showFooter" class="VPFooter" :class="{ 'has-sidebar': hasSidebar }">
     <div class="container">
       <p class="message">{{ theme.footer.message }}</p>
       <p class="copyright">{{ theme.footer.copyright }}</p>
