@@ -87,7 +87,8 @@ function sidebarGuide() {
         { text: 'Edit Link', link: '/guide/theme-edit-link' },
         { text: 'Last Updated', link: '/guide/theme-last-updated' },
         { text: 'Layout', link: '/guide/theme-layout' },
-        { text: 'Homepage', link: '/guide/theme-homepage' },
+        { text: 'Home Page', link: '/guide/theme-home-page' },
+        { text: 'Team Page', link: '/guide/theme-team-page' },
         { text: 'Footer', link: '/guide/theme-footer' },
         { text: 'Search', link: '/guide/theme-search' },
         { text: 'Carbon Ads', link: '/guide/theme-carbon-ads' }
