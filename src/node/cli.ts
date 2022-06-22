@@ -14,7 +14,7 @@ if (root) {
 }
 
 if (!command || command === 'dev') {
-  createServer(root, argv)
+  createServer(root, { port: 5173, ...argv })
     .then((server) => server.listen())
     .then((server) => {
       console.log()

@@ -25,7 +25,7 @@ importers:
       '@types/node': ^15.6.1
       '@types/polka': ^0.5.3
       '@types/prompts': ^2.0.14
-      '@vitejs/plugin-vue': ^3.0.0-beta.0
+      '@vitejs/plugin-vue': ^2.3.2
       '@vue/devtools-api': ^6.1.4
       '@vueuse/core': ^8.5.0
       body-scroll-lock: ^4.0.0-beta.0
@@ -68,18 +68,18 @@ importers:
       sirv: ^1.0.12
       supports-color: ^9.2.2
       typescript: ^4.7.2
-      vite: ^3.0.0-beta.0
+      vite: ^2.9.7
       vitest: ^0.14.2
       vue: ^3.2.33
     dependencies:
       '@docsearch/css': 3.1.0
       '@docsearch/js': 3.1.0
-      '@vitejs/plugin-vue': 3.0.0-beta.0_np7gnt2t7gujl5lki2sr3iij4q
+      '@vitejs/plugin-vue': 2.3.3_vite@2.9.12+vue@3.2.33
       '@vue/devtools-api': 6.1.4
       '@vueuse/core': 8.5.0_vue@3.2.33
       body-scroll-lock: 4.0.0-beta.0
       shiki: 0.10.1
-      vite: 3.0.0-beta.0
+      vite: 2.9.12
       vue: 3.2.33
     devDependencies:
       '@rollup/plugin-alias': 3.1.5_rollup@2.57.0
@@ -675,14 +675,14 @@ packages:
     resolution: {integrity: sha512-4LPNrqSJknLzILMVXn2P/mh0djNgFvom4T9Y1hmhaB8OBm1cY71bMMSrGRu1q5qF4JZzY6iaGT11BHmCMY/NZg==}
     dev: true
 
-  /@vitejs/plugin-vue/3.0.0-beta.0_np7gnt2t7gujl5lki2sr3iij4q:
-    resolution: {integrity: sha512-t8os1QK1qpovpgYAJSOWYEu+Doy/DZRW1cNwMvUl0qo+Yv7D9a3cxo24oL01lbojcc9ABQhyvUP3BsvFNtriqg==}
-    engines: {node: '>=14.18.0'}
+  /@vitejs/plugin-vue/2.3.3_vite@2.9.12+vue@3.2.33:
+    resolution: {integrity: sha512-SmQLDyhz+6lGJhPELsBdzXGc+AcaT8stgkbiTFGpXPe8Tl1tJaBw1A6pxDqDuRsVkD8uscrkx3hA7QDOoKYtyw==}
+    engines: {node: '>=12.0.0'}
     peerDependencies:
-      vite: ^3.0.0-alpha
+      vite: ^2.5.10
       vue: ^3.2.25
     dependencies:
-      vite: 3.0.0-beta.0
+      vite: 2.9.12
       vue: 3.2.33
     dev: false
 
@@ -3737,34 +3737,6 @@ packages:
       rollup: 2.75.6
     optionalDependencies:
       fsevents: 2.3.2
-    dev: true
-
-  /vite/3.0.0-beta.0:
-    resolution: {integrity: sha512-GxQasmIQw3TplbchtSGijvPNlkciZ+QT+KQFk+07VsLNdf95G20VeFYkJpF2cTGtmG2cYYzvn2QU8XDGWZvcXQ==}
-    engines: {node: '>=14.18.0'}
-    hasBin: true
-    peerDependencies:
-      less: '*'
-      sass: '*'
-      stylus: '*'
-      terser: ^5.4.0
-    peerDependenciesMeta:
-      less:
-        optional: true
-      sass:
-        optional: true
-      stylus:
-        optional: true
-      terser:
-        optional: true
-    dependencies:
-      esbuild: 0.14.43
-      postcss: 8.4.14
-      resolve: 1.22.1
-      rollup: 2.75.6
-    optionalDependencies:
-      fsevents: 2.3.2
-    dev: false
 
   /vitest/0.14.2_supports-color@9.2.2:
     resolution: {integrity: sha512-vXQUl8OUCqHmxKWscMGL+6Xl1pBJmYHZ8N85iNpLGrirAC2vhspu7b73ShRcLonmZT44BYZW+LBAVvn0L4jyVA==}

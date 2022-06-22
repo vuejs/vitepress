@@ -21,8 +21,6 @@ export interface ServeOptions {
 }
 
 export async function serve(options: ServeOptions = {}) {
-  // align with `vite preview`
-  // https://github.com/vitejs/vite/blob/3f9e5d49dfeb25ee22423fb5d180fe63b1c23c41/packages/vite/src/node/preview.ts#L119
   const port = options.port !== undefined ? options.port : 4173
   const site = await resolveConfig(options.root, 'serve', 'production')
   const base = trimChar(site?.site?.base ?? '', '/')
