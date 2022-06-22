@@ -9,14 +9,14 @@ import { bundle, okMark, failMark } from './bundle'
 
 export async function build(
   root: string,
-  buildOptions: BuildOptions & { base?: string; mpa?: string } = {}
+  buildOptions: BuildOptions & { mpa?: string } = {}
 ) {
   const start = Date.now()
 
   process.env.NODE_ENV = 'production'
   const siteConfig = await resolveConfig(root, 'build', 'production')
 
-  if (buildOptions.base != null) {
+  if (buildOptions.base) {
     siteConfig.site.base = buildOptions.base
     delete buildOptions.base
   }
