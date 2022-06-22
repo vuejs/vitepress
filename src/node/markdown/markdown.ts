@@ -113,11 +113,11 @@ export const createMarkdownRenderer = async (
     md.use(lineNumberPlugin)
   }
 
-  const originalRender = md.render
-  md.render = (...args) => {
-    md.__data = {}
-    return originalRender.call(md, ...args)
-  }
+  // const originalRender = md.render
+  // md.render = (...args) => {
+  //   md.__data = {}
+  //   return originalRender.call(md, ...args)
+  // }
 
   return md
 }
