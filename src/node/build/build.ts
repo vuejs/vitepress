@@ -9,7 +9,7 @@ import { bundle, okMark, failMark } from './bundle'
 
 export async function build(
   root: string,
-  buildOptions: BuildOptions & { base?:string; mpa?: string } = {}
+  buildOptions: BuildOptions & { base?: string; mpa?: string } = {}
 ) {
   const start = Date.now()
 
