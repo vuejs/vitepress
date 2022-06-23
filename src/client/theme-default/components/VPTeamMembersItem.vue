@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { DefaultTheme } from '..'
+import type { DefaultTheme } from 'vitepress/theme'
 import VPIconHeart from './icons/VPIconHeart.vue'
 import VPLink from './VPLink.vue'
 import VPSocialLinks from './VPSocialLinks.vue'
