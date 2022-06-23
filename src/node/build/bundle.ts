@@ -52,9 +52,12 @@ export async function bundle(
       pageToHashMap,
       clientJSMap
     ),
-    // @ts-ignore
     ssr: {
       noExternal: ['vitepress']
+    },
+    // TODO: remove this workaround
+    legacy: {
+      buildSsrCjsExternalHeuristics: true
     },
     build: {
       ...options,
@@ -71,7 +74,11 @@ export async function bundle(
         output: {
           ...rollupOptions?.output,
           ...(ssr
-            ? {}
+            ? {
+                entryFileNames: `[name].js`,
+                chunkFileNames: `[name].[hash].js`,
+                assetFileNames: `[name].[ext]`
+              }
             : {
                 chunkFileNames(chunk) {
                   // avoid ads chunk being intercepted by adblock

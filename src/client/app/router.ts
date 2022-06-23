@@ -187,7 +187,6 @@ export function useRouter(): Router {
   if (!router) {
     throw new Error('useRouter() is called without provider.')
   }
-  // @ts-ignore
   return router
 }
 
