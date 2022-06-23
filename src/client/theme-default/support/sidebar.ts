@@ -33,6 +33,26 @@ export function getFlatSideBarLinks(
   const links: DefaultTheme.SidebarItem[] = []
 
   for (const group of sidebar) {
+    // make sure sidebar entry didn't config the items property without build error
+    if (!group.items || !Array.isArray(group.items)) {
+      continue
+    }
+    /**
+     * the group.items need to be checked if items didn't be configed
+     * 
+     * Alternatively, document `items` as required, even if it will be an empty array in the Config-Docs page
+     * 
+     * in `.vitepress/config.[ts/js]` like this will throw error:
+     * {
+     *    siderbar: [
+     *        '/mood/': [
+     *            {
+     *              text: 'Mood Index'
+     *            }
+     *        ]
+     *    ]
+     * }
+     */
     for (const link of group.items) {
       links.push(link)
     }
