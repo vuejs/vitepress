@@ -220,6 +220,7 @@ export namespace DefaultTheme {
     searchParameters?: any
     disableUserPersonalization?: boolean
     initialQuery?: string
+    buttonText?: string
   }
 
   // carbon ads ----------------------------------------------------------------
