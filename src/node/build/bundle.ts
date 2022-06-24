@@ -53,12 +53,12 @@ export async function bundle(
       clientJSMap
     ),
     ssr: {
-      noExternal: ['vitepress']
+      noExternal: ['vitepress', '@docsearch/css']
     },
-    // TODO: remove this workaround
-    legacy: {
-      buildSsrCjsExternalHeuristics: true
-    },
+    // // TODO: remove this workaround
+    // legacy: {
+    //   buildSsrCjsExternalHeuristics: true
+    // },
     build: {
       ...options,
       emptyOutDir: true,
