@@ -137,6 +137,7 @@ export namespace DefaultTheme {
   export interface SidebarItem {
     text: string
     link: string
+    items?: SidebarItem[]
   }
 
   // edit link -----------------------------------------------------------------
