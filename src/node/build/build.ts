@@ -84,7 +84,8 @@ export async function build(
       pageToHashMap
     )
   } finally {
-    fs.rmSync(siteConfig.tempDir, { recursive: true, force: true })
+    // TODO: keeping this for debugging, uncomment it before merging
+    // fs.rmSync(siteConfig.tempDir, { recursive: true, force: true })
   }
 
   console.log(`build complete in ${((Date.now() - start) / 1000).toFixed(2)}s.`)
