@@ -1,0 +1,74 @@
+@mixin custom-block-variant($variant) {
+  border-color: var(--vp-custom-block-#{$variant}-border);
+  color: var(--vp-custom-block-#{$variant}-text);
+  background-color: var(--vp-custom-block-#{$variant}-bg);
+
+  code {
+    background-color: var(--vp-custom-block-#{$variant}-code-bg);
+  }
+}
+
+.custom-block {
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 16px 16px 8px;
+  line-height: 24px;
+  font-size: 14px;
+  color: var(--vp-c-text-2);
+
+  p + p {
+    margin: 8px 0;
+  }
+
+  a {
+    color: inherit;
+    font-weight: 600;
+    text-decoration: underline;
+    transition: opacity 0.25s;
+
+    &:hover {
+      opacity: 0.6;
+    }
+  }
+
+  code {
+    font-size: var(--vp-custom-block-code-font-size);
+  }
+
+  /**
+  * Variants
+  * -------------------------------------------------------------------------- */
+
+  &.info {
+    @include custom-block-variant("info");
+  }
+
+  &.tip {
+    @include custom-block-variant("tip");
+  }
+
+  &.warning {
+    @include custom-block-variant("warning");
+  }
+
+  &.danger {
+    @include custom-block-variant("danger");
+  }
+
+  &.details {
+    @include custom-block-variant("danger");
+
+    summary {
+      margin: 0 0 8px;
+      font-weight: 700;
+
+      + p {
+        margin: 8px 0;
+      }
+    }
+  }
+}
+
+.custom-block-title {
+  font-weight: 700;
+}

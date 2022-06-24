@@ -1,0 +1,490 @@
+/**
+* Headings
+* -------------------------------------------------------------------------- */
+
+%header-anchor-visibility {
+  .vp-doc &:hover .header-anchor,
+  .vp-doc & .header-anchor:focus {
+    opacity: 1;
+  }
+}
+
+@mixin lang-content($lang, $content) {
+  [class~="language-#{$lang}"]:before {
+    content: "#{$content}";
+  }
+}
+
+.vp-doc {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    position: relative;
+    font-weight: 600;
+    outline: none;
+
+    @extend %header-anchor-visibility;
+  }
+
+  h1 {
+    letter-spacing: -0.02em;
+    line-height: 40px;
+    font-size: 28px;
+
+    @media (min-width: 768px) {
+      letter-spacing: -0.02em;
+      line-height: 40px;
+      font-size: 32px;
+    }
+  }
+
+  h2 {
+    margin: 48px 0 16px;
+    border-top: 1px solid var(--vp-c-divider-light);
+    padding-top: 24px;
+    letter-spacing: -0.02em;
+    line-height: 32px;
+    font-size: 24px;
+  }
+
+  & h3 {
+    margin: 32px 0 0;
+    letter-spacing: -0.01em;
+    line-height: 28px;
+    font-size: 20px;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  .header-anchor {
+    float: left;
+    margin-left: -0.87em;
+    padding-right: 0.23em;
+    font-weight: 500;
+    opacity: 0;
+    transition: color 0.25s, opacity 0.25s;
+  }
+
+  /**
+  * Paragraph and inline elements
+  * -------------------------------------------------------------------------- */
+
+  p,
+  summary {
+    margin: 16px 0;
+  }
+
+  p {
+    line-height: 28px;
+  }
+
+  blockquote {
+    margin: 16px 0;
+    border-left: 2px solid var(--vp-c-divider);
+    padding-left: 16px;
+    transition: border-color 0.5s;
+
+    > p {
+      margin: 0;
+      font-size: 16px;
+      color: var(--vp-c-text-2);
+      transition: color 0.5s;
+    }
+  }
+
+  a {
+    font-weight: 500;
+    color: var(--vp-c-brand);
+    text-decoration-style: dotted;
+    transition: color 0.25s;
+
+    &:hover {
+      color: var(--vp-c-brand-dark);
+    }
+  }
+
+  strong {
+    font-weight: 600;
+  }
+
+  /**
+  * Lists
+  * -------------------------------------------------------------------------- */
+
+  ul,
+  ol {
+    padding-left: 1.25rem;
+    margin: 16px 0;
+  }
+
+  ul {
+    list-style: disc;
+  }
+
+  ol {
+    list-style: decimal;
+  }
+
+  li {
+    + li {
+      margin-top: 8px;
+    }
+
+    > ol,
+    > ul {
+      margin: 8px 0 0;
+    }
+  }
+
+  /**
+  * Table
+  * -------------------------------------------------------------------------- */
+
+  table {
+    display: block;
+    border-collapse: collapse;
+    margin: 20px 0;
+    overflow-x: auto;
+  }
+
+  tr {
+    border-top: 1px solid var(--vp-c-divider);
+    transition: background-color 0.5s;
+
+    &:nth-child(2n) {
+      background-color: var(--vp-c-bg-soft);
+    }
+  }
+
+  th,
+  td {
+    border: 1px solid var(--vp-c-divider);
+    padding: 12px 16px;
+  }
+
+  th {
+    font-size: 16px;
+    font-weight: 600;
+    background-color: var(--vp-c-white-soft);
+
+    .dark & {
+      background-color: var(--vp-c-black);
+    }
+  }
+
+  /**
+  * Decorational elements
+  * -------------------------------------------------------------------------- */
+
+  hr {
+    margin: 16px 0;
+    border: none;
+    border-top: 1px solid var(--vp-c-divider-light);
+  }
+
+  /**
+  * Code
+  * -------------------------------------------------------------------------- */
+
+  /* inline code */
+  :not(pre, h1, h2, h3, h4, h5, h6) > code {
+    font-size: var(--vp-code-font-size);
+  }
+
+  :not(pre) > code {
+    border-radius: 4px;
+    padding: 3px 6px;
+    color: var(--vp-c-text-code);
+    background-color: var(--vp-c-bg-mute);
+    transition: color 0.5s, background-color 0.5s;
+  }
+
+  h1 > code,
+  h2 > code,
+  h3 > code {
+    font-size: 0.9em;
+  }
+
+  a > code {
+    color: var(--vp-c-brand);
+    transition: color 0.25s;
+  }
+
+  a:hover > code {
+    color: var(--vp-c-brand-dark);
+  }
+
+  [class*="language-"] {
+    /* stylelint-disable-next-line no-descending-specificity */
+    pre,
+    code {
+      text-align: left;
+      white-space: pre;
+      word-spacing: normal;
+      word-break: normal;
+      word-wrap: normal;
+      tab-size: 4;
+      hyphens: none;
+    }
+
+    pre {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      padding: 16px 0;
+      background: transparent;
+      overflow-x: auto;
+    }
+
+    /* stylelint-disable-next-line no-descending-specificity */
+    code {
+      display: block;
+      padding: 0 24px;
+      width: fit-content;
+      line-height: var(--vp-code-line-height);
+      font-size: var(--vp-code-font-size);
+      color: var(--vp-code-block-color);
+      transition: color 0.5s;
+    }
+
+    > span.copy {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      z-index: 2;
+      display: block;
+      justify-content: center;
+      align-items: center;
+      border-radius: 4px;
+      width: 40px;
+      height: 40px;
+      background-color: var(--vp-code-block-bg);
+      opacity: 0;
+      cursor: pointer;
+      background-image: var(--vp-icon-copy);
+      background-position: 50%;
+      background-size: 20px;
+      background-repeat: no-repeat;
+      transition: opacity 0.25s;
+
+      &:hover {
+        background-color: var(--vp-code-copy-code-hover-bg);
+      }
+
+      &.copied,
+      &:hover.copied {
+        border-radius: 0 4px 4px 0;
+        background-color: var(--vp-code-copy-code-hover-bg);
+        background-image: var(--vp-icon-copied);
+
+        &::before {
+          position: relative;
+          left: -65px;
+          display: block;
+          border-radius: 4px 0 0 4px;
+          padding-top: 8px;
+          width: 64px;
+          height: 40px;
+          text-align: center;
+          font-size: 12px;
+          font-weight: 500;
+          color: var(--vp-code-copy-code-active-text);
+          background-color: var(--vp-code-copy-code-hover-bg);
+          white-space: nowrap;
+          content: "Copied";
+        }
+      }
+    }
+
+    &:hover > span.copy {
+      opacity: 1;
+    }
+
+    &::before {
+      position: absolute;
+      top: 6px;
+      right: 12px;
+      z-index: 2;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--vp-c-text-dark-3);
+      transition: color 0.5s, opacity 0.5s;
+    }
+
+    &:hover::before {
+      opacity: 0;
+    }
+  }
+
+  div[class*="language-"] {
+    position: relative;
+    margin: 16px -24px;
+    background-color: var(--vp-code-block-bg);
+    overflow-x: auto;
+    transition: background-color 0.5s;
+
+    @media (min-width: 640px) {
+      border-radius: 8px;
+      margin: 16px 0;
+    }
+
+    &.line-numbers-mode {
+      padding-left: 32px;
+
+      pre {
+        padding-left: 16px;
+      }
+    }
+  }
+
+  li div[class*="language-"] {
+    @media (max-width: 639px) {
+      border-radius: 8px 0 0 8px;
+    }
+  }
+
+  .highlight-lines {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    padding-top: 16px;
+    width: 100%;
+    line-height: var(--vp-code-line-height);
+    font-family: var(--vp-font-family-mono);
+    font-size: var(--vp-code-font-size);
+    user-select: none;
+    overflow: hidden;
+
+    .highlighted {
+      background-color: var(--vp-code-line-highlight-color);
+      transition: background-color 0.5s;
+    }
+  }
+
+  .line-numbers-wrapper {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 3;
+    border-right: 1px solid var(--vp-c-divider-dark-2);
+    padding-top: 16px;
+    width: 32px;
+    text-align: center;
+    font-family: var(--vp-font-family-mono);
+    line-height: var(--vp-code-line-height);
+    font-size: var(--vp-code-font-size);
+    color: var(--vp-code-line-number-color);
+    transition: border-color 0.5s, color 0.5s;
+  }
+
+  div[class*="language-"] + div[class*="language-"],
+  div[class$="-api"] + div[class*="language-"],
+  div[class*="language-"] + div[class$="-api"] > div[class*="language-"] {
+    margin-top: -8px;
+  }
+
+  @include lang-content("c", "c");
+  @include lang-content("css", "css");
+  @include lang-content("go", "go");
+  @include lang-content("html", "html");
+  @include lang-content("java", "java");
+  @include lang-content("javascript", "js");
+  @include lang-content("js", "js");
+  @include lang-content("json", "json");
+  @include lang-content("jsx", "jsx");
+  @include lang-content("less", "less");
+  @include lang-content("markdown", "md");
+  @include lang-content("md", "md");
+  @include lang-content("php", "php");
+  @include lang-content("python", "py");
+  @include lang-content("py", "py");
+  @include lang-content("rb", "rb");
+  @include lang-content("ruby", "rb");
+  @include lang-content("rust", "rust");
+  @include lang-content("sass", "sass");
+  @include lang-content("scss", "scss");
+  @include lang-content("sh", "sh");
+  @include lang-content("bash", "sh");
+  @include lang-content("stylus", "styl");
+  @include lang-content("vue-html", "template");
+  @include lang-content("typescript", "ts");
+  @include lang-content("ts", "ts");
+  @include lang-content("tsx", "tsx");
+  @include lang-content("vue", "vue");
+  @include lang-content("yaml", "yaml");
+
+  /**
+  * Custom Block
+  * -------------------------------------------------------------------------- */
+
+  .custom-block {
+    margin: 16px 0;
+
+    p {
+      margin: 8px 0;
+      line-height: 24px;
+
+      &:first-child {
+        margin: 0;
+      }
+    }
+
+    a {
+      color: inherit;
+      font-weight: 600;
+      text-decoration: underline;
+      transition: opacity 0.25s;
+
+      &:hover {
+        opacity: 0.6;
+      }
+    }
+
+    /* stylelint-disable-next-line no-descending-specificity */
+    code {
+      font-size: var(--vp-custom-block-code-font-size);
+      font-weight: 700;
+      color: inherit;
+    }
+
+    /* stylelint-disable-next-line no-descending-specificity */
+    div[class*="language-"] {
+      margin: 8px 0;
+
+      code {
+        font-weight: 400;
+        background-color: var(--vp-code-block-bg);
+      }
+    }
+  }
+
+  /**
+  * Component: Team
+  * -------------------------------------------------------------------------- */
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  .VPTeamMembers {
+    margin-top: 24px;
+
+    &.small {
+      &.count-1 .container {
+        margin: 0 !important;
+        max-width: calc((100% - 24px) / 2) !important;
+      }
+
+      &.count-2 .container,
+      &.count-3 .container {
+        max-width: 100% !important;
+      }
+    }
+
+    &.medium.count-1 .container {
+      margin: 0 !important;
+      max-width: calc((100% - 24px) / 2) !important;
+    }
+  }
+}

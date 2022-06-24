@@ -134,9 +134,12 @@
     "rollup": "^2.56.3",
     "rollup-plugin-dts": "^4.2.2",
     "rollup-plugin-esbuild": "^4.8.2",
+    "sass": "^1.53.0",
     "semver": "^7.3.5",
     "simple-git-hooks": "^2.7.0",
     "sirv": "^1.0.12",
+    "stylelint": "^14.9.1",
+    "stylelint-config-standard-scss": "^4.0.0",
     "supports-color": "^9.2.2",
     "typescript": "^4.7.2",
     "vitest": "^0.14.2"

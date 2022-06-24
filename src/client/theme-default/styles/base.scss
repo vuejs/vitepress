@@ -7,11 +7,11 @@
 html {
   line-height: 1.4;
   font-size: 16px;
-  -webkit-text-size-adjust: 100%;
-}
+  text-size-adjust: 100%;
 
-html.dark {
-  color-scheme: dark;
+  .dark {
+    color-scheme: dark;
+  }
 }
 
 body {
@@ -27,7 +27,7 @@ body {
   background-color: var(--vp-c-bg);
   direction: ltr;
   font-synthesis: none;
-  text-rendering: optimizeLegibility;
+  text-rendering: optimizelegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -48,7 +48,9 @@ h6 {
   font-weight: 400;
 }
 
-p {
+p,
+blockquote,
+figure {
   margin: 0;
 }
 
@@ -96,10 +98,6 @@ ul {
   padding: 0;
 }
 
-blockquote {
-  margin: 0;
-}
-
 pre,
 code,
 kbd,
@@ -116,11 +114,6 @@ iframe,
 embed,
 object {
   display: block;
-  vertical-align: middle;
-}
-
-figure {
-  margin: 0;
 }
 
 img,
@@ -140,32 +133,28 @@ textarea {
   color: inherit;
 }
 
-button {
-  padding: 0;
-  font-family: inherit;;
-  background-color: transparent;
-  background-image: none;
-}
-
 button,
 [role="button"] {
   cursor: pointer;
 }
 
-button:focus,
-button:focus-visible {
-  outline: 1px dotted;
-  outline: 4px auto -webkit-focus-ring-color;
-}
+button {
+  padding: 0;
+  font-family: inherit;
+  background-color: transparent;
+  background-image: none;
 
-button:focus:not(:focus-visible) {
-  outline: none !important;
-}
+  &:focus,
+  &:focus-visible {
+    outline: 1px dotted;
+    outline: 4px auto -webkit-focus-ring-color;
+  }
 
-input:focus,
-textarea:focus,
-select:focus {
-  outline: none;
+  &:focus {
+    &:not(:focus-visible) {
+      outline: none !important;
+    }
+  }
 }
 
 table {
@@ -174,31 +163,23 @@ table {
 
 input {
   background-color: transparent;
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    appearance: none;
+    margin: 0;
+  }
+
+  &[type="number"] {
+    appearance: textfield;
+  }
 }
 
-input:-ms-input-placeholder,
-textarea:-ms-input-placeholder {
-  color: var(--vp-c-text-3);
-}
-
-input::-ms-input-placeholder,
-textarea::-ms-input-placeholder {
-  color: var(--vp-c-text-3);
-}
-
-input::placeholder,
-textarea::placeholder {
-  color: var(--vp-c-text-3);
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-input[type="number"] {
-  -moz-appearance: textfield;
+input,
+textarea {
+  &::placeholder {
+    color: var(--vp-c-text-3);
+  }
 }
 
 textarea {
@@ -206,7 +187,15 @@ textarea {
 }
 
 select {
-  -webkit-appearance: none;
+  appearance: none;
+}
+
+input,
+textarea,
+select {
+  &:focus {
+    outline: none;
+  }
 }
 
 fieldset {
