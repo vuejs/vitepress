@@ -55,10 +55,6 @@ export async function bundle(
     ssr: {
       noExternal: ['vitepress', '@docsearch/css']
     },
-    // // TODO: remove this workaround
-    // legacy: {
-    //   buildSsrCjsExternalHeuristics: true
-    // },
     build: {
       ...options,
       emptyOutDir: true,
@@ -102,9 +98,7 @@ export async function bundle(
                 }
               })
         }
-      },
-      // minify with esbuild in MPA mode (for CSS)
-      minify: ssr ? (config.mpa ? 'esbuild' : false) : !process.env.DEBUG
+      }
     }
   })
 
