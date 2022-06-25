@@ -64,6 +64,13 @@ export interface UserConfig<ThemeConfig = any> {
    * @experimental
    */
   mpa?: boolean
+
+  /**
+   * Don't fail builds due to dead links.
+   *
+   * @default false
+   */
+  ignoreDeadLinks?: boolean
 }
 
 export type RawConfigExports<ThemeConfig = any> =
@@ -74,7 +81,13 @@ export type RawConfigExports<ThemeConfig = any> =
 export interface SiteConfig<ThemeConfig = any>
   extends Pick<
     UserConfig,
-    'markdown' | 'vue' | 'vite' | 'shouldPreload' | 'mpa' | 'lastUpdated'
+    | 'markdown'
+    | 'vue'
+    | 'vite'
+    | 'shouldPreload'
+    | 'mpa'
+    | 'lastUpdated'
+    | 'ignoreDeadLinks'
   > {
   root: string
   srcDir: string
@@ -152,7 +165,8 @@ export async function resolveConfig(
     vue: userConfig.vue,
     vite: userConfig.vite,
     shouldPreload: userConfig.shouldPreload,
-    mpa: !!userConfig.mpa
+    mpa: !!userConfig.mpa,
+    ignoreDeadLinks: userConfig.ignoreDeadLinks
   }
 
   return config
