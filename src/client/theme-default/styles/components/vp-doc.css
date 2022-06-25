@@ -235,6 +235,8 @@
 }
 
 .vp-doc :not(pre) > code {
+  display: inline-block;
+  line-height: initial;
   border-radius: 4px;
   padding: 3px 6px;
   color: var(--vp-c-text-code);
