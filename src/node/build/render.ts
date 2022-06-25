@@ -25,7 +25,7 @@ export async function renderPage(
   const { app, router } = createApp()
   const routePath = `/${page.replace(/\.md$/, '')}`
   const siteData = resolveSiteDataByRoute(config.site, routePath)
-  router.go(routePath)
+  await router.go(routePath)
 
   // lazy require server-renderer for production build
   // prioritize project root over vitepress' own dep

@@ -60,12 +60,7 @@ export function createRouter(
     const targetLoc = new URL(href, fakeHost)
     const pendingPath = (latestPendingPath = targetLoc.pathname)
     try {
-      let page = loadPageModule(pendingPath)
-      // only await if it returns a Promise - this allows sync resolution
-      // on initial render in SSR.
-      if ('then' in page && typeof page.then === 'function') {
-        page = await page
-      }
+      let page = await loadPageModule(pendingPath)
       if (latestPendingPath === pendingPath) {
         latestPendingPath = null
 
