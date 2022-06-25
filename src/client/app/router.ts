@@ -34,7 +34,7 @@ interface PageModule {
 }
 
 export function createRouter(
-  loadPageModule: (path: string) => PageModule | Promise<PageModule>,
+  loadPageModule: (path: string) => Promise<PageModule>,
   fallbackComponent?: Component
 ): Router {
   const route = reactive(getDefaultRoute())
