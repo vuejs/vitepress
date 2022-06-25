@@ -83,7 +83,7 @@
   },
   "devDependencies": {
     "@rollup/plugin-alias": "^3.1.9",
-    "@rollup/plugin-commonjs": "^22.0.0",
+    "@rollup/plugin-commonjs": "^22.0.1",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.3.0",
     "@rollup/plugin-replace": "^4.0.0",
@@ -113,8 +113,8 @@
     "fast-glob": "^3.2.11",
     "fs-extra": "^10.1.0",
     "gray-matter": "^4.0.3",
-    "lint-staged": "^13.0.2",
-    "lru-cache": "^7.10.1",
+    "lint-staged": "^13.0.3",
+    "lru-cache": "^7.10.2",
     "markdown-it": "^13.0.1",
     "markdown-it-anchor": "^8.6.4",
     "markdown-it-attrs": "^4.1.4",
@@ -138,7 +138,7 @@
     "sirv": "^2.0.2",
     "supports-color": "^9.2.2",
     "typescript": "^4.7.4",
-    "vitest": "^0.15.2"
+    "vitest": "^0.16.0"
   },
   "pnpm": {
     "peerDependencyRules": {
