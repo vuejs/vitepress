@@ -12,6 +12,21 @@ export default {
 }
 ```
 
+## appearance
+
+- Type: `boolean`
+- Default: `true`
+
+Whether to enable "Dark Mode" or not. If the option is set to `true`, it adds `.dark` class to the `<html>` tag depending on the users preference.
+
+It also injects inline script that tries to read users settings from local storage by `vitepress-theme-appearance` key and restores users preferred color mode.
+
+```ts
+export default {
+  appearance: true
+}
+```
+
 ## base
 
 - Type: `string`
@@ -24,6 +39,32 @@ The base is automatically prepended to all the URLs that start with / in other o
 ```ts
 export default {
   base: '/base/'
+}
+```
+
+## description
+
+- Type: `string`
+- Default: `A VitePress site`
+
+Description for the site. This will render as a `<meta>` tag in the page HTML.
+
+```ts
+export default {
+  description: 'A VitePress site'
+}
+```
+
+## ignoreDeadLinks
+
+- Type: `boolean`
+- Default: `false`
+
+When set to `true`, VitePress will not fail builds due to dead links.
+
+```ts
+export default {
+  ignoreDeadLinks: true
 }
 ```
 
@@ -40,44 +81,16 @@ export default {
 }
 ```
 
-## title
+## lastUpdated
 
-- Type: `string`
-- Default: `VitePress`
+- Type: `boolean`
+- Default: `false`
 
-Title for the site. This will be displayed in the nav bar. Also used as the suffix for all page titles unless `titleTemplate` is defined.
-
-```ts
-export default {
-  title: 'VitePress'
-}
-```
-
-## titleTemplate
-
-- Type: `string | boolean`
-
-The suffix for the title. For example, if you set `title` as `VitePress` and set `titleTemplate` as `My Site`, the html title becomes `VitePress | My Site`.
-
-Set `false` to disable the feature. If the option is `undefined`, then the value of `title` option will be used.
+Use git commit to get the timestamp. This option enables the default theme to display the page's last updated time. You can customize the text via [`themeConfig.lastUpdatedText`](theme-configs#lastupdatedtext) option.
 
 ```ts
 export default {
-  title: 'VitePress',
-  titleTemplate: 'Vite & Vue powered static site generator'
-}
-```
-
-## description
-
-- Type: `string`
-- Default: `A VitePress site`
-
-Description for the site. This will render as a `<meta>` tag in the page HTML.
-
-```ts
-export default {
-  description: 'A VitePress site'
+  lastUpdated: true
 }
 ```
 
@@ -132,30 +145,31 @@ interface MarkdownOptions extends MarkdownIt.Options {
 }
 ```
 
-## appearance
+## title
 
-- Type: `boolean`
-- Default: `true`
+- Type: `string`
+- Default: `VitePress`
 
-Whether to enable "Dark Mode" or not. If the option is set to `true`, it adds `.dark` class to the `<html>` tag depending on the users preference.
-
-It also injects inline script that tries to read users settings from local storage by `vitepress-theme-appearance` key and restores users preferred color mode.
+Title for the site. This will be displayed in the nav bar. Also used as the suffix for all page titles unless `titleTemplate` is defined.
 
 ```ts
 export default {
-  appearance: true
+  title: 'VitePress'
 }
 ```
 
-## lastUpdated
+## titleTemplate
 
-- Type: `boolean`
-- Default: `false`
+- Type: `string | boolean`
 
-Use git commit to get the timestamp. This option enables the default theme to display the page's last updated time. You can customize the text via [`themeConfig.lastUpdatedText`](theme-configs#lastupdatedtext) option.
+The suffix for the title. For example, if you set `title` as `VitePress` and set `titleTemplate` as `My Site`, the html title becomes `VitePress | My Site`.
+
+Set `false` to disable the feature. If the option is `undefined`, then the value of `title` option will be used.
 
 ```ts
 export default {
-  lastUpdated: true
+  title: 'VitePress',
+  titleTemplate: 'Vite & Vue powered static site generator'
 }
 ```
+
