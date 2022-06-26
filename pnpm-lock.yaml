@@ -73,12 +73,12 @@ importers:
     dependencies:
       '@docsearch/css': 3.1.0
       '@docsearch/js': 3.1.0
-      '@vitejs/plugin-vue': 3.0.0-beta.0_ewrwh56wkoslcbbjznqkf4tpoe
+      '@vitejs/plugin-vue': 3.0.0-beta.0_n3u2xkzxj77s3g6wqq3d5bpufe
       '@vue/devtools-api': 6.1.4
       '@vueuse/core': 8.7.5_vue@3.2.37
       body-scroll-lock: 4.0.0-beta.0
       shiki: 0.10.1
-      vite: 3.0.0-beta.1
+      vite: 3.0.0-beta.3
       vue: 3.2.37
     devDependencies:
       '@rollup/plugin-alias': 3.1.9_rollup@2.75.7
@@ -511,8 +511,8 @@ packages:
     resolution: {integrity: sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==}
     dev: true
 
-  /@types/estree/0.0.51:
-    resolution: {integrity: sha512-CuPgU6f3eT/XgKKPqKd/gLZV1Xmvf1a2R5POBOGQa6uv82xpls89HU5zKeVoyR8XzHd1RGNOlQlvUe3CFkjWNQ==}
+  /@types/estree/0.0.52:
+    resolution: {integrity: sha512-BZWrtCU0bMVAIliIV+HJO1f1PR41M7NKjfxrFJwwhKI1KwhwOxYw1SXg9ao+CIMt774nFuGiG6eU+udtbEI9oQ==}
     dev: true
 
   /@types/express-serve-static-core/4.17.29:
@@ -667,14 +667,14 @@ packages:
     resolution: {integrity: sha512-5d2RhCard1nQUC3aHcq/gHzWYO6K0WJmAbjO7mQJgCQKtZpgXxv1rOM6O/dBDhDYYVutk1sciOgNSe+5YyfM8A==}
     dev: false
 
-  /@vitejs/plugin-vue/3.0.0-beta.0_ewrwh56wkoslcbbjznqkf4tpoe:
+  /@vitejs/plugin-vue/3.0.0-beta.0_n3u2xkzxj77s3g6wqq3d5bpufe:
     resolution: {integrity: sha512-t8os1QK1qpovpgYAJSOWYEu+Doy/DZRW1cNwMvUl0qo+Yv7D9a3cxo24oL01lbojcc9ABQhyvUP3BsvFNtriqg==}
     engines: {node: '>=14.18.0'}
     peerDependencies:
       vite: ^3.0.0-alpha
       vue: ^3.2.25
     dependencies:
-      vite: 3.0.0-beta.1
+      vite: 3.0.0-beta.3
       vue: 3.2.37
     dev: false
 
@@ -2147,7 +2147,7 @@ packages:
   /is-reference/1.2.1:
     resolution: {integrity: sha512-U82MsXXiFIrjCK4otLT+o2NA2Cd2g5MLoOVXUZjIOhLurrRxpEXzI8O0KZHr3IjLvlAH1kTPYSuqer5T9ZVBKQ==}
     dependencies:
-      '@types/estree': 0.0.51
+      '@types/estree': 0.0.52
     dev: true
 
   /is-regex/1.1.4:
@@ -3536,8 +3536,8 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vite/3.0.0-beta.1:
-    resolution: {integrity: sha512-7p9hoj4vHQdPWbWIkP33Y1vxD8JbPRHUl5IhO9xs5uuwFwzUiYC27z9bVnmB9VAj170fmI9VNhAJIvC/Kb9unA==}
+  /vite/3.0.0-beta.3:
+    resolution: {integrity: sha512-Zf0wHLSBHyK0uyj+0khIqiKrdO2b72JGULIGqIHE6smBIAHUYDv9xFqfSEkwlNVOM39bbkMJvV99+9i0FdcgIw==}
     engines: {node: '>=14.18.0'}
     hasBin: true
     peerDependencies:
