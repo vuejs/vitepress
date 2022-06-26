@@ -39,9 +39,9 @@ defineProps<{
         </div>
       </div>
     </div>
-    <div v-if="member.sponsor" class="x-sponsor">
-      <VPLink class="x-sponsor-link" :href="member.sponsor" no-icon>
-        <VPIconHeart class="x-sponsor-icon" /> Sponsor
+    <div v-if="member.sponsor" class="vp-sponsor">
+      <VPLink class="vp-sponsor-link" :href="member.sponsor" no-icon>
+        <VPIconHeart class="vp-sponsor-icon" /> Sponsor
       </VPLink>
     </div>
   </article>
@@ -186,7 +186,7 @@ defineProps<{
   height: 56px;
 }
 
-.x-sponsor-link {
+.vp-sponsor-link {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -199,14 +199,14 @@ defineProps<{
   transition: color 0.25s, background-color 0.25s;
 }
 
-.x-sponsor-link:hover,
-.x-sponsor-link:focus {
+.vp-sponsor-link:hover,
+.vp-sponsor-link:focus {
   outline: none;
   color: var(--vp-c-text-dark-1);
   background-color: var(--vp-c-sponsor);
 }
 
-.x-sponsor-icon {
+.vp-sponsor-icon {
   margin-right: 8px;
   width: 16px;
   height: 16px;
