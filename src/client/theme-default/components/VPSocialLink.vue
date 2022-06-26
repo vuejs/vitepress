@@ -8,6 +8,9 @@ import VPIconInstagram from './icons/VPIconInstagram.vue'
 import VPIconSlack from './icons/VPIconSlack.vue'
 import VPIconTwitter from './icons/VPIconTwitter.vue'
 import VPIconYouTube from './icons/VPIconYouTube.vue'
+import VPIconBilibili from './icons/VPIconBilibili.vue'
+import VPIconZhiHu from './icons/VPIconZhiHu.vue'
+import VPIconWeiBo from './icons/VPIconWeiBo.vue'
 
 defineProps<{
   icon: DefaultTheme.SocialLinkIcon
@@ -22,7 +25,10 @@ const icons = {
   linkedin: VPIconLinkedIn,
   slack: VPIconSlack,
   twitter: VPIconTwitter,
-  youtube: VPIconYouTube
+  youtube: VPIconYouTube,
+  bilibili: VPIconBilibili,
+  zhihu: VPIconZhiHu,
+  weibo: VPIconWeiBo,
 }
 </script>
 
