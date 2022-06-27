@@ -97,7 +97,11 @@ export async function createMarkdownToVueRenderFn(
     const recordDeadLink = (url: string) => {
       console.warn(
         c.yellow(
-          `\n(!) Found dead link ${c.cyan(url)} in file ${c.white(c.dim(file))}`
+          `\n(!) Found dead link ${c.cyan(url)} in file ${c.white(
+            c.dim(file)
+          )}\nIf it is intended, you can use:\n    ${c.cyan(
+            `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`
+          )}`
         )
       )
       deadLinks.push(url)
