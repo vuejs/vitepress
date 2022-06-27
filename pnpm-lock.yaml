@@ -73,12 +73,12 @@ importers:
     dependencies:
       '@docsearch/css': 3.1.0
       '@docsearch/js': 3.1.0
-      '@vitejs/plugin-vue': 3.0.0-beta.0_n3u2xkzxj77s3g6wqq3d5bpufe
+      '@vitejs/plugin-vue': 3.0.0-beta.0_6mlnhieunnuqnu3vhxgdm3rp6q
       '@vue/devtools-api': 6.1.4
       '@vueuse/core': 8.7.5_vue@3.2.37
       body-scroll-lock: 4.0.0-beta.0
       shiki: 0.10.1
-      vite: 3.0.0-beta.3
+      vite: 3.0.0-beta.4
       vue: 3.2.37
     devDependencies:
       '@rollup/plugin-alias': 3.1.9_rollup@2.75.7
@@ -667,14 +667,14 @@ packages:
     resolution: {integrity: sha512-5d2RhCard1nQUC3aHcq/gHzWYO6K0WJmAbjO7mQJgCQKtZpgXxv1rOM6O/dBDhDYYVutk1sciOgNSe+5YyfM8A==}
     dev: false
 
-  /@vitejs/plugin-vue/3.0.0-beta.0_n3u2xkzxj77s3g6wqq3d5bpufe:
+  /@vitejs/plugin-vue/3.0.0-beta.0_6mlnhieunnuqnu3vhxgdm3rp6q:
     resolution: {integrity: sha512-t8os1QK1qpovpgYAJSOWYEu+Doy/DZRW1cNwMvUl0qo+Yv7D9a3cxo24oL01lbojcc9ABQhyvUP3BsvFNtriqg==}
     engines: {node: '>=14.18.0'}
     peerDependencies:
       vite: ^3.0.0-alpha
       vue: ^3.2.25
     dependencies:
-      vite: 3.0.0-beta.3
+      vite: 3.0.0-beta.4
       vue: 3.2.37
     dev: false
 
@@ -3512,8 +3512,8 @@ packages:
     engines: {node: '>= 0.8'}
     dev: true
 
-  /vite/2.9.12:
-    resolution: {integrity: sha512-suxC36dQo9Rq1qMB2qiRorNJtJAdxguu5TMvBHOc/F370KvqAe9t48vYp+/TbPKRNrMh/J55tOUmkuIqstZaew==}
+  /vite/2.9.13:
+    resolution: {integrity: sha512-AsOBAaT0AD7Mhe8DuK+/kE4aWYFMx/i0ZNi98hJclxb4e0OhQcZYUrvLjIaQ8e59Ui7txcvKMiJC1yftqpQoDw==}
     engines: {node: '>=12.2.0'}
     hasBin: true
     peerDependencies:
@@ -3536,8 +3536,8 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vite/3.0.0-beta.3:
-    resolution: {integrity: sha512-Zf0wHLSBHyK0uyj+0khIqiKrdO2b72JGULIGqIHE6smBIAHUYDv9xFqfSEkwlNVOM39bbkMJvV99+9i0FdcgIw==}
+  /vite/3.0.0-beta.4:
+    resolution: {integrity: sha512-GAQwNdG0xqsxypUMHAQgxA91nhG0RLm28shBdqGGKgoUo6GHq1aZQM/8FLhq7RWkx8ItTTMWm0SWgG6CL01W4A==}
     engines: {node: '>=14.18.0'}
     hasBin: true
     peerDependencies:
@@ -3590,7 +3590,7 @@ packages:
       local-pkg: 0.4.1
       tinypool: 0.2.1
       tinyspy: 0.3.3
-      vite: 2.9.12
+      vite: 2.9.13
     transitivePeerDependencies:
       - less
       - sass
