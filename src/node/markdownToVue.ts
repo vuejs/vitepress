@@ -99,9 +99,9 @@ export async function createMarkdownToVueRenderFn(
         c.yellow(
           `\n(!) Found dead link ${c.cyan(url)} in file ${c.white(
             c.dim(file)
-          )}\nIf it is intended, you can use ${c.cyan(
-            `<a href=${url} target="_blank" rel="noreferrer noopener">${url}</a>`
-          )} as 1:1 replacement`
+          )}\nIf it is intended, you can use:\n    ${c.cyan(
+            `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`
+          )}`
         )
       )
       deadLinks.push(url)
