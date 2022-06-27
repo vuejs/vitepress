@@ -18,7 +18,7 @@ const isExternal = computed(() => props.href && /^[a-z]+:/i.test(props.href))
     :class="{ link: href }"
     :href="href ? normalizeLink(href) : undefined"
     :target="isExternal ? '_blank' : undefined"
-    :rel="isExternal ? 'noopener noreferrer' : undefined"
+    :rel="isExternal ? 'noreferrer' : undefined"
   >
     <slot />
     <VPIconExternalLink v-if="isExternal && !noIcon" class="icon" />

@@ -33,7 +33,7 @@ const component = computed(() => {
     :class="classes"
     :href="href ? withBase(href) : undefined"
     :target="isExternal ? '_blank' : undefined"
-    :rel="isExternal ? 'noopener noreferrer' : undefined"
+    :rel="isExternal ? 'noreferrer' : undefined"
   >
     {{ text }}
   </component>
