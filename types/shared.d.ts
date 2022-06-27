@@ -57,6 +57,7 @@ export interface SiteData<ThemeConfig = any> {
       label: string
     }
   >
+  cleanUrls: boolean
 }
 
 export type HeadConfig =

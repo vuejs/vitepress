@@ -28,9 +28,10 @@ export async function createMarkdownToVueRenderFn(
   userDefines: Record<string, any> | undefined,
   isBuild = false,
   base = '/',
-  includeLastUpdatedData = false
+  includeLastUpdatedData = false,
+  cleanUrls: boolean = false
 ) {
-  const md = await createMarkdownRenderer(srcDir, options, base)
+  const md = await createMarkdownRenderer(srcDir, options, base, cleanUrls)
 
   pages = pages.map((p) => slash(p.replace(/\.md$/, '')))
 

@@ -45,7 +45,8 @@ export async function createVitePressPlugin(
     vue: userVuePluginOptions,
     vite: userViteConfig,
     pages,
-    ignoreDeadLinks
+    ignoreDeadLinks,
+    cleanUrls
   } = siteConfig
 
   let markdownToVue: Awaited<ReturnType<typeof createMarkdownToVueRenderFn>>
@@ -83,7 +84,8 @@ export async function createVitePressPlugin(
         config.define,
         config.command === 'build',
         config.base,
-        siteConfig.lastUpdated
+        siteConfig.lastUpdated,
+        cleanUrls
       )
     },
 

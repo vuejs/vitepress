@@ -6,6 +6,7 @@ export default defineConfig({
   description: 'Vite & Vue powered static site generator.',
 
   lastUpdated: true,
+  cleanUrls: true,
 
   themeConfig: {
     nav: nav(),

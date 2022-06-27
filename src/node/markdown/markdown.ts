@@ -56,7 +56,8 @@ export type { Header }
 export const createMarkdownRenderer = async (
   srcDir: string,
   options: MarkdownOptions = {},
-  base = '/'
+  base = '/',
+  cleanUrls: boolean = false
 ): Promise<MarkdownRenderer> => {
   const md = MarkdownIt({
     html: true,
@@ -81,7 +82,8 @@ export const createMarkdownRenderer = async (
         rel: 'noopener noreferrer',
         ...options.externalLinks
       },
-      base
+      base,
+      cleanUrls
     )
 
   // 3rd party plugins

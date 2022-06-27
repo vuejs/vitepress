@@ -71,6 +71,14 @@ export interface UserConfig<ThemeConfig = any> {
    * @default false
    */
   ignoreDeadLinks?: boolean
+
+  /**
+   * Always use "clean URLs" without the `.html`.
+   * Also generate static files as `foo/index.html` insted of `foo.html`.
+   * Works with MPA config too.
+   * (default: false)
+   */
+  cleanUrls?: boolean
 }
 
 export type RawConfigExports<ThemeConfig = any> =
@@ -98,6 +106,7 @@ export interface SiteConfig<ThemeConfig = any>
   tempDir: string
   alias: AliasOptions
   pages: string[]
+  cleanUrls: boolean
 }
 
 const resolve = (root: string, file: string) =>
@@ -166,7 +175,8 @@ export async function resolveConfig(
     vite: userConfig.vite,
     shouldPreload: userConfig.shouldPreload,
     mpa: !!userConfig.mpa,
-    ignoreDeadLinks: userConfig.ignoreDeadLinks
+    ignoreDeadLinks: userConfig.ignoreDeadLinks,
+    cleanUrls: !!userConfig.cleanUrls
   }
 
   return config
@@ -270,7 +280,8 @@ export async function resolveSiteData(
     themeConfig: userConfig.themeConfig || {},
     locales: userConfig.locales || {},
     langs: createLangDictionary(userConfig),
-    scrollOffset: userConfig.scrollOffset || 90
+    scrollOffset: userConfig.scrollOffset || 90,
+    cleanUrls: userConfig.cleanUrls || false
   }
 }
 
