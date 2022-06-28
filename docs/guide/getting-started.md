@@ -10,13 +10,13 @@ VitePress is currently in `alpha` status. It is already suitable for out-of-the-
 
 Create and change into a new directory.
 
-```bash
+```sh
 $ mkdir vitepress-starter && cd vitepress-starter
 ```
 
 Then, initialize with your preferred package manager.
 
-```bash
+```sh
 $ yarn init
 ```
 
@@ -24,13 +24,13 @@ $ yarn init
 
 Add VitePress and Vue as dev dependencies for the project.
 
-```bash
+```sh
 $ yarn add --dev vitepress vue
 ```
 
 Create your first document.
 
-```bash
+```sh
 $ mkdir docs && echo '# Hello VitePress' > docs/index.md
 ```
 
@@ -52,7 +52,7 @@ Add some scripts to `package.json`.
 
 Serve the documentation site in the local server.
 
-```bash
+```sh
 $ yarn docs:dev
 ```
 

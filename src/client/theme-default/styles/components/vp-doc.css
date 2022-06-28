@@ -203,7 +203,7 @@
   color: inherit;
   font-weight: 600;
   text-decoration: underline;
-  transition: opacity .25s;
+  transition: opacity 0.25s;
 }
 
 .vp-doc .custom-block a:hover {
@@ -381,7 +381,7 @@
   background-position: 50%;
   background-size: 20px;
   background-repeat: no-repeat;
-  transition: opacity 0.25s;
+  transition: opacity 0.4s;
 }
 
 .vp-doc [class*='language-']:hover > span.copy {
@@ -414,10 +414,10 @@
   color: var(--vp-code-copy-code-active-text);
   background-color: var(--vp-code-copy-code-hover-bg);
   white-space: nowrap;
-  content: "Copied";
+  content: 'Copied';
 }
 
-.vp-doc [class*='language-']:before {
+.vp-doc [class*='language-'] > span.lang {
   position: absolute;
   top: 6px;
   right: 12px;
@@ -425,42 +425,12 @@
   font-size: 12px;
   font-weight: 500;
   color: var(--vp-c-text-dark-3);
-  transition: color 0.5s, opacity 0.5s;
+  transition: color 0.4s, opacity 0.4s;
 }
 
-.vp-doc [class*='language-']:hover:before {
+.vp-doc [class*='language-']:hover > span.lang {
   opacity: 0;
 }
-
-.vp-doc [class~='language-c']:before          { content: 'c'; }
-.vp-doc [class~='language-css']:before        { content: 'css'; }
-.vp-doc [class~='language-go']:before         { content: 'go'; }
-.vp-doc [class~='language-html']:before       { content: 'html'; }
-.vp-doc [class~='language-java']:before       { content: 'java'; }
-.vp-doc [class~='language-javascript']:before { content: 'js'; }
-.vp-doc [class~='language-js']:before         { content: 'js'; }
-.vp-doc [class~='language-json']:before       { content: 'json'; }
-.vp-doc [class~='language-jsx']:before        { content: 'jsx'; }
-.vp-doc [class~='language-less']:before       { content: 'less'; }
-.vp-doc [class~='language-markdown']:before   { content: 'md'; }
-.vp-doc [class~='language-md']:before         { content: 'md' }
-.vp-doc [class~='language-php']:before        { content: 'php'; }
-.vp-doc [class~='language-python']:before     { content: 'py'; }
-.vp-doc [class~='language-py']:before         { content: 'py'; }
-.vp-doc [class~='language-rb']:before         { content: 'rb'; }
-.vp-doc [class~='language-ruby']:before       { content: 'rb'; }
-.vp-doc [class~='language-rust']:before       { content: 'rust'; }
-.vp-doc [class~='language-sass']:before       { content: 'sass'; }
-.vp-doc [class~='language-scss']:before       { content: 'scss'; }
-.vp-doc [class~='language-sh']:before         { content: 'sh'; }
-.vp-doc [class~='language-bash']:before       { content: 'sh'; }
-.vp-doc [class~='language-stylus']:before     { content: 'styl'; }
-.vp-doc [class~='language-vue-html']:before   { content: 'template'; }
-.vp-doc [class~='language-typescript']:before { content: 'ts'; }
-.vp-doc [class~='language-ts']:before         { content: 'ts'; }
-.vp-doc [class~='language-tsx']:before        { content: 'tsx'; }
-.vp-doc [class~='language-vue']:before        { content: 'vue'; }
-.vp-doc [class~='language-yaml']:before       { content: 'yaml'; }
 
 /**
  * Component: Team

@@ -19,7 +19,7 @@ The following guides are based on some shared assumptions:
 
 You may run `yarn docs:build` command to build the docs.
 
-```bash
+```sh
 $ yarn docs:build
 ```
 
@@ -27,7 +27,7 @@ By default, the build output will be placed at `.vitepress/dist`. You may deploy
 
 Once you've built the docs, you may test them locally by running `yarn docs:serve` command.
 
-```bash
+```sh
 $ yarn docs:build
 $ yarn docs:serve
 ```
@@ -56,7 +56,7 @@ Now the `docs:serve` method will launch the server at `http://localhost:8080`.
 
 2. Inside your project, create `deploy.sh` with the following content (with highlighted lines uncommented appropriately), and run it to deploy:
 
-```bash{13,20,23}
+```sh{13,20,23}
 #!/usr/bin/env sh
 
 # abort on errors
@@ -206,7 +206,7 @@ You can also deploy to a [custom domain](https://surge.sh/help/adding-a-custom-d
 
 3. Run `heroku login` and fill in your Heroku credentials:
 
-```bash
+```sh
 $ heroku login
 ```
 
@@ -224,7 +224,7 @@ This is the configuration of your site; read more at [heroku-buildpack-static](h
 
 5. Set up your Heroku git remote:
 
-```bash
+```sh
 # version change
 $ git init
 $ git add .
@@ -239,7 +239,7 @@ $ heroku buildpacks:set https://github.com/heroku/heroku-buildpack-static.git
 
 6. Deploy your site:
 
-```bash
+```sh
 # publish site
 $ git push heroku main
 
