@@ -279,7 +279,7 @@ In addition to a single line, you can also specify multiple single lines, ranges
 **Input**
 
 ````
-```js{1,4,6-7}
+```js{1,4,6-8}
 export default { // Highlighted
   data () {
     return {
@@ -296,7 +296,7 @@ export default { // Highlighted
 
 **Output**
 
-```js{1,4,6-7}
+```js{1,4,6-8}
 export default { // Highlighted
   data () {
     return {
