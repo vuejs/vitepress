@@ -173,3 +173,30 @@ export default {
 }
 ```
 
+## head
+
+- Type: `array`
+- Default: `[]`
+
+Extra tags to inject into the page HTML `<head>`.  You can specify each tag in the form of `[tagName, { attrName: attrValue }, innerHTML?]`. For example, with a structure like this:
+
+```
+.
+├─ docs
+│  ├─ .vitepress
+│  │  └─ config.js
+|  └─ public
+|     └─ logo.png
+└─ package.json
+```
+
+You can add a custom favicon:
+
+```ts
+export default {
+  head: [
+    ['link', { rel: 'icon', href: '/public/logo.png' }]
+  ]
+}
+```
+
