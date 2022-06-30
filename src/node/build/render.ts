@@ -5,7 +5,7 @@ import { pathToFileURL } from 'url'
 import escape from 'escape-html'
 import { normalizePath, transformWithEsbuild } from 'vite'
 import { RollupOutput, OutputChunk, OutputAsset } from 'rollup'
-import { HeadConfig, PageData, createTitle, notFoundPageData } from '../shared'
+import { HeadConfig, PageData, createTitle, notFoundPageData } from '../../shared/shared'
 import { slash } from '../utils/slash'
 import { SiteConfig, resolveSiteDataByRoute } from '../config'
 

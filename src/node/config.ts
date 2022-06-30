@@ -17,12 +17,12 @@ import {
   DefaultTheme,
   APPEARANCE_KEY,
   createLangDictionary
-} from './shared'
+} from '../shared/shared'
 import { resolveAliases, DEFAULT_THEME_PATH } from './alias'
 import { MarkdownOptions } from './markdown/markdown'
 import _debug from 'debug'
 
-export { resolveSiteDataByRoute } from './shared'
+export { resolveSiteDataByRoute } from '../shared/shared'
 
 const debug = _debug('vitepress:config')
 

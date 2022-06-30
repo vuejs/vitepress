@@ -5,7 +5,7 @@
 import MarkdownIt from 'markdown-it'
 import { MarkdownRenderer } from '../markdown'
 import { URL } from 'url'
-import { EXTERNAL_URL_RE } from '../../shared'
+import { EXTERNAL_URL_RE } from '../../../shared/shared'
 
 const indexRE = /(^|.*\/)index.md(#?.*)$/i
 

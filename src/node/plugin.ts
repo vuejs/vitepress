@@ -6,7 +6,7 @@ import { DIST_CLIENT_PATH, APP_PATH, SITE_DATA_REQUEST_PATH } from './alias'
 import { slash } from './utils/slash'
 import { OutputAsset, OutputChunk } from 'rollup'
 import { staticDataPlugin } from './staticDataPlugin'
-import { PageDataPayload } from './shared'
+import { PageDataPayload } from '../shared/shared'
 
 const hashRE = /\.(\w+)\.js$/
 const staticInjectMarkerRE =

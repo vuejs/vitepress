@@ -1,7 +1,7 @@
 import { reactive, inject, markRaw, nextTick, readonly } from 'vue'
 import type { Component, InjectionKey } from 'vue'
-import { notFoundPageData } from '../shared'
-import type { PageData, PageDataPayload } from '../shared'
+import { notFoundPageData } from '../../shared/shared'
+import type { PageData, PageDataPayload } from '../../shared/shared'
 import { inBrowser, withBase } from './utils'
 import { siteDataRef } from './data'
 

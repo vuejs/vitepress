@@ -6,7 +6,7 @@ import {
   SiteData,
   resolveSiteDataByRoute,
   createTitle
-} from '../shared'
+} from '../../shared/shared'
 import { withBase } from './utils'
 
 export const dataSymbol: InjectionKey<VitePressData> = Symbol()
