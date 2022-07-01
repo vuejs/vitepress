@@ -3,7 +3,7 @@
 Prev or Next Link allows you to add buttons at the end of each page that allow you to go to the previous or next topic. To enable it, add `themeConfig.prev` or `themeConfig.next` to your configuration.
 
 
-### prev
+## prev
 
 - Type: `NavLink | string`
 
@@ -40,7 +40,7 @@ prev: ../../guide/getting-started.md
 ---
 ```
 
-### next
+## next
 
 - Type: `NavLink | string`
 
