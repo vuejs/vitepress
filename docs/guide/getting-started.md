@@ -31,26 +31,13 @@ $ yarn add --dev vitepress vue
 ::: details Getting missing peer deps warnings?
 `@docsearch/js` has certain issues with its peer dependencies. If you see some commands failing due to them, you can try this workaround for now:
 
-On Yarn v2/v3, add this inside your rc file (`.yarnrc.yml` by default):
-
-```yaml
-packageExtensions:
-  '@docsearch/react@*':
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-      'react':
-        optional: true
-      'react-dom':
-        optional: true
-```
-
-On PNPM, add this in your `package.json`:
+If using PNPM, add this in your `package.json`:
 
 ```json
 "pnpm": {
   "peerDependencyRules": {
     "ignoreMissing": [
+      "@algolia/client-search",
       "@types/react",
       "react",
       "react-dom"
