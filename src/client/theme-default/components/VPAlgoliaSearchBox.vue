@@ -34,11 +34,7 @@ type DocSearchProps = Parameters<typeof docsearch>[0]
 function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
   // note: multi-lang search support is removed since the theme
   // doesn't support multiple locales as of now.
-  const options = Object.assign<
-    {},
-    DefaultTheme.AlgoliaSearchOptions,
-    DocSearchProps
-  >({}, userOptions, {
+  const options = Object.assign<{}, {}, DocSearchProps>({}, userOptions, {
     container: '#docsearch',
 
     navigator: {
