@@ -57,7 +57,7 @@ export const createMarkdownRenderer = async (
   srcDir: string,
   options: MarkdownOptions = {},
   base = '/',
-  cleanUrls: boolean = false
+  cleanUrls = false
 ): Promise<MarkdownRenderer> => {
   const md = MarkdownIt({
     html: true,
