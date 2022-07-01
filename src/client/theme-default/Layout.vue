@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { provide } from 'vue'
+import { provide, watch } from 'vue'
+import { useRoute } from 'vitepress'
 import { useSidebar, useCloseSidebarOnEscape } from './composables/sidebar'
 import VPSkipLink from './components/VPSkipLink.vue'
 import VPBackdrop from './components/VPBackdrop.vue'
@@ -14,6 +15,12 @@ const {
   open: openSidebar,
   close: closeSidebar
 } = useSidebar()
+
+watch(useRoute(), () => {
+  if (isSidebarOpen) {
+    closeSidebar()
+  }
+})
 
 useCloseSidebarOnEscape(isSidebarOpen, closeSidebar)
 
