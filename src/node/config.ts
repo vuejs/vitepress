@@ -75,8 +75,7 @@ export interface UserConfig<ThemeConfig = any> {
   /**
    * Always use "clean URLs" without the `.html`.
    * Also generate static files as `foo/index.html` insted of `foo.html`.
-   * Works with MPA config too.
-   * (default: false)
+   * @default false
    */
   cleanUrls?: boolean
 }
