@@ -1,6 +1,6 @@
 # Prev Next Link
 
-Prev or Next Link allows you to add buttons at the end of each page that allow you to go to the previous or next topic. To enable it, add themeConfig.prev or themeConfig.next to your configuration.
+Prev or Next Link allows you to add buttons at the end of each page that allow you to go to the previous or next topic. To enable it, add `themeConfig.prev` or `themeConfig.next` to your configuration.
 
 
 ### prev
