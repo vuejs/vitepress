@@ -76,7 +76,18 @@ function handleElement(el: HTMLElement) {
       parent.classList.contains('language-sh') ||
       parent.classList.contains('language-bash')
 
-    let { innerText: text = '' } = parent
+    // Select the <code> element inside the whole code block.
+    // The <code> element is currently nested inside the <pre> tag.
+    const codeBlockBody = parent.querySelector(
+      'pre > code'
+    ) as HTMLElement | null
+
+    let text: string = '' // Give it a default value
+
+    // if the code block body is not null, then we can get the text from it
+    if (codeBlockBody) {
+      text = codeBlockBody?.innerText ?? ''
+    }
 
     if (isShell) {
       text = text.replace(/^ *\$ /gm, '')
