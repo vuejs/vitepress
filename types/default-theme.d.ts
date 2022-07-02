@@ -44,6 +44,11 @@ export namespace DefaultTheme {
     lastUpdatedText?: string
 
     /**
+     * Set custom prev/next placeholders.
+     */
+    docFooter?: DocFooter
+
+    /**
      * The social links to be displayed at the end of the nav bar. Perfect for
      * placing links to social services such as GitHub, Twitter, Facebook, etc.
      */
@@ -155,6 +160,24 @@ export namespace DefaultTheme {
      * @default 'Edit this page'
      */
     text?: string
+  }
+
+  // prev-next -----------------------------------------------------------------
+
+  export interface DocFooter {
+    /**
+     * Custom text for previous page placeholder.
+     *
+     * @default 'Previous Page'
+     */
+    prev?: string
+
+    /**
+     * Custom text for next page placeholder.
+     *
+     * @default 'Next Page'
+     */
+    next?: string
   }
 
   // social link ---------------------------------------------------------------
