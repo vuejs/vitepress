@@ -20,14 +20,14 @@ const closeSideBar = inject('close-sidebar') as () => void
 </script>
 
 <template>
-  <VPLink 
-    :class="{ active: isActive(page.relativePath, item.link) }"
+  <VPLink
+    :class="{ active: isActive(page.relativePath, item.link), offset: depth > 1 }"
     :href="item.link"
     @click="closeSideBar"
     >
     <span 
       class="link-text"
-      :class="{'link-text-light': depth > 1}">
+      :class="{ light: depth > 1 }">
       {{ item.text }}
     </span>
 
@@ -50,8 +50,8 @@ const closeSideBar = inject('close-sidebar') as () => void
   transition: color 0.5s;
 }
 
-.link>.link {
-  padding: 4px 0 4px 20px;
+.link.offset {
+  padding-left: 16px;
 }
 
 .link:hover {
@@ -74,7 +74,7 @@ const closeSideBar = inject('close-sidebar') as () => void
   font-weight: 500;
 }
 
-.link-text-light {
+.link-text.light {
   font-size: 13px;
   font-weight: 400;
 }
