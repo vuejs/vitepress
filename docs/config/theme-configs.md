@@ -247,9 +247,33 @@ export default {
 
 ```ts
 export interface CarbonAds {
-  code: string,
+  code: string
   placement: string
 }
 ```
 
 Learn more in [Theme: Carbon Ads](../guide/theme-carbon-ads)
+
+## docFooter
+
+- Type: `DocFooter`
+
+Can be used to customize text appearing above previous and next links. Helpful if not writing docs in English.
+
+```js
+export default {
+  themeConfig: {
+    docFooter: {
+      prev: 'Pagina prior',
+      next: 'Proxima pagina'
+    }
+  }
+}
+```
+
+```ts
+export interface DocFooter {
+  prev?: string
+  next?: string
+}
+```
