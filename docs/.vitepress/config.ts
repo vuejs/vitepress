@@ -1,5 +1,7 @@
 import { defineConfig } from '../../src/node'
 
+import { version } from '../../package.json'
+
 export default defineConfig({
   lang: 'en-US',
   title: 'VitePress',
@@ -47,9 +49,14 @@ function nav() {
     { text: 'Guide', link: '/guide/what-is-vitepress', activeMatch: '/guide/' },
     { text: 'Configs', link: '/config/introduction', activeMatch: '/config/' },
     {
-      text: 'Changelog',
-      link: 'https://github.com/vuejs/vitepress/blob/main/CHANGELOG.md'
-    }
+      text: version,
+      items: [
+        {
+          text: 'Changelog',
+          link: 'https://github.com/vuejs/vitepress/blob/main/CHANGELOG.md'
+        },
+      ],
+    },
   ]
 }
 
