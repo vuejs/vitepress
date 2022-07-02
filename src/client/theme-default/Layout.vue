@@ -16,11 +16,16 @@ const {
   close: closeSidebar
 } = useSidebar()
 
-watch(useRoute(), () => {
+const handleCloseSideBar = () => {
   if (isSidebarOpen) {
     closeSidebar()
   }
-})
+}
+
+window.addEventListener('hashchange', handleCloseSideBar)
+
+const route = useRoute()
+watch(() => route.path, handleCloseSideBar)
 
 useCloseSidebarOnEscape(isSidebarOpen, closeSidebar)
 
