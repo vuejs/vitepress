@@ -44,7 +44,7 @@ export namespace DefaultTheme {
     lastUpdatedText?: string
 
     /**
-     * Set custom prev/next placeholders.
+     * Set custom prev/next labels.
      */
     docFooter?: DocFooter
 
@@ -166,14 +166,14 @@ export namespace DefaultTheme {
 
   export interface DocFooter {
     /**
-     * Custom text for previous page placeholder.
+     * Custom label for previous page button.
      *
      * @default 'Previous Page'
      */
     prev?: string
 
     /**
-     * Custom text for next page placeholder.
+     * Custom label for next page button.
      *
      * @default 'Next Page'
      */
