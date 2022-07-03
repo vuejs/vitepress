@@ -1,3 +1,7 @@
+---
+title: Theme Configs | Config
+---
+
 # Theme Configs
 
 Theme configs let you customize your theme. You can define theme configs by adding `themeConfig` key to the config file.

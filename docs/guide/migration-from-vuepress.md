@@ -1,3 +1,7 @@
+---
+title: Migration from VuePress | Migrations
+prev: Carbon Ads | Theme
+---
 # Migration from VuePress
 
 ## Markdown

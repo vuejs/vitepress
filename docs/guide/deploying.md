@@ -1,3 +1,8 @@
+---
+title: Deploying | Inroduction
+next: Markdown Extensions | Writing
+---
+
 # Deploying
 
 The following guides are based on some shared assumptions:

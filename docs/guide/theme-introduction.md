@@ -1,3 +1,8 @@
+---
+title: Theme Introduction | Theme
+prev: API Reference | Writing
+---
+
 # Theme Introduction
 
 VitePress comes with its default theme providing many features out of the box. Learn more about each feature on its dedicated page listed below.

@@ -1,3 +1,8 @@
+---
+title: API Reference | Writing
+next: Theme Introduction | Theme
+---
+
 # API Reference
 
 VitePress offers several built in API to let you access app data. VitePress also comes with few built-in component that can be used globally.

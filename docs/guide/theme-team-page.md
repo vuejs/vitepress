@@ -1,3 +1,7 @@
+---
+title: Team Page | Theme
+---
+
 <script setup>
 import { VPTeamMembers } from 'vitepress/theme'
 
@@ -22,7 +26,6 @@ const members = [
   }
 ]
 </script>
-
 # Team Page
 
 If you would like to introduce your team, you may use Team components to construct the Team Page. There're 2 ways of using these components. One is to embbed it in doc page, and another is to create a full Team Page.

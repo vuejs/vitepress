@@ -1,3 +1,7 @@
+---
+title: Frontmatter | Writing
+---
+
 # Frontmatter
 
 Any Markdown file that contains a YAML frontmatter block will be processed by [gray-matter](https://github.com/jonschlinkert/gray-matter). The frontmatter must be at the top of the Markdown file, and must take the form of valid YAML set between triple-dashed lines. Example:

@@ -1,3 +1,7 @@
+---
+title: Configuration | Inroduction
+---
+
 # Configuration
 
 Without any configuration, the page is pretty minimal, and the user has no way to navigate around the site. To customize your site, let's first create a `.vitepress` directory inside your docs directory. This is where all VitePress-specific files will be placed. Your project structure is probably like this:

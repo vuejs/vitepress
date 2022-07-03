@@ -1,3 +1,7 @@
+---
+title: Migration from VitePress 0.x | Migrations
+---
+
 # Migration from VitePress 0.x
 
 If you're coming from VitePress 0.x version, there're several breaking changes due to new features and enhancement. Please follow this guide to see how to migrate your app over to the latest VitePress.

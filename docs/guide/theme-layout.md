@@ -1,4 +1,5 @@
 ---
+title: Layout | Theme
 layout: doc
 ---
 

@@ -1,3 +1,7 @@
+---
+title: Nav | Theme
+---
+
 # Nav
 
 The Nav is the navigation bar displayed on top of the page. It contains the site title, global menu links, etc.

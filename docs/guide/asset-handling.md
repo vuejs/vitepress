@@ -1,3 +1,7 @@
+---
+title: Asset Handling | Writing
+---
+
 # Asset Handling
 
 All Markdown files are compiled into Vue components and processed by [Vite](https://github.com/vitejs/vite). You can, **and should**, reference any assets using relative URLs:

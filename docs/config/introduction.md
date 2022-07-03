@@ -1,3 +1,7 @@
+---
+title: Introduction | Config
+---
+
 # Introduction
 
 Place your configuration file at `.vitepress/config.js`. This is where all VitePress-specific files will be placed.

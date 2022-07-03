@@ -1,3 +1,8 @@
+---
+title: Markdown Extensions | Writing
+prev: Deploying | Inroduction
+---
+
 # Markdown Extensions
 
 VitePress comes with built in Markdown Extensions.
