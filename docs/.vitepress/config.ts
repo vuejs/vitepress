@@ -98,7 +98,8 @@ function sidebarGuide() {
         { text: 'Team Page', link: '/guide/theme-team-page' },
         { text: 'Footer', link: '/guide/theme-footer' },
         { text: 'Search', link: '/guide/theme-search' },
-        { text: 'Carbon Ads', link: '/guide/theme-carbon-ads' }
+        { text: 'Carbon Ads', link: '/guide/theme-carbon-ads' },
+        { text: 'Dark Mode', link: '/guide/theme-appearance' },
       ]
     },
     {
