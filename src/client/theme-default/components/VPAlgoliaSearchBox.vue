@@ -64,7 +64,7 @@ function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
     // @ts-ignore
     hitComponent({ hit, children }) {
       const relativeHit = hit.url.startsWith('http')
-        ? getRelativePath(hit.url as string)
+        ? getRelativePath(hit.url)
         : hit.url
 
       return {

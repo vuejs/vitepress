@@ -20,7 +20,7 @@ export function useFlyout(options: UseFlyoutOptions) {
     listeners++
 
     const unwatch = watch(focusedElement, (el) => {
-      if (el === options.el.value || options.el.value?.contains(el as Node)) {
+      if (el === options.el.value || options.el.value?.contains(el!)) {
         focus.value = true
         options.onFocus?.()
       } else {

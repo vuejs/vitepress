@@ -64,7 +64,7 @@ export function createRouter(
       if (latestPendingPath === pendingPath) {
         latestPendingPath = null
 
-        const { default: comp, __pageData } = page as PageModule
+        const { default: comp, __pageData } = page
         if (!comp) {
           throw new Error(`Invalid route component: ${comp}`)
         }
@@ -82,7 +82,7 @@ export function createRouter(
               try {
                 target = document.querySelector(
                   decodeURIComponent(targetLoc.hash)
-                ) as HTMLElement
+                )
               } catch (e) {
                 console.warn(e)
               }
@@ -190,7 +190,7 @@ export function useRoute(): Route {
 }
 
 function scrollTo(el: HTMLElement, hash: string, smooth = false) {
-  let target: Element | null = null
+  let target: HTMLElement | null = null
 
   try {
     target = el.classList.contains('header-anchor')
@@ -207,12 +207,12 @@ function scrollTo(el: HTMLElement, hash: string, smooth = false) {
         document.querySelector(offset)!.getBoundingClientRect().bottom + 24
     }
     const targetPadding = parseInt(
-      window.getComputedStyle(target as HTMLElement).paddingTop,
+      window.getComputedStyle(target).paddingTop,
       10
     )
     const targetTop =
       window.scrollY +
-      (target as HTMLElement).getBoundingClientRect().top -
+      target.getBoundingClientRect().top -
       offset +
       targetPadding
     // only smooth scroll if distance is smaller than screen height.

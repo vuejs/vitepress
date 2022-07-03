@@ -49,7 +49,7 @@ export function usePrefetch() {
     return
   }
 
-  const rIC = (window as any).requestIdleCallback || setTimeout
+  const rIC = window.requestIdleCallback || setTimeout
   let observer: IntersectionObserver | null = null
 
   const observeLinks = () => {
@@ -73,8 +73,8 @@ export function usePrefetch() {
     })
 
     rIC(() => {
-      document.querySelectorAll('#app a').forEach((link) => {
-        const { target, hostname, pathname } = link as HTMLAnchorElement
+      document.querySelectorAll<HTMLAnchorElement>('#app a').forEach((link) => {
+        const { target, hostname, pathname } = link
         const extMatch = pathname.match(/\.\w+$/)
         if (extMatch && extMatch[0] !== '.html') {
           return

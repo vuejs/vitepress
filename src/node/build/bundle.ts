@@ -139,7 +139,7 @@ export async function bundle(
     }
     // build <script client> bundle
     if (Object.keys(clientJSMap).length) {
-      clientResult = (await buildMPAClient(clientJSMap, config)) as RollupOutput
+      clientResult = await buildMPAClient(clientJSMap, config)
     }
   }
 
@@ -168,7 +168,7 @@ function staticImportedByEntry(
   importStack: string[] = []
 ): boolean {
   if (cache.has(id)) {
-    return cache.get(id) as boolean
+    return !!cache.get(id)
   }
   if (importStack.includes(id)) {
     // circular deps!
