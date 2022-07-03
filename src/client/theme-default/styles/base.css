@@ -107,6 +107,10 @@ samp {
   font-family: var(--vp-font-family-mono);
 }
 
+pre {
+  overflow-x: auto;
+}
+
 img,
 svg,
 video,
