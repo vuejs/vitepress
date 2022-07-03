@@ -168,14 +168,14 @@ export namespace DefaultTheme {
     /**
      * Custom label for previous page button.
      *
-     * @default 'Previous Page'
+     * @default 'Previous page'
      */
     prev?: string
 
     /**
      * Custom label for next page button.
      *
-     * @default 'Next Page'
+     * @default 'Next page'
      */
     next?: string
   }
