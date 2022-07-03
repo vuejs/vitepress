@@ -9,6 +9,10 @@ export default defineConfig({
 
   lastUpdated: true,
 
+  head: [
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }],
+  ],
+
   themeConfig: {
     nav: nav(),
 
