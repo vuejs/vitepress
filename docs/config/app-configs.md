@@ -173,3 +173,17 @@ export default {
 }
 ```
 
+## outlineTitle
+
+- Type: `string`
+
+The suffix for the title of right sidebar, on top of the outline links. This is useful when writing documentation in another language.
+
+If the option is `undefined`, then the value of `outlineTitle` option will be used. Namely, it shows "On this page" text by default.
+
+```ts
+export default {
+  title: 'VitePress',
+  outlineTitle: 'In hac pagina'
+}
+```
