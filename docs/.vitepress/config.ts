@@ -55,6 +55,10 @@ function nav() {
           text: 'Changelog',
           link: 'https://github.com/vuejs/vitepress/blob/main/CHANGELOG.md'
         },
+        {
+          text: 'Contributing',
+          link: 'https://github.com/vuejs/vitepress/blob/main/.github/contributing.md'
+        },
       ],
     },
   ]
