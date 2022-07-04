@@ -44,7 +44,7 @@ export function createRouter(
     const url = new URL(href, fakeHost)
     // ensure correct deep link so page refresh lands on correct files.
     if (!url.pathname.endsWith('/') && !url.pathname.endsWith('.html')) {
-      url.pathname += siteDataRef.value.cleanUrls ? '/' : '.html'
+      url.pathname += siteDataRef.value.cleanUrls ? '' : '.html'
       href = url.pathname + url.search + url.hash
     }
     if (inBrowser) {
