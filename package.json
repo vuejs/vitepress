@@ -12,7 +12,9 @@
       "import": "./dist/node/index.js",
       "require": "./dist/node-cjs/index.cjs"
     },
-    "./dist/client/*": "./dist/client/*"
+    "./dist/client/*": "./dist/client/*",
+    "./client": "./client.d.ts",
+    "./theme": "./theme.d.ts"
   },
   "bin": {
     "vitepress": "bin/vitepress.js"
