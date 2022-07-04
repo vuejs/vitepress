@@ -219,6 +219,14 @@ export async function createVitePressPlugin(
             delete bundle[name]
           }
         }
+
+        if (config.ssr?.format === 'esm') {
+          this.emitFile({
+            type: 'asset',
+            fileName: 'package.json',
+            source: '{ "private": true, "type": "module" }'
+          })
+        }
       } else {
         // client build:
         // for each .md entry chunk, adjust its name to its correct path.

@@ -59,9 +59,9 @@ function nav() {
         {
           text: 'Contributing',
           link: 'https://github.com/vuejs/vitepress/blob/main/.github/contributing.md'
-        },
-      ],
-    },
+        }
+      ]
+    }
   ]
 }
 

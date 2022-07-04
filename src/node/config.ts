@@ -199,7 +199,7 @@ async function resolveUserConfig(
   }
 
   const userConfig: RawConfigExports = configPath
-    ? ((
+    ? (
         await loadConfigFromFile(
           {
             command,
@@ -208,7 +208,7 @@ async function resolveUserConfig(
           configPath,
           root
         )
-      )?.config as any)
+      )?.config!
     : {}
 
   if (configPath) {

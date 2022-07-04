@@ -2,11 +2,12 @@ import {
   App,
   createApp as createClientApp,
   createSSRApp,
+  defineComponent,
   h,
   onMounted,
   watch
 } from 'vue'
-import Theme from '/@theme/index'
+import Theme from '../theme-default'
 import { inBrowser, pathToFile } from './utils'
 import { Router, RouterSymbol, createRouter } from './router'
 import { siteDataRef, useData } from './data'
@@ -18,7 +19,7 @@ import { ClientOnly } from './components/ClientOnly'
 
 const NotFound = Theme.NotFound || (() => '404 Not Found')
 
-const VitePressApp = {
+const VitePressApp = defineComponent({
   name: 'VitePressApp',
   setup() {
     const { site } = useData()
@@ -38,9 +39,11 @@ const VitePressApp = {
       // in prod mode, enable intersectionObserver based pre-fetch
       usePrefetch()
     }
+
+    if (Theme.setup) Theme.setup()
     return () => h(Theme.Layout)
   }
-}
+})
 
 export function createApp() {
   const router = newRouter()

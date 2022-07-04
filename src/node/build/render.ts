@@ -1,4 +1,3 @@
-import { createRequire } from 'module'
 import fs from 'fs-extra'
 import path from 'path'
 import { pathToFileURL } from 'url'
@@ -9,8 +8,6 @@ import { HeadConfig, PageData, createTitle, notFoundPageData } from '../shared'
 import { slash } from '../utils/slash'
 import { SiteConfig, resolveSiteDataByRoute } from '../config'
 
-const require = createRequire(import.meta.url)
-
 export async function renderPage(
   config: SiteConfig,
   page: string, // foo.md
@@ -20,28 +17,16 @@ export async function renderPage(
   pageToHashMap: Record<string, string>,
   hashMapString: string
 ) {
-  const { createApp } = await import(
-    pathToFileURL(path.join(config.tempDir, `app.js`)).toString()
-  )
+  const entryPath = path.join(config.tempDir, 'app.js')
+  const { createApp } = await import(pathToFileURL(entryPath).toString())
   const { app, router } = createApp()
   const routePath = `/${page.replace(/\.md$/, '')}`
   const siteData = resolveSiteDataByRoute(config.site, routePath)
-  router.go(routePath)
-
-  // lazy require server-renderer for production build
-  // prioritize project root over vitepress' own dep
-  let rendererPath
-  try {
-    rendererPath = require.resolve('vue/server-renderer', {
-      paths: [config.root]
-    })
-  } catch (e) {
-    rendererPath = require.resolve('vue/server-renderer')
-  }
+  await router.go(routePath)
 
   // render page
-  const content = await import(pathToFileURL(rendererPath).toString()).then(
-    (r) => r.renderToString(app)
+  const content = await import('vue/server-renderer').then(
+    ({ renderToString: r }) => r(app)
   )
 
   const pageName = page.replace(/\//g, '_')
