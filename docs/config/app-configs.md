@@ -173,3 +173,20 @@ export default {
 }
 ```
 
+## cleanUrls
+
+- Type: `boolean`
+- Default: `false`
+
+When set to `true`, page `foo/bar.md` is generated into `foo/bar/index.html` instead of `foo/bar.html`. This gives URL location look like `foo/bar` instead of `foo/bar.html`.
+
+Also work in MPA mode.
+
+Note: `404.md` page is kept transforming to `404.html` for hosting services.
+
+```ts
+export default {
+  cleanUrls: true
+}
+```
+
