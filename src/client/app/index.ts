@@ -7,7 +7,7 @@ import {
   onMounted,
   watch
 } from 'vue'
-import Theme from '/@theme/index'
+import Theme from '../theme-default'
 import { inBrowser, pathToFile } from './utils'
 import { Router, RouterSymbol, createRouter } from './router'
 import { siteDataRef, useData } from './data'
