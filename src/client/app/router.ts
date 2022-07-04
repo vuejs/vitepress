@@ -106,12 +106,7 @@ export function createRouter(
         }
       }
     } catch (err: any) {
-      if (
-        !err.message.match(/fetch/) &&
-        (siteDataRef.value.cleanUrls
-          ? !href.match(/^[\\/]404$/)
-          : !href.match(/^[\\/]404\.html$/))
-      ) {
+      if (!err.message.match(/fetch/) && !/^[\\/]404(\.html)?$/.test(href)) {
         console.error(err)
       }
 
