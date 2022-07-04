@@ -1,7 +1,10 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
+import { useData } from 'vitepress'
 import { normalizeLink } from '../support/utils'
 import VPIconExternalLink from './icons/VPIconExternalLink.vue'
+
+const { site } = useData()
 
 const props = defineProps<{
   href?: string
@@ -16,7 +19,7 @@ const isExternal = computed(() => props.href && /^[a-z]+:/i.test(props.href))
     :is="href ? 'a' : 'span'"
     class="VPLink"
     :class="{ link: href }"
-    :href="href ? normalizeLink(href) : undefined"
+    :href="href ? normalizeLink(href, site.cleanUrls) : undefined"
     :target="isExternal ? '_blank' : undefined"
     :rel="isExternal ? 'noopener noreferrer' : undefined"
   >
