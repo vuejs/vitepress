@@ -180,14 +180,9 @@ async function resolveUserConfig(
   mode: string
 ): Promise<[UserConfig, string | undefined]> {
   // load user config
-  let configPath
-  for (const ext of supportedConfigExtensions) {
-    const p = resolve(root, `config.${ext}`)
-    if (await fs.pathExists(p)) {
-      configPath = p
-      break
-    }
-  }
+  const configPath = supportedConfigExtensions
+    .map((ext) => resolve(root, `config.${ext}`))
+    .find(fs.pathExistsSync)
 
   const userConfig: RawConfigExports = configPath
     ? ((
