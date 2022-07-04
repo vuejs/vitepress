@@ -43,13 +43,9 @@ export function createRouter(
     // ensure correct deep link so page refresh lands on correct files.
     const url = new URL(href, fakeHost)
     // ensure correct deep link so page refresh lands on correct files.
-    if (siteDataRef.value.cleanUrls) {
-      // Should we replace `/foo.html` -> `/foo` ? :thinking:
-    } else {
-      if (!url.pathname.endsWith('/') && !url.pathname.endsWith('.html')) {
-        url.pathname += '.html'
-        href = url.pathname + url.search + url.hash
-      }
+    if (!url.pathname.endsWith('/') && !url.pathname.endsWith('.html')) {
+      url.pathname += siteDataRef.value.cleanUrls ? '/' : '.html'
+      href = url.pathname + url.search + url.hash
     }
     if (inBrowser) {
       // save scroll position before changing url
