@@ -42,11 +42,23 @@ export function createRouter(
   function go(href: string = inBrowser ? location.href : '/') {
     // ensure correct deep link so page refresh lands on correct files.
     const url = new URL(href, fakeHost)
-    // ensure correct deep link so page refresh lands on correct files.
-    if (!url.pathname.endsWith('/') && !url.pathname.endsWith('.html')) {
-      url.pathname += siteDataRef.value.cleanUrls ? '' : '.html'
+    if (siteDataRef.value.cleanUrls === 'off') {
+      // No clean URLs
+      // Let's add ".html" if missing
+      if (!url.pathname.endsWith('/') && !url.pathname.endsWith('.html')) {
+        url.pathname += '.html'
+        href = url.pathname + url.search + url.hash
+      }
+    } else if (
+      siteDataRef.value.cleanUrls === 'with-trailing-slash' &&
+      !url.pathname.endsWith('/')
+    ) {
+      // Clean URLs with trailing slash
+      // Let's add missing slashes
+      url.pathname += '/'
       href = url.pathname + url.search + url.hash
     }
+
     if (inBrowser) {
       // save scroll position before changing url
       history.replaceState({ scrollPosition: window.scrollY }, document.title)

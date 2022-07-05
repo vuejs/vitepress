@@ -7,6 +7,7 @@ import { RollupOutput, OutputChunk, OutputAsset } from 'rollup'
 import { HeadConfig, PageData, createTitle, notFoundPageData } from '../shared'
 import { slash } from '../utils/slash'
 import { SiteConfig, resolveSiteDataByRoute } from '../config'
+import { cleanUrlsOptions } from '../../../types/shared'
 
 export async function renderPage(
   config: SiteConfig,
@@ -158,12 +159,18 @@ export async function renderPage(
   await fs.writeFile(htmlFileName, html)
 }
 
-function transformHTMLFileName(page: string, shouldCleanUrls: boolean): string {
+function transformHTMLFileName(
+  page: string,
+  shouldCleanUrls: cleanUrlsOptions
+): string {
   if (page === 'index.md' || page.endsWith('/index.md') || page === '404.md') {
     return page.replace(/\.md$/, '.html')
   }
 
-  return page.replace(/\.md$/, shouldCleanUrls ? '/index.html' : '.html')
+  return page.replace(
+    /\.md$/,
+    shouldCleanUrls !== 'off' ? '/index.html' : '.html'
+  )
 }
 
 function resolvePageImports(

@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { withBase } from 'vitepress'
+import { cleanUrlsOptions } from '../../../../types/shared'
 
 export const HASH_RE = /#.*$/
 export const EXT_RE = /(index)?\.(md|html)$/
@@ -69,7 +70,10 @@ export function normalize(path: string): string {
   return decodeURI(path).replace(HASH_RE, '').replace(EXT_RE, '')
 }
 
-export function normalizeLink(url: string, cleanUrls: boolean = false): string {
+export function normalizeLink(
+  url: string,
+  cleanUrls: cleanUrlsOptions = 'off'
+): string {
   if (isExternal(url)) {
     return url
   }
@@ -81,7 +85,11 @@ export function normalizeLink(url: string, cleanUrls: boolean = false): string {
       ? url
       : `${pathname.replace(
           /(\.md)?$/,
-          cleanUrls ? '' : '.html'
+          cleanUrls === 'off'
+            ? '.html'
+            : cleanUrls === 'with-trailing-slash'
+            ? '/'
+            : ''
         )}${search}${hash}`
 
   return withBase(normalizedPath)

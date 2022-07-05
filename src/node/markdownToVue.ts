@@ -9,6 +9,7 @@ import { deeplyParseHeader } from './utils/parseHeader'
 import { getGitTimestamp } from './utils/getGitTimestamp'
 import { createMarkdownRenderer, MarkdownOptions } from './markdown/markdown'
 import _debug from 'debug'
+import { cleanUrlsOptions } from '../../types/shared'
 
 const debug = _debug('vitepress:md')
 const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
@@ -29,7 +30,7 @@ export async function createMarkdownToVueRenderFn(
   isBuild = false,
   base = '/',
   includeLastUpdatedData = false,
-  cleanUrls: boolean = false
+  cleanUrls: cleanUrlsOptions = 'off'
 ) {
   const md = await createMarkdownRenderer(srcDir, options, base, cleanUrls)
 

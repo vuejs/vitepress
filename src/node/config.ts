@@ -21,6 +21,7 @@ import {
 import { resolveAliases, DEFAULT_THEME_PATH } from './alias'
 import { MarkdownOptions } from './markdown/markdown'
 import _debug from 'debug'
+import { cleanUrlsOptions } from '../../types/shared'
 
 export { resolveSiteDataByRoute } from './shared'
 
@@ -77,7 +78,7 @@ export interface UserConfig<ThemeConfig = any> {
    * Also generate static files as `foo/index.html` insted of `foo.html`.
    * @default false
    */
-  cleanUrls?: boolean
+  cleanUrls?: cleanUrlsOptions
 }
 
 export type RawConfigExports<ThemeConfig = any> =
@@ -105,7 +106,7 @@ export interface SiteConfig<ThemeConfig = any>
   tempDir: string
   alias: AliasOptions
   pages: string[]
-  cleanUrls: boolean
+  cleanUrls: cleanUrlsOptions
 }
 
 const resolve = (root: string, file: string) =>
@@ -175,7 +176,7 @@ export async function resolveConfig(
     shouldPreload: userConfig.shouldPreload,
     mpa: !!userConfig.mpa,
     ignoreDeadLinks: userConfig.ignoreDeadLinks,
-    cleanUrls: !!userConfig.cleanUrls
+    cleanUrls: userConfig.cleanUrls || 'off'
   }
 
   return config
@@ -280,7 +281,7 @@ export async function resolveSiteData(
     locales: userConfig.locales || {},
     langs: createLangDictionary(userConfig),
     scrollOffset: userConfig.scrollOffset || 90,
-    cleanUrls: userConfig.cleanUrls || false
+    cleanUrls: userConfig.cleanUrls || 'off'
   }
 }
 

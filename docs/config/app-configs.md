@@ -175,18 +175,26 @@ export default {
 
 ## cleanUrls
 
-- Type: `boolean`
-- Default: `false`
+- Type: `"off" | "with-trailing-slash" | "without-trailing-slash"`
+- Default: `"off"`
 
-When set to `true`, page `foo/bar.md` is generated into `foo/bar/index.html` instead of `foo/bar.html`. This gives URL location look like `foo/bar` instead of `foo/bar.html`.
+When set to `"off"`, page `foo/bar.md` is generated into `foo/bar.html`.
 
-Also work in MPA mode.
+When set to `"with-trailing-slash"` or `"without-trailing-slash"`, page `foo/bar.md` is generated into `foo/bar/index.html`.
 
-Note: `404.md` page is kept transforming to `404.html` for hosting services.
+When set to `"with-trailing-slash"`, URLs will be `foo/bar/`.
+When set to `"without-trailing-slash"`, URLs will be `foo/bar`.
+
+Notes:
+- `404.md` page is kept transforming to `404.html` for hosting services.
+- Also work in MPA mode.
 
 ```ts
 export default {
-  cleanUrls: true
+  cleanUrls: "without-trailing-slash"
 }
 ```
 
+### Hosting on Netlify
+
+Always use `"off"` or `"with-trailing-slash"` when hosted on Netlify.

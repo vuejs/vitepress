@@ -8,7 +8,7 @@ export default defineConfig({
   description: 'Vite & Vue powered static site generator.',
 
   lastUpdated: true,
-  cleanUrls: true,
+  cleanUrls: 'with-trailing-slash',
 
   themeConfig: {
     nav: nav(),

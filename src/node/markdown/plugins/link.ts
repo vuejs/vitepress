@@ -6,6 +6,7 @@ import MarkdownIt from 'markdown-it'
 import { MarkdownRenderer } from '../markdown'
 import { URL } from 'url'
 import { EXTERNAL_URL_RE } from '../../shared'
+import { cleanUrlsOptions } from '../../../../types/shared'
 
 const indexRE = /(^|.*\/)index.md(#?.*)$/i
 
@@ -13,7 +14,7 @@ export const linkPlugin = (
   md: MarkdownIt,
   externalAttrs: Record<string, string>,
   base: string,
-  shouldCleanUrls: boolean
+  shouldCleanUrls: cleanUrlsOptions
 ) => {
   md.renderer.rules.link_open = (tokens, idx, options, env, self) => {
     const token = tokens[idx]
@@ -51,7 +52,10 @@ export const linkPlugin = (
     return self.renderToken(tokens, idx, options)
   }
 
-  function normalizeHref(hrefAttr: [string, string], shouldCleanUrls: boolean) {
+  function normalizeHref(
+    hrefAttr: [string, string],
+    shouldCleanUrls: cleanUrlsOptions
+  ) {
     let url = hrefAttr[1]
 
     const indexMatch = url.match(indexRE)
@@ -62,11 +66,18 @@ export const linkPlugin = (
       let cleanUrl = url.replace(/[?#].*$/, '').replace(/\?.*$/, '')
       // transform foo.md -> foo[.html]
       if (cleanUrl.endsWith('.md')) {
-        cleanUrl = cleanUrl.replace(/\.md$/, shouldCleanUrls ? '' : '.html')
+        cleanUrl = cleanUrl.replace(
+          /\.md$/,
+          shouldCleanUrls === 'off'
+            ? '.html'
+            : shouldCleanUrls === 'with-trailing-slash'
+            ? '/'
+            : ''
+        )
       }
       // transform ./foo -> ./foo[.html]
       if (
-        !shouldCleanUrls &&
+        shouldCleanUrls === 'off' &&
         !cleanUrl.endsWith('.html') &&
         !cleanUrl.endsWith('/')
       ) {

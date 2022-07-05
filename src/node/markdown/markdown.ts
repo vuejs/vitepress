@@ -18,6 +18,7 @@ import anchor from 'markdown-it-anchor'
 import attrs from 'markdown-it-attrs'
 import emoji from 'markdown-it-emoji'
 import toc from 'markdown-it-toc-done-right'
+import { cleanUrlsOptions } from '../../../types/shared'
 
 export type ThemeOptions = Theme | { light: Theme; dark: Theme }
 
@@ -57,7 +58,7 @@ export const createMarkdownRenderer = async (
   srcDir: string,
   options: MarkdownOptions = {},
   base = '/',
-  cleanUrls = false
+  cleanUrls: cleanUrlsOptions = 'off'
 ): Promise<MarkdownRenderer> => {
   const md = MarkdownIt({
     html: true,

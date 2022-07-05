@@ -18,6 +18,11 @@ export interface Header {
   slug: string
 }
 
+export type cleanUrlsOptions =
+  | 'off'
+  | 'with-trailing-slash'
+  | 'without-trailing-slash'
+
 export interface SiteData<ThemeConfig = any> {
   base: string
 
@@ -57,7 +62,7 @@ export interface SiteData<ThemeConfig = any> {
       label: string
     }
   >
-  cleanUrls: boolean
+  cleanUrls: cleanUrlsOptions
 }
 
 export type HeadConfig =
