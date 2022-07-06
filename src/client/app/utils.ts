@@ -22,13 +22,8 @@ export function withBase(path: string) {
 export function pathToFile(path: string): string {
   let pagePath = path.replace(/\.html$/, '')
   pagePath = decodeURIComponent(pagePath)
-  if (siteDataRef.value.cleanUrls === 'off' && pagePath.endsWith('/')) {
+  if (pagePath.endsWith('/')) {
     pagePath += 'index'
-  } else if (
-    siteDataRef.value.cleanUrls === 'with-trailing-slash' &&
-    pagePath.endsWith('/')
-  ) {
-    pagePath = pagePath.slice(0, -1)
   }
 
   if (import.meta.env.DEV) {

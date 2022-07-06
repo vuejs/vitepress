@@ -85,11 +85,7 @@ export function normalizeLink(
       ? url
       : `${pathname.replace(
           /(\.md)?$/,
-          cleanUrls === 'off'
-            ? '.html'
-            : cleanUrls === 'with-trailing-slash'
-            ? '/'
-            : ''
+          cleanUrls === 'off' ? '.html' : ''
         )}${search}${hash}`
 
   return withBase(normalizedPath)

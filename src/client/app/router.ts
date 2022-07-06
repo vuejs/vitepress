@@ -49,14 +49,6 @@ export function createRouter(
         url.pathname += '.html'
         href = url.pathname + url.search + url.hash
       }
-    } else if (
-      siteDataRef.value.cleanUrls === 'with-trailing-slash' &&
-      !url.pathname.endsWith('/')
-    ) {
-      // Clean URLs with trailing slash
-      // Let's add missing slashes
-      url.pathname += '/'
-      href = url.pathname + url.search + url.hash
     }
 
     if (inBrowser) {

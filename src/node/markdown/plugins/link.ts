@@ -68,11 +68,7 @@ export const linkPlugin = (
       if (cleanUrl.endsWith('.md')) {
         cleanUrl = cleanUrl.replace(
           /\.md$/,
-          shouldCleanUrls === 'off'
-            ? '.html'
-            : shouldCleanUrls === 'with-trailing-slash'
-            ? '/'
-            : ''
+          shouldCleanUrls === 'off' ? '.html' : ''
         )
       }
       // transform ./foo -> ./foo[.html]

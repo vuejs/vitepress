@@ -18,10 +18,7 @@ export interface Header {
   slug: string
 }
 
-export type cleanUrlsOptions =
-  | 'off'
-  | 'with-trailing-slash'
-  | 'without-trailing-slash'
+export type cleanUrlsOptions = 'off' | 'with-subfolders'
 
 export interface SiteData<ThemeConfig = any> {
   base: string
