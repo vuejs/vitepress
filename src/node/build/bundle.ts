@@ -72,8 +72,7 @@ export async function bundle(
           ...(ssr
             ? {
                 entryFileNames: `[name].js`,
-                chunkFileNames: `[name].[hash].js`,
-                assetFileNames: `[name].[ext]`
+                chunkFileNames: `[name].[hash].js`
               }
             : {
                 chunkFileNames(chunk) {
