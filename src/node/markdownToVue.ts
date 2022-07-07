@@ -68,7 +68,12 @@ export async function createMarkdownToVueRenderFn(
     md.__path = file
     md.__relativePath = relativePath
 
-    const html = md.render(content, { path: file, relativePath, cleanUrls })
+    const html = md.render(content, {
+      path: file,
+      relativePath,
+      cleanUrls,
+      frontmatter
+    })
     const data = md.__data
 
     // validate data.links
