@@ -49,7 +49,7 @@ If your site is to be served at a subdirectory (`https://example.com/subdir/`), 
 
   Now the `docs:serve` method will launch the server at `http://localhost:8080`.
 
-## Netlify, Vercel, AWS Amplify, Cloudflare Pages
+## Netlify, Vercel, AWS Amplify, Cloudflare Pages, Render
 
 Set up a new project and change these settings using your dashboard:
 
