@@ -55,6 +55,33 @@ export default {
 }
 ```
 
+## head
+
+- Type: `[string, Record<string, string>]` or `[string, Record<string, string>, string]`
+- Default: `none`
+
+This will render entries in the `<head>` tag in the page HTML.
+
+```ts
+export default {
+ head: [
+    ['link', { rel: 'icon', href: '/logo.svg', type: 'image/svg+xml' }],
+    ['meta', { property: 'og:title', content: 'VitePress' }],
+ ]
+}
+```
+
+If needed this can also be used to include script tags.
+
+```ts
+export default {
+ head: [
+    [ 'script', { async: 'async', src: 'https://external-script' } ],
+    [ 'script', {}, `console.log('VitePress!')`] // inside script tag.
+ ]
+}
+```
+
 ## ignoreDeadLinks
 
 - Type: `boolean`
@@ -172,4 +199,3 @@ export default {
   titleTemplate: 'Vite & Vue powered static site generator'
 }
 ```
-
