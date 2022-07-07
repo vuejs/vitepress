@@ -129,6 +129,16 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
        - main
    ```
 
+## Azure Static Web Apps
+
+1. Follow the [official documentation](https://docs.microsoft.com/en-us/azure/static-web-apps/build-configuration).
+
+2. Set these values in your configuration file (and remove the ones you don't require, like `api_location`):
+
+   - **`app_location`**: `/`
+   - **`output_location`**: `docs/.vitepress/dist`
+   - **`app_build_command`**: `yarn docs:build`
+
 ## Firebase
 
 1. Create `firebase.json` and `.firebaserc` at the root of your project:
@@ -170,7 +180,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
 ## Heroku
 
-1. Folow documentation and guide given in [`heroku-buildpack-static`](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-static).
+1. Follow documentation and guide given in [`heroku-buildpack-static`](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-static).
 
 2. Create a file called `static.json` in the root of your project with the below content:
 
