@@ -134,10 +134,9 @@ interface SidebarItem {
 ## outlineTitle
 
 - Type: `string`
+- Default: `On this page`
 
-Can be used to customize title of right sidebar, on top of the outline links. This is useful when writing documentation in another language.
-
-If the option is `undefined`, then the value of `outlineTitle` option will be used. Namely, it shows "On this page" text by default.
+Can be used to customize the title of the right sidebar (on the top of outline links). This is useful when writing documentation in another language.
 
 ```js
 export default {
