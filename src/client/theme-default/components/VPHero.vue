@@ -301,13 +301,13 @@ defineProps<{
 }
 
 @media (min-width: 640px) {
-  .image-src {
+  :deep(.image-src) {
     max-width: 256px;
   }
 }
 
 @media (min-width: 960px) {
-  .image-src {
+  :deep(.image-src) {
     max-width: 320px;
   }
 }

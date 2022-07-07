@@ -19,5 +19,5 @@ If you're coming from VitePress 0.x version, there're several breaking changes d
 
 ## Frontmatter Config
 
-- `home: true` option has changed to `layout: home`. Also, many Homepage related settings have been modified to provide additional features. See [Homepage guide](./theme-homepage) for details.
+- `home: true` option has changed to `layout: home`. Also, many Homepage related settings have been modified to provide additional features. See [Home Page guide](./theme-home-page) for details.
 - `footer` option is moved to [`themeConfig.footer`](../config/theme-configs#footer).

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { withBase } from 'vitepress'
+import { normalizeLink } from '../support/utils'
 
 const props = defineProps<{
   tag?: string
@@ -31,7 +31,7 @@ const component = computed(() => {
     :is="component"
     class="VPButton"
     :class="classes"
-    :href="href ? withBase(href) : undefined"
+    :href="href ? normalizeLink(href) : undefined"
     :target="isExternal ? '_blank' : undefined"
     :rel="isExternal ? 'noopener noreferrer' : undefined"
   >

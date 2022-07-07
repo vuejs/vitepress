@@ -72,6 +72,14 @@ function onBlur() {
   fill: var(--vp-c-text-2);
 }
 
+.VPFlyout.active .text {
+  color: var(--vp-c-brand);
+}
+
+.VPFlyout.active:hover .text {
+  color: var(--vp-c-brand-dark);
+}
+
 .VPFlyout:hover .menu,
 .button[aria-expanded="true"] + .menu {
   opacity: 1;

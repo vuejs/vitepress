@@ -16,6 +16,7 @@ function trimChar(str: string, char: string) {
 }
 
 export interface ServeOptions {
+  base?: string
   root?: string
   port?: number
 }
@@ -23,7 +24,7 @@ export interface ServeOptions {
 export async function serve(options: ServeOptions = {}) {
   const port = options.port !== undefined ? options.port : 5000
   const site = await resolveConfig(options.root, 'serve', 'production')
-  const base = trimChar(site?.site?.base ?? '', '/')
+  const base = trimChar(options?.base ?? site?.site?.base ?? '', '/')
 
   const compress = compression()
   const serve = sirv(site.outDir, {
