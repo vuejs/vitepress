@@ -1,5 +1,5 @@
 import type { DefaultTheme } from 'vitepress/theme'
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useData, useRoute } from 'vitepress'
 
 export function useNav() {
@@ -25,6 +25,9 @@ export function useNav() {
   function closeScreenOnTabletWindow() {
     window.outerWidth >= 768 && closeScreen()
   }
+
+  const route = useRoute()
+  watch(() => route.path, closeScreen)
 
   return {
     isScreenOpen,
