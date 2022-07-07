@@ -130,6 +130,22 @@ interface SidebarItem {
 }
 ```
 
+
+## outlineTitle
+
+- Type: `string`
+- Default: `On this page`
+
+Can be used to customize the title of the right sidebar (on the top of outline links). This is useful when writing documentation in another language.
+
+```js
+export default {
+  themeConfig: {
+    outlineTitle: 'In hac pagina'
+  }
+}
+```
+
 ## socialLinks
 
 - Type: `SocialLink`
