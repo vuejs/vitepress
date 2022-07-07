@@ -7,9 +7,10 @@ export const imagePlugin = (md: MarkdownIt) => {
   const imageRule = md.renderer.rules.image!
   md.renderer.rules.image = (tokens, idx, options, env, self) => {
     const token = tokens[idx]
-    const url = token.attrGet('src')
-    if (url && !EXTERNAL_URL_RE.test(url) && !/^\.?\//.test(url)) {
-      token.attrSet('src', './' + url)
+    let url = token.attrGet('src')
+    if (url && !EXTERNAL_URL_RE.test(url)) {
+      if (!/^\.?\//.test(url)) url = './' + url
+      token.attrSet('src', decodeURIComponent(url))
     }
     return imageRule(tokens, idx, options, env, self)
   }
