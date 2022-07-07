@@ -3,13 +3,12 @@ import path from 'path'
 import c from 'picocolors'
 import matter from 'gray-matter'
 import LRUCache from 'lru-cache'
-import { PageData, HeadConfig, EXTERNAL_URL_RE } from './shared'
+import { PageData, HeadConfig, EXTERNAL_URL_RE, CleanUrlsMode } from './shared'
 import { slash } from './utils/slash'
 import { deeplyParseHeader } from './utils/parseHeader'
 import { getGitTimestamp } from './utils/getGitTimestamp'
 import { createMarkdownRenderer, MarkdownOptions } from './markdown/markdown'
 import _debug from 'debug'
-import { cleanUrlsOptions } from '../../types/shared'
 
 const debug = _debug('vitepress:md')
 const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
@@ -30,9 +29,9 @@ export async function createMarkdownToVueRenderFn(
   isBuild = false,
   base = '/',
   includeLastUpdatedData = false,
-  cleanUrls: cleanUrlsOptions = 'off'
+  cleanUrls: CleanUrlsMode = 'disabled'
 ) {
-  const md = await createMarkdownRenderer(srcDir, options, base, cleanUrls)
+  const md = await createMarkdownRenderer(srcDir, options, base)
 
   pages = pages.map((p) => slash(p.replace(/\.md$/, '')))
 
@@ -69,7 +68,7 @@ export async function createMarkdownToVueRenderFn(
     md.__path = file
     md.__relativePath = relativePath
 
-    const html = md.render(content)
+    const html = md.render(content, { path: file, relativePath, cleanUrls })
     const data = md.__data
 
     // validate data.links

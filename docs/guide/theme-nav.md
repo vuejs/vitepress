@@ -4,7 +4,7 @@ The Nav is the navigation bar displayed on top of the page. It contains the site
 
 ## Site Title and Logo
 
-By default, nav shows the title of the site refferencing [`config.title`](../config/app-configs.html#title) value. If you would like to change what's displayed on nav, you may define custom text in `themeConfig.siteTitle` option.
+By default, nav shows the title of the site refferencing [`config.title`](../config/app-configs#title) value. If you would like to change what's displayed on nav, you may define custom text in `themeConfig.siteTitle` option.
 
 ```js
 export default {

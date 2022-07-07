@@ -40,17 +40,15 @@ export function createRouter(
   const route = reactive(getDefaultRoute())
 
   function go(href: string = inBrowser ? location.href : '/') {
-    // ensure correct deep link so page refresh lands on correct files.
     const url = new URL(href, fakeHost)
-    if (siteDataRef.value.cleanUrls === 'off') {
-      // No clean URLs
-      // Let's add ".html" if missing
+    if (siteDataRef.value.cleanUrls === 'disabled') {
+      // ensure correct deep link so page refresh lands on correct files.
+      // if cleanUrls is enabled, the server should handle this
       if (!url.pathname.endsWith('/') && !url.pathname.endsWith('.html')) {
         url.pathname += '.html'
         href = url.pathname + url.search + url.hash
       }
     }
-
     if (inBrowser) {
       // save scroll position before changing url
       history.replaceState({ scrollPosition: window.scrollY }, document.title)
@@ -101,10 +99,7 @@ export function createRouter(
         }
       }
     } catch (err: any) {
-      if (
-        !err.message.match(/fetch/) &&
-        !/^[\\/]404[\\/]?(\.html)?$/.test(href)
-      ) {
+      if (!/fetch/.test(err.message) && !/^\/404(\.html|\/)?$/.test(href)) {
         console.error(err)
       }
 

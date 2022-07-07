@@ -8,7 +8,7 @@ import VPIconEdit from './icons/VPIconEdit.vue'
 import VPLink from './VPLink.vue'
 import VPDocFooterLastUpdated from './VPDocFooterLastUpdated.vue'
 
-const { site, theme, page, frontmatter } = useData()
+const { theme, page, frontmatter } = useData()
 
 const editLink = useEditLink()
 const control = usePrevNext()
@@ -35,13 +35,13 @@ const hasLastUpdated = computed(() => {
 
     <div v-if="control.prev || control.next" class="prev-next">
       <div class="pager">
-        <a v-if="control.prev" class="pager-link prev" :href="normalizeLink(control.prev.link, site.cleanUrls)">
+        <a v-if="control.prev" class="pager-link prev" :href="normalizeLink(control.prev.link)">
           <span class="desc">{{ theme.docFooter?.prev ?? 'Previous page' }}</span>
           <span class="title">{{ control.prev.text }} </span>
         </a>
       </div>
       <div class="pager" :class="{ 'has-prev': control.prev }">
-        <a v-if="control.next" class="pager-link next" :href="normalizeLink(control.next.link, site.cleanUrls)">
+        <a v-if="control.next" class="pager-link next" :href="normalizeLink(control.next.link)">
           <span class="desc">{{ theme.docFooter?.next ?? 'Next page' }}</span>
           <span class="title">{{ control.next.text }}</span>
         </a>

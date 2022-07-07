@@ -16,12 +16,12 @@ import {
   LocaleConfig,
   DefaultTheme,
   APPEARANCE_KEY,
-  createLangDictionary
+  createLangDictionary,
+  CleanUrlsMode
 } from './shared'
 import { resolveAliases, DEFAULT_THEME_PATH } from './alias'
 import { MarkdownOptions } from './markdown/markdown'
 import _debug from 'debug'
-import { cleanUrlsOptions } from '../../types/shared'
 
 export { resolveSiteDataByRoute } from './shared'
 
@@ -61,7 +61,7 @@ export interface UserConfig<ThemeConfig = any> {
   scrollOffset?: number | string
 
   /**
-   * Enable MPA / zero-JS mode
+   * Enable MPA / zero-JS mode.
    * @experimental
    */
   mpa?: boolean
@@ -74,11 +74,17 @@ export interface UserConfig<ThemeConfig = any> {
   ignoreDeadLinks?: boolean
 
   /**
-   * Always use "clean URLs" without the `.html`.
-   * Also generate static files as `foo/index.html` insted of `foo.html`.
-   * @default false
+   * @experimental
+   * Remove '.html' from URLs and generate clean directory structure.
+   *
+   * Available Modes:
+   * - `disabled`: generates `/foo.html` for every `/foo.md` and shows `/foo.html` in browser
+   * - `without-subfolders`: generates `/foo.html` for every `/foo.md` but shows `/foo` in browser
+   * - `with-subfolders`: generates `/foo/index.html` for every `/foo.md` and shows `/foo` in browser
+   *
+   * @default 'disabled'
    */
-  cleanUrls?: cleanUrlsOptions
+  cleanUrls?: CleanUrlsMode
 }
 
 export type RawConfigExports<ThemeConfig = any> =
@@ -96,6 +102,7 @@ export interface SiteConfig<ThemeConfig = any>
     | 'mpa'
     | 'lastUpdated'
     | 'ignoreDeadLinks'
+    | 'cleanUrls'
   > {
   root: string
   srcDir: string
@@ -106,7 +113,6 @@ export interface SiteConfig<ThemeConfig = any>
   tempDir: string
   alias: AliasOptions
   pages: string[]
-  cleanUrls: cleanUrlsOptions
 }
 
 const resolve = (root: string, file: string) =>
@@ -176,7 +182,7 @@ export async function resolveConfig(
     shouldPreload: userConfig.shouldPreload,
     mpa: !!userConfig.mpa,
     ignoreDeadLinks: userConfig.ignoreDeadLinks,
-    cleanUrls: userConfig.cleanUrls || 'off'
+    cleanUrls: userConfig.cleanUrls || 'disabled'
   }
 
   return config
@@ -281,7 +287,7 @@ export async function resolveSiteData(
     locales: userConfig.locales || {},
     langs: createLangDictionary(userConfig),
     scrollOffset: userConfig.scrollOffset || 90,
-    cleanUrls: userConfig.cleanUrls || 'off'
+    cleanUrls: userConfig.cleanUrls || 'disabled'
   }
 }
 

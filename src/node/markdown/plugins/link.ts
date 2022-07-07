@@ -5,16 +5,14 @@
 import MarkdownIt from 'markdown-it'
 import { MarkdownRenderer } from '../markdown'
 import { URL } from 'url'
-import { EXTERNAL_URL_RE } from '../../shared'
-import { cleanUrlsOptions } from '../../../../types/shared'
+import { EXTERNAL_URL_RE, CleanUrlsMode } from '../../shared'
 
 const indexRE = /(^|.*\/)index.md(#?.*)$/i
 
 export const linkPlugin = (
   md: MarkdownIt,
   externalAttrs: Record<string, string>,
-  base: string,
-  shouldCleanUrls: cleanUrlsOptions
+  base: string
 ) => {
   md.renderer.rules.link_open = (tokens, idx, options, env, self) => {
     const token = tokens[idx]
@@ -39,7 +37,7 @@ export const linkPlugin = (
         // links to files (other than html/md)
         !/\.(?!html|md)\w+($|\?)/i.test(url)
       ) {
-        normalizeHref(hrefAttr, shouldCleanUrls)
+        normalizeHref(hrefAttr, env.cleanUrl)
       }
 
       // encode vite-specific replace strings in case they appear in URLs
@@ -54,7 +52,7 @@ export const linkPlugin = (
 
   function normalizeHref(
     hrefAttr: [string, string],
-    shouldCleanUrls: cleanUrlsOptions
+    shouldCleanUrls: CleanUrlsMode
   ) {
     let url = hrefAttr[1]
 
@@ -63,17 +61,17 @@ export const linkPlugin = (
       const [, path, hash] = indexMatch
       url = path + hash
     } else {
-      let cleanUrl = url.replace(/[?#].*$/, '').replace(/\?.*$/, '')
+      let cleanUrl = url.replace(/[?#].*$/, '')
       // transform foo.md -> foo[.html]
       if (cleanUrl.endsWith('.md')) {
         cleanUrl = cleanUrl.replace(
           /\.md$/,
-          shouldCleanUrls === 'off' ? '.html' : ''
+          shouldCleanUrls === 'disabled' ? '.html' : ''
         )
       }
       // transform ./foo -> ./foo[.html]
       if (
-        shouldCleanUrls === 'off' &&
+        shouldCleanUrls === 'disabled' &&
         !cleanUrl.endsWith('.html') &&
         !cleanUrl.endsWith('/')
       ) {

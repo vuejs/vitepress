@@ -7,7 +7,6 @@ import { RollupOutput, OutputChunk, OutputAsset } from 'rollup'
 import { HeadConfig, PageData, createTitle, notFoundPageData } from '../shared'
 import { slash } from '../utils/slash'
 import { SiteConfig, resolveSiteDataByRoute } from '../config'
-import { cleanUrlsOptions } from '../../../types/shared'
 
 export async function renderPage(
   config: SiteConfig,
@@ -151,26 +150,17 @@ export async function renderPage(
     ${inlinedScript}
   </body>
 </html>`.trim()
+  const createSubDirectory =
+    config.cleanUrls === 'with-subfolders' &&
+    !/(^|\/)(index|404).md$/.test(page)
+
   const htmlFileName = path.join(
     config.outDir,
-    transformHTMLFileName(page, config.cleanUrls)
+    page.replace(/\.md$/, createSubDirectory ? '/index.html' : '.html')
   )
+
   await fs.ensureDir(path.dirname(htmlFileName))
   await fs.writeFile(htmlFileName, html)
-}
-
-function transformHTMLFileName(
-  page: string,
-  shouldCleanUrls: cleanUrlsOptions
-): string {
-  if (page === 'index.md' || page.endsWith('/index.md') || page === '404.md') {
-    return page.replace(/\.md$/, '.html')
-  }
-
-  return page.replace(
-    /\.md$/,
-    shouldCleanUrls !== 'off' ? '/index.html' : '.html'
-  )
 }
 
 function resolvePageImports(
