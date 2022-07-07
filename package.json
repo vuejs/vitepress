@@ -75,7 +75,7 @@
     "@docsearch/js": "^3.1.1",
     "@vitejs/plugin-vue": "^3.0.0-beta.1",
     "@vue/devtools-api": "^6.2.0",
-    "@vueuse/core": "^8.7.5",
+    "@vueuse/core": "^8.9.0",
     "body-scroll-lock": "^4.0.0-beta.0",
     "shiki": "^0.10.1",
     "vite": "^3.0.0-beta.7",
@@ -97,7 +97,7 @@
     "@types/markdown-it": "^12.2.3",
     "@types/micromatch": "^4.0.2",
     "@types/minimist": "^1.2.2",
-    "@types/node": "^18.0.1",
+    "@types/node": "^18.0.3",
     "@types/polka": "^0.5.4",
     "@types/prompts": "^2.0.14",
     "chokidar": "^3.5.3",
@@ -138,8 +138,8 @@
     "sirv": "^2.0.2",
     "supports-color": "^9.2.2",
     "typescript": "^4.7.4",
-    "vitest": "^0.17.0",
-    "vue-tsc": "^0.38.2"
+    "vitest": "^0.17.1",
+    "vue-tsc": "^0.38.3"
   },
   "pnpm": {
     "peerDependencyRules": {
