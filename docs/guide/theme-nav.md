@@ -162,3 +162,4 @@ The list of supported icons are shown below.
 - `slack`
 - `twitter`
 - `youtube`
+- `telegram`
