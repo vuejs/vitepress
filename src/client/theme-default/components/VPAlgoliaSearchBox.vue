@@ -6,7 +6,7 @@ import { useRouter, useRoute, useData } from 'vitepress'
 
 const router = useRouter()
 const route = useRoute()
-const { theme } = useData()
+const { theme, site } = useData()
 
 onMounted(() => {
   initialize(theme.value.algolia)
@@ -120,7 +120,12 @@ function isSpecialClick(event: MouseEvent) {
 function getRelativePath(absoluteUrl: string) {
   const { pathname, hash } = new URL(absoluteUrl)
 
-  return pathname + hash
+  return (
+    pathname.replace(
+      /\.html$/,
+      site.value.cleanUrls !== 'disabled' ? '' : '.html'
+    ) + hash
+  )
 }
 </script>
 

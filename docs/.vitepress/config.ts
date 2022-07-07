@@ -8,6 +8,7 @@ export default defineConfig({
   description: 'Vite & Vue powered static site generator.',
 
   lastUpdated: true,
+  cleanUrls: 'without-subfolders',
 
   themeConfig: {
     nav: nav(),
