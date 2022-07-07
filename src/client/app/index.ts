@@ -15,6 +15,7 @@ import { usePrefetch } from './composables/preFetch'
 import { dataSymbol, initData } from './data'
 import { Content } from './components/Content'
 import { ClientOnly } from './components/ClientOnly'
+import { Mermaid } from './components/Mermaid'
 
 const NotFound = Theme.NotFound || (() => '404 Not Found')
 
@@ -55,6 +56,7 @@ export function createApp() {
   // install global components
   app.component('Content', Content)
   app.component('ClientOnly', ClientOnly)
+  app.component('Mermaid', Mermaid)
 
   // expose $frontmatter
   Object.defineProperty(app.config.globalProperties, '$frontmatter', {

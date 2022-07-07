@@ -119,7 +119,8 @@ export async function createMarkdownToVueRenderFn(
       description: inferDescription(frontmatter),
       frontmatter,
       headers: data.headers || [],
-      relativePath
+      relativePath,
+      mermaidConfig: options.mermaid
     }
 
     if (includeLastUpdatedData) {

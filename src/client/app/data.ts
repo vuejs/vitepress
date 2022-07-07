@@ -20,6 +20,7 @@ export interface VitePressData<T = any> {
   description: Ref<string>
   lang: Ref<string>
   localePath: Ref<string>
+  mermaidConfig: Ref<ReturnType<mermaid.Mermaid['mermaidAPI']['getConfig']>>
 }
 
 // site data is a singleton
@@ -62,7 +63,8 @@ export function initData(route: Route): VitePressData {
     }),
     description: computed(() => {
       return route.data.description || site.value.description
-    })
+    }),
+    mermaidConfig: computed(() => route.data.mermaidConfig || {})
   }
 }
 

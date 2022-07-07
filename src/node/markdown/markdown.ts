@@ -18,6 +18,9 @@ import anchor from 'markdown-it-anchor'
 import attrs from 'markdown-it-attrs'
 import emoji from 'markdown-it-emoji'
 import toc from 'markdown-it-toc-done-right'
+import container from 'markdown-it-container'
+import Token from 'markdown-it/lib/token'
+import { Mermaid } from 'mermaid'
 
 export type ThemeOptions = Theme | { light: Theme; dark: Theme }
 
@@ -37,6 +40,10 @@ export interface MarkdownOptions extends MarkdownIt.Options {
   // https://github.com/nagaozen/markdown-it-toc-done-right
   toc?: any
   externalLinks?: Record<string, string>
+  // https://mermaid-js.github.io/mermaid/#/Setup?id=configuration
+  mermaid?: ReturnType<Mermaid['mermaidAPI']['getConfig']> & {
+    disable?: boolean
+  }
 }
 
 export interface MarkdownParsedData {
@@ -111,6 +118,23 @@ export const createMarkdownRenderer = async (
 
   if (options.lineNumbers) {
     md.use(lineNumberPlugin)
+  }
+
+  if (!options.mermaid?.disable) {
+    md.use(container, 'mermaid', {
+      render: (tokens: Token[], idx: number) => {
+        if (tokens[idx].nesting === 1) {
+          // opening tag
+          const content = tokens.filter(
+            (t, i) => i > idx && t.level === 2 && t.nesting === 0
+          )[0]?.content
+          return `<Mermaid src="${content}" >`
+        } else {
+          // closing tag
+          return '</Mermaid>\n'
+        }
+      }
+    })
   }
 
   const originalRender = md.render
