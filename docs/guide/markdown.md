@@ -388,6 +388,49 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 
 <!--lint enable strong-marker-->
 
+## Import & Embed markdown's content
+
+When you need to combine multiple markdown content over a single markdown file, e.g.
+
+```vue
+<script>
+import basics from './parts/basics.md'
+import reference from './parts/reference.md'
+</script>
+
+# Docs
+
+## Basics
+
+{{ basics }}
+
+## API Reference
+
+{{ reference }}
+```
+
+Replace curly brackets with `@include`, 
+the pathname with the extension, 
+surrounded by `<!-- -->` sintax
+
+```vue
+<script>
+import basics from './parts/basics.md'
+import reference from './parts/reference.md'
+</script>
+
+# Docs
+
+## Basics
+
+< !--@include:./parts/basics.md--> 
+
+## API Reference
+
+< !--@include:./parts/reference.md-->
+```
+
+
 ## Advanced Configuration
 
 VitePress uses [markdown-it](https://github.com/markdown-it/markdown-it) as the Markdown renderer. A lot of the extensions above are implemented via custom plugins. You can further customize the `markdown-it` instance using the `markdown` option in `.vitepress/config.js`:
