@@ -278,3 +278,32 @@ With Auto Minify, Cloudflare will automatically remove the comments in the html 
 
 If it gets removed, then you will probably see a hydration mismatch error.
 :::
+
+
+## AWS Amplify
+
+Follow the getting started guide for [Git-based Deployments](https://docs.amplify.aws/guides/hosting/git-based-deployments/q/platform/js/#4-deploy-your-app-to-aws-amplify) to deploy your VitePress app with Amplify Hosting.
+
+During the deployment process, **edit** the default build settings: 
+
+- **`build > commands`**: `yarn run docs:build`
+- **`baseDirectory`**: `docs/.vitepress/dist`
+
+```yaml{9,11}
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - yarn install
+    build:
+      commands:
+        - yarn run docs:build
+  artifacts:
+    baseDirectory: docs/.vitepress/dist
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+```
