@@ -133,7 +133,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
 1. Follow the [official documentation](https://docs.microsoft.com/en-us/azure/static-web-apps/build-configuration).
 
-2. Set these values in your configuration file:
+2. Set these values in your configuration file (and remove the ones you don't require, like `api_location`):
 
    - **`app_location`**: `/`
    - **`output_location`**: `docs/.vitepress/dist`
