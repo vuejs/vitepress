@@ -172,3 +172,4 @@ export default {
   titleTemplate: 'Vite & Vue powered static site generator'
 }
 ```
+
