@@ -44,7 +44,8 @@ export async function createVitePressPlugin(
     site,
     vue: userVuePluginOptions,
     vite: userViteConfig,
-    pages
+    pages,
+    ignoreDeadLinks
   } = siteConfig
 
   let markdownToVue: Awaited<ReturnType<typeof createMarkdownToVueRenderFn>>
@@ -153,7 +154,7 @@ export async function createVitePressPlugin(
     },
 
     renderStart() {
-      if (hasDeadLinks) {
+      if (hasDeadLinks && !ignoreDeadLinks) {
         throw new Error(`One or more pages contain dead links.`)
       }
     },

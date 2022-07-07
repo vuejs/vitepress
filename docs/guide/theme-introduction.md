@@ -8,16 +8,17 @@ VitePress comes with its default theme providing many features out of the box. L
 - [Edit Link](./theme-edit-link)
 - [Last Updated](./theme-last-updated)
 - [Layout](./theme-layout)
-- [Homepage](./theme-homepage)
+- [Home Page](./theme-home-page)
+- [Team Page](./theme-team-page)
 - [Footer](./theme-footer)
 - [Search](./theme-search)
 - [Carbon Ads](./theme-carbon-ads)
 
-If you don't find the features you're looking for, or you would rather create your own theme, you may customize VitePress to fit your requirements.
+If you don't find the features you're looking for, or you would rather create your own theme, you may customize VitePress to fit your requirements. In the following sections, we'll go through each way of customizing the VitePress theme.
 
 ## Using a Custom Theme
 
-You can enable a custom theme by adding the `.vitepress/theme/index.js` file (the "theme entry file").
+You can enable a custom theme by adding the `.vitepress/theme/index.js` or `.vitepress/theme/index.ts` file (the "theme entry file").
 
 ```
 .
@@ -53,6 +54,7 @@ The theme entry file should export the theme as its default export:
 import Layout from './Layout.vue'
 
 export default {
+  // root component to wrap each page
   Layout,
 
   // this is a Vue 3 functional component

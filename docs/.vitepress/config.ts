@@ -1,5 +1,7 @@
 import { defineConfig } from '../../src/node'
 
+import { version } from '../../package.json'
+
 export default defineConfig({
   lang: 'en-US',
   title: 'VitePress',
@@ -47,9 +49,18 @@ function nav() {
     { text: 'Guide', link: '/guide/what-is-vitepress', activeMatch: '/guide/' },
     { text: 'Configs', link: '/config/introduction', activeMatch: '/config/' },
     {
-      text: 'Changelog',
-      link: 'https://github.com/vuejs/vitepress/blob/main/CHANGELOG.md'
-    }
+      text: version,
+      items: [
+        {
+          text: 'Changelog',
+          link: 'https://github.com/vuejs/vitepress/blob/main/CHANGELOG.md'
+        },
+        {
+          text: 'Contributing',
+          link: 'https://github.com/vuejs/vitepress/blob/main/.github/contributing.md'
+        },
+      ],
+    },
   ]
 }
 
@@ -87,7 +98,8 @@ function sidebarGuide() {
         { text: 'Edit Link', link: '/guide/theme-edit-link' },
         { text: 'Last Updated', link: '/guide/theme-last-updated' },
         { text: 'Layout', link: '/guide/theme-layout' },
-        { text: 'Homepage', link: '/guide/theme-homepage' },
+        { text: 'Home Page', link: '/guide/theme-home-page' },
+        { text: 'Team Page', link: '/guide/theme-team-page' },
         { text: 'Footer', link: '/guide/theme-footer' },
         { text: 'Search', link: '/guide/theme-search' },
         { text: 'Carbon Ads', link: '/guide/theme-carbon-ads' }

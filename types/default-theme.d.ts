@@ -44,6 +44,11 @@ export namespace DefaultTheme {
     lastUpdatedText?: string
 
     /**
+     * Set custom prev/next labels.
+     */
+    docFooter?: DocFooter
+
+    /**
      * The social links to be displayed at the end of the nav bar. Perfect for
      * placing links to social services such as GitHub, Twitter, Facebook, etc.
      */
@@ -94,6 +99,12 @@ export namespace DefaultTheme {
   export interface NavItemWithChildren {
     text?: string
     items: (NavItemChildren | NavItemWithLink)[]
+
+    /**
+     * `activeMatch` is expected to be a regex string. We can't use actual
+     * RegExp object here because it isn't serializable
+     */
+    activeMatch?: string
   }
 
   // image -----------------------------------------------------------------------
@@ -151,6 +162,24 @@ export namespace DefaultTheme {
     text?: string
   }
 
+  // prev-next -----------------------------------------------------------------
+
+  export interface DocFooter {
+    /**
+     * Custom label for previous page button.
+     *
+     * @default 'Previous page'
+     */
+    prev?: string
+
+    /**
+     * Custom label for next page button.
+     *
+     * @default 'Next page'
+     */
+    next?: string
+  }
+
   // social link ---------------------------------------------------------------
 
   export interface SocialLink {
@@ -173,6 +202,19 @@ export namespace DefaultTheme {
   export interface Footer {
     message?: string
     copyright?: string
+  }
+
+  // team ----------------------------------------------------------------------
+
+  export interface TeamMember {
+    avatar: string
+    name: string
+    title?: string
+    org?: string
+    orgLink?: string
+    desc?: string
+    links?: SocialLink[]
+    sponsor?: string
   }
 
   // locales -------------------------------------------------------------------
@@ -201,6 +243,7 @@ export namespace DefaultTheme {
     searchParameters?: any
     disableUserPersonalization?: boolean
     initialQuery?: string
+    buttonText?: string
   }
 
   // carbon ads ----------------------------------------------------------------

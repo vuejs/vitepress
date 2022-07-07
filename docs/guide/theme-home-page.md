@@ -1,4 +1,4 @@
-# Homepage
+# Home Page
 
 VitePress default theme provides a homepage layout, which you can also see used on [the homepage of this site](../). You may use it on any of your pages by specifying `layout: home` in the [frontmatter](./frontmatter).
 
