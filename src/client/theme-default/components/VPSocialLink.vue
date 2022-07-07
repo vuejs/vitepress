@@ -23,7 +23,7 @@ const icons = {
   linkedin: VPIconLinkedIn,
   slack: VPIconSlack,
   twitter: VPIconTwitter,
-  youtube: VPIconYouTube.
+  youtube: VPIconYouTube,
   telegram: VPIconTelegram
 }
 </script>
