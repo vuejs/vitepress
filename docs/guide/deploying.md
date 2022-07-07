@@ -88,6 +88,44 @@ cd -
 You can also run the above script in your CI setup to enable automatic deployment on each push.
 :::
 
+## GitHub Pages and GitHub Actions
+
+1. Set the correct `base` in `docs/.vitepress/config.js`.
+
+   If you are deploying to `https://<USERNAME or GROUP>.github.io/`, you can omit `base` as it defaults to `'/'`.
+
+   If you are deploying to `https://<USERNAME or GROUP>.github.io/<REPO>/`, for example your repository is at `https://github.com/<USERNAME>/<REPO>`, then set `base` to `'/<REPO>/'`.
+
+2. Create directory `.github/workflows` in your root of project.
+
+3. Create a file named `deploy.yml` inside `workflows` directory with the content below. This will build and deploy your site whenever you make changes to your content.
+
+```yaml
+name: Deploy
+on:
+  push:
+    branches:
+     - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '>=16'
+    - name: Install dependencies
+      run: npm install
+    - name: Build site
+      run: npm run docs:build
+    - name: Deploy site
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: docs/.vitepress/dist
+```
+
 ## GitHub Pages and Travis CI
 
 1. Set the correct `base` in `docs/.vitepress/config.js`.
