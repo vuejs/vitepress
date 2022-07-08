@@ -114,7 +114,7 @@ export default {
 
 ### Customize link's "active" state
 
-Nav menu items will be highlighted when the current page is under the matching path. if you would like to customize the path to be mathced, define `activeMatch` property and regex as a string value.
+Nav menu items will be highlighted when the current page is under the matching path. if you would like to customize the path to be matched, define `activeMatch` property and regex as a string value.
 
 ```js
 export default {
