@@ -96,11 +96,9 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
              publish_dir: docs/.vitepress/dist
    ```
 
-::: tip
-
-Please replace the corresponding branch name. For example, the branch you want to trigger is `master` branch, then you should replace `main` with `master`.
-
-:::
+   ::: tip
+   Please replace the corresponding branch name. For example, if the branch you want to build is `master`, then you should replace `main` with `master` in the above file.
+   :::
 
 2. Now commit your code and push it to the `main` branch.
 
