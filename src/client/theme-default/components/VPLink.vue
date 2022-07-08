@@ -2,13 +2,14 @@
 import { computed } from 'vue'
 import { normalizeLink } from '../support/utils'
 import VPIconExternalLink from './icons/VPIconExternalLink.vue'
+import { EXTERNAL_URL_RE } from '../../shared'
 
 const props = defineProps<{
   href?: string
   noIcon?: boolean
 }>()
 
-const isExternal = computed(() => props.href && /^[a-z]+:/i.test(props.href))
+const isExternal = computed(() => props.href && EXTERNAL_URL_RE.test(props.href))
 </script>
 
 <template>
