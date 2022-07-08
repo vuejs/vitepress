@@ -19,8 +19,14 @@ export interface Header {
   slug: string
 }
 
+export type CleanUrlsMode =
+  | 'disabled'
+  | 'without-subfolders'
+  | 'with-subfolders'
+
 export interface SiteData<ThemeConfig = any> {
   base: string
+  cleanUrls?: CleanUrlsMode
 
   /**
    * Language of the site as it should be set on the `html` element.

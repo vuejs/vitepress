@@ -38,6 +38,7 @@ interface Theme {
   Layout: Component // Vue 3 component
   NotFound?: Component
   enhanceApp?: (ctx: EnhanceAppContext) => void
+  setup?: () => void
 }
 
 interface EnhanceAppContext {
@@ -64,6 +65,11 @@ export default {
     // app is the Vue 3 app instance from `createApp()`.
     // router is VitePress' custom router. `siteData` is
     // a `ref` of current site-level metadata.
+  }
+
+  setup() {
+    // this function will be executed inside VitePressApp's
+    // setup hook. all composition APIs are available here.
   }
 }
 ```
@@ -201,3 +207,12 @@ Full list of slots available in the default theme layout:
   - `home-hero-after`
   - `home-features-before`
   - `home-features-after`
+- Always:
+  - `layout-top`
+  - `layout-bottom`
+  - `nav-bar-title-before`
+  - `nav-bar-title-after`
+  - `nav-bar-content-before`
+  - `nav-bar-content-after`
+  - `nav-screen-content-before`
+  - `nav-screen-content-after`

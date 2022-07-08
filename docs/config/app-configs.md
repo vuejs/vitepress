@@ -115,7 +115,7 @@ Below shows the the full option you may define within this object.
 interface MarkdownOptions extends MarkdownIt.Options {
   // Syntax highlight theme for Shiki.
   // See: https://github.com/shikijs/shiki/blob/main/docs/themes.md#all-themes
-  theme?: Shiki.Theme | { light: Shiki.Theme, dark: Shiki.Theme }
+  theme?: Shiki.Theme | { light: Shiki.Theme; dark: Shiki.Theme }
 
   // Enable line numbers in code block.
   lineNumbers?: boolean
@@ -179,3 +179,27 @@ export default {
 }
 ```
 
+## cleanUrls (Experimental)
+
+- Type: `'disabled' | 'without-subfolders' | 'with-subfolders'`
+- Default: `'disabled'`
+
+Allows removing trailing `.html` from URLs and, optionally, generating clean directory structure. Available modes:
+
+|          Mode          |   Page    |  Generated Page   |     URL     |
+| :--------------------: | :-------: | :---------------: | :---------: |
+|      `'disabled'`      | `/foo.md` |    `/foo.html`    | `/foo.html` |
+| `'without-subfolders'` | `/foo.md` |    `/foo.html`    |   `/foo`    |
+|  `'with-subfolders'`   | `/foo.md` | `/foo/index.html` |   `/foo`    |
+
+::: warning
+
+Enabling this may require additional configuration on your hosting platform. For it to work, your server must serve the generated page on requesting the URL (see above table) **without a redirect**.
+
+:::
+
+```ts
+export default {
+  cleanUrls: 'with-subfolders'
+}
+```

@@ -135,7 +135,7 @@ export function useActiveAnchor(
     if (hash !== null) {
       prevActiveLink = container.value.querySelector(
         `a[href="${decodeURIComponent(hash)}"]`
-      ) as HTMLAnchorElement
+      )
     }
 
     const activeLink = prevActiveLink
