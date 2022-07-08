@@ -10,7 +10,7 @@ export type {
   PageDataPayload
 } from '../../types/shared'
 
-export const EXTERNAL_URL_RE = /^https?:/i
+export const EXTERNAL_URL_RE = /^(https?|data):/i
 export const APPEARANCE_KEY = 'vitepress-theme-appearance'
 
 // @ts-ignore
