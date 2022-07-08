@@ -2,13 +2,14 @@ import { Ref, computed, onMounted, onUpdated, onUnmounted } from 'vue'
 import { Header, useData } from 'vitepress'
 import { useAside } from '../composables/aside'
 import { throttleAndDebounce } from '../support/utils'
+import { PageData } from '../../../../types/shared'
 
 interface HeaderWithChildren extends Header {
   children?: Header[]
   hidden?: boolean
 }
 
-interface MenuItemWithLinkAndChildren {
+export interface MenuItemWithLinkAndChildren {
   text: string
   link: string
   children?: MenuItemWithLinkAndChildren[]
@@ -30,24 +31,67 @@ export function useOutline() {
   }
 }
 
-export function resolveHeaders(headers: Header[]) {
-  return mapHeaders(groupHeaders(headers))
+export function resolveHeaders(
+  headers: Header[],
+  levelsRange: PageData['frontmatter']['outline'] = 2
+) {
+  const levels: [number, number] =
+    typeof levelsRange === 'number'
+      ? [levelsRange, levelsRange]
+      : levelsRange === 'deep'
+      ? [1, 6]
+      : levelsRange
+
+  return mapHeaders(groupMarkdownHeadersByChildren(headers, levels))
 }
 
-function groupHeaders(headers: Header[]): HeaderWithChildren[] {
-  headers = headers.map((h) => Object.assign({}, h))
+function addToParent(
+  currIndex: number,
+  headers: HeaderWithChildren[],
+  levelsRange: [number, number]
+): boolean {
+  if (currIndex === 0) {
+    return true
+  }
 
-  let lastH2: HeaderWithChildren | undefined
+  const currentHeader = headers[currIndex]
+  for (let index = currIndex - 1; index >= 0; index--) {
+    const header = headers[index]
 
-  for (const h of headers) {
-    if (h.level === 2) {
-      lastH2 = h
-    } else if (lastH2 && h.level <= 3) {
-      ;(lastH2.children || (lastH2.children = [])).push(h)
+    if (
+      header.level < currentHeader.level &&
+      header.level >= levelsRange[0] &&
+      header.level <= levelsRange[1]
+    ) {
+      if (!header.children) {
+        header.children = []
+      }
+      header.children.push(currentHeader)
+      return false
     }
   }
 
-  return headers.filter((h) => h.level === 2)
+  return true
+}
+
+function groupMarkdownHeadersByChildren(
+  headers: Header[],
+  levelsRange: [number, number]
+): HeaderWithChildren[] {
+  headers = headers.map((h) => Object.assign({}, h))
+
+  const result: HeaderWithChildren[] = []
+
+  headers.forEach((h, index) => {
+    if (h.level >= levelsRange[0] && h.level <= levelsRange[1]) {
+      const shouldAddToRoot = addToParent(index, headers, levelsRange)
+      if (shouldAddToRoot) {
+        result.push(h)
+      }
+    }
+  })
+
+  return result
 }
 
 function mapHeaders(

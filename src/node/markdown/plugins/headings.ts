@@ -3,7 +3,10 @@ import { deeplyParseHeader } from '../../utils/parseHeader'
 import { slugify } from './slugify'
 import MarkdownIt from 'markdown-it'
 
-export const headingPlugin = (md: MarkdownIt, include = ['h2', 'h3']) => {
+export const headingPlugin = (
+  md: MarkdownIt,
+  include = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']
+) => {
   md.renderer.rules.heading_open = (tokens, i, options, env, self) => {
     const token = tokens[i]
     if (include.includes(token.tag)) {

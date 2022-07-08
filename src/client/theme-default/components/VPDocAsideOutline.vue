@@ -6,8 +6,9 @@ import {
   useOutline,
   useActiveAnchor
 } from '../composables/outline'
+import VPDocAsideOutlineItem from './VPDocAsideOutlineItem.vue'
 
-const { page, frontmatter, theme } = useData()
+const { page, theme } = useData()
 
 const { hasOutline } = useOutline()
 
@@ -17,10 +18,10 @@ const marker = ref()
 useActiveAnchor(container, marker)
 
 const resolvedHeaders = computed(() => {
-  return resolveHeaders(page.value.headers)
+  return resolveHeaders(page.value.headers, page.value.frontmatter.outline)
 })
 
-function handleClick({ target: el }: Event) {
+function handleClick({ target: el }: MouseEvent) {
   const id = '#' + (el as HTMLAnchorElement).href!.split('#')[1]
   const heading = document.querySelector(
     decodeURIComponent(id)
@@ -42,24 +43,7 @@ function handleClick({ target: el }: Event) {
         <span class="visually-hidden" id="doc-outline-aria-label">
           Table of Contents for current page
         </span>
-
-        <ul class="root">
-          <li
-            v-for="{ text, link, children, hidden } in resolvedHeaders"
-            v-show="!hidden"
-          >
-            <a class="outline-link" :href="link" @click="handleClick">
-              {{ text }}
-            </a>
-            <ul v-if="children && frontmatter.outline === 'deep'">
-              <li v-for="{ text, link, hidden } in children" v-show="!hidden">
-                <a class="outline-link nested" :href="link" @click="handleClick">
-                  {{ text }}
-                </a>
-              </li>
-            </ul>
-          </li>
-        </ul>
+        <VPDocAsideOutlineItem :headers="resolvedHeaders" :isRoot="true" :onClick="handleClick" />
       </nav>
     </div>
   </div>
@@ -99,30 +83,5 @@ function handleClick({ target: el }: Event) {
   line-height: 28px;
   font-size: 13px;
   font-weight: 600;
-}
-
-.outline-link {
-  display: block;
-  line-height: 28px;
-  color: var(--vp-c-text-2);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  transition: color 0.5s;
-}
-
-.outline-link:hover,
-.outline-link.active {
-  color: var(--vp-c-text-1);
-  transition: color 0.25s;
-}
-
-.outline-link.nested {
-  padding-left: 13px;
-}
-
-.root {
-  position: relative;
-  z-index: 1;
 }
 </style>

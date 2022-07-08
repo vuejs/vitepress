@@ -8,7 +8,9 @@ export interface PageData {
   titleTemplate?: string | boolean
   description: string
   headers: Header[]
-  frontmatter: Record<string, any>
+  frontmatter: Record<string, any> & {
+    outline?: number | [number, number] | 'deep'
+  }
   lastUpdated?: number
 }
 

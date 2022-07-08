@@ -76,6 +76,13 @@ type HeadConfig =
   | [string, Record<string, string>, string]
 ```
 
+## outline
+
+- Type: `number | [number, number] | 'deep'`
+- Default: `2`
+
+The level of headers to display in the outline. You can specify a particular level by passing a number, or you can provide a level range by passing a tuple containing the bottom and upper limits. When passing `'deep'` which equals `[1, 6]`, all header levels are shown in the outline.
+
 ## lastUpdated
 
 - Type: `boolean`
