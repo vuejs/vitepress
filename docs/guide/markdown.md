@@ -388,48 +388,47 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 
 <!--lint enable strong-marker-->
 
-## Import & Embed markdown's content
+## Markdown File Inclusion
 
-When you need to combine multiple markdown content over a single markdown file, e.g.
+You can include a markdown file in another markdown file like this:
 
-```vue
-<script>
-import basics from './parts/basics.md'
-import reference from './parts/reference.md'
-</script>
+**Input**
 
+```md
 # Docs
 
 ## Basics
 
-{{ basics }}
-
-## API Reference
-
-{{ reference }}
+<!--@include: ./parts/basics.md-->
 ```
 
-Replace curly brackets with `@include`, 
-the pathname with the extension, 
-surrounded by `<!-- -->` sintax
+**Part file** (`parts/basics.md`)
 
-```vue
-<script>
-import basics from './parts/basics.md'
-import reference from './parts/reference.md'
-</script>
+```md
+Some getting started stuff.
 
+### Configuration
+
+Can be created using `.foorc.json`.
+```
+
+**Equivalent code**
+
+```md
 # Docs
 
 ## Basics
 
-< !--@include:./parts/basics.md--> 
+Some getting started stuff.
 
-## API Reference
+### Configuration
 
-< !--@include:./parts/reference.md-->
+Can be created using `.foorc.json`.
 ```
 
+::: warning
+Note that this does not throw errors if your file is not present. Hence, when using this feature make sure that the contents are being rendered as expected.
+:::
 
 ## Advanced Configuration
 
