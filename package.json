@@ -75,10 +75,10 @@
     "@docsearch/js": "^3.1.1",
     "@vitejs/plugin-vue": "^3.0.0-beta.1",
     "@vue/devtools-api": "^6.2.0",
-    "@vueuse/core": "^8.9.0",
+    "@vueuse/core": "^8.9.1",
     "body-scroll-lock": "^4.0.0-beta.0",
     "shiki": "^0.10.1",
-    "vite": "^3.0.0-beta.7",
+    "vite": "^3.0.0-beta.8",
     "vue": "^3.2.37"
   },
   "devDependencies": {
@@ -130,7 +130,7 @@
     "prettier": "^2.7.1",
     "prompts": "^2.4.2",
     "rimraf": "^3.0.2",
-    "rollup": "^2.75.7",
+    "rollup": "^2.76.0",
     "rollup-plugin-dts": "^4.2.2",
     "rollup-plugin-esbuild": "^4.9.1",
     "semver": "^7.3.7",
