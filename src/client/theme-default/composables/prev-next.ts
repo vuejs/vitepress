@@ -4,7 +4,7 @@ import { isActive } from '../support/utils'
 import { getSidebar, getFlatSideBarLinks } from '../support/sidebar'
 
 export function usePrevNext() {
-  const { page, theme } = useData()
+  const { page, theme, frontmatter } = useData()
 
   return computed(() => {
     const sidebar = getSidebar(theme.value.sidebar, page.value.relativePath)
@@ -15,8 +15,12 @@ export function usePrevNext() {
     })
 
     return {
-      prev: candidates[index - 1],
-      next: candidates[index + 1]
+      prev: frontmatter.value.prev
+        ? { ...candidates[index - 1], text: frontmatter.value.prev }
+        : candidates[index - 1],
+      next: frontmatter.value.next
+        ? { ...candidates[index + 1], text: frontmatter.value.next }
+        : candidates[index + 1]
     }
   })
 }

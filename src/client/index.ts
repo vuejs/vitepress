@@ -24,6 +24,3 @@ export { inBrowser, withBase } from './app/utils'
 
 // components
 export { Content } from './app/components/Content'
-
-import _Debug from './app/components/Debug.vue'
-export const Debug = _Debug as import('vue').ComponentOptions

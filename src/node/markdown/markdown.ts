@@ -61,7 +61,7 @@ export const createMarkdownRenderer = async (
   const md = MarkdownIt({
     html: true,
     linkify: true,
-    highlight: await highlight(options.theme),
+    highlight: options.highlight || (await highlight(options.theme)),
     ...options
   }) as MarkdownRenderer
 

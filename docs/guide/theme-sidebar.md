@@ -110,7 +110,7 @@ export default {
         {
           text: 'Config',
           items: [
-            // This shows `/guide/index.md` page.
+            // This shows `/config/index.md` page.
             { text: 'Index', link: '/config/' }, // /config/index.md
             { text: 'Three', link: '/config/three' }, // /config/three.md
             { text: 'Four', link: '/config/four' } // /config/four.md

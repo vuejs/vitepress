@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { provide } from 'vue'
+import { provide, watch } from 'vue'
+import { useRoute } from 'vitepress'
 import { useSidebar, useCloseSidebarOnEscape } from './composables/sidebar'
 import VPSkipLink from './components/VPSkipLink.vue'
 import VPBackdrop from './components/VPBackdrop.vue'
@@ -15,6 +16,9 @@ const {
   close: closeSidebar
 } = useSidebar()
 
+const route = useRoute()
+watch(() => route.path, closeSidebar)
+
 useCloseSidebarOnEscape(isSidebarOpen, closeSidebar)
 
 provide('close-sidebar', closeSidebar)
@@ -22,6 +26,7 @@ provide('close-sidebar', closeSidebar)
 
 <template>
   <div class="Layout">
+    <slot name="layout-top" />
     <VPSkipLink />
     <VPBackdrop class="backdrop" :show="isSidebarOpen" @click="closeSidebar" />
     <VPNav>
@@ -41,6 +46,9 @@ provide('close-sidebar', closeSidebar)
       <template #home-features-before><slot name="home-features-before" /></template>
       <template #home-features-after><slot name="home-features-after" /></template>
 
+      <template #doc-before><slot name="doc-before" /></template>
+      <template #doc-after><slot name="doc-after" /></template>
+
       <template #aside-top><slot name="aside-top" /></template>
       <template #aside-bottom><slot name="aside-bottom" /></template>
       <template #aside-outline-before><slot name="aside-outline-before" /></template>
@@ -50,6 +58,7 @@ provide('close-sidebar', closeSidebar)
     </VPContent>
 
     <VPFooter />
+    <slot name="layout-bottom" />
   </div>
 </template>
 

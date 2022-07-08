@@ -5,7 +5,7 @@ export namespace DefaultTheme {
      *
      * @example '/logo.svg'
      */
-    logo?: string
+    logo?: ThemeableImage
 
     /**
      * Custom site title in navbar. If the value is undefined,
@@ -42,6 +42,11 @@ export namespace DefaultTheme {
      * @default 'Last updated'
      */
     lastUpdatedText?: string
+
+    /**
+     * Set custom prev/next labels.
+     */
+    docFooter?: DocFooter
 
     /**
      * The social links to be displayed at the end of the nav bar. Perfect for
@@ -86,10 +91,26 @@ export namespace DefaultTheme {
     activeMatch?: string
   }
 
+  export type NavItemChildren = {
+    text?: string
+    items: NavItemWithLink[]
+  }
+
   export interface NavItemWithChildren {
     text?: string
-    items: NavItem[]
+    items: (NavItemChildren | NavItemWithLink)[]
+
+    /**
+     * `activeMatch` is expected to be a regex string. We can't use actual
+     * RegExp object here because it isn't serializable
+     */
+    activeMatch?: string
   }
+
+  // image -----------------------------------------------------------------------
+
+  export type ThemeableImage = Image | { light: Image; dark: Image }
+  export type Image = string | { src: string; alt?: string }
 
   // sidebar -------------------------------------------------------------------
 
@@ -141,6 +162,24 @@ export namespace DefaultTheme {
     text?: string
   }
 
+  // prev-next -----------------------------------------------------------------
+
+  export interface DocFooter {
+    /**
+     * Custom label for previous page button.
+     *
+     * @default 'Previous page'
+     */
+    prev?: string
+
+    /**
+     * Custom label for next page button.
+     *
+     * @default 'Next page'
+     */
+    next?: string
+  }
+
   // social link ---------------------------------------------------------------
 
   export interface SocialLink {
@@ -163,6 +202,19 @@ export namespace DefaultTheme {
   export interface Footer {
     message?: string
     copyright?: string
+  }
+
+  // team ----------------------------------------------------------------------
+
+  export interface TeamMember {
+    avatar: string
+    name: string
+    title?: string
+    org?: string
+    orgLink?: string
+    desc?: string
+    links?: SocialLink[]
+    sponsor?: string
   }
 
   // locales -------------------------------------------------------------------
@@ -191,6 +243,7 @@ export namespace DefaultTheme {
     searchParameters?: any
     disableUserPersonalization?: boolean
     initialQuery?: string
+    buttonText?: string
   }
 
   // carbon ads ----------------------------------------------------------------

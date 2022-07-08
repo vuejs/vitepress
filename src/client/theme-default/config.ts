@@ -1,1 +1,0 @@
-export { DefaultTheme } from '../shared'
