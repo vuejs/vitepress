@@ -85,6 +85,12 @@ export interface UserConfig<ThemeConfig = any> {
    * @default 'disabled'
    */
   cleanUrls?: CleanUrlsMode
+
+  /**
+   * Build end hook: called when SSG finish.
+   * @param siteConfig The resolved configuration.
+   */
+  buildEnd?: (siteConfig: SiteConfig) => Promise<void>
 }
 
 export type RawConfigExports<ThemeConfig = any> =
@@ -103,6 +109,7 @@ export interface SiteConfig<ThemeConfig = any>
     | 'lastUpdated'
     | 'ignoreDeadLinks'
     | 'cleanUrls'
+    | 'buildEnd'
   > {
   root: string
   srcDir: string
@@ -182,7 +189,8 @@ export async function resolveConfig(
     shouldPreload: userConfig.shouldPreload,
     mpa: !!userConfig.mpa,
     ignoreDeadLinks: userConfig.ignoreDeadLinks,
-    cleanUrls: userConfig.cleanUrls || 'disabled'
+    cleanUrls: userConfig.cleanUrls || 'disabled',
+    buildEnd: userConfig.buildEnd
   }
 
   return config

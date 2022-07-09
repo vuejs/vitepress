@@ -88,5 +88,7 @@ export async function build(
       fs.rmSync(siteConfig.tempDir, { recursive: true, force: true })
   }
 
+  await siteConfig.buildEnd?.(siteConfig)
+
   console.log(`build complete in ${((Date.now() - start) / 1000).toFixed(2)}s.`)
 }
