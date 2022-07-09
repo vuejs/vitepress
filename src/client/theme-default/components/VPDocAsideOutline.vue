@@ -22,7 +22,9 @@ const resolvedHeaders = computed(() => {
 
 function handleClick({ target: el }: Event) {
   const id = '#' + (el as HTMLAnchorElement).href!.split('#')[1]
-  const heading = document.querySelector<HTMLAnchorElement>(id)
+  const heading = document.querySelector<HTMLAnchorElement>(
+    decodeURIComponent(id)
+  )
   heading?.focus()
 }
 </script>

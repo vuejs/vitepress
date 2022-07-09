@@ -65,7 +65,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
 ### Using GitHub Actions
 
-1. Create a file named `deploy.yml` inside `.github/workflow` directory of your project with the following content:
+1. Create a file named `deploy.yml` inside `.github/workflows` directory of your project with the following content:
 
    ```yaml
    name: Deploy
@@ -95,6 +95,10 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
              github_token: ${{ secrets.GITHUB_TOKEN }}
              publish_dir: docs/.vitepress/dist
    ```
+
+   ::: tip
+   Please replace the corresponding branch name. For example, if the branch you want to build is `master`, then you should replace `main` with `master` in the above file.
+   :::
 
 2. Now commit your code and push it to the `main` branch.
 
