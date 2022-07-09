@@ -6,14 +6,24 @@ export type {
   HeadConfig,
   LocaleConfig,
   Header,
-  DefaultTheme
+  DefaultTheme,
+  PageDataPayload
 } from '../../types/shared'
 
-export const EXTERNAL_URL_RE = /^https?:/i
+export const EXTERNAL_URL_RE = /^[a-z]+:/i
 export const APPEARANCE_KEY = 'vitepress-theme-appearance'
 
 // @ts-ignore
 export const inBrowser = typeof window !== 'undefined'
+
+export const notFoundPageData: PageData = {
+  relativePath: '',
+  title: '404',
+  description: 'Not Found',
+  headers: [],
+  frontmatter: {},
+  lastUpdated: 0
+}
 
 function findMatchRoot(route: string, roots: string[]): string | undefined {
   // first match to the routes with the most deep level.

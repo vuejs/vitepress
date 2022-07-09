@@ -72,6 +72,14 @@ function onBlur() {
   fill: var(--vp-c-text-2);
 }
 
+.VPFlyout.active .text {
+  color: var(--vp-c-brand);
+}
+
+.VPFlyout.active:hover .text {
+  color: var(--vp-c-brand-dark);
+}
+
 .VPFlyout:hover .menu,
 .button[aria-expanded="true"] + .menu {
   opacity: 1;
@@ -98,7 +106,7 @@ function onBlur() {
   display: flex;
   align-items: center;
   line-height: var(--vp-nav-height-mobile);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--vp-c-text-1);
   transition: color 0.25s;

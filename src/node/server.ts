@@ -8,6 +8,11 @@ export async function createServer(
 ) {
   const config = await resolveConfig(root)
 
+  if (serverOptions.base) {
+    config.site.base = serverOptions.base
+    delete serverOptions.base
+  }
+
   return createViteServer({
     root: config.srcDir,
     base: config.site.base,

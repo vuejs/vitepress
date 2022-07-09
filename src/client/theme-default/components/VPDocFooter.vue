@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useData } from 'vitepress'
 import { normalizeLink } from '../support/utils'
 import { useEditLink } from '../composables/edit-link'
@@ -11,10 +12,14 @@ const { theme, page, frontmatter } = useData()
 
 const editLink = useEditLink()
 const control = usePrevNext()
+
+const hasLastUpdated = computed(() => {
+  return page.value.lastUpdated && frontmatter.value.lastUpdated !== false
+})
 </script>
 
 <template>
-  <footer v-if="control.prev || control.next" class="VPDocFooter">
+  <footer class="VPDocFooter">
     <div class="edit-info">
       <div v-if="theme.editLink && frontmatter.editLink !== false" class="edit-link">
         <VPLink class="edit-link-button" :href="editLink.url" :no-icon="true">
@@ -23,21 +28,21 @@ const control = usePrevNext()
         </VPLink>
       </div>
 
-      <div v-if="page.lastUpdated" class="last-updated">
+      <div v-if="hasLastUpdated" class="last-updated">
         <VPDocFooterLastUpdated />
       </div>
     </div>
 
-    <div class="prev-next">
+    <div v-if="control.prev || control.next" class="prev-next">
       <div class="pager">
         <a v-if="control.prev" class="pager-link prev" :href="normalizeLink(control.prev.link)">
-          <span class="desc">Previous page</span>
+          <span class="desc">{{ theme.docFooter?.prev ?? 'Previous page' }}</span>
           <span class="title">{{ control.prev.text }} </span>
         </a>
       </div>
       <div class="pager" :class="{ 'has-prev': control.prev }">
         <a v-if="control.next" class="pager-link next" :href="normalizeLink(control.next.link)">
-          <span class="desc">Next page</span>
+          <span class="desc">{{ theme.docFooter?.next ?? 'Next page' }}</span>
           <span class="title">{{ control.next.text }}</span>
         </a>
       </div>
@@ -58,21 +63,18 @@ const control = usePrevNext()
   .edit-info {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: center;
     padding-bottom: 14px;
   }
-}
-
-.edit-link {
-  line-height: 32px;
-  font-size: 14px;
-  font-weight: 500;
 }
 
 .edit-link-button {
   display: flex;
   align-items: center;
   border: 0;
+  line-height: 32px;
+  font-size: 14px;
+  font-weight: 500;
   color: var(--vp-c-brand);
   transition: color 0.25s;
 }

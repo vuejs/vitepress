@@ -13,8 +13,16 @@ provide('close-screen', closeScreen)
 
 <template>
   <header class="VPNav" :class="{ 'no-sidebar' : !hasSidebar }">
-    <VPNavBar :is-screen-open="isScreenOpen" @toggle-screen="toggleScreen" />
-    <VPNavScreen :open="isScreenOpen" />
+    <VPNavBar :is-screen-open="isScreenOpen" @toggle-screen="toggleScreen">
+      <template #nav-bar-title-before><slot name="nav-bar-title-before" /></template>
+      <template #nav-bar-title-after><slot name="nav-bar-title-after" /></template>
+      <template #nav-bar-content-before><slot name="nav-bar-content-before" /></template>
+      <template #nav-bar-content-after><slot name="nav-bar-content-after" /></template>
+    </VPNavBar>
+    <VPNavScreen :open="isScreenOpen">
+      <template #nav-screen-content-before><slot name="nav-screen-content-before" /></template>
+      <template #nav-screen-content-after><slot name="nav-screen-content-after" /></template>
+    </VPNavScreen>
   </header>
 </template>
 
@@ -33,8 +41,13 @@ provide('close-screen', closeScreen)
   }
 
   .VPNav.no-sidebar {
-    backdrop-filter: saturate(50%) blur(8px);
     -webkit-backdrop-filter: saturate(50%) blur(8px);
+    backdrop-filter: saturate(50%) blur(8px);
+    background: rgba(255, 255, 255, 0.7);
+  }
+
+  .dark .VPNav.no-sidebar {
+    background: rgba(36, 36, 36, 0.7);
   }
 
   @supports not (backdrop-filter: saturate(50%) blur(8px)) {

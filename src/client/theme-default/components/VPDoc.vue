@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useData } from 'vitepress'
+import { useRoute } from 'vitepress'
 import { useSidebar } from '../composables/sidebar'
 import VPDocAside from './VPDocAside.vue'
 import VPDocFooter from './VPDocFooter.vue'
 
-const { page } = useData()
+const route = useRoute()
 const { hasSidebar } = useSidebar()
 
-const pageName = computed(() => {
-  return page.value.relativePath.slice(0, page.value.relativePath.indexOf('/'))
-})
+const pageName = computed(() =>
+  route.path.replace(/[./]+/g, '_').replace(/_html$/, '')
+)
 </script>
 
 <template>
@@ -34,11 +34,15 @@ const pageName = computed(() => {
 
       <div class="content">
         <div class="content-container">
+          <slot name="doc-before" />
+
           <main class="main">
             <Content class="vp-doc" :class="pageName" />
           </main>
 
           <VPDocFooter />
+
+          <slot name="doc-after" />
         </div>
       </div>
     </div>
@@ -167,25 +171,5 @@ const pageName = computed(() => {
 .content-container {
   margin: 0 auto;
   max-width: 688px;
-}
-
-.edit-link {
-  margin: 0 0 32px;
-}
-
-.edit-link .vt-link {
-  font-size: 14px;
-  color: var(--vt-c-brand);
-  font-weight: 500;
-}
-
-.vt-icon {
-  width: 18px;
-  height: 18px;
-  color: var(--vt-c-brand);
-  display: inline-block;
-  margin-right: 8px;
-  position: relative;
-  top: -1px;
 }
 </style>

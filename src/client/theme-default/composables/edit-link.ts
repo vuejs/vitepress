@@ -5,22 +5,10 @@ export function useEditLink() {
   const { theme, page } = useData()
 
   return computed(() => {
-    const url = [
-      'https://github.com',
-      theme.value.editLink?.repo || '???',
-      'edit',
-      theme.value.editLink?.branch || 'main',
-      theme.value.editLink?.dir || null,
-      page.value.relativePath
-    ]
-      .filter((v) => v)
-      .join('/')
+    const { text = 'Edit this page', pattern } = theme.value.editLink || {}
+    const { relativePath } = page.value
+    const url = pattern.replace(/:path/g, relativePath)
 
-    const text = theme.value.editLink?.text ?? 'Edit this page'
-
-    return {
-      url,
-      text
-    }
+    return { url, text }
   })
 }

@@ -35,6 +35,9 @@ useCopyCode()
     </VPHome>
 
     <VPDoc v-else>
+      <template #doc-before><slot name="doc-before" /></template>
+      <template #doc-after><slot name="doc-after" /></template>
+
       <template #aside-top><slot name="aside-top" /></template>
       <template #aside-outline-before><slot name="aside-outline-before" /></template>
       <template #aside-outline-after><slot name="aside-outline-after" /></template>

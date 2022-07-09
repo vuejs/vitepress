@@ -7,16 +7,16 @@ defineProps<{
 </script>
 
 <template>
-  <article class="VPBox">
+  <article class="VPFeature">
     <div v-if="icon" class="icon">{{ icon }}</div>
-    <h1 class="title">{{ title }}</h1>
+    <h2 class="title">{{ title }}</h2>
     <p class="details">{{ details }}</p>
   </article>
 </template>
 
 <style scoped>
-.VPBox {
-  border: 1px solid var(--vp-c-divider-light);
+.VPFeature {
+  border: 1px solid var(--vp-c-bg-soft);
   border-radius: 12px;
   padding: 24px;
   height: 100%;

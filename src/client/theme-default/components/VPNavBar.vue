@@ -23,15 +23,20 @@ const { hasSidebar } = useSidebar()
 <template>
   <div class="VPNavBar" :class="{ 'has-sidebar' : hasSidebar }">
     <div class="container">
-      <VPNavBarTitle />
+      <VPNavBarTitle>
+        <template #nav-bar-title-before><slot name="nav-bar-title-before" /></template>
+        <template #nav-bar-title-after><slot name="nav-bar-title-after" /></template>
+      </VPNavBarTitle>
 
       <div class="content">
+        <slot name="nav-bar-content-before" />
         <VPNavBarSearch class="search" />
         <VPNavBarMenu class="menu" />
         <VPNavBarTranslations class="translations" />
         <VPNavBarAppearance class="appearance" />
         <VPNavBarSocialLinks class="social-links" />
         <VPNavBarExtra class="extra" />
+        <slot name="nav-bar-content-after" />
         <VPNavBarHamburger
           class="hamburger"
           :active="isScreenOpen"
@@ -48,7 +53,6 @@ const { hasSidebar } = useSidebar()
   border-bottom: 1px solid var(--vp-c-divider-light);
   padding: 0 8px 0 24px;
   height: var(--vp-nav-height-mobile);
-  background-color: var(--vt-c-bg);
   transition: border-color 0.5s, background-color 0.5s;
 }
 
@@ -65,8 +69,15 @@ const { hasSidebar } = useSidebar()
   }
 
   .VPNavBar.has-sidebar .content {
-    backdrop-filter: saturate(50%) blur(8px);
+    margin-right: -32px;
+    padding-right: 32px;
     -webkit-backdrop-filter: saturate(50%) blur(8px);
+    backdrop-filter: saturate(50%) blur(8px);
+    background: rgba(255, 255, 255, 0.7);
+  }
+
+  .dark .VPNavBar.has-sidebar .content {
+    background: rgba(36, 36, 36, 0.7);
   }
 
   @supports not (backdrop-filter: saturate(50%) blur(8px)) {

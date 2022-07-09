@@ -1,18 +1,21 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { DefaultTheme } from '../config'
+import type { DefaultTheme } from 'vitepress/theme'
+import { ref, watchEffect } from 'vue'
 import VPIconPlusSquare from './icons/VPIconPlusSquare.vue'
 import VPIconMinusSquare from './icons/VPIconMinusSquare.vue'
 import VPSidebarLink from './VPSidebarLink.vue'
 
 const props = defineProps<{
-  text: string
+  text?: string
   items: DefaultTheme.SidebarItem[]
   collapsible?: boolean
   collapsed?: boolean
 }>()
 
-const collapsed = ref(props.collapsible && props.collapsed)
+const collapsed = ref(false)
+watchEffect(() => {
+  collapsed.value = !!(props.collapsible && props.collapsed)
+})
 
 function toggle() {
   if (props.collapsible) {
@@ -23,7 +26,12 @@ function toggle() {
 
 <template>
   <section class="VPSidebarGroup" :class="{ collapsible, collapsed }">
-    <div class="title" :role="collapsible ? 'button' : undefined" @click="toggle">
+    <div
+      v-if="text"
+      class="title"
+      :role="collapsible ? 'button' : undefined"
+      @click="toggle"
+    >
       <h2 class="title-text">{{ text }}</h2>
       <div class="action">
         <VPIconMinusSquare class="icon minus" />

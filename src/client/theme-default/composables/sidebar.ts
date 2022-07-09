@@ -1,5 +1,5 @@
-import { Ref, ref, computed, watchEffect, onMounted, onUnmounted } from 'vue'
-import { useRoute, useData } from 'vitepress'
+import { computed, onMounted, onUnmounted, Ref, ref, watchEffect } from 'vue'
+import { useData, useRoute } from 'vitepress'
 import { getSidebar } from '../support/sidebar'
 
 export function useSidebar() {
@@ -10,13 +10,15 @@ export function useSidebar() {
 
   const sidebar = computed(() => {
     const sidebarConfig = theme.value.sidebar
-    const relativePath = route.data.relativePath
-
-    return sidebarConfig ? getSidebar(sidebarConfig, relativePath) : []
+    return sidebarConfig ? getSidebar(sidebarConfig, route.path) : []
   })
 
   const hasSidebar = computed(() => {
-    return frontmatter.value.sidebar !== false && sidebar.value.length > 0
+    return (
+      frontmatter.value.sidebar !== false &&
+      sidebar.value.length > 0 &&
+      frontmatter.value.layout !== 'home'
+    )
   })
 
   function open() {

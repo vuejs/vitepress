@@ -364,12 +364,12 @@ It also supports [line highlighting](#line-highlighting-in-code-blocks):
 The value of `@` corresponds to the source root. By default it's the VitePress project root, unless `srcDir` is configured.
 :::
 
-You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/codebasics#_folding) to only include the corresponding part of the code file. You can provide a custom region name after a `#` following the filepath (`snippet` by default):
+You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/codebasics#_folding) to only include the corresponding part of the code file. You can provide a custom region name after a `#` following the filepath:
 
 **Input**
 
 ```md
-<<< @/snippets/snippet-with-region.js{1}
+<<< @/snippets/snippet-with-region.js#snippet{1}
 ```
 
 **Code file**
@@ -387,6 +387,48 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 <<< @/snippets/snippet-with-region.js#snippet{1}
 
 <!--lint enable strong-marker-->
+
+## Markdown File Inclusion
+
+You can include a markdown file in another markdown file like this:
+
+**Input**
+
+```md
+# Docs
+
+## Basics
+
+<!--@include: ./parts/basics.md-->
+```
+
+**Part file** (`parts/basics.md`)
+
+```md
+Some getting started stuff.
+
+### Configuration
+
+Can be created using `.foorc.json`.
+```
+
+**Equivalent code**
+
+```md
+# Docs
+
+## Basics
+
+Some getting started stuff.
+
+### Configuration
+
+Can be created using `.foorc.json`.
+```
+
+::: warning
+Note that this does not throw errors if your file is not present. Hence, when using this feature make sure that the contents are being rendered as expected.
+:::
 
 ## Advanced Configuration
 

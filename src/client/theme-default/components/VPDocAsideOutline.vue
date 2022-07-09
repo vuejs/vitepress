@@ -7,7 +7,7 @@ import {
   useActiveAnchor
 } from '../composables/outline'
 
-const { page, frontmatter } = useData()
+const { page, frontmatter, theme } = useData()
 
 const { hasOutline } = useOutline()
 
@@ -22,7 +22,9 @@ const resolvedHeaders = computed(() => {
 
 function handleClick({ target: el }: Event) {
   const id = '#' + (el as HTMLAnchorElement).href!.split('#')[1]
-  const heading = document.querySelector(id) as HTMLAnchorElement
+  const heading = document.querySelector(
+    decodeURIComponent(id)
+  ) as HTMLAnchorElement
   heading?.focus()
 }
 </script>
@@ -32,7 +34,9 @@ function handleClick({ target: el }: Event) {
     <div class="content">
       <div class="outline-marker" ref="marker" />
 
-      <div class="outline-title">On this page</div>
+      <div class="outline-title">
+        {{ theme.outlineTitle || 'On this page' }}
+      </div>
 
       <nav aria-labelledby="doc-outline-aria-label">
         <span class="visually-hidden" id="doc-outline-aria-label">

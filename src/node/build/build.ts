@@ -9,12 +9,17 @@ import { bundle, okMark, failMark } from './bundle'
 
 export async function build(
   root: string,
-  buildOptions: BuildOptions & { mpa?: string } = {}
+  buildOptions: BuildOptions & { base?: string; mpa?: string } = {}
 ) {
   const start = Date.now()
 
   process.env.NODE_ENV = 'production'
   const siteConfig = await resolveConfig(root, 'build', 'production')
+
+  if (buildOptions.base) {
+    siteConfig.site.base = buildOptions.base
+    delete buildOptions.base
+  }
 
   if (buildOptions.mpa) {
     siteConfig.mpa = true
@@ -49,7 +54,9 @@ export async function build(
       // as JS object literal.
       const hashMapString = JSON.stringify(JSON.stringify(pageToHashMap))
 
-      for (const page of siteConfig.pages) {
+      const pages = ['404.md', ...siteConfig.pages]
+
+      for (const page of pages) {
         await renderPage(
           siteConfig,
           page,

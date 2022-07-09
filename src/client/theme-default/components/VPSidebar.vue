@@ -61,15 +61,14 @@ watchPostEffect(async () => {
   overflow-x: hidden;
   overflow-y: auto;
   transform: translateX(-100%);
-  transition: background-color 0.5s, opacity 0.5s, transform 0.25s ease;
+  transition: opacity 0.5s, transform 0.25s ease;
 }
 
 .VPSidebar.open {
   opacity: 1;
   visibility: visible;
   transform: translateX(0);
-  transition: background-color 0.5s,
-              opacity 0.25s,
+  transition: opacity 0.25s,
               transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
@@ -90,7 +89,6 @@ watchPostEffect(async () => {
     visibility: visible;
     box-shadow: none;
     transform: translateX(0);
-    transition: border-color 0.5s, background-color 0.5s;
   }
 }
 

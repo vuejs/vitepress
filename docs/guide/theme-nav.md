@@ -51,7 +51,7 @@ export default {
 }
 ```
 
-The `text` is the actual text displayed in nav, and the `link` is the link that will be navigated to when the text is clicked. For the link, set path to the actual file without `.md` prefix, and alsways start with `/`.
+The `text` is the actual text displayed in nav, and the `link` is the link that will be navigated to when the text is clicked. For the link, set path to the actual file without `.md` prefix, and always start with `/`.
 
 Nav links can also be dropdown menus. To do this, set `items` key on link option.
 
@@ -114,7 +114,7 @@ export default {
 
 ### Customize link's "active" state
 
-Nav menu items will be highlighted when the current page is under the matching path. if you would like to customize the path to be mathced, define `activeMatch` property and regex as a string value.
+Nav menu items will be highlighted when the current page is under the matching path. if you would like to customize the path to be matched, define `activeMatch` property and regex as a string value.
 
 ```js
 export default {

@@ -5,13 +5,20 @@ export namespace DefaultTheme {
      *
      * @example '/logo.svg'
      */
-    logo?: string
+    logo?: ThemeableImage
 
     /**
      * Custom site title in navbar. If the value is undefined,
      * `config.title` will be used.
      */
     siteTitle?: string | false
+
+    /**
+     * Custom outline title in the aside component.
+     *
+     * @default 'On this page'
+     */
+    outlineTitle?: string
 
     /**
      * The nav items.
@@ -35,6 +42,11 @@ export namespace DefaultTheme {
      * @default 'Last updated'
      */
     lastUpdatedText?: string
+
+    /**
+     * Set custom prev/next labels.
+     */
+    docFooter?: DocFooter
 
     /**
      * The social links to be displayed at the end of the nav bar. Perfect for
@@ -79,10 +91,26 @@ export namespace DefaultTheme {
     activeMatch?: string
   }
 
-  export interface NavItemWithChildren {
+  export type NavItemChildren = {
     text?: string
     items: NavItemWithLink[]
   }
+
+  export interface NavItemWithChildren {
+    text?: string
+    items: (NavItemChildren | NavItemWithLink)[]
+
+    /**
+     * `activeMatch` is expected to be a regex string. We can't use actual
+     * RegExp object here because it isn't serializable
+     */
+    activeMatch?: string
+  }
+
+  // image -----------------------------------------------------------------------
+
+  export type ThemeableImage = Image | { light: Image; dark: Image }
+  export type Image = string | { src: string; alt?: string }
 
   // sidebar -------------------------------------------------------------------
 
@@ -93,7 +121,7 @@ export namespace DefaultTheme {
   }
 
   export interface SidebarGroup {
-    text: string
+    text?: string
     items: SidebarItem[]
 
     /**
@@ -120,25 +148,11 @@ export namespace DefaultTheme {
 
   export interface EditLink {
     /**
-     * Repo of the site.
+     * Pattern for edit link.
      *
-     * @example 'vuejs/docs'
+     * @example 'https://github.com/vuejs/vitepress/edit/main/docs/:path'
      */
-    repo: string
-
-    /**
-     * Branch of the repo.
-     *
-     * @default 'main'
-     */
-    branch?: string
-
-    /**
-     * If your docs are not at the root of the repo.
-     *
-     * @example 'docs'
-     */
-    dir?: string
+    pattern: string
 
     /**
      * Custom text for edit link.
@@ -146,6 +160,24 @@ export namespace DefaultTheme {
      * @default 'Edit this page'
      */
     text?: string
+  }
+
+  // prev-next -----------------------------------------------------------------
+
+  export interface DocFooter {
+    /**
+     * Custom label for previous page button.
+     *
+     * @default 'Previous page'
+     */
+    prev?: string
+
+    /**
+     * Custom label for next page button.
+     *
+     * @default 'Next page'
+     */
+    next?: string
   }
 
   // social link ---------------------------------------------------------------
@@ -170,6 +202,19 @@ export namespace DefaultTheme {
   export interface Footer {
     message?: string
     copyright?: string
+  }
+
+  // team ----------------------------------------------------------------------
+
+  export interface TeamMember {
+    avatar: string
+    name: string
+    title?: string
+    org?: string
+    orgLink?: string
+    desc?: string
+    links?: SocialLink[]
+    sponsor?: string
   }
 
   // locales -------------------------------------------------------------------
@@ -198,6 +243,7 @@ export namespace DefaultTheme {
     searchParameters?: any
     disableUserPersonalization?: boolean
     initialQuery?: string
+    buttonText?: string
   }
 
   // carbon ads ----------------------------------------------------------------
