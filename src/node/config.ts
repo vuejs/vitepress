@@ -71,6 +71,12 @@ export interface UserConfig<ThemeConfig = any> {
    * @default false
    */
   ignoreDeadLinks?: boolean
+
+  /**
+   * Build end hook: called when SSG finish.
+   * @param siteConfig The resolved configuration.
+   */
+  buildEnd?: (siteConfig: SiteConfig) => Promise<void>
 }
 
 export type RawConfigExports<ThemeConfig = any> =
@@ -88,6 +94,7 @@ export interface SiteConfig<ThemeConfig = any>
     | 'mpa'
     | 'lastUpdated'
     | 'ignoreDeadLinks'
+    | 'buildEnd'
   > {
   root: string
   srcDir: string
@@ -166,7 +173,8 @@ export async function resolveConfig(
     vite: userConfig.vite,
     shouldPreload: userConfig.shouldPreload,
     mpa: !!userConfig.mpa,
-    ignoreDeadLinks: userConfig.ignoreDeadLinks
+    ignoreDeadLinks: userConfig.ignoreDeadLinks,
+    buildEnd: userConfig.buildEnd
   }
 
   return config
