@@ -102,7 +102,7 @@ export async function createVitePressPlugin(
         optimizeDeps: {
           // force include vue to avoid duplicated copies when linked + optimized
           include: ['vue'],
-          exclude: ['@docsearch/js']
+          exclude: ['@docsearch/js', 'vitepress']
         },
         server: {
           fs: {
