@@ -220,7 +220,7 @@ export namespace DefaultTheme {
   // locales -------------------------------------------------------------------
 
   export interface LocaleLinks {
-    text: string
+    text?: string
     items: LocaleLink[]
   }
 
