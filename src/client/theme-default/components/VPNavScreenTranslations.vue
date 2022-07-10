@@ -17,7 +17,7 @@ function toggle() {
   <div v-if="theme.localeLinks" class="VPNavScreenTranslations" :class="{ open: isOpen }">
     <button class="title" @click="toggle">
       <VPIconLanguages class="icon lang" />
-      {{ theme.localeLinks.text }}
+      {{ theme.localeLinks?.text }}
       <VPIconChevronDown class="icon chevron" />
     </button>
 

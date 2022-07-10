@@ -11,7 +11,7 @@ const { site, theme } = useData()
 <template>
   <VPFlyout class="VPNavBarExtra" label="extra navigation">
     <div v-if="theme.localeLinks" class="group">
-      <p class="trans-title">{{ theme.localeLinks.text }}</p>
+      <p v-if="theme.localeLinks.text" class="trans-title">{{ theme.localeLinks.text }}</p>
 
       <template v-for="locale in theme.localeLinks.items" :key="locale.link">
         <VPMenuLink :item="locale" />

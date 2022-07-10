@@ -14,7 +14,7 @@ const { theme } = useData()
     :icon="VPIconLanguages"
   >
     <div class="items">
-      <p class="title">{{ theme.localeLinks.text }}</p>
+      <p v-if="theme.localeLinks.text" class="title">{{ theme.localeLinks.text }}</p>
 
       <template v-for="locale in theme.localeLinks.items" :key="locale.link">
         <VPMenuLink :item="locale" />
