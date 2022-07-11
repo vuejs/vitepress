@@ -10,7 +10,8 @@ export function useSidebar() {
 
   const sidebar = computed(() => {
     const sidebarConfig = theme.value.sidebar
-    return sidebarConfig ? getSidebar(sidebarConfig, route.path) : []
+    const relativePath = route.data.relativePath
+    return sidebarConfig ? getSidebar(sidebarConfig, relativePath) : []
   })
 
   const hasSidebar = computed(() => {
