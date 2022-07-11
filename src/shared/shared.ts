@@ -21,7 +21,7 @@ export const notFoundPageData: PageData = {
   title: '404',
   description: 'Not Found',
   headers: [],
-  frontmatter: {},
+  frontmatter: { sidebar: false },
   lastUpdated: 0
 }
 
