@@ -29,7 +29,6 @@ export async function serve(options: ServeOptions = {}) {
   const compress = compression()
   const serve = sirv(site.outDir, {
     etag: true,
-    single: true,
     maxAge: 31536000,
     immutable: true,
     setHeaders(res, pathname) {
