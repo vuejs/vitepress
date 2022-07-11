@@ -78,7 +78,7 @@
     "@vueuse/core": "^8.9.1",
     "body-scroll-lock": "^4.0.0-beta.0",
     "shiki": "^0.10.1",
-    "vite": "^3.0.0-beta.9",
+    "vite": "^3.0.0-beta.10",
     "vue": "^3.2.37"
   },
   "devDependencies": {
@@ -107,7 +107,7 @@
     "debug": "^4.3.4",
     "diacritics": "^1.3.0",
     "enquirer": "^2.3.6",
-    "esbuild": "^0.14.48",
+    "esbuild": "^0.14.49",
     "escape-html": "^1.0.3",
     "execa": "^6.1.0",
     "fast-glob": "^3.2.11",
@@ -138,8 +138,8 @@
     "sirv": "^2.0.2",
     "supports-color": "^9.2.2",
     "typescript": "^4.7.4",
-    "vitest": "^0.17.1",
-    "vue-tsc": "^0.38.3"
+    "vitest": "^0.18.0",
+    "vue-tsc": "^0.38.5"
   },
   "pnpm": {
     "peerDependencyRules": {
