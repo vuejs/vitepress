@@ -34,7 +34,7 @@ const component = computed(() => {
     :class="classes"
     :href="href ? normalizeLink(href) : undefined"
     :target="isExternal ? '_blank' : undefined"
-    :rel="isExternal ? 'noopener noreferrer' : undefined"
+    :rel="isExternal ? 'noreferrer' : undefined"
   >
     {{ text }}
   </component>

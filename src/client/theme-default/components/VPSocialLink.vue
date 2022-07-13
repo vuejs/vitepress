@@ -19,7 +19,7 @@ const svg = computed(() => {
     class="VPSocialLink"
     :href="link"
     target="_blank"
-    rel="noopener noreferrer"
+    rel="noopener"
     v-html="svg"
   >
   </a>

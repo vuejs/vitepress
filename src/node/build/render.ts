@@ -5,7 +5,13 @@ import { pathToFileURL } from 'url'
 import escape from 'escape-html'
 import { normalizePath, transformWithEsbuild } from 'vite'
 import { RollupOutput, OutputChunk, OutputAsset } from 'rollup'
-import { HeadConfig, PageData, createTitle, notFoundPageData } from '../shared'
+import {
+  HeadConfig,
+  PageData,
+  createTitle,
+  notFoundPageData,
+  mergeHead
+} from '../shared'
 import { slash } from '../utils/slash'
 import { SiteConfig, resolveSiteDataByRoute } from '../config'
 
@@ -115,10 +121,10 @@ export async function renderPage(
   const title: string = createTitle(siteData, pageData)
   const description: string = pageData.description || siteData.description
 
-  const head = [
-    ...siteData.head,
-    ...filterOutHeadDescription(pageData.frontmatter.head)
-  ]
+  const head = mergeHead(
+    siteData.head,
+    filterOutHeadDescription(pageData.frontmatter.head)
+  )
 
   let inlinedScript = ''
   if (config.mpa && result) {

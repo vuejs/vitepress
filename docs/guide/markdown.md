@@ -46,7 +46,7 @@ Pages and internal links get generated with the `.html` suffix by default.
 
 ### External Links
 
-Outbound links automatically get `target="_blank" rel="noopener noreferrer"`:
+Outbound links automatically get `target="_blank" rel="noreferrer"`:
 
 - [vuejs.org](https://vuejs.org)
 - [VitePress on GitHub](https://github.com/vuejs/vitepress)
