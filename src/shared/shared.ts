@@ -1,4 +1,9 @@
-import { SiteData, PageData, LocaleConfig } from '../../types/shared'
+import {
+  SiteData,
+  PageData,
+  LocaleConfig,
+  HeadConfig
+} from '../../types/shared'
 
 export type {
   SiteData,
@@ -135,4 +140,17 @@ function cleanRoute(siteData: SiteData, route: string): string {
   const baseWithoutSuffix = base.endsWith('/') ? base.slice(0, -1) : base
 
   return route.slice(baseWithoutSuffix.length)
+}
+
+function hasTag(head: HeadConfig[], tag: HeadConfig) {
+  const [tagType, tagAttrs] = tag
+  const keyAttr = Object.entries(tagAttrs)[0] // First key
+  if (keyAttr == null) return false
+  return head.some(
+    ([type, attrs]) => type === tagType && attrs[keyAttr[0]] === keyAttr[1]
+  )
+}
+
+export function mergeHead(prev: HeadConfig[], curr: HeadConfig[]) {
+  return [...prev.filter((tagAttrs) => !hasTag(curr, tagAttrs)), ...curr]
 }
