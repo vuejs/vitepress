@@ -199,3 +199,18 @@ interface Feature {
   details: string
 }
 ```
+
+## rightsidebar
+
+- Type: `boolean`
+
+This option only take effect when `layout` is set to `page`.
+
+By default, the right aside will be shown, if you want to remove it, configure the option to `false`:
+
+```yaml
+---
+rightsidebar: false
+---
+```
+

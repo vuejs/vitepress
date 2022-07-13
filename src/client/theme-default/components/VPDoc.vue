@@ -6,7 +6,7 @@ import VPDocAside from './VPDocAside.vue'
 import VPDocFooter from './VPDocFooter.vue'
 
 const route = useRoute()
-const { hasSidebar } = useSidebar()
+const { hasSidebar, hasRightSidebar } = useSidebar()
 
 const pageName = computed(() =>
   route.path.replace(/[./]+/g, '_').replace(/_html$/, '')
@@ -16,7 +16,7 @@ const pageName = computed(() =>
 <template>
   <div class="VPDoc" :class="{ 'has-sidebar': hasSidebar }">
     <div class="container">
-      <div class="aside">
+      <div v-if="hasRightSidebar" class="aside">
         <div class="aside-curtain" />
         <div class="aside-container">
           <div class="aside-content">
@@ -33,7 +33,7 @@ const pageName = computed(() =>
       </div>
 
       <div class="content">
-        <div class="content-container">
+        <div class="content-container" :class="{ 'has-right-sidebar': hasRightSidebar }">
           <slot name="doc-before" />
 
           <main class="main">
@@ -170,6 +170,9 @@ const pageName = computed(() =>
 
 .content-container {
   margin: 0 auto;
+}
+
+.content-container.has-right-sidebar {
   max-width: 688px;
 }
 </style>

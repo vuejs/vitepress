@@ -22,6 +22,13 @@ export function useSidebar() {
     )
   })
 
+  const hasRightSidebar = computed(() => {
+    if (frontmatter.value.layout !== 'home' && frontmatter.value.rightsidebar === false)
+      return false
+
+    return hasSidebar.value
+  })
+
   function open() {
     isOpen.value = true
   }
@@ -38,6 +45,7 @@ export function useSidebar() {
     isOpen,
     sidebar,
     hasSidebar,
+    hasRightSidebar,
     open,
     close,
     toggle
