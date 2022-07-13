@@ -24,7 +24,7 @@ onMounted(() => {
   // meta key detect (same logic as in @docsearch/js)
   metaKey.value.textContent = /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)
     ? '⌘'
-    : 'Ctrl'
+    : 'CTRL'
 
   const handleSearchHotKey = (e: KeyboardEvent) => {
     if (e.key === 'k' && (e.ctrlKey || e.metaKey)) {
@@ -54,7 +54,7 @@ function load() {
   <div v-if="theme.algolia" class="VPNavBarSearch">
     <VPAlgoliaSearchBox v-if="loaded" />
 
-    <div v-else id="docsearch" @click="load">
+    <div v-else id="docsearch-hack" @click="load">
       <button
         type="button"
         class="DocSearch DocSearch-Button"
@@ -79,7 +79,7 @@ function load() {
           <span class="DocSearch-Button-Placeholder">{{ theme.algolia?.buttonText || 'Search' }}</span>
         </span>
         <span class="DocSearch-Button-Keys">
-          <kbd class="DocSearch-Button-Key" ref="metaKey">Meta</kbd>
+          <kbd class="DocSearch-Button-Key DocSearch-Button-Key-Hack" ref="metaKey">Meta</kbd>
           <kbd class="DocSearch-Button-Key">K</kbd>
         </span>
       </button>
@@ -245,6 +245,14 @@ function load() {
   font-size: 12px;
   font-weight: 500;
   transition: color 0.5s, border-color 0.5s;
+}
+
+.DocSearch-Button .DocSearch-Button-Key.DocSearch-Button-Key-Hack {
+  line-height: 16px;
+  font-size: 9px;
+  padding-left: 4px;
+  margin-left: 2px;
+  font-weight: bolder;
 }
 
 .DocSearch-Button .DocSearch-Button-Key + .DocSearch-Button-Key {
