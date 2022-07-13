@@ -48,8 +48,8 @@ export function createRouter(
     }
     if (inBrowser) {
       // save scroll position before changing url
-      history.replaceState({ scrollPosition: window.scrollY }, document.title)
       history.pushState(null, '', href)
+      history.replaceState({ scrollPosition: window.scrollY }, document.title)
     }
     return loadPage(href)
   }
