@@ -285,7 +285,7 @@ function resolveSiteDataHead(userConfig?: UserConfig): HeadConfig[] {
   if (userConfig?.appearance ?? true) {
     head.push([
       'script',
-      {},
+      { id: 'check-dark-light' },
       `
         ;(() => {
           const saved = localStorage.getItem('${APPEARANCE_KEY}')
