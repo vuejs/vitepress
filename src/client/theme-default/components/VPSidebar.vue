@@ -83,7 +83,6 @@ watchPostEffect(async () => {
     padding-bottom: 128px;
     width: var(--vp-sidebar-width);
     max-width: 100%;
-    width: var(--vp-sidebar-width);
     background-color: var(--vp-c-bg-alt);
     opacity: 1;
     visibility: visible;
