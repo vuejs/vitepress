@@ -32,7 +32,7 @@ const icons = {
     :href="link"
     :title="icon"
     target="_blank"
-    rel="noopener noreferrer"
+    rel="noreferrer"
   >
     <component :is="icons[icon]" class="icon" />
     <span class="visually-hidden">{{ icon }}</span>

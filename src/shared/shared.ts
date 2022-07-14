@@ -144,6 +144,7 @@ function cleanRoute(siteData: SiteData, route: string): string {
 
 function hasTag(head: HeadConfig[], tag: HeadConfig) {
   const [tagType, tagAttrs] = tag
+  if (tagType !== 'meta') return false
   const keyAttr = Object.entries(tagAttrs)[0] // First key
   if (keyAttr == null) return false
   return head.some(
