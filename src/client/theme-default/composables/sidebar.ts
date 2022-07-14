@@ -22,6 +22,16 @@ export function useSidebar() {
     )
   })
 
+  const hasAside = computed(() => {
+    if (
+      frontmatter.value.layout !== 'home' &&
+      frontmatter.value.aside === false
+    )
+      return false
+
+    return hasSidebar.value
+  })
+
   function open() {
     isOpen.value = true
   }
@@ -38,6 +48,7 @@ export function useSidebar() {
     isOpen,
     sidebar,
     hasSidebar,
+    hasAside,
     open,
     close,
     toggle

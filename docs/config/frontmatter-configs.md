@@ -199,3 +199,16 @@ interface Feature {
   details: string
 }
 ```
+
+## aside
+
+- Type: `boolean`
+- Default: `true`
+
+If you want the right aside component in `doc` layout not to be shown, set this option to `false`.
+
+```yaml
+---
+aside: false
+---
+```

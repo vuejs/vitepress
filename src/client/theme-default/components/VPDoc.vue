@@ -6,7 +6,7 @@ import VPDocAside from './VPDocAside.vue'
 import VPDocFooter from './VPDocFooter.vue'
 
 const route = useRoute()
-const { hasSidebar } = useSidebar()
+const { hasSidebar, hasAside } = useSidebar()
 
 const pageName = computed(() =>
   route.path.replace(/[./]+/g, '_').replace(/_html$/, '')
@@ -14,9 +14,12 @@ const pageName = computed(() =>
 </script>
 
 <template>
-  <div class="VPDoc" :class="{ 'has-sidebar': hasSidebar }">
+  <div
+    class="VPDoc"
+    :class="{ 'has-sidebar': hasSidebar, 'has-aside': hasAside }"
+  >
     <div class="container">
-      <div class="aside">
+      <div v-if="hasAside" class="aside">
         <div class="aside-curtain" />
         <div class="aside-container">
           <div class="aside-content">
@@ -170,6 +173,9 @@ const pageName = computed(() =>
 
 .content-container {
   margin: 0 auto;
+}
+
+.VPDoc.has-aside .content-container {
   max-width: 688px;
 }
 </style>
