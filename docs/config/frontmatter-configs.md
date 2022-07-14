@@ -98,7 +98,7 @@ Determines the layout of the page.
 
 - `doc` - It applies default documentation styles to the markdown content.
 - `home` - Special layout for "Home Page". You may add extra options such as `hero` and `features` to rappidly create beautiful landing page.
-- `page` - Behave similar to `doc` but it aplies no styles to the content. Useful when you want to create a fully custom page.
+- `page` - Behave similar to `doc` but it applies no styles to the content. Useful when you want to create a fully custom page.
 
 ```yaml
 ---
@@ -110,7 +110,7 @@ layout: doc
 
 - Type: `Hero`
 
-This option only take effect when `layout` is set to `home`.
+This option only takes effect when `layout` is set to `home`.
 
 It defines contents of home hero section.
 
@@ -165,7 +165,7 @@ interface HeroAction {
 
 - Type: `Feature[]`
 
-This option only take effect when `layout` is set to `home`.
+This option only takes effect when `layout` is set to `home`.
 
 It defines items to display in features section.
 
