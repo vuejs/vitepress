@@ -16,11 +16,17 @@ export const SITE_DATA_ID = '@siteData'
 export const SITE_DATA_REQUEST_PATH = '/' + SITE_DATA_ID
 
 export function resolveAliases(root: string, themeDir: string): AliasOptions {
+  const paths: Record<string, string> = {
+    '/@theme': themeDir,
+    '@theme': themeDir,
+    [SITE_DATA_ID]: SITE_DATA_REQUEST_PATH
+  }
+
   const aliases: Alias[] = [
-    {
-      find: SITE_DATA_ID,
-      replacement: SITE_DATA_REQUEST_PATH
-    },
+    ...Object.keys(paths).map((p) => ({
+      find: p,
+      replacement: paths[p]
+    })),
     {
       find: /^vitepress$/,
       replacement: join(DIST_CLIENT_PATH, '/index')
