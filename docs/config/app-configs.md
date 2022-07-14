@@ -114,8 +114,17 @@ Below shows the the full option you may define within this object.
 ```ts
 interface MarkdownOptions extends MarkdownIt.Options {
   // Syntax highlight theme for Shiki.
-  // See: https://github.com/shikijs/shiki/blob/main/docs/themes.md#all-themes
-  theme?: Shiki.Theme | { light: Shiki.Theme, dark: Shiki.Theme }
+  // You can use an existing theme. See:
+  // https://github.com/shikijs/shiki/blob/main/docs/themes.md#all-themes
+  // Or add your own theme. See:
+  // https://github.com/shikijs/shiki/blob/main/docs/themes.md#loading-theme
+  theme?:
+    | Shiki.Theme
+    | Shiki.IShikiTheme
+    | {
+        light: Shiki.Theme | Shiki.IShikiTheme,
+        dark: Shiki.Theme | Shiki.IShikiTheme
+      };
 
   // Enable line numbers in code block.
   lineNumbers?: boolean
