@@ -97,7 +97,9 @@ export async function bundle(
                 }
               })
         }
-      }
+      },
+      // minify with esbuild in MPA mode (for CSS)
+      minify: ssr ? (config.mpa ? 'esbuild' : false) : !process.env.DEBUG
     }
   })
 
