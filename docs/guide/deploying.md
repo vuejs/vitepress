@@ -65,7 +65,13 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
 ### Using GitHub Actions
 
-1. Create a file named `deploy.yml` inside `.github/workflows` directory of your project with the following content:
+1. Set the correct `base` in `docs/.vitepress/config.js`.
+
+   If you are deploying to `https://<USERNAME or GROUP>.github.io/`, you can omit `base` as it defaults to `'/'`.
+
+   If you are deploying to `https://<USERNAME or GROUP>.github.io/<REPO>/` (your repository is at `https://github.com/<USERNAME>/<REPO>`), then set `base` to `'/<REPO>/'`.
+
+2. Create a file named `deploy.yml` inside `.github/workflows` directory of your project with the following content:
 
    ```yaml
    name: Deploy
@@ -100,9 +106,9 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
    Please replace the corresponding branch name. For example, if the branch you want to build is `master`, then you should replace `main` with `master` in the above file.
    :::
 
-2. Now commit your code and push it to the `main` branch.
+3. Now commit your code and push it to the `main` branch.
 
-3. Wait for actions to complete. Then select `gh-pages` branch as GitHub Pages source in your repository settings. Now your docs will automatically deploy each time you push.
+4. Wait for actions to complete. Then select `gh-pages` branch as GitHub Pages source in your repository settings. Now your docs will automatically deploy each time you push.
 
 ## GitLab Pages
 
