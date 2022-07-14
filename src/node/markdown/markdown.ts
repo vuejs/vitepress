@@ -1,5 +1,5 @@
 import MarkdownIt from 'markdown-it'
-import { Theme } from 'shiki'
+import { Theme, IShikiTheme } from 'shiki'
 import { parseHeader } from '../utils/parseHeader'
 import { highlight } from './plugins/highlight'
 import { slugify } from './plugins/slugify'
@@ -19,7 +19,9 @@ import attrs from 'markdown-it-attrs'
 import emoji from 'markdown-it-emoji'
 import toc from 'markdown-it-toc-done-right'
 
-export type ThemeOptions = Theme | { light: Theme; dark: Theme }
+export type ThemeValue = Theme | IShikiTheme
+
+export type ThemeOptions = ThemeValue | { light: ThemeValue; dark: ThemeValue }
 
 export interface MarkdownOptions extends MarkdownIt.Options {
   lineNumbers?: boolean

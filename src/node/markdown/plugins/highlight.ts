@@ -1,26 +1,33 @@
 import { getHighlighter } from 'shiki'
-import type { ThemeOptions } from '../markdown'
+import type { ThemeOptions, ThemeValue } from '../markdown'
 
 export async function highlight(theme: ThemeOptions = 'material-palenight') {
-  const themes = typeof theme === 'string' ? [theme] : [theme.dark, theme.light]
+  const hasMultipleThemes =
+    typeof theme !== 'string' && 'dark' in theme && 'light' in theme
+  const themes: ThemeValue[] = hasMultipleThemes
+    ? [theme.dark, theme.light]
+    : [theme]
   const highlighter = await getHighlighter({ themes })
   const preRE = /^<pre.*?>/
 
   return (str: string, lang: string) => {
     lang = lang || 'text'
 
-    if (typeof theme === 'string') {
+    const getThemeName = (themeValue: ThemeValue) =>
+      typeof themeValue === 'string' ? themeValue : themeValue.name
+
+    if (!hasMultipleThemes) {
       return highlighter
-        .codeToHtml(str, { lang, theme })
+        .codeToHtml(str, { lang, theme: getThemeName(theme) })
         .replace(preRE, '<pre v-pre>')
     }
 
     const dark = highlighter
-      .codeToHtml(str, { lang, theme: theme.dark })
+      .codeToHtml(str, { lang, theme: getThemeName(theme.dark) })
       .replace(preRE, '<pre v-pre class="vp-code-dark">')
 
     const light = highlighter
-      .codeToHtml(str, { lang, theme: theme.light })
+      .codeToHtml(str, { lang, theme: getThemeName(theme.light) })
       .replace(preRE, '<pre v-pre class="vp-code-light">')
 
     return dark + light
