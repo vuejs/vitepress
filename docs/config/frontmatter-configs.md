@@ -200,17 +200,15 @@ interface Feature {
 }
 ```
 
-## rightsidebar
+## aside
 
 - Type: `boolean`
+- Default: `true`
 
-This option only take effect when `layout` is set to `page`.
-
-By default, the right aside will be shown, if you want to remove it, configure the option to `false`:
+If you want the right aside component in `doc` layout not to be shown, set this option to `false`.
 
 ```yaml
 ---
-rightsidebar: false
+aside: false
 ---
 ```
-
