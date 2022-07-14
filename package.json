@@ -3,7 +3,7 @@
   "version": "1.0.0-alpha.4",
   "description": "Vite & Vue powered static site generator",
   "type": "module",
-  "packageManager": "pnpm@7.5.0",
+  "packageManager": "pnpm@7.5.1",
   "main": "dist/node/index.js",
   "types": "types/index.d.ts",
   "exports": {
@@ -97,7 +97,7 @@
     "@types/markdown-it": "^12.2.3",
     "@types/micromatch": "^4.0.2",
     "@types/minimist": "^1.2.2",
-    "@types/node": "^18.0.3",
+    "@types/node": "^18.0.4",
     "@types/polka": "^0.5.4",
     "@types/prompts": "^2.0.14",
     "chokidar": "^3.5.3",
