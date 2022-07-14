@@ -29,6 +29,8 @@ defineProps<{
   background-color: var(--vp-c-bg);
   box-shadow: var(--vp-shadow-3);
   transition: background-color 0.5s;
+  max-height:calc(100vh - var(--vp-nav-height-desktop));
+  overflow-y: scroll;
 }
 
 .dark .VPMenu {
