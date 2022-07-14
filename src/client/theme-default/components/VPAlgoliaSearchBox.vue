@@ -61,7 +61,7 @@ function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
       })
     },
 
-    // @ts-ignore
+    // @ts-expect-error vue-tsc thinks this should return Vue JSX but it returns the required React one
     hitComponent({ hit, children }) {
       const relativeHit = hit.url.startsWith('http')
         ? getRelativePath(hit.url)
