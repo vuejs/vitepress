@@ -97,9 +97,9 @@ function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
 
           children
         }
-      }
+      } as unknown
     }
-  })
+  }) as Parameters<typeof docsearch>[0]
 
   docsearch(options)
 }
