@@ -21,10 +21,7 @@ import toc from 'markdown-it-toc-done-right'
 
 export type ThemeOptions =
   | IThemeRegistration
-  | {
-      light: IThemeRegistration
-      dark: IThemeRegistration
-    }
+  | { light: IThemeRegistration; dark: IThemeRegistration }
 
 export interface MarkdownOptions extends MarkdownIt.Options {
   lineNumbers?: boolean
