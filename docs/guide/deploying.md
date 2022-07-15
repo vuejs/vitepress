@@ -19,6 +19,8 @@ The following guides are based on some shared assumptions:
 
 If your site is to be served at a subdirectory (`https://example.com/subdir/`), then you have to set `'/subdir/'` as the [`base`](../config/app-configs#base) in your `docs/.vitepress/config.js`.
 
+**Example:** If you're using Github (or GitLab) Pages and deploying to `user.github.io/repo/`, then set your `base` to `/repo/`.
+
 :::
 
 ## Build and Test Locally
@@ -108,15 +110,9 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
 ### Using GitLab CI
 
-1. Set the correct `base` in `docs/.vitepress/config.js`.
+1. Set `outDir` in `docs/.vitepress/config.js` to `../public`.
 
-   If you are deploying to `https://<USERNAME or GROUP>.gitlab.io/`, you can omit `base` as it defaults to `'/'`.
-
-   If you are deploying to `https://<USERNAME or GROUP>.gitlab.io/<REPO>/` (your repository is at `https://gitlab.com/<USERNAME>/<REPO>`), then set `base` to `'/<REPO>/'`.
-
-2. Set `outDir` in `docs/.vitepress/config.js` to `../public`.
-
-3. Create a file called `.gitlab-ci.yml` in the root of your project with the content below. This will build and deploy your site whenever you make changes to your content:
+2. Create a file called `.gitlab-ci.yml` in the root of your project with the content below. This will build and deploy your site whenever you make changes to your content:
 
    ```yaml
    image: node:16
