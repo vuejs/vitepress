@@ -119,11 +119,10 @@ interface MarkdownOptions extends MarkdownIt.Options {
   // Or add your own theme. See:
   // https://github.com/shikijs/shiki/blob/main/docs/themes.md#loading-theme
   theme?:
-    | Shiki.Theme
-    | Shiki.IShikiTheme
+    | Shiki.IThemeRegistration
     | {
-        light: Shiki.Theme | Shiki.IShikiTheme,
-        dark: Shiki.Theme | Shiki.IShikiTheme
+        light: Shiki.IThemeRegistration,
+        dark: Shiki.IThemeRegistration
       };
 
   // Enable line numbers in code block.

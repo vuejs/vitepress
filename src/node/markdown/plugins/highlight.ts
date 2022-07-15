@@ -1,10 +1,10 @@
-import { getHighlighter } from 'shiki'
-import type { ThemeOptions, ThemeValue } from '../markdown'
+import { IThemeRegistration, getHighlighter } from 'shiki'
+import type { ThemeOptions } from '../markdown'
 
 export async function highlight(theme: ThemeOptions = 'material-palenight') {
   const hasMultipleThemes =
     typeof theme !== 'string' && 'dark' in theme && 'light' in theme
-  const themes: ThemeValue[] = hasMultipleThemes
+  const themes: IThemeRegistration[] = hasMultipleThemes
     ? [theme.dark, theme.light]
     : [theme]
   const highlighter = await getHighlighter({ themes })
@@ -13,7 +13,7 @@ export async function highlight(theme: ThemeOptions = 'material-palenight') {
   return (str: string, lang: string) => {
     lang = lang || 'text'
 
-    const getThemeName = (themeValue: ThemeValue) =>
+    const getThemeName = (themeValue: IThemeRegistration) =>
       typeof themeValue === 'string' ? themeValue : themeValue.name
 
     if (!hasMultipleThemes) {
