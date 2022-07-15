@@ -85,14 +85,6 @@ function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
             if (route.path === relativeHit) {
               return
             }
-
-            // if the hits goes to another page, we prevent the native link
-            // behavior to leverage the Router loading feature.
-            if (route.path !== relativeHit) {
-              event.preventDefault()
-            }
-
-            router.go(relativeHit)
           },
 
           children
