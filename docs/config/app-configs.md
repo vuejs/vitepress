@@ -109,13 +109,18 @@ export default {
 }
 ```
 
-Below shows the the full option you may define within this object.
+Below are all the options that you can have in this object:
 
 ```ts
 interface MarkdownOptions extends MarkdownIt.Options {
-  // Syntax highlight theme for Shiki.
+  // Custom theme for syntax highlighting.
+  // You can use an existing theme.
   // See: https://github.com/shikijs/shiki/blob/main/docs/themes.md#all-themes
-  theme?: Shiki.Theme | { light: Shiki.Theme, dark: Shiki.Theme }
+  // Or add your own theme.
+  // See: https://github.com/shikijs/shiki/blob/main/docs/themes.md#loading-theme
+  theme?:
+    | Shiki.IThemeRegistration
+    | { light: Shiki.IThemeRegistration; dark: Shiki.IThemeRegistration }
 
   // Enable line numbers in code block.
   lineNumbers?: boolean
@@ -136,11 +141,10 @@ interface MarkdownOptions extends MarkdownIt.Options {
   }
 
   // markdown-it-toc-done-right plugin options
-  // https://github.com/nagaozen/markdown-it-toc-done-right
+  // See: https://github.com/nagaozen/markdown-it-toc-done-right
   toc?: any
 
-  // Configure the Markdown-it instance to fully customize
-  // how it works.
+  // Configure the Markdown-it instance.
   config?: (md: MarkdownIt) => void
 }
 ```
@@ -172,4 +176,3 @@ export default {
   titleTemplate: 'Vite & Vue powered static site generator'
 }
 ```
-
