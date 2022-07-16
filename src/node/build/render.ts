@@ -109,7 +109,7 @@ export async function renderPage(
         EXTERNAL_URL_RE.test(file) ? '' : siteData.base // don't add base to external urls
       }${file}">`
     })
-    .join('\n    ')
+    .join('')
 
   const prefetchLinkString = prefetchLinks
     .map((file) => {
@@ -117,7 +117,7 @@ export async function renderPage(
         EXTERNAL_URL_RE.test(file) ? '' : siteData.base // don't add base to external urls
       }${file}">`
     })
-    .join('\n    ')
+    .join('')
 
   const stylesheetLink = cssChunk
     ? `<link rel="stylesheet" href="${siteData.base}${cssChunk.fileName}">`
@@ -148,34 +148,35 @@ export async function renderPage(
     }
   }
 
-  const html = `
-<!DOCTYPE html>
-<html lang="${siteData.lang}">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>${title}</title>
-    <meta name="description" content="${description}">
-    ${stylesheetLink}
-    ${preloadLinksString}
-    ${prefetchLinkString}
-    ${await renderHead(head)}
-  </head>
-  <body>
-    <div id="app">${content}</div>
-    ${
-      config.mpa
-        ? ''
-        : `<script>__VP_HASH_MAP__ = JSON.parse(${hashMapString})</script>`
-    }
-    ${
-      appChunk
-        ? `<script type="module" async src="${siteData.base}${appChunk.fileName}"></script>`
-        : ``
-    }
-    ${inlinedScript}
-  </body>
-</html>`.trim()
+  // prettier-ignore
+  const html = [
+    '<!DOCTYPE html>',
+    `<html lang="${siteData.lang}">`,
+      `<head>`,
+        '<meta charset="utf-8">',
+        '<meta name="viewport" content="width=device-width,initial-scale=1">',
+        `<title>${title}</title>`,
+        `<meta name="description" content="${description}">`,
+        stylesheetLink,
+        preloadLinksString,
+        prefetchLinkString,
+        await renderHead(head),
+      '</head>',
+      '<body>',
+        '<div id="app">',
+          content,
+        '</div>',
+        config.mpa
+          ? ''
+          : `<script>__VP_HASH_MAP__ = JSON.parse(${hashMapString})</script>`,
+        appChunk
+          ? `<script type="module" async src="${siteData.base}${appChunk.fileName}"></script>`
+          : ``,
+        inlinedScript,
+      '</body>',
+    '</html>',
+  ].join('')
+
   const htmlFileName = path.join(config.outDir, page.replace(/\.md$/, '.html'))
   await fs.ensureDir(path.dirname(htmlFileName))
   const transformedHtml = await config.transformHtml?.(html, htmlFileName, {
@@ -232,7 +233,7 @@ function renderHead(head: HeadConfig[]): Promise<string> {
         return openTag
       }
     })
-  ).then((tags) => tags.join('\n  '))
+  ).then((tags) => tags.join(''))
 }
 
 function renderAttrs(attrs: Record<string, string>): string {
