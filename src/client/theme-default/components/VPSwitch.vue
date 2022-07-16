@@ -1,5 +1,5 @@
 <template>
-  <button class="VPSwitch" type="button" role="switch">
+  <button class="VPSwitch" type="button" role="switch" v-bind="$attrs">
     <span class="check">
       <span class="icon" v-if="$slots.default">
         <slot />

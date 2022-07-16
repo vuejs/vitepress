@@ -1,53 +1,59 @@
 <script lang="ts" setup>
 import { SMOOTH_SCROLL_KEY } from '../../shared'
 import VPSwitch from './VPSwitch.vue'
-import VPIconSun from './icons/VPIconSun.vue'
-import VPIconMoon from './icons/VPIconMoon.vue'
+import VPIconSmoothScrollOn from './icons/VPIconSmoothScrollOn.vue'
+import VPIconSmoothScrollOff from './icons/VPIconSmoothScrollOff.vue'
+import { ref, watch } from 'vue';
+
+defineProps<{ screen?: boolean }>()
+
+const title = ref('Smooth Scroll')
+const isSmoothScroll = ref(false)
+
+watch(isSmoothScroll, (smoothScroll) => {
+  title.value = `Smooth scroll is ${smoothScroll ? 'on' : 'off'}`
+})
 
 const toggle = typeof localStorage !== 'undefined' ? useSmoothScroll() : () => {}
 
 function useSmoothScroll() {
-  const query = window.matchMedia('(prefers-reduced-motion: reduce)')
   const classList = document.documentElement.classList
 
-  let userPreference = localStorage.getItem(SMOOTH_SCROLL_KEY) || 'auto'
+  // reduce will be used only while the user don't click the switcher
+  let userPreference = localStorage.getItem(SMOOTH_SCROLL_KEY) || 'reduce'
 
-  let isSmoothScroll = userPreference === 'auto'
-    ? !query.matches
-    : userPreference === 'no-preference'
+  isSmoothScroll.value = userPreference === 'no-preference'
 
-  query.onchange = (e) => {
-    if (userPreference === 'auto') {
-      setClass((isSmoothScroll = !e.matches))
-    }
-  }
+  setClass(isSmoothScroll.value)
 
   function toggle() {
-    setClass((isSmoothScroll = !isSmoothScroll))
+    setClass((isSmoothScroll.value = !isSmoothScroll.value))
 
-    userPreference = isSmoothScroll
-      ? query.matches ? 'auto' : 'no-preference'
-      : 'no-preference'
+    userPreference = isSmoothScroll.value ? 'no-preference' : 'reduce'
 
     localStorage.setItem(SMOOTH_SCROLL_KEY, userPreference)
   }
 
   function setClass(smoothScroll: boolean): void {
-    classList[smoothScroll ? 'add' : 'remove']('no-preference')
+    classList.remove('smooth-scroll-on', 'smooth-scroll-off')
+    classList.add(smoothScroll ? 'smooth-scroll-on' : 'smooth-scroll-off')
   }
 
   return toggle
 }
+
 </script>
 
 <template>
   <VPSwitch
     class="VPSwitchSmoothScroll"
+    :title="title"
     aria-label="toggle smooth scroll mode"
+    :aria-checked="`${isSmoothScroll}`"
     @click="toggle"
   >
-    <VPIconSun class="reduce" />
-    <VPIconMoon class="no-preference" />
+    <VPIconSmoothScrollOff :title="title" :check="screen" class="reduce" />
+    <VPIconSmoothScrollOn :title="title" :check="screen" class="no-preference" />
   </VPSwitch>
 </template>
 
@@ -60,17 +66,15 @@ function useSmoothScroll() {
   opacity: 0;
 }
 
-.no-preference .reduce {
+.smooth-scroll-on .reduce {
   opacity: 0;
 }
 
-.no-preference .no-preference {
+.smooth-scroll-on .no-preference {
   opacity: 1;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .no-preference .VPSwitchSmoothScroll :deep(.check) {
-    transform: translateX(18px);
-  }
+.smooth-scroll-on .VPSwitchSmoothScroll :deep(.check) {
+  transform: translateX(18px);
 }
 </style>

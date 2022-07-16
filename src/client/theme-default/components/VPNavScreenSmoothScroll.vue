@@ -7,8 +7,8 @@ const { site } = useData()
 
 <template>
   <div v-if="site.smoothScroll" class="VPNavScreenSmoothScroll">
-    <p class="text">Smooth Scroll</p>
-    <VPSwitchSmoothScroll />
+    <p class="text">Smooth scroll</p>
+    <VPSwitchSmoothScroll screen />
   </div>
 </template>
 

@@ -3,6 +3,7 @@ import { useData } from 'vitepress'
 import VPFlyout from './VPFlyout.vue'
 import VPMenuLink from './VPMenuLink.vue'
 import VPSwitchAppearance from './VPSwitchAppearance.vue'
+import VPSwitchSmoothScroll from "./VPSwitchSmoothScroll.vue";
 import VPSocialLinks from './VPSocialLinks.vue'
 
 const { site, theme } = useData()
@@ -23,6 +24,15 @@ const { site, theme } = useData()
         <p class="label">Appearance</p>
         <div class="appearance-action">
           <VPSwitchAppearance />
+        </div>
+      </div>
+    </div>
+
+    <div v-if="site.smoothScroll" class="group">
+      <div class="item smooth-scroll">
+        <p class="label">Smooth scroll</p>
+        <div class="smooth-scroll-action">
+          <VPSwitchSmoothScroll screen />
         </div>
       </div>
     </div>
@@ -62,17 +72,20 @@ const { site, theme } = useData()
 }
 
 .item.appearance,
+.item.smooth-scroll,
 .item.social-links {
   display: flex;
   align-items: center;
   padding: 0 12px;
 }
 
-.item.appearance {
+.item.appearance,
+.item.smooth-scroll {
   min-width: 176px;
 }
 
-.appearance-action {
+.appearance-action,
+.smooth-scroll-action {
   margin-right: -2px;
 }
 

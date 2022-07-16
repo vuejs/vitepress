@@ -3,6 +3,9 @@ import { APPEARANCE_KEY } from '../../shared'
 import VPSwitch from './VPSwitch.vue'
 import VPIconSun from './icons/VPIconSun.vue'
 import VPIconMoon from './icons/VPIconMoon.vue'
+import { ref } from "vue";
+
+const isDark = ref(false)
 
 const toggle = typeof localStorage !== 'undefined' ? useAppearance() : () => {}
 
@@ -12,20 +15,20 @@ function useAppearance() {
 
   let userPreference = localStorage.getItem(APPEARANCE_KEY) || 'auto'
 
-  let isDark = userPreference === 'auto'
+  isDark.value = userPreference === 'auto'
     ? query.matches
     : userPreference === 'dark'
 
   query.onchange = (e) => {
     if (userPreference === 'auto') {
-      setClass((isDark = e.matches))
+      setClass((isDark.value = e.matches))
     }
   }
 
   function toggle() {
-    setClass((isDark = !isDark))
+    setClass((isDark.value = !isDark.value))
 
-    userPreference = isDark
+    userPreference = isDark.value
       ? query.matches ? 'auto' : 'dark'
       : query.matches ? 'light' : 'auto'
 
@@ -44,6 +47,7 @@ function useAppearance() {
   <VPSwitch
     class="VPSwitchAppearance"
     aria-label="toggle dark mode"
+    :aria-checked="`${isDark}`"
     @click="toggle"
   >
     <VPIconSun class="sun" />

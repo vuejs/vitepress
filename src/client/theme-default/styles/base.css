@@ -14,14 +14,12 @@ html.dark {
   color-scheme: dark;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  html {
-    scroll-behavior: smooth;
-  }
+html.smooth-scroll-on {
+  scroll-behavior: smooth;
 }
 
-html.smooth-scroll {
-  scroll-behavior: smooth;
+html.smooth-scroll-off {
+  scroll-behavior: unset;
 }
 
 body {

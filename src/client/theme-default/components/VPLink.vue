@@ -3,7 +3,6 @@ import { computed } from 'vue'
 import { normalizeLink } from '../support/utils'
 import VPIconExternalLink from './icons/VPIconExternalLink.vue'
 import { EXTERNAL_URL_RE } from '../../shared'
-
 const props = defineProps<{
   href?: string
   noIcon?: boolean
