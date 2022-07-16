@@ -33,6 +33,7 @@ export interface SiteData<ThemeConfig = any> {
   description: string
   head: HeadConfig[]
   appearance: boolean
+  smoothScroll: boolean
   themeConfig: ThemeConfig
   scrollOffset: number | string
   locales: Record<string, LocaleConfig>

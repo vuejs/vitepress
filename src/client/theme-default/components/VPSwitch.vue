@@ -37,6 +37,7 @@
   transition: background-color 0.25s, transform 0.25s;
 }
 
+
 .dark .check {
   background-color: var(--vp-c-black);
 }

@@ -35,6 +35,7 @@ export interface UserConfig<ThemeConfig = any> {
   description?: string
   head?: HeadConfig[]
   appearance?: boolean
+  smoothScroll?: boolean
   themeConfig?: ThemeConfig
   locales?: Record<string, LocaleConfig>
   markdown?: MarkdownOptions
@@ -270,6 +271,7 @@ export async function resolveSiteData(
     base: userConfig.base ? userConfig.base.replace(/([^/])$/, '$1/') : '/',
     head: resolveSiteDataHead(userConfig),
     appearance: userConfig.appearance ?? true,
+    smoothScroll: userConfig.smoothScroll ?? true,
     themeConfig: userConfig.themeConfig || {},
     locales: userConfig.locales || {},
     langs: createLangDictionary(userConfig),

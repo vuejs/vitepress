@@ -17,6 +17,7 @@ export type {
 
 export const EXTERNAL_URL_RE = /^[a-z]+:/i
 export const APPEARANCE_KEY = 'vitepress-theme-appearance'
+export const SMOOTH_SCROLL_KEY = 'vitepress-theme-scroll'
 
 // @ts-ignore
 export const inBrowser = typeof window !== 'undefined'
