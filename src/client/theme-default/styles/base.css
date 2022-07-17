@@ -14,7 +14,7 @@ html.dark {
   color-scheme: dark;
 }
 
-html.smooth-scroll-on {
+html.smooth-scroll-on:focus-within {
   scroll-behavior: smooth;
 }
 
