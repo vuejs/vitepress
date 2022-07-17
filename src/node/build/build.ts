@@ -84,8 +84,11 @@ export async function build(
       pageToHashMap
     )
   } finally {
-    await fs.remove(siteConfig.tempDir)
+    if (!process.env.DEBUG)
+      fs.rmSync(siteConfig.tempDir, { recursive: true, force: true })
   }
+
+  await siteConfig.buildEnd?.(siteConfig)
 
   console.log(`build complete in ${((Date.now() - start) / 1000).toFixed(2)}s.`)
 }

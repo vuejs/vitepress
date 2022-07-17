@@ -34,17 +34,20 @@ interface PageModule {
 }
 
 export function createRouter(
-  loadPageModule: (path: string) => PageModule | Promise<PageModule>,
+  loadPageModule: (path: string) => Promise<PageModule>,
   fallbackComponent?: Component
 ): Router {
   const route = reactive(getDefaultRoute())
 
   function go(href: string = inBrowser ? location.href : '/') {
-    // ensure correct deep link so page refresh lands on correct files.
     const url = new URL(href, fakeHost)
-    if (!url.pathname.endsWith('/') && !url.pathname.endsWith('.html')) {
-      url.pathname += '.html'
-      href = url.pathname + url.search + url.hash
+    if (siteDataRef.value.cleanUrls === 'disabled') {
+      // ensure correct deep link so page refresh lands on correct files.
+      // if cleanUrls is enabled, the server should handle this
+      if (!url.pathname.endsWith('/') && !url.pathname.endsWith('.html')) {
+        url.pathname += '.html'
+        href = url.pathname + url.search + url.hash
+      }
     }
     if (inBrowser) {
       // save scroll position before changing url
@@ -60,16 +63,11 @@ export function createRouter(
     const targetLoc = new URL(href, fakeHost)
     const pendingPath = (latestPendingPath = targetLoc.pathname)
     try {
-      let page = loadPageModule(pendingPath)
-      // only await if it returns a Promise - this allows sync resolution
-      // on initial render in SSR.
-      if ('then' in page && typeof page.then === 'function') {
-        page = await page
-      }
+      let page = await loadPageModule(pendingPath)
       if (latestPendingPath === pendingPath) {
         latestPendingPath = null
 
-        const { default: comp, __pageData } = page as PageModule
+        const { default: comp, __pageData } = page
         if (!comp) {
           throw new Error(`Invalid route component: ${comp}`)
         }
@@ -87,7 +85,7 @@ export function createRouter(
               try {
                 target = document.querySelector(
                   decodeURIComponent(targetLoc.hash)
-                ) as HTMLElement
+                )
               } catch (e) {
                 console.warn(e)
               }
@@ -101,7 +99,7 @@ export function createRouter(
         }
       }
     } catch (err: any) {
-      if (!err.message.match(/fetch/) && !href.match(/^[\\/]404\.html$/)) {
+      if (!/fetch/.test(err.message) && !/^\/404(\.html|\/)?$/.test(href)) {
         console.error(err)
       }
 
@@ -187,7 +185,6 @@ export function useRouter(): Router {
   if (!router) {
     throw new Error('useRouter() is called without provider.')
   }
-  // @ts-ignore
   return router
 }
 
@@ -196,7 +193,7 @@ export function useRoute(): Route {
 }
 
 function scrollTo(el: HTMLElement, hash: string, smooth = false) {
-  let target: Element | null = null
+  let target: HTMLElement | null = null
 
   try {
     target = el.classList.contains('header-anchor')
@@ -213,12 +210,12 @@ function scrollTo(el: HTMLElement, hash: string, smooth = false) {
         document.querySelector(offset)!.getBoundingClientRect().bottom + 24
     }
     const targetPadding = parseInt(
-      window.getComputedStyle(target as HTMLElement).paddingTop,
+      window.getComputedStyle(target).paddingTop,
       10
     )
     const targetTop =
       window.scrollY +
-      (target as HTMLElement).getBoundingClientRect().top -
+      target.getBoundingClientRect().top -
       offset +
       targetPadding
     // only smooth scroll if distance is smaller than screen height.

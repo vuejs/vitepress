@@ -8,6 +8,7 @@ export default defineConfig({
   description: 'Vite & Vue powered static site generator.',
 
   lastUpdated: true,
+  cleanUrls: 'without-subfolders',
 
   themeConfig: {
     nav: nav(),
@@ -58,9 +59,9 @@ function nav() {
         {
           text: 'Contributing',
           link: 'https://github.com/vuejs/vitepress/blob/main/.github/contributing.md'
-        },
-      ],
-    },
+        }
+      ]
+    }
   ]
 }
 

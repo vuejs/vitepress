@@ -3,7 +3,7 @@ import path from 'path'
 import c from 'picocolors'
 import matter from 'gray-matter'
 import LRUCache from 'lru-cache'
-import { PageData, HeadConfig, EXTERNAL_URL_RE } from './shared'
+import { PageData, HeadConfig, EXTERNAL_URL_RE, CleanUrlsMode } from './shared'
 import { slash } from './utils/slash'
 import { deeplyParseHeader } from './utils/parseHeader'
 import { getGitTimestamp } from './utils/getGitTimestamp'
@@ -28,7 +28,8 @@ export async function createMarkdownToVueRenderFn(
   userDefines: Record<string, any> | undefined,
   isBuild = false,
   base = '/',
-  includeLastUpdatedData = false
+  includeLastUpdatedData = false,
+  cleanUrls: CleanUrlsMode = 'disabled'
 ) {
   const md = await createMarkdownRenderer(srcDir, options, base)
 
@@ -43,8 +44,9 @@ export async function createMarkdownToVueRenderFn(
   ): Promise<MarkdownCompileResult> => {
     const relativePath = slash(path.relative(srcDir, file))
     const dir = path.dirname(file)
+    const cacheKey = JSON.stringify({ src, file })
 
-    const cached = cache.get(src)
+    const cached = cache.get(cacheKey)
     if (cached) {
       debug(`[cache hit] ${relativePath}`)
       return cached
@@ -54,11 +56,15 @@ export async function createMarkdownToVueRenderFn(
 
     // resolve includes
     let includes: string[] = []
-    src = src.replace(includesRE, (_, m1) => {
-      const includePath = path.join(dir, m1)
-      const content = fs.readFileSync(includePath, 'utf-8')
-      includes.push(slash(includePath))
-      return content
+    src = src.replace(includesRE, (m, m1) => {
+      try {
+        const includePath = path.join(dir, m1)
+        const content = fs.readFileSync(includePath, 'utf-8')
+        includes.push(slash(includePath))
+        return content
+      } catch (error) {
+        return m // silently ignore error if file is not present
+      }
     })
 
     const { content, data: frontmatter } = matter(src)
@@ -67,7 +73,12 @@ export async function createMarkdownToVueRenderFn(
     md.__path = file
     md.__relativePath = relativePath
 
-    const html = md.render(content)
+    const html = md.render(content, {
+      path: file,
+      relativePath,
+      cleanUrls,
+      frontmatter
+    })
     const data = md.__data
 
     // validate data.links
@@ -78,7 +89,7 @@ export async function createMarkdownToVueRenderFn(
           `\n(!) Found dead link ${c.cyan(url)} in file ${c.white(
             c.dim(file)
           )}\nIf it is intended, you can use:\n    ${c.cyan(
-            `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`
+            `<a href="${url}" target="_blank" rel="noreferrer">${url}</a>`
           )}`
         )
       )
@@ -144,7 +155,7 @@ export async function createMarkdownToVueRenderFn(
       deadLinks,
       includes
     }
-    cache.set(src, result)
+    cache.set(cacheKey, result)
     return result
   }
 }

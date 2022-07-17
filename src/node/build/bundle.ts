@@ -52,9 +52,8 @@ export async function bundle(
       pageToHashMap,
       clientJSMap
     ),
-    // @ts-ignore
     ssr: {
-      noExternal: ['vitepress']
+      noExternal: ['vitepress', '@docsearch/css']
     },
     build: {
       ...options,
@@ -71,7 +70,10 @@ export async function bundle(
         output: {
           ...rollupOptions?.output,
           ...(ssr
-            ? {}
+            ? {
+                entryFileNames: `[name].js`,
+                chunkFileNames: `[name].[hash].js`
+              }
             : {
                 chunkFileNames(chunk) {
                   // avoid ads chunk being intercepted by adblock
@@ -138,7 +140,7 @@ export async function bundle(
     }
     // build <script client> bundle
     if (Object.keys(clientJSMap).length) {
-      clientResult = (await buildMPAClient(clientJSMap, config)) as RollupOutput
+      clientResult = await buildMPAClient(clientJSMap, config)
     }
   }
 
@@ -167,7 +169,7 @@ function staticImportedByEntry(
   importStack: string[] = []
 ): boolean {
   if (cache.has(id)) {
-    return cache.get(id) as boolean
+    return !!cache.get(id)
   }
   if (importStack.includes(id)) {
     // circular deps!

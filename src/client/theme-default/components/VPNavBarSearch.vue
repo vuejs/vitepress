@@ -14,7 +14,7 @@ const { theme } = useData()
 // hit the hotkey to invoke it.
 const loaded = ref(false)
 
-const metaKey = ref()
+const metaKey = ref(`'Meta'`)
 
 onMounted(() => {
   if (!theme.value.algolia) {
@@ -22,9 +22,9 @@ onMounted(() => {
   }
 
   // meta key detect (same logic as in @docsearch/js)
-  metaKey.value.textContent = /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)
-    ? '⌘'
-    : 'Ctrl'
+  metaKey.value = /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)
+    ? `'⌘'`
+    : `'Ctrl'`
 
   const handleSearchHotKey = (e: KeyboardEvent) => {
     if (e.key === 'k' && (e.ctrlKey || e.metaKey)) {
@@ -79,7 +79,7 @@ function load() {
           <span class="DocSearch-Button-Placeholder">{{ theme.algolia?.buttonText || 'Search' }}</span>
         </span>
         <span class="DocSearch-Button-Keys">
-          <kbd class="DocSearch-Button-Key" ref="metaKey">Meta</kbd>
+          <kbd class="DocSearch-Button-Key"></kbd>
           <kbd class="DocSearch-Button-Key">K</kbd>
         </span>
       </button>
@@ -253,6 +253,23 @@ function load() {
   border-radius: 0 4px 4px 0;
   padding-left: 2px;
   padding-right: 6px;
+}
+
+.DocSearch-Button .DocSearch-Button-Key:first-child {
+  font-size: 1px;
+  letter-spacing: -1px;
+  color: transparent;
+}
+
+.DocSearch-Button .DocSearch-Button-Key:first-child:after {
+  content: v-bind(metaKey);
+  font-size: 12px;
+  letter-spacing: normal;
+  color: var(--docsearch-muted-color);
+}
+
+.DocSearch-Button .DocSearch-Button-Key:first-child > * {
+  display: none;
 }
 
 .dark .DocSearch-Footer {

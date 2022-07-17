@@ -12,4 +12,5 @@ export interface Theme {
   Layout: Component
   NotFound?: Component
   enhanceApp?: (ctx: EnhanceAppContext) => void
+  setup?: () => void
 }

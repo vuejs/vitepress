@@ -45,7 +45,9 @@ export async function createVitePressPlugin(
     vue: userVuePluginOptions,
     vite: userViteConfig,
     pages,
-    ignoreDeadLinks
+    ignoreDeadLinks,
+    lastUpdated,
+    cleanUrls
   } = siteConfig
 
   let markdownToVue: Awaited<ReturnType<typeof createMarkdownToVueRenderFn>>
@@ -83,7 +85,8 @@ export async function createVitePressPlugin(
         config.define,
         config.command === 'build',
         config.base,
-        siteConfig.lastUpdated
+        lastUpdated,
+        cleanUrls
       )
     },
 
@@ -99,7 +102,7 @@ export async function createVitePressPlugin(
         optimizeDeps: {
           // force include vue to avoid duplicated copies when linked + optimized
           include: ['vue'],
-          exclude: ['@docsearch/js']
+          exclude: ['@docsearch/js', 'vitepress']
         },
         server: {
           fs: {
@@ -216,6 +219,14 @@ export async function createVitePressPlugin(
           if (bundle[name].type === 'asset') {
             delete bundle[name]
           }
+        }
+
+        if (config.ssr?.format === 'esm') {
+          this.emitFile({
+            type: 'asset',
+            fileName: 'package.json',
+            source: '{ "private": true, "type": "module" }'
+          })
         }
       } else {
         // client build:

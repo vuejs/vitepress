@@ -10,7 +10,8 @@ export function useSidebar() {
 
   const sidebar = computed(() => {
     const sidebarConfig = theme.value.sidebar
-    return sidebarConfig ? getSidebar(sidebarConfig, route.path) : []
+    const relativePath = route.data.relativePath
+    return sidebarConfig ? getSidebar(sidebarConfig, relativePath) : []
   })
 
   const hasSidebar = computed(() => {
@@ -19,6 +20,16 @@ export function useSidebar() {
       sidebar.value.length > 0 &&
       frontmatter.value.layout !== 'home'
     )
+  })
+
+  const hasAside = computed(() => {
+    if (
+      frontmatter.value.layout !== 'home' &&
+      frontmatter.value.aside === false
+    )
+      return false
+
+    return hasSidebar.value
   })
 
   function open() {
@@ -37,6 +48,7 @@ export function useSidebar() {
     isOpen,
     sidebar,
     hasSidebar,
+    hasAside,
     open,
     close,
     toggle

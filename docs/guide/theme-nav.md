@@ -4,7 +4,7 @@ The Nav is the navigation bar displayed on top of the page. It contains the site
 
 ## Site Title and Logo
 
-By default, nav shows the title of the site refferencing [`config.title`](../config/app-configs.html#title) value. If you would like to change what's displayed on nav, you may define custom text in `themeConfig.siteTitle` option.
+By default, nav shows the title of the site refferencing [`config.title`](../config/app-configs#title) value. If you would like to change what's displayed on nav, you may define custom text in `themeConfig.siteTitle` option.
 
 ```js
 export default {
@@ -114,7 +114,7 @@ export default {
 
 ### Customize link's "active" state
 
-Nav menu items will be highlighted when the current page is under the matching path. if you would like to customize the path to be mathced, define `activeMatch` property and regex as a string value.
+Nav menu items will be highlighted when the current page is under the matching path. if you would like to customize the path to be matched, define `activeMatch` property and regex as a string value.
 
 ```js
 export default {

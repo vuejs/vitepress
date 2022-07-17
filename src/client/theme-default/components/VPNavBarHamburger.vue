@@ -49,7 +49,7 @@ defineEmits<{
 }
 
 .VPNavBarHamburger:hover .top    { top: 0; left: 0; transform: translateX(4px); }
-.VPNavBarHamburger:hover .middle { top: 6; left: 0; transform: translateX(0); }
+.VPNavBarHamburger:hover .middle { top: 6px; left: 0; transform: translateX(0); }
 .VPNavBarHamburger:hover .bottom { top: 12px; left: 0; transform: translateX(8px); }
 
 .VPNavBarHamburger.active .top    { top: 6px; transform: translateX(0) rotate(225deg); }

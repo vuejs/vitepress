@@ -78,7 +78,7 @@ export const createMarkdownRenderer = async (
       linkPlugin,
       {
         target: '_blank',
-        rel: 'noopener noreferrer',
+        rel: 'noreferrer',
         ...options.externalLinks
       },
       base

@@ -16,7 +16,8 @@ import {
   LocaleConfig,
   DefaultTheme,
   APPEARANCE_KEY,
-  createLangDictionary
+  createLangDictionary,
+  CleanUrlsMode
 } from './shared'
 import { resolveAliases, DEFAULT_THEME_PATH } from './alias'
 import { MarkdownOptions } from './markdown/markdown'
@@ -60,7 +61,7 @@ export interface UserConfig<ThemeConfig = any> {
   scrollOffset?: number | string
 
   /**
-   * Enable MPA / zero-JS mode
+   * Enable MPA / zero-JS mode.
    * @experimental
    */
   mpa?: boolean
@@ -71,6 +72,25 @@ export interface UserConfig<ThemeConfig = any> {
    * @default false
    */
   ignoreDeadLinks?: boolean
+
+  /**
+   * @experimental
+   * Remove '.html' from URLs and generate clean directory structure.
+   *
+   * Available Modes:
+   * - `disabled`: generates `/foo.html` for every `/foo.md` and shows `/foo.html` in browser
+   * - `without-subfolders`: generates `/foo.html` for every `/foo.md` but shows `/foo` in browser
+   * - `with-subfolders`: generates `/foo/index.html` for every `/foo.md` and shows `/foo` in browser
+   *
+   * @default 'disabled'
+   */
+  cleanUrls?: CleanUrlsMode
+
+  /**
+   * Build end hook: called when SSG finish.
+   * @param siteConfig The resolved configuration.
+   */
+  buildEnd?: (siteConfig: SiteConfig) => Promise<void>
 }
 
 export type RawConfigExports<ThemeConfig = any> =
@@ -88,6 +108,8 @@ export interface SiteConfig<ThemeConfig = any>
     | 'mpa'
     | 'lastUpdated'
     | 'ignoreDeadLinks'
+    | 'cleanUrls'
+    | 'buildEnd'
   > {
   root: string
   srcDir: string
@@ -166,7 +188,9 @@ export async function resolveConfig(
     vite: userConfig.vite,
     shouldPreload: userConfig.shouldPreload,
     mpa: !!userConfig.mpa,
-    ignoreDeadLinks: userConfig.ignoreDeadLinks
+    ignoreDeadLinks: userConfig.ignoreDeadLinks,
+    cleanUrls: userConfig.cleanUrls || 'disabled',
+    buildEnd: userConfig.buildEnd
   }
 
   return config
@@ -180,17 +204,12 @@ async function resolveUserConfig(
   mode: string
 ): Promise<[UserConfig, string | undefined]> {
   // load user config
-  let configPath
-  for (const ext of supportedConfigExtensions) {
-    const p = resolve(root, `config.${ext}`)
-    if (await fs.pathExists(p)) {
-      configPath = p
-      break
-    }
-  }
+  const configPath = supportedConfigExtensions
+    .map((ext) => resolve(root, `config.${ext}`))
+    .find(fs.pathExistsSync)
 
   const userConfig: RawConfigExports = configPath
-    ? ((
+    ? (
         await loadConfigFromFile(
           {
             command,
@@ -199,7 +218,7 @@ async function resolveUserConfig(
           configPath,
           root
         )
-      )?.config as any)
+      )?.config!
     : {}
 
   if (configPath) {
@@ -270,7 +289,8 @@ export async function resolveSiteData(
     themeConfig: userConfig.themeConfig || {},
     locales: userConfig.locales || {},
     langs: createLangDictionary(userConfig),
-    scrollOffset: userConfig.scrollOffset || 90
+    scrollOffset: userConfig.scrollOffset || 90,
+    cleanUrls: userConfig.cleanUrls || 'disabled'
   }
 }
 
@@ -282,7 +302,7 @@ function resolveSiteDataHead(userConfig?: UserConfig): HeadConfig[] {
   if (userConfig?.appearance ?? true) {
     head.push([
       'script',
-      {},
+      { id: 'check-dark-light' },
       `
         ;(() => {
           const saved = localStorage.getItem('${APPEARANCE_KEY}')

@@ -1,15 +1,18 @@
-import { createRequire } from 'module'
 import fs from 'fs-extra'
 import path from 'path'
 import { pathToFileURL } from 'url'
 import escape from 'escape-html'
 import { normalizePath, transformWithEsbuild } from 'vite'
 import { RollupOutput, OutputChunk, OutputAsset } from 'rollup'
-import { HeadConfig, PageData, createTitle, notFoundPageData } from '../shared'
+import {
+  HeadConfig,
+  PageData,
+  createTitle,
+  notFoundPageData,
+  mergeHead
+} from '../shared'
 import { slash } from '../utils/slash'
 import { SiteConfig, resolveSiteDataByRoute } from '../config'
-
-const require = createRequire(import.meta.url)
 
 export async function renderPage(
   config: SiteConfig,
@@ -20,28 +23,16 @@ export async function renderPage(
   pageToHashMap: Record<string, string>,
   hashMapString: string
 ) {
-  const { createApp } = await import(
-    pathToFileURL(path.join(config.tempDir, `app.js`)).toString()
-  )
+  const entryPath = path.join(config.tempDir, 'app.js')
+  const { createApp } = await import(pathToFileURL(entryPath).toString())
   const { app, router } = createApp()
   const routePath = `/${page.replace(/\.md$/, '')}`
   const siteData = resolveSiteDataByRoute(config.site, routePath)
-  router.go(routePath)
-
-  // lazy require server-renderer for production build
-  // prioritize project root over vitepress' own dep
-  let rendererPath
-  try {
-    rendererPath = require.resolve('vue/server-renderer', {
-      paths: [config.root]
-    })
-  } catch (e) {
-    rendererPath = require.resolve('vue/server-renderer')
-  }
+  await router.go(routePath)
 
   // render page
-  const content = await import(pathToFileURL(rendererPath).toString()).then(
-    (r) => r.renderToString(app)
+  const content = await import('vue/server-renderer').then(
+    ({ renderToString: r }) => r(app)
   )
 
   const pageName = page.replace(/\//g, '_')
@@ -115,10 +106,10 @@ export async function renderPage(
   const title: string = createTitle(siteData, pageData)
   const description: string = pageData.description || siteData.description
 
-  const head = [
-    ...siteData.head,
-    ...filterOutHeadDescription(pageData.frontmatter.head)
-  ]
+  const head = mergeHead(
+    siteData.head,
+    filterOutHeadDescription(pageData.frontmatter.head)
+  )
 
   let inlinedScript = ''
   if (config.mpa && result) {
@@ -165,7 +156,15 @@ export async function renderPage(
     ${inlinedScript}
   </body>
 </html>`.trim()
-  const htmlFileName = path.join(config.outDir, page.replace(/\.md$/, '.html'))
+  const createSubDirectory =
+    config.cleanUrls === 'with-subfolders' &&
+    !/(^|\/)(index|404).md$/.test(page)
+
+  const htmlFileName = path.join(
+    config.outDir,
+    page.replace(/\.md$/, createSubDirectory ? '/index.html' : '.html')
+  )
+
   await fs.ensureDir(path.dirname(htmlFileName))
   await fs.writeFile(htmlFileName, html)
 }
