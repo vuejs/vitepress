@@ -12,7 +12,7 @@ Place your configuration file at `.vitepress/config.js`. This is where all ViteP
 ```
 
 ::: tip
-You can also use .ts/.cjs/.mjs/.cts/.mts as the file extension.
+You can also use any of `.ts`, `.cjs`, `.mjs`, `.cts`, `.mts` as the config file extension.
 :::
 
 VitePress comes with 2 types of configs. One is the [App Configs](./app-configs) which configures the site's fundamental features such as setting title of the site, or customize how markdown parser works. Second is the [Theme Config](./theme-configs) which configures the theme of the site, for example, adding a sidebar, or add features such as "Edit this page on GitHub" link.
