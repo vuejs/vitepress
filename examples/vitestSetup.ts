@@ -175,12 +175,13 @@ export async function startDefaultServe(): Promise<void> {
       devBase === '/' ? '' : devBase
     }`
     await page.goto(vitePressTestUrl)
+    // TODO: A reload is needed bacause the first load of page will crash
+    // because of multiple vue instances. (see https://github.com/vuejs/vitepress/issues/1016)
+    // Try to remove this after migrating to Vite3.
+    await page.reload()
   } else {
-    // TODO:
-    // process.env.VITE_INLINE = 'inline-build'
     const options: BuildOptions & { base?: string; mpa?: string } = {}
     const rollupOutput = await build(rootDir, options)
-
     vitePressTestUrl = await startStaticServer()
     await page.goto(vitePressTestUrl)
   }
