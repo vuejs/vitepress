@@ -60,7 +60,7 @@ export default {
 - Type: `HeadConfig[]`
 - Default: `[]`
 
-Additional elements to render in the `<head>` tag in the page HTML.
+Additional elements to render in the `<head>` tag in the page HTML. The user-added tags are rendered before the closing `head` tag, after VitePress tags.
 
 ```ts
 export default {
