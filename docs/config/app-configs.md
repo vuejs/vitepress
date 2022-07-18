@@ -55,6 +55,35 @@ export default {
 }
 ```
 
+## head
+
+- Type: `HeadConfig[]`
+- Default: `[]`
+
+Additional elements to render in the `<head>` tag in the page HTML.
+
+```ts
+export default {
+  head: []
+}
+```
+
+```ts
+type HeadConfig =
+  | [string, Record<string, string>]
+  | [string, Record<string, string>, string]
+````
+
+Example:
+```ts
+head: [
+  ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }]
+]
+```
+would render:<br/>
+`<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />`
+
+
 ## ignoreDeadLinks
 
 - Type: `boolean`
