@@ -3,7 +3,7 @@
   "version": "1.0.0-alpha.4",
   "description": "Vite & Vue powered static site generator",
   "type": "module",
-  "packageManager": "pnpm@7.5.1",
+  "packageManager": "pnpm@7.5.2",
   "main": "dist/node/index.js",
   "types": "types/index.d.ts",
   "exports": {
@@ -73,12 +73,12 @@
   "dependencies": {
     "@docsearch/css": "^3.1.1",
     "@docsearch/js": "^3.1.1",
-    "@vitejs/plugin-vue": "^3.0.0",
+    "@vitejs/plugin-vue": "^3.0.1",
     "@vue/devtools-api": "^6.2.1",
-    "@vueuse/core": "^8.9.2",
+    "@vueuse/core": "^8.9.4",
     "body-scroll-lock": "^4.0.0-beta.0",
     "shiki": "^0.10.1",
-    "vite": "^3.0.0",
+    "vite": "^3.0.1",
     "vue": "^3.2.37"
   },
   "devDependencies": {
@@ -97,7 +97,7 @@
     "@types/markdown-it": "^12.2.3",
     "@types/micromatch": "^4.0.2",
     "@types/minimist": "^1.2.2",
-    "@types/node": "^18.0.4",
+    "@types/node": "^18.0.6",
     "@types/polka": "^0.5.4",
     "@types/prompts": "^2.0.14",
     "chokidar": "^3.5.3",
@@ -114,7 +114,7 @@
     "fs-extra": "^10.1.0",
     "gray-matter": "^4.0.3",
     "lint-staged": "^13.0.3",
-    "lru-cache": "^7.13.0",
+    "lru-cache": "^7.13.1",
     "markdown-it": "^13.0.1",
     "markdown-it-anchor": "^8.6.4",
     "markdown-it-attrs": "^4.1.4",
@@ -130,7 +130,7 @@
     "prettier": "^2.7.1",
     "prompts": "^2.4.2",
     "rimraf": "^3.0.2",
-    "rollup": "^2.76.0",
+    "rollup": "^2.77.0",
     "rollup-plugin-dts": "^4.2.2",
     "rollup-plugin-esbuild": "^4.9.1",
     "semver": "^7.3.7",
@@ -138,8 +138,8 @@
     "sirv": "^2.0.2",
     "supports-color": "^9.2.2",
     "typescript": "^4.7.4",
-    "vitest": "^0.18.0",
-    "vue-tsc": "^0.38.5"
+    "vitest": "^0.18.1",
+    "vue-tsc": "^0.38.8"
   },
   "pnpm": {
     "peerDependencyRules": {
