@@ -64,7 +64,10 @@ Additional elements to render in the `<head>` tag in the page HTML. The user-add
 
 ```ts
 export default {
-  head: []
+  head: [
+    ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }]
+    // would render: <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  ]
 }
 ```
 
@@ -72,17 +75,7 @@ export default {
 type HeadConfig =
   | [string, Record<string, string>]
   | [string, Record<string, string>, string]
-````
-
-Example:
-```ts
-head: [
-  ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }]
-]
 ```
-would render:<br/>
-`<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />`
-
 
 ## ignoreDeadLinks
 
