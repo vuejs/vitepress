@@ -78,7 +78,7 @@
     "@vueuse/core": "^8.9.4",
     "body-scroll-lock": "^4.0.0-beta.0",
     "shiki": "^0.10.1",
-    "vite": "^3.0.1",
+    "vite": "^3.0.2",
     "vue": "^3.2.37"
   },
   "devDependencies": {
