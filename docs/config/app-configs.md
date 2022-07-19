@@ -55,6 +55,28 @@ export default {
 }
 ```
 
+## head
+
+- Type: `HeadConfig[]`
+- Default: `[]`
+
+Additional elements to render in the `<head>` tag in the page HTML. The user-added tags are rendered before the closing `head` tag, after VitePress tags.
+
+```ts
+export default {
+  head: [
+    ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }]
+    // would render: <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  ]
+}
+```
+
+```ts
+type HeadConfig =
+  | [string, Record<string, string>]
+  | [string, Record<string, string>, string]
+```
+
 ## ignoreDeadLinks
 
 - Type: `boolean`
