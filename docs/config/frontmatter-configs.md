@@ -54,7 +54,7 @@ description: VitePress
 
 ### head
 
-- Type: `Head[]`
+- Type: `HeadConfig[]`
 
 Specify extra head tags to be injected:
 
@@ -71,7 +71,7 @@ head:
 ```
 
 ```ts
-type Head =
+type HeadConfig =
   | [string, Record<string, string>]
   | [string, Record<string, string>, string]
 ```
