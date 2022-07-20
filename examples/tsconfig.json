@@ -1,5 +1,5 @@
 {
-  "include": [".", "minimal/.vitepress/vite.confg.ts"],
+  "include": ["."],
   "exclude": ["**/dist/**"],
   "compilerOptions": {
     "target": "ES2020",

@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "vitepress-example-minimal",
+  "name": "vitepress-example-configured",
   "scripts": {
     "dev": "vitepress dev",
     "build": "vitepress build",

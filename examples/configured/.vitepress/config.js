@@ -1,16 +1,13 @@
 import { defineConfig } from '../../../src/node'
 
 export default defineConfig({
-  lang: 'en-US',
-  title: 'VitePress',
-  description: 'Vite & Vue powered static site generator.',
-  lastUpdated: true,
-
+  title: 'Configured Example',
+  description: 'Example of configured options of VitePress',
   themeConfig: {
     sidebar: {
       '/': [
         {
-          text: 'Introduction',
+          text: 'Frontmatter',
           collapsible: true,
           items: [
             {

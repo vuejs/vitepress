@@ -1,27 +1,17 @@
-import * as http from 'http'
-import path, { dirname, join, resolve } from 'path'
-import os from 'os'
-import sirv from 'sirv'
 import fs from 'fs-extra'
-import { chromium } from 'playwright-chromium'
-import type {
-  InlineConfig,
-  Logger,
-  PluginOption,
-  ResolvedConfig,
-  ViteDevServer,
-  ServerOptions,
-  BuildOptions
-} from 'vite'
-// import type {  } from 'vitepress'
-import { createServer, build } from 'vitepress'
-import { mergeConfig } from 'vite'
+import * as http from 'http'
+import os from 'os'
+import path, { dirname, join, resolve } from 'path'
 import type { Browser, Page } from 'playwright-chromium'
-import type { RollupError, RollupWatcher, RollupWatcherEvent } from 'rollup'
+import { chromium } from 'playwright-chromium'
+import type { RollupWatcher } from 'rollup'
+import sirv from 'sirv'
+import type { ResolvedConfig, ServerOptions, ViteDevServer } from 'vite'
+import { build, createServer } from 'vitepress'
 import type { File } from 'vitest'
 import { beforeAll } from 'vitest'
 
-type ViteServerOptions = Parameters<typeof createServer>
+type VitePressBuildOptions = Parameters<typeof build>[1]
 
 // #region env
 
@@ -46,7 +36,7 @@ let server: ViteDevServer | http.Server
  */
 export let viteServer: ViteDevServer
 /**
- * Root of the Vite fixture
+ * Root of the VitePress fixture
  */
 export let rootDir: string
 /**
@@ -61,12 +51,6 @@ export let testDir: string
  * Test folder name
  */
 export let testName: string
-
-/**
- * current test using vite inline config
- * when using server.js is not possible to get the config
- */
-export let vitePressConfig: InlineConfig | undefined
 
 export const serverLogs: string[] = []
 export const browserLogs: string[] = []
@@ -165,7 +149,7 @@ beforeAll(async (s) => {
 })
 
 export async function startDefaultServe(): Promise<void> {
-  const options: ServerOptions = {}
+  const options: ServerOptions = undefined
   setupConsoleWarnCollector(serverLogs)
 
   if (!isBuild) {
@@ -175,24 +159,24 @@ export async function startDefaultServe(): Promise<void> {
       devBase === '/' ? '' : devBase
     }`
     await page.goto(vitePressTestUrl)
-    // TODO: A reload is needed bacause the first load of page will crash
+    // TODO: A manual reload is needed bacause the first load of page will crash
     // because of multiple vue instances. (see https://github.com/vuejs/vitepress/issues/1016)
     // Try to remove this after migrating to Vite3.
-    await page.reload()
+    if (isServe) {
+      await page.reload()
+    }
   } else {
-    const options: BuildOptions & { base?: string; mpa?: string } = {}
-    const rollupOutput = await build(rootDir, options)
+    const options: VitePressBuildOptions = {}
+    await build(rootDir, options)
     vitePressTestUrl = await startStaticServer()
     await page.goto(vitePressTestUrl)
   }
 }
 
-function startStaticServer(
-  config?: BuildOptions & { base?: string; mpa?: string }
-): Promise<string> {
+function startStaticServer(config?: VitePressBuildOptions): Promise<string> {
   if (!config) {
     // check if the test project has base config
-    const configFile = resolve(rootDir, 'vite.config.js')
+    const configFile = resolve(rootDir, '.vitepress/config.ts')
     try {
       config = require(configFile)
     } catch (e) {}
@@ -202,12 +186,6 @@ function startStaticServer(
   let base = config?.base
   if (!base || base === '/' || base === './') {
     base = ''
-  }
-
-  // @ts-ignore
-  if (config && config.__test__) {
-    // @ts-ignore
-    config.__test__()
   }
 
   // start static file server

@@ -7,7 +7,6 @@
     "serve": "vitepress serve"
   },
   "devDependencies": {
-    "vue": "^3.2.33",
     "vitepress": "workspace:*"
   }
 }
