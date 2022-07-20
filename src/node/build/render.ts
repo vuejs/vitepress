@@ -174,7 +174,7 @@ export async function renderPage(
   const htmlFileName = path.join(config.outDir, page.replace(/\.md$/, '.html'))
   await fs.ensureDir(path.dirname(htmlFileName))
   const transformedHtml = await config.transformHtml?.(html, htmlFileName, {
-    config,
+    siteConfig: config,
     siteData,
     pageData,
     title,

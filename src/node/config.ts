@@ -86,7 +86,7 @@ export interface UserConfig<ThemeConfig = any> {
     code: string,
     id: string,
     ctx: {
-      config: SiteConfig
+      siteConfig: SiteConfig
       siteData: SiteData
       pageData: PageData
       title: string
