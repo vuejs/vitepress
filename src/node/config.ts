@@ -17,7 +17,8 @@ import {
   DefaultTheme,
   APPEARANCE_KEY,
   createLangDictionary,
-  CleanUrlsMode
+  CleanUrlsMode,
+  PageData
 } from './shared'
 import { resolveAliases, DEFAULT_THEME_PATH } from './alias'
 import { MarkdownOptions } from './markdown/markdown'
@@ -91,6 +92,23 @@ export interface UserConfig<ThemeConfig = any> {
    * @param siteConfig The resolved configuration.
    */
   buildEnd?: (siteConfig: SiteConfig) => Promise<void>
+
+  /**
+   * HTML transform hook: runs before writing HTML to dist.
+   */
+  transformHtml?: (
+    code: string,
+    id: string,
+    ctx: {
+      siteConfig: SiteConfig
+      siteData: SiteData
+      pageData: PageData
+      title: string
+      description: string
+      head: HeadConfig[]
+      content: string
+    }
+  ) => Promise<string | void>
 }
 
 export type RawConfigExports<ThemeConfig = any> =
@@ -110,6 +128,7 @@ export interface SiteConfig<ThemeConfig = any>
     | 'ignoreDeadLinks'
     | 'cleanUrls'
     | 'buildEnd'
+    | 'transformHtml'
   > {
   root: string
   srcDir: string
@@ -190,7 +209,8 @@ export async function resolveConfig(
     mpa: !!userConfig.mpa,
     ignoreDeadLinks: userConfig.ignoreDeadLinks,
     cleanUrls: userConfig.cleanUrls || 'disabled',
-    buildEnd: userConfig.buildEnd
+    buildEnd: userConfig.buildEnd,
+    transformHtml: userConfig.transformHtml
   }
 
   return config

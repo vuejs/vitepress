@@ -60,7 +60,7 @@ function onBlur() {
 }
 
 .VPFlyout:hover {
-  color: var(--vp-c-bland);
+  color: var(--vp-c-brand);
   transition: color 0.25s;
 }
 

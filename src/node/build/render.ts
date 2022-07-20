@@ -166,7 +166,16 @@ export async function renderPage(
   )
 
   await fs.ensureDir(path.dirname(htmlFileName))
-  await fs.writeFile(htmlFileName, html)
+  const transformedHtml = await config.transformHtml?.(html, htmlFileName, {
+    siteConfig: config,
+    siteData,
+    pageData,
+    title,
+    description,
+    head,
+    content
+  })
+  await fs.writeFile(htmlFileName, transformedHtml || html)
 }
 
 function resolvePageImports(
