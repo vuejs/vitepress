@@ -1,41 +1,27 @@
 <script lang="ts" setup>
 import type { DefaultTheme } from 'vitepress/theme'
-import VPIconDiscord from './icons/VPIconDiscord.vue'
-import VPIconFacebook from './icons/VPIconFacebook.vue'
-import VPIconGitHub from './icons/VPIconGitHub.vue'
-import VPIconLinkedIn from './icons/VPIconLinkedIn.vue'
-import VPIconInstagram from './icons/VPIconInstagram.vue'
-import VPIconSlack from './icons/VPIconSlack.vue'
-import VPIconTwitter from './icons/VPIconTwitter.vue'
-import VPIconYouTube from './icons/VPIconYouTube.vue'
+import { computed } from 'vue'
+import { icons } from '../support/socialIcons'
 
-defineProps<{
+const props = defineProps<{
   icon: DefaultTheme.SocialLinkIcon
   link: string
 }>()
 
-const icons = {
-  discord: VPIconDiscord,
-  facebook: VPIconFacebook,
-  github: VPIconGitHub,
-  instagram: VPIconInstagram,
-  linkedin: VPIconLinkedIn,
-  slack: VPIconSlack,
-  twitter: VPIconTwitter,
-  youtube: VPIconYouTube
-}
+const svg = computed(() => {
+  if (typeof props.icon === 'object') return props.icon.svg
+  return icons[props.icon]
+})
 </script>
 
 <template>
   <a
     class="VPSocialLink"
     :href="link"
-    :title="icon"
     target="_blank"
-    rel="noreferrer"
+    rel="noopener"
+    v-html="svg"
   >
-    <component :is="icons[icon]" class="icon" />
-    <span class="visually-hidden">{{ icon }}</span>
   </a>
 </template>
 
@@ -47,15 +33,15 @@ const icons = {
   width: 36px;
   height: 36px;
   color: var(--vp-c-text-2);
-  transition: color .5s;
+  transition: color 0.5s;
 }
 
 .VPSocialLink:hover {
   color: var(--vp-c-text-1);
-  transition: color .25s;
+  transition: color 0.25s;
 }
 
-.icon {
+.VPSocialLink > :deep(svg) {
   width: 20px;
   height: 20px;
   fill: currentColor;

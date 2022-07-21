@@ -9,8 +9,8 @@ const { hasSidebar } = useSidebar()
 <template>
   <footer v-if="theme.footer" class="VPFooter" :class="{ 'has-sidebar': hasSidebar }">
     <div class="container">
-      <p class="message">{{ theme.footer.message }}</p>
-      <p class="copyright">{{ theme.footer.copyright }}</p>
+      <p class="message" v-html="theme.footer.message"></p>
+      <p class="copyright" v-html="theme.footer.copyright"></p>
     </div>
   </footer>
 </template>
