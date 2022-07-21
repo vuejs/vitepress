@@ -196,6 +196,7 @@ export namespace DefaultTheme {
     | 'slack'
     | 'twitter'
     | 'youtube'
+    | { svg: string }
 
   // footer --------------------------------------------------------------------
 
