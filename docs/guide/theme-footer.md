@@ -1,6 +1,6 @@
 # Footer
 
-When the [page layout](./theme-layout) is set to either `home` or `page`, VitePress will display global footer at the bottom of the page. Set `themeConfig.footer` to configure footer content.
+VitePress will display global footer at the bottom of the page when `themeConfig.footer` is present.
 
 ```ts
 export default {
@@ -23,4 +23,4 @@ export interface Footer {
 }
 ```
 
-Note that footer will not be displayed when the page layout is set to `doc`.
+Note that footer will not be displayed when the [SideBar](./theme-sidebar) is visible.
