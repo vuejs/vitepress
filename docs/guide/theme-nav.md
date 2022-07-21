@@ -4,7 +4,7 @@ The Nav is the navigation bar displayed on top of the page. It contains the site
 
 ## Site Title and Logo
 
-By default, nav shows the title of the site refferencing [`config.title`](../config/app-configs.html#title) value. If you would like to change what's displayed on nav, you may define custom text in `themeConfig.siteTitle` option.
+By default, nav shows the title of the site referencing [`config.title`](../config/app-configs#title) value. If you would like to change what's displayed on nav, you may define custom text in `themeConfig.siteTitle` option.
 
 ```js
 export default {
@@ -138,27 +138,4 @@ export default {
 
 ## Social Links
 
-You may define `socialLinks` option to show your social account links with icons.
-
-```js
-export default {
-  themeConfig: {
-    socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
-      { icon: 'twitter', link: '...' },
-      { icon: 'discord', link: '...' }
-    ]
-  }
-}
-```
-
-The list of supported icons are shown below.
-
-- `discord`
-- `facebook`
-- `github`
-- `instagram`
-- `linkedin`
-- `slack`
-- `twitter`
-- `youtube`
+Refer [`socialLinks`](../config/theme-configs#sociallinks).
