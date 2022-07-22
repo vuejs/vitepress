@@ -1,19 +1,25 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useRoute } from 'vitepress'
 import { useSidebar } from '../composables/sidebar'
 import VPDocAside from './VPDocAside.vue'
 import VPDocFooter from './VPDocFooter.vue'
 
-const { path } = useRoute()
-const { hasSidebar } = useSidebar()
+const route = useRoute()
+const { hasSidebar, hasAside } = useSidebar()
 
-const pageName = path.replace(/[./]+/g, '_').replace(/_html$/, '')
+const pageName = computed(() =>
+  route.path.replace(/[./]+/g, '_').replace(/_html$/, '')
+)
 </script>
 
 <template>
-  <div class="VPDoc" :class="{ 'has-sidebar': hasSidebar }">
+  <div
+    class="VPDoc"
+    :class="{ 'has-sidebar': hasSidebar, 'has-aside': hasAside }"
+  >
     <div class="container">
-      <div class="aside">
+      <div v-if="hasAside" class="aside">
         <div class="aside-curtain" />
         <div class="aside-container">
           <div class="aside-content">
@@ -167,6 +173,9 @@ const pageName = path.replace(/[./]+/g, '_').replace(/_html$/, '')
 
 .content-container {
   margin: 0 auto;
+}
+
+.VPDoc.has-aside .content-container {
   max-width: 688px;
 }
 </style>

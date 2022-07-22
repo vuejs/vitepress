@@ -5,7 +5,14 @@ import { pathToFileURL } from 'url'
 import escape from 'escape-html'
 import { normalizePath, transformWithEsbuild } from 'vite'
 import { RollupOutput, OutputChunk, OutputAsset } from 'rollup'
-import { HeadConfig, PageData, createTitle, notFoundPageData } from '../shared'
+import {
+  HeadConfig,
+  PageData,
+  createTitle,
+  notFoundPageData,
+  mergeHead,
+  EXTERNAL_URL_RE
+} from '../shared'
 import { slash } from '../utils/slash'
 import { SiteConfig, resolveSiteDataByRoute } from '../config'
 
@@ -98,13 +105,17 @@ export async function renderPage(
 
   const preloadLinksString = preloadLinks
     .map((file) => {
-      return `<link rel="modulepreload" href="${siteData.base}${file}">`
+      return `<link rel="modulepreload" href="${
+        EXTERNAL_URL_RE.test(file) ? '' : siteData.base // don't add base to external urls
+      }${file}">`
     })
     .join('\n    ')
 
   const prefetchLinkString = prefetchLinks
     .map((file) => {
-      return `<link rel="prefetch" href="${siteData.base}${file}">`
+      return `<link rel="prefetch" href="${
+        EXTERNAL_URL_RE.test(file) ? '' : siteData.base // don't add base to external urls
+      }${file}">`
     })
     .join('\n    ')
 
@@ -115,10 +126,10 @@ export async function renderPage(
   const title: string = createTitle(siteData, pageData)
   const description: string = pageData.description || siteData.description
 
-  const head = [
-    ...siteData.head,
-    ...filterOutHeadDescription(pageData.frontmatter.head)
-  ]
+  const head = mergeHead(
+    siteData.head,
+    filterOutHeadDescription(pageData.frontmatter.head)
+  )
 
   let inlinedScript = ''
   if (config.mpa && result) {
@@ -167,7 +178,16 @@ export async function renderPage(
 </html>`.trim()
   const htmlFileName = path.join(config.outDir, page.replace(/\.md$/, '.html'))
   await fs.ensureDir(path.dirname(htmlFileName))
-  await fs.writeFile(htmlFileName, html)
+  const transformedHtml = await config.transformHtml?.(html, htmlFileName, {
+    siteConfig: config,
+    siteData,
+    pageData,
+    title,
+    description,
+    head,
+    content
+  })
+  await fs.writeFile(htmlFileName, transformedHtml || html)
 }
 
 function resolvePageImports(

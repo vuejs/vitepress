@@ -145,7 +145,7 @@ export default {
 }
 ```
 
-All sections are "open" by default. If you would like them to be "closed" on intial page load, set `collapsed` option to `true`.
+All sections are "open" by default. If you would like them to be "closed" on initial page load, set `collapsed` option to `true`.
 
 ```js
 export default {

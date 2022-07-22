@@ -16,7 +16,8 @@ import {
   LocaleConfig,
   DefaultTheme,
   APPEARANCE_KEY,
-  createLangDictionary
+  createLangDictionary,
+  PageData
 } from './shared'
 import { resolveAliases, DEFAULT_THEME_PATH } from './alias'
 import { MarkdownOptions } from './markdown/markdown'
@@ -64,6 +65,36 @@ export interface UserConfig<ThemeConfig = any> {
    * @experimental
    */
   mpa?: boolean
+
+  /**
+   * Don't fail builds due to dead links.
+   *
+   * @default false
+   */
+  ignoreDeadLinks?: boolean
+
+  /**
+   * Build end hook: called when SSG finish.
+   * @param siteConfig The resolved configuration.
+   */
+  buildEnd?: (siteConfig: SiteConfig) => Promise<void>
+
+  /**
+   * HTML transform hook: runs before writing HTML to dist.
+   */
+  transformHtml?: (
+    code: string,
+    id: string,
+    ctx: {
+      siteConfig: SiteConfig
+      siteData: SiteData
+      pageData: PageData
+      title: string
+      description: string
+      head: HeadConfig[]
+      content: string
+    }
+  ) => Promise<string | void>
 }
 
 export type RawConfigExports<ThemeConfig = any> =
@@ -74,7 +105,15 @@ export type RawConfigExports<ThemeConfig = any> =
 export interface SiteConfig<ThemeConfig = any>
   extends Pick<
     UserConfig,
-    'markdown' | 'vue' | 'vite' | 'shouldPreload' | 'mpa' | 'lastUpdated'
+    | 'markdown'
+    | 'vue'
+    | 'vite'
+    | 'shouldPreload'
+    | 'mpa'
+    | 'lastUpdated'
+    | 'ignoreDeadLinks'
+    | 'buildEnd'
+    | 'transformHtml'
   > {
   root: string
   srcDir: string
@@ -152,7 +191,10 @@ export async function resolveConfig(
     vue: userConfig.vue,
     vite: userConfig.vite,
     shouldPreload: userConfig.shouldPreload,
-    mpa: !!userConfig.mpa
+    mpa: !!userConfig.mpa,
+    ignoreDeadLinks: userConfig.ignoreDeadLinks,
+    buildEnd: userConfig.buildEnd,
+    transformHtml: userConfig.transformHtml
   }
 
   return config
@@ -166,14 +208,9 @@ async function resolveUserConfig(
   mode: string
 ): Promise<[UserConfig, string | undefined]> {
   // load user config
-  let configPath
-  for (const ext of supportedConfigExtensions) {
-    const p = resolve(root, `config.${ext}`)
-    if (await fs.pathExists(p)) {
-      configPath = p
-      break
-    }
-  }
+  const configPath = supportedConfigExtensions
+    .map((ext) => resolve(root, `config.${ext}`))
+    .find(fs.pathExistsSync)
 
   const userConfig: RawConfigExports = configPath
     ? ((
@@ -268,7 +305,7 @@ function resolveSiteDataHead(userConfig?: UserConfig): HeadConfig[] {
   if (userConfig?.appearance ?? true) {
     head.push([
       'script',
-      {},
+      { id: 'check-dark-light' },
       `
         ;(() => {
           const saved = localStorage.getItem('${APPEARANCE_KEY}')

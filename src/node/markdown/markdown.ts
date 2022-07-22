@@ -1,5 +1,5 @@
 import MarkdownIt from 'markdown-it'
-import { Theme } from 'shiki'
+import { IThemeRegistration } from 'shiki'
 import { parseHeader } from '../utils/parseHeader'
 import { highlight } from './plugins/highlight'
 import { slugify } from './plugins/slugify'
@@ -19,7 +19,9 @@ import attrs from 'markdown-it-attrs'
 import emoji from 'markdown-it-emoji'
 import toc from 'markdown-it-toc-done-right'
 
-export type ThemeOptions = Theme | { light: Theme; dark: Theme }
+export type ThemeOptions =
+  | IThemeRegistration
+  | { light: IThemeRegistration; dark: IThemeRegistration }
 
 export interface MarkdownOptions extends MarkdownIt.Options {
   lineNumbers?: boolean
@@ -61,7 +63,7 @@ export const createMarkdownRenderer = async (
   const md = MarkdownIt({
     html: true,
     linkify: true,
-    highlight: await highlight(options.theme),
+    highlight: options.highlight || (await highlight(options.theme)),
     ...options
   }) as MarkdownRenderer
 
@@ -78,7 +80,7 @@ export const createMarkdownRenderer = async (
       linkPlugin,
       {
         target: '_blank',
-        rel: 'noopener noreferrer',
+        rel: 'noreferrer',
         ...options.externalLinks
       },
       base

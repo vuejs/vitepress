@@ -12,6 +12,21 @@ export default {
 }
 ```
 
+## appearance
+
+- Type: `boolean`
+- Default: `true`
+
+Whether to enable "Dark Mode" or not. If the option is set to `true`, it adds `.dark` class to the `<html>` tag depending on the users preference.
+
+It also injects inline script that tries to read users settings from local storage by `vitepress-theme-appearance` key and restores users preferred color mode.
+
+```ts
+export default {
+  appearance: true
+}
+```
+
 ## base
 
 - Type: `string`
@@ -27,6 +42,54 @@ export default {
 }
 ```
 
+## description
+
+- Type: `string`
+- Default: `A VitePress site`
+
+Description for the site. This will render as a `<meta>` tag in the page HTML.
+
+```ts
+export default {
+  description: 'A VitePress site'
+}
+```
+
+## head
+
+- Type: `HeadConfig[]`
+- Default: `[]`
+
+Additional elements to render in the `<head>` tag in the page HTML. The user-added tags are rendered before the closing `head` tag, after VitePress tags.
+
+```ts
+export default {
+  head: [
+    ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }]
+    // would render: <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  ]
+}
+```
+
+```ts
+type HeadConfig =
+  | [string, Record<string, string>]
+  | [string, Record<string, string>, string]
+```
+
+## ignoreDeadLinks
+
+- Type: `boolean`
+- Default: `false`
+
+When set to `true`, VitePress will not fail builds due to dead links.
+
+```ts
+export default {
+  ignoreDeadLinks: true
+}
+```
+
 ## lang
 
 - Type: `string`
@@ -37,6 +100,74 @@ The lang attribute for the site. This will render as a `<html lang="en-US">` tag
 ```ts
 export default {
   lang: 'en-US'
+}
+```
+
+## lastUpdated
+
+- Type: `boolean`
+- Default: `false`
+
+Use git commit to get the timestamp. This option enables the default theme to display the page's last updated time. You can customize the text via [`themeConfig.lastUpdatedText`](theme-configs#lastupdatedtext) option.
+
+```ts
+export default {
+  lastUpdated: true
+}
+```
+
+## markdown
+
+- Type: `MarkdownOption`
+
+Configre Markdown parser options. VitePress uses [Markdown-it](https://github.com/markdown-it/markdown-it) as the parser, and [Shiki](https://shiki.matsu.io/) to highlight language syntax. Inside this option, you may pass various Markdown related options to fit your needs.
+
+```js
+export default {
+  markdown: {
+    theme: 'material-palenight',
+    lineNumbers: true
+  }
+}
+```
+
+Below are all the options that you can have in this object:
+
+```ts
+interface MarkdownOptions extends MarkdownIt.Options {
+  // Custom theme for syntax highlighting.
+  // You can use an existing theme.
+  // See: https://github.com/shikijs/shiki/blob/main/docs/themes.md#all-themes
+  // Or add your own theme.
+  // See: https://github.com/shikijs/shiki/blob/main/docs/themes.md#loading-theme
+  theme?:
+    | Shiki.IThemeRegistration
+    | { light: Shiki.IThemeRegistration; dark: Shiki.IThemeRegistration }
+
+  // Enable line numbers in code block.
+  lineNumbers?: boolean
+
+  // markdown-it-anchor plugin options.
+  // See: https://github.com/valeriangalliat/markdown-it-anchor
+  anchor?: {
+    permalink?: anchor.AnchorOptions['permalink']
+  }
+
+  // markdown-it-attrs plugin options.
+  // See: https://github.com/arve0/markdown-it-attrs
+  attrs?: {
+    leftDelimiter?: string
+    rightDelimiter?: string
+    allowedAttributes?: string[]
+    disable?: boolean
+  }
+
+  // markdown-it-toc-done-right plugin options
+  // See: https://github.com/nagaozen/markdown-it-toc-done-right
+  toc?: any
+
+  // Configure the Markdown-it instance.
+  config?: (md: MarkdownIt) => void
 }
 ```
 
@@ -65,97 +196,5 @@ Set `false` to disable the feature. If the option is `undefined`, then the value
 export default {
   title: 'VitePress',
   titleTemplate: 'Vite & Vue powered static site generator'
-}
-```
-
-## description
-
-- Type: `string`
-- Default: `A VitePress site`
-
-Description for the site. This will render as a `<meta>` tag in the page HTML.
-
-```ts
-export default {
-  description: 'A VitePress site'
-}
-```
-
-## markdown
-
-- Type: `MarkdownOption`
-
-Configre Markdown parser options. VitePress uses [Markdown-it](https://github.com/markdown-it/markdown-it) as the parser, and [Shiki](https://shiki.matsu.io/) to highlight language syntax. Inside this option, you may pass various Markdown related options to fit your needs.
-
-```js
-export default {
-  markdown: {
-    theme: 'material-palenight',
-    lineNumbers: true
-  }
-}
-```
-
-Below shows the the full option you may define within this object.
-
-```ts
-interface MarkdownOptions extends MarkdownIt.Options {
-  // Syntax highlight theme for Shiki.
-  // See: https://github.com/shikijs/shiki/blob/main/docs/themes.md#all-themes
-  theme?: Shiki.Theme | { light: Shiki.Theme, dark: Shiki.Theme }
-
-  // Enable line numbers in code block.
-  lineNumbers?: boolean
-
-  // markdown-it-anchor plugin options.
-  // See: https://github.com/valeriangalliat/markdown-it-anchor
-  anchor?: {
-    permalink?: anchor.AnchorOptions['permalink']
-  }
-
-  // markdown-it-attrs plugin options.
-  // See: https://github.com/arve0/markdown-it-attrs
-  attrs?: {
-    leftDelimiter?: string
-    rightDelimiter?: string
-    allowedAttributes?: string[]
-    disable?: boolean
-  }
-
-  // markdown-it-toc-done-right plugin options
-  // https://github.com/nagaozen/markdown-it-toc-done-right
-  toc?: any
-
-  // Configure the Markdown-it instance to fully customize
-  // how it works.
-  config?: (md: MarkdownIt) => void
-}
-```
-
-## appearance
-
-- Type: `boolean`
-- Default: `true`
-
-Whether to enable "Dark Mode" or not. If the option is set to `true`, it adds `.dark` class to the `<html>` tag depending on the users preference.
-
-It also injects inline script that tries to read users settings from local storage by `vitepress-theme-appearance` key and restores users preferred color mode.
-
-```ts
-export default {
-  appearance: true
-}
-```
-
-## lastUpdated
-
-- Type: `boolean`
-- Default: `false`
-
-Use git commit to get the timestamp. This option enables the default theme to display the page's last updated time. You can customize the text via [`themeConfig.lastUpdatedText`](theme-configs#lastupdatedtext) option.
-
-```ts
-export default {
-  lastUpdated: true
 }
 ```

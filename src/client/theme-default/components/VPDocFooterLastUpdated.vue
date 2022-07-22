@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ref, watchEffect, onMounted } from 'vue'
+import { ref, computed, watchEffect, onMounted } from 'vue'
 import { useData } from 'vitepress'
 
 const { theme, page } = useData()
 
-const date = new Date(page.value.lastUpdated!)
-const isoDatetime = date.toISOString()
+const date = computed(() => new Date(page.value.lastUpdated!))
+const isoDatetime = computed(() => date.value.toISOString())
 const datetime = ref('')
 
 // set time on mounted hook because the locale string might be different
@@ -13,7 +13,7 @@ const datetime = ref('')
 // calculated at build time
 onMounted(() => {
   watchEffect(() => {
-    datetime.value = date.toLocaleString(window.navigator.language)
+    datetime.value = date.value.toLocaleString(window.navigator.language)
   })
 })
 </script>

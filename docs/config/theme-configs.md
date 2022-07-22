@@ -130,9 +130,24 @@ interface SidebarItem {
 }
 ```
 
+## outlineTitle
+
+- Type: `string`
+- Default: `On this page`
+
+Can be used to customize the title of the right sidebar (on the top of outline links). This is useful when writing documentation in another language.
+
+```js
+export default {
+  themeConfig: {
+    outlineTitle: 'In hac pagina'
+  }
+}
+```
+
 ## socialLinks
 
-- Type: `SocialLink`
+- Type: `SocialLink[]`
 
 You may define this option to show your social account links with icons in nav.
 
@@ -142,7 +157,13 @@ export default {
     socialLinks: [
       { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
       { icon: 'twitter', link: '...' },
-      { icon: 'discord', link: '...' }
+      // You can also add custom icons by passing SVG as string:
+      {
+        icon: {
+          svg: '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Dribbble</title><path d="M12...6.38z"/></svg>'
+        },
+        link: '...'
+      }
     ]
   }
 }
@@ -163,6 +184,7 @@ type SocialLinkIcon =
   | 'slack'
   | 'twitter'
   | 'youtube'
+  | { svg: string }
 ```
 
 ## footer
@@ -247,9 +269,33 @@ export default {
 
 ```ts
 export interface CarbonAds {
-  code: string,
+  code: string
   placement: string
 }
 ```
 
 Learn more in [Theme: Carbon Ads](../guide/theme-carbon-ads)
+
+## docFooter
+
+- Type: `DocFooter`
+
+Can be used to customize text appearing above previous and next links. Helpful if not writing docs in English.
+
+```js
+export default {
+  themeConfig: {
+    docFooter: {
+      prev: 'Pagina prior',
+      next: 'Proxima pagina'
+    }
+  }
+}
+```
+
+```ts
+export interface DocFooter {
+  prev?: string
+  next?: string
+}
+```

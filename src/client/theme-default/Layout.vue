@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { provide } from 'vue'
+import { provide, watch } from 'vue'
+import { useRoute } from 'vitepress'
 import { useSidebar, useCloseSidebarOnEscape } from './composables/sidebar'
 import VPSkipLink from './components/VPSkipLink.vue'
 import VPBackdrop from './components/VPBackdrop.vue'
@@ -15,6 +16,9 @@ const {
   close: closeSidebar
 } = useSidebar()
 
+const route = useRoute()
+watch(() => route.path, closeSidebar)
+
 useCloseSidebarOnEscape(isSidebarOpen, closeSidebar)
 
 provide('close-sidebar', closeSidebar)
@@ -25,7 +29,14 @@ provide('close-sidebar', closeSidebar)
     <slot name="layout-top" />
     <VPSkipLink />
     <VPBackdrop class="backdrop" :show="isSidebarOpen" @click="closeSidebar" />
-    <VPNav />
+    <VPNav>
+      <template #nav-bar-title-before><slot name="nav-bar-title-before" /></template>
+      <template #nav-bar-title-after><slot name="nav-bar-title-after" /></template>
+      <template #nav-bar-content-before><slot name="nav-bar-content-before" /></template>
+      <template #nav-bar-content-after><slot name="nav-bar-content-after" /></template>
+      <template #nav-screen-content-before><slot name="nav-screen-content-before" /></template>
+      <template #nav-screen-content-after><slot name="nav-screen-content-after" /></template>
+    </VPNav>
     <VPLocalNav :open="isSidebarOpen" @open-menu="openSidebar" />
     <VPSidebar :open="isSidebarOpen" />
 

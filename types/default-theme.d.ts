@@ -44,6 +44,11 @@ export namespace DefaultTheme {
     lastUpdatedText?: string
 
     /**
+     * Set custom prev/next labels.
+     */
+    docFooter?: DocFooter
+
+    /**
      * The social links to be displayed at the end of the nav bar. Perfect for
      * placing links to social services such as GitHub, Twitter, Facebook, etc.
      */
@@ -158,6 +163,24 @@ export namespace DefaultTheme {
     text?: string
   }
 
+  // prev-next -----------------------------------------------------------------
+
+  export interface DocFooter {
+    /**
+     * Custom label for previous page button.
+     *
+     * @default 'Previous page'
+     */
+    prev?: string
+
+    /**
+     * Custom label for next page button.
+     *
+     * @default 'Next page'
+     */
+    next?: string
+  }
+
   // social link ---------------------------------------------------------------
 
   export interface SocialLink {
@@ -174,6 +197,7 @@ export namespace DefaultTheme {
     | 'slack'
     | 'twitter'
     | 'youtube'
+    | { svg: string }
 
   // footer --------------------------------------------------------------------
 

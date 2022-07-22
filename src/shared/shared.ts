@@ -1,4 +1,9 @@
-import { SiteData, PageData, LocaleConfig } from '../../types/shared'
+import {
+  SiteData,
+  PageData,
+  LocaleConfig,
+  HeadConfig
+} from '../../types/shared'
 
 export type {
   SiteData,
@@ -10,7 +15,7 @@ export type {
   PageDataPayload
 } from '../../types/shared'
 
-export const EXTERNAL_URL_RE = /^https?:/i
+export const EXTERNAL_URL_RE = /^[a-z]+:/i
 export const APPEARANCE_KEY = 'vitepress-theme-appearance'
 
 // @ts-ignore
@@ -21,7 +26,7 @@ export const notFoundPageData: PageData = {
   title: '404',
   description: 'Not Found',
   headers: [],
-  frontmatter: {},
+  frontmatter: { sidebar: false, layout: 'page' },
   lastUpdated: 0
 }
 
@@ -135,4 +140,18 @@ function cleanRoute(siteData: SiteData, route: string): string {
   const baseWithoutSuffix = base.endsWith('/') ? base.slice(0, -1) : base
 
   return route.slice(baseWithoutSuffix.length)
+}
+
+function hasTag(head: HeadConfig[], tag: HeadConfig) {
+  const [tagType, tagAttrs] = tag
+  if (tagType !== 'meta') return false
+  const keyAttr = Object.entries(tagAttrs)[0] // First key
+  if (keyAttr == null) return false
+  return head.some(
+    ([type, attrs]) => type === tagType && attrs[keyAttr[0]] === keyAttr[1]
+  )
+}
+
+export function mergeHead(prev: HeadConfig[], curr: HeadConfig[]) {
+  return [...prev.filter((tagAttrs) => !hasTag(curr, tagAttrs)), ...curr]
 }
