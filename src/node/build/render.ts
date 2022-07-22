@@ -10,7 +10,8 @@ import {
   PageData,
   createTitle,
   notFoundPageData,
-  mergeHead
+  mergeHead,
+  EXTERNAL_URL_RE
 } from '../shared'
 import { slash } from '../utils/slash'
 import { SiteConfig, resolveSiteDataByRoute } from '../config'
@@ -104,13 +105,17 @@ export async function renderPage(
 
   const preloadLinksString = preloadLinks
     .map((file) => {
-      return `<link rel="modulepreload" href="${siteData.base}${file}">`
+      return `<link rel="modulepreload" href="${
+        EXTERNAL_URL_RE.test(file) ? '' : siteData.base // don't add base to external urls
+      }${file}">`
     })
     .join('\n    ')
 
   const prefetchLinkString = prefetchLinks
     .map((file) => {
-      return `<link rel="prefetch" href="${siteData.base}${file}">`
+      return `<link rel="prefetch" href="${
+        EXTERNAL_URL_RE.test(file) ? '' : siteData.base // don't add base to external urls
+      }${file}">`
     })
     .join('\n    ')
 
