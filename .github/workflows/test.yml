@@ -36,5 +36,11 @@ jobs:
       - name: Lint
         run: pnpm run lint-fail
 
-      - name: Test
-        run: pnpm run test-run
+      - name: Test unit
+        run: pnpm run test-unit
+
+      - name: Test serve
+        run: pnpm run test-serve
+
+      - name: Test build
+        run: pnpm run test-build
