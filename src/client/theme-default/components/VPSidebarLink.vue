@@ -1,35 +1,45 @@
 <script lang="ts" setup>
 import type { DefaultTheme } from 'vitepress/theme'
-import { inject } from 'vue'
+import { computed, inject } from 'vue'
 import { useData } from 'vitepress'
 import { isActive } from '../support/utils'
 import VPLink from './VPLink.vue'
 
-defineProps<{
-  item: DefaultTheme.SidebarItem
-}>()
+withDefaults(defineProps<{ item: DefaultTheme.SidebarItem; depth?: number }>(), { depth: 1 })
 
-const { page } = useData()
-
+const { page, frontmatter } = useData()
+const maxDepth = computed<number>(() => frontmatter.value.sidebarDepth || Infinity)
 const closeSideBar = inject('close-sidebar') as () => void
 </script>
 
 <template>
   <VPLink
-    :class="{ active: isActive(page.relativePath, item.link) }"
+    class="link"
+    :class="{ active: isActive(page.relativePath, item.link), offset: depth > 1 }"
     :href="item.link"
     @click="closeSideBar"
   >
-    <span class="link-text">{{ item.text }}</span>
+    <span class="link-text" :class="{ light: depth > 1 }">{{ item.text }}</span>
+    <template
+      v-if="'items' in item && depth < maxDepth"
+      v-for="child in item.items"
+      :key="child.link"
+    >
+      <VPSidebarLink :item="child" :depth="depth + 1" />
+    </template>
   </VPLink>
 </template>
 
 <style scoped>
 .link {
   display: block;
-  padding: 4px 0;
+  margin: 4px 0;
   color: var(--vp-c-text-2);
   transition: color 0.5s;
+}
+
+.link.offset {
+  padding-left: 16px;
 }
 
 .link:hover {
@@ -50,5 +60,10 @@ const closeSideBar = inject('close-sidebar') as () => void
   line-height: 20px;
   font-size: 14px;
   font-weight: 500;
+}
+
+.link-text.light {
+  font-size: 13px;
+  font-weight: 400;
 }
 </style>

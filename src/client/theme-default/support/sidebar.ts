@@ -32,11 +32,17 @@ export function getFlatSideBarLinks(
 ): DefaultTheme.SidebarItem[] {
   const links: DefaultTheme.SidebarItem[] = []
 
-  for (const group of sidebar) {
-    for (const link of group.items) {
-      links.push(link)
+  function recursivelyExtractLinks(items: DefaultTheme.SidebarItem[]) {
+    for (const item of items) {
+      item.link && links.push(item)
+      if ('items' in item) {
+        recursivelyExtractLinks(item.items)
+      }
     }
   }
 
+  for (const group of sidebar) {
+    recursivelyExtractLinks(group.items)
+  }
   return links
 }

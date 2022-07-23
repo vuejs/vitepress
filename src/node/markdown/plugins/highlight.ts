@@ -10,23 +10,25 @@ export async function highlight(theme: ThemeOptions = 'material-palenight') {
     themes: hasSingleTheme ? [theme] : [theme.dark, theme.light]
   })
   const preRE = /^<pre.*?>/
+  const vueRE = /-vue$/
 
   return (str: string, lang: string) => {
-    lang = lang || 'text'
+    const vPre = vueRE.test(lang) ? '' : 'v-pre'
+    lang = lang.replace(vueRE, '')
 
     if (hasSingleTheme) {
       return highlighter
         .codeToHtml(str, { lang, theme: getThemeName(theme) })
-        .replace(preRE, '<pre v-pre>')
+        .replace(preRE, `<pre ${vPre}>`)
     }
 
     const dark = highlighter
       .codeToHtml(str, { lang, theme: getThemeName(theme.dark) })
-      .replace(preRE, '<pre v-pre class="vp-code-dark">')
+      .replace(preRE, `<pre ${vPre} class="vp-code-dark">`)
 
     const light = highlighter
       .codeToHtml(str, { lang, theme: getThemeName(theme.light) })
-      .replace(preRE, '<pre v-pre class="vp-code-light">')
+      .replace(preRE, `<pre ${vPre} class="vp-code-light">`)
 
     return dark + light
   }

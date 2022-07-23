@@ -279,7 +279,7 @@ In addition to a single line, you can also specify multiple single lines, ranges
 **Input**
 
 ````
-```js{1,4,6-7}
+```js{1,4,6-8}
 export default { // Highlighted
   data () {
     return {
@@ -296,7 +296,7 @@ export default { // Highlighted
 
 **Output**
 
-```js{1,4,6-7}
+```js{1,4,6-8}
 export default { // Highlighted
   data () {
     return {
@@ -346,19 +346,11 @@ It also supports [line highlighting](#line-highlighting-in-code-blocks):
 
 **Code file**
 
-<!--lint disable strong-marker-->
-
 <<< @/snippets/snippet.js
-
-<!--lint enable strong-marker-->
 
 **Output**
 
-<!--lint disable strong-marker-->
-
 <<< @/snippets/snippet.js{2}
-
-<!--lint enable strong-marker-->
 
 ::: tip
 The value of `@` corresponds to the source root. By default it's the VitePress project root, unless `srcDir` is configured.
@@ -374,19 +366,22 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 
 **Code file**
 
-<!--lint disable strong-marker-->
-
 <<< @/snippets/snippet-with-region.js
-
-<!--lint enable strong-marker-->
 
 **Output**
 
-<!--lint disable strong-marker-->
-
 <<< @/snippets/snippet-with-region.js#snippet{1}
 
-<!--lint enable strong-marker-->
+You can also specify the language inside the braces (`{}`) like this:
+
+```md
+<<< @/snippets/snippet.cs{c#}
+
+<!-- with line highlighting: -->
+<<< @/snippets/snippet.cs{1,2,4-6 c#}
+```
+
+This is helpful if source language cannot be inferred from your file extension.
 
 ## Markdown File Inclusion
 

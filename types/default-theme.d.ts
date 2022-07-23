@@ -139,10 +139,9 @@ export namespace DefaultTheme {
     collapsed?: boolean
   }
 
-  export interface SidebarItem {
-    text: string
-    link: string
-  }
+  export type SidebarItem =
+    | { text: string; link: string }
+    | { text: string; link?: string; items: SidebarItem[] }
 
   // edit link -----------------------------------------------------------------
 
