@@ -19,9 +19,12 @@ The Hero section comes at the top of the homepage. Here's how you can configure 
 layout: home
 
 hero:
-  name: VuePress
+  name: VitePress
   text: Vite & Vue powered static site generator.
   tagline: Lorem ipsum...
+  image:
+    src: /logo.png
+    alt: VitePress
   actions:
     - theme: brand
       text: Get Started

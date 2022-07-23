@@ -46,7 +46,7 @@ Pages and internal links get generated with the `.html` suffix by default.
 
 ### External Links
 
-Outbound links automatically get `target="_blank" rel="noopener noreferrer"`:
+Outbound links automatically get `target="_blank" rel="noreferrer"`:
 
 - [vuejs.org](https://vuejs.org)
 - [VitePress on GitHub](https://github.com/vuejs/vitepress)
@@ -382,6 +382,48 @@ You can also specify the language inside the braces (`{}`) like this:
 ```
 
 This is helpful if source language cannot be inferred from your file extension.
+
+## Markdown File Inclusion
+
+You can include a markdown file in another markdown file like this:
+
+**Input**
+
+```md
+# Docs
+
+## Basics
+
+<!--@include: ./parts/basics.md-->
+```
+
+**Part file** (`parts/basics.md`)
+
+```md
+Some getting started stuff.
+
+### Configuration
+
+Can be created using `.foorc.json`.
+```
+
+**Equivalent code**
+
+```md
+# Docs
+
+## Basics
+
+Some getting started stuff.
+
+### Configuration
+
+Can be created using `.foorc.json`.
+```
+
+::: warning
+Note that this does not throw errors if your file is not present. Hence, when using this feature make sure that the contents are being rendered as expected.
+:::
 
 ## Advanced Configuration
 

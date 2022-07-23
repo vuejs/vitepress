@@ -33,7 +33,7 @@ const removeMarkdownTokens = (str: string) =>
     .replace(/(\\)(\*|_|`|\!|<|\$)/g, '$2') // remove escape char '\'
 
 const removeCustomAnchor = (str: string) =>
-  str.replace(/\{#([a-z0-9\-_]+?)\}\s*$/, '') // {#custom-header}
+  str.replace(/\{#([a-zA-Z0-9\-_]+?)\}\s*$/, '') // {#custom-header}
 
 const trim = (str: string) => str.trim()
 

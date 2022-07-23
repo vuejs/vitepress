@@ -16,7 +16,8 @@ import {
   LocaleConfig,
   DefaultTheme,
   APPEARANCE_KEY,
-  createLangDictionary
+  createLangDictionary,
+  PageData
 } from './shared'
 import { resolveAliases, DEFAULT_THEME_PATH } from './alias'
 import { MarkdownOptions } from './markdown/markdown'
@@ -71,6 +72,29 @@ export interface UserConfig<ThemeConfig = any> {
    * @default false
    */
   ignoreDeadLinks?: boolean
+
+  /**
+   * Build end hook: called when SSG finish.
+   * @param siteConfig The resolved configuration.
+   */
+  buildEnd?: (siteConfig: SiteConfig) => Promise<void>
+
+  /**
+   * HTML transform hook: runs before writing HTML to dist.
+   */
+  transformHtml?: (
+    code: string,
+    id: string,
+    ctx: {
+      siteConfig: SiteConfig
+      siteData: SiteData
+      pageData: PageData
+      title: string
+      description: string
+      head: HeadConfig[]
+      content: string
+    }
+  ) => Promise<string | void>
 }
 
 export type RawConfigExports<ThemeConfig = any> =
@@ -88,6 +112,8 @@ export interface SiteConfig<ThemeConfig = any>
     | 'mpa'
     | 'lastUpdated'
     | 'ignoreDeadLinks'
+    | 'buildEnd'
+    | 'transformHtml'
   > {
   root: string
   srcDir: string
@@ -166,7 +192,9 @@ export async function resolveConfig(
     vite: userConfig.vite,
     shouldPreload: userConfig.shouldPreload,
     mpa: !!userConfig.mpa,
-    ignoreDeadLinks: userConfig.ignoreDeadLinks
+    ignoreDeadLinks: userConfig.ignoreDeadLinks,
+    buildEnd: userConfig.buildEnd,
+    transformHtml: userConfig.transformHtml
   }
 
   return config
@@ -277,7 +305,7 @@ function resolveSiteDataHead(userConfig?: UserConfig): HeadConfig[] {
   if (userConfig?.appearance ?? true) {
     head.push([
       'script',
-      {},
+      { id: 'check-dark-light' },
       `
         ;(() => {
           const saved = localStorage.getItem('${APPEARANCE_KEY}')

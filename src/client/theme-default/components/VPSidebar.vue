@@ -83,7 +83,6 @@ watchPostEffect(async () => {
     padding-bottom: 128px;
     width: var(--vp-sidebar-width);
     max-width: 100%;
-    width: var(--vp-sidebar-width);
     background-color: var(--vp-c-bg-alt);
     opacity: 1;
     visibility: visible;
@@ -94,7 +93,7 @@ watchPostEffect(async () => {
 
 @media (min-width: 1440px) {
   .VPSidebar {
-    padding-left: calc((100% - (var(--vp-layout-max-width) - 64px)) / 2);
+    padding-left: max(32px, calc((100% - (var(--vp-layout-max-width) - 64px)) / 2));
     width: calc((100% - (var(--vp-layout-max-width) - 64px)) / 2 + var(--vp-sidebar-width) - 32px);
   }
 }

@@ -19,6 +19,8 @@ The following guides are based on some shared assumptions:
 
 If your site is to be served at a subdirectory (`https://example.com/subdir/`), then you have to set `'/subdir/'` as the [`base`](../config/app-configs#base) in your `docs/.vitepress/config.js`.
 
+**Example:** If you're using Github (or GitLab) Pages and deploying to `user.github.io/repo/`, then set your `base` to `/repo/`.
+
 :::
 
 ## Build and Test Locally
@@ -55,6 +57,7 @@ Set up a new project and change these settings using your dashboard:
 
 - **Build Command:** `yarn docs:build`
 - **Output Directory:** `docs/.vitepress/dist`
+- **Node Version:** `14` (or above, by default it usually will be 14 or 16, but on Cloudflare Pages the default is still 12, so you may need to [change that](https://developers.cloudflare.com/pages/platform/build-configuration/))
 
 ::: warning
 Don't enable options like _Auto Minify_ for HTML code. It will remove comments from output which have meaning to Vue. You may see hydration mismatch errors if they get removed.
@@ -64,7 +67,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
 ### Using GitHub Actions
 
-1. Create a file named `deploy.yml` inside `.github/workflow` directory of your project with the following content:
+1. Create a file named `deploy.yml` inside `.github/workflows` directory of your project with the following content:
 
    ```yaml
    name: Deploy
@@ -95,6 +98,10 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
              publish_dir: docs/.vitepress/dist
    ```
 
+   ::: tip
+   Please replace the corresponding branch name. For example, if the branch you want to build is `master`, then you should replace `main` with `master` in the above file.
+   :::
+
 2. Now commit your code and push it to the `main` branch.
 
 3. Wait for actions to complete. Then select `gh-pages` branch as GitHub Pages source in your repository settings. Now your docs will automatically deploy each time you push.
@@ -103,15 +110,9 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
 ### Using GitLab CI
 
-1. Set the correct `base` in `docs/.vitepress/config.js`.
+1. Set `outDir` in `docs/.vitepress/config.js` to `../public`.
 
-   If you are deploying to `https://<USERNAME or GROUP>.gitlab.io/`, you can omit `base` as it defaults to `'/'`.
-
-   If you are deploying to `https://<USERNAME or GROUP>.gitlab.io/<REPO>/` (your repository is at `https://gitlab.com/<USERNAME>/<REPO>`), then set `base` to `'/<REPO>/'`.
-
-2. Set `outDir` in `docs/.vitepress/config.js` to `../public`.
-
-3. Create a file called `.gitlab-ci.yml` in the root of your project with the content below. This will build and deploy your site whenever you make changes to your content:
+2. Create a file called `.gitlab-ci.yml` in the root of your project with the content below. This will build and deploy your site whenever you make changes to your content:
 
    ```yaml
    image: node:16

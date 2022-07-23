@@ -1,9 +1,14 @@
-import { getHighlighter } from 'shiki'
+import { IThemeRegistration, getHighlighter } from 'shiki'
 import type { ThemeOptions } from '../markdown'
 
 export async function highlight(theme: ThemeOptions = 'material-palenight') {
-  const themes = typeof theme === 'string' ? [theme] : [theme.dark, theme.light]
-  const highlighter = await getHighlighter({ themes })
+  const hasSingleTheme = typeof theme === 'string' || 'name' in theme
+  const getThemeName = (themeValue: IThemeRegistration) =>
+    typeof themeValue === 'string' ? themeValue : themeValue.name
+
+  const highlighter = await getHighlighter({
+    themes: hasSingleTheme ? [theme] : [theme.dark, theme.light]
+  })
   const preRE = /^<pre.*?>/
   const vueRE = /-vue$/
 
@@ -11,18 +16,18 @@ export async function highlight(theme: ThemeOptions = 'material-palenight') {
     const vPre = vueRE.test(lang) ? '' : 'v-pre'
     lang = lang.replace(vueRE, '')
 
-    if (typeof theme === 'string') {
+    if (hasSingleTheme) {
       return highlighter
-        .codeToHtml(str, { lang, theme })
+        .codeToHtml(str, { lang, theme: getThemeName(theme) })
         .replace(preRE, `<pre ${vPre}>`)
     }
 
     const dark = highlighter
-      .codeToHtml(str, { lang, theme: theme.dark })
+      .codeToHtml(str, { lang, theme: getThemeName(theme.dark) })
       .replace(preRE, `<pre ${vPre} class="vp-code-dark">`)
 
     const light = highlighter
-      .codeToHtml(str, { lang, theme: theme.light })
+      .codeToHtml(str, { lang, theme: getThemeName(theme.light) })
       .replace(preRE, `<pre ${vPre} class="vp-code-light">`)
 
     return dark + light

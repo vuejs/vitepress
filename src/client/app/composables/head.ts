@@ -1,5 +1,5 @@
 import { watchEffect, Ref } from 'vue'
-import { HeadConfig, SiteData, createTitle } from '../../shared'
+import { HeadConfig, SiteData, createTitle, mergeHead } from '../../shared'
 import { Route } from '../router'
 
 export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
@@ -14,50 +14,20 @@ export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
       return
     }
 
-    const newEls: HTMLElement[] = []
-    const commonLength = Math.min(managedHeadTags.length, newTags.length)
-    for (let i = 0; i < commonLength; i++) {
-      let el = managedHeadTags[i]
-      const [tag, attrs, innerHTML = ''] = newTags[i]
-      if (el.tagName.toLocaleLowerCase() === tag) {
-        for (const key in attrs) {
-          if (el.getAttribute(key) !== attrs[key]) {
-            el.setAttribute(key, attrs[key])
-          }
-        }
-        for (let i = 0; i < el.attributes.length; i++) {
-          const name = el.attributes[i].name
-          if (!(name in attrs)) {
-            el.removeAttribute(name)
-          }
-        }
-        if (el.innerHTML !== innerHTML) {
-          el.innerHTML = innerHTML
-        }
-      } else {
-        document.head.removeChild(el)
-        el = createHeadElement(newTags[i])
-        document.head.append(el)
-      }
-      newEls.push(el)
-    }
-
-    managedHeadTags
-      .slice(commonLength)
-      .forEach((el) => document.head.removeChild(el))
-    newTags.slice(commonLength).forEach((headConfig) => {
+    managedHeadTags.forEach((el) => document.head.removeChild(el))
+    managedHeadTags = []
+    newTags.forEach((headConfig) => {
       const el = createHeadElement(headConfig)
       document.head.appendChild(el)
-      newEls.push(el)
+      managedHeadTags.push(el)
     })
-    managedHeadTags = newEls
   }
 
   watchEffect(() => {
     const pageData = route.data
     const siteData = siteDataByRouteRef.value
     const pageDescription = pageData && pageData.description
-    const frontmatterHead = pageData && pageData.frontmatter.head
+    const frontmatterHead = (pageData && pageData.frontmatter.head) || []
 
     // update title and description
     document.title = createTitle(siteData, pageData)
@@ -66,11 +36,9 @@ export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
       .querySelector(`meta[name=description]`)!
       .setAttribute('content', pageDescription || siteData.description)
 
-    updateHeadTags([
-      // site head can only change during dev
-      ...(import.meta.env.DEV ? siteData.head : []),
-      ...(frontmatterHead ? filterOutHeadDescription(frontmatterHead) : [])
-    ])
+    updateHeadTags(
+      mergeHead(siteData.head, filterOutHeadDescription(frontmatterHead))
+    )
   })
 }
 

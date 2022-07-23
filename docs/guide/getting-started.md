@@ -51,6 +51,7 @@ On PNPM, add this in your `package.json`:
 "pnpm": {
   "peerDependencyRules": {
     "ignoreMissing": [
+      "@algolia/client-search",
       "@types/react",
       "react",
       "react-dom"

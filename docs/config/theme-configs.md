@@ -130,7 +130,6 @@ interface SidebarItem {
 }
 ```
 
-
 ## outlineTitle
 
 - Type: `string`
@@ -148,7 +147,7 @@ export default {
 
 ## socialLinks
 
-- Type: `SocialLink`
+- Type: `SocialLink[]`
 
 You may define this option to show your social account links with icons in nav.
 
@@ -158,7 +157,13 @@ export default {
     socialLinks: [
       { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
       { icon: 'twitter', link: '...' },
-      { icon: 'discord', link: '...' }
+      // You can also add custom icons by passing SVG as string:
+      {
+        icon: {
+          svg: '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Dribbble</title><path d="M12...6.38z"/></svg>'
+        },
+        link: '...'
+      }
     ]
   }
 }
@@ -179,6 +184,7 @@ type SocialLinkIcon =
   | 'slack'
   | 'twitter'
   | 'youtube'
+  | { svg: string }
 ```
 
 ## footer
