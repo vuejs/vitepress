@@ -79,7 +79,7 @@ function handleElement(el: HTMLElement) {
     let { innerText: text = '' } = sibling
 
     if (isShell) {
-      text = text.replace(/^ *\$ /gm, '')
+      text = text.replace(/^ *(\$|>) /gm, '')
     }
 
     copyToClipboard(text).then(() => {
