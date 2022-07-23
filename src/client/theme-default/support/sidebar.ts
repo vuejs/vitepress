@@ -33,8 +33,7 @@ export function getFlatSideBarLinks(sidebar: DefaultTheme.SidebarGroup[]) {
   function recursivelyExtractLinks(items: DefaultTheme.SidebarItem[]) {
     for (const item of items) {
       if (item.link) {
-        // @ts-expect-error ts thinks item.link may be undefined though its checked above
-        links.push(item)
+        links.push({ ...item, link: item.link })
       }
       if ('items' in item) {
         recursivelyExtractLinks(item.items)
