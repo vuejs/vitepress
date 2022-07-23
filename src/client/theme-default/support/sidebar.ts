@@ -32,11 +32,19 @@ export function getFlatSideBarLinks(
 ): DefaultTheme.SidebarItem[] {
   const links: DefaultTheme.SidebarItem[] = []
 
-  for (const group of sidebar) {
-    for (const link of group.items) {
-      links.push(link)
+  function getFlatSideBarItemLinks(items: DefaultTheme.SidebarItem[]) {
+    const links: DefaultTheme.SidebarItem[] = []
+
+    for (const item of items) {
+      item.link && links.push(item)
+
+      'items' in item && links.push(...getFlatSideBarItemLinks(item.items))
     }
+    return links
   }
 
+  for (const group of sidebar) {
+    links.push(...getFlatSideBarItemLinks(group.items))
+  }
   return links
 }
