@@ -3,7 +3,7 @@
   "version": "1.0.0-alpha.4",
   "description": "Vite & Vue powered static site generator",
   "type": "module",
-  "packageManager": "pnpm@7.5.2",
+  "packageManager": "pnpm@7.6.0",
   "main": "dist/node/index.js",
   "types": "types/index.d.ts",
   "exports": {
@@ -139,7 +139,7 @@
     "supports-color": "^9.2.2",
     "typescript": "^4.7.4",
     "vitest": "^0.18.1",
-    "vue-tsc": "^0.38.8"
+    "vue-tsc": "^0.39.0"
   },
   "pnpm": {
     "peerDependencyRules": {
