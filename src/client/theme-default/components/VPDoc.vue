@@ -43,6 +43,8 @@ const pageName = computed(() =>
             <Content class="vp-doc" :class="pageName" />
           </main>
 
+          <slot name="doc-footer-before" />
+
           <VPDocFooter />
 
           <slot name="doc-after" />

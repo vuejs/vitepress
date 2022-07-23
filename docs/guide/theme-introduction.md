@@ -189,6 +189,7 @@ Full list of slots available in the default theme layout:
 
 - When `layout: 'doc'` (default) is enabled via frontmatter:
   - `doc-before`
+  - `doc-footer-before`
   - `doc-after`
   - `aside-top`
   - `aside-bottom`
