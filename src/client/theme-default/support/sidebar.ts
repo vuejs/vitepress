@@ -32,19 +32,17 @@ export function getFlatSideBarLinks(
 ): DefaultTheme.SidebarItem[] {
   const links: DefaultTheme.SidebarItem[] = []
 
-  function getFlatSideBarItemLinks(items: DefaultTheme.SidebarItem[]) {
-    const links: DefaultTheme.SidebarItem[] = []
-
+  function recursivelyExtractLinks(items: DefaultTheme.SidebarItem[]) {
     for (const item of items) {
       item.link && links.push(item)
-
-      'items' in item && links.push(...getFlatSideBarItemLinks(item.items))
+      if ('items' in item) {
+        recursivelyExtractLinks(item.items)
+      }
     }
-    return links
   }
 
   for (const group of sidebar) {
-    links.push(...getFlatSideBarItemLinks(group.items))
+    recursivelyExtractLinks(group.items)
   }
   return links
 }
