@@ -27,7 +27,7 @@ You will need [pnpm](https://pnpm.io)
 
 After cloning the repo, run:
 
-```bash
+```sh
 # install the dependencies of the project
 $ pnpm install
 ```
@@ -36,7 +36,7 @@ $ pnpm install
 
 At first, execute the `pnpm run build` command.
 
-```bash
+```sh
 $ pnpm run build
 ```
 
@@ -44,7 +44,7 @@ You only need to do this once for your fresh project. It copies required files a
 
 The easiest way to start testing out VitePress is to tweak the VitePress docs. You may run `pnpm run docs` to boot up VitePress documentation site locally, with live reloading of the source code.
 
-```bash
+```sh
 $ pnpm run docs
 ```
 
@@ -52,6 +52,6 @@ After executing the above command, visit http://localhost:3000 and try modifying
 
 If you don't need docs site up and running, you may start VitePress local dev environment with `pnpm run dev`.
 
-```bash
+```sh
 $ pnpm run dev
 ```

@@ -46,38 +46,63 @@
   gap: 4px;
 }
 
-.vp-sponsor-grid.xmini .vp-sponsor-grid-link   { height: 64px; }
-.vp-sponsor-grid.xmini .vp-sponsor-grid-image  { max-width: 64px; max-height: 22px }
+.vp-sponsor-grid.xmini .vp-sponsor-grid-link {
+  height: 64px;
+}
+.vp-sponsor-grid.xmini .vp-sponsor-grid-image {
+  max-width: 64px;
+  max-height: 22px;
+}
 
-.vp-sponsor-grid.mini .vp-sponsor-grid-link   { height: 72px; }
-.vp-sponsor-grid.mini .vp-sponsor-grid-image  { max-width: 96px; max-height: 24px }
+.vp-sponsor-grid.mini .vp-sponsor-grid-link {
+  height: 72px;
+}
+.vp-sponsor-grid.mini .vp-sponsor-grid-image {
+  max-width: 96px;
+  max-height: 24px;
+}
 
-.vp-sponsor-grid.small .vp-sponsor-grid-link   { height: 96px; }
-.vp-sponsor-grid.small .vp-sponsor-grid-image  { max-width: 96px; max-height: 24px }
+.vp-sponsor-grid.small .vp-sponsor-grid-link {
+  height: 96px;
+}
+.vp-sponsor-grid.small .vp-sponsor-grid-image {
+  max-width: 96px;
+  max-height: 24px;
+}
 
-.vp-sponsor-grid.medium .vp-sponsor-grid-link  { height: 112px; }
-.vp-sponsor-grid.medium .vp-sponsor-grid-image { max-width: 120px; max-height: 36px }
+.vp-sponsor-grid.medium .vp-sponsor-grid-link {
+  height: 112px;
+}
+.vp-sponsor-grid.medium .vp-sponsor-grid-image {
+  max-width: 120px;
+  max-height: 36px;
+}
 
-.vp-sponsor-grid.big .vp-sponsor-grid-link     { height: 184px; }
-.vp-sponsor-grid.big .vp-sponsor-grid-image    { max-width: 192px; max-height: 56px }
+.vp-sponsor-grid.big .vp-sponsor-grid-link {
+  height: 184px;
+}
+.vp-sponsor-grid.big .vp-sponsor-grid-image {
+  max-width: 192px;
+  max-height: 56px;
+}
 
-.vp-sponsor-grid[data-vp-grid="2"] .vp-sponsor-grid-item {
+.vp-sponsor-grid[data-vp-grid='2'] .vp-sponsor-grid-item {
   width: calc((100% - 4px) / 2);
 }
 
-.vp-sponsor-grid[data-vp-grid="3"] .vp-sponsor-grid-item {
+.vp-sponsor-grid[data-vp-grid='3'] .vp-sponsor-grid-item {
   width: calc((100% - 4px * 2) / 3);
 }
 
-.vp-sponsor-grid[data-vp-grid="4"] .vp-sponsor-grid-item {
+.vp-sponsor-grid[data-vp-grid='4'] .vp-sponsor-grid-item {
   width: calc((100% - 4px * 3) / 4);
 }
 
-.vp-sponsor-grid[data-vp-grid="5"] .vp-sponsor-grid-item {
+.vp-sponsor-grid[data-vp-grid='5'] .vp-sponsor-grid-item {
   width: calc((100% - 4px * 4) / 5);
 }
 
-.vp-sponsor-grid[data-vp-grid="6"] .vp-sponsor-grid-item {
+.vp-sponsor-grid[data-vp-grid='6'] .vp-sponsor-grid-item {
   width: calc((100% - 4px * 5) / 6);
 }
 

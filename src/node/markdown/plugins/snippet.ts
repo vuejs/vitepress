@@ -104,25 +104,26 @@ export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
     /**
      * raw path format: "/path/to/file.extension#region {meta}"
      *    where #region and {meta} are optional
+     *    and meta can be like '1,2,4-6 lang', 'lang' or '1,2,4-6'
      *
      * captures: ['/path/to/file.extension', 'extension', '#region', '{meta}']
      */
     const rawPathRegexp =
-      /^(.+(?:\.([a-z]+)))(?:(#[\w-]+))?(?: ?({\d+(?:[,-]\d+)*}))?$/
+      /^(.+(?:\.([a-z]+)))(?:(#[\w-]+))?(?: ?(?:{(\d+(?:[,-]\d+)*)? ?(\S+)?}))?$/
 
     const rawPath = state.src
       .slice(start, end)
       .trim()
       .replace(/^@/, srcDir)
       .trim()
-    const [filename = '', extension = '', region = '', meta = ''] = (
-      rawPathRegexp.exec(rawPath) || []
-    ).slice(1)
+
+    const [filename = '', extension = '', region = '', lines = '', lang = ''] =
+      (rawPathRegexp.exec(rawPath) || []).slice(1)
 
     state.line = startLine + 1
 
     const token = state.push('fence', 'code', 0)
-    token.info = extension + meta
+    token.info = `${lang || extension}${lines ? `{${lines}}` : ''}`
 
     // @ts-ignore
     token.src = path.resolve(filename) + region
