@@ -11,7 +11,7 @@ export function useCopyCode() {
         nextTick(() => {
           document
             .querySelectorAll<HTMLSpanElement>(
-              '.vp-doc div[class*="language-"] > span.copy'
+              '.vp-doc div[class*="language-"] > button.copy'
             )
             .forEach(handleElement)
         })
