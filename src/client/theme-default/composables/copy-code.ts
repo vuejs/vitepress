@@ -49,7 +49,7 @@ async function copyToClipboard(text: string) {
     element.selectionStart = 0
     element.selectionEnd = text.length
 
-    document.execCommand('copy')
+    navigator.clipboard.writeText(text)
     document.body.removeChild(element)
 
     if (originalRange) {
