@@ -98,6 +98,10 @@ features:
   - icon: 🖖
     title: Power of Vue meets Markdown
     details: Lorem ipsum...
+    action:
+      theme: alt
+      text: markdown-it
+      link: https://github.com/markdown-it/markdown-it
   - icon: 🛠️
     title: Simple and minimal, always
     details: Lorem ipsum...
@@ -115,5 +119,19 @@ interface Feature {
 
   // Details of the feature.
   details: string
+
+  // Action button to display in home feature section.
+  action?: FeatureAction
+}
+
+interface HeroAction {
+  // Color theme of the button. Defaults to `brand`.
+  theme?: 'brand' | 'alt'
+
+  // Label of the button.
+  text: string
+
+  // Destination link of the button.
+  link: string
 }
 ```
