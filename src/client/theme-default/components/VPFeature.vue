@@ -1,8 +1,17 @@
 <script setup lang="ts">
+import VPButton from './VPButton.vue'
+
+export interface FeatureAction {
+  theme?: 'brand' | 'alt'
+  text: string
+  link: string
+}
+
 defineProps<{
   icon?: string
   title: string
   details: string
+  action?: FeatureAction
 }>()
 </script>
 
@@ -11,6 +20,16 @@ defineProps<{
     <div v-if="icon" class="icon">{{ icon }}</div>
     <h2 class="title">{{ title }}</h2>
     <p class="details">{{ details }}</p>
+    <div class="feature-actions">
+      <VPButton
+        v-if="action"
+        tag="a"
+        size="small"
+        :theme="action.theme"
+        :text="action.text"
+        :href="action.link"
+      />
+    </div>
   </article>
 </template>
 
@@ -51,5 +70,9 @@ defineProps<{
   font-size: 14px;
   font-weight: 500;
   color: var(--vp-c-text-2);
+}
+
+.feature-actions {
+  padding-top: 16px;
 }
 </style>

@@ -6,6 +6,13 @@ export interface Feature {
   icon?: string
   title: string
   details: string
+  action?: FeatureAction
+}
+
+export interface FeatureAction {
+  theme?: 'brand' | 'alt'
+  text: string
+  link: string
 }
 
 const props = defineProps<{
@@ -38,6 +45,7 @@ const grid = computed(() => {
             :icon="feature.icon"
             :title="feature.title"
             :details="feature.details"
+            :action="feature.action"
           />
         </div>
       </div>

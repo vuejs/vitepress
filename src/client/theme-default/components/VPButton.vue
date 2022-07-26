@@ -54,6 +54,13 @@ const component = computed(() => {
   transition: color 0.1s, border-color 0.1s, background-color 0.1s;
 }
 
+.VPButton.small {
+  border-radius: 16px;
+  padding: 0 16px;
+  line-height: 30px;
+  font-size: 12px;
+}
+
 .VPButton.medium {
   border-radius: 20px;
   padding: 0 20px;
