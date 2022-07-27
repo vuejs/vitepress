@@ -123,7 +123,7 @@ function getRelativePath(absoluteUrl: string) {
   return (
     pathname.replace(
       /\.html$/,
-      site.value.cleanUrls !== 'disabled' ? '' : '.html'
+      site.value.cleanUrls === 'disabled' ? '.html' : ''
     ) + hash
   )
 }
