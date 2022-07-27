@@ -90,7 +90,7 @@ Let's add another page to the site. Create a file name `getting-started.md` alon
 └─ package.json
 ```
 
-Then, try to access `http://localhost:5173/getting-started.html` and you should see the content of `getting-started` is shown.
+Then, try to access `http://localhost:5173/getting-started.html` and you should see the content of `getting-started.md` is shown.
 
 This is how VitePress works basically. The directory structure corresponds with the URL path. You add files, and just try to access it.
 
