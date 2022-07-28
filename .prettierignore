@@ -1,5 +1,4 @@
 /docs
-/examples
 *.md
 *.vue
 dist
