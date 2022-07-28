@@ -15,6 +15,7 @@ export async function highlight(theme: ThemeOptions = 'material-palenight') {
   return (str: string, lang: string) => {
     const vPre = vueRE.test(lang) ? '' : 'v-pre'
     lang = lang.replace(vueRE, '')
+    lang = lang.toLowerCase()
 
     if (hasSingleTheme) {
       return highlighter
