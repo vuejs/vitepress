@@ -86,6 +86,7 @@ function handleElement(el: HTMLElement) {
       el.classList.add('copied')
       setTimeout(() => {
         el.classList.remove('copied')
+        el.blur()
       }, 3000)
     })
   }
