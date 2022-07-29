@@ -101,7 +101,7 @@
     "@types/markdown-it": "^12.2.3",
     "@types/micromatch": "^4.0.2",
     "@types/minimist": "^1.2.2",
-    "@types/node": "^18.6.1",
+    "@types/node": "^18.6.2",
     "@types/polka": "^0.5.4",
     "@types/prompts": "^2.0.14",
     "chokidar": "^3.5.3",
@@ -111,7 +111,7 @@
     "debug": "^4.3.4",
     "diacritics": "^1.3.0",
     "enquirer": "^2.3.6",
-    "esbuild": "^0.14.50",
+    "esbuild": "^0.14.51",
     "escape-html": "^1.0.3",
     "execa": "^6.1.0",
     "fast-glob": "^3.2.11",
@@ -144,7 +144,7 @@
     "supports-color": "^9.2.2",
     "typescript": "^4.7.4",
     "vitest": "^0.19.1",
-    "vue-tsc": "^0.39.0"
+    "vue-tsc": "^0.39.2"
   },
   "pnpm": {
     "peerDependencyRules": {
