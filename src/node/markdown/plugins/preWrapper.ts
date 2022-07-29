@@ -15,8 +15,8 @@ export const preWrapperPlugin = (md: MarkdownIt) => {
     const [tokens, idx] = args
     const lang = tokens[idx].info.trim().replace(/-vue$/, '')
     const rawCode = fence(...args)
-    return `<div class="language-${lang}"><span class="lang">${
+    return `<div class="language-${lang}"><button class="copy"></button><span class="lang">${
       lang === 'vue-html' ? 'template' : lang
-    }</span><span class="copy"></span>${rawCode}</div>`
+    }</span>${rawCode}</div>`
   }
 }
