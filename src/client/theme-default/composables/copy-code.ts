@@ -83,10 +83,10 @@ function handleElement(el: HTMLElement) {
     }
 
     copyToClipboard(text).then(() => {
+      el.blur()
       el.classList.add('copied')
       setTimeout(() => {
         el.classList.remove('copied')
-        el.blur()
       }, 3000)
     })
   }
