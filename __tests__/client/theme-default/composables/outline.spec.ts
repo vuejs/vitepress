@@ -8,11 +8,6 @@ describe('client/theme-default/composables/outline', () => {
         outline.resolveHeaders(
           [
             {
-              level: 1,
-              title: 'h1 - 1',
-              slug: 'h1-1'
-            },
-            {
               level: 2,
               title: 'h2 - 1',
               slug: 'h2-1'
@@ -44,11 +39,6 @@ describe('client/theme-default/composables/outline', () => {
         outline.resolveHeaders(
           [
             {
-              level: 1,
-              title: 'h1 - 1',
-              slug: 'h1-1'
-            },
-            {
               level: 2,
               title: 'h2 - 1',
               slug: 'h2-1'
@@ -73,11 +63,6 @@ describe('client/theme-default/composables/outline', () => {
       expect(
         outline.resolveHeaders(
           [
-            {
-              level: 1,
-              title: 'h1 - 1',
-              slug: 'h1-1'
-            },
             {
               level: 2,
               title: 'h2 - 1',
@@ -123,48 +108,42 @@ describe('client/theme-default/composables/outline', () => {
         )
       ).toEqual([
         {
-          text: 'h1 - 1',
-          link: '#h1-1',
+          text: 'h2 - 1',
+          link: '#h2-1',
           children: [
             {
-              text: 'h2 - 1',
-              link: '#h2-1',
+              text: 'h3 - 1',
+              link: '#h3-1',
               children: [
                 {
-                  text: 'h3 - 1',
-                  link: '#h3-1',
-                  children: [
-                    {
-                      text: 'h4 - 1',
-                      link: '#h4-1'
-                    }
-                  ]
-                },
-                {
-                  text: 'h3 - 2',
-                  link: '#h3-2',
-                  children: [
-                    {
-                      text: 'h4 - 2',
-                      link: '#h4-2'
-                    }
-                  ]
+                  text: 'h4 - 1',
+                  link: '#h4-1'
                 }
               ]
             },
             {
-              text: 'h2 - 2',
-              link: '#h2-2',
+              text: 'h3 - 2',
+              link: '#h3-2',
               children: [
                 {
-                  text: 'h3 - 3',
-                  link: '#h3-3',
-                  children: [
-                    {
-                      text: 'h4 - 3',
-                      link: '#h4-3'
-                    }
-                  ]
+                  text: 'h4 - 2',
+                  link: '#h4-2'
+                }
+              ]
+            }
+          ]
+        },
+        {
+          text: 'h2 - 2',
+          link: '#h2-2',
+          children: [
+            {
+              text: 'h3 - 3',
+              link: '#h3-3',
+              children: [
+                {
+                  text: 'h4 - 3',
+                  link: '#h4-3'
                 }
               ]
             }

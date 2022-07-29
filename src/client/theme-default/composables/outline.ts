@@ -39,7 +39,7 @@ export function resolveHeaders(
     typeof levelsRange === 'number'
       ? [levelsRange, levelsRange]
       : levelsRange === 'deep'
-      ? [1, 6]
+      ? [2, 6]
       : levelsRange
 
   return mapHeaders(groupMarkdownHeadersByChildren(headers, levels))
