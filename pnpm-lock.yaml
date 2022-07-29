@@ -55,6 +55,7 @@ importers:
       npm-run-all: ^4.1.5
       ora: ^5.4.0
       picocolors: ^1.0.0
+      playwright-chromium: ^1.23.4
       polka: ^0.5.2
       prettier: ^2.3.0
       prompts: ^2.4.2
@@ -127,6 +128,7 @@ importers:
       npm-run-all: 4.1.5
       ora: 5.4.1
       picocolors: 1.0.0
+      playwright-chromium: 1.23.4
       polka: 0.5.2
       prettier: 2.4.1
       prompts: 2.4.2
@@ -143,6 +145,18 @@ importers:
 
   docs:
     specifiers: {}
+
+  examples:
+    specifiers:
+      vitepress: workspace:*
+    devDependencies:
+      vitepress: link:..
+
+  examples/configured:
+    specifiers:
+      vitepress: workspace:*
+    devDependencies:
+      vitepress: link:../..
 
   examples/minimal:
     specifiers:
@@ -3255,6 +3269,21 @@ packages:
   /pify/3.0.0:
     resolution: {integrity: sha1-5aSs0sEB/fPZpNB/DbxNtJ3SgXY=}
     engines: {node: '>=4'}
+    dev: true
+
+  /playwright-chromium/1.23.4:
+    resolution: {integrity: sha512-aqiOpX76107knxZqydyd0snNHiU6wgGwmQUFA8MEbG6sVjvjF8fS8Uy6n39z9U52pSpRFGPBP8dfkTkXBokkqQ==}
+    engines: {node: '>=14'}
+    hasBin: true
+    requiresBuild: true
+    dependencies:
+      playwright-core: 1.23.4
+    dev: true
+
+  /playwright-core/1.23.4:
+    resolution: {integrity: sha512-h5V2yw7d8xIwotjyNrkLF13nV9RiiZLHdXeHo+nVJIYGVlZ8U2qV0pMxNJKNTvfQVT0N8/A4CW6/4EW2cOcTiA==}
+    engines: {node: '>=14'}
+    hasBin: true
     dev: true
 
   /please-upgrade-node/3.2.0:
