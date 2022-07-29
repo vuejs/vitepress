@@ -67,7 +67,8 @@ async function copyToClipboard(text: string) {
 function handleElement(el: HTMLElement) {
   el.onclick = () => {
     const parent = el.parentElement
-    const sibling = el.nextElementSibling as HTMLPreElement | null
+    const sibling = el.nextElementSibling
+      ?.nextElementSibling as HTMLPreElement | null
     if (!parent || !sibling) {
       return
     }
@@ -85,9 +86,9 @@ function handleElement(el: HTMLElement) {
     copyToClipboard(text).then(() => {
       el.classList.add('copied')
       setTimeout(() => {
-        el.blur()
         el.classList.remove('copied')
-      }, 3000)
+        el.blur()
+      }, 2000)
     })
   }
 }

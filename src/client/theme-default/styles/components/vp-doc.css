@@ -367,7 +367,7 @@
   position: absolute;
   top: 8px;
   right: 8px;
-  z-index: 2;
+  z-index: 3;
   display: block;
   justify-content: center;
   align-items: center;
@@ -429,7 +429,8 @@
   transition: color 0.4s, opacity 0.4s;
 }
 
-.vp-doc [class*='language-']:hover > span.lang {
+.vp-doc [class*='language-']:hover > button.copy + span.lang,
+.vp-doc [class*='language-'] > button.copy:focus + span.lang {
   opacity: 0;
 }
 
