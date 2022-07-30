@@ -17,8 +17,9 @@ const marker = ref()
 
 useActiveAnchor(container, marker)
 
+const pageOutline = page.value.frontmatter.outline ?? theme.value.outline
 const resolvedHeaders = computed(() => {
-  return resolveHeaders(page.value.headers, page.value.frontmatter.outline ?? theme.value.outline)
+  return resolveHeaders(page.value.headers, pageOutline)
 })
 
 function handleClick({ target: el }: MouseEvent) {
@@ -31,7 +32,7 @@ function handleClick({ target: el }: MouseEvent) {
 </script>
 
 <template>
-  <div class="VPDocAsideOutline" :class="{ 'has-outline': hasOutline }" ref="container">
+  <div v-if="pageOutline !== false" class="VPDocAsideOutline" :class="{ 'has-outline': hasOutline }" ref="container">
     <div class="content">
       <div class="outline-marker" ref="marker" />
 

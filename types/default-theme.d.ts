@@ -18,7 +18,7 @@ export namespace DefaultTheme {
      *
      * @default 2
      */
-    outline?: number | [number, number] | 'deep'
+    outline?: number | [number, number] | 'deep' | false
 
     /**
      * Custom outline title in the aside component.

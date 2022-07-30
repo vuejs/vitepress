@@ -35,6 +35,10 @@ export function resolveHeaders(
   headers: Header[],
   levelsRange: DefaultTheme.Config['outline'] = 2
 ) {
+  if (levelsRange === false) {
+    return []
+  }
+
   const levels: [number, number] =
     typeof levelsRange === 'number'
       ? [levelsRange, levelsRange]

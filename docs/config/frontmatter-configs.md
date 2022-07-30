@@ -78,7 +78,7 @@ type HeadConfig =
 
 ## outline
 
-- Type: `number | [number, number] | 'deep'`
+- Type: `number | [number, number] | 'deep'` | false
 - Default: `2`
 
 The levels of header in the outline to display for the page. It's same as [config.themeConfig.outline](../config/theme-configs#outline), and it overrides the theme config.
