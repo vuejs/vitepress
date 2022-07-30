@@ -3,7 +3,7 @@
   "version": "1.0.0-alpha.4",
   "description": "Vite & Vue powered static site generator",
   "type": "module",
-  "packageManager": "pnpm@7.6.0",
+  "packageManager": "pnpm@7.7.0",
   "main": "dist/node/index.js",
   "types": "types/index.d.ts",
   "exports": {
@@ -79,10 +79,10 @@
     "@docsearch/js": "^3.1.1",
     "@vitejs/plugin-vue": "^3.0.1",
     "@vue/devtools-api": "^6.2.1",
-    "@vueuse/core": "^9.0.0",
+    "@vueuse/core": "^9.0.2",
     "body-scroll-lock": "^4.0.0-beta.0",
     "shiki": "^0.10.1",
-    "vite": "^3.0.3",
+    "vite": "^3.0.4",
     "vue": "^3.2.37"
   },
   "devDependencies": {
@@ -130,7 +130,7 @@
     "npm-run-all": "^4.1.5",
     "ora": "^5.4.1",
     "picocolors": "^1.0.0",
-    "playwright-chromium": "^1.24.1",
+    "playwright-chromium": "^1.24.2",
     "polka": "^0.5.2",
     "prettier": "^2.7.1",
     "prompts": "^2.4.2",
