@@ -18,7 +18,7 @@ const marker = ref()
 useActiveAnchor(container, marker)
 
 const resolvedHeaders = computed(() => {
-  return resolveHeaders(page.value.headers, page.value.frontmatter.outline)
+  return resolveHeaders(page.value.headers, page.value.frontmatter.outline ?? theme.value.outline)
 })
 
 function handleClick({ target: el }: MouseEvent) {

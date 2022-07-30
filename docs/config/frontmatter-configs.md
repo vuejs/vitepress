@@ -81,7 +81,8 @@ type HeadConfig =
 - Type: `number | [number, number] | 'deep'`
 - Default: `2`
 
-The level of headers to display in the outline. You can specify a particular level by passing a number, or you can provide a level range by passing a tuple containing the bottom and upper limits. When passing `'deep'` which equals `[2, 6]`, all header levels are shown in the outline.
+The levels of header in the outline to display for the page. It's same as [config.themeConfig.outline](../config/theme-configs#outline), and it overrides the theme config.
+
 
 ## lastUpdated
 

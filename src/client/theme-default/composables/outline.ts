@@ -2,7 +2,7 @@ import { Ref, computed, onMounted, onUpdated, onUnmounted } from 'vue'
 import { Header, useData } from 'vitepress'
 import { useAside } from '../composables/aside'
 import { throttleAndDebounce } from '../support/utils'
-import { PageData } from '../../../../types/shared'
+import type { DefaultTheme } from 'vitepress/theme'
 
 interface HeaderWithChildren extends Header {
   children?: Header[]
@@ -33,7 +33,7 @@ export function useOutline() {
 
 export function resolveHeaders(
   headers: Header[],
-  levelsRange: PageData['frontmatter']['outline'] = 2
+  levelsRange: DefaultTheme.Config['outline'] = 2
 ) {
   const levels: [number, number] =
     typeof levelsRange === 'number'
