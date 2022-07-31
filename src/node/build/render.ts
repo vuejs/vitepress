@@ -83,7 +83,7 @@ export async function renderPage(
         ? [appChunk.fileName]
         : []
       : result && appChunk
-      ? [
+        ? [
           ...new Set([
             // resolve imports for index.js + page.md.js and inject script tags
             // for them as well so we fetch everything as early as possible
@@ -93,7 +93,7 @@ export async function renderPage(
             appChunk.fileName
           ])
         ]
-      : []
+        : []
 
   let prefetchLinks: string[] = []
 
@@ -105,17 +105,15 @@ export async function renderPage(
 
   const preloadLinksString = preloadLinks
     .map((file) => {
-      return `<link rel="modulepreload" href="${
-        EXTERNAL_URL_RE.test(file) ? '' : siteData.base // don't add base to external urls
-      }${file}">`
+      return `<link rel="modulepreload" href="${EXTERNAL_URL_RE.test(file) ? '' : siteData.base // don't add base to external urls
+        }${file}">`
     })
     .join('\n    ')
 
   const prefetchLinkString = prefetchLinks
     .map((file) => {
-      return `<link rel="prefetch" href="${
-        EXTERNAL_URL_RE.test(file) ? '' : siteData.base // don't add base to external urls
-      }${file}">`
+      return `<link rel="prefetch" href="${EXTERNAL_URL_RE.test(file) ? '' : siteData.base // don't add base to external urls
+        }${file}">`
     })
     .join('\n    ')
 
@@ -152,10 +150,14 @@ export async function renderPage(
 <!DOCTYPE html>
 <html lang="${siteData.lang}">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>${title}</title>
-    <meta name="description" content="${description}">
+    <meta name="description" content="${description}" />
+    <meta name="og:title" content="${title}" />
+    <meta name="og:description" content="${description}" />
+    <meta name="twitter:title" content="${title}" />
+    <meta name="twitter:description" content="${description}" />
     ${stylesheetLink}
     ${preloadLinksString}
     ${prefetchLinkString}
@@ -163,15 +165,13 @@ export async function renderPage(
   </head>
   <body>
     <div id="app">${content}</div>
-    ${
-      config.mpa
-        ? ''
-        : `<script>__VP_HASH_MAP__ = JSON.parse(${hashMapString})</script>`
+    ${config.mpa
+      ? ''
+      : `<script>__VP_HASH_MAP__ = JSON.parse(${hashMapString})</script>`
     }
-    ${
-      appChunk
-        ? `<script type="module" async src="${siteData.base}${appChunk.fileName}"></script>`
-        : ``
+    ${appChunk
+      ? `<script type="module" async src="${siteData.base}${appChunk.fileName}"></script>`
+      : ``
     }
     ${inlinedScript}
   </body>
