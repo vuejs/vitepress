@@ -38,13 +38,11 @@ const pageName = computed(() =>
       <div class="content">
         <div class="content-container">
           <slot name="doc-before" />
-
           <main class="main">
             <Content class="vp-doc" :class="pageName" />
           </main>
-
+          <slot name="doc-footer-before" />
           <VPDocFooter />
-
           <slot name="doc-after" />
         </div>
       </div>
