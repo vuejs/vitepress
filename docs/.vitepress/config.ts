@@ -10,7 +10,7 @@ export default defineConfig({
   lastUpdated: true,
   
   head: [
-    ['meta', { name: 'preconnect', content: '#3c8772' }]
+    ['meta', { name: 'theme-color', content: '#3c8772' }]
   ],
 
   themeConfig: {
