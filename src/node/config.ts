@@ -100,7 +100,7 @@ export interface SiteConfig<ThemeConfig = any>
   srcDir: string
   site: SiteData<ThemeConfig>
   configPath: string | undefined
-  configDependencies: string[]
+  configDeps: string[]
   themeDir: string
   outDir: string
   tempDir: string
@@ -132,7 +132,7 @@ export async function resolveConfig(
   command: 'serve' | 'build' = 'serve',
   mode = 'development'
 ): Promise<SiteConfig> {
-  const [userConfig, configPath, configDependencies] = await resolveUserConfig(
+  const [userConfig, configPath, configDeps] = await resolveUserConfig(
     root,
     command,
     mode
@@ -169,7 +169,7 @@ export async function resolveConfig(
     themeDir,
     pages,
     configPath,
-    configDependencies,
+    configDeps,
     outDir,
     tempDir: resolve(root, '.temp'),
     markdown: userConfig.markdown,
@@ -199,7 +199,7 @@ async function resolveUserConfig(
     .find(fs.pathExistsSync)
 
   let userConfig: RawConfigExports = {}
-  let configDependencies: string[] = []
+  let configDeps: string[] = []
   if (!configPath) {
     debug(`no config file found.`)
   } else {
@@ -210,18 +210,14 @@ async function resolveUserConfig(
     )
     if (configExports) {
       userConfig = configExports.config
-      configDependencies = configExports.dependencies.map((file) =>
+      configDeps = configExports.dependencies.map((file) =>
         normalizePath(path.resolve(file))
       )
     }
     debug(`loaded config at ${c.yellow(configPath)}`)
   }
 
-  return [
-    await resolveConfigExtends(userConfig),
-    configPath,
-    configDependencies
-  ]
+  return [await resolveConfigExtends(userConfig), configPath, configDeps]
 }
 
 async function resolveConfigExtends(
