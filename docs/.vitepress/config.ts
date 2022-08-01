@@ -8,6 +8,10 @@ export default defineConfig({
   description: 'Vite & Vue powered static site generator.',
 
   lastUpdated: true,
+  
+  head: [
+    ['meta', { name: 'preconnect', content: '#3c8772' }]
+  ],
 
   themeConfig: {
     nav: nav(),
