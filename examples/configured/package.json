@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "name": "vitepress-example-configured",
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "serve": "vitepress serve"
+  },
+  "devDependencies": {
+    "vitepress": "workspace:*"
+  }
+}
