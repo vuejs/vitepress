@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import type { DefaultTheme } from 'vitepress/theme'
 import { ref, watchEffect } from 'vue'
+import { useData } from 'vitepress'
+import { isActive } from '../support/utils'
 import VPIconPlusSquare from './icons/VPIconPlusSquare.vue'
 import VPIconMinusSquare from './icons/VPIconMinusSquare.vue'
 import VPSidebarLink from './VPSidebarLink.vue'
@@ -15,6 +17,13 @@ const props = defineProps<{
 const collapsed = ref(false)
 watchEffect(() => {
   collapsed.value = !!(props.collapsible && props.collapsed)
+})
+
+const { page } = useData()
+watchEffect(() => {
+  if(props.items.some((item) => { return isActive(page.value.relativePath, item.link) })){
+    collapsed.value = false
+  }
 })
 
 function toggle() {

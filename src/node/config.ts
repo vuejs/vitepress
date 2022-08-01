@@ -134,6 +134,7 @@ export interface SiteConfig<ThemeConfig = any>
   srcDir: string
   site: SiteData<ThemeConfig>
   configPath: string | undefined
+  configDeps: string[]
   themeDir: string
   outDir: string
   tempDir: string
@@ -165,7 +166,11 @@ export async function resolveConfig(
   command: 'serve' | 'build' = 'serve',
   mode = 'development'
 ): Promise<SiteConfig> {
-  const [userConfig, configPath] = await resolveUserConfig(root, command, mode)
+  const [userConfig, configPath, configDeps] = await resolveUserConfig(
+    root,
+    command,
+    mode
+  )
   const site = await resolveSiteData(root, userConfig)
   const srcDir = path.resolve(root, userConfig.srcDir || '.')
   const outDir = userConfig.outDir
@@ -198,6 +203,7 @@ export async function resolveConfig(
     themeDir,
     pages,
     configPath,
+    configDeps,
     outDir,
     tempDir: resolve(root, '.temp'),
     markdown: userConfig.markdown,
@@ -222,32 +228,32 @@ async function resolveUserConfig(
   root: string,
   command: 'serve' | 'build',
   mode: string
-): Promise<[UserConfig, string | undefined]> {
+): Promise<[UserConfig, string | undefined, string[]]> {
   // load user config
   const configPath = supportedConfigExtensions
     .map((ext) => resolve(root, `config.${ext}`))
     .find(fs.pathExistsSync)
 
-  const userConfig: RawConfigExports = configPath
-    ? (
-        await loadConfigFromFile(
-          {
-            command,
-            mode
-          },
-          configPath,
-          root
-        )
-      )?.config!
-    : {}
-
-  if (configPath) {
-    debug(`loaded config at ${c.yellow(configPath)}`)
-  } else {
+  let userConfig: RawConfigExports = {}
+  let configDeps: string[] = []
+  if (!configPath) {
     debug(`no config file found.`)
+  } else {
+    const configExports = await loadConfigFromFile(
+      { command, mode },
+      configPath,
+      root
+    )
+    if (configExports) {
+      userConfig = configExports.config
+      configDeps = configExports.dependencies.map((file) =>
+        normalizePath(path.resolve(file))
+      )
+    }
+    debug(`loaded config at ${c.yellow(configPath)}`)
   }
 
-  return [await resolveConfigExtends(userConfig), configPath]
+  return [await resolveConfigExtends(userConfig), configPath, configDeps]
 }
 
 async function resolveConfigExtends(
