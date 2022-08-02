@@ -259,7 +259,7 @@
 
 .vp-doc div[class*='language-'] {
   position: relative;
-  margin: 16px -24px;
+  margin: 16px -24px 16px -48px;
   background-color: var(--vp-code-block-bg);
   overflow-x: auto;
   transition: background-color 0.5s;
@@ -273,8 +273,8 @@
 }
 
 @media (max-width: 639px) {
-  .vp-doc li div[class*='language-'] {
-    border-radius: 8px 0 0 8px;
+  .vp-doc div[class*='language-'] pre {
+    padding: 16px 24px;
   }
 }
 
