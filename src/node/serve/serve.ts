@@ -1,3 +1,5 @@
+import fs from 'fs'
+import path from 'path'
 import sirv from 'sirv'
 import compression from 'compression'
 import polka from 'polka'
@@ -26,14 +28,21 @@ export async function serve(options: ServeOptions = {}) {
   const site = await resolveConfig(options.root, 'serve', 'production')
   const base = trimChar(options?.base ?? site?.site?.base ?? '', '/')
 
+  const notAnAsset = (pathname: string) => !pathname.includes('/assets/')
+  const notFound = fs.readFileSync(path.resolve(site.outDir, './404.html'))
+  const onNoMatch: polka.Options['onNoMatch'] = (req, res) => {
+    res.statusCode = 404
+    if (notAnAsset(req.path)) res.write(notFound.toString())
+    res.end()
+  }
+
   const compress = compression()
   const serve = sirv(site.outDir, {
     etag: true,
-    single: true,
     maxAge: 31536000,
     immutable: true,
     setHeaders(res, pathname) {
-      if (!pathname.includes('/assets/')) {
+      if (notAnAsset(pathname)) {
         // force server validation for non-asset files since they
         // are not fingerprinted
         res.setHeader('cache-control', 'no-cache')
@@ -42,14 +51,14 @@ export async function serve(options: ServeOptions = {}) {
   })
 
   if (base) {
-    polka()
+    polka({ onNoMatch })
       .use(base, compress, serve)
       .listen(port, (err: any) => {
         if (err) throw err
         console.log(`Built site served at http://localhost:${port}/${base}/\n`)
       })
   } else {
-    polka()
+    polka({ onNoMatch })
       .use(compress, serve)
       .listen(port, (err: any) => {
         if (err) throw err

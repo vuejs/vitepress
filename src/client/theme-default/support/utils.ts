@@ -1,15 +1,15 @@
 import { ref } from 'vue'
 import { withBase } from 'vitepress'
+import { EXTERNAL_URL_RE } from '../../shared'
 
 export const HASH_RE = /#.*$/
 export const EXT_RE = /(index)?\.(md|html)$/
-export const OUTBOUND_RE = /^[a-z]+:/i
 
 const inBrowser = typeof window !== 'undefined'
 const hashRef = ref(inBrowser ? location.hash : '')
 
 export function isExternal(path: string): boolean {
-  return OUTBOUND_RE.test(path)
+  return EXTERNAL_URL_RE.test(path)
 }
 
 export function throttleAndDebounce(fn: () => void, delay: number): () => void {

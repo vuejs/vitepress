@@ -35,6 +35,7 @@ useCopyCode()
     </VPHome>
 
     <VPDoc v-else>
+      <template #doc-footer-before><slot name="doc-footer-before" /></template>
       <template #doc-before><slot name="doc-before" /></template>
       <template #doc-after><slot name="doc-after" /></template>
 

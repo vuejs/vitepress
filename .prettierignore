@@ -1,6 +1,4 @@
 /docs
-/examples
-*.css
 *.md
 *.vue
 dist

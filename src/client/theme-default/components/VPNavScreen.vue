@@ -29,10 +29,12 @@ function unlockBodyScroll() {
   >
     <div v-if="open" class="VPNavScreen" ref="screen">
       <div class="container">
+        <slot name="nav-screen-content-before" />
         <VPNavScreenMenu class="menu" />
         <VPNavScreenTranslations class="translations" />
         <VPNavScreenAppearance class="appearance" />
         <VPNavScreenSocialLinks class="social-links" />
+        <slot name="nav-screen-content-after" />
       </div>
     </div>
   </transition>

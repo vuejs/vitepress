@@ -11,7 +11,7 @@ export function useCopyCode() {
         nextTick(() => {
           document
             .querySelectorAll<HTMLSpanElement>(
-              '.vp-doc div[class*="language-"]>span.copy'
+              '.vp-doc div[class*="language-"] > button.copy'
             )
             .forEach(handleElement)
         })
@@ -67,26 +67,28 @@ async function copyToClipboard(text: string) {
 function handleElement(el: HTMLElement) {
   el.onclick = () => {
     const parent = el.parentElement
-
-    if (!parent) {
+    const sibling = el.nextElementSibling
+      ?.nextElementSibling as HTMLPreElement | null
+    if (!parent || !sibling) {
       return
     }
 
-    const isShell =
-      parent.classList.contains('language-sh') ||
-      parent.classList.contains('language-bash')
+    const isShell = /language-(shellscript|shell|bash|sh|zsh)/.test(
+      parent.classList.toString()
+    )
 
-    let { innerText: text = '' } = parent
+    let { innerText: text = '' } = sibling
 
     if (isShell) {
-      text = text.replace(/^ *\$ /gm, '')
+      text = text.replace(/^ *(\$|>) /gm, '')
     }
 
     copyToClipboard(text).then(() => {
       el.classList.add('copied')
       setTimeout(() => {
         el.classList.remove('copied')
-      }, 3000)
+        el.blur()
+      }, 2000)
     })
   }
 }

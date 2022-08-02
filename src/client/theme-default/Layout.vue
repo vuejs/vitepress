@@ -29,7 +29,14 @@ provide('close-sidebar', closeSidebar)
     <slot name="layout-top" />
     <VPSkipLink />
     <VPBackdrop class="backdrop" :show="isSidebarOpen" @click="closeSidebar" />
-    <VPNav />
+    <VPNav>
+      <template #nav-bar-title-before><slot name="nav-bar-title-before" /></template>
+      <template #nav-bar-title-after><slot name="nav-bar-title-after" /></template>
+      <template #nav-bar-content-before><slot name="nav-bar-content-before" /></template>
+      <template #nav-bar-content-after><slot name="nav-bar-content-after" /></template>
+      <template #nav-screen-content-before><slot name="nav-screen-content-before" /></template>
+      <template #nav-screen-content-after><slot name="nav-screen-content-after" /></template>
+    </VPNav>
     <VPLocalNav :open="isSidebarOpen" @open-menu="openSidebar" />
     <VPSidebar :open="isSidebarOpen" />
 
@@ -39,6 +46,7 @@ provide('close-sidebar', closeSidebar)
       <template #home-features-before><slot name="home-features-before" /></template>
       <template #home-features-after><slot name="home-features-after" /></template>
 
+      <template #doc-footer-before><slot name="doc-footer-before" /></template>
       <template #doc-before><slot name="doc-before" /></template>
       <template #doc-after><slot name="doc-after" /></template>
 

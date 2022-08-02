@@ -75,7 +75,7 @@ b {
 a,
 area,
 button,
-[role="button"],
+[role='button'],
 input,
 label,
 select,
@@ -142,13 +142,13 @@ textarea {
 
 button {
   padding: 0;
-  font-family: inherit;;
+  font-family: inherit;
   background-color: transparent;
   background-image: none;
 }
 
 button,
-[role="button"] {
+[role='button'] {
   cursor: pointer;
 }
 
@@ -197,7 +197,7 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-input[type="number"] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
 

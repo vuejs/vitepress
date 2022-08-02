@@ -60,9 +60,9 @@ The above will display a team member in card looking element. It should display 
 
 <VPTeamMembers size="small" :members="members" />
 
-`<VPTeamMembers>` component comes in 2 different sizes, `small` and `medium`. While it boiles down to your preference, usually `small` size should fit better when used in doc page. Also, you may add more properties to each member such as adding "description" or "sponsor" button. Learn more about it in [`<VPTeamMembers>`](#vpteammembers).
+`<VPTeamMembers>` component comes in 2 different sizes, `small` and `medium`. While it boils down to your preference, usually `small` size should fit better when used in doc page. Also, you may add more properties to each member such as adding "description" or "sponsor" button. Learn more about it in [`<VPTeamMembers>`](#vpteammembers).
 
-Embbeding team members in doc page is good for small size team where having dedicated full team page might be too much, or introducing partial members as a refference to documenation context.
+Embbeding team members in doc page is good for small size team where having dedicated full team page might be too much, or introducing partial members as a reference to documentation context.
 
 If you have large number of members, or simply would like to have more space to show team members, consider [creating a full team page](#create-a-full-team-page).
 
@@ -217,7 +217,7 @@ interface TeamMember {
 
 ## `<VPTeamPage>`
 
-The root component when creating a full team page. It only accepts a single slot. It's will style all passed in team related components.
+The root component when creating a full team page. It only accepts a single slot. It will style all passed in team related components.
 
 ## `<VPTeamPageTitle>`
 

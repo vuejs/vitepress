@@ -16,7 +16,8 @@ import {
   LocaleConfig,
   DefaultTheme,
   APPEARANCE_KEY,
-  createLangDictionary
+  createLangDictionary,
+  PageData
 } from './shared'
 import { resolveAliases, DEFAULT_THEME_PATH } from './alias'
 import { MarkdownOptions } from './markdown/markdown'
@@ -71,6 +72,29 @@ export interface UserConfig<ThemeConfig = any> {
    * @default false
    */
   ignoreDeadLinks?: boolean
+
+  /**
+   * Build end hook: called when SSG finish.
+   * @param siteConfig The resolved configuration.
+   */
+  buildEnd?: (siteConfig: SiteConfig) => Promise<void>
+
+  /**
+   * HTML transform hook: runs before writing HTML to dist.
+   */
+  transformHtml?: (
+    code: string,
+    id: string,
+    ctx: {
+      siteConfig: SiteConfig
+      siteData: SiteData
+      pageData: PageData
+      title: string
+      description: string
+      head: HeadConfig[]
+      content: string
+    }
+  ) => Promise<string | void>
 }
 
 export type RawConfigExports<ThemeConfig = any> =
@@ -88,11 +112,14 @@ export interface SiteConfig<ThemeConfig = any>
     | 'mpa'
     | 'lastUpdated'
     | 'ignoreDeadLinks'
+    | 'buildEnd'
+    | 'transformHtml'
   > {
   root: string
   srcDir: string
   site: SiteData<ThemeConfig>
   configPath: string | undefined
+  configDeps: string[]
   themeDir: string
   outDir: string
   tempDir: string
@@ -124,7 +151,11 @@ export async function resolveConfig(
   command: 'serve' | 'build' = 'serve',
   mode = 'development'
 ): Promise<SiteConfig> {
-  const [userConfig, configPath] = await resolveUserConfig(root, command, mode)
+  const [userConfig, configPath, configDeps] = await resolveUserConfig(
+    root,
+    command,
+    mode
+  )
   const site = await resolveSiteData(root, userConfig)
   const srcDir = path.resolve(root, userConfig.srcDir || '.')
   const outDir = userConfig.outDir
@@ -157,6 +188,7 @@ export async function resolveConfig(
     themeDir,
     pages,
     configPath,
+    configDeps,
     outDir,
     tempDir: resolve(root, '.temp'),
     markdown: userConfig.markdown,
@@ -166,7 +198,9 @@ export async function resolveConfig(
     vite: userConfig.vite,
     shouldPreload: userConfig.shouldPreload,
     mpa: !!userConfig.mpa,
-    ignoreDeadLinks: userConfig.ignoreDeadLinks
+    ignoreDeadLinks: userConfig.ignoreDeadLinks,
+    buildEnd: userConfig.buildEnd,
+    transformHtml: userConfig.transformHtml
   }
 
   return config
@@ -178,37 +212,32 @@ async function resolveUserConfig(
   root: string,
   command: 'serve' | 'build',
   mode: string
-): Promise<[UserConfig, string | undefined]> {
+): Promise<[UserConfig, string | undefined, string[]]> {
   // load user config
-  let configPath
-  for (const ext of supportedConfigExtensions) {
-    const p = resolve(root, `config.${ext}`)
-    if (await fs.pathExists(p)) {
-      configPath = p
-      break
-    }
-  }
+  const configPath = supportedConfigExtensions
+    .map((ext) => resolve(root, `config.${ext}`))
+    .find(fs.pathExistsSync)
 
-  const userConfig: RawConfigExports = configPath
-    ? ((
-        await loadConfigFromFile(
-          {
-            command,
-            mode
-          },
-          configPath,
-          root
-        )
-      )?.config as any)
-    : {}
-
-  if (configPath) {
-    debug(`loaded config at ${c.yellow(configPath)}`)
-  } else {
+  let userConfig: RawConfigExports = {}
+  let configDeps: string[] = []
+  if (!configPath) {
     debug(`no config file found.`)
+  } else {
+    const configExports = await loadConfigFromFile(
+      { command, mode },
+      configPath,
+      root
+    )
+    if (configExports) {
+      userConfig = configExports.config
+      configDeps = configExports.dependencies.map((file) =>
+        normalizePath(path.resolve(file))
+      )
+    }
+    debug(`loaded config at ${c.yellow(configPath)}`)
   }
 
-  return [await resolveConfigExtends(userConfig), configPath]
+  return [await resolveConfigExtends(userConfig), configPath, configDeps]
 }
 
 async function resolveConfigExtends(
@@ -282,7 +311,7 @@ function resolveSiteDataHead(userConfig?: UserConfig): HeadConfig[] {
   if (userConfig?.appearance ?? true) {
     head.push([
       'script',
-      {},
+      { id: 'check-dark-light' },
       `
         ;(() => {
           const saved = localStorage.getItem('${APPEARANCE_KEY}')

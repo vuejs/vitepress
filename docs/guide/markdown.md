@@ -46,7 +46,7 @@ Pages and internal links get generated with the `.html` suffix by default.
 
 ### External Links
 
-Outbound links automatically get `target="_blank" rel="noopener noreferrer"`:
+Outbound links automatically get `target="_blank" rel="noreferrer"`:
 
 - [vuejs.org](https://vuejs.org)
 - [VitePress on GitHub](https://github.com/vuejs/vitepress)
@@ -279,7 +279,7 @@ In addition to a single line, you can also specify multiple single lines, ranges
 **Input**
 
 ````
-```js{1,4,6-7}
+```js{1,4,6-8}
 export default { // Highlighted
   data () {
     return {
@@ -296,7 +296,7 @@ export default { // Highlighted
 
 **Output**
 
-```js{1,4,6-7}
+```js{1,4,6-8}
 export default { // Highlighted
   data () {
     return {
@@ -346,19 +346,11 @@ It also supports [line highlighting](#line-highlighting-in-code-blocks):
 
 **Code file**
 
-<!--lint disable strong-marker-->
-
 <<< @/snippets/snippet.js
-
-<!--lint enable strong-marker-->
 
 **Output**
 
-<!--lint disable strong-marker-->
-
 <<< @/snippets/snippet.js{2}
-
-<!--lint enable strong-marker-->
 
 ::: tip
 The value of `@` corresponds to the source root. By default it's the VitePress project root, unless `srcDir` is configured.
@@ -374,19 +366,64 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 
 **Code file**
 
-<!--lint disable strong-marker-->
-
 <<< @/snippets/snippet-with-region.js
-
-<!--lint enable strong-marker-->
 
 **Output**
 
-<!--lint disable strong-marker-->
-
 <<< @/snippets/snippet-with-region.js#snippet{1}
 
-<!--lint enable strong-marker-->
+You can also specify the language inside the braces (`{}`) like this:
+
+```md
+<<< @/snippets/snippet.cs{c#}
+
+<!-- with line highlighting: -->
+<<< @/snippets/snippet.cs{1,2,4-6 c#}
+```
+
+This is helpful if source language cannot be inferred from your file extension.
+
+## Markdown File Inclusion
+
+You can include a markdown file in another markdown file like this:
+
+**Input**
+
+```md
+# Docs
+
+## Basics
+
+<!--@include: ./parts/basics.md-->
+```
+
+**Part file** (`parts/basics.md`)
+
+```md
+Some getting started stuff.
+
+### Configuration
+
+Can be created using `.foorc.json`.
+```
+
+**Equivalent code**
+
+```md
+# Docs
+
+## Basics
+
+Some getting started stuff.
+
+### Configuration
+
+Can be created using `.foorc.json`.
+```
+
+::: warning
+Note that this does not throw errors if your file is not present. Hence, when using this feature make sure that the contents are being rendered as expected.
+:::
 
 ## Advanced Configuration
 
