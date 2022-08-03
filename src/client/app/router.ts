@@ -132,7 +132,7 @@ export function createRouter(
       (e) => {
         const link = (e.target as Element).closest('a')
         if (link) {
-          const { href, protocol, hostname, pathname, hash, target } = link
+          const { href, origin, pathname, hash, search, target } = link
           const currentUrl = window.location
           const extMatch = pathname.match(/\.\w+$/)
           // only intercept inbound links
@@ -142,12 +142,15 @@ export function createRouter(
             !e.altKey &&
             !e.metaKey &&
             target !== `_blank` &&
-            protocol === currentUrl.protocol &&
-            hostname === currentUrl.hostname &&
+            origin === currentUrl.origin &&
+            // don't intercept if non-html extension is present
             !(extMatch && extMatch[0] !== '.html')
           ) {
             e.preventDefault()
-            if (pathname === currentUrl.pathname) {
+            if (
+              pathname === currentUrl.pathname &&
+              search === currentUrl.search
+            ) {
               // scroll between hash anchors in the same page
               if (hash && hash !== currentUrl.hash) {
                 history.pushState(null, '', hash)
