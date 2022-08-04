@@ -171,6 +171,19 @@ interface MarkdownOptions extends MarkdownIt.Options {
 }
 ```
 
+## outDir
+
+- Type: `string`
+- Default: `dist`
+
+The build output location for the site.
+
+```ts
+export default {
+  outDir: '../public'
+}
+```
+
 ## title
 
 - Type: `string`
