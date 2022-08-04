@@ -174,7 +174,7 @@ interface MarkdownOptions extends MarkdownIt.Options {
 ## outDir
 
 - Type: `string`
-- Default: `dist`
+- Default: `.vitepress/dist`
 
 The build output location for the site.
 
