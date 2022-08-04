@@ -171,6 +171,19 @@ interface MarkdownOptions extends MarkdownIt.Options {
 }
 ```
 
+## outDir
+
+- Type: `string`
+- Default: `./.vitepress/dist`
+
+The build output location for the site, relative to project root (`docs` folder if you're running `vitepress build docs`).
+
+```ts
+export default {
+  outDir: '../public'
+}
+```
+
 ## title
 
 - Type: `string`

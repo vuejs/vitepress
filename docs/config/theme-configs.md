@@ -91,7 +91,7 @@ interface NavItemWithChildren {
 
 - Type: `Sidebar`
 
-The configuration for the sidebar menu item. You may learn more details at [Theme: Nav](../guide/theme-sidebar).
+The configuration for the sidebar menu item. You may learn more details at [Theme: Sidebar](../guide/theme-sidebar).
 
 ```js
 export default {
