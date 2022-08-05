@@ -27,14 +27,14 @@ export function getSidebar(
   return []
 }
 
-export function getFlatSideBarLinks(
-  sidebar: DefaultTheme.SidebarGroup[]
-): DefaultTheme.SidebarItem[] {
-  const links: DefaultTheme.SidebarItem[] = []
+export function getFlatSideBarLinks(sidebar: DefaultTheme.SidebarGroup[]) {
+  const links: { text: string; link: string }[] = []
 
   function recursivelyExtractLinks(items: DefaultTheme.SidebarItem[]) {
     for (const item of items) {
-      item.link && links.push(item)
+      if (item.link) {
+        links.push({ ...item, link: item.link })
+      }
       if ('items' in item) {
         recursivelyExtractLinks(item.items)
       }
