@@ -13,15 +13,21 @@ const { theme, page, frontmatter } = useData()
 const editLink = useEditLink()
 const control = usePrevNext()
 
+const hasEditLink = computed(() => {
+  return theme.value.editLink && frontmatter.value.editLink !== false
+})
 const hasLastUpdated = computed(() => {
   return page.value.lastUpdated && frontmatter.value.lastUpdated !== false
+})
+const showFooter = computed(() => {
+  return hasEditLink.value || hasLastUpdated.value || control.value.prev || control.value.next
 })
 </script>
 
 <template>
-  <footer class="VPDocFooter">
-    <div class="edit-info">
-      <div v-if="theme.editLink && frontmatter.editLink !== false" class="edit-link">
+  <footer v-if="showFooter" class="VPDocFooter">
+    <div v-if="hasEditLink || hasLastUpdated" class="edit-info">
+      <div v-if="hasEditLink" class="edit-link">
         <VPLink class="edit-link-button" :href="editLink.url" :no-icon="true">
           <VPIconEdit class="edit-link-icon" />
           {{ editLink.text }}
