@@ -358,3 +358,14 @@
   --vp-home-hero-image-background-image: none;
   --vp-home-hero-image-filter: none;
 }
+
+/**
+ * Component: Badge
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --vp-c-badge-type-warning: #e7c000;
+  --vp-c-badge-type-tip: #42b983;
+  --vp-c-badge-type-error: #da5961;
+  --vp-c-badge-type-info: #0170fe;
+}

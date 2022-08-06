@@ -6,7 +6,7 @@ import {
   onMounted,
   watch
 } from 'vue'
-import Theme from '/@theme/index'
+import Theme, { VPBadge } from '/@theme/index'
 import { inBrowser, pathToFile } from './utils'
 import { Router, RouterSymbol, createRouter } from './router'
 import { siteDataRef, useData } from './data'
@@ -55,6 +55,7 @@ export function createApp() {
   // install global components
   app.component('Content', Content)
   app.component('ClientOnly', ClientOnly)
+  app.component('Badge', VPBadge)
 
   // expose $frontmatter
   Object.defineProperty(app.config.globalProperties, '$frontmatter', {
