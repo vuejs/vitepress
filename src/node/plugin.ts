@@ -259,7 +259,7 @@ export async function createVitePressPlugin(
           clearCache()
           await recreateServer!()
         } catch (err) {
-          console.error(err)
+          console.error(c.red(`failed to restart server. error:\n`), err)
         }
         return
       }
