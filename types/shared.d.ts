@@ -1,6 +1,6 @@
 // types shared between server and client
 
-export { DefaultTheme } from './default-theme'
+export type { DefaultTheme } from './default-theme.js'
 
 export interface PageData {
   relativePath: string

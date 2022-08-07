@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { useFlyout } from '../composables/flyout'
+import { useFlyout } from '../composables/flyout.js'
 import VPIconChevronDown from './icons/VPIconChevronDown.vue'
 import VPIconMoreHorizontal from './icons/VPIconMoreHorizontal.vue'
 import VPMenu from './VPMenu.vue'

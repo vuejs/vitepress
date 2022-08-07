@@ -3,7 +3,7 @@ import {
   PageData,
   LocaleConfig,
   HeadConfig
-} from '../../types/shared'
+} from '../../types/shared.js'
 
 export type {
   SiteData,
@@ -14,7 +14,7 @@ export type {
   DefaultTheme,
   PageDataPayload,
   CleanUrlsMode
-} from '../../types/shared'
+} from '../../types/shared.js'
 
 export const EXTERNAL_URL_RE = /^[a-z]+:/i
 export const APPEARANCE_KEY = 'vitepress-theme-appearance'

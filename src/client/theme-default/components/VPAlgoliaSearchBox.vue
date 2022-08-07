@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { DefaultTheme } from 'vitepress/theme'
-import docsearch from '@docsearch/js'
+// FIXME: it's workaround for TypeScript bug
+import { default as docsearch } from '@docsearch/js'
 import { onMounted } from 'vue'
 import { useRouter, useRoute, useData } from 'vitepress'
 

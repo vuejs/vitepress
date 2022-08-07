@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRoute, useData } from 'vitepress'
-import { useCopyCode } from '../composables/copy-code'
-import { useSidebar } from '../composables/sidebar'
+import { useCopyCode } from '../composables/copy-code.js'
+import { useSidebar } from '../composables/sidebar.js'
 import NotFound from '../NotFound.vue'
 import VPPage from './VPPage.vue'
 import VPHome from './VPHome.vue'

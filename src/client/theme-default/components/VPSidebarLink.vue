@@ -2,7 +2,7 @@
 import type { DefaultTheme } from 'vitepress/theme'
 import { computed, inject } from 'vue'
 import { useData } from 'vitepress'
-import { isActive } from '../support/utils'
+import { isActive } from '../support/utils.js'
 import VPLink from './VPLink.vue'
 
 withDefaults(defineProps<{ item: DefaultTheme.SidebarItem; depth?: number }>(), { depth: 1 })

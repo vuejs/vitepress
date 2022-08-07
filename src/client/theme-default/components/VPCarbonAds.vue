@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch, onMounted } from 'vue'
 import { useData } from 'vitepress'
-import { useAside } from '../composables/aside'
+import { useAside } from '../composables/aside.js'
 
 const { theme } = useData()
 const carbonOptions = theme.value.carbonAds
