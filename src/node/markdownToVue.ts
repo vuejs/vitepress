@@ -22,7 +22,7 @@ export interface MarkdownCompileResult {
 }
 
 export function clearCache() {
-  cache.reset()
+  cache.clear()
 }
 
 export async function createMarkdownToVueRenderFn(
