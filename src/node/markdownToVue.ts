@@ -21,6 +21,10 @@ export interface MarkdownCompileResult {
   includes: string[]
 }
 
+export function clearCache() {
+  cache.reset()
+}
+
 export async function createMarkdownToVueRenderFn(
   srcDir: string,
   options: MarkdownOptions = {},
@@ -31,9 +35,7 @@ export async function createMarkdownToVueRenderFn(
   includeLastUpdatedData = false
 ) {
   const md = await createMarkdownRenderer(srcDir, options, base)
-
   pages = pages.map((p) => slash(p.replace(/\.md$/, '')))
-
   const replaceRegex = genReplaceRegexp(userDefines, isBuild)
 
   return async (

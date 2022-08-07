@@ -1,7 +1,8 @@
 import path from 'path'
+import c from 'picocolors'
 import { defineConfig, mergeConfig, Plugin, ResolvedConfig } from 'vite'
-import { SiteConfig, resolveSiteData } from './config'
-import { createMarkdownToVueRenderFn } from './markdownToVue'
+import { SiteConfig } from './config'
+import { createMarkdownToVueRenderFn, clearCache } from './markdownToVue'
 import { DIST_CLIENT_PATH, APP_PATH, SITE_DATA_REQUEST_PATH } from './alias'
 import { slash } from './utils/slash'
 import { OutputAsset, OutputChunk } from 'rollup'
@@ -30,11 +31,11 @@ const isPageChunk = (
   )
 
 export async function createVitePressPlugin(
-  root: string,
   siteConfig: SiteConfig,
   ssr = false,
   pageToHashMap?: Record<string, string>,
-  clientJSMap?: Record<string, string>
+  clientJSMap?: Record<string, string>,
+  recreateServer?: () => Promise<void>
 ) {
   const {
     srcDir,
@@ -244,17 +245,23 @@ export async function createVitePressPlugin(
     },
 
     async handleHotUpdate(ctx) {
-      // handle config hmr
       const { file, read, server } = ctx
       if (file === configPath || configDeps.includes(file)) {
-        const newData = await resolveSiteData(root)
-        if (newData.base !== siteData.base) {
-          console.warn(
-            `[vitepress]: config.base has changed. Please restart the dev server.`
+        console.log(
+          c.green(
+            `\n${path.relative(
+              process.cwd(),
+              file
+            )} changed, restarting server...`
           )
+        )
+        try {
+          clearCache()
+          await recreateServer!()
+        } catch (err) {
+          console.error(c.red(`failed to restart server. error:\n`), err)
         }
-        siteData = newData
-        return [server.moduleGraph.getModuleById(SITE_DATA_REQUEST_PATH)!]
+        return
       }
 
       // hot reload .md files as .vue files

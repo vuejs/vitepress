@@ -14,16 +14,19 @@ if (root) {
 }
 
 if (!command || command === 'dev') {
-  createServer(root, argv)
-    .then((server) => server.listen())
-    .then((server) => {
-      console.log()
-      server.printUrls()
+  const createDevServer = async () => {
+    const server = await createServer(root, argv, async () => {
+      await server.close()
+      await createDevServer()
     })
-    .catch((err) => {
-      console.error(c.red(`failed to start server. error:\n`), err)
-      process.exit(1)
-    })
+    await server.listen()
+    console.log()
+    server.printUrls()
+  }
+  createDevServer().catch((err) => {
+    console.error(c.red(`failed to start server. error:\n`), err)
+    process.exit(1)
+  })
 } else if (command === 'build') {
   build(root, argv).catch((err) => {
     console.error(c.red(`build error:\n`), err)
