@@ -1,4 +1,4 @@
-import { defineConfig } from '../../../src/node'
+import { defineConfig } from 'vitepress'
 
 export default defineConfig({
   title: 'Configured Example',

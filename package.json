@@ -12,7 +12,8 @@
       "import": "./dist/node/index.js",
       "require": "./dist/node-cjs/index.cjs"
     },
-    "./dist/client/*": "./dist/client/*",
+    "./dist/*": "./dist/*",
+    "./package.json": "./package.json",
     "./client": {
       "types": "./client.d.ts",
       "default": "./dist/client/index.js"
@@ -156,8 +157,8 @@
     "sirv": "^2.0.2",
     "supports-color": "^9.2.2",
     "typescript": "^4.7.4",
-    "vitest": "^0.20.3",
-    "vue-tsc": "^0.39.4"
+    "vitest": "^0.21.0",
+    "vue-tsc": "^0.39.5"
   },
   "pnpm": {
     "peerDependencyRules": {

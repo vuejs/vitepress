@@ -1,6 +1,5 @@
-import { defineConfig } from '../../src/node'
-
-import { version } from '../../package.json'
+import { defineConfig } from 'vitepress'
+import { version } from 'vitepress/package.json'
 
 export default defineConfig({
   lang: 'en-US',
