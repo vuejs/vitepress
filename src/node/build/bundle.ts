@@ -21,7 +21,6 @@ export async function bundle(
   serverResult: RollupOutput
   pageToHashMap: Record<string, string>
 }> {
-  const { root, srcDir } = config
   const pageToHashMap = Object.create(null)
   const clientJSMap = Object.create(null)
 
@@ -35,18 +34,17 @@ export async function bundle(
   config.pages.forEach((file) => {
     // page filename conversion
     // foo/bar.md -> foo_bar.md
-    input[slash(file).replace(/\//g, '_')] = path.resolve(srcDir, file)
+    input[slash(file).replace(/\//g, '_')] = path.resolve(config.srcDir, file)
   })
 
   // resolve options to pass to vite
   const { rollupOptions } = options
 
   const resolveViteConfig = async (ssr: boolean): Promise<ViteUserConfig> => ({
-    root: srcDir,
+    root: config.srcDir,
     base: config.site.base,
     logLevel: 'warn',
     plugins: await createVitePressPlugin(
-      root,
       config,
       ssr,
       pageToHashMap,
