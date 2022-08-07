@@ -1,4 +1,4 @@
-import { InjectionKey, Ref, shallowRef, readonly, computed, inject } from 'vue'
+import { InjectionKey, Ref, shallowRef, computed, inject } from 'vue'
 import { Route } from './router.js'
 import siteData from '@siteData'
 import {
@@ -23,11 +23,7 @@ export interface VitePressData<T = any> {
 }
 
 // site data is a singleton
-export type SiteDataRef<T = any> = Ref<SiteData<T>>
-
-export const siteDataRef: Ref<SiteData> = shallowRef(
-  import.meta.env.PROD ? siteData : readonly(siteData)
-)
+export const siteDataRef: Ref<SiteData> = shallowRef(siteData)
 
 // hmr
 if (import.meta.hot) {

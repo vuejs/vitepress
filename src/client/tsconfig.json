@@ -12,7 +12,6 @@
     "lib": ["ESNext", "DOM"],
     "types": ["vite/client"],
     "paths": {
-      "/@theme/*": ["theme-default/*"],
       "vitepress": ["index.ts"],
       "vitepress/theme": ["../../theme.d.ts"]
     }

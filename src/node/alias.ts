@@ -17,7 +17,6 @@ export const SITE_DATA_REQUEST_PATH = '/' + SITE_DATA_ID
 
 export function resolveAliases(root: string, themeDir: string): AliasOptions {
   const paths: Record<string, string> = {
-    '/@theme': themeDir,
     '@theme': themeDir,
     [SITE_DATA_ID]: SITE_DATA_REQUEST_PATH
   }
@@ -29,11 +28,11 @@ export function resolveAliases(root: string, themeDir: string): AliasOptions {
     })),
     {
       find: /^vitepress$/,
-      replacement: join(DIST_CLIENT_PATH, '/index')
+      replacement: join(DIST_CLIENT_PATH, '/index.js')
     },
     {
       find: /^vitepress\/theme$/,
-      replacement: join(DIST_CLIENT_PATH, '/theme-default/index')
+      replacement: join(DIST_CLIENT_PATH, '/theme-default/index.js')
     },
     // alias for local linked development
     {

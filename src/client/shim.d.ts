@@ -10,7 +10,13 @@ declare module '*.vue' {
 }
 
 declare module '@siteData' {
-  import type { SiteData } from './shared.js'
+  import type { SiteData } from 'vitepress'
   const data: SiteData
   export default data
+}
+
+declare module '@theme/index' {
+  import type { Theme } from 'vitepress'
+  const theme: Theme
+  export default theme
 }
