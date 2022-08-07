@@ -5,7 +5,7 @@ import {
   resolveHeaders,
   useOutline,
   useActiveAnchor
-} from '../composables/outline'
+} from '../composables/outline.js'
 
 const { page, frontmatter, theme } = useData()
 

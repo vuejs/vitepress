@@ -1,6 +1,6 @@
 import { computed, onMounted, onUnmounted, Ref, ref, watchEffect } from 'vue'
 import { useData, useRoute } from 'vitepress'
-import { getSidebar } from '../support/sidebar'
+import { getSidebar } from '../support/sidebar.js'
 
 export function useSidebar() {
   const route = useRoute()

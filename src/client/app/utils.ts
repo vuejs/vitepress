@@ -1,5 +1,5 @@
-import { siteDataRef } from './data'
-import { inBrowser, EXTERNAL_URL_RE } from '../shared'
+import { siteDataRef } from './data.js'
+import { inBrowser, EXTERNAL_URL_RE } from '../shared.js'
 
 export { inBrowser }
 

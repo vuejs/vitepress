@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useSidebar } from '../composables/sidebar'
+import { useSidebar } from '../composables/sidebar.js'
 import VPIconAlignLeft from './icons/VPIconAlignLeft.vue'
 
 defineProps<{

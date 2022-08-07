@@ -1,5 +1,5 @@
 import type { DefaultTheme } from 'vitepress/theme'
-import { ensureStartingSlash } from './utils'
+import { ensureStartingSlash } from './utils.js'
 
 /**
  * Get the `Sidebar` from sidebar option. This method will ensure to get correct
