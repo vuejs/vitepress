@@ -188,6 +188,7 @@ export default {
 Full list of slots available in the default theme layout:
 
 - When `layout: 'doc'` (default) is enabled via frontmatter:
+  - `doc-footer-before`
   - `doc-before`
   - `doc-after`
   - `aside-top`

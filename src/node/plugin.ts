@@ -39,6 +39,7 @@ export async function createVitePressPlugin(
   const {
     srcDir,
     configPath,
+    configDeps,
     alias,
     markdown,
     site,
@@ -162,6 +163,7 @@ export async function createVitePressPlugin(
     configureServer(server) {
       if (configPath) {
         server.watcher.add(configPath)
+        configDeps.forEach((file) => server.watcher.add(file))
       }
 
       // serve our index.html after vite history fallback
@@ -244,7 +246,7 @@ export async function createVitePressPlugin(
     async handleHotUpdate(ctx) {
       // handle config hmr
       const { file, read, server } = ctx
-      if (file === configPath) {
+      if (file === configPath || configDeps.includes(file)) {
         const newData = await resolveSiteData(root)
         if (newData.base !== siteData.base) {
           console.warn(
