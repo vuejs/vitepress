@@ -312,6 +312,7 @@
 .vp-doc [class*='language-'] code {
   display: flex;
   width: max-content;
+  min-width: 100%;
   flex-direction: column;
   line-height: var(--vp-code-line-height);
   font-size: var(--vp-code-font-size);
