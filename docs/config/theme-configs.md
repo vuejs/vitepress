@@ -21,15 +21,22 @@ Here it describes the settings for the VitePress default theme. If you're using 
 
 ## logo
 
-- Type: `string`
+- Type: `string | ThemedLogo`
 
-Logo file to display in nav bar, right before the site title.
+Logo file to display in nav bar, right before the site title. Accepts a path string, or an object to set a different logo for light/dark mode.
 
 ```ts
 export default {
   themeConfig: {
     logo: '/logo.svg'
   }
+}
+```
+
+```ts
+type ThemedLogo = {
+  light: string;
+  dark: string;
 }
 ```
 
