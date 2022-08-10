@@ -33,11 +33,6 @@ export function resolveAliases(root: string, themeDir: string): AliasOptions {
     {
       find: /^vitepress\/theme$/,
       replacement: join(DIST_CLIENT_PATH, '/theme-default/index.js')
-    },
-    // alias for local linked development
-    {
-      find: /^vitepress\//,
-      replacement: PKG_ROOT + '/'
     }
   ]
 
