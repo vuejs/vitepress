@@ -21,7 +21,7 @@ Here it describes the settings for the VitePress default theme. If you're using 
 
 ## logo
 
-- Type: `string | ThemedLogo`
+- Type: `ThemeableImage`
 
 Logo file to display in nav bar, right before the site title. Accepts a path string, or an object to set a different logo for light/dark mode.
 
@@ -34,10 +34,8 @@ export default {
 ```
 
 ```ts
-type ThemedLogo = {
-  light: string;
-  dark: string;
-}
+type Image = string | { src: string; alt?: string }
+type ThemeableImage = Image | { light: Image; dark: Image }
 ```
 
 ## siteTitle
