@@ -147,8 +147,14 @@
 :root {
   --vp-font-family-base: 'Inter var experimental', 'Inter var', -apple-system,
     BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
-    'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  --vp-font-family-mono: Menlo, Monaco, Consolas, 'Courier New', monospace;
+    'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'Helvetica', 'Noto Sans',
+    'Source Sans Pro', 'PingFang SC', 'Hiragino Sans GB', 'Noto Sans CJK SC',
+    'Source Han Sans CJK SC', 'PingFang TC', 'Noto Sans CJK TC',
+    'Source Han Sans CJK TC', 'Hiragino Sans', 'Noto Sans CJK JP',
+    'Source Han Sans CJK JA', 'Apple SD Gothic Neo', 'Noto Sans CJK KR',
+    'Source Han Sans CJK KO', sans-serif;
+  --vp-font-family-mono: 'SF Mono', 'Source Code Pro', 'Fira Code', Menlo,
+    Monaco, Consolas, 'Courier New', monospace;
 }
 
 /**
