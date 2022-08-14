@@ -2,7 +2,7 @@
 import { useRoute, useData } from 'vitepress'
 import { useCopyCode } from '../composables/copy-code'
 import { useSidebar } from '../composables/sidebar'
-import NotFound from '../NotFound.vue'
+import { NotFound } from '../../app'
 import VPPage from './VPPage.vue'
 import VPHome from './VPHome.vue'
 import VPDoc from './VPDoc.vue'
