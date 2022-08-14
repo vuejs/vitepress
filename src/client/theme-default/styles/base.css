@@ -213,3 +213,25 @@ fieldset {
   margin: 0;
   padding: 0;
 }
+
+pre {
+  scrollbar-width: thin; /* for firefox */
+}
+
+pre::-webkit-scrollbar {
+  height: 10px;
+}
+
+pre::-webkit-scrollbar-track {
+  background-color: var(--vp-scrollbar-track-bg);
+}
+
+pre::-webkit-scrollbar-thumb {
+  background-color: var(--vp-scrollbar-thumb-bg);
+  border: solid 2px var(--vp-scrollbar-track-bg);
+  border-radius: 10px;
+}
+
+pre::-webkit-scrollbar-thumb:hover {
+  background-color: var(--vp-scrollbar-thumb-bg-hover);
+}
