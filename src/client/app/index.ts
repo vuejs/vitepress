@@ -17,7 +17,7 @@ import { dataSymbol, initData } from './data.js'
 import { Content } from './components/Content.js'
 import { ClientOnly } from './components/ClientOnly.js'
 
-export const NotFound = Theme.NotFound || (() => '404 Not Found')
+const NotFound = Theme.NotFound || (() => '404 Not Found')
 
 const VitePressApp = defineComponent({
   name: 'VitePressApp',
