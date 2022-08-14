@@ -33,6 +33,7 @@ provide('close-screen', closeScreen)
   left: 0;
   z-index: var(--vp-z-index-nav);
   width: 100%;
+  pointer-events: none;
 }
 
 @media (min-width: 960px) {
