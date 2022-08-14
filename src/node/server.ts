@@ -5,7 +5,7 @@ import { createVitePressPlugin } from './plugin'
 export async function createServer(
   root: string = process.cwd(),
   serverOptions: ServerOptions = {},
-  recreateServer: () => Promise<void>
+  recreateServer?: () => Promise<void>
 ) {
   const config = await resolveConfig(root)
 
