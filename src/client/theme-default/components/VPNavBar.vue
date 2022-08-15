@@ -54,6 +54,11 @@ const { hasSidebar } = useSidebar()
   padding: 0 8px 0 24px;
   height: var(--vp-nav-height-mobile);
   transition: border-color 0.5s, background-color 0.5s;
+  pointer-events: none;
+}
+
+.VPNavBar .container:deep(*) {
+  pointer-events: all;
 }
 
 @media (min-width: 768px) {
@@ -96,6 +101,7 @@ const { hasSidebar } = useSidebar()
   justify-content: space-between;
   margin: 0 auto;
   max-width: calc(var(--vp-layout-max-width) - 64px);
+  pointer-events: none;
 }
 
 .content {
