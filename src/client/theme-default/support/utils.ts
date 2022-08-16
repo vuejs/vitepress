@@ -13,7 +13,7 @@ export function isExternal(path: string): boolean {
 }
 
 export function throttleAndDebounce(fn: () => void, delay: number): () => void {
-  let timeout: number
+  let timeout: NodeJS.Timeout
   let called = false
 
   return () => {
