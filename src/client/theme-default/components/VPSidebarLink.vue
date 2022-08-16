@@ -33,7 +33,7 @@ const closeSideBar = inject('close-sidebar') as () => void
 <style scoped>
 .link {
   display: block;
-  margin: 4px 0;
+  margin: 4px 0.6em;
   color: var(--vp-c-text-2);
   transition: color 0.5s;
 }
