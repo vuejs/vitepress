@@ -320,10 +320,6 @@
   transition: color 0.5s;
 }
 
-.vp-doc .line-numbers-mode code {
-  padding: 0;
-}
-
 .vp-doc [class*='language-'] code .highlighted {
   background-color: var(--vp-code-line-highlight-color);
   transition: background-color 0.5s;
@@ -335,10 +331,6 @@
 
 .vp-doc div[class*='language-'].line-numbers-mode {
   padding-left: 32px;
-}
-
-.vp-doc div[class*='language-'].line-numbers-mode pre {
-  padding-left: 16px;
 }
 
 .vp-doc .line-numbers-wrapper {
