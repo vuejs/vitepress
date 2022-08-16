@@ -310,23 +310,23 @@
 }
 
 .vp-doc [class*='language-'] code {
-  display: flex;
-  width: max-content;
+  display: block;
+  padding: 0 24px;
+  width: fit-content;
   min-width: 100%;
-  flex-direction: column;
   line-height: var(--vp-code-line-height);
   font-size: var(--vp-code-font-size);
   color: var(--vp-code-block-color);
   transition: color 0.5s;
 }
 
-.vp-doc [class*='language-'] code .line {
-  padding: 0 24px;
-}
-
 .vp-doc [class*='language-'] code .highlighted {
   background-color: var(--vp-code-line-highlight-color);
   transition: background-color 0.5s;
+  margin: 0 -24px;
+  padding: 0 24px;
+  width: calc(100% + 2 * 24px);
+  display: inline-block;
 }
 
 .vp-doc div[class*='language-'].line-numbers-mode {
