@@ -159,7 +159,7 @@ export async function renderPage(
     ${stylesheetLink}
     ${preloadLinksString}
     ${prefetchLinkString}
-    ${await renderHead(head)}
+    ${await renderHead(head, siteData.base)}
   </head>
   <body>
     <div id="app">${content}</div>
@@ -212,9 +212,12 @@ function resolvePageImports(
   ]
 }
 
-function renderHead(head: HeadConfig[]): Promise<string> {
+function renderHead(head: HeadConfig[], base: string): Promise<string> {
   return Promise.all(
     head.map(async ([tag, attrs = {}, innerHTML = '']) => {
+      if (attrs.rel === 'icon' && !attrs.href.startsWith(base)) {
+        attrs.href = path.join(base, attrs.href)
+      }
       const openTag = `<${tag}${renderAttrs(attrs)}>`
       if (tag !== 'link' && tag !== 'meta') {
         if (
