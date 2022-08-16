@@ -1,3 +1,4 @@
+import { createRequire } from 'module'
 import fs from 'fs-extra'
 import path from 'path'
 import { pathToFileURL } from 'url'
@@ -15,6 +16,8 @@ import {
 import { slash } from '../utils/slash'
 import { SiteConfig, resolveSiteDataByRoute } from '../config'
 
+const require = createRequire(import.meta.url)
+
 export async function renderPage(
   config: SiteConfig,
   page: string, // foo.md
@@ -31,9 +34,20 @@ export async function renderPage(
   const siteData = resolveSiteDataByRoute(config.site, routePath)
   await router.go(routePath)
 
+  // lazy require server-renderer for production build
+  // prioritize project root over vitepress' own dep
+  let rendererPath
+  try {
+    rendererPath = require.resolve('vue/server-renderer', {
+      paths: [config.root]
+    })
+  } catch (e) {
+    rendererPath = require.resolve('vue/server-renderer')
+  }
+
   // render page
-  const content = await import('vue/server-renderer').then(
-    ({ renderToString: r }) => r(app)
+  const content = await import(pathToFileURL(rendererPath).toString()).then(
+    (r) => r.renderToString(app)
   )
 
   const pageName = page.replace(/\//g, '_')
