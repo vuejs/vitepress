@@ -57,10 +57,6 @@ const { hasSidebar } = useSidebar()
   pointer-events: none;
 }
 
-.VPNavBar .container:deep(*) {
-  pointer-events: all;
-}
-
 @media (min-width: 768px) {
   .VPNavBar {
     padding: 0 32px;
@@ -102,6 +98,10 @@ const { hasSidebar } = useSidebar()
   margin: 0 auto;
   max-width: calc(var(--vp-layout-max-width) - 64px);
   pointer-events: none;
+}
+
+.container :deep(*) {
+  pointer-events: all;
 }
 
 .content {
