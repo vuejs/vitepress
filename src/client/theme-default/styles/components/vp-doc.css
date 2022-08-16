@@ -333,10 +333,6 @@
   padding-left: 32px;
 }
 
-.vp-doc div[class*='language-'].line-numbers-mode pre {
-  padding-left: 16px;
-}
-
 .vp-doc .line-numbers-wrapper {
   position: absolute;
   top: 0;
