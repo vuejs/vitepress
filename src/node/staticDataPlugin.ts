@@ -75,7 +75,6 @@ export const staticDataPlugin: Plugin = {
               ? normalizePath(resolve(base, p))
               : normalizePath(p)
           })
-          console.log(pattern)
         }
         loader = loaderModule.load
       }
