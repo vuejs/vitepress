@@ -1,6 +1,6 @@
 import { ref } from 'vue'
-import { withBase } from 'vitepress'
-import { EXTERNAL_URL_RE } from '../../shared'
+import { withBase, useData } from 'vitepress'
+import { EXTERNAL_URL_RE } from '../../shared.js'
 
 export const HASH_RE = /#.*$/
 export const EXT_RE = /(index)?\.(md|html)$/
@@ -13,7 +13,7 @@ export function isExternal(path: string): boolean {
 }
 
 export function throttleAndDebounce(fn: () => void, delay: number): () => void {
-  let timeout: number
+  let timeout: any
   let called = false
 
   return () => {
@@ -74,12 +74,16 @@ export function normalizeLink(url: string): string {
     return url
   }
 
+  const { site } = useData()
   const { pathname, search, hash } = new URL(url, 'http://example.com')
 
   const normalizedPath =
     pathname.endsWith('/') || pathname.endsWith('.html')
       ? url
-      : `${pathname.replace(/(\.md)?$/, '.html')}${search}${hash}`
+      : `${pathname.replace(
+          /(\.md)?$/,
+          site.value.cleanUrls === 'disabled' ? '.html' : ''
+        )}${search}${hash}`
 
   return withBase(normalizedPath)
 }

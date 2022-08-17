@@ -37,7 +37,7 @@ If your site is to be served at a subdirectory (`https://example.com/subdir/`), 
   $ yarn docs:serve
   ```
 
-  The `serve` command will boot up a local static web server that will serve the files from `.vitepress/dist` at `http://localhost:5000`. It's an easy way to check if the production build looks fine in your local environment.
+  The `serve` command will boot up a local static web server that will serve the files from `.vitepress/dist` at `http://localhost:4173`. It's an easy way to check if the production build looks fine in your local environment.
 
 - You can configure the port of the server by passing `--port` as an argument.
 

@@ -3,7 +3,12 @@ import c from 'picocolors'
 import { defineConfig, mergeConfig, Plugin, ResolvedConfig } from 'vite'
 import { SiteConfig } from './config'
 import { createMarkdownToVueRenderFn, clearCache } from './markdownToVue'
-import { DIST_CLIENT_PATH, APP_PATH, SITE_DATA_REQUEST_PATH } from './alias'
+import {
+  DIST_CLIENT_PATH,
+  APP_PATH,
+  SITE_DATA_REQUEST_PATH,
+  resolveAliases
+} from './alias'
 import { slash } from './utils/slash'
 import { OutputAsset, OutputChunk } from 'rollup'
 import { staticDataPlugin } from './staticDataPlugin'
@@ -41,13 +46,14 @@ export async function createVitePressPlugin(
     srcDir,
     configPath,
     configDeps,
-    alias,
     markdown,
     site,
     vue: userVuePluginOptions,
     vite: userViteConfig,
     pages,
-    ignoreDeadLinks
+    ignoreDeadLinks,
+    lastUpdated,
+    cleanUrls
   } = siteConfig
 
   let markdownToVue: Awaited<ReturnType<typeof createMarkdownToVueRenderFn>>
@@ -85,14 +91,15 @@ export async function createVitePressPlugin(
         config.define,
         config.command === 'build',
         config.base,
-        siteConfig.lastUpdated
+        lastUpdated,
+        cleanUrls
       )
     },
 
     config() {
       const baseConfig = defineConfig({
         resolve: {
-          alias
+          alias: resolveAliases(siteConfig, ssr)
         },
         define: {
           __ALGOLIA__: !!site.themeConfig.algolia,
@@ -101,7 +108,7 @@ export async function createVitePressPlugin(
         optimizeDeps: {
           // force include vue to avoid duplicated copies when linked + optimized
           include: ['vue'],
-          exclude: ['@docsearch/js']
+          exclude: ['@docsearch/js', 'vitepress']
         },
         server: {
           fs: {
@@ -219,6 +226,14 @@ export async function createVitePressPlugin(
           if (bundle[name].type === 'asset') {
             delete bundle[name]
           }
+        }
+
+        if (config.ssr?.format === 'esm') {
+          this.emitFile({
+            type: 'asset',
+            fileName: 'package.json',
+            source: '{ "private": true, "type": "module" }'
+          })
         }
       } else {
         // client build:

@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import type { DefaultTheme } from 'vitepress/theme'
 import { computed } from 'vue'
-import type { DefaultTheme } from '..'
 import VPTeamMembersItem from './VPTeamMembersItem.vue'
 
 const props = defineProps<{

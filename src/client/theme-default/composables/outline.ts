@@ -1,7 +1,7 @@
 import { Ref, computed, onMounted, onUpdated, onUnmounted } from 'vue'
 import { Header, useData } from 'vitepress'
-import { useAside } from '../composables/aside'
-import { throttleAndDebounce } from '../support/utils'
+import { useAside } from '../composables/aside.js'
+import { throttleAndDebounce } from '../support/utils.js'
 
 interface HeaderWithChildren extends Header {
   children?: Header[]
@@ -134,7 +134,7 @@ export function useActiveAnchor(
     if (hash !== null) {
       prevActiveLink = container.value.querySelector(
         `a[href="${decodeURIComponent(hash)}"]`
-      ) as HTMLAnchorElement
+      )
     }
 
     const activeLink = prevActiveLink

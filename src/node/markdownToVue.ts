@@ -3,7 +3,7 @@ import path from 'path'
 import c from 'picocolors'
 import matter from 'gray-matter'
 import LRUCache from 'lru-cache'
-import { PageData, HeadConfig, EXTERNAL_URL_RE } from './shared'
+import { PageData, HeadConfig, EXTERNAL_URL_RE, CleanUrlsMode } from './shared'
 import { slash } from './utils/slash'
 import { deeplyParseHeader } from './utils/parseHeader'
 import { getGitTimestamp } from './utils/getGitTimestamp'
@@ -22,7 +22,7 @@ export interface MarkdownCompileResult {
 }
 
 export function clearCache() {
-  cache.reset()
+  cache.clear()
 }
 
 export async function createMarkdownToVueRenderFn(
@@ -32,7 +32,8 @@ export async function createMarkdownToVueRenderFn(
   userDefines: Record<string, any> | undefined,
   isBuild = false,
   base = '/',
-  includeLastUpdatedData = false
+  includeLastUpdatedData = false,
+  cleanUrls: CleanUrlsMode = 'disabled'
 ) {
   const md = await createMarkdownRenderer(srcDir, options, base)
   pages = pages.map((p) => slash(p.replace(/\.md$/, '')))
@@ -74,7 +75,12 @@ export async function createMarkdownToVueRenderFn(
     md.__path = file
     md.__relativePath = relativePath
 
-    const html = md.render(content)
+    const html = md.render(content, {
+      path: file,
+      relativePath,
+      cleanUrls,
+      frontmatter
+    })
     const data = md.__data
 
     // validate data.links

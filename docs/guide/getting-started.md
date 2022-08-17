@@ -31,30 +31,13 @@ $ yarn add --dev vitepress vue
 ::: details Getting missing peer deps warnings?
 `@docsearch/js` has certain issues with its peer dependencies. If you see some commands failing due to them, you can try this workaround for now:
 
-On Yarn v2/v3, add this inside your rc file (`.yarnrc.yml` by default):
-
-```yaml
-packageExtensions:
-  '@docsearch/react@*':
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-      'react':
-        optional: true
-      'react-dom':
-        optional: true
-```
-
-On PNPM, add this in your `package.json`:
+If using PNPM, add this in your `package.json`:
 
 ```json
 "pnpm": {
   "peerDependencyRules": {
     "ignoreMissing": [
-      "@algolia/client-search",
-      "@types/react",
-      "react",
-      "react-dom"
+      "@algolia/client-search"
     ]
   }
 }
@@ -90,7 +73,7 @@ Serve the documentation site in the local server.
 $ yarn docs:dev
 ```
 
-VitePress will start a hot-reloading development server at `http://localhost:3000`.
+VitePress will start a hot-reloading development server at `http://localhost:5173`.
 
 ## Step. 4: Add more pages
 
@@ -104,7 +87,7 @@ Let's add another page to the site. Create a file name `getting-started.md` alon
 └─ package.json
 ```
 
-Then, try to access `http://localhost:3000/getting-started` and you should see the content of `getting-started` is shown.
+Then, try to access `http://localhost:5173/getting-started.html` and you should see the content of `getting-started.md` is shown.
 
 This is how VitePress works basically. The directory structure corresponds with the URL path. You add files, and just try to access it.
 

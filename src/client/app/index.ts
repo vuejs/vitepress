@@ -2,23 +2,24 @@ import {
   App,
   createApp as createClientApp,
   createSSRApp,
+  defineComponent,
   h,
   onMounted,
   watch
 } from 'vue'
-import Theme from '/@theme/index'
-import { inBrowser, pathToFile } from './utils'
-import { Router, RouterSymbol, createRouter } from './router'
-import { siteDataRef, useData } from './data'
-import { useUpdateHead } from './composables/head'
-import { usePrefetch } from './composables/preFetch'
-import { dataSymbol, initData } from './data'
-import { Content } from './components/Content'
-import { ClientOnly } from './components/ClientOnly'
+import Theme from '@theme/index'
+import { inBrowser, pathToFile } from './utils.js'
+import { Router, RouterSymbol, createRouter } from './router.js'
+import { siteDataRef, useData } from './data.js'
+import { useUpdateHead } from './composables/head.js'
+import { usePrefetch } from './composables/preFetch.js'
+import { dataSymbol, initData } from './data.js'
+import { Content } from './components/Content.js'
+import { ClientOnly } from './components/ClientOnly.js'
 
 const NotFound = Theme.NotFound || (() => '404 Not Found')
 
-const VitePressApp = {
+const VitePressApp = defineComponent({
   name: 'VitePressApp',
   setup() {
     const { site } = useData()
@@ -38,9 +39,11 @@ const VitePressApp = {
       // in prod mode, enable intersectionObserver based pre-fetch
       usePrefetch()
     }
+
+    if (Theme.setup) Theme.setup()
     return () => h(Theme.Layout)
   }
-}
+})
 
 export function createApp() {
   const router = newRouter()
@@ -73,7 +76,7 @@ export function createApp() {
 
   // setup devtools in dev mode
   if (import.meta.env.DEV || __VUE_PROD_DEVTOOLS__) {
-    import('./devtools').then(({ setupDevtools }) =>
+    import('./devtools.js').then(({ setupDevtools }) =>
       setupDevtools(app, router, data)
     )
   }

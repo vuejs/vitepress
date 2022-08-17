@@ -5,7 +5,7 @@ import {
   resolveHeaders,
   useOutline,
   useActiveAnchor
-} from '../composables/outline'
+} from '../composables/outline.js'
 
 const { page, frontmatter, theme } = useData()
 
@@ -22,9 +22,9 @@ const resolvedHeaders = computed(() => {
 
 function handleClick({ target: el }: Event) {
   const id = '#' + (el as HTMLAnchorElement).href!.split('#')[1]
-  const heading = document.querySelector(
+  const heading = document.querySelector<HTMLAnchorElement>(
     decodeURIComponent(id)
-  ) as HTMLAnchorElement
+  )
   heading?.focus()
 }
 </script>

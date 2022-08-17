@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute } from 'vitepress'
-import { useSidebar } from '../composables/sidebar'
+import { useSidebar } from '../composables/sidebar.js'
 import VPDocAside from './VPDocAside.vue'
 import VPDocFooter from './VPDocFooter.vue'
 

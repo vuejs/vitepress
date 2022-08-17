@@ -11,6 +11,10 @@ Place your configuration file at `.vitepress/config.js`. This is where all ViteP
 └─ package.json
 ```
 
+::: tip
+You can also use any of `.ts`, `.cjs`, `.mjs`, `.cts`, `.mts` as the config file extension.
+:::
+
 VitePress comes with 2 types of configs. One is the [App Configs](./app-configs) which configures the site's fundamental features such as setting title of the site, or customize how markdown parser works. Second is the [Theme Config](./theme-configs) which configures the theme of the site, for example, adding a sidebar, or add features such as "Edit this page on GitHub" link.
 
 There's also another configuration you may do in [Frontmatter](./frontmatter-configs). Frontmatter configs can override global configs defined on App Configs or Theme Configs for that specific page. However, there're several options that are only available at frontmatter as well.

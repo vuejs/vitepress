@@ -1,7 +1,7 @@
 import { setupDevtoolsPlugin } from '@vue/devtools-api'
 import type { App } from 'vue'
-import type { Router } from './router'
-import type { VitePressData } from './data'
+import type { Router } from './router.js'
+import type { VitePressData } from './data.js'
 
 const COMPONENT_STATE_TYPE = 'VitePress'
 
