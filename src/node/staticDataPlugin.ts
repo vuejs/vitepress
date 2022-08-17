@@ -1,7 +1,7 @@
 // TODO figure out why it causes full page reload
 
 import { Plugin, ViteDevServer, loadConfigFromFile, normalizePath } from 'vite'
-import { dirname, relative } from 'path'
+import { dirname, resolve } from 'path'
 import { isMatch } from 'micromatch'
 
 const loaderMatch = /\.data\.(j|t)s$/
@@ -14,7 +14,6 @@ interface LoaderModule {
 }
 
 interface CachedLoaderModule {
-  base: string
   pattern: string[] | undefined
   loader: () => any
 }
@@ -72,8 +71,11 @@ export const staticDataPlugin: Plugin = {
             : loaderModule.watch
         if (pattern) {
           pattern = pattern.map((p) => {
-            return p.startsWith('./') ? p.slice(2) : p
+            return p.startsWith('.')
+              ? normalizePath(resolve(base, p))
+              : normalizePath(p)
           })
+          console.log(pattern)
         }
         loader = loaderModule.load
       }
@@ -83,7 +85,7 @@ export const staticDataPlugin: Plugin = {
 
       // record loader module for HMR
       if (server) {
-        idToLoaderModulesMap[id] = { base, pattern, loader }
+        idToLoaderModulesMap[id] = { pattern, loader }
       }
 
       const result = `export const data = JSON.parse(${JSON.stringify(
@@ -98,27 +100,24 @@ export const staticDataPlugin: Plugin = {
   transform(_code, id) {
     if (server && loaderMatch.test(id)) {
       // register this module as a glob importer
-      const { base, pattern } = idToLoaderModulesMap[id]!
-      ;(server as any)._globImporters[id] = {
-        module: server.moduleGraph.getModuleById(id),
-        importGlobs: pattern?.map((pattern) => ({ base, pattern }))
-      }
+      const { pattern } = idToLoaderModulesMap[id]!
+      ;(server as any)._importGlobMap.set(id, [pattern])
     }
     return null
   },
 
   handleHotUpdate(ctx) {
     for (const id in idToLoaderModulesMap) {
-      const { base, pattern } = idToLoaderModulesMap[id]!
+      const { pattern } = idToLoaderModulesMap[id]!
       const isLoaderFile = normalizePath(ctx.file) === id
       if (isLoaderFile) {
         // invalidate loader file
         delete idToLoaderModulesMap[id]
       }
-      if (
-        isLoaderFile ||
-        (pattern && isMatch(relative(base, ctx.file), pattern))
-      ) {
+      if (pattern) {
+        console.log(pattern, isMatch(ctx.file, pattern))
+      }
+      if (isLoaderFile || (pattern && isMatch(ctx.file, pattern))) {
         ctx.modules.push(server.moduleGraph.getModuleById(id)!)
       }
     }

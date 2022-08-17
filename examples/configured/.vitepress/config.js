@@ -15,6 +15,15 @@ export default defineConfig({
               link: '/frontmatter/multiple-levels-outline'
             }
           ]
+        },
+        {
+          text: 'Static Data',
+          items: [
+            {
+              text: 'Test Page',
+              link: '/static-data/data'
+            }
+          ]
         }
       ]
     }
