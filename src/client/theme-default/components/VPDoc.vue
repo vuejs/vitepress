@@ -73,10 +73,6 @@ const pageName = computed(() =>
     max-width: 992px;
   }
 
-  .VPDoc:not(.has-sidebar) .aside {
-    display: block;
-  }
-
   .VPDoc:not(.has-sidebar) .content {
     max-width: 752px;
   }
