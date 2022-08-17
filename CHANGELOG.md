@@ -1,3 +1,12 @@
+# [1.0.0-alpha.8](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.7...v1.0.0-alpha.8) (2022-08-17)
+
+
+### Bug Fixes
+
+* fix client build entry ([04c4d0f](https://github.com/vuejs/vitepress/commit/04c4d0f01b6cb67fe842d9a88f8810f6959eb3ca))
+
+
+
 # [1.0.0-alpha.7](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.6...v1.0.0-alpha.7) (2022-08-17)
 
 
