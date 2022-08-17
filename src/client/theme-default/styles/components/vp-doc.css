@@ -140,11 +140,14 @@
  * Table
  * -------------------------------------------------------------------------- */
 
+.vp-doc .table-wrapper {
+  overflow-x: auto;
+}
+
 .vp-doc table {
-  display: block;
+  width: 100%;
   border-collapse: collapse;
   margin: 20px 0;
-  overflow-x: auto;
 }
 
 .vp-doc tr {
