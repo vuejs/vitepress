@@ -4,7 +4,6 @@ import c from 'picocolors'
 import fg from 'fast-glob'
 import {
   normalizePath,
-  AliasOptions,
   UserConfig as ViteConfig,
   mergeConfig as mergeViteConfig,
   loadConfigFromFile
@@ -20,7 +19,7 @@ import {
   CleanUrlsMode,
   PageData
 } from './shared'
-import { resolveAliases, DEFAULT_THEME_PATH } from './alias'
+import { DEFAULT_THEME_PATH } from './alias'
 import { MarkdownOptions } from './markdown/markdown'
 import _debug from 'debug'
 
@@ -138,7 +137,6 @@ export interface SiteConfig<ThemeConfig = any>
   themeDir: string
   outDir: string
   tempDir: string
-  alias: AliasOptions
   pages: string[]
 }
 
@@ -208,7 +206,6 @@ export async function resolveConfig(
     tempDir: resolve(root, '.temp'),
     markdown: userConfig.markdown,
     lastUpdated: userConfig.lastUpdated,
-    alias: resolveAliases(root, themeDir),
     vue: userConfig.vue,
     vite: userConfig.vite,
     shouldPreload: userConfig.shouldPreload,

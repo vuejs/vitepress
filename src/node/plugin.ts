@@ -3,7 +3,12 @@ import c from 'picocolors'
 import { defineConfig, mergeConfig, Plugin, ResolvedConfig } from 'vite'
 import { SiteConfig } from './config'
 import { createMarkdownToVueRenderFn, clearCache } from './markdownToVue'
-import { DIST_CLIENT_PATH, APP_PATH, SITE_DATA_REQUEST_PATH } from './alias'
+import {
+  DIST_CLIENT_PATH,
+  APP_PATH,
+  SITE_DATA_REQUEST_PATH,
+  resolveAliases
+} from './alias'
 import { slash } from './utils/slash'
 import { OutputAsset, OutputChunk } from 'rollup'
 import { staticDataPlugin } from './staticDataPlugin'
@@ -41,7 +46,6 @@ export async function createVitePressPlugin(
     srcDir,
     configPath,
     configDeps,
-    alias,
     markdown,
     site,
     vue: userVuePluginOptions,
@@ -95,7 +99,7 @@ export async function createVitePressPlugin(
     config() {
       const baseConfig = defineConfig({
         resolve: {
-          alias
+          alias: resolveAliases(siteConfig, ssr)
         },
         define: {
           __ALGOLIA__: !!site.themeConfig.algolia,

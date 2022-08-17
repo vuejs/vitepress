@@ -28,9 +28,7 @@ export async function bundle(
   // this is a multi-entry build - every page is considered an entry chunk
   // the loading is done via filename conversion rules so that the
   // metadata doesn't need to be included in the main chunk.
-  const input: Record<string, string> = {
-    app: path.resolve(APP_PATH, 'index.js')
-  }
+  const input: Record<string, string> = {}
   config.pages.forEach((file) => {
     // page filename conversion
     // foo/bar.md -> foo_bar.md
@@ -40,66 +38,70 @@ export async function bundle(
   // resolve options to pass to vite
   const { rollupOptions } = options
 
-  const resolveViteConfig = async (ssr: boolean): Promise<ViteUserConfig> => ({
-    root: config.srcDir,
-    base: config.site.base,
-    logLevel: 'warn',
-    plugins: await createVitePressPlugin(
-      config,
-      ssr,
-      pageToHashMap,
-      clientJSMap
-    ),
-    ssr: {
-      noExternal: ['vitepress', '@docsearch/css']
-    },
-    build: {
-      ...options,
-      emptyOutDir: true,
-      ssr,
-      outDir: ssr ? config.tempDir : config.outDir,
-      cssCodeSplit: false,
-      rollupOptions: {
-        ...rollupOptions,
-        input,
-        // important so that each page chunk and the index export things for each
-        // other
-        preserveEntrySignatures: 'allow-extension',
-        output: {
-          ...rollupOptions?.output,
-          ...(ssr
-            ? {
-                entryFileNames: `[name].js`,
-                chunkFileNames: `[name].[hash].js`
-              }
-            : {
-                chunkFileNames(chunk) {
-                  // avoid ads chunk being intercepted by adblock
-                  return /(?:Carbon|BuySell)Ads/.test(chunk.name)
-                    ? `assets/chunks/ui-custom.[hash].js`
-                    : `assets/chunks/[name].[hash].js`
-                },
-                manualChunks(id, ctx) {
-                  // move known framework code into a stable chunk so that
-                  // custom theme changes do not invalidate hash for all pages
-                  if (id.includes('plugin-vue:export-helper')) {
-                    return 'framework'
-                  }
-                  if (
-                    isEagerChunk(id, ctx) &&
-                    (/@vue\/(runtime|shared|reactivity)/.test(id) ||
-                      /vitepress\/dist\/client/.test(id))
-                  ) {
-                    return 'framework'
-                  }
-                }
-              })
-        }
+  const resolveViteConfig = async (ssr: boolean): Promise<ViteUserConfig> => {
+    // use different entry based on ssr or not
+    input['app'] = path.resolve(APP_PATH, ssr ? 'ssr.js' : 'index.js')
+    return {
+      root: config.srcDir,
+      base: config.site.base,
+      logLevel: 'warn',
+      plugins: await createVitePressPlugin(
+        config,
+        ssr,
+        pageToHashMap,
+        clientJSMap
+      ),
+      ssr: {
+        noExternal: ['vitepress', '@docsearch/css']
       },
-      // minify with esbuild in MPA mode (for CSS)
-      minify: ssr ? (config.mpa ? 'esbuild' : false) : !process.env.DEBUG
+      build: {
+        ...options,
+        emptyOutDir: true,
+        ssr,
+        outDir: ssr ? config.tempDir : config.outDir,
+        cssCodeSplit: false,
+        rollupOptions: {
+          ...rollupOptions,
+          input,
+          // important so that each page chunk and the index export things for each
+          // other
+          preserveEntrySignatures: 'allow-extension',
+          output: {
+            ...rollupOptions?.output,
+            ...(ssr
+              ? {
+                  entryFileNames: `[name].js`,
+                  chunkFileNames: `[name].[hash].js`
+                }
+              : {
+                  chunkFileNames(chunk) {
+                    // avoid ads chunk being intercepted by adblock
+                    return /(?:Carbon|BuySell)Ads/.test(chunk.name)
+                      ? `assets/chunks/ui-custom.[hash].js`
+                      : `assets/chunks/[name].[hash].js`
+                  },
+                  manualChunks(id, ctx) {
+                    // move known framework code into a stable chunk so that
+                    // custom theme changes do not invalidate hash for all pages
+                    if (id.includes('plugin-vue:export-helper')) {
+                      return 'framework'
+                    }
+                    if (
+                      isEagerChunk(id, ctx) &&
+                      (/@vue\/(runtime|shared|reactivity)/.test(id) ||
+                        /vitepress\/dist\/client/.test(id))
+                    ) {
+                      return 'framework'
+                    }
+                  }
+                })
+          }
+        },
+        // minify with esbuild in MPA mode (for CSS)
+        minify: ssr ? (config.mpa ? 'esbuild' : false) : !process.env.DEBUG
+      }
     }
-  })
+  }
 
   let clientResult: RollupOutput
   let serverResult: RollupOutput

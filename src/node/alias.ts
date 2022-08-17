@@ -2,6 +2,7 @@ import { createRequire } from 'module'
 import { resolve, join } from 'path'
 import { fileURLToPath } from 'url'
 import { Alias, AliasOptions } from 'vite'
+import { SiteConfig } from './config'
 
 const require = createRequire(import.meta.url)
 const PKG_ROOT = resolve(fileURLToPath(import.meta.url), '../..')
@@ -19,19 +20,13 @@ export const SITE_DATA_REQUEST_PATH = '/' + SITE_DATA_ID
 
 const vueRuntimePath = 'vue/dist/vue.runtime.esm-bundler.js'
 
-export function resolveAliases(root: string, themeDir: string): AliasOptions {
+export function resolveAliases(
+  { root, themeDir }: SiteConfig,
+  ssr: boolean
+): AliasOptions {
   const paths: Record<string, string> = {
     '@theme': themeDir,
     [SITE_DATA_ID]: SITE_DATA_REQUEST_PATH
-  }
-
-  // prioritize vue installed in project root and fallback to
-  // vue that comes with vitepress itself.
-  let vuePath
-  try {
-    vuePath = require.resolve(vueRuntimePath, { paths: [root] })
-  } catch (e) {
-    vuePath = require.resolve(vueRuntimePath)
   }
 
   const aliases: Alias[] = [
@@ -46,14 +41,25 @@ export function resolveAliases(root: string, themeDir: string): AliasOptions {
     {
       find: /^vitepress\/theme$/,
       replacement: join(DIST_CLIENT_PATH, '/theme-default/index.js')
-    },
-    // make sure it always use the same vue dependency that comes
-    // with vitepress itself
-    {
-      find: /^vue$/,
-      replacement: vuePath
     }
   ]
+
+  if (!ssr) {
+    // Prioritize vue installed in project root and fallback to
+    // vue that comes with vitepress itself.
+    // Only do this when not running SSR build, since `vue` needs to be
+    // externalized during SSR
+    let vuePath
+    try {
+      vuePath = require.resolve(vueRuntimePath, { paths: [root] })
+    } catch (e) {
+      vuePath = require.resolve(vueRuntimePath)
+    }
+    aliases.push({
+      find: /^vue$/,
+      replacement: vuePath
+    })
+  }
 
   return aliases
 }
