@@ -1,3 +1,22 @@
+# [1.0.0-alpha.6](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.5...v1.0.0-alpha.6) (2022-08-17)
+
+### Breaking Changes
+
+* `/@theme` import alias has been removed. Use `@theme` instead.
+
+### Bug Fixes
+
+* **theme:** remove extra padding in code blocks with line numbers ([f6d6c62](https://github.com/vuejs/vitepress/commit/f6d6c6211708d54fb60b89583fe1665aedd9c22f))
+* **theme:** restore styles for code blocks ([#1170](https://github.com/vuejs/vitepress/issues/1170)) ([2c89afb](https://github.com/vuejs/vitepress/commit/2c89afb7ddfeb04f947f95f9ecf636a384492ba8))
+* **theme:** set pointer events all on VPNavScreen ([#1182](https://github.com/vuejs/vitepress/issues/1182)) ([b36656a](https://github.com/vuejs/vitepress/commit/b36656a925b30ce5c85a78d6ae3b686917895822))
+
+
+### Features
+
+* **build:** switch to vite 3, support clean urls and esm mode ([#856](https://github.com/vuejs/vitepress/issues/856)) ([0048e2b](https://github.com/vuejs/vitepress/commit/0048e2bf1e7ef0bf0a4b66bcdd49f9dc84074b2d))
+
+
+
 # [1.0.0-alpha.5](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.4...v1.0.0-alpha.5) (2022-08-16)
 
 
