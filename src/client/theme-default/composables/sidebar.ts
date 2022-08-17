@@ -23,13 +23,9 @@ export function useSidebar() {
   })
 
   const hasAside = computed(() => {
-    if (
-      frontmatter.value.layout !== 'home' &&
-      frontmatter.value.aside === false
+    return (
+      frontmatter.value.layout !== 'home' && frontmatter.value.aside !== false
     )
-      return false
-
-    return hasSidebar.value
   })
 
   function open() {
