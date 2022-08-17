@@ -18,6 +18,7 @@ import anchor from 'markdown-it-anchor'
 import attrs from 'markdown-it-attrs'
 import emoji from 'markdown-it-emoji'
 import toc from 'markdown-it-toc-done-right'
+import { tableWrapperPlugin } from './plugins/tableWrapper'
 
 export type ThemeOptions =
   | IThemeRegistration
@@ -85,6 +86,7 @@ export const createMarkdownRenderer = async (
       },
       base
     )
+    .use(tableWrapperPlugin)
 
   // 3rd party plugins
   if (!options.attrs?.disable) {
