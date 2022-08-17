@@ -45,7 +45,10 @@ export async function build(
       const appChunk =
         clientResult &&
         (clientResult.output.find(
-          (chunk) => chunk.type === 'chunk' && chunk.isEntry
+          (chunk) =>
+            chunk.type === 'chunk' &&
+            chunk.isEntry &&
+            chunk.facadeModuleId?.endsWith('.js')
         ) as OutputChunk)
 
       const cssChunk = (
