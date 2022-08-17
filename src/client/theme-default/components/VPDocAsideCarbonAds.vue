@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { defineAsyncComponent } from 'vue'
 
-const VPCarbonAds = __ALGOLIA__
+const VPCarbonAds = __CARBON__
   ? defineAsyncComponent(() => import('./VPCarbonAds.vue'))
   : () => null
 </script>
