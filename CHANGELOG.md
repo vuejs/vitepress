@@ -1,3 +1,12 @@
+# [1.0.0-alpha.7](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.6...v1.0.0-alpha.7) (2022-08-17)
+
+
+### Bug Fixes
+
+* fix static data file support in vite 3 ([19ec22c](https://github.com/vuejs/vitepress/commit/19ec22cb4055e903b28ee70d606163b49009ef59))
+
+
+
 # [1.0.0-alpha.6](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.5...v1.0.0-alpha.6) (2022-08-17)
 
 ### Breaking Changes
