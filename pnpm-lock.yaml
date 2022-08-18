@@ -6,6 +6,7 @@ importers:
     specifiers:
       '@docsearch/css': ^3.2.1
       '@docsearch/js': ^3.2.1
+      '@mdit-vue/plugin-component': ^0.9.0
       '@rollup/plugin-alias': ^3.1.9
       '@rollup/plugin-commonjs': ^22.0.2
       '@rollup/plugin-json': ^4.1.0
@@ -88,6 +89,7 @@ importers:
       vite: 3.0.8
       vue: 3.2.37
     devDependencies:
+      '@mdit-vue/plugin-component': 0.9.0
       '@rollup/plugin-alias': 3.1.9_rollup@2.78.0
       '@rollup/plugin-commonjs': 22.0.2_rollup@2.78.0
       '@rollup/plugin-json': 4.1.0_rollup@2.78.0
@@ -390,6 +392,13 @@ packages:
   /@hutson/parse-repository-url/3.0.2:
     resolution: {integrity: sha512-H9XAx3hc0BQHY6l+IFSWHDySypcXsvsuLhgYLUGywmJ5pswRVQJUHpOsobnLYp2ZUaUlKiKDrgWWhosOwAEM8Q==}
     engines: {node: '>=6.9.0'}
+    dev: true
+
+  /@mdit-vue/plugin-component/0.9.0:
+    resolution: {integrity: sha512-HfrIQL8EiIyBeg42aSdTJJ/r2STI88fDFexPv7pI+a/qq1BG5AR0FTHTuzP3vwHn1ysgYB1qk4/hV/hodPYzhQ==}
+    dependencies:
+      '@types/markdown-it': 12.2.3
+      markdown-it: 13.0.1
     dev: true
 
   /@nodelib/fs.scandir/2.1.5:
