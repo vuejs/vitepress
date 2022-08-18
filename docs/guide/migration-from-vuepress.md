@@ -1,5 +1,11 @@
 # Migration from VuePress
 
+## Config
+
+### Sidebar
+
+The sidebar is no longer automatically populated from frontmatter. You can [read the frontmatter yourself](https://github.com/vuejs/vitepress/issues/572#issuecomment-1170116225) to dynamically populate the sidebar. [Additional utilities for this](https://github.com/vuejs/vitepress/issues/96) may be provided in the future.
+
 ## Markdown
 
 ### Images
