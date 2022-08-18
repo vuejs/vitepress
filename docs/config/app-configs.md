@@ -148,10 +148,8 @@ interface MarkdownOptions extends MarkdownIt.Options {
   lineNumbers?: boolean
 
   // markdown-it-anchor plugin options.
-  // See: https://github.com/valeriangalliat/markdown-it-anchor
-  anchor?: {
-    permalink?: anchor.AnchorOptions['permalink']
-  }
+  // See: https://github.com/valeriangalliat/markdown-it-anchor#usage
+  anchor?: anchorPlugin.AnchorOptions
 
   // markdown-it-attrs plugin options.
   // See: https://github.com/arve0/markdown-it-attrs
@@ -162,9 +160,9 @@ interface MarkdownOptions extends MarkdownIt.Options {
     disable?: boolean
   }
 
-  // markdown-it-toc-done-right plugin options
-  // See: https://github.com/nagaozen/markdown-it-toc-done-right
-  toc?: any
+  // @mdit-vue/plugin-toc plugin options.
+  // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-toc#options
+  toc?: TocPluginOptions
 
   // Configure the Markdown-it instance.
   config?: (md: MarkdownIt) => void
