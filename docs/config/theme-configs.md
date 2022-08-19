@@ -184,9 +184,13 @@ type SocialLinkIcon =
   | 'discord'
   | 'facebook'
   | 'github'
+  | 'gitlab'
   | 'instagram'
   | 'linkedin'
+  | 'reddit'
   | 'slack'
+  | 'tiktok'
+  | 'twitch'
   | 'twitter'
   | 'youtube'
   | { svg: string }
