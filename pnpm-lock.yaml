@@ -6,7 +6,8 @@ importers:
     specifiers:
       '@docsearch/css': ^3.2.1
       '@docsearch/js': ^3.2.1
-      '@mdit-vue/plugin-component': ^0.9.0
+      '@mdit-vue/plugin-component': ^0.9.2
+      '@mdit-vue/plugin-toc': ^0.9.2
       '@rollup/plugin-alias': ^3.1.9
       '@rollup/plugin-commonjs': ^22.0.2
       '@rollup/plugin-json': ^4.1.0
@@ -54,7 +55,6 @@ importers:
       markdown-it-attrs: ^4.1.4
       markdown-it-container: ^3.0.0
       markdown-it-emoji: ^2.0.2
-      markdown-it-toc-done-right: ^4.2.0
       micromatch: ^4.0.5
       minimist: ^1.2.6
       npm-run-all: ^4.1.5
@@ -89,7 +89,8 @@ importers:
       vite: 3.0.8
       vue: 3.2.37
     devDependencies:
-      '@mdit-vue/plugin-component': 0.9.0
+      '@mdit-vue/plugin-component': 0.9.2
+      '@mdit-vue/plugin-toc': 0.9.2
       '@rollup/plugin-alias': 3.1.9_rollup@2.78.0
       '@rollup/plugin-commonjs': 22.0.2_rollup@2.78.0
       '@rollup/plugin-json': 4.1.0_rollup@2.78.0
@@ -133,7 +134,6 @@ importers:
       markdown-it-attrs: 4.1.4_markdown-it@13.0.1
       markdown-it-container: 3.0.0
       markdown-it-emoji: 2.0.2
-      markdown-it-toc-done-right: 4.2.0
       micromatch: 4.0.5
       minimist: 1.2.6
       npm-run-all: 4.1.5
@@ -394,11 +394,32 @@ packages:
     engines: {node: '>=6.9.0'}
     dev: true
 
-  /@mdit-vue/plugin-component/0.9.0:
-    resolution: {integrity: sha512-HfrIQL8EiIyBeg42aSdTJJ/r2STI88fDFexPv7pI+a/qq1BG5AR0FTHTuzP3vwHn1ysgYB1qk4/hV/hodPYzhQ==}
+  /@mdit-vue/plugin-component/0.9.2:
+    resolution: {integrity: sha512-sTi9SWiakUGUs330zNRfEYSzGAVAXJ7gjbg46e/4HJQXxC8uEBC+Xg6IgsYcTRGHuJpCP65pcHvCLeDoCdWpyQ==}
     dependencies:
       '@types/markdown-it': 12.2.3
       markdown-it: 13.0.1
+    dev: true
+
+  /@mdit-vue/plugin-toc/0.9.2:
+    resolution: {integrity: sha512-Du3fFz+YezlXex9Syn+bc8ADDRx/kBfBokeHXfd/qCW5XqS7I4THLR/IRqlvi9CgIZ0dx7bJv0avxil9EX1PoQ==}
+    dependencies:
+      '@mdit-vue/shared': 0.9.2
+      '@mdit-vue/types': 0.9.2
+      '@types/markdown-it': 12.2.3
+      markdown-it: 13.0.1
+    dev: true
+
+  /@mdit-vue/shared/0.9.2:
+    resolution: {integrity: sha512-05Nk/o+kJCgeAa7oBGJOIazJq+6n0+VR4jPhzV3LGc9TyuMEqnrH5XzmBoy45vzyyoe7pGxJ/PBDxq4HebQHtQ==}
+    dependencies:
+      '@mdit-vue/types': 0.9.2
+      '@types/markdown-it': 12.2.3
+      markdown-it: 13.0.1
+    dev: true
+
+  /@mdit-vue/types/0.9.2:
+    resolution: {integrity: sha512-SuoxzZHS2/9bEqeJ+bjj2xBLjoZhRo6Ww/GVqNZS2ji9rkoM2teA0kbwSmj0X6Kf00K9HnLs6T0dtDtqpBqEHA==}
     dev: true
 
   /@nodelib/fs.scandir/2.1.5:
@@ -2735,10 +2756,6 @@ packages:
 
   /markdown-it-emoji/2.0.2:
     resolution: {integrity: sha512-zLftSaNrKuYl0kR5zm4gxXjHaOI3FAOEaloKmRA5hijmJZvSjmxcokOLlzycb/HXlUFWzXqpIEoyEMCE4i9MvQ==}
-    dev: true
-
-  /markdown-it-toc-done-right/4.2.0:
-    resolution: {integrity: sha512-UB/IbzjWazwTlNAX0pvWNlJS8NKsOQ4syrXZQ/C72j+jirrsjVRT627lCaylrKJFBQWfRsPmIVQie8x38DEhAQ==}
     dev: true
 
   /markdown-it/13.0.1:

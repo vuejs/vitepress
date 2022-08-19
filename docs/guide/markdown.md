@@ -435,12 +435,13 @@ const anchor = require('markdown-it-anchor')
 module.exports = {
   markdown: {
     // options for markdown-it-anchor
-    // https://github.com/valeriangalliat/markdown-it-anchor#permalinks
+    // https://github.com/valeriangalliat/markdown-it-anchor#usage
     anchor: {
       permalink: anchor.permalink.headerLink()
     },
 
-    // options for markdown-it-toc-done-right
+    // options for @mdit-vue/plugin-toc
+    // https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-toc#options
     toc: { level: [1, 2] },
 
     config: (md) => {

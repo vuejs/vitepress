@@ -2,10 +2,9 @@ import MarkdownIt from 'markdown-it'
 import anchorPlugin from 'markdown-it-anchor'
 import attrsPlugin from 'markdown-it-attrs'
 import emojiPlugin from 'markdown-it-emoji'
-import tocPlugin from 'markdown-it-toc-done-right'
 import { componentPlugin } from '@mdit-vue/plugin-component'
+import { tocPlugin, type TocPluginOptions } from '@mdit-vue/plugin-toc'
 import { IThemeRegistration } from 'shiki'
-import { parseHeader } from '../utils/parseHeader'
 import { highlight } from './plugins/highlight'
 import { slugify } from './plugins/slugify'
 import { highlightLinePlugin } from './plugins/highlightLines'
@@ -26,9 +25,7 @@ export type ThemeOptions =
 export interface MarkdownOptions extends MarkdownIt.Options {
   lineNumbers?: boolean
   config?: (md: MarkdownIt) => void
-  anchor?: {
-    permalink?: anchorPlugin.AnchorOptions['permalink']
-  }
+  anchor?: anchorPlugin.AnchorOptions
   attrs?: {
     leftDelimiter?: string
     rightDelimiter?: string
@@ -36,8 +33,7 @@ export interface MarkdownOptions extends MarkdownIt.Options {
     disable?: boolean
   }
   theme?: ThemeOptions
-  // https://github.com/nagaozen/markdown-it-toc-done-right
-  toc?: any
+  toc?: TocPluginOptions
   externalLinks?: Record<string, string>
 }
 
@@ -95,15 +91,11 @@ export const createMarkdownRenderer = async (
     slugify,
     permalink: anchorPlugin.permalink.ariaHidden({}),
     ...options.anchor
-  })
+  } as anchorPlugin.AnchorOptions)
     .use(tocPlugin, {
       slugify,
-      level: [2, 3],
-      format: (x: string, htmlencode: (s: string) => string) =>
-        htmlencode(parseHeader(x)),
-      listType: 'ul',
       ...options.toc
-    })
+    } as TocPluginOptions)
     .use(emojiPlugin)
 
   // apply user config
