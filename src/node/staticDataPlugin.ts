@@ -1,5 +1,3 @@
-// TODO figure out why it causes full page reload
-
 import { Plugin, ViteDevServer, loadConfigFromFile, normalizePath } from 'vite'
 import { dirname, resolve } from 'path'
 import { isMatch } from 'micromatch'
@@ -112,9 +110,6 @@ export const staticDataPlugin: Plugin = {
       if (isLoaderFile) {
         // invalidate loader file
         delete idToLoaderModulesMap[id]
-      }
-      if (pattern) {
-        console.log(pattern, isMatch(ctx.file, pattern))
       }
       if (isLoaderFile || (pattern && isMatch(ctx.file, pattern))) {
         ctx.modules.push(server.moduleGraph.getModuleById(id)!)
