@@ -109,7 +109,7 @@ function linkVue(root: string) {
   // if user did not install vue by themselves, link VitePress' version
   if (!fs.existsSync(dest)) {
     const src = path.dirname(createRequire(import.meta.url).resolve('vue'))
-    fs.ensureSymlinkSync(src, dest)
+    fs.ensureSymlinkSync(src, dest, 'junction')
     return () => {
       fs.unlinkSync(dest)
     }
