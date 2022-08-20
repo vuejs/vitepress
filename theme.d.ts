@@ -9,6 +9,7 @@ export const VPTeamPage: ComponentOptions
 export const VPTeamPageTitle: ComponentOptions
 export const VPTeamPageSection: ComponentOptions
 export const VPTeamMembers: ComponentOptions
+export const VPSocialLinks: ComponentOptions
 
 declare const theme: {
   Layout: ComponentOptions

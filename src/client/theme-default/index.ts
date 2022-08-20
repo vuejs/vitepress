@@ -19,6 +19,7 @@ export { default as VPTeamPage } from './components/VPTeamPage.vue'
 export { default as VPTeamPageTitle } from './components/VPTeamPageTitle.vue'
 export { default as VPTeamPageSection } from './components/VPTeamPageSection.vue'
 export { default as VPTeamMembers } from './components/VPTeamMembers.vue'
+export { default as VPSocialLinks } from './components/VPSocialLinks.vue'
 
 const theme: Theme = {
   Layout,
