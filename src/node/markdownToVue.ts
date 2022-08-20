@@ -1,13 +1,16 @@
 import fs from 'fs'
 import path from 'path'
 import c from 'picocolors'
-import matter from 'gray-matter'
 import LRUCache from 'lru-cache'
 import { PageData, HeadConfig, EXTERNAL_URL_RE, CleanUrlsMode } from './shared'
 import { slash } from './utils/slash'
 import { deeplyParseHeader } from './utils/parseHeader'
 import { getGitTimestamp } from './utils/getGitTimestamp'
-import { createMarkdownRenderer, MarkdownOptions } from './markdown/markdown'
+import {
+  createMarkdownRenderer,
+  type MarkdownEnv,
+  type MarkdownOptions
+} from './markdown'
 import _debug from 'debug'
 
 const debug = _debug('vitepress:md')
@@ -69,19 +72,18 @@ export async function createMarkdownToVueRenderFn(
       }
     })
 
-    const { content, data: frontmatter } = matter(src)
-
     // reset state before render
     md.__path = file
     md.__relativePath = relativePath
 
-    const html = md.render(content, {
+    const env: MarkdownEnv = {
       path: file,
       relativePath,
-      cleanUrls,
-      frontmatter
-    })
+      cleanUrls
+    }
+    const html = md.render(src, env)
     const data = md.__data
+    const { content = '', frontmatter = {} } = env
 
     // validate data.links
     const deadLinks: string[] = []
@@ -128,7 +130,7 @@ export async function createMarkdownToVueRenderFn(
 
     const pageData: PageData = {
       title: inferTitle(frontmatter, content),
-      titleTemplate: frontmatter.titleTemplate,
+      titleTemplate: frontmatter.titleTemplate as any,
       description: inferDescription(frontmatter),
       frontmatter,
       headers: data.headers || [],

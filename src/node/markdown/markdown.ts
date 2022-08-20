@@ -3,6 +3,10 @@ import anchorPlugin from 'markdown-it-anchor'
 import attrsPlugin from 'markdown-it-attrs'
 import emojiPlugin from 'markdown-it-emoji'
 import { componentPlugin } from '@mdit-vue/plugin-component'
+import {
+  frontmatterPlugin,
+  type FrontmatterPluginOptions
+} from '@mdit-vue/plugin-frontmatter'
 import { tocPlugin, type TocPluginOptions } from '@mdit-vue/plugin-toc'
 import { IThemeRegistration } from 'shiki'
 import { highlight } from './plugins/highlight'
@@ -32,6 +36,7 @@ export interface MarkdownOptions extends MarkdownIt.Options {
     allowedAttributes?: string[]
     disable?: boolean
   }
+  frontmatter?: FrontmatterPluginOptions
   theme?: ThemeOptions
   toc?: TocPluginOptions
   externalLinks?: Record<string, string>
@@ -92,6 +97,9 @@ export const createMarkdownRenderer = async (
     permalink: anchorPlugin.permalink.ariaHidden({}),
     ...options.anchor
   } as anchorPlugin.AnchorOptions)
+    .use(frontmatterPlugin, {
+      ...options.frontmatter
+    } as FrontmatterPluginOptions)
     .use(tocPlugin, {
       slugify,
       ...options.toc

@@ -3,7 +3,8 @@
 // 2. normalize internal links to end with `.html`
 
 import MarkdownIt from 'markdown-it'
-import { MarkdownRenderer } from '../markdown'
+import type { MarkdownEnv } from '../env'
+import type { MarkdownRenderer } from '../markdown'
 import { URL } from 'url'
 import { EXTERNAL_URL_RE, CleanUrlsMode } from '../../shared'
 
@@ -14,7 +15,13 @@ export const linkPlugin = (
   externalAttrs: Record<string, string>,
   base: string
 ) => {
-  md.renderer.rules.link_open = (tokens, idx, options, env, self) => {
+  md.renderer.rules.link_open = (
+    tokens,
+    idx,
+    options,
+    env: MarkdownEnv,
+    self
+  ) => {
     const token = tokens[idx]
     const hrefIndex = token.attrIndex('href')
     if (hrefIndex >= 0) {
@@ -37,7 +44,7 @@ export const linkPlugin = (
         // links to files (other than html/md)
         !/\.(?!html|md)\w+($|\?)/i.test(url)
       ) {
-        normalizeHref(hrefAttr, env.cleanUrl)
+        normalizeHref(hrefAttr, env.cleanUrls)
       }
 
       // encode vite-specific replace strings in case they appear in URLs
