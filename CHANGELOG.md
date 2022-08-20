@@ -1,3 +1,21 @@
+# [1.0.0-alpha.9](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.8...v1.0.0-alpha.9) (2022-08-20)
+
+
+### Bug Fixes
+
+* **theme:** fix typo in carbon ads components ([#1192](https://github.com/vuejs/vitepress/issues/1192)) ([e0932ce](https://github.com/vuejs/vitepress/commit/e0932ce5f49535fb28c6b6e4d17b888dd09187dc))
+* **theme:** show footer message/copyright only if present ([#1191](https://github.com/vuejs/vitepress/issues/1191)) ([da2f8d2](https://github.com/vuejs/vitepress/commit/da2f8d28a6993b099a97b01ab2ff94104e84190c))
+* **theme:** show outline even without sidebar ([#1189](https://github.com/vuejs/vitepress/issues/1189)) ([3714ea3](https://github.com/vuejs/vitepress/commit/3714ea34635e69aa96de3da5f3cbc5b6198fdbc2))
+* **types:** explicitly re-export to resolve ambiguities ([#1193](https://github.com/vuejs/vitepress/issues/1193)) ([eacc18c](https://github.com/vuejs/vitepress/commit/eacc18c993cefa2922c13826c1d0498a9eafc4d1))
+* use junctions in Windows ([#1217](https://github.com/vuejs/vitepress/issues/1217)) ([0e14211](https://github.com/vuejs/vitepress/commit/0e14211b609c4694c7654ce381998ce751230480))
+
+
+### Features
+
+* **theme:** extend titleTemplate by replacing the title ([#1200](https://github.com/vuejs/vitepress/issues/1200)) ([c7def73](https://github.com/vuejs/vitepress/commit/c7def730c3d9266e7573b91e16e00dd2f3f3350b))
+
+
+
 # [1.0.0-alpha.8](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.7...v1.0.0-alpha.8) (2022-08-17)
 
 
