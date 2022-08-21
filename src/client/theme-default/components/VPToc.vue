@@ -15,8 +15,7 @@ const filtered = computed(() => {
   const q = normalize(query.value)
   const matches = (text: string) => normalize(text).includes(q)
 
-  return tocData[route.path]
-    .map((section) => {
+  return (tocData[route.path] || []).map((section) => {
       // section title match
       if (matches(section.text)) {
         return section
