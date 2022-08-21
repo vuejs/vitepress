@@ -12,10 +12,9 @@
     "lib": ["ESNext", "DOM"],
     "types": ["vite/client"],
     "paths": {
-      "vitepress": ["index.ts"],
+      "vitepress": ["../../types/index.d.ts"],
       "vitepress/theme": ["../../theme.d.ts"]
     }
   },
-  "include": ["."],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["."]
 }

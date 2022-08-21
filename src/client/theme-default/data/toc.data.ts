@@ -1,5 +1,6 @@
-import * as fs from "fs"
-import * as path from "path"
+/// <reference types="node" />
+import fs from "fs"
+import path from "path"
 import type { DefaultTheme } from 'vitepress/theme'
 import type { SiteData } from 'vitepress'
 import { defineData } from "vitepress"
@@ -22,6 +23,7 @@ export interface APIGroup {
 
 // declare resolved data type
 export declare const data: Record<string, APIGroup[]>
+
 type DefaultThemeSiteData = SiteData<DefaultTheme.Config>
 
 export default defineData({

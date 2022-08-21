@@ -23,6 +23,7 @@ export {
   SiteConfig,
   ThemeOptions,
   UserConfig,
+  LoaderModule,
   build,
   createMarkdownRenderer,
   createServer,
