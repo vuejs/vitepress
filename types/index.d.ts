@@ -31,5 +31,6 @@ export {
   resolveConfig,
   resolveSiteData,
   resolveSiteDataByRoute,
-  serve
+  serve,
+  defineData
 } from '../dist/node/index.js'

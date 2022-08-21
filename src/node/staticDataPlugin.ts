@@ -7,14 +7,15 @@ const loaderMatch = /\.data\.(j|t)s$/
 
 let server: ViteDevServer
 
-interface LoaderModule {
-  watch: string[] | string | ((siteData: SiteData) => string[] | string | undefined) | undefined
-  load: (siteData: SiteData) => any
+export interface LoaderModule<T = SiteData> {
+  config?: (siteData: SiteData) => T
+  watch: string[] | string | ((siteData: T) => string[] | string | undefined) | undefined
+  load: (siteData: T) => any
 }
 
 interface CachedLoaderModule {
   pattern: string[] | undefined
-  loader: (siteData: SiteData) => any
+  loader: () => any
 }
 
 const idToLoaderModulesMap: Record<string, CachedLoaderModule | undefined> =
@@ -28,6 +29,10 @@ const idToLoaderModulesMap: Record<string, CachedLoaderModule | undefined> =
 let idToPendingPromiseMap: Record<string, Promise<string> | undefined> =
   Object.create(null)
 let isBuild = false
+
+export function defineData<T>(opt: LoaderModule<T>) {
+  return opt
+}
 
 export function staticDataPlugin(siteData: SiteData): Plugin {
   return {
@@ -55,7 +60,7 @@ export function staticDataPlugin(siteData: SiteData): Plugin {
   
         const base = dirname(id)
         let pattern: string[] | undefined
-        let loader: (siteData: SiteData) => any
+        let loader: () => any
   
         const existing = idToLoaderModulesMap[id]
         if (existing) {
@@ -65,9 +70,15 @@ export function staticDataPlugin(siteData: SiteData): Plugin {
           // TS & native ESM support
           const loaderModule = (await loadConfigFromFile({} as any, id))
             ?.config as LoaderModule
+
+          let configData = siteData
+          if(loaderModule.config) {
+            configData = loaderModule.config(siteData)
+          }
+
           let watch: string | string[] | undefined = loaderModule.watch as any
           if (typeof loaderModule.watch === 'function') {
-            watch = loaderModule.watch(siteData)
+            watch = loaderModule.watch(configData)
           }
           pattern =
             typeof watch === 'string'
@@ -80,11 +91,11 @@ export function staticDataPlugin(siteData: SiteData): Plugin {
                 : normalizePath(p)
             })
           }
-          loader = loaderModule.load
+          loader = () => loaderModule.load(configData)
         }
   
         // load the data
-        const data = await loader(siteData)
+        const data = await loader()
   
         // record loader module for HMR
         if (server) {

@@ -2,6 +2,7 @@ import * as fs from "fs"
 import * as path from "path"
 import type { DefaultTheme } from 'vitepress/theme'
 import type { SiteData } from 'vitepress'
+import { defineData } from "vitepress"
 
 interface APIHeader {
   anchor: string
@@ -23,14 +24,15 @@ export interface APIGroup {
 export declare const data: Record<string, APIGroup[]>
 type DefaultThemeSiteData = SiteData<DefaultTheme.Config>
 
-export default {
-  // declare files that should trigger HMR
-  watch: '*.md',
-  // read from fs and generate the data
-  load(siteData: DefaultThemeSiteData): Record<string, APIGroup[]> {
+export default defineData({
+  config: (siteData: DefaultThemeSiteData) => {
     return resolveTOCRoute(siteData)
-  }
-}
+  },
+  // declare files that should trigger HMR
+  watch: (data) => data.watch,
+  // read from fs and generate the data
+  load: (data) => data.load
+})
 
 const headersCache = new Map<
   string,
@@ -40,7 +42,7 @@ const headersCache = new Map<
   }
 >()
 
-function resolveTOCRoute(siteData: DefaultThemeSiteData): Record<string, APIGroup[]> {
+function resolveTOCRoute(siteData: DefaultThemeSiteData) {
   const sidebar = Array.isArray(siteData.themeConfig.sidebar) 
     ? siteData.themeConfig.sidebar
     : Object.values(siteData.themeConfig.sidebar || []).flat(1)
@@ -78,7 +80,10 @@ function resolveTOCRoute(siteData: DefaultThemeSiteData): Record<string, APIGrou
   }
 
   walk(sidebar as any, null)
-  return seen
+  return {
+    watch: Array.from(headersCache.keys()),
+    load: seen
+  }
 }
 
 function parsePageHeaders(fullPath: string): APIHeader[] {

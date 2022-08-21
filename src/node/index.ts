@@ -12,3 +12,6 @@ export type {
   LocaleConfig,
   DefaultTheme
 } from '../../types/shared'
+
+export { defineData } from "./staticDataPlugin"
+export type { LoaderModule } from "./staticDataPlugin"
