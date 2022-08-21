@@ -26,14 +26,14 @@ export declare const data: Record<string, APIGroup[]>
 
 type DefaultThemeSiteData = SiteData<DefaultTheme.Config>
 
-export default defineData({
+export default defineData<ResolvedConfig>({
   config: (siteData: DefaultThemeSiteData) => {
-    return resolveTOCRoute(siteData)
+    return resolveConfig(siteData)
   },
   // declare files that should trigger HMR
-  watch: (data) => data.watch,
+  watch: (data: ResolvedConfig) => data.watch,
   // read from fs and generate the data
-  load: (data) => data.load
+  load: (data: ResolvedConfig) => data.load
 })
 
 const headersCache = new Map<
@@ -44,7 +44,12 @@ const headersCache = new Map<
   }
 >()
 
-function resolveTOCRoute(siteData: DefaultThemeSiteData) {
+interface ResolvedConfig {
+  watch: string[]
+  load: Record<string, APIGroup[]>
+}
+
+function resolveConfig(siteData: DefaultThemeSiteData) {
   const sidebar = Array.isArray(siteData.themeConfig.sidebar) 
     ? siteData.themeConfig.sidebar
     : Object.values(siteData.themeConfig.sidebar || []).flat(1)
