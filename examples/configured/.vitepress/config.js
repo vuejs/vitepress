@@ -14,7 +14,7 @@ export default defineConfig({
         text: 'TOC2',
         activeMatch: `^/toc2/`,
         link: '/toc2/'
-      },
+      }
     ],
     sidebar: {
       '/': [
@@ -42,13 +42,13 @@ export default defineConfig({
                 {
                   text: 'Hello1',
                   link: '/toc/hello'
-                },
+                }
               ]
             },
             {
               text: 'Hello2',
               link: '/toc/hello2'
-            },
+            }
           ]
         },
         {
@@ -74,13 +74,13 @@ export default defineConfig({
                 {
                   text: 'Hello1 - 2',
                   link: '/toc2/hello'
-                },
+                }
               ]
             },
             {
               text: 'Hello2 - 2',
               link: '/toc2/hello2'
-            },
+            }
           ]
         }
       ]

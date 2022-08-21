@@ -9,7 +9,11 @@ let server: ViteDevServer
 
 export interface LoaderModule<T = SiteData> {
   config?: (siteData: SiteData) => T
-  watch: string[] | string | ((siteData: T) => string[] | string | undefined) | undefined
+  watch:
+    | string[]
+    | string
+    | ((siteData: T) => string[] | string | undefined)
+    | undefined
   load: (siteData: T) => any
 }
 
@@ -37,15 +41,15 @@ export function defineData<T>(opt: LoaderModule<T>) {
 export function staticDataPlugin(siteData: SiteData): Plugin {
   return {
     name: 'vitepress:data',
-  
+
     configResolved(config) {
       isBuild = config.command === 'build'
     },
-  
+
     configureServer(_server) {
       server = _server
     },
-  
+
     async load(id) {
       if (loaderMatch.test(id)) {
         let _resolve: ((res: any) => void) | undefined
@@ -57,11 +61,11 @@ export function staticDataPlugin(siteData: SiteData): Plugin {
             _resolve = r
           })
         }
-  
+
         const base = dirname(id)
         let pattern: string[] | undefined
         let loader: () => any
-  
+
         const existing = idToLoaderModulesMap[id]
         if (existing) {
           ;({ pattern, loader } = existing)
@@ -72,7 +76,7 @@ export function staticDataPlugin(siteData: SiteData): Plugin {
             ?.config as LoaderModule
 
           let configData = siteData
-          if(loaderModule.config) {
+          if (loaderModule.config) {
             configData = loaderModule.config(siteData)
           }
 
@@ -80,10 +84,7 @@ export function staticDataPlugin(siteData: SiteData): Plugin {
           if (typeof loaderModule.watch === 'function') {
             watch = loaderModule.watch(configData)
           }
-          pattern =
-            typeof watch === 'string'
-              ? [watch]
-              : watch
+          pattern = typeof watch === 'string' ? [watch] : watch
           if (pattern) {
             pattern = pattern.map((p) => {
               return p.startsWith('.')
@@ -93,24 +94,24 @@ export function staticDataPlugin(siteData: SiteData): Plugin {
           }
           loader = () => loaderModule.load(configData)
         }
-  
+
         // load the data
         const data = await loader()
-  
+
         // record loader module for HMR
         if (server) {
           idToLoaderModulesMap[id] = { pattern, loader }
         }
-  
+
         const result = `export const data = JSON.parse(${JSON.stringify(
           JSON.stringify(data)
         )})`
-  
+
         if (_resolve) _resolve(result)
         return result
       }
     },
-  
+
     transform(_code, id) {
       if (server && loaderMatch.test(id)) {
         // register this module as a glob importer
@@ -119,7 +120,7 @@ export function staticDataPlugin(siteData: SiteData): Plugin {
       }
       return null
     },
-  
+
     handleHotUpdate(ctx) {
       for (const id in idToLoaderModulesMap) {
         const { pattern } = idToLoaderModulesMap[id]!

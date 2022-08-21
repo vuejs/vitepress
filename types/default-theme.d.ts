@@ -145,16 +145,16 @@ export namespace DefaultTheme {
   }
 
   export type SidebarItem =
-    | { text: string; link: string; }
-    | { 
-      text: string 
-      link?: string
-      items: SidebarItem[] 
-      /**
-       * If setting, will add the toc for index page.
-       */
-      toc?: string
-    }
+    | { text: string; link: string }
+    | {
+        text: string
+        link?: string
+        items: SidebarItem[]
+        /**
+         * If setting, will add the toc for index page.
+         */
+        toc?: string
+      }
 
   // edit link -----------------------------------------------------------------
 

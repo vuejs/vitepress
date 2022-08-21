@@ -13,5 +13,5 @@ export type {
   DefaultTheme
 } from '../../types/shared'
 
-export { defineData } from "./staticDataPlugin"
-export type { LoaderModule } from "./staticDataPlugin"
+export { defineData } from './staticDataPlugin'
+export type { LoaderModule } from './staticDataPlugin'

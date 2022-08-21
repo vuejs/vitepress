@@ -1,9 +1,9 @@
 /// <reference types="node" />
-import fs from "fs"
-import path from "path"
+import fs from 'fs'
+import path from 'path'
 import type { DefaultTheme } from 'vitepress/theme'
 import type { SiteData } from 'vitepress'
-import { defineData } from "vitepress"
+import { defineData } from 'vitepress'
 
 interface APIHeader {
   anchor: string
@@ -50,7 +50,7 @@ interface ResolvedConfig {
 }
 
 function resolveConfig(siteData: DefaultThemeSiteData) {
-  const sidebar = Array.isArray(siteData.themeConfig.sidebar) 
+  const sidebar = Array.isArray(siteData.themeConfig.sidebar)
     ? siteData.themeConfig.sidebar
     : Object.values(siteData.themeConfig.sidebar || []).flat(1)
   const seen: Record<string, APIGroup[]> = {}
@@ -62,17 +62,17 @@ function resolveConfig(siteData: DefaultThemeSiteData) {
       if ('items' in item) {
         let newCtx: Context | null = current
         if (item.toc || current) {
-          newCtx = current 
+          newCtx = current
             ? <Context>{
-              text: current.text + ' - ' + item.text,
-              toc: current.toc,
-              items: [],
-            } 
+                text: current.text + ' - ' + item.text,
+                toc: current.toc,
+                items: []
+              }
             : <Context>{
-              text: item.text,
-              items: [],
-              toc: item.toc
-            }
+                text: item.text,
+                items: [],
+                toc: item.toc
+              }
           seen[newCtx.toc] = (seen[newCtx.toc] || []).concat([newCtx])
         }
         walk(item.items, newCtx)
@@ -106,17 +106,16 @@ function parsePageHeaders(fullPath: string): APIHeader[] {
   let headers: APIHeader[] = []
   if (h2s) {
     headers = h2s.map((h) => {
-        const text = h
-          .slice(2)
-          .replace(/<sup class=.*/, '')
-          .replace(/\\</g, '<')
-          .replace(/`([^`]+)`/g, '$1')
-          .replace(/\{#([a-zA-Z0-9-]+)\}/g, '') // hidden anchor tag
-          .trim()
-        const anchor = h.match(/\{#([a-zA-Z0-9-]+)\}/)?.[1] ?? text
-        return { text, anchor }
-      }
-    )
+      const text = h
+        .slice(2)
+        .replace(/<sup class=.*/, '')
+        .replace(/\\</g, '<')
+        .replace(/`([^`]+)`/g, '$1')
+        .replace(/\{#([a-zA-Z0-9-]+)\}/g, '') // hidden anchor tag
+        .trim()
+      const anchor = h.match(/\{#([a-zA-Z0-9-]+)\}/)?.[1] ?? text
+      return { text, anchor }
+    })
   }
   headersCache.set(fullPath, {
     timestamp,
