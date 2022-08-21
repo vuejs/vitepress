@@ -1,19 +1,20 @@
 import { Plugin, ViteDevServer, loadConfigFromFile, normalizePath } from 'vite'
 import { dirname, resolve } from 'path'
 import { isMatch } from 'micromatch'
+import { SiteData } from './shared'
 
 const loaderMatch = /\.data\.(j|t)s$/
 
 let server: ViteDevServer
 
 interface LoaderModule {
-  watch: string[] | string | undefined
-  load: () => any
+  watch: string[] | string | ((siteData: SiteData) => string[] | string | undefined) | undefined
+  load: (siteData: SiteData) => any
 }
 
 interface CachedLoaderModule {
   pattern: string[] | undefined
-  loader: () => any
+  loader: (siteData: SiteData) => any
 }
 
 const idToLoaderModulesMap: Record<string, CachedLoaderModule | undefined> =
@@ -28,91 +29,97 @@ let idToPendingPromiseMap: Record<string, Promise<string> | undefined> =
   Object.create(null)
 let isBuild = false
 
-export const staticDataPlugin: Plugin = {
-  name: 'vitepress:data',
-
-  configResolved(config) {
-    isBuild = config.command === 'build'
-  },
-
-  configureServer(_server) {
-    server = _server
-  },
-
-  async load(id) {
-    if (loaderMatch.test(id)) {
-      let _resolve: ((res: any) => void) | undefined
-      if (isBuild) {
-        if (idToPendingPromiseMap[id]) {
-          return idToPendingPromiseMap[id]
-        }
-        idToPendingPromiseMap[id] = new Promise((r) => {
-          _resolve = r
-        })
-      }
-
-      const base = dirname(id)
-      let pattern: string[] | undefined
-      let loader: () => any
-
-      const existing = idToLoaderModulesMap[id]
-      if (existing) {
-        ;({ pattern, loader } = existing)
-      } else {
-        // use vite's load config util as a away to load Node.js file with
-        // TS & native ESM support
-        const loaderModule = (await loadConfigFromFile({} as any, id))
-          ?.config as LoaderModule
-        pattern =
-          typeof loaderModule.watch === 'string'
-            ? [loaderModule.watch]
-            : loaderModule.watch
-        if (pattern) {
-          pattern = pattern.map((p) => {
-            return p.startsWith('.')
-              ? normalizePath(resolve(base, p))
-              : normalizePath(p)
+export function staticDataPlugin(siteData: SiteData): Plugin {
+  return {
+    name: 'vitepress:data',
+  
+    configResolved(config) {
+      isBuild = config.command === 'build'
+    },
+  
+    configureServer(_server) {
+      server = _server
+    },
+  
+    async load(id) {
+      if (loaderMatch.test(id)) {
+        let _resolve: ((res: any) => void) | undefined
+        if (isBuild) {
+          if (idToPendingPromiseMap[id]) {
+            return idToPendingPromiseMap[id]
+          }
+          idToPendingPromiseMap[id] = new Promise((r) => {
+            _resolve = r
           })
         }
-        loader = loaderModule.load
+  
+        const base = dirname(id)
+        let pattern: string[] | undefined
+        let loader: (siteData: SiteData) => any
+  
+        const existing = idToLoaderModulesMap[id]
+        if (existing) {
+          ;({ pattern, loader } = existing)
+        } else {
+          // use vite's load config util as a away to load Node.js file with
+          // TS & native ESM support
+          const loaderModule = (await loadConfigFromFile({} as any, id))
+            ?.config as LoaderModule
+          let watch: string | string[] | undefined = loaderModule.watch as any
+          if (typeof loaderModule.watch === 'function') {
+            watch = loaderModule.watch(siteData)
+          }
+          pattern =
+            typeof watch === 'string'
+              ? [watch]
+              : watch
+          if (pattern) {
+            pattern = pattern.map((p) => {
+              return p.startsWith('.')
+                ? normalizePath(resolve(base, p))
+                : normalizePath(p)
+            })
+          }
+          loader = loaderModule.load
+        }
+  
+        // load the data
+        const data = await loader(siteData)
+  
+        // record loader module for HMR
+        if (server) {
+          idToLoaderModulesMap[id] = { pattern, loader }
+        }
+  
+        const result = `export const data = JSON.parse(${JSON.stringify(
+          JSON.stringify(data)
+        )})`
+  
+        if (_resolve) _resolve(result)
+        return result
       }
-
-      // load the data
-      const data = await loader()
-
-      // record loader module for HMR
-      if (server) {
-        idToLoaderModulesMap[id] = { pattern, loader }
+    },
+  
+    transform(_code, id) {
+      if (server && loaderMatch.test(id)) {
+        // register this module as a glob importer
+        const { pattern } = idToLoaderModulesMap[id]!
+        ;(server as any)._importGlobMap.set(id, [pattern])
       }
-
-      const result = `export const data = JSON.parse(${JSON.stringify(
-        JSON.stringify(data)
-      )})`
-
-      if (_resolve) _resolve(result)
-      return result
-    }
-  },
-
-  transform(_code, id) {
-    if (server && loaderMatch.test(id)) {
-      // register this module as a glob importer
-      const { pattern } = idToLoaderModulesMap[id]!
-      ;(server as any)._importGlobMap.set(id, [pattern])
-    }
-    return null
-  },
-
-  handleHotUpdate(ctx) {
-    for (const id in idToLoaderModulesMap) {
-      const { pattern } = idToLoaderModulesMap[id]!
-      const isLoaderFile = normalizePath(ctx.file) === id
-      if (isLoaderFile) {
-        // invalidate loader file
-        delete idToLoaderModulesMap[id]
-      }
-      if (isLoaderFile || (pattern && isMatch(ctx.file, pattern))) {
-        ctx.modules.push(server.moduleGraph.getModuleById(id)!)
+      return null
+    },
+  
+    handleHotUpdate(ctx) {
+      for (const id in idToLoaderModulesMap) {
+        const { pattern } = idToLoaderModulesMap[id]!
+        const isLoaderFile = normalizePath(ctx.file) === id
+        if (isLoaderFile) {
+          // invalidate loader file
+          delete idToLoaderModulesMap[id]
+        }
+        if (isLoaderFile || (pattern && isMatch(ctx.file, pattern))) {
+          ctx.modules.push(server.moduleGraph.getModuleById(id)!)
+        }
       }
     }
   }

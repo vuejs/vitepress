@@ -125,6 +125,11 @@ export namespace DefaultTheme {
     items: SidebarItem[]
 
     /**
+     * If setting, will add the toc for index page.
+     */
+    toc?: string
+
+    /**
      * If `true`, toggle button is shown.
      *
      * @default false
@@ -140,8 +145,16 @@ export namespace DefaultTheme {
   }
 
   export type SidebarItem =
-    | { text: string; link: string }
-    | { text: string; link?: string; items: SidebarItem[] }
+    | { text: string; link: string; }
+    | { 
+      text: string 
+      link?: string
+      items: SidebarItem[] 
+      /**
+       * If setting, will add the toc for index page.
+       */
+      toc?: string
+    }
 
   // edit link -----------------------------------------------------------------
 

@@ -300,8 +300,9 @@ export async function resolveSiteData(
   mode = 'development'
 ): Promise<SiteData> {
   userConfig = userConfig || (await resolveUserConfig(root, command, mode))[0]
-
+  
   return {
+    root: path.resolve(root),
     lang: userConfig.lang || 'en-US',
     title: userConfig.title || 'VitePress',
     titleTemplate: userConfig.titleTemplate,

@@ -310,6 +310,6 @@ export async function createVitePressPlugin(
     vitePressPlugin,
     vuePlugin,
     ...(userViteConfig?.plugins || []),
-    staticDataPlugin
+    staticDataPlugin(siteData)
   ]
 }
