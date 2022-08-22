@@ -55,6 +55,9 @@ export function createApp() {
   const data = initData(router.route)
   app.provide(dataSymbol, data)
 
+  // provide this to avoid circular dependency in VPContent
+  app.provide('NotFound', NotFound)
+
   // install global components
   app.component('Content', Content)
   app.component('ClientOnly', ClientOnly)

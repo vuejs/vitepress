@@ -2,16 +2,16 @@
 import { useRoute, useData } from 'vitepress'
 import { useCopyCode } from '../composables/copy-code.js'
 import { useSidebar } from '../composables/sidebar.js'
-import Theme from '@theme/index'
 import VPPage from './VPPage.vue'
 import VPHome from './VPHome.vue'
 import VPDoc from './VPDoc.vue'
+import { inject } from 'vue'
 
 const route = useRoute()
 const { frontmatter } = useData()
 const { hasSidebar } = useSidebar()
 
-const NotFound = Theme.NotFound || (() => '404 Not Found')
+const NotFound = inject('NotFound')
 
 useCopyCode()
 </script>
