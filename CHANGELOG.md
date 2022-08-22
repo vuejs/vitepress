@@ -1,3 +1,17 @@
+# [1.0.0-alpha.10](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.9...v1.0.0-alpha.10) (2022-08-22)
+
+
+### Bug Fixes
+
+* avoid circular deps when extending default theme + importing feature components ([5fb7948](https://github.com/vuejs/vitepress/commit/5fb794864b20c59729686aa7e19f0e5659c6534f)), closes [#1210](https://github.com/vuejs/vitepress/issues/1210)
+
+
+### Features
+
+* **build:** support markdown frontmatter options ([#1218](https://github.com/vuejs/vitepress/issues/1218)) ([bfb0220](https://github.com/vuejs/vitepress/commit/bfb02209896075483b7c9a8c1ca3d36de0a0b731))
+
+
+
 # [1.0.0-alpha.9](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.8...v1.0.0-alpha.9) (2022-08-20)
 
 
