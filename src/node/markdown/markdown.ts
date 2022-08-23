@@ -7,6 +7,10 @@ import {
   frontmatterPlugin,
   type FrontmatterPluginOptions
 } from '@mdit-vue/plugin-frontmatter'
+import {
+  headersPlugin,
+  type HeadersPluginOptions
+} from '@mdit-vue/plugin-headers'
 import { tocPlugin, type TocPluginOptions } from '@mdit-vue/plugin-toc'
 import { IThemeRegistration } from 'shiki'
 import { highlight } from './plugins/highlight'
@@ -18,7 +22,6 @@ import { snippetPlugin } from './plugins/snippet'
 import { hoistPlugin } from './plugins/hoist'
 import { preWrapperPlugin } from './plugins/preWrapper'
 import { linkPlugin } from './plugins/link'
-import { headingPlugin } from './plugins/headings'
 import { imagePlugin } from './plugins/image'
 import { Header } from '../shared'
 
@@ -37,6 +40,7 @@ export interface MarkdownOptions extends MarkdownIt.Options {
     disable?: boolean
   }
   frontmatter?: FrontmatterPluginOptions
+  headers?: HeadersPluginOptions
   theme?: ThemeOptions
   toc?: TocPluginOptions
   externalLinks?: Record<string, string>
@@ -45,7 +49,6 @@ export interface MarkdownOptions extends MarkdownIt.Options {
 export interface MarkdownParsedData {
   hoistedTags?: string[]
   links?: string[]
-  headers?: Header[]
 }
 
 export interface MarkdownRenderer extends MarkdownIt {
@@ -75,7 +78,6 @@ export const createMarkdownRenderer = async (
     .use(snippetPlugin, srcDir)
     .use(hoistPlugin)
     .use(containerPlugin)
-    .use(headingPlugin)
     .use(imagePlugin)
     .use(
       linkPlugin,
@@ -100,6 +102,10 @@ export const createMarkdownRenderer = async (
     .use(frontmatterPlugin, {
       ...options.frontmatter
     } as FrontmatterPluginOptions)
+    .use(headersPlugin, {
+      slugify,
+      ...options.headers
+    } as HeadersPluginOptions)
     .use(tocPlugin, {
       slugify,
       ...options.toc

@@ -1,5 +1,5 @@
 // types shared between server and client
-
+import type { MarkdownItHeader } from '@mdit-vue/types'
 export type { DefaultTheme } from './default-theme.js'
 
 export interface PageData {
@@ -12,12 +12,7 @@ export interface PageData {
   lastUpdated?: number
 }
 
-export interface Header {
-  level: number
-  title: string
-  slug: string
-}
-
+export type Header = MarkdownItHeader
 export type CleanUrlsMode =
   | 'disabled'
   | 'without-subfolders'

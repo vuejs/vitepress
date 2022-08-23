@@ -83,7 +83,7 @@ export async function createMarkdownToVueRenderFn(
     }
     const html = md.render(src, env)
     const data = md.__data
-    const { content = '', frontmatter = {} } = env
+    const { content = '', frontmatter = {}, headers = [] } = env
 
     // validate data.links
     const deadLinks: string[] = []
@@ -133,7 +133,7 @@ export async function createMarkdownToVueRenderFn(
       titleTemplate: frontmatter.titleTemplate as any,
       description: inferDescription(frontmatter),
       frontmatter,
-      headers: data.headers || [],
+      headers,
       relativePath
     }
 
