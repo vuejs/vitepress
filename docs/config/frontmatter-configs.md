@@ -35,8 +35,8 @@ The suffix for the title. It's same as [config.titleTemplate](../config/app-conf
 
 ```yaml
 ---
-title: VitePress,
-titleTemplate: Vite & Vue powered static site generator.
+title: VitePress
+titleTemplate: Vite & Vue powered static site generator
 ---
 ```
 
