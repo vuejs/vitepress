@@ -6,7 +6,7 @@ importers:
     specifiers:
       '@docsearch/css': ^3.2.1
       '@docsearch/js': ^3.2.1
-      '@mdit-vue/plugin-component': ^0.9.2
+      '@mdit-vue/plugin-component': ^0.9.4
       '@mdit-vue/plugin-frontmatter': ^0.9.2
       '@mdit-vue/plugin-toc': ^0.9.2
       '@mdit-vue/types': ^0.9.2
@@ -90,7 +90,7 @@ importers:
       vite: 3.0.8
       vue: 3.2.37
     devDependencies:
-      '@mdit-vue/plugin-component': 0.9.2
+      '@mdit-vue/plugin-component': 0.9.4
       '@mdit-vue/plugin-frontmatter': 0.9.2
       '@mdit-vue/plugin-toc': 0.9.2
       '@mdit-vue/types': 0.9.2
@@ -396,8 +396,8 @@ packages:
     engines: {node: '>=6.9.0'}
     dev: true
 
-  /@mdit-vue/plugin-component/0.9.2:
-    resolution: {integrity: sha512-sTi9SWiakUGUs330zNRfEYSzGAVAXJ7gjbg46e/4HJQXxC8uEBC+Xg6IgsYcTRGHuJpCP65pcHvCLeDoCdWpyQ==}
+  /@mdit-vue/plugin-component/0.9.4:
+    resolution: {integrity: sha512-Sc32sjJiXbCxvOTwPc+h6pcT7zEQ1sWBUZ94iODkVPW75HmM7Ir1GC4JN4VwmuiVmjSG/W3caHlVnioG1ePGJw==}
     dependencies:
       '@types/markdown-it': 12.2.3
       markdown-it: 13.0.1
