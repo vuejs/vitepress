@@ -92,10 +92,11 @@
     "vue": "^3.2.37"
   },
   "devDependencies": {
-    "@mdit-vue/plugin-component": "^0.9.4",
-    "@mdit-vue/plugin-frontmatter": "^0.9.2",
-    "@mdit-vue/plugin-toc": "^0.9.2",
-    "@mdit-vue/types": "^0.9.2",
+    "@mdit-vue/plugin-component": "^0.10.0",
+    "@mdit-vue/plugin-frontmatter": "^0.10.0",
+    "@mdit-vue/plugin-headers": "^0.10.0",
+    "@mdit-vue/plugin-toc": "^0.10.0",
+    "@mdit-vue/types": "^0.10.0",
     "@rollup/plugin-alias": "^3.1.9",
     "@rollup/plugin-commonjs": "^22.0.2",
     "@rollup/plugin-json": "^4.1.0",

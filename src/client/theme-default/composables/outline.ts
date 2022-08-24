@@ -1,19 +1,7 @@
 import { Ref, computed, onMounted, onUpdated, onUnmounted } from 'vue'
-import { Header, useData } from 'vitepress'
+import { useData } from 'vitepress'
 import { useAside } from '../composables/aside.js'
 import { throttleAndDebounce } from '../support/utils.js'
-
-interface HeaderWithChildren extends Header {
-  children?: Header[]
-  hidden?: boolean
-}
-
-interface MenuItemWithLinkAndChildren {
-  text: string
-  link: string
-  children?: MenuItemWithLinkAndChildren[]
-  hidden?: boolean
-}
 
 // magic number to avoid repeated retrieval
 const PAGE_OFFSET = 56
@@ -28,37 +16,6 @@ export function useOutline() {
   return {
     hasOutline
   }
-}
-
-export function resolveHeaders(headers: Header[]) {
-  return mapHeaders(groupHeaders(headers))
-}
-
-function groupHeaders(headers: Header[]): HeaderWithChildren[] {
-  headers = headers.map((h) => Object.assign({}, h))
-
-  let lastH2: HeaderWithChildren | undefined
-
-  for (const h of headers) {
-    if (h.level === 2) {
-      lastH2 = h
-    } else if (lastH2 && h.level <= 3) {
-      ;(lastH2.children || (lastH2.children = [])).push(h)
-    }
-  }
-
-  return headers.filter((h) => h.level === 2)
-}
-
-function mapHeaders(
-  headers: HeaderWithChildren[]
-): MenuItemWithLinkAndChildren[] {
-  return headers.map((header) => ({
-    text: header.title,
-    link: `#${header.slug}`,
-    children: header.children ? mapHeaders(header.children) : undefined,
-    hidden: header.hidden
-  }))
 }
 
 export function useActiveAnchor(
