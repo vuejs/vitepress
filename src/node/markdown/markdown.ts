@@ -11,6 +11,7 @@ import {
   headersPlugin,
   type HeadersPluginOptions
 } from '@mdit-vue/plugin-headers'
+import { titlePlugin } from '@mdit-vue/plugin-title'
 import { tocPlugin, type TocPluginOptions } from '@mdit-vue/plugin-toc'
 import { IThemeRegistration } from 'shiki'
 import { highlight } from './plugins/highlight'
@@ -106,6 +107,7 @@ export const createMarkdownRenderer = async (
       slugify,
       ...options.headers
     } as HeadersPluginOptions)
+    .use(titlePlugin)
     .use(tocPlugin, {
       slugify,
       ...options.toc
