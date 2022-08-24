@@ -26,6 +26,11 @@ export namespace DefaultTheme {
     nav?: NavItem[]
 
     /**
+     * Show navbar globally.
+     */
+    showNav?: boolean
+
+    /**
      * The sidebar items.
      */
     sidebar?: Sidebar

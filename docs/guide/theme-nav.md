@@ -132,6 +132,26 @@ export default {
 }
 ```
 
+### Hide navbar
+
+It is possible to hide the navbar globally. This can be achived by setting the `showNav` attribute to false. The navbar will always be shown by default.
+
+```js
+export default {
+  themeConfig: {
+    showNav: false
+  }
+}
+```
+
+There is also the possibility to hide the navbar for specific pages. This can be done by declaring `nav: false` in the frontmatter.
+
+```md
+---
+nav: false
+---
+```
+
 ::: warning
 `activeMatch` is expected to be a regex string, but you must define it as a string. We can't use actual RegExp object here because it isn't serializable during the build time.
 :::

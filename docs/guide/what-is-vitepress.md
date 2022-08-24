@@ -1,3 +1,8 @@
+---
+title: Test
+nav: false
+---
+
 # What is VitePress?
 
 VitePress is [VuePress](https://vuepress.vuejs.org/)' little brother, built on top of [Vite](https://vitejs.dev/).

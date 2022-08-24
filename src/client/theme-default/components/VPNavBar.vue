@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { useData } from 'vitepress'
 import { useSidebar } from '../composables/sidebar.js'
 import VPNavBarTitle from './VPNavBarTitle.vue'
 import VPNavBarSearch from './VPNavBarSearch.vue'
@@ -18,10 +19,11 @@ defineEmits<{
 }>()
 
 const { hasSidebar } = useSidebar()
+const { theme, page } = useData()
 </script>
 
 <template>
-  <div class="VPNavBar" :class="{ 'has-sidebar' : hasSidebar }">
+  <div v-if="theme.showNav != false && page.nav != false" class="VPNavBar" :class="{ 'has-sidebar' : hasSidebar }">
     <div class="container">
       <VPNavBarTitle>
         <template #nav-bar-title-before><slot name="nav-bar-title-before" /></template>

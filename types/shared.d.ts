@@ -6,6 +6,7 @@ export interface PageData {
   relativePath: string
   title: string
   titleTemplate?: string | boolean
+  nav: boolean
   description: string
   headers: Header[]
   frontmatter: Record<string, any>
