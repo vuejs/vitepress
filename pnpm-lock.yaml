@@ -9,7 +9,9 @@ importers:
       '@mdit-vue/plugin-component': ^0.10.0
       '@mdit-vue/plugin-frontmatter': ^0.10.0
       '@mdit-vue/plugin-headers': ^0.10.0
+      '@mdit-vue/plugin-title': ^0.10.0
       '@mdit-vue/plugin-toc': ^0.10.0
+      '@mdit-vue/shared': ^0.10.0
       '@mdit-vue/types': ^0.10.0
       '@rollup/plugin-alias': ^3.1.9
       '@rollup/plugin-commonjs': ^22.0.2
@@ -94,7 +96,9 @@ importers:
       '@mdit-vue/plugin-component': 0.10.0
       '@mdit-vue/plugin-frontmatter': 0.10.0
       '@mdit-vue/plugin-headers': 0.10.0
+      '@mdit-vue/plugin-title': 0.10.0
       '@mdit-vue/plugin-toc': 0.10.0
+      '@mdit-vue/shared': 0.10.0
       '@mdit-vue/types': 0.10.0
       '@rollup/plugin-alias': 3.1.9_rollup@2.78.0
       '@rollup/plugin-commonjs': 22.0.2_rollup@2.78.0
@@ -416,6 +420,15 @@ packages:
 
   /@mdit-vue/plugin-headers/0.10.0:
     resolution: {integrity: sha512-DPrQyv83jVxX3FwmCnemVeBsSdtH4Hz+geDMwbzATtaqzaYDDpuAxoeiLGpTg41EpLe2SPDk94N3OOh0cdV0Lw==}
+    dependencies:
+      '@mdit-vue/shared': 0.10.0
+      '@mdit-vue/types': 0.10.0
+      '@types/markdown-it': 12.2.3
+      markdown-it: 13.0.1
+    dev: true
+
+  /@mdit-vue/plugin-title/0.10.0:
+    resolution: {integrity: sha512-odJ9vIazAHiomjCEEFwHNuPnmDtx/FGOYrf9xUfi3tjG9r/JZW+G++AABxvevTozwpGlpU+wkpJ7mTr+rNtBrw==}
     dependencies:
       '@mdit-vue/shared': 0.10.0
       '@mdit-vue/types': 0.10.0

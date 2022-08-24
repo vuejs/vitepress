@@ -2,14 +2,15 @@ import fs from 'fs'
 import path from 'path'
 import c from 'picocolors'
 import LRUCache from 'lru-cache'
+import { resolveTitleFromToken } from '@mdit-vue/shared'
 import { PageData, HeadConfig, EXTERNAL_URL_RE, CleanUrlsMode } from './shared'
 import { slash } from './utils/slash'
-import { deeplyParseHeader } from './utils/parseHeader'
 import { getGitTimestamp } from './utils/getGitTimestamp'
 import {
   createMarkdownRenderer,
   type MarkdownEnv,
-  type MarkdownOptions
+  type MarkdownOptions,
+  type MarkdownRenderer
 } from './markdown'
 import _debug from 'debug'
 
@@ -83,7 +84,7 @@ export async function createMarkdownToVueRenderFn(
     }
     const html = md.render(src, env)
     const data = md.__data
-    const { content = '', frontmatter = {}, headers = [] } = env
+    const { frontmatter = {}, headers = [], title = '' } = env
 
     // validate data.links
     const deadLinks: string[] = []
@@ -129,7 +130,7 @@ export async function createMarkdownToVueRenderFn(
     }
 
     const pageData: PageData = {
-      title: inferTitle(frontmatter, content),
+      title: inferTitle(md, frontmatter, title),
       titleTemplate: frontmatter.titleTemplate as any,
       description: inferDescription(frontmatter),
       frontmatter,
@@ -243,18 +244,21 @@ function genPageDataCode(tags: string[], data: PageData, replaceRegex: RegExp) {
   return tags
 }
 
-const inferTitle = (frontmatter: Record<string, any>, content: string) => {
-  if (frontmatter.title) {
-    return deeplyParseHeader(frontmatter.title)
+const inferTitle = (
+  md: MarkdownRenderer,
+  frontmatter: Record<string, any>,
+  title: string
+) => {
+  if (typeof frontmatter.title === 'string') {
+    const titleToken = md.parseInline(frontmatter.title, {})[0]
+    if (titleToken) {
+      return resolveTitleFromToken(titleToken, {
+        shouldAllowHtml: false,
+        shouldEscapeText: false
+      })
+    }
   }
-
-  const match = content.match(/^\s*#+\s+(.*)/m)
-
-  if (match) {
-    return deeplyParseHeader(match[1].trim())
-  }
-
-  return ''
+  return title
 }
 
 const inferDescription = (frontmatter: Record<string, any>) => {
