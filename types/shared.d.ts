@@ -1,6 +1,6 @@
 // types shared between server and client
-
-export { DefaultTheme } from './default-theme'
+import type { MarkdownItHeader } from '@mdit-vue/types'
+export type { DefaultTheme } from './default-theme.js'
 
 export interface PageData {
   relativePath: string
@@ -12,14 +12,15 @@ export interface PageData {
   lastUpdated?: number
 }
 
-export interface Header {
-  level: number
-  title: string
-  slug: string
-}
+export type Header = MarkdownItHeader
+export type CleanUrlsMode =
+  | 'disabled'
+  | 'without-subfolders'
+  | 'with-subfolders'
 
 export interface SiteData<ThemeConfig = any> {
   base: string
+  cleanUrls?: CleanUrlsMode
 
   /**
    * Language of the site as it should be set on the `html` element.

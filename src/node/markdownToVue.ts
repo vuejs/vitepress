@@ -1,13 +1,17 @@
 import fs from 'fs'
 import path from 'path'
 import c from 'picocolors'
-import matter from 'gray-matter'
 import LRUCache from 'lru-cache'
-import { PageData, HeadConfig, EXTERNAL_URL_RE } from './shared'
+import { resolveTitleFromToken } from '@mdit-vue/shared'
+import { PageData, HeadConfig, EXTERNAL_URL_RE, CleanUrlsMode } from './shared'
 import { slash } from './utils/slash'
-import { deeplyParseHeader } from './utils/parseHeader'
 import { getGitTimestamp } from './utils/getGitTimestamp'
-import { createMarkdownRenderer, MarkdownOptions } from './markdown/markdown'
+import {
+  createMarkdownRenderer,
+  type MarkdownEnv,
+  type MarkdownOptions,
+  type MarkdownRenderer
+} from './markdown'
 import _debug from 'debug'
 
 const debug = _debug('vitepress:md')
@@ -21,6 +25,10 @@ export interface MarkdownCompileResult {
   includes: string[]
 }
 
+export function clearCache() {
+  cache.clear()
+}
+
 export async function createMarkdownToVueRenderFn(
   srcDir: string,
   options: MarkdownOptions = {},
@@ -28,12 +36,11 @@ export async function createMarkdownToVueRenderFn(
   userDefines: Record<string, any> | undefined,
   isBuild = false,
   base = '/',
-  includeLastUpdatedData = false
+  includeLastUpdatedData = false,
+  cleanUrls: CleanUrlsMode = 'disabled'
 ) {
   const md = await createMarkdownRenderer(srcDir, options, base)
-
   pages = pages.map((p) => slash(p.replace(/\.md$/, '')))
-
   const replaceRegex = genReplaceRegexp(userDefines, isBuild)
 
   return async (
@@ -66,14 +73,18 @@ export async function createMarkdownToVueRenderFn(
       }
     })
 
-    const { content, data: frontmatter } = matter(src)
-
     // reset state before render
     md.__path = file
     md.__relativePath = relativePath
 
-    const html = md.render(content)
+    const env: MarkdownEnv = {
+      path: file,
+      relativePath,
+      cleanUrls
+    }
+    const html = md.render(src, env)
     const data = md.__data
+    const { frontmatter = {}, headers = [], title = '' } = env
 
     // validate data.links
     const deadLinks: string[] = []
@@ -119,11 +130,11 @@ export async function createMarkdownToVueRenderFn(
     }
 
     const pageData: PageData = {
-      title: inferTitle(frontmatter, content),
-      titleTemplate: frontmatter.titleTemplate,
+      title: inferTitle(md, frontmatter, title),
+      titleTemplate: frontmatter.titleTemplate as any,
       description: inferDescription(frontmatter),
       frontmatter,
-      headers: data.headers || [],
+      headers,
       relativePath
     }
 
@@ -233,18 +244,21 @@ function genPageDataCode(tags: string[], data: PageData, replaceRegex: RegExp) {
   return tags
 }
 
-const inferTitle = (frontmatter: Record<string, any>, content: string) => {
-  if (frontmatter.title) {
-    return deeplyParseHeader(frontmatter.title)
+const inferTitle = (
+  md: MarkdownRenderer,
+  frontmatter: Record<string, any>,
+  title: string
+) => {
+  if (typeof frontmatter.title === 'string') {
+    const titleToken = md.parseInline(frontmatter.title, {})[0]
+    if (titleToken) {
+      return resolveTitleFromToken(titleToken, {
+        shouldAllowHtml: false,
+        shouldEscapeText: false
+      })
+    }
   }
-
-  const match = content.match(/^\s*#+\s+(.*)/m)
-
-  if (match) {
-    return deeplyParseHeader(match[1].trim())
-  }
-
-  return ''
+  return title
 }
 
 const inferDescription = (frontmatter: Record<string, any>) => {

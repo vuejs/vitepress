@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { APPEARANCE_KEY } from '../../shared'
+import { APPEARANCE_KEY } from '../../shared.js'
 import VPSwitch from './VPSwitch.vue'
 import VPIconSun from './icons/VPIconSun.vue'
 import VPIconMoon from './icons/VPIconMoon.vue'

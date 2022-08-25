@@ -38,6 +38,7 @@ interface Theme {
   Layout: Component // Vue 3 component
   NotFound?: Component
   enhanceApp?: (ctx: EnhanceAppContext) => void
+  setup?: () => void
 }
 
 interface EnhanceAppContext {
@@ -64,6 +65,11 @@ export default {
     // app is the Vue 3 app instance from `createApp()`.
     // router is VitePress' custom router. `siteData` is
     // a `ref` of current site-level metadata.
+  }
+
+  setup() {
+    // this function will be executed inside VitePressApp's
+    // setup hook. all composition APIs are available here.
   }
 }
 ```
