@@ -19,11 +19,11 @@ defineEmits<{
 }>()
 
 const { hasSidebar } = useSidebar()
-const { theme, page } = useData()
+const { theme, frontmatter } = useData()
 </script>
 
 <template>
-  <div v-if="theme.showNav != false && page.nav != false" class="VPNavBar" :class="{ 'has-sidebar' : hasSidebar }">
+  <div v-if="theme.showNav != false && frontmatter.showNav != false" class="VPNavBar" :class="{ 'has-sidebar' : hasSidebar }">
     <div class="container">
       <VPNavBarTitle>
         <template #nav-bar-title-before><slot name="nav-bar-title-before" /></template>

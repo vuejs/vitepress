@@ -131,7 +131,6 @@ export async function createMarkdownToVueRenderFn(
     const pageData: PageData = {
       title: inferTitle(frontmatter, content),
       titleTemplate: frontmatter.titleTemplate as any,
-      nav: frontmatter.nav as any,
       description: inferDescription(frontmatter),
       frontmatter,
       headers: data.headers || [],

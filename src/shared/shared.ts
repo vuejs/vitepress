@@ -25,7 +25,6 @@ export const notFoundPageData: PageData = {
   relativePath: '',
   title: '404',
   description: 'Not Found',
-  nav: true,
   headers: [],
   frontmatter: { sidebar: false, layout: 'page' },
   lastUpdated: 0

@@ -148,7 +148,7 @@ There is also the possibility to hide the navbar for specific pages. This can be
 
 ```md
 ---
-nav: false
+showNav: false
 ---
 ```
 
