@@ -10,6 +10,7 @@ import './styles/components/vp-sponsor.css'
 import { Theme } from 'vitepress'
 import Layout from './Layout.vue'
 import NotFound from './NotFound.vue'
+import VPBadge from './components/VPBadge.vue'
 
 export { default as VPHomeHero } from './components/VPHomeHero.vue'
 export { default as VPHomeFeatures } from './components/VPHomeFeatures.vue'
@@ -19,11 +20,13 @@ export { default as VPTeamPage } from './components/VPTeamPage.vue'
 export { default as VPTeamPageTitle } from './components/VPTeamPageTitle.vue'
 export { default as VPTeamPageSection } from './components/VPTeamPageSection.vue'
 export { default as VPTeamMembers } from './components/VPTeamMembers.vue'
-export { default as VPBadge } from './components/VPBadge.vue'
 
 const theme: Theme = {
   Layout,
-  NotFound
+  NotFound,
+  enhanceApp(ctx) {
+    ctx.app.component('Badge', VPBadge)
+  }
 }
 
 export default theme
