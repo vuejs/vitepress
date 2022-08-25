@@ -144,7 +144,7 @@ export default {
 }
 ```
 
-There is also the possibility to hide the navbar for specific pages. This can be done by declaring `nav: false` in the frontmatter.
+There is also the possibility to hide the navbar for specific pages. This can be done by declaring `showNav: false` in the frontmatter.
 
 ```md
 ---
