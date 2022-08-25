@@ -14,6 +14,13 @@ export const containerPlugin = (md: MarkdownIt) => {
       render: (tokens: Token[], idx: number) =>
         tokens[idx].nesting === 1 ? `<div v-pre>\n` : `</div>\n`
     })
+    .use(container, 'code-group', {
+      render: (tokens: Token[], idx: number) => {
+        return tokens[idx].nesting === 1
+          ? `<VPCodeGroup>\n`
+          : `</VPCodeGroup>\n`
+      }
+    })
 }
 
 type ContainerArgs = [typeof container, string, { render: RenderRule }]

@@ -405,7 +405,7 @@
   content: 'Copied';
 }
 
-.vp-doc [class*='language-'] > span.lang {
+.vp-doc [class*='language-'] > span.code-title {
   position: absolute;
   top: 6px;
   right: 12px;
@@ -416,8 +416,8 @@
   transition: color 0.4s, opacity 0.4s;
 }
 
-.vp-doc [class*='language-']:hover > button.copy + span.lang,
-.vp-doc [class*='language-'] > button.copy:focus + span.lang {
+.vp-doc [class*='language-']:hover > button.copy + span.code-title,
+.vp-doc [class*='language-'] > button.copy:focus + span.code-title {
   opacity: 0;
 }
 

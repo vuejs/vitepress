@@ -81,6 +81,7 @@ function sidebarGuide() {
       collapsible: true,
       items: [
         { text: 'Markdown', link: '/guide/markdown' },
+        { text: 'Code Group', link: '/guide/test' },
         { text: 'Asset Handling', link: '/guide/asset-handling' },
         { text: 'Frontmatter', link: '/guide/frontmatter' },
         { text: 'Using Vue in Markdown', link: '/guide/using-vue' },

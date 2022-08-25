@@ -11,12 +11,32 @@ import MarkdownIt from 'markdown-it'
 
 export const preWrapperPlugin = (md: MarkdownIt) => {
   const fence = md.renderer.rules.fence!
+  const RE = /(\w*)(?:{[\d,-]+})?\s*\[(.+)\]/
   md.renderer.rules.fence = (...args) => {
     const [tokens, idx] = args
-    const lang = tokens[idx].info.trim().replace(/-vue$/, '')
+    const token = tokens[idx]
+    const hint = token.info.trim().replace(/-vue$/, '')
+    let codeTitle = ''
+    let lang = hint
+    if (RE.test(hint)) {
+      const matchGroup = RE.exec(hint)
+      if (matchGroup && matchGroup.length == 3) {
+        lang = matchGroup[1].trim()
+        codeTitle = matchGroup[2]
+      }
+    } else {
+      // Use language name as code title if not specified
+      codeTitle = lang === 'vue-html' ? 'template' : lang
+    }
+    token.info = tokens[idx].info.replace(/\[(.+)\]/, '')
     const rawCode = fence(...args)
-    return `<div class="language-${lang}"><button class="copy"></button><span class="lang">${
-      lang === 'vue-html' ? 'template' : lang
-    }</span>${rawCode}</div>`
+
+    return `<div class="code-block">
+              <div class="language-${lang}">
+                <button class="copy"></button>
+                <span class="code-title">${codeTitle}</span>
+                ${rawCode}
+              </div>
+            </div>`
   }
 }
