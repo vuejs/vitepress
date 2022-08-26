@@ -11,6 +11,7 @@ import {
   headersPlugin,
   type HeadersPluginOptions
 } from '@mdit-vue/plugin-headers'
+import { sfcPlugin, type SfcPluginOptions } from '@mdit-vue/plugin-sfc'
 import { titlePlugin } from '@mdit-vue/plugin-title'
 import { tocPlugin, type TocPluginOptions } from '@mdit-vue/plugin-toc'
 import { IThemeRegistration } from 'shiki'
@@ -20,7 +21,6 @@ import { highlightLinePlugin } from './plugins/highlightLines'
 import { lineNumberPlugin } from './plugins/lineNumbers'
 import { containerPlugin } from './plugins/containers'
 import { snippetPlugin } from './plugins/snippet'
-import { hoistPlugin } from './plugins/hoist'
 import { preWrapperPlugin } from './plugins/preWrapper'
 import { linkPlugin } from './plugins/link'
 import { imagePlugin } from './plugins/image'
@@ -42,13 +42,13 @@ export interface MarkdownOptions extends MarkdownIt.Options {
   }
   frontmatter?: FrontmatterPluginOptions
   headers?: HeadersPluginOptions
+  sfc?: SfcPluginOptions
   theme?: ThemeOptions
   toc?: TocPluginOptions
   externalLinks?: Record<string, string>
 }
 
 export interface MarkdownParsedData {
-  hoistedTags?: string[]
   links?: string[]
 }
 
@@ -77,7 +77,6 @@ export const createMarkdownRenderer = async (
     .use(highlightLinePlugin)
     .use(preWrapperPlugin)
     .use(snippetPlugin, srcDir)
-    .use(hoistPlugin)
     .use(containerPlugin)
     .use(imagePlugin)
     .use(
@@ -94,7 +93,9 @@ export const createMarkdownRenderer = async (
   if (!options.attrs?.disable) {
     md.use(attrsPlugin, options.attrs)
   }
+  md.use(emojiPlugin)
 
+  // mdit-vue plugins
   md.use(anchorPlugin, {
     slugify,
     permalink: anchorPlugin.permalink.ariaHidden({}),
@@ -107,12 +108,14 @@ export const createMarkdownRenderer = async (
       slugify,
       ...options.headers
     } as HeadersPluginOptions)
+    .use(sfcPlugin, {
+      ...options.sfc
+    } as SfcPluginOptions)
     .use(titlePlugin)
     .use(tocPlugin, {
       slugify,
       ...options.toc
     } as TocPluginOptions)
-    .use(emojiPlugin)
 
   // apply user config
   if (options.config) {

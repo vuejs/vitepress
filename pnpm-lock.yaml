@@ -6,13 +6,14 @@ importers:
     specifiers:
       '@docsearch/css': ^3.2.1
       '@docsearch/js': ^3.2.1
-      '@mdit-vue/plugin-component': ^0.10.0
-      '@mdit-vue/plugin-frontmatter': ^0.10.0
-      '@mdit-vue/plugin-headers': ^0.10.0
-      '@mdit-vue/plugin-title': ^0.10.0
-      '@mdit-vue/plugin-toc': ^0.10.0
-      '@mdit-vue/shared': ^0.10.0
-      '@mdit-vue/types': ^0.10.0
+      '@mdit-vue/plugin-component': ^0.11.0
+      '@mdit-vue/plugin-frontmatter': ^0.11.0
+      '@mdit-vue/plugin-headers': ^0.11.0
+      '@mdit-vue/plugin-sfc': ^0.11.0
+      '@mdit-vue/plugin-title': ^0.11.0
+      '@mdit-vue/plugin-toc': ^0.11.0
+      '@mdit-vue/shared': ^0.11.0
+      '@mdit-vue/types': ^0.11.0
       '@rollup/plugin-alias': ^3.1.9
       '@rollup/plugin-commonjs': ^22.0.2
       '@rollup/plugin-json': ^4.1.0
@@ -93,13 +94,14 @@ importers:
       vite: 3.0.8
       vue: 3.2.37
     devDependencies:
-      '@mdit-vue/plugin-component': 0.10.0
-      '@mdit-vue/plugin-frontmatter': 0.10.0
-      '@mdit-vue/plugin-headers': 0.10.0
-      '@mdit-vue/plugin-title': 0.10.0
-      '@mdit-vue/plugin-toc': 0.10.0
-      '@mdit-vue/shared': 0.10.0
-      '@mdit-vue/types': 0.10.0
+      '@mdit-vue/plugin-component': 0.11.0
+      '@mdit-vue/plugin-frontmatter': 0.11.0
+      '@mdit-vue/plugin-headers': 0.11.0
+      '@mdit-vue/plugin-sfc': 0.11.0
+      '@mdit-vue/plugin-title': 0.11.0
+      '@mdit-vue/plugin-toc': 0.11.0
+      '@mdit-vue/shared': 0.11.0
+      '@mdit-vue/types': 0.11.0
       '@rollup/plugin-alias': 3.1.9_rollup@2.78.0
       '@rollup/plugin-commonjs': 22.0.2_rollup@2.78.0
       '@rollup/plugin-json': 4.1.0_rollup@2.78.0
@@ -402,59 +404,67 @@ packages:
     engines: {node: '>=6.9.0'}
     dev: true
 
-  /@mdit-vue/plugin-component/0.10.0:
-    resolution: {integrity: sha512-cfxmPVcp6880TRUgpT3eUjem1gCkg3vsBHOcjOoiD2gAu3hWg48d3woz5+F9WVrAhv8P6wpDYBzFqt29D6D4MQ==}
+  /@mdit-vue/plugin-component/0.11.0:
+    resolution: {integrity: sha512-v8h0IV2xgvwiV8kuwgWw81iHST/WQZkjiaxIDU8lz5tufB3c2PhTuY9qavfFs2/71xhVQ0N2JzFsZAHX4cktDw==}
     dependencies:
       '@types/markdown-it': 12.2.3
       markdown-it: 13.0.1
     dev: true
 
-  /@mdit-vue/plugin-frontmatter/0.10.0:
-    resolution: {integrity: sha512-rJa4QM04YKRH9Edpr07BZvOjzOH2BwkPkalIa8YFIsZkCXLmrPpLsQteXbRLTkLGHLXnniW4V4tn5Y7bf7J74g==}
+  /@mdit-vue/plugin-frontmatter/0.11.0:
+    resolution: {integrity: sha512-Eo97g4QzL4ERxAY6UTF3KJ5i25KAZsJpnU9N2sNr8cHZYnk0FD23O2sAlYj/EU2MBi5NnhCsN/k9YfAhJGJ3cQ==}
     dependencies:
-      '@mdit-vue/types': 0.10.0
+      '@mdit-vue/types': 0.11.0
       '@types/markdown-it': 12.2.3
       gray-matter: 4.0.3
       markdown-it: 13.0.1
     dev: true
 
-  /@mdit-vue/plugin-headers/0.10.0:
-    resolution: {integrity: sha512-DPrQyv83jVxX3FwmCnemVeBsSdtH4Hz+geDMwbzATtaqzaYDDpuAxoeiLGpTg41EpLe2SPDk94N3OOh0cdV0Lw==}
+  /@mdit-vue/plugin-headers/0.11.0:
+    resolution: {integrity: sha512-Zwf+ahHjlHr+4X4KHdjrtCl2n5CJVLQ/lWaqaILssnZFGy9lmIiRJhFA5rtWj0ijm+UpjNW9pebvB2sF7TD0YA==}
     dependencies:
-      '@mdit-vue/shared': 0.10.0
-      '@mdit-vue/types': 0.10.0
+      '@mdit-vue/shared': 0.11.0
+      '@mdit-vue/types': 0.11.0
       '@types/markdown-it': 12.2.3
       markdown-it: 13.0.1
     dev: true
 
-  /@mdit-vue/plugin-title/0.10.0:
-    resolution: {integrity: sha512-odJ9vIazAHiomjCEEFwHNuPnmDtx/FGOYrf9xUfi3tjG9r/JZW+G++AABxvevTozwpGlpU+wkpJ7mTr+rNtBrw==}
+  /@mdit-vue/plugin-sfc/0.11.0:
+    resolution: {integrity: sha512-a8oseonwAefi8GTNvi9cSZsaY+oy1FV3rynkArmdQVNZiea8RXNGPeQ9AgqhYM4oRzHW7Id/8suHLHeUl5eVYg==}
     dependencies:
-      '@mdit-vue/shared': 0.10.0
-      '@mdit-vue/types': 0.10.0
+      '@mdit-vue/types': 0.11.0
       '@types/markdown-it': 12.2.3
       markdown-it: 13.0.1
     dev: true
 
-  /@mdit-vue/plugin-toc/0.10.0:
-    resolution: {integrity: sha512-P9aNy4jtqfjI08wUYGT/HVd5x/IpTjgSnNdJ3lU52qAO5AeFsW3v4gt+NmW0lO8We0S2YDEONRHBuBN6r40y6A==}
+  /@mdit-vue/plugin-title/0.11.0:
+    resolution: {integrity: sha512-//u79CJ2p502GFcEXzKN1N+WxkbhgtrXkcMHlGIftgyBGe2kaHc1xpgBFoiejWmwiYFCBU2sNwIim75LrHhPWQ==}
     dependencies:
-      '@mdit-vue/shared': 0.10.0
-      '@mdit-vue/types': 0.10.0
+      '@mdit-vue/shared': 0.11.0
+      '@mdit-vue/types': 0.11.0
       '@types/markdown-it': 12.2.3
       markdown-it: 13.0.1
     dev: true
 
-  /@mdit-vue/shared/0.10.0:
-    resolution: {integrity: sha512-rUyu0NVNbaEg4DUiQenh/fam1MLdkItdzEVScN7vP0UzDWOwmGaKwkhlMmkSTW80H63ZlKst0fPe9LaGHImSZg==}
+  /@mdit-vue/plugin-toc/0.11.0:
+    resolution: {integrity: sha512-eJ4n3Zuk4DTJuoHJQyt3BOlAqczukctDbl9Y0k6VXd5KLOpRdKi1JxiNt6VHMoKW40EIIqS1jH8AJV7y5FQf5g==}
     dependencies:
-      '@mdit-vue/types': 0.10.0
+      '@mdit-vue/shared': 0.11.0
+      '@mdit-vue/types': 0.11.0
       '@types/markdown-it': 12.2.3
       markdown-it: 13.0.1
     dev: true
 
-  /@mdit-vue/types/0.10.0:
-    resolution: {integrity: sha512-ROz5zVKt3COpuWUYFnpJh5kIXit9SQeMtimGBlwKJL1xEBNPG3QKD3VZzez5Ng/dBCApianCQhNVZGCza82Myw==}
+  /@mdit-vue/shared/0.11.0:
+    resolution: {integrity: sha512-eiGe42y7UYpjO6/8Lg6OpAtzZrRU9k8dhpX1e/kJMTcL+tn+XkqRMJJ8I2pdrOQMSkgvIva5FNAriykqFzkdGg==}
+    dependencies:
+      '@mdit-vue/types': 0.11.0
+      '@types/markdown-it': 12.2.3
+      markdown-it: 13.0.1
+    dev: true
+
+  /@mdit-vue/types/0.11.0:
+    resolution: {integrity: sha512-ygCGP7vFpqS02hpZwEe1uz8cfImWX06+zRs08J+tCZRKb6k+easIaIHFtY9ZSxt7j9L/gAPLDo/5RmOT6z0DPQ==}
     dev: true
 
   /@nodelib/fs.scandir/2.1.5:

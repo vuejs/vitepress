@@ -84,7 +84,7 @@ export async function createMarkdownToVueRenderFn(
     }
     const html = md.render(src, env)
     const data = md.__data
-    const { frontmatter = {}, headers = [], title = '' } = env
+    const { frontmatter = {}, headers = [], sfcBlocks, title = '' } = env
 
     // validate data.links
     const deadLinks: string[] = []
@@ -142,15 +142,20 @@ export async function createMarkdownToVueRenderFn(
       pageData.lastUpdated = await getGitTimestamp(file)
     }
 
-    const vueSrc =
-      genPageDataCode(data.hoistedTags || [], pageData, replaceRegex).join(
-        '\n'
-      ) +
-      `\n<template><div>${replaceConstants(
+    const vueSrc = [
+      ...injectPageDataCode(
+        sfcBlocks?.scripts.map((item) => item.content) ?? [],
+        pageData,
+        replaceRegex
+      ),
+      `<template><div>${replaceConstants(
         html,
         replaceRegex,
         vueTemplateBreaker
-      )}</div></template>`
+      )}</div></template>`,
+      ...(sfcBlocks?.styles.map((item) => item.content) ?? []),
+      ...(sfcBlocks?.customBlocks.map((item) => item.content) ?? [])
+    ].join('\n')
 
     debug(`[render] ${file} in ${Date.now() - start}ms.`)
 
@@ -203,7 +208,11 @@ function replaceConstants(str: string, replaceRegex: RegExp, breaker: string) {
   return str.replace(replaceRegex, (_) => `${_[0]}${breaker}${_.slice(1)}`)
 }
 
-function genPageDataCode(tags: string[], data: PageData, replaceRegex: RegExp) {
+function injectPageDataCode(
+  tags: string[],
+  data: PageData,
+  replaceRegex: RegExp
+) {
   const dataJson = JSON.stringify(data)
   const code = `\nexport const __pageData = JSON.parse(${JSON.stringify(
     replaceConstants(dataJson, replaceRegex, jsStringBreaker)
