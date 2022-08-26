@@ -1,3 +1,12 @@
+# [1.0.0-alpha.11](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.10...v1.0.0-alpha.11) (2022-08-26)
+
+
+### Features
+
+* support markdown sfc options ([#1238](https://github.com/vuejs/vitepress/issues/1238)) ([d700a66](https://github.com/vuejs/vitepress/commit/d700a66e65c9c457e44c9272362be36a2002eaf7))
+
+
+
 # [1.0.0-alpha.10](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.9...v1.0.0-alpha.10) (2022-08-22)
 
 
