@@ -4,9 +4,8 @@
 
 import MarkdownIt from 'markdown-it'
 import type { MarkdownEnv } from '../env'
-import type { MarkdownRenderer } from '../markdown'
 import { URL } from 'url'
-import { EXTERNAL_URL_RE, CleanUrlsMode } from '../../shared'
+import { EXTERNAL_URL_RE } from '../../shared'
 
 const indexRE = /(^|.*\/)index.md(#?.*)$/i
 
@@ -34,7 +33,7 @@ export const linkPlugin = (
         })
         // catch localhost links as dead link
         if (url.replace(EXTERNAL_URL_RE, '').startsWith('//localhost:')) {
-          pushLink(url)
+          pushLink(url, env)
         }
       } else if (
         // internal anchor links
@@ -44,7 +43,7 @@ export const linkPlugin = (
         // links to files (other than html/md)
         !/\.(?!html|md)\w+($|\?)/i.test(url)
       ) {
-        normalizeHref(hrefAttr, env.cleanUrls)
+        normalizeHref(hrefAttr, env)
       }
 
       // encode vite-specific replace strings in case they appear in URLs
@@ -57,10 +56,7 @@ export const linkPlugin = (
     return self.renderToken(tokens, idx, options)
   }
 
-  function normalizeHref(
-    hrefAttr: [string, string],
-    shouldCleanUrls: CleanUrlsMode
-  ) {
+  function normalizeHref(hrefAttr: [string, string], env: MarkdownEnv) {
     let url = hrefAttr[1]
 
     const indexMatch = url.match(indexRE)
@@ -73,12 +69,12 @@ export const linkPlugin = (
       if (cleanUrl.endsWith('.md')) {
         cleanUrl = cleanUrl.replace(
           /\.md$/,
-          shouldCleanUrls === 'disabled' ? '.html' : ''
+          env.cleanUrls === 'disabled' ? '.html' : ''
         )
       }
       // transform ./foo -> ./foo[.html]
       if (
-        shouldCleanUrls === 'disabled' &&
+        env.cleanUrls === 'disabled' &&
         !cleanUrl.endsWith('.html') &&
         !cleanUrl.endsWith('/')
       ) {
@@ -94,7 +90,7 @@ export const linkPlugin = (
     }
 
     // export it for existence check
-    pushLink(url.replace(/\.html$/, ''))
+    pushLink(url.replace(/\.html$/, ''), env)
 
     // append base to internal (non-relative) urls
     if (url.startsWith('/')) {
@@ -105,9 +101,8 @@ export const linkPlugin = (
     hrefAttr[1] = decodeURI(url)
   }
 
-  function pushLink(link: string) {
-    const data = (md as MarkdownRenderer).__data
-    const links = data.links || (data.links = [])
+  function pushLink(link: string, env: MarkdownEnv) {
+    const links = env.links || (env.links = [])
     links.push(link)
   }
 }

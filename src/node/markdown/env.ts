@@ -5,4 +5,5 @@ export interface MarkdownEnv extends MarkdownItEnv {
   path: string
   relativePath: string
   cleanUrls: CleanUrlsMode
+  links?: string[]
 }
