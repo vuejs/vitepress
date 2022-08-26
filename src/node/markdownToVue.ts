@@ -73,18 +73,20 @@ export async function createMarkdownToVueRenderFn(
       }
     })
 
-    // reset state before render
-    md.__path = file
-    md.__relativePath = relativePath
-
+    // reset env before render
     const env: MarkdownEnv = {
       path: file,
       relativePath,
       cleanUrls
     }
     const html = md.render(src, env)
-    const data = md.__data
-    const { frontmatter = {}, headers = [], title = '' } = env
+    const {
+      frontmatter = {},
+      headers = [],
+      links = [],
+      sfcBlocks,
+      title = ''
+    } = env
 
     // validate data.links
     const deadLinks: string[] = []
@@ -101,9 +103,9 @@ export async function createMarkdownToVueRenderFn(
       deadLinks.push(url)
     }
 
-    if (data.links) {
+    if (links) {
       const dir = path.dirname(file)
-      for (let url of data.links) {
+      for (let url of links) {
         if (/\.(?!html|md)\w+($|\?)/i.test(url)) continue
 
         if (url.replace(EXTERNAL_URL_RE, '').startsWith('//localhost:')) {
@@ -142,15 +144,20 @@ export async function createMarkdownToVueRenderFn(
       pageData.lastUpdated = await getGitTimestamp(file)
     }
 
-    const vueSrc =
-      genPageDataCode(data.hoistedTags || [], pageData, replaceRegex).join(
-        '\n'
-      ) +
-      `\n<template><div>${replaceConstants(
+    const vueSrc = [
+      ...injectPageDataCode(
+        sfcBlocks?.scripts.map((item) => item.content) ?? [],
+        pageData,
+        replaceRegex
+      ),
+      `<template><div>${replaceConstants(
         html,
         replaceRegex,
         vueTemplateBreaker
-      )}</div></template>`
+      )}</div></template>`,
+      ...(sfcBlocks?.styles.map((item) => item.content) ?? []),
+      ...(sfcBlocks?.customBlocks.map((item) => item.content) ?? [])
+    ].join('\n')
 
     debug(`[render] ${file} in ${Date.now() - start}ms.`)
 
@@ -203,7 +210,11 @@ function replaceConstants(str: string, replaceRegex: RegExp, breaker: string) {
   return str.replace(replaceRegex, (_) => `${_[0]}${breaker}${_.slice(1)}`)
 }
 
-function genPageDataCode(tags: string[], data: PageData, replaceRegex: RegExp) {
+function injectPageDataCode(
+  tags: string[],
+  data: PageData,
+  replaceRegex: RegExp
+) {
   const dataJson = JSON.stringify(data)
   const code = `\nexport const __pageData = JSON.parse(${JSON.stringify(
     replaceConstants(dataJson, replaceRegex, jsStringBreaker)

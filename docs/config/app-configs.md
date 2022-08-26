@@ -160,6 +160,18 @@ interface MarkdownOptions extends MarkdownIt.Options {
     disable?: boolean
   }
 
+  // @mdit-vue/plugin-frontmatter plugin options.
+  // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-frontmatter#options
+  frontmatter?: FrontmatterPluginOptions
+
+  // @mdit-vue/plugin-headers plugin options.
+  // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-headers#options
+  headers?: HeadersPluginOptions
+
+  // @mdit-vue/plugin-sfc plugin options.
+  // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-sfc#options
+  sfc?: SfcPluginOptions
+
   // @mdit-vue/plugin-toc plugin options.
   // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-toc#options
   toc?: TocPluginOptions
