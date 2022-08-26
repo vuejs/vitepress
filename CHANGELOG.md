@@ -1,3 +1,7 @@
+# [1.0.0-alpha.12](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.11...v1.0.0-alpha.12) (2022-08-26)
+
+
+
 # [1.0.0-alpha.11](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.10...v1.0.0-alpha.11) (2022-08-26)
 
 
