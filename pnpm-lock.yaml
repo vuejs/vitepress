@@ -69,6 +69,7 @@ importers:
       polka: ^0.5.2
       prettier: ^2.7.1
       prompts: ^2.4.2
+      punycode: ^2.1.1
       rimraf: ^3.0.2
       rollup: ^2.78.0
       rollup-plugin-dts: ^4.2.2
@@ -153,6 +154,7 @@ importers:
       polka: 0.5.2
       prettier: 2.7.1
       prompts: 2.4.2
+      punycode: 2.1.1
       rimraf: 3.0.2
       rollup: 2.78.0
       rollup-plugin-dts: 4.2.2_nm5mlcuxlwr6samvke7b2fz27i
@@ -3244,6 +3246,11 @@ packages:
     dependencies:
       kleur: 3.0.3
       sisteransi: 1.0.5
+    dev: true
+
+  /punycode/2.1.1:
+    resolution: {integrity: sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==}
+    engines: {node: '>=6'}
     dev: true
 
   /q/1.5.1:

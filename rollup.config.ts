@@ -1,4 +1,5 @@
 import { promises as fs } from 'fs'
+import { builtinModules } from 'module'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
 import { RollupOptions, defineConfig } from 'rollup'
@@ -17,7 +18,12 @@ const PROD = !DEV
 const ROOT = fileURLToPath(import.meta.url)
 const r = (p: string) => resolve(ROOT, '..', p)
 
-const external = [...Object.keys(pkg.dependencies)]
+const external = [
+  ...Object.keys(pkg.dependencies),
+  ...builtinModules.flatMap((m) =>
+    m.includes('punycode') ? [] : [m, `node:${m}`]
+  )
+]
 
 const plugins = [
   alias({
@@ -32,7 +38,7 @@ const plugins = [
     preventAssignment: true
   }),
   commonjs(),
-  nodeResolve({ preferBuiltins: true }),
+  nodeResolve({ preferBuiltins: false }),
   esbuild({ target: 'node14' }),
   json()
 ]
