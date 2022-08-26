@@ -202,7 +202,7 @@
 
   --vp-code-block-color: var(--vp-c-text-dark-1);
   --vp-code-block-bg: #292d3e;
-  --vp-code-block-tab-header-bg: #363b51;
+  --vp-code-block-tab-header-bg: var(--vp-c-indigo);
 
   --vp-code-line-highlight-color: rgba(0, 0, 0, 0.5);
   --vp-code-line-number-color: var(--vp-c-text-dark-3);

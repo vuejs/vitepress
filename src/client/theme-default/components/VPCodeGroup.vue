@@ -65,12 +65,12 @@ watch(activeTabIndex, (newValue, oldValue) => {
 }
 
 .tabs-header button:hover {
-  color: rgba(255, 255, 255, 0.82);
+  color: var(--vp-c-gray-light-4);
 }
 
 
 .tabs-header button.active {
-  background-color: var(--vp-c-gray);
+  background-color: var(--vp-c-gray-dark-3);
 }
 
 
