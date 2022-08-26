@@ -17,7 +17,7 @@ const PROD = !DEV
 const ROOT = fileURLToPath(import.meta.url)
 const r = (p: string) => resolve(ROOT, '..', p)
 
-const external = [...Object.keys(pkg.dependencies), 'buffer', 'punycode']
+const external = [...Object.keys(pkg.dependencies)]
 
 const plugins = [
   alias({
@@ -32,7 +32,7 @@ const plugins = [
     preventAssignment: true
   }),
   commonjs(),
-  nodeResolve(),
+  nodeResolve({ preferBuiltins: true }),
   esbuild({ target: 'node14' }),
   json()
 ]
