@@ -73,18 +73,20 @@ export async function createMarkdownToVueRenderFn(
       }
     })
 
-    // reset state before render
-    md.__path = file
-    md.__relativePath = relativePath
-
+    // reset env before render
     const env: MarkdownEnv = {
       path: file,
       relativePath,
       cleanUrls
     }
     const html = md.render(src, env)
-    const data = md.__data
-    const { frontmatter = {}, headers = [], sfcBlocks, title = '' } = env
+    const {
+      frontmatter = {},
+      headers = [],
+      links = [],
+      sfcBlocks,
+      title = ''
+    } = env
 
     // validate data.links
     const deadLinks: string[] = []
@@ -101,9 +103,9 @@ export async function createMarkdownToVueRenderFn(
       deadLinks.push(url)
     }
 
-    if (data.links) {
+    if (links) {
       const dir = path.dirname(file)
-      for (let url of data.links) {
+      for (let url of links) {
         if (/\.(?!html|md)\w+($|\?)/i.test(url)) continue
 
         if (url.replace(EXTERNAL_URL_RE, '').startsWith('//localhost:')) {

@@ -48,15 +48,7 @@ export interface MarkdownOptions extends MarkdownIt.Options {
   externalLinks?: Record<string, string>
 }
 
-export interface MarkdownParsedData {
-  links?: string[]
-}
-
-export interface MarkdownRenderer extends MarkdownIt {
-  __path: string
-  __relativePath: string
-  __data: MarkdownParsedData
-}
+export type MarkdownRenderer = MarkdownIt
 
 export type { Header }
 
@@ -125,12 +117,5 @@ export const createMarkdownRenderer = async (
   if (options.lineNumbers) {
     md.use(lineNumberPlugin)
   }
-
-  const originalRender = md.render
-  md.render = (...args) => {
-    md.__data = {}
-    return originalRender.call(md, ...args)
-  }
-
   return md
 }
