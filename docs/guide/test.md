@@ -1,7 +1,3 @@
-<script setup>
-  import { VPCodeGroup } from "vitepress/theme";
-</script>
-
 # Code Groups
 
 test

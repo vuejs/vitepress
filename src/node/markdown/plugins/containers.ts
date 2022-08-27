@@ -16,9 +16,7 @@ export const containerPlugin = (md: MarkdownIt) => {
     })
     .use(container, 'code-group', {
       render: (tokens: Token[], idx: number) => {
-        return tokens[idx].nesting === 1
-          ? `<VPCodeGroup>\n`
-          : `</VPCodeGroup>\n`
+        return tokens[idx].nesting === 1 ? `<CodeGroup>\n` : `</CodeGroup>\n`
       }
     })
 }
