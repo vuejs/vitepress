@@ -12,7 +12,7 @@ const activeTabIndex = ref(0)
 
 onMounted(() => {
   if (codeblocks !== undefined) {
-    codeblocks.value?.querySelectorAll(".code-block").forEach((element, i) => {
+    codeblocks.value?.querySelectorAll(".code-block").forEach((element) => {
       const title = element.querySelector("span.code-title")?.textContent!
       tabs.value.push({
         label: title,
