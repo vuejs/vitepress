@@ -20,3 +20,17 @@ declare module '@theme/index' {
   const theme: Theme
   export default theme
 }
+
+declare module 'mermaid' {
+  import mermaidAPI from 'mermaid/mermaidAPI.js'
+  const mermaid: {
+    initialize(config: mermaidAPI.default.Config): void
+    render(
+      id: string,
+      txt: string,
+      cb?: (svgCode: string, bindFunctions: (element: Element) => void) => void,
+      container?: Element
+    ): string
+  }
+  export default mermaid
+}

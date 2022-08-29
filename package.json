@@ -87,6 +87,7 @@
     "@vue/devtools-api": "^6.2.1",
     "@vueuse/core": "^9.1.0",
     "body-scroll-lock": "^4.0.0-beta.0",
+    "mermaid": "^9.1.6",
     "shiki": "^0.11.1",
     "vite": "^3.0.8",
     "vue": "^3.2.37"
@@ -118,6 +119,7 @@
     "@types/markdown-it-attrs": "^4.1.0",
     "@types/markdown-it-container": "^2.0.5",
     "@types/markdown-it-emoji": "^2.0.2",
+    "@types/mermaid": "^8.2.9",
     "@types/micromatch": "^4.0.2",
     "@types/minimist": "^1.2.2",
     "@types/node": "^18.7.5",

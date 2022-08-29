@@ -10,6 +10,7 @@ export interface PageData {
   headers: Header[]
   frontmatter: Record<string, any>
   lastUpdated?: number
+  mermaidConfig?: ReturnType<mermaid.Mermaid['mermaidAPI']['getConfig']>
 }
 
 export type Header = MarkdownItHeader
