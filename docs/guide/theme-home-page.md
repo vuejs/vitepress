@@ -124,7 +124,7 @@ interface Feature {
   action?: FeatureAction
 }
 
-interface HeroAction {
+interface FeatureAction {
   // Color theme of the button. Defaults to `brand`.
   theme?: 'brand' | 'alt'
 
