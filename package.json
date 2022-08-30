@@ -99,7 +99,6 @@
     "@mdit-vue/plugin-title": "^0.11.1",
     "@mdit-vue/plugin-toc": "^0.11.1",
     "@mdit-vue/shared": "^0.11.0",
-    "@mdit-vue/types": "^0.11.0",
     "@rollup/plugin-alias": "^3.1.9",
     "@rollup/plugin-commonjs": "^22.0.2",
     "@rollup/plugin-json": "^4.1.0",

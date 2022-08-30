@@ -1,7 +1,31 @@
-import type { MarkdownItEnv } from '@mdit-vue/types'
-import { CleanUrlsMode } from '../shared'
+import type { MarkdownItHeader } from '@mdit-vue/plugin-headers'
+import type { MarkdownSfcBlocks } from '@mdit-vue/plugin-sfc'
+import type { CleanUrlsMode } from '../shared'
 
-export interface MarkdownEnv extends MarkdownItEnv {
+export interface MarkdownEnv {
+  /**
+   * The raw Markdown content without frontmatter
+   */
+  content?: string
+  /**
+   * The excerpt that extracted by `@mdit-vue/plugin-frontmatter`
+   *
+   * - Would be the rendered HTML when `renderExcerpt` is enabled
+   * - Would be the raw Markdown when `renderExcerpt` is disabled
+   */
+  excerpt?: string
+  /**
+   * The frontmatter that extracted by `@mdit-vue/plugin-frontmatter`
+   */
+  frontmatter?: Record<string, unknown>
+  /**
+   * The headers that extracted by `@mdit-vue/plugin-headers`
+   */
+  headers?: MarkdownItHeader[]
+  /**
+   * SFC blocks that extracted by `@mdit-vue/plugin-sfc`
+   */
+  sfcBlocks?: MarkdownSfcBlocks
   path: string
   relativePath: string
   cleanUrls: CleanUrlsMode

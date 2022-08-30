@@ -1,5 +1,5 @@
 // types shared between server and client
-import type { MarkdownItHeader } from '@mdit-vue/types'
+import type { MarkdownItHeader } from '@mdit-vue/plugin-headers'
 export type { DefaultTheme } from './default-theme.js'
 
 export interface PageData {
