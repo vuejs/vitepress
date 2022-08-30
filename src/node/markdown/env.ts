@@ -1,6 +1,5 @@
-import type { MarkdownItHeader } from '@mdit-vue/plugin-headers'
 import type { MarkdownSfcBlocks } from '@mdit-vue/plugin-sfc'
-import type { CleanUrlsMode } from '../shared'
+import type { CleanUrlsMode, Header } from '../shared'
 
 // Manually declaring all properties as rollup-plugin-dts
 // is unable to merge augmented module declarations
@@ -24,7 +23,7 @@ export interface MarkdownEnv {
   /**
    * The headers that extracted by `@mdit-vue/plugin-headers`
    */
-  headers?: MarkdownItHeader[]
+  headers?: Header[]
   /**
    * SFC blocks that extracted by `@mdit-vue/plugin-sfc`
    */
