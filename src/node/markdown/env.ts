@@ -2,6 +2,9 @@ import type { MarkdownItHeader } from '@mdit-vue/plugin-headers'
 import type { MarkdownSfcBlocks } from '@mdit-vue/plugin-sfc'
 import type { CleanUrlsMode } from '../shared'
 
+// Manually declaring all properties as rollup-plugin-dts
+// is unable to merge augmented module declarations
+
 export interface MarkdownEnv {
   /**
    * The raw Markdown content without frontmatter
