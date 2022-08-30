@@ -28,6 +28,10 @@ export interface MarkdownEnv {
    * SFC blocks that extracted by `@mdit-vue/plugin-sfc`
    */
   sfcBlocks?: MarkdownSfcBlocks
+  /**
+   * The title that extracted by `@mdit-vue/plugin-title`
+   */
+  title?: string
   path: string
   relativePath: string
   cleanUrls: CleanUrlsMode
