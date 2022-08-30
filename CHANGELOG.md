@@ -1,3 +1,12 @@
+# [1.0.0-alpha.13](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.12...v1.0.0-alpha.13) (2022-08-30)
+
+
+### Features
+
+* use global delegation for copy code interaction ([b5bd73f](https://github.com/vuejs/vitepress/commit/b5bd73f6300e458d419d3a7816272d3c7244a4d3))
+
+
+
 # [1.0.0-alpha.12](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.11...v1.0.0-alpha.12) (2022-08-26)
 
 
