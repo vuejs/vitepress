@@ -15,6 +15,7 @@ export {
 } from '../dist/client/index.js'
 
 export {
+  MarkdownEnv,
   MarkdownOptions,
   MarkdownRenderer,
   RawConfigExports,
