@@ -58,7 +58,7 @@
     "build": "run-s build-prepare build-client build-node",
     "build-prepare": "rimraf dist && node scripts/copyShared",
     "build-client": "vue-tsc --noEmit -p src/client && tsc -p src/client && node scripts/copyClient",
-    "build-node": "rollup --config rollup.config.ts --configPlugin esbuild",
+    "build-node": "tsc -p src/node --noEmit && rollup --config rollup.config.ts --configPlugin esbuild",
     "format": "prettier --check --write .",
     "format-fail": "prettier --check .",
     "lint": "pnpm run format",
