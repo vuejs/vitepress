@@ -22,7 +22,8 @@ const external = [
   ...Object.keys(pkg.dependencies),
   ...builtinModules.flatMap((m) =>
     m.includes('punycode') ? [] : [m, `node:${m}`]
-  )
+  ),
+  r('types/shared.d.ts')
 ]
 
 const plugins = [
@@ -73,16 +74,13 @@ const cjsBuild: RollupOptions = {
   }
 }
 
-const typeExternals = (source: string) =>
-  external.includes(source) || /[\\/]types[\\/]shared.d.ts$/.test(source)
-
 const nodeTypes: RollupOptions = {
   input: r('src/node/index.ts'),
   output: {
     format: 'esm',
     file: 'dist/node/index.d.ts'
   },
-  external: typeExternals,
+  external,
   plugins: [dts({ respectExternal: true })]
 }
 
@@ -92,7 +90,7 @@ const clientTypes: RollupOptions = {
     format: 'esm',
     file: 'dist/client/index.d.ts'
   },
-  external: typeExternals,
+  external,
   plugins: [
     dts({ respectExternal: true }),
     {
