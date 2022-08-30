@@ -73,13 +73,16 @@ const cjsBuild: RollupOptions = {
   }
 }
 
+const typeExternals = (source: string) =>
+  external.includes(source) || /[\\/]types[\\/]shared.d.ts$/.test(source)
+
 const nodeTypes: RollupOptions = {
   input: r('src/node/index.ts'),
   output: {
     format: 'esm',
     file: 'dist/node/index.d.ts'
   },
-  external,
+  external: typeExternals,
   plugins: [dts({ respectExternal: true })]
 }
 
@@ -89,7 +92,7 @@ const clientTypes: RollupOptions = {
     format: 'esm',
     file: 'dist/client/index.d.ts'
   },
-  external,
+  external: typeExternals,
   plugins: [
     dts({ respectExternal: true }),
     {
