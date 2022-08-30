@@ -16,7 +16,6 @@ export {
 
 export {
   MarkdownOptions,
-  MarkdownParsedData,
   MarkdownRenderer,
   RawConfigExports,
   ServeOptions,
