@@ -2,6 +2,7 @@ import { inBrowser } from '../utils.js'
 
 export function useCopyCode() {
   if (inBrowser) {
+    const timeoutIdMap: Map<HTMLElement, number> = new Map()
     window.addEventListener('click', (e) => {
       const el = e.target as HTMLElement
       if (el.matches('div[class*="language-"] > button.copy')) {
@@ -24,10 +25,13 @@ export function useCopyCode() {
 
         copyToClipboard(text).then(() => {
           el.classList.add('copied')
-          setTimeout(() => {
+          clearTimeout(timeoutIdMap.get(el))
+          const timeoutId = setTimeout(() => {
             el.classList.remove('copied')
             el.blur()
+            timeoutIdMap.delete(el)
           }, 2000)
+          timeoutIdMap.set(el, timeoutId)
         })
       }
     })
