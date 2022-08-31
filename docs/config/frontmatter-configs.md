@@ -119,7 +119,7 @@ It defines contents of home hero section.
 layout: home
 
 hero:
-  name: VuePress
+  name: VitePress
   text: Vite & Vue powered static site generator.
   tagline: Lorem ipsum...
   actions:
