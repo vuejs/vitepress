@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { normalizeLink } from '../support/utils.js'
+import { EXTERNAL_URL_RE } from '../../shared.js'
 
 const props = defineProps<{
   tag?: string
@@ -14,7 +16,7 @@ const classes = computed(() => [
   props.theme ?? 'brand'
 ])
 
-const isExternal = computed(() => props.href && /^[a-z]+:/i.test(props.href))
+const isExternal = computed(() => props.href && EXTERNAL_URL_RE.test(props.href))
 
 const component = computed(() => {
   if (props.tag) {
@@ -30,9 +32,9 @@ const component = computed(() => {
     :is="component"
     class="VPButton"
     :class="classes"
-    :href="href"
+    :href="href ? normalizeLink(href) : undefined"
     :target="isExternal ? '_blank' : undefined"
-    :rel="isExternal ? 'noopener noreferrer' : undefined"
+    :rel="isExternal ? 'noreferrer' : undefined"
   >
     {{ text }}
   </component>
@@ -42,7 +44,6 @@ const component = computed(() => {
 .VPButton {
   display: inline-block;
   border: 1px solid transparent;
-
   text-align: center;
   font-weight: 500;
   white-space: nowrap;

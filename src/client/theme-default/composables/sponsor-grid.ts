@@ -1,15 +1,15 @@
 import { Ref, onMounted, onUnmounted } from 'vue'
-import { throttleAndDebounce } from '../support/utils'
+import { throttleAndDebounce } from '../support/utils.js'
 
 export interface GridSetting {
   [size: string]: [number, number][]
 }
 
-export type GridSize = 'small' | 'medium' | 'big'
+export type GridSize = 'xmini' | 'mini' | 'small' | 'medium' | 'big'
 
 export interface UseSponsorsGridOprions {
   el: Ref<HTMLElement | null>
-  size: GridSize
+  size?: GridSize
 }
 
 /**
@@ -17,14 +17,16 @@ export interface UseSponsorsGridOprions {
  *
  * [Screen widh, Column size]
  *
- * It sets grid size on matching screen size. For example, `[768, 5]` will set
- * 5 columns when screen size is bigger or equal to 768px.
+ * It sets grid size on matching screen size. For example, `[768, 5]` will
+ * set 5 columns when screen size is bigger or equal to 768px.
  *
  * Column will set only when item size is bigger than the column size. For
- * example, even we want 5 columns, if we only have 1 sponsor yet, we would
- * like to show it in 1 column.
+ * example, even we define 5 columns, if we only have 1 sponsor yet, we would
+ * like to show it in 1 column to make it stand out.
  */
 const GridSettings: GridSetting = {
+  xmini: [[0, 2]],
+  mini: [],
   small: [
     [920, 6],
     [768, 5],
@@ -44,7 +46,10 @@ const GridSettings: GridSetting = {
   ]
 }
 
-export function useSponsorsGrid(options: UseSponsorsGridOprions) {
+export function useSponsorsGrid({
+  el,
+  size = 'medium'
+}: UseSponsorsGridOprions) {
   const onResize = throttleAndDebounce(manage, 100)
 
   onMounted(() => {
@@ -57,7 +62,7 @@ export function useSponsorsGrid(options: UseSponsorsGridOprions) {
   })
 
   function manage() {
-    adjustSlots(options.el.value!, options.size)
+    adjustSlots(el.value!, size)
   }
 }
 

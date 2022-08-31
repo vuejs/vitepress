@@ -6,12 +6,13 @@ const { frontmatter: fm } = useData()
 </script>
 
 <template>
-  <div v-if="fm.hero" class="VPHomeHero">
-    <VPHero
-      :name="fm.hero.name"
-      :text="fm.hero.text"
-      :tagline="fm.hero.tagline"
-      :actions="fm.hero.actions"
-    />
-  </div>
+  <VPHero
+    v-if="fm.hero"
+    class="VPHomeHero"
+    :name="fm.hero.name"
+    :text="fm.hero.text"
+    :tagline="fm.hero.tagline"
+    :image="fm.hero.image"
+    :actions="fm.hero.actions"
+  />
 </template>

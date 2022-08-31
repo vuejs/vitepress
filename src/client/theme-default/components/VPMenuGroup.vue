@@ -18,16 +18,27 @@ defineProps<{
 </template>
 
 <style scoped>
-.VPMenuGroup + .VPMenuGroup {
-  margin-top: 8px;
+.VPMenuGroup {
+  margin: 12px -12px 0;
   border-top: 1px solid var(--vp-c-divider-light);
-  padding-top: 8px;
+  padding: 12px 12px 0;
+}
+
+.VPMenuGroup:first-child {
+  margin-top: 0;
+  border-top: 0;
+  padding-top: 0;
+}
+
+.VPMenuGroup + .VPMenuGroup {
+  margin-top: 12px;
+  border-top: 1px solid var(--vp-c-divider-light);
 }
 
 .title {
-  padding: 0 16px;
-  line-height: 28px;
-  font-size: 13px;
+  padding: 0 12px;
+  line-height: 32px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--vp-c-text-2);
   transition: color 0.25s;

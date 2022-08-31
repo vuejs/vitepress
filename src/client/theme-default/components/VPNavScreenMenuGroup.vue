@@ -1,13 +1,12 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { DefaultTheme } from 'vitepress'
 import VPIconPlus from './icons/VPIconPlus.vue'
 import VPNavScreenMenuGroupLink from './VPNavScreenMenuGroupLink.vue'
 import VPNavScreenMenuGroupSection from './VPNavScreenMenuGroupSection.vue'
 
 const props = defineProps<{
   text: string
-  items: DefaultTheme.NavItemChild[]
+  items: any[]
 }>()
 
 const isOpen = ref(false)

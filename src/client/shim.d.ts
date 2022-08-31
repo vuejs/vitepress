@@ -1,7 +1,7 @@
 declare const __VP_HASH_MAP__: Record<string, string>
 declare const __ALGOLIA__: boolean
 declare const __CARBON__: boolean
-declare const __BSA__: boolean
+declare const __VUE_PROD_DEVTOOLS__: boolean
 
 declare module '*.vue' {
   import { ComponentOptions } from 'vue'
@@ -10,17 +10,13 @@ declare module '*.vue' {
 }
 
 declare module '@siteData' {
-  const data: string
+  import type { SiteData } from 'vitepress'
+  const data: SiteData
   export default data
 }
 
-// this module's typing is broken.
-declare module '@docsearch/js' {
-  function docsearch<T = any>(props: T): void
-  export default docsearch
-}
-
-declare module '@docsearch/css' {
-  const css: string
-  export default css
+declare module '@theme/index' {
+  import type { Theme } from 'vitepress'
+  const theme: Theme
+  export default theme
 }

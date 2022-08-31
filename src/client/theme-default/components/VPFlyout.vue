@@ -1,12 +1,11 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { DefaultTheme } from 'vitepress'
-import { useFlyout } from '../composables/flyout'
+import { useFlyout } from '../composables/flyout.js'
 import VPIconChevronDown from './icons/VPIconChevronDown.vue'
 import VPIconMoreHorizontal from './icons/VPIconMoreHorizontal.vue'
 import VPMenu from './VPMenu.vue'
 
-const props = defineProps<{
+defineProps<{
   icon?: any
   button?: string
   label?: string
@@ -61,7 +60,7 @@ function onBlur() {
 }
 
 .VPFlyout:hover {
-  color: var(--vp-c-bland);
+  color: var(--vp-c-brand);
   transition: color 0.25s;
 }
 
@@ -71,6 +70,14 @@ function onBlur() {
 
 .VPFlyout:hover .icon {
   fill: var(--vp-c-text-2);
+}
+
+.VPFlyout.active .text {
+  color: var(--vp-c-brand);
+}
+
+.VPFlyout.active:hover .text {
+  color: var(--vp-c-brand-dark);
 }
 
 .VPFlyout:hover .menu,
@@ -99,7 +106,7 @@ function onBlur() {
   display: flex;
   align-items: center;
   line-height: var(--vp-nav-height-mobile);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--vp-c-text-1);
   transition: color 0.25s;
@@ -141,7 +148,7 @@ function onBlur() {
   transition: opacity 0.25s, visibility 0.25s, transform 0.25s;
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 960px) {
   .menu {
     top: calc(var(--vp-nav-height-desktop) / 2 + 20px);
   }

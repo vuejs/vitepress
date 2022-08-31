@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useData } from 'vitepress'
-import { useSidebar } from '../composables/sidebar'
+import { useSidebar } from '../composables/sidebar.js'
+import VPImage from './VPImage.vue'
 
 const { site, theme } = useData()
 const { hasSidebar } = useSidebar()
@@ -8,9 +9,12 @@ const { hasSidebar } = useSidebar()
 
 <template>
   <div class="VPNavBarTitle" :class="{ 'has-sidebar': hasSidebar }">
-    <a class="title" href="/">
-      <img v-if="theme.logo" class="logo" :src="theme.logo" :alt="site.title">
-      {{ site.title }}
+    <a class="title" :href="site.base">
+      <slot name="nav-bar-title-before" />
+      <VPImage class="logo" :image="theme.logo" />
+      <template v-if="theme.siteTitle">{{ theme.siteTitle }}</template>
+      <template v-else-if="theme.siteTitle === undefined">{{ site.title }}</template>
+      <slot name="nav-bar-title-after" />
     </a>
   </div>
 </template>
@@ -18,14 +22,15 @@ const { hasSidebar } = useSidebar()
 <style scoped>
 .VPNavBarTitle {
   flex-shrink: 0;
+  border-bottom: 1px solid transparent;
 }
 
 @media (min-width: 960px) {
   .VPNavBarTitle.has-sidebar {
     margin-right: 32px;
     width: calc(var(--vp-sidebar-width) - 64px);
-    border-bottom: 1px solid var(--vp-c-divider-light);
-    background-color: var(--vp-c-bg-sidebar);
+    border-bottom-color: var(--vp-c-divider-light);
+    background-color: var(--vp-c-bg-alt);
   }
 }
 
@@ -50,7 +55,7 @@ const { hasSidebar } = useSidebar()
   }
 }
 
-.logo {
+:deep(.logo) {
   margin-right: 8px;
   height: 24px;
 }

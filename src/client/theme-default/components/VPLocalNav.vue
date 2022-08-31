@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useSidebar } from '../composables/sidebar'
+import { useSidebar } from '../composables/sidebar.js'
 import VPIconAlignLeft from './icons/VPIconAlignLeft.vue'
 
 defineProps<{
@@ -43,9 +43,10 @@ function scrollToTop() {
   z-index: var(--vp-z-index-local-nav);
   display: flex;
   justify-content: space-between;
+  align-items: center;
   border-bottom: 1px solid var(--vp-c-divider-light);
   width: 100%;
-  background-color: var(--vp-c-bg-content);
+  background-color: var(--vp-c-bg);
   transition: border-color 0.5s, background-color 0.5s;
 }
 
@@ -58,8 +59,8 @@ function scrollToTop() {
 .menu {
   display: flex;
   align-items: center;
-  padding: 0 24px;
-  line-height: 47px;
+  padding: 12px 24px 11px;
+  line-height: 24px;
   font-size: 12px;
   font-weight: 500;
   color: var(--vp-c-text-2);
@@ -85,8 +86,9 @@ function scrollToTop() {
 }
 
 .top-link {
-  padding: 0 24px;
-  line-height: 47px;
+  display: block;
+  padding: 12px 24px 11px;
+  line-height: 24px;
   font-size: 12px;
   font-weight: 500;
   color: var(--vp-c-text-2);
@@ -100,7 +102,7 @@ function scrollToTop() {
 
 @media (min-width: 768px) {
   .top-link {
-    padding: 0 32px;
+    padding: 12px 32px 11px;
   }
 }
 </style>

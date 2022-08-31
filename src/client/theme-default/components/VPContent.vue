@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import { useRoute, useData } from 'vitepress'
-import { useSidebar } from '../composables/sidebar'
-import NotFound from '../NotFound.vue'
+import { useSidebar } from '../composables/sidebar.js'
 import VPPage from './VPPage.vue'
 import VPHome from './VPHome.vue'
 import VPDoc from './VPDoc.vue'
+import { inject } from 'vue'
 
 const route = useRoute()
 const { frontmatter } = useData()
 const { hasSidebar } = useSidebar()
+
+const NotFound = inject('NotFound')
 </script>
 
 <template>
@@ -31,7 +33,18 @@ const { hasSidebar } = useSidebar()
       <template #home-features-after><slot name="home-features-after" /></template>
     </VPHome>
 
-    <VPDoc v-else />
+    <VPDoc v-else>
+      <template #doc-footer-before><slot name="doc-footer-before" /></template>
+      <template #doc-before><slot name="doc-before" /></template>
+      <template #doc-after><slot name="doc-after" /></template>
+
+      <template #aside-top><slot name="aside-top" /></template>
+      <template #aside-outline-before><slot name="aside-outline-before" /></template>
+      <template #aside-outline-after><slot name="aside-outline-after" /></template>
+      <template #aside-ads-before><slot name="aside-ads-before" /></template>
+      <template #aside-ads-after><slot name="aside-ads-after" /></template>
+      <template #aside-bottom><slot name="aside-bottom" /></template>
+    </VPDoc>
   </div>
 </template>
 

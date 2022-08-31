@@ -24,7 +24,7 @@ editLink: true
 Guide content
 ```
 
-## Alternative frontmatter Formats
+## Alternative Frontmatter Formats
 
 VitePress also supports JSON frontmatter syntax, starting and ending in curly braces:
 

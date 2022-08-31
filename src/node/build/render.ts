@@ -1,13 +1,22 @@
-import path from 'path'
 import fs from 'fs-extra'
-import { SiteConfig, resolveSiteDataByRoute } from '../config'
-import { HeadConfig, createTitle } from '../shared'
+import path from 'path'
+import { pathToFileURL } from 'url'
+import escape from 'escape-html'
 import { normalizePath, transformWithEsbuild } from 'vite'
 import { RollupOutput, OutputChunk, OutputAsset } from 'rollup'
+import {
+  HeadConfig,
+  PageData,
+  createTitle,
+  notFoundPageData,
+  mergeHead,
+  EXTERNAL_URL_RE
+} from '../shared'
 import { slash } from '../utils/slash'
-import escape from 'escape-html'
+import { SiteConfig, resolveSiteDataByRoute } from '../config'
 
 export async function renderPage(
+  render: (path: string) => Promise<string>,
   config: SiteConfig,
   page: string, // foo.md
   result: RollupOutput | null,
@@ -16,25 +25,11 @@ export async function renderPage(
   pageToHashMap: Record<string, string>,
   hashMapString: string
 ) {
-  const { createApp } = require(path.join(config.tempDir, `app.js`))
-  const { app, router } = createApp()
   const routePath = `/${page.replace(/\.md$/, '')}`
   const siteData = resolveSiteDataByRoute(config.site, routePath)
-  router.go(routePath)
-
-  // lazy require server-renderer for production build
-  // prioritize project root over vitepress' own dep
-  let rendererPath
-  try {
-    rendererPath = require.resolve('vue/server-renderer', {
-      paths: [config.root]
-    })
-  } catch (e) {
-    rendererPath = require.resolve('vue/server-renderer')
-  }
 
   // render page
-  const content = await require(rendererPath).renderToString(app)
+  const content = await render(routePath)
 
   const pageName = page.replace(/\//g, '_')
   // server build doesn't need hash
@@ -44,29 +39,41 @@ export async function renderPage(
   const pageHash = pageToHashMap[pageName.toLowerCase()]
   const pageClientJsFileName = `assets/${pageName}.${pageHash}.lean.js`
 
-  // resolve page data so we can render head tags
-  const { __pageData } = require(path.join(
-    config.tempDir,
-    pageServerJsFileName
-  ))
-  const pageData = JSON.parse(__pageData)
+  let pageData: PageData
+  let hasCustom404 = true
 
-  let preloadLinks = config.mpa
-    ? appChunk
-      ? [appChunk.fileName]
+  try {
+    // resolve page data so we can render head tags
+    const { __pageData } = await import(
+      pathToFileURL(path.join(config.tempDir, pageServerJsFileName)).toString()
+    )
+    pageData = __pageData
+  } catch (e) {
+    if (page === '404.md') {
+      hasCustom404 = false
+      pageData = notFoundPageData
+    } else {
+      throw e
+    }
+  }
+
+  let preloadLinks =
+    config.mpa || (!hasCustom404 && page === '404.md')
+      ? appChunk
+        ? [appChunk.fileName]
+        : []
+      : result && appChunk
+      ? [
+          ...new Set([
+            // resolve imports for index.js + page.md.js and inject script tags
+            // for them as well so we fetch everything as early as possible
+            // without having to wait for entry chunks to parse
+            ...resolvePageImports(config, page, result, appChunk),
+            pageClientJsFileName,
+            appChunk.fileName
+          ])
+        ]
       : []
-    : result && appChunk
-    ? [
-        ...new Set([
-          // resolve imports for index.js + page.md.js and inject script tags for
-          // them as well so we fetch everything as early as possible without having
-          // to wait for entry chunks to parse
-          ...resolvePageImports(config, page, result, appChunk),
-          pageClientJsFileName,
-          appChunk.fileName
-        ])
-      ]
-    : []
 
   let prefetchLinks: string[] = []
 
@@ -78,13 +85,17 @@ export async function renderPage(
 
   const preloadLinksString = preloadLinks
     .map((file) => {
-      return `<link rel="modulepreload" href="${siteData.base}${file}">`
+      return `<link rel="modulepreload" href="${
+        EXTERNAL_URL_RE.test(file) ? '' : siteData.base // don't add base to external urls
+      }${file}">`
     })
     .join('\n    ')
 
   const prefetchLinkString = prefetchLinks
     .map((file) => {
-      return `<link rel="prefetch" href="${siteData.base}${file}">`
+      return `<link rel="prefetch" href="${
+        EXTERNAL_URL_RE.test(file) ? '' : siteData.base // don't add base to external urls
+      }${file}">`
     })
     .join('\n    ')
 
@@ -95,10 +106,9 @@ export async function renderPage(
   const title: string = createTitle(siteData, pageData)
   const description: string = pageData.description || siteData.description
 
-  const head = addSocialTags(
-    title,
-    ...siteData.head,
-    ...filterOutHeadDescription(pageData.frontmatter.head)
+  const head = mergeHead(
+    siteData.head,
+    filterOutHeadDescription(pageData.frontmatter.head)
   )
 
   let inlinedScript = ''
@@ -146,9 +156,26 @@ export async function renderPage(
     ${inlinedScript}
   </body>
 </html>`.trim()
-  const htmlFileName = path.join(config.outDir, page.replace(/\.md$/, '.html'))
+  const createSubDirectory =
+    config.cleanUrls === 'with-subfolders' &&
+    !/(^|\/)(index|404).md$/.test(page)
+
+  const htmlFileName = path.join(
+    config.outDir,
+    page.replace(/\.md$/, createSubDirectory ? '/index.html' : '.html')
+  )
+
   await fs.ensureDir(path.dirname(htmlFileName))
-  await fs.writeFile(htmlFileName, html)
+  const transformedHtml = await config.transformHtml?.(html, htmlFileName, {
+    siteConfig: config,
+    siteData,
+    pageData,
+    title,
+    description,
+    head,
+    content
+  })
+  await fs.writeFile(htmlFileName, transformedHtml || html)
 }
 
 function resolvePageImports(
@@ -211,21 +238,4 @@ function isMetaDescription(headConfig: HeadConfig) {
 
 function filterOutHeadDescription(head: HeadConfig[] | undefined) {
   return head ? head.filter((h) => !isMetaDescription(h)) : []
-}
-
-function hasTag(head: HeadConfig[], tag: HeadConfig) {
-  const [tagType, tagAttrs] = tag
-  const [attr, value] = Object.entries(tagAttrs)[0] // First key
-  return head.some(([type, attrs]) => type === tagType && attrs[attr] === value)
-}
-
-function addSocialTags(title: string, ...head: HeadConfig[]) {
-  const tags: HeadConfig[] = [
-    ['meta', { name: 'twitter:title', content: title }],
-    ['meta', { property: 'og:title', content: title }]
-  ]
-  tags.filter((tagAttrs) => {
-    if (!hasTag(head, tagAttrs)) head.push(tagAttrs)
-  })
-  return head
 }

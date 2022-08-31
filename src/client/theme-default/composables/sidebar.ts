@@ -1,6 +1,6 @@
-import { Ref, ref, computed, watchEffect, onMounted, onUnmounted } from 'vue'
-import { useRoute, useData } from 'vitepress'
-import { getSidebar } from '../support/sidebar'
+import { computed, onMounted, onUnmounted, Ref, ref, watchEffect } from 'vue'
+import { useData, useRoute } from 'vitepress'
+import { getSidebar } from '../support/sidebar.js'
 
 export function useSidebar() {
   const route = useRoute()
@@ -11,12 +11,21 @@ export function useSidebar() {
   const sidebar = computed(() => {
     const sidebarConfig = theme.value.sidebar
     const relativePath = route.data.relativePath
-
     return sidebarConfig ? getSidebar(sidebarConfig, relativePath) : []
   })
 
   const hasSidebar = computed(() => {
-    return frontmatter.value.sidebar !== false && sidebar.value.length > 0
+    return (
+      frontmatter.value.sidebar !== false &&
+      sidebar.value.length > 0 &&
+      frontmatter.value.layout !== 'home'
+    )
+  })
+
+  const hasAside = computed(() => {
+    return (
+      frontmatter.value.layout !== 'home' && frontmatter.value.aside !== false
+    )
   })
 
   function open() {
@@ -35,6 +44,7 @@ export function useSidebar() {
     isOpen,
     sidebar,
     hasSidebar,
+    hasAside,
     open,
     close,
     toggle
@@ -45,7 +55,10 @@ export function useSidebar() {
  * a11y: cache the element that opened the Sidebar (the menu button) then
  * focus that button again when Menu is closed with Escape key.
  */
-export function useCloseSidebarOnEscape(isOpen: Ref<boolean>, close: () => {}) {
+export function useCloseSidebarOnEscape(
+  isOpen: Ref<boolean>,
+  close: () => void
+) {
   let triggerElement: HTMLButtonElement | undefined
 
   watchEffect(() => {

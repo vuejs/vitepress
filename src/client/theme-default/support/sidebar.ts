@@ -1,5 +1,5 @@
-import { DefaultTheme } from '../config'
-import { ensureStartingSlash } from './utils'
+import type { DefaultTheme } from 'vitepress/theme'
+import { ensureStartingSlash } from './utils.js'
 
 /**
  * Get the `Sidebar` from sidebar option. This method will ensure to get correct
@@ -27,16 +27,22 @@ export function getSidebar(
   return []
 }
 
-export function getFlatSideBarLinks(
-  sidebar: DefaultTheme.SidebarGroup[]
-): DefaultTheme.SidebarItem[] {
-  const links: DefaultTheme.SidebarItem[] = []
+export function getFlatSideBarLinks(sidebar: DefaultTheme.SidebarGroup[]) {
+  const links: { text: string; link: string }[] = []
 
-  for (const group of sidebar) {
-    for (const link of group.items) {
-      links.push(link)
+  function recursivelyExtractLinks(items: DefaultTheme.SidebarItem[]) {
+    for (const item of items) {
+      if (item.link) {
+        links.push({ ...item, link: item.link })
+      }
+      if ('items' in item) {
+        recursivelyExtractLinks(item.items)
+      }
     }
   }
 
+  for (const group of sidebar) {
+    recursivelyExtractLinks(group.items)
+  }
   return links
 }

@@ -2,24 +2,25 @@ import {
   App,
   createApp as createClientApp,
   createSSRApp,
-  defineAsyncComponent,
+  defineComponent,
   h,
   onMounted,
   watch
 } from 'vue'
-import Theme from '/@theme/index'
-import { inBrowser, pathToFile } from './utils'
-import { Router, RouterSymbol, createRouter } from './router'
-import { siteDataRef, useData } from './data'
-import { useUpdateHead } from './composables/head'
-import { usePrefetch } from './composables/preFetch'
-import { dataSymbol, initData } from './data'
-import { Content } from './components/Content'
-import { ClientOnly } from './components/ClientOnly'
+import Theme from '@theme/index'
+import { inBrowser, pathToFile } from './utils.js'
+import { Router, RouterSymbol, createRouter } from './router.js'
+import { siteDataRef, useData } from './data.js'
+import { useUpdateHead } from './composables/head.js'
+import { usePrefetch } from './composables/preFetch.js'
+import { dataSymbol, initData } from './data.js'
+import { Content } from './components/Content.js'
+import { ClientOnly } from './components/ClientOnly.js'
+import { useCopyCode } from './composables/copyCode.js'
 
 const NotFound = Theme.NotFound || (() => '404 Not Found')
 
-const VitePressApp = {
+const VitePressApp = defineComponent({
   name: 'VitePressApp',
   setup() {
     const { site } = useData()
@@ -39,14 +40,17 @@ const VitePressApp = {
       // in prod mode, enable intersectionObserver based pre-fetch
       usePrefetch()
     }
+
+    // setup global copy code handler
+    useCopyCode()
+
+    if (Theme.setup) Theme.setup()
     return () => h(Theme.Layout)
   }
-}
+})
 
 export function createApp() {
   const router = newRouter()
-
-  handleHMR(router)
 
   const app = newApp()
 
@@ -55,15 +59,12 @@ export function createApp() {
   const data = initData(router.route)
   app.provide(dataSymbol, data)
 
+  // provide this to avoid circular dependency in VPContent
+  app.provide('NotFound', NotFound)
+
   // install global components
   app.component('Content', Content)
   app.component('ClientOnly', ClientOnly)
-  app.component(
-    'Debug',
-    import.meta.env.PROD
-      ? () => null
-      : defineAsyncComponent(() => import('./components/Debug.vue'))
-  )
 
   // expose $frontmatter
   Object.defineProperty(app.config.globalProperties, '$frontmatter', {
@@ -78,6 +79,13 @@ export function createApp() {
       router,
       siteData: siteDataRef
     })
+  }
+
+  // setup devtools in dev mode
+  if (import.meta.env.DEV || __VUE_PROD_DEVTOOLS__) {
+    import('./devtools.js').then(({ setupDevtools }) =>
+      setupDevtools(app, router, data)
+    )
   }
 
   return { app, router, data }
@@ -107,36 +115,12 @@ function newRouter(): Router {
       pageFilePath = pageFilePath.replace(/\.js$/, '.lean.js')
     }
 
-    // in browser: native dynamic import
     if (inBrowser) {
       isInitialPageLoad = false
-
-      return import(/*@vite-ignore*/ pageFilePath)
     }
 
-    // SSR: sync require
-    // @ts-ignore
-    return require(pageFilePath)
+    return import(/*@vite-ignore*/ pageFilePath)
   }, NotFound)
-}
-
-function handleHMR(router: Router): void {
-  // update route.data on HMR updates of active page
-  if (import.meta.hot) {
-    // hot reload pageData
-    import.meta.hot!.on('vitepress:pageData', (payload) => {
-      if (shouldHotReload(payload)) {
-        router.route.data = payload.pageData
-      }
-    })
-  }
-}
-
-function shouldHotReload(payload: any): boolean {
-  const payloadPath = payload.path.replace(/(\bindex)?\.md$/, '')
-  const locationPath = location.pathname.replace(/(\bindex)?\.html$/, '')
-
-  return payloadPath === locationPath
 }
 
 if (inBrowser) {

@@ -26,8 +26,8 @@ Directives also work:
 
 **Input**
 
-```md
-<span v-for="i in 3">{{ i }} </span>
+```html
+<span v-for="i in 3">{{ i }}</span>
 ```
 
 **Output**
@@ -40,7 +40,7 @@ You can use the [`useData` helper](./api#usedata) in a `<script>` block and expo
 
 **Input**
 
-```md
+```html
 <script setup>
 import { useData } from 'vitepress'
 
@@ -62,7 +62,7 @@ const { page } = useData()
 
 ## Escaping
 
-By default, fenced code blocks are automatically wrapped with `v-pre`. To display raw mustaches or Vue-specific syntax inside inline code snippets or plain text, you need to wrap a paragraph with the `v-pre` custom container:
+By default, fenced code blocks are automatically wrapped with `v-pre`, unless you have set some language with `-vue` suffix like `js-vue` (in that case you can use Vue-style interpolation inside fences). To display raw mustaches or Vue-specific syntax inside inline code snippets or plain text, you need to wrap a paragraph with the `v-pre` custom container:
 
 **Input**
 

@@ -1,10 +1,24 @@
 # Theme Introduction
 
-VitePress comes with its own default theme, and provides a way to customize it, or evenr create your own theme. At this page, we'll go through the basics of theme customizations.
+VitePress comes with its default theme providing many features out of the box. Learn more about each feature on its dedicated page listed below.
+
+- [Nav](./theme-nav)
+- [Sidebar](./theme-sidebar)
+- [Prev Next Link](./theme-prev-next-link)
+- [Edit Link](./theme-edit-link)
+- [Last Updated](./theme-last-updated)
+- [Layout](./theme-layout)
+- [Home Page](./theme-home-page)
+- [Team Page](./theme-team-page)
+- [Footer](./theme-footer)
+- [Search](./theme-search)
+- [Carbon Ads](./theme-carbon-ads)
+
+If you don't find the features you're looking for, or you would rather create your own theme, you may customize VitePress to fit your requirements. In the following sections, we'll go through each way of customizing the VitePress theme.
 
 ## Using a Custom Theme
 
-You can enable a custom theme by adding the `.vitepress/theme/index.js` file (the "theme entry file").
+You can enable a custom theme by adding the `.vitepress/theme/index.js` or `.vitepress/theme/index.ts` file (the "theme entry file").
 
 ```
 .
@@ -17,13 +31,14 @@ You can enable a custom theme by adding the `.vitepress/theme/index.js` file (th
 └─ package.json
 ```
 
-A VitePress custom theme is simply an object containing three properties and is defined as follows:
+A VitePress custom theme is simply an object containing four properties and is defined as follows:
 
 ```ts
 interface Theme {
   Layout: Component // Vue 3 component
   NotFound?: Component
   enhanceApp?: (ctx: EnhanceAppContext) => void
+  setup?: () => void
 }
 
 interface EnhanceAppContext {
@@ -40,6 +55,7 @@ The theme entry file should export the theme as its default export:
 import Layout from './Layout.vue'
 
 export default {
+  // root component to wrap each page
   Layout,
 
   // this is a Vue 3 functional component
@@ -49,6 +65,11 @@ export default {
     // app is the Vue 3 app instance from `createApp()`.
     // router is VitePress' custom router. `siteData` is
     // a `ref` of current site-level metadata.
+  }
+
+  setup() {
+    // this function will be executed inside VitePressApp's
+    // setup hook. all composition APIs are available here.
   }
 }
 ```
@@ -121,7 +142,7 @@ See [default theme CSS variables](https://github.com/vuejs/vitepress/blob/main/s
 
 ### Layout Slots
 
-The default theme's `<Layout/>` component has a few slots that can be used to inject content at certain locations of the page. Here's an example of injecting a component into the top of the sidebar:
+The default theme's `<Layout/>` component has a few slots that can be used to inject content at certain locations of the page. Here's an example of injecting a component into the before outline:
 
 ```js
 // .vitepress/theme/index.js
@@ -146,7 +167,7 @@ const { Layout } = DefaultTheme
 
 <template>
   <Layout>
-    <template #sidebar-top>
+    <template #aside-outline-before>
       My custom sidebar top content
     </template>
   </Layout>
@@ -164,7 +185,7 @@ export default {
   ...DefaultTheme,
   Layout() {
     return h(DefaultTheme.Layout, null, {
-      'sidebar-top': () => h(MyComponent)
+      'aside-outline-before': () => h(MyComponent)
     })
   }
 }
@@ -172,8 +193,27 @@ export default {
 
 Full list of slots available in the default theme layout:
 
-- Only when `layout: 'home'` is enabled via frontmatter:
+- When `layout: 'doc'` (default) is enabled via frontmatter:
+  - `doc-footer-before`
+  - `doc-before`
+  - `doc-after`
+  - `aside-top`
+  - `aside-bottom`
+  - `aside-outline-before`
+  - `aside-outline-after`
+  - `aside-ads-before`
+  - `aside-ads-after`
+- When `layout: 'home'` is enabled via frontmatter:
   - `home-hero-before`
   - `home-hero-after`
   - `home-features-before`
   - `home-features-after`
+- Always:
+  - `layout-top`
+  - `layout-bottom`
+  - `nav-bar-title-before`
+  - `nav-bar-title-after`
+  - `nav-bar-content-before`
+  - `nav-bar-content-after`
+  - `nav-screen-content-before`
+  - `nav-screen-content-after`

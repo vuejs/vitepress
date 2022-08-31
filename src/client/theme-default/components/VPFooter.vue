@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useData } from 'vitepress'
-import { useSidebar } from '../composables/sidebar'
+import { useSidebar } from '../composables/sidebar.js'
 
 const { theme } = useData()
 const { hasSidebar } = useSidebar()
@@ -9,8 +9,8 @@ const { hasSidebar } = useSidebar()
 <template>
   <footer v-if="theme.footer" class="VPFooter" :class="{ 'has-sidebar': hasSidebar }">
     <div class="container">
-      <p class="message">{{ theme.footer.message }}</p>
-      <p class="copyright">{{ theme.footer.copyright }}</p>
+      <p v-if="theme.footer.message" class="message" v-html="theme.footer.message"></p>
+      <p v-if="theme.footer.copyright" class="copyright" v-html="theme.footer.copyright"></p>
     </div>
   </footer>
 </template>
@@ -21,7 +21,7 @@ const { hasSidebar } = useSidebar()
   z-index: var(--vp-z-index-footer);
   border-top: 1px solid var(--vp-c-divider-light);
   padding: 32px 24px;
-  background-color: var(--vp-c-bg-content);
+  background-color: var(--vp-c-bg);
 }
 
 .VPFooter.has-sidebar {

@@ -1,49 +1,67 @@
-const fs = require('fs')
-const path = require('path')
-const chalk = require('chalk')
-const semver = require('semver')
-const { prompt } = require('enquirer')
-const execa = require('execa')
-const currentVersion = require('../package.json').version
+import { readFileSync, writeFileSync } from 'fs'
+import { resolve } from 'path'
+import { fileURLToPath } from 'url'
+import c from 'picocolors'
+import prompts from 'prompts'
+import { execa } from 'execa'
+import semver from 'semver'
+import pkg from '../package.json' assert { type: 'json' }
+
+const { version: currentVersion } = pkg
+const { inc: _inc, valid } = semver
 
 const versionIncrements = ['patch', 'minor', 'major']
 
-const inc = (i) => semver.inc(currentVersion, i)
+const tags = ['latest', 'next']
+
+const dir = fileURLToPath(new URL('.', import.meta.url))
+const inc = (i) => _inc(currentVersion, i)
 const run = (bin, args, opts = {}) =>
   execa(bin, args, { stdio: 'inherit', ...opts })
-const step = (msg) => console.log(chalk.cyan(msg))
+const step = (msg) => console.log(c.cyan(msg))
 
 async function main() {
   let targetVersion
 
-  const { release } = await prompt({
+  const versions = versionIncrements
+    .map((i) => `${i} (${inc(i)})`)
+    .concat(['custom'])
+
+  const { release } = await prompts({
     type: 'select',
     name: 'release',
     message: 'Select release type',
-    choices: versionIncrements.map((i) => `${i} (${inc(i)})`).concat(['custom'])
+    choices: versions
   })
 
-  if (release === 'custom') {
+  if (release === 3) {
     targetVersion = (
-      await prompt({
-        type: 'input',
+      await prompts({
+        type: 'text',
         name: 'version',
         message: 'Input custom version',
         initial: currentVersion
       })
     ).version
   } else {
-    targetVersion = release.match(/\((.*)\)/)[1]
+    targetVersion = versions[release].match(/\((.*)\)/)[1]
   }
 
-  if (!semver.valid(targetVersion)) {
+  if (!valid(targetVersion)) {
     throw new Error(`Invalid target version: ${targetVersion}`)
   }
 
-  const { yes: tagOk } = await prompt({
+  const { tag } = await prompts({
+    type: 'select',
+    name: 'tag',
+    message: 'Select tag type',
+    choices: tags
+  })
+
+  const { yes: tagOk } = await prompts({
     type: 'confirm',
     name: 'yes',
-    message: `Releasing v${targetVersion}. Confirm?`
+    message: `Releasing v${targetVersion} on ${tags[tag]}. Confirm?`
   })
 
   if (!tagOk) {
@@ -63,7 +81,7 @@ async function main() {
   await run('pnpm', ['changelog'])
   await run('pnpm', ['prettier', '--write', 'CHANGELOG.md'])
 
-  const { yes: changelogOk } = await prompt({
+  const { yes: changelogOk } = await prompts({
     type: 'confirm',
     name: 'yes',
     message: `Changelog generated. Does it look good?`
@@ -81,7 +99,13 @@ async function main() {
 
   // Publish the package.
   step('\nPublishing the package...')
-  await run('pnpm', ['publish', '--ignore-scripts', '--no-git-checks'])
+  await run('pnpm', [
+    'publish',
+    '--tag',
+    tags[tag],
+    '--ignore-scripts',
+    '--no-git-checks'
+  ])
 
   // Push to GitHub.
   step('\nPushing to GitHub...')
@@ -90,12 +114,12 @@ async function main() {
 }
 
 function updatePackage(version) {
-  const pkgPath = path.resolve(path.resolve(__dirname, '..'), 'package.json')
-  const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'))
+  const pkgPath = resolve(resolve(dir, '..'), 'package.json')
+  const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'))
 
   pkg.version = version
 
-  fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n')
+  writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n')
 }
 
 main().catch((err) => console.error(err))

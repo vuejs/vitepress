@@ -1,4 +1,9 @@
-import { SiteData, PageData, LocaleConfig } from '../../types/shared'
+import {
+  SiteData,
+  PageData,
+  LocaleConfig,
+  HeadConfig
+} from '../../types/shared.js'
 
 export type {
   SiteData,
@@ -6,14 +11,24 @@ export type {
   HeadConfig,
   LocaleConfig,
   Header,
-  DefaultTheme
-} from '../../types/shared'
+  DefaultTheme,
+  PageDataPayload,
+  CleanUrlsMode
+} from '../../types/shared.js'
 
-export const EXTERNAL_URL_RE = /^https?:/i
+export const EXTERNAL_URL_RE = /^[a-z]+:/i
 export const APPEARANCE_KEY = 'vitepress-theme-appearance'
 
-// @ts-ignore
 export const inBrowser = typeof window !== 'undefined'
+
+export const notFoundPageData: PageData = {
+  relativePath: '',
+  title: '404',
+  description: 'Not Found',
+  headers: [],
+  frontmatter: { sidebar: false, layout: 'page' },
+  lastUpdated: 0
+}
 
 function findMatchRoot(route: string, roots: string[]): string | undefined {
   // first match to the routes with the most deep level.
@@ -89,6 +104,11 @@ export function resolveSiteDataByRoute(
 export function createTitle(siteData: SiteData, pageData: PageData): string {
   const title = pageData.title || siteData.title
   const template = pageData.titleTemplate ?? siteData.titleTemplate
+
+  if (typeof template === 'string' && template.includes(':title')) {
+    return template.replace(/:title/g, title)
+  }
+
   const templateString = createTitleTemplate(siteData.title, template)
 
   return `${title}${templateString}`
@@ -125,4 +145,18 @@ function cleanRoute(siteData: SiteData, route: string): string {
   const baseWithoutSuffix = base.endsWith('/') ? base.slice(0, -1) : base
 
   return route.slice(baseWithoutSuffix.length)
+}
+
+function hasTag(head: HeadConfig[], tag: HeadConfig) {
+  const [tagType, tagAttrs] = tag
+  if (tagType !== 'meta') return false
+  const keyAttr = Object.entries(tagAttrs)[0] // First key
+  if (keyAttr == null) return false
+  return head.some(
+    ([type, attrs]) => type === tagType && attrs[keyAttr[0]] === keyAttr[1]
+  )
+}
+
+export function mergeHead(prev: HeadConfig[], curr: HeadConfig[]) {
+  return [...prev.filter((tagAttrs) => !hasTag(curr, tagAttrs)), ...curr]
 }

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref, watchPostEffect, nextTick } from 'vue'
-import { useSidebar } from '../composables/sidebar'
+import { useSidebar } from '../composables/sidebar.js'
 import VPSidebarGroup from './VPSidebarGroup.vue'
 
 const { sidebar, hasSidebar } = useSidebar()
@@ -34,7 +34,12 @@ watchPostEffect(async () => {
       </span>
 
       <div v-for="group in sidebar" :key="group.text" class="group">
-        <VPSidebarGroup :text="group.text" :items="group.items" />
+        <VPSidebarGroup
+          :text="group.text"
+          :items="group.items"
+          :collapsible="group.collapsible"
+          :collapsed="group.collapsed"
+        />
       </div>
     </nav>
   </aside>
@@ -56,15 +61,14 @@ watchPostEffect(async () => {
   overflow-x: hidden;
   overflow-y: auto;
   transform: translateX(-100%);
-  transition: background-color 0.5s, opacity 0.5s, transform 0.25s ease;
+  transition: opacity 0.5s, transform 0.25s ease;
 }
 
 .VPSidebar.open {
   opacity: 1;
   visibility: visible;
   transform: translateX(0);
-  transition: background-color 0.5s,
-              opacity 0.25s,
+  transition: opacity 0.25s,
               transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
@@ -79,19 +83,17 @@ watchPostEffect(async () => {
     padding-bottom: 128px;
     width: var(--vp-sidebar-width);
     max-width: 100%;
-    width: var(--vp-sidebar-width);
-    background-color: var(--vp-c-bg-sidebar);
+    background-color: var(--vp-c-bg-alt);
     opacity: 1;
     visibility: visible;
     box-shadow: none;
     transform: translateX(0);
-    transition: border-color 0.5s, background-color 0.5s;
   }
 }
 
 @media (min-width: 1440px) {
   .VPSidebar {
-    padding-left: calc((100% - (var(--vp-layout-max-width) - 64px)) / 2);
+    padding-left: max(32px, calc((100% - (var(--vp-layout-max-width) - 64px)) / 2));
     width: calc((100% - (var(--vp-layout-max-width) - 64px)) / 2 + var(--vp-sidebar-width) - 32px);
   }
 }
@@ -103,12 +105,13 @@ watchPostEffect(async () => {
 .group + .group {
   margin-top: 32px;
   border-top: 1px solid var(--vp-c-divider-light);
-  padding-top: 8px;
+  padding-top: 10px;
 }
 
 @media (min-width: 960px) {
   .group {
-    padding-top: 8px;
+    padding-top: 10px;
+    width: calc(var(--vp-sidebar-width) - 64px);
   }
 
   .group + .group {

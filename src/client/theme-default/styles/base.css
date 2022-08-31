@@ -10,6 +10,10 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+html.dark {
+  color-scheme: dark;
+}
+
 body {
   margin: 0;
   width: 100%;
@@ -20,7 +24,7 @@ body {
   font-size: 16px;
   font-weight: 400;
   color: var(--vp-c-text-1);
-  background-color: var(--vp-c-bg-content);
+  background-color: var(--vp-c-bg);
   direction: ltr;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -71,7 +75,7 @@ b {
 a,
 area,
 button,
-[role="button"],
+[role='button'],
 input,
 label,
 select,
@@ -90,6 +94,10 @@ ul {
   list-style: none;
   margin: 0;
   padding: 0;
+}
+
+blockquote {
+  margin: 0;
 }
 
 pre,
@@ -111,6 +119,10 @@ object {
   vertical-align: middle;
 }
 
+figure {
+  margin: 0;
+}
+
 img,
 video {
   max-width: 100%;
@@ -130,13 +142,13 @@ textarea {
 
 button {
   padding: 0;
-  font-family: inherit;;
+  font-family: inherit;
   background-color: transparent;
   background-image: none;
 }
 
 button,
-[role="button"] {
+[role='button'] {
   cursor: pointer;
 }
 
@@ -185,7 +197,7 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-input[type="number"] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
 

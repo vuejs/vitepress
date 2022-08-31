@@ -1,7 +1,9 @@
-const fs = require('fs-extra')
-const glob = require('globby')
+import { copy } from 'fs-extra'
+import fg from 'fast-glob'
 
-glob.sync('src/shared/**/*.ts').forEach((file) => {
-  fs.copy(file, file.replace(/^src\/shared\//, 'src/node/'))
-  fs.copy(file, file.replace(/^src\/shared\//, 'src/client/'))
+fg.sync('src/shared/**/*.ts').forEach(async (file) => {
+  await Promise.all([
+    copy(file, file.replace(/^src\/shared\//, 'src/node/')),
+    copy(file, file.replace(/^src\/shared\//, 'src/client/'))
+  ])
 })

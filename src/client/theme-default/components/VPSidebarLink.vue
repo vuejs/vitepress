@@ -1,57 +1,69 @@
 <script lang="ts" setup>
-import { inject } from 'vue'
+import type { DefaultTheme } from 'vitepress/theme'
+import { computed, inject } from 'vue'
 import { useData } from 'vitepress'
-import { DefaultTheme } from '../config'
-import { isActive, normalizeLink } from '../support/utils'
+import { isActive } from '../support/utils.js'
+import VPLink from './VPLink.vue'
 
-defineProps<{
-  item: DefaultTheme.SidebarItem
-}>()
+withDefaults(defineProps<{ item: DefaultTheme.SidebarItem; depth?: number }>(), { depth: 1 })
 
-const { page } = useData()
-
+const { page, frontmatter } = useData()
+const maxDepth = computed<number>(() => frontmatter.value.sidebarDepth || Infinity)
 const closeSideBar = inject('close-sidebar') as () => void
 </script>
 
 <template>
-  <a
+  <VPLink
     class="link"
-    :class="{ active: isActive(page.relativePath, item.link) }"
-    :href="normalizeLink(item.link)"
+    :class="{ active: isActive(page.relativePath, item.link), offset: depth > 1 }"
+    :href="item.link"
     @click="closeSideBar"
   >
-    <p class="link-text">{{ item.text }}</p>
-  </a>
+    <span class="link-text" :class="{ light: depth > 1 }">{{ item.text }}</span>
+    <template
+      v-if="'items' in item && depth < maxDepth"
+      v-for="child in item.items"
+      :key="child.link"
+    >
+      <VPSidebarLink :item="child" :depth="depth + 1" />
+    </template>
+  </VPLink>
 </template>
 
 <style scoped>
 .link {
   display: block;
-  padding: 6px 0;
+  margin: 4px 0;
+  color: var(--vp-c-text-2);
+  transition: color 0.5s;
 }
 
-.link:hover .link-text {
+.link.offset {
+  padding-left: 16px;
+}
+
+.link:hover {
+  color: var(--vp-c-text-1);
+}
+
+.link.active {
   color: var(--vp-c-brand);
-  transition: color 0.25s;
 }
 
-.link.active .link-text {
-  font-weight: 600;
-  color: var(--vp-c-brand);
-  transition: color 0.25s;
-}
-
-@media (min-width: 960px) {
-  .link {
-    padding: 4px 0;
-  }
+.link :deep(.icon) {
+  width: 12px;
+  height: 12px;
+  fill: currentColor;
 }
 
 .link-text {
   line-height: 20px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
-  color: var(--vp-c-text-2);
-  transition: color 0.5s;
+}
+
+.link-text.light {
+  font-size: 13px;
+  font-weight: 400;
 }
 </style>

@@ -1,8 +1,9 @@
 import { reactive, inject, markRaw, nextTick, readonly } from 'vue'
 import type { Component, InjectionKey } from 'vue'
-import { PageData } from '../shared'
-import { inBrowser } from './utils'
-import { siteDataRef } from './data'
+import { notFoundPageData } from '../shared.js'
+import type { PageData, PageDataPayload } from '../shared.js'
+import { inBrowser, withBase } from './utils.js'
+import { siteDataRef } from './data.js'
 
 export interface Route {
   path: string
@@ -21,15 +22,6 @@ export const RouterSymbol: InjectionKey<Router> = Symbol()
 // matter and is only passed to support same-host hrefs.
 const fakeHost = `http://a.com`
 
-const notFoundPageData: PageData = {
-  relativePath: '',
-  title: '404',
-  description: 'Not Found',
-  headers: [],
-  frontmatter: {},
-  lastUpdated: 0
-}
-
 const getDefaultRoute = (): Route => ({
   path: '/',
   component: null,
@@ -37,22 +29,25 @@ const getDefaultRoute = (): Route => ({
 })
 
 interface PageModule {
-  __pageData: string
+  __pageData: PageData
   default: Component
 }
 
 export function createRouter(
-  loadPageModule: (path: string) => PageModule | Promise<PageModule>,
+  loadPageModule: (path: string) => Promise<PageModule>,
   fallbackComponent?: Component
 ): Router {
   const route = reactive(getDefaultRoute())
 
   function go(href: string = inBrowser ? location.href : '/') {
-    // ensure correct deep link so page refresh lands on correct files.
     const url = new URL(href, fakeHost)
-    if (!url.pathname.endsWith('/') && !url.pathname.endsWith('.html')) {
-      url.pathname += '.html'
-      href = url.pathname + url.search + url.hash
+    if (siteDataRef.value.cleanUrls === 'disabled') {
+      // ensure correct deep link so page refresh lands on correct files.
+      // if cleanUrls is enabled, the server should handle this
+      if (!url.pathname.endsWith('/') && !url.pathname.endsWith('.html')) {
+        url.pathname += '.html'
+        href = url.pathname + url.search + url.hash
+      }
     }
     if (inBrowser) {
       // save scroll position before changing url
@@ -68,25 +63,20 @@ export function createRouter(
     const targetLoc = new URL(href, fakeHost)
     const pendingPath = (latestPendingPath = targetLoc.pathname)
     try {
-      let page = loadPageModule(pendingPath)
-      // only await if it returns a Promise - this allows sync resolution
-      // on initial render in SSR.
-      if ('then' in page && typeof page.then === 'function') {
-        page = await page
-      }
+      let page = await loadPageModule(pendingPath)
       if (latestPendingPath === pendingPath) {
         latestPendingPath = null
 
-        const { default: comp, __pageData } = page as PageModule
+        const { default: comp, __pageData } = page
         if (!comp) {
           throw new Error(`Invalid route component: ${comp}`)
         }
 
-        route.path = pendingPath
+        route.path = inBrowser ? pendingPath : withBase(pendingPath)
         route.component = markRaw(comp)
         route.data = import.meta.env.PROD
-          ? markRaw(JSON.parse(__pageData))
-          : (readonly(JSON.parse(__pageData)) as PageData)
+          ? markRaw(__pageData)
+          : (readonly(__pageData) as PageData)
 
         if (inBrowser) {
           nextTick(() => {
@@ -95,7 +85,7 @@ export function createRouter(
               try {
                 target = document.querySelector(
                   decodeURIComponent(targetLoc.hash)
-                ) as HTMLElement
+                )
               } catch (e) {
                 console.warn(e)
               }
@@ -109,7 +99,7 @@ export function createRouter(
         }
       }
     } catch (err: any) {
-      if (!err.message.match(/fetch/)) {
+      if (!/fetch/.test(err.message) && !/^\/404(\.html|\/)?$/.test(href)) {
         console.error(err)
       }
 
@@ -127,7 +117,7 @@ export function createRouter(
 
       if (latestPendingPath === pendingPath) {
         latestPendingPath = null
-        route.path = pendingPath
+        route.path = inBrowser ? pendingPath : withBase(pendingPath)
         route.component = fallbackComponent ? markRaw(fallbackComponent) : null
         route.data = notFoundPageData
       }
@@ -138,9 +128,13 @@ export function createRouter(
     window.addEventListener(
       'click',
       (e) => {
+        // temporary fix for docsearch action buttons
+        const button = (e.target as Element).closest('button')
+        if (button) return
+
         const link = (e.target as Element).closest('a')
-        if (link) {
-          const { href, protocol, hostname, pathname, hash, target } = link
+        if (link && !link.closest('.vp-raw')) {
+          const { href, origin, pathname, hash, search, target } = link
           const currentUrl = window.location
           const extMatch = pathname.match(/\.\w+$/)
           // only intercept inbound links
@@ -150,12 +144,15 @@ export function createRouter(
             !e.altKey &&
             !e.metaKey &&
             target !== `_blank` &&
-            protocol === currentUrl.protocol &&
-            hostname === currentUrl.hostname &&
+            origin === currentUrl.origin &&
+            // don't intercept if non-html extension is present
             !(extMatch && extMatch[0] !== '.html')
           ) {
             e.preventDefault()
-            if (pathname === currentUrl.pathname) {
+            if (
+              pathname === currentUrl.pathname &&
+              search === currentUrl.search
+            ) {
               // scroll between hash anchors in the same page
               if (hash && hash !== currentUrl.hash) {
                 history.pushState(null, '', hash)
@@ -182,6 +179,8 @@ export function createRouter(
     })
   }
 
+  handleHMR(route)
+
   return {
     route,
     go
@@ -193,7 +192,6 @@ export function useRouter(): Router {
   if (!router) {
     throw new Error('useRouter() is called without provider.')
   }
-  // @ts-ignore
   return router
 }
 
@@ -202,7 +200,7 @@ export function useRoute(): Route {
 }
 
 function scrollTo(el: HTMLElement, hash: string, smooth = false) {
-  let target: Element | null = null
+  let target: HTMLElement | null = null
 
   try {
     target = el.classList.contains('header-anchor')
@@ -219,12 +217,12 @@ function scrollTo(el: HTMLElement, hash: string, smooth = false) {
         document.querySelector(offset)!.getBoundingClientRect().bottom + 24
     }
     const targetPadding = parseInt(
-      window.getComputedStyle(target as HTMLElement).paddingTop,
+      window.getComputedStyle(target).paddingTop,
       10
     )
     const targetTop =
       window.scrollY +
-      (target as HTMLElement).getBoundingClientRect().top -
+      target.getBoundingClientRect().top -
       offset +
       targetPadding
     // only smooth scroll if distance is smaller than screen height.
@@ -238,4 +236,22 @@ function scrollTo(el: HTMLElement, hash: string, smooth = false) {
       })
     }
   }
+}
+
+function handleHMR(route: Route): void {
+  // update route.data on HMR updates of active page
+  if (import.meta.hot) {
+    // hot reload pageData
+    import.meta.hot!.on('vitepress:pageData', (payload: PageDataPayload) => {
+      if (shouldHotReload(payload)) {
+        route.data = payload.pageData
+      }
+    })
+  }
+}
+
+function shouldHotReload(payload: PageDataPayload): boolean {
+  const payloadPath = payload.path.replace(/(\bindex)?\.md$/, '')
+  const locationPath = location.pathname.replace(/(\bindex)?\.html$/, '')
+  return payloadPath === locationPath
 }

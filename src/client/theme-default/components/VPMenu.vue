@@ -22,32 +22,35 @@ defineProps<{
 
 <style scoped>
 .VPMenu {
-  border-radius: 8px;
-  padding: 12px 0;
-  min-width: 192px;
-  border: 1px solid transparent;
-  background: var(--vp-c-bg);
+  border-radius: 12px;
+  padding: 12px;
+  min-width: 128px;
+  border: 1px solid var(--vp-c-divider-light);
+  background-color: var(--vp-c-bg);
   box-shadow: var(--vp-shadow-3);
   transition: background-color 0.5s;
+  max-height: calc(100vh - var(--vp-nav-height-mobile));
+  overflow-y: auto;
+}
+
+@media (min-width: 960px) {
+  .VPMenu {
+    max-height: calc(100vh - var(--vp-nav-height-desktop));
+  }
 }
 
 .dark .VPMenu {
-  background: var(--vp-c-bg);
-  box-shadow: var(--vp-shadow-1);
-  border: 1px solid var(--vp-c-divider-light);
-}
-
-.VPMenu :deep(.items) {
-  transition: border-color .5s;
+  box-shadow: var(--vp-shadow-2);
 }
 
 .VPMenu :deep(.group) {
-  padding: 0 0 12px;
+  margin: 0 -12px;
+  padding: 0 12px 12px;
 }
 
 .VPMenu :deep(.group + .group) {
   border-top: 1px solid var(--vp-c-divider-light);
-  padding: 11px 0 12px;
+  padding: 11px 12px 12px;
 }
 
 .VPMenu :deep(.group:last-child) {

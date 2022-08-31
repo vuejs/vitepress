@@ -3,13 +3,13 @@ import VPIconHeart from './icons/VPIconHeart.vue'
 import VPButton from './VPButton.vue'
 import VPSponsors from './VPSponsors.vue'
 
-interface Sponsors {
+export interface Sponsors {
   tier: string
   size?: 'medium' | 'big'
   items: Sponsor[]
 }
 
-interface Sponsor {
+export interface Sponsor {
   name: string
   img: string
   url: string
@@ -50,12 +50,12 @@ defineProps<{
 .VPHomeSponsors {
   border-top: 1px solid var(--vp-c-divider-light);
   padding: 88px 24px 96px;
-  background-color: var(--vp-c-bg-content);
+  background-color: var(--vp-c-bg);
 }
 
 .container {
   margin: 0 auto;
-  max-width: 960px;
+  max-width: 1152px;
 }
 
 .love {

@@ -1,11 +1,18 @@
 import path from 'path'
+import c from 'picocolors'
 import { defineConfig, mergeConfig, Plugin, ResolvedConfig } from 'vite'
-import { SiteConfig, resolveSiteData } from './config'
-import { createMarkdownToVueRenderFn } from './markdownToVue'
-import { DIST_CLIENT_PATH, APP_PATH, SITE_DATA_REQUEST_PATH } from './alias'
+import { SiteConfig } from './config'
+import { createMarkdownToVueRenderFn, clearCache } from './markdownToVue'
+import {
+  DIST_CLIENT_PATH,
+  APP_PATH,
+  SITE_DATA_REQUEST_PATH,
+  resolveAliases
+} from './alias'
 import { slash } from './utils/slash'
 import { OutputAsset, OutputChunk } from 'rollup'
 import { staticDataPlugin } from './staticDataPlugin'
+import { PageDataPayload } from './shared'
 
 const hashRE = /\.(\w+)\.js$/
 const staticInjectMarkerRE =
@@ -28,31 +35,36 @@ const isPageChunk = (
     chunk.facadeModuleId.endsWith('.md')
   )
 
-export function createVitePressPlugin(
-  root: string,
+export async function createVitePressPlugin(
   siteConfig: SiteConfig,
   ssr = false,
   pageToHashMap?: Record<string, string>,
-  clientJSMap?: Record<string, string>
+  clientJSMap?: Record<string, string>,
+  recreateServer?: () => Promise<void>
 ) {
   const {
     srcDir,
     configPath,
-    alias,
+    configDeps,
     markdown,
     site,
     vue: userVuePluginOptions,
     vite: userViteConfig,
-    pages
+    pages,
+    ignoreDeadLinks,
+    lastUpdated,
+    cleanUrls
   } = siteConfig
 
-  let markdownToVue: ReturnType<typeof createMarkdownToVueRenderFn>
+  let markdownToVue: Awaited<ReturnType<typeof createMarkdownToVueRenderFn>>
 
   // lazy require plugin-vue to respect NODE_ENV in @vue/compiler-x
-  const vuePlugin = require('@vitejs/plugin-vue')({
-    include: [/\.vue$/, /\.md$/],
-    ...userVuePluginOptions
-  })
+  const vuePlugin = await import('@vitejs/plugin-vue').then((r) =>
+    r.default({
+      include: [/\.vue$/, /\.md$/],
+      ...userVuePluginOptions
+    })
+  )
 
   const processClientJS = (code: string, id: string) => {
     return scriptClientRE.test(code)
@@ -70,33 +82,33 @@ export function createVitePressPlugin(
   const vitePressPlugin: Plugin = {
     name: 'vitepress',
 
-    configResolved(resolvedConfig) {
+    async configResolved(resolvedConfig) {
       config = resolvedConfig
-      markdownToVue = createMarkdownToVueRenderFn(
+      markdownToVue = await createMarkdownToVueRenderFn(
         srcDir,
         markdown,
         pages,
         config.define,
         config.command === 'build',
         config.base,
-        siteConfig.lastUpdated
+        lastUpdated,
+        cleanUrls
       )
     },
 
     config() {
       const baseConfig = defineConfig({
         resolve: {
-          alias
+          alias: resolveAliases(siteConfig, ssr)
         },
         define: {
-          __CARBON__: !!site.themeConfig.carbonAds?.carbon,
-          __BSA__: !!site.themeConfig.carbonAds?.custom,
-          __ALGOLIA__: !!site.themeConfig.algolia
+          __ALGOLIA__: !!site.themeConfig.algolia,
+          __CARBON__: !!site.themeConfig.carbonAds
         },
         optimizeDeps: {
           // force include vue to avoid duplicated copies when linked + optimized
           include: ['vue'],
-          exclude: ['@docsearch/js']
+          exclude: ['@docsearch/js', 'vitepress']
         },
         server: {
           fs: {
@@ -122,7 +134,9 @@ export function createVitePressPlugin(
         if (config.command === 'build') {
           data = { ...siteData, head: [] }
         }
-        return `export default ${JSON.stringify(JSON.stringify(data))}`
+        return `export default JSON.parse(${JSON.stringify(
+          JSON.stringify(data)
+        )})`
       }
     },
 
@@ -149,7 +163,7 @@ export function createVitePressPlugin(
     },
 
     renderStart() {
-      if (hasDeadLinks) {
+      if (hasDeadLinks && !ignoreDeadLinks) {
         throw new Error(`One or more pages contain dead links.`)
       }
     },
@@ -157,12 +171,13 @@ export function createVitePressPlugin(
     configureServer(server) {
       if (configPath) {
         server.watcher.add(configPath)
+        configDeps.forEach((file) => server.watcher.add(file))
       }
 
       // serve our index.html after vite history fallback
       return () => {
         server.middlewares.use((req, res, next) => {
-          if (req.url!.endsWith('.html')) {
+          if (req.url!.replace(/\?.*$/, '').endsWith('.html')) {
             res.statusCode = 200
             res.setHeader('Content-Type', 'text/html')
             res.end(`
@@ -212,6 +227,14 @@ export function createVitePressPlugin(
             delete bundle[name]
           }
         }
+
+        if (config.ssr?.format === 'esm') {
+          this.emitFile({
+            type: 'asset',
+            fileName: 'package.json',
+            source: '{ "private": true, "type": "module" }'
+          })
+        }
       } else {
         // client build:
         // for each .md entry chunk, adjust its name to its correct path.
@@ -237,17 +260,23 @@ export function createVitePressPlugin(
     },
 
     async handleHotUpdate(ctx) {
-      // handle config hmr
       const { file, read, server } = ctx
-      if (file === configPath) {
-        const newData = await resolveSiteData(root)
-        if (newData.base !== siteData.base) {
-          console.warn(
-            `[vitepress]: config.base has changed. Please restart the dev server.`
+      if (file === configPath || configDeps.includes(file)) {
+        console.log(
+          c.green(
+            `\n${path.relative(
+              process.cwd(),
+              file
+            )} changed, restarting server...`
           )
+        )
+        try {
+          clearCache()
+          await recreateServer?.()
+        } catch (err) {
+          console.error(c.red(`failed to restart server. error:\n`), err)
         }
-        siteData = newData
-        return [server.moduleGraph.getModuleById(SITE_DATA_REQUEST_PATH)!]
+        return
       }
 
       // hot reload .md files as .vue files
@@ -259,14 +288,16 @@ export function createVitePressPlugin(
           config.publicDir
         )
 
+        const payload: PageDataPayload = {
+          path: `/${slash(path.relative(srcDir, file))}`,
+          pageData
+        }
+
         // notify the client to update page data
         server.ws.send({
           type: 'custom',
           event: 'vitepress:pageData',
-          data: {
-            path: `/${slash(path.relative(srcDir, file))}`,
-            pageData
-          }
+          data: payload
         })
 
         // overwrite src so vue plugin can handle the HMR

@@ -1,19 +1,7 @@
 import { Ref, computed, onMounted, onUpdated, onUnmounted } from 'vue'
-import { Header, useData } from 'vitepress'
-import { useMediaQuery } from '@vueuse/core'
-import { throttleAndDebounce } from '../support/utils'
-
-interface HeaderWithChildren extends Header {
-  children?: Header[]
-  hidden?: boolean
-}
-
-interface MenuItemWithLinkAndChildren {
-  text: string
-  link: string
-  children?: MenuItemWithLinkAndChildren[]
-  hidden?: boolean
-}
+import { useData } from 'vitepress'
+import { useAside } from '../composables/aside.js'
+import { throttleAndDebounce } from '../support/utils.js'
 
 // magic number to avoid repeated retrieval
 const PAGE_OFFSET = 56
@@ -30,42 +18,12 @@ export function useOutline() {
   }
 }
 
-export function resolveHeaders(headers: Header[]) {
-  return mapHeaders(groupHeaders(headers))
-}
-
-function groupHeaders(headers: Header[]): HeaderWithChildren[] {
-  headers = headers.map((h) => Object.assign({}, h))
-
-  let lastH2: HeaderWithChildren | undefined
-
-  for (const h of headers) {
-    if (h.level === 2) {
-      lastH2 = h
-    } else if (lastH2 && h.level <= 3) {
-      ;(lastH2.children || (lastH2.children = [])).push(h)
-    }
-  }
-
-  return headers.filter((h) => h.level === 2)
-}
-
-function mapHeaders(
-  headers: HeaderWithChildren[]
-): MenuItemWithLinkAndChildren[] {
-  return headers.map((header) => ({
-    text: header.title,
-    link: `#${header.slug}`,
-    children: header.children ? mapHeaders(header.children) : undefined,
-    hidden: header.hidden
-  }))
-}
-
 export function useActiveAnchor(
   container: Ref<HTMLElement>,
   marker: Ref<HTMLElement>
 ) {
-  const isOutlineEnabled = useMediaQuery('(min-width: 1280px)')
+  const { isAsideEnabled } = useAside()
+
   const onScroll = throttleAndDebounce(setActiveLink, 100)
 
   let prevActiveLink: HTMLAnchorElement | null = null
@@ -85,7 +43,7 @@ export function useActiveAnchor(
   })
 
   function setActiveLink() {
-    if (!isOutlineEnabled.value) {
+    if (!isAsideEnabled.value) {
       return
     }
 
@@ -104,7 +62,7 @@ export function useActiveAnchor(
     const scrollY = window.scrollY
     const innerHeight = window.innerHeight
     const offsetHeight = document.body.offsetHeight
-    const isBottom = scrollY + innerHeight === offsetHeight
+    const isBottom = Math.abs(scrollY + innerHeight - offsetHeight) < 1
 
     // page bottom - highlight last one
     if (anchors.length && isBottom) {
@@ -119,7 +77,6 @@ export function useActiveAnchor(
       const [isActive, hash] = isAnchorActive(i, anchor, nextAnchor)
 
       if (isActive) {
-        history.replaceState(null, document.title, hash ? hash : ' ')
         activateLink(hash)
         return
       }
@@ -134,7 +91,7 @@ export function useActiveAnchor(
     if (hash !== null) {
       prevActiveLink = container.value.querySelector(
         `a[href="${decodeURIComponent(hash)}"]`
-      ) as HTMLAnchorElement
+      )
     }
 
     const activeLink = prevActiveLink

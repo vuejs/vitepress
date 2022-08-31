@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import '@docsearch/css'
-import { useData } from 'vitepress'
 import { defineAsyncComponent, ref, onMounted, onUnmounted } from 'vue'
+import { useData } from 'vitepress'
 
-const VPAlgoliaSearchBox = defineAsyncComponent(() => {
-  return import('./VPAlgoliaSearchBox.vue')
-})
+const VPAlgoliaSearchBox = __ALGOLIA__
+  ? defineAsyncComponent(() => import('./VPAlgoliaSearchBox.vue'))
+  : () => null
 
 const { theme } = useData()
 
@@ -14,7 +14,7 @@ const { theme } = useData()
 // hit the hotkey to invoke it.
 const loaded = ref(false)
 
-const metaKey = ref()
+const metaKey = ref(`'Meta'`)
 
 onMounted(() => {
   if (!theme.value.algolia) {
@@ -22,9 +22,9 @@ onMounted(() => {
   }
 
   // meta key detect (same logic as in @docsearch/js)
-  metaKey.value.textContent = /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)
-    ? '⌘'
-    : 'Ctrl'
+  metaKey.value = /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)
+    ? `'⌘'`
+    : `'Ctrl'`
 
   const handleSearchHotKey = (e: KeyboardEvent) => {
     if (e.key === 'k' && (e.ctrlKey || e.metaKey)) {
@@ -76,11 +76,11 @@ function load() {
               stroke-linejoin="round"
             />
           </svg>
-          <span class="DocSearch-Button-Placeholder">Search</span>
+          <span class="DocSearch-Button-Placeholder">{{ theme.algolia?.buttonText || 'Search' }}</span>
         </span>
         <span class="DocSearch-Button-Keys">
-          <span class="DocSearch-Button-Key" ref="metaKey">Meta</span>
-          <span class="DocSearch-Button-Key">K</span>
+          <kbd class="DocSearch-Button-Key"></kbd>
+          <kbd class="DocSearch-Button-Key">K</kbd>
         </span>
       </button>
     </div>
@@ -161,12 +161,12 @@ function load() {
     padding: 0 10px 0 12px;
     width: 100%;
     height: 40px;
-    background-color: var(--vp-c-bg-sidebar);
+    background-color: var(--vp-c-bg-alt);
   }
 
   .DocSearch-Button:hover {
     border-color: var(--vp-c-brand);
-    background: var(--vp-c-bg-sidebar);
+    background: var(--vp-c-bg-alt);
   }
 }
 
@@ -241,6 +241,7 @@ function load() {
   width: auto;
   height: 22px;
   line-height: 22px;
+  font-family: var(--vp-font-family-base);
   font-size: 12px;
   font-weight: 500;
   transition: color 0.5s, border-color 0.5s;
@@ -252,6 +253,23 @@ function load() {
   border-radius: 0 4px 4px 0;
   padding-left: 2px;
   padding-right: 6px;
+}
+
+.DocSearch-Button .DocSearch-Button-Key:first-child {
+  font-size: 1px;
+  letter-spacing: -1px;
+  color: transparent;
+}
+
+.DocSearch-Button .DocSearch-Button-Key:first-child:after {
+  content: v-bind(metaKey);
+  font-size: 12px;
+  letter-spacing: normal;
+  color: var(--docsearch-muted-color);
+}
+
+.DocSearch-Button .DocSearch-Button-Key:first-child > * {
+  display: none;
 }
 
 .dark .DocSearch-Footer {
