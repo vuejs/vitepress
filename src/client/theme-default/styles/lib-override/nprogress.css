@@ -1,8 +1,8 @@
 #nprogress .bar {
-    background: var(--vp-c-green);
+  background: var(--vp-c-green);
 }
 
 #nprogress .spinner-icon {
-    border-top-color: var(--vp-c-green);
-    border-left-color: var(--vp-c-green);
+  border-top-color: var(--vp-c-green);
+  border-left-color: var(--vp-c-green);
 }
