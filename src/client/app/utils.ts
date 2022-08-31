@@ -1,5 +1,5 @@
-import { siteDataRef } from './data'
-import { inBrowser, EXTERNAL_URL_RE } from '../shared'
+import { siteDataRef } from './data.js'
+import { inBrowser, EXTERNAL_URL_RE } from '../shared.js'
 
 export { inBrowser }
 
@@ -35,7 +35,8 @@ export function pathToFile(path: string): string {
     // /foo/bar.html -> ./foo_bar.md
     if (inBrowser) {
       const base = import.meta.env.BASE_URL
-      pagePath = pagePath.slice(base.length).replace(/\//g, '_') + '.md'
+      pagePath =
+        (pagePath.slice(base.length).replace(/\//g, '_') || 'index') + '.md'
       // client production build needs to account for page hash, which is
       // injected directly in the page's html
       const pageHash = __VP_HASH_MAP__[pagePath.toLowerCase()]

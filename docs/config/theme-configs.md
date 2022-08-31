@@ -21,9 +21,9 @@ Here it describes the settings for the VitePress default theme. If you're using 
 
 ## logo
 
-- Type: `string`
+- Type: `ThemeableImage`
 
-Logo file to display in nav bar, right before the site title.
+Logo file to display in nav bar, right before the site title. Accepts a path string, or an object to set a different logo for light/dark mode.
 
 ```ts
 export default {
@@ -31,6 +31,11 @@ export default {
     logo: '/logo.svg'
   }
 }
+```
+
+```ts
+type Image = string | { src: string; alt?: string }
+type ThemeableImage = Image | { light: Image; dark: Image }
 ```
 
 ## siteTitle
@@ -91,7 +96,7 @@ interface NavItemWithChildren {
 
 - Type: `Sidebar`
 
-The configuration for the sidebar menu item. You may learn more details at [Theme: Nav](../guide/theme-sidebar).
+The configuration for the sidebar menu item. You may learn more details at [Theme: Sidebar](../guide/theme-sidebar).
 
 ```js
 export default {

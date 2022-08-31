@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { useData } from 'vitepress'
 import {
-  resolveHeaders,
   useOutline,
   useActiveAnchor
-} from '../composables/outline'
+} from '../composables/outline.js'
 
 const { page, frontmatter, theme } = useData()
 
@@ -16,15 +15,11 @@ const marker = ref()
 
 useActiveAnchor(container, marker)
 
-const resolvedHeaders = computed(() => {
-  return resolveHeaders(page.value.headers)
-})
-
 function handleClick({ target: el }: Event) {
   const id = '#' + (el as HTMLAnchorElement).href!.split('#')[1]
-  const heading = document.querySelector(
+  const heading = document.querySelector<HTMLAnchorElement>(
     decodeURIComponent(id)
-  ) as HTMLAnchorElement
+  )
   heading?.focus()
 }
 </script>
@@ -45,16 +40,15 @@ function handleClick({ target: el }: Event) {
 
         <ul class="root">
           <li
-            v-for="{ text, link, children, hidden } in resolvedHeaders"
-            v-show="!hidden"
+            v-for="{ title, link, children } in page.headers"
           >
             <a class="outline-link" :href="link" @click="handleClick">
-              {{ text }}
+              {{ title }}
             </a>
             <ul v-if="children && frontmatter.outline === 'deep'">
-              <li v-for="{ text, link, hidden } in children" v-show="!hidden">
+              <li v-for="{ title, link } in children">
                 <a class="outline-link nested" :href="link" @click="handleClick">
-                  {{ text }}
+                  {{ title }}
                 </a>
               </li>
             </ul>

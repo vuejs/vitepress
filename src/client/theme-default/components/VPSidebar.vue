@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref, watchPostEffect, nextTick } from 'vue'
-import { useSidebar } from '../composables/sidebar'
+import { useSidebar } from '../composables/sidebar.js'
 import VPSidebarGroup from './VPSidebarGroup.vue'
 
 const { sidebar, hasSidebar } = useSidebar()

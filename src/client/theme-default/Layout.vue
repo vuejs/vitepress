@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { provide, watch } from 'vue'
 import { useRoute } from 'vitepress'
-import { useSidebar, useCloseSidebarOnEscape } from './composables/sidebar'
+import { useSidebar, useCloseSidebarOnEscape } from './composables/sidebar.js'
 import VPSkipLink from './components/VPSkipLink.vue'
 import VPBackdrop from './components/VPBackdrop.vue'
 import VPNav from './components/VPNav.vue'

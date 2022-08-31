@@ -1,4 +1,6 @@
 {
   "private": true,
-  "name": "vitepress-docs"
+  "devDependencies": {
+    "vitepress": "workspace:*"
+  }
 }
