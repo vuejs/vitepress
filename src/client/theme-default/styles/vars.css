@@ -364,8 +364,8 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-  --vp-c-badge-type-warning: #e7c000;
-  --vp-c-badge-type-tip: #42b983;
-  --vp-c-badge-type-error: #da5961;
-  --vp-c-badge-type-info: #0170fe;
+  --vp-c-badge-type-warning: var(--vp-c-yellow-dark);
+  --vp-c-badge-type-tip: var(--vp-c-green);
+  --vp-c-badge-type-error: var(--vp-c-red);
+  --vp-c-badge-type-info: var(--vp-c-gray);
 }
