@@ -2,7 +2,7 @@ import { inBrowser } from '../utils.js'
 
 export function useCopyCode() {
   if (inBrowser) {
-    const timeoutIdMap: Map<HTMLElement, number> = new Map()
+    const timeoutIdMap: Map<HTMLElement, NodeJS.Timeout> = new Map()
     window.addEventListener('click', (e) => {
       const el = e.target as HTMLElement
       if (el.matches('div[class*="language-"] > button.copy')) {
