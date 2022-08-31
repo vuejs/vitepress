@@ -1,10 +1,16 @@
 <script lang="ts" setup>
+import { ref, onMounted } from 'vue'
 import { APPEARANCE_KEY } from '../../shared.js'
 import VPSwitch from './VPSwitch.vue'
 import VPIconSun from './icons/VPIconSun.vue'
 import VPIconMoon from './icons/VPIconMoon.vue'
 
+const checked = ref(false)
 const toggle = typeof localStorage !== 'undefined' ? useAppearance() : () => {}
+
+onMounted(() => {
+  checked.value = document.documentElement.classList.contains('dark')
+})
 
 function useAppearance() {
   const query = window.matchMedia('(prefers-color-scheme: dark)')
@@ -33,6 +39,7 @@ function useAppearance() {
   }
 
   function setClass(dark: boolean): void {
+    checked.value = dark
     classList[dark ? 'add' : 'remove']('dark')
   }
 
@@ -44,6 +51,7 @@ function useAppearance() {
   <VPSwitch
     class="VPSwitchAppearance"
     aria-label="toggle dark mode"
+    :aria-checked="checked"
     @click="toggle"
   >
     <VPIconSun class="sun" />
