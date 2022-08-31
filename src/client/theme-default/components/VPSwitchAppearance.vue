@@ -1,13 +1,12 @@
 <script lang="ts" setup>
+import { ref } from 'vue'
 import { APPEARANCE_KEY } from '../../shared.js'
 import VPSwitch from './VPSwitch.vue'
 import VPIconSun from './icons/VPIconSun.vue'
 import VPIconMoon from './icons/VPIconMoon.vue'
-import { ref } from 'vue'
 
-const { toggle, isDark } = useAppearance()
-
-const toggleDark = typeof localStorage !== 'undefined' ?  toggle: () => {}
+const checked = ref(false)
+const toggle = typeof localStorage !== 'undefined' ? useAppearance() : () => {}
 
 function useAppearance() {
   const query = window.matchMedia('(prefers-color-scheme: dark)')
@@ -15,21 +14,21 @@ function useAppearance() {
 
   let userPreference = localStorage.getItem(APPEARANCE_KEY) || 'auto'
 
-  let isDark = ref(userPreference === 'auto'
+  let isDark = userPreference === 'auto'
     ? query.matches
-    : userPreference === 'dark')
+    : userPreference === 'dark'
+  checked.value = isDark
 
   query.onchange = (e) => {
     if (userPreference === 'auto') {
-      setClass((isDark.value = e.matches))
+      setClass((isDark = e.matches))
     }
   }
 
   function toggle() {
-    isDark.value = !isDark.value
-    setClass(isDark.value)
+    setClass((isDark = !isDark))
 
-    userPreference = isDark.value
+    userPreference = isDark
       ? query.matches ? 'auto' : 'dark'
       : query.matches ? 'light' : 'auto'
 
@@ -37,10 +36,11 @@ function useAppearance() {
   }
 
   function setClass(dark: boolean): void {
+    checked.value = dark
     classList[dark ? 'add' : 'remove']('dark')
   }
 
-  return { toggle, isDark }
+  return toggle
 }
 </script>
 
@@ -48,8 +48,8 @@ function useAppearance() {
   <VPSwitch
     class="VPSwitchAppearance"
     aria-label="toggle dark mode"
-    @click="toggleDark()"
-    :aria-checked="isDark"
+    :aria-checked="checked"
+    @click="toggle"
   >
     <VPIconSun class="sun" />
     <VPIconMoon class="moon" />
