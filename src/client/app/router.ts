@@ -130,11 +130,10 @@ export function createRouter(
     window.addEventListener(
       'click',
       (e) => {
-        // don't jump links when click on the docSearch hit action button
-        const docSearchButton = (e.target as Element).closest(
-          '.DocSearch-Hit-action-button'
-        )
-        if (docSearchButton) return
+        // temporary fix for docsearch action buttons
+        const button = (e.target as Element).closest('button')
+        if (button) return
+
         const link = (e.target as Element).closest('a')
         if (link) {
           const { href, origin, pathname, hash, search, target } = link
