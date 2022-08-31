@@ -14,6 +14,8 @@ export interface Route {
 export interface Router {
   route: Route
   go: (href?: string) => Promise<void>
+  onBeforeRouteChange?: (to: string) => void
+  onAfterRouteChanged?: (to: string) => void
 }
 
 export const RouterSymbol: InjectionKey<Router> = Symbol()
@@ -57,12 +59,18 @@ export function createRouter(
     return loadPage(href)
   }
 
+  const router: Router = {
+    route,
+    go
+  }
+
   let latestPendingPath: string | null = null
 
   async function loadPage(href: string, scrollPosition = 0, isRetry = false) {
     const targetLoc = new URL(href, fakeHost)
     const pendingPath = (latestPendingPath = targetLoc.pathname)
     try {
+      router.onBeforeRouteChange?.(targetLoc.pathname)
       let page = await loadPageModule(pendingPath)
       if (latestPendingPath === pendingPath) {
         latestPendingPath = null
@@ -77,6 +85,7 @@ export function createRouter(
         route.data = import.meta.env.PROD
           ? markRaw(__pageData)
           : (readonly(__pageData) as PageData)
+        router.onAfterRouteChanged?.(targetLoc.pathname)
 
         if (inBrowser) {
           nextTick(() => {
@@ -177,17 +186,16 @@ export function createRouter(
 
   handleHMR(route)
 
-  return {
-    route,
-    go
-  }
+  return router
 }
 
-export function useRouter(): Router {
+export function useRouter(options?: Partial<Pick<Router, 'onBeforeRouteChange' | 'onAfterRouteChanged'>>): Router {
   const router = inject(RouterSymbol)
   if (!router) {
     throw new Error('useRouter() is called without provider.')
   }
+  router.onBeforeRouteChange = options?.onBeforeRouteChange ?? router.onBeforeRouteChange
+  router.onAfterRouteChanged = options?.onAfterRouteChanged ?? router.onAfterRouteChanged
   return router
 }
 

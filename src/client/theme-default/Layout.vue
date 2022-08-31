@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { provide, watch } from 'vue'
-import { useRoute } from 'vitepress'
+import { useRoute, useRouter } from 'vitepress'
 import { useSidebar, useCloseSidebarOnEscape } from './composables/sidebar.js'
 import VPSkipLink from './components/VPSkipLink.vue'
 import VPBackdrop from './components/VPBackdrop.vue'
@@ -9,12 +9,22 @@ import VPLocalNav from './components/VPLocalNav.vue'
 import VPSidebar from './components/VPSidebar.vue'
 import VPContent from './components/VPContent.vue'
 import VPFooter from './components/VPFooter.vue'
+import nprogress from 'nprogress'
 
 const {
   isOpen: isSidebarOpen,
   open: openSidebar,
   close: closeSidebar
 } = useSidebar()
+
+useRouter({
+  onBeforeRouteChange: () => {
+    nprogress.start();
+  },
+  onAfterRouteChanged: () => {
+    nprogress.done(true);
+  }
+})
 
 const route = useRoute()
 watch(() => route.path, closeSidebar)

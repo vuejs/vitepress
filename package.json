@@ -87,6 +87,7 @@
     "@vue/devtools-api": "^6.2.1",
     "@vueuse/core": "^9.1.1",
     "body-scroll-lock": "^4.0.0-beta.0",
+    "nprogress": "^0.2.0",
     "shiki": "^0.11.1",
     "vite": "^3.0.9",
     "vue": "^3.2.38"
@@ -120,6 +121,7 @@
     "@types/micromatch": "^4.0.2",
     "@types/minimist": "^1.2.2",
     "@types/node": "^18.7.14",
+    "@types/nprogress": "^0.2.0",
     "@types/polka": "^0.5.4",
     "@types/prompts": "^2.0.14",
     "chokidar": "^3.5.3",
