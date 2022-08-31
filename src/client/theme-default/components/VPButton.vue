@@ -5,7 +5,7 @@ import { EXTERNAL_URL_RE } from '../../shared'
 
 const props = defineProps<{
   tag?: string
-  size?: 'medium' | 'big'
+  size?: 'small' | 'medium' | 'big'
   theme?: 'brand' | 'alt' | 'sponsor'
   text: string
   href?: string
