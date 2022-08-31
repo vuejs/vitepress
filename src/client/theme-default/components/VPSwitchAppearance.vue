@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { APPEARANCE_KEY } from '../../shared.js'
 import VPSwitch from './VPSwitch.vue'
 import VPIconSun from './icons/VPIconSun.vue'
@@ -7,6 +7,10 @@ import VPIconMoon from './icons/VPIconMoon.vue'
 
 const checked = ref(false)
 const toggle = typeof localStorage !== 'undefined' ? useAppearance() : () => {}
+
+onMounted(() => {
+  checked.value = document.documentElement.classList.contains('dark')
+})
 
 function useAppearance() {
   const query = window.matchMedia('(prefers-color-scheme: dark)')
@@ -17,7 +21,6 @@ function useAppearance() {
   let isDark = userPreference === 'auto'
     ? query.matches
     : userPreference === 'dark'
-  checked.value = isDark
 
   query.onchange = (e) => {
     if (userPreference === 'auto') {
