@@ -16,3 +16,4 @@ declare const theme: {
 }
 
 export default theme
+export type { DefaultTheme } from './types/default-theme.js'

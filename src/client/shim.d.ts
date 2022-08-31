@@ -10,13 +10,13 @@ declare module '*.vue' {
 }
 
 declare module '@siteData' {
-  import type { SiteData } from './shared'
+  import type { SiteData } from 'vitepress'
   const data: SiteData
   export default data
 }
 
-// this module's typing is broken.
-declare module '@docsearch/js' {
-  function docsearch<T = any>(props: T): void
-  export default docsearch
+declare module '@theme/index' {
+  import type { Theme } from 'vitepress'
+  const theme: Theme
+  export default theme
 }

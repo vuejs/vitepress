@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute } from 'vitepress'
-import { useSidebar } from '../composables/sidebar'
+import { useSidebar } from '../composables/sidebar.js'
 import VPDocAside from './VPDocAside.vue'
 import VPDocFooter from './VPDocFooter.vue'
 
@@ -71,10 +71,6 @@ const pageName = computed(() =>
     display: flex;
     justify-content: center;
     max-width: 992px;
-  }
-
-  .VPDoc:not(.has-sidebar) .aside {
-    display: block;
   }
 
   .VPDoc:not(.has-sidebar) .content {

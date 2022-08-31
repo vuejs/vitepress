@@ -1,40 +1,34 @@
 <script setup lang="ts">
+import type { GridSize } from '../composables/sponsor-grid.js'
+import type { Sponsor } from './VPSponsorsGrid.vue'
 import { computed } from 'vue'
 import VPSponsorsGrid from './VPSponsorsGrid.vue'
 
 export interface Sponsors {
   tier?: string
-  size?: 'small' | 'medium' | 'big'
+  size?: GridSize
   items: Sponsor[]
-}
-
-export interface Sponsor {
-  name: string
-  img: string
-  url: string
 }
 
 const props = defineProps<{
   mode?: 'normal' | 'aside'
   tier?: string
-  size?: 'xmini' | 'small' | 'medium' | 'big'
+  size?: GridSize
   data: Sponsors[] | Sponsor[]
 }>()
 
 const sponsors = computed(() => {
   const isSponsors = props.data.some((s) => {
-    return !!(s as Sponsors).items
+    return 'items' in s
   })
 
   if (isSponsors) {
-    return props.data
+    return props.data as Sponsors[]
   }
 
-  return [{
-    tier: props.tier,
-    size: props.size,
-    items: props.data
-  }]
+  return [
+    { tier: props.tier, size: props.size, items: props.data as Sponsor[] }
+  ]
 })
 </script>
 

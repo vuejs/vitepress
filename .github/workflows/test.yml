@@ -16,17 +16,17 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
-        node-version: [14, 16]
+        node-version: [14, 16, 18]
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v2.0.1
-        with:
-          version: 7.0.1
+        uses: pnpm/action-setup@v2
 
       - name: Set node version to ${{ matrix.node_version }}
         uses: actions/setup-node@v3
@@ -54,7 +54,7 @@ jobs:
           path: ${{ env.PLAYWRIGHT_BROWSERS_PATH }}
 
       - name: Install Playwright
-        # does not need to explictly set chromium after https://github.com/microsoft/playwright/issues/14862 is solved
+        # does not need to explicitly set chromium after https://github.com/microsoft/playwright/issues/14862 is solved
         run: pnpm playwright install chromium
 
       - name: Build

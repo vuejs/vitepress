@@ -4,7 +4,6 @@ import c from 'picocolors'
 import fg from 'fast-glob'
 import {
   normalizePath,
-  AliasOptions,
   UserConfig as ViteConfig,
   mergeConfig as mergeViteConfig,
   loadConfigFromFile
@@ -17,9 +16,10 @@ import {
   DefaultTheme,
   APPEARANCE_KEY,
   createLangDictionary,
+  CleanUrlsMode,
   PageData
 } from './shared'
-import { resolveAliases, DEFAULT_THEME_PATH } from './alias'
+import { DEFAULT_THEME_PATH } from './alias'
 import { MarkdownOptions } from './markdown/markdown'
 import _debug from 'debug'
 
@@ -61,7 +61,7 @@ export interface UserConfig<ThemeConfig = any> {
   scrollOffset?: number | string
 
   /**
-   * Enable MPA / zero-JS mode
+   * Enable MPA / zero-JS mode.
    * @experimental
    */
   mpa?: boolean
@@ -72,6 +72,19 @@ export interface UserConfig<ThemeConfig = any> {
    * @default false
    */
   ignoreDeadLinks?: boolean
+
+  /**
+   * @experimental
+   * Remove '.html' from URLs and generate clean directory structure.
+   *
+   * Available Modes:
+   * - `disabled`: generates `/foo.html` for every `/foo.md` and shows `/foo.html` in browser
+   * - `without-subfolders`: generates `/foo.html` for every `/foo.md` but shows `/foo` in browser
+   * - `with-subfolders`: generates `/foo/index.html` for every `/foo.md` and shows `/foo` in browser
+   *
+   * @default 'disabled'
+   */
+  cleanUrls?: CleanUrlsMode
 
   /**
    * Build end hook: called when SSG finish.
@@ -112,6 +125,7 @@ export interface SiteConfig<ThemeConfig = any>
     | 'mpa'
     | 'lastUpdated'
     | 'ignoreDeadLinks'
+    | 'cleanUrls'
     | 'buildEnd'
     | 'transformHtml'
   > {
@@ -123,7 +137,6 @@ export interface SiteConfig<ThemeConfig = any>
   themeDir: string
   outDir: string
   tempDir: string
-  alias: AliasOptions
   pages: string[]
 }
 
@@ -193,12 +206,12 @@ export async function resolveConfig(
     tempDir: resolve(root, '.temp'),
     markdown: userConfig.markdown,
     lastUpdated: userConfig.lastUpdated,
-    alias: resolveAliases(root, themeDir),
     vue: userConfig.vue,
     vite: userConfig.vite,
     shouldPreload: userConfig.shouldPreload,
     mpa: !!userConfig.mpa,
     ignoreDeadLinks: userConfig.ignoreDeadLinks,
+    cleanUrls: userConfig.cleanUrls || 'disabled',
     buildEnd: userConfig.buildEnd,
     transformHtml: userConfig.transformHtml
   }
@@ -206,7 +219,7 @@ export async function resolveConfig(
   return config
 }
 
-const supportedConfigExtensions = ['js', 'ts', 'mjs', 'mts']
+const supportedConfigExtensions = ['js', 'ts', 'cjs', 'mjs', 'cts', 'mts']
 
 async function resolveUserConfig(
   root: string,
@@ -299,7 +312,8 @@ export async function resolveSiteData(
     themeConfig: userConfig.themeConfig || {},
     locales: userConfig.locales || {},
     langs: createLangDictionary(userConfig),
-    scrollOffset: userConfig.scrollOffset || 90
+    scrollOffset: userConfig.scrollOffset || 90,
+    cleanUrls: userConfig.cleanUrls || 'disabled'
   }
 }
 
