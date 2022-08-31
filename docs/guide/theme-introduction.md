@@ -31,7 +31,7 @@ You can enable a custom theme by adding the `.vitepress/theme/index.js` or `.vit
 └─ package.json
 ```
 
-A VitePress custom theme is simply an object containing three properties and is defined as follows:
+A VitePress custom theme is simply an object containing four properties and is defined as follows:
 
 ```ts
 interface Theme {

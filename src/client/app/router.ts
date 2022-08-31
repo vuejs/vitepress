@@ -128,8 +128,12 @@ export function createRouter(
     window.addEventListener(
       'click',
       (e) => {
+        // temporary fix for docsearch action buttons
+        const button = (e.target as Element).closest('button')
+        if (button) return
+
         const link = (e.target as Element).closest('a')
-        if (link) {
+        if (link && !link.closest('.vp-raw')) {
           const { href, origin, pathname, hash, search, target } = link
           const currentUrl = window.location
           const extMatch = pathname.match(/\.\w+$/)
