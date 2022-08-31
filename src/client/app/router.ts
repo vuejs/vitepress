@@ -70,7 +70,7 @@ export function createRouter(
     const targetLoc = new URL(href, fakeHost)
     const pendingPath = (latestPendingPath = targetLoc.pathname)
     try {
-      router.onBeforeRouteChange?.(targetLoc.pathname)
+      !isRetry && router.onBeforeRouteChange?.(targetLoc.pathname)
       let page = await loadPageModule(pendingPath)
       if (latestPendingPath === pendingPath) {
         latestPendingPath = null
