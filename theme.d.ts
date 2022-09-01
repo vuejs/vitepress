@@ -13,7 +13,7 @@ export const VPTeamMembers: ComponentOptions
 
 declare const theme: {
   Layout: ComponentOptions
-  NotFound: ComponentOptions,
+  NotFound: ComponentOptions
   enhanceApp: EnhanceAppContext
 }
 
