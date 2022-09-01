@@ -9,7 +9,7 @@ import './styles/components/vp-sponsor.css'
 import 'nprogress/nprogress.css'
 import './styles/lib-override/nprogress.css'
 
-import { Theme } from 'vitepress'
+import { Theme, inBrowser } from 'vitepress'
 import Layout from './Layout.vue'
 import NotFound from './NotFound.vue'
 import nprogress from 'nprogress'
@@ -27,11 +27,13 @@ const theme: Theme = {
   Layout,
   NotFound,
   enhanceApp: ({ router }) => {
-    router.onBeforeRouteChange = () => {
-      nprogress.start()
-    }
-    router.onAfterRouteChanged = () => {
-      nprogress.done(true)
+    if (inBrowser) {
+      router.onBeforeRouteChange = () => {
+        nprogress.start()
+      }
+      router.onAfterRouteChanged = () => {
+        nprogress.done(true)
+      }
     }
   }
 }
