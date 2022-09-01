@@ -1,7 +1,7 @@
 import { reactive, inject, markRaw, nextTick, readonly } from 'vue'
 import type { Component, InjectionKey } from 'vue'
 import { notFoundPageData } from '../shared.js'
-import type { PageData, PageDataPayload } from '../shared.js'
+import type { PageData, PageDataPayload, Awaitable } from '../shared.js'
 import { inBrowser, withBase } from './utils.js'
 import { siteDataRef } from './data.js'
 
@@ -14,8 +14,8 @@ export interface Route {
 export interface Router {
   route: Route
   go: (href?: string) => Promise<void>
-  onBeforeRouteChange?: (to: string) => void | Promise<void>
-  onAfterRouteChanged?: (to: string) => void | Promise<void>
+  onBeforeRouteChange?: (to: string) => Awaitable<void>
+  onAfterRouteChanged?: (to: string) => Awaitable<void>
 }
 
 export const RouterSymbol: InjectionKey<Router> = Symbol()
