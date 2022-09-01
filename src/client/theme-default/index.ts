@@ -6,11 +6,14 @@ import './styles/components/custom-block.css'
 import './styles/components/vp-code.css'
 import './styles/components/vp-doc.css'
 import './styles/components/vp-sponsor.css'
+import 'nprogress/nprogress.css'
+import './styles/lib-override/nprogress.css'
 
-import { Theme } from 'vitepress'
+import { Theme, inBrowser } from 'vitepress'
 import Layout from './Layout.vue'
 import NotFound from './NotFound.vue'
 import VPBadge from './components/VPBadge.vue'
+import nprogress from 'nprogress'
 
 export { default as VPHomeHero } from './components/VPHomeHero.vue'
 export { default as VPHomeFeatures } from './components/VPHomeFeatures.vue'
@@ -24,8 +27,16 @@ export { default as VPTeamMembers } from './components/VPTeamMembers.vue'
 const theme: Theme = {
   Layout,
   NotFound,
-  enhanceApp(ctx) {
-    ctx.app.component('Badge', VPBadge)
+  enhanceApp: ({ router, app }) => {
+    app.component('Badge', VPBadge)
+    if (inBrowser) {
+      router.onBeforeRouteChange = () => {
+        nprogress.start()
+      }
+      router.onAfterRouteChanged = () => {
+        nprogress.done(true)
+      }
+    }
   }
 }
 
