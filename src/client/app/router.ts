@@ -189,17 +189,11 @@ export function createRouter(
   return router
 }
 
-export function useRouter(
-  options?: Partial<Pick<Router, 'onBeforeRouteChange' | 'onAfterRouteChanged'>>
-): Router {
+export function useRouter(): Router {
   const router = inject(RouterSymbol)
   if (!router) {
     throw new Error('useRouter() is called without provider.')
   }
-  router.onBeforeRouteChange =
-    options?.onBeforeRouteChange ?? router.onBeforeRouteChange
-  router.onAfterRouteChanged =
-    options?.onAfterRouteChanged ?? router.onAfterRouteChanged
   return router
 }
 

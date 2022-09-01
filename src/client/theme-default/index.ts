@@ -12,6 +12,7 @@ import './styles/lib-override/nprogress.css'
 import { Theme } from 'vitepress'
 import Layout from './Layout.vue'
 import NotFound from './NotFound.vue'
+import nprogress from 'nprogress'
 
 export { default as VPHomeHero } from './components/VPHomeHero.vue'
 export { default as VPHomeFeatures } from './components/VPHomeFeatures.vue'
@@ -24,7 +25,15 @@ export { default as VPTeamMembers } from './components/VPTeamMembers.vue'
 
 const theme: Theme = {
   Layout,
-  NotFound
+  NotFound,
+  enhanceApp: ({ router }) => {
+    router.onBeforeRouteChange = () => {
+      nprogress.start()
+    }
+    router.onAfterRouteChanged = () => {
+      nprogress.done(true)
+    }
+  }
 }
 
 export default theme
