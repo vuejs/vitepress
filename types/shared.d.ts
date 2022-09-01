@@ -1,6 +1,8 @@
 // types shared between server and client
 export type { DefaultTheme } from './default-theme.js'
 
+export type Awaitable<T> = T | PromiseLike<T>
+
 export interface PageData {
   relativePath: string
   title: string

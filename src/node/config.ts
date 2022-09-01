@@ -17,7 +17,8 @@ import {
   APPEARANCE_KEY,
   createLangDictionary,
   CleanUrlsMode,
-  PageData
+  PageData,
+  Awaitable
 } from './shared'
 import { DEFAULT_THEME_PATH } from './alias'
 import { MarkdownOptions } from './markdown/markdown'
@@ -90,7 +91,7 @@ export interface UserConfig<ThemeConfig = any> {
    * Build end hook: called when SSG finish.
    * @param siteConfig The resolved configuration.
    */
-  buildEnd?: (siteConfig: SiteConfig) => Promise<void>
+  buildEnd?: (siteConfig: SiteConfig) => Awaitable<void>
 
   /**
    * HTML transform hook: runs before writing HTML to dist.
@@ -107,13 +108,12 @@ export interface UserConfig<ThemeConfig = any> {
       head: HeadConfig[]
       content: string
     }
-  ) => Promise<string | void>
+  ) => Awaitable<string | void>
 }
 
 export type RawConfigExports<ThemeConfig = any> =
-  | UserConfig<ThemeConfig>
-  | Promise<UserConfig<ThemeConfig>>
-  | (() => UserConfig<ThemeConfig> | Promise<UserConfig<ThemeConfig>>)
+  | Awaitable<UserConfig<ThemeConfig>>
+  | (() => Awaitable<UserConfig<ThemeConfig>>)
 
 export interface SiteConfig<ThemeConfig = any>
   extends Pick<
