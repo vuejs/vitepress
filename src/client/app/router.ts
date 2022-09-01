@@ -14,8 +14,8 @@ export interface Route {
 export interface Router {
   route: Route
   go: (href?: string) => Promise<void>
-  onBeforeRouteChange?: (to: string) => void
-  onAfterRouteChanged?: (to: string) => void
+  onBeforeRouteChange?: (to: string) => void | Promise<void>
+  onAfterRouteChanged?: (to: string) => void | Promise<void>
 }
 
 export const RouterSymbol: InjectionKey<Router> = Symbol()
@@ -41,7 +41,13 @@ export function createRouter(
 ): Router {
   const route = reactive(getDefaultRoute())
 
-  function go(href: string = inBrowser ? location.href : '/') {
+  const router: Router = {
+    route,
+    go
+  }
+
+  async function go(href: string = inBrowser ? location.href : '/') {
+    await router.onBeforeRouteChange?.(href)
     const url = new URL(href, fakeHost)
     if (siteDataRef.value.cleanUrls === 'disabled') {
       // ensure correct deep link so page refresh lands on correct files.
@@ -56,12 +62,8 @@ export function createRouter(
       history.replaceState({ scrollPosition: window.scrollY }, document.title)
       history.pushState(null, '', href)
     }
-    return loadPage(href)
-  }
-
-  const router: Router = {
-    route,
-    go
+    await loadPage(href)
+    await router.onAfterRouteChanged?.(href)
   }
 
   let latestPendingPath: string | null = null
@@ -70,7 +72,6 @@ export function createRouter(
     const targetLoc = new URL(href, fakeHost)
     const pendingPath = (latestPendingPath = targetLoc.pathname)
     try {
-      !isRetry && router.onBeforeRouteChange?.(targetLoc.pathname)
       let page = await loadPageModule(pendingPath)
       if (latestPendingPath === pendingPath) {
         latestPendingPath = null
@@ -85,7 +86,6 @@ export function createRouter(
         route.data = import.meta.env.PROD
           ? markRaw(__pageData)
           : (readonly(__pageData) as PageData)
-        router.onAfterRouteChanged?.(targetLoc.pathname)
 
         if (inBrowser) {
           nextTick(() => {
