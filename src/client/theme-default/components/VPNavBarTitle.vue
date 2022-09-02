@@ -22,14 +22,13 @@ const { hasSidebar } = useSidebar()
 <style scoped>
 .VPNavBarTitle {
   flex-shrink: 0;
-  border-bottom: 1px solid transparent;
 }
 
 @media (min-width: 960px) {
   .VPNavBarTitle.has-sidebar {
     margin-right: 32px;
     width: calc(var(--vp-sidebar-width) - 64px);
-    border-bottom-color: var(--vp-c-divider-light);
+    border-bottom: 1px solid var(--vp-c-divider-light);
     background-color: var(--vp-c-bg-alt);
   }
 }
