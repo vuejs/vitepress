@@ -1,5 +1,5 @@
 import mermaid from 'mermaid'
-import { defineComponent, h, ref, watchEffect } from 'vue'
+import { defineComponent, h, ref, onMounted } from 'vue'
 import { useRoute } from '../router.js'
 
 export const Mermaid = defineComponent({
@@ -11,7 +11,7 @@ export const Mermaid = defineComponent({
     const svg = ref<string | null>(null)
     const route = useRoute()
 
-    watchEffect(() => {
+    onMounted(() => {
       mermaid.initialize({
         startOnLoad: false,
         theme: 'dark' as mermaid.Mermaid['mermaidAPI']['Theme']['Dark'],
