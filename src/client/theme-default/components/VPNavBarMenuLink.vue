@@ -32,8 +32,9 @@ const { page } = useData()
 .VPNavBarMenuLink {
   display: flex;
   align-items: center;
-  padding: 0 12px;
-  line-height: var(--vp-nav-height-mobile);
+  min-height: var(--vp-nav-height-mobile);
+  padding: 4px 12px;
+  line-height: 20px;
   font-size: 14px;
   font-weight: 500;
   color: var(--vp-c-text-1);
@@ -50,7 +51,7 @@ const { page } = useData()
 
 @media (min-width: 1280px) {
   .VPNavBarMenuLink {
-    line-height: var(--vp-nav-height-desktop);
+    min-height: var(--vp-nav-height-desktop);
   }
 }
 </style>
