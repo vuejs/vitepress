@@ -37,7 +37,8 @@ const { hasSidebar } = useSidebar()
   display: flex;
   align-items: center;
   width: 100%;
-  height: var(--vp-nav-height);
+  height: 100%;
+  min-height: var(--vp-nav-height);
   font-size: 16px;
   font-weight: 600;
   color: var(--vp-c-text-1);
