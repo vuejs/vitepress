@@ -65,7 +65,8 @@ const { hasSidebar } = useSidebar()
 
 @media (min-width: 960px) {
   .VPNavBar {
-    min-height: var(--vp-nav-height-desktop);
+    height: var(--vp-nav-height-desktop);
+    min-height: auto;
     border-bottom: 0;
   }
 
