@@ -13,7 +13,8 @@ export type {
   Header,
   DefaultTheme,
   PageDataPayload,
-  CleanUrlsMode
+  CleanUrlsMode,
+  Awaitable
 } from '../../types/shared.js'
 
 export const EXTERNAL_URL_RE = /^[a-z]+:/i
