@@ -1,7 +1,13 @@
+import { MarkOptions } from 'perf_hooks'
+
 // types shared between server and client
 export type { DefaultTheme } from './default-theme.js'
 
 export type Awaitable<T> = T | PromiseLike<T>
+
+export type MermaidOptions =
+  | ReturnType<Mermaid['mermaidAPI']['getConfig']>
+  | boolean
 
 export interface PageData {
   relativePath: string
@@ -11,7 +17,7 @@ export interface PageData {
   headers: Header[]
   frontmatter: Record<string, any>
   lastUpdated?: number
-  mermaidConfig?: ReturnType<mermaid.Mermaid['mermaidAPI']['getConfig']>
+  mermaidConfig?: MermaidOptions
 }
 
 export interface Header {
@@ -67,6 +73,7 @@ export interface SiteData<ThemeConfig = any> {
   themeConfig: ThemeConfig
   scrollOffset: number | string
   locales: Record<string, LocaleConfig>
+  mermaidEnabled: boolean
 
   /**
    * Available locales for the site when it has defined `locales` in its

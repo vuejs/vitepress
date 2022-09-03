@@ -103,7 +103,8 @@ export async function createVitePressPlugin(
         },
         define: {
           __ALGOLIA__: !!site.themeConfig.algolia,
-          __CARBON__: !!site.themeConfig.carbonAds
+          __CARBON__: !!site.themeConfig.carbonAds,
+          __MERMAID__: !!site.mermaidEnabled
         },
         optimizeDeps: {
           // force include vue to avoid duplicated copies when linked + optimized

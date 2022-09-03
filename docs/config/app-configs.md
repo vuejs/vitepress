@@ -182,9 +182,7 @@ interface MarkdownOptions extends MarkdownIt.Options {
 
   // Mermaid options
   // See: https://mermaid-js.github.io/mermaid/#/Setup?id=configuration
-  mermaid?: ReturnType<Mermaid['mermaidAPI']['getConfig']> & {
-    disable?: boolean
-  }
+  mermaid?: ReturnType<Mermaid['mermaidAPI']['getConfig']> | boolean
 }
 ```
 

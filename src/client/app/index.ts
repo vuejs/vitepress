@@ -2,6 +2,7 @@ import {
   App,
   createApp as createClientApp,
   createSSRApp,
+  defineAsyncComponent,
   defineComponent,
   h,
   onMounted,
@@ -16,7 +17,6 @@ import { usePrefetch } from './composables/preFetch.js'
 import { dataSymbol, initData } from './data.js'
 import { Content } from './components/Content.js'
 import { ClientOnly } from './components/ClientOnly.js'
-import { Mermaid } from './components/Mermaid.js'
 import { useCopyCode } from './composables/copyCode.js'
 
 const NotFound = Theme.NotFound || (() => '404 Not Found')
@@ -66,6 +66,10 @@ export function createApp() {
   // install global components
   app.component('Content', Content)
   app.component('ClientOnly', ClientOnly)
+  const Mermaid = __MERMAID__
+    ? defineAsyncComponent(() => import('./components/Mermaid.vue'))
+    : () => null
+
   app.component('Mermaid', Mermaid)
 
   // expose $frontmatter

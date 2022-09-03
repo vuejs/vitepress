@@ -313,7 +313,8 @@ export async function resolveSiteData(
     locales: userConfig.locales || {},
     langs: createLangDictionary(userConfig),
     scrollOffset: userConfig.scrollOffset || 90,
-    cleanUrls: userConfig.cleanUrls || 'disabled'
+    cleanUrls: userConfig.cleanUrls || 'disabled',
+    mermaidEnabled: !!userConfig.markdown?.mermaid
   }
 }
 

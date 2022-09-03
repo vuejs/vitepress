@@ -8,6 +8,9 @@ export default defineConfig({
 
   lastUpdated: true,
   cleanUrls: 'without-subfolders',
+  markdown: {
+    mermaid: true
+  },
 
   themeConfig: {
     nav: nav(),

@@ -27,7 +27,7 @@ import { imagePlugin } from './plugins/image'
 import { Header } from '../shared'
 import container from 'markdown-it-container'
 import Token from 'markdown-it/lib/token'
-import { Mermaid } from 'mermaid'
+import { MermaidOptions } from '../shared'
 
 export type ThemeOptions =
   | IThemeRegistration
@@ -50,9 +50,7 @@ export interface MarkdownOptions extends MarkdownIt.Options {
   toc?: TocPluginOptions
   externalLinks?: Record<string, string>
   // https://mermaid-js.github.io/mermaid/#/Setup?id=configuration
-  mermaid?: ReturnType<Mermaid['mermaidAPI']['getConfig']> & {
-    disable?: boolean
-  }
+  mermaid?: MermaidOptions
 }
 
 export type MarkdownRenderer = MarkdownIt
@@ -125,7 +123,7 @@ export const createMarkdownRenderer = async (
     md.use(lineNumberPlugin)
   }
 
-  if (!options.mermaid?.disable) {
+  if (!!options.mermaid) {
     md.use(container, 'mermaid', {
       render: (tokens: Token[], idx: number) => {
         if (tokens[idx].nesting === 1) {

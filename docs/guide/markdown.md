@@ -196,7 +196,48 @@ console.log('Hello, VitePress!')
 ```
 :::
 
-## Mermaid
+### `raw`
+
+This is a special container that can be used to prevent style and router conflicts with VitePress. This is especially useful when you're documenting component libraries.
+
+**Syntax**
+
+```md
+::: raw
+Wraps in a <div class="vp-raw">
+:::
+```
+
+`vp-raw` class can be directly used on elements too. Style isolation is currently opt-in:
+
+::: details
+
+- Install required deps with your preferred package manager:
+
+  ```sh
+  $ yarn add -D postcss postcss-prefix-selector
+  ```
+
+- Create a file named `docs/.postcssrc.cjs` and add this to it:
+
+  ```js
+  module.exports = {
+    plugins: {
+      'postcss-prefix-selector': {
+        prefix: ':not(:where(.vp-raw *))',
+        includeFiles: [/vp-doc\.css/],
+        transform(prefix, _selector) {
+          const [selector, pseudo = ''] = _selector.split(/(:\S*)$/)
+          return selector + prefix + pseudo
+        }
+      }
+    }
+  }
+  ```
+
+:::
+
+### Mermaid
 
 You can draw diagrams by using [Mermaid](https://mermaid-js.github.io/).
 
@@ -251,47 +292,6 @@ sequenceDiagram
     John-->>Alice: Great!
     John->>Bob: How about you?
     Bob-->>John: Jolly good!
-:::
-
-### `raw`
-
-This is a special container that can be used to prevent style and router conflicts with VitePress. This is especially useful when you're documenting component libraries.
-
-**Syntax**
-
-```md
-::: raw
-Wraps in a <div class="vp-raw">
-:::
-```
-
-`vp-raw` class can be directly used on elements too. Style isolation is currently opt-in:
-
-::: details
-
-- Install required deps with your preferred package manager:
-
-  ```sh
-  $ yarn add -D postcss postcss-prefix-selector
-  ```
-
-- Create a file named `docs/.postcssrc.cjs` and add this to it:
-
-  ```js
-  module.exports = {
-    plugins: {
-      'postcss-prefix-selector': {
-        prefix: ':not(:where(.vp-raw *))',
-        includeFiles: [/vp-doc\.css/],
-        transform(prefix, _selector) {
-          const [selector, pseudo = ''] = _selector.split(/(:\S*)$/)
-          return selector + prefix + pseudo
-        }
-      }
-    }
-  }
-  ```
-
 :::
 
 ## Syntax Highlighting in Code Blocks
