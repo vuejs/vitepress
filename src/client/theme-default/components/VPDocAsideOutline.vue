@@ -84,7 +84,7 @@ function handleClick({ target: el }: MouseEvent) {
 
         <VPDocAsideOutlineItem
           :headers="headers"
-          :isRoot="true"
+          :root="true"
           :onClick="handleClick"
         />
       </nav>

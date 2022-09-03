@@ -4,12 +4,12 @@ import type { MenuItem } from '../composables/outline.js'
 defineProps<{
   headers: MenuItem[]
   onClick: (e: MouseEvent) => void
-  isRoot?: boolean
+  root?: boolean
 }>()
 </script>
 
 <template>
-  <ul :class="isRoot ? 'root' : 'nested'">
+  <ul :class="root ? 'root' : 'nested'">
     <li v-for="{ children, link, title } in headers">
       <a class="outline-link" :href="link" @click="onClick">{{ title }}</a>
       <template v-if="children?.length">
