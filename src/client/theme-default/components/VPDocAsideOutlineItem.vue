@@ -11,15 +11,9 @@ defineProps<{
 <template>
   <ul :class="isRoot ? 'root' : 'nested'">
     <li v-for="{ children, link, title } in headers">
-      <a class="outline-link" :href="link" @click="onClick">
-        {{ title }}
-      </a>
+      <a class="outline-link" :href="link" @click="onClick">{{ title }}</a>
       <template v-if="children?.length">
-        <VPDocAsideOutlineItem
-          :headers="children"
-          :isRoot="false"
-          :onClick="onClick"
-        />
+        <VPDocAsideOutlineItem :headers="children" :onClick="onClick" />
       </template>
     </li>
   </ul>
