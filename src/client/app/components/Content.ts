@@ -1,5 +1,5 @@
 import { defineComponent, h } from 'vue'
-import { useRoute } from '../router'
+import { useRoute } from '../router.js'
 
 export const Content = defineComponent({
   name: 'VitePressContent',

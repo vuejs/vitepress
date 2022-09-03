@@ -2,7 +2,7 @@
 import type { DefaultTheme } from 'vitepress/theme'
 import { ref, watchEffect } from 'vue'
 import { useData } from 'vitepress'
-import { isActive } from '../support/utils'
+import { isActive } from '../support/utils.js'
 import VPIconPlusSquare from './icons/VPIconPlusSquare.vue'
 import VPIconMinusSquare from './icons/VPIconMinusSquare.vue'
 import VPSidebarLink from './VPSidebarLink.vue'

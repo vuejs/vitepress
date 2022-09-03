@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { provide, watch } from 'vue'
-import { useRoute } from 'vitepress'
-import { useSidebar, useCloseSidebarOnEscape } from './composables/sidebar'
+import { useData, useRoute } from 'vitepress'
+import { useSidebar, useCloseSidebarOnEscape } from './composables/sidebar.js'
 import VPSkipLink from './components/VPSkipLink.vue'
 import VPBackdrop from './components/VPBackdrop.vue'
 import VPNav from './components/VPNav.vue'
@@ -22,10 +22,12 @@ watch(() => route.path, closeSidebar)
 useCloseSidebarOnEscape(isSidebarOpen, closeSidebar)
 
 provide('close-sidebar', closeSidebar)
+
+const { frontmatter } = useData()
 </script>
 
 <template>
-  <div class="Layout">
+  <div v-if="frontmatter.layout !== false" class="Layout">
     <slot name="layout-top" />
     <VPSkipLink />
     <VPBackdrop class="backdrop" :show="isSidebarOpen" @click="closeSidebar" />
@@ -61,6 +63,7 @@ provide('close-sidebar', closeSidebar)
     <VPFooter />
     <slot name="layout-bottom" />
   </div>
+  <Content v-else />
 </template>
 
 <style scoped>

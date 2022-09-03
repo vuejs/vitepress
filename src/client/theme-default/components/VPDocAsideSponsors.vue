@@ -1,17 +1,7 @@
 <script setup lang="ts">
+import type { Sponsors } from './VPSponsors.vue'
+import type { Sponsor } from './VPSponsorsGrid.vue'
 import VPSponsors from './VPSponsors.vue'
-
-export interface Sponsors {
-  tier?: string
-  size?: 'xmini' | 'mini' | 'small'
-  items: Sponsor[]
-}
-
-export interface Sponsor {
-  name: string
-  img: string
-  url: string
-}
 
 defineProps<{
   tier?: string
@@ -22,11 +12,6 @@ defineProps<{
 
 <template>
   <div class="VPDocAsideSponsors">
-    <VPSponsors
-      mode="aside"
-      :tier="tier"
-      :size="size"
-      :data="data"
-    />
+    <VPSponsors mode="aside" :tier="tier" :size="size" :data="data" />
   </div>
 </template>
