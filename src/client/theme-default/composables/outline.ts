@@ -1,3 +1,4 @@
+import { useData } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
 import { type Ref, onMounted, onUpdated, onUnmounted } from 'vue'
 import type { Header } from '../../shared.js'
@@ -11,7 +12,30 @@ export type MenuItem = Omit<Header, 'slug' | 'children'> & {
   children: MenuItem[]
 }
 
-export function resolveHeaders(
+export function getHeaders() {
+  const { frontmatter, theme } = useData()
+
+  const pageOutline: DefaultTheme.Config['outline'] =
+    frontmatter.value.outline ?? theme.value.outline
+
+  if (pageOutline === false) return []
+  let updatedHeaders: MenuItem[] = []
+  document
+    .querySelectorAll<HTMLHeadingElement>('h2, h3, h4, h5, h6')
+    .forEach((el) => {
+      if (el.textContent && el.id) {
+        updatedHeaders.push({
+          level: Number(el.tagName[1]),
+          title: el.innerText.split('\n')[0],
+          link: `#${el.id}`,
+          children: []
+        })
+      }
+    })
+  return resolveHeaders(updatedHeaders, pageOutline)
+}
+
+function resolveHeaders(
   headers: MenuItem[],
   levelsRange: Exclude<DefaultTheme.Config['outline'], false> = 2
 ) {

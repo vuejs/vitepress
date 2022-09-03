@@ -1,39 +1,12 @@
 <script setup lang="ts">
-import type { DefaultTheme } from 'vitepress/theme'
 import { useData } from 'vitepress'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import VPDocAsideOutlineItem from './VPDocAsideOutlineItem.vue'
-import {
-  useActiveAnchor,
-  resolveHeaders,
-  type MenuItem
-} from '../composables/outline.js'
+import { useActiveAnchor, getHeaders } from '../composables/outline.js'
 
-const { frontmatter, theme } = useData()
+const { theme } = useData()
 
-const pageOutline = computed<DefaultTheme.Config['outline']>(
-  () => frontmatter.value.outline ?? theme.value.outline
-)
-
-const getHeaders = () => {
-  if (pageOutline.value === false) return []
-  let updatedHeaders: MenuItem[] = []
-  document
-    .querySelectorAll<HTMLHeadingElement>('h2, h3, h4, h5, h6')
-    .forEach((el) => {
-      if (el.textContent && el.id) {
-        updatedHeaders.push({
-          level: Number(el.tagName[1]),
-          title: el.innerText.split('\n')[0],
-          link: `#${el.id}`,
-          children: []
-        })
-      }
-    })
-  return resolveHeaders(updatedHeaders, pageOutline.value)
-}
-
-const headers = ref<MenuItem[]>(getHeaders())
+const headers = ref(getHeaders())
 
 const observer = new MutationObserver(() => {
   headers.value = getHeaders()
