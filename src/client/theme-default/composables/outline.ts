@@ -1,21 +1,72 @@
-import { Ref, computed, onMounted, onUpdated, onUnmounted } from 'vue'
-import { useData } from 'vitepress'
+import type { DefaultTheme } from 'vitepress/theme'
+import { type Ref, onMounted, onUpdated, onUnmounted } from 'vue'
+import type { Header } from '../../shared.js'
 import { useAside } from '../composables/aside.js'
 import { throttleAndDebounce } from '../support/utils.js'
 
 // magic number to avoid repeated retrieval
-const PAGE_OFFSET = 56
+const PAGE_OFFSET = 41
 
-export function useOutline() {
-  const { page } = useData()
+export type MenuItem = Omit<Header, 'slug' | 'children'> & {
+  children: MenuItem[]
+}
 
-  const hasOutline = computed(() => {
-    return page.value.headers.length > 0
+export function resolveHeaders(
+  headers: MenuItem[],
+  levelsRange: Exclude<DefaultTheme.Config['outline'], false> = 2
+) {
+  const levels: [number, number] =
+    typeof levelsRange === 'number'
+      ? [levelsRange, levelsRange]
+      : levelsRange === 'deep'
+      ? [2, 6]
+      : levelsRange
+
+  return groupHeaders(headers, levels)
+}
+
+function addToParent(
+  currIndex: number,
+  headers: MenuItem[],
+  levelsRange: [number, number]
+) {
+  if (currIndex === 0) {
+    return true
+  }
+
+  const currentHeader = headers[currIndex]
+  for (let index = currIndex - 1; index >= 0; index--) {
+    const header = headers[index]
+
+    if (
+      header.level < currentHeader.level &&
+      header.level >= levelsRange[0] &&
+      header.level <= levelsRange[1]
+    ) {
+      header.children.push(currentHeader)
+      return false
+    }
+  }
+
+  return true
+}
+
+function groupHeaders(
+  headers: MenuItem[],
+  levelsRange: [number, number]
+): MenuItem[] {
+  const result: MenuItem[] = []
+
+  headers = headers.map((h) => ({ ...h }))
+  headers.forEach((h, index) => {
+    if (h.level >= levelsRange[0] && h.level <= levelsRange[1]) {
+      if (addToParent(index, headers, levelsRange)) {
+        result.push(h)
+      }
+    }
   })
 
-  return {
-    hasOutline
-  }
+  return result
 }
 
 export function useActiveAnchor(
@@ -108,7 +159,7 @@ export function useActiveAnchor(
 }
 
 function getAnchorTop(anchor: HTMLAnchorElement): number {
-  return anchor.parentElement!.offsetTop - PAGE_OFFSET - 15
+  return anchor.parentElement!.offsetTop - PAGE_OFFSET
 }
 
 function isAnchorActive(
