@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useData } from 'vitepress'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { getHeaders, useActiveAnchor } from '../composables/outline.js'
 import VPDocAsideOutlineItem from './VPDocAsideOutlineItem.vue'
-import { useActiveAnchor, getHeaders } from '../composables/outline.js'
 
 const { theme } = useData()
 
