@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { DefaultTheme } from 'vitepress/theme'
-import { useData, useRoute } from 'vitepress'
-import { computed, ref, watch } from 'vue'
+import { useData } from 'vitepress'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import VPDocAsideOutlineItem from './VPDocAsideOutlineItem.vue'
 import {
   useActiveAnchor,
@@ -10,38 +10,43 @@ import {
 } from '../composables/outline.js'
 
 const { frontmatter, theme } = useData()
-const route = useRoute()
 
 const pageOutline = computed<DefaultTheme.Config['outline']>(
   () => frontmatter.value.outline ?? theme.value.outline
 )
 
-const headers = ref<MenuItem[]>([])
-
-watch(
-  () => route.path,
-  () => {
-    if (pageOutline.value !== false) {
-      let updatedHeaders: MenuItem[] = []
-      document
-        .querySelectorAll<HTMLHeadingElement>('h2, h3, h4, h5, h6')
-        .forEach((el) => {
-          if (el.textContent && el.id) {
-            updatedHeaders.push({
-              level: Number(el.tagName[1]),
-              title: el.innerText.split('\n')[0],
-              link: `#${el.id}`,
-              children: []
-            })
-          }
+const getHeaders = () => {
+  if (pageOutline.value === false) return []
+  let updatedHeaders: MenuItem[] = []
+  document
+    .querySelectorAll<HTMLHeadingElement>('h2, h3, h4, h5, h6')
+    .forEach((el) => {
+      if (el.textContent && el.id) {
+        updatedHeaders.push({
+          level: Number(el.tagName[1]),
+          title: el.innerText.split('\n')[0],
+          link: `#${el.id}`,
+          children: []
         })
-      headers.value = resolveHeaders(updatedHeaders, pageOutline.value)
-    } else {
-      headers.value = []
-    }
-  },
-  { immediate: true, flush: 'post' }
-)
+      }
+    })
+  return resolveHeaders(updatedHeaders, pageOutline.value)
+}
+
+const headers = ref<MenuItem[]>(getHeaders())
+
+const observer = new MutationObserver(() => {
+  headers.value = getHeaders()
+})
+
+onMounted(() => {
+  const main = document.querySelector('.main')
+  if (main) observer.observe(main, { childList: true, subtree: true })
+})
+
+onUnmounted(() => {
+  observer.disconnect()
+})
 
 const hasOutline = computed(() => headers.value.length > 0)
 
