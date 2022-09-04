@@ -3,7 +3,7 @@ import { useData } from 'vitepress'
 import VPDocAsideOutline from './VPDocAsideOutline.vue'
 import VPDocAsideCarbonAds from './VPDocAsideCarbonAds.vue'
 
-const { page, theme } = useData()
+const { theme } = useData()
 </script>
 
 <template>
@@ -11,7 +11,7 @@ const { page, theme } = useData()
     <slot name="aside-top" />
 
     <slot name="aside-outline-before" />
-    <VPDocAsideOutline v-if="page.headers.length" />
+    <VPDocAsideOutline />
     <slot name="aside-outline-after" />
 
     <div class="spacer" />
