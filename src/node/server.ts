@@ -1,10 +1,12 @@
+import { setDefaultResultOrder } from 'node:dns'
 import { createServer as createViteServer, ServerOptions } from 'vite'
 import { resolveConfig } from './config'
 import { createVitePressPlugin } from './plugin'
 
 export async function createServer(
   root: string = process.cwd(),
-  serverOptions: ServerOptions = {}
+  serverOptions: ServerOptions = {},
+  recreateServer?: () => Promise<void>
 ) {
   const config = await resolveConfig(root)
 
@@ -13,11 +15,13 @@ export async function createServer(
     delete serverOptions.base
   }
 
+  setDefaultResultOrder('verbatim')
+
   return createViteServer({
     root: config.srcDir,
     base: config.site.base,
     // logLevel: 'warn',
-    plugins: await createVitePressPlugin(root, config),
+    plugins: await createVitePressPlugin(config, false, {}, {}, recreateServer),
     server: serverOptions
   })
 }

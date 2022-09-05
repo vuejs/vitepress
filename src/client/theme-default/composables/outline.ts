@@ -1,64 +1,87 @@
-import { Ref, computed, onMounted, onUpdated, onUnmounted } from 'vue'
-import { Header, useData } from 'vitepress'
-import { useAside } from '../composables/aside'
-import { throttleAndDebounce } from '../support/utils'
-
-interface HeaderWithChildren extends Header {
-  children?: Header[]
-  hidden?: boolean
-}
-
-interface MenuItemWithLinkAndChildren {
-  text: string
-  link: string
-  children?: MenuItemWithLinkAndChildren[]
-  hidden?: boolean
-}
+import type { DefaultTheme } from 'vitepress/theme'
+import { onMounted, onUnmounted, onUpdated, type Ref } from 'vue'
+import type { Header } from '../../shared.js'
+import { useAside } from '../composables/aside.js'
+import { throttleAndDebounce } from '../support/utils.js'
 
 // magic number to avoid repeated retrieval
-const PAGE_OFFSET = 56
+const PAGE_OFFSET = 71
 
-export function useOutline() {
-  const { page } = useData()
+export type MenuItem = Omit<Header, 'slug' | 'children'> & {
+  children?: MenuItem[]
+}
 
-  const hasOutline = computed(() => {
-    return page.value.headers.length > 0
+export function getHeaders(pageOutline: DefaultTheme.Config['outline']) {
+  if (pageOutline === false) return []
+  let updatedHeaders: MenuItem[] = []
+  document
+    .querySelectorAll<HTMLHeadingElement>('h2, h3, h4, h5, h6')
+    .forEach((el) => {
+      if (el.textContent && el.id) {
+        updatedHeaders.push({
+          level: Number(el.tagName[1]),
+          title: el.innerText.split('\n')[0],
+          link: `#${el.id}`
+        })
+      }
+    })
+  return resolveHeaders(updatedHeaders, pageOutline)
+}
+
+export function resolveHeaders(
+  headers: MenuItem[],
+  levelsRange: Exclude<DefaultTheme.Config['outline'], false> = 2
+) {
+  const levels: [number, number] =
+    typeof levelsRange === 'number'
+      ? [levelsRange, levelsRange]
+      : levelsRange === 'deep'
+      ? [2, 6]
+      : levelsRange
+
+  return groupHeaders(headers, levels)
+}
+
+function groupHeaders(headers: MenuItem[], levelsRange: [number, number]) {
+  const result: MenuItem[] = []
+
+  headers = headers.map((h) => ({ ...h }))
+  headers.forEach((h, index) => {
+    if (h.level >= levelsRange[0] && h.level <= levelsRange[1]) {
+      if (addToParent(index, headers, levelsRange)) {
+        result.push(h)
+      }
+    }
   })
 
-  return {
-    hasOutline
+  return result
+}
+
+function addToParent(
+  currIndex: number,
+  headers: MenuItem[],
+  levelsRange: [number, number]
+) {
+  if (currIndex === 0) {
+    return true
   }
-}
 
-export function resolveHeaders(headers: Header[]) {
-  return mapHeaders(groupHeaders(headers))
-}
+  const currentHeader = headers[currIndex]
+  for (let index = currIndex - 1; index >= 0; index--) {
+    const header = headers[index]
 
-function groupHeaders(headers: Header[]): HeaderWithChildren[] {
-  headers = headers.map((h) => Object.assign({}, h))
-
-  let lastH2: HeaderWithChildren | undefined
-
-  for (const h of headers) {
-    if (h.level === 2) {
-      lastH2 = h
-    } else if (lastH2 && h.level <= 3) {
-      ;(lastH2.children || (lastH2.children = [])).push(h)
+    if (
+      header.level < currentHeader.level &&
+      header.level >= levelsRange[0] &&
+      header.level <= levelsRange[1]
+    ) {
+      if (header.children == null) header.children = []
+      header.children.push(currentHeader)
+      return false
     }
   }
 
-  return headers.filter((h) => h.level === 2)
-}
-
-function mapHeaders(
-  headers: HeaderWithChildren[]
-): MenuItemWithLinkAndChildren[] {
-  return headers.map((header) => ({
-    text: header.title,
-    link: `#${header.slug}`,
-    children: header.children ? mapHeaders(header.children) : undefined,
-    hidden: header.hidden
-  }))
+  return true
 }
 
 export function useActiveAnchor(
@@ -134,7 +157,7 @@ export function useActiveAnchor(
     if (hash !== null) {
       prevActiveLink = container.value.querySelector(
         `a[href="${decodeURIComponent(hash)}"]`
-      ) as HTMLAnchorElement
+      )
     }
 
     const activeLink = prevActiveLink
@@ -151,7 +174,7 @@ export function useActiveAnchor(
 }
 
 function getAnchorTop(anchor: HTMLAnchorElement): number {
-  return anchor.parentElement!.offsetTop - PAGE_OFFSET - 15
+  return anchor.parentElement!.offsetTop - PAGE_OFFSET
 }
 
 function isAnchorActive(

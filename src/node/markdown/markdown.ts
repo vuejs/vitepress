@@ -1,23 +1,30 @@
 import MarkdownIt from 'markdown-it'
+import anchorPlugin from 'markdown-it-anchor'
+import attrsPlugin from 'markdown-it-attrs'
+import emojiPlugin from 'markdown-it-emoji'
+import { componentPlugin } from '@mdit-vue/plugin-component'
+import {
+  frontmatterPlugin,
+  type FrontmatterPluginOptions
+} from '@mdit-vue/plugin-frontmatter'
+import {
+  headersPlugin,
+  type HeadersPluginOptions
+} from '@mdit-vue/plugin-headers'
+import { sfcPlugin, type SfcPluginOptions } from '@mdit-vue/plugin-sfc'
+import { titlePlugin } from '@mdit-vue/plugin-title'
+import { tocPlugin, type TocPluginOptions } from '@mdit-vue/plugin-toc'
 import { IThemeRegistration } from 'shiki'
-import { parseHeader } from '../utils/parseHeader'
 import { highlight } from './plugins/highlight'
 import { slugify } from './plugins/slugify'
 import { highlightLinePlugin } from './plugins/highlightLines'
 import { lineNumberPlugin } from './plugins/lineNumbers'
-import { componentPlugin } from './plugins/component'
 import { containerPlugin } from './plugins/containers'
 import { snippetPlugin } from './plugins/snippet'
-import { hoistPlugin } from './plugins/hoist'
 import { preWrapperPlugin } from './plugins/preWrapper'
 import { linkPlugin } from './plugins/link'
-import { headingPlugin } from './plugins/headings'
 import { imagePlugin } from './plugins/image'
 import { Header } from '../shared'
-import anchor from 'markdown-it-anchor'
-import attrs from 'markdown-it-attrs'
-import emoji from 'markdown-it-emoji'
-import toc from 'markdown-it-toc-done-right'
 
 export type ThemeOptions =
   | IThemeRegistration
@@ -26,32 +33,22 @@ export type ThemeOptions =
 export interface MarkdownOptions extends MarkdownIt.Options {
   lineNumbers?: boolean
   config?: (md: MarkdownIt) => void
-  anchor?: {
-    permalink?: anchor.AnchorOptions['permalink']
-  }
+  anchor?: anchorPlugin.AnchorOptions
   attrs?: {
     leftDelimiter?: string
     rightDelimiter?: string
     allowedAttributes?: string[]
     disable?: boolean
   }
+  frontmatter?: FrontmatterPluginOptions
+  headers?: HeadersPluginOptions
+  sfc?: SfcPluginOptions
   theme?: ThemeOptions
-  // https://github.com/nagaozen/markdown-it-toc-done-right
-  toc?: any
+  toc?: TocPluginOptions
   externalLinks?: Record<string, string>
 }
 
-export interface MarkdownParsedData {
-  hoistedTags?: string[]
-  links?: string[]
-  headers?: Header[]
-}
-
-export interface MarkdownRenderer extends MarkdownIt {
-  __path: string
-  __relativePath: string
-  __data: MarkdownParsedData
-}
+export type MarkdownRenderer = MarkdownIt
 
 export type { Header }
 
@@ -72,9 +69,7 @@ export const createMarkdownRenderer = async (
     .use(highlightLinePlugin)
     .use(preWrapperPlugin)
     .use(snippetPlugin, srcDir)
-    .use(hoistPlugin)
     .use(containerPlugin)
-    .use(headingPlugin)
     .use(imagePlugin)
     .use(
       linkPlugin,
@@ -88,23 +83,31 @@ export const createMarkdownRenderer = async (
 
   // 3rd party plugins
   if (!options.attrs?.disable) {
-    md.use(attrs, options.attrs)
+    md.use(attrsPlugin, options.attrs)
   }
+  md.use(emojiPlugin)
 
-  md.use(anchor, {
+  // mdit-vue plugins
+  md.use(anchorPlugin, {
     slugify,
-    permalink: anchor.permalink.ariaHidden({}),
+    permalink: anchorPlugin.permalink.ariaHidden({}),
     ...options.anchor
-  })
-    .use(toc, {
+  } as anchorPlugin.AnchorOptions)
+    .use(frontmatterPlugin, {
+      ...options.frontmatter
+    } as FrontmatterPluginOptions)
+    .use(headersPlugin, {
       slugify,
-      level: [2, 3],
-      format: (x: string, htmlencode: (s: string) => string) =>
-        htmlencode(parseHeader(x)),
-      listType: 'ul',
+      ...options.headers
+    } as HeadersPluginOptions)
+    .use(sfcPlugin, {
+      ...options.sfc
+    } as SfcPluginOptions)
+    .use(titlePlugin)
+    .use(tocPlugin, {
+      slugify,
       ...options.toc
-    })
-    .use(emoji)
+    } as TocPluginOptions)
 
   // apply user config
   if (options.config) {
@@ -114,12 +117,5 @@ export const createMarkdownRenderer = async (
   if (options.lineNumbers) {
     md.use(lineNumberPlugin)
   }
-
-  const originalRender = md.render
-  md.render = (...args) => {
-    md.__data = {}
-    return originalRender.call(md, ...args)
-  }
-
   return md
 }

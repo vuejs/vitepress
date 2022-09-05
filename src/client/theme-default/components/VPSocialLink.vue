@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { DefaultTheme } from 'vitepress/theme'
 import { computed } from 'vue'
-import { icons } from '../support/socialIcons'
+import { icons } from '../support/socialIcons.js'
 
 const props = defineProps<{
   icon: DefaultTheme.SocialLinkIcon

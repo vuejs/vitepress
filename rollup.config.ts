@@ -1,4 +1,5 @@
 import { promises as fs } from 'fs'
+import { builtinModules } from 'module'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
 import { RollupOptions, defineConfig } from 'rollup'
@@ -17,7 +18,13 @@ const PROD = !DEV
 const ROOT = fileURLToPath(import.meta.url)
 const r = (p: string) => resolve(ROOT, '..', p)
 
-const external = [...Object.keys(pkg.dependencies), 'buffer', 'punycode']
+const external = [
+  ...Object.keys(pkg.dependencies),
+  ...builtinModules.flatMap((m) =>
+    m.includes('punycode') ? [] : [m, `node:${m}`]
+  ),
+  r('types/shared.d.ts')
+]
 
 const plugins = [
   alias({
@@ -32,7 +39,7 @@ const plugins = [
     preventAssignment: true
   }),
   commonjs(),
-  nodeResolve(),
+  nodeResolve({ preferBuiltins: false }),
   esbuild({ target: 'node14' }),
   json()
 ]
@@ -73,7 +80,8 @@ const nodeTypes: RollupOptions = {
     format: 'esm',
     file: 'dist/node/index.d.ts'
   },
-  plugins: [dts()]
+  external,
+  plugins: [dts({ respectExternal: true })]
 }
 
 const clientTypes: RollupOptions = {
@@ -82,8 +90,9 @@ const clientTypes: RollupOptions = {
     format: 'esm',
     file: 'dist/client/index.d.ts'
   },
+  external,
   plugins: [
-    dts(),
+    dts({ respectExternal: true }),
     {
       name: 'cleanup',
       async closeBundle() {

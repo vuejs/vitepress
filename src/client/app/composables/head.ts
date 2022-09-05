@@ -1,6 +1,6 @@
 import { watchEffect, Ref } from 'vue'
-import { HeadConfig, SiteData, createTitle, mergeHead } from '../../shared'
-import { Route } from '../router'
+import { HeadConfig, SiteData, createTitle, mergeHead } from '../../shared.js'
+import { Route } from '../router.js'
 
 export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
   let managedHeadTags: HTMLElement[] = []
