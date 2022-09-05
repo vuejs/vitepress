@@ -1,23 +1,41 @@
-import { nextTick, watch } from 'vue'
-import { inBrowser, useData } from 'vitepress'
+import { inBrowser } from '../utils.js'
 
 export function useCopyCode() {
-  const { page } = useData()
+  if (inBrowser) {
+    const timeoutIdMap: Map<HTMLElement, NodeJS.Timeout> = new Map()
+    window.addEventListener('click', (e) => {
+      const el = e.target as HTMLElement
+      if (el.matches('div[class*="language-"] > button.copy')) {
+        const parent = el.parentElement
+        const sibling = el.nextElementSibling
+          ?.nextElementSibling as HTMLPreElement | null
+        if (!parent || !sibling) {
+          return
+        }
 
-  if (inBrowser)
-    watch(
-      () => page.value.relativePath,
-      () => {
-        nextTick(() => {
-          document
-            .querySelectorAll<HTMLSpanElement>(
-              '.vp-doc div[class*="language-"] > button.copy'
-            )
-            .forEach(handleElement)
+        const isShell = /language-(shellscript|shell|bash|sh|zsh)/.test(
+          parent.classList.toString()
+        )
+
+        let { innerText: text = '' } = sibling
+
+        if (isShell) {
+          text = text.replace(/^ *(\$|>) /gm, '')
+        }
+
+        copyToClipboard(text).then(() => {
+          el.classList.add('copied')
+          clearTimeout(timeoutIdMap.get(el))
+          const timeoutId = setTimeout(() => {
+            el.classList.remove('copied')
+            el.blur()
+            timeoutIdMap.delete(el)
+          }, 2000)
+          timeoutIdMap.set(el, timeoutId)
         })
-      },
-      { immediate: true, flush: 'post' }
-    )
+      }
+    })
+  }
 }
 
 async function copyToClipboard(text: string) {
@@ -61,34 +79,5 @@ async function copyToClipboard(text: string) {
     if (previouslyFocusedElement) {
       ;(previouslyFocusedElement as HTMLElement).focus()
     }
-  }
-}
-
-function handleElement(el: HTMLElement) {
-  el.onclick = () => {
-    const parent = el.parentElement
-    const sibling = el.nextElementSibling
-      ?.nextElementSibling as HTMLPreElement | null
-    if (!parent || !sibling) {
-      return
-    }
-
-    const isShell = /language-(shellscript|shell|bash|sh|zsh)/.test(
-      parent.classList.toString()
-    )
-
-    let { innerText: text = '' } = sibling
-
-    if (isShell) {
-      text = text.replace(/^ *(\$|>) /gm, '')
-    }
-
-    copyToClipboard(text).then(() => {
-      el.classList.add('copied')
-      setTimeout(() => {
-        el.classList.remove('copied')
-        el.blur()
-      }, 2000)
-    })
   }
 }

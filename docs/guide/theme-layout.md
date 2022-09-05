@@ -1,7 +1,3 @@
----
-layout: doc
----
-
 # Layout
 
 You may choose the page layout by setting `layout` option to the page [frontmatter](./frontmatter). There are 3 layout options, `doc`, `page`, and `home`. If nothing is specified, then the page is treated as `doc` page.
@@ -36,3 +32,7 @@ Note that even in this layout, sidebar will still show up if the page has a matc
 ## Home Layout
 
 Option `home` will generate templated "Homepage". In this layout, you can set extra options such as `hero` and `features` to customize the content further. Please visit [Theme: Home Page](./theme-home-page) for more details.
+
+## No Layout
+
+If you don't want any layout, you can pass `layout: false` through frontmatter. This option is helpful if you want a fully-customizable landing page (without any sidebar, navbar, or footer by default).

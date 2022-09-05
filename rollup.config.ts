@@ -22,7 +22,8 @@ const external = [
   ...Object.keys(pkg.dependencies),
   ...builtinModules.flatMap((m) =>
     m.includes('punycode') ? [] : [m, `node:${m}`]
-  )
+  ),
+  r('types/shared.d.ts')
 ]
 
 const plugins = [
@@ -79,7 +80,8 @@ const nodeTypes: RollupOptions = {
     format: 'esm',
     file: 'dist/node/index.d.ts'
   },
-  plugins: [dts()]
+  external,
+  plugins: [dts({ respectExternal: true })]
 }
 
 const clientTypes: RollupOptions = {
@@ -88,8 +90,9 @@ const clientTypes: RollupOptions = {
     format: 'esm',
     file: 'dist/client/index.d.ts'
   },
+  external,
   plugins: [
-    dts(),
+    dts({ respectExternal: true }),
     {
       name: 'cleanup',
       async closeBundle() {

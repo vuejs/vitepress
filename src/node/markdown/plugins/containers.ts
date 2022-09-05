@@ -19,6 +19,10 @@ export const containerPlugin = (md: MarkdownIt) => {
         return tokens[idx].nesting === 1 ? `<CodeGroup>\n` : `</CodeGroup>\n`
       }
     })
+    .use(container, 'raw', {
+      render: (tokens: Token[], idx: number) =>
+        tokens[idx].nesting === 1 ? `<div class="vp-raw">\n` : `</div>\n`
+    })
 }
 
 type ContainerArgs = [typeof container, string, { render: RenderRule }]

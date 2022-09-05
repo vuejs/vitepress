@@ -16,6 +16,7 @@ import { usePrefetch } from './composables/preFetch.js'
 import { dataSymbol, initData } from './data.js'
 import { Content } from './components/Content.js'
 import { ClientOnly } from './components/ClientOnly.js'
+import { useCopyCode } from './composables/copyCode.js'
 
 const NotFound = Theme.NotFound || (() => '404 Not Found')
 
@@ -39,6 +40,9 @@ const VitePressApp = defineComponent({
       // in prod mode, enable intersectionObserver based pre-fetch
       usePrefetch()
     }
+
+    // setup global copy code handler
+    useCopyCode()
 
     if (Theme.setup) Theme.setup()
     return () => h(Theme.Layout)
