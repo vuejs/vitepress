@@ -3,7 +3,7 @@
   "version": "1.0.0-alpha.13",
   "description": "Vite & Vue powered static site generator",
   "type": "module",
-  "packageManager": "pnpm@7.9.0",
+  "packageManager": "pnpm@7.11.0",
   "main": "dist/node/index.js",
   "types": "types/index.d.ts",
   "exports": {
@@ -83,13 +83,13 @@
   "dependencies": {
     "@docsearch/css": "^3.2.1",
     "@docsearch/js": "^3.2.1",
-    "@vitejs/plugin-vue": "^3.0.3",
+    "@vitejs/plugin-vue": "^3.1.0",
     "@vue/devtools-api": "^6.2.1",
     "@vueuse/core": "^9.1.1",
     "body-scroll-lock": "^4.0.0-beta.0",
     "nprogress": "^0.2.0",
     "shiki": "^0.11.1",
-    "vite": "^3.0.9",
+    "vite": "^3.1.0",
     "vue": "^3.2.38"
   },
   "devDependencies": {
@@ -120,7 +120,7 @@
     "@types/markdown-it-emoji": "^2.0.2",
     "@types/micromatch": "^4.0.2",
     "@types/minimist": "^1.2.2",
-    "@types/node": "^18.7.14",
+    "@types/node": "^18.7.15",
     "@types/nprogress": "^0.2.0",
     "@types/polka": "^0.5.4",
     "@types/prompts": "^2.0.14",
@@ -131,7 +131,7 @@
     "debug": "^4.3.4",
     "diacritics": "^1.3.0",
     "enquirer": "^2.3.6",
-    "esbuild": "^0.15.6",
+    "esbuild": "^0.15.7",
     "escape-html": "^1.0.3",
     "execa": "^6.1.0",
     "fast-glob": "^3.2.11",
@@ -154,7 +154,7 @@
     "prompts": "^2.4.2",
     "punycode": "^2.1.1",
     "rimraf": "^3.0.2",
-    "rollup": "^2.78.1",
+    "rollup": "^2.79.0",
     "rollup-plugin-dts": "^4.2.2",
     "rollup-plugin-esbuild": "^4.10.1",
     "semver": "^7.3.7",
@@ -162,8 +162,8 @@
     "sirv": "^2.0.2",
     "supports-color": "^9.2.2",
     "typescript": "^4.8.2",
-    "vitest": "^0.22.1",
-    "vue-tsc": "^0.40.4"
+    "vitest": "^0.23.1",
+    "vue-tsc": "^0.40.7"
   },
   "pnpm": {
     "peerDependencyRules": {
