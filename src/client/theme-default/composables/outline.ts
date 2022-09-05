@@ -1,21 +1,87 @@
-import { Ref, computed, onMounted, onUpdated, onUnmounted } from 'vue'
-import { useData } from 'vitepress'
+import type { DefaultTheme } from 'vitepress/theme'
+import { onMounted, onUnmounted, onUpdated, type Ref } from 'vue'
+import type { Header } from '../../shared.js'
 import { useAside } from '../composables/aside.js'
 import { throttleAndDebounce } from '../support/utils.js'
 
 // magic number to avoid repeated retrieval
-const PAGE_OFFSET = 56
+const PAGE_OFFSET = 71
 
-export function useOutline() {
-  const { page } = useData()
+export type MenuItem = Omit<Header, 'slug' | 'children'> & {
+  children?: MenuItem[]
+}
 
-  const hasOutline = computed(() => {
-    return page.value.headers.length > 0
+export function getHeaders(pageOutline: DefaultTheme.Config['outline']) {
+  if (pageOutline === false) return []
+  let updatedHeaders: MenuItem[] = []
+  document
+    .querySelectorAll<HTMLHeadingElement>('h2, h3, h4, h5, h6')
+    .forEach((el) => {
+      if (el.textContent && el.id) {
+        updatedHeaders.push({
+          level: Number(el.tagName[1]),
+          title: el.innerText.split('\n')[0],
+          link: `#${el.id}`
+        })
+      }
+    })
+  return resolveHeaders(updatedHeaders, pageOutline)
+}
+
+export function resolveHeaders(
+  headers: MenuItem[],
+  levelsRange: Exclude<DefaultTheme.Config['outline'], false> = 2
+) {
+  const levels: [number, number] =
+    typeof levelsRange === 'number'
+      ? [levelsRange, levelsRange]
+      : levelsRange === 'deep'
+      ? [2, 6]
+      : levelsRange
+
+  return groupHeaders(headers, levels)
+}
+
+function groupHeaders(headers: MenuItem[], levelsRange: [number, number]) {
+  const result: MenuItem[] = []
+
+  headers = headers.map((h) => ({ ...h }))
+  headers.forEach((h, index) => {
+    if (h.level >= levelsRange[0] && h.level <= levelsRange[1]) {
+      if (addToParent(index, headers, levelsRange)) {
+        result.push(h)
+      }
+    }
   })
 
-  return {
-    hasOutline
+  return result
+}
+
+function addToParent(
+  currIndex: number,
+  headers: MenuItem[],
+  levelsRange: [number, number]
+) {
+  if (currIndex === 0) {
+    return true
   }
+
+  const currentHeader = headers[currIndex]
+  for (let index = currIndex - 1; index >= 0; index--) {
+    const header = headers[index]
+
+    if (
+      header.level < currentHeader.level &&
+      header.level >= levelsRange[0] &&
+      header.level <= levelsRange[1]
+    ) {
+      if (header.children == null) header.children = []
+      header.children.push(currentHeader)
+      return false
+    }
+  }
+
+  return true
 }
 
 export function useActiveAnchor(
@@ -108,7 +174,7 @@ export function useActiveAnchor(
 }
 
 function getAnchorTop(anchor: HTMLAnchorElement): number {
-  return anchor.parentElement!.offsetTop - PAGE_OFFSET - 15
+  return anchor.parentElement!.offsetTop - PAGE_OFFSET
 }
 
 function isAnchorActive(
