@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import type { DefaultTheme } from 'vitepress/theme'
-import docsearch from '@docsearch/js'
+import { default as docsearch } from '@docsearch/js'
 import { onMounted } from 'vue'
 import { useRouter, useRoute, useData } from 'vitepress'
 
 const router = useRouter()
 const route = useRoute()
-const { theme } = useData()
+const { theme, site } = useData()
 
 onMounted(() => {
   initialize(theme.value.algolia)
@@ -29,14 +29,16 @@ function poll() {
   }, 16)
 }
 
+type DocSearchProps = Parameters<typeof docsearch>[0]
+
 function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
   // note: multi-lang search support is removed since the theme
   // doesn't support multiple locales as of now.
-  const options = Object.assign({}, userOptions, {
+  const options = Object.assign<{}, {}, DocSearchProps>({}, userOptions, {
     container: '#docsearch',
 
     navigator: {
-      navigate({ itemUrl }: { itemUrl: string }) {
+      navigate({ itemUrl }) {
         const { pathname: hitPathname } = new URL(
           window.location.origin + itemUrl
         )
@@ -51,7 +53,7 @@ function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
       }
     },
 
-    transformItems(items: any[]) {
+    transformItems(items) {
       return items.map((item) => {
         return Object.assign({}, item, {
           url: getRelativePath(item.url)
@@ -59,44 +61,15 @@ function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
       })
     },
 
-    hitComponent({ hit, children }: { hit: any; children: any }) {
-      const relativeHit = hit.url.startsWith('http')
-        ? getRelativePath(hit.url as string)
-        : hit.url
-
+    // @ts-expect-error vue-tsc thinks this should return Vue JSX but it returns the required React one
+    hitComponent({ hit, children }) {
       return {
         __v: null,
         type: 'a',
         ref: undefined,
         constructor: undefined,
         key: undefined,
-
-        props: {
-          href: hit.url,
-
-          onClick(event: MouseEvent) {
-            if (isSpecialClick(event)) {
-              return
-            }
-
-            // we rely on the native link scrolling when user is already on
-            // the right anchor because Router doesn't support duplicated
-            // history entries.
-            if (route.path === relativeHit) {
-              return
-            }
-
-            // if the hits goes to another page, we prevent the native link
-            // behavior to leverage the Router loading feature.
-            if (route.path !== relativeHit) {
-              event.preventDefault()
-            }
-
-            router.go(relativeHit)
-          },
-
-          children
-        }
+        props: { href: hit.url, children }
       }
     }
   })
@@ -104,20 +77,14 @@ function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
   docsearch(options)
 }
 
-function isSpecialClick(event: MouseEvent) {
-  return (
-    event.button === 1 ||
-    event.altKey ||
-    event.ctrlKey ||
-    event.metaKey ||
-    event.shiftKey
-  )
-}
-
 function getRelativePath(absoluteUrl: string) {
   const { pathname, hash } = new URL(absoluteUrl)
-
-  return pathname + hash
+  return (
+    pathname.replace(
+      /\.html$/,
+      site.value.cleanUrls === 'disabled' ? '.html' : ''
+    ) + hash
+  )
 }
 </script>
 

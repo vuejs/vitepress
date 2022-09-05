@@ -21,7 +21,6 @@ export async function bundle(
   serverResult: RollupOutput
   pageToHashMap: Record<string, string>
 }> {
-  const { root, srcDir } = config
   const pageToHashMap = Object.create(null)
   const clientJSMap = Object.create(null)
 
@@ -29,32 +28,28 @@ export async function bundle(
   // this is a multi-entry build - every page is considered an entry chunk
   // the loading is done via filename conversion rules so that the
   // metadata doesn't need to be included in the main chunk.
-  const input: Record<string, string> = {
-    app: path.resolve(APP_PATH, 'index.js')
-  }
+  const input: Record<string, string> = {}
   config.pages.forEach((file) => {
     // page filename conversion
     // foo/bar.md -> foo_bar.md
-    input[slash(file).replace(/\//g, '_')] = path.resolve(srcDir, file)
+    input[slash(file).replace(/\//g, '_')] = path.resolve(config.srcDir, file)
   })
 
   // resolve options to pass to vite
   const { rollupOptions } = options
 
   const resolveViteConfig = async (ssr: boolean): Promise<ViteUserConfig> => ({
-    root: srcDir,
+    root: config.srcDir,
     base: config.site.base,
     logLevel: 'warn',
     plugins: await createVitePressPlugin(
-      root,
       config,
       ssr,
       pageToHashMap,
       clientJSMap
     ),
-    // @ts-ignore
     ssr: {
-      noExternal: ['vitepress']
+      noExternal: ['vitepress', '@docsearch/css']
     },
     build: {
       ...options,
@@ -64,14 +59,21 @@ export async function bundle(
       cssCodeSplit: false,
       rollupOptions: {
         ...rollupOptions,
-        input,
+        input: {
+          ...input,
+          // use different entry based on ssr or not
+          app: path.resolve(APP_PATH, ssr ? 'ssr.js' : 'index.js')
+        },
         // important so that each page chunk and the index export things for each
         // other
         preserveEntrySignatures: 'allow-extension',
         output: {
           ...rollupOptions?.output,
           ...(ssr
-            ? {}
+            ? {
+                entryFileNames: `[name].js`,
+                chunkFileNames: `[name].[hash].js`
+              }
             : {
                 chunkFileNames(chunk) {
                   // avoid ads chunk being intercepted by adblock
@@ -138,7 +140,7 @@ export async function bundle(
     }
     // build <script client> bundle
     if (Object.keys(clientJSMap).length) {
-      clientResult = (await buildMPAClient(clientJSMap, config)) as RollupOutput
+      clientResult = await buildMPAClient(clientJSMap, config)
     }
   }
 
@@ -167,7 +169,7 @@ function staticImportedByEntry(
   importStack: string[] = []
 ): boolean {
   if (cache.has(id)) {
-    return cache.get(id) as boolean
+    return !!cache.get(id)
   }
   if (importStack.includes(id)) {
     // circular deps!

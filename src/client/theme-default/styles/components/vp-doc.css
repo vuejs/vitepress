@@ -313,37 +313,24 @@
   display: block;
   padding: 0 24px;
   width: fit-content;
+  min-width: 100%;
   line-height: var(--vp-code-line-height);
   font-size: var(--vp-code-font-size);
   color: var(--vp-code-block-color);
   transition: color 0.5s;
 }
 
-.vp-doc .highlight-lines {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  padding-top: 16px;
-  width: 100%;
-  line-height: var(--vp-code-line-height);
-  font-family: var(--vp-font-family-mono);
-  font-size: var(--vp-code-font-size);
-  user-select: none;
-  overflow: hidden;
-}
-
-.vp-doc .highlight-lines .highlighted {
+.vp-doc [class*='language-'] code .highlighted {
   background-color: var(--vp-code-line-highlight-color);
   transition: background-color 0.5s;
+  margin: 0 -24px;
+  padding: 0 24px;
+  width: calc(100% + 2 * 24px);
+  display: inline-block;
 }
 
 .vp-doc div[class*='language-'].line-numbers-mode {
   padding-left: 32px;
-}
-
-.vp-doc div[class*='language-'].line-numbers-mode pre {
-  padding-left: 16px;
 }
 
 .vp-doc .line-numbers-wrapper {
@@ -363,11 +350,11 @@
   transition: border-color 0.5s, color 0.5s;
 }
 
-.vp-doc [class*='language-'] > span.copy {
+.vp-doc [class*='language-'] > button.copy {
   position: absolute;
   top: 8px;
   right: 8px;
-  z-index: 2;
+  z-index: 3;
   display: block;
   justify-content: center;
   align-items: center;
@@ -384,23 +371,24 @@
   transition: opacity 0.4s;
 }
 
-.vp-doc [class*='language-']:hover > span.copy {
+.vp-doc [class*='language-']:hover > button.copy,
+.vp-doc [class*='language-'] > button.copy:focus {
   opacity: 1;
 }
 
-.vp-doc [class*='language-'] > span.copy:hover {
+.vp-doc [class*='language-'] > button.copy:hover {
   background-color: var(--vp-code-copy-code-hover-bg);
 }
 
-.vp-doc [class*='language-'] > span.copy.copied,
-.vp-doc [class*='language-'] > span.copy:hover.copied {
+.vp-doc [class*='language-'] > button.copy.copied,
+.vp-doc [class*='language-'] > button.copy:hover.copied {
   border-radius: 0 4px 4px 0;
   background-color: var(--vp-code-copy-code-hover-bg);
   background-image: var(--vp-icon-copied);
 }
 
-.vp-doc [class*='language-'] > span.copy.copied::before,
-.vp-doc [class*='language-'] > span.copy:hover.copied::before {
+.vp-doc [class*='language-'] > button.copy.copied::before,
+.vp-doc [class*='language-'] > button.copy:hover.copied::before {
   position: relative;
   left: -65px;
   display: block;
@@ -428,7 +416,8 @@
   transition: color 0.4s, opacity 0.4s;
 }
 
-.vp-doc [class*='language-']:hover > span.lang {
+.vp-doc [class*='language-']:hover > button.copy + span.lang,
+.vp-doc [class*='language-'] > button.copy:focus + span.lang {
   opacity: 0;
 }
 

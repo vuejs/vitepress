@@ -1,6 +1,6 @@
 import { computed, onMounted, onUnmounted, Ref, ref, watchEffect } from 'vue'
 import { useData, useRoute } from 'vitepress'
-import { getSidebar } from '../support/sidebar'
+import { getSidebar } from '../support/sidebar.js'
 
 export function useSidebar() {
   const route = useRoute()
@@ -23,13 +23,9 @@ export function useSidebar() {
   })
 
   const hasAside = computed(() => {
-    if (
-      frontmatter.value.layout !== 'home' &&
-      frontmatter.value.aside === false
+    return (
+      frontmatter.value.layout !== 'home' && frontmatter.value.aside !== false
     )
-      return false
-
-    return hasSidebar.value
   })
 
   function open() {

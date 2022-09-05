@@ -7,9 +7,9 @@ describe('render corrent content', () => {
   })
 
   test('main content', async () => {
-    const h1Locator = await page.locator('h1')
-    const h2Locator = await page.locator('h2')
-    const pLocator = await page.locator('.Layout p')
+    const h1Locator = page.locator('h1')
+    const h2Locator = page.locator('h2')
+    const pLocator = page.locator('.Layout p')
 
     const [h1Contents, h2Conetents, pContents] = await Promise.all([
       h1Locator.allTextContents(),
@@ -28,11 +28,11 @@ describe('render corrent content', () => {
   })
 
   test('outline', async () => {
-    const outlineLinksLocator = await page.locator(
+    const outlineLinksLocator = page.locator(
       '.VPDocAsideOutline .root .outline-link'
     )
 
     const outlineLinksCount = await outlineLinksLocator.count()
-    expect(outlineLinksCount).toEqual(0)
+    expect(outlineLinksCount).toEqual(4)
   })
 })

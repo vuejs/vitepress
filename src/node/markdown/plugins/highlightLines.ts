@@ -1,13 +1,15 @@
 // Modified from https://github.com/egoist/markdown-it-highlight-lines
+// Now this plugin is only used to normalize line attrs.
+// The else part of line highlights logic is in './highlight.ts'.
+
 import MarkdownIt from 'markdown-it'
 
 const RE = /{([\d,-]+)}/
-const wrapperRE = /^<pre .*?><code>/
 
 export const highlightLinePlugin = (md: MarkdownIt) => {
   const fence = md.renderer.rules.fence!
   md.renderer.rules.fence = (...args) => {
-    const [tokens, idx, options] = args
+    const [tokens, idx] = args
     const token = tokens[idx]
 
     // due to use of markdown-it-attrs, the {0} syntax would have been
@@ -40,35 +42,7 @@ export const highlightLinePlugin = (md: MarkdownIt) => {
       }
     }
 
-    const lineNumbers = lines
-      .split(',')
-      .map((v) => v.split('-').map((v) => parseInt(v, 10)))
-
-    const code = options.highlight
-      ? options.highlight(token.content, token.info, '')
-      : token.content
-
-    const rawCode = code.replace(wrapperRE, '')
-
-    const highlightLinesCode = rawCode
-      .split('\n')
-      .map((split, index) => {
-        const lineNumber = index + 1
-        const inRange = lineNumbers.some(([start, end]) => {
-          if (start && end) {
-            return lineNumber >= start && lineNumber <= end
-          }
-          return lineNumber === start
-        })
-        if (inRange) {
-          return `<div class="highlighted">&nbsp;</div>`
-        }
-        return '<br>'
-      })
-      .join('')
-
-    const highlightLinesWrapperCode = `<div class="highlight-lines">${highlightLinesCode}</div>`
-
-    return highlightLinesWrapperCode + code
+    token.info += ' ' + lines
+    return fence(...args)
   }
 }

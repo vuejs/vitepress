@@ -1,17 +1,16 @@
 <script setup lang="ts">
 import { useRoute, useData } from 'vitepress'
-import { useCopyCode } from '../composables/copy-code'
-import { useSidebar } from '../composables/sidebar'
-import NotFound from '../NotFound.vue'
+import { useSidebar } from '../composables/sidebar.js'
 import VPPage from './VPPage.vue'
 import VPHome from './VPHome.vue'
 import VPDoc from './VPDoc.vue'
+import { inject } from 'vue'
 
 const route = useRoute()
 const { frontmatter } = useData()
 const { hasSidebar } = useSidebar()
 
-useCopyCode()
+const NotFound = inject('NotFound')
 </script>
 
 <template>
@@ -35,6 +34,7 @@ useCopyCode()
     </VPHome>
 
     <VPDoc v-else>
+      <template #doc-footer-before><slot name="doc-footer-before" /></template>
       <template #doc-before><slot name="doc-before" /></template>
       <template #doc-after><slot name="doc-after" /></template>
 

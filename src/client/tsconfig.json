@@ -5,15 +5,15 @@
     "outDir": "../../dist/client",
     "target": "esnext",
     "module": "esnext",
+    "moduleResolution": "nodenext",
     "declaration": true,
     "declarationDir": "../../dist/client-types",
     "jsx": "preserve",
     "lib": ["ESNext", "DOM"],
     "types": ["vite/client"],
     "paths": {
-      "/@theme/*": ["theme-default/*"],
       "vitepress": ["index.ts"],
-      "vitepress/theme": ["../../types/default-theme.d"]
+      "vitepress/theme": ["../../theme.d.ts"]
     }
   },
   "include": ["."]

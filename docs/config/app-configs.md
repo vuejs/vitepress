@@ -148,10 +148,8 @@ interface MarkdownOptions extends MarkdownIt.Options {
   lineNumbers?: boolean
 
   // markdown-it-anchor plugin options.
-  // See: https://github.com/valeriangalliat/markdown-it-anchor
-  anchor?: {
-    permalink?: anchor.AnchorOptions['permalink']
-  }
+  // See: https://github.com/valeriangalliat/markdown-it-anchor#usage
+  anchor?: anchorPlugin.AnchorOptions
 
   // markdown-it-attrs plugin options.
   // See: https://github.com/arve0/markdown-it-attrs
@@ -162,12 +160,37 @@ interface MarkdownOptions extends MarkdownIt.Options {
     disable?: boolean
   }
 
-  // markdown-it-toc-done-right plugin options
-  // See: https://github.com/nagaozen/markdown-it-toc-done-right
-  toc?: any
+  // @mdit-vue/plugin-frontmatter plugin options.
+  // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-frontmatter#options
+  frontmatter?: FrontmatterPluginOptions
+
+  // @mdit-vue/plugin-headers plugin options.
+  // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-headers#options
+  headers?: HeadersPluginOptions
+
+  // @mdit-vue/plugin-sfc plugin options.
+  // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-sfc#options
+  sfc?: SfcPluginOptions
+
+  // @mdit-vue/plugin-toc plugin options.
+  // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-toc#options
+  toc?: TocPluginOptions
 
   // Configure the Markdown-it instance.
   config?: (md: MarkdownIt) => void
+}
+```
+
+## outDir
+
+- Type: `string`
+- Default: `./.vitepress/dist`
+
+The build output location for the site, relative to project root (`docs` folder if you're running `vitepress build docs`).
+
+```ts
+export default {
+  outDir: '../public'
 }
 ```
 
@@ -196,5 +219,30 @@ Set `false` to disable the feature. If the option is `undefined`, then the value
 export default {
   title: 'VitePress',
   titleTemplate: 'Vite & Vue powered static site generator'
+}
+```
+
+## cleanUrls (Experimental)
+
+- Type: `'disabled' | 'without-subfolders' | 'with-subfolders'`
+- Default: `'disabled'`
+
+Allows removing trailing `.html` from URLs and, optionally, generating clean directory structure. Available modes:
+
+|          Mode          |   Page    |  Generated Page   |     URL     |
+| :--------------------: | :-------: | :---------------: | :---------: |
+|      `'disabled'`      | `/foo.md` |    `/foo.html`    | `/foo.html` |
+| `'without-subfolders'` | `/foo.md` |    `/foo.html`    |   `/foo`    |
+|  `'with-subfolders'`   | `/foo.md` | `/foo/index.html` |   `/foo`    |
+
+::: warning
+
+Enabling this may require additional configuration on your hosting platform. For it to work, your server must serve the generated page on requesting the URL (see above table) **without a redirect**.
+
+:::
+
+```ts
+export default {
+  cleanUrls: 'with-subfolders'
 }
 ```

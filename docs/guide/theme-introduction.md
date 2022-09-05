@@ -31,13 +31,14 @@ You can enable a custom theme by adding the `.vitepress/theme/index.js` or `.vit
 └─ package.json
 ```
 
-A VitePress custom theme is simply an object containing three properties and is defined as follows:
+A VitePress custom theme is simply an object containing four properties and is defined as follows:
 
 ```ts
 interface Theme {
   Layout: Component // Vue 3 component
   NotFound?: Component
   enhanceApp?: (ctx: EnhanceAppContext) => void
+  setup?: () => void
 }
 
 interface EnhanceAppContext {
@@ -64,6 +65,11 @@ export default {
     // app is the Vue 3 app instance from `createApp()`.
     // router is VitePress' custom router. `siteData` is
     // a `ref` of current site-level metadata.
+  }
+
+  setup() {
+    // this function will be executed inside VitePressApp's
+    // setup hook. all composition APIs are available here.
   }
 }
 ```
@@ -188,6 +194,7 @@ export default {
 Full list of slots available in the default theme layout:
 
 - When `layout: 'doc'` (default) is enabled via frontmatter:
+  - `doc-footer-before`
   - `doc-before`
   - `doc-after`
   - `aside-top`

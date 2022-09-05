@@ -1,5 +1,4 @@
 import { defineConfig } from '../../src/node'
-
 import { version } from '../../package.json'
 
 export default defineConfig({
@@ -8,6 +7,13 @@ export default defineConfig({
   description: 'Vite & Vue powered static site generator.',
 
   lastUpdated: true,
+  cleanUrls: 'without-subfolders',
+
+  markdown: {
+    headers: {
+      level: [0, 0]
+    }
+  },
 
   themeConfig: {
     nav: nav(),
@@ -58,9 +64,9 @@ function nav() {
         {
           text: 'Contributing',
           link: 'https://github.com/vuejs/vitepress/blob/main/.github/contributing.md'
-        },
-      ],
-    },
+        }
+      ]
+    }
   ]
 }
 

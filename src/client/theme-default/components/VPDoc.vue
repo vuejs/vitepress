@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import { useRoute } from 'vitepress'
-import { useSidebar } from '../composables/sidebar'
+import { computed, provide, ref } from 'vue'
+import { useSidebar } from '../composables/sidebar.js'
 import VPDocAside from './VPDocAside.vue'
 import VPDocFooter from './VPDocFooter.vue'
 
@@ -11,6 +11,9 @@ const { hasSidebar, hasAside } = useSidebar()
 const pageName = computed(() =>
   route.path.replace(/[./]+/g, '_').replace(/_html$/, '')
 )
+
+const onContentUpdated = ref()
+provide('onContentUpdated', onContentUpdated)
 </script>
 
 <template>
@@ -38,13 +41,11 @@ const pageName = computed(() =>
       <div class="content">
         <div class="content-container">
           <slot name="doc-before" />
-
           <main class="main">
-            <Content class="vp-doc" :class="pageName" />
+            <Content class="vp-doc" :class="pageName" :onContentUpdated="onContentUpdated" />
           </main>
-
+          <slot name="doc-footer-before" />
           <VPDocFooter />
-
           <slot name="doc-after" />
         </div>
       </div>
@@ -73,10 +74,6 @@ const pageName = computed(() =>
     display: flex;
     justify-content: center;
     max-width: 992px;
-  }
-
-  .VPDoc:not(.has-sidebar) .aside {
-    display: block;
   }
 
   .VPDoc:not(.has-sidebar) .content {

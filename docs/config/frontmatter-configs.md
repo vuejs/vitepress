@@ -31,12 +31,12 @@ title: VitePress
 
 - Type: `string | boolean`
 
-The suffix for the title. It's same as [config.titleTemplate](../config/app-configs#titleTemplate), and it overrides the app config.
+The suffix for the title. It's same as [config.titleTemplate](../config/app-configs#titletemplate), and it overrides the app config.
 
 ```yaml
 ---
-title: VitePress,
-titleTemplate: Vite & Vue powered static site generator.
+title: VitePress
+titleTemplate: Vite & Vue powered static site generator
 ---
 ```
 
@@ -119,7 +119,7 @@ It defines contents of home hero section.
 layout: home
 
 hero:
-  name: VuePress
+  name: VitePress
   text: Vite & Vue powered static site generator.
   tagline: Lorem ipsum...
   actions:
@@ -212,3 +212,10 @@ If you want the right aside component in `doc` layout not to be shown, set this 
 aside: false
 ---
 ```
+
+## outline
+
+- Type: `number | [number, number] | 'deep' | false`
+- Default: `2`
+
+The levels of header in the outline to display for the page. It's same as [config.themeConfig.outline](../config/theme-configs#outline), and it overrides the theme config.
