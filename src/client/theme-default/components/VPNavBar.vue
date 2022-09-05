@@ -52,6 +52,7 @@ const { hasSidebar } = useSidebar()
   position: relative;
   border-bottom: 1px solid var(--vp-c-divider-light);
   padding: 0 8px 0 24px;
+  white-space: nowrap;
   height: var(--vp-nav-height-mobile);
   transition: border-color 0.5s, background-color 0.5s;
   pointer-events: none;
