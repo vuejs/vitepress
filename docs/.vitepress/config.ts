@@ -8,8 +8,12 @@ export default defineConfig({
 
   lastUpdated: true,
   cleanUrls: 'without-subfolders',
+
   markdown: {
-    mermaid: true
+    mermaid: true,
+    headers: {
+      level: [0, 0]
+    }
   },
 
   themeConfig: {

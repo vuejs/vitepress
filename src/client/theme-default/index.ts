@@ -28,11 +28,24 @@ const theme: Theme = {
   NotFound,
   enhanceApp: ({ router }) => {
     if (inBrowser) {
+      let timeoutId: NodeJS.Timeout
+      let called = false
+
       router.onBeforeRouteChange = () => {
-        nprogress.start()
+        timeoutId = setTimeout(() => {
+          nprogress.start()
+          called = true
+        }, 500)
       }
+
       router.onAfterRouteChanged = () => {
-        nprogress.done(true)
+        if (timeoutId) {
+          clearTimeout(timeoutId)
+        }
+        if (called) {
+          nprogress.done(true)
+          called = false
+        }
       }
     }
   }

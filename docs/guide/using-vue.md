@@ -113,8 +113,9 @@ import DefaultTheme from 'vitepress/theme'
 
 export default {
   ...DefaultTheme,
-  enhanceApp({ app }) {
-    app.component('VueClickAwayExample', VueClickAwayExample)
+  enhanceApp(ctx) {
+    DefaultTheme.enhanceApp(ctx)
+    ctx.app.component('VueClickAwayExample', VueClickAwayExample)
   }
 }
 ```
