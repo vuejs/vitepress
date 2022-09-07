@@ -160,6 +160,9 @@ interface MarkdownOptions extends MarkdownIt.Options {
     disable?: boolean
   }
 
+  // set highlight default lang if not provide
+  highlightDefaultLang?: string
+
   // @mdit-vue/plugin-frontmatter plugin options.
   // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-frontmatter#options
   frontmatter?: FrontmatterPluginOptions

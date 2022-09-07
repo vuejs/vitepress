@@ -33,7 +33,8 @@ const attrsToLines = (attrs: string): HtmlRendererOptions['lineOptions'] => {
 }
 
 export async function highlight(
-  theme: ThemeOptions = 'material-palenight'
+  theme: ThemeOptions = 'material-palenight',
+  defaultLang: string = ''
 ): Promise<(str: string, lang: string, attrs: string) => string> {
   const hasSingleTheme = typeof theme === 'string' || 'name' in theme
   const getThemeName = (themeValue: IThemeRegistration) =>
@@ -47,7 +48,7 @@ export async function highlight(
 
   return (str: string, lang: string, attrs: string) => {
     const vPre = vueRE.test(lang) ? '' : 'v-pre'
-    lang = lang.replace(vueRE, '').toLowerCase()
+    lang = lang.replace(vueRE, '').toLowerCase() || defaultLang
 
     const lineOptions = attrsToLines(attrs)
 
