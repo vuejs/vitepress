@@ -148,8 +148,8 @@ button {
   background-image: none;
 }
 
-button,
-[role='button'] {
+button:enabled,
+[role='button']:enabled {
   cursor: pointer;
 }
 
