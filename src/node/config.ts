@@ -227,7 +227,10 @@ async function resolveUserConfig(
 ): Promise<[UserConfig, string | undefined, string[]]> {
   // load user config
   const configPath = supportedConfigExtensions
-    .map((ext) => resolve(root, `config.${ext}`))
+    .flatMap((ext) => [
+      resolve(root, `config/index.${ext}`),
+      resolve(root, `config.${ext}`)
+    ])
     .find(fs.pathExistsSync)
 
   let userConfig: RawConfigExports = {}
