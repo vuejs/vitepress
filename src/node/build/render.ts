@@ -10,10 +10,11 @@ import {
   createTitle,
   notFoundPageData,
   mergeHead,
-  EXTERNAL_URL_RE
+  EXTERNAL_URL_RE,
+  resolveSiteDataByRoute
 } from '../shared'
 import { slash } from '../utils/slash'
-import { SiteConfig, resolveSiteDataByRoute } from '../config'
+import { SiteConfig } from '../config'
 
 export async function renderPage(
   render: (path: string) => Promise<string>,

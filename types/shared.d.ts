@@ -50,14 +50,7 @@ export type CleanUrlsMode =
 export interface SiteData<ThemeConfig = any> {
   base: string
   cleanUrls?: CleanUrlsMode
-
-  /**
-   * Language of the site as it should be set on the `html` element.
-   *
-   * @example `en-US`, `zh-CN`
-   */
   lang: string
-
   title: string
   titleTemplate?: string | boolean
   description: string
@@ -65,45 +58,29 @@ export interface SiteData<ThemeConfig = any> {
   appearance: boolean
   themeConfig: ThemeConfig
   scrollOffset: number | string
-  locales: Record<string, LocaleConfig>
-
-  /**
-   * Available locales for the site when it has defined `locales` in its
-   * `themeConfig`. This object is otherwise empty. Keys are paths like `/` or
-   * `/zh/`.
-   */
-  langs: Record<
-    string,
-    {
-      /**
-       * Lang attribute as set on the `<html>` element.
-       * @example `en-US`, `zh-CN`
-       */
-      lang: string
-      /**
-       * Label to display in the language menu.
-       * @example `English`, `简体中文`
-       */
-      label: string
-    }
-  >
+  locales: LocaleConfig<ThemeConfig>
+  localeIndex?: string
 }
 
 export type HeadConfig =
   | [string, Record<string, string>]
   | [string, Record<string, string>, string]
 
-export interface LocaleConfig {
-  lang: string
-  title?: string
-  titleTemplate?: string | boolean
-  description?: string
-  head?: HeadConfig[]
-  label?: string
-  selectText?: string
-}
-
 export interface PageDataPayload {
   path: string
   pageData: PageData
 }
+
+export interface LocaleSpecificConfig<ThemeConfig = any> {
+  lang?: string
+  title?: string
+  titleTemplate?: string | boolean
+  description?: string
+  head?: HeadConfig[]
+  themeConfig?: ThemeConfig
+}
+
+export type LocaleConfig<ThemeConfig = any> = Record<
+  string,
+  LocaleSpecificConfig<ThemeConfig> & { label: string; link?: string }
+>

@@ -9,6 +9,5 @@ export type {
   SiteData,
   HeadConfig,
   Header,
-  LocaleConfig,
   DefaultTheme
 } from '../../types/shared'

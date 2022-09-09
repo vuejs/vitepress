@@ -13,9 +13,9 @@ import {
   SiteData,
   HeadConfig,
   LocaleConfig,
+  LocaleSpecificConfig,
   DefaultTheme,
   APPEARANCE_KEY,
-  createLangDictionary,
   CleanUrlsMode,
   PageData,
   Awaitable
@@ -24,23 +24,27 @@ import { DEFAULT_THEME_PATH } from './alias'
 import { MarkdownOptions } from './markdown/markdown'
 import _debug from 'debug'
 
-export { resolveSiteDataByRoute } from './shared'
-
 const debug = _debug('vitepress:config')
 
-export interface UserConfig<ThemeConfig = any> {
+export interface UserConfig<ThemeConfig = any>
+  extends LocaleSpecificConfig<ThemeConfig> {
   extends?: RawConfigExports<ThemeConfig>
+
   base?: string
-  lang?: string
-  title?: string
-  titleTemplate?: string | boolean
-  description?: string
-  head?: HeadConfig[]
+  srcDir?: string
+  srcExclude?: string[]
+  outDir?: string
+  shouldPreload?: (link: string, page: string) => boolean
+
+  locales?: LocaleConfig<ThemeConfig>
+
   appearance?: boolean
-  themeConfig?: ThemeConfig
-  locales?: Record<string, LocaleConfig>
-  markdown?: MarkdownOptions
   lastUpdated?: boolean
+
+  /**
+   * MarkdownIt options
+   */
+  markdown?: MarkdownOptions
   /**
    * Options to pass on to `@vitejs/plugin-vue`
    */
@@ -49,11 +53,6 @@ export interface UserConfig<ThemeConfig = any> {
    * Vite config
    */
   vite?: ViteConfig
-
-  srcDir?: string
-  srcExclude?: string[]
-  outDir?: string
-  shouldPreload?: (link: string, page: string) => boolean
 
   /**
    * Configure the scroll offset when the theme has a sticky header.
@@ -311,7 +310,6 @@ export async function resolveSiteData(
     appearance: userConfig.appearance ?? true,
     themeConfig: userConfig.themeConfig || {},
     locales: userConfig.locales || {},
-    langs: createLangDictionary(userConfig),
     scrollOffset: userConfig.scrollOffset || 90,
     cleanUrls: userConfig.cleanUrls || 'disabled'
   }
@@ -329,8 +327,8 @@ function resolveSiteDataHead(userConfig?: UserConfig): HeadConfig[] {
       `
         ;(() => {
           const saved = localStorage.getItem('${APPEARANCE_KEY}')
-          const prefereDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-          if (!saved || saved === 'auto' ? prefereDark : saved === 'dark') {
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+          if (!saved || saved === 'auto' ? prefersDark : saved === 'dark') {
             document.documentElement.classList.add('dark')
           }
         })()

@@ -17,7 +17,7 @@ const { theme } = useData()
     <div class="spacer" />
 
     <slot name="aside-ads-before" />
-    <VPDocAsideCarbonAds v-if="theme.carbonAds" />
+    <VPDocAsideCarbonAds v-if="theme.carbonAds" :carbonAds="theme.carbonAds" />
     <slot name="aside-ads-after" />
 
     <slot name="aside-bottom" />

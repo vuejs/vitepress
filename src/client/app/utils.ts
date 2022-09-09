@@ -1,7 +1,7 @@
 import { siteDataRef } from './data.js'
 import { inBrowser, EXTERNAL_URL_RE } from '../shared.js'
 
-export { inBrowser }
+export { inBrowser } from '../shared.js'
 
 /**
  * Join two paths by resolving the slash collision.

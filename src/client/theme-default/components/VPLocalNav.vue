@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { useData } from 'vitepress'
 import { useSidebar } from '../composables/sidebar.js'
 import VPIconAlignLeft from './icons/VPIconAlignLeft.vue'
 
@@ -10,6 +11,7 @@ defineEmits<{
   (e: 'open-menu'): void
 }>()
 
+const { theme } = useData()
 const { hasSidebar } = useSidebar()
 
 function scrollToTop() {
@@ -26,11 +28,13 @@ function scrollToTop() {
       @click="$emit('open-menu')"
     >
       <VPIconAlignLeft class="menu-icon" />
-      <span class="menu-text">Menu</span>
+      <span class="menu-text">
+        {{ theme.translations?.sidebarMenuLabel || 'Menu' }}
+      </span>
     </button>
 
     <a class="top-link" href="#" @click="scrollToTop">
-      Return to top
+      {{ theme.translations?.returnToTopLabel || 'Return to top' }}
     </a>
   </div>
 </template>

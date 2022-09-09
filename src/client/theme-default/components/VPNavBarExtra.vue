@@ -4,23 +4,27 @@ import VPFlyout from './VPFlyout.vue'
 import VPMenuLink from './VPMenuLink.vue'
 import VPSwitchAppearance from './VPSwitchAppearance.vue'
 import VPSocialLinks from './VPSocialLinks.vue'
+import { useLangs } from '../composables/langs.js'
 
 const { site, theme } = useData()
+const { localeLinks, currentLang } = useLangs()
 </script>
 
 <template>
   <VPFlyout class="VPNavBarExtra" label="extra navigation">
-    <div v-if="theme.localeLinks" class="group">
-      <p class="trans-title">{{ theme.localeLinks.text }}</p>
+    <div v-if="localeLinks.length && currentLang.label" class="group">
+      <p class="trans-title">{{ currentLang.label }}</p>
 
-      <template v-for="locale in theme.localeLinks.items" :key="locale.link">
+      <template v-for="locale in localeLinks" :key="locale.link">
         <VPMenuLink :item="locale" />
       </template>
     </div>
 
     <div v-if="site.appearance" class="group">
       <div class="item appearance">
-        <p class="label">Appearance</p>
+        <p class="label">
+          {{ theme.translations?.darkModeSwitchLabel || 'Appearance' }}
+        </p>
         <div class="appearance-action">
           <VPSwitchAppearance />
         </div>
