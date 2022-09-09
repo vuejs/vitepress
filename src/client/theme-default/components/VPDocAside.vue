@@ -1,9 +1,13 @@
 <script setup lang="ts">
+import { defineAsyncComponent } from 'vue'
 import { useData } from 'vitepress'
 import VPDocAsideOutline from './VPDocAsideOutline.vue'
-import VPDocAsideCarbonAds from './VPDocAsideCarbonAds.vue'
 
 const { theme } = useData()
+
+const VPCarbonAds = __CARBON__
+  ? defineAsyncComponent(() => import('./VPCarbonAds.vue'))
+  : () => null
 </script>
 
 <template>
@@ -17,7 +21,7 @@ const { theme } = useData()
     <div class="spacer" />
 
     <slot name="aside-ads-before" />
-    <VPDocAsideCarbonAds v-if="theme.carbonAds" :carbonAds="theme.carbonAds" />
+    <VPCarbonAds v-if="theme.carbonAds" :carbonAds="theme.carbonAds" />
     <slot name="aside-ads-after" />
 
     <slot name="aside-bottom" />
