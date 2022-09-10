@@ -1,15 +1,13 @@
 import { computed } from 'vue'
 import { useData } from 'vitepress'
-import { isExternal } from '../support/utils.js'
 
 export function useLangs() {
   const { site, localeIndex } = useData()
   const currentLang = computed(() => ({
     label: site.value.locales[localeIndex.value]?.label,
     link:
-      localeIndex.value === 'root'
-        ? '/'
-        : site.value.locales[localeIndex.value].link || `/${localeIndex.value}/`
+      site.value.locales[localeIndex.value]?.link ||
+      (localeIndex.value === 'root' ? '/' : `/${localeIndex.value}/`)
   }))
 
   const localeLinks = computed(() =>
@@ -18,12 +16,7 @@ export function useLangs() {
         ? []
         : {
             text: value.label,
-            link:
-              key === 'root'
-                ? '/'
-                : isExternal(key)
-                ? key
-                : value.link || `/${key}/`
+            link: value.link || (key === 'root' ? '/' : `/${key}/`)
           }
     )
   )

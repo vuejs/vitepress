@@ -80,19 +80,19 @@ export function resolveSiteDataByRoute(
         isActive(relativePath, `/${key}/`, true)
     ) || 'root'
 
-  if (localeIndex === 'root') return siteData
-
   return Object.assign({}, siteData, {
     localeIndex,
-    lang: siteData.locales[localeIndex].lang ?? siteData.lang,
-    title: siteData.locales[localeIndex].title ?? siteData.title,
+    lang: siteData.locales[localeIndex]?.lang ?? siteData.lang,
+    title: siteData.locales[localeIndex]?.title ?? siteData.title,
     titleTemplate:
-      siteData.locales[localeIndex].titleTemplate ?? siteData.titleTemplate,
+      siteData.locales[localeIndex]?.titleTemplate ?? siteData.titleTemplate,
     description:
-      siteData.locales[localeIndex].description ?? siteData.description,
-    head: mergeHead(siteData.locales[localeIndex].head ?? [], siteData.head),
-    themeConfig:
-      siteData.locales[localeIndex].themeConfig ?? siteData.themeConfig
+      siteData.locales[localeIndex]?.description ?? siteData.description,
+    head: mergeHead(siteData.head, siteData.locales[localeIndex]?.head ?? []),
+    themeConfig: {
+      ...siteData.themeConfig,
+      ...siteData.locales[localeIndex]?.themeConfig
+    }
   })
 }
 
