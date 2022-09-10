@@ -39,10 +39,13 @@ export function normalizeLink(url: string): string {
   const normalizedPath =
     pathname.endsWith('/') || pathname.endsWith('.html')
       ? url
-      : `${pathname.replace(
-          /(\.md)?$/,
-          site.value.cleanUrls === 'disabled' ? '.html' : ''
-        )}${search}${hash}`
+      : url.replace(
+          /(?:(^\.+)\/)?.*$/,
+          `$1${pathname.replace(
+            /(\.md)?$/,
+            site.value.cleanUrls === 'disabled' ? '.html' : ''
+          )}${search}${hash}`
+        )
 
   return withBase(normalizedPath)
 }
