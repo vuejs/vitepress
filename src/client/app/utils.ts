@@ -11,7 +11,7 @@ export function joinPath(base: string, path: string): string {
 }
 
 export function withBase(path: string) {
-  return EXTERNAL_URL_RE.test(path)
+  return EXTERNAL_URL_RE.test(path) || path.startsWith('.')
     ? path
     : joinPath(siteDataRef.value.base, path)
 }
