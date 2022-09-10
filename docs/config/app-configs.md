@@ -246,3 +246,58 @@ export default {
   cleanUrls: 'with-subfolders'
 }
 ```
+
+## Build Hooks
+
+VitePress build hooks allow you to add new functionality and behaviors to your website:
+- Sitemap
+- Search Indexing
+- PWA
+
+### transformHtml
+
+- Type: `transformHtml?: (
+  code: string,
+  id: string,
+  ctx: {
+  siteConfig: SiteConfig
+  siteData: SiteData
+  pageData: PageData
+  title: string
+  description: string
+  head: HeadConfig[]
+  content: string
+  }
+  ) => Awaitable<string | void>`
+
+`transformHtml` is a build hook to transform the content of each page before saving to disk (SSG).
+
+::: warning
+Modifying the html content may cause hydration problems in runtime.
+:::
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  /* other vitepress options */
+  async transformHtml(code, id, context) {
+  }
+})
+```
+
+### buildEnd
+
+- Type: `buildEnd?: (siteConfig: SiteConfig) => Awaitable<void>`
+
+`buildEnd` is a build CLI hook, it will run after build (SSG) finish but before VitePress CLI process exits.
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  /* other vitepress options */
+  async buildEnd(siteConfig) {
+  }
+})
+```
