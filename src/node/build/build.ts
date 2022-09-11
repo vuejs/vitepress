@@ -56,8 +56,8 @@ export async function build(
 
       const pages = ['404.md', ...siteConfig.pages]
 
-      for (const page of pages) {
-        await renderPage(
+      await Promise.allSettled(
+        pages.map((page) => renderPage(
           siteConfig,
           page,
           clientResult,
@@ -65,8 +65,9 @@ export async function build(
           cssChunk,
           pageToHashMap,
           hashMapString
-        )
-      }
+        ))
+      )
+      
     } catch (e) {
       spinner.stopAndPersist({
         symbol: failMark
