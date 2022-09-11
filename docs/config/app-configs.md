@@ -262,7 +262,7 @@ VitePress build hooks allow you to add new functionality and behaviors to your w
 `transformHead` is a build hook to transform the head before rendering each page: it will allow you to add head entries that cannot be statically added to your VitePress config module.
 
 ``` warning
-The header provided in `TransformContext` is a clone, any headers you want to include on all pages will need to be added on each call.
+The header provided in TransformContext is a clone, any headers you want to include on all pages will need to be added on each call.
 ```
 
 ```ts
