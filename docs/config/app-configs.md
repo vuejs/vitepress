@@ -270,7 +270,7 @@ import { defineConfig } from 'vitepress'
 
 export default defineConfig({
   /* other vitepress options */
-  async transformHead(ctx: TransformContext) {
+  async transformHead(ctx) {
   }
 })
 ```
