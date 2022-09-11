@@ -106,8 +106,22 @@ export async function renderPage(
   const title: string = createTitle(siteData, pageData)
   const description: string = pageData.description || siteData.description
 
+  let useHead = siteData.head
+  if (config.transformHead) {
+    // make a copy of the head
+    useHead = Array.from(siteData.head)
+    await config.transformHead({
+      siteConfig: config,
+      siteData,
+      pageData,
+      title,
+      description,
+      head: useHead
+    })
+  }
+
   const head = mergeHead(
-    siteData.head,
+    useHead,
     filterOutHeadDescription(pageData.frontmatter.head)
   )
 

@@ -255,6 +255,37 @@ VitePress build hooks allow you to add new functionality and behaviors to your w
 - Search Indexing
 - PWA
 
+### transformHead
+
+- Type: `( ctx: Omit<TransformContext, 'content'> ) => Awaitable<void>`
+
+`transformHead` is a build hook to transform the head before rendering each page: it will allow you to add head entries that cannot be statically added to your VitePress config module.
+
+``` warning
+The header provided in `TransformContext` is a clone, any headers you want to include on all pages will need to be added on each call.
+```
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  /* other vitepress options */
+  async transformHead(ctx: TransformContext) {
+  }
+})
+```
+
+```ts
+interface TransformContext {
+  siteConfig: SiteConfig
+  siteData: SiteData
+  pageData: PageData
+  title: string
+  description: string
+  head: HeadConfig[]
+}
+```
+
 ### transformHtml
 
 - Type: `( code: string, id: string, ctx: TransformContext ) => Awaitable<string | void>`
@@ -276,13 +307,7 @@ export default defineConfig({
 ```
 
 ```ts
-interface TransformContext {
-  siteConfig: SiteConfig
-  siteData: SiteData
-  pageData: PageData
-  title: string
-  description: string
-  head: HeadConfig[]
+interface HtmlTransformContext extends TransformContext {
   content: string
 }
 ```

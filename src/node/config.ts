@@ -94,12 +94,19 @@ export interface UserConfig<ThemeConfig = any> {
   buildEnd?: (siteConfig: SiteConfig) => Awaitable<void>
 
   /**
+   * Head transform hook: runs before writing HTML to dist.
+   *
+   * This build hook will allow you to modify the head adding new entries that cannot be statically added.
+   */
+  transformHead?: (ctx: TransformContext) => Awaitable<void>
+
+  /**
    * HTML transform hook: runs before writing HTML to dist.
    */
   transformHtml?: (
     code: string,
     id: string,
-    ctx: TransformContext
+    ctx: HtmlTransformContext
   ) => Awaitable<string | void>
 }
 
@@ -110,6 +117,9 @@ export interface TransformContext {
   title: string
   description: string
   head: HeadConfig[]
+}
+
+export interface HtmlTransformContext extends TransformContext {
   content: string
 }
 
@@ -129,6 +139,7 @@ export interface SiteConfig<ThemeConfig = any>
     | 'ignoreDeadLinks'
     | 'cleanUrls'
     | 'buildEnd'
+    | 'transformHead'
     | 'transformHtml'
   > {
   root: string
@@ -215,6 +226,7 @@ export async function resolveConfig(
     ignoreDeadLinks: userConfig.ignoreDeadLinks,
     cleanUrls: userConfig.cleanUrls || 'disabled',
     buildEnd: userConfig.buildEnd,
+    transformHead: userConfig.transformHead,
     transformHtml: userConfig.transformHtml
   }
 
