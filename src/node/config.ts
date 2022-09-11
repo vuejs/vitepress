@@ -99,16 +99,18 @@ export interface UserConfig<ThemeConfig = any> {
   transformHtml?: (
     code: string,
     id: string,
-    ctx: {
-      siteConfig: SiteConfig
-      siteData: SiteData
-      pageData: PageData
-      title: string
-      description: string
-      head: HeadConfig[]
-      content: string
-    }
+    ctx: TransformContext
   ) => Awaitable<string | void>
+}
+
+export interface TransformContext {
+  siteConfig: SiteConfig
+  siteData: SiteData
+  pageData: PageData
+  title: string
+  description: string
+  head: HeadConfig[]
+  content: string
 }
 
 export type RawConfigExports<ThemeConfig = any> =
