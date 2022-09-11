@@ -65,17 +65,19 @@ export async function build(
 
       const pages = ['404.md', ...siteConfig.pages]
 
-      await Promise.allSettled(
-        pages.map((page) => renderPage(
-          render,
-          siteConfig,
-          page,
-          clientResult,
-          appChunk,
-          cssChunk,
-          pageToHashMap,
-          hashMapString
-        ))
+      await Promise.all(
+        pages.map((page) =>
+          renderPage(
+            render,
+            siteConfig,
+            page,
+            clientResult,
+            appChunk,
+            cssChunk,
+            pageToHashMap,
+            hashMapString
+          )
+        )
       )
     } catch (e) {
       spinner.stopAndPersist({
@@ -114,5 +116,5 @@ function linkVue(root: string) {
       fs.unlinkSync(dest)
     }
   }
-  return () => {}
+  return () => { }
 }
