@@ -250,25 +250,14 @@ export default {
 ## Build Hooks
 
 VitePress build hooks allow you to add new functionality and behaviors to your website:
+
 - Sitemap
 - Search Indexing
 - PWA
 
 ### transformHtml
 
-- Type: `transformHtml?: (
-  code: string,
-  id: string,
-  ctx: {
-  siteConfig: SiteConfig
-  siteData: SiteData
-  pageData: PageData
-  title: string
-  description: string
-  head: HeadConfig[]
-  content: string
-  }
-  ) => Awaitable<string | void>`
+- Type: `transformHtml?: ( code: string, id: string, ctx: TransformContext ) => Awaitable<string | void>`
 
 `transformHtml` is a build hook to transform the content of each page before saving to disk (SSG).
 
@@ -284,6 +273,18 @@ export default defineConfig({
   async transformHtml(code, id, context) {
   }
 })
+```
+
+```ts
+interface TransformContext {
+  siteConfig: SiteConfig
+  siteData: SiteData
+  pageData: PageData
+  title: string
+  description: string
+  head: HeadConfig[]
+  content: string
+}
 ```
 
 ### buildEnd
