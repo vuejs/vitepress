@@ -257,7 +257,7 @@ VitePress build hooks allow you to add new functionality and behaviors to your w
 
 ### transformHtml
 
-- Type: `transformHtml?: ( code: string, id: string, ctx: TransformContext ) => Awaitable<string | void>`
+- Type: `( code: string, id: string, ctx: TransformContext ) => Awaitable<string | void>`
 
 `transformHtml` is a build hook to transform the content of each page before saving to disk (SSG).
 
@@ -289,7 +289,7 @@ interface TransformContext {
 
 ### buildEnd
 
-- Type: `buildEnd?: (siteConfig: SiteConfig) => Awaitable<void>`
+- Type: `(siteConfig: SiteConfig) => Awaitable<void>`
 
 `buildEnd` is a build CLI hook, it will run after build (SSG) finish but before VitePress CLI process exits.
 
