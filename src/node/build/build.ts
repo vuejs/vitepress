@@ -116,5 +116,5 @@ function linkVue(root: string) {
       fs.unlinkSync(dest)
     }
   }
-  return () => { }
+  return () => {}
 }
