@@ -1,4 +1,3 @@
-import { createRequire } from 'module'
 import fs from 'fs-extra'
 import path from 'path'
 import { pathToFileURL } from 'url'
@@ -16,9 +15,8 @@ import {
 import { slash } from '../utils/slash'
 import { SiteConfig, resolveSiteDataByRoute } from '../config'
 
-const require = createRequire(import.meta.url)
-
 export async function renderPage(
+  render: (path: string) => Promise<string>,
   config: SiteConfig,
   page: string, // foo.md
   result: RollupOutput | null,
@@ -27,29 +25,11 @@ export async function renderPage(
   pageToHashMap: Record<string, string>,
   hashMapString: string
 ) {
-  const { createApp } = await import(
-    pathToFileURL(path.join(config.tempDir, `app.js`)).toString()
-  )
-  const { app, router } = createApp()
   const routePath = `/${page.replace(/\.md$/, '')}`
   const siteData = resolveSiteDataByRoute(config.site, routePath)
-  router.go(routePath)
-
-  // lazy require server-renderer for production build
-  // prioritize project root over vitepress' own dep
-  let rendererPath
-  try {
-    rendererPath = require.resolve('vue/server-renderer', {
-      paths: [config.root]
-    })
-  } catch (e) {
-    rendererPath = require.resolve('vue/server-renderer')
-  }
 
   // render page
-  const content = await import(pathToFileURL(rendererPath).toString()).then(
-    (r) => r.renderToString(app)
-  )
+  const content = await render(routePath)
 
   const pageName = page.replace(/\//g, '_')
   // server build doesn't need hash
@@ -83,7 +63,7 @@ export async function renderPage(
         ? [appChunk.fileName]
         : []
       : result && appChunk
-        ? [
+      ? [
           ...new Set([
             // resolve imports for index.js + page.md.js and inject script tags
             // for them as well so we fetch everything as early as possible
@@ -93,7 +73,7 @@ export async function renderPage(
             appChunk.fileName
           ])
         ]
-        : []
+      : []
 
   let prefetchLinks: string[] = []
 
@@ -105,21 +85,22 @@ export async function renderPage(
 
   const preloadLinksString = preloadLinks
     .map((file) => {
-      return `<link rel="modulepreload" href="${EXTERNAL_URL_RE.test(file) ? '' : siteData.base // don't add base to external urls
-        }${file}">`
+      return `<link rel="modulepreload" href="${
+        EXTERNAL_URL_RE.test(file) ? '' : siteData.base // don't add base to external urls
+      }${file}">`
     })
     .join('\n    ')
 
   const prefetchLinkString = prefetchLinks
     .map((file) => {
-      return `<link rel="prefetch" href="${EXTERNAL_URL_RE.test(file) ? '' : siteData.base // don't add base to external urls
-        }${file}">`
+      return `<link rel="prefetch" href="${
+        EXTERNAL_URL_RE.test(file) ? '' : siteData.base // don't add base to external urls
+      }${file}">`
     })
     .join('\n    ')
 
   const stylesheetLink = cssChunk
-    ? `<link rel="preload" href="${siteData.base}${cssChunk.fileName}" as="style" /> 
-    <link rel="stylesheet" href="${siteData.base}${cssChunk.fileName}" />`
+    ? `<link rel="stylesheet" href="${siteData.base}${cssChunk.fileName}">`
     : ''
 
   const title: string = createTitle(siteData, pageData)
@@ -151,14 +132,10 @@ export async function renderPage(
 <!DOCTYPE html>
 <html lang="${siteData.lang}">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>${title}</title>
-    <meta name="description" content="${description}" />
-    <meta name="og:title" content="${title}" />
-    <meta name="og:description" content="${description}" />
-    <meta name="twitter:title" content="${title}" />
-    <meta name="twitter:description" content="${description}" />
+    <meta name="description" content="${description}">
     ${stylesheetLink}
     ${preloadLinksString}
     ${prefetchLinkString}
@@ -166,18 +143,28 @@ export async function renderPage(
   </head>
   <body>
     <div id="app">${content}</div>
-    ${config.mpa
-      ? ''
-      : `<script>__VP_HASH_MAP__ = JSON.parse(${hashMapString})</script>`
+    ${
+      config.mpa
+        ? ''
+        : `<script>__VP_HASH_MAP__ = JSON.parse(${hashMapString})</script>`
     }
-    ${appChunk
-      ? `<script type="module" async src="${siteData.base}${appChunk.fileName}"></script>`
-      : ``
+    ${
+      appChunk
+        ? `<script type="module" async src="${siteData.base}${appChunk.fileName}"></script>`
+        : ``
     }
     ${inlinedScript}
   </body>
 </html>`.trim()
-  const htmlFileName = path.join(config.outDir, page.replace(/\.md$/, '.html'))
+  const createSubDirectory =
+    config.cleanUrls === 'with-subfolders' &&
+    !/(^|\/)(index|404).md$/.test(page)
+
+  const htmlFileName = path.join(
+    config.outDir,
+    page.replace(/\.md$/, createSubDirectory ? '/index.html' : '.html')
+  )
+
   await fs.ensureDir(path.dirname(htmlFileName))
   const transformedHtml = await config.transformHtml?.(html, htmlFileName, {
     siteConfig: config,
