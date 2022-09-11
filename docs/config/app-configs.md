@@ -257,7 +257,7 @@ VitePress build hooks allow you to add new functionality and behaviors to your w
 
 ### transformHead
 
-- Type: `( ctx: Omit<TransformContext, 'content'> ) => Awaitable<void>`
+- Type: `( ctx: TransformContext ) => Awaitable<void>`
 
 `transformHead` is a build hook to transform the head before rendering each page: it will allow you to add head entries that cannot be statically added to your VitePress config module.
 
@@ -288,7 +288,7 @@ interface TransformContext {
 
 ### transformHtml
 
-- Type: `( code: string, id: string, ctx: TransformContext ) => Awaitable<string | void>`
+- Type: `( code: string, id: string, ctx: HtmlTransformContext ) => Awaitable<string | void>`
 
 `transformHtml` is a build hook to transform the content of each page before saving to disk (SSG).
 
