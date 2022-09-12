@@ -255,24 +255,21 @@ VitePress build hooks allow you to add new functionality and behaviors to your w
 - Search Indexing
 - PWA
 
-### transformHtml
+### transformHead
 
-- Type: `( code: string, id: string, ctx: TransformContext ) => Awaitable<string | void>`
+- Type: `(ctx: TransformContext) => Awaitable<HeadConfig[]>`
 
-`transformHtml` is a build hook to transform the content of each page before saving to disk (SSG).
+`transformHead` is a build hook to transform the head before generating each page. It will allow you to add head entries that cannot be statically added to your VitePress config. You only need to return extra entries, they will be merged automatically with the existing ones.
 
 ::: warning
-Modifying the html content may cause hydration problems in runtime.
+Don't mutate anything inside the `ctx`.
 :::
 
 ```ts
-import { defineConfig } from 'vitepress'
-
-export default defineConfig({
-  /* other vitepress options */
-  async transformHtml(code, id, context) {
+export default {
+  async transformHead(ctx) {
   }
-})
+}
 ```
 
 ```ts
@@ -287,6 +284,23 @@ interface TransformContext {
 }
 ```
 
+### transformHtml
+
+- Type: `(code: string, id: string, ctx: TransformContext) => Awaitable<string | void>`
+
+`transformHtml` is a build hook to transform the content of each page before saving to disk.
+
+::: warning
+Don't mutate anything inside the `ctx`. Also, modifying the html content may cause hydration problems in runtime.
+:::
+
+```ts
+export default {
+  async transformHtml(code, id, context) {
+  }
+}
+```
+
 ### buildEnd
 
 - Type: `(siteConfig: SiteConfig) => Awaitable<void>`
@@ -294,11 +308,8 @@ interface TransformContext {
 `buildEnd` is a build CLI hook, it will run after build (SSG) finish but before VitePress CLI process exits.
 
 ```ts
-import { defineConfig } from 'vitepress'
-
-export default defineConfig({
-  /* other vitepress options */
+export default {
   async buildEnd(siteConfig) {
   }
-})
+}
 ```
