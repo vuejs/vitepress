@@ -1,3 +1,40 @@
+# [1.0.0-alpha.14](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.13...v1.0.0-alpha.14) (2022-09-14)
+
+
+### Bug Fixes
+
+* prevent jumping on clicking docsearch action buttons ([#1140](https://github.com/vuejs/vitepress/issues/1140)) ([86413e6](https://github.com/vuejs/vitepress/commit/86413e6739a834f8490c2004a62a27d1f5a59d00))
+* **theme:** break long words ([#1064](https://github.com/vuejs/vitepress/issues/1064)) ([9c739fd](https://github.com/vuejs/vitepress/commit/9c739fd37d15bbf16e8214e20a4bca1c763c4510))
+* **theme:** don't nest sidebar links ([#1279](https://github.com/vuejs/vitepress/issues/1279)) ([f840dbc](https://github.com/vuejs/vitepress/commit/f840dbc58f972492ed4afa9b6b222c4f7d89ade1))
+* **theme:** keep display copied hint when click multiple times ([#1262](https://github.com/vuejs/vitepress/issues/1262)) ([bb11d0f](https://github.com/vuejs/vitepress/commit/bb11d0f17852a3f2a35339f765acffca526a9ee8))
+* **theme:** show progress bar after delay ([#1278](https://github.com/vuejs/vitepress/issues/1278)) ([496bd34](https://github.com/vuejs/vitepress/commit/496bd34ff4143dcef9532f4298ca670bfa34e399))
+* **theme:** use pointer cursor only on enabled buttons ([#1300](https://github.com/vuejs/vitepress/issues/1300)) ([d7eac98](https://github.com/vuejs/vitepress/commit/d7eac980e15510de18dbf1fd675a6c1def5f6697))
+* **theme:** use pointer-events auto instead of all ([#1290](https://github.com/vuejs/vitepress/issues/1290)) ([6fac5b2](https://github.com/vuejs/vitepress/commit/6fac5b2964e77462edc963811ee1714e337fa53e))
+* **types:** allow non async `transformHtml` and `buildEnd` ([#1270](https://github.com/vuejs/vitepress/issues/1270)) ([ee37eaa](https://github.com/vuejs/vitepress/commit/ee37eaa27191faad03c04d60fb3ca8ffbb887fbe))
+
+
+### Features
+
+* add `transformHead` hook ([#1323](https://github.com/vuejs/vitepress/issues/1323)) ([6b16dad](https://github.com/vuejs/vitepress/commit/6b16dad22f944cb173dbf67ef04be5cb0d09279f))
+* add `vp-raw` container ([#1104](https://github.com/vuejs/vitepress/issues/1104)) ([9a6e1ea](https://github.com/vuejs/vitepress/commit/9a6e1ea401c4a44205f96c4786c44061582f675c))
+* bundle type definitions of dev-deps ([#1257](https://github.com/vuejs/vitepress/issues/1257)) ([12591a9](https://github.com/vuejs/vitepress/commit/12591a9487ff7647162051f4b28956f0c1403efb))
+* **theme:** add page load progress bar ([#1264](https://github.com/vuejs/vitepress/issues/1264)) ([ecf5515](https://github.com/vuejs/vitepress/commit/ecf5515bd453eca20946339a56be9180f6dca2c1))
+* **theme:** allow disabling whole layout ([#1268](https://github.com/vuejs/vitepress/issues/1268)) ([8f63033](https://github.com/vuejs/vitepress/commit/8f630339ba95cbaded97f0fcff9323755dd16bcc))
+* **theme:** support dynamic headers and nesting in outline ([#1281](https://github.com/vuejs/vitepress/issues/1281)) ([288aa48](https://github.com/vuejs/vitepress/commit/288aa48b92bc1d4dd74d064148a3b03373cdf1c3))
+
+
+### Performance Improvements
+
+* **a11y:** add aria-checked attribute to switch ([#644](https://github.com/vuejs/vitepress/issues/644)) ([eb9026d](https://github.com/vuejs/vitepress/commit/eb9026d83ca17c59893e7063e0c64b0bf1b99765))
+* render pages asynchronously ([#1320](https://github.com/vuejs/vitepress/issues/1320)) ([8e4ff4d](https://github.com/vuejs/vitepress/commit/8e4ff4de901d846ac99d37ebf212b12e9687ed5e))
+
+
+### Reverts
+
+* **#1264:** add page load progress bar ([#1311](https://github.com/vuejs/vitepress/issues/1311)) ([5378a49](https://github.com/vuejs/vitepress/commit/5378a49613ceef591d2cacecbc175921658b22b1)), closes [#1264](https://github.com/vuejs/vitepress/issues/1264)
+
+
+
 # [1.0.0-alpha.13](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.12...v1.0.0-alpha.13) (2022-08-30)
 
 
