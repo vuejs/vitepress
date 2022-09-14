@@ -83,6 +83,7 @@ export function resolveSiteDataByRoute(
   return Object.assign({}, siteData, {
     localeIndex,
     lang: siteData.locales[localeIndex]?.lang ?? siteData.lang,
+    dir: siteData.locales[localeIndex]?.dir ?? siteData.dir,
     title: siteData.locales[localeIndex]?.title ?? siteData.title,
     titleTemplate:
       siteData.locales[localeIndex]?.titleTemplate ?? siteData.titleTemplate,

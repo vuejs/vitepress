@@ -51,6 +51,7 @@ export interface SiteData<ThemeConfig = any> {
   base: string
   cleanUrls?: CleanUrlsMode
   lang: string
+  dir: string
   title: string
   titleTemplate?: string | boolean
   description: string
@@ -73,6 +74,7 @@ export interface PageDataPayload {
 
 export interface LocaleSpecificConfig<ThemeConfig = any> {
   lang?: string
+  dir?: string
   title?: string
   titleTemplate?: string | boolean
   description?: string

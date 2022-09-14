@@ -144,7 +144,7 @@ export async function renderPage(
 
   const html = `
 <!DOCTYPE html>
-<html lang="${siteData.lang}">
+<html lang="${siteData.lang}" dir="${siteData.dir}">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">

@@ -19,6 +19,7 @@ export interface VitePressData<T = any> {
   title: Ref<string>
   description: Ref<string>
   lang: Ref<string>
+  dir: Ref<string>
   localeIndex: Ref<string>
 }
 
@@ -48,6 +49,7 @@ export function initData(route: Route): VitePressData {
     page: computed(() => route.data),
     frontmatter: computed(() => route.data.frontmatter),
     lang: computed(() => site.value.lang),
+    dir: computed(() => site.value.dir),
     localeIndex: computed(() => site.value.localeIndex || 'root'),
     title: computed(() => {
       return createTitle(site.value, route.data)
