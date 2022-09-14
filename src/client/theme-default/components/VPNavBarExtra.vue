@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { useData } from 'vitepress'
+import { computed } from 'vue'
 import VPFlyout from './VPFlyout.vue'
 import VPMenuLink from './VPMenuLink.vue'
 import VPSwitchAppearance from './VPSwitchAppearance.vue'
@@ -8,10 +9,17 @@ import { useLangs } from '../composables/langs.js'
 
 const { site, theme } = useData()
 const { localeLinks, currentLang } = useLangs()
+
+const hasExtraContent = computed(
+  () =>
+    (localeLinks.value.length && currentLang.value.label) ||
+    site.value.appearance ||
+    theme.value.socialLinks
+)
 </script>
 
 <template>
-  <VPFlyout class="VPNavBarExtra" label="extra navigation">
+  <VPFlyout v-if="hasExtraContent" class="VPNavBarExtra" label="extra navigation">
     <div v-if="localeLinks.length && currentLang.label" class="group">
       <p class="trans-title">{{ currentLang.label }}</p>
 
