@@ -8,6 +8,7 @@ import { renderPage } from './render'
 import { bundle, okMark, failMark } from './bundle'
 import { createRequire } from 'module'
 import { pathToFileURL } from 'url'
+import pkgDir from 'pkg-dir'
 
 export async function build(
   root?: string,
@@ -17,7 +18,7 @@ export async function build(
 
   process.env.NODE_ENV = 'production'
   const siteConfig = await resolveConfig(root, 'build', 'production')
-  const unlinkVue = linkVue(siteConfig.root)
+  const unlinkVue = linkVue()
 
   if (buildOptions.base) {
     siteConfig.site.base = buildOptions.base
@@ -106,14 +107,17 @@ export async function build(
   console.log(`build complete in ${((Date.now() - start) / 1000).toFixed(2)}s.`)
 }
 
-function linkVue(root: string) {
-  const dest = path.resolve(root, 'node_modules/vue')
-  // if user did not install vue by themselves, link VitePress' version
-  if (!fs.existsSync(dest)) {
-    const src = path.dirname(createRequire(import.meta.url).resolve('vue'))
-    fs.ensureSymlinkSync(src, dest, 'junction')
-    return () => {
-      fs.unlinkSync(dest)
+function linkVue() {
+  const root = pkgDir.sync()
+  if (root) {
+    const dest = path.resolve(root, 'node_modules/vue')
+    // if user did not install vue by themselves, link VitePress' version
+    if (!fs.existsSync(dest)) {
+      const src = path.dirname(createRequire(import.meta.url).resolve('vue'))
+      fs.ensureSymlinkSync(src, dest, 'junction')
+      return () => {
+        fs.unlinkSync(dest)
+      }
     }
   }
   return () => {}
