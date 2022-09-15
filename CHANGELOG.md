@@ -1,3 +1,14 @@
+# [1.0.0-alpha.15](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.14...v1.0.0-alpha.15) (2022-09-15)
+
+
+### Bug Fixes
+
+* **build:** properly resolve node_modules ([#1337](https://github.com/vuejs/vitepress/issues/1337)) ([0672a69](https://github.com/vuejs/vitepress/commit/0672a696a427731851e1ed79fe689c4a2a46fedf))
+* **theme:** hide extra navbar when no content ([#1338](https://github.com/vuejs/vitepress/issues/1338)) ([4482c50](https://github.com/vuejs/vitepress/commit/4482c5019d89129791fe066f011648500d105f41))
+* **theme:** remove trailing `#` from outline ([#1344](https://github.com/vuejs/vitepress/issues/1344)) ([f1cf1e8](https://github.com/vuejs/vitepress/commit/f1cf1e800f0e99fe726bdfa7767180473faaf2c2))
+
+
+
 # [1.0.0-alpha.14](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.13...v1.0.0-alpha.14) (2022-09-14)
 
 
