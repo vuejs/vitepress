@@ -29,12 +29,12 @@ function scrollToTop() {
     >
       <VPIconAlignLeft class="menu-icon" />
       <span class="menu-text">
-        {{ theme.translations?.sidebarMenuLabel || 'Menu' }}
+        {{ theme.sidebarMenuLabel || 'Menu' }}
       </span>
     </button>
 
     <a class="top-link" href="#" @click="scrollToTop">
-      {{ theme.translations?.returnToTopLabel || 'Return to top' }}
+      {{ theme.returnToTopLabel || 'Return to top' }}
     </a>
   </div>
 </template>

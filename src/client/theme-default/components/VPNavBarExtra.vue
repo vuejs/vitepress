@@ -31,7 +31,7 @@ const hasExtraContent = computed(
     <div v-if="site.appearance" class="group">
       <div class="item appearance">
         <p class="label">
-          {{ theme.translations?.darkModeSwitchLabel || 'Appearance' }}
+          {{ theme.darkModeSwitchLabel || 'Appearance' }}
         </p>
         <div class="appearance-action">
           <VPSwitchAppearance />

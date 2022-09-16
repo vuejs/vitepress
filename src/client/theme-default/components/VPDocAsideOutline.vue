@@ -43,7 +43,13 @@ function handleClick({ target: el }: Event) {
       <div class="outline-marker" ref="marker" />
 
       <div class="outline-title">
-        {{ theme.translations?.outlineTitle || 'On this page' }}
+        {{
+          (typeof theme.outline === 'object' &&
+            !Array.isArray(theme.outline) &&
+            theme.outline.label) ||
+          theme.outlineTitle ||
+          'On this page'
+        }}
       </div>
 
       <nav aria-labelledby="doc-outline-aria-label">

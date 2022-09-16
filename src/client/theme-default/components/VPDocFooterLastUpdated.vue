@@ -20,7 +20,7 @@ onMounted(() => {
 
 <template>
   <p class="VPLastUpdated">
-    {{ theme.translations?.lastUpdatedText || 'Last updated' }}:
+    {{ theme.lastUpdatedText || 'Last updated' }}:
     <time :datatime="isoDatetime">{{ datetime }}</time>
   </p>
 </template>

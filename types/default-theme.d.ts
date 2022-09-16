@@ -18,7 +18,15 @@ export namespace DefaultTheme {
      *
      * @default 2
      */
-    outline?: number | [number, number] | 'deep' | false
+    outline?: Outline | Outline['level'] | false
+
+    /**
+     * @deprecated
+     * Use `outline.label` instead.
+     *
+     * @default 'On this page'
+     */
+    outlineTitle?: string
 
     /**
      * The nav items.
@@ -37,6 +45,18 @@ export namespace DefaultTheme {
     editLink?: EditLink
 
     /**
+     * Set custom last updated text.
+     *
+     * @default 'Last updated'
+     */
+    lastUpdatedText?: string
+
+    /**
+     * Set custom prev/next labels.
+     */
+    docFooter?: DocFooter
+
+    /**
      * The social links to be displayed at the end of the nav bar. Perfect for
      * placing links to social services such as GitHub, Twitter, Facebook, etc.
      */
@@ -48,6 +68,21 @@ export namespace DefaultTheme {
     footer?: Footer
 
     /**
+     * @default 'Appearance'
+     */
+    darkModeSwitchLabel?: string
+
+    /**
+     * @default 'Menu'
+     */
+    sidebarMenuLabel?: string
+
+    /**
+     * @default 'Return to top'
+     */
+    returnToTopLabel?: string
+
+    /**
      * The algolia options. Leave it undefined to disable the search feature.
      */
     algolia?: AlgoliaSearchOptions
@@ -56,48 +91,6 @@ export namespace DefaultTheme {
      * The carbon ads options. Leave it undefined to disable the ads feature.
      */
     carbonAds?: CarbonAdsOptions
-
-    /**
-     * Custom labels
-     */
-    translations?: {
-      /**
-       * @default 'On this page'
-       */
-      outlineTitle?: string
-
-      /**
-       * @default 'Last updated'
-       */
-      lastUpdatedText?: string
-
-      docFooter?: {
-        /**
-         * @default 'Previous page'
-         */
-        prev?: string
-
-        /**
-         * @default 'Next page'
-         */
-        next?: string
-      }
-
-      /**
-       * @default 'Appearance'
-       */
-      darkModeSwitchLabel?: string
-
-      /**
-       * @default 'Menu'
-       */
-      sidebarMenuLabel?: string
-
-      /**
-       * @default 'Return to top'
-       */
-      returnToTopLabel?: string
-    }
   }
 
   // nav -----------------------------------------------------------------------
@@ -185,6 +178,24 @@ export namespace DefaultTheme {
     text?: string
   }
 
+  // prev-next -----------------------------------------------------------------
+
+  export interface DocFooter {
+    /**
+     * Custom label for previous page button.
+     *
+     * @default 'Previous page'
+     */
+    prev?: string
+
+    /**
+     * Custom label for next page button.
+     *
+     * @default 'Next page'
+     */
+    next?: string
+  }
+
   // social link ---------------------------------------------------------------
 
   export interface SocialLink {
@@ -221,6 +232,13 @@ export namespace DefaultTheme {
     desc?: string
     links?: SocialLink[]
     sponsor?: string
+  }
+
+  // outline -------------------------------------------------------------------
+
+  export interface Outline {
+    level?: number | [number, number] | 'deep'
+    label?: string
   }
 
   // algolia ------------------------------------------------------------------

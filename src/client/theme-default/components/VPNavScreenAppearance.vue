@@ -8,7 +8,7 @@ const { site, theme } = useData()
 <template>
   <div v-if="site.appearance" class="VPNavScreenAppearance">
     <p class="text">
-      {{ theme.translations?.darkModeSwitchLabel || 'Appearance' }}
+      {{ theme.darkModeSwitchLabel || 'Appearance' }}
     </p>
     <VPSwitchAppearance />
   </div>
