@@ -20,7 +20,7 @@ export function getHeaders(pageOutline: DefaultTheme.Config['outline']) {
       if (el.textContent && el.id) {
         updatedHeaders.push({
           level: Number(el.tagName[1]),
-          title: el.innerText.split('\n')[0],
+          title: el.innerText.replace(/\s+#\s*$/, ''),
           link: `#${el.id}`
         })
       }
