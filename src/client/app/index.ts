@@ -16,6 +16,7 @@ import { usePrefetch } from './composables/preFetch.js'
 import { dataSymbol, initData } from './data.js'
 import { Content } from './components/Content.js'
 import { ClientOnly } from './components/ClientOnly.js'
+import { RouteAnnouncer } from './components/RouteAnnouncer.js'
 import { useCopyCode } from './composables/copyCode.js'
 
 const NotFound = Theme.NotFound || (() => '404 Not Found')
@@ -65,6 +66,7 @@ export function createApp() {
   // install global components
   app.component('Content', Content)
   app.component('ClientOnly', ClientOnly)
+  app.component('RouteAnnouncer', RouteAnnouncer)
 
   // expose $frontmatter
   Object.defineProperty(app.config.globalProperties, '$frontmatter', {
