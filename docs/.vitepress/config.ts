@@ -9,6 +9,12 @@ export default defineConfig({
   lastUpdated: true,
   cleanUrls: 'without-subfolders',
 
+  markdown: {
+    headers: {
+      level: [0, 0]
+    }
+  },
+
   themeConfig: {
     nav: nav(),
 
