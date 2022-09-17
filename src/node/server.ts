@@ -20,6 +20,7 @@ export async function createServer(
   return createViteServer({
     root: config.srcDir,
     base: config.site.base,
+    cacheDir: config.cacheDir,
     // logLevel: 'warn',
     plugins: await createVitePressPlugin(config, false, {}, {}, recreateServer),
     server: serverOptions
