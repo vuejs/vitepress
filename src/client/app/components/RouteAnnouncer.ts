@@ -4,10 +4,9 @@ import { useRoute } from '../router.js'
 export const RouteAnnouncer = defineComponent({
     name: 'VitePressRouteAnnouncer',
     setup() {
-        const vitePressRoute: { path: string } = useRoute()
+        const vitePressRoute = useRoute()
         const previouslyLoadedPath = shallowRef(vitePressRoute.path)
         const routeAnnouncement = shallowRef('')
-
         watchPostEffect(() => {
             if (previouslyLoadedPath.value === vitePressRoute.path) return
             previouslyLoadedPath.value === vitePressRoute.path
@@ -19,7 +18,7 @@ export const RouteAnnouncer = defineComponent({
                     vitepressPageHeader?.innerText ?? vitepressPageHeader?.textContent
                 routeAnnouncement.value = vitepressContent || vitePressRoute?.path
             }
-        });
+        })
         return () => h('p', {
             style: {
                 border: 0,
