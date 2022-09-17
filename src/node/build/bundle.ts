@@ -48,6 +48,9 @@ export async function bundle(
       pageToHashMap,
       clientJSMap
     ),
+    resolve: {
+      dedupe: ['vue']
+    },
     ssr: {
       noExternal: ['vitepress', '@docsearch/css']
     },

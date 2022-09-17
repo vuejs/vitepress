@@ -41,6 +41,9 @@ export async function buildMPAClient(
           }
         }
       }
-    ]
+    ],
+    resolve: {
+      dedupe: ['vue']
+    }
   }) as Promise<RollupOutput>
 }

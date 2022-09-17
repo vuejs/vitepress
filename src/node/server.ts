@@ -22,6 +22,9 @@ export async function createServer(
     base: config.site.base,
     // logLevel: 'warn',
     plugins: await createVitePressPlugin(config, false, {}, {}, recreateServer),
-    server: serverOptions
+    server: serverOptions,
+    resolve: {
+      dedupe: ['vue']
+    }
   })
 }
