@@ -14,7 +14,7 @@ defineProps<{
   <article class="VPTeamMembersItem" :class="[size ?? 'medium']">
     <div class="profile">
       <figure class="avatar">
-        <img class="avatar-img" :src="member.avatar" :alt="member.name">
+        <img class="avatar-img" :src="member.avatar" :alt="member.name" decoding="async" />
       </figure>
       <div class="data">
         <h1 class="name">

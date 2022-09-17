@@ -42,6 +42,7 @@ useSponsorsGrid({ el, size: props.size })
             class="vp-sponsor-grid-image"
             :src="sponsor.img"
             :alt="sponsor.name"
+            decoding="async"
           />
         </article>
       </a>
