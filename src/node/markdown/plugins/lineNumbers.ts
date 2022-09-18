@@ -3,10 +3,22 @@
 
 import MarkdownIt from 'markdown-it'
 
-export const lineNumberPlugin = (md: MarkdownIt) => {
+export const lineNumberPlugin = (
+  md: MarkdownIt,
+  isLineNumberOption: Boolean
+) => {
   const fence = md.renderer.rules.fence!
   md.renderer.rules.fence = (...args) => {
     const rawCode = fence(...args)
+    const [tokens, idx] = args
+    const token = tokens[idx]
+    const attr = token.attrs && token.attrs[0]
+    if (
+      (!isLineNumberOption && !attr) ||
+      (attr && !attr[0].includes('showLineNumbers'))
+    ) {
+      return rawCode
+    }
     const code = rawCode.slice(
       rawCode.indexOf('<code>'),
       rawCode.indexOf('</code>')

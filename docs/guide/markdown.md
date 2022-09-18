@@ -353,9 +353,23 @@ export default { // Highlighted
 
 ## Line Numbers
 
-You can enable line numbers for each code blocks via config:
+You can enable line numbers for each code blocks via config or you can specify `{showLineNumbers}` for a single code block:
 
-```js
+**Input**
+
+````
+```js {showLineNumbers}
+export default {
+  markdown: {
+    lineNumbers: true
+  }
+}
+```
+````
+
+**Output**
+
+```js{showLineNumbers}
 export default {
   markdown: {
     lineNumbers: true

@@ -80,6 +80,7 @@ export const createMarkdownRenderer = async (
       },
       base
     )
+    .use(lineNumberPlugin, options.lineNumbers)
 
   // 3rd party plugins
   if (!options.attrs?.disable) {
@@ -112,10 +113,6 @@ export const createMarkdownRenderer = async (
   // apply user config
   if (options.config) {
     options.config(md)
-  }
-
-  if (options.lineNumbers) {
-    md.use(lineNumberPlugin)
   }
   return md
 }
