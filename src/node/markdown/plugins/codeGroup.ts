@@ -2,7 +2,10 @@ import Token from 'markdown-it/lib/token'
 
 export const extractCodeTitleAndLang = (token: Token): [string, string] => {
   const RE = /(\w*)(?:{[\d,-]+})?\s*\[(.+)\]/
-  const hint = token.info.trim().replace(/-vue$/, '')
+  const hint = token.info
+    .trim()
+    .replace(codeGroupInternalActiveMark, '')
+    .replace(/-vue$/, '')
   let codeTitle = ''
   let lang = hint
   if (RE.test(hint)) {

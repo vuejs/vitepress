@@ -60,19 +60,25 @@ function createCodeGroup(): ContainerArgs {
     klass,
     {
       render(tokens, idx) {
-        const token = tokens[idx]
-        if (token.nesting === 1) {
+        if (tokens[idx].nesting === 1) {
           const startTokenId = idx
-          const endTokenId = tokens.findIndex(
-            (token) => token.type === 'container_code-group_close'
-          )
+          const endTokenId =
+            tokens
+              .slice(startTokenId)
+              .findIndex(
+                (token) =>
+                  token.nesting == -1 &&
+                  token.type === 'container_code-group_close'
+              ) + startTokenId
           const codeGroupTokens = tokens.slice(startTokenId + 1, endTokenId)
+
           // Mark first code block as active
           const firstCodeBlock = codeGroupTokens.findIndex(
             (token) => token.type === 'fence' && token.tag === 'code'
           )
-          tokens[startTokenId + 1 + firstCodeBlock].info +=
-            codeGroupInternalActiveMark
+          tokens[
+            startTokenId + 1 + firstCodeBlock
+          ].info += ` ${codeGroupInternalActiveMark}`
           const codeTitles = codeGroupTokens
             .filter((token) => token.type === 'fence' && token.tag === 'code')
             .map((token) => extractCodeTitleAndLang(token)[0])
