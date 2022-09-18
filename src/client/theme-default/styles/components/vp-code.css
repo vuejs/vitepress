@@ -5,3 +5,39 @@
 html:not(.dark) .vp-code-dark {
   display: none;
 }
+
+.code-group .tabs-header {
+  border-radius: 8px 8px 0 0;
+  padding: 0 12px 0 12px;
+  background-color: var(--vp-code-block-tab-header-bg);
+  transition: background-color 0.5s;
+}
+
+.code-group .tabs-header button {
+  padding: 6px 8px 6px 8px;
+  margin: 8px 0 8px 0;
+  border-radius: 8px;
+  color: white;
+  outline: none;
+}
+
+.code-group .tabs-header button:hover {
+  color: var(--vp-c-gray-light-4);
+}
+
+.code-group .tabs-header button.active {
+  background-color: var(--vp-c-gray-dark-3);
+}
+
+.code-group .code-block {
+  display: none;
+}
+
+.code-group .code-block.active {
+  display: block;
+}
+
+.code-group div[class*='language-'] {
+  border-radius: 0 0 8px 8px !important;
+  margin-top: 0 !important;
+}
