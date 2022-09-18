@@ -25,6 +25,7 @@ import { preWrapperPlugin } from './plugins/preWrapper'
 import { linkPlugin } from './plugins/link'
 import { imagePlugin } from './plugins/image'
 import { Header } from '../shared'
+import { inlineHighlightPlugin } from './plugins/inlineHighlight'
 
 export type ThemeOptions =
   | IThemeRegistration
@@ -70,6 +71,7 @@ export const createMarkdownRenderer = async (
     .use(preWrapperPlugin)
     .use(snippetPlugin, srcDir)
     .use(containerPlugin)
+    .use(inlineHighlightPlugin)
     .use(imagePlugin)
     .use(
       linkPlugin,

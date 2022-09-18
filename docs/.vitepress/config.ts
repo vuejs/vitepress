@@ -86,6 +86,7 @@ function sidebarGuide() {
       text: 'Writing',
       collapsible: true,
       items: [
+        { text: 'Inline highlight', link: '/guide/inline' },
         { text: 'Markdown', link: '/guide/markdown' },
         { text: 'Asset Handling', link: '/guide/asset-handling' },
         { text: 'Frontmatter', link: '/guide/frontmatter' },
