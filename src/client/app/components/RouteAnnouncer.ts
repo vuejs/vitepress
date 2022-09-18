@@ -34,7 +34,7 @@ export const RouteAnnouncer = defineComponent({
             },
             id: '__vitepress-route-announcer__',
             role: "alert",
-            ariaLive: "assertive"
+            'aria-live': "assertive"
         }, [
             routeAnnouncement?.value
         ])
