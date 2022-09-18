@@ -21,6 +21,12 @@ const closeSideBar = inject('close-sidebar') as () => void
 const collapsible = computed(() => 'items' in props.item ? !!props.item.collapsible : false)
 const collapsed = ref(false)
 
+/**
+ * When this node is both a page and a parent node,
+ * a split line will be added between the collapse button and the link to distinguish the functional area.
+ */
+const divider = computed(() => !!props.item.link && collapsible.value)
+
 
 watchEffect(() => {
   if ('items' in props.item)
@@ -32,6 +38,15 @@ function toggle() {
     collapsed.value = !collapsed.value
   }
 }
+
+function clickLink() {
+  closeSideBar()
+
+  // If there are no links to jump to, switch to expand when clicking on the text
+  if (!props.item.link) {
+    toggle()
+  }
+}
 </script>
 
 <template>
@@ -39,10 +54,10 @@ function toggle() {
     <div class="link-label">
       <VPLink
         class="link"
-        :class="{ active: isActive(page.relativePath, item.link) }"
+        :class="{ active: isActive(page.relativePath, item.link), divider }"
         :style="{ paddingLeft: 16 * (depth - 1) + 'px' }"
         :href="item.link"
-        @click="closeSideBar"
+        @click="clickLink"
       >
         <span class="link-text" :class="{ light: depth > 1 }">{{ item.text }}</span>
       </VPLink>
@@ -66,6 +81,7 @@ function toggle() {
 
 <style scoped>
 .link {
+  flex: 1;
   display: block;
   margin: 4px 0;
   color: var(--vp-c-text-2);
@@ -99,7 +115,15 @@ function toggle() {
 
 .link-label {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+}
+
+.link.divider {
+  border-right: 1px solid var(--vp-c-divider-light);
+}
+
+.link:not(.divider):hover + .action {
+  color: var(--vp-c-text-2);
 }
 
 .action {
@@ -113,8 +137,16 @@ function toggle() {
   transition: color 0.25s;
 }
 
+.action:hover {
+  color: var(--vp-c-text-2);
+}
+
 .VPSidebarLink.collapsible > .link-label .action {
   display: block;
+}
+
+.VPSidebarLink.collapsible > .link-label .link {
+  cursor: pointer;
 }
 
 .icon {
@@ -126,13 +158,17 @@ function toggle() {
   fill: currentColor;
 }
 
-.VPSidebarLink.collapsed .items {
-  max-height: 0;
-}
-
 .icon.minus { opacity: 1; }
 .icon.plus  { opacity: 0; }
 
 .VPSidebarLink.collapsed > .link-label .icon.minus { opacity: 0; }
 .VPSidebarLink.collapsed > .link-label .icon.plus  { opacity: 1; }
+
+.items {
+  overflow: hidden;
+}
+
+.VPSidebarLink.collapsed .items {
+  max-height: 0;
+}
 </style>
