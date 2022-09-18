@@ -14,8 +14,7 @@ export const RouteAnnouncer = defineComponent({
                 routeAnnouncement.value = document?.title
             } else {
                 const vitepressPageHeader = document?.querySelector?.('h1')
-                const vitepressContent =
-                    vitepressPageHeader?.innerText ?? vitepressPageHeader?.textContent
+                const vitepressContent = vitepressPageHeader?.innerText ?? vitepressPageHeader?.textContent
                 routeAnnouncement.value = vitepressContent || vitePressRoute?.path
             }
         })
