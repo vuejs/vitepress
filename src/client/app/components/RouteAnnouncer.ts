@@ -9,7 +9,7 @@ export const RouteAnnouncer = defineComponent({
         const routeAnnouncement = shallowRef('')
         watchPostEffect(() => {
             if (previouslyLoadedPath.value === vitePressRoute.path) return
-            previouslyLoadedPath.value === vitePressRoute.path
+            previouslyLoadedPath.value = vitePressRoute.path
             if (document?.title) {
                 routeAnnouncement.value = document?.title
             } else {
