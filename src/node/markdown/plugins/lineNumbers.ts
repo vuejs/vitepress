@@ -21,7 +21,7 @@ export const lineNumberPlugin = (md: MarkdownIt) => {
 
     const finalCode = rawCode
       .replace(/<\/div>$/, `${lineNumbersWrapperCode}</div>`)
-      .replace(/"(language-[-\w]*)"/, '"$1 line-numbers-mode"')
+      .replace(/"(language-\S*?)"/, '"$1 line-numbers-mode"')
 
     return finalCode
   }
