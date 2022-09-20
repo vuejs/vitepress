@@ -15,7 +15,7 @@ export const lineNumberPlugin = (
     const attr = token.attrs && token.attrs[0]
     if (
       (!isLineNumberOption && !attr) ||
-      (attr && !attr[0].includes('showLineNumbers'))
+      (!isLineNumberOption && attr && !attr[0].includes('showLineNumbers'))
     ) {
       return rawCode
     }
