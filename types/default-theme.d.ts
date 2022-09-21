@@ -38,6 +38,12 @@ export namespace DefaultTheme {
     sidebar?: Sidebar
 
     /**
+     * Default page layout component name in place of doc,
+     * which must be registered using enhanceApp
+     */
+    pageLayout?: string
+    /**
+
      * Info for the edit link. If it's undefined, the edit link feature will
      * be disabled.
      */
