@@ -242,6 +242,17 @@
   transition: color 0.5s, background-color 0.5s;
 }
 
+.vp-doc pre.inline {
+  display: inline;
+}
+
+.vp-doc pre.inline > code {
+  border-radius: 4px;
+  padding: 3px 6px;
+  background-color: var(--vp-c-bg-mute);
+  transition: color 0.5s, background-color 0.5s;
+}
+
 .vp-doc h1 > code,
 .vp-doc h2 > code,
 .vp-doc h3 > code {

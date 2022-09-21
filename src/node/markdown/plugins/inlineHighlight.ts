@@ -11,7 +11,7 @@ export const inlineHighlightPlugin = (md: MarkdownIt) => {
       const lang = token.attrs[0][0]
       if (options.highlight) {
         const htmlStr = options.highlight(token.content, lang, '')
-        return htmlStr.match(/(<code>.*<\/code>)/)![0]
+        return htmlStr.replace(`<pre`, `<pre class="inline"`)
       } else {
         return codeRender(...args)
       }
