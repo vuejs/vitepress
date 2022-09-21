@@ -5,10 +5,15 @@
   - Type: `Boolean`{ts}
   - Type: `undefined`{ts}
   - Default: `$route.path`{python}
-  - Default: `<div></div>`{html}
+  - Default: `<div> </div>`{html}
   - Default: `document.querySelector`{cpp}
   - Default: `String`{ts}
+  - `const a :  string = 'hello world'`{ts}
+  - `const a :  string = 'hello world'`
 
+```ts
+const a :  string = 'hello world'
+```
 VitePress offers several built in API to let you access app data. VitePress also comes with few built-in component that can be used globally.
 
 The helper methods are globally importable from `vitepress` and are typically used in custom theme Vue components. However, they are also usable inside `.md` pages because markdown files are compiled into Vue single-file components.
