@@ -35,6 +35,9 @@ const isPageChunk = (
     chunk.facadeModuleId.endsWith('.md')
   )
 
+const cleanUrl = (url: string): string =>
+  url.replace(/#.*$/s, '').replace(/\?.*$/s, '')
+
 export async function createVitePressPlugin(
   siteConfig: SiteConfig,
   ssr = false,
@@ -176,12 +179,12 @@ export async function createVitePressPlugin(
 
       // serve our index.html after vite history fallback
       return () => {
-        server.middlewares.use((req, res, next) => {
-          if (req.url!.replace(/\?.*$/, '').endsWith('.html')) {
+        server.middlewares.use(async (req, res, next) => {
+          const url = req.url && cleanUrl(req.url)
+          if (url?.endsWith('.html')) {
             res.statusCode = 200
             res.setHeader('Content-Type', 'text/html')
-            res.end(`
-<!DOCTYPE html>
+            let html = `<!DOCTYPE html>
 <html>
   <head>
     <title></title>
@@ -193,7 +196,9 @@ export async function createVitePressPlugin(
     <div id="app"></div>
     <script type="module" src="/@fs/${APP_PATH}/index.js"></script>
   </body>
-</html>`)
+</html>`
+            html = await server.transformIndexHtml(url, html, req.originalUrl)
+            res.end(html)
             return
           }
           next()
