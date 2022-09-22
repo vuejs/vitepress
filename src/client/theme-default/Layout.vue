@@ -29,9 +29,9 @@ const { frontmatter } = useData()
 <template>
   <div v-if="frontmatter.layout !== false" class="Layout">
     <slot name="layout-top" />
-    <VPSkipLink />
-    <VPBackdrop class="backdrop" :show="isSidebarOpen" @click="closeSidebar" />
-    <VPNav>
+    <VPSkipLink v-if="frontmatter.skiplink !== false" />
+    <VPBackdrop v-if="frontmatter.backdrop !== false" class="backdrop" :show="isSidebarOpen" @click="closeSidebar" />
+    <VPNav v-if="frontmatter.navbar !== false" >
       <template #nav-bar-title-before><slot name="nav-bar-title-before" /></template>
       <template #nav-bar-title-after><slot name="nav-bar-title-after" /></template>
       <template #nav-bar-content-before><slot name="nav-bar-content-before" /></template>
@@ -40,7 +40,7 @@ const { frontmatter } = useData()
       <template #nav-screen-content-after><slot name="nav-screen-content-after" /></template>
     </VPNav>
     <VPLocalNav :open="isSidebarOpen" @open-menu="openSidebar" />
-    <VPSidebar :open="isSidebarOpen" />
+    <VPSidebar v-if="frontmatter.sidebar !== false" :open="isSidebarOpen" />
 
     <VPContent>
       <template #home-hero-before><slot name="home-hero-before" /></template>
@@ -60,7 +60,7 @@ const { frontmatter } = useData()
       <template #aside-ads-after><slot name="aside-ads-after" /></template>
     </VPContent>
 
-    <VPFooter />
+    <VPFooter v-if="frontmatter.footer !== false" />
     <slot name="layout-bottom" />
   </div>
   <Content v-else />
