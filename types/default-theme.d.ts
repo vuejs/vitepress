@@ -149,24 +149,24 @@ export namespace DefaultTheme {
   export type SidebarItem =
     | { text: string; link: string }
     | {
-      text: string;
-      link?: string;
-      items: SidebarItem[];
+        text: string
+        link?: string
+        items: SidebarItem[]
 
-      /**
-       * If `true`, toggle button is shown.
-       *
-       * @default false
-       */
-      collapsible?: boolean
+        /**
+         * If `true`, toggle button is shown.
+         *
+         * @default false
+         */
+        collapsible?: boolean
 
-      /**
-       * If `true`, collapsible group is collapsed by default.
-       *
-       * @default false
-       */
-      collapsed?: boolean
-    }
+        /**
+         * If `true`, collapsible group is collapsed by default.
+         *
+         * @default false
+         */
+        collapsed?: boolean
+      }
 
   // edit link -----------------------------------------------------------------
 
