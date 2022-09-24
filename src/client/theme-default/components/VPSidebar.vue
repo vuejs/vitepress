@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, watchPostEffect, nextTick } from 'vue'
+import { ref, watchPostEffect, nextTick, watch } from 'vue'
 import { useSidebar } from '../composables/sidebar.js'
 import VPSidebarGroup from './VPSidebarGroup.vue'
 
@@ -8,6 +8,11 @@ const { sidebar, hasSidebar } = useSidebar()
 const props = defineProps<{
   open: boolean
 }>()
+
+// prevent body scrolling when sidebar has opened
+watch(() => props.open, (newVal) => {
+  document.body.style.overflow = newVal ? 'hidden' : ''
+})
 
 // a11y: focus Nav element when menu has opened
 let navEl = ref<(Element & { focus(): void }) | null>(null)
