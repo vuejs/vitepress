@@ -155,7 +155,7 @@ This is a tip.
 :::
 
 ::: warning
-This is a dangerous warning.
+This is a warning.
 :::
 
 ::: danger
