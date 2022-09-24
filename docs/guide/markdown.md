@@ -358,7 +358,7 @@ You can enable line numbers for each code blocks via config or you can specify `
 **Input**
 
 ````
-```js {showLineNumbers}
+```js{showLineNumbers}
 export default {
   markdown: {
     lineNumbers: true
@@ -373,6 +373,43 @@ export default {
 export default {
   markdown: {
     lineNumbers: true
+  }
+}
+```
+
+
+You can also highlight lines along with specifying line numbers.
+
+**Input**
+
+````
+```js{1,4,6-8,showLineNumbers}
+export default { // Highlighted
+  data () {
+    return {
+      msg: `Highlighted!
+      This line isn't highlighted,
+      but this and the next 2 are.`,
+      motd: 'VitePress is awesome',
+      lorem: 'ipsum'
+    }
+  }
+}
+```
+````
+
+**Output**
+
+```js{1,4,6-8,showLineNumbers}
+export default { // Highlighted
+  data () {
+    return {
+      msg: `Highlighted!
+      This line isn't highlighted,
+      but this and the next 2 are.`,
+      motd: 'VitePress is awesome',
+      lorem: 'ipsum',
+    }
   }
 }
 ```

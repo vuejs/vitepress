@@ -9,11 +9,13 @@
 
 import MarkdownIt from 'markdown-it'
 
+const RE = /{([\w,-]+)}/
+
 export const preWrapperPlugin = (md: MarkdownIt) => {
   const fence = md.renderer.rules.fence!
   md.renderer.rules.fence = (...args) => {
     const [tokens, idx] = args
-    const lang = tokens[idx].info.trim().replace(/-vue$/, '')
+    const lang = tokens[idx].info.trim().replace(/-vue$/, '').replace(RE, '')
     const rawCode = fence(...args)
     return `<div class="language-${lang}"><button class="copy"></button><span class="lang">${
       lang === 'vue-html' ? 'template' : lang
