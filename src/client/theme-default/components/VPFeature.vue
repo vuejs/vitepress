@@ -20,8 +20,6 @@ const component = computed(() => {
     <div v-if="icon" class="icon">{{ icon }}</div>
     <h2 class="title">{{ title }}</h2>
     <p class="details">{{ details }}</p>
-    <p class="details">{{ details }}</p>
-    <p class="title">{{ link }}</p>
   </component>
 </template>
   
