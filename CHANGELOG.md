@@ -1,3 +1,18 @@
+# [1.0.0-alpha.17](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.16...v1.0.0-alpha.17) (2022-09-27)
+
+
+### Bug Fixes
+
+* **theme:** add cursor for collapsible sidebar title ([#1397](https://github.com/vuejs/vitepress/issues/1397)) ([ed37b9a](https://github.com/vuejs/vitepress/commit/ed37b9a0e04f85f941131ec9e2ca8b145d89a535))
+* **theme:** remove extra space before docsearch key ([#1396](https://github.com/vuejs/vitepress/issues/1396)) ([6cb79bb](https://github.com/vuejs/vitepress/commit/6cb79bbe6a26f2e8dbd4b07b3fb5b6377f06958d))
+
+
+### Reverts
+
+* [#1064](https://github.com/vuejs/vitepress/issues/1064) ([9d70ca5](https://github.com/vuejs/vitepress/commit/9d70ca56f147a2ec30d12b03353ea7e4b0850df0))
+
+
+
 # [1.0.0-alpha.16](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.15...v1.0.0-alpha.16) (2022-09-24)
 
 
