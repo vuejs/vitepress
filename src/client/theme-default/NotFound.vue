@@ -1,7 +1,22 @@
 <script setup lang="ts">
-import { useData } from 'vitepress'
+import { onMounted, ref } from 'vue'
+import { useData, withBase } from 'vitepress'
+import { useLangs } from './composables/langs.js'
 
 const { site } = useData()
+const { localeLinks } = useLangs(false)
+
+const root = ref('/')
+onMounted(() => {
+  const path = window.location.pathname
+    .replace(site.value.base, '')
+    .replace(/(^.*?\/).*$/, '/$1')
+  if (localeLinks.value.length) {
+    root.value =
+      localeLinks.value.find(({ link }) => link.startsWith(path))?.link ||
+      localeLinks.value[0].link
+  }
+})
 </script>
 
 <template>
@@ -14,7 +29,7 @@ const { site } = useData()
     </blockquote>
 
     <div class="action">
-      <a class="link" :href="site.base" aria-label="go to home">
+      <a class="link" :href="withBase(root)" aria-label="go to home">
         Take me home
       </a>
     </div>

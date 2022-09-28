@@ -1,7 +1,7 @@
 import { computed } from 'vue'
 import { useData } from 'vitepress'
 
-export function useLangs() {
+export function useLangs(removeCurrent = true) {
   const { site, localeIndex } = useData()
   const currentLang = computed(() => ({
     label: site.value.locales[localeIndex.value]?.label,
@@ -12,7 +12,7 @@ export function useLangs() {
 
   const localeLinks = computed(() =>
     Object.entries(site.value.locales).flatMap(([key, value]) =>
-      currentLang.value.label === value.label
+      removeCurrent && currentLang.value.label === value.label
         ? []
         : {
             text: value.label,
