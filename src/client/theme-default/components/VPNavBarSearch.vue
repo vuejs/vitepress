@@ -257,7 +257,7 @@ function load() {
 
 .DocSearch-Button .DocSearch-Button-Key:first-child {
   font-size: 1px;
-  letter-spacing: -1px;
+  letter-spacing: -12px;
   color: transparent;
 }
 
