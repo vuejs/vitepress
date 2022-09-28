@@ -50,4 +50,4 @@ We already have [vuepress-next](https://github.com/vuepress/vuepress-next), whic
 
 VitePress is not compatible with the current VuePress ecosystem (mostly themes and plugins). The overall idea is that VitePress will have a drastically more minimal theming API (preferring JavaScript APIs instead of file layout conventions) and likely no plugins (all customization is done in themes).
 
-There is an [ongoing disccussion](https://github.com/vuejs/vitepress/discussions/548) about this topic. If you're curious, please leave your thoughts!
+There is an [ongoing discussion](https://github.com/vuejs/vitepress/discussions/548) about this topic. If you're curious, please leave your thoughts!
