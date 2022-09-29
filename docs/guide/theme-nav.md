@@ -35,6 +35,16 @@ export default {
 }
 ```
 
+You can pass a dictionary to logo instead of a string with `src` and `alt` keys to add an alt tag.
+
+```js
+export default {
+  themeConfig: {
+    logo: { src: '/my-logo.svg', alt: 'My beautiful logo' }
+  }
+}
+```
+
 ## Navigation Links
 
 You may define `themeConfig.nav` option to add links to your nav.
