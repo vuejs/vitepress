@@ -35,7 +35,7 @@ export default {
 }
 ```
 
-You can pass a dictionary to logo instead of a string with `src` and `alt` keys to add an alt tag.
+You can pass a dictionary to logo instead of a string with `src` and `alt` keys to add an alt attribute to the rendered img tag.
 
 ```js
 export default {
