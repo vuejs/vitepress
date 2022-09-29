@@ -9,7 +9,7 @@
 
 import MarkdownIt from 'markdown-it'
 
-const RE = /{([\w,-]+)}/
+const RE = /{(([\d,-]|\bshowLineNumbers\b)+)}/
 
 export const preWrapperPlugin = (md: MarkdownIt) => {
   const fence = md.renderer.rules.fence!

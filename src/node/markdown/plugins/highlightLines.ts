@@ -4,7 +4,7 @@
 
 import MarkdownIt from 'markdown-it'
 
-const RE = /{([\w,-]+)}/
+const RE = /{(([\d,-]|\bshowLineNumbers\b)+)}/
 
 export const highlightLinePlugin = (md: MarkdownIt) => {
   const fence = md.renderer.rules.fence!
@@ -37,10 +37,7 @@ export const highlightLinePlugin = (md: MarkdownIt) => {
     if (!lines) {
       lines = attr![0]
 
-      if (
-        !lines ||
-        (!/[\d,-]+/.test(lines) && !lines.includes('showLineNumbers'))
-      ) {
+      if (!lines || !/(([\d,-]|\bshowLineNumbers\b)+)/.test(lines)) {
         return fence(...args)
       }
     }
