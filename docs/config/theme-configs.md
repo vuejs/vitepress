@@ -262,7 +262,7 @@ export default {
 }
 ```
 
-## carbonAds
+## carbon Ads
 
 - Type: `CarbonAds`
 
