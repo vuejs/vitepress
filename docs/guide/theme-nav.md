@@ -35,16 +35,7 @@ export default {
 }
 ```
 
-You can pass a dictionary to logo instead of a string with `src` and `alt` keys to add an alt attribute to the rendered img tag.
-
-```js
-export default {
-  themeConfig: {
-    logo: { src: '/my-logo.svg', alt: 'My beautiful logo' }
-  }
-}
-```
-
+You can also pass an object as logo if you want to add `alt` attribute or customize it based on dark/light mode. Refer [`themeConfig.logo`](../config/theme-configs#logo) for details.
 ## Navigation Links
 
 You may define `themeConfig.nav` option to add links to your nav.
