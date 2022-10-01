@@ -25,7 +25,7 @@ const members = [
 
 # Team Page
 
-If you would like to introduce your team, you may use Team components to construct the Team Page. There're 2 ways of using these components. One is to embbed it in doc page, and another is to create a full Team Page.
+If you would like to introduce your team, you may use Team components to construct the Team Page. There are two ways of using these components. One is to embed it in doc page, and another is to create a full Team Page.
 
 ## Show team members in a page
 
@@ -62,7 +62,7 @@ The above will display a team member in card looking element. It should display 
 
 `<VPTeamMembers>` component comes in 2 different sizes, `small` and `medium`. While it boils down to your preference, usually `small` size should fit better when used in doc page. Also, you may add more properties to each member such as adding "description" or "sponsor" button. Learn more about it in [`<VPTeamMembers>`](#vpteammembers).
 
-Embbeding team members in doc page is good for small size team where having dedicated full team page might be too much, or introducing partial members as a reference to documentation context.
+Embedding team members in doc page is good for small size team where having dedicated full team page might be too much, or introducing partial members as a reference to documentation context.
 
 If you have large number of members, or simply would like to have more space to show team members, consider [creating a full team page](#create-a-full-team-page).
 
@@ -121,7 +121,7 @@ When creating a full team page, remember to wrap all components with `<VPTeamPag
 
 ### Add sections to divide team members
 
-You may add "sections" to the team page. For example, you may have different types of team members such as Core Team Members and Community Partners. You can devide these members into sections to better explain the roles of each group.
+You may add "sections" to the team page. For example, you may have different types of team members such as Core Team Members and Community Partners. You can divide these members into sections to better explain the roles of each group.
 
 To do so, add `<VPTeamPageSection>` component to the `team.md` file we created previously.
 
