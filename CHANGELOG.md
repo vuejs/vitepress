@@ -1,3 +1,12 @@
+# [1.0.0-alpha.18](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.17...v1.0.0-alpha.18) (2022-10-01)
+
+
+### Bug Fixes
+
+* **theme:** break long words on overflow ([#1405](https://github.com/vuejs/vitepress/issues/1405)) ([2114d13](https://github.com/vuejs/vitepress/commit/2114d1326a9d3b952ca8a150f1c27c89169629cc))
+
+
+
 # [1.0.0-alpha.17](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.16...v1.0.0-alpha.17) (2022-09-27)
 
 
