@@ -20,10 +20,11 @@ export function withBase(path: string) {
  * Converts a url path to the corresponding js chunk filename.
  */
 export function pathToFile(path: string): string {
+  const entry: string = siteDataRef.value.entry || 'index'
   let pagePath = path.replace(/\.html$/, '')
   pagePath = decodeURIComponent(pagePath)
   if (pagePath.endsWith('/')) {
-    pagePath += 'index'
+    pagePath += entry
   }
 
   if (import.meta.env.DEV) {
@@ -36,7 +37,7 @@ export function pathToFile(path: string): string {
     if (inBrowser) {
       const base = import.meta.env.BASE_URL
       pagePath =
-        (pagePath.slice(base.length).replace(/\//g, '_') || 'index') + '.md'
+        (pagePath.slice(base.length).replace(/\//g, '_') || entry) + '.md'
       // client production build needs to account for page hash, which is
       // injected directly in the page's html
       const pageHash = __VP_HASH_MAP__[pagePath.toLowerCase()]

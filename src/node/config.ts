@@ -30,6 +30,7 @@ const debug = _debug('vitepress:config')
 
 export interface UserConfig<ThemeConfig = any> {
   extends?: RawConfigExports<ThemeConfig>
+  entry?: string
   base?: string
   lang?: string
   title?: string
@@ -313,6 +314,7 @@ export async function resolveSiteData(
   userConfig = userConfig || (await resolveUserConfig(root, command, mode))[0]
 
   return {
+    entry: userConfig.entry || 'index',
     lang: userConfig.lang || 'en-US',
     title: userConfig.title || 'VitePress',
     titleTemplate: userConfig.titleTemplate,

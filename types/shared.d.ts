@@ -48,6 +48,7 @@ export type CleanUrlsMode =
   | 'with-subfolders'
 
 export interface SiteData<ThemeConfig = any> {
+  entry?: string
   base: string
   cleanUrls?: CleanUrlsMode
 

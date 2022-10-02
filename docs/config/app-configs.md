@@ -55,6 +55,19 @@ export default {
 }
 ```
 
+## entry
+
+- Type: `string`
+- Default: `index`
+
+Specify the entry file for Vitepress.
+
+```ts
+export default {
+  entry: 'readme'
+}
+```
+
 ## head
 
 - Type: `HeadConfig[]`
