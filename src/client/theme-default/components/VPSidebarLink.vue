@@ -40,12 +40,11 @@ function toggle() {
 }
 
 function clickLink() {
-  closeSideBar()
-
   // If there are no links to jump to, switch to expand when clicking on the text
-  if (!props.item.link) {
+  if (!props.item.link)
     toggle()
-  }
+  else
+    closeSideBar()
 }
 </script>
 
