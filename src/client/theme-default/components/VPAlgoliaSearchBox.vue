@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { DefaultTheme } from 'vitepress/theme'
-import { default as docsearch } from '@docsearch/js'
+import docsearch from '@docsearch/js'
 import { onMounted } from 'vue'
 import { useRouter, useRoute, useData } from 'vitepress'
 
@@ -29,7 +29,8 @@ function poll() {
   }, 16)
 }
 
-type DocSearchProps = Parameters<typeof docsearch>[0]
+const docsearch$ = docsearch.default ?? docsearch
+type DocSearchProps = Parameters<typeof docsearch$>[0]
 
 function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
   // note: multi-lang search support is removed since the theme
@@ -74,7 +75,7 @@ function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
     }
   })
 
-  docsearch(options)
+  docsearch$(options)
 }
 
 function getRelativePath(absoluteUrl: string) {
