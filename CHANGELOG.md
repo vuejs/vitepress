@@ -1,3 +1,12 @@
+# [1.0.0-alpha.19](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.18...v1.0.0-alpha.19) (2022-10-02)
+
+
+### Bug Fixes
+
+* **build:** ignore tsconfig target in dev ([#1428](https://github.com/vuejs/vitepress/issues/1428)) ([a13bc86](https://github.com/vuejs/vitepress/commit/a13bc866d0af911256e0629136f4b48e88c44df1))
+
+
+
 # [1.0.0-alpha.18](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.17...v1.0.0-alpha.18) (2022-10-01)
 
 
