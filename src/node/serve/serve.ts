@@ -31,8 +31,10 @@ export async function serve(options: ServeOptions = {}) {
   const notAnAsset = (pathname: string) => !pathname.includes('/assets/')
   const notFound = fs.readFileSync(path.resolve(site.outDir, './404.html'))
   const onNoMatch: IOptions['onNoMatch'] = (req, res) => {
-    if (site.site.entry !== "index" && req.path === "/") {
-      const entryPage = fs.readFileSync(path.resolve(site.outDir, `./${site.site.entry}.html`))
+    if (site.site.entry !== 'index' && req.path === '/') {
+      const entryPage = fs.readFileSync(
+        path.resolve(site.outDir, `./${site.site.entry}.html`)
+      )
       res.write(entryPage.toString())
       res.end()
     } else {
