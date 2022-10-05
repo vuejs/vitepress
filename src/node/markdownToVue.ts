@@ -123,6 +123,21 @@ export async function createMarkdownToVueRenderFn(
               : path.relative(srcDir, path.resolve(dir, url))
           )
         )
+        if (entry !== 'index' && url.includes(entry || '')) {
+          console.warn(
+            c.yellow(
+              `\n(!) Found dead link ${c.cyan(url)} in file ${c.white(
+                c.dim(file)
+              )}\nAlways specify link to ${c.cyan('entry')} file as ${c.cyan(
+                'index'
+              )} because, during build, this file is renamed as ${c.cyan(
+                'index.html'
+              )}
+              .`
+            )
+          )
+          deadLinks.push(url)
+        }
         if (
           entry === 'index' &&
           !pages.includes(resolved) &&
