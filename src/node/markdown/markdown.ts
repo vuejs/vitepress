@@ -90,13 +90,7 @@ export const createMarkdownRenderer = async (
   // mdit-vue plugins
   md.use(anchorPlugin, {
     slugify,
-    permalink: anchorPlugin.permalink.ariaHidden({
-      renderAttrs() {
-        return {
-          tabindex: '-1'
-        }
-      }
-    }),
+    permalink: anchorPlugin.permalink.ariaHidden({}),
     ...options.anchor
   } as anchorPlugin.AnchorOptions)
     .use(frontmatterPlugin, {
