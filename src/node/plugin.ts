@@ -95,7 +95,8 @@ export async function createVitePressPlugin(
         config.command === 'build',
         config.base,
         lastUpdated,
-        cleanUrls
+        cleanUrls,
+        siteData.entry
       )
     },
 
@@ -153,6 +154,8 @@ export async function createVitePressPlugin(
           id,
           config.publicDir
         )
+        // console.log('id -- ', id)
+        // console.log('deadLinks -- ', deadLinks)
         if (deadLinks.length) {
           hasDeadLinks = true
         }

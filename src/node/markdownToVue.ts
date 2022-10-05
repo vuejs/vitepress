@@ -37,7 +37,8 @@ export async function createMarkdownToVueRenderFn(
   isBuild = false,
   base = '/',
   includeLastUpdatedData = false,
-  cleanUrls: CleanUrlsMode = 'disabled'
+  cleanUrls: CleanUrlsMode = 'disabled',
+  entry?: string,
 ) {
   const md = await createMarkdownRenderer(srcDir, options, base)
   pages = pages.map((p) => slash(p.replace(/\.md$/, '')))
@@ -123,6 +124,7 @@ export async function createMarkdownToVueRenderFn(
           )
         )
         if (
+          entry === 'index' &&
           !pages.includes(resolved) &&
           !fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`))
         ) {

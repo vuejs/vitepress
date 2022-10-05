@@ -173,9 +173,10 @@ export async function renderPage(
     config.cleanUrls === 'with-subfolders' &&
     !/(^|\/)(index|404).md$/.test(page)
 
+  const pageMdName = page === `${siteData.entry}.md` ? 'index.md' : page
   const htmlFileName = path.join(
     config.outDir,
-    page.replace(/\.md$/, createSubDirectory ? '/index.html' : '.html')
+    pageMdName.replace(/\.md$/, createSubDirectory ? '/index.html' : '.html')
   )
 
   await fs.ensureDir(path.dirname(htmlFileName))
