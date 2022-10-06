@@ -7,15 +7,15 @@ export interface GridSetting {
 
 export type GridSize = 'xmini' | 'mini' | 'small' | 'medium' | 'big'
 
-export interface UseSponsorsGridOprions {
+export interface UseSponsorsGridOptions {
   el: Ref<HTMLElement | null>
   size?: GridSize
 }
 
 /**
- * Defines grid configuration for each sponsor size in touple.
+ * Defines grid configuration for each sponsor size in tuple.
  *
- * [Screen widh, Column size]
+ * [Screen width, Column size]
  *
  * It sets grid size on matching screen size. For example, `[768, 5]` will
  * set 5 columns when screen size is bigger or equal to 768px.
@@ -49,7 +49,7 @@ const GridSettings: GridSetting = {
 export function useSponsorsGrid({
   el,
   size = 'medium'
-}: UseSponsorsGridOprions) {
+}: UseSponsorsGridOptions) {
   const onResize = throttleAndDebounce(manage, 100)
 
   onMounted(() => {

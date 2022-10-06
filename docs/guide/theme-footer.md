@@ -15,7 +15,7 @@ export default {
 
 ```ts
 export interface Footer {
-  // The message shown rigth before copyright.
+  // The message shown right before copyright.
   message?: string
 
   // The actual copyright text.
