@@ -106,9 +106,22 @@ export async function renderPage(
   const title: string = createTitle(siteData, pageData)
   const description: string = pageData.description || siteData.description
 
-  const head = mergeHead(
+  const headBeforeTransform = mergeHead(
     siteData.head,
     filterOutHeadDescription(pageData.frontmatter.head)
+  )
+
+  const head = mergeHead(
+    headBeforeTransform,
+    (await config.transformHead?.({
+      siteConfig: config,
+      siteData,
+      pageData,
+      title,
+      description,
+      head: headBeforeTransform,
+      content
+    })) || []
   )
 
   let inlinedScript = ''

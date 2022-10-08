@@ -65,7 +65,7 @@ export default {
     // app is the Vue 3 app instance from `createApp()`.
     // router is VitePress' custom router. `siteData` is
     // a `ref` of current site-level metadata.
-  }
+  },
 
   setup() {
     // this function will be executed inside VitePressApp's
@@ -109,10 +109,9 @@ import DefaultTheme from 'vitepress/theme'
 
 export default {
   ...DefaultTheme,
-  enhanceApp(ctx) {
-    DefaultTheme.enhanceApp(ctx)
+  enhanceApp({ app }) {
     // register global components
-    ctx.app.component('MyGlobalComponent', /* ... */)
+    app.component('MyGlobalComponent', /* ... */)
   }
 }
 ```

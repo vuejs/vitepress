@@ -68,6 +68,7 @@ export async function bundle(
         // other
         preserveEntrySignatures: 'allow-extension',
         output: {
+          sanitizeFileName,
           ...rollupOptions?.output,
           ...(ssr
             ? {
@@ -196,4 +197,20 @@ function staticImportedByEntry(
   )
   cache.set(id, someImporterIs)
   return someImporterIs
+}
+
+// https://github.com/rollup/rollup/blob/69ff4181e701a0fe0026d0ba147f31bc86beffa8/src/utils/sanitizeFileName.ts
+
+const INVALID_CHAR_REGEX = /[\x00-\x1F\x7F<>*#"{}|^[\]`;?:&=+$,]/g
+const DRIVE_LETTER_REGEX = /^[a-z]:/i
+
+function sanitizeFileName(name: string) {
+  const driveLetter = DRIVE_LETTER_REGEX.exec(name)?.[0] || ''
+  return (
+    driveLetter +
+    name
+      .substring(driveLetter.length)
+      .replace(INVALID_CHAR_REGEX, '_')
+      .replace(/^_+/, '')
+  )
 }

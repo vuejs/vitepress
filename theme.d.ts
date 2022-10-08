@@ -1,6 +1,5 @@
 // so that users can do `import DefaultTheme from 'vitepress/theme'`
 import type { ComponentOptions } from 'vue'
-import { EnhanceAppContext } from './dist/client/index.js'
 
 export const VPHomeHero: ComponentOptions
 export const VPHomeFeatures: ComponentOptions
@@ -14,7 +13,6 @@ export const VPTeamMembers: ComponentOptions
 declare const theme: {
   Layout: ComponentOptions
   NotFound: ComponentOptions
-  enhanceApp: EnhanceAppContext
 }
 
 export default theme
