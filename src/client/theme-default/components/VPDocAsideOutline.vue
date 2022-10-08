@@ -33,7 +33,7 @@ function handleClick({ target: el }: Event) {
   const heading = document.querySelector<HTMLAnchorElement>(
     decodeURIComponent(id)
   )
-  heading?.focus()
+  heading?.focus({ preventScroll: true })
 }
 </script>
 
