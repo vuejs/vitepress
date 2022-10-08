@@ -39,8 +39,27 @@ function useAppearance() {
   }
 
   function setClass(dark: boolean): void {
+    const css = document.createElement('style')
+    css.type = 'text/css'
+    css.appendChild(
+      document.createTextNode(
+        `:not(.VPSwitchAppearance):not(.VPSwitchAppearance *) {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  -ms-transition: none !important;
+  transition: none !important;
+}`
+      )
+    )
+    document.head.appendChild(css)
+
     checked.value = dark
     classList[dark ? 'add' : 'remove']('dark')
+
+    // @ts-expect-error keep unused declaration, used to force the browser to redraw
+    const _ = window.getComputedStyle(css).opacity
+    document.head.removeChild(css)
   }
 
   return toggle
