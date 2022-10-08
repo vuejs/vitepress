@@ -181,20 +181,6 @@ interface MarkdownOptions extends MarkdownIt.Options {
 }
 ```
 
-## srcDir
-
-- Type: `string`
-- Default: `/`
-
-The documents' source code location for the site. 
-
-```ts
-export default {
-  srcDir: './docs'
-}
-// you can run "vitepress dev" to serve the documentation site in the local server instead of "vitepress dev docs".
-```
-
 ## outDir
 
 - Type: `string`
@@ -205,6 +191,19 @@ The build output location for the site, relative to project root (`docs` folder 
 ```ts
 export default {
   outDir: '../public'
+}
+```
+
+## srcDir
+
+- Type: `string`
+- Default: `.`
+
+The directory where your markdown pages are stored, relative to project root. 
+
+```ts
+export default {
+  srcDir: './src'
 }
 ```
 
