@@ -25,13 +25,13 @@ export async function renderPage(
   pageToHashMap: Record<string, string>,
   hashMapString: string
 ) {
-  const routePath = `/${page.replace(/\.md$/, '')}`
+  const routePath = `/${page.replace(/\.md$/, '').replace(/\+/g, '_')}`
   const siteData = resolveSiteDataByRoute(config.site, routePath)
 
   // render page
   const content = await render(routePath)
 
-  const pageName = page.replace(/\//g, '_')
+  const pageName = page.replace(/\//g, '_').replace(/\+/g, '_')
   // server build doesn't need hash
   const pageServerJsFileName = pageName + '.js'
   // for any initial page load, we only need the lean version of the page js
