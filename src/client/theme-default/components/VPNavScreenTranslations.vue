@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import VPIconChevronDown from './icons/VPIconChevronDown.vue'
 import VPIconLanguages from './icons/VPIconLanguages.vue'
 import { useLangs } from '../composables/langs.js'
+import VPLink from './VPLink.vue'
 
 const { localeLinks, currentLang } = useLangs()
 const isOpen = ref(false)
@@ -26,7 +27,7 @@ function toggle() {
 
     <ul class="list">
       <li v-for="locale in localeLinks" :key="locale.link" class="item">
-        <a class="link" :href="locale.link">{{ locale.text }}</a>
+        <VPLink class="link" :href="locale.link">{{ locale.text }}</VPLink>
       </li>
     </ul>
   </div>
