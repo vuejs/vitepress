@@ -1,6 +1,13 @@
-import { IThemeRegistration, getHighlighter, HtmlRendererOptions } from 'shiki'
+import { IThemeRegistration, getHighlighter, HtmlRendererOptions, BUNDLED_LANGUAGES } from 'shiki'
 import type { ThemeOptions } from '../markdown'
 
+const SHIKI_LANGUAGES: string[] = []
+BUNDLED_LANGUAGES.forEach(item => {
+  if(item.aliases) {
+    SHIKI_LANGUAGES.push(...item.aliases)
+  }
+  SHIKI_LANGUAGES.push(item.id)
+})
 /**
  * 2 steps:
  *
@@ -48,6 +55,10 @@ export async function highlight(
   return (str: string, lang: string, attrs: string) => {
     const vPre = vueRE.test(lang) ? '' : 'v-pre'
     lang = lang.replace(vueRE, '').toLowerCase()
+
+    if(lang && !SHIKI_LANGUAGES.includes(lang)) {
+      lang = ''
+    }
 
     const lineOptions = attrsToLines(attrs)
 
