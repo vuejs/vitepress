@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useData } from 'vitepress'
+import { useData, withBase } from 'vitepress'
 import VPIconChevronDown from './icons/VPIconChevronDown.vue'
 import VPIconLanguages from './icons/VPIconLanguages.vue'
 
@@ -23,7 +23,7 @@ function toggle() {
 
     <ul class="list">
       <li v-for="locale in theme.localeLinks.items" :key="locale.link" class="item">
-        <a class="link" :href="locale.link">{{ locale.text }}</a>
+        <a class="link" :href="locale.link ? withBase(locale.link) : undefined">{{ locale.text }}</a>
       </li>
     </ul>
   </div>
