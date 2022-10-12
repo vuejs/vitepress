@@ -1,5 +1,5 @@
 import { siteDataRef } from './data.js'
-import { inBrowser, EXTERNAL_URL_RE } from '../shared.js'
+import { inBrowser, EXTERNAL_URL_RE, sanitizeFileName } from '../shared.js'
 
 export { inBrowser }
 
@@ -30,6 +30,7 @@ export function pathToFile(path: string): string {
     // always force re-fetch content in dev
     pagePath += `.md?t=${Date.now()}`
   } else {
+    pagePath = sanitizeFileName(pagePath)
     // in production, each .md file is built into a .md.js file following
     // the path conversion scheme.
     // /foo/bar.html -> ./foo_bar.md
