@@ -88,6 +88,10 @@ function toggle() {
   display: block;
 }
 
+.VPSidebarGroup.collapsible .title {
+  cursor: pointer;
+}
+
 .title:hover .action {
   color: var(--vp-c-text-2);
 }

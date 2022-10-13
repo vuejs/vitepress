@@ -11,7 +11,7 @@ export interface HeroAction {
 
 defineProps<{
   name?: string
-  text: string
+  text?: string
   tagline?: string
   image?: DefaultTheme.ThemeableImage
   actions?: HeroAction[]
