@@ -194,6 +194,19 @@ export default {
 }
 ```
 
+## srcDir
+
+- Type: `string`
+- Default: `.`
+
+The directory where your markdown pages are stored, relative to project root. 
+
+```ts
+export default {
+  srcDir: './src'
+}
+```
+
 ## title
 
 - Type: `string`
