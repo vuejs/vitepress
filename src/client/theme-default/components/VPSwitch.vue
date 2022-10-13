@@ -18,7 +18,6 @@
   flex-shrink: 0;
   border: 1px solid var(--vp-c-divider);
   background-color: var(--vp-c-bg-mute);
-  transition: border-color 0.25s, background-color 0.25s;
 }
 
 .VPSwitch:hover {
@@ -34,7 +33,7 @@
   border-radius: 50%;
   background-color: var(--vp-c-white);
   box-shadow: var(--vp-shadow-1);
-  transition: background-color 0.25s, transform 0.25s;
+  transition: transform 0.25s;
 }
 
 .dark .check {
