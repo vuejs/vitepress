@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { normalizeLink } from '../support/utils.js'
+import VPLink from './VPLink.vue'
 
 defineProps<{
   icon?: string
@@ -11,9 +11,10 @@ defineProps<{
 
 <template>
   <component
-    :is="link ? 'a' : 'article'"
-    :class="link ? 'VPFeatureLink' : 'VPFeature'"
-    :href="link ? normalizeLink(link) : undefined"
+    :is="link ? VPLink : 'article'"
+    :href="link"
+    class="VPFeature"
+    :noIcon="!!link || undefined"
   >
     <div v-if="icon" class="icon">{{ icon }}</div>
     <h2 class="title">{{ title }}</h2>
@@ -60,7 +61,7 @@ defineProps<{
   color: var(--vp-c-text-2);
 }
 
-.VPFeatureLink {
+.VPFeature.link {
   display: block;
   border: 1px solid var(--vp-c-bg-soft);
   border-radius: 12px;
@@ -69,14 +70,14 @@ defineProps<{
   background-color: var(--vp-c-bg-soft);
 }
 
-.VPFeatureLink:hover {
+.VPFeature.link:hover {
   border-color: var(--vp-button-alt-hover-border);
   color: var(--vp-button-alt-hover-text);
   background-color: var(--vp-button-alt-hover-bg);
   cursor: pointer;
 }
 
-.VPFeatureLink:active {
+.VPFeature.link:active {
   border-color: var(--vp-button-alt-active-border);
   color: var(--vp-button-alt-active-text);
   background-color: var(--vp-button-alt-active-bg);
