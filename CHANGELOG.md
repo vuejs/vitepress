@@ -1,3 +1,20 @@
+# [1.0.0-alpha.20](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.19...v1.0.0-alpha.20) (2022-10-12)
+
+
+### Bug Fixes
+
+* **a11y:** add title to copy code button ([#1437](https://github.com/vuejs/vitepress/issues/1437)) ([f79bb78](https://github.com/vuejs/vitepress/commit/f79bb78bf7f472d9bc376a3ec393f731bfe9e7ce))
+* **router:** don't intercept download links ([#1452](https://github.com/vuejs/vitepress/issues/1452)) ([54cf6ce](https://github.com/vuejs/vitepress/commit/54cf6ce51fcf8ce91c0706332e0b51ddcc2b519d))
+* **theme:** disable transitions on theme toggle ([#1447](https://github.com/vuejs/vitepress/issues/1447)) ([067e1a9](https://github.com/vuejs/vitepress/commit/067e1a97434f88835dbfedcf18e2f98d8bfacad9))
+* **theme:** make text prop of VPHero optional ([#1445](https://github.com/vuejs/vitepress/issues/1445)) ([95e4f2a](https://github.com/vuejs/vitepress/commit/95e4f2acc9614360fbfe37450028d2067e5993b8))
+
+
+### Reverts
+
+* "fix(build): remove leading underscore from chunks" ([#1471](https://github.com/vuejs/vitepress/issues/1471)) ([18f0fb4](https://github.com/vuejs/vitepress/commit/18f0fb4e3989192ba95a397476371a945bf84542))
+
+
+
 # [1.0.0-alpha.19](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.18...v1.0.0-alpha.19) (2022-10-02)
 
 
