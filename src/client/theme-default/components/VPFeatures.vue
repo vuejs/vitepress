@@ -35,7 +35,12 @@ const grid = computed(() => {
     <div class="container">
       <div class="items">
         <div v-for="feature in features" :key="feature.title" class="item" :class="[grid]">
-          <VPFeature :icon="feature.icon" :title="feature.title" :details="feature.details" :link="feature.link" />
+          <VPFeature
+            :icon="feature.icon"
+            :title="feature.title"
+            :details="feature.details"
+            :link="feature.link"
+          />
         </div>
       </div>
     </div>
@@ -77,7 +82,6 @@ const grid = computed(() => {
 }
 
 @media (min-width: 640px) {
-
   .item.grid-2,
   .item.grid-4,
   .item.grid-6 {
@@ -86,7 +90,6 @@ const grid = computed(() => {
 }
 
 @media (min-width: 768px) {
-
   .item.grid-2,
   .item.grid-4 {
     width: calc(100% / 2);

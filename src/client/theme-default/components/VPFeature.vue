@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed } from 'vue'
 import { normalizeLink } from '../support/utils.js'
 
 const props = defineProps<{
@@ -12,17 +12,19 @@ const props = defineProps<{
 const component = computed(() => {
   return props.link ? 'a' : 'article'
 })
-
 </script>
-  
+
 <template>
-  <component :class="link?'VPFeatureLink':'VPFeature'" :href="link ? normalizeLink(link) : undefined">
+  <component
+    :class="link ? 'VPFeatureLink' : 'VPFeature'"
+    :href="link ? normalizeLink(link) : undefined"
+  >
     <div v-if="icon" class="icon">{{ icon }}</div>
     <h2 class="title">{{ title }}</h2>
     <p class="details">{{ details }}</p>
   </component>
 </template>
-  
+
 <style scoped>
 .VPFeature {
   border: 1px solid var(--vp-c-bg-soft);
@@ -84,4 +86,3 @@ const component = computed(() => {
   background-color: var(--vp-button-alt-active-bg);
 }
 </style>
-  
