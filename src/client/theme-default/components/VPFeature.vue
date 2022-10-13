@@ -1,21 +1,17 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import { normalizeLink } from '../support/utils.js'
 
-const props = defineProps<{
+defineProps<{
   icon?: string
   title: string
   details: string
   link?: string
 }>()
-
-const component = computed(() => {
-  return props.link ? 'a' : 'article'
-})
 </script>
 
 <template>
   <component
+    :is="link ? 'a' : 'article'"
     :class="link ? 'VPFeatureLink' : 'VPFeature'"
     :href="link ? normalizeLink(link) : undefined"
   >
