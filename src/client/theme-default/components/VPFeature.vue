@@ -41,10 +41,11 @@ defineProps<{
   width: 48px;
   height: 48px;
   font-size: 24px;
+  transition: background-color 0.25s;
 }
 
 .dark .icon {
-  background-color: var(--vp-c-bg);
+  background-color: var(--vp-c-gray-dark-5);
 }
 
 .title {
@@ -63,23 +64,35 @@ defineProps<{
 
 .VPFeature.link {
   display: block;
-  border: 1px solid var(--vp-c-bg-soft);
-  border-radius: 12px;
-  padding: 24px;
-  height: 100%;
   background-color: var(--vp-c-bg-soft);
+  transition: border-color 0.25s, background-color 0.25s;
 }
 
 .VPFeature.link:hover {
   border-color: var(--vp-button-alt-hover-border);
-  color: var(--vp-button-alt-hover-text);
   background-color: var(--vp-button-alt-hover-bg);
-  cursor: pointer;
+}
+
+.VPFeature.link:hover .icon {
+  background-color: var(--vp-c-gray-light-3);
+}
+
+.dark .VPFeature.link:hover .icon {
+  background-color: var(--vp-c-gray-dark-3);
 }
 
 .VPFeature.link:active {
   border-color: var(--vp-button-alt-active-border);
-  color: var(--vp-button-alt-active-text);
   background-color: var(--vp-button-alt-active-bg);
+  transition: border-color 0.1s, background-color 0.1s;
+}
+
+.VPFeature.link:active .icon {
+  background-color: var(--vp-c-gray-light-2);
+  transition: background-color 0.1s;
+}
+
+.dark .VPFeature.link:active .icon {
+  background-color: var(--vp-c-gray-dark-4);
 }
 </style>
