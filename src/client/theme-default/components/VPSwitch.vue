@@ -18,6 +18,7 @@
   flex-shrink: 0;
   border: 1px solid var(--vp-c-divider);
   background-color: var(--vp-c-bg-mute);
+  transition: border-color 0.25s;
 }
 
 .VPSwitch:hover {
