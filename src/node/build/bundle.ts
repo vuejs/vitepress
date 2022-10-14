@@ -7,6 +7,7 @@ import { slash } from '../utils/slash'
 import { SiteConfig } from '../config'
 import { APP_PATH } from '../alias'
 import { createVitePressPlugin } from '../plugin'
+import { sanitizeFileName } from '../shared'
 import { buildMPAClient } from './buildMPAClient'
 
 export const okMark = '\x1b[32m✓\x1b[0m'
@@ -68,6 +69,7 @@ export async function bundle(
         // other
         preserveEntrySignatures: 'allow-extension',
         output: {
+          sanitizeFileName,
           ...rollupOptions?.output,
           ...(ssr
             ? {

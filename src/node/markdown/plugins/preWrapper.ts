@@ -25,7 +25,7 @@ export const preWrapperPlugin = (md: MarkdownIt) => {
 
     return `<div class="code-block ${isActive ? 'active' : ''}">
               <div class="language-${lang}">
-                <button class="copy"></button>
+                <button title="Copy Code" class="copy"></button>
                 <span class="code-title">${codeTitle}</span>
                 ${rawCode}
               </div>

@@ -159,7 +159,7 @@ export async function startDefaultServe(): Promise<void> {
       devBase === '/' ? '' : devBase
     }`
     await page.goto(vitePressTestUrl)
-    // TODO: A manual reload is needed bacause the first load of page will crash
+    // TODO: A manual reload is needed because the first load of page will crash
     // because of multiple vue instances. (see https://github.com/vuejs/vitepress/issues/1016)
     // Try to remove this after migrating to Vite3.
     if (isServe) {

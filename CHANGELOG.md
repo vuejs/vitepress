@@ -1,3 +1,70 @@
+# [1.0.0-alpha.20](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.19...v1.0.0-alpha.20) (2022-10-12)
+
+
+### Bug Fixes
+
+* **a11y:** add title to copy code button ([#1437](https://github.com/vuejs/vitepress/issues/1437)) ([f79bb78](https://github.com/vuejs/vitepress/commit/f79bb78bf7f472d9bc376a3ec393f731bfe9e7ce))
+* **router:** don't intercept download links ([#1452](https://github.com/vuejs/vitepress/issues/1452)) ([54cf6ce](https://github.com/vuejs/vitepress/commit/54cf6ce51fcf8ce91c0706332e0b51ddcc2b519d))
+* **theme:** disable transitions on theme toggle ([#1447](https://github.com/vuejs/vitepress/issues/1447)) ([067e1a9](https://github.com/vuejs/vitepress/commit/067e1a97434f88835dbfedcf18e2f98d8bfacad9))
+* **theme:** make text prop of VPHero optional ([#1445](https://github.com/vuejs/vitepress/issues/1445)) ([95e4f2a](https://github.com/vuejs/vitepress/commit/95e4f2acc9614360fbfe37450028d2067e5993b8))
+
+
+### Reverts
+
+* "fix(build): remove leading underscore from chunks" ([#1471](https://github.com/vuejs/vitepress/issues/1471)) ([18f0fb4](https://github.com/vuejs/vitepress/commit/18f0fb4e3989192ba95a397476371a945bf84542))
+
+
+
+# [1.0.0-alpha.19](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.18...v1.0.0-alpha.19) (2022-10-02)
+
+
+### Bug Fixes
+
+* **build:** ignore tsconfig target in dev ([#1428](https://github.com/vuejs/vitepress/issues/1428)) ([a13bc86](https://github.com/vuejs/vitepress/commit/a13bc866d0af911256e0629136f4b48e88c44df1))
+
+
+
+# [1.0.0-alpha.18](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.17...v1.0.0-alpha.18) (2022-10-01)
+
+
+### Bug Fixes
+
+* **theme:** break long words on overflow ([#1405](https://github.com/vuejs/vitepress/issues/1405)) ([2114d13](https://github.com/vuejs/vitepress/commit/2114d1326a9d3b952ca8a150f1c27c89169629cc))
+
+
+
+# [1.0.0-alpha.17](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.16...v1.0.0-alpha.17) (2022-09-27)
+
+
+### Bug Fixes
+
+* **theme:** add cursor for collapsible sidebar title ([#1397](https://github.com/vuejs/vitepress/issues/1397)) ([ed37b9a](https://github.com/vuejs/vitepress/commit/ed37b9a0e04f85f941131ec9e2ca8b145d89a535))
+* **theme:** remove extra space before docsearch key ([#1396](https://github.com/vuejs/vitepress/issues/1396)) ([6cb79bb](https://github.com/vuejs/vitepress/commit/6cb79bbe6a26f2e8dbd4b07b3fb5b6377f06958d))
+
+
+### Reverts
+
+* [#1064](https://github.com/vuejs/vitepress/issues/1064) ([9d70ca5](https://github.com/vuejs/vitepress/commit/9d70ca56f147a2ec30d12b03353ea7e4b0850df0))
+
+
+
+# [1.0.0-alpha.16](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.15...v1.0.0-alpha.16) (2022-09-24)
+
+
+### Bug Fixes
+
+* **build:** line numbers mode when language specifier has symbol ([#1353](https://github.com/vuejs/vitepress/issues/1353)) ([9c04a10](https://github.com/vuejs/vitepress/commit/9c04a10c4d9fbfc591dc2386b4780a6728f6364a))
+* **build:** remove leading underscore from chunks ([#1394](https://github.com/vuejs/vitepress/issues/1394)) ([66cd164](https://github.com/vuejs/vitepress/commit/66cd1640d16170e0c2d9eb4565ad1ebe81f940e1))
+* **compat:** use default export of dns module ([#1388](https://github.com/vuejs/vitepress/issues/1388)) ([fa6fa56](https://github.com/vuejs/vitepress/commit/fa6fa56af9de78856017f935922e4f2f9376be62))
+* **theme:** always add alt attribute to images ([#1348](https://github.com/vuejs/vitepress/issues/1348)) ([a621c69](https://github.com/vuejs/vitepress/commit/a621c6910c0083adc26dd4b7aaa7d532544cc7fa))
+
+
+### Features
+
+* **build:** allow using `transformIndexHtml` ([#1380](https://github.com/vuejs/vitepress/issues/1380)) ([ce8d139](https://github.com/vuejs/vitepress/commit/ce8d139a8e70e4d0a8d06711c50119990b041078))
+
+
+
 # [1.0.0-alpha.15](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.14...v1.0.0-alpha.15) (2022-09-15)
 
 
