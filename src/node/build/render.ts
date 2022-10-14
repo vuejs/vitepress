@@ -10,8 +10,7 @@ import {
   createTitle,
   notFoundPageData,
   mergeHead,
-  EXTERNAL_URL_RE,
-  sanitizeFileName
+  EXTERNAL_URL_RE
 } from '../shared'
 import { slash } from '../utils/slash'
 import { SiteConfig, resolveSiteDataByRoute } from '../config'
@@ -32,7 +31,7 @@ export async function renderPage(
   // render page
   const content = await render(routePath)
 
-  const pageName = sanitizeFileName(page.replace(/\//g, '_'))
+  const pageName = page.replace(/\//g, '_')
   // server build doesn't need hash
   const pageServerJsFileName = pageName + '.js'
   // for any initial page load, we only need the lean version of the page js
