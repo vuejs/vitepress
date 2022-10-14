@@ -23,4 +23,17 @@ export interface Footer {
 }
 ```
 
+The above configuration also supports HTML strings. So, for example, if you want to configure footer text to have some links, you can adjust the configuration as follows:
+
+```ts
+export default {
+  themeConfig: {
+    footer: {
+      message: 'Released under the <a href="https://github.com/vuejs/vitepress/blob/main/LICENSE">MIT License</a>.',
+      copyright: 'Copyright © 2019-present <a href="https://github.com/yyx990803">Evan You</a>'
+    }
+  }
+}
+```
+
 Note that footer will not be displayed when the [SideBar](./theme-sidebar) is visible.
