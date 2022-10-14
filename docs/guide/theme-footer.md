@@ -23,16 +23,14 @@ export interface Footer {
 }
 ```
 
-The above configuration also supports strings of DOM structure. if we want to configure footer text to jump to other links a website, we can adjust the configuration as follows:
+The above configuration also supports HTML strings. So, for example, if you want to configure footer text to have some links, you can adjust the configuration as follows:
 
 ```ts
 export default {
   themeConfig: {
     footer: {
-      message:
-        '<a href="https://github.com/vuejs/vitepress">Released under the MIT License.</a>',
-      copyright:
-        '<a href="https://github.com/yyx990803">Copyright © 2019-present Evan You</a>'
+      message: 'Released under the <a href="https://github.com/vuejs/vitepress/blob/main/LICENSE">MIT License</a>.',
+      copyright: 'Copyright © 2019-present <a href="https://github.com/yyx990803">Evan You</a>'
     }
   }
 }
