@@ -25,7 +25,7 @@ const closeSideBar = inject('close-sidebar') as () => void
     :href="item.link"
     @click="closeSideBar"
   >
-    <span class="link-text" :class="{ light: depth > 1 }">{{ item.text }}</span>
+    <span v-html="item.text" class="link-text" :class="{ light: depth > 1 }"></span>
   </VPLink>
   <template
     v-if="'items' in item && depth < maxDepth"
