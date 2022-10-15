@@ -4,6 +4,7 @@ import { computed, inject } from 'vue'
 import { useData } from 'vitepress'
 import { isActive } from '../support/utils.js'
 import VPLink from './VPLink.vue'
+import { useSidebar } from '../composables/sidebar.js'
 
 withDefaults(
   defineProps<{ item: DefaultTheme.SidebarItem; depth?: number }>(),
@@ -11,10 +12,12 @@ withDefaults(
 )
 
 const { page, frontmatter } = useData()
+const { isSidebarEnabled } = useSidebar()
 const maxDepth = computed<number>(
   () => frontmatter.value.sidebarDepth || Infinity
 )
 const closeSideBar = inject('close-sidebar') as () => void
+const isSidebarOpen = inject('is-sidebar-open') as boolean
 </script>
 
 <template>
@@ -23,6 +26,7 @@ const closeSideBar = inject('close-sidebar') as () => void
     :class="{ active: isActive(page.relativePath, item.link) }"
     :style="{ paddingLeft: 16 * (depth - 1) + 'px' }"
     :href="item.link"
+    :tabindex="isSidebarEnabled || isSidebarOpen ? 0 : -1"
     @click="closeSideBar"
   >
     <span v-html="item.text" class="link-text" :class="{ light: depth > 1 }"></span>
