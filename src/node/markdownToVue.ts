@@ -13,6 +13,7 @@ import {
   type MarkdownRenderer
 } from './markdown'
 import _debug from 'debug'
+import { SiteConfig } from 'config'
 
 const debug = _debug('vitepress:md')
 const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
@@ -37,7 +38,8 @@ export async function createMarkdownToVueRenderFn(
   isBuild = false,
   base = '/',
   includeLastUpdatedData = false,
-  cleanUrls: CleanUrlsMode = 'disabled'
+  cleanUrls: CleanUrlsMode = 'disabled',
+  siteConfig: SiteConfig | null = null
 ) {
   const md = await createMarkdownRenderer(srcDir, options, base)
   pages = pages.map((p) => slash(p.replace(/\.md$/, '')))
@@ -131,7 +133,7 @@ export async function createMarkdownToVueRenderFn(
       }
     }
 
-    const pageData: PageData = {
+    let pageData: PageData = {
       title: inferTitle(md, frontmatter, title),
       titleTemplate: frontmatter.titleTemplate as any,
       description: inferDescription(frontmatter),
@@ -142,6 +144,13 @@ export async function createMarkdownToVueRenderFn(
 
     if (includeLastUpdatedData) {
       pageData.lastUpdated = await getGitTimestamp(file)
+    }
+
+    if (siteConfig?.transformPageData) {
+      const updatedPageData = await siteConfig.transformPageData(pageData)
+      if (updatedPageData) {
+        pageData = updatedPageData
+      }
     }
 
     const vueSrc = [

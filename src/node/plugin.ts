@@ -95,7 +95,8 @@ export async function createVitePressPlugin(
         config.command === 'build',
         config.base,
         lastUpdated,
-        cleanUrls
+        cleanUrls,
+        siteConfig
       )
     },
 
