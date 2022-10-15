@@ -114,7 +114,7 @@ export interface UserConfig<ThemeConfig = any> {
    */
   transformPageData?: (
     pageData: PageData
-  ) => Awaitable<Partial<PageData> | void>
+  ) => Awaitable<Partial<PageData> | { [key: string]: any } | void>
 }
 
 export interface TransformContext {
@@ -232,7 +232,8 @@ export async function resolveConfig(
     cleanUrls: userConfig.cleanUrls || 'disabled',
     buildEnd: userConfig.buildEnd,
     transformHead: userConfig.transformHead,
-    transformHtml: userConfig.transformHtml
+    transformHtml: userConfig.transformHtml,
+    transformPageData: userConfig.transformPageData
   }
 
   return config

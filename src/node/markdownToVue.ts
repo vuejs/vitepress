@@ -147,9 +147,12 @@ export async function createMarkdownToVueRenderFn(
     }
 
     if (siteConfig?.transformPageData) {
-      pageData = {
-        ...pageData,
-        ...((await siteConfig.transformPageData(pageData)) ?? {})
+      const dataToMerge = await siteConfig.transformPageData(pageData)
+      if (dataToMerge) {
+        pageData = {
+          ...pageData,
+          ...dataToMerge
+        }
       }
     }
 
