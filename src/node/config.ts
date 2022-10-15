@@ -112,7 +112,9 @@ export interface UserConfig<ThemeConfig = any> {
   /**
    * PageData transform hook: runs when rendering markdown to vue
    */
-  transformPageData?: (pageData: PageData) => Awaitable<PageData | void>
+  transformPageData?: (
+    pageData: PageData
+  ) => Awaitable<Partial<PageData> | void>
 }
 
 export interface TransformContext {
