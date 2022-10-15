@@ -316,9 +316,9 @@ export default {
 
 ### transformPageData
 
-- Type: `(pageData: PageData) => Awaitable<Partial<PageData> | void>`
+- Type: `(pageData: PageData) => Awaitable<Partial<PageData> | { [key: string]: any } | void>`
 
-`transformPageData` is a hook to transform the pageData of each page. You can directly mutate `pageData` or return changed values which will be merged into PageData.
+`transformPageData` is a hook to transform the `pageData` of each page. You can directly mutate `pageData` or return changed values which will be merged into PageData.
 
 
 ```ts
