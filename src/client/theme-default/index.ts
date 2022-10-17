@@ -6,8 +6,10 @@ import './styles/components/custom-block.css'
 import './styles/components/vp-code.css'
 import './styles/components/vp-doc.css'
 import './styles/components/vp-sponsor.css'
+import './nprogress/index.css'
 
-import { Theme } from 'vitepress'
+import { inBrowser, Theme } from 'vitepress'
+import nprogress from './nprogress/index.js'
 import Layout from './Layout.vue'
 import NotFound from './NotFound.vue'
 
@@ -22,7 +24,28 @@ export { default as VPTeamMembers } from './components/VPTeamMembers.vue'
 
 const theme: Theme = {
   Layout,
-  NotFound
+  NotFound,
+  enhanceApp: ({ router }) => {
+    if (inBrowser) {
+      let timeoutId: NodeJS.Timeout
+      let called = false
+      router.onBeforeRouteChange = () => {
+        timeoutId = setTimeout(() => {
+          nprogress.start()
+          called = true
+        }, 500)
+      }
+      router.onAfterRouteChanged = () => {
+        if (timeoutId) {
+          clearTimeout(timeoutId)
+        }
+        if (called) {
+          nprogress.done(true)
+          called = false
+        }
+      }
+    }
+  }
 }
 
 export default theme

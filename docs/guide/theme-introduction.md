@@ -109,9 +109,10 @@ import DefaultTheme from 'vitepress/theme'
 
 export default {
   ...DefaultTheme,
-  enhanceApp({ app }) {
+  enhanceApp(ctx) {
+    DefaultTheme.enhanceApp(ctx)
     // register global components
-    app.component('MyGlobalComponent', /* ... */)
+    ctx.app.component('MyGlobalComponent', /* ... */)
   }
 }
 ```
