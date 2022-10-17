@@ -1,18 +1,19 @@
 // so that users can do `import DefaultTheme from 'vitepress/theme'`
-import type { ComponentOptions } from 'vue'
+import type { DefineComponent } from 'vue'
 
-export const VPHomeHero: ComponentOptions
-export const VPHomeFeatures: ComponentOptions
-export const VPHomeSponsors: ComponentOptions
-export const VPDocAsideSponsors: ComponentOptions
-export const VPTeamPage: ComponentOptions
-export const VPTeamPageTitle: ComponentOptions
-export const VPTeamPageSection: ComponentOptions
-export const VPTeamMembers: ComponentOptions
+// TODO: add props for these
+export const VPHomeHero: DefineComponent
+export const VPHomeFeatures: DefineComponent
+export const VPHomeSponsors: DefineComponent
+export const VPDocAsideSponsors: DefineComponent
+export const VPTeamPage: DefineComponent
+export const VPTeamPageTitle: DefineComponent
+export const VPTeamPageSection: DefineComponent
+export const VPTeamMembers: DefineComponent
 
 declare const theme: {
-  Layout: ComponentOptions
-  NotFound: ComponentOptions
+  Layout: DefineComponent
+  NotFound: DefineComponent
 }
 
 export default theme
