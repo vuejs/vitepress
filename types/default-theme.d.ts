@@ -116,7 +116,9 @@ export namespace DefaultTheme {
 
   // image -----------------------------------------------------------------------
 
-  export type ThemeableImage = Image | { light: Image; dark: Image }
+  export type ThemeableImage =
+    | Image
+    | { light: Image; dark: Image; alt?: string }
   export type Image = string | { src: string; alt?: string }
 
   // sidebar -------------------------------------------------------------------

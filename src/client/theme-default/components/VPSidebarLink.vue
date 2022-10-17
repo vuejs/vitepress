@@ -58,7 +58,7 @@ function clickLink() {
         :href="item.link"
         @click="clickLink"
       >
-        <span class="link-text" :class="{ light: depth > 1 }">{{ item.text }}</span>
+        <span v-html="item.text" class="link-text" :class="{ light: depth > 1 }"></span>
       </VPLink>
 
       <button class="action" @click.stop="toggle" type="button">

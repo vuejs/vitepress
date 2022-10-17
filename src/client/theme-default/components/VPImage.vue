@@ -4,6 +4,7 @@ import { withBase } from 'vitepress'
 
 defineProps<{
   image: DefaultTheme.ThemeableImage
+  alt?: string
 }>()
 </script>
 
@@ -20,11 +21,29 @@ export default {
       class="VPImage"
       v-bind="typeof image === 'string' ? $attrs : { ...image, ...$attrs }"
       :src="withBase(typeof image === 'string' ? image : image.src)"
-      :alt="typeof image === 'string' ? '' : (image.alt || '')"
+      :alt="alt ?? (typeof image === 'string' ? '' : image.alt || '')"
     />
     <template v-else>
-      <VPImage class="dark" :image="image.dark" v-bind="$attrs" />
-      <VPImage class="light" :image="image.light" v-bind="$attrs" />
+      <VPImage
+        class="dark"
+        :image="image.dark"
+        :alt="
+          typeof image.dark === 'string'
+            ? image.alt
+            : image.dark.alt || image.alt
+        "
+        v-bind="$attrs"
+      />
+      <VPImage
+        class="light"
+        :image="image.light"
+        :alt="
+          typeof image.light === 'string'
+            ? image.alt
+            : image.light.alt || image.alt
+        "
+        v-bind="$attrs"
+      />
     </template>
   </template>
 </template>
