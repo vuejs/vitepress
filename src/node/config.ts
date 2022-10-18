@@ -108,6 +108,13 @@ export interface UserConfig<ThemeConfig = any> {
     id: string,
     ctx: TransformContext
   ) => Awaitable<string | void>
+
+  /**
+   * PageData transform hook: runs when rendering markdown to vue
+   */
+  transformPageData?: (
+    pageData: PageData
+  ) => Awaitable<Partial<PageData> | { [key: string]: any } | void>
 }
 
 export interface TransformContext {
@@ -138,6 +145,7 @@ export interface SiteConfig<ThemeConfig = any>
     | 'buildEnd'
     | 'transformHead'
     | 'transformHtml'
+    | 'transformPageData'
   > {
   root: string
   srcDir: string
@@ -224,7 +232,8 @@ export async function resolveConfig(
     cleanUrls: userConfig.cleanUrls || 'disabled',
     buildEnd: userConfig.buildEnd,
     transformHead: userConfig.transformHead,
-    transformHtml: userConfig.transformHtml
+    transformHtml: userConfig.transformHtml,
+    transformPageData: userConfig.transformPageData
   }
 
   return config
