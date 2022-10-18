@@ -3,6 +3,7 @@ import path from 'path'
 import c from 'picocolors'
 import LRUCache from 'lru-cache'
 import { resolveTitleFromToken } from '@mdit-vue/shared'
+import { SiteConfig } from './config'
 import { PageData, HeadConfig, EXTERNAL_URL_RE, CleanUrlsMode } from './shared'
 import { slash } from './utils/slash'
 import { getGitTimestamp } from './utils/getGitTimestamp'
@@ -13,7 +14,6 @@ import {
   type MarkdownRenderer
 } from './markdown'
 import _debug from 'debug'
-import { SiteConfig } from 'config'
 
 const debug = _debug('vitepress:md')
 const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
