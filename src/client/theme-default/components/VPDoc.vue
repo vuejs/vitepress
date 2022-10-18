@@ -4,6 +4,7 @@ import { computed, provide, ref } from 'vue'
 import { useSidebar } from '../composables/sidebar.js'
 import VPDocAside from './VPDocAside.vue'
 import VPDocFooter from './VPDocFooter.vue'
+import VPPreview from './VPPreview.vue'
 
 const route = useRoute()
 const { hasSidebar, hasAside } = useSidebar()
@@ -13,7 +14,23 @@ const pageName = computed(() =>
 )
 
 const onContentUpdated = ref()
+
+const selectImage = ref<string>('')
 provide('onContentUpdated', onContentUpdated)
+
+const processImage = (e: any)=>{
+  const node = e.path?.[0]
+  if(node?.nodeName === 'IMG' ){
+    selectImage.value = node.src
+    document.body.style.overflow = 'hidden'
+  }
+}
+
+const closePreview = () => {
+  selectImage.value = ''
+  document.body.style.overflow = 'auto'
+}
+
 </script>
 
 <template>
@@ -41,8 +58,8 @@ provide('onContentUpdated', onContentUpdated)
       <div class="content">
         <div class="content-container">
           <slot name="doc-before" />
-          <main class="main">
-            <Content class="vp-doc" :class="pageName" :onContentUpdated="onContentUpdated" />
+          <main class="main" @click="processImage">
+            <Content class="vp-doc" :class="pageName" :onContentUpdated="onContentUpdated" style="overflow: hidden;" />
           </main>
           <slot name="doc-footer-before" />
           <VPDocFooter />
@@ -51,6 +68,7 @@ provide('onContentUpdated', onContentUpdated)
       </div>
     </div>
   </div>
+  <VPPreview v-if="selectImage" :image="selectImage" @close-preview="closePreview" />
 </template>
 
 <style scoped>
