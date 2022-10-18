@@ -337,7 +337,7 @@ function resolveSiteDataHead(userConfig?: UserConfig): HeadConfig[] {
     // if appearance mode set to light or dark, default to the defined mode
     // in case the user didn't specify a preference - otherwise, default to auto
     const fallbackPreference =
-      userConfig?.appearance !== true ? userConfig?.appearance : 'auto'
+      userConfig?.appearance !== true ? userConfig?.appearance ?? '' : 'auto'
 
     head.push([
       'script',
