@@ -6,7 +6,7 @@ const { site } = useData()
 </script>
 
 <template>
-  <div v-if="site.appearance !== false" class="VPNavScreenAppearance">
+  <div v-if="site.appearance" class="VPNavScreenAppearance">
     <p class="text">Appearance</p>
     <VPSwitchAppearance />
   </div>

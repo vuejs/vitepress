@@ -19,8 +19,8 @@ export default {
 
 Whether to enable dark mode or not.
 
-- If the option is set to `true`, the theme will be defined by the browser's preferred color scheme.
-- If the option is set to `dark`, the theme will default to `.dark`, unless the user manually toggles the theme.
+- If the option is set to `true`, the default theme will be determined by the user's preferred color scheme.
+- If the option is set to `dark`, the theme will be dark by default, unless the user manually toggles it.
 - If the option is set to `false`, users will not be able to toggle the theme.
 
 It also injects inline script that tries to read users settings from local storage by `vitepress-theme-appearance` key and restores users preferred color mode.
@@ -203,7 +203,7 @@ export default {
 - Type: `string`
 - Default: `.`
 
-The directory where your markdown pages are stored, relative to project root. 
+The directory where your markdown pages are stored, relative to project root.
 
 ```ts
 export default {

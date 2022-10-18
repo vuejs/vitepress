@@ -336,21 +336,18 @@ function resolveSiteDataHead(userConfig?: UserConfig): HeadConfig[] {
   if (userConfig?.appearance ?? true) {
     // if appearance mode set to light or dark, default to the defined mode
     // in case the user didn't specify a preference - otherwise, default to auto
-    const fallbackPreference = userConfig?.appearance !== true
-      ? userConfig?.appearance
-      : 'auto'
+    const fallbackPreference =
+      userConfig?.appearance !== true ? userConfig?.appearance : 'auto'
 
     head.push([
       'script',
       { id: 'check-dark-light' },
       `
         ;(() => {
-          const preference = localStorage.getItem('${APPEARANCE_KEY}') ?? '${fallbackPreference}'
+          const preference = localStorage.getItem('${APPEARANCE_KEY}') || '${fallbackPreference}'
           const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
           if (!preference || preference === 'auto' ? prefersDark : preference === 'dark') {
             document.documentElement.classList.add('dark')
-          } else {
-            document.documentElement.classList.add('light')
           }
         })()
       `

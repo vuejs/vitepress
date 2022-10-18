@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
+import { useData } from 'vitepress'
 import { APPEARANCE_KEY } from '../../shared.js'
 import VPSwitch from './VPSwitch.vue'
 import VPIconSun from './icons/VPIconSun.vue'
 import VPIconMoon from './icons/VPIconMoon.vue'
-import { useData } from 'vitepress'
 
 const { site } = useData()
 const checked = ref(false)
@@ -18,13 +18,13 @@ function useAppearance() {
   const query = window.matchMedia('(prefers-color-scheme: dark)')
   const classList = document.documentElement.classList
 
-  let userPreference = localStorage.getItem(APPEARANCE_KEY) || site.value.appearance !== true
-    ? site.value.appearance
-    : 'auto'
+  let userPreference =
+    localStorage.getItem(APPEARANCE_KEY) || site.value.appearance !== true
+      ? site.value.appearance
+      : 'auto'
 
-  let isDark = userPreference === 'auto'
-    ? query.matches
-    : userPreference === 'dark'
+  let isDark =
+    userPreference === 'auto' ? query.matches : userPreference === 'dark'
 
   query.onchange = (e) => {
     if (userPreference === 'auto') {
