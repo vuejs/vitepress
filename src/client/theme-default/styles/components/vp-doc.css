@@ -357,6 +357,8 @@
 }
 
 .vp-doc [class*='language-'] > button.copy {
+  /*rtl:ignore*/
+  direction: ltr;
   position: absolute;
   top: 8px;
   /*rtl:ignore*/
