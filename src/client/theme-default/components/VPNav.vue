@@ -30,6 +30,7 @@ provide('close-screen', closeScreen)
 .VPNav {
   position: relative;
   top: 0;
+  /*rtl:ignore*/
   left: 0;
   z-index: var(--vp-z-index-nav);
   width: 100%;

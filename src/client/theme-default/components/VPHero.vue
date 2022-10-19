@@ -262,6 +262,7 @@ defineProps<{
     align-items: center;
     width: 100%;
     height: 100%;
+    /*rtl:ignore*/
     transform: translate(-32px, -32px);
   }
 }
@@ -269,12 +270,14 @@ defineProps<{
 .image-bg {
   position: absolute;
   top: 50%;
+  /*rtl:ignore*/
   left: 50%;
   border-radius: 50%;
   width: 192px;
   height: 192px;
   background-image: var(--vp-home-hero-image-background-image);
   filter: var(--vp-home-hero-image-filter);
+  /*rtl:ignore*/
   transform: translate(-50%, -50%);
 }
 
@@ -295,8 +298,10 @@ defineProps<{
 :deep(.image-src) {
   position: absolute;
   top: 50%;
+  /*rtl:ignore*/
   left: 50%;
   max-width: 192px;
+  /*rtl:ignore*/
   transform: translate(-50%, -50%);
 }
 
