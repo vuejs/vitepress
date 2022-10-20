@@ -160,6 +160,6 @@ export function sanitizeFileName(name: string): string {
     name
       .slice(driveLetter.length)
       .replace(INVALID_CHAR_REGEX, '_')
-      .replace(/(?<=^|\/)_+(?=[^/]*$)/, '')
+      .replace(/(^|\/)_+(?=[^/]*$)/, '$1')
   )
 }

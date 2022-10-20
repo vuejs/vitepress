@@ -56,7 +56,7 @@ export interface SiteData<ThemeConfig = any> {
   titleTemplate?: string | boolean
   description: string
   head: HeadConfig[]
-  appearance: boolean
+  appearance: boolean | 'dark'
   themeConfig: ThemeConfig
   scrollOffset: number | string
   locales: LocaleConfig<ThemeConfig>
