@@ -101,7 +101,7 @@ const { hasSidebar } = useSidebar()
 }
 
 .container :deep(*) {
-  pointer-events: all;
+  pointer-events: auto;
 }
 
 .content {

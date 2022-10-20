@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { ref, watchPostEffect, nextTick } from 'vue'
+import { ref, watchPostEffect } from 'vue'
+import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 import { useSidebar } from '../composables/sidebar.js'
 import VPSidebarGroup from './VPSidebarGroup.vue'
 
@@ -10,12 +11,22 @@ const props = defineProps<{
 }>()
 
 // a11y: focus Nav element when menu has opened
-let navEl = ref<(Element & { focus(): void }) | null>(null)
+let navEl = ref<HTMLElement | null>(null)
+
+function lockBodyScroll() {
+  disableBodyScroll(navEl.value!, { reserveScrollBarGap: true })
+}
+
+function unlockBodyScroll() {
+  clearAllBodyScrollLocks()
+}
 
 watchPostEffect(async () => {
   if (props.open) {
-    await nextTick()
+    lockBodyScroll()
     navEl.value?.focus()
+  } else {
+    unlockBodyScroll()
   }
 })
 </script>

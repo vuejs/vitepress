@@ -15,11 +15,24 @@ export default {
 
 ```ts
 export interface Footer {
-  // The message shown rigth before copyright.
+  // The message shown right before copyright.
   message?: string
 
   // The actual copyright text.
   copyright?: string
+}
+```
+
+The above configuration also supports HTML strings. So, for example, if you want to configure footer text to have some links, you can adjust the configuration as follows:
+
+```ts
+export default {
+  themeConfig: {
+    footer: {
+      message: 'Released under the <a href="https://github.com/vuejs/vitepress/blob/main/LICENSE">MIT License</a>.',
+      copyright: 'Copyright © 2019-present <a href="https://github.com/yyx990803">Evan You</a>'
+    }
+  }
 }
 ```
 

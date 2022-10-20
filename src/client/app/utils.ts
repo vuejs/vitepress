@@ -1,5 +1,5 @@
 import { siteDataRef } from './data.js'
-import { inBrowser, EXTERNAL_URL_RE } from '../shared.js'
+import { inBrowser, EXTERNAL_URL_RE, sanitizeFileName } from '../shared.js'
 
 export { inBrowser }
 
@@ -36,14 +36,18 @@ export function pathToFile(path: string): string {
     if (inBrowser) {
       const base = import.meta.env.BASE_URL
       pagePath =
-        (pagePath.slice(base.length).replace(/\//g, '_') || 'index') + '.md'
+        sanitizeFileName(
+          pagePath.slice(base.length).replace(/\//g, '_') || 'index'
+        ) + '.md'
       // client production build needs to account for page hash, which is
       // injected directly in the page's html
       const pageHash = __VP_HASH_MAP__[pagePath.toLowerCase()]
       pagePath = `${base}assets/${pagePath}.${pageHash}.js`
     } else {
       // ssr build uses much simpler name mapping
-      pagePath = `./${pagePath.slice(1).replace(/\//g, '_')}.md.js`
+      pagePath = `./${sanitizeFileName(
+        pagePath.slice(1).replace(/\//g, '_')
+      )}.md.js`
     }
   }
 

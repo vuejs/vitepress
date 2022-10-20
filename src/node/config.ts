@@ -17,7 +17,8 @@ import {
   APPEARANCE_KEY,
   createLangDictionary,
   CleanUrlsMode,
-  PageData
+  PageData,
+  Awaitable
 } from './shared'
 import { DEFAULT_THEME_PATH } from './alias'
 import { MarkdownOptions } from './markdown/markdown'
@@ -35,7 +36,7 @@ export interface UserConfig<ThemeConfig = any> {
   titleTemplate?: string | boolean
   description?: string
   head?: HeadConfig[]
-  appearance?: boolean
+  appearance?: boolean | 'dark'
   themeConfig?: ThemeConfig
   locales?: Record<string, LocaleConfig>
   markdown?: MarkdownOptions
@@ -90,7 +91,14 @@ export interface UserConfig<ThemeConfig = any> {
    * Build end hook: called when SSG finish.
    * @param siteConfig The resolved configuration.
    */
-  buildEnd?: (siteConfig: SiteConfig) => Promise<void>
+  buildEnd?: (siteConfig: SiteConfig) => Awaitable<void>
+
+  /**
+   * Head transform hook: runs before writing HTML to dist.
+   *
+   * This build hook will allow you to modify the head adding new entries that cannot be statically added.
+   */
+  transformHead?: (ctx: TransformContext) => Awaitable<HeadConfig[]>
 
   /**
    * HTML transform hook: runs before writing HTML to dist.
@@ -98,22 +106,30 @@ export interface UserConfig<ThemeConfig = any> {
   transformHtml?: (
     code: string,
     id: string,
-    ctx: {
-      siteConfig: SiteConfig
-      siteData: SiteData
-      pageData: PageData
-      title: string
-      description: string
-      head: HeadConfig[]
-      content: string
-    }
-  ) => Promise<string | void>
+    ctx: TransformContext
+  ) => Awaitable<string | void>
+
+  /**
+   * PageData transform hook: runs when rendering markdown to vue
+   */
+  transformPageData?: (
+    pageData: PageData
+  ) => Awaitable<Partial<PageData> | { [key: string]: any } | void>
+}
+
+export interface TransformContext {
+  siteConfig: SiteConfig
+  siteData: SiteData
+  pageData: PageData
+  title: string
+  description: string
+  head: HeadConfig[]
+  content: string
 }
 
 export type RawConfigExports<ThemeConfig = any> =
-  | UserConfig<ThemeConfig>
-  | Promise<UserConfig<ThemeConfig>>
-  | (() => UserConfig<ThemeConfig> | Promise<UserConfig<ThemeConfig>>)
+  | Awaitable<UserConfig<ThemeConfig>>
+  | (() => Awaitable<UserConfig<ThemeConfig>>)
 
 export interface SiteConfig<ThemeConfig = any>
   extends Pick<
@@ -127,7 +143,9 @@ export interface SiteConfig<ThemeConfig = any>
     | 'ignoreDeadLinks'
     | 'cleanUrls'
     | 'buildEnd'
+    | 'transformHead'
     | 'transformHtml'
+    | 'transformPageData'
   > {
   root: string
   srcDir: string
@@ -213,7 +231,9 @@ export async function resolveConfig(
     ignoreDeadLinks: userConfig.ignoreDeadLinks,
     cleanUrls: userConfig.cleanUrls || 'disabled',
     buildEnd: userConfig.buildEnd,
-    transformHtml: userConfig.transformHtml
+    transformHead: userConfig.transformHead,
+    transformHtml: userConfig.transformHtml,
+    transformPageData: userConfig.transformPageData
   }
 
   return config
@@ -321,16 +341,21 @@ function resolveSiteDataHead(userConfig?: UserConfig): HeadConfig[] {
   const head = userConfig?.head ?? []
 
   // add inline script to apply dark mode, if user enables the feature.
-  // this is required to prevent "flush" on initial page load.
+  // this is required to prevent "flash" on initial page load.
   if (userConfig?.appearance ?? true) {
+    // if appearance mode set to light or dark, default to the defined mode
+    // in case the user didn't specify a preference - otherwise, default to auto
+    const fallbackPreference =
+      userConfig?.appearance !== true ? userConfig?.appearance ?? '' : 'auto'
+
     head.push([
       'script',
       { id: 'check-dark-light' },
       `
         ;(() => {
-          const saved = localStorage.getItem('${APPEARANCE_KEY}')
-          const prefereDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-          if (!saved || saved === 'auto' ? prefereDark : saved === 'dark') {
+          const preference = localStorage.getItem('${APPEARANCE_KEY}') || '${fallbackPreference}'
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+          if (!preference || preference === 'auto' ? prefersDark : preference === 'dark') {
             document.documentElement.classList.add('dark')
           }
         })()

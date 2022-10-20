@@ -1,6 +1,8 @@
 // types shared between server and client
 export type { DefaultTheme } from './default-theme.js'
 
+export type Awaitable<T> = T | PromiseLike<T>
+
 export interface PageData {
   relativePath: string
   title: string
@@ -60,7 +62,7 @@ export interface SiteData<ThemeConfig = any> {
   titleTemplate?: string | boolean
   description: string
   head: HeadConfig[]
-  appearance: boolean
+  appearance: boolean | 'dark'
   themeConfig: ThemeConfig
   scrollOffset: number | string
   locales: Record<string, LocaleConfig>
