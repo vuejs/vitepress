@@ -9,9 +9,7 @@ export default defineConfig({
   lastUpdated: true,
   cleanUrls: 'without-subfolders',
 
-  head: [
-    ['meta', { name: 'theme-color', content: '#3c8772' }]
-  ],
+  head: [['meta', { name: 'theme-color', content: '#3c8772' }]],
 
   markdown: {
     headers: {
