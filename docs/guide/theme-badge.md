@@ -1,75 +1,83 @@
 # Badge
 
-The badge is like the one with same name in [vuepress](https://vuepress.vuejs.org/guide/using-vue.html#built-in-components), but for vitepress.
+The badge lets you add status to your header. For example, it could be useful to specify the section's type, or supported version.
 
 ## Usage
 
-You can use this component in a header to add some status for an API
+You may use the `Badge` component which is globally available.
 
-```js
-### Title <Badge text="info" type="info" />
-### Title <Badge text="tip" type="tip" />
-### Title <Badge text="warning" type="warning" />
-### Title <Badge text="error" type="error" />
+```html
+### Title <Badge type="info" text="default" />
+### Title <Badge type="tip" text="^1.9.0" />
+### Title <Badge type="warning" text="beta" />
+### Title <Badge type="danger" text="caution" />
 ```
 
 Code above renders like:
 
-### Title <Badge text="info" type="info" />
-### Title <Badge text="tip" type="tip" />
-### Title <Badge text="warning" type="warning" />
-### Title <Badge text="error" type="error" />
+### Title <Badge type="info" text="default" vertical="middle" />
+### Title <Badge type="tip" text="^1.9.0" vertical="middle" />
+### Title <Badge type="warning" text="beta" vertical="middle" />
+### Title <Badge type="danger" text="caution" vertical="middle" />
 
 ## Custom Children
 
 `<Badge>` accept `children`, which will be displayed in the badge.
 
-Give Code like this:
-
-```js
-<script setup>
-import { Badge } from 'vitepress/theme'
-</script>
-
-### Title <Badge type="info"><span>custom element</span></Badge>
+```html
+### Title <Badge type="info">custom element</Badge>
 ```
 
-You will see
-
-### Title <Badge type="info"><span>custom element</span></Badge>
-
-## `<Badge>`
-
-`<Badge />` accept props:
-
-- `text`: string
-- `type`: string, optional value: `"tip" | "info" | "warning"| "error"`, defaults to `"tip"`.
-- `vertical`: string, optional value: `"top"| "middle"`, defaults to `"top"`.
-
-**P.S** `props.text` would not be used if children given,  Actually, the `props.text` is passed as default slot children.
+### Title <Badge type="info">custom element</Badge>
 
 ## Customize Type Color
 
-The background color of `<Badge />` is determined by css vars.
-
-```jsx
-/* background-color by var(--vp-c-badge-type-warning); */
-<Badge type="warning" />
-
-/* background-color by var(--vp-c-badge-type-tip); */
-<Badge type="tip" />
-
-/* background-color by var(--vp-c-badge-type-error); */
-<Badge type="error" />
-
-/* background-color by var(--vp-c-badge-type-info); */
-<Badge type="info" />
-```
-
-you can customize `background-color` of typed `<Badge />` by override css vars.
+you can customize `background-color` of typed `<Badge />` by override css vars. The following is he default values.
 
 ```css
 :root {
-    --vp-c-badge-type-error: red;
+  --vp-badge-info-border: var(--vp-c-divider-light);
+  --vp-badge-info-text: var(--vp-c-text-2);
+  --vp-badge-info-bg: var(--vp-c-white-soft);
+
+  --vp-badge-tip-border: var(--vp-c-green-dimm-1);
+  --vp-badge-tip-text: var(--vp-c-green-darker);
+  --vp-badge-tip-bg: var(--vp-c-green-dimm-3);
+
+  --vp-badge-warning-border: var(--vp-c-yellow-dimm-1);
+  --vp-badge-warning-text: var(--vp-c-yellow-darker);
+  --vp-badge-warning-bg: var(--vp-c-yellow-dimm-3);
+
+  --vp-badge-danger-border: var(--vp-c-red-dimm-1);
+  --vp-badge-danger-text: var(--vp-c-red-darker);
+  --vp-badge-danger-bg: var(--vp-c-red-dimm-3);
+}
+
+.dark {
+  --vp-badge-info-border: var(--vp-c-divider-light);
+  --vp-badge-info-bg: var(--vp-c-black-mute);
+
+  --vp-badge-tip-border: var(--vp-c-green-dimm-2);
+  --vp-badge-tip-text: var(--vp-c-green-light);
+
+  --vp-badge-warning-border: var(--vp-c-yellow-dimm-2);
+  --vp-badge-warning-text: var(--vp-c-yellow-light);
+
+  --vp-badge-danger-border: var(--vp-c-red-dimm-2);
+  --vp-badge-danger-text: var(--vp-c-red-light);
+}
+```
+
+## `<Badge>`
+
+`<Badge>` component accepts following props:
+
+```ts
+interface Props {
+  // When `<slot>` is passed, this value gets ignored.
+  text?: string
+
+  // Defaults to `tip`.
+  type?: 'info' | 'tip' | 'warning' | 'danger'
 }
 ```

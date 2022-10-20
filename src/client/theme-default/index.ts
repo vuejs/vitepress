@@ -29,6 +29,7 @@ const theme: Theme = {
   NotFound,
   enhanceApp: ({ router, app }) => {
     app.component('Badge', VPBadge)
+
     if (inBrowser) {
       router.onBeforeRouteChange = () => {
         nprogress.start()
