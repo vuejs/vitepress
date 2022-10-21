@@ -63,7 +63,7 @@ const NotFound = inject('NotFound')
 
 @media (min-width: 960px) {
   .VPContent {
-    padding-top: calc(var(--vp-nav-height) + var(--vt-layout-top-height, 0px));
+    padding-top: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px));
   }
 
   .VPContent.has-sidebar {
