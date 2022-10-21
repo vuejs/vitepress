@@ -83,7 +83,9 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
      deploy:
        runs-on: ubuntu-latest
        steps:
-         - uses: actions/checkout@v2
+         - uses: actions/checkout@v3
+           with:
+             fetch-depth: 0
          - uses: actions/setup-node@v3
            with:
              node-version: 16
