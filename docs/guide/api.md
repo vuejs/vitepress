@@ -20,6 +20,7 @@ interface VitePressData {
   title: Ref<string>
   description: Ref<string>
   localePath: Ref<string>
+  isDark: Ref<boolean>
 }
 ```
 
