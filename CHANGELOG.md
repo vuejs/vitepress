@@ -1,3 +1,20 @@
+# [1.0.0-alpha.22](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.21...v1.0.0-alpha.22) (2022-10-22)
+
+
+### Bug Fixes
+
+* **types:** change ComponentOptions to DefineComponent ([#1499](https://github.com/vuejs/vitepress/issues/1499)) ([5711660](https://github.com/vuejs/vitepress/commit/57116607b83f79e62f399cd6430b0d80524861a3))
+
+
+### Features
+
+* expose isDark ([#1525](https://github.com/vuejs/vitepress/issues/1525)) ([d327811](https://github.com/vuejs/vitepress/commit/d327811fd5b333a73d77730b6b0b347e3d052ebc))
+* **theme:** allow defining dark as the default theme ([#1498](https://github.com/vuejs/vitepress/issues/1498)) ([d404753](https://github.com/vuejs/vitepress/commit/d404753005bf4cc3bb645553ac473d08c6473180))
+* **theme:** support html strings for SidebarGroup headings, SidebarItem text ([#1489](https://github.com/vuejs/vitepress/issues/1489)) ([946c579](https://github.com/vuejs/vitepress/commit/946c579f2b8957839b8e0ef3474bded5ad06de1a))
+* transformPageData hook ([#1492](https://github.com/vuejs/vitepress/issues/1492)) ([afeb06f](https://github.com/vuejs/vitepress/commit/afeb06f17cbd439e3e0151f9571107754fe98b57))
+
+
+
 # [1.0.0-alpha.21](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.20...v1.0.0-alpha.21) (2022-10-14)
 
 
