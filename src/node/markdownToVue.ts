@@ -3,6 +3,7 @@ import path from 'path'
 import c from 'picocolors'
 import LRUCache from 'lru-cache'
 import { resolveTitleFromToken } from '@mdit-vue/shared'
+import { SiteConfig } from './config'
 import { PageData, HeadConfig, EXTERNAL_URL_RE, CleanUrlsMode } from './shared'
 import { slash } from './utils/slash'
 import { getGitTimestamp } from './utils/getGitTimestamp'
@@ -37,7 +38,8 @@ export async function createMarkdownToVueRenderFn(
   isBuild = false,
   base = '/',
   includeLastUpdatedData = false,
-  cleanUrls: CleanUrlsMode = 'disabled'
+  cleanUrls: CleanUrlsMode = 'disabled',
+  siteConfig: SiteConfig | null = null
 ) {
   const md = await createMarkdownRenderer(srcDir, options, base)
   pages = pages.map((p) => slash(p.replace(/\.md$/, '')))
@@ -131,7 +133,7 @@ export async function createMarkdownToVueRenderFn(
       }
     }
 
-    const pageData: PageData = {
+    let pageData: PageData = {
       title: inferTitle(md, frontmatter, title),
       titleTemplate: frontmatter.titleTemplate as any,
       description: inferDescription(frontmatter),
@@ -142,6 +144,16 @@ export async function createMarkdownToVueRenderFn(
 
     if (includeLastUpdatedData) {
       pageData.lastUpdated = await getGitTimestamp(file)
+    }
+
+    if (siteConfig?.transformPageData) {
+      const dataToMerge = await siteConfig.transformPageData(pageData)
+      if (dataToMerge) {
+        pageData = {
+          ...pageData,
+          ...dataToMerge
+        }
+      }
     }
 
     const vueSrc = [

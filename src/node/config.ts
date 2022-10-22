@@ -36,7 +36,7 @@ export interface UserConfig<ThemeConfig = any> {
   titleTemplate?: string | boolean
   description?: string
   head?: HeadConfig[]
-  appearance?: boolean
+  appearance?: boolean | 'dark'
   themeConfig?: ThemeConfig
   locales?: Record<string, LocaleConfig>
   markdown?: MarkdownOptions
@@ -108,6 +108,13 @@ export interface UserConfig<ThemeConfig = any> {
     id: string,
     ctx: TransformContext
   ) => Awaitable<string | void>
+
+  /**
+   * PageData transform hook: runs when rendering markdown to vue
+   */
+  transformPageData?: (
+    pageData: PageData
+  ) => Awaitable<Partial<PageData> | { [key: string]: any } | void>
 }
 
 export interface TransformContext {
@@ -138,6 +145,7 @@ export interface SiteConfig<ThemeConfig = any>
     | 'buildEnd'
     | 'transformHead'
     | 'transformHtml'
+    | 'transformPageData'
   > {
   root: string
   srcDir: string
@@ -224,7 +232,8 @@ export async function resolveConfig(
     cleanUrls: userConfig.cleanUrls || 'disabled',
     buildEnd: userConfig.buildEnd,
     transformHead: userConfig.transformHead,
-    transformHtml: userConfig.transformHtml
+    transformHtml: userConfig.transformHtml,
+    transformPageData: userConfig.transformPageData
   }
 
   return config
@@ -332,16 +341,21 @@ function resolveSiteDataHead(userConfig?: UserConfig): HeadConfig[] {
   const head = userConfig?.head ?? []
 
   // add inline script to apply dark mode, if user enables the feature.
-  // this is required to prevent "flush" on initial page load.
+  // this is required to prevent "flash" on initial page load.
   if (userConfig?.appearance ?? true) {
+    // if appearance mode set to light or dark, default to the defined mode
+    // in case the user didn't specify a preference - otherwise, default to auto
+    const fallbackPreference =
+      userConfig?.appearance !== true ? userConfig?.appearance ?? '' : 'auto'
+
     head.push([
       'script',
       { id: 'check-dark-light' },
       `
         ;(() => {
-          const saved = localStorage.getItem('${APPEARANCE_KEY}')
-          const prefereDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-          if (!saved || saved === 'auto' ? prefereDark : saved === 'dark') {
+          const preference = localStorage.getItem('${APPEARANCE_KEY}') || '${fallbackPreference}'
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+          if (!preference || preference === 'auto' ? prefersDark : preference === 'dark') {
             document.documentElement.classList.add('dark')
           }
         })()

@@ -7,6 +7,7 @@ import { slash } from '../utils/slash'
 import { SiteConfig } from '../config'
 import { APP_PATH } from '../alias'
 import { createVitePressPlugin } from '../plugin'
+import { sanitizeFileName } from '../shared'
 import { buildMPAClient } from './buildMPAClient'
 
 export const okMark = '\x1b[32m✓\x1b[0m'
@@ -197,20 +198,4 @@ function staticImportedByEntry(
   )
   cache.set(id, someImporterIs)
   return someImporterIs
-}
-
-// https://github.com/rollup/rollup/blob/69ff4181e701a0fe0026d0ba147f31bc86beffa8/src/utils/sanitizeFileName.ts
-
-const INVALID_CHAR_REGEX = /[\x00-\x1F\x7F<>*#"{}|^[\]`;?:&=+$,]/g
-const DRIVE_LETTER_REGEX = /^[a-z]:/i
-
-function sanitizeFileName(name: string) {
-  const driveLetter = DRIVE_LETTER_REGEX.exec(name)?.[0] || ''
-  return (
-    driveLetter +
-    name
-      .substring(driveLetter.length)
-      .replace(INVALID_CHAR_REGEX, '_')
-      .replace(/^_+/, '')
-  )
 }
