@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { provide, watch } from 'vue'
+import { provide, watch, useSlots, ref } from 'vue'
 import { useData, useRoute } from 'vitepress'
 import { useSidebar, useCloseSidebarOnEscape } from './composables/sidebar.js'
 import VPSkipLink from './components/VPSkipLink.vue'
@@ -24,6 +24,15 @@ useCloseSidebarOnEscape(isSidebarOpen, closeSidebar)
 provide('close-sidebar', closeSidebar)
 
 const { frontmatter } = useData()
+const isHeroImageSlotContentExist = ref(false);
+const slots = useSlots()
+
+if (slots['home-hero-image']) {
+  isHeroImageSlotContentExist.value = true
+}
+
+provide('isHeroImageSlotContentExist', isHeroImageSlotContentExist)
+
 </script>
 
 <template>
@@ -44,6 +53,7 @@ const { frontmatter } = useData()
 
     <VPContent>
       <template #home-hero-before><slot name="home-hero-before" /></template>
+      <template #home-hero-image><slot name="home-hero-image" /></template>
       <template #home-hero-after><slot name="home-hero-after" /></template>
       <template #home-features-before><slot name="home-features-before" /></template>
       <template #home-features-after><slot name="home-features-after" /></template>
