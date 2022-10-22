@@ -155,6 +155,7 @@ export function useActiveAnchor(
     }
 
     if (hash !== null) {
+      history.replaceState(null, document.title, decodeURIComponent(hash))
       prevActiveLink = container.value.querySelector(
         `a[href="${decodeURIComponent(hash)}"]`
       )
