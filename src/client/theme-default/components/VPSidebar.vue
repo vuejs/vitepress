@@ -59,7 +59,7 @@ watchPostEffect(async () => {
 <style scoped>
 .VPSidebar {
   position: fixed;
-  top: 0;
+  top: var(--vp-layout-top-height, 0px);
   bottom: 0;
   left: 0;
   z-index: var(--vp-z-index-sidebar);
