@@ -26,7 +26,7 @@ body {
   color: var(--vp-c-text-1);
   background-color: var(--vp-c-bg);
   direction: ltr;
-  font-synthesis: none;
+  font-synthesis: style;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -116,7 +116,6 @@ iframe,
 embed,
 object {
   display: block;
-  vertical-align: middle;
 }
 
 figure {
@@ -147,8 +146,8 @@ button {
   background-image: none;
 }
 
-button,
-[role='button'] {
+button:enabled,
+[role='button']:enabled {
   cursor: pointer;
 }
 
@@ -212,4 +211,14 @@ select {
 fieldset {
   margin: 0;
   padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  overflow-wrap: break-word;
 }

@@ -1,7 +1,7 @@
 import { reactive, inject, markRaw, nextTick, readonly } from 'vue'
 import type { Component, InjectionKey } from 'vue'
 import { notFoundPageData } from '../shared.js'
-import type { PageData, PageDataPayload } from '../shared.js'
+import type { PageData, PageDataPayload, Awaitable } from '../shared.js'
 import { inBrowser, withBase } from './utils.js'
 import { siteDataRef } from './data.js'
 
@@ -14,6 +14,8 @@ export interface Route {
 export interface Router {
   route: Route
   go: (href?: string) => Promise<void>
+  onBeforeRouteChange?: (to: string) => Awaitable<void>
+  onAfterRouteChanged?: (to: string) => Awaitable<void>
 }
 
 export const RouterSymbol: InjectionKey<Router> = Symbol()
@@ -39,7 +41,13 @@ export function createRouter(
 ): Router {
   const route = reactive(getDefaultRoute())
 
-  function go(href: string = inBrowser ? location.href : '/') {
+  const router: Router = {
+    route,
+    go
+  }
+
+  async function go(href: string = inBrowser ? location.href : '/') {
+    await router.onBeforeRouteChange?.(href)
     const url = new URL(href, fakeHost)
     if (siteDataRef.value.cleanUrls === 'disabled') {
       // ensure correct deep link so page refresh lands on correct files.
@@ -54,7 +62,8 @@ export function createRouter(
       history.replaceState({ scrollPosition: window.scrollY }, document.title)
       history.pushState(null, '', href)
     }
-    return loadPage(href)
+    await loadPage(href)
+    await router.onAfterRouteChanged?.(href)
   }
 
   let latestPendingPath: string | null = null
@@ -133,7 +142,7 @@ export function createRouter(
         if (button) return
 
         const link = (e.target as Element).closest('a')
-        if (link && !link.closest('.vp-raw')) {
+        if (link && !link.closest('.vp-raw') && !link.download) {
           const { href, origin, pathname, hash, search, target } = link
           const currentUrl = window.location
           const extMatch = pathname.match(/\.\w+$/)
@@ -181,10 +190,7 @@ export function createRouter(
 
   handleHMR(route)
 
-  return {
-    route,
-    go
-  }
+  return router
 }
 
 export function useRouter(): Router {

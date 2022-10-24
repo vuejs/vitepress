@@ -14,6 +14,13 @@ export namespace DefaultTheme {
     siteTitle?: string | false
 
     /**
+     * Custom header levels of outline in the aside component.
+     *
+     * @default 2
+     */
+    outline?: number | [number, number] | 'deep' | false
+
+    /**
      * Custom outline title in the aside component.
      *
      * @default 'On this page'
@@ -109,7 +116,9 @@ export namespace DefaultTheme {
 
   // image -----------------------------------------------------------------------
 
-  export type ThemeableImage = Image | { light: Image; dark: Image }
+  export type ThemeableImage =
+    | Image
+    | { light: Image; dark: Image; alt?: string }
   export type Image = string | { src: string; alt?: string }
 
   // sidebar -------------------------------------------------------------------

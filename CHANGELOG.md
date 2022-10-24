@@ -1,3 +1,151 @@
+# [1.0.0-alpha.22](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.21...v1.0.0-alpha.22) (2022-10-22)
+
+
+### Bug Fixes
+
+* **types:** change ComponentOptions to DefineComponent ([#1499](https://github.com/vuejs/vitepress/issues/1499)) ([5711660](https://github.com/vuejs/vitepress/commit/57116607b83f79e62f399cd6430b0d80524861a3))
+
+
+### Features
+
+* expose isDark ([#1525](https://github.com/vuejs/vitepress/issues/1525)) ([d327811](https://github.com/vuejs/vitepress/commit/d327811fd5b333a73d77730b6b0b347e3d052ebc))
+* **theme:** allow defining dark as the default theme ([#1498](https://github.com/vuejs/vitepress/issues/1498)) ([d404753](https://github.com/vuejs/vitepress/commit/d404753005bf4cc3bb645553ac473d08c6473180))
+* **theme:** support html strings for SidebarGroup headings, SidebarItem text ([#1489](https://github.com/vuejs/vitepress/issues/1489)) ([946c579](https://github.com/vuejs/vitepress/commit/946c579f2b8957839b8e0ef3474bded5ad06de1a))
+* transformPageData hook ([#1492](https://github.com/vuejs/vitepress/issues/1492)) ([afeb06f](https://github.com/vuejs/vitepress/commit/afeb06f17cbd439e3e0151f9571107754fe98b57))
+
+
+
+# [1.0.0-alpha.21](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.20...v1.0.0-alpha.21) (2022-10-14)
+
+
+### Bug Fixes
+
+* **build:** better align server and client side filename sanitization ([3fd20fe](https://github.com/vuejs/vitepress/commit/3fd20fedb81c88c188cff22b4c03ccc2ad416d2c))
+* **theme:** match switch background transition with page transition ([#1479](https://github.com/vuejs/vitepress/issues/1479)) ([962065a](https://github.com/vuejs/vitepress/commit/962065a46ee1ef34eccbffbde9e65d7f174f8ab1))
+* **theme:** prevent body scrolling when sidebar has opened on small screens ([#1391](https://github.com/vuejs/vitepress/issues/1391)) ([3daabdc](https://github.com/vuejs/vitepress/commit/3daabdc480c0cc10a12a83a08a734f8719d092c5))
+
+
+### Features
+
+* **theme:** allow specifying common alt for logo ([#1451](https://github.com/vuejs/vitepress/issues/1451)) ([55688a8](https://github.com/vuejs/vitepress/commit/55688a87e3baa38d0e0a37a6eba0039484416875))
+
+
+
+# [1.0.0-alpha.20](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.19...v1.0.0-alpha.20) (2022-10-12)
+
+
+### Bug Fixes
+
+* **a11y:** add title to copy code button ([#1437](https://github.com/vuejs/vitepress/issues/1437)) ([f79bb78](https://github.com/vuejs/vitepress/commit/f79bb78bf7f472d9bc376a3ec393f731bfe9e7ce))
+* **router:** don't intercept download links ([#1452](https://github.com/vuejs/vitepress/issues/1452)) ([54cf6ce](https://github.com/vuejs/vitepress/commit/54cf6ce51fcf8ce91c0706332e0b51ddcc2b519d))
+* **theme:** disable transitions on theme toggle ([#1447](https://github.com/vuejs/vitepress/issues/1447)) ([067e1a9](https://github.com/vuejs/vitepress/commit/067e1a97434f88835dbfedcf18e2f98d8bfacad9))
+* **theme:** make text prop of VPHero optional ([#1445](https://github.com/vuejs/vitepress/issues/1445)) ([95e4f2a](https://github.com/vuejs/vitepress/commit/95e4f2acc9614360fbfe37450028d2067e5993b8))
+
+
+### Reverts
+
+* "fix(build): remove leading underscore from chunks" ([#1471](https://github.com/vuejs/vitepress/issues/1471)) ([18f0fb4](https://github.com/vuejs/vitepress/commit/18f0fb4e3989192ba95a397476371a945bf84542))
+
+
+
+# [1.0.0-alpha.19](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.18...v1.0.0-alpha.19) (2022-10-02)
+
+
+### Bug Fixes
+
+* **build:** ignore tsconfig target in dev ([#1428](https://github.com/vuejs/vitepress/issues/1428)) ([a13bc86](https://github.com/vuejs/vitepress/commit/a13bc866d0af911256e0629136f4b48e88c44df1))
+
+
+
+# [1.0.0-alpha.18](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.17...v1.0.0-alpha.18) (2022-10-01)
+
+
+### Bug Fixes
+
+* **theme:** break long words on overflow ([#1405](https://github.com/vuejs/vitepress/issues/1405)) ([2114d13](https://github.com/vuejs/vitepress/commit/2114d1326a9d3b952ca8a150f1c27c89169629cc))
+
+
+
+# [1.0.0-alpha.17](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.16...v1.0.0-alpha.17) (2022-09-27)
+
+
+### Bug Fixes
+
+* **theme:** add cursor for collapsible sidebar title ([#1397](https://github.com/vuejs/vitepress/issues/1397)) ([ed37b9a](https://github.com/vuejs/vitepress/commit/ed37b9a0e04f85f941131ec9e2ca8b145d89a535))
+* **theme:** remove extra space before docsearch key ([#1396](https://github.com/vuejs/vitepress/issues/1396)) ([6cb79bb](https://github.com/vuejs/vitepress/commit/6cb79bbe6a26f2e8dbd4b07b3fb5b6377f06958d))
+
+
+### Reverts
+
+* [#1064](https://github.com/vuejs/vitepress/issues/1064) ([9d70ca5](https://github.com/vuejs/vitepress/commit/9d70ca56f147a2ec30d12b03353ea7e4b0850df0))
+
+
+
+# [1.0.0-alpha.16](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.15...v1.0.0-alpha.16) (2022-09-24)
+
+
+### Bug Fixes
+
+* **build:** line numbers mode when language specifier has symbol ([#1353](https://github.com/vuejs/vitepress/issues/1353)) ([9c04a10](https://github.com/vuejs/vitepress/commit/9c04a10c4d9fbfc591dc2386b4780a6728f6364a))
+* **build:** remove leading underscore from chunks ([#1394](https://github.com/vuejs/vitepress/issues/1394)) ([66cd164](https://github.com/vuejs/vitepress/commit/66cd1640d16170e0c2d9eb4565ad1ebe81f940e1))
+* **compat:** use default export of dns module ([#1388](https://github.com/vuejs/vitepress/issues/1388)) ([fa6fa56](https://github.com/vuejs/vitepress/commit/fa6fa56af9de78856017f935922e4f2f9376be62))
+* **theme:** always add alt attribute to images ([#1348](https://github.com/vuejs/vitepress/issues/1348)) ([a621c69](https://github.com/vuejs/vitepress/commit/a621c6910c0083adc26dd4b7aaa7d532544cc7fa))
+
+
+### Features
+
+* **build:** allow using `transformIndexHtml` ([#1380](https://github.com/vuejs/vitepress/issues/1380)) ([ce8d139](https://github.com/vuejs/vitepress/commit/ce8d139a8e70e4d0a8d06711c50119990b041078))
+
+
+
+# [1.0.0-alpha.15](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.14...v1.0.0-alpha.15) (2022-09-15)
+
+
+### Bug Fixes
+
+* **build:** properly resolve node_modules ([#1337](https://github.com/vuejs/vitepress/issues/1337)) ([0672a69](https://github.com/vuejs/vitepress/commit/0672a696a427731851e1ed79fe689c4a2a46fedf))
+* **theme:** hide extra navbar when no content ([#1338](https://github.com/vuejs/vitepress/issues/1338)) ([4482c50](https://github.com/vuejs/vitepress/commit/4482c5019d89129791fe066f011648500d105f41))
+* **theme:** remove trailing `#` from outline ([#1344](https://github.com/vuejs/vitepress/issues/1344)) ([f1cf1e8](https://github.com/vuejs/vitepress/commit/f1cf1e800f0e99fe726bdfa7767180473faaf2c2))
+
+
+
+# [1.0.0-alpha.14](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.13...v1.0.0-alpha.14) (2022-09-14)
+
+
+### Bug Fixes
+
+* prevent jumping on clicking docsearch action buttons ([#1140](https://github.com/vuejs/vitepress/issues/1140)) ([86413e6](https://github.com/vuejs/vitepress/commit/86413e6739a834f8490c2004a62a27d1f5a59d00))
+* **theme:** break long words ([#1064](https://github.com/vuejs/vitepress/issues/1064)) ([9c739fd](https://github.com/vuejs/vitepress/commit/9c739fd37d15bbf16e8214e20a4bca1c763c4510))
+* **theme:** don't nest sidebar links ([#1279](https://github.com/vuejs/vitepress/issues/1279)) ([f840dbc](https://github.com/vuejs/vitepress/commit/f840dbc58f972492ed4afa9b6b222c4f7d89ade1))
+* **theme:** keep display copied hint when click multiple times ([#1262](https://github.com/vuejs/vitepress/issues/1262)) ([bb11d0f](https://github.com/vuejs/vitepress/commit/bb11d0f17852a3f2a35339f765acffca526a9ee8))
+* **theme:** show progress bar after delay ([#1278](https://github.com/vuejs/vitepress/issues/1278)) ([496bd34](https://github.com/vuejs/vitepress/commit/496bd34ff4143dcef9532f4298ca670bfa34e399))
+* **theme:** use pointer cursor only on enabled buttons ([#1300](https://github.com/vuejs/vitepress/issues/1300)) ([d7eac98](https://github.com/vuejs/vitepress/commit/d7eac980e15510de18dbf1fd675a6c1def5f6697))
+* **theme:** use pointer-events auto instead of all ([#1290](https://github.com/vuejs/vitepress/issues/1290)) ([6fac5b2](https://github.com/vuejs/vitepress/commit/6fac5b2964e77462edc963811ee1714e337fa53e))
+* **types:** allow non async `transformHtml` and `buildEnd` ([#1270](https://github.com/vuejs/vitepress/issues/1270)) ([ee37eaa](https://github.com/vuejs/vitepress/commit/ee37eaa27191faad03c04d60fb3ca8ffbb887fbe))
+
+
+### Features
+
+* add `transformHead` hook ([#1323](https://github.com/vuejs/vitepress/issues/1323)) ([6b16dad](https://github.com/vuejs/vitepress/commit/6b16dad22f944cb173dbf67ef04be5cb0d09279f))
+* add `vp-raw` container ([#1104](https://github.com/vuejs/vitepress/issues/1104)) ([9a6e1ea](https://github.com/vuejs/vitepress/commit/9a6e1ea401c4a44205f96c4786c44061582f675c))
+* bundle type definitions of dev-deps ([#1257](https://github.com/vuejs/vitepress/issues/1257)) ([12591a9](https://github.com/vuejs/vitepress/commit/12591a9487ff7647162051f4b28956f0c1403efb))
+* **theme:** add page load progress bar ([#1264](https://github.com/vuejs/vitepress/issues/1264)) ([ecf5515](https://github.com/vuejs/vitepress/commit/ecf5515bd453eca20946339a56be9180f6dca2c1))
+* **theme:** allow disabling whole layout ([#1268](https://github.com/vuejs/vitepress/issues/1268)) ([8f63033](https://github.com/vuejs/vitepress/commit/8f630339ba95cbaded97f0fcff9323755dd16bcc))
+* **theme:** support dynamic headers and nesting in outline ([#1281](https://github.com/vuejs/vitepress/issues/1281)) ([288aa48](https://github.com/vuejs/vitepress/commit/288aa48b92bc1d4dd74d064148a3b03373cdf1c3))
+
+
+### Performance Improvements
+
+* **a11y:** add aria-checked attribute to switch ([#644](https://github.com/vuejs/vitepress/issues/644)) ([eb9026d](https://github.com/vuejs/vitepress/commit/eb9026d83ca17c59893e7063e0c64b0bf1b99765))
+* render pages asynchronously ([#1320](https://github.com/vuejs/vitepress/issues/1320)) ([8e4ff4d](https://github.com/vuejs/vitepress/commit/8e4ff4de901d846ac99d37ebf212b12e9687ed5e))
+
+
+### Reverts
+
+* **#1264:** add page load progress bar ([#1311](https://github.com/vuejs/vitepress/issues/1311)) ([5378a49](https://github.com/vuejs/vitepress/commit/5378a49613ceef591d2cacecbc175921658b22b1)), closes [#1264](https://github.com/vuejs/vitepress/issues/1264)
+
+
+
 # [1.0.0-alpha.13](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.12...v1.0.0-alpha.13) (2022-08-30)
 
 

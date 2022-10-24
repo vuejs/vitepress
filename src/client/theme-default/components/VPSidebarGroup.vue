@@ -41,7 +41,7 @@ function toggle() {
       :role="collapsible ? 'button' : undefined"
       @click="toggle"
     >
-      <h2 class="title-text">{{ text }}</h2>
+      <h2 v-html="text" class="title-text"></h2>
       <div class="action">
         <VPIconMinusSquare class="icon minus" />
         <VPIconPlusSquare class="icon plus" />
@@ -86,6 +86,10 @@ function toggle() {
 
 .VPSidebarGroup.collapsible .action {
   display: block;
+}
+
+.VPSidebarGroup.collapsible .title {
+  cursor: pointer;
 }
 
 .title:hover .action {

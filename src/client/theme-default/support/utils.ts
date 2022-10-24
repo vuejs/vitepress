@@ -13,12 +13,12 @@ export function isExternal(path: string): boolean {
 }
 
 export function throttleAndDebounce(fn: () => void, delay: number): () => void {
-  let timeout: any
+  let timeoutId: NodeJS.Timeout
   let called = false
 
   return () => {
-    if (timeout) {
-      clearTimeout(timeout)
+    if (timeoutId) {
+      clearTimeout(timeoutId)
     }
 
     if (!called) {
@@ -28,7 +28,7 @@ export function throttleAndDebounce(fn: () => void, delay: number): () => void {
         called = false
       }, delay)
     } else {
-      timeout = setTimeout(fn, delay)
+      timeoutId = setTimeout(fn, delay)
     }
   }
 }

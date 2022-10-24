@@ -2,6 +2,8 @@
 
 This section will help you build a basic VitePress documentation site from ground up. If you already have an existing project and would like to keep documentation inside the project, start from Step 2.
 
+You can also try VitePress online on [StackBlitz](https://vitepress.new/). It runs the VitePress-based site directly in the browser, so it is almost identical to the local setup but doesn't require installing anything on your machine.
+
 ::: warning
 VitePress is currently in `alpha` status. It is already suitable for out-of-the-box documentation use, but the config and theming API may still change between minor releases.
 :::

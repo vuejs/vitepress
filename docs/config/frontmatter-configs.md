@@ -97,7 +97,7 @@ lastUpdated: false
 Determines the layout of the page.
 
 - `doc` - It applies default documentation styles to the markdown content.
-- `home` - Special layout for "Home Page". You may add extra options such as `hero` and `features` to rappidly create beautiful landing page.
+- `home` - Special layout for "Home Page". You may add extra options such as `hero` and `features` to rapidly create beautiful landing page.
 - `page` - Behave similar to `doc` but it applies no styles to the content. Useful when you want to create a fully custom page.
 
 ```yaml
@@ -212,3 +212,10 @@ If you want the right aside component in `doc` layout not to be shown, set this 
 aside: false
 ---
 ```
+
+## outline
+
+- Type: `number | [number, number] | 'deep' | false`
+- Default: `2`
+
+The levels of header in the outline to display for the page. It's same as [config.themeConfig.outline](../config/theme-configs#outline), and it overrides the theme config.

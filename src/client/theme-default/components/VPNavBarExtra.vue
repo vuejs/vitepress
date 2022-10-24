@@ -4,12 +4,15 @@ import VPFlyout from './VPFlyout.vue'
 import VPMenuLink from './VPMenuLink.vue'
 import VPSwitchAppearance from './VPSwitchAppearance.vue'
 import VPSocialLinks from './VPSocialLinks.vue'
+import { computed } from 'vue'
 
 const { site, theme } = useData()
+
+const hasExtraContent = computed(() => theme.value.localeLinks || site.value.appearance || theme.value.socialLinks)
 </script>
 
 <template>
-  <VPFlyout class="VPNavBarExtra" label="extra navigation">
+  <VPFlyout v-if="hasExtraContent" class="VPNavBarExtra" label="extra navigation">
     <div v-if="theme.localeLinks" class="group">
       <p class="trans-title">{{ theme.localeLinks.text }}</p>
 

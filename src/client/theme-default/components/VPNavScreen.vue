@@ -52,7 +52,7 @@ function unlockBodyScroll() {
   background-color: var(--vp-c-bg);
   overflow-y: auto;
   transition: background-color 0.5s;
-  pointer-events: all;
+  pointer-events: auto;
 }
 
 .VPNavScreen.fade-enter-active,

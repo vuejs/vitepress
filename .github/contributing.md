@@ -34,14 +34,6 @@ $ pnpm install
 
 ### Setup VitePress Dev Environment
 
-At first, execute the `pnpm run build` command.
-
-```sh
-$ pnpm run build
-```
-
-You only need to do this once for your fresh project. It copies required files and makes sure everything is in place. After this, you only need to run `dev` related commands.
-
 The easiest way to start testing out VitePress is to tweak the VitePress docs. You may run `pnpm run docs` to boot up VitePress documentation site locally, with live reloading of the source code.
 
 ```sh
