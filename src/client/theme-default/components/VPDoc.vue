@@ -120,7 +120,7 @@ provide('onContentUpdated', onContentUpdated)
 .aside-container {
   position: sticky;
   top: 0;
-  margin-top: calc((var(--vp-nav-height-desktop) + var(--vp-layout-top-height ,0px)) * -1 - 32px);
+  margin-top: calc((var(--vp-nav-height-desktop) + var(--vp-layout-top-height, 0px)) * -1 - 32px);
   padding-top: calc(var(--vp-nav-height-desktop) + var(--vp-layout-top-height, 0px) + 32px);
   height: 100vh;
   overflow-x: hidden;
