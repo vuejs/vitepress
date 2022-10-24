@@ -97,10 +97,10 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
          - name: Deploy
            uses: peaceiris/actions-gh-pages@v3
-           # cname: https://www.xxx.com # If it is published to a custom domain name
            with:
              github_token: ${{ secrets.GITHUB_TOKEN }}
              publish_dir: docs/.vitepress/dist
+             # cname: example.com # if wanna deploy to custom domain
    ```
 
    ::: tip
