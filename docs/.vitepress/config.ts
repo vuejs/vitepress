@@ -9,6 +9,14 @@ export default defineConfig({
   lastUpdated: true,
   cleanUrls: 'without-subfolders',
 
+  head: [['meta', { name: 'theme-color', content: '#3c8772' }]],
+
+  markdown: {
+    headers: {
+      level: [0, 0]
+    }
+  },
+
   themeConfig: {
     nav: nav(),
 

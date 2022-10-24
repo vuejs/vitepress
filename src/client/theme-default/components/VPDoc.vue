@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import { useRoute } from 'vitepress'
+import { computed, provide, ref } from 'vue'
 import { useSidebar } from '../composables/sidebar.js'
 import VPDocAside from './VPDocAside.vue'
 import VPDocFooter from './VPDocFooter.vue'
@@ -11,6 +11,9 @@ const { hasSidebar, hasAside } = useSidebar()
 const pageName = computed(() =>
   route.path.replace(/[./]+/g, '_').replace(/_html$/, '')
 )
+
+const onContentUpdated = ref()
+provide('onContentUpdated', onContentUpdated)
 </script>
 
 <template>
@@ -39,7 +42,7 @@ const pageName = computed(() =>
         <div class="content-container">
           <slot name="doc-before" />
           <main class="main">
-            <Content class="vp-doc" :class="pageName" />
+            <Content class="vp-doc" :class="pageName" :onContentUpdated="onContentUpdated" />
           </main>
           <slot name="doc-footer-before" />
           <VPDocFooter />
@@ -117,8 +120,8 @@ const pageName = computed(() =>
 .aside-container {
   position: sticky;
   top: 0;
-  margin-top: calc(var(--vp-nav-height-desktop) * -1 - 32px);
-  padding-top: calc(var(--vp-nav-height-desktop) + 32px);
+  margin-top: calc((var(--vp-nav-height-desktop) + var(--vp-layout-top-height, 0px)) * -1 - 32px);
+  padding-top: calc(var(--vp-nav-height-desktop) + var(--vp-layout-top-height, 0px) + 32px);
   height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
@@ -141,7 +144,7 @@ const pageName = computed(() =>
 .aside-content {
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - (var(--vp-nav-height-desktop) + 32px));
+  min-height: calc(100vh - (var(--vp-nav-height-desktop) + var(--vp-layout-top-height, 0px) + 32px));
   padding-bottom: 32px;
 }
 
