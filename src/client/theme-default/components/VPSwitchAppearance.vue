@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useData } from 'vitepress'
 import { APPEARANCE_KEY } from '../../shared.js'
 import VPSwitch from './VPSwitch.vue'
 import VPIconSun from './icons/VPIconSun.vue'
 import VPIconMoon from './icons/VPIconMoon.vue'
 
-const { site } = useData()
+const { site, isDark } = useData()
 const checked = ref(false)
 const toggle = typeof localStorage !== 'undefined' ? useAppearance() : () => {}
 
@@ -68,6 +68,10 @@ function useAppearance() {
 
   return toggle
 }
+
+watch(checked, (newIsDark) => {
+  isDark.value = newIsDark
+})
 </script>
 
 <template>

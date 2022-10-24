@@ -198,7 +198,7 @@ console.log('Hello, VitePress!')
 
 ### `raw`
 
-This is a special container that can be used to prevent style and router conflicts with VitePress. This is especially useful when you're documenting component libraries.
+This is a special container that can be used to prevent style and router conflicts with VitePress. This is especially useful when you're documenting component libraries. You might also wanna check out [whyframe](https://whyframe.dev/docs/integrations/vitepress) for better isolation.
 
 **Syntax**
 
