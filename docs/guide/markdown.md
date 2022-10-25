@@ -443,6 +443,39 @@ export default {
 }
 ```
 
+## Errors and warnings
+
+Adding the `// [!code warning]` or `// [!code error]` comments on a line will color it accordingly.
+
+**Input**
+
+````
+```js
+export default {
+  data () {
+    return {
+      msg: 'Error', // [!codeㅤ error]
+      msg: 'Warning' // [!codeㅤ warning]
+    }
+  }
+}
+```
+````
+
+**Output**
+
+```js
+export default {
+  data () {
+    return {
+      msg: 'Error', // [!code error]
+      msg: 'Warning' // [!code warning]
+    }
+  }
+}
+```
+
+
 ## Line Numbers
 
 You can enable line numbers for each code blocks via config:

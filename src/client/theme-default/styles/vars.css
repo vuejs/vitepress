@@ -220,6 +220,9 @@
     0.5
   );
 
+  --vp-code-line-error-color: var(--vp-c-red-dimm-2);
+  --vp-code-line-warning-color: var(--vp-c-yellow-dimm-2);
+
   --vp-code-copy-code-hover-bg: rgba(255, 255, 255, 0.05);
   --vp-code-copy-code-active-text: var(--vp-c-text-dark-2);
 }

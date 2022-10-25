@@ -3,9 +3,11 @@ import {
   createDiffProcessor,
   createFocusProcessor,
   createHighlightProcessor,
+  createRangeProcessor,
   getHighlighter,
   Processor,
-  addClass
+  addClass,
+  defineProcessor
 } from 'shiki-processor'
 import type { ThemeOptions } from '../markdown'
 
@@ -40,6 +42,14 @@ const attrsToLines = (attrs: string): HtmlRendererOptions['lineOptions'] => {
   }))
 }
 
+const errorLevelProcessor = defineProcessor({
+  name: 'error-level',
+  handler: createRangeProcessor({
+    error: ['highlighted', 'error'],
+    warning: ['highlighted', 'warning']
+  })
+})
+
 export async function highlight(
   theme: ThemeOptions = 'material-palenight'
 ): Promise<(str: string, lang: string, attrs: string) => string> {
@@ -50,7 +60,8 @@ export async function highlight(
   const processors: Processor[] = [
     createFocusProcessor(),
     createHighlightProcessor({ hasHighlightClass: 'highlighted' }),
-    createDiffProcessor()
+    createDiffProcessor(),
+    errorLevelProcessor
   ]
 
   const highlighter = await getHighlighter({

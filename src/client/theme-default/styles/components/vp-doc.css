@@ -329,6 +329,14 @@
   display: inline-block;
 }
 
+.vp-doc [class*='language-'] code .highlighted.error {
+  background-color: var(--vp-code-line-error-color);
+}
+
+.vp-doc [class*='language-'] code .highlighted.warning {
+  background-color: var(--vp-code-line-warning-color);
+}
+
 .vp-doc [class*='language-'] code .diff {
   transition: background-color 0.5s;
   margin: 0 -24px;
