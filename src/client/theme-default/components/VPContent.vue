@@ -52,7 +52,7 @@ const NotFound = inject('NotFound')
 .VPContent {
   flex-grow: 1;
   flex-shrink: 0;
-  margin: 0 auto;
+  margin: var(--vp-layout-top-height, 0px) auto 0;
   width: 100%;
 }
 
@@ -61,13 +61,17 @@ const NotFound = inject('NotFound')
   max-width: 100%;
 }
 
+.VPContent.has-sidebar {
+  margin: 0;
+}
+
 @media (min-width: 960px) {
   .VPContent {
-    padding-top: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px));
+    padding-top: var(--vp-nav-height);
   }
 
   .VPContent.has-sidebar {
-    margin: 0;
+    margin: var(--vp-layout-top-height, 0px) 0 0;
     padding-left: var(--vp-sidebar-width);
   }
 }

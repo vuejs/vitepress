@@ -48,6 +48,7 @@ function scrollToTop() {
   width: 100%;
   background-color: var(--vp-c-bg);
   transition: border-color 0.5s, background-color 0.5s;
+  margin-top: var(--vp-layout-top-height, 0px);
 }
 
 @media (min-width: 960px) {
