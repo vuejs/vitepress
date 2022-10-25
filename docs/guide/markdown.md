@@ -71,11 +71,11 @@ For more details, see [Frontmatter](./frontmatter).
 **Input**
 
 ```
-| Tables        | Are           | Cool  |
-| ------------- |:-------------:| -----:|
+| Tables        |      Are      |  Cool |
+| ------------- | :-----------: | ----: |
 | col 3 is      | right-aligned | $1600 |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |
+| col 2 is      |   centered    |   $12 |
+| zebra stripes |   are neat    |    $1 |
 ```
 
 **Output**
@@ -350,6 +350,131 @@ export default { // Highlighted
   }
 }
 ```
+
+Alternatively, it's possible to highlight directly in the line by using the `// [!code hl]` comment.
+
+**Input**
+
+````
+```js
+export default {
+  data () {
+    return {
+      msg: 'Highlighted!' // [!codeㅤ hl]
+    }
+  }
+}
+```
+````
+
+**Output**
+
+```js
+export default {
+  data () {
+    return {
+      msg: 'Highlighted!' // [!code hl]
+    }
+  }
+}
+```
+
+## Focus in Code Blocks
+
+Adding the `// [!code focus]` comment on a line will focus it and blur the other parts of the code. 
+
+Additionally, you can define a number of lines to focus using `// [!code focus:<lines>]`.
+
+**Input**
+
+````
+```js
+export default {
+  data () {
+    return {
+      msg: 'Focused!' // [!codeㅤ focus]
+    }
+  }
+}
+```
+````
+
+**Output**
+
+```js
+export default {
+  data () {
+    return {
+      msg: 'Focused!' // [!code focus]
+    }
+  }
+}
+```
+
+## Colored diffs in Code Blocks
+
+Adding the `// [!code --]` or `// [!code ++]` comments on a line will create a diff of that line, while keeping the colors of the codeblock. 
+
+**Input**
+
+````
+```js
+export default {
+  data () {
+    return {
+      msg: 'Removed' // [!codeㅤ --]
+      msg: 'Added' // [!codeㅤ ++]
+    }
+  }
+}
+```
+````
+
+**Output**
+
+```js
+export default {
+  data () {
+    return {
+      msg: 'Removed' // [!code --]
+      msg: 'Added' // [!code ++]
+    }
+  }
+}
+```
+
+## Errors and warnings
+
+Adding the `// [!code warning]` or `// [!code error]` comments on a line will color it accordingly.
+
+**Input**
+
+````
+```js
+export default {
+  data () {
+    return {
+      msg: 'Error', // [!codeㅤ error]
+      msg: 'Warning' // [!codeㅤ warning]
+    }
+  }
+}
+```
+````
+
+**Output**
+
+```js
+export default {
+  data () {
+    return {
+      msg: 'Error', // [!code error]
+      msg: 'Warning' // [!code warning]
+    }
+  }
+}
+```
+
 
 ## Line Numbers
 
