@@ -209,16 +209,11 @@
   --vp-code-line-highlight-color: rgba(0, 0, 0, 0.5);
   --vp-code-line-number-color: var(--vp-c-text-dark-3);
 
-  --vp-code-line-diff-add: 125, 191, 123;
-  --vp-code-line-diff-add-color: rgba(var(--vp-code-line-diff-add), 0.1);
-  --vp-code-line-diff-add-symbol-color: rgba(var(--vp-code-line-diff-add), 0.5);
+  --vp-code-line-diff-add-color: rgba(125, 191, 123, 0.1);
+  --vp-code-line-diff-add-symbol-color: rgba(125, 191, 123, 0.5);
 
-  --vp-code-line-diff-remove: 255, 128, 128;
-  --vp-code-line-diff-remove-color: rgba(var(--vp-code-line-diff-remove), 0.05);
-  --vp-code-line-diff-remove-symbol-color: rgba(
-    var(--vp-code-line-diff-remove),
-    0.5
-  );
+  --vp-code-line-diff-remove-color: rgba(255, 128, 128, 0.05);
+  --vp-code-line-diff-remove-symbol-color: rgba(255, 128, 128, 0.5);
 
   --vp-code-line-error-color: var(--vp-c-red-dimm-2);
   --vp-code-line-warning-color: var(--vp-c-yellow-dimm-2);
