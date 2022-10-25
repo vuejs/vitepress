@@ -1,3 +1,12 @@
+# [1.0.0-alpha.25](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.24...v1.0.0-alpha.25) (2022-10-25)
+
+
+### Bug Fixes
+
+* **banner:** prevent hidden local nav on scroll ([63449ca](https://github.com/vuejs/vitepress/commit/63449caf4cb2c7e8449e4f8aee1d8f504fa949df))
+
+
+
 # [1.0.0-alpha.24](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.23...v1.0.0-alpha.24) (2022-10-25)
 
 
