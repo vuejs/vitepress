@@ -75,6 +75,7 @@ importers:
       rollup-plugin-esbuild: ^4.10.1
       semver: ^7.3.8
       shiki: ^0.11.1
+      shiki-processor: ^0.1.0
       simple-git-hooks: ^2.8.0
       sirv: ^2.0.2
       supports-color: ^9.2.3
@@ -92,6 +93,7 @@ importers:
       '@vueuse/core': 9.3.0_vue@3.2.40
       body-scroll-lock: 4.0.0-beta.0
       shiki: 0.11.1
+      shiki-processor: 0.1.0_shiki@0.11.1
       vite: 3.1.6
       vue: 3.2.40
     devDependencies:
@@ -3440,6 +3442,14 @@ packages:
   /shell-quote/1.7.3:
     resolution: {integrity: sha512-Vpfqwm4EnqGdlsBFNmHhxhElJYrdfcxPThu+ryKS5J8L/fhAwLazFZtq+S+TWZ9ANj2piSQLGj6NQg+lKPmxrw==}
     dev: true
+
+  /shiki-processor/0.1.0_shiki@0.11.1:
+    resolution: {integrity: sha512-7ty3VouP7AQMlERKeiobVeyhjUW6rPMM1b+xFcFF/XwhkN4//Fg9Ju6hPfIOvO4ztylkbLqYufbJmLJmw7SfQA==}
+    peerDependencies:
+      shiki: ^0.11.1
+    dependencies:
+      shiki: 0.11.1
+    dev: false
 
   /shiki/0.11.1:
     resolution: {integrity: sha512-EugY9VASFuDqOexOgXR18ZV+TbFrQHeCpEYaXamO+SZlsnT/2LxuLBX25GGtIrwaEVFXUAbUQ601SWE2rMwWHA==}

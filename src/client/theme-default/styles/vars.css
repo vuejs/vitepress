@@ -209,6 +209,17 @@
   --vp-code-line-highlight-color: rgba(0, 0, 0, 0.5);
   --vp-code-line-number-color: var(--vp-c-text-dark-3);
 
+  --vp-code-line-diff-add: 125, 191, 123;
+  --vp-code-line-diff-add-color: rgba(var(--vp-code-line-diff-add), 0.1);
+  --vp-code-line-diff-add-symbol-color: rgba(var(--vp-code-line-diff-add), 0.5);
+
+  --vp-code-line-diff-remove: 255, 128, 128;
+  --vp-code-line-diff-remove-color: rgba(var(--vp-code-line-diff-remove), 0.05);
+  --vp-code-line-diff-remove-symbol-color: rgba(
+    var(--vp-code-line-diff-remove),
+    0.5
+  );
+
   --vp-code-copy-code-hover-bg: rgba(255, 255, 255, 0.05);
   --vp-code-copy-code-active-text: var(--vp-c-text-dark-2);
 }
