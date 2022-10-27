@@ -20,8 +20,11 @@ function useAppearance() {
 
   let userPreference = localStorage.getItem(APPEARANCE_KEY)
 
-  let isDark = (site.value.appearance === 'dark' && userPreference === null)
-    || ((userPreference === 'auto' || userPreference === null) ? query.matches : userPreference === 'dark')
+  let isDark =
+    (site.value.appearance === 'dark' && userPreference == null) ||
+    (userPreference === 'auto' || userPreference == null
+      ? query.matches
+      : userPreference === 'dark')
 
   query.onchange = (e) => {
     if (userPreference === 'auto') {
