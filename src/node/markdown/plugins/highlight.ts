@@ -6,7 +6,6 @@ import {
   createRangeProcessor,
   getHighlighter,
   Processor,
-  addClass,
   defineProcessor
 } from 'shiki-processor'
 import type { ThemeOptions } from '../markdown'
@@ -69,7 +68,8 @@ export async function highlight(
     processors
   })
 
-  const styleRE = /<pre .* (style=".*")><code>/
+  const classRE = /<pre[^>]*class="(.*?)"/
+  const styleRE = /<pre[^>]*(style=".*?")/
   const preRE = /^<pre(.*?)>/
   const vueRE = /-vue$/
 
@@ -93,29 +93,21 @@ export async function highlight(
       )
     }
 
-    const dark = addClass(
-      cleanup(
-        highlighter.codeToHtml(str, {
-          lang,
-          lineOptions,
-          theme: getThemeName(theme.dark)
-        })
-      ),
-      'vp-code-dark',
-      'pre'
-    )
+    const dark = cleanup(
+      highlighter.codeToHtml(str, {
+        lang,
+        lineOptions,
+        theme: getThemeName(theme.dark)
+      })
+    ).replace(classRE, (_, cls) => _.replace(cls, 'vp-code-dark'))
 
-    const light = addClass(
-      cleanup(
-        highlighter.codeToHtml(str, {
-          lang,
-          lineOptions,
-          theme: getThemeName(theme.light)
-        })
-      ),
-      'vp-code-light',
-      'pre'
-    )
+    const light = cleanup(
+      highlighter.codeToHtml(str, {
+        lang,
+        lineOptions,
+        theme: getThemeName(theme.light)
+      })
+    ).replace(classRE, (_, cls) => _.replace(cls, 'vp-code-light'))
 
     return dark + light
   }
