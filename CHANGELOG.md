@@ -1,3 +1,12 @@
+# [1.0.0-alpha.26](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.25...v1.0.0-alpha.26) (2022-10-27)
+
+
+### Bug Fixes
+
+* properly apply dark/light classes in code blocks ([#1546](https://github.com/vuejs/vitepress/issues/1546)) ([178895f](https://github.com/vuejs/vitepress/commit/178895f067e0f38e1c76d3efe64a75612cd4ad3a))
+
+
+
 # [1.0.0-alpha.25](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.24...v1.0.0-alpha.25) (2022-10-25)
 
 
