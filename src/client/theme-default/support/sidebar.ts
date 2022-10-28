@@ -17,18 +17,16 @@ export function getSidebar(
 
   path = ensureStartingSlash(path)
 
-  const useSidebar = Object.keys(sidebar).sort((a, b) => {
-    return a.split('/').length - b.split('/').length
-  })
+  const dir = Object.keys(sidebar)
+    .sort((a, b) => {
+      return a.split('/').length - b.split('/').length
+    })
+    .find((dir) => {
+      // make sure the multi sidebar key starts with slash too
+      return path.startsWith(ensureStartingSlash(dir))
+    })
 
-  for (const dir in useSidebar) {
-    // make sure the multi sidebar key starts with slash too
-    if (path.startsWith(ensureStartingSlash(dir))) {
-      return sidebar[dir]
-    }
-  }
-
-  return []
+  return dir ? sidebar[dir] : []
 }
 
 export function getFlatSideBarLinks(sidebar: DefaultTheme.SidebarGroup[]) {
