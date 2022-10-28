@@ -17,7 +17,11 @@ export function getSidebar(
 
   path = ensureStartingSlash(path)
 
-  for (const dir in sidebar) {
+  const useSidebar = Object.keys(sidebar).sort((a, b) => {
+    return a.split('/').length - b.split('/').length
+  })
+
+  for (const dir in useSidebar) {
     // make sure the multi sidebar key starts with slash too
     if (path.startsWith(ensureStartingSlash(dir))) {
       return sidebar[dir]
