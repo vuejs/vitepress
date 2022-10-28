@@ -19,7 +19,7 @@ export function getSidebar(
 
   const dir = Object.keys(sidebar)
     .sort((a, b) => {
-      return a.split('/').length - b.split('/').length
+      return b.split('/').length - a.split('/').length
     })
     .find((dir) => {
       // make sure the multi sidebar key starts with slash too
