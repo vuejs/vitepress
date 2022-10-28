@@ -4,20 +4,20 @@ import { getSidebar } from 'client/theme-default/support/sidebar'
 describe('client/theme-default/support/sidebar', () => {
   const root = [
     {
-      text: 'Frontmatter',
+      text: 'A',
       collapsible: true,
       items: [
         {
-          text: 'Multiple levels outline',
+          text: 'A',
           link: ''
         }
       ]
     },
     {
-      text: 'Static Data',
+      text: 'B',
       items: [
         {
-          text: 'Test Page',
+          text: 'B',
           link: ''
         }
       ]
@@ -25,10 +25,10 @@ describe('client/theme-default/support/sidebar', () => {
   ]
   const another = [
     {
-      text: 'Multi Sidebar',
+      text: 'C',
       items: [
         {
-          text: 'Test Page',
+          text: 'C',
           link: ''
         }
       ]
@@ -40,16 +40,15 @@ describe('client/theme-default/support/sidebar', () => {
       '/multi-sidebar/': another
     }
     test('gets / sidebar properly', () => {
-      let resolved = getSidebar(normalSidebar, '/')
-      expect(resolved).toBe(root)
+      expect(getSidebar(normalSidebar, '/')).toBe(root)
     })
     test('gets /multi-sidebar/ sidebar properly', () => {
-      let resolved = getSidebar(normalSidebar, '/multi-sidebar/index.html')
-      expect(resolved).toBe(another)
+      expect(getSidebar(normalSidebar, '/multi-sidebar/index.html')).toBe(
+        another
+      )
     })
     test('gets / sidebar properly again', () => {
-      let resolved = getSidebar(normalSidebar, '/some-entry.html')
-      expect(resolved).toBe(root)
+      expect(getSidebar(normalSidebar, '/some-entry.html')).toBe(root)
     })
   })
   describe('reversed sidebar sort', () => {
@@ -58,25 +57,24 @@ describe('client/theme-default/support/sidebar', () => {
       '/': root
     }
     test('gets / sidebar properly', () => {
-      let resolved = getSidebar(reversedSidebar, '/')
-      expect(resolved).toBe(root)
+      expect(getSidebar(reversedSidebar, '/')).toBe(root)
     })
     test('gets /multi-sidebar/ sidebar properly', () => {
-      let resolved = getSidebar(reversedSidebar, '/multi-sidebar/index.html')
-      expect(resolved).toBe(another)
+      expect(getSidebar(reversedSidebar, '/multi-sidebar/index.html')).toBe(
+        another
+      )
     })
     test('gets / sidebar properly again', () => {
-      let resolved = getSidebar(reversedSidebar, '/some-entry.html')
-      expect(resolved).toBe(root)
+      expect(getSidebar(reversedSidebar, '/some-entry.html')).toBe(root)
     })
   })
   describe('nested sidebar sort', () => {
     const nested = [
       {
-        text: 'Nested Multi Sidebar',
+        text: 'D',
         items: [
           {
-            text: 'Test Page',
+            text: 'D',
             link: ''
           }
         ]
@@ -88,23 +86,20 @@ describe('client/theme-default/support/sidebar', () => {
       '/multi-sidebar/nested/': nested
     }
     test('gets / sidebar properly', () => {
-      let resolved = getSidebar(nestedSidebar, '/')
-      expect(resolved).toBe(root)
+      expect(getSidebar(nestedSidebar, '/')).toBe(root)
     })
     test('gets /multi-sidebar/ sidebar properly', () => {
-      let resolved = getSidebar(nestedSidebar, '/multi-sidebar/index.html')
-      expect(resolved).toBe(another)
+      expect(getSidebar(nestedSidebar, '/multi-sidebar/index.html')).toBe(
+        another
+      )
     })
     test('gets /multi-sidebar/nested/ sidebar properly', () => {
-      let resolved = getSidebar(
-        nestedSidebar,
-        '/multi-sidebar/nested/index.html'
-      )
-      expect(resolved).toBe(nested)
+      expect(
+        getSidebar(nestedSidebar, '/multi-sidebar/nested/index.html')
+      ).toBe(nested)
     })
     test('gets / sidebar properly again', () => {
-      let resolved = getSidebar(nestedSidebar, '/some-entry.html')
-      expect(resolved).toBe(root)
+      expect(getSidebar(nestedSidebar, '/some-entry.html')).toBe(root)
     })
   })
 })
