@@ -24,6 +24,30 @@ export default defineConfig({
               link: '/static-data/data'
             }
           ]
+        },
+        {
+          text: 'Multi Sidebar Test',
+          items: [
+            {
+              text: 'Test Page',
+              link: '/multi-sidebar/'
+            }
+          ]
+        }
+      ],
+      '/multi-sidebar/': [
+        {
+          text: 'Multi Sidebar',
+          items: [
+            {
+              text: 'Test Page',
+              link: '/multi-sidebar/'
+            },
+            {
+              text: 'Back',
+              link: '/'
+            }
+          ]
         }
       ]
     }
