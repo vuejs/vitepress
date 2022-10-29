@@ -22,7 +22,6 @@ importers:
       '@types/compression': ^1.7.2
       '@types/cross-spawn': ^6.0.2
       '@types/debug': ^4.1.7
-      '@types/diacritics': ^1.3.1
       '@types/escape-html': ^1.0.2
       '@types/fs-extra': ^9.0.13
       '@types/koa': ^2.13.5
@@ -44,7 +43,6 @@ importers:
       conventional-changelog-cli: ^2.2.2
       cross-spawn: ^7.0.3
       debug: ^4.3.4
-      diacritics: ^1.3.0
       enquirer: ^2.3.6
       esbuild: ^0.15.12
       escape-html: ^1.0.3
@@ -113,7 +111,6 @@ importers:
       '@types/compression': 1.7.2
       '@types/cross-spawn': 6.0.2
       '@types/debug': 4.1.7
-      '@types/diacritics': 1.3.1
       '@types/escape-html': 1.0.2
       '@types/fs-extra': 9.0.13
       '@types/koa': 2.13.5
@@ -131,7 +128,6 @@ importers:
       conventional-changelog-cli: 2.2.2
       cross-spawn: 7.0.3
       debug: 4.3.4_supports-color@9.2.3
-      diacritics: 1.3.0
       enquirer: 2.3.6
       esbuild: 0.15.12
       escape-html: 1.0.3
@@ -683,10 +679,6 @@ packages:
     resolution: {integrity: sha512-9AonUzyTjXXhEOa0DnqpzZi6VHlqKMswga9EXjpXnnqxwLtdvPPtlO8evrI5D9S6asFRCQ6v+wpiUKbw+vKqyg==}
     dependencies:
       '@types/ms': 0.7.31
-    dev: true
-
-  /@types/diacritics/1.3.1:
-    resolution: {integrity: sha512-tAH+RY51Zbz7ZSzN7yxQBKEue78U6weZ1UUBNjFoitoLbJGFJCKI7KVHwGsnYo4s2xSFr9KGEkjst2FolpYqyA==}
     dev: true
 
   /@types/escape-html/1.0.2:
@@ -1652,10 +1644,6 @@ packages:
     dependencies:
       has-property-descriptors: 1.0.0
       object-keys: 1.1.1
-    dev: true
-
-  /diacritics/1.3.0:
-    resolution: {integrity: sha512-wlwEkqcsaxvPJML+rDh/2iS824jbREk6DUMUKkEaSlxdYHeS43cClJtsWglvw2RfeXGm6ohKDqsXteJ5sP5enA==}
     dev: true
 
   /dot-prop/5.3.0:
