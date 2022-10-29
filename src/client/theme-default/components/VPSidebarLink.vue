@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { DefaultTheme } from 'vitepress/theme'
-import { computed, inject, ref, watchEffect } from 'vue'
+import { computed, inject, ref, watch, watchEffect } from 'vue'
 import { useData } from 'vitepress'
 import { isActive } from '../support/utils.js'
 import VPLink from './VPLink.vue'
@@ -11,6 +11,9 @@ const props = withDefaults(
   defineProps<{ item: DefaultTheme.SidebarItem; depth?: number }>(),
   { depth: 1 }
 )
+const emits = defineEmits<{
+  (event: 'active-route'): void
+}>()
 
 const { page, frontmatter } = useData()
 const maxDepth = computed<number>(
@@ -32,6 +35,17 @@ watchEffect(() => {
   if ('items' in props.item)
     collapsed.value = !!(collapsible.value && props.item.collapsed)
 })
+
+function routeActiveBubbling() {
+  collapsed.value = false
+  emits('active-route')
+}
+
+watch(() => isActive(page.value.relativePath, props.item.link), active => {
+  if (active) {
+    routeActiveBubbling()
+  }
+}, { immediate: true })
 
 function toggle() {
   if (collapsible.value) {
@@ -72,7 +86,7 @@ function clickLink() {
         v-for="child in item.items"
         :key="child.link"
       >
-        <VPSidebarLink :item="child" :depth="depth + 1" />
+        <VPSidebarLink :item="child" :depth="depth + 1" @active-route="routeActiveBubbling" />
       </template>
     </div>
   </section>
