@@ -14,6 +14,7 @@ import {
 import { sfcPlugin, type SfcPluginOptions } from '@mdit-vue/plugin-sfc'
 import { titlePlugin } from '@mdit-vue/plugin-title'
 import { tocPlugin, type TocPluginOptions } from '@mdit-vue/plugin-toc'
+import { slugify } from '@mdit-vue/shared'
 import { IThemeRegistration } from 'shiki'
 import { highlight } from './plugins/highlight'
 import { highlightLinePlugin } from './plugins/highlightLines'
@@ -88,6 +89,7 @@ export const createMarkdownRenderer = async (
 
   // mdit-vue plugins
   md.use(anchorPlugin, {
+    slugify,
     permalink: anchorPlugin.permalink.ariaHidden({}),
     ...options.anchor
   } as anchorPlugin.AnchorOptions)
