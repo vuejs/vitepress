@@ -15,6 +15,10 @@ export function getSidebar(
     return sidebar
   }
 
+  if (sidebar == null) {
+    return []
+  }
+
   path = ensureStartingSlash(path)
 
   const dir = Object.keys(sidebar)
