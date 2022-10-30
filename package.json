@@ -88,7 +88,6 @@
     "@vueuse/core": "^9.4.0",
     "body-scroll-lock": "4.0.0-beta.0",
     "shiki": "^0.11.1",
-    "shiki-processor": "^0.1.0",
     "vite": "^3.1.8",
     "vue": "^3.2.41"
   },
@@ -157,6 +156,7 @@
     "semver": "^7.3.8",
     "simple-git-hooks": "^2.8.1",
     "sirv": "^2.0.2",
+    "shiki-processor": "^0.1.1",
     "supports-color": "^9.2.3",
     "typescript": "~4.8.4",
     "vitest": "^0.24.3",
