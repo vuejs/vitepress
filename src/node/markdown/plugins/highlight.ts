@@ -1,12 +1,13 @@
-import { IThemeRegistration, HtmlRendererOptions } from 'shiki'
+import type { HtmlRendererOptions, IThemeRegistration } from 'shiki'
 import {
+  addClass,
   createDiffProcessor,
   createFocusProcessor,
   createHighlightProcessor,
   createRangeProcessor,
+  defineProcessor,
   getHighlighter,
-  Processor,
-  defineProcessor
+  type Processor
 } from 'shiki-processor'
 import type { ThemeOptions } from '../markdown'
 
@@ -68,7 +69,6 @@ export async function highlight(
     processors
   })
 
-  const classRE = /<pre[^>]*class="(.*?)"/
   const styleRE = /<pre[^>]*(style=".*?")/
   const preRE = /^<pre(.*?)>/
   const vueRE = /-vue$/
@@ -93,21 +93,29 @@ export async function highlight(
       )
     }
 
-    const dark = cleanup(
-      highlighter.codeToHtml(str, {
-        lang,
-        lineOptions,
-        theme: getThemeName(theme.dark)
-      })
-    ).replace(classRE, (_, cls) => _.replace(cls, 'vp-code-dark'))
+    const dark = addClass(
+      cleanup(
+        highlighter.codeToHtml(str, {
+          lang,
+          lineOptions,
+          theme: getThemeName(theme.dark)
+        })
+      ),
+      'vp-code-dark',
+      'pre'
+    )
 
-    const light = cleanup(
-      highlighter.codeToHtml(str, {
-        lang,
-        lineOptions,
-        theme: getThemeName(theme.light)
-      })
-    ).replace(classRE, (_, cls) => _.replace(cls, 'vp-code-light'))
+    const light = addClass(
+      cleanup(
+        highlighter.codeToHtml(str, {
+          lang,
+          lineOptions,
+          theme: getThemeName(theme.light)
+        })
+      ),
+      'vp-code-light',
+      'pre'
+    )
 
     return dark + light
   }

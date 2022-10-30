@@ -73,7 +73,7 @@ importers:
       rollup-plugin-esbuild: ^4.10.1
       semver: ^7.3.8
       shiki: ^0.11.1
-      shiki-processor: ^0.1.0
+      shiki-processor: ^0.1.1
       simple-git-hooks: ^2.8.1
       sirv: ^2.0.2
       supports-color: ^9.2.3
@@ -91,7 +91,6 @@ importers:
       '@vueuse/core': 9.4.0_vue@3.2.41
       body-scroll-lock: 4.0.0-beta.0
       shiki: 0.11.1
-      shiki-processor: 0.1.0_shiki@0.11.1
       vite: 3.1.8
       vue: 3.2.41
     devDependencies:
@@ -157,6 +156,7 @@ importers:
       rollup-plugin-dts: 4.2.3_gypgyaqhine6mwjfvh7icfhviq
       rollup-plugin-esbuild: 4.10.1_g3cmpcqb4ptt4sr26x7hjpe6wu
       semver: 7.3.8
+      shiki-processor: 0.1.1_shiki@0.11.1
       simple-git-hooks: 2.8.1
       sirv: 2.0.2
       supports-color: 9.2.3
@@ -3450,13 +3450,13 @@ packages:
     resolution: {integrity: sha512-8o/QEhSSRb1a5i7TFR0iM4G16Z0vYB2OQVs4G3aAFXjn3T6yEx8AZxy1PgDF7I00LZHYA3WxaSYIf5e5sAX8Rw==}
     dev: true
 
-  /shiki-processor/0.1.0_shiki@0.11.1:
-    resolution: {integrity: sha512-7ty3VouP7AQMlERKeiobVeyhjUW6rPMM1b+xFcFF/XwhkN4//Fg9Ju6hPfIOvO4ztylkbLqYufbJmLJmw7SfQA==}
+  /shiki-processor/0.1.1_shiki@0.11.1:
+    resolution: {integrity: sha512-K2v/JNHdMRGFnbcVqAgvPU8qmZNgtiBrYcYKe3O6Lx2W0RoyiwzrrpCUU917b2r2EMS+2FNgRIgz9xvtmF/L7w==}
     peerDependencies:
       shiki: ^0.11.1
     dependencies:
       shiki: 0.11.1
-    dev: false
+    dev: true
 
   /shiki/0.11.1:
     resolution: {integrity: sha512-EugY9VASFuDqOexOgXR18ZV+TbFrQHeCpEYaXamO+SZlsnT/2LxuLBX25GGtIrwaEVFXUAbUQ601SWE2rMwWHA==}
@@ -3464,7 +3464,6 @@ packages:
       jsonc-parser: 3.2.0
       vscode-oniguruma: 1.6.2
       vscode-textmate: 6.0.0
-    dev: false
 
   /side-channel/1.0.4:
     resolution: {integrity: sha512-q5XPytqFEIKHkGdiMIrY10mvLRvnQh42/+GoBlFW3b2LXLE2xxJpZFdm94we0BaoV3RwJyGqg5wS7epxTv0Zvw==}
@@ -3931,11 +3930,9 @@ packages:
 
   /vscode-oniguruma/1.6.2:
     resolution: {integrity: sha512-KH8+KKov5eS/9WhofZR8M8dMHWN2gTxjMsG4jd04YhpbPR91fUj7rYQ2/XjeHCJWbg7X++ApRIU9NUwM2vTvLA==}
-    dev: false
 
   /vscode-textmate/6.0.0:
     resolution: {integrity: sha512-gu73tuZfJgu+mvCSy4UZwd2JXykjK9zAZsfmDeut5dx/1a7FeTk0XwJsSuqQn+cuMCGVbIBfl+s53X4T19DnzQ==}
-    dev: false
 
   /vue-demi/0.13.11_vue@3.2.41:
     resolution: {integrity: sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A==}
