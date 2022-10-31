@@ -6,7 +6,7 @@ defineProps<{
 </script>
 
 <template>
-  <span class='VPBadge' :class="[type ?? 'tip']">
+  <span class="VPBadge" :class="type ?? 'tip'">
     <slot>{{ text }}</slot>
   </span>
 </template>
