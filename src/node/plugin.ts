@@ -13,6 +13,7 @@ import { slash } from './utils/slash'
 import { OutputAsset, OutputChunk } from 'rollup'
 import { staticDataPlugin } from './staticDataPlugin'
 import { PageDataPayload } from './shared'
+import { webFontsPlugin } from './webFontsPlugin'
 
 const hashRE = /\.(\w+)\.js$/
 const staticInjectMarkerRE =
@@ -315,6 +316,7 @@ export async function createVitePressPlugin(
   return [
     vitePressPlugin,
     vuePlugin,
+    webFontsPlugin(siteConfig.useWebFonts),
     ...(userViteConfig?.plugins || []),
     staticDataPlugin
   ]

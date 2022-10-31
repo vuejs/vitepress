@@ -26,7 +26,7 @@ body {
   color: var(--vp-c-text-1);
   background-color: var(--vp-c-bg);
   direction: ltr;
-  font-synthesis: none;
+  font-synthesis: style;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -221,4 +221,8 @@ h5,
 h6,
 p {
   overflow-wrap: break-word;
+}
+
+vite-error-overlay {
+  z-index: 9999;
 }
