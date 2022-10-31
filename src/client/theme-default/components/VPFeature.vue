@@ -1,34 +1,56 @@
 <script setup lang="ts">
 import VPLink from './VPLink.vue'
+import VPIconArrowRight from './icons/VPIconArrowRight.vue'
 
 defineProps<{
   icon?: string
   title: string
   details: string
   link?: string
+  linkText?: string
 }>()
 </script>
 
 <template>
-  <component
-    :is="link ? VPLink : 'article'"
-    :href="link"
-    class="VPFeature"
-    :noIcon="!!link || undefined"
-  >
-    <div v-if="icon" class="icon">{{ icon }}</div>
-    <h2 class="title">{{ title }}</h2>
-    <p class="details">{{ details }}</p>
-  </component>
+  <VPLink class="VPFeature" :href="link" :no-icon="true">
+    <article class="box">
+      <div v-if="icon" class="icon">{{ icon }}</div>
+      <h2 class="title">{{ title }}</h2>
+      <p class="details">{{ details }}</p>
+
+      <div v-if="linkText" class="link-text">
+        <p class="link-text-value">
+          {{ linkText }} <VPIconArrowRight class="link-text-icon" />
+        </p>
+      </div>
+    </article>
+  </VPLink>
 </template>
 
 <style scoped>
 .VPFeature {
+  display: block;
   border: 1px solid var(--vp-c-bg-soft);
   border-radius: 12px;
-  padding: 24px;
   height: 100%;
   background-color: var(--vp-c-bg-soft);
+  transition: border-color 0.25s, background-color 0.25s;
+}
+
+.VPFeature.link:hover {
+  border-color: var(--vp-c-brand);
+  background-color: var(--vp-c-bg);
+}
+
+.dark .VPFeature.link:hover {
+  background-color: var(--vp-c-bg-mute);
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  height: 100%;
 }
 
 .icon {
@@ -55,6 +77,7 @@ defineProps<{
 }
 
 .details {
+  flex-grow: 1;
   padding-top: 8px;
   line-height: 24px;
   font-size: 14px;
@@ -62,37 +85,28 @@ defineProps<{
   color: var(--vp-c-text-2);
 }
 
-.VPFeature.link {
-  display: block;
-  background-color: var(--vp-c-bg-soft);
-  transition: border-color 0.25s, background-color 0.25s;
+.link-text {
+  padding-top: 8px;
 }
 
-.VPFeature.link:hover {
-  border-color: var(--vp-button-alt-hover-border);
-  background-color: var(--vp-button-alt-hover-bg);
+.link-text-value {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--vp-c-brand);
+  transition: color 0.25s;
 }
 
-.VPFeature.link:hover .icon {
-  background-color: var(--vp-c-gray-light-3);
+.VPFeature.link:hover .link-text-value {
+  color: var(--vp-c-brand-dark);
 }
 
-.dark .VPFeature.link:hover .icon {
-  background-color: var(--vp-c-gray-dark-3);
-}
-
-.VPFeature.link:active {
-  border-color: var(--vp-button-alt-active-border);
-  background-color: var(--vp-button-alt-active-bg);
-  transition: border-color 0.1s, background-color 0.1s;
-}
-
-.VPFeature.link:active .icon {
-  background-color: var(--vp-c-gray-light-2);
-  transition: background-color 0.1s;
-}
-
-.dark .VPFeature.link:active .icon {
-  background-color: var(--vp-c-gray-dark-4);
+.link-text-icon {
+  display: inline-block;
+  margin-left: 6px;
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
 }
 </style>

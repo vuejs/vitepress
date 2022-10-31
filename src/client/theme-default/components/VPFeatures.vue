@@ -7,6 +7,7 @@ export interface Feature {
   title: string
   details: string
   link?: string
+  linkText?: string
 }
 
 const props = defineProps<{
@@ -40,6 +41,7 @@ const grid = computed(() => {
             :title="feature.title"
             :details="feature.details"
             :link="feature.link"
+            :link-text="feature.linkText"
           />
         </div>
       </div>

@@ -197,8 +197,22 @@ interface Feature {
 
   // Details of the feature.
   details: string
+
+  // Link when clicked on feature component. The link can
+  // be both internal or external.
+  //
+  // e.g. `guide/theme-home-page` or `htttps://example.com`
+  link?: string
+
+  // Link text to be shown inside feature component. Best
+  // used with `link` option.
+  //
+  // e.g. `Learn more`, `Visit page`, etc.
+  linkText?: string
 }
 ```
+
+You may learn more about it in [Theme: Home Page](../guide/theme-home-page).
 
 ## aside
 
