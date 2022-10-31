@@ -370,3 +370,39 @@
   --vp-home-hero-image-background-image: none;
   --vp-home-hero-image-filter: none;
 }
+
+/**
+ * Component: Badge
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --vp-badge-info-border: var(--vp-c-divider-light);
+  --vp-badge-info-text: var(--vp-c-text-2);
+  --vp-badge-info-bg: var(--vp-c-white-soft);
+
+  --vp-badge-tip-border: var(--vp-c-green-dimm-1);
+  --vp-badge-tip-text: var(--vp-c-green-darker);
+  --vp-badge-tip-bg: var(--vp-c-green-dimm-3);
+
+  --vp-badge-warning-border: var(--vp-c-yellow-dimm-1);
+  --vp-badge-warning-text: var(--vp-c-yellow-darker);
+  --vp-badge-warning-bg: var(--vp-c-yellow-dimm-3);
+
+  --vp-badge-danger-border: var(--vp-c-red-dimm-1);
+  --vp-badge-danger-text: var(--vp-c-red-darker);
+  --vp-badge-danger-bg: var(--vp-c-red-dimm-3);
+}
+
+.dark {
+  --vp-badge-info-border: var(--vp-c-divider-light);
+  --vp-badge-info-bg: var(--vp-c-black-mute);
+
+  --vp-badge-tip-border: var(--vp-c-green-dimm-2);
+  --vp-badge-tip-text: var(--vp-c-green-light);
+
+  --vp-badge-warning-border: var(--vp-c-yellow-dimm-2);
+  --vp-badge-warning-text: var(--vp-c-yellow-light);
+
+  --vp-badge-danger-border: var(--vp-c-red-dimm-2);
+  --vp-badge-danger-text: var(--vp-c-red-light);
+}

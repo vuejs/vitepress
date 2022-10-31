@@ -10,6 +10,7 @@ VitePress comes with its default theme providing many features out of the box. L
 - [Layout](./theme-layout)
 - [Home Page](./theme-home-page)
 - [Team Page](./theme-team-page)
+- [Badge](./theme-badge)
 - [Footer](./theme-footer)
 - [Search](./theme-search)
 - [Carbon Ads](./theme-carbon-ads)
@@ -109,9 +110,12 @@ import DefaultTheme from 'vitepress/theme'
 
 export default {
   ...DefaultTheme,
-  enhanceApp({ app }) {
-    // register global components
-    app.component('MyGlobalComponent', /* ... */)
+  enhanceApp(ctx) {
+    // extend default theme custom behaviour.
+    DefaultTheme.enhanceApp(ctx)
+
+    // register your custom global components
+    ctx.app.component('MyGlobalComponent' /* ... */)
   }
 }
 ```
