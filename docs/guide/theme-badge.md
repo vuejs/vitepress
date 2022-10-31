@@ -1,6 +1,6 @@
 # Badge
 
-The badge lets you add status to your header. For example, it could be useful to specify the section's type, or supported version.
+The badge lets you add status to your headers. For example, it could be useful to specify the section's type, or supported version.
 
 ## Usage
 
