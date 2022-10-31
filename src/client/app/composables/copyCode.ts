@@ -20,7 +20,7 @@ export function useCopyCode() {
         let { innerText: text = '' } = sibling
 
         if (isShell) {
-          text = text.replace(/^ *(\$|>) /gm, '')
+          text = text.replace(/^ *(\$|>) /gm, '').trim()
         }
 
         copyToClipboard(text).then(() => {
