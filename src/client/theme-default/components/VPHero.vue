@@ -2,6 +2,7 @@
 import type { DefaultTheme } from 'vitepress/theme'
 import VPButton from './VPButton.vue'
 import VPImage from './VPImage.vue'
+import { getColors } from '../../app/utils.js'
 
 export interface HeroAction {
   theme?: 'brand' | 'alt'
@@ -16,6 +17,22 @@ defineProps<{
   image?: DefaultTheme.ThemeableImage
   actions?: HeroAction[]
 }>()
+const loaded = (e: Event) => {
+  const img = e.target as HTMLImageElement
+  const colors = getColors(img)
+  if (colors) {
+    const root = document.documentElement
+    let v: string[] = []
+    const useColors = colors.slice(0, 5)
+    const gap = Math.floor(100 / (useColors.length - 1))
+    useColors.forEach((c: number[], i: number) => {
+      v.push(`rgb(${c[0]}, ${c[1]}, ${c[2]}) ${i * gap}%`)
+    })
+    const bg = `linear-gradient(-45deg, ${v.join(', ')})`
+    root.style.setProperty('--vp-home-hero-image-background-image', bg)
+    root.style.setProperty('--vp-home-hero-image-filter', 'blur(72px)')
+  }
+}
 </script>
 
 <template>
@@ -44,7 +61,7 @@ defineProps<{
       <div v-if="image" class="image">
         <div class="image-container">
           <div class="image-bg" />
-          <VPImage class="image-src" :image="image" />
+          <VPImage class="image-src" :image="image" @load="loaded" />
         </div>
       </div>
     </div>

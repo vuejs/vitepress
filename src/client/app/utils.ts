@@ -1,3 +1,4 @@
+import quantize from 'quantize'
 import { siteDataRef } from './data.js'
 import { inBrowser, EXTERNAL_URL_RE, sanitizeFileName } from '../shared.js'
 
@@ -52,4 +53,35 @@ export function pathToFile(path: string): string {
   }
 
   return pagePath
+}
+
+export const getColors = (img: HTMLImageElement) => {
+  const canvas = document.createElement('canvas')
+  const ctx = canvas.getContext('2d')!
+  const { naturalWidth, naturalHeight } = img
+  canvas.width = naturalWidth
+  canvas.height = naturalHeight
+  ctx.drawImage(img, 0, 0, naturalWidth, naturalHeight)
+  const imageData = ctx.getImageData(0, 0, naturalWidth, naturalHeight)
+  const pixels = imageData.data
+  const pixelCount = naturalWidth * naturalHeight
+
+  const pixelArray: number[][] = []
+  for (let i = 0; i < pixelCount; i = i + 10) {
+    const offset = i * 4;
+    const r = pixels[offset + 0]
+    const g = pixels[offset + 1]
+    const b = pixels[offset + 2]
+    const a = pixels[offset + 3]
+
+    // If pixel is mostly opaque and not white
+    if (typeof a === 'undefined' || a >= 125) {
+      if (!(r > 250 && g > 250 && b > 250)) {
+        pixelArray.push([r, g, b])
+      }
+    }
+  }
+
+  const cmap = quantize(pixelArray, 10)
+  return cmap ? cmap.palette() : null
 }

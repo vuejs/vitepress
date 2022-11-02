@@ -6,6 +6,7 @@ defineProps<{
   image: DefaultTheme.ThemeableImage
   alt?: string
 }>()
+defineEmits(['load'])
 </script>
 
 <script lang="ts">
@@ -22,6 +23,7 @@ export default {
       v-bind="typeof image === 'string' ? $attrs : { ...image, ...$attrs }"
       :src="withBase(typeof image === 'string' ? image : image.src)"
       :alt="alt ?? (typeof image === 'string' ? '' : image.alt || '')"
+      @load="$emit('load', $event)"
     />
     <template v-else>
       <VPImage

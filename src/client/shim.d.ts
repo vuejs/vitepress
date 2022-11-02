@@ -20,3 +20,7 @@ declare module '@theme/index' {
   const theme: Theme
   export default theme
 }
+
+declare module 'quantize' {
+  export default function quantize(pixels: number[][], maxColors: number): any
+}
