@@ -16,7 +16,6 @@ const { hasSidebar } = useSidebar()
     id="VPContent"
     :class="{
       'has-sidebar': hasSidebar,
-      'is-home': frontmatter.layout === 'home'
     }"
   >
     <slot name="not-found" v-if="page.isNotFound"><NotFound /></slot>
@@ -61,13 +60,14 @@ const { hasSidebar } = useSidebar()
   width: 100%;
 }
 
-.VPContent.is-home {
-  width: 100%;
-  max-width: 100%;
-}
-
 .VPContent.has-sidebar {
   margin: 0;
+}
+
+@media (min-width: 768px) {
+  .VPContent {
+    width: 100vw;
+  }
 }
 
 @media (min-width: 960px) {

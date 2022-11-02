@@ -36,6 +36,12 @@ provide('close-screen', closeScreen)
   transition: background-color 0.5s;
 }
 
+@media (min-width: 768px) {
+  .VPNav {
+    width: 100vw;
+  }
+}
+
 @media (min-width: 960px) {
   .VPNav {
     position: fixed;
