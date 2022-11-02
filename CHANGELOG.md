@@ -1,3 +1,63 @@
+# [1.0.0-alpha.26](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.25...v1.0.0-alpha.26) (2022-10-27)
+
+
+### Bug Fixes
+
+* properly apply dark/light classes in code blocks ([#1546](https://github.com/vuejs/vitepress/issues/1546)) ([178895f](https://github.com/vuejs/vitepress/commit/178895f067e0f38e1c76d3efe64a75612cd4ad3a))
+
+
+
+# [1.0.0-alpha.25](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.24...v1.0.0-alpha.25) (2022-10-25)
+
+
+### Bug Fixes
+
+* **banner:** prevent hidden local nav on scroll ([63449ca](https://github.com/vuejs/vitepress/commit/63449caf4cb2c7e8449e4f8aee1d8f504fa949df))
+
+
+
+# [1.0.0-alpha.24](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.23...v1.0.0-alpha.24) (2022-10-25)
+
+
+### Bug Fixes
+
+* **banner:** broken layout on smaller viewports ([#1536](https://github.com/vuejs/vitepress/issues/1536)) ([028cc2c](https://github.com/vuejs/vitepress/commit/028cc2c76e540c595e55a399606701490afd4beb))
+
+
+
+# [1.0.0-alpha.23](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.22...v1.0.0-alpha.23) (2022-10-25)
+
+
+### Bug Fixes
+
+* **build:** explicitly exit process after build to prevent hangup ([#1530](https://github.com/vuejs/vitepress/issues/1530)) ([09fcc46](https://github.com/vuejs/vitepress/commit/09fcc460794d515c48c38ccb47a936d58a2582b3))
+
+
+### Features
+
+* **build:** add `useWebFonts` option ([#1531](https://github.com/vuejs/vitepress/issues/1531)) ([c9f04e0](https://github.com/vuejs/vitepress/commit/c9f04e045922a6f1e11136bd1ccc824c2e9928f1))
+* support focus, colored diffs, error highlights in code blocks ([#1534](https://github.com/vuejs/vitepress/issues/1534)) ([04ab0eb](https://github.com/vuejs/vitepress/commit/04ab0eb6dcacb065e865332580088891bc2df893))
+* **theme:** add --vp-layout-top-height to adjust banner ([#1521](https://github.com/vuejs/vitepress/issues/1521)) ([a29a4a6](https://github.com/vuejs/vitepress/commit/a29a4a62c682b54ec88c609cb480ddb68b3f4699))
+
+
+
+# [1.0.0-alpha.22](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.21...v1.0.0-alpha.22) (2022-10-22)
+
+
+### Bug Fixes
+
+* **types:** change ComponentOptions to DefineComponent ([#1499](https://github.com/vuejs/vitepress/issues/1499)) ([5711660](https://github.com/vuejs/vitepress/commit/57116607b83f79e62f399cd6430b0d80524861a3))
+
+
+### Features
+
+* expose isDark ([#1525](https://github.com/vuejs/vitepress/issues/1525)) ([d327811](https://github.com/vuejs/vitepress/commit/d327811fd5b333a73d77730b6b0b347e3d052ebc))
+* **theme:** allow defining dark as the default theme ([#1498](https://github.com/vuejs/vitepress/issues/1498)) ([d404753](https://github.com/vuejs/vitepress/commit/d404753005bf4cc3bb645553ac473d08c6473180))
+* **theme:** support html strings for SidebarGroup headings, SidebarItem text ([#1489](https://github.com/vuejs/vitepress/issues/1489)) ([946c579](https://github.com/vuejs/vitepress/commit/946c579f2b8957839b8e0ef3474bded5ad06de1a))
+* transformPageData hook ([#1492](https://github.com/vuejs/vitepress/issues/1492)) ([afeb06f](https://github.com/vuejs/vitepress/commit/afeb06f17cbd439e3e0151f9571107754fe98b57))
+
+
+
 # [1.0.0-alpha.21](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.20...v1.0.0-alpha.21) (2022-10-14)
 
 

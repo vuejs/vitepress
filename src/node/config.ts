@@ -87,6 +87,16 @@ export interface UserConfig<ThemeConfig = any>
   cleanUrls?: CleanUrlsMode
 
   /**
+   * Use web fonts instead of emitting font files to dist.
+   * The used theme should import a file named `fonts.(s)css` for this to work.
+   * If you are a theme author, to support this, place your web font import
+   * between `webfont-marker-begin` and `webfont-marker-end` comments.
+   *
+   * @default true in webcontainers, else false
+   */
+  useWebFonts?: boolean
+
+  /**
    * Build end hook: called when SSG finish.
    * @param siteConfig The resolved configuration.
    */
@@ -141,6 +151,7 @@ export interface SiteConfig<ThemeConfig = any>
     | 'lastUpdated'
     | 'ignoreDeadLinks'
     | 'cleanUrls'
+    | 'useWebFonts'
     | 'buildEnd'
     | 'transformHead'
     | 'transformHtml'
@@ -229,6 +240,9 @@ export async function resolveConfig(
     mpa: !!userConfig.mpa,
     ignoreDeadLinks: userConfig.ignoreDeadLinks,
     cleanUrls: userConfig.cleanUrls || 'disabled',
+    useWebFonts:
+      userConfig.useWebFonts ??
+      typeof process.versions.webcontainer === 'string',
     buildEnd: userConfig.buildEnd,
     transformHead: userConfig.transformHead,
     transformHtml: userConfig.transformHtml,

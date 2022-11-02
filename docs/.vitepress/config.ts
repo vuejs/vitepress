@@ -108,6 +108,7 @@ function sidebarGuide() {
         { text: 'Layout', link: '/guide/theme-layout' },
         { text: 'Home Page', link: '/guide/theme-home-page' },
         { text: 'Team Page', link: '/guide/theme-team-page' },
+        { text: 'Badge', link: '/guide/theme-badge' },
         { text: 'Footer', link: '/guide/theme-footer' },
         { text: 'Search', link: '/guide/theme-search' },
         { text: 'Carbon Ads', link: '/guide/theme-carbon-ads' }
