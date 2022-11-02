@@ -74,6 +74,10 @@ function scrollToTop() {
 }
 
 @media (min-width: 768px) {
+  .VPLocalNav {
+    width: 100vw;
+  }
+
   .menu {
     padding: 0 32px;
   }
