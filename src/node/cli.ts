@@ -29,9 +29,9 @@ if (!command || command === 'dev') {
   })
 } else if (command === 'build') {
   build(root, argv).catch((err) => {
-      console.error(c.red(`build error:\n`), err)
-      process.exit(1)
-    })
+    console.error(c.red(`build error:\n`), err)
+    process.exit(1)
+  })
 } else if (command === 'serve') {
   serve(argv).catch((err) => {
     console.error(c.red(`failed to start server. error:\n`), err)
