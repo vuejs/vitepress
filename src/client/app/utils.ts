@@ -22,15 +22,10 @@ export function withBase(path: string) {
 export function pathToFile(path: string): string {
   let pagePath = path.replace(/\.html$/, '')
   pagePath = decodeURIComponent(pagePath)
-  if (pagePath.endsWith('/')) {
-    pagePath += 'index'
-  }
 
-  if (
-    siteDataRef.value.cleanUrls === 'with-subfolders' &&
-    !pagePath.endsWith('index')
-  ) {
-    pagePath += '/index'
+  if (pagePath.endsWith('/')) {
+    // remove trailing slashes from pagePath
+    pagePath = pagePath.slice(0, -1)
   }
 
   if (import.meta.env.DEV) {
@@ -48,7 +43,14 @@ export function pathToFile(path: string): string {
         ) + '.md'
       // client production build needs to account for page hash, which is
       // injected directly in the page's html
-      const pageHash = __VP_HASH_MAP__[pagePath.toLowerCase()]
+      let pageHash = __VP_HASH_MAP__[pagePath.toLowerCase()]
+
+      if (!pageHash) {
+        // try looking for an index.md hash
+        pagePath = pagePath.replace('.md', '_index.md')
+        pageHash = __VP_HASH_MAP__[pagePath.toLowerCase()]
+      }
+
       pagePath = `${base}assets/${pagePath}.${pageHash}.js`
     } else {
       // ssr build uses much simpler name mapping
