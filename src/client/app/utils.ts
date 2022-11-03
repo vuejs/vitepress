@@ -28,6 +28,12 @@ export function pathToFile(path: string): string {
     pagePath = pagePath.slice(0, -1)
   }
 
+  // if we removed the trailing slash and have an empty page path
+  // we are trying to render the index/home page...
+  if (pagePath.length === 0) {
+    pagePath = '/index'
+  }
+
   if (import.meta.env.DEV) {
     // always force re-fetch content in dev
     pagePath += `.md?t=${Date.now()}`
