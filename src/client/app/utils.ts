@@ -26,6 +26,13 @@ export function pathToFile(path: string): string {
     pagePath += 'index'
   }
 
+  if (
+    siteDataRef.value.cleanUrls === 'with-subfolders' &&
+    !pagePath.endsWith('index')
+  ) {
+    pagePath += '/index'
+  }
+
   if (import.meta.env.DEV) {
     // always force re-fetch content in dev
     pagePath += `.md?t=${Date.now()}`

@@ -33,7 +33,14 @@ export async function bundle(
   config.pages.forEach((file) => {
     // page filename conversion
     // foo/bar.md -> foo_bar.md
-    input[slash(file).replace(/\//g, '_')] = path.resolve(config.srcDir, file)
+    // when using cleanUrls with-subfolders
+    // foo/bar.md -> foo_bar_index.md
+    let target = slash(file).replace(/\//g, '_')
+    if (config.cleanUrls === 'with-subfolders' && !file.includes('index.md')) {
+      target = target.replace('.md', '_index.md')
+    }
+
+    input[target] = path.resolve(config.srcDir, file)
   })
 
   // resolve options to pass to vite

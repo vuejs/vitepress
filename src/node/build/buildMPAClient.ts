@@ -10,7 +10,17 @@ export async function buildMPAClient(
 ): Promise<RollupOutput> {
   const files = Object.keys(js)
   const themeFiles = files.filter((f) => !f.endsWith('.md'))
-  const pages = files.filter((f) => f.endsWith('.md'))
+  const pages = files
+    .filter((f) => f.endsWith('.md'))
+    .map((page) => {
+      if (
+        config.cleanUrls === 'with-subfolders' &&
+        !page.includes('index.md')
+      ) {
+        return page.replace('.md', '_index.md')
+      }
+      return page
+    })
 
   return build({
     root: config.srcDir,
