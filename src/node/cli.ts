@@ -28,11 +28,7 @@ if (!command || command === 'dev') {
     process.exit(1)
   })
 } else if (command === 'build') {
-  build(root, argv)
-    .then(() => {
-      process.exit()
-    })
-    .catch((err) => {
+  build(root, argv).catch((err) => {
       console.error(c.red(`build error:\n`), err)
       process.exit(1)
     })
