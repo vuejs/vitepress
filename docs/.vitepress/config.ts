@@ -7,7 +7,7 @@ export default defineConfig({
   description: 'Vite & Vue powered static site generator.',
 
   lastUpdated: true,
-  cleanUrls: 'with-subfolders',
+  cleanUrls: 'without-subfolders',
 
   head: [['meta', { name: 'theme-color', content: '#3c8772' }]],
 

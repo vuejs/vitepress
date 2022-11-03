@@ -32,15 +32,7 @@ export async function renderPage(
   // render page
   const content = await render(routePath)
 
-  let pageName = sanitizeFileName(page.replace(/\//g, '_'))
-
-  if (
-    config.cleanUrls === 'with-subfolders' &&
-    !pageName.includes('index.md')
-  ) {
-    pageName = pageName.replace('.md', '_index.md')
-  }
-
+  const pageName = sanitizeFileName(page.replace(/\//g, '_'))
   // server build doesn't need hash
   const pageServerJsFileName = pageName + '.js'
   // for any initial page load, we only need the lean version of the page js
