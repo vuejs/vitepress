@@ -87,3 +87,7 @@ export function normalizeLink(url: string): string {
 
   return withBase(normalizedPath)
 }
+
+export function escapeVHtml(text?: string): string | undefined {
+  return text ? text.replace(/</g, '&#60;') : undefined
+}

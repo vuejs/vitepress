@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useData } from 'vitepress'
-import { normalizeLink } from '../support/utils.js'
+import { normalizeLink, escapeVHtml } from '../support/utils.js'
 import { useEditLink } from '../composables/edit-link.js'
 import { usePrevNext } from '../composables/prev-next.js'
 import VPIconEdit from './icons/VPIconEdit.vue'
@@ -42,14 +42,14 @@ const showFooter = computed(() => {
     <div v-if="control.prev || control.next" class="prev-next">
       <div class="pager">
         <a v-if="control.prev" class="pager-link prev" :href="normalizeLink(control.prev.link)">
-          <span class="desc">{{ theme.docFooter?.prev ?? 'Previous page' }}</span>
-          <span class="title">{{ control.prev.text }} </span>
+          <span class="desc" v-html="escapeVHtml(theme.docFooter?.prev ?? 'Previous page')"></span>
+          <span class="title" v-html="escapeVHtml(control.prev.text)"></span>
         </a>
       </div>
       <div class="pager" :class="{ 'has-prev': control.prev }">
         <a v-if="control.next" class="pager-link next" :href="normalizeLink(control.next.link)">
-          <span class="desc">{{ theme.docFooter?.next ?? 'Next page' }}</span>
-          <span class="title">{{ control.next.text }}</span>
+          <span class="desc" v-html="escapeVHtml(theme.docFooter?.next ?? 'Next page')"></span>
+          <span class="title" v-html="escapeVHtml(control.next.text)"></span>
         </a>
       </div>
     </div>

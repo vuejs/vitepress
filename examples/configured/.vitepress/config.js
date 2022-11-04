@@ -1,9 +1,10 @@
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
-  title: 'Configured Example',
+  title: '& <Configured Example &>',
   description: 'Example of configured options of VitePress',
   themeConfig: {
+    docFooterLiterals: true,
     sidebar: {
       '/': [
         {
@@ -13,6 +14,15 @@ export default defineConfig({
             {
               text: 'Multiple levels outline',
               link: '/frontmatter/multiple-levels-outline'
+            }
+          ]
+        },
+        {
+          text: '& <Text Literals &>',
+          items: [
+            {
+              text: '& <Test Page &>',
+              link: '/text-literals/'
             }
           ]
         },
@@ -40,7 +50,7 @@ export default defineConfig({
           text: 'Multi Sidebar',
           items: [
             {
-              text: 'Test Page',
+              text: '&#60;Test Page>',
               link: '/multi-sidebar/'
             },
             {

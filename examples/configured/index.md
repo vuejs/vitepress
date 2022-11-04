@@ -1,3 +1,3 @@
-# Full Configured VitePress Example
+ # Full Configured VitePress Example
 
 WIP
