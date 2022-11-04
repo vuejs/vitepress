@@ -2,7 +2,7 @@
 import type { DefaultTheme } from 'vitepress/theme'
 import { ref, watchEffect } from 'vue'
 import { useData } from 'vitepress'
-import { isActive, escapeVHtml } from '../support/utils.js'
+import { isActive } from '../support/utils.js'
 import VPIconPlusSquare from './icons/VPIconPlusSquare.vue'
 import VPIconMinusSquare from './icons/VPIconMinusSquare.vue'
 import VPSidebarLink from './VPSidebarLink.vue'
@@ -41,7 +41,7 @@ function toggle() {
       :role="collapsible ? 'button' : undefined"
       @click="toggle"
     >
-      <h2 v-html="escapeVHtml(text)" class="title-text"></h2>
+      <h2 v-html="text" class="title-text"></h2>
       <div class="action">
         <VPIconMinusSquare class="icon minus" />
         <VPIconPlusSquare class="icon plus" />

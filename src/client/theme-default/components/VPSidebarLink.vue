@@ -2,7 +2,7 @@
 import type { DefaultTheme } from 'vitepress/theme'
 import { computed, inject } from 'vue'
 import { useData } from 'vitepress'
-import { isActive, escapeVHtml } from '../support/utils.js'
+import { isActive } from '../support/utils.js'
 import VPLink from './VPLink.vue'
 
 withDefaults(
@@ -25,7 +25,7 @@ const closeSideBar = inject('close-sidebar') as () => void
     :href="item.link"
     @click="closeSideBar"
   >
-    <span v-html="escapeVHtml(item.text)" class="link-text" :class="{ light: depth > 1 }"></span>
+    <span v-html="item.text" class="link-text" :class="{ light: depth > 1 }"></span>
   </VPLink>
   <template
     v-if="'items' in item && depth < maxDepth"

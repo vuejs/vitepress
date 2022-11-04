@@ -17,7 +17,7 @@ describe('test multi sidebar sort root', () => {
     const sidebarContent = await sidebarLocator.allTextContents()
     expect(sidebarContent).toEqual([
       'Frontmatter',
-      '& <Text Literals &>',
+      '& <Text Literals &> <code>code</code>',
       'Static Data',
       'Multi Sidebar Test'
     ])

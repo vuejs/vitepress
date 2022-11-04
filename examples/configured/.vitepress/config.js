@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
-  title: '& <Configured Example &>',
+  title: 'Configured Example',
   description: 'Example of configured options of VitePress',
   themeConfig: {
     docFooterLiterals: true,
@@ -18,10 +18,10 @@ export default defineConfig({
           ]
         },
         {
-          text: '& <Text Literals &>',
+          text: '& &#60;Text Literals &> <code>code</code>',
           items: [
             {
-              text: '& <Test Page &>',
+              text: '& &#60;Test Page &> <code>code</code>',
               link: '/text-literals/'
             }
           ]
