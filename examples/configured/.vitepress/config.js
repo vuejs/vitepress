@@ -50,7 +50,7 @@ export default defineConfig({
           text: 'Multi Sidebar',
           items: [
             {
-              text: '&#60;Test Page>',
+              text: 'Test Page',
               link: '/multi-sidebar/'
             },
             {
