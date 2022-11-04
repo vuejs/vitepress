@@ -4,7 +4,6 @@ export default defineConfig({
   title: 'Configured Example',
   description: 'Example of configured options of VitePress',
   themeConfig: {
-    docFooterLiterals: true,
     sidebar: {
       '/': [
         {
