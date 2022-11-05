@@ -40,7 +40,11 @@ const { frontmatter } = useData()
       <template #nav-screen-content-after><slot name="nav-screen-content-after" /></template>
     </VPNav>
     <VPLocalNav :open="isSidebarOpen" @open-menu="openSidebar" />
-    <VPSidebar :open="isSidebarOpen" />
+
+    <VPSidebar :open="isSidebarOpen">
+      <template #sidebar-nav-before><slot name="sidebar-nav-before" /></template>
+      <template #sidebar-nav-after><slot name="sidebar-nav-after" /></template>
+    </VPSidebar>
 
     <VPContent>
       <template #home-hero-before><slot name="home-hero-before" /></template>
