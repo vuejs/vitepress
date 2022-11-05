@@ -219,6 +219,8 @@ function load() {
 }
 
 .DocSearch-Button .DocSearch-Button-Keys {
+  /*rtl:ignore*/
+  direction: ltr;
   display: none;
   min-width: auto;
 }
@@ -234,9 +236,11 @@ function load() {
   display: block;
   margin: 2px 0 0 0;
   border: 1px solid var(--vp-c-divider);
+  /*rtl:begin:ignore*/
   border-right: none;
   border-radius: 4px 0 0 4px;
   padding-left: 6px;
+  /*rtl:end:ignore*/
   min-width: 0;
   width: auto;
   height: 22px;
@@ -248,11 +252,13 @@ function load() {
 }
 
 .DocSearch-Button .DocSearch-Button-Key + .DocSearch-Button-Key {
+  /*rtl:begin:ignore*/
   border-right: 1px solid var(--vp-c-divider);
   border-left: none;
   border-radius: 0 4px 4px 0;
   padding-left: 2px;
   padding-right: 6px;
+  /*rtl:end:ignore*/
 }
 
 .DocSearch-Button .DocSearch-Button-Key:first-child {
