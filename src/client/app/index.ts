@@ -5,7 +5,7 @@ import {
   defineComponent,
   h,
   onMounted,
-  watch
+  watchEffect
 } from 'vue'
 import Theme from '@theme/index'
 import { inBrowser, pathToFile } from './utils.js'
@@ -27,13 +27,10 @@ const VitePressApp = defineComponent({
 
     // change the language on the HTML element based on the current lang
     onMounted(() => {
-      watch(
-        () => site.value.lang,
-        (lang: string) => {
-          document.documentElement.lang = lang
-        },
-        { immediate: true }
-      )
+      watchEffect(() => {
+        document.documentElement.lang = site.value.lang
+        document.documentElement.dir = site.value.dir
+      })
     })
 
     if (import.meta.env.PROD) {

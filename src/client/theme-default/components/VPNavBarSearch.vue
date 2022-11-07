@@ -52,7 +52,7 @@ function load() {
 
 <template>
   <div v-if="theme.algolia" class="VPNavBarSearch">
-    <VPAlgoliaSearchBox v-if="loaded" />
+    <VPAlgoliaSearchBox v-if="loaded" :algolia="theme.algolia" />
 
     <div v-else id="docsearch" @click="load">
       <button

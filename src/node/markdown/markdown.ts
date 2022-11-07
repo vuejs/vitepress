@@ -14,9 +14,9 @@ import {
 import { sfcPlugin, type SfcPluginOptions } from '@mdit-vue/plugin-sfc'
 import { titlePlugin } from '@mdit-vue/plugin-title'
 import { tocPlugin, type TocPluginOptions } from '@mdit-vue/plugin-toc'
+import { slugify } from '@mdit-vue/shared'
 import { IThemeRegistration } from 'shiki'
 import { highlight } from './plugins/highlight'
-import { slugify } from './plugins/slugify'
 import { highlightLinePlugin } from './plugins/highlightLines'
 import { lineNumberPlugin } from './plugins/lineNumbers'
 import { containerPlugin } from './plugins/containers'
@@ -24,7 +24,8 @@ import { snippetPlugin } from './plugins/snippet'
 import { preWrapperPlugin } from './plugins/preWrapper'
 import { linkPlugin } from './plugins/link'
 import { imagePlugin } from './plugins/image'
-import { Header } from '../shared'
+
+export type { Header } from '../shared'
 
 export type ThemeOptions =
   | IThemeRegistration
@@ -49,8 +50,6 @@ export interface MarkdownOptions extends MarkdownIt.Options {
 }
 
 export type MarkdownRenderer = MarkdownIt
-
-export type { Header }
 
 export const createMarkdownRenderer = async (
   srcDir: string,
@@ -97,7 +96,6 @@ export const createMarkdownRenderer = async (
       ...options.frontmatter
     } as FrontmatterPluginOptions)
     .use(headersPlugin, {
-      slugify,
       ...options.headers
     } as HeadersPluginOptions)
     .use(sfcPlugin, {
@@ -105,7 +103,6 @@ export const createMarkdownRenderer = async (
     } as SfcPluginOptions)
     .use(titlePlugin)
     .use(tocPlugin, {
-      slugify,
       ...options.toc
     } as TocPluginOptions)
 

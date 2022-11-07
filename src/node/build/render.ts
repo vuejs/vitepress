@@ -11,10 +11,11 @@ import {
   notFoundPageData,
   mergeHead,
   EXTERNAL_URL_RE,
+  resolveSiteDataByRoute,
   sanitizeFileName
 } from '../shared'
 import { slash } from '../utils/slash'
-import { SiteConfig, resolveSiteDataByRoute } from '../config'
+import { SiteConfig } from '../config'
 
 export async function renderPage(
   render: (path: string) => Promise<string>,
@@ -144,7 +145,7 @@ export async function renderPage(
 
   const html = `
 <!DOCTYPE html>
-<html lang="${siteData.lang}">
+<html lang="${siteData.lang}" dir="${siteData.dir}">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">

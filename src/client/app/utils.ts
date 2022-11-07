@@ -1,7 +1,7 @@
 import { siteDataRef } from './data.js'
 import { inBrowser, EXTERNAL_URL_RE, sanitizeFileName } from '../shared.js'
 
-export { inBrowser }
+export { inBrowser } from '../shared.js'
 
 /**
  * Join two paths by resolving the slash collision.
@@ -11,7 +11,7 @@ export function joinPath(base: string, path: string): string {
 }
 
 export function withBase(path: string) {
-  return EXTERNAL_URL_RE.test(path)
+  return EXTERNAL_URL_RE.test(path) || path.startsWith('.')
     ? path
     : joinPath(siteDataRef.value.base, path)
 }

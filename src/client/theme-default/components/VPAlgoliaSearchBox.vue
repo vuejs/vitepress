@@ -4,12 +4,16 @@ import docsearch from '@docsearch/js'
 import { onMounted } from 'vue'
 import { useRouter, useRoute, useData } from 'vitepress'
 
+const props = defineProps<{
+  algolia: DefaultTheme.AlgoliaSearchOptions
+}>()
+
 const router = useRouter()
 const route = useRoute()
-const { theme, site } = useData()
+const { site } = useData()
 
 onMounted(() => {
-  initialize(theme.value.algolia)
+  initialize(props.algolia)
   setTimeout(poll, 16)
 })
 

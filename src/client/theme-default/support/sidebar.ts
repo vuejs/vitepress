@@ -8,23 +8,29 @@ import { ensureStartingSlash } from './utils.js'
  * return empty array.
  */
 export function getSidebar(
-  sidebar: DefaultTheme.Sidebar,
+  sidebar: DefaultTheme.Sidebar | undefined,
   path: string
 ): DefaultTheme.SidebarGroup[] {
   if (Array.isArray(sidebar)) {
     return sidebar
   }
 
-  path = ensureStartingSlash(path)
-
-  for (const dir in sidebar) {
-    // make sure the multi sidebar key starts with slash too
-    if (path.startsWith(ensureStartingSlash(dir))) {
-      return sidebar[dir]
-    }
+  if (sidebar == null) {
+    return []
   }
 
-  return []
+  path = ensureStartingSlash(path)
+
+  const dir = Object.keys(sidebar)
+    .sort((a, b) => {
+      return b.split('/').length - a.split('/').length
+    })
+    .find((dir) => {
+      // make sure the multi sidebar key starts with slash too
+      return path.startsWith(ensureStartingSlash(dir))
+    })
+
+  return dir ? sidebar[dir] : []
 }
 
 export function getFlatSideBarLinks(sidebar: DefaultTheme.SidebarGroup[]) {

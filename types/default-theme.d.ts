@@ -18,10 +18,11 @@ export namespace DefaultTheme {
      *
      * @default 2
      */
-    outline?: number | [number, number] | 'deep' | false
+    outline?: Outline | Outline['level'] | false
 
     /**
-     * Custom outline title in the aside component.
+     * @deprecated
+     * Use `outline.label` instead.
      *
      * @default 'On this page'
      */
@@ -67,10 +68,19 @@ export namespace DefaultTheme {
     footer?: Footer
 
     /**
-     * Adds locale menu to the nav. This option should be used when you have
-     * your translated sites outside of the project.
+     * @default 'Appearance'
      */
-    localeLinks?: LocaleLinks
+    darkModeSwitchLabel?: string
+
+    /**
+     * @default 'Menu'
+     */
+    sidebarMenuLabel?: string
+
+    /**
+     * @default 'Return to top'
+     */
+    returnToTopLabel?: string
 
     /**
      * The algolia options. Leave it undefined to disable the search feature.
@@ -226,16 +236,11 @@ export namespace DefaultTheme {
     sponsor?: string
   }
 
-  // locales -------------------------------------------------------------------
+  // outline -------------------------------------------------------------------
 
-  export interface LocaleLinks {
-    text: string
-    items: LocaleLink[]
-  }
-
-  export interface LocaleLink {
-    text: string
-    link: string
+  export interface Outline {
+    level?: number | [number, number] | 'deep'
+    label?: string
   }
 
   // algolia ------------------------------------------------------------------

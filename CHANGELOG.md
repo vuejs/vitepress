@@ -1,3 +1,46 @@
+# [1.0.0-alpha.26](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.25...v1.0.0-alpha.26) (2022-10-27)
+
+
+### Bug Fixes
+
+* properly apply dark/light classes in code blocks ([#1546](https://github.com/vuejs/vitepress/issues/1546)) ([178895f](https://github.com/vuejs/vitepress/commit/178895f067e0f38e1c76d3efe64a75612cd4ad3a))
+
+
+
+# [1.0.0-alpha.25](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.24...v1.0.0-alpha.25) (2022-10-25)
+
+
+### Bug Fixes
+
+* **banner:** prevent hidden local nav on scroll ([63449ca](https://github.com/vuejs/vitepress/commit/63449caf4cb2c7e8449e4f8aee1d8f504fa949df))
+
+
+
+# [1.0.0-alpha.24](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.23...v1.0.0-alpha.24) (2022-10-25)
+
+
+### Bug Fixes
+
+* **banner:** broken layout on smaller viewports ([#1536](https://github.com/vuejs/vitepress/issues/1536)) ([028cc2c](https://github.com/vuejs/vitepress/commit/028cc2c76e540c595e55a399606701490afd4beb))
+
+
+
+# [1.0.0-alpha.23](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.22...v1.0.0-alpha.23) (2022-10-25)
+
+
+### Bug Fixes
+
+* **build:** explicitly exit process after build to prevent hangup ([#1530](https://github.com/vuejs/vitepress/issues/1530)) ([09fcc46](https://github.com/vuejs/vitepress/commit/09fcc460794d515c48c38ccb47a936d58a2582b3))
+
+
+### Features
+
+* **build:** add `useWebFonts` option ([#1531](https://github.com/vuejs/vitepress/issues/1531)) ([c9f04e0](https://github.com/vuejs/vitepress/commit/c9f04e045922a6f1e11136bd1ccc824c2e9928f1))
+* support focus, colored diffs, error highlights in code blocks ([#1534](https://github.com/vuejs/vitepress/issues/1534)) ([04ab0eb](https://github.com/vuejs/vitepress/commit/04ab0eb6dcacb065e865332580088891bc2df893))
+* **theme:** add --vp-layout-top-height to adjust banner ([#1521](https://github.com/vuejs/vitepress/issues/1521)) ([a29a4a6](https://github.com/vuejs/vitepress/commit/a29a4a62c682b54ec88c609cb480ddb68b3f4699))
+
+
+
 # [1.0.0-alpha.22](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.21...v1.0.0-alpha.22) (2022-10-22)
 
 

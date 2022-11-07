@@ -13,9 +13,9 @@ import {
   PageData,
   SiteData,
   resolveSiteDataByRoute,
-  createTitle
+  createTitle,
+  DefaultTheme
 } from '../shared.js'
-import { withBase } from './utils.js'
 
 export const dataSymbol: InjectionKey<VitePressData> = Symbol()
 
@@ -27,8 +27,9 @@ export interface VitePressData<T = any> {
   title: Ref<string>
   description: Ref<string>
   lang: Ref<string>
-  localePath: Ref<string>
   isDark: Ref<boolean>
+  dir: Ref<string>
+  localeIndex: Ref<string>
 }
 
 // site data is a singleton
@@ -48,7 +49,7 @@ if (import.meta.hot) {
 // per-app data
 export function initData(route: Route): VitePressData {
   const site = computed(() =>
-    resolveSiteDataByRoute(siteDataRef.value, route.path)
+    resolveSiteDataByRoute(siteDataRef.value, route.data.relativePath)
   )
 
   return {
@@ -57,13 +58,8 @@ export function initData(route: Route): VitePressData {
     page: computed(() => route.data),
     frontmatter: computed(() => route.data.frontmatter),
     lang: computed(() => site.value.lang),
-    localePath: computed(() => {
-      const { langs, lang } = site.value
-      const path = Object.keys(langs).find(
-        (langPath) => langs[langPath].lang === lang
-      )
-      return withBase(path || '/')
-    }),
+    dir: computed(() => site.value.dir),
+    localeIndex: computed(() => site.value.localeIndex || 'root'),
     title: computed(() => {
       return createTitle(site.value, route.data)
     }),
@@ -74,7 +70,7 @@ export function initData(route: Route): VitePressData {
   }
 }
 
-export function useData<T = any>(): VitePressData<T> {
+export function useData<T = DefaultTheme.Config>(): VitePressData<T> {
   const data = inject(dataSymbol)
   if (!data) {
     throw new Error('vitepress data not properly injected in app')
