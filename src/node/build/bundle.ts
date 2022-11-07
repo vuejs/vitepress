@@ -2,7 +2,7 @@ import ora from 'ora'
 import path from 'path'
 import fs from 'fs-extra'
 import { build, BuildOptions, UserConfig as ViteUserConfig } from 'vite'
-import { RollupOutput } from 'rollup'
+import { GetModuleInfo, RollupOutput } from 'rollup'
 import { slash } from '../utils/slash'
 import { SiteConfig } from '../config'
 import { APP_PATH } from '../alias'
@@ -90,7 +90,7 @@ export async function bundle(
                     return 'framework'
                   }
                   if (
-                    isEagerChunk(id, ctx) &&
+                    isEagerChunk(id, ctx.getModuleInfo) &&
                     (/@vue\/(runtime|shared|reactivity)/.test(id) ||
                       /vitepress\/dist\/client/.test(id))
                   ) {
@@ -154,7 +154,7 @@ const cache = new Map<string, boolean>()
 /**
  * Check if a module is statically imported by at least one entry.
  */
-function isEagerChunk(id: string, { getModuleInfo }: any) {
+function isEagerChunk(id: string, getModuleInfo: GetModuleInfo) {
   if (
     id.includes('node_modules') &&
     !/\.css($|\\?)/.test(id) &&
@@ -166,7 +166,7 @@ function isEagerChunk(id: string, { getModuleInfo }: any) {
 
 function staticImportedByEntry(
   id: string,
-  getModuleInfo: any,
+  getModuleInfo: GetModuleInfo,
   cache: Map<string, boolean>,
   importStack: string[] = []
 ): boolean {
