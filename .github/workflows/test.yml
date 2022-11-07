@@ -41,15 +41,6 @@ jobs:
       - name: Install deps
         run: pnpm install
 
-      - name: Set Playwright path
-        run: echo "PLAYWRIGHT_BROWSERS_PATH=$HOME/.cache/playwright-bin" >> $GITHUB_ENV
-
-      - name: Cache Playwright's binary
-        uses: actions/cache@v3
-        with:
-          key: ${{ runner.os }}-playwright-bin-v1
-          path: ${{ env.PLAYWRIGHT_BROWSERS_PATH }}
-
       - name: Install Playwright
         run: pnpm playwright install chromium
 
