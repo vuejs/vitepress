@@ -44,6 +44,8 @@ watchPostEffect(async () => {
         Sidebar Navigation
       </span>
 
+      <slot name="sidebar-nav-before" />
+
       <div v-for="group in sidebar" :key="group.text" class="group">
         <VPSidebarGroup
           :text="group.text"
@@ -52,6 +54,8 @@ watchPostEffect(async () => {
           :collapsed="group.collapsed"
         />
       </div>
+
+      <slot name="sidebar-nav-after" />
     </nav>
   </aside>
 </template>
