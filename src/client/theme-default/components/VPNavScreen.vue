@@ -44,8 +44,10 @@ function unlockBodyScroll() {
 .VPNavScreen {
   position: fixed;
   top: calc(var(--vp-nav-height-mobile) + var(--vp-layout-top-height, 0px));
+  /*rtl:ignore*/
   right: 0;
   bottom: 0;
+  /*rtl:ignore*/
   left: 0;
   padding: 0 32px;
   width: 100%;

@@ -43,6 +43,7 @@ function scrollToTop() {
 .VPLocalNav {
   position: sticky;
   top: 0;
+  /*rtl:ignore*/
   left: 0;
   z-index: var(--vp-z-index-local-nav);
   display: flex;

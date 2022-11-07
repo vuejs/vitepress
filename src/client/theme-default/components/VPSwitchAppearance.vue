@@ -104,6 +104,7 @@ watch(checked, (newIsDark) => {
 }
 
 .dark .VPSwitchAppearance :deep(.check) {
+  /*rtl:ignore*/
   transform: translateX(18px);
 }
 </style>
