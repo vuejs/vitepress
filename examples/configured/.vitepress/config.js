@@ -17,6 +17,15 @@ export default defineConfig({
           ]
         },
         {
+          text: '& &#60;Text Literals &> <code>code</code>',
+          items: [
+            {
+              text: '& &#60;Test Page &> <code>code</code>',
+              link: '/text-literals/'
+            }
+          ]
+        },
+        {
           text: 'Static Data',
           items: [
             {

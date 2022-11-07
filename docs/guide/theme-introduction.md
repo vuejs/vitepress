@@ -201,6 +201,8 @@ Full list of slots available in the default theme layout:
   - `doc-footer-before`
   - `doc-before`
   - `doc-after`
+  - `sidebar-nav-before`
+  - `sidebar-nav-after`
   - `aside-top`
   - `aside-bottom`
   - `aside-outline-before`
