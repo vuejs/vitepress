@@ -11,7 +11,7 @@ const root = '__tests__/e2e'
 
 export async function setup() {
   browserServer = await chromium.launchServer({
-    headless: !process.env.VITE_DEBUG_SERVE,
+    headless: !process.env.DEBUG,
     args: process.env.CI
       ? ['--no-sandbox', '--disable-setuid-sandbox']
       : undefined
