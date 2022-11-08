@@ -1,6 +1,6 @@
 {
   "name": "vitepress",
-  "version": "1.0.0-alpha.27",
+  "version": "1.0.0-alpha.28",
   "description": "Vite & Vue powered static site generator",
   "type": "module",
   "packageManager": "pnpm@7.9.2",
@@ -85,7 +85,7 @@
     "@vueuse/core": "^9.4.0",
     "body-scroll-lock": "4.0.0-beta.0",
     "shiki": "^0.11.1",
-    "vite": "^3.2.2",
+    "vite": "^3.2.3",
     "vue": "^3.2.41"
   },
   "devDependencies": {
@@ -150,14 +150,14 @@
     "rimraf": "^3.0.2",
     "rollup": "^2.79.1",
     "rollup-plugin-dts": "^4.2.3",
-    "rollup-plugin-esbuild": "^4.10.1",
+    "rollup-plugin-esbuild": "^4.10.2",
     "semver": "^7.3.8",
     "shiki-processor": "^0.1.1",
     "simple-git-hooks": "^2.8.1",
     "sirv": "^2.0.2",
     "supports-color": "^9.2.3",
     "typescript": "~4.8.4",
-    "vitest": "^0.24.5",
+    "vitest": "^0.25.0",
     "vue-tsc": "^1.0.9",
     "wait-on": "^6.0.1"
   },
