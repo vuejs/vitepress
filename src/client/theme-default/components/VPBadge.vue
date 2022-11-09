@@ -24,6 +24,15 @@ defineProps<{
   transform: translateY(-2px);
 }
 
+h1 .VPBadge,
+h2 .VPBadge,
+h3 .VPBadge,
+h4 .VPBadge,
+h5 .VPBadge,
+h6 .VPBadge {
+  vertical-align: top;
+}
+
 h2 .VPBadge {
   border-radius: 11px;
   line-height: 20px;
