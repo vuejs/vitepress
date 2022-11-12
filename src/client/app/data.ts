@@ -13,7 +13,8 @@ import {
   PageData,
   SiteData,
   resolveSiteDataByRoute,
-  createTitle
+  createTitle,
+  type DefaultTheme
 } from '../shared.js'
 import { withBase } from './utils.js'
 
@@ -22,7 +23,7 @@ export const dataSymbol: InjectionKey<VitePressData> = Symbol()
 export interface VitePressData<T = any> {
   site: Ref<SiteData<T>>
   page: Ref<PageData>
-  theme: Ref<T>
+  theme: Ref<DefaultTheme.Config>
   frontmatter: Ref<PageData['frontmatter']>
   title: Ref<string>
   description: Ref<string>

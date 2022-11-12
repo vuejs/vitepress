@@ -14,7 +14,7 @@ Returns page-specific data. The returned object has the following type:
 interface VitePressData {
   site: Ref<SiteData>
   page: Ref<PageData>
-  theme: Ref<any> // themeConfig from .vitepress/config.js
+  theme: Ref<DefaultTheme.Config> // themeConfig from .vitepress/config.js
   frontmatter: Ref<PageData['frontmatter']>
   lang: Ref<string>
   title: Ref<string>
