@@ -351,7 +351,7 @@ export default { // Highlighted
 }
 ```
 
-Alternatively, it's possible to highlight directly in the line by using the `// [!code hl]` comment.
+Alternatively, it's possible to highlight directly in the line by using the `// [!code hl]` comment. Available since [1.0.0-alpha.23](https://github.com/vuejs/vitepress/blob/main/CHANGELOG.md#100-alpha23-2022-10-25).
 
 **Input**
 
@@ -360,7 +360,7 @@ Alternatively, it's possible to highlight directly in the line by using the `// 
 export default {
   data () {
     return {
-      msg: 'Highlighted!' // [!codeㅤ hl]
+      msg: 'Highlighted!' // [!codeㅤhl]
     }
   }
 }
@@ -383,7 +383,7 @@ export default {
 
 Adding the `// [!code focus]` comment on a line will focus it and blur the other parts of the code. 
 
-Additionally, you can define a number of lines to focus using `// [!code focus:<lines>]`.
+Additionally, you can define a number of lines to focus using `// [!code focus:<lines>]` like `// [!code focus:5]`, to focus the following five lines starting from the row where the code is placed.
 
 **Input**
 
@@ -392,7 +392,7 @@ Additionally, you can define a number of lines to focus using `// [!code focus:<
 export default {
   data () {
     return {
-      msg: 'Focused!' // [!codeㅤ focus]
+      msg: 'Focused!' // [!codeㅤfocus]
     }
   }
 }
@@ -422,8 +422,8 @@ Adding the `// [!code --]` or `// [!code ++]` comments on a line will create a d
 export default {
   data () {
     return {
-      msg: 'Removed' // [!codeㅤ --]
-      msg: 'Added' // [!codeㅤ ++]
+      msg: 'Removed' // [!code --]
+      msg: 'Added' // [!codeㅤ++]
     }
   }
 }
@@ -454,8 +454,8 @@ Adding the `// [!code warning]` or `// [!code error]` comments on a line will co
 export default {
   data () {
     return {
-      msg: 'Error', // [!codeㅤ error]
-      msg: 'Warning' // [!codeㅤ warning]
+      msg: 'Error', // [!codeㅤerror]
+      msg: 'Warning' // [!codeㅤwarning]
     }
   }
 }
