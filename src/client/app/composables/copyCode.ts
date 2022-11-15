@@ -1,4 +1,4 @@
-import { inBrowser } from '../utils.js'
+import { inBrowser, handleDiffNodes } from '../utils.js'
 
 export function useCopyCode() {
   if (inBrowser) {
@@ -17,12 +17,18 @@ export function useCopyCode() {
           parent.classList.toString()
         )
 
-        let { innerText: text = '' } = sibling
+        const siblingAfterHandle = handleDiffNodes(sibling)
+
+        let { innerText: text = '' } = siblingAfterHandle
 
         if (isShell) {
           text = text.replace(/^ *(\$|>) /gm, '').trim()
         }
 
+        // using Regex delete specific text 'delete\n'
+        text = text.replace(/delete\n/g, '')
+
+        console.log('text', text)
         copyToClipboard(text).then(() => {
           el.classList.add('copied')
           clearTimeout(timeoutIdMap.get(el))

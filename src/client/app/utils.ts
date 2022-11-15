@@ -53,3 +53,26 @@ export function pathToFile(path: string): string {
 
   return pagePath
 }
+
+/**
+ * transofrm 'diff remove' node's text to 'delete'
+ * @param sibling
+ * @returns
+ */
+export function handleDiffNodes(sibling: HTMLElement) {
+  const newSibling = sibling.cloneNode(true) as HTMLElement
+  const siblingClass = newSibling.getAttribute('class')
+
+  if (!siblingClass?.includes('has-diff')) return newSibling
+
+  const codeNode = newSibling.getElementsByTagName('code')[0]
+  const diffNodes = codeNode.querySelectorAll(
+    '.diff.remove'
+  ) as NodeListOf<HTMLElement>
+
+  diffNodes.forEach((node) => {
+    node.innerText = 'delete'
+  })
+
+  return newSibling
+}
