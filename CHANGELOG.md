@@ -1,3 +1,13 @@
+# [1.0.0-alpha.29](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.28...v1.0.0-alpha.29) (2022-11-15)
+
+
+### Bug Fixes
+
+* **build:** explicitly specify asset and entry file names ([#1607](https://github.com/vuejs/vitepress/issues/1607)) ([8601e15](https://github.com/vuejs/vitepress/commit/8601e1596b45e6684b71964d002133fb32d51b9f))
+* **theme:** typo in attribute name ([#1597](https://github.com/vuejs/vitepress/issues/1597)) ([cc91d55](https://github.com/vuejs/vitepress/commit/cc91d555b5bfcbde35f2ba33aedcd79a5cef713b))
+
+
+
 # [1.0.0-alpha.28](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.27...v1.0.0-alpha.28) (2022-11-08)
 
 
