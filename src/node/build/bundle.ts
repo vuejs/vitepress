@@ -71,17 +71,19 @@ export async function bundle(
         output: {
           sanitizeFileName,
           ...rollupOptions?.output,
+          assetFileNames: 'assets/[name].[hash].[ext]',
           ...(ssr
             ? {
-                entryFileNames: `[name].js`,
-                chunkFileNames: `[name].[hash].js`
+                entryFileNames: '[name].js',
+                chunkFileNames: '[name].[hash].js'
               }
             : {
+                entryFileNames: 'assets/[name].[hash].js',
                 chunkFileNames(chunk) {
                   // avoid ads chunk being intercepted by adblock
                   return /(?:Carbon|BuySell)Ads/.test(chunk.name)
-                    ? `assets/chunks/ui-custom.[hash].js`
-                    : `assets/chunks/[name].[hash].js`
+                    ? 'assets/chunks/ui-custom.[hash].js'
+                    : 'assets/chunks/[name].[hash].js'
                 },
                 manualChunks(id, ctx) {
                   // move known framework code into a stable chunk so that
