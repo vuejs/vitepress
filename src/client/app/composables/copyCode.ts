@@ -28,7 +28,6 @@ export function useCopyCode() {
         // using Regex delete specific text 'delete\n'
         text = text.replace(/delete\n/g, '')
 
-        console.log('text', text)
         copyToClipboard(text).then(() => {
           el.classList.add('copied')
           clearTimeout(timeoutIdMap.get(el))
