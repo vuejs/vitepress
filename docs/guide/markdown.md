@@ -279,7 +279,7 @@ export default {
 </ul>
 ```
 
-A [list of valid languages](https://github.com/shikijs/shiki/blob/main/docs/languages.md) is available on Shiki’s repository.
+A [list of valid languages](https://github.com/shikijs/shiki/blob/main/docs/languages.md) is available on Shiki's repository.
 
 You may also customize syntax highlight theme in app config. Please see [`markdown` options](../config/app-configs#markdown) for more details.
 
@@ -360,7 +360,7 @@ Alternatively, it's possible to highlight directly in the line by using the `// 
 export default {
   data () {
     return {
-      msg: 'Highlighted!' // [!codeㅤ hl]
+      msg: 'Highlighted!' // [!code  hl]
     }
   }
 }
@@ -392,7 +392,7 @@ Additionally, you can define a number of lines to focus using `// [!code focus:<
 export default {
   data () {
     return {
-      msg: 'Focused!' // [!codeㅤ focus]
+      msg: 'Focused!' // [!code  focus]
     }
   }
 }
@@ -422,8 +422,8 @@ Adding the `// [!code --]` or `// [!code ++]` comments on a line will create a d
 export default {
   data () {
     return {
-      msg: 'Removed' // [!codeㅤ --]
-      msg: 'Added' // [!codeㅤ ++]
+      msg: 'Removed' // [!code  --]
+      msg: 'Added' // [!code  ++]
     }
   }
 }
@@ -454,8 +454,8 @@ Adding the `// [!code warning]` or `// [!code error]` comments on a line will co
 export default {
   data () {
     return {
-      msg: 'Error', // [!codeㅤ error]
-      msg: 'Warning' // [!codeㅤ warning]
+      msg: 'Error', // [!code  error]
+      msg: 'Warning' // [!code  warning]
     }
   }
 }
