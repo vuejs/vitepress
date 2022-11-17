@@ -417,6 +417,8 @@ Adding the `// [!code --]` or `// [!code ++]` comments on a line will create a d
 
 **Input**
 
+Note that only one space is required, here is just for demonstration.
+
 ````
 ```js
 export default {
