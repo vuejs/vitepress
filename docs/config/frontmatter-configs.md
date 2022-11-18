@@ -1,6 +1,6 @@
 # Frontmatter Configs
 
-Frontmatter enables page based configuration. On every markdown, you’re free to add Any settings to override any global app or theme configs. Also, there are configs which you can only define in Frontmatter.
+Frontmatter enables page based configuration. On every markdown, you're free to add Any settings to override any global app or theme configs. Also, there are configs which you can only define in Frontmatter.
 
 ```yaml
 ---

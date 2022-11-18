@@ -129,7 +129,7 @@ Later in your markdown files, the component can be interleaved between the conte
 ```
 
 ::: warning IMPORTANT
-Make sure a custom component’s name either contains a hyphen or is in PascalCase. Otherwise, it will be treated as an inline element and wrapped inside a `<p>` tag, which will lead to hydration mismatch because `<p>` does not allow block elements to be placed inside it.
+Make sure a custom component's name either contains a hyphen or is in PascalCase. Otherwise, it will be treated as an inline element and wrapped inside a `<p>` tag, which will lead to hydration mismatch because `<p>` does not allow block elements to be placed inside it.
 :::
 
 ### Using Components In Headers <ComponentInHeader />

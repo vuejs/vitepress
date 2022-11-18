@@ -1,3 +1,28 @@
+# [1.0.0-alpha.29](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.28...v1.0.0-alpha.29) (2022-11-15)
+
+
+### Bug Fixes
+
+* **build:** explicitly specify asset and entry file names ([#1607](https://github.com/vuejs/vitepress/issues/1607)) ([8601e15](https://github.com/vuejs/vitepress/commit/8601e1596b45e6684b71964d002133fb32d51b9f))
+* **theme:** typo in attribute name ([#1597](https://github.com/vuejs/vitepress/issues/1597)) ([cc91d55](https://github.com/vuejs/vitepress/commit/cc91d555b5bfcbde35f2ba33aedcd79a5cef713b))
+
+
+
+# [1.0.0-alpha.28](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.27...v1.0.0-alpha.28) (2022-11-08)
+
+
+### Bug Fixes
+
+* **theme:** use faux italics only with web fonts ([#1581](https://github.com/vuejs/vitepress/issues/1581)) ([124158e](https://github.com/vuejs/vitepress/commit/124158e3a9793fc466b96b51cf7330b8aa3e055b))
+
+
+### Features
+
+* **theme:** sidebar nav slots ([#1582](https://github.com/vuejs/vitepress/issues/1582)) ([d410d4d](https://github.com/vuejs/vitepress/commit/d410d4dd9f1140b68d140642c1bceaf5419ff304))
+* **theme:** use v-html in VPDocFooter ([#1580](https://github.com/vuejs/vitepress/issues/1580)) ([9d10b1d](https://github.com/vuejs/vitepress/commit/9d10b1d5a1ec8d30689ddad5f2d63d22342cf707))
+
+
+
 # [1.0.0-alpha.27](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.26...v1.0.0-alpha.27) (2022-11-03)
 
 
