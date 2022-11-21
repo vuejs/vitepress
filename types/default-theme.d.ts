@@ -44,6 +44,12 @@ export namespace DefaultTheme {
     editLink?: EditLink
 
     /**
+     * Set custom menu/return to top labels.
+     */
+    docNav?: docNav
+
+    // dasjldkjasldlk
+    /**
      * Set custom last updated text.
      *
      * @default 'Last updated'
@@ -168,6 +174,24 @@ export namespace DefaultTheme {
      * @default 'Edit this page'
      */
     text?: string
+  }
+
+  // doc nav -----------------------------------------------------------------
+
+  export interface docNav {
+    /**
+     * Custom menu for doc nav.
+     *
+     * @default 'Menu'
+     */
+    menu?: string
+
+    /**
+     * Custom return to top for doc nav.
+     *
+     * @default 'Return to top'
+     */
+    returnToTop?: string
   }
 
   // prev-next -----------------------------------------------------------------

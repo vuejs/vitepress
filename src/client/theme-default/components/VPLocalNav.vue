@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { useSidebar } from '../composables/sidebar.js'
+import { useDocNav } from '../composables/doc-nav.js'
 import VPIconAlignLeft from './icons/VPIconAlignLeft.vue'
+
+const docNav = useDocNav()
 
 defineProps<{
   open: boolean
@@ -26,11 +29,11 @@ function scrollToTop() {
       @click="$emit('open-menu')"
     >
       <VPIconAlignLeft class="menu-icon" />
-      <span class="menu-text">Menu</span>
+      <span class="menu-text">{{docNav.menu}}</span>
     </button>
 
     <a class="top-link" href="#" @click="scrollToTop">
-      Return to top
+      {{docNav.returnToTop}}
     </a>
   </div>
 </template>
