@@ -340,6 +340,27 @@ export default {
 }
 ```
 
+### rendered
+
+- Type: `(context: SSGContext) => Awaitable<SSGContext | void>`
+
+`rendered` is a build hook, called when SSG rendering is done. It will allow you to handling the teleports content during SSG.
+
+```ts
+export default {
+  async rendered(context) {
+  }
+}
+```
+
+```ts
+interface SSGContext {
+  content: string
+  teleports?: Record<string, string>
+  [key: string]: any
+}
+```
+
 ### buildEnd
 
 - Type: `(siteConfig: SiteConfig) => Awaitable<void>`
