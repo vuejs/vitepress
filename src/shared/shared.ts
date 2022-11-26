@@ -15,7 +15,7 @@ export type {
   PageDataPayload,
   CleanUrlsMode,
   Awaitable,
-  SSGContext,
+  SSGContext
 } from '../../types/shared.js'
 
 export const EXTERNAL_URL_RE = /^[a-z]+:/i

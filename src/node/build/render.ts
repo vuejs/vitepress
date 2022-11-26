@@ -33,7 +33,7 @@ export async function renderPage(
   // render page
   const context = await render(routePath)
   const { content, teleports } = config.rendered
-    ? await config.rendered(context) || context
+    ? (await config.rendered(context)) || context
     : context
 
   const pageName = sanitizeFileName(page.replace(/\//g, '_'))
@@ -159,7 +159,7 @@ export async function renderPage(
     ${prefetchLinkString}
     ${await renderHead(head)}
   </head>
-  <body>${ teleports?.body || '' }
+  <body>${teleports?.body || ''}
     <div id="app">${content}</div>
     ${
       config.mpa
