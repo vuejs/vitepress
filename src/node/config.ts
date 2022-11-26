@@ -23,6 +23,7 @@ import {
 import { DEFAULT_THEME_PATH } from './alias'
 import { MarkdownOptions } from './markdown/markdown'
 import _debug from 'debug'
+import type { SSGContext } from '../../types/shared'
 
 export { resolveSiteDataByRoute } from './shared'
 
@@ -98,6 +99,12 @@ export interface UserConfig<ThemeConfig = any> {
   useWebFonts?: boolean
 
   /**
+   * Render end hook: called when SSR rendering is done.
+   * @param context SSG context
+   */
+  rendered?: (context: SSGContext) => Awaitable<SSGContext | void>
+
+  /**
    * Build end hook: called when SSG finish.
    * @param siteConfig The resolved configuration.
    */
@@ -153,6 +160,7 @@ export interface SiteConfig<ThemeConfig = any>
     | 'ignoreDeadLinks'
     | 'cleanUrls'
     | 'useWebFonts'
+    | 'rendered'
     | 'buildEnd'
     | 'transformHead'
     | 'transformHtml'
@@ -244,6 +252,7 @@ export async function resolveConfig(
     useWebFonts:
       userConfig.useWebFonts ??
       typeof process.versions.webcontainer === 'string',
+    rendered: userConfig.rendered,
     buildEnd: userConfig.buildEnd,
     transformHead: userConfig.transformHead,
     transformHtml: userConfig.transformHtml,
