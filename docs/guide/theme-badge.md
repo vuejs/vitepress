@@ -15,10 +15,10 @@ You may use the `Badge` component which is globally available.
 
 Code above renders like:
 
-### Title <Badge type="info" text="default" vertical="middle" />
-### Title <Badge type="tip" text="^1.9.0" vertical="middle" />
-### Title <Badge type="warning" text="beta" vertical="middle" />
-### Title <Badge type="danger" text="caution" vertical="middle" />
+### Title <Badge type="info" text="default" />
+### Title <Badge type="tip" text="^1.9.0" />
+### Title <Badge type="warning" text="beta" />
+### Title <Badge type="danger" text="caution" />
 
 ## Custom Children
 
