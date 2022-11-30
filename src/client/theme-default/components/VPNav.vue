@@ -42,8 +42,6 @@ provide('close-screen', closeScreen)
   }
 
   .VPNav.no-sidebar {
-    margin-right: -32px;
-    padding-right: 32px;
     background: var(--vp-c-bg-alpha-without-backdrop);
   }
 
