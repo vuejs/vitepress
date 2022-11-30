@@ -48,13 +48,14 @@ provide('close-screen', closeScreen)
   }
 
   @supports (
-    (backdrop-filter: saturate(50%) blur(8px)) or 
-    (-webkit-backdrop-filter: saturate(50%) blur(8px))) {
-      .VPNav.no-sidebar {
-        -webkit-backdrop-filter: saturate(50%) blur(8px);
-        backdrop-filter: saturate(50%) blur(8px);
-        background: var(--vp-c-bg-alpha-with-backdrop);
-      }
+    (backdrop-filter: saturate(50%) blur(8px)) or
+      (-webkit-backdrop-filter: saturate(50%) blur(8px))
+  ) {
+    .VPNav.no-sidebar {
+      -webkit-backdrop-filter: saturate(50%) blur(8px);
+      backdrop-filter: saturate(50%) blur(8px);
+      background: var(--vp-c-bg-alpha-with-backdrop);
+    }
   }
 }
 </style>

@@ -76,13 +76,14 @@ const { hasSidebar } = useSidebar()
   }
 
   @supports (
-    (backdrop-filter: saturate(50%) blur(8px)) or 
-    (-webkit-backdrop-filter: saturate(50%) blur(8px))) {
-      .VPNavBar.has-sidebar .content {
-        -webkit-backdrop-filter: saturate(50%) blur(8px);
-        backdrop-filter: saturate(50%) blur(8px);
-        background: var(--vp-c-bg-alpha-with-backdrop);
-      }
+    (backdrop-filter: saturate(50%) blur(8px)) or
+      (-webkit-backdrop-filter: saturate(50%) blur(8px))
+  ) {
+    .VPNavBar.has-sidebar .content {
+      -webkit-backdrop-filter: saturate(50%) blur(8px);
+      backdrop-filter: saturate(50%) blur(8px);
+      background: var(--vp-c-bg-alpha-with-backdrop);
+    }
   }
 }
 
