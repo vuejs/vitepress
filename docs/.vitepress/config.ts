@@ -9,6 +9,8 @@ export default defineConfig({
   lastUpdated: true,
   cleanUrls: 'without-subfolders',
 
+  head: [['meta', { name: 'theme-color', content: '#3c8772' }]],
+
   markdown: {
     headers: {
       level: [0, 0]
@@ -106,6 +108,7 @@ function sidebarGuide() {
         { text: 'Layout', link: '/guide/theme-layout' },
         { text: 'Home Page', link: '/guide/theme-home-page' },
         { text: 'Team Page', link: '/guide/theme-team-page' },
+        { text: 'Badge', link: '/guide/theme-badge' },
         { text: 'Footer', link: '/guide/theme-footer' },
         { text: 'Search', link: '/guide/theme-search' },
         { text: 'Carbon Ads', link: '/guide/theme-carbon-ads' }

@@ -29,7 +29,7 @@ provide('close-screen', closeScreen)
 <style scoped>
 .VPNav {
   position: relative;
-  top: 0;
+  top: var(--vp-layout-top-height, 0px);
   left: 0;
   z-index: var(--vp-z-index-nav);
   width: 100%;

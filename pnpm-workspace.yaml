@@ -1,4 +1,3 @@
 packages:
-  - examples/*
-  - examples
   - docs
+  - __tests__/*

@@ -1,0 +1,14 @@
+// Vitest Snapshot v1
+
+exports[`static data file support in vite 3 > render correct content 1`] = `
+[
+  "[
+  {
+    \\"foo\\": true
+  },
+  {
+    \\"bar\\": true
+  }
+]",
+]
+`;
