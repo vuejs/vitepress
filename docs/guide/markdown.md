@@ -387,6 +387,8 @@ Additionally, you can define a number of lines to focus using `// [!code focus:<
 
 **Input**
 
+Note that only one space is required after `!code`, here are two to prevent processing.
+
 ````
 ```js
 export default {
@@ -416,6 +418,8 @@ export default {
 Adding the `// [!code --]` or `// [!code ++]` comments on a line will create a diff of that line, while keeping the colors of the codeblock. 
 
 **Input**
+
+Note that only one space is required after `!code`, here are two to prevent processing.
 
 ````
 ```js
@@ -448,6 +452,8 @@ export default {
 Adding the `// [!code warning]` or `// [!code error]` comments on a line will color it accordingly.
 
 **Input**
+
+Note that only one space is required after `!code`, here are two to prevent processing.
 
 ````
 ```js
