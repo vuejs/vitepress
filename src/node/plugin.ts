@@ -1,6 +1,12 @@
 import path from 'path'
 import c from 'picocolors'
-import { defineConfig, mergeConfig, Plugin, ResolvedConfig } from 'vite'
+import {
+  defineConfig,
+  mergeConfig,
+  searchForWorkspaceRoot,
+  Plugin,
+  ResolvedConfig
+} from 'vite'
 import { SiteConfig } from './config'
 import { createMarkdownToVueRenderFn, clearCache } from './markdownToVue'
 import {
@@ -117,7 +123,11 @@ export async function createVitePressPlugin(
         },
         server: {
           fs: {
-            allow: [DIST_CLIENT_PATH, srcDir, process.cwd()]
+            allow: [
+              DIST_CLIENT_PATH,
+              srcDir,
+              searchForWorkspaceRoot(process.cwd())
+            ]
           }
         }
       })
