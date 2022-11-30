@@ -70,8 +70,8 @@ const { hasSidebar } = useSidebar()
   }
 
   .VPNavBar.has-sidebar .content {
-    margin-right: -32px;
-    padding-right: 32px;
+    margin-right: -100vw;
+    padding-right: 100vw;
     background: var(--vp-c-bg-alpha-without-backdrop);
   }
 
