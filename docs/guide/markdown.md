@@ -481,7 +481,6 @@ export default {
 }
 ```
 
-
 ## Line Numbers
 
 You can enable line numbers for each code blocks via config:

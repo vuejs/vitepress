@@ -62,12 +62,12 @@
     "format": "prettier --check --write .",
     "format-fail": "prettier --check .",
     "check": "run-s format-fail build test",
-    "test": "run-p --aggregate-output test-unit test-serve test-build",
+    "test": "run-p --aggregate-output test-unit test-preview test-build",
     "test-unit": "vitest run -r __tests__/unit",
-    "test-serve": "vitest run -r __tests__/e2e",
-    "test-build": "VITE_TEST_BUILD=1 pnpm test-serve",
-    "debug-serve": "DEBUG=1 vitest -r __tests__/e2e",
-    "debug-build": "VITE_TEST_BUILD=1 pnpm debug-serve",
+    "test-preview": "vitest run -r __tests__/e2e",
+    "test-build": "VITE_TEST_BUILD=1 pnpm test-preview",
+    "debug-preview": "DEBUG=1 vitest -r __tests__/e2e",
+    "debug-build": "VITE_TEST_BUILD=1 pnpm debug-preview",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "release": "node scripts/release.js",
     "docs": "run-p dev docs-dev",
@@ -75,7 +75,7 @@
     "docs-debug": "node --inspect-brk ./bin/vitepress dev docs",
     "docs-build": "run-s build docs-build-only",
     "docs-build-only": "node ./bin/vitepress build docs",
-    "docs-serve": "node ./bin/vitepress serve docs"
+    "docs-preview": "node ./bin/vitepress preview docs"
   },
   "dependencies": {
     "@docsearch/css": "^3.3.0",
