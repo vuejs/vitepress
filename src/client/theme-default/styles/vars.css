@@ -88,6 +88,11 @@
   --vp-c-bg-mute: var(--vp-c-white-mute);
   --vp-c-bg-alt: var(--vp-c-white-soft);
 
+  --vp-c-bg-alpha-with-backdrop: rgba(255, 255, 255, 0.7);
+  --vp-c-bg-alpha-without-backdrop: rgba(255, 255, 255, 0.95);
+
+  --vp-c-bg-backdrop: rgba(0, 0, 0, 0.6);
+
   --vp-c-divider: var(--vp-c-divider-light-1);
   --vp-c-divider-light: var(--vp-c-divider-light-2);
 
@@ -120,6 +125,9 @@
   --vp-c-bg-soft: var(--vp-c-black-mute);
   --vp-c-bg-mute: var(--vp-c-gray-dark-3);
   --vp-c-bg-alt: var(--vp-c-black);
+
+  --vp-c-bg-alpha-with-backdrop: rgba(36, 36, 36, 0.7);
+  --vp-c-bg-alpha-without-backdrop: rgba(36, 36, 36, 0.95);
 
   --vp-c-divider: var(--vp-c-divider-dark-1);
   --vp-c-divider-light: var(--vp-c-divider-dark-2);
