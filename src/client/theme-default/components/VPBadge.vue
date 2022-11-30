@@ -19,7 +19,7 @@ defineProps<{
   border-radius: 10px;
   padding: 0 8px;
   line-height: 18px;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   transform: translateY(-2px);
 }
