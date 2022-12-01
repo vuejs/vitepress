@@ -52,6 +52,11 @@ interface Hero {
   actions?: HeroAction[]
 }
 
+interface image { 
+   src?: string 
+   alt?: string 
+} 
+
 interface HeroAction {
   // Color theme of the button. Defaults to `brand`.
   theme?: 'brand' | 'alt'
