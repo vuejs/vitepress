@@ -1,3 +1,21 @@
+# [1.0.0-alpha.30](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.29...v1.0.0-alpha.30) (2022-12-05)
+
+
+### Bug Fixes
+
+* **build:** allow importing files having numbers in extension ([#1618](https://github.com/vuejs/vitepress/issues/1618)) ([0565c38](https://github.com/vuejs/vitepress/commit/0565c38fc172cefb9a068882e215ac09dca6636d))
+* **build:** allow serving files in dev from workspace root ([#1647](https://github.com/vuejs/vitepress/issues/1647)) ([dc59662](https://github.com/vuejs/vitepress/commit/dc596621cf5ad11585597423b0a98266949c932a))
+* **theme:** default to vertical align top on badges inside headings ([#1584](https://github.com/vuejs/vitepress/issues/1584)) ([8a488de](https://github.com/vuejs/vitepress/commit/8a488deac111fbc43b8739c8959b8ae60cbedc80))
+* **theme:** ignore removed diff lines while copying code ([f4d5417](https://github.com/vuejs/vitepress/commit/f4d54179306c0ecbc08e4275081e3e169d304e09))
+* **theme:** move background colors to theme-default style ([#1347](https://github.com/vuejs/vitepress/issues/1347)) ([4f0194f](https://github.com/vuejs/vitepress/commit/4f0194f1dceec8c7aff70c490b5e757aca560e8a))
+
+
+### Features
+
+* **build:** add preview as an alias for serve in cli ([#1651](https://github.com/vuejs/vitepress/issues/1651)) ([4ba33da](https://github.com/vuejs/vitepress/commit/4ba33dac60b8b091627eb3e9c2347da0aa5efb82))
+
+
+
 # [1.0.0-alpha.29](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.28...v1.0.0-alpha.29) (2022-11-15)
 
 
