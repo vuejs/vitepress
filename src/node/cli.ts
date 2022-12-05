@@ -32,7 +32,7 @@ if (!command || command === 'dev') {
     console.error(c.red(`build error:\n`), err)
     process.exit(1)
   })
-} else if (command === 'serve') {
+} else if (command === 'serve' || command === 'preview') {
   serve(argv).catch((err) => {
     console.error(c.red(`failed to start server. error:\n`), err)
     process.exit(1)

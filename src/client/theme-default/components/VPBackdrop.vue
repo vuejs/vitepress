@@ -20,7 +20,7 @@ defineProps<{
   /*rtl:ignore*/
   left: 0;
   z-index: var(--vp-z-index-backdrop);
-  background: rgba(0, 0, 0, .6);
+  background: var(--vp-c-bg-backdrop);
   transition: opacity 0.5s;
 }
 
