@@ -13,8 +13,7 @@ import {
   PageData,
   SiteData,
   resolveSiteDataByRoute,
-  createTitle,
-  DefaultTheme
+  createTitle
 } from '../shared.js'
 
 export const dataSymbol: InjectionKey<VitePressData> = Symbol()
@@ -70,7 +69,7 @@ export function initData(route: Route): VitePressData {
   }
 }
 
-export function useData<T = DefaultTheme.Config>(): VitePressData<T> {
+export function useData<T = any>(): VitePressData<T> {
   const data = inject(dataSymbol)
   if (!data) {
     throw new Error('vitepress data not properly injected in app')
