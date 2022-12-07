@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref, onMounted, watch } from 'vue'
-import { useData } from 'vitepress'
+import { useData } from '../composables/data.js'
 import { APPEARANCE_KEY } from '../../shared.js'
 import VPSwitch from './VPSwitch.vue'
 import VPIconSun from './icons/VPIconSun.vue'

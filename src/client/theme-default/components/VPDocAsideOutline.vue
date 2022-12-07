@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useData } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
 import { computed, inject, ref, type Ref } from 'vue'
+import { useData } from '../composables/data.js'
 import {
   getHeaders,
   useActiveAnchor,

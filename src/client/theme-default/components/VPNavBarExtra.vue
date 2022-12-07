@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { useData } from 'vitepress'
 import { computed } from 'vue'
 import VPFlyout from './VPFlyout.vue'
 import VPMenuLink from './VPMenuLink.vue'
 import VPSwitchAppearance from './VPSwitchAppearance.vue'
 import VPSocialLinks from './VPSocialLinks.vue'
+import { useData } from '../composables/data.js'
 import { useLangs } from '../composables/langs.js'
 
 const { site, theme } = useData()

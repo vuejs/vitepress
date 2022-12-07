@@ -1,5 +1,5 @@
 import { computed } from 'vue'
-import { useData } from 'vitepress'
+import { useData } from './data.js'
 
 export function useLangs(removeCurrent = true) {
   const { site, localeIndex } = useData()

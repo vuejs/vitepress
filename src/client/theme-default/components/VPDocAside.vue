@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defineAsyncComponent } from 'vue'
-import { useData } from 'vitepress'
+import { useData } from '../composables/data.js'
 import VPDocAsideOutline from './VPDocAsideOutline.vue'
 
 const { theme } = useData()

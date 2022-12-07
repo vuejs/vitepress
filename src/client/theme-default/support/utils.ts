@@ -1,4 +1,5 @@
-import { withBase, useData } from 'vitepress'
+import { withBase } from 'vitepress'
+import { useData } from '../composables/data.js'
 import { isExternal } from '../../shared.js'
 
 export { isExternal, isActive } from '../../shared.js'

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useData } from 'vitepress'
+import { useData } from '../composables/data.js'
 import { useSidebar } from '../composables/sidebar.js'
 
 const { theme } = useData()

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { useData, withBase } from 'vitepress'
+import { withBase } from 'vitepress'
+import { useData } from './composables/data.js'
 import { useLangs } from './composables/langs.js'
 
 const { site } = useData()

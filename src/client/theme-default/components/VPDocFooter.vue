@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useData } from 'vitepress'
+import { useData } from '../composables/data.js'
 import { normalizeLink } from '../support/utils.js'
 import { useEditLink } from '../composables/edit-link.js'
 import { usePrevNext } from '../composables/prev-next.js'
