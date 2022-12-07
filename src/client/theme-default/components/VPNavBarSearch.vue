@@ -1,13 +1,19 @@
 <script lang="ts" setup>
 import '@docsearch/css'
-import { defineAsyncComponent, ref, onMounted, onUnmounted } from 'vue'
+import {
+  computed,
+  defineAsyncComponent,
+  onMounted,
+  onUnmounted,
+  ref
+} from 'vue'
 import { useData } from 'vitepress'
 
 const VPAlgoliaSearchBox = __ALGOLIA__
   ? defineAsyncComponent(() => import('./VPAlgoliaSearchBox.vue'))
   : () => null
 
-const { theme } = useData()
+const { theme, localeIndex } = useData()
 
 // to avoid loading the docsearch js upfront (which is more than 1/3 of the
 // payload), we delay initializing it until the user has actually clicked or
@@ -15,6 +21,13 @@ const { theme } = useData()
 const loaded = ref(false)
 
 const metaKey = ref(`'Meta'`)
+const buttonText = computed(
+  () =>
+    theme.value.algolia?.locales?.[localeIndex.value]?.translations?.button
+      ?.buttonText ||
+    theme.value.algolia?.translations?.button?.buttonText ||
+    'Search'
+)
 
 onMounted(() => {
   if (!theme.value.algolia) {
@@ -46,7 +59,24 @@ onMounted(() => {
 function load() {
   if (!loaded.value) {
     loaded.value = true
+    setTimeout(poll, 16)
   }
+}
+
+function poll() {
+  // programmatically open the search box after initialize
+  const e = new Event('keydown') as any
+
+  e.key = 'k'
+  e.metaKey = true
+
+  window.dispatchEvent(e)
+
+  setTimeout(() => {
+    if (!document.querySelector('.DocSearch-Modal')) {
+      poll()
+    }
+  }, 16)
 }
 </script>
 
@@ -76,7 +106,7 @@ function load() {
               stroke-linejoin="round"
             />
           </svg>
-          <span class="DocSearch-Button-Placeholder">{{ theme.algolia?.buttonText || 'Search' }}</span>
+          <span class="DocSearch-Button-Placeholder">{{ buttonText }}</span>
         </span>
         <span class="DocSearch-Button-Keys">
           <kbd class="DocSearch-Button-Key"></kbd>
