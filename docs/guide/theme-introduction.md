@@ -144,6 +144,37 @@ export default DefaultTheme
 
 See [default theme CSS variables](https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css) that can be overridden.
 
+### Customizing Fonts
+
+You can override default font by adding any other (Open Sans, for example) from Google Fonts library.
+
+```js
+/* .vitepress/config.js */
+export default {
+    // These are app level configs.
+    lang: 'en-US',
+    title: 'Vitepress',
+    
+    head: [
+      ['link',
+        { rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap'
+        }
+      ],
+    ],
+```
+
+
+```css
+/* .vitepress/theme/custom.css */
+:root {
+    --vp-font-family-base: 'Open Sans';
+```
+
+:::tip
+For both Regular and Italic only 400, 500, 600, 700 styles are used.
+:::
+
 ### Layout Slots
 
 The default theme's `<Layout/>` component has a few slots that can be used to inject content at certain locations of the page. Here's an example of injecting a component into the before outline:
