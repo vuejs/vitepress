@@ -19,7 +19,7 @@ $ mkdir vitepress-starter && cd vitepress-starter
 Then, initialize with your preferred package manager.
 
 ```sh
-$ yarn init
+$ pnpm init
 ```
 
 ## Step. 2: Install VitePress
@@ -27,7 +27,7 @@ $ yarn init
 Add VitePress and Vue as dev dependencies for the project.
 
 ```sh
-$ yarn add --dev vitepress vue
+$ pnpm i -D vitepress vue
 ```
 
 ::: details Getting missing peer deps warnings?
@@ -72,7 +72,7 @@ Add some scripts to `package.json`.
 Serve the documentation site in the local server.
 
 ```sh
-$ yarn docs:dev
+$ pnpm docs:dev
 ```
 
 VitePress will start a hot-reloading development server at `http://localhost:5173`.

@@ -28,13 +28,13 @@ If your site is to be served at a subdirectory (`https://example.com/subdir/`), 
 - You may run this command to build the docs:
 
   ```sh
-  $ yarn docs:build
+  $ pnpm docs:build
   ```
 
 - Once you've built the docs, you can test them locally by running:
 
   ```sh
-  $ yarn docs:preview
+  $ pnpm docs:preview
   ```
 
   The `preview` command will boot up a local static web server that will serve the files from `.vitepress/dist` at `http://localhost:4173`. It's an easy way to check if the production build looks fine in your local environment.
@@ -55,7 +55,7 @@ If your site is to be served at a subdirectory (`https://example.com/subdir/`), 
 
 Set up a new project and change these settings using your dashboard:
 
-- **Build Command:** `yarn docs:build`
+- **Build Command:** `pnpm docs:build`
 - **Output Directory:** `docs/.vitepress/dist`
 - **Node Version:** `14` (or above, by default it usually will be 14 or 16, but on Cloudflare Pages the default is still 12, so you may need to [change that](https://developers.cloudflare.com/pages/platform/build-configuration/))
 
@@ -86,14 +86,17 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
          - uses: actions/checkout@v3
            with:
              fetch-depth: 0
+         - uses: pnpm/action-setup@v2
+           with:
+             version: 6.32.9
          - uses: actions/setup-node@v3
            with:
              node-version: 16
-             cache: yarn
-         - run: yarn install --frozen-lockfile
+             cache: pnpm
+         - run: pnpm install --frozen-lockfile
 
          - name: Build
-           run: yarn docs:build
+           run: pnpm docs:build
 
          - name: Deploy
            uses: peaceiris/actions-gh-pages@v3
@@ -128,8 +131,8 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
        paths:
          - node_modules/
      script:
-       - yarn install
-       - yarn docs:build
+       - pnpm install
+       - pnpm docs:build
      artifacts:
        paths:
          - public
@@ -145,7 +148,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
    - **`app_location`**: `/`
    - **`output_location`**: `docs/.vitepress/dist`
-   - **`app_build_command`**: `yarn docs:build`
+   - **`app_build_command`**: `pnpm docs:build`
 
 ## Firebase
 
@@ -172,7 +175,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
    }
    ```
 
-2. After running `yarn docs:build`, run this command to deploy:
+2. After running `pnpm docs:build`, run this command to deploy:
 
    ```sh
    firebase deploy
@@ -180,7 +183,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
 ## Surge
 
-1. After running `yarn docs:build`, run this command to deploy:
+1. After running `pnpm docs:build`, run this command to deploy:
 
    ```sh
    npx surge docs/.vitepress/dist
