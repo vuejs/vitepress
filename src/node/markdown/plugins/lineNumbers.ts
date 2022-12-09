@@ -17,7 +17,7 @@ export const lineNumberPlugin = (md: MarkdownIt) => {
       .map((line, index) => `<span class="line-number">${index + 1}</span><br>`)
       .join('')
 
-    const lineNumbersWrapperCode = `<div class="line-numbers-wrapper">${lineNumbersCode}</div>`
+    const lineNumbersWrapperCode = `<div class="line-numbers-wrapper" aria-hidden="true">${lineNumbersCode}</div>`
 
     const finalCode = rawCode
       .replace(/<\/div>$/, `${lineNumbersWrapperCode}</div>`)
