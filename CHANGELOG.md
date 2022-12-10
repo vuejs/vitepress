@@ -1,3 +1,17 @@
+# [1.0.0-alpha.31](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.30...v1.0.0-alpha.31) (2022-12-10)
+
+
+### Features
+
+* **build:** switch to rollup 3 and vite 4 ([#1591](https://github.com/vuejs/vitepress/issues/1591)) ([ae33896](https://github.com/vuejs/vitepress/commit/ae33896a322b6b4cc944d44398ddba6e60b5d1c7))
+
+
+### Performance Improvements
+
+* **a11y:** add aria-hidden to line numbers wrapper ([#1675](https://github.com/vuejs/vitepress/issues/1675)) ([4c5a892](https://github.com/vuejs/vitepress/commit/4c5a892d7787440faebf061daaaff908680dcd99))
+
+
+
 # [1.0.0-alpha.30](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.29...v1.0.0-alpha.30) (2022-12-05)
 
 
