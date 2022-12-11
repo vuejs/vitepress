@@ -198,6 +198,19 @@ export default {
 }
 ```
 
+## cacheDir
+
+- Type: `string`
+- Default: `./.vitepress/cache`
+
+The directory for cache files, relative to project root (`docs` folder if you're running `vitepress build docs`). See also: [cacheDir](https://vitejs.dev/config/shared-options.html#cachedir).
+
+```ts
+export default {
+  outDir: './.vitepress/.vite'
+}
+```
+
 ## srcDir
 
 - Type: `string`
