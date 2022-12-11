@@ -1,4 +1,4 @@
-import { setDefaultResultOrder } from 'node:dns'
+import dns from 'dns'
 import { createServer as createViteServer, ServerOptions } from 'vite'
 import { resolveConfig } from './config'
 import { createVitePressPlugin } from './plugin'
@@ -15,7 +15,7 @@ export async function createServer(
     delete serverOptions.base
   }
 
-  setDefaultResultOrder('verbatim')
+  dns.setDefaultResultOrder('verbatim')
 
   return createViteServer({
     root: config.srcDir,

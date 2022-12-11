@@ -1,4 +1,12 @@
-import { InjectionKey, Ref, shallowRef, readonly, computed, inject } from 'vue'
+import {
+  InjectionKey,
+  Ref,
+  computed,
+  inject,
+  readonly,
+  ref,
+  shallowRef
+} from 'vue'
 import { Route } from './router.js'
 import siteData from '@siteData'
 import {
@@ -20,6 +28,7 @@ export interface VitePressData<T = any> {
   description: Ref<string>
   lang: Ref<string>
   localePath: Ref<string>
+  isDark: Ref<boolean>
 }
 
 // site data is a singleton
@@ -60,7 +69,8 @@ export function initData(route: Route): VitePressData {
     }),
     description: computed(() => {
       return route.data.description || site.value.description
-    })
+    }),
+    isDark: ref(false)
   }
 }
 

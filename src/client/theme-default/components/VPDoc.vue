@@ -120,8 +120,8 @@ provide('onContentUpdated', onContentUpdated)
 .aside-container {
   position: sticky;
   top: 0;
-  margin-top: calc(var(--vp-nav-height-desktop) * -1 - 32px);
-  padding-top: calc(var(--vp-nav-height-desktop) + 32px);
+  margin-top: calc((var(--vp-nav-height-desktop) + var(--vp-layout-top-height, 0px)) * -1 - 32px);
+  padding-top: calc(var(--vp-nav-height-desktop) + var(--vp-layout-top-height, 0px) + 32px);
   height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
@@ -144,7 +144,7 @@ provide('onContentUpdated', onContentUpdated)
 .aside-content {
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - (var(--vp-nav-height-desktop) + 32px));
+  min-height: calc(100vh - (var(--vp-nav-height-desktop) + var(--vp-layout-top-height, 0px) + 32px));
   padding-bottom: 32px;
 }
 

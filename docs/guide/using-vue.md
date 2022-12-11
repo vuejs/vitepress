@@ -62,7 +62,7 @@ const { page } = useData()
 
 ## Escaping
 
-By default, fenced code blocks are automatically wrapped with `v-pre`, unless you have set some language with `-vue` suffix like `js-vue` (in that case you can use Vue-style interpolation inside fences). To display raw mustaches or Vue-specific syntax inside inline code snippets or plain text, you need to wrap a paragraph with the `v-pre` custom container:
+By default, fenced code blocks are automatically wrapped with `v-pre`. To display raw mustaches or Vue-specific syntax inside inline code snippets or plain text, you need to wrap a paragraph with the `v-pre` custom container:
 
 **Input**
 
@@ -113,8 +113,9 @@ import DefaultTheme from 'vitepress/theme'
 
 export default {
   ...DefaultTheme,
-  enhanceApp({ app }) {
-    app.component('VueClickAwayExample', VueClickAwayExample)
+  enhanceApp(ctx) {
+    DefaultTheme.enhanceApp(ctx)
+    ctx.app.component('VueClickAwayExample', VueClickAwayExample)
   }
 }
 ```
@@ -128,7 +129,7 @@ Later in your markdown files, the component can be interleaved between the conte
 ```
 
 ::: warning IMPORTANT
-Make sure a custom component’s name either contains a hyphen or is in PascalCase. Otherwise, it will be treated as an inline element and wrapped inside a `<p>` tag, which will lead to hydration mismatch because `<p>` does not allow block elements to be placed inside it.
+Make sure a custom component's name either contains a hyphen or is in PascalCase. Otherwise, it will be treated as an inline element and wrapped inside a `<p>` tag, which will lead to hydration mismatch because `<p>` does not allow block elements to be placed inside it.
 :::
 
 ### Using Components In Headers <ComponentInHeader />

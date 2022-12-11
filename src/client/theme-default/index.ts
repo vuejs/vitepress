@@ -8,6 +8,7 @@ import './styles/components/vp-doc.css'
 import './styles/components/vp-sponsor.css'
 
 import { Theme } from 'vitepress'
+import VPBadge from './components/VPBadge.vue'
 import Layout from './Layout.vue'
 import NotFound from './NotFound.vue'
 
@@ -22,7 +23,10 @@ export { default as VPTeamMembers } from './components/VPTeamMembers.vue'
 
 const theme: Theme = {
   Layout,
-  NotFound
+  NotFound,
+  enhanceApp: ({ app }) => {
+    app.component('Badge', VPBadge)
+  }
 }
 
 export default theme

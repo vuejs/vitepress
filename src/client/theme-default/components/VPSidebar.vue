@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { ref, watchPostEffect, nextTick } from 'vue'
+import { ref, watchPostEffect } from 'vue'
+import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 import { useSidebar } from '../composables/sidebar.js'
 import VPSidebarGroup from './VPSidebarGroup.vue'
 
@@ -10,12 +11,22 @@ const props = defineProps<{
 }>()
 
 // a11y: focus Nav element when menu has opened
-let navEl = ref<(Element & { focus(): void }) | null>(null)
+let navEl = ref<HTMLElement | null>(null)
+
+function lockBodyScroll() {
+  disableBodyScroll(navEl.value!, { reserveScrollBarGap: true })
+}
+
+function unlockBodyScroll() {
+  clearAllBodyScrollLocks()
+}
 
 watchPostEffect(async () => {
   if (props.open) {
-    await nextTick()
+    lockBodyScroll()
     navEl.value?.focus()
+  } else {
+    unlockBodyScroll()
   }
 })
 </script>
@@ -33,6 +44,8 @@ watchPostEffect(async () => {
         Sidebar Navigation
       </span>
 
+      <slot name="sidebar-nav-before" />
+
       <div v-for="group in sidebar" :key="group.text" class="group">
         <VPSidebarGroup
           :text="group.text"
@@ -41,6 +54,8 @@ watchPostEffect(async () => {
           :collapsed="group.collapsed"
         />
       </div>
+
+      <slot name="sidebar-nav-after" />
     </nav>
   </aside>
 </template>
@@ -48,7 +63,7 @@ watchPostEffect(async () => {
 <style scoped>
 .VPSidebar {
   position: fixed;
-  top: 0;
+  top: var(--vp-layout-top-height, 0px);
   bottom: 0;
   left: 0;
   z-index: var(--vp-z-index-sidebar);
