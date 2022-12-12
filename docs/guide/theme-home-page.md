@@ -47,13 +47,19 @@ interface Hero {
 
   // Tagline displayed below `text`.
   tagline?: string
-
+  
+  //Configure to display your logo
+  image: Image
+  
   // Action buttons to display in home hero section.
   actions?: HeroAction[]
 }
 
-interface image { 
+interface Image { 
+  // add  src image path.
    src?: string 
+   
+   //  add alt attribute value
    alt?: string 
 } 
 
