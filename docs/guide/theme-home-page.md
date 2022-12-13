@@ -48,6 +48,13 @@ interface Hero {
   // Tagline displayed below `text`.
   tagline?: string
 
+  // The image is displayed next to the text and tagline area
+  image?:
+    // path to your image
+    src: string
+    // alt attribut of the image
+    alt?: string
+
   // Action buttons to display in home hero section.
   actions?: HeroAction[]
 }
