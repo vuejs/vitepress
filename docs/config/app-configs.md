@@ -207,7 +207,7 @@ The directory for cache files, relative to project root (`docs` folder if you're
 
 ```ts
 export default {
-  outDir: './.vitepress/.vite'
+  cacheDir: './.vitepress/.vite'
 }
 ```
 
