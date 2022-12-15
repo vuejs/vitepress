@@ -41,6 +41,7 @@ export async function bundle(
 
   const resolveViteConfig = async (ssr: boolean): Promise<ViteUserConfig> => ({
     root: config.srcDir,
+    cacheDir: config.cacheDir,
     base: config.site.base,
     logLevel: 'warn',
     plugins: await createVitePressPlugin(
