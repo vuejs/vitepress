@@ -1,7 +1,0 @@
-{
-  "name": "vitepress-examples",
-  "private": true,
-  "devDependencies": {
-    "vitepress": "workspace:*"
-  }
-}

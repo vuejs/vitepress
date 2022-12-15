@@ -1,3 +1,85 @@
+# [1.0.0-alpha.31](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.30...v1.0.0-alpha.31) (2022-12-10)
+
+
+### Features
+
+* **build:** switch to rollup 3 and vite 4 ([#1591](https://github.com/vuejs/vitepress/issues/1591)) ([ae33896](https://github.com/vuejs/vitepress/commit/ae33896a322b6b4cc944d44398ddba6e60b5d1c7))
+
+
+### Performance Improvements
+
+* **a11y:** add aria-hidden to line numbers wrapper ([#1675](https://github.com/vuejs/vitepress/issues/1675)) ([4c5a892](https://github.com/vuejs/vitepress/commit/4c5a892d7787440faebf061daaaff908680dcd99))
+
+
+
+# [1.0.0-alpha.30](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.29...v1.0.0-alpha.30) (2022-12-05)
+
+
+### Bug Fixes
+
+* **build:** allow importing files having numbers in extension ([#1618](https://github.com/vuejs/vitepress/issues/1618)) ([0565c38](https://github.com/vuejs/vitepress/commit/0565c38fc172cefb9a068882e215ac09dca6636d))
+* **build:** allow serving files in dev from workspace root ([#1647](https://github.com/vuejs/vitepress/issues/1647)) ([dc59662](https://github.com/vuejs/vitepress/commit/dc596621cf5ad11585597423b0a98266949c932a))
+* **theme:** default to vertical align top on badges inside headings ([#1584](https://github.com/vuejs/vitepress/issues/1584)) ([8a488de](https://github.com/vuejs/vitepress/commit/8a488deac111fbc43b8739c8959b8ae60cbedc80))
+* **theme:** ignore removed diff lines while copying code ([f4d5417](https://github.com/vuejs/vitepress/commit/f4d54179306c0ecbc08e4275081e3e169d304e09))
+* **theme:** move background colors to theme-default style ([#1347](https://github.com/vuejs/vitepress/issues/1347)) ([4f0194f](https://github.com/vuejs/vitepress/commit/4f0194f1dceec8c7aff70c490b5e757aca560e8a))
+
+
+### Features
+
+* **build:** add preview as an alias for serve in cli ([#1651](https://github.com/vuejs/vitepress/issues/1651)) ([4ba33da](https://github.com/vuejs/vitepress/commit/4ba33dac60b8b091627eb3e9c2347da0aa5efb82))
+
+
+
+# [1.0.0-alpha.29](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.28...v1.0.0-alpha.29) (2022-11-15)
+
+
+### Bug Fixes
+
+* **build:** explicitly specify asset and entry file names ([#1607](https://github.com/vuejs/vitepress/issues/1607)) ([8601e15](https://github.com/vuejs/vitepress/commit/8601e1596b45e6684b71964d002133fb32d51b9f))
+* **theme:** typo in attribute name ([#1597](https://github.com/vuejs/vitepress/issues/1597)) ([cc91d55](https://github.com/vuejs/vitepress/commit/cc91d555b5bfcbde35f2ba33aedcd79a5cef713b))
+
+
+
+# [1.0.0-alpha.28](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.27...v1.0.0-alpha.28) (2022-11-08)
+
+
+### Bug Fixes
+
+* **theme:** use faux italics only with web fonts ([#1581](https://github.com/vuejs/vitepress/issues/1581)) ([124158e](https://github.com/vuejs/vitepress/commit/124158e3a9793fc466b96b51cf7330b8aa3e055b))
+
+
+### Features
+
+* **theme:** sidebar nav slots ([#1582](https://github.com/vuejs/vitepress/issues/1582)) ([d410d4d](https://github.com/vuejs/vitepress/commit/d410d4dd9f1140b68d140642c1bceaf5419ff304))
+* **theme:** use v-html in VPDocFooter ([#1580](https://github.com/vuejs/vitepress/issues/1580)) ([9d10b1d](https://github.com/vuejs/vitepress/commit/9d10b1d5a1ec8d30689ddad5f2d63d22342cf707))
+
+
+
+# [1.0.0-alpha.27](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.26...v1.0.0-alpha.27) (2022-11-03)
+
+
+### Bug Fixes
+
+* **build:** use addClass from shiki-processor ([#1557](https://github.com/vuejs/vitepress/issues/1557)) ([4b0b1ef](https://github.com/vuejs/vitepress/commit/4b0b1ef35f38461514f3e97e0a509029a70d3086)), closes [#1555](https://github.com/vuejs/vitepress/issues/1555)
+* **build:** use default slugify from mdit-vue ([#1554](https://github.com/vuejs/vitepress/issues/1554)) ([8cd1f7c](https://github.com/vuejs/vitepress/commit/8cd1f7c4aadb7a911158ac628233b3878a60786a))
+* prevent overlay getting hidden behind navbar ([#1547](https://github.com/vuejs/vitepress/issues/1547)) ([87d6c08](https://github.com/vuejs/vitepress/commit/87d6c085d6ccf084d5435216741e3af408c9897a))
+* remove shell code copy trailing newline ([#1561](https://github.com/vuejs/vitepress/issues/1561)) ([f36cd0d](https://github.com/vuejs/vitepress/commit/f36cd0d62625c3221533b9e1f83a58b2cd4429a2))
+* **theme:** use stored preference to be the value of `userPreference` ([#1543](https://github.com/vuejs/vitepress/issues/1543)) ([a7abf73](https://github.com/vuejs/vitepress/commit/a7abf73e432caa6b06b868e7c8c01c6f31b6cc54))
+
+
+### Features
+
+* **theme:** add built-in global component `Badge`  ([#1239](https://github.com/vuejs/vitepress/issues/1239)) ([ac8619f](https://github.com/vuejs/vitepress/commit/ac8619f841862b8629ea0416ba2f188faceebc70))
+* **theme:** add link feature in homepage features ([#984](https://github.com/vuejs/vitepress/issues/984)) ([#1404](https://github.com/vuejs/vitepress/issues/1404)) ([84b4abc](https://github.com/vuejs/vitepress/commit/84b4abc5fa29b353d52162508a31f55a4ea755e5)), closes [#1070](https://github.com/vuejs/vitepress/issues/1070)
+* **theme:** sort multiple sidebars ([#1552](https://github.com/vuejs/vitepress/issues/1552)) ([db1c343](https://github.com/vuejs/vitepress/commit/db1c343dfb7011825b18253b4b8a47b5d8f6f817))
+
+
+### Reverts
+
+* **#1530:** explicitly exit process after build to prevent hangup ([#1572](https://github.com/vuejs/vitepress/issues/1572)) ([01719fa](https://github.com/vuejs/vitepress/commit/01719fa58e245291e640d5b0bc51cac5a4a3085c)), closes [#1530](https://github.com/vuejs/vitepress/issues/1530)
+
+
+
 # [1.0.0-alpha.26](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.25...v1.0.0-alpha.26) (2022-10-27)
 
 

@@ -70,24 +70,19 @@ const { hasSidebar } = useSidebar()
   }
 
   .VPNavBar.has-sidebar .content {
-    margin-right: -32px;
-    padding-right: 32px;
-    -webkit-backdrop-filter: saturate(50%) blur(8px);
-    backdrop-filter: saturate(50%) blur(8px);
-    background: rgba(255, 255, 255, 0.7);
+    margin-right: -100vw;
+    padding-right: 100vw;
+    background: var(--vp-c-bg-alpha-without-backdrop);
   }
 
-  .dark .VPNavBar.has-sidebar .content {
-    background: rgba(36, 36, 36, 0.7);
-  }
-
-  @supports not (backdrop-filter: saturate(50%) blur(8px)) {
+  @supports (
+    (backdrop-filter: saturate(50%) blur(8px)) or
+      (-webkit-backdrop-filter: saturate(50%) blur(8px))
+  ) {
     .VPNavBar.has-sidebar .content {
-      background: rgba(255, 255, 255, 0.95);
-    }
-
-    .dark .VPNavBar.has-sidebar .content {
-      background: rgba(36, 36, 36, 0.95);
+      -webkit-backdrop-filter: saturate(50%) blur(8px);
+      backdrop-filter: saturate(50%) blur(8px);
+      background: var(--vp-c-bg-alpha-with-backdrop);
     }
   }
 }

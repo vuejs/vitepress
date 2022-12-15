@@ -26,7 +26,7 @@ body {
   color: var(--vp-c-text-1);
   background-color: var(--vp-c-bg);
   direction: ltr;
-  font-synthesis: style;
+  font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

@@ -113,8 +113,9 @@ import DefaultTheme from 'vitepress/theme'
 
 export default {
   ...DefaultTheme,
-  enhanceApp({ app }) {
-    app.component('VueClickAwayExample', VueClickAwayExample)
+  enhanceApp(ctx) {
+    DefaultTheme.enhanceApp(ctx)
+    ctx.app.component('VueClickAwayExample', VueClickAwayExample)
   }
 }
 ```
@@ -128,7 +129,7 @@ Later in your markdown files, the component can be interleaved between the conte
 ```
 
 ::: warning IMPORTANT
-Make sure a custom component’s name either contains a hyphen or is in PascalCase. Otherwise, it will be treated as an inline element and wrapped inside a `<p>` tag, which will lead to hydration mismatch because `<p>` does not allow block elements to be placed inside it.
+Make sure a custom component's name either contains a hyphen or is in PascalCase. Otherwise, it will be treated as an inline element and wrapped inside a `<p>` tag, which will lead to hydration mismatch because `<p>` does not allow block elements to be placed inside it.
 :::
 
 ### Using Components In Headers <ComponentInHeader />
@@ -197,7 +198,7 @@ export default {
 
 ## Built-In Components
 
-VitePress provides Built-In Vue Components like `ClientOnly` and `OutboundLink`, check out the [Global Component Guide](./api) for more information.
+VitePress provides Built-In Vue Components like `ClientOnly`, check out the [Global Component Guide](./api) for more information.
 
 **Also see:**
 
