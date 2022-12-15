@@ -115,12 +115,20 @@
 
 .vp-doc ul,
 .vp-doc ol {
-  padding-left: 1.25rem;
+  padding-left: 2.5rem;
   margin: 16px 0;
 }
 
 .vp-doc ul {
   list-style: disc;
+}
+
+.vp-doc ul ul {
+  list-style: circle;
+}
+
+.vp-doc ul ul ul {
+  list-style: square;
 }
 
 .vp-doc ol {
