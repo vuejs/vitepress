@@ -115,9 +115,13 @@
 
 .vp-doc ul,
 .vp-doc ol {
-  padding-left: 2.5rem;
+  padding-left: 2.2rem;
   margin: 16px 0;
 }
+
+.vp-doc li {
+  padding-left: 10px;
+  }
 
 .vp-doc ul {
   list-style: disc;
