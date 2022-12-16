@@ -20,8 +20,9 @@ import type { ThemeOptions } from '../markdown'
  *    [{ line: number, classes: string[] }]
  */
 const attrsToLines = (attrs: string): HtmlRendererOptions['lineOptions'] => {
+  attrs = attrs.replace(/.*?([\d,-]+).*/, '$1').trim()
   const result: number[] = []
-  if (!attrs.trim()) {
+  if (!attrs) {
     return []
   }
   attrs

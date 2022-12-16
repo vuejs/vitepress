@@ -84,6 +84,7 @@
     "@vue/devtools-api": "^6.4.5",
     "@vueuse/core": "^9.6.0",
     "body-scroll-lock": "4.0.0-beta.0",
+    "nanoid": "3.3.4",
     "shiki": "^0.11.1",
     "vite": "^4.0.0",
     "vue": "^3.2.45"
