@@ -1,3 +1,18 @@
+# [1.0.0-alpha.32](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.31...v1.0.0-alpha.32) (2022-12-16)
+
+
+### Bug Fixes
+
+* **build:** fix code groups for line numbers mode ([#1700](https://github.com/vuejs/vitepress/issues/1700)) ([135b797](https://github.com/vuejs/vitepress/commit/135b797cfb572659726d9dfbe11ca6045dee9fa3))
+
+
+### Features
+
+* add code-group feature ([#728](https://github.com/vuejs/vitepress/issues/728)) ([#1560](https://github.com/vuejs/vitepress/issues/1560)) ([a684b67](https://github.com/vuejs/vitepress/commit/a684b67ec084fdc3b3a300ffbdd21e19fdcf7b1e)), closes [#1242](https://github.com/vuejs/vitepress/issues/1242)
+* **build:** support `cacheDir` ([#1355](https://github.com/vuejs/vitepress/issues/1355)) ([f899764](https://github.com/vuejs/vitepress/commit/f899764bad8bfdf4fef91e23901d4af3cda91bcc))
+
+
+
 # [1.0.0-alpha.31](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.30...v1.0.0-alpha.31) (2022-12-10)
 
 
