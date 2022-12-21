@@ -1,17 +1,21 @@
 name: Test
 
 env:
-  # 7 GiB by default on GitHub, setting to 6 GiB
-  # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
   NODE_OPTIONS: --max-old-space-size=6144
-  # install playwright binary manually (because pnpm only runs install script once)
   PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+  VITEST_SEGFAULT_RETRY: 3
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
+  cancel-in-progress: true
 
 jobs:
   test:
@@ -19,7 +23,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14, 16, 18]
+        node_version: [14, 16, 18]
 
     steps:
       - name: Checkout
@@ -32,42 +36,13 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node_version }}
-          cache: 'pnpm'
+          cache: pnpm
 
       - name: Install deps
         run: pnpm install
 
-      # Install playwright's binary under custom directory to cache
-      - name: Set Playwright path (non-windows)
-        if: runner.os != 'Windows'
-        run: echo "PLAYWRIGHT_BROWSERS_PATH=$HOME/.cache/playwright-bin" >> $GITHUB_ENV
-      - name: Set Playwright path (windows)
-        if: runner.os == 'Windows'
-        run: echo "PLAYWRIGHT_BROWSERS_PATH=$HOME\.cache\playwright-bin" >> $env:GITHUB_ENV
-
-      - name: Cache Playwright's binary
-        uses: actions/cache@v3
-        with:
-          # Playwright removes unused browsers automatically
-          # So does not need to add playwright version to key
-          key: ${{ runner.os }}-playwright-bin-v1
-          path: ${{ env.PLAYWRIGHT_BROWSERS_PATH }}
-
       - name: Install Playwright
-        # does not need to explicitly set chromium after https://github.com/microsoft/playwright/issues/14862 is solved
         run: pnpm playwright install chromium
 
-      - name: Build
-        run: pnpm run build
-
-      - name: Lint
-        run: pnpm run lint-fail
-
-      - name: Test unit
-        run: pnpm run test-unit
-
-      - name: Test serve
-        run: pnpm run test-serve
-
-      - name: Test build
-        run: pnpm run test-build
+      - name: Check
+        run: pnpm check

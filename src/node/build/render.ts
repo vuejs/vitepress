@@ -10,7 +10,8 @@ import {
   createTitle,
   notFoundPageData,
   mergeHead,
-  EXTERNAL_URL_RE
+  EXTERNAL_URL_RE,
+  sanitizeFileName
 } from '../shared'
 import { slash } from '../utils/slash'
 import { SiteConfig, resolveSiteDataByRoute } from '../config'
@@ -31,7 +32,7 @@ export async function renderPage(
   // render page
   const content = await render(routePath)
 
-  const pageName = page.replace(/\//g, '_')
+  const pageName = sanitizeFileName(page.replace(/\//g, '_'))
   // server build doesn't need hash
   const pageServerJsFileName = pageName + '.js'
   // for any initial page load, we only need the lean version of the page js
@@ -106,9 +107,22 @@ export async function renderPage(
   const title: string = createTitle(siteData, pageData)
   const description: string = pageData.description || siteData.description
 
-  const head = mergeHead(
+  const headBeforeTransform = mergeHead(
     siteData.head,
     filterOutHeadDescription(pageData.frontmatter.head)
+  )
+
+  const head = mergeHead(
+    headBeforeTransform,
+    (await config.transformHead?.({
+      siteConfig: config,
+      siteData,
+      pageData,
+      title,
+      description,
+      head: headBeforeTransform,
+      content
+    })) || []
   )
 
   let inlinedScript = ''

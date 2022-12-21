@@ -2,6 +2,8 @@ import MarkdownIt from 'markdown-it'
 import { RenderRule } from 'markdown-it/lib/renderer'
 import Token from 'markdown-it/lib/token'
 import container from 'markdown-it-container'
+import { nanoid } from 'nanoid'
+import { extractTitle } from './preWrapper'
 
 export const containerPlugin = (md: MarkdownIt) => {
   md.use(...createContainer('tip', 'TIP', md))
@@ -18,6 +20,7 @@ export const containerPlugin = (md: MarkdownIt) => {
       render: (tokens: Token[], idx: number) =>
         tokens[idx].nesting === 1 ? `<div class="vp-raw">\n` : `</div>\n`
     })
+    .use(...createCodeGroup())
 }
 
 type ContainerArgs = [typeof container, string, { render: RenderRule }]
@@ -43,6 +46,45 @@ function createContainer(
         } else {
           return klass === 'details' ? `</details>\n` : `</div>\n`
         }
+      }
+    }
+  ]
+}
+
+function createCodeGroup(): ContainerArgs {
+  return [
+    container,
+    'code-group',
+    {
+      render(tokens, idx) {
+        if (tokens[idx].nesting === 1) {
+          const name = nanoid(5)
+          let tabs = ''
+          let checked = 'checked="checked"'
+
+          for (
+            let i = idx + 1;
+            !(
+              tokens[i].nesting === -1 &&
+              tokens[i].type === 'container_code-group_close'
+            );
+            ++i
+          ) {
+            if (tokens[i].type === 'fence' && tokens[i].tag === 'code') {
+              const title = extractTitle(tokens[i].info)
+              const id = nanoid(7)
+              tabs += `<input type="radio" name="group-${name}" id="tab-${id}" ${checked}><label for="tab-${id}">${title}</label>`
+
+              if (checked) {
+                tokens[i].info += ' active'
+                checked = ''
+              }
+            }
+          }
+
+          return `<div class="vp-code-group"><div class="tabs">${tabs}</div><div class="blocks">\n`
+        }
+        return `</div></div>\n`
       }
     }
   ]

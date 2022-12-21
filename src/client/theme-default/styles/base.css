@@ -2,7 +2,6 @@
 ::before,
 ::after {
   box-sizing: border-box;
-  word-break: break-word;
 }
 
 html {
@@ -117,7 +116,6 @@ iframe,
 embed,
 object {
   display: block;
-  vertical-align: middle;
 }
 
 figure {
@@ -148,8 +146,8 @@ button {
   background-image: none;
 }
 
-button,
-[role='button'] {
+button:enabled,
+[role='button']:enabled {
   cursor: pointer;
 }
 
@@ -213,4 +211,18 @@ select {
 fieldset {
   margin: 0;
   padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  overflow-wrap: break-word;
+}
+
+vite-error-overlay {
+  z-index: 9999;
 }

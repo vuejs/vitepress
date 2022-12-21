@@ -10,6 +10,7 @@ VitePress comes with its default theme providing many features out of the box. L
 - [Layout](./theme-layout)
 - [Home Page](./theme-home-page)
 - [Team Page](./theme-team-page)
+- [Badge](./theme-badge)
 - [Footer](./theme-footer)
 - [Search](./theme-search)
 - [Carbon Ads](./theme-carbon-ads)
@@ -65,7 +66,7 @@ export default {
     // app is the Vue 3 app instance from `createApp()`.
     // router is VitePress' custom router. `siteData` is
     // a `ref` of current site-level metadata.
-  }
+  },
 
   setup() {
     // this function will be executed inside VitePressApp's
@@ -110,9 +111,11 @@ import DefaultTheme from 'vitepress/theme'
 export default {
   ...DefaultTheme,
   enhanceApp(ctx) {
+    // extend default theme custom behaviour.
     DefaultTheme.enhanceApp(ctx)
-    // register global components
-    ctx.app.component('MyGlobalComponent', /* ... */)
+
+    // register your custom global components
+    ctx.app.component('MyGlobalComponent' /* ... */)
   }
 }
 ```
@@ -198,6 +201,8 @@ Full list of slots available in the default theme layout:
   - `doc-footer-before`
   - `doc-before`
   - `doc-after`
+  - `sidebar-nav-before`
+  - `sidebar-nav-after`
   - `aside-top`
   - `aside-bottom`
   - `aside-outline-before`
