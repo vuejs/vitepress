@@ -69,7 +69,10 @@ Additional elements to render in the `<head>` tag in the page HTML. The user-add
 ```ts
 export default {
   head: [
-    ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }]
+    [
+      'link',
+      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }
+    ]
     // would render: <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   ]
 }
@@ -164,8 +167,8 @@ interface MarkdownOptions extends MarkdownIt.Options {
     disable?: boolean
   }
 
-  // set highlight default lang if not provide
-  highlightDefaultLang?: string
+  // specify default language for syntax highlighter
+  defaultHighlightLang?: string
 
   // @mdit-vue/plugin-frontmatter plugin options.
   // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-frontmatter#options
@@ -301,6 +304,7 @@ Don't mutate anything inside the `ctx`.
 ```ts
 export default {
   async transformHead(ctx) {
+    // ...
   }
 }
 ```
@@ -330,6 +334,7 @@ Don't mutate anything inside the `ctx`. Also, modifying the html content may cau
 ```ts
 export default {
   async transformHtml(code, id, context) {
+    // ...
   }
 }
 ```
@@ -339,7 +344,6 @@ export default {
 - Type: `(pageData: PageData) => Awaitable<Partial<PageData> | { [key: string]: any } | void>`
 
 `transformPageData` is a hook to transform the `pageData` of each page. You can directly mutate `pageData` or return changed values which will be merged into PageData.
-
 
 ```ts
 export default {
@@ -365,6 +369,7 @@ export default {
 ```ts
 export default {
   async buildEnd(siteConfig) {
+    // ...
   }
 }
 ```

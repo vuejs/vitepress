@@ -40,7 +40,7 @@ export interface MarkdownOptions extends MarkdownIt.Options {
     allowedAttributes?: string[]
     disable?: boolean
   }
-  highlightDefaultLang?: string
+  defaultHighlightLang?: string
   frontmatter?: FrontmatterPluginOptions
   headers?: HeadersPluginOptions
   sfc?: SfcPluginOptions
@@ -63,7 +63,7 @@ export const createMarkdownRenderer = async (
     linkify: true,
     highlight:
       options.highlight ||
-      (await highlight(options.theme, options.highlightDefaultLang)),
+      (await highlight(options.theme, options.defaultHighlightLang)),
     ...options
   }) as MarkdownRenderer
 
