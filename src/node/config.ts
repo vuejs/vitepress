@@ -34,6 +34,7 @@ export interface UserConfig<ThemeConfig = any>
   srcDir?: string
   srcExclude?: string[]
   outDir?: string
+  cacheDir?: string
   shouldPreload?: (link: string, page: string) => boolean
 
   locales?: LocaleConfig<ThemeConfig>
@@ -164,6 +165,7 @@ export interface SiteConfig<ThemeConfig = any>
   configDeps: string[]
   themeDir: string
   outDir: string
+  cacheDir: string
   tempDir: string
   pages: string[]
 }
@@ -202,6 +204,9 @@ export async function resolveConfig(
   const outDir = userConfig.outDir
     ? path.resolve(root, userConfig.outDir)
     : resolve(root, 'dist')
+  const cacheDir = userConfig.cacheDir
+    ? path.resolve(root, userConfig.cacheDir)
+    : resolve(root, 'cache')
 
   // resolve theme path
   const userThemeDir = resolve(root, 'theme')
@@ -231,6 +236,7 @@ export async function resolveConfig(
     configPath,
     configDeps,
     outDir,
+    cacheDir,
     tempDir: resolve(root, '.temp'),
     markdown: userConfig.markdown,
     lastUpdated: userConfig.lastUpdated,

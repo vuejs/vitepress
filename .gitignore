@@ -9,6 +9,7 @@
 .vite_opt_cache
 .vscode
 dist
+cache
 examples-temp
 node_modules
 pnpm-global

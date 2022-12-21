@@ -1,6 +1,6 @@
 import { withBase } from 'vitepress'
 import { useData } from '../composables/data.js'
-import { isExternal } from '../../shared.js'
+import { isExternal, PATHNAME_PROTOCOL_RE } from '../../shared.js'
 
 export { isExternal, isActive } from '../../shared.js'
 
@@ -31,7 +31,7 @@ export function ensureStartingSlash(path: string): string {
 
 export function normalizeLink(url: string): string {
   if (isExternal(url)) {
-    return url
+    return url.replace(PATHNAME_PROTOCOL_RE, '')
   }
 
   const { site } = useData()
