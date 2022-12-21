@@ -1,3 +1,18 @@
+# [1.0.0-alpha.33](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.32...v1.0.0-alpha.33) (2022-12-21)
+
+
+### Bug Fixes
+
+* **theme:** remove experimental fonts ([#1710](https://github.com/vuejs/vitepress/issues/1710)) ([1ebde66](https://github.com/vuejs/vitepress/commit/1ebde6623ef7f279a77b5a2ddc61e50e322481d1))
+
+
+### Features
+
+* **build:** provide a `pathname://` protocol to escape SPA ([#1719](https://github.com/vuejs/vitepress/issues/1719)) ([ae21a3a](https://github.com/vuejs/vitepress/commit/ae21a3a622844af476f8311b1d7eba7ae3d5af36))
+* **theme:** headings anchor should not be selectable ([#1701](https://github.com/vuejs/vitepress/issues/1701)) ([505a4f8](https://github.com/vuejs/vitepress/commit/505a4f8eee254844be98d224d7f0b943a33959e7))
+
+
+
 # [1.0.0-alpha.32](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.31...v1.0.0-alpha.32) (2022-12-16)
 
 
