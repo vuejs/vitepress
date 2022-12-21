@@ -24,8 +24,14 @@ export function pathToFile(path: string): string {
   pagePath = decodeURIComponent(pagePath)
 
   if (pagePath.endsWith('/')) {
-    // remove trailing slashes from pagePath
-    pagePath = pagePath.slice(0, -1)
+    if (import.meta.env.DEV) {
+      // in dev, we are importing the md files directly, and if there's a trailing slash
+      // it's likely an index.md file
+      pagePath += 'index'
+    } else {
+      // remove trailing slashes from pagePath
+      pagePath = pagePath.slice(0, -1)
+    }
   }
 
   // if we removed the trailing slash and have an empty page path
