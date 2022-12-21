@@ -23,7 +23,7 @@ export function useLangs({
             link: normalizeLink(
               value.link || (key === 'root' ? '/' : `/${key}/`),
               theme.value.i18nRouting !== false && correspondingLink,
-              page.value.relativePath,
+              page.value.relativePath.slice(currentLang.value.link.length - 1),
               site.value.cleanUrls === 'disabled'
             )
           }
@@ -43,7 +43,6 @@ function normalizeLink(
     ? link.replace(/\/$/, '') +
         ensureStartingSlash(
           path
-            .replace(/^.*?\//, '/')
             .replace(/\/index.md$/, '/')
             .replace(/\.md$/, addExt ? '.html' : '')
         )
