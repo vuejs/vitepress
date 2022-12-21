@@ -93,6 +93,13 @@ export namespace DefaultTheme {
      * The carbon ads options. Leave it undefined to disable the ads feature.
      */
     carbonAds?: CarbonAdsOptions
+
+    /**
+     * Changing locale when current url is `/foo` will redirect to `/locale/foo`.
+     *
+     * @default true
+     */
+    i18nRouting?: boolean
   }
 
   // nav -----------------------------------------------------------------------

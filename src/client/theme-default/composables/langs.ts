@@ -6,7 +6,7 @@ export function useLangs({
   removeCurrent = true,
   correspondingLink = false
 } = {}) {
-  const { site, localeIndex, page } = useData()
+  const { site, localeIndex, page, theme } = useData()
   const currentLang = computed(() => ({
     label: site.value.locales[localeIndex.value]?.label,
     link:
@@ -22,7 +22,7 @@ export function useLangs({
             text: value.label,
             link: normalizeLink(
               value.link || (key === 'root' ? '/' : `/${key}/`),
-              correspondingLink,
+              theme.value.i18nRouting !== false && correspondingLink,
               page.value.relativePath,
               site.value.cleanUrls === 'disabled'
             )
