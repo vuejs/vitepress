@@ -4,7 +4,7 @@ import VPFlyout from './VPFlyout.vue'
 import VPMenuLink from './VPMenuLink.vue'
 import { useLangs } from '../composables/langs.js'
 
-const { localeLinks, currentLang } = useLangs()
+const { localeLinks, currentLang } = useLangs({ correspondingLink: true })
 </script>
 
 <template>

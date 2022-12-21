@@ -5,7 +5,7 @@ import { useData } from './composables/data.js'
 import { useLangs } from './composables/langs.js'
 
 const { site } = useData()
-const { localeLinks } = useLangs(false)
+const { localeLinks } = useLangs({ removeCurrent: false })
 
 const root = ref('/')
 onMounted(() => {
@@ -67,7 +67,7 @@ onMounted(() => {
   margin: 24px auto 18px;
   width: 64px;
   height: 1px;
-  background-color: var(--vp-c-divider)
+  background-color: var(--vp-c-divider);
 }
 
 .quote {
@@ -90,7 +90,7 @@ onMounted(() => {
   font-size: 14px;
   font-weight: 500;
   color: var(--vp-c-brand);
-  transition: border-color 0.25s, color .25s;
+  transition: border-color 0.25s, color 0.25s;
 }
 
 .link:hover {

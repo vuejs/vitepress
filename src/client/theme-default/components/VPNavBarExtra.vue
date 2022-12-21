@@ -8,7 +8,7 @@ import { useData } from '../composables/data.js'
 import { useLangs } from '../composables/langs.js'
 
 const { site, theme } = useData()
-const { localeLinks, currentLang } = useLangs()
+const { localeLinks, currentLang } = useLangs({ correspondingLink: true })
 
 const hasExtraContent = computed(
   () =>
