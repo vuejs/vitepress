@@ -142,7 +142,7 @@ export function createRouter(
         if (button) return
 
         const link = (e.target as Element).closest('a')
-        if (link && !link.closest('.vp-raw')) {
+        if (link && !link.closest('.vp-raw') && !link.download) {
           const { href, origin, pathname, hash, search, target } = link
           const currentUrl = window.location
           const extMatch = pathname.match(/\.\w+$/)

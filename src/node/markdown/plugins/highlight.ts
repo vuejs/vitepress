@@ -1,4 +1,14 @@
-import { IThemeRegistration, getHighlighter, HtmlRendererOptions } from 'shiki'
+import type { HtmlRendererOptions, IThemeRegistration } from 'shiki'
+import {
+  addClass,
+  createDiffProcessor,
+  createFocusProcessor,
+  createHighlightProcessor,
+  createRangeProcessor,
+  defineProcessor,
+  getHighlighter,
+  type Processor
+} from 'shiki-processor'
 import type { ThemeOptions } from '../markdown'
 
 /**
@@ -10,8 +20,9 @@ import type { ThemeOptions } from '../markdown'
  *    [{ line: number, classes: string[] }]
  */
 const attrsToLines = (attrs: string): HtmlRendererOptions['lineOptions'] => {
+  attrs = attrs.replace(/.*?([\d,-]+).*/, '$1').trim()
   const result: number[] = []
-  if (!attrs.trim()) {
+  if (!attrs) {
     return []
   }
   attrs
@@ -32,38 +43,81 @@ const attrsToLines = (attrs: string): HtmlRendererOptions['lineOptions'] => {
   }))
 }
 
+const errorLevelProcessor = defineProcessor({
+  name: 'error-level',
+  handler: createRangeProcessor({
+    error: ['highlighted', 'error'],
+    warning: ['highlighted', 'warning']
+  })
+})
+
 export async function highlight(
-  theme: ThemeOptions = 'material-palenight'
+  theme: ThemeOptions = 'material-palenight',
+  defaultLang: string = ''
 ): Promise<(str: string, lang: string, attrs: string) => string> {
   const hasSingleTheme = typeof theme === 'string' || 'name' in theme
   const getThemeName = (themeValue: IThemeRegistration) =>
     typeof themeValue === 'string' ? themeValue : themeValue.name
 
+  const processors: Processor[] = [
+    createFocusProcessor(),
+    createHighlightProcessor({ hasHighlightClass: 'highlighted' }),
+    createDiffProcessor(),
+    errorLevelProcessor
+  ]
+
   const highlighter = await getHighlighter({
-    themes: hasSingleTheme ? [theme] : [theme.dark, theme.light]
+    themes: hasSingleTheme ? [theme] : [theme.dark, theme.light],
+    processors
   })
-  const preRE = /^<pre.*?>/
+
+  const styleRE = /<pre[^>]*(style=".*?")/
+  const preRE = /^<pre(.*?)>/
   const vueRE = /-vue$/
 
   return (str: string, lang: string, attrs: string) => {
     const vPre = vueRE.test(lang) ? '' : 'v-pre'
-    lang = lang.replace(vueRE, '').toLowerCase()
+    lang = lang.replace(vueRE, '').toLowerCase() || defaultLang
 
     const lineOptions = attrsToLines(attrs)
+    const cleanup = (str: string) =>
+      str
+        .replace(preRE, (_, attributes) => `<pre ${vPre}${attributes}>`)
+        .replace(styleRE, (_, style) => _.replace(style, ''))
 
     if (hasSingleTheme) {
-      return highlighter
-        .codeToHtml(str, { lang, lineOptions, theme: getThemeName(theme) })
-        .replace(preRE, `<pre ${vPre}>`)
+      return cleanup(
+        highlighter.codeToHtml(str, {
+          lang,
+          lineOptions,
+          theme: getThemeName(theme)
+        })
+      )
     }
 
-    const dark = highlighter
-      .codeToHtml(str, { lang, lineOptions, theme: getThemeName(theme.dark) })
-      .replace(preRE, `<pre ${vPre} class="vp-code-dark">`)
+    const dark = addClass(
+      cleanup(
+        highlighter.codeToHtml(str, {
+          lang,
+          lineOptions,
+          theme: getThemeName(theme.dark)
+        })
+      ),
+      'vp-code-dark',
+      'pre'
+    )
 
-    const light = highlighter
-      .codeToHtml(str, { lang, lineOptions, theme: getThemeName(theme.light) })
-      .replace(preRE, `<pre ${vPre} class="vp-code-light">`)
+    const light = addClass(
+      cleanup(
+        highlighter.codeToHtml(str, {
+          lang,
+          lineOptions,
+          theme: getThemeName(theme.light)
+        })
+      ),
+      'vp-code-light',
+      'pre'
+    )
 
     return dark + light
   }

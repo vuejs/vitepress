@@ -35,7 +35,7 @@ And providing you are in `foo/one.md`:
 [Home](/) <!-- sends the user to the root index.md -->
 [foo](/foo/) <!-- sends the user to index.html of directory foo -->
 [foo heading](./#heading) <!-- anchors user to a heading in the foo index file -->
-[bar - three](../bar/three) <!-- you can omit extention -->
+[bar - three](../bar/three) <!-- you can omit extension -->
 [bar - three](../bar/three.md) <!-- you can append .md -->
 [bar - four](../bar/four.html) <!-- or you can append .html -->
 ```
@@ -71,11 +71,11 @@ For more details, see [Frontmatter](./frontmatter).
 **Input**
 
 ```
-| Tables        | Are           | Cool  |
-| ------------- |:-------------:| -----:|
+| Tables        |      Are      |  Cool |
+| ------------- | :-----------: | ----: |
 | col 3 is      | right-aligned | $1600 |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |
+| col 2 is      |   centered    |   $12 |
+| zebra stripes |   are neat    |    $1 |
 ```
 
 **Output**
@@ -155,7 +155,7 @@ This is a tip.
 :::
 
 ::: warning
-This is a dangerous warning.
+This is a warning.
 :::
 
 ::: danger
@@ -198,7 +198,7 @@ console.log('Hello, VitePress!')
 
 ### `raw`
 
-This is a special container that can be used to prevent style and router conflicts with VitePress. This is especially useful when you're documenting component libraries.
+This is a special container that can be used to prevent style and router conflicts with VitePress. This is especially useful when you're documenting component libraries. You might also wanna check out [whyframe](https://whyframe.dev/docs/integrations/vitepress) for better isolation.
 
 **Syntax**
 
@@ -279,7 +279,7 @@ export default {
 </ul>
 ```
 
-A [list of valid languages](https://github.com/shikijs/shiki/blob/main/docs/languages.md) is available on Shiki’s repository.
+A [list of valid languages](https://github.com/shikijs/shiki/blob/main/docs/languages.md) is available on Shiki's repository.
 
 You may also customize syntax highlight theme in app config. Please see [`markdown` options](../config/app-configs#markdown) for more details.
 
@@ -346,6 +346,136 @@ export default { // Highlighted
       but this and the next 2 are.`,
       motd: 'VitePress is awesome',
       lorem: 'ipsum',
+    }
+  }
+}
+```
+
+Alternatively, it's possible to highlight directly in the line by using the `// [!code hl]` comment.
+
+**Input**
+
+````
+```js
+export default {
+  data () {
+    return {
+      msg: 'Highlighted!' // [!code  hl]
+    }
+  }
+}
+```
+````
+
+**Output**
+
+```js
+export default {
+  data() {
+    return {
+      msg: 'Highlighted!' // [!code hl]
+    }
+  }
+}
+```
+
+## Focus in Code Blocks
+
+Adding the `// [!code focus]` comment on a line will focus it and blur the other parts of the code.
+
+Additionally, you can define a number of lines to focus using `// [!code focus:<lines>]`.
+
+**Input**
+
+Note that only one space is required after `!code`, here are two to prevent processing.
+
+````
+```js
+export default {
+  data () {
+    return {
+      msg: 'Focused!' // [!code  focus]
+    }
+  }
+}
+```
+````
+
+**Output**
+
+```js
+export default {
+  data() {
+    return {
+      msg: 'Focused!' // [!code focus]
+    }
+  }
+}
+```
+
+## Colored Diffs in Code Blocks
+
+Adding the `// [!code --]` or `// [!code ++]` comments on a line will create a diff of that line, while keeping the colors of the codeblock.
+
+**Input**
+
+Note that only one space is required after `!code`, here are two to prevent processing.
+
+````
+```js
+export default {
+  data () {
+    return {
+      msg: 'Removed' // [!code  --]
+      msg: 'Added' // [!code  ++]
+    }
+  }
+}
+```
+````
+
+**Output**
+
+```js
+export default {
+  data () {
+    return {
+      msg: 'Removed' // [!code --]
+      msg: 'Added' // [!code ++]
+    }
+  }
+}
+```
+
+## Errors and Warnings in Code Blocks
+
+Adding the `// [!code warning]` or `// [!code error]` comments on a line will color it accordingly.
+
+**Input**
+
+Note that only one space is required after `!code`, here are two to prevent processing.
+
+````
+```js
+export default {
+  data () {
+    return {
+      msg: 'Error', // [!code  error]
+      msg: 'Warning' // [!code  warning]
+    }
+  }
+}
+```
+````
+
+**Output**
+
+```js
+export default {
+  data() {
+    return {
+      msg: 'Error', // [!code error]
+      msg: 'Warning' // [!code warning]
     }
   }
 }
@@ -419,10 +549,71 @@ You can also specify the language inside the braces (`{}`) like this:
 <<< @/snippets/snippet.cs{c#}
 
 <!-- with line highlighting: -->
+
 <<< @/snippets/snippet.cs{1,2,4-6 c#}
 ```
 
 This is helpful if source language cannot be inferred from your file extension.
+
+## Code Groups
+
+You can group multiple code blocks like this:
+
+**Input**
+
+````md
+::: code-group
+
+```js [config.js]
+/**
+ * @type {import('vitepress').UserConfig}
+ */
+const config = {
+  // ...
+}
+
+export default config
+```
+
+```ts [config.ts]
+import type { UserConfig } from 'vitepress'
+
+const config: UserConfig = {
+  // ...
+}
+
+export default config
+```
+
+:::
+````
+
+**Output**
+
+::: code-group
+
+```js [config.js]
+/**
+ * @type {import('vitepress').UserConfig}
+ */
+const config = {
+  // ...
+}
+
+export default config
+```
+
+```ts [config.ts]
+import type { UserConfig } from 'vitepress'
+
+const config: UserConfig = {
+  // ...
+}
+
+export default config
+```
+
+:::
 
 ## Markdown File Inclusion
 

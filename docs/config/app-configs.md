@@ -14,10 +14,14 @@ export default {
 
 ## appearance
 
-- Type: `boolean`
+- Type: `boolean | 'dark'`
 - Default: `true`
 
-Whether to enable "Dark Mode" or not. If the option is set to `true`, it adds `.dark` class to the `<html>` tag depending on the users preference.
+Whether to enable dark mode or not.
+
+- If the option is set to `true`, the default theme will be determined by the user's preferred color scheme.
+- If the option is set to `dark`, the theme will be dark by default, unless the user manually toggles it.
+- If the option is set to `false`, users will not be able to toggle the theme.
 
 It also injects inline script that tries to read users settings from local storage by `vitepress-theme-appearance` key and restores users preferred color mode.
 
@@ -65,7 +69,10 @@ Additional elements to render in the `<head>` tag in the page HTML. The user-add
 ```ts
 export default {
   head: [
-    ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }]
+    [
+      'link',
+      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }
+    ]
     // would render: <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   ]
 }
@@ -160,6 +167,9 @@ interface MarkdownOptions extends MarkdownIt.Options {
     disable?: boolean
   }
 
+  // specify default language for syntax highlighter
+  defaultHighlightLang?: string
+
   // @mdit-vue/plugin-frontmatter plugin options.
   // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-frontmatter#options
   frontmatter?: FrontmatterPluginOptions
@@ -191,6 +201,32 @@ The build output location for the site, relative to project root (`docs` folder 
 ```ts
 export default {
   outDir: '../public'
+}
+```
+
+## cacheDir
+
+- Type: `string`
+- Default: `./.vitepress/cache`
+
+The directory for cache files, relative to project root (`docs` folder if you're running `vitepress build docs`). See also: [cacheDir](https://vitejs.dev/config/shared-options.html#cachedir).
+
+```ts
+export default {
+  cacheDir: './.vitepress/.vite'
+}
+```
+
+## srcDir
+
+- Type: `string`
+- Default: `.`
+
+The directory where your markdown pages are stored, relative to project root.
+
+```ts
+export default {
+  srcDir: './src'
 }
 ```
 
@@ -268,6 +304,7 @@ Don't mutate anything inside the `ctx`.
 ```ts
 export default {
   async transformHead(ctx) {
+    // ...
   }
 }
 ```
@@ -297,6 +334,28 @@ Don't mutate anything inside the `ctx`. Also, modifying the html content may cau
 ```ts
 export default {
   async transformHtml(code, id, context) {
+    // ...
+  }
+}
+```
+
+### transformPageData
+
+- Type: `(pageData: PageData) => Awaitable<Partial<PageData> | { [key: string]: any } | void>`
+
+`transformPageData` is a hook to transform the `pageData` of each page. You can directly mutate `pageData` or return changed values which will be merged into PageData.
+
+```ts
+export default {
+  async transformPageData(pageData) {
+    pageData.contributors = await getPageContributors(pageData.relativePath)
+  }
+
+  // or return data to be merged
+  async transformPageData(pageData) {
+    return {
+      contributors: await getPageContributors(pageData.relativePath)
+    }
   }
 }
 ```
@@ -310,6 +369,7 @@ export default {
 ```ts
 export default {
   async buildEnd(siteConfig) {
+    // ...
   }
 }
 ```
