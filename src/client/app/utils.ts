@@ -22,24 +22,7 @@ export function withBase(path: string) {
 export function pathToFile(path: string): string {
   let pagePath = path.replace(/\.html$/, '')
   pagePath = decodeURIComponent(pagePath)
-
-  if (pagePath.endsWith('/')) {
-    if (import.meta.env.DEV) {
-      // in dev, we are importing the md files directly, and if there's a trailing slash
-      // it's likely an index.md file
-      pagePath += 'index'
-    } else {
-      // remove trailing slashes from pagePath
-      pagePath = pagePath.slice(0, -1)
-    }
-  }
-
-  // if we removed the trailing slash and have an empty page path
-  // we are trying to render the index/home page...
-  if (pagePath.length === 0) {
-    pagePath = '/index'
-  }
-
+  pagePath = pagePath.replace(/\/$/, '/index') // /foo/ -> /foo/index
   if (import.meta.env.DEV) {
     // always force re-fetch content in dev
     pagePath += `.md?t=${Date.now()}`
@@ -56,13 +39,10 @@ export function pathToFile(path: string): string {
       // client production build needs to account for page hash, which is
       // injected directly in the page's html
       let pageHash = __VP_HASH_MAP__[pagePath.toLowerCase()]
-
-      if (!pageHash) {
-        // try looking for an index.md hash
-        pagePath = pagePath.replace('.md', '_index.md')
+      if (!pageHash && pagePath.endsWith('_index.md')) {
+        pagePath = pagePath.slice(0, -9) + '.md'
         pageHash = __VP_HASH_MAP__[pagePath.toLowerCase()]
       }
-
       pagePath = `${base}assets/${pagePath}.${pageHash}.js`
     } else {
       // ssr build uses much simpler name mapping
