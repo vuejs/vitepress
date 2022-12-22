@@ -360,7 +360,7 @@ Alternatively, it's possible to highlight directly in the line by using the `// 
 export default {
   data () {
     return {
-      msg: 'Highlighted!' // [!code  hl]
+      msg: 'Highlighted!' // [!code hl]
     }
   }
 }
@@ -394,7 +394,7 @@ Note that only one space is required after `!code`, here are two to prevent proc
 export default {
   data () {
     return {
-      msg: 'Focused!' // [!code  focus]
+      msg: 'Focused!' // [!code focus]
     }
   }
 }
@@ -426,8 +426,8 @@ Note that only one space is required after `!code`, here are two to prevent proc
 export default {
   data () {
     return {
-      msg: 'Removed' // [!code  --]
-      msg: 'Added' // [!code  ++]
+      msg: 'Removed' // [!code --]
+      msg: 'Added' // [!code ++]
     }
   }
 }
@@ -460,8 +460,8 @@ Note that only one space is required after `!code`, here are two to prevent proc
 export default {
   data () {
     return {
-      msg: 'Error', // [!code  error]
-      msg: 'Warning' // [!code  warning]
+      msg: 'Error', // [!code error]
+      msg: 'Warning' // [!code warning]
     }
   }
 }
