@@ -500,13 +500,13 @@ You can add `:line-numbers` / `:no-line-numbers` mark in your fenced code blocks
 **Input**
 
 ````md
-```ts
+```ts {1}
 // line-numbers is disabled by default
 const line2 = 'This is line 2'
 const line3 = 'This is line 3'
 ```
 
-```ts:line-numbers
+```ts:line-numbers {1}
 // line-numbers is enabled
 const line2 = 'This is line 2'
 const line3 = 'This is line 3'
@@ -515,13 +515,13 @@ const line3 = 'This is line 3'
 
 **Output**
 
-```ts
+```ts {1}
 // line-numbers is disabled by default
 const line2 = 'This is line 2'
 const line3 = 'This is line 3'
 ```
 
-```ts:line-numbers
+```ts:line-numbers {1}
 // line-numbers is enabled
 const line2 = 'This is line 2'
 const line3 = 'This is line 3'
