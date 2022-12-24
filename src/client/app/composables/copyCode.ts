@@ -1,4 +1,4 @@
-import { inBrowser } from '../utils.js'
+import { inBrowser } from 'vitepress'
 
 export function useCopyCode() {
   if (inBrowser) {
@@ -14,13 +14,18 @@ export function useCopyCode() {
         }
 
         const isShell = /language-(shellscript|shell|bash|sh|zsh)/.test(
-          parent.classList.toString()
+          parent.className
         )
 
-        let { innerText: text = '' } = sibling
+        let text = ''
+
+        sibling
+          .querySelectorAll('span.line:not(.diff.remove)')
+          .forEach((node) => (text += (node.textContent || '') + '\n'))
+        text = text.slice(0, -1)
 
         if (isShell) {
-          text = text.replace(/^ *(\$|>) /gm, '')
+          text = text.replace(/^ *(\$|>) /gm, '').trim()
         }
 
         copyToClipboard(text).then(() => {

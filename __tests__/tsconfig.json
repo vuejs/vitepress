@@ -7,6 +7,5 @@
       "node/*": ["../src/node/*"],
       "client/*": ["../src/client/*"]
     }
-  },
-  "include": ["../src", "."]
+  }
 }

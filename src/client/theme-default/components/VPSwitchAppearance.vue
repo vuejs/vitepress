@@ -18,13 +18,13 @@ function useAppearance() {
   const query = window.matchMedia('(prefers-color-scheme: dark)')
   const classList = document.documentElement.classList
 
-  let userPreference =
-    localStorage.getItem(APPEARANCE_KEY) || site.value.appearance !== true
-      ? site.value.appearance
-      : 'auto'
+  let userPreference = localStorage.getItem(APPEARANCE_KEY)
 
   let isDark =
-    userPreference === 'auto' ? query.matches : userPreference === 'dark'
+    (site.value.appearance === 'dark' && userPreference == null) ||
+    (userPreference === 'auto' || userPreference == null
+      ? query.matches
+      : userPreference === 'dark')
 
   query.onchange = (e) => {
     if (userPreference === 'auto') {

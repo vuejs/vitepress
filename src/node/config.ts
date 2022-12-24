@@ -53,6 +53,7 @@ export interface UserConfig<ThemeConfig = any> {
   srcDir?: string
   srcExclude?: string[]
   outDir?: string
+  cacheDir?: string
   shouldPreload?: (link: string, page: string) => boolean
 
   /**
@@ -86,6 +87,16 @@ export interface UserConfig<ThemeConfig = any> {
    * @default 'disabled'
    */
   cleanUrls?: CleanUrlsMode
+
+  /**
+   * Use web fonts instead of emitting font files to dist.
+   * The used theme should import a file named `fonts.(s)css` for this to work.
+   * If you are a theme author, to support this, place your web font import
+   * between `webfont-marker-begin` and `webfont-marker-end` comments.
+   *
+   * @default true in webcontainers, else false
+   */
+  useWebFonts?: boolean
 
   /**
    * Build end hook: called when SSG finish.
@@ -142,6 +153,7 @@ export interface SiteConfig<ThemeConfig = any>
     | 'lastUpdated'
     | 'ignoreDeadLinks'
     | 'cleanUrls'
+    | 'useWebFonts'
     | 'buildEnd'
     | 'transformHead'
     | 'transformHtml'
@@ -154,6 +166,7 @@ export interface SiteConfig<ThemeConfig = any>
   configDeps: string[]
   themeDir: string
   outDir: string
+  cacheDir: string
   tempDir: string
   pages: string[]
 }
@@ -192,6 +205,9 @@ export async function resolveConfig(
   const outDir = userConfig.outDir
     ? path.resolve(root, userConfig.outDir)
     : resolve(root, 'dist')
+  const cacheDir = userConfig.cacheDir
+    ? path.resolve(root, userConfig.cacheDir)
+    : resolve(root, 'cache')
 
   // resolve theme path
   const userThemeDir = resolve(root, 'theme')
@@ -221,6 +237,7 @@ export async function resolveConfig(
     configPath,
     configDeps,
     outDir,
+    cacheDir,
     tempDir: resolve(root, '.temp'),
     markdown: userConfig.markdown,
     lastUpdated: userConfig.lastUpdated,
@@ -230,6 +247,9 @@ export async function resolveConfig(
     mpa: !!userConfig.mpa,
     ignoreDeadLinks: userConfig.ignoreDeadLinks,
     cleanUrls: userConfig.cleanUrls || 'disabled',
+    useWebFonts:
+      userConfig.useWebFonts ??
+      typeof process.versions.webcontainer === 'string',
     buildEnd: userConfig.buildEnd,
     transformHead: userConfig.transformHead,
     transformHtml: userConfig.transformHtml,

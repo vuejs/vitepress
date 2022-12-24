@@ -10,7 +10,7 @@ The following guides are based on some shared assumptions:
   {
     "scripts": {
       "docs:build": "vitepress build docs",
-      "docs:serve": "vitepress serve docs"
+      "docs:preview": "vitepress preview docs"
     }
   }
   ```
@@ -34,22 +34,22 @@ If your site is to be served at a subdirectory (`https://example.com/subdir/`), 
 - Once you've built the docs, you can test them locally by running:
 
   ```sh
-  $ yarn docs:serve
+  $ yarn docs:preview
   ```
 
-  The `serve` command will boot up a local static web server that will serve the files from `.vitepress/dist` at `http://localhost:4173`. It's an easy way to check if the production build looks fine in your local environment.
+  The `preview` command will boot up a local static web server that will serve the files from `.vitepress/dist` at `http://localhost:4173`. It's an easy way to check if the production build looks fine in your local environment.
 
 - You can configure the port of the server by passing `--port` as an argument.
 
   ```json
   {
     "scripts": {
-      "docs:serve": "vitepress serve docs --port 8080"
+      "docs:preview": "vitepress preview docs --port 8080"
     }
   }
   ```
 
-  Now the `docs:serve` method will launch the server at `http://localhost:8080`.
+  Now the `docs:preview` method will launch the server at `http://localhost:8080`.
 
 ## Netlify, Vercel, AWS Amplify, Cloudflare Pages, Render
 
@@ -100,6 +100,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
            with:
              github_token: ${{ secrets.GITHUB_TOKEN }}
              publish_dir: docs/.vitepress/dist
+             # cname: example.com # if wanna deploy to custom domain
    ```
 
    ::: tip
