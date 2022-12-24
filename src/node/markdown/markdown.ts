@@ -76,13 +76,10 @@ export const createMarkdownRenderer = async (
     .use(imagePlugin)
     .use(
       linkPlugin,
-      {
-        target: '_blank',
-        rel: 'noreferrer',
-        ...options.externalLinks
-      },
+      { target: '_blank', rel: 'noreferrer', ...options.externalLinks },
       base
     )
+    .use(lineNumberPlugin, options.lineNumbers)
 
   // 3rd party plugins
   if (!options.attrs?.disable) {
@@ -115,8 +112,5 @@ export const createMarkdownRenderer = async (
     options.config(md)
   }
 
-  if (options.lineNumbers) {
-    md.use(lineNumberPlugin)
-  }
   return md
 }

@@ -74,10 +74,12 @@ export async function highlight(
   const styleRE = /<pre[^>]*(style=".*?")/
   const preRE = /^<pre(.*?)>/
   const vueRE = /-vue$/
+  const lineNoRE = /:(no-)?line-numbers$/
 
   return (str: string, lang: string, attrs: string) => {
     const vPre = vueRE.test(lang) ? '' : 'v-pre'
-    lang = lang.replace(vueRE, '').toLowerCase() || defaultLang
+    lang =
+      lang.replace(lineNoRE, '').replace(vueRE, '').toLowerCase() || defaultLang
 
     const lineOptions = attrsToLines(attrs)
     const cleanup = (str: string) =>
