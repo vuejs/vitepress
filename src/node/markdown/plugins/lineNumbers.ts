@@ -12,8 +12,8 @@ export const lineNumberPlugin = (md: MarkdownIt, enable = false) => {
     const info = tokens[idx].info
 
     if (
-      (!enable && !info.endsWith(':line-numbers')) ||
-      (enable && info.endsWith(':no-line-numbers'))
+      (!enable && !/:line-numbers($| )/.test(info)) ||
+      (enable && /:no-line-numbers($| )/.test(info))
     ) {
       return rawCode
     }
