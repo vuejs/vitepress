@@ -19,6 +19,7 @@ export function extractTitle(info: string) {
 const extractLang = (info: string) => {
   return info
     .trim()
+    .replace(/:(no-)?line-numbers$/, '')
     .replace(/(-vue|{| ).*$/, '')
     .replace(/^vue-html$/, 'template')
 }
