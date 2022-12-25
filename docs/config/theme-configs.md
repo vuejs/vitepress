@@ -193,6 +193,7 @@ type SocialLinkIcon =
   | 'github'
   | 'instagram'
   | 'linkedin'
+  | 'mastodon'
   | 'slack'
   | 'twitter'
   | 'youtube'
