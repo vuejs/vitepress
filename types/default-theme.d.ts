@@ -201,6 +201,7 @@ export namespace DefaultTheme {
     | 'github'
     | 'instagram'
     | 'linkedin'
+    | 'mastodon'
     | 'slack'
     | 'twitter'
     | 'youtube'
