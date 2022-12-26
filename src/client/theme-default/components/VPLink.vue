@@ -1,25 +1,13 @@
 <script lang="ts" setup>
-import { computed, ref, watchEffect } from 'vue'
+import { computed } from 'vue'
 import { normalizeLink } from '../support/utils.js'
 import VPIconExternalLink from './icons/VPIconExternalLink.vue'
 import { EXTERNAL_URL_RE } from '../../shared.js'
-import { useRoute } from 'vitepress';
-import { useSidebar } from '../composables/sidebar.js';
 
 const props = defineProps<{
   href?: string
   noIcon?: boolean
 }>()
-
-const route = useRoute()
-const { isSidebarEnabled } = useSidebar()
-const link = ref<HTMLLinkElement | null>(null)
-
-watchEffect(() => {
-  if (isSidebarEnabled.value && props.href === route.path) {
-    link.value?.focus();
-  }
-});
 
 const isExternal = computed(() => props.href && EXTERNAL_URL_RE.test(props.href))
 </script>
@@ -32,7 +20,6 @@ const isExternal = computed(() => props.href && EXTERNAL_URL_RE.test(props.href)
     :href="href ? normalizeLink(href) : undefined"
     :target="isExternal ? '_blank' : undefined"
     :rel="isExternal ? 'noreferrer' : undefined"
-    ref="link"
   >
     <slot />
     <VPIconExternalLink v-if="isExternal && !noIcon" class="icon" />
