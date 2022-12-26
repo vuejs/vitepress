@@ -188,9 +188,8 @@ features:
 
 ```ts
 interface Feature {
-  // Show icon on each feature box. Currently, only emojis
-  // are supported.
-  icon?: string
+  // Show icon on each feature box.
+  icon?: string | DefaultTheme.FeatureImage
 
   // Title of the feature.
   title: string

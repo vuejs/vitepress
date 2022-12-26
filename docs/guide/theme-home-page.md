@@ -87,6 +87,8 @@ Also you may customize it further by combining `--vp-home-hero-name-background` 
 
 In Features section, you can list any number of features you would like to show right after the Hero section. To configure it, pass `features` option to the frontmatter.
 
+You can provide an icon for each feature, which can be an emoji or any type of image. When the configured icon is an image (svg, png, jpeg...), you must provide the icon with the proper width and height; you can also provide the description, its intrinsic size as well as its variants for dark and light theme when required.
+
 ```yaml
 ---
 layout: home
@@ -101,14 +103,25 @@ features:
   - icon: 🛠️
     title: Simple and minimal, always
     details: Lorem ipsum...
+  - icon:
+      path: /src/assets/cool-feature-icon.svg
+      alt: 'Feature icon description'
+    title: Another cool feature
+    details: Lorem ipsum...
+  - icon:
+      path: 
+        dark: /dark-feature-icon.svg
+        light: /light-feature-icon.svg
+      alt: 'Feature icon description'
+    title: Another cool feature
+    details: Lorem ipsum...
 ---
 ```
 
 ```ts
 interface Feature {
-  // Show icon on each feature box. Currently, only emojis
-  // are supported.
-  icon?: string
+  // Show icon on each feature box.
+  icon?: string | DefaultTheme.FeatureImage
 
   // Title of the feature.
   title: string
@@ -127,5 +140,28 @@ interface Feature {
   //
   // e.g. `Learn more`, `Visit page`, etc.
   linkText?: string
+}
+```
+
+```ts
+export namespace DefaultTheme {
+  export interface FeatureImage {
+    /**
+     * Path to the image or paths for dark and light theme.
+     */  
+    path: string | { dark: string; light: string }
+    /**
+     * Description for the image.
+     */
+    alt?: string
+    /**
+     * Intrinsic width of the image.
+     */  
+    width?: number
+    /**
+     * Intrinsic height of the image.
+     */
+    height?: number
+  }
 }
 ```
