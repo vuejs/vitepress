@@ -12,28 +12,23 @@ hero:
       link: /home
 
 features:
-  - title: VitePress SVG
-    details: VitePress SVG on features section 
+  - title: SVG
+    details: SVG on features section 
     icon:
       path: /vitepress.svg
       alt: VitePress Logo
-  - title: Vite SVG
-    details: Vite SVG on features section
-    icon:
-      path: /vite.svg
-      alt: Vite Logo
-  - title: VitePress PNG
-    details: VitePress PNG on features section 
+  - title: PNG
+    details: PNG on features section 
     icon:
       path: /vitepress.png
       width: 48
       height: 48
       alt: VitePress Logo
-  - title: Vite PNG
-    details: Vite PNG on features section
+  - title: Dark/Light SVG
+    details: Dark/Light SVG on features section
     icon:
-      path: /vite.png
-      width: 48
-      height: 48
-      alt: Vite Logo
+      path:
+        dark: /pwa_dark.svg
+        light: /pwa_light.svg
+      alt: Vite PWA Logo
 ---
