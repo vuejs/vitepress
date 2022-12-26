@@ -55,4 +55,7 @@ html:not(.dark) .VPImage.dark {
 .dark .VPImage.light {
   display: none;
 }
+.VPImage.feature-image {
+  width: fit-content;
+}
 </style>

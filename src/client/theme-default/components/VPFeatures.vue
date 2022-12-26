@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import VPFeature from './VPFeature.vue'
+import type { DefaultTheme } from "vitepress/theme";
 
 export interface Feature {
-  icon?: string
+  icon?: string | DefaultTheme.FeatureImage
   title: string
   details: string
   link?: string

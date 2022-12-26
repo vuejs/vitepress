@@ -116,6 +116,13 @@ export namespace DefaultTheme {
 
   // image -----------------------------------------------------------------------
 
+  export interface FeatureImage {
+    path: string | { dark: string; light: string }
+    alt?: string
+    width?: number | string
+    height?: number | string
+  }
+
   export type ThemeableImage =
     | Image
     | { light: Image; dark: Image; alt?: string }
