@@ -1,6 +1,6 @@
 # Frontmatter Configs
 
-Frontmatter enables page based configuration. On every markdown, you’re free to add Any settings to override any global app or theme configs. Also, there are configs which you can only define in Frontmatter.
+Frontmatter enables page based configuration. On every markdown, you're free to add Any settings to override any global app or theme configs. Also, there are configs which you can only define in Frontmatter.
 
 ```yaml
 ---
@@ -197,8 +197,22 @@ interface Feature {
 
   // Details of the feature.
   details: string
+
+  // Link when clicked on feature component. The link can
+  // be both internal or external.
+  //
+  // e.g. `guide/theme-home-page` or `htttps://example.com`
+  link?: string
+
+  // Link text to be shown inside feature component. Best
+  // used with `link` option.
+  //
+  // e.g. `Learn more`, `Visit page`, etc.
+  linkText?: string
 }
 ```
+
+You may learn more about it in [Theme: Home Page](../guide/theme-home-page).
 
 ## aside
 

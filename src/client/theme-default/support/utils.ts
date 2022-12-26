@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { withBase, useData } from 'vitepress'
-import { EXTERNAL_URL_RE } from '../../shared.js'
+import { EXTERNAL_URL_RE, PATHNAME_PROTOCOL_RE } from '../../shared.js'
 
 export const HASH_RE = /#.*$/
 export const EXT_RE = /(index)?\.(md|html)$/
@@ -71,7 +71,7 @@ export function normalize(path: string): string {
 
 export function normalizeLink(url: string): string {
   if (isExternal(url)) {
-    return url
+    return url.replace(PATHNAME_PROTOCOL_RE, '')
   }
 
   const { site } = useData()

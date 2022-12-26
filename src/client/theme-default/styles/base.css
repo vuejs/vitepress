@@ -222,3 +222,7 @@ h6,
 p {
   overflow-wrap: break-word;
 }
+
+vite-error-overlay {
+  z-index: 9999;
+}

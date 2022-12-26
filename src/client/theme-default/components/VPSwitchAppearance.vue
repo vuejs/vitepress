@@ -1,10 +1,12 @@
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
+import { useData } from 'vitepress'
 import { APPEARANCE_KEY } from '../../shared.js'
 import VPSwitch from './VPSwitch.vue'
 import VPIconSun from './icons/VPIconSun.vue'
 import VPIconMoon from './icons/VPIconMoon.vue'
 
+const { site, isDark } = useData()
 const checked = ref(false)
 const toggle = typeof localStorage !== 'undefined' ? useAppearance() : () => {}
 
@@ -16,11 +18,13 @@ function useAppearance() {
   const query = window.matchMedia('(prefers-color-scheme: dark)')
   const classList = document.documentElement.classList
 
-  let userPreference = localStorage.getItem(APPEARANCE_KEY) || 'auto'
+  let userPreference = localStorage.getItem(APPEARANCE_KEY)
 
-  let isDark = userPreference === 'auto'
-    ? query.matches
-    : userPreference === 'dark'
+  let isDark =
+    (site.value.appearance === 'dark' && userPreference == null) ||
+    (userPreference === 'auto' || userPreference == null
+      ? query.matches
+      : userPreference === 'dark')
 
   query.onchange = (e) => {
     if (userPreference === 'auto') {
@@ -64,6 +68,10 @@ function useAppearance() {
 
   return toggle
 }
+
+watch(checked, (newIsDark) => {
+  isDark.value = newIsDark
+})
 </script>
 
 <template>

@@ -1,6 +1,12 @@
 import path from 'path'
 import c from 'picocolors'
-import { defineConfig, mergeConfig, Plugin, ResolvedConfig } from 'vite'
+import {
+  defineConfig,
+  mergeConfig,
+  searchForWorkspaceRoot,
+  Plugin,
+  ResolvedConfig
+} from 'vite'
 import { SiteConfig } from './config'
 import { createMarkdownToVueRenderFn, clearCache } from './markdownToVue'
 import {
@@ -13,6 +19,7 @@ import { slash } from './utils/slash'
 import { OutputAsset, OutputChunk } from 'rollup'
 import { staticDataPlugin } from './staticDataPlugin'
 import { PageDataPayload } from './shared'
+import { webFontsPlugin } from './webFontsPlugin'
 
 const hashRE = /\.(\w+)\.js$/
 const staticInjectMarkerRE =
@@ -95,7 +102,8 @@ export async function createVitePressPlugin(
         config.command === 'build',
         config.base,
         lastUpdated,
-        cleanUrls
+        cleanUrls,
+        siteConfig
       )
     },
 
@@ -115,7 +123,11 @@ export async function createVitePressPlugin(
         },
         server: {
           fs: {
-            allow: [DIST_CLIENT_PATH, srcDir, process.cwd()]
+            allow: [
+              DIST_CLIENT_PATH,
+              srcDir,
+              searchForWorkspaceRoot(process.cwd())
+            ]
           }
         }
       })
@@ -314,6 +326,7 @@ export async function createVitePressPlugin(
   return [
     vitePressPlugin,
     vuePlugin,
+    webFontsPlugin(siteConfig.useWebFonts),
     ...(userViteConfig?.plugins || []),
     staticDataPlugin
   ]

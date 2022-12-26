@@ -14,9 +14,9 @@ import {
 import { sfcPlugin, type SfcPluginOptions } from '@mdit-vue/plugin-sfc'
 import { titlePlugin } from '@mdit-vue/plugin-title'
 import { tocPlugin, type TocPluginOptions } from '@mdit-vue/plugin-toc'
+import { slugify } from '@mdit-vue/shared'
 import { IThemeRegistration } from 'shiki'
 import { highlight } from './plugins/highlight'
-import { slugify } from './plugins/slugify'
 import { highlightLinePlugin } from './plugins/highlightLines'
 import { lineNumberPlugin } from './plugins/lineNumbers'
 import { containerPlugin } from './plugins/containers'
@@ -40,6 +40,7 @@ export interface MarkdownOptions extends MarkdownIt.Options {
     allowedAttributes?: string[]
     disable?: boolean
   }
+  defaultHighlightLang?: string
   frontmatter?: FrontmatterPluginOptions
   headers?: HeadersPluginOptions
   sfc?: SfcPluginOptions
@@ -60,7 +61,9 @@ export const createMarkdownRenderer = async (
   const md = MarkdownIt({
     html: true,
     linkify: true,
-    highlight: options.highlight || (await highlight(options.theme)),
+    highlight:
+      options.highlight ||
+      (await highlight(options.theme, options.defaultHighlightLang)),
     ...options
   }) as MarkdownRenderer
 
@@ -73,13 +76,10 @@ export const createMarkdownRenderer = async (
     .use(imagePlugin)
     .use(
       linkPlugin,
-      {
-        target: '_blank',
-        rel: 'noreferrer',
-        ...options.externalLinks
-      },
+      { target: '_blank', rel: 'noreferrer', ...options.externalLinks },
       base
     )
+    .use(lineNumberPlugin, options.lineNumbers)
 
   // 3rd party plugins
   if (!options.attrs?.disable) {
@@ -97,7 +97,6 @@ export const createMarkdownRenderer = async (
       ...options.frontmatter
     } as FrontmatterPluginOptions)
     .use(headersPlugin, {
-      slugify,
       ...options.headers
     } as HeadersPluginOptions)
     .use(sfcPlugin, {
@@ -105,7 +104,6 @@ export const createMarkdownRenderer = async (
     } as SfcPluginOptions)
     .use(titlePlugin)
     .use(tocPlugin, {
-      slugify,
       ...options.toc
     } as TocPluginOptions)
 
@@ -114,8 +112,5 @@ export const createMarkdownRenderer = async (
     options.config(md)
   }
 
-  if (options.lineNumbers) {
-    md.use(lineNumberPlugin)
-  }
   return md
 }
