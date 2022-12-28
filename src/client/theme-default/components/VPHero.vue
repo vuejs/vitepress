@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject } from 'vue'
+import { Ref, inject } from 'vue'
 import type { DefaultTheme } from 'vitepress/theme'
 import VPButton from './VPButton.vue'
 import VPImage from './VPImage.vue'
@@ -18,11 +18,11 @@ defineProps<{
   actions?: HeroAction[]
 }>()
 
-const isHeroImageSlotContentExist = inject('isHeroImageSlotContentExist');
+const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
 </script>
 
 <template>
-  <div class="VPHero" :class="{ 'has-image': image || isHeroImageSlotContentExist }">
+  <div class="VPHero" :class="{ 'has-image': image || heroImageSlotExists }">
     <div class="container">
       <div class="main">
         <h1 v-if="name" class="name">
@@ -44,11 +44,11 @@ const isHeroImageSlotContentExist = inject('isHeroImageSlotContentExist');
         </div>
       </div>
 
-      <div v-if="image || isHeroImageSlotContentExist" class="image">
+      <div v-if="image || heroImageSlotExists" class="image">
         <div class="image-container">
           <div class="image-bg" />
           <slot name="home-hero-image">
-            <VPImage class="image-src" :image="image || ''" />
+            <VPImage v-if="image" class="image-src" :image="image" />
           </slot>
         </div>
       </div>

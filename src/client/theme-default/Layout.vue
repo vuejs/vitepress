@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { provide, watch, useSlots, ref } from 'vue'
+import { computed, provide, useSlots, watch } from 'vue'
 import { useData, useRoute } from 'vitepress'
 import { useSidebar, useCloseSidebarOnEscape } from './composables/sidebar.js'
 import VPSkipLink from './components/VPSkipLink.vue'
@@ -25,15 +25,11 @@ provide('close-sidebar', closeSidebar)
 provide('is-sidebar-open', isSidebarOpen)
 
 const { frontmatter } = useData()
-const isHeroImageSlotContentExist = ref(false);
+
 const slots = useSlots()
+const heroImageSlotExists = computed(() => !!slots['home-hero-image'])
 
-if (slots['home-hero-image']) {
-  isHeroImageSlotContentExist.value = true
-}
-
-provide('isHeroImageSlotContentExist', isHeroImageSlotContentExist)
-
+provide('hero-image-slot-exists', heroImageSlotExists)
 </script>
 
 <template>
