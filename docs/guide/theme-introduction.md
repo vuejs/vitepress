@@ -182,6 +182,7 @@ Or you could use render function as well.
 
 ```js
 // .vitepress/theme/index.js
+import { h } from 'vue'
 import DefaultTheme from 'vitepress/theme'
 import MyComponent from './MyComponent.vue'
 
