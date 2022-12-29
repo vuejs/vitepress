@@ -34,8 +34,10 @@ export default {
 ```
 
 ```ts
-type Image = string | { src: string; alt?: string }
-type ThemeableImage = Image | { light: Image; dark: Image }
+type ThemeableImage =
+  | string
+  | { src: string; alt?: string }
+  | { light: string; dark: string; alt?: string }
 ```
 
 ## siteTitle

@@ -12,23 +12,25 @@ hero:
       link: /home
 
 features:
+  - title: Emoji
+    details: Emoji on features section
+    icon: ⚡️
   - title: SVG
-    details: SVG on features section 
+    details: SVG on features section
     icon:
-      path: /vitepress.svg
+      src: /vitepress.svg
       alt: VitePress Logo
   - title: PNG
-    details: PNG on features section 
+    details: PNG on features section
     icon:
-      path: /vitepress.png
+      src: /vitepress.png
       width: 48
       height: 48
       alt: VitePress Logo
   - title: Dark/Light SVG
     details: Dark/Light SVG on features section
     icon:
-      path:
-        dark: /pwa_dark.svg
-        light: /pwa_light.svg
+      dark: /pwa_dark.svg
+      light: /pwa_light.svg
       alt: Vite PWA Logo
 ---

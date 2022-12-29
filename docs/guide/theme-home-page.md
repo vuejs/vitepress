@@ -94,25 +94,16 @@ You can provide an icon for each feature, which can be an emoji or any type of i
 layout: home
 
 features:
-  - icon: ⚡️
-    title: Vite, The DX that can't be beat
-    details: Lorem ipsum...
-  - icon: 🖖
-    title: Power of Vue meets Markdown
-    details: Lorem ipsum...
   - icon: 🛠️
     title: Simple and minimal, always
     details: Lorem ipsum...
   - icon:
-      path: /src/assets/cool-feature-icon.svg
-      alt: 'Feature icon description'
+      src: /cool-feature-icon.svg
     title: Another cool feature
     details: Lorem ipsum...
   - icon:
-      path: 
-        dark: /dark-feature-icon.svg
-        light: /light-feature-icon.svg
-      alt: 'Feature icon description'
+      dark: /dark-feature-icon.svg
+      light: /light-feature-icon.svg
     title: Another cool feature
     details: Lorem ipsum...
 ---
@@ -121,7 +112,7 @@ features:
 ```ts
 interface Feature {
   // Show icon on each feature box.
-  icon?: string | DefaultTheme.FeatureImage
+  icon?: FeatureIcon
 
   // Title of the feature.
   title: string
@@ -141,27 +132,15 @@ interface Feature {
   // e.g. `Learn more`, `Visit page`, etc.
   linkText?: string
 }
-```
 
-```ts
-export namespace DefaultTheme {
-  export interface FeatureImage {
-    /**
-     * Path to the image or paths for dark and light theme.
-     */  
-    path: string | { dark: string; light: string }
-    /**
-     * Description for the image.
-     */
-    alt?: string
-    /**
-     * Intrinsic width of the image.
-     */  
-    width?: number
-    /**
-     * Intrinsic height of the image.
-     */
-    height?: number
-  }
-}
+type FeatureIcon =
+  | string
+  | { src: string; alt?: string; width?: string; height: string }
+  | {
+      light: string
+      dark: string
+      alt?: string
+      width?: string
+      height: string
+    }
 ```

@@ -27,21 +27,13 @@ export default {
       <VPImage
         class="dark"
         :image="image.dark"
-        :alt="
-          typeof image.dark === 'string'
-            ? image.alt
-            : image.dark.alt || image.alt
-        "
+        :alt="image.alt"
         v-bind="$attrs"
       />
       <VPImage
         class="light"
         :image="image.light"
-        :alt="
-          typeof image.light === 'string'
-            ? image.alt
-            : image.light.alt || image.alt
-        "
+        :alt="image.alt"
         v-bind="$attrs"
       />
     </template>
@@ -54,8 +46,5 @@ html:not(.dark) .VPImage.dark {
 }
 .dark .VPImage.light {
   display: none;
-}
-.VPImage.feature-image {
-  width: fit-content;
 }
 </style>
