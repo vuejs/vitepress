@@ -114,12 +114,23 @@ export namespace DefaultTheme {
     activeMatch?: string
   }
 
-  // image -----------------------------------------------------------------------
+  // image ---------------------------------------------------------------------
 
   export type ThemeableImage =
-    | Image
-    | { light: Image; dark: Image; alt?: string }
-  export type Image = string | { src: string; alt?: string }
+    | string
+    | { src: string; alt?: string }
+    | { light: string; dark: string; alt?: string }
+
+  export type FeatureIcon =
+    | string
+    | { src: string; alt?: string; width?: string; height: string }
+    | {
+        light: string
+        dark: string
+        alt?: string
+        width?: string
+        height: string
+      }
 
   // sidebar -------------------------------------------------------------------
 
@@ -239,7 +250,7 @@ export namespace DefaultTheme {
     link: string
   }
 
-  // algolia ------------------------------------------------------------------
+  // algolia -------------------------------------------------------------------
 
   /**
    * The Algolia search options. Partially copied from
