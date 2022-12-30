@@ -68,6 +68,7 @@
     "test-build": "VITE_TEST_BUILD=1 pnpm test-preview",
     "debug-preview": "DEBUG=1 vitest -r __tests__/e2e",
     "debug-build": "VITE_TEST_BUILD=1 pnpm debug-preview",
+    "unit-dev": "vitest -r __tests__/unit",
     "e2e-dev": "wait-on -d 100 dist/node/cli.js && node ./bin/vitepress dev __tests__/e2e",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "release": "node scripts/release.js",
