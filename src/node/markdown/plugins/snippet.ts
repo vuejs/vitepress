@@ -3,9 +3,6 @@ import path from 'path'
 import MarkdownIt from 'markdown-it'
 import { RuleBlock } from 'markdown-it/lib/parser_block'
 
-/**
- * Exported for tests
- */
 export function dedent(text: string): string {
   const lines = text.split('\n')
 
