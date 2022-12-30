@@ -48,9 +48,17 @@ interface Hero {
   // Tagline displayed below `text`.
   tagline?: string
 
+  // The image is displayed next to the text and tagline area.
+  image?: ThemeableImage
+
   // Action buttons to display in home hero section.
   actions?: HeroAction[]
 }
+
+type ThemeableImage =
+  | string
+  | { src: string; alt?: string }
+  | { light: string; dark: string; alt?: string }
 
 interface HeroAction {
   // Color theme of the button. Defaults to `brand`.
