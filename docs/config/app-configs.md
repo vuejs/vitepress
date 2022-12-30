@@ -258,6 +258,14 @@ export default {
 }
 ```
 
+To configure a title separator other than `|`, you can omit `title` and use the `:title` symbol in `titleTemplate`.
+
+```ts
+export default {
+  titleTemplate: ':title - Vitepress'
+}
+```
+
 ## cleanUrls (Experimental)
 
 - Type: `'disabled' | 'without-subfolders' | 'with-subfolders'`
