@@ -2,7 +2,7 @@ import { dedent } from 'node/markdown/plugins/snippet'
 
 describe('node/markdown/plugins/snippet', () => {
   describe('dedent', () => {
-    test("when 0-level is minimal, it doesn't remove spaces", () => {
+    test('when 0-level is minimal, do not remove spaces', () => {
       expect(
         dedent(
           [
@@ -19,25 +19,42 @@ describe('node/markdown/plugins/snippet', () => {
       `)
     })
 
-    test('when 4-level is minimal, it removes 4 spaces', () => {
+    test('when 4-level is minimal, remove 4 spaces', () => {
       expect(
         dedent(
           [
             //
             '    let a = {',
-            '        Some(42)',
+            '        value: 42',
             '    };'
           ].join('\n')
         )
       ).toMatchInlineSnapshot(`
         "let a = {
-            Some(42)
+            value: 42
         };"
       `)
     })
 
-    test('when the only 1 line is passed, it is de-dented', () => {
+    test('when only 1 line is passed, dedent it', () => {
       expect(dedent('    let a = 42;')).toEqual('let a = 42;')
+    })
+
+    test('handle tabs as well', () => {
+      expect(
+        dedent(
+          [
+            //
+            '	let a = {',
+            '		value: 42',
+            '	};'
+          ].join('\n')
+        )
+      ).toMatchInlineSnapshot(`
+        "let a = {
+        	value: 42
+        };"
+      `)
     })
   })
 })
