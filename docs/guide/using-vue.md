@@ -198,7 +198,7 @@ export default {
 
 ## Built-In Components
 
-VitePress provides Built-In Vue Components like `ClientOnly` and `OutboundLink`, check out the [Global Component Guide](./api) for more information.
+VitePress provides Built-In Vue Components like `ClientOnly`, check out the [Global Component Guide](./api) for more information.
 
 **Also see:**
 

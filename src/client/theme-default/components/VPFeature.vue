@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import type { DefaultTheme } from 'vitepress/theme'
+import VPImage from './VPImage.vue'
 import VPLink from './VPLink.vue'
 import VPIconArrowRight from './icons/VPIconArrowRight.vue'
 
 defineProps<{
-  icon?: string
+  icon?: DefaultTheme.FeatureIcon
   title: string
   details: string
   link?: string
@@ -14,7 +16,14 @@ defineProps<{
 <template>
   <VPLink class="VPFeature" :href="link" :no-icon="true">
     <article class="box">
-      <div v-if="icon" class="icon">{{ icon }}</div>
+      <VPImage
+        v-if="typeof icon === 'object'"
+        :image="icon"
+        :alt="icon.alt"
+        :height="icon.height"
+        :width="icon.width"
+      />
+      <div v-else-if="icon" class="icon">{{ icon }}</div>
       <h2 class="title">{{ title }}</h2>
       <p class="details">{{ details }}</p>
 
@@ -51,6 +60,11 @@ defineProps<{
   flex-direction: column;
   padding: 24px;
   height: 100%;
+}
+
+.VPFeature:deep(.VPImage) {
+  width: fit-content;
+  margin-bottom: 20px;
 }
 
 .icon {

@@ -40,6 +40,7 @@
   margin-left: -0.87em;
   padding-right: 0.23em;
   font-weight: 500;
+  user-select: none;
   opacity: 0;
   transition: color 0.25s, opacity 0.25s;
 }

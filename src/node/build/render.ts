@@ -101,7 +101,7 @@ export async function renderPage(
     .join('\n    ')
 
   const stylesheetLink = cssChunk
-    ? `<link rel="stylesheet" href="${siteData.base}${cssChunk.fileName}">`
+    ? `<link rel="preload stylesheet" href="${siteData.base}${cssChunk.fileName}" as="style">`
     : ''
 
   const title: string = createTitle(siteData, pageData)
