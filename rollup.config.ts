@@ -1,5 +1,5 @@
 import { promises as fs } from 'fs'
-import { builtinModules } from 'module'
+import { builtinModules, createRequire } from 'module'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
 import { RollupOptions, defineConfig } from 'rollup'
@@ -10,7 +10,9 @@ import json from '@rollup/plugin-json'
 import replace from '@rollup/plugin-replace'
 import alias from '@rollup/plugin-alias'
 import dts from 'rollup-plugin-dts'
-import pkg from './package.json'
+
+const require = createRequire(import.meta.url)
+const pkg = require('./package.json')
 
 const DEV = !!process.env.DEV
 const PROD = !DEV

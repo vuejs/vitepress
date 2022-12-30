@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import type { DefaultTheme } from 'vitepress/theme'
 import { computed } from 'vue'
 import VPFeature from './VPFeature.vue'
 
 export interface Feature {
-  icon?: string
+  icon?: DefaultTheme.FeatureIcon
   title: string
   details: string
   link?: string
@@ -35,7 +36,12 @@ const grid = computed(() => {
   <div v-if="features" class="VPFeatures">
     <div class="container">
       <div class="items">
-        <div v-for="feature in features" :key="feature.title" class="item" :class="[grid]">
+        <div
+          v-for="feature in features"
+          :key="feature.title"
+          class="item"
+          :class="[grid]"
+        >
           <VPFeature
             :icon="feature.icon"
             :title="feature.title"

@@ -1,3 +1,47 @@
+# [1.0.0-alpha.33](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.32...v1.0.0-alpha.33) (2022-12-21)
+
+
+### Bug Fixes
+
+* **theme:** remove experimental fonts ([#1710](https://github.com/vuejs/vitepress/issues/1710)) ([1ebde66](https://github.com/vuejs/vitepress/commit/1ebde6623ef7f279a77b5a2ddc61e50e322481d1))
+
+
+### Features
+
+* **build:** provide a `pathname://` protocol to escape SPA ([#1719](https://github.com/vuejs/vitepress/issues/1719)) ([ae21a3a](https://github.com/vuejs/vitepress/commit/ae21a3a622844af476f8311b1d7eba7ae3d5af36))
+* **theme:** headings anchor should not be selectable ([#1701](https://github.com/vuejs/vitepress/issues/1701)) ([505a4f8](https://github.com/vuejs/vitepress/commit/505a4f8eee254844be98d224d7f0b943a33959e7))
+
+
+
+# [1.0.0-alpha.32](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.31...v1.0.0-alpha.32) (2022-12-16)
+
+
+### Bug Fixes
+
+* **build:** fix code groups for line numbers mode ([#1700](https://github.com/vuejs/vitepress/issues/1700)) ([135b797](https://github.com/vuejs/vitepress/commit/135b797cfb572659726d9dfbe11ca6045dee9fa3))
+
+
+### Features
+
+* add code-group feature ([#728](https://github.com/vuejs/vitepress/issues/728)) ([#1560](https://github.com/vuejs/vitepress/issues/1560)) ([a684b67](https://github.com/vuejs/vitepress/commit/a684b67ec084fdc3b3a300ffbdd21e19fdcf7b1e)), closes [#1242](https://github.com/vuejs/vitepress/issues/1242)
+* **build:** support `cacheDir` ([#1355](https://github.com/vuejs/vitepress/issues/1355)) ([f899764](https://github.com/vuejs/vitepress/commit/f899764bad8bfdf4fef91e23901d4af3cda91bcc))
+
+
+
+# [1.0.0-alpha.31](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.30...v1.0.0-alpha.31) (2022-12-10)
+
+
+### Features
+
+* **build:** switch to rollup 3 and vite 4 ([#1591](https://github.com/vuejs/vitepress/issues/1591)) ([ae33896](https://github.com/vuejs/vitepress/commit/ae33896a322b6b4cc944d44398ddba6e60b5d1c7))
+
+
+### Performance Improvements
+
+* **a11y:** add aria-hidden to line numbers wrapper ([#1675](https://github.com/vuejs/vitepress/issues/1675)) ([4c5a892](https://github.com/vuejs/vitepress/commit/4c5a892d7787440faebf061daaaff908680dcd99))
+
+
+
 # [1.0.0-alpha.30](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.29...v1.0.0-alpha.30) (2022-12-05)
 
 

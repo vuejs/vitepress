@@ -14,6 +14,7 @@ export async function buildMPAClient(
 
   return build({
     root: config.srcDir,
+    cacheDir: config.cacheDir,
     base: config.site.base,
     logLevel: 'warn',
     build: {

@@ -1,4 +1,4 @@
-import { inBrowser } from '../utils.js'
+import { inBrowser } from 'vitepress'
 
 export function useCopyCode() {
   if (inBrowser) {
