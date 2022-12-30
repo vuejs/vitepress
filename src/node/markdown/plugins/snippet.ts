@@ -8,7 +8,7 @@ export function dedent(text: string): string {
 
   const minIndentLength = lines.reduce((acc, line) => {
     for (let i = 0; i < line.length; i++) {
-      if (line[i] !== ' ') return Math.min(i, acc)
+      if (line[i] !== ' ' && line[i] !== '\t') return Math.min(i, acc)
     }
     return acc
   }, Infinity)
