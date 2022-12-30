@@ -17,6 +17,7 @@ import { dataSymbol, initData } from './data.js'
 import { Content } from './components/Content.js'
 import { ClientOnly } from './components/ClientOnly.js'
 import { useCopyCode } from './composables/copyCode.js'
+import { useCodeGroups } from './composables/codeGroups.js'
 
 const NotFound = Theme.NotFound || (() => '404 Not Found')
 
@@ -43,6 +44,8 @@ const VitePressApp = defineComponent({
 
     // setup global copy code handler
     useCopyCode()
+    // setup global code groups handler
+    useCodeGroups()
 
     if (Theme.setup) Theme.setup()
     return () => h(Theme.Layout)
