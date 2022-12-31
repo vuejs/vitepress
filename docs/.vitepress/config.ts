@@ -1,5 +1,8 @@
-import { defineConfig } from '../../src/node'
-import { version } from '../../package.json'
+import { createRequire } from 'module'
+import { defineConfig } from 'vitepress'
+
+const require = createRequire(import.meta.url)
+const pkg = require('vitepress/package.json')
 
 export default defineConfig({
   lang: 'en-US',
@@ -57,7 +60,7 @@ function nav() {
     { text: 'Guide', link: '/guide/what-is-vitepress', activeMatch: '/guide/' },
     { text: 'Configs', link: '/config/introduction', activeMatch: '/config/' },
     {
-      text: version,
+      text: pkg.version,
       items: [
         {
           text: 'Changelog',
