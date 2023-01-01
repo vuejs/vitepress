@@ -44,7 +44,7 @@ titleTemplate: Vite & Vue powered static site generator
 
 - Type: `string`
 
-Title for the page. It's same as [config.description](../config/app-configs#description), and it overrides the app config.
+Description for the page. It's same as [config.description](../config/app-configs#description), and it overrides the app config.
 
 ```yaml
 ---
