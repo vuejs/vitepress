@@ -2,7 +2,7 @@
 
 Nav 是显示在页面顶部的导航栏。 它包含站点标题、全局菜单链接等。
 
-## 网站的标题和 logo {#site-title-and-logo}
+## 站点的标题和 logo {#site-title-and-logo}
 
 默认情况下，导航的展示会引用 [`config.title`](../config/app-configs#title) 配置的站点标题。如果想更改导航上显示的内容，可以在 `themeConfig.siteTitle` 选项中定义自定义文本。
 
@@ -14,7 +14,7 @@ export default {
 }
 ```
 
-可以通过配置 `logo` 来展示网站的 logo，logo 应该直接放在 `public` 中，并定义为绝对路径。
+可以通过配置 `logo` 来展示站点的 logo，logo 应该直接放在 `public` 中，并定义为绝对路径。
 
 ```js
 export default {
@@ -24,7 +24,7 @@ export default {
 }
 ```
 
-添加 logo 后将会与网站标题一起显示。如果只想要展示 logo 而隐藏标题，请将 `siteTitle` 设置为 `false`。
+添加 logo 后将会与站点标题一起显示。如果只想要展示 logo 而隐藏标题，请将 `siteTitle` 设置为 `false`。
 
 ```js
 export default {

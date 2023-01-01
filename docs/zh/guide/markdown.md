@@ -281,7 +281,7 @@ export default {
 
 在 Shiki 的仓库里有对应支持的[语言列表](https://github.com/shikijs/shiki/blob/main/docs/languages.md)。
 
-你还可以在应用配置中自定义语法高亮主题。有关详细信息，请参阅 [`markdown` 选项](../config/app-configs#markdown)。
+你还可以在应用全局配置中自定义语法高亮主题。有关详细信息，请参阅 [`markdown` 选项](../config/app-configs#markdown)。
 
 ## 代码块中定义行高亮 {#line-highlighting-in-code-blocks}
 
@@ -617,4 +617,4 @@ module.exports = {
 }
 ```
 
-通过[配置：应用配置](../config/app-configs#markdown)查看可配置属性的完整列表。
+通过[配置：应用全局配置](../config/app-configs#markdown)查看可配置属性的完整列表。

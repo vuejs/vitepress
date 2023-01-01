@@ -34,7 +34,7 @@
 
 <div class="language-text"><pre><code><span v-for="i in 3">{{ i }} </span></code></pre></div>
 
-### 获取网站和页面数据 {#access-to-site-page-data}
+### 获取站点和页面数据 {#access-to-site-page-data}
 
 你可以在 `<script>` 里使用 [`useData` 辅助函数](./api#usedata) 并在页面里绑定数据。
 
