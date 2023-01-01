@@ -1,3 +1,29 @@
+# [1.0.0-alpha.34](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.33...v1.0.0-alpha.34) (2023-01-01)
+
+
+### Bug Fixes
+
+* **build:** dedent of a single-line region ([#1687](https://github.com/vuejs/vitepress/issues/1687)) ([7de7fff](https://github.com/vuejs/vitepress/commit/7de7fff4178251a6173ac67b52de50176830f539))
+* **build:** handle `-` in title of code blocks with line highlighting ([#1743](https://github.com/vuejs/vitepress/issues/1743)) ([ce9467e](https://github.com/vuejs/vitepress/commit/ce9467e389a2776f3230cb31e596cf9e575cc0df))
+* handle cleanUrls with subfolders when using a trailing slash ([#1575](https://github.com/vuejs/vitepress/issues/1575)) ([195d867](https://github.com/vuejs/vitepress/commit/195d867ee9bb51a4c112534b34bda7bcd0c2c3f5))
+
+
+### Features
+
+* **build:** allow specifying default language for syntax highlighter ([#1296](https://github.com/vuejs/vitepress/issues/1296)) ([f40df31](https://github.com/vuejs/vitepress/commit/f40df319475dba9f3fe1e13ff8d8dc4c0950bf5f))
+* **build:** fence-level config for line-numbers ([#1733](https://github.com/vuejs/vitepress/issues/1733)) ([c048076](https://github.com/vuejs/vitepress/commit/c048076370b081acc69c04754bf5deba2b8f5cd5))
+* **theme:** add `home-hero-image` slot ([#1528](https://github.com/vuejs/vitepress/issues/1528)) ([e72998b](https://github.com/vuejs/vitepress/commit/e72998b68bfcc301d15553033a8b90dee0db65cf))
+* **theme:** add mastodon icon ([#1736](https://github.com/vuejs/vitepress/issues/1736)) ([7a73784](https://github.com/vuejs/vitepress/commit/7a737845e5d81a09151320d373a787d2e5f881af))
+* **theme:** allow adding images as icons in features section ([#1738](https://github.com/vuejs/vitepress/issues/1738)) ([9df598f](https://github.com/vuejs/vitepress/commit/9df598f36e30fdc9d1c7440bf98b45783126c39f))
+
+
+### Performance Improvements
+
+* **a11y:** make menu traversable only when it is open ([#1491](https://github.com/vuejs/vitepress/issues/1491)) ([257f9e6](https://github.com/vuejs/vitepress/commit/257f9e68e947a603f9c3ef0df4be7b2afa79fbe7))
+* preload css to improve loading speed ([bf1315a](https://github.com/vuejs/vitepress/commit/bf1315ace670df0128682838736371e5381b3f42))
+
+
+
 # [1.0.0-alpha.33](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.32...v1.0.0-alpha.33) (2022-12-21)
 
 
