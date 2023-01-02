@@ -3,16 +3,16 @@ import { ref, watch, onMounted } from 'vue'
 import { useData } from 'vitepress'
 import { useAside } from '../composables/aside.js'
 
-const { theme } = useData()
+const { theme, page } = useData()
 const carbonOptions = theme.value.carbonAds
 const { isAsideEnabled } = useAside()
 const container = ref()
 
-let hasInitalized = false
+let isInitialized = false
 
 function init() {
-  if (!hasInitalized) {
-    hasInitalized = true
+  if (!isInitialized) {
+    isInitialized = true
     const s = document.createElement('script')
     s.id = '_carbonads_js'
     s.src = `//cdn.carbonads.com/carbon.js?serve=${carbonOptions.code}&placement=${carbonOptions.placement}`
@@ -20,6 +20,12 @@ function init() {
     container.value.appendChild(s)
   }
 }
+
+watch(() => page.value.relativePath, () => {
+  if (isInitialized && isAsideEnabled.value) {
+    ;(window as any)._carbonads?.refresh()
+  }
+})
 
 // no need to account for option changes during dev, we can just
 // refresh the page
