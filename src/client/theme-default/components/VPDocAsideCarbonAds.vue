@@ -4,7 +4,6 @@ import { defineAsyncComponent } from 'vue'
 const VPCarbonAds = __CARBON__
   ? defineAsyncComponent(() => import('./VPCarbonAds.vue'))
   : () => null
-
 </script>
 
 <template>
