@@ -54,7 +54,7 @@ if (carbonOptions) {
   align-items: center;
   padding: 24px;
   border-radius: 12px;
-  min-height: 240px;
+  min-height: 256px;
   text-align: center;
   line-height: 18px;
   font-size: 12px;
