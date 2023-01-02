@@ -93,7 +93,6 @@ export async function highlight(
         .replace(preRE, (_, attributes) => `<pre ${vPre}${attributes}>`)
         .replace(styleRE, (_, style) => _.replace(style, ''))
 
-
     if (hasSingleTheme) {
       return cleanup(
         highlighter.codeToHtml(str, {
