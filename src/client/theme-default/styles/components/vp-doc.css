@@ -448,9 +448,10 @@
 .vp-doc [class*='language-'] > button.copy:hover.copied::before {
   position: relative;
   left: -65px;
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 4px 0 0 4px;
-  padding-top: 8px;
   width: 64px;
   height: 40px;
   text-align: center;
