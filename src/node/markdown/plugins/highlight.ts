@@ -80,12 +80,19 @@ export async function highlight(
     const vPre = vueRE.test(lang) ? '' : 'v-pre'
     lang =
       lang.replace(lineNoRE, '').replace(vueRE, '').toLowerCase() || defaultLang
-
+    const langExists = highlighter.getLoadedLanguages().includes(lang as any)
+    if (!langExists) {
+      console.warn(
+        `The language "${lang}" doesn't exist, falling back to plaintext.`
+      )
+      lang = defaultLang
+    }
     const lineOptions = attrsToLines(attrs)
     const cleanup = (str: string) =>
       str
         .replace(preRE, (_, attributes) => `<pre ${vPre}${attributes}>`)
         .replace(styleRE, (_, style) => _.replace(style, ''))
+
 
     if (hasSingleTheme) {
       return cleanup(
