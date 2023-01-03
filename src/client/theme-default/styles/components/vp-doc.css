@@ -348,7 +348,7 @@
 
 .vp-doc [class*='language-'] code .diff::before {
   position: absolute;
-  left: 1rem;
+  left: 10px;
 }
 
 .vp-doc [class*='language-'] .has-focused-lines .line:not(.has-focus) {
