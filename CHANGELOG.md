@@ -1,3 +1,15 @@
+# [1.0.0-alpha.35](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.34...v1.0.0-alpha.35) (2023-01-03)
+
+
+### Bug Fixes
+
+* **theme:** adjust styles for copied button ([#1751](https://github.com/vuejs/vitepress/issues/1751)) ([565ae71](https://github.com/vuejs/vitepress/commit/565ae711b9b90ad2fe820cdbaa04a9d41506ac53))
+* **theme:** adjust styles for diff indicator in code blocks ([#1755](https://github.com/vuejs/vitepress/issues/1755)) ([a642ea2](https://github.com/vuejs/vitepress/commit/a642ea2526f5638243283bd37ef9ba0af350d407))
+* **theme:** prevent layout shift on carbon ads ([f6c5e1f](https://github.com/vuejs/vitepress/commit/f6c5e1f098d1fd4d4f6325a21adbb088c32a0740))
+* **theme:** refresh ads per page navigation ([#1734](https://github.com/vuejs/vitepress/issues/1734)) ([8db20fe](https://github.com/vuejs/vitepress/commit/8db20fe02240bb1d3c02da738740f2433edb1e8b))
+
+
+
 # [1.0.0-alpha.34](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.33...v1.0.0-alpha.34) (2023-01-01)
 
 
