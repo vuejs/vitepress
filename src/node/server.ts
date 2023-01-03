@@ -1,5 +1,5 @@
 import dns from 'dns'
-import { createServer as createViteServer, ServerOptions } from 'vite'
+import { createServer as createViteServer, type ServerOptions } from 'vite'
 import { resolveConfig } from './config'
 import { createVitePressPlugin } from './plugin'
 

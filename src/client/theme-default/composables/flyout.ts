@@ -1,4 +1,4 @@
-import { Ref, ref, watch, readonly, onUnmounted } from 'vue'
+import { type Ref, ref, watch, readonly, onUnmounted } from 'vue'
 
 interface UseFlyoutOptions {
   el: Ref<HTMLElement | undefined>

@@ -1,4 +1,11 @@
-import { computed, onMounted, onUnmounted, Ref, ref, watchEffect } from 'vue'
+import {
+  computed,
+  onMounted,
+  onUnmounted,
+  type Ref,
+  ref,
+  watchEffect
+} from 'vue'
 import { useData, useRoute } from 'vitepress'
 import { useMediaQuery } from '@vueuse/core'
 import { getSidebar } from '../support/sidebar.js'
