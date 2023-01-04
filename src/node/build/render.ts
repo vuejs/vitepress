@@ -15,7 +15,7 @@ import {
   sanitizeFileName
 } from '../shared'
 import { slash } from '../utils/slash'
-import { type SiteConfig } from '../config'
+import type { SiteConfig } from '../config'
 
 export async function renderPage(
   render: (path: string) => Promise<string>,
