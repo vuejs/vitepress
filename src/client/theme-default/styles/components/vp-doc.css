@@ -351,7 +351,7 @@
 
 .vp-doc [class*='language-'] code .diff::before {
   position: absolute;
-  left: 1rem;
+  left: 10px;
 }
 
 .vp-doc [class*='language-'] .has-focused-lines .line:not(.has-focus) {
@@ -459,10 +459,11 @@
   position: relative;
   /*rtl:ignore*/
   left: -65px;
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   /*rtl:ignore*/
   border-radius: 4px 0 0 4px;
-  padding-top: 8px;
   width: 64px;
   height: 40px;
   text-align: center;

@@ -4,24 +4,24 @@ import c from 'picocolors'
 import fg from 'fast-glob'
 import {
   normalizePath,
-  UserConfig as ViteConfig,
+  type UserConfig as ViteConfig,
   mergeConfig as mergeViteConfig,
   loadConfigFromFile
 } from 'vite'
-import { Options as VuePluginOptions } from '@vitejs/plugin-vue'
+import type { Options as VuePluginOptions } from '@vitejs/plugin-vue'
 import {
-  SiteData,
-  HeadConfig,
-  LocaleConfig,
-  LocaleSpecificConfig,
-  DefaultTheme,
+  type SiteData,
+  type HeadConfig,
+  type LocaleConfig,
+  type LocaleSpecificConfig,
+  type DefaultTheme,
   APPEARANCE_KEY,
-  CleanUrlsMode,
-  PageData,
-  Awaitable
+  type CleanUrlsMode,
+  type PageData,
+  type Awaitable
 } from './shared'
 import { DEFAULT_THEME_PATH } from './alias'
-import { MarkdownOptions } from './markdown/markdown'
+import type { MarkdownOptions } from './markdown/markdown'
 import _debug from 'debug'
 
 const debug = _debug('vitepress:config')

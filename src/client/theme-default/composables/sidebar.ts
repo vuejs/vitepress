@@ -1,11 +1,20 @@
-import { computed, onMounted, onUnmounted, Ref, ref, watchEffect } from 'vue'
+import {
+  computed,
+  onMounted,
+  onUnmounted,
+  type Ref,
+  ref,
+  watchEffect
+} from 'vue'
 import { useRoute } from 'vitepress'
+import { useMediaQuery } from '@vueuse/core'
 import { useData } from './data.js'
 import { getSidebar } from '../support/sidebar.js'
 
 export function useSidebar() {
   const route = useRoute()
   const { theme, frontmatter } = useData()
+  const is960 = useMediaQuery('(min-width: 960px)')
 
   const isOpen = ref(false)
 
@@ -29,6 +38,8 @@ export function useSidebar() {
     )
   })
 
+  const isSidebarEnabled = computed(() => hasSidebar.value && is960.value)
+
   function open() {
     isOpen.value = true
   }
@@ -46,6 +57,7 @@ export function useSidebar() {
     sidebar,
     hasSidebar,
     hasAside,
+    isSidebarEnabled,
     open,
     close,
     toggle

@@ -1,31 +1,20 @@
 import fs from 'fs'
 import path from 'path'
-import MarkdownIt from 'markdown-it'
-import { RuleBlock } from 'markdown-it/lib/parser_block'
+import type MarkdownIt from 'markdown-it'
+import type { RuleBlock } from 'markdown-it/lib/parser_block'
 
-function dedent(text: string) {
-  const wRegexp = /^([ \t]*)(.*)\n/gm
-  let match
-  let minIndentLength = null
+export function dedent(text: string): string {
+  const lines = text.split('\n')
 
-  while ((match = wRegexp.exec(text)) !== null) {
-    const [indentation, content] = match.slice(1)
-    if (!content) continue
+  const minIndentLength = lines.reduce((acc, line) => {
+    for (let i = 0; i < line.length; i++) {
+      if (line[i] !== ' ' && line[i] !== '\t') return Math.min(i, acc)
+    }
+    return acc
+  }, Infinity)
 
-    const indentLength = indentation.length
-    if (indentLength > 0) {
-      minIndentLength =
-        minIndentLength !== null
-          ? Math.min(minIndentLength, indentLength)
-          : indentLength
-    } else break
-  }
-
-  if (minIndentLength) {
-    text = text.replace(
-      new RegExp(`^[ \t]{${minIndentLength}}(.*)`, 'gm'),
-      '$1'
-    )
+  if (minIndentLength < Infinity) {
+    return lines.map((x) => x.slice(minIndentLength)).join('\n')
   }
 
   return text

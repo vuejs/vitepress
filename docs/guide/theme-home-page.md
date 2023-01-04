@@ -48,9 +48,17 @@ interface Hero {
   // Tagline displayed below `text`.
   tagline?: string
 
+  // The image is displayed next to the text and tagline area.
+  image?: ThemeableImage
+
   // Action buttons to display in home hero section.
   actions?: HeroAction[]
 }
+
+type ThemeableImage =
+  | string
+  | { src: string; alt?: string }
+  | { light: string; dark: string; alt?: string }
 
 interface HeroAction {
   // Color theme of the button. Defaults to `brand`.
@@ -87,28 +95,32 @@ Also you may customize it further by combining `--vp-home-hero-name-background` 
 
 In Features section, you can list any number of features you would like to show right after the Hero section. To configure it, pass `features` option to the frontmatter.
 
+You can provide an icon for each feature, which can be an emoji or any type of image. When the configured icon is an image (svg, png, jpeg...), you must provide the icon with the proper width and height; you can also provide the description, its intrinsic size as well as its variants for dark and light theme when required.
+
 ```yaml
 ---
 layout: home
 
 features:
-  - icon: ⚡️
-    title: Vite, The DX that can't be beat
-    details: Lorem ipsum...
-  - icon: 🖖
-    title: Power of Vue meets Markdown
-    details: Lorem ipsum...
   - icon: 🛠️
     title: Simple and minimal, always
+    details: Lorem ipsum...
+  - icon:
+      src: /cool-feature-icon.svg
+    title: Another cool feature
+    details: Lorem ipsum...
+  - icon:
+      dark: /dark-feature-icon.svg
+      light: /light-feature-icon.svg
+    title: Another cool feature
     details: Lorem ipsum...
 ---
 ```
 
 ```ts
 interface Feature {
-  // Show icon on each feature box. Currently, only emojis
-  // are supported.
-  icon?: string
+  // Show icon on each feature box.
+  icon?: FeatureIcon
 
   // Title of the feature.
   title: string
@@ -128,4 +140,15 @@ interface Feature {
   // e.g. `Learn more`, `Visit page`, etc.
   linkText?: string
 }
+
+type FeatureIcon =
+  | string
+  | { src: string; alt?: string; width?: string; height: string }
+  | {
+      light: string
+      dark: string
+      alt?: string
+      width?: string
+      height: string
+    }
 ```

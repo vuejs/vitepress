@@ -495,6 +495,38 @@ export default {
 
 Please see [`markdown` options](../config/app-configs#markdown) for more details.
 
+You can add `:line-numbers` / `:no-line-numbers` mark in your fenced code blocks to override the value set in config.
+
+**Input**
+
+````md
+```ts {1}
+// line-numbers is disabled by default
+const line2 = 'This is line 2'
+const line3 = 'This is line 3'
+```
+
+```ts:line-numbers {1}
+// line-numbers is enabled
+const line2 = 'This is line 2'
+const line3 = 'This is line 3'
+```
+````
+
+**Output**
+
+```ts {1}
+// line-numbers is disabled by default
+const line2 = 'This is line 2'
+const line3 = 'This is line 3'
+```
+
+```ts:line-numbers {1}
+// line-numbers is enabled
+const line2 = 'This is line 2'
+const line3 = 'This is line 3'
+```
+
 ## Import Code Snippets
 
 You can import code snippets from existing files via following syntax:
@@ -551,6 +583,10 @@ You can also specify the language inside the braces (`{}`) like this:
 <!-- with line highlighting: -->
 
 <<< @/snippets/snippet.cs{1,2,4-6 c#}
+
+<!-- with line numbers: -->
+
+<<< @/snippets/snippet.cs{1,2,4-6 c#:line-numbers}
 ```
 
 This is helpful if source language cannot be inferred from your file extension.

@@ -1,4 +1,4 @@
-import MarkdownIt from 'markdown-it'
+import type MarkdownIt from 'markdown-it'
 
 export function preWrapperPlugin(md: MarkdownIt) {
   const fence = md.renderer.rules.fence!
@@ -19,6 +19,7 @@ export function extractTitle(info: string) {
 const extractLang = (info: string) => {
   return info
     .trim()
+    .replace(/:(no-)?line-numbers$/, '')
     .replace(/(-vue|{| ).*$/, '')
     .replace(/^vue-html$/, 'template')
 }

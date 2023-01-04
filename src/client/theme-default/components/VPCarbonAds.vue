@@ -2,20 +2,23 @@
 import type { DefaultTheme } from 'vitepress/theme'
 import { ref, watch, onMounted } from 'vue'
 import { useAside } from '../composables/aside.js'
+import { useData } from './composables/data.js'
 
+const { page } = useData()
 const props = defineProps<{
   carbonAds: DefaultTheme.CarbonAdsOptions
 }>()
 
 const carbonOptions = props.carbonAds
+
 const { isAsideEnabled } = useAside()
 const container = ref()
 
-let hasInitalized = false
+let isInitialized = false
 
 function init() {
-  if (!hasInitalized) {
-    hasInitalized = true
+  if (!isInitialized) {
+    isInitialized = true
     const s = document.createElement('script')
     s.id = '_carbonads_js'
     s.src = `//cdn.carbonads.com/carbon.js?serve=${carbonOptions.code}&placement=${carbonOptions.placement}`
@@ -23,6 +26,12 @@ function init() {
     container.value.appendChild(s)
   }
 }
+
+watch(() => page.value.relativePath, () => {
+  if (isInitialized && isAsideEnabled.value) {
+    ;(window as any)._carbonads?.refresh()
+  }
+})
 
 // no need to account for option changes during dev, we can just
 // refresh the page
@@ -51,7 +60,7 @@ if (carbonOptions) {
   align-items: center;
   padding: 24px;
   border-radius: 12px;
-  min-height: 240px;
+  min-height: 256px;
   text-align: center;
   line-height: 18px;
   font-size: 12px;

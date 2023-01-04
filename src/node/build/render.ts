@@ -3,10 +3,10 @@ import path from 'path'
 import { pathToFileURL } from 'url'
 import escape from 'escape-html'
 import { normalizePath, transformWithEsbuild } from 'vite'
-import { RollupOutput, OutputChunk, OutputAsset } from 'rollup'
+import type { RollupOutput, OutputChunk, OutputAsset } from 'rollup'
 import {
-  HeadConfig,
-  PageData,
+  type HeadConfig,
+  type PageData,
   createTitle,
   notFoundPageData,
   mergeHead,
@@ -15,7 +15,7 @@ import {
   sanitizeFileName
 } from '../shared'
 import { slash } from '../utils/slash'
-import { SiteConfig } from '../config'
+import { type SiteConfig } from '../config'
 
 export async function renderPage(
   render: (path: string) => Promise<string>,
@@ -102,7 +102,7 @@ export async function renderPage(
     .join('\n    ')
 
   const stylesheetLink = cssChunk
-    ? `<link rel="stylesheet" href="${siteData.base}${cssChunk.fileName}">`
+    ? `<link rel="preload stylesheet" href="${siteData.base}${cssChunk.fileName}" as="style">`
     : ''
 
   const title: string = createTitle(siteData, pageData)

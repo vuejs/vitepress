@@ -20,7 +20,7 @@ import type { ThemeOptions } from '../markdown'
  *    [{ line: number, classes: string[] }]
  */
 const attrsToLines = (attrs: string): HtmlRendererOptions['lineOptions'] => {
-  attrs = attrs.replace(/.*?([\d,-]+).*/, '$1').trim()
+  attrs = attrs.replace(/^(?:\[.*?\])?.*?([\d,-]+).*/, '$1').trim()
   const result: number[] = []
   if (!attrs) {
     return []
@@ -52,7 +52,8 @@ const errorLevelProcessor = defineProcessor({
 })
 
 export async function highlight(
-  theme: ThemeOptions = 'material-palenight'
+  theme: ThemeOptions = 'material-palenight',
+  defaultLang: string = ''
 ): Promise<(str: string, lang: string, attrs: string) => string> {
   const hasSingleTheme = typeof theme === 'string' || 'name' in theme
   const getThemeName = (themeValue: IThemeRegistration) =>
@@ -73,10 +74,12 @@ export async function highlight(
   const styleRE = /<pre[^>]*(style=".*?")/
   const preRE = /^<pre(.*?)>/
   const vueRE = /-vue$/
+  const lineNoRE = /:(no-)?line-numbers$/
 
   return (str: string, lang: string, attrs: string) => {
     const vPre = vueRE.test(lang) ? '' : 'v-pre'
-    lang = lang.replace(vueRE, '').toLowerCase()
+    lang =
+      lang.replace(lineNoRE, '').replace(vueRE, '').toLowerCase() || defaultLang
 
     const lineOptions = attrsToLines(attrs)
     const cleanup = (str: string) =>
