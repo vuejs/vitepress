@@ -1,6 +1,6 @@
 import type { App, Ref, Component } from 'vue'
 import type { Router } from './router.js'
-import type { SiteData } from '../shared.js'
+import type { Awaitable, SiteData } from '../shared.js'
 
 export interface EnhanceAppContext {
   app: App
@@ -11,6 +11,6 @@ export interface EnhanceAppContext {
 export interface Theme {
   Layout: Component
   NotFound?: Component
-  enhanceApp?: (ctx: EnhanceAppContext) => void
+  enhanceApp?: (ctx: EnhanceAppContext) => Awaitable<void>
   setup?: () => void
 }
