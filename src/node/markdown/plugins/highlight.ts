@@ -10,6 +10,9 @@ import {
   type Processor
 } from 'shiki-processor'
 import type { ThemeOptions } from '../markdown'
+import { customAlphabet } from 'nanoid'
+
+const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)
 
 /**
  * 2 steps:
@@ -75,6 +78,7 @@ export async function highlight(
   const preRE = /^<pre(.*?)>/
   const vueRE = /-vue$/
   const lineNoRE = /:(no-)?line-numbers$/
+  const mustacheRE = /\{\{.*?\}\}/g
 
   return (str: string, lang: string, attrs: string) => {
     const vPre = vueRE.test(lang) ? '' : 'v-pre'
@@ -87,13 +91,36 @@ export async function highlight(
         .replace(preRE, (_, attributes) => `<pre ${vPre}${attributes}>`)
         .replace(styleRE, (_, style) => _.replace(style, ''))
 
+    const mustaches = new Map<string, string>()
+
+    const removeMustache = (s: string) => {
+      if (vPre) return s
+      return s.replace(mustacheRE, (match) => {
+        let marker = mustaches.get(match)
+        if (!marker) {
+          marker = nanoid()
+          mustaches.set(match, marker)
+        }
+        return marker
+      })
+    }
+
+    const restoreMustache = (s: string) => {
+      mustaches.forEach((marker, match) => {
+        s = s.replaceAll(marker, match)
+      })
+      return s
+    }
+
     if (hasSingleTheme) {
       return cleanup(
-        highlighter.codeToHtml(str, {
-          lang,
-          lineOptions,
-          theme: getThemeName(theme)
-        })
+        restoreMustache(
+          highlighter.codeToHtml(removeMustache(str), {
+            lang,
+            lineOptions,
+            theme: getThemeName(theme)
+          })
+        )
       )
     }
 
