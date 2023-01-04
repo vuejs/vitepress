@@ -1,10 +1,14 @@
 import ora from 'ora'
 import path from 'path'
 import fs from 'fs-extra'
-import { build, BuildOptions, UserConfig as ViteUserConfig } from 'vite'
-import { GetModuleInfo, RollupOutput } from 'rollup'
+import {
+  build,
+  type BuildOptions,
+  type UserConfig as ViteUserConfig
+} from 'vite'
+import type { GetModuleInfo, RollupOutput } from 'rollup'
 import { slash } from '../utils/slash'
-import { SiteConfig } from '../config'
+import type { SiteConfig } from '../config'
 import { APP_PATH } from '../alias'
 import { createVitePressPlugin } from '../plugin'
 import { sanitizeFileName } from '../shared'

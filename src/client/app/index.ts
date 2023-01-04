@@ -1,5 +1,5 @@
 import {
-  App,
+  type App,
   createApp as createClientApp,
   createSSRApp,
   defineComponent,
@@ -9,7 +9,7 @@ import {
 } from 'vue'
 import Theme from '@theme/index'
 import { inBrowser, pathToFile } from './utils.js'
-import { Router, RouterSymbol, createRouter } from './router.js'
+import { type Router, RouterSymbol, createRouter } from './router.js'
 import { siteDataRef, useData } from './data.js'
 import { useUpdateHead } from './composables/head.js'
 import { usePrefetch } from './composables/preFetch.js'

@@ -1,6 +1,6 @@
 import { build } from 'vite'
-import { RollupOutput } from 'rollup'
-import { SiteConfig } from '..'
+import type { RollupOutput } from 'rollup'
+import type { SiteConfig } from '..'
 
 const virtualEntry = 'client.js'
 

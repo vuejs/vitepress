@@ -3,10 +3,10 @@ import path from 'path'
 import { pathToFileURL } from 'url'
 import escape from 'escape-html'
 import { normalizePath, transformWithEsbuild } from 'vite'
-import { RollupOutput, OutputChunk, OutputAsset } from 'rollup'
+import type { RollupOutput, OutputChunk, OutputAsset } from 'rollup'
 import {
-  HeadConfig,
-  PageData,
+  type HeadConfig,
+  type PageData,
   createTitle,
   notFoundPageData,
   mergeHead,
@@ -14,7 +14,7 @@ import {
   sanitizeFileName
 } from '../shared'
 import { slash } from '../utils/slash'
-import { SiteConfig, resolveSiteDataByRoute } from '../config'
+import { type SiteConfig, resolveSiteDataByRoute } from '../config'
 
 export async function renderPage(
   render: (path: string) => Promise<string>,
