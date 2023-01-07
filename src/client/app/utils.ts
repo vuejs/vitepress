@@ -39,8 +39,10 @@ export function pathToFile(path: string): string {
       // client production build needs to account for page hash, which is
       // injected directly in the page's html
       let pageHash = __VP_HASH_MAP__[pagePath.toLowerCase()]
-      if (!pageHash && pagePath.endsWith('_index.md')) {
-        pagePath = pagePath.slice(0, -9) + '.md'
+      if (!pageHash) {
+        pagePath = pagePath.endsWith('_index.md')
+          ? pagePath.slice(0, -9) + '.md'
+          : pagePath.slice(0, -3) + '_index.md'
         pageHash = __VP_HASH_MAP__[pagePath.toLowerCase()]
       }
       pagePath = `${base}assets/${pagePath}.${pageHash}.js`
