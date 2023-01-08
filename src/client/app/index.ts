@@ -49,7 +49,7 @@ const VitePressApp = defineComponent({
   }
 })
 
-export function createApp() {
+export async function createApp() {
   const router = newRouter()
 
   const app = newApp()
@@ -74,7 +74,7 @@ export function createApp() {
   })
 
   if (Theme.enhanceApp) {
-    Theme.enhanceApp({
+    await Theme.enhanceApp({
       app,
       router,
       siteData: siteDataRef
@@ -124,12 +124,12 @@ function newRouter(): Router {
 }
 
 if (inBrowser) {
-  const { app, router, data } = createApp()
-
-  // wait until page component is fetched before mounting
-  router.go().then(() => {
-    // dynamically update head tags
-    useUpdateHead(router.route, data.site)
-    app.mount('#app')
+  createApp().then(({ app, router, data }) => {
+    // wait until page component is fetched before mounting
+    router.go().then(() => {
+      // dynamically update head tags
+      useUpdateHead(router.route, data.site)
+      app.mount('#app')
+    })
   })
 }
