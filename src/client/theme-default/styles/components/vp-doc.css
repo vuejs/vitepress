@@ -40,6 +40,7 @@
   margin-left: -0.87em;
   padding-right: 0.23em;
   font-weight: 500;
+  user-select: none;
   opacity: 0;
   transition: color 0.25s, opacity 0.25s;
 }
@@ -347,7 +348,7 @@
 
 .vp-doc [class*='language-'] code .diff::before {
   position: absolute;
-  left: 1rem;
+  left: 10px;
 }
 
 .vp-doc [class*='language-'] .has-focused-lines .line:not(.has-focus) {
@@ -447,9 +448,10 @@
 .vp-doc [class*='language-'] > button.copy:hover.copied::before {
   position: relative;
   left: -65px;
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 4px 0 0 4px;
-  padding-top: 8px;
   width: 64px;
   height: 40px;
   text-align: center;

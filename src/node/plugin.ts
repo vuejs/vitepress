@@ -1,7 +1,13 @@
 import path from 'path'
 import c from 'picocolors'
-import { defineConfig, mergeConfig, Plugin, ResolvedConfig } from 'vite'
-import { SiteConfig } from './config'
+import {
+  defineConfig,
+  mergeConfig,
+  searchForWorkspaceRoot,
+  type Plugin,
+  type ResolvedConfig
+} from 'vite'
+import type { SiteConfig } from './config'
 import { createMarkdownToVueRenderFn, clearCache } from './markdownToVue'
 import {
   DIST_CLIENT_PATH,
@@ -10,9 +16,9 @@ import {
   resolveAliases
 } from './alias'
 import { slash } from './utils/slash'
-import { OutputAsset, OutputChunk } from 'rollup'
+import type { OutputAsset, OutputChunk } from 'rollup'
 import { staticDataPlugin } from './staticDataPlugin'
-import { PageDataPayload } from './shared'
+import type { PageDataPayload } from './shared'
 import { webFontsPlugin } from './webFontsPlugin'
 
 const hashRE = /\.(\w+)\.js$/
@@ -117,7 +123,11 @@ export async function createVitePressPlugin(
         },
         server: {
           fs: {
-            allow: [DIST_CLIENT_PATH, srcDir, process.cwd()]
+            allow: [
+              DIST_CLIENT_PATH,
+              srcDir,
+              searchForWorkspaceRoot(process.cwd())
+            ]
           }
         }
       })

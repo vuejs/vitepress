@@ -3,8 +3,8 @@ import { createApp } from './index.js'
 import { renderToString } from 'vue/server-renderer'
 import type { SSGContext } from '../shared.js'
 
-export async function render(path: string): Promise<SSGContext> {
-  const { app, router } = createApp()
+export async function render(path: string) {
+  const { app, router } = await createApp()
   const ctx: SSGContext = { content: '' }
 
   await router.go(path)

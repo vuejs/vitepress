@@ -4,24 +4,24 @@ import c from 'picocolors'
 import fg from 'fast-glob'
 import {
   normalizePath,
-  UserConfig as ViteConfig,
+  type UserConfig as ViteConfig,
   mergeConfig as mergeViteConfig,
   loadConfigFromFile
 } from 'vite'
-import { Options as VuePluginOptions } from '@vitejs/plugin-vue'
+import type { Options as VuePluginOptions } from '@vitejs/plugin-vue'
 import {
-  SiteData,
-  HeadConfig,
-  LocaleConfig,
-  DefaultTheme,
+  type SiteData,
+  type HeadConfig,
+  type LocaleConfig,
+  type DefaultTheme,
   APPEARANCE_KEY,
   createLangDictionary,
-  CleanUrlsMode,
-  PageData,
-  Awaitable
+  type CleanUrlsMode,
+  type PageData,
+  type Awaitable
 } from './shared'
 import { DEFAULT_THEME_PATH } from './alias'
-import { MarkdownOptions } from './markdown/markdown'
+import type { MarkdownOptions } from './markdown/markdown'
 import _debug from 'debug'
 import type { SSGContext } from '../../types/shared'
 
@@ -54,6 +54,7 @@ export interface UserConfig<ThemeConfig = any> {
   srcDir?: string
   srcExclude?: string[]
   outDir?: string
+  cacheDir?: string
   shouldPreload?: (link: string, page: string) => boolean
 
   /**
@@ -173,6 +174,7 @@ export interface SiteConfig<ThemeConfig = any>
   configDeps: string[]
   themeDir: string
   outDir: string
+  cacheDir: string
   tempDir: string
   pages: string[]
 }
@@ -211,6 +213,9 @@ export async function resolveConfig(
   const outDir = userConfig.outDir
     ? path.resolve(root, userConfig.outDir)
     : resolve(root, 'dist')
+  const cacheDir = userConfig.cacheDir
+    ? path.resolve(root, userConfig.cacheDir)
+    : resolve(root, 'cache')
 
   // resolve theme path
   const userThemeDir = resolve(root, 'theme')
@@ -240,6 +245,7 @@ export async function resolveConfig(
     configPath,
     configDeps,
     outDir,
+    cacheDir,
     tempDir: resolve(root, '.temp'),
     markdown: userConfig.markdown,
     lastUpdated: userConfig.lastUpdated,

@@ -1,3 +1,103 @@
+# [1.0.0-alpha.35](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.34...v1.0.0-alpha.35) (2023-01-03)
+
+
+### Bug Fixes
+
+* **theme:** adjust styles for copied button ([#1751](https://github.com/vuejs/vitepress/issues/1751)) ([565ae71](https://github.com/vuejs/vitepress/commit/565ae711b9b90ad2fe820cdbaa04a9d41506ac53))
+* **theme:** adjust styles for diff indicator in code blocks ([#1755](https://github.com/vuejs/vitepress/issues/1755)) ([a642ea2](https://github.com/vuejs/vitepress/commit/a642ea2526f5638243283bd37ef9ba0af350d407))
+* **theme:** prevent layout shift on carbon ads ([f6c5e1f](https://github.com/vuejs/vitepress/commit/f6c5e1f098d1fd4d4f6325a21adbb088c32a0740))
+* **theme:** refresh ads per page navigation ([#1734](https://github.com/vuejs/vitepress/issues/1734)) ([8db20fe](https://github.com/vuejs/vitepress/commit/8db20fe02240bb1d3c02da738740f2433edb1e8b))
+
+
+
+# [1.0.0-alpha.34](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.33...v1.0.0-alpha.34) (2023-01-01)
+
+
+### Bug Fixes
+
+* **build:** dedent of a single-line region ([#1687](https://github.com/vuejs/vitepress/issues/1687)) ([7de7fff](https://github.com/vuejs/vitepress/commit/7de7fff4178251a6173ac67b52de50176830f539))
+* **build:** handle `-` in title of code blocks with line highlighting ([#1743](https://github.com/vuejs/vitepress/issues/1743)) ([ce9467e](https://github.com/vuejs/vitepress/commit/ce9467e389a2776f3230cb31e596cf9e575cc0df))
+* handle cleanUrls with subfolders when using a trailing slash ([#1575](https://github.com/vuejs/vitepress/issues/1575)) ([195d867](https://github.com/vuejs/vitepress/commit/195d867ee9bb51a4c112534b34bda7bcd0c2c3f5))
+
+
+### Features
+
+* **build:** allow specifying default language for syntax highlighter ([#1296](https://github.com/vuejs/vitepress/issues/1296)) ([f40df31](https://github.com/vuejs/vitepress/commit/f40df319475dba9f3fe1e13ff8d8dc4c0950bf5f))
+* **build:** fence-level config for line-numbers ([#1733](https://github.com/vuejs/vitepress/issues/1733)) ([c048076](https://github.com/vuejs/vitepress/commit/c048076370b081acc69c04754bf5deba2b8f5cd5))
+* **theme:** add `home-hero-image` slot ([#1528](https://github.com/vuejs/vitepress/issues/1528)) ([e72998b](https://github.com/vuejs/vitepress/commit/e72998b68bfcc301d15553033a8b90dee0db65cf))
+* **theme:** add mastodon icon ([#1736](https://github.com/vuejs/vitepress/issues/1736)) ([7a73784](https://github.com/vuejs/vitepress/commit/7a737845e5d81a09151320d373a787d2e5f881af))
+* **theme:** allow adding images as icons in features section ([#1738](https://github.com/vuejs/vitepress/issues/1738)) ([9df598f](https://github.com/vuejs/vitepress/commit/9df598f36e30fdc9d1c7440bf98b45783126c39f))
+
+
+### Performance Improvements
+
+* **a11y:** make menu traversable only when it is open ([#1491](https://github.com/vuejs/vitepress/issues/1491)) ([257f9e6](https://github.com/vuejs/vitepress/commit/257f9e68e947a603f9c3ef0df4be7b2afa79fbe7))
+* preload css to improve loading speed ([bf1315a](https://github.com/vuejs/vitepress/commit/bf1315ace670df0128682838736371e5381b3f42))
+
+
+
+# [1.0.0-alpha.33](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.32...v1.0.0-alpha.33) (2022-12-21)
+
+
+### Bug Fixes
+
+* **theme:** remove experimental fonts ([#1710](https://github.com/vuejs/vitepress/issues/1710)) ([1ebde66](https://github.com/vuejs/vitepress/commit/1ebde6623ef7f279a77b5a2ddc61e50e322481d1))
+
+
+### Features
+
+* **build:** provide a `pathname://` protocol to escape SPA ([#1719](https://github.com/vuejs/vitepress/issues/1719)) ([ae21a3a](https://github.com/vuejs/vitepress/commit/ae21a3a622844af476f8311b1d7eba7ae3d5af36))
+* **theme:** headings anchor should not be selectable ([#1701](https://github.com/vuejs/vitepress/issues/1701)) ([505a4f8](https://github.com/vuejs/vitepress/commit/505a4f8eee254844be98d224d7f0b943a33959e7))
+
+
+
+# [1.0.0-alpha.32](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.31...v1.0.0-alpha.32) (2022-12-16)
+
+
+### Bug Fixes
+
+* **build:** fix code groups for line numbers mode ([#1700](https://github.com/vuejs/vitepress/issues/1700)) ([135b797](https://github.com/vuejs/vitepress/commit/135b797cfb572659726d9dfbe11ca6045dee9fa3))
+
+
+### Features
+
+* add code-group feature ([#728](https://github.com/vuejs/vitepress/issues/728)) ([#1560](https://github.com/vuejs/vitepress/issues/1560)) ([a684b67](https://github.com/vuejs/vitepress/commit/a684b67ec084fdc3b3a300ffbdd21e19fdcf7b1e)), closes [#1242](https://github.com/vuejs/vitepress/issues/1242)
+* **build:** support `cacheDir` ([#1355](https://github.com/vuejs/vitepress/issues/1355)) ([f899764](https://github.com/vuejs/vitepress/commit/f899764bad8bfdf4fef91e23901d4af3cda91bcc))
+
+
+
+# [1.0.0-alpha.31](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.30...v1.0.0-alpha.31) (2022-12-10)
+
+
+### Features
+
+* **build:** switch to rollup 3 and vite 4 ([#1591](https://github.com/vuejs/vitepress/issues/1591)) ([ae33896](https://github.com/vuejs/vitepress/commit/ae33896a322b6b4cc944d44398ddba6e60b5d1c7))
+
+
+### Performance Improvements
+
+* **a11y:** add aria-hidden to line numbers wrapper ([#1675](https://github.com/vuejs/vitepress/issues/1675)) ([4c5a892](https://github.com/vuejs/vitepress/commit/4c5a892d7787440faebf061daaaff908680dcd99))
+
+
+
+# [1.0.0-alpha.30](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.29...v1.0.0-alpha.30) (2022-12-05)
+
+
+### Bug Fixes
+
+* **build:** allow importing files having numbers in extension ([#1618](https://github.com/vuejs/vitepress/issues/1618)) ([0565c38](https://github.com/vuejs/vitepress/commit/0565c38fc172cefb9a068882e215ac09dca6636d))
+* **build:** allow serving files in dev from workspace root ([#1647](https://github.com/vuejs/vitepress/issues/1647)) ([dc59662](https://github.com/vuejs/vitepress/commit/dc596621cf5ad11585597423b0a98266949c932a))
+* **theme:** default to vertical align top on badges inside headings ([#1584](https://github.com/vuejs/vitepress/issues/1584)) ([8a488de](https://github.com/vuejs/vitepress/commit/8a488deac111fbc43b8739c8959b8ae60cbedc80))
+* **theme:** ignore removed diff lines while copying code ([f4d5417](https://github.com/vuejs/vitepress/commit/f4d54179306c0ecbc08e4275081e3e169d304e09))
+* **theme:** move background colors to theme-default style ([#1347](https://github.com/vuejs/vitepress/issues/1347)) ([4f0194f](https://github.com/vuejs/vitepress/commit/4f0194f1dceec8c7aff70c490b5e757aca560e8a))
+
+
+### Features
+
+* **build:** add preview as an alias for serve in cli ([#1651](https://github.com/vuejs/vitepress/issues/1651)) ([4ba33da](https://github.com/vuejs/vitepress/commit/4ba33dac60b8b091627eb3e9c2347da0aa5efb82))
+
+
+
 # [1.0.0-alpha.29](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.28...v1.0.0-alpha.29) (2022-11-15)
 
 

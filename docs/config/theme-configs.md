@@ -34,8 +34,10 @@ export default {
 ```
 
 ```ts
-type Image = string | { src: string; alt?: string }
-type ThemeableImage = Image | { light: Image; dark: Image }
+type ThemeableImage =
+  | string
+  | { src: string; alt?: string }
+  | { light: string; dark: string; alt?: string }
 ```
 
 ## siteTitle
@@ -193,6 +195,7 @@ type SocialLinkIcon =
   | 'github'
   | 'instagram'
   | 'linkedin'
+  | 'mastodon'
   | 'slack'
   | 'twitter'
   | 'youtube'
@@ -203,7 +206,7 @@ type SocialLinkIcon =
 
 - Type: `Footer`
 
-Footer configuration. You can add a message and copyright. The footer will displayed only when the page doesn't contain sidebar due to design reason.
+Footer configuration. You can add a message or copyright text on the footer, however, it will only be displayed when the page doesn't contain a sidebar. This is due to design concerns.
 
 ```ts
 export default {

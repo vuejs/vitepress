@@ -2,10 +2,10 @@
 // 1. adding target="_blank" to external links
 // 2. normalize internal links to end with `.html`
 
-import MarkdownIt from 'markdown-it'
+import type MarkdownIt from 'markdown-it'
 import type { MarkdownEnv } from '../env'
 import { URL } from 'url'
-import { EXTERNAL_URL_RE } from '../../shared'
+import { EXTERNAL_URL_RE, PATHNAME_PROTOCOL_RE } from '../../shared'
 
 const indexRE = /(^|.*\/)index.md(#?.*)$/i
 
@@ -35,6 +35,7 @@ export const linkPlugin = (
         if (url.replace(EXTERNAL_URL_RE, '').startsWith('//localhost:')) {
           pushLink(url, env)
         }
+        hrefAttr[1] = url.replace(PATHNAME_PROTOCOL_RE, '')
       } else if (
         // internal anchor links
         !url.startsWith('#') &&

@@ -1,17 +1,17 @@
 import {
-  InjectionKey,
-  Ref,
+  type InjectionKey,
+  type Ref,
   computed,
   inject,
   readonly,
   ref,
   shallowRef
 } from 'vue'
-import { Route } from './router.js'
+import type { Route } from './router.js'
 import siteData from '@siteData'
 import {
-  PageData,
-  SiteData,
+  type PageData,
+  type SiteData,
   resolveSiteDataByRoute,
   createTitle
 } from '../shared.js'

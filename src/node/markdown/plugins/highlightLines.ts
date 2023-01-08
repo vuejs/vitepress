@@ -2,7 +2,7 @@
 // Now this plugin is only used to normalize line attrs.
 // The else part of line highlights logic is in './highlight.ts'.
 
-import MarkdownIt from 'markdown-it'
+import type MarkdownIt from 'markdown-it'
 
 const RE = /{([\d,-]+)}/
 

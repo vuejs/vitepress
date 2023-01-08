@@ -1,4 +1,4 @@
-import {
+import type {
   SiteData,
   PageData,
   LocaleConfig,
@@ -19,6 +19,7 @@ export type {
 } from '../../types/shared.js'
 
 export const EXTERNAL_URL_RE = /^[a-z]+:/i
+export const PATHNAME_PROTOCOL_RE = /^pathname:\/\//
 export const APPEARANCE_KEY = 'vitepress-theme-appearance'
 
 export const inBrowser = typeof window !== 'undefined'

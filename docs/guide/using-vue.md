@@ -62,7 +62,7 @@ const { page } = useData()
 
 ## Escaping
 
-By default, fenced code blocks are automatically wrapped with `v-pre`. To display raw mustaches or Vue-specific syntax inside inline code snippets or plain text, you need to wrap a paragraph with the `v-pre` custom container:
+By default, fenced code blocks are automatically wrapped with `v-pre`, unless you have set some language with `-vue` suffix like `js-vue` (in that case you can use Vue-style interpolation inside fences). To display raw mustaches or Vue-specific syntax inside inline code snippets or plain text, you need to wrap a paragraph with the `v-pre` custom container:
 
 **Input**
 
@@ -198,7 +198,7 @@ export default {
 
 ## Built-In Components
 
-VitePress provides Built-In Vue Components like `ClientOnly` and `OutboundLink`, check out the [Global Component Guide](./api) for more information.
+VitePress provides Built-In Vue Components like `ClientOnly`, check out the [Global Component Guide](./api) for more information.
 
 **Also see:**
 

@@ -69,7 +69,10 @@ Additional elements to render in the `<head>` tag in the page HTML. The user-add
 ```ts
 export default {
   head: [
-    ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }]
+    [
+      'link',
+      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }
+    ]
     // would render: <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   ]
 }
@@ -164,6 +167,9 @@ interface MarkdownOptions extends MarkdownIt.Options {
     disable?: boolean
   }
 
+  // specify default language for syntax highlighter
+  defaultHighlightLang?: string
+
   // @mdit-vue/plugin-frontmatter plugin options.
   // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-frontmatter#options
   frontmatter?: FrontmatterPluginOptions
@@ -195,6 +201,19 @@ The build output location for the site, relative to project root (`docs` folder 
 ```ts
 export default {
   outDir: '../public'
+}
+```
+
+## cacheDir
+
+- Type: `string`
+- Default: `./.vitepress/cache`
+
+The directory for cache files, relative to project root (`docs` folder if you're running `vitepress build docs`). See also: [cacheDir](https://vitejs.dev/config/shared-options.html#cachedir).
+
+```ts
+export default {
+  cacheDir: './.vitepress/.vite'
 }
 ```
 
@@ -236,6 +255,14 @@ Set `false` to disable the feature. If the option is `undefined`, then the value
 export default {
   title: 'VitePress',
   titleTemplate: 'Vite & Vue powered static site generator'
+}
+```
+
+To configure a title separator other than `|`, you can omit `title` and use the `:title` symbol in `titleTemplate`.
+
+```ts
+export default {
+  titleTemplate: ':title - Vitepress'
 }
 ```
 
@@ -285,6 +312,7 @@ Don't mutate anything inside the `ctx`.
 ```ts
 export default {
   async transformHead(ctx) {
+    // ...
   }
 }
 ```
@@ -314,6 +342,7 @@ Don't mutate anything inside the `ctx`. Also, modifying the html content may cau
 ```ts
 export default {
   async transformHtml(code, id, context) {
+    // ...
   }
 }
 ```
@@ -323,7 +352,6 @@ export default {
 - Type: `(pageData: PageData) => Awaitable<Partial<PageData> | { [key: string]: any } | void>`
 
 `transformPageData` is a hook to transform the `pageData` of each page. You can directly mutate `pageData` or return changed values which will be merged into PageData.
-
 
 ```ts
 export default {
@@ -370,6 +398,7 @@ interface SSGContext {
 ```ts
 export default {
   async buildEnd(siteConfig) {
+    // ...
   }
 }
 ```
