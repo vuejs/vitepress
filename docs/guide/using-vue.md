@@ -277,7 +277,7 @@ import ModalDemo from '../components/ModalDemo.vue'
 
 ```md
 <ClientOnly>
-  <Teleport to="modal">
+  <Teleport to="#modal">
     <div>
       //...
     </div>
