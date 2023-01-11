@@ -106,11 +106,6 @@
   color: var(--vp-c-brand-dark);
 }
 
-.vp-doc ol>li a,
-.vp-doc ul>li a{
-  overflow-wrap: break-word;
-}
-
 .vp-doc strong {
   font-weight: 600;
 }
