@@ -1,3 +1,21 @@
+# [1.0.0-alpha.36](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.35...v1.0.0-alpha.36) (2023-01-11)
+
+
+### Bug Fixes
+
+* **build:** handle cleanUrls without trailing slash ([#1772](https://github.com/vuejs/vitepress/issues/1772)) ([2a80fbd](https://github.com/vuejs/vitepress/commit/2a80fbd14ae124eddb05deca71ebffa50de4c2ce))
+* **theme:** `activeMatch` support regexp ([#1754](https://github.com/vuejs/vitepress/issues/1754)) ([0913e0f](https://github.com/vuejs/vitepress/commit/0913e0fe69167c796b0c3c22706b26f4840c6493)), closes [#1771](https://github.com/vuejs/vitepress/issues/1771)
+* **theme:** add cursor for summary of custom block details ([#1774](https://github.com/vuejs/vitepress/issues/1774)) ([167a474](https://github.com/vuejs/vitepress/commit/167a474cb8121d758c2aa863016dffbe8d0a1e55))
+* **theme:** wrap long words in `li` ([#1782](https://github.com/vuejs/vitepress/issues/1782)) ([48a42c1](https://github.com/vuejs/vitepress/commit/48a42c19b17417fea384bb0a7004d140b16d9c23)), closes [#1783](https://github.com/vuejs/vitepress/issues/1783) [#1405](https://github.com/vuejs/vitepress/issues/1405)
+
+
+### Features
+
+* allow `enhanceApp` to return a `Promise` ([#1760](https://github.com/vuejs/vitepress/issues/1760)) ([01ac579](https://github.com/vuejs/vitepress/commit/01ac57918767f44a0757414316e67072399ffb6d))
+* **build:** support interpolation inside code blocks ([#1759](https://github.com/vuejs/vitepress/issues/1759)) ([3b7ff8d](https://github.com/vuejs/vitepress/commit/3b7ff8d66e9eda3aab1fb126984efc63132bd22d))
+
+
+
 # [1.0.0-alpha.35](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.34...v1.0.0-alpha.35) (2023-01-03)
 
 
