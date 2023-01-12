@@ -32,28 +32,15 @@ provide('close-screen', closeScreen)
   top: var(--vp-layout-top-height, 0px);
   left: 0;
   z-index: var(--vp-z-index-nav);
+  border-bottom: 1px solid var(--vp-c-gutter);
   width: 100%;
+  background-color: var(--vp-nav-bg-color);
   pointer-events: none;
 }
 
 @media (min-width: 960px) {
   .VPNav {
     position: fixed;
-  }
-
-  .VPNav.no-sidebar {
-    background: var(--vp-c-bg-alpha-without-backdrop);
-  }
-
-  @supports (
-    (backdrop-filter: saturate(50%) blur(8px)) or
-      (-webkit-backdrop-filter: saturate(50%) blur(8px))
-  ) {
-    .VPNav.no-sidebar {
-      -webkit-backdrop-filter: saturate(50%) blur(8px);
-      backdrop-filter: saturate(50%) blur(8px);
-      background: var(--vp-c-bg-alpha-with-backdrop);
-    }
   }
 }
 </style>

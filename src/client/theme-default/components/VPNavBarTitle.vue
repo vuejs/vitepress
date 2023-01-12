@@ -29,8 +29,8 @@ const { hasSidebar } = useSidebar()
   .VPNavBarTitle.has-sidebar {
     margin-right: 32px;
     width: calc(var(--vp-sidebar-width) - 64px);
-    border-bottom-color: var(--vp-c-divider-light);
-    background-color: var(--vp-c-bg-alt);
+    border-bottom-color: var(--vp-c-divider);
+/*    background-color: var(--vp-c-bg-alt);*/
   }
 }
 

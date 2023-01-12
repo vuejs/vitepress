@@ -94,6 +94,7 @@ watchPostEffect(async () => {
 @media (min-width: 960px) {
   .VPSidebar {
     z-index: 1;
+    border-right: 1px solid #000000;
     padding-top: var(--vp-nav-height-desktop);
     padding-bottom: 128px;
     width: var(--vp-sidebar-width);
@@ -119,7 +120,7 @@ watchPostEffect(async () => {
 
 .group + .group {
   margin-top: 32px;
-  border-top: 1px solid var(--vp-c-divider-light);
+  border-top: 1px solid var(--vp-c-divider);
   padding-top: 10px;
 }
 

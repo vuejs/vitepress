@@ -72,18 +72,6 @@ const { hasSidebar } = useSidebar()
   .VPNavBar.has-sidebar .content {
     margin-right: -100vw;
     padding-right: 100vw;
-    background: var(--vp-c-bg-alpha-without-backdrop);
-  }
-
-  @supports (
-    (backdrop-filter: saturate(50%) blur(8px)) or
-      (-webkit-backdrop-filter: saturate(50%) blur(8px))
-  ) {
-    .VPNavBar.has-sidebar .content {
-      -webkit-backdrop-filter: saturate(50%) blur(8px);
-      backdrop-filter: saturate(50%) blur(8px);
-      background: var(--vp-c-bg-alpha-with-backdrop);
-    }
   }
 }
 
@@ -115,7 +103,7 @@ const { hasSidebar } = useSidebar()
   margin-left: 8px;
   width: 1px;
   height: 24px;
-  background-color: var(--vp-c-divider-light);
+  background-color: var(--vp-c-divider);
   content: "";
 }
 

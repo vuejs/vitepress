@@ -19,8 +19,7 @@ const { site } = useData()
   align-items: center;
   border-radius: 8px;
   padding: 12px 14px 12px 16px;
-  background-color: var(--vp-c-bg-soft);
-  transition: background-color 0.5s;
+  background-color: var(--vp-c-bg-elv-1);
 }
 
 .text {
@@ -28,6 +27,5 @@ const { site } = useData()
   font-size: 12px;
   font-weight: 500;
   color: var(--vp-c-text-2);
-  transition: color 0.5s;
 }
 </style>

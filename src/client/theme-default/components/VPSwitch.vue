@@ -16,8 +16,8 @@
   width: 40px;
   height: 22px;
   flex-shrink: 0;
-  border: 1px solid var(--vp-c-divider);
-  background-color: var(--vp-c-bg-mute);
+  border: 1px solid var(--vp-input-border-color);
+  background-color: var(--vp-input-switch-bg-color);
   transition: border-color 0.25s;
 }
 
@@ -38,7 +38,7 @@
 }
 
 .dark .check {
-  background-color: var(--vp-c-black);
+  background-color: var(--vp-c-bg);
 }
 
 .icon {
