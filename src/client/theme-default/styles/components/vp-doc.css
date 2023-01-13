@@ -154,20 +154,25 @@
 }
 
 .vp-doc tr:nth-child(2n) {
-  background-color: var(--vp-c-bg-elv);
+  background-color: var(--vp-c-bg-soft);
 }
 
 .vp-doc th,
 .vp-doc td {
   border: 1px solid var(--vp-c-divider);
-  padding: 12px 16px;
+  padding: 8px 16px;
 }
 
 .vp-doc th {
   text-align: left;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
-  background-color: var(--vp-c-bg-mute);
+  color: var(--vp-c-text-2);
+  background-color: var(--vp-c-bg-soft);
+}
+
+.vp-doc td {
+  font-size: 14px;
 }
 
 /**
@@ -393,7 +398,7 @@
   bottom: 0;
   left: 0;
   z-index: 3;
-  border-right: 1px solid var(--vp-c-divider-dark-2);
+  border-right: 1px solid var(--vp-code-block-divider-color);
   padding-top: 16px;
   width: 32px;
   text-align: center;

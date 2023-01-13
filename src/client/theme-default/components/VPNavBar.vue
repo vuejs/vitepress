@@ -31,6 +31,7 @@ const { hasSidebar } = useSidebar()
       </div>
 
       <div class="content">
+        <div class="curtain" />
         <slot name="nav-bar-content-before" />
         <VPNavBarSearch class="search" />
         <VPNavBarMenu class="menu" />
@@ -39,11 +40,7 @@ const { hasSidebar } = useSidebar()
         <VPNavBarSocialLinks class="social-links" />
         <VPNavBarExtra class="extra" />
         <slot name="nav-bar-content-after" />
-        <VPNavBarHamburger
-          class="hamburger"
-          :active="isScreenOpen"
-          @click="$emit('toggle-screen')"
-        />
+        <VPNavBarHamburger class="hamburger" :active="isScreenOpen" @click="$emit('toggle-screen')" />
       </div>
     </div>
   </div>
@@ -96,6 +93,7 @@ const { hasSidebar } = useSidebar()
     position: absolute;
     top: 0;
     left: 0;
+    z-index: 2;
     padding: 0 32px;
     width: var(--vp-sidebar-width);
     height: var(--vp-nav-height);
@@ -123,6 +121,8 @@ const { hasSidebar } = useSidebar()
 
 @media (min-width: 960px) {
   .VPNavBar.has-sidebar .content {
+    position: relative;
+    z-index: 1;
     padding-right: 32px;
     padding-left: var(--vp-sidebar-width);
   }
@@ -159,5 +159,30 @@ const { hasSidebar } = useSidebar()
 
 .social-links {
   margin-right: -8px;
+}
+
+@media (min-width: 960px) {
+  .VPNavBar.has-sidebar .curtain {
+    position: absolute;
+    right: 0;
+    bottom: -32px;
+    padding-left: var(--vp-sidebar-width);
+    width: 100%;
+    height: 32px;
+  }
+
+  .VPNavBar.has-sidebar .curtain::before {
+    display: block;
+    width: 100%;
+    height: 32px;
+    background: linear-gradient(var(--vp-c-bg), transparent 70%);
+    content: "";
+  }
+}
+
+@media (min-width: 1440px) {
+  .VPNavBar.has-sidebar .curtain {
+    padding-left: calc((100vw - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));
+  }
 }
 </style>

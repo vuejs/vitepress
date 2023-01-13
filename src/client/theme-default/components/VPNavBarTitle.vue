@@ -23,7 +23,7 @@ const { hasSidebar } = useSidebar()
 .title {
   display: flex;
   align-items: center;
-  border-bottom: 1px solid var(--vp-c-divider);
+  border-bottom: 1px solid transparent;
   width: 100%;
   height: var(--vp-nav-height);
   font-size: 16px;
@@ -39,6 +39,10 @@ const { hasSidebar } = useSidebar()
 @media (min-width: 960px) {
   .title {
     flex-shrink: 0;
+  }
+
+  .VPNavBarTitle.has-sidebar .title {
+    border-bottom-color: var(--vp-c-divider);
   }
 }
 
