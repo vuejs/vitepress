@@ -23,10 +23,12 @@ const { hasSidebar } = useSidebar()
 <template>
   <div class="VPNavBar" :class="{ 'has-sidebar' : hasSidebar }">
     <div class="container">
-      <VPNavBarTitle>
-        <template #nav-bar-title-before><slot name="nav-bar-title-before" /></template>
-        <template #nav-bar-title-after><slot name="nav-bar-title-after" /></template>
-      </VPNavBarTitle>
+      <div class="title">
+        <VPNavBarTitle>
+          <template #nav-bar-title-before><slot name="nav-bar-title-before" /></template>
+          <template #nav-bar-title-after><slot name="nav-bar-title-after" /></template>
+        </VPNavBarTitle>
+      </div>
 
       <div class="content">
         <slot name="nav-bar-content-before" />
@@ -50,9 +52,9 @@ const { hasSidebar } = useSidebar()
 <style scoped>
 .VPNavBar {
   position: relative;
-  border-bottom: 1px solid var(--vp-c-divider-light);
+  border-bottom: 1px solid var(--vp-c-gutter);
   padding: 0 8px 0 24px;
-  height: var(--vp-nav-height-mobile);
+  height: var(--vp-nav-height);
   transition: border-color 0.5s, background-color 0.5s;
   pointer-events: none;
 }
@@ -64,14 +66,9 @@ const { hasSidebar } = useSidebar()
 }
 
 @media (min-width: 960px) {
-  .VPNavBar {
-    height: var(--vp-nav-height-desktop);
-    border-bottom: 0;
-  }
-
-  .VPNavBar.has-sidebar .content {
-    margin-right: -100vw;
-    padding-right: 100vw;
+  .VPNavBar.has-sidebar {
+    border-bottom-color: transparent;
+    padding: 0;
   }
 }
 
@@ -80,7 +77,37 @@ const { hasSidebar } = useSidebar()
   justify-content: space-between;
   margin: 0 auto;
   max-width: calc(var(--vp-layout-max-width) - 64px);
+  height: var(--vp-nav-height);
   pointer-events: none;
+}
+
+@media (min-width: 960px) {
+  .VPNavBar.has-sidebar .container {
+    max-width: 100%;
+  }
+}
+
+.title {
+  flex-shrink: 0;
+}
+
+@media (min-width: 960px) {
+  .VPNavBar.has-sidebar .title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0 32px;
+    width: var(--vp-sidebar-width);
+    height: var(--vp-nav-height);
+    background-color: var(--vp-c-bg-alt);
+  }
+}
+
+@media (min-width: 1440px) {
+  .VPNavBar.has-sidebar .title {
+    padding-left: max(32px, calc((100% - (var(--vp-layout-max-width) - 64px)) / 2));
+    width: calc((100% - (var(--vp-layout-max-width) - 64px)) / 2 + var(--vp-sidebar-width) - 32px);
+  }
 }
 
 .container :deep(*) {
@@ -92,6 +119,20 @@ const { hasSidebar } = useSidebar()
   justify-content: flex-end;
   align-items: center;
   flex-grow: 1;
+}
+
+@media (min-width: 960px) {
+  .VPNavBar.has-sidebar .content {
+    padding-right: 32px;
+    padding-left: var(--vp-sidebar-width);
+  }
+}
+
+@media (min-width: 1440px) {
+  .VPNavBar.has-sidebar .content {
+    padding-right: calc((100vw - var(--vp-layout-max-width)) / 2 + 32px);
+    padding-left: calc((100vw - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));
+  }
 }
 
 .menu + .translations::before,

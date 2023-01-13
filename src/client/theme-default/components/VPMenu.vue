@@ -26,7 +26,7 @@ defineProps<{
   padding: 12px;
   min-width: 128px;
   border: 1px solid var(--vp-c-divider);
-  background-color: var(--vp-c-bg-elv-1);
+  background-color: var(--vp-c-bg-elv);
   box-shadow: var(--vp-shadow-3);
   transition: background-color 0.5s;
   max-height: calc(100vh - var(--vp-nav-height));

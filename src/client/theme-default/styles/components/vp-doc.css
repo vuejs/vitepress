@@ -21,7 +21,7 @@
 
 .vp-doc h2 {
   margin: 48px 0 16px;
-  border-top: 1px solid var(--vp-c-divider-light);
+  border-top: 1px solid var(--vp-c-divider);
   padding-top: 24px;
   letter-spacing: -0.02em;
   line-height: 32px;
@@ -154,7 +154,7 @@
 }
 
 .vp-doc tr:nth-child(2n) {
-  background-color: var(--vp-c-bg-soft);
+  background-color: var(--vp-c-bg-elv);
 }
 
 .vp-doc th,
@@ -164,13 +164,10 @@
 }
 
 .vp-doc th {
+  text-align: left;
   font-size: 16px;
   font-weight: 600;
-  background-color: var(--vp-c-white-soft);
-}
-
-.dark .vp-doc th {
-  background-color: var(--vp-c-black);
+  background-color: var(--vp-c-bg-mute);
 }
 
 /**
@@ -180,7 +177,7 @@
 .vp-doc hr {
   margin: 16px 0;
   border: none;
-  border-top: 1px solid var(--vp-c-divider-light);
+  border-top: 1px solid var(--vp-c-divider);
 }
 
 /**
@@ -239,7 +236,7 @@
   border-radius: 4px;
   padding: 3px 6px;
   color: var(--vp-c-text-code);
-  background-color: var(--vp-c-bg-mute);
+  background-color: var(--vp-c-mute);
   transition: color 0.5s, background-color 0.5s;
 }
 

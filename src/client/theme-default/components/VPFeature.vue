@@ -48,11 +48,7 @@ defineProps<{
 
 .VPFeature.link:hover {
   border-color: var(--vp-c-brand);
-  background-color: var(--vp-c-bg);
-}
-
-.dark .VPFeature.link:hover {
-  background-color: var(--vp-c-bg-mute);
+  background-color: var(--vp-c-bg-soft-up);
 }
 
 .box {
@@ -73,15 +69,11 @@ defineProps<{
   align-items: center;
   margin-bottom: 20px;
   border-radius: 6px;
-  background-color: var(--vp-c-gray-light-4);
+  background-color: var(--vp-c-bg-soft-down);
   width: 48px;
   height: 48px;
   font-size: 24px;
   transition: background-color 0.25s;
-}
-
-.dark .icon {
-  background-color: var(--vp-c-gray-dark-5);
 }
 
 .title {
@@ -109,11 +101,6 @@ defineProps<{
   font-size: 14px;
   font-weight: 500;
   color: var(--vp-c-brand);
-  transition: color 0.25s;
-}
-
-.VPFeature.link:hover .link-text-value {
-  color: var(--vp-c-brand-dark);
 }
 
 .link-text-icon {

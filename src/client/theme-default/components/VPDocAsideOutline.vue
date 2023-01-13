@@ -67,7 +67,7 @@ function handleClick({ target: el }: Event) {
 
 .content {
   position: relative;
-  border-left: 1px solid var(--vp-c-divider-light);
+  border-left: 1px solid var(--vp-c-divider);
   padding-left: 16px;
   font-size: 13px;
   font-weight: 500;

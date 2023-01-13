@@ -22,7 +22,7 @@
 }
 
 .VPSwitch:hover {
-  border-color: var(--vp-c-gray);
+  border-color: var(--vp-input-hover-border-color);
 }
 
 .check {
@@ -32,13 +32,9 @@
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background-color: var(--vp-c-white);
+  background-color: var(--vp-c-neutral-inverse);
   box-shadow: var(--vp-shadow-1);
   transition: transform 0.25s;
-}
-
-.dark .check {
-  background-color: var(--vp-c-bg);
 }
 
 .icon {

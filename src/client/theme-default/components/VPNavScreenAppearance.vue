@@ -19,7 +19,7 @@ const { site } = useData()
   align-items: center;
   border-radius: 8px;
   padding: 12px 14px 12px 16px;
-  background-color: var(--vp-c-bg-elv-1);
+  background-color: var(--vp-c-bg-soft);
 }
 
 .text {
