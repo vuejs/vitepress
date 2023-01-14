@@ -38,7 +38,7 @@ A VitePress custom theme is simply an object containing four properties and is d
 interface Theme {
   Layout: Component // Vue 3 component
   NotFound?: Component
-  enhanceApp?: (ctx: EnhanceAppContext) => void
+  enhanceApp?: (ctx: EnhanceAppContext) => Awaitable<void>
   setup?: () => void
 }
 

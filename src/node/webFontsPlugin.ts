@@ -1,4 +1,4 @@
-import { Plugin } from 'vite'
+import type { Plugin } from 'vite'
 
 const webfontMarkerRE =
   /\/(?:\*|\/) *webfont-marker-begin *(?:\*\/|\n|\r|\n\r|\r\n)([^]*?)\/(?:\*|\/) *webfont-marker-end *(?:\*\/|\n|\r|\n\r|\r\n|$)/

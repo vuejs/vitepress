@@ -4,10 +4,10 @@ import {
   defineConfig,
   mergeConfig,
   searchForWorkspaceRoot,
-  Plugin,
-  ResolvedConfig
+  type Plugin,
+  type ResolvedConfig
 } from 'vite'
-import { SiteConfig } from './config'
+import type { SiteConfig } from './config'
 import { createMarkdownToVueRenderFn, clearCache } from './markdownToVue'
 import {
   DIST_CLIENT_PATH,
@@ -16,9 +16,9 @@ import {
   resolveAliases
 } from './alias'
 import { slash } from './utils/slash'
-import { OutputAsset, OutputChunk } from 'rollup'
+import type { OutputAsset, OutputChunk } from 'rollup'
 import { staticDataPlugin } from './staticDataPlugin'
-import { PageDataPayload } from './shared'
+import type { PageDataPayload } from './shared'
 import { webFontsPlugin } from './webFontsPlugin'
 
 const hashRE = /\.(\w+)\.js$/

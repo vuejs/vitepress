@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
-import MarkdownIt from 'markdown-it'
-import { RuleBlock } from 'markdown-it/lib/parser_block'
+import type MarkdownIt from 'markdown-it'
+import type { RuleBlock } from 'markdown-it/lib/parser_block'
 
 export function dedent(text: string): string {
   const lines = text.split('\n')

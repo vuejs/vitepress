@@ -1,3 +1,33 @@
+# [1.0.0-alpha.36](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.35...v1.0.0-alpha.36) (2023-01-11)
+
+
+### Bug Fixes
+
+* **build:** handle cleanUrls without trailing slash ([#1772](https://github.com/vuejs/vitepress/issues/1772)) ([2a80fbd](https://github.com/vuejs/vitepress/commit/2a80fbd14ae124eddb05deca71ebffa50de4c2ce))
+* **theme:** `activeMatch` support regexp ([#1754](https://github.com/vuejs/vitepress/issues/1754)) ([0913e0f](https://github.com/vuejs/vitepress/commit/0913e0fe69167c796b0c3c22706b26f4840c6493)), closes [#1771](https://github.com/vuejs/vitepress/issues/1771)
+* **theme:** add cursor for summary of custom block details ([#1774](https://github.com/vuejs/vitepress/issues/1774)) ([167a474](https://github.com/vuejs/vitepress/commit/167a474cb8121d758c2aa863016dffbe8d0a1e55))
+* **theme:** wrap long words in `li` ([#1782](https://github.com/vuejs/vitepress/issues/1782)) ([48a42c1](https://github.com/vuejs/vitepress/commit/48a42c19b17417fea384bb0a7004d140b16d9c23)), closes [#1783](https://github.com/vuejs/vitepress/issues/1783) [#1405](https://github.com/vuejs/vitepress/issues/1405)
+
+
+### Features
+
+* allow `enhanceApp` to return a `Promise` ([#1760](https://github.com/vuejs/vitepress/issues/1760)) ([01ac579](https://github.com/vuejs/vitepress/commit/01ac57918767f44a0757414316e67072399ffb6d))
+* **build:** support interpolation inside code blocks ([#1759](https://github.com/vuejs/vitepress/issues/1759)) ([3b7ff8d](https://github.com/vuejs/vitepress/commit/3b7ff8d66e9eda3aab1fb126984efc63132bd22d))
+
+
+
+# [1.0.0-alpha.35](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.34...v1.0.0-alpha.35) (2023-01-03)
+
+
+### Bug Fixes
+
+* **theme:** adjust styles for copied button ([#1751](https://github.com/vuejs/vitepress/issues/1751)) ([565ae71](https://github.com/vuejs/vitepress/commit/565ae711b9b90ad2fe820cdbaa04a9d41506ac53))
+* **theme:** adjust styles for diff indicator in code blocks ([#1755](https://github.com/vuejs/vitepress/issues/1755)) ([a642ea2](https://github.com/vuejs/vitepress/commit/a642ea2526f5638243283bd37ef9ba0af350d407))
+* **theme:** prevent layout shift on carbon ads ([f6c5e1f](https://github.com/vuejs/vitepress/commit/f6c5e1f098d1fd4d4f6325a21adbb088c32a0740))
+* **theme:** refresh ads per page navigation ([#1734](https://github.com/vuejs/vitepress/issues/1734)) ([8db20fe](https://github.com/vuejs/vitepress/commit/8db20fe02240bb1d3c02da738740f2433edb1e8b))
+
+
+
 # [1.0.0-alpha.34](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.33...v1.0.0-alpha.34) (2023-01-01)
 
 
