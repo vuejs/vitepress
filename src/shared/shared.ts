@@ -1,20 +1,20 @@
 import type {
-  SiteData,
-  PageData,
+  HeadConfig,
   LocaleConfig,
-  HeadConfig
+  PageData,
+  SiteData
 } from '../../types/shared.js'
 
 export type {
-  SiteData,
-  PageData,
-  HeadConfig,
-  LocaleConfig,
-  Header,
-  DefaultTheme,
-  PageDataPayload,
-  CleanUrlsMode,
   Awaitable,
+  CleanUrlsMode,
+  DefaultTheme,
+  HeadConfig,
+  Header,
+  LocaleConfig,
+  PageData,
+  PageDataPayload,
+  SiteData,
   SSGContext
 } from '../../types/shared.js'
 

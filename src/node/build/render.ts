@@ -1,21 +1,21 @@
+import escape from 'escape-html'
 import fs from 'fs-extra'
 import path from 'path'
+import type { OutputAsset, OutputChunk, RollupOutput } from 'rollup'
 import { pathToFileURL } from 'url'
-import escape from 'escape-html'
 import { normalizePath, transformWithEsbuild } from 'vite'
-import type { RollupOutput, OutputChunk, OutputAsset } from 'rollup'
+import { resolveSiteDataByRoute, type SiteConfig } from '../config'
+import type { SSGContext } from '../shared'
 import {
-  type HeadConfig,
-  type PageData,
   createTitle,
-  notFoundPageData,
-  mergeHead,
   EXTERNAL_URL_RE,
-  sanitizeFileName
+  mergeHead,
+  notFoundPageData,
+  sanitizeFileName,
+  type HeadConfig,
+  type PageData
 } from '../shared'
 import { slash } from '../utils/slash'
-import { type SiteConfig, resolveSiteDataByRoute } from '../config'
-import type { SSGContext } from '../shared'
 
 export async function renderPage(
   render: (path: string) => Promise<SSGContext>,
@@ -32,9 +32,7 @@ export async function renderPage(
 
   // render page
   const context = await render(routePath)
-  const { content, teleports } = config.rendered
-    ? (await config.rendered(context)) || context
-    : context
+  const { content, teleports } = (await config.postRender?.(context)) ?? context
 
   const pageName = sanitizeFileName(page.replace(/\//g, '_'))
   // server build doesn't need hash
