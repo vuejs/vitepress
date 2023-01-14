@@ -1,28 +1,29 @@
-import path from 'path'
-import fs from 'fs-extra'
-import c from 'picocolors'
-import fg from 'fast-glob'
-import {
-  normalizePath,
-  type UserConfig as ViteConfig,
-  mergeConfig as mergeViteConfig,
-  loadConfigFromFile
-} from 'vite'
 import type { Options as VuePluginOptions } from '@vitejs/plugin-vue'
+import _debug from 'debug'
+import fg from 'fast-glob'
+import fs from 'fs-extra'
+import path from 'path'
+import c from 'picocolors'
 import {
-  type SiteData,
-  type HeadConfig,
-  type LocaleConfig,
-  type DefaultTheme,
-  APPEARANCE_KEY,
-  createLangDictionary,
-  type CleanUrlsMode,
-  type PageData,
-  type Awaitable
-} from './shared'
+  loadConfigFromFile,
+  mergeConfig as mergeViteConfig,
+  normalizePath,
+  type UserConfig as ViteConfig
+} from 'vite'
+import type { SSGContext } from '../../types/shared'
 import { DEFAULT_THEME_PATH } from './alias'
 import type { MarkdownOptions } from './markdown/markdown'
-import _debug from 'debug'
+import {
+  APPEARANCE_KEY,
+  createLangDictionary,
+  type Awaitable,
+  type CleanUrlsMode,
+  type DefaultTheme,
+  type HeadConfig,
+  type LocaleConfig,
+  type PageData,
+  type SiteData
+} from './shared'
 
 export { resolveSiteDataByRoute } from './shared'
 
@@ -105,11 +106,16 @@ export interface UserConfig<ThemeConfig = any> {
   buildEnd?: (siteConfig: SiteConfig) => Awaitable<void>
 
   /**
+   * Render end hook: called when SSR rendering is done.
+   */
+  postRender?: (context: SSGContext) => Awaitable<SSGContext | void>
+
+  /**
    * Head transform hook: runs before writing HTML to dist.
    *
    * This build hook will allow you to modify the head adding new entries that cannot be statically added.
    */
-  transformHead?: (ctx: TransformContext) => Awaitable<HeadConfig[]>
+  transformHead?: (context: TransformContext) => Awaitable<HeadConfig[]>
 
   /**
    * HTML transform hook: runs before writing HTML to dist.
@@ -154,6 +160,7 @@ export interface SiteConfig<ThemeConfig = any>
     | 'ignoreDeadLinks'
     | 'cleanUrls'
     | 'useWebFonts'
+    | 'postRender'
     | 'buildEnd'
     | 'transformHead'
     | 'transformHtml'
@@ -250,6 +257,7 @@ export async function resolveConfig(
     useWebFonts:
       userConfig.useWebFonts ??
       typeof process.versions.webcontainer === 'string',
+    postRender: userConfig.postRender,
     buildEnd: userConfig.buildEnd,
     transformHead: userConfig.transformHead,
     transformHtml: userConfig.transformHtml,

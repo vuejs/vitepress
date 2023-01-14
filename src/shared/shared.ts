@@ -1,20 +1,21 @@
 import type {
-  SiteData,
-  PageData,
+  HeadConfig,
   LocaleConfig,
-  HeadConfig
+  PageData,
+  SiteData
 } from '../../types/shared.js'
 
 export type {
-  SiteData,
-  PageData,
-  HeadConfig,
-  LocaleConfig,
-  Header,
-  DefaultTheme,
-  PageDataPayload,
+  Awaitable,
   CleanUrlsMode,
-  Awaitable
+  DefaultTheme,
+  HeadConfig,
+  Header,
+  LocaleConfig,
+  PageData,
+  PageDataPayload,
+  SiteData,
+  SSGContext
 } from '../../types/shared.js'
 
 export const EXTERNAL_URL_RE = /^[a-z]+:/i

@@ -298,10 +298,47 @@ VitePress build hooks allow you to add new functionality and behaviors to your w
 - Sitemap
 - Search Indexing
 - PWA
+- Teleports
+
+### buildEnd
+
+- Type: `(siteConfig: SiteConfig) => Awaitable<void>`
+
+`buildEnd` is a build CLI hook, it will run after build (SSG) finish but before VitePress CLI process exits.
+
+```ts
+export default {
+  async buildEnd(siteConfig) {
+    // ...
+  }
+}
+```
+
+### postRender
+
+- Type: `(context: SSGContext) => Awaitable<SSGContext | void>`
+
+`postRender` is a build hook, called when SSG rendering is done. It will allow you to handle the teleports content during SSG.
+
+```ts
+export default {
+  async postRender(context) {
+    // ...
+  }
+}
+```
+
+```ts
+interface SSGContext {
+  content: string
+  teleports?: Record<string, string>
+  [key: string]: any
+}
+```
 
 ### transformHead
 
-- Type: `(ctx: TransformContext) => Awaitable<HeadConfig[]>`
+- Type: `(context: TransformContext) => Awaitable<HeadConfig[]>`
 
 `transformHead` is a build hook to transform the head before generating each page. It will allow you to add head entries that cannot be statically added to your VitePress config. You only need to return extra entries, they will be merged automatically with the existing ones.
 
@@ -311,7 +348,7 @@ Don't mutate anything inside the `ctx`.
 
 ```ts
 export default {
-  async transformHead(ctx) {
+  async transformHead(context) {
     // ...
   }
 }
@@ -364,20 +401,6 @@ export default {
     return {
       contributors: await getPageContributors(pageData.relativePath)
     }
-  }
-}
-```
-
-### buildEnd
-
-- Type: `(siteConfig: SiteConfig) => Awaitable<void>`
-
-`buildEnd` is a build CLI hook, it will run after build (SSG) finish but before VitePress CLI process exits.
-
-```ts
-export default {
-  async buildEnd(siteConfig) {
-    // ...
   }
 }
 ```

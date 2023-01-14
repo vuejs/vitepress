@@ -260,3 +260,27 @@ export default {
 **Also see:**
 
 - [Vue.js > Dynamic Components](https://vuejs.org/guide/essentials/component-basics.html#dynamic-components)
+
+## Using Teleports
+
+Vitepress currently has SSG support for teleports to body only. For other targets, you can wrap them inside the built-in `<ClientOnly>` component or inject the teleport markup into the correct location in your final page HTML through [`postRender` hook](../config/app-configs#postrender).
+
+<ModalDemo />
+
+::: details
+<<< @/components/ModalDemo.vue
+:::
+
+```md
+<ClientOnly>
+  <Teleport to="#modal">
+    <div>
+      // ...
+    </div>
+  </Teleport>
+</ClientOnly>
+```
+
+<script setup>
+import ModalDemo from '../components/ModalDemo.vue'
+</script>

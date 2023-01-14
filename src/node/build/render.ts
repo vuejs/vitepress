@@ -1,23 +1,24 @@
+import escape from 'escape-html'
 import fs from 'fs-extra'
 import path from 'path'
+import type { OutputAsset, OutputChunk, RollupOutput } from 'rollup'
 import { pathToFileURL } from 'url'
-import escape from 'escape-html'
 import { normalizePath, transformWithEsbuild } from 'vite'
-import type { RollupOutput, OutputChunk, OutputAsset } from 'rollup'
+import { resolveSiteDataByRoute, type SiteConfig } from '../config'
+import type { SSGContext } from '../shared'
 import {
-  type HeadConfig,
-  type PageData,
   createTitle,
-  notFoundPageData,
-  mergeHead,
   EXTERNAL_URL_RE,
-  sanitizeFileName
+  mergeHead,
+  notFoundPageData,
+  sanitizeFileName,
+  type HeadConfig,
+  type PageData
 } from '../shared'
 import { slash } from '../utils/slash'
-import { type SiteConfig, resolveSiteDataByRoute } from '../config'
 
 export async function renderPage(
-  render: (path: string) => Promise<string>,
+  render: (path: string) => Promise<SSGContext>,
   config: SiteConfig,
   page: string, // foo.md
   result: RollupOutput | null,
@@ -30,7 +31,8 @@ export async function renderPage(
   const siteData = resolveSiteDataByRoute(config.site, routePath)
 
   // render page
-  const content = await render(routePath)
+  const context = await render(routePath)
+  const { content, teleports } = (await config.postRender?.(context)) ?? context
 
   const pageName = sanitizeFileName(page.replace(/\//g, '_'))
   // server build doesn't need hash
@@ -155,7 +157,7 @@ export async function renderPage(
     ${prefetchLinkString}
     ${await renderHead(head)}
   </head>
-  <body>
+  <body>${teleports?.body || ''}
     <div id="app">${content}</div>
     ${
       config.mpa

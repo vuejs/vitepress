@@ -1,4 +1,5 @@
 // types shared between server and client
+import type { SSRContext } from 'vue/server-renderer'
 export type { DefaultTheme } from './default-theme.js'
 
 export type Awaitable<T> = T | PromiseLike<T>
@@ -106,4 +107,8 @@ export interface LocaleConfig {
 export interface PageDataPayload {
   path: string
   pageData: PageData
+}
+
+export interface SSGContext extends SSRContext {
+  content: string
 }
