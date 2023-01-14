@@ -42,9 +42,9 @@ You can use the [`useData` helper](./api#usedata) in a `<script>` block and expo
 
 ```html
 <script setup>
-  import { useData } from 'vitepress'
+import { useData } from 'vitepress'
 
-  const { page } = useData()
+const { page } = useData()
 </script>
 
 <pre>{{ page }}</pre>
