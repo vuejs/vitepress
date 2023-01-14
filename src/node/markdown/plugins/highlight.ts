@@ -86,16 +86,18 @@ export async function highlight(
     lang =
       lang.replace(lineNoRE, '').replace(vueRE, '').toLowerCase() || defaultLang
 
-    const langLoaded = highlighter.getLoadedLanguages().includes(lang as any)
-    if (!langLoaded) {
-      console.warn(
-        c.yellow(
-          `The language '${lang}' is not loaded, falling back to '${
-            defaultLang || 'txt'
-          }' for syntax highlighting.`
+    if (lang) {
+      const langLoaded = highlighter.getLoadedLanguages().includes(lang as any)
+      if (!langLoaded) {
+        console.warn(
+          c.yellow(
+            `The language '${lang}' is not loaded, falling back to '${
+              defaultLang || 'txt'
+            }' for syntax highlighting.`
+          )
         )
-      )
-      lang = defaultLang
+        lang = defaultLang
+      }
     }
 
     const lineOptions = attrsToLines(attrs)
