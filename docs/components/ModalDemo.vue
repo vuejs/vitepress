@@ -4,12 +4,10 @@ const showModal = ref(false)
 </script>
 
 <template>
-  <button class="modal-button" @click="showModal = true">
-    Show Modal
-  </button>
+  <button class="modal-button" @click="showModal = true">Show Modal</button>
 
-  <teleport to="body">
-    <transition name="modal">
+  <Teleport to="body">
+    <Transition name="modal">
       <div v-show="showModal" class="modal-mask">
         <div class="modal-container">
           <p>Hello from the modal!</p>
@@ -20,8 +18,8 @@ const showModal = ref(false)
           </div>
         </div>
       </div>
-    </transition>
-  </teleport>
+    </Transition>
+  </Teleport>
 </template>
 
 <style scoped>
@@ -72,6 +70,7 @@ const showModal = ref(false)
 .modal-leave-to {
   opacity: 0;
 }
+
 .modal-enter-from .modal-container,
 .modal-leave-to .modal-container {
   transform: scale(1.1);

@@ -42,9 +42,9 @@ You can use the [`useData` helper](./api#usedata) in a `<script>` block and expo
 
 ```html
 <script setup>
-import { useData } from 'vitepress'
+  import { useData } from 'vitepress'
 
-const { page } = useData()
+  const { page } = useData()
 </script>
 
 <pre>{{ page }}</pre>
@@ -261,13 +261,9 @@ export default {
 
 - [Vue.js > Dynamic Components](https://vuejs.org/guide/essentials/component-basics.html#dynamic-components)
 
-## Useing Teleports
+## Using Teleports
 
-Vitepress currently has SSG support for teleports to body only. For other targets, you can wrap them inside the built-in `<ClientOnly>` component or inject the teleport markup into the correct location in your final page HTML through [rendered](../config/app-configs#rendered).
-
-<script setup>
-import ModalDemo from '../components/ModalDemo.vue'
-</script>
+Vitepress currently has SSG support for teleports to body only. For other targets, you can wrap them inside the built-in `<ClientOnly>` component or inject the teleport markup into the correct location in your final page HTML through [`postRender` hook](../config/app-configs#postrender).
 
 <ModalDemo />
 
@@ -279,8 +275,12 @@ import ModalDemo from '../components/ModalDemo.vue'
 <ClientOnly>
   <Teleport to="#modal">
     <div>
-      //...
+      // ...
     </div>
   </Teleport>
 </ClientOnly>
 ```
+
+<script setup>
+import ModalDemo from '../components/ModalDemo.vue'
+</script>
