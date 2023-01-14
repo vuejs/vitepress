@@ -1,3 +1,5 @@
+import { customAlphabet } from 'nanoid'
+import c from 'picocolors'
 import type { HtmlRendererOptions, IThemeRegistration } from 'shiki'
 import {
   addClass,
@@ -10,7 +12,6 @@ import {
   type Processor
 } from 'shiki-processor'
 import type { ThemeOptions } from '../markdown'
-import { customAlphabet } from 'nanoid'
 
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)
 
@@ -84,6 +85,18 @@ export async function highlight(
     const vPre = vueRE.test(lang) ? '' : 'v-pre'
     lang =
       lang.replace(lineNoRE, '').replace(vueRE, '').toLowerCase() || defaultLang
+
+    const langLoaded = highlighter.getLoadedLanguages().includes(lang as any)
+    if (!langLoaded) {
+      console.warn(
+        c.yellow(
+          `The language '${lang}' is not loaded, falling back to '${
+            defaultLang || 'txt'
+          }' for syntax highlighting.`
+        )
+      )
+      lang = defaultLang
+    }
 
     const lineOptions = attrsToLines(attrs)
     const cleanup = (str: string) =>
