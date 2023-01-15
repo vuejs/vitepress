@@ -191,9 +191,9 @@ export async function createVitePressPlugin(
       }
 
       server.middlewares.use((req, res, next) => {
-        Object.entries(remap || {}).some(([key, val]) => {
-          if (req.url?.startsWith('/' + val)) {
-            req.url = req.url.replace(val, key)
+        Object.entries(remap || {}).some(([before, after]) => {
+          if (req.url?.startsWith('/' + after)) {
+            req.url = req.url.replace(after, before)
             return true
           }
         })
