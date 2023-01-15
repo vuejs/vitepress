@@ -128,6 +128,14 @@ export async function createMarkdownToVueRenderFn(
 
         url = url.replace(/[?#].*$/, '').replace(/\.(html|md)$/, '')
         if (url.endsWith('/')) url += `index`
+
+        Object.entries(siteConfig?.remap || {}).some(([key, val]) => {
+          if (url.includes(val.slice(0, -3))) {
+            url = url.replace(val.slice(0, -3), key.slice(0, -3))
+            return true
+          }
+        })
+
         const resolved = decodeURIComponent(
           slash(
             url.startsWith('/')
