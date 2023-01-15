@@ -64,7 +64,7 @@ export async function createVitePressPlugin(
     ignoreDeadLinks,
     lastUpdated,
     cleanUrls,
-    remap
+    __invMap
   } = siteConfig
 
   let markdownToVue: Awaited<ReturnType<typeof createMarkdownToVueRenderFn>>
@@ -191,12 +191,10 @@ export async function createVitePressPlugin(
       }
 
       server.middlewares.use((req, res, next) => {
-        Object.entries(remap || {}).some(([before, after]) => {
-          if (req.url?.startsWith('/' + after)) {
-            req.url = req.url.replace(after, before)
-            return true
-          }
-        })
+        if (req.url) {
+          const page = req.url.replace(/[?#].*$/, '').slice(1)
+          req.url = req.url.replace(page, __invMap[page] || page)
+        }
         next()
       })
 

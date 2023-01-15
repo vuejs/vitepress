@@ -55,7 +55,7 @@ export async function createMarkdownToVueRenderFn(
     file: string,
     publicDir: string
   ): Promise<MarkdownCompileResult> => {
-    const alias = siteConfig?.remap?.[file.slice(srcDir.length + 1)]
+    const alias = siteConfig?.__map[file.slice(srcDir.length + 1)]
     file = alias ? path.join(srcDir, alias) : file
     const relativePath = slash(path.relative(srcDir, file))
     const dir = path.dirname(file)
@@ -131,12 +131,8 @@ export async function createMarkdownToVueRenderFn(
               : path.relative(srcDir, path.resolve(dir, url))
           )
         )
-        Object.entries(siteConfig?.remap || {}).some(([before, after]) => {
-          if (resolved === after.slice(0, -3)) {
-            resolved = before.slice(0, -3)
-            return true
-          }
-        })
+        resolved =
+          siteConfig?.__invMap[resolved + '.md']?.slice(0, -3) || resolved
         if (
           !pages.includes(resolved) &&
           !fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`))

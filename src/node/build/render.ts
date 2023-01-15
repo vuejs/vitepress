@@ -200,12 +200,7 @@ function resolvePageImports(
   result: RollupOutput,
   appChunk: OutputChunk
 ) {
-  Object.entries(config.remap || {}).some(([before, after]) => {
-    if (page === after) {
-      page = before
-      return true
-    }
-  })
+  page = config.__invMap[page] || page
   // find the page's js chunk and inject script tags for its imports so that
   // they start fetching as early as possible
   const srcPath = normalizePath(

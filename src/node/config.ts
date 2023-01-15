@@ -170,7 +170,6 @@ export interface SiteConfig<ThemeConfig = any>
     | 'transformHead'
     | 'transformHtml'
     | 'transformPageData'
-    | 'remap'
   > {
   root: string
   srcDir: string
@@ -182,6 +181,8 @@ export interface SiteConfig<ThemeConfig = any>
   cacheDir: string
   tempDir: string
   pages: string[]
+  __map: Record<string, string | undefined>
+  __invMap: Record<string, string | undefined>
 }
 
 const resolve = (root: string, file: string) =>
@@ -268,7 +269,10 @@ export async function resolveConfig(
     transformHead: userConfig.transformHead,
     transformHtml: userConfig.transformHtml,
     transformPageData: userConfig.transformPageData,
-    remap: userConfig.remap
+    __map: userConfig.remap || {},
+    __invMap: Object.fromEntries(
+      Object.entries(userConfig.remap || {}).map((a) => a.reverse())
+    )
   }
 
   return config
