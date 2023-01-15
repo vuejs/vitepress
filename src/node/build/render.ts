@@ -202,6 +202,12 @@ function resolvePageImports(
 ) {
   // find the page's js chunk and inject script tags for its imports so that
   // they start fetching as early as possible
+  Object.entries(config.remap || {}).some(([key, val]) => {
+    if (page === val.slice(1)) {
+      page = key.slice(1)
+      return true
+    }
+  })
   const srcPath = normalizePath(
     fs.realpathSync(path.resolve(config.srcDir, page))
   )

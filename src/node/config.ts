@@ -100,6 +100,11 @@ export interface UserConfig<ThemeConfig = any> {
   useWebFonts?: boolean
 
   /**
+   * @experimental
+   */
+  remap?: Record<string, string>
+
+  /**
    * Build end hook: called when SSG finish.
    * @param siteConfig The resolved configuration.
    */
@@ -165,6 +170,7 @@ export interface SiteConfig<ThemeConfig = any>
     | 'transformHead'
     | 'transformHtml'
     | 'transformPageData'
+    | 'remap'
   > {
   root: string
   srcDir: string
@@ -261,7 +267,8 @@ export async function resolveConfig(
     buildEnd: userConfig.buildEnd,
     transformHead: userConfig.transformHead,
     transformHtml: userConfig.transformHtml,
-    transformPageData: userConfig.transformPageData
+    transformPageData: userConfig.transformPageData,
+    remap: userConfig.remap
   }
 
   return config

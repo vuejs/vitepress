@@ -55,6 +55,12 @@ export async function createMarkdownToVueRenderFn(
     file: string,
     publicDir: string
   ): Promise<MarkdownCompileResult> => {
+    Object.entries(siteConfig?.remap || {}).some(([key, val]) => {
+      if (file.endsWith(key)) {
+        file = file.slice(0, -key.length) + val
+        return true
+      }
+    })
     const relativePath = slash(path.relative(srcDir, file))
     const dir = path.dirname(file)
     const cacheKey = JSON.stringify({ src, file })
