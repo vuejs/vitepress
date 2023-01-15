@@ -65,7 +65,7 @@ export async function build(
       const hashMapString = JSON.stringify(JSON.stringify(pageToHashMap))
 
       const pages = ['404.md', ...siteConfig.pages].map(
-        (page) => siteConfig.remap?.[`/${page}`]?.slice(1) || page
+        (page) => siteConfig.remap?.[page] || page
       )
 
       await Promise.all(

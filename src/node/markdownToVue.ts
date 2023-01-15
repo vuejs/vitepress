@@ -55,12 +55,8 @@ export async function createMarkdownToVueRenderFn(
     file: string,
     publicDir: string
   ): Promise<MarkdownCompileResult> => {
-    Object.entries(siteConfig?.remap || {}).some(([key, val]) => {
-      if (file.endsWith(key)) {
-        file = file.slice(0, -key.length) + val
-        return true
-      }
-    })
+    const alias = siteConfig?.remap?.[file.slice(srcDir.length + 1)]
+    file = alias ? path.join(srcDir, alias) : file
     const relativePath = slash(path.relative(srcDir, file))
     const dir = path.dirname(file)
     const cacheKey = JSON.stringify({ src, file })
@@ -128,21 +124,19 @@ export async function createMarkdownToVueRenderFn(
 
         url = url.replace(/[?#].*$/, '').replace(/\.(html|md)$/, '')
         if (url.endsWith('/')) url += `index`
-
-        Object.entries(siteConfig?.remap || {}).some(([key, val]) => {
-          if (url.includes(val.slice(0, -3))) {
-            url = url.replace(val.slice(0, -3), key.slice(0, -3))
-            return true
-          }
-        })
-
-        const resolved = decodeURIComponent(
+        let resolved = decodeURIComponent(
           slash(
             url.startsWith('/')
               ? url.slice(1)
               : path.relative(srcDir, path.resolve(dir, url))
           )
         )
+        Object.entries(siteConfig?.remap || {}).some(([before, after]) => {
+          if (resolved === after.slice(0, -3)) {
+            resolved = before.slice(0, -3)
+            return true
+          }
+        })
         if (
           !pages.includes(resolved) &&
           !fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`))
