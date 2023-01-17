@@ -1,3 +1,21 @@
+# [1.0.0-alpha.37](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.36...v1.0.0-alpha.37) (2023-01-17)
+
+
+### Bug Fixes
+
+* **build:** don't warn on blank lang in fences ([99ad162](https://github.com/vuejs/vitepress/commit/99ad162fb7b11ac80c787131714c9c8bf66fa8c7))
+* **theme:** prevent vertical scrollbar on code group tabs ([#1793](https://github.com/vuejs/vitepress/issues/1793)) ([#1805](https://github.com/vuejs/vitepress/issues/1805)) ([4314b57](https://github.com/vuejs/vitepress/commit/4314b5795918ceaa798dee550b79ff2e8a686b26))
+
+
+### Features
+
+* add i18n feature ([#1339](https://github.com/vuejs/vitepress/issues/1339)) ([8de2f44](https://github.com/vuejs/vitepress/commit/8de2f4499d9364d85e6070ce4b94651a1902b101)), closes [#291](https://github.com/vuejs/vitepress/issues/291) [#628](https://github.com/vuejs/vitepress/issues/628) [#631](https://github.com/vuejs/vitepress/issues/631) [#902](https://github.com/vuejs/vitepress/issues/902) [#955](https://github.com/vuejs/vitepress/issues/955) [#1253](https://github.com/vuejs/vitepress/issues/1253) [#1381](https://github.com/vuejs/vitepress/issues/1381)
+* support for teleports to body ([#1642](https://github.com/vuejs/vitepress/issues/1642)) ([09c2c52](https://github.com/vuejs/vitepress/commit/09c2c52d6c027f6e30fac33c2d11246a4a530c24))
+* **build:** don't hard fail on unknown languages in fences ([#1750](https://github.com/vuejs/vitepress/issues/1750)) ([1ae0596](https://github.com/vuejs/vitepress/commit/1ae05969396ef1651af56c66696ed77f8c4e7e85))
+* **theme:** refine overall styles ([#1049](https://github.com/vuejs/vitepress/issues/1049)) ([#1790](https://github.com/vuejs/vitepress/issues/1790)) ([471f00a](https://github.com/vuejs/vitepress/commit/471f00a68d1e3d8d925ab996f462adaf4f1261a0))
+
+
+
 # [1.0.0-alpha.36](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.35...v1.0.0-alpha.36) (2023-01-11)
 
 
