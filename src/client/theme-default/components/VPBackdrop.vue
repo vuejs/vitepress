@@ -14,11 +14,13 @@ defineProps<{
 .VPBackdrop {
   position: fixed;
   top: 0;
+  /*rtl:ignore*/
   right: 0;
   bottom: 0;
+  /*rtl:ignore*/
   left: 0;
   z-index: var(--vp-z-index-backdrop);
-  background: rgba(0, 0, 0, .6);
+  background: var(--vp-backdrop-bg-color);
   transition: opacity 0.5s;
 }
 

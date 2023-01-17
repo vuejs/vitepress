@@ -1,10 +1,14 @@
 import ora from 'ora'
 import path from 'path'
 import fs from 'fs-extra'
-import { build, BuildOptions, UserConfig as ViteUserConfig } from 'vite'
-import { GetModuleInfo, RollupOutput } from 'rollup'
+import {
+  build,
+  type BuildOptions,
+  type UserConfig as ViteUserConfig
+} from 'vite'
+import type { GetModuleInfo, RollupOutput } from 'rollup'
 import { slash } from '../utils/slash'
-import { SiteConfig } from '../config'
+import type { SiteConfig } from '../config'
 import { APP_PATH } from '../alias'
 import { createVitePressPlugin } from '../plugin'
 import { sanitizeFileName } from '../shared'
@@ -41,6 +45,7 @@ export async function bundle(
 
   const resolveViteConfig = async (ssr: boolean): Promise<ViteUserConfig> => ({
     root: config.srcDir,
+    cacheDir: config.cacheDir,
     base: config.site.base,
     logLevel: 'warn',
     plugins: await createVitePressPlugin(
@@ -71,17 +76,19 @@ export async function bundle(
         output: {
           sanitizeFileName,
           ...rollupOptions?.output,
+          assetFileNames: 'assets/[name].[hash].[ext]',
           ...(ssr
             ? {
-                entryFileNames: `[name].js`,
-                chunkFileNames: `[name].[hash].js`
+                entryFileNames: '[name].js',
+                chunkFileNames: '[name].[hash].js'
               }
             : {
+                entryFileNames: 'assets/[name].[hash].js',
                 chunkFileNames(chunk) {
                   // avoid ads chunk being intercepted by adblock
                   return /(?:Carbon|BuySell)Ads/.test(chunk.name)
-                    ? `assets/chunks/ui-custom.[hash].js`
-                    : `assets/chunks/[name].[hash].js`
+                    ? 'assets/chunks/ui-custom.[hash].js'
+                    : 'assets/chunks/[name].[hash].js'
                 },
                 manualChunks(id, ctx) {
                   // move known framework code into a stable chunk so that

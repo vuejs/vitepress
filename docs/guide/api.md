@@ -11,16 +11,17 @@ Methods that start with `use*` indicates that it is a [Vue 3 Composition API](ht
 Returns page-specific data. The returned object has the following type:
 
 ```ts
-interface VitePressData {
-  site: Ref<SiteData>
+interface VitePressData<T = any> {
+  site: Ref<SiteData<T>>
   page: Ref<PageData>
-  theme: Ref<any> // themeConfig from .vitepress/config.js
+  theme: Ref<T> // themeConfig from .vitepress/config.js
   frontmatter: Ref<PageData['frontmatter']>
-  lang: Ref<string>
   title: Ref<string>
   description: Ref<string>
-  localePath: Ref<string>
+  lang: Ref<string>
   isDark: Ref<boolean>
+  dir: Ref<string>
+  localeIndex: Ref<string>
 }
 ```
 

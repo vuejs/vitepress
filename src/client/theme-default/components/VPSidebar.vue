@@ -70,7 +70,7 @@ watchPostEffect(async () => {
   padding: 32px 32px 96px;
   width: calc(100vw - 64px);
   max-width: 320px;
-  background-color: var(--vp-c-bg);
+  background-color: var(--vp-sidebar-bg-color);
   opacity: 0;
   box-shadow: var(--vp-c-shadow-3);
   overflow-x: hidden;
@@ -94,11 +94,11 @@ watchPostEffect(async () => {
 @media (min-width: 960px) {
   .VPSidebar {
     z-index: 1;
-    padding-top: var(--vp-nav-height-desktop);
+    padding-top: var(--vp-nav-height);
     padding-bottom: 128px;
     width: var(--vp-sidebar-width);
     max-width: 100%;
-    background-color: var(--vp-c-bg-alt);
+    background-color: var(--vp-sidebar-bg-color);
     opacity: 1;
     visibility: visible;
     box-shadow: none;
@@ -119,7 +119,7 @@ watchPostEffect(async () => {
 
 .group + .group {
   margin-top: 32px;
-  border-top: 1px solid var(--vp-c-divider-light);
+  border-top: 1px solid var(--vp-c-divider);
   padding-top: 10px;
 }
 

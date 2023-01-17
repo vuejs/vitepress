@@ -1,6 +1,6 @@
 describe('render correct content', async () => {
   beforeAll(async () => {
-    await goto('/')
+    await goto('/home')
   })
 
   test('main content', async () => {

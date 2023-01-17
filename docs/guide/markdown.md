@@ -279,7 +279,7 @@ export default {
 </ul>
 ```
 
-A [list of valid languages](https://github.com/shikijs/shiki/blob/main/docs/languages.md) is available on Shiki’s repository.
+A [list of valid languages](https://github.com/shikijs/shiki/blob/main/docs/languages.md) is available on Shiki's repository.
 
 You may also customize syntax highlight theme in app config. Please see [`markdown` options](../config/app-configs#markdown) for more details.
 
@@ -360,7 +360,7 @@ Alternatively, it's possible to highlight directly in the line by using the `// 
 export default {
   data () {
     return {
-      msg: 'Highlighted!' // [!codeㅤ hl]
+      msg: 'Highlighted!' // [!code  hl]
     }
   }
 }
@@ -371,7 +371,7 @@ export default {
 
 ```js
 export default {
-  data () {
+  data() {
     return {
       msg: 'Highlighted!' // [!code hl]
     }
@@ -381,18 +381,20 @@ export default {
 
 ## Focus in Code Blocks
 
-Adding the `// [!code focus]` comment on a line will focus it and blur the other parts of the code. 
+Adding the `// [!code focus]` comment on a line will focus it and blur the other parts of the code.
 
 Additionally, you can define a number of lines to focus using `// [!code focus:<lines>]`.
 
 **Input**
+
+Note that only one space is required after `!code`, here are two to prevent processing.
 
 ````
 ```js
 export default {
   data () {
     return {
-      msg: 'Focused!' // [!codeㅤ focus]
+      msg: 'Focused!' // [!code  focus]
     }
   }
 }
@@ -403,7 +405,7 @@ export default {
 
 ```js
 export default {
-  data () {
+  data() {
     return {
       msg: 'Focused!' // [!code focus]
     }
@@ -411,19 +413,21 @@ export default {
 }
 ```
 
-## Colored diffs in Code Blocks
+## Colored Diffs in Code Blocks
 
-Adding the `// [!code --]` or `// [!code ++]` comments on a line will create a diff of that line, while keeping the colors of the codeblock. 
+Adding the `// [!code --]` or `// [!code ++]` comments on a line will create a diff of that line, while keeping the colors of the codeblock.
 
 **Input**
+
+Note that only one space is required after `!code`, here are two to prevent processing.
 
 ````
 ```js
 export default {
   data () {
     return {
-      msg: 'Removed' // [!codeㅤ --]
-      msg: 'Added' // [!codeㅤ ++]
+      msg: 'Removed' // [!code  --]
+      msg: 'Added' // [!code  ++]
     }
   }
 }
@@ -443,19 +447,21 @@ export default {
 }
 ```
 
-## Errors and warnings
+## Errors and Warnings in Code Blocks
 
 Adding the `// [!code warning]` or `// [!code error]` comments on a line will color it accordingly.
 
 **Input**
+
+Note that only one space is required after `!code`, here are two to prevent processing.
 
 ````
 ```js
 export default {
   data () {
     return {
-      msg: 'Error', // [!codeㅤ error]
-      msg: 'Warning' // [!codeㅤ warning]
+      msg: 'Error', // [!code  error]
+      msg: 'Warning' // [!code  warning]
     }
   }
 }
@@ -466,7 +472,7 @@ export default {
 
 ```js
 export default {
-  data () {
+  data() {
     return {
       msg: 'Error', // [!code error]
       msg: 'Warning' // [!code warning]
@@ -474,7 +480,6 @@ export default {
   }
 }
 ```
-
 
 ## Line Numbers
 
@@ -489,6 +494,38 @@ export default {
 ```
 
 Please see [`markdown` options](../config/app-configs#markdown) for more details.
+
+You can add `:line-numbers` / `:no-line-numbers` mark in your fenced code blocks to override the value set in config.
+
+**Input**
+
+````md
+```ts {1}
+// line-numbers is disabled by default
+const line2 = 'This is line 2'
+const line3 = 'This is line 3'
+```
+
+```ts:line-numbers {1}
+// line-numbers is enabled
+const line2 = 'This is line 2'
+const line3 = 'This is line 3'
+```
+````
+
+**Output**
+
+```ts {1}
+// line-numbers is disabled by default
+const line2 = 'This is line 2'
+const line3 = 'This is line 3'
+```
+
+```ts:line-numbers {1}
+// line-numbers is enabled
+const line2 = 'This is line 2'
+const line3 = 'This is line 3'
+```
 
 ## Import Code Snippets
 
@@ -544,10 +581,75 @@ You can also specify the language inside the braces (`{}`) like this:
 <<< @/snippets/snippet.cs{c#}
 
 <!-- with line highlighting: -->
+
 <<< @/snippets/snippet.cs{1,2,4-6 c#}
+
+<!-- with line numbers: -->
+
+<<< @/snippets/snippet.cs{1,2,4-6 c#:line-numbers}
 ```
 
 This is helpful if source language cannot be inferred from your file extension.
+
+## Code Groups
+
+You can group multiple code blocks like this:
+
+**Input**
+
+````md
+::: code-group
+
+```js [config.js]
+/**
+ * @type {import('vitepress').UserConfig}
+ */
+const config = {
+  // ...
+}
+
+export default config
+```
+
+```ts [config.ts]
+import type { UserConfig } from 'vitepress'
+
+const config: UserConfig = {
+  // ...
+}
+
+export default config
+```
+
+:::
+````
+
+**Output**
+
+::: code-group
+
+```js [config.js]
+/**
+ * @type {import('vitepress').UserConfig}
+ */
+const config = {
+  // ...
+}
+
+export default config
+```
+
+```ts [config.ts]
+import type { UserConfig } from 'vitepress'
+
+const config: UserConfig = {
+  // ...
+}
+
+export default config
+```
+
+:::
 
 ## Markdown File Inclusion
 

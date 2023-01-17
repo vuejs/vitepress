@@ -1,4 +1,9 @@
-import { Plugin, ViteDevServer, loadConfigFromFile, normalizePath } from 'vite'
+import {
+  type Plugin,
+  type ViteDevServer,
+  loadConfigFromFile,
+  normalizePath
+} from 'vite'
 import { dirname, resolve } from 'path'
 import { isMatch } from 'micromatch'
 

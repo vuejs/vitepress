@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { useData } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
+import { useData } from '../composables/data.js'
 import { isActive } from '../support/utils.js'
 import VPFlyout from './VPFlyout.vue'
 

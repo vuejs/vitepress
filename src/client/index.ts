@@ -11,8 +11,7 @@ export type {
   PageData,
   SiteData,
   HeadConfig,
-  Header,
-  LocaleConfig
+  Header
 } from '../../types/shared.js'
 
 // composables

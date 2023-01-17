@@ -6,7 +6,9 @@ import VPHomeFeatures from './VPHomeFeatures.vue'
 <template>
   <div class="VPHome">
     <slot name="home-hero-before" />
-    <VPHomeHero />
+    <VPHomeHero>
+      <template #home-hero-image><slot name="home-hero-image" /></template>
+    </VPHomeHero>
     <slot name="home-hero-after" />
 
     <slot name="home-features-before" />

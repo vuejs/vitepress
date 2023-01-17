@@ -3,8 +3,13 @@ import path from 'path'
 import c from 'picocolors'
 import LRUCache from 'lru-cache'
 import { resolveTitleFromToken } from '@mdit-vue/shared'
-import { SiteConfig } from './config'
-import { PageData, HeadConfig, EXTERNAL_URL_RE, CleanUrlsMode } from './shared'
+import type { SiteConfig } from './config'
+import {
+  type PageData,
+  type HeadConfig,
+  EXTERNAL_URL_RE,
+  type CleanUrlsMode
+} from './shared'
 import { slash } from './utils/slash'
 import { getGitTimestamp } from './utils/getGitTimestamp'
 import {

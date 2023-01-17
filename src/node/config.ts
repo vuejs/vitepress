@@ -1,46 +1,52 @@
-import path from 'path'
-import fs from 'fs-extra'
-import c from 'picocolors'
-import fg from 'fast-glob'
-import {
-  normalizePath,
-  UserConfig as ViteConfig,
-  mergeConfig as mergeViteConfig,
-  loadConfigFromFile
-} from 'vite'
-import { Options as VuePluginOptions } from '@vitejs/plugin-vue'
-import {
-  SiteData,
-  HeadConfig,
-  LocaleConfig,
-  DefaultTheme,
-  APPEARANCE_KEY,
-  createLangDictionary,
-  CleanUrlsMode,
-  PageData,
-  Awaitable
-} from './shared'
-import { DEFAULT_THEME_PATH } from './alias'
-import { MarkdownOptions } from './markdown/markdown'
+import type { Options as VuePluginOptions } from '@vitejs/plugin-vue'
 import _debug from 'debug'
-
-export { resolveSiteDataByRoute } from './shared'
+import fg from 'fast-glob'
+import fs from 'fs-extra'
+import path from 'path'
+import c from 'picocolors'
+import {
+  loadConfigFromFile,
+  mergeConfig as mergeViteConfig,
+  normalizePath,
+  type UserConfig as ViteConfig
+} from 'vite'
+import { DEFAULT_THEME_PATH } from './alias'
+import type { MarkdownOptions } from './markdown/markdown'
+import {
+  APPEARANCE_KEY,
+  type Awaitable,
+  type CleanUrlsMode,
+  type DefaultTheme,
+  type HeadConfig,
+  type LocaleConfig,
+  type LocaleSpecificConfig,
+  type PageData,
+  type SiteData,
+  type SSGContext
+} from './shared'
 
 const debug = _debug('vitepress:config')
 
-export interface UserConfig<ThemeConfig = any> {
+export interface UserConfig<ThemeConfig = any>
+  extends LocaleSpecificConfig<ThemeConfig> {
   extends?: RawConfigExports<ThemeConfig>
+
   base?: string
-  lang?: string
-  title?: string
-  titleTemplate?: string | boolean
-  description?: string
-  head?: HeadConfig[]
+  srcDir?: string
+  srcExclude?: string[]
+  outDir?: string
+  cacheDir?: string
+  shouldPreload?: (link: string, page: string) => boolean
+
+  locales?: LocaleConfig<ThemeConfig>
+
   appearance?: boolean | 'dark'
-  themeConfig?: ThemeConfig
-  locales?: Record<string, LocaleConfig>
-  markdown?: MarkdownOptions
   lastUpdated?: boolean
+
+  /**
+   * MarkdownIt options
+   */
+  markdown?: MarkdownOptions
   /**
    * Options to pass on to `@vitejs/plugin-vue`
    */
@@ -49,11 +55,6 @@ export interface UserConfig<ThemeConfig = any> {
    * Vite config
    */
   vite?: ViteConfig
-
-  srcDir?: string
-  srcExclude?: string[]
-  outDir?: string
-  shouldPreload?: (link: string, page: string) => boolean
 
   /**
    * Configure the scroll offset when the theme has a sticky header.
@@ -104,11 +105,16 @@ export interface UserConfig<ThemeConfig = any> {
   buildEnd?: (siteConfig: SiteConfig) => Awaitable<void>
 
   /**
+   * Render end hook: called when SSR rendering is done.
+   */
+  postRender?: (context: SSGContext) => Awaitable<SSGContext | void>
+
+  /**
    * Head transform hook: runs before writing HTML to dist.
    *
    * This build hook will allow you to modify the head adding new entries that cannot be statically added.
    */
-  transformHead?: (ctx: TransformContext) => Awaitable<HeadConfig[]>
+  transformHead?: (context: TransformContext) => Awaitable<HeadConfig[]>
 
   /**
    * HTML transform hook: runs before writing HTML to dist.
@@ -153,6 +159,7 @@ export interface SiteConfig<ThemeConfig = any>
     | 'ignoreDeadLinks'
     | 'cleanUrls'
     | 'useWebFonts'
+    | 'postRender'
     | 'buildEnd'
     | 'transformHead'
     | 'transformHtml'
@@ -165,6 +172,7 @@ export interface SiteConfig<ThemeConfig = any>
   configDeps: string[]
   themeDir: string
   outDir: string
+  cacheDir: string
   tempDir: string
   pages: string[]
 }
@@ -203,6 +211,9 @@ export async function resolveConfig(
   const outDir = userConfig.outDir
     ? path.resolve(root, userConfig.outDir)
     : resolve(root, 'dist')
+  const cacheDir = userConfig.cacheDir
+    ? path.resolve(root, userConfig.cacheDir)
+    : resolve(root, 'cache')
 
   // resolve theme path
   const userThemeDir = resolve(root, 'theme')
@@ -232,6 +243,7 @@ export async function resolveConfig(
     configPath,
     configDeps,
     outDir,
+    cacheDir,
     tempDir: resolve(root, '.temp'),
     markdown: userConfig.markdown,
     lastUpdated: userConfig.lastUpdated,
@@ -244,6 +256,7 @@ export async function resolveConfig(
     useWebFonts:
       userConfig.useWebFonts ??
       typeof process.versions.webcontainer === 'string',
+    postRender: userConfig.postRender,
     buildEnd: userConfig.buildEnd,
     transformHead: userConfig.transformHead,
     transformHtml: userConfig.transformHtml,
@@ -262,7 +275,10 @@ async function resolveUserConfig(
 ): Promise<[UserConfig, string | undefined, string[]]> {
   // load user config
   const configPath = supportedConfigExtensions
-    .map((ext) => resolve(root, `config.${ext}`))
+    .flatMap((ext) => [
+      resolve(root, `config/index.${ext}`),
+      resolve(root, `config.${ext}`)
+    ])
     .find(fs.pathExistsSync)
 
   let userConfig: RawConfigExports = {}
@@ -337,6 +353,7 @@ export async function resolveSiteData(
 
   return {
     lang: userConfig.lang || 'en-US',
+    dir: userConfig.dir || 'ltr',
     title: userConfig.title || 'VitePress',
     titleTemplate: userConfig.titleTemplate,
     description: userConfig.description || 'A VitePress site',
@@ -345,7 +362,6 @@ export async function resolveSiteData(
     appearance: userConfig.appearance ?? true,
     themeConfig: userConfig.themeConfig || {},
     locales: userConfig.locales || {},
-    langs: createLangDictionary(userConfig),
     scrollOffset: userConfig.scrollOffset || 90,
     cleanUrls: userConfig.cleanUrls || 'disabled'
   }

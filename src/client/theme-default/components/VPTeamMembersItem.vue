@@ -199,10 +199,10 @@ defineProps<{
   transition: color 0.25s, background-color 0.25s;
 }
 
-.sp-link:hover,
-.sp-link:focus {
+.sp .sp-link.link:hover,
+.sp .sp-link.link:focus {
   outline: none;
-  color: var(--vp-c-text-dark-1);
+  color: var(--vp-c-white);
   background-color: var(--vp-c-sponsor);
 }
 

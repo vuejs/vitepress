@@ -1,22 +1,22 @@
 <script lang="ts" setup>
-import { useData } from 'vitepress'
 import VPIconLanguages from './icons/VPIconLanguages.vue'
 import VPFlyout from './VPFlyout.vue'
 import VPMenuLink from './VPMenuLink.vue'
+import { useLangs } from '../composables/langs.js'
 
-const { theme } = useData()
+const { localeLinks, currentLang } = useLangs({ correspondingLink: true })
 </script>
 
 <template>
   <VPFlyout
-    v-if="theme.localeLinks"
+    v-if="localeLinks.length && currentLang.label"
     class="VPNavBarTranslations"
     :icon="VPIconLanguages"
   >
     <div class="items">
-      <p class="title">{{ theme.localeLinks.text }}</p>
+      <p class="title">{{ currentLang.label }}</p>
 
-      <template v-for="locale in theme.localeLinks.items" :key="locale.link">
+      <template v-for="locale in localeLinks" :key="locale.link">
         <VPMenuLink :item="locale" />
       </template>
     </div>

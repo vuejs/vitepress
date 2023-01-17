@@ -1,8 +1,8 @@
 import { createRequire } from 'module'
 import { resolve, join } from 'path'
 import { fileURLToPath } from 'url'
-import { Alias, AliasOptions } from 'vite'
-import { SiteConfig } from './config'
+import type { Alias, AliasOptions } from 'vite'
+import type { SiteConfig } from './config'
 
 const require = createRequire(import.meta.url)
 const PKG_ROOT = resolve(fileURLToPath(import.meta.url), '../..')

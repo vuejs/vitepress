@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useData } from 'vitepress'
+import { useData } from '../composables/data.js'
 import VPSwitchAppearance from './VPSwitchAppearance.vue'
 
 const { site } = useData()

@@ -1,13 +1,15 @@
 <script lang="ts" setup>
-import { useData } from 'vitepress'
+import { useData } from '../composables/data.js'
 import VPSwitchAppearance from './VPSwitchAppearance.vue'
 
-const { site } = useData()
+const { site, theme } = useData()
 </script>
 
 <template>
   <div v-if="site.appearance" class="VPNavScreenAppearance">
-    <p class="text">Appearance</p>
+    <p class="text">
+      {{ theme.darkModeSwitchLabel || 'Appearance' }}
+    </p>
     <VPSwitchAppearance />
   </div>
 </template>
@@ -20,7 +22,6 @@ const { site } = useData()
   border-radius: 8px;
   padding: 12px 14px 12px 16px;
   background-color: var(--vp-c-bg-soft);
-  transition: background-color 0.5s;
 }
 
 .text {
@@ -28,6 +29,5 @@ const { site } = useData()
   font-size: 12px;
   font-weight: 500;
   color: var(--vp-c-text-2);
-  transition: color 0.5s;
 }
 </style>
