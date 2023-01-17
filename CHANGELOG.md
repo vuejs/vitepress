@@ -1,3 +1,12 @@
+# [1.0.0-alpha.38](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.37...v1.0.0-alpha.38) (2023-01-17)
+
+
+### Bug Fixes
+
+* **theme:** spacing between aside sponsors and ads section is missing ([5c2eb1b](https://github.com/vuejs/vitepress/commit/5c2eb1b3b0988ae98639543e60a740d6b40a17a5))
+
+
+
 # [1.0.0-alpha.37](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.36...v1.0.0-alpha.37) (2023-01-17)
 
 
