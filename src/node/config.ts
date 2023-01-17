@@ -10,7 +10,6 @@ import {
   normalizePath,
   type UserConfig as ViteConfig
 } from 'vite'
-import type { SSGContext } from '../../types/shared'
 import { DEFAULT_THEME_PATH } from './alias'
 import type { MarkdownOptions } from './markdown/markdown'
 import {
@@ -22,7 +21,8 @@ import {
   type LocaleConfig,
   type LocaleSpecificConfig,
   type PageData,
-  type SiteData
+  type SiteData,
+  type SSGContext
 } from './shared'
 
 const debug = _debug('vitepress:config')

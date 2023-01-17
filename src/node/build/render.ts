@@ -10,6 +10,7 @@ import {
   EXTERNAL_URL_RE,
   mergeHead,
   notFoundPageData,
+  resolveSiteDataByRoute,
   sanitizeFileName,
   type HeadConfig,
   type PageData,
