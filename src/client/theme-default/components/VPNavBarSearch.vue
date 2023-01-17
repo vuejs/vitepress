@@ -123,7 +123,7 @@ function load() {
   --docsearch-modal-shadow: none;
   --docsearch-footer-shadow: none;
   --docsearch-logo-color: var(--vp-c-text-2);
-  --docsearch-hit-background: var(--vp-c-bg-mute);
+  --docsearch-hit-background: var(--vp-c-bg-soft-mute);
   --docsearch-hit-color: var(--vp-c-text-2);
   --docsearch-hit-shadow: none;
 }
@@ -282,6 +282,6 @@ function load() {
 }
 
 .dark .DocSearch-Form {
-  background-color: var(--vp-c-bg-mute);
+  background-color: var(--vp-c-bg-soft-mute);
 }
 </style>

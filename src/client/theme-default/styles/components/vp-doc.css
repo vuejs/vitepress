@@ -21,7 +21,7 @@
 
 .vp-doc h2 {
   margin: 48px 0 16px;
-  border-top: 1px solid var(--vp-c-divider-light);
+  border-top: 1px solid var(--vp-c-divider);
   padding-top: 24px;
   letter-spacing: -0.02em;
   line-height: 32px;
@@ -160,17 +160,19 @@
 .vp-doc th,
 .vp-doc td {
   border: 1px solid var(--vp-c-divider);
-  padding: 12px 16px;
+  padding: 8px 16px;
 }
 
 .vp-doc th {
-  font-size: 16px;
+  text-align: left;
+  font-size: 14px;
   font-weight: 600;
-  background-color: var(--vp-c-white-soft);
+  color: var(--vp-c-text-2);
+  background-color: var(--vp-c-bg-soft);
 }
 
-.dark .vp-doc th {
-  background-color: var(--vp-c-black);
+.vp-doc td {
+  font-size: 14px;
 }
 
 /**
@@ -180,7 +182,7 @@
 .vp-doc hr {
   margin: 16px 0;
   border: none;
-  border-top: 1px solid var(--vp-c-divider-light);
+  border-top: 1px solid var(--vp-c-divider);
 }
 
 /**
@@ -239,7 +241,7 @@
   border-radius: 4px;
   padding: 3px 6px;
   color: var(--vp-c-text-code);
-  background-color: var(--vp-c-bg-mute);
+  background-color: var(--vp-c-mute);
   transition: color 0.5s, background-color 0.5s;
 }
 
@@ -396,7 +398,7 @@
   bottom: 0;
   left: 0;
   z-index: 3;
-  border-right: 1px solid var(--vp-c-divider-dark-2);
+  border-right: 1px solid var(--vp-code-block-divider-color);
   padding-top: 16px;
   width: 32px;
   text-align: center;

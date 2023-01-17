@@ -47,7 +47,7 @@ if (carbonOptions) {
   <div class="VPCarbonAds" ref="container" />
 </template>
 
-<style>
+<style scoped>
 .VPCarbonAds {
   display: flex;
   justify-content: center;
@@ -59,38 +59,37 @@ if (carbonOptions) {
   line-height: 18px;
   font-size: 12px;
   font-weight: 500;
-  background-color: var(--vp-c-bg-soft);
-  transition: color 0.5s, background-color 0.5s;
+  background-color: var(--vp-carbon-ads-bg-color);
 }
 
-.VPCarbonAds img {
+.VPCarbonAds :deep(img) {
   margin: 0 auto;
   border-radius: 6px;
 }
 
-.VPCarbonAds .carbon-text {
+.VPCarbonAds :deep(.carbon-text) {
   display: block;
   margin: 0 auto;
   padding-top: 12px;
-  color: var(--vp-c-text-1);
+  color: var(--vp-carbon-ads-text-color);
   transition: color 0.25s;
 }
 
-.VPCarbonAds .carbon-text:hover {
-  color: var(--vp-c-brand);
+.VPCarbonAds :deep(.carbon-text:hover) {
+  color: var(--vp-carbon-ads-hover-text-color);
 }
 
-.VPCarbonAds .carbon-poweredby {
+.VPCarbonAds :deep(.carbon-poweredby) {
   display: block;
   padding-top: 6px;
   font-size: 11px;
   font-weight: 500;
-  color: var(--vp-c-text-2);
+  color: var(--vp-carbon-ads-poweredby-color);
   text-transform: uppercase;
   transition: color 0.25s;
 }
 
-.VPCarbonAds .carbon-poweredby:hover {
-  color: var(--vp-c-text-1);
+.VPCarbonAds :deep(.carbon-poweredby:hover) {
+  color: var(--vp-carbon-ads-hover-poweredby-color);
 }
 </style>

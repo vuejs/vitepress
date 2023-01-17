@@ -25,22 +25,12 @@ defineProps<{
   border-radius: 12px;
   padding: 12px;
   min-width: 128px;
-  border: 1px solid var(--vp-c-divider-light);
-  background-color: var(--vp-c-bg);
+  border: 1px solid var(--vp-c-divider);
+  background-color: var(--vp-c-bg-elv);
   box-shadow: var(--vp-shadow-3);
   transition: background-color 0.5s;
-  max-height: calc(100vh - var(--vp-nav-height-mobile));
+  max-height: calc(100vh - var(--vp-nav-height));
   overflow-y: auto;
-}
-
-@media (min-width: 960px) {
-  .VPMenu {
-    max-height: calc(100vh - var(--vp-nav-height-desktop));
-  }
-}
-
-.dark .VPMenu {
-  box-shadow: var(--vp-shadow-2);
 }
 
 .VPMenu :deep(.group) {
@@ -49,7 +39,7 @@ defineProps<{
 }
 
 .VPMenu :deep(.group + .group) {
-  border-top: 1px solid var(--vp-c-divider-light);
+  border-top: 1px solid var(--vp-c-divider);
   padding: 11px 12px 12px;
 }
 
@@ -58,7 +48,7 @@ defineProps<{
 }
 
 .VPMenu :deep(.group + .item) {
-  border-top: 1px solid var(--vp-c-divider-light);
+  border-top: 1px solid var(--vp-c-divider);
   padding: 11px 16px 0;
 }
 

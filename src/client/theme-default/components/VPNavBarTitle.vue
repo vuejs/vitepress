@@ -20,23 +20,10 @@ const { hasSidebar } = useSidebar()
 </template>
 
 <style scoped>
-.VPNavBarTitle {
-  flex-shrink: 0;
-  border-bottom: 1px solid transparent;
-}
-
-@media (min-width: 960px) {
-  .VPNavBarTitle.has-sidebar {
-    margin-right: 32px;
-    width: calc(var(--vp-sidebar-width) - 64px);
-    border-bottom-color: var(--vp-c-divider-light);
-    background-color: var(--vp-c-bg-alt);
-  }
-}
-
 .title {
   display: flex;
   align-items: center;
+  border-bottom: 1px solid transparent;
   width: 100%;
   height: var(--vp-nav-height);
   font-size: 16px;
@@ -52,6 +39,10 @@ const { hasSidebar } = useSidebar()
 @media (min-width: 960px) {
   .title {
     flex-shrink: 0;
+  }
+
+  .VPNavBarTitle.has-sidebar .title {
+    border-bottom-color: var(--vp-c-divider);
   }
 }
 

@@ -24,7 +24,7 @@ const { page } = useData()
 <style scoped>
 .VPMenuGroup + .VPMenuLink {
   margin: 12px -12px 0;
-  border-top: 1px solid var(--vp-c-divider-light);
+  border-top: 1px solid var(--vp-c-divider);
   padding: 12px 12px 0;
 }
 
@@ -42,11 +42,7 @@ const { page } = useData()
 
 .link:hover {
   color: var(--vp-c-brand);
-  background-color: var(--vp-c-bg-mute);
-}
-
-.dark .link:hover {
-  background-color: var(--vp-c-bg-soft);
+  background-color: var(--vp-c-bg-elv-mute);
 }
 
 .link.active {

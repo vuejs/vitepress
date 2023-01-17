@@ -3,7 +3,7 @@
   border-radius: 8px;
   padding: 16px 16px 8px;
   line-height: 24px;
-  font-size: 14px;
+  font-size: var(--vp-custom-block-font-size);
   color: var(--vp-c-text-2);
 }
 
