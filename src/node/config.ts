@@ -1,28 +1,28 @@
-import path from 'path'
-import fs from 'fs-extra'
-import c from 'picocolors'
-import fg from 'fast-glob'
-import {
-  normalizePath,
-  type UserConfig as ViteConfig,
-  mergeConfig as mergeViteConfig,
-  loadConfigFromFile
-} from 'vite'
 import type { Options as VuePluginOptions } from '@vitejs/plugin-vue'
+import _debug from 'debug'
+import fg from 'fast-glob'
+import fs from 'fs-extra'
+import path from 'path'
+import c from 'picocolors'
 import {
-  type SiteData,
+  loadConfigFromFile,
+  mergeConfig as mergeViteConfig,
+  normalizePath,
+  type UserConfig as ViteConfig
+} from 'vite'
+import { DEFAULT_THEME_PATH } from './alias'
+import type { MarkdownOptions } from './markdown/markdown'
+import {
+  APPEARANCE_KEY,
+  type Awaitable,
+  type CleanUrlsMode,
+  type DefaultTheme,
   type HeadConfig,
   type LocaleConfig,
   type LocaleSpecificConfig,
-  type DefaultTheme,
-  APPEARANCE_KEY,
-  type CleanUrlsMode,
   type PageData,
-  type Awaitable
+  type SiteData
 } from './shared'
-import { DEFAULT_THEME_PATH } from './alias'
-import type { MarkdownOptions } from './markdown/markdown'
-import _debug from 'debug'
 
 const debug = _debug('vitepress:config')
 

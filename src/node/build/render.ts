@@ -1,21 +1,21 @@
+import escape from 'escape-html'
 import fs from 'fs-extra'
 import path from 'path'
+import type { OutputAsset, OutputChunk, RollupOutput } from 'rollup'
 import { pathToFileURL } from 'url'
-import escape from 'escape-html'
 import { normalizePath, transformWithEsbuild } from 'vite'
-import type { RollupOutput, OutputChunk, OutputAsset } from 'rollup'
+import type { SiteConfig } from '../config'
 import {
-  type HeadConfig,
-  type PageData,
   createTitle,
-  notFoundPageData,
-  mergeHead,
   EXTERNAL_URL_RE,
+  mergeHead,
+  notFoundPageData,
   resolveSiteDataByRoute,
-  sanitizeFileName
+  sanitizeFileName,
+  type HeadConfig,
+  type PageData
 } from '../shared'
 import { slash } from '../utils/slash'
-import type { SiteConfig } from '../config'
 
 export async function renderPage(
   render: (path: string) => Promise<string>,
