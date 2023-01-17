@@ -10,7 +10,8 @@ export type {
   LocaleSpecificConfig,
   PageData,
   PageDataPayload,
-  SiteData
+  SiteData,
+  SSGContext
 } from '../../types/shared.js'
 
 export const EXTERNAL_URL_RE = /^[a-z]+:/i

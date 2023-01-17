@@ -10,15 +10,15 @@ import {
   EXTERNAL_URL_RE,
   mergeHead,
   notFoundPageData,
-  resolveSiteDataByRoute,
   sanitizeFileName,
   type HeadConfig,
-  type PageData
+  type PageData,
+  type SSGContext
 } from '../shared'
 import { slash } from '../utils/slash'
 
 export async function renderPage(
-  render: (path: string) => Promise<string>,
+  render: (path: string) => Promise<SSGContext>,
   config: SiteConfig,
   page: string, // foo.md
   result: RollupOutput | null,
@@ -31,7 +31,8 @@ export async function renderPage(
   const siteData = resolveSiteDataByRoute(config.site, routePath)
 
   // render page
-  const content = await render(routePath)
+  const context = await render(routePath)
+  const { content, teleports } = (await config.postRender?.(context)) ?? context
 
   const pageName = sanitizeFileName(page.replace(/\//g, '_'))
   // server build doesn't need hash
@@ -156,7 +157,7 @@ export async function renderPage(
     ${prefetchLinkString}
     ${await renderHead(head)}
   </head>
-  <body>
+  <body>${teleports?.body || ''}
     <div id="app">${content}</div>
     ${
       config.mpa

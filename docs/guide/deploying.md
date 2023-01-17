@@ -119,7 +119,9 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
 1. Set `outDir` in `docs/.vitepress/config.js` to `../public`.
 
-2. Create a file called `.gitlab-ci.yml` in the root of your project with the content below. This will build and deploy your site whenever you make changes to your content:
+2. Still in your config file, `docs/.vitepress/config.js`, set the `base` property to the name of your GitLab repository. If you plan to deploy your site to `https://foo.gitlab.io/bar/`, then you should set base to `'/bar/'`. It should always start and end with a slash.
+
+3. Create a file called `.gitlab-ci.yml` in the root of your project with the content below. This will build and deploy your site whenever you make changes to your content:
 
    ```yaml
    image: node:16

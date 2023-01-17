@@ -10,6 +10,7 @@ import {
   normalizePath,
   type UserConfig as ViteConfig
 } from 'vite'
+import type { SSGContext } from '../../types/shared'
 import { DEFAULT_THEME_PATH } from './alias'
 import type { MarkdownOptions } from './markdown/markdown'
 import {
@@ -104,11 +105,16 @@ export interface UserConfig<ThemeConfig = any>
   buildEnd?: (siteConfig: SiteConfig) => Awaitable<void>
 
   /**
+   * Render end hook: called when SSR rendering is done.
+   */
+  postRender?: (context: SSGContext) => Awaitable<SSGContext | void>
+
+  /**
    * Head transform hook: runs before writing HTML to dist.
    *
    * This build hook will allow you to modify the head adding new entries that cannot be statically added.
    */
-  transformHead?: (ctx: TransformContext) => Awaitable<HeadConfig[]>
+  transformHead?: (context: TransformContext) => Awaitable<HeadConfig[]>
 
   /**
    * HTML transform hook: runs before writing HTML to dist.
@@ -153,6 +159,7 @@ export interface SiteConfig<ThemeConfig = any>
     | 'ignoreDeadLinks'
     | 'cleanUrls'
     | 'useWebFonts'
+    | 'postRender'
     | 'buildEnd'
     | 'transformHead'
     | 'transformHtml'
@@ -249,6 +256,7 @@ export async function resolveConfig(
     useWebFonts:
       userConfig.useWebFonts ??
       typeof process.versions.webcontainer === 'string',
+    postRender: userConfig.postRender,
     buildEnd: userConfig.buildEnd,
     transformHead: userConfig.transformHead,
     transformHtml: userConfig.transformHtml,
