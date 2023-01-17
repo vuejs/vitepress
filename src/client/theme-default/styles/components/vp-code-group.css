@@ -10,6 +10,7 @@
   padding: 0 12px;
   background-color: var(--vp-code-tab-bg);
   overflow: auto;
+  overflow-y: hidden;
 }
 
 .vp-code-group .tabs::after {
