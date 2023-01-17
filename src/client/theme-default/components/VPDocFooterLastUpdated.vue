@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, watchEffect, onMounted } from 'vue'
-import { useData } from 'vitepress'
+import { useData } from '../composables/data.js'
 
 const { theme, page } = useData()
 
@@ -20,7 +20,7 @@ onMounted(() => {
 
 <template>
   <p class="VPLastUpdated">
-    {{ theme.lastUpdatedText ?? 'Last updated' }}:
+    {{ theme.lastUpdatedText || 'Last updated' }}:
     <time :datetime="isoDatetime">{{ datetime }}</time>
   </p>
 </template>

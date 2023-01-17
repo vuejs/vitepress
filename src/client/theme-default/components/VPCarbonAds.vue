@@ -1,10 +1,16 @@
 <script setup lang="ts">
+import type { DefaultTheme } from 'vitepress/theme'
 import { ref, watch, onMounted } from 'vue'
-import { useData } from 'vitepress'
 import { useAside } from '../composables/aside.js'
+import { useData } from '../composables/data.js'
 
-const { theme, page } = useData()
-const carbonOptions = theme.value.carbonAds
+const { page } = useData()
+const props = defineProps<{
+  carbonAds: DefaultTheme.CarbonAdsOptions
+}>()
+
+const carbonOptions = props.carbonAds
+
 const { isAsideEnabled } = useAside()
 const container = ref()
 

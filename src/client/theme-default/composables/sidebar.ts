@@ -6,8 +6,9 @@ import {
   ref,
   watchEffect
 } from 'vue'
-import { useData, useRoute } from 'vitepress'
+import { useRoute } from 'vitepress'
 import { useMediaQuery } from '@vueuse/core'
+import { useData } from './data.js'
 import { getSidebar } from '../support/sidebar.js'
 
 export function useSidebar() {

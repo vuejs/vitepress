@@ -1,16 +1,8 @@
-import { ref } from 'vue'
-import { withBase, useData } from 'vitepress'
-import { EXTERNAL_URL_RE, PATHNAME_PROTOCOL_RE } from '../../shared.js'
+import { withBase } from 'vitepress'
+import { useData } from '../composables/data.js'
+import { isExternal, PATHNAME_PROTOCOL_RE } from '../../shared.js'
 
-export const HASH_RE = /#.*$/
-export const EXT_RE = /(index)?\.(md|html)$/
-
-const inBrowser = typeof window !== 'undefined'
-const hashRef = ref(inBrowser ? location.hash : '')
-
-export function isExternal(path: string): boolean {
-  return EXTERNAL_URL_RE.test(path)
-}
+export { isExternal, isActive } from '../../shared.js'
 
 export function throttleAndDebounce(fn: () => void, delay: number): () => void {
   let timeoutId: NodeJS.Timeout
@@ -33,40 +25,8 @@ export function throttleAndDebounce(fn: () => void, delay: number): () => void {
   }
 }
 
-export function isActive(
-  currentPath: string,
-  matchPath?: string,
-  asRegex: boolean = false
-): boolean {
-  if (matchPath === undefined) {
-    return false
-  }
-
-  currentPath = normalize(`/${currentPath}`)
-
-  if (asRegex) {
-    return new RegExp(matchPath).test(currentPath)
-  }
-
-  if (normalize(matchPath) !== currentPath) {
-    return false
-  }
-
-  const hashMatch = matchPath.match(HASH_RE)
-
-  if (hashMatch) {
-    return hashRef.value === hashMatch[0]
-  }
-
-  return true
-}
-
 export function ensureStartingSlash(path: string): string {
   return /^\//.test(path) ? path : `/${path}`
-}
-
-export function normalize(path: string): string {
-  return decodeURI(path).replace(HASH_RE, '').replace(EXT_RE, '')
 }
 
 export function normalizeLink(url: string): string {
@@ -80,10 +40,13 @@ export function normalizeLink(url: string): string {
   const normalizedPath =
     pathname.endsWith('/') || pathname.endsWith('.html')
       ? url
-      : `${pathname.replace(
-          /(\.md)?$/,
-          site.value.cleanUrls === 'disabled' ? '.html' : ''
-        )}${search}${hash}`
+      : url.replace(
+          /(?:(^\.+)\/)?.*$/,
+          `$1${pathname.replace(
+            /(\.md)?$/,
+            site.value.cleanUrls === 'disabled' ? '.html' : ''
+          )}${search}${hash}`
+        )
 
   return withBase(normalizedPath)
 }

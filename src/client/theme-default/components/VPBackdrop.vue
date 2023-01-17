@@ -14,8 +14,10 @@ defineProps<{
 .VPBackdrop {
   position: fixed;
   top: 0;
+  /*rtl:ignore*/
   right: 0;
   bottom: 0;
+  /*rtl:ignore*/
   left: 0;
   z-index: var(--vp-z-index-backdrop);
   background: var(--vp-backdrop-bg-color);

@@ -24,7 +24,8 @@ import { snippetPlugin } from './plugins/snippet'
 import { preWrapperPlugin } from './plugins/preWrapper'
 import { linkPlugin } from './plugins/link'
 import { imagePlugin } from './plugins/image'
-import type { Header } from '../shared'
+
+export type { Header } from '../shared'
 
 export type ThemeOptions =
   | IThemeRegistration
@@ -50,8 +51,6 @@ export interface MarkdownOptions extends MarkdownIt.Options {
 }
 
 export type MarkdownRenderer = MarkdownIt
-
-export type { Header }
 
 export const createMarkdownRenderer = async (
   srcDir: string,

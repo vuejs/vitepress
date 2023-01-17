@@ -4,16 +4,17 @@ import path from 'path'
 import type { OutputAsset, OutputChunk, RollupOutput } from 'rollup'
 import { pathToFileURL } from 'url'
 import { normalizePath, transformWithEsbuild } from 'vite'
-import { resolveSiteDataByRoute, type SiteConfig } from '../config'
-import type { SSGContext } from '../shared'
+import type { SiteConfig } from '../config'
 import {
   createTitle,
   EXTERNAL_URL_RE,
   mergeHead,
   notFoundPageData,
+  resolveSiteDataByRoute,
   sanitizeFileName,
   type HeadConfig,
-  type PageData
+  type PageData,
+  type SSGContext
 } from '../shared'
 import { slash } from '../utils/slash'
 
@@ -146,7 +147,7 @@ export async function renderPage(
 
   const html = `
 <!DOCTYPE html>
-<html lang="${siteData.lang}">
+<html lang="${siteData.lang}" dir="${siteData.dir}">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">

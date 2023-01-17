@@ -38,6 +38,7 @@ const classes = computed(() => ({
 .VPNav {
   position: relative;
   top: var(--vp-layout-top-height, 0px);
+  /*rtl:ignore*/
   left: 0;
   z-index: var(--vp-z-index-nav);
   width: 100%;

@@ -289,6 +289,9 @@
 
 .vp-doc [class*='language-'] pre,
 .vp-doc [class*='language-'] code {
+  /*rtl:ignore*/
+  direction: ltr;
+  /*rtl:ignore*/
   text-align: left;
   white-space: pre;
   word-spacing: normal;
@@ -389,6 +392,7 @@
 }
 
 .vp-doc div[class*='language-'].line-numbers-mode {
+  /*rtl:ignore*/
   padding-left: 32px;
 }
 
@@ -396,8 +400,10 @@
   position: absolute;
   top: 0;
   bottom: 0;
+  /*rtl:ignore*/
   left: 0;
   z-index: 3;
+  /*rtl:ignore*/
   border-right: 1px solid var(--vp-code-block-divider-color);
   padding-top: 16px;
   width: 32px;
@@ -410,8 +416,11 @@
 }
 
 .vp-doc [class*='language-'] > button.copy {
+  /*rtl:ignore*/
+  direction: ltr;
   position: absolute;
   top: 8px;
+  /*rtl:ignore*/
   right: 8px;
   z-index: 3;
   display: block;
@@ -441,6 +450,7 @@
 
 .vp-doc [class*='language-'] > button.copy.copied,
 .vp-doc [class*='language-'] > button.copy:hover.copied {
+  /*rtl:ignore*/
   border-radius: 0 4px 4px 0;
   background-color: var(--vp-code-copy-code-hover-bg);
   background-image: var(--vp-icon-copied);
@@ -449,10 +459,12 @@
 .vp-doc [class*='language-'] > button.copy.copied::before,
 .vp-doc [class*='language-'] > button.copy:hover.copied::before {
   position: relative;
+  /*rtl:ignore*/
   left: -65px;
   display: flex;
   justify-content: center;
   align-items: center;
+  /*rtl:ignore*/
   border-radius: 4px 0 0 4px;
   width: 64px;
   height: 40px;
@@ -468,6 +480,7 @@
 .vp-doc [class*='language-'] > span.lang {
   position: absolute;
   top: 6px;
+  /*rtl:ignore*/
   right: 12px;
   z-index: 2;
   font-size: 12px;

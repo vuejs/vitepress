@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useData } from 'vitepress'
 import VPIconChevronDown from './icons/VPIconChevronDown.vue'
 import VPIconLanguages from './icons/VPIconLanguages.vue'
+import { useLangs } from '../composables/langs.js'
+import VPLink from './VPLink.vue'
 
-const { theme } = useData()
-
+const { localeLinks, currentLang } = useLangs({ correspondingLink: true })
 const isOpen = ref(false)
 
 function toggle() {
@@ -14,16 +14,20 @@ function toggle() {
 </script>
 
 <template>
-  <div v-if="theme.localeLinks" class="VPNavScreenTranslations" :class="{ open: isOpen }">
+  <div
+    v-if="localeLinks.length && currentLang.label"
+    class="VPNavScreenTranslations"
+    :class="{ open: isOpen }"
+  >
     <button class="title" @click="toggle">
       <VPIconLanguages class="icon lang" />
-      {{ theme.localeLinks.text }}
+      {{ currentLang.label }}
       <VPIconChevronDown class="icon chevron" />
     </button>
 
     <ul class="list">
-      <li v-for="locale in theme.localeLinks.items" :key="locale.link" class="item">
-        <a class="link" :href="locale.link">{{ locale.text }}</a>
+      <li v-for="locale in localeLinks" :key="locale.link" class="item">
+        <VPLink class="link" :href="locale.link">{{ locale.text }}</VPLink>
       </li>
     </ul>
   </div>

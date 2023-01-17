@@ -1,13 +1,15 @@
 <script lang="ts" setup>
-import { useData } from 'vitepress'
+import { useData } from '../composables/data.js'
 import VPSwitchAppearance from './VPSwitchAppearance.vue'
 
-const { site } = useData()
+const { site, theme } = useData()
 </script>
 
 <template>
   <div v-if="site.appearance" class="VPNavScreenAppearance">
-    <p class="text">Appearance</p>
+    <p class="text">
+      {{ theme.darkModeSwitchLabel || 'Appearance' }}
+    </p>
     <VPSwitchAppearance />
   </div>
 </template>

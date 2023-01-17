@@ -30,8 +30,13 @@ export function getHeaders(pageOutline: DefaultTheme.Config['outline']) {
 
 export function resolveHeaders(
   headers: MenuItem[],
-  levelsRange: Exclude<DefaultTheme.Config['outline'], false> = 2
+  range?: Exclude<DefaultTheme.Config['outline'], false>
 ) {
+  const levelsRange =
+    (typeof range === 'object' && !Array.isArray(range)
+      ? range.level
+      : range) || 2
+
   const levels: [number, number] =
     typeof levelsRange === 'number'
       ? [levelsRange, levelsRange]

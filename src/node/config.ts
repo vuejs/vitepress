@@ -10,38 +10,43 @@ import {
   normalizePath,
   type UserConfig as ViteConfig
 } from 'vite'
-import type { SSGContext } from '../../types/shared'
 import { DEFAULT_THEME_PATH } from './alias'
 import type { MarkdownOptions } from './markdown/markdown'
 import {
   APPEARANCE_KEY,
-  createLangDictionary,
   type Awaitable,
   type CleanUrlsMode,
   type DefaultTheme,
   type HeadConfig,
   type LocaleConfig,
+  type LocaleSpecificConfig,
   type PageData,
-  type SiteData
+  type SiteData,
+  type SSGContext
 } from './shared'
-
-export { resolveSiteDataByRoute } from './shared'
 
 const debug = _debug('vitepress:config')
 
-export interface UserConfig<ThemeConfig = any> {
+export interface UserConfig<ThemeConfig = any>
+  extends LocaleSpecificConfig<ThemeConfig> {
   extends?: RawConfigExports<ThemeConfig>
+
   base?: string
-  lang?: string
-  title?: string
-  titleTemplate?: string | boolean
-  description?: string
-  head?: HeadConfig[]
+  srcDir?: string
+  srcExclude?: string[]
+  outDir?: string
+  cacheDir?: string
+  shouldPreload?: (link: string, page: string) => boolean
+
+  locales?: LocaleConfig<ThemeConfig>
+
   appearance?: boolean | 'dark'
-  themeConfig?: ThemeConfig
-  locales?: Record<string, LocaleConfig>
-  markdown?: MarkdownOptions
   lastUpdated?: boolean
+
+  /**
+   * MarkdownIt options
+   */
+  markdown?: MarkdownOptions
   /**
    * Options to pass on to `@vitejs/plugin-vue`
    */
@@ -50,12 +55,6 @@ export interface UserConfig<ThemeConfig = any> {
    * Vite config
    */
   vite?: ViteConfig
-
-  srcDir?: string
-  srcExclude?: string[]
-  outDir?: string
-  cacheDir?: string
-  shouldPreload?: (link: string, page: string) => boolean
 
   /**
    * Configure the scroll offset when the theme has a sticky header.
@@ -276,7 +275,10 @@ async function resolveUserConfig(
 ): Promise<[UserConfig, string | undefined, string[]]> {
   // load user config
   const configPath = supportedConfigExtensions
-    .map((ext) => resolve(root, `config.${ext}`))
+    .flatMap((ext) => [
+      resolve(root, `config/index.${ext}`),
+      resolve(root, `config.${ext}`)
+    ])
     .find(fs.pathExistsSync)
 
   let userConfig: RawConfigExports = {}
@@ -351,6 +353,7 @@ export async function resolveSiteData(
 
   return {
     lang: userConfig.lang || 'en-US',
+    dir: userConfig.dir || 'ltr',
     title: userConfig.title || 'VitePress',
     titleTemplate: userConfig.titleTemplate,
     description: userConfig.description || 'A VitePress site',
@@ -359,7 +362,6 @@ export async function resolveSiteData(
     appearance: userConfig.appearance ?? true,
     themeConfig: userConfig.themeConfig || {},
     locales: userConfig.locales || {},
-    langs: createLangDictionary(userConfig),
     scrollOffset: userConfig.scrollOffset || 90,
     cleanUrls: userConfig.cleanUrls || 'disabled'
   }

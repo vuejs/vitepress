@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useData } from 'vitepress'
+import { useData } from '../composables/data.js'
 import VPNavScreenMenuLink from './VPNavScreenMenuLink.vue'
 import VPNavScreenMenuGroup from './VPNavScreenMenuGroup.vue'
 

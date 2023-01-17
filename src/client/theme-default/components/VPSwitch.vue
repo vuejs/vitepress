@@ -28,6 +28,7 @@
 .check {
   position: absolute;
   top: 1px;
+  /*rtl:ignore*/
   left: 1px;
   width: 18px;
   height: 18px;

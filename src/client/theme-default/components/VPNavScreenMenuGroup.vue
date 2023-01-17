@@ -79,6 +79,7 @@ function toggle() {
 }
 
 .VPNavScreenMenuGroup.open .button-icon {
+  /*rtl:ignore*/
   transform: rotate(45deg);
 }
 
