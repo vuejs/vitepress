@@ -114,7 +114,7 @@
 }
 
 .vp-sponsor-grid-item:hover {
-  background-color: var(--vp-c-bg-mute);
+  background-color: var(--vp-c-bg-soft-down);
 }
 
 .vp-sponsor-grid-item:hover .vp-sponsor-grid-image {
@@ -126,11 +126,11 @@
 }
 
 .dark .vp-sponsor-grid-item:hover {
-  background-color: var(--vp-c-white-soft);
+  background-color: var(--vp-c-white);
 }
 
 .dark .vp-sponsor-grid-item.empty:hover {
-  background-color: var(--vp-c-black-mute);
+  background-color: var(--vp-c-bg-soft);
 }
 
 .vp-sponsor-grid-link {

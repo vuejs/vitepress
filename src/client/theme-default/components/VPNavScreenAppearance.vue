@@ -22,7 +22,6 @@ const { site, theme } = useData()
   border-radius: 8px;
   padding: 12px 14px 12px 16px;
   background-color: var(--vp-c-bg-soft);
-  transition: background-color 0.5s;
 }
 
 .text {
@@ -30,6 +29,5 @@ const { site, theme } = useData()
   font-size: 12px;
   font-weight: 500;
   color: var(--vp-c-text-2);
-  transition: color 0.5s;
 }
 </style>

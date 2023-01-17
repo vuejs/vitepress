@@ -97,7 +97,7 @@ const showFooter = computed(() => {
 }
 
 .prev-next {
-  border-top: 1px solid var(--vp-c-divider-light);
+  border-top: 1px solid var(--vp-c-divider);
   padding-top: 24px;
 }
 
@@ -127,7 +127,7 @@ const showFooter = computed(() => {
 
 .pager-link {
   display: block;
-  border: 1px solid var(--vp-c-divider-light);
+  border: 1px solid var(--vp-c-divider);
   border-radius: 8px;
   padding: 11px 16px 13px;
   width: 100%;
@@ -137,10 +137,6 @@ const showFooter = computed(() => {
 
 .pager-link:hover {
   border-color: var(--vp-c-brand);
-}
-
-.pager-link:hover .title {
-  color: var(--vp-c-brand-dark);
 }
 
 .pager-link.next {

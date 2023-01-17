@@ -45,7 +45,7 @@ const component = computed(() => {
   display: inline-block;
   border: 1px solid transparent;
   text-align: center;
-  font-weight: 500;
+  font-weight: 600;
   white-space: nowrap;
   transition: color 0.25s, border-color 0.25s, background-color 0.25s;
 }
