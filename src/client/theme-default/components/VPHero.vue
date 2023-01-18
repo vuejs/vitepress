@@ -25,11 +25,13 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
   <div class="VPHero" :class="{ 'has-image': image || heroImageSlotExists }">
     <div class="container">
       <div class="main">
-        <h1 v-if="name" class="name">
-          <span class="clip">{{ name }}</span>
-        </h1>
-        <p v-if="text" class="text">{{ text }}</p>
-        <p v-if="tagline" class="tagline">{{ tagline }}</p>
+        <slot name="home-hero-info">
+          <h1 v-if="name" class="name">
+            <span class="clip">{{ name }}</span>
+          </h1>
+          <p v-if="text" class="text">{{ text }}</p>
+          <p v-if="tagline" class="tagline">{{ tagline }}</p>
+        </slot>
 
         <div v-if="actions" class="actions">
           <div v-for="action in actions" :key="action.link" class="action">
