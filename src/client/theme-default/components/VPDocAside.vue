@@ -1,13 +1,9 @@
 <script setup lang="ts">
-import { defineAsyncComponent } from 'vue'
 import { useData } from '../composables/data.js'
 import VPDocAsideOutline from './VPDocAsideOutline.vue'
+import VPDocAsideCarbonAds from './VPDocAsideCarbonAds.vue'
 
 const { theme } = useData()
-
-const VPCarbonAds = __CARBON__
-  ? defineAsyncComponent(() => import('./VPCarbonAds.vue'))
-  : () => null
 </script>
 
 <template>
@@ -21,7 +17,7 @@ const VPCarbonAds = __CARBON__
     <div class="spacer" />
 
     <slot name="aside-ads-before" />
-    <VPCarbonAds v-if="theme.carbonAds" :carbonAds="theme.carbonAds" />
+    <VPDocAsideCarbonAds v-if="theme.carbonAds" :carbon-ads="theme.carbonAds" />
     <slot name="aside-ads-after" />
 
     <slot name="aside-bottom" />
