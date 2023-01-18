@@ -138,6 +138,6 @@ export default {
 `activeMatch` 应为正则表达式字符串，但你必须将其定义为字符串。我们不能在这里使用实际的 RegExp 对象，因为它在构建时不可序列化。
 :::
 
-## 社交链接 {#customize-link-s-active-state}
+## 社交链接 {#social-links}
 
 点击这里查看支持的 [`socialLinks`](../config/theme-configs#sociallinks).

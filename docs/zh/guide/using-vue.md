@@ -183,7 +183,7 @@ npm install -D stylus
 </style>
 
 <script>
-import ComponentInHeader from '../components/ComponentInHeader.vue'
+import ComponentInHeader from '../../components/ComponentInHeader.vue'
 
 export default {
   props: ['slot-key'],

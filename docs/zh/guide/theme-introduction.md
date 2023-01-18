@@ -101,7 +101,7 @@ export default Theme
 
 如果你想扩展和自定义默认主题，你可以从 `vitepress/theme` 导入它并在导出自定义主题中对其进行扩展。以下是一些常见自定义的示例：
 
-### 注册全局组件 {#extending-the-default-theme}
+### 注册全局组件 {#registering-global-components}
 
 ```js
 // .vitepress/theme/index.js

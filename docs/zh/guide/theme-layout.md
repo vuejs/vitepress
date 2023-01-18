@@ -33,5 +33,5 @@ page 布局可在 VitePress 主题不会影响标签的情况下让你自行设�
 
 选项 `home` 将生成模板化的“主页”。 在此布局中，你可以设置额外的选项，例如 `hero` 和 `features`，以进一步自定义内容。请访问[主题：主页](./theme-home-page)了解更多详情。
 
-## No 布局 {#home-layout}
+## No 布局 {#no-layout}
 如果你不想要任何布局，你可以通过在 frontmatter 中设置 `layout: false`。如果你想要一个完全可定制的登录页面 (默认情况下没有任何侧边栏、导航栏或页脚)，这个选项很有用。
