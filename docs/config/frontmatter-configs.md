@@ -52,7 +52,7 @@ description: VitePress
 ---
 ```
 
-### head
+## head
 
 - Type: `HeadConfig[]`
 
