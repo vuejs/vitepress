@@ -11,16 +11,17 @@ VitePress 提供了几个内置 API 来获取数据。VitePress 还提供了一�
 返回页面的属性数据，返回的对象具有以下类型：
 
 ```ts
-interface VitePressData {
-  site: Ref<SiteData>
+interface VitePressData<T = any> {
+  site: Ref<SiteData<T>>
   page: Ref<PageData>
-  theme: Ref<any> // themeConfig from .vitepress/config.js
+  theme: Ref<T> // themeConfig from .vitepress/config.js
   frontmatter: Ref<PageData['frontmatter']>
-  lang: Ref<string>
   title: Ref<string>
   description: Ref<string>
-  localePath: Ref<string>
+  lang: Ref<string>
   isDark: Ref<boolean>
+  dir: Ref<string>
+  localeIndex: Ref<string>
 }
 ```
 

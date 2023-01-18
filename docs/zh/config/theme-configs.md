@@ -19,6 +19,12 @@ export default {
 
 这里描述了 VitePress 默认主题的设置。如果你使用的是其他人创建的自定义主题，这些设置可能没有任何效果，或者可能表现不同。
 
+## i18nRouting
+
+- 类型：`boolean`
+
+改变语言环境意味着，`zh` 将 URL 从 `/foo` (or `/en/foo/`) 变成 `/zh/foo`。将 `themeConfig.i18nRouting` 设置为 `false` 可以禁用这一特性。
+
 ## logo
 
 - 类型：`ThemeableImage`
