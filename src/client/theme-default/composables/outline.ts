@@ -11,16 +11,30 @@ export type MenuItem = Omit<Header, 'slug' | 'children'> & {
   children?: MenuItem[]
 }
 
-export function getHeaders(pageOutline: DefaultTheme.Config['outline']) {
+export function getHeaders(
+  pageOutline: DefaultTheme.Config['outline'],
+  outlineBadges: DefaultTheme.Config['outlineBadges']
+) {
   if (pageOutline === false) return []
   let updatedHeaders: MenuItem[] = []
+
   document
     .querySelectorAll<HTMLHeadingElement>('h2, h3, h4, h5, h6')
     .forEach((el) => {
       if (el.textContent && el.id) {
+        let title = el.textContent
+
+        if (outlineBadges === false) {
+          const clone = el.cloneNode(true) as HTMLElement
+          for (const child of clone.querySelectorAll('.VPBadge')) {
+            child.remove()
+          }
+          title = clone.textContent || ''
+        }
+
         updatedHeaders.push({
           level: Number(el.tagName[1]),
-          title: el.innerText.replace(/\s+#\s*$/, ''),
+          title: title.replace(/\s+#\s*$/, ''),
           link: `#${el.id}`
         })
       }
