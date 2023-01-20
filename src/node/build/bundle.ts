@@ -37,7 +37,7 @@ export async function bundle(
   config.pages.forEach((file) => {
     // page filename conversion
     // foo/bar.md -> foo_bar.md
-    const alias = config.__map[file] || file
+    const alias = config.rewrites.map[file] || file
     input[slash(alias).replace(/\//g, '_')] = path.resolve(config.srcDir, file)
   })
 

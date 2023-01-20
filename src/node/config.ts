@@ -3,6 +3,7 @@ import _debug from 'debug'
 import fg from 'fast-glob'
 import fs from 'fs-extra'
 import path from 'path'
+import { match, compile } from 'path-to-regexp'
 import c from 'picocolors'
 import {
   loadConfigFromFile,
@@ -100,8 +101,10 @@ export interface UserConfig<ThemeConfig = any>
 
   /**
    * @experimental
+   *
+   * source -> destination
    */
-  remap?: Record<string, string>
+  rewrites?: Record<string, string>
 
   /**
    * Build end hook: called when SSG finish.
@@ -180,8 +183,10 @@ export interface SiteConfig<ThemeConfig = any>
   cacheDir: string
   tempDir: string
   pages: string[]
-  __map: Record<string, string | undefined>
-  __invMap: Record<string, string | undefined>
+  rewrites: {
+    map: Record<string, string | undefined>
+    inv: Record<string, string | undefined>
+  }
 }
 
 const resolve = (root: string, file: string) =>
@@ -241,6 +246,21 @@ export async function resolveConfig(
     })
   ).sort()
 
+  const rewriteEntries = Object.entries(userConfig.rewrites || {})
+
+  const rewrites = rewriteEntries.length
+    ? Object.fromEntries(
+        pages
+          .map((src) => {
+            for (const [from, to] of rewriteEntries) {
+              const dest = rewrite(src, from, to)
+              if (dest) return [src, dest]
+            }
+          })
+          .filter((e) => e != null) as [string, string][]
+      )
+    : {}
+
   const config: SiteConfig = {
     root,
     srcDir,
@@ -268,10 +288,10 @@ export async function resolveConfig(
     transformHead: userConfig.transformHead,
     transformHtml: userConfig.transformHtml,
     transformPageData: userConfig.transformPageData,
-    __map: userConfig.remap || {},
-    __invMap: Object.fromEntries(
-      Object.entries(userConfig.remap || {}).map((a) => a.reverse())
-    )
+    rewrites: {
+      map: rewrites,
+      inv: Object.fromEntries(Object.entries(rewrites).map((a) => a.reverse()))
+    }
   }
 
   return config
@@ -405,4 +425,12 @@ function resolveSiteDataHead(userConfig?: UserConfig): HeadConfig[] {
   }
 
   return head
+}
+
+function rewrite(src: string, from: string, to: string) {
+  const urlMatch = match(from)
+  const res = urlMatch(src)
+  if (!res) return false
+  const toPath = compile(to)
+  return toPath(res.params)
 }
