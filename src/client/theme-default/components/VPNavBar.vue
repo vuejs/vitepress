@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { computed } from 'vue'
+import { useWindowScroll } from '@vueuse/core'
 import { useSidebar } from '../composables/sidebar.js'
 import VPNavBarTitle from './VPNavBarTitle.vue'
 import VPNavBarSearch from './VPNavBarSearch.vue'
@@ -17,11 +19,17 @@ defineEmits<{
   (e: 'toggle-screen'): void
 }>()
 
+const { y } = useWindowScroll()
 const { hasSidebar } = useSidebar()
+
+const classes = computed(() => ({
+  'has-sidebar': hasSidebar.value,
+  fill: y.value > 0
+}))
 </script>
 
 <template>
-  <div class="VPNavBar" :class="{ 'has-sidebar' : hasSidebar }">
+  <div class="VPNavBar" :class="classes">
     <div class="container">
       <div class="title">
         <VPNavBarTitle>
@@ -32,15 +40,17 @@ const { hasSidebar } = useSidebar()
 
       <div class="content">
         <div class="curtain" />
-        <slot name="nav-bar-content-before" />
-        <VPNavBarSearch class="search" />
-        <VPNavBarMenu class="menu" />
-        <VPNavBarTranslations class="translations" />
-        <VPNavBarAppearance class="appearance" />
-        <VPNavBarSocialLinks class="social-links" />
-        <VPNavBarExtra class="extra" />
-        <slot name="nav-bar-content-after" />
-        <VPNavBarHamburger class="hamburger" :active="isScreenOpen" @click="$emit('toggle-screen')" />
+        <div class="content-body">
+          <slot name="nav-bar-content-before" />
+          <VPNavBarSearch class="search" />
+          <VPNavBarMenu class="menu" />
+          <VPNavBarTranslations class="translations" />
+          <VPNavBarAppearance class="appearance" />
+          <VPNavBarSocialLinks class="social-links" />
+          <VPNavBarExtra class="extra" />
+          <slot name="nav-bar-content-after" />
+          <VPNavBarHamburger class="hamburger" :active="isScreenOpen" @click="$emit('toggle-screen')" />
+        </div>
       </div>
     </div>
   </div>
@@ -49,11 +59,15 @@ const { hasSidebar } = useSidebar()
 <style scoped>
 .VPNavBar {
   position: relative;
-  border-bottom: 1px solid var(--vp-c-gutter);
+  border-bottom: 1px solid transparent;
   padding: 0 8px 0 24px;
   height: var(--vp-nav-height);
   transition: border-color 0.5s, background-color 0.5s;
   pointer-events: none;
+}
+
+.VPNavBar.has-sidebar {
+  border-bottom-color: var(--vp-c-gutter);
 }
 
 @media (min-width: 768px) {
@@ -67,6 +81,15 @@ const { hasSidebar } = useSidebar()
     border-bottom-color: transparent;
     padding: 0;
   }
+
+  .VPNavBar.fill {
+    border-bottom-color: var(--vp-c-gutter);
+    background-color: var(--vp-nav-bg-color);
+  }
+
+  .VPNavBar.has-sidebar.fill {
+    background-color: transparent;
+  }
 }
 
 .container {
@@ -78,6 +101,10 @@ const { hasSidebar } = useSidebar()
   pointer-events: none;
 }
 
+.container :deep(*) {
+  pointer-events: auto;
+}
+
 @media (min-width: 960px) {
   .VPNavBar.has-sidebar .container {
     max-width: 100%;
@@ -86,6 +113,8 @@ const { hasSidebar } = useSidebar()
 
 .title {
   flex-shrink: 0;
+  height: calc(var(--vp-nav-height) - 1px);
+  transition: background-color 0.5s;
 }
 
 @media (min-width: 960px) {
@@ -97,7 +126,7 @@ const { hasSidebar } = useSidebar()
     padding: 0 32px;
     width: var(--vp-sidebar-width);
     height: var(--vp-nav-height);
-    background-color: var(--vp-c-bg-alt);
+    background-color: transparent;
   }
 }
 
@@ -108,14 +137,7 @@ const { hasSidebar } = useSidebar()
   }
 }
 
-.container :deep(*) {
-  pointer-events: auto;
-}
-
 .content {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
   flex-grow: 1;
 }
 
@@ -132,6 +154,22 @@ const { hasSidebar } = useSidebar()
   .VPNavBar.has-sidebar .content {
     padding-right: calc((100vw - var(--vp-layout-max-width)) / 2 + 32px);
     padding-left: calc((100vw - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));
+  }
+}
+
+.content-body {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: calc(var(--vp-nav-height) - 1px);
+  transition: background-color 0.5s;
+}
+
+@media (min-width: 960px) {
+  .VPNavBar.has-sidebar .content-body,
+  .VPNavBar.fill .content-body {
+    position: relative;
+    background-color: var(--vp-nav-bg-color);
   }
 }
 
@@ -165,9 +203,8 @@ const { hasSidebar } = useSidebar()
   .VPNavBar.has-sidebar .curtain {
     position: absolute;
     right: 0;
-    bottom: -32px;
-    padding-left: var(--vp-sidebar-width);
-    width: 100%;
+    bottom: -31px;
+    width: calc(100% - var(--vp-sidebar-width));
     height: 32px;
   }
 
@@ -182,7 +219,7 @@ const { hasSidebar } = useSidebar()
 
 @media (min-width: 1440px) {
   .VPNavBar.has-sidebar .curtain {
-    padding-left: calc((100vw - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));
+    width: calc(100% - ((100vw - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width)));
   }
 }
 </style>
