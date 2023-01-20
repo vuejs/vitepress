@@ -1,3 +1,22 @@
+# [1.0.0-alpha.40](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.39...v1.0.0-alpha.40) (2023-01-20)
+
+
+### Bug Fixes
+
+* **theme:** nav bg not being applied on some viewport ([39294e0](https://github.com/vuejs/vitepress/commit/39294e0a4ec53b245da4344187de842d0044dac8))
+
+
+
+# [1.0.0-alpha.39](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.38...v1.0.0-alpha.39) (2023-01-20)
+
+
+### Bug Fixes
+
+* **theme:** adjust the position of the curtain to avoid block sidebar ([#1816](https://github.com/vuejs/vitepress/issues/1816)) ([48f0b01](https://github.com/vuejs/vitepress/commit/48f0b015694c17767180eb2f75e9eb12c3f2a358))
+* **theme:** sidebar scrollbar is cropped by nav bar ([bd36224](https://github.com/vuejs/vitepress/commit/bd36224b45ee832765afcf4a57c211d362e4e6af))
+
+
+
 # [1.0.0-alpha.38](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.37...v1.0.0-alpha.38) (2023-01-17)
 
 
