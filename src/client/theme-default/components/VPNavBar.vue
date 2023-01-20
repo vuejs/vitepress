@@ -66,8 +66,7 @@ const classes = computed(() => ({
   pointer-events: none;
 }
 
-.VPNavBar.has-sidebar,
-.VPNavBar.fill {
+.VPNavBar.has-sidebar {
   border-bottom-color: var(--vp-c-gutter);
 }
 
@@ -81,6 +80,15 @@ const classes = computed(() => ({
   .VPNavBar.has-sidebar {
     border-bottom-color: transparent;
     padding: 0;
+  }
+
+  .VPNavBar.fill {
+    border-bottom-color: var(--vp-c-gutter);
+    background-color: var(--vp-nav-bg-color);
+  }
+
+  .VPNavBar.has-sidebar.fill {
+    background-color: transparent;
   }
 }
 
@@ -107,10 +115,6 @@ const classes = computed(() => ({
   flex-shrink: 0;
   height: calc(var(--vp-nav-height) - 1px);
   transition: background-color 0.5s;
-}
-
-.VPNavBar.fill .title {
-  background-color: var(--vp-nav-bg-color);
 }
 
 @media (min-width: 960px) {
@@ -161,12 +165,9 @@ const classes = computed(() => ({
   transition: background-color 0.5s;
 }
 
-.VPNavBar.fill .content-body {
-  background-color: var(--vp-nav-bg-color);
-}
-
 @media (min-width: 960px) {
-  .VPNavBar.has-sidebar .content-body {
+  .VPNavBar.has-sidebar .content-body,
+  .VPNavBar.fill .content-body {
     position: relative;
     background-color: var(--vp-nav-bg-color);
   }
