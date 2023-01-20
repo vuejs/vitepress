@@ -159,9 +159,25 @@ export namespace DefaultTheme {
     [path: string]: SidebarGroup[]
   }
 
-  export interface SidebarGroup {
+  export interface SidebarGroup extends SidebarCollapsible {
     text?: string
     items: SidebarItem[]
+  }
+
+  export type SidebarItem = SidebarSection | SidebarLink
+
+  export interface SidebarSection extends SidebarCollapsible {
+    text: string
+    items: SidebarLink[]
+  }
+
+  export interface SidebarLink {
+    text: string
+    link: string
+  }
+
+  export interface SidebarCollapsible {
+    items: SidebarItem[] | SidebarLink[]
 
     /**
      * If `true`, toggle button is shown.
@@ -177,10 +193,6 @@ export namespace DefaultTheme {
      */
     collapsed?: boolean
   }
-
-  export type SidebarItem =
-    | { text: string; link: string }
-    | { text: string; link?: string; items: SidebarItem[] }
 
   // edit link -----------------------------------------------------------------
 

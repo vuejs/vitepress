@@ -1,47 +1,33 @@
 <script lang="ts" setup>
+import { computed } from 'vue'
 import type { DefaultTheme } from 'vitepress/theme'
-import { ref, watchEffect } from 'vue'
-import { useData } from '../composables/data.js'
-import { isActive } from '../support/utils.js'
+import { useSidebarControl } from '../composables/sidebar.js'
 import VPIconPlusSquare from './icons/VPIconPlusSquare.vue'
 import VPIconMinusSquare from './icons/VPIconMinusSquare.vue'
+import VPSidebarSection from './VPSidebarSection.vue'
 import VPSidebarLink from './VPSidebarLink.vue'
 
 const props = defineProps<{
-  text?: string
-  items: DefaultTheme.SidebarItem[]
-  collapsible?: boolean
-  collapsed?: boolean
+  group: DefaultTheme.SidebarGroup
 }>()
 
-const collapsed = ref(false)
-watchEffect(() => {
-  collapsed.value = !!(props.collapsible && props.collapsed)
-})
+const { collapsed, toggle } = useSidebarControl(computed(() => props.group))
 
-const { page } = useData()
-watchEffect(() => {
-  if(props.items.some((item) => { return isActive(page.value.relativePath, item.link) })){
-    collapsed.value = false
-  }
-})
-
-function toggle() {
-  if (props.collapsible) {
-    collapsed.value = !collapsed.value
-  }
-}
+const classes = computed(() => ({
+  collapsible: props.group.collapsible,
+  collapsed: collapsed.value
+}))
 </script>
 
 <template>
-  <section class="VPSidebarGroup" :class="{ collapsible, collapsed }">
+  <section class="VPSidebarGroup" :class="classes">
     <div
-      v-if="text"
+      v-if="group.text"
       class="title"
-      :role="collapsible ? 'button' : undefined"
+      :role="group.collapsible ? 'button' : undefined"
       @click="toggle"
     >
-      <h2 v-html="text" class="title-text"></h2>
+      <h2 class="title-text" v-html="group.text" />
       <div class="action">
         <VPIconMinusSquare class="icon minus" />
         <VPIconPlusSquare class="icon plus" />
@@ -49,8 +35,9 @@ function toggle() {
     </div>
 
     <div class="items">
-      <template v-for="item in items" :key="item.link">
-        <VPSidebarLink :item="item" />
+      <template v-for="item in group.items">
+        <VPSidebarSection v-if="'items' in item" :key="item.text" :item="item" />
+        <VPSidebarLink v-else :key="item.link" :item="item" />
       </template>
     </div>
   </section>

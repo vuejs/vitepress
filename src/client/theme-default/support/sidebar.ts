@@ -1,5 +1,10 @@
 import type { DefaultTheme } from 'vitepress/theme'
-import { ensureStartingSlash } from './utils.js'
+import { ensureStartingSlash, isActive } from './utils.js'
+
+type LinkContainable =
+  | DefaultTheme.SidebarGroup
+  | DefaultTheme.SidebarItem
+  | DefaultTheme.SidebarItem[]
 
 /**
  * Get the `Sidebar` from sidebar option. This method will ensure to get correct
@@ -38,17 +43,30 @@ export function getFlatSideBarLinks(sidebar: DefaultTheme.SidebarGroup[]) {
 
   function recursivelyExtractLinks(items: DefaultTheme.SidebarItem[]) {
     for (const item of items) {
-      if (item.link) {
-        links.push({ ...item, link: item.link })
-      }
-      if ('items' in item) {
-        recursivelyExtractLinks(item.items)
-      }
+      'link' in item
+        ? links.push({ ...item, link: item.link })
+        : recursivelyExtractLinks(item.items)
     }
   }
 
   for (const group of sidebar) {
     recursivelyExtractLinks(group.items)
   }
+
   return links
+}
+
+/**
+ * Check if the given sidebar item contains any active link.
+ */
+export function hasActiveLink(group: LinkContainable, path: string): boolean {
+  if (Array.isArray(group)) {
+    return group.some((item) => hasActiveLink(item, path))
+  }
+
+  if ('items' in group) {
+    return group.items.some((item) => hasActiveLink(item, path))
+  }
+
+  return isActive(path, group.link)
 }

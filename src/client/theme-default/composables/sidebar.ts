@@ -1,15 +1,20 @@
 import {
+  type ComputedRef,
+  type Ref,
   computed,
   onMounted,
   onUnmounted,
-  type Ref,
   ref,
   watchEffect
 } from 'vue'
-import { useRoute } from 'vitepress'
 import { useMediaQuery } from '@vueuse/core'
+import { useRoute } from 'vitepress'
+import type { DefaultTheme } from 'vitepress/theme'
+import {
+  hasActiveLink as containsActiveLink,
+  getSidebar
+} from '../support/sidebar.js'
 import { useData } from './data.js'
-import { getSidebar } from '../support/sidebar.js'
 
 export function useSidebar() {
   const route = useRoute()
@@ -93,5 +98,37 @@ export function useCloseSidebarOnEscape(
       close()
       triggerElement?.focus()
     }
+  }
+}
+
+export function useSidebarControl(
+  group: ComputedRef<DefaultTheme.SidebarCollapsible>
+) {
+  const { page } = useData()
+
+  const collapsed = ref(false)
+
+  const hasActiveLink = computed(() => {
+    return containsActiveLink(group.value.items, page.value.relativePath)
+  })
+
+  watchEffect(() => {
+    collapsed.value = !!(group.value.collapsible && group.value.collapsed)
+  })
+
+  watchEffect(() => {
+    hasActiveLink.value && (collapsed.value = false)
+  })
+
+  function toggle() {
+    if (group.value.collapsible) {
+      collapsed.value = !collapsed.value
+    }
+  }
+
+  return {
+    collapsed,
+    hasActiveLink,
+    toggle
   }
 }
