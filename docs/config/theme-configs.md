@@ -19,6 +19,12 @@ export default {
 
 Here it describes the settings for the VitePress default theme. If you're using a custom theme created by others, these settings may not have any effect, or might behave differently.
 
+## i18nRouting
+
+- Type: `boolean`
+
+Changing locale to say `zh` will change the URL from `/foo` (or `/en/foo/`) to `/zh/foo`. You can disable this behavior by setting `themeConfig.i18nRouting` to `false`.
+
 ## logo
 
 - Type: `ThemeableImage`

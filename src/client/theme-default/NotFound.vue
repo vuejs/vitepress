@@ -1,7 +1,23 @@
 <script setup lang="ts">
-import { useData } from 'vitepress'
+import { onMounted, ref } from 'vue'
+import { withBase } from 'vitepress'
+import { useData } from './composables/data.js'
+import { useLangs } from './composables/langs.js'
 
 const { site } = useData()
+const { localeLinks } = useLangs({ removeCurrent: false })
+
+const root = ref('/')
+onMounted(() => {
+  const path = window.location.pathname
+    .replace(site.value.base, '')
+    .replace(/(^.*?\/).*$/, '/$1')
+  if (localeLinks.value.length) {
+    root.value =
+      localeLinks.value.find(({ link }) => link.startsWith(path))?.link ||
+      localeLinks.value[0].link
+  }
+})
 </script>
 
 <template>
@@ -14,7 +30,7 @@ const { site } = useData()
     </blockquote>
 
     <div class="action">
-      <a class="link" :href="site.base" aria-label="go to home">
+      <a class="link" :href="withBase(root)" aria-label="go to home">
         Take me home
       </a>
     </div>
@@ -51,7 +67,7 @@ const { site } = useData()
   margin: 24px auto 18px;
   width: 64px;
   height: 1px;
-  background-color: var(--vp-c-divider)
+  background-color: var(--vp-c-divider);
 }
 
 .quote {
@@ -74,7 +90,7 @@ const { site } = useData()
   font-size: 14px;
   font-weight: 500;
   color: var(--vp-c-brand);
-  transition: border-color 0.25s, color .25s;
+  transition: border-color 0.25s, color 0.25s;
 }
 
 .link:hover {

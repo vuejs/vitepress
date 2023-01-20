@@ -43,13 +43,15 @@ function unlockBodyScroll() {
 <style scoped>
 .VPNavScreen {
   position: fixed;
-  top: calc(var(--vp-nav-height-mobile) + var(--vp-layout-top-height, 0px));
+  top: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 1px);
+  /*rtl:ignore*/
   right: 0;
   bottom: 0;
+  /*rtl:ignore*/
   left: 0;
   padding: 0 32px;
   width: 100%;
-  background-color: var(--vp-c-bg);
+  background-color: var(--vp-nav-screen-bg-color);
   overflow-y: auto;
   transition: background-color 0.5s;
   pointer-events: auto;

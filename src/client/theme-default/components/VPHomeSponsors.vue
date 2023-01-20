@@ -48,7 +48,7 @@ defineProps<{
 
 <style scoped>
 .VPHomeSponsors {
-  border-top: 1px solid var(--vp-c-divider-light);
+  border-top: 1px solid var(--vp-c-gutter);
   padding: 88px 24px 96px;
   background-color: var(--vp-c-bg);
 }

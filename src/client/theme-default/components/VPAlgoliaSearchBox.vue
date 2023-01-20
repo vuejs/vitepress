@@ -1,40 +1,47 @@
 <script setup lang="ts">
 import type { DefaultTheme } from 'vitepress/theme'
 import docsearch from '@docsearch/js'
-import { onMounted } from 'vue'
-import { useRouter, useRoute, useData } from 'vitepress'
+import { onMounted, watch } from 'vue'
+import { useRouter, useRoute } from 'vitepress'
+import { useData } from '../composables/data.js'
+
+const props = defineProps<{
+  algolia: DefaultTheme.AlgoliaSearchOptions
+}>()
 
 const router = useRouter()
 const route = useRoute()
-const { theme, site } = useData()
-
-onMounted(() => {
-  initialize(theme.value.algolia)
-  setTimeout(poll, 16)
-})
-
-function poll() {
-  // programmatically open the search box after initialize
-  const e = new Event('keydown') as any
-
-  e.key = 'k'
-  e.metaKey = true
-
-  window.dispatchEvent(e)
-
-  setTimeout(() => {
-    if (!document.querySelector('.DocSearch-Modal')) {
-      poll()
-    }
-  }, 16)
-}
+const { site, localeIndex, lang } = useData()
 
 const docsearch$ = docsearch.default ?? docsearch
 type DocSearchProps = Parameters<typeof docsearch$>[0]
 
+onMounted(update)
+watch(localeIndex, update)
+
+function update() {
+  const options = {
+    ...props.algolia,
+    ...props.algolia.locales?.[localeIndex.value]
+  }
+  const rawFacetFilters = options.searchParameters?.facetFilters ?? []
+  const facetFilters = [
+    ...(Array.isArray(rawFacetFilters)
+      ? rawFacetFilters
+      : [rawFacetFilters]
+    ).filter((f) => !f.startsWith('lang:')),
+    `lang:${lang.value}`
+  ]
+  initialize({
+    ...options,
+    searchParameters: {
+      ...options.searchParameters,
+      facetFilters
+    }
+  })
+}
+
 function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
-  // note: multi-lang search support is removed since the theme
-  // doesn't support multiple locales as of now.
   const options = Object.assign<{}, {}, DocSearchProps>({}, userOptions, {
     container: '#docsearch',
 

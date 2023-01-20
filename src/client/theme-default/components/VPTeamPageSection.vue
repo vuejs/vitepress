@@ -46,7 +46,7 @@
   left: 0;
   width: 100%;
   height: 1px;
-  background-color: var(--vp-c-divider-light);
+  background-color: var(--vp-c-divider);
 }
 
 .title-text {

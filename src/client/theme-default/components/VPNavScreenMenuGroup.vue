@@ -54,7 +54,7 @@ function toggle() {
 
 <style scoped>
 .VPNavScreenMenuGroup {
-  border-bottom: 1px solid var(--vp-c-divider-light);
+  border-bottom: 1px solid var(--vp-c-divider);
   height: 48px;
   overflow: hidden;
   transition: border-color 0.5s;
@@ -79,6 +79,7 @@ function toggle() {
 }
 
 .VPNavScreenMenuGroup.open .button-icon {
+  /*rtl:ignore*/
   transform: rotate(45deg);
 }
 
