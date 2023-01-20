@@ -166,8 +166,7 @@ const { hasSidebar } = useSidebar()
     position: absolute;
     right: 0;
     bottom: -32px;
-    padding-left: var(--vp-sidebar-width);
-    width: 100%;
+    width: calc(100% - var(--vp-sidebar-width));
     height: 32px;
   }
 
@@ -182,7 +181,7 @@ const { hasSidebar } = useSidebar()
 
 @media (min-width: 1440px) {
   .VPNavBar.has-sidebar .curtain {
-    padding-left: calc((100vw - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));
+    width: calc(100% - ((100vw - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width)));
   }
 }
 </style>
