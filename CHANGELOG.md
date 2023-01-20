@@ -1,3 +1,12 @@
+# [1.0.0-alpha.40](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.39...v1.0.0-alpha.40) (2023-01-20)
+
+
+### Bug Fixes
+
+* **theme:** nav bg not being applied on some viewport ([39294e0](https://github.com/vuejs/vitepress/commit/39294e0a4ec53b245da4344187de842d0044dac8))
+
+
+
 # [1.0.0-alpha.39](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.38...v1.0.0-alpha.39) (2023-01-20)
 
 
