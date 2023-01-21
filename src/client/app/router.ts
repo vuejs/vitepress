@@ -57,7 +57,7 @@ export function createRouter(
         href = url.pathname + url.search + url.hash
       }
     }
-    if (inBrowser) {
+    if (inBrowser && href !== location.href) {
       // save scroll position before changing url
       history.replaceState({ scrollPosition: window.scrollY }, document.title)
       history.pushState(null, '', href)
