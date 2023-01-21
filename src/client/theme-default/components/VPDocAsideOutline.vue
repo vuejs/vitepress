@@ -17,7 +17,7 @@ const pageOutline = computed<DefaultTheme.Config['outline']>(
 
 const onContentUpdated = inject('onContentUpdated') as Ref<() => void>
 onContentUpdated.value = () => {
-  headers.value = getHeaders(pageOutline.value)
+  headers.value = getHeaders(pageOutline.value, theme.value.outlineBadges)
 }
 
 const headers = ref<MenuItem[]>([])

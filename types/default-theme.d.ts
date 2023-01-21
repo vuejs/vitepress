@@ -23,6 +23,13 @@ export namespace DefaultTheme {
     outline?: Outline | Outline['level'] | false
 
     /**
+     * Disable this to hide badge text from outline.
+     *
+     * @default true
+     */
+    outlineBadges?: boolean
+
+    /**
      * @deprecated
      * Use `outline.label` instead.
      *
