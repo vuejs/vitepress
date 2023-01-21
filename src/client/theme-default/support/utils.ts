@@ -50,3 +50,7 @@ export function normalizeLink(url: string): string {
 
   return withBase(normalizedPath)
 }
+
+export function clearUrlHash(url: string): string {
+  return url.split('#')[0]
+}

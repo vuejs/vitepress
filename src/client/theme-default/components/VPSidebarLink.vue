@@ -3,7 +3,7 @@ import type { DefaultTheme } from 'vitepress/theme'
 import { type Ref, computed, inject, ref, watchEffect } from 'vue'
 import { useData } from '../composables/data.js'
 import { useSidebar } from '../composables/sidebar.js'
-import { isActive } from '../support/utils.js'
+import { isActive, clearUrlHash } from '../support/utils.js'
 import VPLink from './VPLink.vue'
 
 const props = withDefaults(
@@ -30,6 +30,11 @@ watchEffect(() => {
     link.value?.$el?.focus()
   }
 })
+
+const navigateLink = ()=>{
+  location.href = clearUrlHash(location.href)
+  closeSideBar()
+}
 </script>
 
 <template>
@@ -39,7 +44,7 @@ watchEffect(() => {
     :style="{ paddingLeft: 16 * (depth - 1) + 'px' }"
     :href="item.link"
     :tabindex="isSidebarEnabled || isSidebarOpen ? 0 : -1"
-    @click="closeSideBar"
+    @click="navigateLink"
     ref="link"
   >
     <span v-html="item.text" class="link-text" :class="{ light: depth > 1 }"></span>

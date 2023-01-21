@@ -1,4 +1,7 @@
-import { ensureStartingSlash } from 'client/theme-default/support/utils'
+import {
+  ensureStartingSlash,
+  clearUrlHash
+} from 'client/theme-default/support/utils'
 
 describe('client/theme-default/utils', () => {
   describe('ensureStartingSlash', () => {
@@ -7,6 +10,22 @@ describe('client/theme-default/utils', () => {
       expect(ensureStartingSlash('path/nested')).toBe('/path/nested')
       expect(ensureStartingSlash('/path')).toBe('/path')
       expect(ensureStartingSlash('/path/nested')).toBe('/path/nested')
+    })
+  })
+
+  describe('clearUrlHash', () => {
+    test('function will return when http://localhost:5173/guide/getting-started when url is http://localhost:5173/guide/getting-started#step-2-install-vitepress', () => {
+      expect(
+        clearUrlHash(
+          'http://localhost:5173/guide/getting-started#step-2-install-vitepress'
+        )
+      ).toBe('http://localhost:5173/guide/getting-started')
+    })
+
+    test('function will return when http://localhost:5173/guide/getting-started when url is http://localhost:5173/guide/getting-started', () => {
+      expect(clearUrlHash('http://localhost:5173/guide/getting-started')).toBe(
+        'http://localhost:5173/guide/getting-started'
+      )
     })
   })
 })
