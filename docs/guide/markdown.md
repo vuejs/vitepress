@@ -651,6 +651,30 @@ export default config
 
 :::
 
+You can also include [snippets](#import-code-snippets) in code groups:
+
+::: code-group
+
+<<< @/snippets/snippet.js [snippet.js]
+<<< @/snippets/snippet-with-region.js [snippet-with-region.js]
+<<< @/snippets/snippet.cs{1,2,4-6 c#}
+
+:::
+
+```md
+::: code-group
+
+<<< @/snippets/snippet.js [snippet.js]
+
+<!-- with custom tab titles -->
+<<< @/snippets/snippet-with-region.js [snippet with region]
+
+<!-- filename is grabbed by-default -->
+<<< @/snippets/snippet.cs{1,2,4-6 c#}
+
+:::
+```
+
 ## Markdown File Inclusion
 
 You can include a markdown file in another markdown file like this:
