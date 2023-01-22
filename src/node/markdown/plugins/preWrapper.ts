@@ -3,12 +3,11 @@ import type MarkdownIt from 'markdown-it'
 export function preWrapperPlugin(md: MarkdownIt) {
   const fence = md.renderer.rules.fence!
   md.renderer.rules.fence = (...args) => {
+    // remove file title from the info in order to not confuse the renderer
+    args[0][args[1]].info = args[0][args[1]].info.replace(/\[.*\]/, '')
+
     const { info } = args[0][args[1]]
     const lang = extractLang(info)
-
-    // remove file title from the info in order to not confuse the renderer
-    args[0][args[1]].info = info.replace(/\[.*\]/, '')
-
     const rawCode = fence(...args)
     return `<div class="language-${lang}${
       / active( |$)/.test(info) ? ' active' : ''
@@ -26,5 +25,4 @@ const extractLang = (info: string) => {
     .replace(/:(no-)?line-numbers$/, '')
     .replace(/(-vue|{| ).*$/, '')
     .replace(/^vue-html$/, 'template')
-    .replace(/\[.*\]/, '')
 }

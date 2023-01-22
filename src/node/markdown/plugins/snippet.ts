@@ -98,7 +98,7 @@ export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
      * captures: ['/path/to/file.extension', 'extension', '#region', '{meta}', '[title]']
      */
     const rawPathRegexp =
-      /^(.+(?:\.([a-z0-9]+)))(?:(#[\w-]+))?(?: ?(?:{(\d+(?:[,-]\d+)*)? ?(\S+)?}))? ?(?:\[([\w0-9_\-\.]+)\])?$/
+      /^(.+(?:\.([a-z0-9]+)))(?:(#[\w-]+))?(?: ?(?:{(\d+(?:[,-]\d+)*)? ?(\S+)?}))? ?(?:\[(.+)\])?$/
 
     const rawPath = state.src
       .slice(start, end)
