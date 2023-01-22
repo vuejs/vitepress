@@ -656,7 +656,7 @@ You can also include [snippets](#import-code-snippets) in code groups:
 ::: code-group
 
 <<< @/snippets/snippet.js [snippet.js]
-<<< @/snippets/snippet-with-region.js [snippet-with-region.js]
+<<< @/snippets/snippet-with-region.js [snippet with region]
 <<< @/snippets/snippet.js{1,2,4-6 js}
 
 :::
