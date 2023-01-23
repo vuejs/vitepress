@@ -92,13 +92,6 @@ describe('client/theme-default/support/sidebar', () => {
   })
 
   describe('hasActiveLink', () => {
-    test('checks `SidebarLink`', () => {
-      const item = { text: 'Item 001', link: '/active' }
-
-      expect(hasActiveLink(item, 'active')).toBe(true)
-      expect(hasActiveLink(item, 'inactive')).toBe(false)
-    })
-
     test('checks `SidebarItem`', () => {
       const item = {
         text: 'Item 001',
@@ -108,8 +101,8 @@ describe('client/theme-default/support/sidebar', () => {
         ]
       }
 
-      expect(hasActiveLink(item, 'active-1')).toBe(true)
-      expect(hasActiveLink(item, 'inactive')).toBe(false)
+      expect(hasActiveLink('active-1', item)).toBe(true)
+      expect(hasActiveLink('inactive', item)).toBe(false)
     })
 
     test('checks `SidebarItem[]`', () => {
@@ -130,9 +123,9 @@ describe('client/theme-default/support/sidebar', () => {
         }
       ]
 
-      expect(hasActiveLink(item, 'active-1')).toBe(true)
-      expect(hasActiveLink(item, 'active-3')).toBe(true)
-      expect(hasActiveLink(item, 'inactive')).toBe(false)
+      expect(hasActiveLink('active-1', item)).toBe(true)
+      expect(hasActiveLink('active-3', item)).toBe(true)
+      expect(hasActiveLink('inactive', item)).toBe(false)
     })
   })
 })

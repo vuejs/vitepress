@@ -1,10 +1,10 @@
 import type { DefaultTheme } from 'vitepress/theme'
 import { ensureStartingSlash, isActive } from './utils.js'
 
-type LinkContainable =
-  | DefaultTheme.SidebarGroup
-  | DefaultTheme.SidebarItem
-  | DefaultTheme.SidebarItem[]
+export interface SidebarLink {
+  text: string
+  link: string
+}
 
 /**
  * Get the `Sidebar` from sidebar option. This method will ensure to get correct
@@ -15,7 +15,7 @@ type LinkContainable =
 export function getSidebar(
   sidebar: DefaultTheme.Sidebar | undefined,
   path: string
-): DefaultTheme.SidebarGroup[] {
+): DefaultTheme.SidebarItem[] {
   if (Array.isArray(sidebar)) {
     return sidebar
   }
@@ -38,20 +38,52 @@ export function getSidebar(
   return dir ? sidebar[dir] : []
 }
 
-export function getFlatSideBarLinks(sidebar: DefaultTheme.SidebarGroup[]) {
-  const links: { text: string; link: string }[] = []
+/**
+ * Get or generate sidebar group from the given sidebar items.
+ */
+export function getSidebarGroups(
+  sidebar: DefaultTheme.SidebarItem[]
+): DefaultTheme.SidebarItem[] {
+  const groups: DefaultTheme.SidebarItem[] = []
+
+  let lastGroupIndex: number = 0
+
+  for (const index in sidebar) {
+    const item = sidebar[index]
+
+    if (item.items) {
+      lastGroupIndex = groups.push(item)
+      continue
+    }
+
+    if (!groups[lastGroupIndex]) {
+      groups.push({ items: [] })
+    }
+
+    groups[lastGroupIndex]!.items!.push(item)
+  }
+
+  return groups
+}
+
+export function getFlatSideBarLinks(
+  sidebar: DefaultTheme.SidebarItem[]
+): SidebarLink[] {
+  const links: SidebarLink[] = []
 
   function recursivelyExtractLinks(items: DefaultTheme.SidebarItem[]) {
     for (const item of items) {
-      'link' in item
-        ? links.push({ ...item, link: item.link })
-        : recursivelyExtractLinks(item.items)
+      if (item.text && item.link) {
+        links.push({ text: item.text, link: item.link })
+      }
+
+      if (item.items) {
+        recursivelyExtractLinks(item.items)
+      }
     }
   }
 
-  for (const group of sidebar) {
-    recursivelyExtractLinks(group.items)
-  }
+  recursivelyExtractLinks(sidebar)
 
   return links
 }
@@ -59,14 +91,17 @@ export function getFlatSideBarLinks(sidebar: DefaultTheme.SidebarGroup[]) {
 /**
  * Check if the given sidebar item contains any active link.
  */
-export function hasActiveLink(group: LinkContainable, path: string): boolean {
-  if (Array.isArray(group)) {
-    return group.some((item) => hasActiveLink(item, path))
+export function hasActiveLink(
+  path: string,
+  items: DefaultTheme.SidebarItem | DefaultTheme.SidebarItem[]
+): boolean {
+  if (Array.isArray(items)) {
+    return items.some((item) => hasActiveLink(path, item))
   }
 
-  if ('items' in group) {
-    return group.items.some((item) => hasActiveLink(item, path))
-  }
-
-  return isActive(path, group.link)
+  return isActive(path, items.link)
+    ? true
+    : items.items
+    ? hasActiveLink(path, items.items)
+    : false
 }

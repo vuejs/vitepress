@@ -66,21 +66,24 @@ export default {
 }
 ```
 
-You may further nest the "sections" up to 2 level deep. To do so, simple declare `items` in a item. Note that the "sections" may not have `link`
+You may further nest the sidebar items up to 6 level deep counting up from the root level. Note that deeper than 6 level of nested items gets ignored and will not be displayed on the sidebar.
 
 ```js
 export default {
   themeConfig: {
     sidebar: [
       {
-        text: 'Guide',
+        text: 'Level 1',
         items: [
           {
-            text: 'Introduction',
+            text: 'Level 2',
             items: [
-              { text: 'Installation', link: '/installation' },
-              { text: 'Configuration', link: '/configuration' },
-              ...
+              {
+                text: 'Level 3',
+                items: [
+                  ...
+                ]
+              }
             ]
           }
         ]
@@ -178,32 +181,6 @@ export default {
         collapsible: true,
         collapsed: true,
         items: [...]
-      }
-    ]
-  }
-}
-```
-
-It also works for nested groups as well.
-
-```js
-export default {
-  themeConfig: {
-    sidebar: [
-      {
-        text: 'Guide',
-        items: [
-          {
-            text: 'Introduction',
-            collapsible: true,
-            collapsed: true,
-            items: [
-              { text: 'Installation', link: '/installation' },
-              { text: 'Configuration', link: '/configuration' },
-              ...
-            ]
-          }
-        ]
       }
     ]
   }

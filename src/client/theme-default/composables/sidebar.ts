@@ -10,11 +10,23 @@ import {
 import { useMediaQuery } from '@vueuse/core'
 import { useRoute } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
+import { isActive } from '../support/utils.js'
 import {
   hasActiveLink as containsActiveLink,
-  getSidebar
+  getSidebar,
+  getSidebarGroups
 } from '../support/sidebar.js'
 import { useData } from './data.js'
+
+export interface SidebarControl {
+  collapsed: Ref<boolean>
+  collapsible: ComputedRef<boolean>
+  isLink: ComputedRef<boolean>
+  isActiveLink: ComputedRef<boolean>
+  hasActiveLink: ComputedRef<boolean>
+  hasChildren: ComputedRef<boolean>
+  toggle(): void
+}
 
 export function useSidebar() {
   const route = useRoute()
@@ -45,6 +57,10 @@ export function useSidebar() {
 
   const isSidebarEnabled = computed(() => hasSidebar.value && is960.value)
 
+  const sidebarGroups = computed(() => {
+    return hasSidebar.value ? getSidebarGroups(sidebar.value) : []
+  })
+
   function open() {
     isOpen.value = true
   }
@@ -60,6 +76,7 @@ export function useSidebar() {
   return {
     isOpen,
     sidebar,
+    sidebarGroups,
     hasSidebar,
     hasAside,
     isSidebarEnabled,
@@ -102,33 +119,59 @@ export function useCloseSidebarOnEscape(
 }
 
 export function useSidebarControl(
-  group: ComputedRef<DefaultTheme.SidebarCollapsible>
-) {
+  item: ComputedRef<DefaultTheme.SidebarItem>
+): SidebarControl {
   const { page } = useData()
 
   const collapsed = ref(false)
 
+  const collapsible = computed(() => {
+    return !!item.value.collapsible
+  })
+
+  const isLink = computed(() => {
+    return !!item.value.link
+  })
+
+  const isActiveLink = computed(() => {
+    return isActive(page.value.relativePath, item.value.link)
+  })
+
   const hasActiveLink = computed(() => {
-    return containsActiveLink(group.value.items, page.value.relativePath)
+    if (isActiveLink.value) {
+      return true
+    }
+
+    return item.value.items
+      ? containsActiveLink(page.value.relativePath, item.value.items)
+      : false
+  })
+
+  const hasChildren = computed(() => {
+    return !!(item.value.items && item.value.items.length)
   })
 
   watchEffect(() => {
-    collapsed.value = !!(group.value.collapsible && group.value.collapsed)
+    collapsed.value = !!(item.value.collapsible && item.value.collapsed)
   })
 
   watchEffect(() => {
-    hasActiveLink.value && (collapsed.value = false)
+    ;(isActiveLink.value || hasActiveLink.value) && (collapsed.value = false)
   })
 
   function toggle() {
-    if (group.value.collapsible) {
+    if (item.value.collapsible) {
       collapsed.value = !collapsed.value
     }
   }
 
   return {
     collapsed,
+    collapsible,
+    isLink,
+    isActiveLink,
     hasActiveLink,
+    hasChildren,
     toggle
   }
 }

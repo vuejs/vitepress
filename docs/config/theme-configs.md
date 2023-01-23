@@ -124,31 +124,27 @@ export default {
 ```
 
 ```ts
-export type Sidebar = SidebarGroup[] | SidebarMulti
+export type Sidebar = SidebarItem[] | SidebarMulti
 
 export interface SidebarMulti {
-  [path: string]: SidebarGroup[]
+  [path: string]: SidebarItem[]
 }
 
-export interface SidebarGroup extends SidebarCollapsible {
+export type SidebarItem = {
+  /**
+   * The text label of the item.
+   */
   text?: string
-  items: SidebarItem[]
-}
 
-export type SidebarItem = SidebarSection | SidebarLink
+  /**
+   * The link of the item.
+   */
+  link?: string
 
-export interface SidebarSection extends SidebarCollapsible {
-  text: string
-  items: SidebarLink[]
-}
-
-export interface SidebarLink {
-  text: string
-  link: string
-}
-
-export interface SidebarCollapsible {
-  items: SidebarItem[] | SidebarLink[]
+  /**
+   * The children of the item.
+   */
+  items?: SidebarItem[]
 
   /**
    * If `true`, toggle button is shown.
