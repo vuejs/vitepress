@@ -15,7 +15,7 @@ import { sfcPlugin, type SfcPluginOptions } from '@mdit-vue/plugin-sfc'
 import { titlePlugin } from '@mdit-vue/plugin-title'
 import { tocPlugin, type TocPluginOptions } from '@mdit-vue/plugin-toc'
 import { slugify } from '@mdit-vue/shared'
-import type { IThemeRegistration } from 'shiki'
+import type { ILanguageRegistration, IThemeRegistration } from 'shiki'
 import { highlight } from './plugins/highlight'
 import { highlightLinePlugin } from './plugins/highlightLines'
 import { lineNumberPlugin } from './plugins/lineNumbers'
@@ -46,6 +46,7 @@ export interface MarkdownOptions extends MarkdownIt.Options {
   headers?: HeadersPluginOptions
   sfc?: SfcPluginOptions
   theme?: ThemeOptions
+  languages?: ILanguageRegistration[]
   toc?: TocPluginOptions
   externalLinks?: Record<string, string>
 }
@@ -62,7 +63,11 @@ export const createMarkdownRenderer = async (
     linkify: true,
     highlight:
       options.highlight ||
-      (await highlight(options.theme, options.defaultHighlightLang)),
+      (await highlight(
+        options.theme,
+        options.languages,
+        options.defaultHighlightLang
+      )),
     ...options
   }) as MarkdownRenderer
 

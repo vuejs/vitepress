@@ -133,6 +133,7 @@ Configure Markdown parser options. VitePress uses [Markdown-it](https://github.c
 export default {
   markdown: {
     theme: 'material-palenight',
+    languages: [/* custom languages */],
     lineNumbers: true
   }
 }
@@ -150,6 +151,10 @@ interface MarkdownOptions extends MarkdownIt.Options {
   theme?:
     | Shiki.IThemeRegistration
     | { light: Shiki.IThemeRegistration; dark: Shiki.IThemeRegistration }
+  
+  // Add support for your own languages.
+  // https://github.com/shikijs/shiki/blob/main/docs/languages.md#supporting-your-own-languages-with-shiki
+  languages?: Shiki.ILanguageRegistration
 
   // Enable line numbers in code block.
   lineNumbers?: boolean

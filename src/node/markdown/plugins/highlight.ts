@@ -1,6 +1,11 @@
 import { customAlphabet } from 'nanoid'
 import c from 'picocolors'
-import type { HtmlRendererOptions, IThemeRegistration } from 'shiki'
+import {
+  BUNDLED_LANGUAGES,
+  type HtmlRendererOptions,
+  type ILanguageRegistration,
+  type IThemeRegistration
+} from 'shiki'
 import {
   addClass,
   createDiffProcessor,
@@ -57,6 +62,7 @@ const errorLevelProcessor = defineProcessor({
 
 export async function highlight(
   theme: ThemeOptions = 'material-palenight',
+  languages: ILanguageRegistration[] = [],
   defaultLang: string = ''
 ): Promise<(str: string, lang: string, attrs: string) => string> {
   const hasSingleTheme = typeof theme === 'string' || 'name' in theme
@@ -72,6 +78,7 @@ export async function highlight(
 
   const highlighter = await getHighlighter({
     themes: hasSingleTheme ? [theme] : [theme.dark, theme.light],
+    langs: [...BUNDLED_LANGUAGES, ...languages],
     processors
   })
 
