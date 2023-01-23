@@ -86,10 +86,10 @@ type HeadConfig =
 
 ## ignoreDeadLinks
 
-- 类型：`boolean`
+- 类型：`boolean | 'localhostLinks'`
 - 默认值：`false`
 
-当将其设置为 `true` 时，VitePress 不会因为死链接构建失败。
+当将其设置为 `true` 时，VitePress 不会因为死链接构建失败。若将其设置为 `localhostLinks`，`localhost` 链接不会构建失败，其他的死链接仍然会使构建失败。
 
 ```ts
 export default {
