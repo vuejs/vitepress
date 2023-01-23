@@ -52,11 +52,11 @@ function nav() {
       text: pkg.version,
       items: [
         {
-          text: 'Changelog',
+          text: '更新日志',
           link: 'https://github.com/vuejs/vitepress/blob/main/CHANGELOG.md'
         },
         {
-          text: 'Contributing',
+          text: '参与贡献',
           link: 'https://github.com/vuejs/vitepress/blob/main/.github/contributing.md'
         }
       ]
@@ -78,7 +78,7 @@ function sidebarGuide() {
       ]
     },
     {
-      text: 'Writing',
+      text: '写作',
       collapsible: true,
       items: [
         { text: 'Markdown', link: '/zh/guide/markdown' },
@@ -89,7 +89,7 @@ function sidebarGuide() {
       ]
     },
     {
-      text: 'Theme',
+      text: '主题',
       collapsible: true,
       items: [
         { text: '简介', link: '/zh/guide/theme-introduction' },
@@ -108,7 +108,7 @@ function sidebarGuide() {
       ]
     },
     {
-      text: 'Migrations',
+      text: '迁移',
       collapsible: true,
       items: [
         {
