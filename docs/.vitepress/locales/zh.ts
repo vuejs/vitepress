@@ -10,7 +10,9 @@ export default defineConfig({
 
   themeConfig: {
     nav: nav(),
-
+    outline: {
+      label: '页面导航'
+    },
     lastUpdatedText: '最后更新于',
 
     sidebar: {
