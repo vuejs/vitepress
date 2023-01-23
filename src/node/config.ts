@@ -73,7 +73,7 @@ export interface UserConfig<ThemeConfig = any>
    *
    * @default false
    */
-  ignoreDeadLinks?: boolean
+  ignoreDeadLinks?: boolean | 'localhostLinks'
 
   /**
    * @experimental

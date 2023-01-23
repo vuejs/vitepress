@@ -20,7 +20,7 @@ export const APPEARANCE_KEY = 'vitepress-theme-appearance'
 export const HASH_RE = /#.*$/
 export const EXT_RE = /(index)?\.(md|html)$/
 
-export const inBrowser = typeof window !== 'undefined'
+export const inBrowser = typeof document !== 'undefined'
 
 export const notFoundPageData: PageData = {
   relativePath: '',

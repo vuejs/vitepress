@@ -115,7 +115,10 @@ export async function createMarkdownToVueRenderFn(
       for (let url of links) {
         if (/\.(?!html|md)\w+($|\?)/i.test(url)) continue
 
-        if (url.replace(EXTERNAL_URL_RE, '').startsWith('//localhost:')) {
+        if (
+          siteConfig?.ignoreDeadLinks !== 'localhostLinks' &&
+          url.replace(EXTERNAL_URL_RE, '').startsWith('//localhost:')
+        ) {
           recordDeadLink(url)
           continue
         }
