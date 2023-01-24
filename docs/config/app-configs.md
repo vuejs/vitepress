@@ -86,10 +86,10 @@ type HeadConfig =
 
 ## ignoreDeadLinks
 
-- Type: `boolean`
+- Type: `boolean | 'localhostLinks'`
 - Default: `false`
 
-When set to `true`, VitePress will not fail builds due to dead links.
+When set to `true`, VitePress will not fail builds due to dead links. When set to `localhostLinks`, the build will fail on dead links, but won't check `localhost` links.
 
 ```ts
 export default {

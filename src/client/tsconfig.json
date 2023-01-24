@@ -9,7 +9,7 @@
     "declaration": true,
     "declarationDir": "../../dist/client-types",
     "jsx": "preserve",
-    "lib": ["ESNext", "DOM"],
+    "lib": ["esnext", "dom", "dom.iterable"],
     "types": ["vite/client"],
     "paths": {
       "vitepress": ["index.ts"],

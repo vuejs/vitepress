@@ -130,7 +130,9 @@ export async function createVitePressPlugin(
               searchForWorkspaceRoot(process.cwd())
             ]
           }
-        }
+        },
+        // @ts-ignore
+        vitepress: siteConfig
       })
       return userViteConfig
         ? mergeConfig(userViteConfig, baseConfig)

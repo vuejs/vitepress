@@ -23,6 +23,13 @@ export namespace DefaultTheme {
     outline?: Outline | Outline['level'] | false
 
     /**
+     * Disable this to hide badge text from outline.
+     *
+     * @default true
+     */
+    outlineBadges?: boolean
+
+    /**
      * @deprecated
      * Use `outline.label` instead.
      *
@@ -153,15 +160,27 @@ export namespace DefaultTheme {
 
   // sidebar -------------------------------------------------------------------
 
-  export type Sidebar = SidebarGroup[] | SidebarMulti
+  export type Sidebar = SidebarItem[] | SidebarMulti
 
   export interface SidebarMulti {
-    [path: string]: SidebarGroup[]
+    [path: string]: SidebarItem[]
   }
 
-  export interface SidebarGroup {
+  export type SidebarItem = {
+    /**
+     * The text label of the item.
+     */
     text?: string
-    items: SidebarItem[]
+
+    /**
+     * The link of the item.
+     */
+    link?: string
+
+    /**
+     * The children of the item.
+     */
+    items?: SidebarItem[]
 
     /**
      * If `true`, toggle button is shown.
@@ -177,10 +196,6 @@ export namespace DefaultTheme {
      */
     collapsed?: boolean
   }
-
-  export type SidebarItem =
-    | { text: string; link: string }
-    | { text: string; link?: string; items: SidebarItem[] }
 
   // edit link -----------------------------------------------------------------
 

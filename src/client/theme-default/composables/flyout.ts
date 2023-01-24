@@ -1,4 +1,5 @@
 import { type Ref, ref, watch, readonly, onUnmounted } from 'vue'
+import { inBrowser } from '../../shared.js'
 
 interface UseFlyoutOptions {
   el: Ref<HTMLElement | undefined>
@@ -14,7 +15,7 @@ let listeners = 0
 export function useFlyout(options: UseFlyoutOptions) {
   const focus = ref(false)
 
-  if (typeof window !== 'undefined') {
+  if (inBrowser) {
     !active && activateFocusTracking()
 
     listeners++
