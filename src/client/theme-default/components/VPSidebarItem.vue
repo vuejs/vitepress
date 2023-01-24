@@ -175,8 +175,7 @@ function onCaretClick() {
   height: 32px;
   color: var(--vp-c-text-3);
   cursor: pointer;
-  transform: rotate(90deg);
-  transition: color 0.25s, transform 0.25s;
+  transition: color 0.25s;
 }
 
 .item:hover .caret {
@@ -187,14 +186,16 @@ function onCaretClick() {
   color: var(--vp-c-text-1);
 }
 
-.VPSidebarItem.collapsed .caret {
-  transform: rotate(0);
-}
-
 .caret-icon {
   width: 18px;
   height: 18px;
   fill: currentColor;
+  transform: rotate(90deg);
+  transition: transform 0.25s;
+}
+
+.VPSidebarItem.collapsed .caret-icon {
+  transform: rotate(0);
 }
 
 .VPSidebarItem.level-1 .items,
