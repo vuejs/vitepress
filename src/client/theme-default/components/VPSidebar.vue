@@ -2,9 +2,9 @@
 import { ref, watchPostEffect } from 'vue'
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 import { useSidebar } from '../composables/sidebar.js'
-import VPSidebarGroup from './VPSidebarGroup.vue'
+import VPSidebarItem from './VPSidebarItem.vue'
 
-const { sidebar, hasSidebar } = useSidebar()
+const { sidebarGroups, hasSidebar } = useSidebar()
 
 const props = defineProps<{
   open: boolean
@@ -48,13 +48,8 @@ watchPostEffect(async () => {
 
       <slot name="sidebar-nav-before" />
 
-      <div v-for="group in sidebar" :key="group.text" class="group">
-        <VPSidebarGroup
-          :text="group.text"
-          :items="group.items"
-          :collapsible="group.collapsible"
-          :collapsed="group.collapsed"
-        />
+      <div v-for="item in sidebarGroups" :key="item.text" class="group">
+        <VPSidebarItem :item="item" :depth="0" />
       </div>
 
       <slot name="sidebar-nav-after" />
@@ -134,7 +129,6 @@ watchPostEffect(async () => {
 }
 
 .group + .group {
-  margin-top: 32px;
   border-top: 1px solid var(--vp-c-divider);
   padding-top: 10px;
 }
@@ -143,10 +137,6 @@ watchPostEffect(async () => {
   .group {
     padding-top: 10px;
     width: calc(var(--vp-sidebar-width) - 64px);
-  }
-
-  .group + .group {
-    margin-top: 24px;
   }
 }
 </style>
