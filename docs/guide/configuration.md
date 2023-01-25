@@ -20,6 +20,16 @@ export default {
 }
 ```
 
+You may also create your configuration file in current working directory with name `vuepress.config.js`:
+
+```
+.
+├─ docs
+│  └─ index.md
+├─ vuepress.config.js
+└─ package.json
+```
+
 In the above example, the site will have the title of `VitePress`, and `Just playing around.` as the description meta tag.
 
 Learn everything about VitePress features at [Theme: Introduction](./theme-introduction) to find how to configure specific features within this config file.

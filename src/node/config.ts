@@ -177,8 +177,10 @@ export interface SiteConfig<ThemeConfig = any>
   pages: string[]
 }
 
-const resolve = (root: string, file: string) =>
-  normalizePath(path.resolve(root, `.vitepress`, file))
+let isSourceDirConfig = true
+
+const resolve = (root: string, file: string, sourceDir: boolean) =>
+  normalizePath(path.resolve(root, sourceDir ? `.vitepress` : '.', file))
 
 /**
  * Type config helper
@@ -210,13 +212,13 @@ export async function resolveConfig(
   const srcDir = path.resolve(root, userConfig.srcDir || '.')
   const outDir = userConfig.outDir
     ? path.resolve(root, userConfig.outDir)
-    : resolve(root, 'dist')
+    : resolve(root, 'dist', isSourceDirConfig)
   const cacheDir = userConfig.cacheDir
     ? path.resolve(root, userConfig.cacheDir)
-    : resolve(root, 'cache')
+    : resolve(root, 'cache', isSourceDirConfig)
 
   // resolve theme path
-  const userThemeDir = resolve(root, 'theme')
+  const userThemeDir = resolve(root, 'theme', isSourceDirConfig)
   const themeDir = (await fs.pathExists(userThemeDir))
     ? userThemeDir
     : DEFAULT_THEME_PATH
@@ -244,7 +246,7 @@ export async function resolveConfig(
     configDeps,
     outDir,
     cacheDir,
-    tempDir: resolve(root, '.temp'),
+    tempDir: resolve(root, '.temp', isSourceDirConfig),
     markdown: userConfig.markdown,
     lastUpdated: userConfig.lastUpdated,
     vue: userConfig.vue,
@@ -276,10 +278,15 @@ async function resolveUserConfig(
   // load user config
   const configPath = supportedConfigExtensions
     .flatMap((ext) => [
-      resolve(root, `config/index.${ext}`),
-      resolve(root, `config.${ext}`)
+      resolve(root, `config/index.${ext}`, true),
+      resolve(root, `config.${ext}`, true),
+      resolve(root, `vitepress.config.${ext}`, false)
     ])
     .find(fs.pathExistsSync)
+
+  if (configPath) {
+    isSourceDirConfig = !/vitepress\.config/.test(configPath)
+  }
 
   let userConfig: RawConfigExports = {}
   let configDeps: string[] = []
