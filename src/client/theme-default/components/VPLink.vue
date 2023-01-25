@@ -5,16 +5,18 @@ import VPIconExternalLink from './icons/VPIconExternalLink.vue'
 import { EXTERNAL_URL_RE } from '../../shared.js'
 
 const props = defineProps<{
+  tag?: string
   href?: string
   noIcon?: boolean
 }>()
 
+const tag = computed(() => props.tag ?? props.href ? 'a' : 'span')
 const isExternal = computed(() => props.href && EXTERNAL_URL_RE.test(props.href))
 </script>
 
 <template>
   <component
-    :is="href ? 'a' : 'span'"
+    :is="tag"
     class="VPLink"
     :class="{ link: href }"
     :href="href ? normalizeLink(href) : undefined"
