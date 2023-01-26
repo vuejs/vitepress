@@ -20,13 +20,13 @@ export default {
 }
 ```
 
-You may also create your configuration file in current working directory with name `vuepress.config.js`:
+You may also create your configuration file in current working directory with name `vitepress.config.js`:
 
 ```
 .
 ├─ docs
 │  └─ index.md
-├─ vuepress.config.js
+├─ vitepress.config.js
 └─ package.json
 ```
 
