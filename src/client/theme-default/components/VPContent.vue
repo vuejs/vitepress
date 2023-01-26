@@ -20,7 +20,6 @@ const NotFound = inject('NotFound')
     id="VPContent"
     :class="{
       'has-sidebar': hasSidebar,
-      'is-home': frontmatter.layout === 'home'
     }"
   >
     <NotFound v-if="route.component === NotFound" />
@@ -58,13 +57,14 @@ const NotFound = inject('NotFound')
   width: 100%;
 }
 
-.VPContent.is-home {
-  width: 100%;
-  max-width: 100%;
-}
-
 .VPContent.has-sidebar {
   margin: 0;
+}
+
+@media (min-width: 768px) {
+  .VPContent {
+    width: 100vw;
+  }
 }
 
 @media (min-width: 960px) {
