@@ -78,6 +78,7 @@ const classes = computed(() => ({
 
 @media (min-width: 960px) {
   .VPNavBar.has-sidebar {
+    border-bottom-color: transparent;
     padding: 0;
   }
 
