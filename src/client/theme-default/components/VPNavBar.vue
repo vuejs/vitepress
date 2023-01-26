@@ -78,17 +78,12 @@ const classes = computed(() => ({
 
 @media (min-width: 960px) {
   .VPNavBar.has-sidebar {
-    border-bottom-color: transparent;
     padding: 0;
   }
 
-  .VPNavBar.fill {
+  .VPNavBar.fill:not(.has-sidebar) {
     border-bottom-color: var(--vp-c-gutter);
     background-color: var(--vp-nav-bg-color);
-  }
-
-  .VPNavBar.has-sidebar.fill {
-    background-color: transparent;
   }
 }
 
