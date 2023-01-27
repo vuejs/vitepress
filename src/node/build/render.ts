@@ -201,6 +201,7 @@ function resolvePageImports(
   result: RollupOutput,
   appChunk: OutputChunk
 ) {
+  page = config.rewrites.inv[page] || page
   // find the page's js chunk and inject script tags for its imports so that
   // they start fetching as early as possible
   const srcPath = normalizePath(

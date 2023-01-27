@@ -63,7 +63,8 @@ export async function createVitePressPlugin(
     pages,
     ignoreDeadLinks,
     lastUpdated,
-    cleanUrls
+    cleanUrls,
+    rewrites
   } = siteConfig
 
   let markdownToVue: Awaited<ReturnType<typeof createMarkdownToVueRenderFn>>
@@ -190,6 +191,14 @@ export async function createVitePressPlugin(
         server.watcher.add(configPath)
         configDeps.forEach((file) => server.watcher.add(file))
       }
+
+      server.middlewares.use((req, res, next) => {
+        if (req.url) {
+          const page = req.url.replace(/[?#].*$/, '').slice(1)
+          req.url = req.url.replace(page, rewrites.inv[page] || page)
+        }
+        next()
+      })
 
       // serve our index.html after vite history fallback
       return () => {

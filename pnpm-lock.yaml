@@ -62,6 +62,7 @@ importers:
       nanoid: 3.3.4
       npm-run-all: ^4.1.5
       ora: 5.4.1
+      path-to-regexp: ^6.2.1
       picocolors: ^1.0.0
       pkg-dir: 5.0.0
       playwright-chromium: ^1.29.2
@@ -148,6 +149,7 @@ importers:
       nanoid: 3.3.4
       npm-run-all: 4.1.5
       ora: 5.4.1
+      path-to-regexp: 6.2.1
       picocolors: 1.0.0
       pkg-dir: 5.0.0
       playwright-chromium: 1.29.2
@@ -3351,6 +3353,10 @@ packages:
 
   /path-parse/1.0.7:
     resolution: {integrity: sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==}
+
+  /path-to-regexp/6.2.1:
+    resolution: {integrity: sha512-JLyh7xT1kizaEvcaXOQwOc2/Yhw6KZOvPf1S8401UyLk86CU79LN3vl7ztXGm/pZ+YjoyAJ4rxmHwbkBXJX+yw==}
+    dev: true
 
   /path-type/3.0.0:
     resolution: {integrity: sha512-T2ZUsdZFHgA3u4e5PfPbjd7HDDpxPnQb5jN0SrDsjNSuVXHJqtwTnWqG0B1jZrgmJ/7lj1EmVIByWt1gxGkWvg==}

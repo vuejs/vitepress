@@ -3,6 +3,7 @@ import _debug from 'debug'
 import fg from 'fast-glob'
 import fs from 'fs-extra'
 import path from 'path'
+import { match, compile } from 'path-to-regexp'
 import c from 'picocolors'
 import {
   loadConfigFromFile,
@@ -99,6 +100,13 @@ export interface UserConfig<ThemeConfig = any>
   useWebFonts?: boolean
 
   /**
+   * @experimental
+   *
+   * source -> destination
+   */
+  rewrites?: Record<string, string>
+
+  /**
    * Build end hook: called when SSG finish.
    * @param siteConfig The resolved configuration.
    */
@@ -175,6 +183,10 @@ export interface SiteConfig<ThemeConfig = any>
   cacheDir: string
   tempDir: string
   pages: string[]
+  rewrites: {
+    map: Record<string, string | undefined>
+    inv: Record<string, string | undefined>
+  }
 }
 
 const resolve = (root: string, file: string) =>
@@ -234,6 +246,21 @@ export async function resolveConfig(
     })
   ).sort()
 
+  const rewriteEntries = Object.entries(userConfig.rewrites || {})
+
+  const rewrites = rewriteEntries.length
+    ? Object.fromEntries(
+        pages
+          .map((src) => {
+            for (const [from, to] of rewriteEntries) {
+              const dest = rewrite(src, from, to)
+              if (dest) return [src, dest]
+            }
+          })
+          .filter((e) => e != null) as [string, string][]
+      )
+    : {}
+
   const config: SiteConfig = {
     root,
     srcDir,
@@ -260,7 +287,11 @@ export async function resolveConfig(
     buildEnd: userConfig.buildEnd,
     transformHead: userConfig.transformHead,
     transformHtml: userConfig.transformHtml,
-    transformPageData: userConfig.transformPageData
+    transformPageData: userConfig.transformPageData,
+    rewrites: {
+      map: rewrites,
+      inv: Object.fromEntries(Object.entries(rewrites).map((a) => a.reverse()))
+    }
   }
 
   return config
@@ -394,4 +425,12 @@ function resolveSiteDataHead(userConfig?: UserConfig): HeadConfig[] {
   }
 
   return head
+}
+
+function rewrite(src: string, from: string, to: string) {
+  const urlMatch = match(from)
+  const res = urlMatch(src)
+  if (!res) return false
+  const toPath = compile(to)
+  return toPath(res.params)
 }
