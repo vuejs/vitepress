@@ -49,7 +49,7 @@ docs/index.md           -> /
 docs/getting-started.md -> /getting-started.html
 ```
 
-You may also customize the root directory in config file via [`srcDir`](/config/app-configs#srcdir) option too. The following setting act same as running `vitepress dev docs` command.
+You may also customize the root directory in config file via [`srcDir`](/config/app-configs#srcdir) option too. Running `vitepress dev` with the following setting acts same as running `vitepress dev docs` command.
 
 ```ts
 export default {
@@ -110,7 +110,7 @@ Enabling this may require additional configuration on your hosting platform. For
 
 ## Customize the Mappings
 
-You may customize the mapping between directory structure and URL. It's useful when you have complex document structure. For example, let's say you have a several packages and would like to place documentations along with the source files like this.
+You may customize the mapping between directory structure and URL. It's useful when you have complex document structure. For example, let's say you have several packages and would like to place documentations along with the source files like this.
 
 ```
 .
