@@ -271,23 +271,37 @@ export default {
 - Type: `'disabled' | 'without-subfolders' | 'with-subfolders'`
 - Default: `'disabled'`
 
-Allows removing trailing `.html` from URLs and, optionally, generating clean directory structure. Available modes:
-
-|          Mode          |   Page    |  Generated Page   |     URL     |
-| :--------------------: | :-------: | :---------------: | :---------: |
-|      `'disabled'`      | `/foo.md` |    `/foo.html`    | `/foo.html` |
-| `'without-subfolders'` | `/foo.md` |    `/foo.html`    |   `/foo`    |
-|  `'with-subfolders'`   | `/foo.md` | `/foo/index.html` |   `/foo`    |
-
-::: warning
-
-Enabling this may require additional configuration on your hosting platform. For it to work, your server must serve the generated page on requesting the URL (see above table) **without a redirect**.
-
-:::
+Allows removing trailing `.html` from URLs and, optionally, generating clean directory structure.
 
 ```ts
 export default {
   cleanUrls: 'with-subfolders'
+}
+```
+
+This option has several modes you can choose. Here is the list of all modes available.
+
+| Mode                   |   Page    |  Generated Page   | URL         |
+| :--------------------- | :-------- | :---------------- | :---------- |
+| `'disabled'`           | `/foo.md` | `/foo.html`       | `/foo.html` |
+| `'without-subfolders'` | `/foo.md` | `/foo.html`       | `/foo`      |
+| `'with-subfolders'`    | `/foo.md` | `/foo/index.html` | `/foo`      |
+
+::: warning
+Enabling this may require additional configuration on your hosting platform. For it to work, your server must serve the generated page on requesting the URL **without a redirect**.
+:::
+
+## rewrites
+
+- Type: `Record<string, string>`
+
+Defines custom directory <-> URL mappings. See [Routing: Customize the Mappings](/guide/routing#customize-the-mappings) for more details.
+
+```ts
+export default {
+  rewrites: {
+    'source/:page': 'destination/:page'
+  }
 }
 ```
 
