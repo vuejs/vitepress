@@ -49,7 +49,7 @@ export function createRouter(
   async function go(href: string = inBrowser ? location.href : '/') {
     await router.onBeforeRouteChange?.(href)
     const url = new URL(href, fakeHost)
-    if (siteDataRef.value.cleanUrls === 'disabled') {
+    if (!siteDataRef.value.cleanUrls) {
       // ensure correct deep link so page refresh lands on correct files.
       // if cleanUrls is enabled, the server should handle this
       if (!url.pathname.endsWith('/') && !url.pathname.endsWith('.html')) {
@@ -89,6 +89,18 @@ export function createRouter(
 
         if (inBrowser) {
           nextTick(() => {
+            let actualPathname =
+              '/' +
+              __pageData.relativePath.replace(/(?:(^|\/)index)?\.md$/, '$1')
+            if (!siteDataRef.value.cleanUrls && !actualPathname.endsWith('/')) {
+              actualPathname += '.html'
+            }
+            if (actualPathname !== targetLoc.pathname) {
+              targetLoc.pathname = actualPathname
+              href = actualPathname + targetLoc.search + targetLoc.hash
+              history.replaceState(null, '', href)
+            }
+
             if (targetLoc.hash && !scrollPosition) {
               let target: HTMLElement | null = null
               try {

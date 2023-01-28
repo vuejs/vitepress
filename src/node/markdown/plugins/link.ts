@@ -68,14 +68,11 @@ export const linkPlugin = (
       let cleanUrl = url.replace(/[?#].*$/, '')
       // transform foo.md -> foo[.html]
       if (cleanUrl.endsWith('.md')) {
-        cleanUrl = cleanUrl.replace(
-          /\.md$/,
-          env.cleanUrls === 'disabled' ? '.html' : ''
-        )
+        cleanUrl = cleanUrl.replace(/\.md$/, env.cleanUrls ? '' : '.html')
       }
       // transform ./foo -> ./foo[.html]
       if (
-        env.cleanUrls === 'disabled' &&
+        !env.cleanUrls &&
         !cleanUrl.endsWith('.html') &&
         !cleanUrl.endsWith('/')
       ) {

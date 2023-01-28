@@ -16,7 +16,6 @@ import type { MarkdownOptions } from './markdown/markdown'
 import {
   APPEARANCE_KEY,
   type Awaitable,
-  type CleanUrlsMode,
   type DefaultTheme,
   type HeadConfig,
   type LocaleConfig,
@@ -77,17 +76,11 @@ export interface UserConfig<ThemeConfig = any>
   ignoreDeadLinks?: boolean | 'localhostLinks'
 
   /**
-   * @experimental
-   * Remove '.html' from URLs and generate clean directory structure.
+   * Don't force `.html` on URLs.
    *
-   * Available Modes:
-   * - `disabled`: generates `/foo.html` for every `/foo.md` and shows `/foo.html` in browser
-   * - `without-subfolders`: generates `/foo.html` for every `/foo.md` but shows `/foo` in browser
-   * - `with-subfolders`: generates `/foo/index.html` for every `/foo.md` and shows `/foo` in browser
-   *
-   * @default 'disabled'
+   * @default false
    */
-  cleanUrls?: CleanUrlsMode
+  cleanUrls?: boolean
 
   /**
    * Use web fonts instead of emitting font files to dist.
@@ -279,7 +272,7 @@ export async function resolveConfig(
     shouldPreload: userConfig.shouldPreload,
     mpa: !!userConfig.mpa,
     ignoreDeadLinks: userConfig.ignoreDeadLinks,
-    cleanUrls: userConfig.cleanUrls || 'disabled',
+    cleanUrls: !!userConfig.cleanUrls,
     useWebFonts:
       userConfig.useWebFonts ??
       typeof process.versions.webcontainer === 'string',
@@ -394,7 +387,7 @@ export async function resolveSiteData(
     themeConfig: userConfig.themeConfig || {},
     locales: userConfig.locales || {},
     scrollOffset: userConfig.scrollOffset || 90,
-    cleanUrls: userConfig.cleanUrls || 'disabled'
+    cleanUrls: !!userConfig.cleanUrls
   }
 }
 

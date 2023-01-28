@@ -173,14 +173,7 @@ export async function renderPage(
     ${inlinedScript}
   </body>
 </html>`.trim()
-  const createSubDirectory =
-    config.cleanUrls === 'with-subfolders' &&
-    !/(^|\/)(index|404).md$/.test(page)
-
-  const htmlFileName = path.join(
-    config.outDir,
-    page.replace(/\.md$/, createSubDirectory ? '/index.html' : '.html')
-  )
+  const htmlFileName = path.join(config.outDir, page.replace(/\.md$/, '.html'))
 
   await fs.ensureDir(path.dirname(htmlFileName))
   const transformedHtml = await config.transformHtml?.(html, htmlFileName, {

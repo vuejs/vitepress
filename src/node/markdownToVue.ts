@@ -4,12 +4,7 @@ import c from 'picocolors'
 import LRUCache from 'lru-cache'
 import { resolveTitleFromToken } from '@mdit-vue/shared'
 import type { SiteConfig } from './config'
-import {
-  type PageData,
-  type HeadConfig,
-  EXTERNAL_URL_RE,
-  type CleanUrlsMode
-} from './shared'
+import { type PageData, type HeadConfig, EXTERNAL_URL_RE } from './shared'
 import { slash } from './utils/slash'
 import { getGitTimestamp } from './utils/getGitTimestamp'
 import {
@@ -43,7 +38,7 @@ export async function createMarkdownToVueRenderFn(
   isBuild = false,
   base = '/',
   includeLastUpdatedData = false,
-  cleanUrls: CleanUrlsMode = 'disabled',
+  cleanUrls = false,
   siteConfig: SiteConfig | null = null
 ) {
   const md = await createMarkdownRenderer(srcDir, options, base)
