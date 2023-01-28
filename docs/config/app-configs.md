@@ -132,7 +132,7 @@ Configure Markdown parser options. VitePress uses [Markdown-it](https://github.c
 ```js
 export default {
   markdown: {
-    theme: 'material-palenight',
+    theme: 'material-theme-palenight',
     lineNumbers: true
   }
 }

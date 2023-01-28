@@ -56,7 +56,7 @@ const errorLevelProcessor = defineProcessor({
 })
 
 export async function highlight(
-  theme: ThemeOptions = 'material-palenight',
+  theme: ThemeOptions = 'material-theme-palenight',
   defaultLang: string = ''
 ): Promise<(str: string, lang: string, attrs: string) => string> {
   const hasSingleTheme = typeof theme === 'string' || 'name' in theme
