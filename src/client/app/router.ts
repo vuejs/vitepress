@@ -151,7 +151,9 @@ export function createRouter(
         ) {
           const { target } = link
           const { href, origin, pathname, hash, search } = new URL(
-            link.href instanceof SVGAnimatedString ? link.href.animVal : link.href,
+            link.href instanceof SVGAnimatedString
+              ? link.href.animVal
+              : link.href,
             link.baseURI
           )
           const currentUrl = window.location
