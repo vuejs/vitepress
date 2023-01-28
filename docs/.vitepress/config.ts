@@ -10,7 +10,7 @@ export default defineConfig({
   description: 'Vite & Vue powered static site generator.',
 
   lastUpdated: true,
-  cleanUrls: 'without-subfolders',
+  cleanUrls: true,
 
   head: [['meta', { name: 'theme-color', content: '#3c8772' }]],
 

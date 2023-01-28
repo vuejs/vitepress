@@ -88,25 +88,13 @@ By default, VitePress generates the final static page files by adding `.html` ex
 └─ index.md
 ```
 
-However, you may also generate a clean URL by setting up [`cleanUrls`](/config/app-configs#cleanurls-experimental) option.
+However, you may also generate a clean URL by setting up [`cleanUrls`](/config/app-configs#cleanurls) option.
 
 ```ts
 export default {
-  cleanUrls: 'with-subfolders'
+  cleanUrls: true
 }
 ```
-
-This option has several modes you can choose. Here is the list of all modes available. The default behavior is `disabled` mode.
-
-| Mode                   |   Page    |  Generated Page   | URL         |
-| :--------------------- | :-------- | :---------------- | :---------- |
-| `'disabled'`           | `/foo.md` | `/foo.html`       | `/foo.html` |
-| `'without-subfolders'` | `/foo.md` | `/foo.html`       | `/foo`      |
-| `'with-subfolders'`    | `/foo.md` | `/foo/index.html` | `/foo`      |
-
-::: warning
-Enabling this may require additional configuration on your hosting platform. For it to work, your server must serve the generated page on requesting the URL **without a redirect**.
-:::
 
 ## Customize the Mappings
 

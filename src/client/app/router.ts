@@ -49,7 +49,7 @@ export function createRouter(
   async function go(href: string = inBrowser ? location.href : '/') {
     await router.onBeforeRouteChange?.(href)
     const url = new URL(href, fakeHost)
-    if (siteDataRef.value.cleanUrls === 'disabled') {
+    if (!siteDataRef.value.cleanUrls) {
       // ensure correct deep link so page refresh lands on correct files.
       // if cleanUrls is enabled, the server should handle this
       if (!url.pathname.endsWith('/') && !url.pathname.endsWith('.html')) {
