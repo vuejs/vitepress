@@ -2,7 +2,6 @@ import type { HeadConfig, PageData, SiteData } from '../../types/shared.js'
 
 export type {
   Awaitable,
-  CleanUrlsMode,
   DefaultTheme,
   HeadConfig,
   Header,

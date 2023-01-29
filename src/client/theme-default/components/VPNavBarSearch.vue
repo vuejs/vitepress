@@ -78,6 +78,22 @@ function poll() {
     }
   }, 16)
 }
+
+onMounted(() => {
+  const id = 'VPAlgoliaPreconnect'
+
+  const rIC = requestIdleCallback || setTimeout
+  rIC(() => {
+    if (!theme.value.algolia || document.head.querySelector(`#${id}`)) return
+
+    const preconnect = document.createElement('link')
+    preconnect.id = id
+    preconnect.rel = 'preconnect'
+    preconnect.href = `https://${theme.value.algolia.appId}-dsn.algolia.net`
+    preconnect.crossOrigin = ''
+    document.head.appendChild(preconnect)
+  })
+})
 </script>
 
 <template>

@@ -8,7 +8,7 @@ You can also try VitePress online on [StackBlitz](https://vitepress.new/). It ru
 VitePress is currently in `alpha` status. It is already suitable for out-of-the-box documentation use, but the config and theming API may still change between minor releases.
 :::
 
-## Step. 1: Create a new project
+## Step 1: Create a new project
 
 Create and change into a new directory.
 
@@ -22,7 +22,7 @@ Then, initialize with your preferred package manager.
 $ yarn init
 ```
 
-## Step. 2: Install VitePress
+## Step 2: Install VitePress
 
 Add VitePress and Vue as dev dependencies for the project.
 
@@ -53,7 +53,7 @@ Create your first document.
 $ mkdir docs && echo '# Hello VitePress' > docs/index.md
 ```
 
-## Step. 3: Boot up dev environment
+## Step 3: Boot up dev environment
 
 Add some scripts to `package.json`.
 
@@ -77,9 +77,9 @@ $ yarn docs:dev
 
 VitePress will start a hot-reloading development server at `http://localhost:5173`.
 
-## Step. 4: Add more pages
+## Step 4: Add more pages
 
-Let's add another page to the site. Create a file name `getting-started.md` along with `index.md` you've created in Step. 2. Now your directory structure should look like this.
+Let's add another page to the site. Create a file name `getting-started.md` along with `index.md` you've created in Step 2. Now your directory structure should look like this.
 
 ```
 .
