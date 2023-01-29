@@ -1,3 +1,12 @@
+# [1.0.0-alpha.42](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.41...v1.0.0-alpha.42) (2023-01-29)
+
+
+### Bug Fixes
+
+* **build:** consider base when checking actual pathname ([#1858](https://github.com/vuejs/vitepress/issues/1858)) ([cf8ad1a](https://github.com/vuejs/vitepress/commit/cf8ad1a29133cc373a1a70720d36e02b38ba6898))
+
+
+
 # [1.0.0-alpha.41](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.40...v1.0.0-alpha.41) (2023-01-28)
 
 
