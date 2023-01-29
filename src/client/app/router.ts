@@ -153,9 +153,21 @@ export function createRouter(
         const button = (e.target as Element).closest('button')
         if (button) return
 
-        const link = (e.target as Element).closest('a')
-        if (link && !link.closest('.vp-raw') && !link.download) {
-          const { href, origin, pathname, hash, search, target } = link
+        const link = (e.target as Element | SVGElement).closest<
+          HTMLAnchorElement | SVGAElement
+        >('a')
+        if (
+          link &&
+          !link.closest('.vp-raw') &&
+          (link instanceof SVGElement || !link.download)
+        ) {
+          const { target } = link
+          const { href, origin, pathname, hash, search } = new URL(
+            link.href instanceof SVGAnimatedString
+              ? link.href.animVal
+              : link.href,
+            link.baseURI
+          )
           const currentUrl = window.location
           const extMatch = pathname.match(/\.\w+$/)
           // only intercept inbound links
@@ -217,8 +229,8 @@ export function useRoute(): Route {
   return useRouter().route
 }
 
-function scrollTo(el: HTMLElement, hash: string, smooth = false) {
-  let target: HTMLElement | null = null
+function scrollTo(el: HTMLElement | SVGElement, hash: string, smooth = false) {
+  let target: HTMLElement | SVGElement | null = null
 
   try {
     target = el.classList.contains('header-anchor')
