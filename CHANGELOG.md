@@ -1,3 +1,12 @@
+# [1.0.0-alpha.43](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.42...v1.0.0-alpha.43) (2023-01-29)
+
+
+### Bug Fixes
+
+* **build:** hmr with rewrites when base is set ([a05956f](https://github.com/vuejs/vitepress/commit/a05956f38a5295cf038ecfc762c044dbc1cdf040))
+
+
+
 # [1.0.0-alpha.42](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.41...v1.0.0-alpha.42) (2023-01-29)
 
 
