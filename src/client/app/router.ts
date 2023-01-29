@@ -90,7 +90,7 @@ export function createRouter(
         if (inBrowser) {
           nextTick(() => {
             let actualPathname =
-              '/' +
+              siteDataRef.value.base +
               __pageData.relativePath.replace(/(?:(^|\/)index)?\.md$/, '$1')
             if (!siteDataRef.value.cleanUrls && !actualPathname.endsWith('/')) {
               actualPathname += '.html'
