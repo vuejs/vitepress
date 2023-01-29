@@ -194,7 +194,7 @@ export async function createVitePressPlugin(
 
       server.middlewares.use((req, res, next) => {
         if (req.url) {
-          const page = req.url.replace(/[?#].*$/, '').slice(1)
+          const page = req.url.replace(/[?#].*$/, '').slice(site.base.length)
           req.url = req.url.replace(page, rewrites.inv[page] || page)
         }
         next()
