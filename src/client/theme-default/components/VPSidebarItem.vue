@@ -59,8 +59,8 @@ function onCaretClick() {
         <component :is="textTag" class="text" v-html="item.text" />
       </VPLink>
 
-      <div class="caret" role="button" @click="onCaretClick">
-        <VPIconChevronRight v-if="item.collapsible" class="caret-icon" />
+      <div v-if="item.collapsed != null" class="caret" role="button" @click="onCaretClick">
+        <VPIconChevronRight class="caret-icon" />
       </div>
     </div>
 
