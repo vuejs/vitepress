@@ -173,14 +173,7 @@ export async function renderPage(
     ${inlinedScript}
   </body>
 </html>`.trim()
-  const createSubDirectory =
-    config.cleanUrls === 'with-subfolders' &&
-    !/(^|\/)(index|404).md$/.test(page)
-
-  const htmlFileName = path.join(
-    config.outDir,
-    page.replace(/\.md$/, createSubDirectory ? '/index.html' : '.html')
-  )
+  const htmlFileName = path.join(config.outDir, page.replace(/\.md$/, '.html'))
 
   await fs.ensureDir(path.dirname(htmlFileName))
   const transformedHtml = await config.transformHtml?.(html, htmlFileName, {
@@ -201,6 +194,7 @@ function resolvePageImports(
   result: RollupOutput,
   appChunk: OutputChunk
 ) {
+  page = config.rewrites.inv[page] || page
   // find the page's js chunk and inject script tags for its imports so that
   // they start fetching as early as possible
   const srcPath = normalizePath(

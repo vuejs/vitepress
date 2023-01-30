@@ -43,14 +43,9 @@ export interface Header {
   children: Header[]
 }
 
-export type CleanUrlsMode =
-  | 'disabled'
-  | 'without-subfolders'
-  | 'with-subfolders'
-
 export interface SiteData<ThemeConfig = any> {
   base: string
-  cleanUrls?: CleanUrlsMode
+  cleanUrls?: boolean
   lang: string
   dir: string
   title: string

@@ -4,12 +4,7 @@ import c from 'picocolors'
 import LRUCache from 'lru-cache'
 import { resolveTitleFromToken } from '@mdit-vue/shared'
 import type { SiteConfig } from './config'
-import {
-  type PageData,
-  type HeadConfig,
-  EXTERNAL_URL_RE,
-  type CleanUrlsMode
-} from './shared'
+import { type PageData, type HeadConfig, EXTERNAL_URL_RE } from './shared'
 import { slash } from './utils/slash'
 import { getGitTimestamp } from './utils/getGitTimestamp'
 import {
@@ -43,7 +38,7 @@ export async function createMarkdownToVueRenderFn(
   isBuild = false,
   base = '/',
   includeLastUpdatedData = false,
-  cleanUrls: CleanUrlsMode = 'disabled',
+  cleanUrls = false,
   siteConfig: SiteConfig | null = null
 ) {
   const md = await createMarkdownRenderer(srcDir, options, base)
@@ -55,6 +50,8 @@ export async function createMarkdownToVueRenderFn(
     file: string,
     publicDir: string
   ): Promise<MarkdownCompileResult> => {
+    const alias = siteConfig?.rewrites.map[file.slice(srcDir.length + 1)]
+    file = alias ? path.join(srcDir, alias) : file
     const relativePath = slash(path.relative(srcDir, file))
     const dir = path.dirname(file)
     const cacheKey = JSON.stringify({ src, file })
@@ -125,13 +122,15 @@ export async function createMarkdownToVueRenderFn(
 
         url = url.replace(/[?#].*$/, '').replace(/\.(html|md)$/, '')
         if (url.endsWith('/')) url += `index`
-        const resolved = decodeURIComponent(
+        let resolved = decodeURIComponent(
           slash(
             url.startsWith('/')
               ? url.slice(1)
               : path.relative(srcDir, path.resolve(dir, url))
           )
         )
+        resolved =
+          siteConfig?.rewrites.inv[resolved + '.md']?.slice(0, -3) || resolved
         if (
           !pages.includes(resolved) &&
           !fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`))

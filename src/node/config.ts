@@ -3,6 +3,7 @@ import _debug from 'debug'
 import fg from 'fast-glob'
 import fs from 'fs-extra'
 import path from 'path'
+import { match, compile } from 'path-to-regexp'
 import c from 'picocolors'
 import {
   loadConfigFromFile,
@@ -15,7 +16,6 @@ import type { MarkdownOptions } from './markdown/markdown'
 import {
   APPEARANCE_KEY,
   type Awaitable,
-  type CleanUrlsMode,
   type DefaultTheme,
   type HeadConfig,
   type LocaleConfig,
@@ -76,17 +76,11 @@ export interface UserConfig<ThemeConfig = any>
   ignoreDeadLinks?: boolean | 'localhostLinks'
 
   /**
-   * @experimental
-   * Remove '.html' from URLs and generate clean directory structure.
+   * Don't force `.html` on URLs.
    *
-   * Available Modes:
-   * - `disabled`: generates `/foo.html` for every `/foo.md` and shows `/foo.html` in browser
-   * - `without-subfolders`: generates `/foo.html` for every `/foo.md` but shows `/foo` in browser
-   * - `with-subfolders`: generates `/foo/index.html` for every `/foo.md` and shows `/foo` in browser
-   *
-   * @default 'disabled'
+   * @default false
    */
-  cleanUrls?: CleanUrlsMode
+  cleanUrls?: boolean
 
   /**
    * Use web fonts instead of emitting font files to dist.
@@ -97,6 +91,13 @@ export interface UserConfig<ThemeConfig = any>
    * @default true in webcontainers, else false
    */
   useWebFonts?: boolean
+
+  /**
+   * @experimental
+   *
+   * source -> destination
+   */
+  rewrites?: Record<string, string>
 
   /**
    * Build end hook: called when SSG finish.
@@ -175,6 +176,10 @@ export interface SiteConfig<ThemeConfig = any>
   cacheDir: string
   tempDir: string
   pages: string[]
+  rewrites: {
+    map: Record<string, string | undefined>
+    inv: Record<string, string | undefined>
+  }
 }
 
 const resolve = (root: string, file: string) =>
@@ -234,6 +239,21 @@ export async function resolveConfig(
     })
   ).sort()
 
+  const rewriteEntries = Object.entries(userConfig.rewrites || {})
+
+  const rewrites = rewriteEntries.length
+    ? Object.fromEntries(
+        pages
+          .map((src) => {
+            for (const [from, to] of rewriteEntries) {
+              const dest = rewrite(src, from, to)
+              if (dest) return [src, dest]
+            }
+          })
+          .filter((e) => e != null) as [string, string][]
+      )
+    : {}
+
   const config: SiteConfig = {
     root,
     srcDir,
@@ -252,7 +272,7 @@ export async function resolveConfig(
     shouldPreload: userConfig.shouldPreload,
     mpa: !!userConfig.mpa,
     ignoreDeadLinks: userConfig.ignoreDeadLinks,
-    cleanUrls: userConfig.cleanUrls || 'disabled',
+    cleanUrls: !!userConfig.cleanUrls,
     useWebFonts:
       userConfig.useWebFonts ??
       typeof process.versions.webcontainer === 'string',
@@ -260,7 +280,11 @@ export async function resolveConfig(
     buildEnd: userConfig.buildEnd,
     transformHead: userConfig.transformHead,
     transformHtml: userConfig.transformHtml,
-    transformPageData: userConfig.transformPageData
+    transformPageData: userConfig.transformPageData,
+    rewrites: {
+      map: rewrites,
+      inv: Object.fromEntries(Object.entries(rewrites).map((a) => a.reverse()))
+    }
   }
 
   return config
@@ -363,7 +387,7 @@ export async function resolveSiteData(
     themeConfig: userConfig.themeConfig || {},
     locales: userConfig.locales || {},
     scrollOffset: userConfig.scrollOffset || 90,
-    cleanUrls: userConfig.cleanUrls || 'disabled'
+    cleanUrls: !!userConfig.cleanUrls
   }
 }
 
@@ -394,4 +418,12 @@ function resolveSiteDataHead(userConfig?: UserConfig): HeadConfig[] {
   }
 
   return head
+}
+
+function rewrite(src: string, from: string, to: string) {
+  const urlMatch = match(from)
+  const res = urlMatch(src)
+  if (!res) return false
+  const toPath = compile(to)
+  return toPath(res.params)
 }

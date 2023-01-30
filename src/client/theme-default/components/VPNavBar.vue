@@ -82,13 +82,9 @@ const classes = computed(() => ({
     padding: 0;
   }
 
-  .VPNavBar.fill {
+  .VPNavBar.fill:not(.has-sidebar) {
     border-bottom-color: var(--vp-c-gutter);
     background-color: var(--vp-nav-bg-color);
-  }
-
-  .VPNavBar.has-sidebar.fill {
-    background-color: transparent;
   }
 }
 

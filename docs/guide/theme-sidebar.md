@@ -1,6 +1,6 @@
 # Sidebar
 
-The sidebar is the main navigation block for your documentation. You can configure the sidebar menu in `themeConfig.sidebar`.
+The sidebar is the main navigation block for your documentation. You can configure the sidebar menu in [`themeConfig.sidebar`](/config/theme-configs#sidebar).
 
 ```js
 export default {
@@ -21,7 +21,7 @@ export default {
 
 ## The Basics
 
-The simplest form of the sidebar menu is passing in a single array of links.  The first level item defines the "section" for the sidebar. It should contain `text`, which is the title of the section, and `items` which are the actual navigation links.
+The simplest form of the sidebar menu is passing in a single array of links. The first level item defines the "section" for the sidebar. It should contain `text`, which is the title of the section, and `items` which are the actual navigation links.
 
 ```js
 export default {
@@ -66,6 +66,33 @@ export default {
 }
 ```
 
+You may further nest the sidebar items up to 6 level deep counting up from the root level. Note that deeper than 6 level of nested items gets ignored and will not be displayed on the sidebar.
+
+```js
+export default {
+  themeConfig: {
+    sidebar: [
+      {
+        text: 'Level 1',
+        items: [
+          {
+            text: 'Level 2',
+            items: [
+              {
+                text: 'Level 3',
+                items: [
+                  ...
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
 ## Multiple Sidebars
 
 You may show different sidebar depending on the page path. For example, as shown on this site, you might want to create a separate sections of content in your documentation like "Guide" page and "Config" page.
@@ -90,30 +117,28 @@ Then, update your configuration to define your sidebar for each section. This ti
 export default {
   themeConfig: {
     sidebar: {
-      // This sidebar gets displayed when user is
-      // under `guide` directory.
+      // This sidebar gets displayed when a user
+      // is on `guide` directory.
       '/guide/': [
         {
           text: 'Guide',
           items: [
-            // This shows `/guide/index.md` page.
-            { text: 'Index', link: '/guide/' }, // /guide/index.md
-            { text: 'One', link: '/guide/one' }, // /guide/one.md
-            { text: 'Two', link: '/guide/two' } // /guide/two.md
+            { text: 'Index', link: '/guide/' },
+            { text: 'One', link: '/guide/one' },
+            { text: 'Two', link: '/guide/two' }
           ]
         }
       ],
 
-      // This sidebar gets displayed when user is
-      // under `config` directory.
+      // This sidebar gets displayed when a user
+      // is on `config` directory.
       '/config/': [
         {
           text: 'Config',
           items: [
-            // This shows `/config/index.md` page.
-            { text: 'Index', link: '/config/' }, // /config/index.md
-            { text: 'Three', link: '/config/three' }, // /config/three.md
-            { text: 'Four', link: '/config/four' } // /config/four.md
+            { text: 'Index', link: '/config/' },
+            { text: 'Three', link: '/config/three' },
+            { text: 'Four', link: '/config/four' }
           ]
         }
       ]

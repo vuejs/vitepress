@@ -10,7 +10,7 @@ export default defineConfig({
   description: 'Vite & Vue powered static site generator.',
 
   lastUpdated: true,
-  cleanUrls: 'without-subfolders',
+  cleanUrls: true,
 
   head: [['meta', { name: 'theme-color', content: '#3c8772' }]],
 
@@ -84,6 +84,7 @@ function sidebarGuide() {
         { text: 'What is VitePress?', link: '/guide/what-is-vitepress' },
         { text: 'Getting Started', link: '/guide/getting-started' },
         { text: 'Configuration', link: '/guide/configuration' },
+        { text: 'Routing', link: '/guide/routing' },
         { text: 'Deploying', link: '/guide/deploying' },
         { text: 'Internationalization', link: '/guide/i18n' }
       ]
