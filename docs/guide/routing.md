@@ -21,7 +21,7 @@ Then you can access the pages by the below URL.
 index.md           -> /
 prologue.md        -> /prologue.html
 guide/index.md     -> /guide/
-getting-started.md -> /guide/getting-started.html
+guide/getting-started.md -> /guide/getting-started.html
 ```
 
 As you can see, the directory structure corresponds to the final URL, as same as hosting plain HTML from a typical web server.
