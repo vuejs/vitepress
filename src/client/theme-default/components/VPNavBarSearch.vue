@@ -82,7 +82,7 @@ function poll() {
 onMounted(() => {
   const id = 'VPAlgoliaPreconnect'
 
-  const rIC = requestIdleCallback || setTimeout
+  const rIC = window.requestIdleCallback || setTimeout
   rIC(() => {
     if (!theme.value.algolia || document.head.querySelector(`#${id}`)) return
 
