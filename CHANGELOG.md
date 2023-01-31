@@ -1,3 +1,23 @@
+# [1.0.0-alpha.44](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.43...v1.0.0-alpha.44) (2023-01-31)
+
+
+### Bug Fixes
+
+* take `<a>` in SVG into account ([#1850](https://github.com/vuejs/vitepress/issues/1850)) ([010b3e5](https://github.com/vuejs/vitepress/commit/010b3e5ad99f5e61fd01e27d0c3144896a8f3d86))
+* **theme:** infer collapsible from collapsed ([#1865](https://github.com/vuejs/vitepress/issues/1865)) ([dea6cfa](https://github.com/vuejs/vitepress/commit/dea6cfa9cbccf4c6433295e80571acee9b260f71))
+
+
+### Features
+
+* **theme:** preconnect algolia when idle ([#1851](https://github.com/vuejs/vitepress/issues/1851)) ([1f77577](https://github.com/vuejs/vitepress/commit/1f775774da7ef51ae8e690bbd86f94c739611a65))
+
+
+### BREAKING CHANGES
+
+* **theme:** `collapsible` is dropped from sidebar, use `collapsed` instead
+
+
+
 # [1.0.0-alpha.43](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.42...v1.0.0-alpha.43) (2023-01-29)
 
 
