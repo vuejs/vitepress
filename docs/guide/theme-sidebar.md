@@ -149,7 +149,7 @@ export default {
 
 ## Collapsible Sidebar Groups
 
-By adding `collapsible` option to the sidebar group, it shows a toggle button to hide/show each section.
+By adding `collapsed` option to the sidebar group, it shows a toggle button to hide/show each section.
 
 ```js
 export default {
@@ -157,12 +157,7 @@ export default {
     sidebar: [
       {
         text: 'Section Title A',
-        collapsible: true,
-        items: [...]
-      },
-      {
-        text: 'Section Title B',
-        collapsible: true,
+        collapsed: false,
         items: [...]
       }
     ]
@@ -178,7 +173,6 @@ export default {
     sidebar: [
       {
         text: 'Section Title A',
-        collapsible: true,
         collapsed: true,
         items: [...]
       }
