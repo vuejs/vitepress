@@ -32,7 +32,7 @@ Code above renders like:
 
 ## Customize Type Color
 
-you can customize `background-color` of typed `<Badge />` by override css vars. The following is he default values.
+you can customize `background-color` of typed `<Badge />` by override css vars. The following is the default values.
 
 ```css
 :root {
