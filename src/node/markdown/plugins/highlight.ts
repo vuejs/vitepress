@@ -132,14 +132,14 @@ export async function highlight(
         restoreMustache(
           lang === 'ansi'
             ? highlighter.ansiToHtml(removeMustache(str), {
-              lineOptions,
-              theme: getThemeName(theme)
-            })
+                lineOptions,
+                theme: getThemeName(theme)
+              })
             : highlighter.codeToHtml(removeMustache(str), {
-              lang,
-              lineOptions,
-              theme: getThemeName(theme)
-            })
+                lang,
+                lineOptions,
+                theme: getThemeName(theme)
+              })
         )
       )
     }
@@ -148,14 +148,14 @@ export async function highlight(
       cleanup(
         lang === 'ansi'
           ? highlighter.ansiToHtml(str, {
-            lineOptions,
-            theme: getThemeName(theme.dark)
-          })
+              lineOptions,
+              theme: getThemeName(theme.dark)
+            })
           : highlighter.codeToHtml(str, {
-            lang,
-            lineOptions,
-            theme: getThemeName(theme.dark)
-          })
+              lang,
+              lineOptions,
+              theme: getThemeName(theme.dark)
+            })
       ),
       'vp-code-dark',
       'pre'
@@ -165,14 +165,14 @@ export async function highlight(
       cleanup(
         lang === 'ansi'
           ? highlighter.ansiToHtml(str, {
-            lineOptions,
-            theme: getThemeName(theme.light)
-          })
+              lineOptions,
+              theme: getThemeName(theme.light)
+            })
           : highlighter.codeToHtml(str, {
-            lang,
-            lineOptions,
-            theme: getThemeName(theme.light)
-          })
+              lang,
+              lineOptions,
+              theme: getThemeName(theme.light)
+            })
       ),
       'vp-code-light',
       'pre'
