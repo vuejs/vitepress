@@ -88,7 +88,7 @@ export async function highlight(
 
     if (lang) {
       const langLoaded = highlighter.getLoadedLanguages().includes(lang as any)
-      if (!langLoaded) {
+      if (!langLoaded && lang !== 'ansi') {
         console.warn(
           c.yellow(
             `The language '${lang}' is not loaded, falling back to '${
@@ -130,22 +130,32 @@ export async function highlight(
     if (hasSingleTheme) {
       return cleanup(
         restoreMustache(
-          highlighter.codeToHtml(removeMustache(str), {
-            lang,
-            lineOptions,
-            theme: getThemeName(theme)
-          })
+          lang === 'ansi'
+            ? highlighter.ansiToHtml(removeMustache(str), {
+              lineOptions,
+              theme: getThemeName(theme)
+            })
+            : highlighter.codeToHtml(removeMustache(str), {
+              lang,
+              lineOptions,
+              theme: getThemeName(theme)
+            })
         )
       )
     }
 
     const dark = addClass(
       cleanup(
-        highlighter.codeToHtml(str, {
-          lang,
-          lineOptions,
-          theme: getThemeName(theme.dark)
-        })
+        lang === 'ansi'
+          ? highlighter.ansiToHtml(str, {
+            lineOptions,
+            theme: getThemeName(theme.dark)
+          })
+          : highlighter.codeToHtml(str, {
+            lang,
+            lineOptions,
+            theme: getThemeName(theme.dark)
+          })
       ),
       'vp-code-dark',
       'pre'
@@ -153,11 +163,16 @@ export async function highlight(
 
     const light = addClass(
       cleanup(
-        highlighter.codeToHtml(str, {
-          lang,
-          lineOptions,
-          theme: getThemeName(theme.light)
-        })
+        lang === 'ansi'
+          ? highlighter.ansiToHtml(str, {
+            lineOptions,
+            theme: getThemeName(theme.light)
+          })
+          : highlighter.codeToHtml(str, {
+            lang,
+            lineOptions,
+            theme: getThemeName(theme.light)
+          })
       ),
       'vp-code-light',
       'pre'
