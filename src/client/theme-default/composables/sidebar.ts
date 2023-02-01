@@ -126,7 +126,7 @@ export function useSidebarControl(
   const collapsed = ref(false)
 
   const collapsible = computed(() => {
-    return !!item.value.collapsible
+    return item.value.collapsed != null
   })
 
   const isLink = computed(() => {
@@ -152,7 +152,7 @@ export function useSidebarControl(
   })
 
   watchEffect(() => {
-    collapsed.value = !!(item.value.collapsible && item.value.collapsed)
+    collapsed.value = !!(collapsible.value && item.value.collapsed)
   })
 
   watchEffect(() => {
@@ -160,7 +160,7 @@ export function useSidebarControl(
   })
 
   function toggle() {
-    if (item.value.collapsible) {
+    if (collapsible.value) {
       collapsed.value = !collapsed.value
     }
   }

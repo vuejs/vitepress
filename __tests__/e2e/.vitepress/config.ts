@@ -4,7 +4,7 @@ const sidebar: DefaultTheme.Config['sidebar'] = {
   '/': [
     {
       text: 'Frontmatter',
-      collapsible: true,
+      collapsed: false,
       items: [
         {
           text: 'Multiple Levels Outline',
