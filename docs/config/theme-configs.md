@@ -291,6 +291,7 @@ export default {
   }
 }
 ```
+
 ## algolia
 
 - Type: `AlgoliaSearch`
