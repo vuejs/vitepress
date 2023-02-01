@@ -32,7 +32,7 @@
 
 ## 自定义颜色 {#customize-type-color}
 
-你可以通过覆盖 css 变量来定制输入的 `<Badge />` 的背景颜色。以下是他的默认值。
+你可以通过覆盖 css 变量来定制徽章的 `background-color`。以下是默认值。
 
 ```css
 :root {

@@ -266,28 +266,34 @@ export default {
 }
 ```
 
-## cleanUrls (实验性的) {#cleanurls-experimental}
+## cleanUrls {#cleanurls}
 
-- 类型：`'disabled' | 'without-subfolders' | 'with-subfolders'`
-- 默认值：`'disabled'`
+- 类型：`boolean`
+- 默认值：`false`
 
-允许从 URL 中去除尾部的 `.html`，并可选择生成简洁的目录结构。可用的模式如下：
-
-|          Mode          |   Page    |  Generated Page   |     URL     |
-| :--------------------: | :-------: | :---------------: | :---------: |
-|      `'disabled'`      | `/foo.md` |    `/foo.html`    | `/foo.html` |
-| `'without-subfolders'` | `/foo.md` |    `/foo.html`    |   `/foo`    |
-|  `'with-subfolders'`   | `/foo.md` | `/foo/index.html` |   `/foo`    |
-
-::: warning
-
-启用这一点可能需要在你的主机平台上进行额外的配置。为了使其发挥作用，你的服务器必须在请求 URL (见上表) 时提供生成的页面，而不能**重定向**。
-
-:::
+允许从 URL 中去除尾部的 `.html`，并可选择生成简洁的目录结构。
 
 ```ts
 export default {
-  cleanUrls: 'with-subfolders'
+  cleanUrls: true
+}
+```
+
+::: warning
+启用此功能可能需要在你的托管平台上进行额外配置。为了使其正常工作，你的服务器必须**在不重定向的情况下**，请求 `/foo` 时提供 `/foo.html` 。
+:::
+
+## rewrites
+
+- Type: `Record<string, string>`
+
+定义自定义目录和 URL 的映射。有关详细信息，请参阅[路由：自定义映射](/guide/routing#customize-the-mappings)。
+
+```ts
+export default {
+  rewrites: {
+    'source/:page': 'destination/:page'
+  }
 }
 ```
 

@@ -73,6 +73,7 @@ function sidebarGuide() {
         { text: 'VitePress 是什么', link: '/zh/guide/what-is-vitepress' },
         { text: '快速开始', link: '/zh/guide/getting-started' },
         { text: '配置', link: '/zh/guide/configuration' },
+        { text: '路由', link: '/zh/guide/routing' },
         { text: '部署', link: '/zh/guide/deploying' },
         { text: '国际化', link: '/zh/guide/i18n' }
       ]
