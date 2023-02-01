@@ -127,15 +127,17 @@ export async function highlight(
       return s
     }
 
-    if (hasSingleTheme) {
+    str = removeMustache(str)
+
+    const codeToHtml = (theme: IThemeRegistration) => {
       return cleanup(
         restoreMustache(
           lang === 'ansi'
-            ? highlighter.ansiToHtml(removeMustache(str), {
+            ? highlighter.ansiToHtml(str, {
                 lineOptions,
                 theme: getThemeName(theme)
               })
-            : highlighter.codeToHtml(removeMustache(str), {
+            : highlighter.codeToHtml(str, {
                 lang,
                 lineOptions,
                 theme: getThemeName(theme)
@@ -144,40 +146,9 @@ export async function highlight(
       )
     }
 
-    const dark = addClass(
-      cleanup(
-        lang === 'ansi'
-          ? highlighter.ansiToHtml(str, {
-              lineOptions,
-              theme: getThemeName(theme.dark)
-            })
-          : highlighter.codeToHtml(str, {
-              lang,
-              lineOptions,
-              theme: getThemeName(theme.dark)
-            })
-      ),
-      'vp-code-dark',
-      'pre'
-    )
-
-    const light = addClass(
-      cleanup(
-        lang === 'ansi'
-          ? highlighter.ansiToHtml(str, {
-              lineOptions,
-              theme: getThemeName(theme.light)
-            })
-          : highlighter.codeToHtml(str, {
-              lang,
-              lineOptions,
-              theme: getThemeName(theme.light)
-            })
-      ),
-      'vp-code-light',
-      'pre'
-    )
-
+    if (hasSingleTheme) return codeToHtml(theme)
+    const dark = addClass(codeToHtml(theme.dark), 'vp-code-dark', 'pre')
+    const light = addClass(codeToHtml(theme.light), 'vp-code-light', 'pre')
     return dark + light
   }
 }
