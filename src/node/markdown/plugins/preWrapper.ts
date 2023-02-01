@@ -4,11 +4,12 @@ export function preWrapperPlugin(md: MarkdownIt) {
   const fence = md.renderer.rules.fence!
   md.renderer.rules.fence = (...args) => {
     const { info } = args[0][args[1]]
-    const lang = extractLang(info)
     const rawCode = fence(...args)
-    return `<div class="language-${lang}${
+    return `<div class="language-${info}${
       / active( |$)/.test(info) ? ' active' : ''
-    }"><button title="Copy Code" class="copy"></button><span class="lang">${lang}</span>${rawCode}</div>`
+    }"><button title="Copy Code" class="copy"></button><span class="lang">${extractLang(
+      info
+    )}</span>${rawCode}</div>`
   }
 }
 
