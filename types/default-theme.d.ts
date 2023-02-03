@@ -183,16 +183,11 @@ export namespace DefaultTheme {
     items?: SidebarItem[]
 
     /**
-     * If `true`, toggle button is shown.
+     * If not specified, group is not collapsible.
      *
-     * @default false
-     */
-    collapsible?: boolean
-
-    /**
-     * If `true`, collapsible group is collapsed by default.
+     * If `true`, group is collapsible and collapsed by default
      *
-     * @default false
+     * If `false`, group is collapsible but expanded by default
      */
     collapsed?: boolean
   }

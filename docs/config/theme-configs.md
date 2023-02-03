@@ -147,16 +147,11 @@ export type SidebarItem = {
   items?: SidebarItem[]
 
   /**
-   * If `true`, toggle button is shown.
+   * If not specified, group is not collapsible.
    *
-   * @default false
-   */
-  collapsible?: boolean
-
-  /**
-   * If `true`, collapsible group is collapsed by default.
+   * If `true`, group is collapsible and collapsed by default
    *
-   * @default false
+   * If `false`, group is collapsible but expanded by default
    */
   collapsed?: boolean
 }
@@ -168,6 +163,13 @@ export type SidebarItem = {
 - Default: `2`
 
 The levels of header to display in the outline. You can specify a particular level by passing a number, or you can provide a level range by passing a tuple containing the bottom and upper limits. When passing `'deep'` which equals `[2, 6]`, all header levels are shown in the outline except `h1`. Set `false` to hide outline.
+
+## outlineBadges
+
+- Type: `boolean`
+- Default: `true`
+
+By default the badge text is displayed in the outline. Disable this to hide badge text from outline.
 
 ## outlineTitle
 
@@ -290,6 +292,20 @@ export default {
 }
 ```
 
+## algolia
+
+- Type: `AlgoliaSearch`
+
+An option to support searching your docs site using [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Learn more in [Theme: Search](../guide/theme-search)
+
+```ts
+export interface AlgoliaSearchOptions extends DocSearchProps {
+   locales?: Record<string, Partial<DocSearchProps>>
+}
+```
+
+View full options [here](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts).
+
 ## carbonAds {#carbon-ads}
 
 - Type: `CarbonAds`
@@ -339,3 +355,24 @@ export interface DocFooter {
   next?: string
 }
 ```
+
+## darkModeSwitchLabel
+
+- Type: `string`
+- Default: `Appearance`
+
+Can be used to customize the dark mode switch label. This label is only displayed in the mobile view.
+
+## sidebarMenuLabel
+
+- Type: `string`
+- Default: `Menu`
+
+Can be used to customize the sidebar menu label. This label is only displayed in the mobile view.
+
+## returnToTopLabel
+
+- Type: `string`
+- Default: `Return to top`
+
+Can be used to customize the label of the returnToTop. This label is only displayed in the mobile view.
