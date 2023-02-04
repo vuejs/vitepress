@@ -18,6 +18,7 @@ import {
 
 export const dataSymbol: InjectionKey<VitePressData> = Symbol()
 
+// #region VitePressData
 export interface VitePressData<T = any> {
   site: Ref<SiteData<T>>
   page: Ref<PageData>
@@ -30,6 +31,7 @@ export interface VitePressData<T = any> {
   dir: Ref<string>
   localeIndex: Ref<string>
 }
+// #endregion VitePressData
 
 // site data is a singleton
 export const siteDataRef: Ref<SiteData> = shallowRef(

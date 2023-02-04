@@ -5,18 +5,22 @@ import type { PageData, PageDataPayload, Awaitable } from '../shared.js'
 import { inBrowser, withBase } from './utils.js'
 import { siteDataRef } from './data.js'
 
+// #region Route
 export interface Route {
   path: string
   data: PageData
   component: Component | null
 }
+// #endregion Route
 
+// #region Router
 export interface Router {
   route: Route
   go: (href?: string) => Promise<void>
   onBeforeRouteChange?: (to: string) => Awaitable<void>
   onAfterRouteChanged?: (to: string) => Awaitable<void>
 }
+// #endregion Router
 
 export const RouterSymbol: InjectionKey<Router> = Symbol()
 

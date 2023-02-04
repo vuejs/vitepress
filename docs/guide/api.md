@@ -10,20 +10,7 @@ Methods that start with `use*` indicates that it is a [Vue 3 Composition API](ht
 
 Returns page-specific data. The returned object has the following type:
 
-```ts
-interface VitePressData<T = any> {
-  site: Ref<SiteData<T>>
-  page: Ref<PageData>
-  theme: Ref<T> // themeConfig from .vitepress/config.js
-  frontmatter: Ref<PageData['frontmatter']>
-  title: Ref<string>
-  description: Ref<string>
-  lang: Ref<string>
-  isDark: Ref<boolean>
-  dir: Ref<string>
-  localeIndex: Ref<string>
-}
-```
+<<< @/../src/client/app/data.ts#VitePressData
 
 **Example:**
 
@@ -43,24 +30,13 @@ const { theme } = useData()
 
 Returns the current route object with the following type:
 
-```ts
-interface Route {
-  path: string
-  data: PageData
-  component: Component | null
-}
-```
+<<< @/../src/client/app/router.ts#Route
 
 ## `useRouter`
 
 Returns the VitePress router instance so you can programmatically navigate to another page.
 
-```ts
-interface Router {
-  route: Route
-  go: (href?: string) => Promise<void>
-}
-```
+<<< @/../src/client/app/router.ts#Router
 
 ## `withBase`
 
