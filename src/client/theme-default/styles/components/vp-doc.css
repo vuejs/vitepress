@@ -479,9 +479,9 @@
 
 .vp-doc [class*='language-'] > span.lang {
   position: absolute;
-  top: 6px;
+  top: 16px;
   /*rtl:ignore*/
-  right: 12px;
+  right: 24px;
   z-index: 2;
   font-size: 12px;
   font-weight: 500;
