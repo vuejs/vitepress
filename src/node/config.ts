@@ -6,10 +6,12 @@ import path from 'path'
 import { match, compile } from 'path-to-regexp'
 import c from 'picocolors'
 import {
+  createLogger,
   loadConfigFromFile,
   mergeConfig as mergeViteConfig,
   normalizePath,
-  type UserConfig as ViteConfig
+  type UserConfig as ViteConfig,
+  type Logger
 } from 'vite'
 import { DEFAULT_THEME_PATH } from './alias'
 import type { MarkdownOptions } from './markdown/markdown'
@@ -180,6 +182,7 @@ export interface SiteConfig<ThemeConfig = any>
     map: Record<string, string | undefined>
     inv: Record<string, string | undefined>
   }
+  logger: Logger
 }
 
 const resolve = (root: string, file: string) =>
@@ -206,6 +209,7 @@ export async function resolveConfig(
   command: 'serve' | 'build' = 'serve',
   mode = 'development'
 ): Promise<SiteConfig> {
+  const logger = createLogger('info', { prefix: '[vitepress]' })
   const [userConfig, configPath, configDeps] = await resolveUserConfig(
     root,
     command,
@@ -264,6 +268,7 @@ export async function resolveConfig(
     configDeps,
     outDir,
     cacheDir,
+    logger,
     tempDir: resolve(root, '.temp'),
     markdown: userConfig.markdown,
     lastUpdated: userConfig.lastUpdated,

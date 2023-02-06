@@ -290,19 +290,22 @@ export async function createVitePressPlugin(
     async handleHotUpdate(ctx) {
       const { file, read, server } = ctx
       if (file === configPath || configDeps.includes(file)) {
-        console.log(
+        siteConfig.logger.info(
           c.green(
-            `\n${path.relative(
+            `${path.relative(
               process.cwd(),
               file
             )} changed, restarting server...`
-          )
+          ),
+          { clear: true, timestamp: true }
         )
         try {
           clearCache()
           await recreateServer?.()
         } catch (err) {
-          console.error(c.red(`failed to restart server. error:\n`), err)
+          siteConfig.logger.error(
+            c.red(`failed to restart server. error:\n${err}`)
+          )
         }
         return
       }

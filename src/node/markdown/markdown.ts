@@ -15,6 +15,7 @@ import { sfcPlugin, type SfcPluginOptions } from '@mdit-vue/plugin-sfc'
 import { titlePlugin } from '@mdit-vue/plugin-title'
 import { tocPlugin, type TocPluginOptions } from '@mdit-vue/plugin-toc'
 import { slugify } from '@mdit-vue/shared'
+import type { Logger } from 'vite'
 import type { IThemeRegistration } from 'shiki'
 import { highlight } from './plugins/highlight'
 import { highlightLinePlugin } from './plugins/highlightLines'
@@ -55,14 +56,15 @@ export type MarkdownRenderer = MarkdownIt
 export const createMarkdownRenderer = async (
   srcDir: string,
   options: MarkdownOptions = {},
-  base = '/'
+  base = '/',
+  logger: Logger
 ): Promise<MarkdownRenderer> => {
   const md = MarkdownIt({
     html: true,
     linkify: true,
     highlight:
       options.highlight ||
-      (await highlight(options.theme, options.defaultHighlightLang)),
+      (await highlight(options.theme, options.defaultHighlightLang, logger)),
     ...options
   }) as MarkdownRenderer
 

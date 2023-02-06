@@ -54,13 +54,15 @@ export async function serve(options: ServeOptions = {}) {
     return polka({ onNoMatch })
       .use(base, compress, serve)
       .listen(port, () => {
-        console.log(`Built site served at http://localhost:${port}/${base}/\n`)
+        site.logger.info(
+          `Built site served at http://localhost:${port}/${base}/\n`
+        )
       })
   } else {
     return polka({ onNoMatch })
       .use(compress, serve)
       .listen(port, () => {
-        console.log(`Built site served at http://localhost:${port}/\n`)
+        site.logger.info(`Built site served at http://localhost:${port}/\n`)
       })
   }
 }

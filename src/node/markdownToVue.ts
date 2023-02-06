@@ -39,9 +39,14 @@ export async function createMarkdownToVueRenderFn(
   base = '/',
   includeLastUpdatedData = false,
   cleanUrls = false,
-  siteConfig: SiteConfig | null = null
+  siteConfig: SiteConfig
 ) {
-  const md = await createMarkdownRenderer(srcDir, options, base)
+  const md = await createMarkdownRenderer(
+    srcDir,
+    options,
+    base,
+    siteConfig.logger
+  )
   pages = pages.map((p) => slash(p.replace(/\.md$/, '')))
   const replaceRegex = genReplaceRegexp(userDefines, isBuild)
 
@@ -95,7 +100,7 @@ export async function createMarkdownToVueRenderFn(
     // validate data.links
     const deadLinks: string[] = []
     const recordDeadLink = (url: string) => {
-      console.warn(
+      siteConfig.logger.warn(
         c.yellow(
           `\n(!) Found dead link ${c.cyan(url)} in file ${c.white(
             c.dim(file)

@@ -12,6 +12,7 @@ import {
   type Processor
 } from 'shiki-processor'
 import type { ThemeOptions } from '../markdown'
+import type { Logger } from 'vite'
 
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)
 
@@ -57,7 +58,8 @@ const errorLevelProcessor = defineProcessor({
 
 export async function highlight(
   theme: ThemeOptions = 'material-theme-palenight',
-  defaultLang: string = ''
+  defaultLang: string = '',
+  logger: Logger
 ): Promise<(str: string, lang: string, attrs: string) => string> {
   const hasSingleTheme = typeof theme === 'string' || 'name' in theme
   const getThemeName = (themeValue: IThemeRegistration) =>
@@ -89,7 +91,7 @@ export async function highlight(
     if (lang) {
       const langLoaded = highlighter.getLoadedLanguages().includes(lang as any)
       if (!langLoaded && lang !== 'ansi') {
-        console.warn(
+        logger.warn(
           c.yellow(
             `The language '${lang}' is not loaded, falling back to '${
               defaultLang || 'txt'
