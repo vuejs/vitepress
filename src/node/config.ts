@@ -209,12 +209,18 @@ export async function resolveConfig(
   command: 'serve' | 'build' = 'serve',
   mode = 'development'
 ): Promise<SiteConfig> {
-  const logger = createLogger('info', { prefix: '[vitepress]' })
   const [userConfig, configPath, configDeps] = await resolveUserConfig(
     root,
     command,
     mode
   )
+
+  const logger =
+    userConfig.vite?.customLogger ??
+    createLogger(userConfig.vite?.logLevel, {
+      prefix: '[vitepress]',
+      allowClearScreen: userConfig.vite?.clearScreen
+    })
   const site = await resolveSiteData(root, userConfig)
   const srcDir = path.resolve(root, userConfig.srcDir || '.')
   const outDir = userConfig.outDir
