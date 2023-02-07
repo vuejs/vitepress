@@ -34,22 +34,20 @@ const preconnect = () => {
 
   const rIC = window.requestIdleCallback || setTimeout
   rIC(() => {
-    if (!theme.value.algolia || document.head.querySelector(`#${id}`)) return
-
     const preconnect = document.createElement('link')
     preconnect.id = id
     preconnect.rel = 'preconnect'
-    preconnect.href = `https://${theme.value.algolia.appId}-dsn.algolia.net`
+    preconnect.href = `https://${theme.value.algolia!.appId}-dsn.algolia.net`
     preconnect.crossOrigin = ''
     document.head.appendChild(preconnect)
   })
- }
+}
 
 onMounted(() => {
   if (!theme.value.algolia) {
     return
   }
-  
+
   preconnect()
 
   // meta key detect (same logic as in @docsearch/js)
