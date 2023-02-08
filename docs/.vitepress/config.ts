@@ -10,7 +10,7 @@ export default defineConfig({
   description: 'Vite & Vue powered static site generator.',
 
   lastUpdated: true,
-  cleanUrls: 'without-subfolders',
+  cleanUrls: true,
 
   head: [['meta', { name: 'theme-color', content: '#3c8772' }]],
 
@@ -79,18 +79,19 @@ function sidebarGuide() {
   return [
     {
       text: 'Introduction',
-      collapsible: true,
+      collapsed: false,
       items: [
         { text: 'What is VitePress?', link: '/guide/what-is-vitepress' },
         { text: 'Getting Started', link: '/guide/getting-started' },
         { text: 'Configuration', link: '/guide/configuration' },
+        { text: 'Routing', link: '/guide/routing' },
         { text: 'Deploying', link: '/guide/deploying' },
         { text: 'Internationalization', link: '/guide/i18n' }
       ]
     },
     {
       text: 'Writing',
-      collapsible: true,
+      collapsed: false,
       items: [
         { text: 'Markdown', link: '/guide/markdown' },
         { text: 'Asset Handling', link: '/guide/asset-handling' },
@@ -101,7 +102,7 @@ function sidebarGuide() {
     },
     {
       text: 'Theme',
-      collapsible: true,
+      collapsed: false,
       items: [
         { text: 'Introduction', link: '/guide/theme-introduction' },
         { text: 'Nav', link: '/guide/theme-nav' },
@@ -120,7 +121,7 @@ function sidebarGuide() {
     },
     {
       text: 'Migrations',
-      collapsible: true,
+      collapsed: false,
       items: [
         {
           text: 'Migration from VuePress',

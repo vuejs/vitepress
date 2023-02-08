@@ -4,7 +4,9 @@ describe('test multi sidebar sort root', () => {
   })
 
   test('using / sidebar', async () => {
-    const sidebarLocator = page.locator('.VPSidebarGroup .title-text')
+    const sidebarLocator = page.locator(
+      '.VPSidebarItem.level-0 > .item > .link > .text'
+    )
 
     const sidebarContent = await sidebarLocator.allTextContents()
     expect(sidebarContent).toEqual([
@@ -22,7 +24,9 @@ describe('test multi sidebar sort order', () => {
   })
 
   test('using /multi-sidebar/ sidebar', async () => {
-    const sidebarLocator = page.locator('.VPSidebarGroup .title-text')
+    const sidebarLocator = page.locator(
+      '.VPSidebarItem.level-0 > .item > .link > .text'
+    )
 
     const sidebarContent = await sidebarLocator.allTextContents()
     expect(sidebarContent).toEqual(['Multi Sidebar'])

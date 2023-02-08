@@ -73,32 +73,40 @@ export function usePrefetch() {
     })
 
     rIC(() => {
-      document.querySelectorAll<HTMLAnchorElement>('#app a').forEach((link) => {
-        const { target, hostname, pathname } = link
-        const extMatch = pathname.match(/\.\w+$/)
-        if (extMatch && extMatch[0] !== '.html') {
-          return
-        }
-
-        if (
-          // only prefetch same tab navigation, since a new tab will load
-          // the lean js chunk instead.
-          target !== `_blank` &&
-          // only prefetch inbound links
-          hostname === location.hostname
-        ) {
-          if (pathname !== location.pathname) {
-            observer!.observe(link)
-          } else {
-            // No need to prefetch chunk for the current page, but also mark
-            // it as already fetched. This is because the initial page uses its
-            // lean chunk, and if we don't mark it, navigation to another page
-            // with a link back to the first page will fetch its full chunk
-            // which isn't needed.
-            hasFetched.add(pathname)
+      document
+        .querySelectorAll<HTMLAnchorElement | SVGAElement>('#app a')
+        .forEach((link) => {
+          const { target } = link
+          const { hostname, pathname } = new URL(
+            link.href instanceof SVGAnimatedString
+              ? link.href.animVal
+              : link.href,
+            link.baseURI
+          )
+          const extMatch = pathname.match(/\.\w+$/)
+          if (extMatch && extMatch[0] !== '.html') {
+            return
           }
-        }
-      })
+
+          if (
+            // only prefetch same tab navigation, since a new tab will load
+            // the lean js chunk instead.
+            target !== `_blank` &&
+            // only prefetch inbound links
+            hostname === location.hostname
+          ) {
+            if (pathname !== location.pathname) {
+              observer!.observe(link)
+            } else {
+              // No need to prefetch chunk for the current page, but also mark
+              // it as already fetched. This is because the initial page uses its
+              // lean chunk, and if we don't mark it, navigation to another page
+              // with a link back to the first page will fetch its full chunk
+              // which isn't needed.
+              hasFetched.add(pathname)
+            }
+          }
+        })
     })
   }
 

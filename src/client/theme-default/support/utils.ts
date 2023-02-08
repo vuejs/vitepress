@@ -44,7 +44,7 @@ export function normalizeLink(url: string): string {
           /(?:(^\.+)\/)?.*$/,
           `$1${pathname.replace(
             /(\.md)?$/,
-            site.value.cleanUrls === 'disabled' ? '.html' : ''
+            site.value.cleanUrls ? '' : '.html'
           )}${search}${hash}`
         )
 

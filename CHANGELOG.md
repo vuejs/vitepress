@@ -1,3 +1,71 @@
+# [1.0.0-alpha.45](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.44...v1.0.0-alpha.45) (2023-01-31)
+
+
+### Bug Fixes
+
+* safari use `window.requestIdleCallback` ([#1871](https://github.com/vuejs/vitepress/issues/1871)) ([507b193](https://github.com/vuejs/vitepress/commit/507b193ef0e09afe667fccbf6de256cbc86de53f))
+
+
+
+# [1.0.0-alpha.44](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.43...v1.0.0-alpha.44) (2023-01-31)
+
+
+### Bug Fixes
+
+* take `<a>` in SVG into account ([#1850](https://github.com/vuejs/vitepress/issues/1850)) ([010b3e5](https://github.com/vuejs/vitepress/commit/010b3e5ad99f5e61fd01e27d0c3144896a8f3d86))
+* **theme:** infer collapsible from collapsed ([#1865](https://github.com/vuejs/vitepress/issues/1865)) ([dea6cfa](https://github.com/vuejs/vitepress/commit/dea6cfa9cbccf4c6433295e80571acee9b260f71))
+
+
+### Features
+
+* **theme:** preconnect algolia when idle ([#1851](https://github.com/vuejs/vitepress/issues/1851)) ([1f77577](https://github.com/vuejs/vitepress/commit/1f775774da7ef51ae8e690bbd86f94c739611a65))
+
+
+### BREAKING CHANGES
+
+* **theme:** `collapsible` is dropped from sidebar, use `collapsed` instead
+
+
+
+# [1.0.0-alpha.43](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.42...v1.0.0-alpha.43) (2023-01-29)
+
+
+### Bug Fixes
+
+* **build:** hmr with rewrites when base is set ([a05956f](https://github.com/vuejs/vitepress/commit/a05956f38a5295cf038ecfc762c044dbc1cdf040))
+
+
+
+# [1.0.0-alpha.42](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.41...v1.0.0-alpha.42) (2023-01-29)
+
+
+### Bug Fixes
+
+* **build:** consider base when checking actual pathname ([#1858](https://github.com/vuejs/vitepress/issues/1858)) ([cf8ad1a](https://github.com/vuejs/vitepress/commit/cf8ad1a29133cc373a1a70720d36e02b38ba6898))
+
+
+
+# [1.0.0-alpha.41](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.40...v1.0.0-alpha.41) (2023-01-28)
+
+
+### Bug Fixes
+
+* check document instead of window to detect browser ([#1833](https://github.com/vuejs/vitepress/issues/1833)) ([0f145cb](https://github.com/vuejs/vitepress/commit/0f145cb3c6568760199a9c8eee785aecaf0e0494))
+* **router:** avoid duplicate history entries ([#1827](https://github.com/vuejs/vitepress/issues/1827)) ([1553dbc](https://github.com/vuejs/vitepress/commit/1553dbce8eac9ed4a65312d4590d6b0f9261135c))
+* **theme:** don't show border on navbar when sidebar is there ([#1845](https://github.com/vuejs/vitepress/issues/1845)) ([3db532e](https://github.com/vuejs/vitepress/commit/3db532ed0999c9bddfd6bc90f6b627ae1b9178af))
+
+
+### Features
+
+* **build:** allow ignoring only localhost dead links ([#1821](https://github.com/vuejs/vitepress/issues/1821)) ([fe52fa3](https://github.com/vuejs/vitepress/commit/fe52fa34201dcfa87ac4886fe285331f0ef89ba8))
+* **build:** expose vitepress site config to vite plugins ([#1822](https://github.com/vuejs/vitepress/issues/1822)) ([05430e4](https://github.com/vuejs/vitepress/commit/05430e45c90562b62796caba28c633070934d85f))
+* **build:** support rewrites ([#1798](https://github.com/vuejs/vitepress/issues/1798)) ([00abac6](https://github.com/vuejs/vitepress/commit/00abac611664e12710e5152d0259390b22c0e8ca))
+* stable `cleanUrls` ([#1852](https://github.com/vuejs/vitepress/issues/1852)) ([5ae4fbd](https://github.com/vuejs/vitepress/commit/5ae4fbde3843236e180e63e2cd2b7021efa0fad4))
+* **theme:** allow removing badge text from outline ([#1825](https://github.com/vuejs/vitepress/issues/1825)) ([5d2fc3f](https://github.com/vuejs/vitepress/commit/5d2fc3f9228c9b26dec26264d0951d0f43b3d90d))
+* **theme:** enable multi level sidebar nesting ([#1360](https://github.com/vuejs/vitepress/issues/1360)) ([#1835](https://github.com/vuejs/vitepress/issues/1835)) ([c35a1f0](https://github.com/vuejs/vitepress/commit/c35a1f0faee3702c0494fb22043ce058e7a2954c)), closes [#1361](https://github.com/vuejs/vitepress/issues/1361) [#1680](https://github.com/vuejs/vitepress/issues/1680)
+
+
+
 # [1.0.0-alpha.40](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.39...v1.0.0-alpha.40) (2023-01-20)
 
 
