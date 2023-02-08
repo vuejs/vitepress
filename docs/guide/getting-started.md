@@ -18,17 +18,41 @@ $ mkdir vitepress-starter && cd vitepress-starter
 
 Then, initialize with your preferred package manager.
 
-```sh
+::: code-group
+
+```sh [npm]
+$ npm init
+```
+
+```sh [yarn]
 $ yarn init
 ```
+
+```sh [pnpm]
+$ pnpm init
+```
+
+:::
 
 ## Step 2: Install VitePress
 
 Add VitePress and Vue as dev dependencies for the project.
 
-```sh
-$ yarn add --dev vitepress vue
+::: code-group
+
+```sh [npm]
+$ npm install -D vitepress vue
 ```
+
+```sh [yarn]
+$ yarn add -D vitepress vue
+```
+
+```sh [pnpm]
+$ pnpm add -D vitepress vue
+```
+
+:::
 
 ::: details Getting missing peer deps warnings?
 `@docsearch/js` has certain issues with its peer dependencies. If you see some commands failing due to them, you can try this workaround for now:
@@ -71,10 +95,21 @@ Add some scripts to `package.json`.
 
 Serve the documentation site in the local server.
 
-```sh
+::: code-group
+
+```sh [npm]
+$ npm run docs:dev
+```
+
+```sh [yarn]
 $ yarn docs:dev
 ```
 
+```sh [pnpm]
+$ pnpm run docs:dev
+```
+
+:::
 VitePress will start a hot-reloading development server at `http://localhost:5173`.
 
 ## Step 4: Add more pages
