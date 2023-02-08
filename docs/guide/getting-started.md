@@ -139,3 +139,22 @@ If you would like to know more about what you can do within the page, for exampl
 If you want to know how to customize how the site looks (Theme), and find out the features VitePress's default theme provides, visit [Theme: Introduction](./theme-introduction).
 
 When your documentation site starts to take shape, be sure to read the [deployment guide](./deploying).
+
+<script setup>
+import { inBrowser } from 'vitepress'
+
+if (inBrowser) {
+  window.addEventListener('click', (e) => {
+    const el = e.target
+    if (el.matches('.vp-code-group input')) {
+      const allGroups = document.querySelectorAll('.vp-code-group')
+      const group = el.parentElement?.parentElement
+      const i = Array.from(group?.querySelectorAll('input') || []).indexOf(el)
+      for (let index = 0; index < allGroups.length; index++) {
+        if (allGroups[index] === group) continue
+        allGroups[index].querySelectorAll('input')[i].click()
+      }
+    }
+  })
+}
+</script>
