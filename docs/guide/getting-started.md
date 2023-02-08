@@ -106,7 +106,7 @@ $ yarn docs:dev
 ```
 
 ```sh [pnpm]
-$ pnpm docs:dev
+$ pnpm run docs:dev
 ```
 
 :::
