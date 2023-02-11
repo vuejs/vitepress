@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { useRoute, useData } from 'vitepress'
+import { useRoute } from 'vitepress'
+import { useData } from '../composables/data.js'
 import { useSidebar } from '../composables/sidebar.js'
 import VPPage from './VPPage.vue'
 import VPHome from './VPHome.vue'
@@ -28,6 +29,7 @@ const NotFound = inject('NotFound')
 
     <VPHome v-else-if="frontmatter.layout === 'home'">
       <template #home-hero-before><slot name="home-hero-before" /></template>
+      <template #home-hero-image><slot name="home-hero-image" /></template>
       <template #home-hero-after><slot name="home-hero-after" /></template>
       <template #home-features-before><slot name="home-features-before" /></template>
       <template #home-features-after><slot name="home-features-after" /></template>

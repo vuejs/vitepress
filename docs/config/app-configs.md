@@ -69,7 +69,10 @@ Additional elements to render in the `<head>` tag in the page HTML. The user-add
 ```ts
 export default {
   head: [
-    ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }]
+    [
+      'link',
+      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }
+    ]
     // would render: <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   ]
 }
@@ -83,10 +86,10 @@ type HeadConfig =
 
 ## ignoreDeadLinks
 
-- Type: `boolean`
+- Type: `boolean | 'localhostLinks'`
 - Default: `false`
 
-When set to `true`, VitePress will not fail builds due to dead links.
+When set to `true`, VitePress will not fail builds due to dead links. When set to `localhostLinks`, the build will fail on dead links, but won't check `localhost` links.
 
 ```ts
 export default {
@@ -129,7 +132,7 @@ Configure Markdown parser options. VitePress uses [Markdown-it](https://github.c
 ```js
 export default {
   markdown: {
-    theme: 'material-palenight',
+    theme: 'material-theme-palenight',
     lineNumbers: true
   }
 }
@@ -164,6 +167,9 @@ interface MarkdownOptions extends MarkdownIt.Options {
     disable?: boolean
   }
 
+  // specify default language for syntax highlighter
+  defaultHighlightLang?: string
+
   // @mdit-vue/plugin-frontmatter plugin options.
   // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-frontmatter#options
   frontmatter?: FrontmatterPluginOptions
@@ -195,6 +201,19 @@ The build output location for the site, relative to project root (`docs` folder 
 ```ts
 export default {
   outDir: '../public'
+}
+```
+
+## cacheDir
+
+- Type: `string`
+- Default: `./.vitepress/cache`
+
+The directory for cache files, relative to project root (`docs` folder if you're running `vitepress build docs`). See also: [cacheDir](https://vitejs.dev/config/shared-options.html#cachedir).
+
+```ts
+export default {
+  cacheDir: './.vitepress/.vite'
 }
 ```
 
@@ -239,28 +258,42 @@ export default {
 }
 ```
 
-## cleanUrls (Experimental)
-
-- Type: `'disabled' | 'without-subfolders' | 'with-subfolders'`
-- Default: `'disabled'`
-
-Allows removing trailing `.html` from URLs and, optionally, generating clean directory structure. Available modes:
-
-|          Mode          |   Page    |  Generated Page   |     URL     |
-| :--------------------: | :-------: | :---------------: | :---------: |
-|      `'disabled'`      | `/foo.md` |    `/foo.html`    | `/foo.html` |
-| `'without-subfolders'` | `/foo.md` |    `/foo.html`    |   `/foo`    |
-|  `'with-subfolders'`   | `/foo.md` | `/foo/index.html` |   `/foo`    |
-
-::: warning
-
-Enabling this may require additional configuration on your hosting platform. For it to work, your server must serve the generated page on requesting the URL (see above table) **without a redirect**.
-
-:::
+To configure a title separator other than `|`, you can omit `title` and use the `:title` symbol in `titleTemplate`.
 
 ```ts
 export default {
-  cleanUrls: 'with-subfolders'
+  titleTemplate: ':title - Vitepress'
+}
+```
+
+## cleanUrls
+
+- Type: `boolean`
+- Default: `false`
+
+Allows removing trailing `.html` from URLs.
+
+```ts
+export default {
+  cleanUrls: true
+}
+```
+
+::: warning
+Enabling this may require additional configuration on your hosting platform. For it to work, your server must serve `/foo.html` on requesting `/foo` **without a redirect**.
+:::
+
+## rewrites
+
+- Type: `Record<string, string>`
+
+Defines custom directory <-> URL mappings. See [Routing: Customize the Mappings](/guide/routing#customize-the-mappings) for more details.
+
+```ts
+export default {
+  rewrites: {
+    'source/:page': 'destination/:page'
+  }
 }
 ```
 
@@ -271,10 +304,47 @@ VitePress build hooks allow you to add new functionality and behaviors to your w
 - Sitemap
 - Search Indexing
 - PWA
+- Teleports
+
+### buildEnd
+
+- Type: `(siteConfig: SiteConfig) => Awaitable<void>`
+
+`buildEnd` is a build CLI hook, it will run after build (SSG) finish but before VitePress CLI process exits.
+
+```ts
+export default {
+  async buildEnd(siteConfig) {
+    // ...
+  }
+}
+```
+
+### postRender
+
+- Type: `(context: SSGContext) => Awaitable<SSGContext | void>`
+
+`postRender` is a build hook, called when SSG rendering is done. It will allow you to handle the teleports content during SSG.
+
+```ts
+export default {
+  async postRender(context) {
+    // ...
+  }
+}
+```
+
+```ts
+interface SSGContext {
+  content: string
+  teleports?: Record<string, string>
+  [key: string]: any
+}
+```
 
 ### transformHead
 
-- Type: `(ctx: TransformContext) => Awaitable<HeadConfig[]>`
+- Type: `(context: TransformContext) => Awaitable<HeadConfig[]>`
 
 `transformHead` is a build hook to transform the head before generating each page. It will allow you to add head entries that cannot be statically added to your VitePress config. You only need to return extra entries, they will be merged automatically with the existing ones.
 
@@ -284,7 +354,8 @@ Don't mutate anything inside the `ctx`.
 
 ```ts
 export default {
-  async transformHead(ctx) {
+  async transformHead(context) {
+    // ...
   }
 }
 ```
@@ -314,6 +385,7 @@ Don't mutate anything inside the `ctx`. Also, modifying the html content may cau
 ```ts
 export default {
   async transformHtml(code, id, context) {
+    // ...
   }
 }
 ```
@@ -323,7 +395,6 @@ export default {
 - Type: `(pageData: PageData) => Awaitable<Partial<PageData> | { [key: string]: any } | void>`
 
 `transformPageData` is a hook to transform the `pageData` of each page. You can directly mutate `pageData` or return changed values which will be merged into PageData.
-
 
 ```ts
 export default {
@@ -336,19 +407,6 @@ export default {
     return {
       contributors: await getPageContributors(pageData.relativePath)
     }
-  }
-}
-```
-
-### buildEnd
-
-- Type: `(siteConfig: SiteConfig) => Awaitable<void>`
-
-`buildEnd` is a build CLI hook, it will run after build (SSG) finish but before VitePress CLI process exits.
-
-```ts
-export default {
-  async buildEnd(siteConfig) {
   }
 }
 ```

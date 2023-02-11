@@ -4,10 +4,10 @@ import {
   defineConfig,
   mergeConfig,
   searchForWorkspaceRoot,
-  Plugin,
-  ResolvedConfig
+  type Plugin,
+  type ResolvedConfig
 } from 'vite'
-import { SiteConfig } from './config'
+import type { SiteConfig } from './config'
 import { createMarkdownToVueRenderFn, clearCache } from './markdownToVue'
 import {
   DIST_CLIENT_PATH,
@@ -16,9 +16,9 @@ import {
   resolveAliases
 } from './alias'
 import { slash } from './utils/slash'
-import { OutputAsset, OutputChunk } from 'rollup'
+import type { OutputAsset, OutputChunk } from 'rollup'
 import { staticDataPlugin } from './staticDataPlugin'
-import { PageDataPayload } from './shared'
+import type { PageDataPayload } from './shared'
 import { webFontsPlugin } from './webFontsPlugin'
 
 const hashRE = /\.(\w+)\.js$/
@@ -63,7 +63,8 @@ export async function createVitePressPlugin(
     pages,
     ignoreDeadLinks,
     lastUpdated,
-    cleanUrls
+    cleanUrls,
+    rewrites
   } = siteConfig
 
   let markdownToVue: Awaited<ReturnType<typeof createMarkdownToVueRenderFn>>
@@ -129,7 +130,9 @@ export async function createVitePressPlugin(
               searchForWorkspaceRoot(process.cwd())
             ]
           }
-        }
+        },
+        // @ts-ignore
+        vitepress: siteConfig
       })
       return userViteConfig
         ? mergeConfig(userViteConfig, baseConfig)
@@ -188,6 +191,14 @@ export async function createVitePressPlugin(
         server.watcher.add(configPath)
         configDeps.forEach((file) => server.watcher.add(file))
       }
+
+      server.middlewares.use((req, res, next) => {
+        if (req.url) {
+          const page = req.url.replace(/[?#].*$/, '').slice(site.base.length)
+          req.url = req.url.replace(page, rewrites.inv[page] || page)
+        }
+        next()
+      })
 
       // serve our index.html after vite history fallback
       return () => {

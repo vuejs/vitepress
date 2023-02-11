@@ -1,8 +1,8 @@
 import { promises as fs } from 'fs'
-import { builtinModules } from 'module'
+import { builtinModules, createRequire } from 'module'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
-import { RollupOptions, defineConfig } from 'rollup'
+import { type RollupOptions, defineConfig } from 'rollup'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import esbuild from 'rollup-plugin-esbuild'
@@ -10,7 +10,9 @@ import json from '@rollup/plugin-json'
 import replace from '@rollup/plugin-replace'
 import alias from '@rollup/plugin-alias'
 import dts from 'rollup-plugin-dts'
-import pkg from './package.json'
+
+const require = createRequire(import.meta.url)
+const pkg = require('./package.json')
 
 const DEV = !!process.env.DEV
 const PROD = !DEV
@@ -50,7 +52,8 @@ const esmBuild: RollupOptions = {
     format: 'esm',
     entryFileNames: `[name].js`,
     chunkFileNames: 'serve-[hash].js',
-    dir: r('dist/node')
+    dir: r('dist/node'),
+    sourcemap: DEV
   },
   external,
   plugins,

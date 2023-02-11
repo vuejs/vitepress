@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useData } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
 import { computed, inject, ref, type Ref } from 'vue'
+import { useData } from '../composables/data.js'
 import {
   getHeaders,
   useActiveAnchor,
@@ -17,7 +17,7 @@ const pageOutline = computed<DefaultTheme.Config['outline']>(
 
 const onContentUpdated = inject('onContentUpdated') as Ref<() => void>
 onContentUpdated.value = () => {
-  headers.value = getHeaders(pageOutline.value)
+  headers.value = getHeaders(pageOutline.value, theme.value.outlineBadges)
 }
 
 const headers = ref<MenuItem[]>([])
@@ -43,7 +43,13 @@ function handleClick({ target: el }: Event) {
       <div class="outline-marker" ref="marker" />
 
       <div class="outline-title">
-        {{ theme.outlineTitle || 'On this page' }}
+        {{
+          (typeof theme.outline === 'object' &&
+            !Array.isArray(theme.outline) &&
+            theme.outline.label) ||
+          theme.outlineTitle ||
+          'On this page'
+        }}
       </div>
 
       <nav aria-labelledby="doc-outline-aria-label">
@@ -67,7 +73,7 @@ function handleClick({ target: el }: Event) {
 
 .content {
   position: relative;
-  border-left: 1px solid var(--vp-c-divider-light);
+  border-left: 1px solid var(--vp-c-divider);
   padding-left: 16px;
   font-size: 13px;
   font-weight: 500;

@@ -8,8 +8,11 @@
     "skipLibCheck": true,
     "noUnusedLocals": true,
     "resolveJsonModule": true,
+    "isolatedModules": true,
+    "preserveValueImports": true,
+    "importsNotUsedAsValues": "error",
     "jsx": "preserve",
-    "lib": ["ESNext", "DOM"]
+    "lib": ["esnext", "dom", "dom.iterable"]
   },
   "exclude": ["**/node_modules/**", "**/dist/**"]
 }

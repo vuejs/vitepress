@@ -1,15 +1,15 @@
 import {
-  App,
+  type App,
   createApp as createClientApp,
   createSSRApp,
   defineComponent,
   h,
   onMounted,
-  watch
+  watchEffect
 } from 'vue'
 import Theme from '@theme/index'
 import { inBrowser, pathToFile } from './utils.js'
-import { Router, RouterSymbol, createRouter } from './router.js'
+import { type Router, RouterSymbol, createRouter } from './router.js'
 import { siteDataRef, useData } from './data.js'
 import { useUpdateHead } from './composables/head.js'
 import { usePrefetch } from './composables/preFetch.js'
@@ -17,6 +17,7 @@ import { dataSymbol, initData } from './data.js'
 import { Content } from './components/Content.js'
 import { ClientOnly } from './components/ClientOnly.js'
 import { useCopyCode } from './composables/copyCode.js'
+import { useCodeGroups } from './composables/codeGroups.js'
 
 const NotFound = Theme.NotFound || (() => '404 Not Found')
 
@@ -27,13 +28,10 @@ const VitePressApp = defineComponent({
 
     // change the language on the HTML element based on the current lang
     onMounted(() => {
-      watch(
-        () => site.value.lang,
-        (lang: string) => {
-          document.documentElement.lang = lang
-        },
-        { immediate: true }
-      )
+      watchEffect(() => {
+        document.documentElement.lang = site.value.lang
+        document.documentElement.dir = site.value.dir
+      })
     })
 
     if (import.meta.env.PROD) {
@@ -43,13 +41,15 @@ const VitePressApp = defineComponent({
 
     // setup global copy code handler
     useCopyCode()
+    // setup global code groups handler
+    useCodeGroups()
 
     if (Theme.setup) Theme.setup()
     return () => h(Theme.Layout)
   }
 })
 
-export function createApp() {
+export async function createApp() {
   const router = newRouter()
 
   const app = newApp()
@@ -74,7 +74,7 @@ export function createApp() {
   })
 
   if (Theme.enhanceApp) {
-    Theme.enhanceApp({
+    await Theme.enhanceApp({
       app,
       router,
       siteData: siteDataRef
@@ -124,12 +124,12 @@ function newRouter(): Router {
 }
 
 if (inBrowser) {
-  const { app, router, data } = createApp()
-
-  // wait until page component is fetched before mounting
-  router.go().then(() => {
-    // dynamically update head tags
-    useUpdateHead(router.route, data.site)
-    app.mount('#app')
+  createApp().then(({ app, router, data }) => {
+    // wait until page component is fetched before mounting
+    router.go().then(() => {
+      // dynamically update head tags
+      useUpdateHead(router.route, data.site)
+      app.mount('#app')
+    })
   })
 }

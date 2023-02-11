@@ -19,6 +19,12 @@ export default {
 
 Here it describes the settings for the VitePress default theme. If you're using a custom theme created by others, these settings may not have any effect, or might behave differently.
 
+## i18nRouting
+
+- Type: `boolean`
+
+Changing locale to say `zh` will change the URL from `/foo` (or `/en/foo/`) to `/zh/foo`. You can disable this behavior by setting `themeConfig.i18nRouting` to `false`.
+
 ## logo
 
 - Type: `ThemeableImage`
@@ -34,8 +40,10 @@ export default {
 ```
 
 ```ts
-type Image = string | { src: string; alt?: string }
-type ThemeableImage = Image | { light: Image; dark: Image }
+type ThemeableImage =
+  | string
+  | { src: string; alt?: string }
+  | { light: string; dark: string; alt?: string }
 ```
 
 ## siteTitle
@@ -116,22 +124,36 @@ export default {
 ```
 
 ```ts
-type Sidebar = SidebarGroup[] | SidebarMulti
+export type Sidebar = SidebarItem[] | SidebarMulti
 
-interface SidebarMulti {
-  [path: string]: SidebarGroup[]
+export interface SidebarMulti {
+  [path: string]: SidebarItem[]
 }
 
-interface SidebarGroup {
-  text: string
-  items: SidebarItem[]
-  collapsible?: boolean
+export type SidebarItem = {
+  /**
+   * The text label of the item.
+   */
+  text?: string
+
+  /**
+   * The link of the item.
+   */
+  link?: string
+
+  /**
+   * The children of the item.
+   */
+  items?: SidebarItem[]
+
+  /**
+   * If not specified, group is not collapsible.
+   *
+   * If `true`, group is collapsible and collapsed by default
+   *
+   * If `false`, group is collapsible but expanded by default
+   */
   collapsed?: boolean
-}
-
-interface SidebarItem {
-  text: string
-  link: string
 }
 ```
 
@@ -141,6 +163,13 @@ interface SidebarItem {
 - Default: `2`
 
 The levels of header to display in the outline. You can specify a particular level by passing a number, or you can provide a level range by passing a tuple containing the bottom and upper limits. When passing `'deep'` which equals `[2, 6]`, all header levels are shown in the outline except `h1`. Set `false` to hide outline.
+
+## outlineBadges
+
+- Type: `boolean`
+- Default: `true`
+
+By default the badge text is displayed in the outline. Disable this to hide badge text from outline.
 
 ## outlineTitle
 
@@ -193,6 +222,7 @@ type SocialLinkIcon =
   | 'github'
   | 'instagram'
   | 'linkedin'
+  | 'mastodon'
   | 'slack'
   | 'twitter'
   | 'youtube'
@@ -262,11 +292,25 @@ export default {
 }
 ```
 
-## carbonAds {#carbon-ads}
+## algolia
 
-- Type: `CarbonAds`
+- Type: `AlgoliaSearch`
 
-A option to display [Carbon Ads](https://www.carbonads.net/).
+An option to support searching your docs site using [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Learn more in [Theme: Search](../guide/theme-search)
+
+```ts
+export interface AlgoliaSearchOptions extends DocSearchProps {
+   locales?: Record<string, Partial<DocSearchProps>>
+}
+```
+
+View full options [here](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts).
+
+## carbonAds
+
+- Type: `CarbonAdsOptions`
+
+An option to display [Carbon Ads](https://www.carbonads.net/).
 
 ```ts
 export default {
@@ -280,7 +324,7 @@ export default {
 ```
 
 ```ts
-export interface CarbonAds {
+export interface CarbonAdsOptions {
   code: string
   placement: string
 }
@@ -311,3 +355,24 @@ export interface DocFooter {
   next?: string
 }
 ```
+
+## darkModeSwitchLabel
+
+- Type: `string`
+- Default: `Appearance`
+
+Can be used to customize the dark mode switch label. This label is only displayed in the mobile view.
+
+## sidebarMenuLabel
+
+- Type: `string`
+- Default: `Menu`
+
+Can be used to customize the sidebar menu label. This label is only displayed in the mobile view.
+
+## returnToTopLabel
+
+- Type: `string`
+- Default: `Return to top`
+
+Can be used to customize the label of the returnToTop. This label is only displayed in the mobile view.

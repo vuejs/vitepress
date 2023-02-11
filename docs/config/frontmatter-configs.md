@@ -44,7 +44,7 @@ titleTemplate: Vite & Vue powered static site generator
 
 - Type: `string`
 
-Title for the page. It's same as [config.description](../config/app-configs#description), and it overrides the app config.
+Description for the page. It's same as [config.description](../config/app-configs#description), and it overrides the app config.
 
 ```yaml
 ---
@@ -52,7 +52,7 @@ description: VitePress
 ---
 ```
 
-### head
+## head
 
 - Type: `HeadConfig[]`
 
@@ -168,49 +168,6 @@ interface HeroAction {
 This option only takes effect when `layout` is set to `home`.
 
 It defines items to display in features section.
-
-```yaml
----
-layout: home
-
-features:
-  - icon: ⚡️
-    title: Vite, The DX that can't be beat
-    details: Lorem ipsum...
-  - icon: 🖖
-    title: Power of Vue meets Markdown
-    details: Lorem ipsum...
-  - icon: 🛠️
-    title: Simple and minimal, always
-    details: Lorem ipsum...
----
-```
-
-```ts
-interface Feature {
-  // Show icon on each feature box. Currently, only emojis
-  // are supported.
-  icon?: string
-
-  // Title of the feature.
-  title: string
-
-  // Details of the feature.
-  details: string
-
-  // Link when clicked on feature component. The link can
-  // be both internal or external.
-  //
-  // e.g. `guide/theme-home-page` or `htttps://example.com`
-  link?: string
-
-  // Link text to be shown inside feature component. Best
-  // used with `link` option.
-  //
-  // e.g. `Learn more`, `Visit page`, etc.
-  linkText?: string
-}
-```
 
 You may learn more about it in [Theme: Home Page](../guide/theme-home-page).
 

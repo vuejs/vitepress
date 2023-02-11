@@ -20,7 +20,7 @@ defineProps<{
 <style scoped>
 .VPMenuGroup {
   margin: 12px -12px 0;
-  border-top: 1px solid var(--vp-c-divider-light);
+  border-top: 1px solid var(--vp-c-divider);
   padding: 12px 12px 0;
 }
 
@@ -32,7 +32,7 @@ defineProps<{
 
 .VPMenuGroup + .VPMenuGroup {
   margin-top: 12px;
-  border-top: 1px solid var(--vp-c-divider-light);
+  border-top: 1px solid var(--vp-c-divider);
 }
 
 .title {

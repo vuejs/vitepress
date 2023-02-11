@@ -2,9 +2,9 @@
 import { ref, watchPostEffect } from 'vue'
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 import { useSidebar } from '../composables/sidebar.js'
-import VPSidebarGroup from './VPSidebarGroup.vue'
+import VPSidebarItem from './VPSidebarItem.vue'
 
-const { sidebar, hasSidebar } = useSidebar()
+const { sidebarGroups, hasSidebar } = useSidebar()
 
 const props = defineProps<{
   open: boolean
@@ -39,6 +39,8 @@ watchPostEffect(async () => {
     ref="navEl"
     @click.stop
   >
+    <div class="curtain" />
+
     <nav class="nav" id="VPSidebarNav" aria-labelledby="sidebar-aria-label" tabindex="-1">
       <span class="visually-hidden" id="sidebar-aria-label">
         Sidebar Navigation
@@ -46,13 +48,8 @@ watchPostEffect(async () => {
 
       <slot name="sidebar-nav-before" />
 
-      <div v-for="group in sidebar" :key="group.text" class="group">
-        <VPSidebarGroup
-          :text="group.text"
-          :items="group.items"
-          :collapsible="group.collapsible"
-          :collapsed="group.collapsed"
-        />
+      <div v-for="item in sidebarGroups" :key="item.text" class="group">
+        <VPSidebarItem :item="item" :depth="0" />
       </div>
 
       <slot name="sidebar-nav-after" />
@@ -70,7 +67,7 @@ watchPostEffect(async () => {
   padding: 32px 32px 96px;
   width: calc(100vw - 64px);
   max-width: 320px;
-  background-color: var(--vp-c-bg);
+  background-color: var(--vp-sidebar-bg-color);
   opacity: 0;
   box-shadow: var(--vp-c-shadow-3);
   overflow-x: hidden;
@@ -94,11 +91,11 @@ watchPostEffect(async () => {
 @media (min-width: 960px) {
   .VPSidebar {
     z-index: 1;
-    padding-top: var(--vp-nav-height-desktop);
+    padding-top: var(--vp-nav-height);
     padding-bottom: 128px;
     width: var(--vp-sidebar-width);
     max-width: 100%;
-    background-color: var(--vp-c-bg-alt);
+    background-color: var(--vp-sidebar-bg-color);
     opacity: 1;
     visibility: visible;
     box-shadow: none;
@@ -113,13 +110,26 @@ watchPostEffect(async () => {
   }
 }
 
+@media (min-width: 960px) {
+  .curtain {
+    position: sticky;
+    top: -64px;
+    left: 0;
+    z-index: 1;
+    margin-top: calc(var(--vp-nav-height) * -1);
+    margin-right: -32px;
+    margin-left: -32px;
+    height: var(--vp-nav-height);
+    background-color: var(--vp-sidebar-bg-color);
+  }
+}
+
 .nav {
   outline: 0;
 }
 
 .group + .group {
-  margin-top: 32px;
-  border-top: 1px solid var(--vp-c-divider-light);
+  border-top: 1px solid var(--vp-c-divider);
   padding-top: 10px;
 }
 
@@ -127,10 +137,6 @@ watchPostEffect(async () => {
   .group {
     padding-top: 10px;
     width: calc(var(--vp-sidebar-width) - 64px);
-  }
-
-  .group + .group {
-    margin-top: 24px;
   }
 }
 </style>

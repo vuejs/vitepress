@@ -1,8 +1,8 @@
 import fs from 'fs-extra'
 import path from 'path'
 import ora from 'ora'
-import { BuildOptions } from 'vite'
-import { OutputChunk, OutputAsset } from 'rollup'
+import type { BuildOptions } from 'vite'
+import type { OutputChunk, OutputAsset } from 'rollup'
 import { resolveConfig } from '../config'
 import { renderPage } from './render'
 import { bundle, okMark, failMark } from './bundle'
@@ -64,7 +64,9 @@ export async function build(
       // as JS object literal.
       const hashMapString = JSON.stringify(JSON.stringify(pageToHashMap))
 
-      const pages = ['404.md', ...siteConfig.pages]
+      const pages = ['404.md', ...siteConfig.pages].map(
+        (page) => siteConfig.rewrites.map[page] || page
+      )
 
       await Promise.all(
         pages.map((page) =>

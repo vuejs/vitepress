@@ -1,8 +1,8 @@
 # API Reference
 
-VitePress offers several built in API to let you access app data. VitePress also comes with few built-in component that can be used globally.
+VitePress offers several built-in APIs to let you access app data. VitePress also comes with a few built-in components that can be used globally.
 
-The helper methods are globally importable from `vitepress` and are typically used in custom theme Vue components. However, they are also usable inside `.md` pages because markdown files are compiled into Vue single-file components.
+The helper methods are globally importable from `vitepress` and are typically used in custom theme Vue components. However, they are also usable inside `.md` pages because markdown files are compiled into Vue [Single-File Components](https://vuejs.org/guide/scaling-up/sfc.html).
 
 Methods that start with `use*` indicates that it is a [Vue 3 Composition API](https://vuejs.org/guide/introduction.html#composition-api) function that can only be used inside `setup()` or `<script setup>`.
 
@@ -11,16 +11,17 @@ Methods that start with `use*` indicates that it is a [Vue 3 Composition API](ht
 Returns page-specific data. The returned object has the following type:
 
 ```ts
-interface VitePressData {
-  site: Ref<SiteData>
+interface VitePressData<T = any> {
+  site: Ref<SiteData<T>>
   page: Ref<PageData>
-  theme: Ref<any> // themeConfig from .vitepress/config.js
+  theme: Ref<T> // themeConfig from .vitepress/config.js
   frontmatter: Ref<PageData['frontmatter']>
-  lang: Ref<string>
   title: Ref<string>
   description: Ref<string>
-  localePath: Ref<string>
+  lang: Ref<string>
   isDark: Ref<boolean>
+  dir: Ref<string>
+  localeIndex: Ref<string>
 }
 ```
 

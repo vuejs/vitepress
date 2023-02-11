@@ -1,29 +1,38 @@
 <script lang="ts" setup>
-import { useData } from 'vitepress'
+import { computed } from 'vue'
 import VPFlyout from './VPFlyout.vue'
 import VPMenuLink from './VPMenuLink.vue'
 import VPSwitchAppearance from './VPSwitchAppearance.vue'
 import VPSocialLinks from './VPSocialLinks.vue'
-import { computed } from 'vue'
+import { useData } from '../composables/data.js'
+import { useLangs } from '../composables/langs.js'
 
 const { site, theme } = useData()
+const { localeLinks, currentLang } = useLangs({ correspondingLink: true })
 
-const hasExtraContent = computed(() => theme.value.localeLinks || site.value.appearance || theme.value.socialLinks)
+const hasExtraContent = computed(
+  () =>
+    (localeLinks.value.length && currentLang.value.label) ||
+    site.value.appearance ||
+    theme.value.socialLinks
+)
 </script>
 
 <template>
   <VPFlyout v-if="hasExtraContent" class="VPNavBarExtra" label="extra navigation">
-    <div v-if="theme.localeLinks" class="group">
-      <p class="trans-title">{{ theme.localeLinks.text }}</p>
+    <div v-if="localeLinks.length && currentLang.label" class="group">
+      <p class="trans-title">{{ currentLang.label }}</p>
 
-      <template v-for="locale in theme.localeLinks.items" :key="locale.link">
+      <template v-for="locale in localeLinks" :key="locale.link">
         <VPMenuLink :item="locale" />
       </template>
     </div>
 
     <div v-if="site.appearance" class="group">
       <div class="item appearance">
-        <p class="label">Appearance</p>
+        <p class="label">
+          {{ theme.darkModeSwitchLabel || 'Appearance' }}
+        </p>
         <div class="appearance-action">
           <VPSwitchAppearance />
         </div>

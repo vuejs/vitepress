@@ -1,23 +1,25 @@
+import escape from 'escape-html'
 import fs from 'fs-extra'
 import path from 'path'
+import type { OutputAsset, OutputChunk, RollupOutput } from 'rollup'
 import { pathToFileURL } from 'url'
-import escape from 'escape-html'
 import { normalizePath, transformWithEsbuild } from 'vite'
-import { RollupOutput, OutputChunk, OutputAsset } from 'rollup'
+import type { SiteConfig } from '../config'
 import {
-  HeadConfig,
-  PageData,
   createTitle,
-  notFoundPageData,
-  mergeHead,
   EXTERNAL_URL_RE,
-  sanitizeFileName
+  mergeHead,
+  notFoundPageData,
+  resolveSiteDataByRoute,
+  sanitizeFileName,
+  type HeadConfig,
+  type PageData,
+  type SSGContext
 } from '../shared'
 import { slash } from '../utils/slash'
-import { SiteConfig, resolveSiteDataByRoute } from '../config'
 
 export async function renderPage(
-  render: (path: string) => Promise<string>,
+  render: (path: string) => Promise<SSGContext>,
   config: SiteConfig,
   page: string, // foo.md
   result: RollupOutput | null,
@@ -30,7 +32,8 @@ export async function renderPage(
   const siteData = resolveSiteDataByRoute(config.site, routePath)
 
   // render page
-  const content = await render(routePath)
+  const context = await render(routePath)
+  const { content, teleports } = (await config.postRender?.(context)) ?? context
 
   const pageName = sanitizeFileName(page.replace(/\//g, '_'))
   // server build doesn't need hash
@@ -101,7 +104,7 @@ export async function renderPage(
     .join('\n    ')
 
   const stylesheetLink = cssChunk
-    ? `<link rel="stylesheet" href="${siteData.base}${cssChunk.fileName}">`
+    ? `<link rel="preload stylesheet" href="${siteData.base}${cssChunk.fileName}" as="style">`
     : ''
 
   const title: string = createTitle(siteData, pageData)
@@ -144,7 +147,7 @@ export async function renderPage(
 
   const html = `
 <!DOCTYPE html>
-<html lang="${siteData.lang}">
+<html lang="${siteData.lang}" dir="${siteData.dir}">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -155,7 +158,7 @@ export async function renderPage(
     ${prefetchLinkString}
     ${await renderHead(head)}
   </head>
-  <body>
+  <body>${teleports?.body || ''}
     <div id="app">${content}</div>
     ${
       config.mpa
@@ -170,14 +173,7 @@ export async function renderPage(
     ${inlinedScript}
   </body>
 </html>`.trim()
-  const createSubDirectory =
-    config.cleanUrls === 'with-subfolders' &&
-    !/(^|\/)(index|404).md$/.test(page)
-
-  const htmlFileName = path.join(
-    config.outDir,
-    page.replace(/\.md$/, createSubDirectory ? '/index.html' : '.html')
-  )
+  const htmlFileName = path.join(config.outDir, page.replace(/\.md$/, '.html'))
 
   await fs.ensureDir(path.dirname(htmlFileName))
   const transformedHtml = await config.transformHtml?.(html, htmlFileName, {
@@ -198,6 +194,7 @@ function resolvePageImports(
   result: RollupOutput,
   appChunk: OutputChunk
 ) {
+  page = config.rewrites.inv[page] || page
   // find the page's js chunk and inject script tags for its imports so that
   // they start fetching as early as possible
   const srcPath = normalizePath(

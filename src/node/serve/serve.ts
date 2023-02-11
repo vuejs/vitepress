@@ -1,8 +1,8 @@
 import fs from 'fs'
 import path from 'path'
 import compression from 'compression'
-import polka, { IOptions } from 'polka'
-import sirv, { RequestHandler } from 'sirv'
+import polka, { type IOptions } from 'polka'
+import sirv, { type RequestHandler } from 'sirv'
 import { resolveConfig } from '../config'
 
 function trimChar(str: string, char: string) {

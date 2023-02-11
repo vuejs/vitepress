@@ -1,6 +1,6 @@
 import { build } from 'vite'
-import { RollupOutput } from 'rollup'
-import { SiteConfig } from '..'
+import type { RollupOutput } from 'rollup'
+import type { SiteConfig } from '..'
 
 const virtualEntry = 'client.js'
 
@@ -14,6 +14,7 @@ export async function buildMPAClient(
 
   return build({
     root: config.srcDir,
+    cacheDir: config.cacheDir,
     base: config.site.base,
     logLevel: 'warn',
     build: {
