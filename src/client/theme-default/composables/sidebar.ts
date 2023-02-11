@@ -51,7 +51,9 @@ export function useSidebar() {
 
   const hasAside = computed(() => {
     return (
-      frontmatter.value.layout !== 'home' && frontmatter.value.aside !== false && theme.value.outline !== false
+      frontmatter.value.layout !== 'home' &&
+      frontmatter.value.aside !== false &&
+      theme.value.aside !== false
     )
   })
 

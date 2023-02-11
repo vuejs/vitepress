@@ -157,6 +157,12 @@ export type SidebarItem = {
 }
 ```
 
+## aside
+- Type: `boolean`
+- Default: `true`
+
+By default aside container is always rendered (even if empty). Setting this value to `false` prevents rendering of aside container.
+
 ## outline
 
 - Type: `number | [number, number] | 'deep' | false`
