@@ -139,6 +139,25 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
        - main
    ```
 
+4. Alternatively, if you want to use an _alpine_ version of node, you have to install `git` manually. In that case, the code above modifies to this:
+   ```yaml
+   image: node:16-alpine
+   pages:
+     cache:
+       paths:
+         - node_modules/
+     before_script:
+       - apk add git
+     script:
+       - yarn install
+       - yarn docs:build
+     artifacts:
+       paths:
+         - public
+     only:
+       - main
+   ```
+
 ## Azure Static Web Apps
 
 1. Follow the [official documentation](https://docs.microsoft.com/en-us/azure/static-web-apps/build-configuration).
