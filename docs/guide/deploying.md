@@ -200,6 +200,6 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
    }
    ```
 
-## Layer0
+## Edgio
 
-Refer [Creating and Deploying a VitePress App with Layer0](https://docs.layer0.co/guides/vitepress).
+Refer [Creating and Deploying a VitePress App To Edgio](https://docs.edg.io/guides/vitepress).
