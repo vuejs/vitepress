@@ -51,7 +51,7 @@
   "scripts": {
     "dev": "rimraf dist && run-s dev-shared dev-start",
     "dev-start": "run-p dev-client dev-node dev-watch",
-    "dev-client": "tsc -w -p src/client",
+    "dev-client": "tsc --sourcemap -w -p src/client",
     "dev-node": "DEV=true pnpm build-node -w",
     "dev-shared": "node scripts/copyShared",
     "dev-watch": "node scripts/watchAndCopy",

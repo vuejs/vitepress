@@ -73,15 +73,17 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
    ```yaml
    name: Deploy
-
    on:
+     workflow_dispatch: {}
      push:
        branches:
          - main
-
    jobs:
      deploy:
        runs-on: ubuntu-latest
+       environment:
+         name: github-pages
+         url: ${{ steps.deployment.outputs.page_url }}
        steps:
          - uses: actions/checkout@v3
            with:
@@ -91,16 +93,15 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
              node-version: 16
              cache: yarn
          - run: yarn install --frozen-lockfile
-
          - name: Build
            run: yarn docs:build
-
-         - name: Deploy
-           uses: peaceiris/actions-gh-pages@v3
+         - uses: actions/configure-pages@v2
+         - uses: actions/upload-pages-artifact@v1
            with:
-             github_token: ${{ secrets.GITHUB_TOKEN }}
-             publish_dir: docs/.vitepress/dist
-             # cname: example.com # if wanna deploy to custom domain
+             path: docs/.vitepress/dist
+         - name: Deploy
+           id: deployment
+           uses: actions/deploy-pages@v1
    ```
 
    ::: tip
@@ -129,6 +130,25 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
      cache:
        paths:
          - node_modules/
+     script:
+       - yarn install
+       - yarn docs:build
+     artifacts:
+       paths:
+         - public
+     only:
+       - main
+   ```
+
+4. Alternatively, if you want to use an _alpine_ version of node, you have to install `git` manually. In that case, the code above modifies to this:
+   ```yaml
+   image: node:16-alpine
+   pages:
+     cache:
+       paths:
+         - node_modules/
+     before_script:
+       - apk add git
      script:
        - yarn install
        - yarn docs:build
@@ -200,6 +220,6 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
    }
    ```
 
-## Layer0
+## Edgio
 
-Refer [Creating and Deploying a VitePress App with Layer0](https://docs.layer0.co/guides/vitepress).
+Refer [Creating and Deploying a VitePress App To Edgio](https://docs.edg.io/guides/vitepress).
