@@ -49,8 +49,8 @@ export namespace DefaultTheme {
 
     /**
      * Set to `false` to prevent rendering of aside container.
-     * @default true
      *
+     * @default true
      */
     aside?: boolean
 
