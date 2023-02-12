@@ -1,7 +1,3 @@
-import MarkdownIt from 'markdown-it'
-import anchorPlugin from 'markdown-it-anchor'
-import attrsPlugin from 'markdown-it-attrs'
-import emojiPlugin from 'markdown-it-emoji'
 import { componentPlugin } from '@mdit-vue/plugin-component'
 import {
   frontmatterPlugin,
@@ -15,15 +11,20 @@ import { sfcPlugin, type SfcPluginOptions } from '@mdit-vue/plugin-sfc'
 import { titlePlugin } from '@mdit-vue/plugin-title'
 import { tocPlugin, type TocPluginOptions } from '@mdit-vue/plugin-toc'
 import { slugify } from '@mdit-vue/shared'
+import MarkdownIt from 'markdown-it'
+import anchorPlugin from 'markdown-it-anchor'
+import attrsPlugin from 'markdown-it-attrs'
+import emojiPlugin from 'markdown-it-emoji'
 import type { IThemeRegistration } from 'shiki'
+import type { Logger } from 'vite'
+import { containerPlugin } from './plugins/containers'
 import { highlight } from './plugins/highlight'
 import { highlightLinePlugin } from './plugins/highlightLines'
-import { lineNumberPlugin } from './plugins/lineNumbers'
-import { containerPlugin } from './plugins/containers'
-import { snippetPlugin } from './plugins/snippet'
-import { preWrapperPlugin } from './plugins/preWrapper'
-import { linkPlugin } from './plugins/link'
 import { imagePlugin } from './plugins/image'
+import { lineNumberPlugin } from './plugins/lineNumbers'
+import { linkPlugin } from './plugins/link'
+import { preWrapperPlugin } from './plugins/preWrapper'
+import { snippetPlugin } from './plugins/snippet'
 
 export type { Header } from '../shared'
 
@@ -55,14 +56,15 @@ export type MarkdownRenderer = MarkdownIt
 export const createMarkdownRenderer = async (
   srcDir: string,
   options: MarkdownOptions = {},
-  base = '/'
+  base = '/',
+  logger: Pick<Logger, 'warn'> = console
 ): Promise<MarkdownRenderer> => {
   const md = MarkdownIt({
     html: true,
     linkify: true,
     highlight:
       options.highlight ||
-      (await highlight(options.theme, options.defaultHighlightLang)),
+      (await highlight(options.theme, options.defaultHighlightLang, logger)),
     ...options
   }) as MarkdownRenderer
 

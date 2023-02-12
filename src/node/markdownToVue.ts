@@ -1,19 +1,19 @@
+import { resolveTitleFromToken } from '@mdit-vue/shared'
+import _debug from 'debug'
 import fs from 'fs'
+import LRUCache from 'lru-cache'
 import path from 'path'
 import c from 'picocolors'
-import LRUCache from 'lru-cache'
-import { resolveTitleFromToken } from '@mdit-vue/shared'
 import type { SiteConfig } from './config'
-import { type PageData, type HeadConfig, EXTERNAL_URL_RE } from './shared'
-import { slash } from './utils/slash'
-import { getGitTimestamp } from './utils/getGitTimestamp'
 import {
   createMarkdownRenderer,
   type MarkdownEnv,
   type MarkdownOptions,
   type MarkdownRenderer
 } from './markdown'
-import _debug from 'debug'
+import { EXTERNAL_URL_RE, type HeadConfig, type PageData } from './shared'
+import { getGitTimestamp } from './utils/getGitTimestamp'
+import { slash } from './utils/slash'
 
 const debug = _debug('vitepress:md')
 const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
@@ -41,7 +41,12 @@ export async function createMarkdownToVueRenderFn(
   cleanUrls = false,
   siteConfig: SiteConfig | null = null
 ) {
-  const md = await createMarkdownRenderer(srcDir, options, base)
+  const md = await createMarkdownRenderer(
+    srcDir,
+    options,
+    base,
+    siteConfig?.logger
+  )
   pages = pages.map((p) => slash(p.replace(/\.md$/, '')))
   const replaceRegex = genReplaceRegexp(userDefines, isBuild)
 
@@ -95,7 +100,7 @@ export async function createMarkdownToVueRenderFn(
     // validate data.links
     const deadLinks: string[] = []
     const recordDeadLink = (url: string) => {
-      console.warn(
+      ;(siteConfig?.logger ?? console).warn(
         c.yellow(
           `\n(!) Found dead link ${c.cyan(url)} in file ${c.white(
             c.dim(file)

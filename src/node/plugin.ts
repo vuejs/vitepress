@@ -1,5 +1,6 @@
 import path from 'path'
 import c from 'picocolors'
+import type { OutputAsset, OutputChunk } from 'rollup'
 import {
   defineConfig,
   mergeConfig,
@@ -7,18 +8,17 @@ import {
   type Plugin,
   type ResolvedConfig
 } from 'vite'
-import type { SiteConfig } from './config'
-import { createMarkdownToVueRenderFn, clearCache } from './markdownToVue'
 import {
-  DIST_CLIENT_PATH,
   APP_PATH,
-  SITE_DATA_REQUEST_PATH,
-  resolveAliases
+  DIST_CLIENT_PATH,
+  resolveAliases,
+  SITE_DATA_REQUEST_PATH
 } from './alias'
-import { slash } from './utils/slash'
-import type { OutputAsset, OutputChunk } from 'rollup'
-import { staticDataPlugin } from './staticDataPlugin'
+import type { SiteConfig } from './config'
+import { clearCache, createMarkdownToVueRenderFn } from './markdownToVue'
 import type { PageDataPayload } from './shared'
+import { staticDataPlugin } from './staticDataPlugin'
+import { slash } from './utils/slash'
 import { webFontsPlugin } from './webFontsPlugin'
 
 const hashRE = /\.(\w+)\.js$/
@@ -290,19 +290,22 @@ export async function createVitePressPlugin(
     async handleHotUpdate(ctx) {
       const { file, read, server } = ctx
       if (file === configPath || configDeps.includes(file)) {
-        console.log(
+        siteConfig.logger.info(
           c.green(
-            `\n${path.relative(
+            `${path.relative(
               process.cwd(),
               file
-            )} changed, restarting server...`
-          )
+            )} changed, restarting server...\n`
+          ),
+          { clear: true, timestamp: true }
         )
         try {
           clearCache()
           await recreateServer?.()
         } catch (err) {
-          console.error(c.red(`failed to restart server. error:\n`), err)
+          siteConfig.logger.error(
+            c.red(`\nfailed to restart server. error:\n${err}`)
+          )
         }
         return
       }
