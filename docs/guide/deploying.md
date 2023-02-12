@@ -81,6 +81,9 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
    jobs:
      deploy:
        runs-on: ubuntu-latest
+       permissions:
+         pages: write     
+         id-token: write 
        environment:
          name: github-pages
          url: ${{ steps.deployment.outputs.page_url }}
