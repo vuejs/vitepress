@@ -50,9 +50,10 @@ export function useSidebar() {
   })
 
   const hasAside = computed(() => {
-    return (
-      frontmatter.value.layout !== 'home' && frontmatter.value.aside !== false
-    )
+    if (frontmatter.value.layout === 'home') return false
+    if (frontmatter.value.aside != null) return !!frontmatter.value.aside
+    if (theme.value.aside === false) return false
+    return true
   })
 
   const isSidebarEnabled = computed(() => hasSidebar.value && is960.value)

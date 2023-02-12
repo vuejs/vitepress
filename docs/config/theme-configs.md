@@ -157,6 +157,13 @@ export type SidebarItem = {
 }
 ```
 
+## aside
+
+- Type: `boolean`
+- Default: `true`
+
+Setting this value to `false` prevents rendering of aside container.
+
 ## outline
 
 - Type: `number | [number, number] | 'deep' | false`
@@ -300,7 +307,7 @@ An option to support searching your docs site using [Algolia DocSearch](https://
 
 ```ts
 export interface AlgoliaSearchOptions extends DocSearchProps {
-   locales?: Record<string, Partial<DocSearchProps>>
+  locales?: Record<string, Partial<DocSearchProps>>
 }
 ```
 
