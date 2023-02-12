@@ -3,15 +3,15 @@ import _debug from 'debug'
 import fg from 'fast-glob'
 import fs from 'fs-extra'
 import path from 'path'
-import { match, compile } from 'path-to-regexp'
+import { compile, match } from 'path-to-regexp'
 import c from 'picocolors'
 import {
   createLogger,
   loadConfigFromFile,
   mergeConfig as mergeViteConfig,
   normalizePath,
-  type UserConfig as ViteConfig,
-  type Logger
+  type Logger,
+  type UserConfig as ViteConfig
 } from 'vite'
 import { DEFAULT_THEME_PATH } from './alias'
 import type { MarkdownOptions } from './markdown/markdown'

@@ -1,6 +1,6 @@
+import compression from 'compression'
 import fs from 'fs'
 import path from 'path'
-import compression from 'compression'
 import polka, { type IOptions } from 'polka'
 import sirv, { type RequestHandler } from 'sirv'
 import { resolveConfig } from '../config'
@@ -55,14 +55,14 @@ export async function serve(options: ServeOptions = {}) {
       .use(base, compress, serve)
       .listen(port, () => {
         site.logger.info(
-          `Built site served at http://localhost:${port}/${base}/\n`
+          `Built site served at http://localhost:${port}/${base}/`
         )
       })
   } else {
     return polka({ onNoMatch })
       .use(compress, serve)
       .listen(port, () => {
-        site.logger.info(`Built site served at http://localhost:${port}/\n`)
+        site.logger.info(`Built site served at http://localhost:${port}/`)
       })
   }
 }

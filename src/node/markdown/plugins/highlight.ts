@@ -11,8 +11,8 @@ import {
   getHighlighter,
   type Processor
 } from 'shiki-processor'
-import type { ThemeOptions } from '../markdown'
 import type { Logger } from 'vite'
+import type { ThemeOptions } from '../markdown'
 
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)
 
@@ -59,7 +59,7 @@ const errorLevelProcessor = defineProcessor({
 export async function highlight(
   theme: ThemeOptions = 'material-theme-palenight',
   defaultLang: string = '',
-  logger: Logger
+  logger: Pick<Logger, 'warn'> = console
 ): Promise<(str: string, lang: string, attrs: string) => string> {
   const hasSingleTheme = typeof theme === 'string' || 'name' in theme
   const getThemeName = (themeValue: IThemeRegistration) =>
@@ -93,7 +93,7 @@ export async function highlight(
       if (!langLoaded && lang !== 'ansi') {
         logger.warn(
           c.yellow(
-            `The language '${lang}' is not loaded, falling back to '${
+            `\nThe language '${lang}' is not loaded, falling back to '${
               defaultLang || 'txt'
             }' for syntax highlighting.`
           )
