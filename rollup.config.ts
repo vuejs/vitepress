@@ -52,7 +52,8 @@ const esmBuild: RollupOptions = {
     format: 'esm',
     entryFileNames: `[name].js`,
     chunkFileNames: 'serve-[hash].js',
-    dir: r('dist/node')
+    dir: r('dist/node'),
+    sourcemap: DEV
   },
   external,
   plugins,
