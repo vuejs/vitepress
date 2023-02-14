@@ -3,11 +3,15 @@ import type MarkdownIt from 'markdown-it'
 export function preWrapperPlugin(md: MarkdownIt) {
   const fence = md.renderer.rules.fence!
   md.renderer.rules.fence = (...args) => {
-    const { info } = args[0][args[1]]
-    const lang = extractLang(info)
+    const [tokens, idx] = args
+    const token = tokens[idx]
+    // remove title from info
+    token.info = token.info.replace(/\[.*\]/, '')
+
+    const lang = extractLang(token.info)
     const rawCode = fence(...args)
     return `<div class="language-${lang}${
-      / active( |$)/.test(info) ? ' active' : ''
+      / active( |$)/.test(token.info) ? ' active' : ''
     }"><button title="Copy Code" class="copy"></button><span class="lang">${lang}</span>${rawCode}</div>`
   }
 }
@@ -19,7 +23,7 @@ export function extractTitle(info: string) {
 const extractLang = (info: string) => {
   return info
     .trim()
-    .replace(/:(no-)?line-numbers$/, '')
+    .replace(/:(no-)?line-numbers({| |$).*/, '')
     .replace(/(-vue|{| ).*$/, '')
     .replace(/^vue-html$/, 'template')
 }
