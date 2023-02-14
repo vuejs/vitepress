@@ -24,8 +24,8 @@ defineProps<{
         :width="icon.width"
       />
       <div v-else-if="icon" class="icon">{{ icon }}</div>
-      <h2 class="title">{{ title }}</h2>
-      <p class="details">{{ details }}</p>
+      <h2 class="title" v-html="title"></h2>
+      <p class="details" v-html="details"></p>
 
       <div v-if="linkText" class="link-text">
         <p class="link-text-value">

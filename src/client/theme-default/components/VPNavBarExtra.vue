@@ -20,7 +20,7 @@ const hasExtraContent = computed(
 
 <template>
   <VPFlyout v-if="hasExtraContent" class="VPNavBarExtra" label="extra navigation">
-    <div v-if="localeLinks.length && currentLang.label" class="group">
+    <div v-if="localeLinks.length && currentLang.label" class="group translations">
       <p class="trans-title">{{ currentLang.label }}</p>
 
       <template v-for="locale in localeLinks" :key="locale.link">

@@ -36,15 +36,22 @@ export const linkPlugin = (
           pushLink(url, env)
         }
         hrefAttr[1] = url.replace(PATHNAME_PROTOCOL_RE, '')
-      } else if (
-        // internal anchor links
-        !url.startsWith('#') &&
-        // mail links
-        !url.startsWith('mailto:') &&
-        // links to files (other than html/md)
-        !/\.(?!html|md)\w+($|\?)/i.test(url)
-      ) {
-        normalizeHref(hrefAttr, env)
+      } else {
+        if (
+          // internal anchor links
+          !url.startsWith('#') &&
+          // mail links
+          !url.startsWith('mailto:') &&
+          // links to files (other than html/md)
+          !/\.(?!html|md)\w+($|\?)/i.test(url)
+        ) {
+          normalizeHref(hrefAttr, env)
+        }
+
+        // append base to internal (non-relative) urls
+        if (hrefAttr[1].startsWith('/')) {
+          hrefAttr[1] = `${base}${hrefAttr[1]}`.replace(/\/+/g, '/')
+        }
       }
 
       // encode vite-specific replace strings in case they appear in URLs
@@ -89,11 +96,6 @@ export const linkPlugin = (
 
     // export it for existence check
     pushLink(url.replace(/\.html$/, ''), env)
-
-    // append base to internal (non-relative) urls
-    if (url.startsWith('/')) {
-      url = `${base}${url}`.replace(/\/+/g, '/')
-    }
 
     // markdown-it encodes the uri
     hrefAttr[1] = decodeURI(url)

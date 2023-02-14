@@ -18,17 +18,41 @@ $ mkdir vitepress-starter && cd vitepress-starter
 
 Then, initialize with your preferred package manager.
 
-```sh
+::: code-group
+
+```sh [npm]
+$ npm init
+```
+
+```sh [yarn]
 $ yarn init
 ```
+
+```sh [pnpm]
+$ pnpm init
+```
+
+:::
 
 ## Step 2: Install VitePress
 
 Add VitePress and Vue as dev dependencies for the project.
 
-```sh
-$ yarn add --dev vitepress vue
+::: code-group
+
+```sh [npm]
+$ npm install -D vitepress vue
 ```
+
+```sh [yarn]
+$ yarn add -D vitepress vue
+```
+
+```sh [pnpm]
+$ pnpm add -D vitepress vue
+```
+
+:::
 
 ::: details Getting missing peer deps warnings?
 `@docsearch/js` has certain issues with its peer dependencies. If you see some commands failing due to them, you can try this workaround for now:
@@ -71,10 +95,21 @@ Add some scripts to `package.json`.
 
 Serve the documentation site in the local server.
 
-```sh
+::: code-group
+
+```sh [npm]
+$ npm run docs:dev
+```
+
+```sh [yarn]
 $ yarn docs:dev
 ```
 
+```sh [pnpm]
+$ pnpm run docs:dev
+```
+
+:::
 VitePress will start a hot-reloading development server at `http://localhost:5173`.
 
 ## Step 4: Add more pages
@@ -104,3 +139,22 @@ If you would like to know more about what you can do within the page, for exampl
 If you want to know how to customize how the site looks (Theme), and find out the features VitePress's default theme provides, visit [Theme: Introduction](./theme-introduction).
 
 When your documentation site starts to take shape, be sure to read the [deployment guide](./deploying).
+
+<script setup>
+import { inBrowser } from 'vitepress'
+
+if (inBrowser) {
+  window.addEventListener('click', (e) => {
+    const el = e.target
+    if (el.matches('.vp-code-group input')) {
+      const allGroups = document.querySelectorAll('.vp-code-group')
+      const group = el.parentElement?.parentElement
+      const i = Array.from(group?.querySelectorAll('input') || []).indexOf(el)
+      for (let index = 0; index < allGroups.length; index++) {
+        if (allGroups[index] === group) continue
+        allGroups[index].querySelectorAll('input')[i].click()
+      }
+    }
+  })
+}
+</script>
