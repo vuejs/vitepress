@@ -651,29 +651,33 @@ export default config
 
 :::
 
-You can also include [snippets](#import-code-snippets) in code groups:
+You can also [import snippets](#import-code-snippets) in code groups:
 
-::: code-group
-
-<<< @/snippets/snippet.js [snippet.js]
-<<< @/snippets/snippet-with-region.js [snippet with region]
-<<< @/snippets/snippet.js{1,2,4-6 js}
-
-:::
+**Input**
 
 ```md
 ::: code-group
 
-<<< @/snippets/snippet.js [snippet.js]
+<!-- filename is used as title by default -->
 
-<!-- with custom tab titles -->
-<<< @/snippets/snippet-with-region.js [snippet with region]
+<<< @/snippets/snippet.js
 
-<!-- filename is grabbed by-default -->
-<<< @/snippets/snippet.js{1,2,4-6 js}
+<!-- you can provide a custom one too -->
+
+<<< @/snippets/snippet-with-region.js#snippet{1,2 ts:line-numbers} [snippet with region]
 
 :::
 ```
+
+**Output**
+
+::: code-group
+
+<<< @/snippets/snippet.js
+
+<<< @/snippets/snippet-with-region.js#snippet{1,2 ts:line-numbers} [snippet with region]
+
+:::
 
 ## Markdown File Inclusion
 

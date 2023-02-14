@@ -112,19 +112,16 @@ export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
       region = '',
       lines = '',
       lang = '',
-      title = ''
+      rawTitle = ''
     ] = (rawPathRegexp.exec(rawPath) || []).slice(1)
 
-    const splitPathname = filename.split('/')
-
-    const titleOrFilename =
-      title || splitPathname[splitPathname.length - 1] || filename
+    const title = rawTitle || filename.split('/').at(-1) || ''
 
     state.line = startLine + 1
 
     const token = state.push('fence', 'code', 0)
     token.info = `${lang || extension}${lines ? `{${lines}}` : ''}${
-      titleOrFilename ? `[${titleOrFilename}]` : ''
+      title ? `[${title}]` : ''
     }`
 
     // @ts-ignore
