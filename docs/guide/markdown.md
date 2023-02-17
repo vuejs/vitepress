@@ -651,6 +651,34 @@ export default config
 
 :::
 
+You can also [import snippets](#import-code-snippets) in code groups:
+
+**Input**
+
+```md
+::: code-group
+
+<!-- filename is used as title by default -->
+
+<<< @/snippets/snippet.js
+
+<!-- you can provide a custom one too -->
+
+<<< @/snippets/snippet-with-region.js#snippet{1,2 ts:line-numbers} [snippet with region]
+
+:::
+```
+
+**Output**
+
+::: code-group
+
+<<< @/snippets/snippet.js
+
+<<< @/snippets/snippet-with-region.js#snippet{1,2 ts:line-numbers} [snippet with region]
+
+:::
+
 ## Markdown File Inclusion
 
 You can include a markdown file in another markdown file like this:

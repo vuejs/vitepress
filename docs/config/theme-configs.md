@@ -157,6 +157,13 @@ export type SidebarItem = {
 }
 ```
 
+## aside
+
+- Type: `boolean`
+- Default: `true`
+
+Setting this value to `false` prevents rendering of aside container.
+
 ## outline
 
 - Type: `number | [number, number] | 'deep' | false`
@@ -300,17 +307,17 @@ An option to support searching your docs site using [Algolia DocSearch](https://
 
 ```ts
 export interface AlgoliaSearchOptions extends DocSearchProps {
-   locales?: Record<string, Partial<DocSearchProps>>
+  locales?: Record<string, Partial<DocSearchProps>>
 }
 ```
 
 View full options [here](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts).
 
-## carbonAds {#carbon-ads}
+## carbonAds
 
-- Type: `CarbonAds`
+- Type: `CarbonAdsOptions`
 
-A option to display [Carbon Ads](https://www.carbonads.net/).
+An option to display [Carbon Ads](https://www.carbonads.net/).
 
 ```ts
 export default {
@@ -324,7 +331,7 @@ export default {
 ```
 
 ```ts
-export interface CarbonAds {
+export interface CarbonAdsOptions {
   code: string
   placement: string
 }

@@ -125,8 +125,8 @@ You may configure the mapping via [`rewrites`](/config/app-configs#rewrites) opt
 ```ts
 export default {
   rewrites: {
-    'packages/pkg-a/src/pkg-a-code.md': 'pkg-a/pkg-a-code',
-    'packages/pkg-b/src/pkg-b-code.md': 'pkg-b/pkg-b-code'
+    'packages/pkg-a/src/pkg-a-code.md': 'pkg-a/pkg-a-code.md',
+    'packages/pkg-b/src/pkg-b-code.md': 'pkg-b/pkg-b-code.md'
   }
 }
 ```
@@ -156,8 +156,8 @@ export default {
 The above will create mapping as below.
 
 ```
-packages/pkg-a/src/pkg-a-code.md  -> /pkg-a/pkg-a-code
-packages/pkg-b/src/folder/file.md -> /pkg-b/folder/file
+packages/pkg-a/src/pkg-a-code.md  -> /pkg-a/pkg-a-code.md
+packages/pkg-b/src/folder/file.md -> /pkg-b/folder/file.md
 ```
 
 ::: warning You need server restart on page addition

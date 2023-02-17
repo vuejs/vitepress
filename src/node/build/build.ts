@@ -106,7 +106,9 @@ export async function build(
 
   await siteConfig.buildEnd?.(siteConfig)
 
-  console.log(`build complete in ${((Date.now() - start) / 1000).toFixed(2)}s.`)
+  siteConfig.logger.info(
+    `build complete in ${((Date.now() - start) / 1000).toFixed(2)}s.`
+  )
 }
 
 function linkVue() {
