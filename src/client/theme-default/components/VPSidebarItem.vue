@@ -118,6 +118,7 @@ function onCaretClick() {
 }
 
 .text {
+  display: inline-block;
   flex-grow: 1;
   padding: 4px 0;
   line-height: 24px;
