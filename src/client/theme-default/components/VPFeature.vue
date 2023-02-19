@@ -7,7 +7,7 @@ import VPIconArrowRight from './icons/VPIconArrowRight.vue'
 defineProps<{
   icon?: DefaultTheme.FeatureIcon
   title: string
-  details: string
+  details?: string
   link?: string
   linkText?: string
 }>()
