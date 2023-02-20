@@ -9,6 +9,7 @@ export default defineConfig({
   title: 'VitePress',
   description: 'Vite & Vue powered static site generator.',
 
+  created: true,
   lastUpdated: true,
   cleanUrls: true,
 
@@ -109,6 +110,7 @@ function sidebarGuide() {
         { text: 'Sidebar', link: '/guide/theme-sidebar' },
         { text: 'Prev Next Link', link: '/guide/theme-prev-next-link' },
         { text: 'Edit Link', link: '/guide/theme-edit-link' },
+        { text: 'Created', link: '/guide/theme-created' },
         { text: 'Last Updated', link: '/guide/theme-last-updated' },
         { text: 'Layout', link: '/guide/theme-layout' },
         { text: 'Home Page', link: '/guide/theme-home-page' },

@@ -6,7 +6,7 @@ import { useEditLink } from '../composables/edit-link.js'
 import { usePrevNext } from '../composables/prev-next.js'
 import VPIconEdit from './icons/VPIconEdit.vue'
 import VPLink from './VPLink.vue'
-import VPDocFooterLastUpdated from './VPDocFooterLastUpdated.vue'
+import VPDocFooterEditDates from "./VPDocFooterEditDates.vue";
 
 const { theme, page, frontmatter } = useData()
 
@@ -15,6 +15,9 @@ const control = usePrevNext()
 
 const hasEditLink = computed(() => {
   return theme.value.editLink && frontmatter.value.editLink !== false
+})
+const hasCreated = computed(() => {
+  return page.value.created && frontmatter.value.created !== false
 })
 const hasLastUpdated = computed(() => {
   return page.value.lastUpdated && frontmatter.value.lastUpdated !== false
@@ -26,7 +29,7 @@ const showFooter = computed(() => {
 
 <template>
   <footer v-if="showFooter" class="VPDocFooter">
-    <div v-if="hasEditLink || hasLastUpdated" class="edit-info">
+    <div v-if="hasEditLink || hasLastUpdated || hasCreated" class="edit-info">
       <div v-if="hasEditLink" class="edit-link">
         <VPLink class="edit-link-button" :href="editLink.url" :no-icon="true">
           <VPIconEdit class="edit-link-icon" />
@@ -34,8 +37,13 @@ const showFooter = computed(() => {
         </VPLink>
       </div>
 
-      <div v-if="hasLastUpdated" class="last-updated">
-        <VPDocFooterLastUpdated />
+      <div class="edit-dates">
+        <div v-if="hasCreated">
+          <VPDocFooterEditDates is-created="true"/>
+        </div>
+        <div v-if="hasLastUpdated">
+          <VPDocFooterEditDates />
+        </div>
       </div>
     </div>
 
@@ -65,12 +73,25 @@ const showFooter = computed(() => {
   padding-bottom: 18px;
 }
 
+.edit-dates {
+  display: flex;
+  flex-direction: column;
+  justify-content: right;
+}
+
+.edit-link {
+  align-self: flex-end;
+}
+
 @media (min-width: 640px) {
   .edit-info {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding-bottom: 14px;
+  }
+  .edit-dates {
+    text-align: right;
   }
 }
 

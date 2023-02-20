@@ -110,6 +110,19 @@ export default {
 }
 ```
 
+## created
+
+- Type: `boolean`
+- Default: `false`
+
+Use git commit to get the timestamp. This option enables the default theme to display the page's creation time. You can customize the text via [`themeConfig.createdText`](theme-configs#createdText) option.
+
+```ts
+export default {
+  created: true
+}
+```
+
 ## lastUpdated
 
 - Type: `boolean`
