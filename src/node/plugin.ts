@@ -307,9 +307,9 @@ export async function createVitePressPlugin(
         try {
           clearCache()
           await recreateServer?.()
-        } catch (err) {
+        } catch (err: any) {
           siteConfig.logger.error(
-            c.red(`\nfailed to restart server. error:\n${err}`)
+            `\n${c.red(`failed to restart server. error:`)}\n${err.stack}`
           )
         }
         return
