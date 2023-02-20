@@ -3,12 +3,14 @@ import _debug from 'debug'
 import fg from 'fast-glob'
 import fs from 'fs-extra'
 import path from 'path'
-import { match, compile } from 'path-to-regexp'
+import { compile, match } from 'path-to-regexp'
 import c from 'picocolors'
 import {
+  createLogger,
   loadConfigFromFile,
   mergeConfig as mergeViteConfig,
   normalizePath,
+  type Logger,
   type UserConfig as ViteConfig
 } from 'vite'
 import { DEFAULT_THEME_PATH } from './alias'
@@ -180,6 +182,7 @@ export interface SiteConfig<ThemeConfig = any>
     map: Record<string, string | undefined>
     inv: Record<string, string | undefined>
   }
+  logger: Logger
 }
 
 const resolve = (root: string, file: string) =>
@@ -211,6 +214,13 @@ export async function resolveConfig(
     command,
     mode
   )
+
+  const logger =
+    userConfig.vite?.customLogger ??
+    createLogger(userConfig.vite?.logLevel, {
+      prefix: '[vitepress]',
+      allowClearScreen: userConfig.vite?.clearScreen
+    })
   const site = await resolveSiteData(root, userConfig)
   const srcDir = path.resolve(root, userConfig.srcDir || '.')
   const outDir = userConfig.outDir
@@ -264,6 +274,7 @@ export async function resolveConfig(
     configDeps,
     outDir,
     cacheDir,
+    logger,
     tempDir: resolve(root, '.temp'),
     markdown: userConfig.markdown,
     lastUpdated: userConfig.lastUpdated,

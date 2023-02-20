@@ -48,6 +48,13 @@ export namespace DefaultTheme {
     sidebar?: Sidebar
 
     /**
+     * Set to `false` to prevent rendering of aside container.
+     *
+     * @default true
+     */
+    aside?: boolean
+
+    /**
      * Info for the edit link. If it's undefined, the edit link feature will
      * be disabled.
      */

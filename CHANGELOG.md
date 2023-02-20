@@ -1,3 +1,43 @@
+# [1.0.0-alpha.47](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.46...v1.0.0-alpha.47) (2023-02-20)
+
+
+### Bug Fixes
+
+* **build:** show error stack in logs ([#1960](https://github.com/vuejs/vitepress/issues/1960)) ([c4d8d72](https://github.com/vuejs/vitepress/commit/c4d8d7225c2d8dd75f1640730e8d1425097e3aa3))
+* custom titles of code snippets inside code groups ([#1834](https://github.com/vuejs/vitepress/issues/1834)) ([bcb8cbf](https://github.com/vuejs/vitepress/commit/bcb8cbf3c839dc17c1eaee7e39edb3ecca236a27))
+* **types:** augment vite user config ([#1946](https://github.com/vuejs/vitepress/issues/1946)) ([5c9b75e](https://github.com/vuejs/vitepress/commit/5c9b75e325c27f63373c969e16035a9df5292cc9))
+
+
+### Reverts
+
+* "docs: add linkage for `code-groups` in `getting-started`" ([#1943](https://github.com/vuejs/vitepress/issues/1943)) ([ed90724](https://github.com/vuejs/vitepress/commit/ed90724022359358de582a3c00e86f381d57eeba)), closes [#1906](https://github.com/vuejs/vitepress/issues/1906)
+
+
+
+# [1.0.0-alpha.46](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.45...v1.0.0-alpha.46) (2023-02-12)
+
+
+### Bug Fixes
+
+* **build:** prepend base to all internal non-relative links ([#1908](https://github.com/vuejs/vitepress/issues/1908)) ([dcf2941](https://github.com/vuejs/vitepress/commit/dcf29419f24bfb0fe99e424771be931bf77b9961))
+* **theme-default:** avoid preconnect without algolia ([#1902](https://github.com/vuejs/vitepress/issues/1902)) ([616fe5b](https://github.com/vuejs/vitepress/commit/616fe5b636050caa338cabede3794e658baa0ed6))
+* **theme-default:** remove duplicate judgments in `preconnect()` ([#1903](https://github.com/vuejs/vitepress/issues/1903)) ([48c9b11](https://github.com/vuejs/vitepress/commit/48c9b113161823133276198ebeb15131b83a7a75))
+* **theme:** make features support line wrapping ([#1913](https://github.com/vuejs/vitepress/issues/1913)) ([ea43076](https://github.com/vuejs/vitepress/commit/ea430760f507e3ba381c4ab01ec89a2111f35e8c))
+
+
+### Features
+
+* **build:** use vite logger ([#1899](https://github.com/vuejs/vitepress/issues/1899)) ([a00bb62](https://github.com/vuejs/vitepress/commit/a00bb621439b2571b3d33da6aa67c74ecd13d3c6))
+* **shiki:** support `ansi` code highlight ([#1878](https://github.com/vuejs/vitepress/issues/1878)) ([f974381](https://github.com/vuejs/vitepress/commit/f9743816a55503c387b9c71793a92eb38817650d))
+* **theme:** support disabling aside globally ([#1925](https://github.com/vuejs/vitepress/issues/1925)) ([dd0c4c6](https://github.com/vuejs/vitepress/commit/dd0c4c698c26d3e249d353c3baff568a8f406e8f))
+
+
+### BREAKING CHANGES
+
+* **build:** `base` is now prepended to all internal (non-relative) links, including any reference to a file present in the public directory. If you want the earlier behavior for such links, use absolute links.
+
+
+
 # [1.0.0-alpha.45](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.44...v1.0.0-alpha.45) (2023-01-31)
 
 
