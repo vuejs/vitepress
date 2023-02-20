@@ -43,6 +43,7 @@ export interface UserConfig<ThemeConfig = any>
   locales?: LocaleConfig<ThemeConfig>
 
   appearance?: boolean | 'dark'
+  created?: boolean
   lastUpdated?: boolean
 
   /**
@@ -160,6 +161,7 @@ export interface SiteConfig<ThemeConfig = any>
     | 'mpa'
     | 'lastUpdated'
     | 'ignoreDeadLinks'
+    | 'created'
     | 'cleanUrls'
     | 'useWebFonts'
     | 'postRender'
@@ -277,6 +279,7 @@ export async function resolveConfig(
     logger,
     tempDir: resolve(root, '.temp'),
     markdown: userConfig.markdown,
+    created: userConfig.created,
     lastUpdated: userConfig.lastUpdated,
     vue: userConfig.vue,
     vite: userConfig.vite,

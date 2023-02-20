@@ -68,6 +68,7 @@ export async function createVitePressPlugin(
     vite: userViteConfig,
     pages,
     ignoreDeadLinks,
+    created,
     lastUpdated,
     cleanUrls,
     rewrites
@@ -108,6 +109,7 @@ export async function createVitePressPlugin(
         config.define,
         config.command === 'build',
         config.base,
+        created,
         lastUpdated,
         cleanUrls,
         siteConfig
