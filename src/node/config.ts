@@ -43,6 +43,7 @@ export interface UserConfig<ThemeConfig = any>
   locales?: LocaleConfig<ThemeConfig>
 
   appearance?: boolean | 'dark'
+  created?: boolean
   lastUpdated?: boolean
 
   /**
@@ -159,6 +160,7 @@ export interface SiteConfig<ThemeConfig = any>
     | 'shouldPreload'
     | 'mpa'
     | 'lastUpdated'
+    | 'created'
     | 'ignoreDeadLinks'
     | 'cleanUrls'
     | 'useWebFonts'
@@ -278,6 +280,7 @@ export async function resolveConfig(
     tempDir: resolve(root, '.temp'),
     markdown: userConfig.markdown,
     lastUpdated: userConfig.lastUpdated,
+    created: userConfig.created,
     vue: userConfig.vue,
     vite: userConfig.vite,
     shouldPreload: userConfig.shouldPreload,

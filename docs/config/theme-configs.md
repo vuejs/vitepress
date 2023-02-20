@@ -284,6 +284,21 @@ export interface EditLink {
 }
 ```
 
+## createdText
+
+- Type: `string`
+- Default: `Created`
+
+The prefix text showing right before the created time.
+
+```ts
+export default {
+  themeConfig: {
+    createdText: 'Creation Date'
+  }
+}
+```
+
 ## lastUpdatedText
 
 - Type: `string`
