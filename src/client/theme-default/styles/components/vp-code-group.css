@@ -86,3 +86,18 @@
 .vp-code-group div[class*='language-'].active {
   display: block;
 }
+
+.vp-code-group .caption {
+  text-align: center;
+  margin-bottom: 16px;
+}
+.vp-code-group .caption span {
+  border-bottom: 1px solid var(--vp-c-divider);
+  padding: 0.25em 2em 0.5em;
+  display: inline-block;
+  max-width: 100%;
+}
+
+.vp-doc .vp-code-group:has(> .caption) div[class*='language-'] {
+  margin-bottom: 0
+}
