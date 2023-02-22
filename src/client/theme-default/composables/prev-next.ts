@@ -15,12 +15,16 @@ export function usePrevNext() {
     })
 
     return {
-      prev: frontmatter.value.prev
-        ? { ...candidates[index - 1], text: frontmatter.value.prev }
-        : candidates[index - 1],
-      next: frontmatter.value.next
-        ? { ...candidates[index + 1], text: frontmatter.value.next }
-        : candidates[index + 1]
+      prev: {
+        ...candidates[index - 1],
+        text: frontmatter.value.prev?.text ?? candidates[index - 1]?.text,
+        link: frontmatter.value.prev?.link ?? candidates[index - 1]?.link
+      },
+      next: {
+        ...candidates[index + 1],
+        text: frontmatter.value.next?.text ?? candidates[index + 1]?.text,
+        link: frontmatter.value.next?.link ?? candidates[index + 1]?.link
+      }
     }
   })
 }
