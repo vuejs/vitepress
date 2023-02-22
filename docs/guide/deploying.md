@@ -17,7 +17,7 @@ The following guides are based on some shared assumptions:
 
 ::: tip
 
-If your site is to be served at a subdirectory (`https://example.com/subdir/`), then you have to set `'/subdir/'` as the [`base`](../config/app-configs#base) in your `docs/.vitepress/config.js`.
+If your site is to be served at a subdirectory (`https://example.com/subdir/`), then you have to set `'/subdir/'` as the [`base`](../config/app-config#base) in your `docs/.vitepress/config.js`.
 
 **Example:** If you're using Github (or GitLab) Pages and deploying to `user.github.io/repo/`, then set your `base` to `/repo/`.
 
@@ -82,8 +82,8 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
      deploy:
        runs-on: ubuntu-latest
        permissions:
-         pages: write     
-         id-token: write 
+         pages: write
+         id-token: write
        environment:
          name: github-pages
          url: ${{ steps.deployment.outputs.page_url }}

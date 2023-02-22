@@ -58,7 +58,7 @@ export default defineConfig({
 function nav() {
   return [
     { text: 'Guide', link: '/guide/what-is-vitepress', activeMatch: '/guide/' },
-    { text: 'Configs', link: '/config/introduction', activeMatch: '/config/' },
+    { text: 'Config Reference', link: '/config/introduction', activeMatch: '/config/' },
     {
       text: pkg.version,
       items: [
@@ -139,12 +139,12 @@ function sidebarGuide() {
 function sidebarConfig() {
   return [
     {
-      text: 'Config',
+      text: 'Config Reference',
       items: [
         { text: 'Introduction', link: '/config/introduction' },
-        { text: 'App Configs', link: '/config/app-configs' },
-        { text: 'Theme Configs', link: '/config/theme-configs' },
-        { text: 'Frontmatter Configs', link: '/config/frontmatter-configs' }
+        { text: 'App Config', link: '/config/app-config' },
+        { text: 'Default Theme Config', link: '/config/theme-config' },
+        { text: 'Frontmatter Config', link: '/config/frontmatter-config' }
       ]
     }
   ]

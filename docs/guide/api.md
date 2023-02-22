@@ -66,7 +66,7 @@ interface Router {
 
 - **Type**: `(path: string) => string`
 
-Appends the configured [`base`](../config/app-configs#base) to a given URL path. Also see [Base URL](./asset-handling#base-url).
+Appends the configured [`base`](../config/app-config#base) to a given URL path. Also see [Base URL](./asset-handling#base-url).
 
 ## `<Content />`
 
