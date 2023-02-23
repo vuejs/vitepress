@@ -42,4 +42,4 @@ VitePress is the spiritual successor of VuePress. The original VuePress was base
 
 The API difference between VitePress and VuePress mostly lies in theming and customization. If you are using VuePress 1 with the default theme, it should be relatively straightforward to migrate to VitePress.
 
-There has also been a lot of community-led effort invested into VuePress 2, which also supports Vue 3 and Vite. VitePress also includes features ported from VuePress 2. However, VuePress 2 is now considered a community project, whereas VitePress is what the Vue team intends to focus on in the long run.
+There has also been effort invested into VuePress 2, which also supports Vue 3 and Vite with more compatibility with VuePress 1. However, maintaining two SSGs in parallel isn't sustainable, so the Vue team has decided to focus on VitePress as the main recommended SSG in the long run.
