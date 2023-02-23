@@ -20,7 +20,7 @@ export const containerPlugin = (md: MarkdownIt) => {
       render: (tokens: Token[], idx: number) =>
         tokens[idx].nesting === 1 ? `<div class="vp-raw">\n` : `</div>\n`
     })
-    .use(...createCodeGroup())
+    .use(...createCodeGroup('code-group', md))
 }
 
 type ContainerArgs = [typeof container, string, { render: RenderRule }]
@@ -51,10 +51,10 @@ function createContainer(
   ]
 }
 
-function createCodeGroup(): ContainerArgs {
+function createCodeGroup(klass: string, md: MarkdownIt): ContainerArgs {
   return [
     container,
-    'code-group',
+    klass,
     {
       render(tokens, idx) {
         if (tokens[idx].nesting === 1) {
@@ -84,7 +84,26 @@ function createCodeGroup(): ContainerArgs {
 
           return `<div class="vp-code-group"><div class="tabs">${tabs}</div><div class="blocks">\n`
         }
-        return `</div></div>\n`
+
+        // handle code group caption
+        let caption = ''
+        if (tokens[idx].type === 'container_code-group_close') {
+          for (let i = idx - 1; i >= 0; i--) {
+            if (tokens[i].type !== 'container_code-group_open') {
+              continue
+            }
+
+            const info = tokens[i].info.trim().slice(klass.length).trim()
+            const title = md.renderInline(info || '')
+
+            if (title !== '') {
+              caption = `\n<div class="caption"><span>${title}</span></div>\n`
+            }
+            break
+          }
+        }
+
+        return `</div>${caption}</div>\n`
       }
     }
   ]
