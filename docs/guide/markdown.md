@@ -215,7 +215,7 @@ Wraps in a <div class="vp-raw">
 - Install required deps with your preferred package manager:
 
   ```sh
-  $ yarn add -D postcss postcss-prefix-selector
+  $ npm install -D postcss postcss-prefix-selector
   ```
 
 - Create a file named `docs/.postcssrc.cjs` and add this to it:
