@@ -1,4 +1,4 @@
-# API Reference
+# Runtime API Reference
 
 VitePress offers several built-in APIs to let you access app data. VitePress also comes with a few built-in components that can be used globally.
 
@@ -66,11 +66,11 @@ interface Router {
 
 - **Type**: `(path: string) => string`
 
-Appends the configured [`base`](../config/app-config#base) to a given URL path. Also see [Base URL](./asset-handling#base-url).
+Appends the configured [`base`](/config/app-config#base) to a given URL path. Also see [Base URL](/guide/asset-handling#base-url).
 
 ## `<Content />`
 
-The `<Content />` component displays the rendered markdown contents. Useful [when creating your own theme](./theme-introduction).
+The `<Content />` component displays the rendered markdown contents. Useful [when creating your own theme](/guide/customization-intro).
 
 ```vue
 <template>

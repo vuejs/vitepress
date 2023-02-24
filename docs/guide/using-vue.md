@@ -36,7 +36,7 @@ Directives also work:
 
 ### Access to Site & Page Data
 
-You can use the [`useData` helper](./api#usedata) in a `<script>` block and expose the data to the page.
+You can use the [`useData` helper](/api/#usedata) in a `<script>` block and expose the data to the page.
 
 **Input**
 
@@ -104,7 +104,7 @@ This is a .md using a custom component
 
 ### Registering global components in the theme
 
-If the components are going to be used across several pages in the docs, they can be registered globally in the theme (or as part of extending the default VitePress theme). Check out the [Theming Guide](./theme-introduction) for more information.
+If the components are going to be used across several pages in the docs, they can be registered globally in the theme (or as part of extending the default VitePress theme). Check out the [Customization Guide](./customization-intro) for more information.
 
 In `.vitepress/theme/index.js`, the `enhanceApp` function receives the Vue `app` instance so you can [register components](https://vuejs.org/guide/components/registration.html) as you would do in a regular Vue application.
 
@@ -198,7 +198,7 @@ export default {
 
 ## Built-In Components
 
-VitePress provides Built-In Vue Components like `ClientOnly`, check out the [Global Component Guide](./api) for more information.
+VitePress provides Built-In Vue Components like `ClientOnly`, check out the [Global Component Guide](/api/) for more information.
 
 **Also see:**
 

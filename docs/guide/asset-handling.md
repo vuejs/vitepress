@@ -45,7 +45,7 @@ However, if you are authoring a theme component that links to assets dynamically
 <img :src="theme.logoPath" />
 ```
 
-In this case it is recommended to wrap the path with the [`withBase` helper](./api#withbase) provided by VitePress:
+In this case it is recommended to wrap the path with the [`withBase` helper](/api/#withbase) provided by VitePress:
 
 ```vue
 <script setup>
