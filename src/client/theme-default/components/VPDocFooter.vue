@@ -39,15 +39,15 @@ const showFooter = computed(() => {
       </div>
     </div>
 
-    <div v-if="control.prev || control.next" class="prev-next">
+    <div v-if="control.prev?.link || control.next?.link" class="prev-next">
       <div class="pager">
-        <a v-if="control.prev" class="pager-link prev" :href="normalizeLink(control.prev.link)">
+        <a v-if="control.prev?.link" class="pager-link prev" :href="normalizeLink(control.prev.link)">
           <span class="desc" v-html="theme.docFooter?.prev || 'Previous page'"></span>
           <span class="title" v-html="control.prev.text"></span>
         </a>
       </div>
-      <div class="pager" :class="{ 'has-prev': control.prev }">
-        <a v-if="control.next" class="pager-link next" :href="normalizeLink(control.next.link)">
+      <div class="pager" :class="{ 'has-prev': control.prev?.link }">
+        <a v-if="control.next?.link" class="pager-link next" :href="normalizeLink(control.next.link)">
           <span class="desc" v-html="theme.docFooter?.next || 'Next page'"></span>
           <span class="title" v-html="control.next.text"></span>
         </a>
