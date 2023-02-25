@@ -25,7 +25,7 @@ defineProps<{
       />
       <div v-else-if="icon" class="icon">{{ icon }}</div>
       <h2 class="title" v-html="title"></h2>
-      <p class="details" v-html="details"></p>
+      <p v-if="details" class="details" v-html="details"></p>
 
       <div v-if="linkText" class="link-text">
         <p class="link-text-value">
