@@ -37,5 +37,6 @@ const isExternal = computed(() => props.href && EXTERNAL_URL_RE.test(props.href)
   height: 11px;
   fill: var(--vp-c-text-3);
   transition: fill 0.25s;
+  flex-shrink: 0;
 }
 </style>
