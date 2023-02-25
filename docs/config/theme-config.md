@@ -1,6 +1,6 @@
-# Theme Configs
+# Default Theme Config
 
-Theme configs let you customize your theme. You can define theme configs by adding `themeConfig` key to the config file.
+Theme config lets you customize your theme. You can define theme config via the `themeConfig` option in the config file:
 
 ```ts
 export default {
@@ -17,7 +17,7 @@ export default {
 }
 ```
 
-Here it describes the settings for the VitePress default theme. If you're using a custom theme created by others, these settings may not have any effect, or might behave differently.
+**The options documented on this page only apply to the default theme.** Different themes expect different theme config. When using a custom theme, the theme config object will be passed to the theme so the theme can define conditional behavior based on it.
 
 ## i18nRouting
 
