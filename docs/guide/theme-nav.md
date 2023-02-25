@@ -138,6 +138,25 @@ export default {
 `activeMatch` is expected to be a regex string, but you must define it as a string. We can't use actual RegExp object here because it isn't serializable during the build time.
 :::
 
+### Customize link's "target" and "rel" attributes
+
+By default, VitePress automatically determines `target` and `rel` attributes based on whether the link is an external link. But if you want, you can customize them too.
+
+```js
+export default {
+  themeConfig: {
+    nav: [
+      {
+        text: 'Merchandise',
+        link: 'https://www.thegithubshop.com/',
+        target: '_self',
+        rel: 'sponsored'
+      }
+    ]
+  }
+}
+```
+
 ## Social Links
 
 Refer [`socialLinks`](../config/theme-config#sociallinks).

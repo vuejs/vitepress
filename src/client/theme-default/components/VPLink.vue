@@ -8,6 +8,8 @@ const props = defineProps<{
   tag?: string
   href?: string
   noIcon?: boolean
+  target?: string
+  rel?: string
 }>()
 
 const tag = computed(() => props.tag ?? props.href ? 'a' : 'span')
@@ -20,8 +22,8 @@ const isExternal = computed(() => props.href && EXTERNAL_URL_RE.test(props.href)
     class="VPLink"
     :class="{ link: href }"
     :href="href ? normalizeLink(href) : undefined"
-    :target="isExternal ? '_blank' : undefined"
-    :rel="isExternal ? 'noreferrer' : undefined"
+    :target="target || (isExternal ? '_blank' : undefined)"
+    :rel="rel || (isExternal ? 'noreferrer' : undefined)"
   >
     <slot />
     <VPIconExternalLink v-if="isExternal && !noIcon" class="icon" />

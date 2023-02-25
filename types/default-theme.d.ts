@@ -120,7 +120,7 @@ export namespace DefaultTheme {
 
   export type NavItem = NavItemWithLink | NavItemWithChildren
 
-  export type NavItemWithLink = {
+  export interface NavItemWithLink {
     text: string
     link: string
 
@@ -129,9 +129,11 @@ export namespace DefaultTheme {
      * RegExp object here because it isn't serializable
      */
     activeMatch?: string
+    target?: string
+    rel?: string
   }
 
-  export type NavItemChildren = {
+  export interface NavItemChildren {
     text?: string
     items: NavItemWithLink[]
   }
