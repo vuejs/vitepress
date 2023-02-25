@@ -22,7 +22,6 @@ const { page } = useData()
       )
     }"
     :href="item.link"
-    :noIcon="true"
   >
     {{ item.text }}
   </VPLink>
