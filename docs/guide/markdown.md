@@ -281,7 +281,7 @@ export default {
 
 A [list of valid languages](https://github.com/shikijs/shiki/blob/main/docs/languages.md) is available on Shiki's repository.
 
-You may also customize syntax highlight theme in app config. Please see [`markdown` options](../config/app-configs#markdown) for more details.
+You may also customize syntax highlight theme in app config. Please see [`markdown` options](../config/app-config#markdown) for more details.
 
 ## Line Highlighting in Code Blocks
 
@@ -493,7 +493,7 @@ export default {
 }
 ```
 
-Please see [`markdown` options](../config/app-configs#markdown) for more details.
+Please see [`markdown` options](../config/app-config#markdown) for more details.
 
 You can add `:line-numbers` / `:no-line-numbers` mark in your fenced code blocks to override the value set in config.
 
@@ -748,4 +748,4 @@ module.exports = {
 }
 ```
 
-See full list of configurable properties in [Configs: App Configs](../config/app-configs#markdown).
+See full list of configurable properties in [Config Reference: App Config](../config/app-config#markdown).

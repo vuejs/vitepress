@@ -115,7 +115,7 @@ export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
       rawTitle = ''
     ] = (rawPathRegexp.exec(rawPath) || []).slice(1)
 
-    const title = rawTitle || filename.split('/').at(-1) || ''
+    const title = rawTitle || filename.split('/').pop() || ''
 
     state.line = startLine + 1
 

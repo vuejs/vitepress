@@ -99,7 +99,7 @@ export function resolveSiteDataByRoute(
 }
 
 /**
- * Create the page title string based on configs.
+ * Create the page title string based on config.
  */
 export function createTitle(siteData: SiteData, pageData: PageData): string {
   const title = pageData.title || siteData.title

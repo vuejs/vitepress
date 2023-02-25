@@ -4,7 +4,7 @@ The Nav is the navigation bar displayed on top of the page. It contains the site
 
 ## Site Title and Logo
 
-By default, nav shows the title of the site referencing [`config.title`](../config/app-configs#title) value. If you would like to change what's displayed on nav, you may define custom text in `themeConfig.siteTitle` option.
+By default, nav shows the title of the site referencing [`config.title`](../config/app-config#title) value. If you would like to change what's displayed on nav, you may define custom text in `themeConfig.siteTitle` option.
 
 ```js
 export default {
@@ -35,7 +35,7 @@ export default {
 }
 ```
 
-You can also pass an object as logo if you want to add `alt` attribute or customize it based on dark/light mode. Refer [`themeConfig.logo`](../config/theme-configs#logo) for details.
+You can also pass an object as logo if you want to add `alt` attribute or customize it based on dark/light mode. Refer [`themeConfig.logo`](../config/theme-config#logo) for details.
 
 ## Navigation Links
 
@@ -46,7 +46,7 @@ export default {
   themeConfig: {
     nav: [
       { text: 'Guide', link: '/guide' },
-      { text: 'Configs', link: '/configs' },
+      { text: 'Config', link: '/config' },
       { text: 'Changelog', link: 'https://github.com/...' }
     ]
   }
@@ -140,4 +140,4 @@ export default {
 
 ## Social Links
 
-Refer [`socialLinks`](../config/theme-configs#sociallinks).
+Refer [`socialLinks`](../config/theme-config#sociallinks).
