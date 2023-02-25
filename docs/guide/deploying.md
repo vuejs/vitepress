@@ -111,11 +111,13 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
    Please replace the corresponding branch name. For example, if the branch you want to build is `master`, then you should replace `main` with `master` in the above file.
    :::
 
-3. Now commit your code and push it to the `main` branch.
+3. In your repository's Settings under Pages menu item, select `GitHub Actions` in Build and deployment's Source.
 
-4. Wait for actions to complete.
+4. Now commit your code and push it to the `main` branch.
 
-5. In your repository's Settings under Pages menu item, select `gh-pages` branch as GitHub Pages source. Now your docs will automatically deploy each time you push.
+5. Wait for actions to complete.
+
+6. In your repository's Settings under Pages menu item, click `Visit site`, then you can see your site. Your docs will automatically deploy each time you push.
 
 ## GitLab Pages
 
