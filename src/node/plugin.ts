@@ -21,6 +21,12 @@ import { staticDataPlugin } from './staticDataPlugin'
 import { slash } from './utils/slash'
 import { webFontsPlugin } from './webFontsPlugin'
 
+declare module 'vite' {
+  interface UserConfig {
+    vitepress?: SiteConfig
+  }
+}
+
 const hashRE = /\.(\w+)\.js$/
 const staticInjectMarkerRE =
   /\b(const _hoisted_\d+ = \/\*(?:#|@)__PURE__\*\/\s*createStaticVNode)\("(.*)", (\d+)\)/g
@@ -131,7 +137,6 @@ export async function createVitePressPlugin(
             ]
           }
         },
-        // @ts-ignore
         vitepress: siteConfig
       })
       return userViteConfig
@@ -302,9 +307,9 @@ export async function createVitePressPlugin(
         try {
           clearCache()
           await recreateServer?.()
-        } catch (err) {
+        } catch (err: any) {
           siteConfig.logger.error(
-            c.red(`\nfailed to restart server. error:\n${err}`)
+            `\n${c.red(`failed to restart server. error:`)}\n${err.stack}`
           )
         }
         return
