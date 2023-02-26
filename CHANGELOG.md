@@ -1,3 +1,23 @@
+# [1.0.0-alpha.48](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.47...v1.0.0-alpha.48) (2023-02-26)
+
+
+### Bug Fixes
+
+* **compat:** remove use of array.at ([fd99590](https://github.com/vuejs/vitepress/commit/fd995906f61e5181ca8e1116dcd93eec65075056))
+* **theme:** add height constraints to hero image  ([#1983](https://github.com/vuejs/vitepress/issues/1983)) ([803d5b6](https://github.com/vuejs/vitepress/commit/803d5b6d663b5293c70672ca5526a33f454e4a17))
+* **theme:** allow empty details in home feature ([#1936](https://github.com/vuejs/vitepress/issues/1936)) ([#1963](https://github.com/vuejs/vitepress/issues/1963)) ([b56351c](https://github.com/vuejs/vitepress/commit/b56351c7785b7a3a3413dcf24d7ac63c1f40fd2b))
+* **theme:** show external link icon in navbar  ([#1881](https://github.com/vuejs/vitepress/issues/1881)) ([8e6e8d9](https://github.com/vuejs/vitepress/commit/8e6e8d9af534e124cb16552686b460e19d0f894f)), closes [#1948](https://github.com/vuejs/vitepress/issues/1948)
+* **theme:** show external link icon on same line ([#1880](https://github.com/vuejs/vitepress/issues/1880)) ([6218b10](https://github.com/vuejs/vitepress/commit/6218b108bc78aed0ec1afd3d1cf4182e611eed90))
+
+
+### Features
+
+* **build:** add support for custom languages ([#1837](https://github.com/vuejs/vitepress/issues/1837)) ([5a6d384](https://github.com/vuejs/vitepress/commit/5a6d3849527ee1dfd9f4299f5350cfa7641effb7))
+* **theme:** make prev/next links changeable ([#1972](https://github.com/vuejs/vitepress/issues/1972)) ([b8a5e8e](https://github.com/vuejs/vitepress/commit/b8a5e8e5b24b025c9a5e4850b72296f726ae71e5))
+* **theme:** support custom target and rel in navbar links ([#1993](https://github.com/vuejs/vitepress/issues/1993)) ([e2d4edf](https://github.com/vuejs/vitepress/commit/e2d4edf45b5ec890c088d3b0517b21a7b3eab9df))
+
+
+
 # [1.0.0-alpha.47](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.46...v1.0.0-alpha.47) (2023-02-20)
 
 
