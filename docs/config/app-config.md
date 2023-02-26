@@ -154,6 +154,10 @@ interface MarkdownOptions extends MarkdownIt.Options {
   // Enable line numbers in code block.
   lineNumbers?: boolean
 
+  // Add support for your own languages.
+  // https://github.com/shikijs/shiki/blob/main/docs/languages.md#supporting-your-own-languages-with-shiki
+  languages?: Shiki.ILanguageRegistration
+
   // markdown-it-anchor plugin options.
   // See: https://github.com/valeriangalliat/markdown-it-anchor#usage
   anchor?: anchorPlugin.AnchorOptions

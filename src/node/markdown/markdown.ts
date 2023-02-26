@@ -15,7 +15,7 @@ import MarkdownIt from 'markdown-it'
 import anchorPlugin from 'markdown-it-anchor'
 import attrsPlugin from 'markdown-it-attrs'
 import emojiPlugin from 'markdown-it-emoji'
-import type { IThemeRegistration } from 'shiki'
+import type { ILanguageRegistration, IThemeRegistration } from 'shiki'
 import type { Logger } from 'vite'
 import { containerPlugin } from './plugins/containers'
 import { highlight } from './plugins/highlight'
@@ -47,6 +47,7 @@ export interface MarkdownOptions extends MarkdownIt.Options {
   headers?: HeadersPluginOptions
   sfc?: SfcPluginOptions
   theme?: ThemeOptions
+  languages?: ILanguageRegistration[]
   toc?: TocPluginOptions
   externalLinks?: Record<string, string>
 }
@@ -64,7 +65,12 @@ export const createMarkdownRenderer = async (
     linkify: true,
     highlight:
       options.highlight ||
-      (await highlight(options.theme, options.defaultHighlightLang, logger)),
+      (await highlight(
+        options.theme,
+        options.languages,
+        options.defaultHighlightLang,
+        logger
+      )),
     ...options
   }) as MarkdownRenderer
 
