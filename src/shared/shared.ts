@@ -41,6 +41,10 @@ export function isActive(
 
   currentPath = normalize(`/${currentPath}`)
 
+  if (currentPath === matchPath.replace(/\/$/, '')) {
+    return true
+  }
+
   if (asRegex) {
     return new RegExp(matchPath).test(currentPath)
   }
