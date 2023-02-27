@@ -15,7 +15,11 @@ import {
 } from 'vite'
 import { DEFAULT_THEME_PATH } from './alias'
 import type { MarkdownOptions } from './markdown/markdown'
-import { dynamicRouteRE } from './plugins/dynamicRoutesPlugin'
+import {
+  dynamicRouteRE,
+  resolveRoutes,
+  type ResolvedRouteConfig
+} from './plugins/dynamicRoutesPlugin'
 import {
   APPEARANCE_KEY,
   type Awaitable,
@@ -179,7 +183,7 @@ export interface SiteConfig<ThemeConfig = any>
   cacheDir: string
   tempDir: string
   pages: string[]
-  dynamicRoutes: string[]
+  dynamicRoutes: readonly [ResolvedRouteConfig[], Record<string, string[]>]
   rewrites: {
     map: Record<string, string | undefined>
     inv: Record<string, string | undefined>
@@ -252,7 +256,11 @@ export async function resolveConfig(
   ).sort()
 
   const pages = allMarkdownFiles.filter((p) => !dynamicRouteRE.test(p))
-  const dynamicRoutes = allMarkdownFiles.filter((p) => dynamicRouteRE.test(p))
+  const dynamicRouteFiles = allMarkdownFiles.filter((p) =>
+    dynamicRouteRE.test(p)
+  )
+  const dynamicRoutes = await resolveRoutes(dynamicRouteFiles)
+  pages.push(...dynamicRoutes[0].map((r) => r.path))
 
   const rewriteEntries = Object.entries(userConfig.rewrites || {})
   const rewrites = rewriteEntries.length

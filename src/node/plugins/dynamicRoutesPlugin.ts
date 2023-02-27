@@ -41,8 +41,8 @@ export const dynamicRoutesPlugin = async (
   config: SiteConfig
 ): Promise<Plugin> => {
   let server: ViteDevServer
-  let routes = config.dynamicRoutes
-  let [resolvedRoutes, routeFileToModulesMap] = await resolveRoutes(routes)
+  let routes = config.dynamicRoutes[0].map(r => r.route)
+  let [resolvedRoutes, routeFileToModulesMap] = config.dynamicRoutes
 
   // TODO: make this more efficient by only reloading the invalidated route
   // TODO: invlidate modules for paths that are no longer present

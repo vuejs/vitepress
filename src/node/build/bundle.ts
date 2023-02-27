@@ -20,8 +20,7 @@ export const failMark = '\x1b[31m✖\x1b[0m'
 // bundles the VitePress app for both client AND server.
 export async function bundle(
   config: SiteConfig,
-  options: BuildOptions,
-  allPages: string[]
+  options: BuildOptions
 ): Promise<{
   clientResult: RollupOutput
   serverResult: RollupOutput
@@ -35,7 +34,7 @@ export async function bundle(
   // the loading is done via filename conversion rules so that the
   // metadata doesn't need to be included in the main chunk.
   const input: Record<string, string> = {}
-  allPages.forEach((file) => {
+  config.pages.forEach((file) => {
     // page filename conversion
     // foo/bar.md -> foo_bar.md
     const alias = config.rewrites.map[file] || file
