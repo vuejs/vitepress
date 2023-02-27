@@ -74,6 +74,8 @@ export const createMarkdownRenderer = async (
     ...options
   }) as MarkdownRenderer
 
+  md.linkify.set({ fuzzyLink: false })
+
   // custom plugins
   md.use(componentPlugin)
     .use(highlightLinePlugin)
