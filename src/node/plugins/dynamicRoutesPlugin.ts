@@ -9,7 +9,7 @@ import c from 'picocolors'
 import path from 'path'
 import type { SiteConfig } from '../config'
 
-export const dynamicRouteRE = /\[(\.\.\.)?\w+\]/
+export const dynamicRouteRE = /\[(\w+?)\]/g
 
 interface UserRouteConfig {
   params: Record<string, string>
@@ -26,7 +26,7 @@ interface RouteModule {
   dependencies: string[]
 }
 
-type ResolvedRouteConfig = UserRouteConfig & {
+export type ResolvedRouteConfig = UserRouteConfig & {
   /**
    * the raw route, e.g. foo/[bar].md
    */
@@ -81,6 +81,17 @@ export const dynamicRoutesPlugin = async (
         })
     },
 
+    resolveId(id) {
+      if (!id.endsWith('.md')) return
+      const normalizedId = id.startsWith(config.root)
+        ? normalizePath(path.relative(config.root, id))
+        : id.replace(/^\//, '')
+      const matched = resolvedRoutes.find((r) => r.path === normalizedId)
+      if (matched) {
+        return normalizedId
+      }
+    },
+
     load(id) {
       const matched = resolvedRoutes.find((r) => r.path === id)
       if (matched) {
@@ -121,7 +132,7 @@ export const dynamicRoutesPlugin = async (
   }
 }
 
-async function resolveRoutes(routes: string[]) {
+export async function resolveRoutes(routes: string[]) {
   const pendingResolveRoutes: Promise<ResolvedRouteConfig[]>[] = []
   const routeFileToModulesMap: Record<string, string[]> = {}
 
@@ -165,9 +176,10 @@ async function resolveRoutes(routes: string[]) {
         const paths = await (typeof loader === 'function' ? loader() : loader)
         return paths.map((userConfig) => {
           return {
-            path:
-              '/' +
-              route.replace(/\[(\w+)\]/g, (_, key) => userConfig.params[key]),
+            path: route.replace(
+              dynamicRouteRE,
+              (_, key) => userConfig.params[key]
+            ),
             route,
             ...userConfig
           }

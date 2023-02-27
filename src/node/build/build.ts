@@ -9,6 +9,7 @@ import { bundle, okMark, failMark } from './bundle'
 import { createRequire } from 'module'
 import { pathToFileURL } from 'url'
 import pkgDir from 'pkg-dir'
+import { resolveRoutes } from '../plugins/dynamicRoutesPlugin'
 
 export async function build(
   root?: string,
@@ -31,9 +32,16 @@ export async function build(
   }
 
   try {
+    const [dynamicRoutes] = await resolveRoutes(siteConfig.dynamicRoutes)
+    const allPages = [
+      ...siteConfig.pages,
+      ...dynamicRoutes.map((r) => r.path)
+    ]
+
     const { clientResult, serverResult, pageToHashMap } = await bundle(
       siteConfig,
-      buildOptions
+      buildOptions,
+      allPages
     )
 
     const entryPath = path.join(siteConfig.tempDir, 'app.js')
@@ -64,23 +72,21 @@ export async function build(
       // as JS object literal.
       const hashMapString = JSON.stringify(JSON.stringify(pageToHashMap))
 
-      const pages = ['404.md', ...siteConfig.pages].map(
-        (page) => siteConfig.rewrites.map[page] || page
-      )
-
       await Promise.all(
-        pages.map((page) =>
-          renderPage(
-            render,
-            siteConfig,
-            page,
-            clientResult,
-            appChunk,
-            cssChunk,
-            pageToHashMap,
-            hashMapString
+        ['404.md', ...allPages]
+          .map((page) => siteConfig.rewrites.map[page] || page)
+          .map((page) =>
+            renderPage(
+              render,
+              siteConfig,
+              page,
+              clientResult,
+              appChunk,
+              cssChunk,
+              pageToHashMap,
+              hashMapString
+            )
           )
-        )
       )
     } catch (e) {
       spinner.stopAndPersist({
