@@ -462,8 +462,8 @@
 .vp-doc [class*='language-'] > button.copy.copied::before,
 .vp-doc [class*='language-'] > button.copy:hover.copied::before {
   position: relative;
-  /*rtl:ignore*/
   top: -1px;
+  /*rtl:ignore*/
   left: -65px;
   display: flex;
   justify-content: center;
