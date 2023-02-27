@@ -11,6 +11,7 @@ export interface PageData {
   description: string
   headers: Header[]
   frontmatter: Record<string, any>
+  params?: Record<string, any>
   lastUpdated?: number
 }
 

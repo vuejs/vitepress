@@ -69,6 +69,16 @@ export async function createMarkdownToVueRenderFn(
 
     const start = Date.now()
 
+    // resolve params for dynamic routes
+    let params
+    src = src.replace(
+      /^__VP_PARAMS_START([^]+?)__VP_PARAMS_END__/,
+      (_, paramsString) => {
+        params = JSON.parse(paramsString)
+        return ''
+      }
+    )
+
     // resolve includes
     let includes: string[] = []
     src = src.replace(includesRE, (m, m1) => {
@@ -151,6 +161,7 @@ export async function createMarkdownToVueRenderFn(
       description: inferDescription(frontmatter),
       frontmatter,
       headers,
+      params,
       relativePath
     }
 

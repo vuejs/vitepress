@@ -1,5 +1,6 @@
 import path from 'path'
 import c from 'picocolors'
+import { slash } from './utils/slash'
 import type { OutputAsset, OutputChunk } from 'rollup'
 import {
   defineConfig,
@@ -17,9 +18,9 @@ import {
 import type { SiteConfig } from './config'
 import { clearCache, createMarkdownToVueRenderFn } from './markdownToVue'
 import type { PageDataPayload } from './shared'
-import { staticDataPlugin } from './staticDataPlugin'
-import { slash } from './utils/slash'
-import { webFontsPlugin } from './webFontsPlugin'
+import { staticDataPlugin } from './plugins/staticDataPlugin'
+import { webFontsPlugin } from './plugins/webFontsPlugin'
+import { dynamicRoutesPlugin } from './plugins/dynamicRoutesPlugin'
 
 declare module 'vite' {
   interface UserConfig {
@@ -347,6 +348,7 @@ export async function createVitePressPlugin(
     vuePlugin,
     webFontsPlugin(siteConfig.useWebFonts),
     ...(userViteConfig?.plugins || []),
-    staticDataPlugin
+    staticDataPlugin,
+    await dynamicRoutesPlugin(siteConfig.dynamicRoutes)
   ]
 }

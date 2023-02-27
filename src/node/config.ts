@@ -15,6 +15,7 @@ import {
 } from 'vite'
 import { DEFAULT_THEME_PATH } from './alias'
 import type { MarkdownOptions } from './markdown/markdown'
+import { dynamicRouteRE } from './plugins/dynamicRoutesPlugin'
 import {
   APPEARANCE_KEY,
   type Awaitable,
@@ -178,6 +179,7 @@ export interface SiteConfig<ThemeConfig = any>
   cacheDir: string
   tempDir: string
   pages: string[]
+  dynamicRoutes: string[]
   rewrites: {
     map: Record<string, string | undefined>
     inv: Record<string, string | undefined>
@@ -242,15 +244,17 @@ export async function resolveConfig(
   // order in shared chunks which in turns invalidates the hash of every chunk!
   // JavaScript built-in sort() is mandated to be stable as of ES2019 and
   // supported in Node 12+, which is required by Vite.
-  const pages = (
+  const allMarkdownFiles = (
     await fg(['**.md'], {
       cwd: srcDir,
       ignore: ['**/node_modules', ...(userConfig.srcExclude || [])]
     })
   ).sort()
 
-  const rewriteEntries = Object.entries(userConfig.rewrites || {})
+  const pages = allMarkdownFiles.filter((p) => !dynamicRouteRE.test(p))
+  const dynamicRoutes = allMarkdownFiles.filter((p) => dynamicRouteRE.test(p))
 
+  const rewriteEntries = Object.entries(userConfig.rewrites || {})
   const rewrites = rewriteEntries.length
     ? Object.fromEntries(
         pages
@@ -270,6 +274,7 @@ export async function resolveConfig(
     site,
     themeDir,
     pages,
+    dynamicRoutes,
     configPath,
     configDeps,
     outDir,
