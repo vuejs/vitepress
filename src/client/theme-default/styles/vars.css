@@ -289,7 +289,7 @@
   --vp-custom-block-tip-border: var(--vp-c-green);
   --vp-custom-block-tip-text: var(--vp-c-green);
   --vp-custom-block-tip-bg: var(--vp-c-bg-soft);
-  --vp-custom-block-tip-code-bg: var(--vp-custom-block-tip-bg);
+  --vp-custom-block-tip-code-bg: var(--vp-c-bg-soft-down);
 
   --vp-custom-block-warning-border: var(--vp-c-yellow);
   --vp-custom-block-warning-text: var(--vp-c-yellow);
