@@ -468,8 +468,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  /*rtl:ignore*/
   border: 1px solid var(--vp-code-copy-code-hover-border-color);
+  /*rtl:ignore*/
   border-right: 0;
   border-radius: 4px 0 0 4px;
   width: 64px;
