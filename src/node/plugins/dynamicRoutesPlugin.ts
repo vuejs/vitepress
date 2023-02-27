@@ -7,7 +7,7 @@ import {
 import fs from 'fs-extra'
 import c from 'picocolors'
 import path from 'path'
-import type { SiteConfig } from '../config'
+import { resolvePages, type SiteConfig } from '../config'
 
 export const dynamicRouteRE = /\[(\w+?)\]/g
 
@@ -41,44 +41,12 @@ export const dynamicRoutesPlugin = async (
   config: SiteConfig
 ): Promise<Plugin> => {
   let server: ViteDevServer
-  let routes = config.dynamicRoutes[0].map(r => r.route)
-  let [resolvedRoutes, routeFileToModulesMap] = config.dynamicRoutes
-
-  // TODO: make this more efficient by only reloading the invalidated route
-  // TODO: invlidate modules for paths that are no longer present
-  async function invlidateRoutes() {
-    ;[resolvedRoutes, routeFileToModulesMap] = await resolveRoutes(routes)
-  }
 
   return {
     name: 'vitepress:dynamic-routes',
 
     configureServer(_server) {
       server = _server
-
-      const onFileAddDelete = (
-        file: string,
-        updateRoutes: (route: string) => void
-      ) => {
-        if (dynamicRouteRE.test(file) && /\.(md|paths\.[jt]s)$/.test(file)) {
-          if (file.endsWith('.md')) {
-            updateRoutes(normalizePath(path.relative(config.root, file)))
-          }
-          invlidateRoutes().then(() => {
-            server.ws.send({ type: 'full-reload' })
-          })
-        }
-      }
-
-      server.watcher
-        .on('add', (file) => {
-          onFileAddDelete(file, (route) => routes.push(route))
-        })
-        .on('unlink', (file) => {
-          onFileAddDelete(file, (route) => {
-            routes = routes.filter((r) => r !== route)
-          })
-        })
     },
 
     resolveId(id) {
@@ -86,18 +54,20 @@ export const dynamicRoutesPlugin = async (
       const normalizedId = id.startsWith(config.root)
         ? normalizePath(path.relative(config.root, id))
         : id.replace(/^\//, '')
-      const matched = resolvedRoutes.find((r) => r.path === normalizedId)
+      const matched = config.dynamicRoutes.routes.find(
+        (r) => r.path === normalizedId
+      )
       if (matched) {
         return normalizedId
       }
     },
 
     load(id) {
-      const matched = resolvedRoutes.find((r) => r.path === id)
+      const matched = config.dynamicRoutes.routes.find((r) => r.path === id)
       if (matched) {
         const { route, params, content } = matched
         const routeFile = normalizePath(path.resolve(config.root, route))
-        routeFileToModulesMap[routeFile].push(id)
+        config.dynamicRoutes.fileToModulesMap[routeFile].push(id)
 
         let baseContent = fs.readFileSync(routeFile, 'utf-8')
 
@@ -118,11 +88,11 @@ export const dynamicRoutesPlugin = async (
     },
 
     async handleHotUpdate(ctx) {
-      const mods = routeFileToModulesMap[ctx.file]
+      const mods = config.dynamicRoutes.fileToModulesMap[ctx.file]
       if (mods) {
         // path loader module updated, reset loaded routes
         if (/\.paths\.[jt]s$/.test(ctx.file)) {
-          await invlidateRoutes()
+          await resolvePages(config.srcDir, config.userConfig)
         }
         for (const id of mods) {
           ctx.modules.push(server.moduleGraph.getModuleById(id)!)
@@ -132,7 +102,9 @@ export const dynamicRoutesPlugin = async (
   }
 }
 
-export async function resolveRoutes(routes: string[]) {
+export async function resolveDynamicRoutes(
+  routes: string[]
+): Promise<SiteConfig['dynamicRoutes']> {
   const pendingResolveRoutes: Promise<ResolvedRouteConfig[]>[] = []
   const routeFileToModulesMap: Record<string, string[]> = {}
 
@@ -189,8 +161,8 @@ export async function resolveRoutes(routes: string[]) {
     }
   }
 
-  return [
-    (await Promise.all(pendingResolveRoutes)).flat(),
-    routeFileToModulesMap
-  ] as const
+  return {
+    routes: (await Promise.all(pendingResolveRoutes)).flat(),
+    fileToModulesMap: routeFileToModulesMap
+  }
 }

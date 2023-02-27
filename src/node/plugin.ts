@@ -15,12 +15,13 @@ import {
   resolveAliases,
   SITE_DATA_REQUEST_PATH
 } from './alias'
-import type { SiteConfig } from './config'
+import { resolvePages, type SiteConfig } from './config'
 import { clearCache, createMarkdownToVueRenderFn } from './markdownToVue'
 import type { PageDataPayload } from './shared'
 import { staticDataPlugin } from './plugins/staticDataPlugin'
 import { webFontsPlugin } from './plugins/webFontsPlugin'
 import { dynamicRoutesPlugin } from './plugins/dynamicRoutesPlugin'
+import { rewritesPlugin } from './plugins/rewritesPlugin'
 
 declare module 'vite' {
   interface UserConfig {
@@ -70,8 +71,7 @@ export async function createVitePressPlugin(
     pages,
     ignoreDeadLinks,
     lastUpdated,
-    cleanUrls,
-    rewrites
+    cleanUrls
   } = siteConfig
 
   let markdownToVue: Awaited<ReturnType<typeof createMarkdownToVueRenderFn>>
@@ -198,15 +198,16 @@ export async function createVitePressPlugin(
         configDeps.forEach((file) => server.watcher.add(file))
       }
 
-      server.middlewares.use((req, res, next) => {
-        if (req.url) {
-          const page = req.url.replace(/[?#].*$/, '').slice(site.base.length)
-          if (rewrites.inv[page]) {
-            req.url = req.url.replace(page, rewrites.inv[page]!)
-          }
+      // update pages, dynamicRoutes and rewrites on md file add / deletion
+      const onFileAddDelete = async (file: string) => {
+        if (file.endsWith('.md')) {
+          Object.assign(
+            siteConfig,
+            await resolvePages(siteConfig.srcDir, siteConfig.userConfig)
+          )
         }
-        next()
-      })
+      }
+      server.watcher.on('add', onFileAddDelete).on('unlink', onFileAddDelete)
 
       // serve our index.html after vite history fallback
       return () => {
@@ -347,6 +348,7 @@ export async function createVitePressPlugin(
 
   return [
     vitePressPlugin,
+    rewritesPlugin(siteConfig),
     vuePlugin,
     webFontsPlugin(siteConfig.useWebFonts),
     ...(userViteConfig?.plugins || []),

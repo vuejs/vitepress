@@ -3,7 +3,6 @@ import _debug from 'debug'
 import fg from 'fast-glob'
 import fs from 'fs-extra'
 import path from 'path'
-import { compile, match } from 'path-to-regexp'
 import c from 'picocolors'
 import {
   createLogger,
@@ -17,9 +16,10 @@ import { DEFAULT_THEME_PATH } from './alias'
 import type { MarkdownOptions } from './markdown/markdown'
 import {
   dynamicRouteRE,
-  resolveRoutes,
+  resolveDynamicRoutes,
   type ResolvedRouteConfig
 } from './plugins/dynamicRoutesPlugin'
+import { resolveRewrites } from './plugins/rewritesPlugin'
 import {
   APPEARANCE_KEY,
   type Awaitable,
@@ -183,12 +183,16 @@ export interface SiteConfig<ThemeConfig = any>
   cacheDir: string
   tempDir: string
   pages: string[]
-  dynamicRoutes: readonly [ResolvedRouteConfig[], Record<string, string[]>]
+  dynamicRoutes: {
+    routes: ResolvedRouteConfig[]
+    fileToModulesMap: Record<string, string[]>
+  }
   rewrites: {
     map: Record<string, string | undefined>
     inv: Record<string, string | undefined>
   }
   logger: Logger
+  userConfig: UserConfig
 }
 
 const resolve = (root: string, file: string) =>
@@ -242,39 +246,10 @@ export async function resolveConfig(
     ? userThemeDir
     : DEFAULT_THEME_PATH
 
-  // Important: fast-glob doesn't guarantee order of the returned files.
-  // We must sort the pages so the input list to rollup is stable across
-  // builds - otherwise different input order could result in different exports
-  // order in shared chunks which in turns invalidates the hash of every chunk!
-  // JavaScript built-in sort() is mandated to be stable as of ES2019 and
-  // supported in Node 12+, which is required by Vite.
-  const allMarkdownFiles = (
-    await fg(['**.md'], {
-      cwd: srcDir,
-      ignore: ['**/node_modules', ...(userConfig.srcExclude || [])]
-    })
-  ).sort()
-
-  const pages = allMarkdownFiles.filter((p) => !dynamicRouteRE.test(p))
-  const dynamicRouteFiles = allMarkdownFiles.filter((p) =>
-    dynamicRouteRE.test(p)
+  const { pages, dynamicRoutes, rewrites } = await resolvePages(
+    srcDir,
+    userConfig
   )
-  const dynamicRoutes = await resolveRoutes(dynamicRouteFiles)
-  pages.push(...dynamicRoutes[0].map((r) => r.path))
-
-  const rewriteEntries = Object.entries(userConfig.rewrites || {})
-  const rewrites = rewriteEntries.length
-    ? Object.fromEntries(
-        pages
-          .map((src) => {
-            for (const [from, to] of rewriteEntries) {
-              const dest = rewrite(src, from, to)
-              if (dest) return [src, dest]
-            }
-          })
-          .filter((e) => e != null) as [string, string][]
-      )
-    : {}
 
   const config: SiteConfig = {
     root,
@@ -305,10 +280,8 @@ export async function resolveConfig(
     transformHead: userConfig.transformHead,
     transformHtml: userConfig.transformHtml,
     transformPageData: userConfig.transformPageData,
-    rewrites: {
-      map: rewrites,
-      inv: Object.fromEntries(Object.entries(rewrites).map((a) => a.reverse()))
-    }
+    rewrites,
+    userConfig
   }
 
   return config
@@ -444,10 +417,32 @@ function resolveSiteDataHead(userConfig?: UserConfig): HeadConfig[] {
   return head
 }
 
-function rewrite(src: string, from: string, to: string) {
-  const urlMatch = match(from)
-  const res = urlMatch(src)
-  if (!res) return false
-  const toPath = compile(to)
-  return toPath(res.params)
+export async function resolvePages(srcDir: string, userConfig: UserConfig) {
+  // Important: fast-glob doesn't guarantee order of the returned files.
+  // We must sort the pages so the input list to rollup is stable across
+  // builds - otherwise different input order could result in different exports
+  // order in shared chunks which in turns invalidates the hash of every chunk!
+  // JavaScript built-in sort() is mandated to be stable as of ES2019 and
+  // supported in Node 12+, which is required by Vite.
+  const allMarkdownFiles = (
+    await fg(['**.md'], {
+      cwd: srcDir,
+      ignore: ['**/node_modules', ...(userConfig.srcExclude || [])]
+    })
+  ).sort()
+
+  const pages = allMarkdownFiles.filter((p) => !dynamicRouteRE.test(p))
+  const dynamicRouteFiles = allMarkdownFiles.filter((p) =>
+    dynamicRouteRE.test(p)
+  )
+  const dynamicRoutes = await resolveDynamicRoutes(dynamicRouteFiles)
+  pages.push(...dynamicRoutes.routes.map((r) => r.path))
+
+  const rewrites = resolveRewrites(pages, userConfig.rewrites)
+
+  return {
+    pages,
+    dynamicRoutes,
+    rewrites
+  }
 }
