@@ -349,6 +349,6 @@ export async function createVitePressPlugin(
     webFontsPlugin(siteConfig.useWebFonts),
     ...(userViteConfig?.plugins || []),
     staticDataPlugin,
-    await dynamicRoutesPlugin(siteConfig.dynamicRoutes)
+    await dynamicRoutesPlugin(siteConfig)
   ]
 }

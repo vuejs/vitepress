@@ -1,7 +1,13 @@
-import { loadConfigFromFile, type Plugin, type ViteDevServer } from 'vite'
+import {
+  loadConfigFromFile,
+  normalizePath,
+  type Plugin,
+  type ViteDevServer
+} from 'vite'
 import fs from 'fs-extra'
 import c from 'picocolors'
 import path from 'path'
+import type { SiteConfig } from '../config'
 
 export const dynamicRouteRE = /\[(\.\.\.)?\w+\]/
 
@@ -32,25 +38,54 @@ type ResolvedRouteConfig = UserRouteConfig & {
 }
 
 export const dynamicRoutesPlugin = async (
-  initialRoutes: string[]
+  config: SiteConfig
 ): Promise<Plugin> => {
   let server: ViteDevServer
-  let [resolvedRoutes, routeFileToModulesMap] = await resolveRoutes(
-    initialRoutes
-  )
+  let routes = config.dynamicRoutes
+  let [resolvedRoutes, routeFileToModulesMap] = await resolveRoutes(routes)
+
+  // TODO: make this more efficient by only reloading the invalidated route
+  // TODO: invlidate modules for paths that are no longer present
+  async function invlidateRoutes() {
+    ;[resolvedRoutes, routeFileToModulesMap] = await resolveRoutes(routes)
+  }
 
   return {
     name: 'vitepress:dynamic-routes',
 
     configureServer(_server) {
       server = _server
+
+      const onFileAddDelete = (
+        file: string,
+        updateRoutes: (route: string) => void
+      ) => {
+        if (dynamicRouteRE.test(file) && /\.(md|paths\.[jt]s)$/.test(file)) {
+          if (file.endsWith('.md')) {
+            updateRoutes(normalizePath(path.relative(config.root, file)))
+          }
+          invlidateRoutes().then(() => {
+            server.ws.send({ type: 'full-reload' })
+          })
+        }
+      }
+
+      server.watcher
+        .on('add', (file) => {
+          onFileAddDelete(file, (route) => routes.push(route))
+        })
+        .on('unlink', (file) => {
+          onFileAddDelete(file, (route) => {
+            routes = routes.filter((r) => r !== route)
+          })
+        })
     },
 
     load(id) {
       const matched = resolvedRoutes.find((r) => r.path === id)
       if (matched) {
         const { route, params, content } = matched
-        const routeFile = path.resolve(route)
+        const routeFile = normalizePath(path.resolve(config.root, route))
         routeFileToModulesMap[routeFile].push(id)
 
         let baseContent = fs.readFileSync(routeFile, 'utf-8')
@@ -75,12 +110,8 @@ export const dynamicRoutesPlugin = async (
       const mods = routeFileToModulesMap[ctx.file]
       if (mods) {
         // path loader module updated, reset loaded routes
-        // TODO: make this more efficient by only reloading the invalidated route
-        // TODO: invlidate modules for paths that are no longer present
         if (/\.paths\.[jt]s$/.test(ctx.file)) {
-          ;[resolvedRoutes, routeFileToModulesMap] = await resolveRoutes(
-            initialRoutes
-          )
+          await invlidateRoutes()
         }
         for (const id of mods) {
           ctx.modules.push(server.moduleGraph.getModuleById(id)!)
