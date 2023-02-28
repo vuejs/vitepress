@@ -228,3 +228,24 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 ## Edgio
 
 Refer [Creating and Deploying a VitePress App To Edgio](https://docs.edg.io/guides/vitepress).
+
+## DigitalOcean App Platform
+
+1. Create a git repository for your VitePress project, with a `.gitignore` file excluding the `.vitepress/dist/`, `.vitepress/cache/` and 
+`node_modules/` directories. Commit the project files and push the repository to a [GitHub](https://github.com/) or [GitLab](https://gitlab.com) account.
+
+2. In the DigitalOcean Control Panel, click the *Create* button, then *Apps*. Under _Create Resource From Source Code_, select the service provider (GitHub or GitLab) and select your project repository and branch. Leave the source directory as `/`.
+
+3. Click _Next_, then _Edit_. Set the resource settings as follows:
+
+  - _Resource Type_: _Static Site_
+  - _Build Command_: `npm run docs:build`
+  - _Output Directory_: `.vitepress/dist`
+
+4. Leave _Environment Variables_ empty and click _Next_.
+
+5. Under _Info_ set the app name as desired and then click _Next_.
+
+6. Review the resources and costs summary then click _Deploy Resources_.
+
+7. Wait for the site to build, and then click the link to view the site at its live URL.
