@@ -15,7 +15,8 @@ export default defineConfig({
 
     sidebar: {
       '/guide/': sidebarGuide(),
-      '/config/': sidebarConfig()
+      '/config/': sidebarConfig(),
+      '/api/': sidebarGuide()
     },
 
     editLink: {
@@ -37,7 +38,16 @@ export default defineConfig({
 function nav() {
   return [
     { text: 'Guide', link: '/guide/what-is-vitepress', activeMatch: '/guide/' },
-    { text: 'Configs', link: '/config/introduction', activeMatch: '/config/' },
+    {
+      text: 'Config Reference',
+      link: '/config/introduction',
+      activeMatch: '/config/'
+    },
+    {
+      text: 'Runtime API',
+      link: '/api/',
+      activeMatch: '/api/'
+    },
     {
       text: pkg.version,
       items: [
@@ -58,49 +68,46 @@ function sidebarGuide() {
   return [
     {
       text: 'Introduction',
-      collapsible: true,
+      collapsed: false,
       items: [
         { text: 'What is VitePress?', link: '/guide/what-is-vitepress' },
         { text: 'Getting Started', link: '/guide/getting-started' },
         { text: 'Configuration', link: '/guide/configuration' },
         { text: 'Routing', link: '/guide/routing' },
-        { text: 'Deploying', link: '/guide/deploying' },
-        { text: 'Internationalization', link: '/guide/i18n' }
+        { text: 'Deploying', link: '/guide/deploying' }
       ]
     },
     {
       text: 'Writing',
-      collapsible: true,
+      collapsed: false,
       items: [
-        { text: 'Markdown', link: '/guide/markdown' },
+        { text: 'Markdown Extensions', link: '/guide/markdown' },
         { text: 'Asset Handling', link: '/guide/asset-handling' },
         { text: 'Frontmatter', link: '/guide/frontmatter' },
         { text: 'Using Vue in Markdown', link: '/guide/using-vue' },
-        { text: 'API Reference', link: '/guide/api' }
+        { text: 'Internationalization', link: '/guide/i18n' }
       ]
     },
     {
-      text: 'Theme',
-      collapsible: true,
+      text: 'Customization',
+      collapsed: false,
       items: [
-        { text: 'Introduction', link: '/guide/theme-introduction' },
-        { text: 'Nav', link: '/guide/theme-nav' },
-        { text: 'Sidebar', link: '/guide/theme-sidebar' },
-        { text: 'Prev Next Link', link: '/guide/theme-prev-next-link' },
-        { text: 'Edit Link', link: '/guide/theme-edit-link' },
-        { text: 'Last Updated', link: '/guide/theme-last-updated' },
-        { text: 'Layout', link: '/guide/theme-layout' },
-        { text: 'Home Page', link: '/guide/theme-home-page' },
-        { text: 'Team Page', link: '/guide/theme-team-page' },
-        { text: 'Badge', link: '/guide/theme-badge' },
-        { text: 'Footer', link: '/guide/theme-footer' },
-        { text: 'Search', link: '/guide/theme-search' },
-        { text: 'Carbon Ads', link: '/guide/theme-carbon-ads' }
+        { text: 'Default Theme', link: '/guide/default-theme' },
+        {
+          text: 'Extending the Default Theme',
+          link: '/guide/customization-extending-default-theme'
+        },
+        { text: 'Building a Custom Theme', link: '/guide/customization-intro' },
+        {
+          text: 'Runtime API',
+          link: '/api/'
+        },
+        { text: 'Build-Time Data Loading', link: '/guide/data-loading' }
       ]
     },
     {
       text: 'Migrations',
-      collapsible: true,
+      collapsed: false,
       items: [
         {
           text: 'Migration from VuePress',
@@ -118,12 +125,12 @@ function sidebarGuide() {
 function sidebarConfig() {
   return [
     {
-      text: 'Config',
+      text: 'Config Reference',
       items: [
         { text: 'Introduction', link: '/config/introduction' },
-        { text: 'App Configs', link: '/config/app-configs' },
-        { text: 'Theme Configs', link: '/config/theme-configs' },
-        { text: 'Frontmatter Configs', link: '/config/frontmatter-configs' }
+        { text: 'App Config', link: '/config/app-config' },
+        { text: 'Default Theme Config', link: '/config/theme-config' },
+        { text: 'Frontmatter Config', link: '/config/frontmatter-config' }
       ]
     }
   ]

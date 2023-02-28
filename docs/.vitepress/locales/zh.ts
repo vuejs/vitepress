@@ -16,8 +16,9 @@ export default defineConfig({
     lastUpdatedText: '最后更新于',
 
     sidebar: {
-      '/zh/guide/': sidebarGuide(),
-      '/zh/config/': sidebarConfig()
+      '/guide/': sidebarGuide(),
+      '/config/': sidebarConfig(),
+      '/api/': sidebarGuide()
     },
 
     editLink: {
@@ -44,7 +45,12 @@ function nav() {
       activeMatch: '/zh/guide/'
     },
     {
-      text: '配置',
+      text: '运行时 API',
+      link: '/api/',
+      activeMatch: '/api/'
+    },
+    {
+      text: '配置参考',
       link: '/zh/config/introduction',
       activeMatch: '/zh/config/'
     },
@@ -68,7 +74,7 @@ function sidebarGuide() {
   return [
     {
       text: '简介',
-      collapsible: true,
+      collapsed: true,
       items: [
         { text: 'VitePress 是什么', link: '/zh/guide/what-is-vitepress' },
         { text: '快速开始', link: '/zh/guide/getting-started' },
@@ -80,9 +86,9 @@ function sidebarGuide() {
     },
     {
       text: '写作',
-      collapsible: true,
+      collapsed: true,
       items: [
-        { text: 'Markdown', link: '/zh/guide/markdown' },
+        { text: 'Markdown 扩展', link: '/zh/guide/markdown' },
         { text: '资源处理', link: '/zh/guide/asset-handling' },
         { text: 'Frontmatter', link: '/zh/guide/frontmatter' },
         { text: '在 Markdown 中使用 Vue', link: '/zh/guide/using-vue' },
@@ -91,7 +97,7 @@ function sidebarGuide() {
     },
     {
       text: '主题',
-      collapsible: true,
+      collapsed: true,
       items: [
         { text: '简介', link: '/zh/guide/theme-introduction' },
         { text: '导航', link: '/zh/guide/theme-nav' },
@@ -110,7 +116,7 @@ function sidebarGuide() {
     },
     {
       text: '迁移',
-      collapsible: true,
+      collapsed: true,
       items: [
         {
           text: '从 VuePress 迁移',
@@ -121,6 +127,23 @@ function sidebarGuide() {
           link: '/zh/guide/migration-from-vitepress-0'
         }
       ]
+    },
+    {
+      text: '自定义',
+      collapsed: false,
+      items: [
+        { text: '默认主题', link: '/guide/default-theme' },
+        {
+          text: '扩展默认主题',
+          link: '/guide/customization-extending-default-theme'
+        },
+        { text: '构建自定义主题', link: '/guide/customization-intro' },
+        {
+          text: '运行时 API',
+          link: '/api/'
+        },
+        { text: 'Build-Time Data Loading', link: '/guide/data-loading' }
+      ]
     }
   ]
 }
@@ -128,12 +151,12 @@ function sidebarGuide() {
 function sidebarConfig() {
   return [
     {
-      text: '配置',
+      text: '配置参考',
       items: [
         { text: '简介', link: '/zh/config/introduction' },
-        { text: '应用全局配置', link: '/zh/config/app-configs' },
-        { text: '主题配置', link: '/zh/config/theme-configs' },
-        { text: 'Frontmatter 配置', link: '/zh/config/frontmatter-configs' }
+        { text: '应用全局配置', link: '/zh/config/app-config' },
+        { text: '主题配置', link: '/zh/config/theme-config' },
+        { text: 'Frontmatter 配置', link: '/zh/config/frontmatter-config' }
       ]
     }
   ]
