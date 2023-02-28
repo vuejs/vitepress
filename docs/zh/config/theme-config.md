@@ -87,15 +87,21 @@ export default {
 ```ts
 type NavItem = NavItemWithLink | NavItemWithChildren
 
-type NavItemWithLink = {
+interface NavItemWithLink {
   text: string
   link: string
   activeMatch?: string
 }
 
-interface NavItemWithChildren {
+interface NavItemChildren {
   text?: string
   items: NavItemWithLink[]
+  activeMatch?: string
+}
+
+interface NavItemWithChildren {
+  text?: string
+  items: (NavItemChildren | NavItemWithLink)[]
   activeMatch?: string
 }
 ```

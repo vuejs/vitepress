@@ -1,4 +1,4 @@
-# API 参考 {#api-reference}
+# 运行时 API 参考 {#runtime-api-reference}
 
 VitePress 提供了几个内置 API 来获取数据。VitePress 还提供了一些可以全局使用的内置组件。
 
@@ -66,11 +66,11 @@ interface Router {
 
 - **Type**: `(path: string) => string`
 
-将配置的 [`base`](../config/app-config#base) 添加到给定的 URL 路径。另请参阅 [Base URL](./asset-handling#base-url)。
+将配置的 [`base`](/config/app-config#base) 添加到给定的 URL 路径。另请参阅 [Base URL](/guide/asset-handling#base-url)。
 
 ## `<Content />`
 
-`<Content />` 组件显示渲染的 markdown 内容。这在[创建你自己的主题时](./theme-introduction)很有用。
+`<Content />` 组件显示渲染的 markdown 内容。这在[创建你自己的主题时](/guide/customization-intro)很有用。
 
 ```vue
 <template>

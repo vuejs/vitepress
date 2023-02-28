@@ -28,13 +28,13 @@
 - 运行此命令来打包文档：
 
   ```sh
-  $ yarn docs:build
+  $ npm run docs:build
   ```
 
 - 打包文档后，你可以通过运行命令在本地进行调试：
 
   ```sh
-  $ yarn docs:serve
+  $ npm run docs:serve
   ```
 
 `serve` 命令将启动一个本地静态 Web 服务，该服务将在 `http://localhost:4173` 输出来自 `.vitepress/dist` 的文件。 这是检查生产版本在你的本地环境中是否正常的简易方法。
@@ -55,7 +55,7 @@
 
 创建一个新项目并改成以下这些设置：
 
-- **Build Command:** `yarn docs:build`
+- **Build Command:** `npm run docs:build`
 - **Output Directory:** `docs/.vitepress/dist`
 - **Node Version:** `14` (或者更高，默认值通常是 14 或 16，但在 Cloudflare Pages 上，默认值仍然是 12，所以你可能需要[修改](https://developers.cloudflare.com/pages/platform/build-configuration/))。
 
@@ -91,10 +91,10 @@
          - uses: actions/checkout@v3
            with:
              node-version: 16
-             cache: yarn
-         - run: yarn install --frozen-lockfile
+             cache: npm
+         - run: npm install --frozen-lockfile
          - name: Build
-           run: yarn docs:build
+           run: npm run docs:build
          - uses: actions/configure-pages@v2
          - uses: actions/upload-pages-artifact@v1
            with:
@@ -108,11 +108,13 @@
    请替换对应的分支名称。例如，如果你要构建的分支是 `master`，则应将上述文件中的 `main` 替换为 `master`。
    :::
 
-3. 现在提交你的代码并将其推送到 `main` 分支。
+3. In your repository's Settings under Pages menu item, select `GitHub Actions` in Build and deployment's Source.
 
-4. 等待 action 完成。
+4. 现在提交你的代码并将其推送到 `main` 分支。
 
-5. 在 git 仓库的 Setting 选项里，选择 `gh-pages` 分支作为 GitHub Pages 的来源。现在，你的文档将在每次推送时自动部署。
+5. 等待 action 完成。
+
+6. 在 git 仓库的 Setting 选项里，选择 `gh-pages` 分支作为 GitHub Pages 的来源。现在，你的文档将在每次推送时自动部署。
 
 ## GitLab Pages
 
@@ -129,8 +131,8 @@
        paths:
          - node_modules/
      script:
-       - yarn install
-       - yarn docs:build
+       - npm install
+       - npm run docs:build
      artifacts:
        paths:
          - public
@@ -148,8 +150,8 @@
      before_script:
        - apk add git
      script:
-       - yarn install
-       - yarn docs:build
+       - npm install
+       - npm run docs:build
      artifacts:
        paths:
          - public
@@ -165,7 +167,7 @@
 
    - **`app_location`**: `/`
    - **`output_location`**: `docs/.vitepress/dist`
-   - **`app_build_command`**: `yarn docs:build`
+   - **`app_build_command`**: `npm run docs:build`
 
 ## Firebase
 
@@ -192,7 +194,7 @@
    }
    ```
 
-2. 执行 `yarn docs:build` 打包命令以后, 执行以下脚本进行部署:
+2. 执行 `npm run docs:build` 打包命令以后, 执行以下脚本进行部署:
 
    ```sh
    firebase deploy
@@ -200,7 +202,7 @@
 
 ## Surge
 
-1. 执行 `yarn docs:build` 打包命令以后，执行以下脚本进行部署:
+1. 执行 `npm run docs:build` 打包命令以后，执行以下脚本进行部署:
 
    ```sh
    npx surge docs/.vitepress/dist

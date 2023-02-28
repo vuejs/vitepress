@@ -40,7 +40,7 @@
 <img :src="theme.logoPath" />
 ```
 
-在这种情况下，建议使用 VitePress 提供的 [`withBase` 辅助函数](./api#withbase) 来引用静态资源：
+在这种情况下，建议使用 VitePress 提供的 [`withBase` 辅助函数](/api/#withbase) 来引用静态资源：
 
 ```vue
 <script setup>

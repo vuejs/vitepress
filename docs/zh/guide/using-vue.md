@@ -36,7 +36,7 @@
 
 ### 获取站点和页面数据 {#access-to-site-page-data}
 
-你可以在 `<script>` 里使用 [`useData` 辅助函数](./api#usedata) 并在页面里绑定数据。
+你可以在 `<script>` 里使用 [`useData` 辅助函数](/api/#usedata) 并在页面里绑定数据。
 
 **输入**
 
@@ -104,7 +104,7 @@ This is a .md using a custom component
 
 ### 在主题中注册全局组件 {#registering-global-components-in-the-theme}
 
-如果要在文档中的多个页面中使用组件，则可以在主题中全局注册它们 (或作为默认 VitePress 主题扩展的一部分)。查看[主题指南](./theme-introduction)了解更多信息。
+如果要在文档中的多个页面中使用组件，则可以在主题中全局注册它们 (或作为默认 VitePress 主题扩展的一部分)。查看[自定义指南](./customization-intro)了解更多信息。
 
 在 `.vitepress/theme/index.js` 中，`enhanceApp` 函数接收 Vue `app` 实例，因此你可以在常规的 Vue 应用程序中 [注册组件](https://vuejs.org/guide/components/registration.html) 。
 
@@ -197,7 +197,7 @@ export default {
 
 ## 内置的组件 {#built-in-components}
 
-VitePress 提供了内置的 Vue 组件，例如 `ClientOnly` 和 `OutboundLink`，查看[全局组件指南](./api) 了解更多信息。
+VitePress 提供了内置的 Vue 组件，例如 `ClientOnly` 和 `OutboundLink`，查看[全局组件指南](/api/) 了解更多信息。
 
 **参见：**
 

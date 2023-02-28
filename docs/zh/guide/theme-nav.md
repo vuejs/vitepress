@@ -138,6 +138,25 @@ export default {
 `activeMatch` 应为正则表达式字符串，但你必须将其定义为字符串。我们不能在这里使用实际的 RegExp 对象，因为它在构建时不可序列化。
 :::
 
+### Customize link's "target" and "rel" attributes
+
+By default, VitePress automatically determines `target` and `rel` attributes based on whether the link is an external link. But if you want, you can customize them too.
+
+```js
+export default {
+  themeConfig: {
+    nav: [
+      {
+        text: 'Merchandise',
+        link: 'https://www.thegithubshop.com/',
+        target: '_self',
+        rel: 'sponsored'
+      }
+    ]
+  }
+}
+```
+
 ## 社交链接 {#social-links}
 
 点击这里查看支持的 [`socialLinks`](../config/theme-config#sociallinks).
