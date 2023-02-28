@@ -107,7 +107,7 @@ export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
       .trim()
 
     const [
-      filename = '',
+      filepath = '',
       extension = '',
       region = '',
       lines = '',
@@ -115,7 +115,7 @@ export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
       rawTitle = ''
     ] = (rawPathRegexp.exec(rawPath) || []).slice(1)
 
-    const title = rawTitle || filename.split('/').pop() || ''
+    const title = rawTitle || filepath.split('/').pop() || ''
 
     state.line = startLine + 1
 
@@ -124,8 +124,9 @@ export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
       title ? `[${title}]` : ''
     }`
 
+    const resolvedPath = path.resolve(path.dirname(state.env.path), filepath)
     // @ts-ignore
-    token.src = path.resolve(filename) + region
+    token.src = [resolvedPath, region]
     token.markup = '```'
     token.map = [startLine, startLine + 1]
 
@@ -138,8 +139,7 @@ export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
     const [tokens, idx, , { loader }] = args
     const token = tokens[idx]
     // @ts-ignore
-    const tokenSrc = token.src
-    const [src, regionName] = tokenSrc ? tokenSrc.split('#') : ['']
+    const [src, regionName] = token.src ?? []
 
     if (src) {
       if (loader) {
