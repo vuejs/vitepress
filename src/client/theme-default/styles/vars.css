@@ -203,6 +203,7 @@
 
   --vp-code-block-color: var(--vp-c-text-dark-1);
   --vp-code-block-bg: #292b30;
+  --vp-code-block-bg-light: #1e1e20;
   --vp-code-block-divider-color: #000000;
 
   --vp-code-line-highlight-color: rgba(0, 0, 0, 0.5);
@@ -217,7 +218,10 @@
   --vp-code-line-warning-color: var(--vp-c-yellow-dimm-2);
   --vp-code-line-error-color: var(--vp-c-red-dimm-2);
 
-  --vp-code-copy-code-hover-bg: rgba(255, 255, 255, 0.05);
+  --vp-code-copy-code-border-color: transparent;
+  --vp-code-copy-code-bg: var(--vp-code-block-bg-light);
+  --vp-code-copy-code-hover-border-color: var(--vp-c-divider);
+  --vp-code-copy-code-hover-bg: var(--vp-code-block-bg-light);
   --vp-code-copy-code-active-text: var(--vp-c-text-dark-2);
 
   --vp-code-tab-divider: var(--vp-code-block-divider-color);

@@ -310,7 +310,7 @@
   position: relative;
   z-index: 1;
   margin: 0;
-  padding: 16px 0;
+  padding: 20px 0;
   background: transparent;
   overflow-x: auto;
 }
@@ -419,24 +419,25 @@
   /*rtl:ignore*/
   direction: ltr;
   position: absolute;
-  top: 8px;
+  top: 12px;
   /*rtl:ignore*/
-  right: 8px;
+  right: 12px;
   z-index: 3;
   display: block;
   justify-content: center;
   align-items: center;
+  border: 1px solid var(--vp-code-copy-code-border-color);
   border-radius: 4px;
   width: 40px;
   height: 40px;
-  background-color: var(--vp-code-block-bg);
+  background-color: var(--vp-code-copy-code-bg);
   opacity: 0;
   cursor: pointer;
   background-image: var(--vp-icon-copy);
   background-position: 50%;
   background-size: 20px;
   background-repeat: no-repeat;
-  transition: opacity 0.4s;
+  transition: border-color 0.25s, background-color 0.25s, opacity 0.25s;
 }
 
 .vp-doc [class*='language-']:hover > button.copy,
@@ -444,7 +445,9 @@
   opacity: 1;
 }
 
-.vp-doc [class*='language-'] > button.copy:hover {
+.vp-doc [class*='language-'] > button.copy:hover,
+.vp-doc [class*='language-'] > button.copy.copied {
+  border-color: var(--vp-code-copy-code-hover-border-color);
   background-color: var(--vp-code-copy-code-hover-bg);
 }
 
@@ -459,12 +462,15 @@
 .vp-doc [class*='language-'] > button.copy.copied::before,
 .vp-doc [class*='language-'] > button.copy:hover.copied::before {
   position: relative;
+  top: -1px;
   /*rtl:ignore*/
   left: -65px;
   display: flex;
   justify-content: center;
   align-items: center;
+  border: 1px solid var(--vp-code-copy-code-hover-border-color);
   /*rtl:ignore*/
+  border-right: 0;
   border-radius: 4px 0 0 4px;
   width: 64px;
   height: 40px;
@@ -479,9 +485,9 @@
 
 .vp-doc [class*='language-'] > span.lang {
   position: absolute;
-  top: 6px;
+  top: 2px;
   /*rtl:ignore*/
-  right: 12px;
+  right: 8px;
   z-index: 2;
   font-size: 12px;
   font-weight: 500;
