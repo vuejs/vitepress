@@ -17,7 +17,7 @@ The following guides are based on some shared assumptions:
 
 ::: tip
 
-If your site is to be served at a subdirectory (`https://example.com/subdir/`), then you have to set `'/subdir/'` as the [`base`](../config/app-configs#base) in your `docs/.vitepress/config.js`.
+If your site is to be served at a subdirectory (`https://example.com/subdir/`), then you have to set `'/subdir/'` as the [`base`](../config/app-config#base) in your `docs/.vitepress/config.js`.
 
 **Example:** If you're using Github (or GitLab) Pages and deploying to `user.github.io/repo/`, then set your `base` to `/repo/`.
 
@@ -28,13 +28,13 @@ If your site is to be served at a subdirectory (`https://example.com/subdir/`), 
 - You may run this command to build the docs:
 
   ```sh
-  $ yarn docs:build
+  $ npm run docs:build
   ```
 
 - Once you've built the docs, you can test them locally by running:
 
   ```sh
-  $ yarn docs:preview
+  $ npm run docs:preview
   ```
 
   The `preview` command will boot up a local static web server that will serve the files from `.vitepress/dist` at `http://localhost:4173`. It's an easy way to check if the production build looks fine in your local environment.
@@ -55,7 +55,7 @@ If your site is to be served at a subdirectory (`https://example.com/subdir/`), 
 
 Set up a new project and change these settings using your dashboard:
 
-- **Build Command:** `yarn docs:build`
+- **Build Command:** `npm run docs:build`
 - **Output Directory:** `docs/.vitepress/dist`
 - **Node Version:** `14` (or above, by default it usually will be 14 or 16, but on Cloudflare Pages the default is still 12, so you may need to [change that](https://developers.cloudflare.com/pages/platform/build-configuration/))
 
@@ -82,8 +82,8 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
      deploy:
        runs-on: ubuntu-latest
        permissions:
-         pages: write     
-         id-token: write 
+         pages: write
+         id-token: write
        environment:
          name: github-pages
          url: ${{ steps.deployment.outputs.page_url }}
@@ -94,10 +94,10 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
          - uses: actions/setup-node@v3
            with:
              node-version: 16
-             cache: yarn
-         - run: yarn install --frozen-lockfile
+             cache: npm
+         - run: npm install --frozen-lockfile
          - name: Build
-           run: yarn docs:build
+           run: npm run docs:build
          - uses: actions/configure-pages@v2
          - uses: actions/upload-pages-artifact@v1
            with:
@@ -111,11 +111,13 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
    Please replace the corresponding branch name. For example, if the branch you want to build is `master`, then you should replace `main` with `master` in the above file.
    :::
 
-3. Now commit your code and push it to the `main` branch.
+3. In your repository's Settings under Pages menu item, select `GitHub Actions` in Build and deployment's Source.
 
-4. Wait for actions to complete.
+4. Now commit your code and push it to the `main` branch.
 
-5. In your repository's Settings under Pages menu item, select `gh-pages` branch as GitHub Pages source. Now your docs will automatically deploy each time you push.
+5. Wait for actions to complete.
+
+6. In your repository's Settings under Pages menu item, click `Visit site`, then you can see your site. Your docs will automatically deploy each time you push.
 
 ## GitLab Pages
 
@@ -134,8 +136,8 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
        paths:
          - node_modules/
      script:
-       - yarn install
-       - yarn docs:build
+       - npm install
+       - npm run docs:build
      artifacts:
        paths:
          - public
@@ -153,8 +155,8 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
      before_script:
        - apk add git
      script:
-       - yarn install
-       - yarn docs:build
+       - npm install
+       - npm run docs:build
      artifacts:
        paths:
          - public
@@ -170,7 +172,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
    - **`app_location`**: `/`
    - **`output_location`**: `docs/.vitepress/dist`
-   - **`app_build_command`**: `yarn docs:build`
+   - **`app_build_command`**: `npm run docs:build`
 
 ## Firebase
 
@@ -197,7 +199,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
    }
    ```
 
-2. After running `yarn docs:build`, run this command to deploy:
+2. After running `npm run docs:build`, run this command to deploy:
 
    ```sh
    firebase deploy
@@ -205,7 +207,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
 ## Surge
 
-1. After running `yarn docs:build`, run this command to deploy:
+1. After running `npm run docs:build`, run this command to deploy:
 
    ```sh
    npx surge docs/.vitepress/dist

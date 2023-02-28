@@ -13,7 +13,8 @@ describe('test multi sidebar sort root', () => {
       'Frontmatter',
       '& <Text Literals &> code',
       'Static Data',
-      'Multi Sidebar Test'
+      'Multi Sidebar Test',
+      'Dynamic Routes'
     ])
   })
 })
