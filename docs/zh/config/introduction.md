@@ -15,9 +15,9 @@
 你也可以使用任意的 `.ts`、`.cjs`、`.mjs`、`.cts` 和 `.mts` 作为配置文件的扩展名。
 :::
 
-VitePress 带有 2 种类型的配置。一种是[应用全局配置](./app-configs)，它配置站点的基本功能，例如设置站点的标题，或自定义 Markdown 解析器的工作方式。其次是[主题配置](./theme-configs)，用于配置站点的主题，例如添加侧边栏，或者添加“在 GitHub 上编辑此页面”链接等功能。
+VitePress 带有 2 种类型的配置。一种是[应用全局配置](./app-config)，它配置站点的基本功能，例如设置站点的标题，或自定义 Markdown 解析器的工作方式。其次是[主题配置](./theme-config)，用于配置站点的主题，例如添加侧边栏，或者添加“在 GitHub 上编辑此页面”链接等功能。
 
-你还可以在 [Frontmatter](./frontmatter-configs) 中进行另一种配置。Frontmatter 配置可以覆盖在该特定页面的应用全局配置或主题配置上定义的全局配置。但是，有几个选项也仅在 frontmatter 中可用。
+你还可以在 [Frontmatter](./frontmatter-config) 中进行另一种配置。Frontmatter 配置可以覆盖在该特定页面的应用全局配置或主题配置上定义的全局配置。但是，有几个选项也仅在 frontmatter 中可用。
 
 请参阅相应的配置页面以了解更多信息。
 

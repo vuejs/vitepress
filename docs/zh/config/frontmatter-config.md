@@ -1,4 +1,4 @@
-# Frontmatter 配置 {#frontmatter-configs}
+# Frontmatter 配置 {#frontmatter-config}
 
 Frontmatter 支持基于页面的配置。在每个标签上，你可以自由地添加任何设置来覆盖任何全局应用或主题配置。此外，还有一些配置，你只能在 Frontmatter 中定义。
 
@@ -19,7 +19,7 @@ editLink: true
 
 - Type: `string`
 
-页面的标题。它与 [config.title](../config/app-configs#title) 相同，并覆盖了应用全局配置。
+页面的标题。它与 [config.title](../config/app-config#title) 相同，并覆盖了应用全局配置。
 
 ```yaml
 ---
@@ -31,7 +31,7 @@ title: VitePress
 
 - Type: `string | boolean`
 
-标题的后缀。它与 [config.titleTemplate](../config/app-configs#titletemplate) 相同，并覆盖了应用全局配置。
+标题的后缀。它与 [config.titleTemplate](../config/app-config#titletemplate) 相同，并覆盖了应用全局配置。
 
 ```yaml
 ---
@@ -44,7 +44,7 @@ titleTemplate: Vite & Vue powered static site generator
 
 - Type: `string`
 
-页面的描述。它与 [config.description](../config/app-configs#description) 相同，并覆盖了应用全局配置。
+页面的描述。它与 [config.description](../config/app-config#description) 相同，并覆盖了应用全局配置。
 
 ```yaml
 ---
@@ -189,4 +189,4 @@ aside: false
 - Type: `number | [number, number] | 'deep' | false`
 - Default: `2`
 
-The levels of header in the outline to display for the page. It's same as [config.themeConfig.outline](../config/theme-configs#outline), and it overrides the theme config.
+The levels of header in the outline to display for the page. It's same as [config.themeConfig.outline](../config/theme-config#outline), and it overrides the theme config.

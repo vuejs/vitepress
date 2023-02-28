@@ -1,4 +1,4 @@
-# 主题配置 {#theme-configs}
+# 主题配置 {#theme-config}
 
 主题配置可让你自定义主题。你可以通过将 `themeConfig` 键添加到配置文件来定义主题配置。
 
@@ -143,12 +143,22 @@ interface SidebarItem {
 }
 ```
 
+## aside
+- Type: `boolean`
+- Default: `true`
+Setting this value to `false` prevents rendering of aside container.
+
 ## outline
 
 - 类型：`number | [number, number] | 'deep' | false`
 - 默认值：`2`
 
 纲要中显示的标题的级别。你可以通过传递一个数字来指定一个特定的级别，也可以通过传递一个包含底限和上限的元组来提供一个级别范围。当传递等于 `[2, 6]` 的 `'deep'` 时，除了 `h1` 之外，所有的标题级别都显示在大纲中。可以设置 `false` 来隐藏轮廓。
+
+## outlineBadges
+- Type: `boolean`
+- Default: `true`
+By default the badge text is displayed in the outline. Disable this to hide badge text from outline.
 
 ## outlineTitle
 
@@ -271,9 +281,23 @@ export default {
 }
 ```
 
+## algolia
+
+- Type: `AlgoliaSearch`
+
+An option to support searching your docs site using [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Learn more in [Theme: Search](../guide/theme-search)
+
+```ts
+export interface AlgoliaSearchOptions extends DocSearchProps {
+   locales?: Record<string, Partial<DocSearchProps>>
+}
+```
+
+View full options [here](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts).
+
 ## carbonAds
 
-- 类型：`CarbonAds`
+- 类型：`CarbonAdsOptions`
 
 显示 [Carbon Ads](https://www.carbonads.net/) 的选项。
 
@@ -289,7 +313,7 @@ export default {
 ```
 
 ```ts
-export interface CarbonAds {
+export interface CarbonAdsOptions {
   code: string
   placement: string
 }
@@ -320,3 +344,24 @@ export interface DocFooter {
   next?: string
 }
 ```
+
+## darkModeSwitchLabel
+
+- Type: `string`
+- Default: `Appearance`
+
+Can be used to customize the dark mode switch label. This label is only displayed in the mobile view.
+
+## sidebarMenuLabel
+
+- Type: `string`
+- Default: `Menu`
+
+Can be used to customize the sidebar menu label. This label is only displayed in the mobile view.
+
+## returnToTopLabel
+
+- Type: `string`
+- Default: `Return to top`
+
+Can be used to customize the label of the returnToTop. This label is only displayed in the mobile view.

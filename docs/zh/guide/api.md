@@ -66,7 +66,7 @@ interface Router {
 
 - **Type**: `(path: string) => string`
 
-将配置的 [`base`](../config/app-configs#base) 添加到给定的 URL 路径。另请参阅 [Base URL](./asset-handling#base-url)。
+将配置的 [`base`](../config/app-config#base) 添加到给定的 URL 路径。另请参阅 [Base URL](./asset-handling#base-url)。
 
 ## `<Content />`
 

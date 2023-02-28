@@ -20,4 +20,4 @@
 ## Frontmatter 配置 {#frontmatter-config}
 
 - `home: true` 选项已更改为 `layout: home`。此外，还修改了许多与主页相关的设置以提供附加功能。详情请参阅[主页指南](./theme-home-page)。
-- `footer` 选项移至 [`themeConfig.footer`](../config/theme-configs#footer)。
+- `footer` 选项移至 [`themeConfig.footer`](../config/theme-config#footer)。

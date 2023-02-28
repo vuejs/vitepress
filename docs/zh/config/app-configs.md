@@ -1,4 +1,4 @@
-# 应用全局配置 {#app-configs}
+# 应用全局配置 {#app-config}
 
 应用全局配置是定义站点的全局配置的地方。应用全局配置不仅限于主题配置，还有如“根目录”的配置，或站点的“标题”设置。
 
@@ -115,7 +115,7 @@ export default {
 - 类型：`boolean`
 - 默认值：`false`
 
-使用 git commit 来获取时间戳。该选项使默认主题显示页面的最后更新时间。你可以通过 [`themeConfig.lastUpdatedText`](theme-configs#lastupdatedtext) 选项来自定义文本。
+使用 git commit 来获取时间戳。该选项使默认主题显示页面的最后更新时间。你可以通过 [`themeConfig.lastUpdatedText`](theme-config#lastupdatedtext) 选项来自定义文本。
 
 ```ts
 export default {

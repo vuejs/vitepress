@@ -281,7 +281,7 @@ export default {
 
 在 Shiki 的仓库里有对应支持的[语言列表](https://github.com/shikijs/shiki/blob/main/docs/languages.md)。
 
-你还可以在应用全局配置中自定义语法高亮主题。有关详细信息，请参阅 [`markdown` 选项](../config/app-configs#markdown)。
+你还可以在应用全局配置中自定义语法高亮主题。有关详细信息，请参阅 [`markdown` 选项](../config/app-config#markdown)。
 
 ## 代码块中定义行高亮 {#line-highlighting-in-code-blocks}
 
@@ -487,7 +487,7 @@ export default {
 }
 ```
 
-可以通过 [`markdown` 选项](../config/app-configs#markdown)了解更多。
+可以通过 [`markdown` 选项](../config/app-config#markdown)了解更多。
 
 ## 导入代码片段 {#import-code-snippets}
 
@@ -547,6 +547,34 @@ export default {
 ```
 
 这在无法从文件扩展名中推断出源语言会很有用。
+
+You can also [import snippets](#import-code-snippets) in code groups:
+
+**Input**
+
+```md
+::: code-group
+
+<!-- filename is used as title by default -->
+
+<<< @/snippets/snippet.js
+
+<!-- you can provide a custom one too -->
+
+<<< @/snippets/snippet-with-region.js#snippet{1,2 ts:line-numbers} [snippet with region]
+
+:::
+```
+
+**Output**
+
+::: code-group
+
+<<< @/snippets/snippet.js
+
+<<< @/snippets/snippet-with-region.js#snippet{1,2 ts:line-numbers} [snippet with region]
+
+:::
 
 ## 包含其他 Markdown 文件 {#markdown-file-inclusion}
 
@@ -617,4 +645,4 @@ module.exports = {
 }
 ```
 
-通过[配置：应用全局配置](../config/app-configs#markdown)查看可配置属性的完整列表。
+通过[配置：应用全局配置](../config/app-config#markdown)查看可配置属性的完整列表。

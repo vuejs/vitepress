@@ -12,23 +12,48 @@ VitePress 目前处于 `alpha` 状态。它已经适合开箱即用地组织文�
 
 创建并进入新项目的目录。
 
+
 ```sh
 $ mkdir vitepress-starter && cd vitepress-starter
 ```
 
 用你喜欢的包管理工具初始化项目。
 
-```sh
+::: code-group
+
+```sh [npm]
+$ npm init
+```
+
+```sh [yarn]
 $ yarn init
 ```
+
+```sh [pnpm]
+$ pnpm init
+```
+
+:::
 
 ## 步骤 2：安装 VitePress {#step-2-install-vitepress}
 
 添加 VitePress 和 Vue 作为项目的开发依赖项。
 
-```sh
-$ yarn add --dev vitepress vue
+::: code-group
+
+```sh [npm]
+$ npm install -D vitepress vue
 ```
+
+```sh [yarn]
+$ yarn add -D vitepress vue
+```
+
+```sh [pnpm]
+$ pnpm add -D vitepress vue
+```
+
+:::
 
 ::: details 得到了 peer dependencies 警告？
 `@docsearch/js` 的 peer dependencies 存在某些问题。如果你看到某些命令由于它们而失败，你现在可以尝试以下解决方案：
@@ -71,9 +96,21 @@ $ mkdir docs && echo '# Hello VitePress' > docs/index.md
 
 在本地启动文档服务。
 
-```sh
+::: code-group
+
+```sh [npm]
+$ npm run docs:dev
+```
+
+```sh [yarn]
 $ yarn docs:dev
 ```
+
+```sh [pnpm]
+$ pnpm run docs:dev
+```
+
+:::
 
 VitePress 将在 `http://localhost:5173` 启动一个支持热部署的本地开发服务环境。
 

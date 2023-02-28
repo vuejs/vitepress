@@ -207,7 +207,7 @@ interface TeamMember {
 
   // Social links. e.g. GitHub, Twitter, etc. You may pass in
   // the Social Links object here.
-  // See: https://vitepress.vuejs.org/config/theme-configs.html#sociallinks
+  // See: https://vitepress.vuejs.org/config/theme-config.html#sociallinks
   links?: SocialLink[]
 
   // URL for the sponsor page for the member.

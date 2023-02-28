@@ -9,7 +9,7 @@ editLink: true
 ---
 ```
 
-在三点虚线之间，你可以设置[预定义变量](../config/frontmatter-configs)，甚至可以创建自己的自定义变量。 这些变量可以通过特殊的 <code>$frontmatter</code> 变量来使用。
+在三点虚线之间，你可以设置[预定义变量](../config/frontmatter-config)，甚至可以创建自己的自定义变量。 这些变量可以通过特殊的 <code>$frontmatter</code> 变量来使用。
 
 这是如何在 Markdown 文件中使用的例子：
 

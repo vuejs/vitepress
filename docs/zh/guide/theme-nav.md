@@ -4,7 +4,7 @@ Nav 是显示在页面顶部的导航栏。 它包含站点标题、全局菜单
 
 ## 站点的标题和 logo {#site-title-and-logo}
 
-默认情况下，导航的展示会引用 [`config.title`](../config/app-configs#title) 配置的站点标题。如果想更改导航上显示的内容，可以在 `themeConfig.siteTitle` 选项中定义自定义文本。
+默认情况下，导航的展示会引用 [`config.title`](../config/app-config#title) 配置的站点标题。如果想更改导航上显示的内容，可以在 `themeConfig.siteTitle` 选项中定义自定义文本。
 
 ```js
 export default {
@@ -35,7 +35,7 @@ export default {
 }
 ```
 
-如果你想添加 alt 属性或根据黑暗/光明模式定制它，你也可以传递一个对象作为 logo。详情请参见 [`themeConfig.logo`](../config/theme-configs#logo)。
+如果你想添加 alt 属性或根据黑暗/光明模式定制它，你也可以传递一个对象作为 logo。详情请参见 [`themeConfig.logo`](../config/theme-config#logo)。
 
 ## 导航链接 {#navigation-links}
 
@@ -46,7 +46,7 @@ export default {
   themeConfig: {
     nav: [
       { text: 'Guide', link: '/guide' },
-      { text: 'Configs', link: '/configs' },
+      { text: 'config', link: '/config' },
       { text: 'Changelog', link: 'https://github.com/...' }
     ]
   }
@@ -140,4 +140,4 @@ export default {
 
 ## 社交链接 {#social-links}
 
-点击这里查看支持的 [`socialLinks`](../config/theme-configs#sociallinks).
+点击这里查看支持的 [`socialLinks`](../config/theme-config#sociallinks).

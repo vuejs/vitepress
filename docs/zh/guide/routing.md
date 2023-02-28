@@ -49,7 +49,7 @@ docs/index.md           -> /
 docs/getting-started.md -> /getting-started.html
 ```
 
-你也可以在配置文件中通过 [srcDir](/config/app-configs#srcdir) 选项自定义根目录。使用以下设置运行 `vitepress dev`，与运行 `vitepress dev docs` 命令的效果相同。
+你也可以在配置文件中通过 [srcDir](/config/app-config#srcdir) 选项自定义根目录。使用以下设置运行 `vitepress dev`，与运行 `vitepress dev docs` 命令的效果相同。
 
 ```ts
 export default {
@@ -88,7 +88,7 @@ export default {
 └─ index.md
 ```
 
-然而，你也可以通过设置 [`cleanUrls`](/config/app-configs#cleanurls) 选项生成一个简洁的URL。
+然而，你也可以通过设置 [`cleanUrls`](/config/app-config#cleanurls) 选项生成一个简洁的URL。
 
 ```ts
 export default {
@@ -120,13 +120,13 @@ packages/pkg-a/src/pkg-a-code.md -> /pkg-a/pkg-a-code.md
 packages/pkg-b/src/pkg-b-code.md -> /pkg-b/pkg-b-code.md
 ```
 
-可以像这样通过 [`rewrites`](/config/app-configs#rewrites) 选项配置映射。
+可以像这样通过 [`rewrites`](/config/app-config#rewrites) 选项配置映射。
 
 ```ts
 export default {
   rewrites: {
-    'packages/pkg-a/src/pkg-a-code.md': 'pkg-a/pkg-a-code',
-    'packages/pkg-b/src/pkg-b-code.md': 'pkg-b/pkg-b-code'
+    'packages/pkg-a/src/pkg-a-code.md': 'pkg-a/pkg-a-code.md',
+    'packages/pkg-b/src/pkg-b-code.md': 'pkg-b/pkg-b-code.md'
   }
 }
 ```
@@ -156,8 +156,8 @@ export default {
 上述内容将创建如下映射。
 
 ```
-packages/pkg-a/src/pkg-a-code.md  -> /pkg-a/pkg-a-code
-packages/pkg-b/src/folder/file.md -> /pkg-b/folder/file
+packages/pkg-a/src/pkg-a-code.md  -> /pkg-a/pkg-a-code.md
+packages/pkg-b/src/folder/file.md -> /pkg-b/folder/file.md
 ```
 
 ::: warning 你需要在添加页面时重新启动服务器

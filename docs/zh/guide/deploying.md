@@ -17,7 +17,7 @@
 
 ::: tip 提示
 
-如果使用子目录(`https://example.com/subdir/`)作为部署站点，则必须在 `docs/.vitepress/config.js` 中将 `'/subdir/'` 设置为 [`base`](../config/app-configs#base) 的值。
+如果使用子目录(`https://example.com/subdir/`)作为部署站点，则必须在 `docs/.vitepress/config.js` 中将 `'/subdir/'` 设置为 [`base`](../config/app-config#base) 的值。
 
 **示例：** 如果你使用 Github (或 GitLab) 页面并部署到 `user.github.io/repo/`，则将 `base` 设置为 `/repo/`。
 
@@ -73,34 +73,35 @@
 
    ```yaml
    name: Deploy
-
    on:
+     workflow_dispatch: {}
      push:
        branches:
          - main
-
    jobs:
      deploy:
        runs-on: ubuntu-latest
+       permissions:
+         pages: write     
+         id-token: write 
+       environment:
+         name: github-pages
+         url: ${{ steps.deployment.outputs.page_url }}
        steps:
          - uses: actions/checkout@v3
-           with:
-             fetch-depth: 0
-         - uses: actions/setup-node@v3
            with:
              node-version: 16
              cache: yarn
          - run: yarn install --frozen-lockfile
-
          - name: Build
            run: yarn docs:build
-
-         - name: Deploy
-           uses: peaceiris/actions-gh-pages@v3
+         - uses: actions/configure-pages@v2
+         - uses: actions/upload-pages-artifact@v1
            with:
-             github_token: ${{ secrets.GITHUB_TOKEN }}
-             publish_dir: docs/.vitepress/dist
-             # cname: example.com # if wanna deploy to custom domain
+             path: docs/.vitepress/dist
+         - name: Deploy
+           id: deployment
+           uses: actions/deploy-pages@v1
    ```
 
    ::: tip 提示
@@ -127,6 +128,25 @@
      cache:
        paths:
          - node_modules/
+     script:
+       - yarn install
+       - yarn docs:build
+     artifacts:
+       paths:
+         - public
+     only:
+       - main
+   ```
+
+4. Alternatively, if you want to use an _alpine_ version of node, you have to install `git` manually. In that case, the code above modifies to this:
+   ```yaml
+   image: node:16-alpine
+   pages:
+     cache:
+       paths:
+         - node_modules/
+     before_script:
+       - apk add git
      script:
        - yarn install
        - yarn docs:build
@@ -198,6 +218,6 @@
    }
    ```
 
-## Layer0
+## Edgio
 
-参考[在 Layer0 里创建和部署 VitePress 应用](https://docs.layer0.co/guides/vitepress)。
+参考[在 Edgio 里创建和部署 VitePress 应用](https://docs.edg.io/guides/vitepress)。
