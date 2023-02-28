@@ -57,7 +57,7 @@ export const dynamicRoutesPlugin = async (
 
     resolveId(id) {
       if (!id.endsWith('.md')) return
-      const normalizedId = id.startsWith(config.root)
+      const normalizedId = id.startsWith(config.srcDir)
         ? id
         : normalizePath(path.resolve(config.srcDir, id.replace(/^\//, '')))
       const matched = config.dynamicRoutes.routes.find(
