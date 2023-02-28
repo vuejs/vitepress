@@ -4,7 +4,8 @@ import { useRoute } from '../router.js'
 export const Content = defineComponent({
   name: 'VitePressContent',
   props: {
-    onContentUpdated: Function
+    onContentUpdated: Function,
+    as: { type: [Object, String], default: 'div' }
   },
   setup(props) {
     const route = useRoute()
@@ -12,7 +13,7 @@ export const Content = defineComponent({
       props.onContentUpdated?.()
     })
     return () =>
-      h('div', { style: { position: 'relative' } }, [
+      h(props.as, { style: { position: 'relative' } }, [
         route.component ? h(route.component) : null
       ])
   }
