@@ -71,7 +71,7 @@ export const staticDataPlugin: Plugin = {
         const res = await loadConfigFromFile({} as any, id)
 
         // record deps for hmr
-        if (res) {
+        if (server && res) {
           for (const dep of res.dependencies) {
             depToLoaderModuleIdMap[normalizePath(path.resolve(dep))] = id
           }
@@ -121,7 +121,7 @@ export const staticDataPlugin: Plugin = {
   },
 
   handleHotUpdate(ctx) {
-    const file = normalizePath(ctx.file)
+    const file = ctx.file
 
     // dependency of data loader changed
     // (note the dep array includes the loader file itself)

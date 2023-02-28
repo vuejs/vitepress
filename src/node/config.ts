@@ -185,7 +185,7 @@ export interface SiteConfig<ThemeConfig = any>
   pages: string[]
   dynamicRoutes: {
     routes: ResolvedRouteConfig[]
-    fileToModulesMap: Record<string, string[]>
+    fileToModulesMap: Record<string, Set<string>>
   }
   rewrites: {
     map: Record<string, string | undefined>
