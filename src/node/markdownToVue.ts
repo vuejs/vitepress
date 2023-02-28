@@ -56,7 +56,9 @@ export async function createMarkdownToVueRenderFn(
     publicDir: string
   ): Promise<MarkdownCompileResult> => {
     const fileOrig = file
-    const alias = siteConfig?.rewrites.inv[file.slice(srcDir.length + 1)]
+    const alias =
+      siteConfig?.rewrites.map[file] || // virtual dynamic path file
+      siteConfig?.rewrites.map[file.slice(srcDir.length + 1)]
     file = alias ? path.join(srcDir, alias) : file
     const relativePath = slash(path.relative(srcDir, file))
     const cacheKey = JSON.stringify({ src, file })
@@ -68,6 +70,16 @@ export async function createMarkdownToVueRenderFn(
     }
 
     const start = Date.now()
+
+    // resolve params for dynamic routes
+    let params
+    src = src.replace(
+      /^__VP_PARAMS_START([^]+?)__VP_PARAMS_END__/,
+      (_, paramsString) => {
+        params = JSON.parse(paramsString)
+        return ''
+      }
+    )
 
     // resolve includes
     let includes: string[] = []
@@ -152,6 +164,7 @@ export async function createMarkdownToVueRenderFn(
       description: inferDescription(frontmatter),
       frontmatter,
       headers,
+      params,
       relativePath
     }
 

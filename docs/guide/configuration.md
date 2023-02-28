@@ -24,4 +24,4 @@ In the above example, the site will have the title of `VitePress`, and `Just pla
 
 Learn everything about VitePress features at [Theme: Introduction](./theme-introduction) to find how to configure specific features within this config file.
 
-You may also find all configuration references at [Configs](../config/introduction).
+You may also find all configuration references at [Config Reference](../config/introduction).

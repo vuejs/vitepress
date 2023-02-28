@@ -9,7 +9,7 @@ editLink: true
 ---
 ```
 
-Between the triple-dashed lines, you can set [predefined variables](../config/frontmatter-configs), or even create custom ones of your own. These variables can be used via the special <code>$frontmatter</code> variable.
+Between the triple-dashed lines, you can set [predefined variables](../config/frontmatter-config), or even create custom ones of your own. These variables can be used via the special <code>$frontmatter</code> variable.
 
 Here's an example of how you could use it in your Markdown file:
 
