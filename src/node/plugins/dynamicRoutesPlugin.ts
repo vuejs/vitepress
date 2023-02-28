@@ -129,7 +129,7 @@ export async function resolveDynamicRoutes(
       if (!fs.existsSync(pathsFile)) {
         console.warn(
           c.yellow(
-            `missing paths file for dynamic route ${route}: ` +
+            `Missing paths file for dynamic route ${route}: ` +
               `a corresponding ${jsPathsFile} or ${pathsFile} is needed.`
           )
         )
@@ -144,7 +144,12 @@ export async function resolveDynamicRoutes(
         mod = (await loadConfigFromFile({} as any, pathsFile)) as RouteModule
         routeModuleCache.set(pathsFile, mod)
       } catch (e) {
-        console.warn(`invalid paths file export in ${pathsFile}.`)
+        console.warn(
+          c.yellow(
+            `Invalid paths file export in ${pathsFile}. ` +
+              `Expects default export of an object with a "paths" property.`
+          )
+        )
         continue
       }
     }
@@ -161,8 +166,18 @@ export async function resolveDynamicRoutes(
       routeFileToModulesMap[normalizePath(path.resolve(dep))] = matchedModuleIds
     }
 
+    const loader = mod!.config.paths
+    if (!loader) {
+      console.warn(
+        c.yellow(
+          `Invalid paths file export in ${pathsFile}. ` +
+            `Missing "paths" property from default export.`
+        )
+      )
+      continue
+    }
+
     const resolveRoute = async (): Promise<ResolvedRouteConfig[]> => {
-      const loader = mod!.config.paths
       const paths = await (typeof loader === 'function' ? loader() : loader)
       return paths.map((userConfig) => {
         const resolvedPath = route.replace(
