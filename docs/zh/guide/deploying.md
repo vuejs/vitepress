@@ -67,7 +67,7 @@
 
 ### 使用 GitHub Actions {#using-github-actions}
 
-1. 在你的主题配置文件 `docs/.vitepress/config.js` 中，将 `base` 属性设置为你的 GitHub 仓库的名称。 如果你打算将你的站点部署到`https://foo.github.io/bar/`，那么你应该将base设置为`'/bar/'`。 它应该始终以斜线开头和结尾。
+1. 在你的主题配置文件 `docs/.vitepress/config.js` 中，将 `base` 属性设置为你的 GitHub 仓库的名称。 如果你打算将你的站点部署到 `https://foo.github.io/bar/`，那么你应该将 base 设置为`'/bar/'`。 它应该始终以斜线开头和结尾。
 
 2. 在项目的 `.github/workflows` 目录中创建一个名为 `deploy.yml` 的文件，内容如下：
 
