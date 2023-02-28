@@ -26,6 +26,8 @@ interface RouteModule {
   dependencies: string[]
 }
 
+const routeModuleCache = new Map<string, RouteModule>()
+
 export type ResolvedRouteConfig = UserRouteConfig & {
   /**
    * the raw route (relative to src root), e.g. foo/[bar].md
@@ -92,6 +94,7 @@ export const dynamicRoutesPlugin = async (
     },
 
     async handleHotUpdate(ctx) {
+      routeModuleCache.delete(ctx.file)
       const mods = config.dynamicRoutes.fileToModulesMap[ctx.file]
       if (mods) {
         // path loader module or deps updated, reset loaded routes
@@ -118,7 +121,7 @@ export async function resolveDynamicRoutes(
 
   for (const route of routes) {
     // locate corresponding route paths file
-    const fullPath = path.resolve(srcDir, route)
+    const fullPath = normalizePath(path.resolve(srcDir, route))
     const jsPathsFile = fullPath.replace(/\.md$/, '.paths.js')
     let pathsFile = jsPathsFile
     if (!fs.existsSync(jsPathsFile)) {
@@ -135,46 +138,46 @@ export async function resolveDynamicRoutes(
     }
 
     // load the paths loader module
-    let mod: RouteModule
-    try {
-      mod = (await loadConfigFromFile({} as any, pathsFile)) as RouteModule
-    } catch (e) {
-      console.warn(`invalid paths file export in ${pathsFile}.`)
-      continue
+    let mod = routeModuleCache.get(pathsFile)
+    if (!mod) {
+      try {
+        mod = (await loadConfigFromFile({} as any, pathsFile)) as RouteModule
+        routeModuleCache.set(pathsFile, mod)
+      } catch (e) {
+        console.warn(`invalid paths file export in ${pathsFile}.`)
+        continue
+      }
     }
 
-    if (mod) {
-      // this array represents the virtual modules affected by this route
-      const matchedModuleIds = (routeFileToModulesMap[
-        normalizePath(path.resolve(srcDir, route))
-      ] = new Set())
+    // this array represents the virtual modules affected by this route
+    const matchedModuleIds = (routeFileToModulesMap[
+      normalizePath(path.resolve(srcDir, route))
+    ] = new Set())
 
-      // each dependency (including the loader module itself) also point to the
-      // same array
-      for (const dep of mod.dependencies) {
-        // deps are resolved relative to cwd
-        routeFileToModulesMap[normalizePath(path.resolve(dep))] =
-          matchedModuleIds
-      }
-
-      const resolveRoute = async (): Promise<ResolvedRouteConfig[]> => {
-        const loader = mod.config.paths
-        const paths = await (typeof loader === 'function' ? loader() : loader)
-        return paths.map((userConfig) => {
-          const resolvedPath = route.replace(
-            dynamicRouteRE,
-            (_, key) => userConfig.params[key]
-          )
-          return {
-            path: resolvedPath,
-            fullPath: normalizePath(path.resolve(srcDir, resolvedPath)),
-            route,
-            ...userConfig
-          }
-        })
-      }
-      pendingResolveRoutes.push(resolveRoute())
+    // each dependency (including the loader module itself) also point to the
+    // same array
+    for (const dep of mod.dependencies) {
+      // deps are resolved relative to cwd
+      routeFileToModulesMap[normalizePath(path.resolve(dep))] = matchedModuleIds
     }
+
+    const resolveRoute = async (): Promise<ResolvedRouteConfig[]> => {
+      const loader = mod!.config.paths
+      const paths = await (typeof loader === 'function' ? loader() : loader)
+      return paths.map((userConfig) => {
+        const resolvedPath = route.replace(
+          dynamicRouteRE,
+          (_, key) => userConfig.params[key]
+        )
+        return {
+          path: resolvedPath,
+          fullPath: normalizePath(path.resolve(srcDir, resolvedPath)),
+          route,
+          ...userConfig
+        }
+      })
+    }
+    pendingResolveRoutes.push(resolveRoute())
   }
 
   return {
