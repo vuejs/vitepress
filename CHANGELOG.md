@@ -1,3 +1,171 @@
+# [1.0.0-alpha.49](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.48...v1.0.0-alpha.49) (2023-02-28)
+
+
+### Bug Fixes
+
+* disable fuzzy link recognition by default ([2450710](https://github.com/vuejs/vitepress/commit/24507105b18362210632543b8a72893832b5940a))
+* dyamic routes w/ srcDir + relative imports ([b075ee5](https://github.com/vuejs/vitepress/commit/b075ee5be6785e671b19ded066c22a1d506ec508))
+* hmr on deps change of data loaders ([5913ebc](https://github.com/vuejs/vitepress/commit/5913ebc34f810e84b4ad482aa835e1a4e8beb404))
+* normalize all paths in config ([8e8fcd9](https://github.com/vuejs/vitepress/commit/8e8fcd9caa4194787c5fc81ad10d17cf82638b8f))
+* **theme:** "copy code" button not readable on hover state ([#819](https://github.com/vuejs/vitepress/issues/819)) ([#1892](https://github.com/vuejs/vitepress/issues/1892)) ([#1998](https://github.com/vuejs/vitepress/issues/1998)) ([c2de4ca](https://github.com/vuejs/vitepress/commit/c2de4caa345bdeda5252a8fc00cfcdbcc18d5d2d))
+* **theme:** tip custom container has wrong bg color for `<code>` block ([d9a2e6e](https://github.com/vuejs/vitepress/commit/d9a2e6e8978f614d70f347be81b9b3b9df03d7a1))
+* update route configs on file add / delete ([bccce98](https://github.com/vuejs/vitepress/commit/bccce98c62d1ea405c55a6f72bab6f2ce27e2e65))
+
+
+### Features
+
+* dynamic routes ([24fa862](https://github.com/vuejs/vitepress/commit/24fa862c39d1b5c2ea6da6faf08cfe95e07f5d2f))
+* **theme:** enhance readability of custom containers ([#1824](https://github.com/vuejs/vitepress/issues/1824)) ([#1989](https://github.com/vuejs/vitepress/issues/1989)) ([472b6ec](https://github.com/vuejs/vitepress/commit/472b6ecf5e404bccc751bcf93b868ac30f43f22b))
+
+
+
+# [1.0.0-alpha.48](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.47...v1.0.0-alpha.48) (2023-02-26)
+
+
+### Bug Fixes
+
+* **compat:** remove use of array.at ([fd99590](https://github.com/vuejs/vitepress/commit/fd995906f61e5181ca8e1116dcd93eec65075056))
+* **theme:** add height constraints to hero image  ([#1983](https://github.com/vuejs/vitepress/issues/1983)) ([803d5b6](https://github.com/vuejs/vitepress/commit/803d5b6d663b5293c70672ca5526a33f454e4a17))
+* **theme:** allow empty details in home feature ([#1936](https://github.com/vuejs/vitepress/issues/1936)) ([#1963](https://github.com/vuejs/vitepress/issues/1963)) ([b56351c](https://github.com/vuejs/vitepress/commit/b56351c7785b7a3a3413dcf24d7ac63c1f40fd2b))
+* **theme:** show external link icon in navbar  ([#1881](https://github.com/vuejs/vitepress/issues/1881)) ([8e6e8d9](https://github.com/vuejs/vitepress/commit/8e6e8d9af534e124cb16552686b460e19d0f894f)), closes [#1948](https://github.com/vuejs/vitepress/issues/1948)
+* **theme:** show external link icon on same line ([#1880](https://github.com/vuejs/vitepress/issues/1880)) ([6218b10](https://github.com/vuejs/vitepress/commit/6218b108bc78aed0ec1afd3d1cf4182e611eed90))
+
+
+### Features
+
+* **build:** add support for custom languages ([#1837](https://github.com/vuejs/vitepress/issues/1837)) ([5a6d384](https://github.com/vuejs/vitepress/commit/5a6d3849527ee1dfd9f4299f5350cfa7641effb7))
+* **theme:** make prev/next links changeable ([#1972](https://github.com/vuejs/vitepress/issues/1972)) ([b8a5e8e](https://github.com/vuejs/vitepress/commit/b8a5e8e5b24b025c9a5e4850b72296f726ae71e5))
+* **theme:** support custom target and rel in navbar links ([#1993](https://github.com/vuejs/vitepress/issues/1993)) ([e2d4edf](https://github.com/vuejs/vitepress/commit/e2d4edf45b5ec890c088d3b0517b21a7b3eab9df))
+
+
+
+# [1.0.0-alpha.47](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.46...v1.0.0-alpha.47) (2023-02-20)
+
+
+### Bug Fixes
+
+* **build:** show error stack in logs ([#1960](https://github.com/vuejs/vitepress/issues/1960)) ([c4d8d72](https://github.com/vuejs/vitepress/commit/c4d8d7225c2d8dd75f1640730e8d1425097e3aa3))
+* custom titles of code snippets inside code groups ([#1834](https://github.com/vuejs/vitepress/issues/1834)) ([bcb8cbf](https://github.com/vuejs/vitepress/commit/bcb8cbf3c839dc17c1eaee7e39edb3ecca236a27))
+* **types:** augment vite user config ([#1946](https://github.com/vuejs/vitepress/issues/1946)) ([5c9b75e](https://github.com/vuejs/vitepress/commit/5c9b75e325c27f63373c969e16035a9df5292cc9))
+
+
+### Reverts
+
+* "docs: add linkage for `code-groups` in `getting-started`" ([#1943](https://github.com/vuejs/vitepress/issues/1943)) ([ed90724](https://github.com/vuejs/vitepress/commit/ed90724022359358de582a3c00e86f381d57eeba)), closes [#1906](https://github.com/vuejs/vitepress/issues/1906)
+
+
+
+# [1.0.0-alpha.46](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.45...v1.0.0-alpha.46) (2023-02-12)
+
+
+### Bug Fixes
+
+* **build:** prepend base to all internal non-relative links ([#1908](https://github.com/vuejs/vitepress/issues/1908)) ([dcf2941](https://github.com/vuejs/vitepress/commit/dcf29419f24bfb0fe99e424771be931bf77b9961))
+* **theme-default:** avoid preconnect without algolia ([#1902](https://github.com/vuejs/vitepress/issues/1902)) ([616fe5b](https://github.com/vuejs/vitepress/commit/616fe5b636050caa338cabede3794e658baa0ed6))
+* **theme-default:** remove duplicate judgments in `preconnect()` ([#1903](https://github.com/vuejs/vitepress/issues/1903)) ([48c9b11](https://github.com/vuejs/vitepress/commit/48c9b113161823133276198ebeb15131b83a7a75))
+* **theme:** make features support line wrapping ([#1913](https://github.com/vuejs/vitepress/issues/1913)) ([ea43076](https://github.com/vuejs/vitepress/commit/ea430760f507e3ba381c4ab01ec89a2111f35e8c))
+
+
+### Features
+
+* **build:** use vite logger ([#1899](https://github.com/vuejs/vitepress/issues/1899)) ([a00bb62](https://github.com/vuejs/vitepress/commit/a00bb621439b2571b3d33da6aa67c74ecd13d3c6))
+* **shiki:** support `ansi` code highlight ([#1878](https://github.com/vuejs/vitepress/issues/1878)) ([f974381](https://github.com/vuejs/vitepress/commit/f9743816a55503c387b9c71793a92eb38817650d))
+* **theme:** support disabling aside globally ([#1925](https://github.com/vuejs/vitepress/issues/1925)) ([dd0c4c6](https://github.com/vuejs/vitepress/commit/dd0c4c698c26d3e249d353c3baff568a8f406e8f))
+
+
+### BREAKING CHANGES
+
+* **build:** `base` is now prepended to all internal (non-relative) links, including any reference to a file present in the public directory. If you want the earlier behavior for such links, use absolute links.
+
+
+
+# [1.0.0-alpha.45](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.44...v1.0.0-alpha.45) (2023-01-31)
+
+
+### Bug Fixes
+
+* safari use `window.requestIdleCallback` ([#1871](https://github.com/vuejs/vitepress/issues/1871)) ([507b193](https://github.com/vuejs/vitepress/commit/507b193ef0e09afe667fccbf6de256cbc86de53f))
+
+
+
+# [1.0.0-alpha.44](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.43...v1.0.0-alpha.44) (2023-01-31)
+
+
+### Bug Fixes
+
+* take `<a>` in SVG into account ([#1850](https://github.com/vuejs/vitepress/issues/1850)) ([010b3e5](https://github.com/vuejs/vitepress/commit/010b3e5ad99f5e61fd01e27d0c3144896a8f3d86))
+* **theme:** infer collapsible from collapsed ([#1865](https://github.com/vuejs/vitepress/issues/1865)) ([dea6cfa](https://github.com/vuejs/vitepress/commit/dea6cfa9cbccf4c6433295e80571acee9b260f71))
+
+
+### Features
+
+* **theme:** preconnect algolia when idle ([#1851](https://github.com/vuejs/vitepress/issues/1851)) ([1f77577](https://github.com/vuejs/vitepress/commit/1f775774da7ef51ae8e690bbd86f94c739611a65))
+
+
+### BREAKING CHANGES
+
+* **theme:** `collapsible` is dropped from sidebar, use `collapsed` instead
+
+
+
+# [1.0.0-alpha.43](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.42...v1.0.0-alpha.43) (2023-01-29)
+
+
+### Bug Fixes
+
+* **build:** hmr with rewrites when base is set ([a05956f](https://github.com/vuejs/vitepress/commit/a05956f38a5295cf038ecfc762c044dbc1cdf040))
+
+
+
+# [1.0.0-alpha.42](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.41...v1.0.0-alpha.42) (2023-01-29)
+
+
+### Bug Fixes
+
+* **build:** consider base when checking actual pathname ([#1858](https://github.com/vuejs/vitepress/issues/1858)) ([cf8ad1a](https://github.com/vuejs/vitepress/commit/cf8ad1a29133cc373a1a70720d36e02b38ba6898))
+
+
+
+# [1.0.0-alpha.41](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.40...v1.0.0-alpha.41) (2023-01-28)
+
+
+### Bug Fixes
+
+* check document instead of window to detect browser ([#1833](https://github.com/vuejs/vitepress/issues/1833)) ([0f145cb](https://github.com/vuejs/vitepress/commit/0f145cb3c6568760199a9c8eee785aecaf0e0494))
+* **router:** avoid duplicate history entries ([#1827](https://github.com/vuejs/vitepress/issues/1827)) ([1553dbc](https://github.com/vuejs/vitepress/commit/1553dbce8eac9ed4a65312d4590d6b0f9261135c))
+* **theme:** don't show border on navbar when sidebar is there ([#1845](https://github.com/vuejs/vitepress/issues/1845)) ([3db532e](https://github.com/vuejs/vitepress/commit/3db532ed0999c9bddfd6bc90f6b627ae1b9178af))
+
+
+### Features
+
+* **build:** allow ignoring only localhost dead links ([#1821](https://github.com/vuejs/vitepress/issues/1821)) ([fe52fa3](https://github.com/vuejs/vitepress/commit/fe52fa34201dcfa87ac4886fe285331f0ef89ba8))
+* **build:** expose vitepress site config to vite plugins ([#1822](https://github.com/vuejs/vitepress/issues/1822)) ([05430e4](https://github.com/vuejs/vitepress/commit/05430e45c90562b62796caba28c633070934d85f))
+* **build:** support rewrites ([#1798](https://github.com/vuejs/vitepress/issues/1798)) ([00abac6](https://github.com/vuejs/vitepress/commit/00abac611664e12710e5152d0259390b22c0e8ca))
+* stable `cleanUrls` ([#1852](https://github.com/vuejs/vitepress/issues/1852)) ([5ae4fbd](https://github.com/vuejs/vitepress/commit/5ae4fbde3843236e180e63e2cd2b7021efa0fad4))
+* **theme:** allow removing badge text from outline ([#1825](https://github.com/vuejs/vitepress/issues/1825)) ([5d2fc3f](https://github.com/vuejs/vitepress/commit/5d2fc3f9228c9b26dec26264d0951d0f43b3d90d))
+* **theme:** enable multi level sidebar nesting ([#1360](https://github.com/vuejs/vitepress/issues/1360)) ([#1835](https://github.com/vuejs/vitepress/issues/1835)) ([c35a1f0](https://github.com/vuejs/vitepress/commit/c35a1f0faee3702c0494fb22043ce058e7a2954c)), closes [#1361](https://github.com/vuejs/vitepress/issues/1361) [#1680](https://github.com/vuejs/vitepress/issues/1680)
+
+
+
+# [1.0.0-alpha.40](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.39...v1.0.0-alpha.40) (2023-01-20)
+
+
+### Bug Fixes
+
+* **theme:** nav bg not being applied on some viewport ([39294e0](https://github.com/vuejs/vitepress/commit/39294e0a4ec53b245da4344187de842d0044dac8))
+
+
+
+# [1.0.0-alpha.39](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.38...v1.0.0-alpha.39) (2023-01-20)
+
+
+### Bug Fixes
+
+* **theme:** adjust the position of the curtain to avoid block sidebar ([#1816](https://github.com/vuejs/vitepress/issues/1816)) ([48f0b01](https://github.com/vuejs/vitepress/commit/48f0b015694c17767180eb2f75e9eb12c3f2a358))
+* **theme:** sidebar scrollbar is cropped by nav bar ([bd36224](https://github.com/vuejs/vitepress/commit/bd36224b45ee832765afcf4a57c211d362e4e6af))
+
+
+
 # [1.0.0-alpha.38](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.37...v1.0.0-alpha.38) (2023-01-17)
 
 

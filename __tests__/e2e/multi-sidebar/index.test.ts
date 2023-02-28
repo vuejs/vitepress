@@ -4,14 +4,17 @@ describe('test multi sidebar sort root', () => {
   })
 
   test('using / sidebar', async () => {
-    const sidebarLocator = page.locator('.VPSidebarGroup .title-text')
+    const sidebarLocator = page.locator(
+      '.VPSidebarItem.level-0 > .item > .link > .text'
+    )
 
     const sidebarContent = await sidebarLocator.allTextContents()
     expect(sidebarContent).toEqual([
       'Frontmatter',
       '& <Text Literals &> code',
       'Static Data',
-      'Multi Sidebar Test'
+      'Multi Sidebar Test',
+      'Dynamic Routes'
     ])
   })
 })
@@ -22,7 +25,9 @@ describe('test multi sidebar sort order', () => {
   })
 
   test('using /multi-sidebar/ sidebar', async () => {
-    const sidebarLocator = page.locator('.VPSidebarGroup .title-text')
+    const sidebarLocator = page.locator(
+      '.VPSidebarItem.level-0 > .item > .link > .text'
+    )
 
     const sidebarContent = await sidebarLocator.allTextContents()
     expect(sidebarContent).toEqual(['Multi Sidebar'])

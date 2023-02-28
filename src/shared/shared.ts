@@ -2,7 +2,6 @@ import type { HeadConfig, PageData, SiteData } from '../../types/shared.js'
 
 export type {
   Awaitable,
-  CleanUrlsMode,
   DefaultTheme,
   HeadConfig,
   Header,
@@ -20,7 +19,7 @@ export const APPEARANCE_KEY = 'vitepress-theme-appearance'
 export const HASH_RE = /#.*$/
 export const EXT_RE = /(index)?\.(md|html)$/
 
-export const inBrowser = typeof window !== 'undefined'
+export const inBrowser = typeof document !== 'undefined'
 
 export const notFoundPageData: PageData = {
   relativePath: '',
@@ -100,7 +99,7 @@ export function resolveSiteDataByRoute(
 }
 
 /**
- * Create the page title string based on configs.
+ * Create the page title string based on config.
  */
 export function createTitle(siteData: SiteData, pageData: PageData): string {
   const title = pageData.title || siteData.title

@@ -1,24 +1,19 @@
+import { resolveTitleFromToken } from '@mdit-vue/shared'
+import _debug from 'debug'
 import fs from 'fs'
+import LRUCache from 'lru-cache'
 import path from 'path'
 import c from 'picocolors'
-import LRUCache from 'lru-cache'
-import { resolveTitleFromToken } from '@mdit-vue/shared'
 import type { SiteConfig } from './config'
-import {
-  type PageData,
-  type HeadConfig,
-  EXTERNAL_URL_RE,
-  type CleanUrlsMode
-} from './shared'
-import { slash } from './utils/slash'
-import { getGitTimestamp } from './utils/getGitTimestamp'
 import {
   createMarkdownRenderer,
   type MarkdownEnv,
   type MarkdownOptions,
   type MarkdownRenderer
 } from './markdown'
-import _debug from 'debug'
+import { EXTERNAL_URL_RE, type HeadConfig, type PageData } from './shared'
+import { getGitTimestamp } from './utils/getGitTimestamp'
+import { slash } from './utils/slash'
 
 const debug = _debug('vitepress:md')
 const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
@@ -43,10 +38,15 @@ export async function createMarkdownToVueRenderFn(
   isBuild = false,
   base = '/',
   includeLastUpdatedData = false,
-  cleanUrls: CleanUrlsMode = 'disabled',
+  cleanUrls = false,
   siteConfig: SiteConfig | null = null
 ) {
-  const md = await createMarkdownRenderer(srcDir, options, base)
+  const md = await createMarkdownRenderer(
+    srcDir,
+    options,
+    base,
+    siteConfig?.logger
+  )
   pages = pages.map((p) => slash(p.replace(/\.md$/, '')))
   const replaceRegex = genReplaceRegexp(userDefines, isBuild)
 
@@ -55,6 +55,10 @@ export async function createMarkdownToVueRenderFn(
     file: string,
     publicDir: string
   ): Promise<MarkdownCompileResult> => {
+    const alias =
+      siteConfig?.rewrites.map[file] || // virtual dynamic path file
+      siteConfig?.rewrites.map[file.slice(srcDir.length + 1)]
+    file = alias ? path.join(srcDir, alias) : file
     const relativePath = slash(path.relative(srcDir, file))
     const dir = path.dirname(file)
     const cacheKey = JSON.stringify({ src, file })
@@ -66,6 +70,16 @@ export async function createMarkdownToVueRenderFn(
     }
 
     const start = Date.now()
+
+    // resolve params for dynamic routes
+    let params
+    src = src.replace(
+      /^__VP_PARAMS_START([^]+?)__VP_PARAMS_END__/,
+      (_, paramsString) => {
+        params = JSON.parse(paramsString)
+        return ''
+      }
+    )
 
     // resolve includes
     let includes: string[] = []
@@ -98,7 +112,7 @@ export async function createMarkdownToVueRenderFn(
     // validate data.links
     const deadLinks: string[] = []
     const recordDeadLink = (url: string) => {
-      console.warn(
+      ;(siteConfig?.logger ?? console).warn(
         c.yellow(
           `\n(!) Found dead link ${c.cyan(url)} in file ${c.white(
             c.dim(file)
@@ -115,20 +129,25 @@ export async function createMarkdownToVueRenderFn(
       for (let url of links) {
         if (/\.(?!html|md)\w+($|\?)/i.test(url)) continue
 
-        if (url.replace(EXTERNAL_URL_RE, '').startsWith('//localhost:')) {
+        if (
+          siteConfig?.ignoreDeadLinks !== 'localhostLinks' &&
+          url.replace(EXTERNAL_URL_RE, '').startsWith('//localhost:')
+        ) {
           recordDeadLink(url)
           continue
         }
 
         url = url.replace(/[?#].*$/, '').replace(/\.(html|md)$/, '')
         if (url.endsWith('/')) url += `index`
-        const resolved = decodeURIComponent(
+        let resolved = decodeURIComponent(
           slash(
             url.startsWith('/')
               ? url.slice(1)
               : path.relative(srcDir, path.resolve(dir, url))
           )
         )
+        resolved =
+          siteConfig?.rewrites.inv[resolved + '.md']?.slice(0, -3) || resolved
         if (
           !pages.includes(resolved) &&
           !fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`))
@@ -144,6 +163,7 @@ export async function createMarkdownToVueRenderFn(
       description: inferDescription(frontmatter),
       frontmatter,
       headers,
+      params,
       relativePath
     }
 

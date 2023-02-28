@@ -1,6 +1,11 @@
 import { customAlphabet } from 'nanoid'
 import c from 'picocolors'
-import type { HtmlRendererOptions, IThemeRegistration } from 'shiki'
+import {
+  BUNDLED_LANGUAGES,
+  type HtmlRendererOptions,
+  type ILanguageRegistration,
+  type IThemeRegistration
+} from 'shiki'
 import {
   addClass,
   createDiffProcessor,
@@ -11,6 +16,7 @@ import {
   getHighlighter,
   type Processor
 } from 'shiki-processor'
+import type { Logger } from 'vite'
 import type { ThemeOptions } from '../markdown'
 
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)
@@ -56,8 +62,10 @@ const errorLevelProcessor = defineProcessor({
 })
 
 export async function highlight(
-  theme: ThemeOptions = 'material-palenight',
-  defaultLang: string = ''
+  theme: ThemeOptions = 'material-theme-palenight',
+  languages: ILanguageRegistration[] = [],
+  defaultLang: string = '',
+  logger: Pick<Logger, 'warn'> = console
 ): Promise<(str: string, lang: string, attrs: string) => string> {
   const hasSingleTheme = typeof theme === 'string' || 'name' in theme
   const getThemeName = (themeValue: IThemeRegistration) =>
@@ -72,6 +80,7 @@ export async function highlight(
 
   const highlighter = await getHighlighter({
     themes: hasSingleTheme ? [theme] : [theme.dark, theme.light],
+    langs: [...BUNDLED_LANGUAGES, ...languages],
     processors
   })
 
@@ -88,10 +97,10 @@ export async function highlight(
 
     if (lang) {
       const langLoaded = highlighter.getLoadedLanguages().includes(lang as any)
-      if (!langLoaded) {
-        console.warn(
+      if (!langLoaded && lang !== 'ansi') {
+        logger.warn(
           c.yellow(
-            `The language '${lang}' is not loaded, falling back to '${
+            `\nThe language '${lang}' is not loaded, falling back to '${
               defaultLang || 'txt'
             }' for syntax highlighting.`
           )
@@ -127,42 +136,28 @@ export async function highlight(
       return s
     }
 
-    if (hasSingleTheme) {
+    str = removeMustache(str)
+
+    const codeToHtml = (theme: IThemeRegistration) => {
       return cleanup(
         restoreMustache(
-          highlighter.codeToHtml(removeMustache(str), {
-            lang,
-            lineOptions,
-            theme: getThemeName(theme)
-          })
+          lang === 'ansi'
+            ? highlighter.ansiToHtml(str, {
+                lineOptions,
+                theme: getThemeName(theme)
+              })
+            : highlighter.codeToHtml(str, {
+                lang,
+                lineOptions,
+                theme: getThemeName(theme)
+              })
         )
       )
     }
 
-    const dark = addClass(
-      cleanup(
-        highlighter.codeToHtml(str, {
-          lang,
-          lineOptions,
-          theme: getThemeName(theme.dark)
-        })
-      ),
-      'vp-code-dark',
-      'pre'
-    )
-
-    const light = addClass(
-      cleanup(
-        highlighter.codeToHtml(str, {
-          lang,
-          lineOptions,
-          theme: getThemeName(theme.light)
-        })
-      ),
-      'vp-code-light',
-      'pre'
-    )
-
+    if (hasSingleTheme) return codeToHtml(theme)
+    const dark = addClass(codeToHtml(theme.dark), 'vp-code-dark', 'pre')
+    const light = addClass(codeToHtml(theme.light), 'vp-code-light', 'pre')
     return dark + light
   }
 }

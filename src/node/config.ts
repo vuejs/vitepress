@@ -5,17 +5,24 @@ import fs from 'fs-extra'
 import path from 'path'
 import c from 'picocolors'
 import {
+  createLogger,
   loadConfigFromFile,
   mergeConfig as mergeViteConfig,
   normalizePath,
+  type Logger,
   type UserConfig as ViteConfig
 } from 'vite'
 import { DEFAULT_THEME_PATH } from './alias'
 import type { MarkdownOptions } from './markdown/markdown'
 import {
+  dynamicRouteRE,
+  resolveDynamicRoutes,
+  type ResolvedRouteConfig
+} from './plugins/dynamicRoutesPlugin'
+import { resolveRewrites } from './plugins/rewritesPlugin'
+import {
   APPEARANCE_KEY,
   type Awaitable,
-  type CleanUrlsMode,
   type DefaultTheme,
   type HeadConfig,
   type LocaleConfig,
@@ -73,20 +80,14 @@ export interface UserConfig<ThemeConfig = any>
    *
    * @default false
    */
-  ignoreDeadLinks?: boolean
+  ignoreDeadLinks?: boolean | 'localhostLinks'
 
   /**
-   * @experimental
-   * Remove '.html' from URLs and generate clean directory structure.
+   * Don't force `.html` on URLs.
    *
-   * Available Modes:
-   * - `disabled`: generates `/foo.html` for every `/foo.md` and shows `/foo.html` in browser
-   * - `without-subfolders`: generates `/foo.html` for every `/foo.md` but shows `/foo` in browser
-   * - `with-subfolders`: generates `/foo/index.html` for every `/foo.md` and shows `/foo` in browser
-   *
-   * @default 'disabled'
+   * @default false
    */
-  cleanUrls?: CleanUrlsMode
+  cleanUrls?: boolean
 
   /**
    * Use web fonts instead of emitting font files to dist.
@@ -97,6 +98,13 @@ export interface UserConfig<ThemeConfig = any>
    * @default true in webcontainers, else false
    */
   useWebFonts?: boolean
+
+  /**
+   * @experimental
+   *
+   * source -> destination
+   */
+  rewrites?: Record<string, string>
 
   /**
    * Build end hook: called when SSG finish.
@@ -175,6 +183,16 @@ export interface SiteConfig<ThemeConfig = any>
   cacheDir: string
   tempDir: string
   pages: string[]
+  dynamicRoutes: {
+    routes: ResolvedRouteConfig[]
+    fileToModulesMap: Record<string, Set<string>>
+  }
+  rewrites: {
+    map: Record<string, string | undefined>
+    inv: Record<string, string | undefined>
+  }
+  logger: Logger
+  userConfig: UserConfig
 }
 
 const resolve = (root: string, file: string) =>
@@ -201,18 +219,28 @@ export async function resolveConfig(
   command: 'serve' | 'build' = 'serve',
   mode = 'development'
 ): Promise<SiteConfig> {
+  // normalize root into absolute path
+  root = normalizePath(path.resolve(root))
+
   const [userConfig, configPath, configDeps] = await resolveUserConfig(
     root,
     command,
     mode
   )
+
+  const logger =
+    userConfig.vite?.customLogger ??
+    createLogger(userConfig.vite?.logLevel, {
+      prefix: '[vitepress]',
+      allowClearScreen: userConfig.vite?.clearScreen
+    })
   const site = await resolveSiteData(root, userConfig)
-  const srcDir = path.resolve(root, userConfig.srcDir || '.')
+  const srcDir = normalizePath(path.resolve(root, userConfig.srcDir || '.'))
   const outDir = userConfig.outDir
-    ? path.resolve(root, userConfig.outDir)
+    ? normalizePath(path.resolve(root, userConfig.outDir))
     : resolve(root, 'dist')
   const cacheDir = userConfig.cacheDir
-    ? path.resolve(root, userConfig.cacheDir)
+    ? normalizePath(path.resolve(root, userConfig.cacheDir))
     : resolve(root, 'cache')
 
   // resolve theme path
@@ -221,18 +249,10 @@ export async function resolveConfig(
     ? userThemeDir
     : DEFAULT_THEME_PATH
 
-  // Important: fast-glob doesn't guarantee order of the returned files.
-  // We must sort the pages so the input list to rollup is stable across
-  // builds - otherwise different input order could result in different exports
-  // order in shared chunks which in turns invalidates the hash of every chunk!
-  // JavaScript built-in sort() is mandated to be stable as of ES2019 and
-  // supported in Node 12+, which is required by Vite.
-  const pages = (
-    await fg(['**.md'], {
-      cwd: srcDir,
-      ignore: ['**/node_modules', ...(userConfig.srcExclude || [])]
-    })
-  ).sort()
+  const { pages, dynamicRoutes, rewrites } = await resolvePages(
+    srcDir,
+    userConfig
+  )
 
   const config: SiteConfig = {
     root,
@@ -240,10 +260,12 @@ export async function resolveConfig(
     site,
     themeDir,
     pages,
+    dynamicRoutes,
     configPath,
     configDeps,
     outDir,
     cacheDir,
+    logger,
     tempDir: resolve(root, '.temp'),
     markdown: userConfig.markdown,
     lastUpdated: userConfig.lastUpdated,
@@ -252,7 +274,7 @@ export async function resolveConfig(
     shouldPreload: userConfig.shouldPreload,
     mpa: !!userConfig.mpa,
     ignoreDeadLinks: userConfig.ignoreDeadLinks,
-    cleanUrls: userConfig.cleanUrls || 'disabled',
+    cleanUrls: !!userConfig.cleanUrls,
     useWebFonts:
       userConfig.useWebFonts ??
       typeof process.versions.webcontainer === 'string',
@@ -260,7 +282,9 @@ export async function resolveConfig(
     buildEnd: userConfig.buildEnd,
     transformHead: userConfig.transformHead,
     transformHtml: userConfig.transformHtml,
-    transformPageData: userConfig.transformPageData
+    transformPageData: userConfig.transformPageData,
+    rewrites,
+    userConfig
   }
 
   return config
@@ -363,7 +387,7 @@ export async function resolveSiteData(
     themeConfig: userConfig.themeConfig || {},
     locales: userConfig.locales || {},
     scrollOffset: userConfig.scrollOffset || 90,
-    cleanUrls: userConfig.cleanUrls || 'disabled'
+    cleanUrls: !!userConfig.cleanUrls
   }
 }
 
@@ -394,4 +418,34 @@ function resolveSiteDataHead(userConfig?: UserConfig): HeadConfig[] {
   }
 
   return head
+}
+
+export async function resolvePages(srcDir: string, userConfig: UserConfig) {
+  // Important: fast-glob doesn't guarantee order of the returned files.
+  // We must sort the pages so the input list to rollup is stable across
+  // builds - otherwise different input order could result in different exports
+  // order in shared chunks which in turns invalidates the hash of every chunk!
+  // JavaScript built-in sort() is mandated to be stable as of ES2019 and
+  // supported in Node 12+, which is required by Vite.
+  const allMarkdownFiles = (
+    await fg(['**.md'], {
+      cwd: srcDir,
+      ignore: ['**/node_modules', ...(userConfig.srcExclude || [])]
+    })
+  ).sort()
+
+  const pages = allMarkdownFiles.filter((p) => !dynamicRouteRE.test(p))
+  const dynamicRouteFiles = allMarkdownFiles.filter((p) =>
+    dynamicRouteRE.test(p)
+  )
+  const dynamicRoutes = await resolveDynamicRoutes(srcDir, dynamicRouteFiles)
+  pages.push(...dynamicRoutes.routes.map((r) => r.path))
+
+  const rewrites = resolveRewrites(pages, userConfig.rewrites)
+
+  return {
+    pages,
+    dynamicRoutes,
+    rewrites
+  }
 }

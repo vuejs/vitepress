@@ -23,6 +23,13 @@ export namespace DefaultTheme {
     outline?: Outline | Outline['level'] | false
 
     /**
+     * Disable this to hide badge text from outline.
+     *
+     * @default true
+     */
+    outlineBadges?: boolean
+
+    /**
      * @deprecated
      * Use `outline.label` instead.
      *
@@ -39,6 +46,13 @@ export namespace DefaultTheme {
      * The sidebar items.
      */
     sidebar?: Sidebar
+
+    /**
+     * Set to `false` to prevent rendering of aside container.
+     *
+     * @default true
+     */
+    aside?: boolean
 
     /**
      * Info for the edit link. If it's undefined, the edit link feature will
@@ -106,7 +120,7 @@ export namespace DefaultTheme {
 
   export type NavItem = NavItemWithLink | NavItemWithChildren
 
-  export type NavItemWithLink = {
+  export interface NavItemWithLink {
     text: string
     link: string
 
@@ -115,9 +129,11 @@ export namespace DefaultTheme {
      * RegExp object here because it isn't serializable
      */
     activeMatch?: string
+    target?: string
+    rel?: string
   }
 
-  export type NavItemChildren = {
+  export interface NavItemChildren {
     text?: string
     items: NavItemWithLink[]
   }
@@ -153,34 +169,37 @@ export namespace DefaultTheme {
 
   // sidebar -------------------------------------------------------------------
 
-  export type Sidebar = SidebarGroup[] | SidebarMulti
+  export type Sidebar = SidebarItem[] | SidebarMulti
 
   export interface SidebarMulti {
-    [path: string]: SidebarGroup[]
+    [path: string]: SidebarItem[]
   }
 
-  export interface SidebarGroup {
-    text?: string
-    items: SidebarItem[]
-
+  export type SidebarItem = {
     /**
-     * If `true`, toggle button is shown.
-     *
-     * @default false
+     * The text label of the item.
      */
-    collapsible?: boolean
+    text?: string
 
     /**
-     * If `true`, collapsible group is collapsed by default.
+     * The link of the item.
+     */
+    link?: string
+
+    /**
+     * The children of the item.
+     */
+    items?: SidebarItem[]
+
+    /**
+     * If not specified, group is not collapsible.
      *
-     * @default false
+     * If `true`, group is collapsible and collapsed by default
+     *
+     * If `false`, group is collapsible but expanded by default
      */
     collapsed?: boolean
   }
-
-  export type SidebarItem =
-    | { text: string; link: string }
-    | { text: string; link?: string; items: SidebarItem[] }
 
   // edit link -----------------------------------------------------------------
 

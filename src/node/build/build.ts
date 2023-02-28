@@ -64,21 +64,21 @@ export async function build(
       // as JS object literal.
       const hashMapString = JSON.stringify(JSON.stringify(pageToHashMap))
 
-      const pages = ['404.md', ...siteConfig.pages]
-
       await Promise.all(
-        pages.map((page) =>
-          renderPage(
-            render,
-            siteConfig,
-            page,
-            clientResult,
-            appChunk,
-            cssChunk,
-            pageToHashMap,
-            hashMapString
+        ['404.md', ...siteConfig.pages]
+          .map((page) => siteConfig.rewrites.map[page] || page)
+          .map((page) =>
+            renderPage(
+              render,
+              siteConfig,
+              page,
+              clientResult,
+              appChunk,
+              cssChunk,
+              pageToHashMap,
+              hashMapString
+            )
           )
-        )
       )
     } catch (e) {
       spinner.stopAndPersist({
@@ -104,7 +104,9 @@ export async function build(
 
   await siteConfig.buildEnd?.(siteConfig)
 
-  console.log(`build complete in ${((Date.now() - start) / 1000).toFixed(2)}s.`)
+  siteConfig.logger.info(
+    `build complete in ${((Date.now() - start) / 1000).toFixed(2)}s.`
+  )
 }
 
 function linkVue() {

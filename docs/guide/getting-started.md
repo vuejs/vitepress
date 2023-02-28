@@ -8,7 +8,7 @@ You can also try VitePress online on [StackBlitz](https://vitepress.new/). It ru
 VitePress is currently in `alpha` status. It is already suitable for out-of-the-box documentation use, but the config and theming API may still change between minor releases.
 :::
 
-## Step. 1: Create a new project
+## Step 1: Create a new project
 
 Create and change into a new directory.
 
@@ -18,17 +18,41 @@ $ mkdir vitepress-starter && cd vitepress-starter
 
 Then, initialize with your preferred package manager.
 
-```sh
+::: code-group
+
+```sh [npm]
+$ npm init
+```
+
+```sh [yarn]
 $ yarn init
 ```
 
-## Step. 2: Install VitePress
+```sh [pnpm]
+$ pnpm init
+```
+
+:::
+
+## Step 2: Install VitePress
 
 Add VitePress and Vue as dev dependencies for the project.
 
-```sh
-$ yarn add --dev vitepress vue
+::: code-group
+
+```sh [npm]
+$ npm install -D vitepress vue
 ```
+
+```sh [yarn]
+$ yarn add -D vitepress vue
+```
+
+```sh [pnpm]
+$ pnpm add -D vitepress vue
+```
+
+:::
 
 ::: details Getting missing peer deps warnings?
 `@docsearch/js` has certain issues with its peer dependencies. If you see some commands failing due to them, you can try this workaround for now:
@@ -53,7 +77,7 @@ Create your first document.
 $ mkdir docs && echo '# Hello VitePress' > docs/index.md
 ```
 
-## Step. 3: Boot up dev environment
+## Step 3: Boot up dev environment
 
 Add some scripts to `package.json`.
 
@@ -71,15 +95,26 @@ Add some scripts to `package.json`.
 
 Serve the documentation site in the local server.
 
-```sh
+::: code-group
+
+```sh [npm]
+$ npm run docs:dev
+```
+
+```sh [yarn]
 $ yarn docs:dev
 ```
 
+```sh [pnpm]
+$ pnpm run docs:dev
+```
+
+:::
 VitePress will start a hot-reloading development server at `http://localhost:5173`.
 
-## Step. 4: Add more pages
+## Step 4: Add more pages
 
-Let's add another page to the site. Create a file name `getting-started.md` along with `index.md` you've created in Step. 2. Now your directory structure should look like this.
+Let's add another page to the site. Create a file name `getting-started.md` along with `index.md` you've created in Step 2. Now your directory structure should look like this.
 
 ```
 .
@@ -101,6 +136,6 @@ To enable those navigations, we must add some configurations to the site. Head t
 
 If you would like to know more about what you can do within the page, for example, writing markdown contents, or using Vue Component, check out the "Writing" section of the docs. [Markdown guide](./markdown) would be a great starting point.
 
-If you want to know how to customize how the site looks (Theme), and find out the features VitePress's default theme provides, visit [Theme: Introduction](./theme-introduction).
+If you want to know how to customize how the site looks (Theme), and find out the features VitePress's default theme provides, visit [Theme: Introduction](./customization-intro).
 
 When your documentation site starts to take shape, be sure to read the [deployment guide](./deploying).

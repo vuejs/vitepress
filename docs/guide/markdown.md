@@ -215,7 +215,7 @@ Wraps in a <div class="vp-raw">
 - Install required deps with your preferred package manager:
 
   ```sh
-  $ yarn add -D postcss postcss-prefix-selector
+  $ npm install -D postcss postcss-prefix-selector
   ```
 
 - Create a file named `docs/.postcssrc.cjs` and add this to it:
@@ -281,7 +281,7 @@ export default {
 
 A [list of valid languages](https://github.com/shikijs/shiki/blob/main/docs/languages.md) is available on Shiki's repository.
 
-You may also customize syntax highlight theme in app config. Please see [`markdown` options](../config/app-configs#markdown) for more details.
+You may also customize syntax highlight theme in app config. Please see [`markdown` options](../config/app-config#markdown) for more details.
 
 ## Line Highlighting in Code Blocks
 
@@ -493,7 +493,7 @@ export default {
 }
 ```
 
-Please see [`markdown` options](../config/app-configs#markdown) for more details.
+Please see [`markdown` options](../config/app-config#markdown) for more details.
 
 You can add `:line-numbers` / `:no-line-numbers` mark in your fenced code blocks to override the value set in config.
 
@@ -651,6 +651,34 @@ export default config
 
 :::
 
+You can also [import snippets](#import-code-snippets) in code groups:
+
+**Input**
+
+```md
+::: code-group
+
+<!-- filename is used as title by default -->
+
+<<< @/snippets/snippet.js
+
+<!-- you can provide a custom one too -->
+
+<<< @/snippets/snippet-with-region.js#snippet{1,2 ts:line-numbers} [snippet with region]
+
+:::
+```
+
+**Output**
+
+::: code-group
+
+<<< @/snippets/snippet.js
+
+<<< @/snippets/snippet-with-region.js#snippet{1,2 ts:line-numbers} [snippet with region]
+
+:::
+
 ## Markdown File Inclusion
 
 You can include a markdown file in another markdown file like this:
@@ -720,4 +748,4 @@ module.exports = {
 }
 ```
 
-See full list of configurable properties in [Configs: App Configs](../config/app-configs#markdown).
+See full list of configurable properties in [Config Reference: App Config](../config/app-config#markdown).

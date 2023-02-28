@@ -4,7 +4,7 @@ The Nav is the navigation bar displayed on top of the page. It contains the site
 
 ## Site Title and Logo
 
-By default, nav shows the title of the site referencing [`config.title`](../config/app-configs#title) value. If you would like to change what's displayed on nav, you may define custom text in `themeConfig.siteTitle` option.
+By default, nav shows the title of the site referencing [`config.title`](../config/app-config#title) value. If you would like to change what's displayed on nav, you may define custom text in `themeConfig.siteTitle` option.
 
 ```js
 export default {
@@ -35,7 +35,7 @@ export default {
 }
 ```
 
-You can also pass an object as logo if you want to add `alt` attribute or customize it based on dark/light mode. Refer [`themeConfig.logo`](../config/theme-configs#logo) for details.
+You can also pass an object as logo if you want to add `alt` attribute or customize it based on dark/light mode. Refer [`themeConfig.logo`](../config/theme-config#logo) for details.
 
 ## Navigation Links
 
@@ -46,7 +46,7 @@ export default {
   themeConfig: {
     nav: [
       { text: 'Guide', link: '/guide' },
-      { text: 'Configs', link: '/configs' },
+      { text: 'Config', link: '/config' },
       { text: 'Changelog', link: 'https://github.com/...' }
     ]
   }
@@ -138,6 +138,25 @@ export default {
 `activeMatch` is expected to be a regex string, but you must define it as a string. We can't use actual RegExp object here because it isn't serializable during the build time.
 :::
 
+### Customize link's "target" and "rel" attributes
+
+By default, VitePress automatically determines `target` and `rel` attributes based on whether the link is an external link. But if you want, you can customize them too.
+
+```js
+export default {
+  themeConfig: {
+    nav: [
+      {
+        text: 'Merchandise',
+        link: 'https://www.thegithubshop.com/',
+        target: '_self',
+        rel: 'sponsored'
+      }
+    ]
+  }
+}
+```
+
 ## Social Links
 
-Refer [`socialLinks`](../config/theme-configs#sociallinks).
+Refer [`socialLinks`](../config/theme-config#sociallinks).

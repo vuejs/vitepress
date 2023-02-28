@@ -4,7 +4,7 @@ const sidebar: DefaultTheme.Config['sidebar'] = {
   '/': [
     {
       text: 'Frontmatter',
-      collapsible: true,
+      collapsed: false,
       items: [
         {
           text: 'Multiple Levels Outline',
@@ -36,6 +36,19 @@ const sidebar: DefaultTheme.Config['sidebar'] = {
         {
           text: 'Test Page',
           link: '/multi-sidebar/'
+        }
+      ]
+    },
+    {
+      text: 'Dynamic Routes',
+      items: [
+        {
+          text: 'Foo',
+          link: '/dynamic-routes/foo'
+        },
+        {
+          text: 'Bar',
+          link: '/dynamic-routes/bar'
         }
       ]
     }

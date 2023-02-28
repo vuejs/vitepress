@@ -1,10 +1,10 @@
-# App Configs
+# App Config
 
-App configs are where you can define the global settings of the site. App configs define fundamental settings that are not only limited to the theme configs such as configuration for "base directory", or the "title" of the site.
+App config is where you can define the global settings of the site. App config options define settings that apply to every VitePress site, regardless of what theme it is using. For example, the base directory or the title of the site.
 
 ```ts
 export default {
-  // These are app level configs.
+  // app level config options
   lang: 'en-US',
   title: 'VitePress',
   description: 'Vite & Vue powered static site generator.',
@@ -86,10 +86,10 @@ type HeadConfig =
 
 ## ignoreDeadLinks
 
-- Type: `boolean`
+- Type: `boolean | 'localhostLinks'`
 - Default: `false`
 
-When set to `true`, VitePress will not fail builds due to dead links.
+When set to `true`, VitePress will not fail builds due to dead links. When set to `localhostLinks`, the build will fail on dead links, but won't check `localhost` links.
 
 ```ts
 export default {
@@ -115,7 +115,7 @@ export default {
 - Type: `boolean`
 - Default: `false`
 
-Use git commit to get the timestamp. This option enables the default theme to display the page's last updated time. You can customize the text via [`themeConfig.lastUpdatedText`](theme-configs#lastupdatedtext) option.
+Use git commit to get the timestamp. This option enables the default theme to display the page's last updated time. You can customize the text via [`themeConfig.lastUpdatedText`](theme-config#lastupdatedtext) option.
 
 ```ts
 export default {
@@ -132,7 +132,7 @@ Configure Markdown parser options. VitePress uses [Markdown-it](https://github.c
 ```js
 export default {
   markdown: {
-    theme: 'material-palenight',
+    theme: 'material-theme-palenight',
     lineNumbers: true
   }
 }
@@ -153,6 +153,10 @@ interface MarkdownOptions extends MarkdownIt.Options {
 
   // Enable line numbers in code block.
   lineNumbers?: boolean
+
+  // Add support for your own languages.
+  // https://github.com/shikijs/shiki/blob/main/docs/languages.md#supporting-your-own-languages-with-shiki
+  languages?: Shiki.ILanguageRegistration
 
   // markdown-it-anchor plugin options.
   // See: https://github.com/valeriangalliat/markdown-it-anchor#usage
@@ -266,28 +270,34 @@ export default {
 }
 ```
 
-## cleanUrls (Experimental)
+## cleanUrls
 
-- Type: `'disabled' | 'without-subfolders' | 'with-subfolders'`
-- Default: `'disabled'`
+- Type: `boolean`
+- Default: `false`
 
-Allows removing trailing `.html` from URLs and, optionally, generating clean directory structure. Available modes:
-
-|          Mode          |   Page    |  Generated Page   |     URL     |
-| :--------------------: | :-------: | :---------------: | :---------: |
-|      `'disabled'`      | `/foo.md` |    `/foo.html`    | `/foo.html` |
-| `'without-subfolders'` | `/foo.md` |    `/foo.html`    |   `/foo`    |
-|  `'with-subfolders'`   | `/foo.md` | `/foo/index.html` |   `/foo`    |
-
-::: warning
-
-Enabling this may require additional configuration on your hosting platform. For it to work, your server must serve the generated page on requesting the URL (see above table) **without a redirect**.
-
-:::
+Allows removing trailing `.html` from URLs.
 
 ```ts
 export default {
-  cleanUrls: 'with-subfolders'
+  cleanUrls: true
+}
+```
+
+::: warning
+Enabling this may require additional configuration on your hosting platform. For it to work, your server must serve `/foo.html` on requesting `/foo` **without a redirect**.
+:::
+
+## rewrites
+
+- Type: `Record<string, string>`
+
+Defines custom directory <-> URL mappings. See [Routing: Customize the Mappings](/guide/routing#customize-the-mappings) for more details.
+
+```ts
+export default {
+  rewrites: {
+    'source/:page': 'destination/:page'
+  }
 }
 ```
 

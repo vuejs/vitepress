@@ -11,6 +11,7 @@ export interface PageData {
   description: string
   headers: Header[]
   frontmatter: Record<string, any>
+  params?: Record<string, any>
   lastUpdated?: number
 }
 
@@ -43,14 +44,9 @@ export interface Header {
   children: Header[]
 }
 
-export type CleanUrlsMode =
-  | 'disabled'
-  | 'without-subfolders'
-  | 'with-subfolders'
-
 export interface SiteData<ThemeConfig = any> {
   base: string
-  cleanUrls?: CleanUrlsMode
+  cleanUrls?: boolean
   lang: string
   dir: string
   title: string

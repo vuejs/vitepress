@@ -29,11 +29,11 @@
   --vp-c-green-dimm-2: rgba(16, 185, 129, 0.2);
   --vp-c-green-dimm-3: rgba(16, 185, 129, 0.5);
 
-  --vp-c-yellow: #eab308;
-  --vp-c-yellow-light: #facc15;
-  --vp-c-yellow-lighter: #fde047;
-  --vp-c-yellow-dark: #ca8a04;
-  --vp-c-yellow-darker: #a16207;
+  --vp-c-yellow: #d97706;
+  --vp-c-yellow-light: #f59e0b;
+  --vp-c-yellow-lighter: #fbbf24;
+  --vp-c-yellow-dark: #b45309;
+  --vp-c-yellow-darker: #92400e;
   --vp-c-yellow-dimm-1: rgba(234, 179, 8, 0.05);
   --vp-c-yellow-dimm-2: rgba(234, 179, 8, 0.2);
   --vp-c-yellow-dimm-3: rgba(234, 179, 8, 0.5);
@@ -203,6 +203,7 @@
 
   --vp-code-block-color: var(--vp-c-text-dark-1);
   --vp-code-block-bg: #292b30;
+  --vp-code-block-bg-light: #1e1e20;
   --vp-code-block-divider-color: #000000;
 
   --vp-code-line-highlight-color: rgba(0, 0, 0, 0.5);
@@ -217,7 +218,10 @@
   --vp-code-line-warning-color: var(--vp-c-yellow-dimm-2);
   --vp-code-line-error-color: var(--vp-c-red-dimm-2);
 
-  --vp-code-copy-code-hover-bg: rgba(255, 255, 255, 0.05);
+  --vp-code-copy-code-border-color: transparent;
+  --vp-code-copy-code-bg: var(--vp-code-block-bg-light);
+  --vp-code-copy-code-hover-border-color: var(--vp-c-divider);
+  --vp-code-copy-code-hover-bg: var(--vp-code-block-bg-light);
   --vp-code-copy-code-active-text: var(--vp-c-text-dark-2);
 
   --vp-code-tab-divider: var(--vp-code-block-divider-color);
@@ -284,22 +288,22 @@
   --vp-custom-block-info-border: var(--vp-c-border);
   --vp-custom-block-info-text: var(--vp-c-text-2);
   --vp-custom-block-info-bg: var(--vp-c-bg-soft);
-  --vp-custom-block-info-code-bg: var(--vp-c-mute);
+  --vp-custom-block-info-code-bg: var(--vp-c-bg-soft-down);
 
-  --vp-custom-block-tip-border: var(--vp-c-green-dimm-3);
+  --vp-custom-block-tip-border: var(--vp-c-green);
   --vp-custom-block-tip-text: var(--vp-c-green);
-  --vp-custom-block-tip-bg: var(--vp-c-green-dimm-1);
-  --vp-custom-block-tip-code-bg: var(--vp-custom-block-tip-bg);
+  --vp-custom-block-tip-bg: var(--vp-c-bg-soft);
+  --vp-custom-block-tip-code-bg: var(--vp-c-bg-soft-down);
 
-  --vp-custom-block-warning-border: var(--vp-c-yellow-dimm-3);
+  --vp-custom-block-warning-border: var(--vp-c-yellow);
   --vp-custom-block-warning-text: var(--vp-c-yellow);
-  --vp-custom-block-warning-bg: var(--vp-c-yellow-dimm-1);
-  --vp-custom-block-warning-code-bg: var(--vp-custom-block-warning-bg);
+  --vp-custom-block-warning-bg: var(--vp-c-bg-soft);
+  --vp-custom-block-warning-code-bg: var(--vp-c-bg-soft-down);
 
-  --vp-custom-block-danger-border: var(--vp-c-red-dimm-3);
+  --vp-custom-block-danger-border: var(--vp-c-red);
   --vp-custom-block-danger-text: var(--vp-c-red);
-  --vp-custom-block-danger-bg: var(--vp-c-red-dimm-1);
-  --vp-custom-block-danger-code-bg: var(--vp-custom-block-danger-bg);
+  --vp-custom-block-danger-bg: var(--vp-c-bg-soft);
+  --vp-custom-block-danger-code-bg: var(--vp-c-bg-soft-down);
 
   --vp-custom-block-details-border: var(--vp-custom-block-info-border);
   --vp-custom-block-details-text: var(--vp-custom-block-info-text);

@@ -37,7 +37,8 @@ export async function bundle(
   config.pages.forEach((file) => {
     // page filename conversion
     // foo/bar.md -> foo_bar.md
-    input[slash(file).replace(/\//g, '_')] = path.resolve(config.srcDir, file)
+    const alias = config.rewrites.map[file] || file
+    input[slash(alias).replace(/\//g, '_')] = path.resolve(config.srcDir, file)
   })
 
   // resolve options to pass to vite
