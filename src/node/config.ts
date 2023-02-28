@@ -435,7 +435,7 @@ export async function resolvePages(srcDir: string, userConfig: UserConfig) {
   const dynamicRouteFiles = allMarkdownFiles.filter((p) =>
     dynamicRouteRE.test(p)
   )
-  const dynamicRoutes = await resolveDynamicRoutes(dynamicRouteFiles)
+  const dynamicRoutes = await resolveDynamicRoutes(srcDir, dynamicRouteFiles)
   pages.push(...dynamicRoutes.routes.map((r) => r.path))
 
   const rewrites = resolveRewrites(pages, userConfig.rewrites)
