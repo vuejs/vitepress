@@ -46,8 +46,8 @@ function nav() {
     },
     {
       text: '运行时 API',
-      link: '/api/',
-      activeMatch: '/api/'
+      link: '/zh/api/',
+      activeMatch: '/zh/api/'
     },
     {
       text: '配置参考',
@@ -135,14 +135,14 @@ function sidebarGuide() {
         { text: '默认主题', link: '/guide/default-theme' },
         {
           text: '扩展默认主题',
-          link: '/guide/customization-extending-default-theme'
+          link: '/zh/guide/customization-extending-default-theme'
         },
-        { text: '构建自定义主题', link: '/guide/customization-intro' },
+        { text: '构建自定义主题', link: '/zh/guide/customization-intro' },
         {
           text: '运行时 API',
-          link: '/api/'
+          link: '/zh/api/'
         },
-        { text: 'Build-Time Data Loading', link: '/guide/data-loading' }
+        { text: 'Build-Time Data Loading', link: '/zh/guide/data-loading' }
       ]
     }
   ]

@@ -205,6 +205,7 @@ export default {
   - `aside-ads-after`
 - 当通过 frontmatter 开启  `layout: 'home'`:
   - `home-hero-before`
+  - `home-hero-info`
   - `home-hero-after`
   - `home-features-before`
   - `home-features-after`
