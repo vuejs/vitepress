@@ -80,8 +80,7 @@ function sidebarGuide() {
         { text: '快速开始', link: '/zh/guide/getting-started' },
         { text: '配置', link: '/zh/guide/configuration' },
         { text: '路由', link: '/zh/guide/routing' },
-        { text: '部署', link: '/zh/guide/deploying' },
-        { text: '国际化', link: '/zh/guide/i18n' }
+        { text: '部署', link: '/zh/guide/deploying' }
       ]
     },
     {
@@ -92,7 +91,7 @@ function sidebarGuide() {
         { text: '资源处理', link: '/zh/guide/asset-handling' },
         { text: 'Frontmatter', link: '/zh/guide/frontmatter' },
         { text: '在 Markdown 中使用 Vue', link: '/zh/guide/using-vue' },
-        { text: 'API 参考', link: '/zh/guide/api' }
+        { text: '国际化', link: '/zh/guide/i18n' }
       ]
     },
     {
