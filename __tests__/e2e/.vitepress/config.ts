@@ -38,6 +38,19 @@ const sidebar: DefaultTheme.Config['sidebar'] = {
           link: '/multi-sidebar/'
         }
       ]
+    },
+    {
+      text: 'Dynamic Routes',
+      items: [
+        {
+          text: 'Foo',
+          link: '/dynamic-routes/foo'
+        },
+        {
+          text: 'Bar',
+          link: '/dynamic-routes/bar'
+        }
+      ]
     }
   ],
   '/multi-sidebar/': [
