@@ -132,7 +132,7 @@ function sidebarGuide() {
       text: '自定义',
       collapsed: false,
       items: [
-        { text: '默认主题', link: '/guide/default-theme' },
+        { text: '默认主题', link: '/zh/guide/default-theme' },
         {
           text: '扩展默认主题',
           link: '/zh/guide/customization-extending-default-theme'
