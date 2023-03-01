@@ -22,6 +22,6 @@ export default {
 
 在上面的示例中，该站点使用 `VitePress` 作为标题，`Just play around.` 作为站点的描述。
 
-在[主题：介绍](./theme-introduction)里了解有关 VitePress 功能特性，以了解如何在此配置文件中配置特定功能。
+在[主题：介绍](./customization-intro)里了解有关 VitePress 功能特性，以了解如何在此配置文件中配置特定功能。
 
 你还可以在[配置](../config/introduction)中找到所有配置项。

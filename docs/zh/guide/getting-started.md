@@ -138,6 +138,6 @@ VitePress 将在 `http://localhost:5173` 启动一个支持热部署的本地开
 
 如果你想了解更多关于可以在页面中执行的操作，例如编写 Markdown 或使用 Vue 组件，请查看文档的“编写”部分。[Markdown 指南](./markdown)将是一个很好的起点。
 
-如果你想了解如何自定义站点外观(主题)，并了解 VitePress 默认主题提供的功能，请访问[主题：简介](./theme-introduction)。
+如果你想了解如何自定义站点外观(主题)，并了解 VitePress 默认主题提供的功能，请访问[主题：简介](./customization-intro)。
 
 当你的文档站点已经成形准备部署时，请务必阅读[部署指南](./deploying)。
