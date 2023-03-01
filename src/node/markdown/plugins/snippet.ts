@@ -126,7 +126,7 @@ export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
 
     const resolvedPath = path.resolve(path.dirname(state.env.path), filepath)
     // @ts-ignore
-    token.src = [resolvedPath, region]
+    token.src = [resolvedPath, region.slice(1)]
     token.markup = '```'
     token.map = [startLine, startLine + 1]
 
