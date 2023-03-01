@@ -113,11 +113,11 @@ function sidebarGuide() {
       text: 'Customization',
       collapsed: false,
       items: [
-        { text: 'Default Theme', link: '/guide/default-theme' },
-        {
-          text: 'Extending the Default Theme',
-          link: '/guide/customization-extending-default-theme'
-        },
+        //         { text: 'Default Theme', link: '/guide/default-theme' },
+        //         {
+        //           text: 'Extending the Default Theme',
+        //           link: '/guide/customization-extending-default-theme'
+        //         },
         { text: 'Building a Custom Theme', link: '/guide/customization-intro' },
         {
           text: 'Runtime API',
