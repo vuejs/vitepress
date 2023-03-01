@@ -136,6 +136,6 @@ To enable those navigations, we must add some configurations to the site. Head t
 
 If you would like to know more about what you can do within the page, for example, writing markdown contents, or using Vue Component, check out the "Writing" section of the docs. [Markdown guide](./markdown) would be a great starting point.
 
-If you want to know how to customize how the site looks (Theme), and find out the features VitePress's default theme provides, visit [Theme: Introduction](./theme-introduction).
+If you want to know how to customize how the site looks (Theme), and find out the features VitePress's default theme provides, visit [Theme: Introduction](./customization-intro).
 
 When your documentation site starts to take shape, be sure to read the [deployment guide](./deploying).
