@@ -38,7 +38,7 @@ And of course, you can use it to build a blog! The [official Vue.js blog](https:
 
 ## What About VuePress?
 
-VitePress is the spiritual successor of VuePress. The original VuePress was based on Vue 2 and webpack. With Vue 3 and Vite under the hood, VitePress provides significantly better DX, better production performance, a more polished default theme, and a more flexible customization API.
+VitePress 1is the spiritual successor of VuePress. The original VuePress was based on Vue 2 and webpack. With Vue 3 and Vite under the hood, VitePress provides significantly better DX, better production performance, a more polished default theme, and a more flexible customization API.
 
 The API difference between VitePress and VuePress mostly lies in theming and customization. If you are using VuePress 1 with the default theme, it should be relatively straightforward to migrate to VitePress.
 
