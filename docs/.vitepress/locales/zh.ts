@@ -16,9 +16,9 @@ export default defineConfig({
     lastUpdatedText: '最后更新于',
 
     sidebar: {
-      '/guide/': sidebarGuide(),
-      '/config/': sidebarConfig(),
-      '/api/': sidebarGuide()
+      '/zh/guide/': sidebarGuide(),
+      '/zh/config/': sidebarConfig(),
+      '/zh/api/': sidebarGuide()
     },
 
     editLink: {
