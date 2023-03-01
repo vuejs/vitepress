@@ -99,7 +99,7 @@ function sidebarGuide() {
       text: '主题',
       collapsed: true,
       items: [
-        { text: '简介', link: '/zh/guide/theme-introduction' },
+        { text: '简介', link: '/zh/guide/customization-intro' },
         { text: '导航', link: '/zh/guide/theme-nav' },
         { text: '侧边栏', link: '/zh/guide/theme-sidebar' },
         { text: '上下页链接', link: '/zh/guide/theme-prev-next-link' },
