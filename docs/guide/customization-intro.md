@@ -6,6 +6,7 @@ VitePress comes with its default theme providing many features out of the box. L
 - [Sidebar](./theme-sidebar)
 - [Prev Next Link](./theme-prev-next-link)
 - [Edit Link](./theme-edit-link)
+- [Created](./theme-created)
 - [Last Updated](./theme-last-updated)
 - [Layout](./theme-layout)
 - [Home Page](./theme-home-page)

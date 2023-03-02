@@ -12,7 +12,10 @@ import {
   type MarkdownRenderer
 } from './markdown'
 import { EXTERNAL_URL_RE, type HeadConfig, type PageData } from './shared'
-import { getGitTimestamp } from './utils/getGitTimestamp'
+import {
+  getLastUpdatedTimestampFromGit,
+  getCreatedTimestampFromGit
+} from './utils/getGitTimestamp'
 import { slash } from './utils/slash'
 
 const debug = _debug('vitepress:md')
@@ -37,6 +40,7 @@ export async function createMarkdownToVueRenderFn(
   userDefines: Record<string, any> | undefined,
   isBuild = false,
   base = '/',
+  includeCreatedData = false,
   includeLastUpdatedData = false,
   cleanUrls = false,
   siteConfig: SiteConfig | null = null
@@ -167,8 +171,11 @@ export async function createMarkdownToVueRenderFn(
       relativePath
     }
 
+    if (includeCreatedData) {
+      pageData.created = await getCreatedTimestampFromGit(file)
+    }
     if (includeLastUpdatedData) {
-      pageData.lastUpdated = await getGitTimestamp(file)
+      pageData.lastUpdated = await getLastUpdatedTimestampFromGit(file)
     }
 
     if (siteConfig?.transformPageData) {

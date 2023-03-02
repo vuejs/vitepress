@@ -61,6 +61,13 @@ export namespace DefaultTheme {
     editLink?: EditLink
 
     /**
+     * Set custom created text.
+     *
+     * @default 'Created'
+     */
+    createdText?: string
+
+    /**
      * Set custom last updated text.
      *
      * @default 'Last updated'

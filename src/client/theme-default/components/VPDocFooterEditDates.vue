@@ -4,7 +4,16 @@ import { useData } from '../composables/data.js'
 
 const { theme, page } = useData()
 
-const date = computed(() => new Date(page.value.lastUpdated!))
+const props = defineProps({
+  isCreated: Boolean
+})
+
+const text = props.isCreated ?
+    (theme.value.createdText || 'Created') :
+    (theme.value.lastUpdatedText || 'Last updated')
+const date = computed(() => new Date(
+    props.isCreated ? page.value.created! : page.value.lastUpdated!)
+)
 const isoDatetime = computed(() => date.value.toISOString())
 const datetime = ref('')
 
@@ -20,7 +29,7 @@ onMounted(() => {
 
 <template>
   <p class="VPLastUpdated">
-    {{ theme.lastUpdatedText || 'Last updated' }}:
+    {{ text }}:
     <time :datetime="isoDatetime">{{ datetime }}</time>
   </p>
 </template>

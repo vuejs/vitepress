@@ -76,6 +76,19 @@ type HeadConfig =
   | [string, Record<string, string>, string]
 ```
 
+## created
+
+- Type: `boolean`
+- Default: `true`
+
+Whether to display [Created](../guide/theme-created) text in the current page.
+
+```yaml
+---
+created: false
+---
+```
+
 ## lastUpdated
 
 - Type: `boolean`
