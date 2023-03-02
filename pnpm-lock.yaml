@@ -4,6 +4,7 @@ importers:
 
   .:
     specifiers:
+      '@clack/prompts': ^0.6.1
       '@docsearch/css': ^3.3.3
       '@docsearch/js': ^3.3.3
       '@mdit-vue/plugin-component': ^0.12.0
@@ -51,6 +52,7 @@ importers:
       fs-extra: ^11.1.0
       get-port: ^6.1.2
       lint-staged: ^13.1.2
+      lodash.template: ^4.5.0
       lru-cache: ^7.17.0
       markdown-it: ^13.0.1
       markdown-it-anchor: ^8.6.7
@@ -97,6 +99,7 @@ importers:
       vite: 4.1.4_@types+node@18.14.1
       vue: 3.2.47
     devDependencies:
+      '@clack/prompts': 0.6.1
       '@mdit-vue/plugin-component': 0.12.0
       '@mdit-vue/plugin-frontmatter': 0.12.0
       '@mdit-vue/plugin-headers': 0.12.0
@@ -138,6 +141,7 @@ importers:
       fs-extra: 11.1.0
       get-port: 6.1.2
       lint-staged: 13.1.2_dx6s57r75rxv5zregmjdjjgmei
+      lodash.template: 4.5.0
       lru-cache: 7.17.0
       markdown-it: 13.0.1
       markdown-it-anchor: 8.6.7_ea7kj7wzjkld5jo2noyjqxi764
@@ -172,6 +176,12 @@ importers:
       wait-on: 7.0.1_debug@4.3.4
 
   __tests__/e2e:
+    specifiers:
+      vitepress: workspace:*
+    devDependencies:
+      vitepress: link:../..
+
+  __tests__/init:
     specifiers:
       vitepress: workspace:*
     devDependencies:
@@ -336,6 +346,23 @@ packages:
       '@babel/helper-string-parser': 7.19.4
       '@babel/helper-validator-identifier': 7.19.1
       to-fast-properties: 2.0.0
+
+  /@clack/core/0.3.0:
+    resolution: {integrity: sha512-ujw1888RciTArxUvwLOf24XSygRX7F4qiCPI7WLH3zCTZJuqKPMcTS7Wqjz0x/AuMpwGPlzhKln4+sCuQqYxzA==}
+    dependencies:
+      picocolors: 1.0.0
+      sisteransi: 1.0.5
+    dev: true
+
+  /@clack/prompts/0.6.1:
+    resolution: {integrity: sha512-7KuMST/5zB7KpvfR00kcnbOaXmfN6tkJmkLpAyV2Iv2SJ7oxFbhNFvR5OQJynSKDhU8oOp/eFMK6Q0k/DXsq8A==}
+    dependencies:
+      '@clack/core': 0.3.0
+      picocolors: 1.0.0
+      sisteransi: 1.0.5
+    dev: true
+    bundledDependencies:
+      - is-unicode-supported
 
   /@docsearch/css/3.3.3:
     resolution: {integrity: sha512-6SCwI7P8ao+se1TUsdZ7B4XzL+gqeQZnBc+2EONZlcVa0dVrk0NjETxozFKgMv0eEGH8QzP1fkN+A1rH61l4eg==}
@@ -3007,8 +3034,25 @@ packages:
       p-locate: 5.0.0
     dev: true
 
+  /lodash._reinterpolate/3.0.0:
+    resolution: {integrity: sha512-xYHt68QRoYGjeeM/XOE1uJtvXQAgvszfBhjV4yvsQH0u2i9I6cI6c6/eG4Hh3UAOVn0y/xAXwmTzEay49Q//HA==}
+    dev: true
+
   /lodash.ismatch/4.4.0:
     resolution: {integrity: sha512-fPMfXjGQEV9Xsq/8MTSgUf255gawYRbjwMyDbcvDhXgV7enSZA0hynz6vMPnpAb5iONEzBHBPsT+0zes5Z301g==}
+    dev: true
+
+  /lodash.template/4.5.0:
+    resolution: {integrity: sha512-84vYFxIkmidUiFxidA/KjjH9pAycqW+h980j7Fuz5qxRtO9pgB7MDFTdys1N7A5mcucRiDyEq4fusljItR1T/A==}
+    dependencies:
+      lodash._reinterpolate: 3.0.0
+      lodash.templatesettings: 4.2.0
+    dev: true
+
+  /lodash.templatesettings/4.2.0:
+    resolution: {integrity: sha512-stgLz+i3Aa9mZgnjr/O+v9ruKZsPsndy7qPZOchbqk2cnTU1ZaldKK+v7m54WoKIyxiuMZTKT2H81F8BeAc3ZQ==}
+    dependencies:
+      lodash._reinterpolate: 3.0.0
     dev: true
 
   /lodash/4.17.21:
