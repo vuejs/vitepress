@@ -128,14 +128,40 @@ Then, try to access `http://localhost:5173/getting-started.html` and you should 
 
 This is how VitePress works basically. The directory structure corresponds with the URL path. You add files, and just try to access it.
 
+## Configuration
+
+Without any configuration, the page is pretty minimal, and the user has no way to navigate around the site. To customize your site, let's first create a `.vitepress` directory inside your docs directory. This is where all VitePress-specific files will be placed. Your project structure is probably like this:
+
+```
+.
+├─ docs
+│  ├─ .vitepress
+│  │  └─ config.js
+│  └─ index.md
+└─ package.json
+```
+
+The essential file for configuring a VitePress site is `.vitepress/config.js`, which should export a JavaScript object:
+
+```js
+export default {
+  title: 'VitePress',
+  description: 'Just playing around.'
+}
+```
+
+In the above example, the site will have the title of `VitePress`, and `Just playing around.` as the description meta tag.
+
+Learn everything about VitePress features at [Theme: Introduction](./custom-theme) to find how to configure specific features within this config file.
+
+You may also find all configuration references at [Config Reference](/reference/site-config).
+
 ## What's next?
 
 By now, you should have a basic but functional VitePress documentation site. But currently, the user has no way to navigate around the site because it's missing for example sidebar menu we have on this site.
 
-To enable those navigations, we must add some configurations to the site. Head to [configuration guide](./configuration) to learn how to configure VitePress.
-
 If you would like to know more about what you can do within the page, for example, writing markdown contents, or using Vue Component, check out the "Writing" section of the docs. [Markdown guide](./markdown) would be a great starting point.
 
-If you want to know how to customize how the site looks (Theme), and find out the features VitePress's default theme provides, visit [Theme: Introduction](./customization-intro).
+If you want to know how to customize how the site looks (Theme), and find out the features VitePress's default theme provides, check out how to [extend the default theme](./extending-default-theme) or [build a custom theme](./custom-theme).
 
-When your documentation site starts to take shape, be sure to read the [deployment guide](./deploying).
+When your documentation site starts to take shape, be sure to read the [deployment guide](./deploy).

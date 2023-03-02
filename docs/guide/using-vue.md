@@ -36,7 +36,7 @@ Directives also work:
 
 ### Access to Site & Page Data
 
-You can use the [`useData` helper](/api/#usedata) in a `<script>` block and expose the data to the page.
+You can use the [`useData` helper](/reference/runtime-api#usedata) in a `<script>` block and expose the data to the page.
 
 **Input**
 
@@ -104,7 +104,7 @@ This is a .md using a custom component
 
 ### Registering global components in the theme
 
-If the components are going to be used across several pages in the docs, they can be registered globally in the theme (or as part of extending the default VitePress theme). Check out the [Customization Guide](./customization-intro) for more information.
+If the components are going to be used across several pages in the docs, they can be registered globally in the theme (or as part of extending the default VitePress theme). Check out the [Customization Guide](./custom-theme) for more information.
 
 In `.vitepress/theme/index.js`, the `enhanceApp` function receives the Vue `app` instance so you can [register components](https://vuejs.org/guide/components/registration.html) as you would do in a regular Vue application.
 
@@ -198,7 +198,7 @@ export default {
 
 ## Built-In Components
 
-VitePress provides Built-In Vue Components like `ClientOnly`, check out the [Global Component Guide](/api/) for more information.
+VitePress provides Built-In Vue Components like `ClientOnly`, check out the [Runtime API Reference](/reference/runtime-api) for more information.
 
 **Also see:**
 
@@ -263,7 +263,7 @@ export default {
 
 ## Using Teleports
 
-Vitepress currently has SSG support for teleports to body only. For other targets, you can wrap them inside the built-in `<ClientOnly>` component or inject the teleport markup into the correct location in your final page HTML through [`postRender` hook](../config/app-config#postrender).
+Vitepress currently has SSG support for teleports to body only. For other targets, you can wrap them inside the built-in `<ClientOnly>` component or inject the teleport markup into the correct location in your final page HTML through [`postRender` hook](/reference/site-config#postrender).
 
 <ModalDemo />
 

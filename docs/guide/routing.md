@@ -49,7 +49,7 @@ docs/index.md           -> /
 docs/getting-started.md -> /getting-started.html
 ```
 
-You may also customize the root directory in config file via [`srcDir`](/config/app-config#srcdir) option too. Running `vitepress dev` with the following setting acts same as running `vitepress dev docs` command.
+You may also customize the root directory in config file via [`srcDir`](/reference/site-config#srcdir) option too. Running `vitepress dev` with the following setting acts same as running `vitepress dev docs` command.
 
 ```ts
 export default {
@@ -88,7 +88,7 @@ By default, VitePress generates the final static page files by adding `.html` ex
 └─ index.md
 ```
 
-However, you may also generate a clean URL by setting up [`cleanUrls`](/config/app-config#cleanurls) option.
+However, you may also generate a clean URL by setting up [`cleanUrls`](/reference/site-config#cleanurls) option.
 
 ```ts
 export default {
@@ -120,7 +120,7 @@ packages/pkg-a/src/pkg-a-code.md -> /pkg-a/pkg-a-code.md
 packages/pkg-b/src/pkg-b-code.md -> /pkg-b/pkg-b-code.md
 ```
 
-You may configure the mapping via [`rewrites`](/config/app-config#rewrites) option like this.
+You may configure the mapping via [`rewrites`](/reference/site-config#rewrites) option like this.
 
 ```ts
 export default {

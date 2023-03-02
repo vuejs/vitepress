@@ -66,11 +66,11 @@ interface Router {
 
 - **Type**: `(path: string) => string`
 
-Appends the configured [`base`](/config/app-config#base) to a given URL path. Also see [Base URL](/guide/asset-handling#base-url).
+Appends the configured [`base`](/reference/site-config#base) to a given URL path. Also see [Base URL](/guide/asset-handling#base-url).
 
 ## `<Content />`
 
-The `<Content />` component displays the rendered markdown contents. Useful [when creating your own theme](/guide/customization-intro).
+The `<Content />` component displays the rendered markdown contents. Useful [when creating your own theme](/guide/custom-theme).
 
 ```vue
 <template>

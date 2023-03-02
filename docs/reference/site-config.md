@@ -1,6 +1,28 @@
-# App Config
+---
+outline: deep
+---
 
-App config is where you can define the global settings of the site. App config options define settings that apply to every VitePress site, regardless of what theme it is using. For example, the base directory or the title of the site.
+# Site Config
+
+Site config is where you can define the global settings of the site. App config options define settings that apply to every VitePress site, regardless of what theme it is using. For example, the base directory or the title of the site.
+
+## Config Resolution
+
+Place your configuration file at `.vitepress/config.js`. This is where all VitePress-specific files will be placed.
+
+```
+.
+├─ docs
+│  ├─ .vitepress
+│  │  └─ config.js
+│  └─ index.md
+└─ package.json
+```
+
+::: tip
+You can also use any of `.ts`, `.cjs`, `.mjs`, `.cts`, `.mts` as the config file extension.
+:::
+
 
 ```ts
 export default {
@@ -12,7 +34,63 @@ export default {
 }
 ```
 
-## appearance
+## Config Intellisense
+
+Since VitePress ships with TypeScript typings, you can leverage your IDE's intellisense with jsdoc type hints:
+
+```js
+/**
+ * @type {import('vitepress').UserConfig}
+ */
+const config = {
+  // ...
+}
+
+export default config
+```
+
+Alternatively, you can use the `defineConfig` helper at which should provide intellisense without the need for jsdoc annotations:
+
+```js
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  // ...
+})
+```
+
+VitePress also directly supports TS config files. You can use `.vitepress/config.ts` with the `defineConfig` helper as well.
+
+## Typed Theme Config
+
+By default, `defineConfig` helper leverages the theme config type from default theme:
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    // Type is `DefaultTheme.Config`
+  }
+})
+```
+
+If you use a custom theme and want type checks for the theme config, you'll need to use `defineConfigWithTheme` instead, and pass the config type for your custom theme via a generic argument:
+
+```ts
+import { defineConfigWithTheme } from 'vitepress'
+import { ThemeConfig } from 'your-theme'
+
+export default defineConfigWithTheme<ThemeConfig>({
+  themeConfig: {
+    // Type is `ThemeConfig`
+  }
+})
+```
+
+## Config Options
+
+### appearance
 
 - Type: `boolean | 'dark'`
 - Default: `true`
@@ -31,7 +109,7 @@ export default {
 }
 ```
 
-## base
+### base
 
 - Type: `string`
 - Default: `/`
@@ -46,7 +124,7 @@ export default {
 }
 ```
 
-## description
+### description
 
 - Type: `string`
 - Default: `A VitePress site`
@@ -59,7 +137,7 @@ export default {
 }
 ```
 
-## head
+### head
 
 - Type: `HeadConfig[]`
 - Default: `[]`
@@ -84,7 +162,7 @@ type HeadConfig =
   | [string, Record<string, string>, string]
 ```
 
-## ignoreDeadLinks
+### ignoreDeadLinks
 
 - Type: `boolean | 'localhostLinks'`
 - Default: `false`
@@ -97,7 +175,7 @@ export default {
 }
 ```
 
-## lang
+### lang
 
 - Type: `string`
 - Default: `en-US`
@@ -110,12 +188,12 @@ export default {
 }
 ```
 
-## lastUpdated
+### lastUpdated
 
 - Type: `boolean`
 - Default: `false`
 
-Use git commit to get the timestamp. This option enables the default theme to display the page's last updated time. You can customize the text via [`themeConfig.lastUpdatedText`](theme-config#lastupdatedtext) option.
+Use git commit to get the timestamp. This option enables the default theme to display the page's last updated time. You can customize the text via [`themeConfig.lastUpdatedText`](./default-theme-config#lastupdatedtext) option.
 
 ```ts
 export default {
@@ -123,7 +201,7 @@ export default {
 }
 ```
 
-## markdown
+### markdown
 
 - Type: `MarkdownOption`
 
@@ -195,7 +273,7 @@ interface MarkdownOptions extends MarkdownIt.Options {
 }
 ```
 
-## outDir
+### outDir
 
 - Type: `string`
 - Default: `./.vitepress/dist`
@@ -208,7 +286,7 @@ export default {
 }
 ```
 
-## cacheDir
+### cacheDir
 
 - Type: `string`
 - Default: `./.vitepress/cache`
@@ -221,7 +299,7 @@ export default {
 }
 ```
 
-## srcDir
+### srcDir
 
 - Type: `string`
 - Default: `.`
@@ -234,7 +312,7 @@ export default {
 }
 ```
 
-## title
+### title
 
 - Type: `string`
 - Default: `VitePress`
@@ -247,7 +325,7 @@ export default {
 }
 ```
 
-## titleTemplate
+### titleTemplate
 
 - Type: `string | boolean`
 
@@ -270,7 +348,7 @@ export default {
 }
 ```
 
-## cleanUrls
+### cleanUrls
 
 - Type: `boolean`
 - Default: `false`
@@ -287,7 +365,7 @@ export default {
 Enabling this may require additional configuration on your hosting platform. For it to work, your server must serve `/foo.html` on requesting `/foo` **without a redirect**.
 :::
 
-## rewrites
+### rewrites
 
 - Type: `Record<string, string>`
 
@@ -301,7 +379,7 @@ export default {
 }
 ```
 
-## Build Hooks
+### Build Hooks
 
 VitePress build hooks allow you to add new functionality and behaviors to your website:
 
@@ -310,7 +388,7 @@ VitePress build hooks allow you to add new functionality and behaviors to your w
 - PWA
 - Teleports
 
-### buildEnd
+#### buildEnd
 
 - Type: `(siteConfig: SiteConfig) => Awaitable<void>`
 
@@ -324,7 +402,7 @@ export default {
 }
 ```
 
-### postRender
+#### postRender
 
 - Type: `(context: SSGContext) => Awaitable<SSGContext | void>`
 
@@ -346,7 +424,7 @@ interface SSGContext {
 }
 ```
 
-### transformHead
+#### transformHead
 
 - Type: `(context: TransformContext) => Awaitable<HeadConfig[]>`
 
@@ -376,7 +454,7 @@ interface TransformContext {
 }
 ```
 
-### transformHtml
+#### transformHtml
 
 - Type: `(code: string, id: string, ctx: TransformContext) => Awaitable<string | void>`
 
@@ -394,7 +472,7 @@ export default {
 }
 ```
 
-### transformPageData
+#### transformPageData
 
 - Type: `(pageData: PageData) => Awaitable<Partial<PageData> | { [key: string]: any } | void>`
 
