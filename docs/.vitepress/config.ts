@@ -147,7 +147,8 @@ function sidebarReference() {
           link: '/reference/default-theme-config'
         },
         { text: 'Frontmatter Config', link: '/reference/frontmatter-config' },
-        { text: 'Runtime API', link: '/reference/runtime-api' }
+        { text: 'Runtime API', link: '/reference/runtime-api' },
+        { text: 'CLI', link: '/reference/cli' }
       ]
     }
   ]
