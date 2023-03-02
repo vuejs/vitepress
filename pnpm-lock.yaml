@@ -181,6 +181,12 @@ importers:
     devDependencies:
       vitepress: link:../..
 
+  __tests__/init:
+    specifiers:
+      vitepress: workspace:*
+    devDependencies:
+      vitepress: link:../..
+
   docs:
     specifiers:
       vitepress: workspace:*

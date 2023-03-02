@@ -14,17 +14,17 @@ import { fileURLToPath } from 'url'
 // @ts-ignore
 import template from 'lodash.template'
 
-const enum ThemeType {
-  Default,
-  DefaultCustom,
-  Custom
+export enum ScaffoldThemeType {
+  Default = 'default theme',
+  DefaultCustom = 'default theme + customization',
+  Custom = 'custom theme'
 }
 
-interface Options {
+export interface ScaffoldOptions {
   root: string
   title?: string
   description?: string
-  theme: ThemeType
+  theme: ScaffoldThemeType
   useTs: boolean
   injectNpmScripts: boolean
 }
@@ -32,7 +32,7 @@ interface Options {
 export async function init() {
   intro(bgCyan(bold(black(` Welcome to VitePress! `))))
 
-  const options: Options = await group(
+  const options: ScaffoldOptions = await group(
     {
       root: () =>
         text({
@@ -61,19 +61,19 @@ export async function init() {
           options: [
             {
               // @ts-ignore
-              value: ThemeType.Default,
+              value: ScaffoldThemeType.Default,
               label: `Default Theme`,
               hint: `Out of the box, good-looking docs`
             },
             {
               // @ts-ignore
-              value: ThemeType.DefaultCustom,
+              value: ScaffoldThemeType.DefaultCustom,
               label: `Default Theme + Customization`,
               hint: `Add custom CSS and layout slots`
             },
             {
               // @ts-ignore
-              value: ThemeType.Custom,
+              value: ScaffoldThemeType.Custom,
               label: `Custom Theme`,
               hint: `Build your own or use external`
             }
@@ -106,7 +106,7 @@ export function scaffold({
   theme,
   useTs,
   injectNpmScripts
-}: Options) {
+}: ScaffoldOptions) {
   const resolvedRoot = path.resolve(root)
   const templateDir = path.resolve(
     path.dirname(fileURLToPath(import.meta.url)),
@@ -118,7 +118,7 @@ export function scaffold({
     description: JSON.stringify(description),
     useTs,
     defaultTheme:
-      theme === ThemeType.Default || theme === ThemeType.DefaultCustom
+      theme === ScaffoldThemeType.Default || theme === ScaffoldThemeType.DefaultCustom
   }
 
   const renderFile = (file: string) => {
@@ -139,12 +139,12 @@ export function scaffold({
     `.vitepress/config.js`
   ]
 
-  if (theme === ThemeType.DefaultCustom) {
+  if (theme === ScaffoldThemeType.DefaultCustom) {
     filesToScaffold.push(
       `.vitepress/theme/index.js`,
       `.vitepress/theme/style.css`
     )
-  } else if (theme === ThemeType.Custom) {
+  } else if (theme === ScaffoldThemeType.Custom) {
     filesToScaffold.push(
       `.vitepress/theme/index.js`,
       `.vitepress/theme/style.css`,
