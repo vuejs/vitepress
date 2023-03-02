@@ -30,6 +30,7 @@
     "bin",
     "dist",
     "types",
+    "template",
     "client.d.ts",
     "theme.d.ts"
   ],
