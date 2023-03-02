@@ -18,10 +18,10 @@ By default, VitePress assumes your page files are stored in project root. Here y
 Then you can access the pages by the below URL.
 
 ```
-index.md           -> /
-prologue.md        -> /prologue.html
-guide/index.md     -> /guide/
-guide/getting-started.md -> /guide/getting-started.html
+index.md                  -->  /
+prologue.md               -->  /prologue.html
+guide/index.md            -->  /guide/
+guide/getting-started.md  -->  /guide/getting-started.html
 ```
 
 As you can see, the directory structure corresponds to the final URL, as same as hosting plain HTML from a typical web server.

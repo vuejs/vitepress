@@ -1,63 +1,31 @@
 # Getting Started
 
-This section will help you build a basic VitePress documentation site from ground up. If you already have an existing project and would like to keep documentation inside the project, start from Step 2.
+## Prerequisites
 
-You can also try VitePress online on [StackBlitz](https://vitepress.new/). It runs the VitePress-based site directly in the browser, so it is almost identical to the local setup but doesn't require installing anything on your machine.
+VitePress requires [Node.js](https://nodejs.org/) version 16 or higher.
 
-::: warning
-VitePress is currently in `alpha` status. It is already suitable for out-of-the-box documentation use, but the config and theming API may still change between minor releases.
-:::
+## Installation
 
-## Step 1: Create a new project
-
-Create and change into a new directory.
-
-```sh
-$ mkdir vitepress-starter && cd vitepress-starter
-```
-
-Then, initialize with your preferred package manager.
+VitePress can be used on its own, or be installed into an existing project. Either way, you can install it with:
 
 ::: code-group
 
 ```sh [npm]
-$ npm init
-```
-
-```sh [yarn]
-$ yarn init
+$ npm install -D vitepress
 ```
 
 ```sh [pnpm]
-$ pnpm init
-```
-
-:::
-
-## Step 2: Install VitePress
-
-Add VitePress and Vue as dev dependencies for the project.
-
-::: code-group
-
-```sh [npm]
-$ npm install -D vitepress vue
+$ pnpm add -D vitepress
 ```
 
 ```sh [yarn]
-$ yarn add -D vitepress vue
-```
-
-```sh [pnpm]
-$ pnpm add -D vitepress vue
+$ yarn add -D vitepress
 ```
 
 :::
 
 ::: details Getting missing peer deps warnings?
-`@docsearch/js` has certain issues with its peer dependencies. If you see some commands failing due to them, you can try this workaround for now:
-
-If using PNPM, add this in your `package.json`:
+If using PNPM, you will notice a missing peer warning for `@docsearch/js`. This does not prevent VitePress from working. If you wish to suppress this warning, add the following to your `package.json`:
 
 ```json
 "pnpm": {
@@ -71,15 +39,69 @@ If using PNPM, add this in your `package.json`:
 
 :::
 
-Create your first document.
+## Setup Wizard
+
+VitePress ships with a command line setup wizard that will help you scaffold a basic project. Start the wizard by running:
 
 ```sh
-$ mkdir docs && echo '# Hello VitePress' > docs/index.md
+$ npx vitepress init
 ```
 
-## Step 3: Boot up dev environment
+You should be greeted with the following:
 
-Add some scripts to `package.json`.
+<p>
+  <img src="./vitepress-init.png" alt="vitepress init screenshot" style="border-radius:8px">
+</p>
+
+If you are installing VitePress in an existing project alongside the source code, it is recommended to scaffold the site in a nested directory so that it is separate from the rest of the project.
+
+## File Structure
+
+Assuming you chose to scaffold the VitePress project in `./docs`, the generated file structure should look like this:
+
+```
+.
+├─ docs
+│  ├─ .vitepress
+│  │  └─ config.js
+│  ├─ api-examples.md
+│  ├─ markdown-examples.md
+│  └─ index.md
+└─ package.json
+```
+
+The `docs` directory is considered the **project root** of the VitePress site. The `.vitepress` directory contains the config file, dev server cache, build output, and optional theme customization code.
+
+### The Config File
+
+The config file allows you to customize various aspects of your VitePress site, with the most basic options being the title and description of the site:
+
+```js
+// .vitepress/config.js
+export default {
+  // site-level options
+  title: 'VitePress',
+  description: 'Just playing around.',
+
+  themeConfig: {
+    // theme-level options
+  }
+}
+```
+
+You can also configure the behavior of the theme via the `themeConfig` option. Consult the [Site Config Reference](/reference/site-config) for full details on all config options.
+
+### Source Files
+
+Markdown files outside the `.vitepress` directory are considered **source files**.
+
+VitePress uses **file-based routing**: each `.md` file is compiled into a corresponding `.html` file with the same path. For example, `index.md` will be compiled into `index.html`, and can be visited at the root path `/` of the resulting VitePress site.
+
+We will discuss more about [Routing](./routing) in the next chapter.
+
+## Up and Running
+
+The tool should have also injected the following npm scripts to your `package.json` if you allowed it to do so during the setup process:
 
 ```json
 {
@@ -93,7 +115,7 @@ Add some scripts to `package.json`.
 }
 ```
 
-Serve the documentation site in the local server.
+The `docs:dev` script will start a local dev server with instant hot updates. Run it with the following command:
 
 ::: code-group
 
@@ -110,58 +132,17 @@ $ pnpm run docs:dev
 ```
 
 :::
-VitePress will start a hot-reloading development server at `http://localhost:5173`.
 
-## Step 4: Add more pages
+The dev server should be running at `http://localhost:5173`. Visit the URL in your browser to see your new site in action!
 
-Let's add another page to the site. Create a file name `getting-started.md` along with `index.md` you've created in Step 2. Now your directory structure should look like this.
+## What's Next?
 
-```
-.
-├─ docs
-│  ├─ getting-started.md
-│  └─ index.md
-└─ package.json
-```
+- To better understand how markdown files are mapped to generated HTML, proceed to the [Routing Guide](./routing.md).
 
-Then, try to access `http://localhost:5173/getting-started.html` and you should see the content of `getting-started.md` is shown.
+- To discover more about what you can do on the page, such as writing markdown content or using Vue Component, refer to the "Writing" section of the guide. A great place to start would be to learn about [Markdown Extensions](/guide/markdown).
 
-This is how VitePress works basically. The directory structure corresponds with the URL path. You add files, and just try to access it.
+- To explore the features provided by the default documentation theme, check out the [Default Theme Config Reference](/reference/default-theme-config).
 
-## Configuration
+- If you want to further customize the appearance of your site, explore how to either [Extend the Default Theme](./extending-default-theme) or [Build a Custom Theme](./custom-theme).
 
-Without any configuration, the page is pretty minimal, and the user has no way to navigate around the site. To customize your site, let's first create a `.vitepress` directory inside your docs directory. This is where all VitePress-specific files will be placed. Your project structure is probably like this:
-
-```
-.
-├─ docs
-│  ├─ .vitepress
-│  │  └─ config.js
-│  └─ index.md
-└─ package.json
-```
-
-The essential file for configuring a VitePress site is `.vitepress/config.js`, which should export a JavaScript object:
-
-```js
-export default {
-  title: 'VitePress',
-  description: 'Just playing around.'
-}
-```
-
-In the above example, the site will have the title of `VitePress`, and `Just playing around.` as the description meta tag.
-
-Learn everything about VitePress features at [Theme: Introduction](./custom-theme) to find how to configure specific features within this config file.
-
-You may also find all configuration references at [Config Reference](/reference/site-config).
-
-## What's next?
-
-By now, you should have a basic but functional VitePress documentation site. But currently, the user has no way to navigate around the site because it's missing for example sidebar menu we have on this site.
-
-If you would like to know more about what you can do within the page, for example, writing markdown contents, or using Vue Component, check out the "Writing" section of the docs. [Markdown guide](./markdown) would be a great starting point.
-
-If you want to know how to customize how the site looks (Theme), and find out the features VitePress's default theme provides, check out how to [extend the default theme](./extending-default-theme) or [build a custom theme](./custom-theme).
-
-When your documentation site starts to take shape, be sure to read the [deployment guide](./deploy).
+- Once your documentation site takes shape, make sure to read the [Deployment Guide](./deploy).
