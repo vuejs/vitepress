@@ -59,7 +59,8 @@ defineProps<{
 }
 
 .VPFeature:deep(.VPImage) {
-  width: fit-content;
+  width: 48px;
+  height: 48px;
   margin-bottom: 20px;
 }
 
