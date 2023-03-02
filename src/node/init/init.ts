@@ -118,7 +118,8 @@ export function scaffold({
     description: JSON.stringify(description),
     useTs,
     defaultTheme:
-      theme === ScaffoldThemeType.Default || theme === ScaffoldThemeType.DefaultCustom
+      theme === ScaffoldThemeType.Default ||
+      theme === ScaffoldThemeType.DefaultCustom
   }
 
   const renderFile = (file: string) => {
