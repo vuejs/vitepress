@@ -20,10 +20,19 @@ const enum ThemeType {
   Custom
 }
 
+interface Options {
+  root: string
+  title?: string
+  description?: string
+  theme: ThemeType
+  useTs: boolean
+  injectNpmScripts: boolean
+}
+
 export async function init() {
   intro(bgCyan(bold(black(` Welcome to VitePress! `))))
 
-  const results = await group(
+  const options: Options = await group(
     {
       root: () =>
         text({
@@ -87,15 +96,17 @@ export async function init() {
     }
   )
 
-  const {
-    root = './',
-    title = 'My Awesome Project',
-    description = 'A VitePress Site',
-    theme,
-    useTs,
-    injectNpmScripts
-  } = results
+  outro(scaffold(options))
+}
 
+export function scaffold({
+  root = './',
+  title = 'My Awesome Project',
+  description = 'A VitePress Site',
+  theme,
+  useTs,
+  injectNpmScripts
+}: Options) {
   const resolvedRoot = path.resolve(root)
   const templateDir = path.resolve(
     path.dirname(fileURLToPath(import.meta.url)),
@@ -161,12 +172,10 @@ export async function init() {
       Object.assign(pkg.scripts || (pkg.scripts = {}), scripts)
     }
     fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2))
-    outro(`Done! Now run ${cyan(`npm run docs:dev`)} and start writing.`)
+    return `Done! Now run ${cyan(`npm run docs:dev`)} and start writing.`
   } else {
-    outro(
-      `You're all set! Now run ${cyan(
-        `npx vitepress dev${dir}`
-      )} and start writing.`
-    )
+    return `You're all set! Now run ${cyan(
+      `npx vitepress dev${dir}`
+    )} and start writing.`
   }
 }
