@@ -91,6 +91,7 @@
     "vue": "^3.2.47"
   },
   "devDependencies": {
+    "@clack/prompts": "^0.6.1",
     "@mdit-vue/plugin-component": "^0.12.0",
     "@mdit-vue/plugin-frontmatter": "^0.12.0",
     "@mdit-vue/plugin-headers": "^0.12.0",
@@ -132,6 +133,7 @@
     "fs-extra": "^11.1.0",
     "get-port": "^6.1.2",
     "lint-staged": "^13.1.2",
+    "lodash.template": "^4.5.0",
     "lru-cache": "^7.17.0",
     "markdown-it": "^13.0.1",
     "markdown-it-anchor": "^8.6.7",
