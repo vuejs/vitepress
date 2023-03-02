@@ -19,7 +19,7 @@ You can access frontmatter by `$frontmatter` helper inside any markdown file.
 
 - Type: `string`
 
-Title for the page. It's same as [config.title](../config/app-config#title), and it overrides the app config.
+Title for the page. It's same as [config.title](/reference/site-config#title), and it overrides the app config.
 
 ```yaml
 ---
@@ -31,7 +31,7 @@ title: VitePress
 
 - Type: `string | boolean`
 
-The suffix for the title. It's same as [config.titleTemplate](../config/app-config#titletemplate), and it overrides the app config.
+The suffix for the title. It's same as [config.titleTemplate](/reference/site-config#titletemplate), and it overrides the app config.
 
 ```yaml
 ---
@@ -44,7 +44,7 @@ titleTemplate: Vite & Vue powered static site generator
 
 - Type: `string`
 
-Description for the page. It's same as [config.description](../config/app-config#description), and it overrides the app config.
+Description for the page. It's same as [config.description](/reference/site-config#description), and it overrides the app config.
 
 ```yaml
 ---
@@ -189,4 +189,4 @@ aside: false
 - Type: `number | [number, number] | 'deep' | false`
 - Default: `2`
 
-The levels of header in the outline to display for the page. It's same as [config.themeConfig.outline](../config/theme-config#outline), and it overrides the theme config.
+The levels of header in the outline to display for the page. It's same as [config.themeConfig.outline](/reference/default-theme-config#outline), and it overrides the theme config.

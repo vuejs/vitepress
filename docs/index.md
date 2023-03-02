@@ -19,7 +19,7 @@ hero:
 features:
   - icon: 📝
     title: Focus on Your Content
-    details: Effortlessly create beautiful documentation sites with the feature-rich default theme.
+    details: Effortlessly create beautiful documentation sites with just markdown.
   - icon:
       src: vite.svg
       width: 10

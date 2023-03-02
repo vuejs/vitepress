@@ -80,10 +80,7 @@
     "docs-debug": "node --inspect-brk ./bin/vitepress dev docs",
     "docs-build": "run-s build docs-build-only",
     "docs-build-only": "node ./bin/vitepress build docs",
-    "docs-preview": "node ./bin/vitepress preview docs",
-    "docs:dev": "vitepress dev /Users/evan/Vue/vitepress/__tests__/init/temp",
-    "docs:build": "vitepress build /Users/evan/Vue/vitepress/__tests__/init/temp",
-    "docs:preview": "vitepress preview /Users/evan/Vue/vitepress/__tests__/init/temp"
+    "docs-preview": "node ./bin/vitepress preview docs"
   },
   "dependencies": {
     "@docsearch/css": "^3.3.3",
