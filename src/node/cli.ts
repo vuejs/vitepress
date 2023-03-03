@@ -20,6 +20,11 @@ if (root) {
 }
 
 if (!command || command === 'dev') {
+  if (argv.force) {
+    delete argv.force
+    argv.optimizeDeps = { force: true }
+  }
+
   const createDevServer = async () => {
     const server = await createServer(root, argv, async () => {
       await server.close()
