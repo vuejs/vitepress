@@ -39,23 +39,31 @@ If using PNPM, you will notice a missing peer warning for `@docsearch/js`. This 
 
 :::
 
-## Setup Wizard
+### Setup Wizard
 
-VitePress ships with a command line setup wizard that will help you scaffold a basic project. Start the wizard by running:
+VitePress ships with a command line setup wizard that will help you scaffold a basic project. After installation, start the wizard by running:
 
-```sh
+::: code-group
+
+```sh [npm]
 $ npx vitepress init
 ```
 
-You should be greeted with the following:
+```sh [pnpm]
+$ pnpm exec vitepress init
+```
+
+:::
+
+You will be greeted with a few simple questions:
 
 <p>
   <img src="./vitepress-init.png" alt="vitepress init screenshot" style="border-radius:8px">
 </p>
 
-If you are installing VitePress in an existing project alongside the source code, it is recommended to scaffold the site in a nested directory so that it is separate from the rest of the project.
-
 ## File Structure
+
+If you are building a standalone VitePress site, you can scaffold the site in your current directory (`./`). However, if you are installing VitePress in an existing project alongside other source code, it is recommended to scaffold the site in a nested directory (e.g. `./docs`) so that it is separate from the rest of the project.
 
 Assuming you chose to scaffold the VitePress project in `./docs`, the generated file structure should look like this:
 
@@ -70,11 +78,15 @@ Assuming you chose to scaffold the VitePress project in `./docs`, the generated 
 └─ package.json
 ```
 
-The `docs` directory is considered the **project root** of the VitePress site. The `.vitepress` directory contains the config file, dev server cache, build output, and optional theme customization code.
+The `docs` directory is considered the **project root** of the VitePress site. The `.vitepress` directory is a reserved location for VitePress' config file, dev server cache, build output, and optional theme customization code.
+
+:::tip
+By default, VitePress stores its dev server cache in `.vitepress/cache`, and the production build output in `.vitepress/dist`. If using Git, you should add them to your `.gitignore` file. These locations can also be [configured](/reference/site-config#outdir).
+:::
 
 ### The Config File
 
-The config file allows you to customize various aspects of your VitePress site, with the most basic options being the title and description of the site:
+The config file (`.vitepress/config.js`) allows you to customize various aspects of your VitePress site, with the most basic options being the title and description of the site:
 
 ```js
 // .vitepress/config.js
@@ -89,7 +101,7 @@ export default {
 }
 ```
 
-You can also configure the behavior of the theme via the `themeConfig` option. Consult the [Site Config Reference](/reference/site-config) for full details on all config options.
+You can also configure the behavior of the theme via the `themeConfig` option. Consult the [Config Reference](/reference/site-config) for full details on all config options.
 
 ### Source Files
 
@@ -97,7 +109,7 @@ Markdown files outside the `.vitepress` directory are considered **source files*
 
 VitePress uses **file-based routing**: each `.md` file is compiled into a corresponding `.html` file with the same path. For example, `index.md` will be compiled into `index.html`, and can be visited at the root path `/` of the resulting VitePress site.
 
-We will discuss more about [Routing](./routing) in the next chapter.
+VitePress also provides the ability to generate clean URLs, rewrite paths, and dynamically generate pages. These will be covered in the [Routing Guide](./routing).
 
 ## Up and Running
 
@@ -123,15 +135,31 @@ The `docs:dev` script will start a local dev server with instant hot updates. Ru
 $ npm run docs:dev
 ```
 
-```sh [yarn]
-$ yarn docs:dev
-```
-
 ```sh [pnpm]
 $ pnpm run docs:dev
 ```
 
+```sh [yarn]
+$ yarn docs:dev
+```
+
 :::
+
+Instead of npm scripts, you can also invoke VitePress directly with:
+
+::: code-group
+
+```sh [npm]
+$ npx vitepress dev docs
+```
+
+```sh [pnpm]
+$ pnpm exec vitepress dev docs
+```
+
+:::
+
+More command line usage is documented in the [CLI Reference](/reference/cli).
 
 The dev server should be running at `http://localhost:5173`. Visit the URL in your browser to see your new site in action!
 
