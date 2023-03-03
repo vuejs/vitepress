@@ -11,41 +11,14 @@ export type MenuItem = Omit<Header, 'slug' | 'children'> & {
   children?: MenuItem[]
 }
 
-export function getHeaders(
-  pageOutline: DefaultTheme.Config['outline'],
-  outlineBadges: DefaultTheme.Config['outlineBadges']
-) {
-  if (pageOutline === false) return []
-  let updatedHeaders: MenuItem[] = []
-
-  document
-    .querySelectorAll<HTMLHeadingElement>('h2, h3, h4, h5, h6')
-    .forEach((el) => {
-      if (el.textContent && el.id) {
-        let title = el.textContent
-
-        if (outlineBadges === false) {
-          const clone = el.cloneNode(true) as HTMLElement
-          for (const child of clone.querySelectorAll('.VPBadge')) {
-            child.remove()
-          }
-          title = clone.textContent || ''
-        }
-
-        updatedHeaders.push({
-          level: Number(el.tagName[1]),
-          title: title.replace(/\s+#\s*$/, ''),
-          link: `#${el.id}`
-        })
-      }
-    })
-  return resolveHeaders(updatedHeaders, pageOutline)
-}
-
 export function resolveHeaders(
   headers: MenuItem[],
-  range?: Exclude<DefaultTheme.Config['outline'], false>
+  range?: DefaultTheme.Config['outline']
 ) {
+  if (range === false) {
+    return []
+  }
+
   const levelsRange =
     (typeof range === 'object' && !Array.isArray(range)
       ? range.level
@@ -58,49 +31,36 @@ export function resolveHeaders(
       ? [2, 6]
       : levelsRange
 
-  return groupHeaders(headers, levels)
+  const isInRange = (h: MenuItem): boolean =>
+    h.level >= levels[0] && h.level <= levels[1]
+
+  return filterHeaders(headers, isInRange)
 }
 
-function groupHeaders(headers: MenuItem[], levelsRange: [number, number]) {
+function filterHeaders(
+  headers: MenuItem[],
+  isInRange: (h: MenuItem) => boolean
+) {
   const result: MenuItem[] = []
 
   headers = headers.map((h) => ({ ...h }))
-  headers.forEach((h, index) => {
-    if (h.level >= levelsRange[0] && h.level <= levelsRange[1]) {
-      if (addToParent(index, headers, levelsRange)) {
-        result.push(h)
+  headers.forEach((h) => {
+    if (isInRange(h)) {
+      if (h.children) {
+        const filteredChildren = filterHeaders(h.children, isInRange)
+        if (filteredChildren.length) {
+          h.children = filteredChildren
+        } else {
+          delete h.children
+        }
       }
+      result.push(h)
+    } else if (h.children) {
+      result.push(...filterHeaders(h.children, isInRange))
     }
   })
 
   return result
-}
-
-function addToParent(
-  currIndex: number,
-  headers: MenuItem[],
-  levelsRange: [number, number]
-) {
-  if (currIndex === 0) {
-    return true
-  }
-
-  const currentHeader = headers[currIndex]
-  for (let index = currIndex - 1; index >= 0; index--) {
-    const header = headers[index]
-
-    if (
-      header.level < currentHeader.level &&
-      header.level >= levelsRange[0] &&
-      header.level <= levelsRange[1]
-    ) {
-      if (header.children == null) header.children = []
-      header.children.push(currentHeader)
-      return false
-    }
-  }
-
-  return true
 }
 
 export function useActiveAnchor(

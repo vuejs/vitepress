@@ -1,26 +1,20 @@
 <script setup lang="ts">
-import type { DefaultTheme } from 'vitepress/theme'
-import { computed, inject, ref, type Ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useData } from '../composables/data.js'
 import {
-  getHeaders,
-  useActiveAnchor,
-  type MenuItem
+  resolveHeaders,
+  useActiveAnchor
 } from '../composables/outline.js'
 import VPDocAsideOutlineItem from './VPDocAsideOutlineItem.vue'
 
-const { frontmatter, theme } = useData()
+const { frontmatter, page, theme } = useData()
 
-const pageOutline = computed<DefaultTheme.Config['outline']>(
-  () => frontmatter.value.outline ?? theme.value.outline
-)
-
-const onContentUpdated = inject('onContentUpdated') as Ref<() => void>
-onContentUpdated.value = () => {
-  headers.value = getHeaders(pageOutline.value, theme.value.outlineBadges)
-}
-
-const headers = ref<MenuItem[]>([])
+const headers = computed(() => {
+  return resolveHeaders(
+    page.value.headers,
+    frontmatter.value.outline ?? theme.value.outline
+  )
+})
 const hasOutline = computed(() => headers.value.length > 0)
 
 const container = ref()
