@@ -154,7 +154,7 @@ export default {
 }
 ```
 
-The rewrite paths are compiled using the `path-to-regexp` package - consult [its documentation](](https://github.com/pillarjs/path-to-regexp#parameters)) for more advanced syntax.
+The rewrite paths are compiled using the `path-to-regexp` package - consult [its documentation](https://github.com/pillarjs/path-to-regexp#parameters) for more advanced syntax.
 
 ### Relative Link Handling in Page
 

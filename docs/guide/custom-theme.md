@@ -2,18 +2,18 @@
 
 VitePress comes with its default theme providing many features out of the box. Learn more about each feature on its dedicated page listed below.
 
-- [Nav](./theme-nav)
-- [Sidebar](./theme-sidebar)
-- [Prev Next Link](./theme-prev-next-link)
-- [Edit Link](./theme-edit-link)
-- [Last Updated](./theme-last-updated)
-- [Layout](./theme-layout)
-- [Home Page](./theme-home-page)
-- [Team Page](./theme-team-page)
-- [Badge](./theme-badge)
-- [Footer](./theme-footer)
-- [Search](./theme-search)
-- [Carbon Ads](./theme-carbon-ads)
+- [Nav](/reference/default-theme-nav)
+- [Sidebar](/reference/default-theme-sidebar)
+- [Prev Next Link](/reference/default-theme-prev-next-link)
+- [Edit Link](/reference/default-theme-edit-link)
+- [Last Updated](/reference/default-theme-last-updated)
+- [Layout](/reference/default-theme-layout)
+- [Home Page](/reference/default-theme-home-page)
+- [Team Page](/reference/default-theme-team-page)
+- [Badge](/reference/default-theme-badge)
+- [Footer](/reference/default-theme-footer)
+- [Search](/reference/default-theme-search)
+- [Carbon Ads](/reference/default-theme-carbon-ads)
 
 If you don't find the features you're looking for, or you would rather create your own theme, you may customize VitePress to fit your requirements. In the following sections, we'll go through each way of customizing the VitePress theme.
 
@@ -142,7 +142,7 @@ export default DefaultTheme
 }
 ```
 
-See [default theme CSS variables](https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css) that can be overridden.
+See [default theme CSS variables](https://github.com/vuejs/vitepress/blob/main/src/clien/reference/default-theme-default/styles/vars.css) that can be overridden.
 
 ### Layout Slots
 
