@@ -106,6 +106,7 @@ export const createMarkdownRenderer = async (
       ...options.frontmatter
     } as FrontmatterPluginOptions)
     .use(headersPlugin, {
+      level: [2, 3, 4, 5, 6],
       ...options.headers
     } as HeadersPluginOptions)
     .use(sfcPlugin, {
