@@ -1,10 +1,8 @@
 # Routing
 
-VitePress is built with file system based routing, which means the directory structure of the source file corresponds to the final URL. You may customize the mapping of the directory structure and URL too. Read through this page to learn everything about the VitePress routing system.
+## File-Based Routing
 
-## Basic Routing
-
-By default, VitePress assumes your page files are stored in project root. Here you may add markdown files with the name being the URL path. For example, when you have following directory structure:
+VitePress uses file-based routing, which means the generated HTML pages are mapped from the directory structure of the source markdown files. For example, given the following directory structure:
 
 ```
 .
@@ -15,51 +13,71 @@ By default, VitePress assumes your page files are stored in project root. Here y
 └─ prologue.md
 ```
 
-Then you can access the pages by the below URL.
+The generated HTML pages will be:
 
 ```
-index.md                  -->  /
+index.md                  -->  /index.html (accessible as /)
 prologue.md               -->  /prologue.html
-guide/index.md            -->  /guide/
+guide/index.md            -->  /guide/index.html (accessible as /guide/)
 guide/getting-started.md  -->  /guide/getting-started.html
 ```
 
-As you can see, the directory structure corresponds to the final URL, as same as hosting plain HTML from a typical web server.
+The resulting HTML can be hosted on any web server that can serve static files.
 
-## Changing the Root Directory
+## Root and Source Directory
 
-To change the root directory for your page files, you may pass the directory name to the `vitepress` command. For example, if you want to store your page files under `docs` directory, then you should run `vitepress dev docs` command.
+There are two important concepts in the file structure of a VitePress project: the **project root** and the **source directory**.
+
+### Project Root
+
+Project root is where VitePress will try to look for the `.vitepress` special directory. The `.vitepress` directory is a reserved location for VitePress' config file, dev server cache, build output, and optional theme customization code.
+
+When you run `vitepress dev` or `vitepress build` from the command line, VitePress will use the current working directory as project root. To specify a sub-directory as root, you will need to pass the relative path to the command. For example, if your VitePress project is located in `./docs`, you should run `vitepress dev docs`:
 
 ```
 .
-├─ docs
+├─ docs (project root)
+│  ├─ .vitepress
 │  ├─ getting-started.md
 │  └─ index.md
 └─ ...
 ```
 
-```
+```sh
 vitepress dev docs
 ```
 
-This is going to map the URL as follows.
+This is going to result in the following source-to-HTML mapping:
 
 ```
-docs/index.md           -> /
-docs/getting-started.md -> /getting-started.html
+docs/index.md            -->  /index.html (accessible as /)
+docs/getting-started.md  -->  /getting-started.html
 ```
 
-You may also customize the root directory in config file via [`srcDir`](/reference/site-config#srcdir) option too. Running `vitepress dev` with the following setting acts same as running `vitepress dev docs` command.
+### Source Directory
 
-```ts
-export default {
-  srcDir: './docs'
-}
+Source directory is where your markdown source files live. By default, it is the same as the project root. However, you can configure it via the [`srcDir`](/reference/site-config#srcdir) config option.
+
+The `srcDir` option is resolved relative to project root. For example, with `srcDir: 'src'`, your file structure will look like this:
+
+```
+. (project root)
+├─ .vitepress
+└─ src (source directory)
+   ├─ getting-started.md
+   └─ index.md
+```
+
+The resulting source-to-HTML mapping:
+
+```
+src/index.md            -->  /index.html (accessible as /)
+src/getting-started.md  -->  /getting-started.html
 ```
 
 ## Linking Between Pages
 
-When adding links in pages, omit extension from the path and use either absolute path from the root, or relative path from the page. VitePress will handle the extension according to your configuration setup.
+You can use both absolute and relative paths when linking between pages. Note that although both `.md` and `.html` extensions will work, the best practice is to omit file extensions so that VitePress can generate the final URLs based on your config.
 
 ```md
 <!-- Do -->
@@ -71,13 +89,13 @@ When adding links in pages, omit extension from the path and use either absolute
 [Getting Started](/guide/getting-started.html)
 ```
 
-Learn more about page links and links to assets, such as link to images, at [Asset Handling](asset-handling).
+Learn more about linking to assets such images in [Asset Handling](asset-handling).
 
-## Generate Clean URL
+## Generating Clean URL
 
-A "Clean URL" is commonly known as URL without `.html` extension, for example, `example.com/path` instead of `example.com/path.html`.
+By default, VitePress resolves inbound links to URLs ending with `.html`. However, some users may prefer "Clean URLs" without the `.html` extension - for example, `example.com/path` instead of `example.com/path.html`.
 
-By default, VitePress generates the final static page files by adding `.html` extension to each file. If you would like to have clean URL, you may structure your directory by only using `index.html` file.
+One way to achieve clean URLs is to structure your files using only `index.md` inside directories:
 
 ```
 .
@@ -88,17 +106,11 @@ By default, VitePress generates the final static page files by adding `.html` ex
 └─ index.md
 ```
 
-However, you may also generate a clean URL by setting up [`cleanUrls`](/reference/site-config#cleanurls) option.
+Some servers or hosting platforms (for example Netlify or Vercel) provide the ability to map a URL like `/foo` to `/foo.html` if it exists. If this feature is available to you, you can use the [`cleanUrls`](/reference/site-config#cleanurls) config option so that inbound links are always generated without the `.html` extension. When this option is enabled, VitePress' client-side router will also redirect to the clean URL when a visited URL ends with `.html`.
 
-```ts
-export default {
-  cleanUrls: true
-}
-```
+## Route Rewrites
 
-## Customize the Mappings
-
-You may customize the mapping between directory structure and URL. It's useful when you have complex document structure. For example, let's say you have several packages and would like to place documentations along with the source files like this.
+You can customize the mapping between the source directory structure and the generated pages. It's useful when you have a complex project structure. For example, let's say you have a monorepo with multiple packages, and would like to place documentations along with the source files like this:
 
 ```
 .
@@ -106,63 +118,43 @@ You may customize the mapping between directory structure and URL. It's useful w
 │  ├─ pkg-a
 │  │  └─ src
 │  │      ├─ pkg-a-code.ts
-│  │      └─ pkg-a-code.md
+│  │      └─ pkg-a-docs.md
 │  └─ pkg-b
 │     └─ src
 │         ├─ pkg-b-code.ts
-│         └─ pkg-b-code.md
+│         └─ pkg-b-docs.md
 ```
 
-And you want the VitePress pages to be generated as follows.
+And you want the VitePress pages to be generated like this:
 
 ```
-packages/pkg-a/src/pkg-a-code.md -> /pkg-a/pkg-a-code.md
-packages/pkg-b/src/pkg-b-code.md -> /pkg-b/pkg-b-code.md
+packages/pkg-a/src/pkg-a-docs.md  -->  /pkg-a/index.html
+packages/pkg-b/src/pkg-b-docs.md  -->  /pkg-b/index.html
 ```
 
-You may configure the mapping via [`rewrites`](/reference/site-config#rewrites) option like this.
+You can achieve this by configuring the [`rewrites`](/reference/site-config#rewrites) option like this:
 
 ```ts
+// .vitepress/config.js
 export default {
   rewrites: {
-    'packages/pkg-a/src/pkg-a-code.md': 'pkg-a/pkg-a-code.md',
-    'packages/pkg-b/src/pkg-b-code.md': 'pkg-b/pkg-b-code.md'
+    'packages/pkg-a/src/pkg-a-docs.md': 'pkg-a/index.md',
+    'packages/pkg-b/src/pkg-b-docs.md': 'pkg-b/index.md'
   }
 }
 ```
 
-The `rewrites` option can also have dynamic route parameters. In this example, we have fixed path `packages` and `src` which stays the same on all pages, and it might be verbose to have to list all pages in your config as you add pages. You may configure the above mapping as below and get the same result.
+The `rewrites` option also supports dynamic route parameters. In the above example, it would be verbose to list all the paths if you have many packages. Given that they all have the same file structure, you can simplify the config like this:
 
 ```ts
 export default {
   rewrites: {
-    'packages/:pkg/src/:page': ':pkg/:page'
+    'packages/:pkg/src/(.*)': ':pkg/index.md'
   }
 }
 ```
 
-Route parameters are prefixed by `:` (e.g. `:pkg`). The name of the parameter is just a placeholder and can be anything.
-
-In addition, you may add `*` at the end of the parameter to map all sub directories from there on.
-
-```ts
-export default {
-  rewrites: {
-    'packages/:pkg/src/:page*': ':pkg/:page*'
-  }
-}
-```
-
-The above will create mapping as below.
-
-```
-packages/pkg-a/src/pkg-a-code.md  -> /pkg-a/pkg-a-code.md
-packages/pkg-b/src/folder/file.md -> /pkg-b/folder/file.md
-```
-
-::: warning You need server restart on page addition
-At the moment, VitePress doesn't detect page additions to the mapped directory. You need to restart your server when adding or removing files from the directory during the dev mode. Updating the already existing files gets updated as usual.
-:::
+The rewrite paths are compiled using the `path-to-regexp` package - consult [its documentation](](https://github.com/pillarjs/path-to-regexp#parameters)) for more advanced syntax.
 
 ### Relative Link Handling in Page
 
@@ -171,3 +163,7 @@ Note that when enabling rewrites, **relative links in the markdown are resolved 
 ```md
 [Link to PKG B](../pkg-b/pkg-b-code)
 ```
+
+## Dynamic Routes
+
+TODO
