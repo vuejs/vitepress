@@ -2,6 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import type MarkdownIt from 'markdown-it'
 import type { RuleBlock } from 'markdown-it/lib/parser_block'
+import type { MarkdownEnv } from '../env'
 
 export function dedent(text: string): string {
   const lines = text.split('\n')
@@ -124,7 +125,10 @@ export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
       title ? `[${title}]` : ''
     }`
 
-    const resolvedPath = path.resolve(path.dirname(state.env.path), filepath)
+    const resolvedPath = path.resolve(
+      path.dirname((state.env as MarkdownEnv).path),
+      filepath
+    )
     // @ts-ignore
     token.src = [resolvedPath, region.slice(1)]
     token.markup = '```'
