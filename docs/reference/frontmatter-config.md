@@ -81,7 +81,7 @@ type HeadConfig =
 - Type: `boolean`
 - Default: `true`
 
-Whether to display [Last Updated](../guide/theme-last-updated) text in the current page.
+Whether to display [Last Updated](/reference/default-theme-last-updated) text in the current page.
 
 ```yaml
 ---
@@ -169,7 +169,7 @@ This option only takes effect when `layout` is set to `home`.
 
 It defines items to display in features section.
 
-You may learn more about it in [Theme: Home Page](../guide/theme-home-page).
+You may learn more about it in [Theme: Home Page](/reference/default-theme-home-page).
 
 ## aside
 

@@ -1,4 +1,4 @@
-# Runtime API Reference
+# Runtime API
 
 VitePress offers several built-in APIs to let you access app data. VitePress also comes with a few built-in components that can be used globally.
 

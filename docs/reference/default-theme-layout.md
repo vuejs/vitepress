@@ -1,6 +1,6 @@
 # Layout
 
-You may choose the page layout by setting `layout` option to the page [frontmatter](./frontmatter). There are 3 layout options, `doc`, `page`, and `home`. If nothing is specified, then the page is treated as `doc` page.
+You may choose the page layout by setting `layout` option to the page [frontmatter](./frontmatter-config). There are 3 layout options, `doc`, `page`, and `home`. If nothing is specified, then the page is treated as `doc` page.
 
 ```yaml
 ---
@@ -19,11 +19,11 @@ It also provides documentation specific features listed below. These features ar
 - Edit Link
 - Prev Next Link
 - Outline
-- [Carbon Ads](./theme-carbon-ads)
+- [Carbon Ads](./default-theme-carbon-ads)
 
 ## Page Layout
 
-Option `page` is treated as "blank page". The Markdown will still be parsed, and all of the [Markdown Extensions](./markdown) work as same as `doc` layout, but it wouldn't get any default stylings.
+Option `page` is treated as "blank page". The Markdown will still be parsed, and all of the [Markdown Extensions](/guide/markdown) work as same as `doc` layout, but it wouldn't get any default stylings.
 
 The page layout will let you style everything by you without VitePress theme affecting the markup. This is useful when you want to create your own custom page.
 
@@ -31,7 +31,7 @@ Note that even in this layout, sidebar will still show up if the page has a matc
 
 ## Home Layout
 
-Option `home` will generate templated "Homepage". In this layout, you can set extra options such as `hero` and `features` to customize the content further. Please visit [Theme: Home Page](./theme-home-page) for more details.
+Option `home` will generate templated "Homepage". In this layout, you can set extra options such as `hero` and `features` to customize the content further. Please visit [Theme: Home Page](/reference/default-theme-home-page) for more details.
 
 ## No Layout
 

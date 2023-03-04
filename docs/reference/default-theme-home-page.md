@@ -1,6 +1,6 @@
 # Home Page
 
-VitePress default theme provides a homepage layout, which you can also see used on [the homepage of this site](../). You may use it on any of your pages by specifying `layout: home` in the [frontmatter](./frontmatter).
+VitePress default theme provides a homepage layout, which you can also see used on [the homepage of this site](../). You may use it on any of your pages by specifying `layout: home` in the [frontmatter](./frontmatter-config).
 
 ```yaml
 ---
@@ -131,7 +131,7 @@ interface Feature {
   // Link when clicked on feature component. The link can
   // be both internal or external.
   //
-  // e.g. `guide/theme-home-page` or `htttps://example.com`
+  // e.g. `guid/reference/default-theme-home-page` or `htttps://example.com`
   link?: string
 
   // Link text to be shown inside feature component. Best

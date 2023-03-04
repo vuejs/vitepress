@@ -106,7 +106,7 @@ function sidebarGuide() {
         },
         { text: 'Building a Custom Theme', link: '/guide/custom-theme' },
         { text: 'Build-Time Data Loading', link: '/guide/data-loading' },
-        { text: 'Dynamic Routes', link: '/guide/dynamic-routes' }
+        { text: 'Connecting to a CMS', link: '/guide/cms' }
       ]
     },
     // {
@@ -136,13 +136,66 @@ function sidebarReference() {
       text: 'Reference',
       items: [
         { text: 'Site Config', link: '/reference/site-config' },
-        {
-          text: 'Default Theme Config',
-          link: '/reference/default-theme-config'
-        },
         { text: 'Frontmatter Config', link: '/reference/frontmatter-config' },
         { text: 'Runtime API', link: '/reference/runtime-api' },
-        { text: 'CLI', link: '/reference/cli' }
+        { text: 'CLI', link: '/reference/cli' },
+        {
+          text: 'Default Theme',
+          items: [
+            {
+              text: 'Overview',
+              link: '/reference/default-theme-config'
+            },
+            {
+              text: 'Nav',
+              link: '/reference/default-theme-nav'
+            },
+            {
+              text: 'Sidebar',
+              link: '/reference/default-theme-sidebar'
+            },
+            {
+              text: 'Home Page',
+              link: '/reference/default-theme-home-page'
+            },
+            {
+              text: 'Footer',
+              link: '/reference/default-theme-footer'
+            },
+            {
+              text: 'Layout',
+              link: '/reference/default-theme-layout'
+            },
+            {
+              text: 'Badge',
+              link: '/reference/default-theme-badge'
+            },
+            {
+              text: 'Team Page',
+              link: '/reference/default-theme-team-page'
+            },
+            {
+              text: 'Prev / Next Links',
+              link: '/reference/default-theme-prev-next-links'
+            },
+            {
+              text: 'Edit Link',
+              link: '/reference/default-theme-edit-link'
+            },
+            {
+              text: 'Last Updated Timestamp',
+              link: '/reference/default-theme-last-updated'
+            },
+            {
+              text: 'Algolia Search',
+              link: '/reference/default-theme-search'
+            },
+            {
+              text: 'Carbon Ads',
+              link: '/reference/default-theme-carbon-ads'
+            }
+          ]
+        }
       ]
     }
   ]

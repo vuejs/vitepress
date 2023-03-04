@@ -1,3 +1,5 @@
+# Build-Time Data Loading
+
 ## Basic Usage
 
 ```js
