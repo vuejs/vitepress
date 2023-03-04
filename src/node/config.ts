@@ -219,6 +219,9 @@ export async function resolveConfig(
   command: 'serve' | 'build' = 'serve',
   mode = 'development'
 ): Promise<SiteConfig> {
+  // normalize root into absolute path
+  root = normalizePath(path.resolve(root))
+
   const [userConfig, configPath, configDeps] = await resolveUserConfig(
     root,
     command,
@@ -232,12 +235,12 @@ export async function resolveConfig(
       allowClearScreen: userConfig.vite?.clearScreen
     })
   const site = await resolveSiteData(root, userConfig)
-  const srcDir = path.resolve(root, userConfig.srcDir || '.')
+  const srcDir = normalizePath(path.resolve(root, userConfig.srcDir || '.'))
   const outDir = userConfig.outDir
-    ? path.resolve(root, userConfig.outDir)
+    ? normalizePath(path.resolve(root, userConfig.outDir))
     : resolve(root, 'dist')
   const cacheDir = userConfig.cacheDir
-    ? path.resolve(root, userConfig.cacheDir)
+    ? normalizePath(path.resolve(root, userConfig.cacheDir))
     : resolve(root, 'cache')
 
   // resolve theme path
@@ -435,7 +438,7 @@ export async function resolvePages(srcDir: string, userConfig: UserConfig) {
   const dynamicRouteFiles = allMarkdownFiles.filter((p) =>
     dynamicRouteRE.test(p)
   )
-  const dynamicRoutes = await resolveDynamicRoutes(dynamicRouteFiles)
+  const dynamicRoutes = await resolveDynamicRoutes(srcDir, dynamicRouteFiles)
   pages.push(...dynamicRoutes.routes.map((r) => r.path))
 
   const rewrites = resolveRewrites(pages, userConfig.rewrites)
