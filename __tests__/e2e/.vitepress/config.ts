@@ -51,6 +51,19 @@ const sidebar: DefaultTheme.Config['sidebar'] = {
           link: '/dynamic-routes/bar'
         }
       ]
+    },
+    {
+      text: 'Markdown extensions',
+      items: [
+        {
+          text: 'Test Page',
+          link: '/markdown-extensions/'
+        },
+        {
+          text: 'Foo',
+          link: '/markdown-extensions/foo'
+        }
+      ]
     }
   ],
   '/multi-sidebar/': [
