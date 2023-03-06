@@ -66,10 +66,17 @@ export async function createApp() {
   app.component('Content', Content)
   app.component('ClientOnly', ClientOnly)
 
-  // expose $frontmatter
-  Object.defineProperty(app.config.globalProperties, '$frontmatter', {
-    get() {
-      return data.frontmatter.value
+  // expose $frontmatter & $params
+  Object.defineProperties(app.config.globalProperties, {
+    $frontmatter: {
+      get() {
+        return data.frontmatter.value
+      }
+    },
+    $params: {
+      get() {
+        return data.page.value.params
+      }
     }
   })
 
