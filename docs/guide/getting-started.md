@@ -61,6 +61,10 @@ You will be greeted with a few simple questions:
   <img src="./vitepress-init.png" alt="vitepress init screenshot" style="border-radius:8px">
 </p>
 
+:::tip Vue as Peer Dependency
+If you intend to perform customization that uses Vue components or APIs, you should also explicitly install `vue` as a peer dependency.
+:::
+
 ## File Structure
 
 If you are building a standalone VitePress site, you can scaffold the site in your current directory (`./`). However, if you are installing VitePress in an existing project alongside other source code, it is recommended to scaffold the site in a nested directory (e.g. `./docs`) so that it is separate from the rest of the project.
