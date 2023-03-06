@@ -1,8 +1,12 @@
+---
+outline: deep
+---
+
 # Routing
 
 ## File-Based Routing
 
-VitePress uses file-based routing, which means the generated HTML pages are mapped from the directory structure of the source markdown files. For example, given the following directory structure:
+VitePress uses file-based routing, which means the generated HTML pages are mapped from the directory structure of the source Markdown files. For example, given the following directory structure:
 
 ```
 .
@@ -36,8 +40,8 @@ When you run `vitepress dev` or `vitepress build` from the command line, VitePre
 
 ```
 .
-├─ docs (project root)
-│  ├─ .vitepress
+├─ docs                    # project root
+│  ├─ .vitepress           # config dir
 │  ├─ getting-started.md
 │  └─ index.md
 └─ ...
@@ -56,14 +60,14 @@ docs/getting-started.md  -->  /getting-started.html
 
 ### Source Directory
 
-Source directory is where your markdown source files live. By default, it is the same as the project root. However, you can configure it via the [`srcDir`](/reference/site-config#srcdir) config option.
+Source directory is where your Markdown source files live. By default, it is the same as the project root. However, you can configure it via the [`srcDir`](/reference/site-config#srcdir) config option.
 
 The `srcDir` option is resolved relative to project root. For example, with `srcDir: 'src'`, your file structure will look like this:
 
 ```
-. (project root)
-├─ .vitepress
-└─ src (source directory)
+.                          # project root
+├─ .vitepress              # config dir
+└─ src                     # source dir
    ├─ getting-started.md
    └─ index.md
 ```
@@ -156,14 +160,178 @@ export default {
 
 The rewrite paths are compiled using the `path-to-regexp` package - consult [its documentation](https://github.com/pillarjs/path-to-regexp#parameters) for more advanced syntax.
 
-### Relative Link Handling in Page
+:::warning Relative Links with Rewrites
 
-Note that when enabling rewrites, **relative links in the markdown are resolved relative to the final path**. For example, in order to create relative link from `packages/pkg-a/src/pkg-a-code.md` to `packages/pkg-b/src/pkg-b-code.md`, you should define link as below.
+When rewrites are enabled, **relative links should be based on the rewritten paths**. For example, in order to create a relative link from `packages/pkg-a/src/pkg-a-code.md` to `packages/pkg-b/src/pkg-b-code.md`, you should use:
 
 ```md
 [Link to PKG B](../pkg-b/pkg-b-code)
 ```
+:::
 
 ## Dynamic Routes
 
-TODO
+You can generate many pages using a single Markdown file and dynamic data. For example, you can create a `packages/[pkg].md` file that generates a corresponding page for every package in a project. Here, the `[pkg]` segment is a route **parameter** that differentiates each page from the others.
+
+### Paths Loader File
+
+Since VitePress is a static site generator, the possible page paths must be determined at build time. Therefore, a dynamic route page **must** be accompanied by a **paths loader file**. For `packages/[pkg].md`, we will need `packages/[pkg].paths.js` (`.ts` is also supported):
+
+```
+.
+└─ packages
+   ├─ [pkg].md         # route template
+   └─ [pkg].paths.js   # route paths loader
+```
+
+The paths loader should provide an object with a `paths` method as its default export. The `paths` method should return an array of objects with a `params` property. Each of these objects will generate a corresponding page.
+
+Given the following `paths` array:
+
+```js
+// packages/[pkg].paths.js
+export default {
+  paths() {
+    return [
+      { params: { pkg: 'foo' }},
+      { params: { pkg: 'bar' }}
+    ]
+  }
+}
+```
+
+The generated HTML pages will be:
+
+```
+.
+└─ packages
+   ├─ foo.html
+   └─ bar.html
+```
+
+### Multiple Params
+
+A dynamic route can contain multiple params:
+
+**File Structure**
+
+```
+.
+└─ packages
+   ├─ [pkg]-[version].md
+   └─ [pkg]-[version].paths.js
+```
+
+**Paths Loader**
+
+```js
+export default {
+  paths: () => [
+    { params: { pkg: 'foo', version: '1.0.0' }},
+    { params: { pkg: 'foo', version: '2.0.0' }},
+    { params: { pkg: 'bar', version: '1.0.0' }},
+    { params: { pkg: 'bar', version: '2.0.0' }}
+  ]
+}
+```
+
+**Output**
+
+```
+.
+└─ packages
+   ├─ foo-1.0.0.html
+   ├─ foo-2.0.0.html
+   ├─ bar-1.0.0.html
+   └─ bar-2.0.0.html
+```
+
+### Dynamically Generating Paths
+
+The paths loader module is run in Node.js and only executed during build time. You can dynamically generate the paths array using any data, either local or remote.
+
+Generating paths from local files:
+
+```js
+import fs from 'fs'
+
+export default {
+  paths() {
+    return fs
+      .readdirSync('packages')
+      .map((pkg) => {
+        return { params: { pkg }}
+      })
+  }
+}
+```
+
+Generating paths from remote data:
+
+```js
+export default {
+  async paths() {
+    const pkgs = await (await fetch('https://my-api.com/packages')).json()
+
+    return pkgs.map((pkg) => {
+      return {
+        params: {
+          pkg: pkg.name,
+          version: pkg.version
+        }
+      }
+    })
+  }
+}
+```
+
+### Accessing Params in Page
+
+You can use the params to pass additional data to each page. The Markdown route file can access the current page params in Vue expressions via the `$params` global property:
+
+```md
+- package name: {{ $params.pkg }}
+- version: {{ $params.version }}
+```
+
+You can also access the current page's params via the `[useData](/reference/runtime-api#usedata)` runtime API. This is available in both Markdown files and Vue components:
+
+```vue
+<script setup>
+import { useData } from 'vitepress'
+
+// params is a Vue ref
+const { params } = useData()
+
+console.log(params.value)
+</script>
+```
+
+### Rendering Raw Content
+
+Params passed to the page will be serialized in the client JavaScript payload, so you should avoid passing heavy data in params, for example raw Markdown or HTML content fetched from a remote CMS.
+
+Instead, you can pass such content to each page using the `content` property on each path object:
+
+```js
+export default {
+  paths() {
+    async paths() {
+      const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
+
+      return posts.map((post) => {
+        return {
+          params: { id: post.id },
+          content: post.content // raw Markdown or HTML
+        }
+      })
+    }
+  }
+}
+```
+
+Then, use the following special syntax to render the content as part of the Markdown file itself:
+
+```md
+<!-- @content -->
+```
