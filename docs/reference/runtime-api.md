@@ -16,6 +16,7 @@ interface VitePressData<T = any> {
   page: Ref<PageData>
   theme: Ref<T> // themeConfig from .vitepress/config.js
   frontmatter: Ref<PageData['frontmatter']>
+  params: Ref<PageData['params']>
   title: Ref<string>
   description: Ref<string>
   lang: Ref<string>

@@ -23,6 +23,7 @@ export interface VitePressData<T = any> {
   page: Ref<PageData>
   theme: Ref<T>
   frontmatter: Ref<PageData['frontmatter']>
+  params: Ref<PageData['params']>
   title: Ref<string>
   description: Ref<string>
   lang: Ref<string>
@@ -56,6 +57,7 @@ export function initData(route: Route): VitePressData {
     theme: computed(() => site.value.themeConfig),
     page: computed(() => route.data),
     frontmatter: computed(() => route.data.frontmatter),
+    params: computed(() => route.data.params),
     lang: computed(() => site.value.lang),
     dir: computed(() => site.value.dir),
     localeIndex: computed(() => site.value.localeIndex || 'root'),
