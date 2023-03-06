@@ -1,11 +1,7 @@
-<% if (useTs) { %>import { defineConfig } from 'vitepress'
+import { defineConfig } from 'vitepress'
 
 // https://vitepress.vuejs.org/config/app-config
-export default defineConfig(<% } else { %>/**
- * @type {import('vitepress').UserConfig}
- * https://vitepress.vuejs.org/config/app-config
- */
-const config = <% } %>{
+export default defineConfig({
   title: <%= title %>,
   description: <%= description %><% if (defaultTheme) { %>,
   themeConfig: {
@@ -29,6 +25,4 @@ const config = <% } %>{
       { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
     ]
   }<% } %>
-}<% if (useTs) { %>)<% } else { %>
-
-export default config<% } %>
+})
