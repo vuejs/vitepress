@@ -379,6 +379,12 @@ export default {
 }
 ```
 
+### vite
+
+- Type: `ViteUserConfig`
+
+Pass raw [Vite Config](https://vitejs.dev/config/) to underlying Vite dev server / bundler.
+
 ### Build Hooks
 
 VitePress build hooks allow you to add new functionality and behaviors to your website:

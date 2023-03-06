@@ -9,7 +9,9 @@ editLink: true
 ---
 ```
 
-Between the triple-dashed lines, you can set [predefined variables](/reference/frontmatter-config), or even create custom ones of your own. These variables can be used via the special <code>$frontmatter</code> variable.
+Many site or default theme config options have corresponding options in frontmatter. You can use frontmatter to override specific behavior for the current page only. For details, see [Frontmatter Config Reference](/reference/frontmatter-config),
+
+You can also define custom frontmatter data of your own, to be used in dynamic Vue expressions on the page. Frontmatter data can be accessed via the special `$frontmatter` global variable:
 
 Here's an example of how you could use it in your Markdown file:
 
