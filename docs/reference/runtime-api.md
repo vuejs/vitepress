@@ -6,7 +6,7 @@ The helper methods are globally importable from `vitepress` and are typically us
 
 Methods that start with `use*` indicates that it is a [Vue 3 Composition API](https://vuejs.org/guide/introduction.html#composition-api) function that can only be used inside `setup()` or `<script setup>`.
 
-## `useData`
+## `useData` <Badge type="info" text="composable" />
 
 Returns page-specific data. The returned object has the following type:
 
@@ -40,7 +40,7 @@ const { theme } = useData()
 </template>
 ```
 
-## `useRoute`
+## `useRoute` <Badge type="info" text="composable" />
 
 Returns the current route object with the following type:
 
@@ -52,7 +52,7 @@ interface Route {
 }
 ```
 
-## `useRouter`
+## `useRouter` <Badge type="info" text="composable" />
 
 Returns the VitePress router instance so you can programmatically navigate to another page.
 
@@ -63,13 +63,13 @@ interface Router {
 }
 ```
 
-## `withBase`
+## `withBase` <Badge type="info" text="helper" />
 
 - **Type**: `(path: string) => string`
 
 Appends the configured [`base`](/reference/site-config#base) to a given URL path. Also see [Base URL](/guide/asset-handling#base-url).
 
-## `<Content />`
+## `<Content />` <Badge type="info" text="component" />
 
 The `<Content />` component displays the rendered markdown contents. Useful [when creating your own theme](/guide/custom-theme).
 
@@ -80,7 +80,7 @@ The `<Content />` component displays the rendered markdown contents. Useful [whe
 </template>
 ```
 
-## `<ClientOnly />`
+## `<ClientOnly />` <Badge type="info" text="component" />
 
 The `<ClientOnly />` component renders its slot only at client side.
 
@@ -92,4 +92,25 @@ If you are using or demoing components that are not SSR-friendly (for example, c
 <ClientOnly>
   <NonSSRFriendlyComponent />
 </ClientOnly>
+```
+
+## `$frontmatter` <Badge type="info" text="global" />
+
+Directly access current page's [frontmatter](/guide/frontmatter) data in Vue expressions.
+
+```md
+---
+title: Hello
+---
+
+# {{ $frontmatter.title }}
+```
+
+## `$params` <Badge type="info" text="global" />
+
+Directly access current page's [dynamic route params](/guide/routing#dynamic-routes) in Vue expressions.
+
+```md
+- package name: {{ $params.pkg }}
+- version: {{ $params.version }}
 ```
