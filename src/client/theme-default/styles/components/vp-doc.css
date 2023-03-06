@@ -2,12 +2,7 @@
  * Headings
  * -------------------------------------------------------------------------- */
 
-.vp-doc h1,
-.vp-doc h2,
-.vp-doc h3,
-.vp-doc h4,
-.vp-doc h5,
-.vp-doc h6 {
+.vp-doc .header-wrapper {
   position: relative;
   font-weight: 600;
   outline: none;
@@ -36,7 +31,8 @@
 }
 
 .vp-doc .header-anchor {
-  float: left;
+  position: absolute;
+  top: 0;
   margin-left: -0.87em;
   padding-right: 0.23em;
   font-weight: 500;
@@ -45,18 +41,40 @@
   transition: color 0.25s, opacity 0.25s;
 }
 
-.vp-doc h1:hover .header-anchor,
-.vp-doc h1 .header-anchor:focus,
-.vp-doc h2:hover .header-anchor,
-.vp-doc h2 .header-anchor:focus,
-.vp-doc h3:hover .header-anchor,
-.vp-doc h3 .header-anchor:focus,
-.vp-doc h4:hover .header-anchor,
-.vp-doc h4 .header-anchor:focus,
-.vp-doc h5:hover .header-anchor,
-.vp-doc h5 .header-anchor:focus,
-.vp-doc h6:hover .header-anchor,
-.vp-doc h6 .header-anchor:focus {
+.vp-doc h1 + .header-anchor {
+  line-height: 40px;
+  font-size: 32px;
+}
+
+.vp-doc h2 + .header-anchor {
+  padding-top: 25px;
+  line-height: 32px;
+  font-size: 24px;
+}
+
+.vp-doc h3 + .header-anchor {
+  line-height: 28px;
+  font-size: 20px;
+}
+
+.vp-doc h1:hover + .header-anchor,
+.vp-doc h1 + .header-anchor:focus,
+.vp-doc h1 + .header-anchor:hover,
+.vp-doc h2:hover + .header-anchor,
+.vp-doc h2 + .header-anchor:focus,
+.vp-doc h2 + .header-anchor:hover,
+.vp-doc h3:hover + .header-anchor,
+.vp-doc h3 + .header-anchor:focus,
+.vp-doc h3 + .header-anchor:hover,
+.vp-doc h4:hover + .header-anchor,
+.vp-doc h4 + .header-anchor:focus,
+.vp-doc h4 + .header-anchor:hover,
+.vp-doc h5:hover + .header-anchor,
+.vp-doc h5 + .header-anchor:focus,
+.vp-doc h5 + .header-anchor:hover,
+.vp-doc h6:hover + .header-anchor,
+.vp-doc h6 + .header-anchor:focus,
+.vp-doc h6 + .header-anchor:hover {
   opacity: 1;
 }
 
