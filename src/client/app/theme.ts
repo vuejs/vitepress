@@ -11,6 +11,10 @@ export interface EnhanceAppContext {
 export interface Theme {
   Layout: Component
   enhanceApp?: (ctx: EnhanceAppContext) => Awaitable<void>
+
+  /**
+   * @deprecated can be replaced by wrapping layout component
+   */
   setup?: () => void
 
   /**
