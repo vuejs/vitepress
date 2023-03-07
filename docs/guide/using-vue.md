@@ -36,9 +36,13 @@ Directives also work (note that by design, raw HTML is also valid in Markdown):
 
 ## `<script>` and `<style>`
 
-Root-level `<script>` and `<style>` tags in Markdown files work just like they do in Vue SFCs, including `<script setup>`, `<style scoped>`, `<style module>`, etc. The main difference here is that there is no `<template>` tag: all other root-level content is Markdown.
+Root-level `<script>` and `<style>` tags in Markdown files work just like they do in Vue SFCs, including `<script setup>`, `<style module>`, etc. The main difference here is that there is no `<template>` tag: all other root-level content is Markdown. Also note that all tags should be placed **after** the frontmatter:
 
 ```html
+---
+hello: world
+---
+
 <script setup>
 import { ref } from 'vue'
 
@@ -49,15 +53,19 @@ const count = ref(0)
 
 The count is: {{ count }}
 
-<button @click="count++">Increment</button>
+<button :class="$style.module" @click="count++">Increment</button>
 
-<style scoped>
-button {
+<style module>
+.button {
   color: red;
   font-weight: bold;
 }
 </style>
 ```
+
+:::warning Avoid `<style scoped>` in Markdown
+When used in Markdown, `<style scoped>` requires adding special attributes to every element on the current page, which will significantly bloat the page size. `<style module>` is preferred when locally-scoped styling is needed in a page.
+:::
 
 You also have access to VitePress' runtime APIs such as the [`useData` helper](/reference/runtime-api#usedata), which provides access to current page's metadata:
 
