@@ -53,7 +53,7 @@ const sidebar: DefaultTheme.Config['sidebar'] = {
       ]
     },
     {
-      text: 'Markdown extensions',
+      text: 'Markdown Extensions',
       items: [
         {
           text: 'Test Page',
