@@ -6,22 +6,18 @@ import {
 } from 'vite'
 import path, { dirname, resolve } from 'path'
 import { isMatch } from 'micromatch'
+import glob from 'fast-glob'
 
 const loaderMatch = /\.data\.(j|t)s$/
 
 let server: ViteDevServer
 
 interface LoaderModule {
-  watch: string[] | string | undefined
-  load: () => any
+  watch?: string[] | string
+  load: (watchedFiles: string[]) => any
 }
 
-interface CachedLoaderModule {
-  pattern: string[] | undefined
-  loader: () => any
-}
-
-const idToLoaderModulesMap: Record<string, CachedLoaderModule | undefined> =
+const idToLoaderModulesMap: Record<string, LoaderModule | undefined> =
   Object.create(null)
 
 const depToLoaderModuleIdMap: Record<string, string> = Object.create(null)
@@ -59,12 +55,12 @@ export const staticDataPlugin: Plugin = {
       }
 
       const base = dirname(id)
-      let pattern: string[] | undefined
-      let loader: () => any
+      let watch: LoaderModule['watch']
+      let load: LoaderModule['load']
 
       const existing = idToLoaderModulesMap[id]
       if (existing) {
-        ;({ pattern, loader } = existing)
+        ;({ watch, load } = existing)
       } else {
         // use vite's load config util as a away to load Node.js file with
         // TS & native ESM support
@@ -78,26 +74,34 @@ export const staticDataPlugin: Plugin = {
         }
 
         const loaderModule = res?.config as LoaderModule
-        pattern =
+        watch =
           typeof loaderModule.watch === 'string'
             ? [loaderModule.watch]
             : loaderModule.watch
-        if (pattern) {
-          pattern = pattern.map((p) => {
+        if (watch) {
+          watch = watch.map((p) => {
             return p.startsWith('.')
               ? normalizePath(resolve(base, p))
               : normalizePath(p)
           })
         }
-        loader = loaderModule.load
+        load = loaderModule.load
       }
 
       // load the data
-      const data = await loader()
+      let watchedFiles
+      if (watch) {
+        watchedFiles = (
+          await glob(watch, {
+            ignore: ['**/node_modules/**', '**/dist/**']
+          })
+        ).sort()
+      }
+      const data = await load(watchedFiles || [])
 
       // record loader module for HMR
       if (server) {
-        idToLoaderModulesMap[id] = { pattern, loader }
+        idToLoaderModulesMap[id] = { watch, load }
       }
 
       const result = `export const data = JSON.parse(${JSON.stringify(
@@ -112,9 +116,11 @@ export const staticDataPlugin: Plugin = {
   transform(_code, id) {
     if (server && loaderMatch.test(id)) {
       // register this module as a glob importer
-      const { pattern } = idToLoaderModulesMap[id]!
-      if (pattern) {
-        ;(server as any)._importGlobMap.set(id, [pattern])
+      const { watch } = idToLoaderModulesMap[id]!
+      if (watch) {
+        ;(server as any)._importGlobMap.set(id, [
+          Array.isArray(watch) ? watch : [watch]
+        ])
       }
     }
     return null
@@ -132,8 +138,8 @@ export const staticDataPlugin: Plugin = {
     }
 
     for (const id in idToLoaderModulesMap) {
-      const { pattern } = idToLoaderModulesMap[id]!
-      if (pattern && isMatch(file, pattern)) {
+      const { watch } = idToLoaderModulesMap[id]!
+      if (watch && isMatch(file, watch)) {
         ctx.modules.push(server.moduleGraph.getModuleById(id)!)
       }
     }
