@@ -1,9 +1,10 @@
 import fs from 'fs'
+import { defineLoader } from 'vitepress'
 
 type Data = Record<string, boolean>[]
 export declare const data: Data
 
-export default {
+export default defineLoader({
   watch: ['./data/*'],
   async load(files: string[]): Promise<Data> {
     const foo = fs.readFileSync(
@@ -16,4 +17,4 @@ export default {
     )
     return [JSON.parse(foo), JSON.parse(bar)]
   }
-}
+})
