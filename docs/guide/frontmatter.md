@@ -9,7 +9,7 @@ editLink: true
 ---
 ```
 
-Many site or default theme config options have corresponding options in frontmatter. You can use frontmatter to override specific behavior for the current page only. For details, see [Frontmatter Config Reference](/reference/frontmatter-config),
+Many site or default theme config options have corresponding options in frontmatter. You can use frontmatter to override specific behavior for the current page only. For details, see [Frontmatter Config Reference](/reference/frontmatter-config).
 
 You can also define custom frontmatter data of your own, to be used in dynamic Vue expressions on the page. Frontmatter data can be accessed via the special `$frontmatter` global variable:
 

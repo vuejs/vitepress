@@ -24,21 +24,9 @@ Site config is where you can define the global settings of the site. App config 
 
 ### Config Resolution
 
-Place your configuration file at `.vitepress/config.js`. This is where all VitePress-specific files will be placed.
+The config file is always resolved from `<root>/.vitepress/config.[ext]`, where `<root>` is your VitePress [project root](/guide/routing#root-and-source-directory), and `[ext]` is one of the supported file extensions. TypeScript is supported out of the box. Supported extensions include `.js`, `.ts`, `.cjs`, `.mjs`, `.cts`, and `.mts`.
 
-```
-.
-├─ docs
-│  ├─ .vitepress
-│  │  └─ config.js
-│  └─ index.md
-└─ package.json
-```
-
-::: tip
-You can also use any of `.ts`, `.cjs`, `.mjs`, `.cts`, `.mts` as the config file extension.
-:::
-
+It is recommended to use ES modules syntax in config files. The config file should default export an object:
 
 ```ts
 export default {
@@ -52,20 +40,7 @@ export default {
 
 ### Config Intellisense
 
-Since VitePress ships with TypeScript typings, you can leverage your IDE's intellisense with jsdoc type hints:
-
-```js
-/**
- * @type {import('vitepress').UserConfig}
- */
-const config = {
-  // ...
-}
-
-export default config
-```
-
-Alternatively, you can use the `defineConfig` helper at which should provide intellisense without the need for jsdoc annotations:
+Using the `defineConfig` helper will provide TypeScript-powered intellisense for config options. Assuming your IDE supports it, this should work in both JavaScript and TypeScript.
 
 ```js
 import { defineConfig } from 'vitepress'
@@ -75,11 +50,9 @@ export default defineConfig({
 })
 ```
 
-VitePress also directly supports TS config files. You can use `.vitepress/config.ts` with the `defineConfig` helper as well.
-
 ### Typed Theme Config
 
-By default, `defineConfig` helper leverages the theme config type from default theme:
+By default, `defineConfig` helper expects the theme config type from default theme:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -95,7 +68,7 @@ If you use a custom theme and want type checks for the theme config, you'll need
 
 ```ts
 import { defineConfigWithTheme } from 'vitepress'
-import { ThemeConfig } from 'your-theme'
+import type { ThemeConfig } from 'your-theme'
 
 export default defineConfigWithTheme<ThemeConfig>({
   themeConfig: {
@@ -110,42 +83,59 @@ export default defineConfigWithTheme<ThemeConfig>({
 
 - Type: `string`
 - Default: `VitePress`
+- Can be overridden per page via [frontmatter](./frontmatter-config#title)
 
-Title for the site. This will be displayed in the nav bar. Also used as the suffix for all page titles unless `titleTemplate` is defined.
+Title for the site. When using the default theme, this will be displayed in the nav bar.
+
+It will also be used as the default suffix for all individual page titles, unless [`titleTemplate`](#titletemplate) is defined. An individual page's final title will be the text content of its first `<h1>` header, combined with the global `title` as the suffix. For example with the following config and page content:
 
 ```ts
 export default {
-  title: 'VitePress'
+  title: 'My Awesome Site'
 }
 ```
+```md
+# Hello
+```
+
+The title of the page will be `Hello | My Awesome Site`.
 
 ### titleTemplate
 
 - Type: `string | boolean`
+- Can be overridden per page via [frontmatter](./frontmatter-config#titletemplate)
 
-The suffix for the title. For example, if you set `title` as `VitePress` and set `titleTemplate` as `My Site`, the html title becomes `VitePress | My Site`.
-
-Set `false` to disable the feature. If the option is `undefined`, then the value of `title` option will be used.
-
-```ts
-export default {
-  title: 'VitePress',
-  titleTemplate: 'Vite & Vue powered static site generator'
-}
-```
-
-To configure a title separator other than `|`, you can omit `title` and use the `:title` symbol in `titleTemplate`.
+Allows customizing each page's title suffix or the entire title. For example:
 
 ```ts
 export default {
-  titleTemplate: ':title - Vitepress'
+  title: 'My Awesome Site',
+  titleTemplate: 'Custom Suffix'
 }
 ```
+```md
+# Hello
+```
+
+The title of the page will be `Hello | Custom Suffix`.
+
+To completely customize how the title should be rendered, you can use the `:title` symbol in `titleTemplate`:
+
+```ts
+export default {
+  titleTemplate: ':title - Custom Suffix'
+}
+```
+
+Here `:title` will be replaced with the text inferred from the page's first `<h1>` header. The title of the previous example page will be `Hello - Custom Suffix`.
+
+The option can be set to `false` to disable title suffixes.
 
 ### description
 
 - Type: `string`
 - Default: `A VitePress site`
+- Can be overridden per page via [frontmatter](./frontmatter-config#description)
 
 Description for the site. This will render as a `<meta>` tag in the page HTML.
 
@@ -155,38 +145,11 @@ export default {
 }
 ```
 
-### base
-
-- Type: `string`
-- Default: `/`
-
-The base URL the site will be deployed at. You will need to set this if you plan to deploy your site under a sub path, for example, GitHub pages. If you plan to deploy your site to `https://foo.github.io/bar/`, then you should set base to `'/bar/'`. It should always start and end with a slash.
-
-The base is automatically prepended to all the URLs that start with / in other options, so you only need to specify it once.
-
-```ts
-export default {
-  base: '/base/'
-}
-```
-
-### lang
-
-- Type: `string`
-- Default: `en-US`
-
-The lang attribute for the site. This will render as a `<html lang="en-US">` tag in the page HTML.
-
-```ts
-export default {
-  lang: 'en-US'
-}
-```
-
 ### head
 
 - Type: `HeadConfig[]`
 - Default: `[]`
+- Can be appended per page via [frontmatter](./frontmatter-config#head)
 
 Additional elements to render in the `<head>` tag in the page HTML. The user-added tags are rendered before the closing `head` tag, after VitePress tags.
 
@@ -208,6 +171,34 @@ type HeadConfig =
   | [string, Record<string, string>, string]
 ```
 
+### lang
+
+- Type: `string`
+- Default: `en-US`
+
+The lang attribute for the site. This will render as a `<html lang="en-US">` tag in the page HTML.
+
+```ts
+export default {
+  lang: 'en-US'
+}
+```
+
+### base
+
+- Type: `string`
+- Default: `/`
+
+The base URL the site will be deployed at. You will need to set this if you plan to deploy your site under a sub path, for example, GitHub pages. If you plan to deploy your site to `https://foo.github.io/bar/`, then you should set base to `'/bar/'`. It should always start and end with a slash.
+
+The base is automatically prepended to all the URLs that start with / in other options, so you only need to specify it once.
+
+```ts
+export default {
+  base: '/base/'
+}
+```
+
 ## Routing
 
 ### cleanUrls
@@ -215,29 +206,90 @@ type HeadConfig =
 - Type: `boolean`
 - Default: `false`
 
-Allows removing trailing `.html` from URLs.
+When set to `true`, VitePress will remove the trailing `.html` from URLs. Also see [Generating Clean URL](/guide/routing#generating-clean-url).
 
-```ts
-export default {
-  cleanUrls: true
-}
-```
-
-::: warning
-Enabling this may require additional configuration on your hosting platform. For it to work, your server must serve `/foo.html` on requesting `/foo` **without a redirect**.
+::: warning Server Support Required
+Enabling this may require additional configuration on your hosting platform. For it to work, your server must be able to serve `/foo.html` when visiting `/foo` **without a redirect**.
 :::
 
 ### rewrites
 
 - Type: `Record<string, string>`
 
-Defines custom directory <-> URL mappings. See [Routing: Customize the Mappings](/guide/routing#customize-the-mappings) for more details.
+Defines custom directory <-> URL mappings. See [Routing: Route Rewrites](/guide/routing#route-rewrites) for more details.
 
 ```ts
 export default {
   rewrites: {
     'source/:page': 'destination/:page'
   }
+}
+```
+
+## Build
+
+### srcDir
+
+- Type: `string`
+- Default: `.`
+
+The directory where your markdown pages are stored, relative to project root. Also see [Root and Source Directory](/guide/routing#root-and-source-directory).
+
+```ts
+export default {
+  srcDir: './src'
+}
+```
+
+### srcExclude
+
+- Type: `string`
+- Default: `undefined`
+
+A [glob pattern](https://github.com/mrmlnc/fast-glob#pattern-syntax) for matching markdown files that should be excluded as source content.
+
+```ts
+export default {
+  srcExclude: ['**/README.md', '**/TODO.md']
+}
+```
+
+### outDir
+
+- Type: `string`
+- Default: `./.vitepress/dist`
+
+The build output location for the site, relative to [project root](/guide/routing#root-and-source-directory).
+
+```ts
+export default {
+  outDir: '../public'
+}
+```
+
+### cacheDir
+
+- Type: `string`
+- Default: `./.vitepress/cache`
+
+The directory for cache files, relative to [project root](/guide/routing#root-and-source-directory). See also: [cacheDir](https://vitejs.dev/config/shared-options.html#cachedir).
+
+```ts
+export default {
+  cacheDir: './.vitepress/.vite'
+}
+```
+
+### ignoreDeadLinks
+
+- Type: `boolean | 'localhostLinks'`
+- Default: `false`
+
+When set to `true`, VitePress will not fail builds due to dead links. When set to `'localhostLinks'`, the build will fail on dead links, but won't check `localhost` links.
+
+```ts
+export default {
+  ignoreDeadLinks: true
 }
 ```
 
@@ -248,32 +300,22 @@ export default {
 - Type: `boolean | 'dark'`
 - Default: `true`
 
-Whether to enable dark mode or not.
+Whether to enable dark mode (by adding the `.dark` class to the `<html>` element).
 
 - If the option is set to `true`, the default theme will be determined by the user's preferred color scheme.
 - If the option is set to `dark`, the theme will be dark by default, unless the user manually toggles it.
 - If the option is set to `false`, users will not be able to toggle the theme.
 
-It also injects inline script that tries to read users settings from local storage by `vitepress-theme-appearance` key and restores users preferred color mode.
-
-```ts
-export default {
-  appearance: true
-}
-```
+This option injects an inline script that restores users settings from local storage using the `vitepress-theme-appearance` key. This ensures the `.dark` class is applied before the page is rendered to avoid flickering.
 
 ### lastUpdated
 
 - Type: `boolean`
 - Default: `false`
 
-Use git commit to get the timestamp. This option enables the default theme to display the page's last updated time. You can customize the text via [`themeConfig.lastUpdatedText`](./default-theme-config#lastupdatedtext) option.
+Whether to get the last updated timestamp for each page using Git. The timestamp will be included in each page's page data, accessible via [`useData`](/reference/runtime-api#usedata).
 
-```ts
-export default {
-  lastUpdated: true
-}
-```
+When using the default theme, enabling this option will display each page's last updated time. You can customize the text via [`themeConfig.lastUpdatedText`](./default-theme-config#lastupdatedtext) option.
 
 ## Customization
 
@@ -360,73 +402,6 @@ Pass raw [Vite Config](https://vitejs.dev/config/) to internal Vite dev server /
 - Type: `import('@vitejs/plugin-vue').Options`
 
 Pass raw [`@vitejs/plugin-vue` options](https://github.com/vitejs/vite-plugin-vue/tree/main/packages/plugin-vue#options) to the internal plugin instance.
-
-## Build
-
-### srcDir
-
-- Type: `string`
-- Default: `.`
-
-The directory where your markdown pages are stored, relative to project root.
-
-```ts
-export default {
-  srcDir: './src'
-}
-```
-
-### srcExclude
-
-- Type: `string`
-- Default: `undefined`
-
-A [glob pattern](https://github.com/mrmlnc/fast-glob#pattern-syntax) for matching markdown files that should be excluded as source content.
-
-```ts
-export default {
-  srcExclude: ['**/README.md', '**/TODO.md']
-}
-```
-
-### outDir
-
-- Type: `string`
-- Default: `./.vitepress/dist`
-
-The build output location for the site, relative to project root (`docs` folder if you're running `vitepress build docs`).
-
-```ts
-export default {
-  outDir: '../public'
-}
-```
-
-### cacheDir
-
-- Type: `string`
-- Default: `./.vitepress/cache`
-
-The directory for cache files, relative to project root (`docs` folder if you're running `vitepress build docs`). See also: [cacheDir](https://vitejs.dev/config/shared-options.html#cachedir).
-
-```ts
-export default {
-  cacheDir: './.vitepress/.vite'
-}
-```
-
-### ignoreDeadLinks
-
-- Type: `boolean | 'localhostLinks'`
-- Default: `false`
-
-When set to `true`, VitePress will not fail builds due to dead links. When set to `localhostLinks`, the build will fail on dead links, but won't check `localhost` links.
-
-```ts
-export default {
-  ignoreDeadLinks: true
-}
-```
 
 ## Build Hooks
 

@@ -2,6 +2,12 @@
 
 VitePress is a [Static Site Generator](https://en.wikipedia.org/wiki/Static_site_generator) (SSG). It is designed for building performant content-centric websites, such as this documentation you are reading right now. It also powers the documentation for [Vue.js](https://vuejs.org/), [Vite](https://vitejs.dev/), and many more<!-- TODO: showcase page? -->. In a nutshell, VitePress takes your source content written in [Markdown](https://en.wikipedia.org/wiki/Markdown), applies a theme to it, and generates a directory of static HTML pages (and necessary asset files) that can be easily deployed anywhere.
 
+<div class="tip custom-block" style="padding-top: 8px">
+
+Just want to try it out? Skip to the [Quickstart](./getting-started).
+
+</div>
+
 ## Developer Experience
 
 VitePress aims to provide a great Developer Experience (DX) when working with Markdown content.
