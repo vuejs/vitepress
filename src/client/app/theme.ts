@@ -10,7 +10,11 @@ export interface EnhanceAppContext {
 
 export interface Theme {
   Layout: Component
-  NotFound?: Component
   enhanceApp?: (ctx: EnhanceAppContext) => Awaitable<void>
   setup?: () => void
+
+  /**
+   * @deprecated Render not found page by checking `useData().page.value.isNotFound` in Layout instead.
+   */
+  NotFound?: Component
 }

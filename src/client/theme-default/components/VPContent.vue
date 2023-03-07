@@ -1,17 +1,15 @@
 <script setup lang="ts">
-import { useRoute } from 'vitepress'
 import { useData } from '../composables/data.js'
 import { useSidebar } from '../composables/sidebar.js'
 import VPPage from './VPPage.vue'
 import VPHome from './VPHome.vue'
 import VPDoc from './VPDoc.vue'
-import { inject } from 'vue'
+import NotFound from '../NotFound.vue'
 
-const route = useRoute()
-const { frontmatter } = useData()
+const { page, frontmatter } = useData()
 const { hasSidebar } = useSidebar()
 
-const NotFound = inject('NotFound')
+console.log(page.value)
 </script>
 
 <template>
@@ -23,7 +21,7 @@ const NotFound = inject('NotFound')
       'is-home': frontmatter.layout === 'home'
     }"
   >
-    <NotFound v-if="route.component === NotFound" />
+    <NotFound v-if="page.isNotFound" />
 
     <VPPage v-else-if="frontmatter.layout === 'page'" />
 
