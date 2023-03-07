@@ -109,6 +109,16 @@ function sidebarGuide() {
         { text: 'Connecting to a CMS', link: '/guide/cms' }
       ]
     },
+    {
+      text: 'Experimental',
+      collapsed: false,
+      items: [
+        {
+          text: 'MPA Mode',
+          link: '/guide/mpa-mode'
+        }
+      ]
+    },
     // {
     //   text: 'Migrations',
     //   collapsed: false,
