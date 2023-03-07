@@ -64,7 +64,7 @@ export default {
 
 - Type: `NavItem`
 
-The configuration for the nav menu item. You may learn more details at [Theme: Nav](./default-theme-nav#navigation-links).
+The configuration for the nav menu item. More details in [Default Theme: Nav](./default-theme-nav#navigation-links).
 
 ```js
 export default {
@@ -111,7 +111,7 @@ interface NavItemWithChildren {
 
 - Type: `Sidebar`
 
-The configuration for the sidebar menu item. You may learn more details at [Theme: Sidebar](./default-theme-sidebar).
+The configuration for the sidebar menu item. More details in [Default Theme: Sidebar](./default-theme-sidebar).
 
 ```js
 export default {
@@ -271,7 +271,7 @@ export interface Footer {
 
 - Type: `EditLink`
 
-Edit Link lets you display a link to edit the page on Git management services such as GitHub, or GitLab. See [Theme: Edit Link](./default-theme-edit-link) for more details.
+Edit Link lets you display a link to edit the page on Git management services such as GitHub, or GitLab. See [Default Theme: Edit Link](./default-theme-edit-link) for more details.
 
 ```js
 export default {
@@ -310,7 +310,7 @@ export default {
 
 - Type: `AlgoliaSearch`
 
-An option to support searching your docs site using [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Learn more in [Theme: Search](./default-theme-search)
+An option to support searching your docs site using [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Learn more in [Default Theme: Search](./default-theme-search)
 
 ```ts
 export interface AlgoliaSearchOptions extends DocSearchProps {
@@ -344,7 +344,7 @@ export interface CarbonAdsOptions {
 }
 ```
 
-Learn more in [Theme: Carbon Ads](./default-theme-carbon-ads)
+Learn more in [Default Theme: Carbon Ads](./default-theme-carbon-ads)
 
 ## docFooter
 
