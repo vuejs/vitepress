@@ -31,7 +31,7 @@ Note that even in this layout, sidebar will still show up if the page has a matc
 
 ## Home Layout
 
-Option `home` will generate templated "Homepage". In this layout, you can set extra options such as `hero` and `features` to customize the content further. Please visit [Theme: Home Page](/reference/default-theme-home-page) for more details.
+Option `home` will generate templated "Homepage". In this layout, you can set extra options such as `hero` and `features` to customize the content further. Please visit [Default Theme: Home Page](/reference/default-theme-home-page) for more details.
 
 ## No Layout
 

@@ -1,15 +1,21 @@
+---
+outline: deep
+---
+
 # Frontmatter Config
 
-Frontmatter enables page based configuration. In every markdown file, you can use frontmatter config to override app-level or theme config options. Also, there are config options which you can only define in frontmatter.
+Frontmatter enables page based configuration. In every markdown file, you can use frontmatter config to override site-level or theme-level config options. Also, there are config options which you can only define in frontmatter.
 
-```yaml
+Example usage:
+
+```md
 ---
 title: Docs with VitePress
 editLink: true
 ---
 ```
 
-You can access frontmatter by `$frontmatter` helper inside any markdown file.
+You can access frontmatter data via the `$frontmatter` global in Vue expressions:
 
 ```md
 {{ $frontmatter.title }}
@@ -19,7 +25,7 @@ You can access frontmatter by `$frontmatter` helper inside any markdown file.
 
 - Type: `string`
 
-Title for the page. It's same as [config.title](/reference/site-config#title), and it overrides the app config.
+Title for the page. It's same as [config.title](/reference/site-config#title), and it overrides the site-level config.
 
 ```yaml
 ---
@@ -31,7 +37,7 @@ title: VitePress
 
 - Type: `string | boolean`
 
-The suffix for the title. It's same as [config.titleTemplate](/reference/site-config#titletemplate), and it overrides the app config.
+The suffix for the title. It's same as [config.titleTemplate](/reference/site-config#titletemplate), and it overrides the site-level config.
 
 ```yaml
 ---
@@ -44,7 +50,7 @@ titleTemplate: Vite & Vue powered static site generator
 
 - Type: `string`
 
-Description for the page. It's same as [config.description](/reference/site-config#description), and it overrides the app config.
+Description for the page. It's same as [config.description](/reference/site-config#description), and it overrides the site-level config.
 
 ```yaml
 ---
@@ -56,7 +62,7 @@ description: VitePress
 
 - Type: `HeadConfig[]`
 
-Specify extra head tags to be injected:
+Specify extra head tags to be injected for the current page. Will be appended after head tags injected by site-level config.
 
 ```yaml
 ---
@@ -76,20 +82,11 @@ type HeadConfig =
   | [string, Record<string, string>, string]
 ```
 
-## lastUpdated
+## Default Theme Only
 
-- Type: `boolean`
-- Default: `true`
+The following frontmatter options are only applicable when using the default theme.
 
-Whether to display [Last Updated](/reference/default-theme-last-updated) text in the current page.
-
-```yaml
----
-lastUpdated: false
----
-```
-
-## layout
+### layout <Badge type="info" text="default theme only" />
 
 - Type: `doc | home | page`
 - Default: `doc`
@@ -106,72 +103,15 @@ layout: doc
 ---
 ```
 
-## hero
+### hero <Badge type="info" text="default theme only" /> <Badge type="info" text="Home page only" />
 
-- Type: `Hero`
+Defines contents of home hero section when `layout` is set to `home`. More details in [Default Theme: Home Page](/reference/default-theme-home-page).
 
-This option only takes effect when `layout` is set to `home`.
+### features <Badge type="info" text="default theme only" /> <Badge type="info" text="Home page only" />
 
-It defines contents of home hero section.
+Defines items to display in features section when `layout` is set to `home`. More details in [Default Theme: Home Page](/reference/default-theme-home-page).
 
-```yaml
----
-layout: home
-
-hero:
-  name: VitePress
-  text: Vite & Vue powered static site generator.
-  tagline: Lorem ipsum...
-  actions:
-    - theme: brand
-      text: Get Started
-      link: /guide/what-is-vitepress
-    - theme: alt
-      text: View on GitHub
-      link: https://github.com/vuejs/vitepress
----
-```
-
-```ts
-interface Hero {
-  // The string shown top of `text`. Comes with brand color
-  // and expected to be short, such as product name.
-  name?: string
-
-  // The main text for the hero section. This will be defined
-  // as `h1` tag.
-  text: string
-
-  // Tagline displayed below `text`.
-  tagline?: string
-
-  // Action buttons to display in home hero section.
-  actions?: HeroAction[]
-}
-
-interface HeroAction {
-  // Color theme of the button. Defaults to `brand`.
-  theme?: 'brand' | 'alt'
-
-  // Label of the button.
-  text: string
-
-  // Destination link of the button.
-  link: string
-}
-```
-
-## features
-
-- Type: `Feature[]`
-
-This option only takes effect when `layout` is set to `home`.
-
-It defines items to display in features section.
-
-You may learn more about it in [Theme: Home Page](/reference/default-theme-home-page).
-
-## aside
+### aside <Badge type="info" text="default theme only" />
 
 - Type: `boolean`
 - Default: `true`
@@ -184,9 +124,22 @@ aside: false
 ---
 ```
 
-## outline
+### outline <Badge type="info" text="default theme only" />
 
 - Type: `number | [number, number] | 'deep' | false`
 - Default: `2`
 
 The levels of header in the outline to display for the page. It's same as [config.themeConfig.outline](/reference/default-theme-config#outline), and it overrides the theme config.
+
+### lastUpdated <Badge type="info" text="default theme only" />
+
+- Type: `boolean`
+- Default: `true`
+
+Whether to display [Last Updated](/reference/default-theme-last-updated) text in the current page.
+
+```yaml
+---
+lastUpdated: false
+---
+```
