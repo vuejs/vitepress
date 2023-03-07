@@ -27,7 +27,8 @@ export const notFoundPageData: PageData = {
   description: 'Not Found',
   headers: [],
   frontmatter: { sidebar: false, layout: 'page' },
-  lastUpdated: 0
+  lastUpdated: 0,
+  isNotFound: true
 }
 
 export function isActive(

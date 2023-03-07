@@ -12,10 +12,25 @@ Returns page-specific data. The returned object has the following type:
 
 ```ts
 interface VitePressData<T = any> {
+  /**
+   * Site-level data
+   */
   site: Ref<SiteData<T>>
+  /**
+   * themeConfig from .vitepress/config.js
+   */
+  theme: Ref<T>
+  /**
+   * Page-level data
+   */
   page: Ref<PageData>
-  theme: Ref<T> // themeConfig from .vitepress/config.js
+  /**
+   * Page frontmatter
+   */
   frontmatter: Ref<PageData['frontmatter']>
+  /**
+   * Dynamic route params
+   */
   params: Ref<PageData['params']>
   title: Ref<string>
   description: Ref<string>
@@ -23,6 +38,18 @@ interface VitePressData<T = any> {
   isDark: Ref<boolean>
   dir: Ref<string>
   localeIndex: Ref<string>
+}
+
+interface PageData {
+  title: string
+  titleTemplate?: string | boolean
+  description: string
+  relativePath: string
+  headers: Header[]
+  frontmatter: Record<string, any>
+  params?: Record<string, any>
+  isNotFound?: boolean
+  lastUpdated?: number
 }
 ```
 

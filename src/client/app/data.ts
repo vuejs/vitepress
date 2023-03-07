@@ -19,10 +19,25 @@ import {
 export const dataSymbol: InjectionKey<VitePressData> = Symbol()
 
 export interface VitePressData<T = any> {
+  /**
+   * Site-level info
+   */
   site: Ref<SiteData<T>>
-  page: Ref<PageData>
+  /**
+   * themeConfig from .vitepress/config.js
+   */
   theme: Ref<T>
+  /**
+   * Page-level info
+   */
+  page: Ref<PageData>
+  /**
+   * page frontmatter data
+   */
   frontmatter: Ref<PageData['frontmatter']>
+  /**
+   * dynamic route params
+   */
   params: Ref<PageData['params']>
   title: Ref<string>
   description: Ref<string>

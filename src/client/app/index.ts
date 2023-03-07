@@ -19,8 +19,6 @@ import { ClientOnly } from './components/ClientOnly.js'
 import { useCopyCode } from './composables/copyCode.js'
 import { useCodeGroups } from './composables/codeGroups.js'
 
-const NotFound = Theme.NotFound || (() => '404 Not Found')
-
 const VitePressApp = defineComponent({
   name: 'VitePressApp',
   setup() {
@@ -58,9 +56,6 @@ export async function createApp() {
 
   const data = initData(router.route)
   app.provide(dataSymbol, data)
-
-  // provide this to avoid circular dependency in VPContent
-  app.provide('NotFound', NotFound)
 
   // install global components
   app.component('Content', Content)
@@ -127,7 +122,7 @@ function newRouter(): Router {
     }
 
     return import(/*@vite-ignore*/ pageFilePath)
-  }, NotFound)
+  }, Theme.NotFound)
 }
 
 if (inBrowser) {
