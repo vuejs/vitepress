@@ -1,117 +1,18 @@
 # Extending the Default Theme
 
-VitePress comes with its default theme providing many features out of the box. You can check out the full features in the [Default Theme Config Overview](/reference/default-theme-config).
+VitePress' default theme is optimized for documentation, and can be customized. Consult the [Default Theme Config Overview](/reference/default-theme-config) for a comprehensive list of options.
 
-There are several cases where you may want to extend the default theme:
+However, there are a number of cases where configuration alone won't be enough. For example:
 
-1. You want to modify the Vue app, for example register global components;
-2. You want to tweak the CSS styling;
-3. You want to inject custom content into the theme via layout slots.
+1. You need to tweak the CSS styling;
+2. You need to modify the Vue app instance, for example to register global components;
+3. You need to inject custom content into the theme via layout slots.
 
-## Using a Custom Theme
+These advanced customizations will require using a custom theme that "extends" the default theme.
 
-You can enable a custom theme by adding the `.vitepress/theme/index.js` or `.vitepress/theme/index.ts` file (the "theme entry file").
-
-```
-.
-├─ docs
-│  ├─ .vitepress
-│  │  ├─ theme
-│  │  │  └─ index.js
-│  │  └─ config.js
-│  └─ index.md
-└─ package.json
-```
-
-A VitePress custom theme is simply an object containing four properties and is defined as follows:
-
-```ts
-interface Theme {
-  Layout: Component // Vue 3 component
-  NotFound?: Component
-  enhanceApp?: (ctx: EnhanceAppContext) => Awaitable<void>
-  setup?: () => void
-}
-
-interface EnhanceAppContext {
-  app: App // Vue 3 app instance
-  router: Router // VitePress router instance
-  siteData: Ref<SiteData>
-}
-```
-
-The theme entry file should export the theme as its default export:
-
-```js
-// .vitepress/theme/index.js
-import Layout from './Layout.vue'
-
-export default {
-  // root component to wrap each page
-  Layout,
-
-  // this is a Vue 3 functional component
-  NotFound: () => 'custom 404',
-
-  enhanceApp({ app, router, siteData }) {
-    // app is the Vue 3 app instance from `createApp()`.
-    // router is VitePress' custom router. `siteData` is
-    // a `ref` of current site-level metadata.
-  },
-
-  setup() {
-    // this function will be executed inside VitePressApp's
-    // setup hook. all composition APIs are available here.
-  }
-}
-```
-
-...where the `Layout` component could look like this:
-
-```vue
-<!-- .vitepress/theme/Layout.vue -->
-<template>
-  <h1>Custom Layout!</h1>
-
-  <!-- this is where markdown content will be rendered -->
-  <Content />
-</template>
-```
-
-The default export is the only contract for a custom theme. Inside your custom theme, it works just like a normal Vite + Vue 3 application. Do note the theme also needs to be [SSR-compatible](./using-vue#browser-api-access-restrictions).
-
-To distribute a theme, simply export the object in your package entry. To consume an external theme, import and re-export it from the custom theme entry:
-
-```js
-// .vitepress/theme/index.js
-import Theme from 'awesome-vitepress-theme'
-
-export default Theme
-```
-
-## Extending the Default Theme
-
-If you want to extend and customize the default theme, you can import it from `vitepress/theme` and augment it in a custom theme entry. Here are some examples of common customizations:
-
-## Registering Global Components
-
-```js
-// .vitepress/theme/index.js
-import DefaultTheme from 'vitepress/theme'
-
-export default {
-  ...DefaultTheme,
-  enhanceApp(ctx) {
-    // extend default theme custom behaviour.
-    DefaultTheme.enhanceApp(ctx)
-
-    // register your custom global components
-    ctx.app.component('MyGlobalComponent' /* ... */)
-  }
-}
-```
-
-Since we are using Vite, you can also leverage Vite's [glob import feature](https://vitejs.dev/guide/features.html#glob-import) to auto register a directory of components.
+:::tip
+Before proceeding, make sure to first read [Using a Custom Theme](./custom-theme) to understand how custom themes work.
+:::
 
 ## Customizing CSS
 
@@ -133,7 +34,24 @@ export default DefaultTheme
 }
 ```
 
-See [default theme CSS variables](https://github.com/vuejs/vitepress/blob/main/src/clien/reference/default-theme-default/styles/vars.css) that can be overridden.
+See [default theme CSS variables](https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css) that can be overridden.
+
+## Registering Global Components
+
+```js
+// .vitepress/theme/index.js
+import DefaultTheme from 'vitepress/theme'
+
+export default {
+  extends: DefaultTheme,
+  enhanceApp(ctx) {
+    // register your custom global components
+    ctx.app.component('MyGlobalComponent' /* ... */)
+  }
+}
+```
+
+Since we are using Vite, you can also leverage Vite's [glob import feature](https://vitejs.dev/guide/features.html#glob-import) to auto register a directory of components.
 
 ## Layout Slots
 

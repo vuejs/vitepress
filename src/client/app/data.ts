@@ -20,7 +20,7 @@ export const dataSymbol: InjectionKey<VitePressData> = Symbol()
 
 export interface VitePressData<T = any> {
   /**
-   * Site-level info
+   * Site-level metadata
    */
   site: Ref<SiteData<T>>
   /**
@@ -28,7 +28,7 @@ export interface VitePressData<T = any> {
    */
   theme: Ref<T>
   /**
-   * Page-level info
+   * Page-level metadata
    */
   page: Ref<PageData>
   /**
