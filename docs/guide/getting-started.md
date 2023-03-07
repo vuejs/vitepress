@@ -1,12 +1,19 @@
 # Getting Started
 
-## Prerequisites
+## Try It Online
 
-VitePress requires [Node.js](https://nodejs.org/) version 16 or higher.
+You can try VitePress directly in your browser on [StackBlitz](https://vitepress.new).
 
 ## Installation
 
-VitePress can be used on its own, or be installed into an existing project. Either way, you can install it with:
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) version 16 or higher.
+- Terminal for accessing VitePress via its command line interface (CLI).
+- Text Editor with [Markdown](https://en.wikipedia.org/wiki/Markdown) syntax support.
+  - [VSCode](https://code.visualstudio.com/) is recommended, along with the [official Vue extension](https://marketplace.visualstudio.com/items?itemName=Vue.volar).
+
+VitePress can be used on its own, or be installed into an existing project. In both cases, you can install it with:
 
 ::: code-group
 
