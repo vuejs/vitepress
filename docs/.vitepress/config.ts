@@ -100,11 +100,11 @@ function sidebarGuide() {
       text: 'Customization',
       collapsed: false,
       items: [
+        { text: 'Using a Custom Theme', link: '/guide/custom-theme' },
         {
           text: 'Extending the Default Theme',
           link: '/guide/extending-default-theme'
         },
-        { text: 'Building a Custom Theme', link: '/guide/custom-theme' },
         { text: 'Build-Time Data Loading', link: '/guide/data-loading' },
         { text: 'Connecting to a CMS', link: '/guide/cms' }
       ]

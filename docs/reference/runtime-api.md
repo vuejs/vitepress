@@ -4,7 +4,7 @@ VitePress offers several built-in APIs to let you access app data. VitePress als
 
 The helper methods are globally importable from `vitepress` and are typically used in custom theme Vue components. However, they are also usable inside `.md` pages because markdown files are compiled into Vue [Single-File Components](https://vuejs.org/guide/scaling-up/sfc.html).
 
-Methods that start with `use*` indicates that it is a [Vue 3 Composition API](https://vuejs.org/guide/introduction.html#composition-api) function that can only be used inside `setup()` or `<script setup>`.
+Methods that start with `use*` indicates that it is a [Vue 3 Composition API](https://vuejs.org/guide/introduction.html#composition-api) function ("Composable") that can only be used inside `setup()` or `<script setup>`.
 
 ## `useData` <Badge type="info" text="composable" />
 
@@ -13,7 +13,7 @@ Returns page-specific data. The returned object has the following type:
 ```ts
 interface VitePressData<T = any> {
   /**
-   * Site-level data
+   * Site-level metadata
    */
   site: Ref<SiteData<T>>
   /**
@@ -21,7 +21,7 @@ interface VitePressData<T = any> {
    */
   theme: Ref<T>
   /**
-   * Page-level data
+   * Page-level metadata
    */
   page: Ref<PageData>
   /**
@@ -121,7 +121,7 @@ If you are using or demoing components that are not SSR-friendly (for example, c
 </ClientOnly>
 ```
 
-## `$frontmatter` <Badge type="info" text="global" />
+## `$frontmatter` <Badge type="info" text="template global" />
 
 Directly access current page's [frontmatter](/guide/frontmatter) data in Vue expressions.
 
@@ -133,7 +133,7 @@ title: Hello
 # {{ $frontmatter.title }}
 ```
 
-## `$params` <Badge type="info" text="global" />
+## `$params` <Badge type="info" text="template global" />
 
 Directly access current page's [dynamic route params](/guide/routing#dynamic-routes) in Vue expressions.
 
