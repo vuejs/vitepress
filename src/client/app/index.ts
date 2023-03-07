@@ -7,7 +7,7 @@ import {
   onMounted,
   watchEffect
 } from 'vue'
-import Theme from '@theme/index'
+import RawTheme from '@theme/index'
 import { inBrowser, pathToFile } from './utils.js'
 import { type Router, RouterSymbol, createRouter } from './router.js'
 import { siteDataRef, useData } from './data.js'
@@ -18,6 +18,23 @@ import { Content } from './components/Content.js'
 import { ClientOnly } from './components/ClientOnly.js'
 import { useCopyCode } from './composables/copyCode.js'
 import { useCodeGroups } from './composables/codeGroups.js'
+
+function resolveThemeExtends(theme: typeof RawTheme): typeof RawTheme {
+  if (theme.extends) {
+    const base = resolveThemeExtends(theme.extends)
+    return {
+      ...base,
+      ...theme,
+      enhanceApp(ctx) {
+        if (base.enhanceApp) base.enhanceApp(ctx)
+        if (theme.enhanceApp) theme.enhanceApp(ctx)
+      }
+    }
+  }
+  return theme
+}
+
+const Theme = resolveThemeExtends(RawTheme)
 
 const VitePressApp = defineComponent({
   name: 'VitePressApp',
