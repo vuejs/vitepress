@@ -4,6 +4,7 @@ export * from './markdown'
 export * from './build/build'
 export * from './serve/serve'
 export * from './init/init'
+export { defineLoader, type LoaderModule } from './plugins/staticDataPlugin'
 
 // shared types
 export type {

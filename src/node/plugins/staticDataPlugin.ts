@@ -12,9 +12,16 @@ const loaderMatch = /\.data\.(j|t)s$/
 
 let server: ViteDevServer
 
-interface LoaderModule {
+export interface LoaderModule {
   watch?: string[] | string
   load: (watchedFiles: string[]) => any
+}
+
+/**
+ * Helper for defining loaders with type inference
+ */
+export function defineLoader(loader: LoaderModule) {
+  return loader
 }
 
 const idToLoaderModulesMap: Record<string, LoaderModule | undefined> =
