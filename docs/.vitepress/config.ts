@@ -186,7 +186,7 @@ function sidebarReference() {
             },
             {
               text: 'Prev / Next Links',
-              link: '/reference/default-theme-prev-next-links'
+              link: '/reference/default-theme-prev-next-link'
             },
             {
               text: 'Edit Link',
