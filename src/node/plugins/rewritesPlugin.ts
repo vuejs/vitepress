@@ -6,31 +6,31 @@ export function resolveRewrites(
   pages: string[],
   userRewrites: UserConfig['rewrites']
 ) {
-  const rewriteEntries = Object.entries(userRewrites || {})
-  const rewrites = rewriteEntries.length
-    ? Object.fromEntries(
-        pages
-          .map((src) => {
-            for (const [from, to] of rewriteEntries) {
-              const dest = rewrite(src, from, to)
-              if (dest) return [src, dest]
-            }
-          })
-          .filter((e) => e != null) as [string, string][]
-      )
-    : {}
-  return {
-    map: rewrites,
-    inv: Object.fromEntries(Object.entries(rewrites).map((a) => a.reverse()))
-  }
-}
+  const rewriteRules = Object.entries(userRewrites || {}).map(([from, to]) => ({
+    toPath: compile(to),
+    matchUrl: match(from)
+  }))
 
-function rewrite(src: string, from: string, to: string) {
-  const urlMatch = match(from)
-  const res = urlMatch(src)
-  if (!res) return false
-  const toPath = compile(to)
-  return toPath(res.params)
+  const pageToRewrite: Record<string, string> = {}
+  const rewriteToPage: Record<string, string> = {}
+  if (rewriteRules.length) {
+    for (const page of pages) {
+      for (const { matchUrl, toPath } of rewriteRules) {
+        const res = matchUrl(page)
+        if (res) {
+          const dest = toPath(res.params)
+          pageToRewrite[page] = dest
+          rewriteToPage[dest] = page
+          break
+        }
+      }
+    }
+  }
+
+  return {
+    map: pageToRewrite,
+    inv: rewriteToPage
+  }
 }
 
 export const rewritesPlugin = (config: SiteConfig): Plugin => {
