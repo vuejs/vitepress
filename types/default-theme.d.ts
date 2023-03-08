@@ -99,6 +99,13 @@ export namespace DefaultTheme {
     returnToTopLabel?: string
 
     /**
+     * Set custom `aria-label` for language menu button.
+     *
+     * @default 'Change language'
+     */
+    langMenuLabel?: string
+
+    /**
      * The algolia options. Leave it undefined to disable the search feature.
      */
     algolia?: AlgoliaSearchOptions
