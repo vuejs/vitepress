@@ -52,4 +52,4 @@ const { site, theme, page, frontmatter } = useData()
 
 ## More
 
-Check out the documentation for the [full list of runtime APIs](https://vitepress.vuejs.org/api/).
+Check out the documentation for the [full list of runtime APIs](https://vitepress.vuejs.org/reference/runtime-api#usedata).

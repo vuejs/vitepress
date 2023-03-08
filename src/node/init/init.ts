@@ -9,7 +9,7 @@ import {
 } from '@clack/prompts'
 import fs from 'fs-extra'
 import path from 'path'
-import { black, cyan, bgCyan, bold } from 'picocolors'
+import { black, cyan, bgCyan, bold, yellow } from 'picocolors'
 import { fileURLToPath } from 'url'
 // @ts-ignore
 import template from 'lodash.template'
@@ -106,7 +106,7 @@ export function scaffold({
   theme,
   useTs,
   injectNpmScripts
-}: ScaffoldOptions) {
+}: ScaffoldOptions): string {
   const resolvedRoot = path.resolve(root)
   const templateDir = path.resolve(
     path.dirname(fileURLToPath(import.meta.url)),
@@ -158,25 +158,44 @@ export function scaffold({
   }
 
   const dir = root === './' ? `` : ` ${root.replace(/^\.\//, '')}`
+
+  const pkgPath = path.resolve('package.json')
+  const userPkg = fs.existsSync(pkgPath)
+    ? JSON.parse(fs.readFileSync(pkgPath, 'utf-8'))
+    : {}
+
+  const tips = []
+  if (fs.existsSync('.git')) {
+    tips.push(
+      `Make sure to add ${cyan(`.vitepress/dist`)} and ` +
+        `${cyan(`.vitepress/cache`)} to your ${cyan(`.gitignore`)} file.`
+    )
+  }
+  if (
+    theme !== ScaffoldThemeType.Default &&
+    !userPkg.dependencies?.['vue'] &&
+    !userPkg.devDependencies?.['vue']
+  ) {
+    tips.push(
+      `Since you've chosen to customize the theme, ` +
+        `you should also explicitly install ${cyan(`vue`)} as a dev dependency.`
+    )
+  }
+
+  const tip = tips.length ? yellow([`\n\nTips:`, ...tips].join('\n- ')) : ``
+
   if (injectNpmScripts) {
     const scripts = {
       'docs:dev': `vitepress dev${dir}`,
       'docs:build': `vitepress build${dir}`,
       'docs:preview': `vitepress preview${dir}`
     }
-    const pkgPath = path.resolve('package.json')
-    let pkg
-    if (!fs.existsSync(pkgPath)) {
-      pkg = { scripts }
-    } else {
-      pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'))
-      Object.assign(pkg.scripts || (pkg.scripts = {}), scripts)
-    }
-    fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2))
-    return `Done! Now run ${cyan(`npm run docs:dev`)} and start writing.`
+    Object.assign(userPkg.scripts || (userPkg.scripts = {}), scripts)
+    fs.writeFileSync(pkgPath, JSON.stringify(userPkg, null, 2))
+    return `Done! Now run ${cyan(`npm run docs:dev`)} and start writing.${tip}`
   } else {
     return `You're all set! Now run ${cyan(
       `npx vitepress dev${dir}`
-    )} and start writing.`
+    )} and start writing.${tip}`
   }
 }
