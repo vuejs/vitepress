@@ -14,7 +14,7 @@ const { localeLinks, currentLang } = useLangs({ correspondingLink: true })
     v-if="localeLinks.length && currentLang.label"
     class="VPNavBarTranslations"
     :icon="VPIconLanguages"
-    :label="theme.langMenuAriaLabel || 'Change language'"
+    :label="theme.langMenuLabel || 'Change language'"
   >
     <div class="items">
       <p class="title">{{ currentLang.label }}</p>
