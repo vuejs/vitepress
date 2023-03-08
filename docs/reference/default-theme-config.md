@@ -389,4 +389,11 @@ Can be used to customize the sidebar menu label. This label is only displayed in
 - Type: `string`
 - Default: `Return to top`
 
-Can be used to customize the label of the returnToTop. This label is only displayed in the mobile view.
+Can be used to customize the label of the return to top button. This label is only displayed in the mobile view.
+
+## langMenuLabel
+
+- Type: `string`
+- Default: `Change language`
+
+Can be used to customize the aria-label of the language toggle button in navbar. This is only used if you're using [i18n](../guide/i18n).
