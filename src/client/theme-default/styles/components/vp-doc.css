@@ -405,7 +405,7 @@
   z-index: 3;
   /*rtl:ignore*/
   border-right: 1px solid var(--vp-code-block-divider-color);
-  padding-top: 16px;
+  padding-top: 20px;
   width: 32px;
   text-align: center;
   font-family: var(--vp-font-family-mono);

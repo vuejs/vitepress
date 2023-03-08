@@ -1,3 +1,32 @@
+# [1.0.0-alpha.50](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.49...v1.0.0-alpha.50) (2023-03-07)
+
+
+### Bug Fixes
+
+* avoid deprecation warning when using --force ([0c0b6cc](https://github.com/vuejs/vitepress/commit/0c0b6cc5a3a06bb0bee14dc854c7c1102a1b6657))
+* ensure HMR works properly for page outline ([1457681](https://github.com/vuejs/vitepress/commit/1457681484c873a7801729f9a9e11872b60b4868)), closes [#1281](https://github.com/vuejs/vitepress/issues/1281)
+* extract all headers by default ([580a8e1](https://github.com/vuejs/vitepress/commit/580a8e1a551089e973745fd224d97aec9d3fa702))
+* respect command line minify and outDir options ([22047f3](https://github.com/vuejs/vitepress/commit/22047f3363af290687cb3077ff617ae550af6e8a))
+* **theme:** make tip box text color darker ([3158115](https://github.com/vuejs/vitepress/commit/3158115afc8f15bee3e35644a33328b02dee6d6d))
+* **theme:** prevent text wrapping in nav dropdown menu ([2a1abbe](https://github.com/vuejs/vitepress/commit/2a1abbe45e10b38f03795357cd52dc4f6cea5dfc))
+
+
+### Features
+
+* **data-loader:** defineLoader() type helper ([4673bb1](https://github.com/vuejs/vitepress/commit/4673bb187905374896b7a1a3b1a1e5ad3777bdc4))
+* **data-loader:** pass watched files into load() ([e29b6a0](https://github.com/vuejs/vitepress/commit/e29b6a051e89e23945e2acfdfca7057978929715))
+* deprecate Theme.setup ([868a586](https://github.com/vuejs/vitepress/commit/868a58670e747310bba1f0f900a76243c6473da3))
+* export loadEnv from vite ([7609704](https://github.com/vuejs/vitepress/commit/76097048f3570b3f2417ac76ef177ce16afb9116))
+* expose isNotFound on PageData, deperecate Theme.NotFound ([74caccd](https://github.com/vuejs/vitepress/commit/74caccda4342feee3ab980b1a446ef7ec4819e0f))
+* expose params at top level in useData() ([66f94fd](https://github.com/vuejs/vitepress/commit/66f94fd7a0f43882386d32769b6b98014154ffa6))
+* support $params in page components ([a4ac055](https://github.com/vuejs/vitepress/commit/a4ac055dbf42848206683611a8d15e09572441ac))
+* support Theme.extends ([f39b6a9](https://github.com/vuejs/vitepress/commit/f39b6a98d6d2cc9ba405204a4d7a91eadce64a0d))
+* **theme:** add `as` prop to `Content` ([#2011](https://github.com/vuejs/vitepress/issues/2011)) ([254e15b](https://github.com/vuejs/vitepress/commit/254e15beb9b895c081e301eb379cbc2551b3e53c))
+* **theme:** add `home-hero-info` slot ([#1807](https://github.com/vuejs/vitepress/issues/1807)) ([996a5f4](https://github.com/vuejs/vitepress/commit/996a5f47e9064da839aef9e81db22db70fa8d76d))
+* vitepress init command ([#2020](https://github.com/vuejs/vitepress/issues/2020)) ([38bbdad](https://github.com/vuejs/vitepress/commit/38bbdaddb72ec426865d731c2f443e545e5bbbd7)), closes [#1252](https://github.com/vuejs/vitepress/issues/1252)
+
+
+
 # [1.0.0-alpha.49](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.48...v1.0.0-alpha.49) (2023-02-28)
 
 

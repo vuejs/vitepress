@@ -3,3 +3,4 @@
 dist
 pnpm-lock.yaml
 cache
+template

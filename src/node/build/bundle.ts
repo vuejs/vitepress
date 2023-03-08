@@ -62,7 +62,15 @@ export async function bundle(
       ...options,
       emptyOutDir: true,
       ssr,
-      outDir: ssr ? config.tempDir : config.outDir,
+      // minify with esbuild in MPA mode (for CSS)
+      minify: ssr
+        ? config.mpa
+          ? 'esbuild'
+          : false
+        : typeof options.minify === 'boolean'
+        ? options.minify
+        : !process.env.DEBUG,
+      outDir: ssr ? config.tempDir : options.outDir || config.outDir,
       cssCodeSplit: false,
       rollupOptions: {
         ...rollupOptions,
@@ -107,9 +115,7 @@ export async function bundle(
                 }
               })
         }
-      },
-      // minify with esbuild in MPA mode (for CSS)
-      minify: ssr ? (config.mpa ? 'esbuild' : false) : !process.env.DEBUG
+      }
     }
   })
 

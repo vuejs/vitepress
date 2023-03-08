@@ -1,4 +1,4 @@
-# Deploying
+# Deploy Your VitePress Site
 
 The following guides are based on some shared assumptions:
 
@@ -17,7 +17,7 @@ The following guides are based on some shared assumptions:
 
 ::: tip
 
-If your site is to be served at a subdirectory (`https://example.com/subdir/`), then you have to set `'/subdir/'` as the [`base`](../config/app-config#base) in your `docs/.vitepress/config.js`.
+If your site is to be served at a subdirectory (`https://example.com/subdir/`), then you have to set `'/subdir/'` as the [`base`](/reference/site-config#base) in your `docs/.vitepress/config.js`.
 
 **Example:** If you're using Github (or GitLab) Pages and deploying to `user.github.io/repo/`, then set your `base` to `/repo/`.
 
