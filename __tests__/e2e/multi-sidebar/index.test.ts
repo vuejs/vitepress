@@ -14,7 +14,8 @@ describe('test multi sidebar sort root', () => {
       '& <Text Literals &> code',
       'Static Data',
       'Multi Sidebar Test',
-      'Dynamic Routes'
+      'Dynamic Routes',
+      'Markdown Extensions'
     ])
   })
 })

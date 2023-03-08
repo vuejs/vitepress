@@ -1,4 +1,5 @@
 <% if (defaultTheme) { %>---
+# https://vitepress.vuejs.org/reference/default-theme-home-page
 layout: home
 
 hero:

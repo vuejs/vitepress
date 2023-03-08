@@ -1,10 +1,11 @@
+// https://vitepress.vuejs.org/guide/custom-theme
 <% if (!defaultTheme) { %>import Layout from './Layout.vue'
 import './style.css'
 
 export default {
   Layout,
   enhanceApp({ app, router, siteData }) {
-    // TODO link to app level customizatin
+    // ...
   }
 }
 <% } else { %>import { h } from 'vue'
@@ -15,10 +16,10 @@ export default {
   ...Theme,
   Layout: () => {
     return h(Theme.Layout, null, {
-      // TODO link to layout slots
+      // https://vitepress.vuejs.org/guide/extending-default-theme#layout-slots
     })
   },
   enhanceApp({ app, router, siteData }) {
-    // TODO link to app level customizatin
+    // ...
   }
 }<% } %>

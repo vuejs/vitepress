@@ -36,4 +36,4 @@ export default {
 }
 ```
 
-Note that footer will not be displayed when the [SideBar](./theme-sidebar) is visible.
+Note that footer will not be displayed when the [SideBar](/reference/default-theme-sidebar) is visible.
