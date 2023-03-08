@@ -55,13 +55,6 @@ export namespace DefaultTheme {
     aside?: boolean
 
     /**
-     * Set custom `aria-label` for language menu button.
-     *
-     * @default 'Change language'
-     */
-    langMenuAriaLabel?: string
-
-    /**
      * Info for the edit link. If it's undefined, the edit link feature will
      * be disabled.
      */
@@ -104,6 +97,13 @@ export namespace DefaultTheme {
      * @default 'Return to top'
      */
     returnToTopLabel?: string
+
+    /**
+     * Set custom `aria-label` for language menu button.
+     *
+     * @default 'Change language'
+     */
+    langMenuLabel?: string
 
     /**
      * The algolia options. Leave it undefined to disable the search feature.
