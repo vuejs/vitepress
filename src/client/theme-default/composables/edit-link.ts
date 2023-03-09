@@ -7,7 +7,12 @@ export function useEditLink() {
   return computed(() => {
     const { text = 'Edit this page', pattern = '' } = theme.value.editLink || {}
     const { relativePath } = page.value
-    const url = pattern.replace(/:path/g, relativePath)
+    let url: string
+    if (typeof pattern === 'function') {
+      url = pattern({ relativePath })
+    } else {
+      url = pattern.replace(/:path/g, relativePath)
+    }
 
     return { url, text }
   })

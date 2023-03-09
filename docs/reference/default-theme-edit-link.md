@@ -14,6 +14,24 @@ export default {
 
 The `pattern` option defines the URL structure for the link, and `:path` is going to be replaced with the page path.
 
+You can also put a function that accepts `relativePath` as the argument and returns the URL string.
+
+```js
+export default {
+  themeConfig: {
+    editLink: {
+      pattern: ({ relativePath }) => {
+        if (relativePath.startsWith('packages/')) {
+          return `https://github.com/acme/monorepo/edit/main/${relativePath}`
+        } else {
+          return `https://github.com/acme/monorepo/edit/main/docs/${relativePath}`
+        }
+      }
+    }
+  }
+}
+```
+
 By default, this will add the link text "Edit this page" at the bottom of the doc page. You may customize this text by defining the `text` option.
 
 ```js
