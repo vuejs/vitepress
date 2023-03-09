@@ -1,7 +1,7 @@
 <script setup<%= useTs ? ' lang="ts"' : '' %>>
 import { useData } from 'vitepress'
 
-// https://vitepress.vuejs.org/reference/runtime-api#usedata
+// https://vitepress.dev/reference/runtime-api#usedata
 const { site, frontmatter } = useData()
 </script>
 

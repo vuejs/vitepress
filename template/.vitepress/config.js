@@ -1,11 +1,11 @@
 import { defineConfig } from 'vitepress'
 
-// https://vitepress.vuejs.org/reference/site-config
+// https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: <%= title %>,
   description: <%= description %><% if (defaultTheme) { %>,
   themeConfig: {
-    // https://vitepress.vuejs.org/reference/default-theme-config
+    // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Examples', link: '/markdown-examples' }
