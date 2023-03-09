@@ -1,4 +1,4 @@
-export function serializeFunctions (value: any): any {
+export function serializeFunctions(value: any): any {
   if (Array.isArray(value)) {
     return value.map(serializeFunctions)
   } else if (typeof value === 'object' && value !== null) {

@@ -57,7 +57,7 @@ export function pathToFile(path: string): string {
   return pagePath
 }
 
-export function deserializeFunctions (value: any): any {
+export function deserializeFunctions(value: any): any {
   if (Array.isArray(value)) {
     return value.map(deserializeFunctions)
   } else if (typeof value === 'object' && value !== null) {
