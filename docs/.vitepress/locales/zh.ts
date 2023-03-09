@@ -50,7 +50,7 @@ export default defineConfig({
 function nav() {
   return [
     {
-      text: 'Guide',
+      text: '指南',
       link: '/zh/guide/what-is-vitepress',
       activeMatch: '/zh/guide/'
     },
@@ -91,52 +91,52 @@ function sidebarGuide() {
       text: '写作',
       collapsed: false,
       items: [
-        { text: 'Markdown Extensions', link: '/zh/guide/markdown' },
-        { text: 'Asset Handling', link: '/zh/guide/asset-handling' },
+        { text: 'Markdown 扩展', link: '/zh/guide/markdown' },
+        { text: '资源处理', link: '/zh/guide/asset-handling' },
         { text: 'Frontmatter', link: '/zh/guide/frontmatter' },
-        { text: 'Using Vue in Markdown', link: '/zh/guide/using-vue' },
-        { text: 'Internationalization', link: '/zh/guide/i18n' }
+        { text: '在 Markdown 中使用 Vue', link: '/zh/guide/using-vue' },
+        { text: '国际化', link: '/zh/guide/i18n' }
       ]
     },
     {
-      text: 'Customization',
+      text: '自定义',
       collapsed: false,
       items: [
-        { text: 'Using a Custom Theme', link: '/zh/guide/custom-theme' },
+        { text: '自定义主题', link: '/zh/guide/custom-theme' },
         {
-          text: 'Extending the Default Theme',
+          text: '扩展默认主题',
           link: '/zh/guide/extending-default-theme'
         },
-        { text: 'Build-Time Data Loading', link: '/zh/guide/data-loading' },
-        { text: 'Connecting to a CMS', link: '/zh/guide/cms' }
+        { text: '构建时数据加载', link: '/zh/guide/data-loading' },
+        { text: '连接 CMS', link: '/zh/guide/cms' }
       ]
     },
     {
-      text: 'Experimental',
+      text: '实验性功能',
       collapsed: false,
       items: [
         {
-          text: 'MPA Mode',
+          text: 'MPA 模式',
           link: '/zh/guide/mpa-mode'
         }
       ]
     },
     // {
-    //   text: 'Migrations',
+    //   text: '迁移',
     //   collapsed: false,
     //   items: [
     //     {
-    //       text: 'Migration from VuePress',
+    //       text: '从 VuePress 迁移',
     //       link: '/zh/guide/migration-from-vuepress'
     //     },
     //     {
-    //       text: 'Migration from VitePress 0.x',
+    //       text: '从 VitePress 0.x 迁移',
     //       link: '/zh/guide/migration-from-vitepress-0'
     //     }
     //   ]
     // },
     {
-      text: 'Config & API Reference',
+      text: '配置和 API 参考',
       link: '/zh/reference/site-config'
     }
   ]
@@ -145,64 +145,64 @@ function sidebarGuide() {
 function sidebarReference() {
   return [
     {
-      text: 'Reference',
+      text: '参考',
       items: [
-        { text: 'Site Config', link: '/zh/reference/site-config' },
+        { text: '站点配置', link: '/zh/reference/site-config' },
         {
-          text: 'Frontmatter Config',
+          text: 'Frontmatter 配置',
           link: '/zh/reference/frontmatter-config'
         },
-        { text: 'Runtime API', link: '/zh/reference/runtime-api' },
+        { text: '运行时 API', link: '/zh/reference/runtime-api' },
         { text: 'CLI', link: '/zh/reference/cli' },
         {
-          text: 'Default Theme',
+          text: '默认主题',
           items: [
             {
-              text: 'Overview',
+              text: '概述',
               link: '/zh/reference/default-theme-config'
             },
             {
-              text: 'Nav',
+              text: '导航',
               link: '/zh/reference/default-theme-nav'
             },
             {
-              text: 'Sidebar',
+              text: '侧边栏',
               link: '/zh/reference/default-theme-sidebar'
             },
             {
-              text: 'Home Page',
+              text: '主页',
               link: '/zh/reference/default-theme-home-page'
             },
             {
-              text: 'Footer',
+              text: '页脚',
               link: '/zh/reference/default-theme-footer'
             },
             {
-              text: 'Layout',
+              text: '布局',
               link: '/zh/reference/default-theme-layout'
             },
             {
-              text: 'Badge',
+              text: '徽章图标',
               link: '/zh/reference/default-theme-badge'
             },
             {
-              text: 'Team Page',
+              text: '团队页',
               link: '/zh/reference/default-theme-team-page'
             },
             {
-              text: 'Prev / Next Links',
+              text: '上下页链接',
               link: '/zh/reference/default-theme-prev-next-links'
             },
             {
-              text: 'Edit Link',
+              text: '编辑链接',
               link: '/zh/reference/default-theme-edit-link'
             },
             {
-              text: 'Last Updated Timestamp',
+              text: '最后更新时间戳',
               link: '/zh/reference/default-theme-last-updated'
             },
             {
-              text: 'Algolia Search',
+              text: 'Algolia 搜索',
               link: '/zh/reference/default-theme-search'
             },
             {
