@@ -126,6 +126,8 @@ Full list of slots available in the default theme layout:
   - `home-hero-after`
   - `home-features-before`
   - `home-features-after`
+- On not found (404) page:
+  - `not-found`
 - Always:
   - `layout-top`
   - `layout-bottom`
@@ -135,4 +137,3 @@ Full list of slots available in the default theme layout:
   - `nav-bar-content-after`
   - `nav-screen-content-before`
   - `nav-screen-content-after`
-

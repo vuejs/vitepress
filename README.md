@@ -12,7 +12,7 @@ Currently, it's in the `alpha` stage. It is already suitable for out-of-the-box 
 
 ## Documentation
 
-To check out docs, visit [vitepress.vuejs.org](https://vitepress.vuejs.org).
+To check out docs, visit [vitepress.dev](https://vitepress.dev).
 
 ## Changelog
 
