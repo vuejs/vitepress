@@ -19,7 +19,7 @@ const { hasSidebar } = useSidebar()
       'is-home': frontmatter.layout === 'home'
     }"
   >
-    <NotFound v-if="page.isNotFound" />
+    <slot name="not-found" v-if="page.isNotFound"><NotFound /></slot>
 
     <VPPage v-else-if="frontmatter.layout === 'page'" />
 
