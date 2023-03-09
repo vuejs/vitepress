@@ -22,6 +22,7 @@ import { staticDataPlugin } from './plugins/staticDataPlugin'
 import { webFontsPlugin } from './plugins/webFontsPlugin'
 import { dynamicRoutesPlugin } from './plugins/dynamicRoutesPlugin'
 import { rewritesPlugin } from './plugins/rewritesPlugin'
+import { serializeFunctions } from './utils/fnSerialize.js'
 
 declare module 'vite' {
   interface UserConfig {
@@ -158,9 +159,11 @@ export async function createVitePressPlugin(
         if (config.command === 'build') {
           data = { ...siteData, head: [] }
         }
-        return `export default JSON.parse(${JSON.stringify(
+        data = serializeFunctions(data)
+        return `import { deserializeFunctions } from 'vitepress/client'
+        export default deserializeFunctions(JSON.parse(${JSON.stringify(
           JSON.stringify(data)
-        )})`
+        )}))`
       }
     },
 
