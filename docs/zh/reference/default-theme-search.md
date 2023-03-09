@@ -1,9 +1,10 @@
-# 搜索 {#search}
+# Search
 
-VitePress 支持使用 [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch) 来让你的站点具有搜索功能。可以参考它们的入门指南。在你的 `.vitepress/config.ts` 中，你至少需要做如下的配置才能让它起作用：
+VitePress supports searching your docs site using [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Refer their getting started guide. In your `.vitepress/config.ts` you'll need to provide at least the following to make it work:
 
 ```ts
 import { defineConfig } from 'vitepress'
+
 export default defineConfig({
   themeConfig: {
     algolia: {
@@ -15,18 +16,20 @@ export default defineConfig({
 })
 ```
 
-如果你认为 DocSearch 不合适，你可以使用社区的插件，像 <https://github.com/emersonbottero/vitepress-plugin-search> 或者在 [这个 GitHub 议题](https://github.com/vuejs/vitepress/issues/670)下寻找一些自定义的解决方案。
+If you are not eligible for DocSearch, you might wanna use some community plugins like <https://github.com/emersonbottero/vitepress-plugin-search> or explore some custom solutions on [this GitHub thread](https://github.com/vuejs/vitepress/issues/670).
 
-## 国际化 {#i8n}
+## i18n
 
-你可以这样配置来使站点支持多种语言的搜索功能：
+You can use a config like this to use multilingual search:
 
 ```ts
 import { defineConfig } from 'vitepress'
+
 export default defineConfig({
   // ...
   themeConfig: {
     // ...
+
     algolia: {
       appId: '...',
       apiKey: '...',
@@ -79,4 +82,4 @@ export default defineConfig({
 })
 ```
 
-[这些参数](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts)可以被覆盖，参考 Algolia 官方文档了解更多信息。
+[These options](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts) can be overridden. Refer official Algolia docs to learn more about them.

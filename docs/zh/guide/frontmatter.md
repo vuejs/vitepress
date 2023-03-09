@@ -1,6 +1,8 @@
 # Frontmatter
 
-任何包含 YAML frontmatter 的 Markdown 文件都将由 [gray-matter](https://github.com/jonschlinkert/gray-matter) 处理。 frontmatter 必须位于 Markdown 文件的顶部，并且必须采用在三点划线之间设置的有效 YAML 的形式。例如：
+## Usage
+
+VitePress supports YAML frontmatter in all Markdown files, parsing them with [gray-matter](https://github.com/jonschlinkert/gray-matter). The frontmatter must be at the top of the Markdown file (before any elements including `<script>` tags), and must take the form of valid YAML set between triple-dashed lines. Example:
 
 ```md
 ---
@@ -9,9 +11,15 @@ editLink: true
 ---
 ```
 
-在三点虚线之间，你可以设置[预定义变量](../config/frontmatter-config)，甚至可以创建自己的自定义变量。 这些变量可以通过特殊的 <code>$frontmatter</code> 变量来使用。
+Many site or default theme config options have corresponding options in frontmatter. You can use frontmatter to override specific behavior for the current page only. For details, see [Frontmatter Config Reference](/reference/frontmatter-config).
 
-这是如何在 Markdown 文件中使用的例子：
+You can also define custom frontmatter data of your own, to be used in dynamic Vue expressions on the page.
+
+## Accessing Frontmatter Data
+
+Frontmatter data can be accessed via the special `$frontmatter` global variable:
+
+Here's an example of how you could use it in your Markdown file:
 
 ```md
 ---
@@ -24,9 +32,11 @@ editLink: true
 Guide content
 ```
 
-## Frontmatter 格式的其他写法 {#alternative-frontmatter-formats}
+You can also access current page's frontmatter data in `<script setup>` with the [`useData()`](/reference/runtime-api#usedata) helper.
 
-VitePress 还支持 JSON frontmatter 语法，以花括号开头和结尾：
+## Alternative Frontmatter Formats
+
+VitePress also supports JSON frontmatter syntax, starting and ending in curly braces:
 
 ```json
 ---

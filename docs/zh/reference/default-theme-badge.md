@@ -1,10 +1,10 @@
-# 徽章 {#badge}
+# Badge
 
-徽章可以让你为你的标题添加状态。例如，指定该部分的类型或支持的版本可能是有用的。
+The badge lets you add status to your headers. For example, it could be useful to specify the section's type, or supported version.
 
-## 使用 {#usage}
+## Usage
 
-你可以使用全局生效的 `Badge` 组件：
+You may use the `Badge` component which is globally available.
 
 ```html
 ### Title <Badge type="info" text="default" />
@@ -13,26 +13,26 @@
 ### Title <Badge type="danger" text="caution" />
 ```
 
-代码将被渲染成下面这样：
+Code above renders like:
 
 ### Title <Badge type="info" text="default" />
 ### Title <Badge type="tip" text="^1.9.0" />
 ### Title <Badge type="warning" text="beta" />
 ### Title <Badge type="danger" text="caution" />
 
-## 自定义 Children {#custom-children}
+## Custom Children
 
-`<Badge>` 接受 `children`，其将会显示在徽章上。
+`<Badge>` accept `children`, which will be displayed in the badge.
 
 ```html
 ### Title <Badge type="info">custom element</Badge>
 ```
 
-### Title <Badge type="info">custom element</Badge> 
+### Title <Badge type="info">custom element</Badge>
 
-## 自定义颜色 {#customize-type-color}
+## Customize Type Color
 
-你可以通过覆盖 css 变量来定制徽章的 `background-color`。以下是默认值。
+You can customize the `background-color` of badges by overriding css variables. The following are the default values:
 
 ```css
 :root {
@@ -70,7 +70,7 @@
 
 ## `<Badge>`
 
-`<Badge>` 组件接受下面的 props：
+`<Badge>` component accepts following props:
 
 ```ts
 interface Props {

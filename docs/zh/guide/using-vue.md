@@ -1,44 +1,75 @@
-# Markdown 中使用 Vue {#using-vue-in-markdown}
+# Using Vue in Markdown
 
-在 VitePress 中，每个 markdown 文件都被编译成 HTML，然后其作为 Vue 单文件组件处理。这意味着你可以在 markdown 中使用所有的 Vue 功能，包括动态模板、Vue 组件或通过添加 `<script>` 标签使用 Vue 组件逻辑。
+In VitePress, each Markdown file is compiled into HTML and then processed as a [Vue Single-File Component](https://vuejs.org/guide/scaling-up/sfc.html). This means you can use any Vue features inside the Markdown, including dynamic templating, using Vue components, or arbitrary in-page Vue component logic by adding a `<script>` tag.
 
-同样重要的是要知道 VitePress 利用 Vue 3 的编译器来自动检测 markdown 中的纯静态的部分。静态内容被优化为独立的节点，从而减少页面的 JS 的开销。在客户端渲染数据期间，它们也会被跳过。简而言之，你需要额外处理的只有页面上的动态部分。
+It's worth noting that VitePress leverages Vue's compiler to automatically detect and optimize the purely static parts of the Markdown content. Static contents are optimized into single placeholder nodes and eliminated from the page's JavaScript payload for initial visits. They are also skipped during client-side hydration. In short, you only pay for the dynamic parts on any given page.
 
-## 模板语法 {#templating}
+## Templating
 
-### 插值 {#interpolation}
+### Interpolation
 
-每个 Markdown 文件首先编译成 HTML，然后作为 Vue 组件传递到 Vite 处理。这意味着你可以在文本中使用 Vue 风格的插值：
+Each Markdown file is first compiled into HTML and then passed on as a Vue component to the Vite process pipeline. This means you can use Vue-style interpolation in text:
 
-**输入**
+**Input**
 
 ```md
 {{ 1 + 1 }}
 ```
 
-**输出**
+**Output**
 
 <div class="language-text"><pre><code>{{ 1 + 1 }}</code></pre></div>
 
-### 指令 {#directives}
+### Directives
 
-指令同样可用：
+Directives also work (note that by design, raw HTML is also valid in Markdown):
 
-**输入**
+**Input**
 
 ```html
 <span v-for="i in 3">{{ i }}</span>
 ```
 
-**输出**
+**Output**
 
 <div class="language-text"><pre><code><span v-for="i in 3">{{ i }} </span></code></pre></div>
 
-### 获取站点和页面数据 {#access-to-site-page-data}
+## `<script>` and `<style>`
 
-你可以在 `<script>` 里使用 [`useData` 辅助函数](/api/#usedata) 并在页面里绑定数据。
+Root-level `<script>` and `<style>` tags in Markdown files work just like they do in Vue SFCs, including `<script setup>`, `<style module>`, etc. The main difference here is that there is no `<template>` tag: all other root-level content is Markdown. Also note that all tags should be placed **after** the frontmatter:
 
-**输入**
+```html
+---
+hello: world
+---
+
+<script setup>
+import { ref } from 'vue'
+
+const count = ref(0)
+</script>
+
+## Markdown Content
+
+The count is: {{ count }}
+
+<button :class="$style.module" @click="count++">Increment</button>
+
+<style module>
+.button {
+  color: red;
+  font-weight: bold;
+}
+</style>
+```
+
+:::warning Avoid `<style scoped>` in Markdown
+When used in Markdown, `<style scoped>` requires adding special attributes to every element on the current page, which will significantly bloat the page size. `<style module>` is preferred when locally-scoped styling is needed in a page.
+:::
+
+You also have access to VitePress' runtime APIs such as the [`useData` helper](/reference/runtime-api#usedata), which provides access to current page's metadata:
+
+**Input**
 
 ```html
 <script setup>
@@ -50,41 +81,24 @@ const { page } = useData()
 <pre>{{ page }}</pre>
 ```
 
-**输出**
+**Output**
 
 ```json
 {
   "path": "/using-vue.html",
   "title": "Using Vue in Markdown",
-  "frontmatter": {}
+  "frontmatter": {},
+  ...
 }
 ```
 
-## 转义 {#escaping}
+## Using Components
 
-默认情况下，栅栏式代码块会自动使用 `v-pre` 包装。要在内联代码片段或纯文本中展示 mustaches 或特定的 Vue 语法，你需要使用 `v-pre` 自定义容器包装一个段落：
+You can import and use Vue components directly in Markdown files.
 
-**输入**
+### Importing in Markdown
 
-```md
-::: v-pre
-`{{ This will be displayed as-is }}`
-:::
-```
-
-**输出**
-
-::: v-pre
-`{{ This will be displayed as-is }}`
-:::
-
-## 使用组件 {#using-components}
-
-当你需要更大的灵活性时，VitePress 支持使用你自己的 Vue 组件扩展你的创作工具箱。
-
-### 在 markdown 中导入组件 {#importing-components-in-markdown}
-
-如果你的组件仅在少数地方使用，推荐的使用方法是在使用它的文件中导入组件。
+If a component is only used by a few pages, it's recommended to explicitly import them where they are used. This allows them to be properly code-split and only loaded when the relevant pages are shown:
 
 ```md
 <script setup>
@@ -102,53 +116,85 @@ This is a .md using a custom component
 ...
 ```
 
-### 在主题中注册全局组件 {#registering-global-components-in-the-theme}
+### Registering Components Globally
 
-如果要在文档中的多个页面中使用组件，则可以在主题中全局注册它们 (或作为默认 VitePress 主题扩展的一部分)。查看[自定义指南](./customization-intro)了解更多信息。
+If a component is going to be used on most of the pages, they can be registered globally by customizing the Vue app instance. See relevant section in [Extending Default Theme](/guide/extending-default-theme#registering-global-components) for an example.
 
-在 `.vitepress/theme/index.js` 中，`enhanceApp` 函数接收 Vue `app` 实例，因此你可以在常规的 Vue 应用程序中 [注册组件](https://vuejs.org/guide/components/registration.html) 。
-
-```js
-import DefaultTheme from 'vitepress/theme'
-
-export default {
-  ...DefaultTheme,
-  enhanceApp({ app }) {
-    app.component('VueClickAwayExample', VueClickAwayExample)
-  }
-}
-```
-
-然后就可以在 markdown 文件里使用组件：
-
-```md
-# Vue Click Away
-
-<VueClickAwayExample />
-```
-
-::: warning 重要
-确保自定义组件的名称包含连字符或使用 PascalCase (大驼峰拼写)。否则，它将被视为内联元素并包裹在 `<p>` 标签中，这将会导致 HTML 渲染紊乱，因为 HTML 标准规定， `<p>` 标签中不允许放置任何块级元素。
+::: warning IMPORTANT
+Make sure a custom component's name either contains a hyphen or is in PascalCase. Otherwise, it will be treated as an inline element and wrapped inside a `<p>` tag, which will lead to hydration mismatch because `<p>` does not allow block elements to be placed inside it.
 :::
 
-### 在标题中使用组件 <ComponentInHeader /> {#using-components-in-headers}
+### Using Components In Headers <ComponentInHeader />
 
-你可以在标题中使用 Vue 组件，但请注意以下语法之间的区别：
+You can use Vue components in the headers, but note the difference between the following syntaxes:
 
 | Markdown                                                | Output HTML                               | Parsed Header |
 | ------------------------------------------------------- | ----------------------------------------- | ------------- |
 | <pre v-pre><code> # text &lt;Tag/&gt; </code></pre>     | `<h1>text <Tag/></h1>`                    | `text`        |
 | <pre v-pre><code> # text \`&lt;Tag/&gt;\` </code></pre> | `<h1>text <code>&lt;Tag/&gt;</code></h1>` | `text <Tag/>` |
 
-`<code>` 包裹的 HTML 将按原样显示；只有**未**包裹 `<code>` 的 HTML 才会被 Vue 解析。
+The HTML wrapped by `<code>` will be displayed as-is; only the HTML that is **not** wrapped will be parsed by Vue.
 
 ::: tip
-输出 HTML 由 [markdown-it](https://github.com/markdown-it/markdown-it) 完成，而解析的标题由 VitePress 处理(并用于侧边栏和文档标题)。
+The output HTML is accomplished by [Markdown-it](https://github.com/Markdown-it/Markdown-it), while the parsed headers are handled by VitePress (and used for both the sidebar and document title).
 :::
 
-## 使用 CSS 预处理器 {#using-css-pre-processors}
 
-VitePress 对 CSS 预处理器有[内置支持](https://vitejs.dev/guide/features.html#css-pre-processors)：`.scss`、`.sass`、`.less`， `.styl` 和 `.stylus` 文件。 不需要为它们安装 Vite 特定的插件，但必须安装相应的预处理器：
+## Escaping
+
+You can escape Vue interpolations by wrapping them in a `<span>` or other elements with the `v-pre` directive:
+
+**Input**
+
+```md
+This <span v-pre>{{ will be displayed as-is }}</span>
+```
+
+**Output**
+
+<div class="escape-demo">
+  <p>This <span v-pre>{{ will be displayed as-is }}</span></p>
+</div>
+
+Alternatively, you can wrap the entire paragraph in a `v-pre` custom container:
+
+```md
+::: v-pre
+{{ This will be displayed as-is }}`
+:::
+```
+
+**Output**
+
+<div class="escape-demo">
+
+::: v-pre
+{{ This will be displayed as-is }}
+:::
+
+</div>
+
+## Unescape in Code Blocks
+
+By default, all fenced code blocks are automatically wrapped with `v-pre`, so no Vue syntax will be processd inside. To enable Vue-style interpolation inside fences, you can append the language with the `-vue` suffix, e.g. `js-vue`:
+
+**Input**
+
+````md
+```js-vue
+Hello {{ 1 + 1 }}
+```
+````
+
+**Output**
+
+```js-vue
+Hello {{ 1 + 1 }}
+```
+
+## Using CSS Pre-processors
+
+VitePress has [built-in support](https://vitejs.dev/guide/features.html#css-pre-processors) for CSS pre-processors: `.scss`, `.sass`, `.less`, `.styl` and `.stylus` files. There is no need to install Vite-specific plugins for them, but the corresponding pre-processor itself must be installed:
 
 ```
 # .scss and .sass
@@ -161,7 +207,7 @@ npm install -D less
 npm install -D stylus
 ```
 
-然后就可以在 Markdown 和主题组件中使用：
+Then you can use the following in Markdown and theme components:
 
 ```vue
 <style lang="sass">
@@ -170,44 +216,11 @@ npm install -D stylus
 </style>
 ```
 
-## 脚本和样式提升 {#script-style-hoisting}
+## Browser API Access Restrictions
 
-有时，你可以只想在当前页面应用一些 JavaScript 或者 CSS，在这种情况下，你可以直接在 Markdown 文件中使用原生的 `<script>` 或者 `<style>` 标签，它们将会从编译后的 HTML 文件中提取出来，并作为生成的 Vue 单文件组件的`<script>`和 `<style>` 标签:
+Because VitePress applications are server-rendered in Node.js when generating static builds, any Vue usage must conform to the [universal code requirements](https://vuejs.org/guide/scaling-up/ssr.html). In short, make sure to only access Browser / DOM APIs in `beforeMount` or `mounted` hooks.
 
-<p class="demo" :class="$style.example"></p>
-
-<style module>
-.example {
-  color: #41b883;
-}
-</style>
-
-<script>
-import ComponentInHeader from '../../components/ComponentInHeader.vue'
-
-export default {
-  props: ['slot-key'],
-  components: { ComponentInHeader },
-  mounted () {
-    document.querySelector(`.${this.$style.example}`)
-      .textContent = 'This is rendered by inline script and styled by inline CSS'
-  }
-}
-</script>
-
-## 内置的组件 {#built-in-components}
-
-VitePress 提供了内置的 Vue 组件，例如 `ClientOnly` 和 `OutboundLink`，查看[全局组件指南](/api/) 了解更多信息。
-
-**参见：**
-
-- [在标题中使用组件](#using-components-in-headers)
-
-## 浏览器 API 的访问限制 {#browser-api-access-restrictions}
-
-由于 VitePress 应用在生成静态构建时在 Node.js 中进行服务器渲染，因此任何 Vue 使用都必须符合[通用代码要求](https://vuejs.org/guide/scaling-up/ssr.html)。 简而言之，确保只在 `beforeMount` 或 `mounted` 钩子中访问浏览器以及 DOM API。
-
-如果你正在使用不支持 SSR 的组件 (例如，包含自定义指令)，你可以将它们包装在 `ClientOnly` 组件中。
+If you are using or demoing components that are not SSR-friendly (for example, contain custom directives), you can wrap them inside the built-in `<ClientOnly>` component:
 
 ```md
 <ClientOnly>
@@ -215,7 +228,7 @@ VitePress 提供了内置的 Vue 组件，例如 `ClientOnly` 和 `OutboundLink`
 </ClientOnly>
 ```
 
-注意，这不会修复**在导入时**访问浏览器 API 的组件或库。 要在导入时使用浏览器环境的代码，你需要在适当的生命周期挂钩中动态导入它们：
+Note this does not fix components or libraries that access Browser APIs **on import**. To use code that assumes a browser environment on import, you need to dynamically import them in proper lifecycle hooks:
 
 ```vue
 <script>
@@ -229,7 +242,7 @@ export default {
 </script>
 ```
 
-如果要使用 `export default` 导出的Vue 组件，你可以这样子动态注册：
+If your module `export default` a Vue component, you can register it dynamically:
 
 ```vue
 <template>
@@ -256,6 +269,38 @@ export default {
 </script>
 ```
 
-**参见：**
+**Also see:**
 
-- [Vue.js > 动态组件](https://cn.vuejs.org/guide/essentials/component-basics.html#dynamic-components)
+- [Vue.js > Dynamic Components](https://vuejs.org/guide/essentials/component-basics.html#dynamic-components)
+
+## Using Teleports
+
+Vitepress currently has SSG support for teleports to body only. For other targets, you can wrap them inside the built-in `<ClientOnly>` component or inject the teleport markup into the correct location in your final page HTML through [`postRender` hook](/reference/site-config#postrender).
+
+<ModalDemo />
+
+::: details
+<<< @/components/ModalDemo.vue
+:::
+
+```md
+<ClientOnly>
+  <Teleport to="#modal">
+    <div>
+      // ...
+    </div>
+  </Teleport>
+</ClientOnly>
+```
+
+<script setup>
+import ModalDemo from '../components/ModalDemo.vue'
+</script>
+
+<style>
+.escape-demo {
+  border: 1px solid var(--vp-c-border);
+  border-radius: 8px;
+  padding: 0 20px;
+}
+</style>

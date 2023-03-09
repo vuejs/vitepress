@@ -1,6 +1,6 @@
-# 主题配置 {#theme-config}
+# Default Theme Config
 
-主题配置可让你自定义主题。你可以通过将 `themeConfig` 键添加到配置文件来定义主题配置。
+Theme config lets you customize your theme. You can define theme config via the `themeConfig` option in the config file:
 
 ```ts
 export default {
@@ -17,19 +17,19 @@ export default {
 }
 ```
 
-这里描述了 VitePress 默认主题的设置。如果你使用的是其他人创建的自定义主题，这些设置可能没有任何效果，或者可能表现不同。
+**The options documented on this page only apply to the default theme.** Different themes expect different theme config. When using a custom theme, the theme config object will be passed to the theme so the theme can define conditional behavior based on it.
 
 ## i18nRouting
 
-- 类型：`boolean`
+- Type: `boolean`
 
-改变语言环境意味着，`zh` 将 URL 从 `/foo` (or `/en/foo/`) 变成 `/zh/foo`。将 `themeConfig.i18nRouting` 设置为 `false` 可以禁用这一特性。
+Changing locale to say `zh` will change the URL from `/foo` (or `/en/foo/`) to `/zh/foo`. You can disable this behavior by setting `themeConfig.i18nRouting` to `false`.
 
 ## logo
 
-- 类型：`ThemeableImage`
+- Type: `ThemeableImage`
 
-显示在导航栏中的 logo 文件，位于站点标题之前。接受路径字符串或包含明亮或黑暗模式不同 logo 的对象。
+Logo file to display in nav bar, right before the site title. Accepts a path string, or an object to set a different logo for light/dark mode.
 
 ```ts
 export default {
@@ -48,9 +48,9 @@ type ThemeableImage =
 
 ## siteTitle
 
-- 类型：`string | false`
+- Type: `string | false`
 
-你可以自定义此项以替换导航中的默认站点标题 (应用配置中的 `title`)。当设置为 `false` 时，导航中的标题将被禁用。这在当你的 `logo` 已经包含网站标题文本时很有用。
+You can customize this item to replace the default site title (`title` in app config) in nav. When set to `false`, title in nav will be disabled. Useful when you have `logo` that already contains the site title text.
 
 ```ts
 export default {
@@ -62,9 +62,9 @@ export default {
 
 ## nav
 
-- 类型：`NavItem`
+- Type: `NavItem`
 
-导航菜单项的配置。你可以在[主题: 导航栏](../guide/theme-nav#navigation-links)中了解更多详情。
+The configuration for the nav menu item. More details in [Default Theme: Nav](./default-theme-nav#navigation-links).
 
 ```js
 export default {
@@ -91,12 +91,13 @@ interface NavItemWithLink {
   text: string
   link: string
   activeMatch?: string
+  target?: string
+  rel?: string
 }
 
 interface NavItemChildren {
   text?: string
   items: NavItemWithLink[]
-  activeMatch?: string
 }
 
 interface NavItemWithChildren {
@@ -108,9 +109,9 @@ interface NavItemWithChildren {
 
 ## sidebar
 
-- 类型：`Sidebar`
+- Type: `Sidebar`
 
-侧边栏菜单项的配置。你可以在[主题: 侧边栏](../guide/theme-sidebar)了解更多详情。
+The configuration for the sidebar menu item. More details in [Default Theme: Sidebar](./default-theme-sidebar).
 
 ```js
 export default {
@@ -130,48 +131,66 @@ export default {
 ```
 
 ```ts
-type Sidebar = SidebarGroup[] | SidebarMulti
+export type Sidebar = SidebarItem[] | SidebarMulti
 
-interface SidebarMulti {
-  [path: string]: SidebarGroup[]
+export interface SidebarMulti {
+  [path: string]: SidebarItem[]
 }
 
-interface SidebarGroup {
-  text: string
-  items: SidebarItem[]
-  collapsible?: boolean
+export type SidebarItem = {
+  /**
+   * The text label of the item.
+   */
+  text?: string
+
+  /**
+   * The link of the item.
+   */
+  link?: string
+
+  /**
+   * The children of the item.
+   */
+  items?: SidebarItem[]
+
+  /**
+   * If not specified, group is not collapsible.
+   *
+   * If `true`, group is collapsible and collapsed by default
+   *
+   * If `false`, group is collapsible but expanded by default
+   */
   collapsed?: boolean
-}
-
-interface SidebarItem {
-  text: string
-  link: string
 }
 ```
 
 ## aside
+
 - Type: `boolean`
 - Default: `true`
+
 Setting this value to `false` prevents rendering of aside container.
 
 ## outline
 
-- 类型：`number | [number, number] | 'deep' | false`
-- 默认值：`2`
+- Type: `number | [number, number] | 'deep' | false`
+- Default: `2`
 
-纲要中显示的标题的级别。你可以通过传递一个数字来指定一个特定的级别，也可以通过传递一个包含底限和上限的元组来提供一个级别范围。当传递等于 `[2, 6]` 的 `'deep'` 时，除了 `h1` 之外，所有的标题级别都显示在大纲中。可以设置 `false` 来隐藏轮廓。
+The levels of header to display in the outline. You can specify a particular level by passing a number, or you can provide a level range by passing a tuple containing the bottom and upper limits. When passing `'deep'` which equals `[2, 6]`, all header levels are shown in the outline except `h1`. Set `false` to hide outline.
 
 ## outlineBadges
+
 - Type: `boolean`
 - Default: `true`
+
 By default the badge text is displayed in the outline. Disable this to hide badge text from outline.
 
 ## outlineTitle
 
-- 类型：`string`
-- 默认值：`On this page`
+- Type: `string`
+- Default: `On this page`
 
-可用于自定义右侧边栏的标题 (在大纲链接的顶部)。这在用另一种语言编写文档时很有用。
+Can be used to customize the title of the right sidebar (on the top of outline links). This is useful when writing documentation in another language.
 
 ```js
 export default {
@@ -183,9 +202,9 @@ export default {
 
 ## socialLinks
 
-- 类型：`SocialLink[]`
+- Type: `SocialLink[]`
 
-你可以定义此选项以在导航中展示带有图标的社交帐户链接。
+You may define this option to show your social account links with icons in nav.
 
 ```js
 export default {
@@ -226,9 +245,9 @@ type SocialLinkIcon =
 
 ## footer
 
-- 类型：`Footer`
+- Type: `Footer`
 
-页脚配置。你可以添加一些消息和版权内容。出于设计考虑，仅当页面不包含侧边栏时才会显示页脚。
+Footer configuration. You can add a message or copyright text on the footer, however, it will only be displayed when the page doesn't contain a sidebar. This is due to design concerns.
 
 ```ts
 export default {
@@ -250,9 +269,9 @@ export interface Footer {
 
 ## editLink
 
-- 类型：`EditLink`
+- Type: `EditLink`
 
-编辑链接可让你显示链接以编辑 Git 管理服务 (例如 GitHub 或 GitLab上的页面)。有关详细信息，请参见[主题：编辑链接](../guide/theme-edit-link)。
+Edit Link lets you display a link to edit the page on Git management services such as GitHub, or GitLab. See [Default Theme: Edit Link](./default-theme-edit-link) for more details.
 
 ```js
 export default {
@@ -274,10 +293,10 @@ export interface EditLink {
 
 ## lastUpdatedText
 
-- 类型：`string`
-- 默认值：`Last updated`
+- Type: `string`
+- Default: `Last updated`
 
-显示“上次更新时间”之前的前缀文本。
+The prefix text showing right before the last updated time.
 
 ```ts
 export default {
@@ -291,11 +310,11 @@ export default {
 
 - Type: `AlgoliaSearch`
 
-An option to support searching your docs site using [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Learn more in [Theme: Search](../guide/theme-search)
+An option to support searching your docs site using [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Learn more in [Default Theme: Search](./default-theme-search)
 
 ```ts
 export interface AlgoliaSearchOptions extends DocSearchProps {
-   locales?: Record<string, Partial<DocSearchProps>>
+  locales?: Record<string, Partial<DocSearchProps>>
 }
 ```
 
@@ -303,9 +322,9 @@ View full options [here](https://github.com/vuejs/vitepress/blob/main/types/docs
 
 ## carbonAds
 
-- 类型：`CarbonAdsOptions`
+- Type: `CarbonAdsOptions`
 
-显示 [Carbon Ads](https://www.carbonads.net/) 的选项。
+An option to display [Carbon Ads](https://www.carbonads.net/).
 
 ```ts
 export default {
@@ -325,13 +344,13 @@ export interface CarbonAdsOptions {
 }
 ```
 
-有关详细信息，请参见 [Theme: Carbon Ads](../guide/theme-carbon-ads)
+Learn more in [Default Theme: Carbon Ads](./default-theme-carbon-ads)
 
 ## docFooter
 
-- 类型：`DocFooter`
+- Type: `DocFooter`
 
-可用于自定义出现在上一个和下一个链接上方的文本。如果不是用英语编写文档，这很有帮助。
+Can be used to customize text appearing above previous and next links. Helpful if not writing docs in English.
 
 ```js
 export default {
@@ -370,4 +389,11 @@ Can be used to customize the sidebar menu label. This label is only displayed in
 - Type: `string`
 - Default: `Return to top`
 
-Can be used to customize the label of the returnToTop. This label is only displayed in the mobile view.
+Can be used to customize the label of the return to top button. This label is only displayed in the mobile view.
+
+## langMenuLabel
+
+- Type: `string`
+- Default: `Change language`
+
+Can be used to customize the aria-label of the language toggle button in navbar. This is only used if you're using [i18n](../guide/i18n).

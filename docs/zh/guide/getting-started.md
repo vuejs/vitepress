@@ -1,64 +1,38 @@
-# 快速上手 {#getting-started}
+# Getting Started
 
-本节将帮助你从头开始构建一个基本的 VitePress 文档站点。如果你已经有一个现有项目并希望将文档保留在项目中，请从步骤2开始。
+## Try It Online
 
-你也可以在 [StackBlitz](https://vitepress.new/) 上在线尝试 VitePress，它直接在浏览器里运行基于 Vite 的站点。所以和你在本地构建的效果几乎是一样的，但是这种方式不需要在你的机器上安装任何东西。
+You can try VitePress directly in your browser on [StackBlitz](https://vitepress.new).
 
-::: warning
-VitePress 目前处于 `alpha` 状态。它已经适合开箱即用地组织文档，但是具体配置以及和主题相关的 API 仍然可能在小的版本之间发生变化。
-:::
+## Installation
 
-## 步骤 1：创建一个项目 {#step-1-create-a-new-project}
+### Prerequisites
 
-创建并进入新项目的目录。
+- [Node.js](https://nodejs.org/) version 16 or higher.
+- Terminal for accessing VitePress via its command line interface (CLI).
+- Text Editor with [Markdown](https://en.wikipedia.org/wiki/Markdown) syntax support.
+  - [VSCode](https://code.visualstudio.com/) is recommended, along with the [official Vue extension](https://marketplace.visualstudio.com/items?itemName=Vue.volar).
 
-
-```sh
-$ mkdir vitepress-starter && cd vitepress-starter
-```
-
-用你喜欢的包管理工具初始化项目。
+VitePress can be used on its own, or be installed into an existing project. In both cases, you can install it with:
 
 ::: code-group
 
 ```sh [npm]
-$ npm init
-```
-
-```sh [yarn]
-$ yarn init
+$ npm install -D vitepress
 ```
 
 ```sh [pnpm]
-$ pnpm init
+$ pnpm add -D vitepress
+```
+
+```sh [yarn]
+$ yarn add -D vitepress
 ```
 
 :::
 
-## 步骤 2：安装 VitePress {#step-2-install-vitepress}
-
-添加 VitePress 和 Vue 作为项目的开发依赖项。
-
-::: code-group
-
-```sh [npm]
-$ npm install -D vitepress vue
-```
-
-```sh [yarn]
-$ yarn add -D vitepress vue
-```
-
-```sh [pnpm]
-$ pnpm add -D vitepress vue
-```
-
-:::
-
-::: details 得到了 peer dependencies 警告？
-`@docsearch/js` 的 peer dependencies 存在某些问题。如果你看到某些命令由于它们而失败，你现在可以尝试以下解决方案：
-
-如果使用 pnpm，在 `package.json` 添加以下代码：
+::: details Getting missing peer deps warnings?
+If using PNPM, you will notice a missing peer warning for `@docsearch/js`. This does not prevent VitePress from working. If you wish to suppress this warning, add the following to your `package.json`:
 
 ```json
 "pnpm": {
@@ -72,15 +46,85 @@ $ pnpm add -D vitepress vue
 
 :::
 
-创建你的第一篇文档。
+### Setup Wizard
 
-```sh
-$ mkdir docs && echo '# Hello VitePress' > docs/index.md
+VitePress ships with a command line setup wizard that will help you scaffold a basic project. After installation, start the wizard by running:
+
+::: code-group
+
+```sh [npm]
+$ npx vitepress init
 ```
 
-## 步骤 3：启动本地开发环境 {#step-3-boot-up-dev-environment}
+```sh [pnpm]
+$ pnpm exec vitepress init
+```
 
-在 `package.json` 里添加一些脚本。
+:::
+
+You will be greeted with a few simple questions:
+
+<p>
+  <img src="./vitepress-init.png" alt="vitepress init screenshot" style="border-radius:8px">
+</p>
+
+:::tip Vue as Peer Dependency
+If you intend to perform customization that uses Vue components or APIs, you should also explicitly install `vue` as a peer dependency.
+:::
+
+## File Structure
+
+If you are building a standalone VitePress site, you can scaffold the site in your current directory (`./`). However, if you are installing VitePress in an existing project alongside other source code, it is recommended to scaffold the site in a nested directory (e.g. `./docs`) so that it is separate from the rest of the project.
+
+Assuming you chose to scaffold the VitePress project in `./docs`, the generated file structure should look like this:
+
+```
+.
+├─ docs
+│  ├─ .vitepress
+│  │  └─ config.js
+│  ├─ api-examples.md
+│  ├─ markdown-examples.md
+│  └─ index.md
+└─ package.json
+```
+
+The `docs` directory is considered the **project root** of the VitePress site. The `.vitepress` directory is a reserved location for VitePress' config file, dev server cache, build output, and optional theme customization code.
+
+:::tip
+By default, VitePress stores its dev server cache in `.vitepress/cache`, and the production build output in `.vitepress/dist`. If using Git, you should add them to your `.gitignore` file. These locations can also be [configured](/reference/site-config#outdir).
+:::
+
+### The Config File
+
+The config file (`.vitepress/config.js`) allows you to customize various aspects of your VitePress site, with the most basic options being the title and description of the site:
+
+```js
+// .vitepress/config.js
+export default {
+  // site-level options
+  title: 'VitePress',
+  description: 'Just playing around.',
+
+  themeConfig: {
+    // theme-level options
+  }
+}
+```
+
+You can also configure the behavior of the theme via the `themeConfig` option. Consult the [Config Reference](/reference/site-config) for full details on all config options.
+
+### Source Files
+
+Markdown files outside the `.vitepress` directory are considered **source files**.
+
+VitePress uses **file-based routing**: each `.md` file is compiled into a corresponding `.html` file with the same path. For example, `index.md` will be compiled into `index.html`, and can be visited at the root path `/` of the resulting VitePress site.
+
+VitePress also provides the ability to generate clean URLs, rewrite paths, and dynamically generate pages. These will be covered in the [Routing Guide](./routing).
+
+## Up and Running
+
+The tool should have also injected the following npm scripts to your `package.json` if you allowed it to do so during the setup process:
 
 ```json
 {
@@ -88,13 +132,13 @@ $ mkdir docs && echo '# Hello VitePress' > docs/index.md
   "scripts": {
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:serve": "vitepress serve docs"
+    "docs:preview": "vitepress preview docs"
   },
   ...
 }
 ```
 
-在本地启动文档服务。
+The `docs:dev` script will start a local dev server with instant hot updates. Run it with the following command:
 
 ::: code-group
 
@@ -102,42 +146,42 @@ $ mkdir docs && echo '# Hello VitePress' > docs/index.md
 $ npm run docs:dev
 ```
 
-```sh [yarn]
-$ yarn docs:dev
-```
-
 ```sh [pnpm]
 $ pnpm run docs:dev
 ```
 
+```sh [yarn]
+$ yarn docs:dev
+```
+
 :::
 
-VitePress 将在 `http://localhost:5173` 启动一个支持热部署的本地开发服务环境。
+Instead of npm scripts, you can also invoke VitePress directly with:
 
-## 步骤 4：添加更多文档 {#step-4-add-more-pages}
+::: code-group
 
-让我们再添加一个页面，创建一个名为 `getting-started.md` 的文件，与前面创建的 `index.md` 放在同一目录下。现在你的目录结构应该是这样的。
-
-```
-.
-├─ docs
-│  ├─ getting-started.md
-│  └─ index.md
-└─ package.json
+```sh [npm]
+$ npx vitepress dev docs
 ```
 
-接下来，访问 `http://localhost:5173/getting-started.html`，可以看到 `getting-started.md` 的内容。
+```sh [pnpm]
+$ pnpm exec vitepress dev docs
+```
 
-这就是 VitePress 的基本工作方式。目录结构与 URL 路径相对应。你可以添加文件，然后尝试访问它。
+:::
 
-## 下一步? {#what-s-next}
+More command line usage is documented in the [CLI Reference](/reference/cli).
 
-到目前为止，你应该拥有一个基本但功能强大的 VitePress 文档站点。但现在用户还无法浏览该站点，因为它缺少菜单，类似于这个站点上的侧边栏。
+The dev server should be running at `http://localhost:5173`. Visit the URL in your browser to see your new site in action!
 
-要启用这些导航，我们必须向站点添加一些配置。前往[配置指南](./configuration)了解如何配置 VitePress。
+## What's Next?
 
-如果你想了解更多关于可以在页面中执行的操作，例如编写 Markdown 或使用 Vue 组件，请查看文档的“编写”部分。[Markdown 指南](./markdown)将是一个很好的起点。
+- To better understand how markdown files are mapped to generated HTML, proceed to the [Routing Guide](./routing.md).
 
-如果你想了解如何自定义站点外观(主题)，并了解 VitePress 默认主题提供的功能，请访问[主题：简介](./customization-intro)。
+- To discover more about what you can do on the page, such as writing markdown content or using Vue Component, refer to the "Writing" section of the guide. A great place to start would be to learn about [Markdown Extensions](/guide/markdown).
 
-当你的文档站点已经成形准备部署时，请务必阅读[部署指南](./deploying)。
+- To explore the features provided by the default documentation theme, check out the [Default Theme Config Reference](/reference/default-theme-config).
+
+- If you want to further customize the appearance of your site, explore how to either [Extend the Default Theme](./extending-default-theme) or [Build a Custom Theme](./custom-theme).
+
+- Once your documentation site takes shape, make sure to read the [Deployment Guide](./deploy).

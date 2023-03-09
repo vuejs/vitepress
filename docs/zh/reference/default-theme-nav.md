@@ -1,10 +1,10 @@
-# 导航栏 {#nav}
+# Nav
 
-Nav 是显示在页面顶部的导航栏。 它包含站点标题、全局菜单链接等。
+The Nav is the navigation bar displayed on top of the page. It contains the site title, global menu links, etc.
 
-## 站点的标题和 logo {#site-title-and-logo}
+## Site Title and Logo
 
-默认情况下，导航的展示会引用 [`config.title`](../config/app-config#title) 配置的站点标题。如果想更改导航上显示的内容，可以在 `themeConfig.siteTitle` 选项中定义自定义文本。
+By default, nav shows the title of the site referencing [`config.title`](/reference/site-config#title) value. If you would like to change what's displayed on nav, you may define custom text in `themeConfig.siteTitle` option.
 
 ```js
 export default {
@@ -14,7 +14,7 @@ export default {
 }
 ```
 
-可以通过配置 `logo` 来展示站点的 logo，logo 应该直接放在 `public` 中，并定义为绝对路径。
+If you have a logo for your site, you can display it by passing in the path to the image. You should place the logo within `public` directly, and define the absolute path to it.
 
 ```js
 export default {
@@ -24,7 +24,7 @@ export default {
 }
 ```
 
-添加 logo 后将会与站点标题一起显示。如果只想要展示 logo 而隐藏标题，请将 `siteTitle` 设置为 `false`。
+When adding a logo, it gets displayed along with the site title. If your logo is all you need and if you would like to hide the site title text, set `false` to the `siteTitle` option.
 
 ```js
 export default {
@@ -35,27 +35,27 @@ export default {
 }
 ```
 
-如果你想添加 alt 属性或根据黑暗/光明模式定制它，你也可以传递一个对象作为 logo。详情请参见 [`themeConfig.logo`](../config/theme-config#logo)。
+You can also pass an object as logo if you want to add `alt` attribute or customize it based on dark/light mode. Refer [`themeConfig.logo`](/reference/default-theme-config#logo) for details.
 
-## 导航链接 {#navigation-links}
+## Navigation Links
 
-你可以通过定义 `themeConfig.nav` 选项来添加链接到导航。
+You may define `themeConfig.nav` option to add links to your nav.
 
 ```js
 export default {
   themeConfig: {
     nav: [
       { text: 'Guide', link: '/guide' },
-      { text: 'config', link: '/config' },
+      { text: 'Config', link: '/config' },
       { text: 'Changelog', link: 'https://github.com/...' }
     ]
   }
 }
 ```
 
-`text` 是 nav 中显示的实际文本，`link` 是单击文本时将导航到的链接。链接的路径设置为不带 `.md` 前缀的实际文件，并始终以 `/` 开头。
+The `text` is the actual text displayed in nav, and the `link` is the link that will be navigated to when the text is clicked. For the link, set path to the actual file without `.md` prefix, and always start with `/`.
 
-导航链接也可以是下拉菜单。如果要定义为下拉菜单，请在链接选项上设置 `items`。
+Nav links can also be dropdown menus. To do this, set `items` key on link option.
 
 ```js
 export default {
@@ -75,9 +75,9 @@ export default {
 }
 ```
 
-注意，下拉菜单标题 (上例中的 `Dropdown Menu`) 不能配置 `link` 属性，因为它变成了打开下拉对话框的按钮。
+Note that dropdown menu title (`Dropdown Menu` in the above example) can not have `link` property since it becomes a button to open dropdown dialog.
 
-你还可以通过传入更多嵌套项来向下拉菜单项添加子项。
+You may further add "sections" to the dropdown menu items as well by passing in more nested items.
 
 ```js
 export default {
@@ -114,9 +114,9 @@ export default {
 }
 ```
 
-### 自定义链接的“active”状态 {#customize-link-s-active-state}
+### Customize link's "active" state
 
-当页面位于匹配路径下时，导航菜单项将高亮显示。可以通过定义 `activeMatch`，值为字符串类型的正则表达式。
+Nav menu items will be highlighted when the current page is under the matching path. if you would like to customize the path to be matched, define `activeMatch` property and regex as a string value.
 
 ```js
 export default {
@@ -134,8 +134,8 @@ export default {
 }
 ```
 
-::: warning 警告
-`activeMatch` 应为正则表达式字符串，但你必须将其定义为字符串。我们不能在这里使用实际的 RegExp 对象，因为它在构建时不可序列化。
+::: warning
+`activeMatch` is expected to be a regex string, but you must define it as a string. We can't use actual RegExp object here because it isn't serializable during the build time.
 :::
 
 ### Customize link's "target" and "rel" attributes
@@ -157,6 +157,6 @@ export default {
 }
 ```
 
-## 社交链接 {#social-links}
+## Social Links
 
-点击这里查看支持的 [`socialLinks`](../config/theme-config#sociallinks).
+Refer [`socialLinks`](/reference/default-theme-config#sociallinks).
