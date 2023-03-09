@@ -102,7 +102,7 @@ If a component is only used by a few pages, it's recommended to explicitly impor
 
 ```md
 <script setup>
-import CustomComponent from '../components/CustomComponent.vue'
+import CustomComponent from '../../components/CustomComponent.vue'
 </script>
 
 # Docs
@@ -294,7 +294,7 @@ Vitepress currently has SSG support for teleports to body only. For other target
 ```
 
 <script setup>
-import ModalDemo from '../components/ModalDemo.vue'
+import ModalDemo from '../../components/ModalDemo.vue'
 </script>
 
 <style>
