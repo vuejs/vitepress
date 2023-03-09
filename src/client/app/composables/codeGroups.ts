@@ -10,8 +10,13 @@ export function useCodeGroups() {
         const group = el.parentElement?.parentElement
         const i = Array.from(group?.querySelectorAll('input') || []).indexOf(el)
 
+        // This filters out shiki twoslash divs with the `language-id` className.
+        const filtered = Array.from(
+          group?.querySelectorAll('div[class*="language-"]') || []
+        ).filter((val) => !val.className.match('language-id'))
+
         const current = group?.querySelector('div[class*="language-"].active')
-        const next = group?.querySelectorAll('div[class*="language-"]')?.[i]
+        const next = filtered?.[i]
 
         if (current && next && current !== next) {
           current.classList.remove('active')
