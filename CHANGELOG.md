@@ -1,3 +1,23 @@
+# [1.0.0-alpha.51](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.50...v1.0.0-alpha.51) (2023-03-09)
+
+
+### Bug Fixes
+
+* **theme:** align number to code line ([#2044](https://github.com/vuejs/vitepress/issues/2044)) ([27e3adf](https://github.com/vuejs/vitepress/commit/27e3adf8ed888f03466fec2e10bc7589b0d010e8))
+* **theme:** remove log in VPContent ([747a04d](https://github.com/vuejs/vitepress/commit/747a04d3416a4014e46e41ebfdc734643268bc29))
+
+
+### Features
+
+* **theme:** add not-found layout slot ([#2054](https://github.com/vuejs/vitepress/issues/2054)) ([41987b6](https://github.com/vuejs/vitepress/commit/41987b6a880d99e78e48ae3b4a2e6b815e183348))
+
+
+### Performance Improvements
+
+* **a11y:** add aria-label to language button ([#2025](https://github.com/vuejs/vitepress/issues/2025)) ([322c633](https://github.com/vuejs/vitepress/commit/322c633fd0df15b2dfae62b54479d7cdb3255155))
+
+
+
 # [1.0.0-alpha.50](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.49...v1.0.0-alpha.50) (2023-03-07)
 
 
