@@ -39,8 +39,8 @@ function focusOnTargetAnchor({ target }: Event) {
 
 <style scoped>
 .VPSkipLink {
-  top: 8px;
-  left: 8px;
+  inset-block-start: 8px;
+  inset-inline-start: 8px;
   padding: 8px 16px;
   z-index: 999;
   border-radius: 8px;
@@ -53,8 +53,8 @@ function focusOnTargetAnchor({ target }: Event) {
 }
 
 .VPSkipLink:focus {
-  height: auto;
-  width: auto;
+  block-size: auto;
+  inline-size: auto;
   clip: auto;
   clip-path: none;
 }
@@ -65,8 +65,8 @@ function focusOnTargetAnchor({ target }: Event) {
 
 @media (min-width: 1280px) {
   .VPSkipLink {
-    top: 14px;
-    left: 16px;
+    inset-block-start: 14px;
+    inset-inline-start: 16px;
   }
 }
 </style>

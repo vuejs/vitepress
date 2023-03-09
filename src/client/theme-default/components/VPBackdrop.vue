@@ -13,12 +13,9 @@ defineProps<{
 <style scoped>
 .VPBackdrop {
   position: fixed;
-  top: 0;
+  inset-block: 0;
   /*rtl:ignore*/
-  right: 0;
-  bottom: 0;
-  /*rtl:ignore*/
-  left: 0;
+  inset-inline: 0;
   z-index: var(--vp-z-index-backdrop);
   background: var(--vp-backdrop-bg-color);
   transition: opacity 0.5s;

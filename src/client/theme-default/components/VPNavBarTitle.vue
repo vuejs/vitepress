@@ -26,9 +26,9 @@ const { currentLang } = useLangs()
 .title {
   display: flex;
   align-items: center;
-  border-bottom: 1px solid transparent;
-  width: 100%;
-  height: var(--vp-nav-height);
+  border-block-end: 1px solid transparent;
+  inline-size: 100%;
+  block-size: var(--vp-nav-height);
   font-size: 16px;
   font-weight: 600;
   color: var(--vp-c-text-1);
@@ -50,7 +50,7 @@ const { currentLang } = useLangs()
 }
 
 :deep(.logo) {
-  margin-right: 8px;
-  height: 24px;
+  margin-inline-end: 8px;
+  block-size: 24px;
 }
 </style>

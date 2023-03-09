@@ -53,8 +53,8 @@ defineProps<{
   flex-direction: column;
   gap: 2px;
   border-radius: 12px;
-  width: 100%;
-  height: 100%;
+  inline-size: 100%;
+  block-size: 100%;
   overflow: hidden;
 }
 
@@ -63,12 +63,12 @@ defineProps<{
 }
 
 .VPTeamMembersItem.small .data {
-  padding-top: 20px;
+  padding-block-start: 20px;
 }
 
 .VPTeamMembersItem.small .avatar {
-  width: 64px;
-  height: 64px;
+  inline-size: 64px;
+  block-size: 64px;
 }
 
 .VPTeamMembersItem.small .name {
@@ -77,13 +77,13 @@ defineProps<{
 }
 
 .VPTeamMembersItem.small .affiliation {
-  padding-top: 4px;
+  padding-block-start: 4px;
   line-height: 20px;
   font-size: 14px;
 }
 
 .VPTeamMembersItem.small .desc {
-  padding-top: 12px;
+  padding-block-start: 12px;
   line-height: 20px;
   font-size: 14px;
 }
@@ -98,13 +98,13 @@ defineProps<{
 }
 
 .VPTeamMembersItem.medium .data {
-  padding-top: 24px;
+  padding-block-start: 24px;
   text-align: center;
 }
 
 .VPTeamMembersItem.medium .avatar {
-  width: 96px;
-  height: 96px;
+  inline-size: 96px;
+  block-size: 96px;
 }
 
 .VPTeamMembersItem.medium .name {
@@ -114,13 +114,13 @@ defineProps<{
 }
 
 .VPTeamMembersItem.medium .affiliation {
-  padding-top: 4px;
+  padding-block-start: 4px;
   font-size: 16px;
 }
 
 .VPTeamMembersItem.medium .desc {
-  padding-top: 16px;
-  max-width: 288px;
+  padding-block-start: 16px;
+  max-inline-size: 288px;
   font-size: 16px;
 }
 
@@ -141,17 +141,14 @@ defineProps<{
 .avatar {
   position: relative;
   flex-shrink: 0;
-  margin: 0 auto;
+  margin-inline: auto;
   border-radius: 50%;
   box-shadow: var(--vp-shadow-3);
 }
 
 .avatar-img {
   position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  inset: 0;
   border-radius: 50%;
   object-fit: cover;
 }
@@ -162,7 +159,7 @@ defineProps<{
 }
 
 .affiliation {
-  margin:  0;
+  margin: 0;
   font-weight: 500;
   color: var(--vp-c-text-2);
 }
@@ -177,13 +174,13 @@ defineProps<{
 }
 
 .desc {
-  margin: 0 auto;
+  margin-inline: auto;
 }
 
 .links {
   display: flex;
   justify-content: center;
-  height: 56px;
+  block-size: 56px;
 }
 
 .sp-link {
@@ -207,9 +204,9 @@ defineProps<{
 }
 
 .sp-icon {
-  margin-right: 8px;
-  width: 16px;
-  height: 16px;
+  margin-inline-end: 8px;
+  inline-size: 16px;
+  block-size: 16px;
   fill: currentColor;
 }
 </style>

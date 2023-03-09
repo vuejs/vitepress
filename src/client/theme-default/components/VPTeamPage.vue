@@ -6,32 +6,32 @@
 
 <style scoped>
 .VPTeamPage {
-  padding-bottom: 96px;
+  padding-block-end: 96px;
 }
 
 @media (min-width: 768px) {
   .VPTeamPage {
-    padding-bottom: 128px;
+    padding-block-end: 128px;
   }
 }
 
 :slotted(.VPTeamPageSection + .VPTeamPageSection),
 :slotted(.VPTeamMembers + .VPTeamPageSection) {
-  margin-top: 64px;
+  margin-block-start: 64px;
 }
 
 :slotted(.VPTeamMembers + .VPTeamMembers) {
-  margin-top: 24px;
+  margin-block-start: 24px;
 }
 
 @media (min-width: 768px) {
   :slotted(.VPTeamPageTitle + .VPTeamPageSection) {
-    margin-top: 16px;
+    margin-block-start: 16px;
   }
 
   :slotted(.VPTeamPageSection + .VPTeamPageSection),
   :slotted(.VPTeamMembers + .VPTeamPageSection) {
-    margin-top: 96px;
+    margin-block-start: 96px;
   }
 }
 

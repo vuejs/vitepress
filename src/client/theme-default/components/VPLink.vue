@@ -33,10 +33,10 @@ const isExternal = computed(() => props.href && EXTERNAL_URL_RE.test(props.href)
 <style scoped>
 .icon {
   display: inline-block;
-  margin-top: -1px;
-  margin-left: 4px;
-  width: 11px;
-  height: 11px;
+  margin-block-start: -1px;
+  margin-inline-start: 4px;
+  inline-size: 11px;
+  block-size: 11px;
   fill: var(--vp-c-text-3);
   transition: fill 0.25s;
   flex-shrink: 0;

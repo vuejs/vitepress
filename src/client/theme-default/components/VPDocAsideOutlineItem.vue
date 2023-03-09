@@ -26,7 +26,7 @@ defineProps<{
 }
 
 .nested {
-  padding-left: 13px;
+  padding-inline-start: 13px;
 }
 
 .outline-link {
@@ -46,6 +46,6 @@ defineProps<{
 }
 
 .outline-link.nested {
-  padding-left: 13px;
+  padding-inline-start: 13px;
 }
 </style>

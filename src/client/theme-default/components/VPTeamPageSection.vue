@@ -35,17 +35,17 @@
 .title {
   position: relative;
   margin: 0 auto;
-  max-width: 1152px;
+  max-inline-size: 1152px;
   text-align: center;
   color: var(--vp-c-text-2);
 }
 
 .title-line {
   position: absolute;
-  top: 16px;
-  left: 0;
-  width: 100%;
-  height: 1px;
+  inset-block-start: 16px;
+  inset-inline-start: 0;
+  inline-size: 100%;
+  block-size: 1px;
   background-color: var(--vp-c-divider);
 }
 
@@ -61,9 +61,9 @@
 }
 
 .lead {
-  margin: 0 auto;
-  max-width: 480px;
-  padding-top: 12px;
+  margin-inline: auto;
+  max-inline-size: 480px;
+  padding-block-start: 12px;
   text-align: center;
   line-height: 24px;
   font-size: 16px;
@@ -72,6 +72,6 @@
 }
 
 .members {
-  padding-top: 40px;
+  padding-block-start: 40px;
 }
 </style>

@@ -142,13 +142,13 @@ function poll() {
 @media (min-width: 768px) {
   .VPNavBarSearch {
     flex-grow: 1;
-    padding-left: 24px;
+    padding-inline-start: 24px;
   }
 }
 
 @media (min-width: 960px) {
   .VPNavBarSearch {
-    padding-left: 32px;
+    padding-inline-start: 32px;
   }
 }
 
@@ -180,8 +180,8 @@ function poll() {
   align-items: center;
   margin: 0;
   padding: 0;
-  width: 32px;
-  height: 55px;
+  inline-size: 32px;
+  block-size: 55px;
   background: transparent;
   transition: border-color 0.25s;
 }
@@ -205,8 +205,8 @@ function poll() {
     border: 1px solid transparent;
     border-radius: 8px;
     padding: 0 10px 0 12px;
-    width: 100%;
-    height: 40px;
+    inline-size: 100%;
+    block-size: 40px;
     background-color: var(--vp-c-bg-alt);
   }
 
@@ -223,8 +223,8 @@ function poll() {
 
 .DocSearch-Button .DocSearch-Search-Icon {
   position: relative;
-  width: 16px;
-  height: 16px;
+  inline-size: 16px;
+  block-size: 16px;
   color: var(--vp-c-text-1);
   fill: currentColor;
   transition: color 0.5s;
@@ -236,17 +236,17 @@ function poll() {
 
 @media (min-width: 768px) {
   .DocSearch-Button .DocSearch-Search-Icon {
-    top: 1px;
-    margin-right: 8px;
-    width: 14px;
-    height: 14px;
+    inset-block-start: 1px;
+    margin-inline-end: 8px;
+    inline-size: 14px;
+    block-size: 14px;
     color: var(--vp-c-text-2);
   }
 }
 
 .DocSearch-Button .DocSearch-Button-Placeholder {
   display: none;
-  margin-top: 2px;
+  margin-block-start: 2px;
   padding: 0 16px 0 0;
   font-size: 13px;
   font-weight: 500;
@@ -268,7 +268,7 @@ function poll() {
   /*rtl:ignore*/
   direction: ltr;
   display: none;
-  min-width: auto;
+  min-inline-size: auto;
 }
 
 @media (min-width: 768px) {
@@ -283,13 +283,13 @@ function poll() {
   margin: 2px 0 0 0;
   border: 1px solid var(--vp-c-divider);
   /*rtl:begin:ignore*/
-  border-right: none;
+  border-inline-end: none;
   border-radius: 4px 0 0 4px;
-  padding-left: 6px;
+  padding-inline-start: 6px;
   /*rtl:end:ignore*/
-  min-width: 0;
-  width: auto;
-  height: 22px;
+  min-inline-size: 0;
+  inline-size: auto;
+  block-size: 22px;
   line-height: 22px;
   font-family: var(--vp-font-family-base);
   font-size: 12px;
@@ -299,11 +299,11 @@ function poll() {
 
 .DocSearch-Button .DocSearch-Button-Key + .DocSearch-Button-Key {
   /*rtl:begin:ignore*/
-  border-right: 1px solid var(--vp-c-divider);
-  border-left: none;
+  border-inline-end: 1px solid var(--vp-c-divider);
+  border-inline-start: none;
   border-radius: 0 4px 4px 0;
-  padding-left: 2px;
-  padding-right: 6px;
+  padding-inline-start: 2px;
+  padding-inline-end: 6px;
   /*rtl:end:ignore*/
 }
 
@@ -325,7 +325,7 @@ function poll() {
 }
 
 .dark .DocSearch-Footer {
-  border-top: 1px solid var(--vp-c-divider);
+  border-block-start: 1px solid var(--vp-c-divider);
 }
 
 .DocSearch-Form {

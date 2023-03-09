@@ -56,7 +56,7 @@ onMounted(() => {
 }
 
 .title {
-  padding-top: 12px;
+  padding-block-start: 12px;
   letter-spacing: 2px;
   line-height: 20px;
   font-size: 20px;
@@ -65,21 +65,21 @@ onMounted(() => {
 
 .divider {
   margin: 24px auto 18px;
-  width: 64px;
-  height: 1px;
+  inline-size: 64px;
+  block-size: 1px;
   background-color: var(--vp-c-divider);
 }
 
 .quote {
   margin: 0 auto;
-  max-width: 256px;
+  max-inline-size: 256px;
   font-size: 14px;
   font-weight: 500;
   color: var(--vp-c-text-2);
 }
 
 .action {
-  padding-top: 20px;
+  padding-block-start: 20px;
 }
 
 .link {

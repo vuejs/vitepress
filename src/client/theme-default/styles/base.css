@@ -16,9 +16,9 @@ html.dark {
 
 body {
   margin: 0;
-  width: 100%;
-  min-width: 320px;
-  min-height: 100vh;
+  inline-size: 100%;
+  min-inline-size: 320px;
+  min-block-size: 100vb;
   line-height: 24px;
   font-family: var(--vp-font-family-base);
   font-size: 16px;
@@ -124,8 +124,8 @@ figure {
 
 img,
 video {
-  max-width: 100%;
-  height: auto;
+  max-inline-size: 100%;
+  block-size: auto;
 }
 
 button,

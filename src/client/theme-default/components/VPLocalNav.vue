@@ -42,16 +42,16 @@ function scrollToTop() {
 <style scoped>
 .VPLocalNav {
   position: sticky;
-  top: 0;
+  inset-block-start: 0;
   /*rtl:ignore*/
-  left: 0;
+  inset-inline-start: 0;
   z-index: var(--vp-z-index-local-nav);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid var(--vp-c-gutter);
-  padding-top: var(--vp-layout-top-height, 0px);
-  width: 100%;
+  border-block-end: 1px solid var(--vp-c-gutter);
+  padding-block-start: var(--vp-layout-top-height, 0px);
+  inline-size: 100%;
   background-color: var(--vp-local-nav-bg-color);
   transition: border-color 0.5s, background-color 0.5s;
 }
@@ -85,9 +85,9 @@ function scrollToTop() {
 }
 
 .menu-icon {
-  margin-right: 8px;
-  width: 16px;
-  height: 16px;
+  margin-inline-end: 8px;
+  inline-size: 16px;
+  block-size: 16px;
   fill: currentColor;
 }
 

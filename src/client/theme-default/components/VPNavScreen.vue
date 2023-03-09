@@ -43,14 +43,11 @@ function unlockBodyScroll() {
 <style scoped>
 .VPNavScreen {
   position: fixed;
-  top: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 1px);
+  inset-block: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 1px) 0;
   /*rtl:ignore*/
-  right: 0;
-  bottom: 0;
-  /*rtl:ignore*/
-  left: 0;
+  inset-inline: 0;
   padding: 0 32px;
-  width: 100%;
+  inline-size: 100%;
   background-color: var(--vp-nav-screen-bg-color);
   overflow-y: auto;
   transition: background-color 0.5s;
@@ -84,22 +81,22 @@ function unlockBodyScroll() {
 }
 
 .container {
-  margin: 0 auto;
+  margin-inline: auto;
   padding: 24px 0 96px;
-  max-width: 288px;
+  max-inline-size: 288px;
 }
 
 .menu + .translations,
 .menu + .appearance,
 .translations + .appearance {
-  margin-top: 24px;
+  margin-block-start: 24px;
 }
 
 .menu + .social-links {
-  margin-top: 16px;
+  margin-block-start: 16px;
 }
 
 .appearance + .social-links {
-  margin-top: 16px;
+  margin-block-start: 16px;
 }
 </style>

@@ -22,17 +22,16 @@ import VPHomeFeatures from './VPHomeFeatures.vue'
 
 <style scoped>
 .VPHome {
-  padding-bottom: 96px;
+  padding-block-end: 96px;
 }
 
 .VPHome :deep(.VPHomeSponsors) {
-  margin-top: 112px;
-  margin-bottom: -128px;
+  margin-block: 112px -128px;
 }
 
 @media (min-width: 768px) {
   .VPHome {
-    padding-bottom: 128px;
+    padding-block-end: 128px;
   }
 }
 </style>

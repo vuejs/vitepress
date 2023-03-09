@@ -26,10 +26,10 @@ const showModal = ref(false)
 .modal-mask {
   position: fixed;
   z-index: 200;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  inline-size: 100%;
+  block-size: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
@@ -38,7 +38,7 @@ const showModal = ref(false)
 }
 
 .modal-container {
-  width: 300px;
+  inline-size: 300px;
   margin: auto;
   padding: 20px 30px;
   background-color: var(--vp-c-bg);
@@ -48,8 +48,8 @@ const showModal = ref(false)
 }
 
 .model-footer {
-  margin-top: 8px;
-  text-align: right;
+  margin-block-start: 8px;
+  text-align: end;
 }
 
 .modal-button {

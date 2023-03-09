@@ -59,9 +59,9 @@ const classes = computed(() => ({
 <style scoped>
 .VPNavBar {
   position: relative;
-  border-bottom: 1px solid transparent;
+  border-block-end: 1px solid transparent;
   padding: 0 8px 0 24px;
-  height: var(--vp-nav-height);
+  block-size: var(--vp-nav-height);
   transition: border-color 0.5s, background-color 0.5s;
   pointer-events: none;
 }
@@ -92,8 +92,8 @@ const classes = computed(() => ({
   display: flex;
   justify-content: space-between;
   margin: 0 auto;
-  max-width: calc(var(--vp-layout-max-width) - 64px);
-  height: var(--vp-nav-height);
+  max-inline-size: calc(var(--vp-layout-max-width) - 64px);
+  block-size: var(--vp-nav-height);
   pointer-events: none;
 }
 
@@ -103,33 +103,33 @@ const classes = computed(() => ({
 
 @media (min-width: 960px) {
   .VPNavBar.has-sidebar .container {
-    max-width: 100%;
+    max-inline-size: 100%;
   }
 }
 
 .title {
   flex-shrink: 0;
-  height: calc(var(--vp-nav-height) - 1px);
+  block-size: calc(var(--vp-nav-height) - 1px);
   transition: background-color 0.5s;
 }
 
 @media (min-width: 960px) {
   .VPNavBar.has-sidebar .title {
     position: absolute;
-    top: 0;
-    left: 0;
+    inset-block-start: 0;
+    inset-inline-start: 0;
     z-index: 2;
     padding: 0 32px;
-    width: var(--vp-sidebar-width);
-    height: var(--vp-nav-height);
+    inline-size: var(--vp-sidebar-width);
+    block-size: var(--vp-nav-height);
     background-color: transparent;
   }
 }
 
 @media (min-width: 1440px) {
   .VPNavBar.has-sidebar .title {
-    padding-left: max(32px, calc((100% - (var(--vp-layout-max-width) - 64px)) / 2));
-    width: calc((100% - (var(--vp-layout-max-width) - 64px)) / 2 + var(--vp-sidebar-width) - 32px);
+    padding-inline-start: max(32px, calc((100% - (var(--vp-layout-max-width) - 64px)) / 2));
+    inline-size: calc((100% - (var(--vp-layout-max-width) - 64px)) / 2 + var(--vp-sidebar-width) - 32px);
   }
 }
 
@@ -141,15 +141,13 @@ const classes = computed(() => ({
   .VPNavBar.has-sidebar .content {
     position: relative;
     z-index: 1;
-    padding-right: 32px;
-    padding-left: var(--vp-sidebar-width);
+    padding-inline: var(--vp-sidebar-width) 32px;
   }
 }
 
 @media (min-width: 1440px) {
   .VPNavBar.has-sidebar .content {
-    padding-right: calc((100vw - var(--vp-layout-max-width)) / 2 + 32px);
-    padding-left: calc((100vw - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));
+    padding-inline: calc((100vi - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width)) calc((100vi - var(--vp-layout-max-width)) / 2 + 32px);
   }
 }
 
@@ -157,7 +155,7 @@ const classes = computed(() => ({
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  height: calc(var(--vp-nav-height) - 1px);
+  block-size: calc(var(--vp-nav-height) - 1px);
   transition: background-color 0.5s;
 }
 
@@ -174,40 +172,39 @@ const classes = computed(() => ({
 .menu + .social-links::before,
 .translations + .appearance::before,
 .appearance + .social-links::before {
-  margin-right: 8px;
-  margin-left: 8px;
-  width: 1px;
-  height: 24px;
+  margin-inline: 8px;
+  inline-size: 1px;
+  block-size: 24px;
   background-color: var(--vp-c-divider);
   content: "";
 }
 
 .menu + .appearance::before,
 .translations + .appearance::before {
-  margin-right: 16px;
+  margin-inline-end: 16px;
 }
 
 .appearance + .social-links::before {
-  margin-left: 16px;
+  margin-inline-start: 16px;
 }
 
 .social-links {
-  margin-right: -8px;
+  margin-inline-end: -8px;
 }
 
 @media (min-width: 960px) {
   .VPNavBar.has-sidebar .curtain {
     position: absolute;
-    right: 0;
-    bottom: -31px;
-    width: calc(100% - var(--vp-sidebar-width));
-    height: 32px;
+    inset-inline-end: 0;
+    inset-block-end: -31px;
+    inline-size: calc(100% - var(--vp-sidebar-width));
+    block-size: 32px;
   }
 
   .VPNavBar.has-sidebar .curtain::before {
     display: block;
-    width: 100%;
-    height: 32px;
+    inline-size: 100%;
+    block-size: 32px;
     background: linear-gradient(var(--vp-c-bg), transparent 70%);
     content: "";
   }
@@ -215,7 +212,7 @@ const classes = computed(() => ({
 
 @media (min-width: 1440px) {
   .VPNavBar.has-sidebar .curtain {
-    width: calc(100% - ((100vw - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width)));
+    inline-size: calc(100% - ((100vi - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width)));
   }
 }
 </style>

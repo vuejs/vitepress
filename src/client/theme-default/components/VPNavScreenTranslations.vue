@@ -35,12 +35,12 @@ function toggle() {
 
 <style scoped>
 .VPNavScreenTranslations {
-  height: 24px;
+  block-size: 24px;
   overflow: hidden;
 }
 
 .VPNavScreenTranslations.open {
-  height: auto;
+  block-size: auto;
 }
 
 .title {
@@ -52,17 +52,17 @@ function toggle() {
 }
 
 .icon {
-  width: 16px;
-  height: 16px;
+  inline-size: 16px;
+  block-size: 16px;
   fill: currentColor;
 }
 
 .icon.lang {
-  margin-right: 8px;
+  margin-inline-end: 8px;
 }
 
 .icon.chevron {
-  margin-left: 4px;
+  margin-inline-start: 4px;
 }
 
 .list {

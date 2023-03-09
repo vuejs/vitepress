@@ -48,33 +48,33 @@ defineProps<{
 
 <style scoped>
 .VPHomeSponsors {
-  border-top: 1px solid var(--vp-c-gutter);
+  border-block-start: 1px solid var(--vp-c-gutter);
   padding: 88px 24px 96px;
   background-color: var(--vp-c-bg);
 }
 
 .container {
-  margin: 0 auto;
-  max-width: 1152px;
+  margin-inline: auto;
+  max-inline-size: 1152px;
 }
 
 .love {
-  margin: 0 auto;
-  width: 28px;
-  height: 28px;
+  margin-inline: auto;
+  inline-size: 28px;
+  block-size: 28px;
   color: var(--vp-c-text-3);
 }
 
 .icon {
-  width: 28px;
-  height: 28px;
+  inline-size: 28px;
+  block-size: 28px;
   fill: currentColor;
 }
 
 .message {
-  margin: 0 auto;
-  padding-top: 10px;
-  max-width: 320px;
+  margin-inline: auto;
+  padding-block-start: 10px;
+  max-inline-size: 320px;
   text-align: center;
   line-height: 24px;
   font-size: 16px;
@@ -83,11 +83,11 @@ defineProps<{
 }
 
 .sponsors {
-  padding-top: 32px;
+  padding-block-start: 32px;
 }
 
 .action {
-  padding-top: 40px;
+  padding-block-start: 40px;
   text-align: center;
 }
 </style>

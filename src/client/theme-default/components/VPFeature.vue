@@ -41,7 +41,7 @@ defineProps<{
   display: block;
   border: 1px solid var(--vp-c-bg-soft);
   border-radius: 12px;
-  height: 100%;
+  block-size: 100%;
   background-color: var(--vp-c-bg-soft);
   transition: border-color 0.25s, background-color 0.25s;
 }
@@ -55,24 +55,24 @@ defineProps<{
   display: flex;
   flex-direction: column;
   padding: 24px;
-  height: 100%;
+  block-size: 100%;
 }
 
 .VPFeature:deep(.VPImage) {
-  width: 48px;
-  height: 48px;
-  margin-bottom: 20px;
+  inline-size: 48px;
+  block-size: 48px;
+  margin-block-end: 20px;
 }
 
 .icon {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+  margin-block-end: 20px;
   border-radius: 6px;
   background-color: var(--vp-c-bg-soft-down);
-  width: 48px;
-  height: 48px;
+  inline-size: 48px;
+  block-size: 48px;
   font-size: 24px;
   transition: background-color 0.25s;
 }
@@ -85,7 +85,7 @@ defineProps<{
 
 .details {
   flex-grow: 1;
-  padding-top: 8px;
+  padding-block-start: 8px;
   line-height: 24px;
   font-size: 14px;
   font-weight: 500;
@@ -93,7 +93,7 @@ defineProps<{
 }
 
 .link-text {
-  padding-top: 8px;
+  padding-block-start: 8px;
 }
 
 .link-text-value {
@@ -106,9 +106,9 @@ defineProps<{
 
 .link-text-icon {
   display: inline-block;
-  margin-left: 6px;
-  width: 14px;
-  height: 14px;
+  margin-inline-start: 6px;
+  inline-size: 14px;
+  block-size: 14px;
   fill: currentColor;
 }
 </style>

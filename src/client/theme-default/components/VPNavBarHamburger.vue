@@ -31,8 +31,8 @@ defineEmits<{
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 48px;
-  height: var(--vp-nav-height);
+  inline-size: 48px;
+  block-size: var(--vp-nav-height);
 }
 
 @media (min-width: 768px) {
@@ -43,18 +43,18 @@ defineEmits<{
 
 .container {
   position: relative;
-  width: 16px;
-  height: 14px;
+  inline-size: 16px;
+  block-size: 14px;
   overflow: hidden;
 }
 
-.VPNavBarHamburger:hover .top    { top: 0; left: 0; transform: translateX(4px); }
-.VPNavBarHamburger:hover .middle { top: 6px; left: 0; transform: translateX(0); }
-.VPNavBarHamburger:hover .bottom { top: 12px; left: 0; transform: translateX(8px); }
+.VPNavBarHamburger:hover .top    { inset-block-start: 0; inset-inline-start: 0; transform: translateX(4px); }
+.VPNavBarHamburger:hover .middle { inset-block-start: 6px; inset-inline-start: 0; transform: translateX(0); }
+.VPNavBarHamburger:hover .bottom { inset-block-start: 12px; inset-inline-start: 0; transform: translateX(8px); }
 
-.VPNavBarHamburger.active .top    { top: 6px; transform: translateX(0) rotate(225deg); }
-.VPNavBarHamburger.active .middle { top: 6px; transform: translateX(16px); }
-.VPNavBarHamburger.active .bottom { top: 6px; transform: translateX(0) rotate(135deg); }
+.VPNavBarHamburger.active .top    { inset-block-start: 6px; transform: translateX(0) rotate(225deg); }
+.VPNavBarHamburger.active .middle { inset-block-start: 6px; transform: translateX(16px); }
+.VPNavBarHamburger.active .bottom { inset-block-start: 6px; transform: translateX(0) rotate(135deg); }
 
 .VPNavBarHamburger.active:hover .top,
 .VPNavBarHamburger.active:hover .middle,
@@ -67,13 +67,13 @@ defineEmits<{
 .middle,
 .bottom {
   position: absolute;
-  width: 16px;
-  height: 2px;
+  inline-size: 16px;
+  block-size: 2px;
   background-color: var(--vp-c-text-1);
   transition: top .25s, background-color .5s, transform .25s;
 }
 
-.top    { top: 0; left: 0; transform: translateX(0); }
-.middle { top: 6px; left: 0; transform: translateX(8px); }
-.bottom { top: 12px; left: 0; transform: translateX(4px); }
+.top    { inset-block-start: 0; inset-inline-start: 0; transform: translateX(0); }
+.middle { inset-block-start: 6px; inset-inline-start: 0; transform: translateX(8px); }
+.bottom { inset-block-start: 12px; inset-inline-start: 0; transform: translateX(4px); }
 </style>

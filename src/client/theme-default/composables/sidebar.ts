@@ -31,7 +31,7 @@ export interface SidebarControl {
 export function useSidebar() {
   const route = useRoute()
   const { theme, frontmatter } = useData()
-  const is960 = useMediaQuery('(min-width: 960px)')
+  const is960 = useMediaQuery('(min-inline-size: 960px)')
 
   const isOpen = ref(false)
 

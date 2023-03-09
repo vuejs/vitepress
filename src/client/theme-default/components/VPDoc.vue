@@ -53,7 +53,7 @@ const pageName = computed(() =>
 <style scoped>
 .VPDoc {
   padding: 32px 24px 96px;
-  width: 100%;
+  inline-size: 100%;
 }
 
 @media (min-width: 768px) {
@@ -70,11 +70,11 @@ const pageName = computed(() =>
   .VPDoc:not(.has-sidebar) .container {
     display: flex;
     justify-content: center;
-    max-width: 992px;
+    max-inline-size: 992px;
   }
 
   .VPDoc:not(.has-sidebar) .content {
-    max-width: 752px;
+    max-inline-size: 752px;
   }
 }
 
@@ -91,17 +91,17 @@ const pageName = computed(() =>
 
 @media (min-width: 1440px) {
   .VPDoc:not(.has-sidebar) .content {
-    max-width: 784px;
+    max-inline-size: 784px;
   }
 
   .VPDoc:not(.has-sidebar) .container {
-    max-width: 1104px;
+    max-inline-size: 1104px;
   }
 }
 
 .container {
-  margin: 0 auto;
-  width: 100%;
+  margin-inline: auto;
+  inline-size: 100%;
 }
 
 .aside {
@@ -109,17 +109,17 @@ const pageName = computed(() =>
   display: none;
   order: 2;
   flex-grow: 1;
-  padding-left: 32px;
-  width: 100%;
-  max-width: 256px;
+  padding-inline-start: 32px;
+  inline-size: 100%;
+  max-inline-size: 256px;
 }
 
 .aside-container {
   position: sticky;
-  top: 0;
-  margin-top: calc((var(--vp-nav-height) + var(--vp-layout-top-height, 0px)) * -1 - 32px);
-  padding-top: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 32px);
-  height: 100vh;
+  inset-block-start: 0;
+  margin-block-start: calc((var(--vp-nav-height) + var(--vp-layout-top-height, 0px)) * -1 - 32px);
+  padding-block-start: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 32px);
+  block-size: 100vb;
   overflow-x: hidden;
   overflow-y: auto;
   scrollbar-width: none;
@@ -131,24 +131,24 @@ const pageName = computed(() =>
 
 .aside-curtain {
   position: fixed;
-  bottom: 0;
+  inset-block-end: 0;
   z-index: 10;
-  width: 224px;
-  height: 32px;
+  inline-size: 224px;
+  block-size: 32px;
   background: linear-gradient(transparent, var(--vp-c-bg) 70%);
 }
 
 .aside-content {
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - (var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 32px));
-  padding-bottom: 32px;
+  min-block-size: calc(100vb - (var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 32px));
+  padding-block-end: 32px;
 }
 
 .content {
   position: relative;
   margin: 0 auto;
-  width: 100%;
+  inline-size: 100%;
 }
 
 @media (min-width: 960px) {
@@ -161,15 +161,15 @@ const pageName = computed(() =>
   .content {
     order: 1;
     margin: 0;
-    min-width: 640px;
+    min-inline-size: 640px;
   }
 }
 
 .content-container {
-  margin: 0 auto;
+  margin-inline: auto;
 }
 
 .VPDoc.has-aside .content-container {
-  max-width: 688px;
+  max-inline-size: 688px;
 }
 </style>

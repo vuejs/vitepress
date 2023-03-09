@@ -84,6 +84,6 @@ provide('hero-image-slot-exists', heroImageSlotExists)
 .Layout {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-block-size: 100vb;
 }
 </style>

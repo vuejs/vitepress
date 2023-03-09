@@ -58,11 +58,11 @@ const showFooter = computed(() => {
 
 <style scoped>
 .VPDocFooter {
-  margin-top: 64px;
+  margin-block-start: 64px;
 }
 
 .edit-info {
-  padding-bottom: 18px;
+  padding-block-end: 18px;
 }
 
 @media (min-width: 640px) {
@@ -70,7 +70,7 @@ const showFooter = computed(() => {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 14px;
+    padding-block-end: 14px;
   }
 }
 
@@ -90,15 +90,15 @@ const showFooter = computed(() => {
 }
 
 .edit-link-icon {
-  margin-right: 8px;
-  width: 14px;
-  height: 14px;
+  margin-inline-end: 8px;
+  inline-size: 14px;
+  block-size: 14px;
   fill: currentColor;
 }
 
 .prev-next {
-  border-top: 1px solid var(--vp-c-divider);
-  padding-top: 24px;
+  border-block-start: 1px solid var(--vp-c-divider);
+  padding-block-start: 24px;
 }
 
 @media (min-width: 640px) {
@@ -108,7 +108,7 @@ const showFooter = computed(() => {
 }
 
 .pager.has-prev {
-  padding-top: 8px;
+  padding-block-start: 8px;
 }
 
 @media (min-width: 640px) {
@@ -116,12 +116,12 @@ const showFooter = computed(() => {
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
-    width: 50%;
+    inline-size: 50%;
   }
 
   .pager.has-prev {
-    padding-top: 0;
-    padding-left: 16px;
+    padding-block-start: 0;
+    padding-inline-start: 16px;
   }
 }
 
@@ -130,8 +130,8 @@ const showFooter = computed(() => {
   border: 1px solid var(--vp-c-divider);
   border-radius: 8px;
   padding: 11px 16px 13px;
-  width: 100%;
-  height: 100%;
+  inline-size: 100%;
+  block-size: 100%;
   transition: border-color 0.25s;
 }
 
@@ -140,8 +140,8 @@ const showFooter = computed(() => {
 }
 
 .pager-link.next {
-  margin-left: auto;
-  text-align: right;
+  margin-inline-start: auto;
+  text-align: end;
 }
 
 .desc {

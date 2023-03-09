@@ -44,8 +44,8 @@
 
 .lead {
   margin: 0 auto;
-  max-width: 512px;
-  padding-top: 12px;
+  max-inline-size: 512px;
+  padding-block-start: 12px;
   line-height: 24px;
   font-size: 16px;
   font-weight: 500;
@@ -54,7 +54,7 @@
 
 @media (min-width: 768px) {
   .lead {
-    max-width: 592px;
+    max-inline-size: 592px;
     letter-spacing: 0.15px;
     line-height: 28px;
     font-size: 20px;

@@ -60,7 +60,7 @@ if (carbonOptions) {
   align-items: center;
   padding: 24px;
   border-radius: 12px;
-  min-height: 256px;
+  min-block-size: 256px;
   text-align: center;
   line-height: 18px;
   font-size: 12px;
@@ -76,7 +76,7 @@ if (carbonOptions) {
 .VPCarbonAds :deep(.carbon-text) {
   display: block;
   margin: 0 auto;
-  padding-top: 12px;
+  padding-block-start: 12px;
   color: var(--vp-carbon-ads-text-color);
   transition: color 0.25s;
 }
@@ -87,7 +87,7 @@ if (carbonOptions) {
 
 .VPCarbonAds :deep(.carbon-poweredby) {
   display: block;
-  padding-top: 6px;
+  padding-block-start: 6px;
   font-size: 11px;
   font-weight: 500;
   color: var(--vp-carbon-ads-poweredby-color);

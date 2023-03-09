@@ -27,7 +27,7 @@ const { page } = useData()
 <style scoped>
 .VPMenuGroup + .VPMenuLink {
   margin: 12px -12px 0;
-  border-top: 1px solid var(--vp-c-divider);
+  border-block-start: 1px solid var(--vp-c-divider);
   padding: 12px 12px 0;
 }
 

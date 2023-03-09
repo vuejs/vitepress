@@ -30,8 +30,8 @@ const svg = computed(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 36px;
-  height: 36px;
+  inline-size: 36px;
+  block-size: 36px;
   color: var(--vp-c-text-2);
   transition: color 0.5s;
 }
@@ -42,8 +42,8 @@ const svg = computed(() => {
 }
 
 .VPSocialLink > :deep(svg) {
-  width: 20px;
-  height: 20px;
+  inline-size: 20px;
+  block-size: 20px;
   fill: currentColor;
 }
 </style>

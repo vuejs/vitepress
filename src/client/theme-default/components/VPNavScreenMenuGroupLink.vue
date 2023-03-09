@@ -19,7 +19,7 @@ const closeScreen = inject('close-screen') as () => void
 <style scoped>
 .VPNavScreenMenuGroupLink {
   display: block;
-  margin-left: 12px;
+  margin-inline-start: 12px;
   line-height: 32px;
   font-size: 14px;
   font-weight: 400;

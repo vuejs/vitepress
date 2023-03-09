@@ -91,7 +91,7 @@ function onBlur() {
   display: flex;
   align-items: center;
   padding: 0 12px;
-  height: var(--vp-nav-height);
+  block-size: var(--vp-nav-height);
   color: var(--vp-c-text-1);
   transition: color 0.5s;
 }
@@ -107,30 +107,30 @@ function onBlur() {
 }
 
 .option-icon {
-  margin-right: 0px;
-  width: 16px;
-  height: 16px;
+  margin-inline-end: 0;
+  inline-size: 16px;
+  block-size: 16px;
   fill: currentColor;
 }
 
 .text-icon {
-  margin-left: 4px;
-  width: 14px;
-  height: 14px;
+  margin-inline-start: 4px;
+  inline-size: 14px;
+  block-size: 14px;
   fill: currentColor;
 }
 
 .icon {
-  width: 20px;
-  height: 20px;
+  inline-size: 20px;
+  block-size: 20px;
   fill: currentColor;
   transition: fill 0.25s;
 }
 
 .menu {
   position: absolute;
-  top: calc(var(--vp-nav-height) / 2 + 20px);
-  right: 0;
+  inset-block-start: calc(var(--vp-nav-height) / 2 + 20px);
+  inset-inline-end: 0;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.25s, visibility 0.25s, transform 0.25s;

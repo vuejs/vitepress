@@ -60,7 +60,7 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
 
 <style scoped>
 .VPHero {
-  margin-top: calc((var(--vp-nav-height) + var(--vp-layout-top-height, 0px)) * -1);
+  margin-block-start: calc((var(--vp-nav-height) + var(--vp-layout-top-height, 0px)) * -1);
   padding: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 48px) 24px 48px;
 }
 
@@ -80,7 +80,7 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  max-width: 1152px;
+  max-inline-size: 1152px;
 }
 
 @media (min-width: 960px) {
@@ -103,24 +103,24 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
 
 @media (min-width: 960px) {
   .VPHero.has-image .container {
-    text-align: left;
+    text-align: start;
   }
 }
 
 @media (min-width: 960px) {
   .main {
     order: 1;
-    width: calc((100% / 3) * 2);
+    inline-size: calc((100% / 3) * 2);
   }
 
   .VPHero.has-image .main {
-    max-width: 592px;
+    max-inline-size: 592px;
   }
 }
 
 .name,
 .text {
-  max-width: 392px;
+  max-inline-size: 392px;
   letter-spacing: -0.4px;
   line-height: 40px;
   font-size: 32px;
@@ -147,7 +147,7 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
 @media (min-width: 640px) {
   .name,
   .text {
-    max-width: 576px;
+    max-inline-size: 576px;
     line-height: 56px;
     font-size: 48px;
   }
@@ -167,8 +167,8 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
 }
 
 .tagline {
-  padding-top: 8px;
-  max-width: 392px;
+  padding-block-start: 8px;
+  max-inline-size: 392px;
   line-height: 28px;
   font-size: 18px;
   font-weight: 500;
@@ -182,8 +182,8 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
 
 @media (min-width: 640px) {
   .tagline {
-    padding-top: 12px;
-    max-width: 576px;
+    padding-block-start: 12px;
+    max-inline-size: 576px;
     line-height: 32px;
     font-size: 20px;
   }
@@ -204,7 +204,7 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
   display: flex;
   flex-wrap: wrap;
   margin: -6px;
-  padding-top: 24px;
+  padding-block-start: 24px;
 }
 
 .VPHero.has-image .actions {
@@ -213,7 +213,7 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
 
 @media (min-width: 640px) {
   .actions {
-    padding-top: 32px;
+    padding-block-start: 32px;
   }
 }
 
@@ -250,15 +250,15 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
 
 .image-container {
   position: relative;
-  margin: 0 auto;
-  width: 320px;
-  height: 320px;
+  margin-inline: auto;
+  inline-size: 320px;
+  block-size: 320px;
 }
 
 @media (min-width: 640px) {
   .image-container {
-    width: 392px;
-    height: 392px;
+    inline-size: 392px;
+    block-size: 392px;
   }
 }
 
@@ -267,8 +267,8 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 100%;
+    inline-size: 100%;
+    block-size: 100%;
     /*rtl:ignore*/
     transform: translate(-32px, -32px);
   }
@@ -276,12 +276,12 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
 
 .image-bg {
   position: absolute;
-  top: 50%;
+  inset-block-start: 50%;
   /*rtl:ignore*/
-  left: 50%;
+  inset-inline-start: 50%;
   border-radius: 50%;
-  width: 192px;
-  height: 192px;
+  inline-size: 192px;
+  block-size: 192px;
   background-image: var(--vp-home-hero-image-background-image);
   filter: var(--vp-home-hero-image-filter);
   /*rtl:ignore*/
@@ -290,40 +290,40 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
 
 @media (min-width: 640px) {
   .image-bg {
-    width: 256px;
-    height: 256px;
+    inline-size: 256px;
+    block-size: 256px;
   }
 }
 
 @media (min-width: 960px) {
   .image-bg {
-    width: 320px;
-    height: 320px;
+    inline-size: 320px;
+    block-size: 320px;
   }
 }
 
 :deep(.image-src) {
   position: absolute;
-  top: 50%;
+  inset-block-start: 50%;
   /*rtl:ignore*/
-  left: 50%;
-  max-width: 192px;
-  max-height: 192px;
+  inset-inline-start: 50%;
+  max-inline-size: 192px;
+  max-block-size: 192px;
   /*rtl:ignore*/
   transform: translate(-50%, -50%);
 }
 
 @media (min-width: 640px) {
   :deep(.image-src) {
-    max-width: 256px;
-    max-height: 256px;
+    max-inline-size: 256px;
+    max-block-size: 256px;
   }
 }
 
 @media (min-width: 960px) {
   :deep(.image-src) {
-    max-width: 320px;
-    max-height: 320px;
+    max-inline-size: 320px;
+    max-block-size: 320px;
   }
 }
 </style>

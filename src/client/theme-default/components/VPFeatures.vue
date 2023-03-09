@@ -75,7 +75,7 @@ const grid = computed(() => {
 
 .container {
   margin: 0 auto;
-  max-width: 1152px;
+  max-inline-size: 1152px;
 }
 
 .items {
@@ -86,32 +86,32 @@ const grid = computed(() => {
 
 .item {
   padding: 8px;
-  width: 100%;
+  inline-size: 100%;
 }
 
 @media (min-width: 640px) {
   .item.grid-2,
   .item.grid-4,
   .item.grid-6 {
-    width: calc(100% / 2);
+    inline-size: calc(100% / 2);
   }
 }
 
 @media (min-width: 768px) {
   .item.grid-2,
   .item.grid-4 {
-    width: calc(100% / 2);
+    inline-size: calc(100% / 2);
   }
 
   .item.grid-3,
   .item.grid-6 {
-    width: calc(100% / 3);
+    inline-size: calc(100% / 3);
   }
 }
 
 @media (min-width: 960px) {
   .item.grid-4 {
-    width: calc(100% / 4);
+    inline-size: calc(100% / 4);
   }
 }
 </style>
