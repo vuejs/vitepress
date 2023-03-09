@@ -8,8 +8,6 @@ import NotFound from '../NotFound.vue'
 
 const { page, frontmatter } = useData()
 const { hasSidebar } = useSidebar()
-
-console.log(page.value)
 </script>
 
 <template>
