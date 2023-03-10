@@ -1,21 +1,23 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { ref, shallowRef } from 'vue'
 import { useData } from '../composables/data.js'
 import {
-  resolveHeaders,
-  useActiveAnchor
+  getHeaders,
+  useActiveAnchor,
+  type MenuItem
 } from '../composables/outline.js'
 import VPDocAsideOutlineItem from './VPDocAsideOutlineItem.vue'
+import { onContentUpdated } from 'vitepress'
 
-const { frontmatter, page, theme } = useData()
+const { frontmatter, theme } = useData()
 
-const headers = computed(() => {
-  return resolveHeaders(
-    page.value.headers,
+const headers = shallowRef<MenuItem[]>([])
+
+onContentUpdated(() => {
+  headers.value = getHeaders(
     frontmatter.value.outline ?? theme.value.outline
   )
 })
-const hasOutline = computed(() => headers.value.length > 0)
 
 const container = ref()
 const marker = ref()
@@ -32,7 +34,7 @@ function handleClick({ target: el }: Event) {
 </script>
 
 <template>
-  <div class="VPDocAsideOutline" :class="{ 'has-outline': hasOutline }" ref="container">
+  <div class="VPDocAsideOutline" :class="{ 'has-outline': headers.length > 0 }" ref="container">
     <div class="content">
       <div class="outline-marker" ref="marker" />
 

@@ -11,10 +11,25 @@ export type MenuItem = Omit<Header, 'slug' | 'children'> & {
   children?: MenuItem[]
 }
 
+export function getHeaders(range?: DefaultTheme.Config['outline']) {
+  const headers = [...document.querySelectorAll('.VPDoc h2,h3,h4,h5,h6')]
+    .filter((el) => el.id && el.firstChild && el.firstChild.nodeType === 3)
+    .map((el) => {
+      const level = Number(el.tagName[1])
+      return {
+        title: (el.firstChild as Text).data.trim(),
+        link: '#' + el.id,
+        level
+      }
+    })
+
+  return resolveHeaders(headers, range)
+}
+
 export function resolveHeaders(
   headers: MenuItem[],
   range?: DefaultTheme.Config['outline']
-) {
+): MenuItem[] {
   if (range === false) {
     return []
   }
@@ -24,43 +39,33 @@ export function resolveHeaders(
       ? range.level
       : range) || 2
 
-  const levels: [number, number] =
+  const [high, low]: [number, number] =
     typeof levelsRange === 'number'
       ? [levelsRange, levelsRange]
       : levelsRange === 'deep'
       ? [2, 6]
       : levelsRange
 
-  const isInRange = (h: MenuItem): boolean =>
-    h.level >= levels[0] && h.level <= levels[1]
+  headers = headers.filter((h) => h.level >= high && h.level <= low)
 
-  return filterHeaders(headers, isInRange)
-}
-
-function filterHeaders(
-  headers: MenuItem[],
-  isInRange: (h: MenuItem) => boolean
-) {
-  const result: MenuItem[] = []
-
-  headers = headers.map((h) => ({ ...h }))
-  headers.forEach((h) => {
-    if (isInRange(h)) {
-      if (h.children) {
-        const filteredChildren = filterHeaders(h.children, isInRange)
-        if (filteredChildren.length) {
-          h.children = filteredChildren
-        } else {
-          delete h.children
+  const ret: MenuItem[] = []
+  outer: for (let i = 0; i < headers.length; i++) {
+    const cur = headers[i]
+    if (i === 0) {
+      ret.push(cur)
+    } else {
+      for (let j = i - 1; j >= 0; j--) {
+        const prev = headers[j]
+        if (prev.level < cur.level) {
+          ;(prev.children || (prev.children = [])).push(cur)
+          continue outer
         }
       }
-      result.push(h)
-    } else if (h.children) {
-      result.push(...filterHeaders(h.children, isInRange))
+      ret.push(cur)
     }
-  })
+  }
 
-  return result
+  return ret
 }
 
 export function useActiveAnchor(
