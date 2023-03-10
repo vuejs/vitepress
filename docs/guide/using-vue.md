@@ -53,7 +53,7 @@ const count = ref(0)
 
 The count is: {{ count }}
 
-<button :class="$style.module" @click="count++">Increment</button>
+<button :class="$style.button" @click="count++">Increment</button>
 
 <style module>
 .button {
