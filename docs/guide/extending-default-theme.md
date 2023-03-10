@@ -53,6 +53,32 @@ export default {
 
 Since we are using Vite, you can also leverage Vite's [glob import feature](https://vitejs.dev/guide/features.html#glob-import) to auto register a directory of components.
 
+## Overriding Internal Components
+
+You can use Vite's [aliases](https://vitejs.dev/config/shared-options.html#resolve-alias) to replace certain components with your custom ones:
+
+```ts
+import { fileURLToPath, URL } from 'node:url'
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  vite: {
+    resolve: {
+      alias: [
+        {
+          find: /^.*\/VPNavBar\.vue$/,
+          replacement: fileURLToPath(
+            new URL('./components/CustomNavBar.vue', import.meta.url)
+          )
+        }
+      ]
+    }
+  }
+})
+```
+
+To know the exact name of the component refer [our source code](https://github.com/vuejs/vitepress/tree/main/src/client/theme-default/components). Since the components are internal, there is a slight change their name is updated between minor releases.
+
 ## Layout Slots
 
 The default theme's `<Layout/>` component has a few slots that can be used to inject content at certain locations of the page. Here's an example of injecting a component into the before outline:
