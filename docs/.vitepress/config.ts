@@ -15,9 +15,7 @@ export default defineConfig({
   head: [['meta', { name: 'theme-color', content: '#3c8772' }]],
 
   markdown: {
-    headers: {
-      level: [0, 0]
-    }
+    headers: false
   },
 
   themeConfig: {
