@@ -136,23 +136,28 @@ export async function highlight(
       return s
     }
 
+    const fillEmptyHighlightedLine = (s: string) => {
+      return s.replace(
+        /(<span class="line highlighted">)(<\/span>)/g,
+        '$1<wbr>$2'
+      )
+    }
+
     str = removeMustache(str)
 
     const codeToHtml = (theme: IThemeRegistration) => {
-      return cleanup(
-        restoreMustache(
-          lang === 'ansi'
-            ? highlighter.ansiToHtml(str, {
-                lineOptions,
-                theme: getThemeName(theme)
-              })
-            : highlighter.codeToHtml(str, {
-                lang,
-                lineOptions,
-                theme: getThemeName(theme)
-              })
-        )
-      )
+      const res =
+        lang === 'ansi'
+          ? highlighter.ansiToHtml(str, {
+              lineOptions,
+              theme: getThemeName(theme)
+            })
+          : highlighter.codeToHtml(str, {
+              lang,
+              lineOptions,
+              theme: getThemeName(theme)
+            })
+      return fillEmptyHighlightedLine(cleanup(restoreMustache(res)))
     }
 
     if (hasSingleTheme) return codeToHtml(theme)
