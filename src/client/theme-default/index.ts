@@ -12,6 +12,9 @@ import type { Theme } from 'vitepress'
 import VPBadge from './components/VPBadge.vue'
 import Layout from './Layout.vue'
 
+// Note: if we add more optional components here, i.e. components that are not
+// used in the theme by default unless the user imports them, make sure to update
+// the `lazyDefaultThemeComponentsRE` regex in src/node/build/bundle.ts.
 export { default as VPHomeHero } from './components/VPHomeHero.vue'
 export { default as VPHomeFeatures } from './components/VPHomeFeatures.vue'
 export { default as VPHomeSponsors } from './components/VPHomeSponsors.vue'
