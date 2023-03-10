@@ -40,11 +40,15 @@ export const rewritesPlugin = (config: SiteConfig): Plugin => {
       // dev rewrite
       server.middlewares.use((req, _res, next) => {
         if (req.url) {
-          const page = req.url
+          const page = decodeURI(req.url)
             .replace(/[?#].*$/, '')
             .slice(config.site.base.length)
+
           if (config.rewrites.inv[page]) {
-            req.url = req.url.replace(page, config.rewrites.inv[page]!)
+            req.url = req.url.replace(
+              encodeURI(page),
+              encodeURI(config.rewrites.inv[page]!)
+            )
           }
         }
         next()
