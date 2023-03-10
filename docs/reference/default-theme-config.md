@@ -320,7 +320,7 @@ export interface AlgoliaSearchOptions extends DocSearchProps {
 
 View full options [here](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts).
 
-## carbonAds
+## carbonAds {#carbon-ads}
 
 - Type: `CarbonAdsOptions`
 
