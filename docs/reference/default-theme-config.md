@@ -168,6 +168,7 @@ export type SidebarItem = {
 
 - Type: `boolean`
 - Default: `true`
+- Can be overridden per page via [frontmatter](./frontmatter-config#aside)
 
 Setting this value to `false` prevents rendering of aside container.
 
@@ -175,15 +176,9 @@ Setting this value to `false` prevents rendering of aside container.
 
 - Type: `number | [number, number] | 'deep' | false`
 - Default: `2`
+- Can be overridden per page via [frontmatter](./frontmatter-config#outline)
 
 The levels of header to display in the outline. You can specify a particular level by passing a number, or you can provide a level range by passing a tuple containing the bottom and upper limits. When passing `'deep'` which equals `[2, 6]`, all header levels are shown in the outline except `h1`. Set `false` to hide outline.
-
-## outlineBadges
-
-- Type: `boolean`
-- Default: `true`
-
-By default the badge text is displayed in the outline. Disable this to hide badge text from outline.
 
 ## outlineTitle
 

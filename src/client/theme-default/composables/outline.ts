@@ -11,19 +11,37 @@ export type MenuItem = Omit<Header, 'slug' | 'children'> & {
   children?: MenuItem[]
 }
 
-export function getHeaders(range?: DefaultTheme.Config['outline']) {
+export function getHeaders(range: DefaultTheme.Config['outline']) {
   const headers = [...document.querySelectorAll('.VPDoc h2,h3,h4,h5,h6')]
-    .filter((el) => el.id && el.firstChild && el.firstChild.nodeType === 3)
+    .filter((el) => el.id && el.hasChildNodes())
     .map((el) => {
       const level = Number(el.tagName[1])
       return {
-        title: (el.firstChild as Text).data.trim(),
+        title: serializeHeader(el),
         link: '#' + el.id,
         level
       }
     })
 
   return resolveHeaders(headers, range)
+}
+
+function serializeHeader(h: Element): string {
+  let ret = ''
+  for (const node of h.childNodes) {
+    if (node.nodeType === 1) {
+      if (
+        (node as Element).classList.contains('VPBadge') ||
+        (node as Element).classList.contains('header-anchor')
+      ) {
+        continue
+      }
+      ret += node.textContent
+    } else if (node.nodeType === 3) {
+      ret += node.textContent
+    }
+  }
+  return ret
 }
 
 export function resolveHeaders(
