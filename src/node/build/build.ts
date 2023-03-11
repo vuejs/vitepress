@@ -8,7 +8,7 @@ import { renderPage } from './render'
 import { bundle, okMark, failMark } from './bundle'
 import { createRequire } from 'module'
 import { pathToFileURL } from 'url'
-import pkgDir from 'pkg-dir'
+import { packageDirectorySync } from 'pkg-dir'
 
 export async function build(
   root?: string,
@@ -110,7 +110,7 @@ export async function build(
 }
 
 function linkVue() {
-  const root = pkgDir.sync()
+  const root = packageDirectorySync()
   if (root) {
     const dest = path.resolve(root, 'node_modules/vue')
     // if user did not install vue by themselves, link VitePress' version

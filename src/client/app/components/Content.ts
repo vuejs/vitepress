@@ -1,5 +1,8 @@
 import { defineComponent, h } from 'vue'
 import { useRoute } from '../router.js'
+import { contentUpdatedCallbacks } from '../utils.js'
+
+const runCbs = () => contentUpdatedCallbacks.forEach((fn) => fn())
 
 export const Content = defineComponent({
   name: 'VitePressContent',
@@ -10,7 +13,12 @@ export const Content = defineComponent({
     const route = useRoute()
     return () =>
       h(props.as, { style: { position: 'relative' } }, [
-        route.component ? h(route.component) : '404 Page Not Found'
+        route.component
+          ? h(route.component, {
+              onVnodeMounted: runCbs,
+              onVnodeUpdated: runCbs
+            })
+          : '404 Page Not Found'
       ])
   }
 })

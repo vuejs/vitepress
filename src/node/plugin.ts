@@ -12,8 +12,8 @@ import {
 import {
   APP_PATH,
   DIST_CLIENT_PATH,
-  resolveAliases,
-  SITE_DATA_REQUEST_PATH
+  SITE_DATA_REQUEST_PATH,
+  resolveAliases
 } from './alias'
 import { resolvePages, type SiteConfig } from './config'
 import { clearCache, createMarkdownToVueRenderFn } from './markdownToVue'
@@ -127,7 +127,7 @@ export async function createVitePressPlugin(
         },
         optimizeDeps: {
           // force include vue to avoid duplicated copies when linked + optimized
-          include: ['vue', '@vue/devtools-api'],
+          include: ['vue'],
           exclude: ['@docsearch/js', 'vitepress']
         },
         server: {
@@ -142,7 +142,7 @@ export async function createVitePressPlugin(
         vitepress: siteConfig
       })
       return userViteConfig
-        ? mergeConfig(userViteConfig, baseConfig)
+        ? mergeConfig(baseConfig, userViteConfig)
         : baseConfig
     },
 
