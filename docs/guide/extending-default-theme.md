@@ -137,3 +137,29 @@ Full list of slots available in the default theme layout:
   - `nav-bar-content-after`
   - `nav-screen-content-before`
   - `nav-screen-content-after`
+
+## Overriding Internal Components
+
+You can use Vite's [aliases](https://vitejs.dev/config/shared-options.html#resolve-alias) to replace default theme components with your custom ones:
+
+```ts
+import { fileURLToPath, URL } from 'node:url'
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  vite: {
+    resolve: {
+      alias: [
+        {
+          find: /^.*\/VPNavBar\.vue$/,
+          replacement: fileURLToPath(
+            new URL('./components/CustomNavBar.vue', import.meta.url)
+          )
+        }
+      ]
+    }
+  }
+})
+```
+
+To know the exact name of the component refer [our source code](https://github.com/vuejs/vitepress/tree/main/src/client/theme-default/components). Since the components are internal, there is a slight chance their name is updated between minor releases.
