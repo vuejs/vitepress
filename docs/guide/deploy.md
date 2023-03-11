@@ -1,9 +1,13 @@
+---
+outline: deep
+---
+
 # Deploy Your VitePress Site
 
 The following guides are based on some shared assumptions:
 
-- You are placing your docs inside the `docs` directory of your project.
-- You are using the default build output location (`.vitepress/dist`).
+- The VitePress site is inside the `docs` directory of your project.
+- You are using the default build output directory (`.vitepress/dist`).
 - VitePress is installed as a local dependency in your project, and you have set up the following scripts in your `package.json`:
 
   ```json
@@ -15,57 +19,101 @@ The following guides are based on some shared assumptions:
   }
   ```
 
-::: tip
+## Build and Test Locally
 
-If your site is to be served at a subdirectory (`https://example.com/subdir/`), then you have to set `'/subdir/'` as the [`base`](../reference/site-config#base) in your `docs/.vitepress/config.js`.
+1. Run this command to build the docs:
+
+   ```sh
+   $ npm run docs:build
+   ```
+
+2. Once built, preview it locally by running:
+
+   ```sh
+   $ npm run docs:preview
+   ```
+
+   The `preview` command will boot up a local static web server that will serve the output directory `.vitepress/dist` at `http://localhost:4173`. You can use this to make sure everything looks good before pushing to production.
+
+3. You can configure the port of the server by passing `--port` as an argument.
+
+   ```json
+   {
+     "scripts": {
+       "docs:preview": "vitepress preview docs --port 8080"
+     }
+   }
+   ```
+
+Now the `docs:preview` method will launch the server at `http://localhost:8080`.
+
+## Setting a Public Base Path
+
+By default, we assume the site is going to be deployed at the root path of a domain (`/`). If your site is going to be served at a sub-path, e.g. `https://mywebsite.com/blog/`, then you need to set the [`base`](../reference/site-config#base) option to `'/blog/'` in the VitePress config.
 
 **Example:** If you're using Github (or GitLab) Pages and deploying to `user.github.io/repo/`, then set your `base` to `/repo/`.
 
+## HTTP Cache Headers
+
+If you have control over the HTTP headers on your production server, you can configure `cache-control` headers to achieve better performance on repeated visits.
+
+The production build uses hashed file names for static assets (JavaScript, CSS and other imported assets not in `public`). If you inspect the production preview using your browser devtools' network tab, you will see files like `app.4f283b18.js`.
+
+This `4f283b18` hash is generated from the content of this file. The same hashed URL is guaranteed to serve the same file content - if the contents change, the URLs change too. This means you can safely use the strongest cache headers for these files. All such files will be placed under `assets/` in the output directory, so you can configure the following header for them:
+
+```
+Cache-Control: max-age=31536000,immutable
+```
+
+:::details Example Netlify `_headers` file
+
+```
+/assets/*
+  cache-control: max-age=31536000
+  cache-control: immutable
+```
+
+[Netlify custom headers documentation](https://docs.netlify.com/routing/headers/)
+
 :::
 
-## Build and Test Locally
+:::details Example Vercel config in `vercel.json`
 
-- You may run this command to build the docs:
-
-  ```sh
-  $ npm run docs:build
-  ```
-
-- Once you've built the docs, you can test them locally by running:
-
-  ```sh
-  $ npm run docs:preview
-  ```
-
-  The `preview` command will boot up a local static web server that will serve the files from `.vitepress/dist` at `http://localhost:4173`. It's an easy way to check if the production build looks fine in your local environment.
-
-- You can configure the port of the server by passing `--port` as an argument.
-
-  ```json
-  {
-    "scripts": {
-      "docs:preview": "vitepress preview docs --port 8080"
+```json
+{
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "max-age=31536000, immutable"
+        }
+      ]
     }
-  }
-  ```
+  ]
+}
+```
 
-  Now the `docs:preview` method will launch the server at `http://localhost:8080`.
+[Vercel documentation on headers config](https://vercel.com/docs/concepts/projects/project-configuration#headers)
 
-## Netlify, Vercel, AWS Amplify, Cloudflare Pages, Render
+:::
+
+## Platform Guides
+
+### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render
 
 Set up a new project and change these settings using your dashboard:
 
 - **Build Command:** `npm run docs:build`
 - **Output Directory:** `docs/.vitepress/dist`
-- **Node Version:** `14` (or above, by default it usually will be 14 or 16, but on Cloudflare Pages the default is still 12, so you may need to [change that](https://developers.cloudflare.com/pages/platform/build-configuration/))
+- **Node Version:** `16` (or above, by default it usually will be 14 or 16, but on Cloudflare Pages the default is still 12, so you may need to [change that](https://developers.cloudflare.com/pages/platform/build-configuration/))
 
 ::: warning
 Don't enable options like _Auto Minify_ for HTML code. It will remove comments from output which have meaning to Vue. You may see hydration mismatch errors if they get removed.
 :::
 
-## GitHub Pages
-
-### Using GitHub Actions
+### GitHub Pages
 
 1. In your theme config file, `docs/.vitepress/config.js`, set the `base` property to the name of your GitHub repository. If you plan to deploy your site to `https://foo.github.io/bar/`, then you should set base to `'/bar/'`. It should always start and end with a slash.
 
@@ -119,9 +167,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
 6. In your repository's Settings under Pages menu item, click `Visit site`, then you can see your site. Your docs will automatically deploy each time you push.
 
-## GitLab Pages
-
-### Using GitLab CI
+### GitLab Pages
 
 1. Set `outDir` in `docs/.vitepress/config.js` to `../public`.
 
@@ -164,7 +210,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
        - main
    ```
 
-## Azure Static Web Apps
+### Azure Static Web Apps
 
 1. Follow the [official documentation](https://docs.microsoft.com/en-us/azure/static-web-apps/build-configuration).
 
@@ -174,7 +220,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
    - **`output_location`**: `docs/.vitepress/dist`
    - **`app_build_command`**: `npm run docs:build`
 
-## Firebase
+### Firebase
 
 1. Create `firebase.json` and `.firebaserc` at the root of your project:
 
@@ -205,7 +251,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
    firebase deploy
    ```
 
-## Surge
+### Surge
 
 1. After running `npm run docs:build`, run this command to deploy:
 
@@ -213,7 +259,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
    npx surge docs/.vitepress/dist
    ```
 
-## Heroku
+### Heroku
 
 1. Follow documentation and guide given in [`heroku-buildpack-static`](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-static).
 
@@ -225,6 +271,6 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
    }
    ```
 
-## Edgio
+### Edgio
 
 Refer [Creating and Deploying a VitePress App To Edgio](https://docs.edg.io/guides/vitepress).
