@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import type { DirectiveBinding } from 'vue'
+import { normalizeClass } from '@vue/shared'
 import type { DefaultTheme } from 'vitepress/theme'
 import { useSidebarControl } from '../composables/sidebar.js'
 import VPIconChevronRight from './icons/VPIconChevronRight.vue'
@@ -33,13 +35,19 @@ const textTag = computed(() => {
 const itemRole = computed(() => isLink.value ? undefined : 'button')
 
 const classes = computed(() => [
-  [`level-${props.depth}`],
+  ['VPSidebarItem', `level-${props.depth}`],
   { collapsible: collapsible.value },
   { collapsed: collapsed.value },
   { 'is-link': isLink.value },
   { 'is-active': isActiveLink.value },
   { 'has-active': hasActiveLink.value }
 ])
+
+// skip vue ssr hydrate optimizations
+// See: https://github.com/vuejs/core/issues/6246#issuecomment-1179711088
+const vClass = (el: HTMLElement, binding: DirectiveBinding) => {
+  el.className = normalizeClass(binding.value)
+}
 
 function onItemClick() {
   !props.item.link && toggle()
@@ -51,7 +59,7 @@ function onCaretClick() {
 </script>
 
 <template>
-  <component :is="sectionTag" class="VPSidebarItem" :class="classes">
+  <component :is="sectionTag" v-class="classes">
     <div v-if="item.text" class="item" :role="itemRole" @click="onItemClick">
       <div class="indicator" />
 
