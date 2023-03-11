@@ -39,7 +39,7 @@ vitepress build [root]
 
 | Option | Description |
 | -      | -           |
-| `--mpa` (experimental) | Build in [MPA mode](/guide/mpa-mode) without client-side hydration (`boolean`) |
+| `--mpa` (experimental) | Build in [MPA mode](../guide/mpa-mode) without client-side hydration (`boolean`) |
 | `--base <path>`          | Public base path (default: `/`) (`string`) |
 | `--target <target>`            | Transpile target (default: `"modules"`) (`string`) |
 | `--outDir <dir>`          | Output directory (default: `.vitepress/dist`) (`string`) |
@@ -65,7 +65,7 @@ vitepress preview [root]
 
 ## `vitepress init`
 
-Start the [Setup Wizard](/guide/getting-started#setup-wizard) in current directory.
+Start the [Setup Wizard](../guide/getting-started#setup-wizard) in current directory.
 
 ### Usage
 
