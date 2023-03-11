@@ -83,6 +83,7 @@
     "docs-preview": "node ./bin/vitepress preview docs"
   },
   "dependencies": {
+    "@akryum/flexsearch-es": "0.7.31.1",
     "@docsearch/css": "^3.3.3",
     "@docsearch/js": "^3.3.3",
     "@vitejs/plugin-vue": "^4.0.0",

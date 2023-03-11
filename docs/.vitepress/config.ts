@@ -36,11 +36,11 @@ export default defineConfig({
       copyright: 'Copyright © 2019-present Evan You'
     },
 
-    algolia: {
-      appId: '8J64VVRP8K',
-      apiKey: 'a18e2f4cc5665f6602c5631fd868adfd',
-      indexName: 'vitepress'
-    },
+    // algolia: {
+    //   appId: '8J64VVRP8K',
+    //   apiKey: 'a18e2f4cc5665f6602c5631fd868adfd',
+    //   indexName: 'vitepress'
+    // },
 
     carbonAds: {
       code: 'CEBDT27Y',

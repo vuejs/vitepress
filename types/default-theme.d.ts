@@ -1,4 +1,5 @@
 import { DocSearchProps } from './docsearch.js'
+import { OfflineSearchTranslations } from './offline-search.js'
 
 export namespace DefaultTheme {
   export interface Config {
@@ -109,6 +110,11 @@ export namespace DefaultTheme {
      * The algolia options. Leave it undefined to disable the search feature.
      */
     algolia?: AlgoliaSearchOptions
+
+    /**
+     * The offline search options. Enabled by default. Set to `false` to disable.
+     */
+    search?: OfflineSearchOptions | false
 
     /**
      * The carbon ads options. Leave it undefined to disable the ads feature.
@@ -298,6 +304,13 @@ export namespace DefaultTheme {
    */
   export interface AlgoliaSearchOptions extends DocSearchProps {
     locales?: Record<string, Partial<DocSearchProps>>
+  }
+
+  // offline search ------------------------------------------------------------
+
+  export interface OfflineSearchOptions {
+    translations?: OfflineSearchTranslations
+    locales?: Record<string, OfflineSearchTranslations>
   }
 
   // carbon ads ----------------------------------------------------------------

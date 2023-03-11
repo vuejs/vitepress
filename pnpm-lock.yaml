@@ -4,6 +4,7 @@ importers:
 
   .:
     specifiers:
+      '@akryum/flexsearch-es': 0.7.31.1
       '@clack/prompts': ^0.6.1
       '@docsearch/css': ^3.3.3
       '@docsearch/js': ^3.3.3
@@ -89,6 +90,7 @@ importers:
       vue-tsc: ^1.2.0
       wait-on: ^7.0.1
     dependencies:
+      '@akryum/flexsearch-es': 0.7.3-1.1
       '@docsearch/css': 3.3.3
       '@docsearch/js': 3.3.3
       '@vitejs/plugin-vue': 4.0.0_vite@4.1.4+vue@3.2.47
@@ -194,6 +196,10 @@ importers:
       vitepress: link:..
 
 packages:
+
+  /@akryum/flexsearch-es/0.7.3-1.1:
+    resolution: {integrity: sha512-siBWVTiAZbwG6AxUAvokZNHkSNc8Xe4M0ZhZuu+kz/tUr8kw6NjX+ag6kl9B+bDCgql+x0335IAO3fdMPjV0Qw==}
+    dev: false
 
   /@algolia/autocomplete-core/1.7.4:
     resolution: {integrity: sha512-daoLpQ3ps/VTMRZDEBfU8ixXd+amZcNJ4QSP3IERGyzqnL5Ch8uSRFt/4G8pUvW9c3o6GA4vtVv4I4lmnkdXyg==}
