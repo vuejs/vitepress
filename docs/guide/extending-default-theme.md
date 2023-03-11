@@ -1,6 +1,6 @@
 # Extending the Default Theme
 
-VitePress' default theme is optimized for documentation, and can be customized. Consult the [Default Theme Config Overview](/reference/default-theme-config) for a comprehensive list of options.
+VitePress' default theme is optimized for documentation, and can be customized. Consult the [Default Theme Config Overview](../reference/default-theme-config) for a comprehensive list of options.
 
 However, there are a number of cases where configuration alone won't be enough. For example:
 

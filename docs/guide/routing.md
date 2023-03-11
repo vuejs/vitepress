@@ -60,7 +60,7 @@ docs/getting-started.md  -->  /getting-started.html
 
 ### Source Directory
 
-Source directory is where your Markdown source files live. By default, it is the same as the project root. However, you can configure it via the [`srcDir`](/reference/site-config#srcdir) config option.
+Source directory is where your Markdown source files live. By default, it is the same as the project root. However, you can configure it via the [`srcDir`](../reference/site-config#srcdir) config option.
 
 The `srcDir` option is resolved relative to project root. For example, with `srcDir: 'src'`, your file structure will look like this:
 
@@ -85,12 +85,12 @@ You can use both absolute and relative paths when linking between pages. Note th
 
 ```md
 <!-- Do -->
-[Getting Started](/guide/getting-started)
+[Getting Started](./getting-started)
 [Getting Started](../guide/getting-started)
 
 <!-- Don't -->
-[Getting Started](/guide/getting-started.md)
-[Getting Started](/guide/getting-started.html)
+[Getting Started](./getting-started.md)
+[Getting Started](./getting-started.html)
 ```
 
 Learn more about linking to assets such images in [Asset Handling](asset-handling).
@@ -110,7 +110,7 @@ One way to achieve clean URLs is to structure your files using only `index.md` i
 └─ index.md
 ```
 
-Some servers or hosting platforms (for example Netlify or Vercel) provide the ability to map a URL like `/foo` to `/foo.html` if it exists. If this feature is available to you, you can use the [`cleanUrls`](/reference/site-config#cleanurls) config option so that inbound links are always generated without the `.html` extension. When this option is enabled, VitePress' client-side router will also redirect to the clean URL when a visited URL ends with `.html`.
+Some servers or hosting platforms (for example Netlify or Vercel) provide the ability to map a URL like `/foo` to `/foo.html` if it exists. If this feature is available to you, you can use the [`cleanUrls`](../reference/site-config#cleanurls) config option so that inbound links are always generated without the `.html` extension. When this option is enabled, VitePress' client-side router will also redirect to the clean URL when a visited URL ends with `.html`.
 
 ## Route Rewrites
 
@@ -136,7 +136,7 @@ packages/pkg-a/src/pkg-a-docs.md  -->  /pkg-a/index.html
 packages/pkg-b/src/pkg-b-docs.md  -->  /pkg-b/index.html
 ```
 
-You can achieve this by configuring the [`rewrites`](/reference/site-config#rewrites) option like this:
+You can achieve this by configuring the [`rewrites`](../reference/site-config#rewrites) option like this:
 
 ```ts
 // .vitepress/config.js
@@ -294,7 +294,7 @@ You can use the params to pass additional data to each page. The Markdown route 
 - version: {{ $params.version }}
 ```
 
-You can also access the current page's params via the `[useData](/reference/runtime-api#usedata)` runtime API. This is available in both Markdown files and Vue components:
+You can also access the current page's params via the `[useData](../reference/runtime-api#usedata)` runtime API. This is available in both Markdown files and Vue components:
 
 ```vue
 <script setup>

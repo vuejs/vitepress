@@ -18,7 +18,7 @@ Just want to try it out? Skip to the [Quickstart](./getting-started).
 
 - **Blogs, Portfolios, and Marketing Sites**
 
-  VitePress supports [fully customized themes](/guide/custom-theme), with the developer experience of a standard Vite + Vue application. Being built on Vite also means you can directly leverage Vite plugins from its rich ecosystem. In addition, VitePress provides flexible APIs to [load data](/guide/data-loading) (local or remote) and [dynamically generate routes](/guide/routing#dynamic-routes). You can use it to build almost anything as long as the data can be determined at build time.
+  VitePress supports [fully customized themes](./custom-theme), with the developer experience of a standard Vite + Vue application. Being built on Vite also means you can directly leverage Vite plugins from its rich ecosystem. In addition, VitePress provides flexible APIs to [load data](./data-loading) (local or remote) and [dynamically generate routes](./routing#dynamic-routes). You can use it to build almost anything as long as the data can be determined at build time.
 
   The official [Vue.js blog](https://blog.vuejs.org/) is a simple blog that generates its index page based on local content.
 
@@ -28,9 +28,9 @@ VitePress aims to provide a great Developer Experience (DX) when working with Ma
 
 - **[Vite-Powered:](https://vitejs.dev/)** instant server start, with edits always instantly reflected (<100ms) without page reload.
 
-- **[Built-in Markdown Extensions:](/guide/markdown)** Frontmatter, tables, syntax highlighting... you name it. Specifically, VitePress provides many advanced features for working with code blocks, making it ideal for highly technical documentation.
+- **[Built-in Markdown Extensions:](./markdown)** Frontmatter, tables, syntax highlighting... you name it. Specifically, VitePress provides many advanced features for working with code blocks, making it ideal for highly technical documentation.
 
-- **[Vue-Enhanced Markdown](/guide/using-vue):** each Markdown page is also a Vue [Single-File Component](https://vuejs.org/guide/scaling-up/sfc.html), thanks to Vue template's 100% syntax compatibility with HTML. You can embed interactivity in your static content using Vue templating features or imported Vue components.
+- **[Vue-Enhanced Markdown](./using-vue):** each Markdown page is also a Vue [Single-File Component](https://vuejs.org/guide/scaling-up/sfc.html), thanks to Vue template's 100% syntax compatibility with HTML. You can embed interactivity in your static content using Vue templating features or imported Vue components.
 
 ## Performance
 

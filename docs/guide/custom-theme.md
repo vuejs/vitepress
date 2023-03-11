@@ -70,7 +70,7 @@ Inside your layout component, it works just like a normal Vite + Vue 3 applicati
 
 ## Building a Layout
 
-The most basic layout component needs to contain a [`<Content />`](/reference/runtime-api#content) component:
+The most basic layout component needs to contain a [`<Content />`](../reference/runtime-api#content) component:
 
 ```vue
 <!-- .vitepress/theme/Layout.vue -->
@@ -100,7 +100,7 @@ const { page } = useData()
 </template>
 ```
 
-The [`useData()`](/reference/runtime-api#usedata) helper provides us with all the runtime data we need to conditionally render different layouts. One of the other data we can access is the current page's frontmatter. We can leverage this to allow the end user to control the layout in each page. For example, the user can indicate the page should use a special home page layout with:
+The [`useData()`](../reference/runtime-api#usedata) helper provides us with all the runtime data we need to conditionally render different layouts. One of the other data we can access is the current page's frontmatter. We can leverage this to allow the end user to control the layout in each page. For example, the user can indicate the page should use a special home page layout with:
 
 ```md
 ---
@@ -150,7 +150,7 @@ const { page, frontmatter } = useData()
 </template>
 ```
 
-Consult the [Runtime API Reference](/reference/runtime-api) for everything available in theme components. In addition, you can leverage [Build-Time Data Loading](./data-loading) to generate data-driven layout - for example, a page that lists all blog posts in the current project.
+Consult the [Runtime API Reference](../reference/runtime-api) for everything available in theme components. In addition, you can leverage [Build-Time Data Loading](./data-loading) to generate data-driven layout - for example, a page that lists all blog posts in the current project.
 
 ## Distributing a Custom Theme
 

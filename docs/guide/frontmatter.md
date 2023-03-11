@@ -11,7 +11,7 @@ editLink: true
 ---
 ```
 
-Many site or default theme config options have corresponding options in frontmatter. You can use frontmatter to override specific behavior for the current page only. For details, see [Frontmatter Config Reference](/reference/frontmatter-config).
+Many site or default theme config options have corresponding options in frontmatter. You can use frontmatter to override specific behavior for the current page only. For details, see [Frontmatter Config Reference](../reference/frontmatter-config).
 
 You can also define custom frontmatter data of your own, to be used in dynamic Vue expressions on the page.
 
@@ -32,7 +32,7 @@ editLink: true
 Guide content
 ```
 
-You can also access current page's frontmatter data in `<script setup>` with the [`useData()`](/reference/runtime-api#usedata) helper.
+You can also access current page's frontmatter data in `<script setup>` with the [`useData()`](../reference/runtime-api#usedata) helper.
 
 ## Alternative Frontmatter Formats
 

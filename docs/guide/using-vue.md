@@ -67,7 +67,7 @@ The count is: {{ count }}
 When used in Markdown, `<style scoped>` requires adding special attributes to every element on the current page, which will significantly bloat the page size. `<style module>` is preferred when locally-scoped styling is needed in a page.
 :::
 
-You also have access to VitePress' runtime APIs such as the [`useData` helper](/reference/runtime-api#usedata), which provides access to current page's metadata:
+You also have access to VitePress' runtime APIs such as the [`useData` helper](../reference/runtime-api#usedata), which provides access to current page's metadata:
 
 **Input**
 
@@ -118,7 +118,7 @@ This is a .md using a custom component
 
 ### Registering Components Globally
 
-If a component is going to be used on most of the pages, they can be registered globally by customizing the Vue app instance. See relevant section in [Extending Default Theme](/guide/extending-default-theme#registering-global-components) for an example.
+If a component is going to be used on most of the pages, they can be registered globally by customizing the Vue app instance. See relevant section in [Extending Default Theme](./extending-default-theme#registering-global-components) for an example.
 
 ::: warning IMPORTANT
 Make sure a custom component's name either contains a hyphen or is in PascalCase. Otherwise, it will be treated as an inline element and wrapped inside a `<p>` tag, which will lead to hydration mismatch because `<p>` does not allow block elements to be placed inside it.
@@ -275,7 +275,7 @@ export default {
 
 ## Using Teleports
 
-Vitepress currently has SSG support for teleports to body only. For other targets, you can wrap them inside the built-in `<ClientOnly>` component or inject the teleport markup into the correct location in your final page HTML through [`postRender` hook](/reference/site-config#postrender).
+Vitepress currently has SSG support for teleports to body only. For other targets, you can wrap them inside the built-in `<ClientOnly>` component or inject the teleport markup into the correct location in your final page HTML through [`postRender` hook](../reference/site-config#postrender).
 
 <ModalDemo />
 

@@ -24,7 +24,7 @@ Site config is where you can define the global settings of the site. App config 
 
 ### Config Resolution
 
-The config file is always resolved from `<root>/.vitepress/config.[ext]`, where `<root>` is your VitePress [project root](/guide/routing#root-and-source-directory), and `[ext]` is one of the supported file extensions. TypeScript is supported out of the box. Supported extensions include `.js`, `.ts`, `.cjs`, `.mjs`, `.cts`, and `.mts`.
+The config file is always resolved from `<root>/.vitepress/config.[ext]`, where `<root>` is your VitePress [project root](../guide/routing#root-and-source-directory), and `[ext]` is one of the supported file extensions. TypeScript is supported out of the box. Supported extensions include `.js`, `.ts`, `.cjs`, `.mjs`, `.cts`, and `.mts`.
 
 It is recommended to use ES modules syntax in config files. The config file should default export an object:
 
@@ -206,7 +206,7 @@ export default {
 - Type: `boolean`
 - Default: `false`
 
-When set to `true`, VitePress will remove the trailing `.html` from URLs. Also see [Generating Clean URL](/guide/routing#generating-clean-url).
+When set to `true`, VitePress will remove the trailing `.html` from URLs. Also see [Generating Clean URL](../guide/routing#generating-clean-url).
 
 ::: warning Server Support Required
 Enabling this may require additional configuration on your hosting platform. For it to work, your server must be able to serve `/foo.html` when visiting `/foo` **without a redirect**.
@@ -216,7 +216,7 @@ Enabling this may require additional configuration on your hosting platform. For
 
 - Type: `Record<string, string>`
 
-Defines custom directory <-> URL mappings. See [Routing: Route Rewrites](/guide/routing#route-rewrites) for more details.
+Defines custom directory <-> URL mappings. See [Routing: Route Rewrites](../guide/routing#route-rewrites) for more details.
 
 ```ts
 export default {
@@ -233,7 +233,7 @@ export default {
 - Type: `string`
 - Default: `.`
 
-The directory where your markdown pages are stored, relative to project root. Also see [Root and Source Directory](/guide/routing#root-and-source-directory).
+The directory where your markdown pages are stored, relative to project root. Also see [Root and Source Directory](../guide/routing#root-and-source-directory).
 
 ```ts
 export default {
@@ -259,7 +259,7 @@ export default {
 - Type: `string`
 - Default: `./.vitepress/dist`
 
-The build output location for the site, relative to [project root](/guide/routing#root-and-source-directory).
+The build output location for the site, relative to [project root](../guide/routing#root-and-source-directory).
 
 ```ts
 export default {
@@ -272,7 +272,7 @@ export default {
 - Type: `string`
 - Default: `./.vitepress/cache`
 
-The directory for cache files, relative to [project root](/guide/routing#root-and-source-directory). See also: [cacheDir](https://vitejs.dev/config/shared-options.html#cachedir).
+The directory for cache files, relative to [project root](../guide/routing#root-and-source-directory). See also: [cacheDir](https://vitejs.dev/config/shared-options.html#cachedir).
 
 ```ts
 export default {
@@ -298,7 +298,7 @@ export default {
 - Type: `boolean`
 - Default: `false`
 
-When set to `true`, the production app will be built in [MAP Mode](/guide/mpa-mode). MPA mode ships 0kb JavaScript by default, at the cost of disabling client-side navigation and requires explicit opt-in for interactivity.
+When set to `true`, the production app will be built in [MAP Mode](../guide/mpa-mode). MPA mode ships 0kb JavaScript by default, at the cost of disabling client-side navigation and requires explicit opt-in for interactivity.
 
 ## Theming
 
@@ -320,7 +320,7 @@ This option injects an inline script that restores users settings from local sto
 - Type: `boolean`
 - Default: `false`
 
-Whether to get the last updated timestamp for each page using Git. The timestamp will be included in each page's page data, accessible via [`useData`](/reference/runtime-api#usedata).
+Whether to get the last updated timestamp for each page using Git. The timestamp will be included in each page's page data, accessible via [`useData`](./runtime-api#usedata).
 
 When using the default theme, enabling this option will display each page's last updated time. You can customize the text via [`themeConfig.lastUpdatedText`](./default-theme-config#lastupdatedtext) option.
 

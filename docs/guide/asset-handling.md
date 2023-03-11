@@ -10,7 +10,7 @@ You can reference static assets in your markdown files, your `*.vue` components 
 
 Common image, media, and font filetypes are detected and included as assets automatically.
 
-All referenced assets, including those using absolute paths, will be copied to the dist folder with a hashed file name in the production build. Never-referenced assets will not be copied. Image assets smaller than 4kb will be base64 inlined - this can be configured via the [`vite`](/reference/site-config#vite) config option.
+All referenced assets, including those using absolute paths, will be copied to the dist folder with a hashed file name in the production build. Never-referenced assets will not be copied. Image assets smaller than 4kb will be base64 inlined - this can be configured via the [`vite`](../reference/site-config#vite) config option.
 
 All **static** path references, including absolute paths, should be based on your working directory structure.
 
@@ -45,7 +45,7 @@ However, if you are authoring a theme component that links to assets dynamically
 <img :src="theme.logoPath" />
 ```
 
-In this case it is recommended to wrap the path with the [`withBase` helper](/reference/runtime-api#withbase) provided by VitePress:
+In this case it is recommended to wrap the path with the [`withBase` helper](../reference/runtime-api#withbase) provided by VitePress:
 
 ```vue
 <script setup>
