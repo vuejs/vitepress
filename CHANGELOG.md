@@ -1,3 +1,36 @@
+# [1.0.0-alpha.52](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.51...v1.0.0-alpha.52) (2023-03-11)
+
+
+### Bug Fixes
+
+* fix line higlighting for empty lines ([9708510](https://github.com/vuejs/vitepress/commit/9708510cbd893f02916c95fabad5a8f07d52dbaf))
+* fix rewrites with non ascii chars ([6ce88da](https://github.com/vuejs/vitepress/commit/6ce88da3baa4bc9e6b8dc3254180ed995766c7ec)), closes [#2017](https://github.com/vuejs/vitepress/issues/2017)
+* fix same page hash links with encoded chars ([e05a3f2](https://github.com/vuejs/vitepress/commit/e05a3f2b5aff54ec7e5211c1021c16814eb57e58)), closes [#1749](https://github.com/vuejs/vitepress/issues/1749)
+* properly serialize header in outline ([8ab36d0](https://github.com/vuejs/vitepress/commit/8ab36d05fa4aa8b3707c1f89efc1c820ffaf9669))
+* remove @vue/devtools from force include ([9bd940f](https://github.com/vuejs/vitepress/commit/9bd940f22cae0ec88dc1670a31fb9ebc015e1f92))
+* respect user vue alias ([63f33d2](https://github.com/vuejs/vitepress/commit/63f33d2895d21c08903eb4d625c13d8d3721d861)), closes [#1065](https://github.com/vuejs/vitepress/issues/1065)
+* **theme:** re-support dynamic headers ([657a7d3](https://github.com/vuejs/vitepress/commit/657a7d38df3c9022a7ef6977fd71a6bde6571cfc))
+* trim spaces from outline headers ([9ceff1d](https://github.com/vuejs/vitepress/commit/9ceff1d587f6b61529806c5eb705fc417b685ad9))
+
+
+### Features
+
+* allow disabling markdown.headers ([868a9ff](https://github.com/vuejs/vitepress/commit/868a9ff81ea445556bc7500dfe4210d253da9ceb))
+
+
+### Performance Improvements
+
+* improve default theme chunking ([f6cb4c0](https://github.com/vuejs/vitepress/commit/f6cb4c0d44108116c91b28a3fcde820093d94340))
+
+
+### BREAKING CHANGES
+
+* default theme config option `outlineBadge` has been
+removed. Badges in headers are now always excluded when generating
+outline text.
+
+
+
 # [1.0.0-alpha.51](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.50...v1.0.0-alpha.51) (2023-03-09)
 
 
