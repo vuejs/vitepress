@@ -10,19 +10,19 @@ You can reference static assets in your markdown files, your `*.vue` components 
 
 Common image, media, and font filetypes are detected and included as assets automatically.
 
-All referenced assets, including those using absolute paths, will be copied to the dist folder with a hashed file name in the production build. Never-referenced assets will not be copied. Image assets smaller than 4kb will be base64 inlined - this can be configured via the [`vite`](../reference/site-config#vite) config option.
+All referenced assets, including those using absolute paths, will be copied to the output directory with a hashed file name in the production build. Never-referenced assets will not be copied. Image assets smaller than 4kb will be base64 inlined - this can be configured via the [`vite`](../reference/site-config#vite) config option.
 
 All **static** path references, including absolute paths, should be based on your working directory structure.
 
 ## Public Files
 
-Sometimes you may need to provide static assets that are not directly referenced in any of your Markdown or theme components (for example, favicons and PWA icons). The `public` directory under project root (`docs` folder if you're running `vitepress build docs`) can be used as an escape hatch to provide static assets that either are never referenced in source code (e.g. `robots.txt`), or must retain the exact same file name (without hashing).
+Sometimes you may need to provide static assets that are not directly referenced in any of your Markdown or theme components (for example, favicons and PWA icons). The `public` directory under [project root](./routing#project-root) (`docs` folder if you're running `vitepress build docs`) can be used as an escape hatch to provide static assets that either are never referenced in source code (e.g. `robots.txt`), or must retain the exact same file name (without hashing).
 
-Assets placed in `public` will be copied to the root of the dist directory as-is.
+Assets placed in `public` will be copied to the root of the output directory as-is.
 
 Note that you should reference files placed in `public` using root absolute path - for example, `public/icon.png` should always be referenced in source code as `/icon.png`.
 
-There is one exception to this: if you have an HTML page in `public` and link to it from the main site, the router will yield a 404 by default. To get around this, VitePress provides a `pathname://` protocol which allows you to link to another page in the same domain as if the link is external. Contrast these two links:
+There is one exception to this: if you have an HTML page in `public` and link to it from the main site, the router will yield a 404 by default. To get around this, VitePress provides a `pathname://` protocol which allows you to link to another page in the same domain as if the link is external. Compare these two links:
 
 - [/pure.html](/pure.html)
 - <pathname:///pure.html>

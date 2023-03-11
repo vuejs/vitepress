@@ -41,7 +41,7 @@ function serializeHeader(h: Element): string {
       ret += node.textContent
     }
   }
-  return ret
+  return ret.trim()
 }
 
 export function resolveHeaders(
