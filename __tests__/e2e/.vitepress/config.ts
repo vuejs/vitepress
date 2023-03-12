@@ -22,11 +22,11 @@ const sidebar: DefaultTheme.Config['sidebar'] = {
       ]
     },
     {
-      text: 'Static Data',
+      text: 'Data Loading',
       items: [
         {
           text: 'Test Page',
-          link: '/static-data/data'
+          link: '/data-loading/data'
         }
       ]
     },

@@ -135,6 +135,7 @@
     "fast-glob": "^3.2.12",
     "fs-extra": "^11.1.0",
     "get-port": "^6.1.2",
+    "gray-matter": "^4.0.3",
     "lint-staged": "^13.2.0",
     "lodash.template": "^4.5.0",
     "lru-cache": "^7.18.3",

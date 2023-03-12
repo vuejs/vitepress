@@ -287,6 +287,10 @@ export async function resolveConfig(
     userConfig
   }
 
+  // to be shared with content loaders
+  // @ts-ignore
+  global.VITEPRESS_CONFIG = config
+
   return config
 }
 

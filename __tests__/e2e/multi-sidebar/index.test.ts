@@ -12,7 +12,7 @@ describe('test multi sidebar sort root', () => {
     expect(sidebarContent).toEqual([
       'Frontmatter',
       '& <Text Literals &> code',
-      'Static Data',
+      'Data Loading',
       'Multi Sidebar Test',
       'Dynamic Routes',
       'Markdown Extensions'
