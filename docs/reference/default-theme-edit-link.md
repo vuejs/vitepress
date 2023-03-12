@@ -1,5 +1,7 @@
 # Edit Link
 
+## Site-Level Config
+
 Edit Link lets you display a link to edit the page on Git management services such as GitHub, or GitLab. To enable it, add `themeConfig.editLink` options to your config.
 
 ```js
@@ -45,4 +47,14 @@ export default {
     }
   }
 }
+```
+
+## Frontmatter Config
+
+This can be disabled per-page using the `editLink` option on frontmatter:
+
+```yaml
+---
+lastUpdated: false
+---
 ```
