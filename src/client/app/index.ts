@@ -23,11 +23,11 @@ function resolveThemeExtends(theme: typeof RawTheme): typeof RawTheme {
   if (theme.extends) {
     const base = resolveThemeExtends(theme.extends)
     return {
-      ...base,
       ...theme,
+      ...base,
       enhanceApp(ctx) {
-        if (base.enhanceApp) base.enhanceApp(ctx)
         if (theme.enhanceApp) theme.enhanceApp(ctx)
+        if (base.enhanceApp) base.enhanceApp(ctx)
       }
     }
   }
