@@ -65,7 +65,7 @@ export async function build(
       // it's faster than embedding as JS object literal.
       const hashMapString = JSON.stringify(JSON.stringify(pageToHashMap))
       const siteDataString = JSON.stringify(
-        JSON.stringify(serializeFunctions(siteConfig.site))
+        JSON.stringify(serializeFunctions({ ...siteConfig.site, head: [] }))
       )
 
       await Promise.all(
