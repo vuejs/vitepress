@@ -9,7 +9,7 @@ import {
 } from 'vue'
 import RawTheme from '@theme/index'
 import { inBrowser, pathToFile } from './utils.js'
-import { type Router, RouterSymbol, createRouter } from './router.js'
+import { type Router, RouterSymbol, createRouter, scrollTo } from './router.js'
 import { siteDataRef, useData } from './data.js'
 import { useUpdateHead } from './composables/head.js'
 import { usePrefetch } from './composables/preFetch.js'
@@ -149,6 +149,14 @@ if (inBrowser) {
       // dynamically update head tags
       useUpdateHead(router.route, data.site)
       app.mount('#app')
+
+      // scroll to hash on new tab during dev
+      if (import.meta.env.DEV && location.hash) {
+        const target = document.querySelector(location.hash)
+        if (target) {
+          scrollTo(target, location.hash)
+        }
+      }
     })
   })
 }
