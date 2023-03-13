@@ -404,11 +404,27 @@ interface MarkdownOptions extends MarkdownIt.Options {
 
 Pass raw [Vite Config](https://vitejs.dev/config/) to internal Vite dev server / bundler.
 
+```js
+export default {
+  vite: {
+    // Vite config options
+  }
+}
+```
+
 ### vue
 
 - Type: `import('@vitejs/plugin-vue').Options`
 
 Pass raw [`@vitejs/plugin-vue` options](https://github.com/vitejs/vite-plugin-vue/tree/main/packages/plugin-vue#options) to the internal plugin instance.
+
+```js
+export default {
+  vue: {
+    // @vitejs/plugin-vue options
+  }
+}
+```
 
 ## Build Hooks
 
