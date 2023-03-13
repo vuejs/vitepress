@@ -1,5 +1,7 @@
 # Asset Handling
 
+## Referencing Static Assets
+
 All Markdown files are compiled into Vue components and processed by [Vite](https://vitejs.dev/guide/assets.html). You can, **and should**, reference any assets using relative URLs:
 
 ```md
@@ -14,9 +16,11 @@ All referenced assets, including those using absolute paths, will be copied to t
 
 All **static** path references, including absolute paths, should be based on your working directory structure.
 
-## Public Files
+## The Public Directory
 
-Sometimes you may need to provide static assets that are not directly referenced in any of your Markdown or theme components (for example, favicons and PWA icons). The `public` directory under [project root](./routing#project-root) (`docs` folder if you're running `vitepress build docs`) can be used as an escape hatch to provide static assets that either are never referenced in source code (e.g. `robots.txt`), or must retain the exact same file name (without hashing).
+Sometimes you may need to provide static assets that are not directly referenced in any of your Markdown or theme components, or you may want to serve certain files with the original filename. Examples of such files include `robot.txt`, favicons, and PWA icons.
+
+You can place these files in the `public` directory under the [source directory](./routing#source-directory). For example, if your project root is `./docs` and using default source directory location, then your public directory will be `./docs/public`.
 
 Assets placed in `public` will be copied to the root of the output directory as-is.
 
