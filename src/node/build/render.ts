@@ -65,9 +65,7 @@ export async function renderPage(
 
   let preloadLinks =
     config.mpa || (!hasCustom404 && page === '404.md')
-      ? appChunk
-        ? [appChunk.fileName]
-        : []
+      ? []
       : result && appChunk
       ? [
           ...new Set([
@@ -75,8 +73,7 @@ export async function renderPage(
             // for them as well so we fetch everything as early as possible
             // without having to wait for entry chunks to parse
             ...resolvePageImports(config, page, result, appChunk),
-            pageClientJsFileName,
-            appChunk.fileName
+            pageClientJsFileName
           ])
         ]
       : []
@@ -163,6 +160,11 @@ export async function renderPage(
     <title>${title}</title>
     <meta name="description" content="${description}">
     ${stylesheetLink}
+    ${
+      appChunk
+        ? `<script type="module" src="${siteData.base}${appChunk.fileName}"></script>`
+        : ``
+    }
     ${preloadLinksString}
     ${prefetchLinkString}
     ${await renderHead(head)}
@@ -170,11 +172,6 @@ export async function renderPage(
   <body>${teleports?.body || ''}
     <div id="app">${content}</div>
     ${config.mpa ? '' : `<script>${metadataScript}</script>`}
-    ${
-      appChunk
-        ? `<script type="module" async src="${siteData.base}${appChunk.fileName}"></script>`
-        : ``
-    }
     ${inlinedScript}
   </body>
 </html>`.trim()
