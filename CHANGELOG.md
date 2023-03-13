@@ -1,3 +1,12 @@
+# [1.0.0-alpha.54](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.53...v1.0.0-alpha.54) (2023-03-13)
+
+
+### Bug Fixes
+
+* fix chunking logic that causes breakage ([bed202d](https://github.com/vuejs/vitepress/commit/bed202dbcc8f3954c12aaef993369b29ff47211e)), closes [#2072](https://github.com/vuejs/vitepress/issues/2072) [#2073](https://github.com/vuejs/vitepress/issues/2073) [#2074](https://github.com/vuejs/vitepress/issues/2074) [#2075](https://github.com/vuejs/vitepress/issues/2075)
+
+
+
 # [1.0.0-alpha.53](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.52...v1.0.0-alpha.53) (2023-03-13)
 
 
