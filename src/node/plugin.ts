@@ -22,7 +22,7 @@ import { staticDataPlugin } from './plugins/staticDataPlugin'
 import { webFontsPlugin } from './plugins/webFontsPlugin'
 import { dynamicRoutesPlugin } from './plugins/dynamicRoutesPlugin'
 import { rewritesPlugin } from './plugins/rewritesPlugin'
-import { serializeFunctions } from './utils/fnSerialize.js'
+import { serializeFunctions, deserializeFunctions } from './utils/fnSerialize'
 
 declare module 'vite' {
   interface UserConfig {
@@ -158,6 +158,11 @@ export async function createVitePressPlugin(
         // head info is not needed by the client in production build
         if (config.command === 'build') {
           data = { ...siteData, head: [] }
+          // in production client build, the data is inlined on each page
+          // to avoid config changes invalidating every chunk.
+          if (!ssr) {
+            return `export default window.__VP_SITE_DATA__`
+          }
         }
         data = serializeFunctions(data)
         return `${deserializeFunctions.toString()}
@@ -358,19 +363,4 @@ export async function createVitePressPlugin(
     staticDataPlugin,
     await dynamicRoutesPlugin(siteConfig)
   ]
-}
-
-function deserializeFunctions(value: any): any {
-  if (Array.isArray(value)) {
-    return value.map(deserializeFunctions)
-  } else if (typeof value === 'object' && value !== null) {
-    return Object.keys(value).reduce((acc, key) => {
-      acc[key] = deserializeFunctions(value[key])
-      return acc
-    }, {} as any)
-  } else if (typeof value === 'string' && value.startsWith('_vp-fn_')) {
-    return new Function(`return ${value.slice(7)}`)()
-  } else {
-    return value
-  }
 }

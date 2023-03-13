@@ -17,6 +17,7 @@ import {
   type SSGContext
 } from '../shared'
 import { slash } from '../utils/slash'
+import { deserializeFunctions } from '../utils/fnSerialize'
 
 export async function renderPage(
   render: (path: string) => Promise<SSGContext>,
@@ -26,7 +27,8 @@ export async function renderPage(
   appChunk: OutputChunk | undefined,
   cssChunk: OutputAsset | undefined,
   pageToHashMap: Record<string, string>,
-  hashMapString: string
+  hashMapString: string,
+  siteDataString: string
 ) {
   const routePath = `/${page.replace(/\.md$/, '')}`
   const siteData = resolveSiteDataByRoute(config.site, routePath)
@@ -145,6 +147,13 @@ export async function renderPage(
     }
   }
 
+  let metadataScript = `__VP_HASH_MAP__ = JSON.parse(${hashMapString})\n`
+  if (siteDataString.includes('_vp-fn_')) {
+    metadataScript += `${deserializeFunctions.toString()}\n__VP_SITE_DATA__ = deserializeFunctions(JSON.parse(${siteDataString}))`
+  } else {
+    metadataScript += `__VP_SITE_DATA__ = JSON.parse(${siteDataString})`
+  }
+
   const html = `
 <!DOCTYPE html>
 <html lang="${siteData.lang}" dir="${siteData.dir}">
@@ -160,11 +169,7 @@ export async function renderPage(
   </head>
   <body>${teleports?.body || ''}
     <div id="app">${content}</div>
-    ${
-      config.mpa
-        ? ''
-        : `<script>__VP_HASH_MAP__ = JSON.parse(${hashMapString})</script>`
-    }
+    ${config.mpa ? '' : `<script>${metadataScript}</script>`}
     ${
       appChunk
         ? `<script type="module" async src="${siteData.base}${appChunk.fileName}"></script>`

@@ -9,6 +9,7 @@ import { bundle, okMark, failMark } from './bundle'
 import { createRequire } from 'module'
 import { pathToFileURL } from 'url'
 import { packageDirectorySync } from 'pkg-dir'
+import { serializeFunctions } from '../utils/fnSerialize'
 
 export async function build(
   root?: string,
@@ -58,11 +59,14 @@ export async function build(
         (chunk) => chunk.type === 'asset' && chunk.fileName.endsWith('.css')
       ) as OutputAsset
 
-      // We embed the hash map string into each page directly so that it doesn't
-      // alter the main chunk's hash on every build. It's also embedded as a
-      // string and JSON.parsed from the client because it's faster than embedding
-      // as JS object literal.
+      // We embed the hash map and site config strings into each page directly
+      // so that it doesn't alter the main chunk's hash on every build.
+      // It's also embedded as a string and JSON.parsed from the client because
+      // it's faster than embedding as JS object literal.
       const hashMapString = JSON.stringify(JSON.stringify(pageToHashMap))
+      const siteDataString = JSON.stringify(
+        JSON.stringify(serializeFunctions(siteConfig.site))
+      )
 
       await Promise.all(
         ['404.md', ...siteConfig.pages]
@@ -76,7 +80,8 @@ export async function build(
               appChunk,
               cssChunk,
               pageToHashMap,
-              hashMapString
+              hashMapString,
+              siteDataString
             )
           )
       )
