@@ -1,3 +1,19 @@
+# [1.0.0-alpha.55](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.54...v1.0.0-alpha.55) (2023-03-13)
+
+
+### Bug Fixes
+
+* fix scroll to hash on new tab during dev ([9aafc88](https://github.com/vuejs/vitepress/commit/9aafc88d5951684b9b583a7a164840a9b87467b0)), closes [#653](https://github.com/vuejs/vitepress/issues/653)
+* gracefully handle config update with syntax error ([470ce3d](https://github.com/vuejs/vitepress/commit/470ce3d3f3272639288cb888dc89d37f041df104)), closes [#2041](https://github.com/vuejs/vitepress/issues/2041)
+
+
+### Performance Improvements
+
+* inline site data on page ([22ace7b](https://github.com/vuejs/vitepress/commit/22ace7b075276c340d0ae2a1f260d119e82c6470))
+* kickoff main chunk fetch earlier in browsers without modulepreload support ([d64a76e](https://github.com/vuejs/vitepress/commit/d64a76eb366a270c56189096a5e0ae6b8ae23ea7))
+
+
+
 # [1.0.0-alpha.54](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.53...v1.0.0-alpha.54) (2023-03-13)
 
 
