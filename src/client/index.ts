@@ -21,12 +21,7 @@ export { useData } from './app/data.js'
 export { useRoute, useRouter } from './app/router.js'
 
 // utilities
-export {
-  deserializeFunctions,
-  inBrowser,
-  onContentUpdated,
-  withBase
-} from './app/utils.js'
+export { inBrowser, onContentUpdated, withBase } from './app/utils.js'
 
 // components
 export { Content } from './app/components/Content.js'
