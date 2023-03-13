@@ -1,3 +1,18 @@
+# [1.0.0-alpha.53](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.52...v1.0.0-alpha.53) (2023-03-13)
+
+
+### Bug Fixes
+
+* avoid circular dependency between siteData virtual module and useData() ([905f58b](https://github.com/vuejs/vitepress/commit/905f58b2a80cd1dd37b645dddde3d54b02cd60d4)), closes [#2072](https://github.com/vuejs/vitepress/issues/2072) [#2073](https://github.com/vuejs/vitepress/issues/2073) [#2074](https://github.com/vuejs/vitepress/issues/2074)
+
+
+### Features
+
+* createContentLoader ([d2838e3](https://github.com/vuejs/vitepress/commit/d2838e3755a8ef5861d1a921a336dfebc6156634))
+* **theme:** editLink can accept function ([#2058](https://github.com/vuejs/vitepress/issues/2058)) ([192708d](https://github.com/vuejs/vitepress/commit/192708de678115116f3477293742c155b8f48e5d))
+
+
+
 # [1.0.0-alpha.52](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.51...v1.0.0-alpha.52) (2023-03-11)
 
 
