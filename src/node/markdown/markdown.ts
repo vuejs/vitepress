@@ -99,11 +99,7 @@ export const createMarkdownRenderer = async (
   // mdit-vue plugins
   md.use(anchorPlugin, {
     slugify,
-    permalink: anchorPlugin.permalink.linkAfterHeader({
-      style: 'aria-label',
-      assistiveText: (title) => `Permalink to "${title}"`,
-      wrapper: ['<div class="header-wrapper">', '</div>']
-    }),
+    permalink: anchorPlugin.permalink.ariaHidden({}),
     ...options.anchor
   } as anchorPlugin.AnchorOptions).use(frontmatterPlugin, {
     ...options.frontmatter
