@@ -296,7 +296,7 @@ export async function resolveConfig(
 
 const supportedConfigExtensions = ['js', 'ts', 'cjs', 'mjs', 'cts', 'mts']
 
-async function resolveUserConfig(
+export async function resolveUserConfig(
   root: string,
   command: 'serve' | 'build',
   mode: string

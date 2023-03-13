@@ -15,7 +15,7 @@ import {
   SITE_DATA_REQUEST_PATH,
   resolveAliases
 } from './alias'
-import { resolvePages, type SiteConfig } from './config'
+import { resolveUserConfig, resolvePages, type SiteConfig } from './config'
 import { clearCache, createMarkdownToVueRenderFn } from './markdownToVue'
 import type { PageDataPayload } from './shared'
 import { staticDataPlugin } from './plugins/staticDataPlugin'
@@ -316,14 +316,15 @@ export async function createVitePressPlugin(
           ),
           { clear: true, timestamp: true }
         )
+
         try {
-          clearCache()
-          await recreateServer?.()
+          await resolveUserConfig(siteConfig.root, 'serve', 'development')
         } catch (err: any) {
-          siteConfig.logger.error(
-            `\n${c.red(`failed to restart server. error:`)}\n${err.stack}`
-          )
+          return
         }
+
+        clearCache()
+        await recreateServer?.()
         return
       }
 
