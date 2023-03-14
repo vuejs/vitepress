@@ -10,6 +10,7 @@ import { createRequire } from 'module'
 import { pathToFileURL } from 'url'
 import { packageDirectorySync } from 'pkg-dir'
 import { serializeFunctions } from '../utils/fnSerialize'
+import type { HeadConfig } from '../shared'
 
 export async function build(
   root?: string,
@@ -65,6 +66,36 @@ export async function build(
         )
         .map((asset) => siteConfig.site.base + asset.fileName)
 
+      // default theme special handling: inject font preload
+      // custom themes will need to use `transformHead` to inject this
+      const additionalHeadTags: HeadConfig[] = []
+      const isDefaultTheme =
+        clientResult &&
+        clientResult.output.some(
+          (chunk) =>
+            chunk.type === 'chunk' &&
+            chunk.name === 'theme' &&
+            chunk.moduleIds.some((id) => id.includes('client/theme-default'))
+        )
+
+      if (isDefaultTheme) {
+        const fontURL = assets.find((file) =>
+          /inter-roman-latin\.\w+\.woff2/.test(file)
+        )
+        if (fontURL) {
+          additionalHeadTags.push([
+            'link',
+            {
+              rel: 'preload',
+              href: fontURL,
+              as: 'font',
+              type: 'font/woff2',
+              crossorigin: ''
+            }
+          ])
+        }
+      }
+
       // We embed the hash map and site config strings into each page directly
       // so that it doesn't alter the main chunk's hash on every build.
       // It's also embedded as a string and JSON.parsed from the client because
@@ -88,7 +119,8 @@ export async function build(
               assets,
               pageToHashMap,
               hashMapString,
-              siteDataString
+              siteDataString,
+              additionalHeadTags
             )
           )
       )

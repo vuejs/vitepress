@@ -29,7 +29,8 @@ export async function renderPage(
   assets: string[],
   pageToHashMap: Record<string, string>,
   hashMapString: string,
-  siteDataString: string
+  siteDataString: string,
+  additionalHeadTags: HeadConfig[]
 ) {
   const routePath = `/${page.replace(/\.md$/, '')}`
   const siteData = resolveSiteDataByRoute(config.site, routePath)
@@ -63,6 +64,12 @@ export async function renderPage(
       throw e
     }
   }
+
+  const title: string = createTitle(siteData, pageData)
+  const description: string = pageData.description || siteData.description
+  const stylesheetLink = cssChunk
+    ? `<link rel="preload stylesheet" href="${siteData.base}${cssChunk.fileName}" as="style">`
+    : ''
 
   let preloadLinks =
     config.mpa || (!hasCustom404 && page === '404.md')
@@ -100,14 +107,8 @@ export async function renderPage(
   const preloadHeadTags = toHeadTags(preloadLinks, 'modulepreload')
   const prefetchHeadTags = toHeadTags(prefetchLinks, 'prefetch')
 
-  const stylesheetLink = cssChunk
-    ? `<link rel="preload stylesheet" href="${siteData.base}${cssChunk.fileName}" as="style">`
-    : ''
-
-  const title: string = createTitle(siteData, pageData)
-  const description: string = pageData.description || siteData.description
-
   const headBeforeTransform = [
+    ...additionalHeadTags,
     ...preloadHeadTags,
     ...prefetchHeadTags,
     ...mergeHead(
