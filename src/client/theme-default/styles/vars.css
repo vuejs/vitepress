@@ -63,7 +63,7 @@
   --vp-c-bg-elv-mute: #f6f6f7;
 
   --vp-c-bg-soft: #f6f6f7;
-  --vp-c-bg-soft-up: #ffffff;
+  --vp-c-bg-soft-up: #f9f9fa;
   --vp-c-bg-soft-down: #e3e3e5;
   --vp-c-bg-soft-mute: #e3e3e5;
 
@@ -287,23 +287,23 @@
 
   --vp-custom-block-info-border: var(--vp-c-border);
   --vp-custom-block-info-text: var(--vp-c-text-2);
-  --vp-custom-block-info-bg: var(--vp-c-bg-soft);
-  --vp-custom-block-info-code-bg: var(--vp-c-bg-soft-down);
+  --vp-custom-block-info-bg: var(--vp-c-bg-soft-up);
+  --vp-custom-block-info-code-bg: var(--vp-c-bg-soft);
 
   --vp-custom-block-tip-border: var(--vp-c-green);
   --vp-custom-block-tip-text: var(--vp-c-green-dark);
-  --vp-custom-block-tip-bg: var(--vp-c-bg-soft);
-  --vp-custom-block-tip-code-bg: var(--vp-c-bg-soft-down);
+  --vp-custom-block-tip-bg: var(--vp-c-bg-soft-up);
+  --vp-custom-block-tip-code-bg: var(--vp-c-bg-soft);
 
   --vp-custom-block-warning-border: var(--vp-c-yellow);
   --vp-custom-block-warning-text: var(--vp-c-yellow);
-  --vp-custom-block-warning-bg: var(--vp-c-bg-soft);
-  --vp-custom-block-warning-code-bg: var(--vp-c-bg-soft-down);
+  --vp-custom-block-warning-bg: var(--vp-c-bg-soft-up);
+  --vp-custom-block-warning-code-bg: var(--vp-c-bg-soft);
 
   --vp-custom-block-danger-border: var(--vp-c-red);
   --vp-custom-block-danger-text: var(--vp-c-red);
-  --vp-custom-block-danger-bg: var(--vp-c-bg-soft);
-  --vp-custom-block-danger-code-bg: var(--vp-c-bg-soft-down);
+  --vp-custom-block-danger-bg: var(--vp-c-bg-soft-up);
+  --vp-custom-block-danger-code-bg: var(--vp-c-bg-soft);
 
   --vp-custom-block-details-border: var(--vp-custom-block-info-border);
   --vp-custom-block-details-text: var(--vp-custom-block-info-text);
@@ -377,7 +377,7 @@
 :root {
   --vp-badge-info-border: var(--vp-c-border);
   --vp-badge-info-text: var(--vp-c-text-2);
-  --vp-badge-info-bg: var(--vp-c-bg-soft);
+  --vp-badge-info-bg: var(--vp-c-bg-soft-up);
 
   --vp-badge-tip-border: var(--vp-c-green-dark);
   --vp-badge-tip-text: var(--vp-c-green);
