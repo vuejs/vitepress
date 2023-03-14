@@ -1,3 +1,12 @@
+# [1.0.0-alpha.58](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.57...v1.0.0-alpha.58) (2023-03-14)
+
+
+### Bug Fixes
+
+* fix optional component imports from default theme ([7b0f289](https://github.com/vuejs/vitepress/commit/7b0f28915fc15e155fbb27d5153e25d004bdc294))
+
+
+
 # [1.0.0-alpha.57](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.56...v1.0.0-alpha.57) (2023-03-14)
 
 
