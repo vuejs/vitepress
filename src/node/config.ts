@@ -43,6 +43,7 @@ export interface UserConfig<ThemeConfig = any>
   srcExclude?: string[]
   outDir?: string
   cacheDir?: string
+
   shouldPreload?: (link: string, page: string) => boolean
 
   locales?: LocaleConfig<ThemeConfig>
@@ -142,6 +143,7 @@ export interface UserConfig<ThemeConfig = any>
 }
 
 export interface TransformContext {
+  page: string
   siteConfig: SiteConfig
   siteData: SiteData
   pageData: PageData
@@ -149,6 +151,7 @@ export interface TransformContext {
   description: string
   head: HeadConfig[]
   content: string
+  assets: string[]
 }
 
 export type RawConfigExports<ThemeConfig = any> =

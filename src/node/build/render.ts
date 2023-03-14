@@ -26,6 +26,7 @@ export async function renderPage(
   result: RollupOutput | null,
   appChunk: OutputChunk | undefined,
   cssChunk: OutputAsset | undefined,
+  assets: string[],
   pageToHashMap: Record<string, string>,
   hashMapString: string,
   siteDataString: string
@@ -86,21 +87,18 @@ export async function renderPage(
     preloadLinks = preloadLinks.filter((link) => shouldPreload(link, page))
   }
 
-  const preloadLinksString = preloadLinks
-    .map((file) => {
-      return `<link rel="modulepreload" href="${
-        EXTERNAL_URL_RE.test(file) ? '' : siteData.base // don't add base to external urls
-      }${file}">`
-    })
-    .join('\n    ')
+  const toHeadTags = (files: string[], rel: string): HeadConfig[] =>
+    files.map((file) => [
+      'link',
+      {
+        rel,
+        // don't add base to external urls
+        href: (EXTERNAL_URL_RE.test(file) ? '' : siteData.base) + file
+      }
+    ])
 
-  const prefetchLinkString = prefetchLinks
-    .map((file) => {
-      return `<link rel="prefetch" href="${
-        EXTERNAL_URL_RE.test(file) ? '' : siteData.base // don't add base to external urls
-      }${file}">`
-    })
-    .join('\n    ')
+  const preloadHeadTags = toHeadTags(preloadLinks, 'modulepreload')
+  const prefetchHeadTags = toHeadTags(prefetchLinks, 'prefetch')
 
   const stylesheetLink = cssChunk
     ? `<link rel="preload stylesheet" href="${siteData.base}${cssChunk.fileName}" as="style">`
@@ -109,21 +107,27 @@ export async function renderPage(
   const title: string = createTitle(siteData, pageData)
   const description: string = pageData.description || siteData.description
 
-  const headBeforeTransform = mergeHead(
-    siteData.head,
-    filterOutHeadDescription(pageData.frontmatter.head)
-  )
+  const headBeforeTransform = [
+    ...preloadHeadTags,
+    ...prefetchHeadTags,
+    ...mergeHead(
+      siteData.head,
+      filterOutHeadDescription(pageData.frontmatter.head)
+    )
+  ]
 
   const head = mergeHead(
     headBeforeTransform,
     (await config.transformHead?.({
+      page,
       siteConfig: config,
       siteData,
       pageData,
       title,
       description,
       head: headBeforeTransform,
-      content
+      content,
+      assets
     })) || []
   )
 
@@ -165,8 +169,6 @@ export async function renderPage(
         ? `<script type="module" src="${siteData.base}${appChunk.fileName}"></script>`
         : ``
     }
-    ${preloadLinksString}
-    ${prefetchLinkString}
     ${await renderHead(head)}
   </head>
   <body>${teleports?.body || ''}
@@ -179,13 +181,15 @@ export async function renderPage(
 
   await fs.ensureDir(path.dirname(htmlFileName))
   const transformedHtml = await config.transformHtml?.(html, htmlFileName, {
+    page,
     siteConfig: config,
     siteData,
     pageData,
     title,
     description,
     head,
-    content
+    content,
+    assets
   })
   await fs.writeFile(htmlFileName, transformedHtml || html)
 }

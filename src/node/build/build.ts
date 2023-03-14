@@ -59,6 +59,12 @@ export async function build(
         (chunk) => chunk.type === 'asset' && chunk.fileName.endsWith('.css')
       ) as OutputAsset
 
+      const assets = (siteConfig.mpa ? serverResult : clientResult).output
+        .filter(
+          (chunk) => chunk.type === 'asset' && !chunk.fileName.endsWith('.css')
+        )
+        .map((asset) => siteConfig.site.base + asset.fileName)
+
       // We embed the hash map and site config strings into each page directly
       // so that it doesn't alter the main chunk's hash on every build.
       // It's also embedded as a string and JSON.parsed from the client because
@@ -79,6 +85,7 @@ export async function build(
               clientResult,
               appChunk,
               cssChunk,
+              assets,
               pageToHashMap,
               hashMapString,
               siteDataString
