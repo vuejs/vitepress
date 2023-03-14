@@ -99,7 +99,22 @@ export const createMarkdownRenderer = async (
   // mdit-vue plugins
   md.use(anchorPlugin, {
     slugify,
-    permalink: anchorPlugin.permalink.ariaHidden({}),
+    permalink: anchorPlugin.permalink.linkInsideHeader({
+      symbol: '&ZeroWidthSpace;',
+      renderAttrs: (slug, state) => {
+        // Find `heading_open` with the id identical to slug
+        const idx = state.tokens.findIndex((token) => {
+          const attrs = token.attrs
+          const id = attrs?.find((attr) => attr[0] === 'id')
+          return id && slug === id[1]
+        })
+        // Get the actual heading content
+        const title = state.tokens[idx + 1].content
+        return {
+          'aria-label': `Permalink to "${title}"`
+        }
+      }
+    }),
     ...options.anchor
   } as anchorPlugin.AnchorOptions).use(frontmatterPlugin, {
     ...options.frontmatter
