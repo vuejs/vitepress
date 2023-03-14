@@ -45,6 +45,10 @@
   transition: color 0.25s, opacity 0.25s;
 }
 
+.vp-doc .header-anchor:before {
+  content: var(--vp-header-anchor-symbol);
+}
+
 .vp-doc h1:hover .header-anchor,
 .vp-doc h1 .header-anchor:focus,
 .vp-doc h2:hover .header-anchor,
