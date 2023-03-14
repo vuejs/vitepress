@@ -123,7 +123,7 @@ export interface UserConfig<ThemeConfig = any>
    *
    * This build hook will allow you to modify the head adding new entries that cannot be statically added.
    */
-  transformHead?: (context: TransformContext) => Awaitable<HeadConfig[]>
+  transformHead?: (context: TransformContext) => Awaitable<HeadConfig[] | void>
 
   /**
    * HTML transform hook: runs before writing HTML to dist.
