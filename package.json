@@ -21,6 +21,10 @@
     "./theme": {
       "types": "./theme.d.ts",
       "default": "./dist/client/theme-default/index.js"
+    },
+    "./theme-without-fonts": {
+      "types": "./theme.d.ts",
+      "default": "./dist/client/theme-default/without-fonts.js"
     }
   },
   "bin": {

@@ -477,6 +477,8 @@ export default {
 
 ```ts
 interface TransformContext {
+  page: string // e.g. index.md (relative to srcDir)
+  assets: string[] // all non-js/css assets as fully resolved public URL
   siteConfig: SiteConfig
   siteData: SiteData
   pageData: PageData

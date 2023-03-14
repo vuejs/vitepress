@@ -36,6 +36,52 @@ export default DefaultTheme
 
 See [default theme CSS variables](https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css) that can be overridden.
 
+## Using Different Fonts
+
+VitePress uses [Inter](https://rsms.me/inter/) as the default font, and will include the fonts in the build output. The font is also auto preloaded in production. However, this may not be desirable if you want to use a different main font.
+
+To avoid including Inter in the build output, import the theme from `vitepress/theme-without-fonts` instead:
+
+```js
+// .vitepress/theme/index.js
+import DefaultTheme from 'vitepress/theme-without-fonts'
+import './my-fonts.css'
+
+export default DefaultTheme
+```
+
+```css
+/* .vitepress/theme/custom.css */
+:root {
+  --vp-font-family-base: /* normal text font */
+  --vp-font-family-mono: /* code font */
+}
+```
+
+If your font is a local file referenced via `@font-face`, it will be processed as an asset and included under `.vitepress/dist/assets` with hashed filename. To preload this file, use the [transformHead](/reference/site-config#transformhead) build hook:
+
+```js
+// .vitepress/config.js
+export default {
+  transformHead({ assets }) {
+    // adjust the regex accordingly to match your font
+    const myFontFile = assets.find(file => /font-name\.\w+\.woff2/)
+    if (myFontFile) {
+      return [
+        'link',
+        {
+          rel: 'preload',
+          href: myFontFile,
+          as: 'font',
+          type: 'font/woff2',
+          crossorigin: ''
+        }
+      ]
+    }
+  }
+}
+```
+
 ## Registering Global Components
 
 ```js
