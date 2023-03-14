@@ -44,7 +44,7 @@ export interface MarkdownOptions extends MarkdownIt.Options {
   }
   defaultHighlightLang?: string
   frontmatter?: FrontmatterPluginOptions
-  headers?: HeadersPluginOptions | false
+  headers?: HeadersPluginOptions | boolean
   sfc?: SfcPluginOptions
   theme?: ThemeOptions
   languages?: ILanguageRegistration[]
@@ -120,11 +120,11 @@ export const createMarkdownRenderer = async (
     ...options.frontmatter
   } as FrontmatterPluginOptions)
 
-  if (options.headers !== false) {
+  if (options.headers) {
     md.use(headersPlugin, {
       level: [2, 3, 4, 5, 6],
       slugify,
-      ...options.headers
+      ...(typeof options.headers === 'boolean' ? undefined : options.headers)
     } as HeadersPluginOptions)
   }
 
