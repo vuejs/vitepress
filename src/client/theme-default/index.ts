@@ -1,4 +1,4 @@
 import './styles/fonts.css'
 
-import theme from './without-fonts.js'
-export default theme
+export * from './without-fonts.js'
+export { default as default } from './without-fonts.js'
