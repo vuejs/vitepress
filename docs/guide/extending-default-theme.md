@@ -72,14 +72,16 @@ export default {
     const myFontFile = assets.find(file => /font-name\.\w+\.woff2/)
     if (myFontFile) {
       return [
-        'link',
-        {
-          rel: 'preload',
-          href: myFontFile,
-          as: 'font',
-          type: 'font/woff2',
-          crossorigin: ''
-        }
+        [
+          'link',
+          {
+            rel: 'preload',
+            href: myFontFile,
+            as: 'font',
+            type: 'font/woff2',
+            crossorigin: ''
+          }
+        ]
       ]
     }
   }
