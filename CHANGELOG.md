@@ -1,3 +1,30 @@
+# [1.0.0-alpha.57](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.56...v1.0.0-alpha.57) (2023-03-14)
+
+
+### Bug Fixes
+
+* **types:** allow void return in transformHead hook ([32dfaf5](https://github.com/vuejs/vitepress/commit/32dfaf5adc9db5e87995c67a7060169cbf835b09))
+
+
+### Features
+
+* expose page and assets on build hooks TransformContext ([468c049](https://github.com/vuejs/vitepress/commit/468c049ccd7648144761def11c88ebf70c0d4226))
+* **theme:** a11y improvements ([3b6a6d1](https://github.com/vuejs/vitepress/commit/3b6a6d1abdc42437d9e659ef598db1d93695db21))
+* **theme:** aria-label for social links ([6ca34c4](https://github.com/vuejs/vitepress/commit/6ca34c4236c076fb40fb0b4fb01c1f9783e2210c))
+* **theme:** page outline for mobile ([7182c42](https://github.com/vuejs/vitepress/commit/7182c4231f3c435f1471dfecacdce99d48270978))
+* **theme:** support extending default theme without importing fonts ([da1691d](https://github.com/vuejs/vitepress/commit/da1691d77e371892cbe566ba45ca24f1fa03dc7c))
+* **theme:** use more accessible header anchors [#2040](https://github.com/vuejs/vitepress/pull/2040)
+
+
+### Performance Improvements
+
+* **theme:** preload font ([24735db](https://github.com/vuejs/vitepress/commit/24735dbcde15be41bc2697a4ea44001a1a583511))
+
+### BREAKING CHANGES
+
+* `markdown.headers` is now disabled by default. This means `PageData` will no longer include extracted headers by default unless this option is explicitly enabled. This is because the default theme now extracts page headers at runtime, so the data is no longer needed by default.
+
+
 # [1.0.0-alpha.56](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.55...v1.0.0-alpha.56) (2023-03-13)
 
 
