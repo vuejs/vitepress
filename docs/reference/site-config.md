@@ -6,20 +6,6 @@ outline: deep
 
 Site config is where you can define the global settings of the site. App config options define settings that apply to every VitePress site, regardless of what theme it is using. For example, the base directory or the title of the site.
 
-<div class="site-config-toc">
-
-[[toc]]
-
-</div>
-
-<style>
-@media (min-width: 1280px) {
-  .site-config-toc {
-    display: none;
-  }
-}
-</style>
-
 ## Overview
 
 ### Config Resolution

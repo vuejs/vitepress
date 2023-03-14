@@ -11,6 +11,16 @@ export type MenuItem = Omit<Header, 'slug' | 'children'> & {
   children?: MenuItem[]
 }
 
+export function resolveTitle(theme: DefaultTheme.Config) {
+  return (
+    (typeof theme.outline === 'object' &&
+      !Array.isArray(theme.outline) &&
+      theme.outline.label) ||
+    theme.outlineTitle ||
+    'On this page'
+  )
+}
+
 export function getHeaders(range: DefaultTheme.Config['outline']) {
   const headers = [...document.querySelectorAll('.VPDoc h2,h3,h4,h5,h6')]
     .filter((el) => el.id && el.hasChildNodes())
