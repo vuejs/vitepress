@@ -25,8 +25,13 @@ export default defineConfig({
     ]
   ],
 
-  markdown: {
-    headers: false
+  transformHead({ page }) {
+    if (page === 'index.md') {
+      return [
+        ['link', { rel: 'preload', as: 'image', href: '/vue.svg' }],
+        ['link', { rel: 'preload', as: 'image', href: '/vite.svg' }]
+      ]
+    }
   },
 
   themeConfig: {
