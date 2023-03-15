@@ -1,6 +1,12 @@
 import { siteDataRef } from './data.js'
 import { inBrowser, EXTERNAL_URL_RE, sanitizeFileName } from '../shared.js'
-import { onUnmounted } from 'vue'
+import {
+  h,
+  onMounted,
+  onUnmounted,
+  shallowRef,
+  type AsyncComponentLoader
+} from 'vue'
 
 export { inBrowser } from '../shared.js'
 
@@ -69,4 +75,21 @@ export function onContentUpdated(fn: () => any) {
   onUnmounted(() => {
     contentUpdatedCallbacks = contentUpdatedCallbacks.filter((f) => f !== fn)
   })
+}
+
+export function defineClientComponent(loader: AsyncComponentLoader) {
+  return {
+    setup() {
+      const comp = shallowRef()
+      onMounted(async () => {
+        let res = await loader()
+        // interop module default
+        if (res && (res.__esModule || res[Symbol.toStringTag] === 'Module')) {
+          res = res.default
+        }
+        comp.value = res
+      })
+      return () => (comp.value ? h(comp.value) : null)
+    }
+  }
 }
