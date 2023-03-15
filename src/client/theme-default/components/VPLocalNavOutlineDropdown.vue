@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, nextTick } from 'vue'
 import { useData } from '../composables/data.js'
 import { getHeaders, resolveTitle } from '../composables/outline.js'
 import VPDocOutlineItem from './VPDocOutlineItem.vue'
@@ -9,6 +9,7 @@ import VPIconChevronRight from './icons/VPIconChevronRight.vue'
 const { frontmatter, theme } = useData()
 const open = ref(false)
 const vh = ref(0)
+const items = ref<HTMLDivElement>()
 
 onContentUpdated(() => {
   open.value = false
@@ -21,7 +22,13 @@ function toggle() {
 
 function onItemClick(e: Event) {
   if ((e.target as HTMLElement).classList.contains('outline-link')) {
-    open.value = false
+    // disable animation on hash navigation when page jumps
+    if (items.value) {
+      items.value.style.transition = 'none'
+    }
+    nextTick(() => {
+      open.value = false
+    })
   }
 }
 
@@ -37,12 +44,18 @@ function scrollToTop() {
       {{ resolveTitle(theme) }}
       <VPIconChevronRight class="icon" />
     </button>
-    <div class="items" v-if="open" @click="onItemClick">
-      <a class="top-link" href="#" @click="scrollToTop">
-        {{ theme.returnToTopLabel || 'Return to top' }}
-      </a>
-      <VPDocOutlineItem :headers="getHeaders(frontmatter.outline ?? theme.outline)" />
-    </div>
+    <Transition name="flyout">
+      <div v-if="open"
+        ref="items"
+        class="items"
+        @click="onItemClick"
+      >
+        <a class="top-link" href="#" @click="scrollToTop">
+          {{ theme.returnToTopLabel || 'Return to top' }}
+        </a>
+        <VPDocOutlineItem :headers="getHeaders(frontmatter.outline ?? theme.outline)" />
+      </div>
+    </Transition>
   </div>
 </template>
 
@@ -109,5 +122,19 @@ function scrollToTop() {
   padding: 6px 0;
   margin: 0 13px 10px;
   border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.flyout-enter-active {
+  transition: all .2s ease-out;
+}
+
+.flyout-leave-active {
+  transition: all .15s ease-in;
+}
+
+.flyout-enter-from,
+.flyout-leave-to {
+  opacity: 0;
+  transform: translateY(-16px);
 }
 </style>
