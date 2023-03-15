@@ -147,7 +147,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
            with:
              node-version: 16
              cache: npm
-         - run: npm install --frozen-lockfile
+         - run: npm ci
          - name: Build
            run: npm run docs:build
          - uses: actions/configure-pages@v2
