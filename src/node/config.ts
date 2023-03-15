@@ -67,8 +67,12 @@ export interface UserConfig<ThemeConfig = any>
   /**
    * Configure the scroll offset when the theme has a sticky header.
    * Can be a number or a selector element to get the offset from.
+   * Can also be an array of selectors in case some elements will be
+   * invisible due to responsive layout. VitePress will fallback to the next
+   * selector if a selector fails to match, or the matched element is not
+   * currently visible in viewport.
    */
-  scrollOffset?: number | string
+  scrollOffset?: number | string | string[]
 
   /**
    * Enable MPA / zero-JS mode.
