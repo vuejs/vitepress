@@ -25,9 +25,9 @@ function resolveThemeExtends(theme: typeof RawTheme): typeof RawTheme {
     return {
       ...base,
       ...theme,
-      enhanceApp(ctx) {
-        if (base.enhanceApp) base.enhanceApp(ctx)
-        if (theme.enhanceApp) theme.enhanceApp(ctx)
+      async enhanceApp(ctx) {
+        if (base.enhanceApp) await base.enhanceApp(ctx)
+        if (theme.enhanceApp) await theme.enhanceApp(ctx)
       }
     }
   }
