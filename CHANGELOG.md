@@ -1,3 +1,157 @@
+# [1.0.0-alpha.59](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.58...v1.0.0-alpha.59) (2023-03-15)
+
+
+### Bug Fixes
+
+* handle async enhanceApp when extending themes ([52b04f3](https://github.com/vuejs/vitepress/commit/52b04f324cc3a675ed87353d516a6302d282ccfb))
+* **theme:** improve Chinese font handling ([81ae1c7](https://github.com/vuejs/vitepress/commit/81ae1c79cd1c0c9c31f48100f131715efc68efbd)), closes [#2036](https://github.com/vuejs/vitepress/issues/2036)
+* **theme:** move doc-footer-before slot into the footer ([b0160bc](https://github.com/vuejs/vitepress/commit/b0160bc2619b50e3bca2bf1bba60d68708a39145)), closes [#2082](https://github.com/vuejs/vitepress/issues/2082)
+
+
+### Features
+
+* defineClientComponent helper ([2ad668c](https://github.com/vuejs/vitepress/commit/2ad668cd54174b37a8c68b389a5e31e0aae60828))
+
+
+
+# [1.0.0-alpha.58](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.57...v1.0.0-alpha.58) (2023-03-14)
+
+
+### Bug Fixes
+
+* fix optional component imports from default theme ([7b0f289](https://github.com/vuejs/vitepress/commit/7b0f28915fc15e155fbb27d5153e25d004bdc294))
+
+
+
+# [1.0.0-alpha.57](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.56...v1.0.0-alpha.57) (2023-03-14)
+
+
+### Bug Fixes
+
+* **types:** allow void return in transformHead hook ([32dfaf5](https://github.com/vuejs/vitepress/commit/32dfaf5adc9db5e87995c67a7060169cbf835b09))
+
+
+### Features
+
+* expose page and assets on build hooks TransformContext ([468c049](https://github.com/vuejs/vitepress/commit/468c049ccd7648144761def11c88ebf70c0d4226))
+* **theme:** a11y improvements ([3b6a6d1](https://github.com/vuejs/vitepress/commit/3b6a6d1abdc42437d9e659ef598db1d93695db21))
+* **theme:** aria-label for social links ([6ca34c4](https://github.com/vuejs/vitepress/commit/6ca34c4236c076fb40fb0b4fb01c1f9783e2210c))
+* **theme:** page outline for mobile ([7182c42](https://github.com/vuejs/vitepress/commit/7182c4231f3c435f1471dfecacdce99d48270978))
+* **theme:** support extending default theme without importing fonts ([da1691d](https://github.com/vuejs/vitepress/commit/da1691d77e371892cbe566ba45ca24f1fa03dc7c))
+* **theme:** use more accessible header anchors [#2040](https://github.com/vuejs/vitepress/pull/2040)
+
+
+### Performance Improvements
+
+* **theme:** preload font ([24735db](https://github.com/vuejs/vitepress/commit/24735dbcde15be41bc2697a4ea44001a1a583511))
+
+### BREAKING CHANGES
+
+* `markdown.headers` is now disabled by default. This means `PageData` will no longer include extracted headers by default unless this option is explicitly enabled. This is because the default theme now extracts page headers at runtime, so the data is no longer needed by default.
+
+
+# [1.0.0-alpha.56](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.55...v1.0.0-alpha.56) (2023-03-13)
+
+
+### Bug Fixes
+
+* do not include head tags in inlined site data ([2f26693](https://github.com/vuejs/vitepress/commit/2f26693a1d78f24d5a62a9b988c457e7c299fc5c))
+
+
+
+# [1.0.0-alpha.55](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.54...v1.0.0-alpha.55) (2023-03-13)
+
+
+### Bug Fixes
+
+* fix scroll to hash on new tab during dev ([9aafc88](https://github.com/vuejs/vitepress/commit/9aafc88d5951684b9b583a7a164840a9b87467b0)), closes [#653](https://github.com/vuejs/vitepress/issues/653)
+* gracefully handle config update with syntax error ([470ce3d](https://github.com/vuejs/vitepress/commit/470ce3d3f3272639288cb888dc89d37f041df104)), closes [#2041](https://github.com/vuejs/vitepress/issues/2041)
+
+
+### Performance Improvements
+
+* inline site data on page ([22ace7b](https://github.com/vuejs/vitepress/commit/22ace7b075276c340d0ae2a1f260d119e82c6470))
+* kickoff main chunk fetch earlier in browsers without modulepreload support ([d64a76e](https://github.com/vuejs/vitepress/commit/d64a76eb366a270c56189096a5e0ae6b8ae23ea7))
+
+
+
+# [1.0.0-alpha.54](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.53...v1.0.0-alpha.54) (2023-03-13)
+
+
+### Bug Fixes
+
+* fix chunking logic that causes breakage ([bed202d](https://github.com/vuejs/vitepress/commit/bed202dbcc8f3954c12aaef993369b29ff47211e)), closes [#2072](https://github.com/vuejs/vitepress/issues/2072) [#2073](https://github.com/vuejs/vitepress/issues/2073) [#2074](https://github.com/vuejs/vitepress/issues/2074) [#2075](https://github.com/vuejs/vitepress/issues/2075)
+
+
+
+# [1.0.0-alpha.53](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.52...v1.0.0-alpha.53) (2023-03-13)
+
+
+### Bug Fixes
+
+* avoid circular dependency between siteData virtual module and useData() ([905f58b](https://github.com/vuejs/vitepress/commit/905f58b2a80cd1dd37b645dddde3d54b02cd60d4)), closes [#2072](https://github.com/vuejs/vitepress/issues/2072) [#2073](https://github.com/vuejs/vitepress/issues/2073) [#2074](https://github.com/vuejs/vitepress/issues/2074)
+
+
+### Features
+
+* createContentLoader ([d2838e3](https://github.com/vuejs/vitepress/commit/d2838e3755a8ef5861d1a921a336dfebc6156634))
+* **theme:** editLink can accept function ([#2058](https://github.com/vuejs/vitepress/issues/2058)) ([192708d](https://github.com/vuejs/vitepress/commit/192708de678115116f3477293742c155b8f48e5d))
+
+
+
+# [1.0.0-alpha.52](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.51...v1.0.0-alpha.52) (2023-03-11)
+
+
+### Bug Fixes
+
+* fix line higlighting for empty lines ([9708510](https://github.com/vuejs/vitepress/commit/9708510cbd893f02916c95fabad5a8f07d52dbaf))
+* fix rewrites with non ascii chars ([6ce88da](https://github.com/vuejs/vitepress/commit/6ce88da3baa4bc9e6b8dc3254180ed995766c7ec)), closes [#2017](https://github.com/vuejs/vitepress/issues/2017)
+* fix same page hash links with encoded chars ([e05a3f2](https://github.com/vuejs/vitepress/commit/e05a3f2b5aff54ec7e5211c1021c16814eb57e58)), closes [#1749](https://github.com/vuejs/vitepress/issues/1749)
+* properly serialize header in outline ([8ab36d0](https://github.com/vuejs/vitepress/commit/8ab36d05fa4aa8b3707c1f89efc1c820ffaf9669))
+* remove @vue/devtools from force include ([9bd940f](https://github.com/vuejs/vitepress/commit/9bd940f22cae0ec88dc1670a31fb9ebc015e1f92))
+* respect user vue alias ([63f33d2](https://github.com/vuejs/vitepress/commit/63f33d2895d21c08903eb4d625c13d8d3721d861)), closes [#1065](https://github.com/vuejs/vitepress/issues/1065)
+* **theme:** re-support dynamic headers ([657a7d3](https://github.com/vuejs/vitepress/commit/657a7d38df3c9022a7ef6977fd71a6bde6571cfc))
+* trim spaces from outline headers ([9ceff1d](https://github.com/vuejs/vitepress/commit/9ceff1d587f6b61529806c5eb705fc417b685ad9))
+
+
+### Features
+
+* allow disabling markdown.headers ([868a9ff](https://github.com/vuejs/vitepress/commit/868a9ff81ea445556bc7500dfe4210d253da9ceb))
+
+
+### Performance Improvements
+
+* improve default theme chunking ([f6cb4c0](https://github.com/vuejs/vitepress/commit/f6cb4c0d44108116c91b28a3fcde820093d94340))
+
+
+### BREAKING CHANGES
+
+* default theme config option `outlineBadge` has been
+removed. Badges in headers are now always excluded when generating
+outline text.
+
+
+
+# [1.0.0-alpha.51](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.50...v1.0.0-alpha.51) (2023-03-09)
+
+
+### Bug Fixes
+
+* **theme:** align number to code line ([#2044](https://github.com/vuejs/vitepress/issues/2044)) ([27e3adf](https://github.com/vuejs/vitepress/commit/27e3adf8ed888f03466fec2e10bc7589b0d010e8))
+* **theme:** remove log in VPContent ([747a04d](https://github.com/vuejs/vitepress/commit/747a04d3416a4014e46e41ebfdc734643268bc29))
+
+
+### Features
+
+* **theme:** add not-found layout slot ([#2054](https://github.com/vuejs/vitepress/issues/2054)) ([41987b6](https://github.com/vuejs/vitepress/commit/41987b6a880d99e78e48ae3b4a2e6b815e183348))
+
+
+### Performance Improvements
+
+* **a11y:** add aria-label to language button ([#2025](https://github.com/vuejs/vitepress/issues/2025)) ([322c633](https://github.com/vuejs/vitepress/commit/322c633fd0df15b2dfae62b54479d7cdb3255155))
+
+
+
 # [1.0.0-alpha.50](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.49...v1.0.0-alpha.50) (2023-03-07)
 
 

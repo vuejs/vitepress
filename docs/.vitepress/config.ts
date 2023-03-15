@@ -12,7 +12,27 @@ export default defineConfig({
   lastUpdated: true,
   cleanUrls: true,
 
-  head: [['meta', { name: 'theme-color', content: '#3c8772' }]],
+  head: [
+    ['meta', { name: 'theme-color', content: '#3c8772' }],
+    [
+      'script',
+      {
+        src: 'https://cdn.usefathom.com/script.js',
+        'data-site': 'AZBRSFGG',
+        'data-spa': 'auto',
+        defer: ''
+      }
+    ]
+  ],
+
+  transformHead({ page }) {
+    if (page === 'index.md') {
+      return [
+        ['link', { rel: 'preload', as: 'image', href: '/vue.svg' }],
+        ['link', { rel: 'preload', as: 'image', href: '/vite.svg' }]
+      ]
+    }
+  },
 
   themeConfig: {
     nav: nav(),
@@ -106,6 +126,7 @@ function sidebarGuide() {
           link: '/guide/extending-default-theme'
         },
         { text: 'Build-Time Data Loading', link: '/guide/data-loading' },
+        { text: 'SSR Compatibility', link: '/guide/ssr-compat' },
         { text: 'Connecting to a CMS', link: '/guide/cms' }
       ]
     },

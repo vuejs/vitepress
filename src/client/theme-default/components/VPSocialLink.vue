@@ -18,6 +18,7 @@ const svg = computed(() => {
   <a
     class="VPSocialLink"
     :href="link"
+    :aria-label="typeof icon === 'string' ? icon : ''"
     target="_blank"
     rel="noopener"
     v-html="svg"

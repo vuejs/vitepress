@@ -6,7 +6,7 @@ outline: deep
 
 ## General Workflow
 
-Connecting VitePress to a CMS will largely revolve around [Dynamic Routes](/guide/routing#dynamic-routes). Make sure to understand how it works before proceeding.
+Connecting VitePress to a CMS will largely revolve around [Dynamic Routes](./routing#dynamic-routes). Make sure to understand how it works before proceeding.
 
 Since each CMS will work differently, here we can only provide a generic workflow that you will need to adapt to your specific scenario.
 

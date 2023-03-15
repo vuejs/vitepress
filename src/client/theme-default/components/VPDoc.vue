@@ -4,6 +4,7 @@ import { computed } from 'vue'
 import { useSidebar } from '../composables/sidebar.js'
 import VPDocAside from './VPDocAside.vue'
 import VPDocFooter from './VPDocFooter.vue'
+import VPDocOutlineDropdown from './VPDocOutlineDropdown.vue'
 
 const route = useRoute()
 const { hasSidebar, hasAside } = useSidebar()
@@ -38,11 +39,13 @@ const pageName = computed(() =>
       <div class="content">
         <div class="content-container">
           <slot name="doc-before" />
+          <VPDocOutlineDropdown />
           <main class="main">
             <Content class="vp-doc" :class="pageName" />
           </main>
-          <slot name="doc-footer-before" />
-          <VPDocFooter />
+          <VPDocFooter>
+            <template #doc-footer-before><slot name="doc-footer-before" /></template>
+          </VPDocFooter>
           <slot name="doc-after" />
         </div>
       </div>
@@ -54,6 +57,16 @@ const pageName = computed(() =>
 .VPDoc {
   padding: 32px 24px 96px;
   width: 100%;
+}
+
+.VPDoc .VPDocOutlineDropdown {
+  display: none;
+}
+
+@media (min-width: 960px) and (max-width: 1280px) {
+  .VPDoc .VPDocOutlineDropdown {
+    display: block;
+  }
 }
 
 @media (min-width: 768px) {

@@ -229,8 +229,8 @@ export function useRoute(): Route {
   return useRouter().route
 }
 
-function scrollTo(el: HTMLElement | SVGElement, hash: string, smooth = false) {
-  let target: HTMLElement | SVGElement | null = null
+export function scrollTo(el: Element, hash: string, smooth = false) {
+  let target: Element | null = null
 
   try {
     target = el.classList.contains('header-anchor')

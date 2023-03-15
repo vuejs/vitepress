@@ -3,9 +3,16 @@ import type { MenuItem } from '../composables/outline.js'
 
 defineProps<{
   headers: MenuItem[]
-  onClick: (e: MouseEvent) => void
   root?: boolean
 }>()
+
+function onClick({ target: el }: Event) {
+  const id = '#' + (el as HTMLAnchorElement).href!.split('#')[1]
+  const heading = document.querySelector<HTMLAnchorElement>(
+    decodeURIComponent(id)
+  )
+  heading?.focus()
+}
 </script>
 
 <template>
@@ -13,7 +20,7 @@ defineProps<{
     <li v-for="{ children, link, title } in headers">
       <a class="outline-link" :href="link" @click="onClick">{{ title }}</a>
       <template v-if="children?.length">
-        <VPDocAsideOutlineItem :headers="children" :onClick="onClick" />
+        <VPDocOutlineItem :headers="children" />
       </template>
     </li>
   </ul>
@@ -37,6 +44,7 @@ defineProps<{
   overflow: hidden;
   text-overflow: ellipsis;
   transition: color 0.5s;
+  font-weight: 500;
 }
 
 .outline-link:hover,

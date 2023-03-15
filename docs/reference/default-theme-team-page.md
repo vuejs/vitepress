@@ -68,7 +68,7 @@ If you have large number of members, or simply would like to have more space to 
 
 ## Create a full Team Page
 
-Instead of adding team members to doc page, you may also create a full Team Page, similar to how you can create a custom [Home Page](/reference/default-theme-home-page).
+Instead of adding team members to doc page, you may also create a full Team Page, similar to how you can create a custom [Home Page](./default-theme-home-page).
 
 To create a team page, first, create a new md file. The file name doesn't matter, but here lets call it `team.md`. In this file, set frontmatter option `layout: page`, and then you may compose your page structure using `TeamPage` components.
 

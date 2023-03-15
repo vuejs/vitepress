@@ -155,3 +155,11 @@ html body {
   unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1,
     U+01AF-01B0, U+1EA0-1EF9, U+20AB;
 }
+
+/* Chinese quotes rendering fix. 中英文弯引号共享 Unicode 码位，确保引号使用中文字体渲染 */
+@font-face {
+  font-family: 'Chinese Quotes';
+  src: local('PingFang SC Regular'), local('PingFang SC'), local('SimHei'),
+    local('Source Han Sans SC');
+  unicode-range: U+2018, U+2019, U+201C, U+201D; /* 分别是 ‘’“” */
+}
