@@ -121,6 +121,8 @@ If you are using or demoing components that are not SSR-friendly (for example, c
 </ClientOnly>
 ```
 
+- Related: [SSR Compatibility](/guide/ssr-compat)
+
 ## `$frontmatter` <Badge type="info" text="template global" />
 
 Directly access current page's [frontmatter](../guide/frontmatter) data in Vue expressions.

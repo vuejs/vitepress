@@ -126,6 +126,7 @@ function sidebarGuide() {
           link: '/guide/extending-default-theme'
         },
         { text: 'Build-Time Data Loading', link: '/guide/data-loading' },
+        { text: 'SSR Compatibility', link: '/guide/ssr-compat' },
         { text: 'Connecting to a CMS', link: '/guide/cms' }
       ]
     },

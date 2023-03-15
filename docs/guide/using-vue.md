@@ -4,6 +4,10 @@ In VitePress, each Markdown file is compiled into HTML and then processed as a [
 
 It's worth noting that VitePress leverages Vue's compiler to automatically detect and optimize the purely static parts of the Markdown content. Static contents are optimized into single placeholder nodes and eliminated from the page's JavaScript payload for initial visits. They are also skipped during client-side hydration. In short, you only pay for the dynamic parts on any given page.
 
+:::tip SSR Compatibility
+All Vue usage needs to be SSR-compatible. See [SSR Compatibility](./ssr-compat) for details and common workarounds.
+:::
+
 ## Templating
 
 ### Interpolation
@@ -215,63 +219,6 @@ Then you can use the following in Markdown and theme components:
   font-size: 20px
 </style>
 ```
-
-## Browser API Access Restrictions
-
-Because VitePress applications are server-rendered in Node.js when generating static builds, any Vue usage must conform to the [universal code requirements](https://vuejs.org/guide/scaling-up/ssr.html). In short, make sure to only access Browser / DOM APIs in `beforeMount` or `mounted` hooks.
-
-If you are using or demoing components that are not SSR-friendly (for example, contain custom directives), you can wrap them inside the built-in `<ClientOnly>` component:
-
-```md
-<ClientOnly>
-  <NonSSRFriendlyComponent />
-</ClientOnly>
-```
-
-Note this does not fix components or libraries that access Browser APIs **on import**. To use code that assumes a browser environment on import, you need to dynamically import them in proper lifecycle hooks:
-
-```vue
-<script>
-export default {
-  mounted() {
-    import('./lib-that-access-window-on-import').then((module) => {
-      // use code
-    })
-  }
-}
-</script>
-```
-
-If your module `export default` a Vue component, you can register it dynamically:
-
-```vue
-<template>
-  <component
-    v-if="dynamicComponent"
-    :is="dynamicComponent">
-  </component>
-</template>
-
-<script>
-export default {
-  data() {
-    return {
-      dynamicComponent: null
-    }
-  },
-
-  mounted() {
-    import('./lib-that-access-window-on-import').then((module) => {
-      this.dynamicComponent = module.default
-    })
-  }
-}
-</script>
-```
-
-**Also see:**
-
-- [Vue.js > Dynamic Components](https://vuejs.org/guide/essentials/component-basics.html#dynamic-components)
 
 ## Using Teleports
 
