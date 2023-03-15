@@ -63,6 +63,20 @@ export default defineConfigWithTheme<ThemeConfig>({
 })
 ```
 
+### Vite, Vue & Markdown Config
+
+- **Vite**
+
+    You can configure the underlying Vite instance using the [vite](#vite) option in your VitePress config. No need to create a separate Vite config file.
+
+- **Vue**
+
+    VitePress already includes the official Vue plugin for Vite ([@vitejs/plugin-vue](https://github.com/vitejs/vite-plugin-vue)). You can configure its options using the [vue](#vue) option in your VitePress config.
+
+- **Markdown**
+
+    You can configure the underlying [Markdown-It](https://github.com/markdown-it/markdown-it) instance using the [markdown](#markdown) option in your VitePress config.
+
 ## Site Metadata
 
 ### title
@@ -322,7 +336,15 @@ Configure Markdown parser options. VitePress uses [Markdown-it](https://github.c
 export default {
   markdown: {
     theme: 'material-theme-palenight',
-    lineNumbers: true
+    lineNumbers: true,
+
+    // adjust how header anchors are generated,
+    // useful for integrating with tools that use different conventions
+    anchors: {
+      slugify(str) {
+        return encodeURIComponent(str)
+      }
+    }
   }
 }
 ```
