@@ -1,3 +1,19 @@
+# [1.0.0-alpha.59](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.58...v1.0.0-alpha.59) (2023-03-15)
+
+
+### Bug Fixes
+
+* handle async enhanceApp when extending themes ([52b04f3](https://github.com/vuejs/vitepress/commit/52b04f324cc3a675ed87353d516a6302d282ccfb))
+* **theme:** improve Chinese font handling ([81ae1c7](https://github.com/vuejs/vitepress/commit/81ae1c79cd1c0c9c31f48100f131715efc68efbd)), closes [#2036](https://github.com/vuejs/vitepress/issues/2036)
+* **theme:** move doc-footer-before slot into the footer ([b0160bc](https://github.com/vuejs/vitepress/commit/b0160bc2619b50e3bca2bf1bba60d68708a39145)), closes [#2082](https://github.com/vuejs/vitepress/issues/2082)
+
+
+### Features
+
+* defineClientComponent helper ([2ad668c](https://github.com/vuejs/vitepress/commit/2ad668cd54174b37a8c68b389a5e31e0aae60828))
+
+
+
 # [1.0.0-alpha.58](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.57...v1.0.0-alpha.58) (2023-03-14)
 
 
