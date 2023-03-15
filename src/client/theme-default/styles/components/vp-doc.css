@@ -107,7 +107,8 @@
 }
 
 .vp-doc a:hover {
-  color: var(--vp-c-brand-dark);
+  /* color: var(--vp-c-brand-dark); */
+  text-decoration: underline;
 }
 
 .vp-doc strong {
@@ -209,12 +210,10 @@
 .vp-doc .custom-block a {
   color: inherit;
   font-weight: 600;
-  text-decoration: underline;
-  transition: opacity 0.25s;
 }
 
 .vp-doc .custom-block a:hover {
-  opacity: 0.6;
+  text-decoration: underline;
 }
 
 .vp-doc .custom-block code {
