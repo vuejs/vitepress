@@ -1,3 +1,4 @@
+import { createRequire } from 'module'
 import { defineConfig } from 'vitepress'
 import locales from './locales'
 
@@ -26,12 +27,6 @@ export default defineConfig({
         ['link', { rel: 'preload', as: 'image', href: '/vue.svg' }],
         ['link', { rel: 'preload', as: 'image', href: '/vite.svg' }]
       ]
-    }
-  },
-
-  markdown: {
-    headers: {
-      level: [0, 0]
     }
   },
 
