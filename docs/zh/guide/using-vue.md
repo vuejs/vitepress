@@ -106,7 +106,7 @@ If a component is only used by a few pages, it's recommended to explicitly impor
 
 ```md
 <script setup>
-import CustomComponent from '../components/CustomComponent.vue'
+import CustomComponent from '../../components/CustomComponent.vue'
 </script>
 
 # Docs
@@ -128,7 +128,7 @@ If a component is going to be used on most of the pages, they can be registered 
 Make sure a custom component's name either contains a hyphen or is in PascalCase. Otherwise, it will be treated as an inline element and wrapped inside a `<p>` tag, which will lead to hydration mismatch because `<p>` does not allow block elements to be placed inside it.
 :::
 
-### 在标题中使用组件 <ComponentInHeader /> {#using-components-in-headers}
+### 在标题中使用组件 <ComponentInHeader /> {#using-components}
 
 You can use Vue components in the headers, but note the difference between the following syntaxes:
 
@@ -241,7 +241,7 @@ Vitepress currently has SSG support for teleports to body only. For other target
 ```
 
 <script setup>
-import ModalDemo from '../components/ModalDemo.vue'
+import ModalDemo from '../../components/ModalDemo.vue'
 </script>
 
 <style>
