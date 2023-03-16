@@ -9,7 +9,7 @@ watch(() => route.path, () => backToTop.value.focus())
 
 function focusOnTargetAnchor({ target }: Event) {
   const el = document.querySelector<HTMLAnchorElement>(
-    (target as HTMLAnchorElement).hash
+    decodeURIComponent((target as HTMLAnchorElement).hash)
   )
 
   if (el) {

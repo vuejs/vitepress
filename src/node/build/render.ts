@@ -17,6 +17,7 @@ import {
   type SSGContext
 } from '../shared'
 import { slash } from '../utils/slash'
+import { deserializeFunctions } from '../utils/fnSerialize'
 
 export async function renderPage(
   render: (path: string) => Promise<SSGContext>,
@@ -25,8 +26,11 @@ export async function renderPage(
   result: RollupOutput | null,
   appChunk: OutputChunk | undefined,
   cssChunk: OutputAsset | undefined,
+  assets: string[],
   pageToHashMap: Record<string, string>,
-  hashMapString: string
+  hashMapString: string,
+  siteDataString: string,
+  additionalHeadTags: HeadConfig[]
 ) {
   const routePath = `/${page.replace(/\.md$/, '')}`
   const siteData = resolveSiteDataByRoute(config.site, routePath)
@@ -61,11 +65,15 @@ export async function renderPage(
     }
   }
 
+  const title: string = createTitle(siteData, pageData)
+  const description: string = pageData.description || siteData.description
+  const stylesheetLink = cssChunk
+    ? `<link rel="preload stylesheet" href="${siteData.base}${cssChunk.fileName}" as="style">`
+    : ''
+
   let preloadLinks =
     config.mpa || (!hasCustom404 && page === '404.md')
-      ? appChunk
-        ? [appChunk.fileName]
-        : []
+      ? []
       : result && appChunk
       ? [
           ...new Set([
@@ -73,8 +81,7 @@ export async function renderPage(
             // for them as well so we fetch everything as early as possible
             // without having to wait for entry chunks to parse
             ...resolvePageImports(config, page, result, appChunk),
-            pageClientJsFileName,
-            appChunk.fileName
+            pageClientJsFileName
           ])
         ]
       : []
@@ -87,44 +94,41 @@ export async function renderPage(
     preloadLinks = preloadLinks.filter((link) => shouldPreload(link, page))
   }
 
-  const preloadLinksString = preloadLinks
-    .map((file) => {
-      return `<link rel="modulepreload" href="${
-        EXTERNAL_URL_RE.test(file) ? '' : siteData.base // don't add base to external urls
-      }${file}">`
-    })
-    .join('\n    ')
+  const toHeadTags = (files: string[], rel: string): HeadConfig[] =>
+    files.map((file) => [
+      'link',
+      {
+        rel,
+        // don't add base to external urls
+        href: (EXTERNAL_URL_RE.test(file) ? '' : siteData.base) + file
+      }
+    ])
 
-  const prefetchLinkString = prefetchLinks
-    .map((file) => {
-      return `<link rel="prefetch" href="${
-        EXTERNAL_URL_RE.test(file) ? '' : siteData.base // don't add base to external urls
-      }${file}">`
-    })
-    .join('\n    ')
+  const preloadHeadTags = toHeadTags(preloadLinks, 'modulepreload')
+  const prefetchHeadTags = toHeadTags(prefetchLinks, 'prefetch')
 
-  const stylesheetLink = cssChunk
-    ? `<link rel="preload stylesheet" href="${siteData.base}${cssChunk.fileName}" as="style">`
-    : ''
-
-  const title: string = createTitle(siteData, pageData)
-  const description: string = pageData.description || siteData.description
-
-  const headBeforeTransform = mergeHead(
-    siteData.head,
-    filterOutHeadDescription(pageData.frontmatter.head)
-  )
+  const headBeforeTransform = [
+    ...additionalHeadTags,
+    ...preloadHeadTags,
+    ...prefetchHeadTags,
+    ...mergeHead(
+      siteData.head,
+      filterOutHeadDescription(pageData.frontmatter.head)
+    )
+  ]
 
   const head = mergeHead(
     headBeforeTransform,
     (await config.transformHead?.({
+      page,
       siteConfig: config,
       siteData,
       pageData,
       title,
       description,
       head: headBeforeTransform,
-      content
+      content,
+      assets
     })) || []
   )
 
@@ -145,6 +149,13 @@ export async function renderPage(
     }
   }
 
+  let metadataScript = `__VP_HASH_MAP__ = JSON.parse(${hashMapString})\n`
+  if (siteDataString.includes('_vp-fn_')) {
+    metadataScript += `${deserializeFunctions.toString()}\n__VP_SITE_DATA__ = deserializeFunctions(JSON.parse(${siteDataString}))`
+  } else {
+    metadataScript += `__VP_SITE_DATA__ = JSON.parse(${siteDataString})`
+  }
+
   const html = `
 <!DOCTYPE html>
 <html lang="${siteData.lang}" dir="${siteData.dir}">
@@ -154,22 +165,16 @@ export async function renderPage(
     <title>${title}</title>
     <meta name="description" content="${description}">
     ${stylesheetLink}
-    ${preloadLinksString}
-    ${prefetchLinkString}
+    ${
+      appChunk
+        ? `<script type="module" src="${siteData.base}${appChunk.fileName}"></script>`
+        : ``
+    }
     ${await renderHead(head)}
   </head>
   <body>${teleports?.body || ''}
     <div id="app">${content}</div>
-    ${
-      config.mpa
-        ? ''
-        : `<script>__VP_HASH_MAP__ = JSON.parse(${hashMapString})</script>`
-    }
-    ${
-      appChunk
-        ? `<script type="module" async src="${siteData.base}${appChunk.fileName}"></script>`
-        : ``
-    }
+    ${config.mpa ? '' : `<script>${metadataScript}</script>`}
     ${inlinedScript}
   </body>
 </html>`.trim()
@@ -177,13 +182,15 @@ export async function renderPage(
 
   await fs.ensureDir(path.dirname(htmlFileName))
   const transformedHtml = await config.transformHtml?.(html, htmlFileName, {
+    page,
     siteConfig: config,
     siteData,
     pageData,
     title,
     description,
     head,
-    content
+    content,
+    assets
   })
   await fs.writeFile(htmlFileName, transformedHtml || html)
 }

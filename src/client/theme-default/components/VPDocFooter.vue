@@ -26,10 +26,12 @@ const showFooter = computed(() => {
 
 <template>
   <footer v-if="showFooter" class="VPDocFooter">
+    <slot name="doc-footer-before" />
+
     <div v-if="hasEditLink || hasLastUpdated" class="edit-info">
       <div v-if="hasEditLink" class="edit-link">
         <VPLink class="edit-link-button" :href="editLink.url" :no-icon="true">
-          <VPIconEdit class="edit-link-icon" />
+          <VPIconEdit class="edit-link-icon" aria-label="edit icon"/>
           {{ editLink.text }}
         </VPLink>
       </div>

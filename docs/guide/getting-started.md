@@ -92,7 +92,7 @@ Assuming you chose to scaffold the VitePress project in `./docs`, the generated 
 The `docs` directory is considered the **project root** of the VitePress site. The `.vitepress` directory is a reserved location for VitePress' config file, dev server cache, build output, and optional theme customization code.
 
 :::tip
-By default, VitePress stores its dev server cache in `.vitepress/cache`, and the production build output in `.vitepress/dist`. If using Git, you should add them to your `.gitignore` file. These locations can also be [configured](/reference/site-config#outdir).
+By default, VitePress stores its dev server cache in `.vitepress/cache`, and the production build output in `.vitepress/dist`. If using Git, you should add them to your `.gitignore` file. These locations can also be [configured](../reference/site-config#outdir).
 :::
 
 ### The Config File
@@ -112,7 +112,7 @@ export default {
 }
 ```
 
-You can also configure the behavior of the theme via the `themeConfig` option. Consult the [Config Reference](/reference/site-config) for full details on all config options.
+You can also configure the behavior of the theme via the `themeConfig` option. Consult the [Config Reference](../reference/site-config) for full details on all config options.
 
 ### Source Files
 
@@ -170,17 +170,17 @@ $ pnpm exec vitepress dev docs
 
 :::
 
-More command line usage is documented in the [CLI Reference](/reference/cli).
+More command line usage is documented in the [CLI Reference](../reference/cli).
 
 The dev server should be running at `http://localhost:5173`. Visit the URL in your browser to see your new site in action!
 
 ## What's Next?
 
-- To better understand how markdown files are mapped to generated HTML, proceed to the [Routing Guide](./routing.md).
+- To better understand how markdown files are mapped to generated HTML, proceed to the [Routing Guide](./routing).
 
-- To discover more about what you can do on the page, such as writing markdown content or using Vue Component, refer to the "Writing" section of the guide. A great place to start would be to learn about [Markdown Extensions](/guide/markdown).
+- To discover more about what you can do on the page, such as writing markdown content or using Vue Component, refer to the "Writing" section of the guide. A great place to start would be to learn about [Markdown Extensions](./markdown).
 
-- To explore the features provided by the default documentation theme, check out the [Default Theme Config Reference](/reference/default-theme-config).
+- To explore the features provided by the default documentation theme, check out the [Default Theme Config Reference](../reference/default-theme-config).
 
 - If you want to further customize the appearance of your site, explore how to either [Extend the Default Theme](./extending-default-theme) or [Build a Custom Theme](./custom-theme).
 

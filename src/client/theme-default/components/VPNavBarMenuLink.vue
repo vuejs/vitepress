@@ -24,6 +24,7 @@ const { page } = useData()
     :href="item.link"
     :target="item.target"
     :rel="item.rel"
+    tabindex="0"
   >
     {{ item.text }}
   </VPLink>

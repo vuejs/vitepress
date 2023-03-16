@@ -110,10 +110,15 @@ export async function highlight(
     }
 
     const lineOptions = attrsToLines(attrs)
-    const cleanup = (str: string) =>
-      str
-        .replace(preRE, (_, attributes) => `<pre ${vPre}${attributes}>`)
+    const cleanup = (str: string) => {
+      return str
+        .replace(
+          preRE,
+          (_, attributes) =>
+            `<pre ${vPre}${attributes.replace(' tabindex="0"', '')}>`
+        )
         .replace(styleRE, (_, style) => _.replace(style, ''))
+    }
 
     const mustaches = new Map<string, string>()
 
@@ -136,23 +141,28 @@ export async function highlight(
       return s
     }
 
+    const fillEmptyHighlightedLine = (s: string) => {
+      return s.replace(
+        /(<span class="line highlighted">)(<\/span>)/g,
+        '$1<wbr>$2'
+      )
+    }
+
     str = removeMustache(str)
 
     const codeToHtml = (theme: IThemeRegistration) => {
-      return cleanup(
-        restoreMustache(
-          lang === 'ansi'
-            ? highlighter.ansiToHtml(str, {
-                lineOptions,
-                theme: getThemeName(theme)
-              })
-            : highlighter.codeToHtml(str, {
-                lang,
-                lineOptions,
-                theme: getThemeName(theme)
-              })
-        )
-      )
+      const res =
+        lang === 'ansi'
+          ? highlighter.ansiToHtml(str, {
+              lineOptions,
+              theme: getThemeName(theme)
+            })
+          : highlighter.codeToHtml(str, {
+              lang,
+              lineOptions,
+              theme: getThemeName(theme)
+            })
+      return fillEmptyHighlightedLine(cleanup(restoreMustache(res)))
     }
 
     if (hasSingleTheme) return codeToHtml(theme)

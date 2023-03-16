@@ -13,9 +13,19 @@ import { APP_PATH } from '../alias'
 import { createVitePressPlugin } from '../plugin'
 import { sanitizeFileName } from '../shared'
 import { buildMPAClient } from './buildMPAClient'
+import { fileURLToPath } from 'url'
+import { normalizePath } from 'vite'
 
 export const okMark = '\x1b[32m✓\x1b[0m'
 export const failMark = '\x1b[31m✖\x1b[0m'
+
+// A list of default theme components that should only be loaded on demand.
+const lazyDefaultThemeComponentsRE =
+  /VP(HomeSponsors|DocAsideSponsors|TeamPage|TeamMembers|AlgoliaSearch|CarbonAds|DocAsideCarbonAds)/
+
+const clientDir = normalizePath(
+  path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../client')
+)
 
 // bundles the VitePress app for both client AND server.
 export async function bundle(
@@ -100,15 +110,29 @@ export async function bundle(
                     : 'assets/chunks/[name].[hash].js'
                 },
                 manualChunks(id, ctx) {
+                  if (lazyDefaultThemeComponentsRE.test(id)) {
+                    return
+                  }
+                  if (id.startsWith(`${clientDir}/theme-default`)) {
+                    return 'theme'
+                  }
                   // move known framework code into a stable chunk so that
                   // custom theme changes do not invalidate hash for all pages
+                  if (id.startsWith('\0vite')) {
+                    return 'framework'
+                  }
                   if (id.includes('plugin-vue:export-helper')) {
                     return 'framework'
                   }
                   if (
+                    id.includes(`${clientDir}/app`) &&
+                    id !== `${clientDir}/app/index.js`
+                  ) {
+                    return 'framework'
+                  }
+                  if (
                     isEagerChunk(id, ctx.getModuleInfo) &&
-                    (/@vue\/(runtime|shared|reactivity)/.test(id) ||
-                      /vitepress\/dist\/client/.test(id))
+                    /@vue\/(runtime|shared|reactivity)/.test(id)
                   ) {
                     return 'framework'
                   }
@@ -174,7 +198,7 @@ function isEagerChunk(id: string, getModuleInfo: GetModuleInfo) {
     !/\.css($|\\?)/.test(id) &&
     staticImportedByEntry(id, getModuleInfo, cache)
   ) {
-    return 'vendor'
+    return true
   }
 }
 

@@ -229,8 +229,8 @@ export function useRoute(): Route {
   return useRouter().route
 }
 
-function scrollTo(el: HTMLElement | SVGElement, hash: string, smooth = false) {
-  let target: HTMLElement | SVGElement | null = null
+export function scrollTo(el: Element, hash: string, smooth = false) {
+  let target: Element | null = null
 
   try {
     target = el.classList.contains('header-anchor')
@@ -241,10 +241,20 @@ function scrollTo(el: HTMLElement | SVGElement, hash: string, smooth = false) {
   }
 
   if (target) {
-    let offset = siteDataRef.value.scrollOffset
-    if (typeof offset === 'string') {
-      offset =
-        document.querySelector(offset)!.getBoundingClientRect().bottom + 24
+    const scrollOffset = siteDataRef.value.scrollOffset
+    let offset: number = 0
+    if (typeof scrollOffset === 'number') {
+      offset = scrollOffset
+    } else if (typeof scrollOffset === 'string') {
+      offset = tryOffsetSelector(scrollOffset)
+    } else if (Array.isArray(scrollOffset)) {
+      for (const selector of scrollOffset) {
+        const res = tryOffsetSelector(selector)
+        if (res) {
+          offset = res
+          break
+        }
+      }
     }
     const targetPadding = parseInt(
       window.getComputedStyle(target).paddingTop,
@@ -266,6 +276,14 @@ function scrollTo(el: HTMLElement | SVGElement, hash: string, smooth = false) {
       })
     }
   }
+}
+
+function tryOffsetSelector(selector: string): number {
+  const el = document.querySelector(selector)
+  if (!el) return 0
+  const bot = el.getBoundingClientRect().bottom
+  if (bot < 0) return 0
+  return bot + 24
 }
 
 function handleHMR(route: Route): void {
