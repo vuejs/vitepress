@@ -128,7 +128,7 @@ If a component is going to be used on most of the pages, they can be registered 
 Make sure a custom component's name either contains a hyphen or is in PascalCase. Otherwise, it will be treated as an inline element and wrapped inside a `<p>` tag, which will lead to hydration mismatch because `<p>` does not allow block elements to be placed inside it.
 :::
 
-### 在标题中使用组件 <ComponentInHeader /> {#using-components}
+### 在标题中使用组件 <ComponentInHeader /> {#using-components-in-headers}
 
 You can use Vue components in the headers, but note the difference between the following syntaxes:
 
