@@ -4,7 +4,7 @@
 
 Start VitePress dev server using designated directory as root. Defaults to current directory. The `dev` command can also be omitted when running in current directory.
 
-### 用法 {#usage}
+### 用法
 
 ```sh
 # start in current directory, omitting `dev` {#start-in-current-directory,-omitting-`dev`}
@@ -14,7 +14,7 @@ vitepress
 vitepress dev [root]
 ```
 
-### 选项 {#options}
+### 选项
 
 | Option | Description |
 | -      | -           |
@@ -25,17 +25,17 @@ vitepress dev [root]
 | `--strictPort`           | Exit if specified port is already in use (`boolean`) |
 | `--force`                | Force the optimizer to ignore the cache and re-bundle (`boolean`) |
 
-## `vitepress build` {#`vitepress-build`}
+## `vitepress build`
 
 Build the VitePress site for production.
 
-### 用法 {#usage}
+### 用法
 
 ```sh
 vitepress build [root]
 ```
 
-### 选项 {#options}
+### 选项
 
 | Option | Description |
 | -      | -           |
@@ -46,17 +46,17 @@ vitepress build [root]
 | `--minify [minifier]`          | Enable/disable minification, or specify minifier to use (default: `"esbuild"`) (`boolean \| "terser" \| "esbuild"`) |
 | `--assetsInlineLimit <number>` | Static asset base64 inline threshold in bytes (default: `4096`) (`number`) |
 
-## `vitepress preview` {#`vitepress-preview`}
+## `vitepress preview`
 
 Locally preview the production build.
 
-### 用法 {#usage}
+### 用法
 
 ```sh
 vitepress preview [root]
 ```
 
-### 选项 {#options}
+### 选项
 
 | Option | Description |
 | -      | -           |
@@ -67,7 +67,7 @@ vitepress preview [root]
 
 Start the [Setup Wizard](../guide/getting-started#setup-wizard) in current directory.
 
-### 用法 {#usage}
+### 用法
 
 ```sh
 vitepress init
