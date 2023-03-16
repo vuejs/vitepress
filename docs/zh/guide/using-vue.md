@@ -53,7 +53,7 @@ import { ref } from 'vue'
 const count = ref(0)
 </script>
 
-## Markdown Content {#markdown-content}
+## Markdown Content
 
 The count is: {{ count }}
 
