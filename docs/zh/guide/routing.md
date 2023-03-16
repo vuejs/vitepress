@@ -2,9 +2,9 @@
 outline: deep
 ---
 
-# Routing
+# 路由 {#routing}
 
-## File-Based Routing
+## 基于文件的路由 {#file-based-routing}
 
 VitePress uses file-based routing, which means the generated HTML pages are mapped from the directory structure of the source Markdown files. For example, given the following directory structure:
 
@@ -28,11 +28,11 @@ guide/getting-started.md  -->  /guide/getting-started.html
 
 The resulting HTML can be hosted on any web server that can serve static files.
 
-## Root and Source Directory
+## 根目录和源目录 {#root-and-source-directory}
 
 There are two important concepts in the file structure of a VitePress project: the **project root** and the **source directory**.
 
-### Project Root
+### 项目根目录 {#project-root}
 
 Project root is where VitePress will try to look for the `.vitepress` special directory. The `.vitepress` directory is a reserved location for VitePress' config file, dev server cache, build output, and optional theme customization code.
 
@@ -58,7 +58,7 @@ docs/index.md            -->  /index.html (accessible as /)
 docs/getting-started.md  -->  /getting-started.html
 ```
 
-### Source Directory
+### 源目录 {#source-directory}
 
 Source directory is where your Markdown source files live. By default, it is the same as the project root. However, you can configure it via the [`srcDir`](../reference/site-config#srcdir) config option.
 
@@ -79,7 +79,7 @@ src/index.md            -->  /index.html (accessible as /)
 src/getting-started.md  -->  /getting-started.html
 ```
 
-## Linking Between Pages
+## 链接页面 {#linking-between-pages}
 
 You can use both absolute and relative paths when linking between pages. Note that although both `.md` and `.html` extensions will work, the best practice is to omit file extensions so that VitePress can generate the final URLs based on your config.
 
@@ -95,7 +95,7 @@ You can use both absolute and relative paths when linking between pages. Note th
 
 Learn more about linking to assets such images in [Asset Handling](asset-handling).
 
-## Generating Clean URL
+## 生成简洁的 URL {#generating-clean-url}
 
 :::warning Server Support Required
 To serve clean URLs with VitePress, server-side support is required.
@@ -124,7 +124,7 @@ If, however, you cannot configure your server with such support (e.g. GitHub pag
 └─ index.md
 ```
 
-## Route Rewrites
+## Route Rewrites {#route-rewrites}
 
 You can customize the mapping between the source directory structure and the generated pages. It's useful when you have a complex project structure. For example, let's say you have a monorepo with multiple packages, and would like to place documentations along with the source files like this:
 
@@ -181,11 +181,11 @@ When rewrites are enabled, **relative links should be based on the rewritten pat
 ```
 :::
 
-## Dynamic Routes
+## Dynamic Routes {#dynamic-routes}
 
 You can generate many pages using a single Markdown file and dynamic data. For example, you can create a `packages/[pkg].md` file that generates a corresponding page for every package in a project. Here, the `[pkg]` segment is a route **parameter** that differentiates each page from the others.
 
-### Paths Loader File
+### Paths Loader File {#paths-loader-file}
 
 Since VitePress is a static site generator, the possible page paths must be determined at build time. Therefore, a dynamic route page **must** be accompanied by a **paths loader file**. For `packages/[pkg].md`, we will need `packages/[pkg].paths.js` (`.ts` is also supported):
 
@@ -221,7 +221,7 @@ The generated HTML pages will be:
    └─ bar.html
 ```
 
-### Multiple Params
+### Multiple Params {#multiple-params}
 
 A dynamic route can contain multiple params:
 
@@ -258,7 +258,7 @@ export default {
    └─ bar-2.0.0.html
 ```
 
-### Dynamically Generating Paths
+### Dynamically Generating Paths {#dynamically-generating-paths}
 
 The paths loader module is run in Node.js and only executed during build time. You can dynamically generate the paths array using any data, either local or remote.
 
@@ -297,7 +297,7 @@ export default {
 }
 ```
 
-### Accessing Params in Page
+### Accessing Params in Page {#accessing-params-in-page}
 
 You can use the params to pass additional data to each page. The Markdown route file can access the current page params in Vue expressions via the `$params` global property:
 
@@ -319,7 +319,7 @@ console.log(params.value)
 </script>
 ```
 
-### Rendering Raw Content
+### Rendering Raw Content {#rendering-raw-content}
 
 Params passed to the page will be serialized in the client JavaScript payload, so you should avoid passing heavy data in params, for example raw Markdown or HTML content fetched from a remote CMS.
 

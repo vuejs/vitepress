@@ -1,8 +1,8 @@
-# Nav
+# 导航 {#nav}
 
 The Nav is the navigation bar displayed on top of the page. It contains the site title, global menu links, etc.
 
-## Site Title and Logo
+## 站点标题和 logo {#site-title-and-logo}
 
 By default, nav shows the title of the site referencing [`config.title`](./site-config#title) value. If you would like to change what's displayed on nav, you may define custom text in `themeConfig.siteTitle` option.
 
@@ -37,7 +37,7 @@ export default {
 
 You can also pass an object as logo if you want to add `alt` attribute or customize it based on dark/light mode. Refer [`themeConfig.logo`](./default-theme-config#logo) for details.
 
-## Navigation Links
+## 导航链接 {#navigation-links}
 
 You may define `themeConfig.nav` option to add links to your nav.
 
@@ -114,7 +114,7 @@ export default {
 }
 ```
 
-### Customize link's "active" state
+### 自定义 "active" 状态 {#customize-link-s-active-state}
 
 Nav menu items will be highlighted when the current page is under the matching path. if you would like to customize the path to be matched, define `activeMatch` property and regex as a string value.
 
@@ -138,7 +138,7 @@ export default {
 `activeMatch` is expected to be a regex string, but you must define it as a string. We can't use actual RegExp object here because it isn't serializable during the build time.
 :::
 
-### Customize link's "target" and "rel" attributes
+### 自定义 "target" 和 "rel" 属性 {#customize-link-s-target-and-rel-attributes}
 
 By default, VitePress automatically determines `target` and `rel` attributes based on whether the link is an external link. But if you want, you can customize them too.
 
@@ -157,6 +157,6 @@ export default {
 }
 ```
 
-## Social Links
+## 社交链接 {#social-links}
 
 Refer [`socialLinks`](./default-theme-config#sociallinks).

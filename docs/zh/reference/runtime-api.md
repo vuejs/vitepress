@@ -1,4 +1,4 @@
-# Runtime API
+# 运行时 API {#runtime-api}
 
 VitePress offers several built-in APIs to let you access app data. VitePress also comes with a few built-in components that can be used globally.
 
@@ -6,7 +6,7 @@ The helper methods are globally importable from `vitepress` and are typically us
 
 Methods that start with `use*` indicates that it is a [Vue 3 Composition API](https://vuejs.org/guide/introduction.html#composition-api) function ("Composable") that can only be used inside `setup()` or `<script setup>`.
 
-## `useData` <Badge type="info" text="composable" />
+## `useData` <Badge type="info" text="composable" /> {#`usedata`-<badge-type="info"-text="composable"-/>}
 
 Returns page-specific data. The returned object has the following type:
 
@@ -67,7 +67,7 @@ const { theme } = useData()
 </template>
 ```
 
-## `useRoute` <Badge type="info" text="composable" />
+## `useRoute` <Badge type="info" text="composable" /> {#`useroute`-<badge-type="info"-text="composable"-/>}
 
 Returns the current route object with the following type:
 
@@ -132,10 +132,10 @@ Directly access current page's [frontmatter](../guide/frontmatter) data in Vue e
 title: Hello
 ---
 
-# {{ $frontmatter.title }}
+# {{ $frontmatter.title }} {#{{-$frontmatter.title-}}}
 ```
 
-## `$params` <Badge type="info" text="template global" />
+## `$params` <Badge type="info" text="template global" /> {#`$params`-<badge-type="info"-text="template-global"-/>}
 
 Directly access current page's [dynamic route params](../guide/routing#dynamic-routes) in Vue expressions.
 

@@ -2,9 +2,9 @@
 outline: deep
 ---
 
-# Connecting to a CMS
+# 连接到 CMS {#connecting-to-a-cms}
 
-## General Workflow
+## 一般的工作流 {#general-workflow}
 
 Connecting VitePress to a CMS will largely revolve around [Dynamic Routes](./routing#dynamic-routes). Make sure to understand how it works before proceeding.
 
@@ -51,6 +51,6 @@ Since each CMS will work differently, here we can only provide a generic workflo
     <!-- @content -->
     ```
 
-## Integration Guides
+## 整合指南 {#integration-guides}
 
 If you have written a guide on integrating VitePress with a specific CMS, please use the "Edit this page" link below to submit it here!

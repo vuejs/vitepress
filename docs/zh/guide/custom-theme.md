@@ -1,6 +1,6 @@
-# Using a Custom Theme
+# 自定义主题 {#using-a-custom-theme}
 
-## Theme Resolving
+## 解析主题 {#theme-resolving}
 
 You can enable a custom theme by creating a `.vitepress/theme/index.js` or `.vitepress/theme/index.ts` file (the "theme entry file"):
 
@@ -17,7 +17,7 @@ You can enable a custom theme by creating a `.vitepress/theme/index.js` or `.vit
 
 VitePress will always use the custom theme instead of the default theme when it detects presence of a theme entry file. You can, however, [extend the default theme](./extending-default-theme) to perform advanced customizations on top of it.
 
-## Theme Interface
+## 主题接口 {#theme-interface}
 
 A VitePress custom theme is defined as an object with the following interface:
 
@@ -68,7 +68,7 @@ The default export is the only contract for a custom theme, and only the `Layout
 
 Inside your layout component, it works just like a normal Vite + Vue 3 application. Do note the theme also needs to be [SSR-compatible](./ssr-compat).
 
-## Building a Layout
+## 构建布局 {#building-a-layout}
 
 The most basic layout component needs to contain a [`<Content />`](../reference/runtime-api#content) component:
 
@@ -152,7 +152,7 @@ const { page, frontmatter } = useData()
 
 Consult the [Runtime API Reference](../reference/runtime-api) for everything available in theme components. In addition, you can leverage [Build-Time Data Loading](./data-loading) to generate data-driven layout - for example, a page that lists all blog posts in the current project.
 
-## Distributing a Custom Theme
+## Distributing a Custom Theme {#distributing-a-custom-theme}
 
 The easiest way to distribute a custom theme is by providing it as a [template repository on GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-template-repository).
 
@@ -168,7 +168,7 @@ If you wish to distribute the theme as an npm package, follow these steps:
 
 5. Provide clear instructions on how to consume your theme (see below).
 
-## Consuming a Custom Theme
+## Consuming a Custom Theme {#consuming-a-custom-theme}
 
 To consume an external theme, import and re-export it from the custom theme entry:
 

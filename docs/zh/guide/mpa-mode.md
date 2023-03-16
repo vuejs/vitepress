@@ -1,4 +1,4 @@
-# MPA Mode <Badge type="warning" text="experimental" />
+# MPA 模式 <Badge type="warning" text="experimental" /> {#mpa-mode}
 
 MPA (Multi-Page Application) mode can be enabled via the command line via `vitepress build --mpa`, or via config through the `mpa: true` option.
 
@@ -15,7 +15,7 @@ document.querySelector('h1').addEventListener('click', () => {
 })
 </script>
 
-# Hello
+# Hello {#hello}
 ```
 
 `<script client>` is a VitePress-only feature, not a Vue feature. It works in both `.md` and `.vue` files, but only in MPA mode. Client scripts in all theme components will be bundled together, while client script for a specific page will be split for that page only.

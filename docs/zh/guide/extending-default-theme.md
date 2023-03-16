@@ -1,4 +1,4 @@
-# Extending the Default Theme
+# 扩展默认主题 {#extending-the-default-theme}
 
 VitePress' default theme is optimized for documentation, and can be customized. Consult the [Default Theme Config Overview](../reference/default-theme-config) for a comprehensive list of options.
 
@@ -14,7 +14,7 @@ These advanced customizations will require using a custom theme that "extends" t
 Before proceeding, make sure to first read [Using a Custom Theme](./custom-theme) to understand how custom themes work.
 :::
 
-## Customizing CSS
+## 自定义 CSS {#customizing-css}
 
 The default theme CSS is customizable by overriding root level CSS variables:
 
@@ -36,7 +36,7 @@ export default DefaultTheme
 
 See [default theme CSS variables](https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css) that can be overridden.
 
-## Using Different Fonts
+## 使用自定义字体 {#using-different-fonts}
 
 VitePress uses [Inter](https://rsms.me/inter/) as the default font, and will include the fonts in the build output. The font is also auto preloaded in production. However, this may not be desirable if you want to use a different main font.
 
@@ -88,7 +88,7 @@ export default {
 }
 ```
 
-## Registering Global Components
+## 注册全局组件 {#registering-global-components}
 
 ```js
 // .vitepress/theme/index.js
@@ -105,7 +105,7 @@ export default {
 
 Since we are using Vite, you can also leverage Vite's [glob import feature](https://vitejs.dev/guide/features.html#glob-import) to auto register a directory of components.
 
-## Layout Slots
+## 布局插槽 {#layout-slots}
 
 The default theme's `<Layout/>` component has a few slots that can be used to inject content at certain locations of the page. Here's an example of injecting a component into the before outline:
 
@@ -190,7 +190,7 @@ Full list of slots available in the default theme layout:
   - `nav-screen-content-before`
   - `nav-screen-content-after`
 
-## Overriding Internal Components
+## 重写内部组件 {#overriding-internal-components}
 
 You can use Vite's [aliases](https://vitejs.dev/config/shared-options.html#resolve-alias) to replace default theme components with your custom ones:
 

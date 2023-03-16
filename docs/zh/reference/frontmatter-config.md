@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-# Frontmatter Config
+# Frontmatter 配置 {#frontmatter-config}
 
 Frontmatter enables page based configuration. In every markdown file, you can use frontmatter config to override site-level or theme-level config options. Also, there are config options which you can only define in frontmatter.
 
@@ -21,7 +21,7 @@ You can access frontmatter data via the `$frontmatter` global in Vue expressions
 {{ $frontmatter.title }}
 ```
 
-## title
+## title {#title}
 
 - Type: `string`
 
@@ -82,11 +82,11 @@ type HeadConfig =
   | [string, Record<string, string>, string]
 ```
 
-## Default Theme Only
+## 仅在默认主题生效 {#default-theme-only}
 
 The following frontmatter options are only applicable when using the default theme.
 
-### layout <Badge type="info" text="default theme only" />
+### layout <Badge type="info" text="default theme only" /> 
 
 - Type: `doc | home | page`
 - Default: `doc`
@@ -103,11 +103,11 @@ layout: doc
 ---
 ```
 
-### hero <Badge type="info" text="default theme only" /> <Badge type="info" text="Home page only" />
+### hero <Badge type="info" text="default theme only" /> <Badge type="info" text="Home page only" /> 
 
 Defines contents of home hero section when `layout` is set to `home`. More details in [Default Theme: Home Page](./default-theme-home-page).
 
-### features <Badge type="info" text="default theme only" /> <Badge type="info" text="Home page only" />
+### features <Badge type="info" text="default theme only" /> <Badge type="info" text="Home page only" /> 
 
 Defines items to display in features section when `layout` is set to `home`. More details in [Default Theme: Home Page](./default-theme-home-page).
 

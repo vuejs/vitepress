@@ -1,6 +1,6 @@
-# Edit Link
+# 编辑链接 {#edit-link}
 
-## Site-Level Config
+## 全局配置 {#site-level-config}
 
 Edit Link lets you display a link to edit the page on Git management services such as GitHub, or GitLab. To enable it, add `themeConfig.editLink` options to your config.
 
@@ -49,7 +49,7 @@ export default {
 }
 ```
 
-## Frontmatter Config
+## Frontmatter 配置 {#frontmatter-config}
 
 This can be disabled per-page using the `editLink` option on frontmatter:
 

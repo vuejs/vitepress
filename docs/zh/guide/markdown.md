@@ -1,16 +1,16 @@
-# Markdown Extensions
+# Markdown 扩展 {#markdown-extensions}
 
 VitePress comes with built in Markdown Extensions.
 
-## Header Anchors
+## 标题锚点 {#header-anchors}
 
 Headers automatically get anchor links applied. Rendering of anchors can be configured using the `markdown.anchor` option.
 
-## Links
+## 链接 {#links}
 
 Both internal and external links gets special treatments.
 
-### Internal Links
+### 内部链接 {#internal-links}
 
 Internal links are converted to router link for SPA navigation. Also, every `index.md` contained in each sub-directory will automatically be converted to `index.html`, with corresponding URL `/`.
 
@@ -40,18 +40,18 @@ And providing you are in `foo/one.md`:
 [bar - four](../bar/four.html) <!-- or you can append .html -->
 ```
 
-### Page Suffix
+### Page Suffix {#page-suffix}
 
 Pages and internal links get generated with the `.html` suffix by default.
 
-### External Links
+### External Links {#external-links}
 
 Outbound links automatically get `target="_blank" rel="noreferrer"`:
 
 - [vuejs.org](https://vuejs.org)
 - [VitePress on GitHub](https://github.com/vuejs/vitepress)
 
-## Frontmatter
+## Frontmatter {#frontmatter}
 
 [YAML frontmatter](https://jekyllrb.com/docs/front-matter/) is supported out of the box:
 
@@ -66,7 +66,7 @@ This data will be available to the rest of the page, along with all custom and t
 
 For more details, see [Frontmatter](../reference/frontmatter-config).
 
-## GitHub-Style Tables
+## GitHub-Style Tables {#github-style-tables}
 
 **Input**
 
@@ -86,7 +86,7 @@ For more details, see [Frontmatter](../reference/frontmatter-config).
 | col 2 is      |   centered    |   \$12 |
 | zebra stripes |   are neat    |    \$1 |
 
-## Emoji :tada:
+## Emoji :tada: {#emoji-:tada:}
 
 **Input**
 
@@ -100,7 +100,7 @@ For more details, see [Frontmatter](../reference/frontmatter-config).
 
 A [list of all emojis](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.json) is available.
 
-## Table of Contents
+## Table of Contents {#table-of-contents}
 
 **Input**
 
@@ -114,11 +114,11 @@ A [list of all emojis](https://github.com/markdown-it/markdown-it-emoji/blob/mas
 
 Rendering of the TOC can be configured using the `markdown.toc` option.
 
-## Custom Containers
+## Custom Containers {#custom-containers}
 
 Custom containers can be defined by their types, titles, and contents.
 
-### Default Title
+### Default Title {#default-title}
 
 **Input**
 
@@ -166,7 +166,7 @@ This is a dangerous warning.
 This is a details block.
 :::
 
-### Custom Title
+### Custom Title {#custom-title}
 
 You may set custom title by appending the text right after the "type" of the container.
 
@@ -196,7 +196,7 @@ console.log('Hello, VitePress!')
 ```
 :::
 
-### `raw`
+### `raw` {#`raw`}
 
 This is a special container that can be used to prevent style and router conflicts with VitePress. This is especially useful when you're documenting component libraries. You might also wanna check out [whyframe](https://whyframe.dev/docs/integrations/vitepress) for better isolation.
 
@@ -237,7 +237,7 @@ Wraps in a <div class="vp-raw">
 
 :::
 
-## Syntax Highlighting in Code Blocks
+## Syntax Highlighting in Code Blocks {#syntax-highlighting-in-code-blocks}
 
 VitePress uses [Shiki](https://shiki.matsu.io/) to highlight language syntax in Markdown code blocks, using coloured text. Shiki supports a wide variety of programming languages. All you need to do is append a valid language alias to the beginning backticks for the code block:
 
@@ -283,7 +283,7 @@ A [list of valid languages](https://github.com/shikijs/shiki/blob/main/docs/lang
 
 You may also customize syntax highlight theme in app config. Please see [`markdown` options](../reference/site-config#markdown) for more details.
 
-## Line Highlighting in Code Blocks
+## Line Highlighting in Code Blocks {#line-highlighting-in-code-blocks}
 
 **Input**
 
@@ -379,7 +379,7 @@ export default {
 }
 ```
 
-## Focus in Code Blocks
+## Focus in Code Blocks {#focus-in-code-blocks}
 
 Adding the `// [!code focus]` comment on a line will focus it and blur the other parts of the code.
 
@@ -413,7 +413,7 @@ export default {
 }
 ```
 
-## Colored Diffs in Code Blocks
+## Colored Diffs in Code Blocks {#colored-diffs-in-code-blocks}
 
 Adding the `// [!code --]` or `// [!code ++]` comments on a line will create a diff of that line, while keeping the colors of the codeblock.
 
@@ -447,7 +447,7 @@ export default {
 }
 ```
 
-## Errors and Warnings in Code Blocks
+## Errors and Warnings in Code Blocks {#errors-and-warnings-in-code-blocks}
 
 Adding the `// [!code warning]` or `// [!code error]` comments on a line will color it accordingly.
 
@@ -481,7 +481,7 @@ export default {
 }
 ```
 
-## Line Numbers
+## Line Numbers {#line-numbers}
 
 You can enable line numbers for each code blocks via config:
 
@@ -527,7 +527,7 @@ const line2 = 'This is line 2'
 const line3 = 'This is line 3'
 ```
 
-## Import Code Snippets
+## Import Code Snippets {#import-code-snippets}
 
 You can import code snippets from existing files via following syntax:
 
@@ -591,7 +591,7 @@ You can also specify the language inside the braces (`{}`) like this:
 
 This is helpful if source language cannot be inferred from your file extension.
 
-## Code Groups
+## Code Groups {#code-groups}
 
 You can group multiple code blocks like this:
 
@@ -679,16 +679,16 @@ You can also [import snippets](#import-code-snippets) in code groups:
 
 :::
 
-## Markdown File Inclusion
+## Markdown File Inclusion {#markdown-file-inclusion}
 
 You can include a markdown file in another markdown file like this:
 
 **Input**
 
 ```md
-# Docs
+# Docs {#docs}
 
-## Basics
+## Basics {#basics}
 
 <!--@include: ./parts/basics.md-->
 ```
@@ -698,7 +698,7 @@ You can include a markdown file in another markdown file like this:
 ```md
 Some getting started stuff.
 
-### Configuration
+### Configuration {#configuration}
 
 Can be created using `.foorc.json`.
 ```
@@ -706,13 +706,13 @@ Can be created using `.foorc.json`.
 **Equivalent code**
 
 ```md
-# Docs
+# Docs {#docs}
 
-## Basics
+## Basics {#basics}
 
 Some getting started stuff.
 
-### Configuration
+### Configuration {#configuration}
 
 Can be created using `.foorc.json`.
 ```
@@ -721,7 +721,7 @@ Can be created using `.foorc.json`.
 Note that this does not throw errors if your file is not present. Hence, when using this feature make sure that the contents are being rendered as expected.
 :::
 
-## Advanced Configuration
+## Advanced Configuration {#advanced-configuration}
 
 VitePress uses [markdown-it](https://github.com/markdown-it/markdown-it) as the Markdown renderer. A lot of the extensions above are implemented via custom plugins. You can further customize the `markdown-it` instance using the `markdown` option in `.vitepress/config.js`:
 

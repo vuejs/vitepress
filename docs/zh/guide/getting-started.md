@@ -1,12 +1,12 @@
-# Getting Started
+# 快速开始 {#getting-started}
 
-## Try It Online
+## 在线尝试 {#try-it-online}
 
 You can try VitePress directly in your browser on [StackBlitz](https://vitepress.new).
 
-## Installation
+## 安装 {#installation}
 
-### Prerequisites
+### 前置知识 {#prerequisites}
 
 - [Node.js](https://nodejs.org/) version 16 or higher.
 - Terminal for accessing VitePress via its command line interface (CLI).
@@ -46,7 +46,7 @@ If using PNPM, you will notice a missing peer warning for `@docsearch/js`. This 
 
 :::
 
-### Setup Wizard
+### 安装向导 {#setup-wizard}
 
 VitePress ships with a command line setup wizard that will help you scaffold a basic project. After installation, start the wizard by running:
 
@@ -72,7 +72,7 @@ You will be greeted with a few simple questions:
 If you intend to perform customization that uses Vue components or APIs, you should also explicitly install `vue` as a peer dependency.
 :::
 
-## File Structure
+## 文件结构 {#file-structure}
 
 If you are building a standalone VitePress site, you can scaffold the site in your current directory (`./`). However, if you are installing VitePress in an existing project alongside other source code, it is recommended to scaffold the site in a nested directory (e.g. `./docs`) so that it is separate from the rest of the project.
 
@@ -95,7 +95,7 @@ The `docs` directory is considered the **project root** of the VitePress site. T
 By default, VitePress stores its dev server cache in `.vitepress/cache`, and the production build output in `.vitepress/dist`. If using Git, you should add them to your `.gitignore` file. These locations can also be [configured](../reference/site-config#outdir).
 :::
 
-### The Config File
+### 配置文件 {#the-config-file}
 
 The config file (`.vitepress/config.js`) allows you to customize various aspects of your VitePress site, with the most basic options being the title and description of the site:
 
@@ -114,7 +114,7 @@ export default {
 
 You can also configure the behavior of the theme via the `themeConfig` option. Consult the [Config Reference](../reference/site-config) for full details on all config options.
 
-### Source Files
+### 源文件 {#source-files}
 
 Markdown files outside the `.vitepress` directory are considered **source files**.
 
@@ -122,7 +122,7 @@ VitePress uses **file-based routing**: each `.md` file is compiled into a corres
 
 VitePress also provides the ability to generate clean URLs, rewrite paths, and dynamically generate pages. These will be covered in the [Routing Guide](./routing).
 
-## Up and Running
+## 运行 {#up-and-running}
 
 The tool should have also injected the following npm scripts to your `package.json` if you allowed it to do so during the setup process:
 
@@ -174,7 +174,7 @@ More command line usage is documented in the [CLI Reference](../reference/cli).
 
 The dev server should be running at `http://localhost:5173`. Visit the URL in your browser to see your new site in action!
 
-## What's Next?
+## 下一步 {#what-s-next}
 
 - To better understand how markdown files are mapped to generated HTML, proceed to the [Routing Guide](./routing).
 

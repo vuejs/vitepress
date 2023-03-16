@@ -1,14 +1,14 @@
-# Migration from VuePress
+# 从 VuePress 迁移 {#migration-from-vuepress}
 
-## Config
+## 配置 {#config}
 
-### Sidebar
+### 侧边栏 {#sidebar}
 
 The sidebar is no longer automatically populated from frontmatter. You can [read the frontmatter yourself](https://github.com/vuejs/vitepress/issues/572#issuecomment-1170116225) to dynamically populate the sidebar. [Additional utilities for this](https://github.com/vuejs/vitepress/issues/96) may be provided in the future.
 
-## Markdown
+## Markdown {#markdown}
 
-### Images
+### 图片 {#images}
 
 Unlike VuePress, VitePress handles [`base`](./asset-handling#base-url) of your config automatically when you use static image.
 

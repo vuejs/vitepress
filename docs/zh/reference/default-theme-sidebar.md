@@ -1,4 +1,4 @@
-# Sidebar
+# 侧边栏 {#sidebar}
 
 The sidebar is the main navigation block for your documentation. You can configure the sidebar menu in [`themeConfig.sidebar`](./default-theme-config#sidebar).
 
@@ -19,7 +19,7 @@ export default {
 }
 ```
 
-## The Basics
+## 基本用法 {#the-basics}
 
 The simplest form of the sidebar menu is passing in a single array of links. The first level item defines the "section" for the sidebar. It should contain `text`, which is the title of the section, and `items` which are the actual navigation links.
 
@@ -93,7 +93,7 @@ export default {
 }
 ```
 
-## Multiple Sidebars
+## 多侧边栏 {#multiple-sidebars}
 
 You may show different sidebar depending on the page path. For example, as shown on this site, you might want to create a separate sections of content in your documentation like "Guide" page and "Config" page.
 
@@ -147,7 +147,7 @@ export default {
 }
 ```
 
-## Collapsible Sidebar Groups
+## 可折叠的侧边栏组 {#collapsible-sidebar-groups}
 
 By adding `collapsed` option to the sidebar group, it shows a toggle button to hide/show each section.
 

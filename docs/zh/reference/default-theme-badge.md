@@ -1,36 +1,35 @@
-# Badge
+# 标记 {#badge}
 
 The badge lets you add status to your headers. For example, it could be useful to specify the section's type, or supported version.
 
-## Usage
+## 用法 {#usage}
 
 You may use the `Badge` component which is globally available.
 
 ```html
-### Title <Badge type="info" text="default" />
-### Title <Badge type="tip" text="^1.9.0" />
+### Title <Badge type="info" text="default" /> 
+### Title <Badge type="tip" text="^1.9.0" /> 
 ### Title <Badge type="warning" text="beta" />
 ### Title <Badge type="danger" text="caution" />
 ```
 
 Code above renders like:
 
-### Title <Badge type="info" text="default" />
-### Title <Badge type="tip" text="^1.9.0" />
-### Title <Badge type="warning" text="beta" />
+### Title <Badge type="info" text="default" /> 
+### Title <Badge type="tip" text="^1.9.0" /> 
+### Title <Badge type="warning" text="beta" /> 
 ### Title <Badge type="danger" text="caution" />
 
-## Custom Children
+## 自定义 `children` {#custom-children}
 
 `<Badge>` accept `children`, which will be displayed in the badge.
 
 ```html
-### Title <Badge type="info">custom element</Badge>
-```
+### Title <Badge type="info">custom element</Badge> 
 
 ### Title <Badge type="info">custom element</Badge>
 
-## Customize Type Color
+## Customize Type Color 
 
 You can customize the `background-color` of badges by overriding css variables. The following are the default values:
 

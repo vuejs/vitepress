@@ -2,13 +2,13 @@
 outline: deep
 ---
 
-# Site Config
+# 站点配置 {#site-config}
 
 Site config is where you can define the global settings of the site. App config options define settings that apply to every VitePress site, regardless of what theme it is using. For example, the base directory or the title of the site.
 
-## Overview
+## 概览 {#overview}
 
-### Config Resolution
+### 配置解析 {#config-resolution}
 
 The config file is always resolved from `<root>/.vitepress/config.[ext]`, where `<root>` is your VitePress [project root](../guide/routing#root-and-source-directory), and `[ext]` is one of the supported file extensions. TypeScript is supported out of the box. Supported extensions include `.js`, `.ts`, `.cjs`, `.mjs`, `.cts`, and `.mts`.
 
@@ -24,7 +24,7 @@ export default {
 }
 ```
 
-### Config Intellisense
+### 配置提示 {#config-intellisense}
 
 Using the `defineConfig` helper will provide TypeScript-powered intellisense for config options. Assuming your IDE supports it, this should work in both JavaScript and TypeScript.
 
@@ -36,7 +36,7 @@ export default defineConfig({
 })
 ```
 
-### Typed Theme Config
+### 主题类型提示 {#typed-theme-config}
 
 By default, `defineConfig` helper expects the theme config type from default theme:
 
@@ -63,7 +63,7 @@ export default defineConfigWithTheme<ThemeConfig>({
 })
 ```
 
-### Vite, Vue & Markdown Config
+### Vite、Vue 与 Markdown 配置提示 {#vite-vue-markdown-config}
 
 - **Vite**
 
@@ -77,7 +77,7 @@ export default defineConfigWithTheme<ThemeConfig>({
 
     You can configure the underlying [Markdown-It](https://github.com/markdown-it/markdown-it) instance using the [markdown](#markdown) option in your VitePress config.
 
-## Site Metadata
+## 站点元数据 {#site-metadata}
 
 ### title
 
@@ -132,7 +132,6 @@ Here `:title` will be replaced with the text inferred from the page's first `<h1
 The option can be set to `false` to disable title suffixes.
 
 ### description
-
 - Type: `string`
 - Default: `A VitePress site`
 - Can be overridden per page via [frontmatter](./frontmatter-config#description)
@@ -199,7 +198,7 @@ export default {
 }
 ```
 
-## Routing
+## 路由 {#routing}
 
 ### cleanUrls
 
@@ -226,7 +225,7 @@ export default {
 }
 ```
 
-## Build
+## 构建 {#build}
 
 ### srcDir
 
@@ -300,7 +299,7 @@ export default {
 
 When set to `true`, the production app will be built in [MAP Mode](../guide/mpa-mode). MPA mode ships 0kb JavaScript by default, at the cost of disabling client-side navigation and requires explicit opt-in for interactivity.
 
-## Theming
+## 主题化 {#theming}
 
 ### appearance
 
@@ -316,7 +315,6 @@ Whether to enable dark mode (by adding the `.dark` class to the `<html>` element
 This option injects an inline script that restores users settings from local storage using the `vitepress-theme-appearance` key. This ensures the `.dark` class is applied before the page is rendered to avoid flickering.
 
 ### lastUpdated
-
 - Type: `boolean`
 - Default: `false`
 
@@ -324,7 +322,7 @@ Whether to get the last updated timestamp for each page using Git. The timestamp
 
 When using the default theme, enabling this option will display each page's last updated time. You can customize the text via [`themeConfig.lastUpdatedText`](./default-theme-config#lastupdatedtext) option.
 
-## Customization
+## 自定义 {#customization}
 
 ### markdown
 
@@ -434,7 +432,7 @@ export default {
 }
 ```
 
-## Build Hooks
+## 构建钩子 {#build-hooks}
 
 VitePress build hooks allow you to add new functionality and behaviors to your website:
 

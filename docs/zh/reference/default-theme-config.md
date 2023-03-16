@@ -1,4 +1,4 @@
-# Default Theme Config
+# 默认主题配置 {#default-theme-config}
 
 Theme config lets you customize your theme. You can define theme config via the `themeConfig` option in the config file:
 
@@ -316,7 +316,7 @@ export interface AlgoliaSearchOptions extends DocSearchProps {
 
 View full options [here](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts).
 
-## carbonAds {#carbon-ads}
+## carbonAds
 
 - Type: `CarbonAdsOptions`
 
@@ -373,7 +373,7 @@ export interface DocFooter {
 
 Can be used to customize the dark mode switch label. This label is only displayed in the mobile view.
 
-## sidebarMenuLabel
+## sidebarMenuLabel {#sidebarmenulabel}
 
 - Type: `string`
 - Default: `Menu`
@@ -381,7 +381,6 @@ Can be used to customize the dark mode switch label. This label is only displaye
 Can be used to customize the sidebar menu label. This label is only displayed in the mobile view.
 
 ## returnToTopLabel
-
 - Type: `string`
 - Default: `Return to top`
 

@@ -1,4 +1,4 @@
-# Layout
+# 布局 {#layout}
 
 You may choose the page layout by setting `layout` option to the page [frontmatter](./frontmatter-config). There are 3 layout options, `doc`, `page`, and `home`. If nothing is specified, then the page is treated as `doc` page.
 
@@ -8,7 +8,7 @@ layout: doc
 ---
 ```
 
-## Doc Layout
+## doc 布局 {#doc-layout}
 
 Option `doc` is the default layout and it styles the whole Markdown content into "documentation" look. It works by wrapping whole content within `vp-doc` css class, and applying styles to elements underneath it.
 
@@ -21,7 +21,7 @@ It also provides documentation specific features listed below. These features ar
 - Outline
 - [Carbon Ads](./default-theme-carbon-ads)
 
-## Page Layout
+## page 布局 {#page-layout}
 
 Option `page` is treated as "blank page". The Markdown will still be parsed, and all of the [Markdown Extensions](../guide/markdown) work as same as `doc` layout, but it wouldn't get any default stylings.
 
@@ -29,10 +29,10 @@ The page layout will let you style everything by you without VitePress theme aff
 
 Note that even in this layout, sidebar will still show up if the page has a matching sidebar config.
 
-## Home Layout
+## Home 布局 {#home-layout}
 
 Option `home` will generate templated "Homepage". In this layout, you can set extra options such as `hero` and `features` to customize the content further. Please visit [Default Theme: Home Page](./default-theme-home-page) for more details.
 
-## No Layout
+## 无布局 {#no-layout}
 
 If you don't want any layout, you can pass `layout: false` through frontmatter. This option is helpful if you want a fully-customizable landing page (without any sidebar, navbar, or footer by default).

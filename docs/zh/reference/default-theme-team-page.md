@@ -23,11 +23,11 @@ const members = [
 ]
 </script>
 
-# Team Page
+# 团队页 {#team-page}
 
 If you would like to introduce your team, you may use Team components to construct the Team Page. There are two ways of using these components. One is to embed it in doc page, and another is to create a full Team Page.
 
-## Show team members in a page
+## 在页面中展示团队成员 {#show-team-members-in-a-page}
 
 You may use `<VPTeamMembers>` component exposed from `vitepress/theme` to display a list of team members on any page.
 
@@ -66,7 +66,7 @@ Embedding team members in doc page is good for small size team where having dedi
 
 If you have large number of members, or simply would like to have more space to show team members, consider [creating a full team page](#create-a-full-team-page).
 
-## Create a full Team Page
+## 建立完整的团队页 {#create-a-full-team-page}
 
 Instead of adding team members to doc page, you may also create a full Team Page, similar to how you can create a custom [Home Page](./default-theme-home-page).
 
@@ -119,7 +119,7 @@ When creating a full team page, remember to wrap all components with `<VPTeamPag
 
 `<VPMembers>` works as same as when used in a doc page. It will display list of members.
 
-### Add sections to divide team members
+### 将成员信息分成多个部分 {#add-sections-to-divide-team-members}
 
 You may add "sections" to the team page. For example, you may have different types of team members such as Core Team Members and Community Partners. You can divide these members into sections to better explain the roles of each group.
 

@@ -1,10 +1,10 @@
-# Build-Time Data Loading
+# 构建时数据加载 {#build-time-data-loading}
 
 VitePress provides a feature called **data loaders** that allows you to load arbitrary data and import it from pages or components. The data loading is executed **only at build time**: the resulting data will be serialized as JSON in the final JavaScript bundle.
 
 Data loaders can be used to fetch remote data, or generate metadata based on local files. For example, you can use data loaders to parse all your local API pages and automatically generate an index of all API entries.
 
-## Basic Usage
+## 基本用法 {#basic-usage}
 
 A data loader file must end with either `.data.js` or `.data.ts`. The file should provide a default export of an object with the `load()` method:
 
@@ -52,7 +52,7 @@ export default {
 }
 ```
 
-## Data from Local Files
+## 使用本地文件生成数据 {#data-from-local-files}
 
 When you need to generate data based on local files, you should use the `watch` option in the data loader so that changes made to these files can trigger hot updates.
 
@@ -130,7 +130,7 @@ import { data as posts } from './posts.data.js'
 </template>
 ```
 
-### Options
+### Options {#options}
 
 The default data may not suit all needs - you can opt-in to transform the data using options:
 
@@ -171,7 +171,7 @@ export default {
 }
 ```
 
-## Typed Data Loaders
+## Typed Data Loaders {#typed-data-loaders}
 
 When using TypeScript, you can type your loader and `data` export like so:
 

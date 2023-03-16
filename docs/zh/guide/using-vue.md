@@ -1,4 +1,4 @@
-# Using Vue in Markdown
+# 在 Markdown 使用 Vue {#using-vue-in-markdown}
 
 In VitePress, each Markdown file is compiled into HTML and then processed as a [Vue Single-File Component](https://vuejs.org/guide/scaling-up/sfc.html). This means you can use any Vue features inside the Markdown, including dynamic templating, using Vue components, or arbitrary in-page Vue component logic by adding a `<script>` tag.
 
@@ -8,9 +8,9 @@ It's worth noting that VitePress leverages Vue's compiler to automatically detec
 All Vue usage needs to be SSR-compatible. See [SSR Compatibility](./ssr-compat) for details and common workarounds.
 :::
 
-## Templating
+## 模板化 {#templating}
 
-### Interpolation
+### 插值语法 {#interpolation}
 
 Each Markdown file is first compiled into HTML and then passed on as a Vue component to the Vite process pipeline. This means you can use Vue-style interpolation in text:
 
@@ -24,7 +24,7 @@ Each Markdown file is first compiled into HTML and then passed on as a Vue compo
 
 <div class="language-text"><pre><code>{{ 1 + 1 }}</code></pre></div>
 
-### Directives
+### Directives {#directives}
 
 Directives also work (note that by design, raw HTML is also valid in Markdown):
 
@@ -38,7 +38,7 @@ Directives also work (note that by design, raw HTML is also valid in Markdown):
 
 <div class="language-text"><pre><code><span v-for="i in 3">{{ i }} </span></code></pre></div>
 
-## `<script>` and `<style>`
+## `<script>` and `<style>` {#`<script>`-and-`<style>`}
 
 Root-level `<script>` and `<style>` tags in Markdown files work just like they do in Vue SFCs, including `<script setup>`, `<style module>`, etc. The main difference here is that there is no `<template>` tag: all other root-level content is Markdown. Also note that all tags should be placed **after** the frontmatter:
 
@@ -53,7 +53,7 @@ import { ref } from 'vue'
 const count = ref(0)
 </script>
 
-## Markdown Content
+## Markdown Content {#markdown-content}
 
 The count is: {{ count }}
 
@@ -96,11 +96,11 @@ const { page } = useData()
 }
 ```
 
-## Using Components
+## 使用组件 {#using-components}
 
 You can import and use Vue components directly in Markdown files.
 
-### Importing in Markdown
+### 在 Markdown 中导入组件 {#importing-in-markdown}
 
 If a component is only used by a few pages, it's recommended to explicitly import them where they are used. This allows them to be properly code-split and only loaded when the relevant pages are shown:
 
@@ -120,7 +120,7 @@ This is a .md using a custom component
 ...
 ```
 
-### Registering Components Globally
+### 注册全局组件 {#registering-components-globally}
 
 If a component is going to be used on most of the pages, they can be registered globally by customizing the Vue app instance. See relevant section in [Extending Default Theme](./extending-default-theme#registering-global-components) for an example.
 
@@ -128,7 +128,7 @@ If a component is going to be used on most of the pages, they can be registered 
 Make sure a custom component's name either contains a hyphen or is in PascalCase. Otherwise, it will be treated as an inline element and wrapped inside a `<p>` tag, which will lead to hydration mismatch because `<p>` does not allow block elements to be placed inside it.
 :::
 
-### Using Components In Headers <ComponentInHeader />
+### 在标题中使用组件 <ComponentInHeader /> {#using-components-in-headers}
 
 You can use Vue components in the headers, but note the difference between the following syntaxes:
 
@@ -144,7 +144,7 @@ The output HTML is accomplished by [Markdown-it](https://github.com/Markdown-it/
 :::
 
 
-## Escaping
+## 转义 {#escaping}
 
 You can escape Vue interpolations by wrapping them in a `<span>` or other elements with the `v-pre` directive:
 
@@ -178,7 +178,7 @@ Alternatively, you can wrap the entire paragraph in a `v-pre` custom container:
 
 </div>
 
-## Unescape in Code Blocks
+## 代码块中不转义 {#unescape-in-code-blocks}
 
 By default, all fenced code blocks are automatically wrapped with `v-pre`, so no Vue syntax will be processd inside. To enable Vue-style interpolation inside fences, you can append the language with the `-vue` suffix, e.g. `js-vue`:
 
@@ -196,18 +196,18 @@ Hello {{ 1 + 1 }}
 Hello {{ 1 + 1 }}
 ```
 
-## Using CSS Pre-processors
+## 使用 CSS 预处理器 {#using-css-pre-processors}
 
 VitePress has [built-in support](https://vitejs.dev/guide/features.html#css-pre-processors) for CSS pre-processors: `.scss`, `.sass`, `.less`, `.styl` and `.stylus` files. There is no need to install Vite-specific plugins for them, but the corresponding pre-processor itself must be installed:
 
 ```
-# .scss and .sass
+# .scss and .sass {#.scss-and-.sass}
 npm install -D sass
 
-# .less
+# .less {#.less}
 npm install -D less
 
-# .styl and .stylus
+# .styl and .stylus {#.styl-and-.stylus}
 npm install -D stylus
 ```
 
@@ -220,7 +220,7 @@ Then you can use the following in Markdown and theme components:
 </style>
 ```
 
-## Using Teleports
+## 传递组件内容 {#using-teleports}
 
 Vitepress currently has SSG support for teleports to body only. For other targets, you can wrap them inside the built-in `<ClientOnly>` component or inject the teleport markup into the correct location in your final page HTML through [`postRender` hook](../reference/site-config#postrender).
 

@@ -1,4 +1,4 @@
-# Home Page
+# 主页 {#home-page}
 
 VitePress default theme provides a homepage layout, which you can also see used on [the homepage of this site](../). You may use it on any of your pages by specifying `layout: home` in the [frontmatter](./frontmatter-config).
 
@@ -10,7 +10,7 @@ layout: home
 
 However, this option alone wouldn't do much. You can add several different pre templated "sections" to the homepage by setting additional other options such as `hero` and `features`.
 
-## Hero Section
+## Hero 部分 {#hero-section}
 
 The Hero section comes at the top of the homepage. Here's how you can configure the Hero section.
 
@@ -72,7 +72,7 @@ interface HeroAction {
 }
 ```
 
-### Customizing the name color
+### 自定义名字的颜色 {#customizing-the-name-color}
 
 VitePress uses the brand color (`--vp-c-brand`) for the `name`. However, you may customize this color by overriding `--vp-home-hero-name-color` variable.
 
@@ -91,7 +91,7 @@ Also you may customize it further by combining `--vp-home-hero-name-background` 
 }
 ```
 
-## Features Section
+## Features 部分 {#features-section}
 
 In Features section, you can list any number of features you would like to show right after the Hero section. To configure it, pass `features` option to the frontmatter.
 

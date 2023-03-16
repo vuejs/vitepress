@@ -1,6 +1,6 @@
-# Asset Handling
+# 资源处理 {#asset-handling}
 
-## Referencing Static Assets
+## 引用静态资源 {#referencing-static-assets}
 
 All Markdown files are compiled into Vue components and processed by [Vite](https://vitejs.dev/guide/assets.html). You can, **and should**, reference any assets using relative URLs:
 
@@ -16,7 +16,7 @@ All referenced assets, including those using absolute paths, will be copied to t
 
 All **static** path references, including absolute paths, should be based on your working directory structure.
 
-## The Public Directory
+## public 目录 {#the-public-directory}
 
 Sometimes you may need to provide static assets that are not directly referenced in any of your Markdown or theme components, or you may want to serve certain files with the original filename. Examples of such files include `robot.txt`, favicons, and PWA icons.
 
@@ -31,7 +31,7 @@ There is one exception to this: if you have an HTML page in `public` and link to
 - [/pure.html](/pure.html)
 - <pathname:///pure.html>
 
-## Base URL
+## 根 URL {#base-url}
 
 If your site is deployed to a non-root URL, you will need to set the `base` option in `.vitepress/config.js`. For example, if you plan to deploy your site to `https://foo.github.io/bar/`, then `base` should be set to `'/bar/'` (it should always start and end with a slash).
 

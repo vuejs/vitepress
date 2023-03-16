@@ -1,4 +1,4 @@
-# Footer
+# 页脚 {#footer}
 
 VitePress will display global footer at the bottom of the page when `themeConfig.footer` is present.
 

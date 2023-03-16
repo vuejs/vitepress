@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-# Deploy Your VitePress Site
+# 部署 {#deploy-your-vitepress-site}
 
 The following guides are based on some shared assumptions:
 
@@ -19,7 +19,7 @@ The following guides are based on some shared assumptions:
   }
   ```
 
-## Build and Test Locally
+## 本地构建和测试 {#build-and-test-locally}
 
 1. Run this command to build the docs:
 
@@ -47,13 +47,13 @@ The following guides are based on some shared assumptions:
 
 Now the `docs:preview` method will launch the server at `http://localhost:8080`.
 
-## Setting a Public Base Path
+## 设定 public 根目录 {#setting-a-public-base-path}
 
 By default, we assume the site is going to be deployed at the root path of a domain (`/`). If your site is going to be served at a sub-path, e.g. `https://mywebsite.com/blog/`, then you need to set the [`base`](../reference/site-config#base) option to `'/blog/'` in the VitePress config.
 
 **Example:** If you're using Github (or GitLab) Pages and deploying to `user.github.io/repo/`, then set your `base` to `/repo/`.
 
-## HTTP Cache Headers
+## HTTP 缓存标头 {#http-cache-headers}
 
 If you have control over the HTTP headers on your production server, you can configure `cache-control` headers to achieve better performance on repeated visits.
 
@@ -103,9 +103,9 @@ Note: the `vercel.json` file should be placed at the root of your **repository**
 
 :::
 
-## Platform Guides
+## 如何部署到平台 {#platform-guides}
 
-### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render
+### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render 
 
 Set up a new project and change these settings using your dashboard:
 
@@ -117,7 +117,7 @@ Set up a new project and change these settings using your dashboard:
 Don't enable options like _Auto Minify_ for HTML code. It will remove comments from output which have meaning to Vue. You may see hydration mismatch errors if they get removed.
 :::
 
-### GitHub Pages
+### GitHub Pages 
 
 1. In your theme config file, `docs/.vitepress/config.js`, set the `base` property to the name of your GitHub repository. If you plan to deploy your site to `https://foo.github.io/bar/`, then you should set base to `'/bar/'`. It should always start and end with a slash.
 
@@ -171,7 +171,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
 6. In your repository's Settings under Pages menu item, click `Visit site`, then you can see your site. Your docs will automatically deploy each time you push.
 
-### GitLab Pages
+### GitLab Pages 
 
 1. Set `outDir` in `docs/.vitepress/config.js` to `../public`.
 
@@ -214,7 +214,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
        - main
    ```
 
-### Azure Static Web Apps
+### Azure Static Web Apps {#azure-static-web-apps}
 
 1. Follow the [official documentation](https://docs.microsoft.com/en-us/azure/static-web-apps/build-configuration).
 
@@ -224,7 +224,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
    - **`output_location`**: `docs/.vitepress/dist`
    - **`app_build_command`**: `npm run docs:build`
 
-### Firebase
+### Firebase {#firebase}
 
 1. Create `firebase.json` and `.firebaserc` at the root of your project:
 
@@ -255,7 +255,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
    firebase deploy
    ```
 
-### Surge
+### Surge 
 
 1. After running `npm run docs:build`, run this command to deploy:
 
@@ -263,7 +263,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
    npx surge docs/.vitepress/dist
    ```
 
-### Heroku
+### Heroku 
 
 1. Follow documentation and guide given in [`heroku-buildpack-static`](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-static).
 

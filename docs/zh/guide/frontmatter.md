@@ -1,6 +1,6 @@
-# Frontmatter
+# Frontmatter {#frontmatter}
 
-## Usage
+## 用法 {#usage}
 
 VitePress supports YAML frontmatter in all Markdown files, parsing them with [gray-matter](https://github.com/jonschlinkert/gray-matter). The frontmatter must be at the top of the Markdown file (before any elements including `<script>` tags), and must take the form of valid YAML set between triple-dashed lines. Example:
 
@@ -15,7 +15,7 @@ Many site or default theme config options have corresponding options in frontmat
 
 You can also define custom frontmatter data of your own, to be used in dynamic Vue expressions on the page.
 
-## Accessing Frontmatter Data
+## Accessing Frontmatter Data {#accessing-frontmatter-data}
 
 Frontmatter data can be accessed via the special `$frontmatter` global variable:
 
@@ -27,14 +27,14 @@ title: Docs with VitePress
 editLink: true
 ---
 
-# {{ $frontmatter.title }}
+# {{ $frontmatter.title }} {#{{-$frontmatter.title-}}}
 
 Guide content
 ```
 
 You can also access current page's frontmatter data in `<script setup>` with the [`useData()`](../reference/runtime-api#usedata) helper.
 
-## Alternative Frontmatter Formats
+## 其他 Frontmatter 格式 {#alternative-frontmatter-formats}
 
 VitePress also supports JSON frontmatter syntax, starting and ending in curly braces:
 
