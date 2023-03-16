@@ -94,11 +94,11 @@ interface Router {
 
 - **Type**: `(path: string) => string`
 
-Appends the configured [`base`](/reference/site-config#base) to a given URL path. Also see [Base URL](/guide/asset-handling#base-url).
+Appends the configured [`base`](./site-config#base) to a given URL path. Also see [Base URL](../guide/asset-handling#base-url).
 
 ## `<Content />` <Badge type="info" text="component" />
 
-The `<Content />` component displays the rendered markdown contents. Useful [when creating your own theme](/guide/custom-theme).
+The `<Content />` component displays the rendered markdown contents. Useful [when creating your own theme](../guide/custom-theme).
 
 ```vue
 <template>
@@ -121,9 +121,11 @@ If you are using or demoing components that are not SSR-friendly (for example, c
 </ClientOnly>
 ```
 
+- Related: [SSR Compatibility](/guide/ssr-compat)
+
 ## `$frontmatter` <Badge type="info" text="template global" />
 
-Directly access current page's [frontmatter](/guide/frontmatter) data in Vue expressions.
+Directly access current page's [frontmatter](../guide/frontmatter) data in Vue expressions.
 
 ```md
 ---
@@ -135,7 +137,7 @@ title: Hello
 
 ## `$params` <Badge type="info" text="template global" />
 
-Directly access current page's [dynamic route params](/guide/routing#dynamic-routes) in Vue expressions.
+Directly access current page's [dynamic route params](../guide/routing#dynamic-routes) in Vue expressions.
 
 ```md
 - package name: {{ $params.pkg }}

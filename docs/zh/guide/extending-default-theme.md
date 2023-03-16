@@ -1,6 +1,6 @@
 # Extending the Default Theme
 
-VitePress' default theme is optimized for documentation, and can be customized. Consult the [Default Theme Config Overview](/reference/default-theme-config) for a comprehensive list of options.
+VitePress' default theme is optimized for documentation, and can be customized. Consult the [Default Theme Config Overview](../reference/default-theme-config) for a comprehensive list of options.
 
 However, there are a number of cases where configuration alone won't be enough. For example:
 
@@ -35,6 +35,58 @@ export default DefaultTheme
 ```
 
 See [default theme CSS variables](https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css) that can be overridden.
+
+## Using Different Fonts
+
+VitePress uses [Inter](https://rsms.me/inter/) as the default font, and will include the fonts in the build output. The font is also auto preloaded in production. However, this may not be desirable if you want to use a different main font.
+
+To avoid including Inter in the build output, import the theme from `vitepress/theme-without-fonts` instead:
+
+```js
+// .vitepress/theme/index.js
+import DefaultTheme from 'vitepress/theme-without-fonts'
+import './my-fonts.css'
+
+export default DefaultTheme
+```
+
+```css
+/* .vitepress/theme/custom.css */
+:root {
+  --vp-font-family-base: /* normal text font */
+  --vp-font-family-mono: /* code font */
+}
+```
+
+:::warning
+If you are using optional components like the [Team Page](/reference/default-theme-team-page) components, make sure to also import them from `vitepress/theme-without-fonts`!
+:::
+
+If your font is a local file referenced via `@font-face`, it will be processed as an asset and included under `.vitepress/dist/assets` with hashed filename. To preload this file, use the [transformHead](/reference/site-config#transformhead) build hook:
+
+```js
+// .vitepress/config.js
+export default {
+  transformHead({ assets }) {
+    // adjust the regex accordingly to match your font
+    const myFontFile = assets.find(file => /font-name\.\w+\.woff2/)
+    if (myFontFile) {
+      return [
+        [
+          'link',
+          {
+            rel: 'preload',
+            href: myFontFile,
+            as: 'font',
+            type: 'font/woff2',
+            crossorigin: ''
+          }
+        ]
+      ]
+    }
+  }
+}
+```
 
 ## Registering Global Components
 
@@ -137,3 +189,29 @@ Full list of slots available in the default theme layout:
   - `nav-bar-content-after`
   - `nav-screen-content-before`
   - `nav-screen-content-after`
+
+## Overriding Internal Components
+
+You can use Vite's [aliases](https://vitejs.dev/config/shared-options.html#resolve-alias) to replace default theme components with your custom ones:
+
+```ts
+import { fileURLToPath, URL } from 'node:url'
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  vite: {
+    resolve: {
+      alias: [
+        {
+          find: /^.*\/VPNavBar\.vue$/,
+          replacement: fileURLToPath(
+            new URL('./components/CustomNavBar.vue', import.meta.url)
+          )
+        }
+      ]
+    }
+  }
+})
+```
+
+To know the exact name of the component refer [our source code](https://github.com/vuejs/vitepress/tree/main/src/client/theme-default/components). Since the components are internal, there is a slight chance their name is updated between minor releases.
