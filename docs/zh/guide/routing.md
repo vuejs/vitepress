@@ -247,7 +247,7 @@ export default {
 }
 ```
 
-**Output**
+**输出**
 
 ```
 .
