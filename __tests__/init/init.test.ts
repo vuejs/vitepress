@@ -87,8 +87,8 @@ const usingTs = [false, true]
 
 for (const theme of themes) {
   for (const useTs of usingTs) {
-    test(`${theme}${useTs ? ` + TypeScript` : ``}`, () =>
-      testVariation({
+    test(`${theme}${useTs ? ` + TypeScript` : ``}`, async () =>
+      await testVariation({
         root: '.',
         theme,
         useTs,
