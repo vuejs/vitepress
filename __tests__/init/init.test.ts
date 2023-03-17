@@ -1,7 +1,9 @@
 import fs from 'fs-extra'
 import getPort from 'get-port'
 import type { Server } from 'net'
+import path from 'path'
 import { chromium, type Browser, type Page } from 'playwright-chromium'
+import { fileURLToPath } from 'url'
 import type { ViteDevServer } from 'vite'
 import {
   ScaffoldThemeType,
@@ -25,7 +27,7 @@ afterAll(async () => {
   await browser.close()
 })
 
-const root = '__tests__/init/temp'
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), 'temp')
 
 const themes = [
   ScaffoldThemeType.Default,
