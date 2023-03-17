@@ -40,13 +40,26 @@ const { page } = useData()
   font-weight: 500;
   color: var(--vp-c-text-1);
   transition: color 0.25s;
+  position: relative;
 }
 
-.VPNavBarMenuLink.active {
-  color: var(--vp-c-brand);
+.VPNavBarMenuLink.active::after {
+  content: '';
+  position: absolute;
+  inset: 16px 0;
+  border-radius: 8px;
+  background-color: var(--vp-c-brand);
+  opacity: 0.2;
+  z-index: 0;
 }
 
+.VPNavBarMenuLink.active,
 .VPNavBarMenuLink:hover {
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-darker);
+}
+
+.dark .VPNavBarMenuLink:hover,
+.dark .VPNavBarMenuLink.active {
+  color: var(--vp-c-brand-lighter);
 }
 </style>

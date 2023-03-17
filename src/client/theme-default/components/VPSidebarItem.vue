@@ -57,16 +57,15 @@ function onCaretClick() {
   <component :is="sectionTag" class="VPSidebarItem" :class="classes">
     <div v-if="item.text"
       class="item"
-      :role="itemRole"
       v-on="item.items ? { click: onItemInteraction, keydown: onItemInteraction } : {}"
       :tabindex="item.items && 0"
     >
       <div class="indicator" />
 
-      <VPLink v-if="item.link" :tag="linkTag" class="link" :href="item.link">
+      <VPLink v-if="item.link" :tag="linkTag" class="link" :href="item.link" :role="itemRole">
         <component :is="textTag" class="text" v-html="item.text" />
       </VPLink>
-      <component v-else :is="textTag" class="text" v-html="item.text" />
+      <component v-else :is="textTag" class="text" :role="itemRole" v-html="item.text" />
 
       <div v-if="item.collapsed != null"
         class="caret"
@@ -94,6 +93,10 @@ function onCaretClick() {
 </template>
 
 <style scoped>
+.VPSidebarItem {
+  position: relative;
+}
+
 .VPSidebarItem.level-0 {
   padding-bottom: 24px;
 }
@@ -117,10 +120,21 @@ function onCaretClick() {
   top: 6px;
   bottom: 6px;
   left: -17px;
-  width: 1px;
+  width: 2px;
   transition: background-color 0.25s;
 }
 
+.VPSidebarItem.is-active::after {
+  content: '';
+  position: absolute;
+  inset: 0 -8px;
+  border-radius: 8px;
+  background-color: var(--vp-c-brand);
+  opacity: 0.2;
+  z-index: 0;
+}
+
+/* .VPSidebarItem.level-1.is-active > .item > .indicator, */
 .VPSidebarItem.level-2.is-active > .item > .indicator,
 .VPSidebarItem.level-3.is-active > .item > .indicator,
 .VPSidebarItem.level-4.is-active > .item > .indicator,
@@ -180,8 +194,18 @@ function onCaretClick() {
 .VPSidebarItem.level-3.is-active > .item .link > .text,
 .VPSidebarItem.level-4.is-active > .item .link > .text,
 .VPSidebarItem.level-5.is-active > .item .link > .text {
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-darker);
 }
+
+.dark .VPSidebarItem.level-0.is-active > .item .link > .text,
+.dark .VPSidebarItem.level-1.is-active > .item .link > .text,
+.dark .VPSidebarItem.level-2.is-active > .item .link > .text,
+.dark .VPSidebarItem.level-3.is-active > .item .link > .text,
+.dark .VPSidebarItem.level-4.is-active > .item .link > .text,
+.dark .VPSidebarItem.level-5.is-active > .item .link > .text {
+  color: var(--vp-c-brand-lighter);
+}
+
 
 .caret {
   display: flex;

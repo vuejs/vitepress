@@ -84,7 +84,7 @@ onMounted(() => {
 
 .link {
   display: inline-block;
-  border: 1px solid var(--vp-c-brand);
+  border: 1px solid currentColor;
   border-radius: 16px;
   padding: 3px 16px;
   font-size: 14px;
@@ -94,7 +94,10 @@ onMounted(() => {
 }
 
 .link:hover {
-  border-color: var(--vp-c-brand-dark);
-  color: var(--vp-c-brand-dark);
+  color: var(--vp-c-brand-darker);
+}
+
+.dark .link:hover {
+  color: var(--vp-c-brand-lighter);
 }
 </style>

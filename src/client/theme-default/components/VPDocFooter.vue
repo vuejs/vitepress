@@ -83,12 +83,16 @@ const showFooter = computed(() => {
   line-height: 32px;
   font-size: 14px;
   font-weight: 500;
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-darker);
   transition: color 0.25s;
 }
 
 .edit-link-button:hover {
-  color: var(--vp-c-brand-dark);
+  text-decoration: underline;
+}
+
+.dark .edit-link-button {
+  color: var(--vp-c-brand-lighter);
 }
 
 .edit-link-icon {
@@ -159,7 +163,11 @@ const showFooter = computed(() => {
   line-height: 20px;
   font-size: 14px;
   font-weight: 500;
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-darker);
   transition: color 0.25s;
+}
+
+.dark .title {
+  color: var(--vp-c-brand-lighter);
 }
 </style>

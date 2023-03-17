@@ -78,6 +78,7 @@
 .custom-block a {
   color: inherit;
   font-weight: 600;
+  transition: color 0.25s;
 }
 
 .custom-block a:hover {

@@ -210,9 +210,9 @@
   --vp-code-font-size: 0.875em;
 
   --vp-code-block-color: var(--vp-c-text-dark-1);
-  --vp-code-block-bg: #292b30;
+  --vp-code-block-bg: #000000;
   --vp-code-block-bg-light: #1e1e20;
-  --vp-code-block-divider-color: #000000;
+  --vp-code-block-divider-color: #36363f;
 
   --vp-code-line-highlight-color: rgba(0, 0, 0, 0.5);
   --vp-code-line-number-color: var(--vp-c-text-dark-3);
@@ -238,10 +238,6 @@
   --vp-code-tab-hover-text-color: var(--vp-c-text-dark-1);
   --vp-code-tab-active-text-color: var(--vp-c-text-dark-1);
   --vp-code-tab-active-bar-color: var(--vp-c-brand);
-}
-
-.dark {
-  --vp-code-block-bg: #161618;
 }
 
 /**
@@ -299,17 +295,17 @@
   --vp-custom-block-info-code-bg: var(--vp-c-bg-soft);
 
   --vp-custom-block-tip-border: var(--vp-c-green);
-  --vp-custom-block-tip-text: var(--vp-c-green-dark);
+  --vp-custom-block-tip-text: var(--vp-c-green-darker);
   --vp-custom-block-tip-bg: var(--vp-c-bg-soft-up);
   --vp-custom-block-tip-code-bg: var(--vp-c-bg-soft);
 
   --vp-custom-block-warning-border: var(--vp-c-yellow);
-  --vp-custom-block-warning-text: var(--vp-c-yellow);
+  --vp-custom-block-warning-text: var(--vp-c-yellow-darker);
   --vp-custom-block-warning-bg: var(--vp-c-bg-soft-up);
   --vp-custom-block-warning-code-bg: var(--vp-c-bg-soft);
 
   --vp-custom-block-danger-border: var(--vp-c-red);
-  --vp-custom-block-danger-text: var(--vp-c-red);
+  --vp-custom-block-danger-text: var(--vp-c-red-darker);
   --vp-custom-block-danger-bg: var(--vp-c-bg-soft-up);
   --vp-custom-block-danger-code-bg: var(--vp-c-bg-soft);
 
@@ -317,6 +313,17 @@
   --vp-custom-block-details-text: var(--vp-custom-block-info-text);
   --vp-custom-block-details-bg: var(--vp-custom-block-info-bg);
   --vp-custom-block-details-code-bg: var(--vp-custom-block-details-bg);
+}
+
+.dark {
+  --vp-custom-block-tip-border: var(--vp-c-green-light);
+  --vp-custom-block-tip-text: var(--vp-c-green-lighter);
+
+  --vp-custom-block-warning-border: var(--vp-c-yellow-light);
+  --vp-custom-block-warning-text: var(--vp-c-yellow-lighter);
+
+  --vp-custom-block-danger-border: var(--vp-c-red-light);
+  --vp-custom-block-danger-text: var(--vp-c-red-lighter);
 }
 
 /**

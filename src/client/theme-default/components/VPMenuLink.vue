@@ -44,11 +44,16 @@ const { page } = useData()
 }
 
 .link:hover {
-  color: var(--vp-c-brand);
   background-color: var(--vp-c-bg-elv-mute);
 }
 
+.link:hover,
 .link.active {
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-darker);
+}
+
+.dark .link:hover,
+.dark .link.active {
+  color: var(--vp-c-brand-lighter);
 }
 </style>

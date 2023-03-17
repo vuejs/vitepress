@@ -65,7 +65,11 @@ function onBlur() {
 }
 
 .VPFlyout:hover .text {
-  color: var(--vp-c-text-2);
+  color: var(--vp-c-brand-darker);
+}
+
+.dark .VPFlyout:hover .text {
+  color: var(--vp-c-brand-lighter);
 }
 
 .VPFlyout:hover .icon {
