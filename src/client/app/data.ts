@@ -7,14 +7,14 @@ import {
   ref,
   shallowRef
 } from 'vue'
-import type { Route } from './router.js'
+import type { Route } from './router'
 import siteData from '@siteData'
 import {
   type PageData,
   type SiteData,
   resolveSiteDataByRoute,
   createTitle
-} from '../shared.js'
+} from '../shared'
 
 export const dataSymbol: InjectionKey<VitePressData> = Symbol()
 

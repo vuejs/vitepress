@@ -10,13 +10,13 @@ import {
 import { useMediaQuery } from '@vueuse/core'
 import { useRoute } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
-import { isActive } from '../support/utils.js'
+import { isActive } from '../support/utils'
 import {
   hasActiveLink as containsActiveLink,
   getSidebar,
   getSidebarGroups
-} from '../support/sidebar.js'
-import { useData } from './data.js'
+} from '../support/sidebar'
+import { useData } from './data'
 
 export interface SidebarControl {
   collapsed: Ref<boolean>

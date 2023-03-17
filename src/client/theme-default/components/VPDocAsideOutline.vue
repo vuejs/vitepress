@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref, shallowRef } from 'vue'
-import { useData } from '../composables/data.js'
+import { useData } from '../composables/data'
 import {
   getHeaders,
   resolveTitle,
   useActiveAnchor,
   type MenuItem
-} from '../composables/outline.js'
+} from '../composables/outline'
 import VPDocOutlineItem from './VPDocOutlineItem.vue'
 import { onContentUpdated } from 'vitepress'
 

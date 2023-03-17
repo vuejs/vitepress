@@ -1,5 +1,5 @@
 import type { DefaultTheme } from 'vitepress/theme'
-import { ensureStartingSlash, isActive } from './utils.js'
+import { ensureStartingSlash, isActive } from './utils'
 
 export interface SidebarLink {
   text: string

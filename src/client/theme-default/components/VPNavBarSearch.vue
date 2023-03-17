@@ -7,7 +7,7 @@ import {
   onUnmounted,
   ref
 } from 'vue'
-import { useData } from '../composables/data.js'
+import { useData } from '../composables/data'
 
 const VPAlgoliaSearchBox = __ALGOLIA__
   ? defineAsyncComponent(() => import('./VPAlgoliaSearchBox.vue'))

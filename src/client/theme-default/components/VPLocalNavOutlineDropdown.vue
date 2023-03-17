@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, nextTick } from 'vue'
-import { useData } from '../composables/data.js'
-import { getHeaders, resolveTitle } from '../composables/outline.js'
+import { useData } from '../composables/data'
+import { getHeaders, resolveTitle } from '../composables/outline'
 import VPDocOutlineItem from './VPDocOutlineItem.vue'
 import { onContentUpdated } from 'vitepress'
 import VPIconChevronRight from './icons/VPIconChevronRight.vue'

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { DefaultTheme } from 'vitepress/theme'
-import { useSidebarControl } from '../composables/sidebar.js'
+import { useSidebarControl } from '../composables/sidebar'
 import VPIconChevronRight from './icons/VPIconChevronRight.vue'
 import VPLink from './VPLink.vue'
 

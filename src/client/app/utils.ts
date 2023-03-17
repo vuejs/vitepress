@@ -1,5 +1,5 @@
-import { siteDataRef } from './data.js'
-import { inBrowser, EXTERNAL_URL_RE, sanitizeFileName } from '../shared.js'
+import { siteDataRef } from './data'
+import { inBrowser, EXTERNAL_URL_RE, sanitizeFileName } from '../shared'
 import {
   h,
   onMounted,
@@ -8,7 +8,7 @@ import {
   type AsyncComponentLoader
 } from 'vue'
 
-export { inBrowser } from '../shared.js'
+export { inBrowser } from '../shared'
 
 /**
  * Join two paths by resolving the slash collision.

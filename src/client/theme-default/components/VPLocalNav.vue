@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { useData } from '../composables/data.js'
-import { useSidebar } from '../composables/sidebar.js'
+import { useData } from '../composables/data'
+import { useSidebar } from '../composables/sidebar'
 import VPIconAlignLeft from './icons/VPIconAlignLeft.vue'
 import VPLocalNavOutlineDropdown from './VPLocalNavOutlineDropdown.vue'
 

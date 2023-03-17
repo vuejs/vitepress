@@ -8,9 +8,7 @@
     "skipLibCheck": true,
     "noUnusedLocals": true,
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "preserveValueImports": true,
-    "importsNotUsedAsValues": "error",
+    "verbatimModuleSyntax": true,
     "jsx": "preserve",
     "lib": ["esnext", "dom", "dom.iterable"]
   },
