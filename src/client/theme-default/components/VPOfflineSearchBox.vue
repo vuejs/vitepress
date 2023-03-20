@@ -247,7 +247,6 @@ const $t = createTranslate(theme.value.offlineSearch, defaultTranslations)
 
 .search-keyboard-shortcuts {
   font-size: 0.8rem;
-  padding: 0 12px;
   opacity: 75%;
   display: flex;
   flex-wrap: wrap;
