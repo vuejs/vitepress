@@ -20,6 +20,22 @@ interface IndexObject {
 export async function offlineSearchPlugin(
   siteConfig: SiteConfig
 ): Promise<Plugin> {
+  if (siteConfig.userConfig.themeConfig?.algolia || siteConfig.userConfig.themeConfig?.search === false) {
+    return {
+      name: 'vitepress:offline-search',
+      resolveId(id) {
+        if (id === OFFLINE_SEARCH_INDEX_ID) {
+          return OFFLINE_SEARCH_INDEX_REQUEST_PATH
+        }
+      },
+      load(id) {
+        if (id === OFFLINE_SEARCH_INDEX_REQUEST_PATH) {
+          return `export default '{}'`
+        }
+      }
+    }
+  }
+
   const md = await createMarkdownRenderer(
     siteConfig.srcDir,
     siteConfig.userConfig.markdown,
@@ -64,7 +80,7 @@ export async function offlineSearchPlugin(
 
   async function indexAllFiles(files: string[]) {
     const documents = await Promise.all(
-      files.map(async (file) => {
+      files.filter((file) => fs.existsSync(file)).map(async (file) => {
         const fileId = getDocId(file)
         const sections = splitPageIntoSections(
           await md.render(await fs.readFile(file, 'utf-8'))
@@ -125,6 +141,9 @@ export async function offlineSearchPlugin(
     async handleHotUpdate(ctx) {
       if (ctx.file.endsWith('.md')) {
         const fileId = getDocId(ctx.file)
+        if (!fs.existsSync(ctx.file)) {
+          return
+        }
         const sections = splitPageIntoSections(
           await md.render(await fs.readFile(ctx.file, 'utf-8'))
         )
