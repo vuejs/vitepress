@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, markRaw, nextTick, onMounted, ref, shallowRef, watch, type Ref, createApp } from 'vue'
 import { useRouter } from 'vitepress'
-import { onKeyStroke, useSessionStorage, debouncedWatch } from '@vueuse/core'
+import { onKeyStroke, useSessionStorage, debouncedWatch, useLocalStorage } from '@vueuse/core'
 import MiniSearch, { type SearchResult } from 'minisearch'
 import offlineSearchIndex from '@offlineSearchIndex'
 import { useData } from '../composables/data'
@@ -50,23 +50,25 @@ const searchIndex = computed(() => markRaw(MiniSearch.loadJSON<Result>(searchInd
 
 const filterText = useSessionStorage('vitepress:offline-search-filter', '')
 
+const showDetailedList = useLocalStorage('vitepress:offline-search-detailed-list', false)
+
 const results: Ref<(SearchResult & Result)[]> = shallowRef([])
 
 const contents = shallowRef(new Map<string, Map<string, string>>())
 
 const headingRegex = /<h(\d*).*?>.*?<a.*? href="#(.*?)".*?>.*?<\/a><\/h\1>/gi
 
-debouncedWatch(filterText, async (value, old, onCleanup) => {
+debouncedWatch(() => [filterText.value, showDetailedList.value] as const, async ([filterTextValue, showDetailedListValue], old, onCleanup) => {
   let canceled = false
   onCleanup(() => {
     canceled = true
   })
 
   // Search
-  results.value = searchIndex.value.search(value).slice(0, 16) as (SearchResult & Result)[]
+  results.value = searchIndex.value.search(filterTextValue).slice(0, 16) as (SearchResult & Result)[]
 
   // Highlighting
-  const mods = await Promise.all(results.value.map(r => fetchExcerpt(r.id)))
+  const mods = showDetailedListValue ? await Promise.all(results.value.map(r => fetchExcerpt(r.id))) : []
   if (canceled) return
   const c = new Map<string, Map<string, string>>()
   for (const { id, mod } of mods) {
@@ -91,40 +93,40 @@ debouncedWatch(filterText, async (value, old, onCleanup) => {
       }
     }
     if (canceled) return
-    results.value = results.value.map(r => {
-      let title = r.title
-      let titles = r.titles
-      let text = ''
-
-      // Highlight in text
-      const [id, anchor] = r.id.split('#')
-      const map = c.get(id)
-      if (map) {
-        text = map.get(anchor) ?? ''
-      }
-
-      for (const term in r.match) {
-        const match = r.match[term]
-        const reg = new RegExp(term, 'gi')
-        if (match.includes('title')) {
-          title = title.replace(reg, `<mark>$&</mark>`)
-        }
-        if (match.includes('titles')) {
-          titles = titles.map(t => t.replace(reg, `<mark>$&</mark>`))
-        }
-        if (match.includes('text')) {
-          text = text.replace(reg, `<mark>$&</mark>`)
-        }
-      }
-
-      return {
-        ...r,
-        title,
-        titles,
-        text,
-      }
-    })
   }
+  results.value = results.value.map(r => {
+    let title = r.title
+    let titles = r.titles
+    let text = ''
+
+    // Highlight in text
+    const [id, anchor] = r.id.split('#')
+    const map = c.get(id)
+    if (map) {
+      text = map.get(anchor) ?? ''
+    }
+
+    for (const term in r.match) {
+      const match = r.match[term]
+      const reg = new RegExp(term, 'gi')
+      if (match.includes('title')) {
+        title = title.replace(reg, `<mark>$&</mark>`)
+      }
+      if (match.includes('titles')) {
+        titles = titles.map(t => t.replace(reg, `<mark>$&</mark>`))
+      }
+      if (showDetailedListValue && match.includes('text')) {
+        text = text.replace(reg, `<mark>$&</mark>`)
+      }
+    }
+
+    return {
+      ...r,
+      title,
+      titles,
+      text,
+    }
+  })
   contents.value = c
 
   await nextTick()
@@ -134,7 +136,7 @@ debouncedWatch(filterText, async (value, old, onCleanup) => {
       block: 'center',
     })
   }
-}, { debounce: 500, immediate: true })
+}, { debounce: 200, immediate: true })
 
 async function fetchExcerpt (id: string) {
   const file = pathToFile(id.slice(0, id.indexOf('#')))
@@ -214,6 +216,7 @@ onKeyStroke('Escape', () => {
 const { theme } = useData()
 
 const defaultTranslations: ModalTranslations = {
+  displayDetails: 'Display detailed list',
   noResultsText: 'No results for',
   footer: {
     selectText: 'to select',
@@ -241,6 +244,16 @@ const $t = createTranslate(theme.value.offlineSearch, defaultTranslations)
             :placeholder="placeholder"
             class="search-input"
           >
+          <button
+            class="toggle-layout-button"
+            :class="{
+              'detailed-list': showDetailedList,
+            }"
+            :title="$t('displayDetails')"
+            @click="showDetailedList = !showDetailedList"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 14h7v7H3zM3 3h7v7H3zm11 1h7m-7 5h7m-7 6h7m-7 5h7"/></svg>
+          </button>
         </div>
 
         <div
@@ -275,7 +288,7 @@ const $t = createTranslate(theme.value.offlineSearch, defaultTranslations)
                 </span>
               </div>
               
-              <div class="excerpt-wrapper">
+              <div v-if="showDetailedList" class="excerpt-wrapper">
                 <div v-if="p.text" class="excerpt">
                   <div class="vp-doc" v-html="p.text" />
                 </div>
@@ -350,6 +363,10 @@ const $t = createTranslate(theme.value.offlineSearch, defaultTranslations)
   padding: 6px 12px;
   font-size: inherit;
   width: 100%;
+}
+
+.toggle-layout-button.detailed-list {
+  color: var(--vp-c-brand);
 }
 
 .search-keyboard-shortcuts {

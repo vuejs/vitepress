@@ -9,6 +9,7 @@ interface ButtonTranslations {
 }
 
 interface ModalTranslations {
+  displayDetails?: string
   noResultsText?: string
   footer?: FooterTranslations
 }
