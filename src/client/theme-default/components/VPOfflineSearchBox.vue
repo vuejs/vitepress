@@ -23,11 +23,12 @@ if (import.meta.hot) {
 }
 
 const searchIndex = computed(() => markRaw(MiniSearch.loadJSON(searchIndexData.value, {
-  fields: ['text'],
-  storeFields: ['titles'],
+  fields: ['title', 'titles', 'text'],
+  storeFields: ['title', 'titles'],
   searchOptions: {
     fuzzy: 0.2,
     prefix: true,
+    boost: { title: 4, text: 2, titles: 1 },
   },
 })))
 
@@ -143,8 +144,11 @@ onKeyStroke('Escape', () => {
                   :key="index"
                   class="title"
                 >
-                  <svg v-if="index !== 0" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 18l6-6l-6-6"/></svg>
                   <span class="text" v-html="t" />
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 18l6-6l-6-6"/></svg>
+                </span>
+                <span class="title">
+                  <span class="text" v-html="p.title" />
                 </span>
               </div>
             </div>

@@ -14,6 +14,7 @@ const OFFLINE_SEARCH_INDEX_REQUEST_PATH = '/' + OFFLINE_SEARCH_INDEX_ID
 interface IndexObject {
   id: string
   text: string
+  title: string
   titles: string[]
 }
 
@@ -44,8 +45,8 @@ export async function offlineSearchPlugin(
   )
 
   const index = new MiniSearch<IndexObject>({
-    fields: ['text'],
-    storeFields: ['titles']
+    fields: ['title', 'titles', 'text'],
+    storeFields: ['title', 'titles']
   })
 
   let server: ViteDevServer | undefined
@@ -88,7 +89,8 @@ export async function offlineSearchPlugin(
         return sections.map((section) => ({
           id: `${fileId}#${section.anchor}`,
           text: section.text,
-          titles: section.titles
+          title: section.titles.at(-1)!,
+          titles: section.titles.slice(0, -1),
         }))
       })
     )
@@ -155,7 +157,8 @@ export async function offlineSearchPlugin(
           index.add({
             id,
             text: section.text,
-            titles: section.titles
+            title: section.titles.at(-1)!,
+            titles: section.titles.slice(0, -1),
           })
         }
         debug('🔍️ Updated', ctx.file)
