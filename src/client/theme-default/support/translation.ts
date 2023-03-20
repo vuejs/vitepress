@@ -3,20 +3,24 @@ import { useData } from '../composables/data'
 /**
  * @param themeObject Can be an object with `translations` and `locales` properties
  */
-export function createTranslate (themeObject: any, defaultTranslations: Record<string, any>): (key: string) => string {
+export function createTranslate(
+  themeObject: any,
+  defaultTranslations: Record<string, any>
+): (key: string) => string {
   const { localeIndex } = useData()
 
-  function translate (key: string): string {
+  function translate(key: string): string {
     const keyPath = key.split('.')
 
     const isObject = themeObject && typeof themeObject === 'object'
-    const locales = (isObject && themeObject.locales?.[localeIndex.value]?.modal) || null
+    const locales =
+      (isObject && themeObject.locales?.[localeIndex.value]?.modal) || null
     const translations = (isObject && themeObject.translations?.modal) || null
-  
+
     let localeResult: Record<string, any> | null = locales
     let translationResult: Record<string, any> | null = translations
     let defaultResult: Record<string, any> | null = defaultTranslations
-    
+
     const lastKey = keyPath.pop()!
     for (const k of keyPath) {
       let fallbackResult: Record<string, any> | null = null
@@ -43,7 +47,12 @@ export function createTranslate (themeObject: any, defaultTranslations: Record<s
         localeResult = fallbackResult
       }
     }
-    return localeResult?.[lastKey] ?? translationResult?.[lastKey] ?? defaultResult?.[lastKey] ?? ''
+    return (
+      localeResult?.[lastKey] ??
+      translationResult?.[lastKey] ??
+      defaultResult?.[lastKey] ??
+      ''
+    )
   }
 
   return translate
