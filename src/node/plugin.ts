@@ -362,7 +362,7 @@ export async function createVitePressPlugin(
     vuePlugin,
     webFontsPlugin(siteConfig.useWebFonts),
     ...(userViteConfig?.plugins || []),
-    ...(siteConfig.userConfig?.themeConfig?.search !== false
+    ...(!siteConfig.userConfig?.themeConfig?.algolia && siteConfig.userConfig?.themeConfig?.search !== false
       ? [await offlineSearchPlugin(siteConfig)]
       : []),
     staticDataPlugin,
