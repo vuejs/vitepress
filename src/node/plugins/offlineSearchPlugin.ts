@@ -17,68 +17,89 @@ interface IndexObject {
   titles: string[]
 }
 
-export async function offlineSearchPlugin (siteConfig: SiteConfig): Promise<Plugin> {
-  const md = await createMarkdownRenderer(siteConfig.srcDir, siteConfig.userConfig.markdown, siteConfig.userConfig.base, siteConfig.logger)
+export async function offlineSearchPlugin(
+  siteConfig: SiteConfig
+): Promise<Plugin> {
+  const md = await createMarkdownRenderer(
+    siteConfig.srcDir,
+    siteConfig.userConfig.markdown,
+    siteConfig.userConfig.base,
+    siteConfig.logger
+  )
 
   const index = new MiniSearch<IndexObject>({
     fields: ['text'],
-    storeFields: ['titles'],
+    storeFields: ['titles']
   })
 
   let server: ViteDevServer | undefined
 
-  async function onIndexUpdated () {
+  async function onIndexUpdated() {
     if (server) {
       server.moduleGraph.onFileChange(OFFLINE_SEARCH_INDEX_REQUEST_PATH)
       // HMR
-      const mod = server.moduleGraph.getModuleById(OFFLINE_SEARCH_INDEX_REQUEST_PATH)
+      const mod = server.moduleGraph.getModuleById(
+        OFFLINE_SEARCH_INDEX_REQUEST_PATH
+      )
       if (!mod) return
       server.ws.send({
         type: 'update',
-        updates: [{
-          acceptedPath: mod.url,
-          path: mod.url,
-          timestamp: Date.now(),
-          type: 'js-update',
-        }]
+        updates: [
+          {
+            acceptedPath: mod.url,
+            path: mod.url,
+            timestamp: Date.now(),
+            type: 'js-update'
+          }
+        ]
       })
     }
   }
 
-  function getDocId (file: string) {
+  function getDocId(file: string) {
     let id = file.replace(siteConfig.srcDir, siteConfig.userConfig.base ?? '')
     id = id.replace(/\.md$/, siteConfig.cleanUrls ? '' : '.html')
     return id
   }
 
-  async function indexAllFiles (files: string[]) {
-    const documents = await Promise.all(files.map(async (file) => {
-      const fileId = getDocId(file)
-      const sections = splitPageIntoSections(await md.render(await fs.readFile(file, 'utf-8')))
-      return sections.map((section) => ({
-        id: `${fileId}#${section.anchor}`,
-        text: section.text,
-        titles: section.titles,
-      }))
-    }))
+  async function indexAllFiles(files: string[]) {
+    const documents = await Promise.all(
+      files.map(async (file) => {
+        const fileId = getDocId(file)
+        const sections = splitPageIntoSections(
+          await md.render(await fs.readFile(file, 'utf-8'))
+        )
+        return sections.map((section) => ({
+          id: `${fileId}#${section.anchor}`,
+          text: section.text,
+          titles: section.titles
+        }))
+      })
+    )
     await index.addAllAsync(documents.flat())
     debug(`🔍️ Indexed ${files.length} files`)
   }
 
-  async function scanForBuild () {
-    await indexAllFiles(siteConfig.pages.map(f => path.join(siteConfig.srcDir, f)))
+  async function scanForBuild() {
+    await indexAllFiles(
+      siteConfig.pages.map((f) => path.join(siteConfig.srcDir, f))
+    )
   }
 
   return {
     name: 'vitepress:offline-search',
 
-    configureServer (_server) {
+    configureServer(_server) {
       server = _server
 
       server.watcher.on('ready', async () => {
         const watched = server!.watcher.getWatched()
         const files = Object.keys(watched).reduce((acc, dir) => {
-          acc.push(...watched[dir].map((file) => dir + '/' + file).filter((file) => file.endsWith('.md')))
+          acc.push(
+            ...watched[dir]
+              .map((file) => dir + '/' + file)
+              .filter((file) => file.endsWith('.md'))
+          )
           return acc
         }, [] as string[])
         await indexAllFiles(files)
@@ -104,7 +125,9 @@ export async function offlineSearchPlugin (siteConfig: SiteConfig): Promise<Plug
     async handleHotUpdate(ctx) {
       if (ctx.file.endsWith('.md')) {
         const fileId = getDocId(ctx.file)
-        const sections = splitPageIntoSections(await md.render(await fs.readFile(ctx.file, 'utf-8')))
+        const sections = splitPageIntoSections(
+          await md.render(await fs.readFile(ctx.file, 'utf-8'))
+        )
         for (const section of sections) {
           const id = `${fileId}#${section.anchor}`
           if (index.has(id)) {
@@ -113,7 +136,7 @@ export async function offlineSearchPlugin (siteConfig: SiteConfig): Promise<Plug
           index.add({
             id,
             text: section.text,
-            titles: section.titles,
+            titles: section.titles
           })
         }
         debug('🔍️ Updated', ctx.file)
@@ -136,7 +159,7 @@ interface PageSection {
 /**
  * Splits HTML into sections based on headings
  */
-function splitPageIntoSections (html: string) {
+function splitPageIntoSections(html: string) {
   const result = html.split(headingRegex)
   result.shift()
   let parentTitles: string[] = []
@@ -161,11 +184,11 @@ function splitPageIntoSections (html: string) {
   return sections
 }
 
-function getSearchableText (content: string) {
+function getSearchableText(content: string) {
   content = clearHtmlTags(content)
   return content
 }
 
-function clearHtmlTags (str: string) {
+function clearHtmlTags(str: string) {
   return str.replace(/<[^>]*>/g, '')
 }
