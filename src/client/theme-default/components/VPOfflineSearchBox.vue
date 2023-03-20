@@ -1,12 +1,13 @@
 <script lang="ts" setup>
-import { computed, markRaw, nextTick, onMounted, ref, shallowRef, watch } from 'vue'
+import { computed, markRaw, nextTick, onMounted, ref, shallowRef, watch, type Ref, createApp } from 'vue'
 import { useRouter } from 'vitepress'
-import { onKeyStroke, useSessionStorage } from '@vueuse/core'
-import MiniSearch from 'minisearch'
+import { onKeyStroke, useSessionStorage, debouncedWatch } from '@vueuse/core'
+import MiniSearch, { type SearchResult } from 'minisearch'
 import offlineSearchIndex from '@offlineSearchIndex'
 import { useData } from '../composables/data'
 import { createTranslate } from '../support/translation'
 import type { ModalTranslations } from '../../../../types/offline-search'
+import { pathToFile } from '../../app/utils.js'
 
 defineProps<{
   placeholder: string
@@ -15,6 +16,8 @@ defineProps<{
 const emit = defineEmits<{
   (e: 'close'): void
 }>()
+
+const el = ref<HTMLDivElement>()
 
 /* Search */
 
@@ -29,7 +32,13 @@ if (import.meta.hot) {
   })
 }
 
-const searchIndex = computed(() => markRaw(MiniSearch.loadJSON(searchIndexData.value, {
+interface Result {
+  title: string
+  titles: string[]
+  text?: string
+}
+
+const searchIndex = computed(() => markRaw(MiniSearch.loadJSON<Result>(searchIndexData.value, {
   fields: ['title', 'titles', 'text'],
   storeFields: ['title', 'titles'],
   searchOptions: {
@@ -41,7 +50,96 @@ const searchIndex = computed(() => markRaw(MiniSearch.loadJSON(searchIndexData.v
 
 const filterText = useSessionStorage('vitepress:offline-search-filter', '')
 
-const results = computed(() => searchIndex.value.search(filterText.value))
+const results: Ref<(SearchResult & Result)[]> = shallowRef([])
+
+const contents = shallowRef(new Map<string, Map<string, string>>())
+
+const headingRegex = /<h(\d*).*?>.*?<a.*? href="#(.*?)".*?>.*?<\/a><\/h\1>/gi
+
+debouncedWatch(filterText, async (value, old, onCleanup) => {
+  let canceled = false
+  onCleanup(() => {
+    canceled = true
+  })
+
+  // Search
+  results.value = searchIndex.value.search(value).slice(0, 16) as (SearchResult & Result)[]
+
+  // Highlighting
+  const mods = await Promise.all(results.value.map(r => fetchExcerpt(r.id)))
+  if (canceled) return
+  const c = new Map<string, Map<string, string>>()
+  for (const { id, mod } of mods) {
+    const comp = mod.default ?? mod
+    if (comp?.render) {
+      const app = createApp(comp)
+      const div = document.createElement('div')
+      app.mount(div)
+      const sections = div.innerHTML.split(headingRegex)
+      app.unmount()
+      sections.shift()
+      const mapId = id.slice(0, id.indexOf('#'))
+      let map = c.get(mapId)
+      if (!map) {
+        map = new Map()
+        c.set(mapId, map)
+      }
+      for (let i = 0; i < sections.length; i += 3) {
+        const anchor = sections[i + 1]
+        const html = sections[i + 2]
+        map.set(anchor, html)
+      }
+    }
+    if (canceled) return
+    results.value = results.value.map(r => {
+      let title = r.title
+      let titles = r.titles
+      let text = ''
+
+      // Highlight in text
+      const [id, anchor] = r.id.split('#')
+      const map = c.get(id)
+      if (map) {
+        text = map.get(anchor) ?? ''
+      }
+
+      for (const term in r.match) {
+        const match = r.match[term]
+        const reg = new RegExp(term, 'gi')
+        if (match.includes('title')) {
+          title = title.replace(reg, `<mark>$&</mark>`)
+        }
+        if (match.includes('titles')) {
+          titles = titles.map(t => t.replace(reg, `<mark>$&</mark>`))
+        }
+        if (match.includes('text')) {
+          text = text.replace(reg, `<mark>$&</mark>`)
+        }
+      }
+
+      return {
+        ...r,
+        title,
+        titles,
+        text,
+      }
+    })
+  }
+  contents.value = c
+
+  await nextTick()
+  const excerpts = el.value?.querySelectorAll('.result .excerpt') ?? []
+  for (const excerpt of excerpts) {
+    excerpt.querySelector('mark')?.scrollIntoView({
+      block: 'center',
+    })
+  }
+}, { debounce: 500, immediate: true })
+
+async function fetchExcerpt (id: string) {
+  const file = pathToFile(id.slice(0, id.indexOf('#')))
+  return { id, mod: await import(/*@vite-ignore*/ file) }
+}
 
 /* Search input focus */
 
@@ -63,6 +161,7 @@ const disableMouseOver = ref(false)
 
 watch(results, () => {
   selectedIndex.value = 0
+  scrollToSelectedResult()
 })
 
 function scrollToSelectedResult () {
@@ -70,8 +169,7 @@ function scrollToSelectedResult () {
     const selectedEl = document.querySelector('.result.selected')
     if (selectedEl) {
       selectedEl.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
+        block: 'nearest',
       })
     }
   })
@@ -131,7 +229,7 @@ const $t = createTranslate(theme.value.offlineSearch, defaultTranslations)
 
 <template>
   <Teleport to="body">
-    <div class="VPOfflineSearchBox" aria-modal="true">
+    <div ref="el" class="VPOfflineSearchBox" aria-modal="true">
       <div class="backdrop" @click="$emit('close')" />
 
       <div class="shell">
@@ -157,6 +255,7 @@ const $t = createTranslate(theme.value.offlineSearch, defaultTranslations)
             :class="{
               selected: selectedIndex === index,
             }"
+            :aria-title="[...p.titles, p.title].join(' > ')"
             @mouseenter="!disableMouseOver && (selectedIndex = index)"
             @click="$emit('close')"
           >
@@ -174,6 +273,14 @@ const $t = createTranslate(theme.value.offlineSearch, defaultTranslations)
                 <span class="title main">
                   <span class="text" v-html="p.title" />
                 </span>
+              </div>
+              
+              <div class="excerpt-wrapper">
+                <div v-if="p.text" class="excerpt">
+                  <div class="vp-doc" v-html="p.text" />
+                </div>
+                <div class="excerpt-gradient-bottom" />
+                <div class="excerpt-gradient-top" />
               </div>
             </div>
           </a>
@@ -220,9 +327,9 @@ const $t = createTranslate(theme.value.offlineSearch, defaultTranslations)
   flex-direction: column;
   gap: 16px;
   background: var(--vp-c-bg);
-  width: min(100vw - 60px, 768px);
+  width: min(100vw - 60px, 900px);
   height: min-content;
-  max-height: min(100vh - 128px, 500px);
+  max-height: min(100vh - 128px, 900px);
   border-radius: 6px;
 }
 
@@ -283,17 +390,25 @@ const $t = createTranslate(theme.value.offlineSearch, defaultTranslations)
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 12px;
   border-radius: 4px;
-  background-color: rgba(128, 128, 128, 0.05);
   transition: none;
   line-height: 1rem;
+  border: solid 2px rgba(128, 128, 128, 0.05);
+}
+
+.result > div {
+  margin: 12px;
+  width: 100%;
+  overflow: hidden;
 }
 
 .titles {
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
+  position: relative;
+  z-index: 1001;
+  padding: 2px 0;
 }
 
 .title {
@@ -316,25 +431,71 @@ const $t = createTranslate(theme.value.offlineSearch, defaultTranslations)
   opacity: 0.5;
 }
 
-.title:not(:last-child) .text {
-  opacity: 0.75;
-}
-
-.result .description {
-  font-size: 0.8rem;
-  opacity: 75%;
-  color: var(--vp-c-text-1);
-}
-
 .result.selected {
-  background-color: var(--vp-c-brand);
+  border-color: var(--vp-c-brand);
 }
 
+.excerpt-wrapper {
+  position: relative;
+}
 
-.result.selected,
-.result.selected .title-icon,
-.result.selected .description {
-  color: var(--vp-c-white) !important;
+.excerpt {
+  opacity: 75%;
+  pointer-events: none;
+  max-height: 140px;
+  overflow: hidden;
+  position: relative;
+  opacity: 0.5;
+  margin-top: 4px;
+}
+
+.result.selected .excerpt {
+  opacity: 1;
+}
+
+.excerpt :deep(*) {
+  font-size: 0.8rem !important;
+  line-height: 130% !important;
+}
+
+.titles :deep(mark),
+.excerpt :deep(mark) {
+  background-color: var(--vp-c-highlight-bg);
+  color: var(--vp-c-highlight-text);
+  border-radius: 2px;
+}
+
+.excerpt :deep(.vp-code-group) .tabs {
+  display: none;
+}
+
+.excerpt :deep(.vp-code-group) div[class*='language-'] {
+  border-radius: 8px !important;
+}
+
+.excerpt-gradient-bottom {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background: linear-gradient(transparent, var(--vp-c-bg));
+  z-index: 1000;
+}
+
+.excerpt-gradient-top {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background: linear-gradient(var(--vp-c-bg), transparent);
+  z-index: 1000;
+}
+
+.result.selected .titles,
+.result.selected .title-icon {
+  color: var(--vp-c-brand) !important;
 }
 
 .no-results {
