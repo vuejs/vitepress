@@ -217,6 +217,7 @@ const { theme } = useData()
 
 const defaultTranslations: ModalTranslations = {
   displayDetails: 'Display detailed list',
+  resetButtonTitle: 'Reset search',
   noResultsText: 'No results for',
   footer: {
     selectText: 'to select',
@@ -244,16 +245,26 @@ const $t = createTranslate(theme.value.offlineSearch, defaultTranslations)
             :placeholder="placeholder"
             class="search-input"
           >
-          <button
-            class="toggle-layout-button"
-            :class="{
-              'detailed-list': showDetailedList,
-            }"
-            :title="$t('displayDetails')"
-            @click="showDetailedList = !showDetailedList"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 14h7v7H3zM3 3h7v7H3zm11 1h7m-7 5h7m-7 6h7m-7 5h7"/></svg>
-          </button>
+          <div class="search-actions">
+            <button
+              class="toggle-layout-button"
+              :class="{
+                'detailed-list': showDetailedList,
+              }"
+              :title="$t('displayDetails')"
+              @click="showDetailedList = !showDetailedList"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 14h7v7H3zM3 3h7v7H3zm11 1h7m-7 5h7m-7 6h7m-7 5h7"/></svg>
+            </button>
+
+            <button
+              class="clear-button"
+              :title="$t('resetButtonTitle')"
+              @click="filterText = ''"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 5H9l-7 7l7 7h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm-2 4l-6 6m0-6l6 6"/></svg>
+            </button>
+          </div>
         </div>
 
         <div
@@ -365,6 +376,15 @@ const $t = createTranslate(theme.value.offlineSearch, defaultTranslations)
   width: 100%;
 }
 
+.search-actions {
+  display: flex;
+}
+
+.search-actions button {
+  padding: 8px 6px;
+}
+
+.search-actions button:hover,
 .toggle-layout-button.detailed-list {
   color: var(--vp-c-brand);
 }
