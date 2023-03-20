@@ -21,7 +21,10 @@ interface IndexObject {
 export async function offlineSearchPlugin(
   siteConfig: SiteConfig
 ): Promise<Plugin> {
-  if (siteConfig.userConfig.themeConfig?.algolia || !siteConfig.userConfig.themeConfig?.offlineSearch) {
+  if (
+    siteConfig.userConfig.themeConfig?.algolia ||
+    !siteConfig.userConfig.themeConfig?.offlineSearch
+  ) {
     return {
       name: 'vitepress:offline-search',
       resolveId(id) {
@@ -81,18 +84,20 @@ export async function offlineSearchPlugin(
 
   async function indexAllFiles(files: string[]) {
     const documents = await Promise.all(
-      files.filter((file) => fs.existsSync(file)).map(async (file) => {
-        const fileId = getDocId(file)
-        const sections = splitPageIntoSections(
-          await md.render(await fs.readFile(file, 'utf-8'))
-        )
-        return sections.map((section) => ({
-          id: `${fileId}#${section.anchor}`,
-          text: section.text,
-          title: section.titles.at(-1)!,
-          titles: section.titles.slice(0, -1),
-        }))
-      })
+      files
+        .filter((file) => fs.existsSync(file))
+        .map(async (file) => {
+          const fileId = getDocId(file)
+          const sections = splitPageIntoSections(
+            await md.render(await fs.readFile(file, 'utf-8'))
+          )
+          return sections.map((section) => ({
+            id: `${fileId}#${section.anchor}`,
+            text: section.text,
+            title: section.titles.at(-1)!,
+            titles: section.titles.slice(0, -1)
+          }))
+        })
     )
     await index.addAllAsync(documents.flat())
     debug(`🔍️ Indexed ${files.length} files`)
@@ -158,7 +163,7 @@ export async function offlineSearchPlugin(
             id,
             text: section.text,
             title: section.titles.at(-1)!,
-            titles: section.titles.slice(0, -1),
+            titles: section.titles.slice(0, -1)
           })
         }
         debug('🔍️ Updated', ctx.file)
