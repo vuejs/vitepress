@@ -126,7 +126,7 @@ if (!__ALGOLIA__ && theme.value.offlineSearch) {
     </template>
     
     <template v-else-if="theme.offlineSearch">
-      <VPOfflineSearchBox v-if="showSearch" @close="showSearch = false" />
+      <VPOfflineSearchBox v-if="showSearch" :placeholder="buttonText" @close="showSearch = false" />
 
       <div id="offline-search">
         <VPNavBarSearchButton :placeholder="buttonText" @click="showSearch = true" />

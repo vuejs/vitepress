@@ -4,6 +4,13 @@ import { useRouter } from 'vitepress'
 import { onKeyStroke, useSessionStorage } from '@vueuse/core'
 import MiniSearch from 'minisearch'
 import offlineSearchIndex from '@offlineSearchIndex'
+import { useData } from '../composables/data'
+import { createTranslate } from '../support/translation'
+import type { ModalTranslations } from '../../../../types/offline-search'
+
+defineProps<{
+  placeholder: string
+}>()
 
 const emit = defineEmits<{
   (e: 'close'): void
@@ -103,6 +110,23 @@ onKeyStroke('Enter', () => {
 onKeyStroke('Escape', () => {
   emit('close')
 })
+
+// Translations
+
+const { theme } = useData()
+
+const defaultTranslations: ModalTranslations = {
+  noResultsText: 'No results for',
+  footer: {
+    selectText: 'to select',
+    selectKeyAriaLabel: 'enter',
+    navigateText: 'to navigate',
+    navigateUpKeyAriaLabel: 'up arrow',
+    navigateDownKeyAriaLabel: 'down arrow',
+  }
+}
+
+const $t = createTranslate(theme.value.offlineSearch, defaultTranslations)
 </script>
 
 <template>
@@ -112,11 +136,11 @@ onKeyStroke('Escape', () => {
 
       <div class="shell">
         <div class="search-bar" @click="focusSearchInput()">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21l-4.35-4.35"/></g></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21l-4.35-4.35"/></g></svg>
           <input
             ref="searchInput"
             v-model="filterText"
-            placeholder="Search..."
+            :placeholder="placeholder"
             class="search-input"
           >
         </div>
@@ -145,7 +169,7 @@ onKeyStroke('Escape', () => {
                   class="title"
                 >
                   <span class="text" v-html="t" />
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 18l6-6l-6-6"/></svg>
+                  <svg width="16" height="16" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 18l6-6l-6-6"/></svg>
                 </span>
                 <span class="title main">
                   <span class="text" v-html="p.title" />
@@ -153,10 +177,21 @@ onKeyStroke('Escape', () => {
               </div>
             </div>
           </a>
+
+          <div v-if="filterText && !results.length" class="no-results">
+            {{ $t('noResultsText') }} "<strong>{{ filterText }}</strong>"
+          </div>
         </div>
 
         <div class="search-keyboard-shortcuts">
-          Use <kbd>↑</kbd> and <kbd>↓</kbd> to navigate the list and <kbd>Enter</kbd> to select a result.
+          <span>
+            <kbd :aria-title="$t('footer.navigateUpKeyAriaLabel')"><svg width="14" height="14" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19V5m-7 7l7-7l7 7"/></svg></kbd> <kbd :aria-title="$t('footer.navigateDownKeyAriaLabel')"><svg width="14" height="14" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v14m7-7l-7 7l-7-7"/></svg></kbd>
+            {{ $t('footer.navigateText') }}
+          </span>
+          <span>
+            <kbd :aria-title="$t('footer.selectKeyAriaLabel')"><svg width="14" height="14" viewBox="0 0 24 24"><g fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="m9 10l-5 5l5 5"/><path d="M20 4v7a4 4 0 0 1-4 4H4"/></g></svg></kbd>
+            {{ $t('footer.selectText') }}
+          </span>
         </div>
       </div>
     </div>
@@ -214,6 +249,9 @@ onKeyStroke('Escape', () => {
   font-size: 0.8rem;
   padding: 0 12px;
   opacity: 75%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
 @media (max-width: 1100px) {
@@ -225,10 +263,13 @@ onKeyStroke('Escape', () => {
 .search-keyboard-shortcuts kbd {
   background: rgba(128, 128, 128, 0.1);
   border-radius: 4px;
-  padding: 0px 6px;
+  padding: 3px 6px;
   min-width: 24px;
   display: inline-block;
   text-align: center;
+  vertical-align: middle;
+  border: 1px solid rgba(128, 128, 128, 0.15);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
 }
 
 .results {
@@ -295,6 +336,12 @@ onKeyStroke('Escape', () => {
 .result.selected .title-icon,
 .result.selected .description {
   color: var(--vp-c-white) !important;
+}
+
+.no-results {
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 12px;
 }
 
 svg {
