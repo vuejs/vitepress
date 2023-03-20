@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, provide, useSlots, watch } from 'vue'
 import { useRoute } from 'vitepress'
-import { useData } from './composables/data.js'
-import { useSidebar, useCloseSidebarOnEscape } from './composables/sidebar.js'
+import { useData } from './composables/data'
+import { useSidebar, useCloseSidebarOnEscape } from './composables/sidebar'
 import VPSkipLink from './components/VPSkipLink.vue'
 import VPBackdrop from './components/VPBackdrop.vue'
 import VPNav from './components/VPNav.vue'

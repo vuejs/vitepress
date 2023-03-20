@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { DefaultTheme } from 'vitepress/theme'
-import { useData } from '../composables/data.js'
-import { isActive } from '../support/utils.js'
+import { useData } from '../composables/data'
+import { isActive } from '../support/utils'
 import VPLink from './VPLink.vue'
 
 defineProps<{
@@ -13,7 +13,7 @@ const { page } = useData()
 
 <template>
   <div class="VPMenuLink">
-    <VPLink 
+    <VPLink
       :class="{ active: isActive(page.relativePath, item.activeMatch || item.link, !!item.activeMatch) }"
       :href="item.link"
       :target="item.target"

@@ -110,10 +110,15 @@ export async function highlight(
     }
 
     const lineOptions = attrsToLines(attrs)
-    const cleanup = (str: string) =>
-      str
-        .replace(preRE, (_, attributes) => `<pre ${vPre}${attributes}>`)
+    const cleanup = (str: string) => {
+      return str
+        .replace(
+          preRE,
+          (_, attributes) =>
+            `<pre ${vPre}${attributes.replace(' tabindex="0"', '')}>`
+        )
         .replace(styleRE, (_, style) => _.replace(style, ''))
+    }
 
     const mustaches = new Map<string, string>()
 

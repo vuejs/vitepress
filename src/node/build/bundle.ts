@@ -110,22 +110,29 @@ export async function bundle(
                     : 'assets/chunks/[name].[hash].js'
                 },
                 manualChunks(id, ctx) {
-                  // optimize default theme chunking
-                  if (
-                    id.includes(`${clientDir}/theme-default`) &&
-                    !lazyDefaultThemeComponentsRE.test(id)
-                  ) {
+                  if (lazyDefaultThemeComponentsRE.test(id)) {
+                    return
+                  }
+                  if (id.startsWith(`${clientDir}/theme-default`)) {
                     return 'theme'
                   }
                   // move known framework code into a stable chunk so that
                   // custom theme changes do not invalidate hash for all pages
+                  if (id.startsWith('\0vite')) {
+                    return 'framework'
+                  }
                   if (id.includes('plugin-vue:export-helper')) {
                     return 'framework'
                   }
                   if (
+                    id.includes(`${clientDir}/app`) &&
+                    id !== `${clientDir}/app/index.js`
+                  ) {
+                    return 'framework'
+                  }
+                  if (
                     isEagerChunk(id, ctx.getModuleInfo) &&
-                    (/@vue\/(runtime|shared|reactivity)/.test(id) ||
-                      id.includes(clientDir))
+                    /@vue\/(runtime|shared|reactivity)/.test(id)
                   ) {
                     return 'framework'
                   }

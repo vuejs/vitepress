@@ -15,7 +15,7 @@ import {
   SITE_DATA_REQUEST_PATH,
   resolveAliases
 } from './alias'
-import { resolvePages, type SiteConfig } from './config'
+import { resolveUserConfig, resolvePages, type SiteConfig } from './config'
 import { clearCache, createMarkdownToVueRenderFn } from './markdownToVue'
 import type { PageDataPayload } from './shared'
 import { staticDataPlugin } from './plugins/staticDataPlugin'
@@ -23,6 +23,7 @@ import { webFontsPlugin } from './plugins/webFontsPlugin'
 import { dynamicRoutesPlugin } from './plugins/dynamicRoutesPlugin'
 import { rewritesPlugin } from './plugins/rewritesPlugin'
 import { offlineSearchPlugin } from './plugins/offlineSearchPlugin.js'
+import { serializeFunctions, deserializeFunctions } from './utils/fnSerialize'
 
 declare module 'vite' {
   interface UserConfig {
@@ -158,10 +159,17 @@ export async function createVitePressPlugin(
         // head info is not needed by the client in production build
         if (config.command === 'build') {
           data = { ...siteData, head: [] }
+          // in production client build, the data is inlined on each page
+          // to avoid config changes invalidating every chunk.
+          if (!ssr) {
+            return `export default window.__VP_SITE_DATA__`
+          }
         }
-        return `export default JSON.parse(${JSON.stringify(
+        data = serializeFunctions(data)
+        return `${deserializeFunctions.toString()}
+        export default deserializeFunctions(JSON.parse(${JSON.stringify(
           JSON.stringify(data)
-        )})`
+        )}))`
       }
     },
 
@@ -309,14 +317,15 @@ export async function createVitePressPlugin(
           ),
           { clear: true, timestamp: true }
         )
+
         try {
-          clearCache()
-          await recreateServer?.()
+          await resolveUserConfig(siteConfig.root, 'serve', 'development')
         } catch (err: any) {
-          siteConfig.logger.error(
-            `\n${c.red(`failed to restart server. error:`)}\n${err.stack}`
-          )
+          return
         }
+
+        clearCache()
+        await recreateServer?.()
         return
       }
 

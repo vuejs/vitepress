@@ -136,10 +136,23 @@ The levels of header in the outline to display for the page. It's same as [confi
 - Type: `boolean`
 - Default: `true`
 
-Whether to display [Last Updated](./default-theme-last-updated) text in the current page.
+Whether to display [Last Updated](./default-theme-last-updated) text in the footer of the current page.
 
 ```yaml
 ---
 lastUpdated: false
+---
+```
+
+### editLink <Badge type="info" text="default theme only" />
+
+- Type: `boolean`
+- Default: `true`
+
+Whether to display [Edit Link](./default-theme-edit-link) in the footer of the current page.
+
+```yaml
+---
+editLink: false
 ---
 ```

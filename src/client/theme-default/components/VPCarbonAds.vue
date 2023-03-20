@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { DefaultTheme } from 'vitepress/theme'
 import { ref, watch, onMounted } from 'vue'
-import { useAside } from '../composables/aside.js'
-import { useData } from '../composables/data.js'
+import { useAside } from '../composables/aside'
+import { useData } from '../composables/data'
 
 const { page } = useData()
 const props = defineProps<{

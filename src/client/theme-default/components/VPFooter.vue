@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useData } from '../composables/data.js'
-import { useSidebar } from '../composables/sidebar.js'
+import { useData } from '../composables/data'
+import { useSidebar } from '../composables/sidebar'
 
 const { theme } = useData()
 const { hasSidebar } = useSidebar()

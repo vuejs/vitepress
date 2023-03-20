@@ -56,7 +56,7 @@ export interface SiteData<ThemeConfig = any> {
   head: HeadConfig[]
   appearance: boolean | 'dark'
   themeConfig: ThemeConfig
-  scrollOffset: number | string
+  scrollOffset: number | string | string[]
   locales: LocaleConfig<ThemeConfig>
   localeIndex?: string
 }

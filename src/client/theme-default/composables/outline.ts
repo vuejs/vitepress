@@ -1,14 +1,24 @@
 import type { DefaultTheme } from 'vitepress/theme'
 import { onMounted, onUnmounted, onUpdated, type Ref } from 'vue'
-import type { Header } from '../../shared.js'
-import { useAside } from '../composables/aside.js'
-import { throttleAndDebounce } from '../support/utils.js'
+import type { Header } from '../../shared'
+import { useAside } from '../composables/aside'
+import { throttleAndDebounce } from '../support/utils'
 
 // magic number to avoid repeated retrieval
 const PAGE_OFFSET = 71
 
 export type MenuItem = Omit<Header, 'slug' | 'children'> & {
   children?: MenuItem[]
+}
+
+export function resolveTitle(theme: DefaultTheme.Config) {
+  return (
+    (typeof theme.outline === 'object' &&
+      !Array.isArray(theme.outline) &&
+      theme.outline.label) ||
+    theme.outlineTitle ||
+    'On this page'
+  )
 }
 
 export function getHeaders(range: DefaultTheme.Config['outline']) {
@@ -41,7 +51,7 @@ function serializeHeader(h: Element): string {
       ret += node.textContent
     }
   }
-  return ret
+  return ret.trim()
 }
 
 export function resolveHeaders(

@@ -8,7 +8,7 @@ import {
   onUnmounted,
   ref
 } from 'vue'
-import { useData } from '../composables/data.js'
+import { useData } from '../composables/data'
 import VPSearchBox from './VPNavBarSearchButton.vue'
 
 const VPAlgoliaSearchBox = __ALGOLIA__
@@ -120,16 +120,16 @@ if (!__ALGOLIA__) {
     <template v-if="theme.algolia">
       <VPAlgoliaSearchBox v-if="loaded" :algolia="theme.algolia" />
 
-      <div v-else id="docsearch" @click="load">
-        <VPSearchBox :placeholder="buttonText" />
+      <div v-else id="docsearch">
+        <VPSearchBox :placeholder="buttonText" @click="load" />
       </div>
     </template>
     
     <template v-else-if="theme.search !== false">
       <VPOfflineSearchBox v-if="showSearch" @close="showSearch = false" />
 
-      <div id="offline-search" @click="showSearch = true">
-        <VPSearchBox :placeholder="buttonText" />
+      <div id="offline-search">
+        <VPSearchBox :placeholder="buttonText" @click="showSearch = true" />
       </div>
     </template>
   </div>

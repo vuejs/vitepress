@@ -265,6 +265,7 @@ export interface Footer {
 ## editLink
 
 - Type: `EditLink`
+- Can be overridden per page via [frontmatter](./frontmatter-config#editlink)
 
 Edit Link lets you display a link to edit the page on Git management services such as GitHub, or GitLab. See [Default Theme: Edit Link](./default-theme-edit-link) for more details.
 

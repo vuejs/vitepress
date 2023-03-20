@@ -44,7 +44,7 @@ export interface MarkdownOptions extends MarkdownIt.Options {
   }
   defaultHighlightLang?: string
   frontmatter?: FrontmatterPluginOptions
-  headers?: HeadersPluginOptions | false
+  headers?: HeadersPluginOptions | boolean
   sfc?: SfcPluginOptions
   theme?: ThemeOptions
   languages?: ILanguageRegistration[]
@@ -99,17 +99,32 @@ export const createMarkdownRenderer = async (
   // mdit-vue plugins
   md.use(anchorPlugin, {
     slugify,
-    permalink: anchorPlugin.permalink.ariaHidden({}),
+    permalink: anchorPlugin.permalink.linkInsideHeader({
+      symbol: '&ZeroWidthSpace;',
+      renderAttrs: (slug, state) => {
+        // Find `heading_open` with the id identical to slug
+        const idx = state.tokens.findIndex((token) => {
+          const attrs = token.attrs
+          const id = attrs?.find((attr) => attr[0] === 'id')
+          return id && slug === id[1]
+        })
+        // Get the actual heading content
+        const title = state.tokens[idx + 1].content
+        return {
+          'aria-label': `Permalink to "${title}"`
+        }
+      }
+    }),
     ...options.anchor
   } as anchorPlugin.AnchorOptions).use(frontmatterPlugin, {
     ...options.frontmatter
   } as FrontmatterPluginOptions)
 
-  if (options.headers !== false) {
+  if (options.headers) {
     md.use(headersPlugin, {
       level: [2, 3, 4, 5, 6],
       slugify,
-      ...options.headers
+      ...(typeof options.headers === 'boolean' ? undefined : options.headers)
     } as HeadersPluginOptions)
   }
 

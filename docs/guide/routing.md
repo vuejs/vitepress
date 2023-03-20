@@ -97,9 +97,23 @@ Learn more about linking to assets such images in [Asset Handling](asset-handlin
 
 ## Generating Clean URL
 
+:::warning Server Support Required
+To serve clean URLs with VitePress, server-side support is required.
+:::
+
 By default, VitePress resolves inbound links to URLs ending with `.html`. However, some users may prefer "Clean URLs" without the `.html` extension - for example, `example.com/path` instead of `example.com/path.html`.
 
-One way to achieve clean URLs is to structure your files using only `index.md` inside directories:
+Some servers or hosting platforms (for example Netlify or Vercel) provide the ability to map a URL like `/foo` to `/foo.html` if it exists, without a redirect:
+
+- Netlify supports this by default.
+- Vercel requires enabling the [`cleanUrls` option in `vercel.json`](https://vercel.com/docs/concepts/projects/project-configuration#cleanurls).
+
+If this feature is available to you, you can then also enable VitePress' own [`cleanUrls`](../reference/site-config#cleanurls) config option so that:
+
+- Inbound links between pages are generated without the `.html` extension.
+- If current path ends with `.html`, the router will perform a client-side redirect to the extension-less path.
+
+If, however, you cannot configure your server with such support (e.g. GitHub pages), you will have to manually resort to the following directory structure:
 
 ```
 .
@@ -109,8 +123,6 @@ One way to achieve clean URLs is to structure your files using only `index.md` i
 │  └─ index.md
 └─ index.md
 ```
-
-Some servers or hosting platforms (for example Netlify or Vercel) provide the ability to map a URL like `/foo` to `/foo.html` if it exists. If this feature is available to you, you can use the [`cleanUrls`](../reference/site-config#cleanurls) config option so that inbound links are always generated without the `.html` extension. When this option is enabled, VitePress' client-side router will also redirect to the clean URL when a visited URL ends with `.html`.
 
 ## Route Rewrites
 

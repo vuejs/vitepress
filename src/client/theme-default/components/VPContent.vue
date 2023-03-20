@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useData } from '../composables/data.js'
-import { useSidebar } from '../composables/sidebar.js'
+import { useData } from '../composables/data'
+import { useSidebar } from '../composables/sidebar'
 import VPPage from './VPPage.vue'
 import VPHome from './VPHome.vue'
 import VPDoc from './VPDoc.vue'

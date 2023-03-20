@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { DefaultTheme } from 'vitepress/theme'
-import { useData } from '../composables/data.js'
-import { isActive } from '../support/utils.js'
+import { useData } from '../composables/data'
+import { isActive } from '../support/utils'
 import VPLink from './VPLink.vue'
 
 defineProps<{
@@ -24,6 +24,7 @@ const { page } = useData()
     :href="item.link"
     :target="item.target"
     :rel="item.rel"
+    tabindex="0"
   >
     {{ item.text }}
   </VPLink>

@@ -1,5 +1,5 @@
 import { type Ref, onMounted, onUnmounted } from 'vue'
-import { throttleAndDebounce } from '../support/utils.js'
+import { throttleAndDebounce } from '../support/utils'
 
 export interface GridSetting {
   [size: string]: [number, number][]

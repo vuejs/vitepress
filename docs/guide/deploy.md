@@ -73,6 +73,8 @@ Cache-Control: max-age=31536000,immutable
   cache-control: immutable
 ```
 
+Note: the `_headers` file should be placed in the [public directory](/guide/asset-handling#the-public-directory) - in our case, `docs/public/_headers` - so that it is copied verbatim to the output directory.
+
 [Netlify custom headers documentation](https://docs.netlify.com/routing/headers/)
 
 :::
@@ -94,6 +96,8 @@ Cache-Control: max-age=31536000,immutable
   ]
 }
 ```
+
+Note: the `vercel.json` file should be placed at the root of your **repository**.
 
 [Vercel documentation on headers config](https://vercel.com/docs/concepts/projects/project-configuration#headers)
 
@@ -143,7 +147,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
            with:
              node-version: 16
              cache: npm
-         - run: npm install --frozen-lockfile
+         - run: npm ci
          - name: Build
            run: npm run docs:build
          - uses: actions/configure-pages@v2
