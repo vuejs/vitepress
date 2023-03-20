@@ -105,7 +105,7 @@ function poll() {
 
 const showSearch = ref(false)
 
-if (!__ALGOLIA__) {
+if (!__ALGOLIA__ && theme.value.search !== false) {
   onKeyStroke('k', event => {
     if (event.ctrlKey || event.metaKey) {
       event.preventDefault()
