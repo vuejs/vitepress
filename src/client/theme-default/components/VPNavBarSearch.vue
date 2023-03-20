@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import '@docsearch/css'
+import { onKeyStroke } from '@vueuse/core'
 import {
   computed,
   defineAsyncComponent,
@@ -103,6 +104,15 @@ function poll() {
 // Offline search
 
 const showSearch = ref(false)
+
+if (!__ALGOLIA__) {
+  onKeyStroke('k', event => {
+    if (event.ctrlKey || event.metaKey) {
+      event.preventDefault()
+      showSearch.value = true
+    }
+  })
+}
 </script>
 
 <template>

@@ -22,6 +22,7 @@ import { staticDataPlugin } from './plugins/staticDataPlugin'
 import { webFontsPlugin } from './plugins/webFontsPlugin'
 import { dynamicRoutesPlugin } from './plugins/dynamicRoutesPlugin'
 import { rewritesPlugin } from './plugins/rewritesPlugin'
+import { offlineSearchPlugin } from './plugins/offlineSearchPlugin.js'
 
 declare module 'vite' {
   interface UserConfig {
@@ -352,6 +353,7 @@ export async function createVitePressPlugin(
     vuePlugin,
     webFontsPlugin(siteConfig.useWebFonts),
     ...(userViteConfig?.plugins || []),
+    ...(siteConfig.userConfig?.themeConfig?.search !== false ? [await offlineSearchPlugin(siteConfig)] : []),
     staticDataPlugin,
     await dynamicRoutesPlugin(siteConfig)
   ]

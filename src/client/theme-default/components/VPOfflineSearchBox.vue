@@ -1,23 +1,39 @@
 <script lang="ts" setup>
-import { computed, nextTick, onMounted, ref, watch } from 'vue'
+import { computed, markRaw, nextTick, onMounted, ref, shallowRef, watch } from 'vue'
 import { useRouter } from 'vitepress'
-import { onKeyStroke } from '@vueuse/core'
+import { onKeyStroke, useSessionStorage } from '@vueuse/core'
+import MiniSearch from 'minisearch'
+import offlineSearchIndex from '@offlineSearchIndex'
 
-defineEmits<{
+const emit = defineEmits<{
   (e: 'close'): void
 }>()
 
 /* Search */
 
-interface Result {
-  text: string
-  description: string
-  link: string
+const searchIndexData = shallowRef(offlineSearchIndex)
+
+// hmr
+if (import.meta.hot) {
+  import.meta.hot.accept('/@offlineSearchIndex', (m) => {
+    if (m) {
+      searchIndexData.value = m.default
+    }
+  })
 }
 
-const filterText = ref('')
+const searchIndex = computed(() => markRaw(MiniSearch.loadJSON(searchIndexData.value, {
+  fields: ['text'],
+  storeFields: ['titles'],
+  searchOptions: {
+    fuzzy: 0.2,
+    prefix: true,
+  },
+})))
 
-const results = computed<Result[]>(() => [])
+const filterText = useSessionStorage('vitepress:offline-search-filter', '')
+
+const results = computed(() => searchIndex.value.search(filterText.value))
 
 /* Search input focus */
 
@@ -41,7 +57,7 @@ watch(results, () => {
   selectedIndex.value = 0
 })
 
-function scrollToSelectedPackage () {
+function scrollToSelectedResult () {
   nextTick(() => {
     const selectedEl = document.querySelector('.result.selected')
     if (selectedEl) {
@@ -60,7 +76,7 @@ onKeyStroke('ArrowUp', (event) => {
     selectedIndex.value = results.value.length - 1
   }
   disableMouseOver.value = true
-  scrollToSelectedPackage()
+  scrollToSelectedResult()
 })
 
 onKeyStroke('ArrowDown', (event) => {
@@ -70,7 +86,7 @@ onKeyStroke('ArrowDown', (event) => {
     selectedIndex.value = 0
   }
   disableMouseOver.value = true
-  scrollToSelectedPackage()
+  scrollToSelectedResult()
 })
 
 const router = useRouter()
@@ -78,8 +94,13 @@ const router = useRouter()
 onKeyStroke('Enter', () => {
   const selectedPackage = results.value[selectedIndex.value]
   if (selectedPackage) {
-    router.go(selectedPackage.link)
+    router.go(selectedPackage.id)
+    emit('close')
   }
+})
+
+onKeyStroke('Escape', () => {
+  emit('close')
 })
 </script>
 
@@ -105,18 +126,27 @@ onKeyStroke('Enter', () => {
         >
           <a
             v-for="(p, index) in results"
-            :key="p.text"
-            :href="p.link"
+            :key="p.id"
+            :href="p.id"
             class="result"
             :class="{
               selected: selectedIndex === index,
             }"
             @mouseenter="!disableMouseOver && (selectedIndex = index)"
+            @click="$emit('close')"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="m16.5 9.4l-9-5.19M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.29 7L12 12l8.71-5M12 22V12"/></g></svg>
             <div>
-              <div>{{ p.text }}</div>
-              <div v-if="p.description" class="description">{{ p.description }}</div>
+              <div class="titles">
+                <span class="title-icon">#</span>
+                <span
+                  v-for="(t, index) in p.titles"
+                  :key="index"
+                  class="title"
+                >
+                  <svg v-if="index !== 0" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 18l6-6l-6-6"/></svg>
+                  <span class="text" v-html="t" />
+                </span>
+              </div>
             </div>
           </a>
         </div>
@@ -131,7 +161,7 @@ onKeyStroke('Enter', () => {
 
 <style scoped lang="postcss">
 .VPOfflineSearchBox {
-  position: absolute;
+  position: fixed;
   z-index: 100;
   inset: 0;
   display: flex;
@@ -151,6 +181,7 @@ onKeyStroke('Enter', () => {
   flex-direction: column;
   gap: 16px;
   background: var(--vp-c-bg);
+  width: min(100vw - 60px, 768px);
   height: min-content;
   max-height: min(100vh - 128px, 500px);
   border-radius: 6px;
@@ -200,30 +231,62 @@ onKeyStroke('Enter', () => {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .result {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 12px;
+  padding: 12px;
   border-radius: 4px;
   background-color: rgba(128, 128, 128, 0.05);
   transition: none;
   line-height: 1rem;
+}
 
-  .description {
-    font-size: 0.8rem;
-    opacity: 75%;
-    color: var(--vp-c-text-1);
-  }
+.titles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
 
-  &.selected {
-    background-color: var(--vp-c-brand);
-    &, .description {
-      color: var(--vp-c-white) !important;
-    }
-  }
+.title {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.title-icon {
+  opacity: 0.5;
+  font-weight: 500;
+  color: var(--vp-c-brand);
+}
+
+.title svg {
+  opacity: 0.5;
+}
+
+.title:not(:last-child) .text {
+  opacity: 0.75;
+}
+
+.result .description {
+  font-size: 0.8rem;
+  opacity: 75%;
+  color: var(--vp-c-text-1);
+}
+
+.result.selected {
+  background-color: var(--vp-c-brand);
+}
+
+
+.result.selected,
+.result.selected .title-icon,
+.result.selected .description {
+  color: var(--vp-c-white) !important;
 }
 
 svg {
