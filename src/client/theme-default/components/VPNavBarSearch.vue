@@ -9,7 +9,7 @@ import {
   ref
 } from 'vue'
 import { useData } from '../composables/data'
-import VPSearchBox from './VPNavBarSearchButton.vue'
+import VPNavBarSearchButton from './VPNavBarSearchButton.vue'
 
 const VPAlgoliaSearchBox = __ALGOLIA__
   ? defineAsyncComponent(() => import('./VPAlgoliaSearchBox.vue'))
@@ -121,7 +121,7 @@ if (!__ALGOLIA__) {
       <VPAlgoliaSearchBox v-if="loaded" :algolia="theme.algolia" />
 
       <div v-else id="docsearch">
-        <VPSearchBox :placeholder="buttonText" @click="load" />
+        <VPNavBarSearchButton :placeholder="buttonText" @click="load" />
       </div>
     </template>
     
@@ -129,7 +129,7 @@ if (!__ALGOLIA__) {
       <VPOfflineSearchBox v-if="showSearch" @close="showSearch = false" />
 
       <div id="offline-search">
-        <VPSearchBox :placeholder="buttonText" @click="showSearch = true" />
+        <VPNavBarSearchButton :placeholder="buttonText" @click="showSearch = true" />
       </div>
     </template>
   </div>
