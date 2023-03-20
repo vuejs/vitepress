@@ -46,6 +46,8 @@ export const linkPlugin = (
           !/\.(?!html|md)\w+($|\?)/i.test(url)
         ) {
           normalizeHref(hrefAttr, env)
+        } else if (url.startsWith('#')) {
+          hrefAttr[1] = decodeURI(hrefAttr[1])
         }
 
         // append base to internal (non-relative) urls

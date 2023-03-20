@@ -25,7 +25,7 @@ You can access frontmatter data via the `$frontmatter` global in Vue expressions
 
 - Type: `string`
 
-Title for the page. It's same as [config.title](/reference/site-config#title), and it overrides the site-level config.
+Title for the page. It's same as [config.title](./site-config#title), and it overrides the site-level config.
 
 ```yaml
 ---
@@ -37,7 +37,7 @@ title: VitePress
 
 - Type: `string | boolean`
 
-The suffix for the title. It's same as [config.titleTemplate](/reference/site-config#titletemplate), and it overrides the site-level config.
+The suffix for the title. It's same as [config.titleTemplate](./site-config#titletemplate), and it overrides the site-level config.
 
 ```yaml
 ---
@@ -50,7 +50,7 @@ titleTemplate: Vite & Vue powered static site generator
 
 - Type: `string`
 
-Description for the page. It's same as [config.description](/reference/site-config#description), and it overrides the site-level config.
+Description for the page. It's same as [config.description](./site-config#description), and it overrides the site-level config.
 
 ```yaml
 ---
@@ -105,11 +105,11 @@ layout: doc
 
 ### hero <Badge type="info" text="default theme only" /> <Badge type="info" text="Home page only" />
 
-Defines contents of home hero section when `layout` is set to `home`. More details in [Default Theme: Home Page](/reference/default-theme-home-page).
+Defines contents of home hero section when `layout` is set to `home`. More details in [Default Theme: Home Page](./default-theme-home-page).
 
 ### features <Badge type="info" text="default theme only" /> <Badge type="info" text="Home page only" />
 
-Defines items to display in features section when `layout` is set to `home`. More details in [Default Theme: Home Page](/reference/default-theme-home-page).
+Defines items to display in features section when `layout` is set to `home`. More details in [Default Theme: Home Page](./default-theme-home-page).
 
 ### aside <Badge type="info" text="default theme only" />
 
@@ -129,14 +129,14 @@ aside: false
 - Type: `number | [number, number] | 'deep' | false`
 - Default: `2`
 
-The levels of header in the outline to display for the page. It's same as [config.themeConfig.outline](/reference/default-theme-config#outline), and it overrides the theme config.
+The levels of header in the outline to display for the page. It's same as [config.themeConfig.outline](./default-theme-config#outline), and it overrides the theme config.
 
 ### lastUpdated <Badge type="info" text="default theme only" />
 
 - Type: `boolean`
 - Default: `true`
 
-Whether to display [Last Updated](/reference/default-theme-last-updated) text in the current page.
+Whether to display [Last Updated](./default-theme-last-updated) text in the current page.
 
 ```yaml
 ---

@@ -19,7 +19,7 @@ export { useData } from './app/data.js'
 export { useRouter, useRoute } from './app/router.js'
 
 // utilities
-export { inBrowser, withBase } from './app/utils.js'
+export { inBrowser, withBase, onContentUpdated } from './app/utils.js'
 
 // components
 export { Content } from './app/components/Content.js'

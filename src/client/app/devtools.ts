@@ -17,7 +17,7 @@ export const setupDevtools = (
       id: 'org.vuejs.vitepress',
       label: 'VitePress',
       packageName: 'vitepress',
-      homepage: 'https://vitepress.vuejs.org',
+      homepage: 'https://vitepress.dev',
       componentStateTypes: [COMPONENT_STATE_TYPE]
     },
     (api) => {

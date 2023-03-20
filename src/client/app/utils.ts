@@ -1,5 +1,6 @@
 import { siteDataRef } from './data.js'
 import { inBrowser, EXTERNAL_URL_RE, sanitizeFileName } from '../shared.js'
+import { onUnmounted } from 'vue'
 
 export { inBrowser } from '../shared.js'
 
@@ -55,4 +56,17 @@ export function pathToFile(path: string): string {
   }
 
   return pagePath
+}
+
+export let contentUpdatedCallbacks: (() => any)[] = []
+
+/**
+ * Register callback that is called every time the markdown content is updated
+ * in the DOM.
+ */
+export function onContentUpdated(fn: () => any) {
+  contentUpdatedCallbacks.push(fn)
+  onUnmounted(() => {
+    contentUpdatedCallbacks = contentUpdatedCallbacks.filter((f) => f !== fn)
+  })
 }

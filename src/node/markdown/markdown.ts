@@ -44,7 +44,7 @@ export interface MarkdownOptions extends MarkdownIt.Options {
   }
   defaultHighlightLang?: string
   frontmatter?: FrontmatterPluginOptions
-  headers?: HeadersPluginOptions
+  headers?: HeadersPluginOptions | false
   sfc?: SfcPluginOptions
   theme?: ThemeOptions
   languages?: ILanguageRegistration[]
@@ -101,17 +101,21 @@ export const createMarkdownRenderer = async (
     slugify,
     permalink: anchorPlugin.permalink.ariaHidden({}),
     ...options.anchor
-  } as anchorPlugin.AnchorOptions)
-    .use(frontmatterPlugin, {
-      ...options.frontmatter
-    } as FrontmatterPluginOptions)
-    .use(headersPlugin, {
+  } as anchorPlugin.AnchorOptions).use(frontmatterPlugin, {
+    ...options.frontmatter
+  } as FrontmatterPluginOptions)
+
+  if (options.headers !== false) {
+    md.use(headersPlugin, {
       level: [2, 3, 4, 5, 6],
+      slugify,
       ...options.headers
     } as HeadersPluginOptions)
-    .use(sfcPlugin, {
-      ...options.sfc
-    } as SfcPluginOptions)
+  }
+
+  md.use(sfcPlugin, {
+    ...options.sfc
+  } as SfcPluginOptions)
     .use(titlePlugin)
     .use(tocPlugin, {
       ...options.toc
