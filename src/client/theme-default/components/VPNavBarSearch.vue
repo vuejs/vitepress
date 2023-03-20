@@ -32,9 +32,9 @@ const buttonText = computed(() => {
       ?.buttonText ||
       theme.value.algolia.translations?.button?.buttonText ||
       'Search'
-  } else if (typeof theme.value.search === 'object') {
-    return theme.value.search.locales?.[localeIndex.value]?.button?.buttonText ||
-      theme.value.search.translations?.button?.buttonText ||
+  } else if (typeof theme.value.offlineSearch === 'object') {
+    return theme.value.offlineSearch.locales?.[localeIndex.value]?.button?.buttonText ||
+      theme.value.offlineSearch.translations?.button?.buttonText ||
       'Search'
   }
   return 'Search'
@@ -105,7 +105,7 @@ function poll() {
 
 const showSearch = ref(false)
 
-if (!__ALGOLIA__ && theme.value.search !== false) {
+if (!__ALGOLIA__ && theme.value.offlineSearch) {
   onKeyStroke('k', event => {
     if (event.ctrlKey || event.metaKey) {
       event.preventDefault()
@@ -125,7 +125,7 @@ if (!__ALGOLIA__ && theme.value.search !== false) {
       </div>
     </template>
     
-    <template v-else-if="theme.search !== false">
+    <template v-else-if="theme.offlineSearch">
       <VPOfflineSearchBox v-if="showSearch" @close="showSearch = false" />
 
       <div id="offline-search">

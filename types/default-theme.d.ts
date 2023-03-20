@@ -105,9 +105,9 @@ export namespace DefaultTheme {
     algolia?: AlgoliaSearchOptions
 
     /**
-     * The offline search options. Enabled by default. Set to `false` to disable.
+     * The offline search options. Set to `true` or an object to enable, `false` to disable.
      */
-    search?: OfflineSearchOptions | false
+    offlineSearch?: OfflineSearchOptions | boolean
 
     /**
      * The carbon ads options. Leave it undefined to disable the ads feature.

@@ -21,7 +21,7 @@ interface IndexObject {
 export async function offlineSearchPlugin(
   siteConfig: SiteConfig
 ): Promise<Plugin> {
-  if (siteConfig.userConfig.themeConfig?.algolia || siteConfig.userConfig.themeConfig?.search === false) {
+  if (siteConfig.userConfig.themeConfig?.algolia || !siteConfig.userConfig.themeConfig?.offlineSearch) {
     return {
       name: 'vitepress:offline-search',
       resolveId(id) {

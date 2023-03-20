@@ -62,6 +62,8 @@ export default defineConfig({
     //   indexName: 'vitepress'
     // },
 
+    offlineSearch: true,
+
     carbonAds: {
       code: 'CEBDT27Y',
       placement: 'vuejsorg'
