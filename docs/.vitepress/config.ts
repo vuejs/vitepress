@@ -220,7 +220,7 @@ function sidebarReference() {
               link: '/reference/default-theme-last-updated'
             },
             {
-              text: 'Algolia Search',
+              text: 'Search',
               link: '/reference/default-theme-search'
             },
             {
