@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { computed, markRaw, nextTick, onMounted, ref, shallowRef, watch, type Ref, createApp } from 'vue'
+import { markRaw, nextTick, onMounted, ref, shallowRef, watch, type Ref, createApp } from 'vue'
 import { useRouter } from 'vitepress'
-import { onKeyStroke, useSessionStorage, debouncedWatch, useLocalStorage, useEventListener } from '@vueuse/core'
+import { onKeyStroke, useSessionStorage, debouncedWatch, useLocalStorage, useEventListener, computedAsync } from '@vueuse/core'
 import MiniSearch, { type SearchResult } from 'minisearch'
 import offlineSearchIndex from '@offlineSearchIndex'
 import { useData } from '../composables/data'
@@ -38,7 +38,9 @@ interface Result {
   text?: string
 }
 
-const searchIndex = computed(() => markRaw(MiniSearch.loadJSON<Result>(searchIndexData.value, {
+const { localeIndex } = useData()
+
+const searchIndex = computedAsync(async () => markRaw(MiniSearch.loadJSON<Result>((await searchIndexData.value[localeIndex.value]?.())?.default, {
   fields: ['title', 'titles', 'text'],
   storeFields: ['title', 'titles'],
   searchOptions: {
@@ -58,14 +60,16 @@ const contents = shallowRef(new Map<string, Map<string, string>>())
 
 const headingRegex = /<h(\d*).*?>.*?<a.*? href="#(.*?)".*?>.*?<\/a><\/h\1>/gi
 
-debouncedWatch(() => [filterText.value, showDetailedList.value] as const, async ([filterTextValue, showDetailedListValue], old, onCleanup) => {
+debouncedWatch(() => [searchIndex.value, filterText.value, showDetailedList.value] as const, async ([index, filterTextValue, showDetailedListValue], old, onCleanup) => {
   let canceled = false
   onCleanup(() => {
     canceled = true
   })
 
+  if (!index) return
+
   // Search
-  results.value = searchIndex.value.search(filterTextValue).slice(0, 16) as (SearchResult & Result)[]
+  results.value = index.search(filterTextValue).slice(0, 16) as (SearchResult & Result)[]
 
   // Highlighting
   const mods = showDetailedListValue ? await Promise.all(results.value.map(r => fetchExcerpt(r.id))) : []

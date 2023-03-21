@@ -22,6 +22,6 @@ declare module '@theme/index' {
 }
 
 declare module '@offlineSearchIndex' {
-  const data: string
+  const data: Record<string, () => Promise<{ default: string }>>
   export default data
 }

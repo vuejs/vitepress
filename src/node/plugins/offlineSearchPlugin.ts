@@ -5,6 +5,7 @@ import fs from 'fs-extra'
 import _debug from 'debug'
 import type { SiteConfig } from '../config'
 import { createMarkdownRenderer } from '../markdown/markdown.js'
+import { resolveSiteDataByRoute } from '../shared.js'
 
 const debug = _debug('vitepress:offline-search')
 
@@ -28,12 +29,12 @@ export async function offlineSearchPlugin(
     return {
       name: 'vitepress:offline-search',
       resolveId(id) {
-        if (id === OFFLINE_SEARCH_INDEX_ID) {
-          return OFFLINE_SEARCH_INDEX_REQUEST_PATH
+        if (id.startsWith(OFFLINE_SEARCH_INDEX_ID)) {
+          return `/${id}`
         }
       },
       load(id) {
-        if (id === OFFLINE_SEARCH_INDEX_REQUEST_PATH) {
+        if (id.startsWith(OFFLINE_SEARCH_INDEX_REQUEST_PATH)) {
           return `export default '{}'`
         }
       }
@@ -47,10 +48,30 @@ export async function offlineSearchPlugin(
     siteConfig.logger
   )
 
-  const index = new MiniSearch<IndexObject>({
-    fields: ['title', 'titles', 'text'],
-    storeFields: ['title', 'titles']
-  })
+  const indexByLocales = new Map<string, MiniSearch<IndexObject>>()
+  
+  function getIndexByLocale (locale: string) {
+    let index = indexByLocales.get(locale)
+    if (!index) {
+      index = new MiniSearch<IndexObject>({
+        fields: ['title', 'titles', 'text'],
+        storeFields: ['title', 'titles']
+      })
+      indexByLocales.set(locale, index)
+    }
+    return index
+  }
+
+  function getLocaleForPath (file: string) {
+    const relativePath = path.relative(siteConfig.srcDir, file)
+    const siteData = resolveSiteDataByRoute(siteConfig.site, relativePath)
+    return siteData?.localeIndex ?? 'root'
+  }
+
+  function getIndexForPath (file: string) {
+    const locale = getLocaleForPath(file)
+    return getIndexByLocale(locale)
+  }
 
   let server: ViteDevServer | undefined
 
@@ -83,7 +104,8 @@ export async function offlineSearchPlugin(
   }
 
   async function indexAllFiles(files: string[]) {
-    const documents = await Promise.all(
+    const documentsByLocale = new Map<string, IndexObject[]>()
+    await Promise.all(
       files
         .filter((file) => fs.existsSync(file))
         .map(async (file) => {
@@ -91,15 +113,25 @@ export async function offlineSearchPlugin(
           const sections = splitPageIntoSections(
             await md.render(await fs.readFile(file, 'utf-8'))
           )
-          return sections.map((section) => ({
+          const locale = getLocaleForPath(file)
+          let documents = documentsByLocale.get(locale)
+          if (!documents) {
+            documents = []
+            documentsByLocale.set(locale, documents)
+          }
+          documents.push(...sections.map((section) => ({
             id: `${fileId}#${section.anchor}`,
             text: section.text,
             title: section.titles.at(-1)!,
             titles: section.titles.slice(0, -1)
-          }))
+          })))
         })
     )
-    await index.addAllAsync(documents.flat())
+    for (const [locale, documents] of documentsByLocale) {
+      const index = getIndexByLocale(locale)
+      index.removeAll()
+      await index.addAllAsync(documents)
+    }
     debug(`🔍️ Indexed ${files.length} files`)
   }
 
@@ -131,8 +163,8 @@ export async function offlineSearchPlugin(
     },
 
     resolveId(id) {
-      if (id === OFFLINE_SEARCH_INDEX_ID) {
-        return OFFLINE_SEARCH_INDEX_REQUEST_PATH
+      if (id.startsWith(OFFLINE_SEARCH_INDEX_ID)) {
+        return `/${id}`
       }
     },
 
@@ -141,7 +173,15 @@ export async function offlineSearchPlugin(
         if (process.env.NODE_ENV === 'production') {
           await scanForBuild()
         }
-        return `export default ${JSON.stringify(JSON.stringify(index))}`
+        let records: string[] = []
+        for (const [locale, ] of indexByLocales) {
+          records.push(`${JSON.stringify(locale)}: () => import('@offlineSearchIndex${locale}')`)
+        }
+        return `export default {${records.join(',')}}`
+      } else if (id.startsWith(OFFLINE_SEARCH_INDEX_REQUEST_PATH)) {
+        return `export default ${JSON.stringify(
+          JSON.stringify(indexByLocales.get(id.replace(OFFLINE_SEARCH_INDEX_REQUEST_PATH, '')) ?? {})
+        )}`
       }
     },
 
@@ -151,6 +191,7 @@ export async function offlineSearchPlugin(
         if (!fs.existsSync(ctx.file)) {
           return
         }
+        const index = getIndexForPath(ctx.file)
         const sections = splitPageIntoSections(
           await md.render(await fs.readFile(ctx.file, 'utf-8'))
         )
