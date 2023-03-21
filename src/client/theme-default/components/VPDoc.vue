@@ -128,10 +128,10 @@ const pageName = computed(() =>
 }
 
 .aside-container {
-  position: sticky;
+  position: fixed;
   top: 0;
-  margin-top: calc((var(--vp-nav-height) + var(--vp-layout-top-height, 0px)) * -1 - 32px);
   padding-top: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 32px);
+  width: 224px;
   height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
