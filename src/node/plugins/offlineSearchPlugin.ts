@@ -49,8 +49,8 @@ export async function offlineSearchPlugin(
   )
 
   const indexByLocales = new Map<string, MiniSearch<IndexObject>>()
-  
-  function getIndexByLocale (locale: string) {
+
+  function getIndexByLocale(locale: string) {
     let index = indexByLocales.get(locale)
     if (!index) {
       index = new MiniSearch<IndexObject>({
@@ -62,13 +62,13 @@ export async function offlineSearchPlugin(
     return index
   }
 
-  function getLocaleForPath (file: string) {
+  function getLocaleForPath(file: string) {
     const relativePath = path.relative(siteConfig.srcDir, file)
     const siteData = resolveSiteDataByRoute(siteConfig.site, relativePath)
     return siteData?.localeIndex ?? 'root'
   }
 
-  function getIndexForPath (file: string) {
+  function getIndexForPath(file: string) {
     const locale = getLocaleForPath(file)
     return getIndexByLocale(locale)
   }
@@ -119,12 +119,14 @@ export async function offlineSearchPlugin(
             documents = []
             documentsByLocale.set(locale, documents)
           }
-          documents.push(...sections.map((section) => ({
-            id: `${fileId}#${section.anchor}`,
-            text: section.text,
-            title: section.titles.at(-1)!,
-            titles: section.titles.slice(0, -1)
-          })))
+          documents.push(
+            ...sections.map((section) => ({
+              id: `${fileId}#${section.anchor}`,
+              text: section.text,
+              title: section.titles.at(-1)!,
+              titles: section.titles.slice(0, -1)
+            }))
+          )
         })
     )
     for (const [locale, documents] of documentsByLocale) {
@@ -174,13 +176,21 @@ export async function offlineSearchPlugin(
           await scanForBuild()
         }
         let records: string[] = []
-        for (const [locale, ] of indexByLocales) {
-          records.push(`${JSON.stringify(locale)}: () => import('@offlineSearchIndex${locale}')`)
+        for (const [locale] of indexByLocales) {
+          records.push(
+            `${JSON.stringify(
+              locale
+            )}: () => import('@offlineSearchIndex${locale}')`
+          )
         }
         return `export default {${records.join(',')}}`
       } else if (id.startsWith(OFFLINE_SEARCH_INDEX_REQUEST_PATH)) {
         return `export default ${JSON.stringify(
-          JSON.stringify(indexByLocales.get(id.replace(OFFLINE_SEARCH_INDEX_REQUEST_PATH, '')) ?? {})
+          JSON.stringify(
+            indexByLocales.get(
+              id.replace(OFFLINE_SEARCH_INDEX_REQUEST_PATH, '')
+            ) ?? {}
+          )
         )}`
       }
     },
