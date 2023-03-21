@@ -11,6 +11,7 @@ interface ButtonTranslations {
 interface ModalTranslations {
   displayDetails?: string
   resetButtonTitle?: string
+  backButtonTitle?: string
   noResultsText?: string
   footer?: FooterTranslations
 }

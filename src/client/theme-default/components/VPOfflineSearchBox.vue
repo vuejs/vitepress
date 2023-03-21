@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, markRaw, nextTick, onMounted, ref, shallowRef, watch, type Ref, createApp } from 'vue'
 import { useRouter } from 'vitepress'
-import { onKeyStroke, useSessionStorage, debouncedWatch, useLocalStorage } from '@vueuse/core'
+import { onKeyStroke, useSessionStorage, debouncedWatch, useLocalStorage, useEventListener } from '@vueuse/core'
 import MiniSearch, { type SearchResult } from 'minisearch'
 import offlineSearchIndex from '@offlineSearchIndex'
 import { useData } from '../composables/data'
@@ -156,6 +156,12 @@ onMounted(() => {
   focusSearchInput()
 })
 
+function onSearchBarClick (event: PointerEvent) {
+  if (event.pointerType === 'mouse') {
+    focusSearchInput()
+  }
+}
+
 /* Search keyboard selection */
 
 const selectedIndex = ref(0)
@@ -218,6 +224,7 @@ const { theme } = useData()
 const defaultTranslations: ModalTranslations = {
   displayDetails: 'Display detailed list',
   resetButtonTitle: 'Reset search',
+  backButtonTitle: 'Close search',
   noResultsText: 'No results for',
   footer: {
     selectText: 'to select',
@@ -229,6 +236,18 @@ const defaultTranslations: ModalTranslations = {
 }
 
 const $t = createTranslate(theme.value.offlineSearch, defaultTranslations)
+
+// Back
+
+onMounted(() => {
+  // Prevents going to previous site
+  window.history.pushState(null, '', null)
+})
+
+useEventListener('popstate', event => {
+  event.preventDefault()
+  emit('close')
+})
 </script>
 
 <template>
@@ -237,8 +256,17 @@ const $t = createTranslate(theme.value.offlineSearch, defaultTranslations)
       <div class="backdrop" @click="$emit('close')" />
 
       <div class="shell">
-        <div class="search-bar" @click="focusSearchInput()">
-          <svg width="16" height="16" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21l-4.35-4.35"/></g></svg>
+        <div class="search-bar" @pointerup="onSearchBarClick($event)">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21l-4.35-4.35"/></g></svg>
+          <div class="search-actions before">
+            <button
+              class="back-button"
+              :title="$t('backButtonTitle')"
+              @click="$emit('close')"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m7 7l-7-7l7-7"/></svg>
+            </button>
+          </div>
           <input
             ref="searchInput"
             v-model="filterText"
@@ -357,6 +385,16 @@ const $t = createTranslate(theme.value.offlineSearch, defaultTranslations)
   border-radius: 6px;
 }
 
+@media (max-width: 768px) {
+  .shell {
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    max-height: none;
+    border-radius: 0;
+  }
+}
+
 .search-bar {
   border: 1px solid rgba(128, 128, 128, 0.2);
   border-radius: 4px;
@@ -366,8 +404,20 @@ const $t = createTranslate(theme.value.offlineSearch, defaultTranslations)
   cursor: text;
 }
 
+@media (max-width: 768px) {
+  .search-bar {
+    padding: 0 8px;
+  }
+}
+
 .search-bar:focus-within {
   border-color: var(--vp-c-brand);
+}
+
+@media (max-width: 768px) {
+  .search-icon {
+    display: none;
+  }
 }
 
 .search-input {
@@ -376,8 +426,20 @@ const $t = createTranslate(theme.value.offlineSearch, defaultTranslations)
   width: 100%;
 }
 
+@media (max-width: 768px) {
+  .search-input {
+    padding: 6px 4px;
+  }
+}
+
 .search-actions {
   display: flex;
+}
+
+@media (min-width: 769px) {
+  .search-actions.before {
+    display: none;
+  }
 }
 
 .search-actions button {
@@ -397,7 +459,7 @@ const $t = createTranslate(theme.value.offlineSearch, defaultTranslations)
   gap: 16px;
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 768px) {
   .search-keyboard-shortcuts {
     display: none;
   }
@@ -437,6 +499,12 @@ const $t = createTranslate(theme.value.offlineSearch, defaultTranslations)
   margin: 12px;
   width: 100%;
   overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .result > div {
+    margin: 8px;
+  }
 }
 
 .titles {
