@@ -135,6 +135,7 @@ const pageName = computed(() =>
   overflow-x: hidden;
   overflow-y: auto;
   scrollbar-width: none;
+  max-width: inherit;
 }
 
 .aside-container::-webkit-scrollbar {
