@@ -131,11 +131,11 @@ const pageName = computed(() =>
   position: fixed;
   top: 0;
   padding-top: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 32px);
+  width: 224px;
   height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
   scrollbar-width: none;
-  max-width: inherit;
 }
 
 .aside-container::-webkit-scrollbar {
