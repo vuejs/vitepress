@@ -14,7 +14,8 @@ export function createTranslate(
 
     const isObject = themeObject && typeof themeObject === 'object'
     const locales =
-      (isObject && themeObject.locales?.[localeIndex.value]?.translations) || null
+      (isObject && themeObject.locales?.[localeIndex.value]?.translations) ||
+      null
     const translations = (isObject && themeObject.translations) || null
 
     let localeResult: Record<string, any> | null = locales
