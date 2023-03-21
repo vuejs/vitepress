@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, shallowRef } from 'vue'
 import { useData } from '../composables/data'
-import { getHeaders, resolveTitle } from '../composables/outline'
+import { getHeaders, resolveTitle, type MenuItem } from '../composables/outline'
 import VPDocOutlineItem from './VPDocOutlineItem.vue'
 import { onContentUpdated } from 'vitepress'
 import VPIconChevronRight from './icons/VPIconChevronRight.vue'
@@ -12,16 +12,24 @@ const open = ref(false)
 onContentUpdated(() => {
   open.value = false
 })
+
+const headers = shallowRef<MenuItem[]>([])
+
+onContentUpdated(() => {
+  headers.value = getHeaders(
+    frontmatter.value.outline ?? theme.value.outline
+  )
+})
 </script>
 
 <template>
-  <div class="VPDocOutlineDropdown">
+  <div class="VPDocOutlineDropdown" v-if="headers.length > 0">
     <button @click="open = !open" :class="{ open }">
       {{ resolveTitle(theme) }}
       <VPIconChevronRight class="icon" />
     </button>
     <div class="items" v-if="open">
-      <VPDocOutlineItem :headers="getHeaders(frontmatter.outline ?? theme.outline)" />
+      <VPDocOutlineItem :headers="headers" />
     </div>
   </div>
 </template>

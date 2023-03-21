@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, nextTick } from 'vue'
+import { ref, nextTick, shallowRef } from 'vue'
 import { useData } from '../composables/data'
-import { getHeaders, resolveTitle } from '../composables/outline'
+import { getHeaders, resolveTitle, type MenuItem } from '../composables/outline'
 import VPDocOutlineItem from './VPDocOutlineItem.vue'
 import { onContentUpdated } from 'vitepress'
 import VPIconChevronRight from './icons/VPIconChevronRight.vue'
@@ -36,13 +36,24 @@ function scrollToTop() {
   open.value = false
   window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
 }
+
+const headers = shallowRef<MenuItem[]>([])
+
+onContentUpdated(() => {
+  headers.value = getHeaders(
+    frontmatter.value.outline ?? theme.value.outline
+  )
+})
 </script>
 
 <template>
   <div class="VPLocalNavOutlineDropdown" :style="{ '--vp-vh': vh + 'px' }">
-    <button @click="toggle" :class="{ open }">
+    <button @click="toggle" :class="{ open }" v-if="headers.length > 0">
       {{ resolveTitle(theme) }}
       <VPIconChevronRight class="icon" />
+    </button>
+    <button @click="scrollToTop" v-else>
+      {{ theme.returnToTopLabel || 'Return to top' }}
     </button>
     <Transition name="flyout">
       <div v-if="open"
@@ -53,7 +64,7 @@ function scrollToTop() {
         <a class="top-link" href="#" @click="scrollToTop">
           {{ theme.returnToTopLabel || 'Return to top' }}
         </a>
-        <VPDocOutlineItem :headers="getHeaders(frontmatter.outline ?? theme.outline)" />
+        <VPDocOutlineItem :headers="headers" />
       </div>
     </Transition>
   </div>
