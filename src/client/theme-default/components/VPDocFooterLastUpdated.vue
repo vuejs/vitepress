@@ -1,20 +1,15 @@
 <script setup lang="ts">
-import { ref, computed, watchEffect, onMounted } from 'vue'
+import { ref, computed, watchEffect } from 'vue'
 import { useData } from '../composables/data'
 
-const { theme, page } = useData()
+const { theme, page, lang } = useData()
 
 const date = computed(() => new Date(page.value.lastUpdated!))
 const isoDatetime = computed(() => date.value.toISOString())
 const datetime = ref('')
 
-// set time on mounted hook because the locale string might be different
-// based on end user and will lead to potential hydration mismatch if
-// calculated at build time
-onMounted(() => {
-  watchEffect(() => {
-    datetime.value = date.value.toLocaleString(window.navigator.language)
-  })
+watchEffect(() => {
+  datetime.value = date.value.toLocaleString(lang.value)
 })
 </script>
 
