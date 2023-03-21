@@ -303,7 +303,7 @@ export namespace DefaultTheme {
 
   export interface OfflineSearchOptions {
     translations?: OfflineSearchTranslations
-    locales?: Record<string, OfflineSearchTranslations>
+    locales?: Record<string, Partial<Omit<OfflineSearchOptions, 'locales'>>>
   }
 
   // carbon ads ----------------------------------------------------------------

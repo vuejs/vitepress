@@ -221,17 +221,19 @@ onKeyStroke('Escape', () => {
 
 const { theme } = useData()
 
-const defaultTranslations: ModalTranslations = {
-  displayDetails: 'Display detailed list',
-  resetButtonTitle: 'Reset search',
-  backButtonTitle: 'Close search',
-  noResultsText: 'No results for',
-  footer: {
-    selectText: 'to select',
-    selectKeyAriaLabel: 'enter',
-    navigateText: 'to navigate',
-    navigateUpKeyAriaLabel: 'up arrow',
-    navigateDownKeyAriaLabel: 'down arrow',
+const defaultTranslations: { modal: ModalTranslations } = {
+  modal: {
+    displayDetails: 'Display detailed list',
+    resetButtonTitle: 'Reset search',
+    backButtonTitle: 'Close search',
+    noResultsText: 'No results for',
+    footer: {
+      selectText: 'to select',
+      selectKeyAriaLabel: 'enter',
+      navigateText: 'to navigate',
+      navigateUpKeyAriaLabel: 'up arrow',
+      navigateDownKeyAriaLabel: 'down arrow',
+    }
   }
 }
 
@@ -261,7 +263,7 @@ useEventListener('popstate', event => {
           <div class="search-actions before">
             <button
               class="back-button"
-              :title="$t('backButtonTitle')"
+              :title="$t('modal.backButtonTitle')"
               @click="$emit('close')"
             >
               <svg width="16" height="16" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m7 7l-7-7l7-7"/></svg>
@@ -279,7 +281,7 @@ useEventListener('popstate', event => {
               :class="{
                 'detailed-list': showDetailedList,
               }"
-              :title="$t('displayDetails')"
+              :title="$t('modal.displayDetails')"
               @click="showDetailedList = !showDetailedList"
             >
               <svg width="16" height="16" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 14h7v7H3zM3 3h7v7H3zm11 1h7m-7 5h7m-7 6h7m-7 5h7"/></svg>
@@ -287,7 +289,7 @@ useEventListener('popstate', event => {
 
             <button
               class="clear-button"
-              :title="$t('resetButtonTitle')"
+              :title="$t('modal.resetButtonTitle')"
               @click="filterText = ''"
             >
               <svg width="16" height="16" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 5H9l-7 7l7 7h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm-2 4l-6 6m0-6l6 6"/></svg>
@@ -338,18 +340,18 @@ useEventListener('popstate', event => {
           </a>
 
           <div v-if="filterText && !results.length" class="no-results">
-            {{ $t('noResultsText') }} "<strong>{{ filterText }}</strong>"
+            {{ $t('modal.noResultsText') }} "<strong>{{ filterText }}</strong>"
           </div>
         </div>
 
         <div class="search-keyboard-shortcuts">
           <span>
-            <kbd :aria-title="$t('footer.navigateUpKeyAriaLabel')"><svg width="14" height="14" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19V5m-7 7l7-7l7 7"/></svg></kbd> <kbd :aria-title="$t('footer.navigateDownKeyAriaLabel')"><svg width="14" height="14" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v14m7-7l-7 7l-7-7"/></svg></kbd>
-            {{ $t('footer.navigateText') }}
+            <kbd :aria-title="$t('modal.footer.navigateUpKeyAriaLabel')"><svg width="14" height="14" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19V5m-7 7l7-7l7 7"/></svg></kbd> <kbd :aria-title="$t('modal.footer.navigateDownKeyAriaLabel')"><svg width="14" height="14" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v14m7-7l-7 7l-7-7"/></svg></kbd>
+            {{ $t('modal.footer.navigateText') }}
           </span>
           <span>
-            <kbd :aria-title="$t('footer.selectKeyAriaLabel')"><svg width="14" height="14" viewBox="0 0 24 24"><g fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="m9 10l-5 5l5 5"/><path d="M20 4v7a4 4 0 0 1-4 4H4"/></g></svg></kbd>
-            {{ $t('footer.selectText') }}
+            <kbd :aria-title="$t('modal.footer.selectKeyAriaLabel')"><svg width="14" height="14" viewBox="0 0 24 24"><g fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="m9 10l-5 5l5 5"/><path d="M20 4v7a4 4 0 0 1-4 4H4"/></g></svg></kbd>
+            {{ $t('modal.footer.selectText') }}
           </span>
         </div>
       </div>

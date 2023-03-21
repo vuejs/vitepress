@@ -33,7 +33,7 @@ const buttonText = computed(() => {
       theme.value.algolia.translations?.button?.buttonText ||
       'Search'
   } else if (typeof theme.value.offlineSearch === 'object') {
-    return theme.value.offlineSearch.locales?.[localeIndex.value]?.button?.buttonText ||
+    return theme.value.offlineSearch.locales?.[localeIndex.value]?.translations?.button?.buttonText ||
       theme.value.offlineSearch.translations?.button?.buttonText ||
       'Search'
   }
