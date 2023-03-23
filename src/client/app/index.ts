@@ -8,16 +8,16 @@ import {
   watchEffect
 } from 'vue'
 import RawTheme from '@theme/index'
-import { inBrowser, pathToFile } from './utils.js'
-import { type Router, RouterSymbol, createRouter, scrollTo } from './router.js'
-import { siteDataRef, useData } from './data.js'
-import { useUpdateHead } from './composables/head.js'
-import { usePrefetch } from './composables/preFetch.js'
-import { dataSymbol, initData } from './data.js'
-import { Content } from './components/Content.js'
-import { ClientOnly } from './components/ClientOnly.js'
-import { useCopyCode } from './composables/copyCode.js'
-import { useCodeGroups } from './composables/codeGroups.js'
+import { inBrowser, pathToFile } from './utils'
+import { type Router, RouterSymbol, createRouter, scrollTo } from './router'
+import { siteDataRef, useData } from './data'
+import { useUpdateHead } from './composables/head'
+import { usePrefetch } from './composables/preFetch'
+import { dataSymbol, initData } from './data'
+import { Content } from './components/Content'
+import { ClientOnly } from './components/ClientOnly'
+import { useCopyCode } from './composables/copyCode'
+import { useCodeGroups } from './composables/codeGroups'
 
 function resolveThemeExtends(theme: typeof RawTheme): typeof RawTheme {
   if (theme.extends) {

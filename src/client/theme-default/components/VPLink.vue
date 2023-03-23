@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { normalizeLink } from '../support/utils.js'
+import { normalizeLink } from '../support/utils'
 import VPIconExternalLink from './icons/VPIconExternalLink.vue'
-import { EXTERNAL_URL_RE } from '../../shared.js'
+import { EXTERNAL_URL_RE } from '../../shared'
 
 const props = defineProps<{
   tag?: string

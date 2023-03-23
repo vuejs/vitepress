@@ -1,8 +1,8 @@
 import type { DefaultTheme } from 'vitepress/theme'
 import { onMounted, onUnmounted, onUpdated, type Ref } from 'vue'
-import type { Header } from '../../shared.js'
-import { useAside } from '../composables/aside.js'
-import { throttleAndDebounce } from '../support/utils.js'
+import type { Header } from '../../shared'
+import { useAside } from '../composables/aside'
+import { throttleAndDebounce } from '../support/utils'
 
 // magic number to avoid repeated retrieval
 const PAGE_OFFSET = 71

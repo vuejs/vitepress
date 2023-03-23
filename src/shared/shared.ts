@@ -1,4 +1,4 @@
-import type { HeadConfig, PageData, SiteData } from '../../types/shared.js'
+import type { HeadConfig, PageData, SiteData } from '../../types/shared'
 
 export type {
   Awaitable,

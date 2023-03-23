@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useData } from '../composables/data.js'
+import { useData } from '../composables/data'
 import VPNavBarMenuLink from './VPNavBarMenuLink.vue'
 import VPNavBarMenuGroup from './VPNavBarMenuGroup.vue'
 

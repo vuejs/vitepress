@@ -2,23 +2,18 @@
 // so the user can do `import { useRoute, useSiteData } from 'vitepress'`
 
 // generic types
-export type { VitePressData } from './app/data.js'
-export type { Route, Router } from './app/router.js'
+export type { VitePressData } from './app/data'
+export type { Route, Router } from './app/router'
 
 // theme types
-export type { EnhanceAppContext, Theme } from './app/theme.js'
+export type { EnhanceAppContext, Theme } from './app/theme'
 
 // shared types
-export type {
-  HeadConfig,
-  Header,
-  PageData,
-  SiteData
-} from '../../types/shared.js'
+export type { HeadConfig, Header, PageData, SiteData } from '../../types/shared'
 
 // composables
-export { useData } from './app/data.js'
-export { useRoute, useRouter } from './app/router.js'
+export { useData } from './app/data'
+export { useRoute, useRouter } from './app/router'
 
 // utilities
 export {
@@ -26,7 +21,7 @@ export {
   onContentUpdated,
   defineClientComponent,
   withBase
-} from './app/utils.js'
+} from './app/utils'
 
 // components
-export { Content } from './app/components/Content.js'
+export { Content } from './app/components/Content'

@@ -1,6 +1,6 @@
 import { defineComponent, h } from 'vue'
-import { useRoute } from '../router.js'
-import { contentUpdatedCallbacks } from '../utils.js'
+import { useRoute } from '../router'
+import { contentUpdatedCallbacks } from '../utils'
 
 const runCbs = () => contentUpdatedCallbacks.forEach((fn) => fn())
 

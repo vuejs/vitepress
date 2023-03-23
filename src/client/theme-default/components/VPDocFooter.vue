@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useData } from '../composables/data.js'
-import { normalizeLink } from '../support/utils.js'
-import { useEditLink } from '../composables/edit-link.js'
-import { usePrevNext } from '../composables/prev-next.js'
+import { useData } from '../composables/data'
+import { normalizeLink } from '../support/utils'
+import { useEditLink } from '../composables/edit-link'
+import { usePrevNext } from '../composables/prev-next'
 import VPIconEdit from './icons/VPIconEdit.vue'
 import VPLink from './VPLink.vue'
 import VPDocFooterLastUpdated from './VPDocFooterLastUpdated.vue'

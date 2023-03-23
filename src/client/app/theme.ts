@@ -1,6 +1,6 @@
 import type { App, Ref, Component } from 'vue'
-import type { Router } from './router.js'
-import type { Awaitable, SiteData } from '../shared.js'
+import type { Router } from './router'
+import type { Awaitable, SiteData } from '../shared'
 
 export interface EnhanceAppContext {
   app: App

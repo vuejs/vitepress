@@ -7,7 +7,7 @@ import {
   onUnmounted,
   ref
 } from 'vue'
-import { useData } from '../composables/data.js'
+import { useData } from '../composables/data'
 
 const VPAlgoliaSearchBox = __ALGOLIA__
   ? defineAsyncComponent(() => import('./VPAlgoliaSearchBox.vue'))
@@ -337,5 +337,9 @@ function poll() {
 
 .dark .DocSearch-Form {
   background-color: var(--vp-c-bg-soft-mute);
+}
+
+.DocSearch-Screen-Icon > svg {
+  margin: auto;
 }
 </style>
