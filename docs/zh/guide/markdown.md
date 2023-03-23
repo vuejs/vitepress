@@ -199,7 +199,8 @@ console.log('Hello, VitePress!')
 ### `raw`
 
 这是一个特殊的容器，可以用来防止与 VitePress 的样式和路由冲突。这在记录组件库时特别有用。你可能还想查看 [whyframe](https://whyframe.dev/docs/integrations/vitepress) 以获得更好的隔离。
-**Syntax**
+
+**语法**
 
 ```md
 ::: raw
@@ -414,11 +415,11 @@ export default {
 
 ## 代码块中的颜色差异 {#colored-diffs-in-code-blocks}
 
-Adding the `// [!code --]` or `// [!code ++]` comments on a line will create a diff of that line, while keeping the colors of the codeblock.
+在某一行添加 `// [!code --]` 或 `// [!code ++]` 注释将会为该行创建 diff，同时保留代码块的颜色。
 
 **输入**
 
-Note that only one space is required after `!code`, here are two to prevent processing.
+`!code` 后面只需要一个空格，为了展示原始的代码而不被实际渲染，这里有两个空格。
 
 ````
 ```js
@@ -446,13 +447,13 @@ export default {
 }
 ```
 
-## Errors and Warnings in Code Blocks {#errors-and-warnings-in-code-blocks}
+## 代码块中的 Errors 和 Warning 高亮 {#errors-and-warnings-in-code-blocks}
 
-Adding the `// [!code warning]` or `// [!code error]` comments on a line will color it accordingly.
+在某一行添加 `// [!code warning]` 或 `// [!code error]` 注释将会为该行相应的着色。
 
 **输入**
 
-Note that only one space is required after `!code`, here are two to prevent processing.
+`!code` 后面只需要一个空格，为了展示原始的代码而不被实际渲染，这里有两个空格。
 
 ````
 ```js
@@ -480,9 +481,9 @@ export default {
 }
 ```
 
-## Line Numbers {#line-numbers}
+## 行号 {#line-numbers}
 
-You can enable line numbers for each code blocks via config:
+你可以通过以下配置为每个代码块启用行号：
 
 ```js
 export default {
@@ -492,9 +493,9 @@ export default {
 }
 ```
 
-Please see [`markdown` options](../reference/site-config#markdown) for more details.
+查看 [`markdown` 选项](../reference/site-config#markdown) 获取更多信息。
 
-You can add `:line-numbers` / `:no-line-numbers` mark in your fenced code blocks to override the value set in config.
+你可以在你的代码块中添加 `:line-numbers` / `:no-line-numbers` 标记来覆盖在配置中的设置。
 
 **输入**
 
@@ -526,15 +527,15 @@ const line2 = 'This is line 2'
 const line3 = 'This is line 3'
 ```
 
-## Import Code Snippets {#import-code-snippets}
+## 导入代码片段 {#import-code-snippets}
 
-You can import code snippets from existing files via following syntax:
+你可以通过下面的语法来从现有文件中导入代码片段：
 
 ```md
 <<< @/filepath
 ```
 
-It also supports [line highlighting](#line-highlighting-in-code-blocks):
+此语法同时支持[行高亮](#line-highlighting-in-code-blocks)：
 
 ```md
 <<< @/filepath{highlightLines}
@@ -555,10 +556,10 @@ It also supports [line highlighting](#line-highlighting-in-code-blocks):
 <<< @/snippets/snippet.js{2}
 
 ::: tip
-The value of `@` corresponds to the source root. By default it's the VitePress project root, unless `srcDir` is configured.
+`@` 的值对应于源代码根目录，默认情况下是 VitePress 项目根目录，除非配置了 `srcDir`。
 :::
 
-You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/codebasics#_folding) to only include the corresponding part of the code file. You can provide a custom region name after a `#` following the filepath:
+你也可以使用 [VS Code region](https://code.visualstudio.com/docs/editor/codebasics#_folding) 来只包含代码文件的相应部分。你可以在文件目录后面的 `#` 符号后提供一个自定义的区域名：
 
 **输入**
 
@@ -574,7 +575,7 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 
 <<< @/snippets/snippet-with-region.js#snippet{1}
 
-You can also specify the language inside the braces (`{}`) like this:
+你也可以像这样在大括号内(`{}`)指定语言：
 
 ```md
 <<< @/snippets/snippet.cs{c#}
@@ -588,7 +589,7 @@ You can also specify the language inside the braces (`{}`) like this:
 <<< @/snippets/snippet.cs{1,2,4-6 c#:line-numbers}
 ```
 
-This is helpful if source language cannot be inferred from your file extension.
+如果无法从文件拓展名推测出源语言，这将会很有帮助
 
 ## Code Groups {#code-groups}
 
