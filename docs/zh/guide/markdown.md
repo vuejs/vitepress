@@ -591,9 +591,9 @@ const line3 = 'This is line 3'
 
 如果无法从文件拓展名推测出源语言，这将会很有帮助
 
-## Code Groups {#code-groups}
+## 代码组 {#code-groups}
 
-You can group multiple code blocks like this:
+你可以像这样对多个代码块进行分组：
 
 **输入**
 
@@ -651,7 +651,7 @@ export default config
 
 :::
 
-You can also [import snippets](#import-code-snippets) in code groups:
+你也可以在代码组中[导入代码片段](#import-code-snippets)：
 
 **输入**
 
@@ -679,9 +679,9 @@ You can also [import snippets](#import-code-snippets) in code groups:
 
 :::
 
-## Markdown File Inclusion {#markdown-file-inclusion}
+## 包含 markdown 文件 {#markdown-file-inclusion}
 
-You can include a markdown file in another markdown file like this:
+你可以像这样在一个 markdown 文件中包含另一个 markdown 文件：
 
 **输入**
 
@@ -693,7 +693,7 @@ You can include a markdown file in another markdown file like this:
 <!--@include: ./parts/basics.md-->
 ```
 
-**Part file** (`parts/basics.md`)
+**另一个文件** (`parts/basics.md`)
 
 ```md
 Some getting started stuff.
@@ -703,7 +703,7 @@ Some getting started stuff.
 Can be created using `.foorc.json`.
 ```
 
-**Equivalent code**
+**等价代码**
 
 ```md
 # Docs {#docs}
@@ -718,12 +718,12 @@ Can be created using `.foorc.json`.
 ```
 
 ::: warning
-Note that this does not throw errors if your file is not present. Hence, when using this feature make sure that the contents are being rendered as expected.
+如果你指定的文件不存在，这将不会产生错误。因此，在使用这个功能的时候请保证内容按预期呈现。
 :::
 
-## Advanced Configuration {#advanced-configuration}
+## 高级配置 {#advanced-configuration}
 
-VitePress uses [markdown-it](https://github.com/markdown-it/markdown-it) as the Markdown renderer. A lot of the extensions above are implemented via custom plugins. You can further customize the `markdown-it` instance using the `markdown` option in `.vitepress/config.js`:
+VitePress 使用 [markdown-it](https://github.com/markdown-it/markdown-it) 作为 Markdown 渲染器。上面提到的很多拓展功能都是通过自定义插件实现的。你可以使用 `.vitepress/config.js` 中的 `markdown` 选项来进一步自定义 `markdown-it` 实例。
 
 ```js
 const anchor = require('markdown-it-anchor')
@@ -748,4 +748,4 @@ module.exports = {
 }
 ```
 
-See full list of configurable properties in [Config Reference: App Config](../reference/site-config#markdown).
+请查看[配置参考：站点配置](../reference/site-config#markdown)来获取完整的可配置属性列表。
