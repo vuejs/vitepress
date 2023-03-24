@@ -2,54 +2,54 @@
 
 ## 引用静态资源 {#referencing-static-assets}
 
-All Markdown files are compiled into Vue components and processed by [Vite](https://vitejs.dev/guide/assets.html). You can, **and should**, reference any assets using relative URLs:
+所有的 Markdown 文件都会被编译成 Vue 组件，并由 [Vite](https://vitejs.dev/guide/assets.html) 处理。你可以，**并且应该**使用相对路径来引用任何资源：
 
 ```md
 ![An image](./image.png)
 ```
 
-You can reference static assets in your markdown files, your `*.vue` components in the theme, styles and plain `.css` files either using absolute public paths (based on project root) or relative paths (based on your file system). The latter is similar to the behavior you are used to if you have used Vite, Vue CLI, or webpack's `file-loader`.
+你可以在 Markdown 文件、主题中的 `*.vue` 组件、样式和普通的 `.css` 文件中引用静态资源，通过使用绝对路径 (基于项目根目录) 或者相对路径 (基于文件系统)。后者类似于 Vite，Vue CLI，或者 webpack 的 `file-loader`的行为。
 
-Common image, media, and font filetypes are detected and included as assets automatically.
+常见的图像，媒体和字体文件会被自动检测并包含为资源。
 
-All referenced assets, including those using absolute paths, will be copied to the output directory with a hashed file name in the production build. Never-referenced assets will not be copied. Image assets smaller than 4kb will be base64 inlined - this can be configured via the [`vite`](../reference/site-config#vite) config option.
+所有引用的资源，包括那些使用绝对路径的，都会在生产构建过程中被复制到输出目录，并具有哈希文件名。从未使用过的资源将不会被复制。小于 4kb 的图像资源将会被使用 base64 内联 - 这可以通过 [`vite`](../reference/site-config#vite) 配置选项进行配置。
 
-All **static** path references, including absolute paths, should be based on your working directory structure.
+所有**静态**路径引用，包括绝对路径，都应基于你的工作目录结构。
 
 ## public 目录 {#the-public-directory}
 
-Sometimes you may need to provide static assets that are not directly referenced in any of your Markdown or theme components, or you may want to serve certain files with the original filename. Examples of such files include `robot.txt`, favicons, and PWA icons.
+有时你可能需要提供一些静态资源，但这些资源没有直接被 Markdown 或主题组件直接引用，或者你可能想以原始文件名提供提供某些文件。此类文件的例子包括 `robot.txt`，favicons 和 PWA 图标。
 
-You can place these files in the `public` directory under the [source directory](./routing#source-directory). For example, if your project root is `./docs` and using default source directory location, then your public directory will be `./docs/public`.
+你可以将这些文件放置在[源目录](./routing#source-directory)的 `public` 目录中。例如，如果你的项目根目录是 `./docs`，并且使用默认源目录位置，那么你的 public 目录将是 `./docs/public`。
 
-Assets placed in `public` will be copied to the root of the output directory as-is.
+放置在 `public` 中的资源将按原样复制到输出目录的根目录中。
 
-Note that you should reference files placed in `public` using root absolute path - for example, `public/icon.png` should always be referenced in source code as `/icon.png`.
+请注意，你应使用根绝对路径来引用放置在 `public` 中的文件 - 例如，`public/icon.png` 应始终在源代码中作为 `/icon.png` 引用。
 
-There is one exception to this: if you have an HTML page in `public` and link to it from the main site, the router will yield a 404 by default. To get around this, VitePress provides a `pathname://` protocol which allows you to link to another page in the same domain as if the link is external. Compare these two links:
+但有一个例外：如果你在 `public` 中有一个 HTML 页面，并从主站点链接到它，路由默认会产生 404 错误。为了解决这个问题，VitePress 提供了 `pathname：//` 协议，它允许你像链接外部页面一样链接到同一域名的另一个页面。比较这两个链接：
 
 - [/pure.html](/pure.html)
 - <pathname:///pure.html>
 
 ## 根 URL {#base-url}
 
-If your site is deployed to a non-root URL, you will need to set the `base` option in `.vitepress/config.js`. For example, if you plan to deploy your site to `https://foo.github.io/bar/`, then `base` should be set to `'/bar/'` (it should always start and end with a slash).
+如果你的网站部署在非根 URL 上，则需要在 `.vitepress/config.js` 中设置 `base` 选项。例如，如果你计划将网站部署到 `https://foo.github.io/bar/`，则 `base` 应设置为 `'/bar/'`(它应始终以斜杠开头和结尾)。
 
-All your static asset paths are automatically processed to adjust for different `base` config values. For example, if you have an absolute reference to an asset under `public` in your markdown:
+所有静态资源路径都会被自动处理，来适应不同的 `base` 配置值。例如，如果你的 markdown 中有一个对 `public` 中的资源的绝对引用：
 
 ```md
 ![An image](/image-inside-public.png)
 ```
 
-You do **not** need to update it when you change the `base` config value in this case.
+在这种情况下，更改 `base` 配置值时，你**无需**更新该引用。
 
-However, if you are authoring a theme component that links to assets dynamically, e.g. an image whose `src` is based on a theme config value:
+但是如果你正在编写一个主题组件，它动态的链接到资源，例如一个图片，它的 `src` 基于主题配置值：
 
 ```vue
 <img :src="theme.logoPath" />
 ```
 
-In this case it is recommended to wrap the path with the [`withBase` helper](../reference/runtime-api#withbase) provided by VitePress:
+在这种情况下，建议使用 VitePress 提供的 [`withBase` helper](../reference/runtime-api#withbase) 来包装路径：
 
 ```vue
 <script setup>
