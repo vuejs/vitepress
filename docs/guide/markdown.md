@@ -6,6 +6,16 @@ VitePress comes with built in Markdown Extensions.
 
 Headers automatically get anchor links applied. Rendering of anchors can be configured using the `markdown.anchor` option.
 
+### Custom anchors
+
+To specify a custom anchor tag for a heading instead of using the auto-generated one, add a suffix to the heading:
+
+```
+# Using custom anchors {#my-anchor}
+```
+
+This allows you to link to the heading as `#my-anchor` instead of the default `#using-custom-anchors`.
+
 ## Links
 
 Both internal and external links gets special treatments.
