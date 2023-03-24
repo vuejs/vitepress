@@ -3,9 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "../../dist/client",
-    "target": "esnext",
-    "module": "esnext",
-    "moduleResolution": "nodenext",
+    "moduleResolution": "bundler",
     "declaration": true,
     "declarationDir": "../../dist/client-types",
     "jsx": "preserve",

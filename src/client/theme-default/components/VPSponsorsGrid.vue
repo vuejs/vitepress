@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { GridSize } from '../composables/sponsor-grid.js'
+import type { GridSize } from '../composables/sponsor-grid'
 import { ref } from 'vue'
-import { useSponsorsGrid } from '../composables/sponsor-grid.js'
+import { useSponsorsGrid } from '../composables/sponsor-grid'
 
 export interface Sponsor {
   name: string

@@ -1,6 +1,7 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
+    "isolatedModules": false,
     "baseUrl": ".",
     "types": ["node", "vitest/globals"],
     "paths": {

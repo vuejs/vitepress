@@ -6,7 +6,7 @@ body:
     attributes:
       value: |
         "Thanks for taking the time to fill out this bug report!
-        VitePress is still WIP, and it is not compatible with VuePress. 
+        VitePress is still WIP, and it is not compatible with VuePress.
         Please do not open issue about default theme missing features or something doesn't work like VuePress."
   - type: textarea
     id: bug-description
@@ -54,7 +54,7 @@ body:
       options:
         - label: Follow our [Code of Conduct](https://vuejs.org/about/coc.html)
           required: true
-        - label: Read the [docs](https://vitepress.vuejs.org).
+        - label: Read the [docs](https://vitepress.dev).
           required: true
         - label: Check that there isn't already an issue that reports the same bug to avoid creating a duplicate.
           required: true

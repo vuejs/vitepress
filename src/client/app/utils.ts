@@ -1,7 +1,14 @@
-import { siteDataRef } from './data.js'
-import { inBrowser, EXTERNAL_URL_RE, sanitizeFileName } from '../shared.js'
+import { siteDataRef } from './data'
+import { inBrowser, EXTERNAL_URL_RE, sanitizeFileName } from '../shared'
+import {
+  h,
+  onMounted,
+  onUnmounted,
+  shallowRef,
+  type AsyncComponentLoader
+} from 'vue'
 
-export { inBrowser } from '../shared.js'
+export { inBrowser } from '../shared'
 
 /**
  * Join two paths by resolving the slash collision.
@@ -55,4 +62,34 @@ export function pathToFile(path: string): string {
   }
 
   return pagePath
+}
+
+export let contentUpdatedCallbacks: (() => any)[] = []
+
+/**
+ * Register callback that is called every time the markdown content is updated
+ * in the DOM.
+ */
+export function onContentUpdated(fn: () => any) {
+  contentUpdatedCallbacks.push(fn)
+  onUnmounted(() => {
+    contentUpdatedCallbacks = contentUpdatedCallbacks.filter((f) => f !== fn)
+  })
+}
+
+export function defineClientComponent(loader: AsyncComponentLoader) {
+  return {
+    setup() {
+      const comp = shallowRef()
+      onMounted(async () => {
+        let res = await loader()
+        // interop module default
+        if (res && (res.__esModule || res[Symbol.toStringTag] === 'Module')) {
+          res = res.default
+        }
+        comp.value = res
+      })
+      return () => (comp.value ? h(comp.value) : null)
+    }
+  }
 }

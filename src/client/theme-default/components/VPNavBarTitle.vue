@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useData } from '../composables/data.js'
-import { useSidebar } from '../composables/sidebar.js'
-import { useLangs } from '../composables/langs.js'
-import { normalizeLink } from '../support/utils.js'
+import { useData } from '../composables/data'
+import { useSidebar } from '../composables/sidebar'
+import { useLangs } from '../composables/langs'
+import { normalizeLink } from '../support/utils'
 import VPImage from './VPImage.vue'
 
 const { site, theme } = useData()

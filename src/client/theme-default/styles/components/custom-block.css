@@ -78,12 +78,10 @@
 .custom-block a {
   color: inherit;
   font-weight: 600;
-  text-decoration: underline;
-  transition: opacity 0.25s;
 }
 
 .custom-block a:hover {
-  opacity: 0.6;
+  text-decoration: underline;
 }
 
 .custom-block code {

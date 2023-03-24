@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, provide, useSlots, watch } from 'vue'
 import { useRoute } from 'vitepress'
-import { useData } from './composables/data.js'
-import { useSidebar, useCloseSidebarOnEscape } from './composables/sidebar.js'
+import { useData } from './composables/data'
+import { useSidebar, useCloseSidebarOnEscape } from './composables/sidebar'
 import VPSkipLink from './components/VPSkipLink.vue'
 import VPBackdrop from './components/VPBackdrop.vue'
 import VPNav from './components/VPNav.vue'
@@ -54,7 +54,9 @@ provide('hero-image-slot-exists', heroImageSlotExists)
     </VPSidebar>
 
     <VPContent>
+      <template #not-found><slot name="not-found" /></template>
       <template #home-hero-before><slot name="home-hero-before" /></template>
+      <template #home-hero-info><slot name="home-hero-info" /></template>
       <template #home-hero-image><slot name="home-hero-image" /></template>
       <template #home-hero-after><slot name="home-hero-after" /></template>
       <template #home-features-before><slot name="home-features-before" /></template>

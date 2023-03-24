@@ -43,6 +43,7 @@ export interface UserConfig<ThemeConfig = any>
   srcExclude?: string[]
   outDir?: string
   cacheDir?: string
+
   shouldPreload?: (link: string, page: string) => boolean
 
   locales?: LocaleConfig<ThemeConfig>
@@ -66,8 +67,12 @@ export interface UserConfig<ThemeConfig = any>
   /**
    * Configure the scroll offset when the theme has a sticky header.
    * Can be a number or a selector element to get the offset from.
+   * Can also be an array of selectors in case some elements will be
+   * invisible due to responsive layout. VitePress will fallback to the next
+   * selector if a selector fails to match, or the matched element is not
+   * currently visible in viewport.
    */
-  scrollOffset?: number | string
+  scrollOffset?: number | string | string[]
 
   /**
    * Enable MPA / zero-JS mode.
@@ -122,7 +127,7 @@ export interface UserConfig<ThemeConfig = any>
    *
    * This build hook will allow you to modify the head adding new entries that cannot be statically added.
    */
-  transformHead?: (context: TransformContext) => Awaitable<HeadConfig[]>
+  transformHead?: (context: TransformContext) => Awaitable<HeadConfig[] | void>
 
   /**
    * HTML transform hook: runs before writing HTML to dist.
@@ -142,6 +147,7 @@ export interface UserConfig<ThemeConfig = any>
 }
 
 export interface TransformContext {
+  page: string
   siteConfig: SiteConfig
   siteData: SiteData
   pageData: PageData
@@ -149,6 +155,7 @@ export interface TransformContext {
   description: string
   head: HeadConfig[]
   content: string
+  assets: string[]
 }
 
 export type RawConfigExports<ThemeConfig = any> =
@@ -287,12 +294,16 @@ export async function resolveConfig(
     userConfig
   }
 
+  // to be shared with content loaders
+  // @ts-ignore
+  global.VITEPRESS_CONFIG = config
+
   return config
 }
 
 const supportedConfigExtensions = ['js', 'ts', 'cjs', 'mjs', 'cts', 'mts']
 
-async function resolveUserConfig(
+export async function resolveUserConfig(
   root: string,
   command: 'serve' | 'build',
   mode: string

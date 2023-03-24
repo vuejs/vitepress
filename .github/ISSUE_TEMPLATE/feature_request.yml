@@ -37,7 +37,7 @@ body:
       options:
         - label: Follow our [Code of Conduct](https://vuejs.org/about/coc.html)
           required: true
-        - label: Read the [docs](https://vitepress.vuejs.org).
+        - label: Read the [docs](https://vitepress.dev).
           required: true
         - label: Read the [Contributing Guidelines](https://github.com/vuejs/vitepress/blob/main/.github/contributing.md).
           required: true

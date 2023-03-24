@@ -23,13 +23,6 @@ export namespace DefaultTheme {
     outline?: Outline | Outline['level'] | false
 
     /**
-     * Disable this to hide badge text from outline.
-     *
-     * @default true
-     */
-    outlineBadges?: boolean
-
-    /**
      * @deprecated
      * Use `outline.label` instead.
      *
@@ -97,6 +90,13 @@ export namespace DefaultTheme {
      * @default 'Return to top'
      */
     returnToTopLabel?: string
+
+    /**
+     * Set custom `aria-label` for language menu button.
+     *
+     * @default 'Change language'
+     */
+    langMenuLabel?: string
 
     /**
      * The algolia options. Leave it undefined to disable the search feature.
@@ -209,7 +209,7 @@ export namespace DefaultTheme {
      *
      * @example 'https://github.com/vuejs/vitepress/edit/main/docs/:path'
      */
-    pattern: string
+    pattern: string | ((payload: { relativePath: string }) => string)
 
     /**
      * Custom text for edit link.

@@ -41,6 +41,7 @@ defineProps<{
   font-size: 14px;
   font-weight: 600;
   color: var(--vp-c-text-2);
+  white-space: nowrap;
   transition: color 0.25s;
 }
 </style>

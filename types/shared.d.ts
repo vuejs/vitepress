@@ -12,6 +12,7 @@ export interface PageData {
   headers: Header[]
   frontmatter: Record<string, any>
   params?: Record<string, any>
+  isNotFound?: boolean
   lastUpdated?: number
 }
 
@@ -55,7 +56,7 @@ export interface SiteData<ThemeConfig = any> {
   head: HeadConfig[]
   appearance: boolean | 'dark'
   themeConfig: ThemeConfig
-  scrollOffset: number | string
+  scrollOffset: number | string | string[]
   locales: LocaleConfig<ThemeConfig>
   localeIndex?: string
 }
