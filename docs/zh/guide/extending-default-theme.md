@@ -1,22 +1,22 @@
 # 扩展默认主题 {#extending-the-default-theme}
 
-VitePress' default theme is optimized for documentation, and can be customized. Consult the [Default Theme Config Overview](../reference/default-theme-config) for a comprehensive list of options.
+VitePress 默认的主题已经针对文档进行了优化，并且可以进行定制。请参考 [默认主题配置概览](../reference/default-theme-config) 获取完整的选项列表。
 
-However, there are a number of cases where configuration alone won't be enough. For example:
+但是有一些情况仅靠配置是不够的。例如：
 
-1. You need to tweak the CSS styling;
-2. You need to modify the Vue app instance, for example to register global components;
-3. You need to inject custom content into the theme via layout slots.
+1. 你需要调整 CSS 样式；
+2. 你需要修改 Vue 应用实例，例如注册全局组件；
+3. 你需要通过 layout 插槽将自定义内容注入到主题中；
 
-These advanced customizations will require using a custom theme that "extends" the default theme.
+这些高级自定义配置将需要使用自定义主题来“拓展”默认主题。
 
 :::tip
-Before proceeding, make sure to first read [Using a Custom Theme](./custom-theme) to understand how custom themes work.
+在继续之前，请确保首先阅读[自定义主题](./custom-theme)以了解其工作原理。
 :::
 
 ## 自定义 CSS {#customizing-css}
 
-The default theme CSS is customizable by overriding root level CSS variables:
+可以通过覆盖根级别的 CSS 变量来自定义默认主题的 CSS：
 
 ```js
 // .vitepress/theme/index.js
@@ -34,7 +34,7 @@ export default DefaultTheme
 }
 ```
 
-See [default theme CSS variables](https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css) that can be overridden.
+查看[默认主题 CSS 变量]来获取可以被覆盖的变量。
 
 ## 使用自定义字体 {#using-different-fonts}
 
