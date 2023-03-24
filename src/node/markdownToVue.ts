@@ -55,12 +55,12 @@ export async function createMarkdownToVueRenderFn(
     file: string,
     publicDir: string
   ): Promise<MarkdownCompileResult> => {
+    const fileOrig = file
     const alias =
       siteConfig?.rewrites.map[file] || // virtual dynamic path file
       siteConfig?.rewrites.map[file.slice(srcDir.length + 1)]
     file = alias ? path.join(srcDir, alias) : file
     const relativePath = slash(path.relative(srcDir, file))
-    const dir = path.dirname(file)
     const cacheKey = JSON.stringify({ src, file })
 
     const cached = cache.get(cacheKey)
@@ -85,6 +85,7 @@ export async function createMarkdownToVueRenderFn(
     let includes: string[] = []
     src = src.replace(includesRE, (m, m1) => {
       try {
+        const dir = path.dirname(fileOrig) // include paths are strict relative file paths w/o aliases
         const includePath = path.join(dir, m1)
         const content = fs.readFileSync(includePath, 'utf-8')
         includes.push(slash(includePath))
