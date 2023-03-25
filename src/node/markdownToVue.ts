@@ -125,15 +125,32 @@ export async function createMarkdownToVueRenderFn(
       deadLinks.push(url)
     }
 
+    function shouldIgnoreDeadLink(url: string) {
+      if (!(siteConfig?.ignoreDeadLinks))
+        return false
+      if (siteConfig.ignoreDeadLinks === true)
+        return true
+
+      if (siteConfig.ignoreDeadLinks === 'localhostLinks')
+        return url.replace(EXTERNAL_URL_RE, '').startsWith('//localhost')
+      
+      return siteConfig.ignoreDeadLinks.some((ignore) => {
+        if (typeof ignore === 'string')
+          return url === ignore
+        if (ignore instanceof RegExp)
+          return ignore.test(url)
+        if (typeof ignore === 'function')
+          return ignore(url)
+        return false
+      })
+    }
+
     if (links) {
       const dir = path.dirname(file)
       for (let url of links) {
         if (/\.(?!html|md)\w+($|\?)/i.test(url)) continue
 
-        if (
-          siteConfig?.ignoreDeadLinks !== 'localhostLinks' &&
-          url.replace(EXTERNAL_URL_RE, '').startsWith('//localhost:')
-        ) {
+        if (!shouldIgnoreDeadLink(url)) {
           recordDeadLink(url)
           continue
         }
