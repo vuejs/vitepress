@@ -126,21 +126,26 @@ export async function createMarkdownToVueRenderFn(
     }
 
     function shouldIgnoreDeadLink(url: string) {
-      if (!(siteConfig?.ignoreDeadLinks))
+      if (!siteConfig?.ignoreDeadLinks) {
         return false
-      if (siteConfig.ignoreDeadLinks === true)
+      }
+      if (siteConfig.ignoreDeadLinks === true) {
         return true
-
-      if (siteConfig.ignoreDeadLinks === 'localhostLinks')
+      }
+      if (siteConfig.ignoreDeadLinks === 'localhostLinks') {
         return url.replace(EXTERNAL_URL_RE, '').startsWith('//localhost')
-      
+      }
+
       return siteConfig.ignoreDeadLinks.some((ignore) => {
-        if (typeof ignore === 'string')
+        if (typeof ignore === 'string') {
           return url === ignore
-        if (ignore instanceof RegExp)
+        }
+        if (ignore instanceof RegExp) {
           return ignore.test(url)
-        if (typeof ignore === 'function')
+        }
+        if (typeof ignore === 'function') {
           return ignore(url)
+        }
         return false
       })
     }
