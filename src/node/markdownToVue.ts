@@ -155,11 +155,6 @@ export async function createMarkdownToVueRenderFn(
       for (let url of links) {
         if (/\.(?!html|md)\w+($|\?)/i.test(url)) continue
 
-        if (!shouldIgnoreDeadLink(url)) {
-          recordDeadLink(url)
-          continue
-        }
-
         url = url.replace(/[?#].*$/, '').replace(/\.(html|md)$/, '')
         if (url.endsWith('/')) url += `index`
         let resolved = decodeURIComponent(
@@ -173,7 +168,8 @@ export async function createMarkdownToVueRenderFn(
           siteConfig?.rewrites.inv[resolved + '.md']?.slice(0, -3) || resolved
         if (
           !pages.includes(resolved) &&
-          !fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`))
+          !fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`)) &&
+          !shouldIgnoreDeadLink(url)
         ) {
           recordDeadLink(url)
         }
