@@ -42,10 +42,11 @@ export namespace DefaultTheme {
 
     /**
      * Set to `false` to prevent rendering of aside container.
+     * Set to `left` to move aside to left of content.
      *
      * @default true
      */
-    aside?: boolean
+    aside?: boolean | string
 
     /**
      * Info for the edit link. If it's undefined, the edit link feature will
