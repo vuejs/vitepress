@@ -19,6 +19,7 @@ const pageName = computed(() =>
     class="VPDoc"
     :class="{ 'has-sidebar': hasSidebar, 'has-aside': hasAside }"
   >
+    <slot name="content-before" />
     <div class="container">
       <div v-if="hasAside" class="aside">
         <div class="aside-curtain" />
@@ -50,6 +51,7 @@ const pageName = computed(() =>
         </div>
       </div>
     </div>
+    <slot name="content-after" />
   </div>
 </template>
 
