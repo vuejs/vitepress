@@ -7,6 +7,7 @@ import VPNavBarSearch from './VPNavBarSearch.vue'
 import VPNavBarMenu from './VPNavBarMenu.vue'
 import VPNavBarTranslations from './VPNavBarTranslations.vue'
 import VPNavBarAppearance from './VPNavBarAppearance.vue'
+import VPNavBarSmoothScroll from './VPNavBarSmoothScroll.vue'
 import VPNavBarSocialLinks from './VPNavBarSocialLinks.vue'
 import VPNavBarExtra from './VPNavBarExtra.vue'
 import VPNavBarHamburger from './VPNavBarHamburger.vue'
@@ -46,6 +47,7 @@ const classes = computed(() => ({
           <VPNavBarMenu class="menu" />
           <VPNavBarTranslations class="translations" />
           <VPNavBarAppearance class="appearance" />
+          <VPNavBarSmoothScroll class="smooth-scroll" />
           <VPNavBarSocialLinks class="social-links" />
           <VPNavBarExtra class="extra" />
           <slot name="nav-bar-content-after" />
@@ -171,9 +173,12 @@ const classes = computed(() => ({
 
 .menu + .translations::before,
 .menu + .appearance::before,
+.menu + .smooth-scroll::before,
 .menu + .social-links::before,
-.translations + .appearance::before,
-.appearance + .social-links::before {
+.translations + .smooth-scroll::before,
+.appearance + .smooth-scroll::before,
+.appearance + .social-links::before,
+.smooth-scroll + .social-links::before {
   margin-right: 8px;
   margin-left: 8px;
   width: 1px;
@@ -183,11 +188,16 @@ const classes = computed(() => ({
 }
 
 .menu + .appearance::before,
-.translations + .appearance::before {
+.menu + .smooth-scroll::before,
+.translations + .appearance::before,
+.translations + .smooth-scroll::before,
+.appearance + .smooth-scroll::before {
   margin-right: 16px;
 }
 
-.appearance + .social-links::before {
+.appearance + .smooth-scroll::before,
+.appearance + .social-links::before,
+.smooth-scroll + .social-links::before {
   margin-left: 16px;
 }
 

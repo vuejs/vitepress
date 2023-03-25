@@ -49,6 +49,7 @@ export interface UserConfig<ThemeConfig = any>
   locales?: LocaleConfig<ThemeConfig>
 
   appearance?: boolean | 'dark'
+  smoothScroll?: boolean
   lastUpdated?: boolean
 
   /**
@@ -395,6 +396,7 @@ export async function resolveSiteData(
     base: userConfig.base ? userConfig.base.replace(/([^/])$/, '$1/') : '/',
     head: resolveSiteDataHead(userConfig),
     appearance: userConfig.appearance ?? true,
+    smoothScroll: userConfig.smoothScroll ?? true,
     themeConfig: userConfig.themeConfig || {},
     locales: userConfig.locales || {},
     scrollOffset: userConfig.scrollOffset || 90,
