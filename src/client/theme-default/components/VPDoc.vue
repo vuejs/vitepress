@@ -132,7 +132,7 @@ const pageName = computed(() =>
 .aside-container {
   position: fixed;
   top: 0;
-  padding-top: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 32px);
+  padding-top: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + var(--vp-content-before-height, 0px) + 32px);
   width: 224px;
   height: 100vh;
   overflow-x: hidden;
