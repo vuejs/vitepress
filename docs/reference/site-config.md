@@ -300,15 +300,15 @@ It can also be an array of extact url string, regex patterns, or custom filter f
 ```ts
 export default {
   ignoreDeadLinks: [
-    // exact url
+    // ignore exact url "/playground"
     '/playground',
-    // all localhost links
+    // ignore all localhost links
     /^https?:\/\/localhost/,
-    // all links include `/repl/`
+    // ignore all links include "/repl/""
     /\/repl\//,
-    // custom function, return true to ignore
+    // custom function, ignore all links include "ignore"
     (url) => {
-      return url.includes('ignore'
+      return url.toLowerCase().includes('ignore')
     }
   ]
 }
