@@ -49,6 +49,12 @@ export function useSidebar() {
     )
   })
 
+  const leftAside = computed(() => {
+    if (hasAside && frontmatter.value.aside != null)
+      return frontmatter.value.aside === 'left'
+    return false
+  })
+
   const hasAside = computed(() => {
     if (frontmatter.value.layout === 'home') return false
     if (frontmatter.value.aside != null) return !!frontmatter.value.aside
@@ -80,6 +86,7 @@ export function useSidebar() {
     sidebarGroups,
     hasSidebar,
     hasAside,
+    leftAside,
     isSidebarEnabled,
     open,
     close,
