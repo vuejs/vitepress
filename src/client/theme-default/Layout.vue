@@ -54,6 +54,9 @@ provide('hero-image-slot-exists', heroImageSlotExists)
     </VPSidebar>
 
     <VPContent>
+      <template #content-before><slot name="content-before" /></template>
+      <template #content-after><slot name="content-after" /></template>
+      
       <template #not-found><slot name="not-found" /></template>
       <template #home-hero-before><slot name="home-hero-before" /></template>
       <template #home-hero-info><slot name="home-hero-info" /></template>

@@ -19,6 +19,7 @@ const { hasSidebar } = useSidebar()
       'is-home': frontmatter.layout === 'home'
     }"
   >
+    <slot name="content-before" />
     <slot name="not-found" v-if="page.isNotFound"><NotFound /></slot>
 
     <VPPage v-else-if="frontmatter.layout === 'page'" />
@@ -44,6 +45,7 @@ const { hasSidebar } = useSidebar()
       <template #aside-ads-after><slot name="aside-ads-after" /></template>
       <template #aside-bottom><slot name="aside-bottom" /></template>
     </VPDoc>
+    <slot name="content-after" />
   </div>
 </template>
 
