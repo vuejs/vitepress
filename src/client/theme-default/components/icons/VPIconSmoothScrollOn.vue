@@ -1,23 +1,18 @@
 <script setup lang="ts">
 defineProps<{
-  title: string
   check: boolean
 }>()
 </script>
 
 <template>
   <svg xmlns="http://www.w3.org/2000/svg"
-       role="img"
-       aria-labelledby="smooth-scroll-icon-on"
+       aria-hidden="true"
        focusable="false"
        class="smooth-scroll-icon-on"
        width="32"
        height="32"
        preserveAspectRatio="xMidYMid meet"
        viewBox="0 0 24 24">
-    <title id="smooth-scroll-icon-on">
-      {{ title }}
-    </title>
     <path v-if="check" d="m9 20.42l-6.21-6.21l2.83-2.83L9 14.77l9.88-9.89l2.83 2.83L9 20.42Z"></path>
     <path
         v-else

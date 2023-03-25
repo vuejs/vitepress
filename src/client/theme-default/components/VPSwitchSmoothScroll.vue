@@ -9,7 +9,6 @@ withDefaults(defineProps<{
   screen?: boolean
 }>(), { screen: false })
 
-const title = ref('Smooth Scroll')
 const isSmoothScroll = ref(false)
 
 const toggle = typeof localStorage !== 'undefined' ? useSmoothScroll() : () => {}
@@ -34,16 +33,16 @@ function useSmoothScroll() {
 </script>
 
 <template>
-  <VPSwitch
-      class="VPSwitchSmoothScroll"
-      :title="title"
-      aria-label="toggle smooth scroll mode"
-      :aria-checked="`${isSmoothScroll}`"
-      @click="toggle"
-  >
-    <VPIconSmoothScrollOff :title="title" :check="screen" class="reduce" />
-    <VPIconSmoothScrollOn :title="title" :check="screen" class="no-preference" />
-  </VPSwitch>
+  <label title="toggle smooth scroll mode">
+    <VPSwitch
+        class="VPSwitchSmoothScroll"
+        :aria-checked="isSmoothScroll"
+        @click="toggle"
+    >
+      <VPIconSmoothScrollOff :check="screen" class="reduce" />
+      <VPIconSmoothScrollOn :check="screen" class="no-preference" />
+    </VPSwitch>
+  </label>
 </template>
 
 <style scoped>
