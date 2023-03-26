@@ -1,12 +1,12 @@
 # 构建时数据加载 {#build-time-data-loading}
 
-VitePress provides a feature called **data loaders** that allows you to load arbitrary data and import it from pages or components. The data loading is executed **only at build time**: the resulting data will be serialized as JSON in the final JavaScript bundle.
+VitePress 提供了一个叫做**数据加载器**的功能，它允许你加载任意数据并从页面或组件中导入它。数据加载**只在构建时**执行：最终的数据将被序列化为 JavaScript 包中的 JSON。
 
-Data loaders can be used to fetch remote data, or generate metadata based on local files. For example, you can use data loaders to parse all your local API pages and automatically generate an index of all API entries.
+数据加载器可以被用于获取远程数据，也可以基于本地文件生成元数据。例如，你可以使用数据加载器来解析所有本地 API 页面并自动生成所有 API 入口的索引。
 
 ## 基本用法 {#basic-usage}
 
-A data loader file must end with either `.data.js` or `.data.ts`. The file should provide a default export of an object with the `load()` method:
+一个数据加载器文件必须以 `.data.js` 或 `.data.ts` 结尾。该文件应该提供一个默认导出的对象，该对象具有 `load()` 方法：
 
 ```js
 // example.data.js
@@ -19,9 +19,9 @@ export default {
 }
 ```
 
-The loader module is evaluated only in Node.js, so you can import Node APIs and npm dependencies as needed.
+数据加载器模块只在 Node.js 中执行，因此你可以按需导入 Node API 和 npm 依赖。
 
-You can then import data from this file in `.md` pages and `.vue` components using the `data` named export:
+然后，你可以在 `.md` 页面和 `.vue` 组件中使用 `data` 命名导出从该文件中导入数据：
 
 ```html
 <script setup>
@@ -31,7 +31,7 @@ import { data } from './example.data.js'
 <pre>{{ data }}</pre>
 ```
 
-Output:
+输出:
 
 ```json
 {
@@ -39,9 +39,9 @@ Output:
 }
 ```
 
-You'll notice the data loader itself does not export the `data`. It is VitePress calling the `load()` method behind the scenes and implicitly exposing the result via the `data` named export.
+你会注意到数据加载器本身并没有导出 `data`。这是因为 VitePress 在后台调用了 `load()` 方法，并通过名为 `data` 的命名导出隐式地暴露了结果。
 
-This works even if the loader is async:
+即使 loader 是异步的，这也是有效的：
 
 ```js
 export default {
@@ -54,11 +54,11 @@ export default {
 
 ## 使用本地文件生成数据 {#data-from-local-files}
 
-When you need to generate data based on local files, you should use the `watch` option in the data loader so that changes made to these files can trigger hot updates.
+当你需要基于本地文件生成数据时，你应该在数据加载器中使用 `watch` 选项，以便这些文件改动时可以触发热更新。
 
-The `watch` option is also convenient in that you can use [glob patterns](https://github.com/mrmlnc/fast-glob#pattern-syntax) to match multiple files. The patterns can be relative to the loader file itself, and the `load()` function will receive the matched files as absolute paths.
+`watch` 选项也很方便，因为你可以使用 [glob 模式](https://github.com/mrmlnc/fast-glob#pattern-syntax) 匹配多个文件。模式可以相对于加载器文件本身，`load()` 函数将接收匹配文件的绝对路径。
 
-The following example shows loading CSV files and transforming them into JSON using [csv-parse](https://github.com/adaltas/node-csv/tree/master/packages/csv-parse/). Because this file only executes at build time, you will not be shipping the CSV parser to the client!
+下面的例子展示了如何使用 [csv-parse](https://github.com/adaltas/node-csv/tree/master/packages/csv-parse/) 加载 CSV 文件并将其转换为 JSON。因为此文件仅在构建时执行，因此不会将 CSV 解析器发送到客户端！
 
 ```js
 import fs from 'node:fs'
@@ -82,7 +82,7 @@ export default {
 
 ## `createContentLoader`
 
-When building a content focused site, we often need to create an "archive" or "index" page: a page where we list all available entries in our content collection, for example blog posts or API pages. We **can** implement this directly with the data loader API, but since this is such a common use case, VitePress also provides a `createContentLoader` helper to simplify this:
+当构建一个内容为主的网站时，我们经常需要创建一个“档案”或“索引”页面：一个我们可以列出内容中的所有可用条目的页面，例如博客文章或 API 页面。我们**可以**直接使用数据加载器 API 实现这一点，但由于这是一个常见的用例，VitePress 还提供了一个 `createContentLoader` 辅助函数来简化这个过程：
 
 ```js
 // posts.data.js
@@ -91,11 +91,11 @@ import { createContentLoader } from 'vitepress'
 export default createContentLoader('posts/*.md', /* options */)
 ```
 
-The helper takes a glob pattern relative to [project root](./routing#project-root), and returns a `{ watch, load }` data loader object that can be used as the default export in a data loader file. It also implements caching based on file modified timestamps to improve dev performance.
+该辅助函数接受一个相对于 [项目根目录](./routing#project-root) 的 glob 模式，并返回一个 `{ watch, load }` 数据加载器对象，该对象可以用作数据加载器文件中的默认导出。它还基于文件修改时间戳实现了缓存以提高开发性能。
 
-Note the loader only works with Markdown files - matched non-Markdown files will be skipped.
+请注意，加载器仅适用于 Markdown 文件 - 匹配的非 Markdown 文件将被跳过。
 
-The loaded data will be an array with the type of `ContentData[]`:
+加载的数据将是一个类型为 `ContentData[]` 数组：
 
 ```ts
 interface ContentData {
@@ -112,7 +112,7 @@ interface ContentData {
 }
 ```
 
-By default, only `url` and `frontmatter` are provided. This is because the loaded data will be inlined as JSON in the client bundle, so we need to be cautious about its size. Here's an example using the data to build a minimal blog index page:
+默认情况下只提供 `url` 和 `frontmatter`。这是因为加载的数据将作为 JSON 内联在客户端包中，我们需要谨慎考虑其大小。下面的例子展示了如何使用数据构建最小博客索引页面：
 
 ```vue
 <script setup>
@@ -132,7 +132,7 @@ import { data as posts } from './posts.data.js'
 
 ### Options {#options}
 
-The default data may not suit all needs - you can opt-in to transform the data using options:
+默认数据可能不适合所有需求 - 你可以选择使用选项转换数据：
 
 ```js
 // posts.data.js
@@ -157,9 +157,9 @@ export default createContentLoader('posts/*.md', {
 })
 ```
 
-Check out how it is used in the [Vue.js blog](https://github.com/vuejs/blog/blob/main/.vitepress/theme/posts.data.ts).
+查看它在 [Vue.js 博客](https://github.com/vuejs/blog/blob/main/.vitepress/theme/posts.data.ts) 中是如何使用的。
 
-The `createContentLoader` API can also be used inside [build hooks](/reference/site-config#build-hooks):
+`createContentLoader` API 也可以在 [构建钩子](/reference/site-config#build-hooks) 中使用：
 
 ```js
 // .vitepress/config.js
@@ -173,7 +173,7 @@ export default {
 
 ## Typed Data Loaders {#typed-data-loaders}
 
-When using TypeScript, you can type your loader and `data` export like so:
+当使用 TypeScript 时，你可以像这样为加载器和 `data` 导出类型：
 
 ```ts
 import { defineLoader } from 'vitepress'
