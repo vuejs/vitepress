@@ -157,7 +157,7 @@ export default {
 }
 ```
 
- 默认主题布局的全部可用插槽如下：
+默认主题布局的全部可用插槽如下：
 
 - 当 `layout: 'doc'` (默认) 在 frontmatter 中被启用时：
   - `doc-footer-before`
