@@ -208,8 +208,14 @@ export namespace DefaultTheme {
      * Pattern for edit link.
      *
      * @example 'https://github.com/vuejs/vitepress/edit/main/docs/:path'
+     * @example ({ relativeFilePath }) => { ... }
      */
-    pattern: string | ((payload: { relativePath: string }) => string)
+    pattern:
+      | string
+      | ((payload: {
+          relativeFilePath: string
+          relativePath: string
+        }) => string)
 
     /**
      * Custom text for edit link.
