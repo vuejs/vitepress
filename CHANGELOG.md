@@ -1,3 +1,16 @@
+# [1.0.0-alpha.62](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.61...v1.0.0-alpha.62) (2023-03-25)
+
+
+### Bug Fixes
+
+* make md includes work with rewrites ([#1898](https://github.com/vuejs/vitepress/issues/1898)) ([3553f01](https://github.com/vuejs/vitepress/commit/3553f015a9138cb935d57487755d9d5717f79ae3))
+* **theme:** don't show outline when no header is there ([#2117](https://github.com/vuejs/vitepress/issues/2117)) ([42a0ef2](https://github.com/vuejs/vitepress/commit/42a0ef21c17da20c8f22565807578a05a0461df6))
+* **theme:** fix aside position when footer is there ([#2115](https://github.com/vuejs/vitepress/issues/2115)) ([aecdeb9](https://github.com/vuejs/vitepress/commit/aecdeb9b216803f407fe3b48574bf7664262ef01))
+* **theme:** properly align not found icon in algolia ([#2116](https://github.com/vuejs/vitepress/issues/2116)) ([83ce1b8](https://github.com/vuejs/vitepress/commit/83ce1b8c5e95d2e29e733d9312f514d725fe7f0b))
+* **theme:** use locale lang instead of navigator lang for last updated ([#2118](https://github.com/vuejs/vitepress/issues/2118)) ([56a7d9a](https://github.com/vuejs/vitepress/commit/56a7d9aa74bbb1d945c6ca3a3573b5e49ba3ca65))
+
+
+
 # [1.0.0-alpha.61](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.60...v1.0.0-alpha.61) (2023-03-20)
 
 
