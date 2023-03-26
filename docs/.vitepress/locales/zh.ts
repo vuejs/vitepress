@@ -108,7 +108,7 @@ function sidebarGuide() {
           link: '/zh/guide/extending-default-theme'
         },
         { text: '构建时数据加载', link: '/zh/guide/data-loading' },
-        { text: 'SSR 兼容性', link: '/guide/ssr-compat' },
+        { text: 'SSR 兼容性', link: '/zh/guide/ssr-compat' },
         { text: '连接 CMS', link: '/zh/guide/cms' }
       ]
     },
