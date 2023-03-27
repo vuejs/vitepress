@@ -200,5 +200,6 @@ To get the configuration information inside a loader, use the following code:
 
 ```ts
 import type { SiteConfig } from 'vitepress'
-const config: SiteConfig = (global as any).VITEPRESS_CONFIG
+
+const config: SiteConfig = (globalThis as any).VITEPRESS_CONFIG
 ```
