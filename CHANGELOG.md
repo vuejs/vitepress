@@ -1,3 +1,18 @@
+# [1.0.0-alpha.63](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.62...v1.0.0-alpha.63) (2023-03-26)
+
+
+### Bug Fixes
+
+* **theme:** allow adding html as feature icons ([e5bc1e1](https://github.com/vuejs/vitepress/commit/e5bc1e10862a765f6790f5f08aa2bd76bb258532))
+* **theme:** remove label background of code-group tabs ([#2136](https://github.com/vuejs/vitepress/issues/2136)) ([eac03f2](https://github.com/vuejs/vitepress/commit/eac03f26e2d3ab47158ac2528210e95460f6c302))
+
+
+### Features
+
+* more flexible `ignoreDeadLinks` ([#2135](https://github.com/vuejs/vitepress/issues/2135)) ([3235c23](https://github.com/vuejs/vitepress/commit/3235c23313d81f8f95b91779a48db839c02aa952))
+
+
+
 # [1.0.0-alpha.62](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.61...v1.0.0-alpha.62) (2023-03-25)
 
 

@@ -1,9 +1,9 @@
 {
   "name": "vitepress",
-  "version": "1.0.0-alpha.62",
+  "version": "1.0.0-alpha.63",
   "description": "Vite & Vue powered static site generator",
   "type": "module",
-  "packageManager": "pnpm@7.30.0",
+  "packageManager": "pnpm@7.30.3",
   "main": "dist/node/index.js",
   "types": "types/index.d.ts",
   "exports": {

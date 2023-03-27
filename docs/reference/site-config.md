@@ -282,14 +282,35 @@ export default {
 
 ### ignoreDeadLinks
 
-- Type: `boolean | 'localhostLinks'`
+- Type: `boolean | 'localhostLinks' | (string | RegExp | ((link: string) => boolean))[]`
 - Default: `false`
 
-When set to `true`, VitePress will not fail builds due to dead links. When set to `'localhostLinks'`, the build will fail on dead links, but won't check `localhost` links.
+When set to `true`, VitePress will not fail builds due to dead links.
+
+When set to `'localhostLinks'`, the build will fail on dead links, but won't check `localhost` links.
 
 ```ts
 export default {
   ignoreDeadLinks: true
+}
+```
+
+It can also be an array of extact url string, regex patterns, or custom filter functions. 
+
+```ts
+export default {
+  ignoreDeadLinks: [
+    // ignore exact url "/playground"
+    '/playground',
+    // ignore all localhost links
+    /^https?:\/\/localhost/,
+    // ignore all links include "/repl/""
+    /\/repl\//,
+    // custom function, ignore all links include "ignore"
+    (url) => {
+      return url.toLowerCase().includes('ignore')
+    }
+  ]
 }
 ```
 
