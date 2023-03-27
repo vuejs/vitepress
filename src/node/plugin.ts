@@ -70,7 +70,6 @@ export async function createVitePressPlugin(
     vue: userVuePluginOptions,
     vite: userViteConfig,
     pages,
-    ignoreDeadLinks,
     lastUpdated,
     cleanUrls
   } = siteConfig
@@ -195,7 +194,7 @@ export async function createVitePressPlugin(
     },
 
     renderStart() {
-      if (hasDeadLinks && !ignoreDeadLinks) {
+      if (hasDeadLinks) {
         throw new Error(`One or more pages contain dead links.`)
       }
     },
