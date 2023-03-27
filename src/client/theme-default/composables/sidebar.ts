@@ -50,8 +50,10 @@ export function useSidebar() {
   })
 
   const leftAside = computed(() => {
-    if (hasAside && frontmatter.value.aside != null)
-      return frontmatter.value.aside === 'left'
+    if (hasAside)
+      return frontmatter.value.aside == null
+        ? theme.value.aside === 'left'
+        : frontmatter.value.aside === 'left'
     return false
   })
 
