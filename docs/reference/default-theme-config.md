@@ -170,8 +170,8 @@ export type SidebarItem = {
 - Default: `true`
 - Can be overridden per page via [frontmatter](./frontmatter-config#aside)
 
-Setting this value to `false` prevents rendering of aside container.
-Setting this value to `true` renders the aside to the right.
+Setting this value to `false` prevents rendering of aside container.\
+Setting this value to `true` renders the aside to the right.\
 Setting this value to `left` renders the aside to the left.
 
 ## outline
