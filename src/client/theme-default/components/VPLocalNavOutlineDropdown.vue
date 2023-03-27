@@ -121,7 +121,7 @@ onContentUpdated(() => {
   border: 1px solid var(--vp-c-divider);
   border-radius: 8px;
   max-height: calc(var(--vp-vh, 100vh) - 86px);
-  overflow: scroll;
+  overflow: hidden auto;
   box-shadow: var(--vp-shadow-3);
 }
 
