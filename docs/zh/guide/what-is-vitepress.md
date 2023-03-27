@@ -26,9 +26,9 @@ VitePress 是一个[静态站点生成器](https://en.wikipedia.org/wiki/Static_
 
 VitePress 旨在使用 Markdown 生成内容时提供出色的开发体验。
 
-- **[Vite 驱动：](https://cn.vitejs.dev/)**即时服务器启动，始终立即反映（<100ms）编辑变化，无需重新加载页面。
+- **[Vite 驱动：](https://cn.vitejs.dev/)** 即时服务器启动，始终立即反映（<100ms）编辑变化，无需重新加载页面。
 
-- **[内置 Markdown 扩展：](./markdown)** FrontmatterFrontmatter、表格、语法高亮……应有尽有。具体来说，VitePress 提供了许多用于处理代码块的高级功能，使其真正成为技术文档的理想选择。
+- **[内置 Markdown 扩展：](./markdown)** Frontmatter、表格、语法高亮……应有尽有。具体来说，VitePress 提供了许多用于处理代码块的高级功能，使其真正成为技术文档的理想选择。
 
 - **[Vue 增强的 Markdown：](./using-vue)** 每个 Markdown 页面都是 Vue [单文件组件](https://cn.vuejs.org/guide/scaling-up/sfc.html)，这要归功于 Vue 模板与 HTML 的 100% 语法兼容性。可以使用 Vue 模板语法或导入的 Vue 组件在静态内容中嵌入交互性。
 
