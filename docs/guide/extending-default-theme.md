@@ -160,8 +160,8 @@ export default {
 Full list of slots available in the default theme layout:
 
 - When `layout: 'doc'` (default) is enabled via frontmatter:
-  - `content-before`
-  - `content-after`
+  - `doc-top`
+  - `doc-bottom`
   - `doc-footer-before`
   - `doc-before`
   - `doc-after`
@@ -181,8 +181,8 @@ Full list of slots available in the default theme layout:
   - `home-features-before`
   - `home-features-after`
 - When `layout: 'page'` is enabled via frontmatter:
-  - `content-before`
-  - `content-after`
+  - `page-top`
+  - `page-bottom`
 - On not found (404) page:
   - `not-found`
 - Always:

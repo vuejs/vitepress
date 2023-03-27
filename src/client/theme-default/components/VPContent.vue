@@ -22,8 +22,8 @@ const { hasSidebar } = useSidebar()
     <slot name="not-found" v-if="page.isNotFound"><NotFound /></slot>
 
     <VPPage v-else-if="frontmatter.layout === 'page'">
-      <template #content-before><slot name="content-before" /></template>
-      <template #content-after><slot name="content-after" /></template>
+      <template #page-top><slot name="page-top" /></template>
+      <template #page-bottom><slot name="page-bottom" /></template>
     </VPPage>
 
     <VPHome v-else-if="frontmatter.layout === 'home'">
@@ -36,8 +36,8 @@ const { hasSidebar } = useSidebar()
     </VPHome>
 
     <VPDoc v-else>
-      <template #content-before><slot name="content-before" /></template>
-      <template #content-after><slot name="content-after" /></template>
+      <template #doc-top><slot name="doc-top" /></template>
+      <template #doc-bottom><slot name="doc-bottom" /></template>
 
       <template #doc-footer-before><slot name="doc-footer-before" /></template>
       <template #doc-before><slot name="doc-before" /></template>

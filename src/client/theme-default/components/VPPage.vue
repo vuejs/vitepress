@@ -1,7 +1,7 @@
 <template>
   <div class="VPPage">
-    <slot name="content-before" />
+    <slot name="page-top" />
     <Content />
-    <slot name="content-after" />
+    <slot name="page-bottom" />
   </div>
 </template>
