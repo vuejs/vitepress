@@ -71,7 +71,6 @@ provide('hero-image-slot-exists', heroImageSlotExists)
       <template #doc-top><slot name="doc-top" /></template>
       <template #doc-bottom><slot name="doc-bottom" /></template>
 
-
       <template #aside-top><slot name="aside-top" /></template>
       <template #aside-bottom><slot name="aside-bottom" /></template>
       <template #aside-outline-before><slot name="aside-outline-before" /></template>
