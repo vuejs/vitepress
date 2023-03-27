@@ -42,7 +42,8 @@ export namespace DefaultTheme {
 
     /**
      * Set to `false` to prevent rendering of aside container.
-     * Set to `left` to move aside to left of content.
+     * Set to `true` to render the aside to the right.
+     * Set to `left` to render the aside to the left.
      *
      * @default true
      */
