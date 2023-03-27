@@ -42,10 +42,12 @@ export namespace DefaultTheme {
 
     /**
      * Set to `false` to prevent rendering of aside container.
+     * Set to `true` to render the aside to the right.
+     * Set to `left` to render the aside to the left.
      *
      * @default true
      */
-    aside?: boolean
+    aside?: boolean | 'left'
 
     /**
      * Info for the edit link. If it's undefined, the edit link feature will
