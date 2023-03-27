@@ -171,7 +171,7 @@ export default {
 }
 ```
 
-## Typed Data Loaders {#typed-data-loaders}
+## 为数据加载器导出类型 {#typed-data-loaders}
 
 当使用 TypeScript 时，你可以像这样为加载器和 `data` 导出类型：
 
