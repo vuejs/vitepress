@@ -46,7 +46,7 @@ export namespace DefaultTheme {
      *
      * @default true
      */
-    aside?: boolean | string
+    aside?: boolean | 'left'
 
     /**
      * Info for the edit link. If it's undefined, the edit link feature will
