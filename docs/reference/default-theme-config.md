@@ -166,7 +166,7 @@ export type SidebarItem = {
 
 ## aside
 
-- Type: `boolean | string`
+- Type: `boolean | 'left'`
 - Default: `true`
 - Can be overridden per page via [frontmatter](./frontmatter-config#aside)
 
