@@ -19,6 +19,7 @@ const pageName = computed(() =>
     class="VPDoc"
     :class="{ 'has-sidebar': hasSidebar, 'has-aside': hasAside }"
   >
+    <slot name="doc-top" />
     <div class="container">
       <div v-if="hasAside" class="aside">
         <div class="aside-curtain" />
@@ -50,6 +51,7 @@ const pageName = computed(() =>
         </div>
       </div>
     </div>
+    <slot name="doc-bottom" />
   </div>
 </template>
 
@@ -130,7 +132,7 @@ const pageName = computed(() =>
 .aside-container {
   position: fixed;
   top: 0;
-  padding-top: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 32px);
+  padding-top: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + var(--vp-doc-top-height, 0px) + 32px);
   width: 224px;
   height: 100vh;
   overflow-x: hidden;
