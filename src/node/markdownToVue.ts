@@ -187,7 +187,7 @@ export async function createMarkdownToVueRenderFn(
     }
 
     if (includeLastUpdatedData) {
-      pageData.lastUpdated = await getGitTimestamp(file)
+      pageData.lastUpdated = await getGitTimestamp(fileOrig)
     }
 
     if (siteConfig?.transformPageData) {
