@@ -7,6 +7,7 @@ import { siteDataRef } from './data'
 
 export interface Route {
   path: string
+  hash: string
   data: PageData
   component: Component | null
 }
@@ -26,6 +27,7 @@ const fakeHost = `http://a.com`
 
 const getDefaultRoute = (): Route => ({
   path: '/',
+  hash: '',
   component: null,
   data: notFoundPageData
 })
@@ -146,6 +148,8 @@ export function createRouter(
   }
 
   if (inBrowser) {
+    route.hash = location.hash
+
     window.addEventListener(
       'click',
       (e) => {
@@ -209,6 +213,7 @@ export function createRouter(
 
     window.addEventListener('hashchange', (e) => {
       e.preventDefault()
+      route.hash = location.hash
     })
   }
 

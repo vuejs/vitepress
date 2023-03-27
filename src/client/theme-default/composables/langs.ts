@@ -1,4 +1,5 @@
 import { computed } from 'vue'
+import { useRoute } from 'vitepress'
 import { useData } from './data'
 import { ensureStartingSlash } from '../support/utils'
 
@@ -6,6 +7,7 @@ export function useLangs({
   removeCurrent = true,
   correspondingLink = false
 } = {}) {
+  const route = useRoute()
   const { site, localeIndex, page, theme } = useData()
   const currentLang = computed(() => ({
     label: site.value.locales[localeIndex.value]?.label,
@@ -23,7 +25,8 @@ export function useLangs({
             link: normalizeLink(
               value.link || (key === 'root' ? '/' : `/${key}/`),
               theme.value.i18nRouting !== false && correspondingLink,
-              page.value.relativePath.slice(currentLang.value.link.length - 1),
+              page.value.relativePath.slice(currentLang.value.link.length - 1) +
+                route.hash,
               !site.value.cleanUrls
             )
           }
