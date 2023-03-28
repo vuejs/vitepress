@@ -98,9 +98,11 @@ export async function offlineSearchPlugin(
   }
 
   function getDocId(file: string) {
-    let id = file.replace(siteConfig.srcDir, siteConfig.userConfig.base ?? '')
-    id = id.replace(/\.md$/, siteConfig.cleanUrls ? '' : '.html')
-    return id
+    let relFile = path.relative(siteConfig.srcDir, file)
+    relFile = siteConfig.rewrites.map[relFile] || relFile
+    let id = path.join(siteConfig.userConfig.base ?? "", relFile);
+    id = id.replace(/\.md$/, siteConfig.cleanUrls ? "" : ".html");
+    return id;
   }
 
   async function indexAllFiles(files: string[]) {
