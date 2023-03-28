@@ -100,9 +100,9 @@ export async function offlineSearchPlugin(
   function getDocId(file: string) {
     let relFile = path.relative(siteConfig.srcDir, file)
     relFile = siteConfig.rewrites.map[relFile] || relFile
-    let id = path.join(siteConfig.userConfig.base ?? "", relFile);
-    id = id.replace(/\.md$/, siteConfig.cleanUrls ? "" : ".html");
-    return id;
+    let id = path.join(siteConfig.userConfig.base ?? '', relFile)
+    id = id.replace(/\.md$/, siteConfig.cleanUrls ? '' : '.html')
+    return id
   }
 
   async function indexAllFiles(files: string[]) {
