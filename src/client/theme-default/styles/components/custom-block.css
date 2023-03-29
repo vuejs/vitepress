@@ -13,6 +13,10 @@
   background-color: var(--vp-custom-block-info-bg);
 }
 
+.custom-block.info th {
+  color: var(--vp-custom-block-info-text);
+}
+
 .custom-block.info code {
   background-color: var(--vp-custom-block-info-code-bg);
 }
@@ -21,6 +25,10 @@
   border-color: var(--vp-custom-block-tip-border);
   color: var(--vp-custom-block-tip-text);
   background-color: var(--vp-custom-block-tip-bg);
+}
+
+.custom-block.tip th {
+  color: var(--vp-custom-block-tip-text);
 }
 
 .custom-block.tip code {
@@ -33,6 +41,10 @@
   background-color: var(--vp-custom-block-warning-bg);
 }
 
+.custom-block.warning th {
+  color: var(--vp-custom-block-warning-text);
+}
+
 .custom-block.warning code {
   background-color: var(--vp-custom-block-warning-code-bg);
 }
@@ -43,6 +55,10 @@
   background-color: var(--vp-custom-block-danger-bg);
 }
 
+.custom-block.danger th {
+  color: var(--vp-custom-block-danger-text);
+}
+
 .custom-block.danger code {
   background-color: var(--vp-custom-block-danger-code-bg);
 }
@@ -51,6 +67,10 @@
   border-color: var(--vp-custom-block-details-border);
   color: var(--vp-custom-block-details-text);
   background-color: var(--vp-custom-block-details-bg);
+}
+
+.custom-block.details th {
+  color: var(--vp-custom-block-details-text);
 }
 
 .custom-block.details code {
