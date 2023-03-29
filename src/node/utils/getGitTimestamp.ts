@@ -1,5 +1,5 @@
 import { spawn } from 'cross-spawn'
-import { basename, dirname } from 'node:path'
+import { basename, dirname } from 'path'
 
 export function getGitTimestamp(file: string) {
   return new Promise<number>((resolve, reject) => {
