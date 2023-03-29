@@ -552,18 +552,18 @@ export default {
 
 ### transformPageData
 
-- Type: `(pageData: PageData) => Awaitable<Partial<PageData> | { [key: string]: any } | void>`
+- Type: `(pageData: PageData, siteConfig: SiteConfig) => Awaitable<Partial<PageData> | { [key: string]: any } | void>`
 
 `transformPageData` is a hook to transform the `pageData` of each page. You can directly mutate `pageData` or return changed values which will be merged into PageData.
 
 ```ts
 export default {
-  async transformPageData(pageData) {
+  async transformPageData(pageData, siteConfig) {
     pageData.contributors = await getPageContributors(pageData.relativePath)
   }
 
   // or return data to be merged
-  async transformPageData(pageData) {
+  async transformPageData(pageData, siteConfig) {
     return {
       contributors: await getPageContributors(pageData.relativePath)
     }
