@@ -14,6 +14,7 @@ export default defineConfig({
 
   head: [
     ['meta', { name: 'theme-color', content: '#3c8772' }],
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: 'https://cn.vitejs.dev/logo.svg' }],
     [
       'script',
       {
