@@ -145,8 +145,13 @@ export interface UserConfig<ThemeConfig = any>
    * PageData transform hook: runs when rendering markdown to vue
    */
   transformPageData?: (
-    pageData: PageData
+    pageData: PageData,
+    ctx: TransformPageContext
   ) => Awaitable<Partial<PageData> | { [key: string]: any } | void>
+}
+
+export interface TransformPageContext {
+  siteConfig: SiteConfig
 }
 
 export interface TransformContext {
