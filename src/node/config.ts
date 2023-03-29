@@ -146,8 +146,12 @@ export interface UserConfig<ThemeConfig = any>
    */
   transformPageData?: (
     pageData: PageData,
-    siteConfig: SiteConfig
+    ctx: TransformPageContext
   ) => Awaitable<Partial<PageData> | { [key: string]: any } | void>
+}
+
+export interface TransformPageContext {
+  siteConfig: SiteConfig
 }
 
 export interface TransformContext {
