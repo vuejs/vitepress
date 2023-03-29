@@ -115,6 +115,19 @@
   font-weight: 600;
 }
 
+.vp-doc .color-swatch {
+  display: inline-block;
+  width: 0.85em;
+  height: 0.85em;
+  min-width: 12px;
+  min-height: 12px;
+  font-size: inherit;
+  border: 0;
+  border-radius: 2px;
+  margin: 0 3px 0 6px;
+  cursor: pointer;
+}
+
 /**
  * Lists
  * -------------------------------------------------------------------------- */

@@ -25,6 +25,7 @@ import { lineNumberPlugin } from './plugins/lineNumbers'
 import { linkPlugin } from './plugins/link'
 import { preWrapperPlugin } from './plugins/preWrapper'
 import { snippetPlugin } from './plugins/snippet'
+import { colorPreviewPlugin } from './plugins/colorPreview'
 
 export type { Header } from '../shared'
 
@@ -89,6 +90,7 @@ export const createMarkdownRenderer = async (
       base
     )
     .use(lineNumberPlugin, options.lineNumbers)
+    .use(colorPreviewPlugin)
 
   // 3rd party plugins
   if (!options.attrs?.disable) {
