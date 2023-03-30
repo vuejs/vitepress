@@ -1,6 +1,6 @@
 backend:
   name: github
-  branch: ashley1985/archive
+  branch: Ashley1985/archive
 
 media_folder: "docs/public/media" # The folder where uploaded media files will be stored
 public_folder: "public/media" # The public URL for accessing uploaded media files
