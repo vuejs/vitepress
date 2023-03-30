@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: tsutoringo/VitePress-with-Netlify-CMS
+  repo: Ashley1985/vitepress
 media_folder: "docs/public/media"
 public_folder: "/media"
 publish_mode: editorial_workflow
