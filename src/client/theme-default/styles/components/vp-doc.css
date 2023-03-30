@@ -427,8 +427,6 @@
   right: 12px;
   z-index: 3;
   display: block;
-  justify-content: center;
-  align-items: center;
   border: 1px solid var(--vp-code-copy-code-border-color);
   border-radius: 4px;
   width: 40px;
