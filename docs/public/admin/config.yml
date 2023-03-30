@@ -1,0 +1,52 @@
+backend:
+  name: github
+  repo: tsutoringo/VitePress-with-Netlify-CMS
+media_folder: "docs/public/media"
+public_folder: "/media"
+publish_mode: editorial_workflow
+collections:
+  - label: "Home"
+    name: "home"
+    files:
+      - label: "Homepage"
+        name: "homepage"
+        file: "docs/index.md"
+        delete: false
+        fields:
+          - { label: "Home", name: "home", widget: "hidden", default: true }
+          - {
+              label: "Hero image",
+              name: "heroImage",
+              widget: "image",
+              required: false,
+            }
+          - { label: "Hero text", name: "heroText", widget: "string" }
+          - {
+              label: "Tagline",
+              name: "tagline",
+              widget: "string",
+              required: false,
+            }
+          - { label: "Action text", name: "actionText", widget: "string" }
+          - { label: "Action link", name: "actionLink", widget: "string" }
+          - label: Features
+            name: features
+            widget: list
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Details", name: "details", widget: "string" }
+          - {
+              label: "Footer",
+              name: "footer",
+              widget: "string",
+              required: false,
+            }
+          - { label: "Body", name: body, widget: markdown, required: false }
+  - label: "Post"
+    name: "posts"
+    folder: "docs/post"
+    create: true
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Meta description", name: "description", widget: "string" }
+      - { label: "Body", name: "body", widget: "markdown" }
