@@ -22,8 +22,7 @@ export const colorPreviewPlugin = (md: MarkdownIt) => {
 
   md.renderer.rules.text = (tokens, idx) => {
     let text = tokens[idx].content
-    text = text.replace(COLOR_REGEX, replaceColor)
-
-    return text
+    text = md.utils.escapeHtml(text)
+    return text.replace(COLOR_REGEX, replaceColor)
   }
 }
