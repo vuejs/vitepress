@@ -426,7 +426,6 @@
   /*rtl:ignore*/
   right: 12px;
   z-index: 3;
-  display: block;
   border: 1px solid var(--vp-code-copy-code-border-color);
   border-radius: 4px;
   width: 40px;
