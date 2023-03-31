@@ -23,7 +23,7 @@ defineProps<{
         :height="icon.height"
         :width="icon.width"
       />
-      <div v-else-if="icon" class="icon">{{ icon }}</div>
+      <div v-else-if="icon" class="icon" v-html="icon"></div>
       <h2 class="title" v-html="title"></h2>
       <p v-if="details" class="details" v-html="details"></p>
 
