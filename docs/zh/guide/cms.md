@@ -6,7 +6,7 @@ outline: deep
 
 ## 一般的工作流 {#general-workflow}
 
-将 VitePress 连接到 CMS 主要围绕 [动态路由](./zh/routing#dynamic-routes) 而展开。在继续之前，请确保了解它的工作原理。
+将 VitePress 连接到 CMS 主要围绕 [动态路由](./routing#dynamic-routes) 而展开。在继续之前，请确保了解它的工作原理。
 
 由于每个 CMS 的工作方式都不同，因此我们只能提供一个通用的工作流程，你需要根据具体情况进行调整。
 
