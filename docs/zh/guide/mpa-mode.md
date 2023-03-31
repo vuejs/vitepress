@@ -1,12 +1,12 @@
 # MPA 模式 <Badge type="warning" text="experimental" /> {#mpa-mode}
 
-MPA (Multi-Page Application) mode can be enabled via the command line via `vitepress build --mpa`, or via config through the `mpa: true` option.
+可以通过命令行输入 `vitepress build --mpa` 或在配置文件中指定 `mpa: true` 配置选项来启用 MPA (Multi-Page Application) 模式。
 
-In MPA mode, all pages are rendered without any JavaScript included by default. As a result, the production site will likely have a better initial visit performance score from audit tools.
+在 MPA 模式下，所有页面都会默认不包含任何 JavaScript。因此，站点可能评估工具中获得更好的初始访问性能分数。
 
-However, due to the absence of SPA navigation, cross-page links will lead to full page reloads. Post-load navigations in MPA mode will not feel as instant as in SPA mode.
+但是，由于 SPA 导航的缺失，跨页面链接将导致重新加载整个页面。MPA 模式下的导航不会像 SPA 模式那样立即响应。
 
-Also note that no-JS-by-default means you are essentially using Vue purely as a server-side templating language. No event handlers will be attached in the browser, so there will be no interactivity. To load client-side JavaScript, you will need to use the special `<script client>` tag:
+同时请注意，默认情况下不使用 JavaScript 意味着你实际上只是将 Vue 作为服务器端模板语言。浏览器不会附加任何事件处理程序，因此将不会有任何交互性。要加载客户端 JavaScript，你需要使用特殊的 `<script client>` 标签：
 
 ```html
 <script client>
@@ -20,4 +20,6 @@ document.querySelector('h1').addEventListener('click', () => {
 
 `<script client>` is a VitePress-only feature, not a Vue feature. It works in both `.md` and `.vue` files, but only in MPA mode. Client scripts in all theme components will be bundled together, while client script for a specific page will be split for that page only.
 
-Note that `<script client>` is **not evaluated as Vue component code**: it's processed as a plain JavaScript module. For this reason, MPA mode should only be used if your site requires absolutely minimal client-side interactivity.
+`<script client>` 是 VitePress 独有的功能，而不是 Vue 的功能。它可以在 `.md` 和 `.vue` 文件中使用，但只能在 MPA 模式下使用。所有主题组件中的客户端脚本将被打包在一起，而特定页面的客户端脚本将会分开处理。
+
+请注意，`<script client>` **不会被视为 Vue 组件代码**：它会看做普通的 JavaScript 模块来处理。因此，只有在你的站点需要绝对最小的客户端交互性时，才应该使用 MPA 模式。
