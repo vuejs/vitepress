@@ -13,7 +13,8 @@
   background-color: var(--vp-custom-block-info-bg);
 }
 
-.custom-block.info th {
+.custom-block.info th,
+.custom-block.info blockquote > p {
   color: var(--vp-custom-block-info-text);
 }
 
@@ -27,7 +28,8 @@
   background-color: var(--vp-custom-block-tip-bg);
 }
 
-.custom-block.tip th {
+.custom-block.tip th,
+.custom-block.tip blockquote > p {
   color: var(--vp-custom-block-tip-text);
 }
 
@@ -41,7 +43,8 @@
   background-color: var(--vp-custom-block-warning-bg);
 }
 
-.custom-block.warning th {
+.custom-block.warning th,
+.custom-block.warning blockquote > p {
   color: var(--vp-custom-block-warning-text);
 }
 
@@ -55,7 +58,8 @@
   background-color: var(--vp-custom-block-danger-bg);
 }
 
-.custom-block.danger th {
+.custom-block.danger th,
+.custom-block.danger blockquote > p {
   color: var(--vp-custom-block-danger-text);
 }
 
@@ -69,7 +73,8 @@
   background-color: var(--vp-custom-block-details-bg);
 }
 
-.custom-block.details th {
+.custom-block.details th,
+.custom-block.details blockquote > p {
   color: var(--vp-custom-block-details-text);
 }
 
