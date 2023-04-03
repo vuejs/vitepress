@@ -343,7 +343,7 @@ This option injects an inline script that restores users settings from local sto
 
 Whether to get the last updated timestamp for each page using Git. The timestamp will be included in each page's page data, accessible via [`useData`](./runtime-api#usedata).
 
-When using the default theme, enabling this option will display each page's last updated time. You can customize the text via [`themeConfig.lastUpdatedText`](./default-theme-config#lastupdatedtext) option.
+When using the default theme, enabling this option will display each page's last updated time. You can customize the text via [`themeConfig.lastUpdatedText`](./default-theme-config#lastupdatedtext) option and the format via [`themeConfig.lastUpdatedFormat`](./default-theme-config#lastupdatedformat) option.
 
 ## Customization
 
