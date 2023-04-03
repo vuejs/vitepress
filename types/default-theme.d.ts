@@ -63,6 +63,13 @@ export namespace DefaultTheme {
     lastUpdatedText?: string
 
     /**
+     * Set custom last updated data format.
+     *
+     * @default 'Last updated'
+     */
+    lastUpdatedFormat?: string
+
+    /**
      * Set custom prev/next labels.
      */
     docFooter?: DocFooter
