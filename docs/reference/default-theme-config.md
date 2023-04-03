@@ -304,6 +304,21 @@ export default {
 }
 ```
 
+## lastUpdatedFormat
+
+- Type: `string`
+- Default: `null`
+
+The string to be applied to format last updated time using [VueUse/useDateFormat](https://vueuse.org/shared/useDateFormat/).
+
+```ts
+export default {
+  themeConfig: {
+    latdUpdatedFormat: 'DD/MM/YYYY HH:mm:ss'
+  }
+}
+```
+
 ## algolia
 
 - Type: `AlgoliaSearch`
