@@ -166,4 +166,8 @@ if (!__ALGOLIA__ && theme.value.offlineSearch) {
 .dark .DocSearch-Form {
   background-color: var(--vp-c-bg-soft-mute);
 }
+
+.DocSearch-Screen-Icon > svg {
+  margin: auto;
+}
 </style>

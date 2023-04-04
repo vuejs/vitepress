@@ -25,15 +25,6 @@ export default defineConfig({
     ]
   ],
 
-  transformHead({ page }) {
-    if (page === 'index.md') {
-      return [
-        ['link', { rel: 'preload', as: 'image', href: '/vue.svg' }],
-        ['link', { rel: 'preload', as: 'image', href: '/vite.svg' }]
-      ]
-    }
-  },
-
   themeConfig: {
     nav: nav(),
 

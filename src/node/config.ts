@@ -85,7 +85,10 @@ export interface UserConfig<ThemeConfig = any>
    *
    * @default false
    */
-  ignoreDeadLinks?: boolean | 'localhostLinks'
+  ignoreDeadLinks?:
+    | boolean
+    | 'localhostLinks'
+    | (string | RegExp | ((link: string) => boolean))[]
 
   /**
    * Don't force `.html` on URLs.
@@ -142,8 +145,13 @@ export interface UserConfig<ThemeConfig = any>
    * PageData transform hook: runs when rendering markdown to vue
    */
   transformPageData?: (
-    pageData: PageData
+    pageData: PageData,
+    ctx: TransformPageContext
   ) => Awaitable<Partial<PageData> | { [key: string]: any } | void>
+}
+
+export interface TransformPageContext {
+  siteConfig: SiteConfig
 }
 
 export interface TransformContext {

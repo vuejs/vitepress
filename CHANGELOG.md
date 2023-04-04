@@ -1,3 +1,69 @@
+# [1.0.0-alpha.65](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.64...v1.0.0-alpha.65) (2023-04-04)
+
+
+### Bug Fixes
+
+* **build:** remove extra line at end of code blocks ([#2191](https://github.com/vuejs/vitepress/issues/2191)) ([a681fd1](https://github.com/vuejs/vitepress/commit/a681fd11e32709367d673cf0d9d26e4288f27776))
+
+
+
+# [1.0.0-alpha.64](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.63...v1.0.0-alpha.64) (2023-03-29)
+
+
+### Bug Fixes
+
+* **build:** make `lastUpdated` work with git submodules ([#2149](https://github.com/vuejs/vitepress/issues/2149)) ([4c23003](https://github.com/vuejs/vitepress/commit/4c2300318952bfdaabd766a6f16f26419ee854da))
+* **theme:** fix color of table head row in custom containers ([#2160](https://github.com/vuejs/vitepress/issues/2160)) ([51ecd58](https://github.com/vuejs/vitepress/commit/51ecd580a29d9e2bea73d4d5897154954d750d9f))
+* **theme:** hide outline dropdown scrollbar when it does not overflow ([#2151](https://github.com/vuejs/vitepress/issues/2151)) ([ff26ff1](https://github.com/vuejs/vitepress/commit/ff26ff1e6683def53bfbe6cbd7656740c77f4bcc))
+
+
+### Features
+
+* **build:** provide `siteConfig` in `transformPageData` context ([#2163](https://github.com/vuejs/vitepress/issues/2163)) ([3714741](https://github.com/vuejs/vitepress/commit/3714741b409f4e5f8df4cc42c7b59b065c8cc6f6))
+* **theme:** add `page-top/bottom` and `doc-top/bottom` slots ([#2139](https://github.com/vuejs/vitepress/issues/2139)) ([53d0099](https://github.com/vuejs/vitepress/commit/53d0099ffa99582f552d7dff5676734c965ceb05))
+* **theme:** allow moving aside to left ([#2138](https://github.com/vuejs/vitepress/issues/2138)) ([9e3cf0f](https://github.com/vuejs/vitepress/commit/9e3cf0fa7d2c2589d129ef931457ab40f513d187))
+
+
+
+# [1.0.0-alpha.63](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.62...v1.0.0-alpha.63) (2023-03-26)
+
+
+### Bug Fixes
+
+* **theme:** allow adding html as feature icons ([e5bc1e1](https://github.com/vuejs/vitepress/commit/e5bc1e10862a765f6790f5f08aa2bd76bb258532))
+* **theme:** remove label background of code-group tabs ([#2136](https://github.com/vuejs/vitepress/issues/2136)) ([eac03f2](https://github.com/vuejs/vitepress/commit/eac03f26e2d3ab47158ac2528210e95460f6c302))
+
+
+### Features
+
+* more flexible `ignoreDeadLinks` ([#2135](https://github.com/vuejs/vitepress/issues/2135)) ([3235c23](https://github.com/vuejs/vitepress/commit/3235c23313d81f8f95b91779a48db839c02aa952))
+
+
+
+# [1.0.0-alpha.62](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.61...v1.0.0-alpha.62) (2023-03-25)
+
+
+### Bug Fixes
+
+* make md includes work with rewrites ([#1898](https://github.com/vuejs/vitepress/issues/1898)) ([3553f01](https://github.com/vuejs/vitepress/commit/3553f015a9138cb935d57487755d9d5717f79ae3))
+* **theme:** don't show outline when no header is there ([#2117](https://github.com/vuejs/vitepress/issues/2117)) ([42a0ef2](https://github.com/vuejs/vitepress/commit/42a0ef21c17da20c8f22565807578a05a0461df6))
+* **theme:** fix aside position when footer is there ([#2115](https://github.com/vuejs/vitepress/issues/2115)) ([aecdeb9](https://github.com/vuejs/vitepress/commit/aecdeb9b216803f407fe3b48574bf7664262ef01))
+* **theme:** properly align not found icon in algolia ([#2116](https://github.com/vuejs/vitepress/issues/2116)) ([83ce1b8](https://github.com/vuejs/vitepress/commit/83ce1b8c5e95d2e29e733d9312f514d725fe7f0b))
+* **theme:** use locale lang instead of navigator lang for last updated ([#2118](https://github.com/vuejs/vitepress/issues/2118)) ([56a7d9a](https://github.com/vuejs/vitepress/commit/56a7d9aa74bbb1d945c6ca3a3573b5e49ba3ca65))
+
+
+
+# [1.0.0-alpha.61](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.60...v1.0.0-alpha.61) (2023-03-20)
+
+
+### Bug Fixes
+
+* **build:** skip warning for `txt` language ([#2109](https://github.com/vuejs/vitepress/issues/2109)) ([ac953ce](https://github.com/vuejs/vitepress/commit/ac953ce8bdeecb2854257613c849b82d38a91846))
+* decode when query selecting current hash ([1f2f1ff](https://github.com/vuejs/vitepress/commit/1f2f1ff43dbb3c1598810fe04608678426e4fed5)), closes [#2089](https://github.com/vuejs/vitepress/issues/2089)
+* **theme:** prevent code-groups conflict with shiki-twoslash ([#2059](https://github.com/vuejs/vitepress/issues/2059)) ([ee6cda4](https://github.com/vuejs/vitepress/commit/ee6cda42d8631c5f1f6ef47ac1aec0b178a6cbf2))
+
+
+
 # [1.0.0-alpha.60](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.59...v1.0.0-alpha.60) (2023-03-15)
 
 

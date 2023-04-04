@@ -55,12 +55,12 @@ export async function createMarkdownToVueRenderFn(
     file: string,
     publicDir: string
   ): Promise<MarkdownCompileResult> => {
+    const fileOrig = file
     const alias =
       siteConfig?.rewrites.map[file] || // virtual dynamic path file
       siteConfig?.rewrites.map[file.slice(srcDir.length + 1)]
     file = alias ? path.join(srcDir, alias) : file
     const relativePath = slash(path.relative(srcDir, file))
-    const dir = path.dirname(file)
     const cacheKey = JSON.stringify({ src, file })
 
     const cached = cache.get(cacheKey)
@@ -85,6 +85,7 @@ export async function createMarkdownToVueRenderFn(
     let includes: string[] = []
     src = src.replace(includesRE, (m, m1) => {
       try {
+        const dir = path.dirname(fileOrig) // include paths are strict relative file paths w/o aliases
         const includePath = path.join(dir, m1)
         const content = fs.readFileSync(includePath, 'utf-8')
         includes.push(slash(includePath))
@@ -124,18 +125,35 @@ export async function createMarkdownToVueRenderFn(
       deadLinks.push(url)
     }
 
+    function shouldIgnoreDeadLink(url: string) {
+      if (!siteConfig?.ignoreDeadLinks) {
+        return false
+      }
+      if (siteConfig.ignoreDeadLinks === true) {
+        return true
+      }
+      if (siteConfig.ignoreDeadLinks === 'localhostLinks') {
+        return url.replace(EXTERNAL_URL_RE, '').startsWith('//localhost')
+      }
+
+      return siteConfig.ignoreDeadLinks.some((ignore) => {
+        if (typeof ignore === 'string') {
+          return url === ignore
+        }
+        if (ignore instanceof RegExp) {
+          return ignore.test(url)
+        }
+        if (typeof ignore === 'function') {
+          return ignore(url)
+        }
+        return false
+      })
+    }
+
     if (links) {
       const dir = path.dirname(file)
       for (let url of links) {
         if (/\.(?!html|md)\w+($|\?)/i.test(url)) continue
-
-        if (
-          siteConfig?.ignoreDeadLinks !== 'localhostLinks' &&
-          url.replace(EXTERNAL_URL_RE, '').startsWith('//localhost:')
-        ) {
-          recordDeadLink(url)
-          continue
-        }
 
         url = url.replace(/[?#].*$/, '').replace(/\.(html|md)$/, '')
         if (url.endsWith('/')) url += `index`
@@ -150,7 +168,8 @@ export async function createMarkdownToVueRenderFn(
           siteConfig?.rewrites.inv[resolved + '.md']?.slice(0, -3) || resolved
         if (
           !pages.includes(resolved) &&
-          !fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`))
+          !fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`)) &&
+          !shouldIgnoreDeadLink(url)
         ) {
           recordDeadLink(url)
         }
@@ -168,11 +187,13 @@ export async function createMarkdownToVueRenderFn(
     }
 
     if (includeLastUpdatedData) {
-      pageData.lastUpdated = await getGitTimestamp(file)
+      pageData.lastUpdated = await getGitTimestamp(fileOrig)
     }
 
     if (siteConfig?.transformPageData) {
-      const dataToMerge = await siteConfig.transformPageData(pageData)
+      const dataToMerge = await siteConfig.transformPageData(pageData, {
+        siteConfig
+      })
       if (dataToMerge) {
         pageData = {
           ...pageData,

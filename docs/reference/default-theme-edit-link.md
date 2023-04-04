@@ -55,6 +55,6 @@ This can be disabled per-page using the `editLink` option on frontmatter:
 
 ```yaml
 ---
-lastUpdated: false
+editLink: false
 ---
 ```

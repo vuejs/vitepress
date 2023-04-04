@@ -3,11 +3,11 @@ import c from 'picocolors'
 import { slash } from './utils/slash'
 import type { OutputAsset, OutputChunk } from 'rollup'
 import {
-  defineConfig,
   mergeConfig,
   searchForWorkspaceRoot,
   type Plugin,
-  type ResolvedConfig
+  type ResolvedConfig,
+  type UserConfig
 } from 'vite'
 import {
   APP_PATH,
@@ -71,7 +71,6 @@ export async function createVitePressPlugin(
     vue: userVuePluginOptions,
     vite: userViteConfig,
     pages,
-    ignoreDeadLinks,
     lastUpdated,
     cleanUrls
   } = siteConfig
@@ -118,7 +117,7 @@ export async function createVitePressPlugin(
     },
 
     config() {
-      const baseConfig = defineConfig({
+      const baseConfig: UserConfig = {
         resolve: {
           alias: resolveAliases(siteConfig, ssr)
         },
@@ -128,7 +127,7 @@ export async function createVitePressPlugin(
         },
         optimizeDeps: {
           // force include vue to avoid duplicated copies when linked + optimized
-          include: ['vue', '@vue/devtools-api'],
+          include: ['vue'],
           exclude: ['@docsearch/js', 'vitepress']
         },
         server: {
@@ -141,7 +140,7 @@ export async function createVitePressPlugin(
           }
         },
         vitepress: siteConfig
-      })
+      }
       return userViteConfig
         ? mergeConfig(baseConfig, userViteConfig)
         : baseConfig
@@ -196,7 +195,7 @@ export async function createVitePressPlugin(
     },
 
     renderStart() {
-      if (hasDeadLinks && !ignoreDeadLinks) {
+      if (hasDeadLinks) {
         throw new Error(`One or more pages contain dead links.`)
       }
     },

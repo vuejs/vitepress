@@ -282,14 +282,35 @@ export default {
 
 ### ignoreDeadLinks
 
-- Type: `boolean | 'localhostLinks'`
+- Type: `boolean | 'localhostLinks' | (string | RegExp | ((link: string) => boolean))[]`
 - Default: `false`
 
-When set to `true`, VitePress will not fail builds due to dead links. When set to `'localhostLinks'`, the build will fail on dead links, but won't check `localhost` links.
+When set to `true`, VitePress will not fail builds due to dead links.
+
+When set to `'localhostLinks'`, the build will fail on dead links, but won't check `localhost` links.
 
 ```ts
 export default {
   ignoreDeadLinks: true
+}
+```
+
+It can also be an array of extact url string, regex patterns, or custom filter functions. 
+
+```ts
+export default {
+  ignoreDeadLinks: [
+    // ignore exact url "/playground"
+    '/playground',
+    // ignore all localhost links
+    /^https?:\/\/localhost/,
+    // ignore all links include "/repl/""
+    /\/repl\//,
+    // custom function, ignore all links include "ignore"
+    (url) => {
+      return url.toLowerCase().includes('ignore')
+    }
+  ]
 }
 ```
 
@@ -531,21 +552,31 @@ export default {
 
 ### transformPageData
 
-- Type: `(pageData: PageData) => Awaitable<Partial<PageData> | { [key: string]: any } | void>`
+- Type: `(pageData: PageData, ctx: TransformPageContext) => Awaitable<Partial<PageData> | { [key: string]: any } | void>`
 
 `transformPageData` is a hook to transform the `pageData` of each page. You can directly mutate `pageData` or return changed values which will be merged into PageData.
 
+::: warning
+Don't mutate anything inside the `ctx`. 
+:::
+
 ```ts
 export default {
-  async transformPageData(pageData) {
+  async transformPageData(pageData, { siteConfig }) {
     pageData.contributors = await getPageContributors(pageData.relativePath)
   }
 
   // or return data to be merged
-  async transformPageData(pageData) {
+  async transformPageData(pageData, { siteConfig }) {
     return {
       contributors: await getPageContributors(pageData.relativePath)
     }
   }
+}
+```
+
+```ts
+interface TransformPageContext {
+  siteConfig: SiteConfig
 }
 ```
