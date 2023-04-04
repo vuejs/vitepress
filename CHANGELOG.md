@@ -1,3 +1,12 @@
+# [1.0.0-alpha.65](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.64...v1.0.0-alpha.65) (2023-04-04)
+
+
+### Bug Fixes
+
+* **build:** remove extra line at end of code blocks ([#2191](https://github.com/vuejs/vitepress/issues/2191)) ([a681fd1](https://github.com/vuejs/vitepress/commit/a681fd11e32709367d673cf0d9d26e4288f27776))
+
+
+
 # [1.0.0-alpha.64](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.63...v1.0.0-alpha.64) (2023-03-29)
 
 
