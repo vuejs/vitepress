@@ -97,6 +97,7 @@ importers:
       '@vue/devtools-api': 6.5.0
       '@vueuse/core': 9.13.0_vue@3.2.47
       body-scroll-lock: 4.0.0-beta.0
+      minisearch: 6.0.1
       shiki: 0.14.1
       vite: 4.2.0_@types+node@18.15.3
       vue: 3.2.47
@@ -153,7 +154,6 @@ importers:
       markdown-it-emoji: 2.0.2
       micromatch: 4.0.5
       minimist: 1.2.8
-      minisearch: 6.0.1
       nanoid: 4.0.1
       npm-run-all: 4.1.5
       ora: 6.1.2
@@ -3056,7 +3056,7 @@ packages:
 
   /minisearch/6.0.1:
     resolution: {integrity: sha512-Ly1w0nHKnlhAAh6/BF/+9NgzXfoJxaJ8nhopFhQ3NcvFJrFIL+iCg9gw9e9UMBD+XIsp/RyznJ/o5UIe5Kw+kg==}
-    dev: true
+    dev: false
 
   /mlly/1.2.0:
     resolution: {integrity: sha512-+c7A3CV0KGdKcylsI6khWyts/CYrGTrRVo4R/I7u/cUsy0Conxa6LUhiEzVKIw14lc2L5aiO4+SeVe4TeGRKww==}

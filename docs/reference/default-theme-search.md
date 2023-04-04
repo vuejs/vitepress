@@ -18,8 +18,7 @@ Example result:
 
 ![screenshot of the search modal](/search.png)
 
-Alternatively, you can use [Algolia DocSearch](#algolia-search) or some community plugins like <https://github.com/emersonbottero/vitepress-plugin-search>.
-
+Alternatively, you can use [Algolia DocSearch](#algolia-search) or some community plugins like <https://www.npmjs.com/package/vitepress-plugin-search> or <https://www.npmjs.com/package/vitepress-plugin-pagefind>.
 ### i18n
 
 You can use a config like this to use multilingual search:
