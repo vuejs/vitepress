@@ -3,11 +3,11 @@ import c from 'picocolors'
 import { slash } from './utils/slash'
 import type { OutputAsset, OutputChunk } from 'rollup'
 import {
-  defineConfig,
   mergeConfig,
   searchForWorkspaceRoot,
   type Plugin,
-  type ResolvedConfig
+  type ResolvedConfig,
+  type UserConfig
 } from 'vite'
 import {
   APP_PATH,
@@ -116,7 +116,7 @@ export async function createVitePressPlugin(
     },
 
     config() {
-      const baseConfig = defineConfig({
+      const baseConfig: UserConfig = {
         resolve: {
           alias: resolveAliases(siteConfig, ssr)
         },
@@ -139,7 +139,7 @@ export async function createVitePressPlugin(
           }
         },
         vitepress: siteConfig
-      })
+      }
       return userViteConfig
         ? mergeConfig(baseConfig, userViteConfig)
         : baseConfig
