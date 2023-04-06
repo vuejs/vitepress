@@ -120,7 +120,7 @@ export async function createMarkdownToVueRenderFn(
       ;(siteConfig?.logger ?? console).warn(
         c.yellow(
           `\n(!) Found dead link ${c.cyan(url)} in file ${c.white(
-            c.dim(file)
+            c.dim(path.relative(srcDir, fileOrig))
           )}\nIf it is intended, you can use:\n    ${c.cyan(
             `<a href="${url}" target="_blank" rel="noreferrer">${url}</a>`
           )}`

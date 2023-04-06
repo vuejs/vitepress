@@ -94,7 +94,7 @@ export async function createVitePressPlugin(
   }
 
   let siteData = site
-  let hasDeadLinks = false
+  let deadLinksCount = 0
   let config: ResolvedConfig
 
   const vitePressPlugin: Plugin = {
@@ -185,7 +185,7 @@ export async function createVitePressPlugin(
           config.publicDir
         )
         if (deadLinks.length) {
-          hasDeadLinks = true
+          deadLinksCount += deadLinks.length
         }
         if (includes.length) {
           includes.forEach((i) => {
@@ -197,8 +197,10 @@ export async function createVitePressPlugin(
     },
 
     renderStart() {
-      if (hasDeadLinks) {
-        throw new Error(`One or more pages contain dead links.`)
+      if (deadLinksCount > 0) {
+        throw new Error(
+          `One or more pages contain ${deadLinksCount} dead links.`
+        )
       }
     },
 
