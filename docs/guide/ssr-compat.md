@@ -81,4 +81,34 @@ const ClientComp = defineClientComponent(() => {
 </template>
 ```
 
+Or you can use prop and slot as well. The first argument is the props to be passed, and the second argument is the children
+
+```vue
+<script setup>
+import { defineClientComponent, ref, h } from 'vitepress'
+const customeCompRef = ref(null)
+const ClientComp = defineClientComponent(() => {
+    return import('component-that-access-window-on-import')
+  },
+  [
+    {
+      ref: customeCompRef
+    },
+    {
+      default: () => 'default slot',
+      foo: () => h('div', 'foo'),
+      bar: () => [h('span', 'one'), h('span', 'two')]
+    }
+  ],
+  () => {
+    console.log(customeCompRef.value)
+  }
+)
+</script>
+
+<template>
+  <ClientComp />
+</template>
+```
+
 The target component will only be imported in the mounted hook of the wrapper component.

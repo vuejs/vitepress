@@ -77,7 +77,11 @@ export function onContentUpdated(fn: () => any) {
   })
 }
 
-export function defineClientComponent(loader: AsyncComponentLoader) {
+export function defineClientComponent(
+  loader: AsyncComponentLoader,
+  args: any[],
+  fn: () => void
+) {
   return {
     setup() {
       const comp = shallowRef()
@@ -88,8 +92,9 @@ export function defineClientComponent(loader: AsyncComponentLoader) {
           res = res.default
         }
         comp.value = res
+        fn()
       })
-      return () => (comp.value ? h(comp.value) : null)
+      return () => (comp.value ? h(comp.value, ...args) : null)
     }
   }
 }
