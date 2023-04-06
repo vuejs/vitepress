@@ -60,6 +60,12 @@ const contents = shallowRef(new Map<string, Map<string, string>>())
 
 const headingRegex = /<h(\d*).*?>.*?<a.*? href="#(.*?)".*?>.*?<\/a><\/h\1>/gi
 
+const enableNoResults = ref(false)
+
+watch(filterText, () => {
+  enableNoResults.value = false
+})
+
 debouncedWatch(() => [searchIndex.value, filterText.value, showDetailedList.value] as const, async ([index, filterTextValue, showDetailedListValue], old, onCleanup) => {
   let canceled = false
   onCleanup(() => {
@@ -70,6 +76,7 @@ debouncedWatch(() => [searchIndex.value, filterText.value, showDetailedList.valu
 
   // Search
   results.value = index.search(filterTextValue).slice(0, 16) as (SearchResult & Result)[]
+  enableNoResults.value = true
 
   // Highlighting
   const mods = showDetailedListValue ? await Promise.all(results.value.map(r => fetchExcerpt(r.id))) : []
@@ -350,7 +357,7 @@ useEventListener('popstate', event => {
             </div>
           </a>
 
-          <div v-if="filterText && !results.length" class="no-results">
+          <div v-if="filterText && !results.length && enableNoResults" class="no-results">
             {{ $t('modal.noResultsText') }} "<strong>{{ filterText }}</strong>"
           </div>
         </div>
