@@ -143,8 +143,13 @@ debouncedWatch(() => [searchIndex.value, filterText.value, showDetailedList.valu
 }, { debounce: 200, immediate: true })
 
 async function fetchExcerpt (id: string) {
-  const file = pathToFile(id.slice(0, id.indexOf('#')))
-  return { id, mod: await import(/*@vite-ignore*/ file) }
+  const file = withBase(pathToFile(id.slice(0, id.indexOf('#'))))
+  try {
+    return { id, mod: await import(/*@vite-ignore*/ file) }
+  } catch (e) {
+    console.error(e)
+    return { id, mod: {} }
+  }
 }
 
 /* Search input focus */
