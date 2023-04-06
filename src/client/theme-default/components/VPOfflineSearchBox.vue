@@ -7,7 +7,7 @@ import offlineSearchIndex from '@offlineSearchIndex'
 import { useData } from '../composables/data'
 import { createTranslate } from '../support/translation'
 import type { ModalTranslations } from '../../../../types/offline-search'
-import { pathToFile } from '../../app/utils.js'
+import { pathToFile, withBase } from '../../app/utils.js'
 
 defineProps<{
   placeholder: string
@@ -79,6 +79,8 @@ debouncedWatch(() => [searchIndex.value, filterText.value, showDetailedList.valu
     const comp = mod.default ?? mod
     if (comp?.render) {
       const app = createApp(comp)
+      // Silence warnings about missing components
+      app.config.warnHandler = () => {}
       const div = document.createElement('div')
       app.mount(div)
       const sections = div.innerHTML.split(headingRegex)
