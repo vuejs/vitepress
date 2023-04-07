@@ -397,7 +397,6 @@ export async function resolveSiteData(
 
   const preserveCodeAppearance = userConfig.preserveCodeAppearance ?? false
 
-  //TODO: gh light theme is working
   if (
     preserveCodeAppearance &&
     (!userConfig.markdown || typeof userConfig.markdown.theme !== 'object')
@@ -405,7 +404,7 @@ export async function resolveSiteData(
     userConfig.markdown = userConfig.markdown || {}
     userConfig.markdown.theme = {
       light: 'github-light',
-      dark: 'material-theme-palenight'
+      dark: 'github-dark'
     }
   }
 

@@ -351,20 +351,20 @@ export default {
 }
 ```
 
-//TODO: update the light theme when updated node/config.ts entry
-
-VitePress will use `material-theme-palenight` and `github-light` Shiki themes for the dark and light appearance respectively. You can replace both themes by providing the Shiki theme variants in the markdown settings option:
+VitePress will use `github-dark` and `github-light` Shiki themes for the dark and light appearance respectively. You can replace both themes by providing the Shiki theme variants in the markdown settings option:
 ```ts
 export default {
   preserveCodeAppearance: true,
   markdown: {
     theme: {
-      dark: 'material-theme-palenight',
+      dark: 'github-dark',
       light: 'github-light'
     }  
   }
 }
 ```
+
+You can check [Shiki Themes](https://github.com/shikijs/shiki/blob/main/docs/themes.md#all-themes) for more information.
 
 ### lastUpdated
 
