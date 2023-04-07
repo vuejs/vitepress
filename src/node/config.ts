@@ -49,6 +49,7 @@ export interface UserConfig<ThemeConfig = any>
   locales?: LocaleConfig<ThemeConfig>
 
   appearance?: boolean | 'dark'
+  preserveCodeAppearance?: boolean
   lastUpdated?: boolean
 
   /**
@@ -394,6 +395,20 @@ export async function resolveSiteData(
 ): Promise<SiteData> {
   userConfig = userConfig || (await resolveUserConfig(root, command, mode))[0]
 
+  const preserveCodeAppearance = userConfig.preserveCodeAppearance ?? false
+
+  //TODO: gh light theme is working
+  if (
+    preserveCodeAppearance &&
+    (!userConfig.markdown || typeof userConfig.markdown.theme !== 'object')
+  ) {
+    userConfig.markdown = userConfig.markdown || {}
+    userConfig.markdown.theme = {
+      light: 'github-light',
+      dark: 'material-theme-palenight'
+    }
+  }
+
   return {
     lang: userConfig.lang || 'en-US',
     dir: userConfig.dir || 'ltr',
@@ -403,6 +418,7 @@ export async function resolveSiteData(
     base: userConfig.base ? userConfig.base.replace(/([^/])$/, '$1/') : '/',
     head: resolveSiteDataHead(userConfig),
     appearance: userConfig.appearance ?? true,
+    preserveCodeAppearance,
     themeConfig: userConfig.themeConfig || {},
     locales: userConfig.locales || {},
     scrollOffset: userConfig.scrollOffset || 90,

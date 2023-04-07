@@ -336,6 +336,36 @@ Whether to enable dark mode (by adding the `.dark` class to the `<html>` element
 
 This option injects an inline script that restores users settings from local storage using the `vitepress-theme-appearance` key. This ensures the `.dark` class is applied before the page is rendered to avoid flickering.
 
+### preserveCodeAppearance
+
+- Type: `boolean`
+- Default: `false`
+
+By default, VitePress will use dark appearance for code blocks independently of the current selected appearance and the user's preference.
+
+You can disable this behavior by setting `preserveCodeAppearance` option to `true`, which will use the same appearance for code blocks as the current selected appearance.
+
+```ts
+export default {
+  preserveCodeAppearance: true
+}
+```
+
+//TODO: update the light theme when updated node/config.ts entry
+
+VitePress will use `material-theme-palenight` and `github-light` Shiki themes for the dark and light appearance respectively. You can replace both themes by providing the Shiki theme variants in the markdown settings option:
+```ts
+export default {
+  preserveCodeAppearance: true,
+  markdown: {
+    theme: {
+      dark: 'material-theme-palenight',
+      light: 'github-light'
+    }  
+  }
+}
+```
+
 ### lastUpdated
 
 - Type: `boolean`

@@ -171,6 +171,12 @@ export async function createVitePressPlugin(
       }
     },
 
+    transformIndexHtml(html) {
+      if (siteData.preserveCodeAppearance) {
+        return html.replace('<html', '<html class="preserve-code-appearance"')
+      }
+    },
+
     async transform(code, id) {
       if (id.endsWith('.vue')) {
         return processClientJS(code, id)

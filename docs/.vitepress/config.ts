@@ -9,6 +9,8 @@ export default defineConfig({
   title: 'VitePress',
   description: 'Vite & Vue powered static site generator.',
 
+  //TODO: remove this once ready
+  preserveCodeAppearance: true,
   lastUpdated: true,
   cleanUrls: true,
 
