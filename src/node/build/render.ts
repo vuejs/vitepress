@@ -156,9 +156,13 @@ export async function renderPage(
     metadataScript += `__VP_SITE_DATA__ = JSON.parse(${siteDataString})`
   }
 
+  const preserveCodeAppearance = siteData.preserveCodeAppearance
+    ? ' class="preserve-code-appearance"'
+    : ''
+
   const html = `
 <!DOCTYPE html>
-<html lang="${siteData.lang}" dir="${siteData.dir}">
+<html lang="${siteData.lang}" dir="${siteData.dir}"${preserveCodeAppearance}>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
