@@ -193,3 +193,13 @@ export default defineLoader({
   }
 })
 ```
+
+## Configuration
+
+To get the configuration information inside a loader, you can use some code like this:
+
+```ts
+import type { SiteConfig } from 'vitepress'
+
+const config: SiteConfig = (globalThis as any).VITEPRESS_CONFIG
+```
