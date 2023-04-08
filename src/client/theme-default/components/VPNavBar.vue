@@ -64,6 +64,7 @@ const classes = computed(() => ({
   height: var(--vp-nav-height);
   transition: border-color 0.5s, background-color 0.5s;
   pointer-events: none;
+  white-space: nowrap;
 }
 
 .VPNavBar.has-sidebar {
