@@ -319,7 +319,7 @@ export default {
 - Type: `boolean`
 - Default: `false`
 
-When set to `true`, the production app will be built in [MAP Mode](../guide/mpa-mode). MPA mode ships 0kb JavaScript by default, at the cost of disabling client-side navigation and requires explicit opt-in for interactivity.
+When set to `true`, the production app will be built in [MPA Mode](../guide/mpa-mode). MPA mode ships 0kb JavaScript by default, at the cost of disabling client-side navigation and requires explicit opt-in for interactivity.
 
 ## Theming
 
