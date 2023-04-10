@@ -123,7 +123,9 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
 2. Create a file named `deploy.yml` inside `.github/workflows` directory of your project with the following content:
 
-   ```yaml
+   ::: code-group
+
+   ```yaml [npm]
    name: Deploy
    on:
      workflow_dispatch: {}
@@ -158,6 +160,44 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
            id: deployment
            uses: actions/deploy-pages@v1
    ```
+   
+   ```yaml [pnpm]
+   name: Deploy
+   on:
+     workflow_dispatch: {}
+     push:
+       branches:
+         - main
+   jobs:
+     deploy:
+       runs-on: ubuntu-latest
+       permissions:
+         pages: write
+         id-token: write
+       environment:
+         name: github-pages
+         url: ${{ steps.deployment.outputs.page_url }}
+       steps:
+         - uses: actions/checkout@v3
+           with:
+             fetch-depth: 0
+         - uses: pnpm/action-setup@v2
+         - uses: actions/setup-node@v3
+           with:
+             node-version: 18
+             cache: pnpm
+         - run: pnpm install --frozen-lockfile
+         - name: Build
+           run: pnpm docs:build
+         - uses: actions/configure-pages@v2
+         - uses: actions/upload-pages-artifact@v1
+           with:
+             path: docs/.vitepress/dist
+         - name: Deploy
+           id: deployment
+           uses: actions/deploy-pages@v1
+   ```
+   :::
 
    ::: tip
    Please replace the corresponding branch name. For example, if the branch you want to build is `master`, then you should replace `main` with `master` in the above file.
