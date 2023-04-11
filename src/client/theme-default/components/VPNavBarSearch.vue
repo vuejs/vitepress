@@ -113,10 +113,19 @@ if (!__ALGOLIA__ && theme.value.offlineSearch) {
     }
   })
 }
+
+const metaKey = ref(`'Meta'`)
+
+onMounted(() => {
+  // meta key detect (same logic as in @docsearch/js)
+  metaKey.value = /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)
+    ? `'⌘'`
+    : `'Ctrl'`
+})
 </script>
 
 <template>
-  <div class="VPNavBarSearch">
+  <div class="VPNavBarSearch" :style="{ '--vp-meta-key': metaKey }">
     <template v-if="theme.algolia">
       <VPAlgoliaSearchBox v-if="loaded" :algolia="theme.algolia" />
 

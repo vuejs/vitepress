@@ -1,18 +1,7 @@
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
-
 defineProps<{
   placeholder: string
 }>()
-
-const metaKey = ref(`'Meta'`)
-
-onMounted(() => {
-  // meta key detect (same logic as in @docsearch/js)
-  metaKey.value = /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)
-    ? `'⌘'`
-    : `'Ctrl'`
-})
 </script>
 
 <template>
@@ -210,7 +199,7 @@ onMounted(() => {
 }
 
 .DocSearch-Button .DocSearch-Button-Key:first-child:after {
-  content: v-bind(metaKey);
+  content: var(--vp-meta-key);
   font-size: 12px;
   letter-spacing: normal;
   color: var(--docsearch-muted-color);
