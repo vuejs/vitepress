@@ -322,7 +322,7 @@ useEventListener('popstate', event => {
           <a
             v-for="(p, index) in results"
             :key="p.id"
-            :href="p.id"
+            :href="withBase(p.id)"
             class="result"
             :class="{
               selected: selectedIndex === index,
