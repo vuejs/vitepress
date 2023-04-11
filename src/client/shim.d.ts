@@ -20,3 +20,8 @@ declare module '@theme/index' {
   const theme: Theme
   export default theme
 }
+
+declare module '@offlineSearchIndex' {
+  const data: Record<string, () => Promise<{ default: string }>>
+  export default data
+}
