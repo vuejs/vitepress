@@ -3,10 +3,10 @@ import { markRaw, nextTick, onMounted, ref, shallowRef, watch, type Ref, createA
 import { useRouter } from 'vitepress'
 import { onKeyStroke, useSessionStorage, debouncedWatch, useLocalStorage, useEventListener, computedAsync } from '@vueuse/core'
 import MiniSearch, { type SearchResult } from 'minisearch'
-import offlineSearchIndex from '@offlineSearchIndex'
+import localSearchIndex from '@localSearchIndex'
 import { useData } from '../composables/data'
 import { createTranslate } from '../support/translation'
-import type { ModalTranslations } from '../../../../types/offline-search'
+import type { ModalTranslations } from '../../../../types/local-search'
 import { pathToFile, withBase } from '../../app/utils.js'
 
 defineProps<{
@@ -21,11 +21,11 @@ const el = ref<HTMLDivElement>()
 
 /* Search */
 
-const searchIndexData = shallowRef(offlineSearchIndex)
+const searchIndexData = shallowRef(localSearchIndex)
 
 // hmr
 if (import.meta.hot) {
-  import.meta.hot.accept('/@offlineSearchIndex', (m) => {
+  import.meta.hot.accept('/@localSearchIndex', (m) => {
     if (m) {
       searchIndexData.value = m.default
     }
@@ -50,9 +50,9 @@ const searchIndex = computedAsync(async () => markRaw(MiniSearch.loadJSON<Result
   },
 })))
 
-const filterText = useSessionStorage('vitepress:offline-search-filter', '')
+const filterText = useSessionStorage('vitepress:local-search-filter', '')
 
-const showDetailedList = useLocalStorage('vitepress:offline-search-detailed-list', false)
+const showDetailedList = useLocalStorage('vitepress:local-search-detailed-list', false)
 
 const results: Ref<(SearchResult & Result)[]> = shallowRef([])
 
@@ -226,7 +226,7 @@ const router = useRouter()
 onKeyStroke('Enter', () => {
   const selectedPackage = results.value[selectedIndex.value]
   if (selectedPackage) {
-    router.go(selectedPackage.id)
+    router.go(withBase(selectedPackage.id))
     emit('close')
   }
 })
@@ -255,7 +255,7 @@ const defaultTranslations: { modal: ModalTranslations } = {
   }
 }
 
-const $t = createTranslate(theme.value.offlineSearch, defaultTranslations)
+const $t = createTranslate(theme.value.localSearch, defaultTranslations)
 
 // Back
 
@@ -272,7 +272,7 @@ useEventListener('popstate', event => {
 
 <template>
   <Teleport to="body">
-    <div ref="el" class="VPOfflineSearchBox" aria-modal="true">
+    <div ref="el" class="VPLocalSearchBox" aria-modal="true">
       <div class="backdrop" @click="$emit('close')" />
 
       <div class="shell">
@@ -378,7 +378,7 @@ useEventListener('popstate', event => {
 </template>
 
 <style scoped lang="postcss">
-.VPOfflineSearchBox {
+.VPLocalSearchBox {
   position: fixed;
   z-index: 100;
   inset: 0;

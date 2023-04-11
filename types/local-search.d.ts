@@ -1,4 +1,4 @@
-export interface OfflineSearchTranslations {
+export interface LocalSearchTranslations {
   button?: ButtonTranslations
   modal?: ModalTranslations
 }

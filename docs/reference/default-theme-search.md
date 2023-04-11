@@ -1,15 +1,15 @@
 # Search
 
-## Offline Search
+## Local Search
 
-VitePress supports fuzzy full-text search using a in-browser index thanks to [minisearch](https://github.com/lucaong/minisearch/). You can enable it in your `.vitepress/config.ts` with the `offlineSearch` theme config:
+VitePress supports fuzzy full-text search using a in-browser index thanks to [minisearch](https://github.com/lucaong/minisearch/). You can enable it in your `.vitepress/config.ts` with the `localSearch` theme config:
 
 ```ts
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
   themeConfig: {
-    offlineSearch: true
+    localSearch: true
   }
 })
 ```
@@ -20,7 +20,7 @@ Example result:
 
 Alternatively, you can use [Algolia DocSearch](#algolia-search) or some community plugins like <https://www.npmjs.com/package/vitepress-plugin-search> or <https://www.npmjs.com/package/vitepress-plugin-pagefind>.
 
-### i18n {#offline-search-i18n}
+### i18n {#local-search-i18n}
 
 You can use a config like this to use multilingual search:
 
@@ -29,7 +29,7 @@ import { defineConfig } from 'vitepress'
 
 export default defineConfig({
   themeConfig: {
-    offlineSearch: {
+    localSearch: {
       locales: {
         zh: {
           translations: {

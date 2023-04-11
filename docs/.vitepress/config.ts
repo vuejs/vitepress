@@ -53,7 +53,7 @@ export default defineConfig({
       indexName: 'vitepress'
     },
 
-    // offlineSearch: true,
+    // localSearch: true,
 
     carbonAds: {
       code: 'CEBDT27Y',

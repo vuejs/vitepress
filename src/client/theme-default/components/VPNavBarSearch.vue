@@ -15,9 +15,9 @@ const VPAlgoliaSearchBox = __ALGOLIA__
   ? defineAsyncComponent(() => import('./VPAlgoliaSearchBox.vue'))
   : () => null
 
-const VPOfflineSearchBox = __ALGOLIA__
+const VPLocalSearchBox = __ALGOLIA__
   ? () => null
-  : defineAsyncComponent(() => import('./VPOfflineSearchBox.vue'))
+  : defineAsyncComponent(() => import('./VPLocalSearchBox.vue'))
 
 const { theme, localeIndex } = useData()
 
@@ -32,9 +32,9 @@ const buttonText = computed(() => {
       ?.buttonText ||
       theme.value.algolia.translations?.button?.buttonText ||
       'Search'
-  } else if (typeof theme.value.offlineSearch === 'object') {
-    return theme.value.offlineSearch.locales?.[localeIndex.value]?.translations?.button?.buttonText ||
-      theme.value.offlineSearch.translations?.button?.buttonText ||
+  } else if (typeof theme.value.localSearch === 'object') {
+    return theme.value.localSearch.locales?.[localeIndex.value]?.translations?.button?.buttonText ||
+      theme.value.localSearch.translations?.button?.buttonText ||
       'Search'
   }
   return 'Search'
@@ -101,11 +101,11 @@ function poll() {
   }, 16)
 }
 
-// Offline search
+// Local search
 
 const showSearch = ref(false)
 
-if (!__ALGOLIA__ && theme.value.offlineSearch) {
+if (!__ALGOLIA__ && theme.value.localSearch) {
   onKeyStroke('k', event => {
     if (event.ctrlKey || event.metaKey) {
       event.preventDefault()
@@ -134,10 +134,10 @@ onMounted(() => {
       </div>
     </template>
     
-    <template v-else-if="theme.offlineSearch">
-      <VPOfflineSearchBox v-if="showSearch" :placeholder="buttonText" @close="showSearch = false" />
+    <template v-else-if="theme.localSearch">
+      <VPLocalSearchBox v-if="showSearch" :placeholder="buttonText" @close="showSearch = false" />
 
-      <div id="offline-search">
+      <div id="local-search">
         <VPNavBarSearchButton :placeholder="buttonText" @click="showSearch = true" />
       </div>
     </template>

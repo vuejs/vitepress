@@ -7,9 +7,9 @@ import type { SiteConfig } from '../config'
 import { createMarkdownRenderer } from '../markdown/markdown.js'
 import { resolveSiteDataByRoute } from '../shared.js'
 
-const debug = _debug('vitepress:offline-search')
+const debug = _debug('vitepress:local-search')
 
-const OFFLINE_SEARCH_INDEX_ID = '@offlineSearchIndex'
+const OFFLINE_SEARCH_INDEX_ID = '@localSearchIndex'
 const OFFLINE_SEARCH_INDEX_REQUEST_PATH = '/' + OFFLINE_SEARCH_INDEX_ID
 
 interface IndexObject {
@@ -19,15 +19,15 @@ interface IndexObject {
   titles: string[]
 }
 
-export async function offlineSearchPlugin(
+export async function localSearchPlugin(
   siteConfig: SiteConfig
 ): Promise<Plugin> {
   if (
     siteConfig.userConfig.themeConfig?.algolia ||
-    !siteConfig.userConfig.themeConfig?.offlineSearch
+    !siteConfig.userConfig.themeConfig?.localSearch
   ) {
     return {
-      name: 'vitepress:offline-search',
+      name: 'vitepress:local-search',
       resolveId(id) {
         if (id.startsWith(OFFLINE_SEARCH_INDEX_ID)) {
           return `/${id}`
@@ -146,7 +146,7 @@ export async function offlineSearchPlugin(
   }
 
   return {
-    name: 'vitepress:offline-search',
+    name: 'vitepress:local-search',
 
     configureServer(_server) {
       server = _server
@@ -182,7 +182,7 @@ export async function offlineSearchPlugin(
           records.push(
             `${JSON.stringify(
               locale
-            )}: () => import('@offlineSearchIndex${locale}')`
+            )}: () => import('@localSearchIndex${locale}')`
           )
         }
         return `export default {${records.join(',')}}`
