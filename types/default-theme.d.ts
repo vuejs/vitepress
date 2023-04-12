@@ -1,4 +1,5 @@
 import { DocSearchProps } from './docsearch.js'
+import { LocalSearchTranslations } from './local-search.js'
 
 export namespace DefaultTheme {
   export interface Config {
@@ -42,10 +43,12 @@ export namespace DefaultTheme {
 
     /**
      * Set to `false` to prevent rendering of aside container.
+     * Set to `true` to render the aside to the right.
+     * Set to `left` to render the aside to the left.
      *
      * @default true
      */
-    aside?: boolean
+    aside?: boolean | 'left'
 
     /**
      * Info for the edit link. If it's undefined, the edit link feature will
@@ -102,6 +105,11 @@ export namespace DefaultTheme {
      * The algolia options. Leave it undefined to disable the search feature.
      */
     algolia?: AlgoliaSearchOptions
+
+    /**
+     * The local search options. Set to `true` or an object to enable, `false` to disable.
+     */
+    localSearch?: LocalSearchOptions | boolean
 
     /**
      * The carbon ads options. Leave it undefined to disable the ads feature.
@@ -297,6 +305,13 @@ export namespace DefaultTheme {
    */
   export interface AlgoliaSearchOptions extends DocSearchProps {
     locales?: Record<string, Partial<DocSearchProps>>
+  }
+
+  // local search ------------------------------------------------------------
+
+  export interface LocalSearchOptions {
+    translations?: LocalSearchTranslations
+    locales?: Record<string, Partial<Omit<LocalSearchOptions, 'locales'>>>
   }
 
   // carbon ads ----------------------------------------------------------------

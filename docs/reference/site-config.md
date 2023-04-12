@@ -319,7 +319,7 @@ export default {
 - Type: `boolean`
 - Default: `false`
 
-When set to `true`, the production app will be built in [MAP Mode](../guide/mpa-mode). MPA mode ships 0kb JavaScript by default, at the cost of disabling client-side navigation and requires explicit opt-in for interactivity.
+When set to `true`, the production app will be built in [MPA Mode](../guide/mpa-mode). MPA mode ships 0kb JavaScript by default, at the cost of disabling client-side navigation and requires explicit opt-in for interactivity.
 
 ## Theming
 
@@ -552,21 +552,31 @@ export default {
 
 ### transformPageData
 
-- Type: `(pageData: PageData) => Awaitable<Partial<PageData> | { [key: string]: any } | void>`
+- Type: `(pageData: PageData, ctx: TransformPageContext) => Awaitable<Partial<PageData> | { [key: string]: any } | void>`
 
 `transformPageData` is a hook to transform the `pageData` of each page. You can directly mutate `pageData` or return changed values which will be merged into PageData.
 
+::: warning
+Don't mutate anything inside the `ctx`. 
+:::
+
 ```ts
 export default {
-  async transformPageData(pageData) {
+  async transformPageData(pageData, { siteConfig }) {
     pageData.contributors = await getPageContributors(pageData.relativePath)
   }
 
   // or return data to be merged
-  async transformPageData(pageData) {
+  async transformPageData(pageData, { siteConfig }) {
     return {
       contributors: await getPageContributors(pageData.relativePath)
     }
   }
+}
+```
+
+```ts
+interface TransformPageContext {
+  siteConfig: SiteConfig
 }
 ```

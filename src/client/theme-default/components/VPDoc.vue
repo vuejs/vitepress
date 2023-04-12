@@ -7,7 +7,7 @@ import VPDocFooter from './VPDocFooter.vue'
 import VPDocOutlineDropdown from './VPDocOutlineDropdown.vue'
 
 const route = useRoute()
-const { hasSidebar, hasAside } = useSidebar()
+const { hasSidebar, hasAside, leftAside } = useSidebar()
 
 const pageName = computed(() =>
   route.path.replace(/[./]+/g, '_').replace(/_html$/, '')
@@ -19,8 +19,9 @@ const pageName = computed(() =>
     class="VPDoc"
     :class="{ 'has-sidebar': hasSidebar, 'has-aside': hasAside }"
   >
+    <slot name="doc-top" />
     <div class="container">
-      <div v-if="hasAside" class="aside">
+      <div v-if="hasAside" class="aside" :class="{'left-aside': leftAside}">
         <div class="aside-curtain" />
         <div class="aside-container">
           <div class="aside-content">
@@ -50,6 +51,7 @@ const pageName = computed(() =>
         </div>
       </div>
     </div>
+    <slot name="doc-bottom" />
   </div>
 </template>
 
@@ -127,10 +129,16 @@ const pageName = computed(() =>
   max-width: 256px;
 }
 
+.left-aside {
+  order: 1;
+  padding-left: unset;
+  padding-right: 32px;
+}
+
 .aside-container {
   position: fixed;
   top: 0;
-  padding-top: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 32px);
+  padding-top: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + var(--vp-doc-top-height, 0px) + 32px);
   width: 224px;
   height: 100vh;
   overflow-x: hidden;

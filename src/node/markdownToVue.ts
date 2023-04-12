@@ -188,11 +188,13 @@ export async function createMarkdownToVueRenderFn(
     }
 
     if (includeLastUpdatedData) {
-      pageData.lastUpdated = await getGitTimestamp(file)
+      pageData.lastUpdated = await getGitTimestamp(fileOrig)
     }
 
     if (siteConfig?.transformPageData) {
-      const dataToMerge = await siteConfig.transformPageData(pageData)
+      const dataToMerge = await siteConfig.transformPageData(pageData, {
+        siteConfig
+      })
       if (dataToMerge) {
         pageData = {
           ...pageData,

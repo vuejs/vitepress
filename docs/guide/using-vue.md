@@ -180,7 +180,7 @@ Alternatively, you can wrap the entire paragraph in a `v-pre` custom container:
 
 ## Unescape in Code Blocks
 
-By default, all fenced code blocks are automatically wrapped with `v-pre`, so no Vue syntax will be processd inside. To enable Vue-style interpolation inside fences, you can append the language with the `-vue` suffix, e.g. `js-vue`:
+By default, all fenced code blocks are automatically wrapped with `v-pre`, so no Vue syntax will be processed inside. To enable Vue-style interpolation inside fences, you can append the language with the `-vue` suffix, e.g. `js-vue`:
 
 **Input**
 

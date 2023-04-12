@@ -25,15 +25,6 @@ export default defineConfig({
     ]
   ],
 
-  transformHead({ page }) {
-    if (page === 'index.md') {
-      return [
-        ['link', { rel: 'preload', as: 'image', href: '/vue.svg' }],
-        ['link', { rel: 'preload', as: 'image', href: '/vite.svg' }]
-      ]
-    }
-  },
-
   themeConfig: {
     nav: nav(),
 
@@ -61,6 +52,8 @@ export default defineConfig({
       apiKey: 'a18e2f4cc5665f6602c5631fd868adfd',
       indexName: 'vitepress'
     },
+
+    // localSearch: true,
 
     carbonAds: {
       code: 'CEBDT27Y',
@@ -218,7 +211,7 @@ function sidebarReference() {
               link: '/reference/default-theme-last-updated'
             },
             {
-              text: 'Algolia Search',
+              text: 'Search',
               link: '/reference/default-theme-search'
             },
             {

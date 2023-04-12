@@ -113,10 +113,14 @@ Defines items to display in features section when `layout` is set to `home`. Mor
 
 ### aside <Badge type="info" text="default theme only" />
 
-- Type: `boolean`
+- Type: `boolean | 'left'`
 - Default: `true`
 
-If you want the right aside component in `doc` layout not to be shown, set this option to `false`.
+Defines the location of the aside component in the `doc` layout.
+
+Setting this value to `false` prevents rendering of aside container.\
+Setting this value to `true` renders the aside to the right.\
+Setting this value to `'left'` renders the aside to the left.
 
 ```yaml
 ---

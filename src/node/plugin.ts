@@ -3,11 +3,11 @@ import c from 'picocolors'
 import { slash } from './utils/slash'
 import type { OutputAsset, OutputChunk } from 'rollup'
 import {
-  defineConfig,
   mergeConfig,
   searchForWorkspaceRoot,
   type Plugin,
-  type ResolvedConfig
+  type ResolvedConfig,
+  type UserConfig
 } from 'vite'
 import {
   APP_PATH,
@@ -22,6 +22,7 @@ import { staticDataPlugin } from './plugins/staticDataPlugin'
 import { webFontsPlugin } from './plugins/webFontsPlugin'
 import { dynamicRoutesPlugin } from './plugins/dynamicRoutesPlugin'
 import { rewritesPlugin } from './plugins/rewritesPlugin'
+import { localSearchPlugin } from './plugins/localSearchPlugin.js'
 import { serializeFunctions, deserializeFunctions } from './utils/fnSerialize'
 
 declare module 'vite' {
@@ -116,7 +117,7 @@ export async function createVitePressPlugin(
     },
 
     config() {
-      const baseConfig = defineConfig({
+      const baseConfig: UserConfig = {
         resolve: {
           alias: resolveAliases(siteConfig, ssr)
         },
@@ -139,7 +140,7 @@ export async function createVitePressPlugin(
           }
         },
         vitepress: siteConfig
-      })
+      }
       return userViteConfig
         ? mergeConfig(baseConfig, userViteConfig)
         : baseConfig
@@ -360,6 +361,7 @@ export async function createVitePressPlugin(
     vuePlugin,
     webFontsPlugin(siteConfig.useWebFonts),
     ...(userViteConfig?.plugins || []),
+    await localSearchPlugin(siteConfig),
     staticDataPlugin,
     await dynamicRoutesPlugin(siteConfig)
   ]
