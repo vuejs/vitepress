@@ -1,5 +1,10 @@
 import { siteDataRef } from './data'
-import { inBrowser, EXTERNAL_URL_RE, sanitizeFileName } from '../shared'
+import {
+  inBrowser,
+  EXTERNAL_URL_RE,
+  sanitizeFileName,
+  type Awaitable
+} from '../shared'
 import {
   h,
   onMounted,
@@ -79,8 +84,8 @@ export function onContentUpdated(fn: () => any) {
 
 export function defineClientComponent(
   loader: AsyncComponentLoader,
-  args: any[],
-  fn: () => void
+  args?: any[],
+  cb?: () => Awaitable<void>
 ) {
   return {
     setup() {
@@ -92,9 +97,9 @@ export function defineClientComponent(
           res = res.default
         }
         comp.value = res
-        fn()
+        await cb?.()
       })
-      return () => (comp.value ? h(comp.value, ...args) : null)
+      return () => (comp.value ? h(comp.value, ...(args ?? [])) : null)
     }
   }
 }
