@@ -97,7 +97,10 @@ export async function localSearchPlugin(
   function getDocId(file: string) {
     let relFile = path.relative(siteConfig.srcDir, file)
     relFile = siteConfig.rewrites.map[relFile] || relFile
-    let id = path.join(siteConfig.userConfig.base ?? '/', relFile)
+    let id = path.join(
+      siteConfig.userConfig.base ?? siteConfig.site.base,
+      relFile
+    )
     id = id.replace(/\.md$/, siteConfig.cleanUrls ? '' : '.html')
     return id
   }
