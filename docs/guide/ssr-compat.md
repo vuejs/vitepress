@@ -81,18 +81,21 @@ const ClientComp = defineClientComponent(() => {
 </template>
 ```
 
-Or you can use prop and slot as well. The first argument is the props to be passed, and the second argument is the children
+You can also pass props/children/slots to the target component:
 
 ```vue
 <script setup>
-import { defineClientComponent, ref, h } from 'vitepress'
-const customeCompRef = ref(null)
-const ClientComp = defineClientComponent(() => {
-    return import('component-that-access-window-on-import')
-  },
+import { ref } from 'vue'
+import { defineClientComponent } from 'vitepress'
+
+const clientCompRef = ref(null)
+const ClientComp = defineClientComponent(
+  () => import('component-that-access-window-on-import'),
+
+  // args are passed to h() - https://vuejs.org/api/render-function.html#h
   [
     {
-      ref: customeCompRef
+      ref: clientCompRef
     },
     {
       default: () => 'default slot',
@@ -100,8 +103,10 @@ const ClientComp = defineClientComponent(() => {
       bar: () => [h('span', 'one'), h('span', 'two')]
     }
   ],
+
+  // callback after the component is loaded, can be async
   () => {
-    console.log(customeCompRef.value)
+    console.log(clientCompRef.value)
   }
 )
 </script>
