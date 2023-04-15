@@ -260,7 +260,7 @@ const router = useRouter()
 onKeyStroke('Enter', () => {
   const selectedPackage = results.value[selectedIndex.value]
   if (selectedPackage) {
-    router.go(withBase(selectedPackage.id))
+    router.go(selectedPackage.id)
     emit('close')
   }
 })
@@ -391,7 +391,7 @@ useEventListener('popstate', (event) => {
           <a
             v-for="(p, index) in results"
             :key="p.id"
-            :href="withBase(p.id)"
+            :href="p.id"
             class="result"
             :class="{
               selected: selectedIndex === index
