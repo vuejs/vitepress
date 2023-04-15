@@ -158,7 +158,9 @@ debouncedWatch(
           title = title.replace(reg, `<mark>$&</mark>`)
         }
         if (match.includes('titles')) {
-          titles = titles.map((t) => t.replace(reg, `<mark>$&</mark>`))
+          titles = titles.flatMap((t) =>
+            t ? [t.replace(reg, `<mark>$&</mark>`)] : []
+          )
         }
         if (showDetailedListValue && match.includes('text')) {
           text = text.replace(reg, `<mark>$&</mark>`)
