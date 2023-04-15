@@ -1,4 +1,5 @@
 import { DocSearchProps } from './docsearch.js'
+import { LocalSearchTranslations } from './local-search.js'
 
 export namespace DefaultTheme {
   export interface Config {
@@ -100,8 +101,12 @@ export namespace DefaultTheme {
      */
     langMenuLabel?: string
 
+    search?:
+      | { provider: 'local'; options?: LocalSearchOptions }
+      | { provider: 'algolia'; options: AlgoliaSearchOptions }
+
     /**
-     * The algolia options. Leave it undefined to disable the search feature.
+     * @deprecated Use `search` instead.
      */
     algolia?: AlgoliaSearchOptions
 
@@ -283,6 +288,13 @@ export namespace DefaultTheme {
   export interface Outline {
     level?: number | [number, number] | 'deep'
     label?: string
+  }
+
+  // local search --------------------------------------------------------------
+
+  export interface LocalSearchOptions {
+    translations?: LocalSearchTranslations
+    locales?: Record<string, Partial<Omit<LocalSearchOptions, 'locales'>>>
   }
 
   // algolia -------------------------------------------------------------------

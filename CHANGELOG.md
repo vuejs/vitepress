@@ -1,3 +1,18 @@
+# [1.0.0-alpha.66](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.65...v1.0.0-alpha.66) (2023-04-15)
+
+
+### Bug Fixes
+
+* **search:** properly resolve page link ([609d447](https://github.com/vuejs/vitepress/commit/609d447ab50b2b8fb78a174e7d5aa0ff52411b0e))
+* **theme:** fix meta key not showing on search button ([e295160](https://github.com/vuejs/vitepress/commit/e2951604fd61336df9559ea16972d3ea76a49894))
+
+
+### Features
+
+* offline search ([#2110](https://github.com/vuejs/vitepress/issues/2110)) ([6c92675](https://github.com/vuejs/vitepress/commit/6c92675e33d3276a02b790a34083a68093b58c7f))
+
+
+
 # [1.0.0-alpha.65](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.64...v1.0.0-alpha.65) (2023-04-04)
 
 
