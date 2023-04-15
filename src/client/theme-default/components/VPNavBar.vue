@@ -98,6 +98,11 @@ const classes = computed(() => ({
   pointer-events: none;
 }
 
+.container > .title,
+.container > .content {
+  pointer-events: none;
+}
+
 .container :deep(*) {
   pointer-events: auto;
 }
