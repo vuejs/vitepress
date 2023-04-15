@@ -74,6 +74,7 @@ watchPostEffect(async () => {
   overflow-y: auto;
   transform: translateX(-100%);
   transition: opacity 0.5s, transform 0.25s ease;
+  overscroll-behavior: contain;
 }
 
 .VPSidebar.open {
