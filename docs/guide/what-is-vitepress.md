@@ -30,7 +30,7 @@ VitePress aims to provide a great Developer Experience (DX) when working with Ma
 
 - **[Built-in Markdown Extensions:](./markdown)** Frontmatter, tables, syntax highlighting... you name it. Specifically, VitePress provides many advanced features for working with code blocks, making it ideal for highly technical documentation.
 
-- **[Vue-Enhanced Markdown](./using-vue):** each Markdown page is also a Vue [Single-File Component](https://vuejs.org/guide/scaling-up/sfc.html), thanks to Vue template's 100% syntax compatibility with HTML. You can embed interactivity in your static content using Vue templating features or imported Vue components.
+- **[Vue-Enhanced Markdown:](./using-vue)** each Markdown page is also a Vue [Single-File Component](https://vuejs.org/guide/scaling-up/sfc.html), thanks to Vue template's 100% syntax compatibility with HTML. You can embed interactivity in your static content using Vue templating features or imported Vue components.
 
 ## Performance
 

@@ -164,7 +164,7 @@ Alternatively, you can wrap the entire paragraph in a `v-pre` custom container:
 
 ```md
 ::: v-pre
-{{ This will be displayed as-is }}`
+{{ This will be displayed as-is }}
 :::
 ```
 
