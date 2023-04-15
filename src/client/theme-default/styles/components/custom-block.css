@@ -13,10 +13,10 @@
   background-color: var(--vp-custom-block-info-bg);
 }
 
-.custom-block.info th,
-.custom-block.info blockquote > p {
-  color: var(--vp-custom-block-info-text);
-  font-size: 14px;
+.custom-block.custom-block th,
+.custom-block.custom-block blockquote > p {
+  font-size: var(--vp-custom-block-font-size);
+  color: inherit;
 }
 
 .custom-block.info code {
@@ -29,12 +29,6 @@
   background-color: var(--vp-custom-block-tip-bg);
 }
 
-.custom-block.tip th,
-.custom-block.tip blockquote > p {
-  color: var(--vp-custom-block-tip-text);
-  font-size: 14px;
-}
-
 .custom-block.tip code {
   background-color: var(--vp-custom-block-tip-code-bg);
 }
@@ -43,12 +37,6 @@
   border-color: var(--vp-custom-block-warning-border);
   color: var(--vp-custom-block-warning-text);
   background-color: var(--vp-custom-block-warning-bg);
-}
-
-.custom-block.warning th,
-.custom-block.warning blockquote > p {
-  color: var(--vp-custom-block-warning-text);
-  font-size: 14px;
 }
 
 .custom-block.warning code {
@@ -61,12 +49,6 @@
   background-color: var(--vp-custom-block-danger-bg);
 }
 
-.custom-block.danger th,
-.custom-block.danger blockquote > p {
-  color: var(--vp-custom-block-danger-text);
-  font-size: 14px;
-}
-
 .custom-block.danger code {
   background-color: var(--vp-custom-block-danger-code-bg);
 }
@@ -75,12 +57,6 @@
   border-color: var(--vp-custom-block-details-border);
   color: var(--vp-custom-block-details-text);
   background-color: var(--vp-custom-block-details-bg);
-}
-
-.custom-block.details th,
-.custom-block.details blockquote > p {
-  color: var(--vp-custom-block-details-text);
-  font-size: 14px;
 }
 
 .custom-block.details code {
