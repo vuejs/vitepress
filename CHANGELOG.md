@@ -1,3 +1,12 @@
+# [1.0.0-alpha.68](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.67...v1.0.0-alpha.68) (2023-04-15)
+
+
+### Bug Fixes
+
+* **theme:** fix top of scrollbar being unusable ([#2224](https://github.com/vuejs/vitepress/issues/2224)) ([7178a22](https://github.com/vuejs/vitepress/commit/7178a22c9d317245e5167abf80f7081fbf87e78a))
+
+
+
 # [1.0.0-alpha.67](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.66...v1.0.0-alpha.67) (2023-04-15)
 
 
