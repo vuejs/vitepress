@@ -306,7 +306,7 @@ You can use the params to pass additional data to each page. The Markdown route 
 - version: {{ $params.version }}
 ```
 
-You can also access the current page's params via the `[useData](../reference/runtime-api#usedata)` runtime API. This is available in both Markdown files and Vue components:
+You can also access the current page's params via the [`useData`](../reference/runtime-api#usedata) runtime API. This is available in both Markdown files and Vue components:
 
 ```vue
 <script setup>
