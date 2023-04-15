@@ -4,13 +4,13 @@ import MiniSearch from 'minisearch'
 import fs from 'fs-extra'
 import _debug from 'debug'
 import type { SiteConfig } from '../config'
-import { createMarkdownRenderer } from '../markdown/markdown.js'
-import { resolveSiteDataByRoute } from '../shared.js'
+import { createMarkdownRenderer } from '../markdown/markdown'
+import { resolveSiteDataByRoute } from '../shared'
 
 const debug = _debug('vitepress:local-search')
 
-const OFFLINE_SEARCH_INDEX_ID = '@localSearchIndex'
-const OFFLINE_SEARCH_INDEX_REQUEST_PATH = '/' + OFFLINE_SEARCH_INDEX_ID
+const LOCAL_SEARCH_INDEX_ID = '@localSearchIndex'
+const LOCAL_SEARCH_INDEX_REQUEST_PATH = '/' + LOCAL_SEARCH_INDEX_ID
 
 interface IndexObject {
   id: string
@@ -22,19 +22,16 @@ interface IndexObject {
 export async function localSearchPlugin(
   siteConfig: SiteConfig
 ): Promise<Plugin> {
-  if (
-    siteConfig.userConfig.themeConfig?.algolia ||
-    !siteConfig.userConfig.themeConfig?.localSearch
-  ) {
+  if (siteConfig.userConfig.themeConfig?.search?.provider !== 'local') {
     return {
       name: 'vitepress:local-search',
       resolveId(id) {
-        if (id.startsWith(OFFLINE_SEARCH_INDEX_ID)) {
+        if (id.startsWith(LOCAL_SEARCH_INDEX_ID)) {
           return `/${id}`
         }
       },
       load(id) {
-        if (id.startsWith(OFFLINE_SEARCH_INDEX_REQUEST_PATH)) {
+        if (id.startsWith(LOCAL_SEARCH_INDEX_REQUEST_PATH)) {
           return `export default '{}'`
         }
       }
@@ -77,10 +74,10 @@ export async function localSearchPlugin(
 
   async function onIndexUpdated() {
     if (server) {
-      server.moduleGraph.onFileChange(OFFLINE_SEARCH_INDEX_REQUEST_PATH)
+      server.moduleGraph.onFileChange(LOCAL_SEARCH_INDEX_REQUEST_PATH)
       // HMR
       const mod = server.moduleGraph.getModuleById(
-        OFFLINE_SEARCH_INDEX_REQUEST_PATH
+        LOCAL_SEARCH_INDEX_REQUEST_PATH
       )
       if (!mod) return
       server.ws.send({
@@ -113,7 +110,7 @@ export async function localSearchPlugin(
         .map(async (file) => {
           const fileId = getDocId(file)
           const sections = splitPageIntoSections(
-            await md.render(await fs.readFile(file, 'utf-8'))
+            md.render(await fs.readFile(file, 'utf-8'))
           )
           const locale = getLocaleForPath(file)
           let documents = documentsByLocale.get(locale)
@@ -167,13 +164,13 @@ export async function localSearchPlugin(
     },
 
     resolveId(id) {
-      if (id.startsWith(OFFLINE_SEARCH_INDEX_ID)) {
+      if (id.startsWith(LOCAL_SEARCH_INDEX_ID)) {
         return `/${id}`
       }
     },
 
     async load(id) {
-      if (id === OFFLINE_SEARCH_INDEX_REQUEST_PATH) {
+      if (id === LOCAL_SEARCH_INDEX_REQUEST_PATH) {
         if (process.env.NODE_ENV === 'production') {
           await scanForBuild()
         }
@@ -186,11 +183,11 @@ export async function localSearchPlugin(
           )
         }
         return `export default {${records.join(',')}}`
-      } else if (id.startsWith(OFFLINE_SEARCH_INDEX_REQUEST_PATH)) {
+      } else if (id.startsWith(LOCAL_SEARCH_INDEX_REQUEST_PATH)) {
         return `export default ${JSON.stringify(
           JSON.stringify(
             indexByLocales.get(
-              id.replace(OFFLINE_SEARCH_INDEX_REQUEST_PATH, '')
+              id.replace(LOCAL_SEARCH_INDEX_REQUEST_PATH, '')
             ) ?? {}
           )
         )}`

@@ -11,7 +11,7 @@ export type {
   PageDataPayload,
   SiteData,
   SSGContext
-} from '../../types/shared.js'
+} from '../../types/shared'
 
 export const EXTERNAL_URL_RE = /^[a-z]+:/i
 export const PATHNAME_PROTOCOL_RE = /^pathname:\/\//

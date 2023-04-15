@@ -21,7 +21,7 @@ export const failMark = '\x1b[31m✖\x1b[0m'
 
 // A list of default theme components that should only be loaded on demand.
 const lazyDefaultThemeComponentsRE =
-  /VP(HomeSponsors|DocAsideSponsors|TeamPage|TeamMembers|AlgoliaSearch|CarbonAds|DocAsideCarbonAds)/
+  /VP(HomeSponsors|DocAsideSponsors|TeamPage|TeamMembers|LocalSearchBox|AlgoliaSearchBox|CarbonAds|DocAsideCarbonAds)/
 
 const clientDir = normalizePath(
   path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../client')
