@@ -158,7 +158,9 @@ debouncedWatch(
           title = title.replace(reg, `<mark>$&</mark>`)
         }
         if (match.includes('titles')) {
-          titles = titles.map((t) => t.replace(reg, `<mark>$&</mark>`))
+          titles = titles.flatMap((t) =>
+            t ? [t.replace(reg, `<mark>$&</mark>`)] : []
+          )
         }
         if (showDetailedListValue && match.includes('text')) {
           text = text.replace(reg, `<mark>$&</mark>`)
@@ -311,7 +313,7 @@ useEventListener('popstate', (event) => {
 
       <div class="shell">
         <div class="search-bar" @pointerup="onSearchBarClick($event)">
-          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24">
+          <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
             <g
               fill="none"
               stroke="currentColor"
@@ -329,7 +331,7 @@ useEventListener('popstate', (event) => {
               :title="$t('modal.backButtonTitle')"
               @click="$emit('close')"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24">
+              <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
                 <path
                   fill="none"
                   stroke="currentColor"
@@ -356,7 +358,7 @@ useEventListener('popstate', (event) => {
               :title="$t('modal.displayDetails')"
               @click="showDetailedList = !showDetailedList"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24">
+              <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
                 <path
                   fill="none"
                   stroke="currentColor"
@@ -373,7 +375,7 @@ useEventListener('popstate', (event) => {
               :title="$t('modal.resetButtonTitle')"
               @click="filterText = ''"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24">
+              <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
                 <path
                   fill="none"
                   stroke="currentColor"
@@ -405,7 +407,7 @@ useEventListener('popstate', (event) => {
                 <span class="title-icon">#</span>
                 <span v-for="(t, index) in p.titles" :key="index" class="title">
                   <span class="text" v-html="t" />
-                  <svg width="16" height="16" viewBox="0 0 24 24">
+                  <svg width="20" height="20" viewBox="0 0 24 24">
                     <path
                       fill="none"
                       stroke="currentColor"
@@ -569,6 +571,13 @@ useEventListener('popstate', (event) => {
 
 .search-actions {
   display: flex;
+  gap: 4px;
+}
+
+@media (any-pointer: coarse) {
+  .search-actions {
+    gap: 8px;
+  }
 }
 
 @media (min-width: 769px) {
@@ -578,7 +587,7 @@ useEventListener('popstate', (event) => {
 }
 
 .search-actions button {
-  padding: 8px 6px;
+  padding: 8px;
 }
 
 .search-actions button:hover,
@@ -618,6 +627,7 @@ useEventListener('popstate', (event) => {
   gap: 6px;
   overflow-x: hidden;
   overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .result {
