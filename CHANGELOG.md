@@ -1,3 +1,18 @@
+# [1.0.0-alpha.67](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.66...v1.0.0-alpha.67) (2023-04-15)
+
+
+### Bug Fixes
+
+* **search:** avoid double base ([25a1fe9](https://github.com/vuejs/vitepress/commit/25a1fe90bddd021a1ce5e068d8cad455687647bf))
+* **theme:** navbar style ([#2202](https://github.com/vuejs/vitepress/issues/2202)) ([8ee6b90](https://github.com/vuejs/vitepress/commit/8ee6b905f5243a036c2dee7688539ef33e164f09))
+
+
+### Features
+
+* allow passing props and children/slots to defineClientComponent ([#2198](https://github.com/vuejs/vitepress/issues/2198)) ([4c24960](https://github.com/vuejs/vitepress/commit/4c2496043394d9b14376e74a5bf11ccea5e6e7d7))
+
+
+
 # [1.0.0-alpha.66](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.65...v1.0.0-alpha.66) (2023-04-15)
 
 
