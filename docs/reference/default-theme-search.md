@@ -144,3 +144,10 @@ export default defineConfig({
 ```
 
 [These options](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts) can be overridden. Refer official Algolia docs to learn more about them.
+
+<style>
+img[src="/search.png"] {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+</style>
