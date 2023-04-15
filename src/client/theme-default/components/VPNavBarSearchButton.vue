@@ -5,11 +5,7 @@ defineProps<{
 </script>
 
 <template>
-  <button
-    type="button"
-    class="DocSearch DocSearch-Button"
-    aria-label="Search"
-  >
+  <button type="button" class="DocSearch DocSearch-Button" aria-label="Search">
     <span class="DocSearch-Button-Container">
       <svg
         class="DocSearch-Search-Icon"
