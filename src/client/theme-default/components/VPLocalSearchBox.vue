@@ -617,6 +617,10 @@ function formMarkRegex(terms: Set<string>) {
   border-color: var(--vp-c-brand);
 }
 
+.search-icon {
+  margin: 8px;
+}
+
 @media (max-width: 768px) {
   .search-icon {
     display: none;
