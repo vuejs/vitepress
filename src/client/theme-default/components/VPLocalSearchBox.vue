@@ -6,6 +6,7 @@ import {
   onKeyStroke,
   useEventListener,
   useLocalStorage,
+  useScrollLock,
   useSessionStorage
 } from '@vueuse/core'
 import Mark from 'mark.js'
@@ -21,7 +22,8 @@ import {
   shallowRef,
   watch,
   watchEffect,
-  type Ref
+  type Ref,
+onBeforeUnmount
 } from 'vue'
 import type { ModalTranslations } from '../../../../types/local-search'
 import { pathToFile } from '../../app/utils'
@@ -311,6 +313,16 @@ onMounted(() => {
 useEventListener('popstate', (event) => {
   event.preventDefault()
   emit('close')
+})
+
+/** Lock body */ 
+const isLocked = useScrollLock(document.body)
+onMounted(() => {
+  isLocked.value = true
+})
+
+onBeforeUnmount(() => {
+  isLocked.value = false
 })
 </script>
 
