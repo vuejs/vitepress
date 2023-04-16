@@ -1,3 +1,24 @@
+# [1.0.0-alpha.70](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.69...v1.0.0-alpha.70) (2023-04-16)
+
+
+### Bug Fixes
+
+* **a11y:** increase touch target size of search icons ([4449867](https://github.com/vuejs/vitepress/commit/44498675aca3271596b041881d44e1524d744df6))
+* **search:** avoid body scroll when using local search ([#2236](https://github.com/vuejs/vitepress/issues/2236)) ([144a7d8](https://github.com/vuejs/vitepress/commit/144a7d8e4ee483475b6956090c267213a1e2f8e1))
+* **search:** better highlighting in detailed view ([#2234](https://github.com/vuejs/vitepress/issues/2234)) ([be83524](https://github.com/vuejs/vitepress/commit/be8352441f8b9a8561961c69f3e1794370101de2))
+* **search:** fix keyword highlighting and scrolling in excerpts ([ca8db8a](https://github.com/vuejs/vitepress/commit/ca8db8adca028bb982b819553b85ac19fe946e7e))
+* **search:** remove double base on importing excepts ([185213c](https://github.com/vuejs/vitepress/commit/185213c6ba4416071025fbf3c5ca7fadf311fdbf)), closes [#2230](https://github.com/vuejs/vitepress/issues/2230)
+* **search:** remove extra /index from routes ([9e04b43](https://github.com/vuejs/vitepress/commit/9e04b435671accfcaee795ec8ec2833d8aa358f8))
+* **search:** show escape to close on footer ([6d5b4cd](https://github.com/vuejs/vitepress/commit/6d5b4cd784274786ad57cef378646320ba17faf1))
+
+
+### Features
+
+* **search:** allow force disabling detailed view ([40f1d1b](https://github.com/vuejs/vitepress/commit/40f1d1b6f6f2f6c43fd0d9bcf4b6bc1174ce4831))
+* **search:** make styling more configurable, align more with the theme ([#2233](https://github.com/vuejs/vitepress/issues/2233)) ([b2077c7](https://github.com/vuejs/vitepress/commit/b2077c70250d5c390d69ce31111a1c44769dbc78))
+
+
+
 # [1.0.0-alpha.69](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.68...v1.0.0-alpha.69) (2023-04-15)
 
 
