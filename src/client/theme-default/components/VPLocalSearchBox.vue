@@ -6,6 +6,7 @@ import {
   onKeyStroke,
   useEventListener,
   useLocalStorage,
+  useScrollLock,
   useSessionStorage
 } from '@vueuse/core'
 import Mark from 'mark.js'
@@ -16,6 +17,7 @@ import {
   createApp,
   markRaw,
   nextTick,
+  onBeforeUnmount,
   onMounted,
   ref,
   shallowRef,
@@ -36,8 +38,9 @@ const emit = defineEmits<{
   (e: 'close'): void
 }>()
 
-const el = shallowRef<HTMLDivElement>()
-const resultsEl = shallowRef<HTMLDivElement>()
+const el = shallowRef<HTMLElement>()
+const resultsEl = shallowRef<HTMLElement>()
+const body = shallowRef<HTMLElement>()
 
 /* Search */
 
@@ -310,6 +313,20 @@ onMounted(() => {
 useEventListener('popstate', (event) => {
   event.preventDefault()
   emit('close')
+})
+
+/** Lock body */
+const isLocked = useScrollLock(body)
+
+onMounted(() => {
+  body.value = document.body
+  nextTick(() => {
+    isLocked.value = true
+  })
+})
+
+onBeforeUnmount(() => {
+  isLocked.value = false
 })
 
 function formMarkRegex(terms: Set<string>) {
