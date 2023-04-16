@@ -9,7 +9,6 @@ import {
   useScrollLock,
   useSessionStorage
 } from '@vueuse/core'
-import Mark from 'mark.js'
 import MiniSearch, { type SearchResult } from 'minisearch'
 import { useRouter } from 'vitepress'
 import {
@@ -110,10 +109,11 @@ watch(filterText, () => {
   enableNoResults.value = false
 })
 
-const mark = computed(() => {
+const mark = computedAsync(async () => {
   if (!resultsEl.value) return
-  return new Mark(resultsEl.value)
-})
+  const mod = await import('mark.js')
+  return markRaw(new (mod.default ?? mod)(resultsEl.value))
+}, null)
 
 debouncedWatch(
   () => [searchIndex.value, filterText.value, showDetailedList.value] as const,
