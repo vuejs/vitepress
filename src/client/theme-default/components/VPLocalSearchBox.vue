@@ -525,16 +525,6 @@ useEventListener('popstate', (event) => {
   </Teleport>
 </template>
 
-<style>
-:root {
-  --vp-local-search-bg: var(--vp-c-bg);
-  --vp-local-search-result-bg: var(--vp-c-bg);
-  --vp-local-search-result-border: var(--vp-c-divider);
-  --vp-local-search-result-selected-bg: var(--vp-c-bg);
-  --vp-local-search-result-selected-border: var(--vp-c-brand);
-}
-</style>
-
 <style scoped>
 .VPLocalSearchBox {
   position: fixed;
@@ -731,7 +721,7 @@ useEventListener('popstate', (event) => {
 }
 
 .result.selected {
-  --vp-local-search-result-bg: var(--vp-local-search-result-selected-bg)
+  --vp-local-search-result-bg: var(--vp-local-search-result-selected-bg);
   border-color: var(--vp-local-search-result-selected-border);
 }
 
@@ -760,10 +750,10 @@ useEventListener('popstate', (event) => {
 
 .titles :deep(mark),
 .excerpt :deep(mark) {
-  background-color: var(--vp-c-highlight-bg);
-  color: var(--vp-c-highlight-text);
+  background-color: var(--vp-local-search-highlight-bg);
+  color: var(--vp-local-search-highlight-text);
   border-radius: 2px;
-  padding: 0 4px;
+  padding: 0 2px;
 }
 
 .excerpt :deep(.vp-code-group) .tabs {
