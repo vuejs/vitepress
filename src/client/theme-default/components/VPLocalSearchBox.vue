@@ -526,6 +526,16 @@ useEventListener('popstate', (event) => {
   </Teleport>
 </template>
 
+<style lang="postcss">
+:root {
+  --vp-local-search-bg: var(--vp-c-bg);
+  --vp-local-search-result-bg: var(--vp-c-bg);
+  --vp-local-search-result-border: var(--vp-c-divider);
+  --vp-local-search-result-selected-bg: var(--vp-c-bg);
+  --vp-local-search-result-selected-border: var(--vp-c-brand);
+}
+</style>
+
 <style scoped lang="postcss">
 .VPLocalSearchBox {
   position: fixed;
@@ -537,7 +547,8 @@ useEventListener('popstate', (event) => {
 .backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--vp-backdrop-bg-color);
+  transition: opacity 0.5s;
 }
 
 .shell {
@@ -547,7 +558,7 @@ useEventListener('popstate', (event) => {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  background: var(--vp-c-bg);
+  background: var(--vp-local-search-bg);
   width: min(100vw - 60px, 900px);
   height: min-content;
   max-height: min(100vh - 128px, 900px);
@@ -565,7 +576,7 @@ useEventListener('popstate', (event) => {
 }
 
 .search-bar {
-  border: 1px solid rgba(128, 128, 128, 0.2);
+  border: 1px solid var(--vp-c-divider);
   border-radius: 4px;
   display: flex;
   align-items: center;
@@ -676,7 +687,7 @@ useEventListener('popstate', (event) => {
   border-radius: 4px;
   transition: none;
   line-height: 1rem;
-  border: solid 2px rgba(128, 128, 128, 0.05);
+  border: solid 2px var(--vp-local-search-result-border);
 }
 
 .result > div {
@@ -721,7 +732,8 @@ useEventListener('popstate', (event) => {
 }
 
 .result.selected {
-  border-color: var(--vp-c-brand);
+  --vp-local-search-result-bg: var(--vp-local-search-result-selected-bg)
+  border-color: var(--vp-local-search-result-selected-border);
 }
 
 .excerpt-wrapper {
@@ -769,7 +781,7 @@ useEventListener('popstate', (event) => {
   left: 0;
   width: 100%;
   height: 8px;
-  background: linear-gradient(transparent, var(--vp-c-bg));
+  background: linear-gradient(transparent, var(--vp-local-search-result-bg));
   z-index: 1000;
 }
 
@@ -779,7 +791,7 @@ useEventListener('popstate', (event) => {
   left: 0;
   width: 100%;
   height: 8px;
-  background: linear-gradient(var(--vp-c-bg), transparent);
+  background: linear-gradient(var(--vp-local-search-result-bg), transparent);
   z-index: 1000;
 }
 
