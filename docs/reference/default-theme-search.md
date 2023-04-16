@@ -2,10 +2,6 @@
 
 ## Local Search
 
-::: info
-You need to build and preview/deploy your site for local search to work.
-:::
-
 VitePress supports fuzzy full-text search using a in-browser index thanks to [minisearch](https://github.com/lucaong/minisearch/). To enable this feature, simply set the `themeConfig.search.provider` option to `'local'` in your `.vitepress/config.ts` file:
 
 ```ts
@@ -23,6 +19,10 @@ export default defineConfig({
 Example result:
 
 ![screenshot of the search modal](/search.png)
+
+::: info
+On dev server, the search index is generated on the fly and contains only the recently edited files. So don't worry if you don't see any results when you first open the search modal. It should work fine in production.
+:::
 
 Alternatively, you can use [Algolia DocSearch](#algolia-search) or some community plugins like <https://www.npmjs.com/package/vitepress-plugin-search> or <https://www.npmjs.com/package/vitepress-plugin-pagefind>.
 
