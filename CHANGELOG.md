@@ -1,3 +1,13 @@
+# [1.0.0-alpha.71](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.70...v1.0.0-alpha.71) (2023-04-16)
+
+
+### Bug Fixes
+
+* **search:** esm interop mark.js import ([1b0a249](https://github.com/vuejs/vitepress/commit/1b0a249ad66288ff56675e4db905959ff0079726))
+* **search:** properly group nested headings ([b1c956c](https://github.com/vuejs/vitepress/commit/b1c956ce99505316842c157c76a4ec051eb7610b)), closes [#2238](https://github.com/vuejs/vitepress/issues/2238)
+
+
+
 # [1.0.0-alpha.70](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.69...v1.0.0-alpha.70) (2023-04-16)
 
 
