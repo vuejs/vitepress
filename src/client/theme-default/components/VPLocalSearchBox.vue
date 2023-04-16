@@ -8,9 +8,11 @@ import {
   useLocalStorage,
   useSessionStorage
 } from '@vueuse/core'
+import Mark from 'mark.js'
 import MiniSearch, { type SearchResult } from 'minisearch'
 import { useRouter } from 'vitepress'
 import {
+  computed,
   createApp,
   markRaw,
   nextTick,
@@ -18,9 +20,8 @@ import {
   ref,
   shallowRef,
   watch,
-  type Ref,
-  computed,
-  watchEffect
+  watchEffect,
+  type Ref
 } from 'vue'
 import type { ModalTranslations } from '../../../../types/local-search'
 import { pathToFile, withBase } from '../../app/utils'
@@ -177,9 +178,6 @@ debouncedWatch(
             .map((t) => t?.replace(reg, `<mark>$&</mark>`))
             .filter(Boolean)
         }
-        if (showDetailedListValue && match.includes('text')) {
-          text = text.replace(reg, `<mark>$&</mark>`)
-        }
       }
 
       return { ...r, title, titles, text }
@@ -188,10 +186,11 @@ debouncedWatch(
 
     await nextTick()
     const excerpts = el.value?.querySelectorAll('.result .excerpt') ?? []
+    let i = 0
     for (const excerpt of excerpts) {
-      excerpt.querySelector('mark')?.scrollIntoView({
-        block: 'center'
-      })
+      new Mark(excerpt as HTMLElement).mark(Object.keys(results.value[i].match))
+      excerpt.querySelector('mark')?.scrollIntoView({ block: 'center' })
+      i += 1
     }
   },
   { debounce: 200, immediate: true }
@@ -526,7 +525,7 @@ useEventListener('popstate', (event) => {
   </Teleport>
 </template>
 
-<style scoped lang="postcss">
+<style scoped>
 .VPLocalSearchBox {
   position: fixed;
   z-index: 100;
