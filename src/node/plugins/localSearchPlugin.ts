@@ -250,7 +250,7 @@ function splitPageIntoSections(html: string) {
     const anchor = headingResult?.[2] ?? ''
     const content = result[i + 2]
     if (!title || !content) continue
-    const titles = [...parentTitles]
+    const titles = parentTitles.slice(0, level)
     titles[level] = title
     sections.push({ anchor, titles, text: getSearchableText(content) })
     if (level === 0) {
