@@ -22,7 +22,7 @@ interface IndexObject {
 export async function localSearchPlugin(
   siteConfig: SiteConfig
 ): Promise<Plugin> {
-  if (siteConfig.userConfig.themeConfig?.search?.provider !== 'local') {
+  if (siteConfig.site.themeConfig?.search?.provider !== 'local') {
     return {
       name: 'vitepress:local-search',
       resolveId(id) {
@@ -40,8 +40,8 @@ export async function localSearchPlugin(
 
   const md = await createMarkdownRenderer(
     siteConfig.srcDir,
-    siteConfig.userConfig.markdown,
-    siteConfig.userConfig.base,
+    siteConfig.markdown,
+    siteConfig.site.base,
     siteConfig.logger
   )
 
