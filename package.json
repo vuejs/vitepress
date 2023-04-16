@@ -119,8 +119,6 @@
     "@types/debug": "^4.1.7",
     "@types/escape-html": "^1.0.2",
     "@types/fs-extra": "^11.0.1",
-    "@types/koa": "^2.13.6",
-    "@types/koa-static": "^4.0.2",
     "@types/mark.js": "^8.11.8",
     "@types/markdown-it": "^12.2.3",
     "@types/markdown-it-attrs": "^4.1.0",
