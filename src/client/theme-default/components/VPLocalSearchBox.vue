@@ -24,7 +24,7 @@ import {
   type Ref
 } from 'vue'
 import type { ModalTranslations } from '../../../../types/local-search'
-import { pathToFile, withBase } from '../../app/utils'
+import { pathToFile } from '../../app/utils'
 import { useData } from '../composables/data'
 import { createTranslate } from '../support/translation'
 
@@ -197,7 +197,7 @@ debouncedWatch(
 )
 
 async function fetchExcerpt(id: string) {
-  const file = pathToFile(withBase(id.slice(0, id.indexOf('#'))))
+  const file = pathToFile(id.slice(0, id.indexOf('#')))
   try {
     return { id, mod: await import(/*@vite-ignore*/ file) }
   } catch (e) {
