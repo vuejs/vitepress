@@ -286,7 +286,9 @@ const defaultTranslations: { modal: ModalTranslations } = {
       selectKeyAriaLabel: 'enter',
       navigateText: 'to navigate',
       navigateUpKeyAriaLabel: 'up arrow',
-      navigateDownKeyAriaLabel: 'down arrow'
+      navigateDownKeyAriaLabel: 'down arrow',
+      closeText: 'to close',
+      closeKeyAriaLabel: 'escape'
     }
   }
 }
@@ -313,7 +315,13 @@ useEventListener('popstate', (event) => {
 
       <div class="shell">
         <div class="search-bar" @pointerup="onSearchBarClick($event)">
-          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+          <svg
+            class="search-icon"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
             <g
               fill="none"
               stroke="currentColor"
@@ -331,7 +339,12 @@ useEventListener('popstate', (event) => {
               :title="$t('modal.backButtonTitle')"
               @click="$emit('close')"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
                 <path
                   fill="none"
                   stroke="currentColor"
@@ -358,7 +371,12 @@ useEventListener('popstate', (event) => {
               :title="$t('modal.displayDetails')"
               @click="showDetailedList = !showDetailedList"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
                 <path
                   fill="none"
                   stroke="currentColor"
@@ -375,7 +393,12 @@ useEventListener('popstate', (event) => {
               :title="$t('modal.resetButtonTitle')"
               @click="filterText = ''"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
                 <path
                   fill="none"
                   stroke="currentColor"
@@ -398,7 +421,7 @@ useEventListener('popstate', (event) => {
             :class="{
               selected: selectedIndex === index
             }"
-            :aria-title="[...p.titles, p.title].join(' > ')"
+            :aria-label="[...p.titles, p.title].join(' > ')"
             @mouseenter="!disableMouseOver && (selectedIndex = index)"
             @click="$emit('close')"
           >
@@ -444,7 +467,7 @@ useEventListener('popstate', (event) => {
 
         <div class="search-keyboard-shortcuts">
           <span>
-            <kbd :aria-title="$t('modal.footer.navigateUpKeyAriaLabel')">
+            <kbd :aria-label="$t('modal.footer.navigateUpKeyAriaLabel')">
               <svg width="14" height="14" viewBox="0 0 24 24">
                 <path
                   fill="none"
@@ -456,8 +479,7 @@ useEventListener('popstate', (event) => {
                 />
               </svg>
             </kbd>
-            {{ ' ' }}
-            <kbd :aria-title="$t('modal.footer.navigateDownKeyAriaLabel')">
+            <kbd :aria-label="$t('modal.footer.navigateDownKeyAriaLabel')">
               <svg width="14" height="14" viewBox="0 0 24 24">
                 <path
                   fill="none"
@@ -472,8 +494,8 @@ useEventListener('popstate', (event) => {
             {{ $t('modal.footer.navigateText') }}
           </span>
           <span>
-            <kbd :aria-title="$t('modal.footer.selectKeyAriaLabel')"
-              ><svg width="14" height="14" viewBox="0 0 24 24">
+            <kbd :aria-label="$t('modal.footer.selectKeyAriaLabel')">
+              <svg width="14" height="14" viewBox="0 0 24 24">
                 <g
                   fill="none"
                   stroke="currentcolor"
@@ -487,6 +509,10 @@ useEventListener('popstate', (event) => {
               </svg>
             </kbd>
             {{ $t('modal.footer.selectText') }}
+          </span>
+          <span>
+            <kbd :aria-label="$t('modal.footer.closeKeyAriaLabel')">esc</kbd>
+            {{ $t('modal.footer.closeText') }}
           </span>
         </div>
       </div>
@@ -601,6 +627,13 @@ useEventListener('popstate', (event) => {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
+  line-height: 14px;
+}
+
+.search-keyboard-shortcuts span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 @media (max-width: 768px) {
