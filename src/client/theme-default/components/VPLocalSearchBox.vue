@@ -36,7 +36,8 @@ const emit = defineEmits<{
   (e: 'close'): void
 }>()
 
-const el = ref<HTMLDivElement>()
+const el = shallowRef<HTMLDivElement>()
+const resultsEl = shallowRef<HTMLDivElement>()
 
 /* Search */
 
@@ -98,14 +99,17 @@ watchEffect(() => {
 
 const results: Ref<(SearchResult & Result)[]> = shallowRef([])
 
-const contents = shallowRef(new Map<string, Map<string, string>>())
-
 const headingRegex = /<h(\d*).*?>.*?<a.*? href="#(.*?)".*?>.*?<\/a><\/h\1>/gi
 
 const enableNoResults = ref(false)
 
 watch(filterText, () => {
   enableNoResults.value = false
+})
+
+const mark = computed(() => {
+  if (!resultsEl.value) return
+  return new Mark(resultsEl.value)
 })
 
 debouncedWatch(
@@ -155,43 +159,38 @@ debouncedWatch(
       }
       if (canceled) return
     }
-    results.value = results.value.map((r) => {
-      let title = r.title
-      let titles = r.titles
-      let text = ''
 
-      // Highlight in text
+    const terms = new Set<string>()
+
+    results.value = results.value.map((r) => {
       const [id, anchor] = r.id.split('#')
       const map = c.get(id)
-      if (map) {
-        text = map.get(anchor) ?? ''
-      }
-
+      const text = map?.get(anchor) ?? ''
       for (const term in r.match) {
-        const match = r.match[term]
-        const reg = new RegExp(term, 'gi')
-        if (match.includes('title')) {
-          title = title.replace(reg, `<mark>$&</mark>`)
-        }
-        if (match.includes('titles')) {
-          titles = titles
-            .map((t) => t?.replace(reg, `<mark>$&</mark>`))
-            .filter(Boolean)
-        }
+        terms.add(term)
       }
-
-      return { ...r, title, titles, text }
+      return { ...r, text }
     })
-    contents.value = c
 
     await nextTick()
+    if (canceled) return
+
+    await new Promise((r) => {
+      mark.value?.unmark({
+        done: () => {
+          mark.value?.markRegExp(formMarkRegex(terms), { done: r })
+        }
+      })
+    })
+
     const excerpts = el.value?.querySelectorAll('.result .excerpt') ?? []
-    let i = 0
     for (const excerpt of excerpts) {
-      new Mark(excerpt as HTMLElement).mark(Object.keys(results.value[i].match))
-      excerpt.querySelector('mark')?.scrollIntoView({ block: 'center' })
-      i += 1
+      excerpt
+        .querySelector('mark[data-markjs="true"]')
+        ?.scrollIntoView({ block: 'center' })
     }
+    // FIXME: without this whole page scrolls to the bottom
+    el.value?.querySelector('.result')?.scrollIntoView({ block: 'start' })
   },
   { debounce: 200, immediate: true }
 )
@@ -312,6 +311,20 @@ useEventListener('popstate', (event) => {
   event.preventDefault()
   emit('close')
 })
+
+function formMarkRegex(terms: Set<string>) {
+  return new RegExp(
+    [...terms]
+      .sort((a, b) => b.length - a.length)
+      .map((term) => {
+        return `(${term
+          .replace(/[|\\{}()[\]^$+*?.]/g, '\\$&')
+          .replace(/-/g, '\\x2d')})`
+      })
+      .join('|'),
+    'gi'
+  )
+}
 </script>
 
 <template>
@@ -417,7 +430,11 @@ useEventListener('popstate', (event) => {
           </div>
         </div>
 
-        <div class="results" @mousemove="disableMouseOver = false">
+        <div
+          ref="resultsEl"
+          class="results"
+          @mousemove="disableMouseOver = false"
+        >
           <a
             v-for="(p, index) in results"
             :key="p.id"
