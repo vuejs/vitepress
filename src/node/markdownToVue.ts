@@ -1,7 +1,7 @@
 import { resolveTitleFromToken } from '@mdit-vue/shared'
 import _debug from 'debug'
 import fs from 'fs'
-import LRUCache from 'lru-cache'
+import { LRUCache } from 'lru-cache'
 import path from 'path'
 import c from 'picocolors'
 import type { SiteConfig } from './config'
