@@ -17,13 +17,13 @@ import {
   createApp,
   markRaw,
   nextTick,
+  onBeforeUnmount,
   onMounted,
   ref,
   shallowRef,
   watch,
   watchEffect,
-  type Ref,
-  onBeforeUnmount
+  type Ref
 } from 'vue'
 import type { ModalTranslations } from '../../../../types/local-search'
 import { pathToFile } from '../../app/utils'
@@ -38,8 +38,9 @@ const emit = defineEmits<{
   (e: 'close'): void
 }>()
 
-const el = shallowRef<HTMLDivElement>()
-const resultsEl = shallowRef<HTMLDivElement>()
+const el = shallowRef<HTMLElement>()
+const resultsEl = shallowRef<HTMLElement>()
+const body = shallowRef<HTMLElement>()
 
 /* Search */
 
@@ -314,8 +315,7 @@ useEventListener('popstate', (event) => {
   emit('close')
 })
 
-/** Lock body */ 
-const body = shallowRef<HTMLElement | null>(null)
+/** Lock body */
 const isLocked = useScrollLock(body)
 
 onMounted(() => {
