@@ -23,7 +23,7 @@ import {
   watch,
   watchEffect,
   type Ref,
-onBeforeUnmount
+  onBeforeUnmount
 } from 'vue'
 import type { ModalTranslations } from '../../../../types/local-search'
 import { pathToFile } from '../../app/utils'
