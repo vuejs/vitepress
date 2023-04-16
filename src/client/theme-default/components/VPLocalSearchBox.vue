@@ -18,7 +18,9 @@ import {
   ref,
   shallowRef,
   watch,
-  type Ref
+  type Ref,
+  computed,
+  watchEffect
 } from 'vue'
 import type { ModalTranslations } from '../../../../types/local-search'
 import { pathToFile, withBase } from '../../app/utils'
@@ -54,7 +56,7 @@ interface Result {
   text?: string
 }
 
-const { localeIndex } = useData()
+const { localeIndex, theme } = useData()
 
 const searchIndex = computedAsync(async () =>
   markRaw(
@@ -79,6 +81,19 @@ const showDetailedList = useLocalStorage(
   'vitepress:local-search-detailed-list',
   false
 )
+
+const disableDetailedView = computed(() => {
+  return (
+    theme.value.search?.provider === 'local' &&
+    theme.value.search.options?.disableDetailedView === true
+  )
+})
+
+watchEffect(() => {
+  if (disableDetailedView.value) {
+    showDetailedList.value = false
+  }
+})
 
 const results: Ref<(SearchResult & Result)[]> = shallowRef([])
 
@@ -158,21 +173,16 @@ debouncedWatch(
           title = title.replace(reg, `<mark>$&</mark>`)
         }
         if (match.includes('titles')) {
-          titles = titles.flatMap((t) =>
-            t ? [t.replace(reg, `<mark>$&</mark>`)] : []
-          )
+          titles = titles
+            .map((t) => t?.replace(reg, `<mark>$&</mark>`))
+            .filter(Boolean)
         }
         if (showDetailedListValue && match.includes('text')) {
           text = text.replace(reg, `<mark>$&</mark>`)
         }
       }
 
-      return {
-        ...r,
-        title,
-        titles,
-        text
-      }
+      return { ...r, title, titles, text }
     })
     contents.value = c
 
@@ -272,9 +282,6 @@ onKeyStroke('Escape', () => {
 })
 
 // Translations
-
-const { theme } = useData()
-
 const defaultTranslations: { modal: ModalTranslations } = {
   modal: {
     displayDetails: 'Display detailed list',
@@ -364,10 +371,9 @@ useEventListener('popstate', (event) => {
           />
           <div class="search-actions">
             <button
+              v-if="!disableDetailedView"
               class="toggle-layout-button"
-              :class="{
-                'detailed-list': showDetailedList
-              }"
+              :class="{ 'detailed-list': showDetailedList }"
               :title="$t('modal.displayDetails')"
               @click="showDetailedList = !showDetailedList"
             >
@@ -746,6 +752,7 @@ useEventListener('popstate', (event) => {
   background-color: var(--vp-c-highlight-bg);
   color: var(--vp-c-highlight-text);
   border-radius: 2px;
+  padding: 0 4px;
 }
 
 .excerpt :deep(.vp-code-group) .tabs {

@@ -293,6 +293,11 @@ export namespace DefaultTheme {
   // local search --------------------------------------------------------------
 
   export interface LocalSearchOptions {
+    /**
+     * @default false
+     */
+    disableDetailedView?: boolean
+
     translations?: LocalSearchTranslations
     locales?: Record<string, Partial<Omit<LocalSearchOptions, 'locales'>>>
   }
