@@ -316,9 +316,14 @@ useEventListener('popstate', (event) => {
 })
 
 /** Lock body */ 
-const isLocked = useScrollLock(document.body)
+const body = shallowRef<HTMLElement | null>(null)
+const isLocked = useScrollLock(body)
+
 onMounted(() => {
-  isLocked.value = true
+  body.value = document.body
+  nextTick(() => {
+    isLocked.value = true
+  })
 })
 
 onBeforeUnmount(() => {
