@@ -3,7 +3,7 @@
 ## Local Search
 
 ::: info
-You need to build and preview/deploy your site for search to work. It currently does not work in dev.
+You need to build and preview/deploy your site for local search to work.
 :::
 
 VitePress supports fuzzy full-text search using a in-browser index thanks to [minisearch](https://github.com/lucaong/minisearch/). To enable this feature, simply set the `themeConfig.search.provider` option to `'local'` in your `.vitepress/config.ts` file:
