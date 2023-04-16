@@ -97,9 +97,6 @@
   --vp-c-mute-lighter: #ffffff;
   --vp-c-mute-dark: #e3e3e5;
   --vp-c-mute-darker: #d7d7d9;
-
-  --vp-c-highlight-bg: var(--vp-c-green-lighter);
-  --vp-c-highlight-text: var(--vp-c-black);
 }
 
 .dark {
@@ -404,7 +401,7 @@
 }
 
 /**
- * Component: CarbonAds
+ * Component: Carbon Ads
  * -------------------------------------------------------------------------- */
 
 :root {
@@ -413,4 +410,17 @@
   --vp-carbon-ads-bg-color: var(--vp-c-bg-soft);
   --vp-carbon-ads-hover-text-color: var(--vp-c-brand);
   --vp-carbon-ads-hover-poweredby-color: var(--vp-c-text-1);
+}
+
+/**
+  * Component: Local Search
+  * -------------------------------------------------------------------------- */
+:root {
+  --vp-local-search-bg: var(--vp-c-bg);
+  --vp-local-search-result-bg: var(--vp-c-bg);
+  --vp-local-search-result-border: var(--vp-c-divider);
+  --vp-local-search-result-selected-bg: var(--vp-c-bg);
+  --vp-local-search-result-selected-border: var(--vp-c-brand);
+  --vp-local-search-highlight-bg: var(--vp-c-green-lighter);
+  --vp-local-search-highlight-text: var(--vp-c-black);
 }
