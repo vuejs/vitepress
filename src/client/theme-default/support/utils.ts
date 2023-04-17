@@ -50,7 +50,3 @@ export function normalizeLink(url: string): string {
 
   return withBase(normalizedPath)
 }
-
-export function slash(p: string): string {
-  return p.replace(/\\/g, '/')
-}

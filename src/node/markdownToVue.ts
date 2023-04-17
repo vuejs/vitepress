@@ -11,9 +11,13 @@ import {
   type MarkdownOptions,
   type MarkdownRenderer
 } from './markdown'
-import { EXTERNAL_URL_RE, type HeadConfig, type PageData } from './shared'
+import {
+  EXTERNAL_URL_RE,
+  slash,
+  type HeadConfig,
+  type PageData
+} from './shared'
 import { getGitTimestamp } from './utils/getGitTimestamp'
-import { slash } from './utils/slash'
 
 const debug = _debug('vitepress:md')
 const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })

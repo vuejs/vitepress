@@ -165,3 +165,7 @@ export function sanitizeFileName(name: string): string {
       .replace(/(^|\/)_+(?=[^/]*$)/, '$1')
   )
 }
+
+export function slash(p: string): string {
+  return p.replace(/\\/g, '/')
+}

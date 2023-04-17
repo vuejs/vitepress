@@ -26,9 +26,9 @@ import {
 } from 'vue'
 import type { ModalTranslations } from '../../../../types/local-search'
 import { pathToFile } from '../../app/utils'
+import { slash } from '../../shared'
 import { useData } from '../composables/data'
 import { createTranslate } from '../support/translation'
-import { slash } from '../support/utils'
 
 defineProps<{
   placeholder: string
