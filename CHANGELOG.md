@@ -1,3 +1,14 @@
+# [1.0.0-alpha.72](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.71...v1.0.0-alpha.72) (2023-04-17)
+
+
+### Bug Fixes
+
+* **search:** don't directly access userConfig ([3e0e9d2](https://github.com/vuejs/vitepress/commit/3e0e9d2b27c02e250c5b350bf83dce9b95e217a8))
+* **search:** ready event is not fired on mac ([e37e5cb](https://github.com/vuejs/vitepress/commit/e37e5cb45a6c3507b906b9955897ce4e84adf500))
+* **theme:** local search showDetailedList not working in windows ([#2248](https://github.com/vuejs/vitepress/issues/2248)) ([8354f8f](https://github.com/vuejs/vitepress/commit/8354f8fb8649d429b2cb525dd6f35127faba7ae6))
+
+
+
 # [1.0.0-alpha.71](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.70...v1.0.0-alpha.71) (2023-04-16)
 
 
