@@ -72,7 +72,7 @@ export async function localSearchPlugin(
 
   let server: ViteDevServer | undefined
 
-  async function onIndexUpdated() {
+  function onIndexUpdated() {
     if (server) {
       server.moduleGraph.onFileChange(LOCAL_SEARCH_INDEX_REQUEST_PATH)
       // HMR
@@ -146,22 +146,10 @@ export async function localSearchPlugin(
   return {
     name: 'vitepress:local-search',
 
-    configureServer(_server) {
+    async configureServer(_server) {
       server = _server
-
-      server.watcher.on('ready', async () => {
-        const watched = server!.watcher.getWatched()
-        const files = Object.keys(watched).reduce((acc, dir) => {
-          acc.push(
-            ...watched[dir]
-              .map((file) => dir + '/' + file)
-              .filter((file) => file.endsWith('.md'))
-          )
-          return acc
-        }, [] as string[])
-        await indexAllFiles(files)
-        onIndexUpdated()
-      })
+      await scanForBuild()
+      onIndexUpdated()
     },
 
     resolveId(id) {
@@ -203,7 +191,7 @@ export async function localSearchPlugin(
         }
         const index = getIndexForPath(ctx.file)
         const sections = splitPageIntoSections(
-          await md.render(await fs.readFile(ctx.file, 'utf-8'))
+          md.render(await fs.readFile(ctx.file, 'utf-8'))
         )
         for (const section of sections) {
           const id = `${fileId}#${section.anchor}`

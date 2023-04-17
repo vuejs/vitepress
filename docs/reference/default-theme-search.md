@@ -20,10 +20,6 @@ Example result:
 
 ![screenshot of the search modal](/search.png)
 
-::: info
-On dev server, the search index is generated on the fly and contains only the recently edited files. So don't worry if you don't see any results when you first open the search modal. It should work fine in production.
-:::
-
 Alternatively, you can use [Algolia DocSearch](#algolia-search) or some community plugins like <https://www.npmjs.com/package/vitepress-plugin-search> or <https://www.npmjs.com/package/vitepress-plugin-pagefind>.
 
 ### i18n {#local-search-i18n}
