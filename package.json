@@ -134,7 +134,7 @@
     "cross-spawn": "^7.0.3",
     "debug": "^4.3.4",
     "enquirer": "^2.3.6",
-    "esbuild": "^0.17.16",
+    "esbuild": "^0.17.17",
     "escape-html": "^1.0.3",
     "execa": "^7.1.1",
     "fast-glob": "^3.2.12",
