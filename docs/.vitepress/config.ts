@@ -7,7 +7,7 @@ const pkg = require('vitepress/package.json')
 export default defineConfig({
   lang: 'en-US',
   title: 'VitePress',
-  description: 'Vite & Vue powered static site generator.',
+  // description: 'Vite & Vue powered static site generator.',
 
   lastUpdated: true,
   cleanUrls: true,
@@ -24,14 +24,40 @@ export default defineConfig({
       }
     ]
   ],
-
-  themeConfig: {
-    nav: nav(),
-
-    sidebar: {
-      '/guide/': sidebarGuide(),
-      '/reference/': sidebarReference()
+  locales: {
+    root: {
+      label: 'English',
+      lang: 'en',
+      description: 'Vite & Vue powered static site generator.',
+      themeConfig: {
+        nav: nav(),
+        sidebar: {
+          '/guide/': sidebarGuide(),
+          '/reference/': sidebarReference()
+        }
+      }
     },
+    zh: {
+      label: '简体中文',
+      lang: 'zh-CN',
+      link: '/zh/',
+      description: 'Vite & Vue powered static site generator.',
+      themeConfig: {
+        nav: zhNav(),
+        sidebar: {
+          '/zh/guide/': zhSidebarGuide(),
+          '/zh/reference/': zhSidebarReference()
+        }
+      }
+    }
+  },
+  themeConfig: {
+    // nav: nav(),
+
+    // sidebar: {
+    //   '/guide/': sidebarGuide(),
+    //   '/reference/': sidebarReference()
+    // },
 
     editLink: {
       pattern: 'https://github.com/vuejs/vitepress/edit/main/docs/:path',
@@ -218,6 +244,128 @@ function sidebarReference() {
             {
               text: 'Carbon Ads',
               link: '/reference/default-theme-carbon-ads'
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+function zhNav() {
+  return [
+    {
+      text: '指引',
+      link: '/zh/guide/what-is-vitepress',
+      activeMatch: '/zh/guide/'
+    },
+    {
+      text: '配置参考',
+      link: '/zh/reference/site-config',
+      activeMatch: '/zh/reference/'
+    },
+    {
+      text: pkg.version,
+      items: [
+        // { text: 'itemA', link: '/item-1' },
+        {
+          text: '更新日志',
+          link: 'https://github.com/vuejs/vitepress/blob/main/CHANGELOG.md'
+        },
+        {
+          text: '贡献',
+          link: 'https://github.com/vuejs/vitepress/blob/main/.github/contributing.md'
+        }
+      ]
+    }
+  ]
+}
+
+function zhSidebarGuide() {
+  return [
+    {
+      text: '介绍',
+      collapsed: true,
+      items: [
+        { text: '什么是 VitePress?', link: '/zh/guide/what-is-vitepress' },
+        { text: '快速开始', link: '/zh/guide/getting-started' },
+        { text: '路由', link: '/zh/guide/routing' },
+        { text: '部署', link: '/zh/guide/deploy' }
+      ]
+    },
+    {
+      text: '编写',
+      collapsed: true,
+      items: [
+        { text: 'Markdown 基础语法', link: '/zh/guide/markdown-base' },
+        { text: 'Markdown 扩展', link: '/zh/guide/markdown' },
+        { text: '静态资源处理', link: '/zh/guide/asset-handling' },
+        { text: 'Frontmatter', link: '/zh/guide/frontmatter' },
+        { text: '在 Markdown 中 使用 Vue', link: '/zh/guide/using-vue' },
+        { text: '国际化', link: '/zh/guide/i18n' }
+      ]
+    },
+    {
+      text: '自定义',
+      collapsed: true,
+      items: [
+        { text: '使用自定义主题', link: '/guide/custom-theme' },
+        { text: '扩展默认主题', link: '/guide/extending-default-theme' },
+        { text: '构建时数据加载', link: '/guide/data-loading' },
+        { text: 'SSR 兼容性', link: '/guide/ssr-compat' },
+        { text: '连接到 CMS', link: '/guide/cms' }
+      ]
+    },
+    {
+      text: '实验性的',
+      collapsed: true,
+      items: [
+        {
+          text: 'MPA Mode',
+          link: '/guide/mpa-mode'
+        }
+      ]
+    },
+    {
+      text: '配置 & API 参考',
+      link: '/reference/site-config'
+    }
+  ]
+}
+
+function zhSidebarReference() {
+  return [
+    {
+      text: '参考',
+      items: [
+        { text: '站点配置', link: '/zh/reference/site-config' },
+        { text: 'Frontmatter 配置', link: '/zh/reference/frontmatter-config' },
+        { text: 'Runtime API', link: '/zh/reference/runtime-api' },
+        { text: 'CLI', link: '/zh/reference/cli' },
+        {
+          text: '默认主题',
+          items: [
+            { text: '概览', link: '/zh/reference/default-theme-config' },
+            { text: '导航栏', link: '/zh/reference/default-theme-nav' },
+            { text: '侧边栏', link: '/zh/reference/default-theme-sidebar' },
+            { text: '主页', link: '/zh/reference/default-theme-home-page' },
+            { text: '页脚', link: '/zh/reference/default-theme-footer' },
+            { text: '布局', link: '/zh/reference/default-theme-layout' },
+            { text: '徽标', link: '/zh/reference/default-theme-badge' },
+            { text: '团队', link: '/zh/reference/default-theme-team-page' },
+            {
+              text: '上（下）一篇',
+              link: '/zh/reference/default-theme-prev-next-links'
+            },
+            { text: '编辑链接', link: '/zh/reference/default-theme-edit-link' },
+            {
+              text: '最近更新时间',
+              link: '/zh/reference/default-theme-last-updated'
+            },
+            { text: '搜索', link: '/zh/reference/default-theme-search' },
+            {
+              text: 'Carbon Ads',
+              link: '/zh/reference/default-theme-carbon-ads'
             }
           ]
         }
