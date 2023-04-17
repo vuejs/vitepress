@@ -309,11 +309,11 @@ function zhSidebarGuide() {
       text: '自定义',
       collapsed: true,
       items: [
-        { text: '使用自定义主题', link: '/guide/custom-theme' },
-        { text: '扩展默认主题', link: '/guide/extending-default-theme' },
-        { text: '构建时数据加载', link: '/guide/data-loading' },
-        { text: 'SSR 兼容性', link: '/guide/ssr-compat' },
-        { text: '连接到 CMS', link: '/guide/cms' }
+        { text: '使用自定义主题', link: '/zh/guide/custom-theme' },
+        { text: '扩展默认主题', link: '/zh/guide/extending-default-theme' },
+        { text: '构建时数据加载', link: '/zh/guide/data-loading' },
+        { text: 'SSR 兼容性', link: '/zh/guide/ssr-compat' },
+        { text: '连接到 CMS', link: '/zh/guide/cms' }
       ]
     },
     {
@@ -322,13 +322,13 @@ function zhSidebarGuide() {
       items: [
         {
           text: 'MPA Mode',
-          link: '/guide/mpa-mode'
+          link: '/zh/guide/mpa-mode'
         }
       ]
     },
     {
       text: '配置 & API 参考',
-      link: '/reference/site-config'
+      link: '/zh/reference/site-config'
     }
   ]
 }
