@@ -12,11 +12,11 @@ import {
   notFoundPageData,
   resolveSiteDataByRoute,
   sanitizeFileName,
+  slash,
   type HeadConfig,
   type PageData,
   type SSGContext
 } from '../shared'
-import { slash } from '../utils/slash'
 import { deserializeFunctions } from '../utils/fnSerialize'
 
 export async function renderPage(

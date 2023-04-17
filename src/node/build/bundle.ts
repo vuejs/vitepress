@@ -7,11 +7,10 @@ import {
   type UserConfig as ViteUserConfig
 } from 'vite'
 import type { GetModuleInfo, RollupOutput } from 'rollup'
-import { slash } from '../utils/slash'
 import type { SiteConfig } from '../config'
 import { APP_PATH } from '../alias'
 import { createVitePressPlugin } from '../plugin'
-import { sanitizeFileName } from '../shared'
+import { sanitizeFileName, slash } from '../shared'
 import { buildMPAClient } from './buildMPAClient'
 import { fileURLToPath } from 'url'
 import { normalizePath } from 'vite'
