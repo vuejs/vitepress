@@ -6,8 +6,7 @@ import {
   onKeyStroke,
   useEventListener,
   useLocalStorage,
-  useScrollLock,
-  useSessionStorage
+  useScrollLock
 } from '@vueuse/core'
 import MiniSearch, { type SearchResult } from 'minisearch'
 import { useRouter } from 'vitepress'
@@ -80,7 +79,7 @@ const searchIndex = computedAsync(async () =>
   )
 )
 
-const filterText = useSessionStorage('vitepress:local-search-filter', '')
+const filterText = ref('')
 
 const showDetailedList = useLocalStorage(
   'vitepress:local-search-detailed-list',
