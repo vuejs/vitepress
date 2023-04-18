@@ -1,6 +1,5 @@
 import path from 'path'
 import c from 'picocolors'
-import { slash } from './utils/slash'
 import type { OutputAsset, OutputChunk } from 'rollup'
 import {
   mergeConfig,
@@ -17,7 +16,7 @@ import {
 } from './alias'
 import { resolveUserConfig, resolvePages, type SiteConfig } from './config'
 import { clearCache, createMarkdownToVueRenderFn } from './markdownToVue'
-import type { PageDataPayload } from './shared'
+import { slash, type PageDataPayload } from './shared'
 import { staticDataPlugin } from './plugins/staticDataPlugin'
 import { webFontsPlugin } from './plugins/webFontsPlugin'
 import { dynamicRoutesPlugin } from './plugins/dynamicRoutesPlugin'

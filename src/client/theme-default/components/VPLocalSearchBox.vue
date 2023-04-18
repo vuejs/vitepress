@@ -26,6 +26,7 @@ import {
 } from 'vue'
 import type { ModalTranslations } from '../../../../types/local-search'
 import { pathToFile } from '../../app/utils'
+import { slash } from '../../shared'
 import { useData } from '../composables/data'
 import { createTranslate } from '../support/translation'
 
@@ -193,13 +194,13 @@ debouncedWatch(
         ?.scrollIntoView({ block: 'center' })
     }
     // FIXME: without this whole page scrolls to the bottom
-    el.value?.querySelector('.result')?.scrollIntoView({ block: 'start' })
+    resultsEl.value?.firstElementChild?.scrollIntoView({ block: 'start' })
   },
   { debounce: 200, immediate: true }
 )
 
 async function fetchExcerpt(id: string) {
-  const file = pathToFile(id.slice(0, id.indexOf('#')))
+  const file = pathToFile(slash(id.slice(0, id.indexOf('#'))))
   try {
     return { id, mod: await import(/*@vite-ignore*/ file) }
   } catch (e) {

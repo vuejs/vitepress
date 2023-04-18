@@ -290,7 +290,7 @@ function handleHMR(route: Route): void {
   // update route.data on HMR updates of active page
   if (import.meta.hot) {
     // hot reload pageData
-    import.meta.hot!.on('vitepress:pageData', (payload: PageDataPayload) => {
+    import.meta.hot.on('vitepress:pageData', (payload: PageDataPayload) => {
       if (shouldHotReload(payload)) {
         route.data = payload.pageData
       }
