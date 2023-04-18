@@ -194,7 +194,7 @@ debouncedWatch(
         ?.scrollIntoView({ block: 'center' })
     }
     // FIXME: without this whole page scrolls to the bottom
-    el.value?.querySelector('.result')?.scrollIntoView({ block: 'start' })
+    resultsEl.value?.firstElementChild?.scrollIntoView({ block: 'start' })
   },
   { debounce: 200, immediate: true }
 )
