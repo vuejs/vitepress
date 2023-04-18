@@ -200,7 +200,7 @@ debouncedWatch(
 )
 
 async function fetchExcerpt(id: string) {
-  const file = slash(pathToFile(id.slice(0, id.indexOf('#'))))
+  const file = pathToFile(slash(id.slice(0, id.indexOf('#'))))
   try {
     return { id, mod: await import(/*@vite-ignore*/ file) }
   } catch (e) {
