@@ -188,7 +188,7 @@ export function createRouter(
             ) {
               // scroll between hash anchors in the same page
               if (hash) {
-                // avoid non-response with the same hash anchor
+                // avoid duplicate history entries when the hash is same
                 if (hash !== currentUrl.hash) {
                   history.pushState(null, '', hash)
                   // still emit the event so we can listen to it in themes
