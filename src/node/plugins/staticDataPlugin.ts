@@ -76,7 +76,7 @@ export const staticDataPlugin: Plugin = {
 
         // use vite's load config util as a away to load Node.js file with
         // TS & native ESM support
-        const res = await loadConfigFromFile({}, configFile)
+        const res = await loadConfigFromFile({} as any, configFile)
 
         // record deps for hmr
         if (server && res) {
