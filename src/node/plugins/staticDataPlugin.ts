@@ -8,7 +8,7 @@ import path, { dirname, resolve } from 'path'
 import { isMatch } from 'micromatch'
 import glob from 'fast-glob'
 
-const loaderMatch = /\.data\.(j|t)s$/
+const loaderMatch = /\.data\.(j|t)s($|\?v=.*)/
 
 let server: ViteDevServer
 
@@ -69,9 +69,14 @@ export const staticDataPlugin: Plugin = {
       if (existing) {
         ;({ watch, load } = existing)
       } else {
+        // have to remove ?v= parameter from vite file to get actual file to load
+        let configFile = id
+        const match = loaderMatch.exec(id)
+        if (match && match[2]) configFile = id.replace(match[2], '')
+
         // use vite's load config util as a away to load Node.js file with
         // TS & native ESM support
-        const res = await loadConfigFromFile({} as any, id)
+        const res = await loadConfigFromFile({}, configFile)
 
         // record deps for hmr
         if (server && res) {
