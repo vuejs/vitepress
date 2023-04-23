@@ -81,7 +81,16 @@ const searchIndex = computedAsync(async () =>
   )
 )
 
-const filterText = useSessionStorage('vitepress:local-search-filter', '')
+const disableQueryPersistence = computed(() => {
+  return (
+      theme.value.search?.provider === 'local' &&
+      theme.value.search.options?.disableQueryPersistence === true
+  )
+})
+
+const filterText = disableQueryPersistence.value
+    ? ref('')
+    : useSessionStorage('vitepress:local-search-filter', '')
 
 const showDetailedList = useLocalStorage(
   'vitepress:local-search-detailed-list',

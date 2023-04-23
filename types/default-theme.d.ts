@@ -298,6 +298,11 @@ export namespace DefaultTheme {
      */
     disableDetailedView?: boolean
 
+    /**
+     * @default false
+     */
+    disableQueryPersistence?: boolea
+
     translations?: LocalSearchTranslations
     locales?: Record<string, Partial<Omit<LocalSearchOptions, 'locales'>>>
   }
