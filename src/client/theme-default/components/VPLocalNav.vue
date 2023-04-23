@@ -17,8 +17,9 @@ const { hasSidebar } = useSidebar()
 </script>
 
 <template>
-  <div v-if="hasSidebar" class="VPLocalNav">
+  <div class="VPLocalNav">
     <button
+      v-if="hasSidebar"
       class="menu"
       :aria-expanded="open"
       aria-controls="VPSidebarNav"
