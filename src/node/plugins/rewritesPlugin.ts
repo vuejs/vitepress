@@ -1,6 +1,6 @@
 import type { Plugin } from 'vite'
 import { compile, match } from 'path-to-regexp'
-import type { SiteConfig, UserConfig } from '../config'
+import type { SiteConfig, UserConfig } from '../siteConfig'
 
 export function resolveRewrites(
   pages: string[],
