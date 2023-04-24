@@ -301,7 +301,7 @@ export namespace DefaultTheme {
     /**
      * @default false
      */
-    disableQueryPersistence?: boolea
+    disableQueryPersistence?: boolean
 
     translations?: LocalSearchTranslations
     locales?: Record<string, Partial<Omit<LocalSearchOptions, 'locales'>>>
