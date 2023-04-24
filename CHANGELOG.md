@@ -1,3 +1,20 @@
+# [1.0.0-alpha.74](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.73...v1.0.0-alpha.74) (2023-04-24)
+
+
+### Bug Fixes
+
+* **build:** allow data-loaders files in packages to be found (closes [#2272](https://github.com/vuejs/vitepress/issues/2272)) ([84cf457](https://github.com/vuejs/vitepress/commit/84cf45772ed59f5eae747c15fbffc375768007b8))
+* **router:** scroll back to the hash anchor even if it is already selected ([#2265](https://github.com/vuejs/vitepress/issues/2265)) ([f3d3332](https://github.com/vuejs/vitepress/commit/f3d3332fff72d1df6f70c5893bfc90442b1776fb))
+
+
+### Features
+
+* allow using html in member description ([#2269](https://github.com/vuejs/vitepress/issues/2269)) ([f744364](https://github.com/vuejs/vitepress/commit/f7443643a4510a6c650f1a1bda977c1d55fddf64))
+* **search:** support custom `disableQueryPersistence` in local search ([#2273](https://github.com/vuejs/vitepress/issues/2273)) ([2f0f2d5](https://github.com/vuejs/vitepress/commit/2f0f2d5ac6efcab22bdb452e5c0780e7cd8f1498))
+* **theme:** mobile view show outline button after removing sidebar ([#2274](https://github.com/vuejs/vitepress/issues/2274)) ([25b9111](https://github.com/vuejs/vitepress/commit/25b9111222cbd3de008e18cac6554933d4db993e))
+
+
+
 # [1.0.0-alpha.73](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.72...v1.0.0-alpha.73) (2023-04-20)
 
 
