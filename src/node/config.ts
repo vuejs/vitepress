@@ -6,22 +6,20 @@ import {
   createLogger,
   loadConfigFromFile,
   mergeConfig as mergeViteConfig,
-  normalizePath,
+  normalizePath
 } from 'vite'
 import { DEFAULT_THEME_PATH } from './alias'
-import {
-  resolvePages
-} from './plugins/dynamicRoutesPlugin'
+import { resolvePages } from './plugins/dynamicRoutesPlugin'
 import {
   APPEARANCE_KEY,
   type DefaultTheme,
   type HeadConfig,
-  type SiteData,
+  type SiteData
 } from './shared'
-import { 
+import {
   type UserConfig,
   type RawConfigExports,
-  type SiteConfig,
+  type SiteConfig
 } from './siteConfig'
 
 export * from './siteConfig'

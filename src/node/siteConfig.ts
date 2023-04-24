@@ -9,10 +9,7 @@ import {
 } from './shared'
 import type { MarkdownOptions } from './markdown/markdown'
 import type { Options as VuePluginOptions } from '@vitejs/plugin-vue'
-import {
-  type Logger,
-  type UserConfig as ViteConfig
-} from 'vite'
+import { type Logger, type UserConfig as ViteConfig } from 'vite'
 
 export type RawConfigExports<ThemeConfig = any> =
   | Awaitable<UserConfig<ThemeConfig>>
@@ -169,7 +166,6 @@ export interface UserConfig<ThemeConfig = any>
     ctx: TransformPageContext
   ) => Awaitable<Partial<PageData> | { [key: string]: any } | void>
 }
-
 
 export interface SiteConfig<ThemeConfig = any>
   extends Pick<

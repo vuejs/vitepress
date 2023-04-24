@@ -8,10 +8,7 @@ import fs from 'fs-extra'
 import c from 'picocolors'
 import path from 'path'
 import fg from 'fast-glob'
-import {
-  type SiteConfig,
-  type UserConfig,
-} from '../siteConfig'
+import { type SiteConfig, type UserConfig } from '../siteConfig'
 import { resolveRewrites } from './rewritesPlugin'
 
 export const dynamicRouteRE = /\[(\w+?)\]/g
