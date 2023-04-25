@@ -39,7 +39,13 @@ export async function init() {
           message: `Where should VitePress initialize the config?`,
           initialValue: './',
           validate(value) {
-            // TODO make sure directory is inside
+            const pathLike = path.resolve(process.cwd(), value)
+            if (!fs.existsSync(pathLike)) {
+              return 'Path does not exist!'
+            }
+            if (!fs.statSync(pathLike).isDirectory()) {
+              return 'Path should be a directory!'
+            }
           }
         }),
 
