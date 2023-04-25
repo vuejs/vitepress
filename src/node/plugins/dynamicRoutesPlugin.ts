@@ -7,9 +7,41 @@ import {
 import fs from 'fs-extra'
 import c from 'picocolors'
 import path from 'path'
-import { resolvePages, type SiteConfig } from '../config'
+import fg from 'fast-glob'
+import { type SiteConfig, type UserConfig } from '../siteConfig'
+import { resolveRewrites } from './rewritesPlugin'
 
 export const dynamicRouteRE = /\[(\w+?)\]/g
+
+export async function resolvePages(srcDir: string, userConfig: UserConfig) {
+  // Important: fast-glob doesn't guarantee order of the returned files.
+  // We must sort the pages so the input list to rollup is stable across
+  // builds - otherwise different input order could result in different exports
+  // order in shared chunks which in turns invalidates the hash of every chunk!
+  // JavaScript built-in sort() is mandated to be stable as of ES2019 and
+  // supported in Node 12+, which is required by Vite.
+  const allMarkdownFiles = (
+    await fg(['**.md'], {
+      cwd: srcDir,
+      ignore: ['**/node_modules', ...(userConfig.srcExclude || [])]
+    })
+  ).sort()
+
+  const pages = allMarkdownFiles.filter((p) => !dynamicRouteRE.test(p))
+  const dynamicRouteFiles = allMarkdownFiles.filter((p) =>
+    dynamicRouteRE.test(p)
+  )
+  const dynamicRoutes = await resolveDynamicRoutes(srcDir, dynamicRouteFiles)
+  pages.push(...dynamicRoutes.routes.map((r) => r.path))
+
+  const rewrites = resolveRewrites(pages, userConfig.rewrites)
+
+  return {
+    pages,
+    dynamicRoutes,
+    rewrites
+  }
+}
 
 interface UserRouteConfig {
   params: Record<string, string>

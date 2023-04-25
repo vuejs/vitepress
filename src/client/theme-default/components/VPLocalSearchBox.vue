@@ -9,6 +9,7 @@ import {
   useScrollLock,
   useSessionStorage
 } from '@vueuse/core'
+import Mark from 'mark.js/src/vanilla.js'
 import MiniSearch, { type SearchResult } from 'minisearch'
 import { useRouter } from 'vitepress'
 import {
@@ -80,7 +81,16 @@ const searchIndex = computedAsync(async () =>
   )
 )
 
-const filterText = useSessionStorage('vitepress:local-search-filter', '')
+const disableQueryPersistence = computed(() => {
+  return (
+      theme.value.search?.provider === 'local' &&
+      theme.value.search.options?.disableQueryPersistence === true
+  )
+})
+
+const filterText = disableQueryPersistence.value
+    ? ref('')
+    : useSessionStorage('vitepress:local-search-filter', '')
 
 const showDetailedList = useLocalStorage(
   'vitepress:local-search-detailed-list',
@@ -112,8 +122,7 @@ watch(filterText, () => {
 
 const mark = computedAsync(async () => {
   if (!resultsEl.value) return
-  const mod = await import('mark.js')
-  return markRaw(new (mod.default ?? mod)(resultsEl.value))
+  return markRaw(new Mark(resultsEl.value))
 }, null)
 
 debouncedWatch(
