@@ -88,6 +88,8 @@ export async function createMarkdownToVueRenderFn(
     // resolve includes
     let includes: string[] = []
     src = src.replace(includesRE, (m, m1) => {
+      if (!m1.length) return m
+
       const atPresent = m1[0] === '@'
       try {
         const dir = atPresent ? srcDir : path.dirname(fileOrig)
