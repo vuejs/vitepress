@@ -57,7 +57,7 @@ export async function bundle(
     root: config.srcDir,
     cacheDir: config.cacheDir,
     base: config.site.base,
-    logLevel: 'warn',
+    logLevel: config.vite?.logLevel ?? 'warn',
     plugins: await createVitePressPlugin(
       config,
       ssr,
