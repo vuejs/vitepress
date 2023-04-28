@@ -121,8 +121,8 @@ export async function createMarkdownToVueRenderFn(
         c.yellow(
           `\n(!) Found dead link ${c.cyan(url)} in file ${c.white(
             c.dim(file)
-          )}\nIf it is intended, you can use:\n    ${c.cyan(
-            `<a href="${url}" target="_blank" rel="noreferrer">${url}</a>`
+          )}\nIf it is intended, you can add it to \`ignoreDeadLinks\` option. Please refer to the docs for usage:\n    ${c.cyan(
+            `https://vitepress.dev/reference/site-config#ignoredeadlinks`
           )}`
         )
       )
