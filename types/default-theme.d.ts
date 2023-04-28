@@ -101,15 +101,14 @@ export namespace DefaultTheme {
      */
     langMenuLabel?: string
 
-    /**
-     * The algolia options. Leave it undefined to disable the search feature.
-     */
-    algolia?: AlgoliaSearchOptions
+    search?:
+      | { provider: 'local'; options?: LocalSearchOptions }
+      | { provider: 'algolia'; options: AlgoliaSearchOptions }
 
     /**
-     * The local search options. Set to `true` or an object to enable, `false` to disable.
+     * @deprecated Use `search` instead.
      */
-    localSearch?: LocalSearchOptions | boolean
+    algolia?: AlgoliaSearchOptions
 
     /**
      * The carbon ads options. Leave it undefined to disable the ads feature.
@@ -297,6 +296,23 @@ export namespace DefaultTheme {
     label?: string
   }
 
+  // local search --------------------------------------------------------------
+
+  export interface LocalSearchOptions {
+    /**
+     * @default false
+     */
+    disableDetailedView?: boolean
+
+    /**
+     * @default false
+     */
+    disableQueryPersistence?: boolean
+
+    translations?: LocalSearchTranslations
+    locales?: Record<string, Partial<Omit<LocalSearchOptions, 'locales'>>>
+  }
+
   // algolia -------------------------------------------------------------------
 
   /**
@@ -305,13 +321,6 @@ export namespace DefaultTheme {
    */
   export interface AlgoliaSearchOptions extends DocSearchProps {
     locales?: Record<string, Partial<DocSearchProps>>
-  }
-
-  // local search ------------------------------------------------------------
-
-  export interface LocalSearchOptions {
-    translations?: LocalSearchTranslations
-    locales?: Record<string, Partial<Omit<LocalSearchOptions, 'locales'>>>
   }
 
   // carbon ads ----------------------------------------------------------------

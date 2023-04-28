@@ -164,7 +164,7 @@ Alternatively, you can wrap the entire paragraph in a `v-pre` custom container:
 
 ```md
 ::: v-pre
-{{ This will be displayed as-is }}`
+{{ This will be displayed as-is }}
 :::
 ```
 
@@ -195,6 +195,8 @@ Hello {{ 1 + 1 }}
 ```js-vue
 Hello {{ 1 + 1 }}
 ```
+
+Note that this might prevent certain tokens from being syntax highlighted properly.
 
 ## Using CSS Pre-processors
 

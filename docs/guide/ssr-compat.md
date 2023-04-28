@@ -81,4 +81,39 @@ const ClientComp = defineClientComponent(() => {
 </template>
 ```
 
+You can also pass props/children/slots to the target component:
+
+```vue
+<script setup>
+import { ref } from 'vue'
+import { defineClientComponent } from 'vitepress'
+
+const clientCompRef = ref(null)
+const ClientComp = defineClientComponent(
+  () => import('component-that-access-window-on-import'),
+
+  // args are passed to h() - https://vuejs.org/api/render-function.html#h
+  [
+    {
+      ref: clientCompRef
+    },
+    {
+      default: () => 'default slot',
+      foo: () => h('div', 'foo'),
+      bar: () => [h('span', 'one'), h('span', 'two')]
+    }
+  ],
+
+  // callback after the component is loaded, can be async
+  () => {
+    console.log(clientCompRef.value)
+  }
+)
+</script>
+
+<template>
+  <ClientComp />
+</template>
+```
+
 The target component will only be imported in the mounted hook of the wrapper component.

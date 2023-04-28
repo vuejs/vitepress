@@ -1,6 +1,5 @@
 import path from 'path'
 import c from 'picocolors'
-import { slash } from './utils/slash'
 import type { OutputAsset, OutputChunk } from 'rollup'
 import {
   mergeConfig,
@@ -17,12 +16,12 @@ import {
 } from './alias'
 import { resolveUserConfig, resolvePages, type SiteConfig } from './config'
 import { clearCache, createMarkdownToVueRenderFn } from './markdownToVue'
-import type { PageDataPayload } from './shared'
+import { slash, type PageDataPayload } from './shared'
 import { staticDataPlugin } from './plugins/staticDataPlugin'
 import { webFontsPlugin } from './plugins/webFontsPlugin'
 import { dynamicRoutesPlugin } from './plugins/dynamicRoutesPlugin'
 import { rewritesPlugin } from './plugins/rewritesPlugin'
-import { localSearchPlugin } from './plugins/localSearchPlugin.js'
+import { localSearchPlugin } from './plugins/localSearchPlugin'
 import { serializeFunctions, deserializeFunctions } from './utils/fnSerialize'
 
 declare module 'vite' {
@@ -122,8 +121,11 @@ export async function createVitePressPlugin(
           alias: resolveAliases(siteConfig, ssr)
         },
         define: {
-          __ALGOLIA__: !!site.themeConfig.algolia,
-          __CARBON__: !!site.themeConfig.carbonAds
+          __VP_LOCAL_SEARCH__: site.themeConfig?.search?.provider === 'local',
+          __ALGOLIA__:
+            site.themeConfig?.search?.provider === 'algolia' ||
+            !!site.themeConfig?.algolia, // legacy
+          __CARBON__: !!site.themeConfig?.carbonAds
         },
         optimizeDeps: {
           // force include vue to avoid duplicated copies when linked + optimized

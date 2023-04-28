@@ -22,4 +22,6 @@ interface FooterTranslations {
   navigateText?: string
   navigateUpKeyAriaLabel?: string
   navigateDownKeyAriaLabel?: string
+  closeText?: string
+  closeKeyAriaLabel?: string
 }
