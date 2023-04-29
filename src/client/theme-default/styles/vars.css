@@ -216,7 +216,7 @@
   --vp-code-block-divider-color: #000000;
 
   --vp-code-line-highlight-color: rgba(0, 0, 0, 0.5);
-  --vp-code-line-number-color: var(--vp-c-text-dark-3);
+  --vp-code-line-number-color: var(--vp-c-code-dimm);
 
   --vp-code-line-diff-add-color: var(--vp-c-green-dimm-2);
   --vp-code-line-diff-add-symbol-color: var(--vp-c-green);
@@ -249,26 +249,14 @@
   --vp-c-code-dimm: var(--vp-c-text-2);
 
   --vp-code-block-color: var(--vp-c-text-1);
-  --vp-code-block-bg: var(--vp-c-mute);
-  --vp-code-block-bg-light: #1e1e20;
+  --vp-code-block-bg: #f8f8f8;
   --vp-code-block-divider-color: var(--vp-c-divider);
 
-  --vp-code-line-highlight-color: var(--vp-c-mute-dark);
+  --vp-code-line-highlight-color: #ececec;
   --vp-code-line-number-color: var(--vp-c-code-dimm);
 
-  --vp-code-line-diff-add-color: var(--vp-c-green-dimm-2);
-  --vp-code-line-diff-add-symbol-color: var(--vp-c-green);
-
-  --vp-code-line-diff-remove-color: var(--vp-c-red-dimm-2);
-  --vp-code-line-diff-remove-symbol-color: var(--vp-c-red);
-
-  --vp-code-line-warning-color: var(--vp-c-yellow-dimm-2);
-  --vp-code-line-error-color: var(--vp-c-red-dimm-2);
-
-  --vp-code-copy-code-border-color: transparent;
-  --vp-code-copy-code-bg: var(--vp-c-mute-darker);
-  --vp-code-copy-code-hover-border-color: var(--vp-c-divider);
-  --vp-code-copy-code-hover-bg: var(--vp-c-mute-dark);
+  --vp-code-copy-code-bg: #e2e2e2;
+  --vp-code-copy-code-hover-bg: #dcdcdc;
   --vp-code-copy-code-active-text: var(--vp-c-text-2);
 
   --vp-code-tab-divider: var(--vp-c-divider);
@@ -276,7 +264,6 @@
   --vp-code-tab-bg: var(--vp-code-block-bg);
   --vp-code-tab-hover-text-color: var(--vp-c-text-1);
   --vp-code-tab-active-text-color: var(--vp-c-text-1);
-  --vp-code-tab-active-bar-color: var(--vp-c-brand);
 }
 
 /**
