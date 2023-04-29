@@ -176,3 +176,7 @@ export default config
 ## Markdown File Inclusion
 
 <!--@include: ./foo.md-->
+
+## Markdown At File Inclusion
+
+<!--@include: @/markdown-extensions/bar.md-->

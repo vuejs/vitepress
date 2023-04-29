@@ -87,9 +87,15 @@ export async function createMarkdownToVueRenderFn(
     // resolve includes
     let includes: string[] = []
     src = src.replace(includesRE, (m, m1) => {
+      if (!m1.length) return m
+
+      const atPresent = m1[0] === '@'
       try {
-        const dir = path.dirname(fileOrig) // include paths are strict relative file paths w/o aliases
-        const includePath = path.join(dir, m1)
+        const dir = atPresent ? srcDir : path.dirname(fileOrig)
+        const includePath = path.join(
+          dir,
+          atPresent ? m1.slice(m1.length > 1 && m1[1] === '/' ? 2 : 1) : m1
+        )
         const content = fs.readFileSync(includePath, 'utf-8')
         includes.push(slash(includePath))
         return content
