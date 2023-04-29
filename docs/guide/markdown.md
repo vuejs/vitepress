@@ -691,7 +691,13 @@ You can also [import snippets](#import-code-snippets) in code groups:
 
 ## Markdown File Inclusion
 
-You can include a markdown file in another markdown file like this:
+You can include a markdown file in another markdown file.
+
+::: tip
+You can also prefix the markdown path with `@`, it will act as the source root. By default it's the VitePress project root, unless `srcDir` is configured.
+:::
+
+For example, you can include a relative markdown file using this:
 
 **Input**
 

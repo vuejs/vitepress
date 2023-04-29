@@ -67,15 +67,15 @@ export default defineConfigWithTheme<ThemeConfig>({
 
 - **Vite**
 
-    You can configure the underlying Vite instance using the [vite](#vite) option in your VitePress config. No need to create a separate Vite config file.
+  You can configure the underlying Vite instance using the [vite](#vite) option in your VitePress config. No need to create a separate Vite config file.
 
 - **Vue**
 
-    VitePress already includes the official Vue plugin for Vite ([@vitejs/plugin-vue](https://github.com/vitejs/vite-plugin-vue)). You can configure its options using the [vue](#vue) option in your VitePress config.
+  VitePress already includes the official Vue plugin for Vite ([@vitejs/plugin-vue](https://github.com/vitejs/vite-plugin-vue)). You can configure its options using the [vue](#vue) option in your VitePress config.
 
 - **Markdown**
 
-    You can configure the underlying [Markdown-It](https://github.com/markdown-it/markdown-it) instance using the [markdown](#markdown) option in your VitePress config.
+  You can configure the underlying [Markdown-It](https://github.com/markdown-it/markdown-it) instance using the [markdown](#markdown) option in your VitePress config.
 
 ## Site Metadata
 
@@ -94,6 +94,7 @@ export default {
   title: 'My Awesome Site'
 }
 ```
+
 ```md
 # Hello
 ```
@@ -113,6 +114,7 @@ export default {
   titleTemplate: 'Custom Suffix'
 }
 ```
+
 ```md
 # Hello
 ```
@@ -159,8 +161,29 @@ export default {
     [
       'link',
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }
+      // would render:
+      //
+      // <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    ],
+
+    [
+      'script',
+      { id: 'register-sw' },
+      `;(() => {
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('/sw.js')
+        }
+      })()`
+      // would render:
+      //
+      // <script id="register-sw">
+      // ;(() => {
+      //   if ('serviceWorker' in navigator) {
+      //     navigator.serviceWorker.register('/sw.js')
+      //   }
+      // })()
+      // </script>
     ]
-    // would render: <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   ]
 }
 ```
@@ -295,7 +318,7 @@ export default {
 }
 ```
 
-It can also be an array of extact url string, regex patterns, or custom filter functions. 
+It can also be an array of exact url string, regex patterns, or custom filter functions.
 
 ```ts
 export default {
@@ -557,7 +580,7 @@ export default {
 `transformPageData` is a hook to transform the `pageData` of each page. You can directly mutate `pageData` or return changed values which will be merged into PageData.
 
 ::: warning
-Don't mutate anything inside the `ctx`. 
+Don't mutate anything inside the `ctx`.
 :::
 
 ```ts
