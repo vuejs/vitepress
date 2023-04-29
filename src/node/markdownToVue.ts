@@ -3,7 +3,6 @@ import _debug from 'debug'
 import fs from 'fs'
 import { LRUCache } from 'lru-cache'
 import path from 'path'
-import c from 'picocolors'
 import type { SiteConfig } from './config'
 import {
   createMarkdownRenderer,
@@ -26,7 +25,7 @@ const includesRE = /<!--\s*@include:\s*(.*?)\s*-->/g
 export interface MarkdownCompileResult {
   vueSrc: string
   pageData: PageData
-  deadLinks: string[]
+  deadLinks: { url: string; file: string }[]
   includes: string[]
 }
 
@@ -115,18 +114,9 @@ export async function createMarkdownToVueRenderFn(
     } = env
 
     // validate data.links
-    const deadLinks: string[] = []
+    const deadLinks: MarkdownCompileResult['deadLinks'] = []
     const recordDeadLink = (url: string) => {
-      ;(siteConfig?.logger ?? console).warn(
-        c.yellow(
-          `\n(!) Found dead link ${c.cyan(url)} in file ${c.white(
-            c.dim(file)
-          )}\nIf it is intended, you can use:\n    ${c.cyan(
-            `<a href="${url}" target="_blank" rel="noreferrer">${url}</a>`
-          )}`
-        )
-      )
-      deadLinks.push(url)
+      deadLinks.push({ url, file: path.relative(srcDir, fileOrig) })
     }
 
     function shouldIgnoreDeadLink(url: string) {
