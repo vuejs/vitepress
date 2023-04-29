@@ -60,13 +60,18 @@ export const createMarkdownRenderer = async (
   base = '/',
   logger: Pick<Logger, 'warn'> = console
 ): Promise<MarkdownRenderer> => {
+  // TODO: cleanup
+  // const theme = options.theme ?? 'material-theme-palenight'
+  const theme = options.theme ?? { light: 'github-light', dark: 'github-dark' }
+  const hasSingleTheme = typeof theme === 'string' || 'name' in theme
+
   const md = MarkdownIt({
     html: true,
     linkify: true,
     highlight:
       options.highlight ||
       (await highlight(
-        options.theme,
+        theme,
         options.languages,
         options.defaultHighlightLang,
         logger
@@ -79,9 +84,9 @@ export const createMarkdownRenderer = async (
   // custom plugins
   md.use(componentPlugin)
     .use(highlightLinePlugin)
-    .use(preWrapperPlugin)
+    .use(preWrapperPlugin, { hasSingleTheme })
     .use(snippetPlugin, srcDir)
-    .use(containerPlugin)
+    .use(containerPlugin, { hasSingleTheme })
     .use(imagePlugin)
     .use(
       linkPlugin,
