@@ -37,7 +37,7 @@ body:
     attributes:
       label: System Info
       description: Output of `npx envinfo --system --npmPackages vitepress --binaries --browsers`
-      render: shell
+      render: sh
       placeholder: System, Binaries, Browsers
     validations:
       required: true
@@ -52,6 +52,8 @@ body:
       label: Validations
       description: Before submitting the issue, please make sure you do the following
       options:
+        - label: Check if you're on the [latest VitePress version](https://github.com/vuejs/vitepress/releases/latest).
+          required: true
         - label: Follow our [Code of Conduct](https://vuejs.org/about/coc.html)
           required: true
         - label: Read the [docs](https://vitepress.dev).

@@ -5,7 +5,7 @@ import fs from 'fs-extra'
 import _debug from 'debug'
 import type { SiteConfig } from '../config'
 import { createMarkdownRenderer } from '../markdown/markdown'
-import { resolveSiteDataByRoute } from '../shared'
+import { resolveSiteDataByRoute, slash } from '../shared'
 
 const debug = _debug('vitepress:local-search')
 
@@ -95,7 +95,7 @@ export async function localSearchPlugin(
   }
 
   function getDocId(file: string) {
-    let relFile = path.relative(siteConfig.srcDir, file)
+    let relFile = slash(path.relative(siteConfig.srcDir, file))
     relFile = siteConfig.rewrites.map[relFile] || relFile
     let id = path.join(siteConfig.site.base, relFile)
     id = id.replace(/\/index\.md$/, '/')

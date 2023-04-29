@@ -30,6 +30,7 @@ import { pathToFile } from '../../app/utils'
 import { slash } from '../../shared'
 import { useData } from '../composables/data'
 import { createTranslate } from '../support/translation'
+import { dataSymbol } from '../../app/data'
 
 defineProps<{
   placeholder: string
@@ -62,8 +63,8 @@ interface Result {
   text?: string
 }
 
-const { localeIndex, theme } = useData()
-
+const vitePressData = useData()
+const { localeIndex, theme } = vitePressData
 const searchIndex = computedAsync(async () =>
   markRaw(
     MiniSearch.loadJSON<Result>(
@@ -81,7 +82,16 @@ const searchIndex = computedAsync(async () =>
   )
 )
 
-const filterText = useSessionStorage('vitepress:local-search-filter', '')
+const disableQueryPersistence = computed(() => {
+  return (
+      theme.value.search?.provider === 'local' &&
+      theme.value.search.options?.disableQueryPersistence === true
+  )
+})
+
+const filterText = disableQueryPersistence.value
+    ? ref('')
+    : useSessionStorage('vitepress:local-search-filter', '')
 
 const showDetailedList = useLocalStorage(
   'vitepress:local-search-detailed-list',
@@ -144,6 +154,7 @@ debouncedWatch(
         const app = createApp(comp)
         // Silence warnings about missing components
         app.config.warnHandler = () => {}
+        app.provide(dataSymbol, vitePressData)
         const div = document.createElement('div')
         app.mount(div)
         const sections = div.innerHTML.split(headingRegex)
