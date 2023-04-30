@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
 import { useWindowScroll } from '@vueuse/core'
 import { useData } from '../composables/data'
 import { useSidebar } from '../composables/sidebar'
