@@ -184,7 +184,7 @@ export async function createMarkdownToVueRenderFn(
       headers,
       params,
       relativePath,
-      relativeFilePath: slash(path.relative(srcDir, fileOrig))
+      filePath: slash(path.relative(srcDir, fileOrig))
     }
 
     if (includeLastUpdatedData) {

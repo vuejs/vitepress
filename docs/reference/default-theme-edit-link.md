@@ -16,17 +16,17 @@ export default {
 
 The `pattern` option defines the URL structure for the link, and `:path` is going to be replaced with the page path.
 
-You can also put a pure function that accepts an object `{ relativeFilePath, relativePath }` and as the argument and returns the URL string.
+You can also put a pure function that accepts an object `{ filePath }` and as the argument and returns the URL string.
 
 ```js
 export default {
   themeConfig: {
     editLink: {
-      pattern: ({ relativeFilePath }) => {
-        if (relativeFilePath.startsWith('packages/')) {
-          return `https://github.com/acme/monorepo/edit/main/${relativeFilePath}`
+      pattern: ({ filePath }) => {
+        if (filePath.startsWith('packages/')) {
+          return `https://github.com/acme/monorepo/edit/main/${filePath}`
         } else {
-          return `https://github.com/acme/monorepo/edit/main/docs/${relativeFilePath}`
+          return `https://github.com/acme/monorepo/edit/main/docs/${filePath}`
         }
       }
     }

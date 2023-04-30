@@ -23,7 +23,7 @@ export const inBrowser = typeof document !== 'undefined'
 
 export const notFoundPageData: PageData = {
   relativePath: '',
-  relativeFilePath: '',
+  filePath: '',
   title: '404',
   description: 'Not Found',
   headers: [],
