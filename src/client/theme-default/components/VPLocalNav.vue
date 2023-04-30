@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { computed } from 'vue'
+import { useWindowScroll } from '@vueuse/core'
 import { useData } from '../composables/data'
 import { useSidebar } from '../composables/sidebar'
 import VPIconAlignLeft from './icons/VPIconAlignLeft.vue'
@@ -12,12 +14,17 @@ defineEmits<{
   (e: 'open-menu'): void
 }>()
 
-const { theme } = useData()
+const { theme, frontmatter } = useData()
 const { hasSidebar } = useSidebar()
+const { y } = useWindowScroll()
 </script>
 
 <template>
-  <div class="VPLocalNav">
+  <div
+     v-if="frontmatter.layout !== 'home'"
+     class="VPLocalNav"
+     :class="{ 'has-borderTop': !hasSidebar && y < 64 }"
+  >
     <button
       v-if="hasSidebar"
       class="menu"
@@ -45,11 +52,16 @@ const { hasSidebar } = useSidebar()
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-top: 1px solid transparent;
   border-bottom: 1px solid var(--vp-c-gutter);
   padding-top: var(--vp-layout-top-height, 0px);
   width: 100%;
   background-color: var(--vp-local-nav-bg-color);
   transition: border-color 0.5s, background-color 0.5s;
+}
+
+.VPLocalNav.has-borderTop {
+  border-top-color: var(--vp-c-gutter);
 }
 
 @media (min-width: 960px) {

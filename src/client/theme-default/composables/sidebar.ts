@@ -42,11 +42,7 @@ export function useSidebar() {
   })
 
   const hasSidebar = computed(() => {
-    return (
-      frontmatter.value.sidebar !== false &&
-      sidebar.value.length > 0 &&
-      frontmatter.value.layout !== 'home'
-    )
+    return frontmatter.value.sidebar !== false && sidebar.value.length > 0
   })
 
   const leftAside = computed(() => {
