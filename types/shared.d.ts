@@ -6,6 +6,7 @@ export type Awaitable<T> = T | PromiseLike<T>
 
 export interface PageData {
   relativePath: string
+  filePath: string // differs from relativePath in case of path rewrites
   title: string
   titleTemplate?: string | boolean
   description: string
