@@ -6,12 +6,11 @@ export function useEditLink() {
 
   return computed(() => {
     const { text = 'Edit this page', pattern = '' } = theme.value.editLink || {}
-    const { filePath } = page.value
     let url: string
     if (typeof pattern === 'function') {
-      url = pattern({ filePath })
+      url = pattern(page.value)
     } else {
-      url = pattern.replace(/:path/g, filePath)
+      url = pattern.replace(/:path/g, page.value.filePath)
     }
 
     return { url, text }

@@ -16,7 +16,7 @@ export default {
 
 The `pattern` option defines the URL structure for the link, and `:path` is going to be replaced with the page path.
 
-You can also put a pure function that accepts `filePath` as the argument and returns the URL string.
+You can also put a pure function that accepts [`PageData`](./runtime-api#usedata) as the argument and returns the URL string.
 
 ```js
 export default {
