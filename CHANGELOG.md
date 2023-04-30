@@ -13,7 +13,7 @@
 ### Features
 
 * add `filePath` to `PageData` ([#2140](https://github.com/vuejs/vitepress/issues/2140)) ([b24acc6](https://github.com/vuejs/vitepress/commit/b24acc6991570aa054a99b8d3977b8b4d0255418))
-* **build:** allow using `@` prefix with `[@include](https://github.com/include):` ([#2292](https://github.com/vuejs/vitepress/issues/2292)) ([a3b38d1](https://github.com/vuejs/vitepress/commit/a3b38d18824343fd5b571a7a9a5d2c4ccf29e8e1))
+* **build:** allow using `@` prefix with `@include` ([#2292](https://github.com/vuejs/vitepress/issues/2292)) ([a3b38d1](https://github.com/vuejs/vitepress/commit/a3b38d18824343fd5b571a7a9a5d2c4ccf29e8e1))
 * preserve user log level ([#2310](https://github.com/vuejs/vitepress/issues/2310)) ([a647cd3](https://github.com/vuejs/vitepress/commit/a647cd384320101f6df31e03960dd2c40808c49c))
 * **theme:** support light shiki themes ([#2319](https://github.com/vuejs/vitepress/issues/2319)) ([d0f0012](https://github.com/vuejs/vitepress/commit/d0f0012aea4cc71fb28f60f2dd649c23aae146b8))
 
