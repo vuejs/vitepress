@@ -379,10 +379,7 @@ Configure Markdown parser options. VitePress uses [Markdown-it](https://github.c
 ```js
 export default {
   markdown: {
-    theme: {
-      light: 'github-light',
-      dark: 'github-dark'
-    },
+    theme: 'material-theme-palenight',
     lineNumbers: true,
 
     // adjust how header anchors are generated,
