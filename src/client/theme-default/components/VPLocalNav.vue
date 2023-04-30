@@ -12,12 +12,12 @@ defineEmits<{
   (e: 'open-menu'): void
 }>()
 
-const { theme } = useData()
+const { theme, frontmatter } = useData()
 const { hasSidebar } = useSidebar()
 </script>
 
 <template>
-  <div class="VPLocalNav">
+  <div class="VPLocalNav" v-if="frontmatter.layout !== 'home'">
     <button
       v-if="hasSidebar"
       class="menu"
