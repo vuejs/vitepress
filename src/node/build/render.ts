@@ -13,6 +13,7 @@ import {
   resolveSiteDataByRoute,
   sanitizeFileName,
   slash,
+  type HeadOptions,
   type HeadConfig,
   type PageData,
   type SSGContext
@@ -225,8 +226,19 @@ function resolvePageImports(
 
 function renderHead(head: HeadConfig[]): Promise<string> {
   return Promise.all(
-    head.map(async ([tag, attrs = {}, innerHTML = '']) => {
-      const openTag = `<${tag}${renderAttrs(attrs)}>`
+    head.map(async ([tag, attrs = {}, headOptions]) => {
+      let innerHTML =
+        typeof headOptions === 'string'
+          ? headOptions
+          : headOptions?.innerHTML || ''
+
+      const openTag = `<${tag}${renderAttrs(
+        attrs,
+        typeof headOptions !== 'string'
+          ? headOptions?.disableEscape || false
+          : false
+      )}>`
+
       if (tag !== 'link' && tag !== 'meta') {
         if (
           tag === 'script' &&
@@ -246,10 +258,26 @@ function renderHead(head: HeadConfig[]): Promise<string> {
   ).then((tags) => tags.join('\n  '))
 }
 
-function renderAttrs(attrs: Record<string, string>): string {
+function renderAttrs(
+  attrs: Record<string, string>,
+  disableEscape: HeadOptions<Record<string, string>>['disableEscape'] = false
+): string {
+  function shouldEscapeHead(key: string) {
+    if (typeof disableEscape === 'boolean') return !disableEscape
+
+    return !disableEscape.some((rule) => {
+      if (typeof rule === 'string') return rule === key
+      if (rule instanceof RegExp) return rule.test(key)
+
+      return rule(key, attrs[key])
+    })
+  }
+
   return Object.keys(attrs)
     .map((key) => {
-      return ` ${key}="${escape(attrs[key])}"`
+      return ` ${key}="${
+        shouldEscapeHead(key) ? escape(attrs[key]) : attrs[key]
+      }"`
     })
     .join('')
 }

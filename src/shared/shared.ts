@@ -3,6 +3,7 @@ import type { HeadConfig, PageData, SiteData } from '../../types/shared'
 export type {
   Awaitable,
   DefaultTheme,
+  HeadOptions,
   HeadConfig,
   Header,
   LocaleConfig,

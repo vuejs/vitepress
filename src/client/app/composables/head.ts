@@ -47,13 +47,17 @@ export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
   })
 }
 
-function createHeadElement([tag, attrs, innerHTML]: HeadConfig) {
+function createHeadElement([tag, attrs, headOptions]: HeadConfig) {
   const el = document.createElement(tag)
   for (const key in attrs) {
     el.setAttribute(key, attrs[key])
   }
-  if (innerHTML) {
-    el.innerHTML = innerHTML
+  if (headOptions) {
+    if (typeof headOptions === 'string') {
+      el.innerHTML = headOptions
+    } else if (headOptions.innerHTML) {
+      el.innerHTML = headOptions.innerHTML
+    }
   }
   return el
 }

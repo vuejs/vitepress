@@ -73,14 +73,15 @@ head:
   - - meta
     - name: keywords
       content: super duper SEO
+  - - meta
+    - name: og:image
+      content: https://www.example.com/image?h=64&w=64
+    - disableEscape:
+      - content
 ---
 ```
 
-```ts
-type HeadConfig =
-  | [string, Record<string, string>]
-  | [string, Record<string, string>, string]
-```
+Refer [Site Config - head](/reference/site-config#head).
 
 ## Default Theme Only
 

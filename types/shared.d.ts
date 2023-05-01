@@ -62,9 +62,20 @@ export interface SiteData<ThemeConfig = any> {
   localeIndex?: string
 }
 
-export type HeadConfig =
-  | [string, Record<string, string>]
-  | [string, Record<string, string>, string]
+export type HeadOptions<T extends Record<string, string>> = {
+  innerHTML?: string
+  disableEscape?:
+    | boolean
+    | (
+        | keyof T
+        | RegExp
+        | (<K extends keyof T>(key: K, value: T[K]) => boolean)
+      )[]
+}
+
+export type HeadConfig<
+  T extends Record<string, string> = Record<string, string>
+> = [string, T] | [string, T, string] | [string, T, HeadOptions<T>]
 
 export interface PageDataPayload {
   path: string

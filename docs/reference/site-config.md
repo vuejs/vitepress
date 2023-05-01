@@ -189,10 +189,36 @@ export default {
 ```
 
 ```ts
-type HeadConfig =
-  | [string, Record<string, string>]
-  | [string, Record<string, string>, string]
+type HeadOptions<T extends Record<string, string>> = {
+  innerHTML?: string
+  disableEscape?:
+    | boolean
+    | (
+        | keyof T
+        | RegExp
+        | (<K extends keyof T>(key: K, value: T[K]) => boolean)
+      )[]
+}
+
+type HeadConfig<
+  T extends Record<string, string> = Record<string, string>
+> = [string, T] | [string, T, string] | [string, T, HeadOptions<T>]
 ```
+
+::: tip Control character escape
+By default, the attribute's value within the head will be [escaped](https://github.com/component/escape-html#escapehtmlstring). You can configure whether to disable escape via the `disableEscape` option:
+
+```typescript
+{
+  // Disable for all keys
+  disableEscape: true,
+  // Disable for specified keys
+  disableEscape: ['a', 'b', /^c[a-z0-9]+/],
+  // Return true to disable
+  disableEscape: [(k, v) => k.length + v.length < 10]
+}
+```
+:::
 
 ### lang
 
