@@ -62,11 +62,16 @@ onMounted(() => {
   preconnect()
 
   const handleSearchHotKey = (e: KeyboardEvent) => {
-    if (e.key === 'k' && (e.ctrlKey || e.metaKey)) {
-      e.preventDefault()
-      load()
-      remove()
+    const isHotKeyBind = e.key === 'k' && (e.ctrlKey || e.metaKey)
+    const isSlashKey = e.key === '/'
+
+    if (!isSlashKey && !isHotKeyBind) {
+      return
     }
+
+    e.preventDefault()
+    load()
+    remove()
   }
 
   const remove = () => {
