@@ -31,6 +31,7 @@ import { slash } from '../../shared'
 import { useData } from '../composables/data'
 import { createTranslate } from '../support/translation'
 import { dataSymbol } from '../../app/data'
+import { useFocusTrap } from '@vueuse/integrations/useFocusTrap'
 
 defineProps<{
   placeholder: string
@@ -64,6 +65,12 @@ interface Result {
 }
 
 const vitePressData = useData()
+const { activate } = useFocusTrap(el, {
+    immediate: true,
+    allowOutsideClick: true,
+    clickOutsideDeactivates: true,
+    escapeDeactivates: true,
+})
 const { localeIndex, theme } = vitePressData
 const searchIndex = computedAsync(async () =>
   markRaw(
@@ -334,6 +341,7 @@ onMounted(() => {
   body.value = document.body
   nextTick(() => {
     isLocked.value = true
+    nextTick().then(() => activate())
   })
 })
 
