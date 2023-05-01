@@ -1,9 +1,9 @@
 import { ref, watch } from 'vue'
 import { useRoute } from 'vitepress'
 
-export function useNav() {
-  const isScreenOpen = ref(false)
+const isScreenOpen = ref(false)
 
+export function useNav() {
   function openScreen() {
     isScreenOpen.value = true
     window.addEventListener('resize', closeScreenOnTabletWindow)
