@@ -223,10 +223,12 @@ async function fetchExcerpt(id: string) {
 /* Search input focus */
 
 const searchInput = ref<HTMLInputElement>()
-
-function focusSearchInput() {
+const disableReset = computed(() => {
+  return filterText.value?.length <= 0
+})
+function focusSearchInput(select = true) {
   searchInput.value?.focus()
-  searchInput.value?.select()
+  select && searchInput.value?.select()
 }
 
 onMounted(() => {
@@ -341,6 +343,10 @@ onBeforeUnmount(() => {
   isLocked.value = false
 })
 
+function resetSearch() {
+  filterText.value = ''
+  nextTick().then(() => focusSearchInput(false))
+}
 function formMarkRegex(terms: Set<string>) {
   return new RegExp(
     [...terms]
@@ -437,8 +443,10 @@ function formMarkRegex(terms: Set<string>) {
 
             <button
               class="clear-button"
+              type="reset"
+              :disabled="disableReset"
               :title="$t('modal.resetButtonTitle')"
-              @click="filterText = ''"
+              @click="resetSearch"
             >
               <svg
                 width="18"
@@ -672,10 +680,15 @@ function formMarkRegex(terms: Set<string>) {
   padding: 8px;
 }
 
-.search-actions button:hover,
+.search-actions button:not([disabled]):hover,
 .toggle-layout-button.detailed-list {
   color: var(--vp-c-brand);
 }
+
+.search-actions button.clear-button:disabled {
+    opacity: 0.37;
+}
+
 
 .search-keyboard-shortcuts {
   font-size: 0.8rem;
