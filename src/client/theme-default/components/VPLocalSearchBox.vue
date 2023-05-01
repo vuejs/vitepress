@@ -689,7 +689,6 @@ function formMarkRegex(terms: Set<string>) {
     opacity: 0.37;
 }
 
-
 .search-keyboard-shortcuts {
   font-size: 0.8rem;
   opacity: 75%;
