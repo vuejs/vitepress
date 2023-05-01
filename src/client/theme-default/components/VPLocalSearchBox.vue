@@ -347,6 +347,7 @@ function resetSearch() {
   filterText.value = ''
   nextTick().then(() => focusSearchInput(false))
 }
+
 function formMarkRegex(terms: Set<string>) {
   return new RegExp(
     [...terms]
