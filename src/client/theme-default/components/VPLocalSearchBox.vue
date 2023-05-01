@@ -378,7 +378,7 @@ function formMarkRegex(terms: Set<string>) {
 
       <div class="shell">
         <form class="search-bar" @pointerup="onSearchBarClick($event)" @submit.prevent="">
-          <label :title="placeholder" id="localsearch-label" for="docsearch-input">
+          <label :title="placeholder" id="localsearch-label" for="localsearch-input">
             <svg
               class="search-icon"
               width="18"
@@ -425,6 +425,7 @@ function formMarkRegex(terms: Set<string>) {
             ref="searchInput"
             v-model="filterText"
             :placeholder="placeholder"
+            id="localsearch-input"
             aria-labelledby="localsearch-label"
             class="search-input"
           />
