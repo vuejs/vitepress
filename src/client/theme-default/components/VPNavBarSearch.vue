@@ -54,6 +54,25 @@ const preconnect = () => {
   })
 }
 
+const isEditingContent = (event: KeyboardEvent): boolean => {
+  const element = event.target as HTMLElement;
+  const tagName = element.tagName;
+
+  return (
+    element.isContentEditable ||
+    tagName === 'INPUT' ||
+    tagName === 'SELECT' ||
+    tagName === 'TEXTAREA'
+  );
+}
+
+const isHotKey = (e: KeyboardEvent): boolean => {
+  const isBindKey = e.key === 'k' && (e.ctrlKey || e.metaKey)
+  const isSlashKey = e.key === '/'
+
+  return isBindKey || isSlashKey
+}
+
 onMounted(() => {
   if (!__ALGOLIA__) {
     return
@@ -62,10 +81,7 @@ onMounted(() => {
   preconnect()
 
   const handleSearchHotKey = (e: KeyboardEvent) => {
-    const isHotKeyBind = e.key === 'k' && (e.ctrlKey || e.metaKey)
-    const isSlashKey = e.key === '/'
-
-    if (!isSlashKey && !isHotKeyBind) {
+    if (isEditingContent(e) || !isHotKey(e)) {
       return
     }
 
