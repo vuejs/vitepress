@@ -54,8 +54,8 @@ const preconnect = () => {
   })
 }
 
-const isEditingContent = (event: KeyboardEvent): boolean => {
-  const element = event.target as HTMLElement;
+const isEditingContent = (e: KeyboardEvent): boolean => {
+  const element = e.target as HTMLElement;
   const tagName = element.tagName;
 
   return (
