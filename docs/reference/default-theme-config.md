@@ -304,6 +304,22 @@ export default {
 }
 ```
 
+## lastUpdatedDateTimeFormatOptions
+
+- Type: `Intl.DateTimeFormatOptions`
+- Default: `{ dateStyle: 'short',  timeStyle: 'short' }`
+
+[Intl.DateTimeFormatOptions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/DateTimeFormat#parameters) to be applied to `lastUpdated` date.
+
+
+```ts
+export default {
+  themeConfig: {
+    lastUpdatedDateTimeFormatOptions: { dateStyle: 'medium',  timeStyle: 'short' }
+  }
+}
+```
+
 ## algolia
 
 - Type: `AlgoliaSearch`

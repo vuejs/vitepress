@@ -65,6 +65,13 @@ export namespace DefaultTheme {
     lastUpdatedText?: string
 
     /**
+     * Set custom last updated text format options.
+     *
+     * @default "{ dateStyle: 'short',  timeStyle: 'short' }"
+     */
+    lastUpdatedDateTimeFormatOptions?: Intl.DateTimeFormatOptions
+
+    /**
      * Set custom prev/next labels.
      */
     docFooter?: DocFooter
