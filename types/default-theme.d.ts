@@ -234,14 +234,14 @@ export namespace DefaultTheme {
      *
      * @default 'Previous page'
      */
-    prev?: string
+    prev?: string | boolean
 
     /**
      * Custom label for next page button.
      *
      * @default 'Next page'
      */
-    next?: string
+    next?: string | boolean
   }
 
   // social link ---------------------------------------------------------------
