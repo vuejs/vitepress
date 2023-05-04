@@ -780,7 +780,6 @@ function formMarkRegex(terms: Set<string>) {
 }
 
 .excerpt {
-  opacity: 75%;
   pointer-events: none;
   max-height: 140px;
   overflow: hidden;
