@@ -4,7 +4,7 @@ import ora from 'ora'
 import type { BuildOptions } from 'vite'
 import type { OutputChunk, OutputAsset } from 'rollup'
 import { resolveConfig } from '../config'
-import { renderPage } from './render'
+import { dumpStaticAssets, renderPage } from './render'
 import { bundle, okMark, failMark } from './bundle'
 import { createRequire } from 'module'
 import { pathToFileURL } from 'url'
@@ -105,6 +105,15 @@ export async function build(
         JSON.stringify(serializeFunctions({ ...siteConfig.site, head: [] }))
       )
 
+      // we dump the hashmap and sitedata to a file, so it is not included in every
+      // page and so browser can cache it
+      const { metadataHash } = await dumpStaticAssets(
+        siteConfig,
+        clientResult,
+        hashMapString,
+        siteDataString
+      )
+
       await Promise.all(
         ['404.md', ...siteConfig.pages]
           .map((page) => siteConfig.rewrites.map[page] || page)
@@ -118,8 +127,7 @@ export async function build(
               cssChunk,
               assets,
               pageToHashMap,
-              hashMapString,
-              siteDataString,
+              metadataHash,
               additionalHeadTags
             )
           )

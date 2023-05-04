@@ -18,6 +18,7 @@ import {
   type SSGContext
 } from '../shared'
 import { deserializeFunctions } from '../utils/fnSerialize'
+import hash_sum from 'hash-sum'
 
 export async function renderPage(
   render: (path: string) => Promise<SSGContext>,
@@ -28,8 +29,7 @@ export async function renderPage(
   cssChunk: OutputAsset | undefined,
   assets: string[],
   pageToHashMap: Record<string, string>,
-  hashMapString: string,
-  siteDataString: string,
+  metadataHash: string,
   additionalHeadTags: HeadConfig[]
 ) {
   const routePath = `/${page.replace(/\.md$/, '')}`
@@ -149,13 +149,6 @@ export async function renderPage(
     }
   }
 
-  let metadataScript = `__VP_HASH_MAP__ = JSON.parse(${hashMapString})\n`
-  if (siteDataString.includes('_vp-fn_')) {
-    metadataScript += `${deserializeFunctions.toString()}\n__VP_SITE_DATA__ = deserializeFunctions(JSON.parse(${siteDataString}))`
-  } else {
-    metadataScript += `__VP_SITE_DATA__ = JSON.parse(${siteDataString})`
-  }
-
   const html = `
 <!DOCTYPE html>
 <html lang="${siteData.lang}" dir="${siteData.dir}">
@@ -174,7 +167,11 @@ export async function renderPage(
   </head>
   <body>${teleports?.body || ''}
     <div id="app">${content}</div>
-    ${config.mpa ? '' : `<script>${metadataScript}</script>`}
+    ${
+      config.mpa
+        ? ''
+        : `<script src="${siteData.base}metadata.${metadataHash}.js"></script>`
+    }
     ${inlinedScript}
   </body>
 </html>`.trim()
@@ -193,6 +190,30 @@ export async function renderPage(
     assets
   })
   await fs.writeFile(htmlFileName, transformedHtml || html)
+}
+
+export async function dumpStaticAssets(
+  config: SiteConfig,
+  result: RollupOutput | null,
+  hashMapString: string,
+  siteDataString: string
+) {
+  let metadataScript = `window.__VP_HASH_MAP__ = JSON.parse(${hashMapString})\n`
+  if (siteDataString.includes('_vp-fn_')) {
+    metadataScript += `${deserializeFunctions.toString()}\nwindow.__VP_SITE_DATA__ = deserializeFunctions(JSON.parse(${siteDataString}))`
+  } else {
+    metadataScript += `window.__VP_SITE_DATA__ = JSON.parse(${siteDataString})`
+  }
+
+  const metadataHash = hash_sum(metadataScript)
+  const htmlFileName = path.join(config.outDir, `metadata.${metadataHash}.js`)
+
+  await fs.ensureDir(path.dirname(htmlFileName))
+  await fs.writeFile(htmlFileName, metadataScript)
+
+  return {
+    metadataHash
+  }
 }
 
 function resolvePageImports(

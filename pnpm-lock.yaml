@@ -95,6 +95,9 @@ importers:
       '@types/fs-extra':
         specifier: ^11.0.1
         version: 11.0.1
+      '@types/hash-sum':
+        specifier: ^1.0.0
+        version: 1.0.0
       '@types/mark.js':
         specifier: ^8.11.8
         version: 8.11.8
@@ -161,6 +164,9 @@ importers:
       gray-matter:
         specifier: ^4.0.3
         version: 4.0.3
+      hash-sum:
+        specifier: ^2.0.0
+        version: 2.0.0
       lint-staged:
         specifier: ^13.2.2
         version: 13.2.2(enquirer@2.3.6)(supports-color@9.3.1)
@@ -966,6 +972,10 @@ packages:
     dependencies:
       '@types/jsonfile': 6.1.1
       '@types/node': 18.16.3
+    dev: true
+
+  /@types/hash-sum@1.0.0:
+    resolution: {integrity: sha512-FdLBT93h3kcZ586Aee66HPCVJ6qvxVjBlDWNmxSGSbCZe9hTsjRKdSsl4y1T+3zfujxo9auykQMnFsfyHWD7wg==}
     dev: true
 
   /@types/jquery@3.5.16:
@@ -2515,6 +2525,10 @@ packages:
     engines: {node: '>= 0.4.0'}
     dependencies:
       function-bind: 1.1.1
+    dev: true
+
+  /hash-sum@2.0.0:
+    resolution: {integrity: sha512-WdZTbAByD+pHfl/g9QSsBIIwy8IT+EsPiKDs0KNX+zSHhdDLFKdZu0BQHljvO+0QI/BasbMSUa8wYNCZTvhslg==}
     dev: true
 
   /he@1.2.0:
