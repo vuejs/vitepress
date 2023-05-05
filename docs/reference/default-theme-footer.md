@@ -36,4 +36,8 @@ export default {
 }
 ```
 
+::: warning
+Only inline elements can be used in message, copyright, because their rendering results are P elements.
+:::
+
 Note that footer will not be displayed when the [SideBar](./default-theme-sidebar) is visible.
