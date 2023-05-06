@@ -220,6 +220,7 @@ export async function resolveSiteData(
     base: userConfig.base ? userConfig.base.replace(/([^/])$/, '$1/') : '/',
     head: resolveSiteDataHead(userConfig),
     appearance: userConfig.appearance ?? true,
+    appearanceTransition: userConfig.appearanceTransition ?? false,
     themeConfig: userConfig.themeConfig || {},
     locales: userConfig.locales || {},
     scrollOffset: userConfig.scrollOffset || 90,

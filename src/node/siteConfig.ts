@@ -66,6 +66,7 @@ export interface UserConfig<ThemeConfig = any>
   locales?: LocaleConfig<ThemeConfig>
 
   appearance?: boolean | 'dark'
+  appearanceTransition?: boolean
   lastUpdated?: boolean
 
   /**

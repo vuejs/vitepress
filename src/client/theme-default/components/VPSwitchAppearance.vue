@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, computed } from 'vue'
 import { useData } from '../composables/data'
 import { APPEARANCE_KEY } from '../../shared'
 import VPSwitch from './VPSwitch.vue'
@@ -12,6 +12,11 @@ const toggle = typeof localStorage !== 'undefined' ? useAppearance() : () => {}
 
 onMounted(() => {
   checked.value = document.documentElement.classList.contains('dark')
+})
+
+const isAppearanceTransition = computed(() => {
+  // @ts-expect-error: Transition API
+  return document.startViewTransition && site.value.appearanceTransition
 })
 
 function useAppearance() {
@@ -32,14 +37,54 @@ function useAppearance() {
     }
   }
 
-  function toggle() {
-    setClass((isDark = !isDark))
+  function toggle(event: MouseEvent) {
+    if (!isAppearanceTransition.value) {
+      setClass((isDark = !isDark))
 
-    userPreference = isDark
-      ? query.matches ? 'auto' : 'dark'
-      : query.matches ? 'light' : 'auto'
+      userPreference = isDark
+        ? query.matches ? 'auto' : 'dark'
+        : query.matches ? 'light' : 'auto'
 
-    localStorage.setItem(APPEARANCE_KEY, userPreference)
+      localStorage.setItem(APPEARANCE_KEY, userPreference)
+
+      return
+    }
+
+    const x = event.clientX
+    const y = event.clientY
+    const endRadius = Math.hypot(
+      Math.max(x, innerWidth - x),
+      Math.max(y, innerHeight - y),
+    )
+
+    // @ts-expect-error: Transition API
+    const transition = document.startViewTransition(() => {
+      setClass((isDark = !isDark))
+
+      userPreference = isDark
+        ? query.matches ? 'auto' : 'dark'
+        : query.matches ? 'light' : 'auto'
+
+      localStorage.setItem(APPEARANCE_KEY, userPreference)
+    })
+
+    transition.ready.then(() => {
+      const clipPath = [
+        `circle(0px at ${x}px ${y}px)`,
+        `circle(${endRadius}px at ${x}px ${y}px)`,
+      ]
+
+      document.documentElement.animate(
+        {
+          clipPath: isDark ? clipPath : [...clipPath].reverse(),
+        },
+        {
+          duration: 500,
+          easing: 'ease-in',
+          pseudoElement: isDark ? '::view-transition-new(root)' : '::view-transition-old(root)',
+        },
+      )
+    })
   }
 
   function setClass(dark: boolean): void {
@@ -78,6 +123,7 @@ watch(checked, (newIsDark) => {
   <label title="toggle dark mode">
     <VPSwitch
       class="VPSwitchAppearance"
+      :class="{ 'VPSwitchAppearanceTransition': isAppearanceTransition }"
       :aria-checked="checked"
       @click="toggle"
     >
@@ -104,8 +150,36 @@ watch(checked, (newIsDark) => {
   opacity: 1;
 }
 
-.dark .VPSwitchAppearance :deep(.check) {
+.VPSwitchAppearance.VPSwitchAppearanceTransition {
+  width: 22px;
+}
+
+.dark .VPSwitchAppearance:not(.VPSwitchAppearanceTransition) :deep(.check) {
   /*rtl:ignore*/
   transform: translateX(18px);
+}
+</style>
+
+<style>
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 9999;
+}
+
+::view-transition-new(root) {
+  z-index: 1;
+}
+
+.dark::view-transition-old(root) {
+  z-index: 1;
+}
+
+.dark::view-transition-new(root) {
+  z-index: 9999;
 }
 </style>
