@@ -16,7 +16,7 @@ export async function buildMPAClient(
     root: config.srcDir,
     cacheDir: config.cacheDir,
     base: config.site.base,
-    logLevel: 'warn',
+    logLevel: config.vite?.logLevel ?? 'warn',
     build: {
       emptyOutDir: false,
       outDir: config.outDir,

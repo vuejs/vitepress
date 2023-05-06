@@ -3,7 +3,6 @@ import _debug from 'debug'
 import fs from 'fs'
 import { LRUCache } from 'lru-cache'
 import path from 'path'
-import c from 'picocolors'
 import type { SiteConfig } from './config'
 import {
   createMarkdownRenderer,
@@ -26,7 +25,7 @@ const includesRE = /<!--\s*@include:\s*(.*?)\s*-->/g
 export interface MarkdownCompileResult {
   vueSrc: string
   pageData: PageData
-  deadLinks: string[]
+  deadLinks: { url: string; file: string }[]
   includes: string[]
 }
 
@@ -88,9 +87,15 @@ export async function createMarkdownToVueRenderFn(
     // resolve includes
     let includes: string[] = []
     src = src.replace(includesRE, (m, m1) => {
+      if (!m1.length) return m
+
+      const atPresent = m1[0] === '@'
       try {
-        const dir = path.dirname(fileOrig) // include paths are strict relative file paths w/o aliases
-        const includePath = path.join(dir, m1)
+        const dir = atPresent ? srcDir : path.dirname(fileOrig)
+        const includePath = path.join(
+          dir,
+          atPresent ? m1.slice(m1.length > 1 && m1[1] === '/' ? 2 : 1) : m1
+        )
         const content = fs.readFileSync(includePath, 'utf-8')
         includes.push(slash(includePath))
         return content
@@ -115,18 +120,9 @@ export async function createMarkdownToVueRenderFn(
     } = env
 
     // validate data.links
-    const deadLinks: string[] = []
+    const deadLinks: MarkdownCompileResult['deadLinks'] = []
     const recordDeadLink = (url: string) => {
-      ;(siteConfig?.logger ?? console).warn(
-        c.yellow(
-          `\n(!) Found dead link ${c.cyan(url)} in file ${c.white(
-            c.dim(file)
-          )}\nIf it is intended, you can use:\n    ${c.cyan(
-            `<a href="${url}" target="_blank" rel="noreferrer">${url}</a>`
-          )}`
-        )
-      )
-      deadLinks.push(url)
+      deadLinks.push({ url, file: path.relative(srcDir, fileOrig) })
     }
 
     function shouldIgnoreDeadLink(url: string) {
@@ -187,7 +183,8 @@ export async function createMarkdownToVueRenderFn(
       frontmatter,
       headers,
       params,
-      relativePath
+      relativePath,
+      filePath: slash(path.relative(srcDir, fileOrig))
     }
 
     if (includeLastUpdatedData) {

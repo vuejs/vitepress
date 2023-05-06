@@ -63,7 +63,7 @@ describe('Table of Contents', () => {
   test('render toc', async () => {
     const items = page.locator('#table-of-contents + nav ul li')
     const count = await items.count()
-    expect(count).toBe(23)
+    expect(count).toBe(24)
   })
 })
 
@@ -228,5 +228,9 @@ describe('Markdown File Inclusion', () => {
   test('render markdown', async () => {
     const h1 = page.locator('#markdown-file-inclusion + h1')
     expect(await h1.getAttribute('id')).toBe('foo')
+  })
+  test('render markdown using @', async () => {
+    const h1 = page.locator('#markdown-at-file-inclusion + h1')
+    expect(await h1.getAttribute('id')).toBe('bar')
   })
 })

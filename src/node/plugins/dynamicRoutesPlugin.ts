@@ -27,10 +27,14 @@ export async function resolvePages(srcDir: string, userConfig: UserConfig) {
     })
   ).sort()
 
-  const pages = allMarkdownFiles.filter((p) => !dynamicRouteRE.test(p))
-  const dynamicRouteFiles = allMarkdownFiles.filter((p) =>
-    dynamicRouteRE.test(p)
-  )
+  const pages: string[] = []
+  const dynamicRouteFiles: string[] = []
+
+  allMarkdownFiles.forEach((file) => {
+    dynamicRouteRE.lastIndex = 0
+    ;(dynamicRouteRE.test(file) ? dynamicRouteFiles : pages).push(file)
+  })
+
   const dynamicRoutes = await resolveDynamicRoutes(srcDir, dynamicRouteFiles)
   pages.push(...dynamicRoutes.routes.map((r) => r.path))
 
