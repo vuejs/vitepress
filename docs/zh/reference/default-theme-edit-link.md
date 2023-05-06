@@ -16,17 +16,17 @@ export default {
 
 `pattern` 选项定义链接的 URL 结构，并且 `:path` 将被替换为页面路径。
 
-你还可以放置一个接受“relativePath(相对路径)”作为参数并返回 URL 字符串的纯函数。
+你还可以放置一个接受 [`PageData`](./runtime-api#usedata) 作为参数并返回 URL 字符串的纯函数。
 
 ```js
 export default {
 	themeConfig: {
 		editLink: {
-			pattern: ({ relativePath }) => {
-				if (relativePath.startsWith('packages/')) {
-					return `https://github.com/acme/monorepo/edit/main/${relativePath}`
+			pattern: ({ filePath }) => {
+				if (filePath.startsWith('packages/')) {
+					return `https://github.com/acme/monorepo/edit/main/${filePath}`
 				} else {
-					return `https://github.com/acme/monorepo/edit/main/docs/${relativePath}`
+					return `https://github.com/acme/monorepo/edit/main/docs/${filePath}`
 				}
 			},
 		},

@@ -693,7 +693,13 @@ export default config
 
 ## 包含 markdown 文件 {#markdown-file-inclusion}
 
-你可以像这样在一个 markdown 文件中包含另一个 markdown 文件：
+你可以在一个 markdown 文件中包含另一个 markdown 文件：
+
+::: tip 提示
+您还可以在 markdown 路径前加上 `@` 前缀，它将充当源根目录。默认情况下它是 VitePress 项目根目录，除非配置了 `srcDir`。
+:::
+
+例如，你可以使用以下方式包含一个相对路径的 markdown 文件：
 
 **输入**
 

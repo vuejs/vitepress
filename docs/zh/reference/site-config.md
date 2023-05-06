@@ -164,8 +164,32 @@ Additional elements to render in the `<head>` tag in the page HTML. The user-add
 ```ts
 export default {
 	head: [
-		['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
-		// would render: <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		[
+			'link',
+			{ rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
+			// would render:
+			//
+			// <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		],
+
+		[
+			'script',
+			{ id: 'register-sw' },
+			`;(() => {
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('/sw.js')
+        }
+      })()`,
+			// would render:
+			//
+			// <script id="register-sw">
+			// ;(() => {
+			//   if ('serviceWorker' in navigator) {
+			//     navigator.serviceWorker.register('/sw.js')
+			//   }
+			// })()
+			// </script>
+		],
 	],
 }
 ```
