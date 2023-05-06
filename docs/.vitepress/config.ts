@@ -60,9 +60,7 @@ export default defineConfig({
       code: 'CEBDT27Y',
       placement: 'vuejsorg'
     }
-  },
-
-  appearanceTransition: true
+  }
 })
 
 function nav() {
