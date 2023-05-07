@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, onMounted, watch, computed } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useData } from '../composables/data'
 import { APPEARANCE_KEY } from '../../shared'
 import VPSwitch from './VPSwitch.vue'
@@ -14,10 +14,8 @@ onMounted(() => {
   checked.value = document.documentElement.classList.contains('dark')
 })
 
-const isAppearanceTransition = computed(() => {
-  // @ts-expect-error: Transition API
-  return document.startViewTransition && site.value.appearanceTransition
-})
+// @ts-expect-error: Transition API
+const isAppearanceTransition = document.startViewTransition && site.value.appearanceTransition
 
 function useAppearance() {
   const query = window.matchMedia('(prefers-color-scheme: dark)')
@@ -38,7 +36,7 @@ function useAppearance() {
   }
 
   function toggle(event: MouseEvent) {
-    if (!isAppearanceTransition.value) {
+    if (!isAppearanceTransition) {
       setClass((isDark = !isDark))
 
       userPreference = isDark
