@@ -54,25 +54,6 @@ const preconnect = () => {
   })
 }
 
-const isEditingContent = (e: KeyboardEvent): boolean => {
-  const element = e.target as HTMLElement;
-  const tagName = element.tagName;
-
-  return (
-    element.isContentEditable ||
-    tagName === 'INPUT' ||
-    tagName === 'SELECT' ||
-    tagName === 'TEXTAREA'
-  );
-}
-
-const isHotKey = (e: KeyboardEvent): boolean => {
-  const isBindKey = e.key === 'k' && (e.ctrlKey || e.metaKey)
-  const isSlashKey = e.key === '/'
-
-  return isBindKey || isSlashKey
-}
-
 onMounted(() => {
   if (!__ALGOLIA__) {
     return
@@ -80,14 +61,15 @@ onMounted(() => {
 
   preconnect()
 
-  const handleSearchHotKey = (e: KeyboardEvent) => {
-    if (isEditingContent(e) || !isHotKey(e)) {
-      return
+  const handleSearchHotKey = (event: KeyboardEvent) => {
+    if (
+      (event.key.toLowerCase() === 'k' && (event.metaKey || event.ctrlKey)) ||
+      (!isEditingContent(event) && event.key === '/')
+    ) {
+      event.preventDefault()
+      load()
+      remove()
     }
-
-    e.preventDefault()
-    load()
-    remove()
   }
 
   const remove = () => {
@@ -122,6 +104,18 @@ function poll() {
   }, 16)
 }
 
+function isEditingContent(event: KeyboardEvent): boolean {
+  const element = event.target as HTMLElement
+  const tagName = element.tagName
+
+  return (
+    element.isContentEditable ||
+    tagName === 'INPUT' ||
+    tagName === 'SELECT' ||
+    tagName === 'TEXTAREA'
+  )
+}
+
 // Local search
 
 const showSearch = ref(false)
@@ -129,6 +123,13 @@ const showSearch = ref(false)
 if (__VP_LOCAL_SEARCH__) {
   onKeyStroke('k', (event) => {
     if (event.ctrlKey || event.metaKey) {
+      event.preventDefault()
+      showSearch.value = true
+    }
+  })
+
+  onKeyStroke('/', (event) => {
+    if (!isEditingContent(event)) {
       event.preventDefault()
       showSearch.value = true
     }
