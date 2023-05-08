@@ -37,7 +37,7 @@ export default {
 ```
 
 ::: warning
-Only inline elements can be used in `message` and `copyright` as they are rendered inside a `<p>` element.
+Only inline elements can be used in `message` and `copyright` as they are rendered inside a `<p>` element. If you want to add block elements, consider using [`layout-bottom`](../guide/extending-default-theme#layout-slots) slot instead.
 :::
 
 Note that footer will not be displayed when the [SideBar](./default-theme-sidebar) is visible.
