@@ -5,7 +5,7 @@
 import type MarkdownIt from 'markdown-it'
 import type { MarkdownEnv } from '../env'
 import { URL } from 'url'
-import { EXTERNAL_URL_RE, PATHNAME_PROTOCOL_RE } from '../../shared'
+import { EXTERNAL_URL_RE, PATHNAME_PROTOCOL_RE, isExternal } from '../../shared'
 
 const indexRE = /(^|.*\/)index.md(#?.*)$/i
 
@@ -26,8 +26,7 @@ export const linkPlugin = (
     if (hrefIndex >= 0) {
       const hrefAttr = token.attrs![hrefIndex]
       const url = hrefAttr[1]
-      const isExternal = EXTERNAL_URL_RE.test(url)
-      if (isExternal) {
+      if (isExternal(url)) {
         Object.entries(externalAttrs).forEach(([key, val]) => {
           token.attrSet(key, val)
         })
