@@ -15,7 +15,9 @@ onMounted(() => {
 })
 
 // @ts-expect-error: Transition API
-const isAppearanceTransition = document.startViewTransition && site.value.appearanceTransition
+const isAppearanceTransition = document.startViewTransition &&
+  !window.matchMedia(`(prefers-reduced-motion: reduce)`).matches &&
+  site.value.appearanceTransition
 
 function useAppearance() {
   const query = window.matchMedia('(prefers-color-scheme: dark)')
@@ -77,7 +79,7 @@ function useAppearance() {
           clipPath: isDark ? clipPath : [...clipPath].reverse(),
         },
         {
-          duration: 500,
+          duration: 300,
           easing: 'ease-in',
           pseudoElement: isDark ? '::view-transition-new(root)' : '::view-transition-old(root)',
         },
