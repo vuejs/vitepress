@@ -35,10 +35,6 @@ const { currentLang } = useLangs()
   transition: opacity 0.25s;
 }
 
-.title:hover {
-  opacity: 0.6;
-}
-
 @media (min-width: 960px) {
   .title {
     flex-shrink: 0;
