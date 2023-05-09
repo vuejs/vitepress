@@ -76,9 +76,9 @@ watch(checked, (newIsDark) => {
 
 <template>
   <VPSwitch
+    title="toggle dark mode"
     class="VPSwitchAppearance"
     :aria-checked="checked"
-    aria-label="toggle dark mode"
     @click="toggle"
   >
     <VPIconSun class="sun" />
