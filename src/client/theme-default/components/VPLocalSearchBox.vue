@@ -535,8 +535,8 @@ function formMarkRegex(terms: Set<string>) {
                 </div>
 
                 <div v-if="showDetailedList" class="excerpt-wrapper">
-                  <div v-if="p.text" class="excerpt">
-                    <div class="vp-doc" v-html="p.text" />
+                  <div v-if="p.text" class="excerpt" inert>
+                    <div class="vp-doc" v-html="p.text"  />
                   </div>
                   <div class="excerpt-gradient-bottom" />
                   <div class="excerpt-gradient-top" />
