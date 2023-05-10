@@ -8,6 +8,13 @@ export function useCodeGroups() {
       if (el.matches('.vp-code-group input')) {
         // input <- .tabs <- .vp-code-group
         const group = el.parentElement?.parentElement
+
+        const label = group?.querySelector(`label[for="${el.id}"]`)
+        label?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'nearest'
+        })
         const i = Array.from(group?.querySelectorAll('input') || []).indexOf(el)
 
         const current = group?.querySelector('div[class*="language-"].active')
