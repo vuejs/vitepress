@@ -33,8 +33,7 @@
 
 .vp-code-group .tabs input {
   position: absolute;
-  opacity: 0;
-  pointer-events: none;
+  display: none;
 }
 
 .vp-code-group .tabs label {
