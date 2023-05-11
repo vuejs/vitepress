@@ -13,7 +13,7 @@ export function useCodeGroups() {
         label?.scrollIntoView({
           behavior: 'smooth',
           block: 'nearest',
-          inline: 'nearest'
+          inline: 'center'
         })
         const i = Array.from(group?.querySelectorAll('input') || []).indexOf(el)
 
