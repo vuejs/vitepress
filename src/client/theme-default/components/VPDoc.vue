@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { useRoute } from 'vitepress'
-import { computed } from 'vue'
+import {onContentUpdated, useRoute} from 'vitepress'
+import {computed, shallowRef} from 'vue'
 import { useSidebar } from '../composables/sidebar'
 import VPDocAside from './VPDocAside.vue'
 import VPDocFooter from './VPDocFooter.vue'
 import VPDocOutlineDropdown from './VPDocOutlineDropdown.vue'
+import {getHeaders, type MenuItem} from "../composables/outline";
+import {useData} from "../composables/data";
 
 const route = useRoute()
 const { hasSidebar, hasAside, leftAside } = useSidebar()
@@ -12,16 +14,24 @@ const { hasSidebar, hasAside, leftAside } = useSidebar()
 const pageName = computed(() =>
   route.path.replace(/[./]+/g, '_').replace(/_html$/, '')
 )
+
+const { frontmatter, theme } = useData()
+const headers = shallowRef<MenuItem[]>([])
+onContentUpdated(() => {
+    headers.value = getHeaders(
+        frontmatter.value.outline ?? theme.value.outline
+    )
+})
 </script>
 
 <template>
   <div
     class="VPDoc"
-    :class="{ 'has-sidebar': hasSidebar, 'has-aside': hasAside }"
+    :class="{ 'has-sidebar': hasSidebar, 'has-aside': hasAside($slots, headers) }"
   >
     <slot name="doc-top" />
     <div class="container">
-      <div v-if="hasAside" class="aside" :class="{'left-aside': leftAside}">
+      <div v-if="hasAside($slots, headers)" class="aside" :class="{'left-aside': leftAside($slots, headers)}">
         <div class="aside-curtain" />
         <div class="aside-container">
           <div class="aside-content">

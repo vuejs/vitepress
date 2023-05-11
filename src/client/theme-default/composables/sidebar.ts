@@ -1,6 +1,7 @@
 import {
   type ComputedRef,
   type Ref,
+  type Slots,
   computed,
   onMounted,
   onUnmounted,
@@ -17,6 +18,8 @@ import {
   getSidebarGroups
 } from '../support/sidebar'
 import { useData } from './data'
+import { type MenuItem } from './outline'
+import { hasAnySlot } from '../support/slot'
 
 export interface SidebarControl {
   collapsed: Ref<boolean>
@@ -49,18 +52,35 @@ export function useSidebar() {
     )
   })
 
-  const leftAside = computed(() => {
-    if (hasAside)
+  const leftAside = computed(() => ($slots: Slots, headers: MenuItem[]) => {
+    if (hasAside.value($slots, headers))
       return frontmatter.value.aside == null
         ? theme.value.aside === 'left'
         : frontmatter.value.aside === 'left'
     return false
   })
 
-  const hasAside = computed(() => {
+  function hasAsideContent($slots: Slots, headers: MenuItem[]): boolean {
+    if (theme.value.carbonAds) return true
+    if (headers.length > 0) return true
+
+    const slots = [
+      'aside-top',
+      'aside-bottom',
+      'aside-outline-before',
+      'aside-outline-after',
+      'aside-ads-before',
+      'aside-ads-after'
+    ]
+    return hasAnySlot($slots, slots)
+  }
+
+  const hasAside = computed(() => ($slots: Slots, headers: MenuItem[]) => {
     if (frontmatter.value.layout === 'home') return false
     if (frontmatter.value.aside != null) return !!frontmatter.value.aside
-    return theme.value.aside !== false
+    if (theme.value.aside === false) return false
+
+    return hasAsideContent($slots, headers)
   })
 
   const isSidebarEnabled = computed(() => hasSidebar.value && is960.value)

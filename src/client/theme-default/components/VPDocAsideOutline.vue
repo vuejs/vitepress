@@ -14,11 +14,12 @@ const { frontmatter, theme } = useData()
 
 const headers = shallowRef<MenuItem[]>([])
 
-onContentUpdated(() => {
-  headers.value = getHeaders(
-    frontmatter.value.outline ?? theme.value.outline
-  )
-})
+function setHeaders() {
+  headers.value = getHeaders(frontmatter.value.outline ?? theme.value.outline)
+}
+
+onContentUpdated(setHeaders)
+setHeaders();
 
 const container = ref()
 const marker = ref()
