@@ -384,7 +384,7 @@ export default {
 
     // adjust how header anchors are generated,
     // useful for integrating with tools that use different conventions
-    anchors: {
+    anchor: {
       slugify(str) {
         return encodeURIComponent(str)
       }
