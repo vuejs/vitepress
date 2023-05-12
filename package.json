@@ -99,7 +99,7 @@
     "minisearch": "^6.0.1",
     "shiki": "^0.14.2",
     "vite": "^4.3.3",
-    "vue": "^3.2.47"
+    "vue": "^3.3.2"
   },
   "devDependencies": {
     "@clack/prompts": "^0.6.3",
