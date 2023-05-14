@@ -89,7 +89,7 @@
   "dependencies": {
     "@docsearch/css": "^3.3.4",
     "@docsearch/js": "^3.3.4",
-    "@vitejs/plugin-vue": "^4.2.1",
+    "@vitejs/plugin-vue": "^4.2.3",
     "@vue/devtools-api": "^6.5.0",
     "@vueuse/core": "^10.1.0",
     "@vueuse/integrations": "^10.1.0",
@@ -98,7 +98,7 @@
     "mark.js": "8.11.1",
     "minisearch": "^6.0.1",
     "shiki": "^0.14.2",
-    "vite": "^4.3.3",
+    "vite": "^4.3.5",
     "vue": "^3.3.2"
   },
   "devDependencies": {

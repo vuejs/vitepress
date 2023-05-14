@@ -11,8 +11,8 @@ importers:
         specifier: ^3.3.4
         version: 3.3.4
       '@vitejs/plugin-vue':
-        specifier: ^4.2.1
-        version: 4.2.1(vite@4.3.3)(vue@3.3.2)
+        specifier: ^4.2.3
+        version: 4.2.3(vite@4.3.5)(vue@3.3.2)
       '@vue/devtools-api':
         specifier: ^6.5.0
         version: 6.5.0
@@ -38,8 +38,8 @@ importers:
         specifier: ^0.14.2
         version: 0.14.2
       vite:
-        specifier: ^4.3.3
-        version: 4.3.3(@types/node@18.16.3)
+        specifier: ^4.3.5
+        version: 4.3.5(@types/node@18.16.3)
       vue:
         specifier: ^3.3.2
         version: 3.3.2
@@ -1094,14 +1094,14 @@ packages:
     resolution: {integrity: sha512-oh8q2Zc32S6gd/j50GowEjKLoOVOwHP/bWVjKJInBwQqdOYMdPrf1oVlelTlyfFK3CKxL1uahMDAr+vy8T7yMQ==}
     dev: false
 
-  /@vitejs/plugin-vue@4.2.1(vite@4.3.3)(vue@3.3.2):
-    resolution: {integrity: sha512-ZTZjzo7bmxTRTkb8GSTwkPOYDIP7pwuyV+RV53c9PYUouwcbkIZIvWvNWlX2b1dYZqtOv7D6iUAnJLVNGcLrSw==}
+  /@vitejs/plugin-vue@4.2.3(vite@4.3.5)(vue@3.3.2):
+    resolution: {integrity: sha512-R6JDUfiZbJA9cMiguQ7jxALsgiprjBeHL5ikpXfJCH62pPHtI+JdJ5xWj6Ev73yXSlYl86+blXn1kZHQ7uElxw==}
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
       vite: ^4.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 4.3.3(@types/node@18.16.3)
+      vite: 4.3.5(@types/node@18.16.3)
       vue: 3.3.2
     dev: false
 
@@ -4475,7 +4475,7 @@ packages:
       mlly: 1.2.0
       pathe: 1.1.0
       picocolors: 1.0.0
-      vite: 4.3.3(@types/node@18.16.3)
+      vite: 4.3.5(@types/node@18.16.3)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -4486,8 +4486,8 @@ packages:
       - terser
     dev: true
 
-  /vite@4.3.3(@types/node@18.16.3):
-    resolution: {integrity: sha512-MwFlLBO4udZXd+VBcezo3u8mC77YQk+ik+fbc0GZWGgzfbPP+8Kf0fldhARqvSYmtIWoAJ5BXPClUbMTlqFxrA==}
+  /vite@4.3.5(@types/node@18.16.3):
+    resolution: {integrity: sha512-0gEnL9wiRFxgz40o/i/eTBwm+NEbpUeTWhzKrZDSdKm6nplj+z4lKz8ANDgildxHm47Vg8EUia0aicKbawUVVA==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
     peerDependencies:
@@ -4572,7 +4572,7 @@ packages:
       strip-literal: 1.0.1
       tinybench: 2.4.0
       tinypool: 0.4.0
-      vite: 4.3.3(@types/node@18.16.3)
+      vite: 4.3.5(@types/node@18.16.3)
       vite-node: 0.30.1(@types/node@18.16.3)(supports-color@9.3.1)
       why-is-node-running: 2.2.2
     transitivePeerDependencies:
