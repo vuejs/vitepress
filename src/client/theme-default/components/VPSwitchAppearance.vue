@@ -75,16 +75,15 @@ watch(checked, (newIsDark) => {
 </script>
 
 <template>
-  <label title="toggle dark mode">
-    <VPSwitch
-      class="VPSwitchAppearance"
-      :aria-checked="checked"
-      @click="toggle"
-    >
-      <VPIconSun class="sun" />
-      <VPIconMoon class="moon" />
-    </VPSwitch>
-  </label>
+  <VPSwitch
+    title="toggle dark mode"
+    class="VPSwitchAppearance"
+    :aria-checked="checked"
+    @click="toggle"
+  >
+    <VPIconSun class="sun" />
+    <VPIconMoon class="moon" />
+  </VPSwitch>
 </template>
 
 <style scoped>
