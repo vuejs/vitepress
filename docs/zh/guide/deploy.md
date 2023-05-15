@@ -2,70 +2,70 @@
 outline: deep
 ---
 
-# 部署 {#deploy-your-vitepress-site}
+# 部署你的 VitePress 网站 {#deploy-your-vitepress-site}
 
-The following guides are based on some shared assumptions:
+以下指南基于一些共设前提：
 
-- The VitePress site is inside the `docs` directory of your project.
-- You are using the default build output directory (`.vitepress/dist`).
-- VitePress is installed as a local dependency in your project, and you have set up the following scripts in your `package.json`:
+- VitePress 站点位于项目的 `docs` 目录中。
+- 你使用的是默认的生成输出目录 （`.vitepress/dist`）。
+- VitePress 作为本地依赖项安装在项目中，并且你已在 `package.json` 中设置以下脚本：
 
   ```json
   {
-    "scripts": {
-      "docs:build": "vitepress build docs",
-      "docs:preview": "vitepress preview docs"
-    }
+  	"scripts": {
+  		"docs:build": "vitepress build docs",
+  		"docs:preview": "vitepress preview docs"
+  	}
   }
   ```
 
-## 本地构建和测试 {#build-and-test-locally}
+## 本地构建与测试 {#build-and-test-locally}
 
-1. Run this command to build the docs:
+- 你可以运行以下命令来构建文档：
 
-   ```sh
-   $ npm run docs:build
-   ```
+  ```sh
+  yarn docs:build
+  ```
 
-2. Once built, preview it locally by running:
+- 构建文档后，通过运行以下命令在本地预览它：
 
-   ```sh
-   $ npm run docs:preview
-   ```
+  ```sh
+  yarn docs:preview
+  ```
 
-   The `preview` command will boot up a local static web server that will serve the output directory `.vitepress/dist` at `http://localhost:4173`. You can use this to make sure everything looks good before pushing to production.
+  `preview` 命令将启动一个本地静态 Web 服务器`http://localhost:4173`，该服务器以 `.vitepress/dist` 作为源文件。这是检查生产版本在本地环境中是否正常的一种简单方法。
 
-3. You can configure the port of the server by passing `--port` as an argument.
+- 你可以通过传递`--port`作为参数来配置服务器的端口。
 
-   ```json
-   {
-     "scripts": {
-       "docs:preview": "vitepress preview docs --port 8080"
-     }
-   }
-   ```
+  ```json
+  {
+  	"scripts": {
+  		"docs:preview": "vitepress preview docs --port 8080"
+  	}
+  }
+  ```
 
-Now the `docs:preview` method will launch the server at `http://localhost:8080`.
+  现在`docs:preview`方法将在`http://localhost:8080`启动服务器。
 
 ## 设定 public 根目录 {#setting-a-public-base-path}
 
-By default, we assume the site is going to be deployed at the root path of a domain (`/`). If your site is going to be served at a sub-path, e.g. `https://mywebsite.com/blog/`, then you need to set the [`base`](../reference/site-config#base) option to `'/blog/'` in the VitePress config.
+默认情况下，我们假设站点将部署在域名 （`/`） 的根路径上。如果你的网站将在子路径中提供服务，例如 `https://mywebsite.com/blog/`，则需要在 VitePress 配置中将 [`base`](../reference/site-config#base)选项设置为 `'/blog/'`。
 
-**Example:** If you're using Github (or GitLab) Pages and deploying to `user.github.io/repo/`, then set your `base` to `/repo/`.
+**例：**如果你使用的是 Github（或 GitLab）页面并部署到 `user.github.io/repo/`，请将你的 `base` 设置为 `/repo/`。
 
 ## HTTP 缓存标头 {#http-cache-headers}
 
-If you have control over the HTTP headers on your production server, you can configure `cache-control` headers to achieve better performance on repeated visits.
+如果可以控制生产服务器上的 HTTP 标头，则可以配置 `cache-control` 标头以在重复访问时获得更好的性能。
 
-The production build uses hashed file names for static assets (JavaScript, CSS and other imported assets not in `public`). If you inspect the production preview using your browser devtools' network tab, you will see files like `app.4f283b18.js`.
+生产版本对静态资源（JavaScript、CSS 和其他非 `public` 目录中的导入资源）使用哈希文件名。如果你使用浏览器开发工具的网络选项卡检查生产预览，你将看到类似 `app.4f283b18.js` 的文件。
 
-This `4f283b18` hash is generated from the content of this file. The same hashed URL is guaranteed to serve the same file content - if the contents change, the URLs change too. This means you can safely use the strongest cache headers for these files. All such files will be placed under `assets/` in the output directory, so you can configure the following header for them:
+此哈希 `4f283b18` 是从此文件的内容生成的。相同的哈希 URL 保证提供相同的文件内容 —— 如果内容更改，URL 也会更改。这意味着你可以安全地为这些文件使用最强的缓存标头。所有此类文件都将放置在输出目录的 `assets/` 中，因此你可以为它们配置以下标头：
 
 ```
 Cache-Control: max-age=31536000,immutable
 ```
 
-:::details Example Netlify `_headers` file
+:::details Netlify 示例 `_headers` 文件
 
 ```
 /assets/*
@@ -73,55 +73,55 @@ Cache-Control: max-age=31536000,immutable
   cache-control: immutable
 ```
 
-Note: the `_headers` file should be placed in the [public directory](/guide/asset-handling#the-public-directory) - in our case, `docs/public/_headers` - so that it is copied verbatim to the output directory.
+注意：该 `_headers` 文件应放置在[public 目录](/guide/asset-handling#the-public-directory)中（在我们的例子中是 `docs/public/_headers`），以便将其逐字复制到输出目录。
 
-[Netlify custom headers documentation](https://docs.netlify.com/routing/headers/)
+[Netlify 自定义标头文档](https://docs.netlify.com/routing/headers/)
 
 :::
 
-:::details Example Vercel config in `vercel.json`
+:::details Vercel 配置示例 `vercel.json`
 
 ```json
 {
-  "headers": [
-    {
-      "source": "/assets/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "max-age=31536000, immutable"
-        }
-      ]
-    }
-  ]
+	"headers": [
+		{
+			"source": "/assets/(.*)",
+			"headers": [
+				{
+					"key": "Cache-Control",
+					"value": "max-age=31536000, immutable"
+				}
+			]
+		}
+	]
 }
 ```
 
-Note: the `vercel.json` file should be placed at the root of your **repository**.
+注意：`vercel.json` 文件应放在存储库的根目录中。
 
-[Vercel documentation on headers config](https://vercel.com/docs/concepts/projects/project-configuration#headers)
+[Vercel 关于标头配置的文档](https://vercel.com/docs/concepts/projects/project-configuration#headers)
 
 :::
 
-## 如何部署到平台 {#platform-guides}
+## 各平台部署指南 {#platform-guides}
 
-### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render 
+### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render
 
-Set up a new project and change these settings using your dashboard:
+使用仪表板创建新项目并更改这些设置：
 
-- **Build Command:** `npm run docs:build`
-- **Output Directory:** `docs/.vitepress/dist`
-- **Node Version:** `16` (or above, by default it usually will be 14 or 16, but on Cloudflare Pages the default is still 12, so you may need to [change that](https://developers.cloudflare.com/pages/platform/build-configuration/))
+- **构建命令：** `npm run docs:build`
+- **输出目录：** `docs/.vitepress/dist`
+- **node 版本：** `16` (或更高版本，默认情况下通常为 14 或 16，但在 Cloudflare 页面上，默认值仍然是 12，因此你可能需要[更改该版本](https://developers.cloudflare.com/pages/platform/build-configuration/))
 
-::: warning
-Don't enable options like _Auto Minify_ for HTML code. It will remove comments from output which have meaning to Vue. You may see hydration mismatch errors if they get removed.
+::: warning 警告
+不要为 HTML 代码启用 _Auto Minify_ 等选项。它将从输出中删除对 Vue 有意义的注释。如果被删除，你可能会看到 hydration mismatch 错误。
 :::
 
-### GitHub Pages 
+### GitHub Pages
 
-1. In your theme config file, `docs/.vitepress/config.js`, set the `base` property to the name of your GitHub repository. If you plan to deploy your site to `https://foo.github.io/bar/`, then you should set base to `'/bar/'`. It should always start and end with a slash.
+1. 在你的 theme 配置文件中, `docs/.vitepress/config.js`, 设置 `base` 为 GitHub 仓库的名称。如果你打算把站点部署到 `https://foo.github.io/bar/`，那你就需要把 `base` 设置为 `'/bar/'`。它始终以 `/` 开头结尾。
 
-2. Create a file named `deploy.yml` inside `.github/workflows` directory of your project with the following content:
+2. 在项目目录 `.github/workflows` 下创建一个名为 `deploy.yml` 的文件，包含以下内容：
 
    ```yaml
    name: Deploy
@@ -159,25 +159,25 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
            uses: actions/deploy-pages@v1
    ```
 
-   ::: tip
-   Please replace the corresponding branch name. For example, if the branch you want to build is `master`, then you should replace `main` with `master` in the above file.
+   ::: tip 提示
+   请替换相应的分支名称。比如你要建的分支是 `master` ，那么你要把上面文件中的 `main` 换成 `master`。
    :::
 
-3. In your repository's Settings under Pages menu item, select `GitHub Actions` in Build and deployment's Source.
+3. 在仓库设置中找到 `Pages` 选项，在 `Build and deployment` 下的 `Source` 中选择 `GitHub Actions`。
 
-4. Now commit your code and push it to the `main` branch.
+4. 现在提交你的代码并将其推送到 `main` 分支。
 
-5. Wait for actions to complete.
+5. 等待 Actions 完成。
 
-6. In your repository's Settings under Pages menu item, click `Visit site`, then you can see your site. Your docs will automatically deploy each time you push.
+6. 在仓库设置中找到 `Pages` 选项，点击 `Visit site` 就可以看到你的网站。现在，你的文档将在你每次推送时自动部署。
 
-### GitLab Pages 
+### GitLab Pages
 
-1. Set `outDir` in `docs/.vitepress/config.js` to `../public`.
+1. 将 `docs/.vitepress/config.js` 中的 `outDir` 设置为 `../public`。
 
-2. Still in your config file, `docs/.vitepress/config.js`, set the `base` property to the name of your GitLab repository. If you plan to deploy your site to `https://foo.gitlab.io/bar/`, then you should set base to `'/bar/'`. It should always start and end with a slash.
+2. 在 `docs/.vitepress/config.js` 配置文件中，将 `base` 属性设置为 GitLab 存储库的名称。如果计划将站点部署到 `https://foo.gitlab.io/bar/`，则应将 `base` 设置为 `'/bar/'`。它应始终以 `/`开头和结尾。
 
-3. Create a file called `.gitlab-ci.yml` in the root of your project with the content below. This will build and deploy your site whenever you make changes to your content:
+3. 使用以下内容在项目的根目录中创建一个名为 `.gitlab-ci.yml` 的文件。每当你更改内容时，会自动构建和部署你的站点：
 
    ```yaml
    image: node:16
@@ -195,7 +195,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
        - main
    ```
 
-4. Alternatively, if you want to use an _alpine_ version of node, you have to install `git` manually. In that case, the code above modifies to this:
+4. 或者，如果要使用 _alpine_ 版本的 node，则必须手动安装 `git`。在这种情况下，上面的代码修改为：
    ```yaml
    image: node:16-alpine
    pages:
@@ -216,9 +216,9 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
 ### Azure Static Web Apps {#azure-static-web-apps}
 
-1. Follow the [official documentation](https://docs.microsoft.com/en-us/azure/static-web-apps/build-configuration).
+1. 遵循[官方文档](https://docs.microsoft.com/en-us/azure/static-web-apps/build-configuration)。
 
-2. Set these values in your configuration file (and remove the ones you don't require, like `api_location`):
+2. 在配置文件中设置这些值（并删除不需要的值，如 `api_location`）：
 
    - **`app_location`**: `/`
    - **`output_location`**: `docs/.vitepress/dist`
@@ -226,16 +226,16 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
 ### Firebase {#firebase}
 
-1. Create `firebase.json` and `.firebaserc` at the root of your project:
+1. 在项目的根目录下创建 `firebase.json` 和 `.firebaserc`：
 
    `firebase.json`:
 
    ```json
    {
-     "hosting": {
-       "public": "docs/.vitepress/dist",
-       "ignore": []
-     }
+   	"hosting": {
+   		"public": "docs/.vitepress/dist",
+   		"ignore": []
+   	}
    }
    ```
 
@@ -243,38 +243,38 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
    ```json
    {
-     "projects": {
-       "default": "<YOUR_FIREBASE_ID>"
-     }
+   	"projects": {
+   		"default": "<YOUR_FIREBASE_ID>"
+   	}
    }
    ```
 
-2. After running `npm run docs:build`, run this command to deploy:
+2. 运行 `yarn docs:build` 后，运行此命令进行部署：
 
    ```sh
    firebase deploy
    ```
 
-### Surge 
+### Surge
 
-1. After running `npm run docs:build`, run this command to deploy:
+1. 运行 `yarn docs:build` 后，运行此命令进行部署：
 
    ```sh
    npx surge docs/.vitepress/dist
    ```
 
-### Heroku 
+### Heroku
 
-1. Follow documentation and guide given in [`heroku-buildpack-static`](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-static).
+1. 遵循 [`heroku-buildpack-static`](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-static) 中给出的文档和指南。
 
-2. Create a file called `static.json` in the root of your project with the below content:
+2. 使用以下内容在项目的根目录中创建一个名为 `static.json` 的文件：
 
    ```json
    {
-     "root": "docs/.vitepress/dist"
+   	"root": "docs/.vitepress/dist"
    }
    ```
 
 ### Edgio
 
-Refer [Creating and Deploying a VitePress App To Edgio](https://docs.edg.io/guides/vitepress).
+请参阅[创建并部署 VitePress 应用程序到 Edgio](https://docs.edg.io/guides/vitepress)。

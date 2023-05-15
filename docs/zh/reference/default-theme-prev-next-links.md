@@ -1,18 +1,19 @@
 # 上下页链接 {#prev-next-links}
 
-You can customize the text and link for the previous and next pages (shown at doc footer). This is helpful if you want a different text there than what you have on your sidebar. Additionally, you may find it useful to disable the footer or link to a page that is not included in your sidebar.
+你可以自定义上（下）一篇链接的文本。如果 你想在 上（下）一篇 链接上显示与侧边栏上不同的文本(默认显示侧边栏的文本)，这将很有帮助。
+你可以自定义上一页和下一页的文本和链接（显示在文档页脚处）。如果你想要的文本与边栏上的文本不同，这会很有帮助。此外，还可以禁用侧边栏中未包含页面的页脚或链接
 
-## prev 
+## prev
 
 - Type: `string | false | { text?: string; link?: string }`
 
 - Details:
 
-  Specifies the text/link to show on the link to the previous page. If you don't set this in frontmatter, the text/link will be inferred from the sidebar config.
+  指定要在指向上一页的链接上显示的文本/链接。如果你没有在 `frontmatter` 中设置它，文本/链接将从侧边栏配置中推断出来。
 
-- Examples:
+- 示例：
 
-  - To customize only the text:
+  - 仅自定义文本：
 
     ```yaml
     ---
@@ -20,7 +21,7 @@ You can customize the text and link for the previous and next pages (shown at do
     ---
     ```
 
-  - To customize both text and link:
+  - 自定义文本和链接：
 
     ```yaml
     ---
@@ -30,7 +31,7 @@ You can customize the text and link for the previous and next pages (shown at do
     ---
     ```
 
-  - To hide previous page:
+  - 隐藏上一页：
 
     ```yaml
     ---
@@ -40,4 +41,4 @@ You can customize the text and link for the previous and next pages (shown at do
 
 ## next
 
-Same as `prev` but for the next page.
+与 `prev` 相同，但用于下一页。

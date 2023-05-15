@@ -1,39 +1,39 @@
 # 页脚 {#footer}
 
-VitePress will display global footer at the bottom of the page when `themeConfig.footer` is present.
+配置好 `themeConfig.footer`， VitePress 将在全局页面底部显示页脚。
 
 ```ts
 export default {
-  themeConfig: {
-    footer: {
-      message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2019-present Evan You'
-    }
-  }
+	themeConfig: {
+		footer: {
+			message: 'Released under the MIT License.',
+			copyright: 'Copyright © 2019-present Evan You',
+		},
+	},
 }
 ```
 
 ```ts
 export interface Footer {
-  // The message shown right before copyright.
-  message?: string
+	// The message shown right before copyright.
+	message?: string
 
-  // The actual copyright text.
-  copyright?: string
+	// The actual copyright text.
+	copyright?: string
 }
 ```
 
-The above configuration also supports HTML strings. So, for example, if you want to configure footer text to have some links, you can adjust the configuration as follows:
+上面的配置也支持 HTML 字符串。所以，例如，如果你想配置页脚文本有一些链接，你可以调整配置如下：
 
 ```ts
 export default {
-  themeConfig: {
-    footer: {
-      message: 'Released under the <a href="https://github.com/vuejs/vitepress/blob/main/LICENSE">MIT License</a>.',
-      copyright: 'Copyright © 2019-present <a href="https://github.com/yyx990803">Evan You</a>'
-    }
-  }
+	themeConfig: {
+		footer: {
+			message: 'Released under the <a href="https://github.com/vuejs/vitepress/blob/main/LICENSE">MIT License</a>.',
+			copyright: 'Copyright © 2019-present <a href="https://github.com/yyx990803">Evan You</a>',
+		},
+	},
 }
 ```
 
-Note that footer will not be displayed when the [SideBar](./default-theme-sidebar) is visible.
+请注意，当[侧边栏](./default-theme-sidebar)可见时，不会显示页脚。

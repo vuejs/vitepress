@@ -6,7 +6,7 @@ outline: deep
 
 ## 基于文件的路由 {#file-based-routing}
 
-VitePress uses file-based routing, which means the generated HTML pages are mapped from the directory structure of the source Markdown files. For example, given the following directory structure:
+VitePress 使用基于文件的路由，这意味着生成的 HTML 页面是从源 Markdown 文件的目录结构映射而来的。例如，给定以下目录结构：
 
 ```
 .
@@ -17,26 +17,26 @@ VitePress uses file-based routing, which means the generated HTML pages are mapp
 └─ prologue.md
 ```
 
-The generated HTML pages will be:
+生成的 HTML 页面会是这样：
 
 ```
-index.md                  -->  /index.html (accessible as /)
+index.md                  -->  /index.html (可以通过 / 访问)
 prologue.md               -->  /prologue.html
-guide/index.md            -->  /guide/index.html (accessible as /guide/)
+guide/index.md            -->  /guide/index.html (可以通过 /guide/ 访问)
 guide/getting-started.md  -->  /guide/getting-started.html
 ```
 
-The resulting HTML can be hosted on any web server that can serve static files.
+生成的 HTML 可以托管在任何可以提供静态文件的 Web 服务器上。
 
 ## 根目录和源目录 {#root-and-source-directory}
 
-There are two important concepts in the file structure of a VitePress project: the **project root** and the **source directory**.
+VitePress 项目的文件结构中有两个重要的概念：项目根目录 (**project root**) 和源目录 (**source directory**)。
 
 ### 项目根目录 {#project-root}
 
-Project root is where VitePress will try to look for the `.vitepress` special directory. The `.vitepress` directory is a reserved location for VitePress' config file, dev server cache, build output, and optional theme customization code.
+项目根目录是 VitePress 将尝试寻找 `.vitepress` 特殊目录的地方。 `.vitepress` 目录是 VitePress 配置文件、开发服务器缓存、构建输出和可选主题自定义代码的预留位置。
 
-When you run `vitepress dev` or `vitepress build` from the command line, VitePress will use the current working directory as project root. To specify a sub-directory as root, you will need to pass the relative path to the command. For example, if your VitePress project is located in `./docs`, you should run `vitepress dev docs`:
+当你从命令行运行 `vitepress dev` 或 `vitepress build` 时，VitePress 将使用当前工作目录作为项目根目录。要将子目录指定为根目录，你需要将相对路径传递给命令。例如，如果你的 VitePress 项目位于 `./docs`，你应该运行 `vitepress dev docs`：
 
 ```
 .
@@ -51,69 +51,71 @@ When you run `vitepress dev` or `vitepress build` from the command line, VitePre
 vitepress dev docs
 ```
 
-This is going to result in the following source-to-HTML mapping:
+这将导致以下源代码到 HTML 的映射：
 
 ```
-docs/index.md            -->  /index.html (accessible as /)
+docs/index.md            -->  /index.html (可以通过 / 访问)
 docs/getting-started.md  -->  /getting-started.html
 ```
 
 ### 源目录 {#source-directory}
 
-Source directory is where your Markdown source files live. By default, it is the same as the project root. However, you can configure it via the [`srcDir`](../reference/site-config#srcdir) config option.
+源目录是你的 Markdown 源文件所在的位置。默认情况下，它与项目根目录相同。但是，你可以通过 [`srcDir`](../reference/site-config#srcdir) 配置选项对其进行配置。
 
-The `srcDir` option is resolved relative to project root. For example, with `srcDir: 'src'`, your file structure will look like this:
+`srcDir` 选项是相对于项目根目录解析的。例如，对于 `srcDir: 'src'`，你的文件结构将如下所示：
 
 ```
-.                          # project root
-├─ .vitepress              # config dir
-└─ src                     # source dir
+.                                # project root
+├─ .vitepress             # config dir
+└─ src                      # source dir
    ├─ getting-started.md
    └─ index.md
 ```
 
-The resulting source-to-HTML mapping:
+生成的源代码到 HTML 的映射：
 
 ```
-src/index.md            -->  /index.html (accessible as /)
+src/index.md            -->  /index.html (可以通过 / 访问)
 src/getting-started.md  -->  /getting-started.html
 ```
 
 ## 链接页面 {#linking-between-pages}
 
-You can use both absolute and relative paths when linking between pages. Note that although both `.md` and `.html` extensions will work, the best practice is to omit file extensions so that VitePress can generate the final URLs based on your config.
+在页面之间链接时，你可以使用绝对路径和相对路径。请注意，虽然 `.md` 和 `.html` 扩展名都可以使用，但最佳做法是省略文件扩展名，以便 VitePress 可以根据你的配置生成最终 URL。
 
 ```md
-<!-- Do -->
+<!-- 正确做法 -->
+
 [Getting Started](./getting-started)
 [Getting Started](../guide/getting-started)
 
-<!-- Don't -->
+<!-- 不正确做法 -->
+
 [Getting Started](./getting-started.md)
 [Getting Started](./getting-started.html)
 ```
 
-Learn more about linking to assets such images in [Asset Handling](asset-handling).
+在[资源处理](asset-handling)中了解有关链接到资源（例如图像）的更多信息。
 
 ## 生成简洁的 URL {#generating-clean-url}
 
-:::warning Server Support Required
-To serve clean URLs with VitePress, server-side support is required.
+:::warning 需要服务器支持
+要使用 VitePress 提供简洁 URL，需要服务器端支持。
 :::
 
-By default, VitePress resolves inbound links to URLs ending with `.html`. However, some users may prefer "Clean URLs" without the `.html` extension - for example, `example.com/path` instead of `example.com/path.html`.
+默认情况下，VitePress 将入站链接解析为以 `.html` 结尾的 URL。但是，一些用户可能更喜欢没有 .html 扩展名的“简洁 URL” —— 例如，`example.com/path` 而不是 `example.com/path.html`。
 
-Some servers or hosting platforms (for example Netlify or Vercel) provide the ability to map a URL like `/foo` to `/foo.html` if it exists, without a redirect:
+某些服务器或托管平台（例如 Netlify 或 Vercel）提供将 `/foo` 之类的 URL 映射到 `/foo.html`（如果存在）的功能，而无需重定向：
 
-- Netlify supports this by default.
-- Vercel requires enabling the [`cleanUrls` option in `vercel.json`](https://vercel.com/docs/concepts/projects/project-configuration#cleanurls).
+- Netlify 默认支持这个。
+- Vercel 需要在 [vercel.json 中启用 cleanUrls 选项](https://vercel.com/docs/concepts/projects/project-configuration#cleanurls)。
 
-If this feature is available to you, you can then also enable VitePress' own [`cleanUrls`](../reference/site-config#cleanurls) config option so that:
+如果你可以使用此功能，你还可以启用 VitePress 自己的 [`cleanUrls`](../reference/site-config#cleanurls) 配置选项，以便：
 
-- Inbound links between pages are generated without the `.html` extension.
-- If current path ends with `.html`, the router will perform a client-side redirect to the extension-less path.
+- 页面之间的入站链接是在没有 `.html` 扩展名的情况下生成的。
+- 如果当前路径以 `.html` 结尾，路由器将执行客户端重定向到无扩展路径。
 
-If, however, you cannot configure your server with such support (e.g. GitHub pages), you will have to manually resort to the following directory structure:
+但是，如果你无法为服务器配置此类支持（例如 GitHub 页面），则必须手动采用以下目录结构：
 
 ```
 .
@@ -124,9 +126,9 @@ If, however, you cannot configure your server with such support (e.g. GitHub pag
 └─ index.md
 ```
 
-## Route Rewrites {#route-rewrites}
+## 路由重写 {#route-rewrites}
 
-You can customize the mapping between the source directory structure and the generated pages. It's useful when you have a complex project structure. For example, let's say you have a monorepo with multiple packages, and would like to place documentations along with the source files like this:
+你可以自定义源目录结构和生成页面之间的映射。当你有一个复杂的项目结构时，它很有用。例如，假设你有一个包含多个包的 monorepo，并且希望将文档与源文件一起放置，如下所示：
 
 ```
 .
@@ -141,53 +143,54 @@ You can customize the mapping between the source directory structure and the gen
 │         └─ pkg-b-docs.md
 ```
 
-And you want the VitePress pages to be generated like this:
+你希望像这样生成 VitePress 页面：
 
 ```
 packages/pkg-a/src/pkg-a-docs.md  -->  /pkg-a/index.html
 packages/pkg-b/src/pkg-b-docs.md  -->  /pkg-b/index.html
 ```
 
-You can achieve this by configuring the [`rewrites`](../reference/site-config#rewrites) option like this:
+你可以通过像这样配置 [`rewrites`](../reference/site-config#rewrites) 选项来实现此目的：
 
 ```ts
 // .vitepress/config.js
 export default {
-  rewrites: {
-    'packages/pkg-a/src/pkg-a-docs.md': 'pkg-a/index.md',
-    'packages/pkg-b/src/pkg-b-docs.md': 'pkg-b/index.md'
-  }
+	rewrites: {
+		'packages/pkg-a/src/pkg-a-docs.md': 'pkg-a/index.md',
+		'packages/pkg-b/src/pkg-b-docs.md': 'pkg-b/index.md',
+	},
 }
 ```
 
-The `rewrites` option also supports dynamic route parameters. In the above example, it would be verbose to list all the paths if you have many packages. Given that they all have the same file structure, you can simplify the config like this:
+`rewrites` 选项还支持动态路由参数。在上面的示例中，如果你有很多包，则列出所有路径会很冗长。鉴于它们都具有相同的文件结构，你可以像这样简化配置：
 
 ```ts
 export default {
-  rewrites: {
-    'packages/:pkg/src/(.*)': ':pkg/index.md'
-  }
+	rewrites: {
+		'packages/:pkg/src/(.*)': ':pkg/index.md',
+	},
 }
 ```
 
-The rewrite paths are compiled using the `path-to-regexp` package - consult [its documentation](https://github.com/pillarjs/path-to-regexp#parameters) for more advanced syntax.
+重写路径是使用 `path-to-regexp` 包编译的 - 请参阅[其文档](https://github.com/pillarjs/path-to-regexp#parameters)以获取更高级的语法。
 
-:::warning Relative Links with Rewrites
+:::warning 开启重写功能时使用相对链接
 
-When rewrites are enabled, **relative links should be based on the rewritten paths**. For example, in order to create a relative link from `packages/pkg-a/src/pkg-a-code.md` to `packages/pkg-b/src/pkg-b-code.md`, you should use:
+启用重写后，**相对链接应基于重写的路径**。例如，为了创建从 `packages/pkg-a/src/pkg-a-code.md` 到 `packages/pkg-b/src/pkg-b-code.md` 的相对链接，你应该使用：
 
 ```md
 [Link to PKG B](../pkg-b/pkg-b-code)
 ```
+
 :::
 
-## Dynamic Routes {#dynamic-routes}
+## 动态路由 {#dynamic-routes}
 
-You can generate many pages using a single Markdown file and dynamic data. For example, you can create a `packages/[pkg].md` file that generates a corresponding page for every package in a project. Here, the `[pkg]` segment is a route **parameter** that differentiates each page from the others.
+你可以使用单个 Markdown 文件和动态数据生成许多页面。例如，你可以创建一个 `packages/[pkg].md` 文件，为项目中的每个包生成相应的页面。这里，`[pkg]` 段是一个路由参数，用于区分每个页面。
 
-### Paths Loader File {#paths-loader-file}
+### 路径加载文件 {#paths-loader-file}
 
-Since VitePress is a static site generator, the possible page paths must be determined at build time. Therefore, a dynamic route page **must** be accompanied by a **paths loader file**. For `packages/[pkg].md`, we will need `packages/[pkg].paths.js` (`.ts` is also supported):
+由于 VitePress 是静态站点生成器，因此**必须**在构建时确定可能的页面路径。因此，动态路由页面必须伴随**路径加载文件**。对于 `packages/[pkg].md`，我们需要 `packages/[pkg].paths.js`（也支持 `.ts`）：
 
 ```
 .
@@ -196,23 +199,20 @@ Since VitePress is a static site generator, the possible page paths must be dete
    └─ [pkg].paths.js   # route paths loader
 ```
 
-The paths loader should provide an object with a `paths` method as its default export. The `paths` method should return an array of objects with a `params` property. Each of these objects will generate a corresponding page.
+路径加载器应该提供一个带有 `paths` 方法的对象作为其默认导出。 `paths` 方法应返回具有 `params` 属性的对象数组。这些对象中的每一个都将生成一个相应的页面。
 
-Given the following `paths` array:
+给定以下 `paths` 数组：
 
 ```js
 // packages/[pkg].paths.js
 export default {
-  paths() {
-    return [
-      { params: { pkg: 'foo' }},
-      { params: { pkg: 'bar' }}
-    ]
-  }
+	paths() {
+		return [{ params: { pkg: 'foo' } }, { params: { pkg: 'bar' } }]
+	},
 }
 ```
 
-The generated HTML pages will be:
+生成的 HTML 页面将会是：
 
 ```
 .
@@ -221,9 +221,9 @@ The generated HTML pages will be:
    └─ bar.html
 ```
 
-### Multiple Params {#multiple-params}
+### 多参数 {#multiple-params}
 
-A dynamic route can contain multiple params:
+动态路由可以包含多个参数：
 
 **File Structure**
 
@@ -234,16 +234,16 @@ A dynamic route can contain multiple params:
    └─ [pkg]-[version].paths.js
 ```
 
-**Paths Loader**
+**路径加载器**
 
 ```js
 export default {
-  paths: () => [
-    { params: { pkg: 'foo', version: '1.0.0' }},
-    { params: { pkg: 'foo', version: '2.0.0' }},
-    { params: { pkg: 'bar', version: '1.0.0' }},
-    { params: { pkg: 'bar', version: '2.0.0' }}
-  ]
+	paths: () => [
+		{ params: { pkg: 'foo', version: '1.0.0' } },
+		{ params: { pkg: 'foo', version: '2.0.0' } },
+		{ params: { pkg: 'bar', version: '1.0.0' } },
+		{ params: { pkg: 'bar', version: '2.0.0' } },
+	],
 }
 ```
 
@@ -258,79 +258,72 @@ export default {
    └─ bar-2.0.0.html
 ```
 
-### Dynamically Generating Paths {#dynamically-generating-paths}
+### 动态生成路径 {#dynamically-generating-paths}
 
-The paths loader module is run in Node.js and only executed during build time. You can dynamically generate the paths array using any data, either local or remote.
+路径加载器模块在 Node.js 中运行，并且仅在构建期间执行。你可以使用本地或远程的任何数据动态生成路径数组。
 
-Generating paths from local files:
+从本地文件生成路径：
 
 ```js
 import fs from 'fs'
-
 export default {
-  paths() {
-    return fs
-      .readdirSync('packages')
-      .map((pkg) => {
-        return { params: { pkg }}
-      })
-  }
+	paths() {
+		return fs.readdirSync('packages').map((pkg) => {
+			return { params: { pkg } }
+		})
+	},
 }
 ```
 
-Generating paths from remote data:
+从远程数据生成路径：
 
 ```js
 export default {
-  async paths() {
-    const pkgs = await (await fetch('https://my-api.com/packages')).json()
-
-    return pkgs.map((pkg) => {
-      return {
-        params: {
-          pkg: pkg.name,
-          version: pkg.version
-        }
-      }
-    })
-  }
+	async paths() {
+		const pkgs = await (await fetch('https://my-api.com/packages')).json()
+		return pkgs.map((pkg) => {
+			return {
+				params: {
+					pkg: pkg.name,
+					version: pkg.version,
+				},
+			}
+		})
+	},
 }
 ```
 
-### Accessing Params in Page {#accessing-params-in-page}
+### 访问页面中的参数 {#accessing-params-in-page}
 
-You can use the params to pass additional data to each page. The Markdown route file can access the current page params in Vue expressions via the `$params` global property:
+你可以使用参数将附加数据传递到每个页面。 Markdown 路由文件可以通过 `$params` 全局属性访问 Vue 表达式中的当前页面参数：
 
 ```md
 - package name: {{ $params.pkg }}
 - version: {{ $params.version }}
 ```
 
-You can also access the current page's params via the `[useData](../reference/runtime-api#usedata)` runtime API. This is available in both Markdown files and Vue components:
+你还可以通过 [`useData`](../reference/runtime-api#usedata) runtime API 访问当前页面的参数。这在 Markdown 文件和 Vue 组件中都可用：
 
 ```vue
 <script setup>
 import { useData } from 'vitepress'
-
 // params is a Vue ref
 const { params } = useData()
-
 console.log(params.value)
 </script>
 ```
 
-### Rendering Raw Content {#rendering-raw-content}
+### 渲染原始内容 {#rendering-raw-content}
 
-Params passed to the page will be serialized in the client JavaScript payload, so you should avoid passing heavy data in params, for example raw Markdown or HTML content fetched from a remote CMS.
+传递给页面的参数将在客户端 JavaScript payload 中序列化，因此你应该避免在参数中传递大量数据，例如从远程 CMS 获取的原始 Markdown 或 HTML 内容。
 
-Instead, you can pass such content to each page using the `content` property on each path object:
+相反，你可以使用每个路径对象上的 `content` 属性将此类内容传递到每个页面：
 
 ```js
 export default {
   paths() {
     async paths() {
       const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
-
       return posts.map((post) => {
         return {
           params: { id: post.id },
@@ -342,7 +335,7 @@ export default {
 }
 ```
 
-Then, use the following special syntax to render the content as part of the Markdown file itself:
+然后，使用以下特殊语法将内容呈现为 Markdown 文件本身的一部分：
 
 ```md
 <!-- @content -->

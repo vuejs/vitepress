@@ -1,6 +1,6 @@
 # 最后更新 {#last-updated}
 
-The update time of the last content will be displayed in the lower right corner of the page. To enable it, add `lastUpdated` options to your config.
+最近一条内容的更新时间会显示在页面右下角。要启用它，请将 `lastUpdated` 选项添加到你的配置中。
 
 ## 全局配置 {#site-level-config}
 
@@ -12,7 +12,7 @@ export default {
 
 ## Frontmatter 配置 {#frontmatter-config}
 
-This can be disabled per-page using the `lastUpdated` option on frontmatter:
+可以使用 frontmatter 上的 `lastUpdated` 选项单独禁用某个页面的最后更新展示：
 
 ```yaml
 ---

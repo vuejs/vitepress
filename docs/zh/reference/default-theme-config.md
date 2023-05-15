@@ -1,6 +1,6 @@
 # 默认主题配置 {#default-theme-config}
 
-Theme config lets you customize your theme. You can define theme config via the `themeConfig` option in the config file:
+主题配置可让你自定义主题。 你可以通过将 `themeConfig` 添加到配置文件来定义主题配置：
 
 ```ts
 export default {
@@ -17,70 +17,71 @@ export default {
 }
 ```
 
-**The options documented on this page only apply to the default theme.** Different themes expect different theme config. When using a custom theme, the theme config object will be passed to the theme so the theme can define conditional behavior based on it.
+**此页面上记录的选项仅适用于默认主题**。不同的主题需要不同的主题配置。使用自定义主题时，主题配置对象将传递给主题，以便主题可以基于它作出不同表现。
 
-## i18nRouting
+## i18nRouting {#i18nrouting}
 
+- key: `i18nRouting`
 - Type: `boolean`
 
-Changing locale to say `zh` will change the URL from `/foo` (or `/en/foo/`) to `/zh/foo`. You can disable this behavior by setting `themeConfig.i18nRouting` to `false`.
+将本地语言更改为 `zh` 会将 URL 从 `/foo`（或 `/en/foo/`）更改为 `/zh/foo`。你可以通过将 `themeConfig.i18nRouting` 设置为 `false` 来禁用此行为。
 
-## logo
+## 图标 {#logo}
 
+- key: `logo`
 - Type: `ThemeableImage`
 
 Logo file to display in nav bar, right before the site title. Accepts a path string, or an object to set a different logo for light/dark mode.
 
 ```ts
 export default {
-  themeConfig: {
-    logo: '/logo.svg'
-  }
+	themeConfig: {
+		logo: '/logo.svg',
+	},
 }
 ```
 
 ```ts
-type ThemeableImage =
-  | string
-  | { src: string; alt?: string }
-  | { light: string; dark: string; alt?: string }
+type ThemeableImage = string | { src: string; alt?: string } | { light: string; dark: string; alt?: string }
 ```
 
-## siteTitle
+## 站点标题开关 {#sitetitle}
 
+- key: `siteTitle`
 - Type: `string | false`
 
-You can customize this item to replace the default site title (`title` in app config) in nav. When set to `false`, title in nav will be disabled. Useful when you have `logo` that already contains the site title text.
+你可以自定义此项以替换导航中的默认站点标题（应用配置中的 `title`）。 当设置为 `false` 时，导航中的标题将被禁用。 这在当你的 `logo` 已经包含网站标题文本时很有用。
 
 ```ts
 export default {
-  themeConfig: {
-    siteTitle: 'Hello World'
-  }
+	themeConfig: {
+		siteTitle: 'Hello World',
+	},
 }
 ```
 
-## nav
+## 导航栏 {#nav}
 
+- key: `nav`
 - Type: `NavItem`
 
-The configuration for the nav menu item. More details in [Default Theme: Nav](./default-theme-nav#navigation-links).
+导航菜单项的配置。 你可以在[默认主题: 导航栏](./default-theme-nav#navigation-links) 了解更多详情。
 
 ```js
 export default {
-  themeConfig: {
-    nav: [
-      { text: 'Guide', link: '/guide' },
-      {
-        text: 'Dropdown Menu',
-        items: [
-          { text: 'Item A', link: '/item-1' },
-          { text: 'Item B', link: '/item-2' },
-          { text: 'Item C', link: '/item-3' }
-        ]
-      }
-    ]
-  }
+	themeConfig: {
+		nav: [
+			{ text: 'Guide', link: '/guide' },
+			{
+				text: 'Dropdown Menu',
+				items: [
+					{ text: 'Item A', link: '/item-1' },
+					{ text: 'Item B', link: '/item-2' },
+					{ text: 'Item C', link: '/item-3' },
+				],
+			},
+		],
+	},
 }
 ```
 
@@ -88,30 +89,31 @@ export default {
 type NavItem = NavItemWithLink | NavItemWithChildren
 
 interface NavItemWithLink {
-  text: string
-  link: string
-  activeMatch?: string
-  target?: string
-  rel?: string
+	text: string
+	link: string
+	activeMatch?: string
+	target?: string
+	rel?: string
 }
 
 interface NavItemChildren {
-  text?: string
-  items: NavItemWithLink[]
+	text?: string
+	items: NavItemWithLink[]
 }
 
 interface NavItemWithChildren {
-  text?: string
-  items: (NavItemChildren | NavItemWithLink)[]
-  activeMatch?: string
+	text?: string
+	items: (NavItemChildren | NavItemWithLink)[]
+	activeMatch?: string
 }
 ```
 
-## sidebar
+## 侧边栏 {#sidebar}
 
+- key: `sidebar`
 - Type: `Sidebar`
 
-The configuration for the sidebar menu item. More details in [Default Theme: Sidebar](./default-theme-sidebar).
+侧边栏菜单项的配置。 你可以在[默认主题: 侧边栏](./default-theme-sidebar) 了解更多详情。
 
 ```js
 export default {
@@ -134,171 +136,164 @@ export default {
 export type Sidebar = SidebarItem[] | SidebarMulti
 
 export interface SidebarMulti {
-  [path: string]: SidebarItem[]
+	[path: string]: SidebarItem[]
 }
 
 export type SidebarItem = {
-  /**
-   * The text label of the item.
-   */
-  text?: string
+	/**
+	 * The text label of the item.
+	 */
+	text?: string
 
-  /**
-   * The link of the item.
-   */
-  link?: string
+	/**
+	 * The link of the item.
+	 */
+	link?: string
 
-  /**
-   * The children of the item.
-   */
-  items?: SidebarItem[]
+	/**
+	 * The children of the item.
+	 */
+	items?: SidebarItem[]
 
-  /**
-   * If not specified, group is not collapsible.
-   *
-   * If `true`, group is collapsible and collapsed by default
-   *
-   * If `false`, group is collapsible but expanded by default
-   */
-  collapsed?: boolean
+	/**
+	 * If not specified, group is not collapsible.
+	 *
+	 * If `true`, group is collapsible and collapsed by default
+	 *
+	 * If `false`, group is collapsible but expanded by default
+	 */
+	collapsed?: boolean
 }
 ```
 
-## aside
+## 大纲开关 {#aside}
 
+- key: `aside`
 - Type: `boolean`
 - Default: `true`
-- Can be overridden per page via [frontmatter](./frontmatter-config#aside)
+- 每个页面可以通过 [frontmatter](./frontmatter-config#aside) 覆写
 
-Setting this value to `false` prevents rendering of aside container.
+  将此值设置为 `false` 可禁用 aside(大纲) 容器。
 
-## outline
+## 大纲层级 {#outline}
 
+- key: `outline`
 - Type: `number | [number, number] | 'deep' | false`
 - Default: `2`
-- Can be overridden per page via [frontmatter](./frontmatter-config#outline)
+- 每个页面可以通过 [frontmatter](./frontmatter-config#outline) 覆写
 
-The levels of header to display in the outline. You can specify a particular level by passing a number, or you can provide a level range by passing a tuple containing the bottom and upper limits. When passing `'deep'` which equals `[2, 6]`, all header levels are shown in the outline except `h1`. Set `false` to hide outline.
+配置在大纲中显示的标题级别。你可以通过传递一个数字来指定一个特定的级别，或者你可以通过传递一个包含下限和上限的元组来提供一个级别范围。当传递等于 `[2, 6]` 的 `deep` 时，除 `h1` 外，所有标题级别都显示在轮廓中。设置 `false` 以隐藏轮廓。
 
-## outlineTitle
+## 大纲标题 {#outlinetitle}
 
+- key: `outlineTitle`
 - Type: `string`
 - Default: `On this page`
 
-Can be used to customize the title of the right sidebar (on the top of outline links). This is useful when writing documentation in another language.
+可用于自定义右侧边栏的标题（在大纲链接的顶部）。 这在用另一种语言编写文档时很有用。
 
 ```js
 export default {
-  themeConfig: {
-    outlineTitle: 'In hac pagina'
-  }
+	themeConfig: {
+		outlineTitle: 'In hac pagina',
+	},
 }
 ```
 
-## socialLinks
+## 社交链接 {#sociallinks}
 
 - Type: `SocialLink[]`
 
-You may define this option to show your social account links with icons in nav.
+你可以定义此选项以在导航栏中展示带有图标的社交帐户链接。
 
 ```js
 export default {
-  themeConfig: {
-    socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
-      { icon: 'twitter', link: '...' },
-      // You can also add custom icons by passing SVG as string:
-      {
-        icon: {
-          svg: '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Dribbble</title><path d="M12...6.38z"/></svg>'
-        },
-        link: '...'
-      }
-    ]
-  }
+	themeConfig: {
+		socialLinks: [
+			{ icon: 'github', link: 'https://github.com/vuejs/vitepress' },
+			{ icon: 'twitter', link: '...' },
+			// You can also add custom icons by passing SVG as string:
+			{
+				icon: {
+					svg: '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Dribbble</title><path d="M12...6.38z"/></svg>',
+				},
+				link: '...',
+			},
+		],
+	},
 }
 ```
 
 ```ts
 interface SocialLink {
-  icon: SocialLinkIcon
-  link: string
+	icon: SocialLinkIcon
+	link: string
 }
 
-type SocialLinkIcon =
-  | 'discord'
-  | 'facebook'
-  | 'github'
-  | 'instagram'
-  | 'linkedin'
-  | 'mastodon'
-  | 'slack'
-  | 'twitter'
-  | 'youtube'
-  | { svg: string }
+type SocialLinkIcon = 'discord' | 'facebook' | 'github' | 'instagram' | 'linkedin' | 'mastodon' | 'slack' | 'twitter' | 'youtube' | { svg: string }
 ```
 
-## footer
+## 页脚 {#footer}
 
 - Type: `Footer`
 
-Footer configuration. You can add a message or copyright text on the footer, however, it will only be displayed when the page doesn't contain a sidebar. This is due to design concerns.
+页脚配置。 你可以添加 message 和 copyright。 由于设计原因，仅当页面不包含侧边栏时才会显示页脚。
 
 ```ts
 export default {
-  themeConfig: {
-    footer: {
-      message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2019-present Evan You'
-    }
-  }
+	themeConfig: {
+		footer: {
+			message: 'Released under the MIT License.',
+			copyright: 'Copyright © 2019-present Evan You',
+		},
+	},
 }
 ```
 
 ```ts
 export interface Footer {
-  message?: string
-  copyright?: string
+	message?: string
+	copyright?: string
 }
 ```
 
-## editLink
+## 编辑链接 {#editlink}
 
 - Type: `EditLink`
-- Can be overridden per page via [frontmatter](./frontmatter-config#editlink)
+- 每个页面可以通过 [frontmatter](./frontmatter-config#editlink) 覆写
 
-Edit Link lets you display a link to edit the page on Git management services such as GitHub, or GitLab. See [Default Theme: Edit Link](./default-theme-edit-link) for more details.
+编辑链接可让你显示链接以编辑 Git 管理服务（例如 GitHub 或 GitLab）上的页面。 有关详细信息，请参阅 [默认主题：编辑链接](./default-theme-edit-link)。
 
 ```js
 export default {
-  themeConfig: {
-    editLink: {
-      pattern: 'https://github.com/vuejs/vitepress/edit/main/docs/:path',
-      text: 'Edit this page on GitHub'
-    }
-  }
+	themeConfig: {
+		editLink: {
+			pattern: 'https://github.com/vuejs/vitepress/edit/main/docs/:path',
+			text: 'Edit this page on GitHub',
+		},
+	},
 }
 ```
 
 ```ts
 export interface EditLink {
-  pattern: string
-  text?: string
+	pattern: string
+	text?: string
 }
 ```
 
-## lastUpdatedText
+## 最近更新时间文本 {#lastupdatedtext}
 
 - Type: `string`
 - Default: `Last updated`
 
-The prefix text showing right before the last updated time.
+显示最近更新时间之前的前缀文本。
 
 ```ts
 export default {
-  themeConfig: {
-    lastUpdatedText: 'Updated Date'
-  }
+	themeConfig: {
+		lastUpdatedText: 'Updated Date',
+	},
 }
 ```
 
@@ -306,89 +301,94 @@ export default {
 
 - Type: `AlgoliaSearch`
 
-An option to support searching your docs site using [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Learn more in [Default Theme: Search](./default-theme-search)
+支持使用 [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch) 搜索站点文档。在 [默认主题：搜索](./default-theme-search) 中了解更多信息。
 
 ```ts
 export interface AlgoliaSearchOptions extends DocSearchProps {
-  locales?: Record<string, Partial<DocSearchProps>>
+	locales?: Record<string, Partial<DocSearchProps>>
 }
 ```
 
-View full options [here](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts).
+在[这里](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts)查看完整配置。
 
-## carbonAds
+## carbonAds {#carbon-ads}
 
 - Type: `CarbonAdsOptions`
 
-An option to display [Carbon Ads](https://www.carbonads.net/).
+一个配置即可展示 [Carbon Ads](https://www.carbonads.net/)。
 
 ```ts
 export default {
-  themeConfig: {
-    carbonAds: {
-      code: 'your-carbon-code',
-      placement: 'your-carbon-placement'
-    }
-  }
+	themeConfig: {
+		carbonAds: {
+			code: 'your-carbon-code',
+			placement: 'your-carbon-placement',
+		},
+	},
 }
 ```
 
 ```ts
 export interface CarbonAdsOptions {
-  code: string
-  placement: string
+	code: string
+	placement: string
 }
 ```
 
 Learn more in [Default Theme: Carbon Ads](./default-theme-carbon-ads)
 
-## docFooter
+## 翻页文案 {#docFooter}
 
 - Type: `DocFooter`
 
-Can be used to customize text appearing above previous and next links. Helpful if not writing docs in English.
+可用于自定义出现在上一篇和下一篇链接上方的文本。 如果不是用英语编写文档，这很有帮助。
 
 ```js
 export default {
-  themeConfig: {
-    docFooter: {
-      prev: 'Pagina prior',
-      next: 'Proxima pagina'
-    }
-  }
+	themeConfig: {
+		docFooter: {
+			prev: 'Pagina prior',
+			next: 'Proxima pagina',
+		},
+	},
 }
 ```
 
 ```ts
 export interface DocFooter {
-  prev?: string
-  next?: string
+	prev?: string
+	next?: string
 }
 ```
 
-## darkModeSwitchLabel
+## 暗模式开关标签 {#darkmodeswitchlabel}
 
+- key: `darkModeSwitchLabel`
 - Type: `string`
 - Default: `Appearance`
 
-Can be used to customize the dark mode switch label. This label is only displayed in the mobile view.
+可用于自定义深色模式开关标签。此标签仅显示在移动视图中。
 
-## sidebarMenuLabel {#sidebarmenulabel}
+## 侧边栏菜单标签 {#sidebarmenulabel}
 
+- key: `sidebarMenuLabel`
 - Type: `string`
 - Default: `Menu`
 
-Can be used to customize the sidebar menu label. This label is only displayed in the mobile view.
+可用于自定义侧边栏菜单标签。此标签仅显示在移动视图中。
 
-## returnToTopLabel
+## 返回顶部标签 {#returntotoplabel}
+
+- key: `returnToTopLabel`
 - Type: `string`
 - Default: `Return to top`
 
-Can be used to customize the label of the return to top button. This label is only displayed in the mobile view.
+可用于自定义返回顶部按钮的标签。此标签仅显示在移动视图中。
 
-## langMenuLabel
+## 多语言菜单标签 {#langmenulabel}
 
+- key: `langMenuLabel`
 - Type: `string`
 - Default: `Change language`
 
-Can be used to customize the aria-label of the language toggle button in navbar. This is only used if you're using [i18n](../guide/i18n).
+可用于自定义导航栏中语言切换按钮的 aria-label。这仅在你使用 [i18n](../guide/i18n) 时使用。

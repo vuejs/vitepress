@@ -1,6 +1,6 @@
 # 侧边栏 {#sidebar}
 
-The sidebar is the main navigation block for your documentation. You can configure the sidebar menu in [`themeConfig.sidebar`](./default-theme-config#sidebar).
+侧边栏是文档的主要导航块。 你可以在 [`themeConfig.sidebar`](./default-theme-config#sidebar) 中配置侧边栏菜单。
 
 ```js
 export default {
@@ -21,7 +21,7 @@ export default {
 
 ## 基本用法 {#the-basics}
 
-The simplest form of the sidebar menu is passing in a single array of links. The first level item defines the "section" for the sidebar. It should contain `text`, which is the title of the section, and `items` which are the actual navigation links.
+侧边栏菜单的最简单形式是传入一个链接数组。第一级项目定义侧边栏的“部分”。它应该包含作为小标题的 `text` 和作为实际导航链接的 `items`。
 
 ```js
 export default {
@@ -48,25 +48,25 @@ export default {
 }
 ```
 
-Each `link` should specify the path to the actual file starting with `/`. If you add trailing slash to the end of link, it will show `index.md` of the corresponding directory.
+每个 `link` 都应指定以 `/` 开头的实际文件的路径。如果在链接末尾添加斜杠，它将显示相应目录的 `index.md`。
 
 ```js
 export default {
-  themeConfig: {
-    sidebar: [
-      {
-        text: 'Guide',
-        items: [
-          // This shows `/guide/index.md` page.
-          { text: 'Introduction', link: '/guide/' }
-        ]
-      }
-    ]
-  }
+	themeConfig: {
+		sidebar: [
+			{
+				text: 'Guide',
+				items: [
+					// This shows `/guide/index.md` page.
+					{ text: 'Introduction', link: '/guide/' },
+				],
+			},
+		],
+	},
 }
 ```
 
-You may further nest the sidebar items up to 6 level deep counting up from the root level. Note that deeper than 6 level of nested items gets ignored and will not be displayed on the sidebar.
+你可以进一步将侧边栏项目嵌入到 6 级深度，从根级别上计数。请注意，深度超过 6 级嵌套物品被忽略，并且不会在侧边栏上显示。
 
 ```js
 export default {
@@ -95,9 +95,9 @@ export default {
 
 ## 多侧边栏 {#multiple-sidebars}
 
-You may show different sidebar depending on the page path. For example, as shown on this site, you might want to create a separate sections of content in your documentation like "Guide" page and "Config" page.
+你可能会根据页面路径显示不同的侧边栏。例如，如本网站所示，你可能希望在文档中创建单独的侧边栏，例如“指引”页面和“配置参考”页面。
 
-To do so, first organize your pages into directories for each desired section:
+为此，首先将你的页面组织到每个所需部分的目录中：
 
 ```
 .
@@ -111,45 +111,45 @@ To do so, first organize your pages into directories for each desired section:
    └─ four.md
 ```
 
-Then, update your configuration to define your sidebar for each section. This time, you should pass an object instead of an array.
+然后，更新你的配置以定义每个部分的侧边栏。这一次，你应该传递一个对象而不是数组。
 
 ```js
 export default {
-  themeConfig: {
-    sidebar: {
-      // This sidebar gets displayed when a user
-      // is on `guide` directory.
-      '/guide/': [
-        {
-          text: 'Guide',
-          items: [
-            { text: 'Index', link: '/guide/' },
-            { text: 'One', link: '/guide/one' },
-            { text: 'Two', link: '/guide/two' }
-          ]
-        }
-      ],
+	themeConfig: {
+		sidebar: {
+			// This sidebar gets displayed when a user
+			// is on `guide` directory.
+			'/guide/': [
+				{
+					text: 'Guide',
+					items: [
+						{ text: 'Index', link: '/guide/' },
+						{ text: 'One', link: '/guide/one' },
+						{ text: 'Two', link: '/guide/two' },
+					],
+				},
+			],
 
-      // This sidebar gets displayed when a user
-      // is on `config` directory.
-      '/config/': [
-        {
-          text: 'Config',
-          items: [
-            { text: 'Index', link: '/config/' },
-            { text: 'Three', link: '/config/three' },
-            { text: 'Four', link: '/config/four' }
-          ]
-        }
-      ]
-    }
-  }
+			// This sidebar gets displayed when a user
+			// is on `config` directory.
+			'/config/': [
+				{
+					text: 'Config',
+					items: [
+						{ text: 'Index', link: '/config/' },
+						{ text: 'Three', link: '/config/three' },
+						{ text: 'Four', link: '/config/four' },
+					],
+				},
+			],
+		},
+	},
 }
 ```
 
 ## 可折叠的侧边栏组 {#collapsible-sidebar-groups}
 
-By adding `collapsed` option to the sidebar group, it shows a toggle button to hide/show each section.
+通过向侧边栏组添加 `collapsed` 选项，它会显示一个切换按钮来隐藏/显示每个部分。
 
 ```js
 export default {
@@ -165,7 +165,7 @@ export default {
 }
 ```
 
-All sections are "open" by default. If you would like them to be "closed" on initial page load, set `collapsed` option to `true`.
+默认情况下，所有部分都是“打开”的。如果 你希望它们在初始页面加载时“关闭”，请将 `collapsed` 选项设置为 `true`。
 
 ```js
 export default {

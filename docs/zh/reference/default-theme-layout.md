@@ -1,6 +1,6 @@
 # 布局 {#layout}
 
-You may choose the page layout by setting `layout` option to the page [frontmatter](./frontmatter-config). There are 3 layout options, `doc`, `page`, and `home`. If nothing is specified, then the page is treated as `doc` page.
+你可以通过设置页面 [frontmatter](./frontmatter-config) 选项来选择页面布局。有 3 种布局选项 `doc`、 `page` 和 `home`。如果未指定任何内容，则该页面将被视为 `doc` 页面。
 
 ```yaml
 ---
@@ -10,29 +10,34 @@ layout: doc
 
 ## doc 布局 {#doc-layout}
 
-Option `doc` is the default layout and it styles the whole Markdown content into "documentation" look. It works by wrapping whole content within `vp-doc` css class, and applying styles to elements underneath it.
+`doc` 是默认布局，它将整个 Markdown 内容设置为“documentation”外观。它的工作原理是将整个内容包装在 css `vp-doc` 类中，并将样式应用于它下面的元素。
 
-Almost all generic elements such as `p`, or `h2` get special styling. Therefore, keep in mind that if you add any custom HTML inside a Markdown content, those will get affected by those styles as well.
+几乎所有通用元素，例如 `p`, 或 `h2` 都有特殊的样式。因此，请记住，如果你在 Markdown 内容中添加任何自定义 HTML，这些内容也会受到这些样式的影响。
 
-It also provides documentation specific features listed below. These features are only enabled in this layout.
+它还提供下面列出的文档特定功能。这些功能仅在此布局中启用。
 
-- Edit Link
+<!-- - Edit Link
 - Prev Next Link
 - Outline
+- [Carbon Ads](./default-theme-carbon-ads) -->
+
+- [编辑链接](./default-theme-edit-link)
+- [上下页文本](./default-theme-prev-next-links)
+- [大纲](./default-theme-config#outline)
 - [Carbon Ads](./default-theme-carbon-ads)
 
 ## page 布局 {#page-layout}
 
-Option `page` is treated as "blank page". The Markdown will still be parsed, and all of the [Markdown Extensions](../guide/markdown) work as same as `doc` layout, but it wouldn't get any default stylings.
+`page` 被视为“空白页”。 Markdown 仍然会被解析，所有的 [Markdown 扩展](../guide/markdown) 都和 `doc` 布局一样运行，但它没有任何默认样式。
 
-The page layout will let you style everything by you without VitePress theme affecting the markup. This is useful when you want to create your own custom page.
+`page` 布局将使你可以自行设计所有内容，而不会受 VitePress 主题影响。当你想要创建自己的自定义页面时，这很有用。
 
-Note that even in this layout, sidebar will still show up if the page has a matching sidebar config.
+请注意，即使在此布局中，如果页面具有匹配的侧边栏配置，侧边栏仍会显示。
 
-## Home 布局 {#home-layout}
+## home 布局 {#home-layout}
 
-Option `home` will generate templated "Homepage". In this layout, you can set extra options such as `hero` and `features` to customize the content further. Please visit [Default Theme: Home Page](./default-theme-home-page) for more details.
+`home` 将生成模板化的“主页”。在此布局中， 你可以设置额外的选项，例如 `hero` 和 `features` 以进一步自定义内容。请访问[默认主题: 主页](./default-theme-home-page)了解更多详情。
 
 ## 无布局 {#no-layout}
 
-If you don't want any layout, you can pass `layout: false` through frontmatter. This option is helpful if you want a fully-customizable landing page (without any sidebar, navbar, or footer by default).
+如果你不想要任何布局，你可以通过 frontmatter 传递 `layout: false`。如果你想要一个完全可自定义的登录页面（默认情况下没有任何侧边栏、导航栏或页脚），此选项很有用。

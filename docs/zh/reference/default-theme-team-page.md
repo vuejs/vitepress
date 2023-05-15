@@ -2,22 +2,30 @@
 import { VPTeamMembers } from 'vitepress/theme'
 
 const members = [
+  // {
+  //   avatar: 'https://github.com/yyx990803.png',
+  //   name: 'Evan You',
+  //   title: 'Creator',
+  //   links: [
+  //     { icon: 'github', link: 'https://github.com/yyx990803' },
+  //     { icon: 'twitter', link: 'https://twitter.com/youyuxi' }
+  //   ]
+  // },
+  // {
+  //   avatar: 'https://github.com/kiaking.png',
+  //   name: 'Kia King Ishii',
+  //   title: 'Developer',
+  //   links: [
+  //     { icon: 'github', link: 'https://github.com/kiaking' },
+  //     { icon: 'twitter', link: 'https://twitter.com/KiaKing85' }
+  //   ]
+  // }
   {
-    avatar: 'https://github.com/yyx990803.png',
-    name: 'Evan You',
-    title: 'Creator',
+    avatar: 'https://avatars.githubusercontent.com/u/50388827?v=4',
+    name: 'VanchKong',
+    title: 'Translator',
     links: [
-      { icon: 'github', link: 'https://github.com/yyx990803' },
-      { icon: 'twitter', link: 'https://twitter.com/youyuxi' }
-    ]
-  },
-  {
-    avatar: 'https://github.com/kiaking.png',
-    name: 'Kia King Ishii',
-    title: 'Developer',
-    links: [
-      { icon: 'github', link: 'https://github.com/kiaking' },
-      { icon: 'twitter', link: 'https://twitter.com/KiaKing85' }
+      { icon: 'github', link: 'https://github.com/vanchKong' },
     ]
   }
 ]
@@ -25,231 +33,222 @@ const members = [
 
 # 团队页 {#team-page}
 
-If you would like to introduce your team, you may use Team components to construct the Team Page. There are two ways of using these components. One is to embed it in doc page, and another is to create a full Team Page.
+如果你想介绍你的团队，你可以使用 Team components 来构建团队页面。有两种使用这些组件的方法。一种是将其嵌入文档页面，另一种是创建完整的团队页面。
 
-## 在页面中展示团队成员 {#show-team-members-in-a-page}
+## 在页面中显示团队成员 {#show-team-members-in-a-page}
 
-You may use `<VPTeamMembers>` component exposed from `vitepress/theme` to display a list of team members on any page.
+你可以在任何页面上使用从 `vitepress/theme` 暴露出的公共组件 `<VPTeamMembers>` 显示团队成员。
 
 ```html
 <script setup>
-import { VPTeamMembers } from 'vitepress/theme'
+	import { VPTeamMembers } from 'vitepress/theme'
 
-const members = [
-  {
-    avatar: 'https://www.github.com/yyx990803.png',
-    name: 'Evan You',
-    title: 'Creator',
-    links: [
-      { icon: 'github', link: 'https://github.com/yyx990803' },
-      { icon: 'twitter', link: 'https://twitter.com/youyuxi' }
-    ]
-  },
-  ...
-]
+	const members = [
+	  {
+	    avatar: 'https://www.github.com/yyx990803.png',
+	    name: 'Evan You',
+	    title: 'Creator',
+	    links: [
+	      { icon: 'github', link: 'https://github.com/yyx990803' },
+	      { icon: 'twitter', link: 'https://twitter.com/youyuxi' }
+	    ]
+	  },
+	  ...
+	]
 </script>
 
-# Our Team
-
-Say hello to our awesome team.
+# 我们的团队，向我们出色的团队问好。
 
 <VPTeamMembers size="small" :members="members" />
 ```
 
-The above will display a team member in card looking element. It should display something similar to below.
+以上将在卡片外观元素中显示团队成员。它应该显示类似于下面的内容。
 
 <VPTeamMembers size="small" :members="members" />
 
-`<VPTeamMembers>` component comes in 2 different sizes, `small` and `medium`. While it boils down to your preference, usually `small` size should fit better when used in doc page. Also, you may add more properties to each member such as adding "description" or "sponsor" button. Learn more about it in [`<VPTeamMembers>`](#vpteammembers).
+`<VPTeamMembers>` 组件有 2 种不同的尺寸， `small` 和 `medium`。虽然它取决于为你的偏好，但通常尺寸在文档页面中使用时 `small` 应该更适合。此外，你可以为每个成员添加更多属性，例如添加“描述”或“赞助”按钮。在 [`<VPTeamMembers>`](#vpteammembers)中了解更多信息。
 
-Embedding team members in doc page is good for small size team where having dedicated full team page might be too much, or introducing partial members as a reference to documentation context.
+在文档页面中嵌入团队成员对于小型团队来说非常有用，某种情况下，完整的贡献团队可能太大了，可以引入部分成员作为文档上下文的参考。
 
-If you have large number of members, or simply would like to have more space to show team members, consider [creating a full team page](#create-a-full-team-page).
+如果你有大量成员，或者只是想有更多空间来展示团队成员，请考虑[创建一个完整的团队页面](#create-a-full-team-page)。
 
-## 建立完整的团队页 {#create-a-full-team-page}
+## 创建一个完整的团队页面 {#create-a-full-team-page}
 
-Instead of adding team members to doc page, you may also create a full Team Page, similar to how you can create a custom [Home Page](./default-theme-home-page).
+除了将团队成员添加到 doc 页面，你还可以创建一个完整的团队页面，类似于创建自定义[默认主题：主页](./default-theme-home-page)的方式。
 
-To create a team page, first, create a new md file. The file name doesn't matter, but here lets call it `team.md`. In this file, set frontmatter option `layout: page`, and then you may compose your page structure using `TeamPage` components.
+要创建团队页面，首先，创建一个新的 md 文件。文件名无所谓，这里我们就叫它 `team.md` 吧。在这个文件中，在 frontmatter 设置 `layout: page`，然后你可以使用 `TeamPage` 组件来组成你的页面结构。
 
 ```html
 ---
 layout: page
 ---
-<script setup>
-import {
-  VPTeamPage,
-  VPTeamPageTitle,
-  VPTeamMembers
-} from 'vitepress/theme'
 
-const members = [
-  {
-    avatar: 'https://www.github.com/yyx990803.png',
-    name: 'Evan You',
-    title: 'Creator',
-    links: [
-      { icon: 'github', link: 'https://github.com/yyx990803' },
-      { icon: 'twitter', link: 'https://twitter.com/youyuxi' }
-    ]
-  },
-  ...
-]
+<script setup>
+	import {
+	  VPTeamPage,
+	  VPTeamPageTitle,
+	  VPTeamMembers
+	} from 'vitepress/theme'
+
+	const members = [
+	  {
+	    avatar: 'https://www.github.com/yyx990803.png',
+	    name: 'Evan You',
+	    title: 'Creator',
+	    links: [
+	      { icon: 'github', link: 'https://github.com/yyx990803' },
+	      { icon: 'twitter', link: 'https://twitter.com/youyuxi' }
+	    ]
+	  },
+	  ...
+	]
 </script>
 
 <VPTeamPage>
-  <VPTeamPageTitle>
-    <template #title>
-      Our Team
-    </template>
-    <template #lead>
-      The development of VitePress is guided by an international
-      team, some of whom have chosen to be featured below.
-    </template>
-  </VPTeamPageTitle>
-  <VPTeamMembers
-    :members="members"
-  />
+	<VPTeamPageTitle>
+		<template #title> Our Team </template>
+		<template #lead> The development of VitePress is guided by an international team, some of whom have chosen to be featured below. </template>
+	</VPTeamPageTitle>
+	<VPTeamMembers :members="members" />
 </VPTeamPage>
 ```
 
-When creating a full team page, remember to wrap all components with `<VPTeamPage>` component. This component will ensure all nested team related components get the proper layout structure like spacings.
+创建完整的团队页面时，请记住用 `<VPTeamPage>` 组件包装所有团队相关组件，以获得正确的布局结构，如间距。
 
-`<VPPageTitle>` component adds the page title section. The title being `<h1>` heading. Use `#title` and `#lead` slot to document about your team.
+`<VPPageTitle>` 组件添加页面标题部分。标题是 `<h1>` 标题。使用 `#title` 和 `#lead` 插槽来介绍你的团队。
 
-`<VPMembers>` works as same as when used in a doc page. It will display list of members.
+`<VPMembers>` 和在 doc 页面中使用时一样。它将显示成员列表。
 
-### 将成员信息分成多个部分 {#add-sections-to-divide-team-members}
+### 添加分段以划分团队成员 {#add-sections-to-divide-team-members}
 
-You may add "sections" to the team page. For example, you may have different types of team members such as Core Team Members and Community Partners. You can divide these members into sections to better explain the roles of each group.
+你可以将“分段”添加到团队页面。例如，你可能有不同类型的团队成员，例如核心团队成员和社区合作伙伴。你可以将这些成员分成几个部分，以更好地解释每组的角色。
 
-To do so, add `<VPTeamPageSection>` component to the `team.md` file we created previously.
+为此，将 `<VPTeamPageSection>` 组件添加到我们之前创建的 `team.md` 文件中。
 
 ```html
 ---
 layout: page
 ---
-<script setup>
-import {
-  VPTeamPage,
-  VPTeamPageTitle,
-  VPTeamMembers,
-  VPTeamPageSection
-} from 'vitepress/theme'
 
-const coreMembers = [...]
-const partners = [...]
+<script setup>
+	import {
+	  VPTeamPage,
+	  VPTeamPageTitle,
+	  VPTeamMembers,
+	  VPTeamPageSection
+	} from 'vitepress/theme'
+
+	const coreMembers = [...]
+	const partners = [...]
 </script>
 
 <VPTeamPage>
-  <VPTeamPageTitle>
-    <template #title>Our Team</template>
-    <template #lead>...</template>
-  </VPTeamPageTitle>
-  <VPTeamMembers size="medium" :members="coreMembers" />
-  <VPTeamPageSection>
-    <template #title>Partners</template>
-    <template #lead>...</template>
-    <template #members>
-      <VPTeamMembers size="small" :members="partners" />
-    </template>
-  </VPTeamPageSection>
+	<VPTeamPageTitle>
+		<template #title>Our Team</template>
+		<template #lead>...</template>
+	</VPTeamPageTitle>
+	<VPTeamMembers size="medium" :members="coreMembers" />
+	<VPTeamPageSection>
+		<template #title>Partners</template>
+		<template #lead>...</template>
+		<template #members>
+			<VPTeamMembers size="small" :members="partners" />
+		</template>
+	</VPTeamPageSection>
 </VPTeamPage>
 ```
 
-The `<VPTeamPageSection>` component can have `#title` and `#lead` slot similar to `VPTeamPageTitle` component, and also `#members` slot for displaying team members.
+`<VPTeamPageSection>` 组件可以有类似于 `VPTeamPageTitle` 组件的 `#title` 和 `#lead` 插槽，还有用于显示团队成员的 `#members` 插槽。
 
-Remember to put in `<VPTeamMembers>` component within `#members` slot.
+请记住将 `<VPTeamMembers>` 组件放入 `#members` 插槽中。
 
 ## `<VPTeamMembers>`
 
-The `<VPTeamMembers>` component displays a given list of members.
+`<VPTeamMembers>` 组件显示给定的成员列表。
 
 ```html
 <VPTeamMembers
-  size="medium"
-  :members="[
+	size="medium"
+	:members="[
     { avatar: '...', name: '...' },
     { avatar: '...', name: '...' },
     ...
-  ]"
-/>
+  ]" />
 ```
 
 ```ts
 interface Props {
-  // Size of each members. Defaults to `medium`.
-  size?: 'small' | 'medium'
+	// Size of each members. Defaults to `medium`.
+	size?: 'small' | 'medium'
 
-  // List of members to display.
-  members: TeamMember[]
+	// List of members to display.
+	members: TeamMember[]
 }
 
 interface TeamMember {
-  // Avatar image for the member.
-  avatar: string
+	// Avatar image for the member.
+	avatar: string
 
-  // Name of the member.
-  name: string
+	// Name of the member.
+	name: string
 
-  // Title to be shown below member's name.
-  // e.g. Developer, Software Engineer, etc.
-  title?: string
+	// Title to be shown below member's name.
+	// e.g. Developer, Software Engineer, etc.
+	title?: string
 
-  // Organization that the member belongs.
-  org?: string
+	// Organization that the member belongs.
+	org?: string
 
-  // URL for the organization.
-  orgLink?: string
+	// URL for the organization.
+	orgLink?: string
 
-  // Description for the member.
-  desc?: string
+	// Description for the member.
+	desc?: string
 
-  // Social links. e.g. GitHub, Twitter, etc. You may pass in
-  // the Social Links object here.
-  // See: https://vitepress.dev/reference/default-theme-config.html#sociallinks
-  links?: SocialLink[]
+	// Social links. e.g. GitHub, Twitter, etc. You may pass in
+	// the Social Links object here.
+	// See: https://vitepress.dev/reference/default-theme-config.html#sociallinks
+	links?: SocialLink[]
 
-  // URL for the sponsor page for the member.
-  sponsor?: string
+	// URL for the sponsor page for the member.
+	sponsor?: string
 }
 ```
 
 ## `<VPTeamPage>`
 
+::: details 创建完整团队页面时的根组件。它只接受一个插槽。它将设置所有传入的团队相关组件的样式。
 The root component when creating a full team page. It only accepts a single slot. It will style all passed in team related components.
+:::
 
 ## `<VPTeamPageTitle>`
 
-Adds "title" section of the page. Best use at the very beginning under `<VPTeamPage>`. It accepts `#title` and `#lead` slot.
+添加页面的标题。最好在一开始就在 `<VPTeamPage>` 下使用。它接受 `#title` 和 `#lead` 插槽。
 
 ```html
 <VPTeamPage>
-  <VPTeamPageTitle>
-    <template #title>
-      Our Team
-    </template>
-    <template #lead>
-      The development of VitePress is guided by an international
-      team, some of whom have chosen to be featured below.
-    </template>
-  </VPTeamPageTitle>
+	<VPTeamPageTitle>
+		<template #title> Our Team </template>
+		<template #lead> The development of VitePress is guided by an international team, some of whom have chosen to be featured below. </template>
+	</VPTeamPageTitle>
 </VPTeamPage>
 ```
 
 ## `<VPTeamPageSection>`
 
-Creates a "section" with in team page. It accepts `#title`, `#lead`, and `#members` slot. You may add as many sections as you like inside `<VPTeamPage>`.
+在团队页面中创建一个“分段”。它接受 `#title`、`#lead` 和 `#members` 插槽。你可以在 `<VPTeamPage>` 中添加任意数量的分段。
 
 ```html
 <VPTeamPage>
-  ...
-  <VPTeamPageSection>
-    <template #title>Partners</template>
-    <template #lead>Lorem ipsum...</template>
-    <template #members>
-      <VPTeamMembers :members="data" />
-    </template>
-  </VPTeamPageSection>
+	...
+	<VPTeamPageSection>
+		<template #title>Partners</template>
+		<template #lead>Lorem ipsum...</template>
+		<template #members>
+			<VPTeamMembers :members="data" />
+		</template>
+	</VPTeamPageSection>
 </VPTeamPage>
 ```
+
+[未出现在侧边栏的完整团队页面](./team)

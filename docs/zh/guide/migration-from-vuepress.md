@@ -4,27 +4,27 @@
 
 ### 侧边栏 {#sidebar}
 
-The sidebar is no longer automatically populated from frontmatter. You can [read the frontmatter yourself](https://github.com/vuejs/vitepress/issues/572#issuecomment-1170116225) to dynamically populate the sidebar. [Additional utilities for this](https://github.com/vuejs/vitepress/issues/96) may be provided in the future.
+侧边栏不再从 frontmatter 中自动获取。 你可以自行阅读 [`frontmatter`](https://github.com/vuejs/vitepress/issues/572#issuecomment-1170116225) 来动态填充侧边栏。 [迁移工具](https://github.com/vuejs/vitepress/issues/96)将来可能会提供。
 
 ## Markdown {#markdown}
 
 ### 图片 {#images}
 
-Unlike VuePress, VitePress handles [`base`](./asset-handling#base-url) of your config automatically when you use static image.
+与 VuePress 不同，在使用静态图片时，VitePress 会根据你的配置自动处理这些 `base`(./asset-handling#base-url)。
 
-Hence, now you can render images without `img` tag.
+因此，现在你可以在没有 `img` 标签的情况下渲染图像。
 
 ```diff
 - <img :src="$withBase('/foo.png')" alt="foo">
 + ![foo](/foo.png)
 ```
 
-::: warning
-For dynamic images you still need `withBase` as shown in [Base URL guide](./asset-handling#base-url).
+::: warning 警告
+对于动态图像，你仍然需要 `withBase`，如 [Base URL](./asset-handling#base-url) 中所示。
 :::
 
-Use `<img.*withBase\('(.*)'\).*alt="([^"]*)".*>` regex to find and replace it with `![$2]($1)` to replace all the images with `![](...)` syntax.
+使用 `<img.*withBase\('(.*)'\).*alt="([^"]*)".*>` 正则表达式查找并替换为 `![$2]($1)` 用 `![](...)` 语法替换所有图像。
 
 ---
 
-more to follow...
+更多请继续关注...

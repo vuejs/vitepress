@@ -4,9 +4,9 @@ outline: deep
 
 # Frontmatter 配置 {#frontmatter-config}
 
-Frontmatter enables page based configuration. In every markdown file, you can use frontmatter config to override site-level or theme-level config options. Also, there are config options which you can only define in frontmatter.
+Frontmatter 支持基于页面的配置。在每个 markdown 文件中，你可以使用 frontmatter 配置来覆写站点级别或主题级别的配置选项。此外，还有一些配置选项只能在 frontmatter 中定义。
 
-Example usage:
+示例用法：
 
 ```md
 ---
@@ -15,14 +15,15 @@ editLink: true
 ---
 ```
 
-You can access frontmatter data via the `$frontmatter` global in Vue expressions:
+你可以通过 Vue 表达式中的 `$frontmatter` 全局变量访问 frontmatter 数据：
 
 ```md
 {{ $frontmatter.title }}
 ```
 
-## title {#title}
+## 标题 {#title}
 
+- key: `title`
 - Type: `string`
 
 Title for the page. It's same as [config.title](./site-config#title), and it overrides the site-level config.
@@ -33,11 +34,12 @@ title: VitePress
 ---
 ```
 
-## titleTemplate
+## 标题模板 {#titletemplate}
 
+- key: `titleTemplate`
 - Type: `string | boolean`
 
-The suffix for the title. It's same as [config.titleTemplate](./site-config#titletemplate), and it overrides the site-level config.
+标题的后缀。它与 [config.titleTemplate](./site-config#titletemplate) 相同，它会覆盖站点级别的配置。
 
 ```yaml
 ---
@@ -46,11 +48,12 @@ titleTemplate: Vite & Vue powered static site generator
 ---
 ```
 
-## description
+## 描述 {#description}
 
+- key: `description`
 - Type: `string`
 
-Description for the page. It's same as [config.description](./site-config#description), and it overrides the site-level config.
+页面的描述。它与 [config.description](./site-config#description) 相同，它会覆盖站点级别的配置。
 
 ```yaml
 ---
@@ -58,11 +61,12 @@ description: VitePress
 ---
 ```
 
-## head
+## 头部标签 {#head}
 
+- key: `head`
 - Type: `HeadConfig[]`
 
-Specify extra head tags to be injected for the current page. Will be appended after head tags injected by site-level config.
+指定要为当前页面注入的额外 head 标签。将附加在站点级配置注入的头部标签之后。
 
 ```yaml
 ---
@@ -77,25 +81,24 @@ head:
 ```
 
 ```ts
-type HeadConfig =
-  | [string, Record<string, string>]
-  | [string, Record<string, string>, string]
+type HeadConfig = [string, Record<string, string>] | [string, Record<string, string>, string]
 ```
 
-## 仅在默认主题生效 {#default-theme-only}
+## 仅默认主题 {#default-theme-only}
 
-The following frontmatter options are only applicable when using the default theme.
+以下 frontmatter 选项仅在使用默认主题时适用。
 
-### layout <Badge type="info" text="default theme only" /> 
+### 布局 <Badge type="info" text="default theme only" /> {#layout}
 
+- key: `layout`
 - Type: `doc | home | page`
 - Default: `doc`
 
-Determines the layout of the page.
+指定页面的布局。
 
-- `doc` - It applies default documentation styles to the markdown content.
-- `home` - Special layout for "Home Page". You may add extra options such as `hero` and `features` to rapidly create beautiful landing page.
-- `page` - Behave similar to `doc` but it applies no styles to the content. Useful when you want to create a fully custom page.
+- `doc` - 它将默认文档样式应用于 markdown 内容。
+- `home` - “主页”的特殊布局。你可以添加额外的选项，例如 `hero` 和 `features`，以快速创建漂亮的落地页。
+- `page` - 表现类似于 `doc`，但它不对内容应用任何样式。当你想创建一个完全自定义的页面时很有用。
 
 ```yaml
 ---
@@ -103,20 +106,25 @@ layout: doc
 ---
 ```
 
-### hero <Badge type="info" text="default theme only" /> <Badge type="info" text="Home page only" /> 
+### hero <Badge type="info" text="default theme only" /> <Badge type="info" text="Home page only" />
 
-Defines contents of home hero section when `layout` is set to `home`. More details in [Default Theme: Home Page](./default-theme-home-page).
+当 `layout` 设置为 `home` 时，定义主页 hero 部分的内容。更多详细信息：[默认主题：主页](./default-theme-home-page)。
 
-### features <Badge type="info" text="default theme only" /> <Badge type="info" text="Home page only" /> 
+### features <Badge type="info" text="default theme only" /> <Badge type="info" text="Home page only" />
 
-Defines items to display in features section when `layout` is set to `home`. More details in [Default Theme: Home Page](./default-theme-home-page).
+定义当`layout` 设置为 `home` 时要在 features 部分中显示的项目。更多详细信息：[默认主题：主页](./default-theme-home-page)。
 
-### aside <Badge type="info" text="default theme only" />
+### 大纲开关 <Badge type="info" text="default theme only" /> {#aside}
 
-- Type: `boolean`
+- key: `aside`
+- Type: `boolean | 'left'`
 - Default: `true`
 
-If you want the right aside component in `doc` layout not to be shown, set this option to `false`.
+定义 aside 组件在 `doc` 布局中的位置。
+
+将此值设置为 `false` 可禁用 aside 容器。\
+将此值设置为 `true` 会将 aside 渲染到右侧。\
+将此值设置为 `left` 会将 aside 渲染到左侧。
 
 ```yaml
 ---
@@ -124,19 +132,21 @@ aside: false
 ---
 ```
 
-### outline <Badge type="info" text="default theme only" />
+### 大纲层级 <Badge type="info" text="default theme only" /> {#outline}
 
+- key: `outline`
 - Type: `number | [number, number] | 'deep' | false`
 - Default: `2`
 
-The levels of header in the outline to display for the page. It's same as [config.themeConfig.outline](./default-theme-config#outline), and it overrides the theme config.
+大纲中显示的标题级别。它与 [config.themeConfig.outline](./default-theme-config#outline) 相同，它会覆盖主题配置。
 
-### lastUpdated <Badge type="info" text="default theme only" />
+### 最近更新时间 <Badge type="info" text="default theme only" /> {#lastupdated}
 
+- key: `lastUpdated`
 - Type: `boolean`
 - Default: `true`
 
-Whether to display [Last Updated](./default-theme-last-updated) text in the footer of the current page.
+是否在当前页面的页脚中显示[最近更新时间](./default-theme-last-updated)的文本。
 
 ```yaml
 ---
@@ -144,12 +154,13 @@ lastUpdated: false
 ---
 ```
 
-### editLink <Badge type="info" text="default theme only" />
+### 编辑链接 <Badge type="info" text="default theme only" /> {#editlink}
 
+- key: `editLink`
 - Type: `boolean`
 - Default: `true`
 
-Whether to display [Edit Link](./default-theme-edit-link) in the footer of the current page.
+是否在当前页的页脚显示[编辑链接](./default-theme-edit-link)。
 
 ```yaml
 ---
