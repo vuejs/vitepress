@@ -1,4 +1,6 @@
-import { DocSearchProps } from './docsearch.js'
+import type { DocSearchProps } from './docsearch.js'
+import type { LocalSearchTranslations } from './local-search.js'
+import type { PageData } from './shared.js'
 
 export namespace DefaultTheme {
   export interface Config {
@@ -100,8 +102,12 @@ export namespace DefaultTheme {
      */
     langMenuLabel?: string
 
+    search?:
+      | { provider: 'local'; options?: LocalSearchOptions }
+      | { provider: 'algolia'; options: AlgoliaSearchOptions }
+
     /**
-     * The algolia options. Leave it undefined to disable the search feature.
+     * @deprecated Use `search` instead.
      */
     algolia?: AlgoliaSearchOptions
 
@@ -210,8 +216,9 @@ export namespace DefaultTheme {
      * Pattern for edit link.
      *
      * @example 'https://github.com/vuejs/vitepress/edit/main/docs/:path'
+     * @example ({ filePath }) => { ... }
      */
-    pattern: string | ((payload: { relativePath: string }) => string)
+    pattern: string | ((payload: PageData) => string)
 
     /**
      * Custom text for edit link.
@@ -283,6 +290,23 @@ export namespace DefaultTheme {
   export interface Outline {
     level?: number | [number, number] | 'deep'
     label?: string
+  }
+
+  // local search --------------------------------------------------------------
+
+  export interface LocalSearchOptions {
+    /**
+     * @default false
+     */
+    disableDetailedView?: boolean
+
+    /**
+     * @default false
+     */
+    disableQueryPersistence?: boolean
+
+    translations?: LocalSearchTranslations
+    locales?: Record<string, Partial<Omit<LocalSearchOptions, 'locales'>>>
   }
 
   // algolia -------------------------------------------------------------------

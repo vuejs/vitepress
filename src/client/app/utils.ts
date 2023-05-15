@@ -1,5 +1,10 @@
 import { siteDataRef } from './data'
-import { inBrowser, EXTERNAL_URL_RE, sanitizeFileName } from '../shared'
+import {
+  inBrowser,
+  EXTERNAL_URL_RE,
+  sanitizeFileName,
+  type Awaitable
+} from '../shared'
 import {
   h,
   onMounted,
@@ -77,7 +82,11 @@ export function onContentUpdated(fn: () => any) {
   })
 }
 
-export function defineClientComponent(loader: AsyncComponentLoader) {
+export function defineClientComponent(
+  loader: AsyncComponentLoader,
+  args?: any[],
+  cb?: () => Awaitable<void>
+) {
   return {
     setup() {
       const comp = shallowRef()
@@ -88,8 +97,9 @@ export function defineClientComponent(loader: AsyncComponentLoader) {
           res = res.default
         }
         comp.value = res
+        await cb?.()
       })
-      return () => (comp.value ? h(comp.value) : null)
+      return () => (comp.value ? h(comp.value, ...(args ?? [])) : null)
     }
   }
 }

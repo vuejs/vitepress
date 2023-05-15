@@ -11,7 +11,7 @@ export type {
   PageDataPayload,
   SiteData,
   SSGContext
-} from '../../types/shared.js'
+} from '../../types/shared'
 
 export const EXTERNAL_URL_RE = /^[a-z]+:/i
 export const PATHNAME_PROTOCOL_RE = /^pathname:\/\//
@@ -23,6 +23,7 @@ export const inBrowser = typeof document !== 'undefined'
 
 export const notFoundPageData: PageData = {
   relativePath: '',
+  filePath: '',
   title: '404',
   description: 'Not Found',
   headers: [],
@@ -164,4 +165,8 @@ export function sanitizeFileName(name: string): string {
       .replace(INVALID_CHAR_REGEX, '_')
       .replace(/(^|\/)_+(?=[^/]*$)/, '$1')
   )
+}
+
+export function slash(p: string): string {
+  return p.replace(/\\/g, '/')
 }

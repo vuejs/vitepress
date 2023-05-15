@@ -157,7 +157,8 @@ export function scaffold({
     renderFile(file)
   }
 
-  const dir = root === './' ? `` : ` ${root.replace(/^\.\//, '')}`
+  const dir =
+    root === './' ? `` : ` ${root.replace(/^\.\//, '').replace(/[/\\]$/, '')}`
 
   const pkgPath = path.resolve('package.json')
   const userPkg = fs.existsSync(pkgPath)

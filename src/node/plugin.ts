@@ -1,6 +1,5 @@
 import path from 'path'
 import c from 'picocolors'
-import { slash } from './utils/slash'
 import type { OutputAsset, OutputChunk } from 'rollup'
 import {
   mergeConfig,
@@ -16,12 +15,17 @@ import {
   resolveAliases
 } from './alias'
 import { resolveUserConfig, resolvePages, type SiteConfig } from './config'
-import { clearCache, createMarkdownToVueRenderFn } from './markdownToVue'
-import type { PageDataPayload } from './shared'
+import {
+  clearCache,
+  createMarkdownToVueRenderFn,
+  type MarkdownCompileResult
+} from './markdownToVue'
+import { slash, type PageDataPayload } from './shared'
 import { staticDataPlugin } from './plugins/staticDataPlugin'
 import { webFontsPlugin } from './plugins/webFontsPlugin'
 import { dynamicRoutesPlugin } from './plugins/dynamicRoutesPlugin'
 import { rewritesPlugin } from './plugins/rewritesPlugin'
+import { localSearchPlugin } from './plugins/localSearchPlugin'
 import { serializeFunctions, deserializeFunctions } from './utils/fnSerialize'
 
 declare module 'vite' {
@@ -94,7 +98,7 @@ export async function createVitePressPlugin(
   }
 
   let siteData = site
-  let hasDeadLinks = false
+  let allDeadLinks: MarkdownCompileResult['deadLinks'] = []
   let config: ResolvedConfig
 
   const vitePressPlugin: Plugin = {
@@ -121,8 +125,11 @@ export async function createVitePressPlugin(
           alias: resolveAliases(siteConfig, ssr)
         },
         define: {
-          __ALGOLIA__: !!site.themeConfig.algolia,
-          __CARBON__: !!site.themeConfig.carbonAds
+          __VP_LOCAL_SEARCH__: site.themeConfig?.search?.provider === 'local',
+          __ALGOLIA__:
+            site.themeConfig?.search?.provider === 'algolia' ||
+            !!site.themeConfig?.algolia, // legacy
+          __CARBON__: !!site.themeConfig?.carbonAds
         },
         optimizeDeps: {
           // force include vue to avoid duplicated copies when linked + optimized
@@ -181,9 +188,7 @@ export async function createVitePressPlugin(
           id,
           config.publicDir
         )
-        if (deadLinks.length) {
-          hasDeadLinks = true
-        }
+        allDeadLinks.push(...deadLinks)
         if (includes.length) {
           includes.forEach((i) => {
             this.addWatchFile(i)
@@ -194,8 +199,22 @@ export async function createVitePressPlugin(
     },
 
     renderStart() {
-      if (hasDeadLinks) {
-        throw new Error(`One or more pages contain dead links.`)
+      if (allDeadLinks.length > 0) {
+        allDeadLinks.forEach(({ url, file }, i) => {
+          siteConfig.logger.warn(
+            c.yellow(
+              `${i === 0 ? '\n\n' : ''}(!) Found dead link ${c.cyan(
+                url
+              )} in file ${c.white(c.dim(file))}`
+            )
+          )
+        })
+        siteConfig.logger.info(
+          c.cyan(
+            '\nIf this is expected, you can disable this check via config. Refer: https://vitepress.dev/reference/site-config#ignoredeadlinks\n'
+          )
+        )
+        throw new Error(`${allDeadLinks.length} dead link(s) found.`)
       }
     },
 
@@ -360,6 +379,7 @@ export async function createVitePressPlugin(
     vuePlugin,
     webFontsPlugin(siteConfig.useWebFonts),
     ...(userViteConfig?.plugins || []),
+    await localSearchPlugin(siteConfig),
     staticDataPlugin,
     await dynamicRoutesPlugin(siteConfig)
   ]

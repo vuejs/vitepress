@@ -4,6 +4,7 @@ import { createLogger } from 'vite'
 import { build, createServer, serve } from '.'
 import { init } from './init/init'
 import { version } from '../../package.json'
+import { bindShortcuts } from './shortcuts'
 
 const argv: any = minimist(process.argv.slice(2))
 
@@ -33,6 +34,7 @@ if (!command || command === 'dev') {
     await server.listen()
     logVersion(server.config.logger)
     server.printUrls()
+    bindShortcuts(server)
   }
   createDevServer().catch((err) => {
     createLogger().error(
