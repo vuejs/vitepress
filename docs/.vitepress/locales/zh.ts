@@ -9,6 +9,10 @@ export default defineConfig({
   description: '由 Vite 和 Vue 驱动的静态站点生成器',
 
   themeConfig: {
+    docFooter: {
+      prev: '上一页',
+      next: '下一页'
+    },
     nav: nav(),
     outline: {
       label: '页面导航'
