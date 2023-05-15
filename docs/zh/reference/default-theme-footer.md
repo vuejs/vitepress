@@ -36,4 +36,8 @@ export default {
 }
 ```
 
+::: warning
+Only inline elements can be used in `message` and `copyright` as they are rendered inside a `<p>` element. If you want to add block elements, consider using [`layout-bottom`](../guide/extending-default-theme#layout-slots) slot instead.
+:::
+
 请注意，当[侧边栏](./default-theme-sidebar)可见时，不会显示页脚。
