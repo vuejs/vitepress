@@ -121,7 +121,10 @@ export async function build(
               hashMapString,
               siteDataString,
               additionalHeadTags
-            )
+            ).catch((e) => {
+              console.error(`An error occured while trying to render ${page}:`)
+              throw e
+            })
           )
       )
     } catch (e) {
