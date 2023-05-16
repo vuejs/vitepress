@@ -16,7 +16,7 @@ Before proceeding, make sure to first read [Using a Custom Theme](./custom-theme
 
 ## Customizing CSS
 
-The default theme CSS is customizable by overriding root level CSS variables:
+To apply custom CSS, you first need to create a custom VitePress theme. Place the following code into `.vitepress/theme/index.js` which imports the default theme and adds an additional CSS file to the bundle:
 
 ```js
 // .vitepress/theme/index.js
@@ -26,15 +26,109 @@ import './custom.css'
 export default DefaultTheme
 ```
 
+The default theme CSS is customizable by overriding root level CSS variables. This example shows how to change the main brand color from VitePress green to a shade of purple:
+
 ```css
 /* .vitepress/theme/custom.css */
 :root {
+  /* The main brand color:
+     Typically used for Hero text, links, "brand" buttons, 
+     search result boxes, and other highlights */
   --vp-c-brand: #646cff;
-  --vp-c-brand-light: #747bff;
+
+  /* Lighter variation of brand color:
+     Typicaly used for the border of brand-colored buttons */
+  --vp-c-brand-lighter: #9da2fd;
+
+  /* Darker variation of brand color:
+     Typically used for brand button hover state */
+  --vp-c-brand-dark: #373ec3;
+  
+  /* Even darker variation of brand color
+     Typically used for brand button active state */
+  --vp-c-brand-darker: #3030c0;
 }
 ```
 
-See [default theme CSS variables](https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css) that can be overridden.
+See [`vars.css`](https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css) in the default theme for other variables that can be overridden.
+
+You can also apply any other CSS style rules here. While using CSS variables is good practice to help reduce repetition, plain CSS is also fine.
+
+Just remember to choose colors that work well in both dark and light modes, unless you disable the dark mode toggle or specify unique colors for both light and dark modes. See [Dark Mode](#dark-mode) below for more.
+
+## Using CSS Pre-Processors
+
+If you'd like to use SASS, LESS, or Stylus within your theme, first make sure the relevant pre-processor is installed by running the applicable command:
+
+```bash
+# .scss and .sass
+npm install -D sass
+
+# .less
+npm install -D less
+
+# .styl and .stylus
+npm install -D stylus
+```
+
+Then update your `import` statement to refer to the appropriate file extension:
+
+```js
+// .vitepress/theme/index.js
+import DefaultTheme from 'vitepress/theme'
+import './custom.scss'      // [!code hl]
+
+export default DefaultTheme
+```
+
+Here's an example SCSS file that could be used to change the brand colors, automatically creating lighter and darker variations from the base color:
+
+```scss
+// .vitepress/theme/custom.scss
+
+$brand-color: #646cff;
+
+:root {
+  // The main brand color:
+  // Typically used for Hero text, links, "brand" buttons, 
+  // search result boxes, and other highlights
+  --vp-c-brand: #{$brand-color};
+
+  // Lighter variation of brand color
+  // Typicaly used for the border of brand-colored buttons
+  --vp-c-brand-lighter: #{lighten($brand-color, 10%)};
+
+  // Darker variation of brand color
+  // Typically used for brand button hover state
+  --vp-c-brand-dark: #{darken($brand-color, 10%)};
+
+  // Even darker variation of brand color
+  // Typically used for brand button active state
+  --vp-c-brand-darker: #{darken($brand-color, 20%)};
+
+  // Search result highlights
+  --vp-local-search-highlight-bg: #{lighten($brand-color, 22%)};
+}
+```
+
+::: tip
+When SASS variables or functions are used to define a CSS variable, they need to be wrapped in `#{ ... }`. See the SASS documentation [here](https://sass-lang.com/documentation/breaking-changes/css-vars) and [here](https://sass-lang.com/documentation/variables).
+:::
+
+## Dark Mode
+
+To control whether the dark mode toggle is enabled or set to light or dark by default, see the [appearance setting](../reference/site-config#appearance).
+
+When dark mode is enabled, the `<html>` root tag will become `<html class="dark">`. This allows you to apply style overrides based on which setting the user has selected:
+
+```css
+.dark {
+  --vp-c-brand: orange;
+}
+.dark body {
+  background-color: black;
+}
+```
 
 ## Using Different Fonts
 

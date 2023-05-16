@@ -1,6 +1,6 @@
 # Default Theme Config
 
-Theme config lets you customize your theme. You can define theme config via the `themeConfig` option in the config file:
+Theme config lets you customize your theme. You can define theme config via the `themeConfig` option inside `.vitepress/config.ts`:
 
 ```ts
 export default {
@@ -170,8 +170,10 @@ export type SidebarItem = {
 - Default: `true`
 - Can be overridden per page via [frontmatter](./frontmatter-config#aside)
 
+This is typically used to show the "On this page" section, containing links to major headings within the current page.
+
 Setting this value to `false` prevents rendering of aside container.\
-Setting this value to `true` renders the aside to the right.\
+Setting this value to `true` (the default) renders the aside to the right.\
 Setting this value to `left` renders the aside to the left.
 
 ## outline
