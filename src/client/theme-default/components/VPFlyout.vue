@@ -87,6 +87,12 @@ function onBlur() {
   transform: translateY(0);
 }
 
+.button[aria-expanded="false"] + .menu {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(0);
+}
+
 .button {
   display: flex;
   align-items: center;
