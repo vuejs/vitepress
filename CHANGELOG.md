@@ -1,3 +1,22 @@
+# [1.0.0-alpha.76](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.75...v1.0.0-alpha.76) (2023-05-18)
+
+
+### Bug Fixes
+
+* **a11y:** mobile and theme switcher ([#2354](https://github.com/vuejs/vitepress/issues/2354)) ([d6c0985](https://github.com/vuejs/vitepress/commit/d6c0985002ee792b1e8e052f71cdd6bd72c315ad))
+* **build:** uniform handling of windows slash in localSearchPlugin ([#2358](https://github.com/vuejs/vitepress/issues/2358)) ([b31933f](https://github.com/vuejs/vitepress/commit/b31933fbdd7aabfe080234407153aefa8f6a3f30))
+* hmr when `base` is set ([#2375](https://github.com/vuejs/vitepress/issues/2375)) ([484ff5d](https://github.com/vuejs/vitepress/commit/484ff5dd4bd2e5c2d5168437895d400a39f2bfa8))
+* **theme:** don't update opacity on hover ([#2326](https://github.com/vuejs/vitepress/issues/2326)) ([35f8b89](https://github.com/vuejs/vitepress/commit/35f8b896372e75e62882df613a49e8945e7bc832))
+
+
+### Features
+
+* **cli:** add shortcuts ([#2353](https://github.com/vuejs/vitepress/issues/2353)) ([97065ce](https://github.com/vuejs/vitepress/commit/97065cefc22e4772c0295c5ad23a87eea286f46b))
+* **theme:** add focus trap to local search dialog ([#2324](https://github.com/vuejs/vitepress/issues/2324)) ([2f482af](https://github.com/vuejs/vitepress/commit/2f482afaabdb4206b87e2453d0099257693c4653))
+* **theme:** open search box on pressing slash too ([#2328](https://github.com/vuejs/vitepress/issues/2328)) ([c20bd28](https://github.com/vuejs/vitepress/commit/c20bd283319158135e2d850485970dfc5fe82812))
+
+
+
 # [1.0.0-alpha.75](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.74...v1.0.0-alpha.75) (2023-04-30)
 
 
