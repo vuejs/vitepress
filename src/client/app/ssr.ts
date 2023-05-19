@@ -1,6 +1,6 @@
 // entry for SSR
-import { createApp } from './index'
 import { renderToString } from 'vue/server-renderer'
+import { createApp } from './index'
 import type { SSGContext } from '../shared'
 
 export async function render(path: string) {

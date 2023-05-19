@@ -1,9 +1,9 @@
 import fs from 'fs'
 import path from 'path'
 import glob from 'fast-glob'
-import type { SiteConfig } from './config'
 import matter from 'gray-matter'
 import { normalizePath } from 'vite'
+import type { SiteConfig } from './config'
 import { createMarkdownRenderer, type MarkdownRenderer } from './markdown'
 
 export interface ContentOptions<T = ContentData[]> {

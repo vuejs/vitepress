@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, shallowRef } from 'vue'
+import { onContentUpdated } from 'vitepress'
 import { useData } from '../composables/data'
 import {
   getHeaders,
@@ -8,7 +9,6 @@ import {
   type MenuItem
 } from '../composables/outline'
 import VPDocOutlineItem from './VPDocOutlineItem.vue'
-import { onContentUpdated } from 'vitepress'
 
 const { frontmatter, theme } = useData()
 

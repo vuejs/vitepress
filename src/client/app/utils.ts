@@ -1,10 +1,3 @@
-import { siteDataRef } from './data'
-import {
-  inBrowser,
-  EXTERNAL_URL_RE,
-  sanitizeFileName,
-  type Awaitable
-} from '../shared'
 import {
   h,
   onMounted,
@@ -12,6 +5,13 @@ import {
   shallowRef,
   type AsyncComponentLoader
 } from 'vue'
+import { siteDataRef } from './data'
+import {
+  inBrowser,
+  EXTERNAL_URL_RE,
+  sanitizeFileName,
+  type Awaitable
+} from '../shared'
 
 export { inBrowser } from '../shared'
 

@@ -1,3 +1,5 @@
+import type { Options as VuePluginOptions } from '@vitejs/plugin-vue'
+import { type Logger, type UserConfig as ViteConfig } from 'vite'
 import {
   type Awaitable,
   type HeadConfig,
@@ -8,8 +10,6 @@ import {
   type SSGContext
 } from './shared'
 import type { MarkdownOptions } from './markdown/markdown'
-import type { Options as VuePluginOptions } from '@vitejs/plugin-vue'
-import { type Logger, type UserConfig as ViteConfig } from 'vite'
 
 export type RawConfigExports<ThemeConfig = any> =
   | Awaitable<UserConfig<ThemeConfig>>

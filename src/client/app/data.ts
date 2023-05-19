@@ -7,8 +7,8 @@ import {
   ref,
   shallowRef
 } from 'vue'
-import type { Route } from './router'
 import siteData from '@siteData'
+import type { Route } from './router'
 import {
   type PageData,
   type SiteData,

@@ -3,8 +3,8 @@
 // 2. normalize internal links to end with `.html`
 
 import type MarkdownIt from 'markdown-it'
-import type { MarkdownEnv } from '../env'
 import { URL } from 'url'
+import type { MarkdownEnv } from '../env'
 import { EXTERNAL_URL_RE, PATHNAME_PROTOCOL_RE, isExternal } from '../../shared'
 
 const indexRE = /(^|.*\/)index.md(#?.*)$/i

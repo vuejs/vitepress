@@ -1,8 +1,10 @@
 import ora from 'ora'
 import path from 'path'
 import fs from 'fs-extra'
+import { fileURLToPath } from 'url'
 import {
   build,
+  normalizePath,
   type BuildOptions,
   type UserConfig as ViteUserConfig
 } from 'vite'
@@ -12,8 +14,6 @@ import { APP_PATH } from '../alias'
 import { createVitePressPlugin } from '../plugin'
 import { sanitizeFileName, slash } from '../shared'
 import { buildMPAClient } from './buildMPAClient'
-import { fileURLToPath } from 'url'
-import { normalizePath } from 'vite'
 
 export const okMark = '\x1b[32m✓\x1b[0m'
 export const failMark = '\x1b[31m✖\x1b[0m'

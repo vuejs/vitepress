@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref, nextTick, shallowRef } from 'vue'
+import { onContentUpdated } from 'vitepress'
 import { useData } from '../composables/data'
 import { getHeaders, resolveTitle, type MenuItem } from '../composables/outline'
 import VPDocOutlineItem from './VPDocOutlineItem.vue'
-import { onContentUpdated } from 'vitepress'
 import VPIconChevronRight from './icons/VPIconChevronRight.vue'
 
 const { frontmatter, theme } = useData()
