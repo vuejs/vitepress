@@ -20,13 +20,15 @@ const grid = computed(() => {
 
   if (!length) {
     return
+  } else if (length === 1) {
+    return 'grid-1'
   } else if (length === 2) {
     return 'grid-2'
   } else if (length === 3) {
     return 'grid-3'
   } else if (length % 3 === 0) {
     return 'grid-6'
-  } else if (length % 2 === 0 || length % 2 === 1) {
+  } else {
     return 'grid-4'
   }
 })
