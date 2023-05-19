@@ -105,9 +105,9 @@ export async function build(
         JSON.stringify(serializeFunctions({ ...siteConfig.site, head: [] }))
       )
 
-      // we dump the hashmap and sitedata to a file, so it is not included in every
+      // (optionally) dump the hashmap and sitedata to a file, so it is not included in every
       // page and so browser can cache it
-      const { metadataHash } = await dumpStaticAssets(
+      const { metadataHash, metadataContent } = await dumpStaticAssets(
         siteConfig,
         clientResult,
         hashMapString,
@@ -128,6 +128,7 @@ export async function build(
               assets,
               pageToHashMap,
               metadataHash,
+              metadataContent,
               additionalHeadTags
             )
           )

@@ -30,6 +30,7 @@ export async function renderPage(
   assets: string[],
   pageToHashMap: Record<string, string>,
   metadataHash: string,
+  metadataContent: string,
   additionalHeadTags: HeadConfig[]
 ) {
   const routePath = `/${page.replace(/\.md$/, '')}`
@@ -149,6 +150,20 @@ export async function renderPage(
     }
   }
 
+  let preloadLink = ''
+  let metadataScript = ''
+  if (config.mpa) {
+    // skip the script tag
+  } else if (config.metaChunk) {
+    // dump to a static file
+    const metaSrc = `${siteData.base}metadata.${metadataHash}.js`
+    preloadLink = `<link rel="preload" href="${metaSrc}" as="script" />`
+    metadataScript = `<script src="${metaSrc}"></script>`
+  } else {
+    // keep the script inline
+    metadataScript = `<script>${metadataContent}</script>`
+  }
+
   const html = `
 <!DOCTYPE html>
 <html lang="${siteData.lang}" dir="${siteData.dir}">
@@ -157,6 +172,7 @@ export async function renderPage(
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>${title}</title>
     <meta name="description" content="${description}">
+    ${preloadLink}
     ${stylesheetLink}
     ${
       appChunk
@@ -167,11 +183,7 @@ export async function renderPage(
   </head>
   <body>${teleports?.body || ''}
     <div id="app">${content}</div>
-    ${
-      config.mpa
-        ? ''
-        : `<script src="${siteData.base}metadata.${metadataHash}.js"></script>`
-    }
+    ${metadataScript}
     ${inlinedScript}
   </body>
 </html>`.trim()
@@ -198,21 +210,24 @@ export async function dumpStaticAssets(
   hashMapString: string,
   siteDataString: string
 ) {
-  let metadataScript = `window.__VP_HASH_MAP__ = JSON.parse(${hashMapString})\n`
+  let metadataContent = `window.__VP_HASH_MAP__ = JSON.parse(${hashMapString})\n`
   if (siteDataString.includes('_vp-fn_')) {
-    metadataScript += `${deserializeFunctions.toString()}\nwindow.__VP_SITE_DATA__ = deserializeFunctions(JSON.parse(${siteDataString}))`
+    metadataContent += `${deserializeFunctions.toString()}\nwindow.__VP_SITE_DATA__ = deserializeFunctions(JSON.parse(${siteDataString}))`
   } else {
-    metadataScript += `window.__VP_SITE_DATA__ = JSON.parse(${siteDataString})`
+    metadataContent += `window.__VP_SITE_DATA__ = JSON.parse(${siteDataString})`
   }
 
-  const metadataHash = hash_sum(metadataScript)
-  const htmlFileName = path.join(config.outDir, `metadata.${metadataHash}.js`)
+  const metadataHash = hash_sum(metadataContent)
+  if (config.metaChunk) {
+    const htmlFileName = path.join(config.outDir, `metadata.${metadataHash}.js`)
 
-  await fs.ensureDir(path.dirname(htmlFileName))
-  await fs.writeFile(htmlFileName, metadataScript)
+    await fs.ensureDir(path.dirname(htmlFileName))
+    await fs.writeFile(htmlFileName, metadataContent)
+  }
 
   return {
-    metadataHash
+    metadataHash,
+    metadataContent
   }
 }
 
