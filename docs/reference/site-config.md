@@ -404,7 +404,7 @@ interface MarkdownOptions extends MarkdownIt.Options {
   // See: https://github.com/shikijs/shiki/blob/main/docs/themes.md#loading-theme
   theme?:
     | Shiki.IThemeRegistration
-    | { light: Shiki.IThemeRegistration; dark: Shiki.IThemeRegistration }
+    | { light: Shiki.IThemeRegistration, dark: Shiki.IThemeRegistration }
 
   // Enable line numbers in code block.
   lineNumbers?: boolean
