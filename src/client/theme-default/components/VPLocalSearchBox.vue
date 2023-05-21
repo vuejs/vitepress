@@ -157,10 +157,7 @@ debouncedWatch(
     for (const { id, mod } of mods) {
       const mapId = id.slice(0, id.indexOf('#'))
       let map = c.get(mapId)
-      if (map) {
-        c.set(mapId, map)
-        continue
-      }
+      if (map) continue
       const comp = mod.default ?? mod
       if (comp?.render) {
         const app = createApp(comp)
