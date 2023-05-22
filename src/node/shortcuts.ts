@@ -64,6 +64,13 @@ export function bindShortcuts(server: ViteDevServer): void {
 
 const SHORTCUTS: CLIShortcut[] = [
   {
+    key: 'r',
+    description: 'restart the server',
+    async action(server) {
+      await server.restart()
+    }
+  },
+  {
     key: 'u',
     description: 'show server url',
     action(server) {
