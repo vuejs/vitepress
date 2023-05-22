@@ -35,10 +35,7 @@ function toggle() {
     <div :id="groupId" class="items">
       <template v-for="item in items" :key="item.text">
         <div v-if="'link' in item" :key="item.text" class="item">
-          <VPNavScreenMenuGroupLink
-            :text="item.text"
-            :link="item.link"
-          />
+          <VPNavScreenMenuGroupLink :item="item" />
         </div>
 
         <div v-else class="group">
