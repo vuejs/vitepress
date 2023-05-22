@@ -1,13 +1,21 @@
 import colors from 'picocolors'
 import type { ViteDevServer } from 'vite'
 
+type CreateDevServer = () => Promise<void>
+
 export type CLIShortcut = {
   key: string
   description: string
-  action(server: ViteDevServer): void | Promise<void>
+  action(
+    server: ViteDevServer,
+    createDevServer: CreateDevServer
+  ): void | Promise<void>
 }
 
-export function bindShortcuts(server: ViteDevServer): void {
+export function bindShortcuts(
+  server: ViteDevServer,
+  createDevServer: CreateDevServer
+): void {
   if (!server.httpServer || !process.stdin.isTTY || process.env.CI) {
     return
   }
@@ -49,7 +57,7 @@ export function bindShortcuts(server: ViteDevServer): void {
     if (!shortcut) return
 
     actionRunning = true
-    await shortcut.action(server)
+    await shortcut.action(server, createDevServer)
     actionRunning = false
   }
 
@@ -66,8 +74,9 @@ const SHORTCUTS: CLIShortcut[] = [
   {
     key: 'r',
     description: 'restart the server',
-    async action(server) {
-      await server.restart()
+    async action(server, createDevServer) {
+      await server.close()
+      await createDevServer()
     }
   },
   {
