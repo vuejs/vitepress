@@ -1,3 +1,15 @@
+# [1.0.0-beta.1](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.76...v1.0.0-beta.1) (2023-05-22)
+
+
+### Bug Fixes
+
+* **config:** set scrollOffset to 0 is not effect ([#2395](https://github.com/vuejs/vitepress/issues/2395)) ([8153f23](https://github.com/vuejs/vitepress/commit/8153f23c901a6200661813e65f0d8eb602ad46da))
+* **theme:** features section layout is not consistent ([#2382](https://github.com/vuejs/vitepress/issues/2382)) ([26f21d9](https://github.com/vuejs/vitepress/commit/26f21d95dfbd671477d425e6b8ac5b0172a846ac))
+* **theme:** some global properties in localSearch are missing ([#2396](https://github.com/vuejs/vitepress/issues/2396)) ([4896811](https://github.com/vuejs/vitepress/commit/489681117f46a803704b6ec80546a5e787e19df2))
+* **theme:** custom target and rel in navbar links for mobile is missing ([#2400](https://github.com/vuejs/vitepress/issues/2400)) ([f364a5d](https://github.com/vuejs/vitepress/commit/f364a5d1d3c066c9728beb5d07576d6cb4b0640d))
+
+
+
 # [1.0.0-alpha.76](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.75...v1.0.0-alpha.76) (2023-05-18)
 
 
