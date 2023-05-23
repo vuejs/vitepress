@@ -303,6 +303,8 @@ function handleHMR(route: Route): void {
 
 function shouldHotReload(payload: PageDataPayload): boolean {
   const payloadPath = payload.path.replace(/(\bindex)?\.md$/, '')
-  const locationPath = location.pathname.replace(/(\bindex)?\.html$/, '')
+  const locationPath = location.pathname
+    .replace(/(\bindex)?\.html$/, '')
+    .slice(siteDataRef.value.base.length - 1)
   return payloadPath === locationPath
 }

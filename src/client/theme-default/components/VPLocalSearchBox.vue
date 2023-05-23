@@ -161,6 +161,18 @@ debouncedWatch(
         // Silence warnings about missing components
         app.config.warnHandler = () => {}
         app.provide(dataSymbol, vitePressData)
+        Object.defineProperties(app.config.globalProperties, {
+          $frontmatter: {
+            get() {
+              return vitePressData.frontmatter.value
+            }
+          },
+          $params: {
+            get() {
+              return vitePressData.page.value.params
+            }
+          }
+        })
         const div = document.createElement('div')
         app.mount(div)
         const sections = div.innerHTML.split(headingRegex)
