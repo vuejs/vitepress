@@ -143,9 +143,6 @@ importers:
       debug:
         specifier: ^4.3.4
         version: 4.3.4(supports-color@9.3.1)
-      enquirer:
-        specifier: ^2.3.6
-        version: 2.3.6
       esbuild:
         specifier: ^0.17.19
         version: 0.17.19
@@ -169,7 +166,7 @@ importers:
         version: 4.0.3
       lint-staged:
         specifier: ^13.2.2
-        version: 13.2.2(enquirer@2.3.6)(supports-color@9.3.1)
+        version: 13.2.2(supports-color@9.3.1)
       lodash.template:
         specifier: ^4.5.0
         version: 4.5.0
@@ -1414,11 +1411,6 @@ packages:
       '@algolia/transporter': 4.17.0
     dev: false
 
-  /ansi-colors@4.1.3:
-    resolution: {integrity: sha512-/6w/C21Pm1A7aZitlI5Ni/2J6FFQN8i1Cvz3kHABAAbw93v/NlvKdVOqz7CCWz/3iv/JplRSEEZ83XION15ovw==}
-    engines: {node: '>=6'}
-    dev: true
-
   /ansi-escapes@4.3.2:
     resolution: {integrity: sha512-gKXj5ALrKWQLsYG9jlTRmR/xKluxHV+Z9QEwNIgCfM1/uwPMCuzVVnh5mwTd+OuBZcwSIMbqssNWRm1lE51QaQ==}
     engines: {node: '>=8'}
@@ -2095,13 +2087,6 @@ packages:
 
   /emoji-regex@9.2.2:
     resolution: {integrity: sha512-L18DaJsXSUk2+42pv8mLs5jJT2hqFkFE4j21wOmgbUqsZ2hL72NsUU785g9RXgo3s0ZNgVl42TiHp3ZtOv/Vyg==}
-    dev: true
-
-  /enquirer@2.3.6:
-    resolution: {integrity: sha512-yjNnPr315/FjS4zIsUxYguYUPP2e1NK4d7E7ZOLiyYCcbFBiTMyID+2wvm2w6+pZ/odMA7cRkjhsPbltwBOrLg==}
-    engines: {node: '>=8.6'}
-    dependencies:
-      ansi-colors: 4.1.3
     dev: true
 
   /entities@3.0.1:
@@ -2927,7 +2912,7 @@ packages:
       uc.micro: 1.0.6
     dev: true
 
-  /lint-staged@13.2.2(enquirer@2.3.6)(supports-color@9.3.1):
+  /lint-staged@13.2.2(supports-color@9.3.1):
     resolution: {integrity: sha512-71gSwXKy649VrSU09s10uAT0rWCcY3aewhMaHyl2N84oBk4Xs9HgxvUp3AYu+bNsK4NrOYYxvSgg7FyGJ+jGcA==}
     engines: {node: ^14.13.1 || >=16.0.0}
     hasBin: true
@@ -2938,7 +2923,7 @@ packages:
       debug: 4.3.4(supports-color@9.3.1)
       execa: 7.1.1
       lilconfig: 2.1.0
-      listr2: 5.0.8(enquirer@2.3.6)
+      listr2: 5.0.8
       micromatch: 4.0.5
       normalize-path: 3.0.0
       object-inspect: 1.12.3
@@ -2950,7 +2935,7 @@ packages:
       - supports-color
     dev: true
 
-  /listr2@5.0.8(enquirer@2.3.6):
+  /listr2@5.0.8:
     resolution: {integrity: sha512-mC73LitKHj9w6v30nLNGPetZIlfpUniNSsxxrbaPcWOjDb92SHPzJPi/t+v1YC/lxKz/AJ9egOjww0qUuFxBpA==}
     engines: {node: ^14.13.1 || >=16.0.0}
     peerDependencies:
@@ -2961,7 +2946,6 @@ packages:
     dependencies:
       cli-truncate: 2.1.0
       colorette: 2.0.20
-      enquirer: 2.3.6
       log-update: 4.0.0
       p-map: 4.0.0
       rfdc: 1.3.0
