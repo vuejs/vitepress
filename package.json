@@ -23,7 +23,7 @@
       "default": "./dist/client/theme-default/index.js"
     },
     "./theme-without-fonts": {
-      "types": "./theme.d.ts",
+      "types": "./theme-without-fonts.d.ts",
       "default": "./dist/client/theme-default/without-fonts.js"
     }
   },
@@ -36,7 +36,8 @@
     "types",
     "template",
     "client.d.ts",
-    "theme.d.ts"
+    "theme.d.ts",
+    "theme-without-fonts.d.ts"
   ],
   "repository": {
     "type": "git",
