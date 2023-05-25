@@ -1,13 +1,15 @@
 import { readFileSync, writeFileSync } from 'fs'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
+import { createRequire } from 'module'
 import c from 'picocolors'
 import prompts from 'prompts'
 import { execa } from 'execa'
 import semver from 'semver'
-import pkg from '../package.json' assert { type: 'json' }
 
-const { version: currentVersion } = pkg
+const { version: currentVersion } = createRequire(import.meta.url)(
+  '../package.json'
+)
 const { inc: _inc, valid } = semver
 
 const versionIncrements = ['patch', 'minor', 'major']
