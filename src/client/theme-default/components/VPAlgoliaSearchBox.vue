@@ -4,6 +4,7 @@ import docsearch from '@docsearch/js'
 import { onMounted, watch } from 'vue'
 import { useRouter, useRoute } from 'vitepress'
 import { useData } from '../composables/data'
+import '@docsearch/css'
 
 const props = defineProps<{
   algolia: DefaultTheme.AlgoliaSearchOptions
