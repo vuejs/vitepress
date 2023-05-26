@@ -18,7 +18,7 @@
 
 ## public 目录 {#the-public-directory}
 
-有时你可能需要提供一些静态资源，但这些资源没有直接被 Markdown 或主题组件直接引用，或者你可能想以原始文件名提供提供某些文件。此类文件的例子包括 `robot.txt`，favicons 和 PWA 图标。
+有时你可能需要提供一些静态资源，但这些资源没有直接被 Markdown 或主题组件直接引用，或者你可能想以原始文件名提供提供某些文件。此类文件的例子包括 `robots.txt`，favicons 和 PWA 图标。
 
 你可以将这些文件放置在[源目录](./routing#source-directory)的 `public` 目录中。例如，如果你的项目根目录是 `./docs`，并且使用默认源目录位置，那么你的 public 目录将是 `./docs/public`。
 
