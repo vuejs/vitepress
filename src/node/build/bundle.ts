@@ -165,13 +165,15 @@ export async function bundle(
   if (config.mpa) {
     // in MPA mode, we need to copy over the non-js asset files from the
     // server build since there is no client-side build.
-    for (const chunk of serverResult.output) {
-      if (!chunk.fileName.endsWith('.js')) {
-        const tempPath = path.resolve(config.tempDir, chunk.fileName)
-        const outPath = path.resolve(config.outDir, chunk.fileName)
-        await fs.copy(tempPath, outPath)
-      }
-    }
+    await Promise.all(
+      serverResult.output.map(async (chunk) => {
+        if (!chunk.fileName.endsWith('.js')) {
+          const tempPath = path.resolve(config.tempDir, chunk.fileName)
+          const outPath = path.resolve(config.outDir, chunk.fileName)
+          await fs.copy(tempPath, outPath)
+        }
+      })
+    )
     // also copy over public dir
     const publicDir = path.resolve(config.srcDir, 'public')
     if (fs.existsSync(publicDir)) {

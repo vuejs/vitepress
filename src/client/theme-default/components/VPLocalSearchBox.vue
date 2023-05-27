@@ -155,6 +155,13 @@ debouncedWatch(
     if (canceled) return
     const c = new Map<string, Map<string, string>>()
     for (const { id, mod } of mods) {
+      const mapId = id.slice(0, id.indexOf('#'))
+      let map = c.get(mapId)
+      if (map) continue
+      else {
+        map = new Map()
+        c.set(mapId, map)
+      }
       const comp = mod.default ?? mod
       if (comp?.render) {
         const app = createApp(comp)
@@ -178,12 +185,6 @@ debouncedWatch(
         const sections = div.innerHTML.split(headingRegex)
         app.unmount()
         sections.shift()
-        const mapId = id.slice(0, id.indexOf('#'))
-        let map = c.get(mapId)
-        if (!map) {
-          map = new Map()
-          c.set(mapId, map)
-        }
         for (let i = 0; i < sections.length; i += 3) {
           const anchor = sections[i + 1]
           const html = sections[i + 2]
