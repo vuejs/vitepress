@@ -5,10 +5,9 @@ function toDest(file) {
   return file.replace(/^src\//, 'dist/')
 }
 
-const copyPromises = []
-fg.stream('src/client/**').on('data', (file) => {
-  if (/(\.ts|tsconfig\.json)$/.test(file)) return
-  copyPromises.push(copy(file, toDest(file)))
-})
-
-await Promise.all(copyPromises)
+await Promise.all(
+  fg.sync('src/client/**').map((file) => {
+    if (/(\.ts|tsconfig\.json)$/.test(file)) return
+    return copy(file, toDest(file))
+  })
+)
