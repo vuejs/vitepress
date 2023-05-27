@@ -1,5 +1,6 @@
-import colors from 'picocolors'
 import type { ViteDevServer } from 'vite'
+import c from 'picocolors'
+import { clearCache } from './markdownToVue'
 
 type CreateDevServer = () => Promise<void>
 
@@ -21,10 +22,10 @@ export function bindShortcuts(
   }
 
   server.config.logger.info(
-    colors.dim(colors.green('  ➜')) +
-      colors.dim('  press ') +
-      colors.bold('h') +
-      colors.dim(' to show help')
+    c.dim(c.green('  ➜')) +
+      c.dim('  press ') +
+      c.bold('h') +
+      c.dim(' to show help')
   )
 
   let actionRunning = false
@@ -42,12 +43,12 @@ export function bindShortcuts(
       server.config.logger.info(
         [
           '',
-          colors.bold('  Shortcuts'),
+          c.bold('  Shortcuts'),
           ...SHORTCUTS.map(
             (shortcut) =>
-              colors.dim('  press ') +
-              colors.bold(shortcut.key) +
-              colors.dim(` to ${shortcut.description}`)
+              c.dim('  press ') +
+              c.bold(shortcut.key) +
+              c.dim(` to ${shortcut.description}`)
           )
         ].join('\n')
       )
@@ -75,6 +76,11 @@ const SHORTCUTS: CLIShortcut[] = [
     key: 'r',
     description: 'restart the server',
     async action(server, createDevServer) {
+      server.config.logger.info(c.green(`restarting server...\n`), {
+        clear: true,
+        timestamp: true
+      })
+      clearCache()
       await server.close()
       await createDevServer()
     }
