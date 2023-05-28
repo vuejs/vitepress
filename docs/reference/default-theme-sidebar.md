@@ -93,6 +93,36 @@ export default {
 }
 ```
 
+### basePath
+You can use `basePath` option to specify the base path for all links in inside items. This is useful to write shorter links and will assist for future changes to the site structure.
+::: warning
+`basePath` will only trickle one level down. If you have nested items, you will need to specify `basePath` for each section.
+:::
+```js
+export default {
+  themeConfig: {
+    sidebar: [
+      {
+        text: 'Section Title A',
+        basePath: '/section-a/',
+        items: [
+          { text: 'Item A', link: 'item-a' }, // Link will be `/section-a/item-a`
+          { text: 'Item B', link: 'item-b' }, // Link will be `/section-a/item-b`
+        ]
+      },
+      {
+        text: 'Section Title B',
+        basePath: '/section-b/',
+        items: [
+          { text: 'Item C', link: 'item-c' }, // Link will be `/section-b/item-c`
+          { text: 'Item D', link: 'item-d' }, // Link will be `/section-b/item-d`
+        ]
+      }
+    ]
+  }
+}
+```
+
 ## Multiple Sidebars
 
 You may show different sidebar depending on the page path. For example, as shown on this site, you might want to create a separate sections of content in your documentation like "Guide" page and "Config" page.

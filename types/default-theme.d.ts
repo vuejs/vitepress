@@ -195,6 +195,13 @@ export namespace DefaultTheme {
     link?: string
 
     /**
+     * The base path of the item.
+     * It will be combined with the `link` field of the current section.
+     * This will not trickle down to nested items.
+     */
+    basePath?: string
+
+    /**
      * The children of the item.
      */
     items?: SidebarItem[]

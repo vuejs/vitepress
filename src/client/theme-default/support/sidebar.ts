@@ -72,14 +72,18 @@ export function getFlatSideBarLinks(
 ): SidebarLink[] {
   const links: SidebarLink[] = []
 
-  function recursivelyExtractLinks(items: DefaultTheme.SidebarItem[]) {
+  function recursivelyExtractLinks(
+    items: DefaultTheme.SidebarItem[],
+    basePath?: string
+  ) {
     for (const item of items) {
       if (item.text && item.link) {
-        links.push({ text: item.text, link: item.link })
+        const itemLink = basePath ? `${basePath}${item.link}` : item.link
+        links.push({ text: item.text, link: itemLink })
       }
 
       if (item.items) {
-        recursivelyExtractLinks(item.items)
+        recursivelyExtractLinks(item.items, item.basePath)
       }
     }
   }
