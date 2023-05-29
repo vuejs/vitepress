@@ -195,7 +195,7 @@ debouncedWatch(
             content += html
             next = next.next()
           }
-          map.set(anchor, content)
+          map!.set(anchor as string, content)
         })
       }
       if (canceled) return
