@@ -185,7 +185,7 @@ debouncedWatch(
         app.unmount()
         const headings = $('h1, h2, h3, h4, h5, h6')
         headings.each((_, el) => {
-          const anchor = $(el).find('a').attr('href')?.substr(1)
+          const anchor = $(el).find('a').attr('href')?.slice(1)
           let next = $(el).next()
           let content = ''
           while (next.length && next[0].name !== el.name) {
