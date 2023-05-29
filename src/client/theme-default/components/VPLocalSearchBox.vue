@@ -26,6 +26,7 @@ import {
   watchEffect,
   type Ref
 } from 'vue'
+import cheerio from 'cheerio'
 import type { ModalTranslations } from '../../../../types/local-search'
 import { dataSymbol } from '../../app/data'
 import { pathToFile } from '../../app/utils'
@@ -119,8 +120,6 @@ watchEffect(() => {
 
 const results: Ref<(SearchResult & Result)[]> = shallowRef([])
 
-const headingRegex = /<h(\d*).*?>.*?<a.*? href="#(.*?)".*?>.*?<\/a><\/h\1>/gi
-
 const enableNoResults = ref(false)
 
 watch(filterText, () => {
@@ -182,14 +181,22 @@ debouncedWatch(
         })
         const div = document.createElement('div')
         app.mount(div)
-        const sections = div.innerHTML.split(headingRegex)
+        const $ = cheerio.load(div.innerHTML)
         app.unmount()
-        sections.shift()
-        for (let i = 0; i < sections.length; i += 3) {
-          const anchor = sections[i + 1]
-          const html = sections[i + 2]
-          map.set(anchor, html)
-        }
+        const headings = $('h1, h2, h3, h4, h5, h6')
+        headings.each((_, el) => {
+          const anchor = $(el).find('a').attr('href')?.substr(1)
+          let next = $(el).next()
+          let content = ''
+          while (next.length && next[0].name !== el.name) {
+            const html = `<${next[0].name} class="${
+                next[0].attribs.class
+            }">${next.html()}</${next[0].name}>`
+            content += html
+            next = next.next()
+          }
+          map.set(anchor, content)
+        })
       }
       if (canceled) return
     }
