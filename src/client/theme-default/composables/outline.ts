@@ -1,11 +1,13 @@
-import type { DefaultTheme } from 'vitepress/theme'
-import { onMounted, onUnmounted, onUpdated, type Ref } from 'vue'
-import type { Header } from '../../shared'
-import { useAside } from '../composables/aside'
+import { onUnmounted, watch } from 'vue'
+import { onContentUpdated } from 'vitepress'
 import { throttleAndDebounce } from '../support/utils'
+import { useAside } from '../composables/aside'
 
-// magic number to avoid repeated retrieval
-const PAGE_OFFSET = 71
+import { type Ref } from 'vue'
+import { type DefaultTheme } from 'vitepress/theme'
+import { type Header } from '../../shared'
+
+const PAGE_OFFSET = 48
 
 export type MenuItem = Omit<Header, 'slug' | 'children'> & {
   children?: MenuItem[]
@@ -104,75 +106,66 @@ export function useActiveAnchor(
 
   const onScroll = throttleAndDebounce(setActiveLink, 100)
 
+  const anchors: HTMLAnchorElement[] = []
+
   let prevActiveLink: HTMLAnchorElement | null = null
 
-  onMounted(() => {
-    requestAnimationFrame(setActiveLink)
-    window.addEventListener('scroll', onScroll)
-  })
+  watch(isAsideEnabled, (value) => (value ? reset : disable)())
 
-  onUpdated(() => {
-    // sidebar update means a route change
-    activateLink(location.hash)
-  })
+  onContentUpdated(() => isAsideEnabled.value && reset())
 
-  onUnmounted(() => {
-    window.removeEventListener('scroll', onScroll)
-  })
+  onUnmounted(disable)
 
-  function setActiveLink() {
-    if (!isAsideEnabled.value) {
-      return
-    }
+  function reset() {
+    disable()
+    anchors.length = 0
 
-    const links = [].slice.call(
-      container.value.querySelectorAll('.outline-link')
-    ) as HTMLAnchorElement[]
+    requestAnimationFrame(() => {
+      const links = Array.from(
+        container.value.querySelectorAll('.outline-link')
+      ) as HTMLAnchorElement[]
 
-    const anchors = [].slice
-      .call(document.querySelectorAll('.content .header-anchor'))
-      .filter((anchor: HTMLAnchorElement) => {
-        return links.some((link) => {
-          return link.hash === anchor.hash && anchor.offsetParent !== null
-        })
-      }) as HTMLAnchorElement[]
+      const anchorsAll = Array.from(
+        document.querySelectorAll('.content .header-anchor')
+      ) as HTMLAnchorElement[]
 
-    const scrollY = window.scrollY
-    const innerHeight = window.innerHeight
-    const offsetHeight = document.body.offsetHeight
-    const isBottom = Math.abs(scrollY + innerHeight - offsetHeight) < 1
+      anchors.push(
+        ...anchorsAll.filter(
+          (anchor) =>
+            anchor.offsetParent !== null &&
+            links.some((link) => link.hash === anchor.hash)
+        )
+      )
 
-    // page bottom - highlight last one
-    if (anchors.length && isBottom) {
-      activateLink(anchors[anchors.length - 1].hash)
-      return
-    }
-
-    for (let i = 0; i < anchors.length; i++) {
-      const anchor = anchors[i]
-      const nextAnchor = anchors[i + 1]
-
-      const [isActive, hash] = isAnchorActive(i, anchor, nextAnchor)
-
-      if (isActive) {
-        activateLink(hash)
+      if (anchors.length === 0) {
+        prevActiveLink = null
         return
       }
-    }
+
+      window.addEventListener('scroll', onScroll)
+      setActiveLink()
+    })
   }
 
-  function activateLink(hash: string | null) {
-    if (prevActiveLink) {
-      prevActiveLink.classList.remove('active')
+  function disable() {
+    window.removeEventListener('scroll', onScroll)
+  }
+
+  function setActiveLink() {
+    const hash = getActiveAnchor(anchors)?.hash || ''
+    const prev = prevActiveLink?.hash || ''
+
+    if (hash === prev) {
+      return
     }
 
-    if (hash !== null) {
-      prevActiveLink = container.value.querySelector(
-        `a[href="${decodeURIComponent(hash)}"]`
-      )
-    }
+    prevActiveLink?.classList.remove('active')
 
-    const activeLink = prevActiveLink
+    const activeLink = hash
+      ? (container.value.querySelector(
+          `a[href="${decodeURIComponent(hash)}"]`
+        ) as HTMLAnchorElement)
+      : null
 
     if (activeLink) {
       activeLink.classList.add('active')
@@ -182,31 +175,34 @@ export function useActiveAnchor(
       marker.value.style.top = '33px'
       marker.value.style.opacity = '0'
     }
+
+    prevActiveLink = activeLink
   }
 }
 
-function getAnchorTop(anchor: HTMLAnchorElement): number {
+function getAnchorTop(anchor: HTMLAnchorElement) {
   return anchor.parentElement!.offsetTop - PAGE_OFFSET
 }
 
-function isAnchorActive(
-  index: number,
-  anchor: HTMLAnchorElement,
-  nextAnchor: HTMLAnchorElement | undefined
-): [boolean, string | null] {
+function getActiveAnchor(anchors: HTMLAnchorElement[]) {
   const scrollTop = window.scrollY
 
-  if (index === 0 && scrollTop === 0) {
-    return [true, null]
+  if (scrollTop < getAnchorTop(anchors[0])) {
+    return null
   }
 
-  if (scrollTop < getAnchorTop(anchor)) {
-    return [false, null]
+  for (let i = 0; i < anchors.length; i++) {
+    const anchor = anchors[i]
+    const nextAnchor = anchors[i + 1]
+
+    if (!nextAnchor || scrollTop < getAnchorTop(nextAnchor)) {
+      const innerHeight = window.innerHeight
+      const offsetHeight = document.body.offsetHeight
+      const isBottom = Math.abs(scrollTop + innerHeight - offsetHeight) < 1
+
+      return isBottom ? anchors[anchors.length - 1] : anchor
+    }
   }
 
-  if (!nextAnchor || scrollTop < getAnchorTop(nextAnchor)) {
-    return [true, anchor.hash]
-  }
-
-  return [false, null]
+  return null
 }
