@@ -32,7 +32,7 @@ export function useAside() {
     scrollY
   }
 
-  function onScroll(e) {
+  function onScroll(e: unknown) {
     scrollY.value = e.target.scrollTop
   }
 }
