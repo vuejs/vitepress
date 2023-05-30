@@ -26,7 +26,7 @@ const grid = computed(() => {
     return 'grid-3'
   } else if (length % 3 === 0) {
     return 'grid-6'
-  } else if (length % 2 === 0) {
+  } else if (length > 3) {
     return 'grid-4'
   }
 })
