@@ -30,7 +30,7 @@ const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)
  *    [{ line: number, classes: string[] }]
  */
 const attrsToLines = (attrs: string): HtmlRendererOptions['lineOptions'] => {
-  attrs = attrs.replace(/^(?:\[.*?\])?.*?([\d,-]+).*/, '$1').trim()
+  attrs.replace(/^.*\s([\d,-]+)$/, '$1').trim()
   const result: number[] = []
   if (!attrs) {
     return []
