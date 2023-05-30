@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { useWindowScroll } from '@vueuse/core'
 import { useSidebar } from '../composables/sidebar'
+import { useAside } from '../composables/aside'
 import VPNavBarTitle from './VPNavBarTitle.vue'
 import VPNavBarSearch from './VPNavBarSearch.vue'
 import VPNavBarMenu from './VPNavBarMenu.vue'
@@ -19,12 +20,13 @@ defineEmits<{
   (e: 'toggle-screen'): void
 }>()
 
-const { y } = useWindowScroll()
+const windowScroll = useWindowScroll()
+const aside = useAside()
 const { hasSidebar } = useSidebar()
 
 const classes = computed(() => ({
   'has-sidebar': hasSidebar.value,
-  fill: y.value > 0
+  fill: windowScroll.y.value > 0 || aside.scrollY.value > 0
 }))
 </script>
 
