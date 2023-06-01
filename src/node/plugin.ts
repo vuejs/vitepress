@@ -15,7 +15,11 @@ import {
   resolveAliases
 } from './alias'
 import { resolveUserConfig, resolvePages, type SiteConfig } from './config'
-import { clearCache, createMarkdownToVueRenderFn } from './markdownToVue'
+import {
+  clearCache,
+  createMarkdownToVueRenderFn,
+  type MarkdownCompileResult
+} from './markdownToVue'
 import { slash, type PageDataPayload } from './shared'
 import { staticDataPlugin } from './plugins/staticDataPlugin'
 import { webFontsPlugin } from './plugins/webFontsPlugin'
@@ -94,7 +98,7 @@ export async function createVitePressPlugin(
   }
 
   let siteData = site
-  let hasDeadLinks = false
+  let allDeadLinks: MarkdownCompileResult['deadLinks'] = []
   let config: ResolvedConfig
 
   const vitePressPlugin: Plugin = {
@@ -184,9 +188,7 @@ export async function createVitePressPlugin(
           id,
           config.publicDir
         )
-        if (deadLinks.length) {
-          hasDeadLinks = true
-        }
+        allDeadLinks.push(...deadLinks)
         if (includes.length) {
           includes.forEach((i) => {
             this.addWatchFile(i)
@@ -197,8 +199,22 @@ export async function createVitePressPlugin(
     },
 
     renderStart() {
-      if (hasDeadLinks) {
-        throw new Error(`One or more pages contain dead links.`)
+      if (allDeadLinks.length > 0) {
+        allDeadLinks.forEach(({ url, file }, i) => {
+          siteConfig.logger.warn(
+            c.yellow(
+              `${i === 0 ? '\n\n' : ''}(!) Found dead link ${c.cyan(
+                url
+              )} in file ${c.white(c.dim(file))}`
+            )
+          )
+        })
+        siteConfig.logger.info(
+          c.cyan(
+            '\nIf this is expected, you can disable this check via config. Refer: https://vitepress.dev/reference/site-config#ignoredeadlinks\n'
+          )
+        )
+        throw new Error(`${allDeadLinks.length} dead link(s) found.`)
       }
     },
 

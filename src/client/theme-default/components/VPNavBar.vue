@@ -175,6 +175,12 @@ const classes = computed(() => ({
   }
 }
 
+@media (max-width: 768px) {
+  .content-body {
+    column-gap: 0.5rem;
+  }
+}
+
 .menu + .translations::before,
 .menu + .appearance::before,
 .menu + .social-links::before,

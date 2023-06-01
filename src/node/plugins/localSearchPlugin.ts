@@ -4,8 +4,8 @@ import MiniSearch from 'minisearch'
 import fs from 'fs-extra'
 import _debug from 'debug'
 import type { SiteConfig } from '../config'
-import { createMarkdownRenderer } from '../markdown/markdown'
 import type { MarkdownEnv } from '../markdown'
+import { createMarkdownRenderer } from '../markdown'
 import { resolveSiteDataByRoute, slash } from '../shared'
 
 const debug = _debug('vitepress:local-search')
@@ -71,7 +71,7 @@ export async function localSearchPlugin(
   }
 
   function getLocaleForPath(file: string) {
-    const relativePath = path.relative(siteConfig.srcDir, file)
+    const relativePath = slash(path.relative(siteConfig.srcDir, file))
     const siteData = resolveSiteDataByRoute(siteConfig.site, relativePath)
     return siteData?.localeIndex ?? 'root'
   }
@@ -108,7 +108,7 @@ export async function localSearchPlugin(
   function getDocId(file: string) {
     let relFile = slash(path.relative(siteConfig.srcDir, file))
     relFile = siteConfig.rewrites.map[relFile] || relFile
-    let id = path.join(siteConfig.site.base, relFile)
+    let id = slash(path.join(siteConfig.site.base, relFile))
     id = id.replace(/\/index\.md$/, '/')
     id = id.replace(/\.md$/, siteConfig.cleanUrls ? '' : '.html')
     return id

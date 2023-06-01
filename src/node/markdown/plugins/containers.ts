@@ -3,9 +3,13 @@ import type { RenderRule } from 'markdown-it/lib/renderer'
 import type Token from 'markdown-it/lib/token'
 import container from 'markdown-it-container'
 import { nanoid } from 'nanoid'
-import { extractTitle } from './preWrapper'
+import {
+  extractTitle,
+  getAdaptiveThemeMarker,
+  type Options
+} from './preWrapper'
 
-export const containerPlugin = (md: MarkdownIt) => {
+export const containerPlugin = (md: MarkdownIt, options: Options) => {
   md.use(...createContainer('tip', 'TIP', md))
     .use(...createContainer('info', 'INFO', md))
     .use(...createContainer('warning', 'WARNING', md))
@@ -20,7 +24,7 @@ export const containerPlugin = (md: MarkdownIt) => {
       render: (tokens: Token[], idx: number) =>
         tokens[idx].nesting === 1 ? `<div class="vp-raw">\n` : `</div>\n`
     })
-    .use(...createCodeGroup())
+    .use(...createCodeGroup(options))
 }
 
 type ContainerArgs = [typeof container, string, { render: RenderRule }]
@@ -51,7 +55,7 @@ function createContainer(
   ]
 }
 
-function createCodeGroup(): ContainerArgs {
+function createCodeGroup(options: Options): ContainerArgs {
   return [
     container,
     'code-group',
@@ -82,7 +86,9 @@ function createCodeGroup(): ContainerArgs {
             }
           }
 
-          return `<div class="vp-code-group"><div class="tabs">${tabs}</div><div class="blocks">\n`
+          return `<div class="vp-code-group${getAdaptiveThemeMarker(
+            options
+          )}"><div class="tabs">${tabs}</div><div class="blocks">\n`
         }
         return `</div></div>\n`
       }

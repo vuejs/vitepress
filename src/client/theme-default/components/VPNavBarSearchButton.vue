@@ -61,7 +61,7 @@ defineProps<{
   align-items: center;
   margin: 0;
   padding: 0;
-  width: 32px;
+  width: 48px;
   height: 55px;
   background: transparent;
   transition: border-color 0.25s;
