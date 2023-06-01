@@ -176,24 +176,27 @@ Setting this value to `left` renders the aside to the left.
 
 ## outline
 
-- Type: `number | [number, number] | 'deep' | false`
-- Default: `2`
+- Type: `Outline | Outline['level'] | false`
+- Default: `{label: 'On this page', level: 2}`
 - Can be overridden per page via [frontmatter](./frontmatter-config#outline)
 
-The levels of header to display in the outline. You can specify a particular level by passing a number, or you can provide a level range by passing a tuple containing the bottom and upper limits. When passing `'deep'` which equals `[2, 6]`, all header levels are shown in the outline except `h1`. Set `false` to hide outline.
-
-## outlineTitle
-
-- Type: `string`
-- Default: `On this page`
-
-Can be used to customize the title of the right sidebar (on the top of outline links). This is useful when writing documentation in another language.
+Can be used to customize the title (on top of outline links) and the levels of the right sidebar. This is useful when writing documentation in another language. You can specify a particular level by passing a number, or you can provide a level range by passing a tuple containing the bottom and upper limits. When passing `'deep'` which equals `[2, 6]`, all header levels are shown in the outline except `h1`. Set `false` to hide outline.
 
 ```js
 export default {
   themeConfig: {
-    outlineTitle: 'In hac pagina'
+    outline: {
+      label: 'In hac pagina',
+      level: [2, 4]
+    }
   }
+}
+```
+
+```ts
+export interface Outline {
+  level?: number | [number, number] | 'deep'
+  label?: string
 }
 ```
 
