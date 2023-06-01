@@ -21,11 +21,13 @@ export function useAside() {
     if (container == null) return
     scrollY.value = container.scrollTop
     container.addEventListener('scroll', onScroll)
-  });
+  })
 
   onUnmounted(() => {
-    document.querySelector('.aside-container')?.removeEventListener('scroll', onScroll)
-  });
+    document
+      .querySelector('.aside-container')
+      ?.removeEventListener('scroll', onScroll)
+  })
 
   return {
     isAsideEnabled,
