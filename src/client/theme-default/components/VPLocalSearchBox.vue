@@ -187,15 +187,15 @@ debouncedWatch(
         headings.each((_, el) => {
           const anchor = $(el).find('a').attr('href')?.slice(1)
           let next = $(el).next()
-          let content = ''
+          let html = ''
           while (next.length && next[0].name !== el.name) {
-            const html = `<${next[0].name} class="${
+            const nonHTagHtml = `<${next[0].name} class="${
                 next[0].attribs.class
             }">${next.html()}</${next[0].name}>`
-            content += html
+            html += nonHTagHtml
             next = next.next()
           }
-          map!.set(anchor as string, content)
+          anchor && map!.set(anchor as string, html)
         })
       }
       if (canceled) return
