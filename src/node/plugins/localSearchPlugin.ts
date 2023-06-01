@@ -4,7 +4,7 @@ import MiniSearch from 'minisearch'
 import fs from 'fs-extra'
 import _debug from 'debug'
 import type { SiteConfig } from '../config'
-import { createMarkdownRenderer } from '../markdown/markdown'
+import { createMarkdownRenderer } from '../markdown'
 import { resolveSiteDataByRoute, slash } from '../shared'
 
 const debug = _debug('vitepress:local-search')
