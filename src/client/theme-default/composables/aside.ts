@@ -1,4 +1,4 @@
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUpdated, onUnmounted, ref } from 'vue'
 import { useMediaQuery } from '@vueuse/core'
 import { useSidebar } from './sidebar'
 
@@ -6,7 +6,7 @@ export function useAside() {
   const { hasSidebar } = useSidebar()
   const is960 = useMediaQuery('(min-width: 960px)')
   const is1280 = useMediaQuery('(min-width: 1280px)')
-  const scrollY = ref<number>(0)
+  const asideScrollY = ref<number>(0)
 
   const isAsideEnabled = computed(() => {
     if (!is1280.value && !is960.value) {
@@ -16,13 +16,8 @@ export function useAside() {
     return hasSidebar.value ? is1280.value : is960.value
   })
 
-  onMounted(() => {
-    const container = document.querySelector('.aside-container')
-    if (container == null) return
-    scrollY.value = container.scrollTop
-    container.addEventListener('scroll', onScroll)
-  })
-
+  onMounted(listenScroll)
+  onUpdated(listenScroll)
   onUnmounted(() => {
     document
       .querySelector('.aside-container')
@@ -31,10 +26,18 @@ export function useAside() {
 
   return {
     isAsideEnabled,
-    scrollY
+    asideScrollY
+  }
+
+  function listenScroll() {
+    const container = document.querySelector('.aside-container')
+    if (container == null) return
+    asideScrollY.value = container.scrollTop
+    container.removeEventListener('scroll', onScroll)
+    container.addEventListener('scroll', onScroll)
   }
 
   function onScroll(e: any) {
-    scrollY.value = e.target.scrollTop
+    asideScrollY.value = e.target.scrollTop
   }
 }

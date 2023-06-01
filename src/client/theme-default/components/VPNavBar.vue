@@ -21,12 +21,12 @@ defineEmits<{
 }>()
 
 const windowScroll = useWindowScroll()
-const aside = useAside()
+const { asideScrollY } = useAside()
 const { hasSidebar } = useSidebar()
 
 const classes = computed(() => ({
   'has-sidebar': hasSidebar.value,
-  fill: windowScroll.y.value > 0 || aside.scrollY.value > 0
+  fill: windowScroll.y.value > 0 || asideScrollY.value > 0
 }))
 </script>
 
