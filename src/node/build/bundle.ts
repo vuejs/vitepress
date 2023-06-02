@@ -12,6 +12,7 @@ import { APP_PATH } from '../alias'
 import type { SiteConfig } from '../config'
 import { createVitePressPlugin } from '../plugin'
 import { escapeRegExp, sanitizeFileName, slash } from '../shared'
+import { normalizeAssetUrl } from '../utils/assetsBase'
 import { task } from '../utils/task'
 import { buildMPAClient } from './buildMPAClient'
 
@@ -82,6 +83,24 @@ export async function bundle(
     ),
     ssr: {
       noExternal: ['vitepress', '@docsearch/css']
+    },
+    experimental: {
+      renderBuiltUrl: (filename, type) => {
+        let result: string | undefined
+
+        if (type.type === 'asset') {
+          result = normalizeAssetUrl(config.site, filename)
+        }
+
+        if (config.vite?.experimental?.renderBuiltUrl) {
+          return (
+            config.vite.experimental.renderBuiltUrl(result ?? filename, type) ??
+            result
+          )
+        }
+
+        return result
+      }
     },
     build: {
       ...options,
