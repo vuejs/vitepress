@@ -133,6 +133,10 @@ Custom containers can be defined by their types, titles, and contents.
 **Input**
 
 ```md
+::: intro
+This is an introduction paragraph.
+:::
+
 ::: info
 This is an info box.
 :::
@@ -155,6 +159,10 @@ This is a details block.
 ```
 
 **Output**
+
+::: intro
+This is an introduction paragraph.
+:::
 
 ::: info
 This is an info box.

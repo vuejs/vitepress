@@ -1,10 +1,15 @@
-.custom-block {
+.custom-block:not(.intro) {
   border: 1px solid transparent;
   border-radius: 8px;
   padding: 16px 16px 8px;
   line-height: 24px;
   font-size: var(--vp-custom-block-font-size);
   color: var(--vp-c-text-2);
+}
+
+.custom-block.custom-block.intro p {
+  font-size: var(--vp-custom-block-intro-font-size);
+  line-height: var(--vp-custom-block-intro-line-height);
 }
 
 .custom-block.info {

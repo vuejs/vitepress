@@ -36,6 +36,10 @@
 
 ### Default Title
 
+::: intro
+This is an introduction paragraph.
+:::
+
 ::: info
 This is an info box.
 :::

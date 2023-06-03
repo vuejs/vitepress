@@ -69,6 +69,7 @@ describe('Table of Contents', () => {
 
 describe('Custom Containers', () => {
   enum CustomBlocks {
+    Intro = 'INTRO',
     Info = 'INFO',
     Tip = 'TIP',
     Warning = 'WARNING',
@@ -77,6 +78,7 @@ describe('Custom Containers', () => {
   }
 
   const classnameMap = {
+    [CustomBlocks.Intro]: 'intro',
     [CustomBlocks.Info]: 'info',
     [CustomBlocks.Tip]: 'tip',
     [CustomBlocks.Warning]: 'warning',
@@ -87,6 +89,8 @@ describe('Custom Containers', () => {
   const getTitleText = (locator: Locator, type: CustomBlocks) => {
     if (type === CustomBlocks.Details) {
       return locator.locator('summary').textContent()
+    } else if (type === CustomBlocks.Intro) {
+      return type
     } else {
       return locator.locator('.custom-block-title').textContent()
     }

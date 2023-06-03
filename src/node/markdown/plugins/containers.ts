@@ -15,6 +15,7 @@ export const containerPlugin = (md: MarkdownIt, options: Options) => {
     .use(...createContainer('warning', 'WARNING', md))
     .use(...createContainer('danger', 'DANGER', md))
     .use(...createContainer('details', 'Details', md))
+    .use(...createContainer('intro', 'INTRO', md))
     // explicitly escape Vue syntax
     .use(container, 'v-pre', {
       render: (tokens: Token[], idx: number) =>
@@ -46,6 +47,11 @@ function createContainer(
           if (klass === 'details') {
             return `<details class="${klass} custom-block"><summary>${title}</summary>\n`
           }
+
+          if (klass === 'intro') {
+            return `<div class="${klass} custom-block">\n`
+          }
+
           return `<div class="${klass} custom-block"><p class="custom-block-title">${title}</p>\n`
         } else {
           return klass === 'details' ? `</details>\n` : `</div>\n`

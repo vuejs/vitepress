@@ -315,6 +315,9 @@
   --vp-custom-block-font-size: 14px;
   --vp-custom-block-code-font-size: 13px;
 
+  --vp-custom-block-intro-font-size: 20px;
+  --vp-custom-block-intro-line-height: 32px;
+
   --vp-custom-block-info-border: var(--vp-c-border);
   --vp-custom-block-info-text: var(--vp-c-text-2);
   --vp-custom-block-info-bg: var(--vp-c-bg-soft-up);
