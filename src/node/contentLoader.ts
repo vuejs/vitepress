@@ -1,4 +1,4 @@
-import fs from 'fs'
+import fs from 'fs-extra'
 import path from 'path'
 import glob from 'fast-glob'
 import type { SiteConfig } from './config'

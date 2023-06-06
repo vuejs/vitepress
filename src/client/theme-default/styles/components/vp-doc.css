@@ -491,7 +491,7 @@
   z-index: 2;
   font-size: 12px;
   font-weight: 500;
-  color: var(--vp-c-text-dark-3);
+  color: var(--vp-c-code-dimm);
   transition: color 0.4s, opacity 0.4s;
 }
 

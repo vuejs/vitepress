@@ -1,6 +1,6 @@
 import { resolveTitleFromToken } from '@mdit-vue/shared'
 import _debug from 'debug'
-import fs from 'fs'
+import fs from 'fs-extra'
 import { LRUCache } from 'lru-cache'
 import path from 'path'
 import type { SiteConfig } from './config'
@@ -183,7 +183,8 @@ export async function createMarkdownToVueRenderFn(
       frontmatter,
       headers,
       params,
-      relativePath
+      relativePath,
+      filePath: slash(path.relative(srcDir, fileOrig))
     }
 
     if (includeLastUpdatedData) {

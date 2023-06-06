@@ -1,3 +1,60 @@
+# [1.0.0-beta.1](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.76...v1.0.0-beta.1) (2023-05-22)
+
+
+### Bug Fixes
+
+* **config:** set scrollOffset to 0 is not effect ([#2395](https://github.com/vuejs/vitepress/issues/2395)) ([8153f23](https://github.com/vuejs/vitepress/commit/8153f23c901a6200661813e65f0d8eb602ad46da))
+* **theme:** features section layout is not consistent ([#2382](https://github.com/vuejs/vitepress/issues/2382)) ([26f21d9](https://github.com/vuejs/vitepress/commit/26f21d95dfbd671477d425e6b8ac5b0172a846ac))
+* **theme:** some global properties in localSearch are missing ([#2396](https://github.com/vuejs/vitepress/issues/2396)) ([4896811](https://github.com/vuejs/vitepress/commit/489681117f46a803704b6ec80546a5e787e19df2))
+* **theme:** custom target and rel in navbar links for mobile is missing ([#2400](https://github.com/vuejs/vitepress/issues/2400)) ([f364a5d](https://github.com/vuejs/vitepress/commit/f364a5d1d3c066c9728beb5d07576d6cb4b0640d))
+
+
+
+# [1.0.0-alpha.76](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.75...v1.0.0-alpha.76) (2023-05-18)
+
+
+### Bug Fixes
+
+* **a11y:** mobile and theme switcher ([#2354](https://github.com/vuejs/vitepress/issues/2354)) ([d6c0985](https://github.com/vuejs/vitepress/commit/d6c0985002ee792b1e8e052f71cdd6bd72c315ad))
+* **build:** uniform handling of windows slash in localSearchPlugin ([#2358](https://github.com/vuejs/vitepress/issues/2358)) ([b31933f](https://github.com/vuejs/vitepress/commit/b31933fbdd7aabfe080234407153aefa8f6a3f30))
+* hmr when `base` is set ([#2375](https://github.com/vuejs/vitepress/issues/2375)) ([484ff5d](https://github.com/vuejs/vitepress/commit/484ff5dd4bd2e5c2d5168437895d400a39f2bfa8))
+* **theme:** don't update opacity on hover ([#2326](https://github.com/vuejs/vitepress/issues/2326)) ([35f8b89](https://github.com/vuejs/vitepress/commit/35f8b896372e75e62882df613a49e8945e7bc832))
+
+
+### Features
+
+* **cli:** add shortcuts ([#2353](https://github.com/vuejs/vitepress/issues/2353)) ([97065ce](https://github.com/vuejs/vitepress/commit/97065cefc22e4772c0295c5ad23a87eea286f46b))
+* **theme:** add focus trap to local search dialog ([#2324](https://github.com/vuejs/vitepress/issues/2324)) ([2f482af](https://github.com/vuejs/vitepress/commit/2f482afaabdb4206b87e2453d0099257693c4653))
+* **theme:** open search box on pressing slash too ([#2328](https://github.com/vuejs/vitepress/issues/2328)) ([c20bd28](https://github.com/vuejs/vitepress/commit/c20bd283319158135e2d850485970dfc5fe82812))
+
+
+
+# [1.0.0-alpha.75](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.74...v1.0.0-alpha.75) (2023-04-30)
+
+
+### Bug Fixes
+
+* **build:** reset regex lastIndex before testing ([188893c](https://github.com/vuejs/vitepress/commit/188893c2c1569e332e8776581cfa40b4c5f1168e))
+* **cli/init:** remove trailing slash from npm scripts ([64ecedc](https://github.com/vuejs/vitepress/commit/64ecedc73f3e7010de85381d946af1c95404820e))
+* **theme:** hide local nav on home page ([f07587a](https://github.com/vuejs/vitepress/commit/f07587af8a51f92a5ec491e5789dd088e28067b5)), closes [#2312](https://github.com/vuejs/vitepress/issues/2312)
+* **theme:** local search get 404 on build when use route rewrites in windows ([#2301](https://github.com/vuejs/vitepress/issues/2301)) ([494c634](https://github.com/vuejs/vitepress/commit/494c634eb1d77963e555a736fa057dcb23700989))
+* **theme:** vitepress data not properly injected in app when use localSearch ([#2299](https://github.com/vuejs/vitepress/issues/2299)) ([69c7646](https://github.com/vuejs/vitepress/commit/69c7646dafe7a774e0717e032f697b008d9cf7aa))
+
+
+### Features
+
+* add `filePath` to `PageData` ([#2140](https://github.com/vuejs/vitepress/issues/2140)) ([b24acc6](https://github.com/vuejs/vitepress/commit/b24acc6991570aa054a99b8d3977b8b4d0255418))
+* **build:** allow using `@` prefix with `@include` ([#2292](https://github.com/vuejs/vitepress/issues/2292)) ([a3b38d1](https://github.com/vuejs/vitepress/commit/a3b38d18824343fd5b571a7a9a5d2c4ccf29e8e1))
+* preserve user log level ([#2310](https://github.com/vuejs/vitepress/issues/2310)) ([a647cd3](https://github.com/vuejs/vitepress/commit/a647cd384320101f6df31e03960dd2c40808c49c))
+* **theme:** support light shiki themes ([#2319](https://github.com/vuejs/vitepress/issues/2319)) ([d0f0012](https://github.com/vuejs/vitepress/commit/d0f0012aea4cc71fb28f60f2dd649c23aae146b8))
+
+
+### BREAKING CHANGES
+
+* **theme:** Styling for code blocks might break, especially if you were earlier overriding it for light theme. Those workarounds are no longer required. VitePress will now show code blocks and groups in light mode too if a light shiki theme is specified.
+
+
+
 # [1.0.0-alpha.74](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.73...v1.0.0-alpha.74) (2023-04-24)
 
 

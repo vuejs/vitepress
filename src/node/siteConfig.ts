@@ -7,7 +7,7 @@ import {
   type SiteData,
   type SSGContext
 } from './shared'
-import type { MarkdownOptions } from './markdown/markdown'
+import type { MarkdownOptions } from './markdown'
 import type { Options as VuePluginOptions } from '@vitejs/plugin-vue'
 import { type Logger, type UserConfig as ViteConfig } from 'vite'
 

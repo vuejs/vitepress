@@ -1,5 +1,6 @@
-import { DocSearchProps } from './docsearch.js'
-import { LocalSearchTranslations } from './local-search.js'
+import type { DocSearchProps } from './docsearch.js'
+import type { LocalSearchTranslations } from './local-search.js'
+import type { PageData } from './shared.js'
 
 export namespace DefaultTheme {
   export interface Config {
@@ -215,8 +216,9 @@ export namespace DefaultTheme {
      * Pattern for edit link.
      *
      * @example 'https://github.com/vuejs/vitepress/edit/main/docs/:path'
+     * @example ({ filePath }) => { ... }
      */
-    pattern: string | ((payload: { relativePath: string }) => string)
+    pattern: string | ((payload: PageData) => string)
 
     /**
      * Custom text for edit link.
