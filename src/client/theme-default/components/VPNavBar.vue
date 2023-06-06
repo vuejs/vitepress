@@ -10,7 +10,6 @@ import VPNavBarAppearance from './VPNavBarAppearance.vue'
 import VPNavBarSocialLinks from './VPNavBarSocialLinks.vue'
 import VPNavBarExtra from './VPNavBarExtra.vue'
 import VPNavBarHamburger from './VPNavBarHamburger.vue'
-import { useData } from '../composables/data'
 
 defineProps<{
   isScreenOpen: boolean
@@ -20,14 +19,12 @@ defineEmits<{
   (e: 'toggle-screen'): void
 }>()
 
-const { frontmatter } = useData()
 const { y } = useWindowScroll()
 const { hasSidebar } = useSidebar()
 
 const classes = computed(() => ({
   'has-sidebar': hasSidebar.value,
-  fill: y.value > 0,
-  'not-home': frontmatter.value.layout !== 'home'
+  fill: y.value > 0
 }))
 </script>
 
