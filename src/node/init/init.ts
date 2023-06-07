@@ -159,6 +159,7 @@ export function scaffold({
 
   const dir =
     root === './' ? `` : ` ${root.replace(/^\.\//, '').replace(/[/\\]$/, '')}`
+  const gitignorePrefix = dir ? `${dir}/.vitepress` : '.vitepress'
 
   const pkgPath = path.resolve('package.json')
   const userPkg = fs.existsSync(pkgPath)
@@ -168,8 +169,9 @@ export function scaffold({
   const tips = []
   if (fs.existsSync('.git')) {
     tips.push(
-      `Make sure to add ${cyan(`.vitepress/dist`)} and ` +
-        `${cyan(`.vitepress/cache`)} to your ${cyan(`.gitignore`)} file.`
+      `Make sure to add ${cyan(`${gitignorePrefix}/dist`)} and ` +
+        `${cyan(`${gitignorePrefix}/cache`)} to your ` +
+        `${cyan(`.gitignore`)} file.`
     )
   }
   if (
