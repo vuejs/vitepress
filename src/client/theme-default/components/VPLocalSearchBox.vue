@@ -179,7 +179,7 @@ debouncedWatch(
         const div = document.createElement('div')
         app.mount(div)
         const headings = div.querySelectorAll('h1, h2, h3, h4, h5, h6')
-        const promises = Array.from(headings).map(async (el) => {
+        headings.forEach((el) => {
           const href = el.querySelector('a')?.getAttribute('href')
           const anchor = href?.startsWith('#') && href.slice(1)
           if (!anchor) return
@@ -188,7 +188,6 @@ debouncedWatch(
             html += el.outerHTML
           map!.set(anchor, html)
         })
-        await Promise.all(promises)
         app.unmount()
       }
       if (canceled) return
