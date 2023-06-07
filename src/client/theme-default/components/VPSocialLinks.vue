@@ -10,11 +10,11 @@ defineProps<{
 <template>
   <div class="VPSocialLinks">
     <VPSocialLink
-      v-for="{ link, icon, label } in links"
+      v-for="{ link, icon, ariaLabel } in links"
       :key="link"
       :icon="icon"
       :link="link"
-      :label="label"
+      :ariaLabel="ariaLabel"
     />
   </div>
 </template>

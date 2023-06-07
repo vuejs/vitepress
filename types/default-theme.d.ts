@@ -251,7 +251,7 @@ export namespace DefaultTheme {
   export interface SocialLink {
     icon: SocialLinkIcon
     link: string
-    label?: string
+    ariaLabel?: string
   }
 
   export type SocialLinkIcon =
