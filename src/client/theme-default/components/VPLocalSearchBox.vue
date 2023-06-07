@@ -159,7 +159,7 @@ debouncedWatch(
       map = new Map()
       c.set(mapId, map)
       const comp = mod.default ?? mod
-      if (comp?.render) {
+      if (comp?.render || comp?.setup) {
         const app = createApp(comp)
         // Silence warnings about missing components
         app.config.warnHandler = () => {}
