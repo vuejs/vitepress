@@ -13,6 +13,12 @@
   background-color: var(--vp-custom-block-info-bg);
 }
 
+.custom-block.custom-block th,
+.custom-block.custom-block blockquote > p {
+  font-size: var(--vp-custom-block-font-size);
+  color: inherit;
+}
+
 .custom-block.info code {
   background-color: var(--vp-custom-block-info-code-bg);
 }
@@ -78,12 +84,10 @@
 .custom-block a {
   color: inherit;
   font-weight: 600;
-  text-decoration: underline;
-  transition: opacity 0.25s;
 }
 
 .custom-block a:hover {
-  opacity: 0.6;
+  text-decoration: underline;
 }
 
 .custom-block code {

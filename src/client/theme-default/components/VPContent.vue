@@ -1,17 +1,13 @@
 <script setup lang="ts">
-import { useRoute } from 'vitepress'
-import { useData } from '../composables/data.js'
-import { useSidebar } from '../composables/sidebar.js'
+import { useData } from '../composables/data'
+import { useSidebar } from '../composables/sidebar'
 import VPPage from './VPPage.vue'
 import VPHome from './VPHome.vue'
 import VPDoc from './VPDoc.vue'
-import { inject } from 'vue'
+import NotFound from '../NotFound.vue'
 
-const route = useRoute()
-const { frontmatter } = useData()
+const { page, frontmatter } = useData()
 const { hasSidebar } = useSidebar()
-
-const NotFound = inject('NotFound')
 </script>
 
 <template>
@@ -23,9 +19,12 @@ const NotFound = inject('NotFound')
       'is-home': frontmatter.layout === 'home'
     }"
   >
-    <NotFound v-if="route.component === NotFound" />
+    <slot name="not-found" v-if="page.isNotFound"><NotFound /></slot>
 
-    <VPPage v-else-if="frontmatter.layout === 'page'" />
+    <VPPage v-else-if="frontmatter.layout === 'page'">
+      <template #page-top><slot name="page-top" /></template>
+      <template #page-bottom><slot name="page-bottom" /></template>
+    </VPPage>
 
     <VPHome v-else-if="frontmatter.layout === 'home'">
       <template #home-hero-before><slot name="home-hero-before" /></template>
@@ -37,6 +36,9 @@ const NotFound = inject('NotFound')
     </VPHome>
 
     <VPDoc v-else>
+      <template #doc-top><slot name="doc-top" /></template>
+      <template #doc-bottom><slot name="doc-bottom" /></template>
+
       <template #doc-footer-before><slot name="doc-footer-before" /></template>
       <template #doc-before><slot name="doc-before" /></template>
       <template #doc-after><slot name="doc-after" /></template>

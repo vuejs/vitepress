@@ -7,15 +7,24 @@ import {
   type UserConfig as ViteUserConfig
 } from 'vite'
 import type { GetModuleInfo, RollupOutput } from 'rollup'
-import { slash } from '../utils/slash'
 import type { SiteConfig } from '../config'
 import { APP_PATH } from '../alias'
 import { createVitePressPlugin } from '../plugin'
-import { sanitizeFileName } from '../shared'
+import { sanitizeFileName, slash } from '../shared'
 import { buildMPAClient } from './buildMPAClient'
+import { fileURLToPath } from 'url'
+import { normalizePath } from 'vite'
 
 export const okMark = '\x1b[32m✓\x1b[0m'
 export const failMark = '\x1b[31m✖\x1b[0m'
+
+// A list of default theme components that should only be loaded on demand.
+const lazyDefaultThemeComponentsRE =
+  /VP(HomeSponsors|DocAsideSponsors|TeamPage|TeamMembers|LocalSearchBox|AlgoliaSearchBox|CarbonAds|DocAsideCarbonAds)/
+
+const clientDir = normalizePath(
+  path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../client')
+)
 
 // bundles the VitePress app for both client AND server.
 export async function bundle(
@@ -48,7 +57,7 @@ export async function bundle(
     root: config.srcDir,
     cacheDir: config.cacheDir,
     base: config.site.base,
-    logLevel: 'warn',
+    logLevel: config.vite?.logLevel ?? 'warn',
     plugins: await createVitePressPlugin(
       config,
       ssr,
@@ -62,7 +71,15 @@ export async function bundle(
       ...options,
       emptyOutDir: true,
       ssr,
-      outDir: ssr ? config.tempDir : config.outDir,
+      // minify with esbuild in MPA mode (for CSS)
+      minify: ssr
+        ? config.mpa
+          ? 'esbuild'
+          : false
+        : typeof options.minify === 'boolean'
+        ? options.minify
+        : !process.env.DEBUG,
+      outDir: ssr ? config.tempDir : options.outDir || config.outDir,
       cssCodeSplit: false,
       rollupOptions: {
         ...rollupOptions,
@@ -92,24 +109,36 @@ export async function bundle(
                     : 'assets/chunks/[name].[hash].js'
                 },
                 manualChunks(id, ctx) {
+                  if (lazyDefaultThemeComponentsRE.test(id)) {
+                    return
+                  }
+                  if (id.startsWith(`${clientDir}/theme-default`)) {
+                    return 'theme'
+                  }
                   // move known framework code into a stable chunk so that
                   // custom theme changes do not invalidate hash for all pages
+                  if (id.startsWith('\0vite')) {
+                    return 'framework'
+                  }
                   if (id.includes('plugin-vue:export-helper')) {
                     return 'framework'
                   }
                   if (
+                    id.includes(`${clientDir}/app`) &&
+                    id !== `${clientDir}/app/index.js`
+                  ) {
+                    return 'framework'
+                  }
+                  if (
                     isEagerChunk(id, ctx.getModuleInfo) &&
-                    (/@vue\/(runtime|shared|reactivity)/.test(id) ||
-                      /vitepress\/dist\/client/.test(id))
+                    /@vue\/(runtime|shared|reactivity)/.test(id)
                   ) {
                     return 'framework'
                   }
                 }
               })
         }
-      },
-      // minify with esbuild in MPA mode (for CSS)
-      minify: ssr ? (config.mpa ? 'esbuild' : false) : !process.env.DEBUG
+      }
     }
   })
 
@@ -136,13 +165,15 @@ export async function bundle(
   if (config.mpa) {
     // in MPA mode, we need to copy over the non-js asset files from the
     // server build since there is no client-side build.
-    for (const chunk of serverResult.output) {
-      if (!chunk.fileName.endsWith('.js')) {
-        const tempPath = path.resolve(config.tempDir, chunk.fileName)
-        const outPath = path.resolve(config.outDir, chunk.fileName)
-        await fs.copy(tempPath, outPath)
-      }
-    }
+    await Promise.all(
+      serverResult.output.map(async (chunk) => {
+        if (!chunk.fileName.endsWith('.js')) {
+          const tempPath = path.resolve(config.tempDir, chunk.fileName)
+          const outPath = path.resolve(config.outDir, chunk.fileName)
+          await fs.copy(tempPath, outPath)
+        }
+      })
+    )
     // also copy over public dir
     const publicDir = path.resolve(config.srcDir, 'public')
     if (fs.existsSync(publicDir)) {
@@ -168,7 +199,7 @@ function isEagerChunk(id: string, getModuleInfo: GetModuleInfo) {
     !/\.css($|\\?)/.test(id) &&
     staticImportedByEntry(id, getModuleInfo, cache)
   ) {
-    return 'vendor'
+    return true
   }
 }
 

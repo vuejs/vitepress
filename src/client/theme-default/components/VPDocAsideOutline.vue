@@ -1,62 +1,43 @@
 <script setup lang="ts">
-import type { DefaultTheme } from 'vitepress/theme'
-import { computed, inject, ref, type Ref } from 'vue'
-import { useData } from '../composables/data.js'
+import { ref, shallowRef } from 'vue'
+import { useData } from '../composables/data'
 import {
   getHeaders,
+  resolveTitle,
   useActiveAnchor,
   type MenuItem
-} from '../composables/outline.js'
-import VPDocAsideOutlineItem from './VPDocAsideOutlineItem.vue'
+} from '../composables/outline'
+import VPDocOutlineItem from './VPDocOutlineItem.vue'
+import { onContentUpdated } from 'vitepress'
 
 const { frontmatter, theme } = useData()
 
-const pageOutline = computed<DefaultTheme.Config['outline']>(
-  () => frontmatter.value.outline ?? theme.value.outline
-)
+const headers = shallowRef<MenuItem[]>([])
 
-const onContentUpdated = inject('onContentUpdated') as Ref<() => void>
-onContentUpdated.value = () => {
-  headers.value = getHeaders(pageOutline.value, theme.value.outlineBadges)
-}
-
-const headers = ref<MenuItem[]>([])
-const hasOutline = computed(() => headers.value.length > 0)
+onContentUpdated(() => {
+  headers.value = getHeaders(
+    frontmatter.value.outline ?? theme.value.outline
+  )
+})
 
 const container = ref()
 const marker = ref()
 
 useActiveAnchor(container, marker)
-
-function handleClick({ target: el }: Event) {
-  const id = '#' + (el as HTMLAnchorElement).href!.split('#')[1]
-  const heading = document.querySelector<HTMLAnchorElement>(
-    decodeURIComponent(id)
-  )
-  heading?.focus()
-}
 </script>
 
 <template>
-  <div class="VPDocAsideOutline" :class="{ 'has-outline': hasOutline }" ref="container">
+  <div class="VPDocAsideOutline" :class="{ 'has-outline': headers.length > 0 }" ref="container">
     <div class="content">
       <div class="outline-marker" ref="marker" />
 
-      <div class="outline-title">
-        {{
-          (typeof theme.outline === 'object' &&
-            !Array.isArray(theme.outline) &&
-            theme.outline.label) ||
-          theme.outlineTitle ||
-          'On this page'
-        }}
-      </div>
+      <div class="outline-title">{{ resolveTitle(theme) }}</div>
 
       <nav aria-labelledby="doc-outline-aria-label">
         <span class="visually-hidden" id="doc-outline-aria-label">
           Table of Contents for current page
         </span>
-        <VPDocAsideOutlineItem :headers="headers" :root="true" :onClick="handleClick" />
+        <VPDocOutlineItem :headers="headers" :root="true" />
       </nav>
     </div>
   </div>

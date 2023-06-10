@@ -14,12 +14,12 @@ describe('render correct content', async () => {
       pLocator.allTextContents()
     ])
 
-    expect(h1Contents).toEqual(['Lorem Ipsum #'])
-    expect(h2Contents).toEqual([
-      'What is Lorem Ipsum? #',
-      'Where does it come from? #',
-      'Why do we use it? #',
-      'Where can I get some? #'
+    expect(h1Contents).toEqual(['Lorem Ipsum \u200b'])
+    expect(h2Contents.map((s) => s.trim())).toEqual([
+      'What is Lorem Ipsum? \u200b',
+      'Where does it come from? \u200b',
+      'Why do we use it? \u200b',
+      'Where can I get some? \u200b'
     ])
     expect(pContents).toMatchSnapshot()
   })

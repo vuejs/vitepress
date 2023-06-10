@@ -1,5 +1,5 @@
 import compression from 'compression'
-import fs from 'fs'
+import fs from 'fs-extra'
 import path from 'path'
 import polka, { type IOptions } from 'polka'
 import sirv, { type RequestHandler } from 'sirv'

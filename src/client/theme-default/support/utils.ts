@@ -1,8 +1,6 @@
 import { withBase } from 'vitepress'
-import { useData } from '../composables/data.js'
-import { isExternal, PATHNAME_PROTOCOL_RE } from '../../shared.js'
-
-export { isExternal, isActive } from '../../shared.js'
+import { useData } from '../composables/data'
+import { isExternal, PATHNAME_PROTOCOL_RE } from '../../shared'
 
 export function throttleAndDebounce(fn: () => void, delay: number): () => void {
   let timeoutId: NodeJS.Timeout

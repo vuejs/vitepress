@@ -1,0 +1,9 @@
+---
+title: foo
+---
+
+Hello
+
+---
+
+world

@@ -46,7 +46,6 @@
   font-size: 14px;
   font-weight: 500;
   color: var(--vp-code-tab-text-color);
-  background-color: var(--vp-code-tab-bg);
   white-space: nowrap;
   cursor: pointer;
   transition: color 0.25s;
@@ -57,7 +56,7 @@
   right: 8px;
   bottom: -1px;
   left: 8px;
-  z-index: 10;
+  z-index: 1;
   height: 1px;
   content: '';
   background-color: transparent;

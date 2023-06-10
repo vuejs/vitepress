@@ -22,11 +22,11 @@ const sidebar: DefaultTheme.Config['sidebar'] = {
       ]
     },
     {
-      text: 'Static Data',
+      text: 'Data Loading',
       items: [
         {
           text: 'Test Page',
-          link: '/static-data/data'
+          link: '/data-loading/data'
         }
       ]
     },
@@ -49,6 +49,19 @@ const sidebar: DefaultTheme.Config['sidebar'] = {
         {
           text: 'Bar',
           link: '/dynamic-routes/bar'
+        }
+      ]
+    },
+    {
+      text: 'Markdown Extensions',
+      items: [
+        {
+          text: 'Test Page',
+          link: '/markdown-extensions/'
+        },
+        {
+          text: 'Foo',
+          link: '/markdown-extensions/foo'
         }
       ]
     }

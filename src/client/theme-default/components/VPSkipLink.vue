@@ -9,7 +9,7 @@ watch(() => route.path, () => backToTop.value.focus())
 
 function focusOnTargetAnchor({ target }: Event) {
   const el = document.querySelector<HTMLAnchorElement>(
-    (target as HTMLAnchorElement).hash
+    decodeURIComponent((target as HTMLAnchorElement).hash)
   )
 
   if (el) {
@@ -57,10 +57,6 @@ function focusOnTargetAnchor({ target }: Event) {
   width: auto;
   clip: auto;
   clip-path: none;
-}
-
-.dark .VPSkipLink {
-  color: var(--vp-c-green);
 }
 
 @media (min-width: 1280px) {

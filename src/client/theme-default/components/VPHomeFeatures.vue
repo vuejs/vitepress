@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useData } from '../composables/data.js'
+import { useData } from '../composables/data'
 import VPFeatures from './VPFeatures.vue'
 
 const { frontmatter: fm } = useData()

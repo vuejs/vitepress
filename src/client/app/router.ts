@@ -1,9 +1,9 @@
 import { reactive, inject, markRaw, nextTick, readonly } from 'vue'
 import type { Component, InjectionKey } from 'vue'
-import { notFoundPageData } from '../shared.js'
-import type { PageData, PageDataPayload, Awaitable } from '../shared.js'
-import { inBrowser, withBase } from './utils.js'
-import { siteDataRef } from './data.js'
+import { notFoundPageData } from '../shared'
+import type { PageData, PageDataPayload, Awaitable } from '../shared'
+import { inBrowser, withBase } from './utils'
+import { siteDataRef } from './data'
 
 export interface Route {
   path: string
@@ -187,10 +187,13 @@ export function createRouter(
               search === currentUrl.search
             ) {
               // scroll between hash anchors in the same page
-              if (hash && hash !== currentUrl.hash) {
-                history.pushState(null, '', hash)
-                // still emit the event so we can listen to it in themes
-                window.dispatchEvent(new Event('hashchange'))
+              if (hash) {
+                // avoid duplicate history entries when the hash is same
+                if (hash !== currentUrl.hash) {
+                  history.pushState(null, '', hash)
+                  // still emit the event so we can listen to it in themes
+                  window.dispatchEvent(new Event('hashchange'))
+                }
                 // use smooth scroll when clicking on header anchor links
                 scrollTo(link, hash, link.classList.contains('header-anchor'))
               }
@@ -229,8 +232,8 @@ export function useRoute(): Route {
   return useRouter().route
 }
 
-function scrollTo(el: HTMLElement | SVGElement, hash: string, smooth = false) {
-  let target: HTMLElement | SVGElement | null = null
+export function scrollTo(el: Element, hash: string, smooth = false) {
+  let target: Element | null = null
 
   try {
     target = el.classList.contains('header-anchor')
@@ -241,10 +244,20 @@ function scrollTo(el: HTMLElement | SVGElement, hash: string, smooth = false) {
   }
 
   if (target) {
-    let offset = siteDataRef.value.scrollOffset
-    if (typeof offset === 'string') {
-      offset =
-        document.querySelector(offset)!.getBoundingClientRect().bottom + 24
+    const scrollOffset = siteDataRef.value.scrollOffset
+    let offset: number = 0
+    if (typeof scrollOffset === 'number') {
+      offset = scrollOffset
+    } else if (typeof scrollOffset === 'string') {
+      offset = tryOffsetSelector(scrollOffset)
+    } else if (Array.isArray(scrollOffset)) {
+      for (const selector of scrollOffset) {
+        const res = tryOffsetSelector(selector)
+        if (res) {
+          offset = res
+          break
+        }
+      }
     }
     const targetPadding = parseInt(
       window.getComputedStyle(target).paddingTop,
@@ -268,11 +281,19 @@ function scrollTo(el: HTMLElement | SVGElement, hash: string, smooth = false) {
   }
 }
 
+function tryOffsetSelector(selector: string): number {
+  const el = document.querySelector(selector)
+  if (!el) return 0
+  const bot = el.getBoundingClientRect().bottom
+  if (bot < 0) return 0
+  return bot + 24
+}
+
 function handleHMR(route: Route): void {
   // update route.data on HMR updates of active page
   if (import.meta.hot) {
     // hot reload pageData
-    import.meta.hot!.on('vitepress:pageData', (payload: PageDataPayload) => {
+    import.meta.hot.on('vitepress:pageData', (payload: PageDataPayload) => {
       if (shouldHotReload(payload)) {
         route.data = payload.pageData
       }
@@ -282,6 +303,8 @@ function handleHMR(route: Route): void {
 
 function shouldHotReload(payload: PageDataPayload): boolean {
   const payloadPath = payload.path.replace(/(\bindex)?\.md$/, '')
-  const locationPath = location.pathname.replace(/(\bindex)?\.html$/, '')
+  const locationPath = location.pathname
+    .replace(/(\bindex)?\.html$/, '')
+    .slice(siteDataRef.value.base.length - 1)
   return payloadPath === locationPath
 }

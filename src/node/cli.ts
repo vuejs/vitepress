@@ -2,7 +2,9 @@ import minimist from 'minimist'
 import c from 'picocolors'
 import { createLogger } from 'vite'
 import { build, createServer, serve } from '.'
+import { init } from './init/init'
 import { version } from '../../package.json'
+import { bindShortcuts } from './shortcuts'
 
 const argv: any = minimist(process.argv.slice(2))
 
@@ -19,6 +21,11 @@ if (root) {
 }
 
 if (!command || command === 'dev') {
+  if (argv.force) {
+    delete argv.force
+    argv.optimizeDeps = { force: true }
+  }
+
   const createDevServer = async () => {
     const server = await createServer(root, argv, async () => {
       await server.close()
@@ -27,6 +34,7 @@ if (!command || command === 'dev') {
     await server.listen()
     logVersion(server.config.logger)
     server.printUrls()
+    bindShortcuts(server, createDevServer)
   }
   createDevServer().catch((err) => {
     createLogger().error(
@@ -48,6 +56,8 @@ if (!command || command === 'dev') {
       )
       process.exit(1)
     })
+  } else if (command === 'init') {
+    init()
   } else {
     createLogger().error(c.red(`unknown command "${command}".`))
     process.exit(1)

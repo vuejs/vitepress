@@ -45,6 +45,10 @@
   transition: color 0.25s, opacity 0.25s;
 }
 
+.vp-doc .header-anchor:before {
+  content: var(--vp-header-anchor-symbol);
+}
+
 .vp-doc h1:hover .header-anchor,
 .vp-doc h1 .header-anchor:focus,
 .vp-doc h2:hover .header-anchor,
@@ -103,7 +107,8 @@
 }
 
 .vp-doc a:hover {
-  color: var(--vp-c-brand-dark);
+  /* color: var(--vp-c-brand-dark); */
+  text-decoration: underline;
 }
 
 .vp-doc strong {
@@ -205,12 +210,10 @@
 .vp-doc .custom-block a {
   color: inherit;
   font-weight: 600;
-  text-decoration: underline;
-  transition: opacity 0.25s;
 }
 
 .vp-doc .custom-block a:hover {
-  opacity: 0.6;
+  text-decoration: underline;
 }
 
 .vp-doc .custom-block code {
@@ -405,7 +408,7 @@
   z-index: 3;
   /*rtl:ignore*/
   border-right: 1px solid var(--vp-code-block-divider-color);
-  padding-top: 16px;
+  padding-top: 20px;
   width: 32px;
   text-align: center;
   font-family: var(--vp-font-family-mono);
@@ -423,9 +426,6 @@
   /*rtl:ignore*/
   right: 12px;
   z-index: 3;
-  display: block;
-  justify-content: center;
-  align-items: center;
   border: 1px solid var(--vp-code-copy-code-border-color);
   border-radius: 4px;
   width: 40px;
@@ -491,7 +491,7 @@
   z-index: 2;
   font-size: 12px;
   font-weight: 500;
-  color: var(--vp-c-text-dark-3);
+  color: var(--vp-c-code-dimm);
   transition: color 0.4s, opacity 0.4s;
 }
 

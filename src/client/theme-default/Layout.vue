@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, provide, useSlots, watch } from 'vue'
 import { useRoute } from 'vitepress'
-import { useData } from './composables/data.js'
-import { useSidebar, useCloseSidebarOnEscape } from './composables/sidebar.js'
+import { useData } from './composables/data'
+import { useSidebar, useCloseSidebarOnEscape } from './composables/sidebar'
 import VPSkipLink from './components/VPSkipLink.vue'
 import VPBackdrop from './components/VPBackdrop.vue'
 import VPNav from './components/VPNav.vue'
@@ -54,6 +54,10 @@ provide('hero-image-slot-exists', heroImageSlotExists)
     </VPSidebar>
 
     <VPContent>
+      <template #page-top><slot name="page-top" /></template>
+      <template #page-bottom><slot name="page-bottom" /></template>
+      
+      <template #not-found><slot name="not-found" /></template>
       <template #home-hero-before><slot name="home-hero-before" /></template>
       <template #home-hero-info><slot name="home-hero-info" /></template>
       <template #home-hero-image><slot name="home-hero-image" /></template>
@@ -64,6 +68,8 @@ provide('hero-image-slot-exists', heroImageSlotExists)
       <template #doc-footer-before><slot name="doc-footer-before" /></template>
       <template #doc-before><slot name="doc-before" /></template>
       <template #doc-after><slot name="doc-after" /></template>
+      <template #doc-top><slot name="doc-top" /></template>
+      <template #doc-bottom><slot name="doc-bottom" /></template>
 
       <template #aside-top><slot name="aside-top" /></template>
       <template #aside-bottom><slot name="aside-bottom" /></template>

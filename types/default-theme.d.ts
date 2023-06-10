@@ -1,4 +1,6 @@
-import { DocSearchProps } from './docsearch.js'
+import type { DocSearchProps } from './docsearch.js'
+import type { LocalSearchTranslations } from './local-search.js'
+import type { PageData } from './shared.js'
 
 export namespace DefaultTheme {
   export interface Config {
@@ -23,13 +25,6 @@ export namespace DefaultTheme {
     outline?: Outline | Outline['level'] | false
 
     /**
-     * Disable this to hide badge text from outline.
-     *
-     * @default true
-     */
-    outlineBadges?: boolean
-
-    /**
      * @deprecated
      * Use `outline.label` instead.
      *
@@ -49,10 +44,12 @@ export namespace DefaultTheme {
 
     /**
      * Set to `false` to prevent rendering of aside container.
+     * Set to `true` to render the aside to the right.
+     * Set to `left` to render the aside to the left.
      *
      * @default true
      */
-    aside?: boolean
+    aside?: boolean | 'left'
 
     /**
      * Info for the edit link. If it's undefined, the edit link feature will
@@ -99,7 +96,18 @@ export namespace DefaultTheme {
     returnToTopLabel?: string
 
     /**
-     * The algolia options. Leave it undefined to disable the search feature.
+     * Set custom `aria-label` for language menu button.
+     *
+     * @default 'Change language'
+     */
+    langMenuLabel?: string
+
+    search?:
+      | { provider: 'local'; options?: LocalSearchOptions }
+      | { provider: 'algolia'; options: AlgoliaSearchOptions }
+
+    /**
+     * @deprecated Use `search` instead.
      */
     algolia?: AlgoliaSearchOptions
 
@@ -208,8 +216,9 @@ export namespace DefaultTheme {
      * Pattern for edit link.
      *
      * @example 'https://github.com/vuejs/vitepress/edit/main/docs/:path'
+     * @example ({ filePath }) => { ... }
      */
-    pattern: string
+    pattern: string | ((payload: PageData) => string)
 
     /**
      * Custom text for edit link.
@@ -242,6 +251,7 @@ export namespace DefaultTheme {
   export interface SocialLink {
     icon: SocialLinkIcon
     link: string
+    ariaLabel?: string
   }
 
   export type SocialLinkIcon =
@@ -281,6 +291,23 @@ export namespace DefaultTheme {
   export interface Outline {
     level?: number | [number, number] | 'deep'
     label?: string
+  }
+
+  // local search --------------------------------------------------------------
+
+  export interface LocalSearchOptions {
+    /**
+     * @default false
+     */
+    disableDetailedView?: boolean
+
+    /**
+     * @default false
+     */
+    disableQueryPersistence?: boolean
+
+    translations?: LocalSearchTranslations
+    locales?: Record<string, Partial<Omit<LocalSearchOptions, 'locales'>>>
   }
 
   // algolia -------------------------------------------------------------------

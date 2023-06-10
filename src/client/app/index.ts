@@ -7,19 +7,34 @@ import {
   onMounted,
   watchEffect
 } from 'vue'
-import Theme from '@theme/index'
-import { inBrowser, pathToFile } from './utils.js'
-import { type Router, RouterSymbol, createRouter } from './router.js'
-import { siteDataRef, useData } from './data.js'
-import { useUpdateHead } from './composables/head.js'
-import { usePrefetch } from './composables/preFetch.js'
-import { dataSymbol, initData } from './data.js'
-import { Content } from './components/Content.js'
-import { ClientOnly } from './components/ClientOnly.js'
-import { useCopyCode } from './composables/copyCode.js'
-import { useCodeGroups } from './composables/codeGroups.js'
+import RawTheme from '@theme/index'
+import { inBrowser, pathToFile } from './utils'
+import { type Router, RouterSymbol, createRouter, scrollTo } from './router'
+import { siteDataRef, useData } from './data'
+import { useUpdateHead } from './composables/head'
+import { usePrefetch } from './composables/preFetch'
+import { dataSymbol, initData } from './data'
+import { Content } from './components/Content'
+import { ClientOnly } from './components/ClientOnly'
+import { useCopyCode } from './composables/copyCode'
+import { useCodeGroups } from './composables/codeGroups'
 
-const NotFound = Theme.NotFound || (() => '404 Not Found')
+function resolveThemeExtends(theme: typeof RawTheme): typeof RawTheme {
+  if (theme.extends) {
+    const base = resolveThemeExtends(theme.extends)
+    return {
+      ...base,
+      ...theme,
+      async enhanceApp(ctx) {
+        if (base.enhanceApp) await base.enhanceApp(ctx)
+        if (theme.enhanceApp) await theme.enhanceApp(ctx)
+      }
+    }
+  }
+  return theme
+}
+
+const Theme = resolveThemeExtends(RawTheme)
 
 const VitePressApp = defineComponent({
   name: 'VitePressApp',
@@ -59,17 +74,21 @@ export async function createApp() {
   const data = initData(router.route)
   app.provide(dataSymbol, data)
 
-  // provide this to avoid circular dependency in VPContent
-  app.provide('NotFound', NotFound)
-
   // install global components
   app.component('Content', Content)
   app.component('ClientOnly', ClientOnly)
 
-  // expose $frontmatter
-  Object.defineProperty(app.config.globalProperties, '$frontmatter', {
-    get() {
-      return data.frontmatter.value
+  // expose $frontmatter & $params
+  Object.defineProperties(app.config.globalProperties, {
+    $frontmatter: {
+      get() {
+        return data.frontmatter.value
+      }
+    },
+    $params: {
+      get() {
+        return data.page.value.params
+      }
     }
   })
 
@@ -120,7 +139,7 @@ function newRouter(): Router {
     }
 
     return import(/*@vite-ignore*/ pageFilePath)
-  }, NotFound)
+  }, Theme.NotFound)
 }
 
 if (inBrowser) {
@@ -130,6 +149,14 @@ if (inBrowser) {
       // dynamically update head tags
       useUpdateHead(router.route, data.site)
       app.mount('#app')
+
+      // scroll to hash on new tab during dev
+      if (import.meta.env.DEV && location.hash) {
+        const target = document.querySelector(decodeURIComponent(location.hash))
+        if (target) {
+          scrollTo(target, location.hash)
+        }
+      }
     })
   })
 }

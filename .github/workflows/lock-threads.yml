@@ -20,3 +20,4 @@ jobs:
         with:
           issue-inactive-days: 7
           pr-inactive-days: 7
+          exclude-any-issue-labels: 'keep-open'

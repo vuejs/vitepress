@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useData } from '../composables/data.js'
-import { normalizeLink } from '../support/utils.js'
-import { useEditLink } from '../composables/edit-link.js'
-import { usePrevNext } from '../composables/prev-next.js'
+import { useData } from '../composables/data'
+import { normalizeLink } from '../support/utils'
+import { useEditLink } from '../composables/edit-link'
+import { usePrevNext } from '../composables/prev-next'
 import VPIconEdit from './icons/VPIconEdit.vue'
 import VPLink from './VPLink.vue'
 import VPDocFooterLastUpdated from './VPDocFooterLastUpdated.vue'
@@ -26,10 +26,12 @@ const showFooter = computed(() => {
 
 <template>
   <footer v-if="showFooter" class="VPDocFooter">
+    <slot name="doc-footer-before" />
+
     <div v-if="hasEditLink || hasLastUpdated" class="edit-info">
       <div v-if="hasEditLink" class="edit-link">
         <VPLink class="edit-link-button" :href="editLink.url" :no-icon="true">
-          <VPIconEdit class="edit-link-icon" />
+          <VPIconEdit class="edit-link-icon" aria-label="edit icon"/>
           {{ editLink.text }}
         </VPLink>
       </div>

@@ -1,9 +1,8 @@
 import { resolveTitleFromToken } from '@mdit-vue/shared'
 import _debug from 'debug'
-import fs from 'fs'
-import LRUCache from 'lru-cache'
+import fs from 'fs-extra'
+import { LRUCache } from 'lru-cache'
 import path from 'path'
-import c from 'picocolors'
 import type { SiteConfig } from './config'
 import {
   createMarkdownRenderer,
@@ -11,9 +10,13 @@ import {
   type MarkdownOptions,
   type MarkdownRenderer
 } from './markdown'
-import { EXTERNAL_URL_RE, type HeadConfig, type PageData } from './shared'
+import {
+  EXTERNAL_URL_RE,
+  slash,
+  type HeadConfig,
+  type PageData
+} from './shared'
 import { getGitTimestamp } from './utils/getGitTimestamp'
-import { slash } from './utils/slash'
 
 const debug = _debug('vitepress:md')
 const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
@@ -22,7 +25,7 @@ const includesRE = /<!--\s*@include:\s*(.*?)\s*-->/g
 export interface MarkdownCompileResult {
   vueSrc: string
   pageData: PageData
-  deadLinks: string[]
+  deadLinks: { url: string; file: string }[]
   includes: string[]
 }
 
@@ -55,12 +58,12 @@ export async function createMarkdownToVueRenderFn(
     file: string,
     publicDir: string
   ): Promise<MarkdownCompileResult> => {
+    const fileOrig = file
     const alias =
       siteConfig?.rewrites.map[file] || // virtual dynamic path file
       siteConfig?.rewrites.map[file.slice(srcDir.length + 1)]
     file = alias ? path.join(srcDir, alias) : file
     const relativePath = slash(path.relative(srcDir, file))
-    const dir = path.dirname(file)
     const cacheKey = JSON.stringify({ src, file })
 
     const cached = cache.get(cacheKey)
@@ -84,8 +87,15 @@ export async function createMarkdownToVueRenderFn(
     // resolve includes
     let includes: string[] = []
     src = src.replace(includesRE, (m, m1) => {
+      if (!m1.length) return m
+
+      const atPresent = m1[0] === '@'
       try {
-        const includePath = path.join(dir, m1)
+        const dir = atPresent ? srcDir : path.dirname(fileOrig)
+        const includePath = path.join(
+          dir,
+          atPresent ? m1.slice(m1.length > 1 && m1[1] === '/' ? 2 : 1) : m1
+        )
         const content = fs.readFileSync(includePath, 'utf-8')
         includes.push(slash(includePath))
         return content
@@ -110,32 +120,40 @@ export async function createMarkdownToVueRenderFn(
     } = env
 
     // validate data.links
-    const deadLinks: string[] = []
+    const deadLinks: MarkdownCompileResult['deadLinks'] = []
     const recordDeadLink = (url: string) => {
-      ;(siteConfig?.logger ?? console).warn(
-        c.yellow(
-          `\n(!) Found dead link ${c.cyan(url)} in file ${c.white(
-            c.dim(file)
-          )}\nIf it is intended, you can use:\n    ${c.cyan(
-            `<a href="${url}" target="_blank" rel="noreferrer">${url}</a>`
-          )}`
-        )
-      )
-      deadLinks.push(url)
+      deadLinks.push({ url, file: path.relative(srcDir, fileOrig) })
+    }
+
+    function shouldIgnoreDeadLink(url: string) {
+      if (!siteConfig?.ignoreDeadLinks) {
+        return false
+      }
+      if (siteConfig.ignoreDeadLinks === true) {
+        return true
+      }
+      if (siteConfig.ignoreDeadLinks === 'localhostLinks') {
+        return url.replace(EXTERNAL_URL_RE, '').startsWith('//localhost')
+      }
+
+      return siteConfig.ignoreDeadLinks.some((ignore) => {
+        if (typeof ignore === 'string') {
+          return url === ignore
+        }
+        if (ignore instanceof RegExp) {
+          return ignore.test(url)
+        }
+        if (typeof ignore === 'function') {
+          return ignore(url)
+        }
+        return false
+      })
     }
 
     if (links) {
       const dir = path.dirname(file)
       for (let url of links) {
         if (/\.(?!html|md)\w+($|\?)/i.test(url)) continue
-
-        if (
-          siteConfig?.ignoreDeadLinks !== 'localhostLinks' &&
-          url.replace(EXTERNAL_URL_RE, '').startsWith('//localhost:')
-        ) {
-          recordDeadLink(url)
-          continue
-        }
 
         url = url.replace(/[?#].*$/, '').replace(/\.(html|md)$/, '')
         if (url.endsWith('/')) url += `index`
@@ -150,7 +168,8 @@ export async function createMarkdownToVueRenderFn(
           siteConfig?.rewrites.inv[resolved + '.md']?.slice(0, -3) || resolved
         if (
           !pages.includes(resolved) &&
-          !fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`))
+          !fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`)) &&
+          !shouldIgnoreDeadLink(url)
         ) {
           recordDeadLink(url)
         }
@@ -164,15 +183,18 @@ export async function createMarkdownToVueRenderFn(
       frontmatter,
       headers,
       params,
-      relativePath
+      relativePath,
+      filePath: slash(path.relative(srcDir, fileOrig))
     }
 
     if (includeLastUpdatedData) {
-      pageData.lastUpdated = await getGitTimestamp(file)
+      pageData.lastUpdated = await getGitTimestamp(fileOrig)
     }
 
     if (siteConfig?.transformPageData) {
-      const dataToMerge = await siteConfig.transformPageData(pageData)
+      const dataToMerge = await siteConfig.transformPageData(pageData, {
+        siteConfig
+      })
       if (dataToMerge) {
         pageData = {
           ...pageData,

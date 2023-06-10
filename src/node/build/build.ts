@@ -1,14 +1,17 @@
 import fs from 'fs-extra'
-import path from 'path'
-import ora from 'ora'
-import type { BuildOptions } from 'vite'
-import type { OutputChunk, OutputAsset } from 'rollup'
-import { resolveConfig } from '../config'
-import { renderPage } from './render'
-import { bundle, okMark, failMark } from './bundle'
 import { createRequire } from 'module'
+import ora from 'ora'
+import path from 'path'
+import { packageDirectorySync } from 'pkg-dir'
+import { rimraf } from 'rimraf'
+import type { OutputAsset, OutputChunk } from 'rollup'
 import { pathToFileURL } from 'url'
-import pkgDir from 'pkg-dir'
+import type { BuildOptions } from 'vite'
+import { resolveConfig } from '../config'
+import type { HeadConfig } from '../shared'
+import { serializeFunctions } from '../utils/fnSerialize'
+import { bundle, failMark, okMark } from './bundle'
+import { renderPage } from './render'
 
 export async function build(
   root?: string,
@@ -58,11 +61,50 @@ export async function build(
         (chunk) => chunk.type === 'asset' && chunk.fileName.endsWith('.css')
       ) as OutputAsset
 
-      // We embed the hash map string into each page directly so that it doesn't
-      // alter the main chunk's hash on every build. It's also embedded as a
-      // string and JSON.parsed from the client because it's faster than embedding
-      // as JS object literal.
+      const assets = (siteConfig.mpa ? serverResult : clientResult).output
+        .filter(
+          (chunk) => chunk.type === 'asset' && !chunk.fileName.endsWith('.css')
+        )
+        .map((asset) => siteConfig.site.base + asset.fileName)
+
+      // default theme special handling: inject font preload
+      // custom themes will need to use `transformHead` to inject this
+      const additionalHeadTags: HeadConfig[] = []
+      const isDefaultTheme =
+        clientResult &&
+        clientResult.output.some(
+          (chunk) =>
+            chunk.type === 'chunk' &&
+            chunk.name === 'theme' &&
+            chunk.moduleIds.some((id) => id.includes('client/theme-default'))
+        )
+
+      if (isDefaultTheme) {
+        const fontURL = assets.find((file) =>
+          /inter-roman-latin\.\w+\.woff2/.test(file)
+        )
+        if (fontURL) {
+          additionalHeadTags.push([
+            'link',
+            {
+              rel: 'preload',
+              href: fontURL,
+              as: 'font',
+              type: 'font/woff2',
+              crossorigin: ''
+            }
+          ])
+        }
+      }
+
+      // We embed the hash map and site config strings into each page directly
+      // so that it doesn't alter the main chunk's hash on every build.
+      // It's also embedded as a string and JSON.parsed from the client because
+      // it's faster than embedding as JS object literal.
       const hashMapString = JSON.stringify(JSON.stringify(pageToHashMap))
+      const siteDataString = JSON.stringify(
+        JSON.stringify(serializeFunctions({ ...siteConfig.site, head: [] }))
+      )
 
       await Promise.all(
         ['404.md', ...siteConfig.pages]
@@ -75,8 +117,11 @@ export async function build(
               clientResult,
               appChunk,
               cssChunk,
+              assets,
               pageToHashMap,
-              hashMapString
+              hashMapString,
+              siteDataString,
+              additionalHeadTags
             )
           )
       )
@@ -98,8 +143,7 @@ export async function build(
     )
   } finally {
     unlinkVue()
-    if (!process.env.DEBUG)
-      fs.rmSync(siteConfig.tempDir, { recursive: true, force: true })
+    if (!process.env.DEBUG) await rimraf(siteConfig.tempDir)
   }
 
   await siteConfig.buildEnd?.(siteConfig)
@@ -110,7 +154,7 @@ export async function build(
 }
 
 function linkVue() {
-  const root = pkgDir.sync()
+  const root = packageDirectorySync()
   if (root) {
     const dest = path.resolve(root, 'node_modules/vue')
     // if user did not install vue by themselves, link VitePress' version

@@ -1,6 +1,6 @@
 import { computed } from 'vue'
-import { useData } from './data.js'
-import { ensureStartingSlash } from '../support/utils.js'
+import { useData } from './data'
+import { ensureStartingSlash } from '../support/utils'
 
 export function useLangs({
   removeCurrent = true,

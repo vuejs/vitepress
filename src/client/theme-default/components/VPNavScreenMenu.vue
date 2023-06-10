@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useData } from '../composables/data.js'
+import { useData } from '../composables/data'
 import VPNavScreenMenuLink from './VPNavScreenMenuLink.vue'
 import VPNavScreenMenuGroup from './VPNavScreenMenuGroup.vue'
 
@@ -11,8 +11,7 @@ const { theme } = useData()
     <template v-for="item in theme.nav" :key="item.text">
       <VPNavScreenMenuLink
         v-if="'link' in item"
-        :text="item.text"
-        :link="item.link"
+        :item="item"
       />
       <VPNavScreenMenuGroup
         v-else

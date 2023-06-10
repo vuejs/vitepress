@@ -6,12 +6,14 @@ export type Awaitable<T> = T | PromiseLike<T>
 
 export interface PageData {
   relativePath: string
+  filePath: string // differs from relativePath in case of path rewrites
   title: string
   titleTemplate?: string | boolean
   description: string
   headers: Header[]
   frontmatter: Record<string, any>
   params?: Record<string, any>
+  isNotFound?: boolean
   lastUpdated?: number
 }
 
@@ -55,7 +57,7 @@ export interface SiteData<ThemeConfig = any> {
   head: HeadConfig[]
   appearance: boolean | 'dark'
   themeConfig: ThemeConfig
-  scrollOffset: number | string
+  scrollOffset: number | string | string[]
   locales: LocaleConfig<ThemeConfig>
   localeIndex?: string
 }

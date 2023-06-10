@@ -3,7 +3,7 @@ import type { DefaultTheme } from 'vitepress/theme'
 import docsearch from '@docsearch/js'
 import { onMounted, watch } from 'vue'
 import { useRouter, useRoute } from 'vitepress'
-import { useData } from '../composables/data.js'
+import { useData } from '../composables/data'
 
 const props = defineProps<{
   algolia: DefaultTheme.AlgoliaSearchOptions
@@ -13,8 +13,7 @@ const router = useRouter()
 const route = useRoute()
 const { site, localeIndex, lang } = useData()
 
-const docsearch$ = docsearch.default ?? docsearch
-type DocSearchProps = Parameters<typeof docsearch$>[0]
+type DocSearchProps = Parameters<typeof docsearch>[0]
 
 onMounted(update)
 watch(localeIndex, update)
@@ -82,7 +81,7 @@ function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
     }
   })
 
-  docsearch$(options)
+  docsearch(options)
 }
 
 function getRelativePath(absoluteUrl: string) {

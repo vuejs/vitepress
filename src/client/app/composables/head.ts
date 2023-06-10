@@ -4,8 +4,8 @@ import {
   type SiteData,
   createTitle,
   mergeHead
-} from '../../shared.js'
-import type { Route } from '../router.js'
+} from '../../shared'
+import type { Route } from '../router'
 
 export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
   let managedHeadTags: HTMLElement[] = []

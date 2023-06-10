@@ -10,10 +10,11 @@ defineProps<{
 <template>
   <div class="VPSocialLinks">
     <VPSocialLink
-      v-for="{ link, icon } in links"
+      v-for="{ link, icon, ariaLabel } in links"
       :key="link"
       :icon="icon"
       :link="link"
+      :ariaLabel="ariaLabel"
     />
   </div>
 </template>
@@ -21,7 +22,6 @@ defineProps<{
 <style scoped>
 .VPSocialLinks {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
 }
 </style>
