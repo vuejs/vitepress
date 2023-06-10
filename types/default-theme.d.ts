@@ -232,18 +232,18 @@ export namespace DefaultTheme {
 
   export interface DocFooter {
     /**
-     * Custom label for previous page button.
+     * Custom label for previous page button. Can be set to `false` to disable.
      *
      * @default 'Previous page'
      */
-    prev?: string
+    prev?: string | boolean
 
     /**
-     * Custom label for next page button.
+     * Custom label for next page button. Can be set to `false` to disable.
      *
      * @default 'Next page'
      */
-    next?: string
+    next?: string | boolean
   }
 
   // social link ---------------------------------------------------------------
