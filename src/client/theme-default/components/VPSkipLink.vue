@@ -59,10 +59,6 @@ function focusOnTargetAnchor({ target }: Event) {
   clip-path: none;
 }
 
-.dark .VPSkipLink {
-  color: var(--vp-c-green);
-}
-
 @media (min-width: 1280px) {
   .VPSkipLink {
     top: 14px;

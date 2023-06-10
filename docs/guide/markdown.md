@@ -566,7 +566,12 @@ It also supports [line highlighting](#line-highlighting-in-code-blocks):
 <<< @/snippets/snippet.js{2}
 
 ::: tip
-The value of `@` corresponds to the source root. By default it's the VitePress project root, unless `srcDir` is configured.
+The value of `@` corresponds to the source root. By default it's the VitePress project root, unless `srcDir` is configured. Alternatively, you can also import from relative paths:
+
+```md
+<<< ../snippets/snippet.js
+```
+
 :::
 
 You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/codebasics#_folding) to only include the corresponding part of the code file. You can provide a custom region name after a `#` following the filepath:
@@ -691,7 +696,13 @@ You can also [import snippets](#import-code-snippets) in code groups:
 
 ## Markdown File Inclusion
 
-You can include a markdown file in another markdown file like this:
+You can include a markdown file in another markdown file.
+
+::: tip
+You can also prefix the markdown path with `@`, it will act as the source root. By default it's the VitePress project root, unless `srcDir` is configured.
+:::
+
+For example, you can include a relative markdown file using this:
 
 **Input**
 

@@ -9,6 +9,7 @@ import {
   useScrollLock,
   useSessionStorage
 } from '@vueuse/core'
+import { useFocusTrap } from '@vueuse/integrations/useFocusTrap'
 import Mark from 'mark.js/src/vanilla.js'
 import MiniSearch, { type SearchResult } from 'minisearch'
 import { useRouter } from 'vitepress'
@@ -26,11 +27,10 @@ import {
   type Ref
 } from 'vue'
 import type { ModalTranslations } from '../../../../types/local-search'
+import { dataSymbol } from '../../app/data'
 import { pathToFile } from '../../app/utils'
-import { slash } from '../../shared'
 import { useData } from '../composables/data'
 import { createTranslate } from '../support/translation'
-import { dataSymbol } from '../../app/data'
 
 defineProps<{
   placeholder: string
@@ -64,6 +64,12 @@ interface Result {
 }
 
 const vitePressData = useData()
+const { activate } = useFocusTrap(el, {
+  immediate: true,
+  allowOutsideClick: true,
+  clickOutsideDeactivates: true,
+  escapeDeactivates: true
+})
 const { localeIndex, theme } = vitePressData
 const searchIndex = computedAsync(async () =>
   markRaw(
@@ -84,14 +90,14 @@ const searchIndex = computedAsync(async () =>
 
 const disableQueryPersistence = computed(() => {
   return (
-      theme.value.search?.provider === 'local' &&
-      theme.value.search.options?.disableQueryPersistence === true
+    theme.value.search?.provider === 'local' &&
+    theme.value.search.options?.disableQueryPersistence === true
   )
 })
 
 const filterText = disableQueryPersistence.value
-    ? ref('')
-    : useSessionStorage('vitepress:local-search-filter', '')
+  ? ref('')
+  : useSessionStorage('vitepress:local-search-filter', '')
 
 const showDetailedList = useLocalStorage(
   'vitepress:local-search-detailed-list',
@@ -112,8 +118,6 @@ watchEffect(() => {
 })
 
 const results: Ref<(SearchResult & Result)[]> = shallowRef([])
-
-const headingRegex = /<h(\d*).*?>.*?<a.*? href="#(.*?)".*?>.*?<\/a><\/h\1>/gi
 
 const enableNoResults = ref(false)
 
@@ -149,28 +153,42 @@ debouncedWatch(
     if (canceled) return
     const c = new Map<string, Map<string, string>>()
     for (const { id, mod } of mods) {
+      const mapId = id.slice(0, id.indexOf('#'))
+      let map = c.get(mapId)
+      if (map) continue
+      map = new Map()
+      c.set(mapId, map)
       const comp = mod.default ?? mod
-      if (comp?.render) {
+      if (comp?.render || comp?.setup) {
         const app = createApp(comp)
         // Silence warnings about missing components
         app.config.warnHandler = () => {}
         app.provide(dataSymbol, vitePressData)
+        Object.defineProperties(app.config.globalProperties, {
+          $frontmatter: {
+            get() {
+              return vitePressData.frontmatter.value
+            }
+          },
+          $params: {
+            get() {
+              return vitePressData.page.value.params
+            }
+          }
+        })
         const div = document.createElement('div')
         app.mount(div)
-        const sections = div.innerHTML.split(headingRegex)
+        const headings = div.querySelectorAll('h1, h2, h3, h4, h5, h6')
+        headings.forEach((el) => {
+          const href = el.querySelector('a')?.getAttribute('href')
+          const anchor = href?.startsWith('#') && href.slice(1)
+          if (!anchor) return
+          let html = ''
+          while ((el = el.nextElementSibling!) && !/^h[1-6]$/i.test(el.tagName))
+            html += el.outerHTML
+          map!.set(anchor, html)
+        })
         app.unmount()
-        sections.shift()
-        const mapId = id.slice(0, id.indexOf('#'))
-        let map = c.get(mapId)
-        if (!map) {
-          map = new Map()
-          c.set(mapId, map)
-        }
-        for (let i = 0; i < sections.length; i += 3) {
-          const anchor = sections[i + 1]
-          const html = sections[i + 2]
-          map.set(anchor, html)
-        }
       }
       if (canceled) return
     }
@@ -211,7 +229,7 @@ debouncedWatch(
 )
 
 async function fetchExcerpt(id: string) {
-  const file = pathToFile(slash(id.slice(0, id.indexOf('#'))))
+  const file = pathToFile(id.slice(0, id.indexOf('#')))
   try {
     return { id, mod: await import(/*@vite-ignore*/ file) }
   } catch (e) {
@@ -334,6 +352,7 @@ onMounted(() => {
   body.value = document.body
   nextTick(() => {
     isLocked.value = true
+    nextTick().then(() => activate())
   })
 })
 
@@ -474,6 +493,7 @@ function formMarkRegex(terms: Set<string>) {
             }"
             :aria-label="[...p.titles, p.title].join(' > ')"
             @mouseenter="!disableMouseOver && (selectedIndex = index)"
+            @focusin="selectedIndex = index"
             @click="$emit('close')"
           >
             <div>
@@ -498,7 +518,7 @@ function formMarkRegex(terms: Set<string>) {
               </div>
 
               <div v-if="showDetailedList" class="excerpt-wrapper">
-                <div v-if="p.text" class="excerpt">
+                <div v-if="p.text" class="excerpt" inert>
                   <div class="vp-doc" v-html="p.text" />
                 </div>
                 <div class="excerpt-gradient-bottom" />
@@ -727,6 +747,7 @@ function formMarkRegex(terms: Set<string>) {
   transition: none;
   line-height: 1rem;
   border: solid 2px var(--vp-local-search-result-border);
+  outline: none;
 }
 
 .result > div {

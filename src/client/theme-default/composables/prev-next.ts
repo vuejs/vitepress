@@ -1,6 +1,6 @@
 import { computed } from 'vue'
 import { useData } from './data'
-import { isActive } from '../support/utils'
+import { isActive } from '../../shared'
 import { getSidebar, getFlatSideBarLinks } from '../support/sidebar'
 
 export function usePrevNext() {

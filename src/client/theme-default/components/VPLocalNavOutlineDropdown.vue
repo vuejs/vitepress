@@ -1,12 +1,16 @@
 <script setup lang="ts">
-import { ref, nextTick, shallowRef } from 'vue'
-import { useData } from '../composables/data'
-import { getHeaders, resolveTitle, type MenuItem } from '../composables/outline'
-import VPDocOutlineItem from './VPDocOutlineItem.vue'
 import { onContentUpdated } from 'vitepress'
+import { nextTick, ref } from 'vue'
+import { useData } from '../composables/data'
+import { resolveTitle, type MenuItem } from '../composables/outline'
+import VPDocOutlineItem from './VPDocOutlineItem.vue'
 import VPIconChevronRight from './icons/VPIconChevronRight.vue'
 
-const { frontmatter, theme } = useData()
+defineProps<{
+  headers: MenuItem[]
+}>()
+
+const { theme } = useData()
 const open = ref(false)
 const vh = ref(0)
 const items = ref<HTMLDivElement>()
@@ -36,14 +40,6 @@ function scrollToTop() {
   open.value = false
   window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
 }
-
-const headers = shallowRef<MenuItem[]>([])
-
-onContentUpdated(() => {
-  headers.value = getHeaders(
-    frontmatter.value.outline ?? theme.value.outline
-  )
-})
 </script>
 
 <template>

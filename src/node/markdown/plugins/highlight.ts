@@ -62,7 +62,7 @@ const errorLevelProcessor = defineProcessor({
 })
 
 export async function highlight(
-  theme: ThemeOptions = 'material-theme-palenight',
+  theme: ThemeOptions,
   languages: ILanguageRegistration[] = [],
   defaultLang: string = '',
   logger: Pick<Logger, 'warn'> = console
