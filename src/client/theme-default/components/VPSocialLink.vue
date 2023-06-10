@@ -6,6 +6,7 @@ import { icons } from '../support/socialIcons'
 const props = defineProps<{
   icon: DefaultTheme.SocialLinkIcon
   link: string
+  ariaLabel?: string
 }>()
 
 const svg = computed(() => {
@@ -18,7 +19,7 @@ const svg = computed(() => {
   <a
     class="VPSocialLink"
     :href="link"
-    :aria-label="typeof icon === 'string' ? icon : ''"
+    :aria-label="ariaLabel ?? (typeof icon === 'string' ? icon : '')"
     target="_blank"
     rel="noopener"
     v-html="svg"
