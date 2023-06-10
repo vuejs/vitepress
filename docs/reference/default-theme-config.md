@@ -351,10 +351,7 @@ Learn more in [Default Theme: Carbon Ads](./default-theme-carbon-ads)
 
 - Type: `DocFooter`
 
-When the value is a string, it can be used to customize text appearing above previous and next links. Helpful if not writing docs in English.
-
-When the value is `false`, it can be used to disable prev/next links globally. And can be overridden by [frontmatter](https://vitepress.dev/reference/default-theme-prev-next-links)
-
+Can be used to customize text appearing above previous and next links. Helpful if not writing docs in English. Also can be used to disable prev/next links globally. If you want to selectively enable/disable prev/next links, you can use [frontmatter](./default-theme-prev-next-links).
 
 ```js
 export default {
