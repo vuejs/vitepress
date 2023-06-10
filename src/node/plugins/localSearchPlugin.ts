@@ -4,6 +4,7 @@ import MiniSearch from 'minisearch'
 import fs from 'fs-extra'
 import _debug from 'debug'
 import type { SiteConfig } from '../config'
+import type { MarkdownEnv } from '../markdown'
 import { createMarkdownRenderer } from '../markdown'
 import { resolveSiteDataByRoute, slash } from '../shared'
 
@@ -44,6 +45,16 @@ export async function localSearchPlugin(
     siteConfig.site.base,
     siteConfig.logger
   )
+
+  function createMarkdownEnv(file: string): MarkdownEnv {
+    const { srcDir, cleanUrls = false } = siteConfig
+    const relativePath = slash(path.relative(srcDir, file))
+    return {
+      path: file,
+      relativePath,
+      cleanUrls
+    }
+  }
 
   const indexByLocales = new Map<string, MiniSearch<IndexObject>>()
 
@@ -111,7 +122,7 @@ export async function localSearchPlugin(
         .map(async (file) => {
           const fileId = getDocId(file)
           const sections = splitPageIntoSections(
-            md.render(await fs.readFile(file, 'utf-8'))
+            md.render(await fs.readFile(file, 'utf-8'), createMarkdownEnv(file))
           )
           const locale = getLocaleForPath(file)
           let documents = documentsByLocale.get(locale)
@@ -191,7 +202,10 @@ export async function localSearchPlugin(
         }
         const index = getIndexForPath(ctx.file)
         const sections = splitPageIntoSections(
-          md.render(await fs.readFile(ctx.file, 'utf-8'))
+          md.render(
+            await fs.readFile(ctx.file, 'utf-8'),
+            createMarkdownEnv(ctx.file)
+          )
         )
         for (const section of sections) {
           const id = `${fileId}#${section.anchor}`
