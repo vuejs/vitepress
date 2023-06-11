@@ -30,6 +30,10 @@
 * **theme/search:** prevent repeated rendering of same page ([#2398](https://github.com/vuejs/vitepress/issues/2398)) ([e7be720](https://github.com/vuejs/vitepress/commit/e7be720ede403598dcec0a520ccc7bacf4e8b276))
 
 
+### BREAKING CHANGES
+
+* **types:** `defineConfig` and `defineConfigWithTheme` can now accept functions that return the config object. This might break typings in some third-party plugins that rely on the type of these functions.
+
 
 # [1.0.0-beta.1](https://github.com/vuejs/vitepress/compare/v1.0.0-alpha.76...v1.0.0-beta.1) (2023-05-22)
 
