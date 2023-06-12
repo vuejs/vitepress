@@ -57,7 +57,10 @@ export function pathToFile(path: string): string {
           : pagePath.slice(0, -3) + '_index.md'
         pageHash = __VP_HASH_MAP__[pagePath.toLowerCase()]
       }
-      pagePath = `${base}__ASSETS_DIR__/${pagePath}.${pageHash}.js`
+      pagePath = `${base}${__ASSETS_DIR__.replace(
+        /"(.+)"/,
+        '$1'
+      )}/${pagePath}.${pageHash}.js`
     } else {
       // ssr build uses much simpler name mapping
       pagePath = `./${sanitizeFileName(
