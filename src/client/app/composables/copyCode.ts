@@ -7,8 +7,7 @@ export function useCopyCode() {
       const el = e.target as HTMLElement
       if (el.matches('div[class*="language-"] > button.copy')) {
         const parent = el.parentElement
-        const sibling = el.nextElementSibling
-          ?.nextElementSibling as HTMLPreElement | null
+        const sibling = el.nextElementSibling?.nextElementSibling
         if (!parent || !sibling) {
           return
         }
