@@ -110,6 +110,20 @@ interface Sidebar {
 }
 ```
 
+**Example:**
+
+```vue
+<script setup>
+import { useSidebar } from 'vitepress'
+
+const { hasSidebar } = useSidebar()
+</script>
+
+<template>
+  <div v-if="hasSidebar">Only show when sidebar exists</div>
+</template>
+```
+
 ## `withBase` <Badge type="info" text="helper" />
 
 - **Type**: `(path: string) => string`
