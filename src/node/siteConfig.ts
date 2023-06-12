@@ -59,8 +59,8 @@ export interface UserConfig<ThemeConfig = any>
   srcDir?: string
   srcExclude?: string[]
   outDir?: string
-  cacheDir?: string
   assetsDir?: string
+  cacheDir?: string
 
   shouldPreload?: (link: string, page: string) => boolean
 
@@ -193,8 +193,8 @@ export interface SiteConfig<ThemeConfig = any>
   configDeps: string[]
   themeDir: string
   outDir: string
-  cacheDir: string
   assetsDir: string
+  cacheDir: string
   tempDir: string
   pages: string[]
   dynamicRoutes: {
