@@ -94,19 +94,19 @@ export async function bundle(
         output: {
           sanitizeFileName,
           ...rollupOptions?.output,
-          assetFileNames: 'assets/[name].[hash].[ext]',
+          assetFileNames: `${config.assetsDir}/[name].[hash].[ext]`,
           ...(ssr
             ? {
                 entryFileNames: '[name].js',
                 chunkFileNames: '[name].[hash].js'
               }
             : {
-                entryFileNames: 'assets/[name].[hash].js',
+                entryFileNames: `${config.assetsDir}/[name].[hash].js`,
                 chunkFileNames(chunk) {
                   // avoid ads chunk being intercepted by adblock
                   return /(?:Carbon|BuySell)Ads/.test(chunk.name)
-                    ? 'assets/chunks/ui-custom.[hash].js'
-                    : 'assets/chunks/[name].[hash].js'
+                    ? `${config.assetsDir}/chunks/ui-custom.[hash].js`
+                    : `${config.assetsDir}/chunks/[name].[hash].js`
                 },
                 manualChunks(id, ctx) {
                   if (lazyDefaultThemeComponentsRE.test(id)) {
