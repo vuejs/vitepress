@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { useSidebar } from 'vitepress'
 import { useData } from '../composables/data'
-import { useSidebar } from '../composables/sidebar'
 
 const { theme } = useData()
 const { hasSidebar } = useSidebar()

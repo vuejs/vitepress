@@ -91,6 +91,25 @@ interface Router {
 }
 ```
 
+## `useSidebar` <Badge type="info" text="composable" />
+
+Returns sidebar-related data. The returned object has the following type:
+
+```ts
+interface Sidebar {
+  isOpen: Ref<boolean>
+  sidebar: Ref<DefaultTheme.SidebarItem[]>
+  sidebarGroups: Ref<DefaultTheme.SidebarItem[]>
+  hasSidebar: Ref<boolean>
+  hasAside: Ref<boolean>
+  leftAside: Ref<boolean>
+  isSidebarEnabled: Ref<boolean>
+  open: () => void
+  close: () => void
+  toggle: () => void
+}
+```
+
 ## `withBase` <Badge type="info" text="helper" />
 
 - **Type**: `(path: string) => string`
