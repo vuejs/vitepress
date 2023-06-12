@@ -39,6 +39,7 @@ useSponsorsGrid({ el, size: props.size })
         <article class="vp-sponsor-grid-box">
           <h4 class="visually-hidden">{{ sponsor.name }}</h4>
           <img
+            decoding="async"
             class="vp-sponsor-grid-image"
             :src="sponsor.img"
             :alt="sponsor.name"
