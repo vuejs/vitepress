@@ -20,7 +20,7 @@ import { getGitTimestamp } from './utils/getGitTimestamp'
 
 const debug = _debug('vitepress:md')
 const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
-const includesRE = /<!--\s*@include:\s*(.*?)\s*-->/g
+const includesRE = /<!--\s*@include:\s*([^{}]*?)\{*([\d,]*)\}*\s*-->/g
 
 export interface MarkdownCompileResult {
   vueSrc: string
@@ -86,7 +86,7 @@ export async function createMarkdownToVueRenderFn(
 
     // resolve includes
     let includes: string[] = []
-    src = src.replace(includesRE, (m, m1) => {
+    src = src.replace(includesRE, (m, m1, m2) => {
       if (!m1.length) return m
 
       const atPresent = m1[0] === '@'
@@ -96,7 +96,14 @@ export async function createMarkdownToVueRenderFn(
           dir,
           atPresent ? m1.slice(m1.length > 1 && m1[1] === '/' ? 2 : 1) : m1
         )
-        const content = fs.readFileSync(includePath, 'utf-8')
+        let content = fs.readFileSync(includePath, 'utf-8')
+        if (m2) {
+          let [startLine, endLine] = m2.split(',').map((v) => parseInt(v, 10))
+          if (!startLine) startLine = 1
+          if (!endLine) endLine = Infinity
+          const lines = content.split(/\r?\n/)
+          content = lines.slice(startLine - 1, endLine).join('\n')
+        }
         includes.push(slash(includePath))
         return content
       } catch (error) {
