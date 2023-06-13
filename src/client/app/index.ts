@@ -18,6 +18,7 @@ import { Content } from './components/Content'
 import { ClientOnly } from './components/ClientOnly'
 import { useCopyCode } from './composables/copyCode'
 import { useCodeGroups } from './composables/codeGroups'
+import VPIconExternalLink from '../theme-default/components/icons/VPIconExternalLink.vue'
 
 function resolveThemeExtends(theme: typeof RawTheme): typeof RawTheme {
   if (theme.extends) {
@@ -77,6 +78,7 @@ export async function createApp() {
   // install global components
   app.component('Content', Content)
   app.component('ClientOnly', ClientOnly)
+  app.component('VPIconExternalLink', VPIconExternalLink)
 
   // expose $frontmatter & $params
   Object.defineProperties(app.config.globalProperties, {
