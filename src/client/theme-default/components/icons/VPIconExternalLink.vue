@@ -13,7 +13,6 @@
   </svg>
 </template>
 
-
 <style scoped>
 .icon {
   display: inline-block;
