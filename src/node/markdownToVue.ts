@@ -98,7 +98,9 @@ export async function createMarkdownToVueRenderFn(
         )
         let content = fs.readFileSync(includePath, 'utf-8')
         if (m2) {
-          let [startLine, endLine] = m2.split(',').map((v) => parseInt(v, 10))
+          let [startLine, endLine] = m2
+            .split(',')
+            .map((v: any) => parseInt(v, 10))
           if (!startLine) startLine = 1
           if (!endLine) endLine = Infinity
           const lines = content.split(/\r?\n/)
