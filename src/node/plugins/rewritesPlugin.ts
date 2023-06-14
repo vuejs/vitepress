@@ -8,7 +8,7 @@ export function resolveRewrites(
 ) {
   const rewriteRules = Object.entries(userRewrites || {}).map(([from, to]) => ({
     toPath: compile(to),
-    matchUrl: match(from)
+    matchUrl: match(from.startsWith('^') ? new RegExp(from) : from)
   }))
 
   const pageToRewrite: Record<string, string> = {}
