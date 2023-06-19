@@ -4,7 +4,6 @@
 // generic types
 export type { VitePressData } from './app/data'
 export type { Route, Router } from './app/router'
-export type { Sidebar } from './theme-default/composables/sidebar'
 
 // theme types
 export type { EnhanceAppContext, Theme } from './app/theme'
@@ -14,8 +13,7 @@ export type { HeadConfig, Header, PageData, SiteData } from '../../types/shared'
 
 // composables
 export { useData, dataSymbol } from './app/data'
-export { useRoute, useRouter, createRouter } from './app/router'
-export { useSidebar } from './theme-default/composables/sidebar'
+export { useRoute, useRouter } from './app/router'
 
 // utilities
 export {

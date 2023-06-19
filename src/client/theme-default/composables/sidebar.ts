@@ -18,19 +18,6 @@ import {
 } from '../support/sidebar'
 import { useData } from './data'
 
-export interface Sidebar {
-  isOpen: Ref<boolean>
-  sidebar: Ref<DefaultTheme.SidebarItem[]>
-  sidebarGroups: Ref<DefaultTheme.SidebarItem[]>
-  hasSidebar: Ref<boolean>
-  hasAside: Ref<boolean>
-  leftAside: Ref<boolean>
-  isSidebarEnabled: Ref<boolean>
-  open: () => void
-  close: () => void
-  toggle: () => void
-}
-
 export interface SidebarControl {
   collapsed: Ref<boolean>
   collapsible: ComputedRef<boolean>
@@ -41,7 +28,7 @@ export interface SidebarControl {
   toggle(): void
 }
 
-export function useSidebar(): Sidebar {
+export function useSidebar() {
   const route = useRoute()
   const { theme, frontmatter } = useData()
   const is960 = useMediaQuery('(min-width: 960px)')
