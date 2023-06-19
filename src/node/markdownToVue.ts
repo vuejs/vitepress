@@ -20,7 +20,7 @@ import { getGitTimestamp } from './utils/getGitTimestamp'
 
 const debug = _debug('vitepress:md')
 const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
-const includesRE = /<!--\s*@include:\s*([^{}]*?)\{*([\d,]*)\}*\s*-->/g
+const includesRE = /<!--\s*@include:\s*(.*?)\{*([\d,]*)\}*\s*-->/g
 
 export interface MarkdownCompileResult {
   vueSrc: string
