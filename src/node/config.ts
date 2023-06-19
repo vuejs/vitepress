@@ -35,21 +35,27 @@ export type UserConfigExport<ThemeConfig> =
   | Promise<UserConfig<ThemeConfig>>
   | UserConfigFn<ThemeConfig>
 
-/**
- * Type config helper
- */
-export function defineConfig(config: UserConfigExport<DefaultTheme.Config>) {
-  return config
-}
-
-/**
- * Type config helper for custom theme config
- */
-export function defineConfigWithTheme<ThemeConfig>(
-  config: UserConfigExport<ThemeConfig>
+export function defineConfig<T = DefaultTheme.Config>(
+  config: UserConfig<T>
+): UserConfig<T>
+export function defineConfig<T = DefaultTheme.Config>(
+  config: Promise<UserConfig<T>>
+): Promise<UserConfig<T>>
+export function defineConfig<T = DefaultTheme.Config>(
+  config: (env: ConfigEnv) => UserConfig<T>
+): (env: ConfigEnv) => UserConfig<T>
+export function defineConfig<T = DefaultTheme.Config>(
+  config: (env: ConfigEnv) => Promise<UserConfig<T>>
+): (env: ConfigEnv) => Promise<UserConfig<T>>
+export function defineConfig<T = DefaultTheme.Config>(
+  config: UserConfigExport<T>
 ) {
   return config
 }
+/**
+ * @deprecated use `defineConfig` instead.
+ */
+export const defineConfigWithTheme = defineConfig
 
 export async function resolveConfig(
   root: string = process.cwd(),
