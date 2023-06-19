@@ -180,3 +180,36 @@ export default {
   }
 }
 ```
+
+## `useSidebar` <Badge type="info" text="composable" />
+
+Returns sidebar-related data. The returned object has the following type:
+
+```ts
+export interface Sidebar {
+  isOpen: Ref<boolean>
+  sidebar: ComputedRef<DefaultTheme.SidebarItem[]>
+  sidebarGroups: ComputedRef<DefaultTheme.SidebarItem[]>
+  hasSidebar: ComputedRef<boolean>
+  hasAside: ComputedRef<boolean>
+  leftAside: ComputedRef<boolean>
+  isSidebarEnabled: ComputedRef<boolean>
+  open: () => void
+  close: () => void
+  toggle: () => void
+}
+```
+
+**Example:**
+
+```vue
+<script setup>
+import { useSidebar } from 'vitepress/theme'
+
+const { hasSidebar } = useSidebar()
+</script>
+
+<template>
+  <div v-if="hasSidebar">Only show when sidebar exists</div>
+</template>
+```

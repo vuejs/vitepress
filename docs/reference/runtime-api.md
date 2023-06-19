@@ -91,39 +91,6 @@ interface Router {
 }
 ```
 
-## `useSidebar` <Badge type="info" text="composable" />
-
-Returns sidebar-related data. The returned object has the following type:
-
-```ts
-interface Sidebar {
-  isOpen: Ref<boolean>
-  sidebar: Ref<DefaultTheme.SidebarItem[]>
-  sidebarGroups: Ref<DefaultTheme.SidebarItem[]>
-  hasSidebar: Ref<boolean>
-  hasAside: Ref<boolean>
-  leftAside: Ref<boolean>
-  isSidebarEnabled: Ref<boolean>
-  open: () => void
-  close: () => void
-  toggle: () => void
-}
-```
-
-**Example:**
-
-```vue
-<script setup>
-import { useSidebar } from 'vitepress'
-
-const { hasSidebar } = useSidebar()
-</script>
-
-<template>
-  <div v-if="hasSidebar">Only show when sidebar exists</div>
-</template>
-```
-
 ## `withBase` <Badge type="info" text="helper" />
 
 - **Type**: `(path: string) => string`
