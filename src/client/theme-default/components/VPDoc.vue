@@ -41,7 +41,7 @@ const pageName = computed(() =>
         <div class="content-container">
           <slot name="doc-before" />
           <VPDocOutlineDropdown />
-          <main class="main">
+          <main class="main" id="main-content">
             <Content class="vp-doc" :class="pageName" />
           </main>
           <VPDocFooter>
