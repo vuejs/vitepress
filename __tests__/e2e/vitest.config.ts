@@ -10,5 +10,8 @@ export default defineConfig({
     hookTimeout: timeout,
     teardownTimeout: timeout,
     globals: true
+  },
+  optimizeDeps: {
+    include: ['@vue/devtools-api']
   }
 })
