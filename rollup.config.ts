@@ -38,6 +38,7 @@ const plugins = [
     // polyfill broken browser check from bundled deps
     'navigator.userAgentData': 'undefined',
     'navigator.userAgent': 'undefined',
+    __DEVTOOLS_MARKER__: '"vitepress > @vue/devtools-api"',
     preventAssignment: true
   }),
   commonjs(),

@@ -34,6 +34,8 @@ declare module 'vite' {
   }
 }
 
+const __DEVTOOLS_MARKER__ = '@vue/devtools-api'
+
 const hashRE = /\.(\w+)\.js$/
 const staticInjectMarkerRE =
   /\b(const _hoisted_\d+ = \/\*(?:#|@)__PURE__\*\/\s*createStaticVNode)\("(.*)", (\d+)\)/g
@@ -133,7 +135,7 @@ export async function createVitePressPlugin(
         },
         optimizeDeps: {
           // force include vue to avoid duplicated copies when linked + optimized
-          include: ['vue'],
+          include: ['vue', __DEVTOOLS_MARKER__],
           exclude: ['@docsearch/js', 'vitepress']
         },
         server: {
