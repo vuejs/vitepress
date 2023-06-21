@@ -34,7 +34,7 @@ if (!command || command === 'dev') {
     await server.listen()
     logVersion(server.config.logger)
     server.printUrls()
-    bindShortcuts(server)
+    bindShortcuts(server, createDevServer)
   }
   createDevServer().catch((err) => {
     createLogger().error(

@@ -2,13 +2,12 @@ import { inBrowser } from 'vitepress'
 
 export function useCopyCode() {
   if (inBrowser) {
-    const timeoutIdMap: Map<HTMLElement, NodeJS.Timeout> = new Map()
+    const timeoutIdMap: WeakMap<HTMLElement, NodeJS.Timeout> = new WeakMap()
     window.addEventListener('click', (e) => {
       const el = e.target as HTMLElement
       if (el.matches('div[class*="language-"] > button.copy')) {
         const parent = el.parentElement
-        const sibling = el.nextElementSibling
-          ?.nextElementSibling as HTMLPreElement | null
+        const sibling = el.nextElementSibling?.nextElementSibling
         if (!parent || !sibling) {
           return
         }

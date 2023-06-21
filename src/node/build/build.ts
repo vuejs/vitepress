@@ -1,16 +1,17 @@
 import fs from 'fs-extra'
-import path from 'path'
-import ora from 'ora'
-import type { BuildOptions } from 'vite'
-import type { OutputChunk, OutputAsset } from 'rollup'
-import { resolveConfig } from '../config'
-import { renderPage } from './render'
-import { bundle, okMark, failMark } from './bundle'
 import { createRequire } from 'module'
-import { pathToFileURL } from 'url'
+import ora from 'ora'
+import path from 'path'
 import { packageDirectorySync } from 'pkg-dir'
-import { serializeFunctions } from '../utils/fnSerialize'
+import { rimraf } from 'rimraf'
+import type { OutputAsset, OutputChunk } from 'rollup'
+import { pathToFileURL } from 'url'
+import type { BuildOptions } from 'vite'
+import { resolveConfig } from '../config'
 import type { HeadConfig } from '../shared'
+import { serializeFunctions } from '../utils/fnSerialize'
+import { bundle, failMark, okMark } from './bundle'
+import { renderPage } from './render'
 
 export async function build(
   root?: string,
@@ -142,8 +143,7 @@ export async function build(
     )
   } finally {
     unlinkVue()
-    if (!process.env.DEBUG)
-      fs.rmSync(siteConfig.tempDir, { recursive: true, force: true })
+    if (!process.env.DEBUG) await rimraf(siteConfig.tempDir)
   }
 
   await siteConfig.buildEnd?.(siteConfig)
