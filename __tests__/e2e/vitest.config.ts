@@ -12,6 +12,6 @@ export default defineConfig({
     globals: true
   },
   optimizeDeps: {
-    include: ['@vue/devtools-api']
+    include: ['vitepress > @vue/devtools-api']
   }
 })
