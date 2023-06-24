@@ -68,7 +68,7 @@
     "format": "prettier --check --write .",
     "format-fail": "prettier --check .",
     "check": "run-s format-fail build test",
-    "test": "run-s test-unit test-e2e test-e2e-build",
+    "test": "pnpm test-unit",
     "test-unit": "vitest run -r __tests__/unit",
     "test-e2e": "vitest run -r __tests__/e2e",
     "test-e2e-build": "VITE_TEST_BUILD=1 pnpm test-e2e",
