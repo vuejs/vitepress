@@ -1,4 +1,4 @@
-import { configDefaults, defineConfig } from 'vitest/config'
+import { defineConfig } from 'vitest/config'
 
 const timeout = 60_000
 
@@ -9,7 +9,6 @@ export default defineConfig({
     testTimeout: timeout,
     hookTimeout: timeout,
     teardownTimeout: timeout,
-    globals: true,
-    exclude: [...configDefaults.exclude, '**/.vitepress/**']
+    globals: true
   }
 })
