@@ -65,7 +65,7 @@
     "build:prepare": "rimraf dist && node scripts/copyShared",
     "build:client": "vue-tsc --noEmit -p src/client && tsc -p src/client && node scripts/copyClient",
     "build:node": "tsc -p src/node --noEmit && rollup --config rollup.config.ts --configPlugin esbuild",
-    "test": "run-p test:unit test:e2e test:init",
+    "test": "run-p --aggregate-output test:unit test:e2e test:init",
     "test:unit": "vitest run -r __tests__/unit",
     "test:unit:watch": "vitest -r __tests__/unit",
     "test:e2e": "run-s test:e2e-dev test:e2e-build",
