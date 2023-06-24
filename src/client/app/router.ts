@@ -269,15 +269,21 @@ export function scrollTo(el: Element, hash: string, smooth = false) {
       offset +
       targetPadding
     // only smooth scroll if distance is smaller than screen height.
-    if (!smooth || Math.abs(targetTop - window.scrollY) > window.innerHeight) {
-      window.scrollTo(0, targetTop)
-    } else {
-      window.scrollTo({
-        left: 0,
-        top: targetTop,
-        behavior: 'smooth'
-      })
+    function scrollToTarget() {
+      if (
+        !smooth ||
+        Math.abs(targetTop - window.scrollY) > window.innerHeight
+      ) {
+        window.scrollTo(0, targetTop)
+      } else {
+        window.scrollTo({
+          left: 0,
+          top: targetTop,
+          behavior: 'smooth'
+        })
+      }
     }
+    requestAnimationFrame(scrollToTarget)
   }
 }
 
