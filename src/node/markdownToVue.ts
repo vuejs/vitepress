@@ -12,9 +12,9 @@ import {
 } from './markdown'
 import {
   EXTERNAL_URL_RE,
-  slash,
   type HeadConfig,
-  type PageData
+  type PageData,
+  slash
 } from './shared'
 import { getGitTimestamp } from './utils/getGitTimestamp'
 
@@ -84,25 +84,39 @@ export async function createMarkdownToVueRenderFn(
       }
     )
 
+    const processIncludes = (
+      src: string,
+      srcDir: string,
+      fileOrig: string,
+      includes: string[]
+    ): string => {
+      return src.replace(includesRE, (match, includePath) => {
+        if (!includePath.length) return match
+
+        const atPresent = includePath[0] === '@'
+        try {
+          const resolvedPath = path.join(
+            atPresent ? srcDir : path.dirname(fileOrig),
+            atPresent
+              ? includePath.slice(
+                  includePath.length > 1 && includePath[1] === '/' ? 2 : 1
+                )
+              : includePath
+          )
+          const content = fs.readFileSync(resolvedPath, 'utf-8')
+          includes.push(slash(resolvedPath))
+
+          // Recursively process includes in the content
+          return processIncludes(content, srcDir, resolvedPath, includes)
+        } catch (error) {
+          return match // silently ignore error if file is not present
+        }
+      })
+    }
+
     // resolve includes
     let includes: string[] = []
-    src = src.replace(includesRE, (m, m1) => {
-      if (!m1.length) return m
-
-      const atPresent = m1[0] === '@'
-      try {
-        const dir = atPresent ? srcDir : path.dirname(fileOrig)
-        const includePath = path.join(
-          dir,
-          atPresent ? m1.slice(m1.length > 1 && m1[1] === '/' ? 2 : 1) : m1
-        )
-        const content = fs.readFileSync(includePath, 'utf-8')
-        includes.push(slash(includePath))
-        return content
-      } catch (error) {
-        return m // silently ignore error if file is not present
-      }
-    })
+    src = processIncludes(src, srcDir, fileOrig, includes)
 
     // reset env before render
     const env: MarkdownEnv = {

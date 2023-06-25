@@ -233,4 +233,8 @@ describe('Markdown File Inclusion', () => {
     const h1 = page.locator('#markdown-at-file-inclusion + h1')
     expect(await h1.getAttribute('id')).toBe('bar')
   })
+  test('render markdown using nested inclusion', async () => {
+    const h1 = page.locator('#markdown-nested-file-inclusion + h1')
+    expect(await h1.getAttribute('id')).toBe('foo-1')
+  })
 })
