@@ -63,7 +63,7 @@ describe('Table of Contents', () => {
   test('render toc', async () => {
     const items = page.locator('#table-of-contents + nav ul li')
     const count = await items.count()
-    expect(count).toBe(24)
+    expect(count).toBe(27)
   })
 })
 
