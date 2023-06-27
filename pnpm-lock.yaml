@@ -39,8 +39,8 @@ importers:
         specifier: ^6.1.0
         version: 6.1.0
       shiki:
-        specifier: ^0.14.2
-        version: 0.14.2
+        specifier: ^0.14.3
+        version: 0.14.3
       vite:
         specifier: 4.4.0-beta.2
         version: 4.4.0-beta.2(@types/node@20.3.1)
@@ -248,7 +248,7 @@ importers:
         version: 7.5.3
       shiki-processor:
         specifier: ^0.1.3
-        version: 0.1.3(shiki@0.14.2)
+        version: 0.1.3(shiki@0.14.3)
       simple-git-hooks:
         specifier: ^2.8.1
         version: 2.8.1
@@ -4198,16 +4198,16 @@ packages:
     resolution: {integrity: sha512-6j1W9l1iAs/4xYBI1SYOVZyFcCis9b4KCLQ8fgAGG07QvzaRLVVRQvAy85yNmmZSjYjg4MWh4gNvlPujU/5LpA==}
     dev: true
 
-  /shiki-processor@0.1.3(shiki@0.14.2):
+  /shiki-processor@0.1.3(shiki@0.14.3):
     resolution: {integrity: sha512-oZqVFKweklwt+fj6yUPb+ffrCpYYoJ4RYxNt7w1+aoHetHq5ZaN6oX6+4HrypOi0s/O6A2neBpn+Xf6bM4KfsQ==}
     peerDependencies:
       shiki: 0.x
     dependencies:
-      shiki: 0.14.2
+      shiki: 0.14.3
     dev: true
 
-  /shiki@0.14.2:
-    resolution: {integrity: sha512-ltSZlSLOuSY0M0Y75KA+ieRaZ0Trf5Wl3gutE7jzLuIcWxLp5i/uEnLoQWNvgKXQ5OMpGkJnVMRLAuzjc0LJ2A==}
+  /shiki@0.14.3:
+    resolution: {integrity: sha512-U3S/a+b0KS+UkTyMjoNojvTgrBHjgp7L6ovhFVZsXmBGnVdQ4K4U9oK0z63w538S91ATngv1vXigHCSWOwnr+g==}
     dependencies:
       ansi-sequence-parser: 1.1.0
       jsonc-parser: 3.2.0
