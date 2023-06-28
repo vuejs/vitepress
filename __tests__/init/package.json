@@ -1,6 +1,11 @@
 {
+  "name": "tests-init",
   "private": true,
   "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "watch": "DEBUG=1 vitest"
+  },
   "devDependencies": {
     "vitepress": "workspace:*"
   }

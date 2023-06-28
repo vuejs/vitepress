@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { useSidebar } from 'vitepress/theme'
 import { useData } from '../composables/data'
-import { useSidebar } from '../composables/sidebar'
 import { useLangs } from '../composables/langs'
 import { normalizeLink } from '../support/utils'
 import VPImage from './VPImage.vue'
