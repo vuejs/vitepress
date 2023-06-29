@@ -14,9 +14,10 @@ export const VPTeamMembers: DefineComponent
 
 declare const theme: {
   Layout: DefineComponent
-  NotFound: DefineComponent
   enhanceApp: (ctx: EnhanceAppContext) => void
 }
 
 export default theme
 export type { DefaultTheme } from './types/default-theme.js'
+
+export const useSidebar: () => DefaultTheme.SideBar

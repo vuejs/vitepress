@@ -86,32 +86,36 @@ export async function createMarkdownToVueRenderFn(
 
     // resolve includes
     let includes: string[] = []
-    src = src.replace(includesRE, (m, m1, m2) => {
-      if (!m1.length) return m
 
-      const atPresent = m1[0] === '@'
-      try {
-        const dir = atPresent ? srcDir : path.dirname(fileOrig)
-        const includePath = path.join(
-          dir,
-          atPresent ? m1.slice(m1.length > 1 && m1[1] === '/' ? 2 : 1) : m1
-        )
-        let content = fs.readFileSync(includePath, 'utf-8')
-        if (m2) {
-          let [startLine, endLine] = m2
-            .split(',')
-            .map((v: any) => parseInt(v, 10))
-          if (!startLine) startLine = 1
-          if (!endLine) endLine = Infinity
-          const lines = content.split(/\r?\n/)
-          content = lines.slice(startLine - 1, endLine).join('\n')
+    function processIncludes(src: string): string {
+      return src.replace(includesRE, (m, m1, m2) => {
+        if (!m1.length) return m
+
+        const atPresent = m1[0] === '@'
+        try {
+          const includePath = atPresent
+            ? path.join(srcDir, m1.slice(m1[1] === '/' ? 2 : 1))
+            : path.join(path.dirname(fileOrig), m1)
+          let content = fs.readFileSync(includePath, 'utf-8')
+          if (m2) {
+            let [startLine, endLine] = m2
+              .split(',')
+              .map((v: any) => parseInt(v, 10))
+            if (!startLine) startLine = 1
+            if (!endLine) endLine = Infinity
+            const lines = content.split(/\r?\n/)
+            content = lines.slice(startLine - 1, endLine).join('\n')
+          }
+          includes.push(slash(includePath))
+          // recursively process includes in the content
+          return processIncludes(content)
+        } catch (error) {
+          return m // silently ignore error if file is not present
         }
-        includes.push(slash(includePath))
-        return content
-      } catch (error) {
-        return m // silently ignore error if file is not present
-      }
-    })
+      })
+    }
+
+    src = processIncludes(src)
 
     // reset env before render
     const env: MarkdownEnv = {

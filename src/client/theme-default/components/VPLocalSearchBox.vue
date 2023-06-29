@@ -12,7 +12,7 @@ import {
 import { useFocusTrap } from '@vueuse/integrations/useFocusTrap'
 import Mark from 'mark.js/src/vanilla.js'
 import MiniSearch, { type SearchResult } from 'minisearch'
-import { useRouter } from 'vitepress'
+import { useRouter, dataSymbol } from 'vitepress'
 import {
   computed,
   createApp,
@@ -27,7 +27,6 @@ import {
   type Ref
 } from 'vue'
 import type { ModalTranslations } from '../../../../types/local-search'
-import { dataSymbol } from '../../app/data'
 import { pathToFile } from '../../app/utils'
 import { useData } from '../composables/data'
 import { createTranslate } from '../support/translation'
