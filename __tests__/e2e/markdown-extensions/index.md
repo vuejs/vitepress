@@ -180,3 +180,8 @@ export default config
 ## Markdown At File Inclusion
 
 <!--@include: @/markdown-extensions/bar.md-->
+
+
+## Markdown Nested File Inclusion
+
+<!--@include: ./nested-include.md-->

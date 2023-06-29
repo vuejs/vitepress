@@ -1,55 +1,48 @@
-import { chromium, type Browser, type Page } from 'playwright-chromium'
-import { fileURLToPath } from 'url'
-import path from 'path'
 import fs from 'fs-extra'
-import {
-  scaffold,
-  build,
-  createServer,
-  serve,
-  ScaffoldThemeType,
-  type ScaffoldOptions
-} from 'vitepress'
-import type { ViteDevServer } from 'vite'
-import type { Server } from 'net'
 import getPort from 'get-port'
+import { chromium } from 'playwright-chromium'
+import { fileURLToPath, URL } from 'url'
+import { createServer, scaffold, ScaffoldThemeType } from 'vitepress'
 
-let browser: Browser
-let page: Page
+const root = fileURLToPath(new URL('./.temp', import.meta.url))
 
-beforeAll(async () => {
-  browser = await chromium.connect(process.env['WS_ENDPOINT']!)
-  page = await browser.newPage()
+const browser = await chromium.launch({
+  headless: !process.env.DEBUG,
+  args: process.env.CI
+    ? ['--no-sandbox', '--disable-setuid-sandbox']
+    : undefined
 })
+
+const page = await browser.newPage()
+
+const themes = [
+  ScaffoldThemeType.Default,
+  ScaffoldThemeType.DefaultCustom,
+  ScaffoldThemeType.Custom
+]
+const usingTs = [false, true]
+const variations = themes.flatMap((theme) =>
+  usingTs.map(
+    (useTs) => [`${theme}${useTs ? ' + ts' : ''}`, { theme, useTs }] as const
+  )
+)
 
 afterAll(async () => {
   await page.close()
   await browser.close()
 })
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), 'temp')
+test.each(variations)('init %s', async (_, { theme, useTs }) => {
+  await fs.remove(root)
+  scaffold({ root, theme, useTs, injectNpmScripts: false })
 
-async function testVariation(options: ScaffoldOptions) {
-  fs.removeSync(root)
-  scaffold({
-    ...options,
-    root
-  })
-
-  let server: ViteDevServer | Server
   const port = await getPort()
+  const server = await createServer(root, { port })
+  await server.listen()
 
   async function goto(path: string) {
     await page.goto(`http://localhost:${port}${path}`)
     await page.waitForSelector('#app div')
-  }
-
-  if (process.env['VITE_TEST_BUILD']) {
-    await build(root)
-    server = (await serve({ root, port })).server
-  } else {
-    server = await createServer(root, { port })
-    await server!.listen()
   }
 
   try {
@@ -66,33 +59,10 @@ async function testVariation(options: ScaffoldOptions) {
     await page.click('a[href="/api-examples.html"]')
     await page.waitForSelector('pre code')
     expect(await page.textContent('h1')).toMatch('Runtime API Examples')
+
+    // teardown
   } finally {
-    fs.removeSync(root)
-    if ('ws' in server) {
-      await server.close()
-    } else {
-      await new Promise<void>((resolve, reject) => {
-        server.close((error) => (error ? reject(error) : resolve()))
-      })
-    }
+    await fs.remove(root)
+    await server.close()
   }
-}
-
-const themes = [
-  ScaffoldThemeType.Default,
-  ScaffoldThemeType.DefaultCustom,
-  ScaffoldThemeType.Custom
-]
-const usingTs = [false, true]
-
-for (const theme of themes) {
-  for (const useTs of usingTs) {
-    test(`${theme}${useTs ? ` + TypeScript` : ``}`, () =>
-      testVariation({
-        root: '.',
-        theme,
-        useTs,
-        injectNpmScripts: false
-      }))
-  }
-}
+})

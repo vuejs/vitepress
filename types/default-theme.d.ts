@@ -209,6 +209,22 @@ export namespace DefaultTheme {
     collapsed?: boolean
   }
 
+  /**
+   * ReturnType of `useSidebar`
+   */
+  export interface Sidebar {
+    isOpen: Ref<boolean>
+    sidebar: ComputedRef<SidebarItem[]>
+    sidebarGroups: ComputedRef<SidebarItem[]>
+    hasSidebar: ComputedRef<boolean>
+    hasAside: ComputedRef<boolean>
+    leftAside: ComputedRef<boolean>
+    isSidebarEnabled: ComputedRef<boolean>
+    open: () => void
+    close: () => void
+    toggle: () => void
+  }
+
   // edit link -----------------------------------------------------------------
 
   export interface EditLink {
