@@ -104,8 +104,8 @@ export function createRouter(
             if (targetLoc.hash && !scrollPosition) {
               let target: HTMLElement | null = null
               try {
-                target = document.querySelector(
-                  decodeURIComponent(targetLoc.hash)
+                target = document.getElementById(
+                  decodeURIComponent(targetLoc.hash).slice(1)
                 )
               } catch (e) {
                 console.warn(e)
@@ -238,7 +238,7 @@ export function scrollTo(el: Element, hash: string, smooth = false) {
   try {
     target = el.classList.contains('header-anchor')
       ? el
-      : document.querySelector(decodeURIComponent(hash))
+      : document.getElementById(decodeURIComponent(hash).slice(1))
   } catch (e) {
     console.warn(e)
   }
