@@ -8,9 +8,7 @@ defineProps<{
 
 function onClick({ target: el }: Event) {
   const id = '#' + (el as HTMLAnchorElement).href!.split('#')[1]
-  const heading = document.querySelector<HTMLAnchorElement>(
-    decodeURIComponent(id)
-  )
+  const heading = document.getElementById(decodeURIComponent(id).slice(1))
   heading?.focus()
 }
 </script>

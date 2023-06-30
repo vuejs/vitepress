@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { useWindowScroll } from '@vueuse/core'
-import { computed, shallowRef } from 'vue'
 import { onContentUpdated } from 'vitepress'
+import { useSidebar } from 'vitepress/theme'
+import { computed, shallowRef } from 'vue'
 import { useData } from '../composables/data'
 import { getHeaders, type MenuItem } from '../composables/outline'
-import { useSidebar } from '../composables/sidebar'
 import VPLocalNavOutlineDropdown from './VPLocalNavOutlineDropdown.vue'
 import VPIconAlignLeft from './icons/VPIconAlignLeft.vue'
 

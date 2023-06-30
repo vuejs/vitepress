@@ -1,6 +1,12 @@
 {
+  "name": "docs",
   "private": true,
   "type": "module",
+  "scripts": {
+    "dev": "vitepress",
+    "build": "vitepress build",
+    "preview": "vitepress preview"
+  },
   "devDependencies": {
     "vitepress": "workspace:*"
   }
