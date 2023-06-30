@@ -14,7 +14,6 @@ export const linkPlugin = (
   externalAttrs: Record<string, string>,
   base: string
 ) => {
-  let isExternalLink = false
   md.renderer.rules.link_open = (
     tokens,
     idx,
@@ -28,7 +27,6 @@ export const linkPlugin = (
       const hrefAttr = token.attrs![hrefIndex]
       const url = hrefAttr[1]
       if (isExternal(url)) {
-        isExternalLink = true
         Object.entries(externalAttrs).forEach(([key, val]) => {
           token.attrSet(key, val)
         })
@@ -65,21 +63,6 @@ export const linkPlugin = (
         .replace(/\bprocess\.env/g, 'process%2Eenv')
     }
     return self.renderToken(tokens, idx, options)
-  }
-
-  md.renderer.rules.link_close = (
-    tokens,
-    idx,
-    options,
-    env: MarkdownEnv,
-    self
-  ) => {
-    const tokenRender = self.renderToken(tokens, idx, options)
-    if (isExternalLink) {
-      isExternalLink = false
-      return `<VPIconExternalLink />${tokenRender}`
-    }
-    return tokenRender
   }
 
   function normalizeHref(hrefAttr: [string, string], env: MarkdownEnv) {

@@ -19,12 +19,11 @@ const isExternal = computed(() => props.href && EXTERNAL_URL_RE.test(props.href)
   <component
     :is="tag"
     class="VPLink"
-    :class="{ link: href }"
+    :class="{ link: href, 'vp-external-link-icon': isExternal && !noIcon }"
     :href="href ? normalizeLink(href) : undefined"
     :target="target || (isExternal ? '_blank' : undefined)"
     :rel="rel || (isExternal ? 'noreferrer' : undefined)"
   >
     <slot />
-    <VPIconExternalLink v-if="isExternal && !noIcon" />
   </component>
 </template>
