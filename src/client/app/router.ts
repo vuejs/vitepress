@@ -16,6 +16,7 @@ export interface Router {
   go: (href?: string) => Promise<void>
   onBeforeRouteChange?: (to: string) => Awaitable<void>
   onAfterRouteChanged?: (to: string) => Awaitable<void>
+  onBeforeRoutePageLoad?: (to: string) => Awaitable<void>
 }
 
 export const RouterSymbol: InjectionKey<Router> = Symbol()
@@ -69,6 +70,7 @@ export function createRouter(
   let latestPendingPath: string | null = null
 
   async function loadPage(href: string, scrollPosition = 0, isRetry = false) {
+    await router.onBeforeRoutePageLoad?.(href)
     const targetLoc = new URL(href, fakeHost)
     const pendingPath = (latestPendingPath = targetLoc.pathname)
     try {
