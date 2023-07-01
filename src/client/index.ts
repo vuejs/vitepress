@@ -12,7 +12,7 @@ export type { EnhanceAppContext, Theme } from './app/theme'
 export type { HeadConfig, Header, PageData, SiteData } from '../../types/shared'
 
 // composables
-export { useData } from './app/data'
+export { useData, dataSymbol } from './app/data'
 export { useRoute, useRouter } from './app/router'
 
 // utilities

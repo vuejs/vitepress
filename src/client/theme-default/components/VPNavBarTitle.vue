@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { useSidebar } from 'vitepress/theme'
 import { useData } from '../composables/data'
-import { useSidebar } from '../composables/sidebar'
 import { useLangs } from '../composables/langs'
 import { normalizeLink } from '../support/utils'
 import VPImage from './VPImage.vue'
@@ -33,10 +33,6 @@ const { currentLang } = useLangs()
   font-weight: 600;
   color: var(--vp-c-text-1);
   transition: opacity 0.25s;
-}
-
-.title:hover {
-  opacity: 0.6;
 }
 
 @media (min-width: 960px) {

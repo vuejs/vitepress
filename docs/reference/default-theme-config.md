@@ -214,7 +214,9 @@ export default {
         icon: {
           svg: '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Dribbble</title><path d="M12...6.38z"/></svg>'
         },
-        link: '...'
+        link: '...',
+        // You can include a custom label for accessibility too (optional but recommended):
+        ariaLabel: 'cool link'
       }
     ]
   }
@@ -225,6 +227,7 @@ export default {
 interface SocialLink {
   icon: SocialLinkIcon
   link: string
+  ariaLabel?: string
 }
 
 type SocialLinkIcon =
@@ -364,7 +367,7 @@ Learn more in [Default Theme: Carbon Ads](./default-theme-carbon-ads)
 
 - Type: `DocFooter`
 
-Can be used to customize text appearing above previous and next links. Helpful if not writing docs in English.
+Can be used to customize text appearing above previous and next links. Helpful if not writing docs in English. Also can be used to disable prev/next links globally. If you want to selectively enable/disable prev/next links, you can use [frontmatter](./default-theme-prev-next-links).
 
 ```js
 export default {
@@ -379,8 +382,8 @@ export default {
 
 ```ts
 export interface DocFooter {
-  prev?: string
-  next?: string
+  prev?: string | false
+  next?: string | false
 }
 ```
 
@@ -411,3 +414,10 @@ Can be used to customize the label of the return to top button. This label is on
 - Default: `Change language`
 
 Can be used to customize the aria-label of the language toggle button in navbar. This is only used if you're using [i18n](../guide/i18n).
+
+## externalLinkIcon
+
+- Type: `boolean`
+- Default: `false`
+
+Whether to show an external link icon next to external links in markdown.

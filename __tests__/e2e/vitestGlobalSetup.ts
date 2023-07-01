@@ -7,7 +7,7 @@ import type { Server } from 'net'
 let browserServer: BrowserServer
 let server: ViteDevServer | Server
 
-const root = '__tests__/e2e'
+const root = '.'
 
 export async function setup() {
   browserServer = await chromium.launchServer({

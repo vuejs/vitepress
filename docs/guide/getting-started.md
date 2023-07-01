@@ -38,7 +38,8 @@ If using PNPM, you will notice a missing peer warning for `@docsearch/js`. This 
 "pnpm": {
   "peerDependencyRules": {
     "ignoreMissing": [
-      "@algolia/client-search"
+      "@algolia/client-search",
+      "search-insights"
     ]
   }
 }
@@ -57,7 +58,7 @@ $ npx vitepress init
 ```
 
 ```sh [pnpm]
-$ pnpm exec vitepress init
+$ pnpm dlx vitepress init
 ```
 
 :::

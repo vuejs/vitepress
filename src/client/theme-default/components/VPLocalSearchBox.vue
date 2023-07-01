@@ -9,9 +9,10 @@ import {
   useScrollLock,
   useSessionStorage
 } from '@vueuse/core'
+import { useFocusTrap } from '@vueuse/integrations/useFocusTrap'
 import Mark from 'mark.js/src/vanilla.js'
 import MiniSearch, { type SearchResult } from 'minisearch'
-import { useRouter } from 'vitepress'
+import { useRouter, dataSymbol } from 'vitepress'
 import {
   computed,
   createApp,
@@ -27,10 +28,8 @@ import {
 } from 'vue'
 import type { ModalTranslations } from '../../../../types/local-search'
 import { pathToFile } from '../../app/utils'
-import { slash } from '../../shared'
 import { useData } from '../composables/data'
 import { createTranslate } from '../support/translation'
-import { dataSymbol } from '../../app/data'
 
 defineProps<{
   placeholder: string
@@ -64,6 +63,12 @@ interface Result {
 }
 
 const vitePressData = useData()
+const { activate } = useFocusTrap(el, {
+  immediate: true,
+  allowOutsideClick: true,
+  clickOutsideDeactivates: true,
+  escapeDeactivates: true
+})
 const { localeIndex, theme } = vitePressData
 const searchIndex = computedAsync(async () =>
   markRaw(
@@ -84,14 +89,14 @@ const searchIndex = computedAsync(async () =>
 
 const disableQueryPersistence = computed(() => {
   return (
-      theme.value.search?.provider === 'local' &&
-      theme.value.search.options?.disableQueryPersistence === true
+    theme.value.search?.provider === 'local' &&
+    theme.value.search.options?.disableQueryPersistence === true
   )
 })
 
 const filterText = disableQueryPersistence.value
-    ? ref('')
-    : useSessionStorage('vitepress:local-search-filter', '')
+  ? ref('')
+  : useSessionStorage('vitepress:local-search-filter', '')
 
 const showDetailedList = useLocalStorage(
   'vitepress:local-search-detailed-list',
@@ -112,8 +117,6 @@ watchEffect(() => {
 })
 
 const results: Ref<(SearchResult & Result)[]> = shallowRef([])
-
-const headingRegex = /<h(\d*).*?>.*?<a.*? href="#(.*?)".*?>.*?<\/a><\/h\1>/gi
 
 const enableNoResults = ref(false)
 
@@ -149,28 +152,42 @@ debouncedWatch(
     if (canceled) return
     const c = new Map<string, Map<string, string>>()
     for (const { id, mod } of mods) {
+      const mapId = id.slice(0, id.indexOf('#'))
+      let map = c.get(mapId)
+      if (map) continue
+      map = new Map()
+      c.set(mapId, map)
       const comp = mod.default ?? mod
-      if (comp?.render) {
+      if (comp?.render || comp?.setup) {
         const app = createApp(comp)
         // Silence warnings about missing components
         app.config.warnHandler = () => {}
         app.provide(dataSymbol, vitePressData)
+        Object.defineProperties(app.config.globalProperties, {
+          $frontmatter: {
+            get() {
+              return vitePressData.frontmatter.value
+            }
+          },
+          $params: {
+            get() {
+              return vitePressData.page.value.params
+            }
+          }
+        })
         const div = document.createElement('div')
         app.mount(div)
-        const sections = div.innerHTML.split(headingRegex)
+        const headings = div.querySelectorAll('h1, h2, h3, h4, h5, h6')
+        headings.forEach((el) => {
+          const href = el.querySelector('a')?.getAttribute('href')
+          const anchor = href?.startsWith('#') && href.slice(1)
+          if (!anchor) return
+          let html = ''
+          while ((el = el.nextElementSibling!) && !/^h[1-6]$/i.test(el.tagName))
+            html += el.outerHTML
+          map!.set(anchor, html)
+        })
         app.unmount()
-        sections.shift()
-        const mapId = id.slice(0, id.indexOf('#'))
-        let map = c.get(mapId)
-        if (!map) {
-          map = new Map()
-          c.set(mapId, map)
-        }
-        for (let i = 0; i < sections.length; i += 3) {
-          const anchor = sections[i + 1]
-          const html = sections[i + 2]
-          map.set(anchor, html)
-        }
       }
       if (canceled) return
     }
@@ -211,8 +228,9 @@ debouncedWatch(
 )
 
 async function fetchExcerpt(id: string) {
-  const file = pathToFile(slash(id.slice(0, id.indexOf('#'))))
+  const file = pathToFile(id.slice(0, id.indexOf('#')))
   try {
+    if (!file) throw new Error(`Cannot find file for id: ${id}`)
     return { id, mod: await import(/*@vite-ignore*/ file) }
   } catch (e) {
     console.error(e)
@@ -223,10 +241,12 @@ async function fetchExcerpt(id: string) {
 /* Search input focus */
 
 const searchInput = ref<HTMLInputElement>()
-
-function focusSearchInput() {
+const disableReset = computed(() => {
+  return filterText.value?.length <= 0
+})
+function focusSearchInput(select = true) {
   searchInput.value?.focus()
-  searchInput.value?.select()
+  select && searchInput.value?.select()
 }
 
 onMounted(() => {
@@ -241,11 +261,11 @@ function onSearchBarClick(event: PointerEvent) {
 
 /* Search keyboard selection */
 
-const selectedIndex = ref(0)
+const selectedIndex = ref(-1)
 const disableMouseOver = ref(false)
 
-watch(results, () => {
-  selectedIndex.value = 0
+watch(results, (r) => {
+  selectedIndex.value = r.length ? 0 : -1
   scrollToSelectedResult()
 })
 
@@ -334,12 +354,18 @@ onMounted(() => {
   body.value = document.body
   nextTick(() => {
     isLocked.value = true
+    nextTick().then(() => activate())
   })
 })
 
 onBeforeUnmount(() => {
   isLocked.value = false
 })
+
+function resetSearch() {
+  filterText.value = ''
+  nextTick().then(() => focusSearchInput(false))
+}
 
 function formMarkRegex(terms: Set<string>) {
   return new RegExp(
@@ -358,34 +384,44 @@ function formMarkRegex(terms: Set<string>) {
 
 <template>
   <Teleport to="body">
-    <div ref="el" class="VPLocalSearchBox" aria-modal="true">
+    <div
+      ref="el"
+      role="button"
+      :aria-owns="results?.length ? 'localsearch-list' : undefined"
+      aria-expanded="true"
+      aria-haspopup="listbox"
+      aria-labelledby="localsearch-label"
+      class="VPLocalSearchBox"
+    >
       <div class="backdrop" @click="$emit('close')" />
 
       <div class="shell">
-        <div class="search-bar" @pointerup="onSearchBarClick($event)">
-          <svg
-            class="search-icon"
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-          >
-            <g
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+        <form class="search-bar" @pointerup="onSearchBarClick($event)" @submit.prevent="">
+          <label :title="placeholder" id="localsearch-label" for="localsearch-input">
+            <svg
+              class="search-icon"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
             >
-              <circle cx="11" cy="11" r="8" />
-              <path d="m21 21l-4.35-4.35" />
-            </g>
-          </svg>
+              <g
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21l-4.35-4.35" />
+              </g>
+            </svg>
+          </label>
           <div class="search-actions before">
             <button
               class="back-button"
               :title="$t('modal.backButtonTitle')"
-              @click="$emit('close')"
+              @click="selectedIndex > -1 && $emit('close')"
             >
               <svg
                 width="18"
@@ -408,6 +444,8 @@ function formMarkRegex(terms: Set<string>) {
             ref="searchInput"
             v-model="filterText"
             :placeholder="placeholder"
+            id="localsearch-input"
+            aria-labelledby="localsearch-label"
             class="search-input"
           />
           <div class="search-actions">
@@ -416,7 +454,7 @@ function formMarkRegex(terms: Set<string>) {
               class="toggle-layout-button"
               :class="{ 'detailed-list': showDetailedList }"
               :title="$t('modal.displayDetails')"
-              @click="showDetailedList = !showDetailedList"
+              @click="selectedIndex > -1 && (showDetailedList = !showDetailedList)"
             >
               <svg
                 width="18"
@@ -437,8 +475,10 @@ function formMarkRegex(terms: Set<string>) {
 
             <button
               class="clear-button"
+              type="reset"
+              :disabled="disableReset"
               :title="$t('modal.resetButtonTitle')"
-              @click="filterText = ''"
+              @click="resetSearch"
             >
               <svg
                 width="18"
@@ -457,64 +497,72 @@ function formMarkRegex(terms: Set<string>) {
               </svg>
             </button>
           </div>
-        </div>
+        </form>
 
-        <div
+        <ul
           ref="resultsEl"
+          :id="results?.length ? 'localsearch-list' : undefined"
+          :role="results?.length ? 'listbox' : undefined"
+          :aria-labelledby="results?.length ? 'localsearch-label' : undefined"
           class="results"
           @mousemove="disableMouseOver = false"
         >
-          <a
+          <li
             v-for="(p, index) in results"
             :key="p.id"
-            :href="p.id"
-            class="result"
-            :class="{
-              selected: selectedIndex === index
-            }"
-            :aria-label="[...p.titles, p.title].join(' > ')"
-            @mouseenter="!disableMouseOver && (selectedIndex = index)"
-            @click="$emit('close')"
+            role="option"
+            :aria-selected="selectedIndex === index ? 'true' : 'false'"
           >
-            <div>
-              <div class="titles">
-                <span class="title-icon">#</span>
-                <span v-for="(t, index) in p.titles" :key="index" class="title">
-                  <span class="text" v-html="t" />
-                  <svg width="18" height="18" viewBox="0 0 24 24">
-                    <path
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="m9 18l6-6l-6-6"
-                    />
-                  </svg>
-                </span>
-                <span class="title main">
-                  <span class="text" v-html="p.title" />
-                </span>
-              </div>
-
-              <div v-if="showDetailedList" class="excerpt-wrapper">
-                <div v-if="p.text" class="excerpt">
-                  <div class="vp-doc" v-html="p.text" />
+            <a
+              :href="p.id"
+              class="result"
+              :class="{
+                selected: selectedIndex === index
+              }"
+              :aria-label="[...p.titles, p.title].join(' > ')"
+              @mouseenter="!disableMouseOver && (selectedIndex = index)"
+              @focusin="selectedIndex = index"
+              @click="$emit('close')"
+            >
+              <div>
+                <div class="titles">
+                  <span class="title-icon">#</span>
+                  <span v-for="(t, index) in p.titles" :key="index" class="title">
+                    <span class="text" v-html="t" />
+                    <svg width="18" height="18" viewBox="0 0 24 24">
+                      <path
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="m9 18l6-6l-6-6"
+                      />
+                    </svg>
+                  </span>
+                  <span class="title main">
+                    <span class="text" v-html="p.title" />
+                  </span>
                 </div>
-                <div class="excerpt-gradient-bottom" />
-                <div class="excerpt-gradient-top" />
-              </div>
-            </div>
-          </a>
 
-          <div
+                <div v-if="showDetailedList" class="excerpt-wrapper">
+                  <div v-if="p.text" class="excerpt" inert>
+                    <div class="vp-doc" v-html="p.text"  />
+                  </div>
+                  <div class="excerpt-gradient-bottom" />
+                  <div class="excerpt-gradient-top" />
+                </div>
+              </div>
+            </a>
+          </li>
+          <li
             v-if="filterText && !results.length && enableNoResults"
             class="no-results"
           >
             {{ $t('modal.noResultsText') }} "<strong>{{ filterText }}</strong
             >"
-          </div>
-        </div>
+          </li>
+        </ul>
 
         <div class="search-keyboard-shortcuts">
           <span>
@@ -672,9 +720,13 @@ function formMarkRegex(terms: Set<string>) {
   padding: 8px;
 }
 
-.search-actions button:hover,
+.search-actions button:not([disabled]):hover,
 .toggle-layout-button.detailed-list {
   color: var(--vp-c-brand);
+}
+
+.search-actions button.clear-button:disabled {
+    opacity: 0.37;
 }
 
 .search-keyboard-shortcuts {
@@ -727,6 +779,7 @@ function formMarkRegex(terms: Set<string>) {
   transition: none;
   line-height: 1rem;
   border: solid 2px var(--vp-local-search-result-border);
+  outline: none;
 }
 
 .result > div {

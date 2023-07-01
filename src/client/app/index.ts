@@ -1,23 +1,22 @@
+import RawTheme from '@theme/index'
 import {
-  type App,
   createApp as createClientApp,
   createSSRApp,
   defineComponent,
   h,
   onMounted,
-  watchEffect
+  watchEffect,
+  type App
 } from 'vue'
-import RawTheme from '@theme/index'
-import { inBrowser, pathToFile } from './utils'
-import { type Router, RouterSymbol, createRouter, scrollTo } from './router'
-import { siteDataRef, useData } from './data'
+import { ClientOnly } from './components/ClientOnly'
+import { Content } from './components/Content'
+import { useCodeGroups } from './composables/codeGroups'
+import { useCopyCode } from './composables/copyCode'
 import { useUpdateHead } from './composables/head'
 import { usePrefetch } from './composables/preFetch'
-import { dataSymbol, initData } from './data'
-import { Content } from './components/Content'
-import { ClientOnly } from './components/ClientOnly'
-import { useCopyCode } from './composables/copyCode'
-import { useCodeGroups } from './composables/codeGroups'
+import { dataSymbol, initData, siteDataRef, useData } from './data'
+import { RouterSymbol, createRouter, scrollTo, type Router } from './router'
+import { inBrowser, pathToFile } from './utils'
 
 function resolveThemeExtends(theme: typeof RawTheme): typeof RawTheme {
   if (theme.extends) {
@@ -123,6 +122,8 @@ function newRouter(): Router {
   return createRouter((path) => {
     let pageFilePath = pathToFile(path)
 
+    if (!pageFilePath) return null
+
     if (isInitialPageLoad) {
       initialPath = pageFilePath
     }
@@ -152,7 +153,9 @@ if (inBrowser) {
 
       // scroll to hash on new tab during dev
       if (import.meta.env.DEV && location.hash) {
-        const target = document.querySelector(decodeURIComponent(location.hash))
+        const target = document.getElementById(
+          decodeURIComponent(location.hash).slice(1)
+        )
         if (target) {
           scrollTo(target, location.hash)
         }

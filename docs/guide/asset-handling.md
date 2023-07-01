@@ -18,7 +18,7 @@ All **static** path references, including absolute paths, should be based on you
 
 ## The Public Directory
 
-Sometimes you may need to provide static assets that are not directly referenced in any of your Markdown or theme components, or you may want to serve certain files with the original filename. Examples of such files include `robot.txt`, favicons, and PWA icons.
+Sometimes you may need to provide static assets that are not directly referenced in any of your Markdown or theme components, or you may want to serve certain files with the original filename. Examples of such files include `robots.txt`, favicons, and PWA icons.
 
 You can place these files in the `public` directory under the [source directory](./routing#source-directory). For example, if your project root is `./docs` and using default source directory location, then your public directory will be `./docs/public`.
 
@@ -30,6 +30,20 @@ There is one exception to this: if you have an HTML page in `public` and link to
 
 - [/pure.html](/pure.html)
 - <pathname:///pure.html>
+
+Note that `pathname://` is only supported in Markdown links. Also, `pathname://` will open the link in a new tab by default. You can use `target="_self"` instead to open it in the same tab:
+
+**Input**
+
+```md
+[Link to pure.html](/pure.html){target="_self"}
+
+<!-- there is no need to specify pathname:// if the target is explicitly specified -->
+```
+
+**Output**
+
+[Link to pure.html](/pure.html){target="_self"}
 
 ## Base URL
 

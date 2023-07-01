@@ -26,6 +26,7 @@ const { theme, localeIndex } = useData()
 // payload), we delay initializing it until the user has actually clicked or
 // hit the hotkey to invoke it.
 const loaded = ref(false)
+const actuallyLoaded = ref(false)
 
 const buttonText = computed(() => {
   const options = theme.value.search?.options ?? theme.value.algolia
@@ -61,9 +62,12 @@ onMounted(() => {
 
   preconnect()
 
-  const handleSearchHotKey = (e: KeyboardEvent) => {
-    if (e.key === 'k' && (e.ctrlKey || e.metaKey)) {
-      e.preventDefault()
+  const handleSearchHotKey = (event: KeyboardEvent) => {
+    if (
+      (event.key.toLowerCase() === 'k' && (event.metaKey || event.ctrlKey)) ||
+      (!isEditingContent(event) && event.key === '/')
+    ) {
+      event.preventDefault()
       load()
       remove()
     }
@@ -101,6 +105,18 @@ function poll() {
   }, 16)
 }
 
+function isEditingContent(event: KeyboardEvent): boolean {
+  const element = event.target as HTMLElement
+  const tagName = element.tagName
+
+  return (
+    element.isContentEditable ||
+    tagName === 'INPUT' ||
+    tagName === 'SELECT' ||
+    tagName === 'TEXTAREA'
+  )
+}
+
 // Local search
 
 const showSearch = ref(false)
@@ -108,6 +124,13 @@ const showSearch = ref(false)
 if (__VP_LOCAL_SEARCH__) {
   onKeyStroke('k', (event) => {
     if (event.ctrlKey || event.metaKey) {
+      event.preventDefault()
+      showSearch.value = true
+    }
+  })
+
+  onKeyStroke('/', (event) => {
+    if (!isEditingContent(event)) {
       event.preventDefault()
       showSearch.value = true
     }
@@ -147,9 +170,10 @@ const provider = __ALGOLIA__ ? 'algolia' : __VP_LOCAL_SEARCH__ ? 'local' : ''
       <VPAlgoliaSearchBox
         v-if="loaded"
         :algolia="theme.search?.options ?? theme.algolia"
+        @vue:beforeMount="actuallyLoaded = true"
       />
 
-      <div v-else id="docsearch">
+      <div v-if="!actuallyLoaded" id="docsearch">
         <VPNavBarSearchButton :placeholder="buttonText" @click="load" />
       </div>
     </template>

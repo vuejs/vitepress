@@ -66,7 +66,7 @@ export function usePrefetch() {
           if (!hasFetched.has(pathname)) {
             hasFetched.add(pathname)
             const pageChunkPath = pathToFile(pathname)
-            doFetch(pageChunkPath)
+            if (pageChunkPath) doFetch(pageChunkPath)
           }
         }
       })
@@ -76,7 +76,6 @@ export function usePrefetch() {
       document
         .querySelectorAll<HTMLAnchorElement | SVGAElement>('#app a')
         .forEach((link) => {
-          const { target } = link
           const { hostname, pathname } = new URL(
             link.href instanceof SVGAnimatedString
               ? link.href.animVal
@@ -91,7 +90,7 @@ export function usePrefetch() {
           if (
             // only prefetch same tab navigation, since a new tab will load
             // the lean js chunk instead.
-            target !== `_blank` &&
+            link.target !== '_blank' &&
             // only prefetch inbound links
             hostname === location.hostname
           ) {

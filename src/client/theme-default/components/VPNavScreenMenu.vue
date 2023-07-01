@@ -11,8 +11,7 @@ const { theme } = useData()
     <template v-for="item in theme.nav" :key="item.text">
       <VPNavScreenMenuLink
         v-if="'link' in item"
-        :text="item.text"
-        :link="item.link"
+        :item="item"
       />
       <VPNavScreenMenuGroup
         v-else
