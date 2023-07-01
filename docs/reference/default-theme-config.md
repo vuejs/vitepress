@@ -292,18 +292,38 @@ export interface EditLink {
 }
 ```
 
-## lastUpdatedText
+## lastUpdated
 
-- Type: `string`
-- Default: `Last updated`
+- Type: `LastUpdatedOptions`
 
-The prefix text showing right before the last updated time.
+Allows customization for the last updated text and date format.
 
 ```ts
 export default {
   themeConfig: {
-    lastUpdatedText: 'Updated Date'
+    lastUpdated: {
+      text: 'Updated at',
+      formatOptions: {
+        dateStyle: 'full',
+        timeStyle: 'medium'
+      }
+    }
   }
+}
+```
+
+```ts
+export interface LastUpdatedOptions {
+  /**
+   * @default 'Last updated'
+   */
+  text?: string
+
+  /**
+   * @default
+   * { dateStyle: 'short',  timeStyle: 'short' }
+   */
+  formatOptions?: Intl.DateTimeFormatOptions
 }
 ```
 
