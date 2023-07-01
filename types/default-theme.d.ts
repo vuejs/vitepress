@@ -122,6 +122,13 @@ export namespace DefaultTheme {
      * @default true
      */
     i18nRouting?: boolean
+
+    /**
+     * Show external link icon in Markdown links.
+     *
+     * @default false
+     */
+    externalLinkIcon?: boolean
   }
 
   // nav -----------------------------------------------------------------------
