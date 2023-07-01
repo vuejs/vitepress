@@ -33,7 +33,7 @@ export function normalizeLink(url: string): string {
   }
 
   const { site } = useData()
-  const { pathname, search, hash } = new URL(url, 'http://example.com')
+  const { pathname, search, hash } = new URL(url, 'http://a.com')
 
   const normalizedPath =
     pathname.endsWith('/') || pathname.endsWith('.html')
