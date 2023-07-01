@@ -22,7 +22,7 @@ export const RouterSymbol: InjectionKey<Router> = Symbol()
 
 // we are just using URL to parse the pathname and hash - the base doesn't
 // matter and is only passed to support same-host hrefs.
-const fakeHost = `http://a.com`
+const fakeHost = 'http://a.com'
 
 const getDefaultRoute = (): Route => ({
   path: '/',
@@ -36,7 +36,7 @@ interface PageModule {
 }
 
 export function createRouter(
-  loadPageModule: (path: string) => Promise<PageModule>,
+  loadPageModule: (path: string) => Awaitable<PageModule | null>,
   fallbackComponent?: Component
 ): Router {
   const route = reactive(getDefaultRoute())
@@ -73,6 +73,9 @@ export function createRouter(
     const pendingPath = (latestPendingPath = targetLoc.pathname)
     try {
       let page = await loadPageModule(pendingPath)
+      if (!page) {
+        throw new Error(`Page not found: ${pendingPath}`)
+      }
       if (latestPendingPath === pendingPath) {
         latestPendingPath = null
 
@@ -120,7 +123,10 @@ export function createRouter(
         }
       }
     } catch (err: any) {
-      if (!/fetch/.test(err.message) && !/^\/404(\.html|\/)?$/.test(href)) {
+      if (
+        !/fetch|Page not found/.test(err.message) &&
+        !/^\/404(\.html|\/)?$/.test(href)
+      ) {
         console.error(err)
       }
 
@@ -176,7 +182,7 @@ export function createRouter(
             !e.shiftKey &&
             !e.altKey &&
             !e.metaKey &&
-            target !== `_blank` &&
+            !target &&
             origin === currentUrl.origin &&
             // don't intercept if non-html extension is present
             !(extMatch && extMatch[0] !== '.html')
