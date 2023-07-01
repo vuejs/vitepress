@@ -5,8 +5,6 @@ import { useData } from '../composables/data'
 const { theme, page } = useData()
 
 const date = computed(() => new Date(page.value.lastUpdated!))
-const dateTimeOptions : Intl.DateTimeFormatOptions = theme.value.lastUpdatedDateTimeFormatOptions ? theme.value.lastUpdatedDateTimeFormatOptions : { dateStyle: 'short',  timeStyle: 'short' }
-const format = new Intl.DateTimeFormat(undefined, dateTimeOptions)
 const isoDatetime = computed(() => date.value.toISOString())
 const datetime = ref('')
 
@@ -14,14 +12,20 @@ const datetime = ref('')
 // potential differences in timezones of the server and clients
 onMounted(() => {
   watchEffect(() => {
-    datetime.value = format.format(date.value)
+    datetime.value = new Intl.DateTimeFormat(
+      undefined,
+      theme.value.lastUpdated?.formatOptions ?? {
+        dateStyle: 'short',
+        timeStyle: 'short'
+      }
+    ).format(date.value)
   })
 })
 </script>
 
 <template>
   <p class="VPLastUpdated">
-    {{ theme.lastUpdatedText || 'Last updated' }}:
+    {{ theme.lastUpdated?.text || theme.lastUpdatedText || 'Last updated' }}:
     <time :datetime="isoDatetime">{{ datetime }}</time>
   </p>
 </template>
