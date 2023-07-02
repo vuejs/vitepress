@@ -25,8 +25,7 @@ export namespace DefaultTheme {
     outline?: Outline | Outline['level'] | false
 
     /**
-     * @deprecated
-     * Use `outline.label` instead.
+     * @deprecated Use `outline.label` instead.
      *
      * @default 'On this page'
      */
@@ -58,11 +57,15 @@ export namespace DefaultTheme {
     editLink?: EditLink
 
     /**
+     * @deprecated Use `lastUpdated.text` instead.
+     *
      * Set custom last updated text.
      *
      * @default 'Last updated'
      */
     lastUpdatedText?: string
+
+    lastUpdated?: LastUpdatedOptions
 
     /**
      * Set custom prev/next labels.
@@ -348,5 +351,25 @@ export namespace DefaultTheme {
   export interface CarbonAdsOptions {
     code: string
     placement: string
+  }
+
+  // last updated --------------------------------------------------------------
+
+  export interface LastUpdatedOptions {
+    /**
+     * Set custom last updated text.
+     *
+     * @default 'Last updated'
+     */
+    text?: string
+
+    /**
+     * Set options for last updated time formatting.
+     * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat#using_options
+     *
+     * @default
+     * { dateStyle: 'short', timeStyle: 'short' }
+     */
+    formatOptions?: Intl.DateTimeFormatOptions
   }
 }

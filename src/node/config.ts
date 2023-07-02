@@ -105,7 +105,8 @@ export async function resolveConfig(
     logger,
     tempDir: resolve(root, '.temp'),
     markdown: userConfig.markdown,
-    lastUpdated: userConfig.lastUpdated,
+    lastUpdated:
+      userConfig.lastUpdated ?? !!userConfig.themeConfig?.lastUpdated,
     vue: userConfig.vue,
     vite: userConfig.vite,
     shouldPreload: userConfig.shouldPreload,

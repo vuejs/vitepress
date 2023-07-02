@@ -421,7 +421,7 @@ function formMarkRegex(terms: Set<string>) {
             <button
               class="back-button"
               :title="$t('modal.backButtonTitle')"
-              @click="selectedIndex > -1 && $emit('close')"
+              @click="$emit('close')"
             >
               <svg
                 width="18"
