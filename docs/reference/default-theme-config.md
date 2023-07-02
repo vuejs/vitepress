@@ -292,18 +292,38 @@ export interface EditLink {
 }
 ```
 
-## lastUpdatedText
+## lastUpdated
 
-- Type: `string`
-- Default: `Last updated`
+- Type: `LastUpdatedOptions`
 
-The prefix text showing right before the last updated time.
+Allows customization for the last updated text and date format.
 
 ```ts
 export default {
   themeConfig: {
-    lastUpdatedText: 'Updated Date'
+    lastUpdated: {
+      text: 'Updated at',
+      formatOptions: {
+        dateStyle: 'full',
+        timeStyle: 'medium'
+      }
+    }
   }
+}
+```
+
+```ts
+export interface LastUpdatedOptions {
+  /**
+   * @default 'Last updated'
+   */
+  text?: string
+
+  /**
+   * @default
+   * { dateStyle: 'short',  timeStyle: 'short' }
+   */
+  formatOptions?: Intl.DateTimeFormatOptions
 }
 ```
 
@@ -398,3 +418,10 @@ Can be used to customize the label of the return to top button. This label is on
 - Default: `Change language`
 
 Can be used to customize the aria-label of the language toggle button in navbar. This is only used if you're using [i18n](../guide/i18n).
+
+## externalLinkIcon
+
+- Type: `boolean`
+- Default: `false`
+
+Whether to show an external link icon next to external links in markdown.

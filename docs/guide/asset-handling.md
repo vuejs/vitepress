@@ -31,6 +31,20 @@ There is one exception to this: if you have an HTML page in `public` and link to
 - [/pure.html](/pure.html)
 - <pathname:///pure.html>
 
+Note that `pathname://` is only supported in Markdown links. Also, `pathname://` will open the link in a new tab by default. You can use `target="_self"` instead to open it in the same tab:
+
+**Input**
+
+```md
+[Link to pure.html](/pure.html){target="_self"}
+
+<!-- there is no need to specify pathname:// if the target is explicitly specified -->
+```
+
+**Output**
+
+[Link to pure.html](/pure.html){target="_self"}
+
 ## Base URL
 
 If your site is deployed to a non-root URL, you will need to set the `base` option in `.vitepress/config.js`. For example, if you plan to deploy your site to `https://foo.github.io/bar/`, then `base` should be set to `'/bar/'` (it should always start and end with a slash).

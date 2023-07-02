@@ -522,3 +522,24 @@
   margin: 0 !important;
   max-width: calc((100% - 24px) / 2) !important;
 }
+
+:is(
+  .vp-external-link-icon,
+  .vp-doc a[href*='://'],
+  .vp-doc a[target='_blank']
+)::after {
+  display: inline-block;
+  margin-top: -1px;
+  margin-left: 4px;
+  width: 11px;
+  height: 11px;
+  background: currentColor;
+  flex-shrink: 0;
+  --icon: url("data:image/svg+xml, %3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' %3E%3Cpath d='M0 0h24v24H0V0z' fill='none' /%3E%3Cpath d='M9 5v2h6.59L4 18.59 5.41 20 17 8.41V15h2V5H9z' /%3E%3C/svg%3E");
+  -webkit-mask-image: var(--icon);
+  mask-image: var(--icon);
+}
+
+.vp-external-link-icon::after {
+  content: '';
+}
