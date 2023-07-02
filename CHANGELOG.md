@@ -1,3 +1,27 @@
+# [1.0.0-beta.4](https://github.com/vuejs/vitepress/compare/v1.0.0-beta.3...v1.0.0-beta.4) (2023-07-02)
+
+### Bug Fixes
+
+- **build:** add `@vue/devtools-api` to `optimizeDeps.include` ([#2543](https://github.com/vuejs/vitepress/issues/2543)) ([b2a129f](https://github.com/vuejs/vitepress/commit/b2a129f49b8c83e528f594af977b1e901a57313e))
+- **client:** bypass client router for links explicitly specifying target ([#2563](https://github.com/vuejs/vitepress/issues/2563)) ([e95015f](https://github.com/vuejs/vitepress/commit/e95015f598846e318c60929f1ef6466a8cfbb729))
+- **client:** don't throw on using special chars in element ids ([#2560](https://github.com/vuejs/vitepress/issues/2560)) ([6b98113](https://github.com/vuejs/vitepress/commit/6b98113a4295e5db8d3876f176dab7e5a5b33e5c))
+- **client:** scroll not working on clicking an anchor in search box ([#2527](https://github.com/vuejs/vitepress/issues/2527)) ([c30e758](https://github.com/vuejs/vitepress/commit/c30e758585ef512eef68b33918832d4413839e9c))
+- **theme:** unresponsive back button with empty input in search box ([#2566](https://github.com/vuejs/vitepress/issues/2566)) ([fa3780f](https://github.com/vuejs/vitepress/commit/fa3780f8ef99b88e998523570f08a4e7f86dfd1b))
+
+### Features
+
+- **build:** support nested markdown includes ([#2545](https://github.com/vuejs/vitepress/issues/2545)) ([0c4210b](https://github.com/vuejs/vitepress/commit/0c4210bb5ed114fb8597786230cb145790578071))
+- **client:** add onBeforePageLoad hook for router ([#2564](https://github.com/vuejs/vitepress/issues/2564)) ([665f3b0](https://github.com/vuejs/vitepress/commit/665f3b02f828175d4df5c0f79263dfa6e3f601d2))
+- support selecting line range when importing md file ([#2502](https://github.com/vuejs/vitepress/issues/2502)) ([1ef33fe](https://github.com/vuejs/vitepress/commit/1ef33fe1c44875dc86835a698a708b1aa847e16e))
+- **theme:** allow customizing last updated date time format options ([#2332](https://github.com/vuejs/vitepress/issues/2332)) ([24abc7c](https://github.com/vuejs/vitepress/commit/24abc7c6bda66df6e7ed543531f52c87f52f52df))
+- **theme:** allow hiding navbar on specific pages via frontmatter ([#2565](https://github.com/vuejs/vitepress/issues/2565)) ([1e15001](https://github.com/vuejs/vitepress/commit/1e1500141bf6e2619caa7950f019016dc26d147f))
+- **theme:** expose `useSidebar` ([#2496](https://github.com/vuejs/vitepress/issues/2496)) ([c4909e4](https://github.com/vuejs/vitepress/commit/c4909e4298ec706cf1762cb36af03e5fd3637ccc))
+- **theme:** option to show icon for external links ([#2501](https://github.com/vuejs/vitepress/issues/2501)) ([52cfbc3](https://github.com/vuejs/vitepress/commit/52cfbc323615c3e017b656bb551e0d9de02d1e5f))
+
+### BREAKING CHANGES
+
+- **client:** specifying `target="_self"` for internal links will now perform full reload.
+
 # [1.0.0-beta.3](https://github.com/vuejs/vitepress/compare/v1.0.0-beta.2...v1.0.0-beta.3) (2023-06-20)
 
 ### Bug Fixes
