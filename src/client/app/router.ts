@@ -79,7 +79,6 @@ export function createRouter(
       history.replaceState({ scrollPosition: window.scrollY }, document.title)
       history.pushState(null, '', href)
     }
-    if ((await router.onBeforePageLoad?.(href)) === false) return
     await loadPage(href)
     await router.onAfterRouteChanged?.(href)
   }
@@ -87,6 +86,7 @@ export function createRouter(
   let latestPendingPath: string | null = null
 
   async function loadPage(href: string, scrollPosition = 0, isRetry = false) {
+    if ((await router.onBeforePageLoad?.(href)) === false) return
     const targetLoc = new URL(href, fakeHost)
     const pendingPath = (latestPendingPath = targetLoc.pathname)
     try {
