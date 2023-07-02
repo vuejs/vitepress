@@ -134,6 +134,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
      deploy:
        runs-on: ubuntu-latest
        permissions:
+         contents: read
          pages: write
          id-token: write
        environment:
