@@ -86,8 +86,27 @@ Returns the VitePress router instance so you can programmatically navigate to an
 
 ```ts
 interface Router {
+  /**
+   * Current route.
+   */
   route: Route
-  go: (href?: string) => Promise<void>
+  /**
+   * Navigate to a new URL.
+   */
+  go: (to?: string) => Promise<void>
+  /**
+   * Called before the route changes. Return `false` to cancel the navigation.
+   */
+  onBeforeRouteChange?: (to: string) => Awaitable<void | boolean>
+  /**
+   * Called before the page component is loaded (after the history state is
+   * updated). Return `false` to cancel the navigation.
+   */
+  onBeforePageLoad?: (to: string) => Awaitable<void | boolean>
+  /**
+   * Called after the route changes.
+   */
+  onAfterRouteChanged?: (to: string) => Awaitable<void>
 }
 ```
 

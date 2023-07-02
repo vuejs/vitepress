@@ -12,9 +12,26 @@ export interface Route {
 }
 
 export interface Router {
+  /**
+   * Current route.
+   */
   route: Route
-  go: (href?: string) => Promise<void>
-  onBeforeRouteChange?: (to: string) => Awaitable<void>
+  /**
+   * Navigate to a new URL.
+   */
+  go: (to?: string) => Promise<void>
+  /**
+   * Called before the route changes. Return `false` to cancel the navigation.
+   */
+  onBeforeRouteChange?: (to: string) => Awaitable<void | boolean>
+  /**
+   * Called before the page component is loaded (after the history state is
+   * updated). Return `false` to cancel the navigation.
+   */
+  onBeforePageLoad?: (to: string) => Awaitable<void | boolean>
+  /**
+   * Called after the route changes.
+   */
   onAfterRouteChanged?: (to: string) => Awaitable<void>
 }
 
@@ -47,7 +64,7 @@ export function createRouter(
   }
 
   async function go(href: string = inBrowser ? location.href : '/') {
-    await router.onBeforeRouteChange?.(href)
+    if ((await router.onBeforeRouteChange?.(href)) === false) return
     const url = new URL(href, fakeHost)
     if (!siteDataRef.value.cleanUrls) {
       // ensure correct deep link so page refresh lands on correct files.
@@ -62,6 +79,7 @@ export function createRouter(
       history.replaceState({ scrollPosition: window.scrollY }, document.title)
       history.pushState(null, '', href)
     }
+    if ((await router.onBeforePageLoad?.(href)) === false) return
     await loadPage(href)
     await router.onAfterRouteChanged?.(href)
   }
