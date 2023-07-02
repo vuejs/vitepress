@@ -209,6 +209,22 @@ export namespace DefaultTheme {
     collapsed?: boolean
   }
 
+  /**
+   * ReturnType of `useSidebar`
+   */
+  export interface Sidebar {
+    isOpen: Ref<boolean>
+    sidebar: ComputedRef<SidebarItem[]>
+    sidebarGroups: ComputedRef<SidebarItem[]>
+    hasSidebar: ComputedRef<boolean>
+    hasAside: ComputedRef<boolean>
+    leftAside: ComputedRef<boolean>
+    isSidebarEnabled: ComputedRef<boolean>
+    open: () => void
+    close: () => void
+    toggle: () => void
+  }
+
   // edit link -----------------------------------------------------------------
 
   export interface EditLink {
@@ -232,18 +248,18 @@ export namespace DefaultTheme {
 
   export interface DocFooter {
     /**
-     * Custom label for previous page button.
+     * Custom label for previous page button. Can be set to `false` to disable.
      *
      * @default 'Previous page'
      */
-    prev?: string
+    prev?: string | boolean
 
     /**
-     * Custom label for next page button.
+     * Custom label for next page button. Can be set to `false` to disable.
      *
      * @default 'Next page'
      */
-    next?: string
+    next?: string | boolean
   }
 
   // social link ---------------------------------------------------------------
@@ -251,6 +267,7 @@ export namespace DefaultTheme {
   export interface SocialLink {
     icon: SocialLinkIcon
     link: string
+    ariaLabel?: string
   }
 
   export type SocialLinkIcon =

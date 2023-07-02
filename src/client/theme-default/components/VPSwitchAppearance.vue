@@ -1,14 +1,14 @@
 <script lang="ts" setup>
 import { ref, onMounted, watch } from 'vue'
 import { useData } from '../composables/data'
-import { APPEARANCE_KEY } from '../../shared'
+import { inBrowser, APPEARANCE_KEY } from '../../shared'
 import VPSwitch from './VPSwitch.vue'
 import VPIconSun from './icons/VPIconSun.vue'
 import VPIconMoon from './icons/VPIconMoon.vue'
 
 const { site, isDark } = useData()
 const checked = ref(false)
-const toggle = typeof localStorage !== 'undefined' ? useAppearance() : () => {}
+const toggle = inBrowser ? useAppearance() : () => {}
 
 onMounted(() => {
   checked.value = document.documentElement.classList.contains('dark')

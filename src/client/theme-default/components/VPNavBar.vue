@@ -1,15 +1,15 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
 import { useWindowScroll } from '@vueuse/core'
-import { useSidebar } from '../composables/sidebar'
-import VPNavBarTitle from './VPNavBarTitle.vue'
-import VPNavBarSearch from './VPNavBarSearch.vue'
-import VPNavBarMenu from './VPNavBarMenu.vue'
-import VPNavBarTranslations from './VPNavBarTranslations.vue'
+import { useSidebar } from 'vitepress/theme'
+import { computed } from 'vue'
 import VPNavBarAppearance from './VPNavBarAppearance.vue'
-import VPNavBarSocialLinks from './VPNavBarSocialLinks.vue'
 import VPNavBarExtra from './VPNavBarExtra.vue'
 import VPNavBarHamburger from './VPNavBarHamburger.vue'
+import VPNavBarMenu from './VPNavBarMenu.vue'
+import VPNavBarSearch from './VPNavBarSearch.vue'
+import VPNavBarSocialLinks from './VPNavBarSocialLinks.vue'
+import VPNavBarTitle from './VPNavBarTitle.vue'
+import VPNavBarTranslations from './VPNavBarTranslations.vue'
 
 defineProps<{
   isScreenOpen: boolean
@@ -62,13 +62,8 @@ const classes = computed(() => ({
   border-bottom: 1px solid transparent;
   padding: 0 8px 0 24px;
   height: var(--vp-nav-height);
-  transition: border-color 0.5s, background-color 0.5s;
   pointer-events: none;
   white-space: nowrap;
-}
-
-.VPNavBar.has-sidebar {
-  border-bottom-color: var(--vp-c-gutter);
 }
 
 @media (min-width: 768px) {
@@ -79,7 +74,6 @@ const classes = computed(() => ({
 
 @media (min-width: 960px) {
   .VPNavBar.has-sidebar {
-    border-bottom-color: transparent;
     padding: 0;
   }
 

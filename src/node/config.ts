@@ -6,7 +6,8 @@ import {
   createLogger,
   loadConfigFromFile,
   mergeConfig as mergeViteConfig,
-  normalizePath
+  normalizePath,
+  type ConfigEnv
 } from 'vite'
 import { DEFAULT_THEME_PATH } from './alias'
 import { resolvePages } from './plugins/dynamicRoutesPlugin'
@@ -16,19 +17,23 @@ import {
   type HeadConfig,
   type SiteData
 } from './shared'
-import {
-  type UserConfig,
-  type RawConfigExports,
-  type SiteConfig
-} from './siteConfig'
+import type { RawConfigExports, SiteConfig, UserConfig } from './siteConfig'
 
-export * from './siteConfig'
 export { resolvePages } from './plugins/dynamicRoutesPlugin'
+export * from './siteConfig'
 
 const debug = _debug('vitepress:config')
 
 const resolve = (root: string, file: string) =>
   normalizePath(path.resolve(root, `.vitepress`, file))
+
+export type UserConfigFn<ThemeConfig> = (
+  env: ConfigEnv
+) => UserConfig<ThemeConfig> | Promise<UserConfig<ThemeConfig>>
+export type UserConfigExport<ThemeConfig> =
+  | UserConfig<ThemeConfig>
+  | Promise<UserConfig<ThemeConfig>>
+  | UserConfigFn<ThemeConfig>
 
 /**
  * Type config helper

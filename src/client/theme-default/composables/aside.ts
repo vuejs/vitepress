@@ -1,6 +1,6 @@
-import { computed } from 'vue'
 import { useMediaQuery } from '@vueuse/core'
-import { useSidebar } from './sidebar'
+import { useSidebar } from 'vitepress/theme'
+import { computed } from 'vue'
 
 export function useAside() {
   const { hasSidebar } = useSidebar()

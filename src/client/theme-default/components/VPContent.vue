@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { useData } from '../composables/data'
-import { useSidebar } from '../composables/sidebar'
-import VPPage from './VPPage.vue'
-import VPHome from './VPHome.vue'
-import VPDoc from './VPDoc.vue'
+import { useSidebar } from 'vitepress/theme'
 import NotFound from '../NotFound.vue'
+import { useData } from '../composables/data'
+import VPDoc from './VPDoc.vue'
+import VPHome from './VPHome.vue'
+import VPPage from './VPPage.vue'
 
 const { page, frontmatter } = useData()
 const { hasSidebar } = useSidebar()
