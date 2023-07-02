@@ -90,7 +90,7 @@ VitePress 通过 (`--vp-c-brand`) 设置 `name` 的颜色 .但是，你可以通
 
 ## Features 部分 {#features-section}
 
-在 Features section， 你可以在 Hero section 之后列出任意数量的 Features。可以在 frontmatter 中配置  `features`。
+在 Features section，你可以在 Hero section 之后列出任意数量的 Features。可以在 frontmatter 中配置  `features`。
 
 你可以为每个 feature 提供一个图标，可以是表情符号或任何类型的图像。当配置的图标是图片（svg, png, jpeg...）时，必须提供合适的宽度和高度的图标；你还可以在需要时配置其描述、固有大小以及深色和浅色主题下的不同表现。
 

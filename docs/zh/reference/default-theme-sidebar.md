@@ -1,6 +1,6 @@
 # 侧边栏 {#sidebar}
 
-侧边栏是文档的主要导航块。 你可以在 [`themeConfig.sidebar`](./default-theme-config#sidebar) 中配置侧边栏菜单。
+侧边栏是文档的主要导航块。你可以在 [`themeConfig.sidebar`](./default-theme-config#sidebar) 中配置侧边栏菜单。
 
 ```js
 export default {

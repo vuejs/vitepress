@@ -1,6 +1,6 @@
 # 页脚 {#footer}
 
-配置好 `themeConfig.footer`， VitePress 将在全局页面底部显示页脚。
+配置好 `themeConfig.footer`，VitePress 将在全局页面底部显示页脚。
 
 ```ts
 export default {

@@ -1,6 +1,6 @@
 # 默认主题配置 {#default-theme-config}
 
-主题配置可让你自定义主题。 你可以通过将 `themeConfig` 添加到配置文件来定义主题配置：
+主题配置可让你自定义主题。你可以通过将 `themeConfig` 添加到配置文件来定义主题配置：
 
 ```ts
 export default {
@@ -31,7 +31,7 @@ export default {
 - key: `logo`
 - Type: `ThemeableImage`
 
-Logo file to display in nav bar, right before the site title. Accepts a path string, or an object to set a different logo for light/dark mode.
+导航栏上显示的 Logo，位于网站标题右侧。可以接受一个路径字符串，或者一个对象来设置在浅色/深色模式下不同的 Logo。
 
 ```ts
 export default {
@@ -50,7 +50,7 @@ type ThemeableImage = string | { src: string; alt?: string } | { light: string; 
 - key: `siteTitle`
 - Type: `string | false`
 
-你可以自定义此项以替换导航中的默认站点标题（应用配置中的 `title`）。 当设置为 `false` 时，导航中的标题将被禁用。 这在当你的 `logo` 已经包含网站标题文本时很有用。
+你可以自定义此项以替换导航中的默认站点标题（应用配置中的 `title`）。当设置为 `false` 时，导航中的标题将被禁用。这在当你的 `logo` 已经包含网站标题文本时很有用。
 
 ```ts
 export default {
@@ -65,7 +65,7 @@ export default {
 - key: `nav`
 - Type: `NavItem`
 
-导航菜单项的配置。 你可以在[默认主题: 导航栏](./default-theme-nav#navigation-links) 了解更多详情。
+导航菜单项的配置。你可以在[默认主题: 导航栏](./default-theme-nav#navigation-links) 了解更多详情。
 
 ```js
 export default {
@@ -113,7 +113,7 @@ interface NavItemWithChildren {
 - key: `sidebar`
 - Type: `Sidebar`
 
-侧边栏菜单项的配置。 你可以在[默认主题: 侧边栏](./default-theme-sidebar) 了解更多详情。
+侧边栏菜单项的配置。你可以在[默认主题: 侧边栏](./default-theme-sidebar) 了解更多详情。
 
 ```js
 export default {
@@ -190,7 +190,7 @@ export type SidebarItem = {
 - Type: `string`
 - Default: `On this page`
 
-可用于自定义右侧边栏的标题（在大纲链接的顶部）。 这在用另一种语言编写文档时很有用。
+可用于自定义右侧边栏的标题（在大纲链接的顶部）。这在用另一种语言编写文档时很有用。
 
 ```js
 export default {
@@ -237,7 +237,7 @@ type SocialLinkIcon = 'discord' | 'facebook' | 'github' | 'instagram' | 'linkedi
 
 - Type: `Footer`
 
-页脚配置。 你可以添加 message 和 copyright。 由于设计原因，仅当页面不包含侧边栏时才会显示页脚。
+页脚配置。你可以添加 message 和 copyright。由于设计原因，仅当页面不包含侧边栏时才会显示页脚。
 
 ```ts
 export default {
@@ -262,7 +262,7 @@ export interface Footer {
 - Type: `EditLink`
 - 每个页面可以通过 [frontmatter](./frontmatter-config#editlink) 覆写
 
-编辑链接可让你显示链接以编辑 Git 管理服务（例如 GitHub 或 GitLab）上的页面。 有关详细信息，请参阅 [默认主题：编辑链接](./default-theme-edit-link)。
+编辑链接可让你显示链接以编辑 Git 管理服务（例如 GitHub 或 GitLab）上的页面。有关详细信息，请参阅 [默认主题：编辑链接](./default-theme-edit-link)。
 
 ```js
 export default {
@@ -337,11 +337,11 @@ export interface CarbonAdsOptions {
 
 Learn more in [Default Theme: Carbon Ads](./default-theme-carbon-ads)
 
-## 翻页文案 {#docFooter}
+## 文档页脚 {#docFooter}
 
 - Type: `DocFooter`
 
-可用于自定义出现在上一篇和下一篇链接上方的文本。 如果不是用英语编写文档，这很有帮助。
+可用于自定义出现在上一篇和下一篇链接上方的文本。如果不是用英语编写文档，这很有帮助。
 
 ```js
 export default {

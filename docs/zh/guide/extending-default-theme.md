@@ -1,6 +1,6 @@
 # 扩展默认主题 {#extending-the-default-theme}
 
-VitePress 默认的主题已经针对文档进行了优化，并且可以进行定制。请参考 [默认主题配置概览](../reference/default-theme-config) 获取完整的选项列表。
+VitePress 默认的主题已经针对文档进行了优化，并且可以进行定制。请参考[默认主题配置概览](../reference/default-theme-config)获取完整的选项列表。
 
 但是有一些情况仅靠配置是不够的。例如：
 

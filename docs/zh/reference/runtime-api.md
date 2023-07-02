@@ -1,6 +1,6 @@
 # 运行时 API {#runtime-api}
 
-VitePress 提供了几个内置的 API 来让你访问应用程序数据。 VitePress 还附带了一些可以在全局范围内使用的内置组件。
+VitePress 提供了几个内置的 API 来让你访问应用程序数据。VitePress 还附带了一些可以在全局范围内使用的内置组件。
 
 辅助函数可从 `vitepress` 全局导入，通常用于自定义主题 Vue 组件。但是，它们也可以在 `.md` 页面内使用，因为 markdown 文件被编译成 Vue [单文件组件](https://vuejs.org/guide/scaling-up/sfc.html)。
 
@@ -123,7 +123,7 @@ If you are using or demoing components that are not SSR-friendly (for example, c
 </ClientOnly>
 ```
 
-- 相关文档： [SSR 兼容性](/guide/ssr-compat)
+- 相关文档：[SSR 兼容性](/guide/ssr-compat)
 
 ## `$frontmatter` <Badge type="info" text="template global" />
 

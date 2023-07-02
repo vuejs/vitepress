@@ -447,7 +447,7 @@ export default {
 }
 ```
 
-## 高亮 “错误”  和 “警告” {#errors-and-warnings-in-code-blocks}
+## 高亮“错误”和“警告” {#errors-and-warnings-in-code-blocks}
 
 在某一行添加 `// [!code warning]` 或 `// [!code error]` 注释将会为该行相应的着色。
 

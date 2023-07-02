@@ -394,7 +394,7 @@ When set to `true`, the production app will be built in [MPA Mode](../guide/mpa-
 - key: `markdown`
 - Type: `MarkdownOption`
 
-配置 Markdown 解析器选项。 VitePress 使用 [Markdown-it](https://github.com/markdown-it/markdown-it) 作为解析器，使用 [Shiki](https://shiki.matsu.io/) 来高亮不同语言语法。在此选项中，你可以传递各种 Markdown 相关选项以满足你的需要。
+配置 Markdown 解析器选项。VitePress 使用 [Markdown-it](https://github.com/markdown-it/markdown-it) 作为解析器，使用 [Shiki](https://shiki.matsu.io/) 来高亮不同语言语法。在此选项中，你可以传递各种 Markdown 相关选项以满足你的需要。
 
 ```js
 export default {

@@ -34,7 +34,7 @@ VitePress 项目的文件结构中有两个重要的概念：项目根目录 (**
 
 ### 项目根目录 {#project-root}
 
-项目根目录是 VitePress 将尝试寻找 `.vitepress` 特殊目录的地方。 `.vitepress` 目录是 VitePress 配置文件、开发服务器缓存、构建输出和可选主题自定义代码的预留位置。
+项目根目录是 VitePress 将尝试寻找 `.vitepress` 特殊目录的地方。`.vitepress` 目录是 VitePress 配置文件、开发服务器缓存、构建输出和可选主题自定义代码的预留位置。
 
 当你从命令行运行 `vitepress dev` 或 `vitepress build` 时，VitePress 将使用当前工作目录作为项目根目录。要将子目录指定为根目录，你需要将相对路径传递给命令。例如，如果你的 VitePress 项目位于 `./docs`，你应该运行 `vitepress dev docs`：
 
@@ -103,7 +103,7 @@ src/getting-started.md  -->  /getting-started.html
 要使用 VitePress 提供简洁 URL，需要服务器端支持。
 :::
 
-默认情况下，VitePress 将入站链接解析为以 `.html` 结尾的 URL。但是，一些用户可能更喜欢没有 .html 扩展名的“简洁 URL” —— 例如，`example.com/path` 而不是 `example.com/path.html`。
+默认情况下，VitePress 将入站链接解析为以 `.html` 结尾的 URL。但是，一些用户可能更喜欢没有 .html 扩展名的“简洁 URL”——例如，`example.com/path` 而不是 `example.com/path.html`。
 
 某些服务器或托管平台（例如 Netlify 或 Vercel）提供将 `/foo` 之类的 URL 映射到 `/foo.html`（如果存在）的功能，而无需重定向：
 
@@ -199,7 +199,7 @@ export default {
    └─ [pkg].paths.js   # route paths loader
 ```
 
-路径加载器应该提供一个带有 `paths` 方法的对象作为其默认导出。 `paths` 方法应返回具有 `params` 属性的对象数组。这些对象中的每一个都将生成一个相应的页面。
+路径加载器应该提供一个带有 `paths` 方法的对象作为其默认导出。`paths` 方法应返回具有 `params` 属性的对象数组。这些对象中的每一个都将生成一个相应的页面。
 
 给定以下 `paths` 数组：
 
@@ -295,7 +295,7 @@ export default {
 
 ### 访问页面中的参数 {#accessing-params-in-page}
 
-你可以使用参数将附加数据传递到每个页面。 Markdown 路由文件可以通过 `$params` 全局属性访问 Vue 表达式中的当前页面参数：
+你可以使用参数将附加数据传递到每个页面。Markdown 路由文件可以通过 `$params` 全局属性访问 Vue 表达式中的当前页面参数：
 
 ```md
 - package name: {{ $params.pkg }}
