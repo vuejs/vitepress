@@ -28,6 +28,8 @@ export default defineConfig({
   themeConfig: {
     nav: nav(),
 
+    externalLinkIcon: true,
+
     sidebar: {
       '/guide/': sidebarGuide(),
       '/reference/': sidebarReference()
