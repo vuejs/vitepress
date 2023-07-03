@@ -1,3 +1,4 @@
+import { type ComputedRef, type Ref } from 'vue'
 import type { DocSearchProps } from './docsearch.js'
 import type { LocalSearchTranslations } from './local-search.js'
 import type { PageData } from './shared.js'
@@ -222,7 +223,7 @@ export namespace DefaultTheme {
   /**
    * ReturnType of `useSidebar`
    */
-  export interface Sidebar {
+  export interface DocSidebar {
     isOpen: Ref<boolean>
     sidebar: ComputedRef<SidebarItem[]>
     sidebarGroups: ComputedRef<SidebarItem[]>
