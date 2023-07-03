@@ -1,3 +1,4 @@
+import { type ComputedRef, type Ref } from 'vue'
 import type { DocSearchProps } from './docsearch.js'
 import type { LocalSearchTranslations } from './local-search.js'
 import type { PageData } from './shared.js'
@@ -25,8 +26,7 @@ export namespace DefaultTheme {
     outline?: Outline | Outline['level'] | false
 
     /**
-     * @deprecated
-     * Use `outline.label` instead.
+     * @deprecated Use `outline.label` instead.
      *
      * @default 'On this page'
      */
@@ -58,11 +58,15 @@ export namespace DefaultTheme {
     editLink?: EditLink
 
     /**
+     * @deprecated Use `lastUpdated.text` instead.
+     *
      * Set custom last updated text.
      *
      * @default 'Last updated'
      */
     lastUpdatedText?: string
+
+    lastUpdated?: LastUpdatedOptions
 
     /**
      * Set custom prev/next labels.
@@ -122,6 +126,13 @@ export namespace DefaultTheme {
      * @default true
      */
     i18nRouting?: boolean
+
+    /**
+     * Show external link icon in Markdown links.
+     *
+     * @default false
+     */
+    externalLinkIcon?: boolean
   }
 
   // nav -----------------------------------------------------------------------
@@ -207,6 +218,22 @@ export namespace DefaultTheme {
      * If `false`, group is collapsible but expanded by default
      */
     collapsed?: boolean
+  }
+
+  /**
+   * ReturnType of `useSidebar`
+   */
+  export interface DocSidebar {
+    isOpen: Ref<boolean>
+    sidebar: ComputedRef<SidebarItem[]>
+    sidebarGroups: ComputedRef<SidebarItem[]>
+    hasSidebar: ComputedRef<boolean>
+    hasAside: ComputedRef<boolean>
+    leftAside: ComputedRef<boolean>
+    isSidebarEnabled: ComputedRef<boolean>
+    open: () => void
+    close: () => void
+    toggle: () => void
   }
 
   // edit link -----------------------------------------------------------------
@@ -325,5 +352,25 @@ export namespace DefaultTheme {
   export interface CarbonAdsOptions {
     code: string
     placement: string
+  }
+
+  // last updated --------------------------------------------------------------
+
+  export interface LastUpdatedOptions {
+    /**
+     * Set custom last updated text.
+     *
+     * @default 'Last updated'
+     */
+    text?: string
+
+    /**
+     * Set options for last updated time formatting.
+     * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat#using_options
+     *
+     * @default
+     * { dateStyle: 'short', timeStyle: 'short' }
+     */
+    formatOptions?: Intl.DateTimeFormatOptions
   }
 }

@@ -38,7 +38,7 @@ export type UserConfigExport<ThemeConfig> =
 /**
  * Type config helper
  */
-export function defineConfig(config: UserConfigExport<DefaultTheme.Config>) {
+export function defineConfig(config: UserConfig<DefaultTheme.Config>) {
   return config
 }
 
@@ -46,7 +46,7 @@ export function defineConfig(config: UserConfigExport<DefaultTheme.Config>) {
  * Type config helper for custom theme config
  */
 export function defineConfigWithTheme<ThemeConfig>(
-  config: UserConfigExport<ThemeConfig>
+  config: UserConfig<ThemeConfig>
 ) {
   return config
 }
@@ -109,7 +109,8 @@ export async function resolveConfig(
     logger,
     tempDir: resolve(root, '.temp'),
     markdown: userConfig.markdown,
-    lastUpdated: userConfig.lastUpdated,
+    lastUpdated:
+      userConfig.lastUpdated ?? !!userConfig.themeConfig?.lastUpdated,
     vue: userConfig.vue,
     vite: userConfig.vite,
     shouldPreload: userConfig.shouldPreload,
