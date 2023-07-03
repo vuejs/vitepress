@@ -64,7 +64,8 @@ export async function localSearchPlugin(
       index = new MiniSearch<IndexObject>({
         fields: ['title', 'titles', 'text'],
         storeFields: ['title', 'titles'],
-        ...(siteConfig.site.themeConfig?.search?.options?.miniSearch.options ??
+        ...((siteConfig.site.themeConfig?.search?.provider === 'local' &&
+          siteConfig.site.themeConfig?.search?.options?.miniSearch.options) ||
           {})
       })
       indexByLocales.set(locale, index)
