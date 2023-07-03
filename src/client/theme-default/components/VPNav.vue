@@ -1,16 +1,30 @@
 <script setup lang="ts">
-import { provide } from 'vue'
+import { provide, watchEffect, computed } from 'vue'
 import { useNav } from '../composables/nav'
 import VPNavBar from './VPNavBar.vue'
 import VPNavScreen from './VPNavScreen.vue'
+import { useData } from '../composables/data'
 
 const { isScreenOpen, closeScreen, toggleScreen } = useNav()
+const { frontmatter } = useData()
+
+const hasNavbar = computed(() => {
+  return frontmatter.value.navbar !== false
+})
 
 provide('close-screen', closeScreen)
+
+watchEffect(() => {
+  if (hasNavbar.value) {
+    document.documentElement.style.removeProperty('--vp-nav-height')
+  } else {
+    document.documentElement.style.setProperty('--vp-nav-height', '0')
+  }
+})
 </script>
 
 <template>
-  <header class="VPNav">
+  <header v-if="hasNavbar" class="VPNav">
     <VPNavBar :is-screen-open="isScreenOpen" @toggle-screen="toggleScreen">
       <template #nav-bar-title-before><slot name="nav-bar-title-before" /></template>
       <template #nav-bar-title-after><slot name="nav-bar-title-after" /></template>
