@@ -1,4 +1,5 @@
 import { type ComputedRef, type Ref } from 'vue'
+import { type Options, type SearchOptions } from 'minisearch'
 import type { DocSearchProps } from './docsearch.js'
 import type { LocalSearchTranslations } from './local-search.js'
 import type { PageData } from './shared.js'
@@ -335,6 +336,16 @@ export namespace DefaultTheme {
 
     translations?: LocalSearchTranslations
     locales?: Record<string, Partial<Omit<LocalSearchOptions, 'locales'>>>
+
+    /**
+     * The minisearch scalable options.
+     * @see https://lucaong.github.io/minisearch/modules/_minisearch_.html#options
+     * @see https://lucaong.github.io/minisearch/modules/_minisearch_.html#searchoptions-1
+     */
+    miniSearch?: {
+      options?: Omit<Options, 'fields'>
+      searchOptions?: SearchOptions
+    }
   }
 
   // algolia -------------------------------------------------------------------

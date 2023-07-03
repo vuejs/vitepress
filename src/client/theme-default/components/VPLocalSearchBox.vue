@@ -80,8 +80,10 @@ const searchIndex = computedAsync(async () =>
         searchOptions: {
           fuzzy: 0.2,
           prefix: true,
-          boost: { title: 4, text: 2, titles: 1 }
-        }
+          boost: { title: 4, text: 2, titles: 1 },
+          ...(theme.value.search?.options?.miniSearch?.searchOptions ?? {})
+        },
+        ...(theme.value.search?.options?.miniSearch?.options ?? {})
       }
     )
   )

@@ -58,6 +58,49 @@ export default defineConfig({
 })
 ```
 
+### miniSearch options
+
+You can use a config like this to expand minisearch:
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'local',
+      options: {
+        miniSearch: {
+          options: { tokenize: (string) => string.split('-') },
+          searchOptions: { tokenize: (string) => string.split(/[\s-]+/) }
+        }
+      }
+    }
+  }
+})
+```
+
+`options` defaults to:
+
+```ts
+{
+  fields: ['title', 'titles', 'text'],
+  storeFields: ['title', 'titles']
+}
+```
+
+`searchOptions` defaults to:
+
+```ts
+{
+  fuzzy: 0.2,
+  prefix: true,
+  boost: { title: 4, text: 2, titles: 1 }
+}
+```
+
+See more [options](https://lucaong.github.io/minisearch/modules/_minisearch_.html#options) and [searchOptions](https://lucaong.github.io/minisearch/modules/_minisearch_.html#searchoptions-1).
+
 ## Algolia Search
 
 VitePress supports searching your docs site using [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Refer their getting started guide. In your `.vitepress/config.ts` you'll need to provide at least the following to make it work:
