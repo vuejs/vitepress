@@ -67,10 +67,12 @@ export async function createMarkdownToVueRenderFn(
     const relativePath = slash(path.relative(srcDir, file))
     const cacheKey = JSON.stringify({ src, file })
 
-    const cached = cache.get(cacheKey)
-    if (cached) {
-      debug(`[cache hit] ${relativePath}`)
-      return cached
+    if (isBuild || options.cache !== false) {
+      const cached = cache.get(cacheKey)
+      if (cached) {
+        debug(`[cache hit] ${relativePath}`)
+        return cached
+      }
     }
 
     const start = Date.now()
@@ -125,7 +127,8 @@ export async function createMarkdownToVueRenderFn(
     const env: MarkdownEnv = {
       path: file,
       relativePath,
-      cleanUrls
+      cleanUrls,
+      includes
     }
     const html = md.render(src, env)
     const {
@@ -243,7 +246,9 @@ export async function createMarkdownToVueRenderFn(
       deadLinks,
       includes
     }
-    cache.set(cacheKey, result)
+    if (isBuild || options.cache !== false) {
+      cache.set(cacheKey, result)
+    }
     return result
   }
 }
