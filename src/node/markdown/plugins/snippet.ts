@@ -145,36 +145,38 @@ export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
     // @ts-ignore
     const [src, regionName] = token.src ?? []
 
-    if (src) {
-      if (loader) {
-        loader.addDependency(src)
-      }
-      const isAFile = fs.lstatSync(src).isFile()
-      if (fs.existsSync(src) && isAFile) {
-        let content = fs.readFileSync(src, 'utf8')
+    if (!src) return fence(...args)
 
-        if (regionName) {
-          const lines = content.split(/\r?\n/)
-          const region = findRegion(lines, regionName)
+    if (loader) {
+      loader.addDependency(src)
+    }
 
-          if (region) {
-            content = dedent(
-              lines
-                .slice(region.start, region.end)
-                .filter((line: string) => !region.regexp.test(line.trim()))
-                .join('\n')
-            )
-          }
-        }
+    const isAFile = fs.lstatSync(src).isFile()
+    if (!fs.existsSync(src) || !isAFile) {
+      token.content = isAFile
+        ? `Code snippet path not found: ${src}`
+        : `Invalid code snippet option`
+      token.info = ''
+      return fence(...args)
+    }
 
-        token.content = content
-      } else {
-        token.content = isAFile
-          ? `Code snippet path not found: ${src}`
-          : `Invalid code snippet option`
-        token.info = ''
+    let content = fs.readFileSync(src, 'utf8')
+
+    if (regionName) {
+      const lines = content.split(/\r?\n/)
+      const region = findRegion(lines, regionName)
+
+      if (region) {
+        content = dedent(
+          lines
+            .slice(region.start, region.end)
+            .filter((line) => !region.regexp.test(line.trim()))
+            .join('\n')
+        )
       }
     }
+
+    token.content = content
     return fence(...args)
   }
 
