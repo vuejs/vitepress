@@ -31,7 +31,7 @@ export async function bundle(
   config: SiteConfig,
   options: BuildOptions
 ): Promise<{
-  clientResult: RollupOutput
+  clientResult: RollupOutput | null
   serverResult: RollupOutput
   pageToHashMap: Record<string, string>
 }> {
@@ -142,16 +142,16 @@ export async function bundle(
     }
   })
 
-  let clientResult: RollupOutput
+  let clientResult: RollupOutput | null
   let serverResult: RollupOutput
 
   const spinner = ora()
   spinner.start('building client + server bundles...')
   try {
-    ;[clientResult, serverResult] = await (Promise.all([
-      config.mpa ? null : build(await resolveViteConfig(false)),
-      build(await resolveViteConfig(true))
-    ]) as Promise<[RollupOutput, RollupOutput]>)
+    clientResult = config.mpa
+      ? null
+      : ((await build(await resolveViteConfig(false))) as RollupOutput)
+    serverResult = (await build(await resolveViteConfig(true))) as RollupOutput
   } catch (e) {
     spinner.stopAndPersist({
       symbol: failMark
