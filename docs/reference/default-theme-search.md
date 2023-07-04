@@ -60,7 +60,7 @@ export default defineConfig({
 
 ### miniSearch options
 
-You can use a config like this to expand minisearch:
+You can use a config like this to expand minisearch options:
 
 ```ts
 import { defineConfig } from 'vitepress'
