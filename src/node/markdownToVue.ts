@@ -12,9 +12,9 @@ import {
 } from './markdown'
 import {
   EXTERNAL_URL_RE,
-  slash,
   type HeadConfig,
-  type PageData
+  type PageData,
+  slash
 } from './shared'
 import { getGitTimestamp } from './utils/getGitTimestamp'
 
@@ -87,21 +87,26 @@ export async function createMarkdownToVueRenderFn(
       }
     )
 
-    // resolve includes
-    let includes: string[] = []
-
-    function processIncludes(src: string): string {
-      return src.replace(includesRE, (m: string, m1: string) => {
+    const processIncludes = (
+      src: string,
+      srcDir: string,
+      fileOrig: string,
+      includes: string[]
+    ): string => {
+      return src.replace(includesRE, (m, m1) => {
         if (!m1.length) return m
 
         const range = m1.match(rangeRE)
         range && (m1 = m1.slice(0, -range[0].length))
+
         const atPresent = m1[0] === '@'
         try {
-          const includePath = atPresent
+          const resolvedPath = atPresent
             ? path.join(srcDir, m1.slice(m1[1] === '/' ? 2 : 1))
             : path.join(path.dirname(fileOrig), m1)
-          let content = fs.readFileSync(includePath, 'utf-8')
+
+          let content = fs.readFileSync(resolvedPath, 'utf-8')
+
           if (range) {
             const [, startLine, endLine] = range
             const lines = content.split(/\r?\n/)
@@ -112,16 +117,20 @@ export async function createMarkdownToVueRenderFn(
               )
               .join('\n')
           }
-          includes.push(slash(includePath))
-          // recursively process includes in the content
-          return processIncludes(content)
+
+          includes.push(slash(resolvedPath))
+
+          // Recursively process includes in the content
+          return processIncludes(content, srcDir, resolvedPath, includes)
         } catch (error) {
           return m // silently ignore error if file is not present
         }
       })
     }
 
-    src = processIncludes(src)
+    // resolve includes
+    let includes: string[] = []
+    src = processIncludes(src, srcDir, fileOrig, includes)
 
     // reset env before render
     const env: MarkdownEnv = {
