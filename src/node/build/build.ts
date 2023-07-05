@@ -56,12 +56,12 @@ export async function build(
         ) as OutputChunk)
 
       const cssChunk = (
-        siteConfig.mpa ? serverResult : clientResult
+        siteConfig.mpa ? serverResult : clientResult!
       ).output.find(
         (chunk) => chunk.type === 'asset' && chunk.fileName.endsWith('.css')
       ) as OutputAsset
 
-      const assets = (siteConfig.mpa ? serverResult : clientResult).output
+      const assets = (siteConfig.mpa ? serverResult : clientResult!).output
         .filter(
           (chunk) => chunk.type === 'asset' && !chunk.fileName.endsWith('.css')
         )

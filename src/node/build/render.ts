@@ -24,8 +24,8 @@ export async function renderPage(
   config: SiteConfig,
   page: string, // foo.md
   result: RollupOutput | null,
-  appChunk: OutputChunk | undefined,
-  cssChunk: OutputAsset | undefined,
+  appChunk: OutputChunk | null,
+  cssChunk: OutputAsset | null,
   assets: string[],
   pageToHashMap: Record<string, string>,
   hashMapString: string,
