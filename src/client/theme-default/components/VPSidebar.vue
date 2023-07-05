@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { clearAllBodyScrollLocks, disableBodyScroll } from 'body-scroll-lock'
-import { useSidebar } from 'vitepress/theme'
 import { ref, watchPostEffect } from 'vue'
+import { useSidebar } from '../composables/sidebar'
 import VPSidebarItem from './VPSidebarItem.vue'
 
 const { sidebarGroups, hasSidebar } = useSidebar()
