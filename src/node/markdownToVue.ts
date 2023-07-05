@@ -90,7 +90,7 @@ export async function createMarkdownToVueRenderFn(
     // resolve includes
     let includes: string[] = []
 
-    function processIncludes(src: string): string {
+    function processIncludes(src: string, file: string): string {
       return src.replace(includesRE, (m: string, m1: string) => {
         if (!m1.length) return m
 
@@ -100,7 +100,7 @@ export async function createMarkdownToVueRenderFn(
         try {
           const includePath = atPresent
             ? path.join(srcDir, m1.slice(m1[1] === '/' ? 2 : 1))
-            : path.join(path.dirname(fileOrig), m1)
+            : path.join(path.dirname(file), m1)
           let content = fs.readFileSync(includePath, 'utf-8')
           if (range) {
             const [, startLine, endLine] = range
@@ -114,14 +114,14 @@ export async function createMarkdownToVueRenderFn(
           }
           includes.push(slash(includePath))
           // recursively process includes in the content
-          return processIncludes(content)
+          return processIncludes(content, includePath)
         } catch (error) {
           return m // silently ignore error if file is not present
         }
       })
     }
 
-    src = processIncludes(src)
+    src = processIncludes(src, fileOrig)
 
     // reset env before render
     const env: MarkdownEnv = {
