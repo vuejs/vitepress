@@ -4,6 +4,7 @@ import { useNav } from '../composables/nav'
 import VPNavBar from './VPNavBar.vue'
 import VPNavScreen from './VPNavScreen.vue'
 import { useData } from '../composables/data'
+import { inBrowser } from '../../shared'
 
 const { isScreenOpen, closeScreen, toggleScreen } = useNav()
 const { frontmatter } = useData()
@@ -15,10 +16,12 @@ const hasNavbar = computed(() => {
 provide('close-screen', closeScreen)
 
 watchEffect(() => {
-  if (hasNavbar.value) {
-    document.documentElement.style.removeProperty('--vp-nav-height')
-  } else {
-    document.documentElement.style.setProperty('--vp-nav-height', '0')
+  if (inBrowser) {
+    if (hasNavbar.value) {
+      document.documentElement.style.removeProperty('--vp-nav-height')
+    } else {
+      document.documentElement.style.setProperty('--vp-nav-height', '0')
+    }
   }
 })
 </script>
