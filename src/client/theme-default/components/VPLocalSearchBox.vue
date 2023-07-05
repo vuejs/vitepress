@@ -80,8 +80,12 @@ const searchIndex = computedAsync(async () =>
         searchOptions: {
           fuzzy: 0.2,
           prefix: true,
-          boost: { title: 4, text: 2, titles: 1 }
-        }
+          boost: { title: 4, text: 2, titles: 1 },
+          ...(theme.value.search?.provider === 'local' &&
+            theme.value.search.options?.miniSearch?.searchOptions)
+        },
+        ...(theme.value.search?.provider === 'local' &&
+          theme.value.search.options?.miniSearch?.options)
       }
     )
   )
@@ -396,8 +400,16 @@ function formMarkRegex(terms: Set<string>) {
       <div class="backdrop" @click="$emit('close')" />
 
       <div class="shell">
-        <form class="search-bar" @pointerup="onSearchBarClick($event)" @submit.prevent="">
-          <label :title="placeholder" id="localsearch-label" for="localsearch-input">
+        <form
+          class="search-bar"
+          @pointerup="onSearchBarClick($event)"
+          @submit.prevent=""
+        >
+          <label
+            :title="placeholder"
+            id="localsearch-label"
+            for="localsearch-input"
+          >
             <svg
               class="search-icon"
               width="18"
@@ -454,7 +466,9 @@ function formMarkRegex(terms: Set<string>) {
               class="toggle-layout-button"
               :class="{ 'detailed-list': showDetailedList }"
               :title="$t('modal.displayDetails')"
-              @click="selectedIndex > -1 && (showDetailedList = !showDetailedList)"
+              @click="
+                selectedIndex > -1 && (showDetailedList = !showDetailedList)
+              "
             >
               <svg
                 width="18"
@@ -527,7 +541,11 @@ function formMarkRegex(terms: Set<string>) {
               <div>
                 <div class="titles">
                   <span class="title-icon">#</span>
-                  <span v-for="(t, index) in p.titles" :key="index" class="title">
+                  <span
+                    v-for="(t, index) in p.titles"
+                    :key="index"
+                    class="title"
+                  >
                     <span class="text" v-html="t" />
                     <svg width="18" height="18" viewBox="0 0 24 24">
                       <path
@@ -547,7 +565,7 @@ function formMarkRegex(terms: Set<string>) {
 
                 <div v-if="showDetailedList" class="excerpt-wrapper">
                   <div v-if="p.text" class="excerpt" inert>
-                    <div class="vp-doc" v-html="p.text"  />
+                    <div class="vp-doc" v-html="p.text" />
                   </div>
                   <div class="excerpt-gradient-bottom" />
                   <div class="excerpt-gradient-top" />
@@ -726,7 +744,7 @@ function formMarkRegex(terms: Set<string>) {
 }
 
 .search-actions button.clear-button:disabled {
-    opacity: 0.37;
+  opacity: 0.37;
 }
 
 .search-keyboard-shortcuts {
