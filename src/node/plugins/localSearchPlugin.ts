@@ -1,12 +1,12 @@
-import path from 'node:path'
-import type { Plugin, ViteDevServer } from 'vite'
-import MiniSearch from 'minisearch'
-import fs from 'fs-extra'
 import _debug from 'debug'
+import fs from 'fs-extra'
+import MiniSearch from 'minisearch'
+import path from 'path'
+import type { Plugin, ViteDevServer } from 'vite'
 import type { SiteConfig } from '../config'
 import type { MarkdownEnv } from '../markdown'
 import { createMarkdownRenderer } from '../markdown'
-import { resolveSiteDataByRoute, slash } from '../shared'
+import { resolveSiteDataByRoute, slash, type DefaultTheme } from '../shared'
 
 const debug = _debug('vitepress:local-search')
 
@@ -21,7 +21,7 @@ interface IndexObject {
 }
 
 export async function localSearchPlugin(
-  siteConfig: SiteConfig
+  siteConfig: SiteConfig<DefaultTheme.Config>
 ): Promise<Plugin> {
   if (siteConfig.site.themeConfig?.search?.provider !== 'local') {
     return {
@@ -63,7 +63,9 @@ export async function localSearchPlugin(
     if (!index) {
       index = new MiniSearch<IndexObject>({
         fields: ['title', 'titles', 'text'],
-        storeFields: ['title', 'titles']
+        storeFields: ['title', 'titles'],
+        ...(siteConfig.site.themeConfig?.search?.provider === 'local' &&
+          siteConfig.site.themeConfig.search.options?.miniSearch?.options)
       })
       indexByLocales.set(locale, index)
     }

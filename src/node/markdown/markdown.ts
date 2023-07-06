@@ -50,6 +50,7 @@ export interface MarkdownOptions extends MarkdownIt.Options {
   languages?: ILanguageRegistration[]
   toc?: TocPluginOptions
   externalLinks?: Record<string, string>
+  cache?: boolean
 }
 
 export type MarkdownRenderer = MarkdownIt
