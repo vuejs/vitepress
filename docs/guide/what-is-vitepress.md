@@ -24,7 +24,7 @@ Just want to try it out? Skip to the [Quickstart](./getting-started).
   - [UnoCSS](https://unocss.dev/): instant on-demand atomic CSS engine
   - [VitePWA](https://vite-pwa-org.netlify.app/): PWA integrations for Vite and the ecosystem
   - [Iconify](https://iconify.design/): freedom to choose icons
-  - and many more.
+  - [and many more](https://www.vuetelescope.com/explore?framework.slug=vitepress).
 
   The [official Vue.js documentation](https://vuejs.org/) is also based on VitePress, but uses a custom theme shared between multiple translations.
 
