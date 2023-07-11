@@ -7,6 +7,7 @@ import type { SiteConfig } from '../config'
 import type { MarkdownEnv } from '../markdown'
 import { createMarkdownRenderer } from '../markdown'
 import { resolveSiteDataByRoute, slash, type DefaultTheme } from '../shared'
+import matter from 'gray-matter'
 
 const debug = _debug('vitepress:local-search')
 
@@ -120,7 +121,20 @@ export async function localSearchPlugin(
     const documentsByLocale = new Map<string, IndexObject[]>()
     await Promise.all(
       files
-        .filter((file) => fs.existsSync(file))
+        .filter((file) => {
+          if (!fs.existsSync(file)) {
+            return false
+          }
+          const src = fs.readFileSync(file, 'utf-8')
+          const { data: frontmatter } = matter(src, {
+            excerpt: true
+          })
+          const { relativePath } = createMarkdownEnv(file)
+          return !siteConfig.userConfig.themeConfig?.search?.options?.exclude({
+            relativePath,
+            frontmatter
+          })
+        })
         .map(async (file) => {
           const fileId = getDocId(file)
           const sections = splitPageIntoSections(
