@@ -1,13 +1,14 @@
 beforeEach(async () => {
   await goto('/')
+  await page.locator('#local-search button').click()
+  await goto('/')
 })
 
 describe('Local search', () => {
   test('exclude content from search results', async () => {
     await page.locator('#local-search button').click()
 
-    const input = await page.locator('input#localsearch-input')
-    await input.waitFor({ state: 'visible' })
+    const input = await page.waitForSelector('input#localsearch-input')
     await input.type('local')
 
     await page.waitForSelector('ul#localsearch-list', { state: 'visible' })
