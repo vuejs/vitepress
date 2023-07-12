@@ -249,6 +249,9 @@ function renderHead(head: HeadConfig[]): Promise<string> {
 function renderAttrs(attrs: Record<string, string>): string {
   return Object.keys(attrs)
     .map((key) => {
+      if (key == 'async' || key == 'defer') {
+        return ` ${key}`
+      }
       return ` ${key}="${escape(attrs[key])}"`
     })
     .join('')
