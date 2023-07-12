@@ -23,6 +23,15 @@ export const linkPlugin = (
   ) => {
     const token = tokens[idx]
     const hrefIndex = token.attrIndex('href')
+
+    // append base to internal (non-relative) urls
+    const withBase = (url: string) => {
+      if (url.startsWith('/')) {
+        return `${base}${url}`.replace(/\/+/g, '/')
+      }
+      return url
+    }
+
     if (hrefIndex >= 0) {
       const hrefAttr = token.attrs![hrefIndex]
       const url = hrefAttr[1]
@@ -34,7 +43,10 @@ export const linkPlugin = (
         if (url.replace(EXTERNAL_URL_RE, '').startsWith('//localhost:')) {
           pushLink(url, env)
         }
-        hrefAttr[1] = url.replace(PATHNAME_PROTOCOL_RE, '')
+        // respect base url when using pathname:// protocal
+        hrefAttr[1] = PATHNAME_PROTOCOL_RE.test(url)
+          ? withBase(url.replace(PATHNAME_PROTOCOL_RE, ''))
+          : url
       } else {
         if (
           // internal anchor links
@@ -49,10 +61,7 @@ export const linkPlugin = (
           hrefAttr[1] = decodeURI(hrefAttr[1])
         }
 
-        // append base to internal (non-relative) urls
-        if (hrefAttr[1].startsWith('/')) {
-          hrefAttr[1] = `${base}${hrefAttr[1]}`.replace(/\/+/g, '/')
-        }
+        hrefAttr[1] = withBase(hrefAttr[1])
       }
 
       // encode vite-specific replace strings in case they appear in URLs

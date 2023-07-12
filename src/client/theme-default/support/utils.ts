@@ -29,7 +29,11 @@ export function ensureStartingSlash(path: string): string {
 
 export function normalizeLink(url: string): string {
   if (isExternal(url)) {
-    return url.replace(PATHNAME_PROTOCOL_RE, '')
+    // respect base url when using pathname:// protocal
+    if (PATHNAME_PROTOCOL_RE.test(url)) {
+      return withBase(url.replace(PATHNAME_PROTOCOL_RE, ''))
+    }
+    return url
   }
 
   const { site } = useData()

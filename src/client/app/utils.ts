@@ -22,8 +22,11 @@ export function joinPath(base: string, path: string) {
   return `${base}${path}`.replace(/\/+/g, '/')
 }
 
+/**
+ * Append base to internal (non-relative) urls
+ */
 export function withBase(path: string) {
-  return EXTERNAL_URL_RE.test(path) || path.startsWith('.')
+  return EXTERNAL_URL_RE.test(path) || !path.startsWith('/')
     ? path
     : joinPath(siteDataRef.value.base, path)
 }

@@ -76,3 +76,27 @@ const { theme } = useData()
   <img :src="withBase(theme.logoPath)" />
 </template>
 ```
+
+Also note `pathname://` will respect `base` config if the rest is an internal non-relative link.
+
+**Input**
+
+With `base` set to `"/docs/"`:
+
+```md
+[foo](pathname:///foo.html)
+[bar](pathname:///bar.html)
+[baz](pathname://baz.html)
+[qux](pathname://qux.html)
+```
+
+**Output**
+
+```html
+<p>
+  <a href="/docs/foo.html" target="_blank" rel="noreferrer">foo</a>
+  <a href="/docs/bar.html" target="_blank" rel="noreferrer">bar</a>
+  <a href="baz.html" target="_blank" rel="noreferrer">baz</a>
+  <a href="qux.html" target="_blank" rel="noreferrer">qux</a>
+</p>
+```
