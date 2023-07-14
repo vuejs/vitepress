@@ -1,3 +1,4 @@
+import { isBooleanAttr } from '@vue/shared'
 import escape from 'escape-html'
 import fs from 'fs-extra'
 import path from 'path'
@@ -6,8 +7,8 @@ import { pathToFileURL } from 'url'
 import { normalizePath, transformWithEsbuild } from 'vite'
 import type { SiteConfig } from '../config'
 import {
-  createTitle,
   EXTERNAL_URL_RE,
+  createTitle,
   mergeHead,
   notFoundPageData,
   resolveSiteDataByRoute,
@@ -249,7 +250,8 @@ function renderHead(head: HeadConfig[]): Promise<string> {
 function renderAttrs(attrs: Record<string, string>): string {
   return Object.keys(attrs)
     .map((key) => {
-      return ` ${key}="${escape(attrs[key])}"`
+      if (isBooleanAttr(key)) return ` ${key}`
+      return ` ${key}="${escape(attrs[key] as string)}"`
     })
     .join('')
 }

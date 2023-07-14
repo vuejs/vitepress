@@ -132,6 +132,9 @@ importers:
       '@types/prompts':
         specifier: ^2.4.4
         version: 2.4.4
+      '@vue/shared':
+        specifier: ^3.3.4
+        version: 3.3.4
       chokidar:
         specifier: ^3.5.3
         version: 3.5.3
