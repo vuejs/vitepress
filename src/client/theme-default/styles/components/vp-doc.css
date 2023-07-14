@@ -42,7 +42,9 @@
   font-weight: 500;
   user-select: none;
   opacity: 0;
-  transition: color 0.25s, opacity 0.25s;
+  transition:
+    color 0.25s,
+    opacity 0.25s;
 }
 
 .vp-doc .header-anchor:before {
@@ -245,7 +247,9 @@
   padding: 3px 6px;
   color: var(--vp-c-text-code);
   background-color: var(--vp-c-mute);
-  transition: color 0.5s, background-color 0.5s;
+  transition:
+    color 0.5s,
+    background-color 0.5s;
 }
 
 .vp-doc h1 > code,
@@ -362,12 +366,16 @@
 .vp-doc [class*='language-'] .has-focused-lines .line:not(.has-focus) {
   filter: blur(0.095rem);
   opacity: 0.4;
-  transition: filter 0.35s, opacity 0.35s;
+  transition:
+    filter 0.35s,
+    opacity 0.35s;
 }
 
 .vp-doc [class*='language-'] .has-focused-lines .line:not(.has-focus) {
   opacity: 0.7;
-  transition: filter 0.35s, opacity 0.35s;
+  transition:
+    filter 0.35s,
+    opacity 0.35s;
 }
 
 .vp-doc [class*='language-']:hover .has-focused-lines .line:not(.has-focus) {
@@ -415,7 +423,9 @@
   line-height: var(--vp-code-line-height);
   font-size: var(--vp-code-font-size);
   color: var(--vp-code-line-number-color);
-  transition: border-color 0.5s, color 0.5s;
+  transition:
+    border-color 0.5s,
+    color 0.5s;
 }
 
 .vp-doc [class*='language-'] > button.copy {
@@ -437,7 +447,10 @@
   background-position: 50%;
   background-size: 20px;
   background-repeat: no-repeat;
-  transition: border-color 0.25s, background-color 0.25s, opacity 0.25s;
+  transition:
+    border-color 0.25s,
+    background-color 0.25s,
+    opacity 0.25s;
 }
 
 .vp-doc [class*='language-']:hover > button.copy,
@@ -492,7 +505,9 @@
   font-size: 12px;
   font-weight: 500;
   color: var(--vp-c-code-dimm);
-  transition: color 0.4s, opacity 0.4s;
+  transition:
+    color 0.4s,
+    opacity 0.4s;
 }
 
 .vp-doc [class*='language-']:hover > button.copy + span.lang,
