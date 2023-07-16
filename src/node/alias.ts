@@ -20,8 +20,8 @@ export const SITE_DATA_REQUEST_PATH = '/' + SITE_DATA_ID
 
 const vueRuntimePath =
   process.env.DEBUG || process.env.NODE_ENV !== 'production'
-    ? 'vue/dist/vue.esm-browser.js'
-    : 'vue/dist/vue.esm-browser.prod.js'
+    ? 'vue/dist/vue.runtime.esm-browser.js'
+    : 'vue/dist/vue.runtime.esm-browser.prod.js'
 
 export function resolveAliases(
   { root, themeDir }: SiteConfig,
