@@ -170,7 +170,9 @@ function generateMetadataScript(
   pageToHashMap: Record<string, string>,
   config: SiteConfig
 ) {
-  if (config.mpa) return { metadataScript: '', inHead: false }
+  if (config.mpa) {
+    return { metadataScript: '', inHead: false }
+  }
 
   // We embed the hash map and site config strings into each page directly
   // so that it doesn't alter the main chunk's hash on every build.
@@ -187,11 +189,12 @@ function generateMetadataScript(
       : `window.__VP_SITE_DATA__=JSON.parse(${siteDataString});`
   }`
 
-  if (!config.metaChunk)
+  if (!config.metaChunk) {
     return {
       metadataScript: `<script>${metadataContent}</script>`,
       inHead: false
     }
+  }
 
   const metadataFile = path.join(
     config.assetsDir,
