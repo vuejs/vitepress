@@ -73,6 +73,9 @@ export async function resolveConfig(
     })
   const site = await resolveSiteData(root, userConfig)
   const srcDir = normalizePath(path.resolve(root, userConfig.srcDir || '.'))
+  const assetsDir = userConfig.assetsDir
+    ? userConfig.assetsDir.replace(/\//g, '')
+    : 'assets'
   const outDir = userConfig.outDir
     ? normalizePath(path.resolve(root, userConfig.outDir))
     : resolve(root, 'dist')
@@ -94,6 +97,7 @@ export async function resolveConfig(
   const config: SiteConfig = {
     root,
     srcDir,
+    assetsDir,
     site,
     themeDir,
     pages,

@@ -46,7 +46,7 @@ export async function renderPage(
   // for any initial page load, we only need the lean version of the page js
   // since the static content is already on the page!
   const pageHash = pageToHashMap[pageName.toLowerCase()]
-  const pageClientJsFileName = `assets/${pageName}.${pageHash}.lean.js`
+  const pageClientJsFileName = `${config.assetsDir}/${pageName}.${pageHash}.lean.js`
 
   let pageData: PageData
   let hasCustom404 = true
