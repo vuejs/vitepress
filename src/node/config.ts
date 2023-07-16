@@ -115,6 +115,7 @@ export async function resolveConfig(
     vite: userConfig.vite,
     shouldPreload: userConfig.shouldPreload,
     mpa: !!userConfig.mpa,
+    metaChunk: !!userConfig.metaChunk,
     ignoreDeadLinks: userConfig.ignoreDeadLinks,
     cleanUrls: !!userConfig.cleanUrls,
     useWebFonts:

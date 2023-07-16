@@ -60,7 +60,9 @@ export default defineConfig({
       code: 'CEBDT27Y',
       placement: 'vuejsorg'
     }
-  }
+  },
+
+  metaChunk: true
 })
 
 function nav() {

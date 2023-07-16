@@ -99,6 +99,12 @@ export interface UserConfig<ThemeConfig = any>
   mpa?: boolean
 
   /**
+   * Extracts metadata to a separate chunk.
+   * @experimental
+   */
+  metaChunk?: boolean
+
+  /**
    * Don't fail builds due to dead links.
    *
    * @default false
@@ -176,6 +182,7 @@ export interface SiteConfig<ThemeConfig = any>
     | 'vite'
     | 'shouldPreload'
     | 'mpa'
+    | 'metaChunk'
     | 'lastUpdated'
     | 'ignoreDeadLinks'
     | 'cleanUrls'
