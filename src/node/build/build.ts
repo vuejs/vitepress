@@ -80,10 +80,7 @@ export async function build(
             chunk.moduleIds.some((id) => id.includes('client/theme-default'))
         )
 
-      const { metadataScript, inHead } = generateMetadataScript(
-        pageToHashMap,
-        siteConfig
-      )
+      const metadataScript = generateMetadataScript(pageToHashMap, siteConfig)
 
       if (isDefaultTheme) {
         const fontURL = assets.find((file) =>
@@ -117,7 +114,6 @@ export async function build(
               assets,
               pageToHashMap,
               metadataScript,
-              inHead,
               additionalHeadTags
             )
           )
@@ -171,7 +167,7 @@ function generateMetadataScript(
   config: SiteConfig
 ) {
   if (config.mpa) {
-    return { metadataScript: '', inHead: false }
+    return { html: '', inHead: false }
   }
 
   // We embed the hash map and site config strings into each page directly
@@ -190,10 +186,7 @@ function generateMetadataScript(
   }`
 
   if (!config.metaChunk) {
-    return {
-      metadataScript: `<script>${metadataContent}</script>`,
-      inHead: false
-    }
+    return { html: `<script>${metadataContent}</script>`, inHead: false }
   }
 
   const metadataFile = path.join(
@@ -212,7 +205,7 @@ function generateMetadataScript(
   fs.writeFileSync(resolvedMetadataFile, metadataContent)
 
   return {
-    metadataScript: `<script type="module" src="${metadataFileURL}"></script>`,
+    html: `<script type="module" src="${metadataFileURL}"></script>`,
     inHead: true
   }
 }

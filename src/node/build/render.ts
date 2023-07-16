@@ -28,8 +28,7 @@ export async function renderPage(
   cssChunk: OutputAsset | null,
   assets: string[],
   pageToHashMap: Record<string, string>,
-  metadataScript: string,
-  inHead: boolean,
+  metadataScript: { html: string; inHead: boolean },
   additionalHeadTags: HeadConfig[]
 ) {
   const routePath = `/${page.replace(/\.md$/, '')}`
@@ -157,7 +156,7 @@ export async function renderPage(
     <title>${title}</title>
     <meta name="description" content="${description}">
     ${stylesheetLink}
-    ${inHead ? metadataScript : ''}
+    ${metadataScript.inHead ? metadataScript.html : ''}
     ${
       appChunk
         ? `<script type="module" src="${siteData.base}${appChunk.fileName}"></script>`
@@ -167,7 +166,7 @@ export async function renderPage(
   </head>
   <body>${teleports?.body || ''}
     <div id="app">${content}</div>
-    ${inHead ? '' : metadataScript}
+    ${metadataScript.inHead ? '' : metadataScript.html}
     ${inlinedScript}
   </body>
 </html>`
