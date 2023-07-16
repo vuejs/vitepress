@@ -18,7 +18,6 @@ import {
   type PageData,
   type SSGContext
 } from '../shared'
-import { deserializeFunctions } from '../utils/fnSerialize'
 
 export async function renderPage(
   render: (path: string) => Promise<SSGContext>,
@@ -29,8 +28,7 @@ export async function renderPage(
   cssChunk: OutputAsset | null,
   assets: string[],
   pageToHashMap: Record<string, string>,
-  hashMapString: string,
-  siteDataString: string,
+  metadataScript: { html: string; inHead: boolean },
   additionalHeadTags: HeadConfig[]
 ) {
   const routePath = `/${page.replace(/\.md$/, '')}`
@@ -150,15 +148,7 @@ export async function renderPage(
     }
   }
 
-  let metadataScript = `__VP_HASH_MAP__ = JSON.parse(${hashMapString})\n`
-  if (siteDataString.includes('_vp-fn_')) {
-    metadataScript += `${deserializeFunctions.toString()}\n__VP_SITE_DATA__ = deserializeFunctions(JSON.parse(${siteDataString}))`
-  } else {
-    metadataScript += `__VP_SITE_DATA__ = JSON.parse(${siteDataString})`
-  }
-
-  const html = `
-<!DOCTYPE html>
+  const html = `<!DOCTYPE html>
 <html lang="${siteData.lang}" dir="${siteData.dir}">
   <head>
     <meta charset="utf-8">
@@ -166,21 +156,22 @@ export async function renderPage(
     <title>${title}</title>
     <meta name="description" content="${description}">
     ${stylesheetLink}
+    ${metadataScript.inHead ? metadataScript.html : ''}
     ${
       appChunk
         ? `<script type="module" src="${siteData.base}${appChunk.fileName}"></script>`
-        : ``
+        : ''
     }
     ${await renderHead(head)}
   </head>
   <body>${teleports?.body || ''}
     <div id="app">${content}</div>
-    ${config.mpa ? '' : `<script>${metadataScript}</script>`}
+    ${metadataScript.inHead ? '' : metadataScript.html}
     ${inlinedScript}
   </body>
-</html>`.trim()
-  const htmlFileName = path.join(config.outDir, page.replace(/\.md$/, '.html'))
+</html>`
 
+  const htmlFileName = path.join(config.outDir, page.replace(/\.md$/, '.html'))
   await fs.ensureDir(path.dirname(htmlFileName))
   const transformedHtml = await config.transformHtml?.(html, htmlFileName, {
     page,
@@ -224,8 +215,8 @@ function resolvePageImports(
   ]
 }
 
-function renderHead(head: HeadConfig[]): Promise<string> {
-  return Promise.all(
+async function renderHead(head: HeadConfig[]): Promise<string> {
+  const tags = await Promise.all(
     head.map(async ([tag, attrs = {}, innerHTML = '']) => {
       const openTag = `<${tag}${renderAttrs(attrs)}>`
       if (tag !== 'link' && tag !== 'meta') {
@@ -244,7 +235,8 @@ function renderHead(head: HeadConfig[]): Promise<string> {
         return openTag
       }
     })
-  ).then((tags) => tags.join('\n  '))
+  )
+  return tags.join('\n    ')
 }
 
 function renderAttrs(attrs: Record<string, string>): string {
