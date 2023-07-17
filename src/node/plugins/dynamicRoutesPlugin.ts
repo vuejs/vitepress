@@ -23,7 +23,7 @@ export async function resolvePages(srcDir: string, userConfig: UserConfig) {
   const allMarkdownFiles = (
     await fg(['**.md'], {
       cwd: srcDir,
-      ignore: ['**/node_modules', ...(userConfig.srcExclude || [])]
+      ignore: ['**/node_modules|public', ...(userConfig.srcExclude || [])]
     })
   ).sort()
 
