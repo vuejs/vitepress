@@ -102,6 +102,7 @@ export async function build(
 
       await Promise.all(
         ['404.md', ...siteConfig.pages]
+          .filter((page) => !page.startsWith('public/'))
           .map((page) => siteConfig.rewrites.map[page] || page)
           .map((page) =>
             renderPage(
