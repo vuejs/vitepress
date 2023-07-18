@@ -43,7 +43,7 @@ export async function build(
     const entryPath = path.join(siteConfig.tempDir, 'app.js')
     const { render } = await import(pathToFileURL(entryPath).toString())
 
-    const spinner = ora()
+    const spinner = ora({ discardStdin: false })
     spinner.start('rendering pages...')
 
     try {
