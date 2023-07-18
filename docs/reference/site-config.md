@@ -433,8 +433,8 @@ interface MarkdownOptions extends MarkdownIt.Options {
   // markdown-it-attrs plugin options.
   // See: https://github.com/arve0/markdown-it-attrs
   attrs?: {
-    leftDelimiter?: string
-    rightDelimiter?: string
+    leftDelimiter?: string // default '%{'
+    rightDelimiter?: string // default '}%'
     allowedAttributes?: string[]
     disable?: boolean
   }

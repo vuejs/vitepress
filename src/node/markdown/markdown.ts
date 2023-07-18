@@ -96,7 +96,11 @@ export const createMarkdownRenderer = async (
 
   // 3rd party plugins
   if (!options.attrs?.disable) {
-    md.use(attrsPlugin, options.attrs)
+    md.use(attrsPlugin, {
+      leftDelimiter: '%{',
+      rightDelimiter: '}%',
+      ...options.attrs
+    })
   }
   md.use(emojiPlugin)
 
