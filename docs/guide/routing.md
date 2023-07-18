@@ -327,17 +327,15 @@ Instead, you can pass such content to each page using the `content` property on 
 
 ```js
 export default {
-  paths() {
-    async paths() {
-      const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
+  async paths() {
+    const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
 
-      return posts.map((post) => {
-        return {
-          params: { id: post.id },
-          content: post.content // raw Markdown or HTML
-        }
-      })
-    }
+    return posts.map((post) => {
+      return {
+        params: { id: post.id },
+        content: post.content // raw Markdown or HTML
+      }
+    })
   }
 }
 ```

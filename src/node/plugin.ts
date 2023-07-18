@@ -129,11 +129,12 @@ export async function createVitePressPlugin(
           __ALGOLIA__:
             site.themeConfig?.search?.provider === 'algolia' ||
             !!site.themeConfig?.algolia, // legacy
-          __CARBON__: !!site.themeConfig?.carbonAds
+          __CARBON__: !!site.themeConfig?.carbonAds,
+          __ASSETS_DIR__: JSON.stringify(siteConfig.assetsDir)
         },
         optimizeDeps: {
           // force include vue to avoid duplicated copies when linked + optimized
-          include: ['vue'],
+          include: ['vue', 'vitepress > @vue/devtools-api'],
           exclude: ['@docsearch/js', 'vitepress']
         },
         server: {

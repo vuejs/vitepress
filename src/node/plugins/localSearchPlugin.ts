@@ -1,11 +1,12 @@
-import path from 'node:path'
-import type { Plugin, ViteDevServer } from 'vite'
-import MiniSearch from 'minisearch'
-import fs from 'fs-extra'
 import _debug from 'debug'
+import fs from 'fs-extra'
+import MiniSearch from 'minisearch'
+import path from 'path'
+import type { Plugin, ViteDevServer } from 'vite'
 import type { SiteConfig } from '../config'
-import { createMarkdownRenderer } from '../markdown/markdown'
-import { resolveSiteDataByRoute, slash } from '../shared'
+import type { MarkdownEnv } from '../markdown'
+import { createMarkdownRenderer } from '../markdown'
+import { resolveSiteDataByRoute, slash, type DefaultTheme } from '../shared'
 
 const debug = _debug('vitepress:local-search')
 
@@ -20,7 +21,7 @@ interface IndexObject {
 }
 
 export async function localSearchPlugin(
-  siteConfig: SiteConfig
+  siteConfig: SiteConfig<DefaultTheme.Config>
 ): Promise<Plugin> {
   if (siteConfig.site.themeConfig?.search?.provider !== 'local') {
     return {
@@ -45,6 +46,16 @@ export async function localSearchPlugin(
     siteConfig.logger
   )
 
+  function createMarkdownEnv(file: string): MarkdownEnv {
+    const { srcDir, cleanUrls = false } = siteConfig
+    const relativePath = slash(path.relative(srcDir, file))
+    return {
+      path: file,
+      relativePath,
+      cleanUrls
+    }
+  }
+
   const indexByLocales = new Map<string, MiniSearch<IndexObject>>()
 
   function getIndexByLocale(locale: string) {
@@ -52,7 +63,9 @@ export async function localSearchPlugin(
     if (!index) {
       index = new MiniSearch<IndexObject>({
         fields: ['title', 'titles', 'text'],
-        storeFields: ['title', 'titles']
+        storeFields: ['title', 'titles'],
+        ...(siteConfig.site.themeConfig?.search?.provider === 'local' &&
+          siteConfig.site.themeConfig.search.options?.miniSearch?.options)
       })
       indexByLocales.set(locale, index)
     }
@@ -111,7 +124,7 @@ export async function localSearchPlugin(
         .map(async (file) => {
           const fileId = getDocId(file)
           const sections = splitPageIntoSections(
-            md.render(await fs.readFile(file, 'utf-8'))
+            md.render(await fs.readFile(file, 'utf-8'), createMarkdownEnv(file))
           )
           const locale = getLocaleForPath(file)
           let documents = documentsByLocale.get(locale)
@@ -191,7 +204,10 @@ export async function localSearchPlugin(
         }
         const index = getIndexForPath(ctx.file)
         const sections = splitPageIntoSections(
-          md.render(await fs.readFile(ctx.file, 'utf-8'))
+          md.render(
+            await fs.readFile(ctx.file, 'utf-8'),
+            createMarkdownEnv(ctx.file)
+          )
         )
         for (const section of sections) {
           const id = `${fileId}#${section.anchor}`

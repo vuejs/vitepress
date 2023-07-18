@@ -1,3 +1,5 @@
+import type { Options as MiniSearchOptions } from 'minisearch'
+import type { ComputedRef, Ref } from 'vue'
 import type { DocSearchProps } from './docsearch.js'
 import type { LocalSearchTranslations } from './local-search.js'
 import type { PageData } from './shared.js'
@@ -25,8 +27,7 @@ export namespace DefaultTheme {
     outline?: Outline | Outline['level'] | false
 
     /**
-     * @deprecated
-     * Use `outline.label` instead.
+     * @deprecated Use `outline.label` instead.
      *
      * @default 'On this page'
      */
@@ -58,11 +59,15 @@ export namespace DefaultTheme {
     editLink?: EditLink
 
     /**
+     * @deprecated Use `lastUpdated.text` instead.
+     *
      * Set custom last updated text.
      *
      * @default 'Last updated'
      */
     lastUpdatedText?: string
+
+    lastUpdated?: LastUpdatedOptions
 
     /**
      * Set custom prev/next labels.
@@ -122,6 +127,13 @@ export namespace DefaultTheme {
      * @default true
      */
     i18nRouting?: boolean
+
+    /**
+     * Show external link icon in Markdown links.
+     *
+     * @default false
+     */
+    externalLinkIcon?: boolean
   }
 
   // nav -----------------------------------------------------------------------
@@ -209,6 +221,22 @@ export namespace DefaultTheme {
     collapsed?: boolean
   }
 
+  /**
+   * ReturnType of `useSidebar`
+   */
+  export interface DocSidebar {
+    isOpen: Ref<boolean>
+    sidebar: ComputedRef<SidebarItem[]>
+    sidebarGroups: ComputedRef<SidebarItem[]>
+    hasSidebar: ComputedRef<boolean>
+    hasAside: ComputedRef<boolean>
+    leftAside: ComputedRef<boolean>
+    isSidebarEnabled: ComputedRef<boolean>
+    open: () => void
+    close: () => void
+    toggle: () => void
+  }
+
   // edit link -----------------------------------------------------------------
 
   export interface EditLink {
@@ -232,18 +260,18 @@ export namespace DefaultTheme {
 
   export interface DocFooter {
     /**
-     * Custom label for previous page button.
+     * Custom label for previous page button. Can be set to `false` to disable.
      *
      * @default 'Previous page'
      */
-    prev?: string
+    prev?: string | boolean
 
     /**
-     * Custom label for next page button.
+     * Custom label for next page button. Can be set to `false` to disable.
      *
      * @default 'Next page'
      */
-    next?: string
+    next?: string | boolean
   }
 
   // social link ---------------------------------------------------------------
@@ -251,6 +279,7 @@ export namespace DefaultTheme {
   export interface SocialLink {
     icon: SocialLinkIcon
     link: string
+    ariaLabel?: string
   }
 
   export type SocialLinkIcon =
@@ -307,6 +336,20 @@ export namespace DefaultTheme {
 
     translations?: LocalSearchTranslations
     locales?: Record<string, Partial<Omit<LocalSearchOptions, 'locales'>>>
+
+    miniSearch?: {
+      /**
+       * @see https://lucaong.github.io/minisearch/modules/_minisearch_.html#options
+       */
+      options?: Pick<
+        MiniSearchOptions,
+        'extractField' | 'tokenize' | 'processTerm'
+      >
+      /**
+       * @see https://lucaong.github.io/minisearch/modules/_minisearch_.html#searchoptions-1
+       */
+      searchOptions?: MiniSearchOptions['searchOptions']
+    }
   }
 
   // algolia -------------------------------------------------------------------
@@ -324,5 +367,25 @@ export namespace DefaultTheme {
   export interface CarbonAdsOptions {
     code: string
     placement: string
+  }
+
+  // last updated --------------------------------------------------------------
+
+  export interface LastUpdatedOptions {
+    /**
+     * Set custom last updated text.
+     *
+     * @default 'Last updated'
+     */
+    text?: string
+
+    /**
+     * Set options for last updated time formatting.
+     * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat#using_options
+     *
+     * @default
+     * { dateStyle: 'short', timeStyle: 'short' }
+     */
+    formatOptions?: Intl.DateTimeFormatOptions
   }
 }

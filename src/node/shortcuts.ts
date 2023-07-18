@@ -1,22 +1,31 @@
-import colors from 'picocolors'
 import type { ViteDevServer } from 'vite'
+import c from 'picocolors'
+import { clearCache } from './markdownToVue'
+
+type CreateDevServer = () => Promise<void>
 
 export type CLIShortcut = {
   key: string
   description: string
-  action(server: ViteDevServer): void | Promise<void>
+  action(
+    server: ViteDevServer,
+    createDevServer: CreateDevServer
+  ): void | Promise<void>
 }
 
-export function bindShortcuts(server: ViteDevServer): void {
+export function bindShortcuts(
+  server: ViteDevServer,
+  createDevServer: CreateDevServer
+): void {
   if (!server.httpServer || !process.stdin.isTTY || process.env.CI) {
     return
   }
 
   server.config.logger.info(
-    colors.dim(colors.green('  ➜')) +
-      colors.dim('  press ') +
-      colors.bold('h') +
-      colors.dim(' to show help')
+    c.dim(c.green('  ➜')) +
+      c.dim('  press ') +
+      c.bold('h') +
+      c.dim(' to show help')
   )
 
   let actionRunning = false
@@ -34,12 +43,12 @@ export function bindShortcuts(server: ViteDevServer): void {
       server.config.logger.info(
         [
           '',
-          colors.bold('  Shortcuts'),
+          c.bold('  Shortcuts'),
           ...SHORTCUTS.map(
             (shortcut) =>
-              colors.dim('  press ') +
-              colors.bold(shortcut.key) +
-              colors.dim(` to ${shortcut.description}`)
+              c.dim('  press ') +
+              c.bold(shortcut.key) +
+              c.dim(` to ${shortcut.description}`)
           )
         ].join('\n')
       )
@@ -49,7 +58,7 @@ export function bindShortcuts(server: ViteDevServer): void {
     if (!shortcut) return
 
     actionRunning = true
-    await shortcut.action(server)
+    await shortcut.action(server, createDevServer)
     actionRunning = false
   }
 
@@ -63,6 +72,19 @@ export function bindShortcuts(server: ViteDevServer): void {
 }
 
 const SHORTCUTS: CLIShortcut[] = [
+  {
+    key: 'r',
+    description: 'restart the server',
+    async action(server, createDevServer) {
+      server.config.logger.info(c.green(`restarting server...\n`), {
+        clear: true,
+        timestamp: true
+      })
+      clearCache()
+      await server.close()
+      await createDevServer()
+    }
+  },
   {
     key: 'u',
     description: 'show server url',

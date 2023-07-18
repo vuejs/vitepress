@@ -1,16 +1,18 @@
+import { createHash } from 'crypto'
 import fs from 'fs-extra'
-import path from 'path'
-import ora from 'ora'
-import type { BuildOptions } from 'vite'
-import type { OutputChunk, OutputAsset } from 'rollup'
-import { resolveConfig } from '../config'
-import { renderPage } from './render'
-import { bundle, okMark, failMark } from './bundle'
 import { createRequire } from 'module'
-import { pathToFileURL } from 'url'
+import ora from 'ora'
+import path from 'path'
 import { packageDirectorySync } from 'pkg-dir'
-import { serializeFunctions } from '../utils/fnSerialize'
-import type { HeadConfig } from '../shared'
+import { rimraf } from 'rimraf'
+import type { OutputAsset, OutputChunk } from 'rollup'
+import { pathToFileURL } from 'url'
+import type { BuildOptions } from 'vite'
+import { resolveConfig, type SiteConfig } from '../config'
+import { slash, type HeadConfig } from '../shared'
+import { deserializeFunctions, serializeFunctions } from '../utils/fnSerialize'
+import { bundle, failMark, okMark } from './bundle'
+import { renderPage } from './render'
 
 export async function build(
   root?: string,
@@ -55,12 +57,12 @@ export async function build(
         ) as OutputChunk)
 
       const cssChunk = (
-        siteConfig.mpa ? serverResult : clientResult
+        siteConfig.mpa ? serverResult : clientResult!
       ).output.find(
         (chunk) => chunk.type === 'asset' && chunk.fileName.endsWith('.css')
       ) as OutputAsset
 
-      const assets = (siteConfig.mpa ? serverResult : clientResult).output
+      const assets = (siteConfig.mpa ? serverResult : clientResult!).output
         .filter(
           (chunk) => chunk.type === 'asset' && !chunk.fileName.endsWith('.css')
         )
@@ -77,6 +79,8 @@ export async function build(
             chunk.name === 'theme' &&
             chunk.moduleIds.some((id) => id.includes('client/theme-default'))
         )
+
+      const metadataScript = generateMetadataScript(pageToHashMap, siteConfig)
 
       if (isDefaultTheme) {
         const fontURL = assets.find((file) =>
@@ -96,15 +100,6 @@ export async function build(
         }
       }
 
-      // We embed the hash map and site config strings into each page directly
-      // so that it doesn't alter the main chunk's hash on every build.
-      // It's also embedded as a string and JSON.parsed from the client because
-      // it's faster than embedding as JS object literal.
-      const hashMapString = JSON.stringify(JSON.stringify(pageToHashMap))
-      const siteDataString = JSON.stringify(
-        JSON.stringify(serializeFunctions({ ...siteConfig.site, head: [] }))
-      )
-
       await Promise.all(
         ['404.md', ...siteConfig.pages]
           .map((page) => siteConfig.rewrites.map[page] || page)
@@ -118,8 +113,7 @@ export async function build(
               cssChunk,
               assets,
               pageToHashMap,
-              hashMapString,
-              siteDataString,
+              metadataScript,
               additionalHeadTags
             ).catch((e) => {
               console.error(`An error occured while trying to render ${page}:`)
@@ -145,8 +139,7 @@ export async function build(
     )
   } finally {
     unlinkVue()
-    if (!process.env.DEBUG)
-      fs.rmSync(siteConfig.tempDir, { recursive: true, force: true })
+    if (!process.env.DEBUG) await rimraf(siteConfig.tempDir)
   }
 
   await siteConfig.buildEnd?.(siteConfig)
@@ -170,4 +163,52 @@ function linkVue() {
     }
   }
   return () => {}
+}
+
+function generateMetadataScript(
+  pageToHashMap: Record<string, string>,
+  config: SiteConfig
+) {
+  if (config.mpa) {
+    return { html: '', inHead: false }
+  }
+
+  // We embed the hash map and site config strings into each page directly
+  // so that it doesn't alter the main chunk's hash on every build.
+  // It's also embedded as a string and JSON.parsed from the client because
+  // it's faster than embedding as JS object literal.
+  const hashMapString = JSON.stringify(JSON.stringify(pageToHashMap))
+  const siteDataString = JSON.stringify(
+    JSON.stringify(serializeFunctions({ ...config.site, head: [] }))
+  )
+
+  const metadataContent = `window.__VP_HASH_MAP__=JSON.parse(${hashMapString});${
+    siteDataString.includes('_vp-fn_')
+      ? `${deserializeFunctions.toString()};window.__VP_SITE_DATA__=deserializeFunctions(JSON.parse(${siteDataString}));`
+      : `window.__VP_SITE_DATA__=JSON.parse(${siteDataString});`
+  }`
+
+  if (!config.metaChunk) {
+    return { html: `<script>${metadataContent}</script>`, inHead: false }
+  }
+
+  const metadataFile = path.join(
+    config.assetsDir,
+    'chunks',
+    `metadata.${createHash('sha256')
+      .update(metadataContent)
+      .digest('hex')
+      .slice(0, 8)}.js`
+  )
+
+  const resolvedMetadataFile = path.join(config.outDir, metadataFile)
+  const metadataFileURL = slash(`${config.site.base}${metadataFile}`)
+
+  fs.ensureDirSync(path.dirname(resolvedMetadataFile))
+  fs.writeFileSync(resolvedMetadataFile, metadataContent)
+
+  return {
+    html: `<script type="module" src="${metadataFileURL}"></script>`,
+    inHead: true
+  }
 }

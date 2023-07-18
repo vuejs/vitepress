@@ -290,6 +290,19 @@ export default {
 }
 ```
 
+### assetsDir
+
+- Type: `string`
+- Default: `assets`
+
+The directory for assets files. See also: [assetsDir](https://vitejs.dev/config/build-options.html#build-assetsdir).
+
+```ts
+export default {
+  assetsDir: 'static'
+}
+```
+
 ### cacheDir
 
 - Type: `string`
@@ -384,7 +397,7 @@ export default {
 
     // adjust how header anchors are generated,
     // useful for integrating with tools that use different conventions
-    anchors: {
+    anchor: {
       slugify(str) {
         return encodeURIComponent(str)
       }

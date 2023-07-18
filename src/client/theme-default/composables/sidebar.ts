@@ -10,7 +10,7 @@ import {
 import { useMediaQuery } from '@vueuse/core'
 import { useRoute } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
-import { isActive } from '../support/utils'
+import { isActive } from '../../shared'
 import {
   hasActiveLink as containsActiveLink,
   getSidebar,

@@ -14,8 +14,7 @@ defineProps<{
     <VPNavScreenMenuGroupLink
       v-for="item in items"
       :key="item.text"
-      :text="item.text"
-      :link="item.link"
+      :item="item"
     />
   </div>
 </template>
