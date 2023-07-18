@@ -193,6 +193,7 @@ function onCaretClick() {
   color: var(--vp-c-text-3);
   cursor: pointer;
   transition: color 0.25s;
+  flex-shrink: 0;
 }
 
 .item:hover .caret {
