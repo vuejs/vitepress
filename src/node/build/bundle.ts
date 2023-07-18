@@ -145,7 +145,7 @@ export async function bundle(
   let clientResult: RollupOutput | null
   let serverResult: RollupOutput
 
-  const spinner = ora()
+  const spinner = ora({ discardStdin: false })
   spinner.start('building client + server bundles...')
   try {
     clientResult = config.mpa
