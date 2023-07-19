@@ -27,7 +27,7 @@ defineProps<{
           <span v-if="member.title && member.org" class="at">
             @
           </span>
-          <VPLink v-if="member.org" class="org" :class="{ link: member.orgLink }" :href="member.orgLink" no-icon>
+          <VPLink v-if="member.org" class="org" :class="{ link: member.orgLink }" :href="member.orgLink">
             {{ member.org }}
           </VPLink>
         </p>
@@ -38,7 +38,7 @@ defineProps<{
       </div>
     </div>
     <div v-if="member.sponsor" class="sp">
-      <VPLink class="sp-link" :href="member.sponsor" no-icon>
+      <VPLink class="sp-link" :href="member.sponsor">
         <VPIconHeart class="sp-icon" /> Sponsor
       </VPLink>
     </div>
