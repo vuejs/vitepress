@@ -97,7 +97,7 @@ Learn more about linking to assets such images in [Asset Handling](asset-handlin
 
 ## Generating Clean URL
 
-:::warning Server Support Required
+::: warning Server Support Required
 To serve clean URLs with VitePress, server-side support is required.
 :::
 
@@ -172,7 +172,7 @@ export default {
 
 The rewrite paths are compiled using the `path-to-regexp` package - consult [its documentation](https://github.com/pillarjs/path-to-regexp#parameters) for more advanced syntax.
 
-:::warning Relative Links with Rewrites
+::: warning Relative Links with Rewrites
 
 When rewrites are enabled, **relative links should be based on the rewritten paths**. For example, in order to create a relative link from `packages/pkg-a/src/pkg-a-code.md` to `packages/pkg-b/src/pkg-b-code.md`, you should use:
 

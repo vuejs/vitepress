@@ -12,19 +12,7 @@ Just want to try it out? Skip to the [Quickstart](./getting-started).
 
 - **Documentation**
 
-  VitePress ships with a default theme designed for technical documentation, especially those that need to embed interactive demos. It powers this page you are reading right now, along with the documentation for:
-  - [Vite](https://vitejs.dev/): next generation frontend tooling
-  - [Pinia](https://pinia.vuejs.org/): the intuitive store for Vue.js
-  - [VueUse](https://vueuse.org/): collection of Vue composition utilities
-  - [D3](https://d3js.org/): the JavaScript library for bespoke data visualization
-  - [Rollup](https://rollupjs.org/): the JavaScript module bundler
-  - [Mermaid](https://mermaid.js.org/): diagramming and charting tool
-  - [Wikimedia Codex](https://doc.wikimedia.org/codex/latest/): Wikimedia Design System
-  - [Vitest](https://vitest.dev/): blazing fast unit test framework
-  - [UnoCSS](https://unocss.dev/): instant on-demand atomic CSS engine
-  - [VitePWA](https://vite-pwa-org.netlify.app/): PWA integrations for Vite and the ecosystem
-  - [Iconify](https://iconify.design/): freedom to choose icons
-  - [and many more](https://www.vuetelescope.com/explore?framework.slug=vitepress).
+  VitePress ships with a default theme designed for technical documentation. It powers this page you are reading right now, along with the documentation for [Vite](https://vitejs.dev/), [Rollup](https://rollupjs.org/), [Pinia](https://pinia.vuejs.org/), [VueUse](https://vueuse.org/), [Vitest](https://vitest.dev/), [D3](https://d3js.org/), [UnoCSS](https://unocss.dev/), [Iconify](https://iconify.design/) and [many more](https://www.vuetelescope.com/explore?framework.slug=vitepress).
 
   The [official Vue.js documentation](https://vuejs.org/) is also based on VitePress, but uses a custom theme shared between multiple translations.
 
