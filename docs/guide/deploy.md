@@ -119,66 +119,87 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
 ### GitHub Pages
 
-1. In your theme config file, `docs/.vitepress/config.js`, set the `base` property to the name of your GitHub repository. If you plan to deploy your site to `https://foo.github.io/bar/`, then you should set base to `'/bar/'`. It should always start and end with a slash.
-
-2. Create a file named `deploy.yml` inside `.github/workflows` directory of your project with the following content:
+1. Create a file named `deploy.yml` inside `.github/workflows` directory of your project with some content like this:
 
    ```yaml
-   name: Deploy
+   # Sample workflow for building and deploying a VitePress site to GitHub Pages
+   #
+   name: Deploy VitePress site to Pages
+
    on:
-     workflow_dispatch: {}
+     # Runs on pushes targeting the `main` branch. Change this to `master` if you're
+     # using the `master` branch as the default branch.
      push:
-       branches:
-         - main
+       branches: [main]
+
+     # Allows you to run this workflow manually from the Actions tab
+     workflow_dispatch:
+
+   # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+   permissions:
+     contents: read
+     pages: write
+     id-token: write
+
+   # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+   # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+   concurrency:
+     group: pages
+     cancel-in-progress: false
+
    jobs:
-     deploy:
+     # Build job
+     build:
        runs-on: ubuntu-latest
-       permissions:
-         contents: read
-         pages: write
-         id-token: write
+       steps:
+         - name: Checkout
+           uses: actions/checkout@v3
+           with:
+             fetch-depth: 0 # Not needed if lastUpdated is not enabled
+         # - uses: pnpm/action-setup@v2 # Uncomment this if you're using pnpm
+         - name: Setup Node
+           uses: actions/setup-node@v3
+           with:
+             node-version: 18
+             cache: npm # or pnpm / yarn
+         - name: Setup Pages
+           uses: actions/configure-pages@v3
+         - name: Install dependencies
+           run: npm ci # or pnpm install / yarn install
+         - name: Build with VitePress
+           run: npm run docs:build # or pnpm docs:build / yarn docs:build
+         - name: Upload artifact
+           uses: actions/upload-pages-artifact@v2
+           with:
+             path: docs/.vitepress/dist
+
+     # Deployment job
+     deploy:
        environment:
          name: github-pages
          url: ${{ steps.deployment.outputs.page_url }}
+       needs: build
+       runs-on: ubuntu-latest
+       name: Deploy
        steps:
-         - uses: actions/checkout@v3
-           with:
-             fetch-depth: 0
-         - uses: actions/setup-node@v3
-           with:
-             node-version: 16
-             cache: npm
-         - run: npm ci
-         - name: Build
-           run: npm run docs:build
-         - uses: actions/configure-pages@v2
-         - uses: actions/upload-pages-artifact@v1
-           with:
-             path: docs/.vitepress/dist
-         - name: Deploy
+         - name: Deploy to GitHub Pages
            id: deployment
-           uses: actions/deploy-pages@v1
+           uses: actions/deploy-pages@v2
    ```
 
-   ::: tip
-   Please replace the corresponding branch name. For example, if the branch you want to build is `master`, then you should replace `main` with `master` in the above file.
+   ::: warning
+   Make sure the `base` option in your VitePress is properly configured. See [Setting a Public Base Path](#setting-a-public-base-path) for more details.
    :::
 
-3. In your repository's Settings under Pages menu item, select `GitHub Actions` in Build and deployment's Source.
+2. In your repository's settings under "Pages" menu item, select "GitHub Actions" in "Build and deployment > Source".
 
-4. Now commit your code and push it to the `main` branch.
-
-5. Wait for actions to complete.
-
-6. In your repository's Settings under Pages menu item, click `Visit site`, then you can see your site. Your docs will automatically deploy each time you push.
+3. Push your changes to the `main` branch and wait for the GitHub Actions workflow to complete. You should see your site deployed to `https://<username>.github.io/[repository]/` or `https://<custom-domain>/` depending on your settings. Your site will automatically be deployed on every push to the `main` branch.
 
 ### GitLab Pages
 
-1. Set `outDir` in `docs/.vitepress/config.js` to `../public`.
+1. Set `outDir` in VitePress config to `../public`. Configure `base` option to `'/<repository>/'` if you want to deploy to `https://<username>.gitlab.io/<repository>/`.
 
-2. Still in your config file, `docs/.vitepress/config.js`, set the `base` property to the name of your GitLab repository. If you plan to deploy your site to `https://foo.gitlab.io/bar/`, then you should set base to `'/bar/'`. It should always start and end with a slash.
-
-3. Create a file called `.gitlab-ci.yml` in the root of your project with the content below. This will build and deploy your site whenever you make changes to your content:
+2. Create a file named `.gitlab-ci.yml` in the root of your project with the content below. This will build and deploy your site whenever you make changes to your content:
 
    ```yaml
    image: node:16
@@ -187,25 +208,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
        paths:
          - node_modules/
      script:
-       - npm install
-       - npm run docs:build
-     artifacts:
-       paths:
-         - public
-     only:
-       - main
-   ```
-
-4. Alternatively, if you want to use an _alpine_ version of node, you have to install `git` manually. In that case, the code above modifies to this:
-   ```yaml
-   image: node:16-alpine
-   pages:
-     cache:
-       paths:
-         - node_modules/
-     before_script:
-       - apk add git
-     script:
+       # - apk add git # Uncomment this if you're using small docker images like alpine and have lastUpdated enabled
        - npm install
        - npm run docs:build
      artifacts:
