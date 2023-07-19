@@ -45,7 +45,7 @@ The following guides are based on some shared assumptions:
    }
    ```
 
-Now the `docs:preview` method will launch the server at `http://localhost:8080`.
+   Now the `docs:preview` method will launch the server at `http://localhost:8080`.
 
 ## Setting a Public Base Path
 
@@ -65,7 +65,7 @@ This `4f283b18` hash is generated from the content of this file. The same hashed
 Cache-Control: max-age=31536000,immutable
 ```
 
-:::details Example Netlify `_headers` file
+::: details Example Netlify `_headers` file
 
 ```
 /assets/*
@@ -79,7 +79,7 @@ Note: the `_headers` file should be placed in the [public directory](/guide/asse
 
 :::
 
-:::details Example Vercel config in `vercel.json`
+::: details Example Vercel config in `vercel.json`
 
 ```json
 {

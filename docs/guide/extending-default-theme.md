@@ -10,7 +10,7 @@ However, there are a number of cases where configuration alone won't be enough. 
 
 These advanced customizations will require using a custom theme that "extends" the default theme.
 
-:::tip
+::: tip
 Before proceeding, make sure to first read [Using a Custom Theme](./custom-theme) to understand how custom themes work.
 :::
 
@@ -58,7 +58,7 @@ export default DefaultTheme
 }
 ```
 
-:::warning
+::: warning
 If you are using optional components like the [Team Page](/reference/default-theme-team-page) components, make sure to also import them from `vitepress/theme-without-fonts`!
 :::
 
