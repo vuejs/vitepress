@@ -538,8 +538,8 @@
   max-width: calc((100% - 24px) / 2) !important;
 }
 
-:is(.vp-external-link-icon, .vp-doc a[href*="://"], .vp-doc a[target="_blank"])::after
-{
+/* prettier-ignore */
+:is(.vp-external-link-icon, .vp-doc a[href*='://'], .vp-doc a[target='_blank']):not(.no-icon)::after {
   display: inline-block;
   margin-top: -1px;
   margin-left: 4px;
