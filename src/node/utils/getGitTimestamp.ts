@@ -5,7 +5,7 @@ export function getGitTimestamp(file: string) {
   return new Promise<number>((resolve, reject) => {
     const cwd = dirname(file)
     const fileName = basename(file)
-    const child = spawn('git', ['log', '-1', '--pretty="%ci"', fileName], {
+    const child = spawn('git', ['log', '-1', '--pretty="%ai"', fileName], {
       cwd
     })
     let output = ''

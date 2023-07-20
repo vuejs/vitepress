@@ -47,6 +47,6 @@ const { currentLang } = useLangs()
 
 :deep(.logo) {
   margin-right: 8px;
-  height: 24px;
+  height: var(--vp-nav-logo-height);
 }
 </style>

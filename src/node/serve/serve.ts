@@ -28,7 +28,8 @@ export async function serve(options: ServeOptions = {}) {
   const config = await resolveConfig(options.root, 'serve', 'production')
   const base = trimChar(options?.base ?? config?.site?.base ?? '', '/')
 
-  const notAnAsset = (pathname: string) => !pathname.includes('/assets/')
+  const notAnAsset = (pathname: string) =>
+    !pathname.includes(`/${config.assetsDir}/`)
   const notFound = fs.readFileSync(path.resolve(config.outDir, './404.html'))
   const onNoMatch: IOptions['onNoMatch'] = (req, res) => {
     res.statusCode = 404

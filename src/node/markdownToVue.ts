@@ -322,14 +322,16 @@ function injectPageDataCode(
       code +
         (hasDefaultExport
           ? ``
-          : `\nexport default {name:'${data.relativePath}'}`) +
+          : `\nexport default {name:${JSON.stringify(data.relativePath)}}`) +
         `</script>`
     )
   } else {
     tags.unshift(
-      `<script ${isUsingTS ? 'lang="ts"' : ''}>${code}\nexport default {name:'${
+      `<script ${
+        isUsingTS ? 'lang="ts"' : ''
+      }>${code}\nexport default {name:${JSON.stringify(
         data.relativePath
-      }'}</script>`
+      )}}</script>`
     )
   }
 
