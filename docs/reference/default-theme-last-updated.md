@@ -2,6 +2,10 @@
 
 The update time of the last content will be displayed in the lower right corner of the page. To enable it, add `lastUpdated` options to your config.
 
+::: tip
+You need to commit the markdown file to see the updated time.
+:::
+
 ## Site-Level Config
 
 ```js

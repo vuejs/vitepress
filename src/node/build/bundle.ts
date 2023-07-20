@@ -31,7 +31,7 @@ export async function bundle(
   config: SiteConfig,
   options: BuildOptions
 ): Promise<{
-  clientResult: RollupOutput
+  clientResult: RollupOutput | null
   serverResult: RollupOutput
   pageToHashMap: Record<string, string>
 }> {
@@ -94,19 +94,19 @@ export async function bundle(
         output: {
           sanitizeFileName,
           ...rollupOptions?.output,
-          assetFileNames: 'assets/[name].[hash].[ext]',
+          assetFileNames: `${config.assetsDir}/[name].[hash].[ext]`,
           ...(ssr
             ? {
                 entryFileNames: '[name].js',
                 chunkFileNames: '[name].[hash].js'
               }
             : {
-                entryFileNames: 'assets/[name].[hash].js',
+                entryFileNames: `${config.assetsDir}/[name].[hash].js`,
                 chunkFileNames(chunk) {
                   // avoid ads chunk being intercepted by adblock
                   return /(?:Carbon|BuySell)Ads/.test(chunk.name)
-                    ? 'assets/chunks/ui-custom.[hash].js'
-                    : 'assets/chunks/[name].[hash].js'
+                    ? `${config.assetsDir}/chunks/ui-custom.[hash].js`
+                    : `${config.assetsDir}/chunks/[name].[hash].js`
                 },
                 manualChunks(id, ctx) {
                   if (lazyDefaultThemeComponentsRE.test(id)) {
@@ -142,16 +142,16 @@ export async function bundle(
     }
   })
 
-  let clientResult: RollupOutput
+  let clientResult: RollupOutput | null
   let serverResult: RollupOutput
 
-  const spinner = ora()
+  const spinner = ora({ discardStdin: false })
   spinner.start('building client + server bundles...')
   try {
-    ;[clientResult, serverResult] = await (Promise.all([
-      config.mpa ? null : build(await resolveViteConfig(false)),
-      build(await resolveViteConfig(true))
-    ]) as Promise<[RollupOutput, RollupOutput]>)
+    clientResult = config.mpa
+      ? null
+      : ((await build(await resolveViteConfig(false))) as RollupOutput)
+    serverResult = (await build(await resolveViteConfig(true))) as RollupOutput
   } catch (e) {
     spinner.stopAndPersist({
       symbol: failMark

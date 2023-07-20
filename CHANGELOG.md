@@ -1,3 +1,9 @@
+# [1.0.0-beta.5](https://github.com/vuejs/vitepress/compare/v1.0.0-beta.4...v1.0.0-beta.5) (2023-07-03)
+
+### Bug Fixes
+
+- **types:** `Sidebar` was exported multiple times breaking the config ([#2573](https://github.com/vuejs/vitepress/issues/2573)) ([a99dcf9](https://github.com/vuejs/vitepress/commit/a99dcf94436d6cbbd53ef5481a6ec5ffd8d887d2))
+
 # [1.0.0-beta.4](https://github.com/vuejs/vitepress/compare/v1.0.0-beta.3...v1.0.0-beta.4) (2023-07-02)
 
 ### Bug Fixes

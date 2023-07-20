@@ -186,7 +186,7 @@ export default {
 Returns sidebar-related data. The returned object has the following type:
 
 ```ts
-export interface Sidebar {
+export interface DocSidebar {
   isOpen: Ref<boolean>
   sidebar: ComputedRef<DefaultTheme.SidebarItem[]>
   sidebarGroups: ComputedRef<DefaultTheme.SidebarItem[]>

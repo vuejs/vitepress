@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useRoute } from 'vitepress'
-import { useSidebar } from 'vitepress/theme'
 import { computed, provide, useSlots, watch } from 'vue'
 import VPBackdrop from './components/VPBackdrop.vue'
 import VPContent from './components/VPContent.vue'
@@ -10,7 +9,7 @@ import VPNav from './components/VPNav.vue'
 import VPSidebar from './components/VPSidebar.vue'
 import VPSkipLink from './components/VPSkipLink.vue'
 import { useData } from './composables/data'
-import { useCloseSidebarOnEscape } from './composables/sidebar'
+import { useCloseSidebarOnEscape, useSidebar } from './composables/sidebar'
 
 const {
   isOpen: isSidebarOpen,

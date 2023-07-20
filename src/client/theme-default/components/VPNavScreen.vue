@@ -27,7 +27,7 @@ function unlockBodyScroll() {
     @enter="lockBodyScroll"
     @after-leave="unlockBodyScroll"
   >
-    <div v-if="open" class="VPNavScreen" ref="screen">
+    <div v-if="open" class="VPNavScreen" ref="screen" id="VPNavScreen">
       <div class="container">
         <slot name="nav-screen-content-before" />
         <VPNavScreenMenu class="menu" />

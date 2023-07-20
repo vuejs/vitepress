@@ -65,7 +65,7 @@ describe('Table of Contents', () => {
   test('render toc', async () => {
     const items = page.locator('#table-of-contents + nav ul li')
     const count = await items.count()
-    expect(count).toBe(33)
+    expect(count).toBe(35)
   })
 })
 
@@ -240,6 +240,15 @@ describe('Markdown File Inclusion', () => {
   test('render markdown using nested inclusion', async () => {
     const h1 = page.locator('#markdown-nested-file-inclusion + h1')
     expect(await h1.getAttribute('id')).toBe('foo-1')
+  })
+
+  test('render markdown using nested inclusion inside sub folder', async () => {
+    const h1 = page.locator('#after-foo + h1')
+    expect(await h1.getAttribute('id')).toBe('inside-sub-folder')
+    const h2 = page.locator('#after-foo + h1 + h2')
+    expect(await h2.getAttribute('id')).toBe('sub-sub')
+    const h3 = page.locator('#after-foo + h1 + h2 + h3')
+    expect(await h3.getAttribute('id')).toBe('sub-sub-sub')
   })
 
   test('support selecting range', async () => {

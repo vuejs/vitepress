@@ -69,7 +69,7 @@ You will be greeted with a few simple questions:
   <img src="./vitepress-init.png" alt="vitepress init screenshot" style="border-radius:8px">
 </p>
 
-:::tip Vue as Peer Dependency
+::: tip Vue as Peer Dependency
 If you intend to perform customization that uses Vue components or APIs, you should also explicitly install `vue` as a peer dependency.
 :::
 
@@ -92,7 +92,7 @@ Assuming you chose to scaffold the VitePress project in `./docs`, the generated 
 
 The `docs` directory is considered the **project root** of the VitePress site. The `.vitepress` directory is a reserved location for VitePress' config file, dev server cache, build output, and optional theme customization code.
 
-:::tip
+::: tip
 By default, VitePress stores its dev server cache in `.vitepress/cache`, and the production build output in `.vitepress/dist`. If using Git, you should add them to your `.gitignore` file. These locations can also be [configured](../reference/site-config#outdir).
 :::
 
