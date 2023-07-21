@@ -111,6 +111,35 @@ Defines contents of home hero section when `layout` is set to `home`. More detai
 
 Defines items to display in features section when `layout` is set to `home`. More details in [Default Theme: Home Page](./default-theme-home-page).
 
+### navbar <Badge type="info" text="default theme only" />
+
+- Type: `boolean`
+- Default: `true`
+
+Setting this value to `false` prevents rendering of navbar container.\
+Setting this value to `true` renders the navbar.
+
+
+```yaml
+---
+navbar: false
+---
+```
+
+### sidebar <Badge type="info" text="default theme only" />
+
+- Type: `boolean`
+- Default: `true`
+
+Setting this value to `false` prevents rendering of sidebar container.\
+Setting this value to `true` renders the sidebar.
+
+```yaml
+---
+sidebar: false
+---
+```
+
 ### aside <Badge type="info" text="default theme only" />
 
 - Type: `boolean | 'left'`
