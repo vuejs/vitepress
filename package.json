@@ -69,7 +69,9 @@
     "test:unit": "vitest run -r __tests__/unit",
     "test:unit:watch": "vitest -r __tests__/unit",
     "test:e2e": "run-s test:e2e-dev test:e2e-build",
-    "test:e2e:site": "pnpm -F=tests-e2e site",
+    "test:e2e:site:dev": "pnpm -F=tests-e2e site:dev",
+    "test:e2e:site:build": "pnpm -F=tests-e2e site:build",
+    "test:e2e:site:preview": "pnpm -F=tests-e2e site:preview",
     "test:e2e-dev": "pnpm -F=tests-e2e test",
     "test:e2e-dev:watch": "pnpm -F=tests-e2e watch",
     "test:e2e-build": "VITE_TEST_BUILD=1 pnpm test:e2e-dev",
@@ -100,7 +102,7 @@
     "mark.js": "8.11.1",
     "minisearch": "^6.1.0",
     "shiki": "^0.14.3",
-    "vite": "^4.4.4",
+    "vite": "^4.4.6",
     "vue": "^3.3.4"
   },
   "devDependencies": {
@@ -138,7 +140,7 @@
     "conventional-changelog-cli": "^2",
     "cross-spawn": "^7.0.3",
     "debug": "^4.3.4",
-    "esbuild": "^0.18.14",
+    "esbuild": "^0.18.15",
     "escape-html": "^1.0.3",
     "execa": "^7.1.1",
     "fast-glob": "^3.3.0",
