@@ -14,7 +14,7 @@ defineProps<{
 </script>
 
 <template>
-  <VPLink class="VPFeature" :href="link" :no-icon="true">
+  <VPLink class="VPFeature" :href="link" :no-icon="true" :tag="link ? 'a' : 'div'">
     <article class="box">
       <VPImage
         v-if="typeof icon === 'object'"

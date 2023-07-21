@@ -290,6 +290,19 @@ export default {
 }
 ```
 
+### assetsDir
+
+- Type: `string`
+- Default: `assets`
+
+The directory for assets files. See also: [assetsDir](https://vitejs.dev/config/build-options.html#build-assetsdir).
+
+```ts
+export default {
+  assetsDir: 'static'
+}
+```
+
 ### cacheDir
 
 - Type: `string`
