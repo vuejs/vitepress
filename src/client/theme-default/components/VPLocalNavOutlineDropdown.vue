@@ -6,13 +6,10 @@ import { resolveTitle, type MenuItem } from '../composables/outline'
 import VPDocOutlineItem from './VPDocOutlineItem.vue'
 import VPIconChevronRight from './icons/VPIconChevronRight.vue'
 
-defineProps<{
+const props = defineProps<{
   headers: MenuItem[]
+  navHeight: number
 }>()
-
-const navHeight = getComputedStyle(document.documentElement).getPropertyValue(
-  '--vp-nav-height'
-)
 
 const { theme } = useData()
 const open = ref(false)
@@ -25,8 +22,7 @@ onContentUpdated(() => {
 
 function toggle() {
   open.value = !open.value
-  vh.value =
-    window.innerHeight + Math.min(window.scrollY - parseInt(navHeight), 0)
+  vh.value = window.innerHeight + Math.min(window.scrollY - props.navHeight, 0)
 }
 
 function onItemClick(e: Event) {
