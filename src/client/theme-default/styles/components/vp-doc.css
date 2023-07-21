@@ -226,11 +226,17 @@
 
 .vp-doc .custom-block div[class*='language-'] {
   margin: 8px 0;
+  border-radius: 8px;
 }
 
 .vp-doc .custom-block div[class*='language-'] code {
   font-weight: 400;
   background-color: transparent;
+}
+
+.vp-doc .custom-block .vp-code-group .tabs {
+  margin: 0;
+  border-radius: 8px 8px 0 0;
 }
 
 /**
