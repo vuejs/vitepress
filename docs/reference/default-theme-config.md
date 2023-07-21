@@ -246,6 +246,7 @@ type SocialLinkIcon =
 ## footer
 
 - Type: `Footer`
+- Can be overridden per page via [frontmatter](./frontmatter-config#footer)
 
 Footer configuration. You can add a message or copyright text on the footer, however, it will only be displayed when the page doesn't contain a sidebar. This is due to design concerns.
 
