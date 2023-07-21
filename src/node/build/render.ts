@@ -153,7 +153,7 @@ export async function renderPage(
   <head>
     <meta charset="utf-8">
     ${
-      isMetaViewportOverriding(head)
+      isMetaViewportOverridden(head)
         ? ''
         : '<meta name="viewport" content="width=device-width,initial-scale=1">'
     }
@@ -252,19 +252,14 @@ function renderAttrs(attrs: Record<string, string>): string {
     .join('')
 }
 
-function isMetaDescription(headConfig: HeadConfig) {
-  const [type, attrs] = headConfig
-  return type === 'meta' && attrs?.name === 'description'
+function filterOutHeadDescription(head: HeadConfig[] = []) {
+  return head.filter(([type, attrs]) => {
+    return !(type === 'meta' && attrs?.name === 'description')
+  })
 }
 
-function filterOutHeadDescription(head: HeadConfig[] | undefined) {
-  return head ? head.filter((h) => !isMetaDescription(h)) : []
-}
-
-function isMetaViewportOverriding(head: HeadConfig[] | undefined) {
-  return head
-    ? head.some(
-        ([type, attrs]) => type === 'meta' && attrs?.name === 'viewport'
-      )
-    : false
+function isMetaViewportOverridden(head: HeadConfig[] = []) {
+  return head.some(([type, attrs]) => {
+    return type === 'meta' && attrs?.name === 'viewport'
+  })
 }
