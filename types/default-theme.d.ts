@@ -350,12 +350,11 @@ export namespace DefaultTheme {
        */
       searchOptions?: MiniSearchOptions['searchOptions']
     }
+
     /**
      * exclude content from search results
      */
-    exclude?: (
-      pageData: Pick<PageData, 'frontmatter' | 'relativePath'>
-    ) => boolean
+    exclude?: (relativePath: string) => boolean
   }
 
   // algolia -------------------------------------------------------------------

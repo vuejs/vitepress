@@ -91,12 +91,7 @@ export default defineConfig({
     search: {
       provider: 'local',
       options: {
-        exclude: (pageData) => {
-          return (
-            pageData.relativePath.startsWith('local-search/excluded') ||
-            pageData.frontmatter.search === false
-          )
-        }
+        exclude: (path) => path.startsWith('local-search/excluded')
       }
     }
   }

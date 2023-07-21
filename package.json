@@ -100,7 +100,7 @@
     "mark.js": "8.11.1",
     "minisearch": "^6.1.0",
     "shiki": "^0.14.3",
-    "vite": "^4.4.4",
+    "vite": "^4.4.6",
     "vue": "^3.3.4"
   },
   "devDependencies": {
@@ -138,7 +138,7 @@
     "conventional-changelog-cli": "^2",
     "cross-spawn": "^7.0.3",
     "debug": "^4.3.4",
-    "esbuild": "^0.18.14",
+    "esbuild": "^0.18.15",
     "escape-html": "^1.0.3",
     "execa": "^7.1.1",
     "fast-glob": "^3.3.0",
