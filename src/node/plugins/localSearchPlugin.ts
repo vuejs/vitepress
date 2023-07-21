@@ -166,6 +166,17 @@ export async function localSearchPlugin(
   return {
     name: 'vitepress:local-search',
 
+    config: () => ({
+      optimizeDeps: {
+        include: [
+          // FIXME!
+          // 'vitepress > @vueuse/integrations/useFocusTrap',
+          // 'vitepress > mark.js/src/vanilla.js',
+          'vitepress > minisearch'
+        ]
+      }
+    }),
+
     async configureServer(_server) {
       server = _server
       await scanForBuild()
