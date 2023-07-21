@@ -152,7 +152,11 @@ export async function renderPage(
 <html lang="${siteData.lang}" dir="${siteData.dir}">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    ${
+      isMetaViewportOverridden(head)
+        ? ''
+        : '<meta name="viewport" content="width=device-width,initial-scale=1">'
+    }
     <title>${title}</title>
     <meta name="description" content="${description}">
     ${stylesheetLink}
@@ -248,11 +252,14 @@ function renderAttrs(attrs: Record<string, string>): string {
     .join('')
 }
 
-function isMetaDescription(headConfig: HeadConfig) {
-  const [type, attrs] = headConfig
-  return type === 'meta' && attrs?.name === 'description'
+function filterOutHeadDescription(head: HeadConfig[] = []) {
+  return head.filter(([type, attrs]) => {
+    return !(type === 'meta' && attrs?.name === 'description')
+  })
 }
 
-function filterOutHeadDescription(head: HeadConfig[] | undefined) {
-  return head ? head.filter((h) => !isMetaDescription(h)) : []
+function isMetaViewportOverridden(head: HeadConfig[] = []) {
+  return head.some(([type, attrs]) => {
+    return type === 'meta' && attrs?.name === 'viewport'
+  })
 }
