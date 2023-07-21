@@ -16,6 +16,10 @@ defineEmits<{
   (e: 'open-menu'): void
 }>()
 
+const navHeight = getComputedStyle(document.documentElement).getPropertyValue(
+  '--vp-nav-height'
+)
+
 const { theme, frontmatter } = useData()
 const { hasSidebar } = useSidebar()
 const { y } = useWindowScroll()
@@ -34,14 +38,14 @@ const classes = computed(() => {
   return {
     VPLocalNav: true,
     fixed: empty.value,
-    'reached-top': y.value >= 64
+    'reached-top': y.value >= parseInt(navHeight)
   }
 })
 </script>
 
 <template>
   <div
-    v-if="frontmatter.layout !== 'home' && (!empty || y >= 64)"
+    v-if="frontmatter.layout !== 'home' && (!empty || y >= parseInt(navHeight))"
     :class="classes"
   >
     <button

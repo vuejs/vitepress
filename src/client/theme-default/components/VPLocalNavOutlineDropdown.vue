@@ -10,6 +10,10 @@ defineProps<{
   headers: MenuItem[]
 }>()
 
+const navHeight = getComputedStyle(document.documentElement).getPropertyValue(
+  '--vp-nav-height'
+)
+
 const { theme } = useData()
 const open = ref(false)
 const vh = ref(0)
@@ -21,7 +25,8 @@ onContentUpdated(() => {
 
 function toggle() {
   open.value = !open.value
-  vh.value = window.innerHeight + Math.min(window.scrollY - 64, 0)
+  vh.value =
+    window.innerHeight + Math.min(window.scrollY - parseInt(navHeight), 0)
 }
 
 function onItemClick(e: Event) {
