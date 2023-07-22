@@ -41,3 +41,13 @@ Only inline elements can be used in `message` and `copyright` as they are render
 :::
 
 Note that footer will not be displayed when the [SideBar](./default-theme-sidebar) is visible.
+
+## Frontmatter Config
+
+This can be disabled per-page using the `footer` option on frontmatter:
+
+```yaml
+---
+footer: false
+---
+```

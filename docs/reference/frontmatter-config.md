@@ -160,3 +160,16 @@ Whether to display [Edit Link](./default-theme-edit-link) in the footer of the c
 editLink: false
 ---
 ```
+
+### footer <Badge type="info" text="default theme only" />
+
+- Type: `boolean`
+- Default: `true`
+
+Whether to display [Footer](./default-theme-footer) in the footer of the current page. 
+
+```yaml
+---
+footer: false
+---
+```

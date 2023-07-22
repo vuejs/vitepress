@@ -37,9 +37,15 @@ export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
     // update title and description
     document.title = createTitle(siteData, pageData)
 
-    document
-      .querySelector(`meta[name=description]`)!
-      .setAttribute('content', pageDescription || siteData.description)
+    const description = pageDescription || siteData.description
+    let metaDescriptionElement = document.querySelector(
+      `meta[name=description]`
+    )
+    if (metaDescriptionElement) {
+      metaDescriptionElement.setAttribute('content', description)
+    } else {
+      createHeadElement(['meta', { name: 'description', content: description }])
+    }
 
     updateHeadTags(
       mergeHead(siteData.head, filterOutHeadDescription(frontmatterHead))

@@ -1,13 +1,20 @@
-export function serializeFunctions(value: any): any {
+export function serializeFunctions(value: any, key?: string): any {
   if (Array.isArray(value)) {
-    return value.map(serializeFunctions)
+    return value.map((v) => serializeFunctions(v))
   } else if (typeof value === 'object' && value !== null) {
     return Object.keys(value).reduce((acc, key) => {
-      acc[key] = serializeFunctions(value[key])
+      acc[key] = serializeFunctions(value[key], key)
       return acc
     }, {} as any)
   } else if (typeof value === 'function') {
-    return `_vp-fn_${value.toString()}`
+    let serialized = value.toString()
+    if (
+      key &&
+      (serialized.startsWith(key) || serialized.startsWith('async ' + key))
+    ) {
+      serialized = serialized.replace(key, 'function')
+    }
+    return `_vp-fn_${serialized}`
   } else {
     return value
   }

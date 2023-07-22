@@ -67,10 +67,12 @@ export async function createMarkdownToVueRenderFn(
     const relativePath = slash(path.relative(srcDir, file))
     const cacheKey = JSON.stringify({ src, file })
 
-    const cached = cache.get(cacheKey)
-    if (cached) {
-      debug(`[cache hit] ${relativePath}`)
-      return cached
+    if (isBuild || options.cache !== false) {
+      const cached = cache.get(cacheKey)
+      if (cached) {
+        debug(`[cache hit] ${relativePath}`)
+        return cached
+      }
     }
 
     const start = Date.now()
@@ -88,7 +90,7 @@ export async function createMarkdownToVueRenderFn(
     // resolve includes
     let includes: string[] = []
 
-    function processIncludes(src: string): string {
+    function processIncludes(src: string, file: string): string {
       return src.replace(includesRE, (m: string, m1: string) => {
         if (!m1.length) return m
 
@@ -98,7 +100,7 @@ export async function createMarkdownToVueRenderFn(
         try {
           const includePath = atPresent
             ? path.join(srcDir, m1.slice(m1[1] === '/' ? 2 : 1))
-            : path.join(path.dirname(fileOrig), m1)
+            : path.join(path.dirname(file), m1)
           let content = fs.readFileSync(includePath, 'utf-8')
           if (range) {
             const [, startLine, endLine] = range
@@ -112,20 +114,21 @@ export async function createMarkdownToVueRenderFn(
           }
           includes.push(slash(includePath))
           // recursively process includes in the content
-          return processIncludes(content)
+          return processIncludes(content, includePath)
         } catch (error) {
           return m // silently ignore error if file is not present
         }
       })
     }
 
-    src = processIncludes(src)
+    src = processIncludes(src, fileOrig)
 
     // reset env before render
     const env: MarkdownEnv = {
       path: file,
       relativePath,
-      cleanUrls
+      cleanUrls,
+      includes
     }
     const html = md.render(src, env)
     const {
@@ -243,7 +246,9 @@ export async function createMarkdownToVueRenderFn(
       deadLinks,
       includes
     }
-    cache.set(cacheKey, result)
+    if (isBuild || options.cache !== false) {
+      cache.set(cacheKey, result)
+    }
     return result
   }
 }
@@ -317,14 +322,16 @@ function injectPageDataCode(
       code +
         (hasDefaultExport
           ? ``
-          : `\nexport default {name:'${data.relativePath}'}`) +
+          : `\nexport default {name:${JSON.stringify(data.relativePath)}}`) +
         `</script>`
     )
   } else {
     tags.unshift(
-      `<script ${isUsingTS ? 'lang="ts"' : ''}>${code}\nexport default {name:'${
+      `<script ${
+        isUsingTS ? 'lang="ts"' : ''
+      }>${code}\nexport default {name:${JSON.stringify(
         data.relativePath
-      }'}</script>`
+      )}}</script>`
     )
   }
 
