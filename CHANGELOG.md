@@ -3,7 +3,7 @@
 ### Bug Fixes
 
 - **build:** cannot handle file name containing single quote ([#2615](https://github.com/vuejs/vitepress/issues/2615)) ([9949f00](https://github.com/vuejs/vitepress/commit/9949f0046114fdbb59062ecc044aa0a735733e2e))
-- **build:** remove `=""` from boolean attributes in head ([#2620](https://github.com/vuejs/vitepress/issues/2620)) ([e02adfe](https://github.com/vuejs/vitepress/commit/e02adfe3eaed9761f71d1d263822c5f94618ee72)), closes [/github.com/vuejs/vitepress/issues/1131#issuecomment-1574092184](https://github.com//github.com/vuejs/vitepress/issues/1131/issues/issuecomment-1574092184) [#2607](https://github.com/vuejs/vitepress/issues/2607)
+- **build:** remove `=""` from boolean attributes in head ([#2620](https://github.com/vuejs/vitepress/issues/2620)) ([e02adfe](https://github.com/vuejs/vitepress/commit/e02adfe3eaed9761f71d1d263822c5f94618ee72)), closes [#1131 (comment)](https://github.com/vuejs/vitepress/issues/1131#issuecomment-1574092184) [#2607](https://github.com/vuejs/vitepress/issues/2607)
 - **build:** resolve nested md inclusions properly ([e8074e6](https://github.com/vuejs/vitepress/commit/e8074e60ec5941e7b447f21a289e59e9a91a9e33)), closes [#2584](https://github.com/vuejs/vitepress/issues/2584) [#2586](https://github.com/vuejs/vitepress/issues/2586)
 - **compat:** disable stdin-discarder ([#2640](https://github.com/vuejs/vitepress/issues/2640)) ([08c4bac](https://github.com/vuejs/vitepress/commit/08c4bacac5e1acaa95a9878e71781f65b49f48f4))
 - **hmr:** allow disabling md cache during dev ([#2581](https://github.com/vuejs/vitepress/issues/2581)) ([f60b32f](https://github.com/vuejs/vitepress/commit/f60b32f02f4236ec0c29f450c4fe79d6aabf5995))
