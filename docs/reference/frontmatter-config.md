@@ -116,9 +116,7 @@ Defines items to display in features section when `layout` is set to `home`. Mor
 - Type: `boolean`
 - Default: `true`
 
-Setting this value to `false` prevents rendering of navbar container.\
-Setting this value to `true` renders the navbar.
-
+Whether to display [navbar](./default-theme-nav).
 
 ```yaml
 ---
@@ -131,8 +129,7 @@ navbar: false
 - Type: `boolean`
 - Default: `true`
 
-Setting this value to `false` prevents rendering of sidebar container.\
-Setting this value to `true` renders the sidebar.
+Whether to display [sidebar](./default-theme-sidebar).
 
 ```yaml
 ---
@@ -169,7 +166,7 @@ The levels of header in the outline to display for the page. It's same as [confi
 - Type: `boolean`
 - Default: `true`
 
-Whether to display [Last Updated](./default-theme-last-updated) text in the footer of the current page.
+Whether to display [last updated](./default-theme-last-updated) text in the footer of the current page.
 
 ```yaml
 ---
@@ -182,7 +179,7 @@ lastUpdated: false
 - Type: `boolean`
 - Default: `true`
 
-Whether to display [Edit Link](./default-theme-edit-link) in the footer of the current page.
+Whether to display [edit link](./default-theme-edit-link) in the footer of the current page.
 
 ```yaml
 ---
@@ -195,7 +192,7 @@ editLink: false
 - Type: `boolean`
 - Default: `true`
 
-Whether to display [Footer](./default-theme-footer) in the footer of the current page. 
+Whether to display [footer](./default-theme-footer). 
 
 ```yaml
 ---
