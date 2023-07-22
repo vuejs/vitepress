@@ -132,7 +132,7 @@
     "@types/markdown-it-emoji": "^2.0.2",
     "@types/micromatch": "^4.0.2",
     "@types/minimist": "^1.2.2",
-    "@types/node": "^20.4.2",
+    "@types/node": "^20.4.3",
     "@types/prompts": "^2.4.4",
     "@vue/shared": "^3.3.4",
     "chokidar": "^3.5.3",
@@ -143,7 +143,7 @@
     "esbuild": "^0.18.15",
     "escape-html": "^1.0.3",
     "execa": "^7.1.1",
-    "fast-glob": "^3.3.0",
+    "fast-glob": "^3.3.1",
     "fs-extra": "^11.1.1",
     "get-port": "^7.0.0",
     "gray-matter": "^4.0.3",
@@ -179,7 +179,7 @@
     "supports-color": "^9.4.0",
     "typescript": "^5.1.6",
     "vitest": "^0.33.0",
-    "vue-tsc": "^1.8.5",
+    "vue-tsc": "^1.8.6",
     "wait-on": "^7.0.1"
   },
   "simple-git-hooks": {
