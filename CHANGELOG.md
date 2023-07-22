@@ -1,3 +1,41 @@
+# [1.0.0-beta.6](https://github.com/vuejs/vitepress/compare/v1.0.0-beta.5...v1.0.0-beta.6) (2023-07-22)
+
+### Bug Fixes
+
+- **build:** cannot handle file name containing single quote ([#2615](https://github.com/vuejs/vitepress/issues/2615)) ([9949f00](https://github.com/vuejs/vitepress/commit/9949f0046114fdbb59062ecc044aa0a735733e2e))
+- **build:** remove `=""` from boolean attributes in head ([#2620](https://github.com/vuejs/vitepress/issues/2620)) ([e02adfe](https://github.com/vuejs/vitepress/commit/e02adfe3eaed9761f71d1d263822c5f94618ee72)), closes [/github.com/vuejs/vitepress/issues/1131#issuecomment-1574092184](https://github.com//github.com/vuejs/vitepress/issues/1131/issues/issuecomment-1574092184) [#2607](https://github.com/vuejs/vitepress/issues/2607)
+- **build:** resolve nested md inclusions properly ([e8074e6](https://github.com/vuejs/vitepress/commit/e8074e60ec5941e7b447f21a289e59e9a91a9e33)), closes [#2584](https://github.com/vuejs/vitepress/issues/2584) [#2586](https://github.com/vuejs/vitepress/issues/2586)
+- **compat:** disable stdin-discarder ([#2640](https://github.com/vuejs/vitepress/issues/2640)) ([08c4bac](https://github.com/vuejs/vitepress/commit/08c4bacac5e1acaa95a9878e71781f65b49f48f4))
+- **hmr:** allow disabling md cache during dev ([#2581](https://github.com/vuejs/vitepress/issues/2581)) ([f60b32f](https://github.com/vuejs/vitepress/commit/f60b32f02f4236ec0c29f450c4fe79d6aabf5995))
+- invalid css ([b199885](https://github.com/vuejs/vitepress/commit/b199885b9bc55082914fa651407989a03e4e3a9f))
+- **lastUpdated:** use author date instead of commit date ([#2618](https://github.com/vuejs/vitepress/issues/2618)) ([47bf5bf](https://github.com/vuejs/vitepress/commit/47bf5bf991e48fd41b83613136396bc607751104))
+- **theme:** code block style is broken inside custom block ([#2664](https://github.com/vuejs/vitepress/issues/2664)) ([8ff431a](https://github.com/vuejs/vitepress/commit/8ff431a6bcce8cca04d9ea23ef92045a728d686a))
+- **theme:** don't show external link icon on social links ([f3a4597](https://github.com/vuejs/vitepress/commit/f3a459708d55b3b98a9d25b090e442beebcdaa92))
+- **theme:** fix doc footer's prev and next's size difference ([#2600](https://github.com/vuejs/vitepress/issues/2600)) ([f52a262](https://github.com/vuejs/vitepress/commit/f52a2629a7f565ff10b263bf7efd8e258c7d4979))
+- **theme:** fix sidebar's caret alignment issue with long text ([#2599](https://github.com/vuejs/vitepress/issues/2599)) ([01120a5](https://github.com/vuejs/vitepress/commit/01120a51d6d13f842678c6a1d418ac7bd3ccceca))
+- **theme:** fix theme without fonts emitting inter ([#2588](https://github.com/vuejs/vitepress/issues/2588)) ([71eb11f](https://github.com/vuejs/vitepress/commit/71eb11f72e60706a546b756dc3fd72d06e2ae4e2))
+- **theme:** invalid html -- article inside span ([d0e7374](https://github.com/vuejs/vitepress/commit/d0e73744412520fbbc36a8d701fa3aaaaa53ab35))
+- **theme:** re-export default ([#2606](https://github.com/vuejs/vitepress/issues/2606)) ([9fdee9c](https://github.com/vuejs/vitepress/commit/9fdee9c2a30eeccb500e6aff165887d79a1686ef))
+- **theme:** respect `--vp-nav-height` in local nav calculations ([#2663](https://github.com/vuejs/vitepress/issues/2663)) ([3912951](https://github.com/vuejs/vitepress/commit/3912951bad6f61950ba9da4f5cd3061218903e7d))
+- **theme:** support missing meta description tag ([#2639](https://github.com/vuejs/vitepress/issues/2639)) ([cfa870f](https://github.com/vuejs/vitepress/commit/cfa870f060934c4738c2f70e7b21ad13b6acdb42))
+- **theme:** two outlines at 1280px ([ceedb68](https://github.com/vuejs/vitepress/commit/ceedb68d3b22e5c5cc72be1777c6a3f7090d0a6a)), closes [#2668](https://github.com/vuejs/vitepress/issues/2668)
+- **type:** `useSidebar()` type error ([#2643](https://github.com/vuejs/vitepress/issues/2643)) ([a07f959](https://github.com/vuejs/vitepress/commit/a07f959d472f1976d26c675066204eca9bc7c651))
+
+### Features
+
+- **build:** add `metaChunk` option to extract metadata to separate chunk ([#2626](https://github.com/vuejs/vitepress/issues/2626)) ([700fad1](https://github.com/vuejs/vitepress/commit/700fad192edef1f5d4681d714d3eaebbd77eab95))
+- **build:** support custom `assetsDir` ([#2497](https://github.com/vuejs/vitepress/issues/2497)) ([64d7c3b](https://github.com/vuejs/vitepress/commit/64d7c3ba54ed2dceabcc1cb65634381d7b42ce47))
+- **build:** support overriding meta viewport tag ([#2642](https://github.com/vuejs/vitepress/issues/2642)) ([94e2966](https://github.com/vuejs/vitepress/commit/94e2966babfe572a62c71907332450b18c6c9509))
+- **search:** allow excluding content from search results ([#2602](https://github.com/vuejs/vitepress/issues/2602)) ([37d5b27](https://github.com/vuejs/vitepress/commit/37d5b273fbfddd41958e5cae4cc874a81dd9298a)), closes [#2344](https://github.com/vuejs/vitepress/issues/2344)
+- **search:** support `minisearch` customization ([#2576](https://github.com/vuejs/vitepress/issues/2576)) ([9fee554](https://github.com/vuejs/vitepress/commit/9fee5542cb4bd0b83ccad5d625cb4eca8f8abb25))
+- **theme:** allow using html text in VPHero ([#2635](https://github.com/vuejs/vitepress/issues/2635)) ([ec7643d](https://github.com/vuejs/vitepress/commit/ec7643dc1397d5b27158bd0865bd517f08e198a5))
+- **theme:** make navbar logo's height customizable by css variable ([#2644](https://github.com/vuejs/vitepress/issues/2644)) ([c2e79aa](https://github.com/vuejs/vitepress/commit/c2e79aa58387281e482f88e4f307a3c36da60f40))
+- **theme:** support footer frontmatter config ([#2574](https://github.com/vuejs/vitepress/issues/2574)) ([e79a13e](https://github.com/vuejs/vitepress/commit/e79a13eb42a0ab37713f09e7fd067cac559ab812))
+
+### Performance Improvements
+
+- fix race conditions with cache ([#2579](https://github.com/vuejs/vitepress/issues/2579)) ([32d65d4](https://github.com/vuejs/vitepress/commit/32d65d40c55b7df1a814820d5117c360f9d449a4))
+
 # [1.0.0-beta.5](https://github.com/vuejs/vitepress/compare/v1.0.0-beta.4...v1.0.0-beta.5) (2023-07-03)
 
 ### Bug Fixes
