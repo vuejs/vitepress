@@ -2,8 +2,6 @@ import { withBase } from 'vitepress'
 import { useData } from '../composables/data'
 import { isExternal, PATHNAME_PROTOCOL_RE } from '../../shared'
 
-export { isExternal, isActive } from '../../shared'
-
 export function throttleAndDebounce(fn: () => void, delay: number): () => void {
   let timeoutId: NodeJS.Timeout
   let called = false
@@ -35,7 +33,7 @@ export function normalizeLink(url: string): string {
   }
 
   const { site } = useData()
-  const { pathname, search, hash } = new URL(url, 'http://example.com')
+  const { pathname, search, hash } = new URL(url, 'http://a.com')
 
   const normalizedPath =
     pathname.endsWith('/') || pathname.endsWith('.html')
