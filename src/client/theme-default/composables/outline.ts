@@ -2,7 +2,6 @@ import type { DefaultTheme } from 'vitepress/theme'
 import { onMounted, onUnmounted, onUpdated, type Ref } from 'vue'
 import type { Header } from '../../shared'
 import { useAside } from './aside'
-import { throttleAndDebounce } from '../support/utils'
 
 // magic number to avoid repeated retrieval
 const PAGE_OFFSET = 71
@@ -102,13 +101,11 @@ export function useActiveAnchor(
 ) {
   const { isAsideEnabled } = useAside()
 
-  const onScroll = throttleAndDebounce(setActiveLink, 100)
-
   let prevActiveLink: HTMLAnchorElement | null = null
 
   onMounted(() => {
     requestAnimationFrame(setActiveLink)
-    window.addEventListener('scroll', onScroll)
+    window.addEventListener('scroll', setActiveLink)
   })
 
   onUpdated(() => {
@@ -117,7 +114,7 @@ export function useActiveAnchor(
   })
 
   onUnmounted(() => {
-    window.removeEventListener('scroll', onScroll)
+    window.removeEventListener('scroll', setActiveLink)
   })
 
   function setActiveLink() {
