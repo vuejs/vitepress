@@ -97,6 +97,7 @@ $brand-color: #646cff;
 
   // Lighter variation of brand color
   // Typically used for the border of brand-colored buttons
+  --vp-c-brand-light: #{lighten($brand-color, 5%)};
   --vp-c-brand-lighter: #{lighten($brand-color, 10%)};
 
   // Darker variation of brand color
