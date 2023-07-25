@@ -37,7 +37,8 @@ The default theme CSS is customizable by overriding root level CSS variables. Th
   --vp-c-brand: #646cff;
 
   /* Lighter variation of brand color:
-     Typicaly used for the border of brand-colored buttons */
+     Typically used for the border of brand-colored buttons */
+  --vp-c-brand-light: #747bff;
   --vp-c-brand-lighter: #9da2fd;
 
   /* Darker variation of brand color:
@@ -95,7 +96,7 @@ $brand-color: #646cff;
   --vp-c-brand: #{$brand-color};
 
   // Lighter variation of brand color
-  // Typicaly used for the border of brand-colored buttons
+  // Typically used for the border of brand-colored buttons
   --vp-c-brand-lighter: #{lighten($brand-color, 10%)};
 
   // Darker variation of brand color
