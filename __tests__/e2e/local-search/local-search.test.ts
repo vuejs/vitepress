@@ -1,9 +1,6 @@
 describe('local search', () => {
   beforeEach(async () => {
     await goto('/')
-    // FIXME: remove this when optimizeDeps.include is fixed
-    await page.locator('#local-search button').click()
-    await goto('/')
   })
 
   test('exclude content from search results', async () => {
