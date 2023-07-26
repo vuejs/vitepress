@@ -20,4 +20,4 @@ declare const theme: {
 export default theme
 export type { DefaultTheme } from './types/default-theme.js'
 
-export const useSidebar: () => DefaultTheme.DocSideBar
+export const useSidebar: () => DefaultTheme.DocSidebar

@@ -17,7 +17,7 @@ const svg = computed(() => {
 
 <template>
   <a
-    class="VPSocialLink"
+    class="VPSocialLink no-icon"
     :href="link"
     :aria-label="ariaLabel ?? (typeof icon === 'string' ? icon : '')"
     target="_blank"

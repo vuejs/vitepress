@@ -36,4 +36,5 @@ export interface MarkdownEnv {
   relativePath: string
   cleanUrls: boolean
   links?: string[]
+  includes?: string[]
 }

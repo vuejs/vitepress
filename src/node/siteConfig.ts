@@ -59,6 +59,7 @@ export interface UserConfig<ThemeConfig = any>
   srcDir?: string
   srcExclude?: string[]
   outDir?: string
+  assetsDir?: string
   cacheDir?: string
 
   shouldPreload?: (link: string, page: string) => boolean
@@ -96,6 +97,12 @@ export interface UserConfig<ThemeConfig = any>
    * @experimental
    */
   mpa?: boolean
+
+  /**
+   * Extracts metadata to a separate chunk.
+   * @experimental
+   */
+  metaChunk?: boolean
 
   /**
    * Don't fail builds due to dead links.
@@ -175,6 +182,7 @@ export interface SiteConfig<ThemeConfig = any>
     | 'vite'
     | 'shouldPreload'
     | 'mpa'
+    | 'metaChunk'
     | 'lastUpdated'
     | 'ignoreDeadLinks'
     | 'cleanUrls'
@@ -192,6 +200,7 @@ export interface SiteConfig<ThemeConfig = any>
   configDeps: string[]
   themeDir: string
   outDir: string
+  assetsDir: string
   cacheDir: string
   tempDir: string
   pages: string[]

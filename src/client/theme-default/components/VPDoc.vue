@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useRoute } from 'vitepress'
-import { useSidebar } from 'vitepress/theme'
 import { computed } from 'vue'
 import { useData } from '../composables/data'
+import { useSidebar } from '../composables/sidebar'
 import VPDocAside from './VPDocAside.vue'
 import VPDocFooter from './VPDocFooter.vue'
 import VPDocOutlineDropdown from './VPDocOutlineDropdown.vue'
@@ -74,7 +74,7 @@ const pageName = computed(() =>
   display: none;
 }
 
-@media (min-width: 960px) and (max-width: 1280px) {
+@media (min-width: 960px) and (max-width: 1279px) {
   .VPDoc .VPDocOutlineDropdown {
     display: block;
   }
@@ -205,5 +205,6 @@ const pageName = computed(() =>
 
 .external-link-icon-enabled :is(.vp-doc a[href*='://'], .vp-doc a[target='_blank'])::after {
   content: '';
+  color: currentColor;
 }
 </style>

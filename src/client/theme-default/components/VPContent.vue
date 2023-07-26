@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useSidebar } from 'vitepress/theme'
 import NotFound from '../NotFound.vue'
 import { useData } from '../composables/data'
+import { useSidebar } from '../composables/sidebar'
 import VPDoc from './VPDoc.vue'
 import VPHome from './VPHome.vue'
 import VPPage from './VPPage.vue'
