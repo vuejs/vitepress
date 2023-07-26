@@ -3,7 +3,7 @@
   "version": "1.0.0-beta.6",
   "description": "Vite & Vue powered static site generator",
   "type": "module",
-  "packageManager": "pnpm@8.6.9",
+  "packageManager": "pnpm@8.6.10",
   "main": "dist/node/index.js",
   "types": "types/index.d.ts",
   "exports": {
@@ -102,7 +102,7 @@
     "mark.js": "8.11.1",
     "minisearch": "^6.1.0",
     "shiki": "^0.14.3",
-    "vite": "^4.4.6",
+    "vite": "^4.4.7",
     "vue": "^3.3.4"
   },
   "devDependencies": {
