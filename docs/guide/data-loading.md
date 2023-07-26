@@ -91,7 +91,7 @@ import { createContentLoader } from 'vitepress'
 export default createContentLoader('posts/*.md', /* options */)
 ```
 
-The helper takes a glob pattern relative to [project root](./routing#project-root), and returns a `{ watch, load }` data loader object that can be used as the default export in a data loader file. It also implements caching based on file modified timestamps to improve dev performance.
+The helper takes a glob pattern relative to the [source directory](./routing#source-directory), and returns a `{ watch, load }` data loader object that can be used as the default export in a data loader file. It also implements caching based on file modified timestamps to improve dev performance.
 
 Note the loader only works with Markdown files - matched non-Markdown files will be skipped.
 
