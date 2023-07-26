@@ -169,9 +169,8 @@ export async function localSearchPlugin(
     config: () => ({
       optimizeDeps: {
         include: [
-          // FIXME!
-          // 'vitepress > @vueuse/integrations/useFocusTrap',
-          // 'vitepress > mark.js/src/vanilla.js',
+          'vitepress > @vueuse/integrations/useFocusTrap',
+          'vitepress > mark.js/src/vanilla.js',
           'vitepress > minisearch'
         ]
       }
