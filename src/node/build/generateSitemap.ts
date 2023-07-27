@@ -7,7 +7,6 @@ import { task } from '../utils/task'
 
 export async function generateSitemap(siteConfig: SiteConfig) {
   if (!siteConfig.sitemap?.hostname) return
-  const { transformItems, ...options } = siteConfig.sitemap
   await task('generating sitemap', async () => {
     const items = (
       await Promise.all(
@@ -22,22 +21,13 @@ export async function generateSitemap(siteConfig: SiteConfig) {
         })
       )
     ).sort((a, b) => a.url.localeCompare(b.url))
-    const sitemapStream = new SitemapStream({
-      xmlns: {
-        news: false,
-        xhtml: false,
-        image: false,
-        video: false,
-        ...options.xmlns
-      },
-      ...options
-    })
+    const sitemapStream = new SitemapStream(siteConfig.sitemap)
     const writeStream = fs.createWriteStream(
       path.join(siteConfig.outDir, 'sitemap.xml')
     )
     sitemapStream.pipe(writeStream)
-    ;((await transformItems?.(items)) || items).forEach((item) =>
-      sitemapStream.write(item)
+    ;((await siteConfig.sitemap?.transformItems?.(items)) || items).forEach(
+      (item) => sitemapStream.write(item)
     )
     sitemapStream.end()
   })
