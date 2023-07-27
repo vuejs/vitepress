@@ -1,7 +1,6 @@
 import { createHash } from 'crypto'
 import fs from 'fs-extra'
 import { createRequire } from 'module'
-import ora from 'ora'
 import path from 'path'
 import { packageDirectorySync } from 'pkg-dir'
 import { rimraf } from 'rimraf'
@@ -11,7 +10,9 @@ import type { BuildOptions } from 'vite'
 import { resolveConfig, type SiteConfig } from '../config'
 import { slash, type HeadConfig } from '../shared'
 import { deserializeFunctions, serializeFunctions } from '../utils/fnSerialize'
-import { bundle, failMark, okMark } from './bundle'
+import { task } from '../utils/task'
+import { bundle } from './bundle'
+import { generateSitemap } from './generateSitemap'
 import { renderPage } from './render'
 
 export async function build(
@@ -43,10 +44,7 @@ export async function build(
     const entryPath = path.join(siteConfig.tempDir, 'app.js')
     const { render } = await import(pathToFileURL(entryPath).toString())
 
-    const spinner = ora({ discardStdin: false })
-    spinner.start('rendering pages...')
-
-    try {
+    await task('rendering pages', async () => {
       const appChunk =
         clientResult &&
         (clientResult.output.find(
@@ -118,14 +116,6 @@ export async function build(
             )
           )
       )
-    } catch (e) {
-      spinner.stopAndPersist({
-        symbol: failMark
-      })
-      throw e
-    }
-    spinner.stopAndPersist({
-      symbol: okMark
     })
 
     // emit page hash map for the case where a user session is open
@@ -139,6 +129,7 @@ export async function build(
     if (!process.env.DEBUG) await rimraf(siteConfig.tempDir)
   }
 
+  await generateSitemap(siteConfig)
   await siteConfig.buildEnd?.(siteConfig)
 
   siteConfig.logger.info(

@@ -12,6 +12,10 @@ export default defineConfig({
   lastUpdated: true,
   cleanUrls: true,
 
+  sitemap: {
+    hostname: 'https://vitepress.dev'
+  },
+
   head: [
     ['meta', { name: 'theme-color', content: '#3c8772' }],
     [
@@ -131,6 +135,10 @@ function sidebarGuide() {
         {
           text: 'MPA Mode',
           link: '/guide/mpa-mode'
+        },
+        {
+          text: 'Sitemap Generation',
+          link: '/guide/sitemap-generation'
         }
       ]
     },

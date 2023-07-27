@@ -1,22 +1,19 @@
-import ora from 'ora'
-import path from 'path'
 import fs from 'fs-extra'
+import path from 'path'
+import type { GetModuleInfo, RollupOutput } from 'rollup'
+import { fileURLToPath } from 'url'
 import {
   build,
+  normalizePath,
   type BuildOptions,
   type UserConfig as ViteUserConfig
 } from 'vite'
-import type { GetModuleInfo, RollupOutput } from 'rollup'
-import type { SiteConfig } from '../config'
 import { APP_PATH } from '../alias'
+import type { SiteConfig } from '../config'
 import { createVitePressPlugin } from '../plugin'
 import { sanitizeFileName, slash } from '../shared'
+import { task } from '../utils/task'
 import { buildMPAClient } from './buildMPAClient'
-import { fileURLToPath } from 'url'
-import { normalizePath } from 'vite'
-
-export const okMark = '\x1b[32m✓\x1b[0m'
-export const failMark = '\x1b[31m✖\x1b[0m'
 
 // A list of default theme components that should only be loaded on demand.
 const lazyDefaultThemeComponentsRE =
@@ -142,24 +139,14 @@ export async function bundle(
     }
   })
 
-  let clientResult: RollupOutput | null
-  let serverResult: RollupOutput
+  let clientResult!: RollupOutput | null
+  let serverResult!: RollupOutput
 
-  const spinner = ora({ discardStdin: false })
-  spinner.start('building client + server bundles...')
-  try {
+  await task('building client + server bundles', async () => {
     clientResult = config.mpa
       ? null
       : ((await build(await resolveViteConfig(false))) as RollupOutput)
     serverResult = (await build(await resolveViteConfig(true))) as RollupOutput
-  } catch (e) {
-    spinner.stopAndPersist({
-      symbol: failMark
-    })
-    throw e
-  }
-  spinner.stopAndPersist({
-    symbol: okMark
   })
 
   if (config.mpa) {

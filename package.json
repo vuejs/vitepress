@@ -176,6 +176,7 @@
     "shiki-processor": "^0.1.3",
     "simple-git-hooks": "^2.9.0",
     "sirv": "^2.0.3",
+    "sitemap": "^7.1.1",
     "supports-color": "^9.4.0",
     "typescript": "^5.1.6",
     "vitest": "^0.33.0",
