@@ -127,7 +127,8 @@ export async function resolveConfig(
     transformHtml: userConfig.transformHtml,
     transformPageData: userConfig.transformPageData,
     rewrites,
-    userConfig
+    userConfig,
+    sitemap: userConfig.sitemap
   }
 
   // to be shared with content loaders

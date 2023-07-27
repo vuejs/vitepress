@@ -12,6 +12,10 @@ export default defineConfig({
   lastUpdated: true,
   cleanUrls: true,
 
+  sitemap: {
+    hostname: 'https://vitepress.dev'
+  },
+
   head: [
     ['meta', { name: 'theme-color', content: '#3c8772' }],
     [

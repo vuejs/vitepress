@@ -1,15 +1,16 @@
-import {
-  type Awaitable,
-  type HeadConfig,
-  type LocaleConfig,
-  type LocaleSpecificConfig,
-  type PageData,
-  type SiteData,
-  type SSGContext
-} from './shared'
-import type { MarkdownOptions } from './markdown'
 import type { Options as VuePluginOptions } from '@vitejs/plugin-vue'
-import { type Logger, type UserConfig as ViteConfig } from 'vite'
+import type { SitemapStreamOptions } from 'sitemap'
+import type { Logger, UserConfig as ViteConfig } from 'vite'
+import type { MarkdownOptions } from './markdown'
+import type {
+  Awaitable,
+  HeadConfig,
+  LocaleConfig,
+  LocaleSpecificConfig,
+  PageData,
+  SSGContext,
+  SiteData
+} from './shared'
 
 export type RawConfigExports<ThemeConfig = any> =
   | Awaitable<UserConfig<ThemeConfig>>
@@ -139,6 +140,14 @@ export interface UserConfig<ThemeConfig = any>
   rewrites?: Record<string, string>
 
   /**
+   * @experimental
+   */
+  sitemap?: SitemapStreamOptions & {
+    hostname: string
+    transformItems?: (items: any[]) => Awaitable<any[]>
+  }
+
+  /**
    * Build end hook: called when SSG finish.
    * @param siteConfig The resolved configuration.
    */
@@ -192,6 +201,7 @@ export interface SiteConfig<ThemeConfig = any>
     | 'transformHead'
     | 'transformHtml'
     | 'transformPageData'
+    | 'sitemap'
   > {
   root: string
   srcDir: string
