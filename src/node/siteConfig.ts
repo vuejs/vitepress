@@ -1,6 +1,7 @@
 import type { Options as VuePluginOptions } from '@vitejs/plugin-vue'
 import type { SitemapStreamOptions } from 'sitemap'
 import type { Logger, UserConfig as ViteConfig } from 'vite'
+import type { SitemapItem } from './build/generateSitemap'
 import type { MarkdownOptions } from './markdown'
 import type {
   Awaitable,
@@ -144,7 +145,7 @@ export interface UserConfig<ThemeConfig = any>
    */
   sitemap?: SitemapStreamOptions & {
     hostname: string
-    transformItems?: (items: any[]) => Awaitable<any[]>
+    transformItems?: (items: SitemapItem[]) => Awaitable<SitemapItem[]>
   }
 
   /**
