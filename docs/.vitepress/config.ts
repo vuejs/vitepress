@@ -135,6 +135,10 @@ function sidebarGuide() {
         {
           text: 'MPA Mode',
           link: '/guide/mpa-mode'
+        },
+        {
+          text: 'Sitemap Generation',
+          link: '/guide/sitemap-generation'
         }
       ]
     },
