@@ -22,7 +22,7 @@ $ npm install -D vitepress
 ```
 
 ```sh [pnpm]
-$ pnpm add -D vitepress
+$ pnpm add -D vitepress@latest
 ```
 
 ```sh [yarn]

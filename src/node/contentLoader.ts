@@ -115,7 +115,7 @@ export function createContentLoader<T = ContentData[]>(
           })
           const url =
             '/' +
-            normalizePath(path.relative(config.root, file)).replace(
+            normalizePath(path.relative(config.srcDir, file)).replace(
               /\.md$/,
               config.cleanUrls ? '' : '.html'
             )
