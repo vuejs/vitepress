@@ -18,10 +18,19 @@ export interface ContentOptions<T = ContentData[]> {
    */
   render?: boolean
   /**
-   * Whether to parse and include excerpt (rendered as HTML)
+   * If `boolean`, whether to parse and include excerpt (rendered as HTML)
+   *
+   * If `function`, control how the excerpt is extracted from the content
+   *
+   * https://github.com/jonschlinkert/gray-matter#optionsexcerpt
+   *
+   * If `string`, define a custom separator to use for excerpts
+   *
+   * https://github.com/jonschlinkert/gray-matter#optionsexcerpt_separator
+   *
    * default: false
    */
-  excerpt?: boolean
+  excerpt?: boolean | ((file: any, options?: any) => string) | string
   /**
    * Transform the data. Note the data will be inlined as JSON in the client
    * bundle if imported from components or markdown files.
@@ -111,7 +120,12 @@ export function createContentLoader<T = ContentData[]>(
         } else {
           const src = fs.readFileSync(file, 'utf-8')
           const { data: frontmatter, excerpt } = matter(src, {
-            excerpt: true
+            excerpt:
+              typeof renderExcerpt !== 'string' && renderExcerpt
+                ? renderExcerpt
+                : false,
+            excerpt_separator:
+              typeof renderExcerpt === 'string' ? renderExcerpt : undefined
           })
           const url =
             '/' +
@@ -123,6 +137,7 @@ export function createContentLoader<T = ContentData[]>(
           const renderedExcerpt = renderExcerpt
             ? excerpt && md.render(excerpt)
             : undefined
+          console.log('renderedExcerpt', renderedExcerpt, excerpt)
           const data: ContentData = {
             src: includeSrc ? src : undefined,
             html,

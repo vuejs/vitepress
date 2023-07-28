@@ -132,6 +132,42 @@ import { data as posts } from './posts.data.js'
 
 ### Options
 
+The options type:
+
+```ts
+interface ContentOptions<T = ContentData[]> {
+  /**
+   * Include src?
+   * default: false
+   */
+  includeSrc?: boolean
+  /**
+   * Render src to HTML and include in data?
+   * default: false
+   */
+  render?: boolean
+  /**
+   * If `boolean`, whether to parse and include excerpt (rendered as HTML)
+   *
+   * If `function`, control how the excerpt is extracted from the content
+   *
+   * https://github.com/jonschlinkert/gray-matter#optionsexcerpt
+   *
+   * If `string`, define a custom separator to use for excerpts
+   *
+   * https://github.com/jonschlinkert/gray-matter#optionsexcerpt_separator
+   *
+   * default: false
+   */
+  excerpt?: boolean | ((file: any, options?: any) => string) | string
+  /**
+   * Transform the data. Note the data will be inlined as JSON in the client
+   * bundle if imported from components or markdown files.
+   */
+  transform?: (data: ContentData[]) => T | Promise<T>
+}
+```
+
 The default data may not suit all needs - you can opt-in to transform the data using options:
 
 ```js
