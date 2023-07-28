@@ -137,7 +137,6 @@ export function createContentLoader<T = ContentData[]>(
           const renderedExcerpt = renderExcerpt
             ? excerpt && md.render(excerpt)
             : undefined
-          console.log('renderedExcerpt', renderedExcerpt, excerpt)
           const data: ContentData = {
             src: includeSrc ? src : undefined,
             html,
