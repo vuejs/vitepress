@@ -199,3 +199,23 @@ Whether to display [footer](./default-theme-footer).
 footer: false
 ---
 ```
+
+### pageClass <Badge type="info" text="default theme only" />
+
+- Type: `string`
+
+Add extra class name to a specific page.
+
+```yaml
+---
+pageClass: custom-page-class
+---
+```
+
+Then you can customize styles of this specific page in `.vitepress/theme/custom.css` file:
+
+```css
+.custom-page-class {
+  /* page-specific styles */
+}
+```
