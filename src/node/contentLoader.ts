@@ -123,7 +123,7 @@ export function createContentLoader<T = ContentData[]>(
             excerpt:
               typeof renderExcerpt !== 'string' && renderExcerpt
                 ? renderExcerpt
-                : false,
+                : undefined,
             excerpt_separator:
               typeof renderExcerpt === 'string' ? renderExcerpt : undefined
           })
