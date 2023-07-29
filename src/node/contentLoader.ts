@@ -9,28 +9,41 @@ import { createMarkdownRenderer, type MarkdownRenderer } from './markdown'
 export interface ContentOptions<T = ContentData[]> {
   /**
    * Include src?
-   * default: false
+   * @default false
    */
   includeSrc?: boolean
+
   /**
    * Render src to HTML and include in data?
-   * default: false
+   * @default false
    */
   render?: boolean
+
   /**
-   * If `boolean`, whether to parse and include excerpt (rendered as HTML)
+   * If `boolean`, whether to parse and include excerpt? (rendered as HTML)
    *
-   * If `function`, control how the excerpt is extracted from the content
+   * If `function`, control how the excerpt is extracted from the content.
    *
-   * https://github.com/jonschlinkert/gray-matter#optionsexcerpt
+   * If `string`, define a custom separator to be used for extracting the
+   * excerpt. Default separator is `---` if `excerpt` is `true`.
    *
-   * If `string`, define a custom separator to use for excerpts
+   * @see https://github.com/jonschlinkert/gray-matter#optionsexcerpt
+   * @see https://github.com/jonschlinkert/gray-matter#optionsexcerpt_separator
    *
-   * https://github.com/jonschlinkert/gray-matter#optionsexcerpt_separator
-   *
-   * default: false
+   * @default false
    */
-  excerpt?: boolean | ((file: any, options?: any) => string) | string
+  excerpt?:
+    | boolean
+    | ((
+        file: {
+          data: { [key: string]: any }
+          content: string
+          excerpt?: string
+        },
+        options?: any
+      ) => void)
+    | string
+
   /**
    * Transform the data. Note the data will be inlined as JSON in the client
    * bundle if imported from components or markdown files.
@@ -119,14 +132,13 @@ export function createContentLoader<T = ContentData[]>(
           raw.push(cached.data)
         } else {
           const src = fs.readFileSync(file, 'utf-8')
-          const { data: frontmatter, excerpt } = matter(src, {
-            excerpt:
-              typeof renderExcerpt !== 'string' && renderExcerpt
-                ? renderExcerpt
-                : undefined,
-            excerpt_separator:
-              typeof renderExcerpt === 'string' ? renderExcerpt : undefined
-          })
+          const { data: frontmatter, excerpt } = matter(
+            src,
+            // @ts-expect-error gray-matter types are wrong
+            typeof renderExcerpt === 'string'
+              ? { excerpt_separator: renderExcerpt }
+              : { excerpt: renderExcerpt }
+          )
           const url =
             '/' +
             normalizePath(path.relative(config.srcDir, file)).replace(
