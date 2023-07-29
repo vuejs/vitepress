@@ -195,7 +195,7 @@ export default createContentLoader('posts/*.md', {
 
 Check out how it is used in the [Vue.js blog](https://github.com/vuejs/blog/blob/main/.vitepress/theme/posts.data.ts).
 
-The `createContentLoader` API can also be used inside [build hooks](/reference/site-config#build-hooks):
+The `createContentLoader` API can also be used inside [build hooks](../reference/site-config#build-hooks):
 
 ```js
 // .vitepress/config.js
