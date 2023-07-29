@@ -86,7 +86,7 @@ type HeadConfig =
 
 The following frontmatter options are only applicable when using the default theme.
 
-### layout <Badge type="info" text="default theme only" />
+### layout
 
 - Type: `doc | home | page`
 - Default: `doc`
@@ -103,15 +103,15 @@ layout: doc
 ---
 ```
 
-### hero <Badge type="info" text="default theme only" /> <Badge type="info" text="Home page only" />
+### hero <Badge type="info" text="home page only" />
 
 Defines contents of home hero section when `layout` is set to `home`. More details in [Default Theme: Home Page](./default-theme-home-page).
 
-### features <Badge type="info" text="default theme only" /> <Badge type="info" text="Home page only" />
+### features <Badge type="info" text="home page only" />
 
 Defines items to display in features section when `layout` is set to `home`. More details in [Default Theme: Home Page](./default-theme-home-page).
 
-### navbar <Badge type="info" text="default theme only" />
+### navbar
 
 - Type: `boolean`
 - Default: `true`
@@ -124,7 +124,7 @@ navbar: false
 ---
 ```
 
-### sidebar <Badge type="info" text="default theme only" />
+### sidebar
 
 - Type: `boolean`
 - Default: `true`
@@ -137,7 +137,7 @@ sidebar: false
 ---
 ```
 
-### aside <Badge type="info" text="default theme only" />
+### aside
 
 - Type: `boolean | 'left'`
 - Default: `true`
@@ -154,14 +154,14 @@ aside: false
 ---
 ```
 
-### outline <Badge type="info" text="default theme only" />
+### outline
 
 - Type: `number | [number, number] | 'deep' | false`
 - Default: `2`
 
 The levels of header in the outline to display for the page. It's same as [config.themeConfig.outline](./default-theme-config#outline), and it overrides the theme config.
 
-### lastUpdated <Badge type="info" text="default theme only" />
+### lastUpdated
 
 - Type: `boolean`
 - Default: `true`
@@ -174,7 +174,7 @@ lastUpdated: false
 ---
 ```
 
-### editLink <Badge type="info" text="default theme only" />
+### editLink
 
 - Type: `boolean`
 - Default: `true`
@@ -187,15 +187,35 @@ editLink: false
 ---
 ```
 
-### footer <Badge type="info" text="default theme only" />
+### footer
 
 - Type: `boolean`
 - Default: `true`
 
-Whether to display [footer](./default-theme-footer). 
+Whether to display [footer](./default-theme-footer).
 
 ```yaml
 ---
 footer: false
 ---
+```
+
+### pageClass
+
+- Type: `string`
+
+Add extra class name to a specific page.
+
+```yaml
+---
+pageClass: custom-page-class
+---
+```
+
+Then you can customize styles of this specific page in `.vitepress/theme/custom.css` file:
+
+```css
+.custom-page-class {
+  /* page-specific styles */
+}
 ```

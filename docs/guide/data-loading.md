@@ -23,7 +23,7 @@ The loader module is evaluated only in Node.js, so you can import Node APIs and 
 
 You can then import data from this file in `.md` pages and `.vue` components using the `data` named export:
 
-```html
+```vue
 <script setup>
 import { data } from './example.data.js'
 </script>
@@ -70,7 +70,7 @@ export default {
     // watchedFiles will be an array of absolute paths of the matched files.
     // generate an array of blog post metadata that can be used to render
     // a list in the theme layout
-    return watchedFiles.map(file => {
+    return watchedFiles.map((file) => {
       return parse(fs.readFileSync(file, 'utf-8'), {
         columns: true,
         skip_empty_lines: true
@@ -147,9 +147,9 @@ export default createContentLoader('posts/*.md', {
     // the final result is what will be shipped to the client.
     return rawData.sort((a, b) => {
       return +new Date(b.frontmatter.date) - +new Date(a.frontmatter.date)
-    }).map(page => {
-      page.src  // raw markdown source
-      page.html // rendered full page HTML
+    }).map((page) => {
+      page.src     // raw markdown source
+      page.html    // rendered full page HTML
       page.excerpt // rendered excerpt HTML (content above first `---`)
       return {/* ... */}
     })
@@ -159,7 +159,7 @@ export default createContentLoader('posts/*.md', {
 
 Check out how it is used in the [Vue.js blog](https://github.com/vuejs/blog/blob/main/.vitepress/theme/posts.data.ts).
 
-The `createContentLoader` API can also be used inside [build hooks](/reference/site-config#build-hooks):
+The `createContentLoader` API can also be used inside [build hooks](../reference/site-config#build-hooks):
 
 ```js
 // .vitepress/config.js
@@ -168,6 +168,48 @@ export default {
     const posts = await createContentLoader('posts/*.md').load()
     // generate files based on posts metadata, e.g. RSS feed
   }
+}
+```
+
+**Types**
+
+```ts
+interface ContentOptions<T = ContentData[]> {
+  /**
+   * Include src?
+   * @default false
+   */
+  includeSrc?: boolean
+
+  /**
+   * Render src to HTML and include in data?
+   * @default false
+   */
+  render?: boolean
+
+  /**
+   * If `boolean`, whether to parse and include excerpt? (rendered as HTML)
+   *
+   * If `function`, control how the excerpt is extracted from the content.
+   *
+   * If `string`, define a custom separator to be used for extracting the
+   * excerpt. Default separator is `---` if `excerpt` is `true`.
+   *
+   * @see https://github.com/jonschlinkert/gray-matter#optionsexcerpt
+   * @see https://github.com/jonschlinkert/gray-matter#optionsexcerpt_separator
+   *
+   * @default false
+   */
+  excerpt?:
+    | boolean
+    | ((file: { data: { [key: string]: any }; content: string; excerpt?: string }, options?: any) => void)
+    | string
+
+  /**
+   * Transform the data. Note the data will be inlined as JSON in the client
+   * bundle if imported from components or markdown files.
+   */
+  transform?: (data: ContentData[]) => T | Promise<T>
 }
 ```
 
