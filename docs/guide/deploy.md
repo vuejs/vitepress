@@ -73,7 +73,7 @@ Cache-Control: max-age=31536000,immutable
   cache-control: immutable
 ```
 
-Note: the `_headers` file should be placed in the [public directory](/guide/asset-handling#the-public-directory) - in our case, `docs/public/_headers` - so that it is copied verbatim to the output directory.
+Note: the `_headers` file should be placed in the [public directory](./asset-handling#the-public-directory) - in our case, `docs/public/_headers` - so that it is copied verbatim to the output directory.
 
 [Netlify custom headers documentation](https://docs.netlify.com/routing/headers/)
 
