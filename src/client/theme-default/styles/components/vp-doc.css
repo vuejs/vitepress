@@ -8,7 +8,7 @@
 .vp-doc h4,
 .vp-doc h5,
 .vp-doc h6 {
-  display: flex;
+  position: relative;
   font-weight: 600;
   outline: none;
 }
@@ -37,8 +37,9 @@
 
 .vp-doc .header-anchor {
   position: absolute;
+  top: 0;
+  left: 0;
   margin-left: -0.87em;
-  padding-right: 0.23em;
   font-weight: 500;
   user-select: none;
   opacity: 0;
@@ -72,6 +73,10 @@
     line-height: 40px;
     font-size: 32px;
   }
+}
+
+.vp-doc h2 .header-anchor {
+  top: 24px;
 }
 
 /**
