@@ -25,7 +25,7 @@ You can then import data from this file in `.md` pages and `.vue` components usi
 
 ```html
 <script setup>
-import { data } from './example.data.js'
+  import { data } from './example.data.js'
 </script>
 
 <pre>{{ data }}</pre>
@@ -70,7 +70,7 @@ export default {
     // watchedFiles will be an array of absolute paths of the matched files.
     // generate an array of blog post metadata that can be used to render
     // a list in the theme layout
-    return watchedFiles.map(file => {
+    return watchedFiles.map((file) => {
       return parse(fs.readFileSync(file, 'utf-8'), {
         columns: true,
         skip_empty_lines: true
@@ -132,42 +132,6 @@ import { data as posts } from './posts.data.js'
 
 ### Options
 
-The options type:
-
-```ts
-interface ContentOptions<T = ContentData[]> {
-  /**
-   * Include src?
-   * default: false
-   */
-  includeSrc?: boolean
-  /**
-   * Render src to HTML and include in data?
-   * default: false
-   */
-  render?: boolean
-  /**
-   * If `boolean`, whether to parse and include excerpt (rendered as HTML)
-   *
-   * If `function`, control how the excerpt is extracted from the content
-   *
-   * https://github.com/jonschlinkert/gray-matter#optionsexcerpt
-   *
-   * If `string`, define a custom separator to use for excerpts
-   *
-   * https://github.com/jonschlinkert/gray-matter#optionsexcerpt_separator
-   *
-   * default: false
-   */
-  excerpt?: boolean | ((file: any, options?: any) => string) | string
-  /**
-   * Transform the data. Note the data will be inlined as JSON in the client
-   * bundle if imported from components or markdown files.
-   */
-  transform?: (data: ContentData[]) => T | Promise<T>
-}
-```
-
 The default data may not suit all needs - you can opt-in to transform the data using options:
 
 ```js
@@ -176,19 +140,23 @@ import { createContentLoader } from 'vitepress'
 
 export default createContentLoader('posts/*.md', {
   includeSrc: true, // include raw markdown source?
-  render: true,     // include rendered full page HTML?
-  excerpt: true,    // include excerpt?
+  render: true, // include rendered full page HTML?
+  excerpt: true, // include excerpt?
   transform(rawData) {
     // map, sort, or filter the raw data as you wish.
     // the final result is what will be shipped to the client.
-    return rawData.sort((a, b) => {
-      return +new Date(b.frontmatter.date) - +new Date(a.frontmatter.date)
-    }).map(page => {
-      page.src  // raw markdown source
-      page.html // rendered full page HTML
-      page.excerpt // rendered excerpt HTML (content above first `---`)
-      return {/* ... */}
-    })
+    return rawData
+      .sort((a, b) => {
+        return +new Date(b.frontmatter.date) - +new Date(a.frontmatter.date)
+      })
+      .map((page) => {
+        page.src // raw markdown source
+        page.html // rendered full page HTML
+        page.excerpt // rendered excerpt HTML (content above first `---`)
+        return {
+          /* ... */
+        }
+      })
   }
 })
 ```
@@ -204,6 +172,48 @@ export default {
     const posts = await createContentLoader('posts/*.md').load()
     // generate files based on posts metadata, e.g. RSS feed
   }
+}
+```
+
+**Types**
+
+```ts
+interface ContentOptions<T = ContentData[]> {
+  /**
+   * Include src?
+   * @default false
+   */
+  includeSrc?: boolean
+
+  /**
+   * Render src to HTML and include in data?
+   * @default false
+   */
+  render?: boolean
+
+  /**
+   * If `boolean`, whether to parse and include excerpt? (rendered as HTML)
+   *
+   * If `function`, control how the excerpt is extracted from the content.
+   *
+   * If `string`, define a custom separator to be used for extracting the
+   * excerpt. Default separator is `---` if `excerpt` is `true`.
+   *
+   * @see https://github.com/jonschlinkert/gray-matter#optionsexcerpt
+   * @see https://github.com/jonschlinkert/gray-matter#optionsexcerpt_separator
+   *
+   * @default false
+   */
+  excerpt?:
+    | boolean
+    | ((file: { data: { [key: string]: any }; content: string; excerpt?: string }, options?: any) => void)
+    | string
+
+  /**
+   * Transform the data. Note the data will be inlined as JSON in the client
+   * bundle if imported from components or markdown files.
+   */
+  transform?: (data: ContentData[]) => T | Promise<T>
 }
 ```
 
