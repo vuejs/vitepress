@@ -158,7 +158,11 @@ export async function renderPage(
         : '<meta name="viewport" content="width=device-width,initial-scale=1">'
     }
     <title>${title}</title>
-    <meta name="description" content="${description}">
+    ${
+      isDescriptionOverridden(head)
+        ? ''
+        : `<meta name="description" content="${description}">`
+    }
     ${stylesheetLink}
     ${metadataScript.inHead ? metadataScript.html : ''}
     ${
@@ -255,6 +259,12 @@ function renderAttrs(attrs: Record<string, string>): string {
 function filterOutHeadDescription(head: HeadConfig[] = []) {
   return head.filter(([type, attrs]) => {
     return !(type === 'meta' && attrs?.name === 'description')
+  })
+}
+
+function isDescriptionOverridden(head: HeadConfig[] = []) {
+  return head.some(([type, attrs]) => {
+    return type === 'meta' && attrs?.name === 'description'
   })
 }
 
