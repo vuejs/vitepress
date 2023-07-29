@@ -23,9 +23,9 @@ The loader module is evaluated only in Node.js, so you can import Node APIs and 
 
 You can then import data from this file in `.md` pages and `.vue` components using the `data` named export:
 
-```html
+```vue
 <script setup>
-  import { data } from './example.data.js'
+import { data } from './example.data.js'
 </script>
 
 <pre>{{ data }}</pre>
