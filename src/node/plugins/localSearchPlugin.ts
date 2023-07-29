@@ -119,7 +119,7 @@ export async function localSearchPlugin(
     let relFile = slash(path.relative(siteConfig.srcDir, file))
     relFile = siteConfig.rewrites.map[relFile] || relFile
     let id = slash(path.join(siteConfig.site.base, relFile))
-    id = id.replace(/\/index\.md$/, '/')
+    id = id.replace(/(^|\/)index\.md$/, '$1')
     id = id.replace(/\.md$/, siteConfig.cleanUrls ? '' : '.html')
     return id
   }

@@ -141,10 +141,9 @@ export function createContentLoader<T = ContentData[]>(
           )
           const url =
             '/' +
-            normalizePath(path.relative(config.srcDir, file)).replace(
-              /\.md$/,
-              config.cleanUrls ? '' : '.html'
-            )
+            normalizePath(path.relative(config.srcDir, file))
+              .replace(/(^|\/)index\.md$/, '$1')
+              .replace(/\.md$/, config.cleanUrls ? '' : '.html')
           const html = render ? md.render(src) : undefined
           const renderedExcerpt = renderExcerpt
             ? excerpt && md.render(excerpt)

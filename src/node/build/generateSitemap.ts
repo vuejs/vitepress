@@ -19,7 +19,7 @@ export async function generateSitemap(siteConfig: SiteConfig) {
       siteConfig.pages.map(async (page) => {
         //
         let url = siteConfig.rewrites.map[page] || page
-        url = url.replace(/(^|\/)?index.md$/, '$1')
+        url = url.replace(/(^|\/)index\.md$/, '$1')
         url = url.replace(/\.md$/, siteConfig.cleanUrls ? '' : '.html')
 
         const lastmod = siteConfig.lastUpdated && (await getGitTimestamp(page))
