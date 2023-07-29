@@ -148,9 +148,9 @@ export default createContentLoader('posts/*.md', {
     return rawData.sort((a, b) => {
       return +new Date(b.frontmatter.date) - +new Date(a.frontmatter.date)
     }).map((page) => {
-      page.src      // raw markdown source
-      page.html b   // rendered full page HTML
-      page.excerpt  // rendered excerpt HTML (content above first `---`)
+      page.src     // raw markdown source
+      page.html    // rendered full page HTML
+      page.excerpt // rendered excerpt HTML (content above first `---`)
       return {/* ... */}
     })
   }
