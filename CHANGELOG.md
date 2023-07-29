@@ -1,3 +1,28 @@
+# [1.0.0-beta.7](https://github.com/vuejs/vitepress/compare/v1.0.0-beta.6...v1.0.0-beta.7) (2023-07-29)
+
+### Bug Fixes
+
+- **build:** `createContentLoader` generates invalid url when `srcDir` is set ([#2578](https://github.com/vuejs/vitepress/issues/2578)) ([74d9ba2](https://github.com/vuejs/vitepress/commit/74d9ba27b53c6fd09b91b58bba9c1f138a6ee6f1))
+- **build:** duplicate description tags with transformHead ([#2702](https://github.com/vuejs/vitepress/issues/2702)) ([68f25f5](https://github.com/vuejs/vitepress/commit/68f25f5a9cca1d059831184ad8876bb40326d9b6))
+- **build:** use vue dev build when DEBUG is truthy ([#2689](https://github.com/vuejs/vitepress/issues/2689)) ([b61f36d](https://github.com/vuejs/vitepress/commit/b61f36d85326912ca67f552ecbe89aa4ca0b1919))
+- **build:** remove index.html when using createContentLoader ([#2693](https://github.com/vuejs/vitepress/issues/2693)) ([6fc88a5](https://github.com/vuejs/vitepress/commit/6fc88a5cce431fa47330860155191f7b3eccb62e))
+- **search:** add useFocusTrap and mark.js to optimizeDeps ([#2682](https://github.com/vuejs/vitepress/issues/2682)) ([fb048a6](https://github.com/vuejs/vitepress/commit/fb048a6f7289a12a8e67724cee29e55252568489))
+- **theme:** incorrect header anchor icon position with multline headers ([#2694](https://github.com/vuejs/vitepress/issues/2694)) ([77c1b4d](https://github.com/vuejs/vitepress/commit/77c1b4d3cd3c47ffc5268ac24d0f983df443075d))
+- **theme:** code group tab divider not showing full-width ([#2701](https://github.com/vuejs/vitepress/issues/2701)) ([b39b491](https://github.com/vuejs/vitepress/commit/b39b4912af9664d14f5f7c658e64b96de3865f04))
+- **theme:** fix feature component always generating anchor tags ([51f28bf](https://github.com/vuejs/vitepress/commit/51f28bfac96bbb14ea0175c796e0d18fff3b2cc5))
+- **theme:** respect empty rel and target ([#2705](https://github.com/vuejs/vitepress/issues/2705)) ([60dd0a4](https://github.com/vuejs/vitepress/commit/60dd0a474b056ec884f3173a233f1fb951d96870))
+
+### Features
+
+- sitemap generation ([#2691](https://github.com/vuejs/vitepress/issues/2691)) ([5563695](https://github.com/vuejs/vitepress/commit/5563695b1599165fa85ea69f15334e27ab6955bf))
+- **build:** custom excerpt for `createContentLoader` ([#2698](https://github.com/vuejs/vitepress/issues/2698)) ([13f94a6](https://github.com/vuejs/vitepress/commit/13f94a6663d5b4472ce380ee1c27e6124da8fec3))
+- **theme:** rel for feature links ([#2704](https://github.com/vuejs/vitepress/issues/2704)) ([5d18fd8](https://github.com/vuejs/vitepress/commit/5d18fd8978e418ce920aab357b180a58b1af3077))
+- **theme:** support custom page class ([#2696](https://github.com/vuejs/vitepress/issues/2696)) ([2ae90a2](https://github.com/vuejs/vitepress/commit/2ae90a234338ea074b536e5583d81fd565d8e3f3))
+
+### BREAKING CHANGES
+
+- **build:** `createContentLoader` will now resolve globs relative to `srcDir` instead of `root`
+
 # [1.0.0-beta.6](https://github.com/vuejs/vitepress/compare/v1.0.0-beta.5...v1.0.0-beta.6) (2023-07-22)
 
 ### Bug Fixes
