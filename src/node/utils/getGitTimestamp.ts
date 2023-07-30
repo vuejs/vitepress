@@ -1,4 +1,5 @@
 import { spawn } from 'cross-spawn'
+import fs from 'fs-extra'
 import { basename, dirname } from 'path'
 
 const cache = new Map<string, number>()
@@ -9,6 +10,7 @@ export function getGitTimestamp(file: string) {
 
   return new Promise<number>((resolve, reject) => {
     const cwd = dirname(file)
+    if (!fs.existsSync(cwd)) return resolve(0)
     const fileName = basename(file)
     const child = spawn('git', ['log', '-1', '--pretty="%ai"', fileName], {
       cwd
