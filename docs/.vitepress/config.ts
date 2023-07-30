@@ -13,7 +13,10 @@ export default defineConfig({
   cleanUrls: true,
 
   sitemap: {
-    hostname: 'https://vitepress.dev'
+    hostname: 'https://vitepress.dev',
+    transformItems(items) {
+      return items.filter((item) => !item.url.includes('migration'))
+    }
   },
 
   head: [

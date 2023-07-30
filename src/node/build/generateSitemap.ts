@@ -14,19 +14,55 @@ import { task } from '../utils/task'
 export async function generateSitemap(siteConfig: SiteConfig) {
   if (!siteConfig.sitemap?.hostname) return
 
-  await task('generating sitemap', async () => {
-    let items: SitemapItem[] = await Promise.all(
-      siteConfig.pages.map(async (page) => {
-        //
-        let url = siteConfig.rewrites.map[page] || page
-        url = url.replace(/(^|\/)index\.md$/, '$1')
-        url = url.replace(/\.md$/, siteConfig.cleanUrls ? '' : '.html')
+  const getLastmod = async (url: string) => {
+    if (!siteConfig.lastUpdated) return undefined
 
-        const lastmod = siteConfig.lastUpdated && (await getGitTimestamp(page))
-        return lastmod ? { url, lastmod } : { url }
+    let path = url.replace(/(^|\/)$/, '$1index')
+    path = path.replace(/(\.html)?$/, '.md')
+    path = siteConfig.rewrites.inv[path] || path
+
+    return (await getGitTimestamp(path)) || undefined
+  }
+
+  await task('generating sitemap', async () => {
+    const locales = siteConfig.userConfig.locales || {}
+    const filteredLocales = Object.keys(locales).filter(
+      (locale) => locales[locale].lang && locale !== 'root'
+    )
+    const defaultLang =
+      locales?.root?.lang || siteConfig.userConfig.lang || 'en-US'
+
+    const pages = siteConfig.pages.map(
+      (page) => siteConfig.rewrites.map[page] || page
+    )
+
+    const groupedPages: Record<string, { lang: string; url: string }[]> = {}
+    pages.forEach((page) => {
+      const locale = page.split('/')[0]
+      const lang = locales[locale]?.lang || defaultLang
+
+      let url = page.replace(/(^|\/)index\.md$/, '$1')
+      url = url.replace(/\.md$/, siteConfig.cleanUrls ? '' : '.html')
+      if (filteredLocales.includes(locale)) page = page.slice(locale.length + 1)
+
+      if (!groupedPages[page]) groupedPages[page] = []
+      groupedPages[page].push({ url, lang })
+    })
+
+    const _items = await Promise.all(
+      Object.values(groupedPages).map(async (pages) => {
+        if (pages.length < 2)
+          return { url: pages[0].url, lastmod: await getLastmod(pages[0].url) }
+
+        return await Promise.all(
+          pages.map(async ({ url }) => {
+            return { url, lastmod: await getLastmod(url), links: pages }
+          })
+        )
       })
     )
-    items = items.sort((a, b) => a.url.localeCompare(b.url))
+
+    let items: SitemapItem[] = _items.flat()
     items = (await siteConfig.sitemap?.transformItems?.(items)) || items
 
     const sitemapStream = new SitemapStream(siteConfig.sitemap)
