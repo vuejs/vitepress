@@ -1,6 +1,14 @@
-import { inBrowser } from 'vitepress'
+import { inBrowser, onContentUpdated } from 'vitepress'
 
 export function useCodeGroups() {
+  if (import.meta.env.DEV) {
+    onContentUpdated(() => {
+      document.querySelectorAll('.vp-code-group > .blocks').forEach((el) => {
+        el.firstElementChild?.classList.add('active')
+      })
+    })
+  }
+
   if (inBrowser) {
     window.addEventListener('click', (e) => {
       const el = e.target as HTMLInputElement
