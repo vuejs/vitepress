@@ -59,7 +59,7 @@ const VitePressApp = defineComponent({
     useCodeGroups()
 
     if (Theme.setup) Theme.setup()
-    return () => h(Theme.Layout)
+    return () => h(Theme.Layout!)
   }
 })
 

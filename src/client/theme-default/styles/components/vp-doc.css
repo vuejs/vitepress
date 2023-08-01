@@ -278,7 +278,8 @@
   color: var(--vp-c-brand-dark);
 }
 
-.vp-doc div[class*='language-'] {
+.vp-doc div[class*='language-'],
+.vp-block {
   position: relative;
   margin: 16px -24px;
   background-color: var(--vp-code-block-bg);
@@ -287,7 +288,8 @@
 }
 
 @media (min-width: 640px) {
-  .vp-doc div[class*='language-'] {
+  .vp-doc div[class*='language-'],
+  .vp-block {
     border-radius: 8px;
     margin: 16px 0;
   }

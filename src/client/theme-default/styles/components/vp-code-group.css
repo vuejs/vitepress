@@ -66,13 +66,19 @@
   background-color: var(--vp-code-tab-active-bar-color);
 }
 
-.vp-code-group div[class*='language-'] {
+.vp-code-group div[class*='language-'],
+.vp-block {
   display: none;
   margin-top: 0 !important;
   border-top-left-radius: 0 !important;
   border-top-right-radius: 0 !important;
 }
 
-.vp-code-group div[class*='language-'].active {
+.vp-code-group div[class*='language-'].active,
+.vp-block.active {
   display: block;
+}
+
+.vp-block {
+  padding: 20px 24px;
 }
