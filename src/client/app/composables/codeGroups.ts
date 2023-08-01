@@ -3,9 +3,11 @@ import { inBrowser, onContentUpdated } from 'vitepress'
 export function useCodeGroups() {
   if (import.meta.env.DEV) {
     onContentUpdated(() => {
-      document.querySelectorAll('.vp-code-group > .blocks').forEach((el) => {
-        el.firstElementChild?.classList.add('active')
-      })
+      document
+        .querySelectorAll('.vp-code-group > .blocks:not(:has(.active))')
+        .forEach((el) => {
+          el.firstElementChild?.classList.add('active')
+        })
     })
   }
 
