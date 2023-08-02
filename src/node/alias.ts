@@ -22,10 +22,9 @@ export function resolveAliases(
   { root, themeDir }: SiteConfig,
   ssr: boolean
 ): AliasOptions {
-  const vueRuntimePath =
-    process.env.DEBUG || process.env.NODE_ENV !== 'production'
-      ? 'vue/dist/vue.runtime.esm-browser.js'
-      : 'vue/dist/vue.runtime.esm-browser.prod.js'
+  const vueRuntimePath = process.env.DEBUG
+    ? 'vue/dist/vue.runtime.esm-browser.js'
+    : 'vue/dist/vue.runtime.esm-bundler.js'
 
   const paths: Record<string, string> = {
     '@theme': themeDir,
