@@ -104,13 +104,15 @@ const filterText = disableQueryPersistence.value
 
 const showDetailedList = useLocalStorage(
   'vitepress:local-search-detailed-list',
-  false
+  theme.value.search?.provider === 'local' &&
+    theme.value.search.options?.detailedView === true
 )
 
 const disableDetailedView = computed(() => {
   return (
     theme.value.search?.provider === 'local' &&
-    theme.value.search.options?.disableDetailedView === true
+    (theme.value.search.options?.disableDetailedView === true ||
+      theme.value.search.options?.detailedView === false)
   )
 })
 

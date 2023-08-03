@@ -331,8 +331,18 @@ export namespace DefaultTheme {
   export interface LocalSearchOptions {
     /**
      * @default false
+     * @deprecated Use `detailedView: false` instead.
      */
     disableDetailedView?: boolean
+
+    /**
+     * If `true`, the detailed view will be enabled by default.
+     * If `false`, the detailed view will be disabled.
+     * If `'auto'`, the detailed view will be disabled by default, but can be enabled by the user.
+     *
+     * @default 'auto'
+     */
+    detailedView?: boolean | 'auto'
 
     /**
      * @default false
