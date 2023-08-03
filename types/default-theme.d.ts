@@ -134,6 +134,11 @@ export namespace DefaultTheme {
      * @default false
      */
     externalLinkIcon?: boolean
+
+    /**
+     * Customize text of 404 page.
+     */
+    notFound?: NotFoundOptions
   }
 
   // nav -----------------------------------------------------------------------
@@ -392,5 +397,42 @@ export namespace DefaultTheme {
      * { dateStyle: 'short', timeStyle: 'short' }
      */
     formatOptions?: Intl.DateTimeFormatOptions
+  }
+
+  // not found -----------------------------------------------------------------
+
+  export interface NotFoundOptions {
+    /**
+     * Set custom not found message.
+     *
+     * @default 'PAGE NOT FOUND'
+     */
+    title?: string
+
+    /**
+     * Set custom not found description.
+     *
+     * @default "But if you don't change your direction, and if you keep looking, you may end up where you are heading."
+     */
+    quote?: string
+
+    /**
+     * Set aria label for home link.
+     *
+     * @default 'go to home'
+     */
+    linkLabel?: string
+
+    /**
+     * Set custom home link text.
+     *
+     * @default 'Take me home'
+     */
+    linkText?: string
+
+    /**
+     * @default '404'
+     */
+    code?: string
   }
 }
