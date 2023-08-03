@@ -16,7 +16,7 @@ hero:
       text: View on GitHub
       link: https://github.com/vuejs/vitepress
   image:
-    src: /vitepress-logo-large.png
+    src: /vitepress-logo-large.webp
     alt: VitePress
 
 features:

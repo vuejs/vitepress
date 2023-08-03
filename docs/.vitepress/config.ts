@@ -21,6 +21,7 @@ export default defineConfig({
 
   head: [
     ['meta', { name: 'theme-color', content: '#5f67ee' }],
+    ['link', { rel: 'icon', href: '/vitepress-logo-mini.svg' }],
     [
       'script',
       {
@@ -33,7 +34,7 @@ export default defineConfig({
   ],
 
   themeConfig: {
-    logo: '/vitepress-logo-mini.svg',
+    logo: { src: '/vitepress-logo-mini.svg', width: 24, height: 24 },
 
     nav: nav(),
 
