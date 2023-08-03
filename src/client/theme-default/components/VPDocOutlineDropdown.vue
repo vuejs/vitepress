@@ -36,7 +36,7 @@ onContentUpdated(() => {
 
 <style scoped>
 .VPDocOutlineDropdown {
-  margin-bottom: 42px;
+  margin-bottom: 48px;
 }
 
 .VPDocOutlineDropdown button {
@@ -44,11 +44,12 @@ onContentUpdated(() => {
   font-size: 14px;
   font-weight: 500;
   line-height: 24px;
-  color: var(--vp-c-text-2);
-  transition: color 0.5s;
   border: 1px solid var(--vp-c-border);
   padding: 4px 12px;
+  color: var(--vp-c-text-2);
+  background-color: var(--vp-c-mute);
   border-radius: 8px;
+  transition: color 0.5s;
 }
 
 .VPDocOutlineDropdown button:hover {
@@ -63,14 +64,14 @@ onContentUpdated(() => {
 .icon {
   display: inline-block;
   vertical-align: middle;
-  margin-left: 2px;
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   fill: currentColor;
 }
 
 :deep(.outline-link) {
-  font-size: 13px;
+  font-size: 14px;
+  font-weight: 400;
 }
 
 .open > .icon {
@@ -78,7 +79,7 @@ onContentUpdated(() => {
 }
 
 .items {
-  margin-top: 10px;
+  margin-top: 12px;
   border-left: 1px solid var(--vp-c-divider);
 }
 </style>

@@ -20,7 +20,7 @@ export default defineConfig({
   },
 
   head: [
-    ['meta', { name: 'theme-color', content: '#3c8772' }],
+    ['meta', { name: 'theme-color', content: '#5f67ee' }],
     [
       'script',
       {
@@ -33,6 +33,8 @@ export default defineConfig({
   ],
 
   themeConfig: {
+    logo: '/vitepress-logo-mini.svg',
+
     nav: nav(),
 
     sidebar: {

@@ -16,26 +16,36 @@ defineProps<{
   display: inline-block;
   margin-left: 2px;
   border: 1px solid transparent;
-  border-radius: 10px;
-  padding: 0 8px;
-  line-height: 18px;
+  border-radius: 12px;
+  padding: 0 10px;
+  line-height: 22px;
   font-size: 12px;
   font-weight: 600;
   transform: translateY(-2px);
 }
 
-h1 .VPBadge,
-h2 .VPBadge,
-h3 .VPBadge,
-h4 .VPBadge,
-h5 .VPBadge,
-h6 .VPBadge {
-  vertical-align: text-top;
+.vp-doc h1 > .VPBadge {
+  margin-top: 4px;
+  vertical-align: top;
 }
 
-h2 .VPBadge {
-  border-radius: 11px;
+.vp-doc h2 > .VPBadge {
+  margin-top: 3px;
   line-height: 20px;
+  padding: 0 8px;
+  vertical-align: top;
+}
+
+.vp-doc h3 > .VPBadge {
+  line-height: 20px;
+  vertical-align: middle;
+}
+
+.vp-doc h4 > .VPBadge,
+.vp-doc h5 > .VPBadge,
+.vp-doc h6 > .VPBadge {
+  vertical-align: middle;
+  line-height: 18px;
 }
 
 .VPBadge.info {
