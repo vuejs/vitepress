@@ -70,6 +70,7 @@ export interface UserConfig<ThemeConfig = any>
 
   appearance?: boolean | 'dark'
   lastUpdated?: boolean
+  contentProps?: Record<string, any>
 
   /**
    * MarkdownIt options

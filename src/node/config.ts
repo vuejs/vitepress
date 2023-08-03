@@ -235,7 +235,8 @@ export async function resolveSiteData(
     themeConfig: userConfig.themeConfig || {},
     locales: userConfig.locales || {},
     scrollOffset: userConfig.scrollOffset ?? 90,
-    cleanUrls: !!userConfig.cleanUrls
+    cleanUrls: !!userConfig.cleanUrls,
+    contentProps: userConfig.contentProps
   }
 }
 
