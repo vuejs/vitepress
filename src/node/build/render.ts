@@ -2,9 +2,8 @@ import { isBooleanAttr } from '@vue/shared'
 import escape from 'escape-html'
 import fs from 'fs-extra'
 import path from 'path'
-import type { OutputAsset, OutputChunk, RollupOutput } from 'rollup'
 import { pathToFileURL } from 'url'
-import { normalizePath, transformWithEsbuild } from 'vite'
+import { normalizePath, transformWithEsbuild, type Rollup } from 'vite'
 import type { SiteConfig } from '../config'
 import {
   EXTERNAL_URL_RE,
@@ -23,9 +22,9 @@ export async function renderPage(
   render: (path: string) => Promise<SSGContext>,
   config: SiteConfig,
   page: string, // foo.md
-  result: RollupOutput | null,
-  appChunk: OutputChunk | null,
-  cssChunk: OutputAsset | null,
+  result: Rollup.RollupOutput | null,
+  appChunk: Rollup.OutputChunk | null,
+  cssChunk: Rollup.OutputAsset | null,
   assets: string[],
   pageToHashMap: Record<string, string>,
   metadataScript: { html: string; inHead: boolean },
@@ -137,7 +136,7 @@ export async function renderPage(
       (chunk) =>
         chunk.type === 'chunk' &&
         chunk.facadeModuleId === slash(path.join(config.srcDir, page))
-    ) as OutputChunk
+    ) as Rollup.OutputChunk
     if (matchingChunk) {
       if (!matchingChunk.code.includes('import')) {
         inlinedScript = `<script type="module">${matchingChunk.code}</script>`
@@ -198,8 +197,8 @@ export async function renderPage(
 function resolvePageImports(
   config: SiteConfig,
   page: string,
-  result: RollupOutput,
-  appChunk: OutputChunk
+  result: Rollup.RollupOutput,
+  appChunk: Rollup.OutputChunk
 ) {
   page = config.rewrites.inv[page] || page
   // find the page's js chunk and inject script tags for its imports so that
@@ -214,7 +213,7 @@ function resolvePageImports(
   srcPath = normalizePath(srcPath)
   const pageChunk = result.output.find(
     (chunk) => chunk.type === 'chunk' && chunk.facadeModuleId === srcPath
-  ) as OutputChunk
+  ) as Rollup.OutputChunk
   return [
     ...appChunk.imports,
     ...appChunk.dynamicImports,
