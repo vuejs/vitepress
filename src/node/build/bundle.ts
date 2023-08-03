@@ -76,7 +76,7 @@ export async function bundle(
         : typeof options.minify === 'boolean'
         ? options.minify
         : !process.env.DEBUG,
-      outDir: ssr ? config.tempDir : options.outDir || config.outDir,
+      outDir: ssr ? config.tempDir : config.outDir,
       cssCodeSplit: false,
       rollupOptions: {
         ...rollupOptions,

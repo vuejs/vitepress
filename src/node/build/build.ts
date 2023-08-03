@@ -35,6 +35,11 @@ export async function build(
     delete buildOptions.mpa
   }
 
+  if (buildOptions.outDir) {
+    siteConfig.outDir = path.resolve(process.cwd(), buildOptions.outDir)
+    delete buildOptions.outDir
+  }
+
   try {
     const { clientResult, serverResult, pageToHashMap } = await bundle(
       siteConfig,
