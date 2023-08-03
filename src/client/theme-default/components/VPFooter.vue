@@ -2,12 +2,12 @@
 import { useData } from '../composables/data'
 import { useSidebar } from '../composables/sidebar'
 
-const { theme } = useData()
+const { theme, frontmatter } = useData()
 const { hasSidebar } = useSidebar()
 </script>
 
 <template>
-  <footer v-if="theme.footer" class="VPFooter" :class="{ 'has-sidebar': hasSidebar }">
+  <footer v-if="theme.footer && frontmatter.footer !== false" class="VPFooter" :class="{ 'has-sidebar': hasSidebar }">
     <div class="container">
       <p v-if="theme.footer.message" class="message" v-html="theme.footer.message"></p>
       <p v-if="theme.footer.copyright" class="copyright" v-html="theme.footer.copyright"></p>
@@ -47,7 +47,4 @@ const { hasSidebar } = useSidebar()
   font-weight: 500;
   color: var(--vp-c-text-2);
 }
-
-.message   { order: 2; }
-.copyright { order: 1; }
 </style>

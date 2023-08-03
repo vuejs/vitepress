@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { useRoute } from 'vitepress'
 import { computed } from 'vue'
+import { useData } from '../composables/data'
 import { useSidebar } from '../composables/sidebar'
 import VPDocAside from './VPDocAside.vue'
 import VPDocFooter from './VPDocFooter.vue'
 import VPDocOutlineDropdown from './VPDocOutlineDropdown.vue'
+
+const { theme } = useData()
 
 const route = useRoute()
 const { hasSidebar, hasAside, leftAside } = useSidebar()
@@ -42,7 +45,13 @@ const pageName = computed(() =>
           <slot name="doc-before" />
           <VPDocOutlineDropdown />
           <main class="main">
-            <Content class="vp-doc" :class="pageName" />
+            <Content
+              class="vp-doc"
+              :class="[
+                pageName,
+                theme.externalLinkIcon && 'external-link-icon-enabled'
+              ]"
+            />
           </main>
           <VPDocFooter>
             <template #doc-footer-before><slot name="doc-footer-before" /></template>
@@ -65,7 +74,7 @@ const pageName = computed(() =>
   display: none;
 }
 
-@media (min-width: 960px) and (max-width: 1280px) {
+@media (min-width: 960px) and (max-width: 1279px) {
   .VPDoc .VPDocOutlineDropdown {
     display: block;
   }
@@ -192,5 +201,10 @@ const pageName = computed(() =>
 
 .VPDoc.has-aside .content-container {
   max-width: 688px;
+}
+
+.external-link-icon-enabled :is(.vp-doc a[href*='://'], .vp-doc a[target='_blank'])::after {
+  content: '';
+  color: currentColor;
 }
 </style>

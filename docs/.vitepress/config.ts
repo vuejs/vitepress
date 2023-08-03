@@ -12,6 +12,13 @@ export default defineConfig({
   lastUpdated: true,
   cleanUrls: true,
 
+  sitemap: {
+    hostname: 'https://vitepress.dev',
+    transformItems(items) {
+      return items.filter((item) => !item.url.includes('migration'))
+    }
+  },
+
   head: [
     ['meta', { name: 'theme-color', content: '#3c8772' }],
     [
@@ -157,6 +164,10 @@ function sidebarGuide() {
         {
           text: 'MPA Mode',
           link: '/guide/mpa-mode'
+        },
+        {
+          text: 'Sitemap Generation',
+          link: '/guide/sitemap-generation'
         }
       ]
     },

@@ -48,7 +48,7 @@ if (!import.meta.env.SSR) {
 }
 ```
 
-Since [`Theme.enhanceApp`](/guide/custom-theme#theme-interface) can be async, you can conditionally import and register Vue plugins that access browser APIs on import:
+Since [`Theme.enhanceApp`](./custom-theme#theme-interface) can be async, you can conditionally import and register Vue plugins that access browser APIs on import:
 
 ```js
 // .vitepress/theme/index.js

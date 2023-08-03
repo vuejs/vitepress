@@ -1,22 +1,19 @@
-import ora from 'ora'
-import path from 'path'
 import fs from 'fs-extra'
+import path from 'path'
+import { fileURLToPath } from 'url'
 import {
   build,
+  normalizePath,
   type BuildOptions,
+  type Rollup,
   type UserConfig as ViteUserConfig
 } from 'vite'
-import type { GetModuleInfo, RollupOutput } from 'rollup'
-import type { SiteConfig } from '../config'
 import { APP_PATH } from '../alias'
+import type { SiteConfig } from '../config'
 import { createVitePressPlugin } from '../plugin'
 import { sanitizeFileName, slash } from '../shared'
+import { task } from '../utils/task'
 import { buildMPAClient } from './buildMPAClient'
-import { fileURLToPath } from 'url'
-import { normalizePath } from 'vite'
-
-export const okMark = '\x1b[32m✓\x1b[0m'
-export const failMark = '\x1b[31m✖\x1b[0m'
 
 // A list of default theme components that should only be loaded on demand.
 const lazyDefaultThemeComponentsRE =
@@ -31,8 +28,8 @@ export async function bundle(
   config: SiteConfig,
   options: BuildOptions
 ): Promise<{
-  clientResult: RollupOutput
-  serverResult: RollupOutput
+  clientResult: Rollup.RollupOutput | null
+  serverResult: Rollup.RollupOutput
   pageToHashMap: Record<string, string>
 }> {
   const pageToHashMap = Object.create(null)
@@ -79,7 +76,7 @@ export async function bundle(
         : typeof options.minify === 'boolean'
         ? options.minify
         : !process.env.DEBUG,
-      outDir: ssr ? config.tempDir : options.outDir || config.outDir,
+      outDir: ssr ? config.tempDir : config.outDir,
       cssCodeSplit: false,
       rollupOptions: {
         ...rollupOptions,
@@ -94,19 +91,19 @@ export async function bundle(
         output: {
           sanitizeFileName,
           ...rollupOptions?.output,
-          assetFileNames: 'assets/[name].[hash].[ext]',
+          assetFileNames: `${config.assetsDir}/[name].[hash].[ext]`,
           ...(ssr
             ? {
                 entryFileNames: '[name].js',
                 chunkFileNames: '[name].[hash].js'
               }
             : {
-                entryFileNames: 'assets/[name].[hash].js',
+                entryFileNames: `${config.assetsDir}/[name].[hash].js`,
                 chunkFileNames(chunk) {
                   // avoid ads chunk being intercepted by adblock
                   return /(?:Carbon|BuySell)Ads/.test(chunk.name)
-                    ? 'assets/chunks/ui-custom.[hash].js'
-                    : 'assets/chunks/[name].[hash].js'
+                    ? `${config.assetsDir}/chunks/ui-custom.[hash].js`
+                    : `${config.assetsDir}/chunks/[name].[hash].js`
                 },
                 manualChunks(id, ctx) {
                   if (lazyDefaultThemeComponentsRE.test(id)) {
@@ -142,24 +139,16 @@ export async function bundle(
     }
   })
 
-  let clientResult: RollupOutput
-  let serverResult: RollupOutput
+  let clientResult!: Rollup.RollupOutput | null
+  let serverResult!: Rollup.RollupOutput
 
-  const spinner = ora()
-  spinner.start('building client + server bundles...')
-  try {
-    ;[clientResult, serverResult] = await (Promise.all([
-      config.mpa ? null : build(await resolveViteConfig(false)),
-      build(await resolveViteConfig(true))
-    ]) as Promise<[RollupOutput, RollupOutput]>)
-  } catch (e) {
-    spinner.stopAndPersist({
-      symbol: failMark
-    })
-    throw e
-  }
-  spinner.stopAndPersist({
-    symbol: okMark
+  await task('building client + server bundles', async () => {
+    clientResult = config.mpa
+      ? null
+      : ((await build(await resolveViteConfig(false))) as Rollup.RollupOutput)
+    serverResult = (await build(
+      await resolveViteConfig(true)
+    )) as Rollup.RollupOutput
   })
 
   if (config.mpa) {
@@ -193,7 +182,7 @@ const cache = new Map<string, boolean>()
 /**
  * Check if a module is statically imported by at least one entry.
  */
-function isEagerChunk(id: string, getModuleInfo: GetModuleInfo) {
+function isEagerChunk(id: string, getModuleInfo: Rollup.GetModuleInfo) {
   if (
     id.includes('node_modules') &&
     !/\.css($|\\?)/.test(id) &&
@@ -205,7 +194,7 @@ function isEagerChunk(id: string, getModuleInfo: GetModuleInfo) {
 
 function staticImportedByEntry(
   id: string,
-  getModuleInfo: GetModuleInfo,
+  getModuleInfo: Rollup.GetModuleInfo,
   cache: Map<string, boolean>,
   importStack: string[] = []
 ): boolean {

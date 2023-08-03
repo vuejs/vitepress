@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useData } from '../composables/data'
-import { useSidebar } from '../composables/sidebar'
 import { useLangs } from '../composables/langs'
+import { useSidebar } from '../composables/sidebar'
 import { normalizeLink } from '../support/utils'
 import VPImage from './VPImage.vue'
 
@@ -47,6 +47,6 @@ const { currentLang } = useLangs()
 
 :deep(.logo) {
   margin-right: 8px;
-  height: 24px;
+  height: var(--vp-nav-logo-height);
 }
 </style>

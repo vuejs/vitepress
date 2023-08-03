@@ -26,6 +26,7 @@ const { theme, localeIndex } = useData()
 // payload), we delay initializing it until the user has actually clicked or
 // hit the hotkey to invoke it.
 const loaded = ref(false)
+const actuallyLoaded = ref(false)
 
 const buttonText = computed(() => {
   const options = theme.value.search?.options ?? theme.value.algolia
@@ -169,9 +170,10 @@ const provider = __ALGOLIA__ ? 'algolia' : __VP_LOCAL_SEARCH__ ? 'local' : ''
       <VPAlgoliaSearchBox
         v-if="loaded"
         :algolia="theme.search?.options ?? theme.algolia"
+        @vue:beforeMount="actuallyLoaded = true"
       />
 
-      <div v-else id="docsearch">
+      <div v-if="!actuallyLoaded" id="docsearch">
         <VPNavBarSearchButton :placeholder="buttonText" @click="load" />
       </div>
     </template>

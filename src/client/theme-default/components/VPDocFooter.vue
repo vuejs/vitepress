@@ -41,20 +41,20 @@ const showFooter = computed(() => {
       </div>
     </div>
 
-    <div v-if="control.prev?.link || control.next?.link" class="prev-next">
+    <nav v-if="control.prev?.link || control.next?.link" class="prev-next">
       <div class="pager">
         <a v-if="control.prev?.link" class="pager-link prev" :href="normalizeLink(control.prev.link)">
           <span class="desc" v-html="theme.docFooter?.prev || 'Previous page'"></span>
           <span class="title" v-html="control.prev.text"></span>
         </a>
       </div>
-      <div class="pager" :class="{ 'has-prev': control.prev?.link }">
+      <div class="pager">
         <a v-if="control.next?.link" class="pager-link next" :href="normalizeLink(control.next.link)">
           <span class="desc" v-html="theme.docFooter?.next || 'Next page'"></span>
           <span class="title" v-html="control.next.text"></span>
         </a>
       </div>
-    </div>
+    </nav>
   </footer>
 </template>
 
@@ -101,29 +101,14 @@ const showFooter = computed(() => {
 .prev-next {
   border-top: 1px solid var(--vp-c-divider);
   padding-top: 24px;
+  display: grid;
+  grid-row-gap: 8px;
 }
 
 @media (min-width: 640px) {
   .prev-next {
-    display: flex;
-  }
-}
-
-.pager.has-prev {
-  padding-top: 8px;
-}
-
-@media (min-width: 640px) {
-  .pager {
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-    width: 50%;
-  }
-
-  .pager.has-prev {
-    padding-top: 0;
-    padding-left: 16px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 16px;
   }
 }
 

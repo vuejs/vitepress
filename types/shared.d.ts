@@ -60,6 +60,7 @@ export interface SiteData<ThemeConfig = any> {
   scrollOffset: number | string | string[]
   locales: LocaleConfig<ThemeConfig>
   localeIndex?: string
+  contentProps?: Record<string, any>
 }
 
 export type HeadConfig =

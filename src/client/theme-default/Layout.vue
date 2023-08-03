@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { computed, provide, useSlots, watch } from 'vue'
 import { useRoute } from 'vitepress'
-import { useData } from './composables/data'
-import { useSidebar, useCloseSidebarOnEscape } from './composables/sidebar'
-import VPSkipLink from './components/VPSkipLink.vue'
+import { computed, provide, useSlots, watch } from 'vue'
 import VPBackdrop from './components/VPBackdrop.vue'
-import VPNav from './components/VPNav.vue'
-import VPLocalNav from './components/VPLocalNav.vue'
-import VPSidebar from './components/VPSidebar.vue'
 import VPContent from './components/VPContent.vue'
 import VPFooter from './components/VPFooter.vue'
+import VPLocalNav from './components/VPLocalNav.vue'
+import VPNav from './components/VPNav.vue'
+import VPSidebar from './components/VPSidebar.vue'
+import VPSkipLink from './components/VPSkipLink.vue'
+import { useData } from './composables/data'
+import { useCloseSidebarOnEscape, useSidebar } from './composables/sidebar'
 
 const {
   isOpen: isSidebarOpen,
@@ -34,11 +34,11 @@ provide('hero-image-slot-exists', heroImageSlotExists)
 </script>
 
 <template>
-  <div v-if="frontmatter.layout !== false" class="Layout">
+  <div v-if="frontmatter.layout !== false" class="Layout" :class="frontmatter.pageClass" >
     <slot name="layout-top" />
     <VPSkipLink />
     <VPBackdrop class="backdrop" :show="isSidebarOpen" @click="closeSidebar" />
-    <VPNav>
+    <VPNav v-if="frontmatter.navbar !== false">
       <template #nav-bar-title-before><slot name="nav-bar-title-before" /></template>
       <template #nav-bar-title-after><slot name="nav-bar-title-after" /></template>
       <template #nav-bar-content-before><slot name="nav-bar-content-before" /></template>
@@ -56,7 +56,7 @@ provide('hero-image-slot-exists', heroImageSlotExists)
     <VPContent>
       <template #page-top><slot name="page-top" /></template>
       <template #page-bottom><slot name="page-bottom" /></template>
-      
+
       <template #not-found><slot name="not-found" /></template>
       <template #home-hero-before><slot name="home-hero-before" /></template>
       <template #home-hero-info><slot name="home-hero-info" /></template>

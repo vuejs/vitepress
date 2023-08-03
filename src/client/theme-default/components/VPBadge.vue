@@ -30,7 +30,7 @@ h3 .VPBadge,
 h4 .VPBadge,
 h5 .VPBadge,
 h6 .VPBadge {
-  vertical-align: top;
+  vertical-align: text-top;
 }
 
 h2 .VPBadge {

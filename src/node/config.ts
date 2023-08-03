@@ -6,7 +6,8 @@ import {
   createLogger,
   loadConfigFromFile,
   mergeConfig as mergeViteConfig,
-  normalizePath
+  normalizePath,
+  type ConfigEnv
 } from 'vite'
 import { DEFAULT_THEME_PATH } from './alias'
 import { resolvePages } from './plugins/dynamicRoutesPlugin'
@@ -16,19 +17,23 @@ import {
   type HeadConfig,
   type SiteData
 } from './shared'
-import {
-  type UserConfig,
-  type RawConfigExports,
-  type SiteConfig
-} from './siteConfig'
+import type { RawConfigExports, SiteConfig, UserConfig } from './siteConfig'
 
-export * from './siteConfig'
 export { resolvePages } from './plugins/dynamicRoutesPlugin'
+export * from './siteConfig'
 
 const debug = _debug('vitepress:config')
 
 const resolve = (root: string, file: string) =>
   normalizePath(path.resolve(root, `.vitepress`, file))
+
+export type UserConfigFn<ThemeConfig> = (
+  env: ConfigEnv
+) => UserConfig<ThemeConfig> | Promise<UserConfig<ThemeConfig>>
+export type UserConfigExport<ThemeConfig> =
+  | UserConfig<ThemeConfig>
+  | Promise<UserConfig<ThemeConfig>>
+  | UserConfigFn<ThemeConfig>
 
 /**
  * Type config helper
@@ -68,6 +73,9 @@ export async function resolveConfig(
     })
   const site = await resolveSiteData(root, userConfig)
   const srcDir = normalizePath(path.resolve(root, userConfig.srcDir || '.'))
+  const assetsDir = userConfig.assetsDir
+    ? userConfig.assetsDir.replace(/\//g, '')
+    : 'assets'
   const outDir = userConfig.outDir
     ? normalizePath(path.resolve(root, userConfig.outDir))
     : resolve(root, 'dist')
@@ -89,6 +97,7 @@ export async function resolveConfig(
   const config: SiteConfig = {
     root,
     srcDir,
+    assetsDir,
     site,
     themeDir,
     pages,
@@ -100,11 +109,13 @@ export async function resolveConfig(
     logger,
     tempDir: resolve(root, '.temp'),
     markdown: userConfig.markdown,
-    lastUpdated: userConfig.lastUpdated,
+    lastUpdated:
+      userConfig.lastUpdated ?? !!userConfig.themeConfig?.lastUpdated,
     vue: userConfig.vue,
     vite: userConfig.vite,
     shouldPreload: userConfig.shouldPreload,
     mpa: !!userConfig.mpa,
+    metaChunk: !!userConfig.metaChunk,
     ignoreDeadLinks: userConfig.ignoreDeadLinks,
     cleanUrls: !!userConfig.cleanUrls,
     useWebFonts:
@@ -116,7 +127,8 @@ export async function resolveConfig(
     transformHtml: userConfig.transformHtml,
     transformPageData: userConfig.transformPageData,
     rewrites,
-    userConfig
+    userConfig,
+    sitemap: userConfig.sitemap
   }
 
   // to be shared with content loaders
@@ -223,7 +235,8 @@ export async function resolveSiteData(
     themeConfig: userConfig.themeConfig || {},
     locales: userConfig.locales || {},
     scrollOffset: userConfig.scrollOffset ?? 90,
-    cleanUrls: !!userConfig.cleanUrls
+    cleanUrls: !!userConfig.cleanUrls,
+    contentProps: userConfig.contentProps
   }
 }
 
