@@ -4,9 +4,8 @@ import { createRequire } from 'module'
 import path from 'path'
 import { packageDirectorySync } from 'pkg-dir'
 import { rimraf } from 'rimraf'
-import type { OutputAsset, OutputChunk } from 'rollup'
 import { pathToFileURL } from 'url'
-import type { BuildOptions } from 'vite'
+import type { BuildOptions, Rollup } from 'vite'
 import { resolveConfig, type SiteConfig } from '../config'
 import { slash, type HeadConfig } from '../shared'
 import { deserializeFunctions, serializeFunctions } from '../utils/fnSerialize'
@@ -57,13 +56,13 @@ export async function build(
             chunk.type === 'chunk' &&
             chunk.isEntry &&
             chunk.facadeModuleId?.endsWith('.js')
-        ) as OutputChunk)
+        ) as Rollup.OutputChunk)
 
       const cssChunk = (
         siteConfig.mpa ? serverResult : clientResult!
       ).output.find(
         (chunk) => chunk.type === 'asset' && chunk.fileName.endsWith('.css')
-      ) as OutputAsset
+      ) as Rollup.OutputAsset
 
       const assets = (siteConfig.mpa ? serverResult : clientResult!).output
         .filter(

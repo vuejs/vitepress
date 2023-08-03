@@ -1,11 +1,11 @@
 import fs from 'fs-extra'
 import path from 'path'
-import type { GetModuleInfo, RollupOutput } from 'rollup'
 import { fileURLToPath } from 'url'
 import {
   build,
   normalizePath,
   type BuildOptions,
+  type Rollup,
   type UserConfig as ViteUserConfig
 } from 'vite'
 import { APP_PATH } from '../alias'
@@ -28,8 +28,8 @@ export async function bundle(
   config: SiteConfig,
   options: BuildOptions
 ): Promise<{
-  clientResult: RollupOutput | null
-  serverResult: RollupOutput
+  clientResult: Rollup.RollupOutput | null
+  serverResult: Rollup.RollupOutput
   pageToHashMap: Record<string, string>
 }> {
   const pageToHashMap = Object.create(null)
@@ -139,14 +139,16 @@ export async function bundle(
     }
   })
 
-  let clientResult!: RollupOutput | null
-  let serverResult!: RollupOutput
+  let clientResult!: Rollup.RollupOutput | null
+  let serverResult!: Rollup.RollupOutput
 
   await task('building client + server bundles', async () => {
     clientResult = config.mpa
       ? null
-      : ((await build(await resolveViteConfig(false))) as RollupOutput)
-    serverResult = (await build(await resolveViteConfig(true))) as RollupOutput
+      : ((await build(await resolveViteConfig(false))) as Rollup.RollupOutput)
+    serverResult = (await build(
+      await resolveViteConfig(true)
+    )) as Rollup.RollupOutput
   })
 
   if (config.mpa) {
@@ -180,7 +182,7 @@ const cache = new Map<string, boolean>()
 /**
  * Check if a module is statically imported by at least one entry.
  */
-function isEagerChunk(id: string, getModuleInfo: GetModuleInfo) {
+function isEagerChunk(id: string, getModuleInfo: Rollup.GetModuleInfo) {
   if (
     id.includes('node_modules') &&
     !/\.css($|\\?)/.test(id) &&
@@ -192,7 +194,7 @@ function isEagerChunk(id: string, getModuleInfo: GetModuleInfo) {
 
 function staticImportedByEntry(
   id: string,
-  getModuleInfo: GetModuleInfo,
+  getModuleInfo: Rollup.GetModuleInfo,
   cache: Map<string, boolean>,
   importStack: string[] = []
 ): boolean {

@@ -1,11 +1,11 @@
 import path from 'path'
 import c from 'picocolors'
-import type { OutputAsset, OutputChunk } from 'rollup'
 import {
   mergeConfig,
   searchForWorkspaceRoot,
   type Plugin,
   type ResolvedConfig,
+  type Rollup,
   type UserConfig
 } from 'vite'
 import {
@@ -46,8 +46,8 @@ const staticRestoreRE = /__VP_STATIC_(START|END)__/g
 const scriptClientRE = /<script\b[^>]*client\b[^>]*>([^]*?)<\/script>/
 
 const isPageChunk = (
-  chunk: OutputAsset | OutputChunk
-): chunk is OutputChunk & { facadeModuleId: string } =>
+  chunk: Rollup.OutputAsset | Rollup.OutputChunk
+): chunk is Rollup.OutputChunk & { facadeModuleId: string } =>
   !!(
     chunk.type === 'chunk' &&
     chunk.isEntry &&
@@ -266,7 +266,7 @@ export async function createVitePressPlugin(
     },
 
     renderChunk(code, chunk) {
-      if (!ssr && isPageChunk(chunk as OutputChunk)) {
+      if (!ssr && isPageChunk(chunk as Rollup.OutputChunk)) {
         // For each page chunk, inject marker for start/end of static strings.
         // we do this here because in generateBundle the chunks would have been
         // minified and we won't be able to safely locate the strings.
