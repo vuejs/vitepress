@@ -41,9 +41,9 @@
 
   --vp-c-bg-alt: #f6f6f7;
 
-  --vp-c-border: rgba(60, 60, 67, 0.29);
-  --vp-c-divider: rgba(60, 60, 67, 0.12);
-  --vp-c-gutter: rgba(60, 60, 67, 0.12);
+  --vp-c-border: #c2c2c4;
+  --vp-c-divider: #e2e2e3;
+  --vp-c-gutter: #e2e2e3;
 
   --vp-c-neutral: var(--vp-c-black);
   --vp-c-neutral-inverse: var(--vp-c-white);
@@ -58,9 +58,9 @@
 
   --vp-c-text-code: #476582;
 
-  --vp-c-mute: #f6f6f7;
-  --vp-c-mute-light: #f9f9fc;
-  --vp-c-mute-lighter: #ffffff;
+  --vp-c-mute: #eeeef0;
+  --vp-c-mute-light: #f3f3f9;
+  --vp-c-mute-lighter: #f9f9fa;
   --vp-c-mute-dark: #e3e3e5;
   --vp-c-mute-darker: #d7d7d9;
 
