@@ -334,6 +334,10 @@ function zhSidebarGuide() {
         {
           text: 'MPA Mode',
           link: '/zh/guide/mpa-mode'
+        },
+        {
+          text: 'Sitemap 生成器',
+          link: '/zh/guide/sitemap-generation'
         }
       ]
     },

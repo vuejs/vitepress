@@ -303,6 +303,19 @@ export default {
 }
 ```
 
+### assetsDir
+
+- Type: `string`
+- Default: `assets`
+
+静态资源目录。另参阅: [assetsDir](https://vitejs.dev/config/build-options.html#build-assetsdir).
+
+```ts
+export default {
+	assetsDir: 'static',
+}
+```
+
 ### cacheDir
 
 - key: `cacheDir`

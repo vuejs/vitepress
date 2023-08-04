@@ -88,7 +88,7 @@ type HeadConfig = [string, Record<string, string>] | [string, Record<string, str
 
 以下 frontmatter 选项仅在使用默认主题时适用。
 
-### 布局 <Badge type="info" text="default theme only" /> {#layout}
+### 布局 {#layout}
 
 - key: `layout`
 - Type: `doc | home | page`
@@ -106,15 +106,43 @@ layout: doc
 ---
 ```
 
-### hero <Badge type="info" text="default theme only" /> <Badge type="info" text="Home page only" />
+### hero <Badge type="info" text="home page only" />
 
 当 `layout` 设置为 `home` 时，定义主页 hero 部分的内容。更多详细信息：[默认主题：主页](./default-theme-home-page)。
 
-### features <Badge type="info" text="default theme only" /> <Badge type="info" text="Home page only" />
+### features <Badge type="info" text="home page only" />
 
 定义当`layout` 设置为 `home` 时要在 features 部分中显示的项目。更多详细信息：[默认主题：主页](./default-theme-home-page)。
 
-### 大纲开关 <Badge type="info" text="default theme only" /> {#aside}
+### 顶部导航条 {#navbar}
+
+- key: `navbar`
+- Type: `boolean`
+- Default: `true`
+
+是否显示 [顶部导航条](./default-theme-nav).
+
+```yaml
+---
+navbar: false
+---
+```
+
+### 侧边导航 {#sidebar}
+
+- key: `sidebar`
+- Type: `boolean`
+- Default: `true`
+
+是否显示 [侧边导航](./default-theme-sidebar).
+
+```yaml
+---
+sidebar: false
+---
+```
+
+### 大纲开关 {#aside}
 
 - key: `aside`
 - Type: `boolean | 'left'`
@@ -132,7 +160,7 @@ aside: false
 ---
 ```
 
-### 大纲层级 <Badge type="info" text="default theme only" /> {#outline}
+### 大纲层级 {#outline}
 
 - key: `outline`
 - Type: `number | [number, number] | 'deep' | false`
@@ -140,7 +168,7 @@ aside: false
 
 大纲中显示的标题级别。它与 [config.themeConfig.outline](./default-theme-config#outline) 相同，它会覆盖主题配置。
 
-### 最近更新时间 <Badge type="info" text="default theme only" /> {#lastupdated}
+### 最近更新时间 {#lastupdated}
 
 - key: `lastUpdated`
 - Type: `boolean`
@@ -154,7 +182,7 @@ lastUpdated: false
 ---
 ```
 
-### 编辑链接 <Badge type="info" text="default theme only" /> {#editlink}
+### 编辑链接 {#editlink}
 
 - key: `editLink`
 - Type: `boolean`
@@ -166,4 +194,38 @@ lastUpdated: false
 ---
 editLink: false
 ---
+```
+
+### 页脚 <Badge type="info" text="default theme only" />
+
+- key: `footer`
+- Type: `boolean`
+- Default: `true`
+
+是否显示[页脚](./default-theme-footer)。
+
+```yaml
+---
+footer: false
+---
+```
+
+### pageClass
+
+- Type: `string`
+
+将额外的类名称添加到特定页面。
+
+```yaml
+---
+pageClass: custom-page-class
+---
+```
+
+然后您可以在 `.vitepress/theme/custom.css` 文件中自定义该特定页面的样式：
+
+```css
+.custom-page-class {
+  /* page-specific styles */
+}
 ```

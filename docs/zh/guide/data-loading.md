@@ -23,9 +23,9 @@ export default {
 
 然后，你可以在 `.md` 页面和 `.vue` 组件中使用 `data` 命名导出从该文件中导入数据：
 
-```html
+```vue
 <script setup>
-	import { data } from './example.data.js'
+import { data } from './example.data.js'
 </script>
 
 <pre>{{ data }}</pre>
@@ -91,7 +91,7 @@ import { createContentLoader } from 'vitepress'
 export default createContentLoader('posts/*.md' /* options */)
 ```
 
-该辅助函数接受一个相对于 [项目根目录](./routing#project-root) 的 glob 模式，并返回一个 `{ watch, load }` 数据加载器对象，该对象可以用作数据加载器文件中的默认导出。它还基于文件修改时间戳实现了缓存以提高开发性能。
+该辅助函数接受一个相对于 [源目录](./routing#source-directory) 的 glob 模式，并返回一个 `{ watch, load }` 数据加载器对象，该对象可以用作数据加载器文件中的默认导出。它还基于文件修改时间戳实现了缓存以提高开发性能。
 
 请注意，加载器仅适用于 Markdown 文件 - 匹配的非 Markdown 文件将被跳过。
 
@@ -163,15 +163,56 @@ export default createContentLoader('posts/*.md', {
 
 查看它在 [Vue.js 博客](https://github.com/vuejs/blog/blob/main/.vitepress/theme/posts.data.ts) 中是如何使用的。
 
-`createContentLoader` API 也可以在 [构建钩子](/reference/site-config#build-hooks) 中使用：
+`createContentLoader` API 也可以在 [构建钩子](../reference/site-config#build-hooks) 中使用：
 
 ```js
 // .vitepress/config.js
 export default {
 	async buildEnd() {
 		const posts = await createContentLoader('posts/*.md').load()
-		// generate files based on posts metadata, e.g. RSS feed
+		// 根据 posts 元数据生成文件，例如 RSS feed
 	},
+}
+```
+
+**类型**
+
+```ts
+interface ContentOptions<T = ContentData[]> {
+	/**
+	 * Include src?
+	 * @default false
+	 */
+	includeSrc?: boolean
+
+	/**
+	 * Render src to HTML and include in data?
+	 * @default false
+	 */
+	render?: boolean
+
+	/**
+	 * If `boolean`, whether to parse and include excerpt? (rendered as HTML)
+	 * 如果是 `boolean`，是否解析并包含摘录？ （呈现为 HTML）
+	 *
+	 * If `function`, control how the excerpt is extracted from the content.
+	 * 如果是 `function`，控制如何从内容中提取摘录
+	 *
+	 * If `string`, define a custom separator to be used for extracting the
+	 * excerpt. Default separator is `---` if `excerpt` is `true`.
+	 * 如果是 `string`，定义用于提取摘录的自定义分隔符。如果 `excerpt` 为 `true`，则默认分隔符为 `---`。
+	 *
+	 * @see https://github.com/jonschlinkert/gray-matter#optionsexcerpt
+	 * @see https://github.com/jonschlinkert/gray-matter#optionsexcerpt_separator
+	 *
+	 * @default false
+	 */
+	excerpt?: boolean | ((file: { data: { [key: string]: any }; content: string; excerpt?: string }, options?: any) => void) | string
+
+	/**
+	 * 转换数据。请注意，如果从组件或 Markdown 文件导入，数据将以 JSON 形式内联到客户端包中。
+	 */
+	transform?: (data: ContentData[]) => T | Promise<T>
 }
 ```
 

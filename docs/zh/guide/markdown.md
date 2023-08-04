@@ -568,7 +568,12 @@ const line3 = 'This is line 3'
 <<< @/snippets/snippet.js{2}
 
 ::: tip
-`@` 的值对应于源代码根目录，默认情况下是 VitePress 项目根目录，除非配置了 `srcDir`。
+`@` 的值对应于源代码根目录，默认情况下是 VitePress 项目根目录，除非配置了 `srcDir`。或者，您也可以从相对路径导入：
+
+```md
+<<< ../snippets/snippet.js
+```
+
 :::
 
 你也可以使用 [VS Code region](https://code.visualstudio.com/docs/editor/codebasics#_folding) 来只包含代码文件的相应部分。你可以在文件目录后面的 `#` 符号后提供一个自定义的区域名：
@@ -693,7 +698,7 @@ export default config
 
 ## 包含 markdown 文件 {#markdown-file-inclusion}
 
-你可以在一个 markdown 文件中包含另一个 markdown 文件：
+你可以在一个 markdown 文件中包含另一个 markdown 文件，甚至嵌套：
 
 ::: tip 提示
 您还可以在 markdown 路径前加上 `@` 前缀，它将充当源根目录。默认情况下它是 VitePress 项目根目录，除非配置了 `srcDir`。
@@ -708,7 +713,7 @@ export default config
 
 ## Basics {#basics}
 
-<!--@include: ./parts/basics.md-->
+<!-- @include: ./parts/basics.md -->
 ```
 
 **另一个文件** (`parts/basics.md`)
@@ -718,7 +723,7 @@ Some getting started stuff.
 
 ### Configuration {#configuration}
 
-Can be created using `.foorc.json`.
+可以使用 `.foorc.json` 创建。
 ```
 
 **等价代码**
@@ -732,10 +737,46 @@ Some getting started stuff.
 
 ### Configuration {#configuration}
 
-Can be created using `.foorc.json`.
+可以使用 `.foorc.json` 创建。
 ```
 
-::: warning
+它还支持选择行范围：
+
+**输入**
+
+```md
+# Docs {#docs}
+
+## Basics {#basics}
+
+<!--@include: ./parts/basics.md{3,}-->
+```
+
+**另一个文件** (`parts/basics.md`)
+
+```md
+Some getting started stuff.
+
+### Configuration {#configuration}
+
+可以使用 `.foorc.json` 创建。
+```
+
+**等价代码**
+
+```md
+# Docs {#docs}
+
+## Basics {#basics}
+
+### Configuration {#configuration}
+
+可以使用 `.foorc.json` 创建。
+```
+
+所选行范围的格式可以是： `{3,}`, `{,10}`, `{1,10}`
+
+::: warning 警告
 注意！如果你指定的文件不存在，这将不会产生错误。因此，在使用这个功能的时候请保证内容按预期呈现。
 :::
 

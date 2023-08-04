@@ -10,7 +10,7 @@ VitePress 默认的主题已经针对文档进行了优化，并且可以进行�
 
 这些高级自定义配置将需要使用自定义主题来“拓展”默认主题。
 
-:::tip
+::: tip 提示
 在继续之前，请确保首先阅读[自定义主题](./custom-theme)以了解其工作原理。
 :::
 
@@ -58,11 +58,11 @@ export default DefaultTheme
 }
 ```
 
-:::warning
-如果你在使用像是[团队页](/reference/default-theme-team-page)这样的组件，请确保也在从 `vitepress/theme-without-fonts` 中导入它们！
+::: warning 警告
+如果你在使用像是[团队页](../reference/default-theme-team-page)这样的组件，请确保也在从 `vitepress/theme-without-fonts` 中导入它们！
 :::
 
-如果你的字体是通过 `@font-face` 引用的本地文件，它将会被作为资源被包含在 `.vitepress/dist/asset` 目录下，并且使用哈希后的文件名。为了预加载这个文件，请使用 [transformHead](/reference/site-config#transformhead) 构建钩子：
+如果你的字体是通过 `@font-face` 引用的本地文件，它将会被作为资源被包含在 `.vitepress/dist/asset` 目录下，并且使用哈希后的文件名。为了预加载这个文件，请使用 [transformHead](../reference/site-config#transformhead) 构建钩子：
 
 ```js
 // .vitepress/config.js
@@ -205,7 +205,7 @@ export default defineConfig({
         {
           find: /^.*\/VPNavBar\.vue$/,
           replacement: fileURLToPath(
-            new URL('../../components/CustomNavBar.vue', import.meta.url)
+            new URL('./components/CustomNavBar.vue', import.meta.url)
           )
         }
       ]

@@ -179,4 +179,38 @@ export default {
     ]
   }
 }
+
+```
+
+## `useSidebar` <Badge type="info" text="composable" />
+
+返回侧边栏相关数据。返回的对象具有以下类型：
+
+```ts
+export interface DocSidebar {
+	isOpen: Ref<boolean>
+	sidebar: ComputedRef<DefaultTheme.SidebarItem[]>
+	sidebarGroups: ComputedRef<DefaultTheme.SidebarItem[]>
+	hasSidebar: ComputedRef<boolean>
+	hasAside: ComputedRef<boolean>
+	leftAside: ComputedRef<boolean>
+	isSidebarEnabled: ComputedRef<boolean>
+	open: () => void
+	close: () => void
+	toggle: () => void
+}
+```
+
+**示例：**
+
+```vue
+<script setup>
+import { useSidebar } from 'vitepress/theme'
+
+const { hasSidebar } = useSidebar()
+</script>
+
+<template>
+	<div v-if="hasSidebar">仅当侧边栏存在时展示</div>
+</template>
 ```

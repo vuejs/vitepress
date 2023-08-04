@@ -1,3 +1,7 @@
+---
+outline: deep
+---
+
 # 搜索 {#search}
 
 ## 本地搜索 {#local-search}
@@ -53,6 +57,62 @@ export default defineConfig({
 						},
 					},
 				},
+			},
+		},
+	},
+})
+```
+
+### 迷你搜索选项 {#miniSearch-options}
+
+- key `miniSearch`
+
+你可以像这样配置迷你搜索选项
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+	themeConfig: {
+		search: {
+			provider: 'local',
+			options: {
+				miniSearch: {
+					/**
+					 * @type {Pick<import('minisearch').Options, 'extractField' | 'tokenize' | 'processTerm'>}
+					 */
+					options: {
+						/* ... */
+					},
+					/**
+					 * @type {import('minisearch').SearchOptions}
+					 * @default
+					 * { fuzzy: 0.2, prefix: true, boost: { title: 4, text: 2, titles: 1 } }
+					 */
+					searchOptions: {
+						/* ... */
+					},
+				},
+			},
+		},
+	},
+})
+```
+
+查阅更多 [MiniSearch docs](https://lucaong.github.io/minisearch/classes/_minisearch_.minisearch.html).
+
+### 从搜索中排除页面 {#excluding-pages-from-search}
+
+您可以通过将 `search: false` 添加到页面的 frontmatter 来从搜索中排除页面。或者，您还可以将 `exclude` 函数传递给 `themeConfig.search.options`，以根据相对于 `srcDir` 的路径排除页面：
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+	themeConfig: {
+		search: {
+			options: {
+				exclude: (path) => path.startsWith('/some/path'),
 			},
 		},
 	},
@@ -146,6 +206,102 @@ export default defineConfig({
 ```
 
 [这些选项](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts)可以被覆盖。请参阅官方 Algolia 文档以了解更多信息。
+
+### 爬虫配置 {#crawler-config}
+
+以下是基于此站点使用的示例配置：
+
+```ts
+new Crawler({
+	appId: '...',
+	apiKey: '...',
+	rateLimit: 8,
+	startUrls: ['https://vitepress.dev/'],
+	renderJavaScript: false,
+	sitemaps: [],
+	exclusionPatterns: [],
+	ignoreCanonicalTo: false,
+	discoveryPatterns: ['https://vitepress.dev/**'],
+	schedule: 'at 05:10 on Saturday',
+	actions: [
+		{
+			indexName: 'vitepress',
+			pathsToMatch: ['https://vitepress.dev/**'],
+			recordExtractor: ({ $, helpers }) => {
+				return helpers.docsearch({
+					recordProps: {
+						lvl1: '.content h1',
+						content: '.content p, .content li',
+						lvl0: {
+							selectors: '',
+							defaultValue: 'Documentation',
+						},
+						lvl2: '.content h2',
+						lvl3: '.content h3',
+						lvl4: '.content h4',
+						lvl5: '.content h5',
+					},
+					indexHeadings: true,
+				})
+			},
+		},
+	],
+	initialIndexSettings: {
+		vitepress: {
+			attributesForFaceting: ['type', 'lang'],
+			attributesToRetrieve: ['hierarchy', 'content', 'anchor', 'url'],
+			attributesToHighlight: ['hierarchy', 'hierarchy_camel', 'content'],
+			attributesToSnippet: ['content:10'],
+			camelCaseAttributes: ['hierarchy', 'hierarchy_radio', 'content'],
+			searchableAttributes: [
+				'unordered(hierarchy_radio_camel.lvl0)',
+				'unordered(hierarchy_radio.lvl0)',
+				'unordered(hierarchy_radio_camel.lvl1)',
+				'unordered(hierarchy_radio.lvl1)',
+				'unordered(hierarchy_radio_camel.lvl2)',
+				'unordered(hierarchy_radio.lvl2)',
+				'unordered(hierarchy_radio_camel.lvl3)',
+				'unordered(hierarchy_radio.lvl3)',
+				'unordered(hierarchy_radio_camel.lvl4)',
+				'unordered(hierarchy_radio.lvl4)',
+				'unordered(hierarchy_radio_camel.lvl5)',
+				'unordered(hierarchy_radio.lvl5)',
+				'unordered(hierarchy_radio_camel.lvl6)',
+				'unordered(hierarchy_radio.lvl6)',
+				'unordered(hierarchy_camel.lvl0)',
+				'unordered(hierarchy.lvl0)',
+				'unordered(hierarchy_camel.lvl1)',
+				'unordered(hierarchy.lvl1)',
+				'unordered(hierarchy_camel.lvl2)',
+				'unordered(hierarchy.lvl2)',
+				'unordered(hierarchy_camel.lvl3)',
+				'unordered(hierarchy.lvl3)',
+				'unordered(hierarchy_camel.lvl4)',
+				'unordered(hierarchy.lvl4)',
+				'unordered(hierarchy_camel.lvl5)',
+				'unordered(hierarchy.lvl5)',
+				'unordered(hierarchy_camel.lvl6)',
+				'unordered(hierarchy.lvl6)',
+				'content',
+			],
+			distinct: true,
+			attributeForDistinct: 'url',
+			customRanking: ['desc(weight.pageRank)', 'desc(weight.level)', 'asc(weight.position)'],
+			ranking: ['words', 'filters', 'typo', 'attribute', 'proximity', 'exact', 'custom'],
+			highlightPreTag: '<span class="algolia-docsearch-suggestion--highlight">',
+			highlightPostTag: '</span>',
+			minWordSizefor1Typo: 3,
+			minWordSizefor2Typos: 7,
+			allowTyposOnNumericTokens: false,
+			minProximity: 1,
+			ignorePlurals: true,
+			advancedSyntax: true,
+			attributeCriteriaComputedByMinProximity: true,
+			removeWordsIfNoResults: 'allOptional',
+		},
+	},
+})
+```
 
 <style>
 img[src="/search.png"] {

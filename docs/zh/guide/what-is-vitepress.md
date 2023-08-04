@@ -12,7 +12,20 @@ VitePress 是一个[静态站点生成器](https://en.wikipedia.org/wiki/Static_
 
 - **文档**
 
-  VitePress 附带一个专为技术文档设计的默认主题，尤其是那些需要嵌入交互式演示的主题。它支持你正在阅读的这个页面，以及 [Vite](https://vitejs.dev/)、[Pinia](https://pinia.vuejs.org/)、[VueUse](https://vueuse.org/)、[Mermaid](https://mermaid.js.org/)、[Wikimedia Codex](https://doc.wikimedia.org/codex/latest/) 等文档。
+  VitePress 附带一个专为技术文档设计的默认主题，尤其是那些需要嵌入交互式演示的主题。它驱动你正在阅读的这个页面，以及：[Vite](https://vitejs.dev/)、[Rollup](https://rollupjs.org/)、[Pinia](https://pinia.vuejs.org/)、[VueUse](https://vueuse.org/)、[Vitest](https://vitest.dev/)、[D3](https://d3js.org/)、[UnoCSS](https://unocss.dev/)、[Iconify](https://iconify.design/) and [many more](https://www.vuetelescope.com/explore?framework.slug=vitepress)。
+
+  <!-- - [Vite](https://vitejs.dev/): 下一代前端工具
+  - [Pinia](https://pinia.vuejs.org/): 直观的Vue.js store
+  - [VueUse](https://vueuse.org/): Vue 组合实用程序的集合
+  - [D3](https://d3js.org/): 用于定制数据可视化的 JavaScript 库
+  - [Rollup](https://rollupjs.org/): JavaScript 模块打包器
+  - [Mermaid](https://mermaid.js.org/): 图表和绘图工具
+  - [Wikimedia Codex](https://doc.wikimedia.org/codex/latest/): Wikimedia Design System
+  - [Vitest](https://vitest.dev/): 极快的单元测试框架
+  - [UnoCSS](https://unocss.dev/): instant on-demand atomic CSS engine
+  - [VitePWA](https://vite-pwa-org.netlify.app/): PWA integrations for Vite and the ecosystem
+  - [Iconify](https://iconify.design/): 自由选择图标
+  - [and many more](https://www.vuetelescope.com/explore?framework.slug=vitepress). -->
 
   [Vue.js 官方文档](https://vuejs.org/) 也是基于 VitePress 的。但是为了可以在不同的翻译文档之间共享，它自定义了自己的主题
 
@@ -42,7 +55,7 @@ VitePress 旨在使用 Markdown 生成内容时提供出色的开发体验。
 
 - **加载完成后可以快速切换**
 
-  更重要的是，SPA 模型在首次加载后能够提升用户体验。用户在网站内导航时，不会再触发整个页面的刷新。而是通过获取并动态更新新页面的内容来实现切换。VitePress还会自动预加载视口范围内链接对应的页面片段。这样一来，大部分情况下，用户在加载完成后就能立即浏览新页面。
+  更重要的是，SPA 模型在首次加载后能够提升用户体验。用户在网站内导航时，不会再触发整个页面的刷新。而是通过获取并动态更新新页面的内容来实现切换。VitePress 还会自动预加载视口范围内链接对应的页面片段。这样一来，大部分情况下，用户在加载完成后就能立即浏览新页面。
 
 - **高效的交互**
 

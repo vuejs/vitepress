@@ -99,7 +99,7 @@ src/getting-started.md  -->  /getting-started.html
 
 ## 生成简洁的 URL {#generating-clean-url}
 
-:::warning 需要服务器支持
+::: warning 需要服务器支持
 要使用 VitePress 提供简洁 URL，需要服务器端支持。
 :::
 
@@ -174,7 +174,7 @@ export default {
 
 重写路径是使用 `path-to-regexp` 包编译的 - 请参阅[其文档](https://github.com/pillarjs/path-to-regexp#parameters)以获取更高级的语法。
 
-:::warning 开启重写功能时使用相对链接
+::: warning 开启重写功能时使用相对链接
 
 启用重写后，**相对链接应基于重写的路径**。例如，为了创建从 `packages/pkg-a/src/pkg-a-code.md` 到 `packages/pkg-b/src/pkg-b-code.md` 的相对链接，你应该使用：
 
@@ -325,18 +325,16 @@ console.log(params.value)
 
 ```js
 export default {
-  paths() {
-    async paths() {
-      const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
+	async paths() {
+		const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
 
-      return posts.map((post) => {
-        return {
-          params: { id: post.id },
-          content: post.content // raw Markdown or HTML
-        }
-      })
-    }
-  }
+		return posts.map((post) => {
+			return {
+				params: { id: post.id },
+				content: post.content, // raw Markdown or HTML
+			}
+		})
+	},
 }
 ```
 

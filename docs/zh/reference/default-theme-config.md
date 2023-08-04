@@ -19,7 +19,7 @@ export default {
 
 **此页面上记录的选项仅适用于默认主题**。不同的主题需要不同的主题配置。使用自定义主题时，主题配置对象将传递给主题，以便主题可以基于它作出不同表现。
 
-## i18nRouting {#i18nrouting}
+## i18nRouting {#i18n-routing}
 
 - key: `i18nRouting`
 - Type: `boolean`
@@ -45,7 +45,7 @@ export default {
 type ThemeableImage = string | { src: string; alt?: string } | { light: string; dark: string; alt?: string }
 ```
 
-## 站点标题开关 {#sitetitle}
+## 站点标题开关 {#site-title}
 
 - key: `siteTitle`
 - Type: `string | false`
@@ -184,7 +184,7 @@ export type SidebarItem = {
 
 配置在大纲中显示的标题级别。你可以通过传递一个数字来指定一个特定的级别，或者你可以通过传递一个包含下限和上限的元组来提供一个级别范围。当传递等于 `[2, 6]` 的 `deep` 时，除 `h1` 外，所有标题级别都显示在轮廓中。设置 `false` 以隐藏轮廓。
 
-## 大纲标题 {#outlinetitle}
+## 大纲标题 {#outline-title}
 
 - key: `outlineTitle`
 - Type: `string`
@@ -200,8 +200,9 @@ export default {
 }
 ```
 
-## 社交链接 {#sociallinks}
+## 社交链接 {#social-links}
 
+- key: `socialLinks`
 - Type: `SocialLink[]`
 
 你可以定义此选项以在导航栏中展示带有图标的社交帐户链接。
@@ -218,6 +219,8 @@ export default {
 					svg: '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Dribbble</title><path d="M12...6.38z"/></svg>',
 				},
 				link: '...',
+				// 你也可以自定义标签别名以实现无障碍访问（可选但推荐）：
+				ariaLabel: 'cool link',
 			},
 		],
 	},
@@ -227,7 +230,8 @@ export default {
 ```ts
 interface SocialLink {
 	icon: SocialLinkIcon
-	link: string
+	link: string，
+  ariaLabel?: string
 }
 
 type SocialLinkIcon = 'discord' | 'facebook' | 'github' | 'instagram' | 'linkedin' | 'mastodon' | 'slack' | 'twitter' | 'youtube' | { svg: string }
@@ -235,7 +239,9 @@ type SocialLinkIcon = 'discord' | 'facebook' | 'github' | 'instagram' | 'linkedi
 
 ## 页脚 {#footer}
 
+- key: `footer`
 - Type: `Footer`
+- 每个页面可以通过 [frontmatter](./frontmatter-config#footer) 覆写
 
 页脚配置。 你可以添加 message 和 copyright。 由于设计原因，仅当页面不包含侧边栏时才会显示页脚。
 
@@ -257,8 +263,9 @@ export interface Footer {
 }
 ```
 
-## 编辑链接 {#editlink}
+## 编辑链接 {#edit-link}
 
+- key: editLink
 - Type: `EditLink`
 - 每个页面可以通过 [frontmatter](./frontmatter-config#editlink) 覆写
 
@@ -282,18 +289,45 @@ export interface EditLink {
 }
 ```
 
-## 最近更新时间文本 {#lastupdatedtext}
+## 最近更新 {#last-updated}
 
-- Type: `string`
-- Default: `Last updated`
+- key: `lastUpdated`
+- Type: `LastUpdatedOptions`
 
-显示最近更新时间之前的前缀文本。
+允许自定义上次更新的文本和日期格式。
 
 ```ts
 export default {
 	themeConfig: {
-		lastUpdatedText: 'Updated Date',
+		lastUpdated: {
+			text: 'Updated at',
+			formatOptions: {
+				dateStyle: 'full',
+				timeStyle: 'medium',
+			},
+		},
 	},
+}
+```
+
+```ts
+export interface LastUpdatedOptions {
+	/**
+	 * @default 'Last updated'
+	 */
+	text?: string
+
+	/**
+	 * @default
+	 * { dateStyle: 'short',  timeStyle: 'short' }
+	 */
+	formatOptions?: Intl.DateTimeFormatOptions
+	// calendar?: string | undefined;
+	// dayPeriod?: "narrow" | "short" | "long" | undefined;
+	// numberingSystem?: string | undefined;
+	// dateStyle?: "full" | "long" | "medium" | "short" | undefined;
+	// timeStyle?: "full" | "long" | "medium" | "short" | undefined;
+	// hourCycle?: "h11" | "h12" | "h23" | "h24" | undefined;
 }
 ```
 
@@ -337,11 +371,11 @@ export interface CarbonAdsOptions {
 
 Learn more in [Default Theme: Carbon Ads](./default-theme-carbon-ads)
 
-## 翻页文案 {#docFooter}
+## 翻页文案 {#doc-footer}
 
 - Type: `DocFooter`
 
-可用于自定义出现在上一篇和下一篇链接上方的文本。 如果不是用英语编写文档，这很有帮助。
+可用于自定义出现在上一篇和下一篇链接上方的文本。 如果不是用英语编写文档，这很有帮助。也可用于全局禁用上一个/下一个链接。如果您想选择性地启用/禁用上一个/下一个链接，可以使用 [frontmatter](./default-theme-prev-next-links)。
 
 ```js
 export default {
@@ -356,12 +390,12 @@ export default {
 
 ```ts
 export interface DocFooter {
-	prev?: string
-	next?: string
+	prev?: string | false
+	next?: string | false
 }
 ```
 
-## 暗模式开关标签 {#darkmodeswitchlabel}
+## 暗模式开关标签 {#dark-mode-switch-label}
 
 - key: `darkModeSwitchLabel`
 - Type: `string`
@@ -369,7 +403,7 @@ export interface DocFooter {
 
 可用于自定义深色模式开关标签。此标签仅显示在移动视图中。
 
-## 侧边栏菜单标签 {#sidebarmenulabel}
+## 侧边栏菜单标签 {#sidebar-menu-label}
 
 - key: `sidebarMenuLabel`
 - Type: `string`
@@ -377,7 +411,7 @@ export interface DocFooter {
 
 可用于自定义侧边栏菜单标签。此标签仅显示在移动视图中。
 
-## 返回顶部标签 {#returntotoplabel}
+## 返回顶部标签 {#return-to-top-label}
 
 - key: `returnToTopLabel`
 - Type: `string`
@@ -385,10 +419,18 @@ export interface DocFooter {
 
 可用于自定义返回顶部按钮的标签。此标签仅显示在移动视图中。
 
-## 多语言菜单标签 {#langmenulabel}
+## 多语言菜单标签 {#langmenu-label}
 
 - key: `langMenuLabel`
 - Type: `string`
 - Default: `Change language`
 
 可用于自定义导航栏中语言切换按钮的 aria-label。这仅在你使用 [i18n](../guide/i18n) 时使用。
+
+## 外部链接图标 {#external-link-icon}
+
+- key: `externalLinkIcon`
+- Type: `boolean`
+- Default: `false`
+
+是否在 Markdown 中的外部链接旁边显示外部链接图标。

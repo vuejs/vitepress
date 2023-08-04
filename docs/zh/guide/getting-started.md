@@ -22,7 +22,7 @@ $ npm install -D vitepress
 ```
 
 ```sh [pnpm]
-$ pnpm add -D vitepress
+$ pnpm add -D vitepress@latest
 ```
 
 ```sh [yarn]
@@ -38,7 +38,8 @@ $ yarn add -D vitepress
 "pnpm": {
   "peerDependencyRules": {
     "ignoreMissing": [
-      "@algolia/client-search"
+      "@algolia/client-search",
+      "search-insights"
     ]
   }
 }
@@ -57,7 +58,7 @@ $ npx vitepress init
 ```
 
 ```sh [pnpm]
-$ pnpm exec vitepress init
+$ pnpm dlx vitepress init
 ```
 
 :::
@@ -68,7 +69,7 @@ $ pnpm exec vitepress init
   <img src="./vitepress-init.png" alt="vitepress init screenshot" style="border-radius:8px">
 </p>
 
-:::tip Vue 作为 
+::: tip Vue as Peer Dependency
 如果打算使用 Vue 组件或 API 进行自定义，还应该明确地将 `vue` 安装为 peer dependency。
 :::
 
@@ -89,9 +90,9 @@ $ pnpm exec vitepress init
 └─ package.json
 ```
 
- `docs` 目录作为 VitePress 站点的项目**根目录**。`.vitepress` 目录是 VitePress 配置文件、开发服务器缓存、构建输出和可选主题自定义代码的位置。
+`docs` 目录作为 VitePress 站点的项目**根目录**。`.vitepress` 目录是 VitePress 配置文件、开发服务器缓存、构建输出和可选主题自定义代码的位置。
 
-:::tip
+::: tip 提示
 默认情况下，VitePress 将其开发服务器缓存存储在 `.vitepress/cache` 中，并将生产构建输出存储在 `.vitepress/dist` 中。如果使用 Git，应该将它们添加到 `.gitignore` 文件中。也可以手动[配置](../reference/site-config#outdir)这些位置。
 :::
 
@@ -102,17 +103,18 @@ $ pnpm exec vitepress init
 ```js
 // .vitepress/config.js
 export default {
-  // site-level options
-  title: 'VitePress',
-  description: 'Just playing around.',
+	// site-level options
+	title: 'VitePress',
+	description: 'Just playing around.',
 
-  themeConfig: {
-    // theme-level options
-  }
+	themeConfig: {
+		// theme-level options
+	},
 }
 ```
 
 还可以通过 `themeConfig` 选项配置主题的行为。有关所有配置选项的完整详细信息，请参见[配置参考](../reference/site-config)。
+
 ### 源文件 {#source-files}
 
 `.vitepress` 目录之外的 Markdown 文件被视为**源文件**。

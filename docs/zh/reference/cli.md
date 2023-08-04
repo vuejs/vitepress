@@ -42,7 +42,7 @@ vitepress build [root]
 | `--mpa` (experimental)         | 在没有客户端 hydration 的 [MPA 模式](../guide/mpa-mode) 下构建 (`boolean`)                        |
 | `--base <path>`                | 公共基础路径 (default: `/`) (`string`)                                                            |
 | `--target <target>`            | 转译目标 (default: `"modules"`) (`string`)                                                        |
-| `--outDir <dir>`               | 输出目录 (default: `.vitepress/dist`) (`string`)                                                  |
+| `--outDir <dir>`               | 相对于 **cwd** 的输出目录（默认值：`<root> /.vitepress/dist`） (`string`)                         |
 | `--minify [minifier]`          | 启用/禁用压缩，或指定要使用的压缩程序 (default: `"esbuild"`) (`boolean \| "terser" \| "esbuild"`) |
 | `--assetsInlineLimit <number>` | 静态资源 base64 内联阈值（以字节为单位） (default: `4096`) (`number`)                             |
 

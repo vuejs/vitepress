@@ -2,32 +2,32 @@
 import { VPTeamMembers } from 'vitepress/theme'
 
 const members = [
-  // {
-  //   avatar: 'https://github.com/yyx990803.png',
-  //   name: 'Evan You',
-  //   title: 'Creator',
-  //   links: [
-  //     { icon: 'github', link: 'https://github.com/yyx990803' },
-  //     { icon: 'twitter', link: 'https://twitter.com/youyuxi' }
-  //   ]
-  // },
-  // {
-  //   avatar: 'https://github.com/kiaking.png',
-  //   name: 'Kia King Ishii',
-  //   title: 'Developer',
-  //   links: [
-  //     { icon: 'github', link: 'https://github.com/kiaking' },
-  //     { icon: 'twitter', link: 'https://twitter.com/KiaKing85' }
-  //   ]
-  // }
   {
-    avatar: 'https://avatars.githubusercontent.com/u/50388827?v=4',
-    name: 'VanchKong',
-    title: 'Translator',
+    avatar: 'https://github.com/yyx990803.png',
+    name: 'Evan You',
+    title: 'Creator',
     links: [
-      { icon: 'github', link: 'https://github.com/vanchKong' },
+      { icon: 'github', link: 'https://github.com/yyx990803' },
+      { icon: 'twitter', link: 'https://twitter.com/youyuxi' }
+    ]
+  },
+  {
+    avatar: 'https://github.com/kiaking.png',
+    name: 'Kia King Ishii',
+    title: 'Developer',
+    links: [
+      { icon: 'github', link: 'https://github.com/kiaking' },
+      { icon: 'twitter', link: 'https://twitter.com/KiaKing85' }
     ]
   }
+  // {
+  //   avatar: 'https://avatars.githubusercontent.com/u/50388827?v=4',
+  //   name: 'VanchKong',
+  //   title: 'Translator',
+  //   links: [
+  //     { icon: 'github', link: 'https://github.com/vanchKong' },
+  //   ]
+  // }
 ]
 </script>
 

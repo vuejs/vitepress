@@ -90,7 +90,7 @@ VitePress 通过 (`--vp-c-brand`) 设置 `name` 的颜色 .但是，你可以通
 
 ## Features 部分 {#features-section}
 
-在 Features section， 你可以在 Hero section 之后列出任意数量的 Features。可以在 frontmatter 中配置  `features`。
+在 Features section， 你可以在 Hero section 之后列出任意数量的 Features。可以在 frontmatter 中配置 `features`。
 
 你可以为每个 feature 提供一个图标，可以是表情符号或任何类型的图像。当配置的图标是图片（svg, png, jpeg...）时，必须提供合适的宽度和高度的图标；你还可以在需要时配置其描述、固有大小以及深色和浅色主题下的不同表现。
 
@@ -116,26 +116,26 @@ features:
 
 ```ts
 interface Feature {
-	// Show icon on each feature box.
+	// 在每个功能框上显示图标。
 	icon?: FeatureIcon
 
-	// Title of the feature.
+	// 功能的标题。
 	title: string
 
-	// Details of the feature.
+	// 功能的详细信息。
 	details: string
 
-	// Link when clicked on feature component. The link can
-	// be both internal or external.
-	//
+	// 单击功能组件时的链接。该链接可以是内部链接，也可以是外部链接。
 	// e.g. `guid/reference/default-theme-home-page` or `htttps://example.com`
 	link?: string
 
-	// Link text to be shown inside feature component. Best
-	// used with `link` option.
-	//
-	// e.g. `Learn more`, `Visit page`, etc.
+	// 要在功能组件内显示的链接文本。最好与“link”选项一起使用。
+	// 例如 `Learn more`, `Visit page`, 等等
 	linkText?: string
+
+	// `link` 选项的 Link rel 属性。
+	// 例如 `external`
+	rel?: string
 }
 
 type FeatureIcon =
