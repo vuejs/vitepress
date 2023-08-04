@@ -1,5 +1,5 @@
 import { createRequire } from 'module'
-import { defineConfig } from 'vitepress'
+import { defineConfig, type DefaultTheme } from 'vitepress'
 
 const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
@@ -36,8 +36,8 @@ export default defineConfig({
     nav: nav(),
 
     sidebar: {
-      '/guide/': sidebarGuide(),
-      '/reference/': sidebarReference()
+      '/guide/': { base: '/guide/', items: sidebarGuide() },
+      '/reference/': { base: '/reference/', items: sidebarReference() }
     },
 
     editLink: {
@@ -70,9 +70,13 @@ export default defineConfig({
   }
 })
 
-function nav() {
+function nav(): DefaultTheme.NavItem[] {
   return [
-    { text: 'Guide', link: '/guide/what-is-vitepress', activeMatch: '/guide/' },
+    {
+      text: 'Guide',
+      link: '/guide/what-is-vitepress',
+      activeMatch: '/guide/'
+    },
     {
       text: 'Reference',
       link: '/reference/site-config',
@@ -94,142 +98,79 @@ function nav() {
   ]
 }
 
-function sidebarGuide() {
+/* prettier-ignore */
+function sidebarGuide(): DefaultTheme.SidebarItem[] {
   return [
     {
       text: 'Introduction',
       collapsed: false,
       items: [
-        { text: 'What is VitePress?', link: '/guide/what-is-vitepress' },
-        { text: 'Getting Started', link: '/guide/getting-started' },
-        { text: 'Routing', link: '/guide/routing' },
-        { text: 'Deploy', link: '/guide/deploy' }
+        { text: 'What is VitePress?', link: 'what-is-vitepress' },
+        { text: 'Getting Started', link: 'getting-started' },
+        { text: 'Routing', link: 'routing' },
+        { text: 'Deploy', link: 'deploy' }
       ]
     },
     {
       text: 'Writing',
       collapsed: false,
       items: [
-        { text: 'Markdown Extensions', link: '/guide/markdown' },
-        { text: 'Asset Handling', link: '/guide/asset-handling' },
-        { text: 'Frontmatter', link: '/guide/frontmatter' },
-        { text: 'Using Vue in Markdown', link: '/guide/using-vue' },
-        { text: 'Internationalization', link: '/guide/i18n' }
+        { text: 'Markdown Extensions', link: 'markdown' },
+        { text: 'Asset Handling', link: 'asset-handling' },
+        { text: 'Frontmatter', link: 'frontmatter' },
+        { text: 'Using Vue in Markdown', link: 'using-vue' },
+        { text: 'Internationalization', link: 'i18n' }
       ]
     },
     {
       text: 'Customization',
       collapsed: false,
       items: [
-        { text: 'Using a Custom Theme', link: '/guide/custom-theme' },
-        {
-          text: 'Extending the Default Theme',
-          link: '/guide/extending-default-theme'
-        },
-        { text: 'Build-Time Data Loading', link: '/guide/data-loading' },
-        { text: 'SSR Compatibility', link: '/guide/ssr-compat' },
-        { text: 'Connecting to a CMS', link: '/guide/cms' }
+        { text: 'Using a Custom Theme', link: 'custom-theme' },
+        { text: 'Extending the Default Theme', link: 'extending-default-theme' },
+        { text: 'Build-Time Data Loading', link: 'data-loading' },
+        { text: 'SSR Compatibility', link: 'ssr-compat' },
+        { text: 'Connecting to a CMS', link: 'cms' }
       ]
     },
     {
       text: 'Experimental',
       collapsed: false,
       items: [
-        {
-          text: 'MPA Mode',
-          link: '/guide/mpa-mode'
-        },
-        {
-          text: 'Sitemap Generation',
-          link: '/guide/sitemap-generation'
-        }
+        { text: 'MPA Mode', link: 'mpa-mode' },
+        { text: 'Sitemap Generation', link: 'sitemap-generation' }
       ]
     },
-    // {
-    //   text: 'Migrations',
-    //   collapsed: false,
-    //   items: [
-    //     {
-    //       text: 'Migration from VuePress',
-    //       link: '/guide/migration-from-vuepress'
-    //     },
-    //     {
-    //       text: 'Migration from VitePress 0.x',
-    //       link: '/guide/migration-from-vitepress-0'
-    //     }
-    //   ]
-    // },
-    {
-      text: 'Config & API Reference',
-      link: '/reference/site-config'
-    }
+    { text: 'Config & API Reference', base: '/reference/', link: 'site-config' }
   ]
 }
 
-function sidebarReference() {
+/* prettier-ignore */
+function sidebarReference(): DefaultTheme.SidebarItem[] {
   return [
     {
       text: 'Reference',
       items: [
-        { text: 'Site Config', link: '/reference/site-config' },
-        { text: 'Frontmatter Config', link: '/reference/frontmatter-config' },
-        { text: 'Runtime API', link: '/reference/runtime-api' },
-        { text: 'CLI', link: '/reference/cli' },
+        { text: 'Site Config', link: 'site-config' },
+        { text: 'Frontmatter Config', link: 'frontmatter-config' },
+        { text: 'Runtime API', link: 'runtime-api' },
+        { text: 'CLI', link: 'cli' },
         {
           text: 'Default Theme',
           items: [
-            {
-              text: 'Overview',
-              link: '/reference/default-theme-config'
-            },
-            {
-              text: 'Nav',
-              link: '/reference/default-theme-nav'
-            },
-            {
-              text: 'Sidebar',
-              link: '/reference/default-theme-sidebar'
-            },
-            {
-              text: 'Home Page',
-              link: '/reference/default-theme-home-page'
-            },
-            {
-              text: 'Footer',
-              link: '/reference/default-theme-footer'
-            },
-            {
-              text: 'Layout',
-              link: '/reference/default-theme-layout'
-            },
-            {
-              text: 'Badge',
-              link: '/reference/default-theme-badge'
-            },
-            {
-              text: 'Team Page',
-              link: '/reference/default-theme-team-page'
-            },
-            {
-              text: 'Prev / Next Links',
-              link: '/reference/default-theme-prev-next-links'
-            },
-            {
-              text: 'Edit Link',
-              link: '/reference/default-theme-edit-link'
-            },
-            {
-              text: 'Last Updated Timestamp',
-              link: '/reference/default-theme-last-updated'
-            },
-            {
-              text: 'Search',
-              link: '/reference/default-theme-search'
-            },
-            {
-              text: 'Carbon Ads',
-              link: '/reference/default-theme-carbon-ads'
-            }
+            { text: 'Overview', link: 'default-theme-config' },
+            { text: 'Nav', link: 'default-theme-nav' },
+            { text: 'Sidebar', link: 'default-theme-sidebar' },
+            { text: 'Home Page', link: 'default-theme-home-page' },
+            { text: 'Footer', link: 'default-theme-footer' },
+            { text: 'Layout', link: 'default-theme-layout' },
+            { text: 'Badge', link: 'default-theme-badge' },
+            { text: 'Team Page', link: 'default-theme-team-page' },
+            { text: 'Prev / Next Links', link: 'default-theme-prev-next-links' },
+            { text: 'Edit Link', link: 'default-theme-edit-link' },
+            { text: 'Last Updated Timestamp', link: 'default-theme-last-updated' },
+            { text: 'Search', link: 'default-theme-search' },
+            { text: 'Carbon Ads', link: 'default-theme-carbon-ads' }
           ]
         }
       ]
