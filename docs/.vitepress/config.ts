@@ -145,7 +145,6 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
   ]
 }
 
-/* prettier-ignore */
 function sidebarReference(): DefaultTheme.SidebarItem[] {
   return [
     {
@@ -157,20 +156,21 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
         { text: 'CLI', link: 'cli' },
         {
           text: 'Default Theme',
+          base: '/reference/default-theme-',
           items: [
-            { text: 'Overview', link: 'default-theme-config' },
-            { text: 'Nav', link: 'default-theme-nav' },
-            { text: 'Sidebar', link: 'default-theme-sidebar' },
-            { text: 'Home Page', link: 'default-theme-home-page' },
-            { text: 'Footer', link: 'default-theme-footer' },
-            { text: 'Layout', link: 'default-theme-layout' },
-            { text: 'Badge', link: 'default-theme-badge' },
-            { text: 'Team Page', link: 'default-theme-team-page' },
-            { text: 'Prev / Next Links', link: 'default-theme-prev-next-links' },
-            { text: 'Edit Link', link: 'default-theme-edit-link' },
-            { text: 'Last Updated Timestamp', link: 'default-theme-last-updated' },
-            { text: 'Search', link: 'default-theme-search' },
-            { text: 'Carbon Ads', link: 'default-theme-carbon-ads' }
+            { text: 'Overview', link: 'config' },
+            { text: 'Nav', link: 'nav' },
+            { text: 'Sidebar', link: 'sidebar' },
+            { text: 'Home Page', link: 'home-page' },
+            { text: 'Footer', link: 'footer' },
+            { text: 'Layout', link: 'layout' },
+            { text: 'Badge', link: 'badge' },
+            { text: 'Team Page', link: 'team-page' },
+            { text: 'Prev / Next Links', link: 'prev-next-links' },
+            { text: 'Edit Link', link: 'edit-link' },
+            { text: 'Last Updated Timestamp', link: 'last-updated' },
+            { text: 'Search', link: 'search' },
+            { text: 'Carbon Ads', link: 'carbon-ads' }
           ]
         }
       ]
