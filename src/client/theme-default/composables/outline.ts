@@ -22,7 +22,9 @@ export function resolveTitle(theme: DefaultTheme.Config) {
 }
 
 export function getHeaders(range: DefaultTheme.Config['outline']) {
-  const headers = [...document.querySelectorAll('.VPDoc h2,h3,h4,h5,h6')]
+  const headers = [
+    ...document.querySelectorAll('.VPDoc :where(h1,h2,h3,h4,h5,h6)')
+  ]
     .filter((el) => el.id && el.hasChildNodes())
     .map((el) => {
       const level = Number(el.tagName[1])
