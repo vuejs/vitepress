@@ -197,7 +197,7 @@ export namespace DefaultTheme {
   export type Sidebar = SidebarItem[] | SidebarMulti
 
   export interface SidebarMulti {
-    [path: string]: SidebarItem[]
+    [path: string]: SidebarItem[] | { items: SidebarItem[]; base: string }
   }
 
   export type SidebarItem = {
@@ -224,6 +224,11 @@ export namespace DefaultTheme {
      * If `false`, group is collapsible but expanded by default
      */
     collapsed?: boolean
+
+    /**
+     * Base path for the children items.
+     */
+    base?: string
   }
 
   /**
