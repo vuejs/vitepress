@@ -34,6 +34,7 @@ export type ThemeOptions =
 
 export interface MarkdownOptions extends MarkdownIt.Options {
   lineNumbers?: boolean
+  preConfig?: (md: MarkdownIt) => void
   config?: (md: MarkdownIt) => void
   anchor?: anchorPlugin.AnchorOptions
   attrs?: {
@@ -76,9 +77,13 @@ export const createMarkdownRenderer = async (
         logger
       )),
     ...options
-  }) as MarkdownRenderer
+  })
 
   md.linkify.set({ fuzzyLink: false })
+
+  if (options.preConfig) {
+    options.preConfig(md)
+  }
 
   // custom plugins
   md.use(componentPlugin)
