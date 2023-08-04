@@ -156,16 +156,55 @@ export default {
 Additional elements to render in the `<head>` tag in the page HTML. The user-added tags are rendered before the closing `head` tag, after VitePress tags.
 
 ```ts
+type HeadConfig =
+  | [string, Record<string, string>]
+  | [string, Record<string, string>, string]
+```
+
+#### Example: Adding a favicon
+
+```ts
+export default {
+  head: [['link', { rel: 'icon', href: '/favicon.ico' }]]
+} // put favicon.ico in public directory, if base is set, use /base/favicon.ico
+
+/* Would render:
+  <link rel="icon" href="/favicon.ico">
+*/
+```
+
+#### Example: Adding Google Fonts
+
+```ts
 export default {
   head: [
     [
       'link',
-      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }
-      // would render:
-      //
-      // <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      { rel: 'preconnect', href: 'https://fonts.googleapis.com' }
     ],
+    [
+      'link',
+      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }
+    ],
+    [
+      'link',
+      { href: 'https://fonts.googleapis.com/css2?family=Roboto&display=swap', rel: 'stylesheet' }
+    ]
+  ]
+}
 
+/* Would render:
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+*/
+```
+
+#### Example: Registering a service worker
+
+```ts
+export default {
+  head: [
     [
       'script',
       { id: 'register-sw' },
@@ -174,24 +213,50 @@ export default {
           navigator.serviceWorker.register('/sw.js')
         }
       })()`
-      // would render:
-      //
-      // <script id="register-sw">
-      // ;(() => {
-      //   if ('serviceWorker' in navigator) {
-      //     navigator.serviceWorker.register('/sw.js')
-      //   }
-      // })()
-      // </script>
     ]
   ]
 }
+
+/* Would render:
+  <script id="register-sw">
+    ;(() => {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js')
+      }
+    })()
+  </script>
+*/
 ```
 
+#### Example: Using Google Analytics
+
 ```ts
-type HeadConfig =
-  | [string, Record<string, string>]
-  | [string, Record<string, string>, string]
+export default {
+  head: [
+    [
+      'script',
+      { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=TAG_ID' }
+    ],
+    [
+      'script',
+      {},
+      `window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'TAG_ID');`
+    ]
+  ]
+}
+
+/* Would render:
+  <script async src="https://www.googletagmanager.com/gtag/js?id=TAG_ID"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'TAG_ID');
+  </script>
+*/
 ```
 
 ### lang
@@ -239,7 +304,7 @@ Enabling this may require additional configuration on your hosting platform. For
 
 - Type: `Record<string, string>`
 
-Defines custom directory <-> URL mappings. See [Routing: Route Rewrites](../guide/routing#route-rewrites) for more details.
+Defines custom directory &lt;-&gt; URL mappings. See [Routing: Route Rewrites](../guide/routing#route-rewrites) for more details.
 
 ```ts
 export default {
