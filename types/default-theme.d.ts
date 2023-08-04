@@ -14,6 +14,11 @@ export namespace DefaultTheme {
     logo?: ThemeableImage
 
     /**
+     * Overrides the link of the site logo.
+     */
+    logoLink?: string
+
+    /**
      * Custom site title in navbar. If the value is undefined,
      * `config.title` will be used.
      */
