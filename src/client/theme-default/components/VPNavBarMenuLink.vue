@@ -26,7 +26,7 @@ const { page } = useData()
     :rel="item.rel"
     tabindex="0"
   >
-    {{ item.text }}
+    <span v-html="item.text"></span>
   </VPLink>
 </template>
 
