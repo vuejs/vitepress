@@ -12,7 +12,6 @@ export default defineConfig({
 })
 ```
 
-To have `<lastmod>` tags in your `sitemap.xml`, you can enable the [`lastUpdated`](../reference/default-theme-last-updated) option.
 要在 `sitemap.xml` 中有 `<lastmod>` 标签，你可以启用 [`lastUpdated`](../reference/default-theme-last-updated) 选项。
 
 ## 选项 {#options}
