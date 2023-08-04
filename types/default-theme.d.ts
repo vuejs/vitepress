@@ -229,6 +229,11 @@ export namespace DefaultTheme {
      * Base path for the children items.
      */
     base?: string
+
+    /**
+     * Customize text that appears on the footer of previous/next page.
+     */
+    docFooterText?: string
   }
 
   /**

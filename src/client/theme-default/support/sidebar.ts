@@ -5,6 +5,7 @@ import { isActive } from '../../shared'
 export interface SidebarLink {
   text: string
   link: string
+  docFooterText?: string
 }
 
 type SidebarItem = DefaultTheme.SidebarItem
@@ -71,7 +72,11 @@ export function getFlatSideBarLinks(sidebar: SidebarItem[]): SidebarLink[] {
   function recursivelyExtractLinks(items: SidebarItem[]) {
     for (const item of items) {
       if (item.text && item.link) {
-        links.push({ text: item.text, link: item.link })
+        links.push({
+          text: item.text,
+          link: item.link,
+          docFooterText: item.docFooterText
+        })
       }
 
       if (item.items) {
