@@ -165,6 +165,12 @@ function onCaretClick() {
   color: var(--vp-c-brand);
 }
 
+.VPSidebarItem.level-0.has-active > .item > .text,
+.VPSidebarItem.level-1.has-active > .item > .text,
+.VPSidebarItem.level-2.has-active > .item > .text,
+.VPSidebarItem.level-3.has-active > .item > .text,
+.VPSidebarItem.level-4.has-active > .item > .text,
+.VPSidebarItem.level-5.has-active > .item > .text,
 .VPSidebarItem.level-0.has-active > .item > .link > .text,
 .VPSidebarItem.level-1.has-active > .item > .link > .text,
 .VPSidebarItem.level-2.has-active > .item > .link > .text,
