@@ -37,6 +37,9 @@ export function useCodeGroups() {
 
         current.classList.remove('active')
         next.classList.add('active')
+
+        const label = group?.querySelector(`label[for="${el.id}"]`)
+        label?.scrollIntoView({ block: 'nearest' })
       }
     })
   }
