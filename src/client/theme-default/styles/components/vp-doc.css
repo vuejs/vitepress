@@ -113,6 +113,7 @@
 
 .vp-doc a:hover {
   text-decoration: underline dotted;
+  text-underline-offset: 2px;
 }
 
 .vp-doc strong {
@@ -214,10 +215,6 @@
 .vp-doc .custom-block a {
   color: inherit;
   font-weight: 600;
-}
-
-.vp-doc .custom-block a:hover {
-  text-decoration: underline dotted;
 }
 
 .vp-doc .custom-block code {

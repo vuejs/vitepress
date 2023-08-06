@@ -85,11 +85,11 @@
   color: inherit;
   font-weight: 600;
   text-decoration: underline dotted;
+  text-underline-offset: 2px;
   transition: opacity 0.25s;
 }
 
 .custom-block a:hover {
-  text-decoration: underline dotted;
   opacity: 0.75;
 }
 
