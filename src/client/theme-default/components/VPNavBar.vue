@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useWindowScroll } from '@vueuse/core'
-import { computed } from 'vue'
+import { ref, watchEffect } from 'vue'
 import { useSidebar } from '../composables/sidebar'
 import VPNavBarAppearance from './VPNavBarAppearance.vue'
 import VPNavBarExtra from './VPNavBarExtra.vue'
@@ -22,10 +22,17 @@ defineEmits<{
 const { y } = useWindowScroll()
 const { hasSidebar } = useSidebar()
 
-const classes = computed(() => ({
-  'has-sidebar': hasSidebar.value,
-  fill: y.value > 0
-}))
+const classes = ref<Record<string, boolean>>({})
+
+watchEffect(
+  () => {
+    classes.value = {
+      'has-sidebar': hasSidebar.value,
+      fill: y.value > 0
+    }
+  },
+  { flush: 'post' }
+)
 </script>
 
 <template>
