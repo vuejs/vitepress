@@ -21,8 +21,8 @@ defineProps<{
         v-if="typeof icon === 'object'"
         :image="icon"
         :alt="icon.alt"
-        :height="icon.height"
-        :width="icon.width"
+        :height="icon.height || 48"
+        :width="icon.width || 48"
       />
       <div v-else-if="icon" class="icon" v-html="icon"></div>
       <h2 class="title" v-html="title"></h2>
@@ -60,8 +60,6 @@ defineProps<{
 }
 
 .VPFeature:deep(.VPImage) {
-  width: 48px;
-  height: 48px;
   margin-bottom: 20px;
 }
 
