@@ -62,21 +62,6 @@ const esmBuild: RollupOptions = {
   }
 }
 
-const cjsBuild: RollupOptions = {
-  input: [r('src/node/index.ts'), r('src/node/cli.ts')],
-  output: {
-    format: 'cjs',
-    dir: r('dist/node-cjs'),
-    entryFileNames: `[name].cjs`,
-    chunkFileNames: 'serve-[hash].cjs'
-  },
-  external,
-  plugins,
-  onwarn(warning, warn) {
-    if (warning.code !== 'EVAL') warn(warning)
-  }
-}
-
 const nodeTypes: RollupOptions = {
   input: r('src/node/index.ts'),
   output: {
@@ -110,11 +95,6 @@ const clientTypes: RollupOptions = {
 const config = defineConfig([])
 
 config.push(esmBuild)
-
-if (PROD) {
-  config.push(cjsBuild)
-}
-
 config.push(nodeTypes)
 config.push(clientTypes)
 
