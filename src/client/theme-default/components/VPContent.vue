@@ -35,6 +35,11 @@ const { hasSidebar } = useSidebar()
       <template #home-features-after><slot name="home-features-after" /></template>
     </VPHome>
 
+    <component
+      v-else-if="frontmatter.layout && frontmatter.layout !== 'doc'"
+      :is="frontmatter.layout"
+    />
+
     <VPDoc v-else>
       <template #doc-top><slot name="doc-top" /></template>
       <template #doc-bottom><slot name="doc-bottom" /></template>
