@@ -169,7 +169,7 @@ const classes = computed(() => ({
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .content-body {
     column-gap: 0.5rem;
   }
