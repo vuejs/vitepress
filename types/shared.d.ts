@@ -57,7 +57,11 @@ export interface SiteData<ThemeConfig = any> {
   head: HeadConfig[]
   appearance: boolean | 'dark'
   themeConfig: ThemeConfig
-  scrollOffset: number | string | string[]
+  scrollOffset:
+    | number
+    | string
+    | string[]
+    | { selector: string | string[]; padding: number }
   locales: LocaleConfig<ThemeConfig>
   localeIndex?: string
   contentProps?: Record<string, any>

@@ -267,15 +267,20 @@ export function scrollTo(el: Element, hash: string, smooth = false) {
   }
 
   if (target) {
-    const scrollOffset = siteDataRef.value.scrollOffset
-    let offset: number = 0
+    let scrollOffset = siteDataRef.value.scrollOffset
+    let offset = 0
+    let padding = 24
+    if (typeof scrollOffset === 'object' && 'padding' in scrollOffset) {
+      padding = scrollOffset.padding
+      scrollOffset = scrollOffset.selector
+    }
     if (typeof scrollOffset === 'number') {
       offset = scrollOffset
     } else if (typeof scrollOffset === 'string') {
-      offset = tryOffsetSelector(scrollOffset)
+      offset = tryOffsetSelector(scrollOffset, padding)
     } else if (Array.isArray(scrollOffset)) {
       for (const selector of scrollOffset) {
-        const res = tryOffsetSelector(selector)
+        const res = tryOffsetSelector(selector, padding)
         if (res) {
           offset = res
           break
@@ -301,12 +306,12 @@ export function scrollTo(el: Element, hash: string, smooth = false) {
   }
 }
 
-function tryOffsetSelector(selector: string): number {
+function tryOffsetSelector(selector: string, padding: number): number {
   const el = document.querySelector(selector)
   if (!el) return 0
   const bot = el.getBoundingClientRect().bottom
   if (bot < 0) return 0
-  return bot + 24
+  return bot + padding
 }
 
 function handleHMR(route: Route): void {

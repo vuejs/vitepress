@@ -93,7 +93,11 @@ export interface UserConfig<ThemeConfig = any>
    * selector if a selector fails to match, or the matched element is not
    * currently visible in viewport.
    */
-  scrollOffset?: number | string | string[]
+  scrollOffset?:
+    | number
+    | string
+    | string[]
+    | { selector: string | string[]; padding: number }
 
   /**
    * Enable MPA / zero-JS mode.
