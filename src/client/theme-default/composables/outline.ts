@@ -168,7 +168,9 @@ export function useActiveAnchor(
       prevActiveLink.classList.remove('active')
     }
 
-    if (hash !== null) {
+    if (hash == null) {
+      prevActiveLink = null
+    } else {
       prevActiveLink = container.value.querySelector(
         `a[href="${decodeURIComponent(hash)}"]`
       )
