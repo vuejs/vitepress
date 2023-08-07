@@ -111,7 +111,7 @@ Set up a new project and change these settings using your dashboard:
 
 - **Build Command:** `npm run docs:build`
 - **Output Directory:** `docs/.vitepress/dist`
-- **Node Version:** `16` (or above, by default it usually will be 14 or 16, but on Cloudflare Pages the default is still 12, so you may need to [change that](https://developers.cloudflare.com/pages/platform/build-configuration/))
+- **Node Version:** `18` (or above)
 
 ::: warning
 Don't enable options like _Auto Minify_ for HTML code. It will remove comments from output which have meaning to Vue. You may see hydration mismatch errors if they get removed.
