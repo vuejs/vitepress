@@ -1,8 +1,8 @@
-# [1.0.0-rc.2](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.1...v1.0.0-rc.2) (2023-08-08)
+# [1.0.0-rc.3](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.2...v1.0.0-rc.3) (2023-08-08)
 
-### Reverts
+### Bug Fixes
 
-- **theme:** allow setting base path in sidebar items ([2fe8f60](https://github.com/vuejs/vitepress/commit/2fe8f60681793cb406100827ff34e0714f523d37)), closes [#2752](https://github.com/vuejs/vitepress/issues/2752)
+- **regression/theme:** fix sidebar collapsing ([#2753](https://github.com/vuejs/vitepress/issues/2753)) ([9a4ee07](https://github.com/vuejs/vitepress/commit/9a4ee07260191adeb4c3810d95b044439609525c))
 
 # [1.0.0-rc.1](https://github.com/vuejs/vitepress/compare/v1.0.0-beta.7...v1.0.0-rc.1) (2023-08-08)
 
