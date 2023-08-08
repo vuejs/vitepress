@@ -6,7 +6,7 @@ import {
   normalizePath,
   type BuildOptions,
   type Rollup,
-  type UserConfig as ViteUserConfig
+  type InlineConfig as ViteInlineConfig
 } from 'vite'
 import { APP_PATH } from '../alias'
 import type { SiteConfig } from '../config'
@@ -50,7 +50,9 @@ export async function bundle(
   // resolve options to pass to vite
   const { rollupOptions } = options
 
-  const resolveViteConfig = async (ssr: boolean): Promise<ViteUserConfig> => ({
+  const resolveViteConfig = async (
+    ssr: boolean
+  ): Promise<ViteInlineConfig> => ({
     root: config.srcDir,
     cacheDir: config.cacheDir,
     base: config.site.base,
@@ -136,7 +138,8 @@ export async function bundle(
               })
         }
       }
-    }
+    },
+    configFile: config.vite?.configFile
   })
 
   let clientResult!: Rollup.RollupOutput | null

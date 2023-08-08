@@ -83,7 +83,7 @@ export interface UserConfig<ThemeConfig = any>
   /**
    * Vite config
    */
-  vite?: ViteConfig
+  vite?: ViteConfig & { configFile?: string | false }
 
   /**
    * Configure the scroll offset when the theme has a sticky header.
