@@ -1,16 +1,16 @@
+import { useMediaQuery } from '@vueuse/core'
+import type { DefaultTheme } from 'vitepress/theme'
 import {
-  type ComputedRef,
-  type Ref,
   computed,
   onMounted,
   onUnmounted,
   ref,
+  watch,
   watchEffect,
-  watch
+  watchPostEffect,
+  type ComputedRef,
+  type Ref
 } from 'vue'
-import { useMediaQuery } from '@vueuse/core'
-import { useRoute } from 'vitepress'
-import type { DefaultTheme } from 'vitepress/theme'
 import { inBrowser, isActive } from '../../shared'
 import {
   hasActiveLink as containsActiveLink,
@@ -30,15 +30,14 @@ export interface SidebarControl {
 }
 
 export function useSidebar() {
-  const route = useRoute()
-  const { theme, frontmatter } = useData()
+  const { frontmatter, page, theme } = useData()
   const is960 = useMediaQuery('(min-width: 960px)')
 
   const isOpen = ref(false)
 
   const sidebar = computed(() => {
     const sidebarConfig = theme.value.sidebar
-    const relativePath = route.data.relativePath
+    const relativePath = page.value.relativePath
     return sidebarConfig ? getSidebar(sidebarConfig, relativePath) : []
   })
 
@@ -176,7 +175,7 @@ export function useSidebarControl(
     collapsed.value = !!(collapsible.value && item.value.collapsed)
   })
 
-  watchEffect(() => {
+  watchPostEffect(() => {
     ;(isActiveLink.value || hasActiveLink.value) && (collapsed.value = false)
   })
 
