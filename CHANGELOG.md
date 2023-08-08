@@ -1,3 +1,10 @@
+# [1.0.0-rc.4](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.3...v1.0.0-rc.4) (2023-08-08)
+
+### Bug Fixes
+
+- **cli:** generate mjs file on init if `"type": "module"` is not present ([23d7511](https://github.com/vuejs/vitepress/commit/23d751165f6def6fa6b3a5d7efd89b993a2780d8))
+- **theme:** language menu undefined text ([#2755](https://github.com/vuejs/vitepress/issues/2755)) ([c9d4655](https://github.com/vuejs/vitepress/commit/c9d465587a3b2188ff9922483a15d7096e6a3e6c))
+
 # [1.0.0-rc.3](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.2...v1.0.0-rc.3) (2023-08-08)
 
 ### Bug Fixes
