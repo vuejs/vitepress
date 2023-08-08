@@ -183,8 +183,8 @@ export namespace DefaultTheme {
 
   export type ThemeableImage =
     | string
-    | { src: string; alt?: string }
-    | { light: string; dark: string; alt?: string }
+    | { src: string; alt?: string; [prop: string]: any }
+    | { light: string; dark: string; alt?: string; [prop: string]: any }
 
   export type FeatureIcon =
     | string

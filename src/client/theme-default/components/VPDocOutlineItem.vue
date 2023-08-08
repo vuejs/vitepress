@@ -31,7 +31,7 @@ function onClick({ target: el }: Event) {
 }
 
 .nested {
-  padding-left: 13px;
+  padding-left: 16px;
 }
 
 .outline-link {
@@ -42,7 +42,7 @@ function onClick({ target: el }: Event) {
   overflow: hidden;
   text-overflow: ellipsis;
   transition: color 0.5s;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .outline-link:hover,
