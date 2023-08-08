@@ -42,7 +42,7 @@ const plugins = [
   }),
   commonjs(),
   nodeResolve({ preferBuiltins: false }),
-  esbuild({ target: 'node14' }),
+  esbuild({ target: 'node18' }),
   json()
 ]
 
@@ -54,21 +54,6 @@ const esmBuild: RollupOptions = {
     chunkFileNames: 'serve-[hash].js',
     dir: r('dist/node'),
     sourcemap: DEV
-  },
-  external,
-  plugins,
-  onwarn(warning, warn) {
-    if (warning.code !== 'EVAL') warn(warning)
-  }
-}
-
-const cjsBuild: RollupOptions = {
-  input: [r('src/node/index.ts'), r('src/node/cli.ts')],
-  output: {
-    format: 'cjs',
-    dir: r('dist/node-cjs'),
-    entryFileNames: `[name].cjs`,
-    chunkFileNames: 'serve-[hash].cjs'
   },
   external,
   plugins,
@@ -110,11 +95,6 @@ const clientTypes: RollupOptions = {
 const config = defineConfig([])
 
 config.push(esmBuild)
-
-if (PROD) {
-  config.push(cjsBuild)
-}
-
 config.push(nodeTypes)
 config.push(clientTypes)
 

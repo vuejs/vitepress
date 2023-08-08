@@ -138,7 +138,7 @@ export async function resolveConfig(
   return config
 }
 
-const supportedConfigExtensions = ['js', 'ts', 'cjs', 'mjs', 'cts', 'mts']
+const supportedConfigExtensions = ['js', 'ts', 'mjs', 'mts']
 
 export async function resolveUserConfig(
   root: string,
