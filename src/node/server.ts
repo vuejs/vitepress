@@ -23,6 +23,7 @@ export async function createServer(
     cacheDir: config.cacheDir,
     plugins: await createVitePressPlugin(config, false, {}, {}, recreateServer),
     server: serverOptions,
-    customLogger: config.logger
+    customLogger: config.logger,
+    configFile: config.vite?.configFile
   })
 }
