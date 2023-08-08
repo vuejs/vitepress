@@ -124,6 +124,7 @@
     "@types/debug": "^4.1.8",
     "@types/escape-html": "^1.0.2",
     "@types/fs-extra": "^11.0.1",
+    "@types/lodash.template": "^4.5.1",
     "@types/mark.js": "^8.11.8",
     "@types/markdown-it": "^13.0.0",
     "@types/markdown-it-attrs": "^4.1.0",
