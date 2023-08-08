@@ -39,7 +39,9 @@ function onBlur() {
     >
       <span v-if="button || icon" class="text">
         <component v-if="icon" :is="icon" class="option-icon" />
-        <span v-html="button"></span>
+        <template v-if="button">
+          <span v-html="button"></span>
+        </template>
         <VPIconChevronDown class="text-icon" />
       </span>
 
