@@ -20,7 +20,7 @@ export function getSidebar(
   _sidebar: DefaultTheme.Sidebar | undefined,
   path: string
 ): SidebarItem[] {
-  if (Array.isArray(_sidebar)) return addBase(_sidebar)
+  if (Array.isArray(_sidebar)) return _sidebar
   if (_sidebar == null) return []
 
   path = ensureStartingSlash(path)
@@ -34,10 +34,7 @@ export function getSidebar(
       return path.startsWith(ensureStartingSlash(dir))
     })
 
-  const sidebar = dir ? _sidebar[dir] : []
-  return Array.isArray(sidebar)
-    ? addBase(sidebar)
-    : addBase(sidebar.items, sidebar.base)
+  return dir ? _sidebar[dir] : []
 }
 
 /**
@@ -106,14 +103,4 @@ export function hasActiveLink(
     : items.items
     ? hasActiveLink(path, items.items)
     : false
-}
-
-function addBase(items: SidebarItem[], _base?: string): SidebarItem[] {
-  return [...items].map((_item) => {
-    const item = { ..._item }
-    const base = item.base || _base
-    if (base && item.link) item.link = base + item.link
-    if (item.items) item.items = addBase(item.items, base)
-    return item
-  })
 }
