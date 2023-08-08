@@ -5,12 +5,13 @@ import {
   onMounted,
   onUnmounted,
   ref,
-  watchEffect
+  watchEffect,
+  watch
 } from 'vue'
 import { useMediaQuery } from '@vueuse/core'
 import { useRoute } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
-import { isActive } from '../../shared'
+import { inBrowser, isActive } from '../../shared'
 import {
   hasActiveLink as containsActiveLink,
   getSidebar,
@@ -22,7 +23,7 @@ export interface SidebarControl {
   collapsed: Ref<boolean>
   collapsible: ComputedRef<boolean>
   isLink: ComputedRef<boolean>
-  isActiveLink: ComputedRef<boolean>
+  isActiveLink: Ref<boolean>
   hasActiveLink: ComputedRef<boolean>
   hasChildren: ComputedRef<boolean>
   toggle(): void
@@ -127,6 +128,13 @@ export function useCloseSidebarOnEscape(
   }
 }
 
+const hashRef = ref(inBrowser ? location.hash : '')
+if (inBrowser) {
+  window.addEventListener('hashchange', () => {
+    hashRef.value = location.hash
+  })
+}
+
 export function useSidebarControl(
   item: ComputedRef<DefaultTheme.SidebarItem>
 ): SidebarControl {
@@ -142,9 +150,13 @@ export function useSidebarControl(
     return !!item.value.link
   })
 
-  const isActiveLink = computed(() => {
-    return isActive(page.value.relativePath, item.value.link)
-  })
+  const isActiveLink = ref(false)
+  const updateIsActiveLink = () => {
+    isActiveLink.value = isActive(page.value.relativePath, item.value.link)
+  }
+
+  watch([page, item, hashRef], updateIsActiveLink)
+  onMounted(updateIsActiveLink)
 
   const hasActiveLink = computed(() => {
     if (isActiveLink.value) {

@@ -28,15 +28,19 @@ describe('client/theme-default/support/sidebar', () => {
       }
 
       test('gets `/` sidebar', () => {
-        expect(getSidebar(normalSidebar, '/')).toBe(root)
+        expect(getSidebar(normalSidebar, '/')).toStrictEqual(root)
       })
 
       test('gets `/multi-sidebar/` sidebar', () => {
-        expect(getSidebar(normalSidebar, '/multi-sidebar/')).toBe(another)
+        expect(getSidebar(normalSidebar, '/multi-sidebar/')).toStrictEqual(
+          another
+        )
       })
 
       test('gets `/` sidebar again', () => {
-        expect(getSidebar(normalSidebar, '/some-entry.html')).toBe(root)
+        expect(getSidebar(normalSidebar, '/some-entry.html')).toStrictEqual(
+          root
+        )
       })
     })
 
@@ -47,15 +51,19 @@ describe('client/theme-default/support/sidebar', () => {
       }
 
       test('gets `/` sidebar', () => {
-        expect(getSidebar(reversedSidebar, '/')).toBe(root)
+        expect(getSidebar(reversedSidebar, '/')).toStrictEqual(root)
       })
 
       test('gets `/multi-sidebar/` sidebar', () => {
-        expect(getSidebar(reversedSidebar, '/multi-sidebar/')).toBe(another)
+        expect(getSidebar(reversedSidebar, '/multi-sidebar/')).toStrictEqual(
+          another
+        )
       })
 
       test('gets `/` sidebar again', () => {
-        expect(getSidebar(reversedSidebar, '/some-entry.html')).toBe(root)
+        expect(getSidebar(reversedSidebar, '/some-entry.html')).toStrictEqual(
+          root
+        )
       })
     })
 
@@ -74,19 +82,25 @@ describe('client/theme-default/support/sidebar', () => {
       }
 
       test('gets `/` sidebar', () => {
-        expect(getSidebar(nestedSidebar, '/')).toBe(root)
+        expect(getSidebar(nestedSidebar, '/')).toStrictEqual(root)
       })
 
       test('gets `/multi-sidebar/` sidebar', () => {
-        expect(getSidebar(nestedSidebar, '/multi-sidebar/')).toBe(another)
+        expect(getSidebar(nestedSidebar, '/multi-sidebar/')).toStrictEqual(
+          another
+        )
       })
 
       test('gets `/multi-sidebar/nested/` sidebar', () => {
-        expect(getSidebar(nestedSidebar, '/multi-sidebar/nested/')).toBe(nested)
+        expect(
+          getSidebar(nestedSidebar, '/multi-sidebar/nested/')
+        ).toStrictEqual(nested)
       })
 
       test('gets `/` sidebar again', () => {
-        expect(getSidebar(nestedSidebar, '/some-entry.html')).toBe(root)
+        expect(getSidebar(nestedSidebar, '/some-entry.html')).toStrictEqual(
+          root
+        )
       })
     })
   })

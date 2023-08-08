@@ -39,6 +39,7 @@ defineProps<{
   --docsearch-text-color: var(--vp-c-text-1);
   --docsearch-muted-color: var(--vp-c-text-2);
   --docsearch-searchbox-shadow: none;
+  --docsearch-searchbox-background: transparent;
   --docsearch-searchbox-focus-background: transparent;
   --docsearch-key-gradient: transparent;
   --docsearch-key-shadow: none;

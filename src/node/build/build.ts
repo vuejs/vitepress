@@ -176,7 +176,7 @@ function generateMetadataScript(
 
   const metadataContent = `window.__VP_HASH_MAP__=JSON.parse(${hashMapString});${
     siteDataString.includes('_vp-fn_')
-      ? `${deserializeFunctions.toString()};window.__VP_SITE_DATA__=deserializeFunctions(JSON.parse(${siteDataString}));`
+      ? `${deserializeFunctions};window.__VP_SITE_DATA__=deserializeFunctions(JSON.parse(${siteDataString}));`
       : `window.__VP_SITE_DATA__=JSON.parse(${siteDataString});`
   }`
 

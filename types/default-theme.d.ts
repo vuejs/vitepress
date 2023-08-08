@@ -14,6 +14,11 @@ export namespace DefaultTheme {
     logo?: ThemeableImage
 
     /**
+     * Overrides the link of the site logo.
+     */
+    logoLink?: string
+
+    /**
      * Custom site title in navbar. If the value is undefined,
      * `config.title` will be used.
      */
@@ -197,7 +202,7 @@ export namespace DefaultTheme {
   export type Sidebar = SidebarItem[] | SidebarMulti
 
   export interface SidebarMulti {
-    [path: string]: SidebarItem[]
+    [path: string]: SidebarItem[] | { items: SidebarItem[]; base: string }
   }
 
   export type SidebarItem = {
@@ -224,6 +229,16 @@ export namespace DefaultTheme {
      * If `false`, group is collapsible but expanded by default
      */
     collapsed?: boolean
+
+    /**
+     * Base path for the children items.
+     */
+    base?: string
+
+    /**
+     * Customize text that appears on the footer of previous/next page.
+     */
+    docFooterText?: string
   }
 
   /**

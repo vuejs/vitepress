@@ -39,7 +39,7 @@ function onBlur() {
     >
       <span v-if="button || icon" class="text">
         <component v-if="icon" :is="icon" class="option-icon" />
-        {{ button }}
+        <span v-html="button"></span>
         <VPIconChevronDown class="text-icon" />
       </span>
 
@@ -84,6 +84,12 @@ function onBlur() {
 .button[aria-expanded="true"] + .menu {
   opacity: 1;
   visibility: visible;
+  transform: translateY(0);
+}
+
+.button[aria-expanded="false"] + .menu {
+  opacity: 0;
+  visibility: hidden;
   transform: translateY(0);
 }
 
