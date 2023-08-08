@@ -1,3 +1,9 @@
+# [1.0.0-rc.2](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.1...v1.0.0-rc.2) (2023-08-08)
+
+### Reverts
+
+- **theme:** allow setting base path in sidebar items ([2fe8f60](https://github.com/vuejs/vitepress/commit/2fe8f60681793cb406100827ff34e0714f523d37)), closes [#2752](https://github.com/vuejs/vitepress/issues/2752)
+
 # [1.0.0-rc.1](https://github.com/vuejs/vitepress/compare/v1.0.0-beta.7...v1.0.0-rc.1) (2023-08-08)
 
 ### Bug Fixes
