@@ -33,7 +33,7 @@ defineProps<{
 </template>
 
 <style>
-.DocSearch {
+[class*='DocSearch'] {
   --docsearch-primary-color: var(--vp-c-brand);
   --docsearch-highlight-color: var(--docsearch-primary-color);
   --docsearch-text-color: var(--vp-c-text-1);
@@ -47,7 +47,7 @@ defineProps<{
   --docsearch-footer-background: var(--vp-c-bg);
 }
 
-.dark .DocSearch {
+.dark [class*='DocSearch'] {
   --docsearch-modal-shadow: none;
   --docsearch-footer-shadow: none;
   --docsearch-logo-color: var(--vp-c-text-2);
