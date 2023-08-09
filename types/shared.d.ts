@@ -11,11 +11,77 @@ export interface PageData {
   titleTemplate?: string | boolean
   description: string
   headers: Header[]
-  frontmatter: Record<string, any>
+  frontmatter: OptionalFrontmatter
   params?: Record<string, any>
   isNotFound?: boolean
   lastUpdated?: number
 }
+
+// ! This type makes it so that other frontmatter values can be acknowleged when using frontmatter.
+type OptionalFrontmatter =
+  | FrontMatter
+  | Exclude<Record<string, NonNullable<unknown>>, FrontMatter>
+
+// This is the shape of the front matter
+//!  Leave the curly braces it makes this type work.
+type FrontMatter = {
+  navbar: boolean
+  sidebar: boolean
+  footer: boolean
+  lastUpdated: boolean
+  editLink: boolean
+  aside: boolean | 'left'
+  outline: number | [number, number] | 'deep' | false
+  pageClass: string
+} & (
+  | {
+      layout: 'home'
+      hero: Hero
+      features: Array<Feature>
+    }
+  | { layout: 'doc' }
+  | { layout: 'page' }
+)
+
+// This type was added to complete the front matter.
+interface Feature {
+  // Show icon on each feature box.
+  icon?: FeatureIcon
+
+  // Title of the feature.
+  title: string
+
+  // Details of the feature.
+  details: string
+
+  // Link when clicked on feature component. The link can
+  // be both internal or external.
+  //
+  // e.g. `guid/reference/default-theme-home-page` or `htttps://example.com`
+  link?: string
+
+  // Link text to be shown inside feature component. Best
+  // used with `link` option.
+  //
+  // e.g. `Learn more`, `Visit page`, etc.
+  linkText?: string
+
+  // Link rel attribute for the `link` option.
+  //
+  // e.g. `external`
+  rel?: string
+}
+
+type FeatureIcon =
+  | string
+  | { src: string; alt?: string; width?: string; height: string }
+  | {
+      light: string
+      dark: string
+      alt?: string
+      width?: string
+      height: string
+    }
 
 export interface Header {
   /**
