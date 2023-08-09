@@ -14,19 +14,20 @@ import {
   SITE_DATA_REQUEST_PATH,
   resolveAliases
 } from './alias'
-import { resolveUserConfig, resolvePages, type SiteConfig } from './config'
+import { resolvePages, resolveUserConfig, type SiteConfig } from './config'
 import {
   clearCache,
   createMarkdownToVueRenderFn,
   type MarkdownCompileResult
 } from './markdownToVue'
-import { slash, type PageDataPayload } from './shared'
+import { dynamicRoutesPlugin } from './plugins/dynamicRoutesPlugin'
+import { localSearchPlugin } from './plugins/localSearchPlugin'
+import { rewritesPlugin } from './plugins/rewritesPlugin'
+import { socialIconsPlugin } from './plugins/socialIconsPlugin'
 import { staticDataPlugin } from './plugins/staticDataPlugin'
 import { webFontsPlugin } from './plugins/webFontsPlugin'
-import { dynamicRoutesPlugin } from './plugins/dynamicRoutesPlugin'
-import { rewritesPlugin } from './plugins/rewritesPlugin'
-import { localSearchPlugin } from './plugins/localSearchPlugin'
-import { serializeFunctions, deserializeFunctions } from './utils/fnSerialize'
+import { slash, type PageDataPayload } from './shared'
+import { deserializeFunctions, serializeFunctions } from './utils/fnSerialize'
 
 declare module 'vite' {
   interface UserConfig {
@@ -381,6 +382,7 @@ export async function createVitePressPlugin(
     ...(userViteConfig?.plugins || []),
     await localSearchPlugin(siteConfig),
     staticDataPlugin,
-    await dynamicRoutesPlugin(siteConfig)
+    await dynamicRoutesPlugin(siteConfig),
+    socialIconsPlugin(siteConfig)
   ]
 }
