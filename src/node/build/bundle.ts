@@ -17,7 +17,7 @@ import { buildMPAClient } from './buildMPAClient'
 
 // A list of default theme components that should only be loaded on demand.
 const lazyDefaultThemeComponentsRE =
-  /VP(HomeSponsors|DocAsideSponsors|TeamPage|TeamMembers|LocalSearchBox|AlgoliaSearchBox|CarbonAds|DocAsideCarbonAds)/
+  /VP(HomeSponsors|DocAsideSponsors|TeamPage|TeamMembers|LocalSearchBox|AlgoliaSearchBox|CarbonAds|DocAsideCarbonAds|Sponsors)/
 
 const clientDir = normalizePath(
   path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../client')
