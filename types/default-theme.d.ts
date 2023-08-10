@@ -3,6 +3,7 @@ import type { ComputedRef, Ref } from 'vue'
 import type { DocSearchProps } from './docsearch.js'
 import type { LocalSearchTranslations } from './local-search.js'
 import type { PageData } from './shared.js'
+import type { MarkdownEnv } from './markdown/env.js'
 
 export namespace DefaultTheme {
   export interface Config {
@@ -385,6 +386,16 @@ export namespace DefaultTheme {
      * exclude content from search results
      */
     exclude?: (relativePath: string) => boolean
+
+    /**
+     * Allow transformation of content before indexing
+     */
+    preIndexRender?: (
+      html: string,
+      env: MarkdownEnv,
+      rawFileContent: string,
+      render: (string) => string
+    ) => string
   }
 
   // algolia -------------------------------------------------------------------

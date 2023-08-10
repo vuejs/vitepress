@@ -116,6 +116,38 @@ export default defineConfig({
 })
 ```
 
+### Transforming content
+
+- Type: `(html: string, env: MarkdownEnv, rawFileContent: string, render: (markdown: string) => string) => string`
+
+You can pass a `preIndexRender` function to `themeConfig.search.options` that can modify or return entirely different HTML content before it is indexed.
+
+The function receives the following arguments:
+
+- `html` - the rendered HTML content that was going to be indexed
+- `env` - metadata for the page including its `path` and `frontmatter`
+- `rawFileContent` - the raw content of the file for this page
+- `render` - a function you can pass markdown to in order to render it
+
+#### Example: Add H1 to HTML from Frontmatter title
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      options: {
+        preIndexRender: (html, env, rawFileContent, render) =>
+          env.frontmatter?.title
+            ? render('# ' + env.frontmatter?.title) + html
+            : html
+      }
+    }
+  }
+}
+```
+
 ## Algolia Search
 
 VitePress supports searching your docs site using [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Refer their getting started guide. In your `.vitepress/config.ts` you'll need to provide at least the following to make it work:

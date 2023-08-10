@@ -53,14 +53,28 @@ export async function localSearchPlugin(
       relativePath,
       cleanUrls
     }
-    const html = md.render(fs.readFileSync(file, 'utf-8'), env)
-    if (
-      env.frontmatter?.search === false ||
-      (site.themeConfig.search?.provider === 'local' &&
-        site.themeConfig.search.options?.exclude?.(relativePath))
-    ) {
+    const fileContent = fs.readFileSync(file, 'utf-8')
+    const html = md.render(fileContent, env)
+
+    if (env.frontmatter?.search === false) {
       return ''
     }
+
+    const searchConfig = site.themeConfig.search
+    if (searchConfig?.provider === 'local') {
+      if (searchConfig.options?.exclude?.(relativePath)) {
+        return ''
+      }
+      if (searchConfig?.options?.preIndexRender) {
+        return searchConfig.options.preIndexRender(
+          html,
+          env,
+          fileContent,
+          (markdown) => md.render(markdown, env)
+        )
+      }
+    }
+
     return html
   }
 
