@@ -126,7 +126,7 @@
 
 .vp-doc ul,
 .vp-doc ol {
-  padding-left: 1.25rem;
+  list-style-position: inside;
   margin: 16px 0;
 }
 
