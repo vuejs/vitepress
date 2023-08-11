@@ -393,7 +393,6 @@ export namespace DefaultTheme {
     preIndexRender?: (
       html: string,
       env: MarkdownEnv,
-      rawFileContent: string,
       render: (string) => string
     ) => string
   }

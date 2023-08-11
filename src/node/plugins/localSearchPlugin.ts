@@ -53,8 +53,7 @@ export async function localSearchPlugin(
       relativePath,
       cleanUrls
     }
-    const fileContent = fs.readFileSync(file, 'utf-8')
-    const html = md.render(fileContent, env)
+    const html = md.render(fs.readFileSync(file, 'utf-8'), env)
 
     if (env.frontmatter?.search === false) {
       return ''
@@ -66,11 +65,8 @@ export async function localSearchPlugin(
         return ''
       }
       if (searchConfig?.options?.preIndexRender) {
-        return searchConfig.options.preIndexRender(
-          html,
-          env,
-          fileContent,
-          (markdown) => md.render(markdown, env)
+        return searchConfig.options.preIndexRender(html, env, (markdown) =>
+          md.render(markdown, env)
         )
       }
     }

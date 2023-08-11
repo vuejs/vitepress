@@ -118,15 +118,14 @@ export default defineConfig({
 
 ### Transforming content
 
-- Type: `(html: string, env: MarkdownEnv, rawFileContent: string, render: (markdown: string) => string) => string`
+- Type: `(html: string, env: MarkdownEnv, render: (markdown: string) => string) => string`
 
 You can pass a `preIndexRender` function to `themeConfig.search.options` that can modify or return entirely different HTML content before it is indexed.
 
-The function receives the following arguments:
+The function receives the following parameters:
 
 - `html` - the rendered HTML content that was going to be indexed
 - `env` - metadata for the page including its `path` and `frontmatter`
-- `rawFileContent` - the raw content of the file for this page
 - `render` - a function you can pass markdown to in order to render it
 
 #### Example: Add H1 to HTML from Frontmatter title
@@ -138,7 +137,7 @@ export default defineConfig({
   themeConfig: {
     search: {
       options: {
-        preIndexRender: (html, env, rawFileContent, render) =>
+        preIndexRender: (html, env, render) =>
           env.frontmatter?.title
             ? render('# ' + env.frontmatter?.title) + html
             : html
