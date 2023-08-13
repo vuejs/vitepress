@@ -35,6 +35,7 @@ declare module 'vite' {
   }
 }
 
+const themeRE = /\/\.vitepress\/theme\/index\.(m|c)?(j|t)s$/
 const hashRE = /\.(\w+)\.js$/
 const staticInjectMarkerRE =
   /\b(const _hoisted_\d+ = \/\*(?:#|@)__PURE__\*\/\s*createStaticVNode)\("(.*)", (\d+)\)/g
@@ -227,7 +228,7 @@ export async function createVitePressPlugin(
 
       const onFileAddDelete = async (added: boolean, file: string) => {
         // restart server on theme file creation / deletion
-        if (/\/\.vitepress\/theme\/index\.(m|c)?(j|t)s$/.test(slash(file))) {
+        if (themeRE.test(slash(file))) {
           siteConfig.logger.info(
             c.green(
               `${path.relative(process.cwd(), file)} ${
