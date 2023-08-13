@@ -204,7 +204,9 @@ export function scaffold({
     }
     Object.assign(userPkg.scripts || (userPkg.scripts = {}), scripts)
     fs.writeFileSync(pkgPath, JSON.stringify(userPkg, null, 2))
-    return `Done! Now run ${cyan(`${getPackageManger()} run docs:dev`)} and start writing.${tip}`
+    return `Done! Now run ${cyan(
+      `${getPackageManger()} run docs:dev`
+    )} and start writing.${tip}`
   } else {
     return `You're all set! Now run ${cyan(
       `npx vitepress dev${dir}`
