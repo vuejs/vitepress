@@ -225,8 +225,22 @@ export async function createVitePressPlugin(
         configDeps.forEach((file) => server.watcher.add(file))
       }
 
-      // update pages, dynamicRoutes and rewrites on md file add / deletion
-      const onFileAddDelete = async (file: string) => {
+      const onFileAddDelete = async (added: boolean, file: string) => {
+        // restart server on theme file creation / deletion
+        if (/\/\.vitepress\/theme\/index\.(m|c)?(j|t)s$/.test(slash(file))) {
+          siteConfig.logger.info(
+            c.green(
+              `${path.relative(process.cwd(), file)} ${
+                added ? 'created' : 'deleted'
+              }, restarting server...\n`
+            ),
+            { clear: true, timestamp: true }
+          )
+
+          await recreateServer?.()
+        }
+
+        // update pages, dynamicRoutes and rewrites on md file creation / deletion
         if (file.endsWith('.md')) {
           Object.assign(
             siteConfig,
@@ -234,7 +248,9 @@ export async function createVitePressPlugin(
           )
         }
       }
-      server.watcher.on('add', onFileAddDelete).on('unlink', onFileAddDelete)
+      server.watcher
+        .on('add', onFileAddDelete.bind(null, true))
+        .on('unlink', onFileAddDelete.bind(null, false))
 
       // serve our index.html after vite history fallback
       return () => {
