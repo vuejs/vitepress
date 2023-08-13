@@ -8,7 +8,7 @@ You can try VitePress directly in your browser on [StackBlitz](https://vitepress
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) version 16 or higher.
+- [Node.js](https://nodejs.org/) version 18 or higher.
 - Terminal for accessing VitePress via its command line interface (CLI).
 - Text Editor with [Markdown](https://en.wikipedia.org/wiki/Markdown) syntax support.
   - [VSCode](https://code.visualstudio.com/) is recommended, along with the [official Vue extension](https://marketplace.visualstudio.com/items?itemName=Vue.volar).
@@ -22,7 +22,7 @@ $ npm install -D vitepress
 ```
 
 ```sh [pnpm]
-$ pnpm add -D vitepress
+$ pnpm add -D vitepress@latest
 ```
 
 ```sh [yarn]
@@ -44,6 +44,12 @@ If using PNPM, you will notice a missing peer warning for `@docsearch/js`. This 
   }
 }
 ```
+
+:::
+
+::: tip NOTE
+
+VitePress is an ESM-only package. Don't use `require()` to import it, and make sure your nearest `package.json` contains `"type": "module"`, or change the file extension of your relevant files like `.vitepress/config.js` to `.mjs`/`.mts`. Refer [Vite's troubleshooting guide](http://vitejs.dev/guide/troubleshooting.html#this-package-is-esm-only) for more details. Also, inside async CJS contexts, you can use `await import('vitepress')` instead.
 
 :::
 

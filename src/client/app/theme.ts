@@ -9,7 +9,7 @@ export interface EnhanceAppContext {
 }
 
 export interface Theme {
-  Layout: Component
+  Layout?: Component
   enhanceApp?: (ctx: EnhanceAppContext) => Awaitable<void>
   extends?: Theme
 

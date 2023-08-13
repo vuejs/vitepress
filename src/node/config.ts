@@ -127,7 +127,8 @@ export async function resolveConfig(
     transformHtml: userConfig.transformHtml,
     transformPageData: userConfig.transformPageData,
     rewrites,
-    userConfig
+    userConfig,
+    sitemap: userConfig.sitemap
   }
 
   // to be shared with content loaders
@@ -137,7 +138,7 @@ export async function resolveConfig(
   return config
 }
 
-const supportedConfigExtensions = ['js', 'ts', 'cjs', 'mjs', 'cts', 'mts']
+const supportedConfigExtensions = ['js', 'ts', 'mjs', 'mts']
 
 export async function resolveUserConfig(
   root: string,
@@ -234,7 +235,8 @@ export async function resolveSiteData(
     themeConfig: userConfig.themeConfig || {},
     locales: userConfig.locales || {},
     scrollOffset: userConfig.scrollOffset ?? 90,
-    cleanUrls: !!userConfig.cleanUrls
+    cleanUrls: !!userConfig.cleanUrls,
+    contentProps: userConfig.contentProps
   }
 }
 

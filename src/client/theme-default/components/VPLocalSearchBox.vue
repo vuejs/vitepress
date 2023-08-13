@@ -104,13 +104,15 @@ const filterText = disableQueryPersistence.value
 
 const showDetailedList = useLocalStorage(
   'vitepress:local-search-detailed-list',
-  false
+  theme.value.search?.provider === 'local' &&
+    theme.value.search.options?.detailedView === true
 )
 
 const disableDetailedView = computed(() => {
   return (
     theme.value.search?.provider === 'local' &&
-    theme.value.search.options?.disableDetailedView === true
+    (theme.value.search.options?.disableDetailedView === true ||
+      theme.value.search.options?.detailedView === false)
   )
 })
 
@@ -666,7 +668,7 @@ function formMarkRegex(terms: Set<string>) {
   border-radius: 6px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .shell {
     margin: 0;
     width: 100vw;
@@ -685,7 +687,7 @@ function formMarkRegex(terms: Set<string>) {
   cursor: text;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .search-bar {
     padding: 0 8px;
   }
@@ -699,7 +701,7 @@ function formMarkRegex(terms: Set<string>) {
   margin: 8px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .search-icon {
     display: none;
   }
@@ -711,7 +713,7 @@ function formMarkRegex(terms: Set<string>) {
   width: 100%;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .search-input {
     padding: 6px 4px;
   }
@@ -762,7 +764,7 @@ function formMarkRegex(terms: Set<string>) {
   gap: 4px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .search-keyboard-shortcuts {
     display: none;
   }
@@ -806,7 +808,7 @@ function formMarkRegex(terms: Set<string>) {
   overflow: hidden;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .result > div {
     margin: 8px;
   }

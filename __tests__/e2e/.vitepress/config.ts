@@ -87,6 +87,14 @@ export default defineConfig({
   title: 'Example',
   description: 'An example app using VitePress.',
   themeConfig: {
-    sidebar
+    sidebar,
+    search: {
+      provider: 'local',
+      options: {
+        exclude(relativePath) {
+          return relativePath.startsWith('local-search/excluded')
+        }
+      }
+    }
   }
 })

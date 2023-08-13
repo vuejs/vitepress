@@ -74,13 +74,22 @@ function createCodeGroup(options: Options): ContainerArgs {
             );
             ++i
           ) {
-            if (tokens[i].type === 'fence' && tokens[i].tag === 'code') {
-              const title = extractTitle(tokens[i].info)
-              const id = nanoid(7)
-              tabs += `<input type="radio" name="group-${name}" id="tab-${id}" ${checked}><label for="tab-${id}">${title}</label>`
+            const isHtml = tokens[i].type === 'html_block'
 
-              if (checked) {
-                tokens[i].info += ' active'
+            if (
+              (tokens[i].type === 'fence' && tokens[i].tag === 'code') ||
+              isHtml
+            ) {
+              const title = extractTitle(
+                isHtml ? tokens[i].content : tokens[i].info,
+                isHtml
+              )
+
+              if (title) {
+                const id = nanoid(7)
+                tabs += `<input type="radio" name="group-${name}" id="tab-${id}" ${checked}><label for="tab-${id}">${title}</label>`
+
+                if (checked && !isHtml) tokens[i].info += ' active'
                 checked = ''
               }
             }

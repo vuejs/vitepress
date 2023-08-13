@@ -11,7 +11,7 @@ const props = defineProps<{
   rel?: string
 }>()
 
-const tag = computed(() => props.tag ?? props.href ? 'a' : 'span')
+const tag = computed(() => props.tag ?? (props.href ? 'a' : 'span'))
 const isExternal = computed(() => props.href && EXTERNAL_URL_RE.test(props.href))
 </script>
 
@@ -25,8 +25,8 @@ const isExternal = computed(() => props.href && EXTERNAL_URL_RE.test(props.href)
       'no-icon': noIcon
     }"
     :href="href ? normalizeLink(href) : undefined"
-    :target="target || (isExternal ? '_blank' : undefined)"
-    :rel="rel || (isExternal ? 'noreferrer' : undefined)"
+    :target="target ?? (isExternal ? '_blank' : undefined)"
+    :rel="rel ?? (isExternal ? 'noreferrer' : undefined)"
   >
     <slot />
   </component>

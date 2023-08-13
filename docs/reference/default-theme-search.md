@@ -98,6 +98,24 @@ export default defineConfig({
 
 Learn more in [MiniSearch docs](https://lucaong.github.io/minisearch/classes/_minisearch_.minisearch.html).
 
+### Excluding pages from search
+
+You can exclude pages from search by adding `search: false` to the frontmatter of the page. Alternatively, you can also pass `exclude` function to `themeConfig.search.options` to exclude pages based on their path relative to `srcDir`:
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      options: {
+        exclude: (path) => path.startsWith('/some/path')
+      }
+    }
+  }
+})
+```
+
 ## Algolia Search
 
 VitePress supports searching your docs site using [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Refer their getting started guide. In your `.vitepress/config.ts` you'll need to provide at least the following to make it work:
