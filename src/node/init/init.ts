@@ -9,7 +9,7 @@ import {
 } from '@clack/prompts'
 import fs from 'fs-extra'
 import path from 'path'
-import { black, cyan, bgCyan, bold, yellow } from 'picocolors'
+import { cyan, bold, yellow } from 'picocolors'
 import { fileURLToPath } from 'url'
 import template from 'lodash.template'
 
@@ -29,7 +29,7 @@ export interface ScaffoldOptions {
 }
 
 export async function init() {
-  intro(bgCyan(bold(black(' Welcome to VitePress! '))))
+  intro(bold(cyan(' Welcome to VitePress! ')))
 
   const options: ScaffoldOptions = await group(
     {
