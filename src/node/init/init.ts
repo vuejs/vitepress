@@ -28,6 +28,14 @@ export interface ScaffoldOptions {
   injectNpmScripts: boolean
 }
 
+const getPackageManger = () => {
+  const name = process.env?.npm_config_user_agent || 'npm'
+  if (name === 'npm') {
+    return 'npm'
+  }
+  return name.split('/')[0]
+}
+
 export async function init() {
   intro(bold(cyan(' Welcome to VitePress! ')))
 
@@ -196,7 +204,9 @@ export function scaffold({
     }
     Object.assign(userPkg.scripts || (userPkg.scripts = {}), scripts)
     fs.writeFileSync(pkgPath, JSON.stringify(userPkg, null, 2))
-    return `Done! Now run ${cyan(`npm run docs:dev`)} and start writing.${tip}`
+    return `Done! Now run ${cyan(
+      `${getPackageManger()} run docs:dev`
+    )} and start writing.${tip}`
   } else {
     return `You're all set! Now run ${cyan(
       `npx vitepress dev${dir}`
