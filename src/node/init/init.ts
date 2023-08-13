@@ -9,7 +9,7 @@ import {
 } from '@clack/prompts'
 import fs from 'fs-extra'
 import path from 'path'
-import { black, cyan, bgCyan, bold, yellow } from 'picocolors'
+import { cyan, bold, yellow } from 'picocolors'
 import { fileURLToPath } from 'url'
 import template from 'lodash.template'
 
@@ -28,8 +28,16 @@ export interface ScaffoldOptions {
   injectNpmScripts: boolean
 }
 
+const getPackageManger = () => {
+  const name = process.env?.npm_config_user_agent || 'npm'
+  if (name === 'npm') {
+    return 'npm'
+  }
+  return name.split('/')[0]
+}
+
 export async function init() {
-  intro(bgCyan(bold(black(' Welcome to VitePress! '))))
+  intro(bold(cyan(' Welcome to VitePress! ')))
 
   const options: ScaffoldOptions = await group(
     {
@@ -196,7 +204,9 @@ export function scaffold({
     }
     Object.assign(userPkg.scripts || (userPkg.scripts = {}), scripts)
     fs.writeFileSync(pkgPath, JSON.stringify(userPkg, null, 2))
-    return `Done! Now run ${cyan(`npm run docs:dev`)} and start writing.${tip}`
+    return `Done! Now run ${cyan(
+      `${getPackageManger()} run docs:dev`
+    )} and start writing.${tip}`
   } else {
     return `You're all set! Now run ${cyan(
       `npx vitepress dev${dir}`
