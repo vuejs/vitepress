@@ -17,6 +17,10 @@ You can enable a custom theme by creating a `.vitepress/theme/index.js` or `.vit
 
 VitePress will always use the custom theme instead of the default theme when it detects presence of a theme entry file. You can, however, [extend the default theme](./extending-default-theme) to perform advanced customizations on top of it.
 
+::: tip 
+You need to restart vitepress after creating `.vitepress/theme/` in order to ensure these files are picked up. 
+:::
+
 ## Theme Interface
 
 A VitePress custom theme is defined as an object with the following interface:
