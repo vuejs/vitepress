@@ -783,14 +783,15 @@ Note that this does not throw errors if your file is not present. Hence, when us
 VitePress uses [markdown-it](https://github.com/markdown-it/markdown-it) as the Markdown renderer. A lot of the extensions above are implemented via custom plugins. You can further customize the `markdown-it` instance using the `markdown` option in `.vitepress/config.js`:
 
 ```js
-const anchor = require('markdown-it-anchor')
+import markdownItAnchor from 'markdown-it-anchor'
+import markdownItFoo from 'markdown-it-foo'
 
 module.exports = {
   markdown: {
     // options for markdown-it-anchor
     // https://github.com/valeriangalliat/markdown-it-anchor#usage
     anchor: {
-      permalink: anchor.permalink.headerLink()
+      permalink: markdownItAnchor.permalink.headerLink()
     },
 
     // options for @mdit-vue/plugin-toc
@@ -799,7 +800,7 @@ module.exports = {
 
     config: (md) => {
       // use more markdown-it plugins!
-      md.use(require('markdown-it-xxx'))
+      md.use(markdownItFoo)
     }
   }
 }
