@@ -32,6 +32,11 @@ export type ThemeOptions =
   | IThemeRegistration
   | { light: IThemeRegistration; dark: IThemeRegistration }
 
+export type MarkdownPlugin = (
+  md: MarkdownIt,
+  options?: MarkdownOptions
+) => string
+
 export interface MarkdownOptions extends MarkdownIt.Options {
   lineNumbers?: boolean
   preConfig?: (md: MarkdownIt) => void
@@ -52,6 +57,7 @@ export interface MarkdownOptions extends MarkdownIt.Options {
   toc?: TocPluginOptions
   externalLinks?: Record<string, string>
   cache?: boolean
+  plugins?: Array<MarkdownPlugin>
 }
 
 export type MarkdownRenderer = MarkdownIt
@@ -144,6 +150,13 @@ export const createMarkdownRenderer = async (
     .use(tocPlugin, {
       ...options.toc
     } as TocPluginOptions)
+
+  const plugins = options.plugins
+  if (plugins && Array.isArray(plugins)) {
+    plugins.forEach((plugin) => {
+      md.use(plugin, options)
+    })
+  }
 
   // apply user config
   if (options.config) {
