@@ -20,8 +20,7 @@ hero:
     alt: VitePress
 
 features:
-  - title: Features
-    features: 
+  - features: 
       - icon: 📝
         title: Focus on Your Content
         details: Effortlessly create beautiful documentation sites with just markdown.
@@ -34,17 +33,6 @@ features:
       - icon: 🚀
         title: Ship Fast Sites
         details: Fast initial load with static HTML, fast post-load navigation with client-side routing.
-  - title: Title
-    features: 
-      - icon: 📝
-        title: Test
-        details: Test
-      - icon: 📝
-        title: Test
-        details: Test
-      - icon: 📝
-        title: Test
-        details: Test
 ---
 <style>
 :root {
