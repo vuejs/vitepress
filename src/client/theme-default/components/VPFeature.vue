@@ -49,7 +49,6 @@ defineProps<{
 
 .VPFeature.link:hover {
   border-color: var(--vp-c-brand);
-  background-color: var(--vp-c-bg-soft-up);
 }
 
 .box {
@@ -69,7 +68,7 @@ defineProps<{
   align-items: center;
   margin-bottom: 20px;
   border-radius: 6px;
-  background-color: var(--vp-c-bg-soft-down);
+  background-color: var(--vp-c-bg-mute);
   width: 48px;
   height: 48px;
   font-size: 24px;

@@ -209,7 +209,7 @@ const provider = __ALGOLIA__ ? 'algolia' : __VP_LOCAL_SEARCH__ ? 'local' : ''
 }
 
 .dark .DocSearch-Form {
-  background-color: var(--vp-c-bg-soft-mute);
+  background-color: var(--vp-c-bg-mute);
 }
 
 .DocSearch-Screen-Icon > svg {

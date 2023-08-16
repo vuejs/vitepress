@@ -11,14 +11,6 @@
   --vp-c-black: #000000;
   --vp-c-gray: #8e8e93;
 
-  --vp-c-text-light-1: rgba(60, 60, 67);
-  --vp-c-text-light-2: rgba(60, 60, 67, 0.75);
-  --vp-c-text-light-3: rgba(60, 60, 67, 0.33);
-
-  --vp-c-text-dark-1: rgba(255, 255, 245, 0.86);
-  --vp-c-text-dark-2: rgba(235, 235, 245, 0.6);
-  --vp-c-text-dark-3: rgba(235, 235, 245, 0.38);
-
   --vp-c-sponsor: #db2777;
 }
 
@@ -27,36 +19,8 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-  --vp-c-bg: #ffffff;
-
-  --vp-c-bg-elv: #ffffff;
-  --vp-c-bg-elv-up: #ffffff;
-  --vp-c-bg-elv-down: #f6f6f7;
-  --vp-c-bg-elv-mute: #f6f6f7;
-
-  --vp-c-bg-soft: #f6f6f7;
-  --vp-c-bg-soft-up: #f9f9fa;
-  --vp-c-bg-soft-down: #e3e3e5;
-  --vp-c-bg-soft-mute: #e3e3e5;
-
-  --vp-c-bg-alt: #f6f6f7;
-
-  --vp-c-border: #c2c2c4;
-  --vp-c-divider: #e2e2e3;
-  --vp-c-gutter: #e2e2e3;
-
   --vp-c-neutral: var(--vp-c-black);
   --vp-c-neutral-inverse: var(--vp-c-white);
-
-  --vp-c-text-1: var(--vp-c-text-light-1);
-  --vp-c-text-2: var(--vp-c-text-light-2);
-  --vp-c-text-3: var(--vp-c-text-light-3);
-
-  --vp-c-text-inverse-1: var(--vp-c-text-dark-1);
-  --vp-c-text-inverse-2: var(--vp-c-text-dark-2);
-  --vp-c-text-inverse-3: var(--vp-c-text-dark-3);
-
-  --vp-c-text-code: #476582;
 
   --vp-c-mute: #eeeef0;
   --vp-c-mute-light: #f3f3f9;
@@ -64,7 +28,7 @@
   --vp-c-mute-dark: #e3e3e5;
   --vp-c-mute-darker: #d7d7d9;
 
-  --vp-c-brand: #4565d8;
+  --vp-c-brand: #3e63dd;
   --vp-c-brand-light: #708fff;
   --vp-c-brand-lighter: #a4b2ff;
   --vp-c-brand-lightest: #ecefff;
@@ -105,39 +69,13 @@
   --vp-c-red-dimm-1: rgba(244, 63, 94, 0.05);
   --vp-c-red-dimm-2: rgba(244, 63, 94, 0.2);
   --vp-c-red-dimm-3: rgba(244, 63, 94, 0.5);
+
+  /* DEPRECATED: These color will be removed in the future. */
 }
 
 .dark {
-  --vp-c-bg: #1e1e20;
-
-  --vp-c-bg-elv: #252529;
-  --vp-c-bg-elv-up: #323238;
-  --vp-c-bg-elv-down: #1e1e20;
-  --vp-c-bg-elv-mute: #323238;
-
-  --vp-c-bg-soft: #252529;
-  --vp-c-bg-soft-up: #323238;
-  --vp-c-bg-soft-down: #1e1e20;
-  --vp-c-bg-soft-mute: #323238;
-
-  --vp-c-bg-alt: #161618;
-
-  --vp-c-border: rgba(82, 82, 89, 0.68);
-  --vp-c-divider: rgba(82, 82, 89, 0.32);
-  --vp-c-gutter: #000000;
-
   --vp-c-neutral: var(--vp-c-white);
   --vp-c-neutral-inverse: var(--vp-c-black);
-
-  --vp-c-text-1: var(--vp-c-text-dark-1);
-  --vp-c-text-2: var(--vp-c-text-dark-2);
-  --vp-c-text-3: var(--vp-c-text-dark-3);
-
-  --vp-c-text-inverse-1: var(--vp-c-text-light-1);
-  --vp-c-text-inverse-2: var(--vp-c-text-light-2);
-  --vp-c-text-inverse-3: var(--vp-c-text-light-3);
-
-  --vp-c-text-code: #c9def1;
 
   --vp-c-mute: #323238;
   --vp-c-mute-light: #3a3a3c;
@@ -145,8 +83,8 @@
   --vp-c-mute-dark: #222226;
   --vp-c-mute-darker: #505053;
 
-  --vp-c-brand: #708fff;
-  --vp-c-brand-light: #a4b2ff;
+  --vp-c-brand: #647eff;
+  --vp-c-brand-light: #99a2ff;
   --vp-c-brand-lighter: #a4c8ff;
   --vp-c-brand-lightest: #ecefff;
   --vp-c-brand-dark: #4565d8;
@@ -188,6 +126,95 @@
   --vp-c-red-dimm-1: rgba(244, 63, 94, 0.05);
   --vp-c-red-dimm-2: rgba(244, 63, 94, 0.2);
   --vp-c-red-dimm-3: rgba(244, 63, 94, 0.5);
+}
+
+/**
+ * Colors: Background
+ *
+ * These are the base background (bg) colors used in the app.
+ *
+ * At first, there are 4 base bg colors.
+ * - `bg`: The bg color used for main screen.
+ * - `bg-alt`: The alternative bg color used in places such as "sidebar",
+ *   or "code block".
+ * - `bg-elv`: The elevated bg color. This is used at parts where it "floats",
+ *   such as "dialog".
+ * - `bg-soft`: The bg color to slightly ditinguish some components from
+ *   the page. Used for things like "carbon ads" or "table".
+ * - `bg-mute`: The color to strongly distinguish some components from
+ *   the page. Used for things like "inline code" or "hover state of menu item".
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --vp-c-bg: #ffffff;
+  --vp-c-bg-alt: #f6f6f7;
+  --vp-c-bg-elv: #ffffff;
+  --vp-c-bg-soft: #f6f6f7;
+  --vp-c-bg-mute: #eeeef0;
+}
+
+.dark {
+  --vp-c-bg: #1e1e20;
+  --vp-c-bg-alt: #161618;
+  --vp-c-bg-elv: #252529;
+  --vp-c-bg-soft: #252529;
+  --vp-c-bg-mute: #323238;
+}
+
+/**
+ * Colors: Borders
+ *
+ * These are the base border colors used in the app.
+ *
+ * The border has 3 variants which is pecifically designed for
+ * different purposes.
+ * - `divider`: This is used for separators. This is used to divide sections
+ *   within the same components, such as having separator on "h2" heading.
+ * - `border`: This is designed for borders on interactive components.
+ *   For example this should be used for a button outline.
+ * - `gutter`: This is used to divide components in the page. For example
+ *   the header and the lest of the page.
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --vp-c-border: #c2c2c4;
+  --vp-c-divider: #e2e2e3;
+  --vp-c-gutter: #e2e2e3;
+}
+
+.dark {
+  --vp-c-border: rgba(82, 82, 89, 0.68);
+  --vp-c-divider: rgba(82, 82, 89, 0.32);
+  --vp-c-gutter: #000000;
+}
+
+/**
+ * Colors: Text and Brand
+ *
+ * These are the text and brand colors used in the app.
+ *
+ * The text colors comes with 3 variants.
+ * - `text-1`: Used for primary text.
+ * - `text-2`: Used for muted texts, such as "inactive menu" or "info texts".
+ * - `text-3`: Used for subtle texts, such as "placeholders" or "caret icon".
+ *
+ * The `brand` is used for "links", "active indicator", etc.
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --vp-c-text-1: rgba(60, 60, 67);
+  --vp-c-text-2: rgba(60, 60, 67, 0.75);
+  --vp-c-text-3: rgba(60, 60, 67, 0.33);
+
+  --vp-c-brand: #3e63dd;
+}
+
+.dark {
+  --vp-c-text-1: rgba(255, 255, 245, 0.86);
+  --vp-c-text-2: rgba(235, 235, 245, 0.6);
+  --vp-c-text-3: rgba(235, 235, 245, 0.38);
+
+  --vp-c-brand: #647eff;
 }
 
 /**
@@ -260,41 +287,45 @@
 :root {
   --vp-code-line-height: 1.7;
   --vp-code-font-size: 0.875em;
-  --vp-c-code-dimm: var(--vp-c-text-dark-3);
+  --vp-code-color: #476582;
+  --vp-code-link-color: #3a5ccc;
+  --vp-code-bg: var(--vp-c-bg-mute);
 
-  --vp-code-block-color: var(--vp-c-text-dark-1);
+  --vp-code-block-color: rgba(255, 255, 245, 0.86);
   --vp-code-block-bg: #161618;
-  --vp-code-block-bg-light: #1e1e20;
   --vp-code-block-divider-color: #000000;
 
-  --vp-code-line-highlight-color: rgba(0, 0, 0, 0.5);
-  --vp-code-line-number-color: var(--vp-c-code-dimm);
+  --vp-code-lang-color: rgba(235, 235, 245, 0.38);
 
-  --vp-code-line-diff-add-color: var(--vp-c-green-dimm-2);
-  --vp-code-line-diff-add-symbol-color: var(--vp-c-green);
+  --vp-code-line-highlight-color: #000000;
+  --vp-code-line-number-color: rgba(235, 235, 245, 0.38);
 
-  --vp-code-line-diff-remove-color: var(--vp-c-red-dimm-2);
-  --vp-code-line-diff-remove-symbol-color: var(--vp-c-red);
+  --vp-code-line-diff-add-color: rgba(16, 185, 129, 0.2);
+  --vp-code-line-diff-add-symbol-color: #10b981;
 
-  --vp-code-line-warning-color: var(--vp-c-yellow-dimm-2);
-  --vp-code-line-error-color: var(--vp-c-red-dimm-2);
+  --vp-code-line-diff-remove-color: rgba(244, 63, 94, 0.2);
+  --vp-code-line-diff-remove-symbol-color: #f43f5e;
 
-  --vp-code-copy-code-border-color: transparent;
-  --vp-code-copy-code-bg: var(--vp-code-block-bg-light);
-  --vp-code-copy-code-hover-border-color: var(--vp-c-divider);
-  --vp-code-copy-code-hover-bg: var(--vp-code-block-bg-light);
-  --vp-code-copy-code-active-text: var(--vp-c-text-dark-2);
+  --vp-code-line-warning-color: rgba(234, 179, 8, 0.2);
+  --vp-code-line-error-color: rgba(244, 63, 94, 0.2);
+
+  --vp-code-copy-code-border-color: rgba(82, 82, 89, 0.32);
+  --vp-code-copy-code-bg: #252529;
+  --vp-code-copy-code-hover-border-color: rgba(82, 82, 89, 0.32);
+  --vp-code-copy-code-hover-bg: #323238;
+  --vp-code-copy-code-active-text: rgba(255, 255, 245, 0.86);
 
   --vp-code-tab-divider: var(--vp-code-block-divider-color);
-  --vp-code-tab-text-color: var(--vp-c-text-dark-2);
+  --vp-code-tab-text-color: rgba(235, 235, 245, 0.6);
   --vp-code-tab-bg: var(--vp-code-block-bg);
-  --vp-code-tab-hover-text-color: var(--vp-c-text-dark-1);
-  --vp-code-tab-active-text-color: var(--vp-c-text-dark-1);
+  --vp-code-tab-hover-text-color: rgba(255, 255, 245, 0.86);
+  --vp-code-tab-active-text-color: rgba(255, 255, 245, 0.86);
   --vp-code-tab-active-bar-color: var(--vp-c-brand);
 }
 
 .dark {
-  --vp-code-block-bg: #161618;
+  --vp-code-color: #dddffe;
+  --vp-code-link-color: #99a2ff;
 }
 
 :root:not(.dark) .vp-adaptive-theme {
@@ -373,9 +404,9 @@
   --vp-custom-block-info-code-bg: var(--vp-c-mute);
 
   --vp-custom-block-tip-border: var(--vp-c-brand);
-  --vp-custom-block-tip-text: var(--vp-c-brand);
-  --vp-custom-block-tip-bg: var(--vp-c-bg-soft);
-  --vp-custom-block-tip-code-bg: var(--vp-c-mute);
+  --vp-custom-block-tip-text: var(--vp-c-brand-darker);
+  --vp-custom-block-tip-bg: rgba(100, 108, 255, 0.08);
+  --vp-custom-block-tip-code-bg: rgba(100, 108, 255, 0.18);
 
   --vp-custom-block-warning-border: var(--vp-c-yellow);
   --vp-custom-block-warning-text: var(--vp-c-yellow);
@@ -385,6 +416,33 @@
   --vp-custom-block-danger-border: var(--vp-c-red);
   --vp-custom-block-danger-text: var(--vp-c-red);
   --vp-custom-block-danger-bg: var(--vp-c-bg-soft);
+  --vp-custom-block-danger-code-bg: var(--vp-c-mute);
+
+  --vp-custom-block-details-border: var(--vp-custom-block-info-border);
+  --vp-custom-block-details-text: var(--vp-custom-block-info-text);
+  --vp-custom-block-details-bg: var(--vp-custom-block-info-bg);
+  --vp-custom-block-details-code-bg: var(--vp-custom-block-details-bg);
+}
+
+.dark {
+  --vp-custom-block-info-border: var(--vp-c-border);
+  --vp-custom-block-info-text: var(--vp-c-text-2);
+  --vp-custom-block-info-bg: var(--vp-c-bg);
+  --vp-custom-block-info-code-bg: var(--vp-c-mute);
+
+  --vp-custom-block-tip-border: #2c438f;
+  --vp-custom-block-tip-text: var(--vp-c-brand);
+  --vp-custom-block-tip-bg: rgba(0, 34, 255, 0.09);
+  --vp-custom-block-tip-code-bg: rgba(35, 79, 255, 0.18);
+
+  --vp-custom-block-warning-border: var(--vp-c-yellow);
+  --vp-custom-block-warning-text: var(--vp-c-yellow);
+  --vp-custom-block-warning-bg: var(--vp-c-bg);
+  --vp-custom-block-warning-code-bg: var(--vp-c-mute);
+
+  --vp-custom-block-danger-border: var(--vp-c-red);
+  --vp-custom-block-danger-text: var(--vp-c-red);
+  --vp-custom-block-danger-bg: var(--vp-c-bg);
   --vp-custom-block-danger-code-bg: var(--vp-c-mute);
 
   --vp-custom-block-details-border: var(--vp-custom-block-info-border);

@@ -250,8 +250,8 @@
 .vp-doc :not(pre) > code {
   border-radius: 4px;
   padding: 3px 6px;
-  color: var(--vp-c-text-code);
-  background-color: var(--vp-c-mute);
+  color: var(--vp-code-color);
+  background-color: var(--vp-code-bg);
   transition:
     color 0.5s,
     background-color 0.5s;
@@ -264,7 +264,7 @@
 }
 
 .vp-doc a > code {
-  color: var(--vp-c-brand);
+  color: var(--vp-code-link-color);
 }
 
 .vp-doc div[class*='language-'],
@@ -506,7 +506,7 @@
   z-index: 2;
   font-size: 12px;
   font-weight: 500;
-  color: var(--vp-c-code-dimm);
+  color: var(--vp-code-lang-color);
   transition:
     color 0.4s,
     opacity 0.4s;
