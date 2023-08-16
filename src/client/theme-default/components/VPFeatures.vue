@@ -21,7 +21,7 @@ const props = defineProps<{
   features: (FeatureGroup | Feature)[]
 }>()
 
-const normalizedFeatures = computed({
+const normalizedFeatures: FeatureGroup[] = computed({
   get() {
     const isFeatureGroupArray = props.features.every(
       (item) => item.hasOwnProperty('features')
@@ -30,9 +30,11 @@ const normalizedFeatures = computed({
     if (isFeatureGroupArray) {
       return props.features as FeatureGroup[]
     } else {
-      return [{
+      const features: FeatureGroup[] = [{
         features: props.features as Feature[]
-      }]
+      }];
+
+      return features
     }
   }
 })
