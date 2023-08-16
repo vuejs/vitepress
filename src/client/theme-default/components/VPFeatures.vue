@@ -18,14 +18,29 @@ export interface Feature {
 }
 
 const props = defineProps<{
-  features: FeatureGroup[]
+  features: (FeatureGroup | Feature)[]
 }>()
+
+const normalizedFeatures = computed({
+  get() {
+    const isFeatureGroupArray = props.features.every(
+      (item) => item.hasOwnProperty('features')
+    )
+
+    if (isFeatureGroupArray) {
+      return props.features as FeatureGroup[]
+    } else {
+      return [{
+        features: props.features as Feature[]
+      }]
+    }
+  }
+})
 
 const grid = computed({
   get() {
     return (idx: number) => {
-      const group = props.features[idx]
-      if (!group) return ''
+      const group = normalizedFeatures.value[idx]
       const length = group.features.length
       if (!length) {
         return
@@ -53,20 +68,20 @@ const firstHeading = computed({
 
 <template>
   <div v-if="features" class="VPFeatures">
-    <div class="section" v-for="(feature_group, feature_group_idx) in features">
-      <h2 
+    <div
+      class="section"
+      v-for="(feature_group, feature_group_idx) in normalizedFeatures">
+      <h2
         class="feature-group-title"
         :class="[firstHeading(feature_group_idx)]"
-        v-if="feature_group.title"
+        v-if="feature_group.title && feature_group.title.length > 0"
         v-html="feature_group.title" />
       <div class="container">
         <div class="items">
           <div
             v-for="feature in feature_group.features"
-            :key="feature.title"
-            class="item"
-            :class="[grid(feature_group_idx)]"
-          >
+            :key="feature.title" class="item"
+            :class="[grid(feature_group_idx)]">
             <VPFeature
               :icon="feature.icon"
               :title="feature.title"
@@ -132,6 +147,7 @@ h2.feature-group-title.first {
 }
 
 @media (min-width: 640px) {
+
   .item.grid-2,
   .item.grid-4,
   .item.grid-6 {
@@ -140,6 +156,7 @@ h2.feature-group-title.first {
 }
 
 @media (min-width: 768px) {
+
   .item.grid-2,
   .item.grid-4 {
     width: calc(100% / 2);
