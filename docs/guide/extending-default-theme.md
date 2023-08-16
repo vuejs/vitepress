@@ -29,8 +29,8 @@ export default DefaultTheme
 ```css
 /* .vitepress/theme/custom.css */
 :root {
-  --vp-c-brand: #646cff;
-  --vp-c-brand-light: #747bff;
+  --vp-c-brand-1: #646cff;
+  --vp-c-brand-2: #747bff;
 }
 ```
 

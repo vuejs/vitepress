@@ -125,7 +125,7 @@ function onCaretClick() {
 .VPSidebarItem.level-3.is-active > .item > .indicator,
 .VPSidebarItem.level-4.is-active > .item > .indicator,
 .VPSidebarItem.level-5.is-active > .item > .indicator {
-  background-color: var(--vp-c-brand);
+  background-color: var(--vp-c-brand-1);
 }
 
 .link {
@@ -162,7 +162,7 @@ function onCaretClick() {
 .VPSidebarItem.level-3.is-link > .item > .link:hover .text,
 .VPSidebarItem.level-4.is-link > .item > .link:hover .text,
 .VPSidebarItem.level-5.is-link > .item > .link:hover .text {
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-1);
 }
 
 .VPSidebarItem.level-0.has-active > .item > .text,
@@ -186,7 +186,7 @@ function onCaretClick() {
 .VPSidebarItem.level-3.is-active > .item .link > .text,
 .VPSidebarItem.level-4.is-active > .item .link > .text,
 .VPSidebarItem.level-5.is-active > .item .link > .text {
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-1);
 }
 
 .caret {

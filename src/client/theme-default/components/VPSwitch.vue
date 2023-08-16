@@ -22,7 +22,7 @@
 }
 
 .VPSwitch:hover {
-  border-color: var(--vp-input-hover-border-color);
+  border-color: var(--vp-c-brand-1);
 }
 
 .check {

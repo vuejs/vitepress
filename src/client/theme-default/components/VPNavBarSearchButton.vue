@@ -34,7 +34,7 @@ defineProps<{
 
 <style>
 [class*='DocSearch'] {
-  --docsearch-primary-color: var(--vp-c-brand);
+  --docsearch-primary-color: var(--vp-c-brand-1);
   --docsearch-highlight-color: var(--docsearch-primary-color);
   --docsearch-text-color: var(--vp-c-text-1);
   --docsearch-muted-color: var(--vp-c-text-2);
@@ -93,7 +93,7 @@ defineProps<{
   }
 
   .DocSearch-Button:hover {
-    border-color: var(--vp-c-brand);
+    border-color: var(--vp-c-brand-1);
     background: var(--vp-c-bg-alt);
   }
 }

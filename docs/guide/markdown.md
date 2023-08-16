@@ -157,23 +157,43 @@ This is a details block.
 **Output**
 
 ::: info
-This is an info box.
+This is an info box. `CanYouSee.output()`.
+
+```js
+const foo = 'bar'
+```
 :::
 
 ::: tip
-This is a tip.
+This is a tip. `CanYouSee.output()`.
+
+```js
+const foo = 'bar'
+```
 :::
 
 ::: warning
-This is a warning.
+This is a warning. `CanYouSee.output()`.
+
+```js
+const foo = 'bar'
+```
 :::
 
 ::: danger
-This is a dangerous warning.
+This is a dangerous warning. `CanYouSee.output()`.
+
+```js
+const foo = 'bar'
+```
 :::
 
 ::: details
-This is a details block.
+This is a details block. `CanYouSee.output()`.
+
+```js
+const foo = 'bar'
+```
 :::
 
 ### Custom Title
