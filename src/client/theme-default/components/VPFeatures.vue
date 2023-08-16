@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { DefaultTheme } from 'vitepress/theme'
-import { computed } from 'vue'
+import { computed, toRef } from 'vue'
 import VPFeature from './VPFeature.vue'
 
 export interface FeatureGroup {
@@ -21,61 +21,61 @@ const props = defineProps<{
   features: (FeatureGroup | Feature)[]
 }>()
 
-const normalizedFeatures: FeatureGroup[] = computed({
-  get() {
-    const isFeatureGroupArray = props.features.every(
-      (item) => item.hasOwnProperty('features')
-    )
+const normalizedFeatures = computed(() => {
+  const isFeatureGroupArray = props.features.every(
+    (item) => item.hasOwnProperty('features')
+  )
 
-    if (isFeatureGroupArray) {
-      return props.features as FeatureGroup[]
-    } else {
-      const features: FeatureGroup[] = [{
-        features: props.features as Feature[]
-      }];
+  if (isFeatureGroupArray) {
+    return props.features as FeatureGroup[]
+  } else {
+    const features: FeatureGroup[] = [{
+      features: props.features as Feature[]
+    }];
 
-      return features
+    return features
+  }
+})
+
+const { value: normalizedFeaturesValue } = toRef(normalizedFeatures)
+
+const grid = computed(() => {
+  return (idx: number) => {
+    const group = normalizedFeaturesValue[idx]
+    const length = group.features.length
+    if (!length) {
+      return
+    } else if (length === 2) {
+      return 'grid-2'
+    } else if (length === 3) {
+      return 'grid-3'
+    } else if (length % 3 === 0) {
+      return 'grid-6'
+    } else if (length > 3) {
+      return 'grid-4'
     }
   }
 })
 
-const grid = computed({
-  get() {
-    return (idx: number) => {
-      const group = normalizedFeatures.value[idx]
-      const length = group.features.length
-      if (!length) {
-        return
-      } else if (length === 2) {
-        return 'grid-2'
-      } else if (length === 3) {
-        return 'grid-3'
-      } else if (length % 3 === 0) {
-        return 'grid-6'
-      } else if (length > 3) {
-        return 'grid-4'
-      }
-    }
+const { value: gridValue } = toRef(grid)
+
+const firstHeading = computed(() => {
+  return (idx: number) => {
+    return idx === 0 ? 'first' : ''
   }
 })
 
-const firstHeading = computed({
-  get() {
-    return (idx: number) => {
-      return idx === 0 ? 'first' : ''
-    }
-  }
-})
+const { value: firstHeadingValue } = toRef(firstHeading)
 </script>
 
 <template>
   <div v-if="features" class="VPFeatures">
     <div
       class="section"
-      v-for="(feature_group, feature_group_idx) in normalizedFeatures">
+      v-for="(feature_group, feature_group_idx) in normalizedFeaturesValue">
       <h2
         class="feature-group-title"
-        :class="[firstHeading(feature_group_idx)]"
+        :class="[firstHeadingValue(feature_group_idx)]"
         v-if="feature_group.title && feature_group.title.length > 0"
         v-html="feature_group.title" />
       <div class="container">
@@ -83,7 +83,7 @@ const firstHeading = computed({
           <div
             v-for="feature in feature_group.features"
             :key="feature.title" class="item"
-            :class="[grid(feature_group_idx)]">
+            :class="[gridValue(feature_group_idx)]">
             <VPFeature
               :icon="feature.icon"
               :title="feature.title"
@@ -149,30 +149,28 @@ h2.feature-group-title.first {
 }
 
 @media (min-width: 640px) {
-
   .item.grid-2,
   .item.grid-4,
   .item.grid-6 {
-    width: calc(100% / 2);
+      width: calc(100% / 2);
   }
 }
 
 @media (min-width: 768px) {
-
   .item.grid-2,
   .item.grid-4 {
-    width: calc(100% / 2);
+      width: calc(100% / 2);
   }
 
   .item.grid-3,
   .item.grid-6 {
-    width: calc(100% / 3);
+      width: calc(100% / 3);
   }
 }
 
 @media (min-width: 960px) {
   .item.grid-4 {
-    width: calc(100% / 4);
+      width: calc(100% / 4);
   }
 }
 </style>
