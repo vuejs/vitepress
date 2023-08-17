@@ -1,6 +1,6 @@
 # Markdown Extensions
 
-VitePress comes with built in Markdown Extensions.
+VitePress comes with built in Markdown Extensions that provide extra functionality and styling options beyond plain Markdown.
 
 ## Header Anchors
 
