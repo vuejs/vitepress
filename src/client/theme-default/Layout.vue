@@ -22,9 +22,6 @@ watch(() => route.path, closeSidebar)
 
 useCloseSidebarOnEscape(isSidebarOpen, closeSidebar)
 
-provide('close-sidebar', closeSidebar)
-provide('is-sidebar-open', isSidebarOpen)
-
 const { frontmatter } = useData()
 
 const slots = useSlots()
