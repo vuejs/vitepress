@@ -117,7 +117,8 @@ function onCaretClick() {
   top: 6px;
   bottom: 6px;
   left: -17px;
-  width: 1px;
+  width: 2px;
+  border-radius: 2px;
   transition: background-color 0.25s;
 }
 
