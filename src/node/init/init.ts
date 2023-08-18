@@ -67,16 +67,19 @@ export async function init() {
           message: 'Theme:',
           options: [
             {
+              // @ts-ignore
               value: ScaffoldThemeType.Default,
               label: 'Default Theme',
               hint: 'Out of the box, good-looking docs'
             },
             {
+              // @ts-ignore
               value: ScaffoldThemeType.DefaultCustom,
               label: 'Default Theme + Customization',
               hint: 'Add custom CSS and layout slots'
             },
             {
+              // @ts-ignore
               value: ScaffoldThemeType.Custom,
               label: 'Custom Theme',
               hint: 'Build your own or use external'
