@@ -35,10 +35,17 @@ export function useSidebar() {
 
   const isOpen = ref(false)
 
-  const sidebar = computed(() => {
+  const _sidebar = computed(() => {
     const sidebarConfig = theme.value.sidebar
     const relativePath = page.value.relativePath
     return sidebarConfig ? getSidebar(sidebarConfig, relativePath) : []
+  })
+
+  const sidebar = ref(_sidebar.value)
+
+  watch(_sidebar, (next, prev) => {
+    if (JSON.stringify(next) !== JSON.stringify(prev))
+      sidebar.value = _sidebar.value
   })
 
   const hasSidebar = computed(() => {
