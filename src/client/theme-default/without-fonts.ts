@@ -14,6 +14,7 @@ import Layout from './Layout.vue'
 // Note: if we add more optional components here, i.e. components that are not
 // used in the theme by default unless the user imports them, make sure to update
 // the `lazyDefaultThemeComponentsRE` regex in src/node/build/bundle.ts.
+export { default as VPImage } from './components/VPImage.vue'
 export { default as VPButton } from './components/VPButton.vue'
 export { default as VPHomeHero } from './components/VPHomeHero.vue'
 export { default as VPHomeFeatures } from './components/VPHomeFeatures.vue'

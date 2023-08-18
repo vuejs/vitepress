@@ -3,6 +3,7 @@ import type { DefineComponent } from 'vue'
 import { EnhanceAppContext } from './dist/client/index.js'
 
 // TODO: add props for these
+export const VPImage: DefineComponent
 export const VPButton: DefineComponent
 export const VPHomeHero: DefineComponent
 export const VPHomeFeatures: DefineComponent
