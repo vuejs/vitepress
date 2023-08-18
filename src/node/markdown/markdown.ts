@@ -62,7 +62,7 @@ export const createMarkdownRenderer = async (
   base = '/',
   logger: Pick<Logger, 'warn'> = console
 ): Promise<MarkdownRenderer> => {
-  const theme = options.theme ?? 'material-theme-palenight'
+  const theme = options.theme ?? { light: 'github-light', dark: 'github-dark' }
   const hasSingleTheme = typeof theme === 'string' || 'name' in theme
 
   const md = MarkdownIt({
