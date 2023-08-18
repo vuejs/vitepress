@@ -163,19 +163,19 @@ describe('Line Numbers', () => {
 describe('Import Code Snippets', () => {
   test('basic', async () => {
     const lines = page.locator('#basic-code-snippet + div code > span')
-    expect(await lines.count()).toBe(11)
+    expect(await lines.count()).toBe(22)
   })
 
   test('specify region', async () => {
     const lines = page.locator('#specify-region + div code > span')
-    expect(await lines.count()).toBe(3)
+    expect(await lines.count()).toBe(6)
   })
 
   test('with other features', async () => {
     const div = page.locator('#with-other-features + div')
     expect(await getClassList(div)).toContain('line-numbers-mode')
     const lines = div.locator('code > span')
-    expect(await lines.count()).toBe(3)
+    expect(await lines.count()).toBe(6)
     expect(await getClassList(lines.nth(0))).toContain('highlighted')
   })
 })
@@ -216,10 +216,10 @@ describe('Code Groups', () => {
 
     // blocks
     const blocks = div.locator('.blocks > div')
-    expect(await blocks.nth(0).locator('code > span').count()).toBe(11)
+    expect(await blocks.nth(0).locator('code > span').count()).toBe(22)
     expect(await getClassList(blocks.nth(1))).toContain('line-numbers-mode')
     expect(await getClassList(blocks.nth(1))).toContain('language-ts')
-    expect(await blocks.nth(1).locator('code > span').count()).toBe(3)
+    expect(await blocks.nth(1).locator('code > span').count()).toBe(6)
     expect(
       await getClassList(blocks.nth(1).locator('code > span').nth(0))
     ).toContain('highlighted')
