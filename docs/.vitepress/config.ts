@@ -8,6 +8,13 @@ export default defineConfig({
   lastUpdated: true,
   cleanUrls: true,
 
+  sitemap: {
+    hostname: 'https://vitepress.dev',
+    transformItems(items) {
+      return items.filter((item) => !item.url.includes('migration'))
+    }
+  },
+
   head: [
     ['meta', { name: 'theme-color', content: '#3c8772' }],
     [
