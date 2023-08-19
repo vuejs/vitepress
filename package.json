@@ -188,5 +188,10 @@
     "*": [
       "prettier --write --ignore-unknown"
     ]
+  },
+  "pnpm": {
+    "overrides": {
+      "ora>string-width": "^5"
+    }
   }
 }
