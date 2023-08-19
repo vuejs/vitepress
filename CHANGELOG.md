@@ -1,3 +1,88 @@
+# [1.0.0-rc.4](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.3...v1.0.0-rc.4) (2023-08-08)
+
+### Bug Fixes
+
+- **cli:** generate mjs file on init if `"type": "module"` is not present ([23d7511](https://github.com/vuejs/vitepress/commit/23d751165f6def6fa6b3a5d7efd89b993a2780d8))
+- **theme:** language menu undefined text ([#2755](https://github.com/vuejs/vitepress/issues/2755)) ([c9d4655](https://github.com/vuejs/vitepress/commit/c9d465587a3b2188ff9922483a15d7096e6a3e6c))
+
+# [1.0.0-rc.3](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.2...v1.0.0-rc.3) (2023-08-08)
+
+### Bug Fixes
+
+- **regression/theme:** fix sidebar collapsing ([#2753](https://github.com/vuejs/vitepress/issues/2753)) ([9a4ee07](https://github.com/vuejs/vitepress/commit/9a4ee07260191adeb4c3810d95b044439609525c))
+
+# [1.0.0-rc.1](https://github.com/vuejs/vitepress/compare/v1.0.0-beta.7...v1.0.0-rc.1) (2023-08-08)
+
+### Bug Fixes
+
+- `createContentLoader` generates invalid url when `base` is set ([#2714](https://github.com/vuejs/vitepress/issues/2714)) ([0f38eb4](https://github.com/vuejs/vitepress/commit/0f38eb440492f3a486517714976fbfe6dfb30a09))
+- **build:** make outDir from cli work properly ([17378c0](https://github.com/vuejs/vitepress/commit/17378c064f3e6f166ce180f8d7eeced2f1cc4224)), closes [#2716](https://github.com/vuejs/vitepress/issues/2716)
+- **build:** nested rewrites not working properly ([0f421d7](https://github.com/vuejs/vitepress/commit/0f421d72221495b8ef14195db3e3df9297ebc6ff))
+- **client:** handle empty hash in links ([#2738](https://github.com/vuejs/vitepress/issues/2738)) ([c6c983e](https://github.com/vuejs/vitepress/commit/c6c983ed73a019027b452b3eaf0ee4b502d38818))
+- fix sitemap path resolution ([481a5e3](https://github.com/vuejs/vitepress/commit/481a5e3cb55c6fda2c318180cfa0532ed34e4fc5)), closes [#2749](https://github.com/vuejs/vitepress/issues/2749)
+- **theme:** align max-width media queries ([d31051a](https://github.com/vuejs/vitepress/commit/d31051a05106f97924be3cdb3919f24acc232b59))
+- **theme:** allow using h1 headings in outline ([e3f8fc7](https://github.com/vuejs/vitepress/commit/e3f8fc7972f5506cd9def08ad13c62141737318f)), closes [#1529](https://github.com/vuejs/vitepress/issues/1529)
+- **theme:** close dropdown menus after an item is clicked ([#2380](https://github.com/vuejs/vitepress/issues/2380)) ([e54eea3](https://github.com/vuejs/vitepress/commit/e54eea3da0de640e7b343381bddf9a439d638954))
+- **theme:** don't reset scroll position on changing tab in code groups ([039798a](https://github.com/vuejs/vitepress/commit/039798a8c14a8c455e1187c5584c7f518c40f66a)), closes [#2732](https://github.com/vuejs/vitepress/issues/2732) [#2362](https://github.com/vuejs/vitepress/issues/2362)
+- **theme:** dont show transparent navbar other than home ([#2742](https://github.com/vuejs/vitepress/issues/2742)) ([1d6254b](https://github.com/vuejs/vitepress/commit/1d6254b615b48ceef85267045e8fce976a7eafd5))
+- **theme:** hide outline marker on scroll to top ([81e7405](https://github.com/vuejs/vitepress/commit/81e7405e193e832442db9aedb50ed3dc741e92ed))
+- **theme:** outline marker flicks when navigating towards above ([e8ebf1b](https://github.com/vuejs/vitepress/commit/e8ebf1b0483e025b7d3bc3ea6eb3fa02d4acac93)), closes [#2665](https://github.com/vuejs/vitepress/issues/2665) [#2676](https://github.com/vuejs/vitepress/issues/2676)
+- **theme:** override docsearch button bg ([063b0e5](https://github.com/vuejs/vitepress/commit/063b0e520a0b34db934371f56ddba212ceb3ba4c)), closes [#2735](https://github.com/vuejs/vitepress/issues/2735)
+- **theme:** respect feature icon dimensions set from frontmatter ([93823a8](https://github.com/vuejs/vitepress/commit/93823a8566df22c57cb4fbc81fa65c34222ece5e)), closes [#1886](https://github.com/vuejs/vitepress/issues/1886)
+- **theme:** scroll code group tab into view on selection ([1a6efba](https://github.com/vuejs/vitepress/commit/1a6efbae8e13eb6612aacdb8d384554e72e5f562)), closes [#2355](https://github.com/vuejs/vitepress/issues/2355)
+- **theme:** update sidebar active link status on hash change ([#2736](https://github.com/vuejs/vitepress/issues/2736)) ([3840eaa](https://github.com/vuejs/vitepress/commit/3840eaae163cc9307c8d8525ad03c59752443b2b))
+
+### Features
+
+- **theme:** final re-brand ([#2727](https://github.com/vuejs/vitepress/pull/2727)) ([c0d838b](https://github.com/vuejs/vitepress/commit/c0d838bda0121fc162d1e6a43324f75290bc1b72))
+- allow html blocks inside code groups ([#2719](https://github.com/vuejs/vitepress/issues/2719)) ([7f0c18e](https://github.com/vuejs/vitepress/commit/7f0c18e01384d48380b64ba629229ec048f85453))
+- **build:** add `markdown.preConfig` option ([ce85726](https://github.com/vuejs/vitepress/commit/ce85726c127d9478274126374df9c37ee8b31167)), closes [#1382](https://github.com/vuejs/vitepress/issues/1382)
+- **build:** allow overriding vite config loading ([#2750](https://github.com/vuejs/vitepress/issues/2750)) ([1bed154](https://github.com/vuejs/vitepress/commit/1bed154612661ac3783558cf82a7e94832ee4ff8))
+- **client:** allow customizing scrollOffset padding ([20b509c](https://github.com/vuejs/vitepress/commit/20b509c6e1d957c73be75da27635b23de42781d4)), closes [#2739](https://github.com/vuejs/vitepress/issues/2739)
+- **client:** allow overriding props on Content ([1179484](https://github.com/vuejs/vitepress/commit/11794844327c65bd6086b1237b0d6568cb32a4cb)), closes [#2712](https://github.com/vuejs/vitepress/issues/2712)
+- i18n with sitemap ([#2708](https://github.com/vuejs/vitepress/issues/2708)) ([7778187](https://github.com/vuejs/vitepress/commit/7778187f2dc31554fa7541da9648235c994d4ae8))
+- **search:** allow enabling detailed view by default ([4af5975](https://github.com/vuejs/vitepress/commit/4af597582cd8ae565e22c912f26f67123babcd61)), closes [#2690](https://github.com/vuejs/vitepress/issues/2690)
+- **theme:** allow adding custom layouts ([f4a5c43](https://github.com/vuejs/vitepress/commit/f4a5c43cb00d70143cefcd9dfd9ba536f120ffda)), closes [#2547](https://github.com/vuejs/vitepress/issues/2547)
+- **theme:** allow customizing default theme's 404 page ([d7e2254](https://github.com/vuejs/vitepress/commit/d7e225473bd072119c3ce76317db2b723be74f81)), closes [#2715](https://github.com/vuejs/vitepress/issues/2715)
+- **theme:** allow customizing prev/next text from config file ([09a4fdc](https://github.com/vuejs/vitepress/commit/09a4fdc9b844a3e1877045afc496282b988f6f6b)), closes [#1373](https://github.com/vuejs/vitepress/issues/1373)
+- **theme:** allow overriding logo link ([2a7422b](https://github.com/vuejs/vitepress/commit/2a7422bbbf91b852e27525d64627e9cff6eff294)), closes [#1683](https://github.com/vuejs/vitepress/issues/1683)
+- **theme:** allow passing html in nav links ([69251b7](https://github.com/vuejs/vitepress/commit/69251b7484d8e4591841c32dd2f5a0179859cf14)), closes [#1652](https://github.com/vuejs/vitepress/issues/1652)
+- **theme:** allow setting base path in sidebar items ([#2734](https://github.com/vuejs/vitepress/issues/2734)) ([52884d9](https://github.com/vuejs/vitepress/commit/52884d9d4b3ad294f4c4fcab637c4e07c80dde3a))
+
+### Reverts
+
+- [#2689](https://github.com/vuejs/vitepress/issues/2689) ([#2722](https://github.com/vuejs/vitepress/issues/2722)) ([a56d608](https://github.com/vuejs/vitepress/commit/a56d608bec427ad51a9edb620d8fb01ebae29550))
+
+### BREAKING CHANGES
+
+- Node v18+ is now required to run VitePress.
+- VitePress now only provides ESM API. Refer [#2703](https://github.com/vuejs/vitepress/issues/2703) for details.
+
+# [1.0.0-beta.7](https://github.com/vuejs/vitepress/compare/v1.0.0-beta.6...v1.0.0-beta.7) (2023-07-29)
+
+### Bug Fixes
+
+- **build:** `createContentLoader` generates invalid url when `srcDir` is set ([#2578](https://github.com/vuejs/vitepress/issues/2578)) ([74d9ba2](https://github.com/vuejs/vitepress/commit/74d9ba27b53c6fd09b91b58bba9c1f138a6ee6f1))
+- **build:** duplicate description tags with transformHead ([#2702](https://github.com/vuejs/vitepress/issues/2702)) ([68f25f5](https://github.com/vuejs/vitepress/commit/68f25f5a9cca1d059831184ad8876bb40326d9b6))
+- **build:** use vue dev build when DEBUG is truthy ([#2689](https://github.com/vuejs/vitepress/issues/2689)) ([b61f36d](https://github.com/vuejs/vitepress/commit/b61f36d85326912ca67f552ecbe89aa4ca0b1919))
+- **build:** remove index.html when using createContentLoader ([#2693](https://github.com/vuejs/vitepress/issues/2693)) ([6fc88a5](https://github.com/vuejs/vitepress/commit/6fc88a5cce431fa47330860155191f7b3eccb62e))
+- **search:** add useFocusTrap and mark.js to optimizeDeps ([#2682](https://github.com/vuejs/vitepress/issues/2682)) ([fb048a6](https://github.com/vuejs/vitepress/commit/fb048a6f7289a12a8e67724cee29e55252568489))
+- **theme:** incorrect header anchor icon position with multline headers ([#2694](https://github.com/vuejs/vitepress/issues/2694)) ([77c1b4d](https://github.com/vuejs/vitepress/commit/77c1b4d3cd3c47ffc5268ac24d0f983df443075d))
+- **theme:** code group tab divider not showing full-width ([#2701](https://github.com/vuejs/vitepress/issues/2701)) ([b39b491](https://github.com/vuejs/vitepress/commit/b39b4912af9664d14f5f7c658e64b96de3865f04))
+- **theme:** fix feature component always generating anchor tags ([51f28bf](https://github.com/vuejs/vitepress/commit/51f28bfac96bbb14ea0175c796e0d18fff3b2cc5))
+- **theme:** respect empty rel and target ([#2705](https://github.com/vuejs/vitepress/issues/2705)) ([60dd0a4](https://github.com/vuejs/vitepress/commit/60dd0a474b056ec884f3173a233f1fb951d96870))
+
+### Features
+
+- sitemap generation ([#2691](https://github.com/vuejs/vitepress/issues/2691)) ([5563695](https://github.com/vuejs/vitepress/commit/5563695b1599165fa85ea69f15334e27ab6955bf))
+- **build:** custom excerpt for `createContentLoader` ([#2698](https://github.com/vuejs/vitepress/issues/2698)) ([13f94a6](https://github.com/vuejs/vitepress/commit/13f94a6663d5b4472ce380ee1c27e6124da8fec3))
+- **theme:** rel for feature links ([#2704](https://github.com/vuejs/vitepress/issues/2704)) ([5d18fd8](https://github.com/vuejs/vitepress/commit/5d18fd8978e418ce920aab357b180a58b1af3077))
+- **theme:** support custom page class ([#2696](https://github.com/vuejs/vitepress/issues/2696)) ([2ae90a2](https://github.com/vuejs/vitepress/commit/2ae90a234338ea074b536e5583d81fd565d8e3f3))
+
+### BREAKING CHANGES
+
+- **build:** `createContentLoader` will now resolve globs relative to `srcDir` instead of `root`
+
 # [1.0.0-beta.6](https://github.com/vuejs/vitepress/compare/v1.0.0-beta.5...v1.0.0-beta.6) (2023-07-22)
 
 ### Bug Fixes

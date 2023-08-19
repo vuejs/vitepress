@@ -34,6 +34,7 @@ export type ThemeOptions =
 
 export interface MarkdownOptions extends MarkdownIt.Options {
   lineNumbers?: boolean
+  preConfig?: (md: MarkdownIt) => void
   config?: (md: MarkdownIt) => void
   anchor?: anchorPlugin.AnchorOptions
   attrs?: {
@@ -61,7 +62,7 @@ export const createMarkdownRenderer = async (
   base = '/',
   logger: Pick<Logger, 'warn'> = console
 ): Promise<MarkdownRenderer> => {
-  const theme = options.theme ?? 'material-theme-palenight'
+  const theme = options.theme ?? { light: 'github-light', dark: 'github-dark' }
   const hasSingleTheme = typeof theme === 'string' || 'name' in theme
 
   const md = MarkdownIt({
@@ -76,9 +77,13 @@ export const createMarkdownRenderer = async (
         logger
       )),
     ...options
-  }) as MarkdownRenderer
+  })
 
   md.linkify.set({ fuzzyLink: false })
+
+  if (options.preConfig) {
+    options.preConfig(md)
+  }
 
   // custom plugins
   md.use(componentPlugin)

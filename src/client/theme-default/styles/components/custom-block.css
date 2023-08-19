@@ -84,10 +84,13 @@
 .custom-block a {
   color: inherit;
   font-weight: 600;
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
+  transition: opacity 0.25s;
 }
 
 .custom-block a:hover {
-  text-decoration: underline;
+  opacity: 0.75;
 }
 
 .custom-block code {

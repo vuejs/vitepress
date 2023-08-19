@@ -16,7 +16,22 @@ export default defineConfig({
   },
 
   head: [
-    ['meta', { name: 'theme-color', content: '#3c8772' }],
+    ['link', { rel: 'icon', href: '/vitepress-logo-mini.svg' }],
+    ['meta', { name: 'theme-color', content: '#5f67ee' }],
+    ['meta', { name: 'og:type', content: 'website' }],
+    ['meta', { name: 'og:locale', content: 'en' }],
+    ['meta', { name: 'og:site_name', content: 'VitePress' }],
+    [
+      'meta',
+      { name: 'og:image', content: 'https://vitepress.dev/vitepress-og.jpg' }
+    ],
+    [
+      'meta',
+      {
+        name: 'twitter:image',
+        content: 'https://vitepress.dev/vitepress-og.jpg'
+      }
+    ],
     [
       'script',
       {

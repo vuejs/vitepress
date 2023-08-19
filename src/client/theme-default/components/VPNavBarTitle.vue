@@ -12,7 +12,7 @@ const { currentLang } = useLangs()
 
 <template>
   <div class="VPNavBarTitle" :class="{ 'has-sidebar': hasSidebar }">
-    <a class="title" :href="normalizeLink(currentLang.link)">
+    <a class="title" :href="theme.logoLink ?? normalizeLink(currentLang.link)">
       <slot name="nav-bar-title-before" />
       <VPImage v-if="theme.logo" class="logo" :image="theme.logo" />
       <template v-if="theme.siteTitle">{{ theme.siteTitle }}</template>

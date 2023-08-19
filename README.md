@@ -1,4 +1,4 @@
-# VitePress (beta) 📝💨
+# VitePress (RC: release candidate) 📝💨
 
 [![Test](https://github.com/vuejs/vitepress/workflows/Test/badge.svg)](https://github.com/vuejs/vitepress/actions)
 [![npm](https://img.shields.io/npm/v/vitepress)](https://www.npmjs.com/package/vitepress)
@@ -8,7 +8,7 @@
 
 VitePress is [VuePress](https://vuepress.vuejs.org)' spiritual successor, built on top of [vite](https://github.com/vitejs/vite).
 
-Currently, it is in the `beta` stage. It is already suitable for out-of-the-box documentation use. There still might be issues, however, we do not plan to introduce any breaking changes from here on until the stable release. 
+Currently, it is in the `release candidate` stage. It is already suitable for out-of-the-box documentation use. We do not plan to introduce any breaking changes from here on until the stable release. 
 
 ## Documentation
 

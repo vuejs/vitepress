@@ -58,10 +58,14 @@ function scrollToTop() {
         class="items"
         @click="onItemClick"
       >
-        <a class="top-link" href="#" @click="scrollToTop">
-          {{ theme.returnToTopLabel || 'Return to top' }}
-        </a>
-        <VPDocOutlineItem :headers="headers" />
+        <div class="header">
+          <a class="top-link" href="#" @click="scrollToTop">
+            {{ theme.returnToTopLabel || 'Return to top' }}
+          </a>
+        </div>
+        <div class="outline">
+          <VPDocOutlineItem :headers="headers" />
+        </div>
       </div>
     </Transition>
   </div>
@@ -71,6 +75,7 @@ function scrollToTop() {
 .VPLocalNavOutlineDropdown {
   padding: 12px 20px 11px;
 }
+
 .VPLocalNavOutlineDropdown button {
   display: block;
   font-size: 12px;
@@ -110,26 +115,35 @@ function scrollToTop() {
 
 .items {
   position: absolute;
-  left: 20px;
-  right: 20px;
   top: 64px;
-  background-color: var(--vp-local-nav-bg-color);
-  padding: 4px 10px 16px;
-  border: 1px solid var(--vp-c-divider);
+  right: 16px;
+  left: 16px;
+  display: grid;
+  gap: 1px;
+  border: 1px solid var(--vp-c-border);
   border-radius: 8px;
+  background-color: var(--vp-c-gutter);
   max-height: calc(var(--vp-vh, 100vh) - 86px);
   overflow: hidden auto;
   box-shadow: var(--vp-shadow-3);
 }
 
+.header {
+  background-color: var(--vp-c-bg-soft);
+}
+
 .top-link {
   display: block;
-  color: var(--vp-c-brand);
-  font-size: 13px;
+  padding: 0 16px;
+  line-height: 48px;
+  font-size: 14px;
   font-weight: 500;
-  padding: 6px 0;
-  margin: 0 13px 10px;
-  border-bottom: 1px solid var(--vp-c-divider);
+  color: var(--vp-c-brand);
+}
+
+.outline {
+  padding: 8px 0;
+  background-color: var(--vp-c-bg-soft);
 }
 
 .flyout-enter-active {

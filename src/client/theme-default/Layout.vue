@@ -22,9 +22,6 @@ watch(() => route.path, closeSidebar)
 
 useCloseSidebarOnEscape(isSidebarOpen, closeSidebar)
 
-provide('close-sidebar', closeSidebar)
-provide('is-sidebar-open', isSidebarOpen)
-
 const { frontmatter } = useData()
 
 const slots = useSlots()
@@ -34,7 +31,7 @@ provide('hero-image-slot-exists', heroImageSlotExists)
 </script>
 
 <template>
-  <div v-if="frontmatter.layout !== false" class="Layout">
+  <div v-if="frontmatter.layout !== false" class="Layout" :class="frontmatter.pageClass" >
     <slot name="layout-top" />
     <VPSkipLink />
     <VPBackdrop class="backdrop" :show="isSidebarOpen" @click="closeSidebar" />

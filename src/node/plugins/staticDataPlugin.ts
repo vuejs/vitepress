@@ -125,9 +125,18 @@ export const staticDataPlugin: Plugin = {
       // register this module as a glob importer
       const { watch } = idToLoaderModulesMap[id]!
       if (watch) {
-        ;(server as any)._importGlobMap.set(id, [
-          Array.isArray(watch) ? watch : [watch]
-        ])
+        ;(server as any)._importGlobMap.set(
+          id,
+          [Array.isArray(watch) ? watch : [watch]].map((globs) => {
+            const affirmed: string[] = []
+            const negated: string[] = []
+
+            for (const glob of globs) {
+              ;(glob[0] === '!' ? negated : affirmed).push(glob)
+            }
+            return { affirmed, negated }
+          })
+        )
       }
     }
     return null

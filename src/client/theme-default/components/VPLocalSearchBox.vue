@@ -12,7 +12,7 @@ import {
 import { useFocusTrap } from '@vueuse/integrations/useFocusTrap'
 import Mark from 'mark.js/src/vanilla.js'
 import MiniSearch, { type SearchResult } from 'minisearch'
-import { useRouter, dataSymbol } from 'vitepress'
+import { inBrowser, useRouter, dataSymbol } from 'vitepress'
 import {
   computed,
   createApp,
@@ -41,7 +41,6 @@ const emit = defineEmits<{
 
 const el = shallowRef<HTMLElement>()
 const resultsEl = shallowRef<HTMLElement>()
-const body = shallowRef<HTMLElement>()
 
 /* Search */
 
@@ -104,13 +103,15 @@ const filterText = disableQueryPersistence.value
 
 const showDetailedList = useLocalStorage(
   'vitepress:local-search-detailed-list',
-  false
+  theme.value.search?.provider === 'local' &&
+    theme.value.search.options?.detailedView === true
 )
 
 const disableDetailedView = computed(() => {
   return (
     theme.value.search?.provider === 'local' &&
-    theme.value.search.options?.disableDetailedView === true
+    (theme.value.search.options?.disableDetailedView === true ||
+      theme.value.search.options?.detailedView === false)
   )
 })
 
@@ -352,10 +353,9 @@ useEventListener('popstate', (event) => {
 })
 
 /** Lock body */
-const isLocked = useScrollLock(body)
+const isLocked = useScrollLock(inBrowser ? document.body : null)
 
 onMounted(() => {
-  body.value = document.body
   nextTick(() => {
     isLocked.value = true
     nextTick().then(() => activate())
@@ -666,7 +666,7 @@ function formMarkRegex(terms: Set<string>) {
   border-radius: 6px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .shell {
     margin: 0;
     width: 100vw;
@@ -685,7 +685,7 @@ function formMarkRegex(terms: Set<string>) {
   cursor: text;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .search-bar {
     padding: 0 8px;
   }
@@ -699,7 +699,7 @@ function formMarkRegex(terms: Set<string>) {
   margin: 8px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .search-icon {
     display: none;
   }
@@ -711,7 +711,7 @@ function formMarkRegex(terms: Set<string>) {
   width: 100%;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .search-input {
     padding: 6px 4px;
   }
@@ -762,7 +762,7 @@ function formMarkRegex(terms: Set<string>) {
   gap: 4px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .search-keyboard-shortcuts {
     display: none;
   }
@@ -806,7 +806,7 @@ function formMarkRegex(terms: Set<string>) {
   overflow: hidden;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .result > div {
     margin: 8px;
   }

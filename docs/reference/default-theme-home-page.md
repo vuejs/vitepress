@@ -139,6 +139,11 @@ interface Feature {
   //
   // e.g. `Learn more`, `Visit page`, etc.
   linkText?: string
+
+  // Link rel attribute for the `link` option.
+  //
+  // e.g. `external`
+  rel?: string
 }
 
 type FeatureIcon =
