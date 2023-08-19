@@ -110,7 +110,7 @@
 .vp-doc a {
   font-weight: 500;
   color: var(--vp-c-brand-1);
-  text-decoration: underline dotted;
+  text-decoration: underline;
   text-underline-offset: 2px;
   transition:
     color 0.25s,
@@ -215,17 +215,6 @@
 
 .vp-doc .custom-block p:first-child {
   margin: 0;
-}
-
-.vp-doc .custom-block a {
-  color: inherit;
-  font-weight: 600;
-}
-
-.vp-doc .custom-block code {
-  font-size: var(--vp-custom-block-code-font-size);
-  font-weight: 700;
-  color: inherit;
 }
 
 .vp-doc .custom-block div[class*='language-'] {

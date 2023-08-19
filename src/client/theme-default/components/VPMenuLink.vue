@@ -45,7 +45,7 @@ const { page } = useData()
 
 .link:hover {
   color: var(--vp-c-brand-1);
-  background-color: var(--vp-c-bg-mute);
+  background-color: var(--vp-c-default-soft);
 }
 
 .link.active {

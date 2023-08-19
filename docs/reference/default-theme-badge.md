@@ -36,21 +36,21 @@ You can customize the style of badges by overriding css variables. The following
 
 ```css
 :root {
-  --vp-badge-info-border: var(--vp-c-mute-2);
+  --vp-badge-info-border: transparent;
   --vp-badge-info-text: var(--vp-c-text-2);
-  --vp-badge-info-bg: var(--vp-c-mute-3);
+  --vp-badge-info-bg: var(--vp-c-default-soft);
 
-  --vp-badge-tip-border: var(--vp-c-brand-1);
+  --vp-badge-tip-border: transparent;
   --vp-badge-tip-text: var(--vp-c-brand-1);
-  --vp-badge-tip-bg: var(--vp-c-brand-dimm-1);
+  --vp-badge-tip-bg: var(--vp-c-brand-soft);
 
-  --vp-badge-warning-border: var(--vp-c-yellow-2);
-  --vp-badge-warning-text: var(--vp-c-yellow-1);
-  --vp-badge-warning-bg: var(--vp-c-yellow-dimm-1);
+  --vp-badge-warning-border: transparent;
+  --vp-badge-warning-text: var(--vp-c-warning-1);
+  --vp-badge-warning-bg: var(--vp-c-warning-soft);
 
-  --vp-badge-danger-border: var(--vp-c-red-2);
-  --vp-badge-danger-text: var(--vp-c-red-1);
-  --vp-badge-danger-bg: var(--vp-c-red-dimm-1);
+  --vp-badge-danger-border: transparent;
+  --vp-badge-danger-text: var(--vp-c-danger-1);
+  --vp-badge-danger-bg: var(--vp-c-danger-soft);
 }
 ```
 

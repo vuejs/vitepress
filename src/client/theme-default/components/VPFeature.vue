@@ -68,7 +68,7 @@ defineProps<{
   align-items: center;
   margin-bottom: 20px;
   border-radius: 6px;
-  background-color: var(--vp-c-bg-mute);
+  background-color: var(--vp-c-default-soft);
   width: 48px;
   height: 48px;
   font-size: 24px;
