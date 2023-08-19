@@ -4,6 +4,7 @@ import {
   computed,
   inject,
   readonly,
+  ref,
   shallowRef,
   type InjectionKey,
   type Ref
@@ -68,14 +69,18 @@ export function initData(route: Route): VitePressData {
     resolveSiteDataByRoute(siteDataRef.value, route.data.relativePath)
   )
 
-  const isDark = useDark({
-    storageKey: APPEARANCE_KEY,
-    initialValue: () =>
-      typeof site.value.appearance === 'string'
-        ? site.value.appearance
-        : 'auto',
-    ...(typeof site.value.appearance === 'object' ? site.value.appearance : {})
-  })
+  const isDark = site.value.appearance
+    ? useDark({
+        storageKey: APPEARANCE_KEY,
+        initialValue: () =>
+          typeof site.value.appearance === 'string'
+            ? site.value.appearance
+            : 'auto',
+        ...(typeof site.value.appearance === 'object'
+          ? site.value.appearance
+          : {})
+      })
+    : ref(false)
 
   return {
     site,
