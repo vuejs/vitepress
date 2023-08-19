@@ -18,11 +18,11 @@ VitePress can be used on its own, or be installed into an existing project. In b
 ::: code-group
 
 ```sh [npm]
-$ npm install -D vitepress
+$ npm add -D vitepress
 ```
 
 ```sh [pnpm]
-$ pnpm add -D vitepress@latest
+$ pnpm add -D vitepress
 ```
 
 ```sh [yarn]

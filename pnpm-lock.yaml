@@ -225,6 +225,9 @@ importers:
       polka:
         specifier: 1.0.0-next.22
         version: 1.0.0-next.22
+      postcss-prefix-selector:
+        specifier: ^1.16.0
+        version: 1.16.0(postcss@8.4.28)
       prettier:
         specifier: ^3.0.2
         version: 3.0.2
@@ -3809,6 +3812,14 @@ packages:
     dependencies:
       '@polka/url': 1.0.0-next.21
       trouter: 3.2.1
+    dev: true
+
+  /postcss-prefix-selector@1.16.0(postcss@8.4.28):
+    resolution: {integrity: sha512-rdVMIi7Q4B0XbXqNUEI+Z4E+pueiu/CS5E6vRCQommzdQ/sgsS4dK42U7GX8oJR+TJOtT+Qv3GkNo6iijUMp3Q==}
+    peerDependencies:
+      postcss: '>4 <9'
+    dependencies:
+      postcss: 8.4.28
     dev: true
 
   /postcss@8.4.28:
