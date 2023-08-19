@@ -1,20 +1,21 @@
+import siteData from '@siteData'
+import { useDark } from '@vueuse/core'
 import {
-  type InjectionKey,
-  type Ref,
   computed,
   inject,
   readonly,
-  ref,
-  shallowRef
+  shallowRef,
+  type InjectionKey,
+  type Ref
 } from 'vue'
-import type { Route } from './router'
-import siteData from '@siteData'
 import {
-  type PageData,
-  type SiteData,
+  APPEARANCE_KEY,
+  createTitle,
   resolveSiteDataByRoute,
-  createTitle
+  type PageData,
+  type SiteData
 } from '../shared'
+import type { Route } from './router'
 
 export const dataSymbol: InjectionKey<VitePressData> = Symbol()
 
@@ -67,6 +68,15 @@ export function initData(route: Route): VitePressData {
     resolveSiteDataByRoute(siteDataRef.value, route.data.relativePath)
   )
 
+  const isDark = useDark({
+    storageKey: APPEARANCE_KEY,
+    initialValue: () =>
+      typeof site.value.appearance === 'string'
+        ? site.value.appearance
+        : 'auto',
+    ...(typeof site.value.appearance === 'object' ? site.value.appearance : {})
+  })
+
   return {
     site,
     theme: computed(() => site.value.themeConfig),
@@ -82,7 +92,7 @@ export function initData(route: Route): VitePressData {
     description: computed(() => {
       return route.data.description || site.value.description
     }),
-    isDark: ref(false)
+    isDark
   }
 }
 

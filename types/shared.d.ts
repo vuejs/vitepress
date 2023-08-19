@@ -1,4 +1,5 @@
 // types shared between server and client
+import type { UseDarkOptions } from '@vueuse/core'
 import type { SSRContext } from 'vue/server-renderer'
 export type { DefaultTheme } from './default-theme.js'
 
@@ -55,7 +56,10 @@ export interface SiteData<ThemeConfig = any> {
   titleTemplate?: string | boolean
   description: string
   head: HeadConfig[]
-  appearance: boolean | 'dark'
+  appearance:
+    | boolean
+    | 'dark'
+    | (Omit<UseDarkOptions, 'initialValue'> & { initialValue?: 'dark' })
   themeConfig: ThemeConfig
   scrollOffset:
     | number
