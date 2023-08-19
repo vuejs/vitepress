@@ -64,8 +64,8 @@ export async function localSearchPlugin(
       if (searchConfig.options?.exclude?.(relativePath)) {
         return ''
       }
-      if (searchConfig?.options?.preIndexRender) {
-        return searchConfig.options.preIndexRender(html, env, (markdown) =>
+      if (searchConfig?.options?.node_preIndexRender) {
+        return searchConfig.options.node_preIndexRender(html, env, (markdown) =>
           md.render(markdown, env)
         )
       }

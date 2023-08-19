@@ -120,7 +120,7 @@ export default defineConfig({
 
 - Type: `(html: string, env: MarkdownEnv, render: (markdown: string) => string) => string`
 
-You can pass a `preIndexRender` function to `themeConfig.search.options` that can modify or return entirely different HTML content before it is indexed.
+While processing in Node (not available client-side) you can pass a `node_preIndexRender` function to `themeConfig.search.options` that can modify or return entirely different HTML content before it is indexed.
 
 The function receives the following parameters:
 
@@ -137,7 +137,7 @@ export default defineConfig({
   themeConfig: {
     search: {
       options: {
-        preIndexRender: (html, env, render) =>
+        node_preIndexRender: (html, env, render) =>
           env.frontmatter?.title
             ? render('# ' + env.frontmatter?.title) + html
             : html

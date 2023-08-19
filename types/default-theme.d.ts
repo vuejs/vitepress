@@ -388,9 +388,9 @@ export namespace DefaultTheme {
     exclude?: (relativePath: string) => boolean
 
     /**
-     * Allow transformation of content before indexing
+     * Allow transformation of content before indexing (from Node only)
      */
-    preIndexRender?: (
+    node_preIndexRender?: (
       html: string,
       env: MarkdownEnv,
       render: (string) => string
