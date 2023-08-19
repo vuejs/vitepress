@@ -32,39 +32,25 @@ Code above renders like:
 
 ## Customize Type Color
 
-You can customize the `background-color` of badges by overriding css variables. The following are the default values:
+You can customize the style of badges by overriding css variables. The following are the default values:
 
 ```css
 :root {
-  --vp-badge-info-border: var(--vp-c-divider-light);
+  --vp-badge-info-border: transparent;
   --vp-badge-info-text: var(--vp-c-text-2);
-  --vp-badge-info-bg: var(--vp-c-white-soft);
+  --vp-badge-info-bg: var(--vp-c-default-soft);
 
-  --vp-badge-tip-border: var(--vp-c-green-dimm-1);
-  --vp-badge-tip-text: var(--vp-c-green-darker);
-  --vp-badge-tip-bg: var(--vp-c-green-dimm-3);
+  --vp-badge-tip-border: transparent;
+  --vp-badge-tip-text: var(--vp-c-brand-1);
+  --vp-badge-tip-bg: var(--vp-c-brand-soft);
 
-  --vp-badge-warning-border: var(--vp-c-yellow-dimm-1);
-  --vp-badge-warning-text: var(--vp-c-yellow-darker);
-  --vp-badge-warning-bg: var(--vp-c-yellow-dimm-3);
+  --vp-badge-warning-border: transparent;
+  --vp-badge-warning-text: var(--vp-c-warning-1);
+  --vp-badge-warning-bg: var(--vp-c-warning-soft);
 
-  --vp-badge-danger-border: var(--vp-c-red-dimm-1);
-  --vp-badge-danger-text: var(--vp-c-red-darker);
-  --vp-badge-danger-bg: var(--vp-c-red-dimm-3);
-}
-
-.dark {
-  --vp-badge-info-border: var(--vp-c-divider-light);
-  --vp-badge-info-bg: var(--vp-c-black-mute);
-
-  --vp-badge-tip-border: var(--vp-c-green-dimm-2);
-  --vp-badge-tip-text: var(--vp-c-green-light);
-
-  --vp-badge-warning-border: var(--vp-c-yellow-dimm-2);
-  --vp-badge-warning-text: var(--vp-c-yellow-light);
-
-  --vp-badge-danger-border: var(--vp-c-red-dimm-2);
-  --vp-badge-danger-text: var(--vp-c-red-light);
+  --vp-badge-danger-border: transparent;
+  --vp-badge-danger-text: var(--vp-c-danger-1);
+  --vp-badge-danger-bg: var(--vp-c-danger-soft);
 }
 ```
 

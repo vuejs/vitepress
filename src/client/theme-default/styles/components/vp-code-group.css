@@ -48,7 +48,8 @@
   bottom: -1px;
   left: 8px;
   z-index: 1;
-  height: 1px;
+  height: 2px;
+  border-radius: 2px;
   content: '';
   background-color: transparent;
   transition: background-color 0.25s;

@@ -48,8 +48,7 @@ defineProps<{
 }
 
 .VPFeature.link:hover {
-  border-color: var(--vp-c-brand);
-  background-color: var(--vp-c-bg-soft-up);
+  border-color: var(--vp-c-brand-1);
 }
 
 .box {
@@ -69,7 +68,7 @@ defineProps<{
   align-items: center;
   margin-bottom: 20px;
   border-radius: 6px;
-  background-color: var(--vp-c-bg-soft-down);
+  background-color: var(--vp-c-default-soft);
   width: 48px;
   height: 48px;
   font-size: 24px;
@@ -100,7 +99,7 @@ defineProps<{
   align-items: center;
   font-size: 14px;
   font-weight: 500;
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-1);
 }
 
 .link-text-icon {
