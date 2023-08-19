@@ -18,7 +18,7 @@
   flex-shrink: 0;
   border: 1px solid var(--vp-input-border-color);
   background-color: var(--vp-input-switch-bg-color);
-  transition: border-color 0.25s;
+  transition: border-color 0.25s !important;
 }
 
 .VPSwitch:hover {
@@ -35,7 +35,7 @@
   border-radius: 50%;
   background-color: var(--vp-c-neutral-inverse);
   box-shadow: var(--vp-shadow-1);
-  transition: transform 0.25s;
+  transition: transform 0.25s !important;
 }
 
 .icon {
@@ -58,6 +58,6 @@
 
 .dark .icon :deep(svg) {
   fill: var(--vp-c-text-1);
-  transition: opacity 0.25s;
+  transition: opacity 0.25s !important;
 }
 </style>
