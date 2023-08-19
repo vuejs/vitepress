@@ -6,6 +6,16 @@ VitePress 带有内置的 Markdown 扩展。
 
 标题会自动应用锚点。可以使用 `markdown.anchor` 选项配置锚点的渲染。
 
+### Custom anchors
+
+To specify a custom anchor tag for a heading instead of using the auto-generated one, add a suffix to the heading:
+
+```
+# Using custom anchors {#my-anchor}
+```
+
+This allows you to link to the heading as `#my-anchor` instead of the default `#using-custom-anchors`.
+
 ## 链接 {#links}
 
 内部和外部链接都会被特殊处理。
@@ -556,7 +566,12 @@ const line3 = 'This is line 3'
 <<< @/snippets/snippet.js{2}
 
 ::: tip
-`@` 的值对应于源代码根目录，默认情况下是 VitePress 项目根目录，除非配置了 `srcDir`。
+`@` 的值对应于源代码根目录，默认情况下是 VitePress 项目根目录，除非配置了 `srcDir`。或者你也可以从相对路径导入：
+
+```md
+<<< ../snippets/snippet.js
+```
+
 :::
 
 你也可以使用 [VS Code region](https://code.visualstudio.com/docs/editor/codebasics#_folding) 来只包含代码文件的相应部分。你可以在文件目录后面的 `#` 符号后提供一个自定义的区域名：
@@ -681,7 +696,13 @@ export default config
 
 ## 包含 markdown 文件 {#markdown-file-inclusion}
 
-你可以像这样在一个 markdown 文件中包含另一个 markdown 文件：
+你可以像这样在一个 markdown 文件中包含另一个 markdown 文件，甚至是内嵌的。
+
+::: tip
+你也可以使用 `@`，它的值对应于源代码根目录，默认情况下是 VitePress 项目根目录，除非配置了 `srcDir`。
+:::
+
+例如，你可以这样用相对路径包含 Markdown 文件：
 
 **输入**
 
@@ -717,6 +738,42 @@ Some getting started stuff.
 Can be created using `.foorc.json`.
 ```
 
+It also supports selecting a line range:
+
+**Input**
+
+```md
+# Docs
+
+## Basics
+
+<!--@include: ./parts/basics.md{3,}-->
+```
+
+**Part file** (`parts/basics.md`)
+
+```md
+Some getting started stuff.
+
+### Configuration
+
+Can be created using `.foorc.json`.
+```
+
+**Equivalent code**
+
+```md
+# Docs
+
+## Basics
+
+### Configuration
+
+Can be created using `.foorc.json`.
+```
+
+The format of the selected line range can be: `{3,}`, `{,10}`, `{1,10}`
+
 ::: warning
 如果你指定的文件不存在，这将不会产生错误。因此，在使用这个功能的时候请保证内容按预期呈现。
 :::
@@ -726,14 +783,15 @@ Can be created using `.foorc.json`.
 VitePress 使用 [markdown-it](https://github.com/markdown-it/markdown-it) 作为 Markdown 渲染器。上面提到的很多拓展功能都是通过自定义插件实现的。你可以使用 `.vitepress/config.js` 中的 `markdown` 选项来进一步自定义 `markdown-it` 实例。
 
 ```js
-const anchor = require('markdown-it-anchor')
+import markdownItAnchor from 'markdown-it-anchor'
+import markdownItFoo from 'markdown-it-foo'
 
 module.exports = {
   markdown: {
     // options for markdown-it-anchor
     // https://github.com/valeriangalliat/markdown-it-anchor#usage
     anchor: {
-      permalink: anchor.permalink.headerLink()
+      permalink: markdownItAnchor.permalink.headerLink()
     },
 
     // options for @mdit-vue/plugin-toc
@@ -742,7 +800,7 @@ module.exports = {
 
     config: (md) => {
       // use more markdown-it plugins!
-      md.use(require('markdown-it-xxx'))
+      md.use(markdownItFoo)
     }
   }
 }
