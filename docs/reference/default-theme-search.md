@@ -98,9 +98,9 @@ export default defineConfig({
 
 Learn more in [MiniSearch docs](https://lucaong.github.io/minisearch/classes/_minisearch_.minisearch.html).
 
-### Excluding pages from search
+### Custom content renderer
 
-You can exclude pages from search by adding `search: false` to the frontmatter of the page. Alternatively, you can also pass `exclude` function to `themeConfig.search.options` to exclude pages based on their path relative to `srcDir`:
+You can customize the function used to render the markdown content before indexing it:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -108,27 +108,27 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   themeConfig: {
     search: {
+      provider: 'local',
       options: {
-        exclude: (path) => path.startsWith('/some/path')
+        /**
+         * @param {string} src
+         * @param {import('vitepress').MarkdownEnv} env
+         * @param {import('markdown-it')} md
+         */
+        _render(src, env, md) {
+          // return html string
+        }
       }
     }
   }
 })
 ```
 
-### Transforming content
+This function will be stripped from client-side site data, so you can use Node.js APIs in it.
 
-- Type: `(html: string, env: MarkdownEnv, render: (markdown: string) => string) => string`
+#### Example: Excluding pages from search
 
-While processing in Node (not available client-side) you can pass a `node_preIndexRender` function to `themeConfig.search.options` that can modify or return entirely different HTML content before it is indexed.
-
-The function receives the following parameters:
-
-- `html` - the rendered HTML content that was going to be indexed
-- `env` - metadata for the page including its `path` and `frontmatter`
-- `render` - a function you can pass markdown to in order to render it
-
-#### Example: Add H1 to HTML from Frontmatter title
+You can exclude pages from search by adding `search: false` to the frontmatter of the page. Alternatively:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -136,15 +136,44 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   themeConfig: {
     search: {
+      provider: 'local',
       options: {
-        node_preIndexRender: (html, env, render) =>
-          env.frontmatter?.title
-            ? render('# ' + env.frontmatter?.title) + html
-            : html
+        _render(src, env, md) {
+          const html = md.render(src, env)
+          if (env.frontmatter?.search === false) return ''
+          if (env.relativePath.startsWith('some/path')) return ''
+          return html
+        }
       }
     }
   }
-}
+})
+```
+
+::: warning Note
+In case a custom `_render` function is provided, you need to handle the `search: false` frontmatter yourself. Also, the `env` object won't be completely populated before `md.render` is called, so any checks on optional `env` properties like `frontmatter` should be done after that.
+:::
+
+#### Example: Transforming content - adding anchors
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'local',
+      options: {
+        _render(src, env, md) {
+          const html = md.render(src, env)
+          if (env.frontmatter?.title)
+            return md.render(`# ${env.frontmatter.title}`) + html
+          return html
+        }
+      }
+    }
+  }
+})
 ```
 
 ## Algolia Search

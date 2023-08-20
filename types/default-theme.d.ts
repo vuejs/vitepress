@@ -1,9 +1,9 @@
+import type MarkdownIt from 'markdown-it'
 import type { Options as MiniSearchOptions } from 'minisearch'
 import type { ComputedRef, Ref } from 'vue'
 import type { DocSearchProps } from './docsearch.js'
 import type { LocalSearchTranslations } from './local-search.js'
-import type { PageData } from './shared.js'
-import type { MarkdownEnv } from './markdown/env.js'
+import type { MarkdownEnv, PageData } from './shared.js'
 
 export namespace DefaultTheme {
   export interface Config {
@@ -384,24 +384,16 @@ export namespace DefaultTheme {
     }
 
     /**
-     * exclude content from search results
+     * Allows transformation of content before indexing (node only)
+     * Return empty string to skip indexing
      */
-    exclude?: (relativePath: string) => boolean
-
-    /**
-     * Allow transformation of content before indexing (from Node only)
-     */
-    node_preIndexRender?: (
-      html: string,
-      env: MarkdownEnv,
-      render: (string) => string
-    ) => string
+    _render?: (src: string, env: MarkdownEnv, md: MarkdownIt) => string
   }
 
   // algolia -------------------------------------------------------------------
 
   /**
-   * The Algolia search options. Partially copied from
+   * Algolia search options. Partially copied from
    * `@docsearch/react/dist/esm/DocSearch.d.ts`
    */
   export interface AlgoliaSearchOptions extends DocSearchProps {
