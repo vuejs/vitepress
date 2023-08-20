@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { useWindowScroll } from '@vueuse/core'
-import { onContentUpdated } from 'vitepress'
-import { computed, shallowRef, ref, onMounted } from 'vue'
+import { inBrowser, onContentUpdated } from 'vitepress'
+import { computed, onMounted, ref, shallowRef } from 'vue'
 import { useData } from '../composables/data'
-import { useSidebar } from '../composables/sidebar'
 import { getHeaders, type MenuItem } from '../composables/outline'
+import { useSidebar } from '../composables/sidebar'
 import VPLocalNavOutlineDropdown from './VPLocalNavOutlineDropdown.vue'
 import VPIconAlignLeft from './icons/VPIconAlignLeft.vue'
 
@@ -18,7 +18,8 @@ defineEmits<{
 
 const { theme, frontmatter } = useData()
 const { hasSidebar } = useSidebar()
-const { y } = useWindowScroll()
+// @ts-ignore
+const { y } = useWindowScroll({ window: inBrowser && window })
 
 const headers = shallowRef<MenuItem[]>([])
 const navHeight = ref(0)
