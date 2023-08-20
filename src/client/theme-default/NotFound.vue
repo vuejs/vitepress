@@ -91,19 +91,19 @@ onMounted(() => {
 
 .link {
   display: inline-block;
-  border: 1px solid var(--vp-c-brand);
+  border: 1px solid var(--vp-c-brand-1);
   border-radius: 16px;
   padding: 3px 16px;
   font-size: 14px;
   font-weight: 500;
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-1);
   transition:
     border-color 0.25s,
     color 0.25s;
 }
 
 .link:hover {
-  border-color: var(--vp-c-brand-dark);
-  color: var(--vp-c-brand-dark);
+  border-color: var(--vp-c-brand-2);
+  color: var(--vp-c-brand-2);
 }
 </style>

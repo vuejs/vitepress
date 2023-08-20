@@ -1,193 +1,229 @@
 /**
- * Colors Base
- *
- * These are the pure base color presets. Most of the time, you should not be
- * using these colors directly in the theme but rather use "Colors Theme"
- * instead because those are "Theme (light or dark)" dependant.
+ * Colors: Solid
  * -------------------------------------------------------------------------- */
 
 :root {
   --vp-c-white: #ffffff;
   --vp-c-black: #000000;
-  --vp-c-gray: #8e8e93;
 
-  --vp-c-text-light-1: rgba(60, 60, 67);
-  --vp-c-text-light-2: rgba(60, 60, 67, 0.75);
-  --vp-c-text-light-3: rgba(60, 60, 67, 0.33);
+  --vp-c-neutral: var(--vp-c-black);
+  --vp-c-neutral-inverse: var(--vp-c-white);
+}
 
-  --vp-c-text-dark-1: rgba(255, 255, 245, 0.86);
-  --vp-c-text-dark-2: rgba(235, 235, 245, 0.6);
-  --vp-c-text-dark-3: rgba(235, 235, 245, 0.38);
+.dark {
+  --vp-c-neutral: var(--vp-c-white);
+  --vp-c-neutral-inverse: var(--vp-c-black);
+}
+
+/**
+ * Colors: Palette
+ *
+ * The primitive colors used for accent colors. These colors are referenced
+ * by functional colors such as "Text", "Background", or "Brand".
+ *
+ * Each colors have exact same color scale system with 3 levels of solid
+ * colors with different brightness, and 1 soft color.
+ * 
+ * - `XXX-1`: The most solid color used mainly for colored text. It must
+ *   satisfy the contrast ratio against when used on top of `XXX-soft`.
+ *
+ * - `XXX-2`: The color used mainly for hover state of the button.
+ *
+ * - `XXX-3`: The color for solid background, such as bg color of the button.
+ *    It must satisfy the contrast ratio with pure white (#ffffff) text on
+ *    top of it.
+ *
+ * - `XXX-soft`: The color used for subtle background such as custom container
+ *    or badges. It must satisfy the contrast ratio when putting `XXX-1` colors
+ *    on top of it.
+ *
+ *    The soft color must be semi transparent alpha channel. This is crucial
+ *    because it allows adding multiple "soft" colors on top of each other
+ *    to create a accent, such as when having inline code block inside
+ *    custom containers.
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --vp-c-gray-1: #dddde3;
+  --vp-c-gray-2: #e4e4e9;
+  --vp-c-gray-3: #ebebef;
+  --vp-c-gray-soft: rgba(142, 150, 170, 0.14);
+
+  --vp-c-indigo-1: #3451b2;
+  --vp-c-indigo-2: #3a5ccc;
+  --vp-c-indigo-3: #5672cd;
+  --vp-c-indigo-soft: rgba(100, 108, 255, 0.14);
+
+  --vp-c-green-1: #18794e;
+  --vp-c-green-2: #299764;
+  --vp-c-green-3: #30a46c;
+  --vp-c-green-soft: rgba(16, 185, 129, 0.14);
+
+  --vp-c-yellow-1: #915930;
+  --vp-c-yellow-2: #946300;
+  --vp-c-yellow-3: #9f6a00;
+  --vp-c-yellow-soft: rgba(234, 79, 8, 0.14);
+
+  --vp-c-red-1: #b8272c;
+  --vp-c-red-2: #d5393e;
+  --vp-c-red-3: #e0575b;
+  --vp-c-red-soft: rgba(244, 63, 94, 0.14);
 
   --vp-c-sponsor: #db2777;
 }
 
+.dark {
+  --vp-c-gray-1: #515c67;
+  --vp-c-gray-2: #414853;
+  --vp-c-gray-3: #32363f;
+  --vp-c-gray-soft: rgba(101, 117, 133, 0.16);
+
+  --vp-c-indigo-1: #a8b1ff;
+  --vp-c-indigo-2: #5c73e7;
+  --vp-c-indigo-3: #3e63dd;
+  --vp-c-indigo-soft: rgba(100, 108, 255, 0.16);
+
+  --vp-c-green-1: #3dd68c;
+  --vp-c-green-2: #30a46c;
+  --vp-c-green-3: #298459;
+  --vp-c-green-soft: rgba(16, 185, 129, 0.16);
+
+  --vp-c-yellow-1: #f9b44e;
+  --vp-c-yellow-2: #da8b17;
+  --vp-c-yellow-3: #a46a0a;
+  --vp-c-yellow-soft: rgba(234, 179, 8, 0.16);
+
+  --vp-c-red-1: #f66f81;
+  --vp-c-red-2: #f14158;
+  --vp-c-red-3: #b62a3c;
+  --vp-c-red-soft: rgba(244, 63, 94, 0.16);
+}
+
 /**
- * Colors Theme
+ * Colors: Background
+ *
+ * - `bg`: The bg color used for main screen.
+ *
+ * - `bg-alt`: The alternative bg color used in places such as "sidebar",
+ *   or "code block".
+ *
+ * - `bg-elv`: The elevated bg color. This is used at parts where it "floats",
+ *   such as "dialog".
+ *
+ * - `bg-soft`: The bg color to slightly ditinguish some components from
+ *   the page. Used for things like "carbon ads" or "table".
  * -------------------------------------------------------------------------- */
 
 :root {
   --vp-c-bg: #ffffff;
-
-  --vp-c-bg-elv: #ffffff;
-  --vp-c-bg-elv-up: #ffffff;
-  --vp-c-bg-elv-down: #f6f6f7;
-  --vp-c-bg-elv-mute: #f6f6f7;
-
-  --vp-c-bg-soft: #f6f6f7;
-  --vp-c-bg-soft-up: #f9f9fa;
-  --vp-c-bg-soft-down: #e3e3e5;
-  --vp-c-bg-soft-mute: #e3e3e5;
-
   --vp-c-bg-alt: #f6f6f7;
-
-  --vp-c-border: #c2c2c4;
-  --vp-c-divider: #e2e2e3;
-  --vp-c-gutter: #e2e2e3;
-
-  --vp-c-neutral: var(--vp-c-black);
-  --vp-c-neutral-inverse: var(--vp-c-white);
-
-  --vp-c-text-1: var(--vp-c-text-light-1);
-  --vp-c-text-2: var(--vp-c-text-light-2);
-  --vp-c-text-3: var(--vp-c-text-light-3);
-
-  --vp-c-text-inverse-1: var(--vp-c-text-dark-1);
-  --vp-c-text-inverse-2: var(--vp-c-text-dark-2);
-  --vp-c-text-inverse-3: var(--vp-c-text-dark-3);
-
-  --vp-c-text-code: #476582;
-
-  --vp-c-mute: #eeeef0;
-  --vp-c-mute-light: #f3f3f9;
-  --vp-c-mute-lighter: #f9f9fa;
-  --vp-c-mute-dark: #e3e3e5;
-  --vp-c-mute-darker: #d7d7d9;
-
-  --vp-c-brand: #4565d8;
-  --vp-c-brand-light: #708fff;
-  --vp-c-brand-lighter: #a4b2ff;
-  --vp-c-brand-lightest: #ecefff;
-  --vp-c-brand-dark: #4565d8;
-  --vp-c-brand-darker: #23459f;
-  --vp-c-brand-darkest: #132f59;
-  --vp-c-brand-dimm-1: rgba(112, 143, 255, 0.05);
-  --vp-c-brand-dimm-2: rgba(112, 143, 255, 0.2);
-  --vp-c-brand-dimm-3: rgba(112, 143, 255, 0.5);
-
-  --vp-c-green: #10b981;
-  --vp-c-green-light: #34d399;
-  --vp-c-green-lighter: #6ee7b7;
-  --vp-c-green-dark: #059669;
-  --vp-c-green-darker: #047857;
-  --vp-c-green-dimm-1: rgba(16, 185, 129, 0.05);
-  --vp-c-green-dimm-2: rgba(16, 185, 129, 0.2);
-  --vp-c-green-dimm-3: rgba(16, 185, 129, 0.5);
-
-  --vp-c-yellow: #d97706;
-  --vp-c-yellow-light: #f59e0b;
-  --vp-c-yellow-lighter: #fbbf24;
-  --vp-c-yellow-lightest: #fcd34d;
-  --vp-c-yellow-dark: #b45309;
-  --vp-c-yellow-darker: #92400e;
-  --vp-c-yellow-darkest: #6c3d08;
-  --vp-c-yellow-dimm-1: rgba(234, 179, 8, 0.05);
-  --vp-c-yellow-dimm-2: rgba(234, 179, 8, 0.2);
-  --vp-c-yellow-dimm-3: rgba(234, 179, 8, 0.5);
-
-  --vp-c-red: #f43f5e;
-  --vp-c-red-light: #fb7185;
-  --vp-c-red-lighter: #fda4af;
-  --vp-c-red-lightest: #fdd6e0;
-  --vp-c-red-dark: #e11d48;
-  --vp-c-red-darker: #be123c;
-  --vp-c-red-darkest: #9f1239;
-  --vp-c-red-dimm-1: rgba(244, 63, 94, 0.05);
-  --vp-c-red-dimm-2: rgba(244, 63, 94, 0.2);
-  --vp-c-red-dimm-3: rgba(244, 63, 94, 0.5);
+  --vp-c-bg-elv: #ffffff;
+  --vp-c-bg-soft: #f6f6f7;
 }
 
 .dark {
-  --vp-c-bg: #1e1e20;
-
-  --vp-c-bg-elv: #252529;
-  --vp-c-bg-elv-up: #323238;
-  --vp-c-bg-elv-down: #1e1e20;
-  --vp-c-bg-elv-mute: #323238;
-
-  --vp-c-bg-soft: #252529;
-  --vp-c-bg-soft-up: #323238;
-  --vp-c-bg-soft-down: #1e1e20;
-  --vp-c-bg-soft-mute: #323238;
-
+  --vp-c-bg: #1b1b1f;
   --vp-c-bg-alt: #161618;
+  --vp-c-bg-elv: #202127;
+  --vp-c-bg-soft: #202127;
+}
 
-  --vp-c-border: rgba(82, 82, 89, 0.68);
-  --vp-c-divider: rgba(82, 82, 89, 0.32);
+/**
+ * Colors: Borders
+ *
+ * - `divider`: This is used for separators. This is used to divide sections
+ *   within the same components, such as having separator on "h2" heading.
+ *
+ * - `border`: This is designed for borders on interactive components.
+ *   For example this should be used for a button outline.
+ *
+ * - `gutter`: This is used to divide components in the page. For example
+ *   the header and the lest of the page.
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --vp-c-border: #c2c2c4;
+  --vp-c-divider: #e2e2e3;
+  --vp-c-gutter: #e2e2e3;
+}
+
+.dark {
+  --vp-c-border: #3c3f44;
+  --vp-c-divider: #2e2e32;
   --vp-c-gutter: #000000;
+}
 
-  --vp-c-neutral: var(--vp-c-white);
-  --vp-c-neutral-inverse: var(--vp-c-black);
+/**
+ * Colors: Text
+ *
+ * - `text-1`: Used for primary text.
+ *
+ * - `text-2`: Used for muted texts, such as "inactive menu" or "info texts".
+ *
+ * - `text-3`: Used for subtle texts, such as "placeholders" or "caret icon".
+ * -------------------------------------------------------------------------- */
 
-  --vp-c-text-1: var(--vp-c-text-dark-1);
-  --vp-c-text-2: var(--vp-c-text-dark-2);
-  --vp-c-text-3: var(--vp-c-text-dark-3);
+:root {
+  --vp-c-text-1: rgba(60, 60, 67);
+  --vp-c-text-2: rgba(60, 60, 67, 0.78);
+  --vp-c-text-3: rgba(60, 60, 67, 0.56);
+}
 
-  --vp-c-text-inverse-1: var(--vp-c-text-light-1);
-  --vp-c-text-inverse-2: var(--vp-c-text-light-2);
-  --vp-c-text-inverse-3: var(--vp-c-text-light-3);
+.dark {
+  --vp-c-text-1: rgba(255, 255, 245, 0.86);
+  --vp-c-text-2: rgba(235, 235, 245, 0.6);
+  --vp-c-text-3: rgba(235, 235, 245, 0.38);
+}
 
-  --vp-c-text-code: #c9def1;
+/**
+ * Colors: Function
+ *
+ * - `default`: The color used purely for subtle indication without any
+ *   special meanings attched to it such as bg color for menu hover state.
+ *
+ * - `brand`: Used for primary brand colors, such as link text, button with
+ *   brand theme, etc.
+ *
+ * - `tip`: Used to indicate useful information. The default theme uses the
+ *   brand color for this by default.
+ *
+ * - `warning`: Used to indicate warning to the users. Used in custom
+ *   container, badges, etc.
+ *
+ * - `danger`: Used to show error, or dangerous message to the users. Used
+ *   in custom container, badges, etc.
+ *
+ * To understand the scaling system, refer to "Colors: Palette" section.
+ * -------------------------------------------------------------------------- */
 
-  --vp-c-mute: #323238;
-  --vp-c-mute-light: #3a3a3c;
-  --vp-c-mute-lighter: #505053;
-  --vp-c-mute-dark: #222226;
-  --vp-c-mute-darker: #505053;
+:root {
+  --vp-c-default-1: var(--vp-c-gray-1);
+  --vp-c-default-2: var(--vp-c-gray-2);
+  --vp-c-default-3: var(--vp-c-gray-3);
+  --vp-c-default-soft: var(--vp-c-gray-soft);
 
-  --vp-c-brand: #708fff;
-  --vp-c-brand-light: #a4b2ff;
-  --vp-c-brand-lighter: #a4c8ff;
-  --vp-c-brand-lightest: #ecefff;
-  --vp-c-brand-dark: #4565d8;
-  --vp-c-brand-darker: #23459f;
-  --vp-c-brand-darkest: #132f59;
-  --vp-c-brand-dimm-1: rgba(112, 143, 255, 0.05);
-  --vp-c-brand-dimm-2: rgba(112, 143, 255, 0.2);
-  --vp-c-brand-dimm-3: rgba(112, 143, 255, 0.5);
+  --vp-c-brand-1: var(--vp-c-indigo-1);
+  --vp-c-brand-2: var(--vp-c-indigo-2);
+  --vp-c-brand-3: var(--vp-c-indigo-3);
+  --vp-c-brand-soft: var(--vp-c-indigo-soft);
 
-  --vp-c-green: #10b981;
-  --vp-c-green-light: #34d399;
-  --vp-c-green-lighter: #6ee7b7;
-  --vp-c-green-lightest: #a7f3d0;
-  --vp-c-green-dark: #059669;
-  --vp-c-green-darker: #047857;
-  --vp-c-green-darkest: #065f46;
-  --vp-c-green-dimm-1: rgba(16, 185, 129, 0.05);
-  --vp-c-green-dimm-2: rgba(16, 185, 129, 0.2);
-  --vp-c-green-dimm-3: rgba(16, 185, 129, 0.5);
+  /* DEPRECATED: Use `--vp-c-brand-1` instead. */
+  --vp-c-brand: var(--vp-c-brand-1);
 
-  --vp-c-yellow: #d1a336;
-  --vp-c-yellow-light: #f8e3a1;
-  --vp-c-yellow-lighter: #fff0c0;
-  --vp-c-yellow-lightest: #fff7dc;
-  --vp-c-yellow-dark: #b45309;
-  --vp-c-yellow-darker: #92400e;
-  --vp-c-yellow-darkest: #6c3d08;
-  --vp-c-yellow-dimm-1: rgba(234, 179, 8, 0.05);
-  --vp-c-yellow-dimm-2: rgba(234, 179, 8, 0.2);
-  --vp-c-yellow-dimm-3: rgba(234, 179, 8, 0.5);
+  --vp-c-tip-1: var(--vp-c-brand-1);
+  --vp-c-tip-2: var(--vp-c-brand-2);
+  --vp-c-tip-3: var(--vp-c-brand-3);
+  --vp-c-tip-soft: var(--vp-c-brand-soft);
 
-  --vp-c-red: #f43f5e;
-  --vp-c-red-light: #fb7185;
-  --vp-c-red-lighter: #fda4af;
-  --vp-c-red-lightest: #fdd6e0;
-  --vp-c-red-dark: #e11d48;
-  --vp-c-red-darker: #be123c;
-  --vp-c-red-darkest: #9f1239;
-  --vp-c-red-dimm-1: rgba(244, 63, 94, 0.05);
-  --vp-c-red-dimm-2: rgba(244, 63, 94, 0.2);
-  --vp-c-red-dimm-3: rgba(244, 63, 94, 0.5);
+  --vp-c-warning-1: var(--vp-c-yellow-1);
+  --vp-c-warning-2: var(--vp-c-yellow-2);
+  --vp-c-warning-3: var(--vp-c-yellow-3);
+  --vp-c-warning-soft: var(--vp-c-yellow-soft);
+
+  --vp-c-danger-1: var(--vp-c-red-1);
+  --vp-c-danger-2: var(--vp-c-red-2);
+  --vp-c-danger-3: var(--vp-c-red-3);
+  --vp-c-danger-soft: var(--vp-c-red-soft);
 }
 
 /**
@@ -260,62 +296,41 @@
 :root {
   --vp-code-line-height: 1.7;
   --vp-code-font-size: 0.875em;
-  --vp-c-code-dimm: var(--vp-c-text-dark-3);
+  --vp-code-color: var(--vp-c-brand-1);
+  --vp-code-link-color: var(--vp-c-brand-1);
+  --vp-code-link-hover-color: var(--vp-c-brand-2);
+  --vp-code-bg: var(--vp-c-default-soft);
 
-  --vp-code-block-color: var(--vp-c-text-dark-1);
-  --vp-code-block-bg: #161618;
-  --vp-code-block-bg-light: #1e1e20;
-  --vp-code-block-divider-color: #000000;
+  --vp-code-block-color: var(--vp-c-text-2);
+  --vp-code-block-bg: var(--vp-c-bg-alt);
+  --vp-code-block-divider-color: var(--vp-c-gutter);
 
-  --vp-code-line-highlight-color: rgba(0, 0, 0, 0.5);
-  --vp-code-line-number-color: var(--vp-c-code-dimm);
+  --vp-code-lang-color: var(--vp-c-text-3);
 
-  --vp-code-line-diff-add-color: var(--vp-c-green-dimm-2);
-  --vp-code-line-diff-add-symbol-color: var(--vp-c-green);
+  --vp-code-line-highlight-color: var(--vp-c-default-soft);
+  --vp-code-line-number-color: var(--vp-c-text-3);
 
-  --vp-code-line-diff-remove-color: var(--vp-c-red-dimm-2);
-  --vp-code-line-diff-remove-symbol-color: var(--vp-c-red);
+  --vp-code-line-diff-add-color: var(--vp-c-green-soft);
+  --vp-code-line-diff-add-symbol-color: var(--vp-c-green-1);
 
-  --vp-code-line-warning-color: var(--vp-c-yellow-dimm-2);
-  --vp-code-line-error-color: var(--vp-c-red-dimm-2);
+  --vp-code-line-diff-remove-color: var(--vp-c-red-soft);
+  --vp-code-line-diff-remove-symbol-color: var(--vp-c-red-1);
 
-  --vp-code-copy-code-border-color: transparent;
-  --vp-code-copy-code-bg: var(--vp-code-block-bg-light);
+  --vp-code-line-warning-color: var(--vp-c-yellow-soft);
+  --vp-code-line-error-color: var(--vp-c-red-soft);
+
+  --vp-code-copy-code-border-color: var(--vp-c-divider);
+  --vp-code-copy-code-bg: var(--vp-c-bg-soft);
   --vp-code-copy-code-hover-border-color: var(--vp-c-divider);
-  --vp-code-copy-code-hover-bg: var(--vp-code-block-bg-light);
-  --vp-code-copy-code-active-text: var(--vp-c-text-dark-2);
-
-  --vp-code-tab-divider: var(--vp-code-block-divider-color);
-  --vp-code-tab-text-color: var(--vp-c-text-dark-2);
-  --vp-code-tab-bg: var(--vp-code-block-bg);
-  --vp-code-tab-hover-text-color: var(--vp-c-text-dark-1);
-  --vp-code-tab-active-text-color: var(--vp-c-text-dark-1);
-  --vp-code-tab-active-bar-color: var(--vp-c-brand);
-}
-
-.dark {
-  --vp-code-block-bg: #161618;
-}
-
-:root:not(.dark) .vp-adaptive-theme {
-  --vp-c-code-dimm: var(--vp-c-text-2);
-
-  --vp-code-block-color: var(--vp-c-text-1);
-  --vp-code-block-bg: #f8f8f8;
-  --vp-code-block-divider-color: var(--vp-c-divider);
-
-  --vp-code-line-highlight-color: #ececec;
-  --vp-code-line-number-color: var(--vp-c-code-dimm);
-
-  --vp-code-copy-code-bg: #e2e2e2;
-  --vp-code-copy-code-hover-bg: #dcdcdc;
+  --vp-code-copy-code-hover-bg: var(--vp-c-bg);
   --vp-code-copy-code-active-text: var(--vp-c-text-2);
 
-  --vp-code-tab-divider: var(--vp-c-divider);
+  --vp-code-tab-divider: var(--vp-code-block-divider-color);
   --vp-code-tab-text-color: var(--vp-c-text-2);
   --vp-code-tab-bg: var(--vp-code-block-bg);
   --vp-code-tab-hover-text-color: var(--vp-c-text-1);
   --vp-code-tab-active-text-color: var(--vp-c-text-1);
+  --vp-code-tab-active-bar-color: var(--vp-c-brand-1);
 }
 
 /**
@@ -323,28 +338,28 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-  --vp-button-brand-border: var(--vp-c-brand);
+  --vp-button-brand-border: transparent;
   --vp-button-brand-text: var(--vp-c-white);
-  --vp-button-brand-bg: var(--vp-c-brand-dark);
-  --vp-button-brand-hover-border: var(--vp-c-brand-light);
+  --vp-button-brand-bg: var(--vp-c-brand-3);
+  --vp-button-brand-hover-border: transparent;
   --vp-button-brand-hover-text: var(--vp-c-white);
-  --vp-button-brand-hover-bg: var(--vp-c-brand-darker);
-  --vp-button-brand-active-border: var(--vp-c-brand-light);
+  --vp-button-brand-hover-bg: var(--vp-c-brand-2);
+  --vp-button-brand-active-border: transparent;
   --vp-button-brand-active-text: var(--vp-c-white);
-  --vp-button-brand-active-bg: var(--vp-c-brand-darkest);
+  --vp-button-brand-active-bg: var(--vp-c-brand-1);
 
-  --vp-button-alt-border: var(--vp-c-border);
-  --vp-button-alt-text: var(--vp-c-neutral);
-  --vp-button-alt-bg: var(--vp-c-mute);
-  --vp-button-alt-hover-border: var(--vp-c-border);
-  --vp-button-alt-hover-text: var(--vp-c-neutral);
-  --vp-button-alt-hover-bg: var(--vp-c-mute-dark);
-  --vp-button-alt-active-border: var(--vp-c-border);
-  --vp-button-alt-active-text: var(--vp-c-neutral);
-  --vp-button-alt-active-bg: var(--vp-c-mute-darker);
+  --vp-button-alt-border: transparent;
+  --vp-button-alt-text: var(--vp-c-text-1);
+  --vp-button-alt-bg: var(--vp-c-default-3);
+  --vp-button-alt-hover-border: transparent;
+  --vp-button-alt-hover-text: var(--vp-c-text-1);
+  --vp-button-alt-hover-bg: var(--vp-c-default-2);
+  --vp-button-alt-active-border: transparent;
+  --vp-button-alt-active-text: var(--vp-c-text-1);
+  --vp-button-alt-active-bg: var(--vp-c-default-1);
 
-  --vp-button-sponsor-border: var(--vp-c-gray-light-3);
-  --vp-button-sponsor-text: var(--vp-c-text-light-2);
+  --vp-button-sponsor-border: var(--vp-c-text-2);
+  --vp-button-sponsor-text: var(--vp-c-text-2);
   --vp-button-sponsor-bg: transparent;
   --vp-button-sponsor-hover-border: var(--vp-c-sponsor);
   --vp-button-sponsor-hover-text: var(--vp-c-sponsor);
@@ -352,11 +367,6 @@
   --vp-button-sponsor-active-border: var(--vp-c-sponsor);
   --vp-button-sponsor-active-text: var(--vp-c-sponsor);
   --vp-button-sponsor-active-bg: transparent;
-}
-
-.dark {
-  --vp-button-sponsor-border: var(--vp-c-gray-dark-1);
-  --vp-button-sponsor-text: var(--vp-c-text-dark-2);
 }
 
 /**
@@ -367,30 +377,30 @@
   --vp-custom-block-font-size: 14px;
   --vp-custom-block-code-font-size: 13px;
 
-  --vp-custom-block-info-border: var(--vp-c-border);
-  --vp-custom-block-info-text: var(--vp-c-text-2);
-  --vp-custom-block-info-bg: var(--vp-c-bg-soft);
-  --vp-custom-block-info-code-bg: var(--vp-c-mute);
+  --vp-custom-block-info-border: transparent;
+  --vp-custom-block-info-text: var(--vp-c-text-1);
+  --vp-custom-block-info-bg: var(--vp-c-default-soft);
+  --vp-custom-block-info-code-bg: var(--vp-c-default-soft);
 
-  --vp-custom-block-tip-border: var(--vp-c-brand);
-  --vp-custom-block-tip-text: var(--vp-c-brand);
-  --vp-custom-block-tip-bg: var(--vp-c-bg-soft);
-  --vp-custom-block-tip-code-bg: var(--vp-c-mute);
+  --vp-custom-block-tip-border: transparent;
+  --vp-custom-block-tip-text: var(--vp-c-text-1);
+  --vp-custom-block-tip-bg: var(--vp-c-brand-soft);
+  --vp-custom-block-tip-code-bg: var(--vp-c-brand-soft);
 
-  --vp-custom-block-warning-border: var(--vp-c-yellow);
-  --vp-custom-block-warning-text: var(--vp-c-yellow);
-  --vp-custom-block-warning-bg: var(--vp-c-bg-soft);
-  --vp-custom-block-warning-code-bg: var(--vp-c-mute);
+  --vp-custom-block-warning-border: transparent;
+  --vp-custom-block-warning-text: var(--vp-c-text-1);
+  --vp-custom-block-warning-bg: var(--vp-c-warning-soft);
+  --vp-custom-block-warning-code-bg: var(--vp-c-warning-soft);
 
-  --vp-custom-block-danger-border: var(--vp-c-red);
-  --vp-custom-block-danger-text: var(--vp-c-red);
-  --vp-custom-block-danger-bg: var(--vp-c-bg-soft);
-  --vp-custom-block-danger-code-bg: var(--vp-c-mute);
+  --vp-custom-block-danger-border: transparent;
+  --vp-custom-block-danger-text: var(--vp-c-text-1);
+  --vp-custom-block-danger-bg: var(--vp-c-danger-soft);
+  --vp-custom-block-danger-code-bg: var(--vp-c-danger-soft);
 
   --vp-custom-block-details-border: var(--vp-custom-block-info-border);
   --vp-custom-block-details-text: var(--vp-custom-block-info-text);
   --vp-custom-block-details-bg: var(--vp-custom-block-info-bg);
-  --vp-custom-block-details-code-bg: var(--vp-custom-block-details-bg);
+  --vp-custom-block-details-code-bg: var(--vp-custom-block-info-code-bg);
 }
 
 /**
@@ -400,9 +410,8 @@
 :root {
   --vp-input-border-color: var(--vp-c-border);
   --vp-input-bg-color: var(--vp-c-bg-alt);
-  --vp-input-hover-border-color: var(--vp-c-gray);
 
-  --vp-input-switch-bg-color: var(--vp-c-mute);
+  --vp-input-switch-bg-color: var(--vp-c-gray-soft);
 }
 
 /**
@@ -446,7 +455,7 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-  --vp-home-hero-name-color: var(--vp-c-brand);
+  --vp-home-hero-name-color: var(--vp-c-brand-1);
   --vp-home-hero-name-background: transparent;
 
   --vp-home-hero-image-background-image: none;
@@ -458,21 +467,21 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-  --vp-badge-info-border: var(--vp-c-border);
+  --vp-badge-info-border: transparent;
   --vp-badge-info-text: var(--vp-c-text-2);
-  --vp-badge-info-bg: var(--vp-c-mute);
+  --vp-badge-info-bg: var(--vp-c-default-soft);
 
-  --vp-badge-tip-border: var(--vp-c-brand);
-  --vp-badge-tip-text: var(--vp-c-brand);
-  --vp-badge-tip-bg: var(--vp-c-brand-dimm-1);
+  --vp-badge-tip-border: transparent;
+  --vp-badge-tip-text: var(--vp-c-brand-1);
+  --vp-badge-tip-bg: var(--vp-c-brand-soft);
 
-  --vp-badge-warning-border: var(--vp-c-yellow);
-  --vp-badge-warning-text: var(--vp-c-yellow);
-  --vp-badge-warning-bg: var(--vp-c-yellow-dimm-1);
+  --vp-badge-warning-border: transparent;
+  --vp-badge-warning-text: var(--vp-c-warning-1);
+  --vp-badge-warning-bg: var(--vp-c-warning-soft);
 
-  --vp-badge-danger-border: var(--vp-c-red);
-  --vp-badge-danger-text: var(--vp-c-red);
-  --vp-badge-danger-bg: var(--vp-c-red-dimm-1);
+  --vp-badge-danger-border: transparent;
+  --vp-badge-danger-text: var(--vp-c-danger-1);
+  --vp-badge-danger-bg: var(--vp-c-danger-soft);
 }
 
 /**
@@ -483,19 +492,20 @@
   --vp-carbon-ads-text-color: var(--vp-c-text-1);
   --vp-carbon-ads-poweredby-color: var(--vp-c-text-2);
   --vp-carbon-ads-bg-color: var(--vp-c-bg-soft);
-  --vp-carbon-ads-hover-text-color: var(--vp-c-brand);
+  --vp-carbon-ads-hover-text-color: var(--vp-c-brand-1);
   --vp-carbon-ads-hover-poweredby-color: var(--vp-c-text-1);
 }
 
 /**
   * Component: Local Search
   * -------------------------------------------------------------------------- */
+
 :root {
   --vp-local-search-bg: var(--vp-c-bg);
   --vp-local-search-result-bg: var(--vp-c-bg);
   --vp-local-search-result-border: var(--vp-c-divider);
   --vp-local-search-result-selected-bg: var(--vp-c-bg);
-  --vp-local-search-result-selected-border: var(--vp-c-brand);
-  --vp-local-search-highlight-bg: var(--vp-c-green-lighter);
+  --vp-local-search-result-selected-border: var(--vp-c-brand-1);
+  --vp-local-search-highlight-bg: var(--vp-c-green-1);
   --vp-local-search-highlight-text: var(--vp-c-black);
 }

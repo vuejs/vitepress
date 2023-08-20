@@ -43,6 +43,7 @@
   font-weight: 500;
   user-select: none;
   opacity: 0;
+  text-decoration: none;
   transition:
     color 0.25s,
     opacity 0.25s;
@@ -108,12 +109,16 @@
 
 .vp-doc a {
   font-weight: 500;
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-1);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition:
+    color 0.25s,
+    opacity 0.25s;
 }
 
 .vp-doc a:hover {
-  text-decoration: underline dotted;
-  text-underline-offset: 2px;
+  color: var(--vp-c-brand-2);
 }
 
 .vp-doc strong {
@@ -212,17 +217,6 @@
   margin: 0;
 }
 
-.vp-doc .custom-block a {
-  color: inherit;
-  font-weight: 600;
-}
-
-.vp-doc .custom-block code {
-  font-size: var(--vp-custom-block-code-font-size);
-  font-weight: 700;
-  color: inherit;
-}
-
 .vp-doc .custom-block div[class*='language-'] {
   margin: 8px 0;
   border-radius: 8px;
@@ -245,26 +239,30 @@
 /* inline code */
 .vp-doc :not(pre, h1, h2, h3, h4, h5, h6) > code {
   font-size: var(--vp-code-font-size);
+  color: var(--vp-code-color);
 }
 
 .vp-doc :not(pre) > code {
   border-radius: 4px;
   padding: 3px 6px;
-  color: var(--vp-c-text-code);
-  background-color: var(--vp-c-mute);
+  background-color: var(--vp-code-bg);
   transition:
-    color 0.5s,
+    color 0.25s,
     background-color 0.5s;
+}
+
+.vp-doc a > code {
+  color: var(--vp-code-link-color);
+}
+
+.vp-doc a:hover > code {
+  color: var(--vp-code-link-hover-color);
 }
 
 .vp-doc h1 > code,
 .vp-doc h2 > code,
 .vp-doc h3 > code {
   font-size: 0.9em;
-}
-
-.vp-doc a > code {
-  color: var(--vp-c-brand);
 }
 
 .vp-doc div[class*='language-'],
@@ -506,7 +504,7 @@
   z-index: 2;
   font-size: 12px;
   font-weight: 500;
-  color: var(--vp-c-code-dimm);
+  color: var(--vp-code-lang-color);
   transition:
     color 0.4s,
     opacity 0.4s;

@@ -60,7 +60,7 @@ function onBlur() {
 }
 
 .VPFlyout:hover {
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-1);
   transition: color 0.25s;
 }
 
@@ -73,11 +73,11 @@ function onBlur() {
 }
 
 .VPFlyout.active .text {
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-1);
 }
 
 .VPFlyout.active:hover .text {
-  color: var(--vp-c-brand-dark);
+  color: var(--vp-c-brand-2);
 }
 
 .VPFlyout:hover .menu,

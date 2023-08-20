@@ -14,19 +14,20 @@ import {
   SITE_DATA_REQUEST_PATH,
   resolveAliases
 } from './alias'
-import { resolveUserConfig, resolvePages, type SiteConfig } from './config'
+import { resolvePages, resolveUserConfig, type SiteConfig } from './config'
 import {
   clearCache,
   createMarkdownToVueRenderFn,
   type MarkdownCompileResult
 } from './markdownToVue'
-import { slash, type PageDataPayload } from './shared'
+import { dynamicRoutesPlugin } from './plugins/dynamicRoutesPlugin'
+import { localSearchPlugin } from './plugins/localSearchPlugin'
+import { rewritesPlugin } from './plugins/rewritesPlugin'
+import { socialIconsPlugin } from './plugins/socialIconsPlugin'
 import { staticDataPlugin } from './plugins/staticDataPlugin'
 import { webFontsPlugin } from './plugins/webFontsPlugin'
-import { dynamicRoutesPlugin } from './plugins/dynamicRoutesPlugin'
-import { rewritesPlugin } from './plugins/rewritesPlugin'
-import { localSearchPlugin } from './plugins/localSearchPlugin'
-import { serializeFunctions, deserializeFunctions } from './utils/fnSerialize'
+import { slash, type PageDataPayload } from './shared'
+import { deserializeFunctions, serializeFunctions } from './utils/fnSerialize'
 
 declare module 'vite' {
   interface UserConfig {
@@ -34,6 +35,7 @@ declare module 'vite' {
   }
 }
 
+const themeRE = /\/\.vitepress\/theme\/index\.(m|c)?(j|t)s$/
 const hashRE = /\.(\w+)\.js$/
 const staticInjectMarkerRE =
   /\b(const _hoisted_\d+ = \/\*(?:#|@)__PURE__\*\/\s*createStaticVNode)\("(.*)", (\d+)\)/g
@@ -224,8 +226,22 @@ export async function createVitePressPlugin(
         configDeps.forEach((file) => server.watcher.add(file))
       }
 
-      // update pages, dynamicRoutes and rewrites on md file add / deletion
-      const onFileAddDelete = async (file: string) => {
+      const onFileAddDelete = async (added: boolean, file: string) => {
+        // restart server on theme file creation / deletion
+        if (themeRE.test(slash(file))) {
+          siteConfig.logger.info(
+            c.green(
+              `${path.relative(process.cwd(), file)} ${
+                added ? 'created' : 'deleted'
+              }, restarting server...\n`
+            ),
+            { clear: true, timestamp: true }
+          )
+
+          await recreateServer?.()
+        }
+
+        // update pages, dynamicRoutes and rewrites on md file creation / deletion
         if (file.endsWith('.md')) {
           Object.assign(
             siteConfig,
@@ -233,7 +249,9 @@ export async function createVitePressPlugin(
           )
         }
       }
-      server.watcher.on('add', onFileAddDelete).on('unlink', onFileAddDelete)
+      server.watcher
+        .on('add', onFileAddDelete.bind(null, true))
+        .on('unlink', onFileAddDelete.bind(null, false))
 
       // serve our index.html after vite history fallback
       return () => {
@@ -381,6 +399,7 @@ export async function createVitePressPlugin(
     ...(userViteConfig?.plugins || []),
     await localSearchPlugin(siteConfig),
     staticDataPlugin,
-    await dynamicRoutesPlugin(siteConfig)
+    await dynamicRoutesPlugin(siteConfig),
+    socialIconsPlugin(siteConfig)
   ]
 }

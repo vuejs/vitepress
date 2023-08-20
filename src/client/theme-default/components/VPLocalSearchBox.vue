@@ -12,7 +12,7 @@ import {
 import { useFocusTrap } from '@vueuse/integrations/useFocusTrap'
 import Mark from 'mark.js/src/vanilla.js'
 import MiniSearch, { type SearchResult } from 'minisearch'
-import { useRouter, dataSymbol } from 'vitepress'
+import { inBrowser, useRouter, dataSymbol } from 'vitepress'
 import {
   computed,
   createApp,
@@ -41,7 +41,6 @@ const emit = defineEmits<{
 
 const el = shallowRef<HTMLElement>()
 const resultsEl = shallowRef<HTMLElement>()
-const body = shallowRef<HTMLElement>()
 
 /* Search */
 
@@ -354,10 +353,9 @@ useEventListener('popstate', (event) => {
 })
 
 /** Lock body */
-const isLocked = useScrollLock(body)
+const isLocked = useScrollLock(inBrowser ? document.body : null)
 
 onMounted(() => {
-  body.value = document.body
   nextTick(() => {
     isLocked.value = true
     nextTick().then(() => activate())
@@ -694,7 +692,7 @@ function formMarkRegex(terms: Set<string>) {
 }
 
 .search-bar:focus-within {
-  border-color: var(--vp-c-brand);
+  border-color: var(--vp-c-brand-1);
 }
 
 .search-icon {
@@ -742,7 +740,7 @@ function formMarkRegex(terms: Set<string>) {
 
 .search-actions button:not([disabled]):hover,
 .toggle-layout-button.detailed-list {
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-1);
 }
 
 .search-actions button.clear-button:disabled {
@@ -836,7 +834,7 @@ function formMarkRegex(terms: Set<string>) {
 .title-icon {
   opacity: 0.5;
   font-weight: 500;
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-1);
 }
 
 .title svg {
@@ -909,7 +907,7 @@ function formMarkRegex(terms: Set<string>) {
 
 .result.selected .titles,
 .result.selected .title-icon {
-  color: var(--vp-c-brand) !important;
+  color: var(--vp-c-brand-1) !important;
 }
 
 .no-results {

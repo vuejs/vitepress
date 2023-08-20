@@ -312,6 +312,7 @@ export namespace DefaultTheme {
     | 'mastodon'
     | 'slack'
     | 'twitter'
+    | 'x'
     | 'youtube'
     | { svg: string }
 

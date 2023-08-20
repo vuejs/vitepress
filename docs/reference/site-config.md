@@ -426,7 +426,7 @@ When set to `true`, the production app will be built in [MPA Mode](../guide/mpa-
 
 ### appearance
 
-- Type: `boolean | 'dark'`
+- Type: `boolean | 'dark' | import('@vueuse/core').UseDarkOptions`
 - Default: `true`
 
 Whether to enable dark mode (by adding the `.dark` class to the `<html>` element).
@@ -436,6 +436,8 @@ Whether to enable dark mode (by adding the `.dark` class to the `<html>` element
 - If the option is set to `false`, users will not be able to toggle the theme.
 
 This option injects an inline script that restores users settings from local storage using the `vitepress-theme-appearance` key. This ensures the `.dark` class is applied before the page is rendered to avoid flickering.
+
+`appearance.initialValue` can only be `'dark' | undefined`. Refs or getters are not supported.
 
 ### lastUpdated
 

@@ -222,27 +222,30 @@ Wraps in a <div class="vp-raw">
 
 ::: details
 
-- Install required deps with your preferred package manager:
+- Install `postcss` with your preferred package manager:
 
   ```sh
-  $ npm install -D postcss postcss-prefix-selector
+  $ npm add -D postcss
   ```
 
-- Create a file named `docs/.postcssrc.cjs` and add this to it:
+- Create a file named `docs/postcss.config.mjs` and add this to it:
 
   ```js
-  module.exports = {
+  import { postcssIsolateStyles } from 'vitepress'
+  
+  export default {
     plugins: {
-      'postcss-prefix-selector': {
-        prefix: ':not(:where(.vp-raw *))',
-        includeFiles: [/vp-doc\.css/],
-        transform(prefix, _selector) {
-          const [selector, pseudo = ''] = _selector.split(/(:\S*)$/)
-          return selector + prefix + pseudo
-        }
-      }
+      postcssIsolateStyles()
     }
   }
+  ```
+
+  It uses [`postcss-prefix-selector`](https://github.com/postcss/postcss-load-config) under the hood. You can pass its options like this:
+
+  ```js
+  postcssIsolateStyles({
+    includeFiles: [/vp-doc\.css/] // defaults to /base\.css/
+  })
   ```
 
 :::
@@ -783,14 +786,15 @@ Note that this does not throw errors if your file is not present. Hence, when us
 VitePress uses [markdown-it](https://github.com/markdown-it/markdown-it) as the Markdown renderer. A lot of the extensions above are implemented via custom plugins. You can further customize the `markdown-it` instance using the `markdown` option in `.vitepress/config.js`:
 
 ```js
-const anchor = require('markdown-it-anchor')
+import markdownItAnchor from 'markdown-it-anchor'
+import markdownItFoo from 'markdown-it-foo'
 
 module.exports = {
   markdown: {
     // options for markdown-it-anchor
     // https://github.com/valeriangalliat/markdown-it-anchor#usage
     anchor: {
-      permalink: anchor.permalink.headerLink()
+      permalink: markdownItAnchor.permalink.headerLink()
     },
 
     // options for @mdit-vue/plugin-toc
@@ -799,7 +803,7 @@ module.exports = {
 
     config: (md) => {
       // use more markdown-it plugins!
-      md.use(require('markdown-it-xxx'))
+      md.use(markdownItFoo)
     }
   }
 }
