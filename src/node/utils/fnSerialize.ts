@@ -3,6 +3,7 @@ export function serializeFunctions(value: any, key?: string): any {
     return value.map((v) => serializeFunctions(v))
   } else if (typeof value === 'object' && value !== null) {
     return Object.keys(value).reduce((acc, key) => {
+      if (key[0] === '_') return acc
       acc[key] = serializeFunctions(value[key], key)
       return acc
     }, {} as any)
