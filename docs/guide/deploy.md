@@ -204,7 +204,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 2. Create a file named `.gitlab-ci.yml` in the root of your project with the content below. This will build and deploy your site whenever you make changes to your content:
 
    ```yaml
-   image: node:16
+   image: node:18
    pages:
      cache:
        paths:
