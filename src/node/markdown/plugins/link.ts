@@ -4,12 +4,7 @@
 
 import type MarkdownIt from 'markdown-it'
 import { URL } from 'url'
-import {
-  EXTERNAL_URL_RE,
-  PATHNAME_PROTOCOL_RE,
-  isExternal,
-  type MarkdownEnv
-} from '../../shared'
+import { EXTERNAL_URL_RE, isExternal, type MarkdownEnv } from '../../shared'
 
 const indexRE = /(^|.*\/)index.md(#?.*)$/i
 
@@ -38,7 +33,7 @@ export const linkPlugin = (
         if (url.replace(EXTERNAL_URL_RE, '').startsWith('//localhost:')) {
           pushLink(url, env)
         }
-        hrefAttr[1] = url.replace(PATHNAME_PROTOCOL_RE, '')
+        hrefAttr[1] = url
       } else {
         if (
           // internal anchor links
