@@ -15,6 +15,7 @@ defineOptions({ inheritAttrs: false })
     <img
       v-if="typeof image === 'string' || 'src' in image"
       class="VPImage"
+      decoding="async"
       v-bind="typeof image === 'string' ? $attrs : { ...image, ...$attrs }"
       :src="withBase(typeof image === 'string' ? image : image.src)"
       :alt="alt ?? (typeof image === 'string' ? '' : image.alt || '')"
