@@ -179,7 +179,7 @@ withDefaults(defineProps<Props>(), {
 }
 
 .org.link:hover {
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-1);
 }
 
 .desc {
@@ -188,7 +188,7 @@ withDefaults(defineProps<Props>(), {
 
 .desc :deep(a) {
   font-weight: 500;
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-1);
   text-decoration-style: dotted;
   transition: color 0.25s;
 }

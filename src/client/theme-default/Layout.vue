@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useRoute } from 'vitepress'
-import { useSidebar } from 'vitepress/theme'
 import { computed, provide, useSlots, watch } from 'vue'
 import VPBackdrop from './components/VPBackdrop.vue'
 import VPContent from './components/VPContent.vue'
@@ -10,7 +9,7 @@ import VPNav from './components/VPNav.vue'
 import VPSidebar from './components/VPSidebar.vue'
 import VPSkipLink from './components/VPSkipLink.vue'
 import { useData } from './composables/data'
-import { useCloseSidebarOnEscape } from './composables/sidebar'
+import { useCloseSidebarOnEscape, useSidebar } from './composables/sidebar'
 
 const {
   isOpen: isSidebarOpen,
@@ -23,9 +22,6 @@ watch(() => route.path, closeSidebar)
 
 useCloseSidebarOnEscape(isSidebarOpen, closeSidebar)
 
-provide('close-sidebar', closeSidebar)
-provide('is-sidebar-open', isSidebarOpen)
-
 const { frontmatter } = useData()
 
 const slots = useSlots()
@@ -35,11 +31,11 @@ provide('hero-image-slot-exists', heroImageSlotExists)
 </script>
 
 <template>
-  <div v-if="frontmatter.layout !== false" class="Layout">
+  <div v-if="frontmatter.layout !== false" class="Layout" :class="frontmatter.pageClass" >
     <slot name="layout-top" />
     <VPSkipLink />
     <VPBackdrop class="backdrop" :show="isSidebarOpen" @click="closeSidebar" />
-    <VPNav>
+    <VPNav v-if="frontmatter.navbar !== false">
       <template #nav-bar-title-before><slot name="nav-bar-title-before" /></template>
       <template #nav-bar-title-after><slot name="nav-bar-title-after" /></template>
       <template #nav-bar-content-before><slot name="nav-bar-content-before" /></template>

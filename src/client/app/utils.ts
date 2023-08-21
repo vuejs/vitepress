@@ -18,12 +18,15 @@ export { inBrowser } from '../shared'
 /**
  * Join two paths by resolving the slash collision.
  */
-export function joinPath(base: string, path: string): string {
+export function joinPath(base: string, path: string) {
   return `${base}${path}`.replace(/\/+/g, '/')
 }
 
+/**
+ * Append base to internal (non-relative) urls
+ */
 export function withBase(path: string) {
-  return EXTERNAL_URL_RE.test(path) || path.startsWith('.')
+  return EXTERNAL_URL_RE.test(path) || !path.startsWith('/')
     ? path
     : joinPath(siteDataRef.value.base, path)
 }
@@ -31,7 +34,7 @@ export function withBase(path: string) {
 /**
  * Converts a url path to the corresponding js chunk filename.
  */
-export function pathToFile(path: string): string {
+export function pathToFile(path: string) {
   let pagePath = path.replace(/\.html$/, '')
   pagePath = decodeURIComponent(pagePath)
   pagePath = pagePath.replace(/\/$/, '/index') // /foo/ -> /foo/index
@@ -57,7 +60,8 @@ export function pathToFile(path: string): string {
           : pagePath.slice(0, -3) + '_index.md'
         pageHash = __VP_HASH_MAP__[pagePath.toLowerCase()]
       }
-      pagePath = `${base}assets/${pagePath}.${pageHash}.js`
+      if (!pageHash) return null
+      pagePath = `${base}${__ASSETS_DIR__}/${pagePath}.${pageHash}.js`
     } else {
       // ssr build uses much simpler name mapping
       pagePath = `./${sanitizeFileName(

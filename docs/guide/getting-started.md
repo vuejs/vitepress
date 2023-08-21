@@ -8,7 +8,7 @@ You can try VitePress directly in your browser on [StackBlitz](https://vitepress
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) version 16 or higher.
+- [Node.js](https://nodejs.org/) version 18 or higher.
 - Terminal for accessing VitePress via its command line interface (CLI).
 - Text Editor with [Markdown](https://en.wikipedia.org/wiki/Markdown) syntax support.
   - [VSCode](https://code.visualstudio.com/) is recommended, along with the [official Vue extension](https://marketplace.visualstudio.com/items?itemName=Vue.volar).
@@ -18,7 +18,7 @@ VitePress can be used on its own, or be installed into an existing project. In b
 ::: code-group
 
 ```sh [npm]
-$ npm install -D vitepress
+$ npm add -D vitepress
 ```
 
 ```sh [pnpm]
@@ -47,6 +47,12 @@ If using PNPM, you will notice a missing peer warning for `@docsearch/js`. This 
 
 :::
 
+::: tip NOTE
+
+VitePress is an ESM-only package. Don't use `require()` to import it, and make sure your nearest `package.json` contains `"type": "module"`, or change the file extension of your relevant files like `.vitepress/config.js` to `.mjs`/`.mts`. Refer [Vite's troubleshooting guide](http://vitejs.dev/guide/troubleshooting.html#this-package-is-esm-only) for more details. Also, inside async CJS contexts, you can use `await import('vitepress')` instead.
+
+:::
+
 ### Setup Wizard
 
 VitePress ships with a command line setup wizard that will help you scaffold a basic project. After installation, start the wizard by running:
@@ -69,7 +75,7 @@ You will be greeted with a few simple questions:
   <img src="./vitepress-init.png" alt="vitepress init screenshot" style="border-radius:8px">
 </p>
 
-:::tip Vue as Peer Dependency
+::: tip Vue as Peer Dependency
 If you intend to perform customization that uses Vue components or APIs, you should also explicitly install `vue` as a peer dependency.
 :::
 
@@ -92,7 +98,7 @@ Assuming you chose to scaffold the VitePress project in `./docs`, the generated 
 
 The `docs` directory is considered the **project root** of the VitePress site. The `.vitepress` directory is a reserved location for VitePress' config file, dev server cache, build output, and optional theme customization code.
 
-:::tip
+::: tip
 By default, VitePress stores its dev server cache in `.vitepress/cache`, and the production build output in `.vitepress/dist`. If using Git, you should add them to your `.gitignore` file. These locations can also be [configured](../reference/site-config#outdir).
 :::
 

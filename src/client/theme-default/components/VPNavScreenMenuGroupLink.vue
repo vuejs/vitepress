@@ -34,6 +34,6 @@ const closeScreen = inject('close-screen') as () => void
 }
 
 .VPNavScreenMenuGroupLink:hover {
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-1);
 }
 </style>

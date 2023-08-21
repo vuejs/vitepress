@@ -17,7 +17,7 @@ import {
   type Processor
 } from 'shiki-processor'
 import type { Logger } from 'vite'
-import type { ThemeOptions } from '../markdown'
+import type { ThemeOptions } from '..'
 
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)
 

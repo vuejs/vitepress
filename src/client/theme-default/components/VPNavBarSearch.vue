@@ -204,12 +204,12 @@ const provider = __ALGOLIA__ ? 'algolia' : __VP_LOCAL_SEARCH__ ? 'local' : ''
 }
 
 .DocSearch-Form {
-  border: 1px solid var(--vp-c-brand);
+  border: 1px solid var(--vp-c-brand-1);
   background-color: var(--vp-c-white);
 }
 
 .dark .DocSearch-Form {
-  background-color: var(--vp-c-bg-soft-mute);
+  background-color: var(--vp-c-default-soft);
 }
 
 .DocSearch-Screen-Icon > svg {

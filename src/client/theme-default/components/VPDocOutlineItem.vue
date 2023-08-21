@@ -7,11 +7,9 @@ defineProps<{
 }>()
 
 function onClick({ target: el }: Event) {
-  const id = '#' + (el as HTMLAnchorElement).href!.split('#')[1]
-  const heading = document.querySelector<HTMLAnchorElement>(
-    decodeURIComponent(id)
-  )
-  heading?.focus()
+  const id = (el as HTMLAnchorElement).href!.split('#')[1]
+  const heading = document.getElementById(decodeURIComponent(id))
+  heading?.focus({ preventScroll: true })
 }
 </script>
 
@@ -33,7 +31,7 @@ function onClick({ target: el }: Event) {
 }
 
 .nested {
-  padding-left: 13px;
+  padding-left: 16px;
 }
 
 .outline-link {
@@ -44,7 +42,7 @@ function onClick({ target: el }: Event) {
   overflow: hidden;
   text-overflow: ellipsis;
   transition: color 0.5s;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .outline-link:hover,

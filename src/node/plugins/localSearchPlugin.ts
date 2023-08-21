@@ -1,12 +1,16 @@
-import path from 'node:path'
-import type { Plugin, ViteDevServer } from 'vite'
-import MiniSearch from 'minisearch'
-import fs from 'fs-extra'
 import _debug from 'debug'
+import fs from 'fs-extra'
+import MiniSearch from 'minisearch'
+import path from 'path'
+import type { Plugin, ViteDevServer } from 'vite'
 import type { SiteConfig } from '../config'
-import type { MarkdownEnv } from '../markdown'
 import { createMarkdownRenderer } from '../markdown'
-import { resolveSiteDataByRoute, slash } from '../shared'
+import {
+  resolveSiteDataByRoute,
+  slash,
+  type DefaultTheme,
+  type MarkdownEnv
+} from '../shared'
 
 const debug = _debug('vitepress:local-search')
 
@@ -21,7 +25,7 @@ interface IndexObject {
 }
 
 export async function localSearchPlugin(
-  siteConfig: SiteConfig
+  siteConfig: SiteConfig<DefaultTheme.Config>
 ): Promise<Plugin> {
   if (siteConfig.site.themeConfig?.search?.provider !== 'local') {
     return {
@@ -46,14 +50,16 @@ export async function localSearchPlugin(
     siteConfig.logger
   )
 
-  function createMarkdownEnv(file: string): MarkdownEnv {
+  const options = siteConfig.site.themeConfig.search.options || {}
+
+  function render(file: string) {
     const { srcDir, cleanUrls = false } = siteConfig
     const relativePath = slash(path.relative(srcDir, file))
-    return {
-      path: file,
-      relativePath,
-      cleanUrls
-    }
+    const env: MarkdownEnv = { path: file, relativePath, cleanUrls }
+    const src = fs.readFileSync(file, 'utf-8')
+    if (options._render) return options._render(src, env, md)
+    const html = md.render(src, env)
+    return env.frontmatter?.search === false ? '' : html
   }
 
   const indexByLocales = new Map<string, MiniSearch<IndexObject>>()
@@ -63,7 +69,8 @@ export async function localSearchPlugin(
     if (!index) {
       index = new MiniSearch<IndexObject>({
         fields: ['title', 'titles', 'text'],
-        storeFields: ['title', 'titles']
+        storeFields: ['title', 'titles'],
+        ...options.miniSearch?.options
       })
       indexByLocales.set(locale, index)
     }
@@ -109,7 +116,7 @@ export async function localSearchPlugin(
     let relFile = slash(path.relative(siteConfig.srcDir, file))
     relFile = siteConfig.rewrites.map[relFile] || relFile
     let id = slash(path.join(siteConfig.site.base, relFile))
-    id = id.replace(/\/index\.md$/, '/')
+    id = id.replace(/(^|\/)index\.md$/, '$1')
     id = id.replace(/\.md$/, siteConfig.cleanUrls ? '' : '.html')
     return id
   }
@@ -121,9 +128,8 @@ export async function localSearchPlugin(
         .filter((file) => fs.existsSync(file))
         .map(async (file) => {
           const fileId = getDocId(file)
-          const sections = splitPageIntoSections(
-            md.render(await fs.readFile(file, 'utf-8'), createMarkdownEnv(file))
-          )
+          const sections = splitPageIntoSections(render(file))
+          if (sections.length === 0) return
           const locale = getLocaleForPath(file)
           let documents = documentsByLocale.get(locale)
           if (!documents) {
@@ -156,6 +162,16 @@ export async function localSearchPlugin(
 
   return {
     name: 'vitepress:local-search',
+
+    config: () => ({
+      optimizeDeps: {
+        include: [
+          'vitepress > @vueuse/integrations/useFocusTrap',
+          'vitepress > mark.js/src/vanilla.js',
+          'vitepress > minisearch'
+        ]
+      }
+    }),
 
     async configureServer(_server) {
       server = _server
@@ -194,19 +210,13 @@ export async function localSearchPlugin(
       }
     },
 
-    async handleHotUpdate(ctx) {
-      if (ctx.file.endsWith('.md')) {
-        const fileId = getDocId(ctx.file)
-        if (!fs.existsSync(ctx.file)) {
-          return
-        }
-        const index = getIndexForPath(ctx.file)
-        const sections = splitPageIntoSections(
-          md.render(
-            await fs.readFile(ctx.file, 'utf-8'),
-            createMarkdownEnv(ctx.file)
-          )
-        )
+    async handleHotUpdate({ file }) {
+      if (file.endsWith('.md')) {
+        const fileId = getDocId(file)
+        if (!fs.existsSync(file)) return
+        const index = getIndexForPath(file)
+        const sections = splitPageIntoSections(render(file))
+        if (sections.length === 0) return
         for (const section of sections) {
           const id = `${fileId}#${section.anchor}`
           if (index.has(id)) {
@@ -219,7 +229,7 @@ export async function localSearchPlugin(
             titles: section.titles.slice(0, -1)
           })
         }
-        debug('🔍️ Updated', ctx.file)
+        debug('🔍️ Updated', file)
 
         onIndexUpdated()
       }

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { DefaultTheme } from 'vitepress/theme'
 import { computed } from 'vue'
-import { icons } from '../support/socialIcons'
+import icons from 'virtual:vp-social-icons'
 
 const props = defineProps<{
   icon: DefaultTheme.SocialLinkIcon
@@ -17,7 +17,7 @@ const svg = computed(() => {
 
 <template>
   <a
-    class="VPSocialLink"
+    class="VPSocialLink no-icon"
     :href="link"
     :aria-label="ariaLabel ?? (typeof icon === 'string' ? icon : '')"
     target="_blank"

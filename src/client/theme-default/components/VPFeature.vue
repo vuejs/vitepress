@@ -10,18 +10,19 @@ defineProps<{
   details?: string
   link?: string
   linkText?: string
+  rel?: string
 }>()
 </script>
 
 <template>
-  <VPLink class="VPFeature" :href="link" :no-icon="true">
+  <VPLink class="VPFeature" :href="link" :rel="rel" :no-icon="true" :tag="link ? 'a' : 'div'">
     <article class="box">
       <VPImage
         v-if="typeof icon === 'object'"
         :image="icon"
         :alt="icon.alt"
-        :height="icon.height"
-        :width="icon.width"
+        :height="icon.height || 48"
+        :width="icon.width || 48"
       />
       <div v-else-if="icon" class="icon" v-html="icon"></div>
       <h2 class="title" v-html="title"></h2>
@@ -47,8 +48,7 @@ defineProps<{
 }
 
 .VPFeature.link:hover {
-  border-color: var(--vp-c-brand);
-  background-color: var(--vp-c-bg-soft-up);
+  border-color: var(--vp-c-brand-1);
 }
 
 .box {
@@ -59,8 +59,6 @@ defineProps<{
 }
 
 .VPFeature:deep(.VPImage) {
-  width: 48px;
-  height: 48px;
   margin-bottom: 20px;
 }
 
@@ -70,7 +68,7 @@ defineProps<{
   align-items: center;
   margin-bottom: 20px;
   border-radius: 6px;
-  background-color: var(--vp-c-bg-soft-down);
+  background-color: var(--vp-c-default-soft);
   width: 48px;
   height: 48px;
   font-size: 24px;
@@ -101,7 +99,7 @@ defineProps<{
   align-items: center;
   font-size: 14px;
   font-weight: 500;
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-1);
 }
 
 .link-text-icon {

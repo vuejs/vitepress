@@ -73,6 +73,9 @@ export async function resolveConfig(
     })
   const site = await resolveSiteData(root, userConfig)
   const srcDir = normalizePath(path.resolve(root, userConfig.srcDir || '.'))
+  const assetsDir = userConfig.assetsDir
+    ? userConfig.assetsDir.replace(/\//g, '')
+    : 'assets'
   const outDir = userConfig.outDir
     ? normalizePath(path.resolve(root, userConfig.outDir))
     : resolve(root, 'dist')
@@ -94,6 +97,7 @@ export async function resolveConfig(
   const config: SiteConfig = {
     root,
     srcDir,
+    assetsDir,
     site,
     themeDir,
     pages,
@@ -105,11 +109,13 @@ export async function resolveConfig(
     logger,
     tempDir: resolve(root, '.temp'),
     markdown: userConfig.markdown,
-    lastUpdated: userConfig.lastUpdated,
+    lastUpdated:
+      userConfig.lastUpdated ?? !!userConfig.themeConfig?.lastUpdated,
     vue: userConfig.vue,
     vite: userConfig.vite,
     shouldPreload: userConfig.shouldPreload,
     mpa: !!userConfig.mpa,
+    metaChunk: !!userConfig.metaChunk,
     ignoreDeadLinks: userConfig.ignoreDeadLinks,
     cleanUrls: !!userConfig.cleanUrls,
     useWebFonts:
@@ -121,7 +127,8 @@ export async function resolveConfig(
     transformHtml: userConfig.transformHtml,
     transformPageData: userConfig.transformPageData,
     rewrites,
-    userConfig
+    userConfig,
+    sitemap: userConfig.sitemap
   }
 
   // to be shared with content loaders
@@ -131,7 +138,7 @@ export async function resolveConfig(
   return config
 }
 
-const supportedConfigExtensions = ['js', 'ts', 'cjs', 'mjs', 'cts', 'mts']
+const supportedConfigExtensions = ['js', 'ts', 'mjs', 'mts']
 
 export async function resolveUserConfig(
   root: string,
@@ -228,7 +235,8 @@ export async function resolveSiteData(
     themeConfig: userConfig.themeConfig || {},
     locales: userConfig.locales || {},
     scrollOffset: userConfig.scrollOffset ?? 90,
-    cleanUrls: !!userConfig.cleanUrls
+    cleanUrls: !!userConfig.cleanUrls,
+    contentProps: userConfig.contentProps
   }
 }
 
@@ -241,7 +249,11 @@ function resolveSiteDataHead(userConfig?: UserConfig): HeadConfig[] {
     // if appearance mode set to light or dark, default to the defined mode
     // in case the user didn't specify a preference - otherwise, default to auto
     const fallbackPreference =
-      userConfig?.appearance !== true ? userConfig?.appearance ?? '' : 'auto'
+      typeof userConfig?.appearance === 'string'
+        ? userConfig?.appearance
+        : typeof userConfig?.appearance === 'object'
+        ? userConfig.appearance.initialValue ?? 'auto'
+        : 'auto'
 
     head.push([
       'script',

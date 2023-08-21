@@ -10,7 +10,7 @@ However, there are a number of cases where configuration alone won't be enough. 
 
 These advanced customizations will require using a custom theme that "extends" the default theme.
 
-:::tip
+::: tip
 Before proceeding, make sure to first read [Using a Custom Theme](./custom-theme) to understand how custom themes work.
 :::
 
@@ -29,8 +29,8 @@ export default DefaultTheme
 ```css
 /* .vitepress/theme/custom.css */
 :root {
-  --vp-c-brand: #646cff;
-  --vp-c-brand-light: #747bff;
+  --vp-c-brand-1: #646cff;
+  --vp-c-brand-2: #747bff;
 }
 ```
 
@@ -58,11 +58,11 @@ export default DefaultTheme
 }
 ```
 
-:::warning
-If you are using optional components like the [Team Page](/reference/default-theme-team-page) components, make sure to also import them from `vitepress/theme-without-fonts`!
+::: warning
+If you are using optional components like the [Team Page](../reference/default-theme-team-page) components, make sure to also import them from `vitepress/theme-without-fonts`!
 :::
 
-If your font is a local file referenced via `@font-face`, it will be processed as an asset and included under `.vitepress/dist/assets` with hashed filename. To preload this file, use the [transformHead](/reference/site-config#transformhead) build hook:
+If your font is a local file referenced via `@font-face`, it will be processed as an asset and included under `.vitepress/dist/assets` with hashed filename. To preload this file, use the [transformHead](../reference/site-config#transformhead) build hook:
 
 ```js
 // .vitepress/config.js

@@ -65,7 +65,7 @@ describe('Table of Contents', () => {
   test('render toc', async () => {
     const items = page.locator('#table-of-contents + nav ul li')
     const count = await items.count()
-    expect(count).toBe(33)
+    expect(count).toBe(35)
   })
 })
 
@@ -163,19 +163,19 @@ describe('Line Numbers', () => {
 describe('Import Code Snippets', () => {
   test('basic', async () => {
     const lines = page.locator('#basic-code-snippet + div code > span')
-    expect(await lines.count()).toBe(11)
+    expect(await lines.count()).toBe(22)
   })
 
   test('specify region', async () => {
     const lines = page.locator('#specify-region + div code > span')
-    expect(await lines.count()).toBe(3)
+    expect(await lines.count()).toBe(6)
   })
 
   test('with other features', async () => {
     const div = page.locator('#with-other-features + div')
     expect(await getClassList(div)).toContain('line-numbers-mode')
     const lines = div.locator('code > span')
-    expect(await lines.count()).toBe(3)
+    expect(await lines.count()).toBe(6)
     expect(await getClassList(lines.nth(0))).toContain('highlighted')
   })
 })
@@ -216,10 +216,10 @@ describe('Code Groups', () => {
 
     // blocks
     const blocks = div.locator('.blocks > div')
-    expect(await blocks.nth(0).locator('code > span').count()).toBe(11)
+    expect(await blocks.nth(0).locator('code > span').count()).toBe(22)
     expect(await getClassList(blocks.nth(1))).toContain('line-numbers-mode')
     expect(await getClassList(blocks.nth(1))).toContain('language-ts')
-    expect(await blocks.nth(1).locator('code > span').count()).toBe(3)
+    expect(await blocks.nth(1).locator('code > span').count()).toBe(6)
     expect(
       await getClassList(blocks.nth(1).locator('code > span').nth(0))
     ).toContain('highlighted')
@@ -240,6 +240,15 @@ describe('Markdown File Inclusion', () => {
   test('render markdown using nested inclusion', async () => {
     const h1 = page.locator('#markdown-nested-file-inclusion + h1')
     expect(await h1.getAttribute('id')).toBe('foo-1')
+  })
+
+  test('render markdown using nested inclusion inside sub folder', async () => {
+    const h1 = page.locator('#after-foo + h1')
+    expect(await h1.getAttribute('id')).toBe('inside-sub-folder')
+    const h2 = page.locator('#after-foo + h1 + h2')
+    expect(await h2.getAttribute('id')).toBe('sub-sub')
+    const h3 = page.locator('#after-foo + h1 + h2 + h3')
+    expect(await h3.getAttribute('id')).toBe('sub-sub-sub')
   })
 
   test('support selecting range', async () => {
