@@ -3,27 +3,24 @@ import { computed } from 'vue'
 import { normalizeLink } from '../support/utils'
 import { EXTERNAL_URL_RE } from '../../shared'
 
-const props = defineProps<{
+interface Props {
   tag?: string
   size?: 'medium' | 'big'
   theme?: 'brand' | 'alt' | 'sponsor'
   text: string
   href?: string
-}>()
+}
+const props = withDefaults(defineProps<Props>(), {
+  size: 'medium',
+  theme: 'brand'
+})
 
-const classes = computed(() => [
-  props.size ?? 'medium',
-  props.theme ?? 'brand'
-])
-
-const isExternal = computed(() => props.href && EXTERNAL_URL_RE.test(props.href))
+const isExternal = computed(
+  () => props.href && EXTERNAL_URL_RE.test(props.href)
+)
 
 const component = computed(() => {
-  if (props.tag) {
-    return props.tag
-  }
-
-  return props.href ? 'a' : 'button'
+  return props.tag || props.href ? 'a' : 'button'
 })
 </script>
 
@@ -31,7 +28,7 @@ const component = computed(() => {
   <component
     :is="component"
     class="VPButton"
-    :class="classes"
+    :class="[size, theme]"
     :href="href ? normalizeLink(href) : undefined"
     :target="isExternal ? '_blank' : undefined"
     :rel="isExternal ? 'noreferrer' : undefined"
