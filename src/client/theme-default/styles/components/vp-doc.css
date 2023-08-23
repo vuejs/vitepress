@@ -477,7 +477,7 @@
   position: relative;
   top: -1px;
   /*rtl:ignore*/
-  left: -65px;
+  transform: translateX(calc(-100% - 1px));
   display: flex;
   justify-content: center;
   align-items: center;
@@ -485,7 +485,8 @@
   /*rtl:ignore*/
   border-right: 0;
   border-radius: 4px 0 0 4px;
-  width: 64px;
+  padding: 0 10px;
+  width: fit-content;
   height: 40px;
   text-align: center;
   font-size: 12px;
@@ -493,7 +494,7 @@
   color: var(--vp-code-copy-code-active-text);
   background-color: var(--vp-code-copy-code-hover-bg);
   white-space: nowrap;
-  content: 'Copied';
+  content: var(--vp-code-copy-copied-text-content);
 }
 
 .vp-doc [class*='language-'] > span.lang {
