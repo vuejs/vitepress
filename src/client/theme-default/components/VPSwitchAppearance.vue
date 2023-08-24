@@ -1,10 +1,15 @@
 <script lang="ts" setup>
+import { inject } from 'vue'
 import { useData } from '../composables/data'
 import VPSwitch from './VPSwitch.vue'
 import VPIconMoon from './icons/VPIconMoon.vue'
 import VPIconSun from './icons/VPIconSun.vue'
 
 const { isDark } = useData()
+
+const toggleAppearance = inject('toggle-appearance', () => {
+  isDark.value = !isDark.value
+})
 </script>
 
 <template>
@@ -12,7 +17,7 @@ const { isDark } = useData()
     title="toggle dark mode"
     class="VPSwitchAppearance"
     :aria-checked="isDark"
-    @click="isDark = !isDark"
+    @click="toggleAppearance"
   >
     <VPIconSun class="sun" />
     <VPIconMoon class="moon" />
