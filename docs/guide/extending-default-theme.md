@@ -1,3 +1,7 @@
+---
+outline: deep
+---
+
 # Extending the Default Theme
 
 VitePress' default theme is optimized for documentation, and can be customized. Consult the [Default Theme Config Overview](../reference/default-theme-config) for a comprehensive list of options.
@@ -194,6 +198,102 @@ Full list of slots available in the default theme layout:
   - `nav-bar-content-after`
   - `nav-screen-content-before`
   - `nav-screen-content-after`
+
+## Using View Transitions API
+
+### On Appearance Toggle
+
+You can extend the default theme to provide a custom transition when the color mode is toggled. An example:
+
+```vue
+<!-- .vitepress/theme/Layout.vue -->
+
+<script setup lang="ts">
+import { useData } from 'vitepress'
+import DefaultTheme from 'vitepress/theme'
+import { nextTick, provide } from 'vue'
+
+const { isDark } = useData()
+
+const enableTransitions = () =>
+  'startViewTransition' in document &&
+  window.matchMedia('(prefers-reduced-motion: no-preference)').matches
+
+provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
+  if (!enableTransitions()) {
+    isDark.value = !isDark.value
+    return
+  }
+
+  const clipPath = [
+    `circle(0px at ${x}px ${y}px)`,
+    `circle(${Math.hypot(
+      Math.max(x, innerWidth - x),
+      Math.max(y, innerHeight - y)
+    )}px at ${x}px ${y}px)`
+  ]
+
+  await document.startViewTransition(async () => {
+    isDark.value = !isDark.value
+    await nextTick()
+  }).ready
+
+  document.documentElement.animate(
+    { clipPath: isDark.value ? clipPath.reverse() : clipPath },
+    {
+      duration: 300,
+      easing: 'ease-in',
+      pseudoElement: `::view-transition-${isDark.value ? 'old' : 'new'}(root)`
+    }
+  )
+})
+</script>
+
+<template>
+  <DefaultTheme.Layout />
+</template>
+
+<style>
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root),
+.dark::view-transition-new(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root),
+.dark::view-transition-old(root) {
+  z-index: 9999;
+}
+
+.VPSwitchAppearance {
+  width: 22px !important;
+}
+
+.VPSwitchAppearance .check {
+  transform: none !important;
+}
+</style>
+```
+
+Result (**warning!**: flashing colors, sudden movements, bright lights):
+
+<details>
+<summary>Demo</summary>
+
+![Appearance Toggle Transition Demo](/appearance-toggle-transition.webp)
+
+</details>
+
+Refer [Chrome Docs](https://developer.chrome.com/docs/web-platform/view-transitions/) from more details on view transitions.
+
+### On Route Change
+
+Coming soon.
 
 ## Overriding Internal Components
 
