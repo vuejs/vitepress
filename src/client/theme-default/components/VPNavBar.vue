@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { useWindowScroll } from '@vueuse/core'
-import { inBrowser } from 'vitepress'
 import { ref, watchPostEffect } from 'vue'
 import { useData } from '../composables/data'
 import { useSidebar } from '../composables/sidebar'
@@ -22,7 +21,7 @@ defineEmits<{
 }>()
 
 // @ts-ignore
-const { y } = useWindowScroll({ window: inBrowser && window })
+const { y } = useWindowScroll()
 const { hasSidebar } = useSidebar()
 const { frontmatter } = useData()
 

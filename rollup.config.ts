@@ -25,7 +25,8 @@ const external = [
   ...builtinModules.flatMap((m) =>
     m.includes('punycode') ? [] : [m, `node:${m}`]
   ),
-  r('types/shared.d.ts')
+  r('types/shared.d.ts'),
+  'postcss'
 ]
 
 const plugins = [

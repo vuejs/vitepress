@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useWindowScroll } from '@vueuse/core'
-import { inBrowser, onContentUpdated } from 'vitepress'
+import { onContentUpdated } from 'vitepress'
 import { computed, onMounted, ref, shallowRef } from 'vue'
 import { useData } from '../composables/data'
 import { getHeaders, type MenuItem } from '../composables/outline'
@@ -19,7 +19,7 @@ defineEmits<{
 const { theme, frontmatter } = useData()
 const { hasSidebar } = useSidebar()
 // @ts-ignore
-const { y } = useWindowScroll({ window: inBrowser && window })
+const { y } = useWindowScroll()
 
 const headers = shallowRef<MenuItem[]>([])
 const navHeight = ref(0)
