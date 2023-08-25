@@ -163,10 +163,10 @@ The levels of header in the outline to display for the page. It's same as [confi
 
 ### lastUpdated
 
-- Type: `boolean`
+- Type: `boolean | Date`
 - Default: `true`
 
-Whether to display [last updated](./default-theme-last-updated) text in the footer of the current page.
+Whether to display [last updated](./default-theme-last-updated) text in the footer of the current page. If a datetime is specified, it will be displayed instead of the last git modified timestamp.
 
 ```yaml
 ---
