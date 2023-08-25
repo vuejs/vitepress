@@ -240,6 +240,9 @@ export namespace DefaultTheme {
      * Customize text that appears on the footer of previous/next page.
      */
     docFooterText?: string
+
+    rel?: string
+    target?: string
   }
 
   /**

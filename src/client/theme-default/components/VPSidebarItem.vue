@@ -20,17 +20,19 @@ const {
   toggle
 } = useSidebarControl(computed(() => props.item))
 
-const sectionTag = computed(() => hasChildren.value ? 'section' : `div`)
+const sectionTag = computed(() => (hasChildren.value ? 'section' : `div`))
 
-const linkTag = computed(() => isLink.value ? 'a' : 'div')
+const linkTag = computed(() => (isLink.value ? 'a' : 'div'))
 
 const textTag = computed(() => {
   return !hasChildren.value
     ? 'p'
-    : props.depth + 2 === 7 ? 'p' : `h${props.depth + 2}`
+    : props.depth + 2 === 7
+    ? 'p'
+    : `h${props.depth + 2}`
 })
 
-const itemRole = computed(() => isLink.value ? undefined : 'button')
+const itemRole = computed(() => (isLink.value ? undefined : 'button'))
 
 const classes = computed(() => [
   [`level-${props.depth}`],
@@ -55,20 +57,33 @@ function onCaretClick() {
 
 <template>
   <component :is="sectionTag" class="VPSidebarItem" :class="classes">
-    <div v-if="item.text"
+    <div
+      v-if="item.text"
       class="item"
       :role="itemRole"
-      v-on="item.items ? { click: onItemInteraction, keydown: onItemInteraction } : {}"
+      v-on="
+        item.items
+          ? { click: onItemInteraction, keydown: onItemInteraction }
+          : {}
+      "
       :tabindex="item.items && 0"
     >
       <div class="indicator" />
 
-      <VPLink v-if="item.link" :tag="linkTag" class="link" :href="item.link">
+      <VPLink
+        v-if="item.link"
+        :tag="linkTag"
+        class="link"
+        :href="item.link"
+        :rel="item.rel"
+        :target="item.target"
+      >
         <component :is="textTag" class="text" v-html="item.text" />
       </VPLink>
       <component v-else :is="textTag" class="text" v-html="item.text" />
 
-      <div v-if="item.collapsed != null"
+      <div
+        v-if="item.collapsed != null"
         class="caret"
         role="button"
         aria-label="toggle section"
