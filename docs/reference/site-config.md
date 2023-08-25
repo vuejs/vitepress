@@ -610,7 +610,7 @@ interface SSGContext {
 `transformHead` is a build hook to transform the head before generating each page. It will allow you to add head entries that cannot be statically added to your VitePress config. You only need to return extra entries, they will be merged automatically with the existing ones.
 
 ::: warning
-Don't mutate anything inside the `ctx`.
+Don't mutate anything inside the `context`.
 :::
 
 ```ts
@@ -635,14 +635,34 @@ interface TransformContext {
 }
 ```
 
+Note that this hook is only called when generating the site statically. It is not called during dev. If you need to add dynamic head entries during dev, you can use the [`transformPageData`](#transformpagedata) hook instead:
+
+```ts
+export default {
+  transformPageData(pageData) {
+    pageData.frontmatter.head ??= []
+    pageData.frontmatter.head.push([
+      'meta',
+      {
+        name: 'og:title',
+        content:
+          pageData.frontmatter.layout === 'home'
+            ? `VitePress`
+            : `${pageData.title} | VitePress`
+      }
+    ])
+  }
+}
+```
+
 ### transformHtml
 
-- Type: `(code: string, id: string, ctx: TransformContext) => Awaitable<string | void>`
+- Type: `(code: string, id: string, context: TransformContext) => Awaitable<string | void>`
 
 `transformHtml` is a build hook to transform the content of each page before saving to disk.
 
 ::: warning
-Don't mutate anything inside the `ctx`. Also, modifying the html content may cause hydration problems in runtime.
+Don't mutate anything inside the `context`. Also, modifying the html content may cause hydration problems in runtime.
 :::
 
 ```ts
@@ -655,12 +675,12 @@ export default {
 
 ### transformPageData
 
-- Type: `(pageData: PageData, ctx: TransformPageContext) => Awaitable<Partial<PageData> | { [key: string]: any } | void>`
+- Type: `(pageData: PageData, context: TransformPageContext) => Awaitable<Partial<PageData> | { [key: string]: any } | void>`
 
-`transformPageData` is a hook to transform the `pageData` of each page. You can directly mutate `pageData` or return changed values which will be merged into PageData.
+`transformPageData` is a hook to transform the `pageData` of each page. You can directly mutate `pageData` or return changed values which will be merged into the page data.
 
 ::: warning
-Don't mutate anything inside the `ctx`.
+Don't mutate anything inside the `context` and be careful that this might impact the performance of dev server, especially if you have some network requests or heavy computations (like generating images) in the hook. You can check for `process.env.NODE_ENV === 'production'` for conditional logic.
 :::
 
 ```ts
