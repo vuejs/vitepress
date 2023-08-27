@@ -1,3 +1,45 @@
+# [1.0.0-rc.5](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.4...v1.0.0-rc.5) (2023-08-27)
+
+### Bug Fixes
+
+- **a11y/theme:** disable transitions if user prefers reduced motion ([fc5092f](https://github.com/vuejs/vitepress/commit/fc5092fb651487e69737fff04d3979f00c67dcc6))
+- **build:** respect preserveSymlinks ([#2780](https://github.com/vuejs/vitepress/issues/2780)) ([1bda710](https://github.com/vuejs/vitepress/commit/1bda710702f5569e26b24b44785d938296870884))
+- **cli/init:** print the correct packageManager ([#2787](https://github.com/vuejs/vitepress/issues/2787)) ([b388b0a](https://github.com/vuejs/vitepress/commit/b388b0a8c169e399f8da43368022454b6e8ea489))
+- **cli/init:** terminal message has not enough contrast ([#2786](https://github.com/vuejs/vitepress/issues/2786)) ([4d9d977](https://github.com/vuejs/vitepress/commit/4d9d9775190178d0eaea5b3cea86309ae420bd43))
+- restart server on theme creation/deletion ([#2785](https://github.com/vuejs/vitepress/issues/2785)) ([e0be677](https://github.com/vuejs/vitepress/commit/e0be677554a517e8b02fcaf930828bb052d1c4a4))
+- scroll-to-top in iOS when opens sidebar ([#2803](https://github.com/vuejs/vitepress/issues/2803)) ([3dab9a6](https://github.com/vuejs/vitepress/commit/3dab9a6be1b543cf52c7c61f1e439a7973cd6667))
+- stackblitz not working on firefox ([877f643](https://github.com/vuejs/vitepress/commit/877f643b133b70f01bbf397900829050a399893f)), closes [#2817](https://github.com/vuejs/vitepress/issues/2817)
+- **theme:** docsearch variables not applying properly on ios beta ([436e99a](https://github.com/vuejs/vitepress/commit/436e99a594d42650f69c062fd095eb0502a76b34))
+- **theme:** improve logo svg and add `art` dir ([1f8c58a](https://github.com/vuejs/vitepress/commit/1f8c58aed0bf5a191021913dd7f9a87e9b75f3eb))
+- **theme:** prevent sidebar re-render unless there is actual change ([33962e0](https://github.com/vuejs/vitepress/commit/33962e04ebb2724e12b131f61ff00fe0aaf990f3)), closes [#2796](https://github.com/vuejs/vitepress/issues/2796)
+- **theme:** revert 79 to 179 in yellow-soft ([#2858](https://github.com/vuejs/vitepress/issues/2858)) ([74fcb60](https://github.com/vuejs/vitepress/commit/74fcb60fb4ceb97b9ab0442a26e22a726af2dcc9))
+- **theme:** show only one carbon ad at a time ([5ced0cc](https://github.com/vuejs/vitepress/commit/5ced0cca837ac7fbf1884ab56255b29c69dbec40))
+- **theme:** ssr issues on deno ([e8edd0a](https://github.com/vuejs/vitepress/commit/e8edd0a05f43491656c00db36630f391caf64461))
+
+### Features
+
+- allow customizing markdown renderer used for local search indexing ([#2770](https://github.com/vuejs/vitepress/issues/2770)) ([00dc1e6](https://github.com/vuejs/vitepress/commit/00dc1e6742273fe6fde74e7abbd160bd7724af4d))
+- export postcssIsolateStyles for vp-raw ([3c736c1](https://github.com/vuejs/vitepress/commit/3c736c1c95814d1ca43b4e99bda62b8ccc908cd5))
+- **theme:** allow overriding code copied text from css ([#2833](https://github.com/vuejs/vitepress/issues/2833)) ([e8ef1aa](https://github.com/vuejs/vitepress/commit/e8ef1aaabecd7374cdf6cefca6b02ff9d3d3573f))
+- **theme:** allow overriding last updated time in doc footer from frontmatter ([#2848](https://github.com/vuejs/vitepress/issues/2848)) ([9a062a6](https://github.com/vuejs/vitepress/commit/9a062a6dd63db3dc9d951f2973c4ab606594a11f))
+- **theme:** allow providing custom `toggle-appearance` function ([#2844](https://github.com/vuejs/vitepress/issues/2844)) ([a5f2eac](https://github.com/vuejs/vitepress/commit/a5f2eacf225ff1a9a82c10ae492658190f313fb0))
+- **theme:** allow setting rel and target on sidebar links ([e477cdf](https://github.com/vuejs/vitepress/commit/e477cdfd2f62144cd6331f45aaaa865185a64575)), closes [#2851](https://github.com/vuejs/vitepress/issues/2851)
+- **theme:** export VPButton and VPSponsors ([#2767](https://github.com/vuejs/vitepress/issues/2767)) ([6960ec1](https://github.com/vuejs/vitepress/commit/6960ec1cf61e973ffb238af2b77ad7aaf8c83500))
+- **theme:** export VPImage ([#2814](https://github.com/vuejs/vitepress/issues/2814)) ([f242140](https://github.com/vuejs/vitepress/commit/f242140c47e8a15070f689d5a4e54c7d88100f96))
+- **theme:** improve color system ([#2797](https://github.com/vuejs/vitepress/issues/2797)) ([e4f5c51](https://github.com/vuejs/vitepress/commit/e4f5c51bbe25d42fd52a1cd47e83dda4254fdd7e)), closes [#2100](https://github.com/vuejs/vitepress/issues/2100)
+
+### Performance Improvements
+
+- extract social icons as plugin to avoid unused icons ([#2768](https://github.com/vuejs/vitepress/issues/2768)) ([0c8cf0d](https://github.com/vuejs/vitepress/commit/0c8cf0df8903b3f48ccffa17c92fc988d88b7ad7))
+
+### BREAKING CHANGES
+
+- Switch to vite@5.0.0-beta.0. There might some warnings, feel free to ignore them unless they are due to some breaking changes in Vite 5. Refer their [changelog](https://github.com/vitejs/vite/blob/v5.0.0-beta.0/packages/vite/CHANGELOG.md#500-beta0-2023-08-24) for details.
+- `pathname://` protocol is dropped. Specify `target="_self"` or `target="_blank"` instead. Refer [docs](https://vitepress.dev/guide/routing#linking-to-non-vitepress-pages) to learn more.
+- Shiki's default theme is now changed to `github-light` and `github-dark`. If you want to use the old theme, you can set `markdown.theme` in your config to `'material-theme-palenight'`.
+- Internal logic of `isDark` is changed to use vueuse. It might impact your custom theme. You can customize its behavior using [`appearance`](https://vitepress.dev/reference/site-config#appearance) option.
+- Default theme's color system is updated to make it more easily customizable. Refer the [PR](https://github.com/vuejs/vitepress/pull/2797) for new variables.
+
 # [1.0.0-rc.4](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.3...v1.0.0-rc.4) (2023-08-08)
 
 ### Bug Fixes
