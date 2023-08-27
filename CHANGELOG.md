@@ -1,3 +1,9 @@
+# [1.0.0-rc.6](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.5...v1.0.0-rc.6) (2023-08-27)
+
+### Reverts
+
+- "perf: extract social icons as plugin to avoid unused icons" ([#2861](https://github.com/vuejs/vitepress/issues/2861)) ([47068ff](https://github.com/vuejs/vitepress/commit/47068ff0c5705795e1a8cd06212862dedd25f6d0))
+
 # [1.0.0-rc.5](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.4...v1.0.0-rc.5) (2023-08-27)
 
 ### Bug Fixes
