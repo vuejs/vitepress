@@ -26,7 +26,8 @@ const external = [
     m.includes('punycode') ? [] : [m, `node:${m}`]
   ),
   r('types/shared.d.ts'),
-  'postcss'
+  'postcss',
+  'source-map-js'
 ]
 
 const plugins = [

@@ -92,7 +92,6 @@
   "dependencies": {
     "@docsearch/css": "^3.5.2",
     "@docsearch/js": "^3.5.2",
-    "@vitejs/plugin-vue": "^4.3.3",
     "@vue/devtools-api": "^6.5.0",
     "@vueuse/core": "^10.4.0",
     "@vueuse/integrations": "^10.4.0",
@@ -133,6 +132,7 @@
     "@types/node": "^20.5.6",
     "@types/postcss-prefix-selector": "^1.16.0",
     "@types/prompts": "^2.4.4",
+    "@vitejs/plugin-vue": "^4.3.3",
     "@vue/shared": "^3.3.4",
     "chokidar": "^3.5.3",
     "compression": "^1.7.4",
@@ -193,7 +193,8 @@
   },
   "pnpm": {
     "overrides": {
-      "ora>string-width": "^5"
+      "ora>string-width": "^5",
+      "vite": "5.0.0-beta.0"
     }
   }
 }
