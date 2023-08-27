@@ -3,7 +3,7 @@
   "version": "1.0.0-rc.4",
   "description": "Vite & Vue powered static site generator",
   "type": "module",
-  "packageManager": "pnpm@8.6.12",
+  "packageManager": "pnpm@8.7.0",
   "main": "dist/node/index.js",
   "types": "types/index.d.ts",
   "exports": {
@@ -124,7 +124,7 @@
     "@types/fs-extra": "^11.0.1",
     "@types/lodash.template": "^4.5.1",
     "@types/mark.js": "^8.11.8",
-    "@types/markdown-it": "^13.0.0",
+    "@types/markdown-it": "^13.0.1",
     "@types/markdown-it-attrs": "^4.1.0",
     "@types/markdown-it-container": "^2.0.6",
     "@types/markdown-it-emoji": "^2.0.2",
