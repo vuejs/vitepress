@@ -1,3 +1,9 @@
+# [1.0.0-rc.7](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.6...v1.0.0-rc.7) (2023-08-27)
+
+### Bug Fixes
+
+- **deps:** bundle vite-plugin-vue - two vite versions were being installed ([cecc47d](https://github.com/vuejs/vitepress/commit/cecc47da11bd524df70e58207f617f61c2057f29))
+
 # [1.0.0-rc.6](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.5...v1.0.0-rc.6) (2023-08-27)
 
 ### Reverts
