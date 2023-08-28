@@ -15,6 +15,7 @@ provide('close-screen', closeScreen)
       <template #nav-bar-title-before><slot name="nav-bar-title-before" /></template>
       <template #nav-bar-title-after><slot name="nav-bar-title-after" /></template>
       <template #nav-bar-content-before><slot name="nav-bar-content-before" /></template>
+      <template #nav-bar-content-middle><slot name="nav-bar-content-middle" /></template>
       <template #nav-bar-content-after><slot name="nav-bar-content-after" /></template>
     </VPNavBar>
     <VPNavScreen :open="isScreenOpen">
