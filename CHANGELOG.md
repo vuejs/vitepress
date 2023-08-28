@@ -1,16 +1,4 @@
-# [1.0.0-rc.7](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.6...v1.0.0-rc.7) (2023-08-27)
-
-### Bug Fixes
-
-- **deps:** bundle vite-plugin-vue - two vite versions were being installed ([cecc47d](https://github.com/vuejs/vitepress/commit/cecc47da11bd524df70e58207f617f61c2057f29))
-
-# [1.0.0-rc.6](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.5...v1.0.0-rc.6) (2023-08-27)
-
-### Reverts
-
-- "perf: extract social icons as plugin to avoid unused icons" ([#2861](https://github.com/vuejs/vitepress/issues/2861)) ([47068ff](https://github.com/vuejs/vitepress/commit/47068ff0c5705795e1a8cd06212862dedd25f6d0))
-
-# [1.0.0-rc.5](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.4...v1.0.0-rc.5) (2023-08-27)
+# [1.0.0-rc.8](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.7...v1.0.0-rc.8) (2023-08-28)
 
 ### Bug Fixes
 
@@ -40,32 +28,14 @@
 - **theme:** export VPImage ([#2814](https://github.com/vuejs/vitepress/issues/2814)) ([f242140](https://github.com/vuejs/vitepress/commit/f242140c47e8a15070f689d5a4e54c7d88100f96))
 - **theme:** improve color system ([#2797](https://github.com/vuejs/vitepress/issues/2797)) ([e4f5c51](https://github.com/vuejs/vitepress/commit/e4f5c51bbe25d42fd52a1cd47e83dda4254fdd7e)), closes [#2100](https://github.com/vuejs/vitepress/issues/2100)
 
-### Performance Improvements
-
-- extract social icons as plugin to avoid unused icons ([#2768](https://github.com/vuejs/vitepress/issues/2768)) ([0c8cf0d](https://github.com/vuejs/vitepress/commit/0c8cf0df8903b3f48ccffa17c92fc988d88b7ad7))
-
 ### BREAKING CHANGES
 
-- Switch to vite@5.0.0-beta.0. There might some warnings, feel free to ignore them unless they are due to some breaking changes in Vite 5. Refer their [changelog](https://github.com/vitejs/vite/blob/v5.0.0-beta.0/packages/vite/CHANGELOG.md#500-beta0-2023-08-24) for details.
 - `pathname://` protocol is dropped. Specify `target="_self"` or `target="_blank"` instead. Refer [docs](https://vitepress.dev/guide/routing#linking-to-non-vitepress-pages) to learn more.
 - Shiki's default theme is now changed to `github-light` and `github-dark`. If you want to use the old theme, you can set `markdown.theme` in your config to `'material-theme-palenight'`.
 - Internal logic of `isDark` is changed to use vueuse. It might impact your custom theme. You can customize its behavior using [`appearance`](https://vitepress.dev/reference/site-config#appearance) option.
 - Default theme's color system is updated to make it more easily customizable. Refer the [PR](https://github.com/vuejs/vitepress/pull/2797) for new variables.
 
 # [1.0.0-rc.4](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.3...v1.0.0-rc.4) (2023-08-08)
-
-### Bug Fixes
-
-- **cli:** generate mjs file on init if `"type": "module"` is not present ([23d7511](https://github.com/vuejs/vitepress/commit/23d751165f6def6fa6b3a5d7efd89b993a2780d8))
-- **theme:** language menu undefined text ([#2755](https://github.com/vuejs/vitepress/issues/2755)) ([c9d4655](https://github.com/vuejs/vitepress/commit/c9d465587a3b2188ff9922483a15d7096e6a3e6c))
-
-# [1.0.0-rc.3](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.2...v1.0.0-rc.3) (2023-08-08)
-
-### Bug Fixes
-
-- **regression/theme:** fix sidebar collapsing ([#2753](https://github.com/vuejs/vitepress/issues/2753)) ([9a4ee07](https://github.com/vuejs/vitepress/commit/9a4ee07260191adeb4c3810d95b044439609525c))
-
-# [1.0.0-rc.1](https://github.com/vuejs/vitepress/compare/v1.0.0-beta.7...v1.0.0-rc.1) (2023-08-08)
 
 ### Bug Fixes
 
@@ -85,6 +55,9 @@
 - **theme:** respect feature icon dimensions set from frontmatter ([93823a8](https://github.com/vuejs/vitepress/commit/93823a8566df22c57cb4fbc81fa65c34222ece5e)), closes [#1886](https://github.com/vuejs/vitepress/issues/1886)
 - **theme:** scroll code group tab into view on selection ([1a6efba](https://github.com/vuejs/vitepress/commit/1a6efbae8e13eb6612aacdb8d384554e72e5f562)), closes [#2355](https://github.com/vuejs/vitepress/issues/2355)
 - **theme:** update sidebar active link status on hash change ([#2736](https://github.com/vuejs/vitepress/issues/2736)) ([3840eaa](https://github.com/vuejs/vitepress/commit/3840eaae163cc9307c8d8525ad03c59752443b2b))
+- **regression/theme:** fix sidebar collapsing ([#2753](https://github.com/vuejs/vitepress/issues/2753)) ([9a4ee07](https://github.com/vuejs/vitepress/commit/9a4ee07260191adeb4c3810d95b044439609525c))
+- **cli:** generate mjs file on init if `"type": "module"` is not present ([23d7511](https://github.com/vuejs/vitepress/commit/23d751165f6def6fa6b3a5d7efd89b993a2780d8))
+- **theme:** language menu undefined text ([#2755](https://github.com/vuejs/vitepress/issues/2755)) ([c9d4655](https://github.com/vuejs/vitepress/commit/c9d465587a3b2188ff9922483a15d7096e6a3e6c))
 
 ### Features
 
