@@ -24,10 +24,7 @@ const external = [
   ...Object.keys(pkg.dependencies),
   ...builtinModules.flatMap((m) =>
     m.includes('punycode') ? [] : [m, `node:${m}`]
-  ),
-  r('types/shared.d.ts'),
-  'postcss',
-  'source-map-js'
+  )
 ]
 
 const plugins = [
@@ -70,7 +67,7 @@ const nodeTypes: RollupOptions = {
     format: 'esm',
     file: 'dist/node/index.d.ts'
   },
-  external,
+  external: [...external, r('types/shared.d.ts'), 'postcss', 'source-map-js'],
   plugins: [dts({ respectExternal: true })]
 }
 
