@@ -136,4 +136,5 @@ export interface MarkdownEnv {
   cleanUrls: boolean
   links?: string[]
   includes?: string[]
+  realPath?: string
 }

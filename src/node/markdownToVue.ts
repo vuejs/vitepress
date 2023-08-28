@@ -128,7 +128,8 @@ export async function createMarkdownToVueRenderFn(
       path: file,
       relativePath,
       cleanUrls,
-      includes
+      includes,
+      realPath: fileOrig
     }
     const html = md.render(src, env)
     const {

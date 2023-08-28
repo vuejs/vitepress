@@ -125,10 +125,9 @@ export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
       title ? `[${title}]` : ''
     }`
 
-    const resolvedPath = path.resolve(
-      path.dirname((state.env as MarkdownEnv).path),
-      filepath
-    )
+    const { realPath, path: _path } = state.env as MarkdownEnv
+    const resolvedPath = path.resolve(path.dirname(realPath ?? _path), filepath)
+
     // @ts-ignore
     token.src = [resolvedPath, region.slice(1)]
     token.markup = '```'
