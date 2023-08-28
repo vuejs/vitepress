@@ -1,4 +1,4 @@
-# [1.0.0-rc.8](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.7...v1.0.0-rc.8) (2023-08-28)
+# [1.0.0-rc.9](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.4...v1.0.0-rc.9) (2023-08-28)
 
 ### Bug Fixes
 
@@ -35,7 +35,7 @@
 - Internal logic of `isDark` is changed to use vueuse. It might impact your custom theme. You can customize its behavior using [`appearance`](https://vitepress.dev/reference/site-config#appearance) option.
 - Default theme's color system is updated to make it more easily customizable. Refer the [PR](https://github.com/vuejs/vitepress/pull/2797) for new variables.
 
-# [1.0.0-rc.4](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.3...v1.0.0-rc.4) (2023-08-08)
+# [1.0.0-rc.4](https://github.com/vuejs/vitepress/compare/v1.0.0-beta.7...v1.0.0-rc.4) (2023-08-08)
 
 ### Bug Fixes
 
