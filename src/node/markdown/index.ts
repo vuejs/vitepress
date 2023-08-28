@@ -1,4 +1,7 @@
-import { componentPlugin } from '@mdit-vue/plugin-component'
+import {
+  componentPlugin,
+  type ComponentPluginOptions
+} from '@mdit-vue/plugin-component'
 import {
   frontmatterPlugin,
   type FrontmatterPluginOptions
@@ -52,6 +55,7 @@ export interface MarkdownOptions extends MarkdownIt.Options {
   toc?: TocPluginOptions
   externalLinks?: Record<string, string>
   cache?: boolean
+  component?: ComponentPluginOptions
 }
 
 export type MarkdownRenderer = MarkdownIt
@@ -86,7 +90,7 @@ export const createMarkdownRenderer = async (
   }
 
   // custom plugins
-  md.use(componentPlugin)
+  md.use(componentPlugin, { ...options.component })
     .use(highlightLinePlugin)
     .use(preWrapperPlugin, { hasSingleTheme })
     .use(snippetPlugin, srcDir)
