@@ -1,3 +1,18 @@
+# [1.0.0-rc.10](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.9...v1.0.0-rc.10) (2023-08-28)
+
+### Bug Fixes
+
+- pseudo styles being removed with postcssIsolateStyles ([21b4f8c](https://github.com/vuejs/vitepress/commit/21b4f8caad8f0b9a570f00ac2662635062db8566)), closes [#2868](https://github.com/vuejs/vitepress/issues/2868) [#2867](https://github.com/vuejs/vitepress/issues/2867)
+- resolve snippets from original file path - align with include behavior ([8aa032f](https://github.com/vuejs/vitepress/commit/8aa032f60cd52e674a401f79b3cb473ac7d22abb))
+
+### Features
+
+- allow overriding mdit-vue/component options ([4f01f1a](https://github.com/vuejs/vitepress/commit/4f01f1a09c84fced276e1a138a59ed1b9679ce15))
+
+### Reverts
+
+- "fix: createContentLoader generates invalid url when sets `base`" ([#2865](https://github.com/vuejs/vitepress/issues/2865)) ([6be5a7e](https://github.com/vuejs/vitepress/commit/6be5a7e830fab2361bde5a4194930b2898733a8b))
+
 # [1.0.0-rc.9](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.4...v1.0.0-rc.9) (2023-08-28)
 
 ### Bug Fixes
