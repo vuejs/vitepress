@@ -159,14 +159,14 @@ aside: false
 - Type: `number | [number, number] | 'deep' | false`
 - Default: `2`
 
-The levels of header in the outline to display for the page. It's same as [config.themeConfig.outline](./default-theme-config#outline), and it overrides the theme config.
+The levels of header in the outline to display for the page. It's same as [config.themeConfig.outline.level](./default-theme-config#outline), and it overrides the value set in site-level config.
 
 ### lastUpdated
 
-- Type: `boolean`
+- Type: `boolean | Date`
 - Default: `true`
 
-Whether to display [last updated](./default-theme-last-updated) text in the footer of the current page.
+Whether to display [last updated](./default-theme-last-updated) text in the footer of the current page. If a datetime is specified, it will be displayed instead of the last git modified timestamp.
 
 ```yaml
 ---

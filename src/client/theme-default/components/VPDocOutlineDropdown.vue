@@ -47,7 +47,7 @@ onContentUpdated(() => {
   border: 1px solid var(--vp-c-border);
   padding: 4px 12px;
   color: var(--vp-c-text-2);
-  background-color: var(--vp-c-mute);
+  background-color: var(--vp-c-default-soft);
   border-radius: 8px;
   transition: color 0.5s;
 }

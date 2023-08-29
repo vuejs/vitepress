@@ -114,7 +114,7 @@
 }
 
 .vp-sponsor-grid-item:hover {
-  background-color: var(--vp-c-bg-soft-down);
+  background-color: var(--vp-c-default-soft);
 }
 
 .vp-sponsor-grid-item:hover .vp-sponsor-grid-image {

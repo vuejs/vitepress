@@ -6,7 +6,6 @@ import path from 'path'
 import type { SiteConfig } from './config'
 import {
   createMarkdownRenderer,
-  type MarkdownEnv,
   type MarkdownOptions,
   type MarkdownRenderer
 } from './markdown'
@@ -14,6 +13,7 @@ import {
   EXTERNAL_URL_RE,
   slash,
   type HeadConfig,
+  type MarkdownEnv,
   type PageData
 } from './shared'
 import { getGitTimestamp } from './utils/getGitTimestamp'
@@ -128,7 +128,8 @@ export async function createMarkdownToVueRenderFn(
       path: file,
       relativePath,
       cleanUrls,
-      includes
+      includes,
+      realPath: fileOrig
     }
     const html = md.render(src, env)
     const {

@@ -222,27 +222,30 @@ Wraps in a <div class="vp-raw">
 
 ::: details
 
-- Install required deps with your preferred package manager:
+- Install `postcss` with your preferred package manager:
 
   ```sh
-  $ npm install -D postcss postcss-prefix-selector
+  $ npm add -D postcss
   ```
 
-- Create a file named `docs/.postcssrc.cjs` and add this to it:
+- Create a file named `docs/postcss.config.mjs` and add this to it:
 
   ```js
-  module.exports = {
+  import { postcssIsolateStyles } from 'vitepress'
+  
+  export default {
     plugins: {
-      'postcss-prefix-selector': {
-        prefix: ':not(:where(.vp-raw *))',
-        includeFiles: [/vp-doc\.css/],
-        transform(prefix, _selector) {
-          const [selector, pseudo = ''] = _selector.split(/(:\S*)$/)
-          return selector + prefix + pseudo
-        }
-      }
+      postcssIsolateStyles()
     }
   }
+  ```
+
+  It uses [`postcss-prefix-selector`](https://github.com/postcss/postcss-load-config) under the hood. You can pass its options like this:
+
+  ```js
+  postcssIsolateStyles({
+    includeFiles: [/vp-doc\.css/] // defaults to /base\.css/
+  })
   ```
 
 :::

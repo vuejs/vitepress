@@ -43,10 +43,10 @@ const { page } = useData()
 }
 
 .VPNavBarMenuLink.active {
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-1);
 }
 
 .VPNavBarMenuLink:hover {
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-1);
 }
 </style>

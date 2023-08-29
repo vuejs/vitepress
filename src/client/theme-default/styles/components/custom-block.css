@@ -13,10 +13,9 @@
   background-color: var(--vp-custom-block-info-bg);
 }
 
-.custom-block.custom-block th,
-.custom-block.custom-block blockquote > p {
-  font-size: var(--vp-custom-block-font-size);
-  color: inherit;
+.custom-block.info a,
+.custom-block.info code {
+  color: var(--vp-c-brand-1);
 }
 
 .custom-block.info code {
@@ -29,6 +28,11 @@
   background-color: var(--vp-custom-block-tip-bg);
 }
 
+.custom-block.tip a,
+.custom-block.tip code {
+  color: var(--vp-c-brand-1);
+}
+
 .custom-block.tip code {
   background-color: var(--vp-custom-block-tip-code-bg);
 }
@@ -37,6 +41,11 @@
   border-color: var(--vp-custom-block-warning-border);
   color: var(--vp-custom-block-warning-text);
   background-color: var(--vp-custom-block-warning-bg);
+}
+
+.custom-block.warning a,
+.custom-block.warning code {
+  color: var(--vp-c-warning-1);
 }
 
 .custom-block.warning code {
@@ -49,6 +58,11 @@
   background-color: var(--vp-custom-block-danger-bg);
 }
 
+.custom-block.danger a,
+.custom-block.danger code {
+  color: var(--vp-c-danger-1);
+}
+
 .custom-block.danger code {
   background-color: var(--vp-custom-block-danger-code-bg);
 }
@@ -57,6 +71,10 @@
   border-color: var(--vp-custom-block-details-border);
   color: var(--vp-custom-block-details-text);
   background-color: var(--vp-custom-block-details-bg);
+}
+
+.custom-block.details a {
+  color: var(--vp-c-brand-1);
 }
 
 .custom-block.details code {
@@ -84,7 +102,7 @@
 .custom-block a {
   color: inherit;
   font-weight: 600;
-  text-decoration: underline dotted;
+  text-decoration: underline;
   text-underline-offset: 2px;
   transition: opacity 0.25s;
 }
@@ -95,4 +113,10 @@
 
 .custom-block code {
   font-size: var(--vp-custom-block-code-font-size);
+}
+
+.custom-block.custom-block th,
+.custom-block.custom-block blockquote > p {
+  font-size: var(--vp-custom-block-font-size);
+  color: inherit;
 }

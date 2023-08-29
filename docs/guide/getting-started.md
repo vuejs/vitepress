@@ -18,11 +18,11 @@ VitePress can be used on its own, or be installed into an existing project. In b
 ::: code-group
 
 ```sh [npm]
-$ npm install -D vitepress
+$ npm add -D vitepress
 ```
 
 ```sh [pnpm]
-$ pnpm add -D vitepress@latest
+$ pnpm add -D vitepress
 ```
 
 ```sh [yarn]
@@ -49,7 +49,7 @@ If using PNPM, you will notice a missing peer warning for `@docsearch/js`. This 
 
 ::: tip NOTE
 
-VitePress is an ESM-only package. Don't use `require()` to import it, and make sure your nearest `package.json` contains `"type": "module"`, or change the file extension of your relevant files like `.vitepress/config.js` to `.mjs`/`.mts`. Refer [Vite's troubleshooting guide](http://vitejs.dev/guide/troubleshooting.html#this-package-is-esm-only) for more details. Also, inside async CJS contexts, you can use `await import('vitepress')` instead.
+VitePress is an ESM-only package. Don't use `require()` to import it, and make sure your nearest `package.json` contains `"type": "module"`, or change the file extension of your relevant files like `.vitepress/config.js` to `.mjs`/`.mts`. Refer to [Vite's troubleshooting guide](http://vitejs.dev/guide/troubleshooting.html#this-package-is-esm-only) for more details. Also, inside async CJS contexts, you can use `await import('vitepress')` instead.
 
 :::
 

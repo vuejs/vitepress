@@ -20,6 +20,7 @@ defineEmits<{
   (e: 'toggle-screen'): void
 }>()
 
+// @ts-ignore
 const { y } = useWindowScroll()
 const { hasSidebar } = useSidebar()
 const { frontmatter } = useData()
@@ -29,7 +30,7 @@ const classes = ref<Record<string, boolean>>({})
 watchPostEffect(() => {
   classes.value = {
     'has-sidebar': hasSidebar.value,
-    top: frontmatter.value?.layout === 'home' && y.value === 0,
+    top: frontmatter.value.layout === 'home' && y.value === 0,
   }
 })
 </script>

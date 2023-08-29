@@ -23,7 +23,6 @@ import {
 import { dynamicRoutesPlugin } from './plugins/dynamicRoutesPlugin'
 import { localSearchPlugin } from './plugins/localSearchPlugin'
 import { rewritesPlugin } from './plugins/rewritesPlugin'
-import { socialIconsPlugin } from './plugins/socialIconsPlugin'
 import { staticDataPlugin } from './plugins/staticDataPlugin'
 import { webFontsPlugin } from './plugins/webFontsPlugin'
 import { slash, type PageDataPayload } from './shared'
@@ -399,7 +398,6 @@ export async function createVitePressPlugin(
     ...(userViteConfig?.plugins || []),
     await localSearchPlugin(siteConfig),
     staticDataPlugin,
-    await dynamicRoutesPlugin(siteConfig),
-    socialIconsPlugin(siteConfig)
+    await dynamicRoutesPlugin(siteConfig)
   ]
 }

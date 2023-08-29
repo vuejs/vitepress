@@ -34,7 +34,7 @@ defineProps<{
 
 <style>
 [class*='DocSearch'] {
-  --docsearch-primary-color: var(--vp-c-brand);
+  --docsearch-primary-color: var(--vp-c-brand-1);
   --docsearch-highlight-color: var(--docsearch-primary-color);
   --docsearch-text-color: var(--vp-c-text-1);
   --docsearch-muted-color: var(--vp-c-text-2);
@@ -51,7 +51,7 @@ defineProps<{
   --docsearch-modal-shadow: none;
   --docsearch-footer-shadow: none;
   --docsearch-logo-color: var(--vp-c-text-2);
-  --docsearch-hit-background: var(--vp-c-bg-soft-mute);
+  --docsearch-hit-background: var(--vp-c-default-soft);
   --docsearch-hit-color: var(--vp-c-text-2);
   --docsearch-hit-shadow: none;
 }
@@ -93,7 +93,7 @@ defineProps<{
   }
 
   .DocSearch-Button:hover {
-    border-color: var(--vp-c-brand);
+    border-color: var(--vp-c-brand-1);
     background: var(--vp-c-bg-alt);
   }
 }

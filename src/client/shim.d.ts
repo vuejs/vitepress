@@ -33,8 +33,3 @@ declare module 'mark.js/src/vanilla.js' {
   const mark: Mark
   export default mark
 }
-
-declare module 'virtual:vp-social-icons' {
-  const data: Record<string, string>
-  export default data
-}

@@ -1,12 +1,15 @@
 <script setup lang="ts">
-defineProps<{
+interface Props {
   text?: string
   type?: 'info' | 'tip' | 'warning' | 'danger'
-}>()
+}
+withDefaults(defineProps<Props>(), {
+  type: 'tip'
+})
 </script>
 
 <template>
-  <span class="VPBadge" :class="type ?? 'tip'">
+  <span class="VPBadge" :class="type">
     <slot>{{ text }}</slot>
   </span>
 </template>
@@ -20,7 +23,7 @@ defineProps<{
   padding: 0 10px;
   line-height: 22px;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 500;
   transform: translateY(-2px);
 }
 
@@ -31,13 +34,11 @@ defineProps<{
 
 .vp-doc h2 > .VPBadge {
   margin-top: 3px;
-  line-height: 20px;
   padding: 0 8px;
   vertical-align: top;
 }
 
 .vp-doc h3 > .VPBadge {
-  line-height: 20px;
   vertical-align: middle;
 }
 

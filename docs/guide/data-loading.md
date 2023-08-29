@@ -99,7 +99,8 @@ The loaded data will be an array with the type of `ContentData[]`:
 
 ```ts
 interface ContentData {
-  // mapped absolute URL for the page. e.g. /posts/hello.html
+  // mapped URL for the page. e.g. /posts/hello.html (does not include base)
+  // manually iterate or use custom `transform` to normalize the paths
   url: string
   // frontmatter data of the page
   frontmatter: Record<string, any>

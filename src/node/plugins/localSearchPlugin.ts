@@ -4,8 +4,13 @@ import MiniSearch from 'minisearch'
 import path from 'path'
 import type { Plugin, ViteDevServer } from 'vite'
 import type { SiteConfig } from '../config'
-import { createMarkdownRenderer, type MarkdownEnv } from '../markdown'
-import { resolveSiteDataByRoute, slash, type DefaultTheme } from '../shared'
+import { createMarkdownRenderer } from '../markdown'
+import {
+  resolveSiteDataByRoute,
+  slash,
+  type DefaultTheme,
+  type MarkdownEnv
+} from '../shared'
 
 const debug = _debug('vitepress:local-search')
 
@@ -45,23 +50,16 @@ export async function localSearchPlugin(
     siteConfig.logger
   )
 
+  const options = siteConfig.site.themeConfig.search.options || {}
+
   function render(file: string) {
-    const { srcDir, cleanUrls = false, site } = siteConfig
+    const { srcDir, cleanUrls = false } = siteConfig
     const relativePath = slash(path.relative(srcDir, file))
-    const env: MarkdownEnv = {
-      path: file,
-      relativePath,
-      cleanUrls
-    }
-    const html = md.render(fs.readFileSync(file, 'utf-8'), env)
-    if (
-      env.frontmatter?.search === false ||
-      (site.themeConfig.search?.provider === 'local' &&
-        site.themeConfig.search.options?.exclude?.(relativePath))
-    ) {
-      return ''
-    }
-    return html
+    const env: MarkdownEnv = { path: file, relativePath, cleanUrls }
+    const src = fs.readFileSync(file, 'utf-8')
+    if (options._render) return options._render(src, env, md)
+    const html = md.render(src, env)
+    return env.frontmatter?.search === false ? '' : html
   }
 
   const indexByLocales = new Map<string, MiniSearch<IndexObject>>()
@@ -72,8 +70,7 @@ export async function localSearchPlugin(
       index = new MiniSearch<IndexObject>({
         fields: ['title', 'titles', 'text'],
         storeFields: ['title', 'titles'],
-        ...(siteConfig.site.themeConfig?.search?.provider === 'local' &&
-          siteConfig.site.themeConfig.search.options?.miniSearch?.options)
+        ...options.miniSearch?.options
       })
       indexByLocales.set(locale, index)
     }
