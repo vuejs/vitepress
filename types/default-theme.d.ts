@@ -154,6 +154,7 @@ export namespace DefaultTheme {
   export interface NavItemWithLink {
     text: string
     link: string
+    items?: never
 
     /**
      * `activeMatch` is expected to be a regex string. We can't use actual
