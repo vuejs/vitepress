@@ -29,6 +29,10 @@ $ pnpm add -D vitepress
 $ yarn add -D vitepress
 ```
 
+```sh [bun]
+$ bun add -D vitepress
+```
+
 :::
 
 ::: details Getting missing peer deps warnings?
@@ -65,6 +69,10 @@ $ npx vitepress init
 
 ```sh [pnpm]
 $ pnpm dlx vitepress init
+```
+
+```sh [bun]
+$ bunx vitepress init
 ```
 
 :::
@@ -159,6 +167,10 @@ $ pnpm run docs:dev
 $ yarn docs:dev
 ```
 
+```sh [bun]
+$ bun run docs:dev
+```
+
 :::
 
 Instead of npm scripts, you can also invoke VitePress directly with:
@@ -171,6 +183,10 @@ $ npx vitepress dev docs
 
 ```sh [pnpm]
 $ pnpm exec vitepress dev docs
+```
+
+```sh [bun]
+$ bunx vitepress dev docs
 ```
 
 :::
