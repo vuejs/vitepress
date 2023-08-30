@@ -211,8 +211,9 @@ export function scaffold({
       `${getPackageManger()} run docs:dev`
     )} and start writing.${tip}`
   } else {
+    const execCommand = getPackageManger() === 'bun' ? 'bunx' : 'npx'
     return `You're all set! Now run ${cyan(
-      `npx vitepress dev${dir}`
+      `${execCommand} vitepress dev${dir}`
     )} and start writing.${tip}`
   }
 }

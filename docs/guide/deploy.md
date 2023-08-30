@@ -157,6 +157,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
            with:
              fetch-depth: 0 # Not needed if lastUpdated is not enabled
          # - uses: pnpm/action-setup@v2 # Uncomment this if you're using pnpm
+         # - uses: oven-sh/setup-bun@v1 # Uncomment this if you're using Bun
          - name: Setup Node
            uses: actions/setup-node@v3
            with:
@@ -165,10 +166,10 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
          - name: Setup Pages
            uses: actions/configure-pages@v3
          - name: Install dependencies
-           run: npm ci # or pnpm install / yarn install
+           run: npm ci # or pnpm install / yarn install / bun install
          - name: Build with VitePress
            run: |
-             npm run docs:build # or pnpm docs:build / yarn docs:build
+             npm run docs:build # or pnpm docs:build / yarn docs:build / bun run docs:build
              touch docs/.vitepress/dist/.nojekyll
          - name: Upload artifact
            uses: actions/upload-pages-artifact@v2
