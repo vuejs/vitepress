@@ -71,24 +71,7 @@ $ pnpm dlx vitepress init
 
 You will be greeted with a few simple questions:
 
-```ansi
-[0;98m┌[0m  [0;36;1m Welcome to VitePress![0m
-[0;98m│[0m
-[0;32m◇[0m  Where should VitePress initialize the config?
-[0;98m│[0m  [0;2m./docs[0m
-[0;98m│[0m
-[0;32m◇[0m  Site title:
-[0;98m│[0m  [0;2mMy Awesome Project[0m
-[0;98m│[0m
-[0;32m◇[0m  Site description:
-[0;98m│[0m  [0;2mA VitePress Site[0m
-[0;98m│[0m
-[0;36m◆[0m  Theme:
-[0;36m│[0m  [0;32m●[0m Default Theme [0;2m(Out of the box, good-looking docs)[0m
-[0;36m│[0m  [0;2m○[0m [0;2mDefault Theme + Customization[0m
-[0;36m│[0m  [0;2m○[0m [0;2mCustom Theme[0m
-[0;36m└
-```
+<<< @/snippets/init.ansi
 
 ::: tip Vue as Peer Dependency
 If you intend to perform customization that uses Vue components or APIs, you should also explicitly install `vue` as a peer dependency.
