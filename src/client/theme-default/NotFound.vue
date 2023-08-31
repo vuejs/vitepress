@@ -37,6 +37,7 @@ onMounted(() => {
         class="link"
         :href="withBase(root)"
         :aria-label="theme.notFound?.linkLabel ?? 'go to home'"
+        target="_self"
       >
         {{ theme.notFound?.linkText ?? 'Take me home' }}
       </a>
