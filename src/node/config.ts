@@ -255,19 +255,23 @@ function resolveSiteDataHead(userConfig?: UserConfig): HeadConfig[] {
         ? userConfig.appearance.initialValue ?? 'auto'
         : 'auto'
 
-    head.push([
-      'script',
-      { id: 'check-dark-light' },
-      `
-        ;(() => {
+    head.push(
+      [
+        'script',
+        { id: 'check-dark-light' },
+        `;(() => {
           const preference = localStorage.getItem('${APPEARANCE_KEY}') || '${fallbackPreference}'
           const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-          if (!preference || preference === 'auto' ? prefersDark : preference === 'dark') {
+          if (!preference || preference === 'auto' ? prefersDark : preference === 'dark')
             document.documentElement.classList.add('dark')
-          }
-        })()
-      `
-    ])
+        })()`
+      ],
+      [
+        'script',
+        { id: 'check-mac-os' },
+        `document.documentElement.classList.toggle('mac', /Mac|iPhone|iPod|iPad/i.test(navigator.platform))`
+      ]
+    )
   }
 
   return head
