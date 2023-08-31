@@ -190,9 +190,7 @@ defineProps<{
 }
 
 .DocSearch-Button .DocSearch-Button-Key:first-child {
-  font-size: 1px;
-  letter-spacing: -12px;
-  color: transparent;
+  font-size: 0 !important;
 }
 
 .DocSearch-Button .DocSearch-Button-Key:first-child:after {
