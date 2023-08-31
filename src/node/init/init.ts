@@ -139,7 +139,7 @@ export function scaffold({
   const renderFile = (file: string) => {
     const filePath = path.resolve(templateDir, file)
     let targetPath = path.resolve(resolvedRoot, file)
-    if (useMjs && targetPath.includes('.vitepress/config')) {
+    if (useMjs && file === '.vitepress/config.js') {
       targetPath = targetPath.replace(/\.js$/, '.mjs')
     }
     if (useTs) {
