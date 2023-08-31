@@ -508,5 +508,5 @@
   --vp-local-search-result-selected-bg: var(--vp-c-bg);
   --vp-local-search-result-selected-border: var(--vp-c-brand-1);
   --vp-local-search-highlight-bg: var(--vp-c-green-1);
-  --vp-local-search-highlight-text: var(--vp-c-black);
+  --vp-local-search-highlight-text: var(--vp-c-neutral-inverse);
 }
