@@ -11,11 +11,17 @@ defineProps<{
   link?: string
   linkText?: string
   rel?: string
+  target?: string
 }>()
 </script>
 
 <template>
-  <VPLink class="VPFeature" :href="link" :rel="rel" :no-icon="true" :tag="link ? 'a' : 'div'">
+  <VPLink class="VPFeature" :href="link"
+    :rel="rel"
+    :target="target ? '_blank' : ''"
+    :no-icon="true"
+    :tag="link ? 'a' : 'div'"
+  >
     <article class="box">
       <VPImage
         v-if="typeof icon === 'object'"
