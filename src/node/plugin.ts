@@ -269,7 +269,7 @@ export async function createVitePressPlugin(
     <noscript>
       <style>
         .js-required {
-          display: none;
+          display: none !important;
         }
       </style>
     </noscript>
