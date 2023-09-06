@@ -28,7 +28,7 @@ const hasExtraContent = computed(
       </template>
     </div>
 
-    <div v-if="site.appearance" class="group">
+    <div v-if="site.appearance" class="group js-required">
       <div class="item appearance">
         <p class="label">
           {{ theme.darkModeSwitchLabel || 'Appearance' }}
