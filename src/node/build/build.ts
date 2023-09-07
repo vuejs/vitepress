@@ -45,6 +45,10 @@ export async function build(
       buildOptions
     )
 
+    if (process.env.BUNDLE_ONLY) {
+      return
+    }
+
     const entryPath = path.join(siteConfig.tempDir, 'app.js')
     const { render } = await import(pathToFileURL(entryPath).toString())
 

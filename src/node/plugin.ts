@@ -300,14 +300,6 @@ export async function createVitePressPlugin(
 
     generateBundle(_options, bundle) {
       if (ssr) {
-        // ssr build:
-        // delete all asset chunks
-        for (const name in bundle) {
-          if (bundle[name].type === 'asset') {
-            delete bundle[name]
-          }
-        }
-
         if (config.ssr?.format === 'esm') {
           this.emitFile({
             type: 'asset',

@@ -34,7 +34,7 @@ useActiveAnchor(container, marker)
     <div class="content">
       <div class="outline-marker" ref="marker" />
 
-      <div class="outline-title" role="heading">{{ resolveTitle(theme) }}</div>
+      <div class="outline-title" role="heading" aria-level="2">{{ resolveTitle(theme) }}</div>
 
       <nav aria-labelledby="doc-outline-aria-label">
         <span class="visually-hidden" id="doc-outline-aria-label">

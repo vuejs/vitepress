@@ -18,6 +18,10 @@
   color: var(--vp-c-brand-1);
 }
 
+.custom-block.info a:hover {
+  color: var(--vp-c-brand-2);
+}
+
 .custom-block.info code {
   background-color: var(--vp-custom-block-info-code-bg);
 }
@@ -31,6 +35,10 @@
 .custom-block.tip a,
 .custom-block.tip code {
   color: var(--vp-c-brand-1);
+}
+
+.custom-block.tip a:hover {
+  color: var(--vp-c-brand-2);
 }
 
 .custom-block.tip code {
@@ -48,6 +56,10 @@
   color: var(--vp-c-warning-1);
 }
 
+.custom-block.warning a:hover {
+  color: var(--vp-c-warning-2);
+}
+
 .custom-block.warning code {
   background-color: var(--vp-custom-block-warning-code-bg);
 }
@@ -63,6 +75,10 @@
   color: var(--vp-c-danger-1);
 }
 
+.custom-block.danger a:hover {
+  color: var(--vp-c-danger-2);
+}
+
 .custom-block.danger code {
   background-color: var(--vp-custom-block-danger-code-bg);
 }
@@ -75,6 +91,10 @@
 
 .custom-block.details a {
   color: var(--vp-c-brand-1);
+}
+
+.custom-block.details a:hover {
+  color: var(--vp-c-brand-2);
 }
 
 .custom-block.details code {

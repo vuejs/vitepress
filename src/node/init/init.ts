@@ -37,7 +37,7 @@ const getPackageManger = () => {
 }
 
 export async function init() {
-  intro(bold(cyan(' Welcome to VitePress! ')))
+  intro(bold(cyan('Welcome to VitePress!')))
 
   const options: ScaffoldOptions = await group(
     {
@@ -139,7 +139,7 @@ export function scaffold({
   const renderFile = (file: string) => {
     const filePath = path.resolve(templateDir, file)
     let targetPath = path.resolve(resolvedRoot, file)
-    if (useMjs && targetPath.includes('.vitepress/config')) {
+    if (useMjs && file === '.vitepress/config.js') {
       targetPath = targetPath.replace(/\.js$/, '.mjs')
     }
     if (useTs) {
@@ -211,8 +211,9 @@ export function scaffold({
       `${getPackageManger()} run docs:dev`
     )} and start writing.${tip}`
   } else {
+    const execCommand = getPackageManger() === 'bun' ? 'bunx' : 'npx'
     return `You're all set! Now run ${cyan(
-      `npx vitepress dev${dir}`
+      `${execCommand} vitepress dev${dir}`
     )} and start writing.${tip}`
   }
 }

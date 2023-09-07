@@ -190,16 +190,18 @@ defineProps<{
 }
 
 .DocSearch-Button .DocSearch-Button-Key:first-child {
-  font-size: 1px;
-  letter-spacing: -12px;
-  color: transparent;
+  font-size: 0 !important;
 }
 
 .DocSearch-Button .DocSearch-Button-Key:first-child:after {
-  content: var(--vp-meta-key);
+  content: 'Ctrl';
   font-size: 12px;
   letter-spacing: normal;
   color: var(--docsearch-muted-color);
+}
+
+.mac .DocSearch-Button .DocSearch-Button-Key:first-child:after {
+  content: '\2318';
 }
 
 .DocSearch-Button .DocSearch-Button-Key:first-child > * {

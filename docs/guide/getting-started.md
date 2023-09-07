@@ -29,6 +29,10 @@ $ pnpm add -D vitepress
 $ yarn add -D vitepress
 ```
 
+```sh [bun]
+$ bun add -D vitepress
+```
+
 :::
 
 ::: details Getting missing peer deps warnings?
@@ -67,13 +71,15 @@ $ npx vitepress init
 $ pnpm dlx vitepress init
 ```
 
+```sh [bun]
+$ bunx vitepress init
+```
+
 :::
 
 You will be greeted with a few simple questions:
 
-<p>
-  <img src="./vitepress-init.png" alt="vitepress init screenshot" style="border-radius:8px">
-</p>
+<<< @/snippets/init.ansi
 
 ::: tip Vue as Peer Dependency
 If you intend to perform customization that uses Vue components or APIs, you should also explicitly install `vue` as a peer dependency.
@@ -161,6 +167,10 @@ $ pnpm run docs:dev
 $ yarn docs:dev
 ```
 
+```sh [bun]
+$ bun run docs:dev
+```
+
 :::
 
 Instead of npm scripts, you can also invoke VitePress directly with:
@@ -173,6 +183,10 @@ $ npx vitepress dev docs
 
 ```sh [pnpm]
 $ pnpm exec vitepress dev docs
+```
+
+```sh [bun]
+$ bunx vitepress dev docs
 ```
 
 :::
