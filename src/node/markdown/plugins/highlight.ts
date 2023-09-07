@@ -87,7 +87,7 @@ export async function highlight(
   const styleRE = /<pre[^>]*(style=".*?")/
   const preRE = /^<pre(.*?)>/
   const vueRE = /-vue$/
-  const lineNoRE = /:(no-)?line-numbers$/
+  const lineNoRE = /:(no-)?line-numbers(=\d*)?$/
   const mustacheRE = /\{\{.*?\}\}/g
 
   return (str: string, lang: string, attrs: string) => {

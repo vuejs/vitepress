@@ -510,6 +510,8 @@ Please see [`markdown` options](../reference/site-config#markdown) for more deta
 
 You can add `:line-numbers` / `:no-line-numbers` mark in your fenced code blocks to override the value set in config.
 
+You can also customize the starting line number by adding `=` after `:line-numbers`. For example, `:line-numbers=2` means the line numbers in code blocks will start from `2`.
+
 **Input**
 
 ````md
@@ -523,6 +525,12 @@ const line3 = 'This is line 3'
 // line-numbers is enabled
 const line2 = 'This is line 2'
 const line3 = 'This is line 3'
+```
+
+```ts:line-numbers=2 {1}
+// line-numbers is enabled and start from 2
+const line3 = 'This is line 3'
+const line4 = 'This is line 4'
 ```
 ````
 
@@ -539,6 +547,12 @@ const line3 = 'This is line 3'
 const line2 = 'This is line 2'
 const line3 = 'This is line 3'
 ```
+
+```ts:line-numbers=2 {1}
+// line-numbers is enabled and start from 2
+const line3 = 'This is line 3'
+const line4 = 'This is line 4'
+````
 
 ## Import Code Snippets
 
@@ -566,7 +580,7 @@ It also supports [line highlighting](#line-highlighting-in-code-blocks):
 
 **Output**
 
-<<< @/snippets/snippet.js{2}
+<<< @/snippets/snippet.js
 
 ::: tip
 The value of `@` corresponds to the source root. By default it's the VitePress project root, unless `srcDir` is configured. Alternatively, you can also import from relative paths:
