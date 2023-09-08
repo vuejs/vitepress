@@ -107,6 +107,12 @@ watch(
   }
 }
 
+@media print {
+  .VPSidebar {
+    display: none;
+  }
+}
+
 @media (min-width: 960px) {
   .curtain {
     position: sticky;
