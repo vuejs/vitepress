@@ -41,4 +41,10 @@ provide('close-screen', closeScreen)
     position: fixed;
   }
 }
+
+@media print {
+  .VPNav {
+    display: none;
+  }
+}
 </style>
