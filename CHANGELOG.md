@@ -1,3 +1,18 @@
+# [1.0.0-rc.12](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.11...v1.0.0-rc.12) (2023-09-10)
+
+### Bug Fixes
+
+- **theme:** prevent closing local search box on key enter ([#2933](https://github.com/vuejs/vitepress/issues/2933)) ([e544b41](https://github.com/vuejs/vitepress/commit/e544b411d91eba54154243b0af4cea3226c192c4))
+- **theme:** use brand color on search highlight ([dfc0fbf](https://github.com/vuejs/vitepress/commit/dfc0fbfcb4f255461bd90aef23a3dda1422b8335)), closes [#2902](https://github.com/vuejs/vitepress/issues/2902)
+
+### Features
+
+- highlight nav by default when one of the items is matched ([#2893](https://github.com/vuejs/vitepress/issues/2893)) ([b1fbece](https://github.com/vuejs/vitepress/commit/b1fbece047ca503f2c59553f9e37a0aac4be52c9))
+- process md includes before building local search index ([#2906](https://github.com/vuejs/vitepress/issues/2906)) ([c6ff5c7](https://github.com/vuejs/vitepress/commit/c6ff5c76867dc59d5548cb33fd8447e23712bef5))
+- support for customizing the starting line number in a code block ([#2917](https://github.com/vuejs/vitepress/issues/2917)) ([c0ce7f7](https://github.com/vuejs/vitepress/commit/c0ce7f723e52682d9ca107e4ce4e0e5c82710e02))
+- **theme:** allow setting target in home features ([#2897](https://github.com/vuejs/vitepress/issues/2897)) ([cb49673](https://github.com/vuejs/vitepress/commit/cb4967313e5edcfd4bfc12aa10e75fec7b32e0c8))
+- **theme:** use inert to avoid traverse menus and content with keyboard ([#2932](https://github.com/vuejs/vitepress/issues/2932)) ([070fc0a](https://github.com/vuejs/vitepress/commit/070fc0a56ddb941e26a098ba7207b5d1e91b7b51))
+
 # [1.0.0-rc.11](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.10...v1.0.0-rc.11) (2023-09-10)
 
 ### Bug Fixes
