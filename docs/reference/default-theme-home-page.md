@@ -102,18 +102,33 @@ You can provide an icon for each feature, which can be an emoji or any type of i
 layout: home
 
 features:
-  - icon: 🛠️
-    title: Simple and minimal, always
-    details: Lorem ipsum...
-  - icon:
-      src: /cool-feature-icon.svg
-    title: Another cool feature
-    details: Lorem ipsum...
-  - icon:
-      dark: /dark-feature-icon.svg
-      light: /light-feature-icon.svg
-    title: Another cool feature
-    details: Lorem ipsum...
+  - title: Sample Group
+    features:
+      - icon: 🛠️
+        title: Simple and minimal, always
+        details: Lorem ipsum...
+      - icon:
+          src: /cool-feature-icon.svg
+        title: Another cool feature
+        details: Lorem ipsum...
+      - icon:
+          dark: /dark-feature-icon.svg
+          light: /light-feature-icon.svg
+        title: Another cool feature
+        details: Lorem ipsum...
+  - features:
+      - icon: 🛠️
+        title: Simple and minimal, always
+        details: Lorem ipsum...
+      - icon:
+          src: /cool-feature-icon.svg
+        title: Another cool feature
+        details: Lorem ipsum...
+      - icon:
+          dark: /dark-feature-icon.svg
+          light: /light-feature-icon.svg
+        title: Another cool feature
+        details: Lorem ipsum...
 ---
 ```
 
@@ -156,4 +171,11 @@ type FeatureIcon =
       width?: string
       height: string
     }
+
+export interface FeatureGroup {
+  // Title for the feature group, optional.
+  title?: string,
+  // List of features to be included in this group.
+  features: Feature[]
+}
 ```
