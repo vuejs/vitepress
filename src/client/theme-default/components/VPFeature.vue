@@ -16,7 +16,9 @@ defineProps<{
 </script>
 
 <template>
-  <VPLink class="VPFeature" :href="link"
+  <VPLink
+    class="VPFeature"
+    :href="link"
     :rel="rel"
     :target="target"
     :no-icon="true"
