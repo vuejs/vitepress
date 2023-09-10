@@ -88,7 +88,6 @@ export async function createMarkdownToVueRenderFn(
 
     // resolve includes
     let includes: string[] = []
-
     src = processIncludes(srcDir, src, fileOrig, includes)
 
     // reset env before render

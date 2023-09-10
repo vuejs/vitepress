@@ -57,12 +57,8 @@ export async function localSearchPlugin(
     const { srcDir, cleanUrls = false } = siteConfig
     const relativePath = slash(path.relative(srcDir, file))
     const env: MarkdownEnv = { path: file, relativePath, cleanUrls }
-    const src = processIncludes(
-      srcDir,
-      fs.readFileSync(file, 'utf-8'),
-      file,
-      []
-    )
+    let src = fs.readFileSync(file, 'utf-8')
+    src = processIncludes(srcDir, src, file, [])
     if (options._render) return options._render(src, env, md)
     const html = md.render(src, env)
     return env.frontmatter?.search === false ? '' : html
