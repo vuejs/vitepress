@@ -11,6 +11,7 @@ import {
   type DefaultTheme,
   type MarkdownEnv
 } from '../shared'
+import { processIncludes } from '../utils/processIncludes'
 
 const debug = _debug('vitepress:local-search')
 
@@ -56,7 +57,8 @@ export async function localSearchPlugin(
     const { srcDir, cleanUrls = false } = siteConfig
     const relativePath = slash(path.relative(srcDir, file))
     const env: MarkdownEnv = { path: file, relativePath, cleanUrls }
-    const src = fs.readFileSync(file, 'utf-8')
+    let src = fs.readFileSync(file, 'utf-8')
+    src = processIncludes(srcDir, src, file, [])
     if (options._render) return options._render(src, env, md)
     const html = md.render(src, env)
     return env.frontmatter?.search === false ? '' : html
