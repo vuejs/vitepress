@@ -266,13 +266,7 @@ export async function createVitePressPlugin(
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="description" content="">
-    <noscript>
-      <style>
-        .js-required {
-          display: none !important;
-        }
-      </style>
-    </noscript>
+    <noscript><style>.js-required{display:none!important}</style></noscript>
   </head>
   <body>
     <div id="app"></div>
