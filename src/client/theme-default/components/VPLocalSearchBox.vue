@@ -307,7 +307,15 @@ onKeyStroke('ArrowDown', (event) => {
 
 const router = useRouter()
 
-onKeyStroke('Enter', () => {
+onKeyStroke('Enter', (e) => {
+  if (e.target instanceof HTMLButtonElement && e.target.type !== 'submit')
+    return
+
+  if (e.target instanceof HTMLInputElement) {
+    e.preventDefault()
+    return
+  }
+
   const selectedPackage = results.value[selectedIndex.value]
   if (selectedPackage) {
     router.go(selectedPackage.id)
@@ -464,6 +472,7 @@ function formMarkRegex(terms: Set<string>) {
             <button
               v-if="!disableDetailedView"
               class="toggle-layout-button"
+              type="button"
               :class="{ 'detailed-list': showDetailedList }"
               :title="$t('modal.displayDetails')"
               @click="
