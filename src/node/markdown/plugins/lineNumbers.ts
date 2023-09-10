@@ -32,7 +32,10 @@ export const lineNumberPlugin = (md: MarkdownIt, enable = false) => {
     const lines = code.split('\n')
 
     const lineNumbersCode = [...Array(lines.length)]
-      .map((_, index) => `<span class="line-number">${index + startLineNumber}</span><br>`)
+      .map(
+        (_, index) =>
+          `<span class="line-number">${index + startLineNumber}</span><br>`
+      )
       .join('')
 
     const lineNumbersWrapperCode = `<div class="line-numbers-wrapper" aria-hidden="true">${lineNumbersCode}</div>`
