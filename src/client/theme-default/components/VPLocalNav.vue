@@ -44,7 +44,8 @@ const classes = computed(() => {
   return {
     VPLocalNav: true,
     fixed: empty.value,
-    'reached-top': y.value >= navHeight.value
+    'reached-top': y.value >= navHeight.value,
+    'js-required': true
   }
 })
 </script>
