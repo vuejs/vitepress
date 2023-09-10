@@ -18,7 +18,7 @@ defineProps<{
 <template>
   <VPLink class="VPFeature" :href="link"
     :rel="rel"
-    :target="target ? '_blank' : ''"
+    :target="target"
     :no-icon="true"
     :tag="link ? 'a' : 'div'"
   >
