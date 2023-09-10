@@ -102,6 +102,12 @@ const classes = computed(() => {
   }
 }
 
+@media print {
+  .VPLocalNav {
+    display: none;
+  }
+}
+
 .menu {
   display: flex;
   align-items: center;
