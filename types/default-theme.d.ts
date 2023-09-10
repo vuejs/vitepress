@@ -190,13 +190,20 @@ export namespace DefaultTheme {
 
   export type FeatureIcon =
     | string
-    | { src: string; alt?: string; width?: string; height: string }
+    | {
+        src: string
+        alt?: string
+        width?: string
+        height?: string
+        wrap?: boolean
+      }
     | {
         light: string
         dark: string
         alt?: string
         width?: string
-        height: string
+        height?: string
+        wrap?: boolean
       }
 
   // sidebar -------------------------------------------------------------------

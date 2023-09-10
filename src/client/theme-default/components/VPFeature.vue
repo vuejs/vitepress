@@ -25,8 +25,16 @@ defineProps<{
     :tag="link ? 'a' : 'div'"
   >
     <article class="box">
+      <div v-if="typeof icon === 'object' && icon.wrap" class="icon">
+        <VPImage
+          :image="icon"
+          :alt="icon.alt"
+          :height="icon.height || 48"
+          :width="icon.width || 48"
+        />
+      </div>
       <VPImage
-        v-if="typeof icon === 'object'"
+        v-else-if="typeof icon === 'object'"
         :image="icon"
         :alt="icon.alt"
         :height="icon.height || 48"
@@ -66,7 +74,7 @@ defineProps<{
   height: 100%;
 }
 
-.VPFeature:deep(.VPImage) {
+.box > :deep(.VPImage) {
   margin-bottom: 20px;
 }
 
