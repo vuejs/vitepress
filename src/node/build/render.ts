@@ -170,6 +170,7 @@ export async function renderPage(
         : ''
     }
     ${await renderHead(head)}
+    <noscript><style>.js-required{display:none!important}</style></noscript>
   </head>
   <body>${teleports?.body || ''}
     <div id="app">${content}</div>
