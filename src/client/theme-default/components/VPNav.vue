@@ -17,7 +17,7 @@ provide('close-screen', closeScreen)
       <template #nav-bar-content-before><slot name="nav-bar-content-before" /></template>
       <template #nav-bar-content-after><slot name="nav-bar-content-after" /></template>
     </VPNavBar>
-    <VPNavScreen :open="isScreenOpen">
+    <VPNavScreen :open="isScreenOpen" class="VPNavScreen">
       <template #nav-screen-content-before><slot name="nav-screen-content-before" /></template>
       <template #nav-screen-content-after><slot name="nav-screen-content-after" /></template>
     </VPNavScreen>
@@ -44,6 +44,10 @@ provide('close-screen', closeScreen)
 
 @media print {
   .VPNav {
+    position: fixed;
+  }
+
+  .VPNavScreen {
     display: none;
   }
 }
