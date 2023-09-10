@@ -1,3 +1,22 @@
+# [1.0.0-rc.11](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.10...v1.0.0-rc.11) (2023-09-10)
+
+### Bug Fixes
+
+- **init:** missing mts extension on windows ([195ebe9](https://github.com/vuejs/vitepress/commit/195ebe9464e2cc9b208e7d6c8bc5fa9f92025fdc)), closes [#2886](https://github.com/vuejs/vitepress/issues/2886)
+- respect attrs on custom containers ([8b76167](https://github.com/vuejs/vitepress/commit/8b76167ccfbe5bf21295db6905451e1c50ca4407))
+- temp workaround for broken navigation from 404 to home ([a18d544](https://github.com/vuejs/vitepress/commit/a18d5447f29f05d75bf0e20ff839e5c3bcdac390)), closes [#2891](https://github.com/vuejs/vitepress/issues/2891)
+- **theme:** dropdown menu partially hidden by the homepage footer when it is too long ([#2904](https://github.com/vuejs/vitepress/issues/2904)) ([a60f079](https://github.com/vuejs/vitepress/commit/a60f079f996cc8ce9aeb189a25187fdbce2217ab))
+- **theme:** improve contrast of search highlight text ([#2887](https://github.com/vuejs/vitepress/issues/2887)) ([20f9770](https://github.com/vuejs/vitepress/commit/20f97702680b47eb9675770df4db94a3e3b94ef1))
+- **theme:** link hover color inside a custom block ([#2876](https://github.com/vuejs/vitepress/issues/2876)) ([39784ca](https://github.com/vuejs/vitepress/commit/39784ca55fdbefa97b7e9f892609ef8bdaeadf50))
+- **theme:** prevent layout shift in search button key ([#2889](https://github.com/vuejs/vitepress/issues/2889)) ([0088434](https://github.com/vuejs/vitepress/commit/0088434895e5df9afea5bb8e81c515a41e824c44))
+- **theme:** search button key misplaced on safari ([18adc07](https://github.com/vuejs/vitepress/commit/18adc07117cbf151b51aa205419496938a322a2e))
+- **types:** NavItem can only have either link or items ([#2880](https://github.com/vuejs/vitepress/issues/2880)) ([12ef12d](https://github.com/vuejs/vitepress/commit/12ef12d6330f61a29102e7a0d537e742ff20367f))
+
+### Features
+
+- detect bun package manager ([#2874](https://github.com/vuejs/vitepress/issues/2874)) ([83270fe](https://github.com/vuejs/vitepress/commit/83270fe65767016a98cd59b6256f1361439cc7c8))
+- skip rendering if env.BUNDLE_ONLY is truthy ([#2890](https://github.com/vuejs/vitepress/issues/2890)) ([d40eb19](https://github.com/vuejs/vitepress/commit/d40eb1903be022c9dfe10136122f5dc5aacb71d3))
+
 # [1.0.0-rc.10](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.9...v1.0.0-rc.10) (2023-08-28)
 
 ### Bug Fixes
