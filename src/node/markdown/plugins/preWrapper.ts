@@ -40,6 +40,7 @@ export function extractTitle(info: string, html = false) {
 function extractLang(info: string) {
   return info
     .trim()
+    .replace(/=(\d*)/, '')
     .replace(/:(no-)?line-numbers({| |$|=\d*).*/, '')
     .replace(/(-vue|{| ).*$/, '')
     .replace(/^vue-html$/, 'template')
