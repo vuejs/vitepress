@@ -1,3 +1,18 @@
+# [1.0.0-rc.13](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.12...v1.0.0-rc.13) (2023-09-13)
+
+### Bug Fixes
+
+- **theme:** allow wrapping feature icons ([a1e1267](https://github.com/vuejs/vitepress/commit/a1e1267549e198b35455d055536cd0c6d1ad79ce)), closes [#2923](https://github.com/vuejs/vitepress/issues/2923)
+- **theme:** local search enter key with the search result ([#2937](https://github.com/vuejs/vitepress/issues/2937)) ([00ef2f1](https://github.com/vuejs/vitepress/commit/00ef2f1db0369f50b3b634508e798b19b9525b34))
+
+### Features
+
+- **theme:** add search insights boolean to algolia search ([#2940](https://github.com/vuejs/vitepress/issues/2940)) ([32aa2a7](https://github.com/vuejs/vitepress/commit/32aa2a7d179049e5a1ed809018c32418bf69e8d5))
+
+### Reverts
+
+- Revert "feat(theme): use inert to avoid traverse menus and content with keyboard" (#2953) ([54891df](https://github.com/vuejs/vitepress/commit/54891df6149f4d0a871b16edf5f9a8a6fec639f9)), closes [#2953](https://github.com/vuejs/vitepress/issues/2953) [#2932](https://github.com/vuejs/vitepress/issues/2932)
+
 # [1.0.0-rc.12](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.11...v1.0.0-rc.12) (2023-09-10)
 
 ### Bug Fixes
