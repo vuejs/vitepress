@@ -84,8 +84,8 @@ function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
   docsearch(options)
 }
 
-function getRelativePath(absoluteUrl: string) {
-  const { pathname, hash } = new URL(absoluteUrl)
+function getRelativePath(url: string) {
+  const { pathname, hash } = new URL(url, location.origin)
   return (
     pathname.replace(
       /\.html$/,
