@@ -311,12 +311,12 @@ onKeyStroke('Enter', (e) => {
   if (e.target instanceof HTMLButtonElement && e.target.type !== 'submit')
     return
 
-  if (e.target instanceof HTMLInputElement) {
+  const selectedPackage = results.value[selectedIndex.value]
+  if (e.target instanceof HTMLInputElement && !selectedPackage) {
     e.preventDefault()
     return
   }
 
-  const selectedPackage = results.value[selectedIndex.value]
   if (selectedPackage) {
     router.go(selectedPackage.id)
     emit('close')
