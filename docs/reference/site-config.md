@@ -422,6 +422,18 @@ export default {
 
 When set to `true`, the production app will be built in [MPA Mode](../guide/mpa-mode). MPA mode ships 0kb JavaScript by default, at the cost of disabling client-side navigation and requires explicit opt-in for interactivity.
 
+### Outline
+
+- Type: 'string'
+- Default: '2'
+
+Setting the outline depth controls the depth with which links within a page are generated on page toc. This is documented in the [Frontmatter Config](https://vitepress.dev/reference/frontmatter-config#outline) but it is not clear that this can also be set in the config.ts file to be applied sitewide
+
+Example that generates all levels of page headers as links:
+``` yaml
+outline: 'deep'
+```
+
 ## Theming
 
 ### appearance
