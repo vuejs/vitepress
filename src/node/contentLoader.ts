@@ -88,6 +88,7 @@ export function createContentLoader<T = ContentData[]>(
 
   if (typeof pattern === 'string') pattern = [pattern]
   pattern = pattern.map((p) => normalizePath(path.join(config.root, p)))
+  const srcExclude = config.srcExclude.map((p) => normalizePath(path.join(config.root, p)))
 
   let md: MarkdownRenderer
 
@@ -106,7 +107,7 @@ export function createContentLoader<T = ContentData[]>(
         // the loader is being called directly, do a fresh glob
         files = (
           await glob(pattern, {
-            ignore: ['**/node_modules/**', '**/dist/**']
+            ignore: ['**/node_modules/**', '**/dist/**', ...srcExclude]
           })
         ).sort()
       }
