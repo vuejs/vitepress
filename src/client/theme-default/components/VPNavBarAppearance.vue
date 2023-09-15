@@ -6,7 +6,7 @@ const { site } = useData()
 </script>
 
 <template>
-  <div v-if="site.appearance" class="VPNavBarAppearance">
+  <div v-if="site.appearance && site.appearance !== 'force-dark'" class="VPNavBarAppearance">
     <VPSwitchAppearance />
   </div>
 </template>
