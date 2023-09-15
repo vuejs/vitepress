@@ -60,6 +60,7 @@ export interface SiteData<ThemeConfig = any> {
   appearance:
     | boolean
     | 'dark'
+    | 'force-dark'
     | (Omit<UseDarkOptions, 'initialValue'> & { initialValue?: 'dark' })
   themeConfig: ThemeConfig
   scrollOffset:
