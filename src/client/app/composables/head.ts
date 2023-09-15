@@ -61,6 +61,10 @@ function createHeadElement([tag, attrs, innerHTML]: HeadConfig) {
   if (innerHTML) {
     el.innerHTML = innerHTML
   }
+  if (tag === 'script' && !attrs.async) {
+    // async is true by default for dynamically created scripts
+    ;(el as HTMLScriptElement).async = false
+  }
   return el
 }
 
