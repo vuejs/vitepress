@@ -7,7 +7,7 @@ export default {
   ...DefaultTheme,
   Layout() {
     return h(DefaultTheme.Layout, null, {
-      'doc-before': () => h(AdComponent),
+      'doc-before': () => h(AdComponent)
     })
   }
 }
