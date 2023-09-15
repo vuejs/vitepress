@@ -331,7 +331,7 @@ export interface LastUpdatedOptions {
    * @default
    * { dateStyle: 'short',  timeStyle: 'short' }
    */
-  formatOptions?: Intl.DateTimeFormatOptions
+  formatOptions?: Intl.DateTimeFormatOptions & { forceLocale?: boolean }
 }
 ```
 
