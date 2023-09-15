@@ -121,25 +121,28 @@ function newRouter(): Router {
 
   return createRouter((path) => {
     let pageFilePath = pathToFile(path)
+    let pageModule = null
 
-    if (!pageFilePath) return null
+    if (pageFilePath) {
+      if (isInitialPageLoad) {
+        initialPath = pageFilePath
+      }
 
-    if (isInitialPageLoad) {
-      initialPath = pageFilePath
-    }
+      // use lean build if this is the initial page load or navigating back
+      // to the initial loaded path (the static vnodes already adopted the
+      // static content on that load so no need to re-fetch the page)
+      if (isInitialPageLoad || initialPath === pageFilePath) {
+        pageFilePath = pageFilePath.replace(/\.js$/, '.lean.js')
+      }
 
-    // use lean build if this is the initial page load or navigating back
-    // to the initial loaded path (the static vnodes already adopted the
-    // static content on that load so no need to re-fetch the page)
-    if (isInitialPageLoad || initialPath === pageFilePath) {
-      pageFilePath = pageFilePath.replace(/\.js$/, '.lean.js')
+      pageModule = import(/*@vite-ignore*/ pageFilePath)
     }
 
     if (inBrowser) {
       isInitialPageLoad = false
     }
 
-    return import(/*@vite-ignore*/ pageFilePath)
+    return pageModule
   }, Theme.NotFound)
 }
 
