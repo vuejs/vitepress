@@ -7,7 +7,7 @@ import {
 import fs from 'fs-extra'
 import c from 'picocolors'
 import path from 'path'
-import fg from 'fast-glob'
+import glob from 'fast-glob'
 import { type SiteConfig, type UserConfig } from '../siteConfig'
 import { resolveRewrites } from './rewritesPlugin'
 
@@ -21,9 +21,13 @@ export async function resolvePages(srcDir: string, userConfig: UserConfig) {
   // JavaScript built-in sort() is mandated to be stable as of ES2019 and
   // supported in Node 12+, which is required by Vite.
   const allMarkdownFiles = (
-    await fg(['**.md'], {
+    await glob(['**.md'], {
       cwd: srcDir,
-      ignore: ['**/node_modules', ...(userConfig.srcExclude || [])]
+      ignore: [
+        '**/node_modules/**',
+        '**/dist/**',
+        ...(userConfig.srcExclude || [])
+      ]
     })
   ).sort()
 

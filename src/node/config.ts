@@ -97,6 +97,7 @@ export async function resolveConfig(
   const config: SiteConfig = {
     root,
     srcDir,
+    srcExclude: userConfig.srcExclude || [],
     assetsDir,
     site,
     themeDir,
