@@ -18,6 +18,21 @@ import type { MarkdownEnv } from '../../shared'
 export const rawPathRegexp =
   /^(.+?(?:(?:\.([a-z0-9]+))?))(?:(#[\w-]+))?(?: ?(?:{(\d+(?:[,-]\d+)*)? ?(\S+)?}))? ?(?:\[(.+)\])?$/
 
+export function rawPathToToken(rawPath: string) {
+  const [
+    filepath = '',
+    extension = '',
+    region = '',
+    lines = '',
+    lang = '',
+    rawTitle = ''
+  ] = (rawPathRegexp.exec(rawPath) || []).slice(1)
+
+  const title = rawTitle || filepath.split('/').pop() || ''
+
+  return { filepath, extension, region, lines, lang, title }
+}
+
 export function dedent(text: string): string {
   const lines = text.split('\n')
 
@@ -111,16 +126,8 @@ export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
       .replace(/^@/, srcDir)
       .trim()
 
-    const [
-      filepath = '',
-      extension = '',
-      region = '',
-      lines = '',
-      lang = '',
-      rawTitle = ''
-    ] = (rawPathRegexp.exec(rawPath) || []).slice(1)
-
-    const title = rawTitle || filepath.split('/').pop() || ''
+    const { filepath, extension, region, lines, lang, title } =
+      rawPathToToken(rawPath)
 
     state.line = startLine + 1
 

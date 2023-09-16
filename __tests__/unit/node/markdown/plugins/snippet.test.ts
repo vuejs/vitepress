@@ -1,4 +1,30 @@
-import { dedent } from 'node/markdown/plugins/snippet'
+import { dedent, rawPathToToken } from 'node/markdown/plugins/snippet'
+
+const removeEmptyKeys = <T extends Record<string, unknown>>(obj: T) => {
+  return Object.fromEntries(
+    Object.entries(obj).filter(([, value]) => value !== '')
+  ) as T
+}
+
+/* prettier-ignore */
+const rawPathTokenMap: [string, Partial<{ filepath: string, extension: string, region: string, lines: string, lang: string, title: string}>][] = [
+  ['/path/to/file.extension', { filepath: '/path/to/file.extension', extension: 'extension', title: 'file.extension' }],
+  ['./path/to/file.extension', { filepath: './path/to/file.extension', extension: 'extension', title: 'file.extension' }],
+  ['/path to/file.extension', { filepath: '/path to/file.extension', extension: 'extension', title: 'file.extension' }],
+  ['./path to/file.extension', { filepath: './path to/file.extension', extension: 'extension', title: 'file.extension' }],
+  ['/path.to/file.extension', { filepath: '/path.to/file.extension', extension: 'extension', title: 'file.extension' }],
+  ['./path.to/file.extension', { filepath: './path.to/file.extension', extension: 'extension', title: 'file.extension' }],
+  ['/path .to/file.extension', { filepath: '/path .to/file.extension', extension: 'extension', title: 'file.extension' }],
+  ['./path .to/file.extension', { filepath: './path .to/file.extension', extension: 'extension', title: 'file.extension' }],
+  ['/path/to/file', { filepath: '/path/to/file', title: 'file' }],
+  ['./path/to/file', { filepath: './path/to/file', title: 'file' }],
+  ['/path to/file', { filepath: '/path to/file', title: 'file' }],
+  ['./path to/file', { filepath: './path to/file', title: 'file' }],
+  ['/path.to/file', { filepath: '/path.to/file', title: 'file' }],
+  ['./path.to/file', { filepath: './path.to/file', title: 'file' }],
+  ['/path .to/file', { filepath: '/path .to/file', title: 'file' }],
+  ['./path .to/file', { filepath: './path .to/file', title: 'file' }]
+]
 
 describe('node/markdown/plugins/snippet', () => {
   describe('dedent', () => {
@@ -55,6 +81,12 @@ describe('node/markdown/plugins/snippet', () => {
         	value: 42
         };"
       `)
+    })
+  })
+
+  test('rawPathToToken', () => {
+    rawPathTokenMap.forEach(([rawPath, token]) => {
+      expect(removeEmptyKeys(rawPathToToken(rawPath))).toEqual(token)
     })
   })
 })
