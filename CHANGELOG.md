@@ -1,3 +1,19 @@
+# [1.0.0-rc.14](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.13...v1.0.0-rc.14) (2023-09-16)
+
+### Bug Fixes
+
+- **client:** router in invalid state after 404 ([#2972](https://github.com/vuejs/vitepress/issues/2972)) ([28ef0ea](https://github.com/vuejs/vitepress/commit/28ef0ea6f60ab33e9cf34ecef10e1515d84f7168))
+- **client:** scripts loading out of order when added through head ([#2970](https://github.com/vuejs/vitepress/issues/2970)) ([98679c9](https://github.com/vuejs/vitepress/commit/98679c9e82fcd3bbe3829640d0386cbd730e61ba))
+- customizing the starting line number even if globally set ([#2941](https://github.com/vuejs/vitepress/issues/2941)) ([0cd87b1](https://github.com/vuejs/vitepress/commit/0cd87b1bafa6158ded0bf741553816f3d9b43a89))
+- make algolia search work with indices that don't return absolute urls ([#2956](https://github.com/vuejs/vitepress/issues/2956)) ([2a34c6b](https://github.com/vuejs/vitepress/commit/2a34c6b3076bf418b3abbbca984fcb033743a611)), closes [#336](https://github.com/vuejs/vitepress/issues/336) [#805](https://github.com/vuejs/vitepress/issues/805)
+- **theme:** remove extra padding from top when navbar is hidden ([#2575](https://github.com/vuejs/vitepress/issues/2575)) ([fd46dc9](https://github.com/vuejs/vitepress/commit/fd46dc9b8f8951b3196e4208d958d1ca0e1dc6e8))
+
+### Features
+
+- mathjax support ([#2977](https://github.com/vuejs/vitepress/issues/2977)) ([7271a95](https://github.com/vuejs/vitepress/commit/7271a959480261d60c01146d2e520d0f662e0380))
+- **theme:** allow forcing dark mode ([#2974](https://github.com/vuejs/vitepress/issues/2974)) ([1fb5d22](https://github.com/vuejs/vitepress/commit/1fb5d228a269e913163246e988806056b3f1b9d9))
+- **theme:** allow forcing site locale in last updated format ([#2973](https://github.com/vuejs/vitepress/issues/2973)) ([a18e5e4](https://github.com/vuejs/vitepress/commit/a18e5e48a442b09487cda8ab14e3b103ce270641))
+
 # [1.0.0-rc.13](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.12...v1.0.0-rc.13) (2023-09-13)
 
 ### Bug Fixes
