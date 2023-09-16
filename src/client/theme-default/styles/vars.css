@@ -426,6 +426,14 @@
   --vp-nav-logo-height: 24px;
 }
 
+.hide-nav {
+  --vp-nav-height: 0px;
+}
+
+.hide-nav .VPSidebar {
+  --vp-nav-height: 22px;
+}
+
 /**
  * Component: Local Nav
  * -------------------------------------------------------------------------- */
