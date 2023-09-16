@@ -15,6 +15,7 @@ import {
   resolveAliases
 } from './alias'
 import { resolvePages, resolveUserConfig, type SiteConfig } from './config'
+import { mathjaxElements } from './markdown/math'
 import {
   clearCache,
   createMarkdownToVueRenderFn,
@@ -80,12 +81,31 @@ export async function createVitePressPlugin(
   } = siteConfig
 
   let markdownToVue: Awaited<ReturnType<typeof createMarkdownToVueRenderFn>>
+  const userCustomElementChecker =
+    userVuePluginOptions?.template?.compilerOptions?.isCustomElement
+  let isCustomElement = userCustomElementChecker
+
+  if (markdown?.math) {
+    isCustomElement = (tag) => {
+      if (mathjaxElements.includes(tag)) {
+        return true
+      }
+      return userCustomElementChecker?.(tag) ?? false
+    }
+  }
 
   // lazy require plugin-vue to respect NODE_ENV in @vue/compiler-x
   const vuePlugin = await import('@vitejs/plugin-vue').then((r) =>
     r.default({
       include: [/\.vue$/, /\.md$/],
-      ...userVuePluginOptions
+      ...userVuePluginOptions,
+      template: {
+        ...userVuePluginOptions?.template,
+        compilerOptions: {
+          ...userVuePluginOptions?.template?.compilerOptions,
+          isCustomElement
+        }
+      }
     })
   )
 

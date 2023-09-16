@@ -8,6 +8,7 @@
     "preview": "vitepress preview"
   },
   "devDependencies": {
+    "markdown-it-mathjax3": "^4.3.2",
     "vitepress": "workspace:*"
   }
 }

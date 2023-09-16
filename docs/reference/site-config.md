@@ -525,8 +525,24 @@ interface MarkdownOptions extends MarkdownIt.Options {
   // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-toc#options
   toc?: TocPluginOptions
 
+  // @mdit-vue/plugin-component plugin options.
+  // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-component#options
+  component?: ComponentPluginOptions
+
   // Configure the Markdown-it instance.
   config?: (md: MarkdownIt) => void
+
+  // Same as `config` but will be applied before all other plugins.
+  preConfig?: (md: MarkdownIt) => void
+
+  // Disable cache (experimental)
+  cache?: boolean
+
+  // Math support (experimental)
+  // You need to install `markdown-it-mathjax3` and set `math` to `true` to enable it.
+  // You can also pass options to `markdown-it-mathjax3` here.
+  // See: https://github.com/tani/markdown-it-mathjax3#customization
+  math?: any
 }
 ```
 

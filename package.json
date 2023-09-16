@@ -102,6 +102,14 @@
     "vite": "^4.4.9",
     "vue": "^3.3.4"
   },
+  "peerDependencies": {
+    "markdown-it-mathjax3": "^4.3.2"
+  },
+  "peerDependenciesMeta": {
+    "markdown-it-mathjax3": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "@clack/prompts": "^0.7.0",
     "@mdit-vue/plugin-component": "^0.12.1",
@@ -154,6 +162,7 @@
     "markdown-it-attrs": "^4.1.6",
     "markdown-it-container": "^3.0.0",
     "markdown-it-emoji": "^2.0.2",
+    "markdown-it-mathjax3": "^4.3.2",
     "micromatch": "^4.0.5",
     "minimist": "^1.2.8",
     "nanoid": "^4.0.2",
