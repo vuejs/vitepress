@@ -105,7 +105,7 @@ export function createContentLoader<T = ContentData[]>(
       if (!files) {
         // the loader is being called directly, do a fresh glob
         files = (
-          await glob(['**.md'], {
+          await glob(pattern, {
             cwd: config.srcDir,
             ignore: ['**/node_modules/**', '**/dist/**', ...config.srcExclude]
           })
