@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { provide, watchEffect, computed } from 'vue'
+import { inBrowser } from 'vitepress'
+import { computed, provide, watchEffect } from 'vue'
+import { useData } from '../composables/data'
 import { useNav } from '../composables/nav'
 import VPNavBar from './VPNavBar.vue'
 import VPNavScreen from './VPNavScreen.vue'
-import { useData } from '../composables/data'
-import { inBrowser } from '../../shared'
 
 const { isScreenOpen, closeScreen, toggleScreen } = useNav()
 const { frontmatter } = useData()
@@ -17,11 +17,7 @@ provide('close-screen', closeScreen)
 
 watchEffect(() => {
   if (inBrowser) {
-    if (hasNavbar.value) {
-      document.documentElement.style.removeProperty('--vp-nav-height')
-    } else {
-      document.documentElement.style.setProperty('--vp-nav-height', '0')
-    }
+    document.documentElement.classList.toggle('hide-nav', !hasNavbar.value)
   }
 })
 </script>
