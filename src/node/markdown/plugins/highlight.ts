@@ -17,7 +17,7 @@ import {
   type Processor
 } from 'shiki-processor'
 import type { Logger } from 'vite'
-import type { ThemeOptions } from '../markdown'
+import type { ThemeOptions } from '..'
 
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)
 
@@ -87,13 +87,18 @@ export async function highlight(
   const styleRE = /<pre[^>]*(style=".*?")/
   const preRE = /^<pre(.*?)>/
   const vueRE = /-vue$/
-  const lineNoRE = /:(no-)?line-numbers$/
+  const lineNoStartRE = /=(\d*)/
+  const lineNoRE = /:(no-)?line-numbers(=\d*)?$/
   const mustacheRE = /\{\{.*?\}\}/g
 
   return (str: string, lang: string, attrs: string) => {
     const vPre = vueRE.test(lang) ? '' : 'v-pre'
     lang =
-      lang.replace(lineNoRE, '').replace(vueRE, '').toLowerCase() || defaultLang
+      lang
+        .replace(lineNoStartRE, '')
+        .replace(lineNoRE, '')
+        .replace(vueRE, '')
+        .toLowerCase() || defaultLang
 
     if (lang) {
       const langLoaded = highlighter.getLoadedLanguages().includes(lang as any)

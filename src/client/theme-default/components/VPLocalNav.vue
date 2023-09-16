@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { useWindowScroll } from '@vueuse/core'
 import { onContentUpdated } from 'vitepress'
-import { useSidebar } from 'vitepress/theme'
-import { computed, shallowRef } from 'vue'
+import { computed, onMounted, ref, shallowRef } from 'vue'
 import { useData } from '../composables/data'
 import { getHeaders, type MenuItem } from '../composables/outline'
+import { useSidebar } from '../composables/sidebar'
 import VPLocalNavOutlineDropdown from './VPLocalNavOutlineDropdown.vue'
 import VPIconAlignLeft from './icons/VPIconAlignLeft.vue'
 
@@ -18,9 +18,19 @@ defineEmits<{
 
 const { theme, frontmatter } = useData()
 const { hasSidebar } = useSidebar()
+// @ts-ignore
 const { y } = useWindowScroll()
 
 const headers = shallowRef<MenuItem[]>([])
+const navHeight = ref(0)
+
+onMounted(() => {
+  navHeight.value = parseInt(
+    getComputedStyle(document.documentElement).getPropertyValue(
+      '--vp-nav-height'
+    )
+  )
+})
 
 onContentUpdated(() => {
   headers.value = getHeaders(frontmatter.value.outline ?? theme.value.outline)
@@ -34,14 +44,14 @@ const classes = computed(() => {
   return {
     VPLocalNav: true,
     fixed: empty.value,
-    'reached-top': y.value >= 64
+    'reached-top': y.value >= navHeight.value
   }
 })
 </script>
 
 <template>
   <div
-    v-if="frontmatter.layout !== 'home' && (!empty || y >= 64)"
+    v-if="frontmatter.layout !== 'home' && (!empty || y >= navHeight)"
     :class="classes"
   >
     <button
@@ -57,7 +67,7 @@ const classes = computed(() => {
       </span>
     </button>
 
-    <VPLocalNavOutlineDropdown :headers="headers" />
+    <VPLocalNavOutlineDropdown :headers="headers" :navHeight="navHeight" />
   </div>
 </template>
 

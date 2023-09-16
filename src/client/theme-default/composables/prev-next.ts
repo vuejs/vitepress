@@ -31,7 +31,9 @@ export function usePrevNext() {
                 ? frontmatter.value.prev
                 : typeof frontmatter.value.prev === 'object'
                 ? frontmatter.value.prev.text
-                : undefined) ?? candidates[index - 1]?.text,
+                : undefined) ??
+              candidates[index - 1]?.docFooterText ??
+              candidates[index - 1]?.text,
             link:
               (typeof frontmatter.value.prev === 'object'
                 ? frontmatter.value.prev.link
@@ -45,7 +47,9 @@ export function usePrevNext() {
                 ? frontmatter.value.next
                 : typeof frontmatter.value.next === 'object'
                 ? frontmatter.value.next.text
-                : undefined) ?? candidates[index + 1]?.text,
+                : undefined) ??
+              candidates[index + 1]?.docFooterText ??
+              candidates[index + 1]?.text,
             link:
               (typeof frontmatter.value.next === 'object'
                 ? frontmatter.value.next.link

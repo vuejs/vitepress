@@ -1,8 +1,8 @@
 import fs from 'fs-extra'
-import path from 'path'
 import type MarkdownIt from 'markdown-it'
 import type { RuleBlock } from 'markdown-it/lib/parser_block'
-import type { MarkdownEnv } from '../env'
+import path from 'path'
+import type { MarkdownEnv } from '../../shared'
 
 export function dedent(text: string): string {
   const lines = text.split('\n')
@@ -125,10 +125,9 @@ export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
       title ? `[${title}]` : ''
     }`
 
-    const resolvedPath = path.resolve(
-      path.dirname((state.env as MarkdownEnv).path),
-      filepath
-    )
+    const { realPath, path: _path } = state.env as MarkdownEnv
+    const resolvedPath = path.resolve(path.dirname(realPath ?? _path), filepath)
+
     // @ts-ignore
     token.src = [resolvedPath, region.slice(1)]
     token.markup = '```'
@@ -140,41 +139,43 @@ export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
   const fence = md.renderer.rules.fence!
 
   md.renderer.rules.fence = (...args) => {
-    const [tokens, idx, , { loader }] = args
+    const [tokens, idx, , { includes }] = args
     const token = tokens[idx]
     // @ts-ignore
     const [src, regionName] = token.src ?? []
 
-    if (src) {
-      if (loader) {
-        loader.addDependency(src)
-      }
-      const isAFile = fs.lstatSync(src).isFile()
-      if (fs.existsSync(src) && isAFile) {
-        let content = fs.readFileSync(src, 'utf8')
+    if (!src) return fence(...args)
 
-        if (regionName) {
-          const lines = content.split(/\r?\n/)
-          const region = findRegion(lines, regionName)
+    if (includes) {
+      includes.push(src)
+    }
 
-          if (region) {
-            content = dedent(
-              lines
-                .slice(region.start, region.end)
-                .filter((line: string) => !region.regexp.test(line.trim()))
-                .join('\n')
-            )
-          }
-        }
+    const isAFile = fs.lstatSync(src).isFile()
+    if (!fs.existsSync(src) || !isAFile) {
+      token.content = isAFile
+        ? `Code snippet path not found: ${src}`
+        : `Invalid code snippet option`
+      token.info = ''
+      return fence(...args)
+    }
 
-        token.content = content
-      } else {
-        token.content = isAFile
-          ? `Code snippet path not found: ${src}`
-          : `Invalid code snippet option`
-        token.info = ''
+    let content = fs.readFileSync(src, 'utf8')
+
+    if (regionName) {
+      const lines = content.split(/\r?\n/)
+      const region = findRegion(lines, regionName)
+
+      if (region) {
+        content = dedent(
+          lines
+            .slice(region.start, region.end)
+            .filter((line) => !region.regexp.test(line.trim()))
+            .join('\n')
+        )
       }
     }
+
+    token.content = content
     return fence(...args)
   }
 

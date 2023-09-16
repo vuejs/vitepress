@@ -222,27 +222,30 @@ Wraps in a <div class="vp-raw">
 
 ::: details
 
-- Install required deps with your preferred package manager:
+- Install `postcss` with your preferred package manager:
 
   ```sh
-  $ npm install -D postcss postcss-prefix-selector
+  $ npm add -D postcss
   ```
 
-- Create a file named `docs/.postcssrc.cjs` and add this to it:
+- Create a file named `docs/postcss.config.mjs` and add this to it:
 
   ```js
-  module.exports = {
+  import { postcssIsolateStyles } from 'vitepress'
+  
+  export default {
     plugins: {
-      'postcss-prefix-selector': {
-        prefix: ':not(:where(.vp-raw *))',
-        includeFiles: [/vp-doc\.css/],
-        transform(prefix, _selector) {
-          const [selector, pseudo = ''] = _selector.split(/(:\S*)$/)
-          return selector + prefix + pseudo
-        }
-      }
+      postcssIsolateStyles()
     }
   }
+  ```
+
+  It uses [`postcss-prefix-selector`](https://github.com/postcss/postcss-load-config) under the hood. You can pass its options like this:
+
+  ```js
+  postcssIsolateStyles({
+    includeFiles: [/vp-doc\.css/] // defaults to /base\.css/
+  })
   ```
 
 :::
@@ -507,6 +510,8 @@ Please see [`markdown` options](../reference/site-config#markdown) for more deta
 
 You can add `:line-numbers` / `:no-line-numbers` mark in your fenced code blocks to override the value set in config.
 
+You can also customize the starting line number by adding `=` after `:line-numbers`. For example, `:line-numbers=2` means the line numbers in code blocks will start from `2`.
+
 **Input**
 
 ````md
@@ -520,6 +525,12 @@ const line3 = 'This is line 3'
 // line-numbers is enabled
 const line2 = 'This is line 2'
 const line3 = 'This is line 3'
+```
+
+```ts:line-numbers=2 {1}
+// line-numbers is enabled and start from 2
+const line3 = 'This is line 3'
+const line4 = 'This is line 4'
 ```
 ````
 
@@ -536,6 +547,12 @@ const line3 = 'This is line 3'
 const line2 = 'This is line 2'
 const line3 = 'This is line 3'
 ```
+
+```ts:line-numbers=2 {1}
+// line-numbers is enabled and start from 2
+const line3 = 'This is line 3'
+const line4 = 'This is line 4'
+````
 
 ## Import Code Snippets
 
@@ -563,7 +580,7 @@ It also supports [line highlighting](#line-highlighting-in-code-blocks):
 
 **Output**
 
-<<< @/snippets/snippet.js{2}
+<<< @/snippets/snippet.js
 
 ::: tip
 The value of `@` corresponds to the source root. By default it's the VitePress project root, unless `srcDir` is configured. Alternatively, you can also import from relative paths:
@@ -783,14 +800,15 @@ Note that this does not throw errors if your file is not present. Hence, when us
 VitePress uses [markdown-it](https://github.com/markdown-it/markdown-it) as the Markdown renderer. A lot of the extensions above are implemented via custom plugins. You can further customize the `markdown-it` instance using the `markdown` option in `.vitepress/config.js`:
 
 ```js
-const anchor = require('markdown-it-anchor')
+import markdownItAnchor from 'markdown-it-anchor'
+import markdownItFoo from 'markdown-it-foo'
 
 module.exports = {
   markdown: {
     // options for markdown-it-anchor
     // https://github.com/valeriangalliat/markdown-it-anchor#usage
     anchor: {
-      permalink: anchor.permalink.headerLink()
+      permalink: markdownItAnchor.permalink.headerLink()
     },
 
     // options for @mdit-vue/plugin-toc
@@ -799,7 +817,7 @@ module.exports = {
 
     config: (md) => {
       // use more markdown-it plugins!
-      md.use(require('markdown-it-xxx'))
+      md.use(markdownItFoo)
     }
   }
 }

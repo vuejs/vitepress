@@ -4,7 +4,7 @@ In VitePress, each Markdown file is compiled into HTML and then processed as a [
 
 It's worth noting that VitePress leverages Vue's compiler to automatically detect and optimize the purely static parts of the Markdown content. Static contents are optimized into single placeholder nodes and eliminated from the page's JavaScript payload for initial visits. They are also skipped during client-side hydration. In short, you only pay for the dynamic parts on any given page.
 
-:::tip SSR Compatibility
+::: tip SSR Compatibility
 All Vue usage needs to be SSR-compatible. See [SSR Compatibility](./ssr-compat) for details and common workarounds.
 :::
 
@@ -67,7 +67,7 @@ The count is: {{ count }}
 </style>
 ```
 
-:::warning Avoid `<style scoped>` in Markdown
+::: warning Avoid `<style scoped>` in Markdown
 When used in Markdown, `<style scoped>` requires adding special attributes to every element on the current page, which will significantly bloat the page size. `<style module>` is preferred when locally-scoped styling is needed in a page.
 :::
 

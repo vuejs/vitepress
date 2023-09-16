@@ -26,7 +26,7 @@ const { page } = useData()
     :rel="item.rel"
     tabindex="0"
   >
-    {{ item.text }}
+    <span v-html="item.text"></span>
   </VPLink>
 </template>
 
@@ -43,10 +43,10 @@ const { page } = useData()
 }
 
 .VPNavBarMenuLink.active {
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-1);
 }
 
 .VPNavBarMenuLink:hover {
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-1);
 }
 </style>

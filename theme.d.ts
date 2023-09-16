@@ -3,10 +3,13 @@ import type { DefineComponent } from 'vue'
 import { EnhanceAppContext } from './dist/client/index.js'
 
 // TODO: add props for these
+export const VPImage: DefineComponent
+export const VPButton: DefineComponent
 export const VPHomeHero: DefineComponent
 export const VPHomeFeatures: DefineComponent
 export const VPHomeSponsors: DefineComponent
 export const VPDocAsideSponsors: DefineComponent
+export const VPSponsors: DefineComponent
 export const VPTeamPage: DefineComponent
 export const VPTeamPageTitle: DefineComponent
 export const VPTeamPageSection: DefineComponent
@@ -20,4 +23,4 @@ declare const theme: {
 export default theme
 export type { DefaultTheme } from './types/default-theme.js'
 
-export const useSidebar: () => DefaultTheme.DocSideBar
+export const useSidebar: () => DefaultTheme.DocSidebar

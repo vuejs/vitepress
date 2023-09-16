@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useSidebar } from 'vitepress/theme'
 import NotFound from '../NotFound.vue'
 import { useData } from '../composables/data'
+import { useSidebar } from '../composables/sidebar'
 import VPDoc from './VPDoc.vue'
 import VPHome from './VPHome.vue'
 import VPPage from './VPPage.vue'
@@ -34,6 +34,11 @@ const { hasSidebar } = useSidebar()
       <template #home-features-before><slot name="home-features-before" /></template>
       <template #home-features-after><slot name="home-features-after" /></template>
     </VPHome>
+
+    <component
+      v-else-if="frontmatter.layout && frontmatter.layout !== 'doc'"
+      :is="frontmatter.layout"
+    />
 
     <VPDoc v-else>
       <template #doc-top><slot name="doc-top" /></template>

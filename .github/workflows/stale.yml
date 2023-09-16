@@ -1,0 +1,15 @@
+name: Close stale issues and PRs
+on:
+  workflow_dispatch:
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v8
+        with:
+          days-before-stale: 30
+          days-before-close: -1
+          stale-issue-label: stale
+          stale-pr-label: stale
+          operations-per-run: 1000

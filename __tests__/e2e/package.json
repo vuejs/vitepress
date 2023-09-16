@@ -5,7 +5,9 @@
   "scripts": {
     "test": "vitest run",
     "watch": "DEBUG=1 vitest",
-    "site": "vitepress"
+    "site:dev": "vitepress",
+    "site:build": "vitepress build",
+    "site:preview": "vitepress preview"
   },
   "devDependencies": {
     "vitepress": "workspace:*"

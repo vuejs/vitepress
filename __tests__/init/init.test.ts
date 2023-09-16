@@ -50,14 +50,14 @@ test.each(variations)('init %s', async (_, { theme, useTs }) => {
     expect(await page.textContent('h1')).toMatch('My Awesome Project')
 
     await page.click('a[href="/markdown-examples.html"]')
-    await page.waitForSelector('pre code')
+    await page.waitForFunction('document.querySelector("pre code")')
     expect(await page.textContent('h1')).toMatch('Markdown Extension Examples')
 
     await goto('/')
     expect(await page.textContent('h1')).toMatch('My Awesome Project')
 
     await page.click('a[href="/api-examples.html"]')
-    await page.waitForSelector('pre code')
+    await page.waitForFunction('document.querySelector("pre code")')
     expect(await page.textContent('h1')).toMatch('Runtime API Examples')
 
     // teardown

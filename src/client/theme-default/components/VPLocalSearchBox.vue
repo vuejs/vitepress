@@ -12,7 +12,7 @@ import {
 import { useFocusTrap } from '@vueuse/integrations/useFocusTrap'
 import Mark from 'mark.js/src/vanilla.js'
 import MiniSearch, { type SearchResult } from 'minisearch'
-import { useRouter, dataSymbol } from 'vitepress'
+import { inBrowser, useRouter, dataSymbol } from 'vitepress'
 import {
   computed,
   createApp,
@@ -41,7 +41,6 @@ const emit = defineEmits<{
 
 const el = shallowRef<HTMLElement>()
 const resultsEl = shallowRef<HTMLElement>()
-const body = shallowRef<HTMLElement>()
 
 /* Search */
 
@@ -80,8 +79,12 @@ const searchIndex = computedAsync(async () =>
         searchOptions: {
           fuzzy: 0.2,
           prefix: true,
-          boost: { title: 4, text: 2, titles: 1 }
-        }
+          boost: { title: 4, text: 2, titles: 1 },
+          ...(theme.value.search?.provider === 'local' &&
+            theme.value.search.options?.miniSearch?.searchOptions)
+        },
+        ...(theme.value.search?.provider === 'local' &&
+          theme.value.search.options?.miniSearch?.options)
       }
     )
   )
@@ -100,13 +103,15 @@ const filterText = disableQueryPersistence.value
 
 const showDetailedList = useLocalStorage(
   'vitepress:local-search-detailed-list',
-  false
+  theme.value.search?.provider === 'local' &&
+    theme.value.search.options?.detailedView === true
 )
 
 const disableDetailedView = computed(() => {
   return (
     theme.value.search?.provider === 'local' &&
-    theme.value.search.options?.disableDetailedView === true
+    (theme.value.search.options?.disableDetailedView === true ||
+      theme.value.search.options?.detailedView === false)
   )
 })
 
@@ -302,8 +307,16 @@ onKeyStroke('ArrowDown', (event) => {
 
 const router = useRouter()
 
-onKeyStroke('Enter', () => {
+onKeyStroke('Enter', (e) => {
+  if (e.target instanceof HTMLButtonElement && e.target.type !== 'submit')
+    return
+
   const selectedPackage = results.value[selectedIndex.value]
+  if (e.target instanceof HTMLInputElement && !selectedPackage) {
+    e.preventDefault()
+    return
+  }
+
   if (selectedPackage) {
     router.go(selectedPackage.id)
     emit('close')
@@ -348,10 +361,9 @@ useEventListener('popstate', (event) => {
 })
 
 /** Lock body */
-const isLocked = useScrollLock(body)
+const isLocked = useScrollLock(inBrowser ? document.body : null)
 
 onMounted(() => {
-  body.value = document.body
   nextTick(() => {
     isLocked.value = true
     nextTick().then(() => activate())
@@ -396,8 +408,16 @@ function formMarkRegex(terms: Set<string>) {
       <div class="backdrop" @click="$emit('close')" />
 
       <div class="shell">
-        <form class="search-bar" @pointerup="onSearchBarClick($event)" @submit.prevent="">
-          <label :title="placeholder" id="localsearch-label" for="localsearch-input">
+        <form
+          class="search-bar"
+          @pointerup="onSearchBarClick($event)"
+          @submit.prevent=""
+        >
+          <label
+            :title="placeholder"
+            id="localsearch-label"
+            for="localsearch-input"
+          >
             <svg
               class="search-icon"
               width="18"
@@ -452,9 +472,12 @@ function formMarkRegex(terms: Set<string>) {
             <button
               v-if="!disableDetailedView"
               class="toggle-layout-button"
+              type="button"
               :class="{ 'detailed-list': showDetailedList }"
               :title="$t('modal.displayDetails')"
-              @click="selectedIndex > -1 && (showDetailedList = !showDetailedList)"
+              @click="
+                selectedIndex > -1 && (showDetailedList = !showDetailedList)
+              "
             >
               <svg
                 width="18"
@@ -527,7 +550,11 @@ function formMarkRegex(terms: Set<string>) {
               <div>
                 <div class="titles">
                   <span class="title-icon">#</span>
-                  <span v-for="(t, index) in p.titles" :key="index" class="title">
+                  <span
+                    v-for="(t, index) in p.titles"
+                    :key="index"
+                    class="title"
+                  >
                     <span class="text" v-html="t" />
                     <svg width="18" height="18" viewBox="0 0 24 24">
                       <path
@@ -547,7 +574,7 @@ function formMarkRegex(terms: Set<string>) {
 
                 <div v-if="showDetailedList" class="excerpt-wrapper">
                   <div v-if="p.text" class="excerpt" inert>
-                    <div class="vp-doc" v-html="p.text"  />
+                    <div class="vp-doc" v-html="p.text" />
                   </div>
                   <div class="excerpt-gradient-bottom" />
                   <div class="excerpt-gradient-top" />
@@ -648,7 +675,7 @@ function formMarkRegex(terms: Set<string>) {
   border-radius: 6px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .shell {
     margin: 0;
     width: 100vw;
@@ -667,21 +694,21 @@ function formMarkRegex(terms: Set<string>) {
   cursor: text;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .search-bar {
     padding: 0 8px;
   }
 }
 
 .search-bar:focus-within {
-  border-color: var(--vp-c-brand);
+  border-color: var(--vp-c-brand-1);
 }
 
 .search-icon {
   margin: 8px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .search-icon {
     display: none;
   }
@@ -693,7 +720,7 @@ function formMarkRegex(terms: Set<string>) {
   width: 100%;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .search-input {
     padding: 6px 4px;
   }
@@ -722,11 +749,11 @@ function formMarkRegex(terms: Set<string>) {
 
 .search-actions button:not([disabled]):hover,
 .toggle-layout-button.detailed-list {
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-1);
 }
 
 .search-actions button.clear-button:disabled {
-    opacity: 0.37;
+  opacity: 0.37;
 }
 
 .search-keyboard-shortcuts {
@@ -744,7 +771,7 @@ function formMarkRegex(terms: Set<string>) {
   gap: 4px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .search-keyboard-shortcuts {
     display: none;
   }
@@ -788,7 +815,7 @@ function formMarkRegex(terms: Set<string>) {
   overflow: hidden;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .result > div {
     margin: 8px;
   }
@@ -816,7 +843,7 @@ function formMarkRegex(terms: Set<string>) {
 .title-icon {
   opacity: 0.5;
   font-weight: 500;
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-1);
 }
 
 .title svg {
@@ -889,7 +916,7 @@ function formMarkRegex(terms: Set<string>) {
 
 .result.selected .titles,
 .result.selected .title-icon {
-  color: var(--vp-c-brand) !important;
+  color: var(--vp-c-brand-1) !important;
 }
 
 .no-results {

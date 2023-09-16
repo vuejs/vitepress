@@ -22,8 +22,11 @@ export function joinPath(base: string, path: string) {
   return `${base}${path}`.replace(/\/+/g, '/')
 }
 
+/**
+ * Append base to internal (non-relative) urls
+ */
 export function withBase(path: string) {
-  return EXTERNAL_URL_RE.test(path) || path.startsWith('.')
+  return EXTERNAL_URL_RE.test(path) || !path.startsWith('/')
     ? path
     : joinPath(siteDataRef.value.base, path)
 }
@@ -58,7 +61,7 @@ export function pathToFile(path: string) {
         pageHash = __VP_HASH_MAP__[pagePath.toLowerCase()]
       }
       if (!pageHash) return null
-      pagePath = `${base}assets/${pagePath}.${pageHash}.js`
+      pagePath = `${base}${__ASSETS_DIR__}/${pagePath}.${pageHash}.js`
     } else {
       // ssr build uses much simpler name mapping
       pagePath = `./${sanitizeFileName(

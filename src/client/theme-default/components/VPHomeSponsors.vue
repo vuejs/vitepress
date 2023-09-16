@@ -14,13 +14,16 @@ export interface Sponsor {
   img: string
   url: string
 }
-
-defineProps<{
+interface Props {
   message?: string
   actionText?: string
   actionLink?: string
   data: Sponsors[]
-}>()
+}
+
+withDefaults(defineProps<Props>(), {
+  actionText: 'Become a sponsor'
+})
 </script>
 
 <template>
@@ -36,11 +39,7 @@ defineProps<{
       </div>
 
       <div v-if="actionLink" class="action">
-        <VPButton
-          theme="sponsor"
-          :text="actionText ?? 'Become a sponsor'"
-          :href="actionLink"
-        />
+        <VPButton theme="sponsor" :text="actionText" :href="actionLink" />
       </div>
     </div>
   </section>

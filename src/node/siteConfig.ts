@@ -1,15 +1,18 @@
-import {
-  type Awaitable,
-  type HeadConfig,
-  type LocaleConfig,
-  type LocaleSpecificConfig,
-  type PageData,
-  type SiteData,
-  type SSGContext
-} from './shared'
-import type { MarkdownOptions } from './markdown'
 import type { Options as VuePluginOptions } from '@vitejs/plugin-vue'
-import { type Logger, type UserConfig as ViteConfig } from 'vite'
+import type { UseDarkOptions } from '@vueuse/core'
+import type { SitemapStreamOptions } from 'sitemap'
+import type { Logger, UserConfig as ViteConfig } from 'vite'
+import type { SitemapItem } from './build/generateSitemap'
+import type { MarkdownOptions } from './markdown'
+import type {
+  Awaitable,
+  HeadConfig,
+  LocaleConfig,
+  LocaleSpecificConfig,
+  PageData,
+  SSGContext,
+  SiteData
+} from './shared'
 
 export type RawConfigExports<ThemeConfig = any> =
   | Awaitable<UserConfig<ThemeConfig>>
@@ -59,14 +62,20 @@ export interface UserConfig<ThemeConfig = any>
   srcDir?: string
   srcExclude?: string[]
   outDir?: string
+  assetsDir?: string
   cacheDir?: string
 
   shouldPreload?: (link: string, page: string) => boolean
 
   locales?: LocaleConfig<ThemeConfig>
 
-  appearance?: boolean | 'dark'
+  appearance?:
+    | boolean
+    | 'dark'
+    | 'force-dark'
+    | (Omit<UseDarkOptions, 'initialValue'> & { initialValue?: 'dark' })
   lastUpdated?: boolean
+  contentProps?: Record<string, any>
 
   /**
    * MarkdownIt options
@@ -79,7 +88,7 @@ export interface UserConfig<ThemeConfig = any>
   /**
    * Vite config
    */
-  vite?: ViteConfig
+  vite?: ViteConfig & { configFile?: string | false }
 
   /**
    * Configure the scroll offset when the theme has a sticky header.
@@ -89,13 +98,23 @@ export interface UserConfig<ThemeConfig = any>
    * selector if a selector fails to match, or the matched element is not
    * currently visible in viewport.
    */
-  scrollOffset?: number | string | string[]
+  scrollOffset?:
+    | number
+    | string
+    | string[]
+    | { selector: string | string[]; padding: number }
 
   /**
    * Enable MPA / zero-JS mode.
    * @experimental
    */
   mpa?: boolean
+
+  /**
+   * Extracts metadata to a separate chunk.
+   * @experimental
+   */
+  metaChunk?: boolean
 
   /**
    * Don't fail builds due to dead links.
@@ -130,6 +149,14 @@ export interface UserConfig<ThemeConfig = any>
    * source -> destination
    */
   rewrites?: Record<string, string>
+
+  /**
+   * @experimental
+   */
+  sitemap?: SitemapStreamOptions & {
+    hostname: string
+    transformItems?: (items: SitemapItem[]) => Awaitable<SitemapItem[]>
+  }
 
   /**
    * Build end hook: called when SSG finish.
@@ -175,6 +202,7 @@ export interface SiteConfig<ThemeConfig = any>
     | 'vite'
     | 'shouldPreload'
     | 'mpa'
+    | 'metaChunk'
     | 'lastUpdated'
     | 'ignoreDeadLinks'
     | 'cleanUrls'
@@ -184,6 +212,7 @@ export interface SiteConfig<ThemeConfig = any>
     | 'transformHead'
     | 'transformHtml'
     | 'transformPageData'
+    | 'sitemap'
   > {
   root: string
   srcDir: string
@@ -192,6 +221,7 @@ export interface SiteConfig<ThemeConfig = any>
   configDeps: string[]
   themeDir: string
   outDir: string
+  assetsDir: string
   cacheDir: string
   tempDir: string
   pages: string[]

@@ -10,7 +10,7 @@ Site config is where you can define the global settings of the site. App config 
 
 ### Config Resolution
 
-The config file is always resolved from `<root>/.vitepress/config.[ext]`, where `<root>` is your VitePress [project root](../guide/routing#root-and-source-directory), and `[ext]` is one of the supported file extensions. TypeScript is supported out of the box. Supported extensions include `.js`, `.ts`, `.cjs`, `.mjs`, `.cts`, and `.mts`.
+The config file is always resolved from `<root>/.vitepress/config.[ext]`, where `<root>` is your VitePress [project root](../guide/routing#root-and-source-directory), and `[ext]` is one of the supported file extensions. TypeScript is supported out of the box. Supported extensions include `.js`, `.ts`, `.mjs`, and `.mts`.
 
 It is recommended to use ES modules syntax in config files. The config file should default export an object:
 
@@ -156,16 +156,55 @@ export default {
 Additional elements to render in the `<head>` tag in the page HTML. The user-added tags are rendered before the closing `head` tag, after VitePress tags.
 
 ```ts
+type HeadConfig =
+  | [string, Record<string, string>]
+  | [string, Record<string, string>, string]
+```
+
+#### Example: Adding a favicon
+
+```ts
+export default {
+  head: [['link', { rel: 'icon', href: '/favicon.ico' }]]
+} // put favicon.ico in public directory, if base is set, use /base/favicon.ico
+
+/* Would render:
+  <link rel="icon" href="/favicon.ico">
+*/
+```
+
+#### Example: Adding Google Fonts
+
+```ts
 export default {
   head: [
     [
       'link',
-      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }
-      // would render:
-      //
-      // <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      { rel: 'preconnect', href: 'https://fonts.googleapis.com' }
     ],
+    [
+      'link',
+      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }
+    ],
+    [
+      'link',
+      { href: 'https://fonts.googleapis.com/css2?family=Roboto&display=swap', rel: 'stylesheet' }
+    ]
+  ]
+}
 
+/* Would render:
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+*/
+```
+
+#### Example: Registering a service worker
+
+```ts
+export default {
+  head: [
     [
       'script',
       { id: 'register-sw' },
@@ -174,24 +213,50 @@ export default {
           navigator.serviceWorker.register('/sw.js')
         }
       })()`
-      // would render:
-      //
-      // <script id="register-sw">
-      // ;(() => {
-      //   if ('serviceWorker' in navigator) {
-      //     navigator.serviceWorker.register('/sw.js')
-      //   }
-      // })()
-      // </script>
     ]
   ]
 }
+
+/* Would render:
+  <script id="register-sw">
+    ;(() => {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js')
+      }
+    })()
+  </script>
+*/
 ```
 
+#### Example: Using Google Analytics
+
 ```ts
-type HeadConfig =
-  | [string, Record<string, string>]
-  | [string, Record<string, string>, string]
+export default {
+  head: [
+    [
+      'script',
+      { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=TAG_ID' }
+    ],
+    [
+      'script',
+      {},
+      `window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'TAG_ID');`
+    ]
+  ]
+}
+
+/* Would render:
+  <script async src="https://www.googletagmanager.com/gtag/js?id=TAG_ID"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'TAG_ID');
+  </script>
+*/
 ```
 
 ### lang
@@ -239,7 +304,7 @@ Enabling this may require additional configuration on your hosting platform. For
 
 - Type: `Record<string, string>`
 
-Defines custom directory <-> URL mappings. See [Routing: Route Rewrites](../guide/routing#route-rewrites) for more details.
+Defines custom directory &lt;-&gt; URL mappings. See [Routing: Route Rewrites](../guide/routing#route-rewrites) for more details.
 
 ```ts
 export default {
@@ -287,6 +352,19 @@ The build output location for the site, relative to [project root](../guide/rout
 ```ts
 export default {
   outDir: '../public'
+}
+```
+
+### assetsDir
+
+- Type: `string`
+- Default: `assets`
+
+The directory for assets files. See also: [assetsDir](https://vitejs.dev/config/build-options.html#build-assetsdir).
+
+```ts
+export default {
+  assetsDir: 'static'
 }
 ```
 
@@ -348,7 +426,7 @@ When set to `true`, the production app will be built in [MPA Mode](../guide/mpa-
 
 ### appearance
 
-- Type: `boolean | 'dark'`
+- Type: `boolean | 'dark' | 'force-dark' | import('@vueuse/core').UseDarkOptions`
 - Default: `true`
 
 Whether to enable dark mode (by adding the `.dark` class to the `<html>` element).
@@ -358,6 +436,8 @@ Whether to enable dark mode (by adding the `.dark` class to the `<html>` element
 - If the option is set to `false`, users will not be able to toggle the theme.
 
 This option injects an inline script that restores users settings from local storage using the `vitepress-theme-appearance` key. This ensures the `.dark` class is applied before the page is rendered to avoid flickering.
+
+`appearance.initialValue` can only be `'dark' | undefined`. Refs or getters are not supported.
 
 ### lastUpdated
 
@@ -530,7 +610,7 @@ interface SSGContext {
 `transformHead` is a build hook to transform the head before generating each page. It will allow you to add head entries that cannot be statically added to your VitePress config. You only need to return extra entries, they will be merged automatically with the existing ones.
 
 ::: warning
-Don't mutate anything inside the `ctx`.
+Don't mutate anything inside the `context`.
 :::
 
 ```ts
@@ -555,14 +635,34 @@ interface TransformContext {
 }
 ```
 
+Note that this hook is only called when generating the site statically. It is not called during dev. If you need to add dynamic head entries during dev, you can use the [`transformPageData`](#transformpagedata) hook instead:
+
+```ts
+export default {
+  transformPageData(pageData) {
+    pageData.frontmatter.head ??= []
+    pageData.frontmatter.head.push([
+      'meta',
+      {
+        name: 'og:title',
+        content:
+          pageData.frontmatter.layout === 'home'
+            ? `VitePress`
+            : `${pageData.title} | VitePress`
+      }
+    ])
+  }
+}
+```
+
 ### transformHtml
 
-- Type: `(code: string, id: string, ctx: TransformContext) => Awaitable<string | void>`
+- Type: `(code: string, id: string, context: TransformContext) => Awaitable<string | void>`
 
 `transformHtml` is a build hook to transform the content of each page before saving to disk.
 
 ::: warning
-Don't mutate anything inside the `ctx`. Also, modifying the html content may cause hydration problems in runtime.
+Don't mutate anything inside the `context`. Also, modifying the html content may cause hydration problems in runtime.
 :::
 
 ```ts
@@ -575,12 +675,12 @@ export default {
 
 ### transformPageData
 
-- Type: `(pageData: PageData, ctx: TransformPageContext) => Awaitable<Partial<PageData> | { [key: string]: any } | void>`
+- Type: `(pageData: PageData, context: TransformPageContext) => Awaitable<Partial<PageData> | { [key: string]: any } | void>`
 
-`transformPageData` is a hook to transform the `pageData` of each page. You can directly mutate `pageData` or return changed values which will be merged into PageData.
+`transformPageData` is a hook to transform the `pageData` of each page. You can directly mutate `pageData` or return changed values which will be merged into the page data.
 
 ::: warning
-Don't mutate anything inside the `ctx`.
+Don't mutate anything inside the `context` and be careful that this might impact the performance of dev server, especially if you have some network requests or heavy computations (like generating images) in the hook. You can check for `process.env.NODE_ENV === 'production'` for conditional logic.
 :::
 
 ```ts

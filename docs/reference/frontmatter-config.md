@@ -86,7 +86,7 @@ type HeadConfig =
 
 The following frontmatter options are only applicable when using the default theme.
 
-### layout <Badge type="info" text="default theme only" />
+### layout
 
 - Type: `doc | home | page`
 - Default: `doc`
@@ -103,15 +103,41 @@ layout: doc
 ---
 ```
 
-### hero <Badge type="info" text="default theme only" /> <Badge type="info" text="Home page only" />
+### hero <Badge type="info" text="home page only" />
 
 Defines contents of home hero section when `layout` is set to `home`. More details in [Default Theme: Home Page](./default-theme-home-page).
 
-### features <Badge type="info" text="default theme only" /> <Badge type="info" text="Home page only" />
+### features <Badge type="info" text="home page only" />
 
 Defines items to display in features section when `layout` is set to `home`. More details in [Default Theme: Home Page](./default-theme-home-page).
 
-### aside <Badge type="info" text="default theme only" />
+### navbar
+
+- Type: `boolean`
+- Default: `true`
+
+Whether to display [navbar](./default-theme-nav).
+
+```yaml
+---
+navbar: false
+---
+```
+
+### sidebar
+
+- Type: `boolean`
+- Default: `true`
+
+Whether to display [sidebar](./default-theme-sidebar).
+
+```yaml
+---
+sidebar: false
+---
+```
+
+### aside
 
 - Type: `boolean | 'left'`
 - Default: `true`
@@ -128,19 +154,19 @@ aside: false
 ---
 ```
 
-### outline <Badge type="info" text="default theme only" />
+### outline
 
 - Type: `number | [number, number] | 'deep' | false`
 - Default: `2`
 
-The levels of header in the outline to display for the page. It's same as [config.themeConfig.outline](./default-theme-config#outline), and it overrides the theme config.
+The levels of header in the outline to display for the page. It's same as [config.themeConfig.outline.level](./default-theme-config#outline), and it overrides the value set in site-level config.
 
-### lastUpdated <Badge type="info" text="default theme only" />
+### lastUpdated
 
-- Type: `boolean`
+- Type: `boolean | Date`
 - Default: `true`
 
-Whether to display [Last Updated](./default-theme-last-updated) text in the footer of the current page.
+Whether to display [last updated](./default-theme-last-updated) text in the footer of the current page. If a datetime is specified, it will be displayed instead of the last git modified timestamp.
 
 ```yaml
 ---
@@ -148,15 +174,48 @@ lastUpdated: false
 ---
 ```
 
-### editLink <Badge type="info" text="default theme only" />
+### editLink
 
 - Type: `boolean`
 - Default: `true`
 
-Whether to display [Edit Link](./default-theme-edit-link) in the footer of the current page.
+Whether to display [edit link](./default-theme-edit-link) in the footer of the current page.
 
 ```yaml
 ---
 editLink: false
 ---
+```
+
+### footer
+
+- Type: `boolean`
+- Default: `true`
+
+Whether to display [footer](./default-theme-footer).
+
+```yaml
+---
+footer: false
+---
+```
+
+### pageClass
+
+- Type: `string`
+
+Add extra class name to a specific page.
+
+```yaml
+---
+pageClass: custom-page-class
+---
+```
+
+Then you can customize styles of this specific page in `.vitepress/theme/custom.css` file:
+
+```css
+.custom-page-class {
+  /* page-specific styles */
+}
 ```

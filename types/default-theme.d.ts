@@ -1,7 +1,9 @@
-import { type ComputedRef, type Ref } from 'vue'
+import type MarkdownIt from 'markdown-it'
+import type { Options as MiniSearchOptions } from 'minisearch'
+import type { ComputedRef, Ref } from 'vue'
 import type { DocSearchProps } from './docsearch.js'
 import type { LocalSearchTranslations } from './local-search.js'
-import type { PageData } from './shared.js'
+import type { MarkdownEnv, PageData } from './shared.js'
 
 export namespace DefaultTheme {
   export interface Config {
@@ -11,6 +13,11 @@ export namespace DefaultTheme {
      * @example '/logo.svg'
      */
     logo?: ThemeableImage
+
+    /**
+     * Overrides the link of the site logo.
+     */
+    logoLink?: string
 
     /**
      * Custom site title in navbar. If the value is undefined,
@@ -133,6 +140,11 @@ export namespace DefaultTheme {
      * @default false
      */
     externalLinkIcon?: boolean
+
+    /**
+     * Customize text of 404 page.
+     */
+    notFound?: NotFoundOptions
   }
 
   // nav -----------------------------------------------------------------------
@@ -142,6 +154,7 @@ export namespace DefaultTheme {
   export interface NavItemWithLink {
     text: string
     link: string
+    items?: never
 
     /**
      * `activeMatch` is expected to be a regex string. We can't use actual
@@ -172,18 +185,25 @@ export namespace DefaultTheme {
 
   export type ThemeableImage =
     | string
-    | { src: string; alt?: string }
-    | { light: string; dark: string; alt?: string }
+    | { src: string; alt?: string; [prop: string]: any }
+    | { light: string; dark: string; alt?: string; [prop: string]: any }
 
   export type FeatureIcon =
     | string
-    | { src: string; alt?: string; width?: string; height: string }
+    | {
+        src: string
+        alt?: string
+        width?: string
+        height?: string
+        wrap?: boolean
+      }
     | {
         light: string
         dark: string
         alt?: string
         width?: string
-        height: string
+        height?: string
+        wrap?: boolean
       }
 
   // sidebar -------------------------------------------------------------------
@@ -191,7 +211,7 @@ export namespace DefaultTheme {
   export type Sidebar = SidebarItem[] | SidebarMulti
 
   export interface SidebarMulti {
-    [path: string]: SidebarItem[]
+    [path: string]: SidebarItem[] | { items: SidebarItem[]; base: string }
   }
 
   export type SidebarItem = {
@@ -218,6 +238,19 @@ export namespace DefaultTheme {
      * If `false`, group is collapsible but expanded by default
      */
     collapsed?: boolean
+
+    /**
+     * Base path for the children items.
+     */
+    base?: string
+
+    /**
+     * Customize text that appears on the footer of previous/next page.
+     */
+    docFooterText?: string
+
+    rel?: string
+    target?: string
   }
 
   /**
@@ -290,6 +323,7 @@ export namespace DefaultTheme {
     | 'mastodon'
     | 'slack'
     | 'twitter'
+    | 'x'
     | 'youtube'
     | { svg: string }
 
@@ -325,8 +359,18 @@ export namespace DefaultTheme {
   export interface LocalSearchOptions {
     /**
      * @default false
+     * @deprecated Use `detailedView: false` instead.
      */
     disableDetailedView?: boolean
+
+    /**
+     * If `true`, the detailed view will be enabled by default.
+     * If `false`, the detailed view will be disabled.
+     * If `'auto'`, the detailed view will be disabled by default, but can be enabled by the user.
+     *
+     * @default 'auto'
+     */
+    detailedView?: boolean | 'auto'
 
     /**
      * @default false
@@ -335,12 +379,32 @@ export namespace DefaultTheme {
 
     translations?: LocalSearchTranslations
     locales?: Record<string, Partial<Omit<LocalSearchOptions, 'locales'>>>
+
+    miniSearch?: {
+      /**
+       * @see https://lucaong.github.io/minisearch/modules/_minisearch_.html#options
+       */
+      options?: Pick<
+        MiniSearchOptions,
+        'extractField' | 'tokenize' | 'processTerm'
+      >
+      /**
+       * @see https://lucaong.github.io/minisearch/modules/_minisearch_.html#searchoptions-1
+       */
+      searchOptions?: MiniSearchOptions['searchOptions']
+    }
+
+    /**
+     * Allows transformation of content before indexing (node only)
+     * Return empty string to skip indexing
+     */
+    _render?: (src: string, env: MarkdownEnv, md: MarkdownIt) => string
   }
 
   // algolia -------------------------------------------------------------------
 
   /**
-   * The Algolia search options. Partially copied from
+   * Algolia search options. Partially copied from
    * `@docsearch/react/dist/esm/DocSearch.d.ts`
    */
   export interface AlgoliaSearchOptions extends DocSearchProps {
@@ -371,6 +435,43 @@ export namespace DefaultTheme {
      * @default
      * { dateStyle: 'short', timeStyle: 'short' }
      */
-    formatOptions?: Intl.DateTimeFormatOptions
+    formatOptions?: Intl.DateTimeFormatOptions & { forceLocale?: boolean }
+  }
+
+  // not found -----------------------------------------------------------------
+
+  export interface NotFoundOptions {
+    /**
+     * Set custom not found message.
+     *
+     * @default 'PAGE NOT FOUND'
+     */
+    title?: string
+
+    /**
+     * Set custom not found description.
+     *
+     * @default "But if you don't change your direction, and if you keep looking, you may end up where you are heading."
+     */
+    quote?: string
+
+    /**
+     * Set aria label for home link.
+     *
+     * @default 'go to home'
+     */
+    linkLabel?: string
+
+    /**
+     * Set custom home link text.
+     *
+     * @default 'Take me home'
+     */
+    linkText?: string
+
+    /**
+     * @default '404'
+     */
+    code?: string
   }
 }

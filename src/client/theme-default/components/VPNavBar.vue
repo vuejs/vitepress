@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { useWindowScroll } from '@vueuse/core'
-import { useSidebar } from 'vitepress/theme'
-import { computed } from 'vue'
+import { ref, watchPostEffect } from 'vue'
+import { useData } from '../composables/data'
+import { useSidebar } from '../composables/sidebar'
 import VPNavBarAppearance from './VPNavBarAppearance.vue'
 import VPNavBarExtra from './VPNavBarExtra.vue'
 import VPNavBarHamburger from './VPNavBarHamburger.vue'
@@ -19,13 +20,19 @@ defineEmits<{
   (e: 'toggle-screen'): void
 }>()
 
+// @ts-ignore
 const { y } = useWindowScroll()
 const { hasSidebar } = useSidebar()
+const { frontmatter } = useData()
 
-const classes = computed(() => ({
-  'has-sidebar': hasSidebar.value,
-  fill: y.value > 0
-}))
+const classes = ref<Record<string, boolean>>({})
+
+watchPostEffect(() => {
+  classes.value = {
+    'has-sidebar': hasSidebar.value,
+    top: frontmatter.value.layout === 'home' && y.value === 0,
+  }
+})
 </script>
 
 <template>
@@ -77,7 +84,7 @@ const classes = computed(() => ({
     padding: 0;
   }
 
-  .VPNavBar.fill:not(.has-sidebar) {
+  .VPNavBar:not(.has-sidebar):not(.top) {
     border-bottom-color: var(--vp-c-gutter);
     background-color: var(--vp-nav-bg-color);
   }
@@ -162,14 +169,13 @@ const classes = computed(() => ({
 }
 
 @media (min-width: 960px) {
-  .VPNavBar.has-sidebar .content-body,
-  .VPNavBar.fill .content-body {
+  .VPNavBar:not(.top) .content-body{
     position: relative;
     background-color: var(--vp-nav-bg-color);
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .content-body {
     column-gap: 0.5rem;
   }
