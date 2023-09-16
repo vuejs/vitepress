@@ -216,7 +216,6 @@ export interface SiteConfig<ThemeConfig = any>
   > {
   root: string
   srcDir: string
-  srcExclude: string[]
   site: SiteData<ThemeConfig>
   configPath: string | undefined
   configDeps: string[]

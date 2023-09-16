@@ -106,8 +106,7 @@ export function createContentLoader<T = ContentData[]>(
         // the loader is being called directly, do a fresh glob
         files = (
           await glob(pattern, {
-            cwd: config.srcDir,
-            ignore: ['**/node_modules/**', '**/dist/**', ...config.srcExclude]
+            ignore: ['**/node_modules/**', '**/dist/**']
           })
         ).sort()
       }
