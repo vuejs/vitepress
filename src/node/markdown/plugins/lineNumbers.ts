@@ -19,7 +19,7 @@ export const lineNumberPlugin = (md: MarkdownIt, enable = false) => {
     }
 
     let startLineNumber = 1
-    const matchStartLineNumber = info.match(/:line-numbers=(\d*)/)
+    const matchStartLineNumber = info.match(/=(\d*)/)
     if (matchStartLineNumber && matchStartLineNumber[1]) {
       startLineNumber = parseInt(matchStartLineNumber[1])
     }
