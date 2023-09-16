@@ -28,12 +28,6 @@ import { webFontsPlugin } from './plugins/webFontsPlugin'
 import { slash, type PageDataPayload } from './shared'
 import { deserializeFunctions, serializeFunctions } from './utils/fnSerialize'
 
-declare module 'vite' {
-  interface UserConfig {
-    vitepress?: SiteConfig
-  }
-}
-
 const themeRE = /\/\.vitepress\/theme\/index\.(m|c)?(j|t)s$/
 const hashRE = /\.(\w+)\.js$/
 const staticInjectMarkerRE =

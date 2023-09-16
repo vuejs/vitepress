@@ -37,12 +37,16 @@ const depToLoaderModuleIdMap: Record<string, string> = Object.create(null)
 let idToPendingPromiseMap: Record<string, Promise<string> | undefined> =
   Object.create(null)
 let isBuild = false
+let srcDir = ''
+let srcExclude: string[] = []
 
 export const staticDataPlugin: Plugin = {
   name: 'vitepress:data',
 
   configResolved(config) {
     isBuild = config.command === 'build'
+    srcDir = config.vitepress!.srcDir
+    srcExclude = config.vitepress!.srcExclude
   },
 
   configureServer(_server) {
@@ -99,8 +103,9 @@ export const staticDataPlugin: Plugin = {
       let watchedFiles
       if (watch) {
         watchedFiles = (
-          await glob(watch, {
-            ignore: ['**/node_modules/**', '**/dist/**']
+          await glob(['**.md'], {
+            cwd: srcDir,
+            ignore: ['**/node_modules/**', '**/dist/**', ...srcExclude]
           })
         ).sort()
       }
