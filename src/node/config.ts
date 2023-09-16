@@ -255,24 +255,25 @@ function resolveSiteDataHead(userConfig?: UserConfig): HeadConfig[] {
         ? userConfig.appearance.initialValue ?? 'auto'
         : 'auto'
 
-    head.push(
-      [
-        'script',
-        { id: 'check-dark-light' },
-        `;(() => {
-          const preference = localStorage.getItem('${APPEARANCE_KEY}') || '${fallbackPreference}'
-          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-          if (!preference || preference === 'auto' ? prefersDark : preference === 'dark')
-            document.documentElement.classList.add('dark')
-        })()`
-      ],
-      [
-        'script',
-        { id: 'check-mac-os' },
-        `document.documentElement.classList.toggle('mac', /Mac|iPhone|iPod|iPad/i.test(navigator.platform))`
-      ]
-    )
+    head.push([
+      'script',
+      { id: 'check-dark-mode' },
+      fallbackPreference === 'force-dark'
+        ? `document.documentElement.classList.add('dark')`
+        : `;(() => {
+            const preference = localStorage.getItem('${APPEARANCE_KEY}') || '${fallbackPreference}'
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+            if (!preference || preference === 'auto' ? prefersDark : preference === 'dark')
+              document.documentElement.classList.add('dark')
+          })()`
+    ])
   }
+
+  head.push([
+    'script',
+    { id: 'check-mac-os' },
+    `document.documentElement.classList.toggle('mac', /Mac|iPhone|iPod|iPad/i.test(navigator.platform))`
+  ])
 
   return head
 }

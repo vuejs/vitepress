@@ -2,7 +2,7 @@
 import { ref, computed, watchEffect, onMounted } from 'vue'
 import { useData } from '../composables/data'
 
-const { theme, page, frontmatter } = useData()
+const { theme, page, frontmatter, lang } = useData()
 
 const date = computed(
   () => new Date(frontmatter.value.lastUpdated ?? page.value.lastUpdated)
@@ -15,7 +15,7 @@ const datetime = ref('')
 onMounted(() => {
   watchEffect(() => {
     datetime.value = new Intl.DateTimeFormat(
-      undefined,
+      theme.value.lastUpdated?.formatOptions?.forceLocale ? lang.value : undefined,
       theme.value.lastUpdated?.formatOptions ?? {
         dateStyle: 'short',
         timeStyle: 'short'

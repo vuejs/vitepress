@@ -72,6 +72,7 @@ export interface UserConfig<ThemeConfig = any>
   appearance?:
     | boolean
     | 'dark'
+    | 'force-dark'
     | (Omit<UseDarkOptions, 'initialValue'> & { initialValue?: 'dark' })
   lastUpdated?: boolean
   contentProps?: Record<string, any>
