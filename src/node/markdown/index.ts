@@ -56,6 +56,7 @@ export interface MarkdownOptions extends MarkdownIt.Options {
   externalLinks?: Record<string, string>
   cache?: boolean
   component?: ComponentPluginOptions
+  math?: boolean | any
 }
 
 export type MarkdownRenderer = MarkdownIt
@@ -148,6 +149,19 @@ export const createMarkdownRenderer = async (
     .use(tocPlugin, {
       ...options.toc
     } as TocPluginOptions)
+
+  if (options.math) {
+    try {
+      const mathPlugin = await import('markdown-it-mathjax3')
+      md.use(mathPlugin.default ?? mathPlugin, {
+        ...(typeof options.math === 'boolean' ? {} : options.math)
+      })
+    } catch (error) {
+      throw new Error(
+        'You need to install `markdown-it-mathjax3` to use math support.'
+      )
+    }
+  }
 
   // apply user config
   if (options.config) {

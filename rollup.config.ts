@@ -22,6 +22,7 @@ const r = (p: string) => resolve(ROOT, '..', p)
 
 const external = [
   ...Object.keys(pkg.dependencies),
+  ...Object.keys(pkg.peerDependencies),
   ...builtinModules.flatMap((m) =>
     m.includes('punycode') ? [] : [m, `node:${m}`]
   )
