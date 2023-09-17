@@ -161,7 +161,7 @@ export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
       includes.push(src)
     }
 
-    const isAFile = fs.lstatSync(src).isFile()
+    const isAFile = fs.statSync(src).isFile()
     if (!fs.existsSync(src) || !isAFile) {
       token.content = isAFile
         ? `Code snippet path not found: ${src}`
