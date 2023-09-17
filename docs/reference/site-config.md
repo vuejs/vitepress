@@ -458,18 +458,7 @@ Configure Markdown parser options. VitePress uses [Markdown-it](https://github.c
 
 ```js
 export default {
-  markdown: {
-    theme: 'material-theme-palenight',
-    lineNumbers: true,
-
-    // adjust how header anchors are generated,
-    // useful for integrating with tools that use different conventions
-    anchor: {
-      slugify(str) {
-        return encodeURIComponent(str)
-      }
-    }
-  }
+  markdown: {...}
 }
 ```
 
