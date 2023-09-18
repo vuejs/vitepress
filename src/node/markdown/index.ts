@@ -163,6 +163,21 @@ export const createMarkdownRenderer = async (
     }
   }
 
+  // custom rules
+  const defaultRender = md.renderer.rules.link_open || function (tokens, idx, options, env, self) {
+    return self.renderToken(tokens, idx, options);
+  };
+
+  md.renderer.rules.heading_open = function (tokens, idx, options, env, self) { //
+    let token = tokens[idx];
+
+    if (['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(token.tag)) {
+      token.attrPush(['aria-label', tokens[idx+1].content])
+    }
+
+    return defaultRender(tokens, idx, options, env, self);
+  };
+
   // apply user config
   if (options.config) {
     options.config(md)
