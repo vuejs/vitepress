@@ -320,7 +320,8 @@ export async function createVitePressPlugin(
 
     generateBundle(_options, bundle) {
       if (ssr) {
-        if (config.ssr?.format === 'esm') {
+        // @ts-ignore will be removed in vite 5
+        if (config.ssr?.format !== 'cjs') {
           this.emitFile({
             type: 'asset',
             fileName: 'package.json',
