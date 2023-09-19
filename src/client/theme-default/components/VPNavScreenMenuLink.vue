@@ -4,7 +4,7 @@ import { inject } from 'vue'
 import VPLink from './VPLink.vue'
 
 defineProps<{
-  item: DefaultTheme.NavItemWithLink
+  item: DefaultTheme.NavItem
 }>()
 
 const closeScreen = inject('close-screen') as () => void

@@ -4,7 +4,7 @@ import VPNavScreenMenuGroupLink from './VPNavScreenMenuGroupLink.vue'
 
 defineProps<{
   text?: string
-  items: DefaultTheme.NavItemWithLink[]
+  items: DefaultTheme.NavItem[]
 }>()
 </script>
 

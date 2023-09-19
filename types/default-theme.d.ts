@@ -149,12 +149,10 @@ export namespace DefaultTheme {
 
   // nav -----------------------------------------------------------------------
 
-  export type NavItem = NavItemWithLink | NavItemWithChildren
-
-  export interface NavItemWithLink {
+  export interface NavItem {
     text: string
-    link: string
-    items?: never
+    link?: string
+    items?: NavItem[]
 
     /**
      * `activeMatch` is expected to be a regex string. We can't use actual
@@ -163,22 +161,6 @@ export namespace DefaultTheme {
     activeMatch?: string
     target?: string
     rel?: string
-  }
-
-  export interface NavItemChildren {
-    text?: string
-    items: NavItemWithLink[]
-  }
-
-  export interface NavItemWithChildren {
-    text?: string
-    items: (NavItemChildren | NavItemWithLink)[]
-
-    /**
-     * `activeMatch` is expected to be a regex string. We can't use actual
-     * RegExp object here because it isn't serializable
-     */
-    activeMatch?: string
   }
 
   // image ---------------------------------------------------------------------

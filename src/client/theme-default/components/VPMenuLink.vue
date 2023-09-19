@@ -5,7 +5,7 @@ import { isActive } from '../../shared'
 import VPLink from './VPLink.vue'
 
 defineProps<{
-  item: DefaultTheme.NavItemWithLink
+  item: DefaultTheme.NavItem
 }>()
 
 const { page } = useData()

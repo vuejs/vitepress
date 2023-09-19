@@ -6,21 +6,16 @@ import { isActive } from '../../shared'
 import VPFlyout from './VPFlyout.vue'
 
 const props = defineProps<{
-  item: DefaultTheme.NavItemWithChildren
+  item: DefaultTheme.NavItem
 }>()
 
 const { page } = useData()
 
 const isChildActive = (navItem: DefaultTheme.NavItem) => {
-  if ('link' in navItem) {
-    return isActive(
-      page.value.relativePath,
-      navItem.link,
-      !!props.item.activeMatch
-    )
-  } else {
-    return navItem.items.some(isChildActive)
-  }
+  return (
+    isActive(page.value.relativePath, navItem.link, !!props.item.activeMatch) ||
+    navItem.items?.some(isChildActive)
+  )
 }
 
 const childrenActive = computed(() => isChildActive(props.item))
@@ -30,11 +25,9 @@ const childrenActive = computed(() => isChildActive(props.item))
   <VPFlyout
     :class="{
       VPNavBarMenuGroup: true,
-      active: isActive(
-        page.relativePath,
-        item.activeMatch,
-        !!item.activeMatch
-      ) || childrenActive
+      active:
+        isActive(page.relativePath, item.activeMatch, !!item.activeMatch) ||
+        childrenActive
     }"
     :button="item.text"
     :items="item.items"
