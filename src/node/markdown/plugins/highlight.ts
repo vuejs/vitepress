@@ -153,7 +153,7 @@ export async function highlight(
       )
     }
 
-    str = removeMustache(str).trim()
+    str = removeMustache(str).trimEnd()
 
     const codeToHtml = (theme: IThemeRegistration) => {
       const res =
