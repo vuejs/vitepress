@@ -1,3 +1,16 @@
+# [1.0.0-rc.15](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.14...v1.0.0-rc.15) (2023-09-20)
+
+### Bug Fixes
+
+- **build:** allow using symlinks with code snippets ([f186901](https://github.com/vuejs/vitepress/commit/f186901a5157c904b3593089d72f2bad3530e7a3)), closes [#1617](https://github.com/vuejs/vitepress/issues/1617)
+- **build:** handle importing code snippets not having an extension ([#2978](https://github.com/vuejs/vitepress/issues/2978)) ([e99aaad](https://github.com/vuejs/vitepress/commit/e99aaad9cf8ab3661e609cd2cf6ac7da57cb7eb5))
+- **build:** indentation being lost in code blocks ([5bb6bb0](https://github.com/vuejs/vitepress/commit/5bb6bb0a147ad43ca2d7069aad50fb9c6c2c11d6)), closes [#2988](https://github.com/vuejs/vitepress/issues/2988)
+- **compat:** reset setRawMode on process exit ([#2994](https://github.com/vuejs/vitepress/issues/2994)) ([70fe47c](https://github.com/vuejs/vitepress/commit/70fe47c1dd69d39a40c83e919324d2b71f19bdaa))
+
+### Features
+
+- allow passing fast glob options to `createContentLoader` ([4f9a60b](https://github.com/vuejs/vitepress/commit/4f9a60b0cfa2fa841465f6e8cc5f77ed3e023817)), closes [#2985](https://github.com/vuejs/vitepress/issues/2985)
+
 # [1.0.0-rc.14](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.13...v1.0.0-rc.14) (2023-09-16)
 
 ### Bug Fixes
