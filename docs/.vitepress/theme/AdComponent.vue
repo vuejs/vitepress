@@ -4,7 +4,7 @@ import icon from './documate.vue'
 
 <template>
   <div class="ad-component">
-    <a target="_blank" href="https://documate.site/">
+    <a target="_blank" href="https://github.com/aircodelabs/documate">
       <icon class="icon"/>
       <span>Embed AI chat in your VitePress using your own content. Open-source.</span>
       <span class="cta">Try now →</span>
