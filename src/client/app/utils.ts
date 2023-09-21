@@ -19,7 +19,9 @@ export { inBrowser } from '../shared'
  * Join two paths by resolving the slash collision.
  */
 export function joinPath(base: string, path: string) {
-  return `${base}${path}`.replace(/\/+/g, '/')
+  return `${base}${path}`
+    .replace(/\/+/g, '/')
+    .replace(/\bindex(?:\.html)?$/, '')
 }
 
 /**
