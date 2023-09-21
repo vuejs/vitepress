@@ -41,15 +41,13 @@ function createContainer(
       render(tokens, idx) {
         const token = tokens[idx]
         const info = token.info.trim().slice(klass.length).trim()
+        const attrs = md.renderer.renderAttrs(token)
         if (token.nesting === 1) {
           const title = md.renderInline(info || defaultTitle)
-          if (klass === 'details') {
-            return `<details class="${klass} custom-block"><summary>${title}</summary>\n`
-          }
-          return `<div class="${klass} custom-block"><p class="custom-block-title">${title}</p>\n`
-        } else {
-          return klass === 'details' ? `</details>\n` : `</div>\n`
-        }
+          if (klass === 'details')
+            return `<details class="${klass} custom-block"${attrs}><summary>${title}</summary>\n`
+          return `<div class="${klass} custom-block"${attrs}><p class="custom-block-title">${title}</p>\n`
+        } else return klass === 'details' ? `</details>\n` : `</div>\n`
       }
     }
   ]
@@ -74,13 +72,22 @@ function createCodeGroup(options: Options): ContainerArgs {
             );
             ++i
           ) {
-            if (tokens[i].type === 'fence' && tokens[i].tag === 'code') {
-              const title = extractTitle(tokens[i].info)
-              const id = nanoid(7)
-              tabs += `<input type="radio" name="group-${name}" id="tab-${id}" ${checked}><label for="tab-${id}">${title}</label>`
+            const isHtml = tokens[i].type === 'html_block'
 
-              if (checked) {
-                tokens[i].info += ' active'
+            if (
+              (tokens[i].type === 'fence' && tokens[i].tag === 'code') ||
+              isHtml
+            ) {
+              const title = extractTitle(
+                isHtml ? tokens[i].content : tokens[i].info,
+                isHtml
+              )
+
+              if (title) {
+                const id = nanoid(7)
+                tabs += `<input type="radio" name="group-${name}" id="tab-${id}" ${checked}><label for="tab-${id}">${title}</label>`
+
+                if (checked && !isHtml) tokens[i].info += ' active'
                 checked = ''
               }
             }

@@ -4,7 +4,7 @@ import { withBase } from 'vitepress'
 import { useData } from './composables/data'
 import { useLangs } from './composables/langs'
 
-const { site } = useData()
+const { site, theme } = useData()
 const { localeLinks } = useLangs({ removeCurrent: false })
 
 const root = ref('/')
@@ -22,16 +22,23 @@ onMounted(() => {
 
 <template>
   <div class="NotFound">
-    <p class="code">404</p>
-    <h1 class="title">PAGE NOT FOUND</h1>
+    <p class="code">{{ theme.notFound?.code ?? '404' }}</p>
+    <h1 class="title">{{ theme.notFound?.title ?? 'PAGE NOT FOUND' }}</h1>
     <div class="divider" />
     <blockquote class="quote">
-      But if you don't change your direction, and if you keep looking, you may end up where you are heading.
+      {{
+        theme.notFound?.quote ??
+        "But if you don't change your direction, and if you keep looking, you may end up where you are heading."
+      }}
     </blockquote>
 
     <div class="action">
-      <a class="link" :href="withBase(root)" aria-label="go to home">
-        Take me home
+      <a
+        class="link"
+        :href="withBase(root)"
+        :aria-label="theme.notFound?.linkLabel ?? 'go to home'"
+      >
+        {{ theme.notFound?.linkText ?? 'Take me home' }}
       </a>
     </div>
   </div>
@@ -84,17 +91,19 @@ onMounted(() => {
 
 .link {
   display: inline-block;
-  border: 1px solid var(--vp-c-brand);
+  border: 1px solid var(--vp-c-brand-1);
   border-radius: 16px;
   padding: 3px 16px;
   font-size: 14px;
   font-weight: 500;
-  color: var(--vp-c-brand);
-  transition: border-color 0.25s, color 0.25s;
+  color: var(--vp-c-brand-1);
+  transition:
+    border-color 0.25s,
+    color 0.25s;
 }
 
 .link:hover {
-  border-color: var(--vp-c-brand-dark);
-  color: var(--vp-c-brand-dark);
+  border-color: var(--vp-c-brand-2);
+  color: var(--vp-c-brand-2);
 }
 </style>

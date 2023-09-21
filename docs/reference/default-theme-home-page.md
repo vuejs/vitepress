@@ -74,7 +74,7 @@ interface HeroAction {
 
 ### Customizing the name color
 
-VitePress uses the brand color (`--vp-c-brand`) for the `name`. However, you may customize this color by overriding `--vp-home-hero-name-color` variable.
+VitePress uses the brand color (`--vp-c-brand-1`) for the `name`. However, you may customize this color by overriding `--vp-home-hero-name-color` variable.
 
 ```css
 :root {
@@ -139,6 +139,11 @@ interface Feature {
   //
   // e.g. `Learn more`, `Visit page`, etc.
   linkText?: string
+
+  // Link rel attribute for the `link` option.
+  //
+  // e.g. `external`
+  rel?: string
 }
 
 type FeatureIcon =

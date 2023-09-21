@@ -74,7 +74,7 @@ const pageName = computed(() =>
   display: none;
 }
 
-@media (min-width: 960px) and (max-width: 1280px) {
+@media (min-width: 960px) and (max-width: 1279px) {
   .VPDoc .VPDocOutlineDropdown {
     display: block;
   }
@@ -205,5 +205,6 @@ const pageName = computed(() =>
 
 .external-link-icon-enabled :is(.vp-doc a[href*='://'], .vp-doc a[target='_blank'])::after {
   content: '';
+  color: currentColor;
 }
 </style>

@@ -9,24 +9,53 @@ import { createMarkdownRenderer, type MarkdownRenderer } from './markdown'
 export interface ContentOptions<T = ContentData[]> {
   /**
    * Include src?
-   * default: false
+   * @default false
    */
   includeSrc?: boolean
+
   /**
    * Render src to HTML and include in data?
-   * default: false
+   * @default false
    */
   render?: boolean
+
   /**
-   * Whether to parse and include excerpt (rendered as HTML)
-   * default: false
+   * If `boolean`, whether to parse and include excerpt? (rendered as HTML)
+   *
+   * If `function`, control how the excerpt is extracted from the content.
+   *
+   * If `string`, define a custom separator to be used for extracting the
+   * excerpt. Default separator is `---` if `excerpt` is `true`.
+   *
+   * @see https://github.com/jonschlinkert/gray-matter#optionsexcerpt
+   * @see https://github.com/jonschlinkert/gray-matter#optionsexcerpt_separator
+   *
+   * @default false
    */
-  excerpt?: boolean
+  excerpt?:
+    | boolean
+    | ((
+        file: {
+          data: { [key: string]: any }
+          content: string
+          excerpt?: string
+        },
+        options?: any
+      ) => void)
+    | string
+
   /**
    * Transform the data. Note the data will be inlined as JSON in the client
    * bundle if imported from components or markdown files.
    */
   transform?: (data: ContentData[]) => T | Promise<T>
+
+  /**
+   * Options to pass to `fast-glob`.
+   * You'll need to manually specify `node_modules` and `dist` in
+   * `globOptions.ignore` if you've overridden it.
+   */
+  globOptions?: glob.Options
 }
 
 export interface ContentData {
@@ -50,7 +79,8 @@ export function createContentLoader<T = ContentData[]>(
     includeSrc,
     render,
     excerpt: renderExcerpt,
-    transform
+    transform,
+    globOptions
   }: ContentOptions<T> = {}
 ): {
   watch: string | string[]
@@ -84,7 +114,8 @@ export function createContentLoader<T = ContentData[]>(
         // the loader is being called directly, do a fresh glob
         files = (
           await glob(pattern, {
-            ignore: ['**/node_modules/**', '**/dist/**']
+            ignore: ['**/node_modules/**', '**/dist/**'],
+            ...globOptions
           })
         ).sort()
       }
@@ -110,15 +141,18 @@ export function createContentLoader<T = ContentData[]>(
           raw.push(cached.data)
         } else {
           const src = fs.readFileSync(file, 'utf-8')
-          const { data: frontmatter, excerpt } = matter(src, {
-            excerpt: true
-          })
+          const { data: frontmatter, excerpt } = matter(
+            src,
+            // @ts-expect-error gray-matter types are wrong
+            typeof renderExcerpt === 'string'
+              ? { excerpt_separator: renderExcerpt }
+              : { excerpt: renderExcerpt }
+          )
           const url =
             '/' +
-            normalizePath(path.relative(config.root, file)).replace(
-              /\.md$/,
-              config.cleanUrls ? '' : '.html'
-            )
+            normalizePath(path.relative(config.srcDir, file))
+              .replace(/(^|\/)index\.md$/, '$1')
+              .replace(/\.md$/, config.cleanUrls ? '' : '.html')
           const html = render ? md.render(src) : undefined
           const renderedExcerpt = renderExcerpt
             ? excerpt && md.render(excerpt)

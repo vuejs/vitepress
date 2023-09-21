@@ -1,8 +1,37 @@
 import fs from 'fs-extra'
-import path from 'path'
 import type MarkdownIt from 'markdown-it'
 import type { RuleBlock } from 'markdown-it/lib/parser_block'
-import type { MarkdownEnv } from '../env'
+import path from 'path'
+import type { MarkdownEnv } from '../../shared'
+
+/**
+ * raw path format: "/path/to/file.extension#region {meta} [title]"
+ *    where #region, {meta} and [title] are optional
+ *    meta can be like '1,2,4-6 lang', 'lang' or '1,2,4-6'
+ *    lang can contain special characters like C++, C#, F#, etc.
+ *    path can be relative to the current file or absolute
+ *    file extension is optional
+ *    path can contain spaces and dots
+ *
+ * captures: ['/path/to/file.extension', 'extension', '#region', '{meta}', '[title]']
+ */
+export const rawPathRegexp =
+  /^(.+?(?:(?:\.([a-z0-9]+))?))(?:(#[\w-]+))?(?: ?(?:{(\d+(?:[,-]\d+)*)? ?(\S+)?}))? ?(?:\[(.+)\])?$/
+
+export function rawPathToToken(rawPath: string) {
+  const [
+    filepath = '',
+    extension = '',
+    region = '',
+    lines = '',
+    lang = '',
+    rawTitle = ''
+  ] = (rawPathRegexp.exec(rawPath) || []).slice(1)
+
+  const title = rawTitle || filepath.split('/').pop() || ''
+
+  return { filepath, extension, region, lines, lang, title }
+}
 
 export function dedent(text: string): string {
   const lines = text.split('\n')
@@ -91,32 +120,14 @@ export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
     const start = pos + 3
     const end = state.skipSpacesBack(max, pos)
 
-    /**
-     * raw path format: "/path/to/file.extension#region {meta}"
-     *    where #region and {meta} are optional
-     *    and meta can be like '1,2,4-6 lang', 'lang' or '1,2,4-6'
-     *
-     * captures: ['/path/to/file.extension', 'extension', '#region', '{meta}', '[title]']
-     */
-    const rawPathRegexp =
-      /^(.+(?:\.([a-z0-9]+)))(?:(#[\w-]+))?(?: ?(?:{(\d+(?:[,-]\d+)*)? ?(\S+)?}))? ?(?:\[(.+)\])?$/
-
     const rawPath = state.src
       .slice(start, end)
       .trim()
       .replace(/^@/, srcDir)
       .trim()
 
-    const [
-      filepath = '',
-      extension = '',
-      region = '',
-      lines = '',
-      lang = '',
-      rawTitle = ''
-    ] = (rawPathRegexp.exec(rawPath) || []).slice(1)
-
-    const title = rawTitle || filepath.split('/').pop() || ''
+    const { filepath, extension, region, lines, lang, title } =
+      rawPathToToken(rawPath)
 
     state.line = startLine + 1
 
@@ -125,10 +136,9 @@ export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
       title ? `[${title}]` : ''
     }`
 
-    const resolvedPath = path.resolve(
-      path.dirname((state.env as MarkdownEnv).path),
-      filepath
-    )
+    const { realPath, path: _path } = state.env as MarkdownEnv
+    const resolvedPath = path.resolve(path.dirname(realPath ?? _path), filepath)
+
     // @ts-ignore
     token.src = [resolvedPath, region.slice(1)]
     token.markup = '```'
@@ -151,7 +161,7 @@ export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
       includes.push(src)
     }
 
-    const isAFile = fs.lstatSync(src).isFile()
+    const isAFile = fs.statSync(src).isFile()
     if (!fs.existsSync(src) || !isAFile) {
       token.content = isAFile
         ? `Code snippet path not found: ${src}`

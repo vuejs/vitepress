@@ -18,9 +18,7 @@ export const DEFAULT_THEME_PATH = join(DIST_CLIENT_PATH, 'theme-default')
 export const SITE_DATA_ID = '@siteData'
 export const SITE_DATA_REQUEST_PATH = '/' + SITE_DATA_ID
 
-const vueRuntimePath = process.env.DEBUG
-  ? 'vue/dist/vue.runtime.esm-browser.js'
-  : 'vue/dist/vue.runtime.esm-browser.prod.js'
+const vueRuntimePath = 'vue/dist/vue.runtime.esm-bundler.js'
 
 export function resolveAliases(
   { root, themeDir }: SiteConfig,

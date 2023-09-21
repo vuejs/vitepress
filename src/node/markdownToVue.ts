@@ -6,7 +6,6 @@ import path from 'path'
 import type { SiteConfig } from './config'
 import {
   createMarkdownRenderer,
-  type MarkdownEnv,
   type MarkdownOptions,
   type MarkdownRenderer
 } from './markdown'
@@ -14,14 +13,14 @@ import {
   EXTERNAL_URL_RE,
   slash,
   type HeadConfig,
+  type MarkdownEnv,
   type PageData
 } from './shared'
 import { getGitTimestamp } from './utils/getGitTimestamp'
+import { processIncludes } from './utils/processIncludes'
 
 const debug = _debug('vitepress:md')
 const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
-const includesRE = /<!--\s*@include:\s*(.*?)\s*-->/g
-const rangeRE = /\{(\d*),(\d*)\}$/
 
 export interface MarkdownCompileResult {
   vueSrc: string
@@ -89,46 +88,15 @@ export async function createMarkdownToVueRenderFn(
 
     // resolve includes
     let includes: string[] = []
-
-    function processIncludes(src: string, file: string): string {
-      return src.replace(includesRE, (m: string, m1: string) => {
-        if (!m1.length) return m
-
-        const range = m1.match(rangeRE)
-        range && (m1 = m1.slice(0, -range[0].length))
-        const atPresent = m1[0] === '@'
-        try {
-          const includePath = atPresent
-            ? path.join(srcDir, m1.slice(m1[1] === '/' ? 2 : 1))
-            : path.join(path.dirname(file), m1)
-          let content = fs.readFileSync(includePath, 'utf-8')
-          if (range) {
-            const [, startLine, endLine] = range
-            const lines = content.split(/\r?\n/)
-            content = lines
-              .slice(
-                startLine ? parseInt(startLine, 10) - 1 : undefined,
-                endLine ? parseInt(endLine, 10) : undefined
-              )
-              .join('\n')
-          }
-          includes.push(slash(includePath))
-          // recursively process includes in the content
-          return processIncludes(content, includePath)
-        } catch (error) {
-          return m // silently ignore error if file is not present
-        }
-      })
-    }
-
-    src = processIncludes(src, fileOrig)
+    src = processIncludes(srcDir, src, fileOrig, includes)
 
     // reset env before render
     const env: MarkdownEnv = {
       path: file,
       relativePath,
       cleanUrls,
-      includes
+      includes,
+      realPath: fileOrig
     }
     const html = md.render(src, env)
     const {

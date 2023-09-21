@@ -9,9 +9,8 @@ import {
 } from '@clack/prompts'
 import fs from 'fs-extra'
 import path from 'path'
-import { black, cyan, bgCyan, bold, yellow } from 'picocolors'
+import { cyan, bold, yellow } from 'picocolors'
 import { fileURLToPath } from 'url'
-// @ts-ignore
 import template from 'lodash.template'
 
 export enum ScaffoldThemeType {
@@ -29,14 +28,22 @@ export interface ScaffoldOptions {
   injectNpmScripts: boolean
 }
 
+const getPackageManger = () => {
+  const name = process.env?.npm_config_user_agent || 'npm'
+  if (name === 'npm') {
+    return 'npm'
+  }
+  return name.split('/')[0]
+}
+
 export async function init() {
-  intro(bgCyan(bold(black(` Welcome to VitePress! `))))
+  intro(bold(cyan('Welcome to VitePress!')))
 
   const options: ScaffoldOptions = await group(
     {
       root: () =>
         text({
-          message: `Where should VitePress initialize the config?`,
+          message: 'Where should VitePress initialize the config?',
           initialValue: './',
           validate(value) {
             // TODO make sure directory is inside
@@ -45,13 +52,13 @@ export async function init() {
 
       title: () =>
         text({
-          message: `Site title:`,
+          message: 'Site title:',
           placeholder: 'My Awesome Project'
         }),
 
       description: () =>
         text({
-          message: `Site description:`,
+          message: 'Site description:',
           placeholder: 'A VitePress Site'
         }),
 
@@ -62,20 +69,20 @@ export async function init() {
             {
               // @ts-ignore
               value: ScaffoldThemeType.Default,
-              label: `Default Theme`,
-              hint: `Out of the box, good-looking docs`
+              label: 'Default Theme',
+              hint: 'Out of the box, good-looking docs'
             },
             {
               // @ts-ignore
               value: ScaffoldThemeType.DefaultCustom,
-              label: `Default Theme + Customization`,
-              hint: `Add custom CSS and layout slots`
+              label: 'Default Theme + Customization',
+              hint: 'Add custom CSS and layout slots'
             },
             {
               // @ts-ignore
               value: ScaffoldThemeType.Custom,
-              label: `Custom Theme`,
-              hint: `Build your own or use external`
+              label: 'Custom Theme',
+              hint: 'Build your own or use external'
             }
           ]
         }),
@@ -85,7 +92,7 @@ export async function init() {
 
       injectNpmScripts: () =>
         confirm({
-          message: `Add VitePress npm scripts to package.json?`
+          message: 'Add VitePress npm scripts to package.json?'
         })
     },
     {
@@ -122,11 +129,21 @@ export function scaffold({
       theme === ScaffoldThemeType.DefaultCustom
   }
 
+  const pkgPath = path.resolve('package.json')
+  const userPkg = fs.existsSync(pkgPath)
+    ? JSON.parse(fs.readFileSync(pkgPath, 'utf-8'))
+    : {}
+
+  const useMjs = userPkg.type !== 'module'
+
   const renderFile = (file: string) => {
     const filePath = path.resolve(templateDir, file)
     let targetPath = path.resolve(resolvedRoot, file)
+    if (useMjs && file === '.vitepress/config.js') {
+      targetPath = targetPath.replace(/\.js$/, '.mjs')
+    }
     if (useTs) {
-      targetPath = targetPath.replace(/\.js$/, '.ts')
+      targetPath = targetPath.replace(/\.(m?)js$/, '.$1ts')
     }
     const src = fs.readFileSync(filePath, 'utf-8')
     const compiled = template(src)(data)
@@ -137,19 +154,19 @@ export function scaffold({
     'index.md',
     'api-examples.md',
     'markdown-examples.md',
-    `.vitepress/config.js`
+    '.vitepress/config.js'
   ]
 
   if (theme === ScaffoldThemeType.DefaultCustom) {
     filesToScaffold.push(
-      `.vitepress/theme/index.js`,
-      `.vitepress/theme/style.css`
+      '.vitepress/theme/index.js',
+      '.vitepress/theme/style.css'
     )
   } else if (theme === ScaffoldThemeType.Custom) {
     filesToScaffold.push(
-      `.vitepress/theme/index.js`,
-      `.vitepress/theme/style.css`,
-      `.vitepress/theme/Layout.vue`
+      '.vitepress/theme/index.js',
+      '.vitepress/theme/style.css',
+      '.vitepress/theme/Layout.vue'
     )
   }
 
@@ -158,18 +175,15 @@ export function scaffold({
   }
 
   const dir =
-    root === './' ? `` : ` ${root.replace(/^\.\//, '').replace(/[/\\]$/, '')}`
-
-  const pkgPath = path.resolve('package.json')
-  const userPkg = fs.existsSync(pkgPath)
-    ? JSON.parse(fs.readFileSync(pkgPath, 'utf-8'))
-    : {}
+    root === './' ? '' : ` ${root.replace(/^\.\//, '').replace(/[/\\]$/, '')}`
+  const gitignorePrefix = dir ? `${dir}/.vitepress` : '.vitepress'
 
   const tips = []
   if (fs.existsSync('.git')) {
     tips.push(
-      `Make sure to add ${cyan(`.vitepress/dist`)} and ` +
-        `${cyan(`.vitepress/cache`)} to your ${cyan(`.gitignore`)} file.`
+      `Make sure to add ${cyan(`${gitignorePrefix}/dist`)} and ` +
+        `${cyan(`${gitignorePrefix}/cache`)} to your ` +
+        `${cyan(`.gitignore`)} file.`
     )
   }
   if (
@@ -193,10 +207,13 @@ export function scaffold({
     }
     Object.assign(userPkg.scripts || (userPkg.scripts = {}), scripts)
     fs.writeFileSync(pkgPath, JSON.stringify(userPkg, null, 2))
-    return `Done! Now run ${cyan(`npm run docs:dev`)} and start writing.${tip}`
+    return `Done! Now run ${cyan(
+      `${getPackageManger()} run docs:dev`
+    )} and start writing.${tip}`
   } else {
+    const execCommand = getPackageManger() === 'bun' ? 'bunx' : 'npx'
     return `You're all set! Now run ${cyan(
-      `npx vitepress dev${dir}`
+      `${execCommand} vitepress dev${dir}`
     )} and start writing.${tip}`
   }
 }

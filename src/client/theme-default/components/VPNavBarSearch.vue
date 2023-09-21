@@ -137,20 +137,11 @@ if (__VP_LOCAL_SEARCH__) {
   })
 }
 
-const metaKey = ref(`'Meta'`)
-
-onMounted(() => {
-  // meta key detect (same logic as in @docsearch/js)
-  metaKey.value = /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)
-    ? `'⌘'`
-    : `'Ctrl'`
-})
-
 const provider = __ALGOLIA__ ? 'algolia' : __VP_LOCAL_SEARCH__ ? 'local' : ''
 </script>
 
 <template>
-  <div class="VPNavBarSearch" :style="{ '--vp-meta-key': metaKey }">
+  <div class="VPNavBarSearch">
     <template v-if="provider === 'local'">
       <VPLocalSearchBox
         v-if="showSearch"
@@ -204,12 +195,12 @@ const provider = __ALGOLIA__ ? 'algolia' : __VP_LOCAL_SEARCH__ ? 'local' : ''
 }
 
 .DocSearch-Form {
-  border: 1px solid var(--vp-c-brand);
+  border: 1px solid var(--vp-c-brand-1);
   background-color: var(--vp-c-white);
 }
 
 .dark .DocSearch-Form {
-  background-color: var(--vp-c-bg-soft-mute);
+  background-color: var(--vp-c-default-soft);
 }
 
 .DocSearch-Screen-Icon > svg {
