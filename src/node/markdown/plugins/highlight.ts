@@ -102,7 +102,7 @@ export async function highlight(
 
     if (lang) {
       const langLoaded = highlighter.getLoadedLanguages().includes(lang as any)
-      if (!langLoaded && lang !== 'ansi' && lang !== 'txt') {
+      if (!langLoaded && !['ansi', 'plaintext', 'txt', 'text'].includes(lang)) {
         logger.warn(
           c.yellow(
             `\nThe language '${lang}' is not loaded, falling back to '${
