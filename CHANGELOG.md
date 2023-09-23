@@ -1,3 +1,9 @@
+# [1.0.0-rc.17](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.16...v1.0.0-rc.17) (2023-09-23)
+
+### Bug Fixes
+
+- snippet hmr not working with rewrites ([a275049](https://github.com/vuejs/vitepress/commit/a2750492be7869ed48a5bde1ffbc177093356758))
+
 # [1.0.0-rc.16](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.15...v1.0.0-rc.16) (2023-09-23)
 
 ### Bug Fixes
