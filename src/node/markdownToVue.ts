@@ -70,7 +70,7 @@ export async function createMarkdownToVueRenderFn(
       siteConfig?.rewrites.map[file.slice(srcDir.length + 1)]
     file = alias ? path.join(srcDir, alias) : file
     const relativePath = slash(path.relative(srcDir, file))
-    const cacheKey = JSON.stringify({ src, file })
+    const cacheKey = JSON.stringify({ src, file: fileOrig })
 
     if (isBuild || options.cache !== false) {
       const cached = cache.get(cacheKey)
