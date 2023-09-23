@@ -29,8 +29,14 @@ export interface MarkdownCompileResult {
   includes: string[]
 }
 
-export function clearCache() {
-  cache.clear()
+export function clearCache(file?: string) {
+  if (!file) {
+    cache.clear()
+    return
+  }
+
+  file = JSON.stringify({ file }).slice(1)
+  cache.find((_, key) => key.endsWith(file!) && cache.delete(key))
 }
 
 export async function createMarkdownToVueRenderFn(
