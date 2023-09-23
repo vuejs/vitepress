@@ -3,6 +3,7 @@ import c from 'picocolors'
 import {
   mergeConfig,
   searchForWorkspaceRoot,
+  type ModuleNode,
   type Plugin,
   type ResolvedConfig,
   type Rollup,
@@ -121,6 +122,7 @@ export async function createVitePressPlugin(
   let siteData = site
   let allDeadLinks: MarkdownCompileResult['deadLinks'] = []
   let config: ResolvedConfig
+  let importerMap: Record<string, Set<string> | undefined> = {}
 
   const vitePressPlugin: Plugin = {
     name: 'vitepress',
@@ -212,6 +214,7 @@ export async function createVitePressPlugin(
         allDeadLinks.push(...deadLinks)
         if (includes.length) {
           includes.forEach((i) => {
+            ;(importerMap[slash(i)] ??= new Set()).add(id)
             this.addWatchFile(i)
           })
         }
@@ -245,12 +248,13 @@ export async function createVitePressPlugin(
         configDeps.forEach((file) => server.watcher.add(file))
       }
 
-      const onFileAddDelete = async (added: boolean, file: string) => {
+      const onFileAddDelete = async (added: boolean, _file: string) => {
+        const file = slash(_file)
         // restart server on theme file creation / deletion
-        if (themeRE.test(slash(file))) {
+        if (themeRE.test(file)) {
           siteConfig.logger.info(
             c.green(
-              `${path.relative(process.cwd(), file)} ${
+              `${path.relative(process.cwd(), _file)} ${
                 added ? 'created' : 'deleted'
               }, restarting server...\n`
             ),
@@ -266,6 +270,10 @@ export async function createVitePressPlugin(
             siteConfig,
             await resolvePages(siteConfig.srcDir, siteConfig.userConfig)
           )
+        }
+
+        if (!added && importerMap[file]) {
+          delete importerMap[file]
         }
       }
       server.watcher
@@ -403,10 +411,27 @@ export async function createVitePressPlugin(
     }
   }
 
+  const hmrFix: Plugin = {
+    name: 'vitepress:hmr-fix',
+    async handleHotUpdate({ file, server, modules }) {
+      const importers = [...(importerMap[slash(file)] || [])]
+      if (importers.length > 0) {
+        return [
+          ...modules,
+          ...importers.map((id) => {
+            clearCache(id)
+            return server.moduleGraph.getModuleById(id)
+          })
+        ].filter(Boolean) as ModuleNode[]
+      }
+    }
+  }
+
   return [
     vitePressPlugin,
     rewritesPlugin(siteConfig),
     vuePlugin,
+    hmrFix,
     webFontsPlugin(siteConfig.useWebFonts),
     ...(userViteConfig?.plugins || []),
     await localSearchPlugin(siteConfig),
