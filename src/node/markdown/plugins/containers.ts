@@ -38,12 +38,12 @@ function createContainer(
     container,
     klass,
     {
-      render(tokens, idx) {
+      render(tokens, idx, _options, env) {
         const token = tokens[idx]
         const info = token.info.trim().slice(klass.length).trim()
         const attrs = md.renderer.renderAttrs(token)
         if (token.nesting === 1) {
-          const title = md.renderInline(info || defaultTitle)
+          const title = md.renderInline(info || defaultTitle, { ...env })
           if (klass === 'details')
             return `<details class="${klass} custom-block"${attrs}><summary>${title}</summary>\n`
           return `<div class="${klass} custom-block"${attrs}><p class="custom-block-title">${title}</p>\n`
