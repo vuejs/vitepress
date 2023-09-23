@@ -1,3 +1,12 @@
+# [1.0.0-rc.16](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.15...v1.0.0-rc.16) (2023-09-23)
+
+### Bug Fixes
+
+- **build:** consistent route.path across dev and ssr ([#2997](https://github.com/vuejs/vitepress/issues/2997)) ([0d56855](https://github.com/vuejs/vitepress/commit/0d56855b54a97d4350485ee76c07a040fdc5738c))
+- **build:** don't show missing lang warnings with text specifiers in fences ([aa40cec](https://github.com/vuejs/vitepress/commit/aa40cecd48942506ffb063863c9b054e66f1d79e))
+- handle references in container titles ([7fbfe71](https://github.com/vuejs/vitepress/commit/7fbfe71b6cab2f091ba3d0c47a401fdc612b88b6)), closes [#3004](https://github.com/vuejs/vitepress/issues/3004)
+- **hmr:** handle hmr in imported code snippets ([#3005](https://github.com/vuejs/vitepress/issues/3005)) ([e84f313](https://github.com/vuejs/vitepress/commit/e84f31371e9e5219d46ae58151667d24e12b77bb))
+
 # [1.0.0-rc.15](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.14...v1.0.0-rc.15) (2023-09-20)
 
 ### Bug Fixes
