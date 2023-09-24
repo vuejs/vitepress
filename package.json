@@ -103,10 +103,14 @@
     "vue": "^3.3.4"
   },
   "peerDependencies": {
-    "markdown-it-mathjax3": "^4.3.2"
+    "markdown-it-mathjax3": "^4.3.2",
+    "postcss": "^8.4.30"
   },
   "peerDependenciesMeta": {
     "markdown-it-mathjax3": {
+      "optional": true
+    },
+    "postcss": {
       "optional": true
     }
   },
