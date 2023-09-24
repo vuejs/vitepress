@@ -1,19 +1,4 @@
-# [1.0.0-rc.19](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.18...v1.0.0-rc.19) (2023-09-24)
-
-# [1.0.0-rc.18](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.17...v1.0.0-rc.18) (2023-09-24)
-
-### Bug Fixes
-
-- selectively pass env for container titles ([1a9c32d](https://github.com/vuejs/vitepress/commit/1a9c32df12388386877c50daf9fc7924888eac07)), closes [#3007](https://github.com/vuejs/vitepress/issues/3007)
-- **types:** add RegExp to markdown's allowed attributes ([#3008](https://github.com/vuejs/vitepress/issues/3008)) ([bc96b2b](https://github.com/vuejs/vitepress/commit/bc96b2bb5bc5361e55c46f270e3759c513db65d3))
-
-# [1.0.0-rc.17](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.16...v1.0.0-rc.17) (2023-09-23)
-
-### Bug Fixes
-
-- snippet hmr not working with rewrites ([a275049](https://github.com/vuejs/vitepress/commit/a2750492be7869ed48a5bde1ffbc177093356758))
-
-# [1.0.0-rc.16](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.15...v1.0.0-rc.16) (2023-09-23)
+# [1.0.0-rc.20](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.15...v1.0.0-rc.20) (2023-09-24)
 
 ### Bug Fixes
 
@@ -21,6 +6,9 @@
 - **build:** don't show missing lang warnings with text specifiers in fences ([aa40cec](https://github.com/vuejs/vitepress/commit/aa40cecd48942506ffb063863c9b054e66f1d79e))
 - handle references in container titles ([7fbfe71](https://github.com/vuejs/vitepress/commit/7fbfe71b6cab2f091ba3d0c47a401fdc612b88b6)), closes [#3004](https://github.com/vuejs/vitepress/issues/3004)
 - **hmr:** handle hmr in imported code snippets ([#3005](https://github.com/vuejs/vitepress/issues/3005)) ([e84f313](https://github.com/vuejs/vitepress/commit/e84f31371e9e5219d46ae58151667d24e12b77bb))
+- snippet hmr not working with rewrites ([a275049](https://github.com/vuejs/vitepress/commit/a2750492be7869ed48a5bde1ffbc177093356758))
+- selectively pass env for container titles ([1a9c32d](https://github.com/vuejs/vitepress/commit/1a9c32df12388386877c50daf9fc7924888eac07)), closes [#3007](https://github.com/vuejs/vitepress/issues/3007)
+- **types:** add RegExp to markdown's allowed attributes ([#3008](https://github.com/vuejs/vitepress/issues/3008)) ([bc96b2b](https://github.com/vuejs/vitepress/commit/bc96b2bb5bc5361e55c46f270e3759c513db65d3))
 
 # [1.0.0-rc.15](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.14...v1.0.0-rc.15) (2023-09-20)
 
