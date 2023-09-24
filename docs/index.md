@@ -17,7 +17,7 @@ hero:
   image:
     src: /vitepress-logo-large.webp
     alt: VitePress
-
+---
 features:
   - icon: 📝
     title: Focus on Your Content
