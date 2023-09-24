@@ -1,7 +1,7 @@
 ---
 layout: home
 
-title: Arab Support
+title: ArabSupport.
 titleTemplate:Arab Support On Discord. 
 
 hero:
