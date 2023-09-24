@@ -1,20 +1,19 @@
 ---
 layout: home
 
-title: VitePress
-titleTemplate: Vite & Vue Powered Static Site Generator
+title: Arab Support
+titleTemplate:Arab Support On Discord. 
 
 hero:
-  name: VitePress
-  text: Vite & Vue Powered Static Site Generator
-  tagline: Simple, powerful, and fast. Meet the modern SSG framework you've always wanted.
+  name: Arab Support 
+  text: Arab Support On Discord. 
   actions:
     - theme: brand
       text: Get Started
-      link: /guide/getting-started
+      link: /page/home.md
     - theme: alt
-      text: View on GitHub
-      link: https://github.com/vuejs/vitepress
+      text: View on Discord
+      link: https://discord.gg/gzEVNBSaKn
   image:
     src: /vitepress-logo-large.webp
     alt: VitePress
