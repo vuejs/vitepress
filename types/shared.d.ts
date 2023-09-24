@@ -1,5 +1,4 @@
 // types shared between server and client
-import type { MarkdownSfcBlocks } from '@mdit-vue/plugin-sfc'
 import type { UseDarkOptions } from '@vueuse/core'
 import type { SSRContext } from 'vue/server-renderer'
 export type { DefaultTheme } from './default-theme.js'
@@ -17,6 +16,62 @@ export interface PageData {
   params?: Record<string, any>
   isNotFound?: boolean
   lastUpdated?: number
+}
+
+/**
+ * SFC block extracted from markdown
+ */
+export interface SfcBlock {
+  /**
+   * The type of the block
+   */
+  type: string
+  /**
+   * The content, including open-tag and close-tag
+   */
+  content: string
+  /**
+   * The content that stripped open-tag and close-tag off
+   */
+  contentStripped: string
+  /**
+   * The open-tag
+   */
+  tagOpen: string
+  /**
+   * The close-tag
+   */
+  tagClose: string
+}
+
+export interface MarkdownSfcBlocks {
+  /**
+   * The `<template>` block
+   */
+  template: SfcBlock | null
+  /**
+   * The common `<script>` block
+   */
+  script: SfcBlock | null
+  /**
+   * The `<script setup>` block
+   */
+  scriptSetup: SfcBlock | null
+  /**
+   * All `<script>` blocks.
+   *
+   * By default, SFC only allows one `<script>` block and one `<script setup>` block.
+   * However, some tools may support different types of `<script>`s, so we keep all of them here.
+   */
+  scripts: SfcBlock[]
+  /**
+   * All `<style>` blocks.
+   */
+  styles: SfcBlock[]
+  /**
+   * All custom blocks.
+   */
+  customBlocks: SfcBlock[]
 }
 
 export interface Header {

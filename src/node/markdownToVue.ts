@@ -8,7 +8,7 @@ import {
   createMarkdownRenderer,
   type MarkdownOptions,
   type MarkdownRenderer
-} from './markdown'
+} from './markdown/markdown'
 import {
   EXTERNAL_URL_RE,
   slash,

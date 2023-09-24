@@ -17,6 +17,9 @@ importers:
       '@docsearch/js':
         specifier: ^3.5.2
         version: 3.5.2(@algolia/client-search@4.20.0)(search-insights@2.8.2)
+      '@types/markdown-it':
+        specifier: ^13.0.1
+        version: 13.0.1
       '@vue/devtools-api':
         specifier: ^6.5.0
         version: 6.5.0
@@ -108,9 +111,6 @@ importers:
       '@types/mark.js':
         specifier: ^8.11.8
         version: 8.11.8
-      '@types/markdown-it':
-        specifier: ^13.0.1
-        version: 13.0.1
       '@types/markdown-it-attrs':
         specifier: ^4.1.0
         version: 4.1.0
@@ -1258,7 +1258,6 @@ packages:
 
   /@types/linkify-it@3.0.3:
     resolution: {integrity: sha512-pTjcqY9E4nOI55Wgpz7eiI8+LzdYnw3qxXCfHyBDdPbYvbyLgWLJGh8EdPvqawwMK1Uo1794AUkkR38Fr0g+2g==}
-    dev: true
 
   /@types/lodash.template@4.5.1:
     resolution: {integrity: sha512-0y71S2dGgmwdkSsyW95JBp8HSZchgKCsjr6F0lsT3eSMtaT3Nn9rcMHU1U4UKu6XjQT3YC6/PNwgFI7k9f+ltw==}
@@ -1299,11 +1298,9 @@ packages:
     dependencies:
       '@types/linkify-it': 3.0.3
       '@types/mdurl': 1.0.2
-    dev: true
 
   /@types/mdurl@1.0.2:
     resolution: {integrity: sha512-eC4U9MlIcu2q0KQmXszyn5Akca/0jrQmwDRgpAMJai7qBWq4amIQhZyNau4VYGtCeALvW1/NtjzJJ567aZxfKA==}
-    dev: true
 
   /@types/micromatch@4.0.2:
     resolution: {integrity: sha512-oqXqVb0ci19GtH0vOA/U2TmHTcRY9kuZl4mqUxe0QmJAlIW13kzhuK5pi1i9+ngav8FjpSb9FVS/GE00GLX1VA==}

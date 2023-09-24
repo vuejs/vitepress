@@ -3,7 +3,7 @@ import type { UseDarkOptions } from '@vueuse/core'
 import type { SitemapStreamOptions } from 'sitemap'
 import type { Logger, UserConfig as ViteConfig } from 'vite'
 import type { SitemapItem } from './build/generateSitemap'
-import type { MarkdownOptions } from './markdown'
+import type { MarkdownOptions } from './markdown/markdown'
 import type {
   Awaitable,
   HeadConfig,

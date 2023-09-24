@@ -4,7 +4,7 @@ import MiniSearch from 'minisearch'
 import path from 'path'
 import type { Plugin, ViteDevServer } from 'vite'
 import type { SiteConfig } from '../config'
-import { createMarkdownRenderer } from '../markdown'
+import { createMarkdownRenderer } from '../markdown/markdown'
 import {
   resolveSiteDataByRoute,
   slash,
