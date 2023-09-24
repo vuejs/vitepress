@@ -43,7 +43,7 @@ export interface MarkdownOptions extends MarkdownIt.Options {
   attrs?: {
     leftDelimiter?: string
     rightDelimiter?: string
-    allowedAttributes?: string[]
+    allowedAttributes?: Array<string | RegExp>
     disable?: boolean
   }
   defaultHighlightLang?: string
