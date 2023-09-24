@@ -7,7 +7,7 @@ export * from './init/init'
 export * from './contentLoader'
 export * from './postcss'
 export { defineLoader, type LoaderModule } from './plugins/staticDataPlugin'
-export { loadEnv } from 'vite'
+export { loadEnv, type Plugin } from 'vite'
 
 // shared types
 export type {

@@ -78,7 +78,7 @@ const clientTypes: RollupOptions = {
     format: 'esm',
     file: 'dist/client/index.d.ts'
   },
-  external,
+  external: [...external, /@vue/],
   plugins: [
     dts({ respectExternal: true }),
     {
