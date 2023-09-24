@@ -62,13 +62,20 @@ const esmBuild: RollupOptions = {
   }
 }
 
+const typesExternal = [
+  ...external,
+  /\/vitepress\/(?!(dist|node_modules)\/).*\.d\.ts$/,
+  'source-map-js',
+  'fast-glob'
+]
+
 const nodeTypes: RollupOptions = {
   input: r('src/node/index.ts'),
   output: {
     format: 'esm',
     file: 'dist/node/index.d.ts'
   },
-  external: [...external, r('types/shared.d.ts'), 'postcss', 'source-map-js'],
+  external: typesExternal,
   plugins: [dts({ respectExternal: true })]
 }
 
@@ -78,7 +85,7 @@ const clientTypes: RollupOptions = {
     format: 'esm',
     file: 'dist/client/index.d.ts'
   },
-  external,
+  external: typesExternal,
   plugins: [
     dts({ respectExternal: true }),
     {

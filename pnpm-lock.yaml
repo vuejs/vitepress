@@ -35,6 +35,9 @@ importers:
       minisearch:
         specifier: ^6.1.0
         version: 6.1.0
+      postcss:
+        specifier: ^8.4.30
+        version: 8.4.30
       shiki:
         specifier: ^0.14.4
         version: 0.14.4
