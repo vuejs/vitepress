@@ -1,3 +1,10 @@
+# [1.0.0-rc.18](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.17...v1.0.0-rc.18) (2023-09-24)
+
+### Bug Fixes
+
+- selectively pass env for container titles ([1a9c32d](https://github.com/vuejs/vitepress/commit/1a9c32df12388386877c50daf9fc7924888eac07)), closes [#3007](https://github.com/vuejs/vitepress/issues/3007)
+- **types:** add RegExp to markdown's allowed attributes ([#3008](https://github.com/vuejs/vitepress/issues/3008)) ([bc96b2b](https://github.com/vuejs/vitepress/commit/bc96b2bb5bc5361e55c46f270e3759c513db65d3))
+
 # [1.0.0-rc.17](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.16...v1.0.0-rc.17) (2023-09-23)
 
 ### Bug Fixes
