@@ -1,19 +1,10 @@
 // so that users can do `import DefaultTheme from 'vitepress/theme'`
-import type { DefineComponent } from 'vue'
-import { EnhanceAppContext } from './dist/client/index.js'
 
-// TODO: add props for these
-export const VPImage: DefineComponent
-export const VPButton: DefineComponent
-export const VPHomeHero: DefineComponent
-export const VPHomeFeatures: DefineComponent
-export const VPHomeSponsors: DefineComponent
-export const VPDocAsideSponsors: DefineComponent
-export const VPSponsors: DefineComponent
-export const VPTeamPage: DefineComponent
-export const VPTeamPageTitle: DefineComponent
-export const VPTeamPageSection: DefineComponent
-export const VPTeamMembers: DefineComponent
+import type { DefineComponent } from 'vue'
+import type { EnhanceAppContext } from './dist/client/index.js'
+import type { DefaultTheme } from './types/default-theme.js'
+
+export type { DefaultTheme } from './types/default-theme.js'
 
 declare const theme: {
   Layout: DefineComponent
@@ -21,6 +12,17 @@ declare const theme: {
 }
 
 export default theme
-export type { DefaultTheme } from './types/default-theme.js'
+export declare const useSidebar: () => DefaultTheme.DocSidebar
 
-export const useSidebar: () => DefaultTheme.DocSidebar
+// TODO: add props for these
+export declare const VPButton: DefineComponent
+export declare const VPDocAsideSponsors: DefineComponent
+export declare const VPHomeFeatures: DefineComponent
+export declare const VPHomeHero: DefineComponent
+export declare const VPHomeSponsors: DefineComponent
+export declare const VPImage: DefineComponent
+export declare const VPSponsors: DefineComponent
+export declare const VPTeamMembers: DefineComponent
+export declare const VPTeamPage: DefineComponent
+export declare const VPTeamPageSection: DefineComponent
+export declare const VPTeamPageTitle: DefineComponent
