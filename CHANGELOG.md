@@ -1,3 +1,5 @@
+# [1.0.0-rc.19](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.18...v1.0.0-rc.19) (2023-09-24)
+
 # [1.0.0-rc.18](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.17...v1.0.0-rc.18) (2023-09-24)
 
 ### Bug Fixes
