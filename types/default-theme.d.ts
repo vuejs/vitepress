@@ -312,6 +312,7 @@ export namespace DefaultTheme {
     icon: SocialLinkIcon
     link: string
     ariaLabel?: string
+    title?: string
   }
 
   export type SocialLinkIcon =
