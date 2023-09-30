@@ -25,7 +25,7 @@ interface IndexObject {
   title: string
   titles: string[]
 }
-let mdEnv: MarkdownEnv
+let mdEnv: MarkdownEnv | null
 export async function localSearchPlugin(
   siteConfig: SiteConfig<DefaultTheme.Config>
 ): Promise<Plugin> {
@@ -276,6 +276,7 @@ function splitPageIntoSections(html: string) {
       parentTitles[level] = title
     }
   }
+  mdEnv = null
   return sections
 }
 
@@ -289,13 +290,13 @@ function clearHtmlTags(str: string) {
 }
 
 function replaceInterpolation(str: string) {
-  if (!mdEnv.frontmatter) {
+  if (!mdEnv?.frontmatter) {
     return str
   }
 
   return str.replace(/{{\s*([^}]+)\s*}}/g, (_, expression: string) => {
     const properties = expression.trim().split('.')
-    let value: Record<string, any> = { $frontmatter: { ...mdEnv.frontmatter } }
+    let value: Record<string, any> = { $frontmatter: { ...mdEnv?.frontmatter } }
 
     for (let prop of properties) {
       value = value?.[prop]
