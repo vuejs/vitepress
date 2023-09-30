@@ -51,6 +51,17 @@ export default defineConfig({
     ]
   ],
 
+  locales: {
+    root: {
+      label: 'English',
+      lang: 'en'
+    },
+    cn: {
+      label: '简体中文',
+      lang: 'cn'
+    }
+  },
+
   themeConfig: {
     logo: { src: '/vitepress-logo-mini.svg', width: 24, height: 24 },
 
