@@ -158,7 +158,7 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
             { text: '上下页链接', link: 'prev-next-links' },
             { text: '编辑链接', link: 'edit-link' },
             { text: '最后更新时间戳', link: 'last-updated' },
-            { text: '搜素', link: 'search' },
+            { text: '搜索', link: 'search' },
             { text: 'Carbon Ads', link: 'carbon-ads' }
           ]
         }
