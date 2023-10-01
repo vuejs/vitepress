@@ -8,6 +8,10 @@ export default defineConfig({
   lastUpdated: true,
   cleanUrls: true,
 
+  markdown: {
+    math: true
+  },
+
   sitemap: {
     hostname: 'https://vitepress.dev',
     transformItems(items) {

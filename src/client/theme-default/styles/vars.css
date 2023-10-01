@@ -426,6 +426,14 @@
   --vp-nav-logo-height: 24px;
 }
 
+.hide-nav {
+  --vp-nav-height: 0px;
+}
+
+.hide-nav .VPSidebar {
+  --vp-nav-height: 22px;
+}
+
 /**
  * Component: Local Nav
  * -------------------------------------------------------------------------- */
@@ -507,6 +515,6 @@
   --vp-local-search-result-border: var(--vp-c-divider);
   --vp-local-search-result-selected-bg: var(--vp-c-bg);
   --vp-local-search-result-selected-border: var(--vp-c-brand-1);
-  --vp-local-search-highlight-bg: var(--vp-c-green-1);
+  --vp-local-search-highlight-bg: var(--vp-c-brand-1);
   --vp-local-search-highlight-text: var(--vp-c-neutral-inverse);
 }

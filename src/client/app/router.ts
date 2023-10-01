@@ -64,16 +64,8 @@ export function createRouter(
   }
 
   async function go(href: string = inBrowser ? location.href : '/') {
+    href = normalizeHref(href)
     if ((await router.onBeforeRouteChange?.(href)) === false) return
-    const url = new URL(href, fakeHost)
-    if (!siteDataRef.value.cleanUrls) {
-      // ensure correct deep link so page refresh lands on correct files.
-      // if cleanUrls is enabled, the server should handle this
-      if (!url.pathname.endsWith('/') && !url.pathname.endsWith('.html')) {
-        url.pathname += '.html'
-        href = url.pathname + url.search + url.hash
-      }
-    }
     updateHistory(href)
     await loadPage(href)
     await router.onAfterRouteChanged?.(href)
@@ -230,7 +222,10 @@ export function createRouter(
     )
 
     window.addEventListener('popstate', (e) => {
-      loadPage(location.href, (e.state && e.state.scrollPosition) || 0)
+      loadPage(
+        normalizeHref(location.href),
+        (e.state && e.state.scrollPosition) || 0
+      )
     })
 
     window.addEventListener('hashchange', (e) => {
@@ -327,17 +322,28 @@ function handleHMR(route: Route): void {
 }
 
 function shouldHotReload(payload: PageDataPayload): boolean {
-  const payloadPath = payload.path.replace(/(\bindex)?\.md$/, '')
+  const payloadPath = payload.path.replace(/(?:(^|\/)index)?\.md$/, '$1')
   const locationPath = location.pathname
-    .replace(/(\bindex)?\.html$/, '')
+    .replace(/(?:(^|\/)index)?\.html$/, '')
     .slice(siteDataRef.value.base.length - 1)
   return payloadPath === locationPath
 }
 
 function updateHistory(href: string) {
-  if (inBrowser && href !== location.href) {
+  if (inBrowser && href !== normalizeHref(location.href)) {
     // save scroll position before changing url
     history.replaceState({ scrollPosition: window.scrollY }, document.title)
     history.pushState(null, '', href)
   }
+}
+
+function normalizeHref(href: string): string {
+  const url = new URL(href, fakeHost)
+  url.pathname = url.pathname.replace(/(^|\/)index(\.html)?$/, '$1')
+  // ensure correct deep link so page refresh lands on correct files.
+  if (siteDataRef.value.cleanUrls)
+    url.pathname = url.pathname.replace(/\.html$/, '')
+  else if (!url.pathname.endsWith('/') && !url.pathname.endsWith('.html'))
+    url.pathname += '.html'
+  return url.pathname + url.search + url.hash
 }

@@ -426,7 +426,7 @@ When set to `true`, the production app will be built in [MPA Mode](../guide/mpa-
 
 ### appearance
 
-- Type: `boolean | 'dark' | import('@vueuse/core').UseDarkOptions`
+- Type: `boolean | 'dark' | 'force-dark' | import('@vueuse/core').UseDarkOptions`
 - Default: `true`
 
 Whether to enable dark mode (by adding the `.dark` class to the `<html>` element).
@@ -458,18 +458,7 @@ Configure Markdown parser options. VitePress uses [Markdown-it](https://github.c
 
 ```js
 export default {
-  markdown: {
-    theme: 'material-theme-palenight',
-    lineNumbers: true,
-
-    // adjust how header anchors are generated,
-    // useful for integrating with tools that use different conventions
-    anchor: {
-      slugify(str) {
-        return encodeURIComponent(str)
-      }
-    }
-  }
+  markdown: {...}
 }
 ```
 
@@ -525,8 +514,24 @@ interface MarkdownOptions extends MarkdownIt.Options {
   // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-toc#options
   toc?: TocPluginOptions
 
+  // @mdit-vue/plugin-component plugin options.
+  // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-component#options
+  component?: ComponentPluginOptions
+
   // Configure the Markdown-it instance.
   config?: (md: MarkdownIt) => void
+
+  // Same as `config` but will be applied before all other plugins.
+  preConfig?: (md: MarkdownIt) => void
+
+  // Disable cache (experimental)
+  cache?: boolean
+
+  // Math support (experimental)
+  // You need to install `markdown-it-mathjax3` and set `math` to `true` to enable it.
+  // You can also pass options to `markdown-it-mathjax3` here.
+  // See: https://github.com/tani/markdown-it-mathjax3#customization
+  math?: any
 }
 ```
 
