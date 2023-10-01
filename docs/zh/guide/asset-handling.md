@@ -8,7 +8,7 @@
 ![An image](./image.png)
 ```
 
-你可以在 Markdown 文件、主题中的 `*.vue` 组件、样式和普通的 `.css` 文件中引用静态资源，通过使用绝对路径 (基于项目根目录) 或者相对路径 (基于文件系统)。后者类似于 Vite，Vue CLI，或者 webpack 的 `file-loader`的行为。
+你可以在 Markdown 文件、主题中的 `*.vue` 组件、样式和普通的 `.css` 文件中引用静态资源，通过使用绝对路径 (基于项目根目录) 或者相对路径 (基于文件系统)。后者类似于 Vite，Vue CLI，或者 webpack 的 `file-loader` 的行为。
 
 常见的图像，媒体和字体文件会被自动检测并包含为资源。
 
@@ -25,11 +25,6 @@
 放置在 `public` 中的资源将按原样复制到输出目录的根目录中。
 
 请注意，你应使用根绝对路径来引用放置在 `public` 中的文件 - 例如，`public/icon.png` 应始终在源代码中作为 `/icon.png` 引用。
-
-但有一个例外：如果你在 `public` 中有一个 HTML 页面，并从主站点链接到它，路由默认会产生 404 错误。为了解决这个问题，VitePress 提供了 `pathname：//` 协议，它允许你像链接外部页面一样链接到同一域名的另一个页面。比较这两个链接：
-
-- [/pure.html](/pure.html)
-- <pathname:///pure.html>
 
 ## 根 URL {#base-url}
 
