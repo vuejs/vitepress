@@ -24,7 +24,7 @@ export function useCopyCode() {
         text = text.slice(0, -1)
 
         if (text.length === 0) {
-          text = sibling.textContent
+          text = sibling.textContent || ''
         }
 
         if (isShell) {
