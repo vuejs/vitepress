@@ -23,6 +23,10 @@ export function useCopyCode() {
           .forEach((node) => (text += (node.textContent || '') + '\n'))
         text = text.slice(0, -1)
 
+        if (text.length === 0) {
+          text = sibling.textContent
+        }
+
         if (isShell) {
           text = text.replace(/^ *(\$|>) /gm, '').trim()
         }
