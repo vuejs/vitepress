@@ -9,12 +9,34 @@ import {
   type Options
 } from './preWrapper'
 
-export const containerPlugin = (md: MarkdownIt, options: Options) => {
-  md.use(...createContainer('tip', 'TIP', md))
-    .use(...createContainer('info', 'INFO', md))
-    .use(...createContainer('warning', 'WARNING', md))
-    .use(...createContainer('danger', 'DANGER', md))
-    .use(...createContainer('details', 'Details', md))
+export const containerPlugin = (
+  md: MarkdownIt,
+  options: Options,
+  containerOptions?: ContainerOptions
+) => {
+  md.use(...createContainer('tip', containerOptions?.tipLabel || 'TIP', md))
+    .use(...createContainer('info', containerOptions?.infoLabel || 'INFO', md))
+    .use(
+      ...createContainer(
+        'warning',
+        containerOptions?.warningLabel || 'WARNING',
+        md
+      )
+    )
+    .use(
+      ...createContainer(
+        'danger',
+        containerOptions?.dangerLabel || 'DANGER',
+        md
+      )
+    )
+    .use(
+      ...createContainer(
+        'details',
+        containerOptions?.detailsLabel || 'Details',
+        md
+      )
+    )
     // explicitly escape Vue syntax
     .use(container, 'v-pre', {
       render: (tokens: Token[], idx: number) =>
@@ -103,4 +125,12 @@ function createCodeGroup(options: Options): ContainerArgs {
       }
     }
   ]
+}
+
+export interface ContainerOptions {
+  infoLabel?: string
+  tipLabel?: string
+  warningLabel?: string
+  dangerLabel?: string
+  detailsLabel?: string
 }
