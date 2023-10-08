@@ -20,7 +20,7 @@ import attrsPlugin from 'markdown-it-attrs'
 import emojiPlugin from 'markdown-it-emoji'
 import type { ILanguageRegistration, IThemeRegistration } from 'shiki'
 import type { Logger } from 'vite'
-import { containerPlugin } from './plugins/containers'
+import { containerPlugin, type ContainerOptions } from './plugins/containers'
 import { highlight } from './plugins/highlight'
 import { highlightLinePlugin } from './plugins/highlightLines'
 import { imagePlugin } from './plugins/image'
@@ -57,6 +57,7 @@ export interface MarkdownOptions extends MarkdownIt.Options {
   cache?: boolean
   component?: ComponentPluginOptions
   math?: boolean | any
+  container?: ContainerOptions
 }
 
 export type MarkdownRenderer = MarkdownIt
@@ -95,7 +96,7 @@ export const createMarkdownRenderer = async (
     .use(highlightLinePlugin)
     .use(preWrapperPlugin, { hasSingleTheme })
     .use(snippetPlugin, srcDir)
-    .use(containerPlugin, { hasSingleTheme })
+    .use(containerPlugin, { hasSingleTheme }, options.container)
     .use(imagePlugin)
     .use(
       linkPlugin,
