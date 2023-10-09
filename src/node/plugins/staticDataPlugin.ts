@@ -8,7 +8,7 @@ import path, { dirname, resolve } from 'path'
 import { isMatch } from 'micromatch'
 import glob from 'fast-glob'
 
-const loaderMatch = /\.data\.(j|t)s($|\?)/
+const loaderMatch = /\.data\.m?(j|t)s($|\?)/
 
 let server: ViteDevServer
 
