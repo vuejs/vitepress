@@ -162,19 +162,21 @@ export async function resolveDynamicRoutes(
   for (const route of routes) {
     // locate corresponding route paths file
     const fullPath = normalizePath(path.resolve(srcDir, route))
-    const jsPathsFile = fullPath.replace(/\.md$/, '.paths.js')
-    let pathsFile = jsPathsFile
-    if (!fs.existsSync(jsPathsFile)) {
-      pathsFile = fullPath.replace(/\.md$/, '.paths.ts')
-      if (!fs.existsSync(pathsFile)) {
-        console.warn(
-          c.yellow(
-            `Missing paths file for dynamic route ${route}: ` +
-              `a corresponding ${jsPathsFile} or ${pathsFile} is needed.`
-          )
+
+    const paths = ['js', 'ts', 'mjs', 'mts'].map((ext) =>
+      fullPath.replace(/\.md$/, `.paths.${ext}`)
+    )
+
+    const pathsFile = paths.find((p) => fs.existsSync(p))
+
+    if (pathsFile == null) {
+      console.warn(
+        c.yellow(
+          `Missing paths file for dynamic route ${route}: ` +
+            `a corresponding ${paths[0]} (or .ts/.mjs/.mts) file is needed.`
         )
-        continue
-      }
+      )
+      continue
     }
 
     // load the paths loader module
