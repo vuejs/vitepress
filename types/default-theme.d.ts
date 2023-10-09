@@ -362,6 +362,14 @@ export namespace DefaultTheme {
      * @deprecated Use `detailedView: false` instead.
      */
     disableDetailedView?: boolean
+    /**
+     * exclude page from search if it returns true
+     * @example
+     * ```javascript
+     * exclude(relativePath) => relativePath.startsWith('/excluded-pages')
+     * ```
+     */
+    exclude: (relativePath: string) => boolean
 
     /**
      * If `true`, the detailed view will be enabled by default.
