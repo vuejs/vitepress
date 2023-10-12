@@ -1,3 +1,15 @@
+# [1.0.0-rc.21](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.20...v1.0.0-rc.21) (2023-10-12)
+
+### Bug Fixes
+
+- **build:** handle .mjs/.mts files as data / path loaders ([#3058](https://github.com/vuejs/vitepress/issues/3058)) ([7991180](https://github.com/vuejs/vitepress/commit/7991180080366f9eb0d43fe95d25b53cf7af652c))
+- **client:** only update head if needed ([#3017](https://github.com/vuejs/vitepress/issues/3017)) ([f2fc3dc](https://github.com/vuejs/vitepress/commit/f2fc3dc51b8019c18d5ab70a6b55b8333c91045a))
+- **theme:** search's configuration about buttonAriaLabel doesn't work ([#3070](https://github.com/vuejs/vitepress/issues/3070)) ([c08bd46](https://github.com/vuejs/vitepress/commit/c08bd46aa757e7a0bc28b2318fb38037d583b27d))
+
+### Features
+
+- **md:** allow customizing container titles globally ([#3044](https://github.com/vuejs/vitepress/issues/3044)) ([bdb0800](https://github.com/vuejs/vitepress/commit/bdb080093f95ec43d013ea2ad537e567bdbb5a44))
+
 # [1.0.0-rc.20](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.15...v1.0.0-rc.20) (2023-09-24)
 
 ### Bug Fixes
