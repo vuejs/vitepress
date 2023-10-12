@@ -167,6 +167,7 @@ export namespace DefaultTheme {
 
   export interface NavItemChildren {
     text?: string
+    collapsed?: boolean
     items: NavItemWithLink[]
   }
 
