@@ -1,11 +1,23 @@
 <script lang="ts" setup>
-defineProps<{
-  placeholder: string
-}>()
+import type { ButtonTranslations } from '../../../../types/local-search'
+import { useData } from '../composables/data'
+import { createTranslate } from '../support/translation'
+
+const { theme } = useData()
+
+// Button-Translations
+const defaultTranslations: { button: ButtonTranslations } = {
+  button: {
+    buttonText: 'Search',
+    buttonAriaLabel: 'Search',
+  }
+}
+
+const $t = createTranslate(theme.value.search?.options, defaultTranslations)
 </script>
 
 <template>
-  <button type="button" class="DocSearch DocSearch-Button" aria-label="Search">
+  <button type="button" class="DocSearch DocSearch-Button" :aria-label="$t('button.buttonAriaLabel')">
     <span class="DocSearch-Button-Container">
       <svg
         class="DocSearch-Search-Icon"
@@ -23,7 +35,7 @@ defineProps<{
           stroke-linejoin="round"
         />
       </svg>
-      <span class="DocSearch-Button-Placeholder">{{ placeholder }}</span>
+      <span class="DocSearch-Button-Placeholder">{{ $t('button.buttonText') }}</span>
     </span>
     <span class="DocSearch-Button-Keys">
       <kbd class="DocSearch-Button-Key"></kbd>
