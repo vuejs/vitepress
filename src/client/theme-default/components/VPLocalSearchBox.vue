@@ -31,10 +31,6 @@ import { pathToFile } from '../../app/utils'
 import { useData } from '../composables/data'
 import { createTranslate } from '../support/translation'
 
-defineProps<{
-  placeholder: string
-}>()
-
 const emit = defineEmits<{
   (e: 'close'): void
 }>()
@@ -112,6 +108,16 @@ const disableDetailedView = computed(() => {
     theme.value.search?.provider === 'local' &&
     (theme.value.search.options?.disableDetailedView === true ||
       theme.value.search.options?.detailedView === false)
+  )
+})
+
+const buttonText = computed(() => {
+  const options = theme.value.search?.options ?? theme.value.algolia
+
+  return (
+    options?.locales?.[localeIndex.value]?.translations?.button?.buttonText ||
+    options?.translations?.button?.buttonText ||
+    'Search'
   )
 })
 
@@ -414,7 +420,7 @@ function formMarkRegex(terms: Set<string>) {
           @submit.prevent=""
         >
           <label
-            :title="placeholder"
+            :title="buttonText"
             id="localsearch-label"
             for="localsearch-input"
           >
@@ -463,7 +469,7 @@ function formMarkRegex(terms: Set<string>) {
           <input
             ref="searchInput"
             v-model="filterText"
-            :placeholder="placeholder"
+            :placeholder="buttonText"
             id="localsearch-input"
             aria-labelledby="localsearch-label"
             class="search-input"
