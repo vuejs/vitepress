@@ -294,7 +294,7 @@ function replaceInterpolation(str: string) {
     return str
   }
 
-  return str.replace(/{{\s*([^}]+)\s*}}/g, (_, expression: string) => {
+  return str.replace(/{{\s*([^}]+)\s*}}/g, (match, expression: string) => {
     const properties = expression.trim().split('.')
     let value: Record<string, any> = { $frontmatter: { ...mdEnv?.frontmatter } }
 
@@ -302,6 +302,6 @@ function replaceInterpolation(str: string) {
       value = value?.[prop]
     }
 
-    return value ? toDisplayString(value) : str
+    return value ? toDisplayString(value) : match
   })
 }
