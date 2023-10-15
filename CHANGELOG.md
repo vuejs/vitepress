@@ -1,3 +1,9 @@
+# [1.0.0-rc.22](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.21...v1.0.0-rc.22) (2023-10-15)
+
+### Bug Fixes
+
+- fixes a regression related with nanoid v5 ([#3090](https://github.com/vuejs/vitepress/issues/3090])
+
 # [1.0.0-rc.21](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.20...v1.0.0-rc.21) (2023-10-12)
 
 ### Bug Fixes
