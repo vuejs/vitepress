@@ -1,6 +1,8 @@
 import { useData } from '../composables/data'
 
 /**
+ * The value returned by the helper function returned by this function is not responsive,
+ * to get responsiveness call inside computed or translate again in onUpdated to update the value.
  * @param themeObject Can be an object with `translations` and `locales` properties
  */
 export function createTranslate(

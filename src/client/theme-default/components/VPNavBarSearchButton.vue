@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { ButtonTranslations } from '../../../../types/local-search'
 import { useData } from '../composables/data'
+import { computed } from 'vue'
 import { createTranslate } from '../support/translation'
 
 const { theme } = useData()
@@ -13,11 +14,22 @@ const defaultTranslations: { button: ButtonTranslations } = {
   }
 }
 
-const $t = createTranslate(theme.value.search?.options, defaultTranslations)
+// Use the following order to get the text
+// 1. locale
+// 2. translation
+// 3. default
+const searchButton = computed<{ hint: string, aria: string }>(() => {
+  const $t = createTranslate(theme.value.search?.options, defaultTranslations)
+
+  return {
+    hint: $t('button.buttonText'),
+    aria: $t('button.buttonAriaLabel')
+  }
+})
 </script>
 
 <template>
-  <button type="button" class="DocSearch DocSearch-Button" :aria-label="$t('button.buttonAriaLabel')">
+  <button type="button" class="DocSearch DocSearch-Button" :aria-label="searchButton.aria">
     <span class="DocSearch-Button-Container">
       <svg
         class="DocSearch-Search-Icon"
@@ -35,7 +47,7 @@ const $t = createTranslate(theme.value.search?.options, defaultTranslations)
           stroke-linejoin="round"
         />
       </svg>
-      <span class="DocSearch-Button-Placeholder">{{ $t('button.buttonText') }}</span>
+      <span class="DocSearch-Button-Placeholder">{{ searchButton.hint }}</span>
     </span>
     <span class="DocSearch-Button-Keys">
       <kbd class="DocSearch-Button-Key"></kbd>
