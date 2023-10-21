@@ -207,20 +207,21 @@ console.log('Hello, VitePress!')
 :::
 
 Also, you may set custom titles globally by adding the following content in site config, helpful if not writing in English:
+
 ```ts
 // config.ts
 export default defineConfig({
-// ...
+  // ...
   markdown: {
     container: {
-      tipLabel: "提示",
-      warningLabel: "警告",
-      dangerLabel: "危险",
-      infoLabel: "信息",
-      detailsLabel: "详细信息"
+      tipLabel: '提示',
+      warningLabel: '警告',
+      dangerLabel: '危险',
+      infoLabel: '信息',
+      detailsLabel: '详细信息'
     }
-  },
-// ...
+  }
+  // ...
 })
 ```
 
@@ -238,8 +239,6 @@ Wraps in a <div class="vp-raw">
 
 `vp-raw` class can be directly used on elements too. Style isolation is currently opt-in:
 
-::: details
-
 - Install `postcss` with your preferred package manager:
 
   ```sh
@@ -250,11 +249,9 @@ Wraps in a <div class="vp-raw">
 
   ```js
   import { postcssIsolateStyles } from 'vitepress'
-  
+
   export default {
-    plugins: {
-      postcssIsolateStyles()
-    }
+    plugins: [postcssIsolateStyles()]
   }
   ```
 
@@ -265,8 +262,6 @@ Wraps in a <div class="vp-raw">
     includeFiles: [/vp-doc\.css/] // defaults to /base\.css/
   })
   ```
-
-:::
 
 ## Syntax Highlighting in Code Blocks
 
@@ -570,7 +565,7 @@ const line3 = 'This is line 3'
 // line-numbers is enabled and start from 2
 const line3 = 'This is line 3'
 const line4 = 'This is line 4'
-````
+```
 
 ## Import Code Snippets
 

@@ -534,7 +534,13 @@ interface MarkdownOptions extends MarkdownIt.Options {
   math?: any
 
   // Global custom container titles
-  container?: ContainerOptions
+  container?: {
+    infoLabel?: string
+    tipLabel?: string
+    warningLabel?: string
+    dangerLabel?: string
+    detailsLabel?: string
+  }
 }
 ```
 
