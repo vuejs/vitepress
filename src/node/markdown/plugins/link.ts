@@ -38,8 +38,8 @@ export const linkPlugin = (
         if (
           // internal anchor links
           !url.startsWith('#') &&
-          // mail links
-          !url.startsWith('mailto:') &&
+          // mail/custom protocol links
+          new URL(url, 'http://a.com').protocol.startsWith('http') &&
           // links to files (other than html/md)
           !/\.(?!html|md)\w+($|\?)/i.test(url)
         ) {

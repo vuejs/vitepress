@@ -21,10 +21,17 @@ export function ensureStartingSlash(path: string): string {
 }
 
 export function normalizeLink(url: string): string {
-  if (isExternal(url)) return url
+  const { pathname, search, hash, protocol } = new URL(url, 'http://a.com')
+
+  if (
+    isExternal(url) ||
+    url.startsWith('#') ||
+    !protocol.startsWith('http') ||
+    /\.(?!html|md)\w+($|\?)/i.test(url)
+  )
+    return url
 
   const { site } = useData()
-  const { pathname, search, hash } = new URL(url, 'http://a.com')
 
   const normalizedPath =
     pathname.endsWith('/') || pathname.endsWith('.html')
