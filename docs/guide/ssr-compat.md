@@ -52,7 +52,7 @@ Since [`Theme.enhanceApp`](./custom-theme#theme-interface) can be async, you can
 
 ```js
 // .vitepress/theme/index.js
-/** @type import('vitepress').Theme */
+/** @type {import('vitepress').Theme} */
 export default {
   // ...
   async enhanceApp({ app }) {
