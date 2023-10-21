@@ -532,6 +532,15 @@ interface MarkdownOptions extends MarkdownIt.Options {
   // You can also pass options to `markdown-it-mathjax3` here.
   // See: https://github.com/tani/markdown-it-mathjax3#customization
   math?: any
+
+  // Global custom container titles
+  container?: {
+    infoLabel?: string
+    tipLabel?: string
+    warningLabel?: string
+    dangerLabel?: string
+    detailsLabel?: string
+  }
 }
 ```
 

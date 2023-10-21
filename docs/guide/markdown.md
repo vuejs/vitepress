@@ -206,6 +206,25 @@ console.log('Hello, VitePress!')
 ```
 :::
 
+Also, you may set custom titles globally by adding the following content in site config, helpful if not writing in English:
+
+```ts
+// config.ts
+export default defineConfig({
+  // ...
+  markdown: {
+    container: {
+      tipLabel: '提示',
+      warningLabel: '警告',
+      dangerLabel: '危险',
+      infoLabel: '信息',
+      detailsLabel: '详细信息'
+    }
+  }
+  // ...
+})
+```
+
 ### `raw`
 
 This is a special container that can be used to prevent style and router conflicts with VitePress. This is especially useful when you're documenting component libraries. You might also wanna check out [whyframe](https://whyframe.dev/docs/integrations/vitepress) for better isolation.
@@ -230,11 +249,9 @@ Wraps in a <div class="vp-raw">
 
   ```js
   import { postcssIsolateStyles } from 'vitepress'
-  
+
   export default {
-    plugins: [
-      postcssIsolateStyles()
-    ]
+    plugins: [postcssIsolateStyles()]
   }
   ```
 
@@ -548,7 +565,7 @@ const line3 = 'This is line 3'
 // line-numbers is enabled and start from 2
 const line3 = 'This is line 3'
 const line4 = 'This is line 4'
-````
+```
 
 ## Import Code Snippets
 
