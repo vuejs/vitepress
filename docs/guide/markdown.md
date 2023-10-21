@@ -220,8 +220,6 @@ Wraps in a <div class="vp-raw">
 
 `vp-raw` class can be directly used on elements too. Style isolation is currently opt-in:
 
-::: details
-
 - Install `postcss` with your preferred package manager:
 
   ```sh
@@ -234,9 +232,9 @@ Wraps in a <div class="vp-raw">
   import { postcssIsolateStyles } from 'vitepress'
   
   export default {
-    plugins: {
+    plugins: [
       postcssIsolateStyles()
-    }
+    ]
   }
   ```
 
@@ -247,8 +245,6 @@ Wraps in a <div class="vp-raw">
     includeFiles: [/vp-doc\.css/] // defaults to /base\.css/
   })
   ```
-
-:::
 
 ## Syntax Highlighting in Code Blocks
 
