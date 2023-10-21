@@ -235,7 +235,7 @@ Wraps in a <div class="vp-raw">
   
   export default {
     plugins: {
-      postcssIsolateStyles()
+      ...postcssIsolateStyles()
     }
   }
   ```
