@@ -98,6 +98,7 @@ export default {
 // .vitepress/theme/index.js
 import DefaultTheme from 'vitepress/theme'
 
+/** @type {import('vitepress').Theme} */
 export default {
   extends: DefaultTheme,
   enhanceApp(ctx) {
@@ -105,6 +106,23 @@ export default {
     ctx.app.component('MyGlobalComponent' /* ... */)
   }
 }
+```
+
+If you're using TypeScript:
+```ts
+// .vitepress/theme/index.ts
+import type { Theme } from 'vitepress'
+import DefaultTheme from 'vitepress/theme'
+
+export default {
+  // ...
+  async enhanceApp({ app }) {
+    if (!import.meta.env.SSR) {
+      const plugin = await import('plugin-that-access-window-on-import')
+      app.use(plugin)
+    }
+  }
+} satisfies Theme
 ```
 
 Since we are using Vite, you can also leverage Vite's [glob import feature](https://vitejs.dev/guide/features.html#glob-import) to auto register a directory of components.
