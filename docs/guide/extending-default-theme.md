@@ -117,10 +117,8 @@ import DefaultTheme from 'vitepress/theme'
 export default {
   extends: DefaultTheme,
   async enhanceApp({ app }) {
-    if (!import.meta.env.SSR) {
-      const plugin = await import('plugin-that-access-window-on-import')
-      app.use(plugin)
-    }
+    // register your custom global components
+    ctx.app.component('MyGlobalComponent' /* ... */)
   }
 } satisfies Theme
 ```
