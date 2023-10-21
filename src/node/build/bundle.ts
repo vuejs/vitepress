@@ -70,6 +70,7 @@ export async function bundle(
       ...options,
       emptyOutDir: true,
       ssr,
+      ssrEmitAssets: config.mpa,
       // minify with esbuild in MPA mode (for CSS)
       minify: ssr
         ? config.mpa
