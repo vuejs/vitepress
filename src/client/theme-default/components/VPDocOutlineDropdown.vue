@@ -23,7 +23,7 @@ onContentUpdated(() => {
 </script>
 
 <template>
-  <div class="VPDocOutlineDropdown" v-if="headers.length > 0">
+  <div v-if="headers.length > 0" class="VPDocOutlineDropdown" :class="{ 'screen-only': frontmatter.navbar === false }">
     <button @click="open = !open" :class="{ open }">
       {{ resolveTitle(theme) }}
       <VPIconChevronRight class="icon" />
