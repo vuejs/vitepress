@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { reactify } from '@vueuse/core'
+import { toRef } from 'vue'
 import type { ButtonTranslations } from '../../../../types/local-search'
 import { useData } from '../composables/data'
 import { createTranslate } from '../support/translation'
@@ -9,11 +11,14 @@ const { theme } = useData()
 const defaultTranslations: { button: ButtonTranslations } = {
   button: {
     buttonText: 'Search',
-    buttonAriaLabel: 'Search',
+    buttonAriaLabel: 'Search'
   }
 }
 
-const $t = createTranslate(theme.value.search?.options, defaultTranslations)
+const $t = reactify(createTranslate)(
+  toRef(() => theme.value.search?.options),
+  defaultTranslations
+)
 </script>
 
 <template>

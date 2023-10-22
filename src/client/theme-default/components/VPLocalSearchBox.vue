@@ -4,6 +4,7 @@ import {
   computedAsync,
   debouncedWatch,
   onKeyStroke,
+  reactify,
   useEventListener,
   useLocalStorage,
   useScrollLock,
@@ -12,7 +13,7 @@ import {
 import { useFocusTrap } from '@vueuse/integrations/useFocusTrap'
 import Mark from 'mark.js/src/vanilla.js'
 import MiniSearch, { type SearchResult } from 'minisearch'
-import { inBrowser, useRouter, dataSymbol } from 'vitepress'
+import { dataSymbol, inBrowser, useRouter } from 'vitepress'
 import {
   computed,
   createApp,
@@ -22,6 +23,7 @@ import {
   onMounted,
   ref,
   shallowRef,
+  toRef,
   watch,
   watchEffect,
   type Ref
@@ -352,7 +354,10 @@ const defaultTranslations: { modal: ModalTranslations } = {
   }
 }
 
-const $t = createTranslate(theme.value.search?.options, defaultTranslations)
+const $t = reactify(createTranslate)(
+  toRef(() => theme.value.search?.options),
+  defaultTranslations
+)
 
 // Back
 
