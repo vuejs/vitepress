@@ -5,7 +5,7 @@ import { useData } from '../composables/data'
 import { useNav } from '../composables/nav'
 import VPNavBar from './VPNavBar.vue'
 import VPNavScreen from './VPNavScreen.vue'
-import {useScreenOnly} from "../composables/scree-only";
+import {useScreenOnly} from "../composables/screen-only";
 
 const { isScreenOpen, closeScreen, toggleScreen } = useNav()
 const { frontmatter } = useData()

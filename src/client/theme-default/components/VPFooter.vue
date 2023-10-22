@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useData } from '../composables/data'
 import { useSidebar } from '../composables/sidebar'
-import { useScreenOnly } from '../composables/scree-only'
+import { useScreenOnly } from '../composables/screen-only'
 
 const { theme, frontmatter } = useData()
 const { hasSidebar } = useSidebar()

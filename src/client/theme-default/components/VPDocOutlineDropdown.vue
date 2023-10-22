@@ -5,7 +5,7 @@ import { getHeaders, resolveTitle, type MenuItem } from '../composables/outline'
 import VPDocOutlineItem from './VPDocOutlineItem.vue'
 import { onContentUpdated } from 'vitepress'
 import VPIconChevronRight from './icons/VPIconChevronRight.vue'
-import { useScreenOnly } from '../composables/scree-only'
+import { useScreenOnly } from '../composables/screen-only'
 
 const { frontmatter, theme } = useData()
 const screenOnly = useScreenOnly('navbar')

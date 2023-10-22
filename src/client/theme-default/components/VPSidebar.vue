@@ -4,7 +4,7 @@ import { inBrowser } from 'vitepress'
 import { ref, watch } from 'vue'
 import { useSidebar } from '../composables/sidebar'
 import VPSidebarItem from './VPSidebarItem.vue'
-import { useScreenOnly } from '../composables/scree-only'
+import { useScreenOnly } from '../composables/screen-only'
 
 const { sidebarGroups, hasSidebar } = useSidebar()
 const screenOnly = useScreenOnly('sidebar')

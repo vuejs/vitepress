@@ -7,7 +7,7 @@ import { getHeaders, type MenuItem } from '../composables/outline'
 import { useSidebar } from '../composables/sidebar'
 import VPLocalNavOutlineDropdown from './VPLocalNavOutlineDropdown.vue'
 import VPIconAlignLeft from './icons/VPIconAlignLeft.vue'
-import { useScreenOnly } from '../composables/scree-only'
+import { useScreenOnly } from '../composables/screen-only'
 
 defineProps<{
   open: boolean

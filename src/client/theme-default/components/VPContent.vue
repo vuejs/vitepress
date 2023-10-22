@@ -5,7 +5,7 @@ import { useSidebar } from '../composables/sidebar'
 import VPDoc from './VPDoc.vue'
 import VPHome from './VPHome.vue'
 import VPPage from './VPPage.vue'
-import { useScreenOnly } from '../composables/scree-only'
+import { useScreenOnly } from '../composables/screen-only'
 
 const { page, frontmatter } = useData()
 const { hasSidebar } = useSidebar()
