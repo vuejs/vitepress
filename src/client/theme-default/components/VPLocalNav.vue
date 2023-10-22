@@ -7,6 +7,7 @@ import { getHeaders, type MenuItem } from '../composables/outline'
 import { useSidebar } from '../composables/sidebar'
 import VPLocalNavOutlineDropdown from './VPLocalNavOutlineDropdown.vue'
 import VPIconAlignLeft from './icons/VPIconAlignLeft.vue'
+import { useScreenOnly } from '../composables/scree-only'
 
 defineProps<{
   open: boolean
@@ -40,12 +41,14 @@ const empty = computed(() => {
   return headers.value.length === 0 && !hasSidebar.value
 })
 
+const screenOnly = useScreenOnly('navbar')
+
 const classes = computed(() => {
   return {
     VPLocalNav: true,
     fixed: empty.value,
     'reached-top': y.value >= navHeight.value,
-    'screen-only': frontmatter.value.navbar === false
+    'screen-only': screenOnly.value
   }
 })
 </script>

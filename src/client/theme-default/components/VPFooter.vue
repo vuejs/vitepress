@@ -1,13 +1,19 @@
 <script setup lang="ts">
 import { useData } from '../composables/data'
 import { useSidebar } from '../composables/sidebar'
+import { useScreenOnly } from '../composables/scree-only'
 
 const { theme, frontmatter } = useData()
 const { hasSidebar } = useSidebar()
+const screenOnly = useScreenOnly('footer')
 </script>
 
 <template>
-  <footer v-if="theme.footer && frontmatter.footer !== false" class="VPFooter" :class="{ 'has-sidebar': hasSidebar }">
+  <footer
+    v-if="theme.footer && frontmatter.footer !== false"
+    class="VPFooter"
+    :class="{ 'has-sidebar': hasSidebar, 'screen-only': screenOnly }"
+  >
     <div class="container">
       <p v-if="theme.footer.message" class="message" v-html="theme.footer.message"></p>
       <p v-if="theme.footer.copyright" class="copyright" v-html="theme.footer.copyright"></p>

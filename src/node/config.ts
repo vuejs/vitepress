@@ -223,6 +223,24 @@ export async function resolveSiteData(
 ): Promise<SiteData> {
   userConfig = userConfig || (await resolveUserConfig(root, command, mode))[0]
 
+  const themeConfig = userConfig.themeConfig || {}
+
+  if (typeof themeConfig.print === 'boolean') {
+    themeConfig.print = {
+      outline: themeConfig.print,
+      navbar: themeConfig.print,
+      sidebar: themeConfig.print,
+      footer: themeConfig.print
+    }
+  }
+  else {
+    themeConfig.print ??= {}
+    themeConfig.print.outline ??= false
+    themeConfig.print.navbar ??= false
+    themeConfig.print.sidebar ??= false
+    themeConfig.print.footer ??= true
+  }
+
   return {
     lang: userConfig.lang || 'en-US',
     dir: userConfig.dir || 'ltr',
@@ -232,7 +250,7 @@ export async function resolveSiteData(
     base: userConfig.base ? userConfig.base.replace(/([^/])$/, '$1/') : '/',
     head: resolveSiteDataHead(userConfig),
     appearance: userConfig.appearance ?? true,
-    themeConfig: userConfig.themeConfig || {},
+    themeConfig,
     locales: userConfig.locales || {},
     scrollOffset: userConfig.scrollOffset ?? 90,
     cleanUrls: !!userConfig.cleanUrls,

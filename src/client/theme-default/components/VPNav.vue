@@ -5,9 +5,11 @@ import { useData } from '../composables/data'
 import { useNav } from '../composables/nav'
 import VPNavBar from './VPNavBar.vue'
 import VPNavScreen from './VPNavScreen.vue'
+import {useScreenOnly} from "../composables/scree-only";
 
 const { isScreenOpen, closeScreen, toggleScreen } = useNav()
 const { frontmatter } = useData()
+const screenOnly = useScreenOnly('navbar')
 
 const hasNavbar = computed(() => {
   return frontmatter.value.navbar !== false
@@ -23,7 +25,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <header v-if="hasNavbar" class="VPNav">
+  <header v-if="hasNavbar" class="VPNav" :class="{ 'screen-only': screenOnly }">
     <VPNavBar :is-screen-open="isScreenOpen" @toggle-screen="toggleScreen">
       <template #nav-bar-title-before><slot name="nav-bar-title-before" /></template>
       <template #nav-bar-title-after><slot name="nav-bar-title-after" /></template>

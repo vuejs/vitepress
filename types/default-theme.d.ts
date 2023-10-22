@@ -145,6 +145,19 @@ export namespace DefaultTheme {
      * Customize text of 404 page.
      */
     notFound?: NotFoundOptions
+
+    /**
+     * Customize how pages will be printed.
+     *
+     * To exclude `outline`, `navbar`, `sidebar` and `footer` from being printed, configure `print: false`.
+     *
+     * To print all of them, configure `print: true`.
+     *
+     * Frontmatter configuration will override the global configuration, for example, a page containing `navbar: false`, the navbar will not be printed.
+     *
+     * @default { outline: false, navbar: false, sidebar: false, footer: true }
+     */
+    print?: boolean | PrintOptions
   }
 
   // nav -----------------------------------------------------------------------
@@ -473,5 +486,34 @@ export namespace DefaultTheme {
      * @default '404'
      */
     code?: string
+  }
+
+  // print options -----------------------------------------------------------------
+
+  export interface PrintOptions {
+    /**
+     * Should the outline be printed?
+     *
+     * @default false
+     */
+    outline?: boolean
+    /**
+     * Should the navbar be printed?
+     *
+     * @default false
+     */
+    navbar?: boolean
+    /**
+     * Should the sidebar be printed?
+     *
+     * @default false
+     */
+    sidebar?: boolean
+    /**
+     * Should the sidebar be printed?
+     *
+     * @default true
+     */
+    footer?: boolean
   }
 }

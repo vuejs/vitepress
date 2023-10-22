@@ -4,8 +4,10 @@ import { inBrowser } from 'vitepress'
 import { ref, watch } from 'vue'
 import { useSidebar } from '../composables/sidebar'
 import VPSidebarItem from './VPSidebarItem.vue'
+import { useScreenOnly } from '../composables/scree-only'
 
 const { sidebarGroups, hasSidebar } = useSidebar()
+const screenOnly = useScreenOnly('sidebar')
 
 const props = defineProps<{
   open: boolean
@@ -31,7 +33,7 @@ watch(
   <aside
     v-if="hasSidebar"
     class="VPSidebar"
-    :class="{ open }"
+    :class="{ open, 'screen-only': screenOnly }"
     ref="navEl"
     @click.stop
   >
