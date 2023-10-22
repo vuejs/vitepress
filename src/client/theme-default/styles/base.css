@@ -250,9 +250,3 @@ mjx-container {
 mjx-container > svg {
   margin: auto;
 }
-
-@media print {
-  .screen-only {
-    display: none !important;
-  }
-}
