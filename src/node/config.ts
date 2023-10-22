@@ -225,18 +225,11 @@ export async function resolveSiteData(
 
   const themeConfig = userConfig.themeConfig || {}
 
-  if (typeof themeConfig.print === 'boolean') {
-    themeConfig.print = {
-      outline: themeConfig.print,
-      navbar: themeConfig.print,
-      sidebar: themeConfig.print,
-      footer: themeConfig.print
-    }
-  } else {
+  if (typeof themeConfig.print !== 'boolean') {
     themeConfig.print ??= {}
-    themeConfig.print.outline ??= false
-    themeConfig.print.navbar ??= false
-    themeConfig.print.sidebar ??= false
+    themeConfig.print.outline ??= true
+    themeConfig.print.navbar ??= true
+    themeConfig.print.sidebar ??= true
     themeConfig.print.footer ??= true
   }
 
