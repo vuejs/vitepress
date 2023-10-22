@@ -1,3 +1,11 @@
+# [1.0.0-rc.23](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.22...v1.0.0-rc.23) (2023-10-22)
+
+### Bug Fixes
+
+- don't normalize non-html/non-http links ([#3114](https://github.com/vuejs/vitepress/issues/3114)) ([da3d781](https://github.com/vuejs/vitepress/commit/da3d7812a143e3aa360845b89f573d4e1ec637dd))
+- **mpa:** properly emit assets in mpa mode ([#3115](https://github.com/vuejs/vitepress/issues/3115)) ([6cf1de5](https://github.com/vuejs/vitepress/commit/6cf1de5e9e15d4507054744b665ac15d5f9a05f1))
+- **theme/search:** prevent reactivity loss with i18n ([#3121](https://github.com/vuejs/vitepress/issues/3121)) ([50d61fa](https://github.com/vuejs/vitepress/commit/50d61faefacc3885efe99fe5477a3b815354a0c4))
+
 # [1.0.0-rc.22](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.21...v1.0.0-rc.22) (2023-10-15)
 
 ### Bug Fixes
