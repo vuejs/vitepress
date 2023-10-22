@@ -510,7 +510,7 @@ export namespace DefaultTheme {
      */
     sidebar?: boolean
     /**
-     * Should the sidebar be printed?
+     * Should the footer be printed?
      *
      * @default true
      */
