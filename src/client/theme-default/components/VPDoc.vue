@@ -212,9 +212,11 @@ const pageName = computed(() =>
 }
 
 @media print {
-  /* will be moved to the left? */
   .VPDoc.with-screen-only {
     padding-top: 24px !important;
+  }
+  .VPDoc.has-aside.with-screen-only .content-container {
+    max-width: unset;
   }
 }
 </style>
