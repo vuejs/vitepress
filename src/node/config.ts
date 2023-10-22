@@ -232,8 +232,7 @@ export async function resolveSiteData(
       sidebar: themeConfig.print,
       footer: themeConfig.print
     }
-  }
-  else {
+  } else {
     themeConfig.print ??= {}
     themeConfig.print.outline ??= false
     themeConfig.print.navbar ??= false
