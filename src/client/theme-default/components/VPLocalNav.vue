@@ -45,7 +45,7 @@ const classes = computed(() => {
     VPLocalNav: true,
     fixed: empty.value,
     'reached-top': y.value >= navHeight.value,
-    'screen-only': frontmatter.value.navbar === false,
+    'screen-only': frontmatter.value.navbar === false
   }
 })
 </script>
