@@ -175,7 +175,8 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
             { text: 'Edit Link', link: 'edit-link' },
             { text: 'Last Updated Timestamp', link: 'last-updated' },
             { text: 'Search', link: 'search' },
-            { text: 'Carbon Ads', link: 'carbon-ads' }
+            { text: 'Carbon Ads', link: 'carbon-ads' },
+            { text: 'Print Pages', link: 'print-pages' }
           ]
         }
       ]
