@@ -1,3 +1,14 @@
+# [1.0.0-rc.24](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.23...v1.0.0-rc.24) (2023-10-24)
+
+### Bug Fixes
+
+- lock plugin-vue version ([aa75fd6](https://github.com/vuejs/vitepress/commit/aa75fd62643d51be647f6e5937c97b7c47bf9739))
+- **styles:** large blur radius is causing color issues with safari ([a31e143](https://github.com/vuejs/vitepress/commit/a31e143afac597034a8d77f516961b0d2857ac8d))
+
+### Features
+
+- **template:** add types for theme config ([#3122](https://github.com/vuejs/vitepress/issues/3122)) ([56b3ce5](https://github.com/vuejs/vitepress/commit/56b3ce5032b1d3bcfd66a1a397d87172a6f113d7))
+
 # [1.0.0-rc.23](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.22...v1.0.0-rc.23) (2023-10-22)
 
 ### Bug Fixes
