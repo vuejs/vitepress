@@ -180,8 +180,13 @@ async function resolveConfigExtends(
 ): Promise<UserConfig> {
   const resolved = await (typeof config === 'function' ? config() : config)
   if (resolved.extends) {
-    const base = await resolveConfigExtends(resolved.extends)
-    return mergeConfig(base, resolved)
+    const extendsRaw = [resolved.extends].flat()
+    const manyBases = await Promise.all(
+      extendsRaw.map((config) => resolveConfigExtends(config))
+    )
+    // or reduceRight() depending on which side gets priority
+    const singleBase = manyBases.reduce((prev, curr) => mergeConfig(prev, curr))
+    return mergeConfig(singleBase, resolved)
   }
   return resolved
 }
