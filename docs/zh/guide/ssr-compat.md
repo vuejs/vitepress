@@ -52,6 +52,7 @@ if (!import.meta.env.SSR) {
 
 ```js
 // .vitepress/theme/index.js
+/** @type {import('vitepress').Theme} */
 export default {
   // ...
   async enhanceApp({ app }) {
@@ -61,6 +62,23 @@ export default {
     }
   }
 }
+```
+
+如果你使用 TypeScript:
+
+```ts
+// .vitepress/theme/index.ts
+import type { Theme } from 'vitepress'
+
+export default {
+	// ...
+	async enhanceApp({ app }) {
+		if (!import.meta.env.SSR) {
+			const plugin = await import('plugin-that-access-window-on-import')
+			app.use(plugin)
+		}
+	},
+} satisfies Theme
 ```
 
 ### `defineClientComponent` {#`defineclientcomponent`}

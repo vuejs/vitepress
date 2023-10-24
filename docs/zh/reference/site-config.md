@@ -10,7 +10,7 @@ Site config 可以定义站点的全局设置。App config 配置选项适用于
 
 ### 配置解析 {#config-resolution}
 
-配置文件总是从 `<root>/.vitepress/config.[ext]` 解析，其中 `<root>` 是你的 VitePress [项目根目录](../guide/routing#root-and-source-directory)，`[ext]` 是支持的文件扩展名之一。开箱即用地支持 TypeScript。支持的扩展名包括 `.js`、`.ts`、`.cjs`、`.mjs`、`.cts` 和 `.mts`。
+配置文件总是从 `<root>/.vitepress/config.[ext]` 解析，其中 `<root>` 是你的 VitePress [项目根目录](../guide/routing#root-and-source-directory)，`[ext]` 是支持的文件扩展名之一。开箱即用地支持 TypeScript。支持的扩展名包括 `.js`、`.ts`、`.mjs` 和 `.mts`。
 
 建议在配置文件中使用 ES 模块语法。配置文件应该默认导出一个对象：
 
@@ -161,16 +161,44 @@ export default {
 :::
 
 ```ts
+type HeadConfig = [string, Record<string, string>] | [string, Record<string, string>, string]
+```
+
+#### 示例：添加一个图标 {#example-adding-a-favicon}
+
+```ts
+export default {
+	head: [['link', { rel: 'icon', href: '/favicon.ico' }]],
+} // put favicon.ico in public directory, if base is set, use /base/favicon.ico
+
+/* Would render:
+  <link rel="icon" href="/favicon.ico">
+*/
+```
+
+#### 示例：添加谷歌字体 {#example-adding-google-fonts}
+
+```ts
 export default {
 	head: [
-		[
-			'link',
-			{ rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
-			// would render:
-			//
-			// <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		],
+		['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
+		['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
+		['link', { href: 'https://fonts.googleapis.com/css2?family=Roboto&display=swap', rel: 'stylesheet' }],
+	],
+}
 
+/* 将会渲染成：
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+*/
+```
+
+#### 示例：添加一个 serviceWorker {#example-registering-a-service-worker}
+
+```ts
+export default {
+	head: [
 		[
 			'script',
 			{ id: 'register-sw' },
@@ -179,22 +207,47 @@ export default {
           navigator.serviceWorker.register('/sw.js')
         }
       })()`,
-			// would render:
-			//
-			// <script id="register-sw">
-			// ;(() => {
-			//   if ('serviceWorker' in navigator) {
-			//     navigator.serviceWorker.register('/sw.js')
-			//   }
-			// })()
-			// </script>
 		],
 	],
 }
+
+/* 将会渲染成：
+  <script id="register-sw">
+    ;(() => {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js')
+      }
+    })()
+  </script>
+*/
 ```
 
+#### 示例：使用谷歌分析 {#example-using-google-analytics}
+
 ```ts
-type HeadConfig = [string, Record<string, string>] | [string, Record<string, string>, string]
+export default {
+	head: [
+		['script', { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=TAG_ID' }],
+		[
+			'script',
+			{},
+			`window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'TAG_ID');`,
+		],
+	],
+}
+
+/* 将会渲染成：
+  <script async src="https://www.googletagmanager.com/gtag/js?id=TAG_ID"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'TAG_ID');
+  </script>
+*/
 ```
 
 ### 语言 {#lang}
@@ -246,7 +299,7 @@ export default {
 - key: `rewrites`
 - Type: `Record<string, string>`
 
-自定义目录 <-> URL 映射。详细信息请参阅[路由：路由重写](../guide/routing#route-rewrites)。
+自定义目录 &lt;-&gt; URL 映射。详细信息请参阅[路由：路由重写](../guide/routing#route-rewrites)。
 
 ```ts
 export default {
@@ -366,7 +419,7 @@ When set to `true`, the production app will be built in [MPA Mode](../guide/mpa-
 ### 外观 {#appearance}
 
 - key: `appearance`
-- Type: `boolean | 'dark'`
+- Type: `boolean | 'dark' | 'force-dark' | import('@vueuse/core').UseDarkOptions`
 - Default: `true`
 
 是否启用深色模式（通过将 `.dark` 类添加到 `<html>` 元素）。
@@ -376,6 +429,8 @@ When set to `true`, the production app will be built in [MPA Mode](../guide/mpa-
 - 如果该选项设置为 `false`，用户将无法切换主题。
 
 此选项注入一个内联脚本，使用 `vitepress-theme-appearance` key 从本地存储恢复用户设置。这确保在呈现页面之前应用 `.dark` 类以避免闪烁。
+
+`appearance.initialValue` 只能是 `'dark' | undefined`。 不支持 Refs 或 getters。
 
 ### 最近更新时间 {#lastupdated}
 
@@ -398,19 +453,9 @@ When set to `true`, the production app will be built in [MPA Mode](../guide/mpa-
 
 ```js
 export default {
-	markdown: {
-		theme: 'material-theme-palenight',
-		lineNumbers: true,
-
-		// adjust how header anchors are generated,
-		// useful for integrating with tools that use different conventions
-		anchor: {
-			slugify(str) {
-				return encodeURIComponent(str)
-			},
-		},
-	},
+  markdown: {...}
 }
+
 ```
 
 以下是你可以在此对象中可配置的所有选项：
@@ -463,8 +508,24 @@ interface MarkdownOptions extends MarkdownIt.Options {
 	// See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-toc#options
 	toc?: TocPluginOptions
 
+	// @mdit-vue/plugin-component plugin options.
+	// See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-component#options
+	component?: ComponentPluginOptions
+
 	// Configure the Markdown-it instance.
 	config?: (md: MarkdownIt) => void
+
+	// Same as `config` but will be applied before all other plugins.
+	preConfig?: (md: MarkdownIt) => void
+
+	// Disable cache (experimental)
+	cache?: boolean
+
+	// Math support (experimental)
+	// You need to install `markdown-it-mathjax3` and set `math` to `true` to enable it.
+	// You can also pass options to `markdown-it-mathjax3` here.
+	// See: https://github.com/tani/markdown-it-mathjax3#customization
+	math?: any
 }
 ```
 
@@ -556,7 +617,7 @@ interface SSGContext {
 `transformHead` 是一个构建钩子，用于在生成每个页面之前转换 head。它将允许你添加无法静态添加到你的 VitePress 配置中的 head entries。你只需要返回额外的 entries，它们将自动与现有 entries 合并。
 
 ::: warning 警告
-不要改变 `ctx` 中的任何东西。
+不要改变 `context` 中的任何东西。
 :::
 
 ```ts
@@ -581,15 +642,32 @@ interface TransformContext {
 }
 ```
 
+请注意，仅在静态生成站点时才会调用此挂钩。在开发期间不会调用它。如果您需要在开发期间添加动态头条目，您可以使用 [`transformPageData`](#transformpagedata) 钩子来替代：
+
+```ts
+export default {
+	transformPageData(pageData) {
+		pageData.frontmatter.head ??= []
+		pageData.frontmatter.head.push([
+			'meta',
+			{
+				name: 'og:title',
+				content: pageData.frontmatter.layout === 'home' ? `VitePress` : `${pageData.title} | VitePress`,
+			},
+		])
+	},
+}
+```
+
 ### transformHtml
 
 - key: `transformHtml`
-- Type: `(code: string, id: string, ctx: TransformContext) => Awaitable<string | void>`
+- Type: `(code: string, id: string, context: TransformContext) => Awaitable<string | void>`
 
 `transformHtml` 是一个构建钩子，用于在保存到磁盘之前转换每个页面的内容。
 
 ::: warning 警告
-不要改变 `ctx` 中的任何东西。另外，修改 html 内容可能会导致运行时出现 hydration 问题。
+不要改变 `context` 中的任何东西。另外，修改 html 内容可能会导致运行时出现 hydration 问题。
 :::
 
 ```ts
@@ -603,12 +681,12 @@ export default {
 ### transformPageData
 
 - key: `transformPageData`
-- Type: `(pageData: PageData, ctx: TransformPageContext) => Awaitable<Partial<PageData> | { [key: string]: any } | void>`
+- Type: `(pageData: PageData, context: TransformPageContext) => Awaitable<Partial<PageData> | { [key: string]: any } | void>`
 
 `transformPageData` 是一个钩子，用于转换每个页面的 `pageData`。你可以直接改变 `pageData` 或返回将合并到 `PageData` 中的更改值。
 
 ::: warning 警告
-不要改变 `ctx` 中的任何东西。
+不要改变 `context` 中的任何东西。请注意，这可能会影响开发服务器的性能，特别是当您在钩子中有一些网络请求或大量计算（例如生成图像）时。您可以通过判断 `process.env.NODE_ENV === 'production'` 匹配符合条件的情况。
 :::
 
 ```ts

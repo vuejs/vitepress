@@ -41,3 +41,27 @@ layout: doc
 ## 无布局 {#no-layout}
 
 如果你不想要任何布局，你可以通过 frontmatter 传递 `layout: false`。如果你想要一个完全可自定义的登录页面（默认情况下没有任何侧边栏、导航栏或页脚），此选项很有用。
+
+## 自定义布局 {#custom-layout}
+
+你也可以使用自定义布局：
+
+```md
+---
+layout: foo
+---
+```
+
+这将在上下文中查找注册名为 `foo` 的组件。例如，你可以在 `.vitepress/theme/index.ts`中全局注册您的组件：
+
+```ts
+import DefaultTheme from 'vitepress/theme'
+import Foo from './Foo.vue'
+
+export default {
+	extends: DefaultTheme,
+	enhanceApp({ app }) {
+		app.component('foo', Foo)
+	},
+}
+```
