@@ -4,6 +4,7 @@ import {
   computedAsync,
   debouncedWatch,
   onKeyStroke,
+  reactify,
   useEventListener,
   useLocalStorage,
   useScrollLock,
@@ -12,7 +13,7 @@ import {
 import { useFocusTrap } from '@vueuse/integrations/useFocusTrap'
 import Mark from 'mark.js/src/vanilla.js'
 import MiniSearch, { type SearchResult } from 'minisearch'
-import { inBrowser, useRouter, dataSymbol } from 'vitepress'
+import { dataSymbol, inBrowser, useRouter } from 'vitepress'
 import {
   computed,
   createApp,
@@ -22,6 +23,7 @@ import {
   onMounted,
   ref,
   shallowRef,
+  toRef,
   watch,
   watchEffect,
   type Ref
@@ -30,10 +32,6 @@ import type { ModalTranslations } from '../../../../types/local-search'
 import { pathToFile } from '../../app/utils'
 import { useData } from '../composables/data'
 import { createTranslate } from '../support/translation'
-
-defineProps<{
-  placeholder: string
-}>()
 
 const emit = defineEmits<{
   (e: 'close'): void
@@ -112,6 +110,16 @@ const disableDetailedView = computed(() => {
     theme.value.search?.provider === 'local' &&
     (theme.value.search.options?.disableDetailedView === true ||
       theme.value.search.options?.detailedView === false)
+  )
+})
+
+const buttonText = computed(() => {
+  const options = theme.value.search?.options ?? theme.value.algolia
+
+  return (
+    options?.locales?.[localeIndex.value]?.translations?.button?.buttonText ||
+    options?.translations?.button?.buttonText ||
+    'Search'
   )
 })
 
@@ -346,7 +354,10 @@ const defaultTranslations: { modal: ModalTranslations } = {
   }
 }
 
-const $t = createTranslate(theme.value.search?.options, defaultTranslations)
+const $t = reactify(createTranslate)(
+  toRef(() => theme.value.search?.options),
+  defaultTranslations
+)
 
 // Back
 
@@ -414,7 +425,7 @@ function formMarkRegex(terms: Set<string>) {
           @submit.prevent=""
         >
           <label
-            :title="placeholder"
+            :title="buttonText"
             id="localsearch-label"
             for="localsearch-input"
           >
@@ -463,7 +474,7 @@ function formMarkRegex(terms: Set<string>) {
           <input
             ref="searchInput"
             v-model="filterText"
-            :placeholder="placeholder"
+            :placeholder="buttonText"
             id="localsearch-input"
             aria-labelledby="localsearch-label"
             class="search-input"

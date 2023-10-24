@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { DefaultTheme } from 'vitepress/theme'
 import docsearch from '@docsearch/js'
-import { onMounted, watch } from 'vue'
-import { useRouter, useRoute } from 'vitepress'
+import { useRoute, useRouter } from 'vitepress'
+import type { DefaultTheme } from 'vitepress/theme'
+import { nextTick, onMounted, watch } from 'vue'
 import { useData } from '../composables/data'
 
 const props = defineProps<{
@@ -18,7 +18,8 @@ type DocSearchProps = Parameters<typeof docsearch>[0]
 onMounted(update)
 watch(localeIndex, update)
 
-function update() {
+async function update() {
+  await nextTick()
   const options = {
     ...props.algolia,
     ...props.algolia.locales?.[localeIndex.value]
@@ -86,12 +87,7 @@ function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
 
 function getRelativePath(url: string) {
   const { pathname, hash } = new URL(url, location.origin)
-  return (
-    pathname.replace(
-      /\.html$/,
-      site.value.cleanUrls ? '' : '.html'
-    ) + hash
-  )
+  return pathname.replace(/\.html$/, site.value.cleanUrls ? '' : '.html') + hash
 }
 </script>
 

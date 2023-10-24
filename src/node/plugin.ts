@@ -37,7 +37,7 @@ declare module 'vite' {
 }
 
 const themeRE = /\/\.vitepress\/theme\/index\.(m|c)?(j|t)s$/
-const hashRE = /\.(\w+)\.js$/
+const hashRE = /\.([-\w]+)\.js$/
 const staticInjectMarkerRE =
   /\b(const _hoisted_\d+ = \/\*(?:#|@)__PURE__\*\/\s*createStaticVNode)\("(.*)", (\d+)\)/g
 const staticStripRE = /['"`]__VP_STATIC_START__[^]*?__VP_STATIC_END__['"`]/g
