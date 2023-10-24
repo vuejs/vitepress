@@ -6,15 +6,15 @@ VitePress 带有内置的 Markdown 扩展。
 
 标题会自动应用锚点。可以使用 `markdown.anchor` 选项配置锚点的渲染。
 
-### 自定义锚点 {#custom-anchors}
+### Custom anchors
 
-要为标题指定自定义锚标记，而不是使用自动生成的锚标记，请在标题中添加后缀：
+To specify a custom anchor tag for a heading instead of using the auto-generated one, add a suffix to the heading:
 
 ```
 # Using custom anchors {#my-anchor}
 ```
 
-这允许你链接到标题 `#my-anchor` 而不是默认的 `#using-custom-anchors`。
+This allows you to link to the heading as `#my-anchor` instead of the default `#using-custom-anchors`.
 
 ## 链接 {#links}
 
@@ -96,7 +96,7 @@ lang: en-US
 | col 2 is      |   centered    |   \$12 |
 | zebra stripes |   are neat    |    \$1 |
 
-## Emoji :tada:
+## Emoji :tada: 
 
 **输入**
 
@@ -188,11 +188,9 @@ Danger zone, do not proceed
 :::
 
 ::: details Click me to view the code
-
 ```js
 console.log('Hello, VitePress!')
 ```
-
 :::
 ````
 
@@ -203,31 +201,10 @@ Danger zone, do not proceed
 :::
 
 ::: details Click me to view the code
-
 ```js
 console.log('Hello, VitePress!')
 ```
-
 :::
-
-此外，你可以通过在站点配置中添加以下内容来全局设置自定义标题，如果不是用英语书写，这会很有帮助：
-
-```ts
-// config.ts
-export default defineConfig({
-	// ...
-	markdown: {
-		container: {
-			tipLabel: '提示',
-			warningLabel: '警告',
-			dangerLabel: '危险',
-			infoLabel: '信息',
-			detailsLabel: '详细信息',
-		},
-	},
-	// ...
-})
-```
 
 ### `raw`
 
@@ -243,29 +220,32 @@ Wraps in a <div class="vp-raw">
 
 `vp-raw` class 也可以直接用于元素。样式隔离目前是可选的：
 
-- 使用你喜欢的包管理器来安装 `postcss`：
+::: details
 
-```sh
-$ npm add -D postcss
-```
+- 使用你喜欢的包管理器来安装需要的依赖项：
 
-- 创建 `docs/postcss.config.mjs` 并将以下内容
+  ```sh
+  $ npm install -D postcss postcss-prefix-selector
+  ```
 
-```js
-import { postcssIsolateStyles } from 'vitepress'
+- 创建 `docs/.postcssrc.cjs` 并将以下内容
 
-export default {
-	plugins: [postcssIsolateStyles()],
-}
-```
+  ```js
+  module.exports = {
+    plugins: {
+      'postcss-prefix-selector': {
+        prefix: ':not(:where(.vp-raw *))',
+        includeFiles: [/vp-doc\.css/],
+        transform(prefix, _selector) {
+          const [selector, pseudo = ''] = _selector.split(/(:\S*)$/)
+          return selector + prefix + pseudo
+        }
+      }
+    }
+  }
+  ```
 
-它在底层使用 [`postcss-prefix-selector`](https://github.com/postcss/postcss-load-config)。你可以像这样传递它的选项：
-
-```js
-postcssIsolateStyles({
-	includeFiles: [/vp-doc\.css/], // 默认 /base\.css/
-})
-```
+:::
 
 ## 代码块中的语法高亮 {#syntax-highlighting-in-code-blocks}
 
@@ -296,14 +276,16 @@ export default {
 
 ```js
 export default {
-	name: 'MyComponent',
-	// ...
+  name: 'MyComponent'
+  // ...
 }
 ```
 
 ```html
 <ul>
-	<li v-for="todo in todos" :key="todo.id">{{ todo.text }}</li>
+  <li v-for="todo in todos" :key="todo.id">
+    {{ todo.text }}
+  </li>
 </ul>
 ```
 
@@ -399,11 +381,11 @@ export default {
 
 ```js
 export default {
-	data() {
-		return {
-			msg: 'Highlighted!', // [!code hl]
-		}
-	},
+  data() {
+    return {
+      msg: 'Highlighted!' // [!code hl]
+    }
+  }
 }
 ```
 
@@ -433,11 +415,11 @@ export default {
 
 ```js
 export default {
-	data() {
-		return {
-			msg: 'Focused!', // [!code focus]
-		}
-	},
+  data() {
+    return {
+      msg: 'Focused!' // [!code focus]
+    }
+  }
 }
 ```
 
@@ -475,7 +457,7 @@ export default {
 }
 ```
 
-## 高亮 “错误” 和 “警告” {#errors-and-warnings-in-code-blocks}
+## 高亮“错误”和“警告” {#errors-and-warnings-in-code-blocks}
 
 在某一行添加 `// [!code warning]` 或 `// [!code error]` 注释将会为该行相应的着色。
 
@@ -500,12 +482,12 @@ export default {
 
 ```js
 export default {
-	data() {
-		return {
-			msg: 'Error', // [!code error]
-			msg: 'Warning', // [!code warning]
-		}
-	},
+  data() {
+    return {
+      msg: 'Error', // [!code error]
+      msg: 'Warning' // [!code warning]
+    }
+  }
 }
 ```
 
@@ -515,17 +497,15 @@ export default {
 
 ```js
 export default {
-	markdown: {
-		lineNumbers: true,
-	},
+  markdown: {
+    lineNumbers: true
+  }
 }
 ```
 
 查看 [`markdown` 选项](../reference/site-config#markdown) 获取更多信息。
 
 你可以在你的代码块中添加 `:line-numbers` / `:no-line-numbers` 标记来覆盖在配置中的设置。
-
-你还可以通过在 `:line-numbers` 之后添加 `=` 来自定义起始行号。例如， `:line-numbers=2` 表示代码块中的行号将从“2”开始。
 
 **输入**
 
@@ -541,12 +521,6 @@ const line3 = 'This is line 3'
 const line2 = 'This is line 2'
 const line3 = 'This is line 3'
 ```
-
-```ts:line-numbers=2 {1}
-// line-numbers is enabled and start from 2
-const line3 = 'This is line 3'
-const line4 = 'This is line 4'
-```
 ````
 
 **输出**
@@ -561,12 +535,6 @@ const line3 = 'This is line 3'
 // line-numbers is enabled
 const line2 = 'This is line 2'
 const line3 = 'This is line 3'
-```
-
-```ts:line-numbers=2 {1}
-// line-numbers is enabled and start from 2
-const line3 = 'This is line 3'
-const line4 = 'This is line 4'
 ```
 
 ## 导入代码片段 {#import-code-snippets}
@@ -598,7 +566,7 @@ const line4 = 'This is line 4'
 <<< @/snippets/snippet.js{2}
 
 ::: tip
-`@` 的值对应于源代码根目录，默认情况下是 VitePress 项目根目录，除非配置了 `srcDir`。或者，你也可以从相对路径导入：
+`@` 的值对应于源代码根目录，默认情况下是 VitePress 项目根目录，除非配置了 `srcDir`。或者你也可以从相对路径导入：
 
 ```md
 <<< ../snippets/snippet.js
@@ -652,7 +620,7 @@ const line4 = 'This is line 4'
  * @type {import('vitepress').UserConfig}
  */
 const config = {
-	// ...
+  // ...
 }
 
 export default config
@@ -662,7 +630,7 @@ export default config
 import type { UserConfig } from 'vitepress'
 
 const config: UserConfig = {
-	// ...
+  // ...
 }
 
 export default config
@@ -680,7 +648,7 @@ export default config
  * @type {import('vitepress').UserConfig}
  */
 const config = {
-	// ...
+  // ...
 }
 
 export default config
@@ -690,7 +658,7 @@ export default config
 import type { UserConfig } from 'vitepress'
 
 const config: UserConfig = {
-	// ...
+  // ...
 }
 
 export default config
@@ -728,13 +696,13 @@ export default config
 
 ## 包含 markdown 文件 {#markdown-file-inclusion}
 
-你可以在一个 markdown 文件中包含另一个 markdown 文件，甚至嵌套：
+你可以像这样在一个 markdown 文件中包含另一个 markdown 文件，甚至是内嵌的。
 
-::: tip 提示
-你还可以在 markdown 路径前加上 `@` 前缀，它将充当源根目录。默认情况下它是 VitePress 项目根目录，除非配置了 `srcDir`。
+::: tip
+你也可以使用 `@`，它的值对应于源代码根目录，默认情况下是 VitePress 项目根目录，除非配置了 `srcDir`。
 :::
 
-例如，你可以使用以下方式包含一个相对路径的 markdown 文件：
+例如，你可以这样用相对路径包含 Markdown 文件：
 
 **输入**
 
@@ -743,7 +711,7 @@ export default config
 
 ## Basics {#basics}
 
-<!-- @include: ./parts/basics.md -->
+<!--@include: ./parts/basics.md-->
 ```
 
 **另一个文件** (`parts/basics.md`)
@@ -753,7 +721,7 @@ Some getting started stuff.
 
 ### Configuration {#configuration}
 
-可以使用 `.foorc.json` 创建。
+Can be created using `.foorc.json`.
 ```
 
 **等价代码**
@@ -767,92 +735,48 @@ Some getting started stuff.
 
 ### Configuration {#configuration}
 
-可以使用 `.foorc.json` 创建。
+Can be created using `.foorc.json`.
 ```
 
-它还支持选择行范围：
+It also supports selecting a line range:
 
-**输入**
+**Input**
 
 ```md
-# Docs {#docs}
+# Docs
 
-## Basics {#basics}
+## Basics
 
 <!--@include: ./parts/basics.md{3,}-->
 ```
 
-**另一个文件** (`parts/basics.md`)
+**Part file** (`parts/basics.md`)
 
 ```md
 Some getting started stuff.
 
-### Configuration {#configuration}
+### Configuration
 
-可以使用 `.foorc.json` 创建。
+Can be created using `.foorc.json`.
 ```
 
-**等价代码**
+**Equivalent code**
 
 ```md
-# Docs {#docs}
+# Docs
 
-## Basics {#basics}
+## Basics
 
-### Configuration {#configuration}
+### Configuration
 
-可以使用 `.foorc.json` 创建。
+Can be created using `.foorc.json`.
 ```
 
-所选行范围的格式可以是： `{3,}`, `{,10}`, `{1,10}`
+The format of the selected line range can be: `{3,}`, `{,10}`, `{1,10}`
 
-::: warning 警告
-注意！如果你指定的文件不存在，这将不会产生错误。因此，在使用这个功能的时候请保证内容按预期呈现。
+::: warning
+如果你指定的文件不存在，这将不会产生错误。因此，在使用这个功能的时候请保证内容按预期呈现。
 :::
-
-## Math Equations
-
-This is currently opt-in. 要启用它, 你需要安装 `markdown-it-mathjax3`，在配置文件中设置`markdown.math` 为 `true`：
-
-```sh
-npm add -D markdown-it-mathjax3
-```
-
-```ts
-// .vitepress/config.ts
-export default {
-	markdown: {
-		math: true,
-	},
-}
-```
-
-**输入**
-
-```md
-当 $a \ne 0$, $(ax^2 + bx + c = 0)$ 有两个解，它们是
-$$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
-
-**Maxwell's 方程组:**
-| 方程 | 描述 |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| $\nabla \cdot \vec{\mathbf{B}}  = 0$ | divergence of $\vec{\mathbf{B}}$ is zero |
-| $\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t}  = \vec{\mathbf{0}}$ | curl of $\vec{\mathbf{E}}$ is proportional to the rate of change of $\vec{\mathbf{B}}$ |
-| $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _wha?_ |
-```
-
-**输出**
-
-当 $a \ne 0$, $(ax^2 + bx + c = 0)$ 有两个解，它们是
-$$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
-
-**Maxwell's 方程组:**
-
-| 方程                                                                                                                                                                      | 描述                                                                                   |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| $\nabla \cdot \vec{\mathbf{B}}  = 0$                                                                                                                                      | divergence of $\vec{\mathbf{B}}$ is zero                                               |
-| $\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t}  = \vec{\mathbf{0}}$                                                          | curl of $\vec{\mathbf{E}}$ is proportional to the rate of change of $\vec{\mathbf{B}}$ |
-| $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _wha?_                                                                                 |
 
 ## 高级配置 {#advanced-configuration}
 
@@ -863,22 +787,22 @@ import markdownItAnchor from 'markdown-it-anchor'
 import markdownItFoo from 'markdown-it-foo'
 
 module.exports = {
-	markdown: {
-		// options for markdown-it-anchor
-		// https://github.com/valeriangalliat/markdown-it-anchor#usage
-		anchor: {
-			permalink: markdownItAnchor.permalink.headerLink(),
-		},
+  markdown: {
+    // options for markdown-it-anchor
+    // https://github.com/valeriangalliat/markdown-it-anchor#usage
+    anchor: {
+      permalink: markdownItAnchor.permalink.headerLink()
+    },
 
-		// options for @mdit-vue/plugin-toc
-		// https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-toc#options
-		toc: { level: [1, 2] },
+    // options for @mdit-vue/plugin-toc
+    // https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-toc#options
+    toc: { level: [1, 2] },
 
-		config: (md) => {
-			// 使用更多 markdown-it 插件
-			md.use(markdownItFoo)
-		},
-	},
+    config: (md) => {
+      // use more markdown-it plugins!
+      md.use(markdownItFoo)
+    }
+  }
 }
 ```
 

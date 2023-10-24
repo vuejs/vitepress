@@ -1,6 +1,6 @@
 # 页脚 {#footer}
 
-配置好 `themeConfig.footer`， VitePress 将在全局页面底部显示页脚。
+配置好 `themeConfig.footer`，VitePress 将在全局页面底部显示页脚。
 
 ```ts
 export default {
@@ -36,18 +36,8 @@ export default {
 }
 ```
 
-::: warning 警告
-只有内联元素可以在 `message` 和 `copyright` 中使用，因为它们在 `<p> `元素。如果要添加块元素，请考虑改用 [`layout-bottom`](../guide/extending-default-theme#layout-slots) 插槽。
+::: warning
+Only inline elements can be used in `message` and `copyright` as they are rendered inside a `<p>` element. If you want to add block elements, consider using [`layout-bottom`](../guide/extending-default-theme#layout-slots) slot instead.
 :::
 
 请注意，当[侧边栏](./default-theme-sidebar)可见时，不会显示页脚。
-
-## Frontmatter 配置 {#frontmatter-config}
-
-可以使用 frontmatter 的 `footer` 选项在每页上禁用此功能：
-
-```yaml
----
-footer: false
----
-```

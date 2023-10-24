@@ -34,7 +34,7 @@ VitePress 项目的文件结构中有两个重要的概念：项目根目录 (**
 
 ### 项目根目录 {#project-root}
 
-项目根目录是 VitePress 将尝试寻找 `.vitepress` 特殊目录的地方。 `.vitepress` 目录是 VitePress 配置文件、开发服务器缓存、构建输出和可选主题自定义代码的预留位置。
+项目根目录是 VitePress 将尝试寻找 `.vitepress` 特殊目录的地方。`.vitepress` 目录是 VitePress 配置文件、开发服务器缓存、构建输出和可选主题自定义代码的预留位置。
 
 当你从命令行运行 `vitepress dev` 或 `vitepress build` 时，VitePress 将使用当前工作目录作为项目根目录。要将子目录指定为根目录，你需要将相对路径传递给命令。例如，如果你的 VitePress 项目位于 `./docs`，你应该运行 `vitepress dev docs`：
 
@@ -95,41 +95,15 @@ src/getting-started.md  -->  /getting-started.html
 [Getting Started](./getting-started.html)
 ```
 
-在[资源处理](./asset-handling)中了解有关链接到资源（例如图像）的更多信息。
-
-### 链接到非 vitepress 页面 {#linking-to-non-vitepress-pages}
-
-如果你想链接到网站中不是由 VitePress 生成的页面，你需要使用完整的 URL（在新选项卡中打开）或明确指定 target：
-
-**Input**
-
-```md
-[链接到 pure.html](/pure.html){target="\_self"}
-```
-
-**Output**
-
-[链接到 pure.html](/pure.html){target="\_self"}
-
-::: tip 注意
-
-在 Markdown 链接中，`base` 会自动添加到 URL 前面。这意味着，如果你想链接到 `base` 之外的页面，则链接中需要类似 `../../pure.html` 的内容（由浏览器相对于当前页面解析）。
-
-或者，你可以直接使用锚标记语法：
-
-```md
-<a href="/pure.html" target="_self">Link to pure.html</a>
-```
-
-:::
+在[资源处理](asset-handling)中了解有关链接到资源（例如图像）的更多信息。
 
 ## 生成简洁的 URL {#generating-clean-url}
 
-::: warning 需要服务器支持
+:::warning 需要服务器支持
 要使用 VitePress 提供简洁 URL，需要服务器端支持。
 :::
 
-默认情况下，VitePress 将入站链接解析为以 `.html` 结尾的 URL。但是，一些用户可能更喜欢没有 .html 扩展名的“简洁 URL” —— 例如，`example.com/path` 而不是 `example.com/path.html`。
+默认情况下，VitePress 将入站链接解析为以 `.html` 结尾的 URL。但是，一些用户可能更喜欢没有 .html 扩展名的“简洁 URL”——例如，`example.com/path` 而不是 `example.com/path.html`。
 
 某些服务器或托管平台（例如 Netlify 或 Vercel）提供将 `/foo` 之类的 URL 映射到 `/foo.html`（如果存在）的功能，而无需重定向：
 
@@ -200,7 +174,7 @@ export default {
 
 重写路径是使用 `path-to-regexp` 包编译的 - 请参阅[其文档](https://github.com/pillarjs/path-to-regexp#parameters)以获取更高级的语法。
 
-::: warning 开启重写功能时使用相对链接
+:::warning 开启重写功能时使用相对链接
 
 启用重写后，**相对链接应基于重写的路径**。例如，为了创建从 `packages/pkg-a/src/pkg-a-code.md` 到 `packages/pkg-b/src/pkg-b-code.md` 的相对链接，你应该使用：
 
@@ -225,7 +199,7 @@ export default {
    └─ [pkg].paths.js   # route paths loader
 ```
 
-路径加载器应该提供一个带有 `paths` 方法的对象作为其默认导出。 `paths` 方法应返回具有 `params` 属性的对象数组。这些对象中的每一个都将生成一个相应的页面。
+路径加载器应该提供一个带有 `paths` 方法的对象作为其默认导出。`paths` 方法应返回具有 `params` 属性的对象数组。这些对象中的每一个都将生成一个相应的页面。
 
 给定以下 `paths` 数组：
 
@@ -292,7 +266,6 @@ export default {
 
 ```js
 import fs from 'fs'
-
 export default {
 	paths() {
 		return fs.readdirSync('packages').map((pkg) => {
@@ -308,7 +281,6 @@ export default {
 export default {
 	async paths() {
 		const pkgs = await (await fetch('https://my-api.com/packages')).json()
-
 		return pkgs.map((pkg) => {
 			return {
 				params: {
@@ -323,7 +295,7 @@ export default {
 
 ### 访问页面中的参数 {#accessing-params-in-page}
 
-你可以使用参数将附加数据传递到每个页面。 Markdown 路由文件可以通过 `$params` 全局属性访问 Vue 表达式中的当前页面参数：
+你可以使用参数将附加数据传递到每个页面。Markdown 路由文件可以通过 `$params` 全局属性访问 Vue 表达式中的当前页面参数：
 
 ```md
 - package name: {{ $params.pkg }}
@@ -335,10 +307,8 @@ export default {
 ```vue
 <script setup>
 import { useData } from 'vitepress'
-
 // params is a Vue ref
 const { params } = useData()
-
 console.log(params.value)
 </script>
 ```
@@ -351,16 +321,17 @@ console.log(params.value)
 
 ```js
 export default {
-	async paths() {
-		const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
-
-		return posts.map((post) => {
-			return {
-				params: { id: post.id },
-				content: post.content, // raw Markdown or HTML
-			}
-		})
-	},
+  paths() {
+    async paths() {
+      const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
+      return posts.map((post) => {
+        return {
+          params: { id: post.id },
+          content: post.content // raw Markdown or HTML
+        }
+      })
+    }
+  }
 }
 ```
 

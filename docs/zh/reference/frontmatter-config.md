@@ -88,7 +88,7 @@ type HeadConfig = [string, Record<string, string>] | [string, Record<string, str
 
 以下 frontmatter 选项仅在使用默认主题时适用。
 
-### 布局 {#layout}
+### 布局 <Badge type="info" text="default theme only" /> {#layout}
 
 - key: `layout`
 - Type: `doc | home | page`
@@ -106,43 +106,15 @@ layout: doc
 ---
 ```
 
-### hero <Badge type="info" text="home page only" />
+### hero <Badge type="info" text="default theme only" /> <Badge type="info" text="Home page only" />
 
 当 `layout` 设置为 `home` 时，定义主页 hero 部分的内容。更多详细信息：[默认主题：主页](./default-theme-home-page)。
 
-### features <Badge type="info" text="home page only" />
+### features <Badge type="info" text="default theme only" /> <Badge type="info" text="Home page only" />
 
 定义当`layout` 设置为 `home` 时要在 features 部分中显示的项目。更多详细信息：[默认主题：主页](./default-theme-home-page)。
 
-### 顶部导航条 {#navbar}
-
-- key: `navbar`
-- Type: `boolean`
-- Default: `true`
-
-是否显示 [顶部导航条](./default-theme-nav).
-
-```yaml
----
-navbar: false
----
-```
-
-### 侧边导航 {#sidebar}
-
-- key: `sidebar`
-- Type: `boolean`
-- Default: `true`
-
-是否显示 [侧边导航](./default-theme-sidebar).
-
-```yaml
----
-sidebar: false
----
-```
-
-### 大纲开关 {#aside}
+### 大纲开关 <Badge type="info" text="default theme only" /> {#aside}
 
 - key: `aside`
 - Type: `boolean | 'left'`
@@ -160,21 +132,21 @@ aside: false
 ---
 ```
 
-### 大纲层级 {#outline}
+### 大纲层级 <Badge type="info" text="default theme only" /> {#outline}
 
 - key: `outline`
 - Type: `number | [number, number] | 'deep' | false`
 - Default: `2`
 
-大纲中显示的标题级别。它与 [config.themeConfig.outline.level](./default-theme-config#outline) 相同，它会覆盖站点级的配置。
+大纲中显示的标题级别。它与 [config.themeConfig.outline](./default-theme-config#outline) 相同，它会覆盖主题配置。
 
-### 最近更新时间 {#lastupdated}
+### 最近更新时间 <Badge type="info" text="default theme only" /> {#lastupdated}
 
 - key: `lastUpdated`
-- Type: `boolean | Date`
+- Type: `boolean`
 - Default: `true`
 
-是否在当前页面的页脚中显示[最近更新时间](./default-theme-last-updated)的文本。如果指定了日期时间，则会显示该日期时间而不是上次 git 修改的时间戳。
+是否在当前页面的页脚中显示[最近更新时间](./default-theme-last-updated)的文本。
 
 ```yaml
 ---
@@ -182,7 +154,7 @@ lastUpdated: false
 ---
 ```
 
-### 编辑链接 {#editlink}
+### 编辑链接 <Badge type="info" text="default theme only" /> {#editlink}
 
 - key: `editLink`
 - Type: `boolean`
@@ -194,38 +166,4 @@ lastUpdated: false
 ---
 editLink: false
 ---
-```
-
-### 页脚 <Badge type="info" text="default theme only" />
-
-- key: `footer`
-- Type: `boolean`
-- Default: `true`
-
-是否显示[页脚](./default-theme-footer)。
-
-```yaml
----
-footer: false
----
-```
-
-### pageClass
-
-- Type: `string`
-
-将额外的类名称添加到特定页面。
-
-```yaml
----
-pageClass: custom-page-class
----
-```
-
-然后你可以在 `.vitepress/theme/custom.css` 文件中自定义该特定页面的样式：
-
-```css
-.custom-page-class {
-  /* page-specific styles */
-}
 ```

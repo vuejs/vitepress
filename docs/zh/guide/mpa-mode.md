@@ -1,4 +1,4 @@
-# MPA 模式 <Badge type="warning" text="实验性的" /> {#mpa-mode}
+# MPA 模式 <Badge type="warning" text="experimental" /> {#mpa-mode}
 
 可以通过命令行输入 `vitepress build --mpa` 或在配置文件中指定 `mpa: true` 配置选项来启用 MPA (Multi-Page Application) 模式。
 

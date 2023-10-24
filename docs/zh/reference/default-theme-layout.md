@@ -1,6 +1,6 @@
 # 布局 {#layout}
 
-你可以通过设置页面 [frontmatter](./frontmatter-config) 选项来选择页面布局。有 3 种布局选项 `doc`、 `page` 和 `home`。如果未指定任何内容，则该页面将被视为 `doc` 页面。
+你可以通过设置页面 [frontmatter](./frontmatter-config) 选项来选择页面布局。有 3 种布局选项 `doc`、`page` 和 `home`。如果未指定任何内容，则该页面将被视为 `doc` 页面。
 
 ```yaml
 ---
@@ -28,7 +28,7 @@ layout: doc
 
 ## page 布局 {#page-layout}
 
-`page` 被视为“空白页”。 Markdown 仍然会被解析，所有的 [Markdown 扩展](../guide/markdown) 都和 `doc` 布局一样运行，但它没有任何默认样式。
+`page` 被视为“空白页”。Markdown 仍然会被解析，所有的 [Markdown 扩展](../guide/markdown) 都和 `doc` 布局一样运行，但它没有任何默认样式。
 
 `page` 布局将使你可以自行设计所有内容，而不会受 VitePress 主题影响。当你想要创建自己的自定义页面时，这很有用。
 
@@ -36,32 +36,8 @@ layout: doc
 
 ## home 布局 {#home-layout}
 
-`home` 将生成模板化的“主页”。在此布局中， 你可以设置额外的选项，例如 `hero` 和 `features` 以进一步自定义内容。请访问[默认主题: 主页](./default-theme-home-page)了解更多详情。
+`home` 将生成模板化的“主页”。在此布局中，你可以设置额外的选项，例如 `hero` 和 `features` 以进一步自定义内容。请访问[默认主题: 主页](./default-theme-home-page)了解更多详情。
 
 ## 无布局 {#no-layout}
 
 如果你不想要任何布局，你可以通过 frontmatter 传递 `layout: false`。如果你想要一个完全可自定义的登录页面（默认情况下没有任何侧边栏、导航栏或页脚），此选项很有用。
-
-## 自定义布局 {#custom-layout}
-
-你也可以使用自定义布局：
-
-```md
----
-layout: foo
----
-```
-
-这将在上下文中查找注册名为 `foo` 的组件。例如，你可以在 `.vitepress/theme/index.ts`中全局注册你的组件：
-
-```ts
-import DefaultTheme from 'vitepress/theme'
-import Foo from './Foo.vue'
-
-export default {
-	extends: DefaultTheme,
-	enhanceApp({ app }) {
-		app.component('foo', Foo)
-	},
-}
-```

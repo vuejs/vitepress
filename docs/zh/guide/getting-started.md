@@ -8,7 +8,7 @@
 
 ### 前置知识 {#prerequisites}
 
-- [Node.js](https://nodejs.org/) 18 及以上版本。
+- [Node.js](https://nodejs.org/) 16 及以上版本。
 - 通过命令行界面 (CLI) 访问 VitePress 的终端。
 - 支持 [Markdown](https://en.wikipedia.org/wiki/Markdown) 语法的编辑器。
   - 推荐 [VSCode](https://code.visualstudio.com/) 及其[官方 Vue 扩展](https://marketplace.visualstudio.com/items?itemName=Vue.volar)。
@@ -18,7 +18,7 @@ VitePress 可以单独使用，也可以安装到现有项目中。在这两种�
 ::: code-group
 
 ```sh [npm]
-$ npm add -D vitepress
+$ npm install -D vitepress
 ```
 
 ```sh [pnpm]
@@ -27,10 +27,6 @@ $ pnpm add -D vitepress
 
 ```sh [yarn]
 $ yarn add -D vitepress
-```
-
-```sh [bun]
-$ bun add -D vitepress
 ```
 
 :::
@@ -42,8 +38,7 @@ $ bun add -D vitepress
 "pnpm": {
   "peerDependencyRules": {
     "ignoreMissing": [
-      "@algolia/client-search",
-      "search-insights"
+      "@algolia/client-search"
     ]
   }
 }
@@ -51,14 +46,9 @@ $ bun add -D vitepress
 
 :::
 
-::: tip 注意
-VitePress 是仅 ESM 的软件包。不要使用 `require()` 导入它，并确保最新的 `package.json` 包含 `"type": "module"`，或者更改相关文件的文件扩展名，例如`.vitepress/config.js` 到 `.mjs`/`.mts`。更多详情请参考[Vite 故障排除指南](http://vitejs.dev/guide/troubleshooting.html#this-package-is-esm-only)。此外，在异步 CJS 上下文中，你可以使用 `await import('vitepress')` 代替。
-
-:::
-
 ### 安装向导 {#setup-wizard}
 
-VitePress 附带一个命令行设置向导，可以帮助你构建一个基本项目。安装后，通过运行以下命令启动向导：
+VitePress 附带一个命令行设置向导，可以帮助您构建一个基本项目。安装后，通过运行以下命令启动向导：
 
 ::: code-group
 
@@ -67,16 +57,18 @@ $ npx vitepress init
 ```
 
 ```sh [pnpm]
-$ pnpm dlx vitepress init
+$ pnpm exec vitepress init
 ```
 
 :::
 
 你将需要回答几个简单的问题：
 
-<<< @/snippets/init.ansi
+<p>
+  <img src="./vitepress-init.png" alt="vitepress init screenshot" style="border-radius:8px">
+</p>
 
-::: tip Vue as Peer Dependency
+:::tip Vue 作为 
 如果打算使用 Vue 组件或 API 进行自定义，还应该明确地将 `vue` 安装为 peer dependency。
 :::
 
@@ -97,9 +89,9 @@ $ pnpm dlx vitepress init
 └─ package.json
 ```
 
-`docs` 目录作为 VitePress 站点的项目**根目录**。`.vitepress` 目录是 VitePress 配置文件、开发服务器缓存、构建输出和可选主题自定义代码的位置。
+ `docs` 目录作为 VitePress 站点的项目**根目录**。`.vitepress` 目录是 VitePress 配置文件、开发服务器缓存、构建输出和可选主题自定义代码的位置。
 
-::: tip 提示
+:::tip
 默认情况下，VitePress 将其开发服务器缓存存储在 `.vitepress/cache` 中，并将生产构建输出存储在 `.vitepress/dist` 中。如果使用 Git，应该将它们添加到 `.gitignore` 文件中。也可以手动[配置](../reference/site-config#outdir)这些位置。
 :::
 
@@ -110,18 +102,17 @@ $ pnpm dlx vitepress init
 ```js
 // .vitepress/config.js
 export default {
-	// site-level options
-	title: 'VitePress',
-	description: 'Just playing around.',
+  // site-level options
+  title: 'VitePress',
+  description: 'Just playing around.',
 
-	themeConfig: {
-		// theme-level options
-	},
+  themeConfig: {
+    // theme-level options
+  }
 }
 ```
 
 还可以通过 `themeConfig` 选项配置主题的行为。有关所有配置选项的完整详细信息，请参见[配置参考](../reference/site-config)。
-
 ### 源文件 {#source-files}
 
 `.vitepress` 目录之外的 Markdown 文件被视为**源文件**。

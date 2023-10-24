@@ -35,7 +35,7 @@ export default {
 }
 ```
 
-如果你想添加 `alt` 属性或根据暗/亮模式自定义它， 你还可以将图标作为对象传递。有关详细信息，请参阅 [`themeConfig.logo`](./default-theme-config#logo)。
+如果你想添加 `alt` 属性或根据暗/亮模式自定义它，你还可以将图标作为对象传递。有关详细信息，请参阅 [`themeConfig.logo`](./default-theme-config#logo)。
 
 ## 导航链接 {#navigation-links}
 

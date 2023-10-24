@@ -7,18 +7,17 @@
 你可以使用全局组件 `Badge` 。
 
 ```html
-### Title <Badge type="info" text="default" /> ### Title <Badge type="tip" text="^1.9.0" /> ### Title <Badge type="warning" text="beta" /> ### Title
-<Badge type="danger" text="caution" />
+### Title <Badge type="info" text="default" /> 
+### Title <Badge type="tip" text="^1.9.0" /> 
+### Title <Badge type="warning" text="beta" />
+### Title <Badge type="danger" text="caution" />
 ```
 
 上面的代码渲染如下：
 
-### Title <Badge type="info" text="default" />
-
-### Title <Badge type="tip" text="^1.9.0" />
-
-### Title <Badge type="warning" text="beta" />
-
+### Title <Badge type="info" text="default" /> 
+### Title <Badge type="tip" text="^1.9.0" /> 
+### Title <Badge type="warning" text="beta" /> 
 ### Title <Badge type="danger" text="caution" />
 
 ## 自定义 `children` {#custom-children}
@@ -26,32 +25,46 @@
 `<Badge>` 接受 `子节点`, 这将显示在徽标中。
 
 ```html
-### Title <Badge type="info">custom element</Badge>
+### Title <Badge type="info">custom element</Badge> 
 ```
 
 ### Title <Badge type="info">custom element</Badge>
 
 ## 自定义不同类型徽标的背景色 {#customize-type-color}
 
-你可以通过覆写 css 来自定义不同类型 `<Badge />` 的样式。以下是默认值。
+你可以通过覆盖 css 变量 `background-color` 来自定义不同类型 `<Badge />` 的背景色。以下是默认值。
 
 ```css
 :root {
-	--vp-badge-info-border: transparent;
-	--vp-badge-info-text: var(--vp-c-text-2);
-	--vp-badge-info-bg: var(--vp-c-default-soft);
+  --vp-badge-info-border: var(--vp-c-divider-light);
+  --vp-badge-info-text: var(--vp-c-text-2);
+  --vp-badge-info-bg: var(--vp-c-white-soft);
 
-	--vp-badge-tip-border: transparent;
-	--vp-badge-tip-text: var(--vp-c-brand-1);
-	--vp-badge-tip-bg: var(--vp-c-brand-soft);
+  --vp-badge-tip-border: var(--vp-c-green-dimm-1);
+  --vp-badge-tip-text: var(--vp-c-green-darker);
+  --vp-badge-tip-bg: var(--vp-c-green-dimm-3);
 
-	--vp-badge-warning-border: transparent;
-	--vp-badge-warning-text: var(--vp-c-warning-1);
-	--vp-badge-warning-bg: var(--vp-c-warning-soft);
+  --vp-badge-warning-border: var(--vp-c-yellow-dimm-1);
+  --vp-badge-warning-text: var(--vp-c-yellow-darker);
+  --vp-badge-warning-bg: var(--vp-c-yellow-dimm-3);
 
-	--vp-badge-danger-border: transparent;
-	--vp-badge-danger-text: var(--vp-c-danger-1);
-	--vp-badge-danger-bg: var(--vp-c-danger-soft);
+  --vp-badge-danger-border: var(--vp-c-red-dimm-1);
+  --vp-badge-danger-text: var(--vp-c-red-darker);
+  --vp-badge-danger-bg: var(--vp-c-red-dimm-3);
+}
+
+.dark {
+  --vp-badge-info-border: var(--vp-c-divider-light);
+  --vp-badge-info-bg: var(--vp-c-black-mute);
+
+  --vp-badge-tip-border: var(--vp-c-green-dimm-2);
+  --vp-badge-tip-text: var(--vp-c-green-light);
+
+  --vp-badge-warning-border: var(--vp-c-yellow-dimm-2);
+  --vp-badge-warning-text: var(--vp-c-yellow-light);
+
+  --vp-badge-danger-border: var(--vp-c-red-dimm-2);
+  --vp-badge-danger-text: var(--vp-c-red-light);
 }
 ```
 
@@ -61,10 +74,10 @@
 
 ```ts
 interface Props {
-	// When `<slot>` is passed, this value gets ignored.
-	text?: string
+  // When `<slot>` is passed, this value gets ignored.
+  text?: string
 
-	// Defaults to `tip`.
-	type?: 'info' | 'tip' | 'warning' | 'danger'
+  // Defaults to `tip`.
+  type?: 'info' | 'tip' | 'warning' | 'danger'
 }
 ```

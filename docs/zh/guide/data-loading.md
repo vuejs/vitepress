@@ -11,11 +11,11 @@ VitePress 提供了一个叫做**数据加载器**的功能，它允许你加载
 ```js
 // example.data.js
 export default {
-	load() {
-		return {
-			hello: 'world',
-		}
-	},
+  load() {
+    return {
+      data: 'hello'
+    }
+  }
 }
 ```
 
@@ -23,7 +23,7 @@ export default {
 
 然后，你可以在 `.md` 页面和 `.vue` 组件中使用 `data` 命名导出从该文件中导入数据：
 
-```vue
+```html
 <script setup>
 import { data } from './example.data.js'
 </script>
@@ -35,7 +35,7 @@ import { data } from './example.data.js'
 
 ```json
 {
-	"hello": "world"
+  "data": "hello"
 }
 ```
 
@@ -45,10 +45,10 @@ import { data } from './example.data.js'
 
 ```js
 export default {
-	async load() {
-		// fetch remote data
-		return (await fetch('...')).json()
-	},
+  async load() {
+    // fetch remote data
+    return (await fetch('...')).json()
+  }
 }
 ```
 
@@ -65,18 +65,18 @@ import fs from 'node:fs'
 import { parse } from 'csv-parse/sync'
 
 export default {
-	watch: ['./data/*.csv'],
-	load(watchedFiles) {
-		// watchedFiles will be an array of absolute paths of the matched files.
-		// generate an array of blog post metadata that can be used to render
-		// a list in the theme layout
-		return watchedFiles.map((file) => {
-			return parse(fs.readFileSync(file, 'utf-8'), {
-				columns: true,
-				skip_empty_lines: true,
-			})
-		})
-	},
+  watch: ['./data/*.csv'],
+  load(watchedFiles) {
+    // watchedFiles will be an array of absolute paths of the matched files.
+    // generate an array of blog post metadata that can be used to render
+    // a list in the theme layout
+    return watchedFiles.map(file => {
+      return parse(fs.readFileSync(file, 'utf-8'), {
+        columns: true,
+        skip_empty_lines: true
+      })
+    })
+  }
 }
 ```
 
@@ -88,10 +88,10 @@ export default {
 // posts.data.js
 import { createContentLoader } from 'vitepress'
 
-export default createContentLoader('posts/*.md' /* options */)
+export default createContentLoader('posts/*.md', /* options */)
 ```
 
-该辅助函数接受一个相对于 [源目录](./routing#source-directory) 的 glob 模式，并返回一个 `{ watch, load }` 数据加载器对象，该对象可以用作数据加载器文件中的默认导出。它还基于文件修改时间戳实现了缓存以提高开发性能。
+该辅助函数接受一个相对于 [项目根目录](./routing#project-root) 的 glob 模式，并返回一个 `{ watch, load }` 数据加载器对象，该对象可以用作数据加载器文件中的默认导出。它还基于文件修改时间戳实现了缓存以提高开发性能。
 
 请注意，加载器仅适用于 Markdown 文件 - 匹配的非 Markdown 文件将被跳过。
 
@@ -99,17 +99,16 @@ export default createContentLoader('posts/*.md' /* options */)
 
 ```ts
 interface ContentData {
-	// mapped URL for the page. e.g. /posts/hello.html (does not include base)
-	// manually iterate or use custom `transform` to normalize the paths
-	url: string
-	// frontmatter data of the page
-	frontmatter: Record<string, any>
+  // mapped absolute URL for the page. e.g. /posts/hello.html
+  url: string
+  // frontmatter data of the page
+  frontmatter: Record<string, any>
 
-	// the following are only present if relevant options are enabled
-	// we will discuss them below
-	src: string | undefined
-	html: string | undefined
-	excerpt: string | undefined
+  // the following are only present if relevant options are enabled
+  // we will discuss them below
+  src: string | undefined
+  html: string | undefined
+  excerpt: string | undefined
 }
 ```
 
@@ -121,13 +120,13 @@ import { data as posts } from './posts.data.js'
 </script>
 
 <template>
-	<h1>All Blog Posts</h1>
-	<ul>
-		<li v-for="post of posts">
-			<a :href="post.url">{{ post.frontmatter.title }}</a>
-			<span>by {{ post.frontmatter.author }}</span>
-		</li>
-	</ul>
+  <h1>All Blog Posts</h1>
+  <ul>
+    <li v-for="post of posts">
+      <a :href="post.url">{{ post.frontmatter.title }}</a>
+      <span>by {{ post.frontmatter.author }}</span>
+    </li>
+  </ul>
 </template>
 ```
 
@@ -140,80 +139,35 @@ import { data as posts } from './posts.data.js'
 import { createContentLoader } from 'vitepress'
 
 export default createContentLoader('posts/*.md', {
-	includeSrc: true, // include raw markdown source?
-	render: true, // include rendered full page HTML?
-	excerpt: true, // include excerpt?
-	transform(rawData) {
-		// map, sort, or filter the raw data as you wish.
-		// the final result is what will be shipped to the client.
-		return rawData
-			.sort((a, b) => {
-				return +new Date(b.frontmatter.date) - +new Date(a.frontmatter.date)
-			})
-			.map((page) => {
-				page.src // raw markdown source
-				page.html // rendered full page HTML
-				page.excerpt // rendered excerpt HTML (content above first `---`)
-				return {
-					/* ... */
-				}
-			})
-	},
+  includeSrc: true, // include raw markdown source?
+  render: true,     // include rendered full page HTML?
+  excerpt: true,    // include excerpt?
+  transform(rawData) {
+    // map, sort, or filter the raw data as you wish.
+    // the final result is what will be shipped to the client.
+    return rawData.sort((a, b) => {
+      return +new Date(b.frontmatter.date) - +new Date(a.frontmatter.date)
+    }).map(page => {
+      page.src  // raw markdown source
+      page.html // rendered full page HTML
+      page.excerpt // rendered excerpt HTML (content above first `---`)
+      return {/* ... */}
+    })
+  }
 })
 ```
 
 查看它在 [Vue.js 博客](https://github.com/vuejs/blog/blob/main/.vitepress/theme/posts.data.ts) 中是如何使用的。
 
-`createContentLoader` API 也可以在 [构建钩子](../reference/site-config#build-hooks) 中使用：
+`createContentLoader` API 也可以在 [构建钩子](/reference/site-config#build-hooks) 中使用：
 
 ```js
 // .vitepress/config.js
 export default {
-	async buildEnd() {
-		const posts = await createContentLoader('posts/*.md').load()
-		// 根据 posts 元数据生成文件，例如 RSS feed
-	},
-}
-```
-
-**类型**
-
-```ts
-interface ContentOptions<T = ContentData[]> {
-	/**
-	 * Include src?
-	 * @default false
-	 */
-	includeSrc?: boolean
-
-	/**
-	 * Render src to HTML and include in data?
-	 * @default false
-	 */
-	render?: boolean
-
-	/**
-	 * If `boolean`, whether to parse and include excerpt? (rendered as HTML)
-	 * 如果是 `boolean`，是否解析并包含摘录？ （呈现为 HTML）
-	 *
-	 * If `function`, control how the excerpt is extracted from the content.
-	 * 如果是 `function`，控制如何从内容中提取摘录
-	 *
-	 * If `string`, define a custom separator to be used for extracting the
-	 * excerpt. Default separator is `---` if `excerpt` is `true`.
-	 * 如果是 `string`，定义用于提取摘录的自定义分隔符。如果 `excerpt` 为 `true`，则默认分隔符为 `---`。
-	 *
-	 * @see https://github.com/jonschlinkert/gray-matter#optionsexcerpt
-	 * @see https://github.com/jonschlinkert/gray-matter#optionsexcerpt_separator
-	 *
-	 * @default false
-	 */
-	excerpt?: boolean | ((file: { data: { [key: string]: any }; content: string; excerpt?: string }, options?: any) => void) | string
-
-	/**
-	 * 转换数据。请注意，如果从组件或 Markdown 文件导入，数据将以 JSON 形式内联到客户端包中。
-	 */
-	transform?: (data: ContentData[]) => T | Promise<T>
+  async buildEnd() {
+    const posts = await createContentLoader('posts/*.md').load()
+    // generate files based on posts metadata, e.g. RSS feed
+  }
 }
 ```
 
@@ -225,27 +179,17 @@ interface ContentOptions<T = ContentData[]> {
 import { defineLoader } from 'vitepress'
 
 export interface Data {
-	// data type
+  // data type
 }
 
 declare const data: Data
 export { data }
 
 export default defineLoader({
-	// type checked loader options
-	glob: ['...'],
-	async load(): Promise<Data> {
-		// ...
-	},
+  // type checked loader options
+  glob: ['...'],
+  async load(): Promise<Data> {
+    // ...
+  }
 })
-```
-
-## 配置 {#configuration}
-
-要获取加载器中的配置信息，可以使用如下代码：
-
-```ts
-import type { SiteConfig } from 'vitepress'
-
-const config: SiteConfig = (globalThis as any).VITEPRESS_CONFIG
 ```
