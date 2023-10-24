@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import { clearAllBodyScrollLocks, disableBodyScroll } from 'body-scroll-lock'
-import { ref, watchPostEffect } from 'vue'
+import { useScrollLock } from '@vueuse/core'
+import { inBrowser } from 'vitepress'
+import { ref, watch } from 'vue'
 import { useSidebar } from '../composables/sidebar'
 import VPSidebarItem from './VPSidebarItem.vue'
 
@@ -11,24 +12,19 @@ const props = defineProps<{
 }>()
 
 // a11y: focus Nav element when menu has opened
-let navEl = ref<HTMLElement | null>(null)
+const navEl = ref<HTMLElement | null>(null)
+const isLocked = useScrollLock(inBrowser ? document.body : null)
 
-function lockBodyScroll() {
-  disableBodyScroll(navEl.value!, { reserveScrollBarGap: true })
-}
-
-function unlockBodyScroll() {
-  clearAllBodyScrollLocks()
-}
-
-watchPostEffect(async () => {
-  if (props.open) {
-    lockBodyScroll()
-    navEl.value?.focus()
-  } else {
-    unlockBodyScroll()
-  }
-})
+watch(
+  [props, navEl],
+  () => {
+    if (props.open) {
+      isLocked.value = true
+      navEl.value?.focus()
+    } else isLocked.value = false
+  },
+  { immediate: true, flush: 'post' }
+)
 </script>
 
 <template>
@@ -82,7 +78,7 @@ watchPostEffect(async () => {
   visibility: visible;
   transform: translateX(0);
   transition: opacity 0.25s,
-              transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .dark .VPSidebar {

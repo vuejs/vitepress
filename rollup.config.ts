@@ -22,10 +22,10 @@ const r = (p: string) => resolve(ROOT, '..', p)
 
 const external = [
   ...Object.keys(pkg.dependencies),
+  ...Object.keys(pkg.peerDependencies),
   ...builtinModules.flatMap((m) =>
     m.includes('punycode') ? [] : [m, `node:${m}`]
-  ),
-  r('types/shared.d.ts')
+  )
 ]
 
 const plugins = [
@@ -42,7 +42,7 @@ const plugins = [
   }),
   commonjs(),
   nodeResolve({ preferBuiltins: false }),
-  esbuild({ target: 'node14' }),
+  esbuild({ target: 'node18' }),
   json()
 ]
 
@@ -62,20 +62,12 @@ const esmBuild: RollupOptions = {
   }
 }
 
-const cjsBuild: RollupOptions = {
-  input: [r('src/node/index.ts'), r('src/node/cli.ts')],
-  output: {
-    format: 'cjs',
-    dir: r('dist/node-cjs'),
-    entryFileNames: `[name].cjs`,
-    chunkFileNames: 'serve-[hash].cjs'
-  },
-  external,
-  plugins,
-  onwarn(warning, warn) {
-    if (warning.code !== 'EVAL') warn(warning)
-  }
-}
+const typesExternal = [
+  ...external,
+  /\/vitepress\/(?!(dist|node_modules)\/).*\.d\.ts$/,
+  'source-map-js',
+  'fast-glob'
+]
 
 const nodeTypes: RollupOptions = {
   input: r('src/node/index.ts'),
@@ -83,7 +75,7 @@ const nodeTypes: RollupOptions = {
     format: 'esm',
     file: 'dist/node/index.d.ts'
   },
-  external,
+  external: typesExternal,
   plugins: [dts({ respectExternal: true })]
 }
 
@@ -93,7 +85,7 @@ const clientTypes: RollupOptions = {
     format: 'esm',
     file: 'dist/client/index.d.ts'
   },
-  external,
+  external: typesExternal,
   plugins: [
     dts({ respectExternal: true }),
     {
@@ -110,11 +102,6 @@ const clientTypes: RollupOptions = {
 const config = defineConfig([])
 
 config.push(esmBuild)
-
-if (PROD) {
-  config.push(cjsBuild)
-}
-
 config.push(nodeTypes)
 config.push(clientTypes)
 

@@ -1,11 +1,28 @@
 <script lang="ts" setup>
-defineProps<{
-  placeholder: string
-}>()
+import { reactify } from '@vueuse/core'
+import { toRef } from 'vue'
+import type { ButtonTranslations } from '../../../../types/local-search'
+import { useData } from '../composables/data'
+import { createTranslate } from '../support/translation'
+
+const { theme } = useData()
+
+// Button-Translations
+const defaultTranslations: { button: ButtonTranslations } = {
+  button: {
+    buttonText: 'Search',
+    buttonAriaLabel: 'Search'
+  }
+}
+
+const $t = reactify(createTranslate)(
+  toRef(() => theme.value.search?.options),
+  defaultTranslations
+)
 </script>
 
 <template>
-  <button type="button" class="DocSearch DocSearch-Button" aria-label="Search">
+  <button type="button" class="DocSearch DocSearch-Button" :aria-label="$t('button.buttonAriaLabel')">
     <span class="DocSearch-Button-Container">
       <svg
         class="DocSearch-Search-Icon"
@@ -23,7 +40,7 @@ defineProps<{
           stroke-linejoin="round"
         />
       </svg>
-      <span class="DocSearch-Button-Placeholder">{{ placeholder }}</span>
+      <span class="DocSearch-Button-Placeholder">{{ $t('button.buttonText') }}</span>
     </span>
     <span class="DocSearch-Button-Keys">
       <kbd class="DocSearch-Button-Key"></kbd>
@@ -33,12 +50,13 @@ defineProps<{
 </template>
 
 <style>
-.DocSearch {
-  --docsearch-primary-color: var(--vp-c-brand);
+[class*='DocSearch'] {
+  --docsearch-primary-color: var(--vp-c-brand-1);
   --docsearch-highlight-color: var(--docsearch-primary-color);
   --docsearch-text-color: var(--vp-c-text-1);
   --docsearch-muted-color: var(--vp-c-text-2);
   --docsearch-searchbox-shadow: none;
+  --docsearch-searchbox-background: transparent;
   --docsearch-searchbox-focus-background: transparent;
   --docsearch-key-gradient: transparent;
   --docsearch-key-shadow: none;
@@ -46,11 +64,11 @@ defineProps<{
   --docsearch-footer-background: var(--vp-c-bg);
 }
 
-.dark .DocSearch {
+.dark [class*='DocSearch'] {
   --docsearch-modal-shadow: none;
   --docsearch-footer-shadow: none;
   --docsearch-logo-color: var(--vp-c-text-2);
-  --docsearch-hit-background: var(--vp-c-bg-soft-mute);
+  --docsearch-hit-background: var(--vp-c-default-soft);
   --docsearch-hit-color: var(--vp-c-text-2);
   --docsearch-hit-shadow: none;
 }
@@ -92,7 +110,7 @@ defineProps<{
   }
 
   .DocSearch-Button:hover {
-    border-color: var(--vp-c-brand);
+    border-color: var(--vp-c-brand-1);
     background: var(--vp-c-bg-alt);
   }
 }
@@ -189,16 +207,18 @@ defineProps<{
 }
 
 .DocSearch-Button .DocSearch-Button-Key:first-child {
-  font-size: 1px;
-  letter-spacing: -12px;
-  color: transparent;
+  font-size: 0 !important;
 }
 
 .DocSearch-Button .DocSearch-Button-Key:first-child:after {
-  content: var(--vp-meta-key);
+  content: 'Ctrl';
   font-size: 12px;
   letter-spacing: normal;
   color: var(--docsearch-muted-color);
+}
+
+.mac .DocSearch-Button .DocSearch-Button-Key:first-child:after {
+  content: '\2318';
 }
 
 .DocSearch-Button .DocSearch-Button-Key:first-child > * {

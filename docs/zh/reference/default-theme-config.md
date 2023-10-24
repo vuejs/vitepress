@@ -67,7 +67,7 @@ export default {
 
 导航菜单项的配置。 你可以在[默认主题: 导航栏](./default-theme-nav#navigation-links) 了解更多详情。
 
-```js
+```ts
 export default {
 	themeConfig: {
 		nav: [
@@ -115,7 +115,7 @@ interface NavItemWithChildren {
 
 侧边栏菜单项的配置。 你可以在[默认主题: 侧边栏](./default-theme-sidebar) 了解更多详情。
 
-```js
+```ts
 export default {
   themeConfig: {
     sidebar: [
@@ -169,34 +169,41 @@ export type SidebarItem = {
 ## 大纲开关 {#aside}
 
 - key: `aside`
-- Type: `boolean`
+- Type: `boolean | 'left'`
 - Default: `true`
 - 每个页面可以通过 [frontmatter](./frontmatter-config#aside) 覆写
 
-  将此值设置为 `false` 可禁用 aside(大纲) 容器。
+将此值设置为 `false` 可禁用 aside(大纲) 容器。\
+将此值设置为 `true` 将在页面右侧渲染。\
+将此值设置为 `left` 将在页面左侧渲染。
 
-## 大纲层级 {#outline}
+如果您想对所有页面禁用它，您应该使用 `outline: false`。
+
+### 大纲层级 {#outline}
 
 - key: `outline`
 - Type: `number | [number, number] | 'deep' | false`
-- Default: `2`
-- 每个页面可以通过 [frontmatter](./frontmatter-config#outline) 覆写
 
-配置在大纲中显示的标题级别。你可以通过传递一个数字来指定一个特定的级别，或者你可以通过传递一个包含下限和上限的元组来提供一个级别范围。当传递等于 `[2, 6]` 的 `deep` 时，除 `h1` 外，所有标题级别都显示在轮廓中。设置 `false` 以隐藏轮廓。
+将此值设置为 `false` 可禁止渲染大纲容器。更多详情请参考该接口：
 
-## 大纲标题 {#outline-title}
+```ts
+interface Outline {
+	/**
+	 * 大纲中显示的标题级别。
+	 * 单个数字表示仅显示该级别的标题。
+	 * 如果传递一个元组，则第一个数字是最小级别，第二个数字是最大级别。
+	 * `'deep'` 和`[2, 6]` 等效, 这意味着 `<h2>` 到 `<h6>` 都会展示。
+	 *
+	 * @default 2
+	 */
+	level?: number | [number, number] | 'deep'
 
-- key: `outlineTitle`
-- Type: `string`
-- Default: `On this page`
-
-可用于自定义右侧边栏的标题（在大纲链接的顶部）。 这在用另一种语言编写文档时很有用。
-
-```js
-export default {
-	themeConfig: {
-		outlineTitle: 'In hac pagina',
-	},
+	/**
+	 * 要显示在大纲上的标题。
+	 *
+	 * @default 'On this page'
+	 */
+	label?: string
 }
 ```
 
@@ -207,7 +214,7 @@ export default {
 
 你可以定义此选项以在导航栏中展示带有图标的社交帐户链接。
 
-```js
+```ts
 export default {
 	themeConfig: {
 		socialLinks: [
@@ -271,7 +278,7 @@ export interface Footer {
 
 编辑链接可让你显示链接以编辑 Git 管理服务（例如 GitHub 或 GitLab）上的页面。 有关详细信息，请参阅 [默认主题：编辑链接](./default-theme-edit-link)。
 
-```js
+```ts
 export default {
 	themeConfig: {
 		editLink: {
@@ -321,7 +328,7 @@ export interface LastUpdatedOptions {
 	 * @default
 	 * { dateStyle: 'short',  timeStyle: 'short' }
 	 */
-	formatOptions?: Intl.DateTimeFormatOptions
+	formatOptions?: Intl.DateTimeFormatOptions & { forceLocale?: boolean }
 	// calendar?: string | undefined;
 	// dayPeriod?: "narrow" | "short" | "long" | undefined;
 	// numberingSystem?: string | undefined;
@@ -377,7 +384,7 @@ Learn more in [Default Theme: Carbon Ads](./default-theme-carbon-ads)
 
 可用于自定义出现在上一篇和下一篇链接上方的文本。 如果不是用英语编写文档，这很有帮助。也可用于全局禁用上一个/下一个链接。如果您想选择性地启用/禁用上一个/下一个链接，可以使用 [frontmatter](./default-theme-prev-next-links)。
 
-```js
+```ts
 export default {
 	themeConfig: {
 		docFooter: {

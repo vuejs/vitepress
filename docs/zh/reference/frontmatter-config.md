@@ -166,15 +166,15 @@ aside: false
 - Type: `number | [number, number] | 'deep' | false`
 - Default: `2`
 
-大纲中显示的标题级别。它与 [config.themeConfig.outline](./default-theme-config#outline) 相同，它会覆盖主题配置。
+大纲中显示的标题级别。它与 [config.themeConfig.outline.level](./default-theme-config#outline) 相同，它会覆盖站点级的配置。
 
 ### 最近更新时间 {#lastupdated}
 
 - key: `lastUpdated`
-- Type: `boolean`
+- Type: `boolean | Date`
 - Default: `true`
 
-是否在当前页面的页脚中显示[最近更新时间](./default-theme-last-updated)的文本。
+是否在当前页面的页脚中显示[最近更新时间](./default-theme-last-updated)的文本。如果指定了日期时间，则会显示该日期时间而不是上次 git 修改的时间戳。
 
 ```yaml
 ---

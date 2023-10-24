@@ -1,4 +1,7 @@
-import { componentPlugin } from '@mdit-vue/plugin-component'
+import {
+  componentPlugin,
+  type ComponentPluginOptions
+} from '@mdit-vue/plugin-component'
 import {
   frontmatterPlugin,
   type FrontmatterPluginOptions
@@ -17,7 +20,7 @@ import attrsPlugin from 'markdown-it-attrs'
 import emojiPlugin from 'markdown-it-emoji'
 import type { ILanguageRegistration, IThemeRegistration } from 'shiki'
 import type { Logger } from 'vite'
-import { containerPlugin } from './plugins/containers'
+import { containerPlugin, type ContainerOptions } from './plugins/containers'
 import { highlight } from './plugins/highlight'
 import { highlightLinePlugin } from './plugins/highlightLines'
 import { imagePlugin } from './plugins/image'
@@ -34,12 +37,13 @@ export type ThemeOptions =
 
 export interface MarkdownOptions extends MarkdownIt.Options {
   lineNumbers?: boolean
+  preConfig?: (md: MarkdownIt) => void
   config?: (md: MarkdownIt) => void
   anchor?: anchorPlugin.AnchorOptions
   attrs?: {
     leftDelimiter?: string
     rightDelimiter?: string
-    allowedAttributes?: string[]
+    allowedAttributes?: Array<string | RegExp>
     disable?: boolean
   }
   defaultHighlightLang?: string
@@ -51,6 +55,9 @@ export interface MarkdownOptions extends MarkdownIt.Options {
   toc?: TocPluginOptions
   externalLinks?: Record<string, string>
   cache?: boolean
+  component?: ComponentPluginOptions
+  math?: boolean | any
+  container?: ContainerOptions
 }
 
 export type MarkdownRenderer = MarkdownIt
@@ -61,7 +68,7 @@ export const createMarkdownRenderer = async (
   base = '/',
   logger: Pick<Logger, 'warn'> = console
 ): Promise<MarkdownRenderer> => {
-  const theme = options.theme ?? 'material-theme-palenight'
+  const theme = options.theme ?? { light: 'github-light', dark: 'github-dark' }
   const hasSingleTheme = typeof theme === 'string' || 'name' in theme
 
   const md = MarkdownIt({
@@ -76,16 +83,20 @@ export const createMarkdownRenderer = async (
         logger
       )),
     ...options
-  }) as MarkdownRenderer
+  })
 
   md.linkify.set({ fuzzyLink: false })
 
+  if (options.preConfig) {
+    options.preConfig(md)
+  }
+
   // custom plugins
-  md.use(componentPlugin)
+  md.use(componentPlugin, { ...options.component })
     .use(highlightLinePlugin)
     .use(preWrapperPlugin, { hasSingleTheme })
     .use(snippetPlugin, srcDir)
-    .use(containerPlugin, { hasSingleTheme })
+    .use(containerPlugin, { hasSingleTheme }, options.container)
     .use(imagePlugin)
     .use(
       linkPlugin,
@@ -139,6 +150,19 @@ export const createMarkdownRenderer = async (
     .use(tocPlugin, {
       ...options.toc
     } as TocPluginOptions)
+
+  if (options.math) {
+    try {
+      const mathPlugin = await import('markdown-it-mathjax3')
+      md.use(mathPlugin.default ?? mathPlugin, {
+        ...(typeof options.math === 'boolean' ? {} : options.math)
+      })
+    } catch (error) {
+      throw new Error(
+        'You need to install `markdown-it-mathjax3` to use math support.'
+      )
+    }
+  }
 
   // apply user config
   if (options.config) {

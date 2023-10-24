@@ -98,9 +98,9 @@ export default defineConfig({
 
 Learn more in [MiniSearch docs](https://lucaong.github.io/minisearch/classes/_minisearch_.minisearch.html).
 
-### Excluding pages from search
+### Custom content renderer
 
-You can exclude pages from search by adding `search: false` to the frontmatter of the page. Alternatively, you can also pass `exclude` function to `themeConfig.search.options` to exclude pages based on their path relative to `srcDir`:
+You can customize the function used to render the markdown content before indexing it:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -108,8 +108,68 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   themeConfig: {
     search: {
+      provider: 'local',
       options: {
-        exclude: (path) => path.startsWith('/some/path')
+        /**
+         * @param {string} src
+         * @param {import('vitepress').MarkdownEnv} env
+         * @param {import('markdown-it')} md
+         */
+        _render(src, env, md) {
+          // return html string
+        }
+      }
+    }
+  }
+})
+```
+
+This function will be stripped from client-side site data, so you can use Node.js APIs in it.
+
+#### Example: Excluding pages from search
+
+You can exclude pages from search by adding `search: false` to the frontmatter of the page. Alternatively:
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'local',
+      options: {
+        _render(src, env, md) {
+          const html = md.render(src, env)
+          if (env.frontmatter?.search === false) return ''
+          if (env.relativePath.startsWith('some/path')) return ''
+          return html
+        }
+      }
+    }
+  }
+})
+```
+
+::: warning Note
+In case a custom `_render` function is provided, you need to handle the `search: false` frontmatter yourself. Also, the `env` object won't be completely populated before `md.render` is called, so any checks on optional `env` properties like `frontmatter` should be done after that.
+:::
+
+#### Example: Transforming content - adding anchors
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'local',
+      options: {
+        _render(src, env, md) {
+          const html = md.render(src, env)
+          if (env.frontmatter?.title)
+            return md.render(`# ${env.frontmatter.title}`) + html
+          return html
+        }
       }
     }
   }

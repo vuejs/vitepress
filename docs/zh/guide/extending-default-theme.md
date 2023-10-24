@@ -1,3 +1,7 @@
+---
+outline: deep
+---
+
 # 扩展默认主题 {#extending-the-default-theme}
 
 VitePress 默认的主题已经针对文档进行了优化，并且可以进行定制。请参考 [默认主题配置概览](../reference/default-theme-config) 获取完整的选项列表。
@@ -29,8 +33,8 @@ export default DefaultTheme
 ```css
 /* .vitepress/theme/custom.css */
 :root {
-  --vp-c-brand: #646cff;
-  --vp-c-brand-light: #747bff;
+	--vp-c-brand-1: #646cff;
+	--vp-c-brand-2: #747bff;
 }
 ```
 
@@ -67,24 +71,24 @@ export default DefaultTheme
 ```js
 // .vitepress/config.js
 export default {
-  transformHead({ assets }) {
-    // adjust the regex accordingly to match your font
-    const myFontFile = assets.find(file => /font-name\.\w+\.woff2/)
-    if (myFontFile) {
-      return [
-        [
-          'link',
-          {
-            rel: 'preload',
-            href: myFontFile,
-            as: 'font',
-            type: 'font/woff2',
-            crossorigin: ''
-          }
-        ]
-      ]
-    }
-  }
+	transformHead({ assets }) {
+		// adjust the regex accordingly to match your font
+		const myFontFile = assets.find((file) => /font-name\.\w+\.woff2/)
+		if (myFontFile) {
+			return [
+				[
+					'link',
+					{
+						rel: 'preload',
+						href: myFontFile,
+						as: 'font',
+						type: 'font/woff2',
+						crossorigin: '',
+					},
+				],
+			]
+		}
+	},
 }
 ```
 
@@ -94,13 +98,30 @@ export default {
 // .vitepress/theme/index.js
 import DefaultTheme from 'vitepress/theme'
 
+/** @type {import('vitepress').Theme} */
 export default {
-  extends: DefaultTheme,
-  enhanceApp(ctx) {
-    // register your custom global components
-    ctx.app.component('MyGlobalComponent' /* ... */)
-  }
+	extends: DefaultTheme,
+	enhanceApp(ctx) {
+		// register your custom global components
+		ctx.app.component('MyGlobalComponent' /* ... */)
+	},
 }
+```
+
+如果你使用 TypeScript:
+
+```ts
+// .vitepress/theme/index.ts
+import type { Theme } from 'vitepress'
+import DefaultTheme from 'vitepress/theme'
+
+export default {
+	extends: DefaultTheme,
+	async enhanceApp({ app }) {
+		// register your custom global components
+		ctx.app.component('MyGlobalComponent' /* ... */)
+	},
+} satisfies Theme
 ```
 
 因为我们使用 Vite，你还可以利用 Vite 的 [glob 导入功能](https://cn.vitejs.dev/guide/features.html#glob-import)来自动注册一个组件目录。
@@ -115,10 +136,10 @@ import DefaultTheme from 'vitepress/theme'
 import MyLayout from './MyLayout.vue'
 
 export default {
-  ...DefaultTheme,
-  // override the Layout with a wrapper component that
-  // injects the slots
-  Layout: MyLayout
+	...DefaultTheme,
+	// override the Layout with a wrapper component that
+	// injects the slots
+	Layout: MyLayout,
 }
 ```
 
@@ -131,11 +152,9 @@ const { Layout } = DefaultTheme
 </script>
 
 <template>
-  <Layout>
-    <template #aside-outline-before>
-      My custom sidebar top content
-    </template>
-  </Layout>
+	<Layout>
+		<template #aside-outline-before> My custom sidebar top content </template>
+	</Layout>
 </template>
 ```
 
@@ -148,12 +167,12 @@ import DefaultTheme from 'vitepress/theme'
 import MyComponent from './MyComponent.vue'
 
 export default {
-  ...DefaultTheme,
-  Layout() {
-    return h(DefaultTheme.Layout, null, {
-      'aside-outline-before': () => h(MyComponent)
-    })
-  }
+	...DefaultTheme,
+	Layout() {
+		return h(DefaultTheme.Layout, null, {
+			'aside-outline-before': () => h(MyComponent),
+		})
+	},
 }
 ```
 
@@ -199,18 +218,16 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
-  vite: {
-    resolve: {
-      alias: [
-        {
-          find: /^.*\/VPNavBar\.vue$/,
-          replacement: fileURLToPath(
-            new URL('./components/CustomNavBar.vue', import.meta.url)
-          )
-        }
-      ]
-    }
-  }
+	vite: {
+		resolve: {
+			alias: [
+				{
+					find: /^.*\/VPNavBar\.vue$/,
+					replacement: fileURLToPath(new URL('./components/CustomNavBar.vue', import.meta.url)),
+				},
+			],
+		},
+	},
 })
 ```
 

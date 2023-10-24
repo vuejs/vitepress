@@ -8,7 +8,7 @@
 
 ### 前置知识 {#prerequisites}
 
-- [Node.js](https://nodejs.org/) 16 及以上版本。
+- [Node.js](https://nodejs.org/) 18 及以上版本。
 - 通过命令行界面 (CLI) 访问 VitePress 的终端。
 - 支持 [Markdown](https://en.wikipedia.org/wiki/Markdown) 语法的编辑器。
   - 推荐 [VSCode](https://code.visualstudio.com/) 及其[官方 Vue 扩展](https://marketplace.visualstudio.com/items?itemName=Vue.volar)。
@@ -18,15 +18,19 @@ VitePress 可以单独使用，也可以安装到现有项目中。在这两种�
 ::: code-group
 
 ```sh [npm]
-$ npm install -D vitepress
+$ npm add -D vitepress
 ```
 
 ```sh [pnpm]
-$ pnpm add -D vitepress@latest
+$ pnpm add -D vitepress
 ```
 
 ```sh [yarn]
 $ yarn add -D vitepress
+```
+
+```sh [bun]
+$ bun add -D vitepress
 ```
 
 :::
@@ -44,6 +48,11 @@ $ yarn add -D vitepress
   }
 }
 ```
+
+:::
+
+::: tip 注意
+VitePress 是仅 ESM 的软件包。不要使用 `require()` 导入它，并确保最新的 `package.json` 包含 `"type": "module"`，或者更改相关文件的文件扩展名，例如`.vitepress/config.js` 到 `.mjs`/`.mts`。更多详情请参考[Vite 故障排除指南](http://vitejs.dev/guide/troubleshooting.html#this-package-is-esm-only)。此外，在异步 CJS 上下文中，您可以使用 `await import('vitepress')` 代替。
 
 :::
 
@@ -65,9 +74,7 @@ $ pnpm dlx vitepress init
 
 你将需要回答几个简单的问题：
 
-<p>
-  <img src="./vitepress-init.png" alt="vitepress init screenshot" style="border-radius:8px">
-</p>
+<<< @/snippets/init.ansi
 
 ::: tip Vue as Peer Dependency
 如果打算使用 Vue 组件或 API 进行自定义，还应该明确地将 `vue` 安装为 peer dependency。

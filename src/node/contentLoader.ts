@@ -4,7 +4,10 @@ import glob from 'fast-glob'
 import type { SiteConfig } from './config'
 import matter from 'gray-matter'
 import { normalizePath } from 'vite'
-import { createMarkdownRenderer, type MarkdownRenderer } from './markdown'
+import {
+  createMarkdownRenderer,
+  type MarkdownRenderer
+} from './markdown/markdown'
 
 export interface ContentOptions<T = ContentData[]> {
   /**
@@ -49,6 +52,13 @@ export interface ContentOptions<T = ContentData[]> {
    * bundle if imported from components or markdown files.
    */
   transform?: (data: ContentData[]) => T | Promise<T>
+
+  /**
+   * Options to pass to `fast-glob`.
+   * You'll need to manually specify `node_modules` and `dist` in
+   * `globOptions.ignore` if you've overridden it.
+   */
+  globOptions?: glob.Options
 }
 
 export interface ContentData {
@@ -72,7 +82,8 @@ export function createContentLoader<T = ContentData[]>(
     includeSrc,
     render,
     excerpt: renderExcerpt,
-    transform
+    transform,
+    globOptions
   }: ContentOptions<T> = {}
 ): {
   watch: string | string[]
@@ -106,7 +117,8 @@ export function createContentLoader<T = ContentData[]>(
         // the loader is being called directly, do a fresh glob
         files = (
           await glob(pattern, {
-            ignore: ['**/node_modules/**', '**/dist/**']
+            ignore: ['**/node_modules/**', '**/dist/**'],
+            ...globOptions
           })
         ).sort()
       }
@@ -140,7 +152,7 @@ export function createContentLoader<T = ContentData[]>(
               : { excerpt: renderExcerpt }
           )
           const url =
-            config.site.base +
+            '/' +
             normalizePath(path.relative(config.srcDir, file))
               .replace(/(^|\/)index\.md$/, '$1')
               .replace(/\.md$/, config.cleanUrls ? '' : '.html')

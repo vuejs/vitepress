@@ -87,17 +87,22 @@ export async function highlight(
   const styleRE = /<pre[^>]*(style=".*?")/
   const preRE = /^<pre(.*?)>/
   const vueRE = /-vue$/
-  const lineNoRE = /:(no-)?line-numbers$/
+  const lineNoStartRE = /=(\d*)/
+  const lineNoRE = /:(no-)?line-numbers(=\d*)?$/
   const mustacheRE = /\{\{.*?\}\}/g
 
   return (str: string, lang: string, attrs: string) => {
     const vPre = vueRE.test(lang) ? '' : 'v-pre'
     lang =
-      lang.replace(lineNoRE, '').replace(vueRE, '').toLowerCase() || defaultLang
+      lang
+        .replace(lineNoStartRE, '')
+        .replace(lineNoRE, '')
+        .replace(vueRE, '')
+        .toLowerCase() || defaultLang
 
     if (lang) {
       const langLoaded = highlighter.getLoadedLanguages().includes(lang as any)
-      if (!langLoaded && lang !== 'ansi' && lang !== 'txt') {
+      if (!langLoaded && !['ansi', 'plaintext', 'txt', 'text'].includes(lang)) {
         logger.warn(
           c.yellow(
             `\nThe language '${lang}' is not loaded, falling back to '${
@@ -148,7 +153,7 @@ export async function highlight(
       )
     }
 
-    str = removeMustache(str).trim()
+    str = removeMustache(str).trimEnd()
 
     const codeToHtml = (theme: IThemeRegistration) => {
       const res =

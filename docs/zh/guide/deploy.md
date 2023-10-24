@@ -111,7 +111,7 @@ Cache-Control: max-age=31536000,immutable
 
 - **构建命令：** `npm run docs:build`
 - **输出目录：** `docs/.vitepress/dist`
-- **node 版本：** `16` (或更高版本，默认情况下通常为 14 或 16，但在 Cloudflare 页面上，默认值仍然是 12，因此你可能需要[更改该版本](https://developers.cloudflare.com/pages/platform/build-configuration/))
+- **node 版本：** `18` (或更高版本)
 
 ::: warning 警告
 不要为 HTML 代码启用 _Auto Minify_ 等选项。它将从输出中删除对 Vue 有意义的注释。如果被删除，你可能会看到 [hydration(HTML 添加交互的过程)](https://blog.csdn.net/qq_41800366/article/details/117738916) mismatch 错误。
@@ -148,30 +148,33 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Build job
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0 # Not needed if lastUpdated is not enabled
-      # - uses: pnpm/action-setup@v2 # Uncomment this if you're using pnpm
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-          cache: npm # or pnpm / yarn
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
-      - name: Install dependencies
-        run: npm ci # or pnpm install / yarn install
-      - name: Build with VitePress
-        run: npm run docs:build # or pnpm docs:build / yarn docs:build
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
-        with:
-          path: docs/.vitepress/dist
+     # Build job
+     build:
+       runs-on: ubuntu-latest
+       steps:
+         - name: Checkout
+           uses: actions/checkout@v3
+           with:
+             fetch-depth: 0 # Not needed if lastUpdated is not enabled
+         # - uses: pnpm/action-setup@v2 # Uncomment this if you're using pnpm
+         # - uses: oven-sh/setup-bun@v1 # Uncomment this if you're using Bun
+         - name: Setup Node
+           uses: actions/setup-node@v3
+           with:
+             node-version: 18
+             cache: npm # or pnpm / yarn
+         - name: Setup Pages
+           uses: actions/configure-pages@v3
+         - name: Install dependencies
+           run: npm ci # or pnpm install / yarn install / bun install
+         - name: Build with VitePress
+           run: |
+             npm run docs:build # or pnpm docs:build / yarn docs:build / bun run docs:build
+             touch docs/.vitepress/dist/.nojekyll
+         - name: Upload artifact
+           uses: actions/upload-pages-artifact@v2
+           with:
+             path: docs/.vitepress/dist
 
   # Deployment job
   deploy:
@@ -202,7 +205,7 @@ jobs:
 2. 在项目的根目录中创建一个名为 `.gitlab-ci.yml` 的文件，其中包含以下内容。每当您更改内容时，都会自动构建和部署您的网站：
 
    ```yaml
-   image: node:16
+   image: node:18
    pages:
      cache:
        paths:

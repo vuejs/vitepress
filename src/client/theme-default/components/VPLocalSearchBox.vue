@@ -4,6 +4,7 @@ import {
   computedAsync,
   debouncedWatch,
   onKeyStroke,
+  reactify,
   useEventListener,
   useLocalStorage,
   useScrollLock,
@@ -12,7 +13,7 @@ import {
 import { useFocusTrap } from '@vueuse/integrations/useFocusTrap'
 import Mark from 'mark.js/src/vanilla.js'
 import MiniSearch, { type SearchResult } from 'minisearch'
-import { useRouter, dataSymbol } from 'vitepress'
+import { dataSymbol, inBrowser, useRouter } from 'vitepress'
 import {
   computed,
   createApp,
@@ -22,6 +23,7 @@ import {
   onMounted,
   ref,
   shallowRef,
+  toRef,
   watch,
   watchEffect,
   type Ref
@@ -31,17 +33,12 @@ import { pathToFile } from '../../app/utils'
 import { useData } from '../composables/data'
 import { createTranslate } from '../support/translation'
 
-defineProps<{
-  placeholder: string
-}>()
-
 const emit = defineEmits<{
   (e: 'close'): void
 }>()
 
 const el = shallowRef<HTMLElement>()
 const resultsEl = shallowRef<HTMLElement>()
-const body = shallowRef<HTMLElement>()
 
 /* Search */
 
@@ -113,6 +110,16 @@ const disableDetailedView = computed(() => {
     theme.value.search?.provider === 'local' &&
     (theme.value.search.options?.disableDetailedView === true ||
       theme.value.search.options?.detailedView === false)
+  )
+})
+
+const buttonText = computed(() => {
+  const options = theme.value.search?.options ?? theme.value.algolia
+
+  return (
+    options?.locales?.[localeIndex.value]?.translations?.button?.buttonText ||
+    options?.translations?.button?.buttonText ||
+    'Search'
   )
 })
 
@@ -308,8 +315,16 @@ onKeyStroke('ArrowDown', (event) => {
 
 const router = useRouter()
 
-onKeyStroke('Enter', () => {
+onKeyStroke('Enter', (e) => {
+  if (e.target instanceof HTMLButtonElement && e.target.type !== 'submit')
+    return
+
   const selectedPackage = results.value[selectedIndex.value]
+  if (e.target instanceof HTMLInputElement && !selectedPackage) {
+    e.preventDefault()
+    return
+  }
+
   if (selectedPackage) {
     router.go(selectedPackage.id)
     emit('close')
@@ -339,7 +354,10 @@ const defaultTranslations: { modal: ModalTranslations } = {
   }
 }
 
-const $t = createTranslate(theme.value.search?.options, defaultTranslations)
+const $t = reactify(createTranslate)(
+  toRef(() => theme.value.search?.options),
+  defaultTranslations
+)
 
 // Back
 
@@ -354,10 +372,9 @@ useEventListener('popstate', (event) => {
 })
 
 /** Lock body */
-const isLocked = useScrollLock(body)
+const isLocked = useScrollLock(inBrowser ? document.body : null)
 
 onMounted(() => {
-  body.value = document.body
   nextTick(() => {
     isLocked.value = true
     nextTick().then(() => activate())
@@ -408,7 +425,7 @@ function formMarkRegex(terms: Set<string>) {
           @submit.prevent=""
         >
           <label
-            :title="placeholder"
+            :title="buttonText"
             id="localsearch-label"
             for="localsearch-input"
           >
@@ -457,7 +474,7 @@ function formMarkRegex(terms: Set<string>) {
           <input
             ref="searchInput"
             v-model="filterText"
-            :placeholder="placeholder"
+            :placeholder="buttonText"
             id="localsearch-input"
             aria-labelledby="localsearch-label"
             class="search-input"
@@ -466,6 +483,7 @@ function formMarkRegex(terms: Set<string>) {
             <button
               v-if="!disableDetailedView"
               class="toggle-layout-button"
+              type="button"
               :class="{ 'detailed-list': showDetailedList }"
               :title="$t('modal.displayDetails')"
               @click="
@@ -668,7 +686,7 @@ function formMarkRegex(terms: Set<string>) {
   border-radius: 6px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .shell {
     margin: 0;
     width: 100vw;
@@ -687,21 +705,21 @@ function formMarkRegex(terms: Set<string>) {
   cursor: text;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .search-bar {
     padding: 0 8px;
   }
 }
 
 .search-bar:focus-within {
-  border-color: var(--vp-c-brand);
+  border-color: var(--vp-c-brand-1);
 }
 
 .search-icon {
   margin: 8px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .search-icon {
     display: none;
   }
@@ -713,7 +731,7 @@ function formMarkRegex(terms: Set<string>) {
   width: 100%;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .search-input {
     padding: 6px 4px;
   }
@@ -742,7 +760,7 @@ function formMarkRegex(terms: Set<string>) {
 
 .search-actions button:not([disabled]):hover,
 .toggle-layout-button.detailed-list {
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-1);
 }
 
 .search-actions button.clear-button:disabled {
@@ -764,7 +782,7 @@ function formMarkRegex(terms: Set<string>) {
   gap: 4px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .search-keyboard-shortcuts {
     display: none;
   }
@@ -808,7 +826,7 @@ function formMarkRegex(terms: Set<string>) {
   overflow: hidden;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .result > div {
     margin: 8px;
   }
@@ -836,7 +854,7 @@ function formMarkRegex(terms: Set<string>) {
 .title-icon {
   opacity: 0.5;
   font-weight: 500;
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-1);
 }
 
 .title svg {
@@ -909,7 +927,7 @@ function formMarkRegex(terms: Set<string>) {
 
 .result.selected .titles,
 .result.selected .title-icon {
-  color: var(--vp-c-brand) !important;
+  color: var(--vp-c-brand-1) !important;
 }
 
 .no-results {

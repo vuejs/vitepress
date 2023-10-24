@@ -24,5 +24,4 @@ lastUpdated: false
 ---
 ```
 
-Also refer [Default Theme: Last Updated](./default-theme-last-updated#last-updated) for more details. Any truthy value at theme-level will also enable the feature unless explicitly disabled at site or page level.
 另请参阅[默认主题：上次更新](./default-theme-last-updated#last-updated) 了解更多详细信息。主题级别的任何真值也将启用该功能，除非在站点或页面级别明确禁用。

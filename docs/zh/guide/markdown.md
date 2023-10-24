@@ -210,6 +210,25 @@ console.log('Hello, VitePress!')
 
 :::
 
+此外，您可以通过在站点配置中添加以下内容来全局设置自定义标题，如果不是用英语书写，这会很有帮助：
+
+```ts
+// config.ts
+export default defineConfig({
+	// ...
+	markdown: {
+		container: {
+			tipLabel: '提示',
+			warningLabel: '警告',
+			dangerLabel: '危险',
+			infoLabel: '信息',
+			detailsLabel: '详细信息',
+		},
+	},
+	// ...
+})
+```
+
 ### `raw`
 
 这是一个特殊的容器，可以用来防止与 VitePress 的样式和路由冲突。这在记录组件库时特别有用。你可能还想查看 [whyframe](https://whyframe.dev/docs/integrations/vitepress) 以获得更好的隔离。
@@ -224,32 +243,29 @@ Wraps in a <div class="vp-raw">
 
 `vp-raw` class 也可以直接用于元素。样式隔离目前是可选的：
 
-::: details
+- 使用你喜欢的包管理器来安装 `postcss`：
 
-- 使用你喜欢的包管理器来安装需要的依赖项：
+```sh
+$ npm add -D postcss
+```
 
-  ```sh
-  $ npm install -D postcss postcss-prefix-selector
-  ```
+- 创建 `docs/postcss.config.mjs` 并将以下内容
 
-- 创建 `docs/.postcssrc.cjs` 并将以下内容
+```js
+import { postcssIsolateStyles } from 'vitepress'
 
-  ```js
-  module.exports = {
-  	plugins: {
-  		'postcss-prefix-selector': {
-  			prefix: ':not(:where(.vp-raw *))',
-  			includeFiles: [/vp-doc\.css/],
-  			transform(prefix, _selector) {
-  				const [selector, pseudo = ''] = _selector.split(/(:\S*)$/)
-  				return selector + prefix + pseudo
-  			},
-  		},
-  	},
-  }
-  ```
+export default {
+	plugins: [postcssIsolateStyles()],
+}
+```
 
-:::
+它在底层使用 [`postcss-prefix-selector`](https://github.com/postcss/postcss-load-config)。你可以像这样传递它的选项：
+
+```js
+postcssIsolateStyles({
+	includeFiles: [/vp-doc\.css/], // 默认 /base\.css/
+})
+```
 
 ## 代码块中的语法高亮 {#syntax-highlighting-in-code-blocks}
 
@@ -509,6 +525,8 @@ export default {
 
 你可以在你的代码块中添加 `:line-numbers` / `:no-line-numbers` 标记来覆盖在配置中的设置。
 
+您还可以通过在 `:line-numbers` 之后添加 `=` 来自定义起始行号。例如， `:line-numbers=2` 表示代码块中的行号将从“2”开始。
+
 **输入**
 
 ````md
@@ -522,6 +540,12 @@ const line3 = 'This is line 3'
 // line-numbers is enabled
 const line2 = 'This is line 2'
 const line3 = 'This is line 3'
+```
+
+```ts:line-numbers=2 {1}
+// line-numbers is enabled and start from 2
+const line3 = 'This is line 3'
+const line4 = 'This is line 4'
 ```
 ````
 
@@ -537,6 +561,12 @@ const line3 = 'This is line 3'
 // line-numbers is enabled
 const line2 = 'This is line 2'
 const line3 = 'This is line 3'
+```
+
+```ts:line-numbers=2 {1}
+// line-numbers is enabled and start from 2
+const line3 = 'This is line 3'
+const line4 = 'This is line 4'
 ```
 
 ## 导入代码片段 {#import-code-snippets}
@@ -780,19 +810,64 @@ Some getting started stuff.
 注意！如果你指定的文件不存在，这将不会产生错误。因此，在使用这个功能的时候请保证内容按预期呈现。
 :::
 
+## Math Equations
+
+This is currently opt-in. 要启用它, 你需要安装 `markdown-it-mathjax3`，在配置文件中设置`markdown.math` 为 `true`：
+
+```sh
+npm add -D markdown-it-mathjax3
+```
+
+```ts
+// .vitepress/config.ts
+export default {
+	markdown: {
+		math: true,
+	},
+}
+```
+
+**输入**
+
+```md
+当 $a \ne 0$, $(ax^2 + bx + c = 0)$ 有两个解，它们是
+$$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
+
+**Maxwell's 方程组:**
+| 方程 | 描述 |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| $\nabla \cdot \vec{\mathbf{B}}  = 0$ | divergence of $\vec{\mathbf{B}}$ is zero |
+| $\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t}  = \vec{\mathbf{0}}$ | curl of $\vec{\mathbf{E}}$ is proportional to the rate of change of $\vec{\mathbf{B}}$ |
+| $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _wha?_ |
+```
+
+**输出**
+
+当 $a \ne 0$, $(ax^2 + bx + c = 0)$ 有两个解，它们是
+$$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
+
+**Maxwell's 方程组:**
+
+| 方程                                                                                                                                                                      | 描述                                                                                   |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| $\nabla \cdot \vec{\mathbf{B}}  = 0$                                                                                                                                      | divergence of $\vec{\mathbf{B}}$ is zero                                               |
+| $\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t}  = \vec{\mathbf{0}}$                                                          | curl of $\vec{\mathbf{E}}$ is proportional to the rate of change of $\vec{\mathbf{B}}$ |
+| $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _wha?_                                                                                 |
+
 ## 高级配置 {#advanced-configuration}
 
 VitePress 使用 [markdown-it](https://github.com/markdown-it/markdown-it) 作为 Markdown 渲染器。上面提到的很多拓展功能都是通过自定义插件实现的。你可以使用 `.vitepress/config.js` 中的 `markdown` 选项来进一步自定义 `markdown-it` 实例。
 
 ```js
-const anchor = require('markdown-it-anchor')
+import markdownItAnchor from 'markdown-it-anchor'
+import markdownItFoo from 'markdown-it-foo'
 
 module.exports = {
 	markdown: {
 		// options for markdown-it-anchor
 		// https://github.com/valeriangalliat/markdown-it-anchor#usage
 		anchor: {
-			permalink: anchor.permalink.headerLink(),
+			permalink: markdownItAnchor.permalink.headerLink(),
 		},
 
 		// options for @mdit-vue/plugin-toc
@@ -800,8 +875,8 @@ module.exports = {
 		toc: { level: [1, 2] },
 
 		config: (md) => {
-			// use more markdown-it plugins!
-			md.use(require('markdown-it-xxx'))
+			// 使用更多 markdown-it 插件
+			md.use(markdownItFoo)
 		},
 	},
 }

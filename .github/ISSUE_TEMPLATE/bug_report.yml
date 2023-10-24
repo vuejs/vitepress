@@ -37,7 +37,7 @@ body:
     attributes:
       label: System Info
       description: Output of `npx envinfo --system --npmPackages vitepress --binaries --browsers`
-      render: sh
+      render: Text
       placeholder: System, Binaries, Browsers
     validations:
       required: true

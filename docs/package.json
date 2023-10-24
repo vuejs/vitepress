@@ -3,11 +3,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vitepress",
+    "dev": "vitepress dev",
     "build": "vitepress build",
     "preview": "vitepress preview"
   },
   "devDependencies": {
+    "markdown-it-mathjax3": "^4.3.2",
     "vitepress": "workspace:*"
   }
 }

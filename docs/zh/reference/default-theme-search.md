@@ -101,9 +101,9 @@ export default defineConfig({
 
 查阅更多 [MiniSearch docs](https://lucaong.github.io/minisearch/classes/_minisearch_.minisearch.html).
 
-### 从搜索中排除页面 {#excluding-pages-from-search}
+### 自定义渲染内容 {#custom-content-renderer}
 
-您可以通过将 `search: false` 添加到页面的 frontmatter 来从搜索中排除页面。或者，您还可以将 `exclude` 函数传递给 `themeConfig.search.options`，以根据相对于 `srcDir` 的路径排除页面：
+您可以在索引之前自定义用于渲染 Markdown 内容的函数：
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -111,8 +111,68 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
 	themeConfig: {
 		search: {
+			provider: 'local',
 			options: {
-				exclude: (path) => path.startsWith('/some/path'),
+				/**
+				 * @param {string} src
+				 * @param {import('vitepress').MarkdownEnv} env
+				 * @param {import('markdown-it')} md
+				 */
+				_render(src, env, md) {
+					// return html string
+				},
+			},
+		},
+	},
+})
+```
+
+该函数将从客户端站点数据中剥离，因此您可以在其中使用 Node.js API。
+
+#### 示例：从搜索中排除页面 {#example-excluding-pages-from-search}
+
+您可以通过将 `search: false` 添加到页面的 frontmatter 来从搜索中排除页面。或者，您还可以将 `exclude` 函数传递给 `themeConfig.search.options`，以根据相对于 `srcDir` 的路径排除页面：
+您可以通过将 `search: false` 添加到页面的 `frontmatter` 来从搜索中排除页面。或者：
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+	themeConfig: {
+		search: {
+			provider: 'local',
+			options: {
+				_render(src, env, md) {
+					const html = md.render(src, env)
+					if (env.frontmatter?.search === false) return ''
+					if (env.relativePath.startsWith('some/path')) return ''
+					return html
+				},
+			},
+		},
+	},
+})
+```
+
+::: warning 注意
+如果提供了自定义的 `_render` 函数，您需要自己处理 `search: false` 的 frontmatter。此外，在调用 `md.render` 之前，`env` 对象不会完全填充，因此对可选 `env` 属性（如 `frontmatter` ）的任何检查都应该在此之后完成。
+:::
+
+#### 示例：转换内容-添加锚点{#example-transforming-content-adding-anchors}
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+	themeConfig: {
+		search: {
+			provider: 'local',
+			options: {
+				_render(src, env, md) {
+					const html = md.render(src, env)
+					if (env.frontmatter?.title) return md.render(`# ${env.frontmatter.title}`) + html
+					return html
+				},
 			},
 		},
 	},

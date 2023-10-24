@@ -13,7 +13,7 @@ VitePress 提供了一个叫做**数据加载器**的功能，它允许你加载
 export default {
 	load() {
 		return {
-			data: 'hello',
+			hello: 'world',
 		}
 	},
 }
@@ -35,7 +35,7 @@ import { data } from './example.data.js'
 
 ```json
 {
-	"data": "hello"
+	"hello": "world"
 }
 ```
 
@@ -99,7 +99,8 @@ export default createContentLoader('posts/*.md' /* options */)
 
 ```ts
 interface ContentData {
-	// mapped absolute URL for the page. e.g. /posts/hello.html
+	// mapped URL for the page. e.g. /posts/hello.html (does not include base)
+	// manually iterate or use custom `transform` to normalize the paths
 	url: string
 	// frontmatter data of the page
 	frontmatter: Record<string, any>

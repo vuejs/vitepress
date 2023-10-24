@@ -6,7 +6,7 @@ import {
   normalizePath,
   type BuildOptions,
   type Rollup,
-  type UserConfig as ViteUserConfig
+  type InlineConfig as ViteInlineConfig
 } from 'vite'
 import { APP_PATH } from '../alias'
 import type { SiteConfig } from '../config'
@@ -17,7 +17,7 @@ import { buildMPAClient } from './buildMPAClient'
 
 // A list of default theme components that should only be loaded on demand.
 const lazyDefaultThemeComponentsRE =
-  /VP(HomeSponsors|DocAsideSponsors|TeamPage|TeamMembers|LocalSearchBox|AlgoliaSearchBox|CarbonAds|DocAsideCarbonAds)/
+  /VP(HomeSponsors|DocAsideSponsors|TeamPage|TeamMembers|LocalSearchBox|AlgoliaSearchBox|CarbonAds|DocAsideCarbonAds|Sponsors)/
 
 const clientDir = normalizePath(
   path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../client')
@@ -50,7 +50,9 @@ export async function bundle(
   // resolve options to pass to vite
   const { rollupOptions } = options
 
-  const resolveViteConfig = async (ssr: boolean): Promise<ViteUserConfig> => ({
+  const resolveViteConfig = async (
+    ssr: boolean
+  ): Promise<ViteInlineConfig> => ({
     root: config.srcDir,
     cacheDir: config.cacheDir,
     base: config.site.base,
@@ -68,6 +70,7 @@ export async function bundle(
       ...options,
       emptyOutDir: true,
       ssr,
+      ssrEmitAssets: config.mpa,
       // minify with esbuild in MPA mode (for CSS)
       minify: ssr
         ? config.mpa
@@ -136,7 +139,8 @@ export async function bundle(
               })
         }
       }
-    }
+    },
+    configFile: config.vite?.configFile
   })
 
   let clientResult!: Rollup.RollupOutput | null

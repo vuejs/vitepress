@@ -8,7 +8,7 @@ You can try VitePress directly in your browser on [StackBlitz](https://vitepress
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) version 16 or higher.
+- [Node.js](https://nodejs.org/) version 18 or higher.
 - Terminal for accessing VitePress via its command line interface (CLI).
 - Text Editor with [Markdown](https://en.wikipedia.org/wiki/Markdown) syntax support.
   - [VSCode](https://code.visualstudio.com/) is recommended, along with the [official Vue extension](https://marketplace.visualstudio.com/items?itemName=Vue.volar).
@@ -18,15 +18,19 @@ VitePress can be used on its own, or be installed into an existing project. In b
 ::: code-group
 
 ```sh [npm]
-$ npm install -D vitepress
+$ npm add -D vitepress
 ```
 
 ```sh [pnpm]
-$ pnpm add -D vitepress@latest
+$ pnpm add -D vitepress
 ```
 
 ```sh [yarn]
 $ yarn add -D vitepress
+```
+
+```sh [bun]
+$ bun add -D vitepress
 ```
 
 :::
@@ -47,6 +51,12 @@ If using PNPM, you will notice a missing peer warning for `@docsearch/js`. This 
 
 :::
 
+::: tip NOTE
+
+VitePress is an ESM-only package. Don't use `require()` to import it, and make sure your nearest `package.json` contains `"type": "module"`, or change the file extension of your relevant files like `.vitepress/config.js` to `.mjs`/`.mts`. Refer to [Vite's troubleshooting guide](http://vitejs.dev/guide/troubleshooting.html#this-package-is-esm-only) for more details. Also, inside async CJS contexts, you can use `await import('vitepress')` instead.
+
+:::
+
 ### Setup Wizard
 
 VitePress ships with a command line setup wizard that will help you scaffold a basic project. After installation, start the wizard by running:
@@ -61,13 +71,15 @@ $ npx vitepress init
 $ pnpm dlx vitepress init
 ```
 
+```sh [bun]
+$ bunx vitepress init
+```
+
 :::
 
 You will be greeted with a few simple questions:
 
-<p>
-  <img src="./vitepress-init.png" alt="vitepress init screenshot" style="border-radius:8px">
-</p>
+<<< @/snippets/init.ansi
 
 ::: tip Vue as Peer Dependency
 If you intend to perform customization that uses Vue components or APIs, you should also explicitly install `vue` as a peer dependency.
@@ -155,6 +167,10 @@ $ pnpm run docs:dev
 $ yarn docs:dev
 ```
 
+```sh [bun]
+$ bun run docs:dev
+```
+
 :::
 
 Instead of npm scripts, you can also invoke VitePress directly with:
@@ -167,6 +183,10 @@ $ npx vitepress dev docs
 
 ```sh [pnpm]
 $ pnpm exec vitepress dev docs
+```
+
+```sh [bun]
+$ bunx vitepress dev docs
 ```
 
 :::

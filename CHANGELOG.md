@@ -1,3 +1,232 @@
+# [1.0.0-rc.24](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.23...v1.0.0-rc.24) (2023-10-24)
+
+### Bug Fixes
+
+- lock plugin-vue version ([aa75fd6](https://github.com/vuejs/vitepress/commit/aa75fd62643d51be647f6e5937c97b7c47bf9739))
+- **styles:** large blur radius is causing color issues with safari ([a31e143](https://github.com/vuejs/vitepress/commit/a31e143afac597034a8d77f516961b0d2857ac8d))
+
+### Features
+
+- **template:** add types for theme config ([#3122](https://github.com/vuejs/vitepress/issues/3122)) ([56b3ce5](https://github.com/vuejs/vitepress/commit/56b3ce5032b1d3bcfd66a1a397d87172a6f113d7))
+
+# [1.0.0-rc.23](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.22...v1.0.0-rc.23) (2023-10-22)
+
+### Bug Fixes
+
+- don't normalize non-html/non-http links ([#3114](https://github.com/vuejs/vitepress/issues/3114)) ([da3d781](https://github.com/vuejs/vitepress/commit/da3d7812a143e3aa360845b89f573d4e1ec637dd))
+- **mpa:** properly emit assets in mpa mode ([#3115](https://github.com/vuejs/vitepress/issues/3115)) ([6cf1de5](https://github.com/vuejs/vitepress/commit/6cf1de5e9e15d4507054744b665ac15d5f9a05f1))
+- **theme/search:** prevent reactivity loss with i18n ([#3121](https://github.com/vuejs/vitepress/issues/3121)) ([50d61fa](https://github.com/vuejs/vitepress/commit/50d61faefacc3885efe99fe5477a3b815354a0c4))
+
+# [1.0.0-rc.22](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.21...v1.0.0-rc.22) (2023-10-15)
+
+### Bug Fixes
+
+- fixes a regression related with nanoid v5 ([#3090](https://github.com/vuejs/vitepress/issues/3090))
+
+# [1.0.0-rc.21](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.20...v1.0.0-rc.21) (2023-10-12)
+
+### Bug Fixes
+
+- **build:** handle .mjs/.mts files as data / path loaders ([#3058](https://github.com/vuejs/vitepress/issues/3058)) ([7991180](https://github.com/vuejs/vitepress/commit/7991180080366f9eb0d43fe95d25b53cf7af652c))
+- **client:** only update head if needed ([#3017](https://github.com/vuejs/vitepress/issues/3017)) ([f2fc3dc](https://github.com/vuejs/vitepress/commit/f2fc3dc51b8019c18d5ab70a6b55b8333c91045a))
+- **theme:** search's configuration about buttonAriaLabel doesn't work ([#3070](https://github.com/vuejs/vitepress/issues/3070)) ([c08bd46](https://github.com/vuejs/vitepress/commit/c08bd46aa757e7a0bc28b2318fb38037d583b27d))
+
+### Features
+
+- **md:** allow customizing container titles globally ([#3044](https://github.com/vuejs/vitepress/issues/3044)) ([bdb0800](https://github.com/vuejs/vitepress/commit/bdb080093f95ec43d013ea2ad537e567bdbb5a44))
+
+# [1.0.0-rc.20](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.15...v1.0.0-rc.20) (2023-09-24)
+
+### Bug Fixes
+
+- **build:** consistent route.path across dev and ssr ([#2997](https://github.com/vuejs/vitepress/issues/2997)) ([0d56855](https://github.com/vuejs/vitepress/commit/0d56855b54a97d4350485ee76c07a040fdc5738c))
+- **build:** don't show missing lang warnings with text specifiers in fences ([aa40cec](https://github.com/vuejs/vitepress/commit/aa40cecd48942506ffb063863c9b054e66f1d79e))
+- handle references in container titles ([7fbfe71](https://github.com/vuejs/vitepress/commit/7fbfe71b6cab2f091ba3d0c47a401fdc612b88b6)), closes [#3004](https://github.com/vuejs/vitepress/issues/3004)
+- **hmr:** handle hmr in imported code snippets ([#3005](https://github.com/vuejs/vitepress/issues/3005)) ([e84f313](https://github.com/vuejs/vitepress/commit/e84f31371e9e5219d46ae58151667d24e12b77bb))
+- snippet hmr not working with rewrites ([a275049](https://github.com/vuejs/vitepress/commit/a2750492be7869ed48a5bde1ffbc177093356758))
+- selectively pass env for container titles ([1a9c32d](https://github.com/vuejs/vitepress/commit/1a9c32df12388386877c50daf9fc7924888eac07)), closes [#3007](https://github.com/vuejs/vitepress/issues/3007)
+- **types:** add RegExp to markdown's allowed attributes ([#3008](https://github.com/vuejs/vitepress/issues/3008)) ([bc96b2b](https://github.com/vuejs/vitepress/commit/bc96b2bb5bc5361e55c46f270e3759c513db65d3))
+
+# [1.0.0-rc.15](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.14...v1.0.0-rc.15) (2023-09-20)
+
+### Bug Fixes
+
+- **build:** allow using symlinks with code snippets ([f186901](https://github.com/vuejs/vitepress/commit/f186901a5157c904b3593089d72f2bad3530e7a3)), closes [#1617](https://github.com/vuejs/vitepress/issues/1617)
+- **build:** handle importing code snippets not having an extension ([#2978](https://github.com/vuejs/vitepress/issues/2978)) ([e99aaad](https://github.com/vuejs/vitepress/commit/e99aaad9cf8ab3661e609cd2cf6ac7da57cb7eb5))
+- **build:** indentation being lost in code blocks ([5bb6bb0](https://github.com/vuejs/vitepress/commit/5bb6bb0a147ad43ca2d7069aad50fb9c6c2c11d6)), closes [#2988](https://github.com/vuejs/vitepress/issues/2988)
+- **compat:** reset setRawMode on process exit ([#2994](https://github.com/vuejs/vitepress/issues/2994)) ([70fe47c](https://github.com/vuejs/vitepress/commit/70fe47c1dd69d39a40c83e919324d2b71f19bdaa))
+
+### Features
+
+- allow passing fast glob options to `createContentLoader` ([4f9a60b](https://github.com/vuejs/vitepress/commit/4f9a60b0cfa2fa841465f6e8cc5f77ed3e023817)), closes [#2985](https://github.com/vuejs/vitepress/issues/2985)
+
+# [1.0.0-rc.14](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.13...v1.0.0-rc.14) (2023-09-16)
+
+### Bug Fixes
+
+- **client:** router in invalid state after 404 ([#2972](https://github.com/vuejs/vitepress/issues/2972)) ([28ef0ea](https://github.com/vuejs/vitepress/commit/28ef0ea6f60ab33e9cf34ecef10e1515d84f7168))
+- **client:** scripts loading out of order when added through head ([#2970](https://github.com/vuejs/vitepress/issues/2970)) ([98679c9](https://github.com/vuejs/vitepress/commit/98679c9e82fcd3bbe3829640d0386cbd730e61ba))
+- customizing the starting line number even if globally set ([#2941](https://github.com/vuejs/vitepress/issues/2941)) ([0cd87b1](https://github.com/vuejs/vitepress/commit/0cd87b1bafa6158ded0bf741553816f3d9b43a89))
+- make algolia search work with indices that don't return absolute urls ([#2956](https://github.com/vuejs/vitepress/issues/2956)) ([2a34c6b](https://github.com/vuejs/vitepress/commit/2a34c6b3076bf418b3abbbca984fcb033743a611)), closes [#336](https://github.com/vuejs/vitepress/issues/336) [#805](https://github.com/vuejs/vitepress/issues/805)
+- **theme:** remove extra padding from top when navbar is hidden ([#2575](https://github.com/vuejs/vitepress/issues/2575)) ([fd46dc9](https://github.com/vuejs/vitepress/commit/fd46dc9b8f8951b3196e4208d958d1ca0e1dc6e8))
+
+### Features
+
+- mathjax support ([#2977](https://github.com/vuejs/vitepress/issues/2977)) ([7271a95](https://github.com/vuejs/vitepress/commit/7271a959480261d60c01146d2e520d0f662e0380))
+- **theme:** allow forcing dark mode ([#2974](https://github.com/vuejs/vitepress/issues/2974)) ([1fb5d22](https://github.com/vuejs/vitepress/commit/1fb5d228a269e913163246e988806056b3f1b9d9))
+- **theme:** allow forcing site locale in last updated format ([#2973](https://github.com/vuejs/vitepress/issues/2973)) ([a18e5e4](https://github.com/vuejs/vitepress/commit/a18e5e48a442b09487cda8ab14e3b103ce270641))
+
+# [1.0.0-rc.13](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.12...v1.0.0-rc.13) (2023-09-13)
+
+### Bug Fixes
+
+- **theme:** allow wrapping feature icons ([a1e1267](https://github.com/vuejs/vitepress/commit/a1e1267549e198b35455d055536cd0c6d1ad79ce)), closes [#2923](https://github.com/vuejs/vitepress/issues/2923)
+- **theme:** local search enter key with the search result ([#2937](https://github.com/vuejs/vitepress/issues/2937)) ([00ef2f1](https://github.com/vuejs/vitepress/commit/00ef2f1db0369f50b3b634508e798b19b9525b34))
+
+### Features
+
+- **theme:** add search insights boolean to algolia search ([#2940](https://github.com/vuejs/vitepress/issues/2940)) ([32aa2a7](https://github.com/vuejs/vitepress/commit/32aa2a7d179049e5a1ed809018c32418bf69e8d5))
+
+### Reverts
+
+- Revert "feat(theme): use inert to avoid traverse menus and content with keyboard" (#2953) ([54891df](https://github.com/vuejs/vitepress/commit/54891df6149f4d0a871b16edf5f9a8a6fec639f9)), closes [#2953](https://github.com/vuejs/vitepress/issues/2953) [#2932](https://github.com/vuejs/vitepress/issues/2932)
+
+# [1.0.0-rc.12](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.11...v1.0.0-rc.12) (2023-09-10)
+
+### Bug Fixes
+
+- **theme:** prevent closing local search box on key enter ([#2933](https://github.com/vuejs/vitepress/issues/2933)) ([e544b41](https://github.com/vuejs/vitepress/commit/e544b411d91eba54154243b0af4cea3226c192c4))
+- **theme:** use brand color on search highlight ([dfc0fbf](https://github.com/vuejs/vitepress/commit/dfc0fbfcb4f255461bd90aef23a3dda1422b8335)), closes [#2902](https://github.com/vuejs/vitepress/issues/2902)
+
+### Features
+
+- highlight nav by default when one of the items is matched ([#2893](https://github.com/vuejs/vitepress/issues/2893)) ([b1fbece](https://github.com/vuejs/vitepress/commit/b1fbece047ca503f2c59553f9e37a0aac4be52c9))
+- process md includes before building local search index ([#2906](https://github.com/vuejs/vitepress/issues/2906)) ([c6ff5c7](https://github.com/vuejs/vitepress/commit/c6ff5c76867dc59d5548cb33fd8447e23712bef5))
+- support for customizing the starting line number in a code block ([#2917](https://github.com/vuejs/vitepress/issues/2917)) ([c0ce7f7](https://github.com/vuejs/vitepress/commit/c0ce7f723e52682d9ca107e4ce4e0e5c82710e02))
+- **theme:** allow setting target in home features ([#2897](https://github.com/vuejs/vitepress/issues/2897)) ([cb49673](https://github.com/vuejs/vitepress/commit/cb4967313e5edcfd4bfc12aa10e75fec7b32e0c8))
+- **theme:** use inert to avoid traverse menus and content with keyboard ([#2932](https://github.com/vuejs/vitepress/issues/2932)) ([070fc0a](https://github.com/vuejs/vitepress/commit/070fc0a56ddb941e26a098ba7207b5d1e91b7b51))
+
+# [1.0.0-rc.11](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.10...v1.0.0-rc.11) (2023-09-10)
+
+### Bug Fixes
+
+- **init:** missing mts extension on windows ([195ebe9](https://github.com/vuejs/vitepress/commit/195ebe9464e2cc9b208e7d6c8bc5fa9f92025fdc)), closes [#2886](https://github.com/vuejs/vitepress/issues/2886)
+- respect attrs on custom containers ([8b76167](https://github.com/vuejs/vitepress/commit/8b76167ccfbe5bf21295db6905451e1c50ca4407))
+- temp workaround for broken navigation from 404 to home ([a18d544](https://github.com/vuejs/vitepress/commit/a18d5447f29f05d75bf0e20ff839e5c3bcdac390)), closes [#2891](https://github.com/vuejs/vitepress/issues/2891)
+- **theme:** dropdown menu partially hidden by the homepage footer when it is too long ([#2904](https://github.com/vuejs/vitepress/issues/2904)) ([a60f079](https://github.com/vuejs/vitepress/commit/a60f079f996cc8ce9aeb189a25187fdbce2217ab))
+- **theme:** improve contrast of search highlight text ([#2887](https://github.com/vuejs/vitepress/issues/2887)) ([20f9770](https://github.com/vuejs/vitepress/commit/20f97702680b47eb9675770df4db94a3e3b94ef1))
+- **theme:** link hover color inside a custom block ([#2876](https://github.com/vuejs/vitepress/issues/2876)) ([39784ca](https://github.com/vuejs/vitepress/commit/39784ca55fdbefa97b7e9f892609ef8bdaeadf50))
+- **theme:** prevent layout shift in search button key ([#2889](https://github.com/vuejs/vitepress/issues/2889)) ([0088434](https://github.com/vuejs/vitepress/commit/0088434895e5df9afea5bb8e81c515a41e824c44))
+- **theme:** search button key misplaced on safari ([18adc07](https://github.com/vuejs/vitepress/commit/18adc07117cbf151b51aa205419496938a322a2e))
+- **types:** NavItem can only have either link or items ([#2880](https://github.com/vuejs/vitepress/issues/2880)) ([12ef12d](https://github.com/vuejs/vitepress/commit/12ef12d6330f61a29102e7a0d537e742ff20367f))
+
+### Features
+
+- detect bun package manager ([#2874](https://github.com/vuejs/vitepress/issues/2874)) ([83270fe](https://github.com/vuejs/vitepress/commit/83270fe65767016a98cd59b6256f1361439cc7c8))
+- skip rendering if env.BUNDLE_ONLY is truthy ([#2890](https://github.com/vuejs/vitepress/issues/2890)) ([d40eb19](https://github.com/vuejs/vitepress/commit/d40eb1903be022c9dfe10136122f5dc5aacb71d3))
+
+# [1.0.0-rc.10](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.9...v1.0.0-rc.10) (2023-08-28)
+
+### Bug Fixes
+
+- pseudo styles being removed with postcssIsolateStyles ([21b4f8c](https://github.com/vuejs/vitepress/commit/21b4f8caad8f0b9a570f00ac2662635062db8566)), closes [#2868](https://github.com/vuejs/vitepress/issues/2868) [#2867](https://github.com/vuejs/vitepress/issues/2867)
+- resolve snippets from original file path - align with include behavior ([8aa032f](https://github.com/vuejs/vitepress/commit/8aa032f60cd52e674a401f79b3cb473ac7d22abb))
+
+### Features
+
+- allow overriding mdit-vue/component options ([4f01f1a](https://github.com/vuejs/vitepress/commit/4f01f1a09c84fced276e1a138a59ed1b9679ce15))
+
+### Reverts
+
+- "fix: createContentLoader generates invalid url when sets `base`" ([#2865](https://github.com/vuejs/vitepress/issues/2865)) ([6be5a7e](https://github.com/vuejs/vitepress/commit/6be5a7e830fab2361bde5a4194930b2898733a8b))
+
+# [1.0.0-rc.9](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.4...v1.0.0-rc.9) (2023-08-28)
+
+### Bug Fixes
+
+- **a11y/theme:** disable transitions if user prefers reduced motion ([fc5092f](https://github.com/vuejs/vitepress/commit/fc5092fb651487e69737fff04d3979f00c67dcc6))
+- **build:** respect preserveSymlinks ([#2780](https://github.com/vuejs/vitepress/issues/2780)) ([1bda710](https://github.com/vuejs/vitepress/commit/1bda710702f5569e26b24b44785d938296870884))
+- **cli/init:** print the correct packageManager ([#2787](https://github.com/vuejs/vitepress/issues/2787)) ([b388b0a](https://github.com/vuejs/vitepress/commit/b388b0a8c169e399f8da43368022454b6e8ea489))
+- **cli/init:** terminal message has not enough contrast ([#2786](https://github.com/vuejs/vitepress/issues/2786)) ([4d9d977](https://github.com/vuejs/vitepress/commit/4d9d9775190178d0eaea5b3cea86309ae420bd43))
+- restart server on theme creation/deletion ([#2785](https://github.com/vuejs/vitepress/issues/2785)) ([e0be677](https://github.com/vuejs/vitepress/commit/e0be677554a517e8b02fcaf930828bb052d1c4a4))
+- scroll-to-top in iOS when opens sidebar ([#2803](https://github.com/vuejs/vitepress/issues/2803)) ([3dab9a6](https://github.com/vuejs/vitepress/commit/3dab9a6be1b543cf52c7c61f1e439a7973cd6667))
+- stackblitz not working on firefox ([877f643](https://github.com/vuejs/vitepress/commit/877f643b133b70f01bbf397900829050a399893f)), closes [#2817](https://github.com/vuejs/vitepress/issues/2817)
+- **theme:** docsearch variables not applying properly on ios beta ([436e99a](https://github.com/vuejs/vitepress/commit/436e99a594d42650f69c062fd095eb0502a76b34))
+- **theme:** improve logo svg and add `art` dir ([1f8c58a](https://github.com/vuejs/vitepress/commit/1f8c58aed0bf5a191021913dd7f9a87e9b75f3eb))
+- **theme:** prevent sidebar re-render unless there is actual change ([33962e0](https://github.com/vuejs/vitepress/commit/33962e04ebb2724e12b131f61ff00fe0aaf990f3)), closes [#2796](https://github.com/vuejs/vitepress/issues/2796)
+- **theme:** revert 79 to 179 in yellow-soft ([#2858](https://github.com/vuejs/vitepress/issues/2858)) ([74fcb60](https://github.com/vuejs/vitepress/commit/74fcb60fb4ceb97b9ab0442a26e22a726af2dcc9))
+- **theme:** show only one carbon ad at a time ([5ced0cc](https://github.com/vuejs/vitepress/commit/5ced0cca837ac7fbf1884ab56255b29c69dbec40))
+- **theme:** ssr issues on deno ([e8edd0a](https://github.com/vuejs/vitepress/commit/e8edd0a05f43491656c00db36630f391caf64461))
+
+### Features
+
+- allow customizing markdown renderer used for local search indexing ([#2770](https://github.com/vuejs/vitepress/issues/2770)) ([00dc1e6](https://github.com/vuejs/vitepress/commit/00dc1e6742273fe6fde74e7abbd160bd7724af4d))
+- export postcssIsolateStyles for vp-raw ([3c736c1](https://github.com/vuejs/vitepress/commit/3c736c1c95814d1ca43b4e99bda62b8ccc908cd5))
+- **theme:** allow overriding code copied text from css ([#2833](https://github.com/vuejs/vitepress/issues/2833)) ([e8ef1aa](https://github.com/vuejs/vitepress/commit/e8ef1aaabecd7374cdf6cefca6b02ff9d3d3573f))
+- **theme:** allow overriding last updated time in doc footer from frontmatter ([#2848](https://github.com/vuejs/vitepress/issues/2848)) ([9a062a6](https://github.com/vuejs/vitepress/commit/9a062a6dd63db3dc9d951f2973c4ab606594a11f))
+- **theme:** allow providing custom `toggle-appearance` function ([#2844](https://github.com/vuejs/vitepress/issues/2844)) ([a5f2eac](https://github.com/vuejs/vitepress/commit/a5f2eacf225ff1a9a82c10ae492658190f313fb0))
+- **theme:** allow setting rel and target on sidebar links ([e477cdf](https://github.com/vuejs/vitepress/commit/e477cdfd2f62144cd6331f45aaaa865185a64575)), closes [#2851](https://github.com/vuejs/vitepress/issues/2851)
+- **theme:** export VPButton and VPSponsors ([#2767](https://github.com/vuejs/vitepress/issues/2767)) ([6960ec1](https://github.com/vuejs/vitepress/commit/6960ec1cf61e973ffb238af2b77ad7aaf8c83500))
+- **theme:** export VPImage ([#2814](https://github.com/vuejs/vitepress/issues/2814)) ([f242140](https://github.com/vuejs/vitepress/commit/f242140c47e8a15070f689d5a4e54c7d88100f96))
+- **theme:** improve color system ([#2797](https://github.com/vuejs/vitepress/issues/2797)) ([e4f5c51](https://github.com/vuejs/vitepress/commit/e4f5c51bbe25d42fd52a1cd47e83dda4254fdd7e)), closes [#2100](https://github.com/vuejs/vitepress/issues/2100)
+
+### BREAKING CHANGES
+
+- `pathname://` protocol is dropped. Specify `target="_self"` or `target="_blank"` instead. Refer [docs](https://vitepress.dev/guide/routing#linking-to-non-vitepress-pages) to learn more.
+- Shiki's default theme is now changed to `github-light` and `github-dark`. If you want to use the old theme, you can set `markdown.theme` in your config to `'material-theme-palenight'`.
+- Internal logic of `isDark` is changed to use vueuse. It might impact your custom theme. You can customize its behavior using [`appearance`](https://vitepress.dev/reference/site-config#appearance) option.
+- Default theme's color system is updated to make it more easily customizable. Refer the [PR](https://github.com/vuejs/vitepress/pull/2797) for new variables.
+
+# [1.0.0-rc.4](https://github.com/vuejs/vitepress/compare/v1.0.0-beta.7...v1.0.0-rc.4) (2023-08-08)
+
+### Bug Fixes
+
+- `createContentLoader` generates invalid url when `base` is set ([#2714](https://github.com/vuejs/vitepress/issues/2714)) ([0f38eb4](https://github.com/vuejs/vitepress/commit/0f38eb440492f3a486517714976fbfe6dfb30a09))
+- **build:** make outDir from cli work properly ([17378c0](https://github.com/vuejs/vitepress/commit/17378c064f3e6f166ce180f8d7eeced2f1cc4224)), closes [#2716](https://github.com/vuejs/vitepress/issues/2716)
+- **build:** nested rewrites not working properly ([0f421d7](https://github.com/vuejs/vitepress/commit/0f421d72221495b8ef14195db3e3df9297ebc6ff))
+- **client:** handle empty hash in links ([#2738](https://github.com/vuejs/vitepress/issues/2738)) ([c6c983e](https://github.com/vuejs/vitepress/commit/c6c983ed73a019027b452b3eaf0ee4b502d38818))
+- fix sitemap path resolution ([481a5e3](https://github.com/vuejs/vitepress/commit/481a5e3cb55c6fda2c318180cfa0532ed34e4fc5)), closes [#2749](https://github.com/vuejs/vitepress/issues/2749)
+- **theme:** align max-width media queries ([d31051a](https://github.com/vuejs/vitepress/commit/d31051a05106f97924be3cdb3919f24acc232b59))
+- **theme:** allow using h1 headings in outline ([e3f8fc7](https://github.com/vuejs/vitepress/commit/e3f8fc7972f5506cd9def08ad13c62141737318f)), closes [#1529](https://github.com/vuejs/vitepress/issues/1529)
+- **theme:** close dropdown menus after an item is clicked ([#2380](https://github.com/vuejs/vitepress/issues/2380)) ([e54eea3](https://github.com/vuejs/vitepress/commit/e54eea3da0de640e7b343381bddf9a439d638954))
+- **theme:** don't reset scroll position on changing tab in code groups ([039798a](https://github.com/vuejs/vitepress/commit/039798a8c14a8c455e1187c5584c7f518c40f66a)), closes [#2732](https://github.com/vuejs/vitepress/issues/2732) [#2362](https://github.com/vuejs/vitepress/issues/2362)
+- **theme:** dont show transparent navbar other than home ([#2742](https://github.com/vuejs/vitepress/issues/2742)) ([1d6254b](https://github.com/vuejs/vitepress/commit/1d6254b615b48ceef85267045e8fce976a7eafd5))
+- **theme:** hide outline marker on scroll to top ([81e7405](https://github.com/vuejs/vitepress/commit/81e7405e193e832442db9aedb50ed3dc741e92ed))
+- **theme:** outline marker flicks when navigating towards above ([e8ebf1b](https://github.com/vuejs/vitepress/commit/e8ebf1b0483e025b7d3bc3ea6eb3fa02d4acac93)), closes [#2665](https://github.com/vuejs/vitepress/issues/2665) [#2676](https://github.com/vuejs/vitepress/issues/2676)
+- **theme:** override docsearch button bg ([063b0e5](https://github.com/vuejs/vitepress/commit/063b0e520a0b34db934371f56ddba212ceb3ba4c)), closes [#2735](https://github.com/vuejs/vitepress/issues/2735)
+- **theme:** respect feature icon dimensions set from frontmatter ([93823a8](https://github.com/vuejs/vitepress/commit/93823a8566df22c57cb4fbc81fa65c34222ece5e)), closes [#1886](https://github.com/vuejs/vitepress/issues/1886)
+- **theme:** scroll code group tab into view on selection ([1a6efba](https://github.com/vuejs/vitepress/commit/1a6efbae8e13eb6612aacdb8d384554e72e5f562)), closes [#2355](https://github.com/vuejs/vitepress/issues/2355)
+- **theme:** update sidebar active link status on hash change ([#2736](https://github.com/vuejs/vitepress/issues/2736)) ([3840eaa](https://github.com/vuejs/vitepress/commit/3840eaae163cc9307c8d8525ad03c59752443b2b))
+- **regression/theme:** fix sidebar collapsing ([#2753](https://github.com/vuejs/vitepress/issues/2753)) ([9a4ee07](https://github.com/vuejs/vitepress/commit/9a4ee07260191adeb4c3810d95b044439609525c))
+- **cli:** generate mjs file on init if `"type": "module"` is not present ([23d7511](https://github.com/vuejs/vitepress/commit/23d751165f6def6fa6b3a5d7efd89b993a2780d8))
+- **theme:** language menu undefined text ([#2755](https://github.com/vuejs/vitepress/issues/2755)) ([c9d4655](https://github.com/vuejs/vitepress/commit/c9d465587a3b2188ff9922483a15d7096e6a3e6c))
+
+### Features
+
+- **theme:** final re-brand ([#2727](https://github.com/vuejs/vitepress/pull/2727)) ([c0d838b](https://github.com/vuejs/vitepress/commit/c0d838bda0121fc162d1e6a43324f75290bc1b72))
+- allow html blocks inside code groups ([#2719](https://github.com/vuejs/vitepress/issues/2719)) ([7f0c18e](https://github.com/vuejs/vitepress/commit/7f0c18e01384d48380b64ba629229ec048f85453))
+- **build:** add `markdown.preConfig` option ([ce85726](https://github.com/vuejs/vitepress/commit/ce85726c127d9478274126374df9c37ee8b31167)), closes [#1382](https://github.com/vuejs/vitepress/issues/1382)
+- **build:** allow overriding vite config loading ([#2750](https://github.com/vuejs/vitepress/issues/2750)) ([1bed154](https://github.com/vuejs/vitepress/commit/1bed154612661ac3783558cf82a7e94832ee4ff8))
+- **client:** allow customizing scrollOffset padding ([20b509c](https://github.com/vuejs/vitepress/commit/20b509c6e1d957c73be75da27635b23de42781d4)), closes [#2739](https://github.com/vuejs/vitepress/issues/2739)
+- **client:** allow overriding props on Content ([1179484](https://github.com/vuejs/vitepress/commit/11794844327c65bd6086b1237b0d6568cb32a4cb)), closes [#2712](https://github.com/vuejs/vitepress/issues/2712)
+- i18n with sitemap ([#2708](https://github.com/vuejs/vitepress/issues/2708)) ([7778187](https://github.com/vuejs/vitepress/commit/7778187f2dc31554fa7541da9648235c994d4ae8))
+- **search:** allow enabling detailed view by default ([4af5975](https://github.com/vuejs/vitepress/commit/4af597582cd8ae565e22c912f26f67123babcd61)), closes [#2690](https://github.com/vuejs/vitepress/issues/2690)
+- **theme:** allow adding custom layouts ([f4a5c43](https://github.com/vuejs/vitepress/commit/f4a5c43cb00d70143cefcd9dfd9ba536f120ffda)), closes [#2547](https://github.com/vuejs/vitepress/issues/2547)
+- **theme:** allow customizing default theme's 404 page ([d7e2254](https://github.com/vuejs/vitepress/commit/d7e225473bd072119c3ce76317db2b723be74f81)), closes [#2715](https://github.com/vuejs/vitepress/issues/2715)
+- **theme:** allow customizing prev/next text from config file ([09a4fdc](https://github.com/vuejs/vitepress/commit/09a4fdc9b844a3e1877045afc496282b988f6f6b)), closes [#1373](https://github.com/vuejs/vitepress/issues/1373)
+- **theme:** allow overriding logo link ([2a7422b](https://github.com/vuejs/vitepress/commit/2a7422bbbf91b852e27525d64627e9cff6eff294)), closes [#1683](https://github.com/vuejs/vitepress/issues/1683)
+- **theme:** allow passing html in nav links ([69251b7](https://github.com/vuejs/vitepress/commit/69251b7484d8e4591841c32dd2f5a0179859cf14)), closes [#1652](https://github.com/vuejs/vitepress/issues/1652)
+- **theme:** allow setting base path in sidebar items ([#2734](https://github.com/vuejs/vitepress/issues/2734)) ([52884d9](https://github.com/vuejs/vitepress/commit/52884d9d4b3ad294f4c4fcab637c4e07c80dde3a))
+
+### Reverts
+
+- [#2689](https://github.com/vuejs/vitepress/issues/2689) ([#2722](https://github.com/vuejs/vitepress/issues/2722)) ([a56d608](https://github.com/vuejs/vitepress/commit/a56d608bec427ad51a9edb620d8fb01ebae29550))
+
+### BREAKING CHANGES
+
+- Node v18+ is now required to run VitePress.
+- VitePress now only provides ESM API. Refer [#2703](https://github.com/vuejs/vitepress/issues/2703) for details.
+
 # [1.0.0-beta.7](https://github.com/vuejs/vitepress/compare/v1.0.0-beta.6...v1.0.0-beta.7) (2023-07-29)
 
 ### Bug Fixes

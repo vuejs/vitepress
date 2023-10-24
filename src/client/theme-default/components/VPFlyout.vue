@@ -39,7 +39,7 @@ function onBlur() {
     >
       <span v-if="button || icon" class="text">
         <component v-if="icon" :is="icon" class="option-icon" />
-        {{ button }}
+        <span v-if="button" v-html="button"></span>
         <VPIconChevronDown class="text-icon" />
       </span>
 
@@ -60,7 +60,7 @@ function onBlur() {
 }
 
 .VPFlyout:hover {
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-1);
   transition: color 0.25s;
 }
 
@@ -73,17 +73,23 @@ function onBlur() {
 }
 
 .VPFlyout.active .text {
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-1);
 }
 
 .VPFlyout.active:hover .text {
-  color: var(--vp-c-brand-dark);
+  color: var(--vp-c-brand-2);
 }
 
 .VPFlyout:hover .menu,
 .button[aria-expanded="true"] + .menu {
   opacity: 1;
   visibility: visible;
+  transform: translateY(0);
+}
+
+.button[aria-expanded="false"] + .menu {
+  opacity: 0;
+  visibility: hidden;
   transform: translateY(0);
 }
 

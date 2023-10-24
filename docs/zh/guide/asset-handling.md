@@ -26,7 +26,7 @@
 
 请注意，你应使用根绝对路径来引用放置在 `public` 中的文件 - 例如，`public/icon.png` 应始终在源代码中作为 `/icon.png` 引用。
 
-但有一个例外：如果你在 `public` 中有一个 HTML 页面，并从主站点链接到它，路由默认会产生 404 错误。为了解决这个问题，VitePress 提供了 `pathname：//` 协议，它允许你像链接外部页面一样链接到同一域名的另一个页面。比较这两个链接：
+<!-- 但有一个例外：如果你在 `public` 中有一个 HTML 页面，并从主站点链接到它，路由默认会产生 404 错误。为了解决这个问题，VitePress 提供了 `pathname：//` 协议，它允许你像链接外部页面一样链接到同一域名的另一个页面。比较这两个链接：
 
 - [/pure.html](/pure.html)
 - <pathname:///VitePressCN/pure.html>
@@ -39,14 +39,14 @@
 [Link to pure.html](/pure.html){target="\_self"}
 [Link to pure.html](/pure.html){target="\_blank"}
 
-<!-- 如果明确指定 target ，则无需指定 pathname:// -->
+如果明确指定 target ，则无需指定 pathname://
 ```
 
 **输出**
 
 [链接到 pure.html](/pure.html){target="\_self"}
 <br>
-[链接到 pure.html](/pure.html){target="\_blank"}
+[链接到 pure.html](/pure.html){target="\_blank"} -->
 
 ## 根 URL {#base-url}
 

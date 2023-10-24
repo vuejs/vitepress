@@ -2,7 +2,6 @@
 import '@docsearch/css'
 import { onKeyStroke } from '@vueuse/core'
 import {
-  computed,
   defineAsyncComponent,
   onMounted,
   onUnmounted,
@@ -20,23 +19,13 @@ const VPAlgoliaSearchBox = __ALGOLIA__
   ? defineAsyncComponent(() => import('./VPAlgoliaSearchBox.vue'))
   : () => null
 
-const { theme, localeIndex } = useData()
+const { theme } = useData()
 
 // to avoid loading the docsearch js upfront (which is more than 1/3 of the
 // payload), we delay initializing it until the user has actually clicked or
 // hit the hotkey to invoke it.
 const loaded = ref(false)
 const actuallyLoaded = ref(false)
-
-const buttonText = computed(() => {
-  const options = theme.value.search?.options ?? theme.value.algolia
-
-  return (
-    options?.locales?.[localeIndex.value]?.translations?.button?.buttonText ||
-    options?.translations?.button?.buttonText ||
-    'Search'
-  )
-})
 
 const preconnect = () => {
   const id = 'VPAlgoliaPreconnect'
@@ -137,32 +126,19 @@ if (__VP_LOCAL_SEARCH__) {
   })
 }
 
-const metaKey = ref(`'Meta'`)
-
-onMounted(() => {
-  // meta key detect (same logic as in @docsearch/js)
-  metaKey.value = /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)
-    ? `'⌘'`
-    : `'Ctrl'`
-})
-
 const provider = __ALGOLIA__ ? 'algolia' : __VP_LOCAL_SEARCH__ ? 'local' : ''
 </script>
 
 <template>
-  <div class="VPNavBarSearch" :style="{ '--vp-meta-key': metaKey }">
+  <div class="VPNavBarSearch">
     <template v-if="provider === 'local'">
       <VPLocalSearchBox
         v-if="showSearch"
-        :placeholder="buttonText"
         @close="showSearch = false"
       />
 
       <div id="local-search">
-        <VPNavBarSearchButton
-          :placeholder="buttonText"
-          @click="showSearch = true"
-        />
+        <VPNavBarSearchButton @click="showSearch = true" />
       </div>
     </template>
 
@@ -174,7 +150,7 @@ const provider = __ALGOLIA__ ? 'algolia' : __VP_LOCAL_SEARCH__ ? 'local' : ''
       />
 
       <div v-if="!actuallyLoaded" id="docsearch">
-        <VPNavBarSearchButton :placeholder="buttonText" @click="load" />
+        <VPNavBarSearchButton @click="load" />
       </div>
     </template>
   </div>
@@ -204,12 +180,12 @@ const provider = __ALGOLIA__ ? 'algolia' : __VP_LOCAL_SEARCH__ ? 'local' : ''
 }
 
 .DocSearch-Form {
-  border: 1px solid var(--vp-c-brand);
+  border: 1px solid var(--vp-c-brand-1);
   background-color: var(--vp-c-white);
 }
 
 .dark .DocSearch-Form {
-  background-color: var(--vp-c-bg-soft-mute);
+  background-color: var(--vp-c-default-soft);
 }
 
 .DocSearch-Screen-Icon > svg {

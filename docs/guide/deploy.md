@@ -111,7 +111,7 @@ Set up a new project and change these settings using your dashboard:
 
 - **Build Command:** `npm run docs:build`
 - **Output Directory:** `docs/.vitepress/dist`
-- **Node Version:** `16` (or above, by default it usually will be 14 or 16, but on Cloudflare Pages the default is still 12, so you may need to [change that](https://developers.cloudflare.com/pages/platform/build-configuration/))
+- **Node Version:** `18` (or above)
 
 ::: warning
 Don't enable options like _Auto Minify_ for HTML code. It will remove comments from output which have meaning to Vue. You may see hydration mismatch errors if they get removed.
@@ -157,6 +157,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
            with:
              fetch-depth: 0 # Not needed if lastUpdated is not enabled
          # - uses: pnpm/action-setup@v2 # Uncomment this if you're using pnpm
+         # - uses: oven-sh/setup-bun@v1 # Uncomment this if you're using Bun
          - name: Setup Node
            uses: actions/setup-node@v3
            with:
@@ -165,9 +166,11 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
          - name: Setup Pages
            uses: actions/configure-pages@v3
          - name: Install dependencies
-           run: npm ci # or pnpm install / yarn install
+           run: npm ci # or pnpm install / yarn install / bun install
          - name: Build with VitePress
-           run: npm run docs:build # or pnpm docs:build / yarn docs:build
+           run: |
+             npm run docs:build # or pnpm docs:build / yarn docs:build / bun run docs:build
+             touch docs/.vitepress/dist/.nojekyll
          - name: Upload artifact
            uses: actions/upload-pages-artifact@v2
            with:
@@ -202,7 +205,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 2. Create a file named `.gitlab-ci.yml` in the root of your project with the content below. This will build and deploy your site whenever you make changes to your content:
 
    ```yaml
-   image: node:16
+   image: node:18
    pages:
      cache:
        paths:
