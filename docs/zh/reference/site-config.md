@@ -656,7 +656,7 @@ interface TransformContext {
 }
 ```
 
-请注意，仅在静态生成站点时才会调用此挂钩。在开发期间不会调用它。如果您需要在开发期间添加动态头条目，您可以使用 [`transformPageData`](#transformpagedata) 钩子来替代：
+请注意，仅在静态生成站点时才会调用此挂钩。在开发期间不会调用它。如果你需要在开发期间添加动态头条目，你可以使用 [`transformPageData`](#transformpagedata) 钩子来替代：
 
 ```ts
 export default {
@@ -700,7 +700,7 @@ export default {
 `transformPageData` 是一个钩子，用于转换每个页面的 `pageData`。你可以直接改变 `pageData` 或返回将合并到 `PageData` 中的更改值。
 
 ::: warning 警告
-不要改变 `context` 中的任何东西。请注意，这可能会影响开发服务器的性能，特别是当您在钩子中有一些网络请求或大量计算（例如生成图像）时。您可以通过判断 `process.env.NODE_ENV === 'production'` 匹配符合条件的情况。
+不要改变 `context` 中的任何东西。请注意，这可能会影响开发服务器的性能，特别是当你在钩子中有一些网络请求或大量计算（例如生成图像）时。你可以通过判断 `process.env.NODE_ENV === 'production'` 匹配符合条件的情况。
 :::
 
 ```ts

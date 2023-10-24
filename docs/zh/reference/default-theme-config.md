@@ -177,7 +177,7 @@ export type SidebarItem = {
 将此值设置为 `true` 将在页面右侧渲染。\
 将此值设置为 `left` 将在页面左侧渲染。
 
-如果您想对所有页面禁用它，您应该使用 `outline: false`。
+如果你想对所有页面禁用它，你应该使用 `outline: false`。
 
 ### 大纲层级 {#outline}
 
@@ -382,7 +382,7 @@ Learn more in [Default Theme: Carbon Ads](./default-theme-carbon-ads)
 
 - Type: `DocFooter`
 
-可用于自定义出现在上一篇和下一篇链接上方的文本。 如果不是用英语编写文档，这很有帮助。也可用于全局禁用上一个/下一个链接。如果您想选择性地启用/禁用上一个/下一个链接，可以使用 [frontmatter](./default-theme-prev-next-links)。
+可用于自定义出现在上一篇和下一篇链接上方的文本。 如果不是用英语编写文档，这很有帮助。也可用于全局禁用上一个/下一个链接。如果你想选择性地启用/禁用上一个/下一个链接，可以使用 [frontmatter](./default-theme-prev-next-links)。
 
 ```ts
 export default {

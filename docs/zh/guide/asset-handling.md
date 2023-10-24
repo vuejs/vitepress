@@ -31,7 +31,7 @@
 - [/pure.html](/pure.html)
 - <pathname:///VitePressCN/pure.html>
 
-请注意，仅在 Markdown 链接中支持 `pathname://`。此外，`pathname://` 默认情况下将在新选项卡中打开链接。您可以使用 `target="_self"` 在同一选项卡中打开它：
+请注意，仅在 Markdown 链接中支持 `pathname://`。此外，`pathname://` 默认情况下将在新选项卡中打开链接。你可以使用 `target="_self"` 在同一选项卡中打开它：
 
 **输入**
 

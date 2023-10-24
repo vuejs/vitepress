@@ -210,7 +210,7 @@ console.log('Hello, VitePress!')
 
 :::
 
-此外，您可以通过在站点配置中添加以下内容来全局设置自定义标题，如果不是用英语书写，这会很有帮助：
+此外，你可以通过在站点配置中添加以下内容来全局设置自定义标题，如果不是用英语书写，这会很有帮助：
 
 ```ts
 // config.ts
@@ -525,7 +525,7 @@ export default {
 
 你可以在你的代码块中添加 `:line-numbers` / `:no-line-numbers` 标记来覆盖在配置中的设置。
 
-您还可以通过在 `:line-numbers` 之后添加 `=` 来自定义起始行号。例如， `:line-numbers=2` 表示代码块中的行号将从“2”开始。
+你还可以通过在 `:line-numbers` 之后添加 `=` 来自定义起始行号。例如， `:line-numbers=2` 表示代码块中的行号将从“2”开始。
 
 **输入**
 
@@ -598,7 +598,7 @@ const line4 = 'This is line 4'
 <<< @/snippets/snippet.js{2}
 
 ::: tip
-`@` 的值对应于源代码根目录，默认情况下是 VitePress 项目根目录，除非配置了 `srcDir`。或者，您也可以从相对路径导入：
+`@` 的值对应于源代码根目录，默认情况下是 VitePress 项目根目录，除非配置了 `srcDir`。或者，你也可以从相对路径导入：
 
 ```md
 <<< ../snippets/snippet.js
@@ -731,7 +731,7 @@ export default config
 你可以在一个 markdown 文件中包含另一个 markdown 文件，甚至嵌套：
 
 ::: tip 提示
-您还可以在 markdown 路径前加上 `@` 前缀，它将充当源根目录。默认情况下它是 VitePress 项目根目录，除非配置了 `srcDir`。
+你还可以在 markdown 路径前加上 `@` 前缀，它将充当源根目录。默认情况下它是 VitePress 项目根目录，除非配置了 `srcDir`。
 :::
 
 例如，你可以使用以下方式包含一个相对路径的 markdown 文件：

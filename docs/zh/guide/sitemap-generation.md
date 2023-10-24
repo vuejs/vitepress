@@ -1,6 +1,6 @@
 # Sitemap 生成器 {#sitemap-generation}
 
-VitePress 提供开箱即用的为您的网站生成 `sitemap.xml` 文件。要启用它，请将以下内容添加到 `.vitepress/config.js` 中：
+VitePress 提供开箱即用的为你的网站生成 `sitemap.xml` 文件。要启用它，请将以下内容添加到 `.vitepress/config.js` 中：
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -31,7 +31,7 @@ export default defineConfig({
 
 ## `transformItems` Hook
 
-在将站点地图项写入 `sitemap.xml` 文件之前，您可以使用 `sitemap.transformItems` 钩子来修改站点地图项。使用站点地图项数组调用此挂钩，并期望返回站点地图项数组。例子：
+在将站点地图项写入 `sitemap.xml` 文件之前，你可以使用 `sitemap.transformItems` 钩子来修改站点地图项。使用站点地图项数组调用此挂钩，并期望返回站点地图项数组。例子：
 
 ```ts
 import { defineConfig } from 'vitepress'

@@ -128,11 +128,11 @@ Cache-Control: max-age=31536000,immutable
 name: Deploy VitePress site to Pages
 
 on:
-  #  在针对“main”分支的推送上运行。如果您使用 `master` 分支作为默认分支，请将其更改为“master”
+  #  在针对“main”分支的推送上运行。如果你使用 `master` 分支作为默认分支，请将其更改为“master”
   push:
     branches: [main]
 
-  # 允许您从 Action 选项卡手动运行此工作流程
+  # 允许你从 Action 选项卡手动运行此工作流程
   workflow_dispatch:
 
 # 设置 GITHUB_TOKEN 的权限以允许部署到 GitHub Pages
@@ -196,13 +196,13 @@ jobs:
 
 2. 在存储库设置中的 `Pages` 菜单项下，选择 `Build and deployment > Source` 中的 `GitHub Actions`。
 
-3. 将更改推送到 `main` 分支并等待 GitHub Actions 工作流完成。您应该看到您的站点部署到 `https://”<username>.github.io/[repository]/` 或 `https://<custom-domain>/`，这取决于您的设置。您的网站将在每次推送到 `main` 分支时自动部署。
+3. 将更改推送到 `main` 分支并等待 GitHub Actions 工作流完成。你应该看到你的站点部署到 `https://”<username>.github.io/[repository]/` 或 `https://<custom-domain>/`，这取决于你的设置。你的网站将在每次推送到 `main` 分支时自动部署。
 
 ### GitLab Pages
 
 1. 将 `docs/.vitepress/config.js` 中的 `outDir` 设置为 `../public`。如果你想部署到 `https://<username> .gitlab.io/<repository> /`，将 `base` 选项配置为 `'/<repository> /'`。
 
-2. 在项目的根目录中创建一个名为 `.gitlab-ci.yml` 的文件，其中包含以下内容。每当您更改内容时，都会自动构建和部署您的网站：
+2. 在项目的根目录中创建一个名为 `.gitlab-ci.yml` 的文件，其中包含以下内容。每当你更改内容时，都会自动构建和部署你的网站：
 
    ```yaml
    image: node:18

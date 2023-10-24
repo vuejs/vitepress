@@ -52,7 +52,7 @@ layout: foo
 ---
 ```
 
-这将在上下文中查找注册名为 `foo` 的组件。例如，你可以在 `.vitepress/theme/index.ts`中全局注册您的组件：
+这将在上下文中查找注册名为 `foo` 的组件。例如，你可以在 `.vitepress/theme/index.ts`中全局注册你的组件：
 
 ```ts
 import DefaultTheme from 'vitepress/theme'
