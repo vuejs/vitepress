@@ -1,6 +1,6 @@
 # 自定义主题 {#using-a-custom-theme}
 
-## 主题解析 {#theme-resolving}
+## 解析主题 {#theme-resolving}
 
 你可以通过创建一个 `.vitepress/theme/index.js` 或 `.vitepress/theme/index.ts` 文件 (即“主题入口文件”) 来启用自定义主题：
 
@@ -15,7 +15,7 @@
 └─ package.json
 ```
 
-当检测到存在主题入口文件时，VitePress 总会使用自定义主题而不是默认主题。但你可以[扩展默认主题](./extending-default-theme)来在其基础上实现更高级的自定义主题。
+当检测到存在主题入口文件时，VitePress 总会使用自定义主题而不是默认主题。但你可以[拓展默认主题](./extending-default-theme)来在其基础上实现更高级的定制。
 
 ## 主题接口 {#theme-interface}
 

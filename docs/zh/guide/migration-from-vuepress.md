@@ -4,7 +4,7 @@
 
 ### 侧边栏 {#sidebar}
 
-侧边栏不再从 frontmatter 中自动获取。 你可以自行阅读 [`frontmatter`](https://github.com/vuejs/vitepress/issues/572#issuecomment-1170116225) 来动态填充侧边栏。 [迁移工具](https://github.com/vuejs/vitepress/issues/96)将来可能会提供。
+侧边栏不再从 frontmatter 中自动获取。你可以自行阅读 [`frontmatter`](https://github.com/vuejs/vitepress/issues/572#issuecomment-1170116225) 来动态填充侧边栏。[迁移工具](https://github.com/vuejs/vitepress/issues/96)将来可能会提供。
 
 ## Markdown {#markdown}
 

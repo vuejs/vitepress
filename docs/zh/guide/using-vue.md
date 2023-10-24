@@ -4,8 +4,8 @@
 
 值得注意的是，VitePress 利用 Vue 的编译器自动检测和优化 Markdown 内容的纯静态部分。静态内容被优化为单个占位符节点，并从页面的 JavaScript 负载中删除以供初始访问。在客户端激活期间也会跳过它们。简而言之，你只需注意任何给定页面上的动态部分。
 
-::: tip SSR 兼容性
-所有的 Vue 用法都需要兼容 SSR。参阅 [SSR 兼容性](./ssr-compat)获得更多信息和常见的解决方案。
+:::tip SSR 兼容性
+所有的 Vue 用法都需要兼容 SSR。参见 [SSR 兼容性](./ssr-compat)获得更多信息和常见的解决方案。
 :::
 
 ## 模板化 {#templating}
@@ -48,24 +48,26 @@ hello: world
 ---
 
 <script setup>
-	import { ref } from 'vue'
+import { ref } from 'vue'
 
-	const count = ref(0)
+const count = ref(0)
 </script>
 
-## Markdown Content The count is: {{ count }}
+## Markdown Content
+
+The count is: {{ count }}
 
 <button :class="$style.button" @click="count++">Increment</button>
 
 <style module>
-	.button {
-		color: red;
-		font-weight: bold;
-	}
+.button {
+  color: red;
+  font-weight: bold;
+}
 </style>
 ```
 
-::: warning 避免在 Markdown 中使用 `<style scoped>`
+:::warning 避免在 Markdown 中使用 `<style scoped>`
 在 Markdown 中使用时，`<style scoped>` 需要为当前页面的每个元素添加特殊属性，这将显著增加页面的大小。当我们需要局部范围的样式时 `<style module>` 是首选。
 :::
 
@@ -75,9 +77,9 @@ hello: world
 
 ```html
 <script setup>
-	import { useData } from 'vitepress'
+import { useData } from 'vitepress'
 
-	const { page } = useData()
+const { page } = useData()
 </script>
 
 <pre>{{ page }}</pre>
@@ -123,14 +125,14 @@ This is a .md using a custom component
 如果一个组件要在大多数页面上使用，可以通过自定义 Vue 实例来全局注册它们。有关示例，请参见[扩展默认主题](./extending-default-theme#registering-global-components)中的相关部分。
 
 ::: warning 重要
-确保自定义组件的名称包含连字符或采用 PascalCase。否则，它将被视为内联元素并包裹在 `<p>` 标签内，这将导致 [hydration(HTML 添加交互的过程)](https://blog.csdn.net/qq_41800366/article/details/117738916) mismatch，因为 `<p>` 不允许将块元素放置在其中。
+确保自定义组件的名称包含连字符或采用 PascalCase。否则，它将被视为内联元素并包裹在 `<p>` 标签内，这将导致激活不匹配，因为 `<p>` 不允许将块元素放置在其中。
 :::
 
 ### 在标题中使用组件 <ComponentInHeader /> {#using-components-in-headers}
 
 可以在标题中使用 Vue 组件，但请注意以下语法之间的区别：
 
-| Markdown                                                | 输出的 HTML                               | 被解析的标题  |
+| Markdown                                                | 输出的 HTML                               | 被解析的标题 |
 | ------------------------------------------------------- | ----------------------------------------- | ------------- |
 | <pre v-pre><code> # text &lt;Tag/&gt; </code></pre>     | `<h1>text <Tag/></h1>`                    | `text`        |
 | <pre v-pre><code> # text \`&lt;Tag/&gt;\` </code></pre> | `<h1>text <code>&lt;Tag/&gt;</code></h1>` | `text <Tag/>` |
@@ -140,6 +142,7 @@ This is a .md using a custom component
 ::: tip
 输出 HTML 由 [Markdown-it](https://github.com/Markdown-it/Markdown-it) 完成，而解析的标题由 VitePress 处理 (并用于侧边栏和文档标题)。
 :::
+
 
 ## 转义 {#escaping}
 
@@ -161,7 +164,7 @@ This <span v-pre>{{ will be displayed as-is }}</span>
 
 ```md
 ::: v-pre
-{{ This will be displayed as-is }}
+{{ This will be displayed as-is }}`
 :::
 ```
 
@@ -193,14 +196,12 @@ Hello {{ 1 + 1 }}
 Hello {{ 1 + 1 }}
 ```
 
-请注意，这可能会阻止某些标记被语法正确高亮显示。
-
 ## 使用 CSS 预处理器 {#using-css-pre-processors}
 
 VitePress [内置支持](https://cn.vitejs.dev/guide/features.html#css-pre-processors) CSS 预处理器：`.scss`、`.sass`、.`less`、`.styl` 和 `.stylus` 文件。无需为它们安装 Vite 专用插件，但必须安装相应的预处理器：
 
 ```
-# .scss and .sass
+# .scss and .sass 
 npm install -D sass
 
 # .less
@@ -241,7 +242,6 @@ Vitepress 目前只有使用 teleport 传送到 body 的 SSG 支持。对于其�
 
 <script setup>
 import ModalDemo from '../../components/ModalDemo.vue'
-import ComponentInHeader from '../../components/ComponentInHeader.vue'
 </script>
 
 <style>

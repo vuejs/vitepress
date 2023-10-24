@@ -6,9 +6,9 @@ outline: deep
 
 通过使用 Vue 的服务器端渲染 (SSR) 功能，VitePress 能够在生产构建期间在 Node.js 中预渲染应用程序。这意味着主题组件中的所有自定义代码都需要考虑 SSR 兼容性。
 
-[Vue 官方文档的 SSR 部分](https://cn.vuejs.org/guide/scaling-up/ssr.html)提供了更多有关 SSR 是什么，SSR / SSG 之间的关系以及编写 SSR 友好代码的常见注意事项等信息。原则上只在 Vue 组件的 `beforeMount` 或 `mounted` 钩子中访问 browser / DOM API。
+[Vue  官方文档的 SSR 部分](https://cn.vuejs.org/guide/scaling-up/ssr.html)提供了更多有关 SSR 是什么，SSR / SSG 之间的关系以及编写 SSR 友好代码的常见注意事项等信息。原则上只在 Vue 组件的 `beforeMount` 或 `mounted` 钩子中访问 browser / DOM API。
 
-## `<ClientOnly>`
+## `<ClientOnly>` 
 
 如果你正在使用或演示不支持 SSR 的组件 (例如，包含自定义指令)，则可以将它们包装在内置的 `<ClientOnly>` 组件中：
 
@@ -29,56 +29,38 @@ outline: deep
 import { onMounted } from 'vue'
 
 onMounted(() => {
-	import('./lib-that-access-window-on-import').then((module) => {
-		// use code
-	})
+  import('./lib-that-access-window-on-import').then((module) => {
+    // use code
+  })
 })
 </script>
 ```
 
 ### 条件导入 {#conditional-import}
 
-你也可以使用 `import.meta.env.SSR` 标志 ([Vite 环境变量](https://cn.vitejs.dev/guide/env-and-mode.html#env-变量)的一部分) 来有条件地导入依赖项：
+你也可以使用 `import.meta.env.SSR` 标志 ([Vite 环境变量](https://cn.vitejs.dev/guide/env-and-mode.html#env-变量)的一部分)  来有条件地导入依赖项：
 
 ```js
 if (!import.meta.env.SSR) {
-	import('./lib-that-access-window-on-import').then((module) => {
-		// use code
-	})
+  import('./lib-that-access-window-on-import').then((module) => {
+    // use code
+  })
 }
 ```
 
-因为 [`Theme.enhanceApp`](./custom-theme#theme-interface) 可以是异步的，所以你可以有条件地导入并注册访问浏览器 API 的 Vue 插件：
+因为 [`Theme.enhanceApp`](/guide/custom-theme#theme-interface) 可以是异步的，所以你可以有条件地导入并注册访问浏览器 API 的 Vue 插件：
 
 ```js
 // .vitepress/theme/index.js
-/** @type {import('vitepress').Theme} */
 export default {
-	// ...
-	async enhanceApp({ app }) {
-		if (!import.meta.env.SSR) {
-			const plugin = await import('plugin-that-access-window-on-import')
-			app.use(plugin)
-		}
-	},
+  // ...
+  async enhanceApp({ app }) {
+    if (!import.meta.env.SSR) {
+      const plugin = await import('plugin-that-access-window-on-import')
+      app.use(plugin)
+    }
+  }
 }
-```
-
-如果你使用 TypeScript:
-
-```ts
-// .vitepress/theme/index.ts
-import type { Theme } from 'vitepress'
-
-export default {
-	// ...
-	async enhanceApp({ app }) {
-		if (!import.meta.env.SSR) {
-			const plugin = await import('plugin-that-access-window-on-import')
-			app.use(plugin)
-		}
-	},
-} satisfies Theme
 ```
 
 ### `defineClientComponent` {#`defineclientcomponent`}
@@ -90,47 +72,12 @@ VitePress 为导入 Vue 组件提供了一个方便的辅助函数，该组件�
 import { defineClientComponent } from 'vitepress'
 
 const ClientComp = defineClientComponent(() => {
-	return import('component-that-access-window-on-import')
+  return import('component-that-access-window-on-import')
 })
 </script>
 
 <template>
-	<ClientComp />
-</template>
-```
-
-你还可以将 props/children/slots 传递给目标组件：
-
-```vue
-<script setup>
-import { ref } from 'vue'
-import { defineClientComponent } from 'vitepress'
-
-const clientCompRef = ref(null)
-const ClientComp = defineClientComponent(
-	() => import('component-that-access-window-on-import'),
-
-	// args are passed to h() - https://vuejs.org/api/render-function.html#h
-	[
-		{
-			ref: clientCompRef,
-		},
-		{
-			default: () => 'default slot',
-			foo: () => h('div', 'foo'),
-			bar: () => [h('span', 'one'), h('span', 'two')],
-		},
-	],
-
-	// callback after the component is loaded, can be async
-	() => {
-		console.log(clientCompRef.value)
-	},
-)
-</script>
-
-<template>
-	<ClientComp />
+  <ClientComp />
 </template>
 ```
 
