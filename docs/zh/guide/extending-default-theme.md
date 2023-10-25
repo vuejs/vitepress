@@ -100,11 +100,11 @@ import DefaultTheme from 'vitepress/theme'
 
 /** @type {import('vitepress').Theme} */
 export default {
-	extends: DefaultTheme,
-	enhanceApp(ctx) {
-		// register your custom global components
-		ctx.app.component('MyGlobalComponent' /* ... */)
-	},
+  extends: DefaultTheme,
+  enhanceApp(ctx) {
+    // register your custom global components
+    ctx.app.component('MyGlobalComponent' /* ... */)
+  }
 }
 ```
 
@@ -116,11 +116,11 @@ import type { Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 
 export default {
-	extends: DefaultTheme,
-	async enhanceApp({ app }) {
-		// register your custom global components
-		ctx.app.component('MyGlobalComponent' /* ... */)
-	},
+  extends: DefaultTheme,
+  async enhanceApp({ app }) {
+    // register your custom global components
+    ctx.app.component('MyGlobalComponent' /* ... */)
+  }
 } satisfies Theme
 ```
 
@@ -136,10 +136,10 @@ import DefaultTheme from 'vitepress/theme'
 import MyLayout from './MyLayout.vue'
 
 export default {
-	...DefaultTheme,
-	// override the Layout with a wrapper component that
-	// injects the slots
-	Layout: MyLayout,
+  ...DefaultTheme,
+  // override the Layout with a wrapper component that
+  // injects the slots
+  Layout: MyLayout
 }
 ```
 
@@ -152,9 +152,11 @@ const { Layout } = DefaultTheme
 </script>
 
 <template>
-	<Layout>
-		<template #aside-outline-before> My custom sidebar top content </template>
-	</Layout>
+  <Layout>
+    <template #aside-outline-before>
+      My custom sidebar top content
+    </template>
+  </Layout>
 </template>
 ```
 
@@ -167,12 +169,12 @@ import DefaultTheme from 'vitepress/theme'
 import MyComponent from './MyComponent.vue'
 
 export default {
-	...DefaultTheme,
-	Layout() {
-		return h(DefaultTheme.Layout, null, {
-			'aside-outline-before': () => h(MyComponent),
-		})
-	},
+  ...DefaultTheme,
+  Layout() {
+    return h(DefaultTheme.Layout, null, {
+      'aside-outline-before': () => h(MyComponent)
+    })
+  }
 }
 ```
 
@@ -218,16 +220,18 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
-	vite: {
-		resolve: {
-			alias: [
-				{
-					find: /^.*\/VPNavBar\.vue$/,
-					replacement: fileURLToPath(new URL('./components/CustomNavBar.vue', import.meta.url)),
-				},
-			],
-		},
-	},
+  vite: {
+    resolve: {
+      alias: [
+        {
+          find: /^.*\/VPNavBar\.vue$/,
+          replacement: fileURLToPath(
+            new URL('./components/CustomNavBar.vue', import.meta.url)
+          )
+        }
+      ]
+    }
+  }
 })
 ```
 
