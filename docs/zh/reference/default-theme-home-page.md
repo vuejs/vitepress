@@ -37,35 +37,35 @@ hero:
 
 ```ts
 interface Hero {
-	// The string shown top of `text`. Comes with brand color
-	// and expected to be short, such as product name.
-	name?: string
+  // The string shown top of `text`. Comes with brand color
+  // and expected to be short, such as product name.
+  name?: string
 
-	// The main text for the hero section. This will be defined
-	// as `h1` tag.
-	text: string
+  // The main text for the hero section. This will be defined
+  // as `h1` tag.
+  text: string
 
-	// Tagline displayed below `text`.
-	tagline?: string
+  // Tagline displayed below `text`.
+  tagline?: string
 
-	// The image is displayed next to the text and tagline area.
-	image?: ThemeableImage
+  // The image is displayed next to the text and tagline area.
+  image?: ThemeableImage
 
-	// Action buttons to display in home hero section.
-	actions?: HeroAction[]
+  // Action buttons to display in home hero section.
+  actions?: HeroAction[]
 }
 
 type ThemeableImage = string | { src: string; alt?: string } | { light: string; dark: string; alt?: string }
 
 interface HeroAction {
-	// Color theme of the button. Defaults to `brand`.
-	theme?: 'brand' | 'alt'
+  // Color theme of the button. Defaults to `brand`.
+  theme?: 'brand' | 'alt'
 
-	// Label of the button.
-	text: string
+  // Label of the button.
+  text: string
 
-	// Destination link of the button.
-	link: string
+  // Destination link of the button.
+  link: string
 }
 ```
 
@@ -75,7 +75,7 @@ VitePress 通过 (`--vp-c-brand-1`) 设置 `name` 的颜色 .但是，你可以�
 
 ```css
 :root {
-	--vp-home-hero-name-color: blue;
+  --vp-home-hero-name-color: blue;
 }
 ```
 
@@ -83,8 +83,8 @@ VitePress 通过 (`--vp-c-brand-1`) 设置 `name` 的颜色 .但是，你可以�
 
 ```css
 :root {
-	--vp-home-hero-name-color: transparent;
-	--vp-home-hero-name-background: -webkit-linear-gradient(120deg, #bd34fe, #41d1ff);
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #bd34fe, #41d1ff);
 }
 ```
 
@@ -116,36 +116,36 @@ features:
 
 ```ts
 interface Feature {
-	// Show icon on each feature box.
-	icon?: FeatureIcon
+  // Show icon on each feature box.
+  icon?: FeatureIcon
 
-	// Title of the feature.
-	title: string
+  // Title of the feature.
+  title: string
 
-	// Details of the feature.
-	details: string
+  // Details of the feature.
+  details: string
 
-	// Link when clicked on feature component. The link can
-	// be both internal or external.
-	//
-	// e.g. `guid/reference/default-theme-home-page` or `htttps://example.com`
-	link?: string
+  // Link when clicked on feature component. The link can
+  // be both internal or external.
+  //
+  // e.g. `guid/reference/default-theme-home-page` or `htttps://example.com`
+  link?: string
 
-	// Link text to be shown inside feature component. Best
-	// used with `link` option.
-	//
-	// e.g. `Learn more`, `Visit page`, etc.
-	linkText?: string
+  // Link text to be shown inside feature component. Best
+  // used with `link` option.
+  //
+  // e.g. `Learn more`, `Visit page`, etc.
+  linkText?: string
 }
 
 type FeatureIcon =
-	| string
-	| { src: string; alt?: string; width?: string; height: string }
-	| {
-			light: string
-			dark: string
-			alt?: string
-			width?: string
-			height: string
-	  }
+  | string
+  | { src: string; alt?: string; width?: string; height: string }
+  | {
+      light: string
+      dark: string
+      alt?: string
+      width?: string
+      height: string
+    }
 ```

@@ -12,44 +12,45 @@ VitePress 提供了几个内置的 API 来让你访问应用程序数据。ViteP
 
 ```ts
 interface VitePressData<T = any> {
-	/**
-	 * Site-level metadata
-	 */
-	site: Ref<SiteData<T>>
-	/**
-	 * themeConfig from .vitepress/config.js
-	 */
-	theme: Ref<T>
-	/**
-	 * Page-level metadata
-	 */
-	page: Ref<PageData>
-	/**
-	 * Page frontmatter
-	 */
-	frontmatter: Ref<PageData['frontmatter']>
-	/**
-	 * Dynamic route params
-	 */
-	params: Ref<PageData['params']>
-	title: Ref<string>
-	description: Ref<string>
-	lang: Ref<string>
-	isDark: Ref<boolean>
-	dir: Ref<string>
-	localeIndex: Ref<string>
+  /**
+   * Site-level metadata
+   */
+  site: Ref<SiteData<T>>
+  /**
+   * themeConfig from .vitepress/config.js
+   */
+  theme: Ref<T>
+  /**
+   * Page-level metadata
+   */
+  page: Ref<PageData>
+  /**
+   * Page frontmatter
+   */
+  frontmatter: Ref<PageData['frontmatter']>
+  /**
+   * Dynamic route params
+   */
+  params: Ref<PageData['params']>
+  title: Ref<string>
+  description: Ref<string>
+  lang: Ref<string>
+  isDark: Ref<boolean>
+  dir: Ref<string>
+  localeIndex: Ref<string>
 }
 
 interface PageData {
-	title: string
-	titleTemplate?: string | boolean
-	description: string
-	relativePath: string
-	headers: Header[]
-	frontmatter: Record<string, any>
-	params?: Record<string, any>
-	isNotFound?: boolean
-	lastUpdated?: number
+  title: string
+  titleTemplate?: string | boolean
+  description: string
+  relativePath: string
+  filePath: string
+  headers: Header[]
+  frontmatter: Record<string, any>
+  params?: Record<string, any>
+  isNotFound?: boolean
+  lastUpdated?: number
 }
 ```
 
@@ -63,7 +64,7 @@ const { theme } = useData()
 </script>
 
 <template>
-	<h1>{{ theme.footer.copyright }}</h1>
+  <h1>{{ theme.footer.copyright }}</h1>
 </template>
 ```
 
@@ -73,9 +74,9 @@ const { theme } = useData()
 
 ```ts
 interface Route {
-	path: string
-	data: PageData
-	component: Component | null
+  path: string
+  data: PageData
+  component: Component | null
 }
 ```
 
@@ -85,8 +86,27 @@ interface Route {
 
 ```ts
 interface Router {
-	route: Route
-	go: (href?: string) => Promise<void>
+  /**
+   * Current route.
+   */
+  route: Route
+  /**
+   * Navigate to a new URL.
+   */
+  go: (to?: string) => Promise<void>
+  /**
+   * Called before the route changes. Return `false` to cancel the navigation.
+   */
+  onBeforeRouteChange?: (to: string) => Awaitable<void | boolean>
+  /**
+   * Called before the page component is loaded (after the history state is
+   * updated). Return `false` to cancel the navigation.
+   */
+  onBeforePageLoad?: (to: string) => Awaitable<void | boolean>
+  /**
+   * Called after the route changes.
+   */
+  onAfterRouteChanged?: (to: string) => Awaitable<void>
 }
 ```
 
@@ -102,8 +122,8 @@ interface Router {
 
 ```vue
 <template>
-	<h1>Custom Layout!</h1>
-	<Content />
+  <h1>Custom Layout!</h1>
+  <Content />
 </template>
 ```
 
@@ -123,7 +143,7 @@ If you are using or demoing components that are not SSR-friendly (for example, c
 </ClientOnly>
 ```
 
-- 相关文档：[SSR 兼容性](/guide/ssr-compat)
+- 相关文档：[SSR 兼容性](../guide/ssr-compat)
 
 ## `$frontmatter` <Badge type="info" text="template global" />
 

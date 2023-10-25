@@ -37,21 +37,21 @@
 
 ```css
 :root {
-	--vp-badge-info-border: transparent;
-	--vp-badge-info-text: var(--vp-c-text-2);
-	--vp-badge-info-bg: var(--vp-c-default-soft);
+  --vp-badge-info-border: transparent;
+  --vp-badge-info-text: var(--vp-c-text-2);
+  --vp-badge-info-bg: var(--vp-c-default-soft);
 
-	--vp-badge-tip-border: transparent;
-	--vp-badge-tip-text: var(--vp-c-brand-1);
-	--vp-badge-tip-bg: var(--vp-c-brand-soft);
+  --vp-badge-tip-border: transparent;
+  --vp-badge-tip-text: var(--vp-c-brand-1);
+  --vp-badge-tip-bg: var(--vp-c-brand-soft);
 
-	--vp-badge-warning-border: transparent;
-	--vp-badge-warning-text: var(--vp-c-warning-1);
-	--vp-badge-warning-bg: var(--vp-c-warning-soft);
+  --vp-badge-warning-border: transparent;
+  --vp-badge-warning-text: var(--vp-c-warning-1);
+  --vp-badge-warning-bg: var(--vp-c-warning-soft);
 
-	--vp-badge-danger-border: transparent;
-	--vp-badge-danger-text: var(--vp-c-danger-1);
-	--vp-badge-danger-bg: var(--vp-c-danger-soft);
+  --vp-badge-danger-border: transparent;
+  --vp-badge-danger-text: var(--vp-c-danger-1);
+  --vp-badge-danger-bg: var(--vp-c-danger-soft);
 }
 ```
 
@@ -61,10 +61,10 @@
 
 ```ts
 interface Props {
-	// When `<slot>` is passed, this value gets ignored.
-	text?: string
+  // When `<slot>` is passed, this value gets ignored.
+  text?: string
 
-	// Defaults to `tip`.
-	type?: 'info' | 'tip' | 'warning' | 'danger'
+  // Defaults to `tip`.
+  type?: 'info' | 'tip' | 'warning' | 'danger'
 }
 ```

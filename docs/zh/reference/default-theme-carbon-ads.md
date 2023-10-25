@@ -4,12 +4,12 @@ VitePress 内置了对 [Carbon Ads](https://www.carbonads.net/) 的原生支持�
 
 ```js
 export default {
-	themeConfig: {
-		carbonAds: {
-			code: 'your-carbon-code',
-			placement: 'your-carbon-placement',
-		},
-	},
+  themeConfig: {
+    carbonAds: {
+      code: 'your-carbon-code',
+      placement: 'your-carbon-placement',
+    },
+  },
 }
 ```
 

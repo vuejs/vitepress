@@ -34,7 +34,7 @@ title: VitePress
 ---
 ```
 
-## 标题模板 {#titletemplate}
+## 标题模板 {#title-template}
 
 - key: `titleTemplate`
 - Type: `string | boolean`
@@ -81,14 +81,16 @@ head:
 ```
 
 ```ts
-type HeadConfig = [string, Record<string, string>] | [string, Record<string, string>, string]
+type HeadConfig =
+  | [string, Record<string, string>]
+  | [string, Record<string, string>, string]
 ```
 
 ## 仅默认主题 {#default-theme-only}
 
 以下 frontmatter 选项仅在使用默认主题时适用。
 
-### 布局 <Badge type="info" text="default theme only" /> {#layout}
+### 布局 {#layout}
 
 - key: `layout`
 - Type: `doc | home | page`
@@ -106,25 +108,53 @@ layout: doc
 ---
 ```
 
-### hero <Badge type="info" text="default theme only" /> <Badge type="info" text="Home page only" />
+### hero <Badge type="info" text="home page only" />
 
 当 `layout` 设置为 `home` 时，定义主页 hero 部分的内容。更多详细信息：[默认主题：主页](./default-theme-home-page)。
 
-### features <Badge type="info" text="default theme only" /> <Badge type="info" text="Home page only" />
+### features <Badge type="info" text="home page only" />
 
 定义当`layout` 设置为 `home` 时要在 features 部分中显示的项目。更多详细信息：[默认主题：主页](./default-theme-home-page)。
 
-### 大纲开关 <Badge type="info" text="default theme only" /> {#aside}
+### 导航栏 {#navbar}
+
+- Key: `navbar`
+- Type: `boolean`
+- Default: `true`
+
+是否显示[导航栏](./default-theme-nav)。
+
+```yaml
+---
+navbar: false
+---
+```
+
+### 侧边栏 {#sidebar}
+
+- Key: `sidebar`
+- Type: `boolean`
+- Default: `true`
+
+是否显示 [侧边栏](./default-theme-sidebar).
+
+```yaml
+---
+sidebar: false
+---
+```
+
+### 大纲开关 {#aside}
 
 - key: `aside`
 - Type: `boolean | 'left'`
 - Default: `true`
 
-定义 aside 组件在 `doc` 布局中的位置。
+定义侧边栏组件在 `doc` 布局中的位置。
 
-将此值设置为 `false` 可禁用 aside 容器。\
-将此值设置为 `true` 会将 aside 渲染到右侧。\
-将此值设置为 `left` 会将 aside 渲染到左侧。
+将此值设置为 `false` 可禁用侧边栏容器。\
+将此值设置为 `true` 会将侧边栏渲染到右侧。\
+将此值设置为 `left` 会将侧边栏渲染到左侧。
 
 ```yaml
 ---
@@ -132,7 +162,7 @@ aside: false
 ---
 ```
 
-### 大纲层级 <Badge type="info" text="default theme only" /> {#outline}
+### 大纲层级 {#outline}
 
 - key: `outline`
 - Type: `number | [number, number] | 'deep' | false`
@@ -140,7 +170,7 @@ aside: false
 
 大纲中显示的标题级别。它与 [config.themeConfig.outline.level](./default-theme-config#outline) 相同，它会覆盖站点级的配置。
 
-### 最近更新时间 <Badge type="info" text="default theme only" /> {#lastupdated}
+### 最近更新时间 {#last-updated}
 
 - key: `lastUpdated`
 - Type: `boolean | Date`
@@ -154,7 +184,7 @@ lastUpdated: false
 ---
 ```
 
-### 编辑链接 <Badge type="info" text="default theme only" /> {#editlink}
+### 编辑链接 {#edit-link}
 
 - key: `editLink`
 - Type: `boolean`
@@ -166,4 +196,38 @@ lastUpdated: false
 ---
 editLink: false
 ---
+```
+
+### 页脚 {#footer}
+
+- Key: `footer`
+- Type: `boolean`
+- Default: `true`
+
+是否显示 [页脚](./default-theme-footer).
+
+```yaml
+---
+footer: false
+---
+```
+
+### pageClass
+
+- Type: `string`
+
+将额外的类名称添加到特定页面。
+
+```yaml
+---
+pageClass: custom-page-class
+---
+```
+
+然后你可以在 `.vitepress/theme/custom.css` 文件中自定义该特定页面的样式：
+
+```css
+.custom-page-class {
+  /* page-specific styles */
+}
 ```

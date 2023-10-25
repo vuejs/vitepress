@@ -4,22 +4,22 @@
 
 ```ts
 export default {
-	themeConfig: {
-		footer: {
-			message: 'Released under the MIT License.',
-			copyright: 'Copyright © 2019-present Evan You',
-		},
-	},
+  themeConfig: {
+    footer: {
+      message: 'Released under the MIT License.',
+      copyright: 'Copyright © 2019-present Evan You',
+    },
+  },
 }
 ```
 
 ```ts
 export interface Footer {
-	// The message shown right before copyright.
-	message?: string
+  // The message shown right before copyright.
+  message?: string
 
-	// The actual copyright text.
-	copyright?: string
+  // The actual copyright text.
+  copyright?: string
 }
 ```
 
@@ -27,12 +27,12 @@ export interface Footer {
 
 ```ts
 export default {
-	themeConfig: {
-		footer: {
-			message: 'Released under the <a href="https://github.com/vuejs/vitepress/blob/main/LICENSE">MIT License</a>.',
-			copyright: 'Copyright © 2019-present <a href="https://github.com/yyx990803">Evan You</a>',
-		},
-	},
+  themeConfig: {
+    footer: {
+      message: 'Released under the <a href="https://github.com/vuejs/vitepress/blob/main/LICENSE">MIT License</a>.',
+      copyright: 'Copyright © 2019-present <a href="https://github.com/yyx990803">Evan You</a>',
+    },
+  },
 }
 ```
 

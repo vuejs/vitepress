@@ -35,9 +35,9 @@ export default {
 
 ```ts
 export default {
-	themeConfig: {
-		logo: '/logo.svg',
-	},
+  themeConfig: {
+    logo: '/logo.svg',
+  },
 }
 ```
 
@@ -54,9 +54,9 @@ type ThemeableImage = string | { src: string; alt?: string } | { light: string; 
 
 ```ts
 export default {
-	themeConfig: {
-		siteTitle: 'Hello World',
-	},
+  themeConfig: {
+    siteTitle: 'Hello World',
+  },
 }
 ```
 
@@ -69,19 +69,19 @@ export default {
 
 ```js
 export default {
-	themeConfig: {
-		nav: [
-			{ text: 'Guide', link: '/guide' },
-			{
-				text: 'Dropdown Menu',
-				items: [
-					{ text: 'Item A', link: '/item-1' },
-					{ text: 'Item B', link: '/item-2' },
-					{ text: 'Item C', link: '/item-3' },
-				],
-			},
-		],
-	},
+  themeConfig: {
+    nav: [
+      { text: 'Guide', link: '/guide' },
+      {
+        text: 'Dropdown Menu',
+        items: [
+          { text: 'Item A', link: '/item-1' },
+          { text: 'Item B', link: '/item-2' },
+          { text: 'Item C', link: '/item-3' },
+        ],
+      },
+    ],
+  },
 }
 ```
 
@@ -89,22 +89,22 @@ export default {
 type NavItem = NavItemWithLink | NavItemWithChildren
 
 interface NavItemWithLink {
-	text: string
-	link: string
-	activeMatch?: string
-	target?: string
-	rel?: string
+  text: string
+  link: string
+  activeMatch?: string
+  target?: string
+  rel?: string
 }
 
 interface NavItemChildren {
-	text?: string
-	items: NavItemWithLink[]
+  text?: string
+  items: NavItemWithLink[]
 }
 
 interface NavItemWithChildren {
-	text?: string
-	items: (NavItemChildren | NavItemWithLink)[]
-	activeMatch?: string
+  text?: string
+  items: (NavItemChildren | NavItemWithLink)[]
+  activeMatch?: string
 }
 ```
 
@@ -136,33 +136,33 @@ export default {
 export type Sidebar = SidebarItem[] | SidebarMulti
 
 export interface SidebarMulti {
-	[path: string]: SidebarItem[]
+  [path: string]: SidebarItem[]
 }
 
 export type SidebarItem = {
-	/**
-	 * The text label of the item.
-	 */
-	text?: string
+  /**
+   * The text label of the item.
+   */
+  text?: string
 
-	/**
-	 * The link of the item.
-	 */
-	link?: string
+  /**
+   * The link of the item.
+   */
+  link?: string
 
-	/**
-	 * The children of the item.
-	 */
-	items?: SidebarItem[]
+  /**
+   * The children of the item.
+   */
+  items?: SidebarItem[]
 
-	/**
-	 * If not specified, group is not collapsible.
-	 *
-	 * If `true`, group is collapsible and collapsed by default
-	 *
-	 * If `false`, group is collapsible but expanded by default
-	 */
-	collapsed?: boolean
+  /**
+   * If not specified, group is not collapsible.
+   *
+   * If `true`, group is collapsible and collapsed by default
+   *
+   * If `false`, group is collapsible but expanded by default
+   */
+  collapsed?: boolean
 }
 ```
 
@@ -194,9 +194,9 @@ export type SidebarItem = {
 
 ```js
 export default {
-	themeConfig: {
-		outlineTitle: 'In hac pagina',
-	},
+  themeConfig: {
+    outlineTitle: 'In hac pagina',
+  },
 }
 ```
 
@@ -208,26 +208,26 @@ export default {
 
 ```js
 export default {
-	themeConfig: {
-		socialLinks: [
-			{ icon: 'github', link: 'https://github.com/vuejs/vitepress' },
-			{ icon: 'twitter', link: '...' },
-			// You can also add custom icons by passing SVG as string:
-			{
-				icon: {
-					svg: '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Dribbble</title><path d="M12...6.38z"/></svg>',
-				},
-				link: '...',
-			},
-		],
-	},
+  themeConfig: {
+    socialLinks: [
+      { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
+      { icon: 'twitter', link: '...' },
+      // You can also add custom icons by passing SVG as string:
+      {
+        icon: {
+          svg: '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Dribbble</title><path d="M12...6.38z"/></svg>',
+        },
+        link: '...',
+      },
+    ],
+  },
 }
 ```
 
 ```ts
 interface SocialLink {
-	icon: SocialLinkIcon
-	link: string
+  icon: SocialLinkIcon
+  link: string
 }
 
 type SocialLinkIcon = 'discord' | 'facebook' | 'github' | 'instagram' | 'linkedin' | 'mastodon' | 'slack' | 'twitter' | 'youtube' | { svg: string }
@@ -241,19 +241,19 @@ type SocialLinkIcon = 'discord' | 'facebook' | 'github' | 'instagram' | 'linkedi
 
 ```ts
 export default {
-	themeConfig: {
-		footer: {
-			message: 'Released under the MIT License.',
-			copyright: 'Copyright © 2019-present Evan You',
-		},
-	},
+  themeConfig: {
+    footer: {
+      message: 'Released under the MIT License.',
+      copyright: 'Copyright © 2019-present Evan You',
+    },
+  },
 }
 ```
 
 ```ts
 export interface Footer {
-	message?: string
-	copyright?: string
+  message?: string
+  copyright?: string
 }
 ```
 
@@ -266,19 +266,19 @@ export interface Footer {
 
 ```js
 export default {
-	themeConfig: {
-		editLink: {
-			pattern: 'https://github.com/vuejs/vitepress/edit/main/docs/:path',
-			text: 'Edit this page on GitHub',
-		},
-	},
+  themeConfig: {
+    editLink: {
+      pattern: 'https://github.com/vuejs/vitepress/edit/main/docs/:path',
+      text: 'Edit this page on GitHub',
+    },
+  },
 }
 ```
 
 ```ts
 export interface EditLink {
-	pattern: string
-	text?: string
+  pattern: string
+  text?: string
 }
 ```
 
@@ -291,9 +291,9 @@ export interface EditLink {
 
 ```ts
 export default {
-	themeConfig: {
-		lastUpdatedText: 'Updated Date',
-	},
+  themeConfig: {
+    lastUpdatedText: 'Updated Date',
+  },
 }
 ```
 
@@ -305,7 +305,7 @@ export default {
 
 ```ts
 export interface AlgoliaSearchOptions extends DocSearchProps {
-	locales?: Record<string, Partial<DocSearchProps>>
+  locales?: Record<string, Partial<DocSearchProps>>
 }
 ```
 
@@ -319,19 +319,19 @@ export interface AlgoliaSearchOptions extends DocSearchProps {
 
 ```ts
 export default {
-	themeConfig: {
-		carbonAds: {
-			code: 'your-carbon-code',
-			placement: 'your-carbon-placement',
-		},
-	},
+  themeConfig: {
+    carbonAds: {
+      code: 'your-carbon-code',
+      placement: 'your-carbon-placement',
+    },
+  },
 }
 ```
 
 ```ts
 export interface CarbonAdsOptions {
-	code: string
-	placement: string
+  code: string
+  placement: string
 }
 ```
 
@@ -345,19 +345,19 @@ Learn more in [Default Theme: Carbon Ads](./default-theme-carbon-ads)
 
 ```js
 export default {
-	themeConfig: {
-		docFooter: {
-			prev: 'Pagina prior',
-			next: 'Proxima pagina',
-		},
-	},
+  themeConfig: {
+    docFooter: {
+      prev: 'Pagina prior',
+      next: 'Proxima pagina',
+    },
+  },
 }
 ```
 
 ```ts
 export interface DocFooter {
-	prev?: string
-	next?: string
+  prev?: string
+  next?: string
 }
 ```
 

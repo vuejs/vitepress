@@ -32,7 +32,7 @@ export default {
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
-	// ...
+  // ...
 })
 ```
 
@@ -44,9 +44,9 @@ export default defineConfig({
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
-	themeConfig: {
-		// Type is `DefaultTheme.Config`
-	},
+  themeConfig: {
+    // Type is `DefaultTheme.Config`
+  }
 })
 ```
 
@@ -57,9 +57,9 @@ import { defineConfigWithTheme } from 'vitepress'
 import type { ThemeConfig } from 'your-theme'
 
 export default defineConfigWithTheme<ThemeConfig>({
-	themeConfig: {
-		// Type is `ThemeConfig`
-	},
+  themeConfig: {
+    // Type is `ThemeConfig`
+  }
 })
 ```
 
@@ -92,7 +92,7 @@ export default defineConfigWithTheme<ThemeConfig>({
 
 ```ts
 export default {
-	title: 'My Awesome Site',
+  title: 'My Awesome Site'
 }
 ```
 
@@ -102,7 +102,7 @@ export default {
 
 页面标题就是 `Hello | My Awesome Site`.
 
-### 标题模板 {#titletemplate}
+### 标题模板 {#title-template}
 
 - key: `titleTemplate`
 - Type: `string | boolean`
@@ -112,8 +112,8 @@ export default {
 
 ```ts
 export default {
-	title: 'My Awesome Site',
-	titleTemplate: 'Custom Suffix',
+  title: 'My Awesome Site',
+  titleTemplate: 'Custom Suffix'
 }
 ```
 
@@ -127,7 +127,7 @@ export default {
 
 ```ts
 export default {
-	titleTemplate: ':title - Custom Suffix',
+  titleTemplate: ':title - Custom Suffix'
 }
 ```
 
@@ -146,7 +146,7 @@ export default {
 
 ```ts
 export default {
-	description: 'A VitePress site',
+  description: 'A VitePress site'
 }
 ```
 
@@ -161,14 +161,16 @@ export default {
 :::
 
 ```ts
-type HeadConfig = [string, Record<string, string>] | [string, Record<string, string>, string]
+type HeadConfig =
+  | [string, Record<string, string>]
+  | [string, Record<string, string>, string]
 ```
 
 #### 示例：添加一个图标 {#example-adding-a-favicon}
 
 ```ts
 export default {
-	head: [['link', { rel: 'icon', href: '/favicon.ico' }]],
+  head: [['link', { rel: 'icon', href: '/favicon.ico' }]]
 } // put favicon.ico in public directory, if base is set, use /base/favicon.ico
 
 /* Would render:
@@ -180,11 +182,20 @@ export default {
 
 ```ts
 export default {
-	head: [
-		['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
-		['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
-		['link', { href: 'https://fonts.googleapis.com/css2?family=Roboto&display=swap', rel: 'stylesheet' }],
-	],
+  head: [
+    [
+      'link',
+      { rel: 'preconnect', href: 'https://fonts.googleapis.com' }
+    ],
+    [
+      'link',
+      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }
+    ],
+    [
+      'link',
+      { href: 'https://fonts.googleapis.com/css2?family=Roboto&display=swap', rel: 'stylesheet' }
+    ]
+  ]
 }
 
 /* 将会渲染成：
@@ -198,17 +209,17 @@ export default {
 
 ```ts
 export default {
-	head: [
-		[
-			'script',
-			{ id: 'register-sw' },
-			`;(() => {
+  head: [
+    [
+      'script',
+      { id: 'register-sw' },
+      `;(() => {
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker.register('/sw.js')
         }
-      })()`,
-		],
-	],
+      })()`
+    ]
+  ]
 }
 
 /* 将会渲染成：
@@ -226,17 +237,20 @@ export default {
 
 ```ts
 export default {
-	head: [
-		['script', { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=TAG_ID' }],
-		[
-			'script',
-			{},
-			`window.dataLayer = window.dataLayer || [];
+  head: [
+    [
+      'script',
+      { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=TAG_ID' }
+    ],
+    [
+      'script',
+      {},
+      `window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'TAG_ID');`,
-		],
-	],
+      gtag('config', 'TAG_ID');`
+    ]
+  ]
 }
 
 /* 将会渲染成：
@@ -260,7 +274,7 @@ export default {
 
 ```ts
 export default {
-	lang: 'en-US',
+  lang: 'en-US'
 }
 ```
 
@@ -276,13 +290,13 @@ base 会自动添加到其他选项中以 `/` 开头的所有 URL 前面，因�
 
 ```ts
 export default {
-	base: '/base/',
+  base: '/base/'
 }
 ```
 
 ## 路由 {#routing}
 
-### 简洁 URL {#cleanurls}
+### 简洁 URL {#clean-urls}
 
 - key: `cleanUrls`
 - Type: `boolean`
@@ -303,9 +317,9 @@ export default {
 
 ```ts
 export default {
-	rewrites: {
-		'source/:page': 'destination/:page',
-	},
+  rewrites: {
+    'source/:page': 'destination/:page'
+  }
 }
 ```
 
@@ -321,7 +335,7 @@ markdown 页面的目录，相对于项目根目录。另请参阅[根目录和�
 
 ```ts
 export default {
-	srcDir: './src',
+  srcDir: './src'
 }
 ```
 
@@ -337,7 +351,7 @@ A [glob pattern](https://github.com/mrmlnc/fast-glob#pattern-syntax) for matchin
 
 ```ts
 export default {
-	srcExclude: ['**/README.md', '**/TODO.md'],
+  srcExclude: ['**/README.md', '**/TODO.md']
 }
 ```
 
@@ -351,7 +365,21 @@ export default {
 
 ```ts
 export default {
-	outDir: '../public',
+  outDir: '../public'
+}
+```
+
+### assetsDir
+
+- key: `assetsDir`
+- Type: `string`
+- Default: `assets`
+
+静态资源的目录。另请参阅：[assetsDir](https://vitejs.dev/config/build-options.html#build-assetsdir)。
+
+```ts
+export default {
+  assetsDir: 'static'
 }
 ```
 
@@ -361,15 +389,15 @@ export default {
 - Type: `string`
 - Default: `./.vitepress/cache`
 
-缓存文件的目录，相对于[项目根目录](../guide/routing#root-and-source-directory)。另请参阅：[vite: cacheDir](https://cn.vitejs.dev/config/shared-options)。
+缓存文件的目录，相对于[项目根目录](../guide/routing#root-and-source-directory)。另请参阅：[cacheDir](https://vitejs.dev/config/shared-options.html#cachedir)。
 
 ```ts
 export default {
-	cacheDir: './.vitepress/.vite',
+  cacheDir: './.vitepress/.vite'
 }
 ```
 
-### 忽略死链 {#ignoredeadlinks}
+### 忽略死链 {#ignore-dead-links}
 
 - key: `ignoreDeadLinks`
 - Type: `boolean | 'localhostLinks' | (string | RegExp | ((link: string) => boolean))[]`
@@ -381,7 +409,7 @@ export default {
 
 ```ts
 export default {
-	ignoreDeadLinks: true,
+  ignoreDeadLinks: true
 }
 ```
 
@@ -389,18 +417,18 @@ export default {
 
 ```ts
 export default {
-	ignoreDeadLinks: [
-		// ignore exact url "/playground"
-		'/playground',
-		// ignore all localhost links
-		/^https?:\/\/localhost/,
-		// ignore all links include "/repl/""
-		/\/repl\//,
-		// custom function, ignore all links include "ignore"
-		(url) => {
-			return url.toLowerCase().includes('ignore')
-		},
-	],
+  ignoreDeadLinks: [
+    // ignore exact url "/playground"
+    '/playground',
+    // ignore all localhost links
+    /^https?:\/\/localhost/,
+    // ignore all links include "/repl/""
+    /\/repl\//,
+    // custom function, ignore all links include "ignore"
+    (url) => {
+      return url.toLowerCase().includes('ignore')
+    }
+  ]
 }
 ```
 
@@ -432,7 +460,7 @@ When set to `true`, the production app will be built in [MPA Mode](../guide/mpa-
 
 `appearance.initialValue` 只能是 `'dark' | undefined`。 不支持 Refs 或 getters。
 
-### 最近更新时间 {#lastupdated}
+### 最近更新时间 {#last-updated}
 
 - key: `lastUpdated`
 - Type: `boolean`
@@ -462,70 +490,81 @@ export default {
 
 ```ts
 interface MarkdownOptions extends MarkdownIt.Options {
-	// Custom theme for syntax highlighting.
-	// You can use an existing theme.
-	// See: https://github.com/shikijs/shiki/blob/main/docs/themes.md#all-themes
-	// Or add your own theme.
-	// See: https://github.com/shikijs/shiki/blob/main/docs/themes.md#loading-theme
-	theme?: Shiki.IThemeRegistration | { light: Shiki.IThemeRegistration; dark: Shiki.IThemeRegistration }
+  // Custom theme for syntax highlighting.
+  // You can use an existing theme.
+  // See: https://github.com/shikijs/shiki/blob/main/docs/themes.md#all-themes
+  // Or add your own theme.
+  // See: https://github.com/shikijs/shiki/blob/main/docs/themes.md#loading-theme
+  theme?:
+    | Shiki.IThemeRegistration
+    | { light: Shiki.IThemeRegistration; dark: Shiki.IThemeRegistration }
 
-	// Enable line numbers in code block.
-	lineNumbers?: boolean
+  // Enable line numbers in code block.
+  lineNumbers?: boolean
 
-	// Add support for your own languages.
-	// https://github.com/shikijs/shiki/blob/main/docs/languages.md#supporting-your-own-languages-with-shiki
-	languages?: Shiki.ILanguageRegistration
+  // Add support for your own languages.
+  // https://github.com/shikijs/shiki/blob/main/docs/languages.md#supporting-your-own-languages-with-shiki
+  languages?: Shiki.ILanguageRegistration
 
-	// markdown-it-anchor plugin options.
-	// See: https://github.com/valeriangalliat/markdown-it-anchor#usage
-	anchor?: anchorPlugin.AnchorOptions
+  // markdown-it-anchor plugin options.
+  // See: https://github.com/valeriangalliat/markdown-it-anchor#usage
+  anchor?: anchorPlugin.AnchorOptions
 
-	// markdown-it-attrs plugin options.
-	// See: https://github.com/arve0/markdown-it-attrs
-	attrs?: {
-		leftDelimiter?: string
-		rightDelimiter?: string
-		allowedAttributes?: string[]
-		disable?: boolean
-	}
+  // markdown-it-attrs plugin options.
+  // See: https://github.com/arve0/markdown-it-attrs
+  attrs?: {
+    leftDelimiter?: string
+    rightDelimiter?: string
+    allowedAttributes?: string[]
+    disable?: boolean
+  }
 
-	// specify default language for syntax highlighter
-	defaultHighlightLang?: string
+  // specify default language for syntax highlighter
+  defaultHighlightLang?: string
 
-	// @mdit-vue/plugin-frontmatter plugin options.
-	// See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-frontmatter#options
-	frontmatter?: FrontmatterPluginOptions
+  // @mdit-vue/plugin-frontmatter plugin options.
+  // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-frontmatter#options
+  frontmatter?: FrontmatterPluginOptions
 
-	// @mdit-vue/plugin-headers plugin options.
-	// See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-headers#options
-	headers?: HeadersPluginOptions
+  // @mdit-vue/plugin-headers plugin options.
+  // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-headers#options
+  headers?: HeadersPluginOptions
 
-	// @mdit-vue/plugin-sfc plugin options.
-	// See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-sfc#options
-	sfc?: SfcPluginOptions
+  // @mdit-vue/plugin-sfc plugin options.
+  // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-sfc#options
+  sfc?: SfcPluginOptions
 
-	// @mdit-vue/plugin-toc plugin options.
-	// See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-toc#options
-	toc?: TocPluginOptions
+  // @mdit-vue/plugin-toc plugin options.
+  // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-toc#options
+  toc?: TocPluginOptions
 
-	// @mdit-vue/plugin-component plugin options.
-	// See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-component#options
-	component?: ComponentPluginOptions
+  // @mdit-vue/plugin-component plugin options.
+  // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-component#options
+  component?: ComponentPluginOptions
 
-	// Configure the Markdown-it instance.
-	config?: (md: MarkdownIt) => void
+  // Configure the Markdown-it instance.
+  config?: (md: MarkdownIt) => void
 
-	// Same as `config` but will be applied before all other plugins.
-	preConfig?: (md: MarkdownIt) => void
+  // Same as `config` but will be applied before all other plugins.
+  preConfig?: (md: MarkdownIt) => void
 
-	// Disable cache (experimental)
-	cache?: boolean
+  // Disable cache (experimental)
+  cache?: boolean
 
-	// Math support (experimental)
-	// You need to install `markdown-it-mathjax3` and set `math` to `true` to enable it.
-	// You can also pass options to `markdown-it-mathjax3` here.
-	// See: https://github.com/tani/markdown-it-mathjax3#customization
-	math?: any
+  // Math support (experimental)
+  // You need to install `markdown-it-mathjax3` and set `math` to `true` to enable it.
+  // You can also pass options to `markdown-it-mathjax3` here.
+  // See: https://github.com/tani/markdown-it-mathjax3#customization
+  math?: any
+
+  // Global custom container titles
+  container?: {
+    infoLabel?: string
+    tipLabel?: string
+    warningLabel?: string
+    dangerLabel?: string
+    detailsLabel?: string
+  }
 }
 ```
 
@@ -538,9 +577,9 @@ interface MarkdownOptions extends MarkdownIt.Options {
 
 ```js
 export default {
-	vite: {
-		// Vite config options
-	},
+  vite: {
+    // Vite config options
+  }
 }
 ```
 
@@ -553,9 +592,9 @@ export default {
 
 ```js
 export default {
-	vue: {
-		// @vitejs/plugin-vue options
-	},
+  vue: {
+    // @vitejs/plugin-vue options
+  }
 }
 ```
 
@@ -578,9 +617,9 @@ VitePress 构建钩子允许你向你的网站添加新功能和行为：
 
 ```ts
 export default {
-	async buildEnd(siteConfig) {
-		// ...
-	},
+  async buildEnd(siteConfig) {
+    // ...
+  }
 }
 ```
 
@@ -595,17 +634,17 @@ export default {
 
 ```ts
 export default {
-	async postRender(context) {
-		// ...
-	},
+  async postRender(context) {
+    // ...
+  }
 }
 ```
 
 ```ts
 interface SSGContext {
-	content: string
-	teleports?: Record<string, string>
-	[key: string]: any
+  content: string
+  teleports?: Record<string, string>
+  [key: string]: any
 }
 ```
 
@@ -622,23 +661,23 @@ interface SSGContext {
 
 ```ts
 export default {
-	async transformHead(context) {
-		// ...
-	},
+  async transformHead(context) {
+    // ...
+  }
 }
 ```
 
 ```ts
 interface TransformContext {
-	page: string // e.g. index.md (relative to srcDir)
-	assets: string[] // all non-js/css assets as fully resolved public URL
-	siteConfig: SiteConfig
-	siteData: SiteData
-	pageData: PageData
-	title: string
-	description: string
-	head: HeadConfig[]
-	content: string
+  page: string // e.g. index.md (relative to srcDir)
+  assets: string[] // all non-js/css assets as fully resolved public URL
+  siteConfig: SiteConfig
+  siteData: SiteData
+  pageData: PageData
+  title: string
+  description: string
+  head: HeadConfig[]
+  content: string
 }
 ```
 
@@ -646,16 +685,19 @@ interface TransformContext {
 
 ```ts
 export default {
-	transformPageData(pageData) {
-		pageData.frontmatter.head ??= []
-		pageData.frontmatter.head.push([
-			'meta',
-			{
-				name: 'og:title',
-				content: pageData.frontmatter.layout === 'home' ? `VitePress` : `${pageData.title} | VitePress`,
-			},
-		])
-	},
+  transformPageData(pageData) {
+    pageData.frontmatter.head ??= []
+    pageData.frontmatter.head.push([
+      'meta',
+      {
+        name: 'og:title',
+        content:
+          pageData.frontmatter.layout === 'home'
+            ? `VitePress`
+            : `${pageData.title} | VitePress`
+      }
+    ])
+  }
 }
 ```
 
@@ -672,9 +714,9 @@ export default {
 
 ```ts
 export default {
-	async transformHtml(code, id, context) {
-		// ...
-	},
+  async transformHtml(code, id, context) {
+    // ...
+  }
 }
 ```
 
@@ -706,6 +748,6 @@ export default {
 
 ```ts
 interface TransformPageContext {
-	siteConfig: SiteConfig
+  siteConfig: SiteConfig
 }
 ```

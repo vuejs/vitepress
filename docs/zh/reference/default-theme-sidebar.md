@@ -52,17 +52,17 @@ export default {
 
 ```js
 export default {
-	themeConfig: {
-		sidebar: [
-			{
-				text: 'Guide',
-				items: [
-					// This shows `/guide/index.md` page.
-					{ text: 'Introduction', link: '/guide/' },
-				],
-			},
-		],
-	},
+  themeConfig: {
+    sidebar: [
+      {
+        text: 'Guide',
+        items: [
+          // This shows `/guide/index.md` page.
+          { text: 'Introduction', link: '/guide/' }
+        ]
+      }
+    ]
+  }
 }
 ```
 
@@ -115,35 +115,35 @@ export default {
 
 ```js
 export default {
-	themeConfig: {
-		sidebar: {
-			// This sidebar gets displayed when a user
-			// is on `guide` directory.
-			'/guide/': [
-				{
-					text: 'Guide',
-					items: [
-						{ text: 'Index', link: '/guide/' },
-						{ text: 'One', link: '/guide/one' },
-						{ text: 'Two', link: '/guide/two' },
-					],
-				},
-			],
+  themeConfig: {
+    sidebar: {
+      // This sidebar gets displayed when a user
+      // is on `guide` directory.
+      '/guide/': [
+        {
+          text: 'Guide',
+          items: [
+            { text: 'Index', link: '/guide/' },
+            { text: 'One', link: '/guide/one' },
+            { text: 'Two', link: '/guide/two' }
+          ]
+        }
+      ],
 
-			// This sidebar gets displayed when a user
-			// is on `config` directory.
-			'/config/': [
-				{
-					text: 'Config',
-					items: [
-						{ text: 'Index', link: '/config/' },
-						{ text: 'Three', link: '/config/three' },
-						{ text: 'Four', link: '/config/four' },
-					],
-				},
-			],
-		},
-	},
+      // This sidebar gets displayed when a user
+      // is on `config` directory.
+      '/config/': [
+        {
+          text: 'Config',
+          items: [
+            { text: 'Index', link: '/config/' },
+            { text: 'Three', link: '/config/three' },
+            { text: 'Four', link: '/config/four' }
+          ]
+        }
+      ]
+    }
+  }
 }
 ```
 
@@ -179,4 +179,37 @@ export default {
     ]
   }
 }
+```
+
+## `useSidebar` <Badge type="info" text="composable" />
+
+返回侧边栏相关数据。返回的对象具有以下类型：
+
+```ts
+export interface DocSidebar {
+  isOpen: Ref<boolean>
+  sidebar: ComputedRef<DefaultTheme.SidebarItem[]>
+  sidebarGroups: ComputedRef<DefaultTheme.SidebarItem[]>
+  hasSidebar: ComputedRef<boolean>
+  hasAside: ComputedRef<boolean>
+  leftAside: ComputedRef<boolean>
+  isSidebarEnabled: ComputedRef<boolean>
+  open: () => void
+  close: () => void
+  toggle: () => void
+}
+```
+
+**Example:**
+
+```vue
+<script setup>
+import { useSidebar } from 'vitepress/theme'
+
+const { hasSidebar } = useSidebar()
+</script>
+
+<template>
+  <div v-if="hasSidebar">仅当侧边栏存在时显示</div>
+</template>
 ```
