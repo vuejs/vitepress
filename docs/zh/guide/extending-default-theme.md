@@ -217,7 +217,6 @@ export default {
 
 ### 关于外观切换 {#on-appearance-toggle}
 
-You can extend the default theme to provide a custom transition when the color mode is toggled. An example:
 你可以扩展默认主题以在切换颜色模式时提供自定义过渡动画。一个例子：
 
 ```vue
