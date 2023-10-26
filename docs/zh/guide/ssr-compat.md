@@ -65,19 +65,18 @@ export default {
 ```
 
 如果你使用 TypeScript:
-
 ```ts
 // .vitepress/theme/index.ts
 import type { Theme } from 'vitepress'
 
 export default {
-	// ...
-	async enhanceApp({ app }) {
-		if (!import.meta.env.SSR) {
-			const plugin = await import('plugin-that-access-window-on-import')
-			app.use(plugin)
-		}
-	},
+  // ...
+  async enhanceApp({ app }) {
+    if (!import.meta.env.SSR) {
+      const plugin = await import('plugin-that-access-window-on-import')
+      app.use(plugin)
+    }
+  }
 } satisfies Theme
 ```
 
@@ -99,4 +98,39 @@ const ClientComp = defineClientComponent(() => {
 </template>
 ```
 
-目标组件只会在包装组件的 mounted 钩子中导入。
+你还可以将 props/children/slots 传递给目标组件：
+
+```vue
+<script setup>
+import { ref } from 'vue'
+import { defineClientComponent } from 'vitepress'
+
+const clientCompRef = ref(null)
+const ClientComp = defineClientComponent(
+  () => import('component-that-access-window-on-import'),
+
+  // args are passed to h() - https://vuejs.org/api/render-function.html#h
+  [
+    {
+      ref: clientCompRef
+    },
+    {
+      default: () => 'default slot',
+      foo: () => h('div', 'foo'),
+      bar: () => [h('span', 'one'), h('span', 'two')]
+    }
+  ],
+
+  // callback after the component is loaded, can be async
+  () => {
+    console.log(clientCompRef.value)
+  }
+)
+</script>
+
+<template>
+  <ClientComp />
+</template>
+```
+
+The target component will only be imported in the mounted hook of the wrapper component.

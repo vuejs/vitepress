@@ -201,7 +201,7 @@ Hello {{ 1 + 1 }}
 VitePress [内置支持](https://cn.vitejs.dev/guide/features.html#css-pre-processors) CSS 预处理器：`.scss`、`.sass`、.`less`、`.styl` 和 `.stylus` 文件。无需为它们安装 Vite 专用插件，但必须安装相应的预处理器：
 
 ```
-# .scss and .sass 
+# .scss and .sass
 npm install -D sass
 
 # .less
@@ -242,6 +242,7 @@ Vitepress 目前只有使用 teleport 传送到 body 的 SSG 支持。对于其�
 
 <script setup>
 import ModalDemo from '../../components/ModalDemo.vue'
+import ComponentInHeader from '../../components/ComponentInHeader.vue'
 </script>
 
 <style>

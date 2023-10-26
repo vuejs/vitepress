@@ -16,19 +16,14 @@ layout: doc
 
 它还提供下面列出的文档特定功能。这些功能仅在此布局中启用。
 
-<!-- - Edit Link
-- Prev Next Link
-- Outline
-- [Carbon Ads](./default-theme-carbon-ads) -->
-
 - [编辑链接](./default-theme-edit-link)
-- [上下页文本](./default-theme-prev-next-links)
+- [上下页链接](./default-theme-prev-next-links)
 - [大纲](./default-theme-config#outline)
 - [Carbon Ads](./default-theme-carbon-ads)
 
 ## page 布局 {#page-layout}
 
-`page` 被视为“空白页”。Markdown 仍然会被解析，所有的 [Markdown 扩展](../guide/markdown) 都和 `doc` 布局一样运行，但它没有任何默认样式。
+`page` 被视为“空白页”。Markdown 仍然会被解析，所有的 [Markdown 拓展](../guide/markdown) 都和 `doc` 布局一样运行，但它没有任何默认样式。
 
 `page` 布局将使你可以自行设计所有内容，而不会受 VitePress 主题影响。当你想要创建自己的自定义页面时，这很有用。
 
@@ -62,6 +57,6 @@ export default {
   extends: DefaultTheme,
   enhanceApp({ app }) {
     app.component('foo', Foo)
-  },
+  }
 }
 ```

@@ -7,16 +7,16 @@ export default {
   themeConfig: {
     carbonAds: {
       code: 'your-carbon-code',
-      placement: 'your-carbon-placement',
-    },
-  },
+      placement: 'your-carbon-placement'
+    }
+  }
 }
 ```
 
 这些值用于调用 carbon CDN 脚本，如下所示。
 
 ```js
-;`//cdn.carbonads.com/carbon.js?serve=${code}&placement=${placement}`
+`//cdn.carbonads.com/carbon.js?serve=${code}&placement=${placement}`
 ```
 
 要了解有关 Carbon Ads 配置的更多信息，请访问 [Carbon Ads 网站](https://www.carbonads.net/)。

@@ -1,4 +1,4 @@
-# 标记 {#badge}
+# 徽标 {#badge}
 
 徽标可让你为标题添加状态。例如，指定部分的类型或支持的版本可能很有用。
 
@@ -7,21 +7,20 @@
 你可以使用全局组件 `Badge` 。
 
 ```html
-### Title <Badge type="info" text="default" /> ### Title <Badge type="tip" text="^1.9.0" /> ### Title <Badge type="warning" text="beta" /> ### Title
-<Badge type="danger" text="caution" />
+### Title <Badge type="info" text="default" />
+### Title <Badge type="tip" text="^1.9.0" />
+### Title <Badge type="warning" text="beta" />
+### Title <Badge type="danger" text="caution" />
 ```
 
 上面的代码渲染如下：
 
 ### Title <Badge type="info" text="default" />
-
 ### Title <Badge type="tip" text="^1.9.0" />
-
 ### Title <Badge type="warning" text="beta" />
-
 ### Title <Badge type="danger" text="caution" />
 
-## 自定义 `children` {#custom-children}
+## 自定义子节点 {#custom-children}
 
 `<Badge>` 接受 `子节点`, 这将显示在徽标中。
 

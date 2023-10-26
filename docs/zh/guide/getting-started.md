@@ -42,7 +42,8 @@ $ bun add -D vitepress
 "pnpm": {
   "peerDependencyRules": {
     "ignoreMissing": [
-      "@algolia/client-search"
+      "@algolia/client-search",
+      "search-insights"
     ]
   }
 }
@@ -66,7 +67,11 @@ $ npx vitepress init
 ```
 
 ```sh [pnpm]
-$ pnpm exec vitepress init
+$ pnpm dlx vitepress init
+```
+
+```sh [bun]
+$ bunx vitepress init
 ```
 
 :::
@@ -120,6 +125,7 @@ export default {
 ```
 
 还可以通过 `themeConfig` 选项配置主题的行为。有关所有配置选项的完整详细信息，请参见[配置参考](../reference/site-config)。
+
 ### 源文件 {#source-files}
 
 `.vitepress` 目录之外的 Markdown 文件被视为**源文件**。
@@ -128,7 +134,7 @@ VitePress 使用 **基于文件的路由**：每个 `.md` 文件将在相同的�
 
 VitePress 还提供了生成简洁 URL、重写路径和动态生成页面的能力。这些将在[路由指南](./routing)中进行介绍。
 
-## 运行 {#up-and-running}
+## 启动并运行 {#up-and-running}
 
 该工具还应该将以下 npm 脚本注入到 `package.json` 中：
 
@@ -160,6 +166,10 @@ $ pnpm run docs:dev
 $ yarn docs:dev
 ```
 
+```sh [bun]
+$ bun run docs:dev
+```
+
 :::
 
 除了 npm 脚本，还可以直接调用 VitePress：
@@ -172,6 +182,10 @@ $ npx vitepress dev docs
 
 ```sh [pnpm]
 $ pnpm exec vitepress dev docs
+```
+
+```sh [bun]
+$ bunx vitepress dev docs
 ```
 
 :::

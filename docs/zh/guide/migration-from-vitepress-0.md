@@ -4,7 +4,7 @@
 
 ## 应用配置 {#app-config}
 
-- The internationalization feature is not yet implemented.
+- 国际化功能尚未实现。
 
 ## 主题配置 {#theme-config}
 

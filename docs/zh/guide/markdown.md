@@ -1,20 +1,20 @@
-# Markdown 扩展 {#markdown-extensions}
+# Markdown 拓展 {#markdown-extensions}
 
-VitePress 带有内置的 Markdown 扩展。
+VitePress 带有内置的 Markdown 拓展。
 
 ## 标题锚点 {#header-anchors}
 
 标题会自动应用锚点。可以使用 `markdown.anchor` 选项配置锚点的渲染。
 
-### Custom anchors
+### 自定义锚点 {#custom-anchors}
 
-To specify a custom anchor tag for a heading instead of using the auto-generated one, add a suffix to the heading:
+要为标题指定自定义锚点而不是使用自动生成的锚点，请向标题添加后缀：
 
 ```
-# Using custom anchors {#my-anchor}
+# 使用自定义锚点 {#my-anchor}
 ```
 
-This allows you to link to the heading as `#my-anchor` instead of the default `#using-custom-anchors`.
+这允许你将标题链接为 `#my-anchor`，而不是默认的 `#使用自定义锚点`。
 
 ## 链接 {#links}
 
@@ -96,7 +96,7 @@ lang: en-US
 | col 2 is      |   centered    |   \$12 |
 | zebra stripes |   are neat    |    \$1 |
 
-## Emoji :tada: 
+## Emoji :tada:
 
 **输入**
 
@@ -178,16 +178,16 @@ This is a details block.
 
 ### 自定义标题 {#custom-title}
 
-可以通过在容器的“类型”之后附加文本来设置自定义标题。
+可以通过在容器的 "type" 之后附加文本来设置自定义标题。
 
 **输入**
 
 ````md
 ::: danger STOP
-Danger zone, do not proceed
+危险区域，请勿继续
 :::
 
-::: details Click me to view the code
+::: details 点我查看代码
 ```js
 console.log('Hello, VitePress!')
 ```
@@ -197,14 +197,33 @@ console.log('Hello, VitePress!')
 **输出**
 
 ::: danger STOP
-Danger zone, do not proceed
+危险区域，请勿继续
 :::
 
-::: details Click me to view the code
+::: details 点我查看代码
 ```js
 console.log('Hello, VitePress!')
 ```
 :::
+
+此外，你可以通过在站点配置中添加以下内容来全局设置自定义标题，如果不是用英语书写，这会很有帮助：
+
+```ts
+// config.ts
+export default defineConfig({
+  // ...
+  markdown: {
+    container: {
+      tipLabel: '提示',
+      warningLabel: '警告',
+      dangerLabel: '危险',
+      infoLabel: '信息',
+      detailsLabel: '详细信息'
+    }
+  }
+  // ...
+})
+```
 
 ### `raw`
 
@@ -220,32 +239,29 @@ Wraps in a <div class="vp-raw">
 
 `vp-raw` class 也可以直接用于元素。样式隔离目前是可选的：
 
-::: details
-
 - 使用你喜欢的包管理器来安装需要的依赖项：
 
   ```sh
-  $ npm install -D postcss postcss-prefix-selector
+  $ npm add -D postcss
   ```
 
 - 创建 `docs/.postcssrc.cjs` 并将以下内容
 
   ```js
-  module.exports = {
-    plugins: {
-      'postcss-prefix-selector': {
-        prefix: ':not(:where(.vp-raw *))',
-        includeFiles: [/vp-doc\.css/],
-        transform(prefix, _selector) {
-          const [selector, pseudo = ''] = _selector.split(/(:\S*)$/)
-          return selector + prefix + pseudo
-        }
-      }
-    }
+  import { postcssIsolateStyles } from 'vitepress'
+
+  export default {
+    plugins: [postcssIsolateStyles()]
   }
   ```
 
-:::
+  It uses [`postcss-prefix-selector`](https://github.com/postcss/postcss-load-config) under the hood. You can pass its options like this:
+
+  ```js
+  postcssIsolateStyles({
+    includeFiles: [/vp-doc\.css/] // defaults to /base\.css/
+  })
+  ```
 
 ## 代码块中的语法高亮 {#syntax-highlighting-in-code-blocks}
 
@@ -521,6 +537,12 @@ const line3 = 'This is line 3'
 const line2 = 'This is line 2'
 const line3 = 'This is line 3'
 ```
+
+```ts:line-numbers=2 {1}
+// line-numbers is enabled and start from 2
+const line3 = 'This is line 3'
+const line4 = 'This is line 4'
+```
 ````
 
 **输出**
@@ -535,6 +557,12 @@ const line3 = 'This is line 3'
 // line-numbers is enabled
 const line2 = 'This is line 2'
 const line3 = 'This is line 3'
+```
+
+```ts:line-numbers=2 {1}
+// line-numbers is enabled and start from 2
+const line3 = 'This is line 3'
+const line4 = 'This is line 4'
 ```
 
 ## 导入代码片段 {#import-code-snippets}
@@ -563,7 +591,7 @@ const line3 = 'This is line 3'
 
 **输出**
 
-<<< @/snippets/snippet.js{2}
+<<< @/snippets/snippet.js
 
 ::: tip
 `@` 的值对应于源代码根目录，默认情况下是 VitePress 项目根目录，除非配置了 `srcDir`。或者你也可以从相对路径导入：
@@ -714,14 +742,14 @@ export default config
 <!--@include: ./parts/basics.md-->
 ```
 
-**另一个文件** (`parts/basics.md`)
+**部分文件** (`parts/basics.md`)
 
 ```md
-Some getting started stuff.
+一些入门的东西。
 
 ### Configuration {#configuration}
 
-Can be created using `.foorc.json`.
+可以使用 `.foorc.json` 创建。
 ```
 
 **等价代码**
@@ -731,16 +759,16 @@ Can be created using `.foorc.json`.
 
 ## Basics {#basics}
 
-Some getting started stuff.
+一些入门的东西。
 
 ### Configuration {#configuration}
 
-Can be created using `.foorc.json`.
+可以使用 `.foorc.json` 创建。
 ```
 
-It also supports selecting a line range:
+它还支持选择行范围：
 
-**Input**
+**输入**
 
 ```md
 # Docs
@@ -753,14 +781,14 @@ It also supports selecting a line range:
 **Part file** (`parts/basics.md`)
 
 ```md
-Some getting started stuff.
+一些入门的东西。
 
 ### Configuration
 
-Can be created using `.foorc.json`.
+可以使用 `.foorc.json` 创建。
 ```
 
-**Equivalent code**
+**等价代码**
 
 ```md
 # Docs
@@ -769,14 +797,59 @@ Can be created using `.foorc.json`.
 
 ### Configuration
 
-Can be created using `.foorc.json`.
+可以使用 `.foorc.json` 创建。
 ```
 
-The format of the selected line range can be: `{3,}`, `{,10}`, `{1,10}`
+所选行范围的格式可以是： `{3,}`、 `{,10}`、`{1,10}`
 
 ::: warning
 如果你指定的文件不存在，这将不会产生错误。因此，在使用这个功能的时候请保证内容按预期呈现。
 :::
+
+## 数学方程 {#math-equations}
+
+This is currently opt-in. 要启用它, 你需要安装 `markdown-it-mathjax3`，在配置文件中设置`markdown.math` 为 `true`：
+
+```sh
+npm add -D markdown-it-mathjax3
+```
+
+```ts
+// .vitepress/config.ts
+export default {
+  markdown: {
+    math: true
+  }
+}
+```
+
+**输入**
+
+```md
+当 $a \ne 0$, $(ax^2 + bx + c = 0)$ 有两个解，它们是
+$$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
+
+**Maxwell's 方程组:**
+
+| 方程                                                                                                                                                                  | 描述                                                                            |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| $\nabla \cdot \vec{\mathbf{B}}  = 0$                                                                                                                                      | divergence of $\vec{\mathbf{B}}$ is zero                                               |
+| $\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t}  = \vec{\mathbf{0}}$                                                          | curl of $\vec{\mathbf{E}}$ is proportional to the rate of change of $\vec{\mathbf{B}}$ |
+| $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _wha?_                                                                                 |
+```
+
+**输出**
+
+当 $a \ne 0$，$(ax^2 + bx + c = 0)$ 有两个解，它们是
+$$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
+
+**Maxwell's 方程组:**
+
+| 方程                                                                                                                                                                      | 描述                                                                                   |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| $\nabla \cdot \vec{\mathbf{B}}  = 0$                                                                                                                                      | divergence of $\vec{\mathbf{B}}$ is zero                                               |
+| $\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t}  = \vec{\mathbf{0}}$                                                          | curl of $\vec{\mathbf{E}}$ is proportional to the rate of change of $\vec{\mathbf{B}}$ |
+| $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _wha?_                                                                                 |
 
 ## 高级配置 {#advanced-configuration}
 

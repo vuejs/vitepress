@@ -85,12 +85,10 @@ src/getting-started.md  -->  /getting-started.html
 
 ```md
 <!-- 正确做法 -->
-
 [Getting Started](./getting-started)
 [Getting Started](../guide/getting-started)
 
 <!-- 不正确做法 -->
-
 [Getting Started](./getting-started.md)
 [Getting Started](./getting-started.html)
 ```
@@ -181,10 +179,10 @@ packages/pkg-b/src/pkg-b-docs.md  -->  /pkg-b/index.html
 ```ts
 // .vitepress/config.js
 export default {
-	rewrites: {
-		'packages/pkg-a/src/pkg-a-docs.md': 'pkg-a/index.md',
-		'packages/pkg-b/src/pkg-b-docs.md': 'pkg-b/index.md',
-	},
+  rewrites: {
+    'packages/pkg-a/src/pkg-a-docs.md': 'pkg-a/index.md',
+    'packages/pkg-b/src/pkg-b-docs.md': 'pkg-b/index.md'
+  }
 }
 ```
 
@@ -192,22 +190,21 @@ export default {
 
 ```ts
 export default {
-	rewrites: {
-		'packages/:pkg/src/(.*)': ':pkg/index.md',
-	},
+  rewrites: {
+    'packages/:pkg/src/(.*)': ':pkg/index.md'
+  }
 }
 ```
 
 重写路径是使用 `path-to-regexp` 包编译的 - 请参阅[其文档](https://github.com/pillarjs/path-to-regexp#parameters)以获取更高级的语法。
 
-:::warning 开启重写功能时使用相对链接
+::: warning 开启重写功能时使用相对链接
 
 启用重写后，**相对链接应基于重写的路径**。例如，为了创建从 `packages/pkg-a/src/pkg-a-code.md` 到 `packages/pkg-b/src/pkg-b-code.md` 的相对链接，你应该使用：
 
 ```md
 [Link to PKG B](../pkg-b/pkg-b-code)
 ```
-
 :::
 
 ## 动态路由 {#dynamic-routes}
@@ -232,9 +229,12 @@ export default {
 ```js
 // packages/[pkg].paths.js
 export default {
-	paths() {
-		return [{ params: { pkg: 'foo' } }, { params: { pkg: 'bar' } }]
-	},
+  paths() {
+    return [
+      { params: { pkg: 'foo' }},
+      { params: { pkg: 'bar' }}
+    ]
+  }
 }
 ```
 
@@ -264,12 +264,12 @@ export default {
 
 ```js
 export default {
-	paths: () => [
-		{ params: { pkg: 'foo', version: '1.0.0' } },
-		{ params: { pkg: 'foo', version: '2.0.0' } },
-		{ params: { pkg: 'bar', version: '1.0.0' } },
-		{ params: { pkg: 'bar', version: '2.0.0' } },
-	],
+  paths: () => [
+    { params: { pkg: 'foo', version: '1.0.0' }},
+    { params: { pkg: 'foo', version: '2.0.0' }},
+    { params: { pkg: 'bar', version: '1.0.0' }},
+    { params: { pkg: 'bar', version: '2.0.0' }}
+  ]
 }
 ```
 
@@ -292,12 +292,15 @@ export default {
 
 ```js
 import fs from 'fs'
+
 export default {
-	paths() {
-		return fs.readdirSync('packages').map((pkg) => {
-			return { params: { pkg } }
-		})
-	},
+  paths() {
+    return fs
+      .readdirSync('packages')
+      .map((pkg) => {
+        return { params: { pkg }}
+      })
+  }
 }
 ```
 
@@ -305,17 +308,18 @@ export default {
 
 ```js
 export default {
-	async paths() {
-		const pkgs = await (await fetch('https://my-api.com/packages')).json()
-		return pkgs.map((pkg) => {
-			return {
-				params: {
-					pkg: pkg.name,
-					version: pkg.version,
-				},
-			}
-		})
-	},
+  async paths() {
+    const pkgs = await (await fetch('https://my-api.com/packages')).json()
+
+    return pkgs.map((pkg) => {
+      return {
+        params: {
+          pkg: pkg.name,
+          version: pkg.version
+        }
+      }
+    })
+  }
 }
 ```
 
@@ -333,8 +337,10 @@ export default {
 ```vue
 <script setup>
 import { useData } from 'vitepress'
+
 // params is a Vue ref
 const { params } = useData()
+
 console.log(params.value)
 </script>
 ```
@@ -347,16 +353,15 @@ console.log(params.value)
 
 ```js
 export default {
-  paths() {
-    async paths() {
-      const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
-      return posts.map((post) => {
-        return {
-          params: { id: post.id },
-          content: post.content // raw Markdown or HTML
-        }
-      })
-    }
+  async paths() {
+    const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
+
+    return posts.map((post) => {
+      return {
+        params: { id: post.id },
+        content: post.content // raw Markdown or HTML
+      }
+    })
   }
 }
 ```

@@ -9,8 +9,8 @@ Nav 是显示在页面顶部的导航栏。它包含站点标题、全局菜单�
 ```js
 export default {
   themeConfig: {
-    siteTitle: 'My Custom Title',
-  },
+    siteTitle: 'My Custom Title'
+  }
 }
 ```
 
@@ -19,8 +19,8 @@ export default {
 ```js
 export default {
   themeConfig: {
-    logo: '/my-logo.svg',
-  },
+    logo: '/my-logo.svg'
+  }
 }
 ```
 
@@ -30,8 +30,8 @@ export default {
 export default {
   themeConfig: {
     logo: '/my-logo.svg',
-    siteTitle: false,
-  },
+    siteTitle: false
+  }
 }
 ```
 
@@ -47,9 +47,9 @@ export default {
     nav: [
       { text: 'Guide', link: '/guide' },
       { text: 'Config', link: '/config' },
-      { text: 'Changelog', link: 'https://github.com/...' },
-    ],
-  },
+      { text: 'Changelog', link: 'https://github.com/...' }
+    ]
+  }
 }
 ```
 
@@ -67,11 +67,11 @@ export default {
         items: [
           { text: 'Item A', link: '/item-1' },
           { text: 'Item B', link: '/item-2' },
-          { text: 'Item C', link: '/item-3' },
-        ],
-      },
-    ],
-  },
+          { text: 'Item C', link: '/item-3' }
+        ]
+      }
+    ]
+  }
 }
 ```
 
@@ -92,10 +92,10 @@ export default {
             text: 'Section A Title',
             items: [
               { text: 'Section A Item A', link: '...' },
-              { text: 'Section B Item B', link: '...' },
-            ],
-          },
-        ],
+              { text: 'Section B Item B', link: '...' }
+            ]
+          }
+        ]
       },
       {
         text: 'Dropdown Menu',
@@ -104,13 +104,13 @@ export default {
             // 你也可以省略标题
             items: [
               { text: 'Section A Item A', link: '...' },
-              { text: 'Section B Item B', link: '...' },
-            ],
-          },
-        ],
-      },
-    ],
-  },
+              { text: 'Section B Item B', link: '...' }
+            ]
+          }
+        ]
+      }
+    ]
+  }
 }
 ```
 
@@ -127,10 +127,10 @@ export default {
       {
         text: 'Guide',
         link: '/guide',
-        activeMatch: '/config/',
-      },
-    ],
-  },
+        activeMatch: '/config/'
+      }
+    ]
+  }
 }
 ```
 
@@ -150,10 +150,10 @@ export default {
         text: 'Merchandise',
         link: 'https://www.thegithubshop.com/',
         target: '_self',
-        rel: 'sponsored',
-      },
-    ],
-  },
+        rel: 'sponsored'
+      }
+    ]
+  }
 }
 ```
 

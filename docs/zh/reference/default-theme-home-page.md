@@ -55,7 +55,10 @@ interface Hero {
   actions?: HeroAction[]
 }
 
-type ThemeableImage = string | { src: string; alt?: string } | { light: string; dark: string; alt?: string }
+type ThemeableImage =
+  | string
+  | { src: string; alt?: string }
+  | { light: string; dark: string; alt?: string }
 
 interface HeroAction {
   // Color theme of the button. Defaults to `brand`.
@@ -136,6 +139,11 @@ interface Feature {
   //
   // e.g. `Learn more`, `Visit page`, etc.
   linkText?: string
+
+  // Link rel attribute for the `link` option.
+  //
+  // e.g. `external`
+  rel?: string
 }
 
 type FeatureIcon =

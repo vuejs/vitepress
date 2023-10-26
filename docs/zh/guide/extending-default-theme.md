@@ -62,7 +62,7 @@ export default DefaultTheme
 }
 ```
 
-:::warning
+::: warning
 如果你在使用像是[团队页](/reference/default-theme-team-page)这样的组件，请确保也在从 `vitepress/theme-without-fonts` 中导入它们！
 :::
 
@@ -109,7 +109,6 @@ export default {
 ```
 
 如果你使用 TypeScript:
-
 ```ts
 // .vitepress/theme/index.ts
 import type { Theme } from 'vitepress'
@@ -181,6 +180,8 @@ export default {
 默认主题布局的全部可用插槽如下：
 
 - 当 `layout: 'doc'` (默认) 在 frontmatter 中被启用时：
+  - `doc-top`
+  - `doc-bottom`
   - `doc-footer-before`
   - `doc-before`
   - `doc-after`
@@ -199,6 +200,9 @@ export default {
   - `home-hero-after`
   - `home-features-before`
   - `home-features-after`
+- 当 `layout: 'page'` 在 frontmatter 中被启用时:
+  - `page-top`
+  - `page-bottom`
 - 当未找到页面 (404) 时:
   - `not-found`
 - 总是启用:
@@ -210,6 +214,101 @@ export default {
   - `nav-bar-content-after`
   - `nav-screen-content-before`
   - `nav-screen-content-after`
+
+### 关于外观切换 {#on-appearance-toggle}
+
+You can extend the default theme to provide a custom transition when the color mode is toggled. An example:
+你可以扩展默认主题以在切换颜色模式时提供自定义过渡动画。一个例子：
+
+```vue
+<!-- .vitepress/theme/Layout.vue -->
+
+<script setup lang="ts">
+import { useData } from 'vitepress'
+import DefaultTheme from 'vitepress/theme'
+import { nextTick, provide } from 'vue'
+
+const { isDark } = useData()
+
+const enableTransitions = () =>
+  'startViewTransition' in document &&
+  window.matchMedia('(prefers-reduced-motion: no-preference)').matches
+
+provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
+  if (!enableTransitions()) {
+    isDark.value = !isDark.value
+    return
+  }
+
+  const clipPath = [
+    `circle(0px at ${x}px ${y}px)`,
+    `circle(${Math.hypot(
+      Math.max(x, innerWidth - x),
+      Math.max(y, innerHeight - y)
+    )}px at ${x}px ${y}px)`
+  ]
+
+  await document.startViewTransition(async () => {
+    isDark.value = !isDark.value
+    await nextTick()
+  }).ready
+
+  document.documentElement.animate(
+    { clipPath: isDark.value ? clipPath.reverse() : clipPath },
+    {
+      duration: 300,
+      easing: 'ease-in',
+      pseudoElement: `::view-transition-${isDark.value ? 'old' : 'new'}(root)`
+    }
+  )
+})
+</script>
+
+<template>
+  <DefaultTheme.Layout />
+</template>
+
+<style>
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root),
+.dark::view-transition-new(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root),
+.dark::view-transition-old(root) {
+  z-index: 9999;
+}
+
+.VPSwitchAppearance {
+  width: 22px !important;
+}
+
+.VPSwitchAppearance .check {
+  transform: none !important;
+}
+</style>
+```
+
+结果（**谨慎使用！**：闪烁的颜色、突然的移动、高亮度）：
+
+<details>
+<summary>Demo</summary>
+
+![Appearance Toggle Transition Demo](/appearance-toggle-transition.webp)
+
+</details>
+
+有关视图过渡动画的更多详细信息，请参阅 [Chrome 文档](https://developer.chrome.com/docs/web-platform/view-transitions/)。
+
+### 路由切换时 {#on-route-change}
+
+即将到来。
 
 ## 重写内部组件 {#overriding-internal-components}
 

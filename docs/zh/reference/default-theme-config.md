@@ -19,7 +19,7 @@ export default {
 
 **此页面上记录的选项仅适用于默认主题**。不同的主题需要不同的主题配置。使用自定义主题时，主题配置对象将传递给主题，以便主题可以基于它作出不同表现。
 
-## i18nRouting {#i18nrouting}
+## i18nRouting {#i18n-routing}
 
 - key: `i18nRouting`
 - Type: `boolean`
@@ -36,16 +36,19 @@ export default {
 ```ts
 export default {
   themeConfig: {
-    logo: '/logo.svg',
-  },
+    logo: '/logo.svg'
+  }
 }
 ```
 
 ```ts
-type ThemeableImage = string | { src: string; alt?: string } | { light: string; dark: string; alt?: string }
+type ThemeableImage =
+  | string
+  | { src: string; alt?: string }
+  | { light: string; dark: string; alt?: string }
 ```
 
-## 站点标题开关 {#sitetitle}
+## 站点标题开关 {#site-title}
 
 - key: `siteTitle`
 - Type: `string | false`
@@ -55,8 +58,8 @@ type ThemeableImage = string | { src: string; alt?: string } | { light: string; 
 ```ts
 export default {
   themeConfig: {
-    siteTitle: 'Hello World',
-  },
+    siteTitle: 'Hello World'
+  }
 }
 ```
 
@@ -67,7 +70,7 @@ export default {
 
 导航菜单项的配置。你可以在[默认主题: 导航栏](./default-theme-nav#navigation-links) 了解更多详情。
 
-```js
+```ts
 export default {
   themeConfig: {
     nav: [
@@ -77,11 +80,11 @@ export default {
         items: [
           { text: 'Item A', link: '/item-1' },
           { text: 'Item B', link: '/item-2' },
-          { text: 'Item C', link: '/item-3' },
-        ],
-      },
-    ],
-  },
+          { text: 'Item C', link: '/item-3' }
+        ]
+      }
+    ]
+  }
 }
 ```
 
@@ -115,7 +118,7 @@ interface NavItemWithChildren {
 
 侧边栏菜单项的配置。你可以在[默认主题: 侧边栏](./default-theme-sidebar) 了解更多详情。
 
-```js
+```ts
 export default {
   themeConfig: {
     sidebar: [
@@ -169,34 +172,42 @@ export type SidebarItem = {
 ## 大纲开关 {#aside}
 
 - key: `aside`
-- Type: `boolean`
+- Type: `boolean | 'left'`
 - Default: `true`
 - 每个页面可以通过 [frontmatter](./frontmatter-config#aside) 覆写
 
-  将此值设置为 `false` 可禁用 aside(大纲) 容器。
+将此值设置为 `false` 可禁用 aside(大纲) 容器。\
+将此值设置为 `true` 将在页面右侧渲染。\
+将此值设置为 `left` 将在页面左侧渲染。
+
+如果你想对所有页面禁用它，你应该使用 `outline: false`。
 
 ## 大纲层级 {#outline}
 
 - key: `outline`
-- Type: `number | [number, number] | 'deep' | false`
-- Default: `2`
-- 每个页面可以通过 [frontmatter](./frontmatter-config#outline) 覆写
+- Type: `Outline | Outline['level'] | false`
+- 每个页面可以通过 [frontmatter](./frontmatter-config#outline) 覆写层级
 
-配置在大纲中显示的标题级别。你可以通过传递一个数字来指定一个特定的级别，或者你可以通过传递一个包含下限和上限的元组来提供一个级别范围。当传递等于 `[2, 6]` 的 `deep` 时，除 `h1` 外，所有标题级别都显示在轮廓中。设置 `false` 以隐藏轮廓。
+将此值设置为 `false` 可禁止渲染大纲容器。更多详情请参考该接口：
 
-## 大纲标题 {#outlinetitle}
+```ts
+interface Outline {
+  /**
+   * 大纲中显示的标题级别。
+   * 单个数字表示仅显示该级别的标题。
+   * 如果传递一个元组，则第一个数字是最小级别，第二个数字是最大级别。
+   * `'deep'` 和`[2, 6]` 等效, 这意味着 `<h2>` 到 `<h6>` 都会展示。
+   *
+   * @default 2
+   */
+  level?: number | [number, number] | 'deep'
 
-- key: `outlineTitle`
-- Type: `string`
-- Default: `On this page`
-
-可用于自定义右侧边栏的标题（在大纲链接的顶部）。这在用另一种语言编写文档时很有用。
-
-```js
-export default {
-  themeConfig: {
-    outlineTitle: 'In hac pagina',
-  },
+  /**
+   * The title to be displayed on the outline.
+   *
+   * @default 'On this page'
+   */
+  label?: string
 }
 ```
 
@@ -206,21 +217,23 @@ export default {
 
 你可以定义此选项以在导航栏中展示带有图标的社交帐户链接。
 
-```js
+```ts
 export default {
   themeConfig: {
     socialLinks: [
       { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
       { icon: 'twitter', link: '...' },
-      // You can also add custom icons by passing SVG as string:
+      // 你还可以通过将 SVG 作为字符串传递来添加自定义图标：
       {
         icon: {
-          svg: '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Dribbble</title><path d="M12...6.38z"/></svg>',
+          svg: '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Dribbble</title><path d="M12...6.38z"/></svg>'
         },
         link: '...',
-      },
-    ],
-  },
+        // 你也可以自定义标签别名以实现无障碍访问（可选但推荐）：
+        ariaLabel: 'cool link'
+      }
+    ]
+  }
 }
 ```
 
@@ -228,13 +241,25 @@ export default {
 interface SocialLink {
   icon: SocialLinkIcon
   link: string
+  ariaLabel?: string
 }
 
-type SocialLinkIcon = 'discord' | 'facebook' | 'github' | 'instagram' | 'linkedin' | 'mastodon' | 'slack' | 'twitter' | 'youtube' | { svg: string }
+type SocialLinkIcon =
+  | 'discord'
+  | 'facebook'
+  | 'github'
+  | 'instagram'
+  | 'linkedin'
+  | 'mastodon'
+  | 'slack'
+  | 'twitter'
+  | 'youtube'
+  | { svg: string }
 ```
 
 ## 页脚 {#footer}
 
+- Key: `footer`
 - Type: `Footer`
 
 页脚配置。你可以添加 message 和 copyright。由于设计原因，仅当页面不包含侧边栏时才会显示页脚。
@@ -244,9 +269,9 @@ export default {
   themeConfig: {
     footer: {
       message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2019-present Evan You',
-    },
-  },
+      copyright: 'Copyright © 2019-present Evan You'
+    }
+  }
 }
 ```
 
@@ -257,21 +282,21 @@ export interface Footer {
 }
 ```
 
-## 编辑链接 {#editlink}
+## 编辑链接 {#edit-link}
 
 - Type: `EditLink`
 - 每个页面可以通过 [frontmatter](./frontmatter-config#editlink) 覆写
 
 编辑链接可让你显示链接以编辑 Git 管理服务（例如 GitHub 或 GitLab）上的页面。有关详细信息，请参阅 [默认主题：编辑链接](./default-theme-edit-link)。
 
-```js
+```ts
 export default {
   themeConfig: {
     editLink: {
       pattern: 'https://github.com/vuejs/vitepress/edit/main/docs/:path',
-      text: 'Edit this page on GitHub',
-    },
-  },
+      text: 'Edit this page on GitHub'
+    }
+  }
 }
 ```
 
@@ -282,18 +307,39 @@ export interface EditLink {
 }
 ```
 
-## 最近更新时间文本 {#lastupdatedtext}
+## 最近更新时间 {#last-updated}
 
-- Type: `string`
-- Default: `Last updated`
+- key: `lastUpdated`
+- Type: `LastUpdatedOptions`
 
-显示最近更新时间之前的前缀文本。
+允许自定义上次更新的文本和日期格式。
 
 ```ts
 export default {
   themeConfig: {
-    lastUpdatedText: 'Updated Date',
-  },
+    lastUpdated: {
+      text: 'Updated at',
+      formatOptions: {
+        dateStyle: 'full',
+        timeStyle: 'medium'
+      }
+    }
+  }
+}
+```
+
+```ts
+export interface LastUpdatedOptions {
+  /**
+   * @default 'Last updated'
+   */
+  text?: string
+
+  /**
+   * @default
+   * { dateStyle: 'short',  timeStyle: 'short' }
+   */
+  formatOptions?: Intl.DateTimeFormatOptions & { forceLocale?: boolean }
 }
 ```
 
@@ -322,9 +368,9 @@ export default {
   themeConfig: {
     carbonAds: {
       code: 'your-carbon-code',
-      placement: 'your-carbon-placement',
-    },
-  },
+      placement: 'your-carbon-placement'
+    }
+  }
 }
 ```
 
@@ -337,31 +383,32 @@ export interface CarbonAdsOptions {
 
 Learn more in [Default Theme: Carbon Ads](./default-theme-carbon-ads)
 
-## 文档页脚 {#docFooter}
+## 文档页脚 {#doc-footer}
 
+- Key: `docFooter`
 - Type: `DocFooter`
 
-可用于自定义出现在上一篇和下一篇链接上方的文本。如果不是用英语编写文档，这很有帮助。
+可用于自定义出现在上一页和下一页链接上方的文本。如果不是用英语编写文档，这很有帮助。也可用于全局禁用上一页/下一页链接。如果你想有选择地启用/禁用上一个/下一个链接，可以使用 [frontmatter](./default-theme-prev-next-links)。
 
-```js
+```ts
 export default {
   themeConfig: {
     docFooter: {
       prev: 'Pagina prior',
-      next: 'Proxima pagina',
-    },
-  },
+      next: 'Proxima pagina'
+    }
+  }
 }
 ```
 
 ```ts
 export interface DocFooter {
-  prev?: string
-  next?: string
+  prev?: string | false
+  next?: string | false
 }
 ```
 
-## 暗模式开关标签 {#darkmodeswitchlabel}
+## 暗模式开关标签 {#dark-mode-switch-label}
 
 - key: `darkModeSwitchLabel`
 - Type: `string`
@@ -369,7 +416,7 @@ export interface DocFooter {
 
 可用于自定义深色模式开关标签。此标签仅显示在移动视图中。
 
-## 侧边栏菜单标签 {#sidebarmenulabel}
+## 侧边栏菜单标签 {#sidebar-menu-label}
 
 - key: `sidebarMenuLabel`
 - Type: `string`
@@ -377,7 +424,7 @@ export interface DocFooter {
 
 可用于自定义侧边栏菜单标签。此标签仅显示在移动视图中。
 
-## 返回顶部标签 {#returntotoplabel}
+## 返回顶部标签 {#return-totop-label}
 
 - key: `returnToTopLabel`
 - Type: `string`
@@ -385,10 +432,18 @@ export interface DocFooter {
 
 可用于自定义返回顶部按钮的标签。此标签仅显示在移动视图中。
 
-## 多语言菜单标签 {#langmenulabel}
+## 多语言菜单标签 {#lang-menu-label}
 
 - key: `langMenuLabel`
 - Type: `string`
 - Default: `Change language`
 
 可用于自定义导航栏中语言切换按钮的 aria-label。这仅在你使用 [i18n](../guide/i18n) 时使用。
+
+## 外部链接图标 {#external-link-icon}
+
+- key: `externalLinkIcon`
+- Type: `boolean`
+- Default: `false`
+
+是否在 Markdown 中的外部链接旁显示外部链接图标。

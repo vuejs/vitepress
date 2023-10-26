@@ -7,9 +7,9 @@ export default {
   themeConfig: {
     footer: {
       message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2019-present Evan You',
-    },
-  },
+      copyright: 'Copyright © 2019-present Evan You'
+    }
+  }
 }
 ```
 
@@ -30,14 +30,24 @@ export default {
   themeConfig: {
     footer: {
       message: 'Released under the <a href="https://github.com/vuejs/vitepress/blob/main/LICENSE">MIT License</a>.',
-      copyright: 'Copyright © 2019-present <a href="https://github.com/yyx990803">Evan You</a>',
-    },
-  },
+      copyright: 'Copyright © 2019-present <a href="https://github.com/yyx990803">Evan You</a>'
+    }
+  }
 }
 ```
 
 ::: warning
-Only inline elements can be used in `message` and `copyright` as they are rendered inside a `<p>` element. If you want to add block elements, consider using [`layout-bottom`](../guide/extending-default-theme#layout-slots) slot instead.
+只有内联元素可以在 `message` 和 `copyright` 中使用，因为它们渲染在 `<p> ` 元素中。如果您想添加块元素，请考虑使用 [`layout-bottom`](../guide/extending-default-theme#layout-slots) 插槽。
 :::
 
 请注意，当[侧边栏](./default-theme-sidebar)可见时，不会显示页脚。
+
+## Frontmatter 配置 {#frontmatter-config}
+
+可以使用 frontmatter 上的 `footer` 选项在单独页面上禁用此功能：
+
+```yaml
+---
+footer: false
+---
+```

@@ -13,7 +13,7 @@ VitePress 提供了一个叫做**数据加载器**的功能，它允许你加载
 export default {
   load() {
     return {
-      data: 'hello'
+      hello: 'world'
     }
   }
 }
@@ -23,7 +23,7 @@ export default {
 
 然后，你可以在 `.md` 页面和 `.vue` 组件中使用 `data` 命名导出从该文件中导入数据：
 
-```html
+```vue
 <script setup>
 import { data } from './example.data.js'
 </script>
@@ -31,11 +31,11 @@ import { data } from './example.data.js'
 <pre>{{ data }}</pre>
 ```
 
-输出:
+输出：
 
 ```json
 {
-  "data": "hello"
+  "hello": "world"
 }
 ```
 
@@ -70,7 +70,7 @@ export default {
     // watchedFiles will be an array of absolute paths of the matched files.
     // generate an array of blog post metadata that can be used to render
     // a list in the theme layout
-    return watchedFiles.map(file => {
+    return watchedFiles.map((file) => {
       return parse(fs.readFileSync(file, 'utf-8'), {
         columns: true,
         skip_empty_lines: true
@@ -99,7 +99,8 @@ export default createContentLoader('posts/*.md', /* options */)
 
 ```ts
 interface ContentData {
-  // mapped absolute URL for the page. e.g. /posts/hello.html
+  // mapped URL for the page. e.g. /posts/hello.html (does not include base)
+  // manually iterate or use custom `transform` to normalize the paths
   url: string
   // frontmatter data of the page
   frontmatter: Record<string, any>
@@ -147,9 +148,9 @@ export default createContentLoader('posts/*.md', {
     // the final result is what will be shipped to the client.
     return rawData.sort((a, b) => {
       return +new Date(b.frontmatter.date) - +new Date(a.frontmatter.date)
-    }).map(page => {
-      page.src  // raw markdown source
-      page.html // rendered full page HTML
+    }).map((page) => {
+      page.src     // raw markdown source
+      page.html    // rendered full page HTML
       page.excerpt // rendered excerpt HTML (content above first `---`)
       return {/* ... */}
     })
@@ -168,6 +169,47 @@ export default {
     const posts = await createContentLoader('posts/*.md').load()
     // generate files based on posts metadata, e.g. RSS feed
   }
+}
+```
+
+**类型**
+
+```ts
+interface ContentOptions<T = ContentData[]> {
+  /**
+   * Include src?
+   * @default false
+   */
+  includeSrc?: boolean
+
+  /**
+   * Render src to HTML and include in data?
+   * @default false
+   */
+  render?: boolean
+
+  /**
+   * If `boolean`, whether to parse and include excerpt? (rendered as HTML)
+   *
+   * If `function`, control how the excerpt is extracted from the content.
+   *
+   * If `string`, define a custom separator to be used for extracting the
+   * excerpt. Default separator is `---` if `excerpt` is `true`.
+   *
+   * @see https://github.com/jonschlinkert/gray-matter#optionsexcerpt
+   * @see https://github.com/jonschlinkert/gray-matter#optionsexcerpt_separator
+   *
+   * @default false
+   */
+  excerpt?:
+    | boolean
+    | ((file: { data: { [key: string]: any }; content: string; excerpt?: string }, options?: any) => void)
+    | string
+
+  /**
+   * 转换数据。请注意，如果从组件或 Markdown 文件导入，数据将以 JSON 形式内联到客户端包中。
+   */
+  transform?: (data: ContentData[]) => T | Promise<T>
 }
 ```
 
@@ -192,4 +234,14 @@ export default defineLoader({
     // ...
   }
 })
+```
+
+## 配置 {#configuration}
+
+要获取加载器中的配置信息，可以使用如下代码：
+
+```ts
+import type { SiteConfig } from 'vitepress'
+
+const config: SiteConfig = (globalThis as any).VITEPRESS_CONFIG
 ```
