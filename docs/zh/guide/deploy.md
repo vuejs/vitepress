@@ -113,7 +113,7 @@ Cache-Control: max-age=31536000,immutable
 - **输出目录：** `docs/.vitepress/dist`
 - **node 版本：** `18` （或更高版本）
 ::: warning
-不要为 HTML 代码启用 _Auto Minify_ 等选项。它将从输出中删除对 Vue 有意义的注释。如果被删除，你可能会看到 hydration mismatch 错误。
+不要为 HTML 代码启用 _Auto Minify_ 等选项。它将从输出中删除对 Vue 有意义的注释。如果被删除，你可能会看到激活不匹配错误。
 :::
 
 ### GitHub Pages
@@ -195,12 +195,12 @@ Cache-Control: max-age=31536000,immutable
 
 2. 在存储库设置中的 “Pages” 菜单项下，选择 “Build and deployment > Source > GitHub Actions”。
 
-3. 将更改推送到 `main` 分支并等待 GitHub Actions 工作流完成。你应该看到你的站点部署到 `https://<username>.github.io/[repository]/` 或 `https://<custom-domain>/`，这取决于您的设置。你的网站将在每次推送到 `main` 分支时自动部署。
+3. 将更改推送到 `main` 分支并等待 GitHub Actions 工作流完成。你应该看到你的站点部署到 `https://<username>.github.io/[repository]/` 或 `https://<custom-domain>/`，这取决于你的设置。你的网站将在每次推送到 `main` 分支时自动部署。
 ### GitLab Pages
 
 1. 如果你想部署到 `https://<username> .gitlab.io/<repository> /`，将 VitePress 配置中的 `outDir` 设置为 `../public`。将 `base` 选项配置为 `'/<repository>/'`。
 
-2. 在项目的根目录中创建一个名为 `.gitlab-ci.yml` 的文件，其中包含以下内容。每当您更改内容时，这都会构建和部署您的网站：
+2. 在项目的根目录中创建一个名为 `.gitlab-ci.yml` 的文件，其中包含以下内容。每当你更改内容时，这都会构建和部署你的网站：
 
 3. 使用以下内容在项目的根目录中创建一个名为 `.gitlab-ci.yml` 的文件。每当你更改内容时，会自动构建和部署你的站点：
 

@@ -23,4 +23,4 @@ lastUpdated: false
 ---
 ```
 
-另请参阅[默认主题：最近更新时间](./default-theme-config#lastupdated) 了解更多详细信息。主题级别的任何真值也将启用该功能，除非在站点或页面级别明确禁用。
+另请参阅[默认主题：最近更新时间](./default-theme-config#lastupdated) 了解更多详细信息。主题级别的任何 [truthy](https://developer.mozilla.org/zh-CN/docs/Glossary/Truthy) 值也将启用该功能，除非在站点或页面级别明确禁用。

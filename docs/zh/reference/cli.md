@@ -39,7 +39,7 @@ vitepress build [root]
 
 | 选项                           | 说明                                                                                              |
 | ------------------------------ | ------------------------------------------------------------------------------------------------- |
-| `--mpa` (experimental)         | 在没有客户端 hydration 的 [MPA 模式](../guide/mpa-mode) 下构建 (`boolean`)                        |
+| `--mpa` (experimental)         | [MPA 模式](../guide/mpa-mode) 下构建，无需客户端激活 (`boolean`)                        |
 | `--base <path>`                | 公共 base URL (default: `/`) (`string`)                                                            |
 | `--target <target>`            | 转译目标 (default: `"modules"`) (`string`)                                                        |
 | `--outDir <dir>`               | 输出目录 (default: `.vitepress/dist`) (`string`)                                                  |

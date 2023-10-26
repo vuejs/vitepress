@@ -97,7 +97,7 @@ src/getting-started.md  -->  /getting-started.html
 
 ### 链接到非 vitepress 页面 {#linking-to-non-vitepress-pages}
 
-如果您想链接到网站中不是由 VitePress 生成的页面，您需要使用完整的 URL（在新选项卡中打开）或明确指定 target：
+如果你想链接到网站中不是由 VitePress 生成的页面，你需要使用完整的 URL（在新选项卡中打开）或明确指定 target：
 
 **Input**
 
@@ -111,9 +111,9 @@ src/getting-started.md  -->  /getting-started.html
 
 ::: tip 注意
 
-在 Markdown 链接中，`base` 会自动添加到 URL 前面。这意味着，如果您想链接到 `base` 之外的页面，则链接中需要类似 `../../pure.html` 的内容（由浏览器相对于当前页面解析）。
+在 Markdown 链接中，`base` 会自动添加到 URL 前面。这意味着，如果你想链接到 `base` 之外的页面，则链接中需要类似 `../../pure.html` 的内容（由浏览器相对于当前页面解析）。
 
-或者，您可以直接使用锚标记语法：
+或者，你可以直接使用锚标记语法：
 
 ```md
 <a href="/pure.html" target="_self">Link to pure.html</a>
