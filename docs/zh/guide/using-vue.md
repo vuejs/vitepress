@@ -4,7 +4,7 @@
 
 值得注意的是，VitePress 利用 Vue 的编译器自动检测和优化 Markdown 内容的纯静态部分。静态内容被优化为单个占位符节点，并从页面的 JavaScript 负载中删除以供初始访问。在客户端激活期间也会跳过它们。简而言之，你只需注意任何给定页面上的动态部分。
 
-:::tip SSR 兼容性
+::: tip SSR 兼容性
 所有的 Vue 用法都需要兼容 SSR。参见 [SSR 兼容性](./ssr-compat)获得更多信息和常见的解决方案。
 :::
 
@@ -111,7 +111,7 @@ import CustomComponent from '../../components/CustomComponent.vue'
 
 # Docs
 
-This is a .md using a custom component
+这是一个使用自定义组件的 .md
 
 <CustomComponent />
 

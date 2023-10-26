@@ -26,7 +26,7 @@ editLink: true
 - key: `title`
 - Type: `string`
 
-Title for the page. It's same as [config.title](./site-config#title), and it overrides the site-level config.
+页面的标题。它与 [config.title](./site-config#title) 相同，并且覆盖站点级配置。
 
 ```yaml
 ---

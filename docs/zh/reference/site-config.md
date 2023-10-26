@@ -483,7 +483,6 @@ When set to `true`, the production app will be built in [MPA Mode](../guide/mpa-
 export default {
   markdown: {...}
 }
-
 ```
 
 以下是你可以在此对象中可配置的所有选项：
@@ -655,7 +654,7 @@ interface SSGContext {
 
 `transformHead` 是一个构建钩子，用于在生成每个页面之前转换 head。它将允许你添加无法静态添加到你的 VitePress 配置中的 head entries。你只需要返回额外的 entries，它们将自动与现有 entries 合并。
 
-::: warning 警告
+::: warning
 不要改变 `context` 中的任何东西。
 :::
 
@@ -727,7 +726,7 @@ export default {
 
 `transformPageData` 是一个钩子，用于转换每个页面的 `pageData`。你可以直接改变 `pageData` 或返回将合并到 `PageData` 中的更改值。
 
-::: warning 警告
+::: warning
 不要改变 `context` 中的任何东西。请注意，这可能会影响开发服务器的性能，特别是当您在钩子中有一些网络请求或大量计算（例如生成图像）时。您可以通过判断 `process.env.NODE_ENV === 'production'` 匹配符合条件的情况。
 :::
 

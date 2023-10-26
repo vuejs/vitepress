@@ -126,7 +126,6 @@ export default defineConfig({
 
 该函数将从客户端站点数据中剥离，因此你可以在其中使用 Node.js API。
 
-
 #### 示例：从搜索中排除页面 {#example-excluding-pages-from-search}
 
 你可以通过将 `search: false` 添加到页面的 `frontmatter` 来从搜索中排除页面。或者：
