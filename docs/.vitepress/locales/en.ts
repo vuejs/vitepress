@@ -9,6 +9,7 @@ export default defineConfig({
   description: 'Vite & Vue powered static site generator.',
 
   themeConfig: {
+    logo: { src: '/vitepress-logo-mini.svg', width: 24, height: 24 },
     nav: nav(),
 
     sidebar: {

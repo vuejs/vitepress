@@ -8,25 +8,8 @@ export default defineConfig({
   description: '由 Vite 和 Vue 驱动的静态站点生成器',
 
   themeConfig: {
-    docFooter: {
-      prev: '上一页',
-      next: '下一页'
-    },
+    logo: { src: '/vitepress-logo-mini.svg', width: 24, height: 24 },
     nav: nav(),
-    outline: {
-      label: '页面导航'
-    },
-    lastUpdated: {
-      text: '最后更新于',
-      formatOptions: {
-        dateStyle: 'short',
-        timeStyle: 'medium'
-      }
-    },
-    langMenuLabel: '多语言',
-    returnToTopLabel: '回到顶部',
-    sidebarMenuLabel: '菜单',
-    darkModeSwitchLabel: '主题',
 
     sidebar: {
       '/zh/guide/': { base: '/zh/guide/', items: sidebarGuide() },
@@ -59,7 +42,29 @@ export default defineConfig({
     carbonAds: {
       code: 'CEBDT27Y',
       placement: 'vuejsorg'
-    }
+    },
+
+    docFooter: {
+      prev: '上一页',
+      next: '下一页'
+    },
+
+    outline: {
+      label: '页面导航'
+    },
+
+    lastUpdated: {
+      text: '最后更新于',
+      formatOptions: {
+        dateStyle: 'short',
+        timeStyle: 'medium'
+      }
+    },
+
+    langMenuLabel: '多语言',
+    returnToTopLabel: '回到顶部',
+    sidebarMenuLabel: '菜单',
+    darkModeSwitchLabel: '主题'
   }
 })
 
