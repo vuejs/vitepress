@@ -13,6 +13,7 @@ import { task } from '../utils/task'
 import { bundle } from './bundle'
 import { generateSitemap } from './generateSitemap'
 import { renderPage } from './render'
+import { checkIdsAndAnchorHrefs } from './checkAnchorRefs'
 
 export async function build(
   root?: string,
@@ -137,6 +138,7 @@ export async function build(
     if (!process.env.DEBUG) await rimraf(siteConfig.tempDir)
   }
 
+  await checkIdsAndAnchorHrefs(siteConfig)
   await generateSitemap(siteConfig)
   await siteConfig.buildEnd?.(siteConfig)
 

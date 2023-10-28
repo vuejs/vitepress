@@ -279,6 +279,9 @@ importers:
       typescript:
         specifier: ^5.2.2
         version: 5.2.2
+      ultrahtml:
+        specifier: ^1.5.2
+        version: 1.5.2
       vitest:
         specifier: ^0.34.6
         version: 0.34.6(supports-color@9.4.0)
@@ -4622,6 +4625,10 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /ultrahtml@1.5.2:
+    resolution: {integrity: sha512-qh4mBffhlkiXwDAOxvSGxhL0QEQsTbnP9BozOK3OYPEGvPvdWzvAUaXNtUSMdNsKDtuyjEbyVUPFZ52SSLhLqw==}
+    dev: true
 
   /unbox-primitive@1.0.2:
     resolution: {integrity: sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw==}
