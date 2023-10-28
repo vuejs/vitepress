@@ -16,7 +16,7 @@ export async function checkIdsAndAnchorHrefs(siteConfig: SiteConfig) {
 
 // TODO: export this function for testing purposes?
 async function* collectErrors(siteConfig: SiteConfig) {
-  const outDir = siteConfig.outDir
+  const cwd = siteConfig.outDir
   const files = new Set(
     siteConfig.pages.map((page) =>
       `${siteConfig.rewrites.map[page] || page}`
@@ -26,50 +26,48 @@ async function* collectErrors(siteConfig: SiteConfig) {
   )
   // add public html files to the list: i.e. VP docs has public/pure.html
   for await (const file of fg.stream('*.html', {
-    cwd: outDir,
+    cwd,
     deep: 1
   })) {
     files.add(file.toString().replace(/\\/g, '/'))
   }
   const checkHtmlExt = siteConfig.site.cleanUrls === false
-  const stream = fg.stream('**/*.html', {
-    cwd: siteConfig.outDir
-  })
-  for await (const file of stream) {
+  for await (const file of fg.stream('**/*.html', {
+    cwd
+  })) {
     const links = new Set<string>()
     const ids = new Set<string>()
     const errors: string[] = []
-    const content = parse(
-      await fs.promises.readFile(resolve(outDir, file.toString()), 'utf8')
-    )
     // collect ids and href anchors
-    walkSync(content, (node) => {
-      if (node.type === ELEMENT_NODE) {
-        const id = node.attributes.id
-        if (id) {
-          if (ids.has(id)) errors.push(`duplicate id "${id}"`)
-          else ids.add(id)
-        }
-        if (node.name.toLowerCase() === 'a') {
-          const href = node.attributes.href
-          if (
-            !href ||
-            href.startsWith('http://') ||
-            href.startsWith('https://')
-          )
-            return
+    walkSync(
+      parse(await fs.promises.readFile(resolve(cwd, file.toString()), 'utf8')),
+      (node) => {
+        if (node.type === ELEMENT_NODE) {
+          const id = node.attributes.id
+          if (id) {
+            if (ids.has(id)) errors.push(`duplicate id "${id}"`)
+            else ids.add(id)
+          }
+          if (node.name.toLowerCase() === 'a') {
+            const href = node.attributes.href
+            if (
+              !href ||
+              href.startsWith('http://') ||
+              href.startsWith('https://')
+            )
+              return
 
-          links.add(href)
+            links.add(href)
+          }
         }
       }
-    })
+    )
     // check for local hrefs and external links
     for (const href of links) {
       // 1) check for local ids
       if (href[0] === '#') {
-        const id = href.slice(1)
-        if (!ids.has(id)) errors.push(`missing local id for "${href}"`)
-
+        if (!ids.has(href.slice(1)))
+          errors.push(`missing local id for "${href}"`)
         continue
       }
       // 2) check for external links
