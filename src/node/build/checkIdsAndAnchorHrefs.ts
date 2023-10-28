@@ -14,8 +14,8 @@ export async function checkIdsAndAnchorHrefs(siteConfig: SiteConfig) {
   })
 }
 
-/* exporting this function for testing purposes */
-export async function* collectErrors(siteConfig: SiteConfig) {
+// TODO: export this function for testing purposes?
+async function* collectErrors(siteConfig: SiteConfig) {
   const outDir = siteConfig.outDir
   const files = new Set(
     siteConfig.pages.map((page) =>
@@ -25,30 +25,30 @@ export async function* collectErrors(siteConfig: SiteConfig) {
     )
   )
   // add public html files to the list: i.e. VP docs has public/pure.html
-  for await (const entry of fg.stream('*.html', {
+  for await (const file of fg.stream('*.html', {
     cwd: outDir,
     deep: 1
   })) {
-    files.add(entry.toString().replace(/\\/g, '/'))
+    files.add(file.toString().replace(/\\/g, '/'))
   }
   const checkHtmlExt = siteConfig.site.cleanUrls === false
   const stream = fg.stream('**/*.html', {
     cwd: siteConfig.outDir
   })
-  for await (const entry of stream) {
-    const localLinks = new Set<string>()
-    const localIds = new Set<string>()
-    const localErrors: string[] = []
+  for await (const file of stream) {
+    const links = new Set<string>()
+    const ids = new Set<string>()
+    const errors: string[] = []
     const content = parse(
-      await fs.promises.readFile(resolve(outDir, entry.toString()), 'utf8')
+      await fs.promises.readFile(resolve(outDir, file.toString()), 'utf8')
     )
     // collect ids and href anchors
     walkSync(content, (node) => {
       if (node.type === ELEMENT_NODE) {
         const id = node.attributes.id
         if (id) {
-          if (localIds.has(id)) localErrors.push(`duplicate id="${id}"`)
-          else localIds.add(id)
+          if (ids.has(id)) errors.push(`duplicate id "${id}"`)
+          else ids.add(id)
         }
         if (node.name.toLowerCase() === 'a') {
           const href = node.attributes.href
@@ -58,17 +58,17 @@ export async function* collectErrors(siteConfig: SiteConfig) {
             href.startsWith('https://')
           )
             return
-          localLinks.add(href)
+
+          links.add(href)
         }
       }
     })
     // check for local hrefs and external links
-    for (const href of localLinks) {
+    for (const href of links) {
       // 1) check for local ids
       if (href[0] === '#') {
         const id = href.slice(1)
-        if (!localIds.has(id))
-          localErrors.push(`missing local id for "${href}"`)
+        if (!ids.has(id)) errors.push(`missing local id for "${href}"`)
 
         continue
       }
@@ -79,11 +79,11 @@ export async function* collectErrors(siteConfig: SiteConfig) {
 
       // Append .html
       if (checkHtmlExt) {
-        if (!localLink.endsWith('/')) {
+        if (localLink[localLink.length - 1] !== '/') {
           localLink += 'index.html'
         }
         if (!localLink.endsWith('.html')) {
-          localErrors.push(`bad href link "${href}"`)
+          errors.push(`bad href link "${href}"`)
           continue
         }
       } else {
@@ -91,12 +91,12 @@ export async function* collectErrors(siteConfig: SiteConfig) {
         if (!localLink.endsWith('.html')) localLink += '.html'
       }
       // Get absolute link
-      if (localLink.startsWith('.')) {
+      if (localLink[0] === '.') {
         localLink =
-          '/' + join(dirname(entry.toString()), localLink).replace(/\\/g, '/')
+          '/' + join(dirname(file.toString()), localLink).replace(/\\/g, '/')
       }
-      if (!localLink.startsWith('/')) {
-        localErrors.push(`bad href link "${href}"`)
+      if (localLink[0] !== '/') {
+        errors.push(`bad href link "${href}"`)
         continue
       }
       localLink = localLink.slice(1)
@@ -104,10 +104,10 @@ export async function* collectErrors(siteConfig: SiteConfig) {
 
       // Check if target html page exists
       if (!files.has(localLink)) {
-        localErrors.push(`bad href link "${href}" (missing file)`)
+        errors.push(`bad href link "${href}" (missing file)`)
       }
     }
-    if (localErrors.length)
-      yield `\n${entry}\n${localErrors.map((e) => `\t${e}`).join('\n')}`
+    if (errors.length)
+      yield `\n${file}\n${errors.map((e) => `  - ${e}`).join('\n')}`
   }
 }
