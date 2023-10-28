@@ -42,7 +42,7 @@ export async function* collectErrors(siteConfig: SiteConfig) {
     const content = parse(
       await fs.promises.readFile(resolve(outDir, entry.toString()), 'utf8')
     )
-    // collect id headings and href anchors
+    // collect ids and href anchors
     walkSync(content, (node) => {
       if (node.type === ELEMENT_NODE) {
         const id = node.attributes.id
@@ -64,7 +64,7 @@ export async function* collectErrors(siteConfig: SiteConfig) {
     })
     // check for local hrefs and external links
     for (const href of localLinks) {
-      // 1) check for local heading ids
+      // 1) check for local ids
       if (href[0] === '#') {
         const id = href.slice(1)
         if (!localIds.has(id))

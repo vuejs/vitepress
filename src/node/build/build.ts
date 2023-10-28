@@ -13,7 +13,7 @@ import { task } from '../utils/task'
 import { bundle } from './bundle'
 import { generateSitemap } from './generateSitemap'
 import { renderPage } from './render'
-import { checkIdsAndAnchorHrefs } from './checkAnchorRefs'
+import { checkIdsAndAnchorHrefs } from './checkIdsAndAnchorHrefs'
 
 export async function build(
   root?: string,
