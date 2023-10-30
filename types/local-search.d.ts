@@ -3,12 +3,12 @@ export interface LocalSearchTranslations {
   modal?: ModalTranslations
 }
 
-interface ButtonTranslations {
+export interface ButtonTranslations {
   buttonText?: string
   buttonAriaLabel?: string
 }
 
-interface ModalTranslations {
+export interface ModalTranslations {
   displayDetails?: string
   resetButtonTitle?: string
   backButtonTitle?: string
@@ -16,7 +16,7 @@ interface ModalTranslations {
   footer?: FooterTranslations
 }
 
-interface FooterTranslations {
+export interface FooterTranslations {
   selectText?: string
   selectKeyAriaLabel?: string
   navigateText?: string
