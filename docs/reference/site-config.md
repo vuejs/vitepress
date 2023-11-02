@@ -504,7 +504,7 @@ interface MarkdownOptions extends MarkdownIt.Options {
 
   // @mdit-vue/plugin-headers plugin options.
   // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-headers#options
-  headers?: HeadersPluginOptions
+  headers?: HeadersPluginOptions | boolean
 
   // @mdit-vue/plugin-sfc plugin options.
   // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-sfc#options
