@@ -531,7 +531,7 @@ interface MarkdownOptions extends MarkdownIt.Options {
   // You need to install `markdown-it-mathjax3` and set `math` to `true` to enable it.
   // You can also pass options to `markdown-it-mathjax3` here.
   // See: https://github.com/tani/markdown-it-mathjax3#customization
-  math?: any
+  math?: boolean | any
 
   // Global custom container titles
   container?: {
