@@ -28,6 +28,7 @@ import {
   watchEffect,
   type Ref
 } from 'vue'
+import { LRUCache } from 'lru-cache'
 import type { ModalTranslations } from '../../../../types/local-search'
 import { pathToFile } from '../../app/utils'
 import { useData } from '../composables/data'
@@ -142,7 +143,7 @@ const mark = computedAsync(async () => {
   return markRaw(new Mark(resultsEl.value))
 }, null)
 
-const cache = new Map<string, Map<string, string>>()
+const cache = new LRUCache<string, Map<string, string>>({ max: 256 })
 
 debouncedWatch(
   () => [searchIndex.value, filterText.value, showDetailedList.value] as const,
