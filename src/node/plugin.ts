@@ -3,6 +3,7 @@ import c from 'picocolors'
 import {
   mergeConfig,
   searchForWorkspaceRoot,
+  version,
   type ModuleNode,
   type Plugin,
   type ResolvedConfig,
@@ -153,7 +154,8 @@ export async function createVitePressPlugin(
             site.themeConfig?.search?.provider === 'algolia' ||
             !!site.themeConfig?.algolia, // legacy
           __CARBON__: !!site.themeConfig?.carbonAds,
-          __ASSETS_DIR__: JSON.stringify(siteConfig.assetsDir)
+          __ASSETS_DIR__: JSON.stringify(siteConfig.assetsDir),
+          __IS_VITE_4__: version.split('.')[0] === '4'
         },
         optimizeDeps: {
           // force include vue to avoid duplicated copies when linked + optimized

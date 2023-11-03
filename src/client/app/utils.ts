@@ -40,7 +40,7 @@ export function pathToFile(path: string) {
   pagePath = pagePath.replace(/\/$/, '/index') // /foo/ -> /foo/index
   if (import.meta.env.DEV) {
     // always force re-fetch content in dev
-    pagePath += `.md?t=${Date.now()}`
+    pagePath += `.md?${__IS_VITE_4__ ? '' : 'import&'}t=${Date.now()}`
   } else {
     // in production, each .md file is built into a .md.js file following
     // the path conversion scheme.
