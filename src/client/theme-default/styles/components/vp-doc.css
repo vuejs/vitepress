@@ -164,6 +164,7 @@
 }
 
 .vp-doc tr {
+  background-color: var(--vp-c-bg);
   border-top: 1px solid var(--vp-c-divider);
   transition: background-color 0.5s;
 }
