@@ -186,7 +186,7 @@ async function resolveConfigExtends(
   return resolved
 }
 
-function mergeConfig(a: UserConfig, b: UserConfig, isRoot = true) {
+export function mergeConfig(a: UserConfig, b: UserConfig, isRoot = true) {
   const merged: Record<string, any> = { ...a }
   for (const key in b) {
     const value = b[key as keyof UserConfig]
