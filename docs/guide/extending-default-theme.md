@@ -135,7 +135,7 @@ import DefaultTheme from 'vitepress/theme'
 import MyLayout from './MyLayout.vue'
 
 export default {
-  ...DefaultTheme,
+  extends: DefaultTheme,
   // override the Layout with a wrapper component that
   // injects the slots
   Layout: MyLayout
@@ -168,7 +168,7 @@ import DefaultTheme from 'vitepress/theme'
 import MyComponent from './MyComponent.vue'
 
 export default {
-  ...DefaultTheme,
+  extends: DefaultTheme,
   Layout() {
     return h(DefaultTheme.Layout, null, {
       'aside-outline-before': () => h(MyComponent)
