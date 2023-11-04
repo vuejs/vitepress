@@ -28,6 +28,20 @@ const { hasSidebar } = useSidebar()
   display: none;
 }
 
+.VPFooter a {
+	 text-decoration-line: underline;
+	 text-decoration-style: dashed;
+	 text-underline-offset: 5px;
+	 transition: 0.3s;
+}
+
+.VPFooter a:hover {
+	 color: var(--vp-c-text-1);
+	 text-decoration-line: underline;
+	 text-decoration-style: dashed;
+	 text-underline-offset: 5px;
+}
+
 @media (min-width: 768px) {
   .VPFooter {
     padding: 32px;
