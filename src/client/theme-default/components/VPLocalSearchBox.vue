@@ -148,6 +148,11 @@ const cache = new LRUCache<string, Map<string, string>>(16) // 16 files
 debouncedWatch(
   () => [searchIndex.value, filterText.value, showDetailedList.value] as const,
   async ([index, filterTextValue, showDetailedListValue], old, onCleanup) => {
+
+    if (old?.[0] !== index) { // in case of hmr
+      cache.clear()
+    }
+
     let canceled = false
     onCleanup(() => {
       canceled = true

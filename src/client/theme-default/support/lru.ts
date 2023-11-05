@@ -30,4 +30,8 @@ export class LRUCache<K, V> {
   first(): K | undefined {
     return this.cache.keys().next().value
   }
+
+  clear(): void {
+    this.cache.clear()
+  }
 }
