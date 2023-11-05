@@ -31,6 +31,7 @@ import {
 import type { ModalTranslations } from '../../../../types/local-search'
 import { pathToFile } from '../../app/utils'
 import { useData } from '../composables/data'
+import { LRUCache } from '../support/lru'
 import { createTranslate } from '../support/translation'
 
 const emit = defineEmits<{
@@ -142,7 +143,7 @@ const mark = computedAsync(async () => {
   return markRaw(new Mark(resultsEl.value))
 }, null)
 
-const cache = new Map<string, Map<string, string>>()
+const cache = new LRUCache<string, Map<string, string>>(16) // 16 files
 
 debouncedWatch(
   () => [searchIndex.value, filterText.value, showDetailedList.value] as const,
