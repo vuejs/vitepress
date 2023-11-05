@@ -1,3 +1,20 @@
+# [1.0.0-rc.25](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.24...v1.0.0-rc.25) (2023-11-05)
+
+### Bug Fixes
+
+- double-slash format url should be external link ([#3165](https://github.com/vuejs/vitepress/issues/3165)) ([7dbeac6](https://github.com/vuejs/vitepress/commit/7dbeac6df0dfc0da74dffc79998a85a3afa86874))
+- missing export types in localSearch ([#3157](https://github.com/vuejs/vitepress/issues/3157)) ([0761062](https://github.com/vuejs/vitepress/commit/0761062790b441eccd0d57d51903271f30e713af))
+- **theme:** table row background-color in custom containers ([#3179](https://github.com/vuejs/vitepress/issues/3179)) ([beecec1](https://github.com/vuejs/vitepress/commit/beecec16a8d62c18f46522d461db353c97199415))
+- **theme:** theme switch is not hidden on force-dark ([#3155](https://github.com/vuejs/vitepress/issues/3155)) ([2276c1d](https://github.com/vuejs/vitepress/commit/2276c1d4dac547bb09015fcd0df73825b32c5fad))
+
+### Features
+
+- export `mergeConfig()` ([#3143](https://github.com/vuejs/vitepress/issues/3143)) ([a850786](https://github.com/vuejs/vitepress/commit/a850786a566606fda20cc4ed71b79e975307b52a))
+
+### Performance Improvements
+
+- reduce duplicate rendering in localSearch ([#3170](https://github.com/vuejs/vitepress/issues/3170)) ([878f437](https://github.com/vuejs/vitepress/commit/878f4378cdee3c41f7643d9c7693bb607344d0c2))
+
 # [1.0.0-rc.24](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.23...v1.0.0-rc.24) (2023-10-24)
 
 ### Bug Fixes
