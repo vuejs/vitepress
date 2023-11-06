@@ -28,18 +28,14 @@ const { hasSidebar } = useSidebar()
   display: none;
 }
 
-.VPFooter a {
-	 text-decoration-line: underline;
-	 text-decoration-style: dashed;
-	 text-underline-offset: 5px;
-	 transition: 0.3s;
+.VPFooter :deep(a) {
+  text-decoration-line: underline;
+  text-underline-offset: 2px;
+  transition: color 0.25s;
 }
 
-.VPFooter a:hover {
-	 color: var(--vp-c-text-1);
-	 text-decoration-line: underline;
-	 text-decoration-style: dashed;
-	 text-underline-offset: 5px;
+.VPFooter :deep(a:hover) {
+  color: var(--vp-c-text-1);
 }
 
 @media (min-width: 768px) {
