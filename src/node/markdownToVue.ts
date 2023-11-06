@@ -234,7 +234,7 @@ const scriptClientRE = /<\s*script[^>]*\bclient\b[^>]*/
 const defaultExportRE = /((?:^|\n|;)\s*)export(\s*)default/
 const namedDefaultExportRE = /((?:^|\n|;)\s*)export(.+)as(\s*)default/
 const jsStringBreaker = '\u200b'
-const vueTemplateBreaker = '<wbr>'
+const vueTemplateBreaker = '<span/>'
 
 function genReplaceRegexp(
   userDefines: Record<string, any> = {},
@@ -257,7 +257,7 @@ function genReplaceRegexp(
 /**
  * To avoid env variables being replaced by vite:
  * - insert `'\u200b'` char into those strings inside js string (page data)
- * - insert `<wbr>` tag into those strings inside html string (vue template)
+ * - insert `<span/>` tag into those strings inside html string (vue template)
  *
  * @see https://vitejs.dev/guide/env-and-mode.html#production-replacement
  */
