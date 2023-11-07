@@ -420,7 +420,7 @@ Note that only one space is required after `!code`, here are two to prevent proc
 export default {
   data () {
     return {
-      msg: 'Focused!' // [!code  focus]
+      msg: 'Focused!' // [!code focus]
     }
   }
 }
