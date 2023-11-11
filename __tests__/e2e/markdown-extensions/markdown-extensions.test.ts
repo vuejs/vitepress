@@ -274,4 +274,9 @@ describe('Markdown File Inclusion', () => {
     expect(trim(await p.nth(0).textContent())).toBe('This is a region')
     expect(trim(await p.nth(1).textContent())).toBe('This is after region')
   })
+
+  test('ignore frontmatter if range is not specified', async () => {
+    const p = page.locator('.vp-doc')
+    expect(await p.textContent()).not.toContain('title')
+  })
 })
