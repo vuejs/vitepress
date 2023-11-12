@@ -189,9 +189,10 @@ export async function resolveDynamicRoutes(
         console.warn(
           c.yellow(
             `Invalid paths file export in ${pathsFile}. ` +
-              `Expects default export of an object with a "paths" property.`
+              `Expects default export of an object with a "paths" property. Error in this file:`
           )
         )
+        console.warn(e)
         continue
       }
     }
