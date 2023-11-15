@@ -31,6 +31,7 @@ import {
 import type { ModalTranslations } from '../../../../types/local-search'
 import { pathToFile } from '../../app/utils'
 import { useData } from '../composables/data'
+import { LRUCache } from '../support/lru'
 import { createTranslate } from '../support/translation'
 
 const emit = defineEmits<{
@@ -142,9 +143,16 @@ const mark = computedAsync(async () => {
   return markRaw(new Mark(resultsEl.value))
 }, null)
 
+const cache = new LRUCache<string, Map<string, string>>(16) // 16 files
+
 debouncedWatch(
   () => [searchIndex.value, filterText.value, showDetailedList.value] as const,
   async ([index, filterTextValue, showDetailedListValue], old, onCleanup) => {
+
+    if (old?.[0] !== index) { // in case of hmr
+      cache.clear()
+    }
+
     let canceled = false
     onCleanup(() => {
       canceled = true
@@ -163,13 +171,12 @@ debouncedWatch(
       ? await Promise.all(results.value.map((r) => fetchExcerpt(r.id)))
       : []
     if (canceled) return
-    const c = new Map<string, Map<string, string>>()
     for (const { id, mod } of mods) {
       const mapId = id.slice(0, id.indexOf('#'))
-      let map = c.get(mapId)
+      let map = cache.get(mapId)
       if (map) continue
       map = new Map()
-      c.set(mapId, map)
+      cache.set(mapId, map)
       const comp = mod.default ?? mod
       if (comp?.render || comp?.setup) {
         const app = createApp(comp)
@@ -209,7 +216,7 @@ debouncedWatch(
 
     results.value = results.value.map((r) => {
       const [id, anchor] = r.id.split('#')
-      const map = c.get(id)
+      const map = cache.get(id)
       const text = map?.get(anchor) ?? ''
       for (const term in r.match) {
         terms.add(term)

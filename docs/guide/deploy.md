@@ -285,3 +285,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 ### Edgio
 
 Refer [Creating and Deploying a VitePress App To Edgio](https://docs.edg.io/guides/vitepress).
+
+### Kinsta Static Site Hosting
+
+You can deploy your Vitepress website on [Kinsta](https://kinsta.com/static-site-hosting/) by following these [instructions](https://kinsta.com/docs/vitepress-static-site-example/).

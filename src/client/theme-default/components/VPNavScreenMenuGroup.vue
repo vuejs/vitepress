@@ -28,7 +28,7 @@ function toggle() {
       :aria-expanded="isOpen"
       @click="toggle"
     >
-      <span class="button-text">{{ text }}</span>
+      <span class="button-text" v-html="text"></span>
       <VPIconPlus class="button-icon" />
     </button>
 

@@ -18,7 +18,7 @@ This allows you to link to the heading as `#my-anchor` instead of the default `#
 
 ## Links
 
-Both internal and external links gets special treatments.
+Both internal and external links get special treatment.
 
 ### Internal Links
 
