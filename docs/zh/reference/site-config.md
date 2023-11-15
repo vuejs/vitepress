@@ -503,7 +503,7 @@ interface MarkdownOptions extends MarkdownIt.Options {
 
   // Add support for your own languages.
   // https://github.com/shikijs/shiki/blob/main/docs/languages.md#supporting-your-own-languages-with-shiki
-  languages?: Shiki.ILanguageRegistration
+  languages?: Shiki.ILanguageRegistration[]
 
   // markdown-it-anchor plugin options.
   // See: https://github.com/valeriangalliat/markdown-it-anchor#usage
@@ -514,7 +514,7 @@ interface MarkdownOptions extends MarkdownIt.Options {
   attrs?: {
     leftDelimiter?: string
     rightDelimiter?: string
-    allowedAttributes?: string[]
+    allowedAttributes?: Array<string | RegExp>
     disable?: boolean
   }
 
@@ -527,7 +527,7 @@ interface MarkdownOptions extends MarkdownIt.Options {
 
   // @mdit-vue/plugin-headers plugin options.
   // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-headers#options
-  headers?: HeadersPluginOptions
+  headers?: HeadersPluginOptions | boolean
 
   // @mdit-vue/plugin-sfc plugin options.
   // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-sfc#options
@@ -554,7 +554,7 @@ interface MarkdownOptions extends MarkdownIt.Options {
   // You need to install `markdown-it-mathjax3` and set `math` to `true` to enable it.
   // You can also pass options to `markdown-it-mathjax3` here.
   // See: https://github.com/tani/markdown-it-mathjax3#customization
-  math?: any
+  math?: boolean | any
 
   // Global custom container titles
   container?: {

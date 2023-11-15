@@ -96,7 +96,7 @@ export default defineConfig({
 })
 ```
 
-在 [MiniSearch docs](https://lucaong.github.io/minisearch/classes/_minisearch_.minisearch.html)了解更多信息。
+在 [MiniSearch docs](https://lucaong.github.io/minisearch/classes/MiniSearch.MiniSearch.html)了解更多信息。
 
 ### 自定义渲染内容 {#custom-content-renderer}
 
