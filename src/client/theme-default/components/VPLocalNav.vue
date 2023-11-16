@@ -18,7 +18,6 @@ defineEmits<{
 
 const { theme, frontmatter } = useData()
 const { hasSidebar } = useSidebar()
-// @ts-ignore
 const { y } = useWindowScroll()
 
 const headers = shallowRef<MenuItem[]>([])

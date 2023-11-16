@@ -73,8 +73,8 @@ export function resolveHeaders(
     typeof levelsRange === 'number'
       ? [levelsRange, levelsRange]
       : levelsRange === 'deep'
-      ? [2, 6]
-      : levelsRange
+        ? [2, 6]
+        : levelsRange
 
   headers = headers.filter((h) => h.level >= high && h.level <= low)
 

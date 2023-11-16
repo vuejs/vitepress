@@ -20,7 +20,6 @@ defineEmits<{
   (e: 'toggle-screen'): void
 }>()
 
-// @ts-ignore
 const { y } = useWindowScroll()
 const { hasSidebar } = useSidebar()
 const { frontmatter } = useData()

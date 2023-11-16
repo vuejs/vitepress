@@ -1,10 +1,13 @@
 import fs from 'fs-extra'
 import getPort from 'get-port'
+import { nanoid } from 'nanoid'
+import path from 'path'
 import { chromium } from 'playwright-chromium'
 import { fileURLToPath, URL } from 'url'
 import { createServer, scaffold, ScaffoldThemeType } from 'vitepress'
 
-const root = fileURLToPath(new URL('./.temp', import.meta.url))
+const tempDir = fileURLToPath(new URL('./.temp', import.meta.url))
+const getTempRoot = () => path.join(tempDir, nanoid())
 
 const browser = await chromium.launch({
   headless: !process.env.DEBUG,
@@ -30,9 +33,11 @@ const variations = themes.flatMap((theme) =>
 afterAll(async () => {
   await page.close()
   await browser.close()
+  await fs.remove(tempDir)
 })
 
 test.each(variations)('init %s', async (_, { theme, useTs }) => {
+  const root = getTempRoot()
   await fs.remove(root)
   scaffold({ root, theme, useTs, injectNpmScripts: false })
 
@@ -62,7 +67,6 @@ test.each(variations)('init %s', async (_, { theme, useTs }) => {
 
     // teardown
   } finally {
-    await fs.remove(root)
     await server.close()
   }
 })

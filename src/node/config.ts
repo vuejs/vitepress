@@ -252,8 +252,8 @@ function resolveSiteDataHead(userConfig?: UserConfig): HeadConfig[] {
       typeof userConfig?.appearance === 'string'
         ? userConfig?.appearance
         : typeof userConfig?.appearance === 'object'
-        ? userConfig.appearance.initialValue ?? 'auto'
-        : 'auto'
+          ? userConfig.appearance.initialValue ?? 'auto'
+          : 'auto'
 
     head.push([
       'script',
