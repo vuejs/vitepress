@@ -1,3 +1,19 @@
+# [1.0.0-rc.26](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.25...v1.0.0-rc.26) (2023-11-16)
+
+### Bug Fixes
+
+- "VPNavScreenMenuGroup" component HTML not supported ([#3148](https://github.com/vuejs/vitepress/issues/3148)) ([237ad85](https://github.com/vuejs/vitepress/commit/237ad859a982f3fa55f7bba0f98ca94707108618))
+- **build:** remove frontmatter in md file inclusion ([dbbffa2](https://github.com/vuejs/vitepress/commit/dbbffa2487cd1f9899916baa166591248fb24334)), closes [#3195](https://github.com/vuejs/vitepress/issues/3195)
+- style links in footer ([#3178](https://github.com/vuejs/vitepress/issues/3178)) ([a482611](https://github.com/vuejs/vitepress/commit/a482611d17197a0b7afc403891cd95f344e7a55f))
+
+### Features
+
+- switch to vite 5 and bump deps ([#3200](https://github.com/vuejs/vitepress/issues/3200)) ([d2238ee](https://github.com/vuejs/vitepress/commit/d2238eedb7c0c81b2d9f425e6f70f7019ad6a482))
+
+### BREAKING CHANGES
+
+- VitePress now runs on Vite 5. Please refer https://vitejs.dev/guide/migration for breaking changes and migration guide if you're relying on some Vite-specific things.
+
 # [1.0.0-rc.25](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.24...v1.0.0-rc.25) (2023-11-05)
 
 ### Bug Fixes
