@@ -74,13 +74,13 @@ export function initData(route: Route): VitePressData {
     appearance === 'force-dark'
       ? ref(true)
       : appearance
-      ? useDark({
-          storageKey: APPEARANCE_KEY,
-          initialValue: () =>
-            typeof appearance === 'string' ? appearance : 'auto',
-          ...(typeof appearance === 'object' ? appearance : {})
-        })
-      : ref(false)
+        ? useDark({
+            storageKey: APPEARANCE_KEY,
+            initialValue: () =>
+              typeof appearance === 'string' ? appearance : 'auto',
+            ...(typeof appearance === 'object' ? appearance : {})
+          })
+        : ref(false)
 
   return {
     site,

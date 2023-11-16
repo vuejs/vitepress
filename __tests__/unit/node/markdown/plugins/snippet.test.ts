@@ -50,7 +50,7 @@ describe('node/markdown/plugins/snippet', () => {
         )
       ).toMatchInlineSnapshot(`
         "fn main() {
-          println!(\\"Hello\\");
+          println!("Hello");
         }"
       `)
     })
