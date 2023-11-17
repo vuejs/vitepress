@@ -1,3 +1,9 @@
+# [1.0.0-rc.27](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.26...v1.0.0-rc.27) (2023-11-17)
+
+### Bug Fixes
+
+- CSS missing after build ([#3217](https://github.com/vuejs/vitepress/issues/3217)) ([da73b58](https://github.com/vuejs/vitepress/commit/da73b58c795a65a09d028e0ca6acefa1170d3d5b)), closes [#3216](https://github.com/vuejs/vitepress/issues/3216)
+
 # [1.0.0-rc.26](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.25...v1.0.0-rc.26) (2023-11-16)
 
 ### Bug Fixes
