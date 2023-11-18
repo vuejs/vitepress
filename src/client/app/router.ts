@@ -190,7 +190,7 @@ export function createRouter(
             !e.metaKey &&
             !target &&
             origin === currentUrl.origin &&
-            // don't intercept if non-html extension is present
+            // don't intercept if non-html or non-standard extension is present
             !(siteDataRef.value.cleanUrls
               ? lookup(pathname)
               : lookup(pathname) !== 'text/html')
