@@ -1,5 +1,6 @@
 import { reactive, inject, markRaw, nextTick, readonly } from 'vue'
 import type { Component, InjectionKey } from 'vue'
+import { lookup } from 'mrmime'
 import { notFoundPageData } from '../shared'
 import type { PageData, PageDataPayload, Awaitable } from '../shared'
 import { inBrowser, withBase } from './utils'
@@ -181,7 +182,6 @@ export function createRouter(
             link.baseURI
           )
           const currentUrl = window.location
-          const extMatch = pathname.match(/\.\w+$/)
           // only intercept inbound links
           if (
             !e.ctrlKey &&
@@ -191,7 +191,9 @@ export function createRouter(
             !target &&
             origin === currentUrl.origin &&
             // don't intercept if non-html extension is present
-            !(extMatch && extMatch[0] !== '.html')
+            !(siteDataRef.value.cleanUrls
+              ? lookup(pathname)
+              : lookup(pathname) !== 'text/html')
           ) {
             e.preventDefault()
             if (
