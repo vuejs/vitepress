@@ -17,6 +17,7 @@ import {
   type PageData,
   type SSGContext
 } from '../shared'
+import { version } from '../../../package.json'
 
 export async function renderPage(
   render: (path: string) => Promise<SSGContext>,
@@ -162,6 +163,7 @@ export async function renderPage(
         ? ''
         : `<meta name="description" content="${description}">`
     }
+    <meta name="generator" content="VitePress v${version}">
     ${stylesheetLink}
     ${metadataScript.inHead ? metadataScript.html : ''}
     ${
