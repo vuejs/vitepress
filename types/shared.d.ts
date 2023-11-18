@@ -110,6 +110,7 @@ export interface SiteData<ThemeConfig = any> {
   dir: string
   title: string
   titleTemplate?: string | boolean
+  prefetch: boolean
   description: string
   head: HeadConfig[]
   appearance:
