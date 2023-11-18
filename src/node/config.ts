@@ -13,6 +13,7 @@ import { DEFAULT_THEME_PATH } from './alias'
 import { resolvePages } from './plugins/dynamicRoutesPlugin'
 import {
   APPEARANCE_KEY,
+  slash,
   type DefaultTheme,
   type HeadConfig,
   type SiteData
@@ -74,7 +75,7 @@ export async function resolveConfig(
   const site = await resolveSiteData(root, userConfig)
   const srcDir = normalizePath(path.resolve(root, userConfig.srcDir || '.'))
   const assetsDir = userConfig.assetsDir
-    ? userConfig.assetsDir.replace(/^\.?\/|\/$/g, '')
+    ? slash(userConfig.assetsDir).replace(/^\.?\/|\/$/g, '')
     : 'assets'
   const outDir = userConfig.outDir
     ? normalizePath(path.resolve(root, userConfig.outDir))
