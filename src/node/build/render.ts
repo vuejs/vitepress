@@ -17,6 +17,7 @@ import {
   type PageData,
   type SSGContext
 } from '../shared'
+import { version } from '../../../package.json'
 
 export async function renderPage(
   render: (path: string) => Promise<SSGContext>,
@@ -151,6 +152,7 @@ export async function renderPage(
 <html lang="${siteData.lang}" dir="${siteData.dir}">
   <head>
     <meta charset="utf-8">
+    <meta name="generator" content="VitePress v${version}">
     ${
       isMetaViewportOverridden(head)
         ? ''
