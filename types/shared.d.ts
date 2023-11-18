@@ -110,7 +110,6 @@ export interface SiteData<ThemeConfig = any> {
   dir: string
   title: string
   titleTemplate?: string | boolean
-  prefetch: boolean
   description: string
   head: HeadConfig[]
   appearance:
@@ -127,6 +126,9 @@ export interface SiteData<ThemeConfig = any> {
   locales: LocaleConfig<ThemeConfig>
   localeIndex?: string
   contentProps?: Record<string, any>
+  router: {
+    prefetchLinks: boolean
+  }
 }
 
 export type HeadConfig =

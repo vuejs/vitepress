@@ -48,7 +48,7 @@ const VitePressApp = defineComponent({
       })
     })
 
-    if (import.meta.env.PROD && site.value.prefetch) {
+    if (import.meta.env.PROD && site.value.router.prefetchLinks) {
       // in prod mode, enable intersectionObserver based pre-fetch
       usePrefetch()
     }

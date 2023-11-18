@@ -69,7 +69,9 @@ export interface UserConfig<ThemeConfig = any>
 
   locales?: LocaleConfig<ThemeConfig>
 
-  prefetch?: boolean
+  router?: {
+    prefetchLinks?: boolean
+  }
 
   appearance?:
     | boolean
@@ -203,7 +205,7 @@ export interface SiteConfig<ThemeConfig = any>
     | 'vue'
     | 'vite'
     | 'shouldPreload'
-    | 'prefetch'
+    | 'router'
     | 'mpa'
     | 'metaChunk'
     | 'lastUpdated'
