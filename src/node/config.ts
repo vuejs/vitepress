@@ -243,6 +243,9 @@ export async function resolveSiteData(
     description: userConfig.description || 'A VitePress site',
     base: userConfig.base ? userConfig.base.replace(/([^/])$/, '$1/') : '/',
     head: resolveSiteDataHead(userConfig),
+    router: {
+      prefetchLinks: userConfig.router?.prefetchLinks ?? true
+    },
     appearance: userConfig.appearance ?? true,
     themeConfig: userConfig.themeConfig || {},
     locales: userConfig.locales || {},
