@@ -152,7 +152,6 @@ export async function renderPage(
 <html lang="${siteData.lang}" dir="${siteData.dir}">
   <head>
     <meta charset="utf-8">
-    <meta name="generator" content="VitePress v${version}">
     ${
       isMetaViewportOverridden(head)
         ? ''
@@ -164,6 +163,7 @@ export async function renderPage(
         ? ''
         : `<meta name="description" content="${description}">`
     }
+    <meta name="generator" content="VitePress v${version}">
     ${stylesheetLink}
     ${metadataScript.inHead ? metadataScript.html : ''}
     ${
