@@ -1,4 +1,5 @@
 import { withBase } from 'vitepress'
+import { lookup } from 'mrmime'
 import { useData } from '../composables/data'
 import { isExternal } from '../../shared'
 
@@ -27,7 +28,7 @@ export function normalizeLink(url: string): string {
     isExternal(url) ||
     url.startsWith('#') ||
     !protocol.startsWith('http') ||
-    /\.(?!html|md)\w+($|\?)/i.test(url)
+    (/\.(?!html|md)\w+($|\?)/i.test(url) && lookup(url))
   )
     return url
 
