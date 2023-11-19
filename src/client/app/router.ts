@@ -182,6 +182,7 @@ export function createRouter(
             link.baseURI
           )
           const currentUrl = window.location
+          const mimeType = lookup(pathname)
           // only intercept inbound links
           if (
             !e.ctrlKey &&
@@ -190,8 +191,8 @@ export function createRouter(
             !e.metaKey &&
             !target &&
             origin === currentUrl.origin &&
-            // don't intercept if non-html extension is present
-            (lookup(pathname) == null || lookup(pathname) === 'text/html')
+            // intercept only html and unknown types (assume html)
+            (!mimeType || mimeType === 'text/html')
           ) {
             e.preventDefault()
             if (
