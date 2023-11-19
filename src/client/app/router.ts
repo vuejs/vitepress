@@ -191,9 +191,7 @@ export function createRouter(
             !target &&
             origin === currentUrl.origin &&
             // don't intercept if non-html extension is present
-            !(siteDataRef.value.cleanUrls
-              ? lookup(pathname)
-              : lookup(pathname) !== 'text/html')
+            (lookup(pathname) == null || lookup(pathname) === 'text/html')
           ) {
             e.preventDefault()
             if (
