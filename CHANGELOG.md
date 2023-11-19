@@ -1,3 +1,9 @@
+# [1.0.0-rc.29](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.28...v1.0.0-rc.29) (2023-11-19)
+
+### Bug Fixes
+
+- **client:** regression - router not working without .html present ([d63cb86](https://github.com/vuejs/vitepress/commit/d63cb867b14ba49c8333ad0d69d33874e2ece6c6)), closes [#3225](https://github.com/vuejs/vitepress/issues/3225)
+
 # [1.0.0-rc.28](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.27...v1.0.0-rc.28) (2023-11-18)
 
 ### Bug Fixes
