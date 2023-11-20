@@ -346,6 +346,10 @@ export async function createVitePressPlugin(
             bundle[name + '-lean'] = {
               ...chunk,
               fileName: chunk.fileName.replace(/\.js$/, '.lean.js'),
+              preliminaryFileName: chunk.preliminaryFileName.replace(
+                /\.js$/,
+                '.lean.js'
+              ),
               code: chunk.code.replace(staticStripRE, `""`)
             }
 

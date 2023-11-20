@@ -1,3 +1,28 @@
+# [1.0.0-rc.29](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.28...v1.0.0-rc.29) (2023-11-19)
+
+### Bug Fixes
+
+- **client:** regression - router not working without .html present ([d63cb86](https://github.com/vuejs/vitepress/commit/d63cb867b14ba49c8333ad0d69d33874e2ece6c6)), closes [#3225](https://github.com/vuejs/vitepress/issues/3225)
+
+# [1.0.0-rc.28](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.27...v1.0.0-rc.28) (2023-11-18)
+
+### Bug Fixes
+
+- **ally:** clear up confusion with the title of theme switch ([#3215](https://github.com/vuejs/vitepress/issues/3215)) ([6761036](https://github.com/vuejs/vitepress/commit/67610363bcb354d33327e6b5c3c2d916ed025ffc))
+- **build:** support nested assetsDir ([02161d0](https://github.com/vuejs/vitepress/commit/02161d0f797cfa36d715119e8c7618770b1a6761))
+- wrong recognition of non-html extension leads to route error ([#3218](https://github.com/vuejs/vitepress/issues/3218)) ([c4abc95](https://github.com/vuejs/vitepress/commit/c4abc950af7061611e3b5eff93e767706bd12396))
+
+### Features
+
+- **build:** html head meta generator ([#3219](https://github.com/vuejs/vitepress/issues/3219)) ([672e494](https://github.com/vuejs/vitepress/commit/672e4946ac3c24f3fc79469534e66cfaf6f23e67))
+- **client:** allow disabling link auto-prefetching ([#3220](https://github.com/vuejs/vitepress/issues/3220)) ([563dc89](https://github.com/vuejs/vitepress/commit/563dc899757e58d2261bcb31081283eb395fab0b))
+
+# [1.0.0-rc.27](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.26...v1.0.0-rc.27) (2023-11-17)
+
+### Bug Fixes
+
+- CSS missing after build ([#3217](https://github.com/vuejs/vitepress/issues/3217)) ([da73b58](https://github.com/vuejs/vitepress/commit/da73b58c795a65a09d028e0ca6acefa1170d3d5b)), closes [#3216](https://github.com/vuejs/vitepress/issues/3216)
+
 # [1.0.0-rc.26](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.25...v1.0.0-rc.26) (2023-11-16)
 
 ### Bug Fixes

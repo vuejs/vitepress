@@ -360,7 +360,7 @@ export default {
 - Type: `string`
 - Default: `assets`
 
-The directory for assets files. See also: [assetsDir](https://vitejs.dev/config/build-options.html#build-assetsdir).
+Specify the directory to nest generated assets under. The path should be inside [`outDir`](#outdir) and is resolved relative to it.
 
 ```ts
 export default {
