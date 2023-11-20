@@ -226,8 +226,9 @@ export function createRouter(
       loadPage(
         normalizeHref(location.href),
         (e.state && e.state.scrollPosition) || 0
-      )
-      router.onAfterRouteChanged?.(location.href)
+      ).then(() => {
+        router.onAfterRouteChanged?.(location.href)
+      })
     })
 
     window.addEventListener('hashchange', (e) => {
