@@ -222,13 +222,12 @@ export function createRouter(
       { capture: true }
     )
 
-    window.addEventListener('popstate', (e) => {
-      loadPage(
+    window.addEventListener('popstate', async (e) => {
+      await loadPage(
         normalizeHref(location.href),
         (e.state && e.state.scrollPosition) || 0
-      ).then(() => {
-        router.onAfterRouteChanged?.(location.href)
-      })
+      )
+      router.onAfterRouteChanged?.(location.href)
     })
 
     window.addEventListener('hashchange', (e) => {
