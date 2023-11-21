@@ -1,6 +1,6 @@
 import { createRequire } from 'module'
 import { resolve, join } from 'path'
-import { fileURLToPath } from 'url'
+import { fileURLToPath, pathToFileURL } from 'url'
 import type { Alias, AliasOptions } from 'vite'
 import type { SiteConfig } from './config'
 
@@ -21,11 +21,22 @@ export const SITE_DATA_REQUEST_PATH = '/' + SITE_DATA_ID
 const vueRuntimePath = 'vue/dist/vue.runtime.esm-bundler.js'
 
 export function resolveAliases(
-  { root, themeDir }: SiteConfig,
+  siteConfig: SiteConfig,
   ssr: boolean
 ): AliasOptions {
+  const { root, themeDir } = siteConfig
+  const siteConfigThemesJS = `\
+${siteConfig.additionalThemeFiles
+  .map((f, i) => `import $${i} from ${JSON.stringify(pathToFileURL(f))}`)
+  .join('\n')}
+export default [${siteConfig.additionalThemeFiles
+    .map((f, i) => `$${i}`)
+    .join(', ')}]`
   const paths: Record<string, string> = {
     '@theme': themeDir,
+    '@theme/site-config-themes': `data:text/javascript,${encodeURIComponent(
+      siteConfigThemesJS
+    )}`,
     [SITE_DATA_ID]: SITE_DATA_REQUEST_PATH
   }
 

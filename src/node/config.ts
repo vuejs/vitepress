@@ -1,13 +1,15 @@
 import _debug from 'debug'
 import fs from 'fs-extra'
 import path from 'path'
+import url from 'url'
 import c from 'picocolors'
 import {
   createLogger,
   loadConfigFromFile,
   mergeConfig as mergeViteConfig,
   normalizePath,
-  type ConfigEnv
+  type ConfigEnv,
+  type ResolvedConfig
 } from 'vite'
 import { DEFAULT_THEME_PATH } from './alias'
 import { resolvePages } from './plugins/dynamicRoutesPlugin'
@@ -113,6 +115,8 @@ export async function resolveConfig(
     assetsDir,
     site,
     themeDir,
+    additionalThemeFiles:
+      userConfig.additionalThemeFiles?.map((f) => resolve(root, f)) ?? [],
     pages,
     dynamicRoutes,
     configPath,
@@ -268,8 +272,8 @@ function resolveSiteDataHead(userConfig?: UserConfig): HeadConfig[] {
       typeof userConfig?.appearance === 'string'
         ? userConfig?.appearance
         : typeof userConfig?.appearance === 'object'
-          ? userConfig.appearance.initialValue ?? 'auto'
-          : 'auto'
+        ? userConfig.appearance.initialValue ?? 'auto'
+        : 'auto'
 
     head.push([
       'script',
@@ -293,3 +297,31 @@ function resolveSiteDataHead(userConfig?: UserConfig): HeadConfig[] {
 
   return head
 }
+
+// export function addThemeWrapper(
+//   config: ResolvedConfig,
+//   themeWrapperFile: fs.PathLike,
+//   find: string
+// ) {
+//   const themeWrapperPath =
+//     themeWrapperFile instanceof URL
+//       ? url.fileURLToPath(themeWrapperFile)
+//       : themeWrapperFile.toString()
+
+//   let themeIndexAlias = config.resolve.alias.find(
+//     (x) => x.find === '@theme/index'
+//   )
+//   if (!themeIndexAlias) {
+//     const themeAlias = config.resolve.alias.find((x) => x.find === '@theme')!
+//     themeIndexAlias = {
+//       find: '@theme/index',
+//       replacement: path.join(themeAlias.replacement, 'index')
+//     }
+//     config.resolve.alias.unshift(themeIndexAlias)
+//   }
+//   config.resolve.alias.push({
+//     find: find,
+//     replacement: themeIndexAlias.replacement
+//   })
+//   themeIndexAlias.replacement = themeWrapperPath
+// }

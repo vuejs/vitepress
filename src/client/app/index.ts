@@ -1,4 +1,5 @@
 import RawTheme from '@theme/index'
+import SiteConfigThemes from '@theme/site-config-themes'
 import {
   createApp as createClientApp,
   createSSRApp,
@@ -17,23 +18,33 @@ import { usePrefetch } from './composables/preFetch'
 import { dataSymbol, initData, siteDataRef, useData } from './data'
 import { RouterSymbol, createRouter, scrollTo, type Router } from './router'
 import { inBrowser, pathToFile } from './utils'
+import type { Theme } from './theme'
 
 function resolveThemeExtends(theme: typeof RawTheme): typeof RawTheme {
   if (theme.extends) {
-    const base = resolveThemeExtends(theme.extends)
-    return {
-      ...base,
-      ...theme,
-      async enhanceApp(ctx) {
-        if (base.enhanceApp) await base.enhanceApp(ctx)
-        if (theme.enhanceApp) await theme.enhanceApp(ctx)
-      }
-    }
+    const extendsList = [theme.extends].flat()
+    const manyBases = extendsList.map((theme) => resolveThemeExtends(theme))
+    // or reduceRight() depending on which side gets priority
+    const singleBase = manyBases.reduce((base, theme) =>
+      mergeTheme(base, theme)
+    )
+    return mergeTheme(singleBase, theme)
   }
   return theme
 }
 
-const Theme = resolveThemeExtends(RawTheme)
+export function mergeTheme(base: Theme, theme: Theme): Theme {
+  return {
+    ...base,
+    ...theme,
+    async enhanceApp(ctx) {
+      if (base.enhanceApp) await base.enhanceApp(ctx)
+      if (theme.enhanceApp) await theme.enhanceApp(ctx)
+    }
+  }
+}
+
+const Theme = resolveThemeExtends({ extends: [RawTheme, ...SiteConfigThemes] })
 
 const VitePressApp = defineComponent({
   name: 'VitePressApp',

@@ -64,6 +64,7 @@ export interface UserConfig<ThemeConfig = any>
   outDir?: string
   assetsDir?: string
   cacheDir?: string
+  additionalThemeFiles?: string[]
 
   shouldPreload?: (link: string, page: string) => boolean
 
@@ -225,6 +226,7 @@ export interface SiteConfig<ThemeConfig = any>
   configPath: string | undefined
   configDeps: string[]
   themeDir: string
+  additionalThemeFiles: string[]
   outDir: string
   assetsDir: string
   cacheDir: string

@@ -23,6 +23,12 @@ declare module '@theme/index' {
   export default theme
 }
 
+declare module '@theme/site-config-themes' {
+  import type { Theme } from 'vitepress'
+  const themes: Theme[]
+  export default themes
+}
+
 declare module '@localSearchIndex' {
   const data: Record<string, () => Promise<{ default: string }>>
   export default data
