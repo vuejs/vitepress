@@ -23,7 +23,7 @@ declare module '@theme/index' {
   export default theme
 }
 
-declare module '@theme/site-config-themes' {
+declare module '@site-config-themes' {
   import type { Theme } from 'vitepress'
   const themes: Theme[]
   export default themes

@@ -1,5 +1,5 @@
 import RawTheme from '@theme/index'
-import SiteConfigThemes from '@theme/site-config-themes'
+import SiteConfigThemes from '@site-config-themes'
 import {
   createApp as createClientApp,
   createSSRApp,

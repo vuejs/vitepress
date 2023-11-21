@@ -1,15 +1,13 @@
 import _debug from 'debug'
 import fs from 'fs-extra'
 import path from 'path'
-import url from 'url'
 import c from 'picocolors'
 import {
   createLogger,
   loadConfigFromFile,
   mergeConfig as mergeViteConfig,
   normalizePath,
-  type ConfigEnv,
-  type ResolvedConfig
+  type ConfigEnv
 } from 'vite'
 import { DEFAULT_THEME_PATH } from './alias'
 import { resolvePages } from './plugins/dynamicRoutesPlugin'
@@ -277,8 +275,8 @@ function resolveSiteDataHead(userConfig?: UserConfig): HeadConfig[] {
       typeof userConfig?.appearance === 'string'
         ? userConfig?.appearance
         : typeof userConfig?.appearance === 'object'
-        ? userConfig.appearance.initialValue ?? 'auto'
-        : 'auto'
+          ? userConfig.appearance.initialValue ?? 'auto'
+          : 'auto'
 
     head.push([
       'script',

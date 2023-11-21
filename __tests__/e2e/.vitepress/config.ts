@@ -84,10 +84,21 @@ const sidebar: DefaultTheme.Config['sidebar'] = {
 }
 
 export default defineConfig({
+  vite: {
+    plugins: [
+      {
+        name: 'example',
+        configResolved(config) {
+          console.dir(config, { depth: 10 })
+        }
+      }
+    ]
+  },
   extends: [
     {
       title: 'Example',
-      description: 'An example app using VitePress.'
+      description: 'An example app using VitePress.',
+      additionalThemeFiles: ['./my-additional-theme-file.ts']
     },
     {
       themeConfig: {

@@ -1,8 +1,9 @@
 import { createRequire } from 'module'
 import { resolve, join } from 'path'
-import { fileURLToPath, pathToFileURL } from 'url'
+import { fileURLToPath } from 'url'
 import type { Alias, AliasOptions } from 'vite'
 import type { SiteConfig } from './config'
+import fs from 'fs-extra'
 
 const require = createRequire(import.meta.url)
 const PKG_ROOT = resolve(fileURLToPath(import.meta.url), '../..')
@@ -27,16 +28,17 @@ export function resolveAliases(
   const { root, themeDir } = siteConfig
   const siteConfigThemesJS = `\
 ${siteConfig.additionalThemeFiles
-  .map((f, i) => `import $${i} from ${JSON.stringify(pathToFileURL(f))}`)
+  .map((f, i) => `import $${i} from ${JSON.stringify(f)}`)
   .join('\n')}
 export default [${siteConfig.additionalThemeFiles
     .map((f, i) => `$${i}`)
     .join(', ')}]`
+  const tmpfile = join(siteConfig.cacheDir, 'site-config-themes.ts')
+  fs.writeFileSync(tmpfile, siteConfigThemesJS)
+
   const paths: Record<string, string> = {
     '@theme': themeDir,
-    '@theme/site-config-themes': `data:text/javascript,${encodeURIComponent(
-      siteConfigThemesJS
-    )}`,
+    '@site-config-themes': tmpfile,
     [SITE_DATA_ID]: SITE_DATA_REQUEST_PATH
   }
 
