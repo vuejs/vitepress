@@ -375,7 +375,7 @@ export default {
 - Type: `string`
 - Default: `assets`
 
-静态资源的目录。另请参阅：[assetsDir](https://vitejs.dev/config/build-options.html#build-assetsdir)。
+指定放置生成的静态资源的目录。该路径应位于 [`outDir`](#outdir) 内，并相对于它进行解析。
 
 ```ts
 export default {
