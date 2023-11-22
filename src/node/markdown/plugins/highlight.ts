@@ -66,14 +66,19 @@ export async function highlight(
     langs: languages?.length ? languages : Object.keys(bundledLanguages)
   })
 
-  const transformers = [
+  const transformers: ShikijiTransformer[] = [
     transformerNotationDiff(),
     transformerNotationFocus({
       classFocused: 'has-focus',
       classRootActive: 'has-focused-lines'
     }),
     transformerNotationHighlight(),
-    transformerNotationErrorLevel()
+    transformerNotationErrorLevel(),
+    {
+      pre(node) {
+        node.properties.class = 'vp-code shiki'
+      }
+    },
   ]
 
   const styleRE = /<pre[^>]*(style=".*?")/
@@ -152,11 +157,6 @@ export async function highlight(
       transformers: [
         ...transformers,
         transformerCompactLineOptions(lineOptions),
-        {
-          pre(node) {
-            node.properties.class = 'vp-code'
-          }
-        },
         ...userTransformers
       ],
       ...(typeof theme === 'string' || 'name' in theme
