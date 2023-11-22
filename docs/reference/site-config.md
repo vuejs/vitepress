@@ -454,7 +454,7 @@ When using the default theme, enabling this option will display each page's last
 
 - Type: `MarkdownOption`
 
-Configure Markdown parser options. VitePress uses [Markdown-it](https://github.com/markdown-it/markdown-it) as the parser, and [Shiki](https://shiki.matsu.io/) to highlight language syntax. Inside this option, you may pass various Markdown related options to fit your needs.
+Configure Markdown parser options. VitePress uses [Markdown-it](https://github.com/markdown-it/markdown-it) as the parser, and [Shikiji](https://github.com/antfu/shikiji) (an improved version of [Shiki](https://shiki.matsu.io/)) to highlight language syntax. Inside this option, you may pass various Markdown related options to fit your needs.
 
 ```js
 export default {
@@ -472,15 +472,19 @@ interface MarkdownOptions extends MarkdownIt.Options {
   // Or add your own theme.
   // See: https://github.com/shikijs/shiki/blob/main/docs/themes.md#loading-theme
   theme?:
-    | Shiki.IThemeRegistration
-    | { light: Shiki.IThemeRegistration; dark: Shiki.IThemeRegistration }
+    | Shikiji.BuiltInTheme
+    | Shikiji.ThemeRegistration
+    | {
+        light: Shikiji.BuiltInTheme | Shikiji.ThemeRegistration;
+        dark: Shikiji.BuiltInTheme | Shikiji.ThemeRegistration
+      }
 
   // Enable line numbers in code block.
   lineNumbers?: boolean
 
   // Add support for your own languages.
   // https://github.com/shikijs/shiki/blob/main/docs/languages.md#supporting-your-own-languages-with-shiki
-  languages?: Shiki.ILanguageRegistration[]
+  languages?: (Shikiji.BuiltInLanguage | Shikiji.LanguageRegistration)[]
 
   // markdown-it-anchor plugin options.
   // See: https://github.com/valeriangalliat/markdown-it-anchor#usage

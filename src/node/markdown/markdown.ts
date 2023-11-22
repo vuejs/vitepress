@@ -18,7 +18,6 @@ import MarkdownIt from 'markdown-it'
 import anchorPlugin from 'markdown-it-anchor'
 import attrsPlugin from 'markdown-it-attrs'
 import emojiPlugin from 'markdown-it-emoji'
-import type { ILanguageRegistration, IThemeRegistration } from 'shiki'
 import type { Logger } from 'vite'
 import { containerPlugin, type ContainerOptions } from './plugins/containers'
 import { highlight } from './plugins/highlight'
@@ -28,12 +27,22 @@ import { lineNumberPlugin } from './plugins/lineNumbers'
 import { linkPlugin } from './plugins/link'
 import { preWrapperPlugin } from './plugins/preWrapper'
 import { snippetPlugin } from './plugins/snippet'
+import type {
+  ThemeRegistration,
+  BuiltinTheme,
+  LanguageInput,
+  ShikijiTransformer
+} from 'shikiji'
 
 export type { Header } from '../shared'
 
 export type ThemeOptions =
-  | IThemeRegistration
-  | { light: IThemeRegistration; dark: IThemeRegistration }
+  | ThemeRegistration
+  | BuiltinTheme
+  | {
+      light: ThemeRegistration | BuiltinTheme
+      dark: ThemeRegistration | BuiltinTheme
+    }
 
 export interface MarkdownOptions extends MarkdownIt.Options {
   lineNumbers?: boolean
@@ -51,13 +60,18 @@ export interface MarkdownOptions extends MarkdownIt.Options {
   headers?: HeadersPluginOptions | boolean
   sfc?: SfcPluginOptions
   theme?: ThemeOptions
-  languages?: ILanguageRegistration[]
+  languages?: LanguageInput[]
   toc?: TocPluginOptions
   externalLinks?: Record<string, string>
   cache?: boolean
   component?: ComponentPluginOptions
   math?: boolean | any
   container?: ContainerOptions
+
+  /**
+   * Shikiji transformers
+   */
+  transformers?: ShikijiTransformer[]
 }
 
 export type MarkdownRenderer = MarkdownIt
@@ -80,7 +94,8 @@ export const createMarkdownRenderer = async (
         theme,
         options.languages,
         options.defaultHighlightLang,
-        logger
+        logger,
+        options.transformers
       )),
     ...options
   })

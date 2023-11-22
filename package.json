@@ -101,7 +101,8 @@
     "mark.js": "8.11.1",
     "minisearch": "^6.2.0",
     "mrmime": "^1.0.1",
-    "shiki": "^0.14.5",
+    "shikiji": "^0.7.0-beta.0",
+    "shikiji-transformers": "^0.7.0-beta.0",
     "vite": "^5.0.0",
     "vue": "^3.3.8"
   },
@@ -187,7 +188,6 @@
     "rollup-plugin-dts": "^6.1.0",
     "rollup-plugin-esbuild": "^6.1.0",
     "semver": "^7.5.4",
-    "shiki-processor": "^0.1.3",
     "simple-git-hooks": "^2.9.0",
     "sirv": "^2.0.3",
     "sitemap": "^7.1.1",

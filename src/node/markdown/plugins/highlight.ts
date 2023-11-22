@@ -1,23 +1,21 @@
 import { customAlphabet } from 'nanoid'
 import c from 'picocolors'
+import type { LanguageInput, ShikijiTransformer } from 'shikiji'
 import {
-  BUNDLED_LANGUAGES,
-  type HtmlRendererOptions,
-  type ILanguageRegistration,
-  type IThemeRegistration
-} from 'shiki'
-import {
-  addClass,
-  createDiffProcessor,
-  createFocusProcessor,
-  createHighlightProcessor,
-  createRangeProcessor,
-  defineProcessor,
+  bundledLanguages,
   getHighlighter,
-  type Processor
-} from 'shiki-processor'
+  isPlaintext as isPlainLang
+} from 'shikiji'
 import type { Logger } from 'vite'
 import type { ThemeOptions } from '../markdown'
+import {
+  transformerCompactLineOptions,
+  transformerNotationDiff,
+  transformerNotationErrorLevel,
+  transformerNotationFocus,
+  transformerNotationHighlight,
+  type TransformerCompactLineOption
+} from 'shikiji-transformers'
 
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)
 
@@ -29,7 +27,7 @@ const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)
  * 2. convert line numbers into line options:
  *    [{ line: number, classes: string[] }]
  */
-const attrsToLines = (attrs: string): HtmlRendererOptions['lineOptions'] => {
+const attrsToLines = (attrs: string): TransformerCompactLineOption[] => {
   attrs = attrs.replace(/^(?:\[.*?\])?.*?([\d,-]+).*/, '$1').trim()
   const result: number[] = []
   if (!attrs) {
@@ -53,36 +51,30 @@ const attrsToLines = (attrs: string): HtmlRendererOptions['lineOptions'] => {
   }))
 }
 
-const errorLevelProcessor = defineProcessor({
-  name: 'error-level',
-  handler: createRangeProcessor({
-    error: ['highlighted', 'error'],
-    warning: ['highlighted', 'warning']
-  })
-})
-
 export async function highlight(
   theme: ThemeOptions,
-  languages: ILanguageRegistration[] = [],
+  languages?: LanguageInput[],
   defaultLang: string = '',
-  logger: Pick<Logger, 'warn'> = console
+  logger: Pick<Logger, 'warn'> = console,
+  userTransformers: ShikijiTransformer[] = []
 ): Promise<(str: string, lang: string, attrs: string) => string> {
-  const hasSingleTheme = typeof theme === 'string' || 'name' in theme
-  const getThemeName = (themeValue: IThemeRegistration) =>
-    typeof themeValue === 'string' ? themeValue : themeValue.name
-
-  const processors: Processor[] = [
-    createFocusProcessor(),
-    createHighlightProcessor({ hasHighlightClass: 'highlighted' }),
-    createDiffProcessor(),
-    errorLevelProcessor
-  ]
-
   const highlighter = await getHighlighter({
-    themes: hasSingleTheme ? [theme] : [theme.dark, theme.light],
-    langs: [...BUNDLED_LANGUAGES, ...languages],
-    processors
+    themes:
+      typeof theme === 'string' || 'name' in theme
+        ? [theme]
+        : [theme.light, theme.dark],
+    langs: languages?.length ? languages : Object.keys(bundledLanguages)
   })
+
+  const transformers = [
+    transformerNotationDiff(),
+    transformerNotationFocus({
+      classFocused: 'has-focus',
+      classRootActive: 'has-focused-lines'
+    }),
+    transformerNotationHighlight(),
+    transformerNotationErrorLevel()
+  ]
 
   const styleRE = /<pre[^>]*(style=".*?")/
   const preRE = /^<pre(.*?)>/
@@ -102,7 +94,7 @@ export async function highlight(
 
     if (lang) {
       const langLoaded = highlighter.getLoadedLanguages().includes(lang as any)
-      if (!langLoaded && !['ansi', 'plaintext', 'txt', 'text'].includes(lang)) {
+      if (!langLoaded && !isPlainLang(lang) && lang !== 'ansi') {
         logger.warn(
           c.yellow(
             `\nThe language '${lang}' is not loaded, falling back to '${
@@ -155,24 +147,26 @@ export async function highlight(
 
     str = removeMustache(str).trimEnd()
 
-    const codeToHtml = (theme: IThemeRegistration) => {
-      const res =
-        lang === 'ansi'
-          ? highlighter.ansiToHtml(str, {
-              lineOptions,
-              theme: getThemeName(theme)
-            })
-          : highlighter.codeToHtml(str, {
-              lang,
-              lineOptions,
-              theme: getThemeName(theme)
-            })
-      return fillEmptyHighlightedLine(cleanup(restoreMustache(res)))
-    }
+    const result = highlighter.codeToHtml(str, {
+      lang,
+      ...(typeof theme === 'string' || 'name' in theme
+        ? { theme }
+        : {
+            themes: theme,
+            defaultColor: false
+          }),
+      transformers: [
+        ...transformers,
+        transformerCompactLineOptions(lineOptions),
+        {
+          pre(node) {
+            node.properties.class = 'vp-code'
+          }
+        },
+        ...userTransformers
+      ]
+    })
 
-    if (hasSingleTheme) return codeToHtml(theme)
-    const dark = addClass(codeToHtml(theme.dark), 'vp-code-dark', 'pre')
-    const light = addClass(codeToHtml(theme.light), 'vp-code-light', 'pre')
-    return dark + light
+    return fillEmptyHighlightedLine(cleanup(restoreMustache(result)))
   }
 }
