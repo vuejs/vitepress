@@ -78,7 +78,7 @@ export async function highlight(
       pre(node) {
         node.properties.class = 'vp-code shiki'
       }
-    },
+    }
   ]
 
   const styleRE = /<pre[^>]*(style=".*?")/
@@ -164,7 +164,7 @@ export async function highlight(
         : {
             themes: theme,
             defaultColor: false
-          }),
+          })
     })
 
     return fillEmptyHighlightedLine(cleanup(restoreMustache(highlighted)))
