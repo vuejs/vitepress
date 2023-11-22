@@ -219,7 +219,7 @@ describe('Code Groups', () => {
     expect(await blocks.nth(0).locator('code > span').count()).toBe(11)
     expect(await getClassList(blocks.nth(1))).toContain('line-numbers-mode')
     expect(await getClassList(blocks.nth(1))).toContain('language-ts')
-    expect(await blocks.nth(1).locator('code > span').count()).toBe(1)
+    expect(await blocks.nth(1).locator('code > span').count()).toBe(3)
     expect(
       await getClassList(blocks.nth(1).locator('code > span').nth(0))
     ).toContain('highlighted')
