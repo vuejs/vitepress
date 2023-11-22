@@ -67,7 +67,7 @@ export interface MarkdownOptions extends MarkdownIt.Options {
   component?: ComponentPluginOptions
   math?: boolean | any
   container?: ContainerOptions
-  transformers?: ShikijiTransformer[]
+  shikijiTransformers?: ShikijiTransformer[]
 }
 
 export type MarkdownRenderer = MarkdownIt
@@ -91,7 +91,7 @@ export const createMarkdownRenderer = async (
         options.languages,
         options.defaultHighlightLang,
         logger,
-        options.transformers
+        options.shikijiTransformers
       )),
     ...options
   })

@@ -14,24 +14,11 @@ export default defineConfig({
 
   markdown: {
     math: true,
-    transformers: [
+    shikijiTransformers: [
       // We use `[!!code` in demo to prevent transformation, here we revert it back.
       {
-        code(code) {
-          for (const line of code.children) {
-            if (line.type !== 'element') continue
-            for (const token of line.children) {
-              if (
-                token.type === 'element' &&
-                token.children[0].type === 'text'
-              ) {
-                token.children[0].value = token.children[0].value.replace(
-                  '[!!code',
-                  '[!code'
-                )
-              }
-            }
-          }
+        postprocess(code) {
+          return code.replace(/\[\!\!code/g, '[!!code')
         }
       }
     ]

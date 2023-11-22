@@ -5,7 +5,8 @@ import {
   bundledLanguages,
   getHighlighter,
   addClassToHast,
-  isPlaintext as isPlainLang
+  isPlaintext as isPlainLang,
+  isSpecialLang
 } from 'shikiji'
 import type { Logger } from 'vite'
 import type { ThemeOptions } from '../markdown'
@@ -100,7 +101,7 @@ export async function highlight(
 
     if (lang) {
       const langLoaded = highlighter.getLoadedLanguages().includes(lang as any)
-      if (!langLoaded && !isPlainLang(lang) && lang !== 'ansi') {
+      if (!langLoaded && !isPlainLang(lang) && !isSpecialLang(lang)) {
         logger.warn(
           c.yellow(
             `\nThe language '${lang}' is not loaded, falling back to '${
