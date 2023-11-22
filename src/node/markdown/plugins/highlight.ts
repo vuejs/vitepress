@@ -4,6 +4,7 @@ import type { LanguageInput, ShikijiTransformer } from 'shikiji'
 import {
   bundledLanguages,
   getHighlighter,
+  addClassToHast,
   isPlaintext as isPlainLang
 } from 'shikiji'
 import type { Logger } from 'vite'
@@ -76,7 +77,7 @@ export async function highlight(
     transformerNotationErrorLevel(),
     {
       pre(node) {
-        node.properties.class = 'vp-code shiki'
+        addClassToHast(node, 'vp-code')
       }
     }
   ]

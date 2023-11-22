@@ -377,7 +377,7 @@ export default { // Highlighted
 }
 ```
 
-Alternatively, it's possible to highlight directly in the line by using the `// [!code hl]` comment.
+Alternatively, it's possible to highlight directly in the line by using the `// [!code hightlight]` comment.
 
 **Input**
 
@@ -386,7 +386,7 @@ Alternatively, it's possible to highlight directly in the line by using the `// 
 export default {
   data () {
     return {
-      msg: 'Highlighted!' // [!code  hl]
+      msg: 'Highlighted!' // [!!code highlight]
     }
   }
 }
@@ -399,7 +399,7 @@ export default {
 export default {
   data() {
     return {
-      msg: 'Highlighted!' // [!code hl]
+      msg: 'Highlighted!' // [!code highlight]
     }
   }
 }
@@ -413,14 +413,12 @@ Additionally, you can define a number of lines to focus using `// [!code focus:<
 
 **Input**
 
-Note that only one space is required after `!code`, here are two to prevent processing.
-
 ````
 ```js
 export default {
   data () {
     return {
-      msg: 'Focused!' // [!code  focus]
+      msg: 'Focused!' // [!!code focus]
     }
   }
 }
@@ -445,15 +443,13 @@ Adding the `// [!code --]` or `// [!code ++]` comments on a line will create a d
 
 **Input**
 
-Note that only one space is required after `!code`, here are two to prevent processing.
-
 ````
 ```js
 export default {
   data () {
     return {
-      msg: 'Removed' // [!code  --]
-      msg: 'Added' // [!code  ++]
+      msg: 'Removed' // [!!code --]
+      msg: 'Added' // [!!code ++]
     }
   }
 }
@@ -479,15 +475,13 @@ Adding the `// [!code warning]` or `// [!code error]` comments on a line will co
 
 **Input**
 
-Note that only one space is required after `!code`, here are two to prevent processing.
-
 ````
 ```js
 export default {
   data () {
     return {
-      msg: 'Error', // [!code  error]
-      msg: 'Warning' // [!code  warning]
+      msg: 'Error', // [!!code error]
+      msg: 'Warning' // [!!code warning]
     }
   }
 }
