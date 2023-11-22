@@ -126,6 +126,9 @@ export interface SiteData<ThemeConfig = any> {
   locales: LocaleConfig<ThemeConfig>
   localeIndex?: string
   contentProps?: Record<string, any>
+  router: {
+    prefetchLinks: boolean
+  }
 }
 
 export type HeadConfig =

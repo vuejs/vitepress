@@ -133,7 +133,6 @@ export async function createVitePressPlugin(
         srcDir,
         markdown,
         pages,
-        config.define,
         config.command === 'build',
         config.base,
         lastUpdated,
@@ -328,14 +327,11 @@ export async function createVitePressPlugin(
 
     generateBundle(_options, bundle) {
       if (ssr) {
-        // @ts-ignore will be removed in vite 5
-        if (config.ssr?.format !== 'cjs') {
-          this.emitFile({
-            type: 'asset',
-            fileName: 'package.json',
-            source: '{ "private": true, "type": "module" }'
-          })
-        }
+        this.emitFile({
+          type: 'asset',
+          fileName: 'package.json',
+          source: '{ "private": true, "type": "module" }'
+        })
       } else {
         // client build:
         // for each .md entry chunk, adjust its name to its correct path.
@@ -350,6 +346,10 @@ export async function createVitePressPlugin(
             bundle[name + '-lean'] = {
               ...chunk,
               fileName: chunk.fileName.replace(/\.js$/, '.lean.js'),
+              preliminaryFileName: chunk.preliminaryFileName.replace(
+                /\.js$/,
+                '.lean.js'
+              ),
               code: chunk.code.replace(staticStripRE, `""`)
             }
 

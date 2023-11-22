@@ -17,6 +17,7 @@ import {
   type PageData,
   type SSGContext
 } from '../shared'
+import { version } from '../../../package.json'
 
 export async function renderPage(
   render: (path: string) => Promise<SSGContext>,
@@ -73,16 +74,16 @@ export async function renderPage(
     config.mpa || (!hasCustom404 && page === '404.md')
       ? []
       : result && appChunk
-      ? [
-          ...new Set([
-            // resolve imports for index.js + page.md.js and inject script tags
-            // for them as well so we fetch everything as early as possible
-            // without having to wait for entry chunks to parse
-            ...resolvePageImports(config, page, result, appChunk),
-            pageClientJsFileName
-          ])
-        ]
-      : []
+        ? [
+            ...new Set([
+              // resolve imports for index.js + page.md.js and inject script tags
+              // for them as well so we fetch everything as early as possible
+              // without having to wait for entry chunks to parse
+              ...resolvePageImports(config, page, result, appChunk),
+              pageClientJsFileName
+            ])
+          ]
+        : []
 
   let prefetchLinks: string[] = []
 
@@ -162,6 +163,7 @@ export async function renderPage(
         ? ''
         : `<meta name="description" content="${description}">`
     }
+    <meta name="generator" content="VitePress v${version}">
     ${stylesheetLink}
     ${metadataScript.inHead ? metadataScript.html : ''}
     ${

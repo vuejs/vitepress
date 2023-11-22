@@ -7,34 +7,34 @@ describe('static data file support in vite 3', () => {
     expect(await page.textContent('pre#basic')).toMatchInlineSnapshot(`
       "[
         {
-          \\"foo\\": true
+          "foo": true
         },
         {
-          \\"bar\\": true
+          "bar": true
         }
       ]"
     `)
     expect(await page.textContent('pre#content')).toMatchInlineSnapshot(`
       "[
         {
-          \\"src\\": \\"---\\\\ntitle: bar\\\\n---\\\\n\\\\nHello\\\\n\\\\n---\\\\n\\\\nworld\\\\n\\",
-          \\"html\\": \\"<p>Hello</p>\\\\n<hr>\\\\n<p>world</p>\\\\n\\",
-          \\"frontmatter\\": {
-            \\"title\\": \\"bar\\"
+          "src": "---\\ntitle: bar\\n---\\n\\nHello\\n\\n---\\n\\nworld\\n",
+          "html": "<p>Hello</p>\\n<hr>\\n<p>world</p>\\n",
+          "frontmatter": {
+            "title": "bar"
           },
-          \\"excerpt\\": \\"<p>Hello</p>\\\\n\\",
-          \\"url\\": \\"/data-loading/content/bar.html\\",
-          \\"transformed\\": true
+          "excerpt": "<p>Hello</p>\\n",
+          "url": "/data-loading/content/bar.html",
+          "transformed": true
         },
         {
-          \\"src\\": \\"---\\\\ntitle: foo\\\\n---\\\\n\\\\nHello\\\\n\\\\n---\\\\n\\\\nworld\\\\n\\",
-          \\"html\\": \\"<p>Hello</p>\\\\n<hr>\\\\n<p>world</p>\\\\n\\",
-          \\"frontmatter\\": {
-            \\"title\\": \\"foo\\"
+          "src": "---\\ntitle: foo\\n---\\n\\nHello\\n\\n---\\n\\nworld\\n",
+          "html": "<p>Hello</p>\\n<hr>\\n<p>world</p>\\n",
+          "frontmatter": {
+            "title": "foo"
           },
-          \\"excerpt\\": \\"<p>Hello</p>\\\\n\\",
-          \\"url\\": \\"/data-loading/content/foo.html\\",
-          \\"transformed\\": true
+          "excerpt": "<p>Hello</p>\\n",
+          "url": "/data-loading/content/foo.html",
+          "transformed": true
         }
       ]"
     `)

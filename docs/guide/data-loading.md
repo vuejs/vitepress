@@ -230,7 +230,7 @@ export { data }
 
 export default defineLoader({
   // type checked loader options
-  glob: ['...'],
+  watch: ['...'],
   async load(): Promise<Data> {
     // ...
   }
