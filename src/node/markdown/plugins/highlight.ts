@@ -147,14 +147,8 @@ export async function highlight(
 
     str = removeMustache(str).trimEnd()
 
-    const result = highlighter.codeToHtml(str, {
+    const highlighted = highlighter.codeToHtml(str, {
       lang,
-      ...(typeof theme === 'string' || 'name' in theme
-        ? { theme }
-        : {
-            themes: theme,
-            defaultColor: false
-          }),
       transformers: [
         ...transformers,
         transformerCompactLineOptions(lineOptions),
@@ -164,9 +158,15 @@ export async function highlight(
           }
         },
         ...userTransformers
-      ]
+      ],
+      ...(typeof theme === 'string' || 'name' in theme
+        ? { theme }
+        : {
+            themes: theme,
+            defaultColor: false
+          }),
     })
 
-    return fillEmptyHighlightedLine(cleanup(restoreMustache(result)))
+    return fillEmptyHighlightedLine(cleanup(restoreMustache(highlighted)))
   }
 }

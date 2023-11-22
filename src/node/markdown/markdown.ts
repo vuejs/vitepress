@@ -67,10 +67,6 @@ export interface MarkdownOptions extends MarkdownIt.Options {
   component?: ComponentPluginOptions
   math?: boolean | any
   container?: ContainerOptions
-
-  /**
-   * Shikiji transformers
-   */
   transformers?: ShikijiTransformer[]
 }
 
