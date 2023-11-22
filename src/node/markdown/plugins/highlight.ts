@@ -69,8 +69,8 @@ export async function highlight(
   const transformers: ShikijiTransformer[] = [
     transformerNotationDiff(),
     transformerNotationFocus({
-      classFocused: 'has-focus',
-      classRootActive: 'has-focused-lines'
+      classActiveLine: 'has-focus',
+      classActivePre: 'has-focused-lines'
     }),
     transformerNotationHighlight(),
     transformerNotationErrorLevel(),

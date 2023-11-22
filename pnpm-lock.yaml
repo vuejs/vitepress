@@ -45,11 +45,11 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
       shikiji:
-        specifier: ^0.7.0-beta.0
-        version: 0.7.0-beta.0
+        specifier: ^0.7.0-beta.1
+        version: 0.7.0-beta.1
       shikiji-transformers:
-        specifier: ^0.7.0-beta.0
-        version: 0.7.0-beta.0
+        specifier: ^0.7.0-beta.1
+        version: 0.7.0-beta.1
       vite:
         specifier: ^5.0.0
         version: 5.0.0(@types/node@20.9.1)
@@ -4163,14 +4163,14 @@ packages:
     resolution: {integrity: sha512-6j1W9l1iAs/4xYBI1SYOVZyFcCis9b4KCLQ8fgAGG07QvzaRLVVRQvAy85yNmmZSjYjg4MWh4gNvlPujU/5LpA==}
     dev: true
 
-  /shikiji-transformers@0.7.0-beta.0:
-    resolution: {integrity: sha512-+OnswF5j56004W39YZUB2sR/joUX+TRVgKqtx0T5bkb8E+QJH7FLkv3jUHLtSrYHfPMV1d3jd948TjVwQTbU5w==}
+  /shikiji-transformers@0.7.0-beta.1:
+    resolution: {integrity: sha512-WW2sKb9MxYCa4gxixUuRB1WMbv7VJT0/dCkWP3FtwWplhhaMq2o5zkreumnTgWWPpW1d2QuNXZ923zG0XThMPw==}
     dependencies:
-      shikiji: 0.7.0-beta.0
+      shikiji: 0.7.0-beta.1
     dev: false
 
-  /shikiji@0.7.0-beta.0:
-    resolution: {integrity: sha512-IfKmgxCxwFWJykS+kI1Hj9QvzszYic64Vqyk+gBTNrD6lVXoayKjc7zPLDFswJLAVZy1F50iYLnAjBGGb5s17Q==}
+  /shikiji@0.7.0-beta.1:
+    resolution: {integrity: sha512-/Kbrv6dTjeztqeS4BeGlLddot/U9bM60N8ovpVjx521Qzqet/h9/sKTSuz/tKPj5omffwGy14LFz0/fnxB33iA==}
     dependencies:
       hast-util-to-html: 9.0.0
     dev: false
