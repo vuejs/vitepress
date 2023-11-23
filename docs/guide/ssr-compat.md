@@ -58,7 +58,7 @@ export default {
   async enhanceApp({ app }) {
     if (!import.meta.env.SSR) {
       const plugin = await import('plugin-that-access-window-on-import')
-      app.use(plugin)
+      app.use(plugin.default)
     }
   }
 }
@@ -74,7 +74,7 @@ export default {
   async enhanceApp({ app }) {
     if (!import.meta.env.SSR) {
       const plugin = await import('plugin-that-access-window-on-import')
-      app.use(plugin)
+      app.use(plugin.default)
     }
   }
 } satisfies Theme
