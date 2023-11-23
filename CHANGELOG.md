@@ -1,3 +1,18 @@
+# [1.0.0-rc.30](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.29...v1.0.0-rc.30) (2023-11-23)
+
+### Bug Fixes
+
+- **client:** no onAfterRouteChanged called after popstate ([#3227](https://github.com/vuejs/vitepress/issues/3227)) ([60fc8fd](https://github.com/vuejs/vitepress/commit/60fc8fd24460eede1dc73768ad0aa53616da746f)), closes [#3226](https://github.com/vuejs/vitepress/issues/3226)
+- **theme:** remove double padding from sidebar ([ef6d8d1](https://github.com/vuejs/vitepress/commit/ef6d8d1e4295c6ff967c17b5b9c20c04843da5a0)), closes [#3228](https://github.com/vuejs/vitepress/issues/3228)
+
+### Features
+
+- migrate to shikiji ([#3237](https://github.com/vuejs/vitepress/pull/3237)) ([75f18e4](https://github.com/vuejs/vitepress/commit/75f18e47334933b642d14b8b69b372cb1ebd4244))
+
+### BREAKING CHANGES
+
+- VitePress now uses shikiji instead of shiki for syntax highlighting. If you're using features like adding extra languages or custom aliases, please refer [shikiji docs](https://github.com/antfu/shikiji) for migration guide or comment on [#3237](https://github.com/vuejs/vitepress/pull/3237) if you need help.
+
 # [1.0.0-rc.29](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.28...v1.0.0-rc.29) (2023-11-19)
 
 ### Bug Fixes
