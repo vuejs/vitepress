@@ -14,7 +14,7 @@ export default defineConfig({
 
   markdown: {
     math: true,
-    shikijiTransformers: [
+    codeTransformers: [
       // We use `[!!code` in demo to prevent transformation, here we revert it back.
       {
         postprocess(code) {
