@@ -61,13 +61,31 @@ export interface MarkdownOptions extends MarkdownIt.Options {
   sfc?: SfcPluginOptions
   theme?: ThemeOptions
   languages?: LanguageInput[]
+  languageAlias?: Record<string, string>
   toc?: TocPluginOptions
   externalLinks?: Record<string, string>
   cache?: boolean
+  /**
+   * Options for `@mdit-vue/plugin-component`
+   * @see https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-component
+   */
   component?: ComponentPluginOptions
+  /**
+   * Enable math support by `markdown-it-mathjax3`
+   * @default false
+   * @see https://vitepress.dev/guide/markdown#math-equations
+   */
   math?: boolean | any
+  /**
+   * Options for `markdown-it-container`
+   * @see https://github.com/markdown-it/markdown-it-container
+   */
   container?: ContainerOptions
-  shikijiTransformers?: ShikijiTransformer[]
+  /**
+   * Transformers applied to code blocks
+   * @see https://github.com/antfu/shikiji#hast-transformers
+   */
+  codeTransformers?: ShikijiTransformer[]
 }
 
 export type MarkdownRenderer = MarkdownIt
@@ -91,7 +109,8 @@ export const createMarkdownRenderer = async (
         options.languages,
         options.defaultHighlightLang,
         logger,
-        options.shikijiTransformers
+        options.codeTransformers,
+        options.languageAlias
       )),
     ...options
   })

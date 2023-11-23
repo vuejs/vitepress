@@ -58,14 +58,16 @@ export async function highlight(
   languages?: LanguageInput[],
   defaultLang: string = '',
   logger: Pick<Logger, 'warn'> = console,
-  userTransformers: ShikijiTransformer[] = []
+  userTransformers: ShikijiTransformer[] = [],
+  languageAlias: Record<string, string> = {}
 ): Promise<(str: string, lang: string, attrs: string) => string> {
   const highlighter = await getHighlighter({
     themes:
       typeof theme === 'string' || 'name' in theme
         ? [theme]
         : [theme.light, theme.dark],
-    langs: languages?.length ? languages : Object.keys(bundledLanguages)
+    langs: languages?.length ? languages : Object.keys(bundledLanguages),
+    langAlias: languageAlias,
   })
 
   const transformers: ShikijiTransformer[] = [

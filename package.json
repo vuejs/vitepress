@@ -101,8 +101,8 @@
     "mark.js": "8.11.1",
     "minisearch": "^6.2.0",
     "mrmime": "^1.0.1",
-    "shikiji": "^0.7.0",
-    "shikiji-transformers": "^0.7.0",
+    "shikiji": "^0.7.1",
+    "shikiji-transformers": "^0.7.1",
     "vite": "^5.0.0",
     "vue": "^3.3.8"
   },
