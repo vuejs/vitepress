@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useData } from '../composables/data'
-import { normalizeLink } from '../support/utils'
 import { useEditLink } from '../composables/edit-link'
 import { usePrevNext } from '../composables/prev-next'
 import VPIconEdit from './icons/VPIconEdit.vue'
@@ -43,16 +42,16 @@ const showFooter = computed(() => {
 
     <nav v-if="control.prev?.link || control.next?.link" class="prev-next">
       <div class="pager">
-        <a v-if="control.prev?.link" class="pager-link prev" :href="normalizeLink(control.prev.link)">
+        <VPLink v-if="control.prev?.link" class="pager-link prev" :href="control.prev.link">
           <span class="desc" v-html="theme.docFooter?.prev || 'Previous page'"></span>
           <span class="title" v-html="control.prev.text"></span>
-        </a>
+        </VPLink>
       </div>
       <div class="pager">
-        <a v-if="control.next?.link" class="pager-link next" :href="normalizeLink(control.next.link)">
+        <VPLink v-if="control.next?.link" class="pager-link next" :href="control.next.link">
           <span class="desc" v-html="theme.docFooter?.next || 'Next page'"></span>
           <span class="title" v-html="control.next.text"></span>
-        </a>
+        </VPLink>
       </div>
     </nav>
   </footer>
