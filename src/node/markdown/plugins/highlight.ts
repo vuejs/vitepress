@@ -67,7 +67,7 @@ export async function highlight(
         ? [theme]
         : [theme.light, theme.dark],
     langs: languages?.length ? languages : Object.keys(bundledLanguages),
-    langAlias: languageAlias,
+    langAlias: languageAlias
   })
 
   const transformers: ShikijiTransformer[] = [
