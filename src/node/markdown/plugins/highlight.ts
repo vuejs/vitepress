@@ -55,7 +55,7 @@ const attrsToLines = (attrs: string): TransformerCompactLineOption[] => {
 
 export async function highlight(
   theme: ThemeOptions,
-  languages?: LanguageInput[],
+  languages: LanguageInput[] = [],
   defaultLang: string = '',
   logger: Pick<Logger, 'warn'> = console,
   userTransformers: ShikijiTransformer[] = [],
@@ -66,7 +66,7 @@ export async function highlight(
       typeof theme === 'string' || 'name' in theme
         ? [theme]
         : [theme.light, theme.dark],
-    langs: languages?.length ? languages : Object.keys(bundledLanguages),
+    langs: [...Object.keys(bundledLanguages), ...languages],
     langAlias: languageAlias
   })
 
