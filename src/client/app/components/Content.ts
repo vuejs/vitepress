@@ -20,7 +20,8 @@ export const Content = defineComponent({
           route.component
             ? h(route.component, {
                 onVnodeMounted: runCbs,
-                onVnodeUpdated: runCbs
+                onVnodeUpdated: runCbs,
+                onVnodeUnmounted: runCbs
               })
             : '404 Page Not Found'
         ]
