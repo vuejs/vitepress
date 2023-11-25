@@ -1,3 +1,10 @@
+# [1.0.0-rc.31](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.30...v1.0.0-rc.31) (2023-11-25)
+
+### Bug Fixes
+
+- **build:** make assets go through vite pipeline during dev too ([#3258](https://github.com/vuejs/vitepress/issues/3258)) ([c3d7f22](https://github.com/vuejs/vitepress/commit/c3d7f22bd313b09e6965ac3125ea662ce283ed2d))
+- **theme:** use VPLink for links in VPDocFooter ([#3248](https://github.com/vuejs/vitepress/issues/3248)) ([479a320](https://github.com/vuejs/vitepress/commit/479a320731313b8e7e0bad3f8383ae6bc05ed8e2))
+
 # [1.0.0-rc.30](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.29...v1.0.0-rc.30) (2023-11-23)
 
 ### Bug Fixes
