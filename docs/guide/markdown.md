@@ -305,7 +305,7 @@ export default {
 </ul>
 ```
 
-A [list of valid languages](https://github.com/shikijs/shiki/blob/main/docs/languages.md) is available on Shiki's repository.
+A [list of valid languages](https://github.com/antfu/shikiji/blob/main/docs/languages.md) is available on Shikiji's repository.
 
 You may also customize syntax highlight theme in app config. Please see [`markdown` options](../reference/site-config#markdown) for more details.
 
