@@ -116,7 +116,7 @@ import DefaultTheme from 'vitepress/theme'
 
 export default {
   extends: DefaultTheme,
-  async enhanceApp({ app }) {
+  enhanceApp({ app }) {
     // register your custom global components
     app.component('MyGlobalComponent' /* ... */)
   }
