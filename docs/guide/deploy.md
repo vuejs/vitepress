@@ -110,7 +110,7 @@ Note: the `vercel.json` file should be placed at the root of your **repository**
 Set up a new project and change these settings using your dashboard:
 
 - **Build Command:** `npm run docs:build`
-- **Output Directory:** `docs/.vitepress/dist`
+- **Output Directory:** `.vitepress/dist`
 - **Node Version:** `18` (or above)
 
 ::: warning
@@ -157,6 +157,8 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
            with:
              fetch-depth: 0 # Not needed if lastUpdated is not enabled
          # - uses: pnpm/action-setup@v2 # Uncomment this if you're using pnpm
+         #   with:
+         #     version: latest
          # - uses: oven-sh/setup-bun@v1 # Uncomment this if you're using Bun
          - name: Setup Node
            uses: actions/setup-node@v3
@@ -170,11 +172,11 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
          - name: Build with VitePress
            run: |
              npm run docs:build # or pnpm docs:build / yarn docs:build / bun run docs:build
-             touch docs/.vitepress/dist/.nojekyll
+             touch .vitepress/dist/.nojekyll
          - name: Upload artifact
            uses: actions/upload-pages-artifact@v2
            with:
-             path: docs/.vitepress/dist
+             path: .vitepress/dist
 
      # Deployment job
      deploy:
@@ -228,7 +230,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 2. Set these values in your configuration file (and remove the ones you don't require, like `api_location`):
 
    - **`app_location`**: `/`
-   - **`output_location`**: `docs/.vitepress/dist`
+   - **`output_location`**: `.vitepress/dist`
    - **`app_build_command`**: `npm run docs:build`
 
 ### Firebase
@@ -240,7 +242,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
    ```json
    {
      "hosting": {
-       "public": "docs/.vitepress/dist",
+       "public": ".vitepress/dist",
        "ignore": []
      }
    }
@@ -267,7 +269,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 1. After running `npm run docs:build`, run this command to deploy:
 
    ```sh
-   npx surge docs/.vitepress/dist
+   npx surge .vitepress/dist
    ```
 
 ### Heroku
@@ -278,7 +280,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
    ```json
    {
-     "root": "docs/.vitepress/dist"
+     "root": ".vitepress/dist"
    }
    ```
 
