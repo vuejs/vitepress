@@ -24,6 +24,29 @@ export default {
 }
 ```
 
+In case of dynamic config, you can also default export a function:
+
+```js
+export default async () => {
+  const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
+
+  return {
+    lang: 'en-US',
+    title: 'VitePress',
+    description: 'Vite & Vue powered static site generator.',
+    // theme config options
+    themeConfig: { 
+      sidebar: [
+        ...posts.map(post => ({
+          text: post.name, 
+          link: `/posts/${post.name}`
+        }))
+      ]
+    }
+  };
+}
+```
+
 ### Config Intellisense
 
 Using the `defineConfig` helper will provide TypeScript-powered intellisense for config options. Assuming your IDE supports it, this should work in both JavaScript and TypeScript.
