@@ -345,6 +345,7 @@ export namespace DefaultTheme {
     desc?: string
     links?: SocialLink[]
     sponsor?: string
+    sponsor_text?: string
   }
 
   // outline -------------------------------------------------------------------
