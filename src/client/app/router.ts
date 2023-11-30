@@ -183,7 +183,10 @@ export function createRouter(
           )
 
           // temporary fix for #3264
-          if (siteDataRef.value.themeConfig?.logoLink === origin) return
+          if (
+            siteDataRef.value.themeConfig?.logoLink === href.replace(/\/$/, '')
+          )
+            return
 
           const currentUrl = window.location
           const mimeType = lookup(pathname)
