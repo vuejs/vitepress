@@ -166,11 +166,6 @@ export function createRouter(
         const button = (e.target as Element).closest('button')
         if (button) return
 
-        // temporary fix for #3264
-        const currentUrl = window.location
-        if (siteDataRef.value.themeConfig?.logoLink === currentUrl.origin)
-          return
-
         const link = (e.target as Element | SVGElement).closest<
           HTMLAnchorElement | SVGAElement
         >('a')
@@ -186,6 +181,11 @@ export function createRouter(
               : link.href,
             link.baseURI
           )
+
+          // temporary fix for #3264
+          if (siteDataRef.value.themeConfig?.logoLink === origin) return
+
+          const currentUrl = window.location
           const mimeType = lookup(pathname)
           // only intercept inbound links
           if (
