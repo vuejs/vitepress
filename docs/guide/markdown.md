@@ -852,10 +852,11 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 VitePress uses [markdown-it](https://github.com/markdown-it/markdown-it) as the Markdown renderer. A lot of the extensions above are implemented via custom plugins. You can further customize the `markdown-it` instance using the `markdown` option in `.vitepress/config.js`:
 
 ```js
+import { defineConfig } from 'vitepress'
 import markdownItAnchor from 'markdown-it-anchor'
 import markdownItFoo from 'markdown-it-foo'
 
-module.exports = {
+export default defineConfig({
   markdown: {
     // options for markdown-it-anchor
     // https://github.com/valeriangalliat/markdown-it-anchor#usage
@@ -872,7 +873,7 @@ module.exports = {
       md.use(markdownItFoo)
     }
   }
-}
+})
 ```
 
 See full list of configurable properties in [Config Reference: App Config](../reference/site-config#markdown).
