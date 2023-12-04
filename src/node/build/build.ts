@@ -106,24 +106,30 @@ export async function build(
         }
       }
 
-      await Promise.all(
-        ['404.md', ...siteConfig.pages]
-          .map((page) => siteConfig.rewrites.map[page] || page)
-          .map((page) =>
-            renderPage(
-              render,
-              siteConfig,
-              page,
-              clientResult,
-              appChunk,
-              cssChunk,
-              assets,
-              pageToHashMap,
-              metadataScript,
-              additionalHeadTags
+      const pages = ['404.md', ...siteConfig.pages]
+      const batchSize = 100
+
+      for (let i = 0; i < pages.length; i += batchSize) {
+        const batch = pages.slice(i, i + batchSize)
+        await Promise.all(
+          batch
+            .map((page) => siteConfig.rewrites.map[page] || page)
+            .map((page) =>
+              renderPage(
+                render,
+                siteConfig,
+                page,
+                clientResult,
+                appChunk,
+                cssChunk,
+                assets,
+                pageToHashMap,
+                metadataScript,
+                additionalHeadTags
+              )
             )
-          )
-      )
+        )
+      }
     })
 
     // emit page hash map for the case where a user session is open
