@@ -22,6 +22,9 @@ if (root) {
 
 let restartPromise: Promise<void> | undefined
 
+argv.configFile = argv.config
+delete argv.config
+
 if (!command || command === 'dev') {
   if (argv.force) {
     delete argv.force

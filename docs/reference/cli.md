@@ -16,14 +16,15 @@ vitepress dev [root]
 
 ### Options
 
-| Option          | Description                                                       |
-| --------------- | ----------------------------------------------------------------- |
-| `--open [path]` | Open browser on startup (`boolean \| string`)                     |
-| `--port <port>` | Specify port (`number`)                                           |
-| `--base <path>` | Public base path (default: `/`) (`string`)                        |
-| `--cors`        | Enable CORS                                                       |
-| `--strictPort`  | Exit if specified port is already in use (`boolean`)              |
-| `--force`       | Force the optimizer to ignore the cache and re-bundle (`boolean`) |
+| Option            | Description                                                       |
+| ----------------- | ----------------------------------------------------------------- |
+| `--open [path]`   | Open browser on startup (`boolean \| string`)                     |
+| `--port <port>`   | Specify port (`number`)                                           |
+| `--base <path>`   | Public base path (default: `/`) (`string`)                        |
+| `--config <file>` | Use specified config file (`string`)                              |
+| `--cors`          | Enable CORS                                                       |
+| `--strictPort`    | Exit if specified port is already in use (`boolean`)              |
+| `--force`         | Force the optimizer to ignore the cache and re-bundle (`boolean`) |
 
 ## `vitepress build`
 
@@ -41,6 +42,7 @@ vitepress build [root]
 | ------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
 | `--mpa` (experimental)         | Build in [MPA mode](../guide/mpa-mode) without client-side hydration (`boolean`)                                    |
 | `--base <path>`                | Public base path (default: `/`) (`string`)                                                                          |
+| `--config <file>`              | Use specified config file (`string`)                                                                                |
 | `--target <target>`            | Transpile target (default: `"modules"`) (`string`)                                                                  |
 | `--outDir <dir>`               | Output directory relative to **cwd** (default: `<root>/.vitepress/dist`) (`string`)                                 |
 | `--minify [minifier]`          | Enable/disable minification, or specify minifier to use (default: `"esbuild"`) (`boolean \| "terser" \| "esbuild"`) |
