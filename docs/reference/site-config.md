@@ -437,6 +437,19 @@ export default {
 }
 ```
 
+### themeDir
+
+- Type: `string`
+- Default: `./.vitepress/theme` if exists, otherwise [Default Theme](../guide/extending-default-theme) path.
+
+The directory of the [theme entry file](../guide/custom-theme#theme-resolving), relative to [project root](../guide/routing#root-and-source-directory).
+
+```ts
+export default {
+  themeDir: './awesome-theme'
+}
+```
+
 ### ignoreDeadLinks
 
 - Type: `boolean | 'localhostLinks' | (string | RegExp | ((link: string) => boolean))[]`

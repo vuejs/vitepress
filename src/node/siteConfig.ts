@@ -64,6 +64,7 @@ export interface UserConfig<ThemeConfig = any>
   outDir?: string
   assetsDir?: string
   cacheDir?: string
+  themeDir?: string
 
   shouldPreload?: (link: string, page: string) => boolean
 
