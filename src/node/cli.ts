@@ -20,6 +20,9 @@ if (root) {
   argv.root = root
 }
 
+argv.configFile = argv.config
+delete argv.config
+
 if (!command || command === 'dev') {
   if (argv.force) {
     delete argv.force

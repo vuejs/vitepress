@@ -55,7 +55,8 @@ export function defineConfigWithTheme<ThemeConfig>(
 export async function resolveConfig(
   root: string = process.cwd(),
   command: 'serve' | 'build' = 'serve',
-  mode = 'development'
+  mode = 'development',
+  configFile?: string
 ): Promise<SiteConfig> {
   // normalize root into absolute path
   root = normalizePath(path.resolve(root))
@@ -63,7 +64,8 @@ export async function resolveConfig(
   const [userConfig, configPath, configDeps] = await resolveUserConfig(
     root,
     command,
-    mode
+    mode,
+    configFile
   )
 
   const logger =
@@ -158,14 +160,15 @@ const supportedConfigExtensions = ['js', 'ts', 'mjs', 'mts']
 export async function resolveUserConfig(
   root: string,
   command: 'serve' | 'build',
-  mode: string
+  mode: string,
+  configFile?: string
 ): Promise<[UserConfig, string | undefined, string[]]> {
   // load user config
-  const configPath = supportedConfigExtensions
+  const configPath = (configFile ? [configFile] : supportedConfigExtensions
     .flatMap((ext) => [
       resolve(root, `config/index.${ext}`),
       resolve(root, `config.${ext}`)
-    ])
+    ]))
     .find(fs.pathExistsSync)
 
   let userConfig: RawConfigExports = {}

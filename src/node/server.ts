@@ -4,10 +4,16 @@ import { createVitePressPlugin } from './plugin'
 
 export async function createServer(
   root: string = process.cwd(),
-  serverOptions: ServerOptions & { base?: string } = {},
+  serverOptions: ServerOptions & { base?: string; configFile?: string } = {},
   recreateServer?: () => Promise<void>
 ) {
-  const config = await resolveConfig(root)
+  const config = await resolveConfig(
+    root,
+    'serve',
+    'development',
+    serverOptions.configFile
+  )
+  delete serverOptions.configFile
 
   if (serverOptions.base) {
     config.site.base = serverOptions.base
