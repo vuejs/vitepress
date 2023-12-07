@@ -12,6 +12,7 @@ import path from 'path'
 import { cyan, bold, yellow } from 'picocolors'
 import { fileURLToPath } from 'url'
 import template from 'lodash.template'
+import { version } from '../../../package.json'
 
 export enum ScaffoldThemeType {
   Default = 'default theme',
@@ -205,7 +206,15 @@ export function scaffold({
       'docs:build': `vitepress build${dir}`,
       'docs:preview': `vitepress preview${dir}`
     }
+    const devDependencies = { vitepress: `${version}` }
+
     Object.assign(userPkg.scripts || (userPkg.scripts = {}), scripts)
+
+    Object.assign(
+      userPkg.devDependencies || (userPkg.devDependencies = {}),
+      devDependencies
+    )
+
     fs.writeFileSync(pkgPath, JSON.stringify(userPkg, null, 2))
     return `Done! Now run ${cyan(
       `${getPackageManger()} run docs:dev`
