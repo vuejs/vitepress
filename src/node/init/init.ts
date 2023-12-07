@@ -206,7 +206,7 @@ export function scaffold({
       'docs:build': `vitepress build${dir}`,
       'docs:preview': `vitepress preview${dir}`
     }
-    const devDependencies = { vitepress: `${version}` }
+    const devDependencies = { vitepress: `^${version}` }
 
     Object.assign(userPkg.scripts || (userPkg.scripts = {}), scripts)
 
