@@ -97,6 +97,16 @@ export namespace DefaultTheme {
     darkModeSwitchLabel?: string
 
     /**
+     * @default 'Switch to light theme'
+     */
+    lightModeSwitchTitle?: string
+
+    /**
+     * @default 'Switch to dark theme'
+     */
+    darkModeSwitchTitle?: string
+
+    /**
      * @default 'Menu'
      */
     sidebarMenuLabel?: string

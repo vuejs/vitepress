@@ -5,14 +5,18 @@ import VPSwitch from './VPSwitch.vue'
 import VPIconMoon from './icons/VPIconMoon.vue'
 import VPIconSun from './icons/VPIconSun.vue'
 
-const { isDark } = useData()
+const { isDark, theme } = useData()
 
 const toggleAppearance = inject('toggle-appearance', () => {
   isDark.value = !isDark.value
 })
 
+const lightModeSwitchTitle = computed(() => theme.value.lightModeSwitchTitle || 'Switch to light theme')
+
+const darkModeSwitchLabel = computed(() => theme.value.darkModeSwitchTitle || 'Switch to dark theme')
+
 const switchTitle = computed(() => {
-  return isDark.value ? 'Switch to light theme' : 'Switch to dark theme'
+  return isDark.value ? lightModeSwitchTitle.value : darkModeSwitchLabel.value
 })
 </script>
 
