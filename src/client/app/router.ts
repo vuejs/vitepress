@@ -213,7 +213,7 @@ export function createRouter(
         if (!failedLangFallbackLang) return
         if (!langNames.includes(failedLangFallbackLang)) {
           console.warn(
-            `No keys in 'locales' with the name of 'locales.${failedLang}.fallback'! RECIVED '${failedLangFallbackLang}'`
+            `Invalid value received in "VitePress Config" > "locales.${failedLang}.fallback"! "${failedLangFallbackLang}" is not a valid value.`
           )
           return
         }
@@ -236,7 +236,7 @@ export function createRouter(
         if (!fallbackLang) return
         if (!langNames.includes(fallbackLang)) {
           console.warn(
-            `No keys in 'locales' with the name of 'locales.root.fallback'! RECIVED '${fallbackLang}'`
+            `Invalid value received in "VitePress Config" > "locales.root.fallback"! "${fallbackLang}" is not a valid value.`
           )
           return
         }
