@@ -74,7 +74,14 @@ export function createRouter(
 
   let latestPendingPath: string | null = null
 
-  async function loadPage(href: string, scrollPosition = 0, isRetry = false) {
+  async function loadPage(
+    href: string,
+    scrollPosition = 0,
+    isRetry = false,
+    alreadyTriedLoadingRootFallback = false
+  ) {
+    let fallbackLoaded = false
+
     if ((await router.onBeforePageLoad?.(href)) === false) return
     const targetLoc = new URL(href, fakeHost)
     const pendingPath = (latestPendingPath = targetLoc.pathname)
@@ -149,11 +156,96 @@ export function createRouter(
         } catch (e) {}
       }
 
-      if (latestPendingPath === pendingPath) {
+      if (!alreadyTriedLoadingRootFallback) {
+        fallbackLoaded = await loadPageFallback()
+      }
+
+      if (!fallbackLoaded && latestPendingPath === pendingPath) {
         latestPendingPath = null
         route.path = inBrowser ? pendingPath : withBase(pendingPath)
         route.component = fallbackComponent ? markRaw(fallbackComponent) : null
         route.data = notFoundPageData
+      }
+    }
+
+    // If failed to find the page, maybe it's not translated yet! if so, please fallback :)
+    async function loadPageFallback() {
+      const locales = siteDataRef.value.locales
+      if (!locales) return fallbackLoaded
+      const namedLocales = Object.fromEntries(
+        Object.entries(siteDataRef.value.locales).filter(
+          ([name]) => name !== 'root'
+        )
+      )
+      if (!Object.entries(namedLocales).length) return fallbackLoaded
+
+      const langNames = Object.keys(namedLocales)
+
+      const failedLang = langNames.find(
+        (lang) =>
+          pendingPath === `/${lang}` || pendingPath.startsWith(`/${lang}/`)
+      )
+
+      if (failedLang) {
+        const fallbackLang =
+          getFailedLangFallbackLang() ?? getCustomFallbackLang()
+
+        if (fallbackLang) {
+          await loadPage(
+            pendingPath.replace(`/${failedLang}`, `/${fallbackLang}`)
+          )
+          return fallbackLoaded
+        } else {
+          await loadPage(pendingPath.replace(`/${failedLang}`, ''))
+          return fallbackLoaded
+        }
+      } else {
+        const rootRouteFallbackPath = getRootRouteFallbackPath()
+
+        if (rootRouteFallbackPath) {
+          await loadPage(rootRouteFallbackPath, 0, true, true)
+        }
+        return fallbackLoaded
+      }
+
+      function getFailedLangFallbackLang() {
+        const failedLangFallbackLang = locales[failedLang!]?.fallback
+        if (!failedLangFallbackLang) return
+        if (!langNames.includes(failedLangFallbackLang)) {
+          console.warn(
+            `No keys in 'locales' with the name of 'locales.${failedLang}.fallback'! RECIVED '${failedLangFallbackLang}'`
+          )
+          return
+        }
+
+        return failedLangFallbackLang
+      }
+
+      function getCustomFallbackLang() {
+        const customFallbackLang = Object.entries(namedLocales).filter(
+          ([_, values]) => values.useAsFallback
+        )?.[0]?.[0]
+        if (customFallbackLang && customFallbackLang !== failedLang) {
+          return customFallbackLang
+        }
+      }
+
+      function getRootRouteFallbackPath() {
+        const fallbackLang = locales['root']?.fallback
+
+        if (!fallbackLang) return
+        if (!langNames.includes(fallbackLang)) {
+          console.warn(
+            `No keys in 'locales' with the name of 'locales.root.fallback'! RECIVED '${fallbackLang}'`
+          )
+          return
+        }
+
+        return pendingPath === '/'
+          ? `/${fallbackLang}`
+          : `/${fallbackLang}${
+              pendingPath.startsWith('/') ? pendingPath : `/${pendingPath}`
+            }`
       }
     }
   }

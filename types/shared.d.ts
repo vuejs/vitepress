@@ -156,7 +156,12 @@ export interface LocaleSpecificConfig<ThemeConfig = any> {
 
 export type LocaleConfig<ThemeConfig = any> = Record<
   string,
-  LocaleSpecificConfig<ThemeConfig> & { label: string; link?: string }
+  LocaleSpecificConfig<ThemeConfig> & {
+    label: string
+    link?: string
+    fallback?: string
+    useAsFallback?: boolean
+  }
 >
 
 // Manually declaring all properties as rollup-plugin-dts
