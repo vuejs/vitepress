@@ -1,0 +1,41 @@
+name: Issue Labeled
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  contents: read
+
+jobs:
+  reply-labeled:
+    permissions:
+      issues: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: help wanted
+        if: github.event.label.name == 'contribution welcome' || github.event.label.name == 'help wanted'
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: 'create-comment'
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            Hello @${{ github.event.issue.user.login }}. We totally like your proposal/feedback, welcome to [send us a Pull Request](https://help.github.com/en/articles/creating-a-pull-request) for it. Please send your Pull Request to `main` branch, provide TypeScript/documentation/test cases if needed and make sure CI passed, we will review it soon. We appreciate your effort in advance and looking forward to your contribution!
+
+      - name: need more info
+        if: github.event.label.name == 'need reproduce' || github.event.label.name == 'need more info'
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: 'create-comment'
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            Hello @${{ github.event.issue.user.login }}. Please provide an online reproduction demo by [stackblitz](https://stackblitz.com/edit/vite-7vr5lz) or a minimal GitHub repository. Issues marked with `need reproduce` will be closed if there is no activity within 3 days. For background, please refer to [Why reproductions are required](https://antfu.me/posts/why-reproductions-are-required).
+
+      - name: invalid
+        if: github.event.label.name == 'invalid'
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: 'create-comment, close-issue'
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            Hello @${{ github.event.issue.user.login }}, your issue has been closed because it does not conform to our issue requirements.
