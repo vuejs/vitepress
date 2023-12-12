@@ -68,7 +68,7 @@ $ npx vitepress init
 ```
 
 ```sh [pnpm]
-$ pnpm vitepress init
+$ pnpm dlx vitepress init
 ```
 
 ```sh [bun]
