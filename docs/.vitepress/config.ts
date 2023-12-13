@@ -1,8 +1,11 @@
 import { createRequire } from 'module'
-import { defineConfig, type DefaultTheme } from 'vitepress'
+import { defineConfig, type DefaultTheme, HeadConfig } from 'vitepress'
+import { inBrowser } from '../../src/shared/shared.ts'
 
 const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
+
+const isHTTPS = inBrowser && window.location.protocol === 'https:'
 
 export default defineConfig({
   lang: 'en-US',
@@ -40,7 +43,9 @@ export default defineConfig({
     ['meta', { name: 'og:locale', content: 'en' }],
     ['meta', { name: 'og:site_name', content: 'VitePress' }],
     ['meta', { name: 'og:image', content: 'https://vitepress.dev/vitepress-og.jpg' }],
-    ['script', { src: 'https://cdn.usefathom.com/script.js', 'data-site': 'AZBRSFGG', 'data-spa': 'auto', defer: '' }]
+    ...(isHTTPS
+    ? [['script', { src: 'https://cdn.usefathom.com/script.js', 'data-site': 'AZBRSFGG', 'data-spa': 'auto', defer: '' }]]
+    : []) as HeadConfig[]
   ],
 
   themeConfig: {
