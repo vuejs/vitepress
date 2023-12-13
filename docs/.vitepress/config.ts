@@ -1,5 +1,5 @@
 import { createRequire } from 'module'
-import { defineConfig, type DefaultTheme, HeadConfig } from 'vitepress'
+import { defineConfig, type DefaultTheme, type HeadConfig } from 'vitepress'
 import { inBrowser } from '../../src/shared/shared.ts'
 
 const require = createRequire(import.meta.url)
