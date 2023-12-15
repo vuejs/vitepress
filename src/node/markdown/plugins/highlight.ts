@@ -79,7 +79,7 @@ export async function highlight(
     transformerNotationHighlight(),
     transformerNotationErrorLevel(),
     {
-      name: 'vitepress:add-vp-code-class',
+      name: 'vitepress:add-class',
       pre(node) {
         addClassToHast(node, 'vp-code')
       }
@@ -157,6 +157,12 @@ export async function highlight(
       transformers: [
         ...transformers,
         transformerCompactLineOptions(lineOptions),
+        {
+          name: 'vitepress:v-pre',
+          pre(node) {
+            if (vPre) node.properties['v-pre'] = ''
+          }
+        },
         ...userTransformers
       ],
       meta: {
