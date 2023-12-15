@@ -163,6 +163,9 @@ export async function highlight(
         transformerCompactLineOptions(lineOptions),
         ...userTransformers
       ],
+      meta: {
+        __raw: attrs
+      },
       ...(typeof theme === 'string' || 'name' in theme
         ? { theme }
         : {
