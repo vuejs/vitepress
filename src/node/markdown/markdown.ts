@@ -107,7 +107,7 @@ export interface MarkdownOptions extends MarkdownIt.Options {
   /**
    * Setup Shikiji instance
    */
-  shikijiSetup?: (shikiji: Highlighter) => Promise<void>
+  shikijiSetup?: (shikiji: Highlighter) => void | Promise<void>
 
   /* ==================== Markdown It Plugins ==================== */
 
