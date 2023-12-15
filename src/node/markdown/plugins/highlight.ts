@@ -164,7 +164,7 @@ export async function highlight(
         ...userTransformers
       ],
       meta: {
-        __raw: attrs,
+        __raw: attrs
       },
       ...(typeof theme === 'string' || 'name' in theme
         ? { theme }
