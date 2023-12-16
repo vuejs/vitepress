@@ -849,7 +849,7 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
 ## Image Lazy Loading
 
-You can enable lazy loading for each image tag in the content via config:
+You can enable lazy loading for each image in the content via config:
 
 ```js
 // image lazy loading is disabled by default
