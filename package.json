@@ -101,10 +101,10 @@
     "mark.js": "8.11.1",
     "minisearch": "^6.3.0",
     "mrmime": "^1.0.1",
-    "shikiji": "0.9.2",
-    "shikiji-transformers": "0.9.2",
+    "shikiji": "^0.9.7",
+    "shikiji-transformers": "^0.9.7",
     "vite": "^5.0.10",
-    "vue": "^3.3.11"
+    "vue": "^3.3.12"
   },
   "peerDependencies": {
     "markdown-it-mathjax3": "^4.3.2",
@@ -147,7 +147,7 @@
     "@types/node": "^20.10.4",
     "@types/postcss-prefix-selector": "^1.16.3",
     "@types/prompts": "^2.4.9",
-    "@vue/shared": "^3.3.11",
+    "@vue/shared": "^3.3.12",
     "chokidar": "^3.5.3",
     "compression": "^1.7.4",
     "conventional-changelog-cli": "^4.1.0",
@@ -188,6 +188,7 @@
     "rollup-plugin-dts": "^6.1.0",
     "rollup-plugin-esbuild": "^6.1.0",
     "semver": "^7.5.4",
+    "shikiji-core": "^0.9.7",
     "simple-git-hooks": "^2.9.0",
     "sirv": "^2.0.3",
     "sitemap": "^7.1.1",
