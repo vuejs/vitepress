@@ -1,6 +1,6 @@
 import { customAlphabet } from 'nanoid'
 import c from 'picocolors'
-import type { LanguageInput, ShikijiTransformer } from 'shikiji'
+import type { ShikijiTransformer } from 'shikiji'
 import {
   bundledLanguages,
   getHighlighter,
@@ -9,7 +9,7 @@ import {
   isSpecialLang
 } from 'shikiji'
 import type { Logger } from 'vite'
-import type { ThemeOptions } from '../markdown'
+import type { MarkdownOptions, ThemeOptions } from '../markdown'
 import {
   transformerCompactLineOptions,
   transformerNotationDiff,
@@ -55,20 +55,24 @@ const attrsToLines = (attrs: string): TransformerCompactLineOption[] => {
 
 export async function highlight(
   theme: ThemeOptions,
-  languages: LanguageInput[] = [],
-  defaultLang: string = '',
-  logger: Pick<Logger, 'warn'> = console,
-  userTransformers: ShikijiTransformer[] = [],
-  languageAlias: Record<string, string> = {}
+  options: MarkdownOptions,
+  logger: Pick<Logger, 'warn'> = console
 ): Promise<(str: string, lang: string, attrs: string) => string> {
+  const {
+    defaultHighlightLang: defaultLang = '',
+    codeTransformers: userTransformers = []
+  } = options
+
   const highlighter = await getHighlighter({
     themes:
       typeof theme === 'string' || 'name' in theme
         ? [theme]
         : [theme.light, theme.dark],
-    langs: [...Object.keys(bundledLanguages), ...languages],
-    langAlias: languageAlias
+    langs: [...Object.keys(bundledLanguages), ...(options.languages || [])],
+    langAlias: options.languageAlias
   })
+
+  await options?.shikijiSetup?.(highlighter)
 
   const transformers: ShikijiTransformer[] = [
     transformerNotationDiff(),
