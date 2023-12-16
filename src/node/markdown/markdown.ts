@@ -202,7 +202,7 @@ export const createMarkdownRenderer = async (
     .use(preWrapperPlugin, { hasSingleTheme })
     .use(snippetPlugin, srcDir)
     .use(containerPlugin, { hasSingleTheme }, options.container)
-    .use(imagePlugin, options?.lazyLoading)
+    .use(imagePlugin, options.lazyLoading)
     .use(
       linkPlugin,
       { target: '_blank', rel: 'noreferrer', ...options.externalLinks },
