@@ -95,22 +95,6 @@ export async function createVitePressPlugin(
     }
   }
 
-  const getMergedAssetUrlOptions = () => {
-    const { transformAssetUrls } = userVuePluginOptions?.template ?? {}
-    const assetUrlOptions = { includeAbsolute: true }
-
-    if (transformAssetUrls && typeof transformAssetUrls === 'object') {
-      // presence of array fields means this is raw tags config
-      if (Object.values(transformAssetUrls).some((val) => Array.isArray(val))) {
-        return { ...assetUrlOptions, tags: transformAssetUrls as any }
-      } else {
-        return { ...assetUrlOptions, ...transformAssetUrls }
-      }
-    } else {
-      return assetUrlOptions
-    }
-  }
-
   // lazy require plugin-vue to respect NODE_ENV in @vue/compiler-x
   const vuePlugin = await import('@vitejs/plugin-vue').then((r) =>
     r.default({
@@ -121,8 +105,7 @@ export async function createVitePressPlugin(
         compilerOptions: {
           ...userVuePluginOptions?.template?.compilerOptions,
           isCustomElement
-        },
-        transformAssetUrls: getMergedAssetUrlOptions()
+        }
       }
     })
   )
