@@ -165,6 +165,11 @@ export interface MarkdownOptions extends MarkdownIt.Options {
    * @see https://vitepress.dev/guide/markdown#math-equations
    */
   math?: boolean | any
+  /**
+   * Support native lazy loading for the <img> tag.
+   * @default false
+   */
+  lazyLoading?: boolean
 }
 
 export type MarkdownRenderer = MarkdownIt
@@ -197,7 +202,7 @@ export const createMarkdownRenderer = async (
     .use(preWrapperPlugin, { hasSingleTheme })
     .use(snippetPlugin, srcDir)
     .use(containerPlugin, { hasSingleTheme }, options.container)
-    .use(imagePlugin)
+    .use(imagePlugin, options?.lazyLoading)
     .use(
       linkPlugin,
       { target: '_blank', rel: 'noreferrer', ...options.externalLinks },

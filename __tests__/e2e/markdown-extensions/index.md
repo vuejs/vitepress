@@ -196,3 +196,7 @@ export default config
 ## Markdown File Inclusion with Range without End
 
 <!--@include: ./foo.md{6,}-->
+
+## Image Lazy Loading
+
+![vitepress logo](/vitepress.png)
