@@ -79,14 +79,20 @@ export async function highlight(
     transformerNotationHighlight(),
     transformerNotationErrorLevel(),
     {
+      name: 'vitepress:add-class',
       pre(node) {
         addClassToHast(node, 'vp-code')
+      }
+    },
+    {
+      name: 'vitepress:clean-up',
+      pre(node) {
+        delete node.properties.tabindex
+        delete node.properties.style
       }
     }
   ]
 
-  const styleRE = /<pre[^>]*(style=".*?")/
-  const preRE = /^<pre(.*?)>/
   const vueRE = /-vue$/
   const lineNoStartRE = /=(\d*)/
   const lineNoRE = /:(no-)?line-numbers(=\d*)?$/
@@ -116,16 +122,6 @@ export async function highlight(
     }
 
     const lineOptions = attrsToLines(attrs)
-    const cleanup = (str: string) => {
-      return str
-        .replace(
-          preRE,
-          (_, attributes) =>
-            `<pre ${vPre}${attributes.replace(' tabindex="0"', '')}>`
-        )
-        .replace(styleRE, (_, style) => _.replace(style, ''))
-    }
-
     const mustaches = new Map<string, string>()
 
     const removeMustache = (s: string) => {
@@ -161,6 +157,12 @@ export async function highlight(
       transformers: [
         ...transformers,
         transformerCompactLineOptions(lineOptions),
+        {
+          name: 'vitepress:v-pre',
+          pre(node) {
+            if (vPre) node.properties['v-pre'] = ''
+          }
+        },
         ...userTransformers
       ],
       meta: {
@@ -174,6 +176,6 @@ export async function highlight(
           })
     })
 
-    return fillEmptyHighlightedLine(cleanup(restoreMustache(highlighted)))
+    return fillEmptyHighlightedLine(restoreMustache(highlighted))
   }
 }
