@@ -5,8 +5,11 @@ import { getHeaders, resolveTitle, type MenuItem } from '../composables/outline'
 import VPDocOutlineItem from './VPDocOutlineItem.vue'
 import { onContentUpdated } from 'vitepress'
 import VPIconChevronRight from './icons/VPIconChevronRight.vue'
+import { useScreenOnly } from '../composables/screen-only'
 
 const { frontmatter, theme } = useData()
+const screenOnly = useScreenOnly('navbar')
+
 const open = ref(false)
 
 onContentUpdated(() => {
@@ -14,7 +17,6 @@ onContentUpdated(() => {
 })
 
 const headers = shallowRef<MenuItem[]>([])
-
 onContentUpdated(() => {
   headers.value = getHeaders(
     frontmatter.value.outline ?? theme.value.outline
@@ -23,7 +25,7 @@ onContentUpdated(() => {
 </script>
 
 <template>
-  <div class="VPDocOutlineDropdown" v-if="headers.length > 0">
+  <div v-if="headers.length > 0" class="VPDocOutlineDropdown" :class="{ 'screen-only': screenOnly }">
     <button @click="open = !open" :class="{ open }">
       {{ resolveTitle(theme) }}
       <VPIconChevronRight class="icon" />

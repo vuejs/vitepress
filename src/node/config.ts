@@ -236,6 +236,16 @@ export async function resolveSiteData(
 ): Promise<SiteData> {
   userConfig = userConfig || (await resolveUserConfig(root, command, mode))[0]
 
+  const themeConfig = userConfig.themeConfig || {}
+
+  if (typeof themeConfig.print !== 'boolean') {
+    themeConfig.print ??= {}
+    themeConfig.print.outline ??= true
+    themeConfig.print.navbar ??= true
+    themeConfig.print.sidebar ??= true
+    themeConfig.print.footer ??= true
+  }
+
   return {
     lang: userConfig.lang || 'en-US',
     dir: userConfig.dir || 'ltr',
@@ -248,7 +258,7 @@ export async function resolveSiteData(
       prefetchLinks: userConfig.router?.prefetchLinks ?? true
     },
     appearance: userConfig.appearance ?? true,
-    themeConfig: userConfig.themeConfig || {},
+    themeConfig,
     locales: userConfig.locales || {},
     scrollOffset: userConfig.scrollOffset ?? 90,
     cleanUrls: !!userConfig.cleanUrls,

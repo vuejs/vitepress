@@ -6,11 +6,14 @@ import { useSidebar } from '../composables/sidebar'
 import VPDocAside from './VPDocAside.vue'
 import VPDocFooter from './VPDocFooter.vue'
 import VPDocOutlineDropdown from './VPDocOutlineDropdown.vue'
+import { useScreenOnly } from '../composables/screen-only'
 
 const { theme } = useData()
 
 const route = useRoute()
 const { hasSidebar, hasAside, leftAside } = useSidebar()
+const screenOnly = useScreenOnly('navbar')
+const screenOnlyOutline = useScreenOnly('outline')
 
 const pageName = computed(() =>
   route.path.replace(/[./]+/g, '_').replace(/_html$/, '')
@@ -20,11 +23,11 @@ const pageName = computed(() =>
 <template>
   <div
     class="VPDoc"
-    :class="{ 'has-sidebar': hasSidebar, 'has-aside': hasAside }"
+    :class="{ 'has-sidebar': hasSidebar, 'has-aside': hasAside, 'with-screen-only': screenOnly }"
   >
     <slot name="doc-top" />
     <div class="container">
-      <div v-if="hasAside" class="aside" :class="{'left-aside': leftAside}">
+      <div v-if="hasAside" class="aside" :class="{'left-aside': leftAside,'screen-only': screenOnlyOutline}">
         <div class="aside-curtain" />
         <div class="aside-container">
           <div class="aside-content">
@@ -206,5 +209,14 @@ const pageName = computed(() =>
 .external-link-icon-enabled :is(.vp-doc a[href*='://'], .vp-doc a[target='_blank'])::after {
   content: '';
   color: currentColor;
+}
+
+@media print {
+  .VPDoc.with-screen-only {
+    padding-top: 24px !important;
+  }
+  .VPDoc.has-aside.with-screen-only .content-container {
+    max-width: unset;
+  }
 }
 </style>

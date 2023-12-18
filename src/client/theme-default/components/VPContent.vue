@@ -5,9 +5,12 @@ import { useSidebar } from '../composables/sidebar'
 import VPDoc from './VPDoc.vue'
 import VPHome from './VPHome.vue'
 import VPPage from './VPPage.vue'
+import { useScreenOnly } from '../composables/screen-only'
 
 const { page, frontmatter } = useData()
 const { hasSidebar } = useSidebar()
+const screenOnly = useScreenOnly('navbar')
+const screenOnlySidebar = useScreenOnly('sidebar')
 </script>
 
 <template>
@@ -16,7 +19,9 @@ const { hasSidebar } = useSidebar()
     id="VPContent"
     :class="{
       'has-sidebar': hasSidebar,
-      'is-home': frontmatter.layout === 'home'
+      'is-home': frontmatter.layout === 'home',
+      'with-screen-only': screenOnly,
+      'no-print-sidebar': screenOnlySidebar
     }"
   >
     <slot name="not-found" v-if="page.isNotFound"><NotFound /></slot>
@@ -90,6 +95,16 @@ const { hasSidebar } = useSidebar()
   .VPContent.has-sidebar {
     padding-right: calc((100vw - var(--vp-layout-max-width)) / 2);
     padding-left: calc((100vw - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));
+  }
+}
+
+@media print {
+  .VPContent.with-screen-only:not(.is-home) {
+    --vp-nav-height: 0;
+  }
+  .VPContent.with-screen-only.no-print-sidebar {
+    padding-left: 0;
+    width: 100%;
   }
 }
 </style>
