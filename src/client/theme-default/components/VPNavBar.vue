@@ -236,13 +236,13 @@ watchPostEffect(() => {
 }
 
 @media (min-width: 960px) {
-  .divider {
+  .VPNavBar.has-sidebar .divider {
     padding-left: var(--vp-sidebar-width);
   }
 }
 
 @media (min-width: 1440px) {
-  .divider {
+  .VPNavBar.has-sidebar .divider {
     padding-left: calc((100vw - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));
   }
 }
