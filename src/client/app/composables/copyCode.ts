@@ -16,10 +16,7 @@ export function useCopyCode() {
           parent.className
         )
 
-        const ignoredNodes = [
-          '.vp-copy-ignore',
-          '.diff.remove'
-        ]
+        const ignoredNodes = ['.vp-copy-ignore', '.diff.remove']
 
         // Clone the node and remove the ignored nodes
         const clone = sibling.cloneNode(true) as HTMLElement
