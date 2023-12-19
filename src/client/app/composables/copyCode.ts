@@ -16,13 +16,18 @@ export function useCopyCode() {
           parent.className
         )
 
-        let text = ''
+        const ignoredNodes = [
+          '.vp-copy-ignore',
+          '.diff.remove'
+        ]
 
-        sibling
-          .querySelectorAll('span.line:not(.diff.remove)')
-          .forEach((node) => (text += (node.textContent || '') + '\n'))
+        // Clone the node and remove the ignored nodes
+        const clone = sibling.cloneNode(true) as HTMLElement
+        clone
+          .querySelectorAll(ignoredNodes.join(','))
+          .forEach((node) => node.remove())
 
-        text = (text || sibling.textContent || '').slice(0, -1)
+        let text = clone.textContent || ''
 
         if (isShell) {
           text = text.replace(/^ *(\$|>) /gm, '').trim()
