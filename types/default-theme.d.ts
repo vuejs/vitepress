@@ -361,7 +361,7 @@ export namespace DefaultTheme {
     /**
      * Whether the current page has a local nav. Local nav is shown when the
      * "outline" is present in the page. However, note that the actual
-     * local nav visibility depends on the screen width as well
+     * local nav visibility depends on the screen width as well.
      */
     hasLocalNav: ComputedRef<boolean>
   }
