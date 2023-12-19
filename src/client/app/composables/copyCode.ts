@@ -21,7 +21,8 @@ export function useCopyCode() {
         sibling
           .querySelectorAll('span.line:not(.diff.remove)')
           .forEach((node) => (text += (node.textContent || '') + '\n'))
-        text = text.slice(0, -1)
+
+        text = (text || sibling.textContent || '').slice(0, -1)
 
         if (isShell) {
           text = text.replace(/^ *(\$|>) /gm, '').trim()
