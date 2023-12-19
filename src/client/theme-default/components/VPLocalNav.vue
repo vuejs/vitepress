@@ -42,8 +42,7 @@ const empty = computed(() => {
 const classes = computed(() => {
   return {
     VPLocalNav: true,
-    fixed: empty.value,
-    'reached-top': y.value >= navHeight.value
+    fixed: empty.value
   }
 })
 </script>
@@ -80,7 +79,6 @@ const classes = computed(() => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid var(--vp-c-gutter);
   border-bottom: 1px solid var(--vp-c-gutter);
   padding-top: var(--vp-layout-top-height, 0px);
   width: 100%;
@@ -91,11 +89,14 @@ const classes = computed(() => {
   position: fixed;
 }
 
-.VPLocalNav.reached-top {
-  border-top-color: transparent;
+@media (min-width: 960px) {
+  .VPLocalNav {
+    top: var(--vp-nav-height);
+    z-index: 1;
+  }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 1280px) {
   .VPLocalNav {
     display: none;
   }

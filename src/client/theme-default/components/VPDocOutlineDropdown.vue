@@ -24,13 +24,13 @@ onContentUpdated(() => {
 
 <template>
   <div class="VPDocOutlineDropdown" v-if="headers.length > 0">
-    <button @click="open = !open" :class="{ open }">
+    <!-- <button @click="open = !open" :class="{ open }">
       {{ resolveTitle(theme) }}
       <VPIconChevronRight class="icon" />
     </button>
     <div class="items" v-if="open">
       <VPDocOutlineItem :headers="headers" />
-    </div>
+    </div> -->
   </div>
 </template>
 
