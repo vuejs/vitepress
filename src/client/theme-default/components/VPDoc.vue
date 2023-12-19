@@ -5,7 +5,6 @@ import { useData } from '../composables/data'
 import { useSidebar } from '../composables/sidebar'
 import VPDocAside from './VPDocAside.vue'
 import VPDocFooter from './VPDocFooter.vue'
-import VPDocOutlineDropdown from './VPDocOutlineDropdown.vue'
 
 const { theme } = useData()
 
@@ -43,7 +42,6 @@ const pageName = computed(() =>
       <div class="content">
         <div class="content-container">
           <slot name="doc-before" />
-          <VPDocOutlineDropdown />
           <main class="main">
             <Content
               class="vp-doc"
@@ -70,16 +68,6 @@ const pageName = computed(() =>
   width: 100%;
 }
 
-.VPDoc .VPDocOutlineDropdown {
-  display: none;
-}
-
-@media (min-width: 960px) and (max-width: 1279px) {
-  .VPDoc .VPDocOutlineDropdown {
-    display: block;
-  }
-}
-
 @media (min-width: 768px) {
   .VPDoc {
     padding: 48px 32px 128px;
@@ -88,7 +76,7 @@ const pageName = computed(() =>
 
 @media (min-width: 960px) {
   .VPDoc {
-    padding: 32px 32px 0;
+    padding: 48px 32px 0;
   }
 
   .VPDoc:not(.has-sidebar) .container {
@@ -147,7 +135,7 @@ const pageName = computed(() =>
 .aside-container {
   position: fixed;
   top: 0;
-  padding-top: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + var(--vp-doc-top-height, 0px) + 32px);
+  padding-top: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + var(--vp-doc-top-height, 0px) + 48px);
   width: 224px;
   height: 100vh;
   overflow-x: hidden;
@@ -171,7 +159,7 @@ const pageName = computed(() =>
 .aside-content {
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - (var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 32px));
+  min-height: calc(100vh - (var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 48px));
   padding-bottom: 32px;
 }
 

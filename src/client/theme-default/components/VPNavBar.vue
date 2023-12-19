@@ -2,6 +2,7 @@
 import { useWindowScroll } from '@vueuse/core'
 import { ref, watchPostEffect } from 'vue'
 import { useData } from '../composables/data'
+import { useLocalNav } from '../composables/local-nav'
 import { useSidebar } from '../composables/sidebar'
 import VPNavBarAppearance from './VPNavBarAppearance.vue'
 import VPNavBarExtra from './VPNavBarExtra.vue'
@@ -22,6 +23,7 @@ defineEmits<{
 
 const { y } = useWindowScroll()
 const { hasSidebar } = useSidebar()
+const { hasLocalNav } = useLocalNav()
 const { frontmatter } = useData()
 
 const classes = ref<Record<string, boolean>>({})
@@ -29,6 +31,7 @@ const classes = ref<Record<string, boolean>>({})
 watchPostEffect(() => {
   classes.value = {
     'has-sidebar': hasSidebar.value,
+    'has-local-nav': hasLocalNav.value,
     top: frontmatter.value.layout === 'home' && y.value === 0,
   }
 })
@@ -60,7 +63,10 @@ watchPostEffect(() => {
         </div>
       </div>
     </div>
-    <div class="divider" />
+
+    <div class="divider">
+      <div class="divider-line" />
+    </div>
   </div>
 </template>
 
@@ -70,9 +76,18 @@ watchPostEffect(() => {
   height: var(--vp-nav-height);
   pointer-events: none;
   white-space: nowrap;
+  transition: background-color 0.5s;
+}
+
+.VPNavBar.has-local-nav {
+  background-color: var(--vp-nav-bg-color);
 }
 
 @media (min-width: 960px) {
+  .VPNavBar.has-local-nav {
+    background-color: transparent;
+  }
+
   .VPNavBar:not(.has-sidebar):not(.top) {
     background-color: var(--vp-nav-bg-color);
   }
@@ -168,14 +183,18 @@ watchPostEffect(() => {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  height: calc(var(--vp-nav-height) - 1px);
+  height: var(--vp-nav-height);
   transition: background-color 0.5s;
 }
 
 @media (min-width: 960px) {
-  .VPNavBar:not(.top) .content-body{
+  .VPNavBar:not(.top) .content-body {
     position: relative;
     background-color: var(--vp-nav-bg-color);
+  }
+
+  .VPNavBar:not(.has-sidebar):not(.top) .content-body {
+    background-color: transparent;
   }
 }
 
@@ -218,11 +237,33 @@ watchPostEffect(() => {
 
 @media (min-width: 960px) {
   .divider {
+    padding-left: var(--vp-sidebar-width);
+  }
+}
+
+@media (min-width: 1440px) {
+  .divider {
+    padding-left: calc((100vw - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));
+  }
+}
+
+.divider-line {
+  width: 100%;
+  height: 1px;
+  transition: background-color 0.5s;
+}
+
+.VPNavBar.has-local-nav .divider-line {
+  background-color: var(--vp-c-gutter);
+}
+
+@media (min-width: 960px) { 
+  .VPNavBar:not(.top) .divider-line {
     background-color: var(--vp-c-gutter);
   }
-  
+
   .VPNavBar:not(.has-sidebar):not(.top) .divider {
-    /* background-color: var(--vp-c-gutter); */
+    background-color: var(--vp-c-gutter);
   }
 }
 </style>

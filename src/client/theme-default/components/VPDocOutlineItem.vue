@@ -14,7 +14,7 @@ function onClick({ target: el }: Event) {
 </script>
 
 <template>
-  <ul :class="root ? 'root' : 'nested'">
+  <ul class="VPDocOutlineItem" :class="root ? 'root' : 'nested'">
     <li v-for="{ children, link, title } in headers">
       <a class="outline-link" :href="link" @click="onClick" :title="title">{{ title }}</a>
       <template v-if="children?.length">
@@ -31,18 +31,20 @@ function onClick({ target: el }: Event) {
 }
 
 .nested {
+  padding-right: 16px;
   padding-left: 16px;
 }
 
 .outline-link {
   display: block;
-  line-height: 28px;
+  line-height: 32px;
+  font-size: 14px;
+  font-weight: 400;
   color: var(--vp-c-text-2);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   transition: color 0.5s;
-  font-weight: 400;
 }
 
 .outline-link:hover,

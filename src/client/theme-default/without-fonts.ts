@@ -27,6 +27,7 @@ export { default as VPTeamPageSection } from './components/VPTeamPageSection.vue
 export { default as VPTeamMembers } from './components/VPTeamMembers.vue'
 
 export { useSidebar } from './composables/sidebar'
+export { useLocalNav } from './composables/local-nav'
 
 const theme: Theme = {
   Layout,

@@ -76,6 +76,12 @@ function scrollToTop() {
   padding: 12px 20px 11px;
 }
 
+@media (min-width: 960px) {
+  .VPLocalNavOutlineDropdown {
+    padding: 12px 36px 11px;
+  }
+}
+
 .VPLocalNavOutlineDropdown button {
   display: block;
   font-size: 12px;
@@ -95,6 +101,12 @@ function scrollToTop() {
   color: var(--vp-c-text-1);
 }
 
+@media (min-width: 960px) {
+  .VPLocalNavOutlineDropdown button {
+    font-size: 14px;
+  }
+}
+
 .icon {
   display: inline-block;
   vertical-align: middle;
@@ -104,18 +116,13 @@ function scrollToTop() {
   fill: currentColor;
 }
 
-:deep(.outline-link) {
-  font-size: 14px;
-  padding: 2px 0;
-}
-
 .open > .icon {
   transform: rotate(90deg);
 }
 
 .items {
   position: absolute;
-  top: 64px;
+  top: 40px;
   right: 16px;
   left: 16px;
   display: grid;
@@ -126,6 +133,14 @@ function scrollToTop() {
   max-height: calc(var(--vp-vh, 100vh) - 86px);
   overflow: hidden auto;
   box-shadow: var(--vp-shadow-3);
+}
+
+@media (min-width: 960px) {
+  .items {
+    right: auto;
+    left: calc(var(--vp-sidebar-width) + 32px);
+    width: 320px;
+  }
 }
 
 .header {

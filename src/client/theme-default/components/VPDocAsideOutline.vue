@@ -80,9 +80,8 @@ useActiveAnchor(container, marker)
 }
 
 .outline-title {
-  letter-spacing: 0.4px;
-  line-height: 28px;
-  font-size: 13px;
+  line-height: 32px;
+  font-size: 14px;
   font-weight: 600;
 }
 </style>

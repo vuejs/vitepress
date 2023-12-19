@@ -13,6 +13,7 @@ declare const theme: {
 
 export default theme
 export declare const useSidebar: () => DefaultTheme.DocSidebar
+export declare const useLocalNav: () => DefaultTheme.DocLocalNav
 
 // TODO: add props for these
 export declare const VPButton: DefineComponent
