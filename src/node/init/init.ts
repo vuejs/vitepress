@@ -205,7 +205,15 @@ export function scaffold({
       'docs:build': `vitepress build${dir}`,
       'docs:preview': `vitepress preview${dir}`
     }
+
+    const devDependencies = {
+      vitepress: 'lastest'
+    }
     Object.assign(userPkg.scripts || (userPkg.scripts = {}), scripts)
+    Object.assign(
+      userPkg.devDependencies || (userPkg.devDependencies = {}),
+      devDependencies
+    )
     fs.writeFileSync(pkgPath, JSON.stringify(userPkg, null, 2))
     return `Done! Now run ${cyan(
       `${getPackageManger()} run docs:dev`
