@@ -4,8 +4,6 @@ import type { Header } from '../../shared'
 import { useAside } from './aside'
 import { throttleAndDebounce } from '../support/utils'
 
-// magic number to avoid repeated retrieval
-const PAGE_OFFSET = 71
 // cached list of anchor elements from resolveHeaders
 const resolvedHeaders: { element: HTMLHeadElement; link: string }[] = []
 
@@ -138,6 +136,14 @@ export function useActiveAnchor(
       return
     }
 
+    // pixel offset, start of main content
+    const offsetDocTop = (() => {
+      const container =
+        document.querySelector('#VPContent .VPDoc')?.firstElementChild
+      if (container) return getAbsoluteTop(container as HTMLElement)
+      else return 78
+    })()
+
     const scrollY = window.scrollY
     const innerHeight = window.innerHeight
     const offsetHeight = document.body.offsetHeight
@@ -173,12 +179,11 @@ export function useActiveAnchor(
     // find the last header above the top of viewport
     let activeLink: string | null = null
     for (const { link, top } of headers) {
-      if (top + PAGE_OFFSET > scrollY) {
+      if (top > scrollY + offsetDocTop) {
         break
       }
       activeLink = link
     }
-
     activateLink(activeLink)
   }
 
