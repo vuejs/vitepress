@@ -93,7 +93,7 @@
     "@docsearch/css": "^3.5.2",
     "@docsearch/js": "^3.5.2",
     "@types/markdown-it": "^13.0.7",
-    "@vitejs/plugin-vue": "^4.5.2",
+    "@vitejs/plugin-vue": "^5.0.0-beta.1",
     "@vue/devtools-api": "^6.5.1",
     "@vueuse/core": "^10.7.0",
     "@vueuse/integrations": "^10.7.0",
@@ -104,7 +104,7 @@
     "shikiji": "^0.9.7",
     "shikiji-transformers": "^0.9.7",
     "vite": "^5.0.10",
-    "vue": "^3.3.12"
+    "vue": "^3.4.0-beta.4"
   },
   "peerDependencies": {
     "markdown-it-mathjax3": "^4.3.2",
