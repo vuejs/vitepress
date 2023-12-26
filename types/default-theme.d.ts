@@ -2,8 +2,11 @@ import type MarkdownIt from 'markdown-it'
 import type { Options as MiniSearchOptions } from 'minisearch'
 import type { ComputedRef, Ref } from 'vue'
 import type { DocSearchProps } from './docsearch.js'
-import type { LocalSearchTranslations } from './local-search.js'
-import type { MarkdownEnv, PageData } from './shared.js'
+import type {
+  LocalSearchTranslations,
+  PageSplitSection
+} from './local-search.js'
+import type { Awaitable, MarkdownEnv, PageData } from './shared.js'
 
 export namespace DefaultTheme {
   export interface Config {
@@ -392,13 +395,34 @@ export namespace DefaultTheme {
        * @see https://lucaong.github.io/minisearch/modules/_minisearch_.html#searchoptions-1
        */
       searchOptions?: MiniSearchOptions['searchOptions']
-    }
 
+      /**
+       * Overrides the default regex based page splitter.
+       * Supports async generator, making it possible to run in true parallel
+       * (when used along with `node:child_process` or `worker_threads`)
+       * ---
+       * This should be especially useful for scalability reasons.
+       * ---
+       * @param {string} path - absolute path to the markdown source file
+       * @param {string} html - document page rendered as html
+       */
+      splitIntoSections?: (
+        path: string,
+        html: string
+      ) =>
+        | AsyncGenerator<PageSplitSection>
+        | Generator<PageSplitSection>
+        | Awaitable<PageSplitSection[]>
+    }
     /**
      * Allows transformation of content before indexing (node only)
      * Return empty string to skip indexing
      */
-    _render?: (src: string, env: MarkdownEnv, md: MarkdownIt) => string
+    _render?: (
+      src: string,
+      env: MarkdownEnv,
+      md: MarkdownIt
+    ) => Awaitable<string>
   }
 
   // algolia -------------------------------------------------------------------
