@@ -1,6 +1,7 @@
 import { createHash } from 'crypto'
 import fs from 'fs-extra'
 import { createRequire } from 'module'
+import pMap from 'p-map'
 import path from 'path'
 import { packageDirectorySync } from 'pkg-dir'
 import { rimraf } from 'rimraf'
@@ -106,23 +107,23 @@ export async function build(
         }
       }
 
-      await Promise.all(
-        ['404.md', ...siteConfig.pages]
-          .map((page) => siteConfig.rewrites.map[page] || page)
-          .map((page) =>
-            renderPage(
-              render,
-              siteConfig,
-              page,
-              clientResult,
-              appChunk,
-              cssChunk,
-              assets,
-              pageToHashMap,
-              metadataScript,
-              additionalHeadTags
-            )
+      await pMap(
+        ['404.md', ...siteConfig.pages],
+        async (page) => {
+          await renderPage(
+            render,
+            siteConfig,
+            siteConfig.rewrites.map[page] || page,
+            clientResult,
+            appChunk,
+            cssChunk,
+            assets,
+            pageToHashMap,
+            metadataScript,
+            additionalHeadTags
           )
+        },
+        { concurrency: siteConfig.buildConcurrency }
       )
     })
 
