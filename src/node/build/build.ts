@@ -123,7 +123,7 @@ export async function build(
             additionalHeadTags
           )
         },
-        { concurrency: 64 }
+        { concurrency: siteConfig.buildConcurrency }
       )
     })
 
