@@ -104,7 +104,7 @@
     "shikiji": "^0.9.12",
     "shikiji-transformers": "^0.9.12",
     "vite": "^5.0.10",
-    "vue": "^3.4.0-beta.4"
+    "vue": "^3.4.0-rc.2"
   },
   "peerDependencies": {
     "markdown-it-mathjax3": "^4.3.2",
