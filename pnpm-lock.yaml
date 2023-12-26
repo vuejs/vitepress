@@ -222,6 +222,9 @@ importers:
       ora:
         specifier: ^8.0.1
         version: 8.0.1
+      p-map:
+        specifier: ^7.0.0
+        version: 7.0.0
       path-to-regexp:
         specifier: ^6.2.1
         version: 6.2.1
@@ -3538,6 +3541,11 @@ packages:
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dependencies:
       p-limit: 4.0.0
+    dev: true
+
+  /p-map@7.0.0:
+    resolution: {integrity: sha512-EZl03dLKv3RypkrjlevZoNwQMSy4bAblWcR18zhonktnN4fUs3asFQKSe0awn982omGxamvbejqQKQYDJYHCEg==}
+    engines: {node: '>=18'}
     dev: true
 
   /parse-json@4.0.0:

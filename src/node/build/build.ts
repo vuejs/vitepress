@@ -1,6 +1,7 @@
 import { createHash } from 'crypto'
 import fs from 'fs-extra'
 import { createRequire } from 'module'
+import pMap from 'p-map'
 import path from 'path'
 import { packageDirectorySync } from 'pkg-dir'
 import { rimraf } from 'rimraf'
@@ -10,7 +11,6 @@ import { resolveConfig, type SiteConfig } from '../config'
 import { slash, type HeadConfig } from '../shared'
 import { deserializeFunctions, serializeFunctions } from '../utils/fnSerialize'
 import { task } from '../utils/task'
-import Pool from '../utils/pool'
 import { bundle } from './bundle'
 import { generateSitemap } from './generateSitemap'
 import { renderPage } from './render'
@@ -107,24 +107,10 @@ export async function build(
         }
       }
 
-      /**
-       * Since this pool is not a thread pool, we can give it a "thread count"
-       * larger than the actual number of CPUs available.
-       * ---
-       * https://github.com/vuejs/vitepress/issues/3362
-       * This fix will defer the memory allocation of render tasks.
-       * ---
-       * By limiting the max number of dispatched promises, it allows NodeJS to
-       * reclaim memory associated to each promise, avoiding memory allocation
-       * failures when handling large volume of pages.
-       * ---
-       * Fixes: #3362
-       */
-      const renderPageTaskPool = new Pool(64)
-      // Pool all rendering tasks
-      for (const page of ['404.md', ...siteConfig.pages])
-        renderPageTaskPool.add(() =>
-          renderPage(
+      await pMap(
+        ['404.md', ...siteConfig.pages],
+        async (page) => {
+          await renderPage(
             render,
             siteConfig,
             siteConfig.rewrites.map[page] || page,
@@ -136,9 +122,9 @@ export async function build(
             metadataScript,
             additionalHeadTags
           )
-        )
-      // Wait for all rendering tasks to finish
-      await renderPageTaskPool.drain()
+        },
+        { concurrency: 64 }
+      )
     })
 
     // emit page hash map for the case where a user session is open
