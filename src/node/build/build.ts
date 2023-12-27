@@ -8,6 +8,7 @@ import { rimraf } from 'rimraf'
 import { pathToFileURL } from 'url'
 import type { BuildOptions, Rollup } from 'vite'
 import { resolveConfig, type SiteConfig } from '../config'
+import { clearCache } from '../markdownToVue'
 import { slash, type HeadConfig } from '../shared'
 import { deserializeFunctions, serializeFunctions } from '../utils/fnSerialize'
 import { task } from '../utils/task'
@@ -140,6 +141,7 @@ export async function build(
 
   await generateSitemap(siteConfig)
   await siteConfig.buildEnd?.(siteConfig)
+  clearCache()
 
   siteConfig.logger.info(
     `build complete in ${((Date.now() - start) / 1000).toFixed(2)}s.`

@@ -4,7 +4,6 @@ import {
   computedAsync,
   debouncedWatch,
   onKeyStroke,
-  reactify,
   useEventListener,
   useLocalStorage,
   useScrollLock,
@@ -23,7 +22,6 @@ import {
   onMounted,
   ref,
   shallowRef,
-  toRef,
   watch,
   watchEffect,
   type Ref
@@ -32,7 +30,7 @@ import type { ModalTranslations } from '../../../../types/local-search'
 import { pathToFile } from '../../app/utils'
 import { useData } from '../composables/data'
 import { LRUCache } from '../support/lru'
-import { createTranslate } from '../support/translation'
+import { createSearchTranslate } from '../support/translation'
 
 const emit = defineEmits<{
   (e: 'close'): void
@@ -361,10 +359,7 @@ const defaultTranslations: { modal: ModalTranslations } = {
   }
 }
 
-const $t = reactify(createTranslate)(
-  toRef(() => theme.value.search?.options),
-  defaultTranslations
-)
+const $t = createSearchTranslate(defaultTranslations)
 
 // Back
 
