@@ -212,6 +212,9 @@ interface TeamMember {
 
   // URL for the sponsor page for the member.
   sponsor?: string
+
+  // Text for the sponsor link. Defaults to 'Sponsor'.
+  actionText?: string
 }
 ```
 
