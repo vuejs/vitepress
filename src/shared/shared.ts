@@ -113,6 +113,10 @@ export function createTitle(siteData: SiteData, pageData: PageData): string {
 
   const templateString = createTitleTemplate(siteData.title, template)
 
+  if (title === templateString.slice(3)) {
+    return title
+  }
+
   return `${title}${templateString}`
 }
 

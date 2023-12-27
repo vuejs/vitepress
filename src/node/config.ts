@@ -141,7 +141,8 @@ export async function resolveConfig(
     transformPageData: userConfig.transformPageData,
     rewrites,
     userConfig,
-    sitemap: userConfig.sitemap
+    sitemap: userConfig.sitemap,
+    buildConcurrency: userConfig.buildConcurrency ?? 64
   }
 
   // to be shared with content loaders
