@@ -108,7 +108,7 @@ export async function build(
           ])
         }
       }
-      debugger
+
       const pages = ['404.md', ...siteConfig.pages]
       let count_done = 0
       await pMap(
