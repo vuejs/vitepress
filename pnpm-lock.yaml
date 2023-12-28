@@ -111,6 +111,9 @@ importers:
       '@types/fs-extra':
         specifier: ^11.0.4
         version: 11.0.4
+      '@types/humanize-duration':
+        specifier: ^3.27.3
+        version: 3.27.3
       '@types/lodash.template':
         specifier: ^4.5.3
         version: 4.5.3
@@ -180,6 +183,9 @@ importers:
       gray-matter:
         specifier: ^4.0.3
         version: 4.0.3
+      humanize-duration:
+        specifier: ^3.31.0
+        version: 3.31.0
       lint-staged:
         specifier: ^15.2.0
         version: 15.2.0(supports-color@9.4.0)
@@ -1144,6 +1150,10 @@ packages:
 
   /@types/http-errors@2.0.4:
     resolution: {integrity: sha512-D0CFMMtydbJAegzOyHjtiKPLlvnm3iTZyZRSZoLq2mRhDdmLfIWOCYPfQJ4cu2erKghU++QvjcUjp/5h7hESpA==}
+    dev: true
+
+  /@types/humanize-duration@3.27.3:
+    resolution: {integrity: sha512-wiiiFYjnrYDJE/ujU7wS/NShqp12IKrejozjDtcejP0zYi+cjyjVcfZHwcFUDKVJ7tHGsmgeW2ED92ABIIjfpg==}
     dev: true
 
   /@types/jquery@3.5.29:
@@ -2740,6 +2750,10 @@ packages:
   /human-signals@5.0.0:
     resolution: {integrity: sha512-AXcZb6vzzrFAUE61HnN4mpLqd/cSIwNQjtNWR0euPm6y0iqx3G4gOXaIDdtdDwZmhwe82LA6+zinmW4UBWVePQ==}
     engines: {node: '>=16.17.0'}
+    dev: true
+
+  /humanize-duration@3.31.0:
+    resolution: {integrity: sha512-fRrehgBG26NNZysRlTq1S+HPtDpp3u+Jzdc/d5A4cEzOD86YLAkDaJyJg8krSdCi7CJ+s7ht3fwRj8Dl+Btd0w==}
     dev: true
 
   /inflight@1.0.6:
