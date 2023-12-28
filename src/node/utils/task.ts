@@ -21,7 +21,7 @@ export async function task(taskName: string, task: () => Promise<void>) {
     const duration = humanizeDuration(timeEnd - timeStart, {
       maxDecimalPoints: 2
     })
-    const text = `${taskName} (${duration})`
+    const text = `${taskName} - ${duration}`
     spinner.stopAndPersist({ symbol, text })
   }
 }
