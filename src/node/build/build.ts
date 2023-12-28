@@ -55,7 +55,7 @@ export async function build(
     const entryPath = path.join(siteConfig.tempDir, 'app.js')
     const { render } = await import(pathToFileURL(entryPath).toString())
 
-    await task('rendering pages', async () => {
+    await task('rendering pages', async (updateProgress) => {
       const appChunk =
         clientResult &&
         (clientResult.output.find(
@@ -108,9 +108,11 @@ export async function build(
           ])
         }
       }
-
+      debugger
+      const pages = ['404.md', ...siteConfig.pages]
+      let count_done = 0
       await pMap(
-        ['404.md', ...siteConfig.pages],
+        pages,
         async (page) => {
           await renderPage(
             render,
@@ -124,6 +126,7 @@ export async function build(
             metadataScript,
             additionalHeadTags
           )
+          updateProgress(++count_done, pages.length)
         },
         { concurrency: siteConfig.buildConcurrency }
       )
