@@ -27,9 +27,10 @@ const { frontmatter } = useData()
 const classes = ref<Record<string, boolean>>({})
 
 watchPostEffect(() => {
+  const isTransparentPage = frontmatter.value.transparentNavBar || frontmatter.value.layout === 'home' 
   classes.value = {
     'has-sidebar': hasSidebar.value,
-    top: frontmatter.value.layout === 'home' && y.value === 0,
+    top: isTransparentPage && y.value === 0,
   }
 })
 </script>
