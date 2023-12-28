@@ -124,6 +124,20 @@ navbar: false
 ---
 ```
 
+
+### transparentNavBar
+
+- Type: `boolean`
+- Default: `false`
+
+Whether to display the navigation bar as transparent when the scroll distance is 0. It is used by default when [`layout: home`](./default-theme-layout) is set. It can be added to other pages if needed.
+
+```yaml
+---
+transparentNavBar: true
+---
+```
+
 ### sidebar
 
 - Type: `boolean`
