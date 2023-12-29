@@ -58,7 +58,7 @@ const esmBuild: RollupOptions = {
       return `${chunk.name}-[hash].js`
     },
     manualChunks(id) {
-      // All workers will be chunked into a single file
+      // Chunk each worker into a separate file
       if (!id.startsWith(node_root)) return
       id = id.slice(node_root.length).replace(/^\//, '')
       const match = /^.*\-worker(?=(\.(js|ts))?$)/i.exec(id)
