@@ -54,7 +54,6 @@ const esmBuild: RollupOptions = {
     format: 'esm',
     entryFileNames: `[name].js`,
     chunkFileNames(chunk) {
-      console.log('chunkFileNames =>', chunk.name)
       return `${chunk.name}-[hash].js`
     },
     manualChunks(id) {
@@ -64,7 +63,6 @@ const esmBuild: RollupOptions = {
       const match = /^.*\-worker(?=(\.(js|ts))?$)/i.exec(id)
       if (match) {
         const [name] = match
-        console.log('manualChunks worker =>', name)
         return name
       }
     },
