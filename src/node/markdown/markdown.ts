@@ -17,8 +17,8 @@ import { slugify } from '@mdit-vue/shared'
 import MarkdownIt from 'markdown-it'
 import anchorPlugin from 'markdown-it-anchor'
 import attrsPlugin from 'markdown-it-attrs'
-import emojiPlugin from 'markdown-it-emoji'
-import type { ILanguageRegistration, IThemeRegistration } from 'shiki'
+// @ts-ignore
+import { full as emojiPlugin } from 'markdown-it-emoji'
 import type { Logger } from 'vite'
 import { containerPlugin, type ContainerOptions } from './plugins/containers'
 import { highlight } from './plugins/highlight'
@@ -28,36 +28,144 @@ import { lineNumberPlugin } from './plugins/lineNumbers'
 import { linkPlugin } from './plugins/link'
 import { preWrapperPlugin } from './plugins/preWrapper'
 import { snippetPlugin } from './plugins/snippet'
+import type {
+  ThemeRegistration,
+  BuiltinTheme,
+  LanguageInput,
+  ShikijiTransformer,
+  Highlighter
+} from 'shikiji'
 
 export type { Header } from '../shared'
 
 export type ThemeOptions =
-  | IThemeRegistration
-  | { light: IThemeRegistration; dark: IThemeRegistration }
+  | ThemeRegistration
+  | BuiltinTheme
+  | {
+      light: ThemeRegistration | BuiltinTheme
+      dark: ThemeRegistration | BuiltinTheme
+    }
 
 export interface MarkdownOptions extends MarkdownIt.Options {
-  lineNumbers?: boolean
+  /* ==================== General Options ==================== */
+
+  /**
+   * Setup markdown-it instance before applying plugins
+   */
   preConfig?: (md: MarkdownIt) => void
+  /**
+   * Setup markdown-it instance
+   */
   config?: (md: MarkdownIt) => void
+  /**
+   * Disable cache (experimental)
+   */
+  cache?: boolean
+  externalLinks?: Record<string, string>
+
+  /* ==================== Syntax Highlighting ==================== */
+
+  /**
+   * Custom theme for syntax highlighting.
+   *
+   * You can also pass an object with `light` and `dark` themes to support dual themes.
+   *
+   * @example { theme: 'github-dark' }
+   * @example { theme: { light: 'github-light', dark: 'github-dark' } }
+   *
+   * You can use an existing theme.
+   * @see https://github.com/antfu/shikiji/blob/main/docs/themes.md#all-themes
+   * Or add your own theme.
+   * @see https://github.com/antfu/shikiji/blob/main/docs/themes.md#load-custom-themes
+   */
+  theme?: ThemeOptions
+  /**
+   * Languages for syntax highlighting.
+   * @see https://github.com/antfu/shikiji/blob/main/docs/languages.md#all-themes
+   */
+  languages?: LanguageInput[]
+  /**
+   * Custom language aliases.
+   *
+   * @example { 'my-lang': 'js' }
+   * @see https://github.com/antfu/shikiji/tree/main#custom-language-aliases
+   */
+  languageAlias?: Record<string, string>
+  /**
+   * Show line numbers in code blocks
+   * @default false
+   */
+  lineNumbers?: boolean
+  /**
+   * Fallback language when the specified language is not available.
+   */
+  defaultHighlightLang?: string
+  /**
+   * Transformers applied to code blocks
+   * @see https://github.com/antfu/shikiji#hast-transformers
+   */
+  codeTransformers?: ShikijiTransformer[]
+  /**
+   * Setup Shikiji instance
+   */
+  shikijiSetup?: (shikiji: Highlighter) => void | Promise<void>
+
+  /* ==================== Markdown It Plugins ==================== */
+
+  /**
+   * Options for `markdown-it-anchor`
+   * @see https://github.com/valeriangalliat/markdown-it-anchor
+   */
   anchor?: anchorPlugin.AnchorOptions
+  /**
+   * Options for `markdown-it-attrs`
+   * @see https://github.com/arve0/markdown-it-attrs
+   */
   attrs?: {
     leftDelimiter?: string
     rightDelimiter?: string
     allowedAttributes?: Array<string | RegExp>
     disable?: boolean
   }
-  defaultHighlightLang?: string
+  /**
+   * Options for `@mdit-vue/plugin-frontmatter`
+   * @see https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-frontmatter
+   */
   frontmatter?: FrontmatterPluginOptions
+  /**
+   * Options for `@mdit-vue/plugin-headers`
+   * @see https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-headers
+   */
   headers?: HeadersPluginOptions | boolean
+  /**
+   * Options for `@mdit-vue/plugin-sfc`
+   * @see https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-sfc
+   */
   sfc?: SfcPluginOptions
-  theme?: ThemeOptions
-  languages?: ILanguageRegistration[]
+  /**
+   * Options for `@mdit-vue/plugin-toc`
+   * @see https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-toc
+   */
   toc?: TocPluginOptions
-  externalLinks?: Record<string, string>
-  cache?: boolean
+  /**
+   * Options for `@mdit-vue/plugin-component`
+   * @see https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-component
+   */
   component?: ComponentPluginOptions
-  math?: boolean | any
+  /**
+   * Options for `markdown-it-container`
+   * @see https://github.com/markdown-it/markdown-it-container
+   */
   container?: ContainerOptions
+  /**
+   * Math support (experimental)
+   *
+   * You need to install `markdown-it-mathjax3` and set `math` to `true` to enable it.
+   * You can also pass options to `markdown-it-mathjax3` here.
+   * @default false
+   * @see https://vitepress.dev/guide/markdown#math-equations
+   */
+  math?: boolean | any
 }
 
 export type MarkdownRenderer = MarkdownIt
@@ -74,14 +182,7 @@ export const createMarkdownRenderer = async (
   const md = MarkdownIt({
     html: true,
     linkify: true,
-    highlight:
-      options.highlight ||
-      (await highlight(
-        theme,
-        options.languages,
-        options.defaultHighlightLang,
-        logger
-      )),
+    highlight: options.highlight || (await highlight(theme, options, logger)),
     ...options
   })
 

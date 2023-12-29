@@ -80,7 +80,7 @@ For more details, see [Frontmatter](../reference/frontmatter-config).
 
 **Input**
 
-```
+```md
 | Tables        |      Are      |  Cool |
 | ------------- | :-----------: | ----: |
 | col 3 is      | right-aligned | $1600 |
@@ -108,7 +108,7 @@ For more details, see [Frontmatter](../reference/frontmatter-config).
 
 :tada: :100:
 
-A [list of all emojis](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.json) is available.
+A [list of all emojis](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.mjs) is available.
 
 ## Table of Contents
 
@@ -265,7 +265,7 @@ Wraps in a <div class="vp-raw">
 
 ## Syntax Highlighting in Code Blocks
 
-VitePress uses [Shiki](https://shiki.matsu.io/) to highlight language syntax in Markdown code blocks, using coloured text. Shiki supports a wide variety of programming languages. All you need to do is append a valid language alias to the beginning backticks for the code block:
+VitePress uses [Shikiji](https://github.com/antfu/shikiji) (an improved version of [Shiki](https://shiki.matsu.io/)) to highlight language syntax in Markdown code blocks, using coloured text. Shiki supports a wide variety of programming languages. All you need to do is append a valid language alias to the beginning backticks for the code block:
 
 **Input**
 
@@ -305,7 +305,7 @@ export default {
 </ul>
 ```
 
-A [list of valid languages](https://github.com/shikijs/shiki/blob/main/docs/languages.md) is available on Shiki's repository.
+A [list of valid languages](https://github.com/antfu/shikiji/blob/main/docs/languages.md) is available on Shikiji's repository.
 
 You may also customize syntax highlight theme in app config. Please see [`markdown` options](../reference/site-config#markdown) for more details.
 
@@ -377,7 +377,7 @@ export default { // Highlighted
 }
 ```
 
-Alternatively, it's possible to highlight directly in the line by using the `// [!code hl]` comment.
+Alternatively, it's possible to highlight directly in the line by using the `// [!code hightlight]` comment.
 
 **Input**
 
@@ -386,7 +386,7 @@ Alternatively, it's possible to highlight directly in the line by using the `// 
 export default {
   data () {
     return {
-      msg: 'Highlighted!' // [!code  hl]
+      msg: 'Highlighted!' // [!!code highlight]
     }
   }
 }
@@ -399,7 +399,7 @@ export default {
 export default {
   data() {
     return {
-      msg: 'Highlighted!' // [!code hl]
+      msg: 'Highlighted!' // [!code highlight]
     }
   }
 }
@@ -413,14 +413,12 @@ Additionally, you can define a number of lines to focus using `// [!code focus:<
 
 **Input**
 
-Note that only one space is required after `!code`, here are two to prevent processing.
-
 ````
 ```js
 export default {
   data () {
     return {
-      msg: 'Focused!' // [!code  focus]
+      msg: 'Focused!' // [!!code focus]
     }
   }
 }
@@ -445,15 +443,13 @@ Adding the `// [!code --]` or `// [!code ++]` comments on a line will create a d
 
 **Input**
 
-Note that only one space is required after `!code`, here are two to prevent processing.
-
 ````
 ```js
 export default {
   data () {
     return {
-      msg: 'Removed' // [!code  --]
-      msg: 'Added' // [!code  ++]
+      msg: 'Removed' // [!!code --]
+      msg: 'Added' // [!!code ++]
     }
   }
 }
@@ -479,15 +475,13 @@ Adding the `// [!code warning]` or `// [!code error]` comments on a line will co
 
 **Input**
 
-Note that only one space is required after `!code`, here are two to prevent processing.
-
 ````
 ```js
 export default {
   data () {
     return {
-      msg: 'Error', // [!code  error]
-      msg: 'Warning' // [!code  warning]
+      msg: 'Error', // [!!code error]
+      msg: 'Warning' // [!!code warning]
     }
   }
 }
@@ -858,10 +852,11 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 VitePress uses [markdown-it](https://github.com/markdown-it/markdown-it) as the Markdown renderer. A lot of the extensions above are implemented via custom plugins. You can further customize the `markdown-it` instance using the `markdown` option in `.vitepress/config.js`:
 
 ```js
+import { defineConfig } from 'vitepress'
 import markdownItAnchor from 'markdown-it-anchor'
 import markdownItFoo from 'markdown-it-foo'
 
-module.exports = {
+export default defineConfig({
   markdown: {
     // options for markdown-it-anchor
     // https://github.com/valeriangalliat/markdown-it-anchor#usage
@@ -878,7 +873,7 @@ module.exports = {
       md.use(markdownItFoo)
     }
   }
-}
+})
 ```
 
 See full list of configurable properties in [Config Reference: App Config](../reference/site-config#markdown).

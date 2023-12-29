@@ -454,7 +454,7 @@ When using the default theme, enabling this option will display each page's last
 
 - Type: `MarkdownOption`
 
-Configure Markdown parser options. VitePress uses [Markdown-it](https://github.com/markdown-it/markdown-it) as the parser, and [Shiki](https://shiki.matsu.io/) to highlight language syntax. Inside this option, you may pass various Markdown related options to fit your needs.
+Configure Markdown parser options. VitePress uses [Markdown-it](https://github.com/markdown-it/markdown-it) as the parser, and [Shikiji](https://github.com/antfu/shikiji) (an improved version of [Shiki](https://shiki.matsu.io/)) to highlight language syntax. Inside this option, you may pass various Markdown related options to fit your needs.
 
 ```js
 export default {
@@ -462,87 +462,7 @@ export default {
 }
 ```
 
-Below are all the options that you can have in this object:
-
-```ts
-interface MarkdownOptions extends MarkdownIt.Options {
-  // Custom theme for syntax highlighting.
-  // You can use an existing theme.
-  // See: https://github.com/shikijs/shiki/blob/main/docs/themes.md#all-themes
-  // Or add your own theme.
-  // See: https://github.com/shikijs/shiki/blob/main/docs/themes.md#loading-theme
-  theme?:
-    | Shiki.IThemeRegistration
-    | { light: Shiki.IThemeRegistration; dark: Shiki.IThemeRegistration }
-
-  // Enable line numbers in code block.
-  lineNumbers?: boolean
-
-  // Add support for your own languages.
-  // https://github.com/shikijs/shiki/blob/main/docs/languages.md#supporting-your-own-languages-with-shiki
-  languages?: Shiki.ILanguageRegistration[]
-
-  // markdown-it-anchor plugin options.
-  // See: https://github.com/valeriangalliat/markdown-it-anchor#usage
-  anchor?: anchorPlugin.AnchorOptions
-
-  // markdown-it-attrs plugin options.
-  // See: https://github.com/arve0/markdown-it-attrs
-  attrs?: {
-    leftDelimiter?: string
-    rightDelimiter?: string
-    allowedAttributes?: Array<string | RegExp>
-    disable?: boolean
-  }
-
-  // specify default language for syntax highlighter
-  defaultHighlightLang?: string
-
-  // @mdit-vue/plugin-frontmatter plugin options.
-  // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-frontmatter#options
-  frontmatter?: FrontmatterPluginOptions
-
-  // @mdit-vue/plugin-headers plugin options.
-  // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-headers#options
-  headers?: HeadersPluginOptions | boolean
-
-  // @mdit-vue/plugin-sfc plugin options.
-  // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-sfc#options
-  sfc?: SfcPluginOptions
-
-  // @mdit-vue/plugin-toc plugin options.
-  // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-toc#options
-  toc?: TocPluginOptions
-
-  // @mdit-vue/plugin-component plugin options.
-  // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-component#options
-  component?: ComponentPluginOptions
-
-  // Configure the Markdown-it instance.
-  config?: (md: MarkdownIt) => void
-
-  // Same as `config` but will be applied before all other plugins.
-  preConfig?: (md: MarkdownIt) => void
-
-  // Disable cache (experimental)
-  cache?: boolean
-
-  // Math support (experimental)
-  // You need to install `markdown-it-mathjax3` and set `math` to `true` to enable it.
-  // You can also pass options to `markdown-it-mathjax3` here.
-  // See: https://github.com/tani/markdown-it-mathjax3#customization
-  math?: boolean | any
-
-  // Global custom container titles
-  container?: {
-    infoLabel?: string
-    tipLabel?: string
-    warningLabel?: string
-    dangerLabel?: string
-    detailsLabel?: string
-  }
-}
-```
+Check the [type declaration and jsdocs](https://github.com/vuejs/vitepress/blob/main/src/node/markdown/markdown.ts) for all the options available.
 
 ### vite
 
