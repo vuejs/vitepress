@@ -98,7 +98,6 @@ const classes = computed(() => {
 @media (min-width: 960px) {
   .VPLocalNav {
     top: var(--vp-nav-height);
-    z-index: 1;
   }
 
   .VPLocalNav.has-sidebar {
