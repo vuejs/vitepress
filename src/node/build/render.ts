@@ -148,37 +148,34 @@ export async function renderPage(
     }
   }
 
-  const html = `<!DOCTYPE html>
-<html lang="${siteData.lang}" dir="${siteData.dir}">
-  <head>
-    <meta charset="utf-8">
-    ${
-      isMetaViewportOverridden(head)
-        ? ''
-        : '<meta name="viewport" content="width=device-width,initial-scale=1">'
-    }
-    <title>${title}</title>
-    ${
-      isDescriptionOverridden(head)
-        ? ''
-        : `<meta name="description" content="${description}">`
-    }
-    <meta name="generator" content="VitePress v${version}">
-    ${stylesheetLink}
-    ${metadataScript.inHead ? metadataScript.html : ''}
-    ${
-      appChunk
-        ? `<script type="module" src="${siteData.base}${appChunk.fileName}"></script>`
-        : ''
-    }
-    ${await renderHead(head)}
-  </head>
-  <body>${teleports?.body || ''}
-    <div id="app">${content}</div>
-    ${metadataScript.inHead ? '' : metadataScript.html}
-    ${inlinedScript}
-  </body>
-</html>`
+  const html = [
+    `<!DOCTYPE html>`,
+    `<html lang="${siteData.lang}" dir="${siteData.dir}">`,
+    `<head>`,
+    `<meta charset="utf-8">`,
+    isMetaViewportOverridden(head)
+      ? ''
+      : '<meta name="viewport" content="width=device-width,initial-scale=1">',
+    `<title>${title}</title>`,
+    isDescriptionOverridden(head)
+      ? ''
+      : `<meta name="description" content="${description}">`,
+    `<meta name="generator" content="VitePress v${version}">`,
+    stylesheetLink,
+    metadataScript.inHead ? metadataScript.html : '',
+    appChunk
+      ? `<script type="module" src="${siteData.base}${appChunk.fileName}"></script>`
+      : '',
+    await renderHead(head),
+    `</head>`,
+    `<body>`,
+    teleports?.body || '',
+    `<div id="app">${content}</div>`,
+    metadataScript.inHead ? '' : metadataScript.html,
+    inlinedScript,
+    `</body>`,
+    `</html>`
+  ].join('')
 
   const htmlFileName = path.join(config.outDir, page.replace(/\.md$/, '.html'))
   await fs.ensureDir(path.dirname(htmlFileName))
