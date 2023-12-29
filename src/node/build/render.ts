@@ -19,18 +19,34 @@ import {
 } from '../shared'
 import { version } from '../../../package.json'
 
+export interface RenderPageContext {
+  config: SiteConfig
+  result: Rollup.RollupOutput | null
+  appChunk: Rollup.OutputChunk | null
+  cssChunk: Rollup.OutputAsset | null
+  assets: string[]
+  pageToHashMap: Record<string, string>
+  metadataScript: { html: string; inHead: boolean }
+  additionalHeadTags: HeadConfig[]
+}
+
 export async function renderPage(
   render: (path: string) => Promise<SSGContext>,
-  config: SiteConfig,
-  page: string, // foo.md
-  result: Rollup.RollupOutput | null,
-  appChunk: Rollup.OutputChunk | null,
-  cssChunk: Rollup.OutputAsset | null,
-  assets: string[],
-  pageToHashMap: Record<string, string>,
-  metadataScript: { html: string; inHead: boolean },
-  additionalHeadTags: HeadConfig[]
+  pageNameRaw: string,
+  renderContext: RenderPageContext
 ) {
+  const {
+    config,
+    result,
+    appChunk,
+    cssChunk,
+    assets,
+    pageToHashMap,
+    metadataScript,
+    additionalHeadTags
+  } = renderContext
+
+  const page = config.rewrites.inv[pageNameRaw] || pageNameRaw
   const routePath = `/${page.replace(/\.md$/, '')}`
   const siteData = resolveSiteDataByRoute(config.site, routePath)
 

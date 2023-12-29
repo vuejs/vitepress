@@ -14,7 +14,7 @@ import { deserializeFunctions, serializeFunctions } from '../utils/fnSerialize'
 import { task } from '../utils/task'
 import { bundle } from './bundle'
 import { generateSitemap } from './generateSitemap'
-import { renderPage } from './render'
+import { renderPage, type RenderPageContext } from './render'
 import humanizeDuration from 'humanize-duration'
 
 export async function build(
@@ -52,10 +52,9 @@ export async function build(
       return
     }
 
-    const entryPath = path.join(siteConfig.tempDir, 'app.js')
-    const { render } = await import(pathToFileURL(entryPath).toString())
-
     await task('rendering pages', async (updateProgress) => {
+      const entryPath = path.join(siteConfig.tempDir, 'app.js')
+
       const appChunk =
         clientResult &&
         (clientResult.output.find(
@@ -109,27 +108,34 @@ export async function build(
         }
       }
 
+      const context: RenderPageContext = {
+        config: siteConfig,
+        result: clientResult,
+        appChunk,
+        cssChunk,
+        assets,
+        pageToHashMap,
+        metadataScript,
+        additionalHeadTags
+      }
+
       const pages = ['404.md', ...siteConfig.pages]
-      let count_done = 0
-      await pMap(
-        pages,
-        async (page) => {
-          await renderPage(
-            render,
-            siteConfig,
-            siteConfig.rewrites.map[page] || page,
-            clientResult,
-            appChunk,
-            cssChunk,
-            assets,
-            pageToHashMap,
-            metadataScript,
-            additionalHeadTags
-          )
-          updateProgress(++count_done, pages.length)
-        },
-        { concurrency: siteConfig.buildConcurrency }
-      )
+
+      if (siteConfig.multithreadRender) {
+        const { default: cluster } = await import('./render-worker')
+        await cluster(entryPath, context, pages, updateProgress)
+      } else {
+        let count_done = 0
+        const { render } = await import(pathToFileURL(entryPath).toString())
+        await pMap(
+          pages,
+          async (page) => {
+            await renderPage(render, page, context)
+            updateProgress(++count_done, pages.length)
+          },
+          { concurrency: siteConfig.buildConcurrency }
+        )
+      }
     })
 
     // emit page hash map for the case where a user session is open

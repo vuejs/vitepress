@@ -157,6 +157,13 @@ export interface UserConfig<ThemeConfig = any>
   buildConcurrency?: number
 
   /**
+   * This option allows you to enable or disable the multithread render.
+   * @experimental
+   * @default false
+   */
+  multithreadRender?: boolean
+
+  /**
    * @experimental
    *
    * source -> destination
@@ -250,4 +257,5 @@ export interface SiteConfig<ThemeConfig = any>
   logger: Logger
   userConfig: UserConfig
   buildConcurrency: number
+  multithreadRender: boolean
 }

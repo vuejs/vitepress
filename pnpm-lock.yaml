@@ -44,6 +44,9 @@ importers:
       mrmime:
         specifier: ^2.0.0
         version: 2.0.0
+      rpc-magic-proxy:
+        specifier: 0.0.0-beta.0
+        version: 0.0.0-beta.0
       shikiji:
         specifier: ^0.9.12
         version: 0.9.12
@@ -3912,6 +3915,10 @@ packages:
       '@rollup/rollup-win32-ia32-msvc': 4.9.1
       '@rollup/rollup-win32-x64-msvc': 4.9.1
       fsevents: 2.3.3
+
+  /rpc-magic-proxy@0.0.0-beta.0:
+    resolution: {integrity: sha512-1UFsu4fpV/OGL8c1knrnx613zzZY9XSbqLUd5pSmOfh0ErAz1R8Dve5S65otFAtNtTO56SWFHbutHcw1lUkkcg==}
+    dev: false
 
   /run-parallel@1.2.0:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
