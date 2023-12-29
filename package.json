@@ -101,7 +101,7 @@
     "mark.js": "8.11.1",
     "minisearch": "^6.3.0",
     "mrmime": "^2.0.0",
-    "rpc-magic-proxy": "0.0.0-beta.0",
+    "rpc-magic-proxy": "0.0.0-beta.1",
     "shikiji": "^0.9.12",
     "shikiji-transformers": "^0.9.12",
     "vite": "^5.0.10",

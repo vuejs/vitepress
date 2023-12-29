@@ -14,24 +14,25 @@ export default async function cluster(
 ) {
   const concurrency = context.config.buildConcurrency || 1
   const num_tasks = pages.length
-  let progress = -concurrency
 
   const pageAlloc: TaskAllocator<string> = async () => {
-    progress++
-    if (progress >= 0) update(progress, num_tasks)
-    return pages.shift()
+    const page = pages.shift()
+    if (page) update(num_tasks - pages.length, num_tasks)
+    return page
   }
 
   const tasks = []
 
+  const ctx = new RpcContext()
+  const workerData = await ctx.serialize({
+    concurrency,
+    entryPath,
+    pageAlloc,
+    context,
+    workload: 'render'
+  })
+
   for (let _ = 0; _ < concurrency; _++) {
-    const ctx = new RpcContext()
-    const workerData = await ctx.serialize({
-      entryPath,
-      pageAlloc,
-      context,
-      workload: 'render'
-    })
     const worker = new Worker(new URL(import.meta.url), { workerData })
     ctx.bind(worker)
     tasks.push(
@@ -51,10 +52,12 @@ async function renderWorker() {
   const ctx = new RpcContext(parentPort!)
   try {
     const {
+      concurrency,
       entryPath,
       pageAlloc,
       context
     }: {
+      concurrency: number
       entryPath: string
       pageAlloc: TaskAllocator<string>
       context: RenderPageContext
@@ -62,11 +65,14 @@ async function renderWorker() {
     const { pathToFileURL } = await import('url')
     const { renderPage } = await import('./render')
     const { render } = await import(pathToFileURL(entryPath).toString())
-    while (true) {
-      const page = await pageAlloc()
-      if (!page) break
-      await renderPage(render, page, context)
+    async function executor() {
+      while (true) {
+        const page = await pageAlloc()
+        if (!page) break
+        await renderPage(render, page, context)
+      }
     }
+    await Promise.all(Array.from({ length: concurrency * 4 }, () => executor()))
   } catch (e) {
     console.error(e)
   } finally {
