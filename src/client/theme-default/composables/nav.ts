@@ -21,14 +21,14 @@ export function useNav() {
   }
 
   function toggleScreen() {
-    isScreenOpen.value ? closeScreen() : openScreen()
+    isScreenOpen.value ? handleCloseScreen() : openScreen()
   }
 
   /**
    * Close the screen when the user resizes the window wider than tablet size.
    */
   function closeScreenOnTabletWindow() {
-    window.outerWidth >= 768 && closeScreen()
+    window.outerWidth >= 768 && handleCloseScreen()
   }
 
   const route = useRoute()
