@@ -105,7 +105,8 @@ export async function resolveConfig(
 
   const { pages, dynamicRoutes, rewrites } = await resolvePages(
     srcDir,
-    userConfig
+    userConfig,
+    logger
   )
 
   const config: SiteConfig = {

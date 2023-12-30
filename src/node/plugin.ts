@@ -268,7 +268,11 @@ export async function createVitePressPlugin(
         if (file.endsWith('.md')) {
           Object.assign(
             siteConfig,
-            await resolvePages(siteConfig.srcDir, siteConfig.userConfig)
+            await resolvePages(
+              siteConfig.srcDir,
+              siteConfig.userConfig,
+              siteConfig.logger
+            )
           )
         }
 
