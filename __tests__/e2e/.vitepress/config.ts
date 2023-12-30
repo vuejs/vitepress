@@ -86,6 +86,11 @@ const sidebar: DefaultTheme.Config['sidebar'] = {
 export default defineConfig({
   title: 'Example',
   description: 'An example app using VitePress.',
+  markdown: {
+    image: {
+      lazyLoading: true
+    }
+  },
   themeConfig: {
     sidebar,
     search: {
