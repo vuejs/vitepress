@@ -23,7 +23,7 @@ import type { Logger } from 'vite'
 import { containerPlugin, type ContainerOptions } from './plugins/containers'
 import { highlight } from './plugins/highlight'
 import { highlightLinePlugin } from './plugins/highlightLines'
-import { imagePlugin } from './plugins/image'
+import { imagePlugin, type Options as ImageOptions } from './plugins/image'
 import { lineNumberPlugin } from './plugins/lineNumbers'
 import { linkPlugin } from './plugins/link'
 import { preWrapperPlugin } from './plugins/preWrapper'
@@ -166,11 +166,7 @@ export interface MarkdownOptions extends MarkdownIt.Options {
    * @see https://vitepress.dev/guide/markdown#math-equations
    */
   math?: boolean | any
-  /**
-   * Support native lazy loading for the <img> tag.
-   * @default false
-   */
-  lazyLoading?: boolean
+  image?: ImageOptions
 }
 
 export type MarkdownRenderer = MarkdownIt
@@ -203,7 +199,7 @@ export const createMarkdownRenderer = async (
     .use(preWrapperPlugin, { hasSingleTheme })
     .use(snippetPlugin, srcDir)
     .use(containerPlugin, { hasSingleTheme }, options.container)
-    .use(imagePlugin, options.lazyLoading)
+    .use(imagePlugin, options.image)
     .use(
       linkPlugin,
       { target: '_blank', rel: 'noreferrer', ...options.externalLinks },

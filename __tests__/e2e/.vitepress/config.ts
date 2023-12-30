@@ -87,7 +87,9 @@ export default defineConfig({
   title: 'Example',
   description: 'An example app using VitePress.',
   markdown: {
-    lazyLoading: true
+    image: {
+      lazyLoading: true
+    }
   },
   themeConfig: {
     sidebar,
