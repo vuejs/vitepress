@@ -84,10 +84,18 @@ const sidebar: DefaultTheme.Config['sidebar'] = {
 }
 
 export default defineConfig({
-  title: 'Example',
-  description: 'An example app using VitePress.',
+  extends: [
+    {
+      title: 'Example',
+      description: 'An example app using VitePress.'
+    },
+    {
+      themeConfig: {
+        sidebar
+      }
+    }
+  ],
   themeConfig: {
-    sidebar,
     search: {
       provider: 'local',
       options: {

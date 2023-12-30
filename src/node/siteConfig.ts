@@ -56,7 +56,7 @@ export interface TransformPageContext {
 
 export interface UserConfig<ThemeConfig = any>
   extends LocaleSpecificConfig<ThemeConfig> {
-  extends?: RawConfigExports<ThemeConfig>
+  extends?: RawConfigExports<ThemeConfig> | RawConfigExports<ThemeConfig>[]
 
   base?: string
   srcDir?: string
