@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { onKeyStroke } from '@vueuse/core'
 import { onContentUpdated } from 'vitepress'
 import { nextTick, ref } from 'vue'
 import { useData } from '../composables/data'
@@ -31,10 +30,6 @@ const { activate, deactivate } = useFocusTrap(items, {
 })
 
 const vh = ref(0)
-
-onKeyStroke('Escape', () => {
-  deactivate()
-})
 
 onContentUpdated(deactivate)
 
