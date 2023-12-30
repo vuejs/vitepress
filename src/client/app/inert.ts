@@ -12,8 +12,7 @@ const inertStateSymbol = Symbol()
 export interface Inert {
   isSidebarOpen: boolean
   isScreenOpen: boolean
-  isSidebarEnabled: boolean
-  onAfterRouteChanged: () => void
+  isSidebarVisible: boolean
 }
 
 export interface InertState {
@@ -37,20 +36,13 @@ export function provideInert(app: App) {
   const inert = reactive({
     isSidebarOpen: false,
     isScreenOpen: false,
-    isSidebarEnabled: false,
-    onAfterRouteChanged() {
-      inert.isSidebarOpen = false
-      inert.isScreenOpen = false
-    }
+    isSidebarVisible: true
   })
   const inertState = reactive({
     inertSkipLink: computed(() => inert.isSidebarOpen || inert.isScreenOpen),
     inertNav: computed(() => inert.isSidebarOpen),
     inertLocalNav: computed(() => inert.isSidebarOpen || inert.isScreenOpen),
-    inertSidebar: computed(
-      () =>
-        !inert.isSidebarEnabled && (!inert.isSidebarOpen || inert.isScreenOpen)
-    ),
+    inertSidebar: computed(() => !inert.isSidebarVisible || inert.isScreenOpen),
     inertContent: computed(() => inert.isSidebarOpen || inert.isScreenOpen),
     inertFooter: computed(() => inert.isSidebarOpen || inert.isScreenOpen)
   })

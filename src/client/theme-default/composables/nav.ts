@@ -1,41 +1,43 @@
-import { computed, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { useInert, useRoute } from 'vitepress'
+import { useMediaQuery } from '@vueuse/core'
 
 export function useNav() {
   const inert = useInert()!
-  const isScreenOpen = computed(() => inert.isScreenOpen)
+  const is768 = useMediaQuery('(min-width: 768px)')
+  const isScreenOpen = ref(false)
 
   function openScreen() {
-    inert.isScreenOpen = true
-    window.addEventListener('resize', closeScreenOnTabletWindow)
-  }
-
-  function handleCloseScreen(fromRoute = false) {
-    if (fromRoute) inert.onAfterRouteChanged()
-    else inert.isScreenOpen = false
-    window.removeEventListener('resize', closeScreenOnTabletWindow)
+    isScreenOpen.value = true
   }
 
   function closeScreen() {
-    handleCloseScreen()
+    isScreenOpen.value = false
   }
 
   function toggleScreen() {
-    isScreenOpen.value ? handleCloseScreen() : openScreen()
+    isScreenOpen.value ? closeScreen() : openScreen()
   }
 
-  /**
-   * Close the screen when the user resizes the window wider than tablet size.
-   */
-  function closeScreenOnTabletWindow() {
-    window.outerWidth >= 768 && handleCloseScreen()
-  }
+  watch(is768, (mq) => {
+    if (mq) {
+      isScreenOpen.value = false
+    }
+  })
+
+  watch(
+    () => [isScreenOpen.value, is768.value],
+    ([screenOpen, mq]) => {
+      if (mq) {
+        inert.isScreenOpen = false
+      } else {
+        inert.isScreenOpen = screenOpen
+      }
+    }
+  )
 
   const route = useRoute()
-  watch(
-    () => route.path,
-    () => handleCloseScreen(true)
-  )
+  watch(() => route.path, closeScreen)
 
   return {
     isScreenOpen,

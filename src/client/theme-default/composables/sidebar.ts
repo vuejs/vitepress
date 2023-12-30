@@ -32,10 +32,10 @@ export interface SidebarControl {
 
 export function useSidebar() {
   const { frontmatter, page, theme } = useData()
+  const inert = useInert()!
   const is960 = useMediaQuery('(min-width: 960px)')
 
-  const inert = useInert()!
-  const isOpen = computed(() => inert.isSidebarOpen)
+  const isOpen = ref(false)
 
   const _sidebar = computed(() => {
     const sidebarConfig = theme.value.sidebar
@@ -74,16 +74,28 @@ export function useSidebar() {
 
   const isSidebarEnabled = computed(() => hasSidebar.value && is960.value)
 
+  watch(
+    () => [hasSidebar.value, is960.value, isOpen.value],
+    ([sb, mq, o]) => {
+      if (o) {
+        inert.isSidebarVisible = inert.isSidebarOpen = true
+      } else {
+        inert.isSidebarOpen = false
+        inert.isSidebarVisible = sb && mq
+      }
+    }
+  )
+
   const sidebarGroups = computed(() => {
     return hasSidebar.value ? getSidebarGroups(sidebar.value) : []
   })
 
   function open() {
-    inert.isSidebarOpen = true
+    isOpen.value = true
   }
 
   function close() {
-    inert.isSidebarOpen = false
+    isOpen.value = false
   }
 
   function toggle() {
