@@ -46,26 +46,12 @@ const plugins = [
   json()
 ]
 
-const node_root = r('src/node/')
-
 const esmBuild: RollupOptions = {
   input: [r('src/node/index.ts'), r('src/node/cli.ts')],
   output: {
     format: 'esm',
     entryFileNames: `[name].js`,
-    chunkFileNames(chunk) {
-      return `${chunk.name}-[hash].js`
-    },
-    manualChunks(id) {
-      // Chunk each worker into a separate file
-      if (!id.startsWith(node_root)) return
-      id = id.slice(node_root.length).replace(/^\//, '')
-      const match = /^.*\-worker(?=(\.(js|ts))?$)/i.exec(id)
-      if (match) {
-        const [name] = match
-        return name
-      }
-    },
+    chunkFileNames: 'serve-[hash].js',
     dir: r('dist/node'),
     sourcemap: DEV
   },
