@@ -63,7 +63,7 @@ export default defineConfigWithTheme<ThemeConfig>({
 })
 ```
 
-### Vite, Vue & Markdown Config
+### Vite、Vue 和 Markdown 配置
 
 - **Vite**
 
@@ -79,11 +79,10 @@ export default defineConfigWithTheme<ThemeConfig>({
 
 ## 站点元数据 {#site-metadata}
 
-### 标题 {#title}
+### title
 
-- key `title`
-- Type: `string`
-- Default: `VitePress`
+- 类型：`string`
+- 默认值： `VitePress`
 - 每个页面可以通过 [frontmatter](./frontmatter-config#title) 覆写
 
 网站的标题。使用默认主题时，这将显示在导航栏中。
@@ -102,10 +101,9 @@ export default {
 
 页面标题就是 `Hello | My Awesome Site`.
 
-### 标题模板 {#title-template}
+### titleTemplate
 
-- key: `titleTemplate`
-- Type: `string | boolean`
+- 类型：`string | boolean`
 - 每个页面可以通过 [frontmatter](./frontmatter-config#titletemplate) 覆写
 
 允许自定义每个页面的标题后缀或整个标题。例如：
@@ -135,11 +133,10 @@ export default {
 
 该选项可以设置为 `false` 以禁用标题后缀。
 
-### 描述 {#description}
+### description
 
-- key: `description`
-- Type: `string`
-- Default: `A VitePress site`
+- 类型：`string`
+- 默认值： `A VitePress site`
 - 每个页面可以通过 [frontmatter](./frontmatter-config#description) 覆写
 
 网站的描述。这将呈现为页面 HTML 中的 `<meta>` 标签。
@@ -152,13 +149,11 @@ export default {
 
 ### head
 
-- key: `head`
-- Type: `HeadConfig[]`
-- Default: `[]`
+- 类型：`HeadConfig[]`
+- 默认值： `[]`
 - 每个页面可以通过 [frontmatter](./frontmatter-config#head) 添加
 
-::: details 要在页面 HTML 的 `<head>` 标记中呈现的其他元素。用户添加的标签在结束 `head` 标签之前呈现，在 VitePress 标签之后。
-:::
+要在页面 HTML 的 `<head>` 标记中呈现的其他元素。用户添加的标签在结束 `head` 标签之前呈现，在 VitePress 标签之后。
 
 ```ts
 type HeadConfig =
@@ -198,7 +193,7 @@ export default {
   ]
 }
 
-/* 将会渲染成：
+/* Would render:
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
@@ -222,7 +217,7 @@ export default {
   ]
 }
 
-/* 将会渲染成：
+/* Would render:
   <script id="register-sw">
     ;(() => {
       if ('serviceWorker' in navigator) {
@@ -253,7 +248,7 @@ export default {
   ]
 }
 
-/* 将会渲染成：
+/* Would render:
   <script async src="https://www.googletagmanager.com/gtag/js?id=TAG_ID"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -264,11 +259,10 @@ export default {
 */
 ```
 
-### 语言 {#lang}
+### lang
 
-- key: `lang`
-- Type: `string`
-- Default: `en-US`
+- 类型：`string`
+- 默认值： `en-US`
 
 站点的 lang 属性。这将呈现为页面 HTML 中的 `<html lang="en-US">` 标签。
 
@@ -280,9 +274,8 @@ export default {
 
 ### base
 
-- key: `base`
-- Type: `string`
-- Default: `/`
+- 类型：`string`
+- 默认值： `/`
 
 站点将部署到的 base URL。如果你计划在子路径（例如 GitHub 页面）下部署站点，则需要设置此项。如果你计划将你的站点部署到 `https://foo.github.io/bar/`，那么你应该将 `base` 设置为 `“/bar/”`。它应该始终以 `/`开头和结尾。
 
@@ -296,11 +289,10 @@ export default {
 
 ## 路由 {#routing}
 
-### 简洁 URL {#clean-urls}
+### cleanUrls
 
-- key: `cleanUrls`
-- Type: `boolean`
-- Default: `false`
+- 类型：`boolean`
+- 默认值： `false`
 
 当设置为 `true` 时，VitePress 将从 URL 中删除 `.html` 后缀。另请参阅[生成简洁的 URL](../guide/routing#generating-clean-url)。
 
@@ -308,10 +300,9 @@ export default {
 要启用此功能，可能需要在你的托管平台上进行额外配置。要使其正常工作，你的服务器必须能够在**不重定向的情况下**访问 `/foo` 时提供 `/foo.html`。
 :::
 
-### 路由重写 {#rewrites}
+### rewrites
 
-- key: `rewrites`
-- Type: `Record<string, string>`
+- 类型：`Record<string, string>`
 
 自定义目录 &lt;-&gt; URL 映射。详细信息请参阅[路由：路由重写](../guide/routing#route-rewrites)。
 
@@ -323,13 +314,12 @@ export default {
 }
 ```
 
-## Build
+## 构建 {#build}
 
 ### srcDir
 
-- key: `srcDir`
-- Type: `string`
-- Default: `.`
+- 类型：`string`
+- 默认值： `.`
 
 markdown 页面的目录，相对于项目根目录。另请参阅[根目录和源目录](../guide/routing#root-and-source-directory)。
 
@@ -341,13 +331,10 @@ export default {
 
 ### srcExclude
 
-- key: `srcExclude`
-- Type: `string`
-- Default: `undefined`
+- 类型：`string`
+- 默认值： `undefined`
 
-::: details 用于匹配应作为源内容输出的 markdown 文件的 [全局模式](https://github.com/mrmlnc/fast-glob#pattern-syntax)。
-A [glob pattern](https://github.com/mrmlnc/fast-glob#pattern-syntax) for matching markdown files that should be excluded as source content.
-:::
+用于匹配应作为源内容输出的 markdown 文件的 [全局模式](https://github.com/mrmlnc/fast-glob#pattern-syntax)。
 
 ```ts
 export default {
@@ -357,9 +344,8 @@ export default {
 
 ### outDir
 
-- key: `outDir`
-- Type: `string`
-- Default: `./.vitepress/dist`
+- 类型：`string`
+- 默认值： `./.vitepress/dist`
 
 项目的构建输出位置，相对于[项目根目录](../guide/routing#root-and-source-directory)。
 
@@ -371,9 +357,8 @@ export default {
 
 ### assetsDir
 
-- key: `assetsDir`
-- Type: `string`
-- Default: `assets`
+- 类型：`string`
+- 默认值： `assets`
 
 指定放置生成的静态资源的目录。该路径应位于 [`outDir`](#outdir) 内，并相对于它进行解析。
 
@@ -385,9 +370,8 @@ export default {
 
 ### cacheDir
 
-- key: `cacheDir`
-- Type: `string`
-- Default: `./.vitepress/cache`
+- 类型：`string`
+- 默认值： `./.vitepress/cache`
 
 缓存文件的目录，相对于[项目根目录](../guide/routing#root-and-source-directory)。另请参阅：[cacheDir](https://vitejs.dev/config/shared-options.html#cachedir)。
 
@@ -397,11 +381,10 @@ export default {
 }
 ```
 
-### 忽略死链 {#ignore-dead-links}
+### ignoreDeadLinks
 
-- key: `ignoreDeadLinks`
-- Type: `boolean | 'localhostLinks' | (string | RegExp | ((link: string) => boolean))[]`
-- Default: `false`
+- 类型：`boolean | 'localhostLinks' | (string | RegExp | ((link: string) => boolean))[]`
+- 默认值： `false`
 
 当设置为 `true` 时，VitePress 不会因为死链而导致构建失败。
 
@@ -432,23 +415,19 @@ export default {
 }
 ```
 
-### 多页应用 <Badge type="warning" text="experimental" /> {#mpa}
+### mpa <Badge type="warning" text="experimental" />
 
-- key: `mpa`
-- Type: `boolean`
-- Default: `false`
+- 类型：`boolean`
+- 默认值： `false`
 
-::: details 设置为 `true` 时，生产应用程序将在 [MPA 模式](../guide/mpa-mode)下构建。MPA 模式默认提供 零 JavaScript 支持，代价是禁用客户端导航，并且需要明确选择加入才能进行交互。
-When set to `true`, the production app will be built in [MPA Mode](../guide/mpa-mode). MPA mode ships 0kb JavaScript by default, at the cost of disabling client-side navigation and requires explicit opt-in for interactivity.
-:::
+设置为 `true` 时，生产应用程序将在 [MPA 模式](../guide/mpa-mode)下构建。MPA 模式默认提供 零 JavaScript 支持，代价是禁用客户端导航，并且需要明确选择加入才能进行交互。
 
 ## 主题 {#theming}
 
-### 外观 {#appearance}
+### appearance 
 
-- key: `appearance`
-- Type: `boolean | 'dark' | 'force-dark' | import('@vueuse/core').UseDarkOptions`
-- Default: `true`
+- 类型：`boolean | 'dark' | 'force-dark' | import('@vueuse/core').UseDarkOptions`
+- 默认值： `true`
 
 是否启用深色模式（通过将 `.dark` 类添加到 `<html>` 元素）。
 
@@ -460,22 +439,20 @@ When set to `true`, the production app will be built in [MPA Mode](../guide/mpa-
 
 `appearance.initialValue` 只能是 `'dark' | undefined`。 不支持 Refs 或 getters。
 
-### 最近更新时间 {#last-updated}
+### lastUpdated
 
-- key: `lastUpdated`
-- Type: `boolean`
-- Default: `false`
+- 类型：`boolean`
+- 默认值： `false`
 
 是否使用 Git 获取每个页面的最后更新时间戳。时间戳将包含在每个页面的页面数据中，可通过 [`useData`](./runtime-api#usedata) 访问。
 
 使用默认主题时，启用此选项将显示每个页面的最后更新时间。你可以通过 [`themeConfig.lastUpdatedText`](./default-theme-config#lastupdatedtext) 选项自定义文本。
 
-## 定制 {#customization}
+## 自定义 {#customization}
 
 ### markdown
 
-- key: `markdown`
-- Type: `MarkdownOption`
+- 类型：`MarkdownOption`
 
 配置 Markdown 解析器选项。VitePress 使用 [Markdown-it](https://github.com/markdown-it/markdown-it) 作为解析器，使用[Shikiji](https://github.com/antfu/shikiji) ([Shiki](https://shiki.matsu.io/) 的改进版本) 来高亮不同语言语法。在此选项中，你可以传递各种 Markdown 相关选项以满足你的需要。
 
@@ -489,8 +466,7 @@ export default {
 
 ### vite
 
-- key: `vite`
-- Type: `import('vite').UserConfig`
+- 类型：`import('vite').UserConfig`
 
 将原始 [Vite 配置](https://vitejs.dev/config/)传递给内部 Vite 开发服务器 / bundler。
 
@@ -504,8 +480,7 @@ export default {
 
 ### vue
 
-- key: `vue`
-- Type: `import('@vitejs/plugin-vue').Options`
+- 类型：`import('@vitejs/plugin-vue').Options`
 
 将原始的 [@vitejs/plugin-vue 选项](https://github.com/vitejs/vite-plugin-vue/tree/main/packages/plugin-vue#options)传递给内部插件实例。
 
@@ -519,18 +494,16 @@ export default {
 
 ## 构建钩子 {#build-hooks}
 
-VitePress build hooks allow you to add new functionality and behaviors to your website:
 VitePress 构建钩子允许你向你的网站添加新功能和行为：
 
-- Sitemap 网站地图
-- Search Indexing 搜索索引
-- PWA 渐进式网页应用
-- Teleports
+- Sitemap 
+- Search Indexing 
+- PWA
+- Teleport
 
 ### buildEnd
 
-- key: `buildEnd`
-- Type: `(siteConfig: SiteConfig) => Awaitable<void>`
+- 类型：`(siteConfig: SiteConfig) => Awaitable<void>`
 
 `buildEnd` 是一个构建 CLI 钩子，它将在构建（SSG）完成后但在 VitePress CLI 进程退出之前运行。
 
@@ -544,12 +517,9 @@ export default {
 
 ### postRender
 
-- key: `postRender`
-- Type: `(context: SSGContext) => Awaitable<SSGContext | void>`
+- 类型：`(context: SSGContext) => Awaitable<SSGContext | void>`
 
-::: details `postRender` 是一个构建钩子，在 SSG 渲染完成时调用。它将允许你在 SSG(静态站点生成) 期间处理传递的内容。
-`postRender` is a build hook, called when SSG rendering is done. It will allow you to handle the teleports content during SSG.
-:::
+ `postRender` 是一个构建钩子，在 SSG 渲染完成时调用。它将允许你在 SSG 期间处理传递的内容。
 
 ```ts
 export default {
@@ -569,8 +539,7 @@ interface SSGContext {
 
 ### transformHead
 
-- key: `transformHead`
-- Type: `(context: TransformContext) => Awaitable<HeadConfig[]>`
+- 类型：`(context: TransformContext) => Awaitable<HeadConfig[]>`
 
 `transformHead` 是一个构建钩子，用于在生成每个页面之前转换 head。它将允许你添加无法静态添加到你的 VitePress 配置中的 head entries。你只需要返回额外的 entries，它们将自动与现有 entries 合并。
 
@@ -622,12 +591,11 @@ export default {
 
 ### transformHtml
 
-- key: `transformHtml`
-- Type: `(code: string, id: string, context: TransformContext) => Awaitable<string | void>`
+- 类型：`(code: string, id: string, context: TransformContext) => Awaitable<string | void>`
 
 `transformHtml` 是一个构建钩子，用于在保存到磁盘之前转换每个页面的内容。
 
-::: warning 警告
+::: warning 
 不要改变 `context` 中的任何东西。另外，修改 html 内容可能会导致运行时出现激活问题。
 :::
 
@@ -641,8 +609,7 @@ export default {
 
 ### transformPageData
 
-- key: `transformPageData`
-- Type: `(pageData: PageData, context: TransformPageContext) => Awaitable<Partial<PageData> | { [key: string]: any } | void>`
+- 类型：`(pageData: PageData, context: TransformPageContext) => Awaitable<Partial<PageData> | { [key: string]: any } | void>`
 
 `transformPageData` 是一个钩子，用于转换每个页面的 `pageData`。你可以直接改变 `pageData` 或返回将合并到 `PageData` 中的更改值。
 
