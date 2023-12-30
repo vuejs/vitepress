@@ -148,10 +148,8 @@ export async function renderPage(
     }
   }
 
-  const pageDir = pageData.frontmatter.dir || siteData.dir || 'ltr'
-
   const html = `<!DOCTYPE html>
-<html lang="${siteData.lang}" dir="${pageDir}">
+<html lang="${siteData.lang}" dir="${siteData.dir}">
   <head>
     <meta charset="utf-8">
     ${
@@ -175,7 +173,7 @@ export async function renderPage(
     }
     ${await renderHead(head)}
   </head>
-  <body dir="${pageDir}" style="direction: ${pageDir}">${teleports?.body || ''}
+  <body>${teleports?.body || ''}
     <div id="app">${content}</div>
     ${metadataScript.inHead ? '' : metadataScript.html}
     ${inlinedScript}

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useRoute, inBrowser } from 'vitepress'
+import { useRoute } from 'vitepress'
 import { computed, provide, useSlots, watch } from 'vue'
 import VPBackdrop from './components/VPBackdrop.vue'
 import VPContent from './components/VPContent.vue'
@@ -22,22 +22,12 @@ watch(() => route.path, closeSidebar)
 
 useCloseSidebarOnEscape(isSidebarOpen, closeSidebar)
 
-const { frontmatter, dir } = useData()
+const { frontmatter } = useData()
 
 const slots = useSlots()
 const heroImageSlotExists = computed(() => !!slots['home-hero-image'])
 
 provide('hero-image-slot-exists', heroImageSlotExists)
-
-watch(() => frontmatter.value.dir, (metaDir) => {
-  if (!inBrowser) { return }
-  const pageDir = metaDir || dir.value || 'ltr'
-  // <html dir>
-  document.documentElement.dir = pageDir
-  // <body dir> and <body style="direction">
-  document.body.dir = pageDir
-  document.body.style.direction = pageDir
-}, { immediate: true })
 </script>
 
 <template>
