@@ -14,13 +14,13 @@ VitePress 是一个[静态站点生成器](https://en.wikipedia.org/wiki/Static_
 
   VitePress 附带一个专为技术文档设计的默认主题，尤其是那些需要嵌入交互式演示的主题。它支持你正在阅读的这个页面，以及 [Vite](https://vitejs.dev/)、[Pinia](https://pinia.vuejs.org/)、[VueUse](https://vueuse.org/)、[Mermaid](https://mermaid.js.org/)、[Wikimedia Codex](https://doc.wikimedia.org/codex/latest/) 等文档。
 
-  [Vue.js 官方文档](https://vuejs.org/) 也是基于 VitePress 的。但是为了可以在不同的翻译文档之间共享，它自定义了自己的主题
+  [Vue.js 官方文档](https://vuejs.org/)也是基于 VitePress 的。但是为了可以在不同的翻译文档之间共享，它自定义了自己的主题
 
 - **博客、档案和营销网站**
 
   VitePress 支持[完全的自定义主题](./custom-theme)，具有标准 Vite + Vue 应用程序的开发体验。基于 Vite 构建还意味着可以直接利用其丰富生态系统中的 Vite 插件。此外，VitePress 提供了灵活的 API 来[加载数据](./data-loading) (本地或远程)，也可以[动态生成路由](./routing#dynamic-routes)。只要可以在构建时确定数据，就可以使用它来构建几乎任何东西。
 
-  [Vue.js 官方博客](https://blog.vuejs.org/) 是一个简单的博客页面，它根据本地内容生成其索引页面。
+  [Vue.js 官方博客](https://blog.vuejs.org/)是一个简单的博客页面，它根据本地内容生成其索引页面。
 
 ## 开发体验 {#developer-experience}
 
