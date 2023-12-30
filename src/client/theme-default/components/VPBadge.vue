@@ -30,7 +30,8 @@ withDefaults(defineProps<Props>(), {
 .VPBadge.small {
   padding: 0 6px;
   line-height: 18px;
-  font-size: 11px;
+  font-size: 10px;
+  transform: translateY(-8px);
 }
 
 .VPDocFooter .VPBadge {
