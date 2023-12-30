@@ -65,7 +65,7 @@ describe('Table of Contents', () => {
   test('render toc', async () => {
     const items = page.locator('#table-of-contents + nav ul li')
     const count = await items.count()
-    expect(count).toBe(35)
+    expect(count).toBe(36)
   })
 })
 
@@ -278,5 +278,12 @@ describe('Markdown File Inclusion', () => {
   test('ignore frontmatter if range is not specified', async () => {
     const p = page.locator('.vp-doc')
     expect(await p.textContent()).not.toContain('title')
+  })
+})
+
+describe('Image Lazy Loading', () => {
+  test('render loading="lazy" in the <img> tag', async () => {
+    const img = page.locator('#image-lazy-loading + p img')
+    expect(await img.getAttribute('loading')).toBe('lazy')
   })
 })
