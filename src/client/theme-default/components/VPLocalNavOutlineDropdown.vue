@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { onClickOutside, onKeyStroke } from '@vueuse/core'
 import { onContentUpdated } from 'vitepress'
 import { nextTick, ref } from 'vue'
 import { useData } from '../composables/data'
@@ -14,7 +15,16 @@ const props = defineProps<{
 const { theme } = useData()
 const open = ref(false)
 const vh = ref(0)
+const main = ref<HTMLDivElement>()
 const items = ref<HTMLDivElement>()
+
+onClickOutside(main, () => {
+  open.value = false
+})
+
+onKeyStroke('Escape', () => {
+  open.value = false
+})
 
 onContentUpdated(() => {
   open.value = false
@@ -44,7 +54,11 @@ function scrollToTop() {
 </script>
 
 <template>
-  <div class="VPLocalNavOutlineDropdown" :style="{ '--vp-vh': vh + 'px' }">
+  <div
+    class="VPLocalNavOutlineDropdown"
+    :style="{ '--vp-vh': vh + 'px' }"
+    ref="main"
+  >
     <button @click="toggle" :class="{ open }" v-if="headers.length > 0">
       {{ resolveTitle(theme) }}
       <VPIconChevronRight class="icon" />
@@ -53,11 +67,7 @@ function scrollToTop() {
       {{ theme.returnToTopLabel || 'Return to top' }}
     </button>
     <Transition name="flyout">
-      <div v-if="open"
-        ref="items"
-        class="items"
-        @click="onItemClick"
-      >
+      <div v-if="open" ref="items" class="items" @click="onItemClick">
         <div class="header">
           <a class="top-link" href="#" @click="scrollToTop">
             {{ theme.returnToTopLabel || 'Return to top' }}
@@ -74,6 +84,12 @@ function scrollToTop() {
 <style scoped>
 .VPLocalNavOutlineDropdown {
   padding: 12px 20px 11px;
+}
+
+@media (min-width: 960px) {
+  .VPLocalNavOutlineDropdown {
+    padding: 12px 36px 11px;
+  }
 }
 
 .VPLocalNavOutlineDropdown button {
@@ -95,6 +111,12 @@ function scrollToTop() {
   color: var(--vp-c-text-1);
 }
 
+@media (min-width: 960px) {
+  .VPLocalNavOutlineDropdown button {
+    font-size: 14px;
+  }
+}
+
 .icon {
   display: inline-block;
   vertical-align: middle;
@@ -104,18 +126,13 @@ function scrollToTop() {
   fill: currentColor;
 }
 
-:deep(.outline-link) {
-  font-size: 14px;
-  padding: 2px 0;
-}
-
 .open > .icon {
   transform: rotate(90deg);
 }
 
 .items {
   position: absolute;
-  top: 64px;
+  top: 40px;
   right: 16px;
   left: 16px;
   display: grid;
@@ -126,6 +143,14 @@ function scrollToTop() {
   max-height: calc(var(--vp-vh, 100vh) - 86px);
   overflow: hidden auto;
   box-shadow: var(--vp-shadow-3);
+}
+
+@media (min-width: 960px) {
+  .items {
+    right: auto;
+    left: calc(var(--vp-sidebar-width) + 32px);
+    width: 320px;
+  }
 }
 
 .header {
@@ -147,11 +172,11 @@ function scrollToTop() {
 }
 
 .flyout-enter-active {
-  transition: all .2s ease-out;
+  transition: all 0.2s ease-out;
 }
 
 .flyout-leave-active {
-  transition: all .15s ease-in;
+  transition: all 0.15s ease-in;
 }
 
 .flyout-enter-from,

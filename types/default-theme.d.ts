@@ -358,6 +358,25 @@ export namespace DefaultTheme {
     actionText?: string
   }
 
+  // local nav -----------------------------------------------------------------
+
+  /**
+   * ReturnType of `useLocalNav`.
+   */
+  export interface DocLocalNav {
+    /**
+     * The outline headers of the current page.
+     */
+    headers: ShallowRef<MenuItem[]>
+
+    /**
+     * Whether the current page has a local nav. Local nav is shown when the
+     * "outline" is present in the page. However, note that the actual
+     * local nav visibility depends on the screen width as well.
+     */
+    hasLocalNav: ComputedRef<boolean>
+  }
+
   // outline -------------------------------------------------------------------
 
   export interface Outline {
