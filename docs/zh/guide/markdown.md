@@ -108,7 +108,7 @@ lang: en-US
 
 :tada: :100:
 
-这里你可以找到[所有支持的 emoji 列表](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.json)。
+这里你可以找到[所有支持的 emoji 列表](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.mjs)。
 
 ## 目录表 (TOC) {#table-of-contents}
 
@@ -265,7 +265,7 @@ Wraps in a <div class="vp-raw">
 
 ## 代码块中的语法高亮 {#syntax-highlighting-in-code-blocks}
 
-VitePress 使用 [Shiki](https://shiki.matsu.io/) 在 Markdown 代码块中使用彩色文本实现语法高亮。Shiki 支持多种编程语言。你需要做的就是将有效的语言别名附加到代码块的开头：
+VitePress 使用 [Shikiji](https://github.com/antfu/shikiji) ([Shiki](https://shiki.matsu.io/) 的改进版本) 在 Markdown 代码块中使用彩色文本实现语法高亮。Shiki 支持多种编程语言。你需要做的就是将有效的语言别名附加到代码块的开头：
 
 **输入**
 
@@ -305,7 +305,7 @@ export default {
 </ul>
 ```
 
-在 Shiki 的代码仓库中，可以找到[合法的编程语言列表](https://github.com/shikijs/shiki/blob/main/docs/languages.md)。
+在 Shikiji 的代码仓库中，可以找到[合法的编程语言列表](https://github.com/antfu/shikiji/blob/main/docs/languages.md)。
 
 还可以全局配置中自定义语法高亮主题。有关详细信息，参见 [`markdown` 选项](../reference/site-config#markdown)得到更多信息。
 
@@ -856,27 +856,26 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 VitePress 使用 [markdown-it](https://github.com/markdown-it/markdown-it) 作为 Markdown 渲染器。上面提到的很多拓展功能都是通过自定义插件实现的。你可以使用 `.vitepress/config.js` 中的 `markdown` 选项来进一步自定义 `markdown-it` 实例。
 
 ```js
+import { defineConfig } from 'vitepress'
 import markdownItAnchor from 'markdown-it-anchor'
 import markdownItFoo from 'markdown-it-foo'
 
-module.exports = {
+export default defineConfig({
   markdown: {
     // options for markdown-it-anchor
     // https://github.com/valeriangalliat/markdown-it-anchor#usage
     anchor: {
       permalink: markdownItAnchor.permalink.headerLink()
     },
-
     // options for @mdit-vue/plugin-toc
     // https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-toc#options
     toc: { level: [1, 2] },
-
     config: (md) => {
       // use more markdown-it plugins!
       md.use(markdownItFoo)
     }
   }
-}
+})
 ```
 
 请查看[配置参考：站点配置](../reference/site-config#markdown)来获取完整的可配置属性列表。
