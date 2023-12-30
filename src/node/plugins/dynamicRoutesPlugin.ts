@@ -199,14 +199,6 @@ export async function resolveDynamicRoutes(
           undefined,
           'silent'
         )) as RouteModule
-
-        if (!mod.config.paths) {
-          throw new Error(
-            `Invalid paths file export in ${pathsFile}. ` +
-              `Expects default export of an object with a "paths" property.`
-          )
-        }
-
         routeModuleCache.set(pathsFile, mod)
       } catch (e: any) {
         logger.warn(`${c.yellow(`Failed to load ${pathsFile}:`)}\n${e.stack}`)
