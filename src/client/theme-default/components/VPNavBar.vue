@@ -48,7 +48,10 @@ watchPostEffect(() => {
         <div class="curtain" />
         <div class="content-body">
           <slot name="nav-bar-content-before" />
-          <VPNavBarSearch class="search" />
+          <div class="content-body-context">
+            <VPNavBarSearch class="search" />
+            <slot name="nav-bar-content-middle" />
+          </div>
           <VPNavBarMenu class="menu" />
           <VPNavBarTranslations class="translations" />
           <VPNavBarAppearance class="appearance" />
@@ -165,6 +168,11 @@ watchPostEffect(() => {
   align-items: center;
   height: calc(var(--vp-nav-height) - 1px);
   transition: background-color 0.5s;
+}
+
+.content-body-context {
+  display: flex;
+  flex-grow: 1;
 }
 
 @media (min-width: 960px) {

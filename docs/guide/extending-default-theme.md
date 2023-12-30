@@ -211,6 +211,7 @@ Full list of slots available in the default theme layout:
   - `nav-bar-title-before`
   - `nav-bar-title-after`
   - `nav-bar-content-before`
+  - `nav-bar-content-middle`
   - `nav-bar-content-after`
   - `nav-screen-content-before`
   - `nav-screen-content-after`
