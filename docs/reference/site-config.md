@@ -24,6 +24,62 @@ export default {
 }
 ```
 
+:::details Dynamic (Async) Config
+
+If you need to dynamically generate the config, you can also default export a function. For example:
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default async () => defineConfig({
+  const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
+
+  return {
+    // app level config options
+    lang: 'en-US',
+    title: 'VitePress',
+    description: 'Vite & Vue powered static site generator.',
+
+    // theme level config options
+    themeConfig: {
+      sidebar: [
+        ...posts.map((post) => ({
+          text: post.name,
+          link: `/posts/${post.name}`
+        }))
+      ]
+    }
+  }
+})
+```
+
+You can also use top-level `await`. For example:
+
+```ts
+import { defineConfig } from 'vitepress'
+
+const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
+
+export default defineConfig({
+  // app level config options
+  lang: 'en-US',
+  title: 'VitePress',
+  description: 'Vite & Vue powered static site generator.',
+
+  // theme level config options
+  themeConfig: {
+    sidebar: [
+      ...posts.map((post) => ({
+        text: post.name,
+        link: `/posts/${post.name}`
+      }))
+    ]
+  }
+})
+```
+
+:::
+
 ### Config Intellisense
 
 Using the `defineConfig` helper will provide TypeScript-powered intellisense for config options. Assuming your IDE supports it, this should work in both JavaScript and TypeScript.
