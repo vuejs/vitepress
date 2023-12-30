@@ -847,6 +847,21 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 | $\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t}  = \vec{\mathbf{0}}$                                                          | curl of $\vec{\mathbf{E}}$ is proportional to the rate of change of $\vec{\mathbf{B}}$ |
 | $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _wha?_                                                                                 |
 
+## Image Lazy Loading
+
+You can enable lazy loading for each image added via markdown by setting `lazyLoading` to `true` in your config file:
+
+```js
+export default {
+  markdown: {
+    image: {
+      // image lazy loading is disabled by default
+      lazyLoading: true
+    }
+  }
+}
+```
+
 ## Advanced Configuration
 
 VitePress uses [markdown-it](https://github.com/markdown-it/markdown-it) as the Markdown renderer. A lot of the extensions above are implemented via custom plugins. You can further customize the `markdown-it` instance using the `markdown` option in `.vitepress/config.js`:
