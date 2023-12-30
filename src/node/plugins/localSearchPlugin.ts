@@ -1,6 +1,7 @@
 import _debug from 'debug'
 import fs from 'fs-extra'
 import MiniSearch from 'minisearch'
+import pMap from 'p-map'
 import path from 'path'
 import type { Plugin, ViteDevServer } from 'vite'
 import type { SiteConfig } from '../config'
@@ -12,7 +13,6 @@ import {
   type MarkdownEnv
 } from '../shared'
 import { processIncludes } from '../utils/processIncludes'
-import pMap from 'p-map'
 
 const debug = _debug('vitepress:local-search')
 
@@ -151,7 +151,7 @@ export async function localSearchPlugin(
 
   async function scanForBuild() {
     debug('🔍️ Indexing files for search...')
-    await pMap(['404.md', ...siteConfig.pages], indexFile, {
+    await pMap(siteConfig.pages, indexFile, {
       concurrency: siteConfig.buildConcurrency
     })
     debug('✅ Indexing finished...')
