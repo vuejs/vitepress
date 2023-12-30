@@ -25,3 +25,9 @@ export interface FooterTranslations {
   closeText?: string
   closeKeyAriaLabel?: string
 }
+
+export interface PageSplitSection {
+  anchor?: string
+  titles: string[]
+  text: string
+}
