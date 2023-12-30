@@ -132,7 +132,7 @@ export async function localSearchPlugin(
     const html = await render(file)
     const sections =
       // user provided generator
-      (await options.miniSearch?.splitIntoSections?.(file, html)) ??
+      (await options.miniSearch?._splitIntoSections?.(file, html)) ??
       // default implementation
       splitPageIntoSections(html)
     // add sections to the locale index

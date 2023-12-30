@@ -436,7 +436,7 @@ export namespace DefaultTheme {
        * @param {string} path - absolute path to the markdown source file
        * @param {string} html - document page rendered as html
        */
-      splitIntoSections?: (
+      _splitIntoSections?: (
         path: string,
         html: string
       ) =>
