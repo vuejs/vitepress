@@ -44,7 +44,8 @@ function serializeHeader(h: Element): string {
     if (node.nodeType === 1) {
       if (
         (node as Element).classList.contains('VPBadge') ||
-        (node as Element).classList.contains('header-anchor')
+        (node as Element).classList.contains('header-anchor') ||
+        (node as Element).classList.contains('ignore-header')
       ) {
         continue
       }
