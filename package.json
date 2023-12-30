@@ -162,7 +162,6 @@
     "gray-matter": "^4.0.3",
     "lint-staged": "^15.2.0",
     "lodash.template": "^4.5.0",
-    "lru-cache": "^10.1.0",
     "markdown-it": "^14.0.0",
     "markdown-it-anchor": "^8.6.7",
     "markdown-it-attrs": "^4.1.6",

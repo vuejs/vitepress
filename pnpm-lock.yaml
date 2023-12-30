@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: false
-  excludeLinksFromLockfile: false
-
 overrides:
   ora>string-width: ^5
 
@@ -186,9 +182,6 @@ importers:
       lodash.template:
         specifier: ^4.5.0
         version: 4.5.0
-      lru-cache:
-        specifier: ^10.1.0
-        version: 10.1.0
       markdown-it:
         specifier: ^14.0.0
         version: 14.0.0
@@ -4758,3 +4751,7 @@ packages:
     resolution: {integrity: sha512-9bnSc/HEW2uRy67wc+T8UwauLuPJVn28jb+GtJY16iiKWyvmYJRXVT4UamsAEGQfPohgr2q4Tq0sQbQlxTfi1g==}
     engines: {node: '>=12.20'}
     dev: true
+
+settings:
+  autoInstallPeers: false
+  excludeLinksFromLockfile: false
