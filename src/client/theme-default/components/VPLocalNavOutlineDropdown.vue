@@ -24,7 +24,7 @@ const { activate, deactivate } = useFocusTrap(items, {
   allowOutsideClick: true,
   clickOutsideDeactivates: true,
   escapeDeactivates: true,
-  delayInitialFocus: false,
+  delayInitialFocus: true,
   onDeactivate: () => {
     open.value = false
   },
