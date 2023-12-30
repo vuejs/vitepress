@@ -104,7 +104,8 @@ export async function resolveConfig(
 
   const { pages, dynamicRoutes, rewrites } = await resolvePages(
     srcDir,
-    userConfig
+    userConfig,
+    logger
   )
 
   const config: SiteConfig = {
@@ -141,7 +142,8 @@ export async function resolveConfig(
     transformPageData: userConfig.transformPageData,
     rewrites,
     userConfig,
-    sitemap: userConfig.sitemap
+    sitemap: userConfig.sitemap,
+    buildConcurrency: userConfig.buildConcurrency ?? 64
   }
 
   // to be shared with content loaders

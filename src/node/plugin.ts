@@ -152,7 +152,8 @@ export async function createVitePressPlugin(
             site.themeConfig?.search?.provider === 'algolia' ||
             !!site.themeConfig?.algolia, // legacy
           __CARBON__: !!site.themeConfig?.carbonAds,
-          __ASSETS_DIR__: JSON.stringify(siteConfig.assetsDir)
+          __ASSETS_DIR__: JSON.stringify(siteConfig.assetsDir),
+          __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: !!process.env.DEBUG
         },
         optimizeDeps: {
           // force include vue to avoid duplicated copies when linked + optimized
@@ -267,7 +268,11 @@ export async function createVitePressPlugin(
         if (file.endsWith('.md')) {
           Object.assign(
             siteConfig,
-            await resolvePages(siteConfig.srcDir, siteConfig.userConfig)
+            await resolvePages(
+              siteConfig.srcDir,
+              siteConfig.userConfig,
+              siteConfig.logger
+            )
           )
         }
 

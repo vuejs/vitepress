@@ -1,3 +1,14 @@
+# [1.0.0-rc.33](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.32...v1.0.0-rc.33) (2023-12-26)
+
+### Features
+
+- allow explicitly mark code element as `.vp-copy-ignore` ([#3360](https://github.com/vuejs/vitepress/issues/3360)) ([93122ee](https://github.com/vuejs/vitepress/commit/93122eee20cb6586026c1ffac04d9787861cc2f3))
+- **build:** enable VUE_PROD_HYDRATION_MISMATCH_DETAILS when DEBUG is truthy ([f4d4280](https://github.com/vuejs/vitepress/commit/f4d4280d7d1728a966bb04968a9bac10470c3d06)), closes [#422](https://github.com/vuejs/vitepress/issues/422)
+
+### Performance Improvements
+
+- implement concurrent promise pooling for render task ([#3366](https://github.com/vuejs/vitepress/issues/3366))
+
 # [1.0.0-rc.32](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.31...v1.0.0-rc.32) (2023-12-16)
 
 ### Features
