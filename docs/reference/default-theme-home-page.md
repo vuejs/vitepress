@@ -131,7 +131,7 @@ interface Feature {
   // Link when clicked on feature component. The link can
   // be both internal or external.
   //
-  // e.g. `guid/reference/default-theme-home-page` or `htttps://example.com`
+  // e.g. `guide/reference/default-theme-home-page` or `https://example.com`
   link?: string
 
   // Link text to be shown inside feature component. Best

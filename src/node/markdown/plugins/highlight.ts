@@ -1,6 +1,6 @@
 import { customAlphabet } from 'nanoid'
 import c from 'picocolors'
-import type { LanguageInput, ShikijiTransformer } from 'shikiji'
+import type { ShikijiTransformer } from 'shikiji'
 import {
   bundledLanguages,
   getHighlighter,
@@ -9,7 +9,7 @@ import {
   isSpecialLang
 } from 'shikiji'
 import type { Logger } from 'vite'
-import type { ThemeOptions } from '../markdown'
+import type { MarkdownOptions, ThemeOptions } from '../markdown'
 import {
   transformerCompactLineOptions,
   transformerNotationDiff,
@@ -55,20 +55,24 @@ const attrsToLines = (attrs: string): TransformerCompactLineOption[] => {
 
 export async function highlight(
   theme: ThemeOptions,
-  languages: LanguageInput[] = [],
-  defaultLang: string = '',
-  logger: Pick<Logger, 'warn'> = console,
-  userTransformers: ShikijiTransformer[] = [],
-  languageAlias: Record<string, string> = {}
+  options: MarkdownOptions,
+  logger: Pick<Logger, 'warn'> = console
 ): Promise<(str: string, lang: string, attrs: string) => string> {
+  const {
+    defaultHighlightLang: defaultLang = '',
+    codeTransformers: userTransformers = []
+  } = options
+
   const highlighter = await getHighlighter({
     themes:
       typeof theme === 'string' || 'name' in theme
         ? [theme]
         : [theme.light, theme.dark],
-    langs: [...Object.keys(bundledLanguages), ...languages],
-    langAlias: languageAlias
+    langs: [...Object.keys(bundledLanguages), ...(options.languages || [])],
+    langAlias: options.languageAlias
   })
+
+  await options?.shikijiSetup?.(highlighter)
 
   const transformers: ShikijiTransformer[] = [
     transformerNotationDiff(),
@@ -79,14 +83,20 @@ export async function highlight(
     transformerNotationHighlight(),
     transformerNotationErrorLevel(),
     {
+      name: 'vitepress:add-class',
       pre(node) {
         addClassToHast(node, 'vp-code')
+      }
+    },
+    {
+      name: 'vitepress:clean-up',
+      pre(node) {
+        delete node.properties.tabindex
+        delete node.properties.style
       }
     }
   ]
 
-  const styleRE = /<pre[^>]*(style=".*?")/
-  const preRE = /^<pre(.*?)>/
   const vueRE = /-vue$/
   const lineNoStartRE = /=(\d*)/
   const lineNoRE = /:(no-)?line-numbers(=\d*)?$/
@@ -116,16 +126,6 @@ export async function highlight(
     }
 
     const lineOptions = attrsToLines(attrs)
-    const cleanup = (str: string) => {
-      return str
-        .replace(
-          preRE,
-          (_, attributes) =>
-            `<pre ${vPre}${attributes.replace(' tabindex="0"', '')}>`
-        )
-        .replace(styleRE, (_, style) => _.replace(style, ''))
-    }
-
     const mustaches = new Map<string, string>()
 
     const removeMustache = (s: string) => {
@@ -161,8 +161,17 @@ export async function highlight(
       transformers: [
         ...transformers,
         transformerCompactLineOptions(lineOptions),
+        {
+          name: 'vitepress:v-pre',
+          pre(node) {
+            if (vPre) node.properties['v-pre'] = ''
+          }
+        },
         ...userTransformers
       ],
+      meta: {
+        __raw: attrs
+      },
       ...(typeof theme === 'string' || 'name' in theme
         ? { theme }
         : {
@@ -171,6 +180,6 @@ export async function highlight(
           })
     })
 
-    return fillEmptyHighlightedLine(cleanup(restoreMustache(highlighted)))
+    return fillEmptyHighlightedLine(restoreMustache(highlighted))
   }
 }

@@ -17,7 +17,8 @@ import { slugify } from '@mdit-vue/shared'
 import MarkdownIt from 'markdown-it'
 import anchorPlugin from 'markdown-it-anchor'
 import attrsPlugin from 'markdown-it-attrs'
-import emojiPlugin from 'markdown-it-emoji'
+// @ts-ignore
+import { full as emojiPlugin } from 'markdown-it-emoji'
 import type { Logger } from 'vite'
 import { containerPlugin, type ContainerOptions } from './plugins/containers'
 import { highlight } from './plugins/highlight'
@@ -31,7 +32,8 @@ import type {
   ThemeRegistration,
   BuiltinTheme,
   LanguageInput,
-  ShikijiTransformer
+  ShikijiTransformer,
+  Highlighter
 } from 'shikiji'
 
 export type { Header } from '../shared'
@@ -103,6 +105,10 @@ export interface MarkdownOptions extends MarkdownIt.Options {
    * @see https://github.com/antfu/shikiji#hast-transformers
    */
   codeTransformers?: ShikijiTransformer[]
+  /**
+   * Setup Shikiji instance
+   */
+  shikijiSetup?: (shikiji: Highlighter) => void | Promise<void>
 
   /* ==================== Markdown It Plugins ==================== */
 
@@ -176,16 +182,7 @@ export const createMarkdownRenderer = async (
   const md = MarkdownIt({
     html: true,
     linkify: true,
-    highlight:
-      options.highlight ||
-      (await highlight(
-        theme,
-        options.languages,
-        options.defaultHighlightLang,
-        logger,
-        options.codeTransformers,
-        options.languageAlias
-      )),
+    highlight: options.highlight || (await highlight(theme, options, logger)),
     ...options
   })
 
