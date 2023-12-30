@@ -23,7 +23,7 @@
  *
  * Each colors have exact same color scale system with 3 levels of solid
  * colors with different brightness, and 1 soft color.
- * 
+ *
  * - `XXX-1`: The most solid color used mainly for colored text. It must
  *   satisfy the contrast ratio against when used on top of `XXX-soft`.
  *
@@ -110,7 +110,7 @@
  * - `bg-elv`: The elevated bg color. This is used at parts where it "floats",
  *   such as "dialog".
  *
- * - `bg-soft`: The bg color to slightly ditinguish some components from
+ * - `bg-soft`: The bg color to slightly distinguish some components from
  *   the page. Used for things like "carbon ads" or "table".
  * -------------------------------------------------------------------------- */
 
@@ -179,7 +179,7 @@
  * Colors: Function
  *
  * - `default`: The color used purely for subtle indication without any
- *   special meanings attched to it such as bg color for menu hover state.
+ *   special meanings attached to it such as bg color for menu hover state.
  *
  * - `brand`: Used for primary brand colors, such as link text, button with
  *   brand theme, etc.

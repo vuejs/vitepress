@@ -95,22 +95,6 @@ export async function createVitePressPlugin(
     }
   }
 
-  const getMergedAssetUrlOptions = () => {
-    const { transformAssetUrls } = userVuePluginOptions?.template ?? {}
-    const assetUrlOptions = { includeAbsolute: true }
-
-    if (transformAssetUrls && typeof transformAssetUrls === 'object') {
-      // presence of array fields means this is raw tags config
-      if (Object.values(transformAssetUrls).some((val) => Array.isArray(val))) {
-        return { ...assetUrlOptions, tags: transformAssetUrls as any }
-      } else {
-        return { ...assetUrlOptions, ...transformAssetUrls }
-      }
-    } else {
-      return assetUrlOptions
-    }
-  }
-
   // lazy require plugin-vue to respect NODE_ENV in @vue/compiler-x
   const vuePlugin = await import('@vitejs/plugin-vue').then((r) =>
     r.default({
@@ -121,8 +105,7 @@ export async function createVitePressPlugin(
         compilerOptions: {
           ...userVuePluginOptions?.template?.compilerOptions,
           isCustomElement
-        },
-        transformAssetUrls: getMergedAssetUrlOptions()
+        }
       }
     })
   )
@@ -169,7 +152,8 @@ export async function createVitePressPlugin(
             site.themeConfig?.search?.provider === 'algolia' ||
             !!site.themeConfig?.algolia, // legacy
           __CARBON__: !!site.themeConfig?.carbonAds,
-          __ASSETS_DIR__: JSON.stringify(siteConfig.assetsDir)
+          __ASSETS_DIR__: JSON.stringify(siteConfig.assetsDir),
+          __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: !!process.env.DEBUG
         },
         optimizeDeps: {
           // force include vue to avoid duplicated copies when linked + optimized

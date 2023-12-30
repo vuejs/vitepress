@@ -119,7 +119,7 @@ export const dynamicRoutesPlugin = async (
 
         // inject raw content
         // this is intended for integration with CMS
-        // we use a speical injection syntax so the content is rendered as
+        // we use a special injection syntax so the content is rendered as
         // static local content instead of included as runtime data.
         if (content) {
           baseContent = baseContent.replace(/<!--\s*@content\s*-->/, content)

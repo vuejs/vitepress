@@ -1,6 +1,6 @@
 /**
  * VPSponsors styles are defined as global because a new class gets
- * allied in onMounted` hook and we can't use socped style.
+ * allied in onMounted` hook and we can't use scoped style.
  */
 .vp-sponsor {
   border-radius: 16px;

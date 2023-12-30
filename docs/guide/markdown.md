@@ -108,7 +108,7 @@ For more details, see [Frontmatter](../reference/frontmatter-config).
 
 :tada: :100:
 
-A [list of all emojis](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.json) is available.
+A [list of all emojis](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.mjs) is available.
 
 ## Table of Contents
 
@@ -305,7 +305,7 @@ export default {
 </ul>
 ```
 
-A [list of valid languages](https://github.com/shikijs/shiki/blob/main/docs/languages.md) is available on Shiki's repository.
+A [list of valid languages](https://github.com/antfu/shikiji/blob/main/docs/languages.md) is available on Shikiji's repository.
 
 You may also customize syntax highlight theme in app config. Please see [`markdown` options](../reference/site-config#markdown) for more details.
 
@@ -852,10 +852,11 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 VitePress uses [markdown-it](https://github.com/markdown-it/markdown-it) as the Markdown renderer. A lot of the extensions above are implemented via custom plugins. You can further customize the `markdown-it` instance using the `markdown` option in `.vitepress/config.js`:
 
 ```js
+import { defineConfig } from 'vitepress'
 import markdownItAnchor from 'markdown-it-anchor'
 import markdownItFoo from 'markdown-it-foo'
 
-module.exports = {
+export default defineConfig({
   markdown: {
     // options for markdown-it-anchor
     // https://github.com/valeriangalliat/markdown-it-anchor#usage
@@ -872,7 +873,7 @@ module.exports = {
       md.use(markdownItFoo)
     }
   }
-}
+})
 ```
 
 See full list of configurable properties in [Config Reference: App Config](../reference/site-config#markdown).
