@@ -1,3 +1,22 @@
+# [1.0.0-rc.33](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.32...v1.0.0-rc.33) (2023-12-26)
+
+### Features
+
+- allow explicitly mark code element as `.vp-copy-ignore` ([#3360](https://github.com/vuejs/vitepress/issues/3360)) ([93122ee](https://github.com/vuejs/vitepress/commit/93122eee20cb6586026c1ffac04d9787861cc2f3))
+- **build:** enable VUE_PROD_HYDRATION_MISMATCH_DETAILS when DEBUG is truthy ([f4d4280](https://github.com/vuejs/vitepress/commit/f4d4280d7d1728a966bb04968a9bac10470c3d06)), closes [#422](https://github.com/vuejs/vitepress/issues/422)
+
+### Performance Improvements
+
+- implement concurrent promise pooling for render task ([#3366](https://github.com/vuejs/vitepress/issues/3366))
+
+# [1.0.0-rc.32](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.31...v1.0.0-rc.32) (2023-12-16)
+
+### Features
+
+- allow ignoring node in header ([#3331](https://github.com/vuejs/vitepress/issues/3331)) ([e4bf1e4](https://github.com/vuejs/vitepress/commit/e4bf1e48e6a1592d583b218425c1fa7497955dc5))
+- expose `shikijiSetup` hook ([#3344](https://github.com/vuejs/vitepress/issues/3344)) ([d12e23d](https://github.com/vuejs/vitepress/commit/d12e23ddf69480418078ff39846c99ecf2e1eb1b))
+- update shikiji, support twoslash ([#3339](https://github.com/vuejs/vitepress/issues/3339)) ([8800195](https://github.com/vuejs/vitepress/commit/880019545795fd075be89d94794bfbd05af461b5))
+
 # [1.0.0-rc.31](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.30...v1.0.0-rc.31) (2023-11-25)
 
 ### Bug Fixes
