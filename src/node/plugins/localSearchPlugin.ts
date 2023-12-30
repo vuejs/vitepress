@@ -2,6 +2,7 @@ import _debug from 'debug'
 import fs from 'fs-extra'
 import MiniSearch from 'minisearch'
 import path from 'path'
+import { toDisplayString } from 'vue'
 import type { Plugin, ViteDevServer } from 'vite'
 import type { SiteConfig } from '../config'
 import { createMarkdownRenderer } from '../markdown/markdown'
@@ -24,7 +25,7 @@ interface IndexObject {
   title: string
   titles: string[]
 }
-
+let mdEnv: MarkdownEnv | null
 export async function localSearchPlugin(
   siteConfig: SiteConfig<DefaultTheme.Config>
 ): Promise<Plugin> {
@@ -56,12 +57,12 @@ export async function localSearchPlugin(
   function render(file: string) {
     const { srcDir, cleanUrls = false } = siteConfig
     const relativePath = slash(path.relative(srcDir, file))
-    const env: MarkdownEnv = { path: file, relativePath, cleanUrls }
+    mdEnv = { path: file, relativePath, cleanUrls }
     let src = fs.readFileSync(file, 'utf-8')
     src = processIncludes(srcDir, src, file, [])
-    if (options._render) return options._render(src, env, md)
-    const html = md.render(src, env)
-    return env.frontmatter?.search === false ? '' : html
+    if (options._render) return options._render(src, mdEnv, md)
+    const html = md.render(src, mdEnv)
+    return mdEnv.frontmatter?.search === false ? '' : html
   }
 
   const indexByLocales = new Map<string, MiniSearch<IndexObject>>()
@@ -260,7 +261,9 @@ function splitPageIntoSections(html: string) {
     const level = parseInt(result[i]) - 1
     const heading = result[i + 1]
     const headingResult = headingContentRegex.exec(heading)
-    const title = clearHtmlTags(headingResult?.[1] ?? '').trim()
+    const title = replaceInterpolation(
+      clearHtmlTags(headingResult?.[1] ?? '').trim()
+    )
     const anchor = headingResult?.[2] ?? ''
     const content = result[i + 2]
     if (!title || !content) continue
@@ -273,6 +276,7 @@ function splitPageIntoSections(html: string) {
       parentTitles[level] = title
     }
   }
+  mdEnv = null
   return sections
 }
 
@@ -283,4 +287,21 @@ function getSearchableText(content: string) {
 
 function clearHtmlTags(str: string) {
   return str.replace(/<[^>]*>/g, '')
+}
+
+function replaceInterpolation(str: string) {
+  if (!mdEnv?.frontmatter) {
+    return str
+  }
+
+  return str.replace(/{{\s*([^}]+)\s*}}/g, (match, expression: string) => {
+    const properties = expression.trim().split('.')
+    let value: Record<string, any> = { $frontmatter: { ...mdEnv?.frontmatter } }
+
+    for (let prop of properties) {
+      value = value?.[prop]
+    }
+
+    return value ? toDisplayString(value) : match
+  })
 }
