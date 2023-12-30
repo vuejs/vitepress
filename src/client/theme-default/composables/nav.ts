@@ -10,9 +10,14 @@ export function useNav() {
     window.addEventListener('resize', closeScreenOnTabletWindow)
   }
 
-  function closeScreen() {
-    inert.isScreenOpen = false
+  function handleCloseScreen(fromRoute = false) {
+    if (fromRoute) inert.onAfterRouteChanged()
+    else inert.isScreenOpen = false
     window.removeEventListener('resize', closeScreenOnTabletWindow)
+  }
+
+  function closeScreen() {
+    handleCloseScreen()
   }
 
   function toggleScreen() {
@@ -27,7 +32,10 @@ export function useNav() {
   }
 
   const route = useRoute()
-  watch(() => route.path, closeScreen)
+  watch(
+    () => route.path,
+    () => handleCloseScreen(true)
+  )
 
   return {
     isScreenOpen,
