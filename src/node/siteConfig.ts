@@ -152,7 +152,7 @@ export interface UserConfig<ThemeConfig = any>
    * A lower number will reduce the memory usage but will increase the build time.
    *
    * @experimental
-   * @default 64
+   * @default "Number of CPU cores available"
    */
   buildConcurrency?: number
 

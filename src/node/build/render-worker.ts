@@ -12,7 +12,14 @@ export default async function cluster(
   pages: string[],
   update: UpdateHandle
 ) {
-  const concurrency = context.config.buildConcurrency || 1
+  // - Each render worker could consume up to 150% of a CPU core.
+  // - One extra core is allocated to the main thread.
+  // - Excess worker will cause too much RPC workload for main thread,
+  //   therefore harm the overall performance.
+  const concurrency = Math.round(
+    Math.max((context.config.buildConcurrency - 1) / 1.5, 1)
+  )
+
   const num_tasks = pages.length
 
   const pageAlloc: TaskAllocator<string> = async () => {
@@ -52,12 +59,10 @@ async function renderWorker() {
   const ctx = new RpcContext(parentPort!)
   try {
     const {
-      concurrency,
       entryPath,
       pageAlloc,
       context
     }: {
-      concurrency: number
       entryPath: string
       pageAlloc: TaskAllocator<string>
       context: RenderPageContext
@@ -72,7 +77,8 @@ async function renderWorker() {
         await renderPage(render, page, context)
       }
     }
-    await Promise.all(Array.from({ length: concurrency * 4 }, () => executor()))
+    const concurrency = Math.max(context.config.buildConcurrency, 1)
+    await Promise.all(Array.from({ length: concurrency }, () => executor()))
   } catch (e) {
     console.error(e)
   } finally {
