@@ -3,6 +3,7 @@
 
 // generic types
 export type { VitePressData } from './app/data'
+export type { Inert, InertState } from './app/inert'
 export type { Route, Router } from './app/router'
 
 // theme types
@@ -13,6 +14,7 @@ export type { HeadConfig, Header, PageData, SiteData } from '../../types/shared'
 
 // composables
 export { useData, dataSymbol } from './app/data'
+export { useInert, useInertState } from './app/inert'
 export { useRoute, useRouter } from './app/router'
 
 // utilities

@@ -18,6 +18,7 @@ import {
   getSidebarGroups
 } from '../support/sidebar'
 import { useData } from './data'
+import { useInert } from 'vitepress'
 
 export interface SidebarControl {
   collapsed: Ref<boolean>
@@ -33,7 +34,8 @@ export function useSidebar() {
   const { frontmatter, page, theme } = useData()
   const is960 = useMediaQuery('(min-width: 960px)')
 
-  const isOpen = ref(false)
+  const inert = useInert()!
+  const isOpen = computed(() => inert.isSidebarOpen)
 
   const _sidebar = computed(() => {
     const sidebarConfig = theme.value.sidebar
@@ -77,11 +79,11 @@ export function useSidebar() {
   })
 
   function open() {
-    isOpen.value = true
+    inert.isSidebarOpen = true
   }
 
   function close() {
-    isOpen.value = false
+    inert.isSidebarOpen = false
   }
 
   function toggle() {

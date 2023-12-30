@@ -1,16 +1,17 @@
-import { ref, watch } from 'vue'
-import { useRoute } from 'vitepress'
+import { computed, watch } from 'vue'
+import { useInert, useRoute } from 'vitepress'
 
 export function useNav() {
-  const isScreenOpen = ref(false)
+  const inert = useInert()!
+  const isScreenOpen = computed(() => inert.isScreenOpen)
 
   function openScreen() {
-    isScreenOpen.value = true
+    inert.isScreenOpen = true
     window.addEventListener('resize', closeScreenOnTabletWindow)
   }
 
   function closeScreen() {
-    isScreenOpen.value = false
+    inert.isScreenOpen = false
     window.removeEventListener('resize', closeScreenOnTabletWindow)
   }
 
@@ -19,7 +20,7 @@ export function useNav() {
   }
 
   /**
-   * Close screen when the user resizes the window wider than tablet size.
+   * Close the screen when the user resizes the window wider than tablet size.
    */
   function closeScreenOnTabletWindow() {
     window.outerWidth >= 768 && closeScreen()
