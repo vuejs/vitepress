@@ -14,7 +14,7 @@ withDefaults(defineProps<Props>(), {
   </span>
 </template>
 
-<style scoped>
+<style>
 .VPBadge {
   display: inline-block;
   margin-left: 2px;
@@ -25,6 +25,16 @@ withDefaults(defineProps<Props>(), {
   font-size: 12px;
   font-weight: 500;
   transform: translateY(-2px);
+}
+
+.VPBadge.small {
+  padding: 0 6px;
+  line-height: 18px;
+  font-size: 11px;
+}
+
+.VPDocFooter .VPBadge {
+  display: none;
 }
 
 .vp-doc h1 > .VPBadge {
