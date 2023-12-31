@@ -1,8 +1,9 @@
 import ora from 'ora'
 import humanizeDuration from 'humanize-duration'
+import c from 'picocolors'
 
-export const okMark = '\x1b[32m✓\x1b[0m'
-export const failMark = '\x1b[31m✖\x1b[0m'
+export const okMark = c.green('✓')
+export const failMark = c.red('✖')
 
 export type UpdateHandle = (done: number, total?: number) => any
 
