@@ -147,10 +147,6 @@ export async function highlight(
       return s
     }
 
-    const fillEmptyLines = (s: string) => {
-      return s.replace(/(<span class="line[^>]*>)(<\/span>)/g, '$1<wbr>$2')
-    }
-
     str = removeMustache(str).trimEnd()
 
     const highlighted = highlighter.codeToHtml(str, {
@@ -164,6 +160,29 @@ export async function highlight(
             if (vPre) node.properties['v-pre'] = ''
           }
         },
+        {
+          name: 'vitepress:empty-line',
+          pre(hast) {
+            hast.children.forEach((code) => {
+              if (code.type === 'element' && code.tagName === 'code') {
+                code.children.forEach((span) => {
+                  if (
+                    span.type === 'element' &&
+                    span.tagName === 'span' &&
+                    span.children.length === 0
+                  ) {
+                    span.children.push({
+                      type: 'element',
+                      tagName: 'wbr',
+                      properties: {},
+                      children: []
+                    })
+                  }
+                })
+              }
+            })
+          }
+        },
         ...userTransformers
       ],
       meta: { __raw: attrs },
@@ -172,6 +191,6 @@ export async function highlight(
         : { theme })
     })
 
-    return fillEmptyLines(restoreMustache(highlighted))
+    return restoreMustache(highlighted)
   }
 }
