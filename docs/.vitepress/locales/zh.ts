@@ -88,7 +88,7 @@ function nav(): DefaultTheme.NavItem[] {
           link: 'https://github.com/vuejs/vitepress/blob/main/CHANGELOG.md'
         },
         {
-          text: '贡献',
+          text: '参与贡献',
           link: 'https://github.com/vuejs/vitepress/blob/main/.github/contributing.md'
         }
       ]
