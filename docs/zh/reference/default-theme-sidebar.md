@@ -66,7 +66,7 @@ export default {
 }
 ```
 
-可以进一步将侧边栏项目嵌入到 6 级深度，从根级别上计数。请注意，深度超过 6 级嵌套物品被忽略，并且不会在侧边栏上显示。
+可以进一步将侧边栏项目嵌入到 6 级深度，从根级别上计数。请注意，深度超过 6 级将被忽略，并且不会在侧边栏上显示。
 
 ```js
 export default {
@@ -95,7 +95,7 @@ export default {
 
 ## 多侧边栏 {#multiple-sidebars}
 
-可能会根据页面路径显示不同的侧边栏。例如，如本站点所示，可能希望在文档中创建单独的侧边栏，例如“指引”页面和“配置参考”页面。
+可能会根据页面路径显示不同的侧边栏。例如，如本站点所示，可能希望在文档中创建单独的侧边栏，例如“指南”页面和“配置参考”页面。
 
 为此，首先将你的页面组织到每个所需部分的目录中：
 
@@ -200,7 +200,7 @@ export interface DocSidebar {
 }
 ```
 
-**Example:**
+**示例：**
 
 ```vue
 <script setup>
@@ -210,6 +210,6 @@ const { hasSidebar } = useSidebar()
 </script>
 
 <template>
-  <div v-if="hasSidebar">仅当侧边栏存在时显示</div>
+  <div v-if="hasSidebar">Only show when sidebar exists</div>
 </template>
 ```

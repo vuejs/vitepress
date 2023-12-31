@@ -139,7 +139,7 @@ export default defineConfigWithTheme<ThemeConfig>({
 
 - 类型：`string`
 - 默认值： `VitePress`
-- 每个页面可以通过 [frontmatter](./frontmatter-config#title) 覆写
+- 每个页面可以通过 [frontmatter](./frontmatter-config#title) 覆盖
 
 站点的标题。使用默认主题时，这将显示在导航栏中。
 
@@ -160,7 +160,7 @@ export default {
 ### titleTemplate
 
 - 类型：`string | boolean`
-- 每个页面可以通过 [frontmatter](./frontmatter-config#titletemplate) 覆写
+- 每个页面可以通过 [frontmatter](./frontmatter-config#titletemplate) 覆盖
 
 允许自定义每个页面的标题后缀或整个标题。例如：
 
@@ -193,7 +193,7 @@ export default {
 
 - 类型：`string`
 - 默认值： `A VitePress site`
-- 每个页面可以通过 [frontmatter](./frontmatter-config#description) 覆写
+- 每个页面可以通过 [frontmatter](./frontmatter-config#description) 覆盖
 
 站点的描述。这将呈现为页面 HTML 中的 `<meta>` 标签。
 

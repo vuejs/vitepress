@@ -159,4 +159,4 @@ export default {
 
 ## 社交链接 {#social-links}
 
-参考 [`社交链接`](./default-theme-config#sociallinks)。
+参考 [`socialLinks`](./default-theme-config#sociallinks)。

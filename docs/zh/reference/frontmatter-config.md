@@ -4,7 +4,7 @@ outline: deep
 
 # frontmatter 配置 {#frontmatter-config}
 
-frontmatter 支持基于页面的配置。在每个 markdown 文件中，可以使用 frontmatter 配置来覆写站点级别或主题级别的配置选项。此外，还有一些配置选项只能在 frontmatter 中定义。
+frontmatter 支持基于页面的配置。在每个 markdown 文件中，可以使用 frontmatter 配置来覆盖站点级别或主题级别的配置选项。此外，还有一些配置选项只能在 frontmatter 中定义。
 
 示例用法：
 
@@ -192,7 +192,7 @@ editLink: false
 - 类型：`boolean`
 - 默认值：`true`
 
-是否显示 [页脚](./default-theme-footer).
+是否显示[页脚](./default-theme-footer)。
 
 ```yaml
 ---

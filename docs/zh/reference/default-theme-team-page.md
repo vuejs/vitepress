@@ -49,9 +49,9 @@ const members = [
 ]
 </script>
 
-# 我们的团队 {#our-team}
+# Our Team
 
-向我们出色的团队问好。
+Say hello to our awesome team.
 
 <VPTeamMembers size="small" :members="members" />
 ```
@@ -220,9 +220,7 @@ interface TeamMember {
 
 ## `<VPTeamPage>`
 
-::: details 创建完整团队页面时的根组件。它只接受一个插槽。它将设置所有传入的团队相关组件的样式。
-The root component when creating a full team page. It only accepts a single slot. It will style all passed in team related components.
-:::
+创建完整团队页面时的根组件。它只接受一个插槽。它将设置所有传入的团队相关组件的样式。
 
 ## `<VPTeamPageTitle>`
 

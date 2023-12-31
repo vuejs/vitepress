@@ -168,7 +168,7 @@ export type SidebarItem = {
 
 - 类型：`boolean | 'left'`
 - 默认值：`true`
-- 每个页面可以通过 [frontmatter](./frontmatter-config#aside) 覆写
+- 每个页面可以通过 [frontmatter](./frontmatter-config#aside) 覆盖
 
 将此值设置为 `false` 可禁用 aside(大纲) 容器。\
 将此值设置为 `true` 将在页面右侧渲染。\
@@ -179,7 +179,7 @@ export type SidebarItem = {
 ## outline
 
 - 类型：`Outline | Outline['level'] | false`
-- 每个页面可以通过 [frontmatter](./frontmatter-config#outline) 覆写层级
+- 每个页面可以通过 [frontmatter](./frontmatter-config#outline) 覆盖层级
 
 将此值设置为 `false` 可禁止渲染大纲容器。更多详情请参考该接口：
 
@@ -278,7 +278,7 @@ export interface Footer {
 ## editLink
 
 - 类型：`EditLink`
-- 每个页面可以通过 [frontmatter](./frontmatter-config#editlink) 覆写
+- 每个页面可以通过 [frontmatter](./frontmatter-config#editlink) 覆盖
 
 编辑链接可让显示链接以编辑 Git 管理服务（例如 GitHub 或 GitLab）上的页面。有关详细信息，请参阅 [默认主题：编辑链接](./default-theme-edit-link)。
 

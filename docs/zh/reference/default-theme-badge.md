@@ -22,7 +22,7 @@
 
 ## 自定义子节点 {#custom-children}
 
-`<Badge>` 接受 `子节点`, 这将显示在徽标中。
+`<Badge>` 接受 `children`，这将显示在徽标中。
 
 ```html
 ### Title <Badge type="info">custom element</Badge>
@@ -32,7 +32,7 @@
 
 ## 自定义不同类型徽标的背景色 {#customize-type-color}
 
-可以通过覆写 css 来自定义不同类型 `<Badge />` 的样式。以下是默认值。
+可以通过覆盖 css 来自定义不同类型 `<Badge />` 的样式。以下是默认值。
 
 ```css
 :root {

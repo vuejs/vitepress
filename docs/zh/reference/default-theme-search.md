@@ -96,11 +96,11 @@ export default defineConfig({
 })
 ```
 
-在 [MiniSearch docs](https://lucaong.github.io/minisearch/classes/MiniSearch.MiniSearch.html)了解更多信息。
+参阅 [MiniSearch 文档](https://lucaong.github.io/minisearch/classes/MiniSearch.MiniSearch.html)了解更多信息。
 
 ### 自定义渲染内容 {#custom-content-renderer}
 
-你可以在索引之前自定义用于渲染 Markdown 内容的函数：
+可以在索引之前自定义用于渲染 Markdown 内容的函数：
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -261,7 +261,7 @@ export default defineConfig({
 })
 ```
 
-[这些选项](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts)可以被覆盖。请参阅官方 Algolia 文档以了解更多信息。
+[这些选项](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts)可以被覆盖。请参阅 Algolia 官方文档以了解更多信息。
 
 ### 爬虫配置 {#crawler-config}
 
