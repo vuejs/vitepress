@@ -1,4 +1,4 @@
-# frontmatter {#frontmatter}
+# frontmatter
 
 ## 用法 {#usage}
 
@@ -11,7 +11,7 @@ editLink: true
 ---
 ```
 
-许多站点或默认主题配置选项在 frontmatter 中都有相应的选项。你可以使用 frontmatter 来覆盖当前页面的特定行为。详细信息请参见 [frontmatter Config Reference](../reference/frontmatter-config)。
+许多站点或默认主题配置选项在 frontmatter 中都有相应的选项。你可以使用 frontmatter 来覆盖当前页面的特定行为。详细信息请参见 [frontmatter 配置参考](../reference/frontmatter-config)。
 
 你还可以定义自己的 frontmatter 数据，以在页面上的动态 Vue 表达式中使用。
 

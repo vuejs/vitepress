@@ -10,8 +10,8 @@ hero:
   tagline: 简单、强大、快速。就是你想要的现代 SSG 框架！
   actions:
     - theme: brand
-      text: 认识 VitePress
-      link: /zh/guide/what-is-vitepress
+      text: 快速开始
+      link: /zh/guide/getting-started
     - theme: alt
       text: GitHub
       link: https://github.com/vuejs/vitepress

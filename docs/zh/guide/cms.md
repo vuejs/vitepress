@@ -6,11 +6,11 @@ outline: deep
 
 ## 一般的工作流 {#general-workflow}
 
-将 VitePress 连接到 CMS 主要围绕 [动态路由](./routing#dynamic-routes) 而展开。在继续之前，请确保了解它的工作原理。
+将 VitePress 连接到 CMS 主要围绕 [动态路由](./routing#dynamic-routes) 而展开。在继续阅读之前，请确保了解它的工作原理。
 
 由于每个 CMS 的工作方式都不同，因此我们只能提供一个通用的工作流，你需要根据具体情况进行调整。
 
-1. 如果你的 CMS 需要身份验证，请创建一个 `.env` 文件来存储你的 API 令牌并加载它：
+1. 如果你的 CMS 需要身份验证，请创建一个 `.env` 文件来存储你的 API 令牌：
 
     ```js
     // posts/[id].paths.js
@@ -53,4 +53,4 @@ outline: deep
 
 ## 整合指南 {#integration-guides}
 
-如果你已经写了一篇关于如何将 VitePress 与特定 CMS 集成的指南，请点击下面的 “在 GitHub 上编辑此页面” 链接将它提交到这里！
+如果你已经写了一篇关于如何将 VitePress 与特定 CMS 集成的指南，请点击下面的“在 GitHub 上编辑此页面”链接将它提交到这里！

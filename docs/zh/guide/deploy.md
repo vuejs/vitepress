@@ -221,11 +221,11 @@ Cache-Control: max-age=31536000,immutable
        - main
    ```
 
-### Azure Static Web Apps {#azure-static-web-apps}
+### Azure 静态 web 应用 {#azure-static-web-apps}
 
-1. 遵循[官方文档](https://docs.microsoft.com/en-us/azure/static-web-apps/build-configuration)。
+1. 参考[官方文档](https://docs.microsoft.com/en-us/azure/static-web-apps/build-configuration)。
 
-2. 在配置文件中设置这些值（并删除不需要的值，如 `api_location`）：
+2. 在配置文件中设置这些值 (并删除不需要的值，如 `api_location`)：
 
    - **`app_location`**: `/`
    - **`output_location`**: `docs/.vitepress/dist`
@@ -272,7 +272,7 @@ Cache-Control: max-age=31536000,immutable
 
 ### Heroku
 
-1. 遵循 [`heroku-buildpack-static`](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-static) 中给出的文档和指南。
+1. 参考 [`heroku-buildpack-static`](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-static) 中给出的文档和指南。
 
 2. 使用以下内容在项目的根目录中创建一个名为 `static.json` 的文件：
 

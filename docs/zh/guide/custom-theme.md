@@ -15,7 +15,7 @@
 └─ package.json
 ```
 
-当检测到存在主题入口文件时，VitePress 总会使用自定义主题而不是默认主题。但你可以[拓展默认主题](./extending-default-theme)来在其基础上实现更高级的定制。
+当检测到存在主题入口文件时，VitePress 总会使用自定义主题而不是默认主题。但你可以[拓展默认主题](./extending-default-theme)来在其基础上实现更高级的自定义。
 
 ## 主题接口 {#theme-interface}
 
@@ -150,11 +150,11 @@ const { page, frontmatter } = useData()
 </template>
 ```
 
-请查看[运行时 API 参考](../reference/runtime-api)获取主题组件中所有可用内容。此外，你可以利用[构建时数据加载](./data-loading) 来生成数据驱动布局 - 例如，一个列出当前项目中所有博客文章的页面。
+请查看[运行时 API 参考](../reference/runtime-api)获取主题组件中所有可用内容。此外，你可以利用[构建时数据加载](./data-loading)来生成数据驱动布局——例如，一个列出当前项目中所有博客文章的页面。
 
 ## 分发自定义主题 {#distributing-a-custom-theme}
 
-分发自定义主题最简单的方式是通过将其作为 [GitHub 模版仓库](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-template-repository) 来提供。
+分发自定义主题最简单的方式是通过将其作为 [GitHub 模版仓库](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-template-repository)。
 
 如果你希望将主题作为 npm 包来分发，请按照下面的步骤操作：
 

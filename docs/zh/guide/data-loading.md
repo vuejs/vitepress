@@ -1,12 +1,12 @@
 # 构建时数据加载 {#build-time-data-loading}
 
-VitePress 提供了一个叫做**数据加载器**的功能，它允许你加载任意数据并从页面或组件中导入它。数据加载**只在构建时**执行：最终的数据将被序列化为 JavaScript 包中的 JSON。
+VitePress 提供了**数据加载**的功能，它允许你加载任意数据并从页面或组件中导入它。数据加载**只在构建时**执行：最终的数据将被序列化为 JavaScript 包中的 JSON。
 
-数据加载器可以被用于获取远程数据，也可以基于本地文件生成元数据。例如，你可以使用数据加载器来解析所有本地 API 页面并自动生成所有 API 入口的索引。
+数据加载可以被用于获取远程数据，也可以基于本地文件生成元数据。例如，你可以使用数据加载器来解析所有本地 API 页面并自动生成所有 API 入口的索引。
 
 ## 基本用法 {#basic-usage}
 
-一个数据加载器文件必须以 `.data.js` 或 `.data.ts` 结尾。该文件应该提供一个默认导出的对象，该对象具有 `load()` 方法：
+一个用于数据加载的文件必须以 `.data.js` 或 `.data.ts` 结尾。该文件应该提供一个默认导出的对象，该对象具有 `load()` 方法：
 
 ```js
 // example.data.js
@@ -19,7 +19,7 @@ export default {
 }
 ```
 
-数据加载器模块只在 Node.js 中执行，因此你可以按需导入 Node API 和 npm 依赖。
+数据加载模块只在 Node.js 中执行，因此你可以按需导入 Node API 和 npm 依赖。
 
 然后，你可以在 `.md` 页面和 `.vue` 组件中使用 `data` 命名导出从该文件中导入数据：
 
@@ -39,9 +39,9 @@ import { data } from './example.data.js'
 }
 ```
 
-你会注意到数据加载器本身并没有导出 `data`。这是因为 VitePress 在后台调用了 `load()` 方法，并通过名为 `data` 的命名导出隐式地暴露了结果。
+你会注意到数据加载本身并没有导出 `data`。这是因为 VitePress 在后台调用了 `load()` 方法，并通过名为 `data` 的命名导出隐式地暴露了结果。
 
-即使 loader 是异步的，这也是有效的：
+即使它是异步的，这也是有效的：
 
 ```js
 export default {
@@ -54,7 +54,7 @@ export default {
 
 ## 使用本地文件生成数据 {#data-from-local-files}
 
-当你需要基于本地文件生成数据时，你应该在数据加载器中使用 `watch` 选项，以便这些文件改动时可以触发热更新。
+当你需要基于本地文件生成数据时，你应该在数据加载中使用 `watch` 选项，以便这些文件改动时可以触发热更新。
 
 `watch` 选项也很方便，因为你可以使用 [glob 模式](https://github.com/mrmlnc/fast-glob#pattern-syntax) 匹配多个文件。模式可以相对于加载器文件本身，`load()` 函数将接收匹配文件的绝对路径。
 
@@ -91,9 +91,9 @@ import { createContentLoader } from 'vitepress'
 export default createContentLoader('posts/*.md', /* options */)
 ```
 
-该辅助函数接受一个相对于 [项目根目录](./routing#project-root) 的 glob 模式，并返回一个 `{ watch, load }` 数据加载器对象，该对象可以用作数据加载器文件中的默认导出。它还基于文件修改时间戳实现了缓存以提高开发性能。
+该辅助函数接受一个相对于[项目根目录](./routing#project-root)的 glob 模式，并返回一个 `{ watch, load }` 数据加载对象，该对象可以用作数据加载文件中的默认导出。它还基于文件修改时间戳实现了缓存以提高开发性能。
 
-请注意，加载器仅适用于 Markdown 文件 - 匹配的非 Markdown 文件将被跳过。
+请注意，数据加载仅适用于 Markdown 文件——匹配的非 Markdown 文件将被跳过。
 
 加载的数据将是一个类型为 `ContentData[]` 数组：
 
@@ -131,9 +131,9 @@ import { data as posts } from './posts.data.js'
 </template>
 ```
 
-### Options {#options}
+### 选项 {#options}
 
-默认数据可能不适合所有需求 - 你可以选择使用选项转换数据：
+默认数据可能不适合所有需求——你可以选择使用选项转换数据：
 
 ```js
 // posts.data.js
@@ -158,9 +158,9 @@ export default createContentLoader('posts/*.md', {
 })
 ```
 
-查看它在 [Vue.js 博客](https://github.com/vuejs/blog/blob/main/.vitepress/theme/posts.data.ts) 中是如何使用的。
+查看它在 [Vue.js 博客](https://github.com/vuejs/blog/blob/main/.vitepress/theme/posts.data.ts)中是如何使用的。
 
-`createContentLoader` API 也可以在 [构建钩子](/reference/site-config#build-hooks) 中使用：
+`createContentLoader` API 也可以在[构建钩子](/reference/site-config#build-hooks)中使用：
 
 ```js
 // .vitepress/config.js
@@ -207,7 +207,8 @@ interface ContentOptions<T = ContentData[]> {
     | string
 
   /**
-   * 转换数据。请注意，如果从组件或 Markdown 文件导入，数据将以 JSON 形式内联到客户端包中。
+   * Transform the data. Note the data will be inlined as JSON in the client
+   * bundle if imported from components or markdown files.
    */
   transform?: (data: ContentData[]) => T | Promise<T>
 }
@@ -238,7 +239,7 @@ export default defineLoader({
 
 ## 配置 {#configuration}
 
-要获取加载器中的配置信息，可以使用如下代码：
+要获取数据加载中的配置信息，可以使用如下代码：
 
 ```ts
 import type { SiteConfig } from 'vitepress'
