@@ -1,3 +1,21 @@
+# [1.0.0-rc.34](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.33...v1.0.0-rc.34) (2023-12-30)
+
+### Bug Fixes
+
+- **build:** clear cache after build ([9568fea](https://github.com/vuejs/vitepress/commit/9568fea8fc50e625c8ef27c588eca3dbe5a44e81)), closes [#3363](https://github.com/vuejs/vitepress/issues/3363)
+- **default-theme:** remove use of reactify for search i18n ([8687b86](https://github.com/vuejs/vitepress/commit/8687b86e1e00ae39ff9c8173aef04eb8a9cda0a8))
+- print errors when importing an invalid dynamic route ([#3201](https://github.com/vuejs/vitepress/issues/3201)) ([6d89a08](https://github.com/vuejs/vitepress/commit/6d89a08cb76674f4d92f54218f8af5624bcf4c47))
+- remove double title from home pages ([9f1f04e](https://github.com/vuejs/vitepress/commit/9f1f04e00a9722ec7369941c40d3d8ad86f61d35)), closes [#3375](https://github.com/vuejs/vitepress/issues/3375)
+- **theme/i18n:** support customizing dark mode switch titles ([#3311](https://github.com/vuejs/vitepress/issues/3311)) ([50c9758](https://github.com/vuejs/vitepress/commit/50c9758d3fa1b60aad5399a0db890644ac44a522))
+
+### Features
+
+- support custom image lazy loading ([#3346](https://github.com/vuejs/vitepress/issues/3346)) ([55be3f1](https://github.com/vuejs/vitepress/commit/55be3f14d79eb578c9aa2e3bc7a90205c910005d))
+- support dir in frontmatter ([#3353](https://github.com/vuejs/vitepress/issues/3353)) ([203446d](https://github.com/vuejs/vitepress/commit/203446d69193483a46e1082bba5fbad0e35966fb))
+- **theme/i18n:** allow customizing sponsor link's text ([#3276](https://github.com/vuejs/vitepress/issues/3276)) ([9c20e3b](https://github.com/vuejs/vitepress/commit/9c20e3b5f80e4197c14c20fa751ec3c8c8219e8e))
+- **theme:** allow using VPBadge classes in sidebar ([#3391](https://github.com/vuejs/vitepress/issues/3391)) ([50a774e](https://github.com/vuejs/vitepress/commit/50a774ea7c70bb200e12c176d6691ab7144a73f9))
+- **theme:** new design for local nav and global header ([#3359](https://github.com/vuejs/vitepress/issues/3359)) ([d10bf42](https://github.com/vuejs/vitepress/commit/d10bf42c2632f1aacb905bc01b36274e9004cbd9))
+
 # [1.0.0-rc.33](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.32...v1.0.0-rc.33) (2023-12-26)
 
 ### Features

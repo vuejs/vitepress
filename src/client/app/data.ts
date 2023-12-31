@@ -89,7 +89,7 @@ export function initData(route: Route): VitePressData {
     frontmatter: computed(() => route.data.frontmatter),
     params: computed(() => route.data.params),
     lang: computed(() => site.value.lang),
-    dir: computed(() => site.value.dir),
+    dir: computed(() => route.data.frontmatter.dir || site.value.dir || 'ltr'),
     localeIndex: computed(() => site.value.localeIndex || 'root'),
     title: computed(() => {
       return createTitle(site.value, route.data)
