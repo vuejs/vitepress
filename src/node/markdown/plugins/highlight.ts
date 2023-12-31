@@ -147,11 +147,8 @@ export async function highlight(
       return s
     }
 
-    const fillEmptyHighlightedLine = (s: string) => {
-      return s.replace(
-        /(<span class="line highlighted">)(<\/span>)/g,
-        '$1<wbr>$2'
-      )
+    const fillEmptyLines = (s: string) => {
+      return s.replace(/(<span class="line[^>]*>)(<\/span>)/g, '$1<wbr>$2')
     }
 
     str = removeMustache(str).trimEnd()
@@ -175,6 +172,6 @@ export async function highlight(
         : { theme })
     })
 
-    return fillEmptyHighlightedLine(restoreMustache(highlighted))
+    return fillEmptyLines(restoreMustache(highlighted))
   }
 }
