@@ -128,6 +128,15 @@ export interface MarkdownOptions extends MarkdownIt.Options {
     disable?: boolean
   }
   /**
+   * Options for `markdown-it-emoji`
+   * @see https://github.com/markdown-it/markdown-it-emoji
+   */
+  emoji?: {
+    defs?: Record<string, string>
+    enabled?: string[]
+    shortcuts?: Record<string, string | string[]>
+  }
+  /**
    * Options for `@mdit-vue/plugin-frontmatter`
    * @see https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-frontmatter
    */
@@ -211,7 +220,7 @@ export const createMarkdownRenderer = async (
   if (!options.attrs?.disable) {
     md.use(attrsPlugin, options.attrs)
   }
-  md.use(emojiPlugin)
+  md.use(emojiPlugin, { ...options.emoji })
 
   // mdit-vue plugins
   md.use(anchorPlugin, {

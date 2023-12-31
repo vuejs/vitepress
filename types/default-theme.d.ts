@@ -20,7 +20,7 @@ export namespace DefaultTheme {
     /**
      * Overrides the link of the site logo.
      */
-    logoLink?: string
+    logoLink?: string | { link?: string; rel?: string; target?: string }
 
     /**
      * Custom site title in navbar. If the value is undefined,
@@ -174,8 +174,8 @@ export namespace DefaultTheme {
      * RegExp object here because it isn't serializable
      */
     activeMatch?: string
-    target?: string
     rel?: string
+    target?: string
   }
 
   export interface NavItemChildren {
