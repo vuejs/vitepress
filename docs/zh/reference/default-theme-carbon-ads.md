@@ -19,4 +19,4 @@ export default {
 `//cdn.carbonads.com/carbon.js?serve=${code}&placement=${placement}`
 ```
 
-要了解有关 Carbon Ads 配置的更多信息，请访问 [Carbon Ads 网站](https://www.carbonads.net/)。
+要了解有关 Carbon Ads 配置的更多信息，请访问 [Carbon Ads 站点](https://www.carbonads.net/)。

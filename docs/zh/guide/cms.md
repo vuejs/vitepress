@@ -6,11 +6,11 @@ outline: deep
 
 ## 一般的工作流 {#general-workflow}
 
-将 VitePress 连接到 CMS 主要围绕 [动态路由](./routing#dynamic-routes) 而展开。在继续阅读之前，请确保了解它的工作原理。
+将 VitePress 连接到 CMS 主要围绕[动态路由](./routing#dynamic-routes)展开。在继续阅读之前，请确保了解它的工作原理。
 
 由于每个 CMS 的工作方式都不同，因此我们只能提供一个通用的工作流，你需要根据具体情况进行调整。
 
-1. 如果你的 CMS 需要身份验证，请创建一个 `.env` 文件来存储你的 API 令牌：
+1. 如果你的 CMS 需要身份验证，请创建一个 `.env` 文件来存储你的 API token：
 
     ```js
     // posts/[id].paths.js
@@ -21,13 +21,13 @@ outline: deep
 
 2. 从 CMS 获取必要的数据并将其格式调整为合适的路径数据：
 
-    ```js
+   ```js
     export default {
       async paths() {
-        // 使用相应的 CMS 客户端库 (如果需要的话)
+        // use respective CMS client library if needed
         const data = await (await fetch('https://my-cms-api', {
           headers: {
-            // 如果需要 token 的话请在这里填写
+            // token if necessary
           }
         })).json()
 

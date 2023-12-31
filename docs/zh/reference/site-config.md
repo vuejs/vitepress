@@ -4,7 +4,7 @@ outline: deep
 
 # 站点配置 {#site-config}
 
-Site config 可以定义站点的全局设置。App config 配置选项适用于每个 VitePress 站点，无论它使用什么主题。例如 base 目录或网站的标题。
+Site config 可以定义站点的全局设置。App config 配置选项适用于每个 VitePress 站点，无论它使用什么主题。例如 base 目录或站点的标题。
 
 ## 概览 {#overview}
 
@@ -141,7 +141,7 @@ export default defineConfigWithTheme<ThemeConfig>({
 - 默认值： `VitePress`
 - 每个页面可以通过 [frontmatter](./frontmatter-config#title) 覆写
 
-网站的标题。使用默认主题时，这将显示在导航栏中。
+站点的标题。使用默认主题时，这将显示在导航栏中。
 
 它还将用作所有单独页面标题的默认后缀，除非定义了 [`titleTemplate`](#titletemplate)。单个页面的最终标题将是其第一个 `<h1>` 标题的文本内容加上的全局 `title`。例如使用以下配置和页面内容：
 
@@ -195,7 +195,7 @@ export default {
 - 默认值： `A VitePress site`
 - 每个页面可以通过 [frontmatter](./frontmatter-config#description) 覆写
 
-网站的描述。这将呈现为页面 HTML 中的 `<meta>` 标签。
+站点的描述。这将呈现为页面 HTML 中的 `<meta>` 标签。
 
 ```ts
 export default {
@@ -550,7 +550,7 @@ export default {
 
 ## 构建钩子 {#build-hooks}
 
-VitePress 构建钩子允许向网站添加新功能和行为：
+VitePress 构建钩子允许向站点添加新功能和行为：
 
 - Sitemap 
 - Search Indexing 

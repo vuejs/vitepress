@@ -6,7 +6,7 @@
 
 ## 安装 {#installation}
 
-### 前置知识 {#prerequisites}
+### 前置准备 {#prerequisites}
 
 - [Node.js](https://nodejs.org/) 18 及以上版本。
 - 通过命令行界面 (CLI) 访问 VitePress 的终端。
@@ -52,6 +52,7 @@ $ bun add -D vitepress
 :::
 
 ::: tip 注意
+
 VitePress 是仅 ESM 的软件包。不要使用 `require()` 导入它，并确保最新的 `package.json` 包含 `"type": "module"`，或者更改相关文件的文件扩展名，例如`.vitepress/config.js` 到 `.mjs`/`.mts`。更多详情请参考[Vite 故障排除指南](http://vitejs.dev/guide/troubleshooting.html#this-package-is-esm-only)。此外，在异步 CJS 上下文中，可以使用 `await import('vitepress')` 代替。
 
 :::
@@ -80,7 +81,7 @@ $ bunx vitepress init
 
 <<< @/snippets/init.ansi
 
-:::tip Vue 作为 
+:::tip Vue 作为 peer dependency
 如果打算使用 Vue 组件或 API 进行自定义，还应该明确地将 `vue` 安装为 peer dependency。
 :::
 
@@ -192,7 +193,7 @@ $ bunx vitepress dev docs
 
 更多的命令行用法请参见 [CLI 参考](../reference/cli)。
 
-开发服务应该会运行在 `http://localhost:5173`上。在浏览器中访问 URL 以查看新站点的运行情况吧！
+开发服务应该会运行在 `http://localhost:5173` 上。在浏览器中访问 URL 以查看新站点的运行情况吧！
 
 ## 下一步 {#what-s-next}
 

@@ -42,7 +42,7 @@ export default DefaultTheme
 
 ## 使用自定义字体 {#using-different-fonts}
 
-VitePress 使用 [Inter](https://rsms.me/inter/) 作为默认字体，并且将其包含在生成的输出中。该字体在生产环境中也会自动预加载。但是如果要使用不同的主字体，这可能不是一个好的选择。
+VitePress 使用 [Inter](https://rsms.me/inter/) 作为默认字体，并且将其包含在生成的输出中。该字体在生产环境中也会自动预加载。但是如果要使用不同的字体，这可能不是很好。
 
 为了避免在生成后的输出中包含 Inter 字体，请从 `vitepress/theme-without-fonts` 中导入主题：
 
@@ -63,7 +63,7 @@ export default DefaultTheme
 ```
 
 ::: warning
-如果你在使用像是[团队页](/reference/default-theme-team-page)这样的组件，请确保也在从 `vitepress/theme-without-fonts` 中导入它们！
+如果你在使用像是[团队页](/reference/default-theme-team-page)这样的组件，请确保也从 `vitepress/theme-without-fonts` 中导入它们！
 :::
 
 如果字体是通过 `@font-face` 引用的本地文件，它将会被作为资源被包含在 `.vitepress/dist/asset` 目录下，并且使用哈希后的文件名。为了预加载这个文件，请使用 [transformHead](/reference/site-config#transformhead) 构建钩子：
@@ -127,7 +127,7 @@ export default {
 
 ## 布局插槽 {#layout-slots}
 
-默认主题的 `<Layout/>` 组件有一些插槽，能够被用来在页面的特定位置注入内容。下面这个例子展示了将一个组件注入到大纲之前：
+默认主题的 `<Layout/>` 组件有一些插槽，能够被用来在页面的特定位置注入内容。下面这个例子展示了将一个组件注入到 outline 之前：
 
 ```js
 // .vitepress/theme/index.js
@@ -215,9 +215,11 @@ export default {
   - `nav-screen-content-before`
   - `nav-screen-content-after`
 
+## Using View Transitions API
+
 ### 关于外观切换 {#on-appearance-toggle}
 
-可以扩展默认主题以在切换颜色模式时提供自定义过渡动画。一个例子：
+可以扩展默认主题以在切换颜色模式时提供自定义过渡动画。例如：
 
 ```vue
 <!-- .vitepress/theme/Layout.vue -->
@@ -294,7 +296,7 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
 </style>
 ```
 
-结果（**谨慎使用！**：闪烁的颜色、突然的移动、高亮度）：
+Result (**warning!**: flashing colors, sudden movements, bright lights):
 
 <details>
 <summary>Demo</summary>

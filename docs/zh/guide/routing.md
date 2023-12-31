@@ -84,11 +84,11 @@ src/getting-started.md  -->  /getting-started.html
 在页面之间链接时，可以使用绝对路径和相对路径。请注意，虽然 `.md` 和 `.html` 扩展名都可以使用，但最佳做法是省略文件扩展名，以便 VitePress 可以根据配置生成最终 URL。
 
 ```md
-<!-- 正确做法 -->
+<!-- Do -->
 [Getting Started](./getting-started)
 [Getting Started](../guide/getting-started)
 
-<!-- 不正确做法 -->
+<!-- Don't -->
 [Getting Started](./getting-started.md)
 [Getting Started](./getting-started.html)
 ```
@@ -97,17 +97,17 @@ src/getting-started.md  -->  /getting-started.html
 
 ### 链接到非 vitepress 页面 {#linking-to-non-vitepress-pages}
 
-如果想链接到网站中不是由 VitePress 生成的页面，需要使用完整的 URL（在新选项卡中打开）或明确指定 target：
+如果想链接到站点中不是由 VitePress 生成的页面，需要使用完整的 URL（在新选项卡中打开）或明确指定 target：
 
-**Input**
+**输入**
 
 ```md
-[链接到 pure.html](/pure.html){target="\_self"}
+[Link to pure.html](/pure.html){target="_self"}
 ```
 
-**Output**
+**输出**
 
-[链接到 pure.html](/pure.html){target="\_self"}
+[Link to pure.html](/pure.html){target="_self"}
 
 ::: tip 注意
 

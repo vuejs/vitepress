@@ -65,7 +65,6 @@ export default {
 ```
 
 如果使用 TypeScript:
-
 ```ts
 // .vitepress/theme/index.ts
 import type { Theme } from 'vitepress'

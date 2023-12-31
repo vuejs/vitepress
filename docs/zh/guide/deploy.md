@@ -2,9 +2,9 @@
 outline: deep
 ---
 
-# 部署 VitePress 网站 {#deploy-your-vitepress-site}
+# 部署 VitePress 站点 {#deploy-your-vitepress-site}
 
-以下指南基于一些共设前提：
+以下指南基于一些前提：
 
 - VitePress 站点位于项目的 `docs` 目录中。
 - 你使用的是默认的生成输出目录 （`.vitepress/dist`）。
@@ -21,13 +21,13 @@ outline: deep
 
 ## 本地构建与测试 {#build-and-test-locally}
 
-1. 你可以运行以下命令来构建文档：
+1. 可以运行以下命令来构建文档：
 
    ```sh
    $ npm run docs:build
    ```
 
-2. 构建文档后，通过运行以下命令在本地预览它：
+2. 构建文档后，通过运行以下命令可以在本地预览它：
 
    ```sh
    $ npm run docs:preview
@@ -35,7 +35,7 @@ outline: deep
 
   `preview` 命令将启动一个本地静态 Web 服务器`http://localhost:4173`，该服务器以 `.vitepress/dist` 作为源文件。这是检查生产版本在本地环境中是否正常的一种简单方法。
 
-3. 你可以通过传递`--port`作为参数来配置服务器的端口。
+3. 可以通过传递 `--port` 作为参数来配置服务器的端口。
 
    ```json
    {
@@ -49,7 +49,7 @@ outline: deep
 
 ## 设定 public 根目录 {#setting-a-public-base-path}
 
-默认情况下，我们假设站点将部署在域名 （`/`）的根路径上。如果网站将在子路径中提供服务，例如 `https://mywebsite.com/blog/`，则需要在 VitePress 配置中将 [`base`](../reference/site-config#base)选项设置为 `'/blog/'`。
+默认情况下，我们假设站点将部署在域名 （`/`）的根路径上。如果站点在子路径中提供服务，例如 `https://mywebsite.com/blog/`，则需要在 VitePress 配置中将 [`base`](../reference/site-config#base)选项设置为 `'/blog/'`。
 
 **例：** 如果你使用的是 Github（或 GitLab）页面并部署到 `user.github.io/repo/`，请将 `base` 设置为 `/repo/`。
 
@@ -57,9 +57,9 @@ outline: deep
 
 如果可以控制生产服务器上的 HTTP 标头，则可以配置 `cache-control` 标头以在重复访问时获得更好的性能。
 
-生产版本对静态资源（JavaScript、CSS 和其他非 `public` 目录中的导入资源）使用哈希文件名。如果你使用浏览器开发工具的网络选项卡检查生产预览，你将看到类似 `app.4f283b18.js` 的文件。
+生产版本对静态资源 (JavaScript、CSS 和其他非 `public` 目录中的导入资源) 使用哈希文件名。如果你使用浏览器开发工具的网络选项卡查看生产预览，你将看到类似 `app.4f283b18.js` 的文件。
 
-此哈希 `4f283b18` 是从此文件的内容生成的。相同的哈希 URL 保证提供相同的文件内容 —— 如果内容更改，URL 也会更改。这意味着你可以安全地为这些文件使用最强的缓存标头。所有此类文件都将放置在输出目录的 `assets/` 中，因此你可以为它们配置以下标头：
+此哈希 `4f283b18` 是从此文件的内容生成的。相同的哈希 URL 保证提供相同的文件内容——如果内容更改，URL 也会更改。这意味着你可以安全地为这些文件使用最强的缓存标头。所有此类文件都将放置在输出目录的 `assets/` 中，因此你可以为它们配置以下标头：
 
 ```
 Cache-Control: max-age=31536000,immutable
@@ -111,7 +111,8 @@ Cache-Control: max-age=31536000,immutable
 
 - **构建命令：** `npm run docs:build`
 - **输出目录：** `docs/.vitepress/dist`
-- **node 版本：** `18` （或更高版本）
+- **node 版本：** `18` (或更高版本)
+
 ::: warning
 不要为 HTML 代码启用 _Auto Minify_ 等选项。它将从输出中删除对 Vue 有意义的注释。如果被删除，你可能会看到激活不匹配错误。
 :::
@@ -120,14 +121,14 @@ Cache-Control: max-age=31536000,immutable
 
 1. 在项目的 `.github/workflows` 目录中创建一个名为 `deploy.yml` 的文件，其中包含这样的内容：
 
-   ```yaml
-   # 用于构建 VitePress 站点并将其部署到 GitHub Pages 的示例工作流程
+ ```yaml
+   # Sample workflow for building and deploying a VitePress site to GitHub Pages
    #
    name: Deploy VitePress site to Pages
 
    on:
-     # 针对 `main` 分支的推送上运行。
-     # 如果你使用 `master` 作为默认分支，请将其更改为 `master`
+     # Runs on pushes targeting the `main` branch. Change this to `master` if you're
+     # using the `master` branch as the default branch.
      push:
        branches: [main]
 
@@ -190,19 +191,18 @@ Cache-Control: max-age=31536000,immutable
    ```
 
    ::: warning
-    确保 VitePress 中的 `base` 选项配置正确。有关更多详细信息，请参阅[设置 base 路径](#setting-a-public-base-path)。
+    确保 VitePress 中的 `base` 选项配置正确。有关更多详细信息，请参阅[设置根路径](#setting-a-public-base-path)。
    :::
 
-2. 在存储库设置中的 “Pages” 菜单项下，选择 “Build and deployment > Source > GitHub Actions”。
+2. 在存储库设置中的“Pages”菜单项下，选择“Build and deployment > Source > GitHub Actions”。
 
-3. 将更改推送到 `main` 分支并等待 GitHub Actions 工作流完成。你应该看到站点部署到 `https://<username>.github.io/[repository]/` 或 `https://<custom-domain>/`，这取决于你的设置。你的网站将在每次推送到 `main` 分支时自动部署。
+3. 将更改推送到 `main` 分支并等待 GitHub Action 工作流完成。你应该看到站点部署到 `https://<username>.github.io/[repository]/` 或 `https://<custom-domain>/`，这取决于你的设置。你的站点将在每次推送到 `main` 分支时自动部署。
+
 ### GitLab Pages
 
 1. 如果你想部署到 `https://<username> .gitlab.io/<repository> /`，将 VitePress 配置中的 `outDir` 设置为 `../public`。将 `base` 选项配置为 `'/<repository>/'`。
 
-2. 在项目的根目录中创建一个名为 `.gitlab-ci.yml` 的文件，其中包含以下内容。每当你更改内容时，这都会构建和部署你的网站：
-
-3. 使用以下内容在项目的根目录中创建一个名为 `.gitlab-ci.yml` 的文件。每当你更改内容时，会自动构建和部署你的站点：
+2. 在项目的根目录中创建一个名为 `.gitlab-ci.yml` 的文件，其中包含以下内容。每当你更改内容时，这都会构建和部署你的站点：
 
    ```yaml
    image: node:18
@@ -288,4 +288,4 @@ Cache-Control: max-age=31536000,immutable
 
 ### Kinsta 静态站点托管 {#kinsta-static-site-hosting}
 
-你可以按照这些 [说明](https://kinsta.com/docs/vitepress-static-site-example/) 在 [Kinsta](https://kinsta.com/static-site-hosting/) 上部署 Vitepress 网站。
+你可以按照这些[说明](https://kinsta.com/docs/vitepress-static-site-example/) 在 [Kinsta](https://kinsta.com/static-site-hosting/) 上部署 Vitepress 站点。

@@ -2,7 +2,7 @@
 
 Nav 是显示在页面顶部的导航栏。它包含站点标题、全局菜单链接等。
 
-## 网站标题和图标 {#site-title-and-logo}
+## 站点标题和图标 {#site-title-and-logo}
 
 默认情况下，nav 显示 [`config.title`](./site-config#title) 作为站点的标题。如果想更改导航栏上显示的内容，可以在 `themeConfig.siteTitle` 选项中定义自定义文本。
 

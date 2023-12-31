@@ -56,7 +56,7 @@ export default {
 
 当需要基于本地文件生成数据时，应该在数据加载中使用 `watch` 选项，以便这些文件改动时可以触发热更新。
 
-`watch` 选项也很方便，因为可以使用 [glob 模式](https://github.com/mrmlnc/fast-glob#pattern-syntax) 匹配多个文件。模式可以相对于加载器文件本身，`load()` 函数将接收匹配文件的绝对路径。
+`watch` 选项也很方便，因为可以使用 [glob 模式](https://github.com/mrmlnc/fast-glob#pattern-syntax) 匹配多个文件。模式可以相对于数据加载文件本身，`load()` 函数将接收匹配文件的绝对路径。
 
 下面的例子展示了如何使用 [csv-parse](https://github.com/adaltas/node-csv/tree/master/packages/csv-parse/) 加载 CSV 文件并将其转换为 JSON。因为此文件仅在构建时执行，因此不会将 CSV 解析器发送到客户端！
 
@@ -82,7 +82,7 @@ export default {
 
 ## `createContentLoader`
 
-当构建一个内容为主的网站时，我们经常需要创建一个“档案”或“索引”页面：一个我们可以列出内容中的所有可用条目的页面，例如博客文章或 API 页面。我们**可以**直接使用数据加载器 API 实现这一点，但由于这是一个常见的用例，VitePress 还提供了一个 `createContentLoader` 辅助函数来简化这个过程：
+当构建一个内容为主的站点时，我们经常需要创建一个“档案”或“索引”页面：一个我们可以列出内容中的所有可用条目的页面，例如博客文章或 API 页面。我们**可以**直接使用数据加载 API 实现这一点，但由于这是一个常见的用例，VitePress 还提供了一个 `createContentLoader` 辅助函数来简化这个过程：
 
 ```js
 // posts.data.js
@@ -95,7 +95,7 @@ export default createContentLoader('posts/*.md', /* options */)
 
 请注意，数据加载仅适用于 Markdown 文件——匹配的非 Markdown 文件将被跳过。
 
-加载的数据将是一个类型为 `ContentData[]` 数组：
+加载的数据将是一个类型为 `ContentData[]` 的数组：
 
 ```ts
 interface ContentData {
@@ -113,7 +113,7 @@ interface ContentData {
 }
 ```
 
-默认情况下只提供 `url` 和 `frontmatter`。这是因为加载的数据将作为 JSON 内联在客户端包中，我们需要谨慎考虑其大小。下面的例子展示了如何使用数据构建最小博客索引页面：
+默认情况下只提供 `url` 和 `frontmatter`。这是因为加载的数据将作为 JSON 内联在客户端包中，我们需要谨慎考虑其大小。下面的例子展示了如何使用数据构建最小的博客索引页面：
 
 ```vue
 <script setup>
@@ -216,7 +216,7 @@ interface ContentOptions<T = ContentData[]> {
 
 ## 为数据加载器导出类型 {#typed-data-loaders}
 
-当使用 TypeScript 时，可以像这样为加载器和 `data` 导出类型：
+当使用 TypeScript 时，可以像这样为 loader 和 `data` 导出类型：
 
 ```ts
 import { defineLoader } from 'vitepress'

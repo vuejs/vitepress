@@ -1,6 +1,6 @@
 # 主页 {#home-page}
 
-VitePress 默认主题提供了一个首页布局，也可以在[此网站首页](../)看到。可以通过 [frontmatter](./frontmatter-config) 指定 `layout: home` 在任何页面上使用它
+VitePress 默认主题提供了一个首页布局，也可以在[此站点首页](../)看到。可以通过 [frontmatter](./frontmatter-config) 指定 `layout: home` 在任何页面上使用它
 
 ```yaml
 ---

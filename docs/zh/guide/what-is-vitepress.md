@@ -1,6 +1,6 @@
 # VitePress 是什么？ {#what-is-vitepress}
 
-VitePress 是一个[静态站点生成器](https://en.wikipedia.org/wiki/Static_site_generator) (SSG)，专为构建快速、以内容为中心的网站而设计。简而言之，VitePress 获取用 Markdown 编写的源内容，对其应用主题，并生成可以轻松部署到任何地方的静态 HTML 页面。
+VitePress 是一个[静态站点生成器](https://en.wikipedia.org/wiki/Static_site_generator) (SSG)，专为构建快速、以内容为中心的站点而设计。简而言之，VitePress 获取用 Markdown 编写的源内容，对其应用主题，并生成可以轻松部署到任何地方的静态 HTML 页面。
 
 <div class="tip custom-block" style="padding-top: 8px">
 
@@ -34,7 +34,7 @@ VitePress 旨在使用 Markdown 生成内容时提供出色的开发体验。
 
 ## 性能 {#performance}
 
-与许多传统的 SSG 不同，VitePress 生成的网站实际上是一个[单页应用程序](https://en.wikipedia.org/wiki/Single-page_application) (SPA)。
+与许多传统的 SSG 不同，VitePress 生成的站点实际上是一个[单页应用程序](https://en.wikipedia.org/wiki/Single-page_application) (SPA)。
 
 - **快速初始加载**
 
@@ -42,7 +42,7 @@ VitePress 旨在使用 Markdown 生成内容时提供出色的开发体验。
 
 - **加载完成后可以快速切换**
 
-  更重要的是，SPA 模型在首次加载后能够提升用户体验。用户在网站内导航时，不会再触发整个页面的刷新。而是通过获取并动态更新新页面的内容来实现切换。VitePress还会自动预加载视口范围内链接对应的页面片段。这样一来，大部分情况下，用户在加载完成后就能立即浏览新页面。
+  更重要的是，SPA 模型在首次加载后能够提升用户体验。用户在站点内导航时，不会再触发整个页面的刷新。而是通过获取并动态更新新页面的内容来实现切换。VitePress还会自动预加载视口范围内链接对应的页面片段。这样一来，大部分情况下，用户在加载完成后就能立即浏览新页面。
 
 - **高效的交互**
 

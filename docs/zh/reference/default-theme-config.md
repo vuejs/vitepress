@@ -29,7 +29,7 @@ export default {
 
 - 类型：`ThemeableImage`
 
-导航栏上显示的 Logo，位于网站标题右侧。可以接受一个路径字符串，或者一个对象来设置在浅色/深色模式下不同的 Logo。
+导航栏上显示的 Logo，位于站点标题右侧。可以接受一个路径字符串，或者一个对象来设置在浅色/深色模式下不同的 Logo。
 
 ```ts
 export default {
@@ -50,7 +50,7 @@ type ThemeableImage =
 
 - 类型：`string | false`
 
-可以自定义此项以替换导航中的默认站点标题（应用配置中的 `title`）。当设置为 `false` 时，导航中的标题将被禁用。这在当 `logo` 已经包含网站标题文本时很有用。
+可以自定义此项以替换导航中的默认站点标题（应用配置中的 `title`）。当设置为 `false` 时，导航中的标题将被禁用。这在当 `logo` 已经包含站点标题文本时很有用。
 
 ```ts
 export default {

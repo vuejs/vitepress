@@ -19,7 +19,7 @@
 
 ## 主题接口 {#theme-interface}
 
-VitePress 自定义主题被定义为一个对象，该对象具有如下接口：
+VitePress 自定义主题是一个对象，该对象具有如下接口：
 
 ```ts
 interface Theme {
@@ -64,7 +64,7 @@ export default {
 }
 ```
 
-默认导出是自定义主题的唯一方式，并且只有 `Layout` 属性是必须的。所以从技术上讲，一个 VitePress 主题可以只是一个单独的 Vue 组件。
+默认导出是自定义主题的唯一方式，并且只有 `Layout` 属性是必须的。所以从技术上讲，一个 VitePress 主题可以是一个单独的 Vue 组件。
 
 在组件内部，它的工作方式就像是一个普通的 Vite + Vue 3 应用。请注意，主题还需要保证 [SSR 兼容](./ssr-compat)。
 
@@ -100,7 +100,7 @@ const { page } = useData()
 </template>
 ```
 
-[`useData()`](../reference/runtime-api#usedata) 为我们提供了所有的运行时数据，以便我们根据不同条件渲染不同的布局。我们可以访问的另一个数据是当前页面的 frontmatter。通过利用这个数据，我们允许最终用户控制每个页面的布局。例如，用户可以指示一个页面是否使用特殊的主页布局：
+[`useData()`](../reference/runtime-api#usedata) 为我们提供了所有的运行时数据，以便我们根据不同条件渲染不同的布局。我们可以访问的另一个数据是当前页面的 frontmatter。通过利用这个数据，我们允许用户控制每个页面的布局。例如，用户可以指定一个页面是否使用特殊的主页布局：
 
 ```md
 ---
@@ -108,7 +108,7 @@ layout: home
 ---
 ```
 
-并且我们可以该信息调整我们的主题
+并且我们可以调整我们的主题进行处理：
 
 ```vue{3,12-14}
 <script setup>
@@ -162,15 +162,15 @@ const { page, frontmatter } = useData()
 
 2. 如果合适的话，将主题配置类型定义作为 `ThemeConfig` 导出。
 
-3. 如果主题需要调整 VitePress 配置，请在包子路径下 (例如 `my-theme/config`) 下导出该配置，以便用户拓展。
+3. 如果主题需要调整 VitePress 配置，请在包的子路径下 (例如 `my-theme/config`) 下导出该配置，以便用户拓展。
 
 4. 记录主题配置选项 (通过配置文件和 frontmatter)。
 
-5. 提供清晰的说明关于如何使用主题 (见下文)。
+5. 提供清晰的说明，告诉用户如何使用主题 (见下文)。
 
 ## 使用自定义主题 {#consuming-a-custom-theme}
 
-要使用外部主题，请从自定义主题入口导入导入它并重新导出：
+要使用外部主题，请导入它并重新导出：
 
 ```js
 // .vitepress/theme/index.js
@@ -179,7 +179,7 @@ import Theme from 'awesome-vitepress-theme'
 export default Theme
 ```
 
-如果主题需要被拓展：
+如果主题需要拓展：
 
 ```js
 // .vitepress/theme/index.js

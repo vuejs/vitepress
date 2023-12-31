@@ -1,6 +1,6 @@
 # 从 VitePress 0.x 迁移 {#migration-from-vitepress-0-x}
 
-如果你来自 VitePress 0.x 版本，由于新功能和增强功能，VitePress 有了一些重大更改。请按照本指南了解如何将应用程序迁移到最新的 VitePress。
+如果你来自 VitePress 0.x 版本，VitePress 有了一些重大更改。请按照本指南了解如何将应用程序迁移到最新的 VitePress。
 
 ## 应用配置 {#app-config}
 
