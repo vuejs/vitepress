@@ -196,7 +196,7 @@ export default {
 }
 ```
 
-重写路径是使用 `path-to-regexp` 包编译的 - 请参阅[其文档](https://github.com/pillarjs/path-to-regexp#parameters)以获取更高级的语法。
+重写路径是使用 `path-to-regexp` 包编译的——请参阅其[文档](https://github.com/pillarjs/path-to-regexp#parameters)以获取更高级的语法。
 
 ::: warning 开启重写功能时使用相对链接
 

@@ -735,35 +735,35 @@ export default config
 **输入**
 
 ```md
-# Docs {#docs}
+# Docs
 
-## Basics {#basics}
+## Basics
 
 <!--@include: ./parts/basics.md-->
 ```
 
-**部分文件** (`parts/basics.md`)
+**Part file** (`parts/basics.md`)
 
 ```md
-一些入门的东西。
+Some getting started stuff.
 
-### Configuration {#configuration}
+### Configuration
 
-可以使用 `.foorc.json` 创建。
+Can be created using `.foorc.json`.
 ```
 
 **等价代码**
 
 ```md
-# Docs {#docs}
+# Docs
 
-## Basics {#basics}
+## Basics
 
-一些入门的东西。
+Some getting started stuff.
 
-### Configuration {#configuration}
+### Configuration
 
-可以使用 `.foorc.json` 创建。
+Can be created using `.foorc.json`.
 ```
 
 它还支持选择行范围：
@@ -781,11 +781,11 @@ export default config
 **Part file** (`parts/basics.md`)
 
 ```md
-一些入门的东西。
+Some getting started stuff.
 
 ### Configuration
 
-可以使用 `.foorc.json` 创建。
+Can be created using `.foorc.json`.
 ```
 
 **等价代码**
@@ -797,7 +797,7 @@ export default config
 
 ### Configuration
 
-可以使用 `.foorc.json` 创建。
+Can be created using `.foorc.json`.
 ```
 
 所选行范围的格式可以是： `{3,}`、 `{,10}`、`{1,10}`
@@ -808,7 +808,7 @@ export default config
 
 ## 数学方程 {#math-equations}
 
-This is currently opt-in. 要启用它, 你需要安装 `markdown-it-mathjax3`，在配置文件中设置`markdown.math` 为 `true`：
+现在这是可选的。要启用它, 你需要安装 `markdown-it-mathjax3`，在配置文件中设置`markdown.math` 为 `true`：
 
 ```sh
 npm add -D markdown-it-mathjax3
@@ -826,12 +826,12 @@ export default {
 **输入**
 
 ```md
-当 $a \ne 0$, $(ax^2 + bx + c = 0)$ 有两个解，它们是
+When $a \ne 0$, there are two solutions to $(ax^2 + bx + c = 0)$ and they are
 $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
-**Maxwell's 方程组:**
+**Maxwell's equations:**
 
-| 方程                                                                                                                                                                  | 描述                                                                            |
+| equation                                                                                                                                                                  | description                                                                            |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
 | $\nabla \cdot \vec{\mathbf{B}}  = 0$                                                                                                                                      | divergence of $\vec{\mathbf{B}}$ is zero                                               |
 | $\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t}  = \vec{\mathbf{0}}$                                                          | curl of $\vec{\mathbf{E}}$ is proportional to the rate of change of $\vec{\mathbf{B}}$ |
@@ -840,12 +840,12 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
 **输出**
 
-当 $a \ne 0$，$(ax^2 + bx + c = 0)$ 有两个解，它们是
+When $a \ne 0$, there are two solutions to $(ax^2 + bx + c = 0)$ and they are
 $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
-**Maxwell's 方程组:**
+**Maxwell's equations:**
 
-| 方程                                                                                                                                                                      | 描述                                                                                   |
+| equation                                                                                                                                                                  | description                                                                            |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
 | $\nabla \cdot \vec{\mathbf{B}}  = 0$                                                                                                                                      | divergence of $\vec{\mathbf{B}}$ is zero                                               |
 | $\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t}  = \vec{\mathbf{0}}$                                                          | curl of $\vec{\mathbf{E}}$ is proportional to the rate of change of $\vec{\mathbf{B}}$ |
