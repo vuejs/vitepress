@@ -143,40 +143,41 @@ export async function bundle(
     configFile: config.vite?.configFile
   })
 
-  let clientResult!: Rollup.RollupOutput | null
-  let serverResult!: Rollup.RollupOutput
+  const serverResult = await task(
+    'building server bundle',
+    () => resolveViteConfig(true).then(build) as Promise<Rollup.RollupOutput>
+  )
 
-  await task('building client + server bundles', async () => {
-    clientResult = config.mpa
-      ? null
-      : ((await build(await resolveViteConfig(false))) as Rollup.RollupOutput)
-    serverResult = (await build(
-      await resolveViteConfig(true)
-    )) as Rollup.RollupOutput
-  })
-
-  if (config.mpa) {
-    // in MPA mode, we need to copy over the non-js asset files from the
-    // server build since there is no client-side build.
-    await Promise.all(
-      serverResult.output.map(async (chunk) => {
-        if (!chunk.fileName.endsWith('.js')) {
-          const tempPath = path.resolve(config.tempDir, chunk.fileName)
-          const outPath = path.resolve(config.outDir, chunk.fileName)
-          await fs.copy(tempPath, outPath)
+  const clientResult = !config.mpa
+    ? await task(
+        'building client bundle',
+        () =>
+          resolveViteConfig(false).then(build) as Promise<Rollup.RollupOutput>
+      )
+    : await task('building client bundle (MPA)', async () => {
+        // in MPA mode, we need to copy over the non-js asset files from the
+        // server build since there is no client-side build.
+        await Promise.all(
+          serverResult.output.map(async (chunk) => {
+            if (!chunk.fileName.endsWith('.js')) {
+              const tempPath = path.resolve(config.tempDir, chunk.fileName)
+              const outPath = path.resolve(config.outDir, chunk.fileName)
+              await fs.copy(tempPath, outPath)
+            }
+          })
+        )
+        // also copy over public dir
+        const publicDir = path.resolve(config.srcDir, 'public')
+        if (fs.existsSync(publicDir)) {
+          await fs.copy(publicDir, config.outDir)
+        }
+        // build <script client> bundle
+        if (Object.keys(clientJSMap).length) {
+          return buildMPAClient(clientJSMap, config)
+        } else {
+          return null
         }
       })
-    )
-    // also copy over public dir
-    const publicDir = path.resolve(config.srcDir, 'public')
-    if (fs.existsSync(publicDir)) {
-      await fs.copy(publicDir, config.outDir)
-    }
-    // build <script client> bundle
-    if (Object.keys(clientJSMap).length) {
-      clientResult = await buildMPAClient(clientJSMap, config)
-    }
-  }
 
   return { clientResult, serverResult, pageToHashMap }
 }
