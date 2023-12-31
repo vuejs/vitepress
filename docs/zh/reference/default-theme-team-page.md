@@ -60,7 +60,7 @@ const members = [
 
 <VPTeamMembers size="small" :members="members" />
 
-`<VPTeamMembers>` 组件有 2 种不同的尺寸，`small` 和 `medium`。虽然它取决于为你的偏好，但通常尺寸在文档页面中使用时 `small` 应该更适合。此外，你可以为每个成员添加更多属性，例如添加“描述”或“赞助”按钮。在 [`<VPTeamMembers>`](#vpteammembers)中了解更多信息。
+`<VPTeamMembers>` 组件有 2 种不同的尺寸，`small` 和 `medium`。虽然它取决于你的偏好，但通常尺寸在文档页面中使用时 `small` 应该更适合。此外，你可以为每个成员添加更多属性，例如添加“描述”或“赞助”按钮。在 [`<VPTeamMembers>`](#vpteammembers)中了解更多信息。
 
 在文档页面中嵌入团队成员对于小型团队来说非常有用，某种情况下，完整的贡献团队可能太大了，可以引入部分成员作为文档上下文的参考。
 
@@ -70,7 +70,7 @@ const members = [
 
 除了将团队成员添加到 doc 页面，你还可以创建一个完整的团队页面，类似于创建自定义[默认主题：主页](./default-theme-home-page)的方式。
 
-要创建团队页面，首先，创建一个新的 md 文件。文件名无所谓，这里我们就叫它 `team.md` 吧。在这个文件中，在 frontmatter 设置 `layout: page`，然后你可以使用 `TeamPage` 组件来组成你的页面结构。
+要创建团队页面，首先，创建一个新的 md 文件。文件名无所谓，这里我们就叫它 `team.md` 吧。在这个文件中，在 frontmatter 设置 `layout: page`，然后你可以使用 `TeamPage` 组件来组成页面结构。
 
 ```html
 ---

@@ -4,7 +4,7 @@
 
 ## 用法 {#usage}
 
-你可以使用全局组件 `Badge` 。
+可以使用全局组件 `Badge` 。
 
 ```html
 ### Title <Badge type="info" text="default" />
@@ -32,7 +32,7 @@
 
 ## 自定义不同类型徽标的背景色 {#customize-type-color}
 
-你可以通过覆写 css 来自定义不同类型 `<Badge />` 的样式。以下是默认值。
+可以通过覆写 css 来自定义不同类型 `<Badge />` 的样式。以下是默认值。
 
 ```css
 :root {

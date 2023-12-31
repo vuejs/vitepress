@@ -10,9 +10,9 @@
 
 ### 图片 {#images}
 
-与 VuePress 不同，在使用静态图片时，VitePress 会根据你的配置自动处理这些 [`base`](./asset-handling#base-url)。
+与 VuePress 不同，在使用静态图片时，VitePress 会根据配置自动处理这些 [`base`](./asset-handling#base-url)。
 
-因此，现在你可以在没有 `img` 标签的情况下渲染图像。
+因此，现在可以在没有 `img` 标签的情况下渲染图像。
 
 ```diff
 - <img :src="$withBase('/foo.png')" alt="foo">
@@ -20,7 +20,7 @@
 ```
 
 ::: warning
-对于动态图像，你仍然需要 `withBase`，如 [Base URL](./asset-handling#base-url) 中所示。
+对于动态图像，仍然需要 `withBase`，如 [Base URL](./asset-handling#base-url) 中所示。
 :::
 
 使用 `<img.*withBase\('(.*)'\).*alt="([^"]*)".*>` 正则表达式查找并替换为 `![$2]($1)` 用 `![](...)` 语法替换所有图像。

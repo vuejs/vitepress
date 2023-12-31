@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-# 部署你的 VitePress 网站 {#deploy-your-vitepress-site}
+# 部署 VitePress 网站 {#deploy-your-vitepress-site}
 
 以下指南基于一些共设前提：
 
@@ -49,9 +49,9 @@ outline: deep
 
 ## 设定 public 根目录 {#setting-a-public-base-path}
 
-默认情况下，我们假设站点将部署在域名 （`/`）的根路径上。如果你的网站将在子路径中提供服务，例如 `https://mywebsite.com/blog/`，则需要在 VitePress 配置中将 [`base`](../reference/site-config#base)选项设置为 `'/blog/'`。
+默认情况下，我们假设站点将部署在域名 （`/`）的根路径上。如果网站将在子路径中提供服务，例如 `https://mywebsite.com/blog/`，则需要在 VitePress 配置中将 [`base`](../reference/site-config#base)选项设置为 `'/blog/'`。
 
-**例：** 如果你使用的是 Github（或 GitLab）页面并部署到 `user.github.io/repo/`，请将你的 `base` 设置为 `/repo/`。
+**例：** 如果你使用的是 Github（或 GitLab）页面并部署到 `user.github.io/repo/`，请将 `base` 设置为 `/repo/`。
 
 ## HTTP 缓存标头 {#http-cache-headers}
 
@@ -195,7 +195,7 @@ Cache-Control: max-age=31536000,immutable
 
 2. 在存储库设置中的 “Pages” 菜单项下，选择 “Build and deployment > Source > GitHub Actions”。
 
-3. 将更改推送到 `main` 分支并等待 GitHub Actions 工作流完成。你应该看到你的站点部署到 `https://<username>.github.io/[repository]/` 或 `https://<custom-domain>/`，这取决于你的设置。你的网站将在每次推送到 `main` 分支时自动部署。
+3. 将更改推送到 `main` 分支并等待 GitHub Actions 工作流完成。你应该看到站点部署到 `https://<username>.github.io/[repository]/` 或 `https://<custom-domain>/`，这取决于你的设置。你的网站将在每次推送到 `main` 分支时自动部署。
 ### GitLab Pages
 
 1. 如果你想部署到 `https://<username> .gitlab.io/<repository> /`，将 VitePress 配置中的 `outDir` 设置为 `../public`。将 `base` 选项配置为 `'/<repository>/'`。
@@ -288,4 +288,4 @@ Cache-Control: max-age=31536000,immutable
 
 ### Kinsta 静态站点托管 {#kinsta-static-site-hosting}
 
-你可以按照这些 [说明](https://kinsta.com/docs/vitepress-static-site-example/) 在 [Kinsta](https://kinsta.com/static-site-hosting/) 上部署你的 Vitepress 网站。
+你可以按照这些 [说明](https://kinsta.com/docs/vitepress-static-site-example/) 在 [Kinsta](https://kinsta.com/static-site-hosting/) 上部署 Vitepress 网站。

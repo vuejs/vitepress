@@ -52,7 +52,7 @@ $ bun add -D vitepress
 :::
 
 ::: tip 注意
-VitePress 是仅 ESM 的软件包。不要使用 `require()` 导入它，并确保最新的 `package.json` 包含 `"type": "module"`，或者更改相关文件的文件扩展名，例如`.vitepress/config.js` 到 `.mjs`/`.mts`。更多详情请参考[Vite 故障排除指南](http://vitejs.dev/guide/troubleshooting.html#this-package-is-esm-only)。此外，在异步 CJS 上下文中，你可以使用 `await import('vitepress')` 代替。
+VitePress 是仅 ESM 的软件包。不要使用 `require()` 导入它，并确保最新的 `package.json` 包含 `"type": "module"`，或者更改相关文件的文件扩展名，例如`.vitepress/config.js` 到 `.mjs`/`.mts`。更多详情请参考[Vite 故障排除指南](http://vitejs.dev/guide/troubleshooting.html#this-package-is-esm-only)。此外，在异步 CJS 上下文中，可以使用 `await import('vitepress')` 代替。
 
 :::
 
@@ -76,7 +76,7 @@ $ bunx vitepress init
 
 :::
 
-你将需要回答几个简单的问题：
+将需要回答几个简单的问题：
 
 <<< @/snippets/init.ansi
 
@@ -86,9 +86,9 @@ $ bunx vitepress init
 
 ## 文件结构 {#file-structure}
 
-如果你正在构建一个独立的 VitePress 站点，你可以在当前目录 (`./`) 中搭建站点。但是，如果在现有项目中与其他源代码一起安装 VitePress，建议将站点搭建在嵌套目录 (例如 `./docs`) 中，以便它与项目的其余部分分开。
+如果正在构建一个独立的 VitePress 站点，可以在当前目录 (`./`) 中搭建站点。但是，如果在现有项目中与其他源代码一起安装 VitePress，建议将站点搭建在嵌套目录 (例如 `./docs`) 中，以便它与项目的其余部分分开。
 
-假设你选择在 `./docs` 中搭建 VitePress 项目，生成的文件结构应该是这样的：
+假设选择在 `./docs` 中搭建 VitePress 项目，生成的文件结构应该是这样的：
 
 ```
 .

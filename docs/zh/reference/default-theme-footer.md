@@ -23,7 +23,7 @@ export interface Footer {
 }
 ```
 
-上面的配置也支持 HTML 字符串。所以，例如，如果你想配置页脚文本有一些链接，你可以调整配置如下：
+上面的配置也支持 HTML 字符串。所以，例如，如果想配置页脚文本有一些链接，可以调整配置如下：
 
 ```ts
 export default {
@@ -37,7 +37,7 @@ export default {
 ```
 
 ::: warning
-只有内联元素可以在 `message` 和 `copyright` 中使用，因为它们渲染在 `<p>` 元素中。如果你想添加块元素，请考虑使用 [`layout-bottom`](../guide/extending-default-theme#layout-slots) 插槽。
+只有内联元素可以在 `message` 和 `copyright` 中使用，因为它们渲染在 `<p>` 元素中。如果想添加块元素，请考虑使用 [`layout-bottom`](../guide/extending-default-theme#layout-slots) 插槽。
 :::
 
 请注意，当[侧边栏](./default-theme-sidebar)可见时，不会显示页脚。

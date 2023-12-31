@@ -2,7 +2,7 @@
 
 在 VitePress 中，每个 Markdown 文件都被编译成 HTML，而且将其作为 [Vue 单文件组件](https://cn.vuejs.org/guide/scaling-up/sfc.html)处理。这意味着可以在 Markdown 中使用任何 Vue 功能，包括动态模板、使用 Vue 组件或通过添加 `<script>` 标签为页面的 Vue 组件添加逻辑。
 
-值得注意的是，VitePress 利用 Vue 的编译器自动检测和优化 Markdown 内容的纯静态部分。静态内容被优化为单个占位符节点，并从页面的 JavaScript 负载中删除以供初始访问。在客户端激活期间也会跳过它们。简而言之，你只需注意任何给定页面上的动态部分。
+值得注意的是，VitePress 利用 Vue 的编译器自动检测和优化 Markdown 内容的纯静态部分。静态内容被优化为单个占位符节点，并从页面的 JavaScript 负载中删除以供初始访问。在客户端激活期间也会跳过它们。简而言之，只需注意任何给定页面上的动态部分。
 
 ::: tip SSR 兼容性
 所有的 Vue 用法都需要兼容 SSR。参见 [SSR 兼容性](./ssr-compat)获得更多信息和常见的解决方案。
@@ -71,7 +71,7 @@ The count is: {{ count }}
 在 Markdown 中使用时，`<style scoped>` 需要为当前页面的每个元素添加特殊属性，这将显著增加页面的大小。当我们需要局部范围的样式时 `<style module>` 是首选。
 :::
 
-你还可以访问 VitePress 的运行时 API，例如 [`useData` 辅助函数](../reference/runtime-api#usedata)，它提供了当前页面的元数据：
+还可以访问 VitePress 的运行时 API，例如 [`useData` 辅助函数](../reference/runtime-api#usedata)，它提供了当前页面的元数据：
 
 **输入**
 
@@ -98,7 +98,7 @@ const { page } = useData()
 
 ## 使用组件 {#using-components}
 
-你可以直接在 Markdown 文件中导入和使用 Vue 组件。
+可以直接在 Markdown 文件中导入和使用 Vue 组件。
 
 ### 在 Markdown 中导入组件 {#importing-in-markdown}
 
@@ -211,7 +211,7 @@ npm install -D less
 npm install -D stylus
 ```
 
-然后你可以在 Markdown 和主题组件中使用以下内容：
+然后可以在 Markdown 和主题组件中使用以下内容：
 
 ```vue
 <style lang="sass">

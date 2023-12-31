@@ -2,7 +2,7 @@
 
 ## 解析主题 {#theme-resolving}
 
-你可以通过创建一个 `.vitepress/theme/index.js` 或 `.vitepress/theme/index.ts` 文件 (即“主题入口文件”) 来启用自定义主题：
+可以通过创建一个 `.vitepress/theme/index.js` 或 `.vitepress/theme/index.ts` 文件 (即“主题入口文件”) 来启用自定义主题：
 
 ```
 .
@@ -66,7 +66,7 @@ export default {
 
 默认导出是自定义主题的唯一方式，并且只有 `Layout` 属性是必须的。所以从技术上讲，一个 VitePress 主题可以只是一个单独的 Vue 组件。
 
-在你的组件内部，它的工作方式就像是一个普通的 Vite + Vue 3 应用。请注意，主题还需要保证 [SSR 兼容](./ssr-compat)。
+在组件内部，它的工作方式就像是一个普通的 Vite + Vue 3 应用。请注意，主题还需要保证 [SSR 兼容](./ssr-compat)。
 
 ## 构建布局 {#building-a-layout}
 
@@ -150,7 +150,7 @@ const { page, frontmatter } = useData()
 </template>
 ```
 
-请查看[运行时 API 参考](../reference/runtime-api)获取主题组件中所有可用内容。此外，你可以利用[构建时数据加载](./data-loading)来生成数据驱动布局——例如，一个列出当前项目中所有博客文章的页面。
+请查看[运行时 API 参考](../reference/runtime-api)获取主题组件中所有可用内容。此外，可以利用[构建时数据加载](./data-loading)来生成数据驱动布局——例如，一个列出当前项目中所有博客文章的页面。
 
 ## 分发自定义主题 {#distributing-a-custom-theme}
 
@@ -160,13 +160,13 @@ const { page, frontmatter } = useData()
 
 1. 在包入口将主题对象作为默认导出来导出。
 
-2. 如果合适的话，将你的主题配置类型定义作为 `ThemeConfig` 导出。
+2. 如果合适的话，将主题配置类型定义作为 `ThemeConfig` 导出。
 
-3. 如果你的主题需要调整 VitePress 配置，请在包子路径下 (例如 `my-theme/config`) 下导出该配置，以便用户拓展。
+3. 如果主题需要调整 VitePress 配置，请在包子路径下 (例如 `my-theme/config`) 下导出该配置，以便用户拓展。
 
 4. 记录主题配置选项 (通过配置文件和 frontmatter)。
 
-5. 提供清晰的说明关于如何使用你的主题 (见下文)。
+5. 提供清晰的说明关于如何使用主题 (见下文)。
 
 ## 使用自定义主题 {#consuming-a-custom-theme}
 
@@ -193,7 +193,7 @@ export default {
 }
 ```
 
-如果主题需要特殊的 VitePress 配置，你也需要在配置中拓展：
+如果主题需要特殊的 VitePress 配置，也需要在配置中拓展：
 
 ```ts
 // .vitepress/theme/config.ts

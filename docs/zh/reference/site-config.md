@@ -10,7 +10,7 @@ Site config 可以定义站点的全局设置。App config 配置选项适用于
 
 ### 配置解析 {#config-resolution}
 
-配置文件总是从 `<root>/.vitepress/config.[ext]` 解析，其中 `<root>` 是你的 VitePress [项目根目录](../guide/routing#root-and-source-directory)，`[ext]` 是支持的文件扩展名之一。开箱即用地支持 TypeScript。支持的扩展名包括 `.js`、`.ts`、`.mjs` 和 `.mts`。
+配置文件总是从 `<root>/.vitepress/config.[ext]` 解析，其中 `<root>` 是 VitePress [项目根目录](../guide/routing#root-and-source-directory)，`[ext]` 是支持的文件扩展名之一。开箱即用地支持 TypeScript。支持的扩展名包括 `.js`、`.ts`、`.mjs` 和 `.mts`。
 
 建议在配置文件中使用 ES 模块语法。配置文件应该默认导出一个对象：
 
@@ -26,7 +26,7 @@ export default {
 
 :::details 异步的动态配置
 
-如果你需要动态生成配置，你也可以默认导出一个函数，例如：
+如果需要动态生成配置，也可以默认导出一个函数，例如：
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -53,7 +53,7 @@ export default async () => defineConfig({
 })
 ```
 
-你也可以在最外层使用 `await`。例如：
+也可以在最外层使用 `await`。例如：
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -82,7 +82,7 @@ export default defineConfig({
 
 ### 配置智能提示 {#config-intellisense}
 
-使用 `defineConfig` 辅助函数将为配置选项提供 TypeScript 支持的智能提示。假设你的 IDE 支持它，那么智能提示在 JavaScript 和 TypeScript 中都将触发。
+使用 `defineConfig` 辅助函数将为配置选项提供 TypeScript 支持的智能提示。假设 IDE 支持它，那么智能提示在 JavaScript 和 TypeScript 中都将触发。
 
 ```js
 import { defineConfig } from 'vitepress'
@@ -106,7 +106,7 @@ export default defineConfig({
 })
 ```
 
-如果你使用自定义主题并希望对主题配置进行类型检查，则需要改用 `defineConfigWithTheme`，并通过通用参数传递自定义主题的配置类型：
+如果使用自定义主题并希望对主题配置进行类型检查，则需要改用 `defineConfigWithTheme`，并通过通用参数传递自定义主题的配置类型：
 
 ```ts
 import { defineConfigWithTheme } from 'vitepress'
@@ -123,15 +123,15 @@ export default defineConfigWithTheme<ThemeConfig>({
 
 - **Vite**
 
-  你可以使用 VitePress 配置中的 [vite](#vite) 选项配置底层 Vite 实例。无需创建单独的 Vite 配置文件。
+  可以使用 VitePress 配置中的 [vite](#vite) 选项配置底层 Vite 实例。无需创建单独的 Vite 配置文件。
 
 - **Vue**
 
-  VitePress 已经包含 Vite 的官方 Vue 插件（[@vitejs/plugin-vue](https://github.com/vitejs/vite-plugin-vue)）。你可以配置 VitePress 中的 [vue](#vue) 选项。
+  VitePress 已经包含 Vite 的官方 Vue 插件（[@vitejs/plugin-vue](https://github.com/vitejs/vite-plugin-vue)）。可以配置 VitePress 中的 [vue](#vue) 选项。
 
 - **Markdown**
 
-  你可以使用 VitePress 配置中的 [markdown](#markdown) 选项配置底层的 [Markdown-It](https://github.com/markdown-it/markdown-it) 实例。
+  可以使用 VitePress 配置中的 [markdown](#markdown) 选项配置底层的 [Markdown-It](https://github.com/markdown-it/markdown-it) 实例。
 
 ## 站点元数据 {#site-metadata}
 
@@ -177,7 +177,7 @@ export default {
 
 页面标题就是 `Hello | Custom Suffix`.
 
-要完全自定义标题的呈现方式，你可以在 `titleTemplate` 中使用 `:title` 标识符：
+要完全自定义标题的呈现方式，可以在 `titleTemplate` 中使用 `:title` 标识符：
 
 ```ts
 export default {
@@ -333,9 +333,9 @@ export default {
 - 类型：`string`
 - 默认值： `/`
 
-站点将部署到的 base URL。如果你计划在子路径（例如 GitHub 页面）下部署站点，则需要设置此项。如果你计划将你的站点部署到 `https://foo.github.io/bar/`，那么你应该将 `base` 设置为 `“/bar/”`。它应该始终以 `/`开头和结尾。
+站点将部署到的 base URL。如果计划在子路径（例如 GitHub 页面）下部署站点，则需要设置此项。如果计划将站点部署到 `https://foo.github.io/bar/`，那么应该将 `base` 设置为 `“/bar/”`。它应该始终以 `/`开头和结尾。
 
-base 会自动添加到其他选项中以 `/` 开头的所有 URL 前面，因此你只需指定一次。
+base 会自动添加到其他选项中以 `/` 开头的所有 URL 前面，因此只需指定一次。
 
 ```ts
 export default {
@@ -353,7 +353,7 @@ export default {
 当设置为 `true` 时，VitePress 将从 URL 中删除 `.html` 后缀。另请参阅[生成简洁的 URL](../guide/routing#generating-clean-url)。
 
 ::: warning 需要服务器支持
-要启用此功能，可能需要在你的托管平台上进行额外配置。要使其正常工作，你的服务器必须能够在**不重定向的情况下**访问 `/foo` 时提供 `/foo.html`。
+要启用此功能，可能需要在托管平台上进行额外配置。要使其正常工作，服务器必须能够在**不重定向的情况下**访问 `/foo` 时提供 `/foo.html`。
 :::
 
 ### rewrites
@@ -502,7 +502,7 @@ export default {
 
 是否使用 Git 获取每个页面的最后更新时间戳。时间戳将包含在每个页面的页面数据中，可通过 [`useData`](./runtime-api#usedata) 访问。
 
-使用默认主题时，启用此选项将显示每个页面的最后更新时间。你可以通过 [`themeConfig.lastUpdatedText`](./default-theme-config#lastupdatedtext) 选项自定义文本。
+使用默认主题时，启用此选项将显示每个页面的最后更新时间。可以通过 [`themeConfig.lastUpdatedText`](./default-theme-config#lastupdatedtext) 选项自定义文本。
 
 ## 自定义 {#customization}
 
@@ -510,7 +510,7 @@ export default {
 
 - 类型：`MarkdownOption`
 
-配置 Markdown 解析器选项。VitePress 使用 [Markdown-it](https://github.com/markdown-it/markdown-it) 作为解析器，使用[Shikiji](https://github.com/antfu/shikiji) ([Shiki](https://shiki.matsu.io/) 的改进版本) 来高亮不同语言语法。在此选项中，你可以传递各种 Markdown 相关选项以满足你的需要。
+配置 Markdown 解析器选项。VitePress 使用 [Markdown-it](https://github.com/markdown-it/markdown-it) 作为解析器，使用[Shikiji](https://github.com/antfu/shikiji) ([Shiki](https://shiki.matsu.io/) 的改进版本) 来高亮不同语言语法。在此选项中，可以传递各种 Markdown 相关选项以满足的需要。
 
 ```js
 export default {
@@ -550,7 +550,7 @@ export default {
 
 ## 构建钩子 {#build-hooks}
 
-VitePress 构建钩子允许你向你的网站添加新功能和行为：
+VitePress 构建钩子允许向网站添加新功能和行为：
 
 - Sitemap 
 - Search Indexing 
@@ -575,7 +575,7 @@ export default {
 
 - 类型：`(context: SSGContext) => Awaitable<SSGContext | void>`
 
- `postRender` 是一个构建钩子，在 SSG 渲染完成时调用。它将允许你在 SSG 期间处理传递的内容。
+ `postRender` 是一个构建钩子，在 SSG 渲染完成时调用。它将允许在 SSG 期间处理传递的内容。
 
 ```ts
 export default {
@@ -597,7 +597,7 @@ interface SSGContext {
 
 - 类型：`(context: TransformContext) => Awaitable<HeadConfig[]>`
 
-`transformHead` 是一个构建钩子，用于在生成每个页面之前转换 head。它将允许你添加无法静态添加到你的 VitePress 配置中的 head entries。你只需要返回额外的 entries，它们将自动与现有 entries 合并。
+`transformHead` 是一个构建钩子，用于在生成每个页面之前转换 head。它将允许添加无法静态添加到 VitePress 配置中的 head entries。只需要返回额外的 entries，它们将自动与现有 entries 合并。
 
 ::: warning
 不要改变 `context` 中的任何东西。
@@ -625,7 +625,7 @@ interface TransformContext {
 }
 ```
 
-请注意，仅在静态生成站点时才会调用此挂钩。在开发期间不会调用它。如果你需要在开发期间添加动态头条目，你可以使用 [`transformPageData`](#transformpagedata) 钩子来替代：
+请注意，仅在静态生成站点时才会调用此挂钩。在开发期间不会调用它。如果需要在开发期间添加动态头条目，可以使用 [`transformPageData`](#transformpagedata) 钩子来替代：
 
 ```ts
 export default {
@@ -667,10 +667,10 @@ export default {
 
 - 类型：`(pageData: PageData, context: TransformPageContext) => Awaitable<Partial<PageData> | { [key: string]: any } | void>`
 
-`transformPageData` 是一个钩子，用于转换每个页面的 `pageData`。你可以直接改变 `pageData` 或返回将合并到 `PageData` 中的更改值。
+`transformPageData` 是一个钩子，用于转换每个页面的 `pageData`。可以直接改变 `pageData` 或返回将合并到 `PageData` 中的更改值。
 
 ::: warning
-不要改变 `context` 中的任何东西。请注意，这可能会影响开发服务器的性能，特别是当你在钩子中有一些网络请求或大量计算（例如生成图像）时。你可以通过判断 `process.env.NODE_ENV === 'production'` 匹配符合条件的情况。
+不要改变 `context` 中的任何东西。请注意，这可能会影响开发服务器的性能，特别是当在钩子中有一些网络请求或大量计算（例如生成图像）时。可以通过判断 `process.env.NODE_ENV === 'production'` 匹配符合条件的情况。
 :::
 
 ```ts

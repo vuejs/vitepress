@@ -1,8 +1,8 @@
 # 构建时数据加载 {#build-time-data-loading}
 
-VitePress 提供了**数据加载**的功能，它允许你加载任意数据并从页面或组件中导入它。数据加载**只在构建时**执行：最终的数据将被序列化为 JavaScript 包中的 JSON。
+VitePress 提供了**数据加载**的功能，它允许加载任意数据并从页面或组件中导入它。数据加载**只在构建时**执行：最终的数据将被序列化为 JavaScript 包中的 JSON。
 
-数据加载可以被用于获取远程数据，也可以基于本地文件生成元数据。例如，你可以使用数据加载器来解析所有本地 API 页面并自动生成所有 API 入口的索引。
+数据加载可以被用于获取远程数据，也可以基于本地文件生成元数据。例如，可以使用数据加载来解析所有本地 API 页面并自动生成所有 API 入口的索引。
 
 ## 基本用法 {#basic-usage}
 
@@ -19,9 +19,9 @@ export default {
 }
 ```
 
-数据加载模块只在 Node.js 中执行，因此你可以按需导入 Node API 和 npm 依赖。
+数据加载模块只在 Node.js 中执行，因此可以按需导入 Node API 和 npm 依赖。
 
-然后，你可以在 `.md` 页面和 `.vue` 组件中使用 `data` 命名导出从该文件中导入数据：
+然后，可以在 `.md` 页面和 `.vue` 组件中使用 `data` 命名导出从该文件中导入数据：
 
 ```vue
 <script setup>
@@ -54,9 +54,9 @@ export default {
 
 ## 使用本地文件生成数据 {#data-from-local-files}
 
-当你需要基于本地文件生成数据时，你应该在数据加载中使用 `watch` 选项，以便这些文件改动时可以触发热更新。
+当需要基于本地文件生成数据时，应该在数据加载中使用 `watch` 选项，以便这些文件改动时可以触发热更新。
 
-`watch` 选项也很方便，因为你可以使用 [glob 模式](https://github.com/mrmlnc/fast-glob#pattern-syntax) 匹配多个文件。模式可以相对于加载器文件本身，`load()` 函数将接收匹配文件的绝对路径。
+`watch` 选项也很方便，因为可以使用 [glob 模式](https://github.com/mrmlnc/fast-glob#pattern-syntax) 匹配多个文件。模式可以相对于加载器文件本身，`load()` 函数将接收匹配文件的绝对路径。
 
 下面的例子展示了如何使用 [csv-parse](https://github.com/adaltas/node-csv/tree/master/packages/csv-parse/) 加载 CSV 文件并将其转换为 JSON。因为此文件仅在构建时执行，因此不会将 CSV 解析器发送到客户端！
 
@@ -133,7 +133,7 @@ import { data as posts } from './posts.data.js'
 
 ### 选项 {#options}
 
-默认数据可能不适合所有需求——你可以选择使用选项转换数据：
+默认数据可能不适合所有需求——可以选择使用选项转换数据：
 
 ```js
 // posts.data.js
@@ -216,7 +216,7 @@ interface ContentOptions<T = ContentData[]> {
 
 ## 为数据加载器导出类型 {#typed-data-loaders}
 
-当使用 TypeScript 时，你可以像这样为加载器和 `data` 导出类型：
+当使用 TypeScript 时，可以像这样为加载器和 `data` 导出类型：
 
 ```ts
 import { defineLoader } from 'vitepress'

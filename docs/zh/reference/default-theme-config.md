@@ -1,6 +1,6 @@
 # 默认主题配置 {#default-theme-config}
 
-主题配置可让你自定义主题。你可以通过将 `themeConfig` 添加到配置文件来定义主题配置：
+主题配置可让自定义主题。可以通过将 `themeConfig` 添加到配置文件来定义主题配置：
 
 ```ts
 export default {
@@ -23,7 +23,7 @@ export default {
 
 - 类型：`boolean`
 
-将本地语言更改为 `zh` 会将 URL 从 `/foo`（或 `/en/foo/`）更改为 `/zh/foo`。你可以通过将 `themeConfig.i18nRouting` 设置为 `false` 来禁用此行为。
+将本地语言更改为 `zh` 会将 URL 从 `/foo`（或 `/en/foo/`）更改为 `/zh/foo`。可以通过将 `themeConfig.i18nRouting` 设置为 `false` 来禁用此行为。
 
 ## logo
 
@@ -50,7 +50,7 @@ type ThemeableImage =
 
 - 类型：`string | false`
 
-你可以自定义此项以替换导航中的默认站点标题（应用配置中的 `title`）。当设置为 `false` 时，导航中的标题将被禁用。这在当你的 `logo` 已经包含网站标题文本时很有用。
+可以自定义此项以替换导航中的默认站点标题（应用配置中的 `title`）。当设置为 `false` 时，导航中的标题将被禁用。这在当 `logo` 已经包含网站标题文本时很有用。
 
 ```ts
 export default {
@@ -64,7 +64,7 @@ export default {
 
 - 类型：`NavItem`
 
-导航菜单项的配置。你可以在[默认主题: 导航栏](./default-theme-nav#navigation-links) 了解更多详情。
+导航菜单项的配置。可以在[默认主题: 导航栏](./default-theme-nav#navigation-links) 了解更多详情。
 
 ```ts
 export default {
@@ -111,7 +111,7 @@ interface NavItemWithChildren {
 
 - 类型：`Sidebar`
 
-侧边栏菜单项的配置。你可以在[默认主题: 侧边栏](./default-theme-sidebar) 了解更多详情。
+侧边栏菜单项的配置。可以在[默认主题: 侧边栏](./default-theme-sidebar) 了解更多详情。
 
 ```ts
 export default {
@@ -174,7 +174,7 @@ export type SidebarItem = {
 将此值设置为 `true` 将在页面右侧渲染。\
 将此值设置为 `left` 将在页面左侧渲染。
 
-如果你想对所有页面禁用它，你应该使用 `outline: false`。
+如果想对所有页面禁用它，应该使用 `outline: false`。
 
 ## outline
 
@@ -208,7 +208,7 @@ interface Outline {
 
 - 类型：`SocialLink[]`
 
-你可以定义此选项以在导航栏中展示带有图标的社交帐户链接。
+可以定义此选项以在导航栏中展示带有图标的社交帐户链接。
 
 ```ts
 export default {
@@ -255,7 +255,7 @@ type SocialLinkIcon =
 - 类型：`Footer`
 - 可以通过 [frontmatter](./frontmatter-config#footer) 进行覆盖。
 
-页脚配置。你可以添加 message 和 copyright。由于设计原因，仅当页面不包含侧边栏时才会显示页脚。
+页脚配置。可以添加 message 和 copyright。由于设计原因，仅当页面不包含侧边栏时才会显示页脚。
 
 ```ts
 export default {
@@ -280,7 +280,7 @@ export interface Footer {
 - 类型：`EditLink`
 - 每个页面可以通过 [frontmatter](./frontmatter-config#editlink) 覆写
 
-编辑链接可让你显示链接以编辑 Git 管理服务（例如 GitHub 或 GitLab）上的页面。有关详细信息，请参阅 [默认主题：编辑链接](./default-theme-edit-link)。
+编辑链接可让显示链接以编辑 Git 管理服务（例如 GitHub 或 GitLab）上的页面。有关详细信息，请参阅 [默认主题：编辑链接](./default-theme-edit-link)。
 
 ```ts
 export default {
@@ -379,7 +379,7 @@ Learn more in [Default Theme: Carbon Ads](./default-theme-carbon-ads)
 
 - 类型：`DocFooter`
 
-可用于自定义出现在上一页和下一页链接上方的文本。如果不是用英语编写文档，这很有帮助。也可用于全局禁用上一页/下一页链接。如果你想有选择地启用/禁用上一个/下一个链接，可以使用 [frontmatter](./default-theme-prev-next-links)。
+可用于自定义出现在上一页和下一页链接上方的文本。如果不是用英语编写文档，这很有帮助。也可用于全局禁用上一页/下一页链接。如果想有选择地启用/禁用上一个/下一个链接，可以使用 [frontmatter](./default-theme-prev-next-links)。
 
 ```ts
 export default {

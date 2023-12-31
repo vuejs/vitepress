@@ -10,7 +10,7 @@ outline: deep
 
 ## `<ClientOnly>` 
 
-如果你正在使用或演示不支持 SSR 的组件 (例如，包含自定义指令)，则可以将它们包装在内置的 `<ClientOnly>` 组件中：
+如果正在使用或演示不支持 SSR 的组件 (例如，包含自定义指令)，则可以将它们包装在内置的 `<ClientOnly>` 组件中：
 
 ```md
 <ClientOnly>
@@ -20,7 +20,7 @@ outline: deep
 
 ## 在导入时访问浏览器 API 的库 {#libraries-that-access-browser-api-on-import}
 
-一些组件或库在**导入时**访问浏览器 API。要使用假定在导入时处于浏览器环境的代码，你需要动态导入它们。
+一些组件或库在**导入时**访问浏览器 API。要使用假定在导入时处于浏览器环境的代码，需要动态导入它们。
 
 ### 在 mounted 钩子中导入 {#importing-in-mounted-hook}
 
@@ -38,7 +38,7 @@ onMounted(() => {
 
 ### 条件导入 {#conditional-import}
 
-你也可以使用 `import.meta.env.SSR` 标志 ([Vite 环境变量](https://cn.vitejs.dev/guide/env-and-mode.html#env-变量)的一部分)  来有条件地导入依赖项：
+也可以使用 `import.meta.env.SSR` 标志 ([Vite 环境变量](https://cn.vitejs.dev/guide/env-and-mode.html#env-变量)的一部分)  来有条件地导入依赖项：
 
 ```js
 if (!import.meta.env.SSR) {
@@ -48,7 +48,7 @@ if (!import.meta.env.SSR) {
 }
 ```
 
-因为 [`Theme.enhanceApp`](/guide/custom-theme#theme-interface) 可以是异步的，所以你可以有条件地导入并注册访问浏览器 API 的 Vue 插件：
+因为 [`Theme.enhanceApp`](/guide/custom-theme#theme-interface) 可以是异步的，所以可以有条件地导入并注册访问浏览器 API 的 Vue 插件：
 
 ```js
 // .vitepress/theme/index.js
@@ -64,7 +64,7 @@ export default {
 }
 ```
 
-如果你使用 TypeScript:
+如果使用 TypeScript:
 
 ```ts
 // .vitepress/theme/index.ts
@@ -99,7 +99,7 @@ const ClientComp = defineClientComponent(() => {
 </template>
 ```
 
-你还可以将 props/children/slots 传递给目标组件：
+还可以将 props/children/slots 传递给目标组件：
 
 ```vue
 <script setup>

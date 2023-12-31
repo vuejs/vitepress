@@ -14,7 +14,7 @@ VitePress 带有内置的 Markdown 拓展。
 # 使用自定义锚点 {#my-anchor}
 ```
 
-这允许你将标题链接为 `#my-anchor`，而不是默认的 `#使用自定义锚点`。
+这允许将标题链接为 `#my-anchor`，而不是默认的 `#使用自定义锚点`。
 
 ## 链接 {#links}
 
@@ -39,7 +39,7 @@ VitePress 带有内置的 Markdown 拓展。
    └─ four.md
 ```
 
-假设你现在处于 `foo/one.md` 文件中：
+假设现在处于 `foo/one.md` 文件中：
 
 ```md
 [Home](/) <!-- sends the user to the root index.md -->
@@ -108,7 +108,7 @@ lang: en-US
 
 :tada: :100:
 
-这里你可以找到[所有支持的 emoji 列表](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.mjs)。
+这里可以找到[所有支持的 emoji 列表](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.mjs)。
 
 ## 目录表 (TOC) {#table-of-contents}
 
@@ -206,7 +206,7 @@ console.log('Hello, VitePress!')
 ```
 :::
 
-此外，你可以通过在站点配置中添加以下内容来全局设置自定义标题，如果不是用英语书写，这会很有帮助：
+此外，可以通过在站点配置中添加以下内容来全局设置自定义标题，如果不是用英语书写，这会很有帮助：
 
 ```ts
 // config.ts
@@ -227,7 +227,7 @@ export default defineConfig({
 
 ### `raw`
 
-这是一个特殊的容器，可以用来防止与 VitePress 的样式和路由冲突。这在记录组件库时特别有用。你可能还想查看 [whyframe](https://whyframe.dev/docs/integrations/vitepress) 以获得更好的隔离。
+这是一个特殊的容器，可以用来防止与 VitePress 的样式和路由冲突。这在记录组件库时特别有用。可能还想查看 [whyframe](https://whyframe.dev/docs/integrations/vitepress) 以获得更好的隔离。
 
 **语法**
 
@@ -239,7 +239,7 @@ Wraps in a <div class="vp-raw">
 
 `vp-raw` class 也可以直接用于元素。样式隔离目前是可选的：
 
-- 使用你喜欢的包管理器来安装需要的依赖项：
+- 使用喜欢的包管理器来安装需要的依赖项：
 
   ```sh
   $ npm add -D postcss
@@ -265,7 +265,7 @@ Wraps in a <div class="vp-raw">
 
 ## 代码块中的语法高亮 {#syntax-highlighting-in-code-blocks}
 
-VitePress 使用 [Shikiji](https://github.com/antfu/shikiji) ([Shiki](https://shiki.matsu.io/) 的改进版本) 在 Markdown 代码块中使用彩色文本实现语法高亮。Shiki 支持多种编程语言。你需要做的就是将有效的语言别名附加到代码块的开头：
+VitePress 使用 [Shikiji](https://github.com/antfu/shikiji) ([Shiki](https://shiki.matsu.io/) 的改进版本) 在 Markdown 代码块中使用彩色文本实现语法高亮。Shiki 支持多种编程语言。需要做的就是将有效的语言别名附加到代码块的开头：
 
 **输入**
 
@@ -509,7 +509,7 @@ export default {
 
 ## 行号 {#line-numbers}
 
-你可以通过以下配置为每个代码块启用行号：
+可以通过以下配置为每个代码块启用行号：
 
 ```js
 export default {
@@ -521,7 +521,7 @@ export default {
 
 查看 [`markdown` 选项](../reference/site-config#markdown) 获取更多信息。
 
-你可以在你的代码块中添加 `:line-numbers` / `:no-line-numbers` 标记来覆盖在配置中的设置。
+可以在代码块中添加 `:line-numbers` / `:no-line-numbers` 标记来覆盖在配置中的设置。
 
 **输入**
 
@@ -567,7 +567,7 @@ const line4 = 'This is line 4'
 
 ## 导入代码片段 {#import-code-snippets}
 
-你可以通过下面的语法来从现有文件中导入代码片段：
+可以通过下面的语法来从现有文件中导入代码片段：
 
 ```md
 <<< @/filepath
@@ -594,7 +594,7 @@ const line4 = 'This is line 4'
 <<< @/snippets/snippet.js
 
 ::: tip
-`@` 的值对应于源代码根目录，默认情况下是 VitePress 项目根目录，除非配置了 `srcDir`。或者你也可以从相对路径导入：
+`@` 的值对应于源代码根目录，默认情况下是 VitePress 项目根目录，除非配置了 `srcDir`。或者也可以从相对路径导入：
 
 ```md
 <<< ../snippets/snippet.js
@@ -602,7 +602,7 @@ const line4 = 'This is line 4'
 
 :::
 
-你也可以使用 [VS Code region](https://code.visualstudio.com/docs/editor/codebasics#_folding) 来只包含代码文件的相应部分。你可以在文件目录后面的 `#` 符号后提供一个自定义的区域名：
+也可以使用 [VS Code region](https://code.visualstudio.com/docs/editor/codebasics#_folding) 来只包含代码文件的相应部分。可以在文件目录后面的 `#` 符号后提供一个自定义的区域名：
 
 **输入**
 
@@ -618,7 +618,7 @@ const line4 = 'This is line 4'
 
 <<< @/snippets/snippet-with-region.js#snippet{1}
 
-你也可以像这样在大括号内(`{}`)指定语言：
+也可以像这样在大括号内(`{}`)指定语言：
 
 ```md
 <<< @/snippets/snippet.cs{c#}
@@ -636,7 +636,7 @@ const line4 = 'This is line 4'
 
 ## 代码组 {#code-groups}
 
-你可以像这样对多个代码块进行分组：
+可以像这样对多个代码块进行分组：
 
 **输入**
 
@@ -694,7 +694,7 @@ export default config
 
 :::
 
-你也可以在代码组中[导入代码片段](#import-code-snippets)：
+也可以在代码组中[导入代码片段](#import-code-snippets)：
 
 **输入**
 
@@ -724,13 +724,13 @@ export default config
 
 ## 包含 markdown 文件 {#markdown-file-inclusion}
 
-你可以像这样在一个 markdown 文件中包含另一个 markdown 文件，甚至是内嵌的。
+可以像这样在一个 markdown 文件中包含另一个 markdown 文件，甚至是内嵌的。
 
 ::: tip
-你也可以使用 `@`，它的值对应于源代码根目录，默认情况下是 VitePress 项目根目录，除非配置了 `srcDir`。
+也可以使用 `@`，它的值对应于源代码根目录，默认情况下是 VitePress 项目根目录，除非配置了 `srcDir`。
 :::
 
-例如，你可以这样用相对路径包含 Markdown 文件：
+例如，可以这样用相对路径包含 Markdown 文件：
 
 **输入**
 
@@ -803,12 +803,12 @@ Can be created using `.foorc.json`.
 所选行范围的格式可以是： `{3,}`、 `{,10}`、`{1,10}`
 
 ::: warning
-如果你指定的文件不存在，这将不会产生错误。因此，在使用这个功能的时候请保证内容按预期呈现。
+如果指定的文件不存在，这将不会产生错误。因此，在使用这个功能的时候请保证内容按预期呈现。
 :::
 
 ## 数学方程 {#math-equations}
 
-现在这是可选的。要启用它, 你需要安装 `markdown-it-mathjax3`，在配置文件中设置`markdown.math` 为 `true`：
+现在这是可选的。要启用它, 需要安装 `markdown-it-mathjax3`，在配置文件中设置`markdown.math` 为 `true`：
 
 ```sh
 npm add -D markdown-it-mathjax3
@@ -867,7 +867,7 @@ export default {
 
 ## 高级配置 {#advanced-configuration}
 
-VitePress 使用 [markdown-it](https://github.com/markdown-it/markdown-it) 作为 Markdown 渲染器。上面提到的很多拓展功能都是通过自定义插件实现的。你可以使用 `.vitepress/config.js` 中的 `markdown` 选项来进一步自定义 `markdown-it` 实例。
+VitePress 使用 [markdown-it](https://github.com/markdown-it/markdown-it) 作为 Markdown 渲染器。上面提到的很多拓展功能都是通过自定义插件实现的。可以使用 `.vitepress/config.js` 中的 `markdown` 选项来进一步自定义 `markdown-it` 实例。
 
 ```js
 import { defineConfig } from 'vitepress'
