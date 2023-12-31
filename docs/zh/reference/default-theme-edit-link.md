@@ -35,7 +35,6 @@ export default {
 ```
 
 ::: details 它不应该有副作用，也不应该访问其范围之外的任何东西，因为它将在浏览器中被序列化和执行。
-It should not have side-effects nor access anything outside of its scope since it will be serialized and executed in the browser.
 :::
 
 默认情况下，这将在文档页面底部添加链接文本"Edit this page"。你可以通过定义 `text` 选项来自定义此文本。
@@ -51,7 +50,7 @@ export default {
 }
 ```
 
-## Frontmatter 配置 {#frontmatter-config}
+## frontmatter 配置 {#frontmatter-config}
 
 可以使用 frontmatter 上的 `editLink` 选项单独禁用某个页面的编辑链接：
 

@@ -42,7 +42,7 @@ export default {
 
 请注意，当[侧边栏](./default-theme-sidebar)可见时，不会显示页脚。
 
-## Frontmatter 配置 {#frontmatter-config}
+## frontmatter 配置 {#frontmatter-config}
 
 可以使用 frontmatter 上的 `footer` 选项在单独页面上禁用此功能：
 

@@ -61,7 +61,7 @@ VitePress 带有内置的 Markdown 拓展。
 - [vuejs.org](https://vuejs.org)
 - [VitePress on GitHub](https://github.com/vuejs/vitepress)
 
-## Frontmatter {#frontmatter}
+## frontmatter {#frontmatter}
 
 [YAML 格式的 frontmatter](https://jekyllrb.com/docs/front-matter/) 开箱即用：
 
@@ -74,7 +74,7 @@ lang: en-US
 
 此数据将可用于页面的其余部分，以及所有自定义和主题组件。
 
-更多信息，参见 [Frontmatter](../reference/frontmatter-config)。
+更多信息，参见 [frontmatter](../reference/frontmatter-config)。
 
 ## GitHub 风格的表格 {#github-style-tables}
 
@@ -850,6 +850,20 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 | $\nabla \cdot \vec{\mathbf{B}}  = 0$                                                                                                                                      | divergence of $\vec{\mathbf{B}}$ is zero                                               |
 | $\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t}  = \vec{\mathbf{0}}$                                                          | curl of $\vec{\mathbf{E}}$ is proportional to the rate of change of $\vec{\mathbf{B}}$ |
 | $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _wha?_                                                                                 |
+
+## 图片懒加载 {#image-lazy-loading}
+
+You can enable lazy loading for each image added via markdown by setting `lazyLoading` to `true` in your config file:
+```js
+export default {
+  markdown: {
+    image: {
+      // image lazy loading is disabled by default
+      lazyLoading: true
+    }
+  }
+}
+```
 
 ## 高级配置 {#advanced-configuration}
 

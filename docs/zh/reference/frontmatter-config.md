@@ -2,9 +2,9 @@
 outline: deep
 ---
 
-# Frontmatter 配置 {#frontmatter-config}
+# frontmatter 配置 {#frontmatter-config}
 
-Frontmatter 支持基于页面的配置。在每个 markdown 文件中，你可以使用 frontmatter 配置来覆写站点级别或主题级别的配置选项。此外，还有一些配置选项只能在 frontmatter 中定义。
+frontmatter 支持基于页面的配置。在每个 markdown 文件中，你可以使用 frontmatter 配置来覆写站点级别或主题级别的配置选项。此外，还有一些配置选项只能在 frontmatter 中定义。
 
 示例用法：
 
@@ -21,10 +21,9 @@ editLink: true
 {{ $frontmatter.title }}
 ```
 
-## 标题 {#title}
+## title
 
-- key: `title`
-- Type: `string`
+- 类型：`string`
 
 页面的标题。它与 [config.title](./site-config#title) 相同，并且覆盖站点级配置。
 
@@ -34,10 +33,9 @@ title: VitePress
 ---
 ```
 
-## 标题模板 {#title-template}
+## titleTemplate
 
-- key: `titleTemplate`
-- Type: `string | boolean`
+- 类型：`string | boolean`
 
 标题的后缀。它与 [config.titleTemplate](./site-config#titletemplate) 相同，它会覆盖站点级别的配置。
 
@@ -48,10 +46,9 @@ titleTemplate: Vite & Vue powered static site generator
 ---
 ```
 
-## 描述 {#description}
+## description
 
-- key: `description`
-- Type: `string`
+- 类型：`string`
 
 页面的描述。它与 [config.description](./site-config#description) 相同，它会覆盖站点级别的配置。
 
@@ -61,10 +58,9 @@ description: VitePress
 ---
 ```
 
-## 头部标签 {#head}
+## head
 
-- key: `head`
-- Type: `HeadConfig[]`
+- 类型：`HeadConfig[]`
 
 指定要为当前页面注入的额外 head 标签。将附加在站点级配置注入的头部标签之后。
 
@@ -90,11 +86,10 @@ type HeadConfig =
 
 以下 frontmatter 选项仅在使用默认主题时适用。
 
-### 布局 {#layout}
+### layout
 
-- key: `layout`
-- Type: `doc | home | page`
-- Default: `doc`
+- 类型：`doc | home | page`
+- 默认值：`doc`
 
 指定页面的布局。
 
@@ -116,11 +111,10 @@ layout: doc
 
 定义当`layout` 设置为 `home` 时要在 features 部分中显示的项目。更多详细信息：[默认主题：主页](./default-theme-home-page)。
 
-### 导航栏 {#navbar}
+### navbar
 
-- Key: `navbar`
-- Type: `boolean`
-- Default: `true`
+- 类型：`boolean`
+- 默认值：`true`
 
 是否显示[导航栏](./default-theme-nav)。
 
@@ -130,11 +124,10 @@ navbar: false
 ---
 ```
 
-### 侧边栏 {#sidebar}
+### sidebar
 
-- Key: `sidebar`
-- Type: `boolean`
-- Default: `true`
+- 类型：`boolean`
+- 默认值：`true`
 
 是否显示 [侧边栏](./default-theme-sidebar).
 
@@ -144,11 +137,10 @@ sidebar: false
 ---
 ```
 
-### 大纲开关 {#aside}
+### aside
 
-- key: `aside`
-- Type: `boolean | 'left'`
-- Default: `true`
+- 类型：`boolean | 'left'`
+- 默认值：`true`
 
 定义侧边栏组件在 `doc` 布局中的位置。
 
@@ -162,19 +154,17 @@ aside: false
 ---
 ```
 
-### 大纲层级 {#outline}
+### outline
 
-- key: `outline`
-- Type: `number | [number, number] | 'deep' | false`
-- Default: `2`
+- 类型：`number | [number, number] | 'deep' | false`
+- 默认值：`2`
 
 大纲中显示的标题级别。它与 [config.themeConfig.outline.level](./default-theme-config#outline) 相同，它会覆盖站点级的配置。
 
-### 最近更新时间 {#last-updated}
+### lastUpdated
 
-- key: `lastUpdated`
-- Type: `boolean | Date`
-- Default: `true`
+- 类型：`boolean | Date`
+- 默认值：`true`
 
 是否在当前页面的页脚中显示[最近更新时间](./default-theme-last-updated)的文本。如果指定了日期时间，则会显示该日期时间而不是上次 git 修改的时间戳。
 
@@ -184,11 +174,10 @@ lastUpdated: false
 ---
 ```
 
-### 编辑链接 {#edit-link}
+### editLink
 
-- key: `editLink`
-- Type: `boolean`
-- Default: `true`
+- 类型：`boolean`
+- 默认值：`true`
 
 是否在当前页的页脚显示[编辑链接](./default-theme-edit-link)。
 
@@ -198,11 +187,10 @@ editLink: false
 ---
 ```
 
-### 页脚 {#footer}
+### footer
 
-- Key: `footer`
-- Type: `boolean`
-- Default: `true`
+- 类型：`boolean`
+- 默认值：`true`
 
 是否显示 [页脚](./default-theme-footer).
 
@@ -214,7 +202,7 @@ footer: false
 
 ### pageClass
 
-- Type: `string`
+- 类型：`string`
 
 将额外的类名称添加到特定页面。
 

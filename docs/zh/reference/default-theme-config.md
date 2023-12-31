@@ -19,17 +19,15 @@ export default {
 
 **此页面上记录的选项仅适用于默认主题**。不同的主题需要不同的主题配置。使用自定义主题时，主题配置对象将传递给主题，以便主题可以基于它作出不同表现。
 
-## i18nRouting {#i18n-routing}
+## i18nRouting
 
-- key: `i18nRouting`
-- Type: `boolean`
+- 类型：`boolean`
 
 将本地语言更改为 `zh` 会将 URL 从 `/foo`（或 `/en/foo/`）更改为 `/zh/foo`。你可以通过将 `themeConfig.i18nRouting` 设置为 `false` 来禁用此行为。
 
-## 图标 {#logo}
+## logo
 
-- key: `logo`
-- Type: `ThemeableImage`
+- 类型：`ThemeableImage`
 
 导航栏上显示的 Logo，位于网站标题右侧。可以接受一个路径字符串，或者一个对象来设置在浅色/深色模式下不同的 Logo。
 
@@ -48,10 +46,9 @@ type ThemeableImage =
   | { light: string; dark: string; alt?: string }
 ```
 
-## 站点标题开关 {#site-title}
+## siteTitle
 
-- key: `siteTitle`
-- Type: `string | false`
+- 类型：`string | false`
 
 你可以自定义此项以替换导航中的默认站点标题（应用配置中的 `title`）。当设置为 `false` 时，导航中的标题将被禁用。这在当你的 `logo` 已经包含网站标题文本时很有用。
 
@@ -63,10 +60,9 @@ export default {
 }
 ```
 
-## 导航栏 {#nav}
+## nav
 
-- key: `nav`
-- Type: `NavItem`
+- 类型：`NavItem`
 
 导航菜单项的配置。你可以在[默认主题: 导航栏](./default-theme-nav#navigation-links) 了解更多详情。
 
@@ -111,10 +107,9 @@ interface NavItemWithChildren {
 }
 ```
 
-## 侧边栏 {#sidebar}
+## sidebar
 
-- key: `sidebar`
-- Type: `Sidebar`
+- 类型：`Sidebar`
 
 侧边栏菜单项的配置。你可以在[默认主题: 侧边栏](./default-theme-sidebar) 了解更多详情。
 
@@ -169,11 +164,10 @@ export type SidebarItem = {
 }
 ```
 
-## 大纲开关 {#aside}
+## aside
 
-- key: `aside`
-- Type: `boolean | 'left'`
-- Default: `true`
+- 类型：`boolean | 'left'`
+- 默认值：`true`
 - 每个页面可以通过 [frontmatter](./frontmatter-config#aside) 覆写
 
 将此值设置为 `false` 可禁用 aside(大纲) 容器。\
@@ -182,10 +176,9 @@ export type SidebarItem = {
 
 如果你想对所有页面禁用它，你应该使用 `outline: false`。
 
-## 大纲层级 {#outline}
+## outline
 
-- key: `outline`
-- Type: `Outline | Outline['level'] | false`
+- 类型：`Outline | Outline['level'] | false`
 - 每个页面可以通过 [frontmatter](./frontmatter-config#outline) 覆写层级
 
 将此值设置为 `false` 可禁止渲染大纲容器。更多详情请参考该接口：
@@ -193,10 +186,10 @@ export type SidebarItem = {
 ```ts
 interface Outline {
   /**
-   * 大纲中显示的标题级别。
-   * 单个数字表示仅显示该级别的标题。
-   * 如果传递一个元组，则第一个数字是最小级别，第二个数字是最大级别。
-   * `'deep'` 和`[2, 6]` 等效, 这意味着 `<h2>` 到 `<h6>` 都会展示。
+   * The levels of headings to be displayed in the outline.
+   * Single number means only headings of that level will be displayed.
+   * If a tuple is passed, the first number is the minimum level and the second number is the maximum level.
+   * `'deep'` is same as `[2, 6]`, which means all headings from `<h2>` to `<h6>` will be displayed.
    *
    * @default 2
    */
@@ -211,9 +204,9 @@ interface Outline {
 }
 ```
 
-## 社交链接 {#sociallinks}
+## socialLinks
 
-- Type: `SocialLink[]`
+- 类型：`SocialLink[]`
 
 你可以定义此选项以在导航栏中展示带有图标的社交帐户链接。
 
@@ -223,13 +216,13 @@ export default {
     socialLinks: [
       { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
       { icon: 'twitter', link: '...' },
-      // 你还可以通过将 SVG 作为字符串传递来添加自定义图标：
+      // You can also add custom icons by passing SVG as string:
       {
         icon: {
           svg: '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Dribbble</title><path d="M12...6.38z"/></svg>'
         },
         link: '...',
-        // 你也可以自定义标签别名以实现无障碍访问（可选但推荐）：
+        // You can include a custom label for accessibility too (optional but recommended):
         ariaLabel: 'cool link'
       }
     ]
@@ -257,10 +250,10 @@ type SocialLinkIcon =
   | { svg: string }
 ```
 
-## 页脚 {#footer}
+## footer
 
-- Key: `footer`
-- Type: `Footer`
+- 类型：`Footer`
+- 可以通过 [frontmatter](./frontmatter-config#footer) 进行覆盖。
 
 页脚配置。你可以添加 message 和 copyright。由于设计原因，仅当页面不包含侧边栏时才会显示页脚。
 
@@ -282,9 +275,9 @@ export interface Footer {
 }
 ```
 
-## 编辑链接 {#edit-link}
+## editLink
 
-- Type: `EditLink`
+- 类型：`EditLink`
 - 每个页面可以通过 [frontmatter](./frontmatter-config#editlink) 覆写
 
 编辑链接可让你显示链接以编辑 Git 管理服务（例如 GitHub 或 GitLab）上的页面。有关详细信息，请参阅 [默认主题：编辑链接](./default-theme-edit-link)。
@@ -307,10 +300,9 @@ export interface EditLink {
 }
 ```
 
-## 最近更新时间 {#last-updated}
+## lastUpdated
 
-- key: `lastUpdated`
-- Type: `LastUpdatedOptions`
+- 类型：`LastUpdatedOptions`
 
 允许自定义上次更新的文本和日期格式。
 
@@ -345,7 +337,7 @@ export interface LastUpdatedOptions {
 
 ## algolia
 
-- Type: `AlgoliaSearch`
+- 类型：`AlgoliaSearch`
 
 支持使用 [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch) 搜索站点文档。在 [默认主题：搜索](./default-theme-search) 中了解更多信息。
 
@@ -359,7 +351,7 @@ export interface AlgoliaSearchOptions extends DocSearchProps {
 
 ## carbonAds {#carbon-ads}
 
-- Type: `CarbonAdsOptions`
+- 类型：`CarbonAdsOptions`
 
 一个配置即可展示 [Carbon Ads](https://www.carbonads.net/)。
 
@@ -383,10 +375,9 @@ export interface CarbonAdsOptions {
 
 Learn more in [Default Theme: Carbon Ads](./default-theme-carbon-ads)
 
-## 文档页脚 {#doc-footer}
+## docFooter
 
-- Key: `docFooter`
-- Type: `DocFooter`
+- 类型：`DocFooter`
 
 可用于自定义出现在上一页和下一页链接上方的文本。如果不是用英语编写文档，这很有帮助。也可用于全局禁用上一页/下一页链接。如果你想有选择地启用/禁用上一个/下一个链接，可以使用 [frontmatter](./default-theme-prev-next-links)。
 
@@ -408,42 +399,51 @@ export interface DocFooter {
 }
 ```
 
-## 暗模式开关标签 {#dark-mode-switch-label}
+## darkModeSwitchLabel
 
-- key: `darkModeSwitchLabel`
-- Type: `string`
-- Default: `Appearance`
+- 类型：`string`
+- 默认值：`Appearance`
 
-可用于自定义深色模式开关标签。此标签仅显示在移动视图中。
+Can be used to customize the dark mode switch label. This label is only displayed in the mobile view.
 
-## 侧边栏菜单标签 {#sidebar-menu-label}
+## lightModeSwitchTitle
 
-- key: `sidebarMenuLabel`
-- Type: `string`
-- Default: `Menu`
+- 类型：`string`
+- 默认值：`Switch to light theme`
 
-可用于自定义侧边栏菜单标签。此标签仅显示在移动视图中。
+Can be used to customize the light mode switch title that appears on hovering.
 
-## 返回顶部标签 {#return-totop-label}
+## darkModeSwitchTitle
 
-- key: `returnToTopLabel`
-- Type: `string`
-- Default: `Return to top`
+- 类型：`string`
+- 默认值：`Switch to dark theme`
 
-可用于自定义返回顶部按钮的标签。此标签仅显示在移动视图中。
+Can be used to customize the dark mode switch title that appears on hovering.
 
-## 多语言菜单标签 {#lang-menu-label}
+## sidebarMenuLabel
 
-- key: `langMenuLabel`
-- Type: `string`
-- Default: `Change language`
+- 类型：`string`
+- 默认值：`Menu`
 
-可用于自定义导航栏中语言切换按钮的 aria-label。这仅在你使用 [i18n](../guide/i18n) 时使用。
+Can be used to customize the sidebar menu label. This label is only displayed in the mobile view.
 
-## 外部链接图标 {#external-link-icon}
+## returnToTopLabel
 
-- key: `externalLinkIcon`
-- Type: `boolean`
-- Default: `false`
+- 类型：`string`
+- 默认值：`Return to top`
 
-是否在 Markdown 中的外部链接旁显示外部链接图标。
+Can be used to customize the label of the return to top button. This label is only displayed in the mobile view.
+
+## langMenuLabel
+
+- 类型：`string`
+- 默认值：`Change language`
+
+Can be used to customize the aria-label of the language toggle button in navbar. This is only used if you're using [i18n](../guide/i18n).
+
+## externalLinkIcon
+
+- 类型：`boolean`
+- 默认值：`false`
+
+Whether to show an external link icon next to external links in markdown.

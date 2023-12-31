@@ -13,7 +13,7 @@ export default {
 }
 ```
 
-## Frontmatter 配置 {#frontmatter-config}
+## frontmatter 配置 {#frontmatter-config}
 
 可以使用 frontmatter 上的 `lastUpdated` 选项单独禁用某个页面的最后更新展示：
 

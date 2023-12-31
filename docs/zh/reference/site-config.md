@@ -24,6 +24,62 @@ export default {
 }
 ```
 
+:::details 异步的动态配置
+
+如果你需要动态生成配置，你也可以默认导出一个函数，例如：
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default async () => defineConfig({
+  const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
+
+  return {
+    // app level config options
+    lang: 'en-US',
+    title: 'VitePress',
+    description: 'Vite & Vue powered static site generator.',
+
+    // theme level config options
+    themeConfig: {
+      sidebar: [
+        ...posts.map((post) => ({
+          text: post.name,
+          link: `/posts/${post.name}`
+        }))
+      ]
+    }
+  }
+})
+```
+
+你也可以在最外层使用 `await`。例如：
+
+```ts
+import { defineConfig } from 'vitepress'
+
+const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
+
+export default defineConfig({
+  // app level config options
+  lang: 'en-US',
+  title: 'VitePress',
+  description: 'Vite & Vue powered static site generator.',
+
+  // theme level config options
+  themeConfig: {
+    sidebar: [
+      ...posts.map((post) => ({
+        text: post.name,
+        link: `/posts/${post.name}`
+      }))
+    ]
+  }
+})
+```
+
+:::
+
 ### 配置智能提示 {#config-intellisense}
 
 使用 `defineConfig` 辅助函数将为配置选项提供 TypeScript 支持的智能提示。假设你的 IDE 支持它，那么智能提示在 JavaScript 和 TypeScript 中都将触发。

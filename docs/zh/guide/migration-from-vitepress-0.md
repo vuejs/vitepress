@@ -17,7 +17,7 @@
 - `lastUpdated` 选项现在分为` config.lastUpdated` 和 `themeConfig.lastUpdatedText`。
 - `carbonAds.carbon` 更改为 `carbonAds.code`.
 
-## Frontmatter 配置 {#frontmatter-config}
+## frontmatter 配置 {#frontmatter-config}
 
 - `home: true` 选项已更改为 `layout: home`。此外，还修改了许多与主页相关的设置以提供附加功能。详情请参阅 [主页指南](../reference/default-theme-home-page)。
 - `footer` 选项移至 [`themeConfig.footer`](../reference/default-theme-footer).
