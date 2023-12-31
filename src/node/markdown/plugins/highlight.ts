@@ -169,6 +169,8 @@ export async function highlight(
                   if (
                     span.type === 'element' &&
                     span.tagName === 'span' &&
+                    Array.isArray(span.properties.class) &&
+                    span.properties.class.includes('line') &&
                     span.children.length === 0
                   ) {
                     span.children.push({
