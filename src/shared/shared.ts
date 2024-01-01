@@ -191,7 +191,7 @@ const KNOWN_EXTENSIONS = new Set(
 )
 
 export function treatAsHtml(filename: string): boolean {
-  const ext = filename.split('.').pop()?.toLowerCase()
+  const ext = filename.split('.').pop()
 
-  return ext == null || !KNOWN_EXTENSIONS.has(ext)
+  return ext == null || !KNOWN_EXTENSIONS.has(ext.toLowerCase())
 }
