@@ -43,9 +43,9 @@ export const linkPlugin = (
         const { pathname, protocol } = new URL(url, 'http://a.com')
 
         if (
-          // skip on internal anchor links
+          // skip internal anchor links
           !url.startsWith('#') &&
-          // skip on mail/custom protocol links
+          // skip mail/custom protocol links
           protocol.startsWith('http') &&
           // skip links to files (other than html/md)
           treatAsHtml(pathname)
