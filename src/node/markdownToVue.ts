@@ -14,7 +14,8 @@ import {
   slash,
   type HeadConfig,
   type MarkdownEnv,
-  type PageData
+  type PageData,
+  treatAsHtml
 } from './shared'
 import { getGitTimestamp } from './utils/getGitTimestamp'
 import { processIncludes } from './utils/processIncludes'
@@ -145,7 +146,8 @@ export async function createMarkdownToVueRenderFn(
     if (links) {
       const dir = path.dirname(file)
       for (let url of links) {
-        if (/\.(?!html|md)\w+($|\?)/i.test(url)) continue
+        const { pathname } = new URL(url, 'http://a.com')
+        if (!treatAsHtml(pathname)) continue
 
         url = url.replace(/[?#].*$/, '').replace(/\.(html|md)$/, '')
         if (url.endsWith('/')) url += `index`

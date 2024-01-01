@@ -174,3 +174,14 @@ export function sanitizeFileName(name: string): string {
 export function slash(p: string): string {
   return p.replace(/\\/g, '/')
 }
+
+// md, html? are intentionally omitted, see treatAsHtml
+const commonMimeTypes = `3g2,3gp,7z,aac,abw,ai,aif,aifc,aiff,arc,asf,asr,asx,au,avi,avif,axs,azw,bin,bmp,bz,bz2,c,cda,cer,class,crl,crt,csh,css,csv,dcr,der,dll,doc,docx,eot,eps,epub,exe,gif,gtar,gz,gzip,ico,ics,ief,jar,jpe,jpeg,jpg,js,json,jsonld,latex,m3u,man,mdb,mht,mhtml,mid,midi,mjs,mov,mp2,mp3,mp4,mpa,mpe,mpeg,mpg,mpkg,mpp,odp,ods,odt,oga,ogv,ogx,opus,otf,p10,p12,p7b,p7c,p7m,p7r,p7s,pbm,pdf,pfx,php,png,ppt,pptx,ps,pub,qt,rar,roff,rtf,rtx,ser,sh,spc,svg,swf,t,tar,tcl,tex,texi,texinfo,tgz,tif,tiff,tr,ts,tsv,ttf,txt,ua,viv,vivo,vsd,wav,weba,webm,webp,woff,woff2,xbm,xhtml,xls,xlsx,xml,xul,zip`
+
+const set = new Set(commonMimeTypes.split(','))
+
+export function treatAsHtml(filename: string): boolean {
+  const ext = filename.split('.').pop()?.toLowerCase()
+
+  return ext == null || !set.has(ext)
+}

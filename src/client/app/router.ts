@@ -1,7 +1,6 @@
 import { reactive, inject, markRaw, nextTick, readonly } from 'vue'
 import type { Component, InjectionKey } from 'vue'
-import { lookup } from 'mrmime'
-import { notFoundPageData } from '../shared'
+import { notFoundPageData, treatAsHtml } from '../shared'
 import type { PageData, PageDataPayload, Awaitable } from '../shared'
 import { inBrowser, withBase } from './utils'
 import { siteDataRef } from './data'
@@ -182,8 +181,7 @@ export function createRouter(
             link.baseURI
           )
           const currentUrl = window.location
-          const mimeType = lookup(pathname)
-          // only intercept inbound links
+          // only intercept inbound html links
           if (
             !e.ctrlKey &&
             !e.shiftKey &&
@@ -191,8 +189,7 @@ export function createRouter(
             !e.metaKey &&
             !target &&
             origin === currentUrl.origin &&
-            // intercept only html and unknown types (assume html)
-            (!mimeType || mimeType === 'text/html')
+            treatAsHtml(pathname)
           ) {
             e.preventDefault()
             if (
