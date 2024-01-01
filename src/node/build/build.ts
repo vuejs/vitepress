@@ -52,7 +52,9 @@ export async function build(
     }
 
     const entryPath = path.join(siteConfig.tempDir, 'app.js')
-    const { render } = await import(pathToFileURL(entryPath).toString())
+    const { render } = await import(
+      pathToFileURL(entryPath).toString() + '?t=' + Date.now()
+    )
 
     await task('rendering pages', async () => {
       const appChunk =
