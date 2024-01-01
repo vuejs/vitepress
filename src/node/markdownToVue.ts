@@ -1,7 +1,6 @@
 import { resolveTitleFromToken } from '@mdit-vue/shared'
 import _debug from 'debug'
 import fs from 'fs-extra'
-import { LRUCache } from 'lru-cache'
 import path from 'path'
 import type { SiteConfig } from './config'
 import {
@@ -12,6 +11,7 @@ import {
 import {
   EXTERNAL_URL_RE,
   slash,
+  LRUCache,
   type HeadConfig,
   type MarkdownEnv,
   type PageData
@@ -20,7 +20,7 @@ import { getGitTimestamp } from './utils/getGitTimestamp'
 import { processIncludes } from './utils/processIncludes'
 
 const debug = _debug('vitepress:md')
-const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
+const cache = new LRUCache<string, MarkdownCompileResult>(1024)
 
 export interface MarkdownCompileResult {
   vueSrc: string

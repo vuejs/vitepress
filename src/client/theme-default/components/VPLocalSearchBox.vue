@@ -29,7 +29,7 @@ import {
 import type { ModalTranslations } from '../../../../types/local-search'
 import { pathToFile } from '../../app/utils'
 import { useData } from '../composables/data'
-import { LRUCache } from '../support/lru'
+import { LRUCache } from '../../shared'
 import { createSearchTranslate } from '../support/translation'
 
 const emit = defineEmits<{
