@@ -22,8 +22,8 @@ export const zh = defineConfig({
     },
 
     footer: {
-      message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2019-present Evan You'
+      message: '根据 MIT 许可发布。',
+      copyright: '版权所有 © 2019 至今 尤雨溪'
     },
 
     docFooter: {
