@@ -1,6 +1,6 @@
-import { createRequire } from 'module'
 import { defineConfig } from 'vitepress'
-import locales from './locales'
+import { en } from './en'
+import { zh } from './zh'
 
 export default defineConfig({
   title: 'VitePress',
@@ -39,5 +39,27 @@ export default defineConfig({
     ['script', { src: 'https://cdn.usefathom.com/script.js', 'data-site': 'AZBRSFGG', 'data-spa': 'auto', defer: '' }]
   ],
 
-  locales: locales.locales
+  themeConfig: {
+    logo: { src: '/vitepress-logo-mini.svg', width: 24, height: 24 },
+
+    socialLinks: [
+      { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
+    ],
+
+    search: {
+      provider: 'algolia',
+      options: {
+        appId: '8J64VVRP8K',
+        apiKey: 'a18e2f4cc5665f6602c5631fd868adfd',
+        indexName: 'vitepress'
+      }
+    },
+
+    carbonAds: { code: 'CEBDT27Y', placement: 'vuejsorg' }
+  },
+
+  locales: {
+    root: { label: 'English', ...en },
+    zh: { label: '简体中文', ...zh }
+  }
 })

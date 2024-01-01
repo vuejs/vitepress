@@ -1,14 +1,14 @@
 import { createRequire } from 'module'
 import { defineConfig, type DefaultTheme } from 'vitepress'
+
 const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
 
-export default defineConfig({
+export const zh = defineConfig({
   lang: 'zh-Hans',
   description: '由 Vite 和 Vue 驱动的静态站点生成器',
 
   themeConfig: {
-    logo: { src: '/vitepress-logo-mini.svg', width: 24, height: 24 },
     nav: nav(),
 
     sidebar: {
@@ -21,27 +21,9 @@ export default defineConfig({
       text: '在 GitHub 上编辑此页面'
     },
 
-    socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
-    ],
-
     footer: {
       message: 'Released under the MIT License.',
       copyright: 'Copyright © 2019-present Evan You'
-    },
-
-    search: {
-      provider: 'algolia',
-      options: {
-        appId: '8J64VVRP8K',
-        apiKey: 'a18e2f4cc5665f6602c5631fd868adfd',
-        indexName: 'vitepress'
-      }
-    },
-
-    carbonAds: {
-      code: 'CEBDT27Y',
-      placement: 'vuejsorg'
     },
 
     docFooter: {
@@ -96,7 +78,6 @@ function nav(): DefaultTheme.NavItem[] {
   ]
 }
 
-/* prettier-ignore */
 function sidebarGuide(): DefaultTheme.SidebarItem[] {
   return [
     {
