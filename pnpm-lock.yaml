@@ -41,9 +41,6 @@ importers:
       minisearch:
         specifier: ^6.3.0
         version: 6.3.0
-      mrmime:
-        specifier: ^2.0.0
-        version: 2.0.0
       shikiji:
         specifier: ^0.9.15
         version: 0.9.15
@@ -3338,6 +3335,7 @@ packages:
   /mrmime@2.0.0:
     resolution: {integrity: sha512-eu38+hdgojoyq63s+yTpN4XMBdt5l8HhMhc4VKLO9KM5caLIBvUm4thi7fFaxyTmCKeNnXZ5pAlBwCUnhA09uw==}
     engines: {node: '>=10'}
+    dev: true
 
   /ms@2.0.0:
     resolution: {integrity: sha512-Tpp60P6IUJDTuOq/5Z8cdskzJujfwqfOTkrwIwj7IRISpnkJnT6SyJ4PCPnGMoFjC9ddhal5KVIYtAt97ix05A==}
