@@ -16,7 +16,6 @@ import {
   resolveAliases
 } from './alias'
 import { resolvePages, resolveUserConfig, type SiteConfig } from './config'
-import { mathjaxElements } from './markdown/math'
 import {
   clearCache,
   createMarkdownToVueRenderFn,
@@ -88,7 +87,7 @@ export async function createVitePressPlugin(
 
   if (markdown?.math) {
     isCustomElement = (tag) => {
-      if (mathjaxElements.includes(tag)) {
+      if (['mjx-container', 'mjx-assistive-mml'].includes(tag)) {
         return true
       }
       return userCustomElementChecker?.(tag) ?? false
