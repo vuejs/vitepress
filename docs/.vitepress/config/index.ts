@@ -1,6 +1,6 @@
 import { defineConfig } from 'vitepress'
 import { en } from './en'
-import { zh } from './zh'
+import { zh, search as zhSearch } from './zh'
 
 export default defineConfig({
   title: 'VitePress',
@@ -51,7 +51,8 @@ export default defineConfig({
       options: {
         appId: '8J64VVRP8K',
         apiKey: 'a18e2f4cc5665f6602c5631fd868adfd',
-        indexName: 'vitepress'
+        indexName: 'vitepress',
+        locales: { ...zhSearch }
       }
     },
 
