@@ -22,8 +22,8 @@ const clientDir = normalizePath(
   path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../client')
 )
 
-// to avoid circular dependency issues
 // these deps are also being used in the client code (outside of the theme)
+// exclude them from the theme chunk so there is no circular dependency
 const excludedModules = [
   '/@siteData',
   'node_modules/@vueuse/core/',
