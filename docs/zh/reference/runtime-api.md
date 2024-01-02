@@ -13,23 +13,23 @@ VitePress 提供了几个内置的 API 来让你访问应用程序数据。ViteP
 ```ts
 interface VitePressData<T = any> {
   /**
-   * Site-level metadata
+   * 站点级元数据
    */
   site: Ref<SiteData<T>>
   /**
-   * themeConfig from .vitepress/config.js
+   * .vitepress/config.js 中的 themeConfig
    */
   theme: Ref<T>
   /**
-   * Page-level metadata
+   * 页面级元数据
    */
   page: Ref<PageData>
   /**
-   * Page frontmatter
+   * 页面 frontmatter
    */
   frontmatter: Ref<PageData['frontmatter']>
   /**
-   * Dynamic route params
+   * 动态路由参数
    */
   params: Ref<PageData['params']>
   title: Ref<string>
@@ -87,24 +87,23 @@ interface Route {
 ```ts
 interface Router {
   /**
-   * Current route.
+   * 当前路由
    */
   route: Route
   /**
-   * Navigate to a new URL.
+   * 导航到新的 URL
    */
   go: (to?: string) => Promise<void>
   /**
-   * Called before the route changes. Return `false` to cancel the navigation.
+   * 在路由更改前调用。返回 `false` 表示取消导航
    */
   onBeforeRouteChange?: (to: string) => Awaitable<void | boolean>
   /**
-   * Called before the page component is loaded (after the history state is
-   * updated). Return `false` to cancel the navigation.
+   * 在页面组件加载前（history 状态更新后）调用。返回 `false` 表示取消导航
    */
   onBeforePageLoad?: (to: string) => Awaitable<void | boolean>
   /**
-   * Called after the route changes.
+   * 在路由更改后调用
    */
   onAfterRouteChanged?: (to: string) => Awaitable<void>
 }

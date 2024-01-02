@@ -37,21 +37,19 @@ hero:
 
 ```ts
 interface Hero {
-  // The string shown top of `text`. Comes with brand color
-  // and expected to be short, such as product name.
+  // `text` 上方的字符，带有品牌颜色，预计简短，例如产品名称
   name?: string
 
-  // The main text for the hero section. This will be defined
-  // as `h1` tag.
+  // hero 部分的主要文字，被定义为 `h1` 标签
   text: string
 
-  // Tagline displayed below `text`.
+  // `text` 下方的标语
   tagline?: string
 
-  // The image is displayed next to the text and tagline area.
+  // text 和 tagline 区域旁的图片
   image?: ThemeableImage
 
-  // Action buttons to display in home hero section.
+  // 主页 hero 部分的操作按钮
   actions?: HeroAction[]
 }
 
@@ -61,13 +59,13 @@ type ThemeableImage =
   | { light: string; dark: string; alt?: string }
 
 interface HeroAction {
-  // Color theme of the button. Defaults to `brand`.
+  // 按钮的颜色主题，默认为 `brand`
   theme?: 'brand' | 'alt'
 
-  // Label of the button.
+  // 按钮的标签
   text: string
 
-  // Destination link of the button.
+  // 按钮的目标链接
   link: string
 }
 ```
@@ -119,30 +117,28 @@ features:
 
 ```ts
 interface Feature {
-  // Show icon on each feature box.
+  // 在每个 feature 框中显示图标
   icon?: FeatureIcon
 
-  // Title of the feature.
+  // feature 的标题
   title: string
 
-  // Details of the feature.
+  // feature 的详情
   details: string
 
-  // Link when clicked on feature component. The link can
-  // be both internal or external.
+  // 点击 feature 组件时的链接，可以是内部链接，也可以是外部链接。
   //
-  // e.g. `guide/reference/default-theme-home-page` or `https://example.com`
+  // 例如 `guide/reference/default-theme-home-page` 或 `https://example.com`
   link?: string
 
-  // Link text to be shown inside feature component. Best
-  // used with `link` option.
+  // feature 组件内显示的链接文本，最好与 `link` 选项一起使用
   //
-  // e.g. `Learn more`, `Visit page`, etc.
+  // 例如 `Learn more`, `Visit page` 等
   linkText?: string
 
-  // Link rel attribute for the `link` option.
+  // `link` 选项的链接 rel 属性
   //
-  // e.g. `external`
+  // 例如 `external`
   rel?: string
 }
 

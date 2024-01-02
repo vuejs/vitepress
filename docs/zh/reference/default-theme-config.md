@@ -8,7 +8,7 @@ export default {
   title: 'VitePress',
   description: 'Vite & Vue powered static site generator.',
 
-  // Theme related configurations.
+  // 主题相关配置
   themeConfig: {
     logo: '/logo.svg',
     nav: [...],
@@ -139,26 +139,26 @@ export interface SidebarMulti {
 
 export type SidebarItem = {
   /**
-   * The text label of the item.
+   * 侧边栏项的文本标签
    */
   text?: string
 
   /**
-   * The link of the item.
+   * 侧边栏项的链接
    */
   link?: string
 
   /**
-   * The children of the item.
+   * 侧边栏项的子项
    */
   items?: SidebarItem[]
 
   /**
-   * If not specified, group is not collapsible.
+   * 如果未指定，侧边栏组不可折叠
    *
-   * If `true`, group is collapsible and collapsed by default
+   * 如果为 `true`，则侧边栏组可折叠并且默认折叠
    *
-   * If `false`, group is collapsible but expanded by default
+   * 如果为 `false`，则侧边栏组可折叠但默认展开
    */
   collapsed?: boolean
 }
@@ -186,17 +186,17 @@ export type SidebarItem = {
 ```ts
 interface Outline {
   /**
-   * The levels of headings to be displayed in the outline.
-   * Single number means only headings of that level will be displayed.
-   * If a tuple is passed, the first number is the minimum level and the second number is the maximum level.
-   * `'deep'` is same as `[2, 6]`, which means all headings from `<h2>` to `<h6>` will be displayed.
+   * outline 中要显示的标题级别。
+   * 单个数字表示只显示该级别的标题。
+   * 如果传递的是一个元组，第一个数字是最小级别，第二个数字是最大级别。
+   * `'deep'` 与 `[2, 6]` 相同，将显示从 `<h2>` 到 `<h6>` 的所有标题。
    *
    * @default 2
    */
   level?: number | [number, number] | 'deep'
 
   /**
-   * The title to be displayed on the outline.
+   * 显示在 outline 上的标题。
    *
    * @default 'On this page'
    */
@@ -216,13 +216,13 @@ export default {
     socialLinks: [
       { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
       { icon: 'twitter', link: '...' },
-      // You can also add custom icons by passing SVG as string:
+      // 可以通过将 SVG 作为字符串传递来添加自定义图标：
       {
         icon: {
           svg: '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Dribbble</title><path d="M12...6.38z"/></svg>'
         },
         link: '...',
-        // You can include a custom label for accessibility too (optional but recommended):
+        // 也可以为可访问性添加一个自定义标签（可选但推荐）:
         ariaLabel: 'cool link'
       }
     ]
@@ -373,7 +373,7 @@ export interface CarbonAdsOptions {
 }
 ```
 
-Learn more in [Default Theme: Carbon Ads](./default-theme-carbon-ads)
+在 [Default Theme: Carbon Ads](./default-theme-carbon-ads) 中了解更多信息。
 
 ## docFooter
 
@@ -404,46 +404,46 @@ export interface DocFooter {
 - 类型：`string`
 - 默认值：`Appearance`
 
-Can be used to customize the dark mode switch label. This label is only displayed in the mobile view.
+用于自定义暗模式开关标签，该标签仅在移动端视图中显示。
 
 ## lightModeSwitchTitle
 
 - 类型：`string`
 - 默认值：`Switch to light theme`
 
-Can be used to customize the light mode switch title that appears on hovering.
+用于自定义悬停时显示的亮模式开关标题。
 
 ## darkModeSwitchTitle
 
 - 类型：`string`
 - 默认值：`Switch to dark theme`
 
-Can be used to customize the dark mode switch title that appears on hovering.
+用于自定义悬停时显示的暗模式开关标题。
 
 ## sidebarMenuLabel
 
 - 类型：`string`
 - 默认值：`Menu`
 
-Can be used to customize the sidebar menu label. This label is only displayed in the mobile view.
+用于自定义侧边栏菜单标签，该标签仅在移动端视图中显示。
 
 ## returnToTopLabel
 
 - 类型：`string`
 - 默认值：`Return to top`
 
-Can be used to customize the label of the return to top button. This label is only displayed in the mobile view.
+用于自定义返回顶部按钮的标签，该标签仅在移动端视图中显示。
 
 ## langMenuLabel
 
 - 类型：`string`
 - 默认值：`Change language`
 
-Can be used to customize the aria-label of the language toggle button in navbar. This is only used if you're using [i18n](../guide/i18n).
+用于自定义导航栏中语言切换按钮的 aria-label，仅当使用 [i18n](../guide/i18n) 时才使用此选项。
 
 ## externalLinkIcon
 
 - 类型：`boolean`
 - 默认值：`false`
 
-Whether to show an external link icon next to external links in markdown.
+是否在 markdown 中的外部链接旁显示外部链接图标。

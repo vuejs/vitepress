@@ -122,61 +122,61 @@ Cache-Control: max-age=31536000,immutable
 1. 在项目的 `.github/workflows` 目录中创建一个名为 `deploy.yml` 的文件，其中包含这样的内容：
 
  ```yaml
-   # Sample workflow for building and deploying a VitePress site to GitHub Pages
+   # 构建 VitePress 站点并将其部署到 GitHub Pages 的示例工作流程
    #
    name: Deploy VitePress site to Pages
 
    on:
-     # Runs on pushes targeting the `main` branch. Change this to `master` if you're
-     # using the `master` branch as the default branch.
+     # 在针对 `main` 分支的推送上运行。如果您
+     # 使用 `master` 分支作为默认分支，请将其更改为 `master`
      push:
        branches: [main]
 
-     # Allows you to run this workflow manually from the Actions tab
+     # 允许您从 Actions 选项卡手动运行此工作流程
      workflow_dispatch:
 
-   # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+   # 设置 GITHUB_TOKEN 的权限，以允许部署到 GitHub Pages
    permissions:
      contents: read
      pages: write
      id-token: write
 
-   # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-   # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+   # 只允许同时进行一次部署，跳过正在运行和最新队列之间的运行队列
+   # 但是，不要取消正在进行的运行，因为我们希望允许这些生产部署完成
    concurrency:
      group: pages
      cancel-in-progress: false
 
    jobs:
-     # Build job
+     # 构建工作
      build:
        runs-on: ubuntu-latest
        steps:
          - name: Checkout
            uses: actions/checkout@v3
            with:
-             fetch-depth: 0 # Not needed if lastUpdated is not enabled
-         # - uses: pnpm/action-setup@v2 # Uncomment this if you're using pnpm
-         # - uses: oven-sh/setup-bun@v1 # Uncomment this if you're using Bun
+             fetch-depth: 0 # 如果未启用 lastUpdated，则不需要
+         # - uses: pnpm/action-setup@v2 # 如果使用 pnpm，请取消注释
+         # - uses: oven-sh/setup-bun@v1 # 如果使用 Bun，请取消注释
          - name: Setup Node
            uses: actions/setup-node@v3
            with:
              node-version: 18
-             cache: npm # or pnpm / yarn
+             cache: npm # 或 pnpm / yarn
          - name: Setup Pages
            uses: actions/configure-pages@v3
          - name: Install dependencies
-           run: npm ci # or pnpm install / yarn install / bun install
+           run: npm ci # 或 pnpm install / yarn install / bun install
          - name: Build with VitePress
            run: |
-             npm run docs:build # or pnpm docs:build / yarn docs:build / bun run docs:build
+             npm run docs:build # 或 pnpm docs:build / yarn docs:build / bun run docs:build
              touch docs/.vitepress/dist/.nojekyll
          - name: Upload artifact
            uses: actions/upload-pages-artifact@v2
            with:
              path: docs/.vitepress/dist
 
-     # Deployment job
+     # 部署工作
      deploy:
        environment:
          name: github-pages
@@ -211,7 +211,7 @@ Cache-Control: max-age=31536000,immutable
        paths:
          - node_modules/
      script:
-       # - apk add git # Uncomment this if you're using small docker images like alpine and have lastUpdated enabled
+       # - apk add git # 如果你使用的是像 alpine 这样的小型 docker 镜像，并且启用了 lastUpdated，请取消注释
        - npm install
        - npm run docs:build
      artifacts:

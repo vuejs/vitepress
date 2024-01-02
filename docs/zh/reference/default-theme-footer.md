@@ -15,10 +15,10 @@ export default {
 
 ```ts
 export interface Footer {
-  // The message shown right before copyright.
+  // 版权前显示的信息
   message?: string
 
-  // The actual copyright text.
+  // 实际的版权文本
   copyright?: string
 }
 ```

@@ -7,10 +7,10 @@
 ### 用法
 
 ```sh
-# start in current directory, omitting `dev`
+# 从当前目录启动，省略 `dev`
 vitepress
 
-# start in sub directory
+# 从子目录启动
 vitepress dev [root]
 ```
 

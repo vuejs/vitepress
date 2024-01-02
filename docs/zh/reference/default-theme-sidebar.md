@@ -57,7 +57,7 @@ export default {
       {
         text: 'Guide',
         items: [
-          // This shows `/guide/index.md` page.
+          // 显示的是 `/guide/index.md` 页面
           { text: 'Introduction', link: '/guide/' }
         ]
       }
@@ -117,8 +117,7 @@ export default {
 export default {
   themeConfig: {
     sidebar: {
-      // This sidebar gets displayed when a user
-      // is on `guide` directory.
+      // 当用户位于 `guide` 目录时，会显示此侧边栏
       '/guide/': [
         {
           text: 'Guide',
@@ -130,8 +129,7 @@ export default {
         }
       ],
 
-      // This sidebar gets displayed when a user
-      // is on `config` directory.
+      // 当用户位于 `config` 目录时，会显示此侧边栏
       '/config/': [
         {
           text: 'Config',

@@ -41,13 +41,15 @@ VitePress 带有内置的 Markdown 拓展。
 
 假设现在处于 `foo/one.md` 文件中：
 
+[foo heading](./#page-suffix) <!-- anchors user to a heading in the foo index file -->
+
 ```md
-[Home](/) <!-- sends the user to the root index.md -->
-[foo](/foo/) <!-- sends the user to index.html of directory foo -->
-[foo heading](./#heading) <!-- anchors user to a heading in the foo index file -->
-[bar - three](../bar/three) <!-- you can omit extension -->
-[bar - three](../bar/three.md) <!-- you can append .md -->
-[bar - four](../bar/four.html) <!-- or you can append .html -->
+[Home](/) <!-- 将用户导航至根目录下的 index.html -->
+[foo](/foo/) <!-- 将用户导航至目录 foo 下的 index.html -->
+[foo heading](./#heading) <!-- 将用户锚定到 foo 索引文件中的一个标题上 -->
+[bar - three](../bar/three) <!-- 可以省略扩展名 -->
+[bar - three](../bar/three.md) <!-- 可以添加 .md -->
+[bar - four](../bar/four.html) <!-- 或者可以添加 .html -->
 ```
 
 ### 页面后缀 {#page-suffix}
@@ -259,7 +261,7 @@ Wraps in a <div class="vp-raw">
 
   ```js
   postcssIsolateStyles({
-    includeFiles: [/vp-doc\.css/] // defaults to /base\.css/
+    includeFiles: [/vp-doc\.css/] // 默认为 /base\.css/
   })
   ```
 
@@ -523,23 +525,25 @@ export default {
 
 可以在代码块中添加 `:line-numbers` / `:no-line-numbers` 标记来覆盖在配置中的设置。
 
+还可以通过在 `:line-numbers` 之后添加 `=` 来自定义起始行号，例如 `:line-numbers=2` 表示代码块中的行号从 2 开始。
+
 **输入**
 
 ````md
 ```ts {1}
-// line-numbers is disabled by default
+// 默认禁用行号
 const line2 = 'This is line 2'
 const line3 = 'This is line 3'
 ```
 
 ```ts:line-numbers {1}
-// line-numbers is enabled
+// 启用行号
 const line2 = 'This is line 2'
 const line3 = 'This is line 3'
 ```
 
 ```ts:line-numbers=2 {1}
-// line-numbers is enabled and start from 2
+// 行号已启用，并从 2 开始
 const line3 = 'This is line 3'
 const line4 = 'This is line 4'
 ```
@@ -548,19 +552,19 @@ const line4 = 'This is line 4'
 **输出**
 
 ```ts {1}
-// line-numbers is disabled by default
+// 默认禁用行号
 const line2 = 'This is line 2'
 const line3 = 'This is line 3'
 ```
 
 ```ts:line-numbers {1}
-// line-numbers is enabled
+// 启用行号
 const line2 = 'This is line 2'
 const line3 = 'This is line 3'
 ```
 
 ```ts:line-numbers=2 {1}
-// line-numbers is enabled and start from 2
+// 行号已启用，并从 2 开始
 const line3 = 'This is line 3'
 const line4 = 'This is line 4'
 ```
@@ -701,11 +705,11 @@ export default config
 ```md
 ::: code-group
 
-<!-- filename is used as title by default -->
+<!-- 文件名默认用作标题 -->
 
 <<< @/snippets/snippet.js
 
-<!-- you can provide a custom one too -->
+<!-- 也可以提供定制的代码组 -->
 
 <<< @/snippets/snippet-with-region.js#snippet{1,2 ts:line-numbers} [snippet with region]
 
@@ -853,12 +857,13 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
 ## 图片懒加载 {#image-lazy-loading}
 
-You can enable lazy loading for each image added via markdown by setting `lazyLoading` to `true` in your config file:
+通过在配置文件中将 `lazyLoading` 设置为 `true`，可以为通过 markdown 添加的每张图片启用懒加载。
+
 ```js
 export default {
   markdown: {
     image: {
-      // image lazy loading is disabled by default
+      // 默认禁用图片懒加载
       lazyLoading: true
     }
   }
@@ -876,16 +881,16 @@ import markdownItFoo from 'markdown-it-foo'
 
 export default defineConfig({
   markdown: {
-    // options for markdown-it-anchor
+    // markdown-it-anchor 的选项
     // https://github.com/valeriangalliat/markdown-it-anchor#usage
     anchor: {
       permalink: markdownItAnchor.permalink.headerLink()
     },
-    // options for @mdit-vue/plugin-toc
+    // @mdit-vue/plugin-toc 的选项
     // https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-toc#options
     toc: { level: [1, 2] },
     config: (md) => {
-      // use more markdown-it plugins!
+      // 使用更多的 Markdown-it 插件！
       md.use(markdownItFoo)
     }
   }

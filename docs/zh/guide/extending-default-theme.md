@@ -72,7 +72,7 @@ export default DefaultTheme
 // .vitepress/config.js
 export default {
   transformHead({ assets }) {
-    // adjust the regex accordingly to match your font
+    // 相应地调整正则表达式以匹配字体
     const myFontFile = assets.find(file => /font-name\.\w+\.woff2/)
     if (myFontFile) {
       return [
@@ -102,7 +102,7 @@ import DefaultTheme from 'vitepress/theme'
 export default {
   extends: DefaultTheme,
   enhanceApp({ app }) {
-    // register your custom global components
+    // 注册自定义全局组件
     app.component('MyGlobalComponent' /* ... */)
   }
 }
@@ -117,7 +117,7 @@ import DefaultTheme from 'vitepress/theme'
 export default {
   extends: DefaultTheme,
   enhanceApp({ app }) {
-    // register your custom global components
+    // 注册自定义全局组件
     app.component('MyGlobalComponent' /* ... */)
   }
 } satisfies Theme
@@ -136,8 +136,7 @@ import MyLayout from './MyLayout.vue'
 
 export default {
   extends: DefaultTheme,
-  // override the Layout with a wrapper component that
-  // injects the slots
+  // 使用注入插槽的包装组件覆盖 Layout
   Layout: MyLayout
 }
 ```

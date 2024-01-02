@@ -122,8 +122,7 @@ export default {
 export default {
   themeConfig: {
     nav: [
-      // This link gets active state when the user is
-      // on `/config/` path.
+      // 当用户位于 `/config/` 路径时，该链接处于激活状态
       {
         text: 'Guide',
         link: '/guide',

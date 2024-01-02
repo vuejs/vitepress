@@ -60,10 +60,10 @@
 
 ```ts
 interface Props {
-  // When `<slot>` is passed, this value gets ignored.
+  // 当传递 `<slot>` 时，该值将被忽略
   text?: string
 
-  // Defaults to `tip`.
+  // 默认为 `tip`.
   type?: 'info' | 'tip' | 'warning' | 'danger'
 }
 ```
