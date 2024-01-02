@@ -205,7 +205,7 @@ interface TeamMember {
   // 成员的描述
   desc?: string
 
-  // 社交链接，例如 GitHub、Twitter 等，可以在此处传入 Social Links 对象
+  // 社交媒体链接，例如 GitHub、Twitter 等，可以在此处传入 Social Links 对象
   // 参见: https://vitepress.dev/reference/default-theme-config.html#sociallinks
   links?: SocialLink[]
 
