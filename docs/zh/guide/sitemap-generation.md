@@ -40,7 +40,7 @@ export default defineConfig({
   sitemap: {
     hostname: 'https://example.com',
     transformItems: (items) => {
-      // add new items or modify/filter existing items
+      // 添加新选项或修改/过滤现有选项
       items.push({
         url: '/extra-page',
         changefreq: 'monthly',

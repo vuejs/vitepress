@@ -116,7 +116,7 @@ export default defineConfig({
          * @param {import('markdown-it')} md
          */
         _render(src, env, md) {
-          // return html string
+          // 返回 html 字符串
         }
       }
     }

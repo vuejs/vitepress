@@ -16,7 +16,7 @@ outline: deep
 
 ```ts
 export default {
-  // app level config options
+  // 应用级配置选项
   lang: 'en-US',
   title: 'VitePress',
   description: 'Vite & Vue powered static site generator.',
@@ -35,12 +35,12 @@ export default async () => defineConfig({
   const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
 
   return {
-    // app level config options
+    // 应用级配置选项
     lang: 'en-US',
     title: 'VitePress',
     description: 'Vite & Vue powered static site generator.',
 
-    // theme level config options
+    // 主题级别配置选项
     themeConfig: {
       sidebar: [
         ...posts.map((post) => ({
@@ -61,12 +61,12 @@ import { defineConfig } from 'vitepress'
 const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
 
 export default defineConfig({
-  // app level config options
+  // 应用级配置选项
   lang: 'en-US',
   title: 'VitePress',
   description: 'Vite & Vue powered static site generator.',
 
-  // theme level config options
+  // 主题级别配置选项
   themeConfig: {
     sidebar: [
       ...posts.map((post) => ({
@@ -101,7 +101,7 @@ import { defineConfig } from 'vitepress'
 
 export default defineConfig({
   themeConfig: {
-    // Type is `DefaultTheme.Config`
+    // 类型为 `DefaultTheme.Config`
   }
 })
 ```
@@ -114,7 +114,7 @@ import type { ThemeConfig } from 'your-theme'
 
 export default defineConfigWithTheme<ThemeConfig>({
   themeConfig: {
-    // Type is `ThemeConfig`
+    // 类型为 `ThemeConfig`
   }
 })
 ```
@@ -222,9 +222,9 @@ type HeadConfig =
 ```ts
 export default {
   head: [['link', { rel: 'icon', href: '/favicon.ico' }]]
-} // put favicon.ico in public directory, if base is set, use /base/favicon.ico
+} // 将 favicon.ico 放在公共目录中，如果设置了 base，则使用 /base/favicon.ico
 
-/* Would render:
+/* 渲染成:
   <link rel="icon" href="/favicon.ico">
 */
 ```
@@ -249,7 +249,7 @@ export default {
   ]
 }
 
-/* Would render:
+/* 渲染成:
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
@@ -273,7 +273,7 @@ export default {
   ]
 }
 
-/* Would render:
+/* 渲染成:
   <script id="register-sw">
     ;(() => {
       if ('serviceWorker' in navigator) {
@@ -304,7 +304,7 @@ export default {
   ]
 }
 
-/* Would render:
+/* 渲染成:
   <script async src="https://www.googletagmanager.com/gtag/js?id=TAG_ID"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -457,13 +457,13 @@ export default {
 ```ts
 export default {
   ignoreDeadLinks: [
-    // ignore exact url "/playground"
+    // 忽略精确网址 "/playground"
     '/playground',
-    // ignore all localhost links
+    // 忽略所有 localhost 链接
     /^https?:\/\/localhost/,
-    // ignore all links include "/repl/""
+    // 忽略所有包含 "/repl/" 的链接
     /\/repl\//,
-    // custom function, ignore all links include "ignore"
+    // 自定义函数，忽略所有包含 "ignore "的链接
     (url) => {
       return url.toLowerCase().includes('ignore')
     }
@@ -529,7 +529,7 @@ export default {
 ```js
 export default {
   vite: {
-    // Vite config options
+    // Vite 配置选项
   }
 }
 ```
@@ -543,7 +543,7 @@ export default {
 ```js
 export default {
   vue: {
-    // @vitejs/plugin-vue options
+    // @vitejs/plugin-vue 选项
   }
 }
 ```
@@ -613,8 +613,8 @@ export default {
 
 ```ts
 interface TransformContext {
-  page: string // e.g. index.md (relative to srcDir)
-  assets: string[] // all non-js/css assets as fully resolved public URL
+  page: string // 例如 index.md (相对于 srcDir)
+  assets: string[] // 所有非 js/css 资源均作为完全解析的公共 URL
   siteConfig: SiteConfig
   siteData: SiteData
   pageData: PageData
@@ -679,7 +679,7 @@ export default {
     pageData.contributors = await getPageContributors(pageData.relativePath)
   }
 
-  // or return data to be merged
+  // 或返回要合并的数据
   async transformPageData(pageData, { siteConfig }) {
     return {
       contributors: await getPageContributors(pageData.relativePath)

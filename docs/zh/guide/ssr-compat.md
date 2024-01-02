@@ -109,7 +109,7 @@ const clientCompRef = ref(null)
 const ClientComp = defineClientComponent(
   () => import('component-that-access-window-on-import'),
 
-  // args are passed to h() - https://vuejs.org/api/render-function.html#h
+  // 参数传递给 h() - https://vuejs.org/api/render-function.html#h
   [
     {
       ref: clientCompRef
@@ -121,7 +121,7 @@ const ClientComp = defineClientComponent(
     }
   ],
 
-  // callback after the component is loaded, can be async
+  // 组件加载后的回调，可以是异步的
   () => {
     console.log(clientCompRef.value)
   }

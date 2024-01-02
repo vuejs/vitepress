@@ -178,42 +178,41 @@ const partners = [...]
 
 ```ts
 interface Props {
-  // Size of each members. Defaults to `medium`.
+  // 每个成员的大小，默认为 `medium`
   size?: 'small' | 'medium'
 
-  // List of members to display.
+  // 显示的成员列表
   members: TeamMember[]
 }
 
 interface TeamMember {
-  // Avatar image for the member.
+  // 成员的头像图像
   avatar: string
 
-  // Name of the member.
+  // 成员的名称
   name: string
 
-  // Title to be shown below member's name.
-  // e.g. Developer, Software Engineer, etc.
+  // 成员姓名下方的标题
+  // 例如：Developer, Software Engineer, etc.
   title?: string
 
-  // Organization that the member belongs.
+  // 成员所属的组织
   org?: string
 
-  // URL for the organization.
+  // 组织的 URL
   orgLink?: string
 
-  // Description for the member.
+  // 成员的描述
   desc?: string
 
-  // Social links. e.g. GitHub, Twitter, etc. You may pass in
-  // the Social Links object here.
-  // See: https://vitepress.dev/reference/default-theme-config.html#sociallinks
+  // 社交媒体链接，例如 GitHub、Twitter 等，可以在此处传入 Social Links 对象
+  // 参见: https://vitepress.dev/reference/default-theme-config.html#sociallinks
   links?: SocialLink[]
 
-  // URL for the sponsor page for the member.
+  // 成员 sponsor 页面的 URL
   sponsor?: string
 
-  // Text for the sponsor link. Defaults to 'Sponsor'.
+  // sponsor 链接的文本，默认为 'Sponsor'
   actionText?: string
 }
 ```

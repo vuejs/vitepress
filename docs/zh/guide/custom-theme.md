@@ -6,11 +6,11 @@
 
 ```
 .
-├─ docs                # project root
+├─ docs                # 项目根目录
 │  ├─ .vitepress
 │  │  ├─ theme
-│  │  │  └─ index.js   # theme entry
-│  │  └─ config.js     # config file
+│  │  │  └─ index.js   # 主题入口
+│  │  └─ config.js     # 配置文件
 │  └─ index.md
 └─ package.json
 ```
@@ -24,26 +24,26 @@ VitePress 自定义主题是一个对象，该对象具有如下接口：
 ```ts
 interface Theme {
   /**
-   * Root layout component for every page
+   * 每个页面的根布局组件
    * @required
    */
   Layout: Component
   /**
-   * Enhance Vue app instance
+   * 增强 Vue 应用实例
    * @optional
    */
   enhanceApp?: (ctx: EnhanceAppContext) => Awaitable<void>
   /**
-   * Extend another theme, calling its `enhanceApp` before ours
+   * 扩展另一个主题，在我们的主题之前调用它的 `enhanceApp`
    * @optional
    */
   extends?: Theme
 }
 
 interface EnhanceAppContext {
-  app: App // Vue app instance
-  router: Router // VitePress router instance
-  siteData: Ref<SiteData> // Site-level metadata
+  app: App // Vue 应用实例
+  router: Router // VitePress 路由实例
+  siteData: Ref<SiteData> // 站点级元数据
 }
 ```
 
@@ -52,8 +52,8 @@ interface EnhanceAppContext {
 ```js
 // .vitepress/theme/index.js
 
-// You can directly import Vue files in the theme entry
-// VitePress is pre-configured with @vitejs/plugin-vue.
+// 可以直接在主题入口导入 Vue 文件
+// VitePress 已预先配置 @vitejs/plugin-vue
 import Layout from './Layout.vue'
 
 export default {
@@ -77,7 +77,7 @@ export default {
 <template>
   <h1>Custom Layout!</h1>
 
-  <!-- this is where markdown content will be rendered -->
+  <!-- 此处将渲染 markdown 内容 -->
   <Content />
 </template>
 ```
@@ -200,7 +200,7 @@ export default {
 import baseConfig from 'awesome-vitepress-theme/config'
 
 export default {
-  // extend theme base config (if needed)
+  // 扩展主题的基本配置（如需要）
   extends: baseConfig
 }
 ```
@@ -216,7 +216,7 @@ import type { ThemeConfig } from 'awesome-vitepress-theme'
 export default defineConfigWithTheme<ThemeConfig>({
   extends: baseConfig,
   themeConfig: {
-    // Type is `ThemeConfig`
+    // 类型为 `ThemeConfig`
   }
 })
 ```

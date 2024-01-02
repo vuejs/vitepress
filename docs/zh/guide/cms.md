@@ -24,16 +24,16 @@ outline: deep
    ```js
     export default {
       async paths() {
-        // use respective CMS client library if needed
+        // 如有需要，使用相应的 CMS 客户端库
         const data = await (await fetch('https://my-cms-api', {
           headers: {
-            // token if necessary
+            // 如有必要，可使用 token
           }
         })).json()
 
         return data.map(entry => {
           return {
-            params: { id: entry.id, /* title, authors, date etc. */ },
+            params: { id: entry.id, /* title, authors, date 等 */ },
             content: entry.content
           }
         })

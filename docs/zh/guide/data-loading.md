@@ -46,7 +46,7 @@ import { data } from './example.data.js'
 ```js
 export default {
   async load() {
-    // fetch remote data
+    // 获取远程数据
     return (await fetch('...')).json()
   }
 }
@@ -67,9 +67,8 @@ import { parse } from 'csv-parse/sync'
 export default {
   watch: ['./data/*.csv'],
   load(watchedFiles) {
-    // watchedFiles will be an array of absolute paths of the matched files.
-    // generate an array of blog post metadata that can be used to render
-    // a list in the theme layout
+    // watchFiles 是一个所匹配文件的绝对路径的数组。
+    // 生成一个博客文章元数据数组，可用于在主题布局中呈现列表。
     return watchedFiles.map((file) => {
       return parse(fs.readFileSync(file, 'utf-8'), {
         columns: true,
@@ -99,14 +98,14 @@ export default createContentLoader('posts/*.md', /* options */)
 
 ```ts
 interface ContentData {
-  // mapped URL for the page. e.g. /posts/hello.html (does not include base)
-  // manually iterate or use custom `transform` to normalize the paths
+  // 页面的映射 URL，如 /posts/hello.html（不包括 base）
+  // 手动迭代或使用自定义 `transform` 来标准化路径
   url: string
-  // frontmatter data of the page
+  // 页面的 frontmatter 数据
   frontmatter: Record<string, any>
 
-  // the following are only present if relevant options are enabled
-  // we will discuss them below
+  // 只有启用了相关选项，才会出现以下内容
+  // 我们将在下面讨论它们
   src: string | undefined
   html: string | undefined
   excerpt: string | undefined
@@ -140,18 +139,18 @@ import { data as posts } from './posts.data.js'
 import { createContentLoader } from 'vitepress'
 
 export default createContentLoader('posts/*.md', {
-  includeSrc: true, // include raw markdown source?
-  render: true,     // include rendered full page HTML?
-  excerpt: true,    // include excerpt?
+  includeSrc: true, // 包含原始 markdown 源?
+  render: true,     // 包含渲染的整页 HTML?
+  excerpt: true,    // 包含摘录?
   transform(rawData) {
-    // map, sort, or filter the raw data as you wish.
-    // the final result is what will be shipped to the client.
+    // 根据需要对原始数据进行 map、sort 或 filter
+    // 最终的结果是将发送给客户端的内容
     return rawData.sort((a, b) => {
       return +new Date(b.frontmatter.date) - +new Date(a.frontmatter.date)
     }).map((page) => {
-      page.src     // raw markdown source
-      page.html    // rendered full page HTML
-      page.excerpt // rendered excerpt HTML (content above first `---`)
+      page.src     // 原始 markdown 源
+      page.html    // 渲染的整页 HTML
+      page.excerpt // 渲染的摘录 HTML（第一个 `---` 上面的内容）
       return {/* ... */}
     })
   }
@@ -167,7 +166,7 @@ export default createContentLoader('posts/*.md', {
 export default {
   async buildEnd() {
     const posts = await createContentLoader('posts/*.md').load()
-    // generate files based on posts metadata, e.g. RSS feed
+    // 根据 posts 元数据生成文件，如 RSS 订阅源
   }
 }
 ```
@@ -177,24 +176,24 @@ export default {
 ```ts
 interface ContentOptions<T = ContentData[]> {
   /**
-   * Include src?
+   * 包含 src?
    * @default false
    */
   includeSrc?: boolean
 
   /**
-   * Render src to HTML and include in data?
+   * 将 src 渲染为 HTML 并包含在数据中?
    * @default false
    */
   render?: boolean
 
   /**
-   * If `boolean`, whether to parse and include excerpt? (rendered as HTML)
+   * 如果为 `boolean`，是否解析并包含摘录? (呈现为 HTML)
    *
-   * If `function`, control how the excerpt is extracted from the content.
+   * 如果为 `function`，则控制如何从内容中提取摘录
    *
-   * If `string`, define a custom separator to be used for extracting the
-   * excerpt. Default separator is `---` if `excerpt` is `true`.
+   * 如果为 `string`，则定义用于提取摘录的自定义分隔符
+   * 如果 `excerpt` 为 `true`，则默认分隔符为 `---`
    *
    * @see https://github.com/jonschlinkert/gray-matter#optionsexcerpt
    * @see https://github.com/jonschlinkert/gray-matter#optionsexcerpt_separator
@@ -207,8 +206,7 @@ interface ContentOptions<T = ContentData[]> {
     | string
 
   /**
-   * Transform the data. Note the data will be inlined as JSON in the client
-   * bundle if imported from components or markdown files.
+   * 转换数据。请注意，如果从组件或 Markdown 文件导入，数据将以 JSON 形式内联到客户端包中
    */
   transform?: (data: ContentData[]) => T | Promise<T>
 }
@@ -222,14 +220,14 @@ interface ContentOptions<T = ContentData[]> {
 import { defineLoader } from 'vitepress'
 
 export interface Data {
-  // data type
+  // data 类型
 }
 
 declare const data: Data
 export { data }
 
 export default defineLoader({
-  // type checked loader options
+  // 类型检查加载器选项
   watch: ['...'],
   async load(): Promise<Data> {
     // ...

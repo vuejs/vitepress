@@ -40,8 +40,8 @@ VitePress 项目的文件结构中有两个重要的概念：项目根目录 (**
 
 ```
 .
-├─ docs                    # project root
-│  ├─ .vitepress           # config dir
+├─ docs                    # 项目根目录
+│  ├─ .vitepress           # 配置目录
 │  ├─ getting-started.md
 │  └─ index.md
 └─ ...
@@ -65,9 +65,9 @@ docs/getting-started.md  -->  /getting-started.html
 `srcDir` 选项是相对于项目根目录解析的。例如，对于 `srcDir: 'src'`，文件结构将如下所示：
 
 ```
-.                                # project root
-├─ .vitepress             # config dir
-└─ src                      # source dir
+.                          # 项目根目录
+├─ .vitepress              # 配置目录
+└─ src                     # 源目录
    ├─ getting-started.md
    └─ index.md
 ```
@@ -218,8 +218,8 @@ export default {
 ```
 .
 └─ packages
-   ├─ [pkg].md         # route template
-   └─ [pkg].paths.js   # route paths loader
+   ├─ [pkg].md         # 路由模板
+   └─ [pkg].paths.js   # 路由路径加载器
 ```
 
 路径加载器应该提供一个带有 `paths` 方法的对象作为其默认导出。`paths` 方法应返回具有 `params` 属性的对象数组。这些对象中的每一个都将生成一个相应的页面。
@@ -338,7 +338,7 @@ export default {
 <script setup>
 import { useData } from 'vitepress'
 
-// params is a Vue ref
+// params 是一个 Vue ref
 const { params } = useData()
 
 console.log(params.value)
@@ -359,7 +359,7 @@ export default {
     return posts.map((post) => {
       return {
         params: { id: post.id },
-        content: post.content // raw Markdown or HTML
+        content: post.content // 原始 Markdown 或 HTML
       }
     })
   }
