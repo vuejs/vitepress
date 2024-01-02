@@ -41,8 +41,6 @@ VitePress 带有内置的 Markdown 拓展。
 
 假设现在处于 `foo/one.md` 文件中：
 
-[foo heading](./#page-suffix) <!-- anchors user to a heading in the foo index file -->
-
 ```md
 [Home](/) <!-- 将用户导航至根目录下的 index.html -->
 [foo](/foo/) <!-- 将用户导航至目录 foo 下的 index.html -->
