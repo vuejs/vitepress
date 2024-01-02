@@ -11,7 +11,7 @@ import {
 import { APP_PATH } from '../alias'
 import type { SiteConfig } from '../config'
 import { createVitePressPlugin } from '../plugin'
-import { sanitizeFileName, slash } from '../shared'
+import { escapeRegExp, sanitizeFileName, slash } from '../shared'
 import { task } from '../utils/task'
 import { buildMPAClient } from './buildMPAClient'
 
@@ -256,8 +256,4 @@ function staticImportedByEntry(
   )
   cache.set(id, someImporterIs)
   return someImporterIs
-}
-
-function escapeRegExp(str: string) {
-  return str.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&').replace(/-/g, '\\x2d')
 }

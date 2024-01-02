@@ -195,3 +195,8 @@ export function treatAsHtml(filename: string): boolean {
 
   return ext == null || !KNOWN_EXTENSIONS.has(ext.toLowerCase())
 }
+
+// https://github.com/sindresorhus/escape-string-regexp/blob/ba9a4473850cb367936417e97f1f2191b7cc67dd/index.js
+export function escapeRegExp(str: string) {
+  return str.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&').replace(/-/g, '\\x2d')
+}
