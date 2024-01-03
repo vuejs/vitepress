@@ -148,7 +148,6 @@ export async function build(
       if (siteConfig.parallel) {
         const { config, ...additionalContext } = context
         await updateContext({ renderEntry, ...additionalContext })
-        console.log('all context updated')
         task = (page) => dispatchWork('build::render-page', page)
       } else {
         const { render } = await import(renderEntry)
