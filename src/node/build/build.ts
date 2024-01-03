@@ -53,7 +53,7 @@ export async function build(
     }
 
     await task('rendering pages', async (updateProgress) => {
-      const entryPath = path.join(siteConfig.tempDir, 'app.js')
+      const entryPath = pathToFileURL(path.join(siteConfig.tempDir, 'app.js')).toString() + '?t=' + Date.now()
 
       const appChunk =
         clientResult &&

@@ -68,7 +68,11 @@ export async function renderPage(
   try {
     // resolve page data so we can render head tags
     const { __pageData } = await import(
-      pathToFileURL(path.join(config.tempDir, pageServerJsFileName)).toString()
+      pathToFileURL(
+        path.join(config.tempDir, pageServerJsFileName)
+      ).toString() +
+        '?t=' +
+        Date.now()
     )
     pageData = __pageData
   } catch (e) {

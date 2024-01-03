@@ -1,6 +1,7 @@
 import _debug from 'debug'
 import fs from 'fs-extra'
 import MiniSearch from 'minisearch'
+import pMap from 'p-map'
 import path from 'path'
 import type { Plugin, ViteDevServer } from 'vite'
 import type { SiteConfig } from '../config'
@@ -53,15 +54,18 @@ export async function localSearchPlugin(
 
   const options = siteConfig.site.themeConfig.search.options || {}
 
-  function render(file: string) {
+  async function render(file: string) {
+    if (!fs.existsSync(file)) return ''
     const { srcDir, cleanUrls = false } = siteConfig
     const relativePath = slash(path.relative(srcDir, file))
     const env: MarkdownEnv = { path: file, relativePath, cleanUrls }
-    let src = fs.readFileSync(file, 'utf-8')
-    src = processIncludes(srcDir, src, file, [])
-    if (options._render) return options._render(src, env, md)
-    const html = md.render(src, env)
-    return env.frontmatter?.search === false ? '' : html
+    const md_raw = await fs.promises.readFile(file, 'utf-8')
+    const md_src = processIncludes(srcDir, md_raw, file, [])
+    if (options._render) return await options._render(md_src, env, md)
+    else {
+      const html = md.render(md_src, env)
+      return env.frontmatter?.search === false ? '' : html
+    }
   }
 
   const indexByLocales = new Map<string, MiniSearch<IndexObject>>()
@@ -83,11 +87,6 @@ export async function localSearchPlugin(
     const relativePath = slash(path.relative(siteConfig.srcDir, file))
     const siteData = resolveSiteDataByRoute(siteConfig.site, relativePath)
     return siteData?.localeIndex ?? 'root'
-  }
-
-  function getIndexForPath(file: string) {
-    const locale = getLocaleForPath(file)
-    return getIndexByLocale(locale)
   }
 
   let server: ViteDevServer | undefined
@@ -123,43 +122,39 @@ export async function localSearchPlugin(
     return id
   }
 
-  async function indexAllFiles(files: string[]) {
-    const documentsByLocale = new Map<string, IndexObject[]>()
-    await Promise.all(
-      files
-        .filter((file) => fs.existsSync(file))
-        .map(async (file) => {
-          const fileId = getDocId(file)
-          const sections = splitPageIntoSections(render(file))
-          if (sections.length === 0) return
-          const locale = getLocaleForPath(file)
-          let documents = documentsByLocale.get(locale)
-          if (!documents) {
-            documents = []
-            documentsByLocale.set(locale, documents)
-          }
-          documents.push(
-            ...sections.map((section) => ({
-              id: `${fileId}#${section.anchor}`,
-              text: section.text,
-              title: section.titles.at(-1)!,
-              titles: section.titles.slice(0, -1)
-            }))
-          )
-        })
-    )
-    for (const [locale, documents] of documentsByLocale) {
-      const index = getIndexByLocale(locale)
-      index.removeAll()
-      await index.addAllAsync(documents)
+  async function indexFile(page: string) {
+    const file = path.join(siteConfig.srcDir, page)
+    // get file metadata
+    const fileId = getDocId(file)
+    const locale = getLocaleForPath(file)
+    const index = getIndexByLocale(locale)
+    // retrieve file and split into "sections"
+    const html = await render(file)
+    const sections =
+      // user provided generator
+      (await options.miniSearch?._splitIntoSections?.(file, html)) ??
+      // default implementation
+      splitPageIntoSections(html)
+    // add sections to the locale index
+    for await (const section of sections) {
+      if (!section || !(section.text || section.titles)) break
+      const { anchor, text, titles } = section
+      const id = anchor ? [fileId, anchor].join('#') : fileId
+      index.add({
+        id,
+        text,
+        title: titles.at(-1)!,
+        titles: titles.slice(0, -1)
+      })
     }
-    debug(`🔍️ Indexed ${files.length} files`)
   }
 
   async function scanForBuild() {
-    await indexAllFiles(
-      siteConfig.pages.map((f) => path.join(siteConfig.srcDir, f))
-    )
+    debug('🔍️ Indexing files for search...')
+    await pMap(siteConfig.pages, indexFile, {
+      concurrency: siteConfig.buildConcurrency
+    })
+    debug('✅ Indexing finished...')
   }
 
   return {
@@ -214,25 +209,8 @@ export async function localSearchPlugin(
 
     async handleHotUpdate({ file }) {
       if (file.endsWith('.md')) {
-        const fileId = getDocId(file)
-        if (!fs.existsSync(file)) return
-        const index = getIndexForPath(file)
-        const sections = splitPageIntoSections(render(file))
-        if (sections.length === 0) return
-        for (const section of sections) {
-          const id = `${fileId}#${section.anchor}`
-          if (index.has(id)) {
-            index.discard(id)
-          }
-          index.add({
-            id,
-            text: section.text,
-            title: section.titles.at(-1)!,
-            titles: section.titles.slice(0, -1)
-          })
-        }
+        await indexFile(file)
         debug('🔍️ Updated', file)
-
         onIndexUpdated()
       }
     }
@@ -242,20 +220,13 @@ export async function localSearchPlugin(
 const headingRegex = /<h(\d*).*?>(.*?<a.*? href="#.*?".*?>.*?<\/a>)<\/h\1>/gi
 const headingContentRegex = /(.*?)<a.*? href="#(.*?)".*?>.*?<\/a>/i
 
-interface PageSection {
-  anchor: string
-  titles: string[]
-  text: string
-}
-
 /**
  * Splits HTML into sections based on headings
  */
-function splitPageIntoSections(html: string) {
+function* splitPageIntoSections(html: string) {
   const result = html.split(headingRegex)
   result.shift()
   let parentTitles: string[] = []
-  const sections: PageSection[] = []
   for (let i = 0; i < result.length; i += 3) {
     const level = parseInt(result[i]) - 1
     const heading = result[i + 1]
@@ -266,14 +237,13 @@ function splitPageIntoSections(html: string) {
     if (!title || !content) continue
     const titles = parentTitles.slice(0, level)
     titles[level] = title
-    sections.push({ anchor, titles, text: getSearchableText(content) })
+    yield { anchor, titles, text: getSearchableText(content) }
     if (level === 0) {
       parentTitles = [title]
     } else {
       parentTitles[level] = title
     }
   }
-  return sections
 }
 
 function getSearchableText(content: string) {

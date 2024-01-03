@@ -257,7 +257,7 @@ export async function resolveSiteData(
     appearance: userConfig.appearance ?? true,
     themeConfig: userConfig.themeConfig || {},
     locales: userConfig.locales || {},
-    scrollOffset: userConfig.scrollOffset ?? 90,
+    scrollOffset: userConfig.scrollOffset ?? 134,
     cleanUrls: !!userConfig.cleanUrls,
     contentProps: userConfig.contentProps
   }

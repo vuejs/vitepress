@@ -1,6 +1,6 @@
 {
   "name": "vitepress",
-  "version": "1.0.0-rc.33",
+  "version": "1.0.0-rc.34",
   "description": "Vite & Vue powered static site generator",
   "type": "module",
   "packageManager": "pnpm@8.13.1",
@@ -100,11 +100,10 @@
     "focus-trap": "^7.5.4",
     "mark.js": "8.11.1",
     "minisearch": "^6.3.0",
-    "mrmime": "^2.0.0",
     "rpc-magic-proxy": "0.0.0-beta.1",
-    "shikiji": "^0.9.15",
-    "shikiji-core": "^0.9.15",
-    "shikiji-transformers": "^0.9.15",
+    "shikiji": "^0.9.16",
+    "shikiji-core": "^0.9.16",
+    "shikiji-transformers": "^0.9.16",
     "vite": "^5.0.10",
     "vue": "^3.4.3"
   },
@@ -198,7 +197,7 @@
     "sitemap": "^7.1.1",
     "supports-color": "^9.4.0",
     "typescript": "^5.3.3",
-    "vitest": "^1.1.0",
+    "vitest": "^1.1.1",
     "vue-tsc": "^1.8.27",
     "wait-on": "^7.2.0"
   },
