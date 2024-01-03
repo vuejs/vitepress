@@ -83,7 +83,8 @@ export function useSidebar() {
         inertControls.isSidebarOpen = false
         inertControls.isSidebarVisible = sb && mq
       }
-    }
+    },
+    { immediate: true }
   )
 
   const sidebarGroups = computed(() => {

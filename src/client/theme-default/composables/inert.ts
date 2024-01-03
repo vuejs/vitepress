@@ -3,7 +3,7 @@ import { computed, reactive } from 'vue'
 export const inertControls = reactive({
   isSidebarOpen: false,
   isScreenOpen: false,
-  isSidebarVisible: true
+  isSidebarVisible: false
 })
 
 export const inertState = reactive({
