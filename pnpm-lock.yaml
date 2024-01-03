@@ -41,9 +41,6 @@ importers:
       minisearch:
         specifier: ^6.3.0
         version: 6.3.0
-      rpc-magic-proxy:
-        specifier: 0.0.0-beta.3
-        version: 0.0.0-beta.3
       shikiji:
         specifier: ^0.9.16
         version: 0.9.16
@@ -273,6 +270,9 @@ importers:
       rollup-plugin-esbuild:
         specifier: ^6.1.0
         version: 6.1.0(esbuild@0.19.11)(rollup@4.9.2)(supports-color@9.4.0)
+      rpc-magic-proxy:
+        specifier: 0.0.0-beta.3
+        version: 0.0.0-beta.3
       semver:
         specifier: ^7.5.4
         version: 7.5.4
