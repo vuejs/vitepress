@@ -13,10 +13,8 @@ import {
   type MarkdownEnv
 } from '../shared'
 import { processIncludes } from '../utils/processIncludes'
-import { updateCurrentTask } from '../utils/task'
+import { updateCurrentTask, clearLine } from '../utils/task'
 import type { PageSplitSection } from '../../../types/local-search'
-import { registerWorkload, dispatchWork } from '../worker'
-import Queue from '../utils/queue'
 
 const debug = _debug('vitepress:local-search')
 
@@ -242,7 +240,10 @@ export async function localSearchPlugin(
   }
 }
 
-async function* splitPageIntoSections(html: string, fileId: string) {
+async function* splitPageIntoSections(
+  html: string,
+  pageName: string = 'Unknown Document'
+) {
   const { JSDOM } = await import('jsdom')
   const { default: traverse, Node } = await import('dom-traverse')
   const dom = JSDOM.fragment(html)
@@ -252,10 +253,6 @@ async function* splitPageIntoSections(html: string, fileId: string) {
   const existingIdSet = new Set()
   // Current working section
   let section: PageSplitSection = { text: '', titles: [''] }
-  function submit() {
-    section.text = section.text.replace(/\W+/gs, ' ').trim()
-    return section
-  }
   // Traverse the DOM
   for (const [node, skipChildren] of traverse.skippable(dom)) {
     if (node.nodeType === Node.ELEMENT_NODE) {
@@ -263,13 +260,16 @@ async function* splitPageIntoSections(html: string, fileId: string) {
       if (!/^H\d+$/i.test(el.tagName)) continue
       if (!el.hasAttribute('id')) continue
       const id = el.getAttribute('id')!
+      // Skip duplicate id, content will be treated as normal text
       if (existingIdSet.has(id)) {
-        console.error(`\x1b[2K\r⚠️  Duplicate heading id "${id}" in ${fileId}`)
+        console.error(
+          `${clearLine}⚠️  Duplicate heading id "${id}" in ${pageName}`
+        )
         continue
       }
       existingIdSet.add(id)
       // Submit previous section
-      if (section.text || section.anchor) yield submit()
+      if (section.text || section.anchor) yield section
       // Pop adjacent titles depending on level
       const level = parseInt(el.tagName.slice(1))
       while (titleStack.length > 0) {
@@ -290,10 +290,14 @@ async function* splitPageIntoSections(html: string, fileId: string) {
     }
   }
   // Submit last section
-  yield submit()
+  yield section
 }
 
-// Worker proxy in main thread
+/*=============================== Worker API ===============================*/
+import { registerWorkload, dispatchWork } from '../worker'
+import Queue from '../utils/queue'
+
+// Worker proxy (main thread)
 function parallelSplitter(html: string, fileId: string) {
   const queue = new Queue<PageSplitSection>()
   dispatchWork(
@@ -306,7 +310,7 @@ function parallelSplitter(html: string, fileId: string) {
   return queue.items()
 }
 
-// Worker proxy in worker thread
+// Worker proxy (worker thread)
 registerWorkload(
   'local-search::split',
   async (
