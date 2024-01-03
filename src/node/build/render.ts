@@ -52,7 +52,11 @@ export async function renderPage(
   try {
     // resolve page data so we can render head tags
     const { __pageData } = await import(
-      pathToFileURL(path.join(config.tempDir, pageServerJsFileName)).toString()
+      pathToFileURL(
+        path.join(config.tempDir, pageServerJsFileName)
+      ).toString() +
+        '?t=' +
+        Date.now()
     )
     pageData = __pageData
   } catch (e) {
@@ -148,8 +152,10 @@ export async function renderPage(
     }
   }
 
+  const dir = pageData.frontmatter.dir || siteData.dir || 'ltr'
+
   const html = `<!DOCTYPE html>
-<html lang="${siteData.lang}" dir="${siteData.dir}">
+<html lang="${siteData.lang}" dir="${dir}">
   <head>
     <meta charset="utf-8">
     ${

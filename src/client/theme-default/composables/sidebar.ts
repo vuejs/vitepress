@@ -11,13 +11,14 @@ import {
   type ComputedRef,
   type Ref
 } from 'vue'
-import { inBrowser, isActive } from '../../shared'
+import { isActive } from '../../shared'
 import {
   hasActiveLink as containsActiveLink,
   getSidebar,
   getSidebarGroups
 } from '../support/sidebar'
 import { useData } from './data'
+import { hashRef } from './hash'
 import { useInert } from 'vitepress'
 
 export interface SidebarControl {
@@ -146,13 +147,6 @@ export function useCloseSidebarOnEscape(
       triggerElement?.focus()
     }
   }
-}
-
-const hashRef = ref(inBrowser ? location.hash : '')
-if (inBrowser) {
-  window.addEventListener('hashchange', () => {
-    hashRef.value = location.hash
-  })
 }
 
 export function useSidebarControl(

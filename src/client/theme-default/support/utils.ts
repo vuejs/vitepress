@@ -1,7 +1,6 @@
 import { withBase } from 'vitepress'
-import { lookup } from 'mrmime'
 import { useData } from '../composables/data'
-import { isExternal } from '../../shared'
+import { isExternal, treatAsHtml } from '../../shared'
 
 export function throttleAndDebounce(fn: () => void, delay: number): () => void {
   let timeoutId: NodeJS.Timeout
@@ -28,7 +27,7 @@ export function normalizeLink(url: string): string {
     isExternal(url) ||
     url.startsWith('#') ||
     !protocol.startsWith('http') ||
-    (/\.(?!html|md)\w+($|\?)/i.test(url) && lookup(url))
+    !treatAsHtml(pathname)
   )
     return url
 
