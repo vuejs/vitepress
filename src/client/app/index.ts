@@ -135,7 +135,11 @@ function newRouter(): Router {
         pageFilePath = pageFilePath.replace(/\.js$/, '.lean.js')
       }
 
-      pageModule = import(/*@vite-ignore*/ pageFilePath)
+      if (import.meta.env.SSR) {
+        pageModule = import(/*@vite-ignore*/ pageFilePath + '?t=' + Date.now())
+      } else {
+        pageModule = import(/*@vite-ignore*/ pageFilePath)
+      }
     }
 
     if (inBrowser) {
