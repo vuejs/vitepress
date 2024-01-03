@@ -168,9 +168,11 @@ export async function renderPage(
     }
   }
 
+  const dir = pageData.frontmatter.dir || siteData.dir || 'ltr'
+
   const html = [
     `<!DOCTYPE html>`,
-    `<html lang="${siteData.lang}" dir="${siteData.dir}">`,
+    `<html lang="${siteData.lang}" dir="${dir}">`,
     `<head>`,
     `<meta charset="utf-8">`,
     isMetaViewportOverridden(head)
