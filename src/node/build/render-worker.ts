@@ -17,7 +17,7 @@ export default async function cluster(
   // - Excess worker will cause too much RPC workload for main thread,
   //   therefore harm the overall performance.
   const concurrency = Math.round(
-    Math.max((context.config.buildConcurrency - 1) / 1.5, 1)
+    Math.max((context.config.concurrency - 1) / 1.5, 1)
   )
 
   const num_tasks = pages.length
@@ -76,7 +76,7 @@ async function renderWorker() {
         await renderPage(render, page, context)
       }
     }
-    const concurrency = Math.max(context.config.buildConcurrency, 1)
+    const concurrency = Math.max(context.config.concurrency, 1)
     await Promise.all(Array.from({ length: concurrency }, () => executor()))
   } catch (e) {
     console.error(e)

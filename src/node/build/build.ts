@@ -9,7 +9,7 @@ import { pathToFileURL } from 'url'
 import type { BuildOptions, Rollup } from 'vite'
 import { resolveConfig, type SiteConfig } from '../config'
 import { clearCache } from '../markdownToVue'
-import { slash, type HeadConfig } from '../shared'
+import { slash, type HeadConfig, type SSGContext } from '../shared'
 import { deserializeFunctions, serializeFunctions } from '../utils/fnSerialize'
 import { task } from '../utils/task'
 import { bundle } from './bundle'
@@ -17,6 +17,23 @@ import { generateSitemap } from './generateSitemap'
 import { renderPage, type RenderPageContext } from './render'
 import humanizeDuration from 'humanize-duration'
 import { launchWorkers, waitWorkers } from '../worker'
+import { registerWorkload, updateContext, dispatchWork } from '../worker'
+
+type RenderFn = (path: string) => Promise<SSGContext>
+
+// Worker proxy (worker thread)
+registerWorkload(
+  'build::render-page',
+  function workload(
+    this: RenderPageContext & { render: RenderFn },
+    page: string
+  ) {
+    return renderPage(this.render, page, this)
+  },
+  async function init(this: { renderEntry: string; render: RenderFn }) {
+    this.render = (await import(this.renderEntry)).render as RenderFn
+  }
+)
 
 export async function build(
   root?: string,
@@ -29,7 +46,7 @@ export async function build(
   const unlinkVue = linkVue()
 
   if (siteConfig.parallel)
-    launchWorkers(siteConfig.buildConcurrency, { config: siteConfig })
+    launchWorkers(siteConfig.concurrency, { config: siteConfig })
 
   if (buildOptions.base) {
     siteConfig.site.base = buildOptions.base
@@ -57,7 +74,7 @@ export async function build(
     }
 
     await task('rendering pages', async (updateProgress) => {
-      const entryPath =
+      const renderEntry =
         pathToFileURL(path.join(siteConfig.tempDir, 'app.js')).toString() +
         '?t=' +
         Date.now()
@@ -126,23 +143,27 @@ export async function build(
         additionalHeadTags
       }
 
-      const pages = ['404.md', ...siteConfig.pages]
+      let task: (page: string) => Promise<void>
 
       if (siteConfig.parallel) {
-        const { default: cluster } = await import('./render-worker')
-        await cluster(entryPath, context, pages, updateProgress)
+        const { config, ...additionalContext } = context
+        await updateContext({ renderEntry, ...additionalContext })
+        console.log('all context updated')
+        task = (page) => dispatchWork('build::render-page', page)
       } else {
-        let count_done = 0
-        const { render } = await import(entryPath)
-        await pMap(
-          pages,
-          async (page) => {
-            await renderPage(render, page, context)
-            updateProgress(++count_done, pages.length)
-          },
-          { concurrency: siteConfig.buildConcurrency }
-        )
+        const { render } = await import(renderEntry)
+        task = (page) => renderPage(render, page, context)
       }
+
+      const pages = ['404.md', ...siteConfig.pages]
+      let count_done = 0
+      await pMap(
+        pages,
+        (page) => task(page).then(updateProgress(++count_done, pages.length)),
+        {
+          concurrency: siteConfig.concurrency
+        }
+      )
     })
 
     // emit page hash map for the case where a user session is open

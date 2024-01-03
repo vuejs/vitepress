@@ -280,8 +280,8 @@ importers:
         specifier: ^6.1.0
         version: 6.1.0(esbuild@0.19.11)(rollup@4.9.2)(supports-color@9.4.0)
       rpc-magic-proxy:
-        specifier: 0.0.0-beta.3
-        version: 0.0.0-beta.3
+        specifier: ^1.0.2
+        version: 1.0.2
       semver:
         specifier: ^7.5.4
         version: 7.5.4
@@ -4016,8 +4016,8 @@ packages:
       '@rollup/rollup-win32-x64-msvc': 4.9.2
       fsevents: 2.3.3
 
-  /rpc-magic-proxy@0.0.0-beta.3:
-    resolution: {integrity: sha512-k1hVDnaX4TBxVWpW6tRoc3qCyuuJ8luOeK4ArqkFJKinBa0yVnZzgYVtvLzC9iWnVzNKIQNNsxkth445nKWL1Q==}
+  /rpc-magic-proxy@1.0.2:
+    resolution: {integrity: sha512-JsYJRMVi1rbkcA3ByfuwdkfB2eTXWrmTy4PM6ayQiqTiG6gWaV3hQD4EpHrCFw8CHqmqGNFPMe3iOWvqM071PA==}
     dev: true
 
   /rrweb-cssom@0.6.0:

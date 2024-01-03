@@ -163,7 +163,7 @@ export async function localSearchPlugin(
   }
 
   async function indexAll() {
-    const concurrency = siteConfig.buildConcurrency
+    const concurrency = siteConfig.concurrency
     let numIndexed = 0
 
     const updateProgress = () =>
@@ -174,7 +174,7 @@ export async function localSearchPlugin(
       )
     await pMap(
       siteConfig.pages,
-      (page) => indexFile(page, siteConfig.parallel).then(updateProgress),
+      (page) => indexFile(page, !!siteConfig.parallel).then(updateProgress),
       { concurrency }
     )
 
@@ -209,7 +209,6 @@ export async function localSearchPlugin(
 
     async load(id) {
       if (id === LOCAL_SEARCH_INDEX_REQUEST_PATH) {
-        console.log('\n🔍️ load', id)
         scanForLocales()
         let records: string[] = []
         for (const [locale] of indexByLocales) {
@@ -221,7 +220,6 @@ export async function localSearchPlugin(
         }
         return `export default {${records.join(',')}}`
       } else if (id.startsWith(LOCAL_SEARCH_INDEX_REQUEST_PATH)) {
-        console.log('\n🔍️ load', id)
         const locale = id.slice(LOCAL_SEARCH_INDEX_REQUEST_PATH.length + 1)
         await (indexAllPromise ??= indexAll())
         return `export default ${JSON.stringify(

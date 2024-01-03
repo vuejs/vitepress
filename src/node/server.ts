@@ -10,8 +10,7 @@ export async function createServer(
 ) {
   const config = await resolveConfig(root)
 
-  if (config.parallel)
-    launchWorkers(config.buildConcurrency, { config: config })
+  if (config.parallel) launchWorkers(config.concurrency, { config: config })
 
   if (serverOptions.base) {
     config.site.base = serverOptions.base

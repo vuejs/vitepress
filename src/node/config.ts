@@ -144,8 +144,8 @@ export async function resolveConfig(
     rewrites,
     userConfig,
     sitemap: userConfig.sitemap,
-    buildConcurrency: Math.max(
-      userConfig.buildConcurrency ?? cpus().length,
+    concurrency: Math.max(
+      userConfig.concurrency ?? Math.round(cpus().length / 1.5),
       1 // At least one thread required
     ),
     parallel: userConfig.parallel ?? true
