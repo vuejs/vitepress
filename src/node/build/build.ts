@@ -16,6 +16,7 @@ import { bundle } from './bundle'
 import { generateSitemap } from './generateSitemap'
 import { renderPage } from './render'
 import humanizeDuration from 'humanize-duration'
+import { launchWorkers, waitWorkers } from '../worker'
 
 export async function build(
   root?: string,
@@ -26,6 +27,9 @@ export async function build(
   process.env.NODE_ENV = 'production'
   const siteConfig = await resolveConfig(root, 'build', 'production')
   const unlinkVue = linkVue()
+
+  if (siteConfig.parallel)
+    launchWorkers(siteConfig.buildConcurrency, { config: siteConfig })
 
   if (buildOptions.base) {
     siteConfig.site.base = buildOptions.base
@@ -146,6 +150,8 @@ export async function build(
   await generateSitemap(siteConfig)
   await siteConfig.buildEnd?.(siteConfig)
   clearCache()
+
+  if (siteConfig.parallel) await waitWorkers()
 
   const timeEnd = performance.now()
   const duration = humanizeDuration(timeEnd - timeStart, {

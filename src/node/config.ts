@@ -143,7 +143,8 @@ export async function resolveConfig(
     rewrites,
     userConfig,
     sitemap: userConfig.sitemap,
-    buildConcurrency: userConfig.buildConcurrency ?? 64
+    buildConcurrency: userConfig.buildConcurrency ?? 64,
+    parallel: userConfig.parallel ?? true
   }
 
   // to be shared with content loaders

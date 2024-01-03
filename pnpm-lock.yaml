@@ -273,6 +273,9 @@ importers:
       rollup-plugin-esbuild:
         specifier: ^6.1.0
         version: 6.1.0(esbuild@0.19.11)(rollup@4.9.2)(supports-color@9.4.0)
+      rpc-magic-proxy:
+        specifier: 0.0.0-beta.3
+        version: 0.0.0-beta.3
       semver:
         specifier: ^7.5.4
         version: 7.5.4
@@ -3889,6 +3892,10 @@ packages:
       '@rollup/rollup-win32-ia32-msvc': 4.9.2
       '@rollup/rollup-win32-x64-msvc': 4.9.2
       fsevents: 2.3.3
+
+  /rpc-magic-proxy@0.0.0-beta.3:
+    resolution: {integrity: sha512-k1hVDnaX4TBxVWpW6tRoc3qCyuuJ8luOeK4ArqkFJKinBa0yVnZzgYVtvLzC9iWnVzNKIQNNsxkth445nKWL1Q==}
+    dev: true
 
   /run-parallel@1.2.0:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
