@@ -2,7 +2,7 @@
 
 ### Bug Fixes
 
-- **client:** add computed dir and lang to html root ([c2b4c66](https://github.com/vuejs/vitepress/commit/c2b4c66e79fde7479f5f43841e1921a5c220c9a5)), closes [/github.com/vuejs/vitepress/pull/3353#issuecomment-1874753809](https://github.com//github.com/vuejs/vitepress/pull/3353/issues/issuecomment-1874753809)
+- **client:** add computed dir and lang to html root ([c2b4c66](https://github.com/vuejs/vitepress/commit/c2b4c66e79fde7479f5f43841e1921a5c220c9a5)), closes [#3353](https://github.com//github.com/vuejs/vitepress/pull/3353/issues/issuecomment-1874753809)
 - fill all empty code lines ([563020b](https://github.com/vuejs/vitepress/commit/563020ba61abda254af9a124ddafd12de644cd4e)), closes [#3305](https://github.com/vuejs/vitepress/issues/3305)
 - fix theme chunking logic causing out-of-order styles ([#3403](https://github.com/vuejs/vitepress/issues/3403)) ([a6cd891](https://github.com/vuejs/vitepress/commit/a6cd891d95454b3130aaf08f499659d2585acc63))
 - invalidate module cache for subsequent builds ([#3398](https://github.com/vuejs/vitepress/issues/3398)) ([27f60e0](https://github.com/vuejs/vitepress/commit/27f60e0b7784603c6fb300bd8dce64515eb98962))
