@@ -53,7 +53,10 @@ export async function build(
     }
 
     await task('rendering pages', async (updateProgress) => {
-      const entryPath = pathToFileURL(path.join(siteConfig.tempDir, 'app.js')).toString() + '?t=' + Date.now()
+      const entryPath =
+        pathToFileURL(path.join(siteConfig.tempDir, 'app.js')).toString() +
+        '?t=' +
+        Date.now()
 
       const appChunk =
         clientResult &&
@@ -126,7 +129,7 @@ export async function build(
         await cluster(entryPath, context, pages, updateProgress)
       } else {
         let count_done = 0
-        const { render } = await import(pathToFileURL(entryPath).toString())
+        const { render } = await import(entryPath)
         await pMap(
           pages,
           async (page) => {

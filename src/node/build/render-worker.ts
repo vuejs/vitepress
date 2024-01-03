@@ -67,9 +67,8 @@ async function renderWorker() {
       pageAlloc: TaskAllocator<string>
       context: RenderPageContext
     } = ctx.deserialize(workerData)
-    const { pathToFileURL } = await import('url')
     const { renderPage } = await import('./render')
-    const { render } = await import(pathToFileURL(entryPath).toString())
+    const { render } = await import(entryPath)
     async function executor() {
       while (true) {
         const page = await pageAlloc()
