@@ -44,8 +44,8 @@ export interface VitePressData<T = any> {
   title: Ref<string>
   description: Ref<string>
   lang: Ref<string>
-  isDark: Ref<boolean>
   dir: Ref<string>
+  isDark: Ref<boolean>
   localeIndex: Ref<string>
 }
 
