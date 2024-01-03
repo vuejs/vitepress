@@ -166,8 +166,7 @@ function scrollToTop() {
 
 .top-link {
   display: block;
-  padding: 0;
-  line-height: 48px;
+  line-height: 44px;
   font-size: 14px;
   font-weight: 500;
   color: var(--vp-c-brand-1);
