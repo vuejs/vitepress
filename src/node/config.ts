@@ -148,7 +148,7 @@ export async function resolveConfig(
       userConfig.buildConcurrency ?? cpus().length,
       1 // At least one thread required
     ),
-    multithreadRender: userConfig.multithreadRender ?? false
+    parallel: userConfig.parallel ?? true
   }
 
   // to be shared with content loaders

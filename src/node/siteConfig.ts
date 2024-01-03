@@ -157,11 +157,16 @@ export interface UserConfig<ThemeConfig = any>
   buildConcurrency?: number
 
   /**
-   * This option allows you to enable or disable the multithread render.
+   * This option is the general switch for enabling parallel computing. When
+   * enabled, vitepress will create worker threads and distribute workload to
+   * them. Currently, the following features are supported:
+   * 1. Parallel SPA Bundling
+   * 2. Parallel SSR Rendering
+   * 3. Parallel Local Search Indexing (when using default splitter)
    * @experimental
-   * @default false
+   * @default true
    */
-  multithreadRender?: boolean
+  parallel?: boolean
 
   /**
    * @experimental
@@ -257,5 +262,5 @@ export interface SiteConfig<ThemeConfig = any>
   logger: Logger
   userConfig: UserConfig
   buildConcurrency: number
-  multithreadRender: boolean
+  parallel: boolean
 }
