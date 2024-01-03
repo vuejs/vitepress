@@ -625,11 +625,11 @@ const line4 = 'This is line 4'
 ```md
 <<< @/snippets/snippet.cs{c#}
 
-<!-- with line highlighting: -->
+<!-- 带行高亮: -->
 
 <<< @/snippets/snippet.cs{1,2,4-6 c#}
 
-<!-- with line numbers: -->
+<!-- 带行号: -->
 
 <<< @/snippets/snippet.cs{1,2,4-6 c#:line-numbers}
 ```
