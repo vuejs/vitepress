@@ -4,6 +4,7 @@ import c from 'picocolors'
 
 export const okMark = c.green('✓')
 export const failMark = c.red('✖')
+export const clearLine = '\x1b[2K\r'
 
 export type UpdateHandle = (
   done?: number,
@@ -14,7 +15,17 @@ export type UpdateHandle = (
 let updateHandle: UpdateHandle | null = null
 
 export const updateCurrentTask: UpdateHandle = (...args) => {
-  updateHandle?.(...args)
+  if (updateHandle) updateHandle(...args)
+  else if (!process.stderr.isTTY) {
+    return
+  } else if (args.length === 0) {
+    process.stderr.write(clearLine)
+  } else {
+    const name = args[2] || 'unknown task'
+    process.stderr.write(
+      `${clearLine}${name} [${args.slice(0, 2).join(' / ')}]`
+    )
+  }
 }
 
 export async function task<T>(
