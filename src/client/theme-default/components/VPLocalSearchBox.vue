@@ -28,6 +28,7 @@ import {
 } from 'vue'
 import type { ModalTranslations } from '../../../../types/local-search'
 import { pathToFile } from '../../app/utils'
+import { escapeRegExp } from '../../shared'
 import { useData } from '../composables/data'
 import { LRUCache } from '../support/lru'
 import { createSearchTranslate } from '../support/translation'
@@ -146,8 +147,8 @@ const cache = new LRUCache<string, Map<string, string>>(16) // 16 files
 debouncedWatch(
   () => [searchIndex.value, filterText.value, showDetailedList.value] as const,
   async ([index, filterTextValue, showDetailedListValue], old, onCleanup) => {
-
-    if (old?.[0] !== index) { // in case of hmr
+    if (old?.[0] !== index) {
+      // in case of hmr
       cache.clear()
     }
 
@@ -396,11 +397,7 @@ function formMarkRegex(terms: Set<string>) {
   return new RegExp(
     [...terms]
       .sort((a, b) => b.length - a.length)
-      .map((term) => {
-        return `(${term
-          .replace(/[|\\{}()[\]^$+*?.]/g, '\\$&')
-          .replace(/-/g, '\\x2d')})`
-      })
+      .map((term) => `(${escapeRegExp(term)})`)
       .join('|'),
     'gi'
   )

@@ -2,14 +2,12 @@ import { customAlphabet } from 'nanoid'
 import c from 'picocolors'
 import type { ShikijiTransformer } from 'shikiji'
 import {
+  addClassToHast,
   bundledLanguages,
   getHighlighter,
-  addClassToHast,
   isPlaintext as isPlainLang,
   isSpecialLang
 } from 'shikiji'
-import type { Logger } from 'vite'
-import type { MarkdownOptions, ThemeOptions } from '../markdown'
 import {
   transformerCompactLineOptions,
   transformerNotationDiff,
@@ -18,6 +16,8 @@ import {
   transformerNotationHighlight,
   type TransformerCompactLineOption
 } from 'shikiji-transformers'
+import type { Logger } from 'vite'
+import type { MarkdownOptions, ThemeOptions } from '../markdown'
 
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)
 
@@ -65,9 +65,9 @@ export async function highlight(
 
   const highlighter = await getHighlighter({
     themes:
-      typeof theme === 'string' || 'name' in theme
-        ? [theme]
-        : [theme.light, theme.dark],
+      typeof theme === 'object' && 'light' in theme && 'dark' in theme
+        ? [theme.light, theme.dark]
+        : [theme],
     langs: [...Object.keys(bundledLanguages), ...(options.languages || [])],
     langAlias: options.languageAlias
   })
@@ -147,13 +147,6 @@ export async function highlight(
       return s
     }
 
-    const fillEmptyHighlightedLine = (s: string) => {
-      return s.replace(
-        /(<span class="line highlighted">)(<\/span>)/g,
-        '$1<wbr>$2'
-      )
-    }
-
     str = removeMustache(str).trimEnd()
 
     const highlighted = highlighter.codeToHtml(str, {
@@ -167,19 +160,39 @@ export async function highlight(
             if (vPre) node.properties['v-pre'] = ''
           }
         },
+        {
+          name: 'vitepress:empty-line',
+          pre(hast) {
+            hast.children.forEach((code) => {
+              if (code.type === 'element' && code.tagName === 'code') {
+                code.children.forEach((span) => {
+                  if (
+                    span.type === 'element' &&
+                    span.tagName === 'span' &&
+                    Array.isArray(span.properties.class) &&
+                    span.properties.class.includes('line') &&
+                    span.children.length === 0
+                  ) {
+                    span.children.push({
+                      type: 'element',
+                      tagName: 'wbr',
+                      properties: {},
+                      children: []
+                    })
+                  }
+                })
+              }
+            })
+          }
+        },
         ...userTransformers
       ],
-      meta: {
-        __raw: attrs
-      },
-      ...(typeof theme === 'string' || 'name' in theme
-        ? { theme }
-        : {
-            themes: theme,
-            defaultColor: false
-          })
+      meta: { __raw: attrs },
+      ...(typeof theme === 'object' && 'light' in theme && 'dark' in theme
+        ? { themes: theme, defaultColor: false }
+        : { theme })
     })
 
-    return fillEmptyHighlightedLine(restoreMustache(highlighted))
+    return restoreMustache(highlighted)
   }
 }

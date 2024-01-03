@@ -38,13 +38,13 @@ const Theme = resolveThemeExtends(RawTheme)
 const VitePressApp = defineComponent({
   name: 'VitePressApp',
   setup() {
-    const { site } = useData()
+    const { site, lang, dir } = useData()
 
     // change the language on the HTML element based on the current lang
     onMounted(() => {
       watchEffect(() => {
-        document.documentElement.lang = site.value.lang
-        document.documentElement.dir = site.value.dir
+        document.documentElement.lang = lang.value
+        document.documentElement.dir = dir.value
       })
     })
 
@@ -135,7 +135,11 @@ function newRouter(): Router {
         pageFilePath = pageFilePath.replace(/\.js$/, '.lean.js')
       }
 
-      pageModule = import(/*@vite-ignore*/ pageFilePath)
+      if (import.meta.env.SSR) {
+        pageModule = import(/*@vite-ignore*/ pageFilePath + '?t=' + Date.now())
+      } else {
+        pageModule = import(/*@vite-ignore*/ pageFilePath)
+      }
     }
 
     if (inBrowser) {
