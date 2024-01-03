@@ -1,9 +1,9 @@
 import { ref, watch } from 'vue'
-import { useInert, useRoute } from 'vitepress'
+import { useRoute } from 'vitepress'
+import { inertControls } from './inert'
 import { useMediaQuery } from '@vueuse/core'
 
 export function useNav() {
-  const inert = useInert()!
   const is768 = useMediaQuery('(min-width: 768px)')
   const isScreenOpen = ref(false)
 
@@ -29,9 +29,9 @@ export function useNav() {
     () => [isScreenOpen.value, is768.value],
     ([screenOpen, mq]) => {
       if (mq) {
-        inert.isScreenOpen = false
+        inertControls.isScreenOpen = false
       } else {
-        inert.isScreenOpen = screenOpen
+        inertControls.isScreenOpen = screenOpen
       }
     }
   )

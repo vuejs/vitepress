@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useInertState, useRoute } from 'vitepress'
+import { useRoute } from 'vitepress'
 import { computed, provide, useSlots, watch } from 'vue'
 import VPBackdrop from './components/VPBackdrop.vue'
 import VPContent from './components/VPContent.vue'
@@ -10,6 +10,7 @@ import VPSidebar from './components/VPSidebar.vue'
 import VPSkipLink from './components/VPSkipLink.vue'
 import { useData } from './composables/data'
 import { useCloseSidebarOnEscape, useSidebar } from './composables/sidebar'
+import { inertState } from './composables/inert'
 
 const {
   isOpen: isSidebarOpen,
@@ -17,7 +18,6 @@ const {
   close: closeSidebar
 } = useSidebar()
 
-const inert = useInertState()
 const route = useRoute()
 watch(() => route.path, closeSidebar)
 
@@ -34,9 +34,9 @@ provide('hero-image-slot-exists', heroImageSlotExists)
 <template>
   <div v-if="frontmatter.layout !== false" class="Layout" :class="frontmatter.pageClass" >
     <slot name="layout-top" />
-    <VPSkipLink :inert="inert?.inertSkipLink" />
+    <VPSkipLink :inert="inertState.inertSkipLink" />
     <VPBackdrop class="backdrop" :show="isSidebarOpen" @click="closeSidebar" />
-    <VPNav :inert="inert?.inertNav">
+    <VPNav :inert="inertState.inertNav">
       <template #nav-bar-title-before><slot name="nav-bar-title-before" /></template>
       <template #nav-bar-title-after><slot name="nav-bar-title-after" /></template>
       <template #nav-bar-content-before><slot name="nav-bar-content-before" /></template>
@@ -44,14 +44,14 @@ provide('hero-image-slot-exists', heroImageSlotExists)
       <template #nav-screen-content-before><slot name="nav-screen-content-before" /></template>
       <template #nav-screen-content-after><slot name="nav-screen-content-after" /></template>
     </VPNav>
-    <VPLocalNav :inert="inert?.inertLocalNav" :open="isSidebarOpen" @open-menu="openSidebar" />
+    <VPLocalNav :inert="inertState.inertLocalNav" :open="isSidebarOpen" @open-menu="openSidebar" />
 
-    <VPSidebar :inert="inert?.inertSidebar" :open="isSidebarOpen">
+    <VPSidebar :inert="inertState.inertSidebar" :open="isSidebarOpen">
       <template #sidebar-nav-before><slot name="sidebar-nav-before" /></template>
       <template #sidebar-nav-after><slot name="sidebar-nav-after" /></template>
     </VPSidebar>
 
-    <VPContent :inert="inert?.inertContent">
+    <VPContent :inert="inertState.inertContent">
       <template #page-top><slot name="page-top" /></template>
       <template #page-bottom><slot name="page-bottom" /></template>
 
@@ -77,7 +77,7 @@ provide('hero-image-slot-exists', heroImageSlotExists)
       <template #aside-ads-after><slot name="aside-ads-after" /></template>
     </VPContent>
 
-    <VPFooter :inert="inert?.inertFooter" />
+    <VPFooter :inert="inertState.inertFooter" />
     <slot name="layout-bottom" />
   </div>
   <Content v-else />

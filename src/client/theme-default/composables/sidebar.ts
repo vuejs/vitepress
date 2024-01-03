@@ -19,7 +19,7 @@ import {
 } from '../support/sidebar'
 import { useData } from './data'
 import { hashRef } from './hash'
-import { useInert } from 'vitepress'
+import { inertControls } from './inert'
 
 export interface SidebarControl {
   collapsed: Ref<boolean>
@@ -33,7 +33,6 @@ export interface SidebarControl {
 
 export function useSidebar() {
   const { frontmatter, page, theme } = useData()
-  const inert = useInert()!
   const is960 = useMediaQuery('(min-width: 960px)')
 
   const isOpen = ref(false)
@@ -79,10 +78,10 @@ export function useSidebar() {
     () => [hasSidebar.value, is960.value, isOpen.value],
     ([sb, mq, o]) => {
       if (o) {
-        inert.isSidebarVisible = inert.isSidebarOpen = true
+        inertControls.isSidebarVisible = inertControls.isSidebarOpen = true
       } else {
-        inert.isSidebarOpen = false
-        inert.isSidebarVisible = sb && mq
+        inertControls.isSidebarOpen = false
+        inertControls.isSidebarVisible = sb && mq
       }
     }
   )

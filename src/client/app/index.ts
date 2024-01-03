@@ -17,7 +17,6 @@ import { usePrefetch } from './composables/preFetch'
 import { dataSymbol, initData, siteDataRef, useData } from './data'
 import { RouterSymbol, createRouter, scrollTo, type Router } from './router'
 import { inBrowser, pathToFile } from './utils'
-import { provideInert } from './inert'
 
 function resolveThemeExtends(theme: typeof RawTheme): typeof RawTheme {
   if (theme.extends) {
@@ -73,8 +72,6 @@ export async function createApp() {
 
   const data = initData(router.route)
   app.provide(dataSymbol, data)
-
-  provideInert(app)
 
   // install global components
   app.component('Content', Content)
