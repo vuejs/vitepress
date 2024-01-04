@@ -13,7 +13,6 @@ export async function createServer(
     'development',
     serverOptions.configFile
   )
-  delete serverOptions.configFile
 
   if (serverOptions.base) {
     config.site.base = serverOptions.base

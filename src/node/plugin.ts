@@ -382,7 +382,12 @@ export async function createVitePressPlugin(
         )
 
         try {
-          await resolveUserConfig(siteConfig.root, 'serve', 'development')
+          await resolveUserConfig(
+            siteConfig.root,
+            'serve',
+            'development',
+            configPath ? path.relative(process.cwd(), configPath) : configPath
+          )
         } catch (err: any) {
           return
         }
