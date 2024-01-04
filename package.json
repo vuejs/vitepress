@@ -193,7 +193,7 @@
     "rollup": "^4.9.2",
     "rollup-plugin-dts": "^6.1.0",
     "rollup-plugin-esbuild": "^6.1.0",
-    "rpc-magic-proxy": "^1.0.2",
+    "rpc-magic-proxy": "^1.0.3",
     "semver": "^7.5.4",
     "simple-git-hooks": "^2.9.0",
     "sirv": "^2.0.4",
