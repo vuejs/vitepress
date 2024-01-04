@@ -186,7 +186,7 @@ const KNOWN_EXTENSIONS = new Set(
     'p7c,p7m,p7r,p7s,pbm,pdf,pfx,php,png,ppt,pptx,ps,pub,qt,rar,roff,rtf,' +
     'rtx,ser,sh,spc,svg,swf,t,tar,tcl,tex,texi,texinfo,tgz,tif,tiff,tr,ts,' +
     'tsv,ttf,txt,ua,viv,vivo,vsd,wav,weba,webm,webp,woff,woff2,xbm,xhtml,' +
-    'xls,xlsx,xml,xul,zip'
+    'xls,xlsx,xml,xul,zip,conf'
   ).split(',')
 )
 
