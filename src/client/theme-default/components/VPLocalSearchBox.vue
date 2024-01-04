@@ -62,9 +62,7 @@ interface Result {
 const vitePressData = useData()
 const { activate } = useFocusTrap(el, {
   immediate: true,
-  allowOutsideClick: true,
   clickOutsideDeactivates: true,
-  escapeDeactivates: true
 })
 const { localeIndex, theme } = vitePressData
 const searchIndex = computedAsync(async () =>

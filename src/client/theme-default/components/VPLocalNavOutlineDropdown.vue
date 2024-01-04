@@ -20,13 +20,10 @@ const open = ref(false)
 const { theme } = useData()
 const { activate, deactivate } = useFocusTrap(items, {
   immediate: true,
-  allowOutsideClick: true,
   clickOutsideDeactivates: true,
-  escapeDeactivates: true,
-  delayInitialFocus: true,
   onDeactivate: () => {
     open.value = false
-  },
+  }
 })
 
 const vh = ref(0)
