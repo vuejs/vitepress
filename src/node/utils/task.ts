@@ -1,6 +1,7 @@
 import ora from 'ora'
 import humanizeDuration from 'humanize-duration'
 import c from 'picocolors'
+import { workerMeta } from '../worker'
 
 export const okMark = c.green('✓')
 export const failMark = c.red('✖')
@@ -15,7 +16,8 @@ export type UpdateHandle = (
 let updateHandle: UpdateHandle | null = null
 
 export const updateCurrentTask: UpdateHandle = (...args) => {
-  if (updateHandle) updateHandle(...args)
+  if (workerMeta) workerMeta.updateCurrentTask(...args)
+  else if (updateHandle) updateHandle(...args)
   else if (!process.stderr.isTTY) {
     return
   } else if (args.length === 0) {
@@ -32,6 +34,14 @@ export async function task<T>(
   taskName: string,
   task: (update: UpdateHandle) => Promise<T>
 ): Promise<T> {
+  if (workerMeta) {
+    let retVal: T
+    await workerMeta.task(taskName, async (handle: UpdateHandle) => {
+      retVal = await task(handle)
+    })
+    return retVal!
+  }
+
   const spinner = ora({ discardStdin: false })
   spinner.start(taskName + '...')
 

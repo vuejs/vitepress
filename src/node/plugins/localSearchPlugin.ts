@@ -10,7 +10,8 @@ import {
   resolveSiteDataByRoute,
   slash,
   type DefaultTheme,
-  type MarkdownEnv
+  type MarkdownEnv,
+  type Awaitable
 } from '../shared'
 import { processIncludes } from '../utils/processIncludes'
 import { updateCurrentTask, clearLine } from '../utils/task'
@@ -292,30 +293,17 @@ async function* splitPageIntoSections(
 }
 
 /*=============================== Worker API ===============================*/
-import { registerWorkload, dispatchWork } from '../worker'
+import { registerWorkload } from '../worker'
 import Queue from '../utils/queue'
 
-// Worker proxy (main thread)
-function parallelSplitter(html: string, fileId: string) {
-  const queue = new Queue<PageSplitSection>()
-  dispatchWork(
-    'local-search::split',
-    html,
-    fileId,
-    queue.enqueue.bind(queue),
-    queue.close.bind(queue)
-  )
-  return queue.items()
-}
-
 // Worker proxy (worker thread)
-registerWorkload(
-  'local-search::split',
+const dispatchPageSplitWork = registerWorkload(
+  'local-search:split',
   async (
     html: string,
     fileId: string,
-    _yield: (section: PageSplitSection) => Promise<void>,
-    _end: () => Promise<void>
+    _yield: (section: PageSplitSection) => Awaitable<void>,
+    _end: () => Awaitable<void>
   ) => {
     for await (const section of splitPageIntoSections(html, fileId)) {
       await _yield(section)
@@ -323,3 +311,15 @@ registerWorkload(
     await _end()
   }
 )
+
+// Worker proxy (main thread)
+function parallelSplitter(html: string, fileId: string) {
+  const queue = new Queue<PageSplitSection>()
+  dispatchPageSplitWork(
+    html,
+    fileId,
+    queue.enqueue.bind(queue),
+    queue.close.bind(queue)
+  )
+  return queue.items()
+}

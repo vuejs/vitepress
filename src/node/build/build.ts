@@ -17,20 +17,26 @@ import { generateSitemap } from './generateSitemap'
 import { renderPage, type RenderPageContext } from './render'
 import humanizeDuration from 'humanize-duration'
 import { launchWorkers, waitWorkers } from '../worker'
-import { registerWorkload, updateContext, dispatchWork } from '../worker'
+import { registerWorkload, updateContext } from '../worker'
 
 type RenderFn = (path: string) => Promise<SSGContext>
 
+// Worker: workload functions will be called with `this` context
+export interface WorkerContext {
+  config: SiteConfig
+  options: BuildOptions
+}
+
 // Worker proxy (worker thread)
-registerWorkload(
-  'build::render-page',
-  function workload(
-    this: RenderPageContext & { render: RenderFn },
-    page: string
-  ) {
+const dispatchRenderPageWork = registerWorkload(
+  'build:render-page',
+  function (page: string) {
     return renderPage(this.render, page, this)
   },
-  async function init(this: { renderEntry: string; render: RenderFn }) {
+  async function init(
+    this: WorkerContext &
+      RenderPageContext & { render: RenderFn; renderEntry: string }
+  ) {
     this.render = (await import(this.renderEntry)).render as RenderFn
   }
 )
@@ -46,7 +52,10 @@ export async function build(
   const unlinkVue = linkVue()
 
   if (siteConfig.parallel)
-    launchWorkers(siteConfig.concurrency, { config: siteConfig })
+    launchWorkers(siteConfig.concurrency, {
+      config: siteConfig,
+      options: buildOptions
+    })
 
   if (buildOptions.base) {
     siteConfig.site.base = buildOptions.base
@@ -64,9 +73,9 @@ export async function build(
   }
 
   try {
-    const { clientResult, serverResult, pageToHashMap } = await bundle(
-      siteConfig,
-      buildOptions
+    const { clientResult, serverResult, pageToHashMap } = await task(
+      'building client + server bundles',
+      () => bundle(siteConfig, buildOptions)
     )
 
     if (process.env.BUNDLE_ONLY) {
@@ -148,7 +157,7 @@ export async function build(
       if (siteConfig.parallel) {
         const { config, ...additionalContext } = context
         await updateContext({ renderEntry, ...additionalContext })
-        task = (page) => dispatchWork('build::render-page', page)
+        task = (page) => dispatchRenderPageWork(page)
       } else {
         const { render } = await import(renderEntry)
         task = (page) => renderPage(render, page, context)
