@@ -8,7 +8,15 @@ import { registerWorkload } from '../worker'
 import resolveViteConfig from './viteConfig'
 import { type WorkerContext } from './build'
 
-const dispatchBundleWorkload = registerWorkload('build:bundle', bundleWorkload)
+const dispatchBundleWorkload = registerWorkload(
+  'build:bundle',
+  bundleWorkload,
+  function (this: WorkerContext) {
+    // To make contentLoader happy
+    // @ts-ignore
+    global.VITEPRESS_CONFIG = this.config
+  }
+)
 
 async function bundleWorkload(this: WorkerContext, ssr: boolean) {
   const pageToHashMap = Object.create(null) as Record<string, string>
