@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useWindowScroll } from '@vueuse/core'
-import { ref, watchPostEffect } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useData } from '../composables/data'
 import { useLocalNav } from '../composables/local-nav'
 import { useSidebar } from '../composables/sidebar'
@@ -25,20 +25,25 @@ const { y } = useWindowScroll()
 const { hasSidebar } = useSidebar()
 const { hasLocalNav } = useLocalNav()
 const { frontmatter } = useData()
+const navbar = ref<HTMLElement>()
 
-const classes = ref<Record<string, boolean>>({})
-
-watchPostEffect(() => {
-  classes.value = {
+const classes = computed(() => {
+  return {
+    'top': frontmatter.value.layout === 'home' && y.value === 0,
     'has-sidebar': hasSidebar.value,
     'has-local-nav': hasLocalNav.value,
-    top: frontmatter.value.layout === 'home' && y.value === 0,
+  }
+})
+
+onMounted(() => {
+  if (frontmatter.value.layout === 'home' && y.value !== 0) {
+    navbar.value?.classList.remove('top')
   }
 })
 </script>
 
 <template>
-  <div class="VPNavBar" :class="classes">
+  <div class="VPNavBar" :class="classes" ref="navbar">
     <div class="wrapper">
       <div class="container">
         <div class="title">

@@ -75,13 +75,14 @@ export function useSidebar() {
   const isSidebarEnabled = computed(() => hasSidebar.value && is960.value)
 
   watch(
-    () => [hasSidebar.value, is960.value, isOpen.value],
-    ([sb, mq, o]) => {
+    () => [isSidebarEnabled.value, isOpen.value],
+    ([sidebarEnabled, o]) => {
       if (o) {
-        inertControls.isSidebarVisible = inertControls.isSidebarOpen = true
+        inertControls.isSidebarOpen = true
+        inertControls.isSidebarVisible = true
       } else {
         inertControls.isSidebarOpen = false
-        inertControls.isSidebarVisible = sb && mq
+        inertControls.isSidebarVisible = sidebarEnabled
       }
     },
     { immediate: true }

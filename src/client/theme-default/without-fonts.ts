@@ -23,7 +23,6 @@ export { default as VPTeamPageTitle } from './components/VPTeamPageTitle.vue'
 export { default as VPTeamPageSection } from './components/VPTeamPageSection.vue'
 export { default as VPTeamMembers } from './components/VPTeamMembers.vue'
 
-export { inertControls, inertState } from './composables/inert'
 export { useSidebar } from './composables/sidebar'
 export { useLocalNav } from './composables/local-nav'
 

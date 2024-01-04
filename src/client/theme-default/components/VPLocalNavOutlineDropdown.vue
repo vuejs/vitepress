@@ -1,11 +1,11 @@
 <script setup lang="ts">
+import { useFocusTrap } from '@vueuse/integrations/useFocusTrap'
 import { onContentUpdated } from 'vitepress'
 import { nextTick, ref } from 'vue'
 import { useData } from '../composables/data'
 import { resolveTitle, type MenuItem } from '../composables/outline'
 import VPDocOutlineItem from './VPDocOutlineItem.vue'
 import VPIconChevronRight from './icons/VPIconChevronRight.vue'
-import { useFocusTrap } from '@vueuse/integrations/useFocusTrap'
 
 const props = defineProps<{
   headers: MenuItem[]

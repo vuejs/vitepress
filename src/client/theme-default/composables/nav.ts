@@ -33,7 +33,8 @@ export function useNav() {
       } else {
         inertControls.isScreenOpen = screenOpen
       }
-    }
+    },
+    { immediate: true }
   )
 
   const route = useRoute()
