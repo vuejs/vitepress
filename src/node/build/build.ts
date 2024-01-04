@@ -16,7 +16,7 @@ import { bundle } from './bundle'
 import { generateSitemap } from './generateSitemap'
 import { renderPage, type RenderPageContext } from './render'
 import humanizeDuration from 'humanize-duration'
-import { launchWorkers, waitWorkers } from '../worker'
+import { launchWorkers, stopWorkers } from '../worker'
 import { registerWorkload, updateContext } from '../worker'
 import { createMarkdownRenderer } from '../markdown/markdown'
 import type { DefaultTheme } from '../shared'
@@ -210,7 +210,7 @@ export async function build(
   await siteConfig.buildEnd?.(siteConfig)
   clearCache()
 
-  if (siteConfig.parallel) await waitWorkers('build finish')
+  if (siteConfig.parallel) await stopWorkers('build finish')
 
   const timeEnd = performance.now()
   const duration = humanizeDuration(timeEnd - timeStart, {

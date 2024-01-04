@@ -1,7 +1,7 @@
 import { createServer as createViteServer, type ServerOptions } from 'vite'
 import { resolveConfig } from './config'
 import { createVitePressPlugin } from './plugin'
-import { launchWorkers } from './worker'
+import { launchWorkers, stopWorkers } from './worker'
 
 export async function createServer(
   root: string = process.cwd(),
@@ -25,5 +25,9 @@ export async function createServer(
     server: serverOptions,
     customLogger: config.logger,
     configFile: config.vite?.configFile
-  })
+  }).then((server) =>
+    Object.assign({}, server, {
+      close: () => server.close().then(() => stopWorkers('server.close()'))
+    })
+  )
 }

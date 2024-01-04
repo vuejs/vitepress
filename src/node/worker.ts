@@ -28,22 +28,10 @@ interface WorkerTask {
 // Owned by main thread, will be distributed to workers
 const taskQueue = new Queue<WorkerTask>()
 
-// This function will be exposed to workers via magic proxy
-async function getNextTask() {
-  const task = await taskQueue.dequeue()
-  if (task !== null) {
-    debug('[proxy] got task', task.name, '(', debugArgv(...task.argv), ')')
-  }
-  debugger
-  return task
-}
-
 function dispatchWork(name: string, ...argv: any[]): Promise<any> {
   if (workerMeta) {
-    debug('dispatch', name, '(', debugArgv(...argv), ')')
     return workerMeta.dispatchWork(name, ...argv)
   } else {
-    debug('dispatch', name, '(', debugArgv(...argv), ')')
     return new Promise((resolve, reject) =>
       taskQueue.enqueue({ name, argv, resolve, reject })
     )
@@ -62,6 +50,7 @@ const workers: Array<WorkerWithHooks> = []
 export async function launchWorkers(numWorkers: number, context: Object) {
   const allInitialized: Array<Promise<void>> = []
   const ctx = new RpcContext()
+  const getNextTask = () => taskQueue.dequeue()
   for (let i = 0; i < numWorkers; i++) {
     const workerId = (i + 1).toString().padStart(2, '0')
     const { promise, resolve } = deferPromise()
@@ -98,12 +87,24 @@ export function updateContext(context: Object) {
 }
 
 // Wait for workers to drain the taskQueue and exit.
-export function waitWorkers() {
+export async function stopWorkers(reason: string = 'exit') {
   const allClosed = workers.map(
     (w) => new Promise((res) => w.once('exit', res))
   )
   taskQueue.close()
-  return Promise.all(allClosed)
+  debug('waiting for workers, exiting because', reason)
+  const success = await Promise.any([
+    Promise.all(allClosed).then(() => true),
+    new Promise<false>((res) => setTimeout(() => res(false), 1000))
+  ])
+  if (!success) {
+    console.warn('forcefully terminating workers')
+    for (const w of workers) {
+      try {
+        w.terminate()
+      } catch (e) {}
+    }
+  }
 }
 
 /*============================== Worker Thread ==============================*/
@@ -184,7 +185,6 @@ async function workerMainLoop() {
       reject(e)
     }
   }
-
   ctx.reset()
 }
 
