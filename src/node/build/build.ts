@@ -18,6 +18,8 @@ import { renderPage, type RenderPageContext } from './render'
 import humanizeDuration from 'humanize-duration'
 import { launchWorkers, waitWorkers } from '../worker'
 import { registerWorkload, updateContext } from '../worker'
+import { createMarkdownRenderer } from '../markdown/markdown'
+import type { DefaultTheme } from '../shared'
 
 type RenderFn = (path: string) => Promise<SSGContext>
 
@@ -51,11 +53,30 @@ export async function build(
   const siteConfig = await resolveConfig(root, 'build', 'production')
   const unlinkVue = linkVue()
 
-  if (siteConfig.parallel)
-    launchWorkers(siteConfig.concurrency, {
+  if (siteConfig.parallel) {
+    // Dirty fix: md.render() has side effects on env.
+    // When user provides a custom render function, it will be invoked in the
+    // main thread, but md.render will be called in the worker thread. The side
+    // effects on env will be lost. So we need to make _render a curry function,
+    // and use `md` provided in the main thread
+    const config = siteConfig as SiteConfig<DefaultTheme.Config>
+    const search = config.site?.themeConfig?.search
+    if (search?.provider === 'local' && search?.options?._render) {
+      const md = await createMarkdownRenderer(
+        config.srcDir,
+        config.markdown,
+        config.site.base,
+        config.logger
+      )
+      const _render = search.options._render
+      search.options._render = (src, env, _) => _render(src, env, md)
+    }
+
+    await launchWorkers(siteConfig.concurrency, {
       config: siteConfig,
       options: buildOptions
     })
+  }
 
   if (buildOptions.base) {
     siteConfig.site.base = buildOptions.base
@@ -189,7 +210,7 @@ export async function build(
   await siteConfig.buildEnd?.(siteConfig)
   clearCache()
 
-  if (siteConfig.parallel) await waitWorkers()
+  if (siteConfig.parallel) await waitWorkers('build finish')
 
   const timeEnd = performance.now()
   const duration = humanizeDuration(timeEnd - timeStart, {
