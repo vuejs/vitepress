@@ -24,13 +24,12 @@ async function bundleWorkload(
   ssr: boolean,
   plugins: PluginOption[]
 ) {
-  return build(
-    await resolveViteConfig(ssr, {
-      config: this.config,
-      options: this.options,
-      plugins
-    })
-  ) as Promise<Rollup.RollupOutput>
+  const config = await resolveViteConfig(ssr, {
+    config: this.config,
+    options: this.options,
+    plugins
+  })
+  return build(config) as Promise<Rollup.RollupOutput>
 }
 
 async function bundleMPA(

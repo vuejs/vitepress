@@ -52,7 +52,7 @@ export async function build(
   const unlinkVue = linkVue()
 
   if (shouldUseParallel(siteConfig)) {
-    await launchWorkers(siteConfig.concurrency, {
+    launchWorkers(siteConfig.concurrency, {
       config: siteConfig,
       options: buildOptions
     })
@@ -189,7 +189,7 @@ export async function build(
   await generateSitemap(siteConfig)
   await siteConfig.buildEnd?.(siteConfig)
   clearCache()
-  await stopWorkers('build complete')
+  stopWorkers('build complete')
   const timeEnd = performance.now()
   const duration = humanizeDuration(timeEnd - timeStart, {
     maxDecimalPoints: 2
