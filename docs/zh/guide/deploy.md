@@ -190,9 +190,9 @@ Cache-Control: max-age=31536000,immutable
            uses: actions/deploy-pages@v2
    ```
 
-   ::: warning
-    确保 VitePress 中的 `base` 选项配置正确。有关更多详细信息，请参阅[设置根路径](#setting-a-public-base-path)。
-   :::
+::: warning
+确保 VitePress 中的 `base` 选项配置正确。有关更多详细信息，请参阅[设置根路径](#setting-a-public-base-path)。
+:::
 
 2. 在存储库设置中的“Pages”菜单项下，选择“Build and deployment > Source > GitHub Actions”。
 
