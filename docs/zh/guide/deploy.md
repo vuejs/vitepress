@@ -33,7 +33,7 @@ outline: deep
    $ npm run docs:preview
    ```
 
-  `preview` 命令将启动一个本地静态 Web 服务器`http://localhost:4173`，该服务器以 `.vitepress/dist` 作为源文件。这是检查生产版本在本地环境中是否正常的一种简单方法。
+   `preview` 命令将启动一个本地静态 Web 服务器`http://localhost:4173`，该服务器以 `.vitepress/dist` 作为源文件。这是检查生产版本在本地环境中是否正常的一种简单方法。
 
 3. 可以通过传递 `--port` 作为参数来配置服务器的端口。
 
@@ -45,7 +45,7 @@ outline: deep
    }
    ```
 
-  现在 `docs:preview` 方法将在 `http://localhost:8080` 启动服务器。
+   现在 `docs:preview` 方法将在 `http://localhost:8080` 启动服务器。
 
 ## 设定 public 根目录 {#setting-a-public-base-path}
 
@@ -121,7 +121,7 @@ Cache-Control: max-age=31536000,immutable
 
 1. 在项目的 `.github/workflows` 目录中创建一个名为 `deploy.yml` 的文件，其中包含这样的内容：
 
- ```yaml
+   ```yaml
    # 构建 VitePress 站点并将其部署到 GitHub Pages 的示例工作流程
    #
    name: Deploy VitePress site to Pages
@@ -191,7 +191,7 @@ Cache-Control: max-age=31536000,immutable
    ```
 
    ::: warning
-    确保 VitePress 中的 `base` 选项配置正确。有关更多详细信息，请参阅[设置根路径](#setting-a-public-base-path)。
+   确保 VitePress 中的 `base` 选项配置正确。有关更多详细信息，请参阅[设置根路径](#setting-a-public-base-path)。
    :::
 
 2. 在存储库设置中的“Pages”菜单项下，选择“Build and deployment > Source > GitHub Actions”。
