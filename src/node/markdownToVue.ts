@@ -72,17 +72,10 @@ export async function createMarkdownToVueRenderFn(
     const cacheKey = JSON.stringify({ src, file: fileOrig })
 
     if (isBuild || options.cache !== false) {
-      const metrics = {
-        lookUpTime: performance.now(),
-        keyLength: cacheKey.length
-      }
       const cached = cache.get(cacheKey)
-      metrics.lookUpTime = performance.now() - metrics.lookUpTime
       if (cached) {
-        debug(`[cache hit] ${relativePath} ${JSON.stringify(metrics)}`)
+        debug(`[cache hit] ${relativePath}`)
         return cached
-      } else {
-        debug(`[cache miss] ${relativePath} ${JSON.stringify(metrics)}`)
       }
     }
 
