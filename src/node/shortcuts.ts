@@ -35,7 +35,10 @@ export function bindShortcuts(
     if (input === '\x03' || input === '\x04') {
       await server
         .close()
-        .catch(() => (process.exitCode = 1))
+        .catch((e) => {
+          server.config.logger.error(e)
+          process.exitCode = 1
+        })
         .finally(() => process.exit())
     }
 
