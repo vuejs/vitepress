@@ -1,8 +1,25 @@
 import { Worker, isMainThread, parentPort, workerData } from 'worker_threads'
 import RpcContext, { deferPromise } from 'rpc-magic-proxy'
 import { task, updateCurrentTask } from './utils/task'
+import c from 'picocolors'
 import Queue from './utils/queue'
 import _debug from 'debug'
+import type { SiteConfig } from 'siteConfig'
+
+export type SupportsParallel = 'bundle' | 'render' | 'local-search'
+
+/**
+ * Checks if the given task should be run in parallel.
+ * If task is omitted, checks if any task should be run in parallel.
+ */
+export function shouldUseParallel(config: SiteConfig, task?: SupportsParallel) {
+  const { parallel = false } = config
+  if (task === undefined)
+    return parallel === true || (Array.isArray(parallel) && parallel.length > 0)
+  if (typeof parallel === 'boolean') return parallel
+  if (Array.isArray(parallel)) return parallel.includes(task)
+  throw new TypeError(`Invalid value for config.parallel: ${parallel}`)
+}
 
 let debug = _debug('vitepress:worker:main')
 const WORKER_MAGIC = 'vitepress:worker'
@@ -66,7 +83,7 @@ export async function launchWorkers(numWorkers: number, context: Object) {
         debug: debug.enabled ? debug : null,
         task,
         updateCurrentTask
-      } as typeof workerMeta,
+      },
       initWorkerHooks,
       getNextTask,
       context
@@ -137,7 +154,7 @@ export function registerWorkload<T extends Object, K extends any[], V>(
 
 // Will keep querying next workload from main thread
 async function workerMainLoop() {
-  const ctx = new RpcContext(parentPort!)
+  const ctx = new RpcContext({ preserveThis: true }).bind(parentPort!)
   const {
     workerMeta: _workerMeta,
     initWorkerHooks,
@@ -174,14 +191,17 @@ async function workerMainLoop() {
       try {
         await init.apply(context)
       } catch (e) {
-        console.error(`worker: failed to init workload "${name}": ${e}`)
+        console.error(c.red(`worker: failed to init workload "${name}":`), e)
       }
       el.init = undefined
     }
     try {
       resolve(await main.apply(context, argv))
     } catch (e) {
-      console.error(`worker:${workerMeta.workerId}: task "${name}" error`, e)
+      console.error(
+        c.red(`worker:${workerMeta.workerId} error running task "${name}":`),
+        e
+      )
       reject(e)
     }
   }

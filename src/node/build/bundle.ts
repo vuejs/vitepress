@@ -1,12 +1,13 @@
 import fs from 'fs-extra'
 import path from 'path'
-import { build, type BuildOptions, type Rollup } from 'vite'
+import { build, type BuildOptions, type PluginOption, type Rollup } from 'vite'
 import type { SiteConfig } from '../config'
 import { updateCurrentTask } from '../utils/task'
 import { buildMPAClient } from './buildMPAClient'
-import { registerWorkload } from '../worker'
+import { registerWorkload, shouldUseParallel } from '../worker'
 import resolveViteConfig from './viteConfig'
 import { type WorkerContext } from './build'
+import { createVitePressPlugin } from '../plugin'
 
 const dispatchBundleWorkload = registerWorkload(
   'build:bundle',
@@ -18,18 +19,18 @@ const dispatchBundleWorkload = registerWorkload(
   }
 )
 
-async function bundleWorkload(this: WorkerContext, ssr: boolean) {
-  const pageToHashMap = Object.create(null) as Record<string, string>
-  const clientJSMap = Object.create(null) as Record<string, string>
-  const result = (await build(
+async function bundleWorkload(
+  this: WorkerContext,
+  ssr: boolean,
+  plugins: PluginOption[]
+) {
+  return build(
     await resolveViteConfig(ssr, {
       config: this.config,
       options: this.options,
-      pageToHashMap,
-      clientJSMap
+      plugins
     })
-  )) as Rollup.RollupOutput
-  return { result, pageToHashMap, clientJSMap }
+  ) as Promise<Rollup.RollupOutput>
 }
 
 async function bundleMPA(
@@ -75,27 +76,26 @@ export async function bundle(
   const pageToHashMap = Object.create(null)
   const clientJSMap = Object.create(null)
 
-  const [server, client] = await Promise.all(
-    config.parallel
-      ? [
-          dispatchBundleWorkload(true),
-          config.mpa ? null : dispatchBundleWorkload(false)
-        ]
-      : [
-          bundleWorkload.apply({ config, options }, [true]),
-          config.mpa ? null : bundleWorkload.apply({ config, options }, [false])
-        ]
+  const [serverResult, clientResult] = await Promise.all(
+    [true, false].map(async (ssr) => {
+      if (!ssr && config.mpa) return null
+      const plugins = await createVitePressPlugin(
+        config,
+        ssr,
+        pageToHashMap,
+        clientJSMap
+      )
+      return shouldUseParallel(config, 'bundle')
+        ? dispatchBundleWorkload(ssr, plugins)
+        : bundleWorkload.apply({ config, options }, [ssr, plugins])
+    })
   )
-
-  // Update maps
-  Object.assign(pageToHashMap, server.pageToHashMap, client?.pageToHashMap)
-  Object.assign(clientJSMap, server.clientJSMap, client?.clientJSMap)
 
   return {
     clientResult: config.mpa
-      ? await bundleMPA(config, server.result, clientJSMap)
-      : client?.result!,
-    serverResult: server.result,
+      ? await bundleMPA(config, serverResult!, clientJSMap)
+      : clientResult!,
+    serverResult: serverResult!,
     pageToHashMap
   }
 }

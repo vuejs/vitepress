@@ -16,10 +16,8 @@ import { bundle } from './bundle'
 import { generateSitemap } from './generateSitemap'
 import { renderPage, type RenderPageContext } from './render'
 import humanizeDuration from 'humanize-duration'
-import { launchWorkers, stopWorkers } from '../worker'
+import { launchWorkers, shouldUseParallel, stopWorkers } from '../worker'
 import { registerWorkload, updateContext } from '../worker'
-import { createMarkdownRenderer } from '../markdown/markdown'
-import type { DefaultTheme } from '../shared'
 
 type RenderFn = (path: string) => Promise<SSGContext>
 
@@ -53,25 +51,7 @@ export async function build(
   const siteConfig = await resolveConfig(root, 'build', 'production')
   const unlinkVue = linkVue()
 
-  if (siteConfig.parallel) {
-    // Dirty fix: md.render() has side effects on env.
-    // When user provides a custom render function, it will be invoked in the
-    // main thread, but md.render will be called in the worker thread. The side
-    // effects on env will be lost. So we need to make _render a curry function,
-    // and use `md` provided in the main thread
-    const config = siteConfig as SiteConfig<DefaultTheme.Config>
-    const search = config.site?.themeConfig?.search
-    if (search?.provider === 'local' && search?.options?._render) {
-      const md = await createMarkdownRenderer(
-        config.srcDir,
-        config.markdown,
-        config.site.base,
-        config.logger
-      )
-      const _render = search.options._render
-      search.options._render = (src, env, _) => _render(src, env, md)
-    }
-
+  if (shouldUseParallel(siteConfig)) {
     await launchWorkers(siteConfig.concurrency, {
       config: siteConfig,
       options: buildOptions
@@ -175,7 +155,7 @@ export async function build(
 
       let task: (page: string) => Promise<void>
 
-      if (siteConfig.parallel) {
+      if (shouldUseParallel(siteConfig, 'render')) {
         const { config, ...additionalContext } = context
         await updateContext({ renderEntry, ...additionalContext })
         task = (page) => dispatchRenderPageWork(page)
@@ -209,9 +189,7 @@ export async function build(
   await generateSitemap(siteConfig)
   await siteConfig.buildEnd?.(siteConfig)
   clearCache()
-
-  if (siteConfig.parallel) await stopWorkers('build finish')
-
+  await stopWorkers('build complete')
   const timeEnd = performance.now()
   const duration = humanizeDuration(timeEnd - timeStart, {
     maxDecimalPoints: 2

@@ -4,12 +4,12 @@ import {
   normalizePath,
   type BuildOptions,
   type Rollup,
-  type InlineConfig as ViteInlineConfig
+  type InlineConfig as ViteInlineConfig,
+  type PluginOption
 } from 'vite'
 import { APP_PATH } from '../alias'
 import type { SiteConfig } from '../config'
 import { slash } from '../shared'
-import { createVitePressPlugin } from '../plugin'
 import { escapeRegExp, sanitizeFileName } from '../shared'
 
 // https://github.com/vitejs/vite/blob/d2aa0969ee316000d3b957d7e879f001e85e369e/packages/vite/src/node/plugins/splitVendorChunk.ts#L14
@@ -114,13 +114,11 @@ export default async function resolveViteConfig(
   {
     config,
     options,
-    pageToHashMap,
-    clientJSMap
+    plugins
   }: {
     config: SiteConfig
     options: BuildOptions
-    pageToHashMap: Record<string, string>
-    clientJSMap: Record<string, string>
+    plugins: PluginOption[]
   }
 ): Promise<ViteInlineConfig> {
   return {
@@ -128,12 +126,7 @@ export default async function resolveViteConfig(
     cacheDir: config.cacheDir,
     base: config.site.base,
     logLevel: config.vite?.logLevel ?? 'warn',
-    plugins: await createVitePressPlugin(
-      config,
-      ssr,
-      pageToHashMap,
-      clientJSMap
-    ),
+    plugins,
     ssr: {
       noExternal: ['vitepress', '@docsearch/css']
     },
@@ -144,12 +137,8 @@ export default async function resolveViteConfig(
       ssrEmitAssets: config.mpa,
       // minify with esbuild in MPA mode (for CSS)
       minify: ssr
-        ? config.mpa
-          ? 'esbuild'
-          : false
-        : typeof options.minify === 'boolean'
-          ? options.minify
-          : !process.env.DEBUG,
+        ? config.mpa && 'esbuild'
+        : options.minify ?? !process.env.DEBUG,
       outDir: ssr ? config.tempDir : config.outDir,
       cssCodeSplit: false,
       rollupOptions: {

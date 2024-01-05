@@ -173,9 +173,12 @@ export async function localSearchPlugin(
         siteConfig.pages.length,
         'indexing local search'
       )
+
+    const parallel = shouldUseParallel(siteConfig, 'local-search')
+
     await pMap(
       siteConfig.pages,
-      (page) => indexFile(page, !!siteConfig.parallel).then(updateProgress),
+      (page) => indexFile(page, parallel).then(updateProgress),
       { concurrency }
     )
 
@@ -293,7 +296,7 @@ async function* splitPageIntoSections(
 }
 
 /*=============================== Worker API ===============================*/
-import { registerWorkload } from '../worker'
+import { registerWorkload, shouldUseParallel } from '../worker'
 import Queue from '../utils/queue'
 
 // Worker proxy (worker thread)

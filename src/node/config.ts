@@ -148,7 +148,7 @@ export async function resolveConfig(
       userConfig.concurrency ?? Math.round(cpus().length / 1.5),
       1 // At least one thread required
     ),
-    parallel: userConfig.parallel ?? true
+    parallel: userConfig.parallel ?? ['render', 'local-search']
   }
 
   // to be shared with content loaders

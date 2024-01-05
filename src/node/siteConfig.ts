@@ -13,6 +13,7 @@ import type {
   SSGContext,
   SiteData
 } from './shared'
+import type { SupportsParallel } from './worker'
 
 export type RawConfigExports<ThemeConfig = any> =
   | Awaitable<UserConfig<ThemeConfig>>
@@ -165,9 +166,9 @@ export interface UserConfig<ThemeConfig = any>
    * 2. Parallel SSR Rendering
    * 3. Parallel Local Search Indexing (when using default splitter)
    * @experimental
-   * @default true
+   * @default ['render', 'local-search']
    */
-  parallel?: boolean
+  parallel?: boolean | SupportsParallel[]
 
   /**
    * @experimental
@@ -263,5 +264,5 @@ export interface SiteConfig<ThemeConfig = any>
   logger: Logger
   userConfig: UserConfig
   concurrency: number
-  parallel: boolean
+  parallel: boolean | SupportsParallel[]
 }
