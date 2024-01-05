@@ -1,9 +1,9 @@
 {
   "name": "vitepress",
-  "version": "1.0.0-rc.34",
+  "version": "1.0.0-rc.35",
   "description": "Vite & Vue powered static site generator",
   "type": "module",
-  "packageManager": "pnpm@8.13.1",
+  "packageManager": "pnpm@8.14.0",
   "main": "dist/node/index.js",
   "types": "types/index.d.ts",
   "exports": {
@@ -101,11 +101,11 @@
     "jsdom": "^23.0.1",
     "mark.js": "8.11.1",
     "minisearch": "^6.3.0",
-    "shikiji": "^0.9.16",
-    "shikiji-core": "^0.9.16",
-    "shikiji-transformers": "^0.9.16",
+    "shikiji": "^0.9.17",
+    "shikiji-core": "^0.9.17",
+    "shikiji-transformers": "^0.9.17",
     "vite": "^5.0.10",
-    "vue": "^3.4.3"
+    "vue": "^3.4.4"
   },
   "peerDependencies": {
     "markdown-it-mathjax3": "^4.3.2",
@@ -150,7 +150,7 @@
     "@types/node": "^20.10.6",
     "@types/postcss-prefix-selector": "^1.16.3",
     "@types/prompts": "^2.4.9",
-    "@vue/shared": "^3.4.3",
+    "@vue/shared": "^3.4.4",
     "chokidar": "^3.5.3",
     "compression": "^1.7.4",
     "conventional-changelog-cli": "^4.1.0",
