@@ -587,7 +587,7 @@ It also supports [line highlighting](#line-highlighting-in-code-blocks):
 
 **Output**
 
-<<< @/snippets/snippet.js
+<<< @/snippets/snippet.js{2}
 
 ::: tip
 The value of `@` corresponds to the source root. By default it's the VitePress project root, unless `srcDir` is configured. Alternatively, you can also import from relative paths:
