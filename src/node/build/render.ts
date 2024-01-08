@@ -32,7 +32,7 @@ export interface RenderPageContext {
 
 export async function renderPage(
   render: (path: string) => Promise<SSGContext>,
-  pageNameRaw: string,
+  page: string,
   renderContext: RenderPageContext
 ) {
   const {
@@ -46,7 +46,7 @@ export async function renderPage(
     additionalHeadTags
   } = renderContext
 
-  const page = config.rewrites.inv[pageNameRaw] || pageNameRaw
+  page = config.rewrites.inv[page] ?? page
   const routePath = `/${page.replace(/\.md$/, '')}`
   const siteData = resolveSiteDataByRoute(config.site, routePath)
 
@@ -170,34 +170,37 @@ export async function renderPage(
 
   const dir = pageData.frontmatter.dir || siteData.dir || 'ltr'
 
-  const html = [
-    `<!DOCTYPE html>`,
-    `<html lang="${siteData.lang}" dir="${dir}">`,
-    `<head>`,
-    `<meta charset="utf-8">`,
-    isMetaViewportOverridden(head)
-      ? ''
-      : '<meta name="viewport" content="width=device-width,initial-scale=1">',
-    `<title>${title}</title>`,
-    isDescriptionOverridden(head)
-      ? ''
-      : `<meta name="description" content="${description}">`,
-    `<meta name="generator" content="VitePress v${version}">`,
-    stylesheetLink,
-    metadataScript.inHead ? metadataScript.html : '',
-    appChunk
-      ? `<script type="module" src="${siteData.base}${appChunk.fileName}"></script>`
-      : '',
-    await renderHead(head),
-    `</head>`,
-    `<body>`,
-    teleports?.body || '',
-    `<div id="app">${content}</div>`,
-    metadataScript.inHead ? '' : metadataScript.html,
-    inlinedScript,
-    `</body>`,
-    `</html>`
-  ].join('')
+  const html = `<!DOCTYPE html>
+<html lang="${siteData.lang}" dir="${dir}">
+  <head>
+    <meta charset="utf-8">
+    ${
+      isMetaViewportOverridden(head)
+        ? ''
+        : '<meta name="viewport" content="width=device-width,initial-scale=1">'
+    }
+    <title>${title}</title>
+    ${
+      isDescriptionOverridden(head)
+        ? ''
+        : `<meta name="description" content="${description}">`
+    }
+    <meta name="generator" content="VitePress v${version}">
+    ${stylesheetLink}
+    ${metadataScript.inHead ? metadataScript.html : ''}
+    ${
+      appChunk
+        ? `<script type="module" src="${siteData.base}${appChunk.fileName}"></script>`
+        : ''
+    }
+    ${await renderHead(head)}
+  </head>
+  <body>${teleports?.body || ''}
+    <div id="app">${content}</div>
+    ${metadataScript.inHead ? '' : metadataScript.html}
+    ${inlinedScript}
+  </body>
+</html>`
 
   const htmlFileName = path.join(config.outDir, page.replace(/\.md$/, '.html'))
   await fs.ensureDir(path.dirname(htmlFileName))

@@ -19,6 +19,7 @@ export default class Queue<T> {
   enqueue(data: T) {
     if (this.closed)
       throw new Error(`Failed to enqueue ${data}, queue already closed`)
+    if (data === null) return this.close()
     if (this.pending.length) this.pending.shift()!(data)
     else this.queue.push(data)
   }

@@ -28,7 +28,10 @@ export async function createServer(
     configFile: config.vite?.configFile
   }).then((server) =>
     Object.assign({}, server, {
-      close: () => server.close().then(() => stopWorkers('server.close()'))
+      close() {
+        stopWorkers('server.close()')
+        return server.close()
+      }
     })
   )
 }

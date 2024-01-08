@@ -32,9 +32,11 @@ interface IndexObject {
   titles: string[]
 }
 
+// SSR being `true` or `false` dose not affect the config related to markdown
+// renderer, so it can be reused.
 let md: MarkdownRenderer
 
-let flagAllIndexed = false
+let flagScanned = false
 const taskByLocale = new Map<string, Promise<void>>()
 const filesByLocale = new Map<string, Set<string>>()
 const indexByLocale = new Map<string, MiniSearch<IndexObject>>()
@@ -160,9 +162,10 @@ export async function localSearchPlugin(
     }
   }
 
-  function indexAll() {
-    if (flagAllIndexed) return
-    flagAllIndexed = true
+  // scan all pages, group by locale and create empty indexes accordingly.
+  function scanForIndex() {
+    if (flagScanned) return
+    flagScanned = true
 
     for (const page of siteConfig.pages) {
       const file = path.join(siteConfig.srcDir, page)
@@ -209,7 +212,7 @@ export async function localSearchPlugin(
 
     async load(id) {
       if (id === LOCAL_SEARCH_INDEX_REQUEST_PATH) {
-        indexAll()
+        scanForIndex()
         let records: string[] = []
         for (const [locale] of filesByLocale) {
           records.push(

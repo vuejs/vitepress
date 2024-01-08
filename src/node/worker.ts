@@ -1,5 +1,8 @@
 import { Worker, isMainThread, parentPort, workerData } from 'worker_threads'
-import RPCContext, { deferPromise } from 'rpc-magic-proxy'
+import RPCContext, {
+  deferPromise,
+  type RPCContextOptions
+} from 'rpc-magic-proxy'
 import { task, updateCurrentTask } from './utils/task'
 import c from 'picocolors'
 import Queue from './utils/queue'
@@ -7,8 +10,12 @@ import _debug from 'debug'
 import type { SiteConfig } from 'siteConfig'
 import humanizeDuration from 'humanize-duration'
 
-export type SupportsParallel = 'bundle' | 'render' | 'local-search'
+export type SupportsParallel = 'render' | 'local-search'
 
+const options: RPCContextOptions = {
+  carryThis: false,
+  carrySideEffect: false
+}
 /**
  * Checks if the given task should be run in parallel.
  * If task is omitted, checks if any task should be run in parallel.
@@ -61,7 +68,7 @@ export async function launchWorkers(numWorkers: number, context: Object) {
   debug(`launching ${numWorkers} workers`)
   taskQueue = new Queue<WorkerTask>()
   const allInitialized: Array<Promise<void>> = []
-  const ctx = new RPCContext()
+  const ctx = new RPCContext(options)
   const getNextTask = () => taskQueue?.dequeue() ?? null
   for (let i = 0; i < numWorkers; i++) {
     const workerId = (i + 1).toString().padStart(2, '0')
@@ -99,7 +106,8 @@ export function updateContext(context: Object) {
   return Promise.all(workers.map(({ hooks }) => hooks.updateContext(context)))
 }
 
-// Wait for workers to drain the taskQueue and exit.
+// Wait for workers to finish and exit.
+// Will return immediately if no worker exists.
 export async function stopWorkers(reason: string = 'exit') {
   debug('stopping workers:', reason)
   const allClosed = workers.map((w) =>
@@ -111,10 +119,10 @@ export async function stopWorkers(reason: string = 'exit') {
   taskQueue = null
   const success = await Promise.any([
     Promise.all(allClosed).then(() => true),
-    new Promise<false>((res) => setTimeout(() => res(false), 2000))
+    new Promise<false>((res) => setTimeout(() => res(false), 1500))
   ])
   if (!success) {
-    console.warn('forcefully terminating workers')
+    debug('forcefully terminating workers')
     for (const w of workers) {
       try {
         w.terminate()
@@ -152,7 +160,7 @@ export function registerWorkload<T extends Object, K extends any[], V>(
 
 // Will keep querying next workload from main thread
 async function workerMainLoop() {
-  const ctx = new RPCContext().bind(parentPort! as any)
+  const ctx = new RPCContext(options).bind(parentPort! as any)
   const {
     workerMeta: _workerMeta,
     initWorkerHooks,
