@@ -280,8 +280,8 @@ importers:
         specifier: ^6.1.0
         version: 6.1.0(esbuild@0.19.11)(rollup@4.9.4)(supports-color@9.4.0)
       rpc-magic-proxy:
-        specifier: ^1.0.6
-        version: 1.0.6
+        specifier: ^2.0.5
+        version: 2.0.5
       semver:
         specifier: ^7.5.4
         version: 7.5.4
@@ -302,7 +302,7 @@ importers:
         version: 5.3.3
       vitest:
         specifier: ^1.1.3
-        version: 1.1.3(@types/node@20.10.7)(supports-color@9.4.0)
+        version: 1.1.3(@types/node@20.10.7)(jsdom@23.0.1)(supports-color@9.4.0)
       vue-tsc:
         specifier: ^1.8.27
         version: 1.8.27(typescript@5.3.3)
@@ -1173,7 +1173,7 @@ packages:
   /@types/jsdom@21.1.6:
     resolution: {integrity: sha512-/7kkMsC+/kMs7gAYmmBR9P0vGTnOoLhQhyhQJSlXGI5bzTHp6xdo0TtKWQAsz6pmSAeVqKSbqeyP6hytqr9FDw==}
     dependencies:
-      '@types/node': 20.10.6
+      '@types/node': 20.10.7
       '@types/tough-cookie': 4.0.5
       parse5: 7.1.2
     dev: true
@@ -4024,8 +4024,8 @@ packages:
       '@rollup/rollup-win32-x64-msvc': 4.9.4
       fsevents: 2.3.3
 
-  /rpc-magic-proxy@1.0.6:
-    resolution: {integrity: sha512-0h0zldD09BLpMi/46xuGFsre2h68LVhIIEqjrSq0bAyeP+ph4/BDmoG4ykNFrU7v2Bx4mS3vX/KNZPVlG6JXQQ==}
+  /rpc-magic-proxy@2.0.5:
+    resolution: {integrity: sha512-kWSijJDMMpYdOW79eMLfRQLuKtrTVeV0fsm6s9pjhujD0Z9cD1ZbutT1q4h7PGwr1qEWwcdgMEPgKUiqOX2JoQ==}
     dev: true
 
   /rrweb-cssom@0.6.0:
@@ -4679,7 +4679,7 @@ packages:
     optionalDependencies:
       fsevents: 2.3.3
 
-  /vitest@1.1.3(@types/node@20.10.7)(supports-color@9.4.0):
+  /vitest@1.1.3(@types/node@20.10.7)(jsdom@23.0.1)(supports-color@9.4.0):
     resolution: {integrity: sha512-2l8om1NOkiA90/Y207PsEvJLYygddsOyr81wLQ20Ra8IlLKbyQncWsGZjnbkyG2KwwuTXLQjEPOJuxGMG8qJBQ==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true

@@ -1,5 +1,5 @@
 import { Worker, isMainThread, parentPort, workerData } from 'worker_threads'
-import RpcContext, { deferPromise } from 'rpc-magic-proxy'
+import RPCContext, { deferPromise } from 'rpc-magic-proxy'
 import { task, updateCurrentTask } from './utils/task'
 import c from 'picocolors'
 import Queue from './utils/queue'
@@ -61,11 +61,11 @@ export async function launchWorkers(numWorkers: number, context: Object) {
   debug(`launching ${numWorkers} workers`)
   taskQueue = new Queue<WorkerTask>()
   const allInitialized: Array<Promise<void>> = []
-  const ctx = new RpcContext()
+  const ctx = new RPCContext()
   const getNextTask = () => taskQueue?.dequeue() ?? null
   for (let i = 0; i < numWorkers; i++) {
     const workerId = (i + 1).toString().padStart(2, '0')
-    const { promise, resolve } = deferPromise()
+    const { promise, resolve } = deferPromise<void>()
     const initWorkerHooks = (hooks: WorkerInstance['hooks']) => {
       Object.assign(worker, { workerId, hooks })
       resolve()
@@ -87,7 +87,7 @@ export async function launchWorkers(numWorkers: number, context: Object) {
     const worker = new Worker(new URL(import.meta.url), {
       workerData: { [WORKER_MAGIC]: payload }
     }) as WorkerInstance
-    ctx.bind(worker)
+    ctx.bind(worker as any)
     workers.push(worker)
     allInitialized.push(promise)
     worker.on('error', console.error)
@@ -152,7 +152,7 @@ export function registerWorkload<T extends Object, K extends any[], V>(
 
 // Will keep querying next workload from main thread
 async function workerMainLoop() {
-  const ctx = new RpcContext({ preserveThis: true }).bind(parentPort!)
+  const ctx = new RPCContext().bind(parentPort! as any)
   const {
     workerMeta: _workerMeta,
     initWorkerHooks,
@@ -163,7 +163,7 @@ async function workerMainLoop() {
     getNextTask: () => Promise<WorkerTask | null>
     initWorkerHooks: (hooks: Object) => Promise<void>
     context: Object
-  } = ctx.deserialize(workerData[WORKER_MAGIC])
+  } = ctx.deserialize(workerData[WORKER_MAGIC]) as any
   // Set up magic proxy to main thread dispatchWork
   workerMeta = _workerMeta!
   if (workerMeta.debug) debug = workerMeta.debug
