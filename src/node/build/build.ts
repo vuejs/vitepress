@@ -74,16 +74,16 @@ export async function build(
   }
 
   try {
-    const { clientResult, serverResult, pageToHashMap } = await task(
-      'building client + server bundles',
-      () => bundle(siteConfig, buildOptions)
+    const { clientResult, serverResult, pageToHashMap } = await bundle(
+      siteConfig,
+      buildOptions
     )
 
     if (process.env.BUNDLE_ONLY) {
       return
     }
 
-    await task('rendering pages', async (updateProgress) => {
+    await task('rendering pages', async () => {
       const renderEntry =
         pathToFileURL(path.join(siteConfig.tempDir, 'app.js')).toString() +
         '?t=' +
@@ -165,14 +165,9 @@ export async function build(
       }
 
       const pages = ['404.md', ...siteConfig.pages]
-      let count_done = 0
-      await pMap(
-        pages,
-        (page) => task(page).then(updateProgress(++count_done, pages.length)),
-        {
-          concurrency: siteConfig.concurrency
-        }
-      )
+      await pMap(pages, task, {
+        concurrency: siteConfig.concurrency
+      })
     })
 
     // emit page hash map for the case where a user session is open

@@ -3,7 +3,6 @@ import RPCContext, {
   deferPromise,
   type RPCContextOptions
 } from 'rpc-magic-proxy'
-import { task, updateCurrentTask } from './utils/task'
 import c from 'picocolors'
 import Queue from './utils/queue'
 import _debug from 'debug'
@@ -83,9 +82,7 @@ export async function launchWorkers(numWorkers: number, context: Object) {
         workerId,
         dispatchWork,
         // Save some RPC overhead when debugger is not active
-        debug: debug.enabled ? debug : null,
-        task,
-        updateCurrentTask
+        debug: debug.enabled ? debug : null
       },
       initWorkerHooks,
       getNextTask,
@@ -137,8 +134,6 @@ export let workerMeta: {
   workerId: string
   dispatchWork: typeof dispatchWork
   debug: typeof debug
-  task: typeof task
-  updateCurrentTask: typeof updateCurrentTask
 } | null = null
 
 const registry: Map<string, { main: Function; init?: Function }> = new Map()

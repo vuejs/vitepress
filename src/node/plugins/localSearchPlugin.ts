@@ -17,7 +17,6 @@ import {
   type Awaitable
 } from '../shared'
 import { processIncludes } from '../utils/processIncludes'
-import { updateCurrentTask, clearLine } from '../utils/task'
 import type { PageSplitSection } from '../../../types/local-search'
 
 const debug = _debug('vitepress:local-search')
@@ -176,12 +175,10 @@ export async function localSearchPlugin(
   }
 
   async function indexLocale(locale: string) {
-    let numIndexed = 0
-    const update = () =>
-      updateCurrentTask(++numIndexed, files.length, `🔍️ indexing ${locale}`)
     const files = [...filesByLocale.get(locale)!]
-    const task = (f: string) => indexFile(f, parallel).then(update)
-    await pMap(files, task, { concurrency: siteConfig.concurrency })
+    await pMap(files, (f) => indexFile(f, parallel), {
+      concurrency: siteConfig.concurrency
+    })
   }
 
   const parallel = shouldUseParallel(siteConfig, 'local-search')
@@ -264,7 +261,7 @@ async function* splitPageIntoSections(
       // Skip duplicate id, content will be treated as normal text
       if (existingIdSet.has(id)) {
         console.error(
-          `${clearLine}⚠️  Duplicate heading id "${id}" in ${pageName}`
+          `\x1b[2K\r  ⚠️  Duplicate heading id "${id}" in ${pageName}`
         )
         continue
       }
