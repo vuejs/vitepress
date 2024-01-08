@@ -15,7 +15,6 @@ import { task } from '../utils/task'
 import { bundle } from './bundle'
 import { generateSitemap } from './generateSitemap'
 import { renderPage, type RenderPageContext } from './render'
-import humanizeDuration from 'humanize-duration'
 import { launchWorkers, shouldUseParallel, stopWorkers } from '../worker'
 import { registerWorkload, updateContext } from '../worker'
 
@@ -45,7 +44,7 @@ export async function build(
   root?: string,
   buildOptions: BuildOptions & { base?: string; mpa?: string } = {}
 ) {
-  const timeStart = performance.now()
+  const start = Date.now()
 
   process.env.NODE_ENV = 'production'
   const siteConfig = await resolveConfig(root, 'build', 'production')
@@ -185,11 +184,9 @@ export async function build(
   await siteConfig.buildEnd?.(siteConfig)
   clearCache()
   stopWorkers('build complete')
-  const timeEnd = performance.now()
-  const duration = humanizeDuration(timeEnd - timeStart, {
-    maxDecimalPoints: 2
-  })
-  siteConfig.logger.info(`build complete in ${duration}.`)
+  siteConfig.logger.info(
+    `build complete in ${((Date.now() - start) / 1000).toFixed(2)}s.`
+  )
 }
 
 function linkVue() {

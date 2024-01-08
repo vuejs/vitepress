@@ -7,7 +7,6 @@ import c from 'picocolors'
 import Queue from './utils/queue'
 import _debug from 'debug'
 import type { SiteConfig } from 'siteConfig'
-import humanizeDuration from 'humanize-duration'
 
 export type SupportsParallel = 'render' | 'local-search'
 
@@ -213,10 +212,8 @@ async function workerMainLoop() {
     }
   }
   ctx.reset()
-  const duration = humanizeDuration(workTime, {
-    maxDecimalPoints: 2
-  })
-  await debug(`stopped - total workload: ${duration}`)
+  const duration = (workTime / 1000).toFixed(2)
+  await debug(`stopped - total workload: ${duration}s`)
 }
 
 if (!isMainThread && workerData?.[WORKER_MAGIC])
