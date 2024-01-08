@@ -38,13 +38,13 @@ const Theme = resolveThemeExtends(RawTheme)
 const VitePressApp = defineComponent({
   name: 'VitePressApp',
   setup() {
-    const { site } = useData()
+    const { site, lang, dir } = useData()
 
     // change the language on the HTML element based on the current lang
     onMounted(() => {
       watchEffect(() => {
-        document.documentElement.lang = site.value.lang
-        document.documentElement.dir = site.value.dir
+        document.documentElement.lang = lang.value
+        document.documentElement.dir = dir.value
       })
     })
 

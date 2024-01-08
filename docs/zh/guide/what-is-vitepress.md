@@ -12,7 +12,7 @@ VitePress 是一个[静态站点生成器](https://en.wikipedia.org/wiki/Static_
 
 - **文档**
 
-  VitePress 附带一个专为技术文档设计的默认主题，尤其是那些需要嵌入交互式演示的主题。它支持你正在阅读的这个页面，以及 [Vite](https://vitejs.dev/)、[Pinia](https://pinia.vuejs.org/)、[VueUse](https://vueuse.org/)、[Mermaid](https://mermaid.js.org/)、[Wikimedia Codex](https://doc.wikimedia.org/codex/latest/) 等文档。
+  VitePress 附带一个专为技术文档设计的默认主题。它为您现在正在阅读的这个页面以及 [Vite](https://vitejs.dev/)、[Rollup](https://rollupjs.org/)、[Pinia](https://pinia.vuejs.org/)、[VueUse](https://vueuse.org/)、[Vitest](https://vitest.dev/)、[D3](https://d3js.org/)、[UnoCSS](https://unocss.dev/)、[Iconify](https://iconify.design/) [等](https://www.vuetelescope.com/explore?framework.slug=vitepress)文档提供了支持。
 
   [Vue.js 官方文档](https://vuejs.org/)也是基于 VitePress 的。但是为了可以在不同的翻译文档之间共享，它自定义了自己的主题
 

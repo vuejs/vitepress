@@ -329,7 +329,7 @@ function shouldHotReload(payload: PageDataPayload): boolean {
 }
 
 function updateHistory(href: string) {
-  if (inBrowser && href !== normalizeHref(location.href)) {
+  if (inBrowser && normalizeHref(href) !== normalizeHref(location.href)) {
     // save scroll position before changing url
     history.replaceState({ scrollPosition: window.scrollY }, document.title)
     history.pushState(null, '', href)
