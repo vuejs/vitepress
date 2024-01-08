@@ -5,7 +5,10 @@ import pMap from 'p-map'
 import path from 'path'
 import type { Plugin, ViteDevServer } from 'vite'
 import type { SiteConfig } from '../config'
-import { createMarkdownRenderer } from '../markdown/markdown'
+import {
+  createMarkdownRenderer,
+  type MarkdownRenderer
+} from '../markdown/markdown'
 import {
   resolveSiteDataByRoute,
   slash,
@@ -29,6 +32,26 @@ interface IndexObject {
   titles: string[]
 }
 
+let md: MarkdownRenderer
+
+let flagAllIndexed = false
+const taskByLocale = new Map<string, Promise<void>>()
+const filesByLocale = new Map<string, Set<string>>()
+const indexByLocale = new Map<string, MiniSearch<IndexObject>>()
+
+function getIndexByLocale(locale: string, options?: any) {
+  let index = indexByLocale.get(locale)
+  if (!index) {
+    index = new MiniSearch<IndexObject>({
+      fields: ['title', 'titles', 'text'],
+      storeFields: ['title', 'titles'],
+      ...options
+    })
+    indexByLocale.set(locale, index)
+  }
+  return index
+}
+
 export async function localSearchPlugin(
   siteConfig: SiteConfig<DefaultTheme.Config>
 ): Promise<Plugin> {
@@ -48,7 +71,7 @@ export async function localSearchPlugin(
     }
   }
 
-  const md = await createMarkdownRenderer(
+  md ??= await createMarkdownRenderer(
     siteConfig.srcDir,
     siteConfig.markdown,
     siteConfig.site.base,
@@ -69,21 +92,6 @@ export async function localSearchPlugin(
       const html = md.render(md_src, env)
       return env.frontmatter?.search === false ? '' : html
     }
-  }
-
-  const indexByLocales = new Map<string, MiniSearch<IndexObject>>()
-
-  function getIndexByLocale(locale: string) {
-    let index = indexByLocales.get(locale)
-    if (!index) {
-      index = new MiniSearch<IndexObject>({
-        fields: ['title', 'titles', 'text'],
-        storeFields: ['title', 'titles'],
-        ...options.miniSearch?.options
-      })
-      indexByLocales.set(locale, index)
-    }
-    return index
   }
 
   function getLocaleForPath(file: string) {
@@ -125,21 +133,10 @@ export async function localSearchPlugin(
     return id
   }
 
-  function scanForLocales() {
-    for (const page of siteConfig.pages) {
-      const file = path.join(siteConfig.srcDir, page)
-      const locale = getLocaleForPath(file)
-      // dry-fetch the index for this locale
-      getIndexByLocale(locale)
-    }
-  }
-
-  async function indexFile(page: string, parallel: boolean = false) {
-    const file = path.join(siteConfig.srcDir, page)
-    // get file metadata
+  async function indexFile(file: string, parallel: boolean = false) {
     const fileId = getDocId(file)
     const locale = getLocaleForPath(file)
-    const index = getIndexByLocale(locale)
+    const index = getIndexByLocale(locale, options.miniSearch?.options)
     // retrieve file and split into "sections"
     const html = await render(file)
     const sections =
@@ -163,29 +160,28 @@ export async function localSearchPlugin(
     }
   }
 
-  async function indexAll() {
-    const concurrency = siteConfig.concurrency
-    let numIndexed = 0
+  function indexAll() {
+    if (flagAllIndexed) return
+    flagAllIndexed = true
 
-    const updateProgress = () =>
-      updateCurrentTask(
-        ++numIndexed,
-        siteConfig.pages.length,
-        'indexing local search'
-      )
-
-    const parallel = shouldUseParallel(siteConfig, 'local-search')
-
-    await pMap(
-      siteConfig.pages,
-      (page) => indexFile(page, parallel).then(updateProgress),
-      { concurrency }
-    )
-
-    updateCurrentTask()
+    for (const page of siteConfig.pages) {
+      const file = path.join(siteConfig.srcDir, page)
+      const locale = getLocaleForPath(file)
+      if (!filesByLocale.has(locale)) filesByLocale.set(locale, new Set())
+      filesByLocale.get(locale)!.add(file)
+    }
   }
 
-  let indexAllPromise: Promise<void> | undefined
+  async function indexLocale(locale: string) {
+    let numIndexed = 0
+    const update = () =>
+      updateCurrentTask(++numIndexed, files.length, `🔍️ indexing ${locale}`)
+    const files = [...filesByLocale.get(locale)!]
+    const task = (f: string) => indexFile(f, parallel).then(update)
+    await pMap(files, task, { concurrency: siteConfig.concurrency })
+  }
+
+  const parallel = shouldUseParallel(siteConfig, 'local-search')
 
   return {
     name: 'vitepress:local-search',
@@ -213,28 +209,28 @@ export async function localSearchPlugin(
 
     async load(id) {
       if (id === LOCAL_SEARCH_INDEX_REQUEST_PATH) {
-        scanForLocales()
+        indexAll()
         let records: string[] = []
-        for (const [locale] of indexByLocales) {
+        for (const [locale] of filesByLocale) {
           records.push(
             `${JSON.stringify(
               locale
-            )}: () => import('${LOCAL_SEARCH_INDEX_ID}-${locale}')`
+            )}: () => import('${LOCAL_SEARCH_INDEX_ID}:${locale}')`
           )
         }
         return `export default {${records.join(',')}}`
       } else if (id.startsWith(LOCAL_SEARCH_INDEX_REQUEST_PATH)) {
         const locale = id.slice(LOCAL_SEARCH_INDEX_REQUEST_PATH.length + 1)
-        await (indexAllPromise ??= indexAll())
+        await ((taskByLocale as any)[locale] ??= indexLocale(locale))
         return `export default ${JSON.stringify(
-          JSON.stringify(indexByLocales.get(locale) ?? {})
+          JSON.stringify(indexByLocale.get(locale) ?? {})
         )}`
       }
     },
 
     async handleHotUpdate({ file }) {
       if (file.endsWith('.md')) {
-        await indexFile(file)
+        await indexFile(file, parallel)
         debug('🔍️ Updated', file)
         onIndexUpdated()
       }
