@@ -214,7 +214,7 @@ export default {
   - `nav-screen-content-before`
   - `nav-screen-content-after`
 
-## Using View Transitions API
+## 使用视图过渡 API
 
 ### 关于外观切换 {#on-appearance-toggle}
 
