@@ -1,3 +1,11 @@
+# [1.0.0-rc.36](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.35...v1.0.0-rc.36) (2024-1-8)
+
+### Bug Fixes
+
+- avoid pushing to history when clicking on the current link ([#3405](https://github.com/vuejs/vitepress/issues/3405)) ([d279e63](https://github.com/vuejs/vitepress/commit/d279e63cb4d417420cdc3fb3e6e03c96b777289f))
+- **theme/regression:** external link icon not working ([c236570](https://github.com/vuejs/vitepress/commit/c236570f2806fe76bbc6a69568cf64ed5a3fc2ce)), closes [#3424](https://github.com/vuejs/vitepress/issues/3424)
+- **theme/regression:** inter getting bundled even importing without-fonts entry ([#3412](https://github.com/vuejs/vitepress/issues/3412)) ([b03fb83](https://github.com/vuejs/vitepress/commit/b03fb83a4e67d92a865d90908ccbde3dd0f97373))
+
 # [1.0.0-rc.35](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.34...v1.0.0-rc.35) (2024-1-3)
 
 ### Bug Fixes

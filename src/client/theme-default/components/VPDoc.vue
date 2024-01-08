@@ -190,9 +190,4 @@ const pageName = computed(() =>
 .VPDoc.has-aside .content-container {
   max-width: 688px;
 }
-
-.external-link-icon-enabled :is(.vp-doc a[href*='://'], .vp-doc a[target='_blank'])::after {
-  content: '';
-  color: currentColor;
-}
 </style>

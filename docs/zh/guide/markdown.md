@@ -593,7 +593,7 @@ const line4 = 'This is line 4'
 
 **输出**
 
-<<< @/snippets/snippet.js
+<<< @/snippets/snippet.js{2}
 
 ::: tip
 `@` 的值对应于源代码根目录，默认情况下是 VitePress 项目根目录，除非配置了 `srcDir`。或者也可以从相对路径导入：
