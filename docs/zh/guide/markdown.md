@@ -1,6 +1,6 @@
-# Markdown 拓展 {#markdown-extensions}
+# Markdown 扩展 {#markdown-extensions}
 
-VitePress 带有内置的 Markdown 拓展。
+VitePress 带有内置的 Markdown 扩展。
 
 ## 标题锚点 {#header-anchors}
 
@@ -58,7 +58,7 @@ VitePress 带有内置的 Markdown 拓展。
 
 外部链接带有 `target="_blank" rel="noreferrer"`：
 
-- [vuejs.org](https://vuejs.org)
+- [vuejs.org](https://cn.vuejs.org)
 - [VitePress on GitHub](https://github.com/vuejs/vitepress)
 
 ## frontmatter {#frontmatter}
@@ -634,7 +634,7 @@ const line4 = 'This is line 4'
 <<< @/snippets/snippet.cs{1,2,4-6 c#:line-numbers}
 ```
 
-如果无法从文件拓展名推测出源语言，这将会很有帮助
+如果无法从文件扩展名推测出源语言，这将会很有帮助
 
 ## 代码组 {#code-groups}
 
@@ -870,7 +870,7 @@ export default {
 
 ## 高级配置 {#advanced-configuration}
 
-VitePress 使用 [markdown-it](https://github.com/markdown-it/markdown-it) 作为 Markdown 渲染器。上面提到的很多拓展功能都是通过自定义插件实现的。可以使用 `.vitepress/config.js` 中的 `markdown` 选项来进一步自定义 `markdown-it` 实例。
+VitePress 使用 [markdown-it](https://github.com/markdown-it/markdown-it) 作为 Markdown 渲染器。上面提到的很多扩展功能都是通过自定义插件实现的。可以使用 `.vitepress/config.js` 中的 `markdown` 选项来进一步自定义 `markdown-it` 实例。
 
 ```js
 import { defineConfig } from 'vitepress'

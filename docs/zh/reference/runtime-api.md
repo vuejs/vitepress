@@ -2,9 +2,9 @@
 
 VitePress 提供了几个内置的 API 来让你访问应用程序数据。VitePress 还附带了一些可以在全局范围内使用的内置组件。
 
-辅助函数可从 `vitepress` 全局导入，通常用于自定义主题 Vue 组件。但是，它们也可以在 `.md` 页面内使用，因为 markdown 文件被编译成 Vue [单文件组件](https://vuejs.org/guide/scaling-up/sfc.html)。
+辅助函数可从 `vitepress` 全局导入，通常用于自定义主题 Vue 组件。但是，它们也可以在 `.md` 页面内使用，因为 markdown 文件被编译成 Vue [单文件组件](https://cn.vuejs.org/guide/scaling-up/sfc.html)。
 
-以 `use*` 开头的方法表示它是一个 [Vue 3 Composition API](https://vuejs.org/guide/introduction.html#composition-api) 函数（“Composable(可组合)”），只能在 `setup()` 或 `<script setup>` 中使用。
+以 `use*` 开头的方法表示它是一个 [Vue 3 组合式 API](https://cn.vuejs.org/guide/introduction.html#composition-api) 函数，只能在 `setup()` 或 `<script setup>` 中使用。
 
 ## `useData` <Badge type="info" text="composable" />
 
