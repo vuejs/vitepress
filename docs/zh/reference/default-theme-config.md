@@ -404,21 +404,21 @@ export interface DocFooter {
 - 类型：`string`
 - 默认值：`Appearance`
 
-用于自定义暗模式开关标签，该标签仅在移动端视图中显示。
+用于自定义深色模式开关标签，该标签仅在移动端视图中显示。
 
 ## lightModeSwitchTitle
 
 - 类型：`string`
 - 默认值：`Switch to light theme`
 
-用于自定义悬停时显示的亮模式开关标题。
+用于自定义悬停时显示的浅色模式开关标题。
 
 ## darkModeSwitchTitle
 
 - 类型：`string`
 - 默认值：`Switch to dark theme`
 
-用于自定义悬停时显示的暗模式开关标题。
+用于自定义悬停时显示的深色模式开关标题。
 
 ## sidebarMenuLabel
 
