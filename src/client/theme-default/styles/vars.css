@@ -423,7 +423,7 @@
   --vp-input-border-color: var(--vp-c-border);
   --vp-input-bg-color: var(--vp-c-bg-alt);
 
-  --vp-input-switch-bg-color: var(--vp-c-gray-soft);
+  --vp-input-switch-bg-color: var(--vp-c-default-soft);
 }
 
 /**
