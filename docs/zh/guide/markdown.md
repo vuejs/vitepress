@@ -245,7 +245,7 @@ Wraps in a <div class="vp-raw">
   $ npm add -D postcss
   ```
 
-- 创建 `docs/.postcssrc.cjs` 并将以下内容
+- 创建 `docs/.postcssrc.cjs` 文件并将以下内容添加到其中：
 
   ```js
   import { postcssIsolateStyles } from 'vitepress'
@@ -255,7 +255,7 @@ Wraps in a <div class="vp-raw">
   }
   ```
 
-  It uses [`postcss-prefix-selector`](https://github.com/postcss/postcss-load-config) under the hood. You can pass its options like this:
+  它在底层使用 [`postcss-prefix-selector`](https://github.com/postcss/postcss-load-config)。你可以像这样传递它的选项：
 
   ```js
   postcssIsolateStyles({
