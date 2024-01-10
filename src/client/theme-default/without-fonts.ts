@@ -11,6 +11,7 @@ import type { Theme } from 'vitepress'
 import VPBadge from './components/VPBadge.vue'
 import Layout from './Layout.vue'
 
+export { default as VPBadge } from './components/VPBadge.vue'
 export { default as VPImage } from './components/VPImage.vue'
 export { default as VPButton } from './components/VPButton.vue'
 export { default as VPHomeHero } from './components/VPHomeHero.vue'
