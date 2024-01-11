@@ -162,24 +162,20 @@ export async function highlight(
         },
         {
           name: 'vitepress:empty-line',
-          pre(hast) {
-            hast.children.forEach((code) => {
-              if (code.type === 'element' && code.tagName === 'code') {
-                code.children.forEach((span) => {
-                  if (
-                    span.type === 'element' &&
-                    span.tagName === 'span' &&
-                    Array.isArray(span.properties.class) &&
-                    span.properties.class.includes('line') &&
-                    span.children.length === 0
-                  ) {
-                    span.children.push({
-                      type: 'element',
-                      tagName: 'wbr',
-                      properties: {},
-                      children: []
-                    })
-                  }
+          code(hast) {
+            hast.children.forEach((span) => {
+              if (
+                span.type === 'element' &&
+                span.tagName === 'span' &&
+                Array.isArray(span.properties.class) &&
+                span.properties.class.includes('line') &&
+                span.children.length === 0
+              ) {
+                span.children.push({
+                  type: 'element',
+                  tagName: 'wbr',
+                  properties: {},
+                  children: []
                 })
               }
             })
