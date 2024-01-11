@@ -150,8 +150,8 @@ export async function localSearchPlugin(
     const locale = getLocaleForPath(file)
     const index = getIndexByLocale(locale)
     const sidebar = getSidebar(
-      siteConfig.site?.locales[locale].themeConfig?.sidebar ??
-        siteConfig.site.themeConfig.sidebar,
+      siteConfig.site?.locales[locale]?.themeConfig?.sidebar ??
+        siteConfig.site?.themeConfig.sidebar,
       fileId
     )
     const parentTitles = getParentTitles(sidebar, fileId)
