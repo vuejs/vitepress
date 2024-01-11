@@ -16,10 +16,6 @@ export function throttleAndDebounce(fn: () => void, delay: number): () => void {
   }
 }
 
-export function ensureStartingSlash(path: string): string {
-  return /^\//.test(path) ? path : `/${path}`
-}
-
 export function normalizeLink(url: string): string {
   const { pathname, search, hash, protocol } = new URL(url, 'http://a.com')
 

@@ -9,8 +9,10 @@ import { createMarkdownRenderer } from '../markdown/markdown'
 import {
   resolveSiteDataByRoute,
   slash,
+  getSidebar,
   type DefaultTheme,
-  type MarkdownEnv
+  type MarkdownEnv,
+  type SidebarItem
 } from '../shared'
 import { processIncludes } from '../utils/processIncludes'
 
@@ -122,12 +124,37 @@ export async function localSearchPlugin(
     return id
   }
 
+  function getParentTitles(sidebar: SidebarItem[], fileId: string) {
+    const titles: string[] = [],
+      path: string[] = []
+    const backtrack = (sidebar: SidebarItem[]) => {
+      if (!sidebar) return
+      for (let i = 0; i < sidebar?.length; i++) {
+        if (sidebar[i].link === fileId) {
+          titles.push(...path)
+          return
+        }
+        path.push(sidebar[i].text!)
+        backtrack(sidebar[i].items!)
+        path.pop()
+      }
+    }
+    backtrack(sidebar)
+    return titles
+  }
+
   async function indexFile(page: string) {
     const file = path.join(siteConfig.srcDir, page)
     // get file metadata
     const fileId = getDocId(file)
     const locale = getLocaleForPath(file)
     const index = getIndexByLocale(locale)
+    const sidebar = getSidebar(
+      siteConfig.site?.locales[locale].themeConfig?.sidebar ??
+        siteConfig.site.themeConfig.sidebar,
+      fileId
+    )
+    const parentTitles = getParentTitles(sidebar, fileId)
     // retrieve file and split into "sections"
     const html = await render(file)
     const sections =
@@ -138,7 +165,10 @@ export async function localSearchPlugin(
     // add sections to the locale index
     for await (const section of sections) {
       if (!section || !(section.text || section.titles)) break
-      const { anchor, text, titles } = section
+      let { anchor, text, titles } = section
+      if (parentTitles.length) {
+        titles = [...parentTitles, ...titles]
+      }
       const id = anchor ? [fileId, anchor].join('#') : fileId
       index.add({
         id,

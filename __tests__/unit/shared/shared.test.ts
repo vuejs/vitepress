@@ -1,4 +1,5 @@
-import { getSidebar, hasActiveLink } from 'client/theme-default/support/sidebar'
+import { getSidebar, ensureStartingSlash } from 'shared/shared'
+import { hasActiveLink } from 'client/theme-default/support/sidebar'
 
 describe('client/theme-default/support/sidebar', () => {
   describe('getSidebar', () => {
@@ -140,6 +141,17 @@ describe('client/theme-default/support/sidebar', () => {
       expect(hasActiveLink('active-1', item)).toBe(true)
       expect(hasActiveLink('active-3', item)).toBe(true)
       expect(hasActiveLink('inactive', item)).toBe(false)
+    })
+  })
+})
+
+describe('client/theme-default/utils', () => {
+  describe('ensureStartingSlash', () => {
+    test('it adds slash to the beginning of the given path', () => {
+      expect(ensureStartingSlash('path')).toBe('/path')
+      expect(ensureStartingSlash('path/nested')).toBe('/path/nested')
+      expect(ensureStartingSlash('/path')).toBe('/path')
+      expect(ensureStartingSlash('/path/nested')).toBe('/path/nested')
     })
   })
 })

@@ -1,7 +1,7 @@
 import { computed } from 'vue'
 import { useData } from './data'
-import { isActive } from '../../shared'
-import { getSidebar, getFlatSideBarLinks } from '../support/sidebar'
+import { isActive, getSidebar } from '../../shared'
+import { getFlatSideBarLinks } from '../support/sidebar'
 
 export function usePrevNext() {
   const { page, theme, frontmatter } = useData()
