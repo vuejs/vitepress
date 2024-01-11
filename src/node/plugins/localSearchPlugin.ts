@@ -127,7 +127,7 @@ export async function localSearchPlugin(
   function getParentTitles(sidebar: SidebarItem[], fileId: string) {
     const titles: string[] = [],
       path: string[] = []
-    const backtrack = (sidebar: SidebarItem[]) => {
+    const backtrack = (sidebar: SidebarItem[] | undefined) => {
       if (!sidebar) return
       for (let i = 0; i < sidebar?.length; i++) {
         if (sidebar[i].link === fileId) {
@@ -135,7 +135,7 @@ export async function localSearchPlugin(
           return
         }
         path.push(sidebar[i].text!)
-        backtrack(sidebar[i].items!)
+        backtrack(sidebar[i].items)
         path.pop()
       }
     }
