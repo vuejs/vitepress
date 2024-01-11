@@ -166,9 +166,7 @@ export async function localSearchPlugin(
     for await (const section of sections) {
       if (!section || !(section.text || section.titles)) break
       let { anchor, text, titles } = section
-      if (parentTitles.length) {
-        titles = [...parentTitles, ...titles]
-      }
+      titles = [...parentTitles, ...titles]
       const id = anchor ? [fileId, anchor].join('#') : fileId
       index.add({
         id,
