@@ -154,7 +154,7 @@ export async function localSearchPlugin(
         siteConfig.site?.themeConfig.sidebar,
       fileId
     )
-    const parentTitles = getParentTitles(sidebar, fileId)
+    const parentTitles = getParentTitles(sidebar, fileId.replace(/\.html$/, ''))
     // retrieve file and split into "sections"
     const html = await render(file)
     const sections =
