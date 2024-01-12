@@ -6,9 +6,12 @@
   },
   "files": [
     {
+      "location": ".vitepress/config/{en,zh}.ts",
+      "pattern": ".vitepress/config/@lang.ts"
+    },
+    {
       "location": "**/*.md",
-      "pattern": "@lang/@path",
-      "type": "universal"
+      "pattern": "@lang/@path"
     }
   ],
   "defaultLocale": {
