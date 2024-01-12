@@ -83,6 +83,8 @@
     "docs:build": "run-s build docs:build:only",
     "docs:build:only": "pnpm -F=docs build",
     "docs:preview": "pnpm -F=docs preview",
+    "docs:lunaria:build": "pnpm -F=docs lunaria:build",
+    "docs:lunaria:open": "pnpm -F=docs lunaria:open",
     "format": "prettier --check --write .",
     "format:fail": "prettier --check .",
     "check": "run-s format:fail build test",
