@@ -34,11 +34,11 @@
 
 .custom-block.tip a,
 .custom-block.tip code {
-  color: var(--vp-c-brand-1);
+  color: var(--vp-c-tip-1);
 }
 
 .custom-block.tip a:hover {
-  color: var(--vp-c-brand-2);
+  color: var(--vp-c-tip-2);
 }
 
 .custom-block.tip code {

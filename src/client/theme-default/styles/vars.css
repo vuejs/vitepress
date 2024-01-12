@@ -215,6 +215,11 @@
   --vp-c-tip-3: var(--vp-c-brand-3);
   --vp-c-tip-soft: var(--vp-c-brand-soft);
 
+  --vp-c-success-1: var(--vp-c-green-1);
+  --vp-c-success-2: var(--vp-c-green-2);
+  --vp-c-success-3: var(--vp-c-green-3);
+  --vp-c-success-soft: var(--vp-c-green-soft);
+
   --vp-c-warning-1: var(--vp-c-yellow-1);
   --vp-c-warning-2: var(--vp-c-yellow-2);
   --vp-c-warning-3: var(--vp-c-yellow-3);
@@ -316,14 +321,14 @@
   --vp-code-line-highlight-color: var(--vp-c-default-soft);
   --vp-code-line-number-color: var(--vp-c-text-3);
 
-  --vp-code-line-diff-add-color: var(--vp-c-green-soft);
-  --vp-code-line-diff-add-symbol-color: var(--vp-c-green-1);
+  --vp-code-line-diff-add-color: var(--vp-c-success-soft);
+  --vp-code-line-diff-add-symbol-color: var(--vp-c-success-1);
 
-  --vp-code-line-diff-remove-color: var(--vp-c-red-soft);
-  --vp-code-line-diff-remove-symbol-color: var(--vp-c-red-1);
+  --vp-code-line-diff-remove-color: var(--vp-c-danger-soft);
+  --vp-code-line-diff-remove-symbol-color: var(--vp-c-danger-1);
 
-  --vp-code-line-warning-color: var(--vp-c-yellow-soft);
-  --vp-code-line-error-color: var(--vp-c-red-soft);
+  --vp-code-line-warning-color: var(--vp-c-warning-soft);
+  --vp-code-line-error-color: var(--vp-c-danger-soft);
 
   --vp-code-copy-code-border-color: var(--vp-c-divider);
   --vp-code-copy-code-bg: var(--vp-c-bg-soft);
@@ -391,8 +396,8 @@
 
   --vp-custom-block-tip-border: transparent;
   --vp-custom-block-tip-text: var(--vp-c-text-1);
-  --vp-custom-block-tip-bg: var(--vp-c-brand-soft);
-  --vp-custom-block-tip-code-bg: var(--vp-c-brand-soft);
+  --vp-custom-block-tip-bg: var(--vp-c-tip-soft);
+  --vp-custom-block-tip-code-bg: var(--vp-c-tip-soft);
 
   --vp-custom-block-warning-border: transparent;
   --vp-custom-block-warning-text: var(--vp-c-text-1);
@@ -418,7 +423,7 @@
   --vp-input-border-color: var(--vp-c-border);
   --vp-input-bg-color: var(--vp-c-bg-alt);
 
-  --vp-input-switch-bg-color: var(--vp-c-gray-soft);
+  --vp-input-switch-bg-color: var(--vp-c-default-soft);
 }
 
 /**
@@ -487,8 +492,8 @@
   --vp-badge-info-bg: var(--vp-c-default-soft);
 
   --vp-badge-tip-border: transparent;
-  --vp-badge-tip-text: var(--vp-c-brand-1);
-  --vp-badge-tip-bg: var(--vp-c-brand-soft);
+  --vp-badge-tip-text: var(--vp-c-tip-1);
+  --vp-badge-tip-bg: var(--vp-c-tip-soft);
 
   --vp-badge-warning-border: transparent;
   --vp-badge-warning-text: var(--vp-c-warning-1);
