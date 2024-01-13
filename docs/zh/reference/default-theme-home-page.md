@@ -8,11 +8,11 @@ layout: home
 ---
 ```
 
-但是，仅此选项不会有太大作用。可以通过设置其他选项（例如 `hero` 和 `features`）向主页添加几个不同的预模板化。
+但是，仅做这个配置不会有太大作用。可以通过设置其他选项 (例如 `hero` 和 `features`) 向主页添加几个不同的预设。
 
 ## Hero 部分 {#hero-section}
 
-Hero section 位于主页顶部。以下是配置 Hero 的方法。
+Hero 部分位于主页顶部。以下是配置 Hero 的方法。
 
 ```yaml
 ---
@@ -91,7 +91,7 @@ VitePress 通过 (`--vp-c-brand-1`) 设置 `name` 的颜色 .但是，可以通�
 
 ## Features 部分 {#features-section}
 
-在 Features section，可以在 Hero section 之后列出任意数量的 Features。可以在 frontmatter 中配置  `features`。
+在 Features 部分，可以在 Hero 部分之后列出任意数量的 Feature。可以在 frontmatter 中配置  `features`。
 
 可以为每个 feature 提供一个图标，可以是表情符号或任何类型的图像。当配置的图标是图片（svg, png, jpeg...）时，必须提供合适的宽度和高度的图标；还可以在需要时配置其描述、固有大小以及深色和浅色主题下的不同表现。
 

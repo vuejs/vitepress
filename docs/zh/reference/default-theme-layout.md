@@ -23,7 +23,7 @@ layout: doc
 
 ## page 布局 {#page-layout}
 
-`page` 被视为“空白页”。Markdown 仍然会被解析，所有的 [Markdown 拓展](../guide/markdown) 都和 `doc` 布局一样运行，但它没有任何默认样式。
+`page` 被视为“空白页”。Markdown 仍然会被解析，所有的 [Markdown 扩展](../guide/markdown) 都和 `doc` 布局一样运行，但它没有任何默认样式。
 
 `page` 布局将使可以自行设计所有内容，而不会受 VitePress 主题影响。当想要创建自己的自定义页面时，这很有用。
 

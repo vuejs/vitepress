@@ -20,4 +20,4 @@ document.querySelector('h1').addEventListener('click', () => {
 
 `<script client>` 是 VitePress 独有的功能，而不是 Vue 的功能。它可以在 `.md` 和 `.vue` 文件中使用，但只能在 MPA 模式下使用。所有主题组件中的客户端脚本将被打包在一起，而特定页面的客户端脚本将会分开处理。
 
-请注意，`<script client>` **不会被视为 Vue 组件代码**：它会看做普通的 JavaScript 模块来处理。因此，只有在站点需要绝对最小的客户端交互性时，才应该使用 MPA 模式。
+请注意，`<script client>` **不会被视为 Vue 组件代码**：它将是普通的 JavaScript 模块。因此，只有在站点需要绝对最小的客户端交互性时，才应该使用 MPA 模式。

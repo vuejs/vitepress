@@ -23,8 +23,8 @@ export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
       newTags.map(createHeadElement)
 
     managedHeadElements.forEach((oldEl, oldIndex) => {
-      const matchedIndex = newElements.findIndex(
-        (newEl) => newEl?.isEqualNode(oldEl ?? null)
+      const matchedIndex = newElements.findIndex((newEl) =>
+        newEl?.isEqualNode(oldEl ?? null)
       )
       if (matchedIndex !== -1) {
         delete newElements[matchedIndex]
