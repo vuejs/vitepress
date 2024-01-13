@@ -151,10 +151,10 @@ export default defineConfig({
 ```
 
 ::: warning 注意
-如果提供了自定义的 `_render` 函数，你需要自己处理 `search: false` 的 frontmatter。此外，在调用 `md.render` 之前，`env` 对象不会完全填充，因此对可选 `env` 属性（如 `frontmatter` ）的任何检查都应该在此之后完成。
+如果提供了自定义的 `_render` 函数，你需要自己处理 `search: false` 的 frontmatter。此外，在调用 `md.render` 之前，`env` 对象不会完全填充，因此对可选 `env` 属性 (如 `frontmatter`) 的任何检查都应该在此之后完成。
 :::
 
-#### 示例：转换内容-添加锚点{#example-transforming-content-adding-anchors}
+#### 示例：转换内容——添加锚点 {#example-transforming-content-adding-anchors}
 
 ```ts
 import { defineConfig } from 'vitepress'

@@ -166,7 +166,7 @@ aside: false
 - 类型：`boolean | Date`
 - 默认值：`true`
 
-是否在当前页面的页脚中显示[最近更新时间](./default-theme-last-updated)的文本。如果指定了日期时间，则会显示该日期时间而不是上次 git 修改的时间戳。
+是否在当前页面的页脚中显示[最后更新时间](./default-theme-last-updated)的文本。如果指定了日期时间，则会显示该日期时间而不是上次 git 修改的时间戳。
 
 ```yaml
 ---

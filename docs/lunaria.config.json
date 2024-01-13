@@ -1,0 +1,28 @@
+{
+  "$schema": "./node_modules/@lunariajs/core/config.schema.json",
+  "repository": {
+    "name": "vuejs/vitepress",
+    "rootDir": "docs"
+  },
+  "files": [
+    {
+      "location": ".vitepress/config/{en,zh}.ts",
+      "pattern": ".vitepress/config/@lang.ts"
+    },
+    {
+      "location": "**/*.md",
+      "pattern": "@lang/@path"
+    }
+  ],
+  "defaultLocale": {
+    "label": "English",
+    "lang": "en"
+  },
+  "locales": [
+    {
+      "label": "简体中文",
+      "lang": "zh"
+    }
+  ],
+  "outDir": ".vitepress/dist/_translations"
+}

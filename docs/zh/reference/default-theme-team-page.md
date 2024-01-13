@@ -60,7 +60,7 @@ Say hello to our awesome team.
 
 <VPTeamMembers size="small" :members="members" />
 
-`<VPTeamMembers>` 组件有 2 种不同的尺寸，`small` 和 `medium`。虽然它取决于你的偏好，但通常尺寸在文档页面中使用时 `small` 应该更适合。此外，你可以为每个成员添加更多属性，例如添加“描述”或“赞助”按钮。在 [`<VPTeamMembers>`](#vpteammembers)中了解更多信息。
+`<VPTeamMembers>` 组件有 2 种不同的尺寸，`small` 和 `medium`。虽然它取决于你的偏好，但通常尺寸在文档页面中使用时 `small` 应该更适合。此外，你可以为每个成员添加更多属性，例如添加“描述”或“赞助”按钮。在 [`<VPTeamMembers>`](#vpteammembers) 中了解更多信息。
 
 在文档页面中嵌入团队成员对于小型团队来说非常有用，某种情况下，完整的贡献团队可能太大了，可以引入部分成员作为文档上下文的参考。
 
@@ -119,9 +119,9 @@ const members = [
 
 `<VPMembers>` 和在 doc 页面中使用时一样。它将显示成员列表。
 
-### 添加分段以划分团队成员 {#add-sections-to-divide-team-members}
+### 添加 section 以划分团队成员 {#add-sections-to-divide-team-members}
 
-你可以将“分段”添加到团队页面。例如，你可能有不同类型的团队成员，例如核心团队成员和社区合作伙伴。你可以将这些成员分成几个部分，以更好地解释每组的角色。
+你可以将“section”添加到团队页面。例如，你可能有不同类型的团队成员，例如核心团队成员和社区合作伙伴。你可以将这些成员分成几个部分，以更好地解释每组的角色。
 
 为此，将 `<VPTeamPageSection>` 组件添加到我们之前创建的 `team.md` 文件中。
 
@@ -241,7 +241,7 @@ interface TeamMember {
 
 ## `<VPTeamPageSection>`
 
-在团队页面中创建一个“分段”。它接受 `#title`、`#lead` 和 `#members` 插槽。你可以在 `<VPTeamPage>` 中添加任意数量的分段。
+在团队页面中创建一个“section”。它接受 `#title`、`#lead` 和 `#members` 插槽。你可以在 `<VPTeamPage>` 中添加任意数量的section。
 
 ```html
 <VPTeamPage>
