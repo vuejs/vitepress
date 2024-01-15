@@ -1,8 +1,9 @@
 import type { DefaultTheme } from 'vitepress/theme'
 import { onMounted, onUnmounted, onUpdated, type Ref } from 'vue'
+import { getScrollOffset } from '../../app/utils'
 import type { Header } from '../../shared'
-import { useAside } from './aside'
 import { throttleAndDebounce } from '../support/utils'
+import { useAside } from './aside'
 
 // cached list of anchor elements from resolveHeaders
 const resolvedHeaders: { element: HTMLHeadElement; link: string }[] = []
@@ -179,7 +180,7 @@ export function useActiveAnchor(
     // find the last header above the top of viewport
     let activeLink: string | null = null
     for (const { link, top } of headers) {
-      if (top > scrollY + offsetDocTop) {
+      if (top > scrollY + offsetDocTop + getScrollOffset()) {
         break
       }
       activeLink = link
