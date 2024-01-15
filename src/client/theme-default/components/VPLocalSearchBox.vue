@@ -322,6 +322,8 @@ onKeyStroke('ArrowDown', (event) => {
 const router = useRouter()
 
 onKeyStroke('Enter', (e) => {
+  if (e.isComposing) return
+
   if (e.target instanceof HTMLButtonElement && e.target.type !== 'submit')
     return
 
