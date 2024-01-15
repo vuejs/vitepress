@@ -1,3 +1,15 @@
+# [1.0.0-rc.37](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.36...v1.0.0-rc.37) (2024-01-15)
+
+### Bug Fixes
+
+- **theme:** enter key behavior conflict with IME in search box ([#3454](https://github.com/vuejs/vitepress/issues/3454)) ([cd8ee6f](https://github.com/vuejs/vitepress/commit/cd8ee6fb32d8135e78c5827a36b79efad509042c))
+- **theme:** misaligned outline indicator ([910b212](https://github.com/vuejs/vitepress/commit/910b2125bb9971b5b974084f668fb0d2cb5e54ae)), closes [#3449](https://github.com/vuejs/vitepress/issues/3449)
+- **theme:** use`--vp-c-tip-` CSS variable for badge/block colors with type`tip` ([#3434](https://github.com/vuejs/vitepress/issues/3434)) ([78abf47](https://github.com/vuejs/vitepress/commit/78abf47b8b563d66db9d481a98bbdefac95cc84c))
+
+### Features
+
+- **theme:** export VPBadge ([#3431](https://github.com/vuejs/vitepress/issues/3431)) ([18981c1](https://github.com/vuejs/vitepress/commit/18981c1d1c74a4f4ca379a88b00c02ba5eace6db))
+
 # [1.0.0-rc.36](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.35...v1.0.0-rc.36) (2024-1-8)
 
 ### Bug Fixes
