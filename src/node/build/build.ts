@@ -9,12 +9,36 @@ import { pathToFileURL } from 'url'
 import type { BuildOptions, Rollup } from 'vite'
 import { resolveConfig, type SiteConfig } from '../config'
 import { clearCache } from '../markdownToVue'
-import { slash, type HeadConfig } from '../shared'
+import { slash, type HeadConfig, type SSGContext } from '../shared'
 import { deserializeFunctions, serializeFunctions } from '../utils/fnSerialize'
 import { task } from '../utils/task'
 import { bundle } from './bundle'
 import { generateSitemap } from './generateSitemap'
-import { renderPage } from './render'
+import { renderPage, type RenderPageContext } from './render'
+import { launchWorkers, shouldUseParallel, stopWorkers } from '../worker'
+import { registerWorkload, updateContext } from '../worker'
+
+type RenderFn = (path: string) => Promise<SSGContext>
+
+// Worker: workload functions will be called with `this` context
+export interface WorkerContext {
+  config: SiteConfig
+  options: BuildOptions
+}
+
+// Worker proxy (worker thread)
+const dispatchRenderPageWork = registerWorkload(
+  'build:render-page',
+  function (page: string) {
+    return renderPage(this.render, page, this)
+  },
+  async function init(
+    this: WorkerContext &
+      RenderPageContext & { render: RenderFn; renderEntry: string }
+  ) {
+    this.render = (await import(this.renderEntry)).render as RenderFn
+  }
+)
 
 export async function build(
   root?: string,
@@ -25,6 +49,13 @@ export async function build(
   process.env.NODE_ENV = 'production'
   const siteConfig = await resolveConfig(root, 'build', 'production')
   const unlinkVue = linkVue()
+
+  if (shouldUseParallel(siteConfig)) {
+    launchWorkers(siteConfig.concurrency, {
+      config: siteConfig,
+      options: buildOptions
+    })
+  }
 
   if (buildOptions.base) {
     siteConfig.site.base = buildOptions.base
@@ -51,12 +82,12 @@ export async function build(
       return
     }
 
-    const entryPath = path.join(siteConfig.tempDir, 'app.js')
-    const { render } = await import(
-      pathToFileURL(entryPath).toString() + '?t=' + Date.now()
-    )
-
     await task('rendering pages', async () => {
+      const renderEntry =
+        pathToFileURL(path.join(siteConfig.tempDir, 'app.js')).toString() +
+        '?t=' +
+        Date.now()
+
       const appChunk =
         clientResult &&
         (clientResult.output.find(
@@ -110,24 +141,32 @@ export async function build(
         }
       }
 
-      await pMap(
-        ['404.md', ...siteConfig.pages],
-        async (page) => {
-          await renderPage(
-            render,
-            siteConfig,
-            siteConfig.rewrites.map[page] || page,
-            clientResult,
-            appChunk,
-            cssChunk,
-            assets,
-            pageToHashMap,
-            metadataScript,
-            additionalHeadTags
-          )
-        },
-        { concurrency: siteConfig.buildConcurrency }
-      )
+      const context: RenderPageContext = {
+        config: siteConfig,
+        result: clientResult,
+        appChunk,
+        cssChunk,
+        assets,
+        pageToHashMap,
+        metadataScript,
+        additionalHeadTags
+      }
+
+      let task: (page: string) => Promise<void>
+
+      if (shouldUseParallel(siteConfig, 'render')) {
+        const { config, ...additionalContext } = context
+        await updateContext({ renderEntry, ...additionalContext })
+        task = (page) => dispatchRenderPageWork(page)
+      } else {
+        const { render } = await import(renderEntry)
+        task = (page) => renderPage(render, page, context)
+      }
+
+      const pages = ['404.md', ...siteConfig.pages]
+      await pMap(pages, task, {
+        concurrency: siteConfig.concurrency
+      })
     })
 
     // emit page hash map for the case where a user session is open
@@ -144,7 +183,7 @@ export async function build(
   await generateSitemap(siteConfig)
   await siteConfig.buildEnd?.(siteConfig)
   clearCache()
-
+  stopWorkers('build complete')
   siteConfig.logger.info(
     `build complete in ${((Date.now() - start) / 1000).toFixed(2)}s.`
   )

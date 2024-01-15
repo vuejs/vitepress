@@ -1,6 +1,7 @@
 import { createServer as createViteServer, type ServerOptions } from 'vite'
 import { resolveConfig } from './config'
 import { createVitePressPlugin } from './plugin'
+import { launchWorkers, stopWorkers, shouldUseParallel } from './worker'
 
 export async function createServer(
   root: string = process.cwd(),
@@ -8,6 +9,9 @@ export async function createServer(
   recreateServer?: () => Promise<void>
 ) {
   const config = await resolveConfig(root)
+
+  if (shouldUseParallel(config))
+    launchWorkers(config.concurrency, { config: config })
 
   if (serverOptions.base) {
     config.site.base = serverOptions.base
@@ -22,5 +26,12 @@ export async function createServer(
     server: serverOptions,
     customLogger: config.logger,
     configFile: config.vite?.configFile
-  })
+  }).then((server) =>
+    Object.assign({}, server, {
+      close() {
+        stopWorkers('server.close()')
+        return server.close()
+      }
+    })
+  )
 }

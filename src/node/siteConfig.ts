@@ -13,6 +13,7 @@ import type {
   SSGContext,
   SiteData
 } from './shared'
+import type { SupportsParallel } from './worker'
 
 export type RawConfigExports<ThemeConfig = any> =
   | Awaitable<UserConfig<ThemeConfig>>
@@ -150,11 +151,24 @@ export interface UserConfig<ThemeConfig = any>
   /**
    * This option allows you to configure the concurrency of the build.
    * A lower number will reduce the memory usage but will increase the build time.
+   * When parallel is enabled, this option indicates the number of threads.
    *
    * @experimental
-   * @default 64
+   * @default "Number of CPU cores available / 150%"
    */
-  buildConcurrency?: number
+  concurrency?: number
+
+  /**
+   * This option is the general switch for enabling parallel computing. When
+   * enabled, vitepress will create worker threads and distribute workload to
+   * them. Currently, the following features are supported:
+   * 1. Parallel SPA Bundling
+   * 2. Parallel SSR Rendering
+   * 3. Parallel Local Search Indexing (when using default splitter)
+   * @experimental
+   * @default ['render', 'local-search']
+   */
+  parallel?: boolean | SupportsParallel[]
 
   /**
    * @experimental
@@ -249,5 +263,6 @@ export interface SiteConfig<ThemeConfig = any>
   }
   logger: Logger
   userConfig: UserConfig
-  buildConcurrency: number
+  concurrency: number
+  parallel: boolean | SupportsParallel[]
 }

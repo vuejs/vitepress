@@ -19,6 +19,7 @@ import {
   type SiteData
 } from './shared'
 import type { RawConfigExports, SiteConfig, UserConfig } from './siteConfig'
+import { cpus } from 'os'
 
 export { resolvePages } from './plugins/dynamicRoutesPlugin'
 export * from './siteConfig'
@@ -143,7 +144,11 @@ export async function resolveConfig(
     rewrites,
     userConfig,
     sitemap: userConfig.sitemap,
-    buildConcurrency: userConfig.buildConcurrency ?? 64
+    concurrency: Math.max(
+      userConfig.concurrency ?? Math.round(cpus().length / 1.5),
+      1 // At least one thread required
+    ),
+    parallel: userConfig.parallel ?? ['render', 'local-search']
   }
 
   // to be shared with content loaders

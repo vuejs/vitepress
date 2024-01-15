@@ -5,14 +5,19 @@ import pMap from 'p-map'
 import path from 'path'
 import type { Plugin, ViteDevServer } from 'vite'
 import type { SiteConfig } from '../config'
-import { createMarkdownRenderer } from '../markdown/markdown'
+import {
+  createMarkdownRenderer,
+  type MarkdownRenderer
+} from '../markdown/markdown'
 import {
   resolveSiteDataByRoute,
   slash,
   type DefaultTheme,
-  type MarkdownEnv
+  type MarkdownEnv,
+  type Awaitable
 } from '../shared'
 import { processIncludes } from '../utils/processIncludes'
+import type { PageSplitSection } from '../../../types/local-search'
 
 const debug = _debug('vitepress:local-search')
 
@@ -24,6 +29,28 @@ interface IndexObject {
   text: string
   title: string
   titles: string[]
+}
+
+// SSR being `true` or `false` dose not affect the config related to markdown
+// renderer, so it can be reused.
+let md: MarkdownRenderer
+
+let flagScanned = false
+const taskByLocale = new Map<string, Promise<void>>()
+const filesByLocale = new Map<string, Set<string>>()
+const indexByLocale = new Map<string, MiniSearch<IndexObject>>()
+
+function getIndexByLocale(locale: string, options?: any) {
+  let index = indexByLocale.get(locale)
+  if (!index) {
+    index = new MiniSearch<IndexObject>({
+      fields: ['title', 'titles', 'text'],
+      storeFields: ['title', 'titles'],
+      ...options
+    })
+    indexByLocale.set(locale, index)
+  }
+  return index
 }
 
 export async function localSearchPlugin(
@@ -45,7 +72,7 @@ export async function localSearchPlugin(
     }
   }
 
-  const md = await createMarkdownRenderer(
+  md ??= await createMarkdownRenderer(
     siteConfig.srcDir,
     siteConfig.markdown,
     siteConfig.site.base,
@@ -66,21 +93,6 @@ export async function localSearchPlugin(
       const html = md.render(md_src, env)
       return env.frontmatter?.search === false ? '' : html
     }
-  }
-
-  const indexByLocales = new Map<string, MiniSearch<IndexObject>>()
-
-  function getIndexByLocale(locale: string) {
-    let index = indexByLocales.get(locale)
-    if (!index) {
-      index = new MiniSearch<IndexObject>({
-        fields: ['title', 'titles', 'text'],
-        storeFields: ['title', 'titles'],
-        ...options.miniSearch?.options
-      })
-      indexByLocales.set(locale, index)
-    }
-    return index
   }
 
   function getLocaleForPath(file: string) {
@@ -122,19 +134,19 @@ export async function localSearchPlugin(
     return id
   }
 
-  async function indexFile(page: string) {
-    const file = path.join(siteConfig.srcDir, page)
-    // get file metadata
+  async function indexFile(file: string, parallel: boolean = false) {
     const fileId = getDocId(file)
     const locale = getLocaleForPath(file)
-    const index = getIndexByLocale(locale)
+    const index = getIndexByLocale(locale, options.miniSearch?.options)
     // retrieve file and split into "sections"
     const html = await render(file)
     const sections =
       // user provided generator
       (await options.miniSearch?._splitIntoSections?.(file, html)) ??
+      // default implementation (parallel)
+      (parallel ? parallelSplitter(html, fileId) : undefined) ??
       // default implementation
-      splitPageIntoSections(html)
+      splitPageIntoSections(html, fileId)
     // add sections to the locale index
     for await (const section of sections) {
       if (!section || !(section.text || section.titles)) break
@@ -149,13 +161,27 @@ export async function localSearchPlugin(
     }
   }
 
-  async function scanForBuild() {
-    debug('🔍️ Indexing files for search...')
-    await pMap(siteConfig.pages, indexFile, {
-      concurrency: siteConfig.buildConcurrency
-    })
-    debug('✅ Indexing finished...')
+  // scan all pages, group by locale and create empty indexes accordingly.
+  function scanForIndex() {
+    if (flagScanned) return
+    flagScanned = true
+
+    for (const page of siteConfig.pages) {
+      const file = path.join(siteConfig.srcDir, page)
+      const locale = getLocaleForPath(file)
+      if (!filesByLocale.has(locale)) filesByLocale.set(locale, new Set())
+      filesByLocale.get(locale)!.add(file)
+    }
   }
+
+  async function indexLocale(locale: string) {
+    const files = [...filesByLocale.get(locale)!]
+    await pMap(files, (f) => indexFile(f, parallel), {
+      concurrency: siteConfig.concurrency
+    })
+  }
+
+  const parallel = shouldUseParallel(siteConfig, 'local-search')
 
   return {
     name: 'vitepress:local-search',
@@ -172,7 +198,6 @@ export async function localSearchPlugin(
 
     async configureServer(_server) {
       server = _server
-      await scanForBuild()
       onIndexUpdated()
     },
 
@@ -184,32 +209,28 @@ export async function localSearchPlugin(
 
     async load(id) {
       if (id === LOCAL_SEARCH_INDEX_REQUEST_PATH) {
-        if (process.env.NODE_ENV === 'production') {
-          await scanForBuild()
-        }
+        scanForIndex()
         let records: string[] = []
-        for (const [locale] of indexByLocales) {
+        for (const [locale] of filesByLocale) {
           records.push(
             `${JSON.stringify(
               locale
-            )}: () => import('@localSearchIndex${locale}')`
+            )}: () => import('${LOCAL_SEARCH_INDEX_ID}:${locale}')`
           )
         }
         return `export default {${records.join(',')}}`
       } else if (id.startsWith(LOCAL_SEARCH_INDEX_REQUEST_PATH)) {
+        const locale = id.slice(LOCAL_SEARCH_INDEX_REQUEST_PATH.length + 1)
+        await ((taskByLocale as any)[locale] ??= indexLocale(locale))
         return `export default ${JSON.stringify(
-          JSON.stringify(
-            indexByLocales.get(
-              id.replace(LOCAL_SEARCH_INDEX_REQUEST_PATH, '')
-            ) ?? {}
-          )
+          JSON.stringify(indexByLocale.get(locale) ?? {})
         )}`
       }
     },
 
     async handleHotUpdate({ file }) {
       if (file.endsWith('.md')) {
-        await indexFile(file)
+        await indexFile(file, parallel)
         debug('🔍️ Updated', file)
         onIndexUpdated()
       }
@@ -217,40 +238,87 @@ export async function localSearchPlugin(
   }
 }
 
-const headingRegex = /<h(\d*).*?>(.*?<a.*? href="#.*?".*?>.*?<\/a>)<\/h\1>/gi
-const headingContentRegex = /(.*?)<a.*? href="#(.*?)".*?>.*?<\/a>/i
-
-/**
- * Splits HTML into sections based on headings
- */
-function* splitPageIntoSections(html: string) {
-  const result = html.split(headingRegex)
-  result.shift()
-  let parentTitles: string[] = []
-  for (let i = 0; i < result.length; i += 3) {
-    const level = parseInt(result[i]) - 1
-    const heading = result[i + 1]
-    const headingResult = headingContentRegex.exec(heading)
-    const title = clearHtmlTags(headingResult?.[1] ?? '').trim()
-    const anchor = headingResult?.[2] ?? ''
-    const content = result[i + 2]
-    if (!title || !content) continue
-    const titles = parentTitles.slice(0, level)
-    titles[level] = title
-    yield { anchor, titles, text: getSearchableText(content) }
-    if (level === 0) {
-      parentTitles = [title]
-    } else {
-      parentTitles[level] = title
+async function* splitPageIntoSections(
+  html: string,
+  pageName: string = 'Unknown Document'
+) {
+  const { JSDOM } = await import('jsdom')
+  const { default: traverse, Node } = await import('dom-traverse')
+  const dom = JSDOM.fragment(html)
+  // Stack of title hierarchy for current working section
+  const titleStack: Array<{ level: number; text: string }> = []
+  // Set of all used ids (for duplicate id detection)
+  const existingIdSet = new Set()
+  // Current working section
+  let section: PageSplitSection = { text: '', titles: [''] }
+  // Traverse the DOM
+  for (const [node, skipChildren] of traverse.skippable(dom)) {
+    if (node.nodeType === Node.ELEMENT_NODE) {
+      const el = node as Element
+      if (!/^H\d+$/i.test(el.tagName)) continue
+      if (!el.hasAttribute('id')) continue
+      const id = el.getAttribute('id')!
+      // Skip duplicate id, content will be treated as normal text
+      if (existingIdSet.has(id)) {
+        console.error(
+          `\x1b[2K\r  ⚠️  Duplicate heading id "${id}" in ${pageName}`
+        )
+        continue
+      }
+      existingIdSet.add(id)
+      // Submit previous section
+      if (section.text || section.anchor) yield section
+      // Pop adjacent titles depending on level
+      const level = parseInt(el.tagName.slice(1))
+      while (titleStack.length > 0) {
+        if (titleStack.at(-1)!.level >= level) titleStack.pop()
+        else break
+      }
+      titleStack.push({ level, text: el.textContent ?? '' })
+      // Create new section
+      section = {
+        text: '',
+        anchor: id,
+        titles: titleStack.map((_) => _.text)
+      }
+      skipChildren()
+    } else if (node.nodeType === Node.TEXT_NODE) {
+      // Collect text content
+      section.text += node.textContent
     }
   }
+  // Submit last section
+  yield section
 }
 
-function getSearchableText(content: string) {
-  content = clearHtmlTags(content)
-  return content
-}
+/*=============================== Worker API ===============================*/
+import { registerWorkload, shouldUseParallel } from '../worker'
+import Queue from '../utils/queue'
 
-function clearHtmlTags(str: string) {
-  return str.replace(/<[^>]*>/g, '')
+// Worker proxy (worker thread)
+const dispatchPageSplitWork = registerWorkload(
+  'local-search:split',
+  async (
+    html: string,
+    fileId: string,
+    _yield: (section: PageSplitSection) => Awaitable<void>,
+    _end: () => Awaitable<void>
+  ) => {
+    for await (const section of splitPageIntoSections(html, fileId)) {
+      await _yield(section)
+    }
+    await _end()
+  }
+)
+
+// Worker proxy (main thread)
+function parallelSplitter(html: string, fileId: string) {
+  const queue = new Queue<PageSplitSection>()
+  dispatchPageSplitWork(
+    html,
+    fileId,
+    queue.enqueue.bind(queue),
+    queue.close.bind(queue)
+  )
+  return queue.items()
 }
