@@ -18,7 +18,7 @@ VitePress can be used on its own, or be installed into an existing project. In b
 ::: code-group
 
 ```sh [npm]
-$ npm add -D vitepress
+$ npm install -D vitepress
 ```
 
 ```sh [pnpm]
