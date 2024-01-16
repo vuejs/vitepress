@@ -1,3 +1,9 @@
+# [1.0.0-rc.38](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.37...v1.0.0-rc.38) (2024-01-16)
+
+### Reverts
+
+- Revert "fix(theme): misaligned outline indicator" ([4020b41](https://github.com/vuejs/vitepress/commit/4020b419de88a1e4d037e63536df58f4268baf59))
+
 # [1.0.0-rc.37](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.36...v1.0.0-rc.37) (2024-01-15)
 
 ### Bug Fixes
