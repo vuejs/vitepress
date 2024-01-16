@@ -7,11 +7,13 @@
   "files": [
     {
       "location": ".vitepress/config/{en,zh}.ts",
-      "pattern": ".vitepress/config/@lang.ts"
+      "pattern": ".vitepress/config/@lang.ts",
+      "type": "universal"
     },
     {
       "location": "**/*.md",
-      "pattern": "@lang/@path"
+      "pattern": "@lang/@path",
+      "type": "universal"
     }
   ],
   "defaultLocale": {
