@@ -137,14 +137,6 @@ export function useActiveAnchor(
       return
     }
 
-    // pixel offset, start of main content
-    const offsetDocTop = (() => {
-      const container =
-        document.querySelector('#VPContent .VPDoc')?.firstElementChild
-      if (container) return getAbsoluteTop(container as HTMLElement)
-      else return 78
-    })()
-
     const scrollY = window.scrollY
     const innerHeight = window.innerHeight
     const offsetHeight = document.body.offsetHeight
@@ -180,7 +172,7 @@ export function useActiveAnchor(
     // find the last header above the top of viewport
     let activeLink: string | null = null
     for (const { link, top } of headers) {
-      if (top > scrollY + offsetDocTop + getScrollOffset()) {
+      if (top > scrollY + getScrollOffset() + 4) {
         break
       }
       activeLink = link
