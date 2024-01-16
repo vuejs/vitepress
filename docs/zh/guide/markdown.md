@@ -377,7 +377,7 @@ export default { // Highlighted
 }
 ```
 
-也可以使用 `// [!code hl]` 注释实现行高亮。
+也可以使用 `// [!code highlight]` 注释实现行高亮。
 
 **输入**
 
