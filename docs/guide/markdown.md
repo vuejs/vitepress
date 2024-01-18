@@ -377,7 +377,7 @@ export default { // Highlighted
 }
 ```
 
-Alternatively, it's possible to highlight directly in the line by using the `// [!code hightlight]` comment.
+Alternatively, it's possible to highlight directly in the line by using the `// [!code highlight]` comment.
 
 **Input**
 

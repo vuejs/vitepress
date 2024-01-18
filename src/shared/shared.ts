@@ -182,18 +182,20 @@ export function slash(p: string): string {
   return p.replace(/\\/g, '/')
 }
 
+const extraExts =
+  (typeof process === 'object' && process.env.VITE_EXTRA_EXTENSIONS) ||
+  (import.meta as any).env?.VITE_EXTRA_EXTENSIONS ||
+  ''
+
 // md, html? are intentionally omitted, see treatAsHtml
 const KNOWN_EXTENSIONS = new Set(
   (
-    '3g2,3gp,7z,aac,abw,ai,aif,aifc,aiff,apng,arc,asf,asr,asx,au,avi,avif,axs,' +
-    'azw,bin,bmp,bz,bz2,c,cda,cer,class,crl,crt,csh,css,csv,dcr,der,dll,doc,docx,' +
-    'eot,eps,epub,exe,flac,gif,gtar,gz,gzip,ico,ics,ief,jar,jfif,jpe,jpeg,jpg,' +
-    'js,json,jsonld,latex,m3u,m4a,man,mdb,mht,mhtml,mid,midi,mjs,mov,mp2,mp3,mp4,' +
-    'mpa,mpe,mpeg,mpg,mpkg,mpp,odp,ods,odt,oga,ogg,ogv,ogx,opus,otf,p10,p12,p7b,' +
-    'p7c,p7m,p7r,p7s,pbm,pdf,pfx,php,pjp,pjpeg,png,ppt,pptx,ps,pub,qt,rar,roff,' +
-    'rtf,rtx,ser,sh,spc,svg,swf,t,tar,tcl,tex,texi,texinfo,tgz,tif,tiff,tr,ts,' +
-    'tsv,ttf,txt,ua,viv,vivo,vsd,vtt,wav,weba,webm,webp,woff,woff2,xbm,xhtml,' +
-    'xls,xlsx,xml,xul,yaml,yml,zip,conf'
+    '3g2,3gp,aac,ai,apng,au,avif,bin,bmp,cer,class,conf,crl,css,csv,dll,doc,' +
+    'eps,epub,exe,gif,gz,ics,ief,jar,jpe,jpeg,jpg,js,json,jsonld,m4a,man,' +
+    'mid,midi,mjs,mov,mp2,mp3,mp4,mpe,mpeg,mpg,mpp,oga,ogg,ogv,ogx,opus,otf,' +
+    'p10,p7c,p7m,p7s,pdf,png,ps,qt,roff,rtf,rtx,ser,svg,t,tif,tiff,tr,ts,' +
+    'tsv,ttf,txt,vtt,wav,weba,webm,webp,woff,woff2,xhtml,xml,yaml,yml,zip' +
+    (extraExts && typeof extraExts === 'string' ? ',' + extraExts : '')
   ).split(',')
 )
 

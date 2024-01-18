@@ -377,7 +377,7 @@ export default { // Highlighted
 }
 ```
 
-也可以使用 `// [!code hl]` 注释实现行高亮。
+也可以使用 `// [!code highlight]` 注释实现行高亮。
 
 **输入**
 
@@ -386,7 +386,7 @@ export default { // Highlighted
 export default {
   data () {
     return {
-      msg: 'Highlighted!' // [!code  hl]
+      msg: 'Highlighted!' // [!!code highlight]
     }
   }
 }
@@ -399,7 +399,7 @@ export default {
 export default {
   data() {
     return {
-      msg: 'Highlighted!' // [!code hl]
+      msg: 'Highlighted!' // [!code highlight]
     }
   }
 }
@@ -413,14 +413,12 @@ export default {
 
 **输入**
 
-`!code` 后面只需要一个空格，为了展示原始的代码而不被实际渲染，这里有两个空格：
-
 ````
 ```js
 export default {
   data () {
     return {
-      msg: 'Focused!' // [!code  focus]
+      msg: 'Focused!' // [!!code focus]
     }
   }
 }
@@ -445,15 +443,13 @@ export default {
 
 **输入**
 
-`!code` 后面只需要一个空格，为了展示原始的代码而不被实际渲染，这里有两个空格。
-
 ````
 ```js
 export default {
   data () {
     return {
-      msg: 'Removed' // [!code  --]
-      msg: 'Added' // [!code  ++]
+      msg: 'Removed' // [!!code --]
+      msg: 'Added' // [!!code ++]
     }
   }
 }
@@ -479,15 +475,13 @@ export default {
 
 **输入**
 
-`!code` 后面只需要一个空格，为了展示原始的代码而不被实际渲染，这里有两个空格。
-
 ````
 ```js
 export default {
   data () {
     return {
-      msg: 'Error', // [!code  error]
-      msg: 'Warning' // [!code  warning]
+      msg: 'Error', // [!!code error]
+      msg: 'Warning' // [!!code warning]
     }
   }
 }

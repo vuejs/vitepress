@@ -129,9 +129,9 @@ To serve clean URLs with VitePress, server-side support is required.
 
 By default, VitePress resolves inbound links to URLs ending with `.html`. However, some users may prefer "Clean URLs" without the `.html` extension - for example, `example.com/path` instead of `example.com/path.html`.
 
-Some servers or hosting platforms (for example Netlify or Vercel) provide the ability to map a URL like `/foo` to `/foo.html` if it exists, without a redirect:
+Some servers or hosting platforms (for example Netlify, Vercel, GitHub Pages) provide the ability to map a URL like `/foo` to `/foo.html` if it exists, without a redirect:
 
-- Netlify supports this by default.
+- Netlify and GitHub Pages support this by default.
 - Vercel requires enabling the [`cleanUrls` option in `vercel.json`](https://vercel.com/docs/concepts/projects/project-configuration#cleanurls).
 
 If this feature is available to you, you can then also enable VitePress' own [`cleanUrls`](../reference/site-config#cleanurls) config option so that:
@@ -139,7 +139,7 @@ If this feature is available to you, you can then also enable VitePress' own [`c
 - Inbound links between pages are generated without the `.html` extension.
 - If current path ends with `.html`, the router will perform a client-side redirect to the extension-less path.
 
-If, however, you cannot configure your server with such support (e.g. GitHub pages), you will have to manually resort to the following directory structure:
+If, however, you cannot configure your server with such support, you will have to manually resort to the following directory structure:
 
 ```
 .
