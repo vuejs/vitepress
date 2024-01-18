@@ -16,6 +16,7 @@ export declare const useSidebar: () => DefaultTheme.DocSidebar
 export declare const useLocalNav: () => DefaultTheme.DocLocalNav
 
 // TODO: add props for these
+export declare const VPBadge: DefineComponent
 export declare const VPButton: DefineComponent
 export declare const VPDocAsideSponsors: DefineComponent
 export declare const VPHomeFeatures: DefineComponent
