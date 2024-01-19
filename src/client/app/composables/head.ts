@@ -18,8 +18,9 @@ export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
       isFirstUpdate = false
       newTags.forEach((tag) => {
         const selector = toSelector(tag[0], tag[1])
+        const headEl = createHeadElement(tag)
         ;[...document.querySelectorAll(selector)].some((el) => {
-          if (el.isEqualNode(createHeadElement(tag))) {
+          if (el.isEqualNode(headEl)) {
             managedHeadElements.push(el as HTMLElement)
             return true
           }
