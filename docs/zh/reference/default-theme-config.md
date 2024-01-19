@@ -246,6 +246,7 @@ type SocialLinkIcon =
   | 'mastodon'
   | 'slack'
   | 'twitter'
+  | 'x'
   | 'youtube'
   | { svg: string }
 ```
