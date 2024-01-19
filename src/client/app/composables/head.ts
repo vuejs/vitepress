@@ -8,14 +8,23 @@ import {
 import type { Route } from '../router'
 
 export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
-  let managedHeadElements: (HTMLElement | undefined)[] = []
   let isFirstUpdate = true
+  let managedHeadElements: (HTMLElement | undefined)[] = []
 
   const updateHeadTags = (newTags: HeadConfig[]) => {
     if (import.meta.env.PROD && isFirstUpdate) {
       // in production, the initial meta tags are already pre-rendered so we
       // skip the first update.
       isFirstUpdate = false
+      newTags.forEach((tag) => {
+        const selector = toSelector(tag[0], tag[1])
+        ;[...document.querySelectorAll(selector)].some((el) => {
+          if (el.isEqualNode(createHeadElement(tag))) {
+            managedHeadElements.push(el as HTMLElement)
+            return true
+          }
+        })
+      })
       return
     }
 
@@ -95,4 +104,10 @@ function isMetaDescription(headConfig: HeadConfig) {
 
 function filterOutHeadDescription(head: HeadConfig[]) {
   return head.filter((h) => !isMetaDescription(h))
+}
+
+function toSelector(tag: string, attrs: Record<string, string>) {
+  return `${tag}${Object.keys(attrs)
+    .map((key) => `[${key}="${attrs[key].replace(/(["'\\])/g, '\\$1')}"]`)
+    .join('')}`
 }
