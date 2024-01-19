@@ -645,6 +645,23 @@ export default {
 }
 ```
 
+#### Example: Adding a canonical URL `<link>`  
+
+```ts
+export default {
+  transformHead({ page }) {
+    // Skip the 404 page
+    if (page !== '404.md') {
+      const canonicalUrl = `https://example.com/${page}`
+        .replace(/index\.md$/, '')
+        .replace(/\.md$/, '.html')
+
+      return [['link', { rel: 'canonical', href: canonicalUrl }]]
+    }
+  }
+}
+```
+
 ### transformHtml
 
 - Type: `(code: string, id: string, context: TransformContext) => Awaitable<string | void>`
