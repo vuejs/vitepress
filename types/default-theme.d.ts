@@ -334,6 +334,7 @@ export namespace DefaultTheme {
     | 'instagram'
     | 'linkedin'
     | 'mastodon'
+    | 'npm'
     | 'slack'
     | 'twitter'
     | 'x'
