@@ -17,14 +17,13 @@ export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
       // skip the first update.
       isFirstUpdate = false
       newTags.forEach((tag) => {
-        const selector = toSelector(tag[0], tag[1])
         const headEl = createHeadElement(tag)
-        ;[...document.querySelectorAll(selector)].some((el) => {
+        for (const el of document.head.children) {
           if (el.isEqualNode(headEl)) {
             managedHeadElements.push(el as HTMLElement)
-            return true
+            return
           }
-        })
+        }
       })
       return
     }
@@ -105,10 +104,4 @@ function isMetaDescription(headConfig: HeadConfig) {
 
 function filterOutHeadDescription(head: HeadConfig[]) {
   return head.filter((h) => !isMetaDescription(h))
-}
-
-function toSelector(tag: string, attrs: Record<string, string>) {
-  return `${tag}${Object.keys(attrs)
-    .map((key) => `[${key}="${attrs[key].replace(/(["'\\])/g, '\\$1')}"]`)
-    .join('')}`
 }
