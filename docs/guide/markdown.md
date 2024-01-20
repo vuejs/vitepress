@@ -265,7 +265,7 @@ Wraps in a <div class="vp-raw">
 
 ## GitHub-flavored Alerts
 
-VitePress also supports [GitHub-flavored alerts](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts) to render as callouts, they will be rendered the same as the [custom containers](#custom-containers).
+VitePress also supports [GitHub-flavored alerts](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts) to render as callouts. They will be rendered the same as the [custom containers](#custom-containers).
 
 ```md
 > [!NOTE]
