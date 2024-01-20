@@ -35,6 +35,7 @@ import { lineNumberPlugin } from './plugins/lineNumbers'
 import { linkPlugin } from './plugins/link'
 import { preWrapperPlugin } from './plugins/preWrapper'
 import { snippetPlugin } from './plugins/snippet'
+import { gitHubAlertsPlugin } from './plugins/githubAlerts'
 
 export type { Header } from '../shared'
 
@@ -208,6 +209,7 @@ export const createMarkdownRenderer = async (
     .use(preWrapperPlugin, { hasSingleTheme })
     .use(snippetPlugin, srcDir)
     .use(containerPlugin, { hasSingleTheme }, options.container)
+    .use(gitHubAlertsPlugin, options.container)
     .use(imagePlugin, options.image)
     .use(
       linkPlugin,
