@@ -1,6 +1,9 @@
 import type MarkdownIt from 'markdown-it'
 import type { ContainerOptions } from './containers'
 
+const markerRE =
+  /^\[\!(TIP|NOTE|INFO|IMPORTANT|WARNING|CAUTION|DANGER)\]([^\n\r]*)/i
+
 export const gitHubAlertsPlugin = (
   md: MarkdownIt,
   options?: ContainerOptions
@@ -14,9 +17,6 @@ export const gitHubAlertsPlugin = (
     caution: options?.cautionLabel || 'CAUTION',
     danger: options?.dangerLabel || 'DANGER'
   } as Record<string, string>
-
-  const RE =
-    /^\[\!(TIP|NOTE|INFO|IMPORTANT|WARNING|CAUTION|DANGER)\]([^\n\r]*)/i
 
   md.core.ruler.after('block', 'github-alerts', (state) => {
     const tokens = state.tokens
@@ -32,7 +32,7 @@ export const gitHubAlertsPlugin = (
           .slice(startIndex, endIndex + 1)
           .find((token) => token.type === 'inline')
         if (!firstContent) continue
-        const match = firstContent.content.match(RE)
+        const match = firstContent.content.match(markerRE)
         if (!match) continue
         const type = match[1].toLowerCase()
         const title = match[2].trim() || titleMark[type] || capitalize(type)
