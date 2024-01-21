@@ -118,6 +118,7 @@
   margin: 0 0 8px;
   font-weight: 700;
   cursor: pointer;
+  user-select: none;
 }
 
 .custom-block.details summary + p {
