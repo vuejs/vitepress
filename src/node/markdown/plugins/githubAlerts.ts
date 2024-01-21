@@ -15,7 +15,8 @@ export const gitHubAlertsPlugin = (
     danger: options?.dangerLabel || 'DANGER'
   } as Record<string, string>
 
-  const RE = /^\[\!(TIP|NOTE|INFO|IMPORTANT|WARNING|CAUTION|DANGER)\]([^\n\r]*)/i
+  const RE =
+    /^\[\!(TIP|NOTE|INFO|IMPORTANT|WARNING|CAUTION|DANGER)\]([^\n\r]*)/i
 
   md.core.ruler.after('block', 'github-alerts', (state) => {
     const tokens = state.tokens
