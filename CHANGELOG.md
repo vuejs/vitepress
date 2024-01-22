@@ -1,3 +1,18 @@
+# [1.0.0-rc.40](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.39...v1.0.0-rc.40) (2024-1-22)
+
+### Bug Fixes
+
+- **client:** handle head orphans added in initial load ([#3474](https://github.com/vuejs/vitepress/issues/3474)) ([5e2d853](https://github.com/vuejs/vitepress/commit/5e2d853e1a315216dce5fc98ee2efd15c724a25d))
+- **theme:** avoid selecting summary on toggling details ([77a318c](https://github.com/vuejs/vitepress/commit/77a318c2a348d341dd3ea1e1650fcf8ad3abfcd7))
+- **theme:** hover color for code links inside custom containers ([#3467](https://github.com/vuejs/vitepress/issues/3467)) ([d529ed4](https://github.com/vuejs/vitepress/commit/d529ed49756841f055024c559d09875501bc6d76))
+- **type:** fix missed `VPBadge` type in `theme.d.ts` ([#3470](https://github.com/vuejs/vitepress/issues/3470)) ([fcf828c](https://github.com/vuejs/vitepress/commit/fcf828c2a71892dad5af8d21e405f4d1e2cc280c))
+
+### Features
+
+- support GitHub-flavored alerts ([#3482](https://github.com/vuejs/vitepress/issues/3482)) ([ac87d19](https://github.com/vuejs/vitepress/commit/ac87d19ca1bbc966e5fe1cca5f433f5ea4b11be3))
+- support specifying custom extensions to escape routing ([#3466](https://github.com/vuejs/vitepress/issues/3466)) ([c22f5d9](https://github.com/vuejs/vitepress/commit/c22f5d983f3e5d5c4f0ed0683a93ece564487c13))
+- **theme:** add npm icon ([#3483](https://github.com/vuejs/vitepress/issues/3483)) ([c882fa1](https://github.com/vuejs/vitepress/commit/c882fa1469a7bd0d6e28196e7a841adf48e803f1))
+
 # [1.0.0-rc.39](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.38...v1.0.0-rc.39) (2024-01-16)
 
 ### Bug Fixes
