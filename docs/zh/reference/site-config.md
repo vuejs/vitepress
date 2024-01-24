@@ -645,6 +645,23 @@ export default {
 }
 ```
 
+#### 示例：添加一个典型的 URL `<link>` {#example-adding-a-canonical-url-link} 
+
+```ts
+export default {
+  transformHead({ page }) {
+    // Skip the 404 page
+    if (page !== '404.md') {
+      const canonicalUrl = `https://example.com/${page}`
+        .replace(/index\.md$/, '')
+        .replace(/\.md$/, '.html')
+
+      return [['link', { rel: 'canonical', href: canonicalUrl }]]
+    }
+  }
+}
+```
+
 ### transformHtml
 
 - 类型：`(code: string, id: string, context: TransformContext) => Awaitable<string | void>`
