@@ -645,6 +645,24 @@ export default {
 }
 ```
 
+#### 示例：添加 canonical URL `<link>` {#example-adding-a-canonical-url-link} 
+
+```ts
+export default {
+  transformPageData(pageData) {
+    const canonicalUrl = `https://example.com/${pageData.relativePath}`
+      .replace(/index\.md$/, '')
+      .replace(/\.md$/, '.html')
+
+    pageData.frontmatter.head ??= []
+    pageData.frontmatter.head.push([
+      'link',
+      { rel: 'canonical', href: canonicalUrl }
+    ])
+  }
+}
+```
+
 ### transformHtml
 
 - 类型：`(code: string, id: string, context: TransformContext) => Awaitable<string | void>`
