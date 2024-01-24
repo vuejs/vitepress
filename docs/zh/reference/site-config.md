@@ -645,19 +645,20 @@ export default {
 }
 ```
 
-#### 示例：添加一个典型的 URL `<link>` {#example-adding-a-canonical-url-link} 
+#### 示例：添加 canonical URL `<link>` {#example-adding-a-canonical-url-link} 
 
 ```ts
 export default {
-  transformHead({ page }) {
-    // Skip the 404 page
-    if (page !== '404.md') {
-      const canonicalUrl = `https://example.com/${page}`
-        .replace(/index\.md$/, '')
-        .replace(/\.md$/, '.html')
+  transformPageData(pageData) {
+    const canonicalUrl = `https://example.com/${pageData.relativePath}`
+      .replace(/index\.md$/, '')
+      .replace(/\.md$/, '.html')
 
-      return [['link', { rel: 'canonical', href: canonicalUrl }]]
-    }
+    pageData.frontmatter.head ??= []
+    pageData.frontmatter.head.push([
+      'link',
+      { rel: 'canonical', href: canonicalUrl }
+    ])
   }
 }
 ```
