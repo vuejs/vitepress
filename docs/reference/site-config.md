@@ -31,10 +31,10 @@ If you need to dynamically generate the config, you can also default export a fu
 ```ts
 import { defineConfig } from 'vitepress'
 
-export default async () => defineConfig({
-  const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
+export default async () => {
+  const posts = await (await fetch('https://my-cms.com/blog-posts')).json()  
 
-  return {
+  return defineConfig({
     // app level config options
     lang: 'en-US',
     title: 'VitePress',
@@ -49,8 +49,8 @@ export default async () => defineConfig({
         }))
       ]
     }
-  }
-})
+  })
+}
 ```
 
 You can also use top-level `await`. For example:
