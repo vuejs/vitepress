@@ -269,35 +269,35 @@ VitePress 同样支持以标注的方式渲染 [GitHub 风格的警报](https://
 
 ```md
 > [!NOTE]
-> Highlights information that users should take into account, even when skimming.
+> 强调用户在快速浏览文档时也不应忽略的重要信息。
 
 > [!TIP]
-> Optional information to help a user be more successful.
+> 有助于用户更顺利达成目标的建议性信息。
 
 > [!IMPORTANT]
-> Crucial information necessary for users to succeed.
+> 对用户达成目标至关重要的信息。
 
 > [!WARNING]
-> Critical content demanding immediate user attention due to potential risks.
+> 因为可能存在风险，所以需要用户立即关注的关键内容。
 
 > [!CAUTION]
-> Negative potential consequences of an action.
+> 可能会产生负面影响的行为。
 ```
 
 > [!NOTE]
-> Highlights information that users should take into account, even when skimming.
+> 强调用户在快速浏览文档时也不应忽略的重要信息。
 
 > [!TIP]
-> Optional information to help a user be more successful.
+> 有助于用户更顺利达成目标的建议性信息。
 
 > [!IMPORTANT]
-> Crucial information necessary for users to succeed.
+> 对用户达成目标至关重要的信息。
 
 > [!WARNING]
-> Critical content demanding immediate user attention due to potential risks.
+> 因为可能存在风险，所以需要用户立即关注的关键内容。
 
 > [!CAUTION]
-> Negative potential consequences of an action.
+> 可能会产生负面影响的行为。
 
 ## 代码块中的语法高亮 {#syntax-highlighting-in-code-blocks}
 
