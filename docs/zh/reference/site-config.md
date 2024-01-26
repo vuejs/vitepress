@@ -31,16 +31,16 @@ export default {
 ```ts
 import { defineConfig } from 'vitepress'
 
-export default async () => defineConfig({
-  const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
+export default async () => {
+  const posts = await (await fetch('https://my-cms.com/blog-posts')).json()  
 
-  return {
+  return defineConfig({
     // 应用级配置选项
     lang: 'en-US',
     title: 'VitePress',
     description: 'Vite & Vue powered static site generator.',
 
-    // 主题级别配置选项
+    // 主题级配置选项
     themeConfig: {
       sidebar: [
         ...posts.map((post) => ({
@@ -49,8 +49,8 @@ export default async () => defineConfig({
         }))
       ]
     }
-  }
-})
+  })
+}
 ```
 
 也可以在最外层使用 `await`。例如：
