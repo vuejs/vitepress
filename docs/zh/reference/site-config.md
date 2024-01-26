@@ -32,7 +32,7 @@ export default {
 import { defineConfig } from 'vitepress'
 
 export default async () => {
-  const posts = await (await fetch('https://my-cms.com/blog-posts')).json()  
+  const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
 
   return defineConfig({
     // 应用级配置选项

@@ -32,7 +32,7 @@ If you need to dynamically generate the config, you can also default export a fu
 import { defineConfig } from 'vitepress'
 
 export default async () => {
-  const posts = await (await fetch('https://my-cms.com/blog-posts')).json()  
+  const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
 
   return defineConfig({
     // app level config options
