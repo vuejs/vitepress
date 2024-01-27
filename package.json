@@ -102,9 +102,9 @@
     "focus-trap": "^7.5.4",
     "mark.js": "8.11.1",
     "minisearch": "^6.3.0",
-    "shikiji": "^0.10.0",
-    "shikiji-core": "^0.10.0",
-    "shikiji-transformers": "^0.10.0",
+    "shiki": "^1.0.0-beta.0",
+    "@shikijs/core": "^1.0.0-beta.0",
+    "@shikijs/transformers": "^1.0.0-beta.0",
     "vite": "^5.0.12",
     "vue": "^3.4.15"
   },

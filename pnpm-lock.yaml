@@ -17,6 +17,12 @@ importers:
       '@docsearch/js':
         specifier: ^3.5.2
         version: 3.5.2
+      '@shikijs/core':
+        specifier: ^1.0.0-beta.0
+        version: 1.0.0-beta.0
+      '@shikijs/transformers':
+        specifier: ^1.0.0-beta.0
+        version: 1.0.0-beta.0
       '@types/markdown-it':
         specifier: ^13.0.7
         version: 13.0.7
@@ -41,15 +47,9 @@ importers:
       minisearch:
         specifier: ^6.3.0
         version: 6.3.0
-      shikiji:
-        specifier: ^0.10.0
-        version: 0.10.0
-      shikiji-core:
-        specifier: ^0.10.0
-        version: 0.10.0
-      shikiji-transformers:
-        specifier: ^0.10.0
-        version: 0.10.0
+      shiki:
+        specifier: ^1.0.0-beta.0
+        version: 1.0.0-beta.0
       vite:
         specifier: ^5.0.12
         version: 5.0.12(@types/node@20.11.5)
@@ -1090,6 +1090,16 @@ packages:
     os: [win32]
     requiresBuild: true
     optional: true
+
+  /@shikijs/core@1.0.0-beta.0:
+    resolution: {integrity: sha512-uicyrkx379Q5sxQuGV3kduHPWIAkjxmeA5A4J6syscx8wiEyIV06i/Q6s9GeKLCb857Hi90H8e/FoFSbcjnZsw==}
+    dev: false
+
+  /@shikijs/transformers@1.0.0-beta.0:
+    resolution: {integrity: sha512-OvIO6RxQ7YaQhp34uXVKUPZDRdTcGwBgX3zn26haSvqPwrTQcxdPgT47sr4u3sz1+RwN3RO9AGxCJFRKNpB+Qw==}
+    dependencies:
+      shiki: 1.0.0-beta.0
+    dev: false
 
   /@sideway/address@4.1.4:
     resolution: {integrity: sha512-7vwq+rOHVWjyXxVlR76Agnvhy8I9rpzjosTESvmhNeXOXdZZB15Fl+TI9x1SiHZH5Jv2wTGduSxFDIaq0m3DUw==}
@@ -4160,20 +4170,10 @@ packages:
     resolution: {integrity: sha512-6j1W9l1iAs/4xYBI1SYOVZyFcCis9b4KCLQ8fgAGG07QvzaRLVVRQvAy85yNmmZSjYjg4MWh4gNvlPujU/5LpA==}
     dev: true
 
-  /shikiji-core@0.10.0:
-    resolution: {integrity: sha512-imG+bvRkuNlZUi2q9tMVfegRRouTpDxMFejpfF/6J+bFX3NDKtlW9T9iIAkBYnw4pcCtSwirW0AvkwlQR4wyxg==}
-    dev: false
-
-  /shikiji-transformers@0.10.0:
-    resolution: {integrity: sha512-x9oYybeF/XOrIc6Mm8G1gU5ezunMxdgD4WwBTKrZ5tAmFFaNIWCjwZENgRt1uR4iMi0+pGH0g9bmrbraSC41nA==}
+  /shiki@1.0.0-beta.0:
+    resolution: {integrity: sha512-CcP0IhEDQ3LWfJC44cfxfId9pjJi9Nephl8DxgrL4tKWprI/oz6deZyL0vB+XWxhTx/1uonzWQKaSQPwKx5dTA==}
     dependencies:
-      shikiji: 0.10.0
-    dev: false
-
-  /shikiji@0.10.0:
-    resolution: {integrity: sha512-1dAzIOWbtM7B4Sem5BvE+CEdsebDsRA34SfCxM4qJ4PLgR73ZD92VEtNfbcoZ3xOLSqvtV0J9i4WpCgVsmQteg==}
-    dependencies:
-      shikiji-core: 0.10.0
+      '@shikijs/core': 1.0.0-beta.0
     dev: false
 
   /side-channel@1.0.4:
