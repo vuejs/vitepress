@@ -297,7 +297,7 @@ VitePress 同样支持以标注的方式渲染 [GitHub 风格的警报](https://
 > 因为可能存在风险，所以需要用户立即关注的关键内容。
 
 > [!CAUTION]
-> 可能会产生负面影响的行为。
+> 行为可能带来的负面影响。
 
 ## 代码块中的语法高亮 {#syntax-highlighting-in-code-blocks}
 
