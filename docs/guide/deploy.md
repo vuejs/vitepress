@@ -161,7 +161,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
          - name: Setup Node
            uses: actions/setup-node@v4
            with:
-             node-version: 18
+             node-version: 20
              cache: npm # or pnpm / yarn
          - name: Setup Pages
            uses: actions/configure-pages@v4
