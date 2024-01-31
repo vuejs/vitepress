@@ -8,6 +8,8 @@ export interface HeroAction {
   theme?: 'brand' | 'alt'
   text: string
   link: string
+  target?: string
+  rel?: string
 }
 
 defineProps<{
@@ -43,6 +45,8 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
               :theme="action.theme"
               :text="action.text"
               :href="action.link"
+              :target="action.target"
+              :rel="action.rel"
             />
           </div>
         </div>
