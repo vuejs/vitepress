@@ -14,11 +14,22 @@ export const highlightLinePlugin = (md: MarkdownIt) => {
 
     // due to use of markdown-it-attrs, the {0} syntax would have been
     // converted to attrs on the token
-    const attr = token.attrs && token.attrs[0]
+    let highlightLineAttr
+    if (token.attrs) {
+      token.attrs = token.attrs.filter((x) => {
+        const isHighlightLineAttr = /^[\d,-]+$/.test(x[0])
+
+        if (isHighlightLineAttr) {
+          highlightLineAttr = x
+        }
+
+        return !isHighlightLineAttr
+      })
+    }
 
     let lines = null
 
-    if (!attr) {
+    if (!highlightLineAttr) {
       // markdown-it-attrs maybe disabled
       const rawInfo = token.info
 
@@ -35,7 +46,7 @@ export const highlightLinePlugin = (md: MarkdownIt) => {
     }
 
     if (!lines) {
-      lines = attr![0]
+      lines = highlightLineAttr![0]
 
       if (!lines || !/[\d,-]+/.test(lines)) {
         return fence(...args)
