@@ -153,18 +153,18 @@ Cache-Control: max-age=31536000,immutable
        runs-on: ubuntu-latest
        steps:
          - name: Checkout
-           uses: actions/checkout@v3
+           uses: actions/checkout@v4
            with:
              fetch-depth: 0 # 如果未启用 lastUpdated，则不需要
          # - uses: pnpm/action-setup@v2 # 如果使用 pnpm，请取消注释
          # - uses: oven-sh/setup-bun@v1 # 如果使用 Bun，请取消注释
          - name: Setup Node
-           uses: actions/setup-node@v3
+           uses: actions/setup-node@v4
            with:
-             node-version: 18
+             node-version: 20
              cache: npm # 或 pnpm / yarn
          - name: Setup Pages
-           uses: actions/configure-pages@v3
+           uses: actions/configure-pages@v4
          - name: Install dependencies
            run: npm ci # 或 pnpm install / yarn install / bun install
          - name: Build with VitePress
@@ -172,7 +172,7 @@ Cache-Control: max-age=31536000,immutable
              npm run docs:build # 或 pnpm docs:build / yarn docs:build / bun run docs:build
              touch docs/.vitepress/dist/.nojekyll
          - name: Upload artifact
-           uses: actions/upload-pages-artifact@v2
+           uses: actions/upload-pages-artifact@v3
            with:
              path: docs/.vitepress/dist
 
@@ -187,7 +187,7 @@ Cache-Control: max-age=31536000,immutable
        steps:
          - name: Deploy to GitHub Pages
            id: deployment
-           uses: actions/deploy-pages@v2
+           uses: actions/deploy-pages@v4
    ```
 
    ::: warning
