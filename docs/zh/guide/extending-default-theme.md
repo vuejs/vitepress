@@ -194,7 +194,9 @@ export default {
   - `aside-ads-after`
 - 当 `layout: 'home'` 在 frontmatter 中被启用时:
   - `home-hero-before`
+  - `home-hero-info-before`
   - `home-hero-info`
+  - `home-hero-actions-after`
   - `home-hero-image`
   - `home-hero-after`
   - `home-features-before`
