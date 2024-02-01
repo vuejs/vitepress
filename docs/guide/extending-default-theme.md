@@ -197,6 +197,7 @@ Full list of slots available in the default theme layout:
   - `home-hero-before`
   - `home-hero-info-before`
   - `home-hero-info`
+  - `home-hero-info-after`
   - `home-hero-actions-after`
   - `home-hero-image`
   - `home-hero-after`

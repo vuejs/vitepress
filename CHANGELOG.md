@@ -1,3 +1,21 @@
+# [1.0.0-rc.41](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.40...v1.0.0-rc.41) (2024-2-1)
+
+### Bug Fixes
+
+- handle CRLF in snippet plugin ([5811b62](https://github.com/vuejs/vitepress/commit/5811b626576ec4569fa0079d921b8e328d87ca91)), closes [#3499](https://github.com/vuejs/vitepress/issues/3499)
+- lazy evaluate known extensions to allow env set in config ([04f794b](https://github.com/vuejs/vitepress/commit/04f794bf55f8191ea9eed62f545b812f346017d8))
+
+### Features
+
+- **home:** add target and rel attribute to home actions ([#3528](https://github.com/vuejs/vitepress/issues/3528)) ([ab39fd8](https://github.com/vuejs/vitepress/commit/ab39fd8592c994fbc6feba5ee369ca1205c50f04))
+- rename shiki packages ([#3506](https://github.com/vuejs/vitepress/issues/3506)) ([b8487d3](https://github.com/vuejs/vitepress/commit/b8487d3a97679f5b2eb225ee1eb85754b66fee30))
+- wrap site title in span ([#3522](https://github.com/vuejs/vitepress/issues/3522)) ([6b1f951](https://github.com/vuejs/vitepress/commit/6b1f951928a3b9e53dcc9697327b5aba4a5905e2))
+- **theme:** add hero slots that are inside container ([#3524](https://github.com/vuejs/vitepres/issues/3524)) ([28870e6](https://github.com/vuejs/vitepress/commit/28870e68faf0ddaa418ffe0d4371316f6b0bcd02))
+
+### BREAKING CHANGES
+
+- vitepress now uses shiki instead of shikiji. If you’re on the latest version and using shikiji specific features, you just need to change imports. The shikijiSetup hook is renamed to shikiSetup.
+
 # [1.0.0-rc.40](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.39...v1.0.0-rc.40) (2024-1-22)
 
 ### Bug Fixes

@@ -1,4 +1,4 @@
-import { setupDevtoolsPlugin } from '@vue/devtools-api'
+import { setupDevToolsPlugin } from '@vue/devtools-api'
 import type { App } from 'vue'
 import type { Router } from './router'
 import type { VitePressData } from './data'
@@ -10,7 +10,7 @@ export const setupDevtools = (
   router: Router,
   data: VitePressData
 ): void => {
-  setupDevtoolsPlugin(
+  setupDevToolsPlugin(
     {
       // fix recursive reference
       app: app as any,
@@ -21,7 +21,8 @@ export const setupDevtools = (
       componentStateTypes: [COMPONENT_STATE_TYPE]
     },
     (api) => {
-      api.on.inspectComponent((payload) => {
+      // TODO: remove any
+      api.on.inspectComponent((payload: any) => {
         payload.instanceData.state.push({
           type: COMPONENT_STATE_TYPE,
           key: 'route',

@@ -69,6 +69,12 @@ interface HeroAction {
 
   // Destination link of the button.
   link: string
+
+  // Link target attribute.
+  target?: string
+
+  // Link rel attribute.
+  rel?: string
 }
 ```
 
@@ -144,6 +150,9 @@ interface Feature {
   //
   // e.g. `external`
   rel?: string
+
+  // Link target attribute for the `link` option.
+  target?: string
 }
 
 type FeatureIcon =
