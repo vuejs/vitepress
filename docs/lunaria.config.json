@@ -26,5 +26,6 @@
       "lang": "zh"
     }
   ],
-  "outDir": ".vitepress/dist/_translations"
+  "outDir": ".vitepress/dist/_translations",
+  "ignoreKeywords": ["lunaria-ignore"]
 }

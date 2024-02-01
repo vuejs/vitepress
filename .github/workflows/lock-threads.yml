@@ -17,7 +17,7 @@ jobs:
     if: github.repository == 'vuejs/vitepress'
     runs-on: ubuntu-latest
     steps:
-      - uses: dessant/lock-threads@v4
+      - uses: dessant/lock-threads@v5
         with:
           issue-inactive-days: 7
           pr-inactive-days: 7
