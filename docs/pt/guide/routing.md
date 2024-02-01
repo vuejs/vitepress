@@ -93,7 +93,7 @@ Você pode usar tanto caminhos absolutos quanto relativos ao vincular páginas. 
 [Getting Started](./getting-started.html)
 ```
 
-Saiba mais sobre a vinculação de ativos, como imagens, em [Manipulação de Ativos](./manipulacao-de-ativos).
+Saiba mais sobre a vinculação de ativos, como imagens, em [Manipulação de Ativos](./asset-handling).
 
 ### Vinculação a Páginas Não VitePress
 
