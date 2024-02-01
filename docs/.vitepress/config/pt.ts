@@ -36,7 +36,7 @@ export const pt = defineConfig({
     },
 
     lastUpdated: {
-      text: '最后更新于',
+      text: 'Atualizado em',
       formatOptions: {
         dateStyle: 'short',
         timeStyle: 'medium'
