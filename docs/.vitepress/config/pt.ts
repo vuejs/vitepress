@@ -32,7 +32,7 @@ export const pt = defineConfig({
     },
 
     outline: {
-      label: '页面导航'
+      label: 'Nesta página'
     },
 
     lastUpdated: {
