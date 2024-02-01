@@ -127,7 +127,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
     },
     {
       text: 'Configuração e Referência da API',
-      base: '/zh/reference/',
+      base: '/pt/reference/',
       link: 'site-config'
     }
   ]
@@ -144,7 +144,7 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
         { text: 'CLI', link: 'cli' },
         {
           text: 'Tema padrão',
-          base: '/zh/reference/default-theme-',
+          base: '/pt/reference/default-theme-',
           items: [
             { text: 'Visão Geral', link: 'config' },
             { text: 'Navegação', link: 'nav' },
