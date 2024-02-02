@@ -4,9 +4,9 @@ A configuração do tema permite que você personalize seu tema. Você pode defi
 
 ```ts
 export default {
-  lang: 'en-US',
+  lang: 'pt-BR',
   title: 'VitePress',
-  description: 'Vite & Vue powered static site generator.',
+  description: 'Gerador de site estático Vite & Vue.',
 
   // Configurações relacionadas ao tema.
   themeConfig: {
@@ -55,7 +55,7 @@ Você pode personalizar este item para substituir o título padrão do site (`ti
 ```ts
 export default {
   themeConfig: {
-    siteTitle: 'Hello World'
+    siteTitle: 'Olá Mundo'
   }
 }
 ```
