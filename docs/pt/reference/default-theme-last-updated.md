@@ -6,7 +6,7 @@ O tempo em que o conteúdo foi atualizado pela última vez será mostrado no can
 Você precisa fazer _commit_ no arquivo markdown para ver o tempo atualizado.
 :::
 
-## Configuração a nível do Site
+## Configuração a nível de Site
 
 ```js
 export default {
