@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import VPIconLanguages from './icons/VPIconLanguages.vue'
+// import VPIconLanguages from './icons/VPIconLanguages.vue'
 import VPFlyout from './VPFlyout.vue'
 import VPMenuLink from './VPMenuLink.vue'
 import { useData } from '../composables/data'
@@ -13,7 +13,7 @@ const { localeLinks, currentLang } = useLangs({ correspondingLink: true })
   <VPFlyout
     v-if="localeLinks.length && currentLang.label"
     class="VPNavBarTranslations"
-    :icon="VPIconLanguages"
+    icon="vp-icon-languages"
     :label="theme.langMenuLabel || 'Change language'"
   >
     <div class="items">

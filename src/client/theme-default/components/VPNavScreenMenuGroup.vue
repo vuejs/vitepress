@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import VPIconPlus from './icons/VPIconPlus.vue'
+// import VPIconPlus from './icons/VPIconPlus.vue'
 import VPNavScreenMenuGroupLink from './VPNavScreenMenuGroupLink.vue'
 import VPNavScreenMenuGroupSection from './VPNavScreenMenuGroupSection.vue'
 
@@ -29,7 +29,8 @@ function toggle() {
       @click="toggle"
     >
       <span class="button-text" v-html="text"></span>
-      <VPIconPlus class="button-icon" />
+<!--      <VPIconPlus class="button-icon" />-->
+      <span class="vp-icon vp-icon-plus button-icon" />
     </button>
 
     <div :id="groupId" class="items">

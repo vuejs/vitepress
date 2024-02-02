@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import type { DefaultTheme } from 'vitepress/theme'
 import { useSidebarControl } from '../composables/sidebar'
-import VPIconChevronRight from './icons/VPIconChevronRight.vue'
+// import VPIconChevronRight from './icons/VPIconChevronRight.vue'
 import VPLink from './VPLink.vue'
 
 const props = defineProps<{
@@ -91,7 +91,8 @@ function onCaretClick() {
         @keydown.enter="onCaretClick"
         tabindex="0"
       >
-        <VPIconChevronRight class="caret-icon" />
+<!--        <VPIconChevronRight class="caret-icon" />-->
+        <span class="vp-icon vp-icon-chevron-right caret-icon" />
       </div>
     </div>
 

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { useFlyout } from '../composables/flyout'
-import VPIconChevronDown from './icons/VPIconChevronDown.vue'
-import VPIconMoreHorizontal from './icons/VPIconMoreHorizontal.vue'
+// import VPIconChevronDown from './icons/VPIconChevronDown.vue'
+// import VPIconMoreHorizontal from './icons/VPIconMoreHorizontal.vue'
 import VPMenu from './VPMenu.vue'
 
 defineProps<{
@@ -38,12 +38,15 @@ function onBlur() {
       @click="open = !open"
     >
       <span v-if="button || icon" class="text">
-        <component v-if="icon" :is="icon" class="option-icon" />
+        <span v-if="icon" :class="['vp-icon', icon, 'option-icon']" />
+<!--        <component v-if="icon" :is="icon" class="option-icon" />-->
         <span v-if="button" v-html="button"></span>
-        <VPIconChevronDown class="text-icon" />
+<!--        <VPIconChevronDown class="text-icon" />-->
+        <span class="vp-icon vp-icon-chevron-down text-icon" />
       </span>
 
-      <VPIconMoreHorizontal v-else class="icon" />
+<!--      <VPIconMoreHorizontal v-else class="icon" />-->
+      <span v-else class="vp-icon vp-icon-more-horizontal icon" />
     </button>
 
     <div class="menu">

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { DefaultTheme } from 'vitepress/theme'
-import VPIconHeart from './icons/VPIconHeart.vue'
+// import VPIconHeart from './icons/VPIconHeart.vue'
 import VPLink from './VPLink.vue'
 import VPSocialLinks from './VPSocialLinks.vue'
 
@@ -47,7 +47,8 @@ withDefaults(defineProps<Props>(), {
     </div>
     <div v-if="member.sponsor" class="sp">
       <VPLink class="sp-link" :href="member.sponsor" no-icon>
-        <VPIconHeart class="sp-icon" /> {{ member.actionText || 'Sponsor' }}
+<!--        <VPIconHeart class="sp-icon" />-->
+        <span class="vp-icon vp-icon-heart sp-icon" /> {{ member.actionText || 'Sponsor' }}
       </VPLink>
     </div>
   </article>
