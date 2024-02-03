@@ -26,11 +26,9 @@ export const gitHubAlertsPlugin = (
         const open = tokens[startIndex]
         let endIndex = i + 1
         while (
-          !(
-            tokens[endIndex].type === 'blockquote_close' &&
-            tokens[endIndex].level === open.level
-          ) &&
-          endIndex < tokens.length
+          endIndex < tokens.length &&
+          (tokens[endIndex].type !== 'blockquote_close' ||
+            tokens[endIndex].level !== open.level)
         )
           endIndex++
         if (endIndex === tokens.length) continue
