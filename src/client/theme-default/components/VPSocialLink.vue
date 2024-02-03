@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { DefaultTheme } from 'vitepress/theme'
 import { computed } from 'vue'
+import { socialIcons } from 'virtual:vp-social-icons'
 
 const props = defineProps<{
   icon: DefaultTheme.SocialLinkIcon
@@ -8,39 +9,16 @@ const props = defineProps<{
   ariaLabel?: string
 }>()
 
-const svgSpriteRegex = __SOCIAL_SVG_SPRITE_ICONS__
-  ? /\.\/sprite-social-icons\/VP(.*)Icon\.vue/
-  : /\.\/social-icons\/VP(.*)Icon\.vue/
-
-const icons = Object.entries(__SOCIAL_SVG_SPRITE_ICONS__
-    ?
-    import.meta.glob('./sprite-social-icons/*.vue', {
-      eager: true,
-      import: 'default'
-    })
-    : import.meta.glob('./social-icons/*.vue', {
-      eager: true,
-      import: 'default'
-    })
-).reduce(
-    (acc, [path, component]) => {
-      const name = path
-          .match(svgSpriteRegex)![1]
-          .toLowerCase()
-      acc[name] = component
-      return acc
-    },
-    {} as Record<string, any>
-)
-
 const svg = computed(() => {
-  if (__SOCIAL_SVG_SPRITE_ICONS__) {
-    if (typeof props.icon === 'object' && 'id' in props.icon) return 'id' in props.icon ? icons[props.icon.id] : undefined
+  if (typeof props.icon === 'object') {
+    return 'id' in props.icon
+      ? socialIcons[props.icon.id]
+      : 'svg' in props.icon
+        ? { svg: props.icon.svg }
+        : undefined
   }
 
-  if (typeof props.icon === 'object') return 'svg' in props.icon ? { svg: props.icon.svg } : undefined
-
-  return icons[props.icon]
+  return socialIcons[props.icon]
 })
 </script>
 
@@ -57,7 +35,7 @@ const svg = computed(() => {
   </a>
   <a
     v-else
-    class="VPSocialLink"
+    class="VPSocialLink no-icon"
     :href="link"
     :aria-label="ariaLabel ?? (typeof icon === 'string' ? icon : '')"
     target="_blank"

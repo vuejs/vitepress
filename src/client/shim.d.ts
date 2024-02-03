@@ -4,7 +4,6 @@ declare const __ALGOLIA__: boolean
 declare const __CARBON__: boolean
 declare const __VUE_PROD_DEVTOOLS__: boolean
 declare const __ASSETS_DIR__: string
-declare const __SOCIAL_SVG_SPRITE_ICONS__: boolean
 
 declare module '*.vue' {
   import type { DefineComponent } from 'vue'
@@ -33,4 +32,8 @@ declare module 'mark.js/src/vanilla.js' {
   import type Mark from 'mark.js'
   const mark: typeof Mark
   export default mark
+}
+
+declare module 'virtual:vp-social-icons' {
+  export const socialIcons: Record<string, any>
 }

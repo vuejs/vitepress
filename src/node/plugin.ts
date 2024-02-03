@@ -153,9 +153,7 @@ export async function createVitePressPlugin(
             !!site.themeConfig?.algolia, // legacy
           __CARBON__: !!site.themeConfig?.carbonAds,
           __ASSETS_DIR__: JSON.stringify(siteConfig.assetsDir),
-          __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: !!process.env.DEBUG,
-          __SOCIAL_SVG_SPRITE_ICONS__:
-            site.themeConfig?.enableSocialLinksSVGSprite === true
+          __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: !!process.env.DEBUG
         },
         optimizeDeps: {
           // force include vue to avoid duplicated copies when linked + optimized

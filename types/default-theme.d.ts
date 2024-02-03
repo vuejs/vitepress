@@ -90,19 +90,6 @@ export namespace DefaultTheme {
     socialLinks?: SocialLink[]
 
     /**
-     * Should VitePress generate and use SVG Sprite to render SVG social links?.
-     *
-     * To enable this feature, you need to provide `{ sprite: string; symbol: string }` in `socialLinks` entries if you're using custom `svg`:
-     * - the symbol is the svg content: replace svg with symbol tag: `<svg...><content></svg>` => `<symbol><content></symbol>`
-     * - remove any xmlns and role attributes
-     * - include id attribute, must match the sprite value
-     * - remove title and desc tags if present
-     *
-     * @default false
-     */
-    enableSocialLinksSVGSprite?: boolean
-
-    /**
      * The footer configuration.
      */
     footer?: Footer

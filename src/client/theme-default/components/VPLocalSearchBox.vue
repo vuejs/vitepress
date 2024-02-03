@@ -32,6 +32,14 @@ import { escapeRegExp } from '../../shared'
 import { useData } from '../composables/data'
 import { LRUCache } from '../support/lru'
 import { createSearchTranslate } from '../support/translation'
+import VPLocalSearchIcon from "./search-icons/VPLocalSearchIcon.vue";
+import VPLocalSearchBackIcon from "./search-icons/VPLocalSearchBackIcon.vue";
+import VPLocalSearchToggleIcon from "./search-icons/VPLocalSearchToggleIcon.vue";
+import VPLocalSearchClearIcon from "./search-icons/VPLocalSearchClearIcon.vue";
+import VPLocalSearchTilesIcon from "./search-icons/VPLocalSearchTilesIcon.vue";
+import VPLocalSearchNavUpIcon from "./search-icons/VPLocalSearchNavUpIcon.vue";
+import VPLocalSearchNavDownIcon from "./search-icons/VPLocalSearchNavDownIcon.vue";
+import VPLocalSearchSelectIcon from "./search-icons/VPLocalSearchSelectIcon.vue";
 
 const emit = defineEmits<{
   (e: 'close'): void
@@ -430,24 +438,7 @@ function formMarkRegex(terms: Set<string>) {
             id="localsearch-label"
             for="localsearch-input"
           >
-            <svg
-              class="search-icon"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <g
-                fill="none"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-              >
-                <circle cx="11" cy="11" r="8" />
-                <path d="m21 21l-4.35-4.35" />
-              </g>
-            </svg>
+            <VPLocalSearchIcon class="search-icon" width="18" height="18" />
           </label>
           <div class="search-actions before">
             <button
@@ -455,21 +446,7 @@ function formMarkRegex(terms: Set<string>) {
               :title="$t('modal.backButtonTitle')"
               @click="$emit('close')"
             >
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 12H5m7 7l-7-7l7-7"
-                />
-              </svg>
+              <VPLocalSearchBackIcon width="18" height="18" />
             </button>
           </div>
           <input
@@ -491,21 +468,7 @@ function formMarkRegex(terms: Set<string>) {
                 selectedIndex > -1 && (showDetailedList = !showDetailedList)
               "
             >
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M3 14h7v7H3zM3 3h7v7H3zm11 1h7m-7 5h7m-7 6h7m-7 5h7"
-                />
-              </svg>
+              <VPLocalSearchToggleIcon width="18" height="18" />
             </button>
 
             <button
@@ -515,21 +478,7 @@ function formMarkRegex(terms: Set<string>) {
               :title="$t('modal.resetButtonTitle')"
               @click="resetSearch"
             >
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M20 5H9l-7 7l7 7h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm-2 4l-6 6m0-6l6 6"
-                />
-              </svg>
+              <VPLocalSearchClearIcon width="18" height="18" />
             </button>
           </div>
         </form>
@@ -568,16 +517,7 @@ function formMarkRegex(terms: Set<string>) {
                     class="title"
                   >
                     <span class="text" v-html="t" />
-                    <svg width="18" height="18" viewBox="0 0 24 24">
-                      <path
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="m9 18l6-6l-6-6"
-                      />
-                    </svg>
+                    <VPLocalSearchTilesIcon width="18" height="18" />
                   </span>
                   <span class="title main">
                     <span class="text" v-html="p.title" />
@@ -606,45 +546,16 @@ function formMarkRegex(terms: Set<string>) {
         <div class="search-keyboard-shortcuts">
           <span>
             <kbd :aria-label="$t('modal.footer.navigateUpKeyAriaLabel')">
-              <svg width="14" height="14" viewBox="0 0 24 24">
-                <path
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 19V5m-7 7l7-7l7 7"
-                />
-              </svg>
+              <VPLocalSearchNavUpIcon width="14" height="14" />
             </kbd>
             <kbd :aria-label="$t('modal.footer.navigateDownKeyAriaLabel')">
-              <svg width="14" height="14" viewBox="0 0 24 24">
-                <path
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 5v14m7-7l-7 7l-7-7"
-                />
-              </svg>
+              <VPLocalSearchNavDownIcon width="14" height="14" />
             </kbd>
             {{ $t('modal.footer.navigateText') }}
           </span>
           <span>
             <kbd :aria-label="$t('modal.footer.selectKeyAriaLabel')">
-              <svg width="14" height="14" viewBox="0 0 24 24">
-                <g
-                  fill="none"
-                  stroke="currentcolor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                >
-                  <path d="m9 10l-5 5l5 5" />
-                  <path d="M20 4v7a4 4 0 0 1-4 4H4" />
-                </g>
-              </svg>
+              <VPLocalSearchSelectIcon width="14" height="14" />
             </kbd>
             {{ $t('modal.footer.selectText') }}
           </span>

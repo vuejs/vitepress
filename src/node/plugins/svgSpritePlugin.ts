@@ -4,11 +4,31 @@ import type { DefaultTheme } from '../index'
 
 export function svgSpritePlugin(siteConfig: SiteConfig) {
   let useSvgSprites: Record<string, string> = {}
+  let virtual: [name: string, path: string][] = []
+  const virtualName = 'virtual:vp-social-icons'
+  const resolvedVirtualName = `\0${virtualName}`
   return {
     name: 'vitepress:svg-sprite',
     enforce: 'pre',
     configResolved() {
       useSvgSprites = prepareSvgSprites(useSvgSprites, siteConfig)
+      virtual = prepareSVGIcons(siteConfig)
+    },
+    resolveId(id: string) {
+      if (id === virtualName) {
+        return resolvedVirtualName
+      }
+    },
+    load(id) {
+      if (id === resolvedVirtualName) {
+        if (virtual.length === 0) {
+          return 'export const socialIcons = {}'
+        }
+        return `${virtual.map(([name, path]) => `import ${name} from ${JSON.stringify(path)}`).join('\n')}
+
+export const socialIcons = {${virtual.map(([name]) => name).join(',')}}
+`
+      }
     },
     generateBundle(_options, bundle) {
       Object.entries(useSvgSprites).forEach(([fileName, source]) => {
@@ -44,6 +64,45 @@ export function svgSpritePlugin(siteConfig: SiteConfig) {
       })
     }
   } satisfies Plugin
+}
+
+function prepareSVGIcons({ site }: SiteConfig) {
+  const socialIconPrefix =
+    site.themeConfig?.enableSocialLinksSVGSprite === true
+      ? 'vitepress/dist/client/theme-default/components/sprite-social-icons/'
+      : 'vitepress/dist/client/theme-default/components/social-icons/'
+  const socialIcons: DefaultTheme.SocialLink[] =
+    site.themeConfig?.socialLinks ?? []
+
+  return socialIcons
+    .filter((s) => typeof s.icon === 'string')
+    .map((s) => {
+      let icon: string = ''
+      switch (s.icon) {
+        case 'x':
+          icon = 'X'
+          break
+        case 'github':
+          icon = 'GitHub'
+          break
+        case 'youtube':
+          icon = 'YouTube'
+          break
+        case 'discord':
+        case 'facebook':
+        case 'instagram':
+        case 'mastodon':
+        case 'npm':
+        case 'slack':
+        case 'twitter':
+          icon = s.icon.charAt(0).toUpperCase() + s.icon.slice(1)
+          break
+      }
+      return [s.icon, `${socialIconPrefix}VP${icon}Icon.vue`] as [
+        name: string,
+        path: string
+      ]
+    })
 }
 
 const svgSprite = `<?xml version="1.0" encoding="UTF-8"?>
@@ -131,11 +190,6 @@ const svgSprite = `<?xml version="1.0" encoding="UTF-8"?>
 </svg>
 `
 
-const localSearchSvgSprite = `<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0">
-</svg>
-`
-
 const socialSvgSpriteSymbols = {
   discord: `<symbol id="discord" viewBox="0 0 24 24">
     <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/>
@@ -172,44 +226,99 @@ const socialSvgSpriteSymbols = {
   </symbol>`
 }
 
+const localSearchSvgSprite = `
+<symbol id="LocalSearch" viewBox="0 0 24 24">
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+    <circle cx="11" cy="11" r="8" />
+    <path d="m21 21l-4.35-4.35" />
+  </g>
+</symbol>
+<symbol id="LocalSearchBack" viewBox="0 0 24 24">
+  <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m7 7l-7-7l7-7" />
+</symbol>
+<symbol id="LocalSearchToggle" viewBox="0 0 24 24">
+  <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 14h7v7H3zM3 3h7v7H3zm11 1h7m-7 5h7m-7 6h7m-7 5h7" />
+</symbol>
+<symbol id="LocalSearchClear" viewBox="0 0 24 24" >
+  <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 5H9l-7 7l7 7h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm-2 4l-6 6m0-6l6 6"/>
+</symbol>
+<symbol id="LocalSearchTitles" viewBox="0 0 24 24">
+  <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 18l6-6l-6-6" />
+</symbol>
+<symbol id="LocalSearchNavUp" viewBox="0 0 24 24">
+  <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19V5m-7 7l7-7l7 7" />
+</symbol>
+<symbol id="LocalSearchNavDown" viewBox="0 0 24 24">
+  <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v14m7-7l-7 7l-7-7" />
+</symbol>
+<symbol id="LocalSearchSelect" viewBox="0 0 24 24">
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+    <path d="m9 10l-5 5l5 5" />
+    <path d="M20 4v7a4 4 0 0 1-4 4H4" />
+  </g>
+</symbol>
+`
+
+const DocSearchIcon = `
+  <symbol id="DocSearch" viewBox="0 0 20 20">
+    <path d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z"
+      stroke="currentColor"
+      fill="none"
+      fill-rule="evenodd"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </symbol>`
+
 function prepareSvgSprites(
   sprites: Record<string, string>,
   siteConfig: SiteConfig
 ) {
   sprites['vp-icons-sprite.svg'] = svgSprite
-  if (siteConfig.site.themeConfig?.enableSocialLinksSVGSprite) {
-    const socialLinks: DefaultTheme.SocialLink[] | undefined =
-      siteConfig.site.themeConfig.socialLinks
-    if (socialLinks?.length) {
-      const entries = Object.values(
-        socialLinks.reduce(
-          (sprite, l) => {
-            if (l.icon) {
-              if (typeof l.icon !== 'object') {
-                if (l.icon in socialSvgSpriteSymbols) {
-                  sprite[l.icon] = socialSvgSpriteSymbols[l.icon]
-                }
-              } else if ('id' in l.icon && 'symbol' in l.icon) {
-                sprite[l.icon.id] = l.icon.symbol
-                // we don't need the symbol in the site configuration
-                l.icon.symbol = ''
+  const socialLinks: DefaultTheme.SocialLink[] | undefined =
+    siteConfig.site.themeConfig.socialLinks
+  if (socialLinks?.length) {
+    const entries = Object.values(
+      socialLinks.reduce(
+        (sprite, l) => {
+          if (l.icon) {
+            if (typeof l.icon !== 'object') {
+              if (l.icon in socialSvgSpriteSymbols) {
+                sprite[l.icon] = socialSvgSpriteSymbols[l.icon]
               }
+            } else if ('id' in l.icon && 'symbol' in l.icon) {
+              sprite[l.icon.id] = l.icon.symbol
+              // we don't need the symbol in the site configuration
+              l.icon.symbol = ''
             }
+          }
 
-            return sprite
-          },
-          {} as Record<string, string>
-        )
+          return sprite
+        },
+        {} as Record<string, string>
       )
-      entries.unshift(`<?xml version="1.0" encoding="UTF-8"?>
+    )
+    entries.unshift(`<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0">`)
-      entries.push('</svg>')
-      sprites['vp-social-icons-sprite.svg'] = entries.join('')
-    }
+    entries.push('</svg>')
+    sprites['vp-social-icons-sprite.svg'] = entries.join('')
   }
 
   if (siteConfig.site.themeConfig?.search?.provider === 'local') {
-    sprites['vp-local-search-icons-sprite.svg'] = localSearchSvgSprite
+    sprites['vp-local-search-icons-sprite.svg'] =
+      `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0">    
+  ${DocSearchIcon.trim()}
+  ${localSearchSvgSprite.trim()}
+</svg>
+`
+  } else {
+    sprites['vp-local-search-icons-sprite.svg'] =
+      `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0">    
+  ${DocSearchIcon.trim()}  
+</svg>
+`
   }
 
   return sprites
