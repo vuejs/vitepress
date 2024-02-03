@@ -28,6 +28,7 @@ import { staticDataPlugin } from './plugins/staticDataPlugin'
 import { webFontsPlugin } from './plugins/webFontsPlugin'
 import { slash, type PageDataPayload } from './shared'
 import { deserializeFunctions, serializeFunctions } from './utils/fnSerialize'
+import { svgSpritePlugin } from './plugins/svgSpritePlugin'
 
 declare module 'vite' {
   interface UserConfig {
@@ -444,6 +445,7 @@ export async function createVitePressPlugin(
     ...(userViteConfig?.plugins || []),
     await localSearchPlugin(siteConfig),
     staticDataPlugin,
+    svgSpritePlugin,
     await dynamicRoutesPlugin(siteConfig)
   ]
 }
