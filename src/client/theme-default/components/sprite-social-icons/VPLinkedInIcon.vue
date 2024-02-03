@@ -3,5 +3,5 @@ import VPIcon from '../VPSVGSpriteIcon.vue';
 </script>
 
 <template>
-  <VPIcon icon="ArrowRight" />
+  <VPIcon role="img" icon="linkedin" title="LinkedIn" sprite="social" />
 </template>

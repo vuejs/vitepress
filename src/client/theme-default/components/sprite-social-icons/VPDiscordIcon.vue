@@ -3,5 +3,5 @@ import VPIcon from '../VPSVGSpriteIcon.vue';
 </script>
 
 <template>
-  <VPIcon icon="ArrowRight" />
+  <VPIcon role="img" icon="discord" title="Discord" sprite="social" />
 </template>

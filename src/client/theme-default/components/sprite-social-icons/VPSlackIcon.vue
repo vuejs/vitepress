@@ -3,5 +3,5 @@ import VPIcon from '../VPSVGSpriteIcon.vue';
 </script>
 
 <template>
-  <VPIcon icon="ArrowRight" />
+  <VPIcon role="img" icon="slack" title="Slack" sprite="social" />
 </template>

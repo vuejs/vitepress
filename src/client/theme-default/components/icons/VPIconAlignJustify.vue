@@ -1,11 +1,7 @@
 <script setup lang="ts">
-import { useData } from '../../composables/data'
-
-const { site } = useData()
+import VPIcon from '../VPSVGSpriteIcon.vue';
 </script>
 
 <template>
-  <svg>
-    <use :href="`${site.base}vp-icons-sprite.svg#AlignJustify`"></use>
-  </svg>
+  <VPIcon aria-hidden="true" focusable="false" icon="AlignJustify" />
 </template>

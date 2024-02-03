@@ -153,7 +153,9 @@ export async function createVitePressPlugin(
             !!site.themeConfig?.algolia, // legacy
           __CARBON__: !!site.themeConfig?.carbonAds,
           __ASSETS_DIR__: JSON.stringify(siteConfig.assetsDir),
-          __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: !!process.env.DEBUG
+          __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: !!process.env.DEBUG,
+          __SOCIAL_SVG_SPRITE_ICONS__:
+            site.themeConfig?.enableSocialLinksSVGSprite === true
         },
         optimizeDeps: {
           // force include vue to avoid duplicated copies when linked + optimized
@@ -445,7 +447,7 @@ export async function createVitePressPlugin(
     ...(userViteConfig?.plugins || []),
     await localSearchPlugin(siteConfig),
     staticDataPlugin,
-    svgSpritePlugin,
+    svgSpritePlugin(siteConfig),
     await dynamicRoutesPlugin(siteConfig)
   ]
 }
