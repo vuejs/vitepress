@@ -16,7 +16,8 @@ const $t = createSearchTranslate(defaultTranslations)
 <template>
   <button type="button" class="DocSearch DocSearch-Button" :aria-label="$t('button.buttonAriaLabel')">
     <span class="DocSearch-Button-Container">
-      <svg
+      <span class="i-vitepress:docsearch-search DocSearch-Search-Icon" />
+<!--      <svg
         class="DocSearch-Search-Icon"
         width="20"
         height="20"
@@ -31,7 +32,7 @@ const $t = createSearchTranslate(defaultTranslations)
           stroke-linecap="round"
           stroke-linejoin="round"
         />
-      </svg>
+      </svg>-->
       <span class="DocSearch-Button-Placeholder">{{ $t('button.buttonText') }}</span>
     </span>
     <span class="DocSearch-Button-Keys">

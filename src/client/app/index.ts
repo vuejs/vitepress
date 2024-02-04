@@ -18,6 +18,8 @@ import { dataSymbol, initData, siteDataRef, useData } from './data'
 import { RouterSymbol, createRouter, scrollTo, type Router } from './router'
 import { inBrowser, pathToFile } from './utils'
 
+import 'uno.css'
+
 function resolveThemeExtends(theme: typeof RawTheme): typeof RawTheme {
   if (theme.extends) {
     const base = resolveThemeExtends(theme.extends)

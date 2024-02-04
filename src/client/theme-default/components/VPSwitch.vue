@@ -47,7 +47,7 @@
   overflow: hidden;
 }
 
-.icon :deep(svg) {
+.icon :deep(svg), .icon :deep([class^="i-vitepress:"]) {
   position: absolute;
   top: 3px;
   left: 3px;

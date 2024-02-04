@@ -5,7 +5,7 @@ import { nextTick, ref } from 'vue'
 import { useData } from '../composables/data'
 import { resolveTitle, type MenuItem } from '../composables/outline'
 import VPDocOutlineItem from './VPDocOutlineItem.vue'
-import VPIconChevronRight from './icons/VPIconChevronRight.vue'
+// import VPIconChevronRight from './icons/VPIconChevronRight.vue'
 
 const props = defineProps<{
   headers: MenuItem[]
@@ -61,7 +61,8 @@ function scrollToTop() {
   >
     <button @click="toggle" :class="{ open }" v-if="headers.length > 0">
       {{ resolveTitle(theme) }}
-      <VPIconChevronRight class="icon" />
+      <span class="i-vitepress:chevron-right icon" />
+<!--      <VPIconChevronRight class="icon" />-->
     </button>
     <button @click="scrollToTop" v-else>
       {{ theme.returnToTopLabel || 'Return to top' }}

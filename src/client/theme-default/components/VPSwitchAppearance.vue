@@ -2,8 +2,8 @@
 import { inject, computed } from 'vue'
 import { useData } from '../composables/data'
 import VPSwitch from './VPSwitch.vue'
-import VPIconMoon from './icons/VPIconMoon.vue'
-import VPIconSun from './icons/VPIconSun.vue'
+// import VPIconMoon from './icons/VPIconMoon.vue'
+// import VPIconSun from './icons/VPIconSun.vue'
 
 const { isDark, theme } = useData()
 
@@ -25,8 +25,10 @@ const switchTitle = computed(() => {
     :aria-checked="isDark"
     @click="toggleAppearance"
   >
-    <VPIconSun class="sun" />
-    <VPIconMoon class="moon" />
+    <span class="i-vitepress:sun sun" />
+    <span class="i-vitepress:moon moon" />
+<!--    <VPIconSun class="sun" />-->
+<!--    <VPIconMoon class="moon" />-->
   </VPSwitch>
 </template>
 

@@ -13,6 +13,7 @@ import type {
   SSGContext,
   SiteData
 } from './shared'
+import type { UnoCSSConfig } from './unocss/types'
 
 export type RawConfigExports<ThemeConfig = any> =
   | Awaitable<UserConfig<ThemeConfig>>
@@ -205,6 +206,8 @@ export interface UserConfig<ThemeConfig = any>
     pageData: PageData,
     ctx: TransformPageContext
   ) => Awaitable<Partial<PageData> | { [key: string]: any } | void>
+
+  unocss?: UnoCSSConfig | string
 }
 
 export interface SiteConfig<ThemeConfig = any>
@@ -250,4 +253,5 @@ export interface SiteConfig<ThemeConfig = any>
   logger: Logger
   userConfig: UserConfig
   buildConcurrency: number
+  unocss?: UnoCSSConfig | string
 }

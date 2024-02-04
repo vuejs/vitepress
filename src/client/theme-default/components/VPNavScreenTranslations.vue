@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import VPIconChevronDown from './icons/VPIconChevronDown.vue'
-import VPIconLanguages from './icons/VPIconLanguages.vue'
+// import VPIconChevronDown from './icons/VPIconChevronDown.vue'
+// import VPIconLanguages from './icons/VPIconLanguages.vue'
 import { useLangs } from '../composables/langs'
 import VPLink from './VPLink.vue'
 
@@ -20,9 +20,11 @@ function toggle() {
     :class="{ open: isOpen }"
   >
     <button class="title" @click="toggle">
-      <VPIconLanguages class="icon lang" />
+      <span class="i-vitepress:languages icon lang" />
+<!--      <VPIconLanguages class="icon lang" />-->
       {{ currentLang.label }}
-      <VPIconChevronDown class="icon chevron" />
+      <span class="i-vitepress:chevron-down icon chevron" />
+<!--      <VPIconChevronDown class="icon chevron" />-->
     </button>
 
     <ul class="list">

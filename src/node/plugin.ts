@@ -28,6 +28,7 @@ import { staticDataPlugin } from './plugins/staticDataPlugin'
 import { webFontsPlugin } from './plugins/webFontsPlugin'
 import { slash, type PageDataPayload } from './shared'
 import { deserializeFunctions, serializeFunctions } from './utils/fnSerialize'
+import { UnoCSSPlugin } from './unocss/plugin'
 
 declare module 'vite' {
   interface UserConfig {
@@ -77,7 +78,8 @@ export async function createVitePressPlugin(
     vite: userViteConfig,
     pages,
     lastUpdated,
-    cleanUrls
+    cleanUrls,
+    unocss
   } = siteConfig
 
   let markdownToVue: Awaited<ReturnType<typeof createMarkdownToVueRenderFn>>
@@ -442,6 +444,7 @@ export async function createVitePressPlugin(
     hmrFix,
     webFontsPlugin(siteConfig.useWebFonts),
     ...(userViteConfig?.plugins || []),
+    UnoCSSPlugin(unocss),
     await localSearchPlugin(siteConfig),
     staticDataPlugin,
     await dynamicRoutesPlugin(siteConfig)

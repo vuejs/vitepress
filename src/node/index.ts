@@ -8,6 +8,7 @@ export { defineLoader, type LoaderModule } from './plugins/staticDataPlugin'
 export * from './postcss/isolateStyles'
 export * from './serve/serve'
 export * from './server'
+export * from './unocss/index'
 
 // shared types
 export type {

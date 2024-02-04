@@ -13,7 +13,8 @@ const { localeLinks, currentLang } = useLangs({ correspondingLink: true })
   <VPFlyout
     v-if="localeLinks.length && currentLang.label"
     class="VPNavBarTranslations"
-    :icon="VPIconLanguages"
+    icon="i-vitepress:languages"
+    :xicon="VPIconLanguages"
     :label="theme.langMenuLabel || 'Change language'"
   >
     <div class="items">
