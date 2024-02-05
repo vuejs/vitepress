@@ -13,7 +13,7 @@ Você pode usar o componente `Badge` que está disponível globalmente.
 ### Title <Badge type="danger" text="caution" />
 ```
 
-O código acima é renderizado como:
+O código acima é apresentado como:
 
 ### Title <Badge type="info" text="default" />
 ### Title <Badge type="tip" text="^1.9.0" />
@@ -22,7 +22,7 @@ O código acima é renderizado como:
 
 ## Filiação Personalizada
 
-`<Badge>` aceita `children` (filhos), que serão exibidas no emblema.
+`<Badge>` aceita `children` (filhos), que serão exibidos no emblema.
 
 ```html
 ### Title <Badge type="info">custom element</Badge>
@@ -32,7 +32,7 @@ O código acima é renderizado como:
 
 ## Personalize o Tipo de Cor
 
-Você pode personalizar o estilo dos emblemas substituindo variáveis ​​CSS. A seguir estão os valores padrão:
+Você pode personalizar o estilo dos emblemas sobrepondo variáveis ​​CSS. Os seguintes são os valores padrão:
 
 ```css
 :root {
