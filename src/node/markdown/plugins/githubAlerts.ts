@@ -22,12 +22,17 @@ export const gitHubAlertsPlugin = (
     const tokens = state.tokens
     for (let i = 0; i < tokens.length; i++) {
       if (tokens[i].type === 'blockquote_open') {
-        const open = tokens[i]
         const startIndex = i
-        while (tokens[i]?.type !== 'blockquote_close' && i <= tokens.length)
-          i += 1
-        const close = tokens[i]
-        const endIndex = i
+        const open = tokens[startIndex]
+        let endIndex = i + 1
+        while (
+          endIndex < tokens.length &&
+          (tokens[endIndex].type !== 'blockquote_close' ||
+            tokens[endIndex].level !== open.level)
+        )
+          endIndex++
+        if (endIndex === tokens.length) continue
+        const close = tokens[endIndex]
         const firstContent = tokens
           .slice(startIndex, endIndex + 1)
           .find((token) => token.type === 'inline')

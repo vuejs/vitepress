@@ -177,6 +177,12 @@ export interface MarkdownOptions extends MarkdownIt.Options {
    */
   math?: boolean | any
   image?: ImageOptions
+  /**
+   * Allows disabling the github alerts plugin
+   * @default true
+   * @see https://vitepress.dev/guide/markdown#github-flavored-alerts
+   */
+  gfmAlerts?: boolean
 }
 
 export type MarkdownRenderer = MarkdownIt
@@ -209,7 +215,6 @@ export const createMarkdownRenderer = async (
     .use(preWrapperPlugin, { hasSingleTheme })
     .use(snippetPlugin, srcDir)
     .use(containerPlugin, { hasSingleTheme }, options.container)
-    .use(gitHubAlertsPlugin, options.container)
     .use(imagePlugin, options.image)
     .use(
       linkPlugin,
@@ -217,6 +222,10 @@ export const createMarkdownRenderer = async (
       base
     )
     .use(lineNumberPlugin, options.lineNumbers)
+
+  if (options.gfmAlerts !== false) {
+    md.use(gitHubAlertsPlugin)
+  }
 
   // 3rd party plugins
   if (!options.attrs?.disable) {
