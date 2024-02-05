@@ -16,9 +16,10 @@ export type {
 
 export const EXTERNAL_URL_RE = /^(?:[a-z]+:|\/\/)/i
 export const APPEARANCE_KEY = 'vitepress-theme-appearance'
-export const HASH_RE = /#.*$/
-export const EXT_RE = /\.(md|html)$/
-export const INDEX_RE = /\/index$/
+
+const HASH_RE = /#.*$/
+const HASH_OR_QUERY_RE = /[?#].*$/
+const INDEX_OR_EXT_RE = /(?:(^|\/)index)?\.(?:md|html)$/
 
 export const inBrowser = typeof document !== 'undefined'
 
@@ -61,8 +62,10 @@ export function isActive(
   return true
 }
 
-export function normalize(path: string): string {
-  return decodeURI(path).replace(HASH_RE, '').replace(EXT_RE, '').replace(INDEX_RE, '/')
+function normalize(path: string): string {
+  return decodeURI(path)
+    .replace(HASH_OR_QUERY_RE, '')
+    .replace(INDEX_OR_EXT_RE, '$1')
 }
 
 export function isExternal(path: string): boolean {
