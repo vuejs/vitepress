@@ -1,4 +1,4 @@
-# Emblema (Badge)
+# Emblema
 
 O emblema permite adicionar status aos seus cabeçalhos. Por exemplo, pode ser útil especificar o tipo da seção ou a versão suportada.
 
