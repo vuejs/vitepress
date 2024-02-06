@@ -1,11 +1,7 @@
 import { customAlphabet } from 'nanoid'
 import c from 'picocolors'
 import type { ShikiTransformer } from 'shiki'
-import {
-  bundledLanguages,
-  getHighlighter,
-  isSpecialLang
-} from 'shiki'
+import { bundledLanguages, getHighlighter, isSpecialLang } from 'shiki'
 import {
   transformerCompactLineOptions,
   transformerNotationDiff,
