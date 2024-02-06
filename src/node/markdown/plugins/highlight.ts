@@ -1,13 +1,7 @@
 import { customAlphabet } from 'nanoid'
 import c from 'picocolors'
 import type { ShikiTransformer } from 'shiki'
-import {
-  addClassToHast,
-  bundledLanguages,
-  getHighlighter,
-  isPlaintext as isPlainLang,
-  isSpecialLang
-} from 'shiki'
+import { bundledLanguages, getHighlighter, isSpecialLang } from 'shiki'
 import {
   transformerCompactLineOptions,
   transformerNotationDiff,
@@ -85,7 +79,7 @@ export async function highlight(
     {
       name: 'vitepress:add-class',
       pre(node) {
-        addClassToHast(node, 'vp-code')
+        this.addClassToHast(node, 'vp-code')
       }
     },
     {
@@ -113,7 +107,7 @@ export async function highlight(
 
     if (lang) {
       const langLoaded = highlighter.getLoadedLanguages().includes(lang as any)
-      if (!langLoaded && !isPlainLang(lang) && !isSpecialLang(lang)) {
+      if (!langLoaded && !isSpecialLang(lang)) {
         logger.warn(
           c.yellow(
             `\nThe language '${lang}' is not loaded, falling back to '${
