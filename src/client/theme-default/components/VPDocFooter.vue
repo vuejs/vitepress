@@ -3,7 +3,6 @@ import { computed } from 'vue'
 import { useData } from '../composables/data'
 import { useEditLink } from '../composables/edit-link'
 import { usePrevNext } from '../composables/prev-next'
-// import VPIconEdit from './icons/VPIconEdit.vue'
 import VPLink from './VPLink.vue'
 import VPDocFooterLastUpdated from './VPDocFooterLastUpdated.vue'
 
@@ -30,7 +29,6 @@ const showFooter = computed(() => {
     <div v-if="hasEditLink || hasLastUpdated" class="edit-info">
       <div v-if="hasEditLink" class="edit-link">
         <VPLink class="edit-link-button" :href="editLink.url" :no-icon="true">
-<!--          <VPIconEdit class="edit-link-icon" aria-label="edit icon"/>-->
           <span class="vp-icon vp-icon-edit edit-link-icon" />
           {{ editLink.text }}
         </VPLink>

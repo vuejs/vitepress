@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// import VPIconHeart from './icons/VPIconHeart.vue'
 import VPButton from './VPButton.vue'
 import VPSponsors from './VPSponsors.vue'
 
@@ -31,7 +30,6 @@ withDefaults(defineProps<Props>(), {
     <div class="container">
       <div class="header">
         <div class="love">
-<!--          <VPIconHeart class="icon" />-->
           <span class="vp-icon vp-icon-heart icon" />
         </div>
         <h2 v-if="message" class="message">{{ message }}</h2>

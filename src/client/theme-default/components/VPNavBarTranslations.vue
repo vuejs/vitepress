@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-// import VPIconLanguages from './icons/VPIconLanguages.vue'
 import VPFlyout from './VPFlyout.vue'
 import VPMenuLink from './VPMenuLink.vue'
 import { useData } from '../composables/data'
