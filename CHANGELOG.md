@@ -1,3 +1,10 @@
+# [1.0.0-rc.42](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.41...v1.0.0-rc.42) (2024-2-6)
+
+### Bug Fixes
+
+- **md:** dont break on nesting blockquotes inside gfm alerts ([8f8a6fe](https://github.com/vuejs/vitepress/commit/8f8a6feb053b3f521a2c90e343dffa7f98bb63b3)), closes [#3512](https://github.com/vuejs/vitepress/issues/3512)
+- **theme:** correctly normalize paths ending with "index" ([#3544](https://github.com/vuejs/vitepress/issues/3544)) ([c582a8d](https://github.com/vuejs/vitepress/commit/c582a8d5fd82b84d412c7e6c84e74faeb23beac6))
+
 # [1.0.0-rc.41](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.40...v1.0.0-rc.41) (2024-2-1)
 
 ### Bug Fixes
