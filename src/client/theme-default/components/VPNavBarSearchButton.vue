@@ -16,7 +16,7 @@ const $t = createSearchTranslate(defaultTranslations)
 <template>
   <button type="button" class="DocSearch DocSearch-Button" :aria-label="$t('button.buttonAriaLabel')">
     <span class="DocSearch-Button-Container">
-      <span class="vp-icon DocSearch-Search-Icon"></span>
+      <span class="vp-icon DocSearch-Search-Icon vp-navbar-search-icon"></span>
 <!--      <svg
         class="DocSearch-Search-Icon"
         width="20"
@@ -120,7 +120,6 @@ const $t = createSearchTranslate(defaultTranslations)
   color: var(--vp-c-text-1);
   fill: currentColor;
   transition: color 0.5s;
-  --vp-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' %3E%3Cpath d='M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z' stroke='currentColor' fill='none' fill-rule='evenodd' stroke-linecap='round' stroke-linejoin='round' /%3E%3C/svg%3E")
 }
 
 .DocSearch-Button:hover .DocSearch-Search-Icon {

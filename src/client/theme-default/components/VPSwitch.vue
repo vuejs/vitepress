@@ -47,7 +47,8 @@
   overflow: hidden;
 }
 
-.icon :deep(svg), .icon :deep(.vp-icon) {
+.icon :deep(svg),
+.icon :deep(.vp-icon) {
   position: absolute;
   top: 3px;
   left: 3px;

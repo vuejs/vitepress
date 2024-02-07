@@ -430,7 +430,8 @@ function formMarkRegex(terms: Set<string>) {
             id="localsearch-label"
             for="localsearch-input"
           >
-            <svg
+            <span aria-hidden="true" class="vp-icon vp-ls-search-icon search-icon local-search-icon" />
+<!--            <svg
               class="search-icon"
               width="18"
               height="18"
@@ -447,7 +448,7 @@ function formMarkRegex(terms: Set<string>) {
                 <circle cx="11" cy="11" r="8" />
                 <path d="m21 21l-4.35-4.35" />
               </g>
-            </svg>
+            </svg>-->
           </label>
           <div class="search-actions before">
             <button
@@ -455,7 +456,8 @@ function formMarkRegex(terms: Set<string>) {
               :title="$t('modal.backButtonTitle')"
               @click="$emit('close')"
             >
-              <svg
+              <span class="vp-icon vp-ls-back-icon local-search-icon" />
+<!--              <svg
                 width="18"
                 height="18"
                 viewBox="0 0 24 24"
@@ -469,7 +471,7 @@ function formMarkRegex(terms: Set<string>) {
                   stroke-width="2"
                   d="M19 12H5m7 7l-7-7l7-7"
                 />
-              </svg>
+              </svg>-->
             </button>
           </div>
           <input
@@ -491,7 +493,8 @@ function formMarkRegex(terms: Set<string>) {
                 selectedIndex > -1 && (showDetailedList = !showDetailedList)
               "
             >
-              <svg
+              <span class="vp-icon vp-ls-toggle-icon local-search-icon" />
+<!--              <svg
                 width="18"
                 height="18"
                 viewBox="0 0 24 24"
@@ -505,7 +508,7 @@ function formMarkRegex(terms: Set<string>) {
                   stroke-width="2"
                   d="M3 14h7v7H3zM3 3h7v7H3zm11 1h7m-7 5h7m-7 6h7m-7 5h7"
                 />
-              </svg>
+              </svg>-->
             </button>
 
             <button
@@ -515,7 +518,8 @@ function formMarkRegex(terms: Set<string>) {
               :title="$t('modal.resetButtonTitle')"
               @click="resetSearch"
             >
-              <svg
+              <span class="vp-icon vp-ls-clear-icon local-search-icon" />
+<!--              <svg
                 width="18"
                 height="18"
                 viewBox="0 0 24 24"
@@ -529,7 +533,7 @@ function formMarkRegex(terms: Set<string>) {
                   stroke-width="2"
                   d="M20 5H9l-7 7l7 7h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm-2 4l-6 6m0-6l6 6"
                 />
-              </svg>
+              </svg>-->
             </button>
           </div>
         </form>
@@ -568,7 +572,8 @@ function formMarkRegex(terms: Set<string>) {
                     class="title"
                   >
                     <span class="text" v-html="t" />
-                    <svg width="18" height="18" viewBox="0 0 24 24">
+                    <span class="vp-icon vp-ls-tile-separator-icon local-search-icon" />
+<!--                    <svg width="18" height="18" viewBox="0 0 24 24">
                       <path
                         fill="none"
                         stroke="currentColor"
@@ -577,7 +582,7 @@ function formMarkRegex(terms: Set<string>) {
                         stroke-width="2"
                         d="m9 18l6-6l-6-6"
                       />
-                    </svg>
+                    </svg>-->
                   </span>
                   <span class="title main">
                     <span class="text" v-html="p.title" />
@@ -606,7 +611,8 @@ function formMarkRegex(terms: Set<string>) {
         <div class="search-keyboard-shortcuts">
           <span>
             <kbd :aria-label="$t('modal.footer.navigateUpKeyAriaLabel')">
-              <svg width="14" height="14" viewBox="0 0 24 24">
+              <span class="vp-icon vp-ls-navigate-up-icon navigate-icon" />
+<!--              <svg width="14" height="14" viewBox="0 0 24 24">
                 <path
                   fill="none"
                   stroke="currentColor"
@@ -615,10 +621,11 @@ function formMarkRegex(terms: Set<string>) {
                   stroke-width="2"
                   d="M12 19V5m-7 7l7-7l7 7"
                 />
-              </svg>
+              </svg>-->
             </kbd>
             <kbd :aria-label="$t('modal.footer.navigateDownKeyAriaLabel')">
-              <svg width="14" height="14" viewBox="0 0 24 24">
+              <span class="vp-icon vp-ls-navigate-down-icon navigate-icon" />
+<!--              <svg width="14" height="14" viewBox="0 0 24 24">
                 <path
                   fill="none"
                   stroke="currentColor"
@@ -627,13 +634,14 @@ function formMarkRegex(terms: Set<string>) {
                   stroke-width="2"
                   d="M12 5v14m7-7l-7 7l-7-7"
                 />
-              </svg>
+              </svg>-->
             </kbd>
             {{ $t('modal.footer.navigateText') }}
           </span>
           <span>
             <kbd :aria-label="$t('modal.footer.selectKeyAriaLabel')">
-              <svg width="14" height="14" viewBox="0 0 24 24">
+              <span class="vp-icon vp-ls-select-icon navigate-icon" />
+<!--              <svg width="14" height="14" viewBox="0 0 24 24">
                 <g
                   fill="none"
                   stroke="currentcolor"
@@ -644,7 +652,7 @@ function formMarkRegex(terms: Set<string>) {
                   <path d="m9 10l-5 5l5 5" />
                   <path d="M20 4v7a4 4 0 0 1-4 4H4" />
                 </g>
-              </svg>
+              </svg>-->
             </kbd>
             {{ $t('modal.footer.selectText') }}
           </span>
@@ -714,6 +722,17 @@ function formMarkRegex(terms: Set<string>) {
 
 .search-bar:focus-within {
   border-color: var(--vp-c-brand-1);
+}
+
+.local-search-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.navigate-icon {
+  width: 14px;
+  height: 14px;
+  display: block;
 }
 
 .search-icon {
