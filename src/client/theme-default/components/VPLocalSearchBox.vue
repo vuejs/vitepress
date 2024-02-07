@@ -362,7 +362,7 @@ const defaultTranslations: { modal: ModalTranslations } = {
   }
 }
 
-const $t = createSearchTranslate(defaultTranslations)
+const translate = createSearchTranslate(defaultTranslations)
 
 // Back
 
@@ -435,7 +435,7 @@ function formMarkRegex(terms: Set<string>) {
           <div class="search-actions before">
             <button
               class="back-button"
-              :title="$t('modal.backButtonTitle')"
+              :title="translate('modal.backButtonTitle')"
               @click="$emit('close')"
             >
               <span class="vp-icon vp-ls-back-icon local-search-icon" />
@@ -455,7 +455,7 @@ function formMarkRegex(terms: Set<string>) {
               class="toggle-layout-button"
               type="button"
               :class="{ 'detailed-list': showDetailedList }"
-              :title="$t('modal.displayDetails')"
+              :title="translate('modal.displayDetails')"
               @click="
                 selectedIndex > -1 && (showDetailedList = !showDetailedList)
               "
@@ -467,7 +467,7 @@ function formMarkRegex(terms: Set<string>) {
               class="clear-button"
               type="reset"
               :disabled="disableReset"
-              :title="$t('modal.resetButtonTitle')"
+              :title="translate('modal.resetButtonTitle')"
               @click="resetSearch"
             >
               <span class="vp-icon vp-ls-clear-icon local-search-icon" />
@@ -530,30 +530,30 @@ function formMarkRegex(terms: Set<string>) {
             v-if="filterText && !results.length && enableNoResults"
             class="no-results"
           >
-            {{ $t('modal.noResultsText') }} "<strong>{{ filterText }}</strong
+            {{ translate('modal.noResultsText') }} "<strong>{{ filterText }}</strong
             >"
           </li>
         </ul>
 
         <div class="search-keyboard-shortcuts">
           <span>
-            <kbd :aria-label="$t('modal.footer.navigateUpKeyAriaLabel')">
+            <kbd :aria-label="translate('modal.footer.navigateUpKeyAriaLabel')">
               <span class="vp-icon vp-ls-navigate-up-icon navigate-icon" />
             </kbd>
-            <kbd :aria-label="$t('modal.footer.navigateDownKeyAriaLabel')">
+            <kbd :aria-label="translate('modal.footer.navigateDownKeyAriaLabel')">
               <span class="vp-icon vp-ls-navigate-down-icon navigate-icon" />
             </kbd>
-            {{ $t('modal.footer.navigateText') }}
+            {{ translate('modal.footer.navigateText') }}
           </span>
           <span>
-            <kbd :aria-label="$t('modal.footer.selectKeyAriaLabel')">
+            <kbd :aria-label="translate('modal.footer.selectKeyAriaLabel')">
               <span class="vp-icon vp-ls-select-icon navigate-icon" />
             </kbd>
-            {{ $t('modal.footer.selectText') }}
+            {{ translate('modal.footer.selectText') }}
           </span>
           <span>
-            <kbd :aria-label="$t('modal.footer.closeKeyAriaLabel')">esc</kbd>
-            {{ $t('modal.footer.closeText') }}
+            <kbd :aria-label="translate('modal.footer.closeKeyAriaLabel')">esc</kbd>
+            {{ translate('modal.footer.closeText') }}
           </span>
         </div>
       </div>
