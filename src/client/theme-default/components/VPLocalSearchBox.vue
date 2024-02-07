@@ -362,7 +362,7 @@ const defaultTranslations: { modal: ModalTranslations } = {
   }
 }
 
-const $t = createSearchTranslate(defaultTranslations)
+const translate = createSearchTranslate(defaultTranslations)
 
 // Back
 
@@ -452,7 +452,7 @@ function formMarkRegex(terms: Set<string>) {
           <div class="search-actions before">
             <button
               class="back-button"
-              :title="$t('modal.backButtonTitle')"
+              :title="translate('modal.backButtonTitle')"
               @click="$emit('close')"
             >
               <svg
@@ -486,7 +486,7 @@ function formMarkRegex(terms: Set<string>) {
               class="toggle-layout-button"
               type="button"
               :class="{ 'detailed-list': showDetailedList }"
-              :title="$t('modal.displayDetails')"
+              :title="translate('modal.displayDetails')"
               @click="
                 selectedIndex > -1 && (showDetailedList = !showDetailedList)
               "
@@ -512,7 +512,7 @@ function formMarkRegex(terms: Set<string>) {
               class="clear-button"
               type="reset"
               :disabled="disableReset"
-              :title="$t('modal.resetButtonTitle')"
+              :title="translate('modal.resetButtonTitle')"
               @click="resetSearch"
             >
               <svg
@@ -598,14 +598,14 @@ function formMarkRegex(terms: Set<string>) {
             v-if="filterText && !results.length && enableNoResults"
             class="no-results"
           >
-            {{ $t('modal.noResultsText') }} "<strong>{{ filterText }}</strong
+            {{ translate('modal.noResultsText') }} "<strong>{{ filterText }}</strong
             >"
           </li>
         </ul>
 
         <div class="search-keyboard-shortcuts">
           <span>
-            <kbd :aria-label="$t('modal.footer.navigateUpKeyAriaLabel')">
+            <kbd :aria-label="translate('modal.footer.navigateUpKeyAriaLabel')">
               <svg width="14" height="14" viewBox="0 0 24 24">
                 <path
                   fill="none"
@@ -617,7 +617,7 @@ function formMarkRegex(terms: Set<string>) {
                 />
               </svg>
             </kbd>
-            <kbd :aria-label="$t('modal.footer.navigateDownKeyAriaLabel')">
+            <kbd :aria-label="translate('modal.footer.navigateDownKeyAriaLabel')">
               <svg width="14" height="14" viewBox="0 0 24 24">
                 <path
                   fill="none"
@@ -629,10 +629,10 @@ function formMarkRegex(terms: Set<string>) {
                 />
               </svg>
             </kbd>
-            {{ $t('modal.footer.navigateText') }}
+            {{ translate('modal.footer.navigateText') }}
           </span>
           <span>
-            <kbd :aria-label="$t('modal.footer.selectKeyAriaLabel')">
+            <kbd :aria-label="translate('modal.footer.selectKeyAriaLabel')">
               <svg width="14" height="14" viewBox="0 0 24 24">
                 <g
                   fill="none"
@@ -646,11 +646,11 @@ function formMarkRegex(terms: Set<string>) {
                 </g>
               </svg>
             </kbd>
-            {{ $t('modal.footer.selectText') }}
+            {{ translate('modal.footer.selectText') }}
           </span>
           <span>
-            <kbd :aria-label="$t('modal.footer.closeKeyAriaLabel')">esc</kbd>
-            {{ $t('modal.footer.closeText') }}
+            <kbd :aria-label="translate('modal.footer.closeKeyAriaLabel')">esc</kbd>
+            {{ translate('modal.footer.closeText') }}
           </span>
         </div>
       </div>

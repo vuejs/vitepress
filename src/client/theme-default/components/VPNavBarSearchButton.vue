@@ -10,11 +10,11 @@ const defaultTranslations: { button: ButtonTranslations } = {
   }
 }
 
-const $t = createSearchTranslate(defaultTranslations)
+const translate = createSearchTranslate(defaultTranslations)
 </script>
 
 <template>
-  <button type="button" class="DocSearch DocSearch-Button" :aria-label="$t('button.buttonAriaLabel')">
+  <button type="button" class="DocSearch DocSearch-Button" :aria-label="translate('button.buttonAriaLabel')">
     <span class="DocSearch-Button-Container">
       <svg
         class="DocSearch-Search-Icon"
@@ -32,7 +32,7 @@ const $t = createSearchTranslate(defaultTranslations)
           stroke-linejoin="round"
         />
       </svg>
-      <span class="DocSearch-Button-Placeholder">{{ $t('button.buttonText') }}</span>
+      <span class="DocSearch-Button-Placeholder">{{ translate('button.buttonText') }}</span>
     </span>
     <span class="DocSearch-Button-Keys">
       <kbd class="DocSearch-Button-Key"></kbd>
