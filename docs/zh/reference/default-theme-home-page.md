@@ -37,10 +37,12 @@ hero:
 
 ```ts
 interface Hero {
-  // `text` 上方的字符，带有品牌颜色，预计简短，例如产品名称
+  // `text` 上方的字符，带有品牌颜色
+  // 预计简短，例如产品名称
   name?: string
 
-  // hero 部分的主要文字，被定义为 `h1` 标签
+  // hero 部分的主要文字，
+  // 被定义为 `h1` 标签
   text: string
 
   // `text` 下方的标语
@@ -67,6 +69,12 @@ interface HeroAction {
 
   // 按钮的目标链接
   link: string
+
+  // 链接的 target 属性
+  target?: string
+
+  // 链接的 rel 属性
+  rel?: string
 }
 ```
 
