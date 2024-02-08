@@ -1,6 +1,7 @@
 import { computed } from 'vue'
-import { useData } from './data'
 import { ensureStartingSlash } from '../support/utils'
+import { useData } from './data'
+import { hashRef } from './hash'
 
 export function useLangs({
   removeCurrent = true,
@@ -20,12 +21,15 @@ export function useLangs({
         ? []
         : {
             text: value.label,
-            link: normalizeLink(
-              value.link || (key === 'root' ? '/' : `/${key}/`),
-              theme.value.i18nRouting !== false && correspondingLink,
-              page.value.relativePath.slice(currentLang.value.link.length - 1),
-              !site.value.cleanUrls
-            )
+            link:
+              normalizeLink(
+                value.link || (key === 'root' ? '/' : `/${key}/`),
+                theme.value.i18nRouting !== false && correspondingLink,
+                page.value.relativePath.slice(
+                  currentLang.value.link.length - 1
+                ),
+                !site.value.cleanUrls
+              ) + hashRef.value
           }
     )
   )

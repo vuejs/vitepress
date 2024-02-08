@@ -1,10 +1,9 @@
-import { reactive, inject, markRaw, nextTick, readonly } from 'vue'
 import type { Component, InjectionKey } from 'vue'
-import { lookup } from 'mrmime'
-import { notFoundPageData } from '../shared'
-import type { PageData, PageDataPayload, Awaitable } from '../shared'
-import { inBrowser, withBase } from './utils'
+import { inject, markRaw, nextTick, reactive, readonly } from 'vue'
+import type { Awaitable, PageData, PageDataPayload } from '../shared'
+import { notFoundPageData, treatAsHtml } from '../shared'
 import { siteDataRef } from './data'
+import { getScrollOffset, inBrowser, withBase } from './utils'
 
 export interface Route {
   path: string
@@ -182,8 +181,7 @@ export function createRouter(
             link.baseURI
           )
           const currentUrl = window.location
-          const mimeType = lookup(pathname)
-          // only intercept inbound links
+          // only intercept inbound html links
           if (
             !e.ctrlKey &&
             !e.shiftKey &&
@@ -191,8 +189,7 @@ export function createRouter(
             !e.metaKey &&
             !target &&
             origin === currentUrl.origin &&
-            // intercept only html and unknown types (assume html)
-            (!mimeType || mimeType === 'text/html')
+            treatAsHtml(pathname)
           ) {
             e.preventDefault()
             if (
@@ -264,26 +261,6 @@ export function scrollTo(el: Element, hash: string, smooth = false) {
   }
 
   if (target) {
-    let scrollOffset = siteDataRef.value.scrollOffset
-    let offset = 0
-    let padding = 24
-    if (typeof scrollOffset === 'object' && 'padding' in scrollOffset) {
-      padding = scrollOffset.padding
-      scrollOffset = scrollOffset.selector
-    }
-    if (typeof scrollOffset === 'number') {
-      offset = scrollOffset
-    } else if (typeof scrollOffset === 'string') {
-      offset = tryOffsetSelector(scrollOffset, padding)
-    } else if (Array.isArray(scrollOffset)) {
-      for (const selector of scrollOffset) {
-        const res = tryOffsetSelector(selector, padding)
-        if (res) {
-          offset = res
-          break
-        }
-      }
-    }
     const targetPadding = parseInt(
       window.getComputedStyle(target).paddingTop,
       10
@@ -291,7 +268,7 @@ export function scrollTo(el: Element, hash: string, smooth = false) {
     const targetTop =
       window.scrollY +
       target.getBoundingClientRect().top -
-      offset +
+      getScrollOffset() +
       targetPadding
     function scrollToTarget() {
       // only smooth scroll if distance is smaller than screen height.
@@ -301,14 +278,6 @@ export function scrollTo(el: Element, hash: string, smooth = false) {
     }
     requestAnimationFrame(scrollToTarget)
   }
-}
-
-function tryOffsetSelector(selector: string, padding: number): number {
-  const el = document.querySelector(selector)
-  if (!el) return 0
-  const bot = el.getBoundingClientRect().bottom
-  if (bot < 0) return 0
-  return bot + padding
 }
 
 function handleHMR(route: Route): void {
@@ -332,7 +301,7 @@ function shouldHotReload(payload: PageDataPayload): boolean {
 }
 
 function updateHistory(href: string) {
-  if (inBrowser && href !== normalizeHref(location.href)) {
+  if (inBrowser && normalizeHref(href) !== normalizeHref(location.href)) {
     // save scroll position before changing url
     history.replaceState({ scrollPosition: window.scrollY }, document.title)
     history.pushState(null, '', href)
