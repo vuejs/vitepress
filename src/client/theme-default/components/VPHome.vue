@@ -2,6 +2,9 @@
 import VPHomeHero from './VPHomeHero.vue'
 import VPHomeFeatures from './VPHomeFeatures.vue'
 import VPHomeContent from './VPHomeContent.vue'
+import { useData } from './composables/data'
+
+const { frontmatter } = useData()
 </script>
 
 <template>
@@ -20,9 +23,10 @@ import VPHomeContent from './VPHomeContent.vue'
     <VPHomeFeatures />
     <slot name="home-features-after" />
 
-    <VPHomeContent>
+    <VPHomeContent v-if="frontmatter.homeDocs !== false">
       <Content />
     </VPHomeContent>
+    <Content v-else />
   </div>
 </template>
 
