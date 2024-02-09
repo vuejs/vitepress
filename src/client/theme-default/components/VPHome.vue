@@ -2,7 +2,7 @@
 import VPHomeHero from './VPHomeHero.vue'
 import VPHomeFeatures from './VPHomeFeatures.vue'
 import VPHomeContent from './VPHomeContent.vue'
-import { useData } from './composables/data'
+import { useData } from '../composables/data'
 
 const { frontmatter } = useData()
 </script>
