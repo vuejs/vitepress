@@ -1,6 +1,6 @@
-# Usando um Tema Personalizado
+# Usando um Tema Personalizado {#using-a-custom-theme}
 
-## Resolução de Tema
+## Resolução de Tema {#theme-resolving}
 
 Você pode habilitar um tema personalizado criando um arquivo `.vitepress/theme/index.js` ou `.vitepress/theme/index.ts` (o "arquivo de entrada do tema"):
 
@@ -17,7 +17,7 @@ Você pode habilitar um tema personalizado criando um arquivo `.vitepress/theme/
 
 VitePress sempre usará o tema personalizado em vez do tema padrão quando detectar a presença de um arquivo de entrada do tema. No entanto, você pode [estender o tema padrão](./extending-default-theme) para realizar personalizações avançadas sobre ele.
 
-## Interface do Tema
+## Interface do Tema {#theme-interface}
 
 Um tema personalizado do VitePress é definido como um objeto com a seguinte interface:
 
@@ -68,7 +68,7 @@ A exportação padrão é o único contrato para um tema personalizado, e apenas
 
 Dentro do seu componente de layout, ele funciona como uma aplicação Vite + Vue 3 normal. Note que o tema também precisa ser [compatível com SSR](./ssr-compat).
 
-## Construindo um Layout
+## Construindo um Layout {#building-a-layout}
 
 O componente de layout mais básico precisa conter um componente [`<Content />`](../reference/runtime-api#content):
 
@@ -152,7 +152,7 @@ const { page, frontmatter } = useData()
 
 Consulte a [Referência da API em Tempo de Execução](../reference/runtime-api) para tudo que está disponível em componentes de tema. Além disso, você pode aproveitar [Carregamento de Dados em Tempo de Compilação](./data-loading) para gerar layouts orientados por dados - por exemplo, uma página que lista todas as postagens do blog no projeto atual.
 
-## Distribuindo um Tema Personalizado
+## Distribuindo um Tema Personalizado {#distributing-a-custom-theme}
 
 A maneira mais fácil de distribuir um tema personalizado é fornecê-lo como um [repositório de modelo no GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-template-repository).
 
@@ -168,7 +168,7 @@ Se você deseja distribuir seu tema como um pacote npm, siga estas etapas:
 
 5. Forneça instruções claras sobre como consumir seu tema (veja abaixo).
 
-## Consumindo um Tema Personalizado
+## Consumindo um Tema Personalizado {#consuming-a-custom-theme}
 
 Para consumir um tema externo, importe-o e reexporte-o a partir do arquivo de entrada do tema personalizado:
 
