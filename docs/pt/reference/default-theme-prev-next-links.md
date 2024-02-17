@@ -1,4 +1,4 @@
-# Links Anterior e Próximo
+# Links Anterior e Próximo {#prev-next-links}
 
 Você pode personalizar o texto e o link para os botões de Anterior e Próximo mostrados ao fim da página. Isso é útil quando você quer mostrar um texto diferente daquele que você tem na barra lateral. Além disso, você pode achar útil desabilitar o rodapé ou link para a página para ela não ser incluída na sua barra lateral.
 
