@@ -1,4 +1,4 @@
-# Rodapé
+# Rodapé {#footer}
 
 VitePress irá mostrar o rodapé global na parte inferior da página quando `themeConfig.footer` está presente.
 
@@ -42,7 +42,7 @@ Apenas elementos _inline_ serão usados em `message` e `copyright` conforme eles
 
 Note que o rodapé não será mostrado quando a [Barra Lateral](./default-theme-sidebar) estiver visível.
 
-## Configuração Frontmatter
+## Configuração Frontmatter {#frontmatter-config}
 
 Isso pode ser desabilitado por página usando a opção `footer` em frontmatter:
 
