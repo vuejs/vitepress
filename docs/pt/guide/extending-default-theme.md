@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-# Estendendo o Tema Padrão
+# Estendendo o Tema Padrão {#extending-the-default-theme}
 
 O tema padrão do VitePress é otimizado para documentação e pode ser personalizado. Consulte a [Visão Geral de Configuração do Tema Padrão](../reference/default-theme-config) para uma lista abrangente de opções.
 
@@ -18,7 +18,7 @@ Essas personalizações avançadas exigirão o uso de um tema personalizado que 
 Antes de prosseguir, certifique-se de ler primeiro [Usando um Tema Personalizado](./custom-theme) para entender como temas personalizados funcionam.
 :::
 
-## Personalizando o CSS
+## Personalizando o CSS {#customizing-css}
 
 O CSS do tema padrão pode ser personalizado substituindo as variáveis CSS no nível raiz:
 
@@ -40,7 +40,7 @@ export default DefaultTheme
 
 Veja as [variáveis CSS do tema padrão](https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css) que podem ser substituídas.
 
-## Usando Fontes Diferentes
+## Usando Fontes Diferentes {#using-different-fonts}
 
 VitePress usa [Inter](https://rsms.me/inter/) como fonte padrão e incluirá as fontes na saída de compilação. A fonte também é pré-carregada automaticamente em produção. No entanto, isso pode não ser desejável se você quiser usar uma fonte principal diferente.
 
@@ -92,7 +92,7 @@ export default {
 }
 ```
 
-## Registrando Componentes Globais
+## Registrando Componentes Globais {#registering-global-components}
 
 ```js
 // .vitepress/theme/index.js
@@ -125,7 +125,7 @@ export default {
 
 Como estamos usando Vite, você também pode aproveitar a [funcionalidade de importação glob](https://vitejs.dev/guide/features.html#glob-import) do Vite para registrar automaticamente um diretório de componentes.
 
-## _Slots_ no Layout
+## _Slots_ no Layout {#layout-slots}
 
 O componente `<Layout/>` do tema padrão possui alguns _slots_ que podem ser usados para injetar conteúdo em locais específicos da página. Aqui está um exemplo de como injetar um componente antes do esquema :
 
@@ -219,7 +219,7 @@ Lista completa de _slots_ disponíveis no layout do tema padrão:
 
 ## Usando a API View Transitions
 
-### Na Alternância de Aparência
+### Na Alternância de Aparência {#on-appearance-toggle}
 
 Você pode estender o tema padrão para fornecer uma transição personalizada quando o modo de cor é alternado. Um exemplo:
 
@@ -309,11 +309,11 @@ Resultado (**atenção!**: cores piscantes, movimentos súbitos, luzes brilhante
 
 Consulte [Chrome Docs](https://developer.chrome.com/docs/web-platform/view-transitions/) para mais detalhes sobre _view transitions_.
 
-### Na Mudança de Rota
+### Na Mudança de Rota {#on-route-change}
 
 Em breve.
 
-## Substituindo Componentes Internos
+## Substituindo Componentes Internos {#overriding-internal-components}
 
 Você pode usar os [aliases](https://vitejs.dev/config/shared-options.html#resolve-alias) Vite para substituir os componentes do tema padrão pelos seus personalizados:
 
