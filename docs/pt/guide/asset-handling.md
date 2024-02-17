@@ -1,6 +1,6 @@
-# Manipulação de Ativos
+# Manipulação de Ativos {#asset-handling}
 
-## Referenciando Ativos Estáticos
+## Referenciando Ativos Estáticos {#referencing-static-assets}
 
 Todos os arquivos Markdown são compilados em componentes Vue e processados por [Vite](https://vitejs.dev/guide/assets.html). Você pode **e deve** referenciar quaisquer ativos usando URLs relativas:
 
@@ -16,7 +16,7 @@ Todos os ativos referenciados, incluindo aqueles usando caminhos absolutos, ser�
 
 Todas as referências de caminho **estáticas**, incluindo caminhos absolutos, devem ser baseadas na estrutura do seu diretório de trabalho.
 
-## O Diretório Público
+## O Diretório Público {#the-public-directory}
 
 Às vezes, pode ser necessário fornecer ativos estáticos que não são referenciados diretamente em nenhum de seus componentes do tema ou Markdown, ou você pode querer servir certos arquivos com o nome de arquivo original. Exemplos de tais arquivos incluem `robots.txt`, favicons e ícones PWA.
 
@@ -26,7 +26,7 @@ Os ativos colocados em `public` serão copiados para a raiz do diretório de sa�
 
 Observe que você deve referenciar arquivos colocados em `public` usando o caminho absoluto da raiz - por exemplo, `public/icon.png` deve sempre ser referenciado no código fonte como `/icon.png`.
 
-## URL Base
+## URL Base {#base-url}
 
 Se seu site for implantado em uma URL que não seja a raiz, será necessário definir a opção `base` em `.vitepress/config.js`. Por exemplo, se você planeja implantar seu site em `https://foo.github.io/bar/`, então `base` deve ser definido como `'/bar/'` (sempre deve começar e terminar com uma barra).
 
