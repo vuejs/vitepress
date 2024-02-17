@@ -2,9 +2,9 @@
 outline: deep
 ---
 
-# Conectando a um CMS
+# Conectando a um CMS {#connecting-to-a-cms}
 
-## Fluxo de Trabalho Geral
+## Fluxo de Trabalho Geral {#general-workflow}
 
 Conectar VitePress a um CMS orbitará majoritariamente sobre [Rotas Dinâmicas](./routing#dynamic-routes). Certifique-se de entender como funcionam antes de proceder.
 
@@ -51,6 +51,6 @@ Como cada CMS funcionará de forma diferente, aqui podemos fornecer apenas um fl
     <!-- @content -->
     ```
 
-## Guias de Integração
+## Guias de Integração {#integration-guides}
 
 Se você tiver escrito um guia sobre como integrar VitePress com um CMS específico, por favor use o link "Edite esta página" abaixo para enviá-lo para cá!
