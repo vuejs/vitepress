@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import VPIconHeart from './icons/VPIconHeart.vue'
 import VPButton from './VPButton.vue'
 import VPSponsors from './VPSponsors.vue'
 
@@ -30,7 +29,9 @@ withDefaults(defineProps<Props>(), {
   <section class="VPHomeSponsors">
     <div class="container">
       <div class="header">
-        <div class="love"><VPIconHeart class="icon" /></div>
+        <div class="love">
+          <span class="vpi-heart icon" />
+        </div>
         <h2 v-if="message" class="message">{{ message }}</h2>
       </div>
 
@@ -59,15 +60,13 @@ withDefaults(defineProps<Props>(), {
 
 .love {
   margin: 0 auto;
-  width: 28px;
-  height: 28px;
+  width: fit-content;
+  font-size: 28px;
   color: var(--vp-c-text-3);
 }
 
 .icon {
-  width: 28px;
-  height: 28px;
-  fill: currentColor;
+  display: inline-block;
 }
 
 .message {
