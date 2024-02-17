@@ -1,4 +1,4 @@
-# Configuração do Tema Padrão
+# Configuração do Tema Padrão {#default-theme-config}
 
 A configuração do tema permite que você personalize seu tema. Você pode definir a configuração do tema através da opção `themeConfig` no arquivo de configuração:
 
