@@ -1,4 +1,4 @@
-# Barra Lateral
+# Barra Lateral {#sidebar}
 
 A barra lateral é o bloco principal de navegação da sua documentação. Você pode configurar o menu da barra lateral em [`themeConfig.sidebar`](./default-theme-config#sidebar).
 
@@ -19,7 +19,7 @@ export default {
 }
 ```
 
-## O Básico
+## O Básico {#the-basics}
 
 A forma mais simples do menu da barra lateral é passar um único _array_ de links. O item do primeiro nível define a "seção" da barra lateral. Ele deve conter `text`, que é o título da seção, e `items` que são os próprios links de navegação.
 
@@ -93,7 +93,7 @@ export default {
 }
 ```
 
-## Múltiplas Barras Laterais
+## Múltiplas Barras Laterais {#multiple-sidebars}
 
 Você pode mostrar uma barra lateral diferente dependendo do caminho da página. Por exemplo, como mostrado neste site, você pode querer criar seções separadas de conteúdo em sua documentação, como a página "Guia" e a página "Configuração".
 
@@ -147,7 +147,7 @@ export default {
 }
 ```
 
-## Grupos Retráteis na Barra Lateral
+## Grupos Retráteis na Barra Lateral {#collapsible-sidebar-groups}
 
 Adicionando a opção `collapsed` ao grupo da barra lateral, ela mostra um botão para ocultar/mostrar cada seção.
 
