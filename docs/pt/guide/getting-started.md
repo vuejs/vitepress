@@ -1,12 +1,12 @@
-# Iniciando
+# Iniciando {#getting-started}
 
-## Experimente Online
+## Experimente Online {#try-it-online}
 
 Você pode experimentar VitePress diretamente no seu navegador em [StackBlitz](https://vitepress.new).
 
-## Instalação
+## Instalação {#installation}
 
-### Pré-requisitos
+### Pré-requisitos {#prerequisites}
 
 - [Node.js](https://nodejs.org/) na versão 18 ou superior.
 - Terminal para acessar VitePress através da sua interface de linha de comando (CLI).
@@ -57,7 +57,7 @@ VitePress é um pacote apenas para ESM. Não use `require()` para importá-lo, e
 
 :::
 
-### Assistente de Instalação
+### Assistente de Instalação {#setup-wizard}
 
 VitePress tem embutido um assistente de instalação pela linha de comando que irá ajudar a construir um projeto básico. Depois da instalação, inicie o assistente rodando:
 
@@ -85,7 +85,7 @@ Você será cumprimentado com algumas perguntas simples:
 Se você tem a intenção de realizar personalização que usa componentes Vue ou APIs, você deve instalar explicitamente `vue` como uma dependência correspondente.
 :::
 
-## Estrutura de Arquivos
+## Estrutura de Arquivos {#file-structure}
 
 Se você estiver construindo um site VitePress individual, você pode desenvolver seu site no diretório atual (`./`). Entretanto, se você está instalando VitePress em um projeto existente juntamente com outro código fonte, é recomendado construir o site em um diretório aninhado (e.g. `./docs`) para que esteja separado do resto do seu projeto.
 
@@ -108,7 +108,7 @@ O diretório `docs` é considerado a **raiz do projeto** do seu site VitePress. 
 Por padrão, VitePress armazena o cache do servidor de desenvolvimento em `.vitepress/cache`, e o resultado da build de produção em `.vitepress/dist`. Se usar Git, você deve adicioná-los ao seu arquivo `.gitignore`. Estes locais também podem ser [configurados](../reference/site-config#outdir).
 :::
 
-### O arquivo de configuração
+### O arquivo de configuração {#the-config-file}
 
 O arquivo de configuração (`.vitepress/config.js`) permite que você personalize vários aspectos do seu site VitePress, com as opções mais básicas sendo o título e a descrição do site:
 
@@ -127,7 +127,7 @@ export default {
 
 Você também pode configurar o comportamento do tema através da opção `themeConfig`. Consulte a [Referência de Configuração](../reference/site-config) para detalhes completos sobre todas as opções de configuração.
 
-### Arquivos Fonte
+### Arquivos Fonte {#source-files}
 
 Arquivos Markdown fora do diretório `.vitepress` são considerados **arquivos fonte**.
 
@@ -135,7 +135,7 @@ VitePress usa **roteamento baseado em arquivos**: cada arquivo `.md` é compilad
 
 VitePress também fornece a habilidade de gerar URLs limpas, reescrever caminhos, e gerar páginas dinamicamente. Estes serão tratados no [Guia de Roteamento](./routing).
 
-## Instalado e Funcionando
+## Instalado e Funcionando {#up-and-running}
 
 A ferramenta deve ter também injetado os seguintes scripts npm no seu `package.json` se você permitiu isso durante o processo de instalação:
 
@@ -195,7 +195,7 @@ Mais usos da linha de comando estão documentados na [Referência CLI](../refere
 
 O servidor de desenvolvimento deve estar rodando em `http://localhost:5173`. Visite a URL no seu navegador para ver o seu novo site em ação!
 
-## O que vem depois?
+## O que vem depois? {#what-s-next}
 
 - Para melhor entender como arquivos markdown são mapeados no HTML gerado, prossiga para o [Guia de Roteamento](./routing).
 
