@@ -1,4 +1,4 @@
-# Interface de Linha de Comando
+# Interface de Linha de Comando {#command-line-interface}
 
 ## `vitepress dev`
 
@@ -14,7 +14,7 @@ vitepress
 vitepress dev [root]
 ```
 
-### Opções
+### Opções {#options}
 
 | Opção          | Descrição                                                       |
 | --------------- | ----------------------------------------------------------------- |
