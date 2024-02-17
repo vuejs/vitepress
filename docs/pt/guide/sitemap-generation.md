@@ -1,4 +1,4 @@
-# Geração de Sitemap
+# Geração de Sitemap {#sitemap-generation}
 
 VitePress vem com suporte embutido para gerar um arquivo `sitemap.xml` para seu site. Para habilitar, adicione o seguinte ao seu `.vitepress/config.js`:
 
@@ -14,7 +14,7 @@ export default defineConfig({
 
 Para ter tags `<lastmod>` em seu `sitemap.xml`, você pode habilitar a opção [`lastUpdated`](../reference/default-theme-last-updated).
 
-## Opções
+## Opções {#options}
 
 O suporte de Sietmap é alimentado pelo módulo [`sitemap`](https://www.npmjs.com/package/sitemap). Você pode passar qualquer uma das opções suportadas por ele na opção `sitemap` do seu arquivo de configuração. Esses serão passados diretamente ao construtor `SitemapStream`. Refira-se a [documentação `sitemap`](https://www.npmjs.com/package/sitemap#options-you-can-pass) para mais detalhes. Exemplo:
 
