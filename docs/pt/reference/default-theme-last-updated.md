@@ -1,4 +1,4 @@
-# Última Atualização
+# Última Atualização {#last-updated}
 
 O tempo em que o conteúdo foi atualizado pela última vez será mostrado no canto inferior direito da página. Para habilitar, adicione a opção `lastUpdated` na sua configuração.
 
@@ -6,7 +6,7 @@ O tempo em que o conteúdo foi atualizado pela última vez será mostrado no can
 Você precisa fazer _commit_ no arquivo markdown para ver o tempo atualizado.
 :::
 
-## Configuração a nível de Site
+## Configuração a nível de Site {#site-level-config}
 
 ```js
 export default {
@@ -14,7 +14,7 @@ export default {
 }
 ```
 
-## Configuração Frontmatter
+## Configuração Frontmatter {#frontmatter-config}
 
 Isso pode ser desabilitado por página usando a opção `lastUpdated` no frontmatter:
 
