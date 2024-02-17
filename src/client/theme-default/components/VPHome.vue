@@ -23,7 +23,7 @@ const { frontmatter } = useData()
     <VPHomeFeatures />
     <slot name="home-features-after" />
 
-    <VPHomeContent v-if="frontmatter.homeDocs !== false">
+    <VPHomeContent v-if="frontmatter.markdownStyles !== false">
       <Content />
     </VPHomeContent>
     <Content v-else />

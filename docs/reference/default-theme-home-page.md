@@ -167,9 +167,9 @@ type FeatureIcon =
     }
 ```
 
-## Extra homepage content
+## Markdown Content
 
-You can add additional content to your site's homepage just by adding additional Markdown content below the `---` frontmatter divider.
+You can add additional content to your site's homepage just by adding Markdown below the `---` frontmatter divider.
 
 ````md
 ---
@@ -180,7 +180,7 @@ hero:
   text: Vite & Vue powered static site generator.
 ---
 
-## Getting started
+## Getting Started
 
 You can get started using VitePress right away using `npx`!
 
@@ -191,7 +191,5 @@ npx vitepress init
 ````
 
 ::: info
-
-VitePress didn't always auto-style the extra content of the `layout: home` page. To disable the new auto-styling specify `homeDocs: false` in the frontmatter.
-
+VitePress didn't always auto-style the extra content of the `layout: home` page. To revert to older behavior, you can add `markdownStyles: false` to the frontmatter.
 :::
