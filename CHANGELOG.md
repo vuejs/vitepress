@@ -16,7 +16,7 @@
 
 ### BREAKING CHANGES
 
-- The default theme now styles the markdown content in the home page. If you have custom styles that rely on the markdown content not being styled, you may need to adjust your styles.
+- The default theme now styles the markdown content in the home page. If you have custom styles that rely on the markdown content not being styled, you may need to adjust your styles, or add `markdownStyles: false` to the frontmatter of your home page.
 
 # [1.0.0-rc.42](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.41...v1.0.0-rc.42) (2024-2-6)
 
