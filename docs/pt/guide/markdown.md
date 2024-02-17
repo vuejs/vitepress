@@ -299,7 +299,7 @@ VitePress também suporta [alertas no estilo GitHub](https://docs.github.com/en/
 > [!CAUTION]
 > Potenciais consequências negativas de uma ação.
 
-## Destaque de Sintaxe em Blocos de Código {#line-highlighting-in-code-blocks}
+## Destaque de Sintaxe em Blocos de Código {#syntax-highlighting-in-code-blocks}
 
 VitePress utiliza [Shiki](https://github.com/shikijs/shiki) para destacar a sintaxe da linguagem em blocos de código Markdown, usando texto colorido. Shiki suporta uma ampla variedade de linguagens de programação. Tudo o que você precisa fazer é adicionar um _alias_ de linguagem válido após os crases iniciais do bloco de código:
 
