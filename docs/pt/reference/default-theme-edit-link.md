@@ -1,6 +1,6 @@
-# Editar Link
+# Editar Link {#edit-link}
 
-## Configuração a nível de Site
+## Configuração a nível de Site {#site-level-config}
 
 Editar Link permite que você mostre um link para editar a página com serviços de gerenciamento Git, como GitHub ou GitLab. Para habilitar, adicione a opção `themeConfig.editLink` na sua configuração.
 
@@ -49,7 +49,7 @@ export default {
 }
 ```
 
-## Configuração Frontmatter
+## Configuração Frontmatter {#frontmatter-config}
 
 A funcionalidade pode ser desabilitada por página usando a opção `editLink` no frontmatter:
 
