@@ -1,8 +1,8 @@
-# Emblema
+# Emblema {#badge}
 
 O emblema permite adicionar status aos seus cabeçalhos. Por exemplo, pode ser útil especificar o tipo da seção ou a versão suportada.
 
-## Uso
+## Uso {#usage}
 
 Você pode usar o componente `Badge` que está disponível globalmente.
 
@@ -20,7 +20,7 @@ O código acima é apresentado como:
 ### Title <Badge type="warning" text="beta" />
 ### Title <Badge type="danger" text="caution" />
 
-## Filiação Personalizada
+## Filiação Personalizada {#custom-children}
 
 `<Badge>` aceita `children` (filhos), que serão exibidos no emblema.
 
@@ -30,7 +30,7 @@ O código acima é apresentado como:
 
 ### Title <Badge type="info">custom element</Badge>
 
-## Personalize o Tipo de Cor
+## Personalize o Tipo de Cor {#customize-type-color}
 
 Você pode personalizar o estilo dos emblemas sobrepondo variáveis ​​CSS. Os seguintes são os valores padrão:
 
