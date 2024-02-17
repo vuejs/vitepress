@@ -1,4 +1,4 @@
-# Carbon Ads
+# Carbon Ads {#carbon-ads}
 
 VitePress tem suporte embutido para [Carbon Ads](https://www.carbonads.net/). Ao definir as credenciais Carbon Ads na configuração, VitePress mostrará anúncios na página.
 
