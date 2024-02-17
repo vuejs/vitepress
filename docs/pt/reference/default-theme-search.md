@@ -2,9 +2,9 @@
 outline: deep
 ---
 
-# Pesquisa
+# Pesquisa {#search}
 
-## Pesquisa Local
+## Pesquisa Local {#local-search}
 
 VitePress oferece suporte à pesquisa de texto completa usando um índice no navegador graças ao [minisearch](https://github.com/lucaong/minisearch/). Para habilitar esse recurso, basta definir a opção `themeConfig.search.provider` como `'local'` no arquivo `.vitepress/config.ts`:
 
@@ -62,7 +62,7 @@ export default defineConfig({
 })
 ```
 
-### Opções miniSearch
+### Opções MiniSearch {#mini-search-options}
 
 Você pode configurar o MiniSearch assim:
 
@@ -98,7 +98,7 @@ export default defineConfig({
 
 Saiba mais na [documentação do MiniSearch](https://lucaong.github.io/minisearch/classes/MiniSearch.MiniSearch.html).
 
-### Apresentador de Conteúdo Personalizado
+### Apresentador de Conteúdo Personalizado {#custom-content-renderer}
 
 Você pode personalizar a função usada para apresentar o conteúdo markdown antes de indexá-lo:
 
@@ -126,7 +126,7 @@ export default defineConfig({
 
 Essa função será removida dos dados do site no lado do cliente, então você pode usar APIs do Node.js nela.
 
-#### Exemplo: Excluindo páginas da pesquisa
+#### Exemplo: Excluindo páginas da pesquisa {#example-excluding-pages-from-search}
 
 Você pode excluir páginas da pesquisa adicionando `search: false` ao frontmatter da página. Alternativamente:
 
@@ -154,7 +154,7 @@ export default defineConfig({
 No caso uma função `_render` personalizada ser fornecida, você precisa manipular o `search: false` do frontmatter por conta própria. Além disso, o objeto `env` não estará completamente populado antes que `md.render` seja chamado, então verificações em propriedades opcionais `env`, como `frontmatter`, devem ser feitas após isso.
 :::
 
-#### Exemplo: Transformando conteúdo - adicionando âncoras
+#### Exemplo: Transformando conteúdo - adicionando âncoras {#example-transforming-content-adding-anchors}
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -176,7 +176,7 @@ export default defineConfig({
 })
 ```
 
-## Pesquisa Algolia
+## Pesquisa Algolia {#algolia-search}
 
 VitePress oferece suporte à pesquisa em seu site de documentação usando [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Consulte o guia de início deles. Em seu arquivo `.vitepress/config.ts`, você precisará fornecer pelo menos o seguinte para que funcione:
 
@@ -197,7 +197,7 @@ export default defineConfig({
 })
 ```
 
-### i18n {#algolia-search-i18n}
+### i18n {#algolia-search-i18n} {#algolia-search-i18n}
 
 Você pode usar uma configuração como esta para usar a pesquisa multilínguas:
 
@@ -263,7 +263,7 @@ export default defineConfig({
 
 [Essas opções](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts) podem ser sobrepostas. Consulte a documentação oficial Algolia para obter mais informações sobre elas.
 
-### Configuração _Crawler_
+### Configuração _Crawler_ {#crawler-config}
 
 Aqui está um exemplo de configuração baseado na qual este site usa:
 
