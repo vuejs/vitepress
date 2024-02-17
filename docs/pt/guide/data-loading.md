@@ -1,10 +1,10 @@
-# Carregamento de Dados em Tempo de Compilação
+# Carregamento de Dados em Tempo de Compilação {#build-time-data-loading}
 
 VitePress fornece um recurso chamado **carregadores de dado** que permite carregar dados arbitrários e importá-los de páginas ou de componentes. O carregamento de dados é executado **apenas no tempo da construção**: os dados resultantes serão serializados como JSON no pacote JavaScript final.
 
 Os carregadores de dados podem ser usados para buscar dados remotos ou gerar metadados com base em arquivos locais. Por exemplo, você pode usar carregadores de dados para processar todas as suas páginas API locais e gerar automaticamente um índice de todas as entradas da API.
 
-## Uso Básico
+## Uso Básico {#basic-usage}
 
 Um arquivo de carregador de dados deve terminar com `.data.js` ou `.data.ts`. O arquivo deve fornecer uma exportação padrão de um objeto com o método `load()`:
 
@@ -52,7 +52,7 @@ export default {
 }
 ```
 
-## Dados de Arquivos Locais
+## Dados de Arquivos Locais {#data-from-local-files}
 
 Quando você precisa gerar dados com base em arquivos locais, você deve usar a opção `watch` no carregador de dados para que as alterações feitas nesses arquivos possam acionar atualizações rápidas.
 
@@ -131,7 +131,7 @@ import { data as posts } from './posts.data.js'
 </template>
 ```
 
-### Opções
+### Opções {#options}
 
 Os dados padrão podem não atender a todas as necessidades - você pode optar por transformar os dados usando opções:
 
@@ -214,7 +214,7 @@ interface ContentOptions<T = ContentData[]> {
 }
 ```
 
-## Carregadores de Dados com Tipos
+## Carregadores de Dados com Tipos {#typed-data-loaders}
 
 Ao usar TypeScript, você pode tipar seu carregador e exportar `data` da seguinte forma:
 
@@ -237,7 +237,7 @@ export default defineLoader({
 })
 ```
 
-## Configuração
+## Configuração {#configuration}
 
 Para obter as informações de configuração dentro de um carregador, você pode usar um código como este:
 
