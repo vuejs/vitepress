@@ -1,4 +1,4 @@
-# Página Inicial
+# Página Inicial {#home-page}
 
 O tema padrão VitePress fornece um layout de página inicial, que você também pode ver em uso [na página inicial deste site](../). Você pode usá-lo em qualquer uma de suas páginas especificando `layout: home` em [frontmatter](./frontmatter-config).
 
@@ -10,7 +10,7 @@ layout: home
 
 No entanto, essa opção sozinha não faz muito. Você pode adicionar várias "seções" diferentes pré-modeladas à página inicial definindo opções adicionais como `hero` e `features`.
 
-## Seção Hero
+## Seção Hero {#hero-section}
 
 A seção _Hero_ fica no topo da página inicial. Aqui segue como você pode configurar a seção _Hero_.
 
@@ -78,7 +78,7 @@ interface HeroAction {
 }
 ```
 
-### Personalizando a cor do nome
+### Personalizando a cor do nome {#customizing-the-name-color}
 
 VitePress usa a cor da marca (`--vp-c-brand-1`) para `name`. No entanto, você pode personalizar essa cor sobrescrevendo a variável `--vp-home-hero-name-color`.
 
@@ -97,7 +97,7 @@ Você também pode personalizá-la ainda mais combinando `--vp-home-hero-name-ba
 }
 ```
 
-## Seção de Funcionalidades
+## Seção de Funcionalidades {#features-section}
 
 Na seção de funcionalidades, você pode listar qualquer número de funcionalidades que deseja mostrar imediatamente após a seção _Hero_. Para configurá-la, passe a opção `features` para o frontmatter.
 
