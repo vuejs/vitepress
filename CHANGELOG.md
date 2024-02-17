@@ -1,3 +1,23 @@
+# [1.0.0-rc.43](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.42...v1.0.0-rc.43) (2024-2-17)
+
+### Bug Fixes
+
+- handle process.env being undefined while process is not ([b63e0a0](https://github.com/vuejs/vitepress/commit/b63e0a0c57f886f49aa7e073ff623c918164bd0b)), closes [#3579](https://github.com/vuejs/vitepress/issues/3579)
+- make local search work in combination with vue-i18n ([#3559](https://github.com/vuejs/vitepress/issues/3559)) ([6624bb7](https://github.com/vuejs/vitepress/commit/6624bb748610079b88e2dcef7ea1810833a54a85))
+- **theme:** adjust mathjax svg styles ([#3567](https://github.com/vuejs/vitepress/issues/3567)) ([2051100](https://github.com/vuejs/vitepress/commit/20511006dba516ca8c06ed1dd3516547af668a0e))
+
+### Features
+
+- **theme:** auto style markdown content in home page ([#3561](https://github.com/vuejs/vitepress/issues/3561)) ([0903027](https://github.com/vuejs/vitepress/commit/09030272b4a5c8f723b7e11303265f24b7481575))
+
+### Performance Improvements
+
+- **theme:** move svg icons to css ([#3537](https://github.com/vuejs/vitepress/issues/3537)) ([636cca0](https://github.com/vuejs/vitepress/commit/636cca042dfbca006af2d702ddec0a2ff601cb46))
+
+### BREAKING CHANGES
+
+- The default theme now styles the markdown content in the home page. If you have custom styles that rely on the markdown content not being styled, you may need to adjust your styles.
+
 # [1.0.0-rc.42](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.41...v1.0.0-rc.42) (2024-2-6)
 
 ### Bug Fixes
