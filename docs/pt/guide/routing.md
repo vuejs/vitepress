@@ -2,9 +2,9 @@
 outline: deep
 ---
 
-# Roteamento
+# Roteamento {#routing}
 
-## Roteamento baseado em Arquivos
+## Roteamento baseado em Arquivos {#file-based-routing}
 
 VitePress utiliza roteamento baseado em arquivos, isso significa que as páginas HTML geradas são mapeadas da estrutura de diretórios dos arquivos fonte Markdown. Por exemplo, dada a seguinte estrutura de diretório:
 
@@ -28,11 +28,11 @@ guide/getting-started.md  -->  /guide/getting-started.html
 
 O HTML resultante pode ser hospedado em qualquer servidor web que possa servir arquivos estáticos.
 
-## Diretório Raiz e Fonte
+## Diretório Raiz e Fonte {#root-and-source-directory}
 
 Existem dois conceitos importantes na estrutura de arquivos de um projeto VitePress: o **diretório raiz** e o **diretório fonte**.
 
-### Diretório Raiz
+### Diretório Raiz {#project-root}
 
 O diretório raiz é onde o VitePress procura pelo diretório especial `.vitepress`. O diretório `.vitepress` é um local reservado para o arquivo de configuração do VitePress, o cache do servidor de desenvolvimento, o resultado da compilação e o código de personalização de tema opcional.
 
@@ -58,7 +58,7 @@ docs/index.md            -->  /index.html (acessível como /)
 docs/getting-started.md  -->  /getting-started.html
 ```
 
-### Diretório Fonte
+### Diretório Fonte {#source-directory}
 
 O diretório fonte é onde seus arquivos fonte em Markdown estão. Por padrão, é o mesmo que o diretório raiz. No entanto, você pode configurá-lo por meio da opção de configuração [`srcDir`](../reference/site-config#srcdir).
 
@@ -79,7 +79,7 @@ src/index.md            -->  /index.html (acessível como /)
 src/getting-started.md  -->  /getting-started.html
 ```
 
-## Links Entre Páginas
+## Links Entre Páginas {#linking-between-pages}
 
 Você pode usar tanto caminhos absolutos quanto relativos ao vincular páginas. Note que, embora ambas as extensões `.md` e `.html` funcionem, a prática recomendada é omitir as extensões de arquivo para que o VitePress possa gerar as URLs finais com base na sua configuração.
 
@@ -95,7 +95,7 @@ Você pode usar tanto caminhos absolutos quanto relativos ao vincular páginas. 
 
 Saiba mais sobre a vinculação de ativos, como imagens, em [Manipulação de Ativos](./asset-handling).
 
-### Vinculação a Páginas Não VitePress
+### Vinculação a Páginas Não VitePress {#linking-to-non-vitepress-pages}
 
 Se você deseja vincular a uma página em seu site que não é gerada pelo VitePress, será necessário usar a URL completa (abre em uma nova guia) ou especificar explicitamente o destino:
 
@@ -121,7 +121,7 @@ Alternativamente, pode-se usar diretamente a sintaxe da tag âncora:
 
 :::
 
-## Geração de URL Limpa
+## Geração de URL Limpa {#generating-clean-url}
 
 ::: aviso Suporte do Servidor Necessário
 Para servir URLs limpas com VitePress, é necessário suporte no lado do servidor.
@@ -149,7 +149,7 @@ No entanto, se você não puder configurar o servidor com esse suporte, será ne
 │  └─ index.md
 └─ index.md
 ```
-# Reescrita de Rota
+# Reescrita de Rota {#route-rewrites}
 
 Você pode personalizar o mapeamento entre a estrutura de diretórios fonte e as páginas geradas. Isso é útil quando você tem uma estrutura de projeto complexa. Por exemplo, digamos que você tenha um monorepo com vários pacotes e gostaria de colocar as documentações junto com os arquivos fonte desta forma:
 
@@ -206,11 +206,11 @@ Quando as reescritas estão habilitadas, **links relativos devem ser baseados no
 ```
 :::
 
-## Rotas Dinâmicas
+## Rotas Dinâmicas {#dynamic-routes}
 
 Você pode gerar muitas páginas usando um único arquivo Markdown e dados dinâmicos. Por exemplo, você pode criar um arquivo `packages/[pkg].md` que gera uma página correspondente para cada pacote em um projeto. Aqui, o segmento `[pkg]` é um **parâmetro** de rota que diferencia cada página das outras.
 
-### Arquivo de Carregamento de Caminhos
+### Arquivo de Carregamento de Caminhos {#paths-loader-file}
 
 Como VitePress é um gerador de site estático, os caminhos possíveis das páginas devem ser determinados no momento da compilação. Portanto, uma página de rota dinâmica **deve** ser acompanhada por um **arquivo de carregamento de caminhos**. Para `packages/[pkg].md`, precisaremos de `packages/[pkg].paths.js` (`.ts` também é suportado):
 
@@ -246,7 +246,7 @@ As páginas HTML geradas serão:
    └─ bar.html
 ```
 
-### Múltiplos Parâmetros
+### Múltiplos Parâmetros {#multiple-params}
 
 Uma rota dinâmica pode conter múltiplos parâmetros:
 
@@ -283,7 +283,7 @@ export default {
    └─ bar-2.0.0.html
 ```
 
-### Gerando Caminhos Dinamicamente
+### Gerando Caminhos Dinamicamente {#dynamically-generating-paths}
 
 O módulo de carregamento de caminhos é executado no Node.js e apenas durante o momento de compilação. Você pode gerar dinamicamente o _array_ de caminhos usando qualquer dado, seja local ou remoto.
 
@@ -322,7 +322,7 @@ export default {
 }
 ```
 
-### Acessando Parâmetros na Página
+### Acessando Parâmetros na Página {#accessing-params-in-page}
 
 Você pode usar os parâmetros para passar dados adicionais para cada página. O arquivo de rota Markdown pode acessar os parâmetros da página atual em expressões Vue através da propriedade global `$params`:
 
@@ -344,7 +344,7 @@ console.log(params.value)
 </script>
 ```
 
-### Renderizando Conteúdo Cru
+### Apresentando Conteúdo Cru {#rendering-raw-content}
 
 Parâmetros passados para a página serão serializados na carga JavaScript do cliente, portanto, evite passar dados pesados nos parâmetros, como Markdown cru ou conteúdo HTML obtido de um CMS remoto.
 
@@ -365,7 +365,7 @@ export default {
 }
 ```
 
-Em seguida, use a seguinte sintaxe especial para mostrar o conteúdo como parte do próprio arquivo Markdown:
+Em seguida, use a seguinte sintaxe especial para apresentar o conteúdo como parte do próprio arquivo Markdown:
 
 ```md
 <!-- @content -->
