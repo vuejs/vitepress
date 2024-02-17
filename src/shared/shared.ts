@@ -184,7 +184,7 @@ const KNOWN_EXTENSIONS = new Set()
 export function treatAsHtml(filename: string): boolean {
   if (KNOWN_EXTENSIONS.size === 0) {
     const extraExts =
-      (typeof process === 'object' && process.env.VITE_EXTRA_EXTENSIONS) ||
+      (typeof process === 'object' && process.env?.VITE_EXTRA_EXTENSIONS) ||
       (import.meta as any).env?.VITE_EXTRA_EXTENSIONS ||
       ''
 
