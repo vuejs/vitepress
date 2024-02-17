@@ -1,12 +1,12 @@
-# Extensões Markdown
+# Extensões Markdown {#markdown-extensions}
 
 VitePress vem com Extensões Markdown embutidas.
 
-## Âncoras de Cabeçalho
+## Âncoras de Cabeçalho {#header-anchors}
 
 Cabeçalhos recebem a aplicação automaticamente de links âncora. A apresentação das âncoras pode ser configurada usando a opção `markdown.anchor`.
 
-### Âncoras personalizadas
+### Âncoras personalizadas {#custom-anchors}
 
 Para especificar uma _tag_ âncora personalizada para um cabeçalho em vez de usar aquela gerada automaticamente, adicione um sufixo ao cabeçalho:
 
@@ -16,11 +16,11 @@ Para especificar uma _tag_ âncora personalizada para um cabeçalho em vez de us
 
 Isso permite que você tenha um link do cabeçalho como `#minha-ancora` em vez do padrão `#usando-ancoras-personalizadas`.
 
-## Links
+## Links {#links}
 
 Ambos os links internos e externos recebem tratamento especial.
 
-### Links Internos
+### Links Internos {#internal-links}
 
 Os links internos são convertidos em links de roteador para navegação SPA. Além disso, todo arquivo `index.md` contido em cada subdiretório será automaticamente convertido para `index.html`, com a URL correspondente `/`.
 
@@ -50,18 +50,18 @@ E supondo que você esteja em `foo/one.md`:
 [bar - four](../bar/four.html) <!-- ou você pode adicionar .html -->
 ```
 
-### Sufixo de Página
+### Sufixo de Página {#page-suffix}
 
 Páginas e links internos são gerados com o sufixo `.html` por padrão.
 
-### Links Externos
+### Links Externos {#external-links}
 
 Links externos recebem automaticamente `target="_blank" rel="noreferrer"`:
 
 - [vuejs.org](https://vuejs.org)
 - [VitePress no GitHub](https://github.com/vuejs/vitepress)
 
-## Frontmatter
+## Frontmatter {#frontmatter}
 
 [YAML frontmatter](https://jekyllrb.com/docs/front-matter/) é suportado por padrão:
 
@@ -76,7 +76,7 @@ Esses dados estarão disponíveis para o restante da página, junto com todos os
 
 Para mais detalhes, veja [Frontmatter](../reference/frontmatter-config).
 
-## Tabelas ao Estilo GitHub
+## Tabelas ao Estilo GitHub {#github-style-tables}
 
 **Entrada**
 
@@ -124,11 +124,11 @@ Uma [lista de todos os emojis](https://github.com/markdown-it/markdown-it-emoji/
 
 A apresentação de TOC (Table of Contents) pode ser configurada usando a opção `markdown.toc`.
 
-## Recipientes Personalizados
+## Recipientes Personalizados {#custom-containers}
 
 Recipientes personalizados podem ser definidos por seus tipos, títulos e conteúdos.
 
-### Título Padrão
+### Título Padrão {#default-title}
 
 **Entrada**
 
@@ -176,7 +176,7 @@ Este é um aviso de perigo.
 Este é um bloco de detalhes.
 :::
 
-### Título Personalizado
+### Título Personalizado {#custom-title}
 
 Você pode definir um título personalizado adicionando o texto imediatamente após o "tipo" do recipiente.
 
@@ -263,7 +263,7 @@ A classe `vp-raw` também pode ser usada diretamente em elementos. O isolamento 
   })
   ```
 
-## Alertas no estilo GitHub
+## Alertas no estilo GitHub {#github-flavored-alerts}
 
 VitePress também suporta [alertas no estilo GitHub](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts) para apresentar como um bloco de chamada. Eles serão apresentados da mesma forma que [elementos personalizados](#custom-containers).
 
@@ -299,7 +299,7 @@ VitePress também suporta [alertas no estilo GitHub](https://docs.github.com/en/
 > [!CAUTION]
 > Potenciais consequências negativas de uma ação.
 
-## Destaque de Sintaxe em Blocos de Código
+## Destaque de Sintaxe em Blocos de Código {#line-highlighting-in-code-blocks}
 
 VitePress utiliza [Shiki](https://github.com/shikijs/shiki) para destacar a sintaxe da linguagem em blocos de código Markdown, usando texto colorido. Shiki suporta uma ampla variedade de linguagens de programação. Tudo o que você precisa fazer é adicionar um _alias_ de linguagem válido após os crases iniciais do bloco de código:
 
@@ -345,7 +345,7 @@ Uma [lista de linguagens válidas](https://shiki.style/languages) está disponí
 
 Você também pode personalizar o tema de destaque de sintaxe na configuração do aplicativo. Consulte as [opções `markdown`](../reference/site-config#markdown) para mais detalhes.
 
-## Destaque de Linha em Blocos de Código
+## Destaque de Linha em Blocos de Código {#line-highlighting-in-code-blocks}
 
 **Entrada**
 
@@ -441,7 +441,7 @@ export default {
 }
 ```
 
-## Foco em Blocos de Código
+## Foco em Blocos de Código {#focus-in-code-blocks}
 
 Adicionando o comentário `// [!code focus]` em uma linha irá destacá-la e desfocar as outras partes do código.
 
@@ -473,7 +473,7 @@ export default {
 }
 ```
 
-## Diferenças Coloridas em Blocos de Código
+## Diferenças Coloridas em Blocos de Código {#colored-diffs-in-code-blocks}
 
 Adicionar os comentários `// [!code --]` ou `// [!code ++]` em uma linha criará uma diferença nessa linha, mantendo as cores do bloco de código.
 
@@ -505,7 +505,7 @@ export default {
 }
 ```
 
-## Erros e Avisos em Blocos de Código
+## Erros e Avisos em Blocos de Código {#errors-and-warnings-in-code-blocks}
 
 Adicionar os comentários `// [!code warning]` ou `// [!code error]` em uma linha colorirá os blocos conforme apropriado.
 
@@ -537,7 +537,7 @@ export default {
 }
 ```
 
-## Números de Linha
+## Números de Linha {#line-numbers}
 
 Você pode habilitar números de linha para cada bloco de código através do arquivo de configuração:
 
@@ -597,7 +597,7 @@ const line3 = 'Esta é a linha 3'
 const line4 = 'Esta é a linha 4'
 ```
 
-## Importar _Snippets_ de Código
+## Importar _Snippets_ de Código {#import-code-snippets}
 
 Você pode importar trechos de código de arquivos existentes usando a seguinte sintaxe:
 
@@ -666,7 +666,7 @@ Você também pode especificar o idioma dentro das chaves (`{}`), assim:
 
 Isso é útil se a linguagem original não puder ser inferida pela extensão do arquivo.
 
-## Grupos de Código
+## Grupos de Código {#code-groups}
 
 Você pode agrupar vários blocos de código assim:
 
@@ -754,7 +754,7 @@ Você também pode [importar _snippets_ de código](#import-code-snippets) em gr
 
 :::
 
-## Inclusão de Arquivo Markdown
+## Inclusão de Arquivo Markdown {#markdown-file-inclusion}
 
 Você pode incluir um arquivo markdown em outro arquivo markdown, mesmo aninhado.
 
@@ -769,7 +769,7 @@ Por exemplo, você pode incluir um arquivo markdown relativo usando isto:
 ```md
 # Documentação
 
-## Conceitos Básicos
+## Conceitos Básicos 
 
 <!--@include: ./parts/basics.md-->
 ```
@@ -838,7 +838,7 @@ O formato do intervalo de linhas selecionado pode ser: `{3,}`, `{,10}`, `{1,10}`
 Observe que isso não gera erros se o arquivo não estiver presente. Portanto, ao usar esse recurso, certifique-se de que o conteúdo está sendo mostrado como esperado.
 :::
 
-## Equações Matemáticas
+## Equações Matemáticas {#math-equations}
 
 Isso é atualmente opcional. Para ativá-lo, você precisa instalar `markdown-it-mathjax3` e definir `markdown.math` como `true` no seu arquivo de configuração:
 
@@ -882,7 +882,7 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 | $\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t}  = \vec{\mathbf{0}}$                                                          | a rotacional de $\vec{\mathbf{E}}$ é proporcional à taxa de variação de $\vec{\mathbf{B}}$ |
 | $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _hã?_                                                                                     |
 
-## _Lazy Loading_ de Imagens
+## _Lazy Loading_ de Imagens {#image-lazy-loading}
 
 Você pode ativar o "carregamento folgado" para cada imagem adicionada via markdown definindo `lazyLoading` como `true` no seu arquivo de configuração:
 
@@ -897,7 +897,7 @@ export default {
 }
 ```
 
-## Configuração Avançada
+## Configuração Avançada {#advanced-configuration}
 
 VitePress usa [markdown-it](https://github.com/markdown-it/markdown-it) como interpretador Markdown. Muitas das extensões acima são implementadas por meio de _plugins_ personalizados. Você pode personalizar ainda mais a instância `markdown-it` usando a opção `markdown` em `.vitepress/config.js`:
 
