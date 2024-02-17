@@ -1,8 +1,8 @@
-# Navegação
+# Navegação {#nav}
 
 Referente a barra de navegação exibida no topo da página. Ela contém o título do site, links do menu global, e etc.
 
-## Título do Site e Logo
+## Título do Site e Logo {#site-title-and-logo}
 
 Por padrão, a navegação mostra o título do site referenciando o valor de [`config.title`](./site-config#title). Se desejar alterar o que é exibido na navegação, você pode definir um texto personalizado na opção `themeConfig.siteTitle`.
 
@@ -37,7 +37,7 @@ export default {
 
 Você também pode passar um objeto como logo se quiser adicionar um atributo `alt` ou personalizá-lo com base no modo claro/escuro. Consulte [`themeConfig.logo`](./default-theme-config#logo) para obter detalhes.
 
-## Links de Navegação
+## Links de Navegação {#navigation-links}
 
 Você pode definir a opção `themeConfig.nav` para adicionar links à sua navegação.
 
@@ -114,7 +114,7 @@ export default {
 }
 ```
 
-### Personalizar o estado "ativo" do link
+### Personalizar o estado "ativo" do link {#customize-link-s-active-state}
 
 Os itens do menu de navegação serão destacados quando a página atual estiver no caminho correspondente. Se desejar personalizar o caminho a ser correspondido, defina a propriedade `activeMatch` e regex como um valor em string.
 
@@ -138,7 +138,7 @@ export default {
 `activeMatch` deve ser uma string regex, mas você deve defini-la como uma string. Não podemos usar um objeto RegExp real aqui porque ele não é serializável durante o momento de construção.
 :::
 
-### Personalizar os atributos "target" e "rel" de links
+### Personalizar os atributos "target" e "rel" de links {#customize-link-s-target-and-rel-attributes}
 
 Por padrão, VitePress determina automaticamente os atributos `target` e `rel` baseado em um link externo ou não. Mas se você quiser, também pode personalizá-los.
 
@@ -157,6 +157,6 @@ export default {
 }
 ```
 
-## Links Sociais
+## Links Sociais {#social-links}
 
 Consulte [`socialLinks`](./default-theme-config#sociallinks).
