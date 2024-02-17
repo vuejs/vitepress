@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-# Compatibilidade SSR
+# Compatibilidade SSR {#ssr-compatibility}
 
 VitePress pré-interpreta a aplicação no Node.js durante a compilação de produção, utilizando as capacidades de Interpretação do Lado do Servidor (SSR) do Vue. Isso significa que todo o código personalizado nos componentes do tema está sujeito à Compatibilidade SSR.
 
@@ -18,11 +18,11 @@ Se você estiver usando ou demonstrando componentes que não são compatíveis c
 </ClientOnly>
 ```
 
-## Bibliotecas que Acessam a API do Navegador na Importação
+## Bibliotecas que Acessam a API do Navegador na Importação {#libraries-that-access-browser-api-on-import}
 
 Alguns componentes ou bibliotecas acessam APIs do navegador **na importação**. Para usar código que assume um ambiente de navegador na importação, você precisa importá-los dinamicamente.
 
-### Importando no Gatilho `mounted`
+### Importando no Gatilho `mounted` {#importing-in-mounted-hook}
 
 ```vue
 <script setup>
@@ -36,7 +36,7 @@ onMounted(() => {
 </script>
 ```
 
-### Importação Condicional
+### Importação Condicional {#conditional-import}
 
 Você também pode importar condicionalmente uma dependência usando o sinalizador `import.meta.env.SSR` (parte das [variáveis de ambiente Vite](https://vitejs.dev/guide/env-and-mode.html#env-variables)):
 
