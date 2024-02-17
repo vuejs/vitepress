@@ -2,13 +2,13 @@
 outline: deep
 ---
 
-# Configuração do Site
+# Configuração do Site {#site-config}
 
 A configuração do site é onde você pode definir as configurações globais do site. As opções de configuração do aplicativo definem configurações que se aplicam a todos os sites VitePress, independentemente do tema que estão usando. Por exemplo, o diretório base ou o título do site.
 
-## Visão geral
+## Visão geral {#overview}
 
-### Resolução de Configuração
+### Resolução de Configuração {#config-resolution}
 
 O arquivo de configuração é sempre resolvido a partir de `<root>/.vitepress/config.[ext]`, onde `<root>` é a [raiz do projeto](../guide/routing#root-and-source-directory) VitePress e `[ext]` é uma das extensões de arquivo suportadas. O TypeScript é suportado de fábrica. As extensões suportadas incluem `.js`, `.ts`, `.mjs` e `.mts`.
 
@@ -80,7 +80,7 @@ export default defineConfig({
 
 :::
 
-### Configuração Intellisense
+### Configuração Intellisense {#config-intellisense}
 
 Usar o auxiliar `defineConfig` fornecerá Intellisense alimentado por TypeScript para as opções de configuração. Supondo que seu IDE o suporte, isso deve funcionar tanto em JavaScript quanto em TypeScript.
 
@@ -92,7 +92,7 @@ export default defineConfig({
 })
 ```
 
-### Configuração de Tema Tipada
+### Configuração de Tema Tipada {#typed-theme-config}
 
 Por padrão, o auxiliar `defineConfig` espera o tipo de configuração de tema do tema padrão:
 
@@ -133,7 +133,7 @@ export default defineConfigWithTheme<ThemeConfig>({
 
   Você pode configurar a instância subjacente de [Markdown-It](https://github.com/markdown-it/markdown-it) usando a opção [markdown](#markdown) em sua configuração VitePress.
 
-## Metadados do Site
+## Metadados do Site {#site-metadata}
 
 ### title
 
@@ -217,7 +217,7 @@ type HeadConfig =
   | [string, Record<string, string>, string]
 ```
 
-#### Exemplo: Adicionando um favicon
+#### Exemplo: Adicionando um favicon {#example-adding-a-favicon}
 
 ```ts
 export default {
@@ -229,7 +229,7 @@ export default {
 */
 ```
 
-#### Exemplo: Adicionando Fontes do Google
+#### Exemplo: Adicionando Fontes do Google {#example-adding-google-fonts}
 
 ```ts
 export default {
@@ -256,7 +256,7 @@ export default {
 */
 ```
 
-#### Exemplo: Registrando um service worker
+#### Exemplo: Registrando um _service worker_ {#example-registering-a-service-worker}
 
 ```ts
 export default {
@@ -284,7 +284,7 @@ export default {
 */
 ```
 
-#### Exemplo: Usando o Google Analytics
+#### Exemplo: Usando o Google Analytics {#example-using-google-analytics}
 
 ```ts
 export default {
@@ -343,7 +343,7 @@ export default {
 }
 ```
 
-## Roteamento
+## Roteamento {#routing}
 
 ### cleanUrls
 
@@ -370,7 +370,7 @@ export default {
 }
 ```
 
-## Construção
+## Construção {#build}
 
 ### srcDir
 
@@ -478,7 +478,7 @@ export default {
 
 Quando definido como `true`, a aplicação em produção será compilada no [Modo MPA](../guide/mpa-mode). O modo MPA envia 0kb de JavaScript por padrão, às custas de desabilitar a navegação no lado do cliente e exigir permissão explícita para interatividade.
 
-## Tematização
+## Tematização {#theming}
 
 ### appearance
 
@@ -504,7 +504,7 @@ Para obter o selo de tempo da última atualização para cada página usando o G
 
 Ao usar o tema padrão, habilitar esta opção exibirá o horário da última atualização de cada página. Você pode personalizar o texto via opção [`themeConfig.lastUpdatedText`](./default-theme-config#lastupdatedtext).
 
-## Personalização
+## Personalização {#customization}
 
 ### markdown
 
@@ -548,7 +548,7 @@ export default {
 }
 ```
 
-## Ganchos de Compilação
+## Ganchos de Compilação {#build-hooks}
 
 Os ganchos de compilação VitePress permitem adicionar novas funcionalidades ao seu site:
 
@@ -640,7 +640,7 @@ Note que este gancho só é chamado ao gerar o site estaticamente. Não é chama
   }
   ```
 
-#### Exemplo: Adicionar URL canônica `<link>`
+#### Exemplo: Adicionar URL canônica `<link>` {#example-adding-a-canonical-url-link} 
 
 ```ts
 export default {
