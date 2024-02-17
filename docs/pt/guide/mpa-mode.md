@@ -1,4 +1,4 @@
-# Modo MPA <Badge type="warning" text="experimental" />
+# Modo MPA <Badge type="warning" text="experimental" /> {#mpa-mode}
 
 O modo MPA (Aplicação Multipáginas) pode ser habilitado pela linha de comando com `vitepress build --mpa`, ou através da configuração pela opção `mpa: true`.
 
