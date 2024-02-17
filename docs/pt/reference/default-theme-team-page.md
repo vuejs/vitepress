@@ -23,11 +23,11 @@ const members = [
 ]
 </script>
 
-# Página da Equipe
+# Página da Equipe {#team-page}
 
 Se você quiser apresentar sua equipe, você pode usar componentes de equipe para construir a Página da Equipe. Existem duas maneiras de usar esses componentes. Uma é incorporá-lo na página de documento, e outra é criar uma Página de Equipe completa.
 
-## Mostrar membros da equipe em uma página
+## Mostrar membros da equipe em uma página {#show-team-members-in-a-page}
 
 Você pode usar o componente `<VPTeamMembers>` exposto em `vitepress/theme` para exibir uma lista de membros da equipe em qualquer página.
 
@@ -66,7 +66,7 @@ Incorporar membros da equipe na página de documento é bom para equipes de pequ
 
 Se você tiver um grande número de membros, ou simplesmente quiser ter mais espaço para mostrar os membros da equipe, considere [criar uma página de equipe completa.](#create-a-full-team-page)
 
-## Criando uma página de equipe completa
+## Criando uma página de equipe completa {#create-a-full-team-page}
 
 Em vez de adicionar membros da equipe à página de documento, você também pode criar uma Página de Equipe completa, da mesma forma que pode criar uma [Página Inicial](./default-theme-home-page) personalizada.
 
@@ -119,7 +119,7 @@ O componente `<VPPageTitle>` adiciona a seção de título da página. O título
 
 `<VPMembers>` funciona da mesma forma que quando usado em uma página de documento. Ele exibirá a lista de membros.
 
-### Adicione seções para dividir os membros da equipe
+### Adicione seções para dividir os membros da equipe {#add-sections-to-divide-team-members}
 
 Você pode adicionar "seções" à página da equipe. Por exemplo, você pode ter diferentes tipos de membros da equipe, como membros da Equipe Principal e Parceiros da Comunidade. Você pode dividir esses membros em seções para explicar melhor os papéis de cada grupo.
 
