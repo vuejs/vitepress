@@ -6,13 +6,18 @@
 
 <style scoped>
 .VPTeamPage {
-  padding-bottom: 96px;
+  margin: 96px 0;
 }
 
 @media (min-width: 768px) {
   .VPTeamPage {
-    padding-bottom: 128px;
+    margin: 128px 0;
   }
+}
+
+.VPHome :slotted(.VPTeamPageTitle) {
+  border-top: 1px solid var(--vp-c-gutter);
+  padding-top: 88px !important;
 }
 
 :slotted(.VPTeamPageSection + .VPTeamPageSection),

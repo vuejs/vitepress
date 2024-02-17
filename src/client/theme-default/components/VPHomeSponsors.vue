@@ -49,8 +49,33 @@ withDefaults(defineProps<Props>(), {
 <style scoped>
 .VPHomeSponsors {
   border-top: 1px solid var(--vp-c-gutter);
-  padding: 88px 24px 96px;
-  background-color: var(--vp-c-bg);
+  padding-top: 88px !important;
+}
+
+.VPHomeSponsors {
+  margin: 96px 0;
+}
+
+@media (min-width: 768px) {
+  .VPHomeSponsors {
+    margin: 128px 0;
+  }
+}
+
+.VPHomeSponsors {
+  padding: 0 24px;
+}
+
+@media (min-width: 768px) {
+  .VPHomeSponsors {
+    padding: 0 48px;
+  }
+}
+
+@media (min-width: 960px) {
+  .VPHomeSponsors {
+    padding: 0 64px;
+  }
 }
 
 .container {
