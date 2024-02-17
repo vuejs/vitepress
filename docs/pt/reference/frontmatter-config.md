@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-# Configuração Frontmatter
+# Configuração Frontmatter {#frontmatter-config}
 
 Frontmatter permite a configuração baseada em páginas. Em cada arquivo markdown, você pode usar a configuração frontmatter para sobrepor opções de configuração a nível de site ou de tema. Além disso, existem opções de configuração que só podem ser definidas em frontmatter.
 
@@ -82,7 +82,7 @@ type HeadConfig =
   | [string, Record<string, string>, string]
 ```
 
-## Somente no Tema Padrão
+## Somente no Tema Padrão {#default-theme-only}
 
 As seguintes opções frontmatter são aplicáveis apenas ao usar o tema padrão.
 
