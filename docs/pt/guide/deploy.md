@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-# Implante seu Site VitePress
+# Implante seu Site VitePress {#deploy-your-vitepress-site}
 
 Os guias a seguir são baseados em alguns pressupostos:
 
@@ -19,7 +19,7 @@ Os guias a seguir são baseados em alguns pressupostos:
   }
   ```
 
-## Compilar e Testar Localmente
+## Compilar e Testar Localmente {#build-and-test-locally}
 
 1. Execute este comando para compilar a documentação:
 
@@ -47,13 +47,13 @@ Os guias a seguir são baseados em alguns pressupostos:
 
    Agora o método `docs:preview` implantará o servidor em `http://localhost:8080`.
 
-## Configurando um Caminho Base Público
+## Configurando um Caminho Base Público {#setting-a-public-base-path}
 
 Por padrão, assumimos que o site será implantado no caminho raiz de um domínio (`/`). Se seu site for servido em um subcaminho, por exemplo, `https://meusite.com/blog/`, você precisa então configurar a opção [`base`](../reference/site-config#base) para `'/blog/'` na configuração VitePress.
 
 **Exemplo:** Ao usar GitHub Pages (ou GitLab Pages) e implantar em `user.github.io/repo/`, defina seu `base` como `/repo/`.
 
-## Cabeçalhos de Cache HTTP
+## Cabeçalhos de Cache HTTP {#http-cache-headers}
 
 Se você tiver controle sobre os cabeçalhos HTTP de seu servidor em produção, pode-se configurar cabeçalhos `cache-control` para obter melhor desempenho em visitas repetidas.
 
@@ -103,7 +103,7 @@ Nota: o arquivo `vercel.json` deve ser colocado na raiz do seu **repositório**.
 
 :::
 
-## Guias de Plataforma
+## Guias de Plataforma {#platform-guides}
 
 ### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render
 
@@ -221,7 +221,7 @@ Não ative opções como _Auto Minify_ para código HTML. Isso removerá coment�
        - main
    ```
 
-### Azure Static Web Apps
+### Azure Static Web Apps {#azure-static-web-apps}
 
 1. Siga a [documentação oficial](https://docs.microsoft.com/en-us/azure/static-web-apps/build-configuration).
 
@@ -231,7 +231,7 @@ Não ative opções como _Auto Minify_ para código HTML. Isso removerá coment�
    - **`output_location`**: `docs/.vitepress/dist`
    - **`app_build_command`**: `npm run docs:build`
 
-### Firebase
+### Firebase {#firebase}
 
 1. Crie `firebase.json` e `.firebaserc` na raiz do seu projeto:
 
@@ -286,6 +286,6 @@ Não ative opções como _Auto Minify_ para código HTML. Isso removerá coment�
 
 Consulte [Criar e Implantar um Aplicativo VitePress no Edgio](https://docs.edg.io/guides/vitepress).
 
-### Kinsta Static Site Hosting
+### Kinsta Static Site Hosting {#kinsta-static-site-hosting}
 
 Você pode implantar seu site Vitepress em [Kinsta](https://kinsta.com/static-site-hosting/) seguindo estas [instruções](https://kinsta.com/docs/vitepress-static-site-example/).
