@@ -90,7 +90,7 @@ function onCaretClick() {
         @keydown.enter="onCaretClick"
         tabindex="0"
       >
-        <span class="vp-icon vp-icon-chevron-right caret-icon" />
+        <span class="vpi-chevron-right caret-icon" />
       </div>
     </div>
 
@@ -226,9 +226,7 @@ function onCaretClick() {
 }
 
 .caret-icon {
-  width: 18px;
-  height: 18px;
-  fill: currentColor;
+  font-size: 18px;
   transform: rotate(90deg);
   transition: transform 0.25s;
 }

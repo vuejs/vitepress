@@ -18,9 +18,9 @@ function toggle() {
     :class="{ open: isOpen }"
   >
     <button class="title" @click="toggle">
-      <span class="vp-icon vp-icon-languages icon lang" />
+      <span class="vpi-languages icon lang" />
       {{ currentLang.label }}
-      <span class="vp-icon vp-icon-chevron-down icon chevron" />
+      <span class="vpi-chevron-down icon chevron" />
     </button>
 
     <ul class="list">
@@ -50,9 +50,7 @@ function toggle() {
 }
 
 .icon {
-  width: 16px;
-  height: 16px;
-  fill: currentColor;
+  font-size: 16px;
 }
 
 .icon.lang {

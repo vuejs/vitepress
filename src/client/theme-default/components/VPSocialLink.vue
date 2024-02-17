@@ -9,32 +9,20 @@ const props = defineProps<{
 }>()
 
 const svg = computed(() => {
-  if (typeof props.icon === 'object') return { svg: props.icon.svg }
-  return `vp-social-icon-${props.icon}`
+  if (typeof props.icon === 'object') return props.icon.svg
+  return `<span class="vpi-social-${props.icon}" />`
 })
 </script>
 
 <template>
   <a
-    v-if="typeof svg === 'object'"
     class="VPSocialLink no-icon"
     :href="link"
     :aria-label="ariaLabel ?? (typeof icon === 'string' ? icon : '')"
     target="_blank"
     rel="noopener"
     v-html="svg"
-  >
-  </a>
-  <a
-    v-else
-    class="VPSocialLink no-icon"
-    :href="link"
-    :aria-label="ariaLabel ?? (typeof icon === 'string' ? icon : '')"
-    target="_blank"
-    rel="noopener"
-  >
-    <span class="vp-icon" :class="svg" />
-  </a>
+  ></a>
 </template>
 
 <style scoped>
@@ -54,7 +42,7 @@ const svg = computed(() => {
 }
 
 .VPSocialLink > :deep(svg),
-.VPSocialLink > .vp-icon {
+.VPSocialLink > :deep([class^="vpi-social-"]) {
   width: 20px;
   height: 20px;
   fill: currentColor;

@@ -29,7 +29,7 @@ const showFooter = computed(() => {
     <div v-if="hasEditLink || hasLastUpdated" class="edit-info">
       <div v-if="hasEditLink" class="edit-link">
         <VPLink class="edit-link-button" :href="editLink.url" :no-icon="true">
-          <span class="vp-icon vp-icon-edit edit-link-icon" />
+          <span class="vpi-square-pen edit-link-icon" />
           {{ editLink.text }}
         </VPLink>
       </div>
@@ -91,9 +91,6 @@ const showFooter = computed(() => {
 
 .edit-link-icon {
   margin-right: 8px;
-  width: 14px;
-  height: 14px;
-  fill: currentColor;
 }
 
 .prev-next {

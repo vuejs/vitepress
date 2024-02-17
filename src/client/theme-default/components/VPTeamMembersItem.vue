@@ -46,7 +46,7 @@ withDefaults(defineProps<Props>(), {
     </div>
     <div v-if="member.sponsor" class="sp">
       <VPLink class="sp-link" :href="member.sponsor" no-icon>
-        <span class="vp-icon vp-icon-heart sp-icon" /> {{ member.actionText || 'Sponsor' }}
+        <span class="vpi-heart sp-icon" /> {{ member.actionText || 'Sponsor' }}
       </VPLink>
     </div>
   </article>
@@ -220,8 +220,6 @@ withDefaults(defineProps<Props>(), {
 
 .sp-icon {
   margin-right: 8px;
-  width: 16px;
-  height: 16px;
-  fill: currentColor;
+  font-size: 16px;
 }
 </style>

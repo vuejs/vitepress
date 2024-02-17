@@ -23,8 +23,8 @@ const switchTitle = computed(() => {
     :aria-checked="isDark"
     @click="toggleAppearance"
   >
-    <span class="vp-icon vp-icon-sun sun" />
-    <span class="vp-icon vp-icon-moon moon" />
+    <span class="vpi-sun sun" />
+    <span class="vpi-moon moon" />
   </VPSwitch>
 </template>
 

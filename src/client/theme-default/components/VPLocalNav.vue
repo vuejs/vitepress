@@ -66,7 +66,7 @@ const classes = computed(() => {
         aria-controls="VPSidebarNav"
         @click="$emit('open-menu')"
       >
-        <span class="vp-icon vp-icon-align-left menu-icon"></span>
+        <span class="vpi-align-left menu-icon"></span>
         <span class="menu-text">
           {{ theme.sidebarMenuLabel || 'Menu' }}
         </span>
@@ -156,9 +156,7 @@ const classes = computed(() => {
 
 .menu-icon {
   margin-right: 8px;
-  width: 16px;
-  height: 16px;
-  fill: currentColor;
+  font-size: 14px;
 }
 
 .VPOutlineDropdown {

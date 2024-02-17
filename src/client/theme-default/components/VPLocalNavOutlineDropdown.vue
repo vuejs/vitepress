@@ -60,7 +60,7 @@ function scrollToTop() {
   >
     <button @click="toggle" :class="{ open }" v-if="headers.length > 0">
       {{ resolveTitle(theme) }}
-      <span class="vp-icon vp-icon-chevron-right icon" />
+      <span class="vpi-chevron-right icon" />
     </button>
     <button @click="scrollToTop" v-else>
       {{ theme.returnToTopLabel || 'Return to top' }}
@@ -110,19 +110,23 @@ function scrollToTop() {
   color: var(--vp-c-text-1);
 }
 
-@media (min-width: 960px) {
-  .VPLocalNavOutlineDropdown button {
-    font-size: 14px;
-  }
-}
-
 .icon {
   display: inline-block;
   vertical-align: middle;
   margin-left: 2px;
-  width: 14px;
-  height: 14px;
-  fill: currentColor;
+  font-size: 14px;
+  transform: rotate(0deg);
+  transition: transform 0.25s;
+}
+
+@media (min-width: 960px) {
+  .VPLocalNavOutlineDropdown button {
+    font-size: 14px;
+  }
+
+  .icon {
+    font-size: 16px;
+  }
 }
 
 .open > .icon {

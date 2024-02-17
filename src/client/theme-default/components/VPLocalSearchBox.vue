@@ -430,7 +430,7 @@ function formMarkRegex(terms: Set<string>) {
             id="localsearch-label"
             for="localsearch-input"
           >
-            <span aria-hidden="true" class="vp-icon vp-ls-search-icon search-icon local-search-icon" />
+            <span aria-hidden="true" class="vpi-search search-icon local-search-icon" />
           </label>
           <div class="search-actions before">
             <button
@@ -438,7 +438,7 @@ function formMarkRegex(terms: Set<string>) {
               :title="translate('modal.backButtonTitle')"
               @click="$emit('close')"
             >
-              <span class="vp-icon vp-ls-back-icon local-search-icon" />
+              <span class="vpi-arrow-left local-search-icon" />
             </button>
           </div>
           <input
@@ -460,7 +460,7 @@ function formMarkRegex(terms: Set<string>) {
                 selectedIndex > -1 && (showDetailedList = !showDetailedList)
               "
             >
-              <span class="vp-icon vp-ls-toggle-icon local-search-icon" />
+              <span class="vpi-layout-list local-search-icon" />
             </button>
 
             <button
@@ -470,7 +470,7 @@ function formMarkRegex(terms: Set<string>) {
               :title="translate('modal.resetButtonTitle')"
               @click="resetSearch"
             >
-              <span class="vp-icon vp-ls-clear-icon local-search-icon" />
+              <span class="vpi-delete local-search-icon" />
             </button>
           </div>
         </form>
@@ -509,7 +509,7 @@ function formMarkRegex(terms: Set<string>) {
                     class="title"
                   >
                     <span class="text" v-html="t" />
-                    <span class="vp-icon vp-ls-tile-separator-icon local-search-icon" />
+                    <span class="vpi-chevron-right local-search-icon" />
                   </span>
                   <span class="title main">
                     <span class="text" v-html="p.title" />
@@ -538,16 +538,16 @@ function formMarkRegex(terms: Set<string>) {
         <div class="search-keyboard-shortcuts">
           <span>
             <kbd :aria-label="translate('modal.footer.navigateUpKeyAriaLabel')">
-              <span class="vp-icon vp-ls-navigate-up-icon navigate-icon" />
+              <span class="vpi-arrow-up navigate-icon" />
             </kbd>
             <kbd :aria-label="translate('modal.footer.navigateDownKeyAriaLabel')">
-              <span class="vp-icon vp-ls-navigate-down-icon navigate-icon" />
+              <span class="vpi-arrow-down navigate-icon" />
             </kbd>
             {{ translate('modal.footer.navigateText') }}
           </span>
           <span>
             <kbd :aria-label="translate('modal.footer.selectKeyAriaLabel')">
-              <span class="vp-icon vp-ls-select-icon navigate-icon" />
+              <span class="vpi-corner-down-left navigate-icon" />
             </kbd>
             {{ translate('modal.footer.selectText') }}
           </span>
@@ -620,14 +620,13 @@ function formMarkRegex(terms: Set<string>) {
 }
 
 .local-search-icon {
-  width: 18px;
-  height: 18px;
+  display: block;
+  font-size: 18px;
 }
 
 .navigate-icon {
-  width: 14px;
-  height: 14px;
   display: block;
+  font-size: 14px;
 }
 
 .search-icon {

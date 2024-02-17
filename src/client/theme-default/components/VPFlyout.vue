@@ -4,7 +4,7 @@ import { useFlyout } from '../composables/flyout'
 import VPMenu from './VPMenu.vue'
 
 defineProps<{
-  icon?: any
+  icon?: string
   button?: string
   label?: string
   items?: any[]
@@ -36,12 +36,12 @@ function onBlur() {
       @click="open = !open"
     >
       <span v-if="button || icon" class="text">
-        <span v-if="icon" :class="['vp-icon', icon, 'option-icon']" />
+        <span v-if="icon" :class="[icon, 'option-icon']" />
         <span v-if="button" v-html="button"></span>
-        <span class="vp-icon vp-icon-chevron-down text-icon" />
+        <span class="vpi-chevron-down text-icon" />
       </span>
 
-      <span v-else class="vp-icon vp-icon-more-horizontal icon" />
+      <span v-else class="vpi-more-horizontal icon" />
     </button>
 
     <div class="menu">
@@ -112,22 +112,16 @@ function onBlur() {
 
 .option-icon {
   margin-right: 0px;
-  width: 16px;
-  height: 16px;
-  fill: currentColor;
+  font-size: 16px;
 }
 
 .text-icon {
   margin-left: 4px;
-  width: 14px;
-  height: 14px;
-  fill: currentColor;
+  font-size: 14px;
 }
 
 .icon {
-  width: 20px;
-  height: 20px;
-  fill: currentColor;
+  font-size: 20px;
   transition: fill 0.25s;
 }
 
