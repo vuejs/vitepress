@@ -1,4 +1,4 @@
-# O que é VitePress?
+# O que é VitePress? {#what-is-vitepress}
 
 O VitePress é um [Gerador de Site Estático](https://en.wikipedia.org/wiki/Static_site_generator) (SSG) projetado para criar sites rápidos e centrados em conteúdo. Em suma, VitePress utiliza seu conteúdo-fonte escrito em [Markdown](https://en.wikipedia.org/wiki/Markdown), aplica um tema a ele e gera páginas HTML estáticas que podem ser facilmente implantadas em qualquer lugar.
 
@@ -8,7 +8,7 @@ Quer apenas experimentar? Pule para o [Início Rápido](./getting-started).
 
 </div>
 
-## Casos de Uso
+## Casos de Uso {#use-cases}
 
 - **Documentação**
 
@@ -22,7 +22,7 @@ Quer apenas experimentar? Pule para o [Início Rápido](./getting-started).
 
   O [blog oficial Vue.js](https://blog.vuejs.org/) é um blog simples que gera sua página inicial baseada em conteúdo local.
 
-## Experiência de Desenvolvedor
+## Experiência de Desenvolvedor {#developer-experience}
 
 VitePress visa proporcionar excelente Experiência de Desenvolvedor (DX) ao trabalhar com conteúdo em Markdown.
 
@@ -32,7 +32,7 @@ VitePress visa proporcionar excelente Experiência de Desenvolvedor (DX) ao trab
 
 - **[Markdown Aprimorado por Vue:](./using-vue)** cada página Markdown é também um [Componente de Arquivo Único Vue](https://pt.vuejs.org/guide/scaling-up/sfc.html), graças à compatibilidade de sintaxe de 100% do template Vue com HTML. Você pode incorporar interatividade em seu conteúdo estático usando recursos de template Vue ou componentes Vue importados.
 
-## Desempenho
+## Desempenho {#performance}
 
 Ao contrário de muitos SSGs tradicionais, um site gerado pelo VitePress é na verdade uma [Aplicação de Página Única](https://en.wikipedia.org/wiki/Single-page_application) (SPA).
 
@@ -48,7 +48,7 @@ Ao contrário de muitos SSGs tradicionais, um site gerado pelo VitePress é na v
 
   Para ser capaz de hidratar as partes dinâmicas Vue incorporadas dentro do Markdown estático, cada página Markdown é processada como um componente Vue e compilada em JavaScript. Isso pode parecer ineficiente, mas o compilador Vue é inteligente o suficiente para separar as partes estáticas e dinâmicas, minimizando tanto o custo de hidratação quanto o tamanho da carga. Para o carregamento inicial da página, as partes estáticas são automaticamente eliminadas da carga JavaScript e puladas durante a hidratação.
 
-## E o VuePress?
+## E o VuePress? {#what-about-vuepress}
 
 VitePress é o sucessor espiritual de VuePress. VuePress era orginalmente baseado em Vue 2 e webpack. Com Vue 3 e Vite, VitePress oferece uma experiência de desenvolvedor significativamente melhor, melhor desempenho em produção, um tema padrão mais polido e uma API de personalização mais flexível.
 
