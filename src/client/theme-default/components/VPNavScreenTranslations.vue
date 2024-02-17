@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import VPIconChevronDown from './icons/VPIconChevronDown.vue'
-import VPIconLanguages from './icons/VPIconLanguages.vue'
 import { useLangs } from '../composables/langs'
 import VPLink from './VPLink.vue'
 
@@ -20,9 +18,9 @@ function toggle() {
     :class="{ open: isOpen }"
   >
     <button class="title" @click="toggle">
-      <VPIconLanguages class="icon lang" />
+      <span class="vpi-languages icon lang" />
       {{ currentLang.label }}
-      <VPIconChevronDown class="icon chevron" />
+      <span class="vpi-chevron-down icon chevron" />
     </button>
 
     <ul class="list">
@@ -52,9 +50,7 @@ function toggle() {
 }
 
 .icon {
-  width: 16px;
-  height: 16px;
-  fill: currentColor;
+  font-size: 16px;
 }
 
 .icon.lang {

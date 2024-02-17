@@ -2,7 +2,6 @@
 import type { DefaultTheme } from 'vitepress/theme'
 import VPImage from './VPImage.vue'
 import VPLink from './VPLink.vue'
-import VPIconArrowRight from './icons/VPIconArrowRight.vue'
 
 defineProps<{
   icon?: DefaultTheme.FeatureIcon
@@ -46,7 +45,7 @@ defineProps<{
 
       <div v-if="linkText" class="link-text">
         <p class="link-text-value">
-          {{ linkText }} <VPIconArrowRight class="link-text-icon" />
+          {{ linkText }} <span class="vpi-arrow-right link-text-icon" />
         </p>
       </div>
     </article>
@@ -119,10 +118,6 @@ defineProps<{
 }
 
 .link-text-icon {
-  display: inline-block;
   margin-left: 6px;
-  width: 14px;
-  height: 14px;
-  fill: currentColor;
 }
 </style>
