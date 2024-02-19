@@ -15,15 +15,16 @@ export default theme
 export declare const useSidebar: () => DefaultTheme.DocSidebar
 export declare const useLocalNav: () => DefaultTheme.DocLocalNav
 
-export declare const VPBadge: typeof import('./dist/client/theme-default/components/VPBadge.vue').default
-export declare const VPButton: typeof import('./dist/client/theme-default/components/VPButton.vue').default
-export declare const VPDocAsideSponsors: typeof import('./dist/client/theme-default/components/VPDocAsideSponsors.vue').default
-export declare const VPHomeFeatures: typeof import('./dist/client/theme-default/components/VPHomeFeatures.vue').default
-export declare const VPHomeHero: typeof import('./dist/client/theme-default/components/VPHomeHero.vue').default
-export declare const VPHomeSponsors: typeof import('./dist/client/theme-default/components/VPHomeSponsors.vue').default
-export declare const VPImage: typeof import('./dist/client/theme-default/components/VPImage.vue').default
-export declare const VPSponsors: typeof import('./dist/client/theme-default/components/VPSponsors.vue').default
-export declare const VPTeamMembers: typeof import('./dist/client/theme-default/components/VPTeamMembers.vue').default
-export declare const VPTeamPage: typeof import('./dist/client/theme-default/components/VPTeamPage.vue').default
-export declare const VPTeamPageSection: typeof import('./dist/client/theme-default/components/VPTeamPageSection.vue').default
-export declare const VPTeamPageTitle: typeof import('./dist/client/theme-default/components/VPTeamPageTitle.vue').default
+// TODO: add props for these
+export declare const VPBadge: DefineComponent
+export declare const VPButton: DefineComponent
+export declare const VPDocAsideSponsors: DefineComponent
+export declare const VPHomeFeatures: DefineComponent
+export declare const VPHomeHero: DefineComponent
+export declare const VPHomeSponsors: DefineComponent
+export declare const VPImage: DefineComponent
+export declare const VPSponsors: DefineComponent
+export declare const VPTeamMembers: DefineComponent
+export declare const VPTeamPage: DefineComponent
+export declare const VPTeamPageSection: DefineComponent
+export declare const VPTeamPageTitle: DefineComponent
