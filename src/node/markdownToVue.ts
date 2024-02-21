@@ -15,8 +15,8 @@ import {
   type HeadConfig,
   type MarkdownEnv,
   type PageData,
-  treatAsHtml
 } from './shared'
+import { treatAsHtml } from '../shared/shared'
 import { getGitTimestamp } from './utils/getGitTimestamp'
 import { processIncludes } from './utils/processIncludes'
 
