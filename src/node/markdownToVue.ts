@@ -14,7 +14,7 @@ import {
   slash,
   type HeadConfig,
   type MarkdownEnv,
-  type PageData,
+  type PageData
 } from './shared'
 import { treatAsHtml } from '../shared/shared'
 import { getGitTimestamp } from './utils/getGitTimestamp'
