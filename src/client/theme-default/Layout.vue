@@ -68,6 +68,8 @@ provide('hero-image-slot-exists', heroImageSlotExists)
       <template #doc-footer-before><slot name="doc-footer-before" /></template>
       <template #doc-before><slot name="doc-before" /></template>
       <template #doc-after><slot name="doc-after" /></template>
+      <template #doc-content-before><slot name="doc-content-before" /></template>
+      <template #doc-content-after><slot name="doc-content-after" /></template>
       <template #doc-top><slot name="doc-top" /></template>
       <template #doc-bottom><slot name="doc-bottom" /></template>
 
