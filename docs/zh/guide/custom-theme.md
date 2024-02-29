@@ -196,7 +196,7 @@ export default {
 如果主题需要特殊的 VitePress 配置，也需要在配置中扩展：
 
 ```ts
-// .vitepress/theme/config.ts
+// .vitepress/config.ts
 import baseConfig from 'awesome-vitepress-theme/config'
 
 export default {
@@ -208,7 +208,7 @@ export default {
 最后，如果主题为其主题配置提供了类型：
 
 ```ts
-// .vitepress/theme/config.ts
+// .vitepress/config.ts
 import baseConfig from 'awesome-vitepress-theme/config'
 import { defineConfigWithTheme } from 'vitepress'
 import type { ThemeConfig } from 'awesome-vitepress-theme'
