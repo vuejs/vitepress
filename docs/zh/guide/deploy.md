@@ -156,7 +156,10 @@ Cache-Control: max-age=31536000,immutable
            uses: actions/checkout@v4
            with:
              fetch-depth: 0 # 如果未启用 lastUpdated，则不需要
-         # - uses: pnpm/action-setup@v2 # 如果使用 pnpm，请取消注释
+         # - name: Setup pnpm           # 如果使用 pnpm，请取消注释
+         #   uses: pnpm/action-setup@v2 # 如果使用 pnpm，请取消注释
+         #   with:                      # 如果使用 pnpm，请取消注释
+         #     version: 8               # 如果使用 pnpm，请取消注释
          # - uses: oven-sh/setup-bun@v1 # 如果使用 Bun，请取消注释
          - name: Setup Node
            uses: actions/setup-node@v4
