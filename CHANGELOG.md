@@ -1,3 +1,9 @@
+# [1.0.0-rc.44](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.43...v1.0.0-rc.44) (2024-2-19)
+
+### Reverts
+
+- types for internal components ([e703429](https://github.com/vuejs/vitepress/commit/e7034294731493a198cdd4789198f1c94f21b181))
+
 # [1.0.0-rc.43](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.42...v1.0.0-rc.43) (2024-2-17)
 
 ### Bug Fixes
