@@ -168,9 +168,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
          - name: Install dependencies
            run: npm ci # or pnpm install / yarn install / bun install
          - name: Build with VitePress
-           run: |
-             npm run docs:build # or pnpm docs:build / yarn docs:build / bun run docs:build
-             touch docs/.vitepress/dist/.nojekyll
+           run: npm run docs:build # or pnpm docs:build / yarn docs:build / bun run docs:build
          - name: Upload artifact
            uses: actions/upload-pages-artifact@v3
            with:
