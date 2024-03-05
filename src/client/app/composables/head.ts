@@ -8,14 +8,23 @@ import {
 import type { Route } from '../router'
 
 export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
-  let managedHeadElements: (HTMLElement | undefined)[] = []
   let isFirstUpdate = true
+  let managedHeadElements: (HTMLElement | undefined)[] = []
 
   const updateHeadTags = (newTags: HeadConfig[]) => {
     if (import.meta.env.PROD && isFirstUpdate) {
       // in production, the initial meta tags are already pre-rendered so we
       // skip the first update.
       isFirstUpdate = false
+      newTags.forEach((tag) => {
+        const headEl = createHeadElement(tag)
+        for (const el of document.head.children) {
+          if (el.isEqualNode(headEl)) {
+            managedHeadElements.push(el as HTMLElement)
+            return
+          }
+        }
+      })
       return
     }
 

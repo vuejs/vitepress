@@ -129,8 +129,11 @@ function createCodeGroup(options: Options): ContainerArgs {
 
 export interface ContainerOptions {
   infoLabel?: string
+  noteLabel?: string
   tipLabel?: string
   warningLabel?: string
   dangerLabel?: string
   detailsLabel?: string
+  importantLabel?: string
+  cautionLabel?: string
 }

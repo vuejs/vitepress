@@ -9,6 +9,8 @@ interface Props {
   theme?: 'brand' | 'alt' | 'sponsor'
   text: string
   href?: string
+  target?: string;
+  rel?: string;
 }
 const props = withDefaults(defineProps<Props>(), {
   size: 'medium',
@@ -30,8 +32,8 @@ const component = computed(() => {
     class="VPButton"
     :class="[size, theme]"
     :href="href ? normalizeLink(href) : undefined"
-    :target="isExternal ? '_blank' : undefined"
-    :rel="isExternal ? 'noreferrer' : undefined"
+    :target="props.target ?? (isExternal ? '_blank' : undefined)"
+    :rel="props.rel ?? (isExternal ? 'noreferrer' : undefined)"
   >
     {{ text }}
   </component>

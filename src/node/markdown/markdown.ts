@@ -23,9 +23,9 @@ import type {
   BuiltinTheme,
   Highlighter,
   LanguageInput,
-  ShikijiTransformer,
+  ShikiTransformer,
   ThemeRegistrationAny
-} from 'shikiji'
+} from 'shiki'
 import type { Logger } from 'vite'
 import { containerPlugin, type ContainerOptions } from './plugins/containers'
 import { highlight } from './plugins/highlight'
@@ -35,6 +35,7 @@ import { lineNumberPlugin } from './plugins/lineNumbers'
 import { linkPlugin } from './plugins/link'
 import { preWrapperPlugin } from './plugins/preWrapper'
 import { snippetPlugin } from './plugins/snippet'
+import { gitHubAlertsPlugin } from './plugins/githubAlerts'
 
 export type { Header } from '../shared'
 
@@ -74,21 +75,21 @@ export interface MarkdownOptions extends MarkdownIt.Options {
    * @example { theme: { light: 'github-light', dark: 'github-dark' } }
    *
    * You can use an existing theme.
-   * @see https://github.com/antfu/shikiji/blob/main/docs/themes.md#all-themes
+   * @see https://shiki.style/themes
    * Or add your own theme.
-   * @see https://github.com/antfu/shikiji/blob/main/docs/themes.md#load-custom-themes
+   * @see https://shiki.style/guide/load-theme
    */
   theme?: ThemeOptions
   /**
    * Languages for syntax highlighting.
-   * @see https://github.com/antfu/shikiji/blob/main/docs/languages.md#all-themes
+   * @see https://shiki.style/languages
    */
   languages?: LanguageInput[]
   /**
    * Custom language aliases.
    *
    * @example { 'my-lang': 'js' }
-   * @see https://github.com/antfu/shikiji/tree/main#custom-language-aliases
+   * @see https://shiki.style/guide/load-lang#custom-language-aliases
    */
   languageAlias?: Record<string, string>
   /**
@@ -102,13 +103,13 @@ export interface MarkdownOptions extends MarkdownIt.Options {
   defaultHighlightLang?: string
   /**
    * Transformers applied to code blocks
-   * @see https://github.com/antfu/shikiji#hast-transformers
+   * @see https://shiki.style/guide/transformers
    */
-  codeTransformers?: ShikijiTransformer[]
+  codeTransformers?: ShikiTransformer[]
   /**
-   * Setup Shikiji instance
+   * Setup Shiki instance
    */
-  shikijiSetup?: (shikiji: Highlighter) => void | Promise<void>
+  shikiSetup?: (shiki: Highlighter) => void | Promise<void>
 
   /* ==================== Markdown It Plugins ==================== */
 
@@ -176,6 +177,12 @@ export interface MarkdownOptions extends MarkdownIt.Options {
    */
   math?: boolean | any
   image?: ImageOptions
+  /**
+   * Allows disabling the github alerts plugin
+   * @default true
+   * @see https://vitepress.dev/guide/markdown#github-flavored-alerts
+   */
+  gfmAlerts?: boolean
 }
 
 export type MarkdownRenderer = MarkdownIt
@@ -215,6 +222,10 @@ export const createMarkdownRenderer = async (
       base
     )
     .use(lineNumberPlugin, options.lineNumbers)
+
+  if (options.gfmAlerts !== false) {
+    md.use(gitHubAlertsPlugin)
+  }
 
   // 3rd party plugins
   if (!options.attrs?.disable) {

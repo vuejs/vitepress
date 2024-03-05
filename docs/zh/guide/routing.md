@@ -129,9 +129,9 @@ src/getting-started.md  -->  /getting-started.html
 
 默认情况下，VitePress 将入站链接解析为以 `.html` 结尾的 URL。但是，一些用户可能更喜欢没有 .html 扩展名的“简洁 URL”——例如，`example.com/path` 而不是 `example.com/path.html`。
 
-某些服务器或托管平台 (例如 Netlify 或 Vercel) 提供将 `/foo` 之类的 URL 映射到 `/foo.html` (如果存在) 的功能，而无需重定向：
+某些服务器或托管平台 (例如 Netlify、Vercel 或 GitHub Pages) 提供将 `/foo` 之类的 URL 映射到 `/foo.html` (如果存在) 的功能，而无需重定向：
 
-- Netlify 默认支持。
+- Netlify 和 GitHub Pages 是默认支持的。
 - Vercel 需要在 [vercel.json 中启用 cleanUrls 选项](https://vercel.com/docs/concepts/projects/project-configuration#cleanurls)。
 
 如果可以使用此功能，还可以启用 VitePress 自己的 [`cleanUrls`](../reference/site-config#cleanurls) 配置选项，以便：
@@ -139,7 +139,7 @@ src/getting-started.md  -->  /getting-started.html
 - 页面之间的入站链接是在没有 `.html` 扩展名的情况下生成的。
 - 如果当前路径以 `.html` 结尾，路由器将执行客户端重定向到无扩展路径。
 
-但是，如果无法为服务器配置此类支持 (例如 GitHub Pages)，则必须手动采用以下目录结构：
+但是，如果无法为服务器配置此类支持，则必须手动采用以下目录结构：
 
 ```
 .

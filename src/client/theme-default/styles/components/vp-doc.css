@@ -540,6 +540,10 @@
   max-width: calc((100% - 24px) / 2) !important;
 }
 
+/**
+ * External links
+ * -------------------------------------------------------------------------- */
+
 /* prettier-ignore */
 :is(.vp-external-link-icon, .vp-doc a[href*='://'], .vp-doc a[target='_blank']):not(.no-icon)::after {
   display: inline-block;

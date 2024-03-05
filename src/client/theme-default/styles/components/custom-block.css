@@ -27,6 +27,26 @@
   background-color: var(--vp-custom-block-info-code-bg);
 }
 
+.custom-block.note {
+  border-color: var(--vp-custom-block-note-border);
+  color: var(--vp-custom-block-note-text);
+  background-color: var(--vp-custom-block-note-bg);
+}
+
+.custom-block.note a,
+.custom-block.note code {
+  color: var(--vp-c-brand-1);
+}
+
+.custom-block.note a:hover,
+.custom-block.note a:hover > code {
+  color: var(--vp-c-brand-2);
+}
+
+.custom-block.note code {
+  background-color: var(--vp-custom-block-note-code-bg);
+}
+
 .custom-block.tip {
   border-color: var(--vp-custom-block-tip-border);
   color: var(--vp-custom-block-tip-text);
@@ -45,6 +65,26 @@
 
 .custom-block.tip code {
   background-color: var(--vp-custom-block-tip-code-bg);
+}
+
+.custom-block.important {
+  border-color: var(--vp-custom-block-important-border);
+  color: var(--vp-custom-block-important-text);
+  background-color: var(--vp-custom-block-important-bg);
+}
+
+.custom-block.important a,
+.custom-block.important code {
+  color: var(--vp-c-important-1);
+}
+
+.custom-block.important a:hover,
+.custom-block.important a:hover > code {
+  color: var(--vp-c-important-2);
+}
+
+.custom-block.important code {
+  background-color: var(--vp-custom-block-important-code-bg);
 }
 
 .custom-block.warning {
@@ -87,6 +127,26 @@
   background-color: var(--vp-custom-block-danger-code-bg);
 }
 
+.custom-block.caution {
+  border-color: var(--vp-custom-block-caution-border);
+  color: var(--vp-custom-block-caution-text);
+  background-color: var(--vp-custom-block-caution-bg);
+}
+
+.custom-block.caution a,
+.custom-block.caution code {
+  color: var(--vp-c-caution-1);
+}
+
+.custom-block.caution a:hover,
+.custom-block.caution a:hover > code {
+  color: var(--vp-c-caution-2);
+}
+
+.custom-block.caution code {
+  background-color: var(--vp-custom-block-caution-code-bg);
+}
+
 .custom-block.details {
   border-color: var(--vp-custom-block-details-border);
   color: var(--vp-custom-block-details-text);
@@ -118,6 +178,7 @@
   margin: 0 0 8px;
   font-weight: 700;
   cursor: pointer;
+  user-select: none;
 }
 
 .custom-block.details summary + p {

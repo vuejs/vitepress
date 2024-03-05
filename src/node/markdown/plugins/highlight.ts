@@ -1,13 +1,7 @@
 import { customAlphabet } from 'nanoid'
 import c from 'picocolors'
-import type { ShikijiTransformer } from 'shikiji'
-import {
-  addClassToHast,
-  bundledLanguages,
-  getHighlighter,
-  isPlaintext as isPlainLang,
-  isSpecialLang
-} from 'shikiji'
+import type { ShikiTransformer } from 'shiki'
+import { bundledLanguages, getHighlighter, isSpecialLang } from 'shiki'
 import {
   transformerCompactLineOptions,
   transformerNotationDiff,
@@ -15,7 +9,7 @@ import {
   transformerNotationFocus,
   transformerNotationHighlight,
   type TransformerCompactLineOption
-} from 'shikiji-transformers'
+} from '@shikijs/transformers'
 import type { Logger } from 'vite'
 import type { MarkdownOptions, ThemeOptions } from '../markdown'
 
@@ -72,9 +66,9 @@ export async function highlight(
     langAlias: options.languageAlias
   })
 
-  await options?.shikijiSetup?.(highlighter)
+  await options?.shikiSetup?.(highlighter)
 
-  const transformers: ShikijiTransformer[] = [
+  const transformers: ShikiTransformer[] = [
     transformerNotationDiff(),
     transformerNotationFocus({
       classActiveLine: 'has-focus',
@@ -85,7 +79,7 @@ export async function highlight(
     {
       name: 'vitepress:add-class',
       pre(node) {
-        addClassToHast(node, 'vp-code')
+        this.addClassToHast(node, 'vp-code')
       }
     },
     {
@@ -113,7 +107,7 @@ export async function highlight(
 
     if (lang) {
       const langLoaded = highlighter.getLoadedLanguages().includes(lang as any)
-      if (!langLoaded && !isPlainLang(lang) && !isSpecialLang(lang)) {
+      if (!langLoaded && !isSpecialLang(lang)) {
         logger.warn(
           c.yellow(
             `\nThe language '${lang}' is not loaded, falling back to '${

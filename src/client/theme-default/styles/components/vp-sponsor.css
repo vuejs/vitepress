@@ -16,9 +16,9 @@
 }
 
 .vp-sponsor-tier {
-  margin-bottom: 4px;
+  margin: 0 0 4px !important;
   text-align: center;
-  letter-spacing: 1px;
+  letter-spacing: 1px !important;
   line-height: 24px;
   width: 100%;
   font-weight: 600;

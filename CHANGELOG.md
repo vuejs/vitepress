@@ -1,3 +1,69 @@
+# [1.0.0-rc.44](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.43...v1.0.0-rc.44) (2024-2-19)
+
+### Reverts
+
+- types for internal components ([e703429](https://github.com/vuejs/vitepress/commit/e7034294731493a198cdd4789198f1c94f21b181))
+
+# [1.0.0-rc.43](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.42...v1.0.0-rc.43) (2024-2-17)
+
+### Bug Fixes
+
+- handle process.env being undefined while process is not ([b63e0a0](https://github.com/vuejs/vitepress/commit/b63e0a0c57f886f49aa7e073ff623c918164bd0b)), closes [#3579](https://github.com/vuejs/vitepress/issues/3579)
+- make local search work in combination with vue-i18n ([#3559](https://github.com/vuejs/vitepress/issues/3559)) ([6624bb7](https://github.com/vuejs/vitepress/commit/6624bb748610079b88e2dcef7ea1810833a54a85))
+- **theme:** adjust mathjax svg styles ([#3567](https://github.com/vuejs/vitepress/issues/3567)) ([2051100](https://github.com/vuejs/vitepress/commit/20511006dba516ca8c06ed1dd3516547af668a0e))
+
+### Features
+
+- **theme:** auto style markdown content in home page ([#3561](https://github.com/vuejs/vitepress/issues/3561)) ([0903027](https://github.com/vuejs/vitepress/commit/09030272b4a5c8f723b7e11303265f24b7481575))
+
+### Performance Improvements
+
+- **theme:** move svg icons to css ([#3537](https://github.com/vuejs/vitepress/issues/3537)) ([636cca0](https://github.com/vuejs/vitepress/commit/636cca042dfbca006af2d702ddec0a2ff601cb46))
+
+### BREAKING CHANGES
+
+- The default theme now styles the markdown content in the home page. If you have custom styles that rely on the markdown content not being styled, you may need to adjust your styles, or add `markdownStyles: false` to the frontmatter of your home page.
+
+# [1.0.0-rc.42](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.41...v1.0.0-rc.42) (2024-2-6)
+
+### Bug Fixes
+
+- **md:** dont break on nesting blockquotes inside gfm alerts ([8f8a6fe](https://github.com/vuejs/vitepress/commit/8f8a6feb053b3f521a2c90e343dffa7f98bb63b3)), closes [#3512](https://github.com/vuejs/vitepress/issues/3512)
+- **theme:** correctly normalize paths ending with "index" ([#3544](https://github.com/vuejs/vitepress/issues/3544)) ([c582a8d](https://github.com/vuejs/vitepress/commit/c582a8d5fd82b84d412c7e6c84e74faeb23beac6))
+
+# [1.0.0-rc.41](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.40...v1.0.0-rc.41) (2024-2-1)
+
+### Bug Fixes
+
+- handle CRLF in snippet plugin ([5811b62](https://github.com/vuejs/vitepress/commit/5811b626576ec4569fa0079d921b8e328d87ca91)), closes [#3499](https://github.com/vuejs/vitepress/issues/3499)
+- lazy evaluate known extensions to allow env set in config ([04f794b](https://github.com/vuejs/vitepress/commit/04f794bf55f8191ea9eed62f545b812f346017d8))
+
+### Features
+
+- **home:** add target and rel attribute to home actions ([#3528](https://github.com/vuejs/vitepress/issues/3528)) ([ab39fd8](https://github.com/vuejs/vitepress/commit/ab39fd8592c994fbc6feba5ee369ca1205c50f04))
+- rename shiki packages ([#3506](https://github.com/vuejs/vitepress/issues/3506)) ([b8487d3](https://github.com/vuejs/vitepress/commit/b8487d3a97679f5b2eb225ee1eb85754b66fee30))
+- wrap site title in span ([#3522](https://github.com/vuejs/vitepress/issues/3522)) ([6b1f951](https://github.com/vuejs/vitepress/commit/6b1f951928a3b9e53dcc9697327b5aba4a5905e2))
+- **theme:** add hero slots that are inside container ([#3524](https://github.com/vuejs/vitepres/issues/3524)) ([28870e6](https://github.com/vuejs/vitepress/commit/28870e68faf0ddaa418ffe0d4371316f6b0bcd02))
+
+### BREAKING CHANGES
+
+- vitepress now uses shiki instead of shikiji. If you’re on the latest version and using shikiji specific features, you just need to change imports. The shikijiSetup hook is renamed to shikiSetup.
+
+# [1.0.0-rc.40](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.39...v1.0.0-rc.40) (2024-1-22)
+
+### Bug Fixes
+
+- **client:** handle head orphans added in initial load ([#3474](https://github.com/vuejs/vitepress/issues/3474)) ([5e2d853](https://github.com/vuejs/vitepress/commit/5e2d853e1a315216dce5fc98ee2efd15c724a25d))
+- **theme:** avoid selecting summary on toggling details ([77a318c](https://github.com/vuejs/vitepress/commit/77a318c2a348d341dd3ea1e1650fcf8ad3abfcd7))
+- **theme:** hover color for code links inside custom containers ([#3467](https://github.com/vuejs/vitepress/issues/3467)) ([d529ed4](https://github.com/vuejs/vitepress/commit/d529ed49756841f055024c559d09875501bc6d76))
+- **type:** fix missed `VPBadge` type in `theme.d.ts` ([#3470](https://github.com/vuejs/vitepress/issues/3470)) ([fcf828c](https://github.com/vuejs/vitepress/commit/fcf828c2a71892dad5af8d21e405f4d1e2cc280c))
+
+### Features
+
+- support GitHub-flavored alerts ([#3482](https://github.com/vuejs/vitepress/issues/3482)) ([ac87d19](https://github.com/vuejs/vitepress/commit/ac87d19ca1bbc966e5fe1cca5f433f5ea4b11be3))
+- support specifying custom extensions to escape routing ([#3466](https://github.com/vuejs/vitepress/issues/3466)) ([c22f5d9](https://github.com/vuejs/vitepress/commit/c22f5d983f3e5d5c4f0ed0683a93ece564487c13))
+- **theme:** add npm icon ([#3483](https://github.com/vuejs/vitepress/issues/3483)) ([c882fa1](https://github.com/vuejs/vitepress/commit/c882fa1469a7bd0d6e28196e7a841adf48e803f1))
+
 # [1.0.0-rc.39](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.38...v1.0.0-rc.39) (2024-01-16)
 
 ### Bug Fixes

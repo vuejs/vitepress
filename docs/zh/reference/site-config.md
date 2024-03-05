@@ -31,16 +31,16 @@ export default {
 ```ts
 import { defineConfig } from 'vitepress'
 
-export default async () => defineConfig({
+export default async () => {
   const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
 
-  return {
+  return defineConfig({
     // 应用级配置选项
     lang: 'en-US',
     title: 'VitePress',
     description: 'Vite & Vue powered static site generator.',
 
-    // 主题级别配置选项
+    // 主题级配置选项
     themeConfig: {
       sidebar: [
         ...posts.map((post) => ({
@@ -49,8 +49,8 @@ export default async () => defineConfig({
         }))
       ]
     }
-  }
-})
+  })
+}
 ```
 
 也可以在最外层使用 `await`。例如：
@@ -510,7 +510,7 @@ export default {
 
 - 类型：`MarkdownOption`
 
-配置 Markdown 解析器选项。VitePress 使用 [Markdown-it](https://github.com/markdown-it/markdown-it) 作为解析器，使用 [Shikiji](https://github.com/antfu/shikiji) ([Shiki](https://shiki.matsu.io/) 的改进版本) 来高亮不同语言语法。在此选项中，可以传递各种 Markdown 相关选项以满足你的需要。
+配置 Markdown 解析器选项。VitePress 使用 [Markdown-it](https://github.com/markdown-it/markdown-it) 作为解析器，使用 [Shiki](https://github.com/shikijs/shiki) 来高亮不同语言语法。在此选项中，可以传递各种 Markdown 相关选项以满足你的需要。
 
 ```js
 export default {
@@ -640,6 +640,24 @@ export default {
             ? `VitePress`
             : `${pageData.title} | VitePress`
       }
+    ])
+  }
+}
+```
+
+#### 示例：添加 canonical URL `<link>` {#example-adding-a-canonical-url-link} 
+
+```ts
+export default {
+  transformPageData(pageData) {
+    const canonicalUrl = `https://example.com/${pageData.relativePath}`
+      .replace(/index\.md$/, '')
+      .replace(/\.md$/, '.html')
+
+    pageData.frontmatter.head ??= []
+    pageData.frontmatter.head.push([
+      'link',
+      { rel: 'canonical', href: canonicalUrl }
     ])
   }
 }
