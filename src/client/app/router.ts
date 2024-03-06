@@ -180,7 +180,7 @@ export function createRouter(
               : link.href,
             link.baseURI
           )
-          const currentUrl = window.location
+          const currentUrl = new URL(window.location.href) // copy to keep old data
           // only intercept inbound html links
           if (
             !e.ctrlKey &&
@@ -211,7 +211,12 @@ export function createRouter(
                 window.scrollTo(0, 0)
               }
             } else {
-              go(href)
+              go(href).then(() => {
+                // do after the route is changed so location.hash in theme code is the new hash
+                if (hash !== currentUrl.hash) {
+                  window.dispatchEvent(new Event('hashchange'))
+                }
+              })
             }
           }
         }
