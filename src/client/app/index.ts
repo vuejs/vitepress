@@ -64,6 +64,8 @@ const VitePressApp = defineComponent({
 })
 
 export async function createApp() {
+  ;(globalThis as any).__VITEPRESS__ = true
+
   const router = newRouter()
 
   const app = newApp()
