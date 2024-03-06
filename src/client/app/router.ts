@@ -64,11 +64,16 @@ export function createRouter(
   }
 
   async function go(href: string = inBrowser ? location.href : '/') {
+    const currentHash = inBrowser ? location.hash : ''
     href = normalizeHref(href)
     if ((await router.onBeforeRouteChange?.(href)) === false) return
     updateHistory(href)
     await loadPage(href)
     await router.onAfterRouteChanged?.(href)
+    // do after the route is changed so location.hash in theme code is the new hash
+    if (new URL(href, fakeHost).hash !== currentHash) {
+      window.dispatchEvent(new Event('hashchange'))
+    }
   }
 
   let latestPendingPath: string | null = null
@@ -211,12 +216,7 @@ export function createRouter(
                 window.scrollTo(0, 0)
               }
             } else {
-              go(href).then(() => {
-                // do after the route is changed so location.hash in theme code is the new hash
-                if (hash !== currentUrl.hash) {
-                  window.dispatchEvent(new Event('hashchange'))
-                }
-              })
+              go(href)
             }
           }
         }
