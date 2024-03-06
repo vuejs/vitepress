@@ -64,16 +64,11 @@ export function createRouter(
   }
 
   async function go(href: string = inBrowser ? location.href : '/') {
-    const currentHash = inBrowser ? location.hash : ''
     href = normalizeHref(href)
     if ((await router.onBeforeRouteChange?.(href)) === false) return
     updateHistory(href)
     await loadPage(href)
     await router.onAfterRouteChanged?.(href)
-    // do after the route is changed so location.hash in theme code is the new hash
-    if (new URL(href, fakeHost).hash !== currentHash) {
-      window.dispatchEvent(new Event('hashchange'))
-    }
   }
 
   let latestPendingPath: string | null = null
@@ -212,7 +207,7 @@ export function createRouter(
                 // use smooth scroll when clicking on header anchor links
                 scrollTo(link, hash, link.classList.contains('header-anchor'))
               } else {
-                updateHistory(href)
+                updateHistory(href, false) // already emitted hashchange above
                 window.scrollTo(0, 0)
               }
             } else {
@@ -305,11 +300,15 @@ function shouldHotReload(payload: PageDataPayload): boolean {
   return payloadPath === locationPath
 }
 
-function updateHistory(href: string) {
+function updateHistory(href: string, emitHashChange = true) {
   if (inBrowser && normalizeHref(href) !== normalizeHref(location.href)) {
+    const currentHash = location.hash
     // save scroll position before changing url
     history.replaceState({ scrollPosition: window.scrollY }, document.title)
     history.pushState(null, '', href)
+    if (emitHashChange && new URL(href, fakeHost).hash !== currentHash) {
+      window.dispatchEvent(new Event('hashchange'))
+    }
   }
 }
 
