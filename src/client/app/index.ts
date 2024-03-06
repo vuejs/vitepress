@@ -17,6 +17,7 @@ import { usePrefetch } from './composables/preFetch'
 import { dataSymbol, initData, siteDataRef, useData } from './data'
 import { RouterSymbol, createRouter, scrollTo, type Router } from './router'
 import { inBrowser, pathToFile } from './utils'
+import { getGlobalThis } from '../shared'
 
 function resolveThemeExtends(theme: typeof RawTheme): typeof RawTheme {
   if (theme.extends) {
@@ -64,6 +65,9 @@ const VitePressApp = defineComponent({
 })
 
 export async function createApp() {
+  const target = getGlobalThis()
+  target.__VITEPRESS__ = true
+
   const router = newRouter()
 
   const app = newApp()
