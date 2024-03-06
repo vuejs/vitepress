@@ -1,4 +1,4 @@
-import { computed, watch } from 'vue'
+import { computed } from 'vue'
 import { ensureStartingSlash } from '../support/utils'
 import { useData } from './data'
 import { hashRef } from './hash'
@@ -14,10 +14,6 @@ export function useLangs({
       site.value.locales[localeIndex.value]?.link ||
       (localeIndex.value === 'root' ? '/' : `/${localeIndex.value}/`)
   }))
-
-  watch(page, () => {
-    hashRef.value = location.hash ? location.hash : ''
-  })
 
   const localeLinks = computed(() =>
     Object.entries(site.value.locales).flatMap(([key, value]) =>
