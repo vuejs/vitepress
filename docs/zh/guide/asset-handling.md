@@ -2,7 +2,7 @@
 
 ## 引用静态资源 {#referencing-static-assets}
 
-所有的 Markdown 文件都会被编译成 Vue 组件，并由 [Vite](https://vitejs.dev/guide/assets.html) 处理。可以**并且应该**使用相对路径来引用资源：
+所有的 Markdown 文件都会被编译成 Vue 组件，并由 [Vite](https://cn.vitejs.dev/guide/assets.html) 处理。可以**并且应该**使用相对路径来引用资源：
 
 ```md
 ![An image](./image.png)
@@ -11,6 +11,10 @@
 可以在 Markdown 文件、主题中的 `*.vue` 组件、样式和普通的 `.css` 文件中引用静态资源，可以使用绝对路径 (基于项目根目录) 或者相对路径 (基于文件系统)。后者类似于 Vite、Vue CLI 或者 webpack 的 `file-loader` 的行为。
 
 常见的图像，媒体和字体文件会被自动检测并视作资源。
+
+::: tip 通过链接引用的文件不会视作资源
+在 Markdown 内，通过链接引用的 PDF 或者其他文档不会被自动视作资源。要使这些文件可用，你必须手动将其放在项目的 [`public`](#the-public-directory) 目录内。
+:::
 
 所有引用的资源，包括那些使用绝对路径的，都会在生产构建过程中被复制到输出目录，并使用哈希文件名。从未使用过的资源将不会被复制。小于 4kb 的图像资源将会采用 base64 内联——这可以通过 [`vite`](../reference/site-config#vite) 配置选项进行配置。
 
