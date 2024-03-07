@@ -1,3 +1,13 @@
+# [1.0.0-rc.45](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.44...v1.0.0-rc.45) (2024-03-06)
+
+### Bug Fixes
+
+- **router:** hashchange not emitted in certain cases ([#3637](https://github.com/vuejs/vitepress/issues/3637)) ([f6bd99e...6c0125b](https://github.com/vuejs/vitepress/compare/f6bd99eb1311238e1114301a767634b139327916...6c0125b65513531870f00ebef1ae11096027875a))
+
+### Features
+
+- set `__VITEPRESS__` for easy detection by plugins and other tools ([#3634](https://github.com/vuejs/vitepress/issues/3634)) ([f6bd99e](https://github.com/vuejs/vitepress/commit/f6bd99eb1311238e1114301a767634b139327916))
+
 # [1.0.0-rc.44](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.43...v1.0.0-rc.44) (2024-2-19)
 
 ### Reverts

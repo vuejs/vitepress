@@ -66,7 +66,17 @@ export function createRouter(
   async function go(href: string = inBrowser ? location.href : '/') {
     href = normalizeHref(href)
     if ((await router.onBeforeRouteChange?.(href)) === false) return
-    updateHistory(href)
+    if (inBrowser) {
+      const currentUrl = new URL(location.href)
+      if (href !== normalizeHref(currentUrl.href)) {
+        // save scroll position before changing url
+        history.replaceState({ scrollPosition: window.scrollY }, document.title)
+        history.pushState(null, '', href)
+        if (new URL(href, fakeHost).hash !== currentUrl.hash) {
+          window.dispatchEvent(new Event('hashchange'))
+        }
+      }
+    }
     await loadPage(href)
     await router.onAfterRouteChanged?.(href)
   }
@@ -180,7 +190,7 @@ export function createRouter(
               : link.href,
             link.baseURI
           )
-          const currentUrl = window.location
+          const currentUrl = new URL(location.href) // copy to keep old data
           // only intercept inbound html links
           if (
             !e.ctrlKey &&
@@ -199,7 +209,7 @@ export function createRouter(
               // scroll between hash anchors in the same page
               // avoid duplicate history entries when the hash is same
               if (hash !== currentUrl.hash) {
-                history.pushState(null, '', hash)
+                history.pushState(null, '', href)
                 // still emit the event so we can listen to it in themes
                 window.dispatchEvent(new Event('hashchange'))
               }
@@ -207,7 +217,6 @@ export function createRouter(
                 // use smooth scroll when clicking on header anchor links
                 scrollTo(link, hash, link.classList.contains('header-anchor'))
               } else {
-                updateHistory(href)
                 window.scrollTo(0, 0)
               }
             } else {
@@ -298,14 +307,6 @@ function shouldHotReload(payload: PageDataPayload): boolean {
     .replace(/(?:(^|\/)index)?\.html$/, '')
     .slice(siteDataRef.value.base.length - 1)
   return payloadPath === locationPath
-}
-
-function updateHistory(href: string) {
-  if (inBrowser && normalizeHref(href) !== normalizeHref(location.href)) {
-    // save scroll position before changing url
-    history.replaceState({ scrollPosition: window.scrollY }, document.title)
-    history.pushState(null, '', href)
-  }
 }
 
 function normalizeHref(href: string): string {

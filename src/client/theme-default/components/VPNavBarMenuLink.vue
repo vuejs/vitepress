@@ -22,6 +22,7 @@ const { page } = useData()
       )
     }"
     :href="item.link"
+    :noIcon="item.noIcon"
     :target="item.target"
     :rel="item.rel"
     tabindex="0"

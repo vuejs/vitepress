@@ -168,9 +168,7 @@ Cache-Control: max-age=31536000,immutable
          - name: Install dependencies
            run: npm ci # 或 pnpm install / yarn install / bun install
          - name: Build with VitePress
-           run: |
-             npm run docs:build # 或 pnpm docs:build / yarn docs:build / bun run docs:build
-             touch docs/.vitepress/dist/.nojekyll
+           run: npm run docs:build # 或 pnpm docs:build / yarn docs:build / bun run docs:build
          - name: Upload artifact
            uses: actions/upload-pages-artifact@v3
            with:
