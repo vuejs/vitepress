@@ -75,7 +75,7 @@ export interface ContentData {
  */
 export function createContentLoader<T = ContentData[]>(
   /**
-   * files to glob / watch - relative to <project root>
+   * files to glob / watch - relative to srcDir
    */
   pattern: string | string[],
   {
