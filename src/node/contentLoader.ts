@@ -98,7 +98,7 @@ export function createContentLoader<T = ContentData[]>(
   }
 
   if (typeof pattern === 'string') pattern = [pattern]
-  pattern = pattern.map((p) => normalizePath(path.join(config.root, p)))
+  pattern = pattern.map((p) => normalizePath(path.join(config.srcDir, p)))
 
   let md: MarkdownRenderer
 
