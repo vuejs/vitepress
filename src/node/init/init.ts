@@ -44,6 +44,7 @@ export async function init() {
       root: () =>
         text({
           message: 'Where should VitePress initialize the config?',
+          defaultValue: './',
           initialValue: './',
           validate(value) {
             const inputRoot = path.resolve(value)
@@ -51,7 +52,7 @@ export async function init() {
             if (!inputRoot.startsWith(currentRoot)) {
               return 'Please make sure directory is inside'
             }
-            if (fs.pathExistsSync(inputRoot)) {
+            if (inputRoot != currentRoot && fs.pathExistsSync(inputRoot)) {
               return `${value} already exists`
             }
           }
