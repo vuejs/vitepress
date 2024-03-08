@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref, computed, watchEffect, onMounted } from 'vue'
+import { computed } from 'vue'
 import { useData } from '../composables/data'
+import { clientComputed } from '../support/reactivity'
 
 const { theme, page, frontmatter, lang } = useData()
 
@@ -8,21 +9,13 @@ const date = computed(
   () => new Date(frontmatter.value.lastUpdated ?? page.value.lastUpdated)
 )
 const isoDatetime = computed(() => date.value.toISOString())
-const datetime = ref('')
 
-// set time on mounted hook to avoid hydration mismatch due to
-// potential differences in timezones of the server and clients
-onMounted(() => {
-  watchEffect(() => {
-    datetime.value = new Intl.DateTimeFormat(
-      theme.value.lastUpdated?.formatOptions?.forceLocale ? lang.value : undefined,
-      theme.value.lastUpdated?.formatOptions ?? {
-        dateStyle: 'short',
-        timeStyle: 'short'
-      }
-    ).format(date.value)
-  })
-})
+const datetime = clientComputed(() => {
+  return new Intl.DateTimeFormat(
+    theme.value.lastUpdated?.formatOptions?.forceLocale ? lang.value : undefined,
+    theme.value.lastUpdated?.formatOptions ?? { dateStyle: 'short', timeStyle: 'short' }
+  ).format(date.value)
+}, '')
 </script>
 
 <template>

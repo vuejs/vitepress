@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onClickOutside, onKeyStroke } from '@vueuse/core'
+import { useFocusTrap } from '@vueuse/integrations/useFocusTrap'
 import { onContentUpdated } from 'vitepress'
 import { nextTick, ref } from 'vue'
 import { useData } from '../composables/data'
@@ -11,26 +11,31 @@ const props = defineProps<{
   navHeight: number
 }>()
 
-const { theme } = useData()
-const open = ref(false)
-const vh = ref(0)
 const main = ref<HTMLDivElement>()
 const items = ref<HTMLDivElement>()
 
-onClickOutside(main, () => {
-  open.value = false
+const open = ref(false)
+
+const { theme } = useData()
+const { activate, deactivate } = useFocusTrap(items, {
+  immediate: true,
+  clickOutsideDeactivates: true,
+  onDeactivate: () => {
+    open.value = false
+  }
 })
 
-onKeyStroke('Escape', () => {
-  open.value = false
-})
+const vh = ref(0)
 
-onContentUpdated(() => {
-  open.value = false
-})
+onContentUpdated(deactivate)
 
 function toggle() {
-  open.value = !open.value
+  if (open.value) {
+    deactivate()
+  } else {
+    open.value = true
+    nextTick(() => activate())
+  }
   vh.value = window.innerHeight + Math.min(window.scrollY - props.navHeight, 0)
 }
 
@@ -40,14 +45,12 @@ function onItemClick(e: Event) {
     if (items.value) {
       items.value.style.transition = 'none'
     }
-    nextTick(() => {
-      open.value = false
-    })
+    nextTick(() => deactivate())
   }
 }
 
 function scrollToTop() {
-  open.value = false
+  deactivate()
   window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
 }
 </script>
@@ -158,12 +161,12 @@ function scrollToTop() {
 
 .header {
   background-color: var(--vp-c-bg-soft);
+  padding: 2px 16px;
 }
 
 .top-link {
   display: block;
-  padding: 0 16px;
-  line-height: 48px;
+  line-height: 44px;
   font-size: 14px;
   font-weight: 500;
   color: var(--vp-c-brand-1);
