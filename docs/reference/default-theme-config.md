@@ -93,6 +93,7 @@ interface NavItemWithLink {
   activeMatch?: string
   target?: string
   rel?: string
+  noIcon?: boolean
 }
 
 interface NavItemChildren {
@@ -244,8 +245,10 @@ type SocialLinkIcon =
   | 'instagram'
   | 'linkedin'
   | 'mastodon'
+  | 'npm'
   | 'slack'
   | 'twitter'
+  | 'x'
   | 'youtube'
   | { svg: string }
 ```
@@ -405,6 +408,20 @@ export interface DocFooter {
 - Default: `Appearance`
 
 Can be used to customize the dark mode switch label. This label is only displayed in the mobile view.
+
+## lightModeSwitchTitle
+
+- Type: `string`
+- Default: `Switch to light theme`
+
+Can be used to customize the light mode switch title that appears on hovering.
+
+## darkModeSwitchTitle
+
+- Type: `string`
+- Default: `Switch to dark theme`
+
+Can be used to customize the dark mode switch title that appears on hovering.
 
 ## sidebarMenuLabel
 

@@ -4,7 +4,10 @@ import glob from 'fast-glob'
 import type { SiteConfig } from './config'
 import matter from 'gray-matter'
 import { normalizePath } from 'vite'
-import { createMarkdownRenderer, type MarkdownRenderer } from './markdown'
+import {
+  createMarkdownRenderer,
+  type MarkdownRenderer
+} from './markdown/markdown'
 
 export interface ContentOptions<T = ContentData[]> {
   /**
@@ -72,7 +75,7 @@ export interface ContentData {
  */
 export function createContentLoader<T = ContentData[]>(
   /**
-   * files to glob / watch - relative to <project root>
+   * files to glob / watch - relative to srcDir
    */
   pattern: string | string[],
   {
@@ -95,7 +98,7 @@ export function createContentLoader<T = ContentData[]>(
   }
 
   if (typeof pattern === 'string') pattern = [pattern]
-  pattern = pattern.map((p) => normalizePath(path.join(config.root, p)))
+  pattern = pattern.map((p) => normalizePath(path.join(config.srcDir, p)))
 
   let md: MarkdownRenderer
 

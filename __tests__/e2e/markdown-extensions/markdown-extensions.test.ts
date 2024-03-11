@@ -65,7 +65,7 @@ describe('Table of Contents', () => {
   test('render toc', async () => {
     const items = page.locator('#table-of-contents + nav ul li')
     const count = await items.count()
-    expect(count).toBe(35)
+    expect(count).toBe(36)
   })
 })
 
@@ -163,19 +163,19 @@ describe('Line Numbers', () => {
 describe('Import Code Snippets', () => {
   test('basic', async () => {
     const lines = page.locator('#basic-code-snippet + div code > span')
-    expect(await lines.count()).toBe(22)
+    expect(await lines.count()).toBe(11)
   })
 
   test('specify region', async () => {
     const lines = page.locator('#specify-region + div code > span')
-    expect(await lines.count()).toBe(6)
+    expect(await lines.count()).toBe(3)
   })
 
   test('with other features', async () => {
     const div = page.locator('#with-other-features + div')
     expect(await getClassList(div)).toContain('line-numbers-mode')
     const lines = div.locator('code > span')
-    expect(await lines.count()).toBe(6)
+    expect(await lines.count()).toBe(3)
     expect(await getClassList(lines.nth(0))).toContain('highlighted')
   })
 })
@@ -216,10 +216,10 @@ describe('Code Groups', () => {
 
     // blocks
     const blocks = div.locator('.blocks > div')
-    expect(await blocks.nth(0).locator('code > span').count()).toBe(22)
+    expect(await blocks.nth(0).locator('code > span').count()).toBe(11)
     expect(await getClassList(blocks.nth(1))).toContain('line-numbers-mode')
     expect(await getClassList(blocks.nth(1))).toContain('language-ts')
-    expect(await blocks.nth(1).locator('code > span').count()).toBe(6)
+    expect(await blocks.nth(1).locator('code > span').count()).toBe(3)
     expect(
       await getClassList(blocks.nth(1).locator('code > span').nth(0))
     ).toContain('highlighted')
@@ -273,5 +273,17 @@ describe('Markdown File Inclusion', () => {
     )
     expect(trim(await p.nth(0).textContent())).toBe('This is a region')
     expect(trim(await p.nth(1).textContent())).toBe('This is after region')
+  })
+
+  test('ignore frontmatter if range is not specified', async () => {
+    const p = page.locator('.vp-doc')
+    expect(await p.textContent()).not.toContain('title')
+  })
+})
+
+describe('Image Lazy Loading', () => {
+  test('render loading="lazy" in the <img> tag', async () => {
+    const img = page.locator('#image-lazy-loading + p img')
+    expect(await img.getAttribute('loading')).toBe('lazy')
   })
 })

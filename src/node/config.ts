@@ -13,6 +13,7 @@ import { DEFAULT_THEME_PATH } from './alias'
 import { resolvePages } from './plugins/dynamicRoutesPlugin'
 import {
   APPEARANCE_KEY,
+  slash,
   type DefaultTheme,
   type HeadConfig,
   type SiteData
@@ -74,7 +75,7 @@ export async function resolveConfig(
   const site = await resolveSiteData(root, userConfig)
   const srcDir = normalizePath(path.resolve(root, userConfig.srcDir || '.'))
   const assetsDir = userConfig.assetsDir
-    ? userConfig.assetsDir.replace(/\//g, '')
+    ? slash(userConfig.assetsDir).replace(/^\.?\/|\/$/g, '')
     : 'assets'
   const outDir = userConfig.outDir
     ? normalizePath(path.resolve(root, userConfig.outDir))
@@ -82,6 +83,18 @@ export async function resolveConfig(
   const cacheDir = userConfig.cacheDir
     ? normalizePath(path.resolve(root, userConfig.cacheDir))
     : resolve(root, 'cache')
+
+  const resolvedAssetsDir = normalizePath(path.resolve(outDir, assetsDir))
+  if (!resolvedAssetsDir.startsWith(outDir)) {
+    throw new Error(
+      [
+        `assetsDir cannot be set to a location outside of the outDir.`,
+        `outDir: ${outDir}`,
+        `assetsDir: ${assetsDir}`,
+        `resolved: ${resolvedAssetsDir}`
+      ].join('\n  ')
+    )
+  }
 
   // resolve theme path
   const userThemeDir = resolve(root, 'theme')
@@ -91,7 +104,8 @@ export async function resolveConfig(
 
   const { pages, dynamicRoutes, rewrites } = await resolvePages(
     srcDir,
-    userConfig
+    userConfig,
+    logger
   )
 
   const config: SiteConfig = {
@@ -128,7 +142,8 @@ export async function resolveConfig(
     transformPageData: userConfig.transformPageData,
     rewrites,
     userConfig,
-    sitemap: userConfig.sitemap
+    sitemap: userConfig.sitemap,
+    buildConcurrency: userConfig.buildConcurrency ?? 64
   }
 
   // to be shared with content loaders
@@ -186,7 +201,7 @@ async function resolveConfigExtends(
   return resolved
 }
 
-function mergeConfig(a: UserConfig, b: UserConfig, isRoot = true) {
+export function mergeConfig(a: UserConfig, b: UserConfig, isRoot = true) {
   const merged: Record<string, any> = { ...a }
   for (const key in b) {
     const value = b[key as keyof UserConfig]
@@ -231,10 +246,13 @@ export async function resolveSiteData(
     description: userConfig.description || 'A VitePress site',
     base: userConfig.base ? userConfig.base.replace(/([^/])$/, '$1/') : '/',
     head: resolveSiteDataHead(userConfig),
+    router: {
+      prefetchLinks: userConfig.router?.prefetchLinks ?? true
+    },
     appearance: userConfig.appearance ?? true,
     themeConfig: userConfig.themeConfig || {},
     locales: userConfig.locales || {},
-    scrollOffset: userConfig.scrollOffset ?? 90,
+    scrollOffset: userConfig.scrollOffset ?? 134,
     cleanUrls: !!userConfig.cleanUrls,
     contentProps: userConfig.contentProps
   }
@@ -252,8 +270,8 @@ function resolveSiteDataHead(userConfig?: UserConfig): HeadConfig[] {
       typeof userConfig?.appearance === 'string'
         ? userConfig?.appearance
         : typeof userConfig?.appearance === 'object'
-        ? userConfig.appearance.initialValue ?? 'auto'
-        : 'auto'
+          ? userConfig.appearance.initialValue ?? 'auto'
+          : 'auto'
 
     head.push([
       'script',

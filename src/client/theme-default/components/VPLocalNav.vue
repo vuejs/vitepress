@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { useWindowScroll } from '@vueuse/core'
 import { onContentUpdated } from 'vitepress'
-import { computed, onMounted, ref, shallowRef } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useData } from '../composables/data'
-import { getHeaders, type MenuItem } from '../composables/outline'
+import { useLocalNav } from '../composables/local-nav'
+import { getHeaders } from '../composables/outline'
 import { useSidebar } from '../composables/sidebar'
 import VPLocalNavOutlineDropdown from './VPLocalNavOutlineDropdown.vue'
-import VPIconAlignLeft from './icons/VPIconAlignLeft.vue'
 
 defineProps<{
   open: boolean
@@ -18,10 +18,9 @@ defineEmits<{
 
 const { theme, frontmatter } = useData()
 const { hasSidebar } = useSidebar()
-// @ts-ignore
+const { headers } = useLocalNav()
 const { y } = useWindowScroll()
 
-const headers = shallowRef<MenuItem[]>([])
 const navHeight = ref(0)
 
 onMounted(() => {
@@ -37,37 +36,44 @@ onContentUpdated(() => {
 })
 
 const empty = computed(() => {
-  return headers.value.length === 0 && !hasSidebar.value
+  return headers.value.length === 0
+})
+
+const emptyAndNoSidebar = computed(() => {
+  return empty.value && !hasSidebar.value
 })
 
 const classes = computed(() => {
   return {
     VPLocalNav: true,
-    fixed: empty.value,
-    'reached-top': y.value >= navHeight.value
+    'has-sidebar': hasSidebar.value,
+    empty: empty.value,
+    fixed: emptyAndNoSidebar.value
   }
 })
 </script>
 
 <template>
   <div
-    v-if="frontmatter.layout !== 'home' && (!empty || y >= navHeight)"
+    v-if="frontmatter.layout !== 'home' && (!emptyAndNoSidebar || y >= navHeight)"
     :class="classes"
   >
-    <button
-      v-if="hasSidebar"
-      class="menu"
-      :aria-expanded="open"
-      aria-controls="VPSidebarNav"
-      @click="$emit('open-menu')"
-    >
-      <VPIconAlignLeft class="menu-icon" />
-      <span class="menu-text">
-        {{ theme.sidebarMenuLabel || 'Menu' }}
-      </span>
-    </button>
+    <div class="container">
+      <button
+        v-if="hasSidebar"
+        class="menu"
+        :aria-expanded="open"
+        aria-controls="VPSidebarNav"
+        @click="$emit('open-menu')"
+      >
+        <span class="vpi-align-left menu-icon"></span>
+        <span class="menu-text">
+          {{ theme.sidebarMenuLabel || 'Menu' }}
+        </span>
+      </button>
 
-    <VPLocalNavOutlineDropdown :headers="headers" :navHeight="navHeight" />
+      <VPLocalNavOutlineDropdown :headers="headers" :navHeight="navHeight" />
+    </div>
   </div>
 </template>
 
@@ -78,10 +84,6 @@ const classes = computed(() => {
   /*rtl:ignore*/
   left: 0;
   z-index: var(--vp-z-index-local-nav);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-top: 1px solid var(--vp-c-gutter);
   border-bottom: 1px solid var(--vp-c-gutter);
   padding-top: var(--vp-layout-top-height, 0px);
   width: 100%;
@@ -92,14 +94,36 @@ const classes = computed(() => {
   position: fixed;
 }
 
-.VPLocalNav.reached-top {
-  border-top-color: transparent;
+@media (min-width: 960px) {
+  .VPLocalNav {
+    top: var(--vp-nav-height);
+  }
+
+  .VPLocalNav.has-sidebar {
+    padding-left: var(--vp-sidebar-width);
+  }
+
+  .VPLocalNav.empty {
+    display: none;
+  }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 1280px) {
   .VPLocalNav {
     display: none;
   }
+}
+
+@media (min-width: 1440px) {
+  .VPLocalNav.has-sidebar {
+    padding-left: calc((100vw - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));
+  }
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .menu {
@@ -124,11 +148,15 @@ const classes = computed(() => {
   }
 }
 
+@media (min-width: 960px) {
+  .menu {
+    display: none;
+  }
+}
+
 .menu-icon {
   margin-right: 8px;
-  width: 16px;
-  height: 16px;
-  fill: currentColor;
+  font-size: 14px;
 }
 
 .VPOutlineDropdown {

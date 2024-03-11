@@ -1,8 +1,8 @@
-import compression from 'compression'
+import compression from '@polka/compression'
 import fs from 'fs-extra'
 import path from 'path'
 import polka, { type IOptions } from 'polka'
-import sirv, { type RequestHandler } from 'sirv'
+import sirv from 'sirv'
 import { resolveConfig } from '../config'
 
 function trimChar(str: string, char: string) {
@@ -37,7 +37,7 @@ export async function serve(options: ServeOptions = {}) {
     res.end()
   }
 
-  const compress = compression() as RequestHandler
+  const compress = compression({ brotli: true })
   const serve = sirv(config.outDir, {
     etag: true,
     maxAge: 31536000,

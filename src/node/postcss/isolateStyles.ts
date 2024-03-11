@@ -1,8 +1,8 @@
 import postcssPrefixSelector from 'postcss-prefix-selector'
 
-type Options = Parameters<typeof postcssPrefixSelector>[0]
-
-export function postcssIsolateStyles(options: Options = {}) {
+export function postcssIsolateStyles(
+  options: Parameters<typeof postcssPrefixSelector>[0] = {}
+): ReturnType<typeof postcssPrefixSelector> {
   return postcssPrefixSelector({
     prefix: ':not(:where(.vp-raw, .vp-raw *))',
     includeFiles: [/base\.css/],

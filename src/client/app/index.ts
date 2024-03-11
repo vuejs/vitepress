@@ -38,17 +38,17 @@ const Theme = resolveThemeExtends(RawTheme)
 const VitePressApp = defineComponent({
   name: 'VitePressApp',
   setup() {
-    const { site } = useData()
+    const { site, lang, dir } = useData()
 
     // change the language on the HTML element based on the current lang
     onMounted(() => {
       watchEffect(() => {
-        document.documentElement.lang = site.value.lang
-        document.documentElement.dir = site.value.dir
+        document.documentElement.lang = lang.value
+        document.documentElement.dir = dir.value
       })
     })
 
-    if (import.meta.env.PROD) {
+    if (import.meta.env.PROD && site.value.router.prefetchLinks) {
       // in prod mode, enable intersectionObserver based pre-fetch
       usePrefetch()
     }
@@ -64,6 +64,8 @@ const VitePressApp = defineComponent({
 })
 
 export async function createApp() {
+  ;(globalThis as any).__VITEPRESS__ = true
+
   const router = newRouter()
 
   const app = newApp()
@@ -135,7 +137,11 @@ function newRouter(): Router {
         pageFilePath = pageFilePath.replace(/\.js$/, '.lean.js')
       }
 
-      pageModule = import(/*@vite-ignore*/ pageFilePath)
+      if (import.meta.env.SSR) {
+        pageModule = import(/*@vite-ignore*/ pageFilePath + '?t=' + Date.now())
+      } else {
+        pageModule = import(/*@vite-ignore*/ pageFilePath)
+      }
     }
 
     if (inBrowser) {

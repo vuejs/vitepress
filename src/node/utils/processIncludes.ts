@@ -1,5 +1,6 @@
-import path from 'path'
 import fs from 'fs-extra'
+import matter from 'gray-matter'
+import path from 'path'
 import { slash } from '../shared'
 
 export function processIncludes(
@@ -30,6 +31,8 @@ export function processIncludes(
             endLine ? parseInt(endLine, 10) : undefined
           )
           .join('\n')
+      } else {
+        content = matter(content).content
       }
       includes.push(slash(includePath))
       // recursively process includes in the content

@@ -24,6 +24,62 @@ export default {
 }
 ```
 
+:::details Dynamic (Async) Config
+
+If you need to dynamically generate the config, you can also default export a function. For example:
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default async () => {
+  const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
+
+  return defineConfig({
+    // app level config options
+    lang: 'en-US',
+    title: 'VitePress',
+    description: 'Vite & Vue powered static site generator.',
+
+    // theme level config options
+    themeConfig: {
+      sidebar: [
+        ...posts.map((post) => ({
+          text: post.name,
+          link: `/posts/${post.name}`
+        }))
+      ]
+    }
+  })
+}
+```
+
+You can also use top-level `await`. For example:
+
+```ts
+import { defineConfig } from 'vitepress'
+
+const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
+
+export default defineConfig({
+  // app level config options
+  lang: 'en-US',
+  title: 'VitePress',
+  description: 'Vite & Vue powered static site generator.',
+
+  // theme level config options
+  themeConfig: {
+    sidebar: [
+      ...posts.map((post) => ({
+        text: post.name,
+        link: `/posts/${post.name}`
+      }))
+    ]
+  }
+})
+```
+
+:::
+
 ### Config Intellisense
 
 Using the `defineConfig` helper will provide TypeScript-powered intellisense for config options. Assuming your IDE supports it, this should work in both JavaScript and TypeScript.
@@ -360,7 +416,7 @@ export default {
 - Type: `string`
 - Default: `assets`
 
-The directory for assets files. See also: [assetsDir](https://vitejs.dev/config/build-options.html#build-assetsdir).
+Specify the directory to nest generated assets under. The path should be inside [`outDir`](#outdir) and is resolved relative to it.
 
 ```ts
 export default {
@@ -454,7 +510,7 @@ When using the default theme, enabling this option will display each page's last
 
 - Type: `MarkdownOption`
 
-Configure Markdown parser options. VitePress uses [Markdown-it](https://github.com/markdown-it/markdown-it) as the parser, and [Shiki](https://shiki.matsu.io/) to highlight language syntax. Inside this option, you may pass various Markdown related options to fit your needs.
+Configure Markdown parser options. VitePress uses [Markdown-it](https://github.com/markdown-it/markdown-it) as the parser, and [Shiki](https://github.com/shikijs/shiki) to highlight language syntax. Inside this option, you may pass various Markdown related options to fit your needs.
 
 ```js
 export default {
@@ -462,78 +518,7 @@ export default {
 }
 ```
 
-Below are all the options that you can have in this object:
-
-```ts
-interface MarkdownOptions extends MarkdownIt.Options {
-  // Custom theme for syntax highlighting.
-  // You can use an existing theme.
-  // See: https://github.com/shikijs/shiki/blob/main/docs/themes.md#all-themes
-  // Or add your own theme.
-  // See: https://github.com/shikijs/shiki/blob/main/docs/themes.md#loading-theme
-  theme?:
-    | Shiki.IThemeRegistration
-    | { light: Shiki.IThemeRegistration; dark: Shiki.IThemeRegistration }
-
-  // Enable line numbers in code block.
-  lineNumbers?: boolean
-
-  // Add support for your own languages.
-  // https://github.com/shikijs/shiki/blob/main/docs/languages.md#supporting-your-own-languages-with-shiki
-  languages?: Shiki.ILanguageRegistration
-
-  // markdown-it-anchor plugin options.
-  // See: https://github.com/valeriangalliat/markdown-it-anchor#usage
-  anchor?: anchorPlugin.AnchorOptions
-
-  // markdown-it-attrs plugin options.
-  // See: https://github.com/arve0/markdown-it-attrs
-  attrs?: {
-    leftDelimiter?: string
-    rightDelimiter?: string
-    allowedAttributes?: string[]
-    disable?: boolean
-  }
-
-  // specify default language for syntax highlighter
-  defaultHighlightLang?: string
-
-  // @mdit-vue/plugin-frontmatter plugin options.
-  // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-frontmatter#options
-  frontmatter?: FrontmatterPluginOptions
-
-  // @mdit-vue/plugin-headers plugin options.
-  // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-headers#options
-  headers?: HeadersPluginOptions
-
-  // @mdit-vue/plugin-sfc plugin options.
-  // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-sfc#options
-  sfc?: SfcPluginOptions
-
-  // @mdit-vue/plugin-toc plugin options.
-  // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-toc#options
-  toc?: TocPluginOptions
-
-  // @mdit-vue/plugin-component plugin options.
-  // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-component#options
-  component?: ComponentPluginOptions
-
-  // Configure the Markdown-it instance.
-  config?: (md: MarkdownIt) => void
-
-  // Same as `config` but will be applied before all other plugins.
-  preConfig?: (md: MarkdownIt) => void
-
-  // Disable cache (experimental)
-  cache?: boolean
-
-  // Math support (experimental)
-  // You need to install `markdown-it-mathjax3` and set `math` to `true` to enable it.
-  // You can also pass options to `markdown-it-mathjax3` here.
-  // See: https://github.com/tani/markdown-it-mathjax3#customization
-  math?: any
-}
-```
+Check the [type declaration and jsdocs](https://github.com/vuejs/vitepress/blob/main/src/node/markdown/markdown.ts) for all the options available.
 
 ### vite
 
@@ -655,6 +640,24 @@ export default {
             ? `VitePress`
             : `${pageData.title} | VitePress`
       }
+    ])
+  }
+}
+```
+
+#### Example: Adding a canonical URL `<link>`
+
+```ts
+export default {
+  transformPageData(pageData) {
+    const canonicalUrl = `https://example.com/${pageData.relativePath}`
+      .replace(/index\.md$/, '')
+      .replace(/\.md$/, '.html')
+
+    pageData.frontmatter.head ??= []
+    pageData.frontmatter.head.push([
+      'link',
+      { rel: 'canonical', href: canonicalUrl }
     ])
   }
 }

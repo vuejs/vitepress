@@ -12,7 +12,7 @@ import {
 import { useFocusTrap } from '@vueuse/integrations/useFocusTrap'
 import Mark from 'mark.js/src/vanilla.js'
 import MiniSearch, { type SearchResult } from 'minisearch'
-import { inBrowser, useRouter, dataSymbol } from 'vitepress'
+import { dataSymbol, inBrowser, useRouter } from 'vitepress'
 import {
   computed,
   createApp,
@@ -28,12 +28,10 @@ import {
 } from 'vue'
 import type { ModalTranslations } from '../../../../types/local-search'
 import { pathToFile } from '../../app/utils'
+import { escapeRegExp } from '../../shared'
 import { useData } from '../composables/data'
-import { createTranslate } from '../support/translation'
-
-defineProps<{
-  placeholder: string
-}>()
+import { LRUCache } from '../support/lru'
+import { createSearchTranslate } from '../support/translation'
 
 const emit = defineEmits<{
   (e: 'close'): void
@@ -115,6 +113,16 @@ const disableDetailedView = computed(() => {
   )
 })
 
+const buttonText = computed(() => {
+  const options = theme.value.search?.options ?? theme.value.algolia
+
+  return (
+    options?.locales?.[localeIndex.value]?.translations?.button?.buttonText ||
+    options?.translations?.button?.buttonText ||
+    'Search'
+  )
+})
+
 watchEffect(() => {
   if (disableDetailedView.value) {
     showDetailedList.value = false
@@ -134,9 +142,16 @@ const mark = computedAsync(async () => {
   return markRaw(new Mark(resultsEl.value))
 }, null)
 
+const cache = new LRUCache<string, Map<string, string>>(16) // 16 files
+
 debouncedWatch(
   () => [searchIndex.value, filterText.value, showDetailedList.value] as const,
   async ([index, filterTextValue, showDetailedListValue], old, onCleanup) => {
+    if (old?.[0] !== index) {
+      // in case of hmr
+      cache.clear()
+    }
+
     let canceled = false
     onCleanup(() => {
       canceled = true
@@ -155,13 +170,12 @@ debouncedWatch(
       ? await Promise.all(results.value.map((r) => fetchExcerpt(r.id)))
       : []
     if (canceled) return
-    const c = new Map<string, Map<string, string>>()
     for (const { id, mod } of mods) {
       const mapId = id.slice(0, id.indexOf('#'))
-      let map = c.get(mapId)
+      let map = cache.get(mapId)
       if (map) continue
       map = new Map()
-      c.set(mapId, map)
+      cache.set(mapId, map)
       const comp = mod.default ?? mod
       if (comp?.render || comp?.setup) {
         const app = createApp(comp)
@@ -201,7 +215,7 @@ debouncedWatch(
 
     results.value = results.value.map((r) => {
       const [id, anchor] = r.id.split('#')
-      const map = c.get(id)
+      const map = cache.get(id)
       const text = map?.get(anchor) ?? ''
       for (const term in r.match) {
         terms.add(term)
@@ -308,6 +322,8 @@ onKeyStroke('ArrowDown', (event) => {
 const router = useRouter()
 
 onKeyStroke('Enter', (e) => {
+  if (e.isComposing) return
+
   if (e.target instanceof HTMLButtonElement && e.target.type !== 'submit')
     return
 
@@ -346,7 +362,7 @@ const defaultTranslations: { modal: ModalTranslations } = {
   }
 }
 
-const $t = createTranslate(theme.value.search?.options, defaultTranslations)
+const translate = createSearchTranslate(defaultTranslations)
 
 // Back
 
@@ -383,11 +399,7 @@ function formMarkRegex(terms: Set<string>) {
   return new RegExp(
     [...terms]
       .sort((a, b) => b.length - a.length)
-      .map((term) => {
-        return `(${term
-          .replace(/[|\\{}()[\]^$+*?.]/g, '\\$&')
-          .replace(/-/g, '\\x2d')})`
-      })
+      .map((term) => `(${escapeRegExp(term)})`)
       .join('|'),
     'gi'
   )
@@ -414,56 +426,25 @@ function formMarkRegex(terms: Set<string>) {
           @submit.prevent=""
         >
           <label
-            :title="placeholder"
+            :title="buttonText"
             id="localsearch-label"
             for="localsearch-input"
           >
-            <svg
-              class="search-icon"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <g
-                fill="none"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-              >
-                <circle cx="11" cy="11" r="8" />
-                <path d="m21 21l-4.35-4.35" />
-              </g>
-            </svg>
+            <span aria-hidden="true" class="vpi-search search-icon local-search-icon" />
           </label>
           <div class="search-actions before">
             <button
               class="back-button"
-              :title="$t('modal.backButtonTitle')"
+              :title="translate('modal.backButtonTitle')"
               @click="$emit('close')"
             >
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 12H5m7 7l-7-7l7-7"
-                />
-              </svg>
+              <span class="vpi-arrow-left local-search-icon" />
             </button>
           </div>
           <input
             ref="searchInput"
             v-model="filterText"
-            :placeholder="placeholder"
+            :placeholder="buttonText"
             id="localsearch-input"
             aria-labelledby="localsearch-label"
             class="search-input"
@@ -474,50 +455,22 @@ function formMarkRegex(terms: Set<string>) {
               class="toggle-layout-button"
               type="button"
               :class="{ 'detailed-list': showDetailedList }"
-              :title="$t('modal.displayDetails')"
+              :title="translate('modal.displayDetails')"
               @click="
                 selectedIndex > -1 && (showDetailedList = !showDetailedList)
               "
             >
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M3 14h7v7H3zM3 3h7v7H3zm11 1h7m-7 5h7m-7 6h7m-7 5h7"
-                />
-              </svg>
+              <span class="vpi-layout-list local-search-icon" />
             </button>
 
             <button
               class="clear-button"
               type="reset"
               :disabled="disableReset"
-              :title="$t('modal.resetButtonTitle')"
+              :title="translate('modal.resetButtonTitle')"
               @click="resetSearch"
             >
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M20 5H9l-7 7l7 7h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm-2 4l-6 6m0-6l6 6"
-                />
-              </svg>
+              <span class="vpi-delete local-search-icon" />
             </button>
           </div>
         </form>
@@ -556,16 +509,7 @@ function formMarkRegex(terms: Set<string>) {
                     class="title"
                   >
                     <span class="text" v-html="t" />
-                    <svg width="18" height="18" viewBox="0 0 24 24">
-                      <path
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="m9 18l6-6l-6-6"
-                      />
-                    </svg>
+                    <span class="vpi-chevron-right local-search-icon" />
                   </span>
                   <span class="title main">
                     <span class="text" v-html="p.title" />
@@ -586,59 +530,30 @@ function formMarkRegex(terms: Set<string>) {
             v-if="filterText && !results.length && enableNoResults"
             class="no-results"
           >
-            {{ $t('modal.noResultsText') }} "<strong>{{ filterText }}</strong
+            {{ translate('modal.noResultsText') }} "<strong>{{ filterText }}</strong
             >"
           </li>
         </ul>
 
         <div class="search-keyboard-shortcuts">
           <span>
-            <kbd :aria-label="$t('modal.footer.navigateUpKeyAriaLabel')">
-              <svg width="14" height="14" viewBox="0 0 24 24">
-                <path
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 19V5m-7 7l7-7l7 7"
-                />
-              </svg>
+            <kbd :aria-label="translate('modal.footer.navigateUpKeyAriaLabel')">
+              <span class="vpi-arrow-up navigate-icon" />
             </kbd>
-            <kbd :aria-label="$t('modal.footer.navigateDownKeyAriaLabel')">
-              <svg width="14" height="14" viewBox="0 0 24 24">
-                <path
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 5v14m7-7l-7 7l-7-7"
-                />
-              </svg>
+            <kbd :aria-label="translate('modal.footer.navigateDownKeyAriaLabel')">
+              <span class="vpi-arrow-down navigate-icon" />
             </kbd>
-            {{ $t('modal.footer.navigateText') }}
+            {{ translate('modal.footer.navigateText') }}
           </span>
           <span>
-            <kbd :aria-label="$t('modal.footer.selectKeyAriaLabel')">
-              <svg width="14" height="14" viewBox="0 0 24 24">
-                <g
-                  fill="none"
-                  stroke="currentcolor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                >
-                  <path d="m9 10l-5 5l5 5" />
-                  <path d="M20 4v7a4 4 0 0 1-4 4H4" />
-                </g>
-              </svg>
+            <kbd :aria-label="translate('modal.footer.selectKeyAriaLabel')">
+              <span class="vpi-corner-down-left navigate-icon" />
             </kbd>
-            {{ $t('modal.footer.selectText') }}
+            {{ translate('modal.footer.selectText') }}
           </span>
           <span>
-            <kbd :aria-label="$t('modal.footer.closeKeyAriaLabel')">esc</kbd>
-            {{ $t('modal.footer.closeText') }}
+            <kbd :aria-label="translate('modal.footer.closeKeyAriaLabel')">esc</kbd>
+            {{ translate('modal.footer.closeText') }}
           </span>
         </div>
       </div>
@@ -702,6 +617,16 @@ function formMarkRegex(terms: Set<string>) {
 
 .search-bar:focus-within {
   border-color: var(--vp-c-brand-1);
+}
+
+.local-search-icon {
+  display: block;
+  font-size: 18px;
+}
+
+.navigate-icon {
+  display: block;
+  font-size: 14px;
 }
 
 .search-icon {

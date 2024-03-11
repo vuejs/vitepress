@@ -1,26 +1,30 @@
 <script lang="ts" setup>
-import { inject } from 'vue'
+import { inject, computed } from 'vue'
 import { useData } from '../composables/data'
 import VPSwitch from './VPSwitch.vue'
-import VPIconMoon from './icons/VPIconMoon.vue'
-import VPIconSun from './icons/VPIconSun.vue'
 
-const { isDark } = useData()
+const { isDark, theme } = useData()
 
 const toggleAppearance = inject('toggle-appearance', () => {
   isDark.value = !isDark.value
+})
+
+const switchTitle = computed(() => {
+  return isDark.value
+    ? theme.value.lightModeSwitchTitle || 'Switch to light theme'
+    : theme.value.darkModeSwitchTitle || 'Switch to dark theme'
 })
 </script>
 
 <template>
   <VPSwitch
-    title="toggle dark mode"
+    :title="switchTitle"
     class="VPSwitchAppearance"
     :aria-checked="isDark"
     @click="toggleAppearance"
   >
-    <VPIconSun class="sun" />
-    <VPIconMoon class="moon" />
+    <span class="vpi-sun sun" />
+    <span class="vpi-moon moon" />
   </VPSwitch>
 </template>
 

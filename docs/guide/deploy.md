@@ -153,26 +153,24 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
        runs-on: ubuntu-latest
        steps:
          - name: Checkout
-           uses: actions/checkout@v3
+           uses: actions/checkout@v4
            with:
              fetch-depth: 0 # Not needed if lastUpdated is not enabled
-         # - uses: pnpm/action-setup@v2 # Uncomment this if you're using pnpm
+         # - uses: pnpm/action-setup@v3 # Uncomment this if you're using pnpm
          # - uses: oven-sh/setup-bun@v1 # Uncomment this if you're using Bun
          - name: Setup Node
-           uses: actions/setup-node@v3
+           uses: actions/setup-node@v4
            with:
-             node-version: 18
+             node-version: 20
              cache: npm # or pnpm / yarn
          - name: Setup Pages
-           uses: actions/configure-pages@v3
+           uses: actions/configure-pages@v4
          - name: Install dependencies
            run: npm ci # or pnpm install / yarn install / bun install
          - name: Build with VitePress
-           run: |
-             npm run docs:build # or pnpm docs:build / yarn docs:build / bun run docs:build
-             touch docs/.vitepress/dist/.nojekyll
+           run: npm run docs:build # or pnpm docs:build / yarn docs:build / bun run docs:build
          - name: Upload artifact
-           uses: actions/upload-pages-artifact@v2
+           uses: actions/upload-pages-artifact@v3
            with:
              path: docs/.vitepress/dist
 
@@ -187,7 +185,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
        steps:
          - name: Deploy to GitHub Pages
            id: deployment
-           uses: actions/deploy-pages@v2
+           uses: actions/deploy-pages@v4
    ```
 
    ::: warning
@@ -285,3 +283,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 ### Edgio
 
 Refer [Creating and Deploying a VitePress App To Edgio](https://docs.edg.io/guides/vitepress).
+
+### Kinsta Static Site Hosting
+
+You can deploy your Vitepress website on [Kinsta](https://kinsta.com/static-site-hosting/) by following these [instructions](https://kinsta.com/docs/vitepress-static-site-example/).
