@@ -9,12 +9,34 @@ import {
   type Options
 } from './preWrapper'
 
-export const containerPlugin = (md: MarkdownIt, options: Options) => {
-  md.use(...createContainer('tip', 'TIP', md))
-    .use(...createContainer('info', 'INFO', md))
-    .use(...createContainer('warning', 'WARNING', md))
-    .use(...createContainer('danger', 'DANGER', md))
-    .use(...createContainer('details', 'Details', md))
+export const containerPlugin = (
+  md: MarkdownIt,
+  options: Options,
+  containerOptions?: ContainerOptions
+) => {
+  md.use(...createContainer('tip', containerOptions?.tipLabel || 'TIP', md))
+    .use(...createContainer('info', containerOptions?.infoLabel || 'INFO', md))
+    .use(
+      ...createContainer(
+        'warning',
+        containerOptions?.warningLabel || 'WARNING',
+        md
+      )
+    )
+    .use(
+      ...createContainer(
+        'danger',
+        containerOptions?.dangerLabel || 'DANGER',
+        md
+      )
+    )
+    .use(
+      ...createContainer(
+        'details',
+        containerOptions?.detailsLabel || 'Details',
+        md
+      )
+    )
     // explicitly escape Vue syntax
     .use(container, 'v-pre', {
       render: (tokens: Token[], idx: number) =>
@@ -38,12 +60,14 @@ function createContainer(
     container,
     klass,
     {
-      render(tokens, idx) {
+      render(tokens, idx, _options, env) {
         const token = tokens[idx]
         const info = token.info.trim().slice(klass.length).trim()
         const attrs = md.renderer.renderAttrs(token)
         if (token.nesting === 1) {
-          const title = md.renderInline(info || defaultTitle)
+          const title = md.renderInline(info || defaultTitle, {
+            references: env.references
+          })
           if (klass === 'details')
             return `<details class="${klass} custom-block"${attrs}><summary>${title}</summary>\n`
           return `<div class="${klass} custom-block"${attrs}><p class="custom-block-title">${title}</p>\n`
@@ -101,4 +125,15 @@ function createCodeGroup(options: Options): ContainerArgs {
       }
     }
   ]
+}
+
+export interface ContainerOptions {
+  infoLabel?: string
+  noteLabel?: string
+  tipLabel?: string
+  warningLabel?: string
+  dangerLabel?: string
+  detailsLabel?: string
+  importantLabel?: string
+  cautionLabel?: string
 }

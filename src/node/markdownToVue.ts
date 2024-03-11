@@ -8,20 +8,20 @@ import {
   createMarkdownRenderer,
   type MarkdownOptions,
   type MarkdownRenderer
-} from './markdown'
+} from './markdown/markdown'
 import {
   EXTERNAL_URL_RE,
   slash,
   type HeadConfig,
   type MarkdownEnv,
-  type PageData
+  type PageData,
+  treatAsHtml
 } from './shared'
 import { getGitTimestamp } from './utils/getGitTimestamp'
+import { processIncludes } from './utils/processIncludes'
 
 const debug = _debug('vitepress:md')
 const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
-const includesRE = /<!--\s*@include:\s*(.*?)\s*-->/g
-const rangeRE = /\{(\d*),(\d*)\}$/
 
 export interface MarkdownCompileResult {
   vueSrc: string
@@ -30,15 +30,20 @@ export interface MarkdownCompileResult {
   includes: string[]
 }
 
-export function clearCache() {
-  cache.clear()
+export function clearCache(file?: string) {
+  if (!file) {
+    cache.clear()
+    return
+  }
+
+  file = JSON.stringify({ file }).slice(1)
+  cache.find((_, key) => key.endsWith(file!) && cache.delete(key))
 }
 
 export async function createMarkdownToVueRenderFn(
   srcDir: string,
   options: MarkdownOptions = {},
   pages: string[],
-  userDefines: Record<string, any> | undefined,
   isBuild = false,
   base = '/',
   includeLastUpdatedData = false,
@@ -52,7 +57,6 @@ export async function createMarkdownToVueRenderFn(
     siteConfig?.logger
   )
   pages = pages.map((p) => slash(p.replace(/\.md$/, '')))
-  const replaceRegex = genReplaceRegexp(userDefines, isBuild)
 
   return async (
     src: string,
@@ -65,7 +69,7 @@ export async function createMarkdownToVueRenderFn(
       siteConfig?.rewrites.map[file.slice(srcDir.length + 1)]
     file = alias ? path.join(srcDir, alias) : file
     const relativePath = slash(path.relative(srcDir, file))
-    const cacheKey = JSON.stringify({ src, file })
+    const cacheKey = JSON.stringify({ src, file: fileOrig })
 
     if (isBuild || options.cache !== false) {
       const cached = cache.get(cacheKey)
@@ -89,39 +93,7 @@ export async function createMarkdownToVueRenderFn(
 
     // resolve includes
     let includes: string[] = []
-
-    function processIncludes(src: string, file: string): string {
-      return src.replace(includesRE, (m: string, m1: string) => {
-        if (!m1.length) return m
-
-        const range = m1.match(rangeRE)
-        range && (m1 = m1.slice(0, -range[0].length))
-        const atPresent = m1[0] === '@'
-        try {
-          const includePath = atPresent
-            ? path.join(srcDir, m1.slice(m1[1] === '/' ? 2 : 1))
-            : path.join(path.dirname(file), m1)
-          let content = fs.readFileSync(includePath, 'utf-8')
-          if (range) {
-            const [, startLine, endLine] = range
-            const lines = content.split(/\r?\n/)
-            content = lines
-              .slice(
-                startLine ? parseInt(startLine, 10) - 1 : undefined,
-                endLine ? parseInt(endLine, 10) : undefined
-              )
-              .join('\n')
-          }
-          includes.push(slash(includePath))
-          // recursively process includes in the content
-          return processIncludes(content, includePath)
-        } catch (error) {
-          return m // silently ignore error if file is not present
-        }
-      })
-    }
-
-    src = processIncludes(src, fileOrig)
+    src = processIncludes(srcDir, src, fileOrig, includes)
 
     // reset env before render
     const env: MarkdownEnv = {
@@ -174,7 +146,8 @@ export async function createMarkdownToVueRenderFn(
     if (links) {
       const dir = path.dirname(file)
       for (let url of links) {
-        if (/\.(?!html|md)\w+($|\?)/i.test(url)) continue
+        const { pathname } = new URL(url, 'http://a.com')
+        if (!treatAsHtml(pathname)) continue
 
         url = url.replace(/[?#].*$/, '').replace(/\.(html|md)$/, '')
         if (url.endsWith('/')) url += `index`
@@ -227,14 +200,9 @@ export async function createMarkdownToVueRenderFn(
     const vueSrc = [
       ...injectPageDataCode(
         sfcBlocks?.scripts.map((item) => item.content) ?? [],
-        pageData,
-        replaceRegex
+        pageData
       ),
-      `<template><div>${replaceConstants(
-        html,
-        replaceRegex,
-        vueTemplateBreaker
-      )}</div></template>`,
+      `<template><div>${html}</div></template>`,
       ...(sfcBlocks?.styles.map((item) => item.content) ?? []),
       ...(sfcBlocks?.customBlocks.map((item) => item.content) ?? [])
     ].join('\n')
@@ -260,46 +228,10 @@ const scriptSetupRE = /<\s*script[^>]*\bsetup\b[^>]*/
 const scriptClientRE = /<\s*script[^>]*\bclient\b[^>]*/
 const defaultExportRE = /((?:^|\n|;)\s*)export(\s*)default/
 const namedDefaultExportRE = /((?:^|\n|;)\s*)export(.+)as(\s*)default/
-const jsStringBreaker = '\u200b'
-const vueTemplateBreaker = '<wbr>'
 
-function genReplaceRegexp(
-  userDefines: Record<string, any> = {},
-  isBuild: boolean
-): RegExp {
-  // `process.env` need to be handled in both dev and build
-  // @see https://github.com/vitejs/vite/blob/cad27ee8c00bbd5aeeb2be9bfb3eb164c1b77885/packages/vite/src/node/plugins/clientInjections.ts#L57-L64
-  const replacements = ['process.env']
-  if (isBuild) {
-    replacements.push('import.meta', ...Object.keys(userDefines))
-  }
-  return new RegExp(
-    `\\b(${replacements
-      .map((key) => key.replace(/[-[\]/{}()*+?.\\^$|]/g, '\\$&'))
-      .join('|')})`,
-    'g'
-  )
-}
-
-/**
- * To avoid env variables being replaced by vite:
- * - insert `'\u200b'` char into those strings inside js string (page data)
- * - insert `<wbr>` tag into those strings inside html string (vue template)
- *
- * @see https://vitejs.dev/guide/env-and-mode.html#production-replacement
- */
-function replaceConstants(str: string, replaceRegex: RegExp, breaker: string) {
-  return str.replace(replaceRegex, (_) => `${_[0]}${breaker}${_.slice(1)}`)
-}
-
-function injectPageDataCode(
-  tags: string[],
-  data: PageData,
-  replaceRegex: RegExp
-) {
-  const dataJson = JSON.stringify(data)
+function injectPageDataCode(tags: string[], data: PageData) {
   const code = `\nexport const __pageData = JSON.parse(${JSON.stringify(
-    replaceConstants(dataJson, replaceRegex, jsStringBreaker)
+    JSON.stringify(data)
   )})`
 
   const existingScriptIndex = tags.findIndex((tag) => {

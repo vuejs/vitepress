@@ -1,3 +1,7 @@
+---
+title: Nested Include
+---
+
 <!--@include: ./foo.md-->
 
 ### After Foo

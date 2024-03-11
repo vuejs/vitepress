@@ -13,7 +13,7 @@ A data loader file must end with either `.data.js` or `.data.ts`. The file shoul
 export default {
   load() {
     return {
-      data: 'hello'
+      hello: 'world'
     }
   }
 }
@@ -35,7 +35,7 @@ Output:
 
 ```json
 {
-  "data": "hello"
+  "hello": "world"
 }
 ```
 
@@ -230,7 +230,7 @@ export { data }
 
 export default defineLoader({
   // type checked loader options
-  glob: ['...'],
+  watch: ['...'],
   async load(): Promise<Data> {
     // ...
   }

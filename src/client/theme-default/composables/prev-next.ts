@@ -30,8 +30,8 @@ export function usePrevNext() {
               (typeof frontmatter.value.prev === 'string'
                 ? frontmatter.value.prev
                 : typeof frontmatter.value.prev === 'object'
-                ? frontmatter.value.prev.text
-                : undefined) ??
+                  ? frontmatter.value.prev.text
+                  : undefined) ??
               candidates[index - 1]?.docFooterText ??
               candidates[index - 1]?.text,
             link:
@@ -46,8 +46,8 @@ export function usePrevNext() {
               (typeof frontmatter.value.next === 'string'
                 ? frontmatter.value.next
                 : typeof frontmatter.value.next === 'object'
-                ? frontmatter.value.next.text
-                : undefined) ??
+                  ? frontmatter.value.next.text
+                  : undefined) ??
               candidates[index + 1]?.docFooterText ??
               candidates[index + 1]?.text,
             link:

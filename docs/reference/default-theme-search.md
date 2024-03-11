@@ -96,7 +96,7 @@ export default defineConfig({
 })
 ```
 
-Learn more in [MiniSearch docs](https://lucaong.github.io/minisearch/classes/_minisearch_.minisearch.html).
+Learn more in [MiniSearch docs](https://lucaong.github.io/minisearch/classes/MiniSearch.MiniSearch.html).
 
 ### Custom content renderer
 

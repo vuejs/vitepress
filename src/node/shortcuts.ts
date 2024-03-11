@@ -68,6 +68,7 @@ export function bindShortcuts(
 
   server.httpServer.on('close', () => {
     process.stdin.off('data', onInput).pause()
+    process.stdin.setRawMode(false)
   })
 }
 
