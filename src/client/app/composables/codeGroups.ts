@@ -7,7 +7,7 @@ export function useCodeGroups() {
         Array.from(el.children).forEach((child) => {
           child.classList.remove('active')
         })
-        el.children[0].classList.add('active')
+        el.querySelector('div[class^="language"]')?.classList.add('active')
       })
     })
   }
@@ -24,19 +24,21 @@ export function useCodeGroups() {
         const i = Array.from(group.querySelectorAll('input')).indexOf(el)
         if (i < 0) return
 
-        const blocks = group.querySelector('.blocks')
-        if (!blocks) return
-
-        const current = Array.from(blocks.children).find((child) =>
-          child.classList.contains('active')
+        const codeBlocks = group.querySelectorAll(
+          '.blocks > div[class^="language"]'
         )
-        if (!current) return
+        if (!codeBlocks) return
 
-        const next = blocks.children[i]
-        if (!next || current === next) return
+        const activeBlock = Array.from(codeBlocks).find((block) =>
+          block.classList.contains('active')
+        )
+        if (!activeBlock) return
 
-        current.classList.remove('active')
-        next.classList.add('active')
+        const nextBlock = codeBlocks[i]
+        if (!nextBlock || activeBlock === nextBlock) return
+
+        activeBlock.classList.remove('active')
+        nextBlock.classList.add('active')
 
         const label = group?.querySelector(`label[for="${el.id}"]`)
         label?.scrollIntoView({ block: 'nearest' })
