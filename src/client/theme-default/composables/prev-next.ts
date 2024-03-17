@@ -11,10 +11,7 @@ export function usePrevNext() {
     const links = getFlatSideBarLinks(sidebar)
 
     // ignore inner-page links with hashes
-    const candidates = uniqBy(
-      links,
-      (link) => link.link.replace(/[?#].*$/, '')
-    )
+    const candidates = uniqBy(links, (link) => link.link.replace(/[?#].*$/, ''))
 
     const index = candidates.findIndex((link) => {
       return isActive(page.value.relativePath, link.link)
