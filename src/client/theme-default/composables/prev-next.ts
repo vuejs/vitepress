@@ -13,7 +13,7 @@ export function usePrevNext() {
     // ignore inner-page links with hashes
     const candidates = uniqBy(
       links,
-      (link) => link.link.substring(0, link.link.lastIndexOf('#')) || link.link
+      (link) => link.link.replace(/[?#].*$/, '')
     )
 
     const index = candidates.findIndex((link) => {
