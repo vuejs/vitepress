@@ -82,7 +82,7 @@ function onCaretClick() {
       <component v-else :is="textTag" class="text" v-html="item.text" />
 
       <div
-        v-if="item.collapsed != null"
+        v-if="item.collapsed != null && item.items && item.items.length"
         class="caret"
         role="button"
         aria-label="toggle section"
