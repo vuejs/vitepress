@@ -1,3 +1,17 @@
+# [1.0.0](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.45...v1.0.0) (2024-03-21)
+
+### Bug Fixes
+
+- **build:** resolve pattern relative to srcDir instead of root in createContentLoader ([#3638](https://github.com/vuejs/vitepress/issues/3638)) ([59183e9](https://github.com/vuejs/vitepress/commit/59183e9cef112a004c8a8e2b365478af657858b0))
+- **localSearch:** remove empty titles that may appear in search results ([#3665](https://github.com/vuejs/vitepress/issues/3665)) ([f7aef3c](https://github.com/vuejs/vitepress/commit/f7aef3ca23dae39e226c85d7bb2579dbf7c758f3))
+- **theme:** fixed sidebar expand caret showing when no children are present ([#3657](https://github.com/vuejs/vitepress/issues/3657)) ([e13f932](https://github.com/vuejs/vitepress/commit/e13f93292ce1a2b1d5ba161fddfe947a1824a2b0))
+- **theme:** ignore inner-page items in next/prev link ([#3663](https://github.com/vuejs/vitepress/issues/3663)) ([b50a8a1](https://github.com/vuejs/vitepress/commit/b50a8a132577693817a15ab43fc4cc22670a8a65))
+- **theme:** local nav separator not visible on pages having no outline ([1909041](https://github.com/vuejs/vitepress/commit/190904171500ad22998c8666080fd58c867a59b5))
+
+### Features
+
+- **theme:** allow selectively disabling external link icon on navbar items ([#3607](https://github.com/vuejs/vitepress/issues/3607)) ([5f6297c](https://github.com/vuejs/vitepress/commit/5f6297cb3df98926154235f31570e75820d4ea16))
+
 # [1.0.0-rc.45](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.44...v1.0.0-rc.45) (2024-03-06)
 
 ### Bug Fixes
