@@ -105,7 +105,7 @@
     "mark.js": "8.11.1",
     "minisearch": "^6.3.0",
     "shiki": "^1.1.7",
-    "vite": "^5.1.5",
+    "vite": "^5.2.2",
     "vue": "^3.4.21"
   },
   "peerDependencies": {
