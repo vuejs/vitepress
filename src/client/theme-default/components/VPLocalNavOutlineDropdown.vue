@@ -5,6 +5,7 @@ import { nextTick, ref } from 'vue'
 import { useData } from '../composables/data'
 import { resolveTitle, type MenuItem } from '../composables/outline'
 import VPDocOutlineItem from './VPDocOutlineItem.vue'
+import { watch } from 'vue'
 
 const props = defineProps<{
   headers: MenuItem[]
@@ -17,8 +18,12 @@ const vh = ref(0)
 const main = ref<HTMLDivElement>()
 const items = ref<HTMLDivElement>()
 
-onClickOutside(main, () => {
-  open.value = false
+watch(open, () => {
+  if (open.value){
+    onClickOutside(main, () => {
+      open.value = false
+    })
+  }
 })
 
 onKeyStroke('Escape', () => {
