@@ -2,7 +2,7 @@
 
 可以通过命令行输入 `vitepress build --mpa` 或在配置文件中指定 `mpa: true` 配置选项来启用 MPA (Multi-Page Application) 模式。
 
-在 MPA 模式下，所有页面都会默认不包含任何 JavaScript。因此，站点可能评估工具中获得更好的初始访问性能分数。
+在 MPA 模式下，所有页面都会默认不包含任何 JavaScript。因此，站点可能从评估工具中获得更好的初始访问性能分数。
 
 但是，由于 SPA 导航的缺失，跨页面链接将导致重新加载整个页面。MPA 模式下的导航不会像 SPA 模式那样立即响应。
 
