@@ -377,7 +377,7 @@ export default {
 - 类型：`string`
 - 默认值： `.`
 
-markdown 页面的目录，相对于项目根目录。另请参阅[根目录和源目录](../guide/routing#root-and-source-directory)。
+相对于项目根目录的 markdown 文件所在的文件夹。另请参阅[根目录和源目录](../guide/routing#root-and-source-directory)。
 
 ```ts
 export default {
@@ -390,7 +390,7 @@ export default {
 - 类型：`string`
 - 默认值： `undefined`
 
-用于匹配应作为源内容输出的 markdown 文件的 [全局模式](https://github.com/mrmlnc/fast-glob#pattern-syntax)。
+用于匹配应排除作为源内容输出的 markdown 文件，语法详见 [glob pattern](https://github.com/mrmlnc/fast-glob#pattern-syntax)。
 
 ```ts
 export default {
