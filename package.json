@@ -24,6 +24,9 @@
     "./theme-without-fonts": {
       "types": "./theme-without-fonts.d.ts",
       "default": "./dist/client/theme-default/without-fonts.js"
+    },
+    "./vue-demi": {
+      "default": "./lib/vue-demi.mjs"
     }
   },
   "bin": {
@@ -36,7 +39,8 @@
     "template",
     "client.d.ts",
     "theme.d.ts",
-    "theme-without-fonts.d.ts"
+    "theme-without-fonts.d.ts",
+    "lib"
   ],
   "repository": {
     "type": "git",
