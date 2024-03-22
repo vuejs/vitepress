@@ -1,3 +1,9 @@
+## [1.0.1](https://github.com/vuejs/vitepress/compare/v1.0.0...v1.0.1) (2024-03-22)
+
+### Bug Fixes
+
+- **build:** vendor vue-demi to avoid resolution issues with yarn berry ([#3680](https://github.com/vuejs/vitepress/issues/3680)) ([5d3cb96](https://github.com/vuejs/vitepress/commit/5d3cb96ac364413aa9eb494bc91744bd8f4a2c79))
+
 # [1.0.0](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.45...v1.0.0) (2024-03-21)
 
 ### Bug Fixes
