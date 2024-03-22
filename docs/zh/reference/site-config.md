@@ -471,6 +471,13 @@ export default {
 }
 ```
 
+### metaChunk <Badge type="warning" text="experimental" />
+
+- 类型：`boolean`
+- 默认值：`false`
+
+当设置为 `true` 时，将页面元数据提取到单独的 JavaScript 块中，而不是内联在初始 HTML 中。这使每个页面的 HTML 负载更小，并使页面元数据可缓存，从而当站点中有很多页面时可以减少服务器带宽。
+
 ### mpa <Badge type="warning" text="experimental" />
 
 - 类型：`boolean`
