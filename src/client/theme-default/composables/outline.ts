@@ -197,6 +197,7 @@ export function useActiveAnchor(
 
     if (activeLink) {
       activeLink.classList.add('active')
+      activeLink.scrollIntoView({ behavior: 'smooth', block: 'center' })
       marker.value.style.top = activeLink.offsetTop + 39 + 'px'
       marker.value.style.opacity = '1'
     } else {
