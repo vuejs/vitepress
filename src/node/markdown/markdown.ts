@@ -224,7 +224,7 @@ export const createMarkdownRenderer = async (
     .use(lineNumberPlugin, options.lineNumbers)
 
   if (options.gfmAlerts !== false) {
-    md.use(gitHubAlertsPlugin)
+    md.use(gitHubAlertsPlugin, options.container)
   }
 
   // 3rd party plugins

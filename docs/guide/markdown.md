@@ -176,6 +176,51 @@ This is a dangerous warning.
 This is a details block.
 :::
 
+### Custom Container
+
+You may set custom containers globally by adding the following content in site config:
+
+```ts
+// config.ts
+export default defineConfig({
+  // ...
+  markdown: {
+    container: {
+      //...
+      customContainers: {
+        example: 'Example Label'
+      }
+    }
+  }
+  // ...
+})
+```
+
+And add your custom style:
+
+```css
+/* override.css */
+.custom-block.example {
+  border-color: var(--vp-c-brand-1);
+  color: var(--vp-c-brand-2);
+  background-color: var(--vp-c-brand-3);
+}
+
+.custom-block.example a,
+.custom-block.example code {
+  color: var(--vp-c-brand-1);
+}
+
+.custom-block.example a:hover,
+.custom-block.example a:hover > code {
+  color: var(--vp-c-brand-2);
+}
+
+.custom-block.example code {
+  background-color: var(--vp-c-brand-1);
+}
+```
+
 ### Custom Title
 
 You may set custom title by appending the text right after the "type" of the container.

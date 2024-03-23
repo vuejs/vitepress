@@ -1,22 +1,31 @@
 import type MarkdownIt from 'markdown-it'
 import type { ContainerOptions } from './containers'
 
-const markerRE =
-  /^\[\!(TIP|NOTE|INFO|IMPORTANT|WARNING|CAUTION|DANGER)\]([^\n\r]*)/i
-
 export const gitHubAlertsPlugin = (
   md: MarkdownIt,
   options?: ContainerOptions
 ) => {
-  const titleMark = {
-    tip: options?.tipLabel || 'TIP',
-    note: options?.noteLabel || 'NOTE',
-    info: options?.infoLabel || 'INFO',
-    important: options?.importantLabel || 'IMPORTANT',
-    warning: options?.warningLabel || 'WARNING',
-    caution: options?.cautionLabel || 'CAUTION',
-    danger: options?.dangerLabel || 'DANGER'
-  } as Record<string, string>
+  const defaultMarks = {
+    tip: options?.tipLabel ?? 'TIP',
+    note: options?.noteLabel ?? 'NOTE',
+    info: options?.infoLabel ?? 'INFO',
+    important: options?.importantLabel ?? 'IMPORTANT',
+    warning: options?.warningLabel ?? 'WARNING',
+    caution: options?.cautionLabel ?? 'CAUTION',
+    danger: options?.dangerLabel ?? 'DANGER'
+  }
+  const marks: Record<string, string> = {
+    ...defaultMarks,
+    ...(options?.customContainers ?? {})
+  }
+
+  // Create a dynamic regular expression pattern based on marks
+  const markerRE = new RegExp(
+    `^\\[!(${Object.entries(marks)
+      .map(([key]) => key.toUpperCase())
+      .join('|')})]([^\\n\\r]*)`,
+    'i'
+  )
 
   md.core.ruler.after('block', 'github-alerts', (state) => {
     const tokens = state.tokens
@@ -37,10 +46,10 @@ export const gitHubAlertsPlugin = (
           .slice(startIndex, endIndex + 1)
           .find((token) => token.type === 'inline')
         if (!firstContent) continue
-        const match = firstContent.content.match(markerRE)
+        const match = RegExp(markerRE).exec(firstContent.content)
         if (!match) continue
         const type = match[1].toLowerCase()
-        const title = match[2].trim() || titleMark[type] || capitalize(type)
+        const title = match[2].trim() || marks[type] || capitalize(type)
         firstContent.content = firstContent.content
           .slice(match[0].length)
           .trimStart()
