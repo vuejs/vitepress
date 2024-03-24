@@ -101,7 +101,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
       text: 'Настройка',
       collapsed: false,
       items: [
-        { text: 'Использование пользовательской темы', link: 'custom-theme' },
+        { text: 'Пользовательская тема', link: 'custom-theme' },
         {
           text: 'Расширение темы по умолчанию',
           link: 'extending-default-theme'
@@ -145,7 +145,7 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
             { text: 'Главная страница', link: 'home-page' },
             { text: 'Подвал', link: 'footer' },
             { text: 'Макет', link: 'layout' },
-            { text: 'Бейджик', link: 'badge' },
+            { text: 'Значки', link: 'badge' },
             { text: 'Страница команды', link: 'team-page' },
             { text: 'Ссылка предыдущая / следующая', link: 'prev-next-links' },
             { text: 'Ссылка для редактирования', link: 'edit-link' },
