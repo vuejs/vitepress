@@ -21,11 +21,17 @@ export interface ServeOptions {
   base?: string
   root?: string
   port?: number
+  configFile?: string
 }
 
 export async function serve(options: ServeOptions = {}) {
   const port = options.port ?? 4173
-  const config = await resolveConfig(options.root, 'serve', 'production')
+  const config = await resolveConfig(
+    options.root,
+    'serve',
+    'production',
+    options.configFile
+  )
   const base = trimChar(options?.base ?? config?.site?.base ?? '', '/')
 
   const notAnAsset = (pathname: string) =>

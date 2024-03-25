@@ -18,12 +18,22 @@ import { renderPage } from './render'
 
 export async function build(
   root?: string,
-  buildOptions: BuildOptions & { base?: string; mpa?: string } = {}
+  buildOptions: BuildOptions & {
+    base?: string
+    mpa?: string
+    configFile?: string
+  } = {}
 ) {
   const start = Date.now()
 
   process.env.NODE_ENV = 'production'
-  const siteConfig = await resolveConfig(root, 'build', 'production')
+  const siteConfig = await resolveConfig(
+    root,
+    'build',
+    'production',
+    buildOptions.configFile
+  )
+  delete buildOptions.configFile
   const unlinkVue = linkVue()
 
   if (buildOptions.base) {
