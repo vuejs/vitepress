@@ -50,6 +50,8 @@ const { hasSidebar } = useSidebar()
       <template #doc-footer-before><slot name="doc-footer-before" /></template>
       <template #doc-before><slot name="doc-before" /></template>
       <template #doc-after><slot name="doc-after" /></template>
+      <template #doc-content-before><slot name="doc-content-before" /></template>
+      <template #doc-content-after><slot name="doc-content-after" /></template>
 
       <template #aside-top><slot name="aside-top" /></template>
       <template #aside-outline-before><slot name="aside-outline-before" /></template>
