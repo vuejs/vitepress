@@ -1,5 +1,5 @@
 import { computed } from 'vue'
-import { ensureStartingSlash } from '../support/utils'
+import { ensureStartingSlash } from '../../shared'
 import { useData } from './data'
 import { hashRef } from './hash'
 
