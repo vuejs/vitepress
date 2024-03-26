@@ -25,4 +25,21 @@ export const imagePlugin = (md: MarkdownIt, { lazyLoading }: Options = {}) => {
     }
     return imageRule(tokens, idx, options, env, self)
   }
+  if (lazyLoading) {
+    // handle `<img>` tag in the markdown file
+    const regex = /<img\b((?!(?:loading=['"]?lazy['"]?))[^>]*)\/>/gi
+    const replacement = '<img $1 loading="lazy"/>'
+    const htmlInlineRule = md.renderer.rules.html_inline!
+    md.renderer.rules.html_inline = (tokens, idx, options, env, self) => {
+      const token = tokens[idx]!
+      token.content = token.content.replace(regex, replacement)
+      return htmlInlineRule(tokens, idx, options, env, self)
+    }
+    const htmlBlockRule = md.renderer.rules.html_block!
+    md.renderer.rules.html_block = (tokens, idx, options, env, self) => {
+      const token = tokens[idx]!
+      token.content = token.content.replace(regex, replacement)
+      return htmlBlockRule(tokens, idx, options, env, self)
+    }
+  }
 }
