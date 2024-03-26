@@ -22,7 +22,7 @@ function onBlur() {
 
 <template>
   <div
-    class="VPFlyout"
+    class="VPFlyout js-required"
     ref="el"
     @mouseenter="open = true"
     @mouseleave="open = false"

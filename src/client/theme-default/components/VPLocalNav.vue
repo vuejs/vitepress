@@ -48,7 +48,8 @@ const classes = computed(() => {
     VPLocalNav: true,
     'has-sidebar': hasSidebar.value,
     empty: empty.value,
-    fixed: emptyAndNoSidebar.value
+    fixed: emptyAndNoSidebar.value,
+    'js-required': true
   }
 })
 </script>

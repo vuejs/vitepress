@@ -46,6 +46,7 @@ watchPostEffect(() => {
           </VPNavBarTitle>
         </div>
 
+
         <div class="content">
           <div class="content-body">
             <slot name="nav-bar-content-before" />
@@ -56,7 +57,7 @@ watchPostEffect(() => {
             <VPNavBarSocialLinks class="social-links" />
             <VPNavBarExtra class="extra" />
             <slot name="nav-bar-content-after" />
-            <VPNavBarHamburger class="hamburger" :active="isScreenOpen" @click="$emit('toggle-screen')" />
+            <VPNavBarHamburger class="hamburger js-required" :active="isScreenOpen" @click="$emit('toggle-screen')" />
           </div>
         </div>
       </div>
