@@ -12,7 +12,7 @@ defineProps<{
     <div v-if="items" class="items">
       <template v-for="item in items" :key="item.text">
         <VPMenuLink v-if="'link' in item" :item="item" />
-        <VPMenuGroup v-else :text="item.text" :items="item.items" />
+        <VPMenuGroup v-else :collapsed="item.collapsed" :text="item.text" :items="item.items" />
       </template>
     </div>
 
