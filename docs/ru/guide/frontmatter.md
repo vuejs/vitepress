@@ -32,7 +32,7 @@ editLink: true
 Содержание руководства
 ```
 
-Вы также можете получить доступ к метаданным текущей страницы в `<script setup>` с помощью [хэлпера `useData()`](../reference/runtime-api#usedata).
+Вы также можете получить доступ к метаданным текущей страницы в `<script setup>` с помощью [хелпера `useData()`](../reference/runtime-api#usedata).
 
 ## Альтернативные форматы метаданных {#alternative-frontmatter-formats}
 

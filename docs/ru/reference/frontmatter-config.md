@@ -10,7 +10,7 @@ outline: deep
 
 ```md
 ---
-title: Docs with VitePress
+title: Документация с VitePress
 editLink: true
 ---
 ```

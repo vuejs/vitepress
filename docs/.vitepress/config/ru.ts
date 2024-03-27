@@ -18,7 +18,7 @@ export const ru = defineConfig({
 
     editLink: {
       pattern: 'https://github.com/vuejs/vitepress/edit/main/docs/:path',
-      text: 'Редактировать эту страницу на GitHub'
+      text: 'Редактировать страницу'
     },
 
     footer: {
@@ -147,9 +147,12 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
             { text: 'Макет', link: 'layout' },
             { text: 'Значки', link: 'badge' },
             { text: 'Страница команды', link: 'team-page' },
-            { text: 'Ссылка предыдущая / следующая', link: 'prev-next-links' },
+            {
+              text: 'Предыдущая и следующая страницы',
+              link: 'prev-next-links'
+            },
             { text: 'Ссылка для редактирования', link: 'edit-link' },
-            { text: 'Время последнего обновления', link: 'last-updated' },
+            { text: 'Последнее обновление', link: 'last-updated' },
             { text: 'Поиск', link: 'search' },
             { text: 'Carbon Ads (реклама)', link: 'carbon-ads' }
           ]
