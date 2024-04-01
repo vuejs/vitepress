@@ -6,7 +6,7 @@ outline: deep
 
 VitePress предварительно рендерит приложение в Node.js во время производственной сборки, используя возможности Vue по рендерингу на стороне сервера (SSR). Это означает, что весь пользовательский код в компонентах темы подлежит проверке на совместимость с SSR.
 
-Раздел [Рендеринг на стороне сервера](https://vuejs.dragomano.ru/guide/scaling-up/ssr.html) в документации Vue содержит более подробную информацию о том, что такое SSR, взаимосвязь между SSR и SSG, а также общие указания по написанию кода, дружественного к SSR. Правило заключается в том, чтобы обращаться к API браузера / DOM только в хуках `beforeMount` или `mounted` компонентов Vue.
+Раздел [Рендеринг на стороне сервера](https://ru.vuejs.org/guide/scaling-up/ssr.html) в документации Vue содержит более подробную информацию о том, что такое SSR, взаимосвязь между SSR и SSG, а также общие указания по написанию кода, дружественного к SSR. Правило заключается в том, чтобы обращаться к API браузера / DOM только в хуках `beforeMount` или `mounted` компонентов Vue.
 
 ## `<ClientOnly>` {#clientonly}
 
@@ -110,7 +110,7 @@ const clientCompRef = ref(null)
 const ClientComp = defineClientComponent(
   () => import('component-that-access-window-on-import'),
 
-  // args передаются в функцию h() - https://vuejs.dragomano.ru/api/render-function.html#h
+  // args передаются в функцию h() - https://ru.vuejs.org/api/render-function.html#h
   [
     {
       ref: clientCompRef
