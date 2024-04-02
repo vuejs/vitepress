@@ -1,3 +1,9 @@
+## [1.0.2](https://github.com/vuejs/vitepress/compare/v1.0.1...v1.0.2) (2024-04-01)
+
+### Bug Fixes
+
+- **theme:** text containing html not showing properly in mobile nav menu ([3c8b4c7](https://github.com/vuejs/vitepress/commit/3c8b4c706051592dd2cca0ae57e293254cbb51ce))
+
 ## [1.0.1](https://github.com/vuejs/vitepress/compare/v1.0.0...v1.0.1) (2024-03-22)
 
 ### Bug Fixes
