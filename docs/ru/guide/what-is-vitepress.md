@@ -1,4 +1,4 @@
-# Что за VitePress? {#what-is-vitepress}
+# Что такое VitePress? {#what-is-vitepress}
 
 VitePress — это [Генератор статических сайтов](https://en.wikipedia.org/wiki/Static_site_generator) (ГСС), предназначенный для быстрого создания сайтов, ориентированных на контент. В двух словах, VitePress берёт ваш исходный контент, написанный в [Markdown](https://ru.wikipedia.org/wiki/Markdown), применяет к нему тему и генерирует статические HTML-страницы, которые можно легко развернуть в любом месте.
 
