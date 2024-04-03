@@ -3,6 +3,33 @@ import matter from 'gray-matter'
 import path from 'path'
 import { slash } from '../shared'
 
+export function processIncludesRelativePath(
+  srcDir: string,
+  includePath: string,
+  src: string
+): string {
+  const relativeRE = /\((\.{1,2}.*)\)/g
+  return src.replace(relativeRE, (m, p1) => {
+    try {
+      const resolvedSrcDir = path.resolve(srcDir)
+      // use platform-specific file separator to get include file's dir
+      const includeFileDir = includePath.substring(
+        0,
+        includePath.lastIndexOf(path.sep) + 1
+      )
+      // get relative path to project root
+      const p1Path = path
+        .resolve(includeFileDir, p1)
+        .substring(resolvedSrcDir.length)
+      // replace win32's separator to /
+      const p1PathInVite = p1Path.replace(path.win32.sep, '/')
+      return '(' + p1PathInVite + ')'
+    } catch {
+      return m
+    }
+  })
+}
+
 export function processIncludes(
   srcDir: string,
   src: string,
@@ -34,6 +61,7 @@ export function processIncludes(
       } else {
         content = matter(content).content
       }
+      content = processIncludesRelativePath(srcDir, includePath, content)
       includes.push(slash(includePath))
       // recursively process includes in the content
       return processIncludes(srcDir, content, includePath, includes)
