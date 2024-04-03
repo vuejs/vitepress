@@ -199,7 +199,7 @@ The dev server should be running at `http://localhost:5173`. Visit the URL in yo
 
 - To better understand how markdown files are mapped to generated HTML, proceed to the [Routing Guide](./routing).
 
-- To discover more about what you can do on the page, such as writing markdown content or using Vue Component, refer to the "Writing" section of the guide. A great place to start would be to learn about [Markdown Extensions](./markdown).
+- To discover more about what you can do on the page, such as writing markdown content or using Vue Components, refer to the "Writing" section of the guide. A great place to start would be to learn about [Markdown Extensions](./markdown).
 
 - To explore the features provided by the default documentation theme, check out the [Default Theme Config Reference](../reference/default-theme-config).
 

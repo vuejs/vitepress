@@ -41,6 +41,10 @@ export function resolveAliases(
     {
       find: /^vitepress\/theme$/,
       replacement: join(DIST_CLIENT_PATH, '/theme-default/index.js')
+    },
+    {
+      find: /^vue-demi$/,
+      replacement: require.resolve('vitepress/vue-demi')
     }
   ]
 
