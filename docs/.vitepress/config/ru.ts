@@ -80,7 +80,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
       text: 'Введение',
       collapsed: false,
       items: [
-        { text: 'Что за VitePress?', link: 'what-is-vitepress' },
+        { text: 'Что такое VitePress?', link: 'what-is-vitepress' },
         { text: 'Первые шаги', link: 'getting-started' },
         { text: 'Маршрутизация', link: 'routing' },
         { text: 'Развёртывание', link: 'deploy' }
@@ -122,7 +122,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
         { text: 'Генерация карты сайта', link: 'sitemap-generation' }
       ]
     },
-    { text: 'Настройка и API', base: '/ru/reference/', link: 'site-config' }
+    { text: 'Конфигурация и API', base: '/ru/reference/', link: 'site-config' }
   ]
 }
 
@@ -131,8 +131,8 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
     {
       text: 'Справочник',
       items: [
-        { text: 'Настройка сайта', link: 'site-config' },
-        { text: 'Настройка метаданных', link: 'frontmatter-config' },
+        { text: 'Конфигурация сайта', link: 'site-config' },
+        { text: 'Конфигурация метаданных', link: 'frontmatter-config' },
         { text: 'Runtime API', link: 'runtime-api' },
         { text: 'Командная строка', link: 'cli' },
         {

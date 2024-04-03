@@ -10,7 +10,7 @@ hero:
   tagline: Из Markdown в красивую документацию за считанные минуты
   actions:
     - theme: brand
-      text: Что за VitePress?
+      text: Что такое VitePress?
       link: /ru/guide/what-is-vitepress
     - theme: alt
       text: Быстрый старт
