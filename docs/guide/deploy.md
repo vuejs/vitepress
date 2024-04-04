@@ -260,6 +260,10 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
    firebase deploy
    ```
 
+### Stormkit
+
+You can deploy your VitePress project to [Stormkit](https://www.stormkit.io), by following these [instructions](https://stormkit.io/blog/how-to-deploy-vitepress). 
+
 ### Surge
 
 1. After running `npm run docs:build`, run this command to deploy:
