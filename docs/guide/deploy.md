@@ -259,7 +259,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
    ```sh
    firebase deploy
    ```
-   
+
 ### Surge
 
 1. After running `npm run docs:build`, run this command to deploy:
@@ -290,5 +290,4 @@ You can deploy your Vitepress website on [Kinsta](https://kinsta.com/static-site
 
 ### Stormkit
 
-You can deploy your VitePress project to [Stormkit](https://www.stormkit.io), by following these [instructions](https://stormkit.io/blog/how-to-deploy-vitepress). 
-
+You can deploy your VitePress project to [Stormkit](https://www.stormkit.io) by following these [instructions](https://stormkit.io/blog/how-to-deploy-vitepress).
