@@ -191,5 +191,5 @@ npx vitepress init
 ````
 
 ::: info
-VitePress 并不总是为 `layout: home` 页面里额外的内容自动添加样式。要回到以前的行为，可以在 fortmatter 中添加 `markdownStyles: false`。
+VitePress 并不总是为 `layout: home` 页面里额外的内容自动添加样式。要回到以前的行为，可以在 frontmatter 中添加 `markdownStyles: false`。
 :::
