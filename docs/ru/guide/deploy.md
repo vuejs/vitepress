@@ -49,7 +49,7 @@ outline: deep
 
 ## Установка публичного базового пути {#setting-a-public-base-path}
 
-По умолчанию предполагается, что сайт будет развёрнут по корневому пути домена (`/`). Если ваш сайт будет обслуживаться по подпути, например, `https://mywebsite.com/blog/`, то в конфигурации VitePress необходимо установить опцию [`base`](../reference/site-config#base) на `'/blog/'`.
+По умолчанию предполагается, что сайт будет развёрнут по корневому пути домена (`/`). Если ваш сайт будет обслуживаться по подпути, например, `https://mywebsite.com/blog/`, то в конфигурации VitePress необходимо установить для опции [`base`](../reference/site-config#base) значение `'/blog/'`.
 
 **Пример:** Если вы используете Github (или GitLab) Pages и развёртываете на `user.github.io/repo/`, то установите `base` на `/repo/`.
 
@@ -189,7 +189,7 @@ Cache-Control: max-age=31536000,immutable
    ```
 
    ::: warning ПРЕДУПРЕЖДЕНИЕ
-   Убедитесь, что опция `base` в вашем VitePress настроена правильно. Дополнительные сведения см. в разделе [Установка публичного базового пути](#setting-a-public-base-path).
+   Убедитесь, что опция `base` в вашем VitePress настроена правильно. Дополнительные сведения см. в секции [Установка публичного базового пути](#setting-a-public-base-path).
    :::
 
 2. В настройках вашего репозитория в разделе «Pages» выберите пункт меню «GitHub Actions» в секции «Build and deployment > Source».
@@ -282,8 +282,12 @@ Cache-Control: max-age=31536000,immutable
 
 ### Edgio {#edgio}
 
-См. раздел [Создание и развёртывание приложения VitePress в Edgio](https://docs.edg.io/guides/vitepress).
+См. [Создание и развёртывание приложения VitePress в Edgio](https://docs.edg.io/applications/v6/sites_frameworks/getting_started/vitepress).
 
 ### Хостинг статических файлов Kinsta {#kinsta-static-site-hosting}
 
 Вы можете развернуть свой сайт Vitepress на [Kinsta](https://kinsta.com/static-site-hosting/), следуя этим [инструкциям](https://kinsta.com/docs/vitepress-static-site-example/).
+
+### Stormkit
+
+Вы можете развернуть свой проект VitePress на [Stormkit](https://www.stormkit.io), следуя следующим [инструкциям](https://stormkit.io/blog/how-to-deploy-vitepress).

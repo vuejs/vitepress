@@ -13,7 +13,7 @@ hero:
       text: Что такое VitePress?
       link: /ru/guide/what-is-vitepress
     - theme: alt
-      text: Быстрый старт
+      text: Первые шаги
       link: /ru/guide/getting-started
     - theme: alt
       text: GitHub

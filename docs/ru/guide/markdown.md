@@ -74,7 +74,7 @@ lang: ru-RU
 
 Эти данные будут доступны остальной части страницы, а также всем пользовательским и тематическим компонентам.
 
-Более подробную информацию можно найти в разделе [Метаданные](../reference/frontmatter-config).
+Более подробную информацию можно найти в главе [Метаданные](../reference/frontmatter-config).
 
 ## Таблицы в стиле GitHub {#github-style-tables}
 
@@ -345,7 +345,7 @@ export default {
 
 [Список всех поддерживаемых языков](https://shiki.style/languages).
 
-Вы также можете настроить тему подсветки синтаксиса в конфигурации приложения. Более подробную информацию см. в разделе [Секция `markdown`](../reference/site-config#markdown).
+Вы также можете настроить тему подсветки синтаксиса в конфигурации приложения. Более подробную информацию см. в секции [`markdown`](../reference/site-config#markdown).
 
 ## Выделение строк в блоках кода {#line-highlighting-in-code-blocks}
 
@@ -552,7 +552,7 @@ export default {
 }
 ```
 
-Более подробную информацию см. в разделе [Секция `markdown`](../reference/site-config#markdown).
+Более подробную информацию см. в секции [`markdown`](../reference/site-config#markdown).
 
 Вы можете добавить метки `:line-numbers` / `:no-line-numbers` в ваши ограждённые блоки кода, чтобы переопределить значение, установленное в конфиге.
 
@@ -930,4 +930,4 @@ export default defineConfig({
 })
 ```
 
-Полный список настраиваемых свойств см. в разделе [Опция `markdown`](../reference/site-config#markdown).
+Полный список настраиваемых свойств см. в секции [`markdown`](../reference/site-config#markdown).

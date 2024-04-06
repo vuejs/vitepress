@@ -114,7 +114,7 @@ interface Router {
 
 - **Тип**: `(path: string) => string`
 
-Добавляет настроенный [`base`](./site-config#base) к заданному URL-пути. Также смотрите раздел [Базовый URL](../guide/asset-handling#base-url).
+Добавляет настроенный [`base`](./site-config#base) к заданному URL-пути. Также смотрите секцию [Базовый URL](../guide/asset-handling#base-url).
 
 ## `<Content />` <Badge type="info" text="компонент" /> {#content}
 

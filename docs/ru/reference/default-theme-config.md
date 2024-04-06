@@ -64,7 +64,7 @@ export default {
 
 - Тип: `NavItem`
 
-Конфигурация для пункта навигационного меню. Подробнее в разделе [Тема по умолчанию: Навигация](./default-theme-nav#navigation-links).
+Конфигурация для пункта навигационного меню. Подробнее в главе [Тема по умолчанию: Навигация](./default-theme-nav#navigation-links).
 
 ```ts
 export default {
@@ -112,7 +112,7 @@ interface NavItemWithChildren {
 
 - Тип: `Sidebar`
 
-Конфигурация для пунктов меню боковой панели. Подробнее в разделе [Тема по умолчанию: Сайдбар](./default-theme-sidebar).
+Конфигурация для пунктов меню боковой панели. Подробнее в главе [Тема по умолчанию: Сайдбар](./default-theme-sidebar).
 
 ```ts
 export default {
@@ -283,7 +283,7 @@ export interface Footer {
 - Тип: `EditLink`
 - Можно переопределить для каждой страницы с помощью [метаданных](./frontmatter-config#editlink)
 
-Ссылка для редактирования позволяет отобразить ссылку для редактирования страницы на сервисах управления Git, таких как GitHub или GitLab. См. раздел [Тема по умолчанию: Ссылка для редактирования](./default-theme-edit-link) для получения более подробной информации.
+Ссылка для редактирования позволяет отобразить ссылку для редактирования страницы на сервисах управления Git, таких как GitHub или GitLab. См. секцию [Тема по умолчанию: Ссылка для редактирования](./default-theme-edit-link) для получения более подробной информации.
 
 ```ts
 export default {
@@ -342,7 +342,7 @@ export interface LastUpdatedOptions {
 
 - Тип: `AlgoliaSearch`
 
-Опция для поддержки поиска на вашем сайте документации с помощью [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Подробнее в разделе [Тема по умолчанию: Поиск](./default-theme-search)
+Опция для поддержки поиска на вашем сайте документации с помощью [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Подробнее в главе [Тема по умолчанию: Поиск](./default-theme-search)
 
 ```ts
 export interface AlgoliaSearchOptions extends DocSearchProps {
@@ -376,7 +376,7 @@ export interface CarbonAdsOptions {
 }
 ```
 
-Подробнее в разделе [Тема по умолчанию: Carbon Ads](./default-theme-carbon-ads)
+Подробнее в главе [Тема по умолчанию: Carbon Ads](./default-theme-carbon-ads)
 
 ## docFooter {#docfooter}
 

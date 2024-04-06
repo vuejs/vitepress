@@ -95,7 +95,7 @@ src/getting-started.md  -->  /getting-started.html
 [Первые шаги](./getting-started.html)
 ```
 
-Узнайте больше о ссылках на такие ресурсы, как изображения, в разделе [Обработка ресурсов](./asset-handling).
+Узнайте больше о ссылках на такие ресурсы, как изображения, в главе [Обработка ресурсов](./asset-handling).
 
 ### Ссылки на страницы, не принадлежащие VitePress {#linking-to-non-vitepress-pages}
 
