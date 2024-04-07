@@ -72,7 +72,7 @@ $ pnpm vitepress init
 ```
 
 ```sh [bun]
-$ bunx vitepress init
+$ bun x vitepress init
 ```
 
 :::
