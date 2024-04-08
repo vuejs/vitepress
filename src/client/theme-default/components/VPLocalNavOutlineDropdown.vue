@@ -59,7 +59,7 @@ function scrollToTop() {
     ref="main"
   >
     <button @click="toggle" :class="{ open }" v-if="headers.length > 0">
-      {{ resolveTitle(theme) }}
+      <span class="menu-text">{{ resolveTitle(theme) }}</span>
       <span class="vpi-chevron-right icon" />
     </button>
     <button @click="scrollToTop" v-else>
