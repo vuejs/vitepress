@@ -137,7 +137,7 @@ import CustomComponent from '../components/CustomComponent.vue'
 
 HTML, обёрнутый `<code>`, будет отображаться как есть; только тот HTML, который **не** обёрнут, будет разобран Vue.
 
-::: tip Примечание
+::: tip ПРИМЕЧАНИЕ
 Вывод HTML осуществляется с помощью [Markdown-it](https://github.com/Markdown-it/Markdown-it), а парсинг заголовков обрабатывается VitePress (и используется как для боковой панели, так и для заголовка документа).
 :::
 
