@@ -66,16 +66,10 @@ export function createRouter(
   async function go(href: string = inBrowser ? location.href : '/') {
     href = normalizeHref(href)
     if ((await router.onBeforeRouteChange?.(href)) === false) return
-    if (inBrowser) {
-      const currentUrl = new URL(location.href)
-      if (href !== normalizeHref(currentUrl.href)) {
-        // save scroll position before changing url
-        history.replaceState({ scrollPosition: window.scrollY }, document.title)
-        history.pushState(null, '', href)
-        if (new URL(href, fakeHost).hash !== currentUrl.hash) {
-          window.dispatchEvent(new Event('hashchange'))
-        }
-      }
+    if (inBrowser && href !== normalizeHref(location.href)) {
+      // save scroll position before changing url
+      history.replaceState({ scrollPosition: window.scrollY }, document.title)
+      history.pushState(null, '', href)
     }
     await loadPage(href)
     await router.onAfterRouteChanged?.(href)
@@ -211,7 +205,12 @@ export function createRouter(
               if (hash !== currentUrl.hash) {
                 history.pushState(null, '', href)
                 // still emit the event so we can listen to it in themes
-                window.dispatchEvent(new Event('hashchange'))
+                window.dispatchEvent(
+                  new HashChangeEvent('hashchange', {
+                    oldURL: currentUrl.href,
+                    newURL: href
+                  })
+                )
               }
               if (hash) {
                 // use smooth scroll when clicking on header anchor links

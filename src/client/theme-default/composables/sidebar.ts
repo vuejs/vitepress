@@ -18,7 +18,6 @@ import {
   getSidebarGroups
 } from '../support/sidebar'
 import { useData } from './data'
-import { hashRef } from './hash'
 
 export interface SidebarControl {
   collapsed: Ref<boolean>
@@ -138,7 +137,7 @@ export function useCloseSidebarOnEscape(
 export function useSidebarControl(
   item: ComputedRef<DefaultTheme.SidebarItem>
 ): SidebarControl {
-  const { page } = useData()
+  const { page, hash } = useData()
 
   const collapsed = ref(false)
 
@@ -155,7 +154,7 @@ export function useSidebarControl(
     isActiveLink.value = isActive(page.value.relativePath, item.value.link)
   }
 
-  watch([page, item, hashRef], updateIsActiveLink)
+  watch([page, item, hash], updateIsActiveLink)
   onMounted(updateIsActiveLink)
 
   const hasActiveLink = computed(() => {
