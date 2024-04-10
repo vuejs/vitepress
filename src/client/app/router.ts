@@ -68,8 +68,8 @@ export function createRouter(
     if ((await router.onBeforeRouteChange?.(href)) === false) return
     if (inBrowser && href !== normalizeHref(location.href)) {
       // save scroll position before changing url
-      history.replaceState({ scrollPosition: window.scrollY }, document.title)
-      history.pushState(null, '', href)
+      history.replaceState({ scrollPosition: window.scrollY }, '')
+      history.pushState({}, '', href)
     }
     await loadPage(href)
     await router.onAfterRouteChanged?.(href)
@@ -111,7 +111,7 @@ export function createRouter(
             if (actualPathname !== targetLoc.pathname) {
               targetLoc.pathname = actualPathname
               href = actualPathname + targetLoc.search + targetLoc.hash
-              history.replaceState(null, '', href)
+              history.replaceState({}, '', href)
             }
 
             if (targetLoc.hash && !scrollPosition) {
@@ -162,6 +162,9 @@ export function createRouter(
   }
 
   if (inBrowser) {
+    if (history.state === null) {
+      history.replaceState({}, '')
+    }
     window.addEventListener(
       'click',
       (e) => {
@@ -203,7 +206,7 @@ export function createRouter(
               // scroll between hash anchors in the same page
               // avoid duplicate history entries when the hash is same
               if (hash !== currentUrl.hash) {
-                history.pushState(null, '', href)
+                history.pushState({}, '', href)
                 // still emit the event so we can listen to it in themes
                 window.dispatchEvent(
                   new HashChangeEvent('hashchange', {
@@ -228,6 +231,9 @@ export function createRouter(
     )
 
     window.addEventListener('popstate', async (e) => {
+      if (e.state === null) {
+        return
+      }
       await loadPage(
         normalizeHref(location.href),
         (e.state && e.state.scrollPosition) || 0
