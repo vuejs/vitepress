@@ -2,10 +2,22 @@
   "name": "vitepress",
   "version": "1.1.0",
   "description": "Vite & Vue powered static site generator",
+  "keywords": [
+    "vite",
+    "vue",
+    "vitepress"
+  ],
+  "homepage": "https://github.com/vuejs/vitepress/tree/main/#readme",
+  "bugs": {
+    "url": "https://github.com/vuejs/vitepress/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vuejs/vitepress.git"
+  },
+  "license": "MIT",
+  "author": "Evan You",
   "type": "module",
-  "packageManager": "pnpm@8.15.6",
-  "main": "dist/node/index.js",
-  "types": "types/index.d.ts",
   "exports": {
     ".": {
       "types": "./types/index.d.ts",
@@ -29,6 +41,8 @@
       "default": "./lib/vue-demi.mjs"
     }
   },
+  "main": "dist/node/index.js",
+  "types": "types/index.d.ts",
   "bin": {
     "vitepress": "bin/vitepress.js"
   },
@@ -42,21 +56,6 @@
     "theme-without-fonts.d.ts",
     "lib"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/vuejs/vitepress.git"
-  },
-  "keywords": [
-    "vite",
-    "vue",
-    "vitepress"
-  ],
-  "author": "Evan You",
-  "license": "MIT",
-  "homepage": "https://github.com/vuejs/vitepress/tree/main/#readme",
-  "bugs": {
-    "url": "https://github.com/vuejs/vitepress/issues"
-  },
   "scripts": {
     "dev": "rimraf dist && run-s dev:shared dev:start",
     "dev:start": "run-p dev:client dev:node dev:watch",
@@ -95,6 +94,13 @@
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "release": "node scripts/release.js"
   },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged"
+  },
+  "lint-staged": {
+    "*": "prettier --write --ignore-unknown",
+    "package.json": "sort-package-json"
+  },
   "dependencies": {
     "@docsearch/css": "^3.6.0",
     "@docsearch/js": "^3.6.0",
@@ -111,18 +117,6 @@
     "shiki": "^1.2.4",
     "vite": "^5.2.8",
     "vue": "^3.4.21"
-  },
-  "peerDependencies": {
-    "markdown-it-mathjax3": "^4",
-    "postcss": "^8"
-  },
-  "peerDependenciesMeta": {
-    "markdown-it-mathjax3": {
-      "optional": true
-    },
-    "postcss": {
-      "optional": true
-    }
   },
   "devDependencies": {
     "@clack/prompts": "^0.7.0",
@@ -197,30 +191,36 @@
     "simple-git-hooks": "^2.11.1",
     "sirv": "^2.0.4",
     "sitemap": "^7.1.1",
+    "sort-package-json": "^2.10.0",
     "supports-color": "^9.4.0",
     "typescript": "^5.4.4",
     "vitest": "^1.4.0",
     "vue-tsc": "^2.0.11",
     "wait-on": "^7.2.0"
   },
-  "simple-git-hooks": {
-    "pre-commit": "pnpm lint-staged"
+  "peerDependencies": {
+    "markdown-it-mathjax3": "^4",
+    "postcss": "^8"
   },
-  "lint-staged": {
-    "*": [
-      "prettier --write --ignore-unknown"
-    ]
-  },
-  "pnpm": {
-    "overrides": {
-      "ora>string-width": "^5"
+  "peerDependenciesMeta": {
+    "markdown-it-mathjax3": {
+      "optional": true
     },
+    "postcss": {
+      "optional": true
+    }
+  },
+  "packageManager": "pnpm@8.15.6",
+  "pnpm": {
     "peerDependencyRules": {
       "ignoreMissing": [
         "@algolia/client-search",
         "search-insights",
         "postcss"
       ]
+    },
+    "overrides": {
+      "ora>string-width": "^5"
     }
   }
 }
