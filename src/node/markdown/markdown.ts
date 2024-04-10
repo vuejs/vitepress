@@ -15,9 +15,11 @@ import { titlePlugin } from '@mdit-vue/plugin-title'
 import { tocPlugin, type TocPluginOptions } from '@mdit-vue/plugin-toc'
 import { slugify } from '@mdit-vue/shared'
 import MarkdownIt from 'markdown-it'
+import type { Options } from 'markdown-it'
+import type StateCore from 'markdown-it/lib/rules_core/state_core.mjs'
 import anchorPlugin from 'markdown-it-anchor'
 import attrsPlugin from 'markdown-it-attrs'
-// @ts-ignore
+// @ts-expect-error: types of markdown-it-emoji are not up-to-date
 import { full as emojiPlugin } from 'markdown-it-emoji'
 import type {
   BuiltinTheme,
@@ -47,7 +49,7 @@ export type ThemeOptions =
       dark: ThemeRegistrationAny | BuiltinTheme
     }
 
-export interface MarkdownOptions extends MarkdownIt.Options {
+export interface MarkdownOptions extends Options {
   /* ==================== General Options ==================== */
 
   /**
@@ -238,7 +240,7 @@ export const createMarkdownRenderer = async (
     slugify,
     permalink: anchorPlugin.permalink.linkInsideHeader({
       symbol: '&ZeroWidthSpace;',
-      renderAttrs: (slug, state) => {
+      renderAttrs: (slug, state: StateCore) => {
         // Find `heading_open` with the id identical to slug
         const idx = state.tokens.findIndex((token) => {
           const attrs = token.attrs

@@ -100,7 +100,7 @@
     "@docsearch/js": "^3.6.0",
     "@shikijs/core": "^1.2.4",
     "@shikijs/transformers": "^1.2.4",
-    "@types/markdown-it": "^13.0.7",
+    "@types/markdown-it": "^14.0.0",
     "@vitejs/plugin-vue": "^5.0.4",
     "@vue/devtools-api": "^7.0.25",
     "@vueuse/core": "^10.9.0",
@@ -126,13 +126,13 @@
   },
   "devDependencies": {
     "@clack/prompts": "^0.7.0",
-    "@mdit-vue/plugin-component": "2.0.0",
-    "@mdit-vue/plugin-frontmatter": "2.0.0",
-    "@mdit-vue/plugin-headers": "2.0.0",
-    "@mdit-vue/plugin-sfc": "2.0.0",
-    "@mdit-vue/plugin-title": "2.0.0",
-    "@mdit-vue/plugin-toc": "2.0.0",
-    "@mdit-vue/shared": "2.0.0",
+    "@mdit-vue/plugin-component": "2.1.0",
+    "@mdit-vue/plugin-frontmatter": "2.1.0",
+    "@mdit-vue/plugin-headers": "2.1.0",
+    "@mdit-vue/plugin-sfc": "2.1.0",
+    "@mdit-vue/plugin-title": "2.1.0",
+    "@mdit-vue/plugin-toc": "2.1.0",
+    "@mdit-vue/shared": "2.1.0",
     "@polka/compression": "1.0.0-next.25",
     "@rollup/plugin-alias": "^5.1.0",
     "@rollup/plugin-commonjs": "^25.0.7",
@@ -221,6 +221,9 @@
         "search-insights",
         "postcss"
       ]
+    },
+    "patchedDependencies": {
+      "@types/markdown-it@14.0.0": "patches/@types__markdown-it@14.0.0.patch"
     }
   }
 }
