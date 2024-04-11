@@ -3,11 +3,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vitepress dev",
     "build": "vitepress build",
-    "preview": "vitepress preview",
+    "dev": "vitepress dev",
     "lunaria:build": "lunaria build",
-    "lunaria:open": "open-cli .vitepress/dist/_translations/index.html"
+    "lunaria:open": "open-cli .vitepress/dist/_translations/index.html",
+    "preview": "vitepress preview"
   },
   "devDependencies": {
     "@lunariajs/core": "^0.0.32",
