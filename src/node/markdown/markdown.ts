@@ -16,7 +16,6 @@ import { tocPlugin, type TocPluginOptions } from '@mdit-vue/plugin-toc'
 import { slugify } from '@mdit-vue/shared'
 import MarkdownIt from 'markdown-it'
 import type { Options } from 'markdown-it'
-import type StateCore from 'markdown-it/lib/rules_core/state_core.mjs'
 import anchorPlugin from 'markdown-it-anchor'
 import attrsPlugin from 'markdown-it-attrs'
 // @ts-expect-error: types of markdown-it-emoji are not up-to-date
@@ -240,7 +239,7 @@ export const createMarkdownRenderer = async (
     slugify,
     permalink: anchorPlugin.permalink.linkInsideHeader({
       symbol: '&ZeroWidthSpace;',
-      renderAttrs: (slug, state: StateCore) => {
+      renderAttrs: (slug, state) => {
         // Find `heading_open` with the id identical to slug
         const idx = state.tokens.findIndex((token) => {
           const attrs = token.attrs
