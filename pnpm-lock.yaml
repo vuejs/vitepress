@@ -66,25 +66,25 @@ importers:
         specifier: ^0.7.0
         version: 0.7.0
       '@mdit-vue/plugin-component':
-        specifier: 2.1.0
+        specifier: ^2.1.0
         version: 2.1.0
       '@mdit-vue/plugin-frontmatter':
-        specifier: 2.1.0
+        specifier: ^2.1.0
         version: 2.1.0
       '@mdit-vue/plugin-headers':
-        specifier: 2.1.0
+        specifier: ^2.1.0
         version: 2.1.0
       '@mdit-vue/plugin-sfc':
-        specifier: 2.1.0
+        specifier: ^2.1.0
         version: 2.1.0
       '@mdit-vue/plugin-title':
-        specifier: 2.1.0
+        specifier: ^2.1.0
         version: 2.1.0
       '@mdit-vue/plugin-toc':
-        specifier: 2.1.0
+        specifier: ^2.1.0
         version: 2.1.0
       '@mdit-vue/shared':
-        specifier: 2.1.0
+        specifier: ^2.1.0
         version: 2.1.0
       '@polka/compression':
         specifier: 1.0.0-next.25
