@@ -11,6 +11,9 @@ patchedDependencies:
   '@types/markdown-it@14.0.0':
     hash: 324uktmxmvfeckydcv3tuzbvze
     path: patches/@types__markdown-it@14.0.0.patch
+  markdown-it-anchor@8.6.7:
+    hash: 7jac6clbacexfaqdjyv4p6a5n4
+    path: patches/markdown-it-anchor@8.6.7.patch
 
 importers:
 
@@ -196,7 +199,7 @@ importers:
         version: 14.1.0
       markdown-it-anchor:
         specifier: ^8.6.7
-        version: 8.6.7(@types/markdown-it@14.0.0)(markdown-it@14.1.0)
+        version: 8.6.7(patch_hash=7jac6clbacexfaqdjyv4p6a5n4)(@types/markdown-it@14.0.0)(markdown-it@14.1.0)
       markdown-it-attrs:
         specifier: ^4.1.6
         version: 4.1.6(markdown-it@14.1.0)
@@ -3359,7 +3362,7 @@ packages:
     resolution: {integrity: sha512-1I+1qpDt4idfgLQG+BNWmrqku+7/2bi5nLf4YwF8y8zXvmfiTBY3PV3ZibfrjBueCByROpuBjLLFCajqkgYoLQ==}
     dev: false
 
-  /markdown-it-anchor@8.6.7(@types/markdown-it@14.0.0)(markdown-it@14.1.0):
+  /markdown-it-anchor@8.6.7(patch_hash=7jac6clbacexfaqdjyv4p6a5n4)(@types/markdown-it@14.0.0)(markdown-it@14.1.0):
     resolution: {integrity: sha512-FlCHFwNnutLgVTflOYHPW2pPcl2AACqVzExlkGQNsi4CJgqOHN7YTgDd4LuhgN1BFO3TS0vLAruV1Td6dwWPJA==}
     peerDependencies:
       '@types/markdown-it': '*'
@@ -3368,6 +3371,7 @@ packages:
       '@types/markdown-it': 14.0.0(patch_hash=324uktmxmvfeckydcv3tuzbvze)
       markdown-it: 14.1.0
     dev: true
+    patched: true
 
   /markdown-it-attrs@4.1.6(markdown-it@14.1.0):
     resolution: {integrity: sha512-O7PDKZlN8RFMyDX13JnctQompwrrILuz2y43pW2GagcwpIIElkAdfeek+erHfxUOlXWPsjFeWmZ8ch1xtRLWpA==}
