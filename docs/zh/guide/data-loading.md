@@ -21,7 +21,7 @@ export default {
 
 数据加载模块只在 Node.js 中执行，因此可以按需导入 Node API 和 npm 依赖。
 
-然后，可以在 `.md` 页面和 `.vue` 组件中使用 `data` 命名导出从该文件中导入数据：
+然后，可以在 `.md` 页面和 `.vue` 组件中使用 `data` 具名导出从该文件中导入数据：
 
 ```vue
 <script setup>
@@ -39,7 +39,7 @@ import { data } from './example.data.js'
 }
 ```
 
-你会注意到数据加载本身并没有导出 `data`。这是因为 VitePress 在后台调用了 `load()` 方法，并通过名为 `data` 的命名导出隐式地暴露了结果。
+你会注意到 data loader 本身并没有导出 `data`。这是因为 VitePress 在后台调用了 `load()` 方法，并通过名为 `data` 的具名导出隐式地暴露了结果。
 
 即使它是异步的，这也是有效的：
 
@@ -54,11 +54,11 @@ export default {
 
 ## 使用本地文件生成数据 {#data-from-local-files}
 
-当需要基于本地文件生成数据时，应该在数据加载中使用 `watch` 选项，以便这些文件改动时可以触发热更新。
+当需要基于本地文件生成数据时，需要在 data loader 中使用 `watch` 选项，以便这些文件改动时可以触发热更新。
 
 `watch` 选项也很方便，因为可以使用 [glob 模式](https://github.com/mrmlnc/fast-glob#pattern-syntax) 匹配多个文件。模式可以相对于数据加载文件本身，`load()` 函数将接收匹配文件的绝对路径。
 
-下面的例子展示了如何使用 [csv-parse](https://github.com/adaltas/node-csv/tree/master/packages/csv-parse/) 加载 CSV 文件并将其转换为 JSON。因为此文件仅在构建时执行，因此不会将 CSV 解析器发送到客户端！
+下面的例子展示了如何使用 [csv-parse](https://github.com/adaltas/node-csv/tree/master/packages/csv-parse/) 加载 CSV 文件并将其转换为 JSON。因为此文件仅在构建时执行，因此不会将 CSV 解析器发送到客户端。
 
 ```js
 import fs from 'node:fs'
@@ -68,7 +68,8 @@ export default {
   watch: ['./data/*.csv'],
   load(watchedFiles) {
     // watchFiles 是一个所匹配文件的绝对路径的数组。
-    // 生成一个博客文章元数据数组，可用于在主题布局中呈现列表。
+    // 生成一个博客文章元数据数组
+    // 可用于在主题布局中呈现列表。
     return watchedFiles.map((file) => {
       return parse(fs.readFileSync(file, 'utf-8'), {
         columns: true,
@@ -81,7 +82,7 @@ export default {
 
 ## `createContentLoader`
 
-当构建一个内容为主的站点时，我们经常需要创建一个“档案”或“索引”页面：一个我们可以列出内容中的所有可用条目的页面，例如博客文章或 API 页面。我们**可以**直接使用数据加载 API 实现这一点，但由于这是一个常见的用例，VitePress 还提供了一个 `createContentLoader` 辅助函数来简化这个过程：
+当构建一个内容为主的站点时，我们经常需要创建一个“归档”或“索引”页面：一个我们可以列出内容中的所有可用条目的页面，例如博客文章或 API 页面。我们**可以**直接使用数据加载 API 实现这一点，但由于这会经常使用，VitePress 还提供了一个 `createContentLoader` 辅助函数来简化这个过程：
 
 ```js
 // posts.data.js
@@ -90,7 +91,7 @@ import { createContentLoader } from 'vitepress'
 export default createContentLoader('posts/*.md', /* options */)
 ```
 
-该辅助函数接受一个相对于[项目根目录](./routing#project-root)的 glob 模式，并返回一个 `{ watch, load }` 数据加载对象，该对象可以用作数据加载文件中的默认导出。它还基于文件修改时间戳实现了缓存以提高开发性能。
+该辅助函数接受一个相对于[源目录](./routing#source-directory)的 glob 模式，并返回一个 `{ watch, load }` 数据加载对象，该对象可以用作数据加载文件中的默认导出。它还基于文件修改时间戳实现了缓存以提高开发性能。
 
 请注意，数据加载仅适用于 Markdown 文件——匹配的非 Markdown 文件将被跳过。
 
@@ -112,7 +113,7 @@ interface ContentData {
 }
 ```
 
-默认情况下只提供 `url` 和 `frontmatter`。这是因为加载的数据将作为 JSON 内联在客户端包中，我们需要谨慎考虑其大小。下面的例子展示了如何使用数据构建最小的博客索引页面：
+默认情况下只提供 `url` 和 `frontmatter`。这是因为加载的数据将作为 JSON 内联在客户端 bundle 中，我们需要谨慎考虑其大小。下面的例子展示了如何使用数据构建最小的博客索引页面：
 
 ```vue
 <script setup>
@@ -212,7 +213,7 @@ interface ContentOptions<T = ContentData[]> {
 }
 ```
 
-## 为数据加载器导出类型 {#typed-data-loaders}
+## 为 data loader 导出类型 {#typed-data-loaders}
 
 当使用 TypeScript 时，可以像这样为 loader 和 `data` 导出类型：
 
@@ -237,7 +238,7 @@ export default defineLoader({
 
 ## 配置 {#configuration}
 
-要获取数据加载中的配置信息，可以使用如下代码：
+要获取 data loader 中的配置信息，可以使用如下代码：
 
 ```ts
 import type { SiteConfig } from 'vitepress'

@@ -176,6 +176,7 @@ export namespace DefaultTheme {
     activeMatch?: string
     rel?: string
     target?: string
+    noIcon?: boolean
   }
 
   export interface NavItemChildren {
@@ -334,6 +335,7 @@ export namespace DefaultTheme {
     | 'instagram'
     | 'linkedin'
     | 'mastodon'
+    | 'npm'
     | 'slack'
     | 'twitter'
     | 'x'

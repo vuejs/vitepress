@@ -1,6 +1,6 @@
 # 默认主题配置 {#default-theme-config}
 
-主题配置可让自定义主题。可以通过将 `themeConfig` 添加到配置文件来定义主题配置：
+主题配置可以让你能够自定义主题。可以通过将 `themeConfig` 添加到配置文件来进行主题配置：
 
 ```ts
 export default {
@@ -29,7 +29,7 @@ export default {
 
 - 类型：`ThemeableImage`
 
-导航栏上显示的 Logo，位于站点标题右侧。可以接受一个路径字符串，或者一个对象来设置在浅色/深色模式下不同的 Logo。
+导航栏上显示的 Logo，位于站点标题前。可以接受一个路径字符串，或者一个对象来设置在浅色/深色模式下不同的 Logo。
 
 ```ts
 export default {
@@ -50,7 +50,7 @@ type ThemeableImage =
 
 - 类型：`string | false`
 
-可以自定义此项以替换导航中的默认站点标题（应用配置中的 `title`）。当设置为 `false` 时，导航中的标题将被禁用。这在当 `logo` 已经包含站点标题文本时很有用。
+可以自定义此项以替换导航中的默认站点标题 (应用配置中的 `title`)。当设置为 `false` 时，导航中的标题将被禁用。这在当 `logo` 已经包含站点标题文本时很有用。
 
 ```ts
 export default {
@@ -93,6 +93,7 @@ interface NavItemWithLink {
   activeMatch?: string
   target?: string
   rel?: string
+  noIcon?: boolean
 }
 
 interface NavItemChildren {
@@ -111,7 +112,7 @@ interface NavItemWithChildren {
 
 - 类型：`Sidebar`
 
-侧边栏菜单项的配置。可以在[默认主题: 侧边栏](./default-theme-sidebar) 了解更多详情。
+侧边栏菜单项的配置。可以在[默认主题: 侧边栏](./default-theme-sidebar)了解更多详情。
 
 ```ts
 export default {
@@ -170,7 +171,7 @@ export type SidebarItem = {
 - 默认值：`true`
 - 每个页面可以通过 [frontmatter](./frontmatter-config#aside) 覆盖
 
-将此值设置为 `false` 可禁用 aside(大纲) 容器。\
+将此值设置为 `false` 可禁用 aside 容器。\
 将此值设置为 `true` 将在页面右侧渲染。\
 将此值设置为 `left` 将在页面左侧渲染。
 
@@ -222,7 +223,7 @@ export default {
           svg: '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Dribbble</title><path d="M12...6.38z"/></svg>'
         },
         link: '...',
-        // 也可以为可访问性添加一个自定义标签（可选但推荐）:
+        // 也可以为无障碍添加一个自定义标签 (可选但推荐):
         ariaLabel: 'cool link'
       }
     ]
@@ -244,8 +245,10 @@ type SocialLinkIcon =
   | 'instagram'
   | 'linkedin'
   | 'mastodon'
+  | 'npm'
   | 'slack'
   | 'twitter'
+  | 'x'
   | 'youtube'
   | { svg: string }
 ```
@@ -280,7 +283,7 @@ export interface Footer {
 - 类型：`EditLink`
 - 每个页面可以通过 [frontmatter](./frontmatter-config#editlink) 覆盖
 
-编辑链接可让显示链接以编辑 Git 管理服务（例如 GitHub 或 GitLab）上的页面。有关详细信息，请参阅 [默认主题：编辑链接](./default-theme-edit-link)。
+编辑链接可让显示链接以编辑 Git 管理服务 (例如 GitHub 或 GitLab) 上的页面。有关详细信息，请参阅[默认主题：编辑链接](./default-theme-edit-link)。
 
 ```ts
 export default {
@@ -339,7 +342,7 @@ export interface LastUpdatedOptions {
 
 - 类型：`AlgoliaSearch`
 
-支持使用 [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch) 搜索站点文档。在 [默认主题：搜索](./default-theme-search) 中了解更多信息。
+支持使用 [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch) 搜索站点文档。在[默认主题：搜索](./default-theme-search) 中了解更多信息。
 
 ```ts
 export interface AlgoliaSearchOptions extends DocSearchProps {
@@ -404,21 +407,21 @@ export interface DocFooter {
 - 类型：`string`
 - 默认值：`Appearance`
 
-用于自定义暗模式开关标签，该标签仅在移动端视图中显示。
+用于自定义深色模式开关标签，该标签仅在移动端视图中显示。
 
 ## lightModeSwitchTitle
 
 - 类型：`string`
 - 默认值：`Switch to light theme`
 
-用于自定义悬停时显示的亮模式开关标题。
+用于自定义悬停时显示的浅色模式开关标题。
 
 ## darkModeSwitchTitle
 
 - 类型：`string`
 - 默认值：`Switch to dark theme`
 
-用于自定义悬停时显示的暗模式开关标题。
+用于自定义悬停时显示的深色模式开关标题。
 
 ## sidebarMenuLabel
 

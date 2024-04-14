@@ -26,7 +26,7 @@ guide/index.md            -->  /guide/index.html (可以通过 /guide/ 访问)
 guide/getting-started.md  -->  /guide/getting-started.html
 ```
 
-生成的 HTML 可以托管在任何可以提供静态文件的 Web 服务器上。
+生成的 HTML 可以托管在任何支持静态文件的 Web 服务器上。
 
 ## 根目录和源目录 {#root-and-source-directory}
 
@@ -81,7 +81,7 @@ src/getting-started.md  -->  /getting-started.html
 
 ## 链接页面 {#linking-between-pages}
 
-在页面之间链接时，可以使用绝对路径和相对路径。请注意，虽然 `.md` 和 `.html` 扩展名都可以使用，但最佳做法是省略文件扩展名，以便 VitePress 可以根据配置生成最终 URL。
+在页面之间链接时，可以使用绝对路径和相对路径。请注意，虽然 `.md` 和 `.html` 扩展名都可以使用，但最佳做法是省略文件扩展名，以便 VitePress 可以根据配置生成最终的 URL。
 
 ```md
 <!-- Do -->
@@ -95,7 +95,7 @@ src/getting-started.md  -->  /getting-started.html
 
 在[资源处理](./asset-handling)中了解有关链接到资源（例如图像）的更多信息。
 
-### 链接到非 vitepress 页面 {#linking-to-non-vitepress-pages}
+### 链接到非 VitePress 页面 {#linking-to-non-vitepress-pages}
 
 如果想链接到站点中不是由 VitePress 生成的页面，需要使用完整的 URL（在新选项卡中打开）或明确指定 target：
 
@@ -124,14 +124,14 @@ src/getting-started.md  -->  /getting-started.html
 ## 生成简洁的 URL {#generating-clean-url}
 
 :::warning 需要服务器支持
-要使用 VitePress 提供简洁 URL，需要服务器端支持。
+要使 VitePress 提供简洁 URL，需要服务器端支持。
 :::
 
 默认情况下，VitePress 将入站链接解析为以 `.html` 结尾的 URL。但是，一些用户可能更喜欢没有 .html 扩展名的“简洁 URL”——例如，`example.com/path` 而不是 `example.com/path.html`。
 
-某些服务器或托管平台（例如 Netlify 或 Vercel）提供将 `/foo` 之类的 URL 映射到 `/foo.html`（如果存在）的功能，而无需重定向：
+某些服务器或托管平台 (例如 Netlify、Vercel 或 GitHub Pages) 提供将 `/foo` 之类的 URL 映射到 `/foo.html` (如果存在) 的功能，而无需重定向：
 
-- Netlify 默认支持这个。
+- Netlify 和 GitHub Pages 是默认支持的。
 - Vercel 需要在 [vercel.json 中启用 cleanUrls 选项](https://vercel.com/docs/concepts/projects/project-configuration#cleanurls)。
 
 如果可以使用此功能，还可以启用 VitePress 自己的 [`cleanUrls`](../reference/site-config#cleanurls) 配置选项，以便：
@@ -139,7 +139,7 @@ src/getting-started.md  -->  /getting-started.html
 - 页面之间的入站链接是在没有 `.html` 扩展名的情况下生成的。
 - 如果当前路径以 `.html` 结尾，路由器将执行客户端重定向到无扩展路径。
 
-但是，如果无法为服务器配置此类支持（例如 GitHub 页面），则必须手动采用以下目录结构：
+但是，如果无法为服务器配置此类支持，则必须手动采用以下目录结构：
 
 ```
 .
@@ -196,7 +196,7 @@ export default {
 }
 ```
 
-重写路径是使用 `path-to-regexp` 包编译的——请参阅其[文档](https://github.com/pillarjs/path-to-regexp#parameters)以获取更高级的语法。
+重写路径是使用 `path-to-regexp` 包编译的——请参阅其[文档](https://github.com/pillarjs/path-to-regexp#parameters)以获取更多语法。
 
 ::: warning 开启重写功能时使用相对链接
 
@@ -213,7 +213,7 @@ export default {
 
 ### 路径加载文件 {#paths-loader-file}
 
-由于 VitePress 是静态站点生成器，因此**必须**在构建时确定可能的页面路径。因此，动态路由页面必须伴随**路径加载文件**。对于 `packages/[pkg].md`，我们需要 `packages/[pkg].paths.js`（也支持 `.ts`）：
+由于 VitePress 是静态站点生成器，因此**必须**在构建时确定可能的页面路径。因此，动态路由页面必须伴随**路径加载文件**。对于 `packages/[pkg].md`，我们需要 `packages/[pkg].paths.js` (也支持 `.ts`)：
 
 ```
 .
@@ -251,7 +251,7 @@ export default {
 
 动态路由可以包含多个参数：
 
-**File Structure**
+**文件结构**
 
 ```
 .
@@ -332,7 +332,7 @@ export default {
 - version: {{ $params.version }}
 ```
 
-还可以通过 [`useData`](../reference/runtime-api#usedata) runtime API 访问当前页面的参数。这在 Markdown 文件和 Vue 组件中都可用：
+还可以通过 [`useData`](../reference/runtime-api#usedata) 运行时 API 访问当前页面的参数。这在 Markdown 文件和 Vue 组件中都可用：
 
 ```vue
 <script setup>

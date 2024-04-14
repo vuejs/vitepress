@@ -31,10 +31,10 @@ If you need to dynamically generate the config, you can also default export a fu
 ```ts
 import { defineConfig } from 'vitepress'
 
-export default async () => defineConfig({
+export default async () => {
   const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
 
-  return {
+  return defineConfig({
     // app level config options
     lang: 'en-US',
     title: 'VitePress',
@@ -49,8 +49,8 @@ export default async () => defineConfig({
         }))
       ]
     }
-  }
-})
+  })
+}
 ```
 
 You can also use top-level `await`. For example:
@@ -471,6 +471,13 @@ export default {
 }
 ```
 
+### metaChunk <Badge type="warning" text="experimental" />
+
+- Type: `boolean`
+- Default: `false`
+
+When set to `true`, extract pages metadata to a separate JavaScript chunk instead of inlining it in the initial HTML. This makes each page's HTML payload smaller and makes the pages metadata cacheable, thus reducing server bandwidth when you have many pages in the site.
+
 ### mpa <Badge type="warning" text="experimental" />
 
 - Type: `boolean`
@@ -510,7 +517,7 @@ When using the default theme, enabling this option will display each page's last
 
 - Type: `MarkdownOption`
 
-Configure Markdown parser options. VitePress uses [Markdown-it](https://github.com/markdown-it/markdown-it) as the parser, and [Shikiji](https://github.com/antfu/shikiji) (an improved version of [Shiki](https://shiki.matsu.io/)) to highlight language syntax. Inside this option, you may pass various Markdown related options to fit your needs.
+Configure Markdown parser options. VitePress uses [Markdown-it](https://github.com/markdown-it/markdown-it) as the parser, and [Shiki](https://github.com/shikijs/shiki) to highlight language syntax. Inside this option, you may pass various Markdown related options to fit your needs.
 
 ```js
 export default {
@@ -640,6 +647,24 @@ export default {
             ? `VitePress`
             : `${pageData.title} | VitePress`
       }
+    ])
+  }
+}
+```
+
+#### Example: Adding a canonical URL `<link>`
+
+```ts
+export default {
+  transformPageData(pageData) {
+    const canonicalUrl = `https://example.com/${pageData.relativePath}`
+      .replace(/index\.md$/, '')
+      .replace(/\.md$/, '.html')
+
+    pageData.frontmatter.head ??= []
+    pageData.frontmatter.head.push([
+      'link',
+      { rel: 'canonical', href: canonicalUrl }
     ])
   }
 }

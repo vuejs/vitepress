@@ -6,7 +6,7 @@ outline: deep
 
 通过使用 Vue 的服务器端渲染 (SSR) 功能，VitePress 能够在生产构建期间在 Node.js 中预渲染应用程序。这意味着主题组件中的所有自定义代码都需要考虑 SSR 兼容性。
 
-[Vue 官方文档的 SSR 部分](https://cn.vuejs.org/guide/scaling-up/ssr.html)提供了更多有关 SSR 是什么，SSR / SSG 之间的关系以及编写 SSR 友好代码的常见注意事项等信息。原则上只在 Vue 组件的 `beforeMount` 或 `mounted` 钩子中访问 browser / DOM API。
+[Vue 官方文档的 SSR 部分](https://cn.vuejs.org/guide/scaling-up/ssr.html)提供了更多有关 SSR 是什么，SSR / SSG 之间的关系以及编写 SSR 友好的代码的常见注意事项等信息。原则上只在 Vue 组件的 `beforeMount` 或 `mounted` 钩子中访问浏览器或 DOM API。
 
 ## `<ClientOnly>` 
 
@@ -38,7 +38,7 @@ onMounted(() => {
 
 ### 条件导入 {#conditional-import}
 
-也可以使用 `import.meta.env.SSR` 标志 ([Vite 环境变量](https://cn.vitejs.dev/guide/env-and-mode.html#env-变量)的一部分)  来有条件地导入依赖项：
+也可以使用 `import.meta.env.SSR` 标志 ([Vite 环境变量](https://cn.vitejs.dev/guide/env-and-mode.html#env-variables)的一部分) 来有条件地导入依赖项：
 
 ```js
 if (!import.meta.env.SSR) {
@@ -109,7 +109,7 @@ const clientCompRef = ref(null)
 const ClientComp = defineClientComponent(
   () => import('component-that-access-window-on-import'),
 
-  // 参数传递给 h() - https://vuejs.org/api/render-function.html#h
+  // 参数传递给 h() - https://cn.vuejs.org/api/render-function.html#h
   [
     {
       ref: clientCompRef

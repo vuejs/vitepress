@@ -196,7 +196,7 @@ export default {
 If the theme requires special VitePress config, you will need to also extend it in your own config:
 
 ```ts
-// .vitepress/theme/config.ts
+// .vitepress/config.ts
 import baseConfig from 'awesome-vitepress-theme/config'
 
 export default {
@@ -208,7 +208,7 @@ export default {
 Finally, if the theme provides types for its theme config:
 
 ```ts
-// .vitepress/theme/config.ts
+// .vitepress/config.ts
 import baseConfig from 'awesome-vitepress-theme/config'
 import { defineConfigWithTheme } from 'vitepress'
 import type { ThemeConfig } from 'awesome-vitepress-theme'

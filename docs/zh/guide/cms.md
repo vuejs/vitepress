@@ -53,4 +53,4 @@ outline: deep
 
 ## 整合指南 {#integration-guides}
 
-如果你已经写了一篇关于如何将 VitePress 与特定 CMS 集成的指南，请点击下面的“在 GitHub 上编辑此页面”链接将它提交到这里！
+如果你已经写了一篇关于如何将 VitePress 与特定的 CMS 集成的指南，请点击下面的“在 GitHub 上编辑此页面”链接将它提交到这里！

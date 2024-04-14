@@ -194,7 +194,10 @@ export default {
   - `aside-ads-after`
 - 当 `layout: 'home'` 在 frontmatter 中被启用时:
   - `home-hero-before`
+  - `home-hero-info-before`
   - `home-hero-info`
+  - `home-hero-info-after`
+  - `home-hero-actions-after`
   - `home-hero-image`
   - `home-hero-after`
   - `home-features-before`
@@ -214,7 +217,7 @@ export default {
   - `nav-screen-content-before`
   - `nav-screen-content-after`
 
-## Using View Transitions API
+## 使用视图过渡 API
 
 ### 关于外观切换 {#on-appearance-toggle}
 

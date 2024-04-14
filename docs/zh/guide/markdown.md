@@ -1,6 +1,6 @@
-# Markdown 拓展 {#markdown-extensions}
+# Markdown 扩展 {#markdown-extensions}
 
-VitePress 带有内置的 Markdown 拓展。
+VitePress 带有内置的 Markdown 扩展。
 
 ## 标题锚点 {#header-anchors}
 
@@ -58,7 +58,7 @@ VitePress 带有内置的 Markdown 拓展。
 
 外部链接带有 `target="_blank" rel="noreferrer"`：
 
-- [vuejs.org](https://vuejs.org)
+- [vuejs.org](https://cn.vuejs.org)
 - [VitePress on GitHub](https://github.com/vuejs/vitepress)
 
 ## frontmatter {#frontmatter}
@@ -245,7 +245,7 @@ Wraps in a <div class="vp-raw">
   $ npm add -D postcss
   ```
 
-- 创建 `docs/.postcssrc.cjs` 并将以下内容
+- 创建 `docs/.postcssrc.cjs` 文件并将以下内容添加到其中：
 
   ```js
   import { postcssIsolateStyles } from 'vitepress'
@@ -255,7 +255,7 @@ Wraps in a <div class="vp-raw">
   }
   ```
 
-  It uses [`postcss-prefix-selector`](https://github.com/postcss/postcss-load-config) under the hood. You can pass its options like this:
+  它在底层使用 [`postcss-prefix-selector`](https://github.com/postcss/postcss-load-config)。你可以像这样传递它的选项：
 
   ```js
   postcssIsolateStyles({
@@ -263,9 +263,45 @@ Wraps in a <div class="vp-raw">
   })
   ```
 
+## GitHub 风格的警报 {#github-flavored-alerts}
+
+VitePress 同样支持以标注的方式渲染 [GitHub 风格的警报](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts)。它们和[自定义容器](#custom-containers)的渲染方式相同。
+
+```md
+> [!NOTE]
+> 强调用户在快速浏览文档时也不应忽略的重要信息。
+
+> [!TIP]
+> 有助于用户更顺利达成目标的建议性信息。
+
+> [!IMPORTANT]
+> 对用户达成目标至关重要的信息。
+
+> [!WARNING]
+> 因为可能存在风险，所以需要用户立即关注的关键内容。
+
+> [!CAUTION]
+> 行为可能带来的负面影响。
+```
+
+> [!NOTE]
+> 强调用户在快速浏览文档时也不应忽略的重要信息。
+
+> [!TIP]
+> 有助于用户更顺利达成目标的建议性信息。
+
+> [!IMPORTANT]
+> 对用户达成目标至关重要的信息。
+
+> [!WARNING]
+> 因为可能存在风险，所以需要用户立即关注的关键内容。
+
+> [!CAUTION]
+> 行为可能带来的负面影响。
+
 ## 代码块中的语法高亮 {#syntax-highlighting-in-code-blocks}
 
-VitePress 使用 [Shikiji](https://github.com/antfu/shikiji) ([Shiki](https://shiki.matsu.io/) 的改进版本) 在 Markdown 代码块中使用彩色文本实现语法高亮。Shiki 支持多种编程语言。需要做的就是将有效的语言别名附加到代码块的开头：
+VitePress 使用 [Shiki](https://github.com/shikijs/shiki) 在 Markdown 代码块中使用彩色文本实现语法高亮。Shiki 支持多种编程语言。需要做的就是将有效的语言别名附加到代码块的开头：
 
 **输入**
 
@@ -305,7 +341,7 @@ export default {
 </ul>
 ```
 
-在 Shikiji 的代码仓库中，可以找到[合法的编程语言列表](https://github.com/antfu/shikiji/blob/main/docs/languages.md)。
+在 Shiki 的代码仓库中，可以找到[合法的编程语言列表](https://shiki.style/languages)。
 
 还可以全局配置中自定义语法高亮主题。有关详细信息，参见 [`markdown` 选项](../reference/site-config#markdown)得到更多信息。
 
@@ -377,7 +413,7 @@ export default { // Highlighted
 }
 ```
 
-也可以使用 `// [!code hl]` 注释实现行高亮。
+也可以使用 `// [!code highlight]` 注释实现行高亮。
 
 **输入**
 
@@ -386,7 +422,7 @@ export default { // Highlighted
 export default {
   data () {
     return {
-      msg: 'Highlighted!' // [!code  hl]
+      msg: 'Highlighted!' // [!!code highlight]
     }
   }
 }
@@ -399,7 +435,7 @@ export default {
 export default {
   data() {
     return {
-      msg: 'Highlighted!' // [!code hl]
+      msg: 'Highlighted!' // [!code highlight]
     }
   }
 }
@@ -413,14 +449,12 @@ export default {
 
 **输入**
 
-`!code` 后面只需要一个空格，为了展示原始的代码而不被实际渲染，这里有两个空格：
-
 ````
 ```js
 export default {
   data () {
     return {
-      msg: 'Focused!' // [!code  focus]
+      msg: 'Focused!' // [!!code focus]
     }
   }
 }
@@ -445,15 +479,13 @@ export default {
 
 **输入**
 
-`!code` 后面只需要一个空格，为了展示原始的代码而不被实际渲染，这里有两个空格。
-
 ````
 ```js
 export default {
   data () {
     return {
-      msg: 'Removed' // [!code  --]
-      msg: 'Added' // [!code  ++]
+      msg: 'Removed' // [!!code --]
+      msg: 'Added' // [!!code ++]
     }
   }
 }
@@ -479,15 +511,13 @@ export default {
 
 **输入**
 
-`!code` 后面只需要一个空格，为了展示原始的代码而不被实际渲染，这里有两个空格。
-
 ````
 ```js
 export default {
   data () {
     return {
-      msg: 'Error', // [!code  error]
-      msg: 'Warning' // [!code  warning]
+      msg: 'Error', // [!!code error]
+      msg: 'Warning' // [!!code warning]
     }
   }
 }
@@ -593,7 +623,7 @@ const line4 = 'This is line 4'
 
 **输出**
 
-<<< @/snippets/snippet.js
+<<< @/snippets/snippet.js{2}
 
 ::: tip
 `@` 的值对应于源代码根目录，默认情况下是 VitePress 项目根目录，除非配置了 `srcDir`。或者也可以从相对路径导入：
@@ -634,7 +664,7 @@ const line4 = 'This is line 4'
 <<< @/snippets/snippet.cs{1,2,4-6 c#:line-numbers}
 ```
 
-如果无法从文件拓展名推测出源语言，这将会很有帮助
+如果无法从文件扩展名推测出源语言，这将会很有帮助
 
 ## 代码组 {#code-groups}
 
@@ -870,7 +900,7 @@ export default {
 
 ## 高级配置 {#advanced-configuration}
 
-VitePress 使用 [markdown-it](https://github.com/markdown-it/markdown-it) 作为 Markdown 渲染器。上面提到的很多拓展功能都是通过自定义插件实现的。可以使用 `.vitepress/config.js` 中的 `markdown` 选项来进一步自定义 `markdown-it` 实例。
+VitePress 使用 [markdown-it](https://github.com/markdown-it/markdown-it) 作为 Markdown 渲染器。上面提到的很多扩展功能都是通过自定义插件实现的。可以使用 `.vitepress/config.js` 中的 `markdown` 选项来进一步自定义 `markdown-it` 实例。
 
 ```js
 import { defineConfig } from 'vitepress'

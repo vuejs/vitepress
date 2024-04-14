@@ -71,8 +71,12 @@ $ npx vitepress init
 $ pnpm vitepress init
 ```
 
+```sh [yarn]
+$ yarn vitepress init
+```
+
 ```sh [bun]
-$ bunx vitepress init
+$ bun vitepress init
 ```
 
 :::
@@ -82,7 +86,7 @@ You will be greeted with a few simple questions:
 <<< @/snippets/init.ansi
 
 ::: tip Vue as Peer Dependency
-If you intend to perform customization that uses Vue components or APIs, you should also explicitly install `vue` as a peer dependency.
+If you intend to perform customization that uses Vue components or APIs, you should also explicitly install `vue` as a dependency.
 :::
 
 ## File Structure
@@ -182,11 +186,15 @@ $ npx vitepress dev docs
 ```
 
 ```sh [pnpm]
-$ pnpm exec vitepress dev docs
+$ pnpm vitepress dev docs
+```
+
+```sh [yarn]
+$ yarn vitepress dev docs
 ```
 
 ```sh [bun]
-$ bunx vitepress dev docs
+$ bun vitepress dev docs
 ```
 
 :::
@@ -199,7 +207,7 @@ The dev server should be running at `http://localhost:5173`. Visit the URL in yo
 
 - To better understand how markdown files are mapped to generated HTML, proceed to the [Routing Guide](./routing).
 
-- To discover more about what you can do on the page, such as writing markdown content or using Vue Component, refer to the "Writing" section of the guide. A great place to start would be to learn about [Markdown Extensions](./markdown).
+- To discover more about what you can do on the page, such as writing markdown content or using Vue Components, refer to the "Writing" section of the guide. A great place to start would be to learn about [Markdown Extensions](./markdown).
 
 - To explore the features provided by the default documentation theme, check out the [Default Theme Config Reference](../reference/default-theme-config).
 

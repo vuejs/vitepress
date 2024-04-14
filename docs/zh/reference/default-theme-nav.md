@@ -35,7 +35,7 @@ export default {
 }
 ```
 
-如果想添加 `alt` 属性或根据暗/亮模式自定义它，还可以将图标作为对象传递。有关详细信息，请参阅 [`themeConfig.logo`](./default-theme-config#logo)。
+如果想添加 `alt` 属性或根据深色/浅色模式自定义，还可以将图标作为对象传递。有关详细信息，请参阅 [`themeConfig.logo`](./default-theme-config#logo)。
 
 ## 导航链接 {#navigation-links}
 
@@ -75,7 +75,7 @@ export default {
 }
 ```
 
-请注意，下拉菜单标题（上例中的 `下拉菜单`）不能具有 `link` 属性，因为它是打开下拉对话框的按钮。
+请注意，下拉菜单标题 (上例中的 `Dropdown Menu`) 不能具有 `link` 属性，因为它是打开下拉对话框的按钮。
 
 还可以通过传入更多嵌套项来进一步向下拉菜单项添加“sections”。
 
@@ -116,7 +116,7 @@ export default {
 
 ### 自定义链接的路由匹配状态 {#customize-link-s-active-state}
 
-当前页面位于匹配路径下时，导航菜单项将突出显示。如果 想自定义要匹配的路径，请将 `activeMatch` 属性和正则表达式定义为字符串值。
+当前页面位于匹配路径下时，导航菜单项将突出显示。如果想自定义要匹配的路径，请将 `activeMatch` 属性和正则表达式定义为字符串值。
 
 ```js
 export default {

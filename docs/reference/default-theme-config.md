@@ -93,6 +93,7 @@ interface NavItemWithLink {
   activeMatch?: string
   target?: string
   rel?: string
+  noIcon?: boolean
 }
 
 interface NavItemChildren {
@@ -134,7 +135,7 @@ export default {
 export type Sidebar = SidebarItem[] | SidebarMulti
 
 export interface SidebarMulti {
-  [path: string]: SidebarItem[]
+  [path: string]: SidebarItem[] | { items: SidebarItem[]; base: string }
 }
 
 export type SidebarItem = {
@@ -161,6 +162,19 @@ export type SidebarItem = {
    * If `false`, group is collapsible but expanded by default
    */
   collapsed?: boolean
+
+  /**
+   * Base path for the children items.
+   */
+  base?: string
+
+  /**
+   * Customize text that appears on the footer of previous/next page.
+   */
+  docFooterText?: string
+
+  rel?: string
+  target?: string
 }
 ```
 
@@ -244,8 +258,10 @@ type SocialLinkIcon =
   | 'instagram'
   | 'linkedin'
   | 'mastodon'
+  | 'npm'
   | 'slack'
   | 'twitter'
+  | 'x'
   | 'youtube'
   | { svg: string }
 ```

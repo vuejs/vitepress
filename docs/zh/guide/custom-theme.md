@@ -15,7 +15,7 @@
 └─ package.json
 ```
 
-当检测到存在主题入口文件时，VitePress 总会使用自定义主题而不是默认主题。但你可以[拓展默认主题](./extending-default-theme)来在其基础上实现更高级的自定义。
+当检测到存在主题入口文件时，VitePress 总会使用自定义主题而不是默认主题。但你可以[扩展默认主题](./extending-default-theme)来在其基础上实现更高级的自定义。
 
 ## 主题接口 {#theme-interface}
 
@@ -100,7 +100,7 @@ const { page } = useData()
 </template>
 ```
 
-[`useData()`](../reference/runtime-api#usedata) 为我们提供了所有的运行时数据，以便我们根据不同条件渲染不同的布局。我们可以访问的另一个数据是当前页面的 frontmatter。通过利用这个数据，我们允许用户控制每个页面的布局。例如，用户可以指定一个页面是否使用特殊的主页布局：
+[`useData()`](../reference/runtime-api#usedata) 为我们提供了所有的运行时数据，以便我们根据不同条件渲染不同的布局。我们可以访问的另一个数据是当前页面的 frontmatter。通过利用这个数据，可以让用户单独控制每个页面的布局。例如，用户可以指定一个页面是否使用特殊的主页布局：
 
 ```md
 ---
@@ -108,7 +108,7 @@ layout: home
 ---
 ```
 
-并且我们可以调整我们的主题进行处理：
+并且我们可以调整主题进行处理：
 
 ```vue{3,12-14}
 <script setup>
@@ -158,11 +158,11 @@ const { page, frontmatter } = useData()
 
 如果你希望将主题作为 npm 包来分发，请按照下面的步骤操作：
 
-1. 在包入口将主题对象作为默认导出来导出。
+1. 在包入口将主题对象使用默认导出。
 
 2. 如果合适的话，将主题配置类型定义作为 `ThemeConfig` 导出。
 
-3. 如果主题需要调整 VitePress 配置，请在包的子路径下 (例如 `my-theme/config`) 下导出该配置，以便用户拓展。
+3. 如果主题需要调整 VitePress 配置，请在包的子路径下 (例如 `my-theme/config`) 下导出该配置，以便用户扩展。
 
 4. 记录主题配置选项 (通过配置文件和 frontmatter)。
 
@@ -179,7 +179,7 @@ import Theme from 'awesome-vitepress-theme'
 export default Theme
 ```
 
-如果主题需要拓展：
+如果主题需要扩展：
 
 ```js
 // .vitepress/theme/index.js
@@ -193,10 +193,10 @@ export default {
 }
 ```
 
-如果主题需要特殊的 VitePress 配置，也需要在配置中拓展：
+如果主题需要特殊的 VitePress 配置，也需要在配置中扩展：
 
 ```ts
-// .vitepress/theme/config.ts
+// .vitepress/config.ts
 import baseConfig from 'awesome-vitepress-theme/config'
 
 export default {
@@ -208,7 +208,7 @@ export default {
 最后，如果主题为其主题配置提供了类型：
 
 ```ts
-// .vitepress/theme/config.ts
+// .vitepress/config.ts
 import baseConfig from 'awesome-vitepress-theme/config'
 import { defineConfigWithTheme } from 'vitepress'
 import type { ThemeConfig } from 'awesome-vitepress-theme'

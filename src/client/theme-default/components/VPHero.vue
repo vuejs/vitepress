@@ -8,6 +8,8 @@ export interface HeroAction {
   theme?: 'brand' | 'alt'
   text: string
   link: string
+  target?: string
+  rel?: string
 }
 
 defineProps<{
@@ -25,6 +27,7 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
   <div class="VPHero" :class="{ 'has-image': image || heroImageSlotExists }">
     <div class="container">
       <div class="main">
+        <slot name="home-hero-info-before" />
         <slot name="home-hero-info">
           <h1 v-if="name" class="name">
             <span v-html="name" class="clip"></span>
@@ -32,6 +35,7 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
           <p v-if="text" v-html="text" class="text"></p>
           <p v-if="tagline" v-html="tagline" class="tagline"></p>
         </slot>
+        <slot name="home-hero-info-after" />
 
         <div v-if="actions" class="actions">
           <div v-for="action in actions" :key="action.link" class="action">
@@ -41,9 +45,12 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
               :theme="action.theme"
               :text="action.text"
               :href="action.link"
+              :target="action.target"
+              :rel="action.rel"
             />
           </div>
         </div>
+        <slot name="home-hero-actions-after" />
       </div>
 
       <div v-if="image || heroImageSlotExists" class="image">

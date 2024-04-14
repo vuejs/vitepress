@@ -26,7 +26,7 @@
 
 ### 指令 {#directives}
 
-也可以使用指令 (请注意，根据设计，原始 HTML 在 Markdown 中也有效):
+也可以使用指令 (请注意，原始 HTML 在 Markdown 中也有效):
 
 **输入**
 
@@ -111,7 +111,7 @@ import CustomComponent from '../../components/CustomComponent.vue'
 
 # Docs
 
-这是一个使用自定义组件的 .md
+This is a .md using a custom component
 
 <CustomComponent />
 

@@ -195,7 +195,10 @@ Full list of slots available in the default theme layout:
   - `aside-ads-after`
 - When `layout: 'home'` is enabled via frontmatter:
   - `home-hero-before`
+  - `home-hero-info-before`
   - `home-hero-info`
+  - `home-hero-info-after`
+  - `home-hero-actions-after`
   - `home-hero-image`
   - `home-hero-after`
   - `home-features-before`

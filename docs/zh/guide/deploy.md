@@ -33,7 +33,7 @@ outline: deep
    $ npm run docs:preview
    ```
 
-  `preview` 命令将启动一个本地静态 Web 服务器`http://localhost:4173`，该服务器以 `.vitepress/dist` 作为源文件。这是检查生产版本在本地环境中是否正常的一种简单方法。
+   `preview` 命令将启动一个本地静态 Web 服务 `http://localhost:4173`，该服务以 `.vitepress/dist` 作为源文件。这是检查生产版本在本地环境中是否正常的一种简单方法。
 
 3. 可以通过传递 `--port` 作为参数来配置服务器的端口。
 
@@ -45,13 +45,13 @@ outline: deep
    }
    ```
 
-  现在 `docs:preview` 方法将在 `http://localhost:8080` 启动服务器。
+   现在 `docs:preview` 方法将会在 `http://localhost:8080` 启动服务。
 
 ## 设定 public 根目录 {#setting-a-public-base-path}
 
-默认情况下，我们假设站点将部署在域名 （`/`）的根路径上。如果站点在子路径中提供服务，例如 `https://mywebsite.com/blog/`，则需要在 VitePress 配置中将 [`base`](../reference/site-config#base)选项设置为 `'/blog/'`。
+默认情况下，我们假设站点将部署在域名 (`/`) 的根路径上。如果站点在子路径中提供服务，例如 `https://mywebsite.com/blog/`，则需要在 VitePress 配置中将 [`base`](../reference/site-config#base) 选项设置为 `'/blog/'`。
 
-**例：** 如果你使用的是 Github（或 GitLab）页面并部署到 `user.github.io/repo/`，请将 `base` 设置为 `/repo/`。
+**例**：如果你使用的是 Github（或 GitLab）页面并部署到 `user.github.io/repo/`，请将 `base` 设置为 `/repo/`。
 
 ## HTTP 缓存标头 {#http-cache-headers}
 
@@ -73,7 +73,7 @@ Cache-Control: max-age=31536000,immutable
   cache-control: immutable
 ```
 
-注意：该 `_headers` 文件应放置在[public 目录](/guide/asset-handling#the-public-directory)中（在我们的例子中是 `docs/public/_headers`），以便将其逐字复制到输出目录。
+注意：该 `_headers` 文件应放置在 [public 目录](/guide/asset-handling#the-public-directory)中 (在我们的例子中是 `docs/public/_headers`)，以便将其逐字复制到输出目录。
 
 [Netlify 自定义标头文档](https://docs.netlify.com/routing/headers/)
 
@@ -121,18 +121,18 @@ Cache-Control: max-age=31536000,immutable
 
 1. 在项目的 `.github/workflows` 目录中创建一个名为 `deploy.yml` 的文件，其中包含这样的内容：
 
- ```yaml
+   ```yaml
    # 构建 VitePress 站点并将其部署到 GitHub Pages 的示例工作流程
    #
    name: Deploy VitePress site to Pages
 
    on:
-     # 在针对 `main` 分支的推送上运行。如果您
+     # 在针对 `main` 分支的推送上运行。如果你
      # 使用 `master` 分支作为默认分支，请将其更改为 `master`
      push:
        branches: [main]
 
-     # 允许您从 Actions 选项卡手动运行此工作流程
+     # 允许你从 Actions 选项卡手动运行此工作流程
      workflow_dispatch:
 
    # 设置 GITHUB_TOKEN 的权限，以允许部署到 GitHub Pages
@@ -153,26 +153,24 @@ Cache-Control: max-age=31536000,immutable
        runs-on: ubuntu-latest
        steps:
          - name: Checkout
-           uses: actions/checkout@v3
+           uses: actions/checkout@v4
            with:
              fetch-depth: 0 # 如果未启用 lastUpdated，则不需要
-         # - uses: pnpm/action-setup@v2 # 如果使用 pnpm，请取消注释
+         # - uses: pnpm/action-setup@v3 # 如果使用 pnpm，请取消注释
          # - uses: oven-sh/setup-bun@v1 # 如果使用 Bun，请取消注释
          - name: Setup Node
-           uses: actions/setup-node@v3
+           uses: actions/setup-node@v4
            with:
-             node-version: 18
+             node-version: 20
              cache: npm # 或 pnpm / yarn
          - name: Setup Pages
-           uses: actions/configure-pages@v3
+           uses: actions/configure-pages@v4
          - name: Install dependencies
            run: npm ci # 或 pnpm install / yarn install / bun install
          - name: Build with VitePress
-           run: |
-             npm run docs:build # 或 pnpm docs:build / yarn docs:build / bun run docs:build
-             touch docs/.vitepress/dist/.nojekyll
+           run: npm run docs:build # 或 pnpm docs:build / yarn docs:build / bun run docs:build
          - name: Upload artifact
-           uses: actions/upload-pages-artifact@v2
+           uses: actions/upload-pages-artifact@v3
            with:
              path: docs/.vitepress/dist
 
@@ -187,11 +185,11 @@ Cache-Control: max-age=31536000,immutable
        steps:
          - name: Deploy to GitHub Pages
            id: deployment
-           uses: actions/deploy-pages@v2
+           uses: actions/deploy-pages@v4
    ```
 
    ::: warning
-    确保 VitePress 中的 `base` 选项配置正确。有关更多详细信息，请参阅[设置根路径](#setting-a-public-base-path)。
+   确保 VitePress 中的 `base` 选项配置正确。有关更多详细信息，请参阅[设置根路径](#setting-a-public-base-path)。
    :::
 
 2. 在存储库设置中的“Pages”菜单项下，选择“Build and deployment > Source > GitHub Actions”。

@@ -31,16 +31,16 @@ export default {
 ```ts
 import { defineConfig } from 'vitepress'
 
-export default async () => defineConfig({
+export default async () => {
   const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
 
-  return {
+  return defineConfig({
     // 应用级配置选项
     lang: 'en-US',
     title: 'VitePress',
     description: 'Vite & Vue powered static site generator.',
 
-    // 主题级别配置选项
+    // 主题级配置选项
     themeConfig: {
       sidebar: [
         ...posts.map((post) => ({
@@ -49,8 +49,8 @@ export default async () => defineConfig({
         }))
       ]
     }
-  }
-})
+  })
+}
 ```
 
 也可以在最外层使用 `await`。例如：
@@ -82,7 +82,7 @@ export default defineConfig({
 
 ### 配置智能提示 {#config-intellisense}
 
-使用 `defineConfig` 辅助函数将为配置选项提供 TypeScript 支持的智能提示。假设 IDE 支持它，那么智能提示在 JavaScript 和 TypeScript 中都将触发。
+使用 `defineConfig` 辅助函数将为配置选项提供 TypeScript 支持的智能提示。假设 IDE 支持它，那么在 JavaScript 和 TypeScript 中都将触发智能提示。
 
 ```js
 import { defineConfig } from 'vitepress'
@@ -94,7 +94,7 @@ export default defineConfig({
 
 ### 主题类型提示 {#typed-theme-config}
 
-默认情况下，`defineConfig` 辅助函数期望默认主题的主题配置数据类型：
+默认情况下，`defineConfig` 辅助函数期望默认主题的主题配置数据类型为：
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -127,7 +127,7 @@ export default defineConfigWithTheme<ThemeConfig>({
 
 - **Vue**
 
-  VitePress 已经包含 Vite 的官方 Vue 插件（[@vitejs/plugin-vue](https://github.com/vitejs/vite-plugin-vue)）。可以配置 VitePress 中的 [vue](#vue) 选项。
+  VitePress 已经包含 Vite 的官方 Vue 插件 ([@vitejs/plugin-vue](https://github.com/vitejs/vite-plugin-vue))，所以我们可以配置 VitePress 中的 [vue](#vue) 选项。
 
 - **Markdown**
 
@@ -207,9 +207,9 @@ export default {
 
 - 类型：`HeadConfig[]`
 - 默认值： `[]`
-- 每个页面可以通过 [frontmatter](./frontmatter-config#head) 添加
+- 可以通过 [frontmatter](./frontmatter-config#head) 为每个页面追加
 
-要在页面 HTML 的 `<head>` 标记中呈现的其他元素。用户添加的标签在结束 `head` 标签之前呈现，在 VitePress 标签之后。
+要在页面 HTML 的 `<head>` 标签中呈现的其他元素。用户添加的标签在结束 `head` 标签之前呈现，在 VitePress 标签之后。
 
 ```ts
 type HeadConfig =
@@ -333,7 +333,7 @@ export default {
 - 类型：`string`
 - 默认值： `/`
 
-站点将部署到的 base URL。如果计划在子路径（例如 GitHub 页面）下部署站点，则需要设置此项。如果计划将站点部署到 `https://foo.github.io/bar/`，那么应该将 `base` 设置为 `“/bar/”`。它应该始终以 `/`开头和结尾。
+站点将部署到的 base URL。如果计划在子路径例如 GitHub 页面）下部署站点，则需要设置此项。如果计划将站点部署到 `https://foo.github.io/bar/`，那么应该将 `base` 设置为 `“/bar/”`。它应该始终以 `/` 开头和结尾。
 
 base 会自动添加到其他选项中以 `/` 开头的所有 URL 前面，因此只需指定一次。
 
@@ -377,7 +377,7 @@ export default {
 - 类型：`string`
 - 默认值： `.`
 
-markdown 页面的目录，相对于项目根目录。另请参阅[根目录和源目录](../guide/routing#root-and-source-directory)。
+相对于项目根目录的 markdown 文件所在的文件夹。另请参阅[根目录和源目录](../guide/routing#root-and-source-directory)。
 
 ```ts
 export default {
@@ -390,7 +390,7 @@ export default {
 - 类型：`string`
 - 默认值： `undefined`
 
-用于匹配应作为源内容输出的 markdown 文件的 [全局模式](https://github.com/mrmlnc/fast-glob#pattern-syntax)。
+用于匹配应排除作为源内容输出的 markdown 文件，语法详见 [glob pattern](https://github.com/mrmlnc/fast-glob#pattern-syntax)。
 
 ```ts
 export default {
@@ -471,6 +471,13 @@ export default {
 }
 ```
 
+### metaChunk <Badge type="warning" text="experimental" />
+
+- 类型：`boolean`
+- 默认值：`false`
+
+当设置为 `true` 时，将页面元数据提取到单独的 JavaScript 块中，而不是内联在初始 HTML 中。这使每个页面的 HTML 负载更小，并使页面元数据可缓存，从而当站点中有很多页面时可以减少服务器带宽。
+
 ### mpa <Badge type="warning" text="experimental" />
 
 - 类型：`boolean`
@@ -485,7 +492,7 @@ export default {
 - 类型：`boolean | 'dark' | 'force-dark' | import('@vueuse/core').UseDarkOptions`
 - 默认值： `true`
 
-是否启用深色模式（通过将 `.dark` 类添加到 `<html>` 元素）。
+是否启用深色模式 (通过将 `.dark` 类添加到 `<html>` 元素)。
 
 - 如果该选项设置为 `true`，则默认主题将由用户的首选配色方案决定。
 - 如果该选项设置为 `dark`，则默认情况下主题将是深色的，除非用户手动切换它。
@@ -510,7 +517,7 @@ export default {
 
 - 类型：`MarkdownOption`
 
-配置 Markdown 解析器选项。VitePress 使用 [Markdown-it](https://github.com/markdown-it/markdown-it) 作为解析器，使用[Shikiji](https://github.com/antfu/shikiji) ([Shiki](https://shiki.matsu.io/) 的改进版本) 来高亮不同语言语法。在此选项中，可以传递各种 Markdown 相关选项以满足的需要。
+配置 Markdown 解析器选项。VitePress 使用 [Markdown-it](https://github.com/markdown-it/markdown-it) 作为解析器，使用 [Shiki](https://github.com/shikijs/shiki) 来高亮不同语言语法。在此选项中，可以传递各种 Markdown 相关选项以满足你的需要。
 
 ```js
 export default {
@@ -561,7 +568,7 @@ VitePress 构建钩子允许向站点添加新功能和行为：
 
 - 类型：`(siteConfig: SiteConfig) => Awaitable<void>`
 
-`buildEnd` 是一个构建 CLI 钩子，它将在构建（SSG）完成后但在 VitePress CLI 进程退出之前运行。
+`buildEnd` 是一个构建 CLI 钩子，它将在构建 SSG 完成后但在 VitePress CLI 进程退出之前运行。
 
 ```ts
 export default {
@@ -625,7 +632,7 @@ interface TransformContext {
 }
 ```
 
-请注意，仅在静态生成站点时才会调用此挂钩。在开发期间不会调用它。如果需要在开发期间添加动态头条目，可以使用 [`transformPageData`](#transformpagedata) 钩子来替代：
+请注意，仅在静态生成站点时才会调用此钩子。在开发期间不会调用它。如果需要在开发期间添加动态 head 条目，可以使用 [`transformPageData`](#transformpagedata) 钩子来替代：
 
 ```ts
 export default {
@@ -640,6 +647,24 @@ export default {
             ? `VitePress`
             : `${pageData.title} | VitePress`
       }
+    ])
+  }
+}
+```
+
+#### 示例：添加 canonical URL `<link>` {#example-adding-a-canonical-url-link} 
+
+```ts
+export default {
+  transformPageData(pageData) {
+    const canonicalUrl = `https://example.com/${pageData.relativePath}`
+      .replace(/index\.md$/, '')
+      .replace(/\.md$/, '.html')
+
+    pageData.frontmatter.head ??= []
+    pageData.frontmatter.head.push([
+      'link',
+      { rel: 'canonical', href: canonicalUrl }
     ])
   }
 }
@@ -670,7 +695,7 @@ export default {
 `transformPageData` 是一个钩子，用于转换每个页面的 `pageData`。可以直接改变 `pageData` 或返回将合并到 `PageData` 中的更改值。
 
 ::: warning
-不要改变 `context` 中的任何东西。请注意，这可能会影响开发服务器的性能，特别是当在钩子中有一些网络请求或大量计算（例如生成图像）时。可以通过判断 `process.env.NODE_ENV === 'production'` 匹配符合条件的情况。
+不要改变 `context` 中的任何东西。请注意，这可能会影响开发服务器的性能，特别是当在钩子中有一些网络请求或大量计算 (例如生成图像) 时。可以通过判断 `process.env.NODE_ENV === 'production'` 匹配符合条件的情况。
 :::
 
 ```ts

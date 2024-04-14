@@ -153,7 +153,7 @@ export function useCloseSidebarOnEscape(
 export function useSidebarControl(
   item: ComputedRef<DefaultTheme.SidebarItem>
 ): SidebarControl {
-  const { page } = useData()
+  const { page, hash } = useData()
 
   const collapsed = ref(false)
 
@@ -170,7 +170,7 @@ export function useSidebarControl(
     isActiveLink.value = isActive(page.value.relativePath, item.value.link)
   }
 
-  watch([page, item, hashRef], updateIsActiveLink)
+  watch([page, item, hash], updateIsActiveLink)
   onMounted(updateIsActiveLink)
 
   const hasActiveLink = computed(() => {

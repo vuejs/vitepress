@@ -7,7 +7,6 @@ import { useLocalNav } from '../composables/local-nav'
 import { getHeaders } from '../composables/outline'
 import { useSidebar } from '../composables/sidebar'
 import VPLocalNavOutlineDropdown from './VPLocalNavOutlineDropdown.vue'
-import VPIconAlignLeft from './icons/VPIconAlignLeft.vue'
 
 defineProps<{
   open: boolean
@@ -67,7 +66,7 @@ const classes = computed(() => {
         aria-controls="VPSidebarNav"
         @click="$emit('open-menu')"
       >
-        <VPIconAlignLeft class="menu-icon" />
+        <span class="vpi-align-left menu-icon"></span>
         <span class="menu-text">
           {{ theme.sidebarMenuLabel || 'Menu' }}
         </span>
@@ -157,9 +156,7 @@ const classes = computed(() => {
 
 .menu-icon {
   margin-right: 8px;
-  width: 16px;
-  height: 16px;
-  fill: currentColor;
+  font-size: 14px;
 }
 
 .VPOutlineDropdown {
