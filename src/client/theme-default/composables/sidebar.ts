@@ -18,7 +18,6 @@ import {
   getSidebarGroups
 } from '../support/sidebar'
 import { useData } from './data'
-import { hashRef } from './hash'
 import { inertControls } from './inert'
 
 export interface SidebarControl {

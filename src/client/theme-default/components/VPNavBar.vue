@@ -1,8 +1,7 @@
 <script lang="ts" setup>
 import { useWindowScroll } from '@vueuse/core'
-import { computed, onMounted, ref, watchPostEffect } from 'vue'
+import { ref, watchPostEffect } from 'vue'
 import { useData } from '../composables/data'
-import { useLocalNav } from '../composables/local-nav'
 import { useSidebar } from '../composables/sidebar'
 import VPNavBarAppearance from './VPNavBarAppearance.vue'
 import VPNavBarExtra from './VPNavBarExtra.vue'
@@ -23,7 +22,7 @@ defineEmits<{
 
 const { y } = useWindowScroll()
 const { hasSidebar } = useSidebar()
-const { hasLocalNav } = useLocalNav()
+// const { hasLocalNav } = useLocalNav()
 const { frontmatter } = useData()
 const navbar = ref<HTMLElement>()
 
