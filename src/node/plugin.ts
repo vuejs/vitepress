@@ -384,7 +384,7 @@ export async function createVitePressPlugin(
         try {
           await resolveUserConfig(siteConfig.root, 'serve', 'development')
         } catch (err: any) {
-          console.error(err)
+          siteConfig.logger.error(err)
           return
         }
 
