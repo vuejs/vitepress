@@ -8,9 +8,9 @@ overrides:
   ora>string-width: ^5
 
 patchedDependencies:
-  '@types/markdown-it@14.0.0':
-    hash: 324uktmxmvfeckydcv3tuzbvze
-    path: patches/@types__markdown-it@14.0.0.patch
+  '@types/markdown-it@14.0.1':
+    hash: f3sowjfcbslfedfcollco2ioje
+    path: patches/@types__markdown-it@14.0.1.patch
   markdown-it-anchor@8.6.7:
     hash: 7jac6clbacexfaqdjyv4p6a5n4
     path: patches/markdown-it-anchor@8.6.7.patch
@@ -32,8 +32,8 @@ importers:
         specifier: ^1.2.4
         version: 1.2.4
       '@types/markdown-it':
-        specifier: ^14.0.0
-        version: 14.0.0(patch_hash=324uktmxmvfeckydcv3tuzbvze)
+        specifier: ^14.0.1
+        version: 14.0.1(patch_hash=f3sowjfcbslfedfcollco2ioje)
       '@vitejs/plugin-vue':
         specifier: ^5.0.4
         version: 5.0.4(vite@5.2.8)(vue@3.4.21)
@@ -69,26 +69,26 @@ importers:
         specifier: ^0.7.0
         version: 0.7.0
       '@mdit-vue/plugin-component':
-        specifier: ^2.1.0
-        version: 2.1.0
+        specifier: ^2.1.2
+        version: 2.1.2
       '@mdit-vue/plugin-frontmatter':
-        specifier: ^2.1.0
-        version: 2.1.0
+        specifier: ^2.1.2
+        version: 2.1.2
       '@mdit-vue/plugin-headers':
-        specifier: ^2.1.0
-        version: 2.1.0
+        specifier: ^2.1.2
+        version: 2.1.2
       '@mdit-vue/plugin-sfc':
-        specifier: ^2.1.0
-        version: 2.1.0
+        specifier: ^2.1.2
+        version: 2.1.2
       '@mdit-vue/plugin-title':
-        specifier: ^2.1.0
-        version: 2.1.0
+        specifier: ^2.1.2
+        version: 2.1.2
       '@mdit-vue/plugin-toc':
-        specifier: ^2.1.0
-        version: 2.1.0
+        specifier: ^2.1.2
+        version: 2.1.2
       '@mdit-vue/shared':
-        specifier: ^2.1.0
-        version: 2.1.0
+        specifier: ^2.1.2
+        version: 2.1.2
       '@polka/compression':
         specifier: 1.0.0-next.25
         version: 1.0.0-next.25
@@ -199,7 +199,7 @@ importers:
         version: 14.1.0
       markdown-it-anchor:
         specifier: ^8.6.7
-        version: 8.6.7(patch_hash=7jac6clbacexfaqdjyv4p6a5n4)(@types/markdown-it@14.0.0)(markdown-it@14.1.0)
+        version: 8.6.7(patch_hash=7jac6clbacexfaqdjyv4p6a5n4)(@types/markdown-it@14.0.1)(markdown-it@14.1.0)
       markdown-it-attrs:
         specifier: ^4.1.6
         version: 4.1.6(markdown-it@14.1.0)
@@ -838,62 +838,62 @@ packages:
       - supports-color
     dev: true
 
-  /@mdit-vue/plugin-component@2.1.0:
-    resolution: {integrity: sha512-C3y7/hB90WcCpuxw+Z7uWmF3+NJpjv89PI8EVdxFJMFUfdX9JGBAkW34UA9+JdQSx7ARVeXgcb06zkD5z37cbw==}
+  /@mdit-vue/plugin-component@2.1.2:
+    resolution: {integrity: sha512-n1HcAC82l912HhtiMSxl5pQLKBYbPok/IcdGRD49rTt53NXBqct68qo58+7jvsj+f8Lmo7kjD+em3tP4BSgl0A==}
     dependencies:
-      '@types/markdown-it': 14.0.0(patch_hash=324uktmxmvfeckydcv3tuzbvze)
+      '@types/markdown-it': 14.0.1(patch_hash=f3sowjfcbslfedfcollco2ioje)
       markdown-it: 14.1.0
     dev: true
 
-  /@mdit-vue/plugin-frontmatter@2.1.0:
-    resolution: {integrity: sha512-vVDjrv1RZorGo1yW7PZg7/dwRupSBzMt8YE8mmM+TMA0NtFEhYfWdHj8vWgkXm1ZJUugmXheL6SxJzo6fz6uHA==}
+  /@mdit-vue/plugin-frontmatter@2.1.2:
+    resolution: {integrity: sha512-2YOVOsMRtf11bZ6mEB4xoWD6RG5X0Ex+g/1c1iXoYUMUahlZnz9flXUM6WAE++HsLR3Wkvd5FNhGUArrcxn0dA==}
     dependencies:
       '@mdit-vue/types': 2.1.0
-      '@types/markdown-it': 14.0.0(patch_hash=324uktmxmvfeckydcv3tuzbvze)
+      '@types/markdown-it': 14.0.1(patch_hash=f3sowjfcbslfedfcollco2ioje)
       gray-matter: 4.0.3
       markdown-it: 14.1.0
     dev: true
 
-  /@mdit-vue/plugin-headers@2.1.0:
-    resolution: {integrity: sha512-vau2AtVIN+nqjlMrvYOpz2toBkJJGUcqJY48Mlo33YybBYNDRCBrX/1VFWJ++B3IeJpdFFMLwhZvRN5tsuhPhQ==}
+  /@mdit-vue/plugin-headers@2.1.2:
+    resolution: {integrity: sha512-YkBTlHeG4seTcXqrVPvPY6utvkHd2qs7QGU5aM3S5CxUH5l0/SzIRv+irhFMfIRsXQ7zwx2vJVSwJz+n2TFhSA==}
     dependencies:
-      '@mdit-vue/shared': 2.1.0
+      '@mdit-vue/shared': 2.1.2
       '@mdit-vue/types': 2.1.0
-      '@types/markdown-it': 14.0.0(patch_hash=324uktmxmvfeckydcv3tuzbvze)
+      '@types/markdown-it': 14.0.1(patch_hash=f3sowjfcbslfedfcollco2ioje)
       markdown-it: 14.1.0
     dev: true
 
-  /@mdit-vue/plugin-sfc@2.1.0:
-    resolution: {integrity: sha512-7M07z3sADHQXwf9CuOXQBK4+Ga+wxnyTNrwsuk0knnvXRO7l6N6yL5sPgzgz67e4UBsqDwsxgWzTgsnzmv6OMg==}
+  /@mdit-vue/plugin-sfc@2.1.2:
+    resolution: {integrity: sha512-wjbFvkUcCcfxc1x33SwqbWSM3WYPJOdlmX9IJQd9y6C7ALujy6Orx1gWn5j0hfke1kIuohvjeJ/K0LqF4oYO4g==}
     dependencies:
       '@mdit-vue/types': 2.1.0
-      '@types/markdown-it': 14.0.0(patch_hash=324uktmxmvfeckydcv3tuzbvze)
+      '@types/markdown-it': 14.0.1(patch_hash=f3sowjfcbslfedfcollco2ioje)
       markdown-it: 14.1.0
     dev: true
 
-  /@mdit-vue/plugin-title@2.1.0:
-    resolution: {integrity: sha512-16KmXwMnWxDwj6CelA1Fyf12/OYvkA2c2MN1iFAdJQnK7wOSPcUscdVO7nxverThuPQLENt/8500/AJqjH4/3Q==}
+  /@mdit-vue/plugin-title@2.1.2:
+    resolution: {integrity: sha512-BXgrpuRp6aI/CV/V3jH3zailG9rZH8f094RSky7PE2wTx3c2hnavz3SB3y3TVDv5UC7BGk/uPfBjdYh8/ejsSg==}
     dependencies:
-      '@mdit-vue/shared': 2.1.0
+      '@mdit-vue/shared': 2.1.2
       '@mdit-vue/types': 2.1.0
-      '@types/markdown-it': 14.0.0(patch_hash=324uktmxmvfeckydcv3tuzbvze)
+      '@types/markdown-it': 14.0.1(patch_hash=f3sowjfcbslfedfcollco2ioje)
       markdown-it: 14.1.0
     dev: true
 
-  /@mdit-vue/plugin-toc@2.1.0:
-    resolution: {integrity: sha512-CUVIHELx73yPypYKvnG+6cwjudUCq5vqXOCb3HfFQOICVXk9Y5W0MFOnGBcyt2JxY4D1dUWusj3YT4o0MDm/Eg==}
+  /@mdit-vue/plugin-toc@2.1.2:
+    resolution: {integrity: sha512-G3t9NjhTvl5cYZ9VSsMzVkYjdUrC9nOZE+oxIzpUTtHRH8NtRvoynUDzEDzRnoRDe29cdWDKTAYaeiHUF+TAvQ==}
     dependencies:
-      '@mdit-vue/shared': 2.1.0
+      '@mdit-vue/shared': 2.1.2
       '@mdit-vue/types': 2.1.0
-      '@types/markdown-it': 14.0.0(patch_hash=324uktmxmvfeckydcv3tuzbvze)
+      '@types/markdown-it': 14.0.1(patch_hash=f3sowjfcbslfedfcollco2ioje)
       markdown-it: 14.1.0
     dev: true
 
-  /@mdit-vue/shared@2.1.0:
-    resolution: {integrity: sha512-eLPdmaB9f7VGjC6AzA5Q2pOzj1s5uJMtF+925SQTjlZIzlJbv1KFwjcO57dlr8aOzF1XrWm8j8nB1qYlecW4Ig==}
+  /@mdit-vue/shared@2.1.2:
+    resolution: {integrity: sha512-5+YHKRyULDqMZsYq+8Ttev0P/osgAoNm2OPYrJtvxLfc1jyrZNiDUCjO2jec7Nk3qyGVZe6FKtXTNLVE+ZRhZw==}
     dependencies:
       '@mdit-vue/types': 2.1.0
-      '@types/markdown-it': 14.0.0(patch_hash=324uktmxmvfeckydcv3tuzbvze)
+      '@types/markdown-it': 14.0.1(patch_hash=f3sowjfcbslfedfcollco2ioje)
       markdown-it: 14.1.0
     dev: true
 
@@ -1230,23 +1230,23 @@ packages:
   /@types/markdown-it-attrs@4.1.3:
     resolution: {integrity: sha512-1JsseFdHD6rQHsPcy4W3xx/whxvZ09Z+CqPpnOtrGtpmkFW07N11q7oM383//LtoKv54yn+HGnk6r4ZHUTHJVg==}
     dependencies:
-      '@types/markdown-it': 14.0.0(patch_hash=324uktmxmvfeckydcv3tuzbvze)
+      '@types/markdown-it': 14.0.1(patch_hash=f3sowjfcbslfedfcollco2ioje)
     dev: true
 
   /@types/markdown-it-container@2.0.10:
     resolution: {integrity: sha512-zv+YxrlSYRq51e9kzm3orv4OvF4U79Ll1OyplNXr00o4ZC/8PukJk/jEWH7CnsMtrSWZlyv0czhz42jm9J4uLw==}
     dependencies:
-      '@types/markdown-it': 14.0.0(patch_hash=324uktmxmvfeckydcv3tuzbvze)
+      '@types/markdown-it': 14.0.1(patch_hash=f3sowjfcbslfedfcollco2ioje)
     dev: true
 
   /@types/markdown-it-emoji@2.0.5:
     resolution: {integrity: sha512-iJLsmCNpSWKtV6Ia3mLSjcXJPEt7ubGG342z+hGvYx++TpM19oTUrJcI7XjbOqRQ+W2UQ323E7B0eCLwlgT/9g==}
     dependencies:
-      '@types/markdown-it': 14.0.0(patch_hash=324uktmxmvfeckydcv3tuzbvze)
+      '@types/markdown-it': 14.0.1(patch_hash=f3sowjfcbslfedfcollco2ioje)
     dev: true
 
-  /@types/markdown-it@14.0.0(patch_hash=324uktmxmvfeckydcv3tuzbvze):
-    resolution: {integrity: sha512-2rStaAqMaLQNfo9mg2HNlley75jUTAkZKqlk3pxDSgaFk44zd+CAVpczpoh6/RtOzfUtwpEyD6lsHWUfKbVSDg==}
+  /@types/markdown-it@14.0.1(patch_hash=f3sowjfcbslfedfcollco2ioje):
+    resolution: {integrity: sha512-6WfOG3jXR78DW8L5cTYCVVGAsIFZskRHCDo5tbqa+qtKVt4oDRVH7hyIWu1SpDQJlmIoEivNQZ5h+AGAOrgOtQ==}
     dependencies:
       '@types/linkify-it': 3.0.5
       '@types/mdurl': 1.0.5
@@ -3362,13 +3362,13 @@ packages:
     resolution: {integrity: sha512-1I+1qpDt4idfgLQG+BNWmrqku+7/2bi5nLf4YwF8y8zXvmfiTBY3PV3ZibfrjBueCByROpuBjLLFCajqkgYoLQ==}
     dev: false
 
-  /markdown-it-anchor@8.6.7(patch_hash=7jac6clbacexfaqdjyv4p6a5n4)(@types/markdown-it@14.0.0)(markdown-it@14.1.0):
+  /markdown-it-anchor@8.6.7(patch_hash=7jac6clbacexfaqdjyv4p6a5n4)(@types/markdown-it@14.0.1)(markdown-it@14.1.0):
     resolution: {integrity: sha512-FlCHFwNnutLgVTflOYHPW2pPcl2AACqVzExlkGQNsi4CJgqOHN7YTgDd4LuhgN1BFO3TS0vLAruV1Td6dwWPJA==}
     peerDependencies:
       '@types/markdown-it': '*'
       markdown-it: '*'
     dependencies:
-      '@types/markdown-it': 14.0.0(patch_hash=324uktmxmvfeckydcv3tuzbvze)
+      '@types/markdown-it': 14.0.1(patch_hash=f3sowjfcbslfedfcollco2ioje)
       markdown-it: 14.1.0
     dev: true
     patched: true

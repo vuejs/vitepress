@@ -106,7 +106,7 @@
     "@docsearch/js": "^3.6.0",
     "@shikijs/core": "^1.2.4",
     "@shikijs/transformers": "^1.2.4",
-    "@types/markdown-it": "^14.0.0",
+    "@types/markdown-it": "^14.0.1",
     "@vitejs/plugin-vue": "^5.0.4",
     "@vue/devtools-api": "^7.0.25",
     "@vueuse/core": "^10.9.0",
@@ -120,13 +120,13 @@
   },
   "devDependencies": {
     "@clack/prompts": "^0.7.0",
-    "@mdit-vue/plugin-component": "^2.1.0",
-    "@mdit-vue/plugin-frontmatter": "^2.1.0",
-    "@mdit-vue/plugin-headers": "^2.1.0",
-    "@mdit-vue/plugin-sfc": "^2.1.0",
-    "@mdit-vue/plugin-title": "^2.1.0",
-    "@mdit-vue/plugin-toc": "^2.1.0",
-    "@mdit-vue/shared": "^2.1.0",
+    "@mdit-vue/plugin-component": "^2.1.2",
+    "@mdit-vue/plugin-frontmatter": "^2.1.2",
+    "@mdit-vue/plugin-headers": "^2.1.2",
+    "@mdit-vue/plugin-sfc": "^2.1.2",
+    "@mdit-vue/plugin-title": "^2.1.2",
+    "@mdit-vue/plugin-toc": "^2.1.2",
+    "@mdit-vue/shared": "^2.1.2",
     "@polka/compression": "1.0.0-next.25",
     "@rollup/plugin-alias": "^5.1.0",
     "@rollup/plugin-commonjs": "^25.0.7",
@@ -223,7 +223,7 @@
       "ora>string-width": "^5"
     },
     "patchedDependencies": {
-      "@types/markdown-it@14.0.0": "patches/@types__markdown-it@14.0.0.patch",
+      "@types/markdown-it@14.0.1": "patches/@types__markdown-it@14.0.1.patch",
       "markdown-it-anchor@8.6.7": "patches/markdown-it-anchor@8.6.7.patch"
     }
   }
