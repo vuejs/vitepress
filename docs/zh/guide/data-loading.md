@@ -91,7 +91,7 @@ import { createContentLoader } from 'vitepress'
 export default createContentLoader('posts/*.md', /* options */)
 ```
 
-该辅助函数接受一个相对于[项目根目录](./routing#project-root)的 glob 模式，并返回一个 `{ watch, load }` 数据加载对象，该对象可以用作数据加载文件中的默认导出。它还基于文件修改时间戳实现了缓存以提高开发性能。
+该辅助函数接受一个相对于[源目录](./routing#source-directory)的 glob 模式，并返回一个 `{ watch, load }` 数据加载对象，该对象可以用作数据加载文件中的默认导出。它还基于文件修改时间戳实现了缓存以提高开发性能。
 
 请注意，数据加载仅适用于 Markdown 文件——匹配的非 Markdown 文件将被跳过。
 

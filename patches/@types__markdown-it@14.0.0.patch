@@ -1,0 +1,13 @@
+diff --git a/package.json b/package.json
+index 46d7bfb79a36d8090d98d1ea1e36216137e00072..7bc1e8be5f1c5b74f52f7fa08935d2df3d19d3e2 100644
+--- a/package.json
++++ b/package.json
+@@ -27,7 +27,7 @@
+         }
+     ],
+     "main": "",
+-    "types": "index.d.ts",
++    "types": "index.d.mts",
+     "exports": {
+         ".": {
+             "import": "./index.d.mts",

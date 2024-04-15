@@ -8,7 +8,10 @@ export function usePrevNext() {
 
   return computed(() => {
     const sidebar = getSidebar(theme.value.sidebar, page.value.relativePath)
-    const candidates = getFlatSideBarLinks(sidebar)
+    const links = getFlatSideBarLinks(sidebar)
+
+    // ignore inner-page links with hashes
+    const candidates = uniqBy(links, (link) => link.link.replace(/[?#].*$/, ''))
 
     const index = candidates.findIndex((link) => {
       return isActive(page.value.relativePath, link.link)
@@ -59,5 +62,13 @@ export function usePrevNext() {
       prev?: { text?: string; link?: string }
       next?: { text?: string; link?: string }
     }
+  })
+}
+
+function uniqBy<T>(array: T[], keyFn: (item: T) => any): T[] {
+  const seen = new Set()
+  return array.filter((item) => {
+    const k = keyFn(item)
+    return seen.has(k) ? false : seen.add(k)
   })
 }
