@@ -1,3 +1,22 @@
+# [1.1.0](https://github.com/vuejs/vitepress/compare/v1.0.2...v1.1.0) (2024-04-09)
+
+### Bug Fixes
+
+- **client:** hashchange should only be triggered for same page navigations ([#3768](https://github.com/vuejs/vitepress/issues/3768)) ([2a9fc2a](https://github.com/vuejs/vitepress/commit/2a9fc2a26b829bb3f28067ac6f4a41bc1e8b7a1e))
+- **client:** emit correct `Event` instance in hashchange event
+- **theme:** remove small layout shift on `On this page` button ([#3767](https://github.com/vuejs/vitepress/issues/3767)) ([5f28e74](https://github.com/vuejs/vitepress/commit/5f28e74abfc984cdc7e0d9d9f7b7e15cb2b46923))
+
+### Features
+
+- **client:** add `hash` property to `useData()`
+- **theme:** update Inter to version 4 ([#3693](https://github.com/vuejs/vitepress/issues/3693)) ([#3694](https://github.com/vuejs/vitepress/issues/3694)) ([ffafa31](https://github.com/vuejs/vitepress/commit/ffafa31b9204f996f4b819684214fa631c224575))
+
+## [1.0.2](https://github.com/vuejs/vitepress/compare/v1.0.1...v1.0.2) (2024-04-01)
+
+### Bug Fixes
+
+- **theme:** text containing html not showing properly in mobile nav menu ([3c8b4c7](https://github.com/vuejs/vitepress/commit/3c8b4c706051592dd2cca0ae57e293254cbb51ce))
+
 ## [1.0.1](https://github.com/vuejs/vitepress/compare/v1.0.0...v1.0.1) (2024-03-22)
 
 ### Bug Fixes
