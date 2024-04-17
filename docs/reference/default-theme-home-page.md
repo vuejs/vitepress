@@ -75,7 +75,24 @@ interface HeroAction {
 
   // Link rel attribute.
   rel?: string
+
+  // Show the left icon on action button.
+  startIcon?: ActionIcon
+
+  // Show the right icon on action button.
+  endIcon?: ActionIcon
 }
+
+type ActionIcon =
+  | string
+  | { src: string; alt?: string; width?: string; height: string }
+  | {
+      light: string
+      dark: string
+      alt?: string
+      width?: string
+      height: string
+    }
 ```
 
 ### Customizing the name color
