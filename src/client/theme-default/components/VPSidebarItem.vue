@@ -48,10 +48,6 @@ function onItemInteraction(e: MouseEvent | Event) {
   }
   !props.item.link && toggle()
 }
-
-function onCaretClick() {
-  props.item.link && toggle()
-}
 </script>
 
 <template>
@@ -84,11 +80,6 @@ function onCaretClick() {
       <div
         v-if="item.collapsed != null && item.items && item.items.length"
         class="caret"
-        role="button"
-        aria-label="toggle section"
-        @click="onCaretClick"
-        @keydown.enter="onCaretClick"
-        tabindex="0"
       >
         <span class="vpi-chevron-right caret-icon" />
       </div>
