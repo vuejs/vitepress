@@ -1,3 +1,11 @@
+## [1.1.1](https://github.com/vuejs/vitepress/compare/v1.1.0...v1.1.1) (2024-04-18)
+
+### Bug Fixes
+
+- **client:** don't reload page on hash change ([#3777](https://github.com/vuejs/vitepress/issues/3777)) ([74b725a](https://github.com/vuejs/vitepress/commit/74b725a224438ef776fed25ee82274429d94ac83))
+- let vue compiler handle entity decoding ([f86ac56](https://github.com/vuejs/vitepress/commit/f86ac56b78da76f3061e6537b897bb13c1ed802d))
+- hot updating config file suppresses error logs ([#3592](https://github.com/vuejs/vitepress/issues/3592)) ([cd5adf3](https://github.com/vuejs/vitepress/commit/cd5adf3011d677263c93ce6f8066aaa7870b1dfc))
+
 # [1.1.0](https://github.com/vuejs/vitepress/compare/v1.0.2...v1.1.0) (2024-04-09)
 
 ### Bug Fixes
