@@ -206,6 +206,11 @@ export const createMarkdownRenderer = async (
 
   md.linkify.set({ fuzzyLink: false })
 
+  // disable entity decode/escape from markdown-it, as the Vue compiler already
+  // decodes them.
+  md.disable('entity')
+  md.renderer.rules.text = (tokens, idx) => tokens[idx].content
+
   if (options.preConfig) {
     options.preConfig(md)
   }
@@ -291,11 +296,6 @@ export const createMarkdownRenderer = async (
   if (options.config) {
     options.config(md)
   }
-
-  // disable entity decode/escape from markdown-it, as the Vue compiler already
-  // decodes them.
-  md.disable('entity')
-  md.renderer.rules.text = (tokens, idx) => tokens[idx].content
 
   return md
 }
