@@ -291,3 +291,47 @@ Cache-Control: max-age=31536000,immutable
 ### Stormkit
 
 Вы можете развернуть свой проект VitePress на [Stormkit](https://www.stormkit.io), следуя следующим [инструкциям](https://stormkit.io/blog/how-to-deploy-vitepress).
+
+### Nginx
+
+Вот пример конфигурации блока сервера Nginx. Эта настройка включает сжатие gzip для общих текстовых ресурсов, правила обслуживания статических файлов вашего сайта VitePress с правильными заголовками кэширования и обработку параметра `cleanUrls: true`.
+
+```nginx
+server {
+    gzip on;
+    gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+
+    listen 80;
+    server_name _;
+    index index.html;
+
+    location / {
+        # расположение контента
+        root /app;
+
+        # точные совпадения -> обратные чистые URL-адреса -> папки -> не найдены
+        try_files $uri $uri.html $uri/ =404;
+
+        # несуществующие страницы
+        error_page 404 /404.html;
+
+        # папка без index.html вызывает ошибку 403 в этой настройке
+        error_page 403 /404.html;
+
+        # настройка заголовков кэширования
+        # файлы в папке с ресурсами имеют хэши имён файлов
+        location ~* ^/assets/ {
+            expires 1y;
+            add_header Cache-Control "public, immutable";
+        }
+    }
+}
+```
+
+Эта конфигурация предполагает, что ваш собранный сайт VitePress находится в директории `/app`. При необходимости измените директиву `root`, если файлы вашего сайта расположены в другом месте.
+
+::: warning Не используйте index.html по умолчанию
+Разрешение try_files не должно использовать index.html, как это делается в других приложениях Vue. Это может привести к недопустимому состоянию страницы.
+:::
+
+Дополнительную информацию можно найти в официальной документации [Nginx](https://nginx.org/ru/docs/), а также в следующих обсуждениях: [#2837](https://github.com/vuejs/vitepress/discussions/2837), [#3235](https://github.com/vuejs/vitepress/issues/3235), а также в [блоге Mehdi Merah](https://blog.mehdi.cc/articles/vitepress-cleanurls-on-nginx-environment#readings).
