@@ -20,13 +20,11 @@ import {
 import { useData } from './data'
 
 export interface SidebarControl {
-  collapsed: Ref<boolean>
   collapsible: ComputedRef<boolean>
   isLink: ComputedRef<boolean>
   isActiveLink: Ref<boolean>
   hasActiveLink: ComputedRef<boolean>
   hasChildren: ComputedRef<boolean>
-  toggle(): void
 }
 
 export function useSidebar() {
@@ -139,8 +137,6 @@ export function useSidebarControl(
 ): SidebarControl {
   const { page, hash } = useData()
 
-  const collapsed = ref(false)
-
   const collapsible = computed(() => {
     return item.value.collapsed != null
   })
@@ -171,27 +167,15 @@ export function useSidebarControl(
     return !!(item.value.items && item.value.items.length)
   })
 
-  watchEffect(() => {
-    collapsed.value = !!(collapsible.value && item.value.collapsed)
-  })
-
   watchPostEffect(() => {
-    ;(isActiveLink.value || hasActiveLink.value) && (collapsed.value = false)
+    isActiveLink.value || hasActiveLink.value
   })
-
-  function toggle() {
-    if (collapsible.value) {
-      collapsed.value = !collapsed.value
-    }
-  }
 
   return {
-    collapsed,
     collapsible,
     isLink,
     isActiveLink,
     hasActiveLink,
-    hasChildren,
-    toggle
+    hasChildren
   }
 }

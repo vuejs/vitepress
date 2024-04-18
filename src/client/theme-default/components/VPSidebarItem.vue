@@ -10,13 +10,10 @@ const props = defineProps<{
 }>()
 
 const {
-  collapsed,
-  collapsible,
   isLink,
   isActiveLink,
   hasActiveLink,
-  hasChildren,
-  toggle
+  hasChildren
 } = useSidebarControl(computed(() => props.item))
 
 const sectionTag = computed(() => (hasChildren.value ? 'section' : `div`))
@@ -31,44 +28,59 @@ const textTag = computed(() => {
     : `h${props.depth + 2}`
 })
 
-const itemRole = computed(() => (isLink.value ? undefined : 'button'))
-
 const classes = computed(() => [
   [`level-${props.depth}`],
-  { collapsible: collapsible.value },
-  { collapsed: collapsed.value },
   { 'is-link': isLink.value },
   { 'is-active': isActiveLink.value },
   { 'has-active': hasActiveLink.value }
 ])
-
-function onItemInteraction(e: MouseEvent | Event) {
-  if ('key' in e && e.key !== 'Enter') {
-    return
-  }
-  !props.item.link && toggle()
-}
-
-function onCaretClick() {
-  props.item.link && toggle()
-}
 </script>
 
 <template>
   <component :is="sectionTag" class="VPSidebarItem" :class="classes">
-    <div
-      v-if="item.text"
+    <details
+      v-if="item.text && item.collapsed != null && hasChildren"
       class="item"
-      :role="itemRole"
-      v-on="
-        hasChildren
-          ? { click: onItemInteraction, keydown: onItemInteraction }
-          : {}
-      "
-      :tabindex="hasChildren ? 0 : undefined"
+      :open="!item.collapsed"
+    >
+      <summary>
+        <div class="indicator" />
+        
+        <VPLink
+          v-if="item.link"
+          :tag="linkTag"
+          class="link"
+          :href="item.link"
+          :rel="item.rel"
+          :target="item.target"
+        >
+          <component :is="textTag" class="text" v-html="item.text" />
+        </VPLink>
+        <component v-else :is="textTag" class="text" v-html="item.text" />
+
+        <div class="caret">
+          <span class="vpi-chevron-right caret-icon" />
+        </div>
+      </summary>
+
+      <div class="items">
+        <template v-if="depth < 5">
+          <VPSidebarItem
+            v-for="i in item.items"
+            :key="i.text"
+            :item="i"
+            :depth="depth + 1"
+          />
+        </template>
+      </div>
+    </details>
+    <div
+      v-else
+      :is="item.text"
+      class="item"
     >
       <div class="indicator" />
-
+      
       <VPLink
         v-if="item.link"
         :tag="linkTag"
@@ -80,21 +92,9 @@ function onCaretClick() {
         <component :is="textTag" class="text" v-html="item.text" />
       </VPLink>
       <component v-else :is="textTag" class="text" v-html="item.text" />
-
-      <div
-        v-if="item.collapsed != null && hasChildren"
-        class="caret"
-        role="button"
-        aria-label="toggle section"
-        @click="onCaretClick"
-        @keydown.enter="onCaretClick"
-        tabindex="0"
-      >
-        <span class="vpi-chevron-right caret-icon" />
-      </div>
     </div>
 
-    <div v-if="hasChildren" class="items">
+    <div v-if="(item.collapsed == null || !item.text) && hasChildren" class="items">
       <template v-if="depth < 5">
         <VPSidebarItem
           v-for="i in item.items"
@@ -112,7 +112,7 @@ function onCaretClick() {
   padding-bottom: 24px;
 }
 
-.VPSidebarItem.collapsed.level-0 {
+.VPSidebarItem.level-0:has(> details:not([open])) {
   padding-bottom: 10px;
 }
 
@@ -122,8 +122,22 @@ function onCaretClick() {
   width: 100%;
 }
 
-.VPSidebarItem.collapsible > .item {
+.VPSidebarItem details summary {
   cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+
+  .link {
+    flex-grow: 0;
+  }
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  &::marker {
+    content: '';
+  }
 }
 
 .indicator {
@@ -171,36 +185,30 @@ function onCaretClick() {
   color: var(--vp-c-text-2);
 }
 
-.VPSidebarItem.level-0.is-link > .item > .link:hover .text,
-.VPSidebarItem.level-1.is-link > .item > .link:hover .text,
-.VPSidebarItem.level-2.is-link > .item > .link:hover .text,
-.VPSidebarItem.level-3.is-link > .item > .link:hover .text,
-.VPSidebarItem.level-4.is-link > .item > .link:hover .text,
-.VPSidebarItem.level-5.is-link > .item > .link:hover .text {
-  color: var(--vp-c-brand-1);
-}
-
-.VPSidebarItem.level-0.has-active > .item > .text,
-.VPSidebarItem.level-1.has-active > .item > .text,
-.VPSidebarItem.level-2.has-active > .item > .text,
-.VPSidebarItem.level-3.has-active > .item > .text,
-.VPSidebarItem.level-4.has-active > .item > .text,
-.VPSidebarItem.level-5.has-active > .item > .text,
-.VPSidebarItem.level-0.has-active > .item > .link > .text,
-.VPSidebarItem.level-1.has-active > .item > .link > .text,
-.VPSidebarItem.level-2.has-active > .item > .link > .text,
-.VPSidebarItem.level-3.has-active > .item > .link > .text,
-.VPSidebarItem.level-4.has-active > .item > .link > .text,
-.VPSidebarItem.level-5.has-active > .item > .link > .text {
-  color: var(--vp-c-text-1);
-}
-
-.VPSidebarItem.level-0.is-active > .item .link > .text,
-.VPSidebarItem.level-1.is-active > .item .link > .text,
-.VPSidebarItem.level-2.is-active > .item .link > .text,
-.VPSidebarItem.level-3.is-active > .item .link > .text,
-.VPSidebarItem.level-4.is-active > .item .link > .text,
-.VPSidebarItem.level-5.is-active > .item .link > .text {
+.VPSidebarItem.level-0.is-active > .item > summary .text,
+.VPSidebarItem.level-1.is-active > .item > summary .text,
+.VPSidebarItem.level-2.is-active > .item > summary .text,
+.VPSidebarItem.level-3.is-active > .item > summary .text,
+.VPSidebarItem.level-4.is-active > .item > summary .text,
+.VPSidebarItem.level-5.is-active > .item > summary .text,
+.VPSidebarItem.level-0.is-active > .item > .link > .text,
+.VPSidebarItem.level-1.is-active > .item > .link > .text,
+.VPSidebarItem.level-2.is-active > .item > .link > .text,
+.VPSidebarItem.level-3.is-active > .item > .link > .text,
+.VPSidebarItem.level-4.is-active > .item > .link > .text,
+.VPSidebarItem.level-5.is-active > .item > .link > .text,
+.VPSidebarItem.level-0 .link:hover >.text,
+.VPSidebarItem.level-1 .link:hover >.text,
+.VPSidebarItem.level-2 .link:hover >.text,
+.VPSidebarItem.level-3 .link:hover >.text,
+.VPSidebarItem.level-4 .link:hover >.text,
+.VPSidebarItem.level-5 .link:hover >.text,
+.VPSidebarItem.level-0 .link:focus >.text,
+.VPSidebarItem.level-1 .link:focus >.text,
+.VPSidebarItem.level-2 .link:focus >.text,
+.VPSidebarItem.level-3 .link:focus >.text,
+.VPSidebarItem.level-4 .link:focus >.text,
+.VPSidebarItem.level-5 .link:focus >.text {
   color: var(--vp-c-brand-1);
 }
 
@@ -231,7 +239,7 @@ function onCaretClick() {
   transition: transform 0.25s;
 }
 
-.VPSidebarItem.collapsed .caret-icon {
+.VPSidebarItem > details:not([open]) > summary .caret-icon {
   transform: rotate(0);
 }
 
@@ -242,9 +250,5 @@ function onCaretClick() {
 .VPSidebarItem.level-5 .items {
   border-left: 1px solid var(--vp-c-divider);
   padding-left: 16px;
-}
-
-.VPSidebarItem.collapsed .items {
-  display: none;
 }
 </style>
