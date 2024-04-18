@@ -1,4 +1,4 @@
-## [1.1.2](https://github.com/vuejs/vitepress/compare/v1.1.1...v1.1.2) (2024-04-18)
+## [1.1.3](https://github.com/vuejs/vitepress/compare/v1.1.1...v1.1.3) (2024-04-18)
 
 ### Bug Fixes
 
