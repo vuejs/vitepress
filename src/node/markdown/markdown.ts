@@ -292,5 +292,10 @@ export const createMarkdownRenderer = async (
     options.config(md)
   }
 
+  // disable entity decode/escape from markdown-it, as the Vue compiler already
+  // decodes them.
+  md.disable('entity')
+  md.renderer.rules.text = (tokens, idx) => tokens[idx].content
+
   return md
 }
