@@ -126,18 +126,19 @@ const classes = computed(() => [
   cursor: pointer;
   display: flex;
   justify-content: space-between;
+}
 
-  .link {
-    flex-grow: 0;
-  }
+.VPSidebarItem details summary .link {
+  flex-grow: 0;
+}
 
-  &::-webkit-details-marker {
-    display: none;
-  }
+  
+.VPSidebarItem details summary::-webkit-details-marker {
+  display: none;
+}
 
-  &::marker {
-    content: '';
-  }
+.VPSidebarItem details summary::marker {
+  content: '';
 }
 
 .indicator {
