@@ -14,8 +14,8 @@ import { sfcPlugin, type SfcPluginOptions } from '@mdit-vue/plugin-sfc'
 import { titlePlugin } from '@mdit-vue/plugin-title'
 import { tocPlugin, type TocPluginOptions } from '@mdit-vue/plugin-toc'
 import { slugify } from '@mdit-vue/shared'
-import MarkdownIt from 'markdown-it'
 import type { Options } from 'markdown-it'
+import MarkdownIt from 'markdown-it'
 import anchorPlugin from 'markdown-it-anchor'
 import attrsPlugin from 'markdown-it-attrs'
 // @ts-expect-error: types of markdown-it-emoji are not up-to-date
@@ -29,14 +29,15 @@ import type {
 } from 'shiki'
 import type { Logger } from 'vite'
 import { containerPlugin, type ContainerOptions } from './plugins/containers'
+import { gitHubAlertsPlugin } from './plugins/githubAlerts'
 import { highlight } from './plugins/highlight'
 import { highlightLinePlugin } from './plugins/highlightLines'
 import { imagePlugin, type Options as ImageOptions } from './plugins/image'
 import { lineNumberPlugin } from './plugins/lineNumbers'
 import { linkPlugin } from './plugins/link'
 import { preWrapperPlugin } from './plugins/preWrapper'
+import { restoreEntities } from './plugins/restoreEntities'
 import { snippetPlugin } from './plugins/snippet'
-import { gitHubAlertsPlugin } from './plugins/githubAlerts'
 
 export type { Header } from '../shared'
 
@@ -205,11 +206,7 @@ export const createMarkdownRenderer = async (
   })
 
   md.linkify.set({ fuzzyLink: false })
-
-  // disable entity decode/escape from markdown-it, as the Vue compiler already
-  // decodes them.
-  md.disable('entity')
-  md.renderer.rules.text = (tokens, idx) => tokens[idx].content
+  md.use(restoreEntities)
 
   if (options.preConfig) {
     options.preConfig(md)
