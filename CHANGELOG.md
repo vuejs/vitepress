@@ -1,3 +1,9 @@
+## [1.1.2](https://github.com/vuejs/vitepress/compare/v1.1.1...v1.1.2) (2024-04-18)
+
+### Bug Fixes
+
+- **build/regression:** markdown backslash escapes not working ([d02d1e9](https://github.com/vuejs/vitepress/commit/d02d1e923aacdb1e8061a3f76af30e8a13518277)), closes [#3808](https://github.com/vuejs/vitepress/issues/3808)
+
 ## [1.1.1](https://github.com/vuejs/vitepress/compare/v1.1.0...v1.1.1) (2024-04-18)
 
 ### Bug Fixes
