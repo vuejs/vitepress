@@ -30,9 +30,6 @@ export interface ScaffoldOptions {
 
 const getPackageManger = () => {
   const name = process.env?.npm_config_user_agent || 'npm'
-  if (name === 'npm') {
-    return 'npm'
-  }
   return name.split('/')[0]
 }
 
@@ -211,9 +208,9 @@ export function scaffold({
       `${getPackageManger()} run docs:dev`
     )} and start writing.${tip}`
   } else {
-    const execCommand = getPackageManger() === 'bun' ? 'bunx' : 'npx'
+    const pm = getPackageManger()
     return `You're all set! Now run ${cyan(
-      `${execCommand} vitepress dev${dir}`
+      `${pm === 'npm' ? 'npx' : pm} vitepress dev${dir}`
     )} and start writing.${tip}`
   }
 }
