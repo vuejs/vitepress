@@ -61,11 +61,11 @@ function onCaretClick() {
       class="item"
       :role="itemRole"
       v-on="
-        item.items
+        hasChildren
           ? { click: onItemInteraction, keydown: onItemInteraction }
           : {}
       "
-      :tabindex="item.items && 0"
+      :tabindex="hasChildren ? 0 : undefined"
     >
       <div class="indicator" />
 
@@ -82,7 +82,7 @@ function onCaretClick() {
       <component v-else :is="textTag" class="text" v-html="item.text" />
 
       <div
-        v-if="item.collapsed != null && item.items && item.items.length"
+        v-if="item.collapsed != null && hasChildren"
         class="caret"
         role="button"
         aria-label="toggle section"
@@ -94,7 +94,7 @@ function onCaretClick() {
       </div>
     </div>
 
-    <div v-if="item.items && item.items.length" class="items">
+    <div v-if="hasChildren" class="items">
       <template v-if="depth < 5">
         <VPSidebarItem
           v-for="i in item.items"
