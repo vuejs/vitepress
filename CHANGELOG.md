@@ -1,3 +1,56 @@
+## [1.1.3](https://github.com/vuejs/vitepress/compare/v1.1.1...v1.1.3) (2024-04-18)
+
+### Bug Fixes
+
+- **build/regression:** markdown backslash escapes not working ([d02d1e9](https://github.com/vuejs/vitepress/commit/d02d1e923aacdb1e8061a3f76af30e8a13518277)), closes [#3808](https://github.com/vuejs/vitepress/issues/3808)
+
+## [1.1.1](https://github.com/vuejs/vitepress/compare/v1.1.0...v1.1.1) (2024-04-18)
+
+### Bug Fixes
+
+- **client:** don't reload page on hash change ([#3777](https://github.com/vuejs/vitepress/issues/3777)) ([74b725a](https://github.com/vuejs/vitepress/commit/74b725a224438ef776fed25ee82274429d94ac83))
+- let vue compiler handle entity decoding ([f86ac56](https://github.com/vuejs/vitepress/commit/f86ac56b78da76f3061e6537b897bb13c1ed802d))
+- hot updating config file suppresses error logs ([#3592](https://github.com/vuejs/vitepress/issues/3592)) ([cd5adf3](https://github.com/vuejs/vitepress/commit/cd5adf3011d677263c93ce6f8066aaa7870b1dfc))
+
+# [1.1.0](https://github.com/vuejs/vitepress/compare/v1.0.2...v1.1.0) (2024-04-09)
+
+### Bug Fixes
+
+- **client:** hashchange should only be triggered for same page navigations ([#3768](https://github.com/vuejs/vitepress/issues/3768)) ([2a9fc2a](https://github.com/vuejs/vitepress/commit/2a9fc2a26b829bb3f28067ac6f4a41bc1e8b7a1e))
+- **client:** emit correct `Event` instance in hashchange event
+- **theme:** remove small layout shift on `On this page` button ([#3767](https://github.com/vuejs/vitepress/issues/3767)) ([5f28e74](https://github.com/vuejs/vitepress/commit/5f28e74abfc984cdc7e0d9d9f7b7e15cb2b46923))
+
+### Features
+
+- **client:** add `hash` property to `useData()`
+- **theme:** update Inter to version 4 ([#3693](https://github.com/vuejs/vitepress/issues/3693)) ([#3694](https://github.com/vuejs/vitepress/issues/3694)) ([ffafa31](https://github.com/vuejs/vitepress/commit/ffafa31b9204f996f4b819684214fa631c224575))
+
+## [1.0.2](https://github.com/vuejs/vitepress/compare/v1.0.1...v1.0.2) (2024-04-01)
+
+### Bug Fixes
+
+- **theme:** text containing html not showing properly in mobile nav menu ([3c8b4c7](https://github.com/vuejs/vitepress/commit/3c8b4c706051592dd2cca0ae57e293254cbb51ce))
+
+## [1.0.1](https://github.com/vuejs/vitepress/compare/v1.0.0...v1.0.1) (2024-03-22)
+
+### Bug Fixes
+
+- **build:** vendor vue-demi to avoid resolution issues with yarn berry ([#3680](https://github.com/vuejs/vitepress/issues/3680)) ([5d3cb96](https://github.com/vuejs/vitepress/commit/5d3cb96ac364413aa9eb494bc91744bd8f4a2c79))
+
+# [1.0.0](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.45...v1.0.0) (2024-03-21)
+
+### Bug Fixes
+
+- **build:** resolve pattern relative to srcDir instead of root in createContentLoader ([#3638](https://github.com/vuejs/vitepress/issues/3638)) ([59183e9](https://github.com/vuejs/vitepress/commit/59183e9cef112a004c8a8e2b365478af657858b0))
+- **localSearch:** remove empty titles that may appear in search results ([#3665](https://github.com/vuejs/vitepress/issues/3665)) ([f7aef3c](https://github.com/vuejs/vitepress/commit/f7aef3ca23dae39e226c85d7bb2579dbf7c758f3))
+- **theme:** fixed sidebar expand caret showing when no children are present ([#3657](https://github.com/vuejs/vitepress/issues/3657)) ([e13f932](https://github.com/vuejs/vitepress/commit/e13f93292ce1a2b1d5ba161fddfe947a1824a2b0))
+- **theme:** ignore inner-page items in next/prev link ([#3663](https://github.com/vuejs/vitepress/issues/3663)) ([b50a8a1](https://github.com/vuejs/vitepress/commit/b50a8a132577693817a15ab43fc4cc22670a8a65))
+- **theme:** local nav separator not visible on pages having no outline ([1909041](https://github.com/vuejs/vitepress/commit/190904171500ad22998c8666080fd58c867a59b5))
+
+### Features
+
+- **theme:** allow selectively disabling external link icon on navbar items ([#3607](https://github.com/vuejs/vitepress/issues/3607)) ([5f6297c](https://github.com/vuejs/vitepress/commit/5f6297cb3df98926154235f31570e75820d4ea16))
+
 # [1.0.0-rc.45](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.44...v1.0.0-rc.45) (2024-03-06)
 
 ### Bug Fixes

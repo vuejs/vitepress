@@ -1,13 +1,12 @@
 import { computed } from 'vue'
 import { ensureStartingSlash } from '../support/utils'
 import { useData } from './data'
-import { hashRef } from './hash'
 
 export function useLangs({
   removeCurrent = true,
   correspondingLink = false
 } = {}) {
-  const { site, localeIndex, page, theme } = useData()
+  const { site, localeIndex, page, theme, hash } = useData()
   const currentLang = computed(() => ({
     label: site.value.locales[localeIndex.value]?.label,
     link:
@@ -29,7 +28,7 @@ export function useLangs({
                   currentLang.value.link.length - 1
                 ),
                 !site.value.cleanUrls
-              ) + hashRef.value
+              ) + hash.value
           }
     )
   )
