@@ -71,8 +71,12 @@ $ npx vitepress init
 $ pnpm vitepress init
 ```
 
+```sh [yarn]
+$ yarn vitepress init
+```
+
 ```sh [bun]
-$ bunx vitepress init
+$ bun vitepress init
 ```
 
 :::
@@ -82,7 +86,7 @@ You will be greeted with a few simple questions:
 <<< @/snippets/init.ansi
 
 ::: tip Vue as Peer Dependency
-If you intend to perform customization that uses Vue components or APIs, you should also explicitly install `vue` as a peer dependency.
+If you intend to perform customization that uses Vue components or APIs, you should also explicitly install `vue` as a dependency.
 :::
 
 ## File Structure
@@ -182,11 +186,15 @@ $ npx vitepress dev docs
 ```
 
 ```sh [pnpm]
-$ pnpm exec vitepress dev docs
+$ pnpm vitepress dev docs
+```
+
+```sh [yarn]
+$ yarn vitepress dev docs
 ```
 
 ```sh [bun]
-$ bunx vitepress dev docs
+$ bun vitepress dev docs
 ```
 
 :::

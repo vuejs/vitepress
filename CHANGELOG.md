@@ -1,3 +1,30 @@
+## [1.1.3](https://github.com/vuejs/vitepress/compare/v1.1.1...v1.1.3) (2024-04-18)
+
+### Bug Fixes
+
+- **build/regression:** markdown backslash escapes not working ([d02d1e9](https://github.com/vuejs/vitepress/commit/d02d1e923aacdb1e8061a3f76af30e8a13518277)), closes [#3808](https://github.com/vuejs/vitepress/issues/3808)
+
+## [1.1.1](https://github.com/vuejs/vitepress/compare/v1.1.0...v1.1.1) (2024-04-18)
+
+### Bug Fixes
+
+- **client:** don't reload page on hash change ([#3777](https://github.com/vuejs/vitepress/issues/3777)) ([74b725a](https://github.com/vuejs/vitepress/commit/74b725a224438ef776fed25ee82274429d94ac83))
+- let vue compiler handle entity decoding ([f86ac56](https://github.com/vuejs/vitepress/commit/f86ac56b78da76f3061e6537b897bb13c1ed802d))
+- hot updating config file suppresses error logs ([#3592](https://github.com/vuejs/vitepress/issues/3592)) ([cd5adf3](https://github.com/vuejs/vitepress/commit/cd5adf3011d677263c93ce6f8066aaa7870b1dfc))
+
+# [1.1.0](https://github.com/vuejs/vitepress/compare/v1.0.2...v1.1.0) (2024-04-09)
+
+### Bug Fixes
+
+- **client:** hashchange should only be triggered for same page navigations ([#3768](https://github.com/vuejs/vitepress/issues/3768)) ([2a9fc2a](https://github.com/vuejs/vitepress/commit/2a9fc2a26b829bb3f28067ac6f4a41bc1e8b7a1e))
+- **client:** emit correct `Event` instance in hashchange event
+- **theme:** remove small layout shift on `On this page` button ([#3767](https://github.com/vuejs/vitepress/issues/3767)) ([5f28e74](https://github.com/vuejs/vitepress/commit/5f28e74abfc984cdc7e0d9d9f7b7e15cb2b46923))
+
+### Features
+
+- **client:** add `hash` property to `useData()`
+- **theme:** update Inter to version 4 ([#3693](https://github.com/vuejs/vitepress/issues/3693)) ([#3694](https://github.com/vuejs/vitepress/issues/3694)) ([ffafa31](https://github.com/vuejs/vitepress/commit/ffafa31b9204f996f4b819684214fa631c224575))
+
 ## [1.0.2](https://github.com/vuejs/vitepress/compare/v1.0.1...v1.0.2) (2024-04-01)
 
 ### Bug Fixes
