@@ -6,12 +6,14 @@ import {
   readonly,
   ref,
   shallowRef,
+  watch,
   type InjectionKey,
   type Ref
 } from 'vue'
 import {
   APPEARANCE_KEY,
   createTitle,
+  inBrowser,
   resolveSiteDataByRoute,
   type PageData,
   type SiteData
@@ -47,6 +49,10 @@ export interface VitePressData<T = any> {
   dir: Ref<string>
   localeIndex: Ref<string>
   isDark: Ref<boolean>
+  /**
+   * Current location hash
+   */
+  hash: Ref<string>
 }
 
 // site data is a singleton
@@ -82,6 +88,21 @@ export function initData(route: Route): VitePressData {
           })
         : ref(false)
 
+  const hashRef = ref(inBrowser ? location.hash : '')
+
+  if (inBrowser) {
+    window.addEventListener('hashchange', () => {
+      hashRef.value = location.hash
+    })
+  }
+
+  watch(
+    () => route.data,
+    () => {
+      hashRef.value = inBrowser ? location.hash : ''
+    }
+  )
+
   return {
     site,
     theme: computed(() => site.value.themeConfig),
@@ -95,7 +116,8 @@ export function initData(route: Route): VitePressData {
     description: computed(
       () => route.data.description || site.value.description
     ),
-    isDark
+    isDark,
+    hash: computed(() => hashRef.value)
   }
 }
 

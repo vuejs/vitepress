@@ -7,9 +7,12 @@ titleTemplate: 由 Vite 和 Vue 驱动的静态站点生成器
 hero:
   name: VitePress
   text: 由 Vite 和 Vue 驱动的静态站点生成器
-  tagline: 简单、强大、快速。就是你想要的现代 SSG 框架！
+  tagline: 将 Markdown 变成优雅的文档，只需几分钟
   actions:
     - theme: brand
+      text: 什么是 VitePress?
+      link: /zh/guide/what-is-vitepress
+    - theme: alt
       text: 快速开始
       link: /zh/guide/getting-started
     - theme: alt

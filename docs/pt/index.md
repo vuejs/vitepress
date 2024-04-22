@@ -7,13 +7,16 @@ titleTemplate: Gerador de Site Estático desenvolvido com Vite & Vue
 hero:
   name: VitePress
   text: Gerador de Site Estático Vite & Vue
-  tagline: Simples, poderoso e rápido. Conheça o moderno framework SSG que você sempre quis.
+  tagline: Markdown para Lindos Documentos em Minutos
   actions:
     - theme: brand
+      text: O que é VitePress?
+      link: /pt/guide/what-is-vitepress
+    - theme: alt
       text: Iniciar
       link: /pt/guide/getting-started
     - theme: alt
-      text: Ver no GitHub
+      text: GitHub
       link: https://github.com/vuejs/vitepress
   image:
     src: /vitepress-logo-large.webp

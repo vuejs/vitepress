@@ -71,6 +71,11 @@ const translate = createSearchTranslate(defaultTranslations)
   outline: 5px auto -webkit-focus-ring-color;
 }
 
+.DocSearch-Button-Key--pressed {
+  transform: none;
+  box-shadow: none;
+}
+
 .DocSearch-Button:focus:not(:focus-visible) {
   outline: none !important;
 }
