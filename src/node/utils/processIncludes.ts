@@ -22,7 +22,7 @@ export function processIncludesRelativePath(
         .resolve(includeFileDir, p1)
         .substring(resolvedSrcDir.length)
       // replace win32's separator to /
-      const p1PathInVite = p1Path.replace(path.win32.sep, '/')
+      const p1PathInVite = p1Path.replaceAll(path.win32.sep, '/')
       return '(' + p1PathInVite + ')'
     } catch {
       return m
