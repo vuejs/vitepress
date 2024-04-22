@@ -38,53 +38,30 @@ const classes = computed(() => [props.size, `count-${props.members.length}`])
   width: 100%;
 }
 
+/**
+ * Small size layout.
+ * -------------------------------------------------------------------------- */
+
 @media (min-width: 512px) {
   .VPTeamMembers.small .container {
     grid-template-columns: repeat(2, 1fr);
   }
 
   .VPTeamMembers.small.count-1 .container,
-  .VPTeamMembers.medium.count-1 .container {
+  .VPTeamMembers.small.count-2 .container {
     display: flex;
     justify-content: center;
   }
 
-  .VPTeamMembers.small.count-1 .item {
+  .VPTeamMembers.small.count-1 .item,
+  .VPTeamMembers.small.count-2 .item {
     max-width: 272px;
-  }
-
-  .VPTeamMembers.medium.count-1 .item {
-    max-width: 368px;
-  }
-}
-
-@media (min-width: 640px) {
-  .VPTeamMembers.medium .container {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .VPTeamMembers.medium.count-2 .container {
-    display: flex;
-    justify-content: center;
-  }
-
-  .VPTeamMembers.medium.count-2 .item {
-    max-width: 368px;
   }
 }
 
 @media (min-width: 768px) {
   .VPTeamMembers.small .container {
     grid-template-columns: repeat(3, 1fr);
-  }
-
-  .VPTeamMembers.small.count-2 .container {
-    display: flex;
-    justify-content: center;
-  }
-
-  .VPTeamMembers.small.count-2 .item {
-    max-width: 272px;
   }
 }
 
@@ -101,7 +78,44 @@ const classes = computed(() => [props.size, `count-${props.members.length}`])
   .VPTeamMembers.small.count-3 .item {
     max-width: 272px;
   }
+}
 
+/**
+ * Medium size layout.
+ * -------------------------------------------------------------------------- */
+
+@media (min-width: 512px) and (max-width: 639px) {
+  .VPTeamMembers.medium .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .VPTeamMembers.medium .item {
+    max-width: 368px;
+  }
+}
+
+@media (min-width: 640px) {
+  .VPTeamMembers.medium .container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .VPTeamMembers.medium.count-1 .container,
+  .VPTeamMembers.medium.count-2 .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .VPTeamMembers.medium.count-1 .item,
+  .VPTeamMembers.medium.count-2 .item {
+    max-width: 368px;
+  }
+}
+
+@media (min-width: 960px) {
   .VPTeamMembers.medium .container {
     grid-template-columns: repeat(3, 1fr);
   }

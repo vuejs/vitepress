@@ -526,6 +526,13 @@
   margin-bottom: 24px;
 }
 
+@media (min-width: 512px) {
+  .VPTeamMembers.small.count-2 .item,
+  .VPTeamMembers.small.count-3 .item {
+    max-width: 100% !important;
+  }
+}
+
 @media (min-width: 768px) {
   .vp-doc .VPTeamMembers.small .container,
   .vp-doc .VPTeamMembers.medium .container {

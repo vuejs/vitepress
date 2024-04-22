@@ -12,7 +12,55 @@ import {
   VPTeamMembers
 } from 'vitepress/theme'
 
-const members = [
+const members1 = [
+  {
+    avatar: 'https://github.com/yyx990803.png',
+    name: 'Evan You',
+    title: 'Creator',
+    links: [
+      { icon: 'github', link: 'https://github.com/yyx990803' },
+      { icon: 'twitter', link: 'https://twitter.com/youyuxi' }
+    ]
+  },
+  {
+    avatar: 'https://github.com/kiaking.png',
+    name: 'Kia King Ishii',
+    title: 'Developer',
+    links: [
+      { icon: 'github', link: 'https://github.com/kiaking' },
+      { icon: 'twitter', link: 'https://twitter.com/KiaKing85' }
+    ]
+  },
+  // {
+  //   avatar: 'https://github.com/kiaking.png',
+  //   name: 'Kia King Ishii',
+  //   title: 'Developer',
+  //   links: [
+  //     { icon: 'github', link: 'https://github.com/kiaking' },
+  //     { icon: 'twitter', link: 'https://twitter.com/KiaKing85' }
+  //   ]
+  // },
+  // {
+  //   avatar: 'https://github.com/kiaking.png',
+  //   name: 'Kia King Ishii',
+  //   title: 'Developer',
+  //   links: [
+  //     { icon: 'github', link: 'https://github.com/kiaking' },
+  //     { icon: 'twitter', link: 'https://twitter.com/KiaKing85' }
+  //   ]
+  // },
+  // {
+  //   avatar: 'https://github.com/kiaking.png',
+  //   name: 'Kia King Ishii',
+  //   title: 'Developer',
+  //   links: [
+  //     { icon: 'github', link: 'https://github.com/kiaking' },
+  //     { icon: 'twitter', link: 'https://twitter.com/KiaKing85' }
+  //   ]
+  // }
+]
+
+const members2 = [
   {
     avatar: 'https://github.com/yyx990803.png',
     name: 'Evan You',
@@ -40,24 +88,24 @@ const members = [
       { icon: 'twitter', link: 'https://twitter.com/KiaKing85' }
     ]
   },
-  {
-    avatar: 'https://github.com/kiaking.png',
-    name: 'Kia King Ishii',
-    title: 'Developer',
-    links: [
-      { icon: 'github', link: 'https://github.com/kiaking' },
-      { icon: 'twitter', link: 'https://twitter.com/KiaKing85' }
-    ]
-  },
-  {
-    avatar: 'https://github.com/kiaking.png',
-    name: 'Kia King Ishii',
-    title: 'Developer',
-    links: [
-      { icon: 'github', link: 'https://github.com/kiaking' },
-      { icon: 'twitter', link: 'https://twitter.com/KiaKing85' }
-    ]
-  }
+  // {
+  //   avatar: 'https://github.com/kiaking.png',
+  //   name: 'Kia King Ishii',
+  //   title: 'Developer',
+  //   links: [
+  //     { icon: 'github', link: 'https://github.com/kiaking' },
+  //     { icon: 'twitter', link: 'https://twitter.com/KiaKing85' }
+  //   ]
+  // },
+  // {
+  //   avatar: 'https://github.com/kiaking.png',
+  //   name: 'Kia King Ishii',
+  //   title: 'Developer',
+  //   links: [
+  //     { icon: 'github', link: 'https://github.com/kiaking' },
+  //     { icon: 'twitter', link: 'https://twitter.com/KiaKing85' }
+  //   ]
+  // }
 ]
 </script>
 
@@ -69,7 +117,7 @@ const members = [
       have chosen to be featured below.
     </template>
   </VPTeamPageTitle>
-  <VPTeamMembers :members="members" />
+  <VPTeamMembers :members="members1" />
   <VPTeamPageSection>
     <template #title>Team Emeriti</template>
     <template #lead>
@@ -77,7 +125,7 @@ const members = [
       contributions in the past.
     </template>
     <template #members>
-      <VPTeamMembers size="small" :members="members" />
+      <VPTeamMembers size="small" :members="members2" />
     </template>
   </VPTeamPageSection>
 </VPTeamPage>
