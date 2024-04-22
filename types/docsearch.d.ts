@@ -6,6 +6,7 @@ export interface DocSearchProps {
   searchParameters?: SearchOptions
   disableUserPersonalization?: boolean
   initialQuery?: string
+  insights?: boolean
   translations?: DocSearchTranslations
 }
 

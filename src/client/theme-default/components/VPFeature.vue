@@ -2,7 +2,6 @@
 import type { DefaultTheme } from 'vitepress/theme'
 import VPImage from './VPImage.vue'
 import VPLink from './VPLink.vue'
-import VPIconArrowRight from './icons/VPIconArrowRight.vue'
 
 defineProps<{
   icon?: DefaultTheme.FeatureIcon
@@ -11,14 +10,30 @@ defineProps<{
   link?: string
   linkText?: string
   rel?: string
+  target?: string
 }>()
 </script>
 
 <template>
-  <VPLink class="VPFeature" :href="link" :rel="rel" :no-icon="true" :tag="link ? 'a' : 'div'">
+  <VPLink
+    class="VPFeature"
+    :href="link"
+    :rel="rel"
+    :target="target"
+    :no-icon="true"
+    :tag="link ? 'a' : 'div'"
+  >
     <article class="box">
+      <div v-if="typeof icon === 'object' && icon.wrap" class="icon">
+        <VPImage
+          :image="icon"
+          :alt="icon.alt"
+          :height="icon.height || 48"
+          :width="icon.width || 48"
+        />
+      </div>
       <VPImage
-        v-if="typeof icon === 'object'"
+        v-else-if="typeof icon === 'object'"
         :image="icon"
         :alt="icon.alt"
         :height="icon.height || 48"
@@ -30,7 +45,7 @@ defineProps<{
 
       <div v-if="linkText" class="link-text">
         <p class="link-text-value">
-          {{ linkText }} <VPIconArrowRight class="link-text-icon" />
+          {{ linkText }} <span class="vpi-arrow-right link-text-icon" />
         </p>
       </div>
     </article>
@@ -58,7 +73,7 @@ defineProps<{
   height: 100%;
 }
 
-.VPFeature:deep(.VPImage) {
+.box > :deep(.VPImage) {
   margin-bottom: 20px;
 }
 
@@ -103,10 +118,6 @@ defineProps<{
 }
 
 .link-text-icon {
-  display: inline-block;
   margin-left: 6px;
-  width: 14px;
-  height: 14px;
-  fill: currentColor;
 }
 </style>

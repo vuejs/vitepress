@@ -1,9 +1,9 @@
-import { reactive, inject, markRaw, nextTick, readonly } from 'vue'
 import type { Component, InjectionKey } from 'vue'
-import { notFoundPageData } from '../shared'
-import type { PageData, PageDataPayload, Awaitable } from '../shared'
-import { inBrowser, withBase } from './utils'
+import { inject, markRaw, nextTick, reactive, readonly } from 'vue'
+import type { Awaitable, PageData, PageDataPayload } from '../shared'
+import { notFoundPageData, treatAsHtml } from '../shared'
 import { siteDataRef } from './data'
+import { getScrollOffset, inBrowser, withBase } from './utils'
 
 export interface Route {
   path: string
@@ -64,17 +64,13 @@ export function createRouter(
   }
 
   async function go(href: string = inBrowser ? location.href : '/') {
+    href = normalizeHref(href)
     if ((await router.onBeforeRouteChange?.(href)) === false) return
-    const url = new URL(href, fakeHost)
-    if (!siteDataRef.value.cleanUrls) {
-      // ensure correct deep link so page refresh lands on correct files.
-      // if cleanUrls is enabled, the server should handle this
-      if (!url.pathname.endsWith('/') && !url.pathname.endsWith('.html')) {
-        url.pathname += '.html'
-        href = url.pathname + url.search + url.hash
-      }
+    if (inBrowser && href !== normalizeHref(location.href)) {
+      // save scroll position before changing url
+      history.replaceState({ scrollPosition: window.scrollY }, '')
+      history.pushState({}, '', href)
     }
-    updateHistory(href)
     await loadPage(href)
     await router.onAfterRouteChanged?.(href)
   }
@@ -115,7 +111,7 @@ export function createRouter(
             if (actualPathname !== targetLoc.pathname) {
               targetLoc.pathname = actualPathname
               href = actualPathname + targetLoc.search + targetLoc.hash
-              history.replaceState(null, '', href)
+              history.replaceState({}, '', href)
             }
 
             if (targetLoc.hash && !scrollPosition) {
@@ -166,6 +162,9 @@ export function createRouter(
   }
 
   if (inBrowser) {
+    if (history.state === null) {
+      history.replaceState({}, '')
+    }
     window.addEventListener(
       'click',
       (e) => {
@@ -188,9 +187,8 @@ export function createRouter(
               : link.href,
             link.baseURI
           )
-          const currentUrl = window.location
-          const extMatch = pathname.match(/\.\w+$/)
-          // only intercept inbound links
+          const currentUrl = new URL(location.href) // copy to keep old data
+          // only intercept inbound html links
           if (
             !e.ctrlKey &&
             !e.shiftKey &&
@@ -198,8 +196,7 @@ export function createRouter(
             !e.metaKey &&
             !target &&
             origin === currentUrl.origin &&
-            // don't intercept if non-html extension is present
-            !(extMatch && extMatch[0] !== '.html')
+            treatAsHtml(pathname)
           ) {
             e.preventDefault()
             if (
@@ -209,15 +206,19 @@ export function createRouter(
               // scroll between hash anchors in the same page
               // avoid duplicate history entries when the hash is same
               if (hash !== currentUrl.hash) {
-                history.pushState(null, '', hash)
+                history.pushState({}, '', href)
                 // still emit the event so we can listen to it in themes
-                window.dispatchEvent(new Event('hashchange'))
+                window.dispatchEvent(
+                  new HashChangeEvent('hashchange', {
+                    oldURL: currentUrl.href,
+                    newURL: href
+                  })
+                )
               }
               if (hash) {
                 // use smooth scroll when clicking on header anchor links
                 scrollTo(link, hash, link.classList.contains('header-anchor'))
               } else {
-                updateHistory(href)
                 window.scrollTo(0, 0)
               }
             } else {
@@ -229,8 +230,15 @@ export function createRouter(
       { capture: true }
     )
 
-    window.addEventListener('popstate', (e) => {
-      loadPage(location.href, (e.state && e.state.scrollPosition) || 0)
+    window.addEventListener('popstate', async (e) => {
+      if (e.state === null) {
+        return
+      }
+      await loadPage(
+        normalizeHref(location.href),
+        (e.state && e.state.scrollPosition) || 0
+      )
+      router.onAfterRouteChanged?.(location.href)
     })
 
     window.addEventListener('hashchange', (e) => {
@@ -267,26 +275,6 @@ export function scrollTo(el: Element, hash: string, smooth = false) {
   }
 
   if (target) {
-    let scrollOffset = siteDataRef.value.scrollOffset
-    let offset = 0
-    let padding = 24
-    if (typeof scrollOffset === 'object' && 'padding' in scrollOffset) {
-      padding = scrollOffset.padding
-      scrollOffset = scrollOffset.selector
-    }
-    if (typeof scrollOffset === 'number') {
-      offset = scrollOffset
-    } else if (typeof scrollOffset === 'string') {
-      offset = tryOffsetSelector(scrollOffset, padding)
-    } else if (Array.isArray(scrollOffset)) {
-      for (const selector of scrollOffset) {
-        const res = tryOffsetSelector(selector, padding)
-        if (res) {
-          offset = res
-          break
-        }
-      }
-    }
     const targetPadding = parseInt(
       window.getComputedStyle(target).paddingTop,
       10
@@ -294,7 +282,7 @@ export function scrollTo(el: Element, hash: string, smooth = false) {
     const targetTop =
       window.scrollY +
       target.getBoundingClientRect().top -
-      offset +
+      getScrollOffset() +
       targetPadding
     function scrollToTarget() {
       // only smooth scroll if distance is smaller than screen height.
@@ -304,14 +292,6 @@ export function scrollTo(el: Element, hash: string, smooth = false) {
     }
     requestAnimationFrame(scrollToTarget)
   }
-}
-
-function tryOffsetSelector(selector: string, padding: number): number {
-  const el = document.querySelector(selector)
-  if (!el) return 0
-  const bot = el.getBoundingClientRect().bottom
-  if (bot < 0) return 0
-  return bot + padding
 }
 
 function handleHMR(route: Route): void {
@@ -327,17 +307,20 @@ function handleHMR(route: Route): void {
 }
 
 function shouldHotReload(payload: PageDataPayload): boolean {
-  const payloadPath = payload.path.replace(/(\bindex)?\.md$/, '')
+  const payloadPath = payload.path.replace(/(?:(^|\/)index)?\.md$/, '$1')
   const locationPath = location.pathname
-    .replace(/(\bindex)?\.html$/, '')
+    .replace(/(?:(^|\/)index)?\.html$/, '')
     .slice(siteDataRef.value.base.length - 1)
   return payloadPath === locationPath
 }
 
-function updateHistory(href: string) {
-  if (inBrowser && href !== location.href) {
-    // save scroll position before changing url
-    history.replaceState({ scrollPosition: window.scrollY }, document.title)
-    history.pushState(null, '', href)
-  }
+function normalizeHref(href: string): string {
+  const url = new URL(href, fakeHost)
+  url.pathname = url.pathname.replace(/(^|\/)index(\.html)?$/, '$1')
+  // ensure correct deep link so page refresh lands on correct files.
+  if (siteDataRef.value.cleanUrls)
+    url.pathname = url.pathname.replace(/\.html$/, '')
+  else if (!url.pathname.endsWith('/') && !url.pathname.endsWith('.html'))
+    url.pathname += '.html'
+  return url.pathname + url.search + url.hash
 }

@@ -39,7 +39,6 @@ body {
   font-weight: 400;
   color: var(--vp-c-text-1);
   background-color: var(--vp-c-bg);
-  direction: ltr;
   font-synthesis: style;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -240,4 +239,14 @@ p {
 
 vite-error-overlay {
   z-index: 9999;
+}
+
+mjx-container {
+  display: inline-block;
+  margin: auto 2px -2px;
+}
+
+mjx-container > svg {
+  display: inline-block;
+  margin: auto;
 }

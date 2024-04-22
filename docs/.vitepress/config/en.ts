@@ -4,52 +4,11 @@ import { defineConfig, type DefaultTheme } from 'vitepress'
 const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
 
-export default defineConfig({
+export const en = defineConfig({
   lang: 'en-US',
-  title: 'VitePress',
   description: 'Vite & Vue powered static site generator.',
 
-  lastUpdated: true,
-  cleanUrls: true,
-
-  sitemap: {
-    hostname: 'https://vitepress.dev',
-    transformItems(items) {
-      return items.filter((item) => !item.url.includes('migration'))
-    }
-  },
-
-  head: [
-    ['link', { rel: 'icon', href: '/vitepress-logo-mini.svg' }],
-    ['meta', { name: 'theme-color', content: '#5f67ee' }],
-    ['meta', { name: 'og:type', content: 'website' }],
-    ['meta', { name: 'og:locale', content: 'en' }],
-    ['meta', { name: 'og:site_name', content: 'VitePress' }],
-    [
-      'meta',
-      { name: 'og:image', content: 'https://vitepress.dev/vitepress-og.jpg' }
-    ],
-    [
-      'meta',
-      {
-        name: 'twitter:image',
-        content: 'https://vitepress.dev/vitepress-og.jpg'
-      }
-    ],
-    [
-      'script',
-      {
-        src: 'https://cdn.usefathom.com/script.js',
-        'data-site': 'AZBRSFGG',
-        'data-spa': 'auto',
-        defer: ''
-      }
-    ]
-  ],
-
   themeConfig: {
-    logo: { src: '/vitepress-logo-mini.svg', width: 24, height: 24 },
-
     nav: nav(),
 
     sidebar: {
@@ -62,27 +21,9 @@ export default defineConfig({
       text: 'Edit this page on GitHub'
     },
 
-    socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
-    ],
-
     footer: {
       message: 'Released under the MIT License.',
       copyright: 'Copyright © 2019-present Evan You'
-    },
-
-    search: {
-      provider: 'algolia',
-      options: {
-        appId: '8J64VVRP8K',
-        apiKey: 'a18e2f4cc5665f6602c5631fd868adfd',
-        indexName: 'vitepress'
-      }
-    },
-
-    carbonAds: {
-      code: 'CEBDT27Y',
-      placement: 'vuejsorg'
     }
   }
 })
@@ -115,7 +56,6 @@ function nav(): DefaultTheme.NavItem[] {
   ]
 }
 
-/* prettier-ignore */
 function sidebarGuide(): DefaultTheme.SidebarItem[] {
   return [
     {
@@ -144,7 +84,10 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
       collapsed: false,
       items: [
         { text: 'Using a Custom Theme', link: 'custom-theme' },
-        { text: 'Extending the Default Theme', link: 'extending-default-theme' },
+        {
+          text: 'Extending the Default Theme',
+          link: 'extending-default-theme'
+        },
         { text: 'Build-Time Data Loading', link: 'data-loading' },
         { text: 'SSR Compatibility', link: 'ssr-compat' },
         { text: 'Connecting to a CMS', link: 'cms' }

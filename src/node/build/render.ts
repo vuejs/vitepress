@@ -17,6 +17,7 @@ import {
   type PageData,
   type SSGContext
 } from '../shared'
+import { version } from '../../../package.json'
 
 export async function renderPage(
   render: (path: string) => Promise<SSGContext>,
@@ -51,7 +52,11 @@ export async function renderPage(
   try {
     // resolve page data so we can render head tags
     const { __pageData } = await import(
-      pathToFileURL(path.join(config.tempDir, pageServerJsFileName)).toString()
+      pathToFileURL(
+        path.join(config.tempDir, pageServerJsFileName)
+      ).toString() +
+        '?t=' +
+        Date.now()
     )
     pageData = __pageData
   } catch (e) {
@@ -73,16 +78,16 @@ export async function renderPage(
     config.mpa || (!hasCustom404 && page === '404.md')
       ? []
       : result && appChunk
-      ? [
-          ...new Set([
-            // resolve imports for index.js + page.md.js and inject script tags
-            // for them as well so we fetch everything as early as possible
-            // without having to wait for entry chunks to parse
-            ...resolvePageImports(config, page, result, appChunk),
-            pageClientJsFileName
-          ])
-        ]
-      : []
+        ? [
+            ...new Set([
+              // resolve imports for index.js + page.md.js and inject script tags
+              // for them as well so we fetch everything as early as possible
+              // without having to wait for entry chunks to parse
+              ...resolvePageImports(config, page, result, appChunk),
+              pageClientJsFileName
+            ])
+          ]
+        : []
 
   let prefetchLinks: string[] = []
 
@@ -147,8 +152,10 @@ export async function renderPage(
     }
   }
 
+  const dir = pageData.frontmatter.dir || siteData.dir || 'ltr'
+
   const html = `<!DOCTYPE html>
-<html lang="${siteData.lang}" dir="${siteData.dir}">
+<html lang="${siteData.lang}" dir="${dir}">
   <head>
     <meta charset="utf-8">
     ${
@@ -162,6 +169,7 @@ export async function renderPage(
         ? ''
         : `<meta name="description" content="${description}">`
     }
+    <meta name="generator" content="VitePress v${version}">
     ${stylesheetLink}
     ${metadataScript.inHead ? metadataScript.html : ''}
     ${

@@ -3,14 +3,14 @@ import { useData } from '../composables/data'
 /**
  * @param themeObject Can be an object with `translations` and `locales` properties
  */
-export function createTranslate(
-  themeObject: any,
+export function createSearchTranslate(
   defaultTranslations: Record<string, any>
 ): (key: string) => string {
-  const { localeIndex } = useData()
+  const { localeIndex, theme } = useData()
 
   function translate(key: string): string {
     const keyPath = key.split('.')
+    const themeObject = theme.value.search?.options
 
     const isObject = themeObject && typeof themeObject === 'object'
     const locales =

@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useData } from '../composables/data'
-import { normalizeLink } from '../support/utils'
 import { useEditLink } from '../composables/edit-link'
 import { usePrevNext } from '../composables/prev-next'
-import VPIconEdit from './icons/VPIconEdit.vue'
 import VPLink from './VPLink.vue'
 import VPDocFooterLastUpdated from './VPDocFooterLastUpdated.vue'
 
@@ -31,7 +29,7 @@ const showFooter = computed(() => {
     <div v-if="hasEditLink || hasLastUpdated" class="edit-info">
       <div v-if="hasEditLink" class="edit-link">
         <VPLink class="edit-link-button" :href="editLink.url" :no-icon="true">
-          <VPIconEdit class="edit-link-icon" aria-label="edit icon"/>
+          <span class="vpi-square-pen edit-link-icon" />
           {{ editLink.text }}
         </VPLink>
       </div>
@@ -43,16 +41,16 @@ const showFooter = computed(() => {
 
     <nav v-if="control.prev?.link || control.next?.link" class="prev-next">
       <div class="pager">
-        <a v-if="control.prev?.link" class="pager-link prev" :href="normalizeLink(control.prev.link)">
+        <VPLink v-if="control.prev?.link" class="pager-link prev" :href="control.prev.link">
           <span class="desc" v-html="theme.docFooter?.prev || 'Previous page'"></span>
           <span class="title" v-html="control.prev.text"></span>
-        </a>
+        </VPLink>
       </div>
       <div class="pager">
-        <a v-if="control.next?.link" class="pager-link next" :href="normalizeLink(control.next.link)">
+        <VPLink v-if="control.next?.link" class="pager-link next" :href="control.next.link">
           <span class="desc" v-html="theme.docFooter?.next || 'Next page'"></span>
           <span class="title" v-html="control.next.text"></span>
-        </a>
+        </VPLink>
       </div>
     </nav>
   </footer>
@@ -99,9 +97,6 @@ const showFooter = computed(() => {
 
 .edit-link-icon {
   margin-right: 8px;
-  width: 14px;
-  height: 14px;
-  fill: currentColor;
 }
 
 .prev-next {

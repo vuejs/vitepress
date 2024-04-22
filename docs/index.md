@@ -7,13 +7,16 @@ titleTemplate: Vite & Vue Powered Static Site Generator
 hero:
   name: VitePress
   text: Vite & Vue Powered Static Site Generator
-  tagline: Simple, powerful, and fast. Meet the modern SSG framework you've always wanted.
+  tagline: Markdown to Beautiful Docs in Minutes
   actions:
     - theme: brand
-      text: Get Started
+      text: What is VitePress?
+      link: /guide/what-is-vitepress
+    - theme: alt
+      text: Quickstart
       link: /guide/getting-started
     - theme: alt
-      text: View on GitHub
+      text: GitHub
       link: https://github.com/vuejs/vitepress
   image:
     src: /vitepress-logo-large.webp
@@ -33,13 +36,14 @@ features:
     title: Ship Fast Sites
     details: Fast initial load with static HTML, fast post-load navigation with client-side routing.
 ---
+
 <style>
 :root {
   --vp-home-hero-name-color: transparent;
   --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #bd34fe 30%, #41d1ff);
 
   --vp-home-hero-image-background-image: linear-gradient(-45deg, #bd34fe 50%, #47caff 50%);
-  --vp-home-hero-image-filter: blur(40px);
+  --vp-home-hero-image-filter: blur(44px);
 }
 
 @media (min-width: 640px) {
@@ -50,7 +54,7 @@ features:
 
 @media (min-width: 960px) {
   :root {
-    --vp-home-hero-image-filter: blur(72px);
+    --vp-home-hero-image-filter: blur(68px);
   }
 }
 </style>

@@ -18,7 +18,7 @@ This allows you to link to the heading as `#my-anchor` instead of the default `#
 
 ## Links
 
-Both internal and external links gets special treatments.
+Both internal and external links get special treatment.
 
 ### Internal Links
 
@@ -80,7 +80,7 @@ For more details, see [Frontmatter](../reference/frontmatter-config).
 
 **Input**
 
-```
+```md
 | Tables        |      Are      |  Cool |
 | ------------- | :-----------: | ----: |
 | col 3 is      | right-aligned | $1600 |
@@ -108,7 +108,7 @@ For more details, see [Frontmatter](../reference/frontmatter-config).
 
 :tada: :100:
 
-A [list of all emojis](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.json) is available.
+A [list of all emojis](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.mjs) is available.
 
 ## Table of Contents
 
@@ -206,6 +206,25 @@ console.log('Hello, VitePress!')
 ```
 :::
 
+Also, you may set custom titles globally by adding the following content in site config, helpful if not writing in English:
+
+```ts
+// config.ts
+export default defineConfig({
+  // ...
+  markdown: {
+    container: {
+      tipLabel: '提示',
+      warningLabel: '警告',
+      dangerLabel: '危险',
+      infoLabel: '信息',
+      detailsLabel: '详细信息'
+    }
+  }
+  // ...
+})
+```
+
 ### `raw`
 
 This is a special container that can be used to prevent style and router conflicts with VitePress. This is especially useful when you're documenting component libraries. You might also wanna check out [whyframe](https://whyframe.dev/docs/integrations/vitepress) for better isolation.
@@ -220,8 +239,6 @@ Wraps in a <div class="vp-raw">
 
 `vp-raw` class can be directly used on elements too. Style isolation is currently opt-in:
 
-::: details
-
 - Install `postcss` with your preferred package manager:
 
   ```sh
@@ -232,11 +249,9 @@ Wraps in a <div class="vp-raw">
 
   ```js
   import { postcssIsolateStyles } from 'vitepress'
-  
+
   export default {
-    plugins: {
-      postcssIsolateStyles()
-    }
+    plugins: [postcssIsolateStyles()]
   }
   ```
 
@@ -248,11 +263,45 @@ Wraps in a <div class="vp-raw">
   })
   ```
 
-:::
+## GitHub-flavored Alerts
+
+VitePress also supports [GitHub-flavored alerts](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts) to render as callouts. They will be rendered the same as the [custom containers](#custom-containers).
+
+```md
+> [!NOTE]
+> Highlights information that users should take into account, even when skimming.
+
+> [!TIP]
+> Optional information to help a user be more successful.
+
+> [!IMPORTANT]
+> Crucial information necessary for users to succeed.
+
+> [!WARNING]
+> Critical content demanding immediate user attention due to potential risks.
+
+> [!CAUTION]
+> Negative potential consequences of an action.
+```
+
+> [!NOTE]
+> Highlights information that users should take into account, even when skimming.
+
+> [!TIP]
+> Optional information to help a user be more successful.
+
+> [!IMPORTANT]
+> Crucial information necessary for users to succeed.
+
+> [!WARNING]
+> Critical content demanding immediate user attention due to potential risks.
+
+> [!CAUTION]
+> Negative potential consequences of an action.
 
 ## Syntax Highlighting in Code Blocks
 
-VitePress uses [Shiki](https://shiki.matsu.io/) to highlight language syntax in Markdown code blocks, using coloured text. Shiki supports a wide variety of programming languages. All you need to do is append a valid language alias to the beginning backticks for the code block:
+VitePress uses [Shiki](https://github.com/shikijs/shiki) to highlight language syntax in Markdown code blocks, using coloured text. Shiki supports a wide variety of programming languages. All you need to do is append a valid language alias to the beginning backticks for the code block:
 
 **Input**
 
@@ -292,7 +341,7 @@ export default {
 </ul>
 ```
 
-A [list of valid languages](https://github.com/shikijs/shiki/blob/main/docs/languages.md) is available on Shiki's repository.
+A [list of valid languages](https://shiki.style/languages) is available on Shiki's repository.
 
 You may also customize syntax highlight theme in app config. Please see [`markdown` options](../reference/site-config#markdown) for more details.
 
@@ -364,7 +413,7 @@ export default { // Highlighted
 }
 ```
 
-Alternatively, it's possible to highlight directly in the line by using the `// [!code hl]` comment.
+Alternatively, it's possible to highlight directly in the line by using the `// [!code highlight]` comment.
 
 **Input**
 
@@ -373,7 +422,7 @@ Alternatively, it's possible to highlight directly in the line by using the `// 
 export default {
   data () {
     return {
-      msg: 'Highlighted!' // [!code  hl]
+      msg: 'Highlighted!' // [!!code highlight]
     }
   }
 }
@@ -386,7 +435,7 @@ export default {
 export default {
   data() {
     return {
-      msg: 'Highlighted!' // [!code hl]
+      msg: 'Highlighted!' // [!code highlight]
     }
   }
 }
@@ -400,14 +449,12 @@ Additionally, you can define a number of lines to focus using `// [!code focus:<
 
 **Input**
 
-Note that only one space is required after `!code`, here are two to prevent processing.
-
 ````
 ```js
 export default {
   data () {
     return {
-      msg: 'Focused!' // [!code  focus]
+      msg: 'Focused!' // [!!code focus]
     }
   }
 }
@@ -432,15 +479,13 @@ Adding the `// [!code --]` or `// [!code ++]` comments on a line will create a d
 
 **Input**
 
-Note that only one space is required after `!code`, here are two to prevent processing.
-
 ````
 ```js
 export default {
   data () {
     return {
-      msg: 'Removed' // [!code  --]
-      msg: 'Added' // [!code  ++]
+      msg: 'Removed' // [!!code --]
+      msg: 'Added' // [!!code ++]
     }
   }
 }
@@ -466,15 +511,13 @@ Adding the `// [!code warning]` or `// [!code error]` comments on a line will co
 
 **Input**
 
-Note that only one space is required after `!code`, here are two to prevent processing.
-
 ````
 ```js
 export default {
   data () {
     return {
-      msg: 'Error', // [!code  error]
-      msg: 'Warning' // [!code  warning]
+      msg: 'Error', // [!!code error]
+      msg: 'Warning' // [!!code warning]
     }
   }
 }
@@ -510,6 +553,8 @@ Please see [`markdown` options](../reference/site-config#markdown) for more deta
 
 You can add `:line-numbers` / `:no-line-numbers` mark in your fenced code blocks to override the value set in config.
 
+You can also customize the starting line number by adding `=` after `:line-numbers`. For example, `:line-numbers=2` means the line numbers in code blocks will start from `2`.
+
 **Input**
 
 ````md
@@ -523,6 +568,12 @@ const line3 = 'This is line 3'
 // line-numbers is enabled
 const line2 = 'This is line 2'
 const line3 = 'This is line 3'
+```
+
+```ts:line-numbers=2 {1}
+// line-numbers is enabled and start from 2
+const line3 = 'This is line 3'
+const line4 = 'This is line 4'
 ```
 ````
 
@@ -538,6 +589,12 @@ const line3 = 'This is line 3'
 // line-numbers is enabled
 const line2 = 'This is line 2'
 const line3 = 'This is line 3'
+```
+
+```ts:line-numbers=2 {1}
+// line-numbers is enabled and start from 2
+const line3 = 'This is line 3'
+const line4 = 'This is line 4'
 ```
 
 ## Import Code Snippets
@@ -781,15 +838,76 @@ The format of the selected line range can be: `{3,}`, `{,10}`, `{1,10}`
 Note that this does not throw errors if your file is not present. Hence, when using this feature make sure that the contents are being rendered as expected.
 :::
 
+## Math Equations
+
+This is currently opt-in. To enable it, you need to install `markdown-it-mathjax3` and set `markdown.math` to `true` in your config file:
+
+```sh
+npm add -D markdown-it-mathjax3
+```
+
+```ts
+// .vitepress/config.ts
+export default {
+  markdown: {
+    math: true
+  }
+}
+```
+
+**Input**
+
+```md
+When $a \ne 0$, there are two solutions to $(ax^2 + bx + c = 0)$ and they are
+$$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
+
+**Maxwell's equations:**
+
+| equation                                                                                                                                                                  | description                                                                            |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| $\nabla \cdot \vec{\mathbf{B}}  = 0$                                                                                                                                      | divergence of $\vec{\mathbf{B}}$ is zero                                               |
+| $\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t}  = \vec{\mathbf{0}}$                                                          | curl of $\vec{\mathbf{E}}$ is proportional to the rate of change of $\vec{\mathbf{B}}$ |
+| $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _wha?_                                                                                 |
+```
+
+**Output**
+
+When $a \ne 0$, there are two solutions to $(ax^2 + bx + c = 0)$ and they are
+$$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
+
+**Maxwell's equations:**
+
+| equation                                                                                                                                                                  | description                                                                            |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| $\nabla \cdot \vec{\mathbf{B}}  = 0$                                                                                                                                      | divergence of $\vec{\mathbf{B}}$ is zero                                               |
+| $\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t}  = \vec{\mathbf{0}}$                                                          | curl of $\vec{\mathbf{E}}$ is proportional to the rate of change of $\vec{\mathbf{B}}$ |
+| $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _wha?_                                                                                 |
+
+## Image Lazy Loading
+
+You can enable lazy loading for each image added via markdown by setting `lazyLoading` to `true` in your config file:
+
+```js
+export default {
+  markdown: {
+    image: {
+      // image lazy loading is disabled by default
+      lazyLoading: true
+    }
+  }
+}
+```
+
 ## Advanced Configuration
 
 VitePress uses [markdown-it](https://github.com/markdown-it/markdown-it) as the Markdown renderer. A lot of the extensions above are implemented via custom plugins. You can further customize the `markdown-it` instance using the `markdown` option in `.vitepress/config.js`:
 
 ```js
+import { defineConfig } from 'vitepress'
 import markdownItAnchor from 'markdown-it-anchor'
 import markdownItFoo from 'markdown-it-foo'
 
-module.exports = {
+export default defineConfig({
   markdown: {
     // options for markdown-it-anchor
     // https://github.com/valeriangalliat/markdown-it-anchor#usage
@@ -806,7 +924,7 @@ module.exports = {
       md.use(markdownItFoo)
     }
   }
-}
+})
 ```
 
 See full list of configurable properties in [Config Reference: App Config](../reference/site-config#markdown).

@@ -2,7 +2,6 @@
 import { computed } from 'vue'
 import type { DefaultTheme } from 'vitepress/theme'
 import { useSidebarControl } from '../composables/sidebar'
-import VPIconChevronRight from './icons/VPIconChevronRight.vue'
 import VPLink from './VPLink.vue'
 
 const props = defineProps<{
@@ -83,7 +82,7 @@ function onCaretClick() {
       <component v-else :is="textTag" class="text" v-html="item.text" />
 
       <div
-        v-if="item.collapsed != null"
+        v-if="item.collapsed != null && item.items && item.items.length"
         class="caret"
         role="button"
         aria-label="toggle section"
@@ -91,7 +90,7 @@ function onCaretClick() {
         @keydown.enter="onCaretClick"
         tabindex="0"
       >
-        <VPIconChevronRight class="caret-icon" />
+        <span class="vpi-chevron-right caret-icon" />
       </div>
     </div>
 
@@ -227,9 +226,7 @@ function onCaretClick() {
 }
 
 .caret-icon {
-  width: 18px;
-  height: 18px;
-  fill: currentColor;
+  font-size: 18px;
   transform: rotate(90deg);
   transition: transform 0.25s;
 }

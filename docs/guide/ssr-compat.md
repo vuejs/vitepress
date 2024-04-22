@@ -6,7 +6,7 @@ outline: deep
 
 VitePress pre-renders the app in Node.js during the production build, using Vue's Server-Side Rendering (SSR) capabilities. This means all custom code in theme components are subject to SSR Compatibility.
 
-The [SSR section in official Vue docs](https://vuejs.org/guide/scaling-up/ssr.html) provides more context on what is SSR, the relationship between SSR / SSG, and common notes on writing SSR-friendly code. The rule of thumb is to only access browser / DOM APIs in `beforeMount` or `mounted` hooks of Vue components.
+The [SSR section in official Vue docs](https://vuejs.org/guide/scaling-up/ssr.html) provides more context on what SSR is, the relationship between SSR / SSG, and common notes on writing SSR-friendly code. The rule of thumb is to only access browser / DOM APIs in `beforeMount` or `mounted` hooks of Vue components.
 
 ## `<ClientOnly>`
 
@@ -52,15 +52,32 @@ Since [`Theme.enhanceApp`](./custom-theme#theme-interface) can be async, you can
 
 ```js
 // .vitepress/theme/index.js
+/** @type {import('vitepress').Theme} */
 export default {
   // ...
   async enhanceApp({ app }) {
     if (!import.meta.env.SSR) {
       const plugin = await import('plugin-that-access-window-on-import')
-      app.use(plugin)
+      app.use(plugin.default)
     }
   }
 }
+```
+
+If you're using TypeScript:
+```ts
+// .vitepress/theme/index.ts
+import type { Theme } from 'vitepress'
+
+export default {
+  // ...
+  async enhanceApp({ app }) {
+    if (!import.meta.env.SSR) {
+      const plugin = await import('plugin-that-access-window-on-import')
+      app.use(plugin.default)
+    }
+  }
+} satisfies Theme
 ```
 
 ### `defineClientComponent`

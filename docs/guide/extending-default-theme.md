@@ -98,13 +98,29 @@ export default {
 // .vitepress/theme/index.js
 import DefaultTheme from 'vitepress/theme'
 
+/** @type {import('vitepress').Theme} */
 export default {
   extends: DefaultTheme,
-  enhanceApp(ctx) {
+  enhanceApp({ app }) {
     // register your custom global components
-    ctx.app.component('MyGlobalComponent' /* ... */)
+    app.component('MyGlobalComponent' /* ... */)
   }
 }
+```
+
+If you're using TypeScript:
+```ts
+// .vitepress/theme/index.ts
+import type { Theme } from 'vitepress'
+import DefaultTheme from 'vitepress/theme'
+
+export default {
+  extends: DefaultTheme,
+  enhanceApp({ app }) {
+    // register your custom global components
+    app.component('MyGlobalComponent' /* ... */)
+  }
+} satisfies Theme
 ```
 
 Since we are using Vite, you can also leverage Vite's [glob import feature](https://vitejs.dev/guide/features.html#glob-import) to auto register a directory of components.
@@ -119,7 +135,7 @@ import DefaultTheme from 'vitepress/theme'
 import MyLayout from './MyLayout.vue'
 
 export default {
-  ...DefaultTheme,
+  extends: DefaultTheme,
   // override the Layout with a wrapper component that
   // injects the slots
   Layout: MyLayout
@@ -152,7 +168,7 @@ import DefaultTheme from 'vitepress/theme'
 import MyComponent from './MyComponent.vue'
 
 export default {
-  ...DefaultTheme,
+  extends: DefaultTheme,
   Layout() {
     return h(DefaultTheme.Layout, null, {
       'aside-outline-before': () => h(MyComponent)
@@ -179,7 +195,10 @@ Full list of slots available in the default theme layout:
   - `aside-ads-after`
 - When `layout: 'home'` is enabled via frontmatter:
   - `home-hero-before`
+  - `home-hero-info-before`
   - `home-hero-info`
+  - `home-hero-info-after`
+  - `home-hero-actions-after`
   - `home-hero-image`
   - `home-hero-after`
   - `home-features-before`
