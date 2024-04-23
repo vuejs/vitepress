@@ -11,7 +11,7 @@ import {
   type ComputedRef,
   type Ref
 } from 'vue'
-import { inBrowser, isActive } from '../../shared'
+import { isActive } from '../../shared'
 import {
   hasActiveLink as containsActiveLink,
   getSidebar,
@@ -134,17 +134,10 @@ export function useCloseSidebarOnEscape(
   }
 }
 
-const hashRef = ref(inBrowser ? location.hash : '')
-if (inBrowser) {
-  window.addEventListener('hashchange', () => {
-    hashRef.value = location.hash
-  })
-}
-
 export function useSidebarControl(
   item: ComputedRef<DefaultTheme.SidebarItem>
 ): SidebarControl {
-  const { page } = useData()
+  const { page, hash } = useData()
 
   const collapsed = ref(false)
 
@@ -161,7 +154,7 @@ export function useSidebarControl(
     isActiveLink.value = isActive(page.value.relativePath, item.value.link)
   }
 
-  watch([page, item, hashRef], updateIsActiveLink)
+  watch([page, item, hash], updateIsActiveLink)
   onMounted(updateIsActiveLink)
 
   const hasActiveLink = computed(() => {

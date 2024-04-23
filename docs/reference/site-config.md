@@ -24,6 +24,62 @@ export default {
 }
 ```
 
+:::details Dynamic (Async) Config
+
+If you need to dynamically generate the config, you can also default export a function. For example:
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default async () => {
+  const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
+
+  return defineConfig({
+    // app level config options
+    lang: 'en-US',
+    title: 'VitePress',
+    description: 'Vite & Vue powered static site generator.',
+
+    // theme level config options
+    themeConfig: {
+      sidebar: [
+        ...posts.map((post) => ({
+          text: post.name,
+          link: `/posts/${post.name}`
+        }))
+      ]
+    }
+  })
+}
+```
+
+You can also use top-level `await`. For example:
+
+```ts
+import { defineConfig } from 'vitepress'
+
+const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
+
+export default defineConfig({
+  // app level config options
+  lang: 'en-US',
+  title: 'VitePress',
+  description: 'Vite & Vue powered static site generator.',
+
+  // theme level config options
+  themeConfig: {
+    sidebar: [
+      ...posts.map((post) => ({
+        text: post.name,
+        link: `/posts/${post.name}`
+      }))
+    ]
+  }
+})
+```
+
+:::
+
 ### Config Intellisense
 
 Using the `defineConfig` helper will provide TypeScript-powered intellisense for config options. Assuming your IDE supports it, this should work in both JavaScript and TypeScript.
@@ -415,6 +471,13 @@ export default {
 }
 ```
 
+### metaChunk <Badge type="warning" text="experimental" />
+
+- Type: `boolean`
+- Default: `false`
+
+When set to `true`, extract pages metadata to a separate JavaScript chunk instead of inlining it in the initial HTML. This makes each page's HTML payload smaller and makes the pages metadata cacheable, thus reducing server bandwidth when you have many pages in the site.
+
 ### mpa <Badge type="warning" text="experimental" />
 
 - Type: `boolean`
@@ -454,7 +517,7 @@ When using the default theme, enabling this option will display each page's last
 
 - Type: `MarkdownOption`
 
-Configure Markdown parser options. VitePress uses [Markdown-it](https://github.com/markdown-it/markdown-it) as the parser, and [Shikiji](https://github.com/antfu/shikiji) (an improved version of [Shiki](https://shiki.matsu.io/)) to highlight language syntax. Inside this option, you may pass various Markdown related options to fit your needs.
+Configure Markdown parser options. VitePress uses [Markdown-it](https://github.com/markdown-it/markdown-it) as the parser, and [Shiki](https://github.com/shikijs/shiki) to highlight language syntax. Inside this option, you may pass various Markdown related options to fit your needs.
 
 ```js
 export default {
@@ -584,6 +647,24 @@ export default {
             ? `VitePress`
             : `${pageData.title} | VitePress`
       }
+    ])
+  }
+}
+```
+
+#### Example: Adding a canonical URL `<link>`
+
+```ts
+export default {
+  transformPageData(pageData) {
+    const canonicalUrl = `https://example.com/${pageData.relativePath}`
+      .replace(/index\.md$/, '')
+      .replace(/\.md$/, '.html')
+
+    pageData.frontmatter.head ??= []
+    pageData.frontmatter.head.push([
+      'link',
+      { rel: 'canonical', href: canonicalUrl }
     ])
   }
 }

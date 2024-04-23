@@ -153,26 +153,24 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
        runs-on: ubuntu-latest
        steps:
          - name: Checkout
-           uses: actions/checkout@v3
+           uses: actions/checkout@v4
            with:
              fetch-depth: 0 # Not needed if lastUpdated is not enabled
-         # - uses: pnpm/action-setup@v2 # Uncomment this if you're using pnpm
+         # - uses: pnpm/action-setup@v3 # Uncomment this if you're using pnpm
          # - uses: oven-sh/setup-bun@v1 # Uncomment this if you're using Bun
          - name: Setup Node
-           uses: actions/setup-node@v3
+           uses: actions/setup-node@v4
            with:
-             node-version: 18
+             node-version: 20
              cache: npm # or pnpm / yarn
          - name: Setup Pages
-           uses: actions/configure-pages@v3
+           uses: actions/configure-pages@v4
          - name: Install dependencies
            run: npm ci # or pnpm install / yarn install / bun install
          - name: Build with VitePress
-           run: |
-             npm run docs:build # or pnpm docs:build / yarn docs:build / bun run docs:build
-             touch docs/.vitepress/dist/.nojekyll
+           run: npm run docs:build # or pnpm docs:build / yarn docs:build / bun run docs:build
          - name: Upload artifact
-           uses: actions/upload-pages-artifact@v2
+           uses: actions/upload-pages-artifact@v3
            with:
              path: docs/.vitepress/dist
 
@@ -187,7 +185,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
        steps:
          - name: Deploy to GitHub Pages
            id: deployment
-           uses: actions/deploy-pages@v2
+           uses: actions/deploy-pages@v4
    ```
 
    ::: warning
@@ -289,3 +287,51 @@ Refer [Creating and Deploying a VitePress App To Edgio](https://docs.edg.io/guid
 ### Kinsta Static Site Hosting
 
 You can deploy your Vitepress website on [Kinsta](https://kinsta.com/static-site-hosting/) by following these [instructions](https://kinsta.com/docs/vitepress-static-site-example/).
+
+### Stormkit
+
+You can deploy your VitePress project to [Stormkit](https://www.stormkit.io) by following these [instructions](https://stormkit.io/blog/how-to-deploy-vitepress).
+
+### Nginx
+
+Here is a example of an Nginx server block configuration. This setup includes gzip compression for common text-based assets, rules for serving your VitePress site's static files with proper caching headers as well as handling `cleanUrls: true`.
+
+```nginx
+server {
+    gzip on;
+    gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+
+    listen 80;
+    server_name _;
+    index index.html;
+
+    location / {
+        # content location
+        root /app;
+
+        # exact matches -> reverse clean urls -> folders -> not found
+        try_files $uri $uri.html $uri/ =404;
+
+        # non existent pages
+        error_page 404 /404.html;
+
+        # a folder without index.html raises 403 in this setup
+        error_page 403 /404.html;
+
+        # adjust caching headers
+        # files in the assets folder have hashes filenames
+        location ~* ^/assets/ {
+            expires 1y;
+            add_header Cache-Control "public, immutable";
+        }
+    }
+}
+```
+
+This configuration assumes that your built VitePress site is located in the `/app` directory on your server. Adjust the `root` directive accordingly if your site's files are located elsewhere.
+
+::: warning Do not default to index.html
+The try_files resolution must not default to index.html like in other Vue applications. This would result in an invalid page state.
+:::
+
+Further information can be found in the [official nginx documentation](https://nginx.org/en/docs/), in these issues [#2837](https://github.com/vuejs/vitepress/discussions/2837), [#3235](https://github.com/vuejs/vitepress/issues/3235) as well as in this [blog post](https://blog.mehdi.cc/articles/vitepress-cleanurls-on-nginx-environment#readings) by Mehdi Merah.

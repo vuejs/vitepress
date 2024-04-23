@@ -6,12 +6,14 @@ import {
   readonly,
   ref,
   shallowRef,
+  watch,
   type InjectionKey,
   type Ref
 } from 'vue'
 import {
   APPEARANCE_KEY,
   createTitle,
+  inBrowser,
   resolveSiteDataByRoute,
   type PageData,
   type SiteData
@@ -44,9 +46,13 @@ export interface VitePressData<T = any> {
   title: Ref<string>
   description: Ref<string>
   lang: Ref<string>
-  isDark: Ref<boolean>
   dir: Ref<string>
   localeIndex: Ref<string>
+  isDark: Ref<boolean>
+  /**
+   * Current location hash
+   */
+  hash: Ref<string>
 }
 
 // site data is a singleton
@@ -82,6 +88,21 @@ export function initData(route: Route): VitePressData {
           })
         : ref(false)
 
+  const hashRef = ref(inBrowser ? location.hash : '')
+
+  if (inBrowser) {
+    window.addEventListener('hashchange', () => {
+      hashRef.value = location.hash
+    })
+  }
+
+  watch(
+    () => route.data,
+    () => {
+      hashRef.value = inBrowser ? location.hash : ''
+    }
+  )
+
   return {
     site,
     theme: computed(() => site.value.themeConfig),
@@ -89,15 +110,14 @@ export function initData(route: Route): VitePressData {
     frontmatter: computed(() => route.data.frontmatter),
     params: computed(() => route.data.params),
     lang: computed(() => site.value.lang),
-    dir: computed(() => site.value.dir),
+    dir: computed(() => route.data.frontmatter.dir || site.value.dir),
     localeIndex: computed(() => site.value.localeIndex || 'root'),
-    title: computed(() => {
-      return createTitle(site.value, route.data)
-    }),
-    description: computed(() => {
-      return route.data.description || site.value.description
-    }),
-    isDark
+    title: computed(() => createTitle(site.value, route.data)),
+    description: computed(
+      () => route.data.description || site.value.description
+    ),
+    isDark,
+    hash: computed(() => hashRef.value)
   }
 }
 

@@ -16,7 +16,6 @@ import {
   resolveAliases
 } from './alias'
 import { resolvePages, resolveUserConfig, type SiteConfig } from './config'
-import { mathjaxElements } from './markdown/math'
 import {
   clearCache,
   createMarkdownToVueRenderFn,
@@ -88,26 +87,10 @@ export async function createVitePressPlugin(
 
   if (markdown?.math) {
     isCustomElement = (tag) => {
-      if (mathjaxElements.includes(tag)) {
+      if (['mjx-container', 'mjx-assistive-mml'].includes(tag)) {
         return true
       }
       return userCustomElementChecker?.(tag) ?? false
-    }
-  }
-
-  const getMergedAssetUrlOptions = () => {
-    const { transformAssetUrls } = userVuePluginOptions?.template ?? {}
-    const assetUrlOptions = { includeAbsolute: true }
-
-    if (transformAssetUrls && typeof transformAssetUrls === 'object') {
-      // presence of array fields means this is raw tags config
-      if (Object.values(transformAssetUrls).some((val) => Array.isArray(val))) {
-        return { ...assetUrlOptions, tags: transformAssetUrls as any }
-      } else {
-        return { ...assetUrlOptions, ...transformAssetUrls }
-      }
-    } else {
-      return assetUrlOptions
     }
   }
 
@@ -121,8 +104,7 @@ export async function createVitePressPlugin(
         compilerOptions: {
           ...userVuePluginOptions?.template?.compilerOptions,
           isCustomElement
-        },
-        transformAssetUrls: getMergedAssetUrlOptions()
+        }
       }
     })
   )
@@ -169,11 +151,16 @@ export async function createVitePressPlugin(
             site.themeConfig?.search?.provider === 'algolia' ||
             !!site.themeConfig?.algolia, // legacy
           __CARBON__: !!site.themeConfig?.carbonAds,
-          __ASSETS_DIR__: JSON.stringify(siteConfig.assetsDir)
+          __ASSETS_DIR__: JSON.stringify(siteConfig.assetsDir),
+          __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: !!process.env.DEBUG
         },
         optimizeDeps: {
           // force include vue to avoid duplicated copies when linked + optimized
-          include: ['vue', 'vitepress > @vue/devtools-api'],
+          include: [
+            'vue',
+            'vitepress > @vue/devtools-api',
+            'vitepress > @vueuse/core'
+          ],
           exclude: ['@docsearch/js', 'vitepress']
         },
         server: {
@@ -284,7 +271,11 @@ export async function createVitePressPlugin(
         if (file.endsWith('.md')) {
           Object.assign(
             siteConfig,
-            await resolvePages(siteConfig.srcDir, siteConfig.userConfig)
+            await resolvePages(
+              siteConfig.srcDir,
+              siteConfig.userConfig,
+              siteConfig.logger
+            )
           )
         }
 
@@ -393,6 +384,7 @@ export async function createVitePressPlugin(
         try {
           await resolveUserConfig(siteConfig.root, 'serve', 'development')
         } catch (err: any) {
+          siteConfig.logger.error(err)
           return
         }
 

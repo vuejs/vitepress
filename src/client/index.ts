@@ -20,7 +20,8 @@ export {
   inBrowser,
   onContentUpdated,
   defineClientComponent,
-  withBase
+  withBase,
+  getScrollOffset
 } from './app/utils'
 
 // components

@@ -1,6 +1,6 @@
 import type MarkdownIt from 'markdown-it'
-import type { RenderRule } from 'markdown-it/lib/renderer'
-import type Token from 'markdown-it/lib/token'
+import type { RenderRule } from 'markdown-it/lib/renderer.mjs'
+import type Token from 'markdown-it/lib/token.mjs'
 import container from 'markdown-it-container'
 import { nanoid } from 'nanoid'
 import {
@@ -129,8 +129,11 @@ function createCodeGroup(options: Options): ContainerArgs {
 
 export interface ContainerOptions {
   infoLabel?: string
+  noteLabel?: string
   tipLabel?: string
   warningLabel?: string
   dangerLabel?: string
   detailsLabel?: string
+  importantLabel?: string
+  cautionLabel?: string
 }

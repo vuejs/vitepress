@@ -14,37 +14,42 @@ import { sfcPlugin, type SfcPluginOptions } from '@mdit-vue/plugin-sfc'
 import { titlePlugin } from '@mdit-vue/plugin-title'
 import { tocPlugin, type TocPluginOptions } from '@mdit-vue/plugin-toc'
 import { slugify } from '@mdit-vue/shared'
+import type { Options } from 'markdown-it'
 import MarkdownIt from 'markdown-it'
 import anchorPlugin from 'markdown-it-anchor'
 import attrsPlugin from 'markdown-it-attrs'
-import emojiPlugin from 'markdown-it-emoji'
+// @ts-expect-error: types of markdown-it-emoji are not up-to-date
+import { full as emojiPlugin } from 'markdown-it-emoji'
+import type {
+  BuiltinTheme,
+  Highlighter,
+  LanguageInput,
+  ShikiTransformer,
+  ThemeRegistrationAny
+} from 'shiki'
 import type { Logger } from 'vite'
 import { containerPlugin, type ContainerOptions } from './plugins/containers'
+import { gitHubAlertsPlugin } from './plugins/githubAlerts'
 import { highlight } from './plugins/highlight'
 import { highlightLinePlugin } from './plugins/highlightLines'
-import { imagePlugin } from './plugins/image'
+import { imagePlugin, type Options as ImageOptions } from './plugins/image'
 import { lineNumberPlugin } from './plugins/lineNumbers'
 import { linkPlugin } from './plugins/link'
 import { preWrapperPlugin } from './plugins/preWrapper'
+import { restoreEntities } from './plugins/restoreEntities'
 import { snippetPlugin } from './plugins/snippet'
-import type {
-  ThemeRegistration,
-  BuiltinTheme,
-  LanguageInput,
-  ShikijiTransformer
-} from 'shikiji'
 
 export type { Header } from '../shared'
 
 export type ThemeOptions =
-  | ThemeRegistration
+  | ThemeRegistrationAny
   | BuiltinTheme
   | {
-      light: ThemeRegistration | BuiltinTheme
-      dark: ThemeRegistration | BuiltinTheme
+      light: ThemeRegistrationAny | BuiltinTheme
+      dark: ThemeRegistrationAny | BuiltinTheme
     }
 
-export interface MarkdownOptions extends MarkdownIt.Options {
+export interface MarkdownOptions extends Options {
   /* ==================== General Options ==================== */
 
   /**
@@ -72,21 +77,21 @@ export interface MarkdownOptions extends MarkdownIt.Options {
    * @example { theme: { light: 'github-light', dark: 'github-dark' } }
    *
    * You can use an existing theme.
-   * @see https://github.com/antfu/shikiji/blob/main/docs/themes.md#all-themes
+   * @see https://shiki.style/themes
    * Or add your own theme.
-   * @see https://github.com/antfu/shikiji/blob/main/docs/themes.md#load-custom-themes
+   * @see https://shiki.style/guide/load-theme
    */
   theme?: ThemeOptions
   /**
    * Languages for syntax highlighting.
-   * @see https://github.com/antfu/shikiji/blob/main/docs/languages.md#all-themes
+   * @see https://shiki.style/languages
    */
   languages?: LanguageInput[]
   /**
    * Custom language aliases.
    *
    * @example { 'my-lang': 'js' }
-   * @see https://github.com/antfu/shikiji/tree/main#custom-language-aliases
+   * @see https://shiki.style/guide/load-lang#custom-language-aliases
    */
   languageAlias?: Record<string, string>
   /**
@@ -100,9 +105,13 @@ export interface MarkdownOptions extends MarkdownIt.Options {
   defaultHighlightLang?: string
   /**
    * Transformers applied to code blocks
-   * @see https://github.com/antfu/shikiji#hast-transformers
+   * @see https://shiki.style/guide/transformers
    */
-  codeTransformers?: ShikijiTransformer[]
+  codeTransformers?: ShikiTransformer[]
+  /**
+   * Setup Shiki instance
+   */
+  shikiSetup?: (shiki: Highlighter) => void | Promise<void>
 
   /* ==================== Markdown It Plugins ==================== */
 
@@ -120,6 +129,15 @@ export interface MarkdownOptions extends MarkdownIt.Options {
     rightDelimiter?: string
     allowedAttributes?: Array<string | RegExp>
     disable?: boolean
+  }
+  /**
+   * Options for `markdown-it-emoji`
+   * @see https://github.com/markdown-it/markdown-it-emoji
+   */
+  emoji?: {
+    defs?: Record<string, string>
+    enabled?: string[]
+    shortcuts?: Record<string, string | string[]>
   }
   /**
    * Options for `@mdit-vue/plugin-frontmatter`
@@ -160,6 +178,13 @@ export interface MarkdownOptions extends MarkdownIt.Options {
    * @see https://vitepress.dev/guide/markdown#math-equations
    */
   math?: boolean | any
+  image?: ImageOptions
+  /**
+   * Allows disabling the github alerts plugin
+   * @default true
+   * @see https://vitepress.dev/guide/markdown#github-flavored-alerts
+   */
+  gfmAlerts?: boolean
 }
 
 export type MarkdownRenderer = MarkdownIt
@@ -176,20 +201,12 @@ export const createMarkdownRenderer = async (
   const md = MarkdownIt({
     html: true,
     linkify: true,
-    highlight:
-      options.highlight ||
-      (await highlight(
-        theme,
-        options.languages,
-        options.defaultHighlightLang,
-        logger,
-        options.codeTransformers,
-        options.languageAlias
-      )),
+    highlight: options.highlight || (await highlight(theme, options, logger)),
     ...options
   })
 
   md.linkify.set({ fuzzyLink: false })
+  md.use(restoreEntities)
 
   if (options.preConfig) {
     options.preConfig(md)
@@ -201,7 +218,7 @@ export const createMarkdownRenderer = async (
     .use(preWrapperPlugin, { hasSingleTheme })
     .use(snippetPlugin, srcDir)
     .use(containerPlugin, { hasSingleTheme }, options.container)
-    .use(imagePlugin)
+    .use(imagePlugin, options.image)
     .use(
       linkPlugin,
       { target: '_blank', rel: 'noreferrer', ...options.externalLinks },
@@ -209,11 +226,15 @@ export const createMarkdownRenderer = async (
     )
     .use(lineNumberPlugin, options.lineNumbers)
 
+  if (options.gfmAlerts !== false) {
+    md.use(gitHubAlertsPlugin)
+  }
+
   // 3rd party plugins
   if (!options.attrs?.disable) {
     md.use(attrsPlugin, options.attrs)
   }
-  md.use(emojiPlugin)
+  md.use(emojiPlugin, { ...options.emoji })
 
   // mdit-vue plugins
   md.use(anchorPlugin, {

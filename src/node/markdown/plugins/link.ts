@@ -4,7 +4,12 @@
 
 import type MarkdownIt from 'markdown-it'
 import { URL } from 'url'
-import { EXTERNAL_URL_RE, isExternal, type MarkdownEnv } from '../../shared'
+import {
+  EXTERNAL_URL_RE,
+  isExternal,
+  treatAsHtml,
+  type MarkdownEnv
+} from '../../shared'
 
 const indexRE = /(^|.*\/)index.md(#?.*)$/i
 
@@ -35,13 +40,15 @@ export const linkPlugin = (
         }
         hrefAttr[1] = url
       } else {
+        const { pathname, protocol } = new URL(url, 'http://a.com')
+
         if (
-          // internal anchor links
+          // skip internal anchor links
           !url.startsWith('#') &&
-          // mail/custom protocol links
-          new URL(url, 'http://a.com').protocol.startsWith('http') &&
-          // links to files (other than html/md)
-          !/\.(?!html|md)\w+($|\?)/i.test(url)
+          // skip mail/custom protocol links
+          protocol.startsWith('http') &&
+          // skip links to files (other than html/md)
+          treatAsHtml(pathname)
         ) {
           normalizeHref(hrefAttr, env)
         } else if (url.startsWith('#')) {
@@ -53,13 +60,6 @@ export const linkPlugin = (
           hrefAttr[1] = `${base}${hrefAttr[1]}`.replace(/\/+/g, '/')
         }
       }
-
-      // encode vite-specific replace strings in case they appear in URLs
-      // this also excludes them from build-time replacements (which injects
-      // <wbr/> and will break URLs)
-      hrefAttr[1] = hrefAttr[1]
-        .replace(/\bimport\.meta/g, 'import%2Emeta')
-        .replace(/\bprocess\.env/g, 'process%2Eenv')
     }
     return self.renderToken(tokens, idx, options)
   }

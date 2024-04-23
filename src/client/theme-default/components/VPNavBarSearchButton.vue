@@ -1,11 +1,6 @@
 <script lang="ts" setup>
-import { reactify } from '@vueuse/core'
-import { toRef } from 'vue'
 import type { ButtonTranslations } from '../../../../types/local-search'
-import { useData } from '../composables/data'
-import { createTranslate } from '../support/translation'
-
-const { theme } = useData()
+import { createSearchTranslate } from '../support/translation'
 
 // Button-Translations
 const defaultTranslations: { button: ButtonTranslations } = {
@@ -15,32 +10,14 @@ const defaultTranslations: { button: ButtonTranslations } = {
   }
 }
 
-const $t = reactify(createTranslate)(
-  toRef(() => theme.value.search?.options),
-  defaultTranslations
-)
+const translate = createSearchTranslate(defaultTranslations)
 </script>
 
 <template>
-  <button type="button" class="DocSearch DocSearch-Button" :aria-label="$t('button.buttonAriaLabel')">
+  <button type="button" class="DocSearch DocSearch-Button" :aria-label="translate('button.buttonAriaLabel')">
     <span class="DocSearch-Button-Container">
-      <svg
-        class="DocSearch-Search-Icon"
-        width="20"
-        height="20"
-        viewBox="0 0 20 20"
-        aria-label="search icon"
-      >
-        <path
-          d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z"
-          stroke="currentColor"
-          fill="none"
-          fill-rule="evenodd"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </svg>
-      <span class="DocSearch-Button-Placeholder">{{ $t('button.buttonText') }}</span>
+      <span class="vp-icon DocSearch-Search-Icon"></span>
+      <span class="DocSearch-Button-Placeholder">{{ translate('button.buttonText') }}</span>
     </span>
     <span class="DocSearch-Button-Keys">
       <kbd class="DocSearch-Button-Key"></kbd>
@@ -92,6 +69,11 @@ const $t = reactify(createTranslate)(
 .DocSearch-Button:focus {
   outline: 1px dotted;
   outline: 5px auto -webkit-focus-ring-color;
+}
+
+.DocSearch-Button-Key--pressed {
+  transform: none;
+  box-shadow: none;
 }
 
 .DocSearch-Button:focus:not(:focus-visible) {
@@ -223,5 +205,9 @@ const $t = reactify(createTranslate)(
 
 .DocSearch-Button .DocSearch-Button-Key:first-child > * {
   display: none;
+}
+
+.DocSearch-Search-Icon {
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' stroke-width='1.6' viewBox='0 0 20 20'%3E%3Cpath fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' d='m14.386 14.386 4.088 4.088-4.088-4.088A7.533 7.533 0 1 1 3.733 3.733a7.533 7.533 0 0 1 10.653 10.653z'/%3E%3C/svg%3E");
 }
 </style>

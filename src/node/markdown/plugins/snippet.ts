@@ -1,6 +1,6 @@
 import fs from 'fs-extra'
 import type MarkdownIt from 'markdown-it'
-import type { RuleBlock } from 'markdown-it/lib/parser_block'
+import type { RuleBlock } from 'markdown-it/lib/parser_block.mjs'
 import path from 'path'
 import type { MarkdownEnv } from '../../shared'
 
@@ -170,10 +170,10 @@ export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
       return fence(...args)
     }
 
-    let content = fs.readFileSync(src, 'utf8')
+    let content = fs.readFileSync(src, 'utf8').replace(/\r\n/g, '\n')
 
     if (regionName) {
-      const lines = content.split(/\r?\n/)
+      const lines = content.split('\n')
       const region = findRegion(lines, regionName)
 
       if (region) {

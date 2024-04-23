@@ -42,7 +42,11 @@ async function update() {
 }
 
 function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
-  const options = Object.assign<{}, {}, DocSearchProps>({}, userOptions, {
+  const options = Object.assign<
+    {},
+    DefaultTheme.AlgoliaSearchOptions,
+    Partial<DocSearchProps>
+  >({}, userOptions, {
     container: '#docsearch',
 
     navigator: {
@@ -69,7 +73,6 @@ function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
       })
     },
 
-    // @ts-expect-error vue-tsc thinks this should return Vue JSX but it returns the required React one
     hitComponent({ hit, children }) {
       return {
         __v: null,
@@ -80,7 +83,7 @@ function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
         props: { href: hit.url, children }
       }
     }
-  })
+  }) as DocSearchProps
 
   docsearch(options)
 }
