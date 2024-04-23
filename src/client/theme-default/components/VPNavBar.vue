@@ -22,7 +22,9 @@ defineEmits<{
 
 const { y } = useWindowScroll()
 const { hasSidebar } = useSidebar()
+// const { hasLocalNav } = useLocalNav()
 const { frontmatter } = useData()
+const navbar = ref<HTMLElement>()
 
 const classes = ref<Record<string, boolean>>({})
 
@@ -36,7 +38,7 @@ watchPostEffect(() => {
 </script>
 
 <template>
-  <div class="VPNavBar" :class="classes">
+  <div class="VPNavBar" :class="classes" ref="navbar">
     <div class="wrapper">
       <div class="container">
         <div class="title">
@@ -255,7 +257,7 @@ watchPostEffect(() => {
   background-color: var(--vp-c-gutter);
 }
 
-@media (min-width: 960px) { 
+@media (min-width: 960px) {
   .VPNavBar:not(.home.top) .divider-line {
     background-color: var(--vp-c-gutter);
   }

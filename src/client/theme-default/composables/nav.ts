@@ -1,29 +1,41 @@
 import { ref, watch } from 'vue'
 import { useRoute } from 'vitepress'
+import { inertControls } from './inert'
+import { useMediaQuery } from '@vueuse/core'
 
 export function useNav() {
+  const is768 = useMediaQuery('(min-width: 768px)')
   const isScreenOpen = ref(false)
 
   function openScreen() {
     isScreenOpen.value = true
-    window.addEventListener('resize', closeScreenOnTabletWindow)
   }
 
   function closeScreen() {
     isScreenOpen.value = false
-    window.removeEventListener('resize', closeScreenOnTabletWindow)
   }
 
   function toggleScreen() {
     isScreenOpen.value ? closeScreen() : openScreen()
   }
 
-  /**
-   * Close screen when the user resizes the window wider than tablet size.
-   */
-  function closeScreenOnTabletWindow() {
-    window.outerWidth >= 768 && closeScreen()
-  }
+  watch(is768, (mq) => {
+    if (mq) {
+      isScreenOpen.value = false
+    }
+  })
+
+  watch(
+    () => [isScreenOpen.value, is768.value],
+    ([screenOpen, mq]) => {
+      if (mq) {
+        inertControls.isScreenOpen = false
+      } else {
+        inertControls.isScreenOpen = screenOpen
+      }
+    },
+    { immediate: true }
+  )
 
   const route = useRoute()
   watch(() => route.path, closeScreen)

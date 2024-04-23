@@ -159,7 +159,8 @@ export async function createVitePressPlugin(
           include: [
             'vue',
             'vitepress > @vue/devtools-api',
-            'vitepress > @vueuse/core'
+            'vitepress > @vueuse/core',
+            'vitepress > @vueuse/integrations/useFocusTrap'
           ],
           exclude: ['@docsearch/js', 'vitepress']
         },

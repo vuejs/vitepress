@@ -18,6 +18,7 @@ import {
   getSidebarGroups
 } from '../support/sidebar'
 import { useData } from './data'
+import { inertControls } from './inert'
 
 export interface SidebarControl {
   collapsed: Ref<boolean>
@@ -71,6 +72,20 @@ export function useSidebar() {
   })
 
   const isSidebarEnabled = computed(() => hasSidebar.value && is960.value)
+
+  watch(
+    () => [isSidebarEnabled.value, isOpen.value],
+    ([sidebarEnabled, o]) => {
+      if (o) {
+        inertControls.isSidebarOpen = true
+        inertControls.isSidebarVisible = true
+      } else {
+        inertControls.isSidebarOpen = false
+        inertControls.isSidebarVisible = sidebarEnabled
+      }
+    },
+    { immediate: true }
+  )
 
   const sidebarGroups = computed(() => {
     return hasSidebar.value ? getSidebarGroups(sidebar.value) : []
