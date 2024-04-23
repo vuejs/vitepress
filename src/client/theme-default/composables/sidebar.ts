@@ -7,7 +7,6 @@ import {
   ref,
   watch,
   watchEffect,
-  watchPostEffect,
   type ComputedRef,
   type Ref
 } from 'vue'
@@ -175,9 +174,15 @@ export function useSidebarControl(
     collapsed.value = !!(collapsible.value && item.value.collapsed)
   })
 
-  watchPostEffect(() => {
-    ;(isActiveLink.value || hasActiveLink.value) && (collapsed.value = false)
-  })
+  watch(
+    item,
+    () => {
+      if (isActiveLink.value || hasActiveLink.value) {
+        collapsed.value = false
+      }
+    },
+    { immediate: true, deep: true }
+  )
 
   function toggle() {
     if (collapsible.value) {
