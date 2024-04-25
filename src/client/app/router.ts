@@ -77,14 +77,7 @@ export function createRouter(
 
   let latestPendingPath: string | null = null
 
-  async function loadPage(
-    href: string,
-    scrollPosition = 0,
-    isRetry = false,
-    alreadyTriedLoadingRootFallback = false
-  ) {
-    let fallbackLoaded = false
-
+  async function loadPage(href: string, scrollPosition = 0, isRetry = false) {
     if ((await router.onBeforePageLoad?.(href)) === false) return
     const targetLoc = new URL(href, fakeHost)
     const pendingPath = (latestPendingPath = targetLoc.pathname)
@@ -159,11 +152,11 @@ export function createRouter(
         } catch (e) {}
       }
 
-      if (!alreadyTriedLoadingRootFallback) {
-        fallbackLoaded = await loadPageFallback()
+      if (siteDataRef.value.localesFallback) {
+        await loadFallback()
       }
 
-      if (!fallbackLoaded && latestPendingPath === pendingPath) {
+      if (latestPendingPath === pendingPath) {
         latestPendingPath = null
         route.path = inBrowser ? pendingPath : withBase(pendingPath)
         route.component = fallbackComponent ? markRaw(fallbackComponent) : null
@@ -171,84 +164,74 @@ export function createRouter(
       }
     }
 
-    // If failed to find the page, maybe it's not translated yet! if so, please fallback :)
-    async function loadPageFallback() {
+    async function loadFallback() {
       const locales = siteDataRef.value.locales
-      if (!locales) return fallbackLoaded
-      const namedLocales = Object.fromEntries(
-        Object.entries(siteDataRef.value.locales).filter(
-          ([name]) => name !== 'root'
-        )
-      )
-      if (!Object.entries(namedLocales).length) return fallbackLoaded
 
-      const langNames = Object.keys(namedLocales)
-
-      const failedLang = langNames.find(
-        (lang) =>
-          pendingPath === `/${lang}` || pendingPath.startsWith(`/${lang}/`)
-      )
-
-      if (failedLang) {
-        const fallbackLang =
-          getFailedLangFallbackLang() ?? getCustomFallbackLang()
-
-        if (fallbackLang) {
-          await loadPage(
-            pendingPath.replace(`/${failedLang}`, `/${fallbackLang}`)
+      for (const [key, value] of Object.entries(locales)) {
+        if (!value.fallback) continue
+        if (value.fallback === 'root') {
+          throw new Error(
+            `Invalid Vitepress Config: A locale (${key}), cannot fallback to (root).`
           )
-          return fallbackLoaded
-        } else {
-          await loadPage(pendingPath.replace(`/${failedLang}`, ''))
-          return fallbackLoaded
         }
-      } else {
-        const rootRouteFallbackPath = getRootRouteFallbackPath()
-
-        if (rootRouteFallbackPath) {
-          await loadPage(rootRouteFallbackPath, 0, true, true)
+        if (key === value.fallback) {
+          throw new Error(
+            `Invalid Vitepress Config: A locale (${key}), cannot have a fallback to itself.`
+          )
         }
-        return fallbackLoaded
+        if (!Object.keys(locales).includes(value.fallback)) {
+          throw new Error(
+            `Invalid Vitepress Config: A locale (${key}), cannot have a fallback to a non existing locale.`
+          )
+        }
       }
 
-      function getFailedLangFallbackLang() {
-        const failedLangFallbackLang = locales[failedLang!]?.fallback
-        if (!failedLangFallbackLang) return
-        if (!langNames.includes(failedLangFallbackLang)) {
-          console.warn(
-            `Invalid value received in "VitePress Config" > "locales.${failedLang}.fallback". "${failedLangFallbackLang}" is not a valid value.`
-          )
-          return
-        }
+      // If the length is less than 2, it means there are no alternative locales to fallback to.
+      if (!locales || Object.keys(locales).length < 2) {
+        return
+      }
 
-        return failedLangFallbackLang
+      const nonRootLocales = Object.fromEntries(
+        Object.entries(locales).filter(([name]) => name !== 'root')
+      )
+
+      const failedLocaleKey =
+        Object.keys(nonRootLocales).find(
+          (lang) =>
+            pendingPath === `/${lang}` || pendingPath.startsWith(`/${lang}/`)
+        ) || 'root'
+
+      if (failedLocaleKey !== 'root') {
+        const fallbackLang =
+          locales[failedLocaleKey].fallback ?? getCustomFallbackLang()
+
+        await loadPage(
+          pendingPath.replace(
+            `/${failedLocaleKey}`,
+            fallbackLang ? `/${fallbackLang}` : ''
+          ),
+          scrollPosition,
+          true
+        )
+      } else {
+        const fallbackPath = getRootLocaleFallbackPath()
+        if (!fallbackPath) return
+        await loadPage(fallbackPath, scrollPosition, true)
       }
 
       function getCustomFallbackLang() {
-        const customFallbackLang = Object.entries(namedLocales).filter(
-          ([_, values]) => values.useAsFallback
-        )?.[0]?.[0]
-        if (customFallbackLang && customFallbackLang !== failedLang) {
+        const customFallbackLang = siteDataRef.value.localesDefaultFallback
+        if (customFallbackLang && customFallbackLang !== failedLocaleKey) {
           return customFallbackLang
         }
       }
 
-      function getRootRouteFallbackPath() {
-        const fallbackLang = locales['root']?.fallback
-
+      function getRootLocaleFallbackPath() {
+        const fallbackLang = locales['root'].fallback
         if (!fallbackLang) return
-        if (!langNames.includes(fallbackLang)) {
-          console.warn(
-            `Invalid value received in "VitePress Config" > "locales.root.fallback". "${fallbackLang}" is not a valid value.`
-          )
-          return
-        }
-
-        return pendingPath === '/'
-          ? `/${fallbackLang}`
-          : `/${fallbackLang}${
-              pendingPath.startsWith('/') ? pendingPath : `/${pendingPath}`
-            }`
+        if (pendingPath === '/') return `/${fallbackLang}`
+        const pathDivider = pendingPath.startsWith('/') ? '' : '/'
+        return `/${fallbackLang}${pathDivider}${pendingPath}`
       }
     }
   }
