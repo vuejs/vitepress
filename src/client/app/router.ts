@@ -171,17 +171,17 @@ export function createRouter(
         if (!value.fallback) continue
         if (value.fallback === 'root') {
           throw new Error(
-            `Invalid Vitepress Config: A locale (${key}), cannot fallback to (root).`
+            `Invalid VitePress Config: A locale (${key}), cannot fall back to (root).`
           )
         }
         if (key === value.fallback) {
           throw new Error(
-            `Invalid Vitepress Config: A locale (${key}), cannot have a fallback to itself.`
+            `Invalid VitePress Config: A locale (${key}), cannot have a fallback to itself.`
           )
         }
         if (!Object.keys(locales).includes(value.fallback)) {
           throw new Error(
-            `Invalid Vitepress Config: A locale (${key}), cannot have a fallback to a non existing locale.`
+            `Invalid VitePress Config: A locale (${key}), cannot have a fallback to a non existing locale.`
           )
         }
       }
