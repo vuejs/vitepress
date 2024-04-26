@@ -8,6 +8,7 @@ export function useLangs({
 } = {}) {
   const { site, localeIndex, page, theme, hash } = useData()
   const currentLang = computed(() => ({
+    index: localeIndex.value,
     label: site.value.locales[localeIndex.value]?.label,
     link:
       site.value.locales[localeIndex.value]?.link ||
@@ -19,6 +20,7 @@ export function useLangs({
       removeCurrent && currentLang.value.label === value.label
         ? []
         : {
+            index: key,
             text: value.label,
             link:
               normalizeLink(
