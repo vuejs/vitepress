@@ -1,44 +1,55 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { withBase } from 'vitepress'
 import { useData } from './composables/data'
 import { useLangs } from './composables/langs'
 
-const { site, theme } = useData()
+const { site } = useData()
 const { localeLinks } = useLangs({ removeCurrent: false })
 
-const root = ref('/')
+const locale = ref({
+  link: '/',
+  index: 'root'
+})
+
 onMounted(() => {
   const path = window.location.pathname
     .replace(site.value.base, '')
     .replace(/(^.*?\/).*$/, '/$1')
   if (localeLinks.value.length) {
-    root.value =
-      localeLinks.value.find(({ link }) => link.startsWith(path))?.link ||
-      localeLinks.value[0].link
+    locale.value =
+      localeLinks.value.find(({ link }) => link.startsWith(path)) ||
+      localeLinks.value[0]
   }
 })
+
+const notFound = computed(() => ({
+  code: 404,
+  title: 'PAGE NOT FOUND',
+  quote:
+    "But if you don't change your direction, and if you keep looking, you may end up where you are heading.",
+  linkLabel: 'go to home',
+  linkText: 'Take me home',
+  ...(locale.value.index === 'root'
+    ? site.value.themeConfig?.notFound
+    : site.value.locales?.[locale.value.index]?.themeConfig?.notFound)
+}))
 </script>
 
 <template>
   <div class="NotFound">
-    <p class="code">{{ theme.notFound?.code ?? '404' }}</p>
-    <h1 class="title">{{ theme.notFound?.title ?? 'PAGE NOT FOUND' }}</h1>
+    <p class="code">{{ notFound.code }}</p>
+    <h1 class="title">{{ notFound.title }}</h1>
     <div class="divider" />
-    <blockquote class="quote">
-      {{
-        theme.notFound?.quote ??
-        "But if you don't change your direction, and if you keep looking, you may end up where you are heading."
-      }}
-    </blockquote>
+    <blockquote class="quote">{{ notFound.quote }}</blockquote>
 
     <div class="action">
       <a
         class="link"
-        :href="withBase(root)"
-        :aria-label="theme.notFound?.linkLabel ?? 'go to home'"
+        :href="withBase(locale.link)"
+        :aria-label="notFound.linkLabel"
       >
-        {{ theme.notFound?.linkText ?? 'Take me home' }}
+        {{ notFound.linkText }}
       </a>
     </div>
   </div>
