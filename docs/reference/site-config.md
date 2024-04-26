@@ -471,6 +471,13 @@ export default {
 }
 ```
 
+### metaChunk <Badge type="warning" text="experimental" />
+
+- Type: `boolean`
+- Default: `false`
+
+When set to `true`, extract pages metadata to a separate JavaScript chunk instead of inlining it in the initial HTML. This makes each page's HTML payload smaller and makes the pages metadata cacheable, thus reducing server bandwidth when you have many pages in the site.
+
 ### mpa <Badge type="warning" text="experimental" />
 
 - Type: `boolean`

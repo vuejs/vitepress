@@ -39,7 +39,13 @@ const showFooter = computed(() => {
       </div>
     </div>
 
-    <nav v-if="control.prev?.link || control.next?.link" class="prev-next">
+    <nav
+      v-if="control.prev?.link || control.next?.link"
+      class="prev-next"
+      aria-labelledby="doc-footer-aria-label"
+    >
+      <span class="visually-hidden" id="doc-footer-aria-label">Pager</span>
+
       <div class="pager">
         <VPLink v-if="control.prev?.link" class="pager-link prev" :href="control.prev.link">
           <span class="desc" v-html="theme.docFooter?.prev || 'Previous page'"></span>
