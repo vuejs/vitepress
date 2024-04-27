@@ -20,6 +20,8 @@ if (root) {
   argv.root = root
 }
 
+let restartPromise: Promise<void> | undefined
+
 if (!command || command === 'dev') {
   if (argv.force) {
     delete argv.force
@@ -28,8 +30,16 @@ if (!command || command === 'dev') {
 
   const createDevServer = async () => {
     const server = await createServer(root, argv, async () => {
-      await server.close()
-      await createDevServer()
+      if (!restartPromise) {
+        restartPromise = (async () => {
+          await server.close()
+          await createDevServer()
+        })().finally(() => {
+          restartPromise = undefined
+        })
+      }
+
+      return restartPromise
     })
     await server.listen()
     logVersion(server.config.logger)
