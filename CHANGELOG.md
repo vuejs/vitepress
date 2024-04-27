@@ -1,3 +1,15 @@
+## [1.1.4](https://github.com/vuejs/vitepress/compare/v1.1.3...v1.1.4) (2024-04-27)
+
+### Bug Fixes
+
+- **dev:** multiple server instances being created when editing config too quickly ([#3835](https://github.com/vuejs/vitepress/issues/3835)) ([729a890](https://github.com/vuejs/vitepress/commit/729a890669c363895cfac39ece046926cad36d01))
+- **theme/a11y:** add unique name to footer prev / next navigation landmark ([e60c101](https://github.com/vuejs/vitepress/commit/e60c101e50fa56d4cd54d434c5628cc7e2231318))
+- **theme/a11y:** remove duplicate assistive text from outline nav ([#3803](https://github.com/vuejs/vitepress/issues/3803)) ([733d986](https://github.com/vuejs/vitepress/commit/733d986a84f614484b04235546dc4cda0769e833))
+- **theme/i18n:** 404 page not showing localized text ([#3833](https://github.com/vuejs/vitepress/issues/3833)) ([cc11b8e](https://github.com/vuejs/vitepress/commit/cc11b8e41ec481320b03902bdc307d479a8ba838))
+- **theme:** disable keypress effect on search button ([ccc37bb](https://github.com/vuejs/vitepress/commit/ccc37bb80e4147b9ab91b0f5d7dfae9d51533460))
+- **theme:** don't use Chinese quotes on non-Chinese documents ([#3834](https://github.com/vuejs/vitepress/issues/3834)) ([75115f4](https://github.com/vuejs/vitepress/commit/75115f4f8223d67dab2dc82fadaf2941aabf6330))
+- **theme:** leaking event listener when going back/forward on Safari on iOS ([#3658](https://github.com/vuejs/vitepress/issues/3658)) ([#3671](https://github.com/vuejs/vitepress/issues/3671)) ([1a72181](https://github.com/vuejs/vitepress/commit/1a72181c06d78e5e6f293e3f6abdb15caa4d2f53))
+
 ## [1.1.3](https://github.com/vuejs/vitepress/compare/v1.1.1...v1.1.3) (2024-04-18)
 
 ### Bug Fixes
