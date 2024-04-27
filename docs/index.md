@@ -13,7 +13,7 @@ hero:
       text: What is VitePress?
       link: /guide/what-is-vitepress
       startIcon: 
-        src: /public/vitepress-logo-mini.svg
+        src: /vitepress-logo-mini.svg
         width: 18
         height: 18
       endIcon: 
@@ -23,6 +23,7 @@ hero:
     - theme: alt
       text: GitHub
       link: https://github.com/vuejs/vitepress
+      startIcon: <span class="vpi-social-github" />
       endIcon: <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="m16.172 11l-5.364-5.364l1.414-1.414L20 12l-7.778 7.778l-1.414-1.414L16.172 13H4v-2z"/></svg>
   image:
     src: /vitepress-logo-large.webp

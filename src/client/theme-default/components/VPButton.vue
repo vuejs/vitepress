@@ -39,7 +39,7 @@ const component = computed(() => {
     :target="props.target ?? (isExternal ? '_blank' : undefined)"
     :rel="props.rel ?? (isExternal ? 'noreferrer' : undefined)"
   >
-    <div class="start-icon" v-if="startIcon">
+    <span class="start-icon" v-if="startIcon">
       <VPImage
         v-if="typeof startIcon === 'object'"
         :image="startIcon"
@@ -47,10 +47,10 @@ const component = computed(() => {
         :height="startIcon.height || 32"
         :width="startIcon.width || 32"
       />
-      <div v-else-if="startIcon" class="icon" v-html="startIcon"></div>
-    </div>
+      <span v-else-if="startIcon" class="icon" v-html="startIcon"></span>
+    </span>
     <span>{{ text }}</span>
-    <div class="end-icon" v-if="endIcon">
+    <span class="end-icon" v-if="endIcon">
       <VPImage
         v-if="typeof endIcon === 'object'"
         :image="endIcon"
@@ -58,8 +58,8 @@ const component = computed(() => {
         :height="endIcon.height || 32"
         :width="endIcon.width || 32"
       />
-      <div v-else-if="endIcon" class="icon" v-html="endIcon"></div>
-    </div>
+      <span v-else-if="endIcon" class="icon" v-html="endIcon"></span>
+    </span>
   </component>
 </template>
 
