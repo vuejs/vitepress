@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { useWindowSize } from '@vueuse/core'
 
-const { width: vw } = useWindowSize({ includeScrollbar: false })
+const { width: vw } = useWindowSize({
+  initialWidth: 0,
+  includeScrollbar: false
+})
 </script>
 
 <template>
@@ -46,7 +49,7 @@ const { width: vw } = useWindowSize({ includeScrollbar: false })
 }
 
 .vp-doc :deep(.VPHomeSponsors a),
-.vp-doc :deep(.VPTeamPage a){
+.vp-doc :deep(.VPTeamPage a) {
   text-decoration: none;
 }
 </style>
