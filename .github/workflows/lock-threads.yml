@@ -8,6 +8,7 @@ on:
 permissions:
   issues: write
   pull-requests: write
+  discussions: write
 
 concurrency:
   group: lock
