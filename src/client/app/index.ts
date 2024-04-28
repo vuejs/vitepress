@@ -137,8 +137,21 @@ function newRouter(): Router {
         pageFilePath = pageFilePath.replace(/\.js$/, '.lean.js')
       }
 
-      if (import.meta.env.SSR) {
-        pageModule = import(/*@vite-ignore*/ pageFilePath + '?t=' + Date.now())
+      if (import.meta.env.DEV) {
+        pageModule = import(/*@vite-ignore*/ pageFilePath).catch(() => {
+          // try with/without trailing slash
+          // in prod this is handled in src/client/app/utils.ts#pathToFile
+          const url = new URL(pageFilePath!, 'http://a.com')
+          const path =
+            (url.pathname.endsWith('/index.md')
+              ? url.pathname.slice(0, -9) + '.md'
+              : url.pathname.slice(0, -3) + '/index.md') +
+            url.search +
+            url.hash
+          return import(/*@vite-ignore*/ path)
+        })
+      } else if (import.meta.env.SSR) {
+        pageModule = import(/*@vite-ignore*/ `${pageFilePath}?t=${Date.now()}`)
       } else {
         pageModule = import(/*@vite-ignore*/ pageFilePath)
       }
