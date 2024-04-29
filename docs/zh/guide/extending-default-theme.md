@@ -184,6 +184,8 @@ export default {
   - `doc-footer-before`
   - `doc-before`
   - `doc-after`
+  - `doc-content-before`
+  - `doc-content-after`
   - `sidebar-nav-before`
   - `sidebar-nav-after`
   - `aside-top`
