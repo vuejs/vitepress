@@ -86,7 +86,7 @@ function createCodeGroup(options: Options): ContainerArgs {
         if (tokens[idx].nesting === 1) {
           const name = nanoid(5)
           let tabs = ''
-          let checked = 'checked="checked"'
+          let checked = 'checked'
 
           for (
             let i = idx + 1;
