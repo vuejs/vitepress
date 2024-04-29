@@ -17,10 +17,23 @@ export function preWrapperPlugin(md: MarkdownIt, options: Options) {
     token.info = token.info.replace(/ active$/, '').replace(/ active /, ' ')
 
     const lang = extractLang(token.info)
-    const rawCode = fence(...args)
-    return `<div class="language-${lang}${getAdaptiveThemeMarker(
+    const classes = `language-${lang}${getAdaptiveThemeMarker(
       options
-    )}${active}"><button title="Copy Code" class="copy"></button><span class="lang">${lang}</span>${rawCode}</div>`
+    )}${active}`
+    const classAttr = token.attrs && token.attrs.find((x) => x[0] === 'class')
+
+    if (classAttr != null) {
+      classAttr[1] = `${classes}  ${classAttr[1]}`
+    } else {
+      const attrs: Array<[string, string]> = [['class', classes]]
+
+      token.attrs = token.attrs ? token.attrs.concat(attrs) : attrs
+    }
+
+    const rawCode = fence(...args)
+    return `<div ${md.renderer.renderAttrs(
+      token
+    )}><button title="Copy Code" class="copy"></button><span class="lang">${lang}</span>${rawCode}</div>`
   }
 }
 
