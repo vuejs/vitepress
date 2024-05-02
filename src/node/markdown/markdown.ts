@@ -111,6 +111,11 @@ export interface MarkdownOptions extends Options {
    * Setup Shiki instance
    */
   shikiSetup?: (shiki: Highlighter) => void | Promise<void>
+  /**
+   * The tooltip text for the copy button in code blocks
+   * @default 'Copy Code'
+   */
+  codeCopyButtonTitle?: string
 
   /* ==================== Markdown It Plugins ==================== */
 
@@ -184,10 +189,6 @@ export interface MarkdownOptions extends Options {
    * @see https://vitepress.dev/guide/markdown#github-flavored-alerts
    */
   gfmAlerts?: boolean
-  /**
-   * @default 'Copy Code'
-   */
-  codeCopyButtonTitle?: string
 }
 
 export type MarkdownRenderer = MarkdownIt
@@ -234,7 +235,7 @@ export const createMarkdownRenderer = async (
     md.use(gitHubAlertsPlugin)
   }
 
-  // 3rd party plugins
+  // third party plugins
   if (!options.attrs?.disable) {
     md.use(attrsPlugin, options.attrs)
   }
