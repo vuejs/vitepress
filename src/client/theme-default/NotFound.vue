@@ -1,55 +1,31 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
 import { withBase } from 'vitepress'
 import { useData } from './composables/data'
 import { useLangs } from './composables/langs'
 
-const { site } = useData()
-const { localeLinks } = useLangs({ removeCurrent: false })
-
-const locale = ref({
-  link: '/',
-  index: 'root'
-})
-
-onMounted(() => {
-  const path = window.location.pathname
-    .replace(site.value.base, '')
-    .replace(/(^.*?\/).*$/, '/$1')
-  if (localeLinks.value.length) {
-    locale.value =
-      localeLinks.value.find(({ link }) => link.startsWith(path)) ||
-      localeLinks.value[0]
-  }
-})
-
-const notFound = computed(() => ({
-  code: 404,
-  title: 'PAGE NOT FOUND',
-  quote:
-    "But if you don't change your direction, and if you keep looking, you may end up where you are heading.",
-  linkLabel: 'go to home',
-  linkText: 'Take me home',
-  ...(locale.value.index === 'root'
-    ? site.value.themeConfig?.notFound
-    : site.value.locales?.[locale.value.index]?.themeConfig?.notFound)
-}))
+const { theme } = useData()
+const { currentLang } = useLangs()
 </script>
 
 <template>
   <div class="NotFound">
-    <p class="code">{{ notFound.code }}</p>
-    <h1 class="title">{{ notFound.title }}</h1>
+    <p class="code">{{ theme.notFound?.code ?? '404' }}</p>
+    <h1 class="title">{{ theme.notFound?.title ?? 'PAGE NOT FOUND' }}</h1>
     <div class="divider" />
-    <blockquote class="quote">{{ notFound.quote }}</blockquote>
+    <blockquote class="quote">
+      {{
+        theme.notFound?.quote ??
+        "But if you don't change your direction, and if you keep looking, you may end up where you are heading."
+      }}
+    </blockquote>
 
     <div class="action">
       <a
         class="link"
-        :href="withBase(locale.link)"
-        :aria-label="notFound.linkLabel"
+        :href="withBase(currentLang.link)"
+        :aria-label="theme.notFound?.linkLabel ?? 'go to home'"
       >
-        {{ notFound.linkText }}
+        {{ theme.notFound?.linkText ?? 'Take me home' }}
       </a>
     </div>
   </div>

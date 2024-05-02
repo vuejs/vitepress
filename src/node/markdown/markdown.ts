@@ -18,7 +18,6 @@ import type { Options } from 'markdown-it'
 import MarkdownIt from 'markdown-it'
 import anchorPlugin from 'markdown-it-anchor'
 import attrsPlugin from 'markdown-it-attrs'
-// @ts-expect-error: types of markdown-it-emoji are not up-to-date
 import { full as emojiPlugin } from 'markdown-it-emoji'
 import type {
   BuiltinTheme,
