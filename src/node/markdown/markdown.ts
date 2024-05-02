@@ -111,6 +111,11 @@ export interface MarkdownOptions extends Options {
    * Setup Shiki instance
    */
   shikiSetup?: (shiki: Highlighter) => void | Promise<void>
+  /**
+   * The tooltip text for the copy button in code blocks
+   * @default 'Copy Code'
+   */
+  codeCopyButtonTitle?: string
 
   /* ==================== Markdown It Plugins ==================== */
 
@@ -195,6 +200,7 @@ export const createMarkdownRenderer = async (
   logger: Pick<Logger, 'warn'> = console
 ): Promise<MarkdownRenderer> => {
   const theme = options.theme ?? { light: 'github-light', dark: 'github-dark' }
+  const codeCopyButtonTitle = options.codeCopyButtonTitle || 'Copy Code'
   const hasSingleTheme = typeof theme === 'string' || 'name' in theme
 
   const md = MarkdownIt({
@@ -214,7 +220,7 @@ export const createMarkdownRenderer = async (
   // custom plugins
   md.use(componentPlugin, { ...options.component })
     .use(highlightLinePlugin)
-    .use(preWrapperPlugin, { hasSingleTheme })
+    .use(preWrapperPlugin, { codeCopyButtonTitle, hasSingleTheme })
     .use(snippetPlugin, srcDir)
     .use(containerPlugin, { hasSingleTheme }, options.container)
     .use(imagePlugin, options.image)
@@ -229,7 +235,7 @@ export const createMarkdownRenderer = async (
     md.use(gitHubAlertsPlugin)
   }
 
-  // 3rd party plugins
+  // third party plugins
   if (!options.attrs?.disable) {
     md.use(attrsPlugin, options.attrs)
   }
