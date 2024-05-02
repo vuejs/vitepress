@@ -1,6 +1,7 @@
 import type MarkdownIt from 'markdown-it'
 
 export interface Options {
+  codeCopyButtonTitle: string
   hasSingleTheme: boolean
 }
 
@@ -17,10 +18,11 @@ export function preWrapperPlugin(md: MarkdownIt, options: Options) {
     token.info = token.info.replace(/ active$/, '').replace(/ active /, ' ')
 
     const lang = extractLang(token.info)
+    const title = options.codeCopyButtonTitle
     const rawCode = fence(...args)
     return `<div class="language-${lang}${getAdaptiveThemeMarker(
       options
-    )}${active}"><button title="Copy Code" class="copy"></button><span class="lang">${lang}</span>${rawCode}</div>`
+    )}${active}"><button title="${title}" class="copy"></button><span class="lang">${lang}</span>${rawCode}</div>`
   }
 }
 
