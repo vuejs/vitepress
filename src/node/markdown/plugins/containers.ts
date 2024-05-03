@@ -1,8 +1,10 @@
 import type MarkdownIt from 'markdown-it'
+import container from 'markdown-it-container'
 import type { RenderRule } from 'markdown-it/lib/renderer.mjs'
 import type Token from 'markdown-it/lib/token.mjs'
-import container from 'markdown-it-container'
 import { nanoid } from 'nanoid'
+import type { MarkdownEnv } from '../../shared'
+
 import {
   extractTitle,
   getAdaptiveThemeMarker,
@@ -60,7 +62,7 @@ function createContainer(
     container,
     klass,
     {
-      render(tokens, idx, _options, env) {
+      render(tokens, idx, _options, env: MarkdownEnv & { references?: any }) {
         const token = tokens[idx]
         const info = token.info.trim().slice(klass.length).trim()
         const attrs = md.renderer.renderAttrs(token)

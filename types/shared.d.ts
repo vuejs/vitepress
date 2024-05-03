@@ -200,4 +200,5 @@ export interface MarkdownEnv {
   links?: string[]
   includes?: string[]
   realPath?: string
+  localeIndex?: string
 }
