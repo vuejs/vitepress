@@ -180,7 +180,7 @@ export async function renderPage(
     ${await renderHead(head)}
   </head>
   <body>${teleports?.body || ''}
-    <div id="app">${content}</div>
+    <div id="app">${page === '404.md' ? '' : content}</div>
     ${metadataScript.inHead ? '' : metadataScript.html}
     ${inlinedScript}
   </body>
