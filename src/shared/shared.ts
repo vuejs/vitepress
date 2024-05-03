@@ -72,6 +72,20 @@ export function isExternal(path: string): boolean {
   return EXTERNAL_URL_RE.test(path)
 }
 
+export function getLocaleForPath(
+  siteData: SiteData | undefined,
+  relativePath: string
+): string {
+  return (
+    Object.keys(siteData?.locales || {}).find(
+      (key) =>
+        key !== 'root' &&
+        !isExternal(key) &&
+        isActive(relativePath, `/${key}/`, true)
+    ) || 'root'
+  )
+}
+
 /**
  * this merges the locales data to the main data by the route
  */
@@ -79,13 +93,7 @@ export function resolveSiteDataByRoute(
   siteData: SiteData,
   relativePath: string
 ): SiteData {
-  const localeIndex =
-    Object.keys(siteData.locales).find(
-      (key) =>
-        key !== 'root' &&
-        !isExternal(key) &&
-        isActive(relativePath, `/${key}/`, true)
-    ) || 'root'
+  const localeIndex = getLocaleForPath(siteData, relativePath)
 
   return Object.assign({}, siteData, {
     localeIndex,
