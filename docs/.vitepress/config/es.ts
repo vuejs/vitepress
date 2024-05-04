@@ -117,7 +117,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
           link: 'data-loading'
         },
         { text: 'Compatibilidad SSR', link: 'ssr-compat' },
-        { text: 'Conectando a u CMS', link: 'cms' }
+        { text: 'Conectando a un CMS', link: 'cms' }
       ]
     },
     {
