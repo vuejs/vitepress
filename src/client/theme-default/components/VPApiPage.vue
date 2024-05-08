@@ -7,9 +7,8 @@
           <div class="namespace">N</div> {{ item.name }}
         </div>
       </div>
+      <br />
     </div>
-
-    <br />
 
     <div v-if="currentItem.some(item => item.type === 'function')">
       <h2>Functions</h2>
@@ -18,9 +17,8 @@
           <div class="function">F</div> {{ item.name }}
         </div>
       </div>
+      <br />
     </div>
-
-    <br />
 
     <div v-if="currentItem.some(item => item.type === 'enum')">
       <h2>Enumerations</h2>
@@ -29,9 +27,8 @@
           <div class="enum">E</div> {{ item.name }}
         </div>
       </div>
+      <br />
     </div>
-
-    <br />
 
     <div v-if="currentItem.some(item => item.type === 'class')">
       <h2>Classes</h2>
@@ -40,9 +37,8 @@
           <div class="class">C</div> {{ item.name }}
         </div>
       </div>
+      <br />
     </div>
-
-    <br />
 
     <div v-if="currentItem.some(item => item.type === 'interface')">
       <h2>Interfaces</h2>
@@ -51,9 +47,8 @@
           <div class="interface">I</div> {{ item.name }}
         </div>
       </div>
+      <br />
     </div>
-
-    <br />
 
     <div v-if="currentItem.some(item => item.type === 'variable')">
       <h2>Variables</h2>
@@ -62,9 +57,8 @@
           <div class="variable">V</div> {{ item.name }}
         </div>
       </div>
+      <br />
     </div>
-
-    <br />
 
     <div v-if="currentItem.some(item => item.type === 'type')">
       <h2>Types</h2>
