@@ -4,7 +4,12 @@
       <h2>Namespaces</h2>
       <div v-for="item in currentItem">
         <div class="item" v-if="item.type === 'namespace'" @click="whenClick(item.items!)">
-          <div class="namespace">N</div> {{ item.name }}
+          <VPLink v-if="item.link" :href="item.link">
+            <div class="namespace">N</div> {{ item.name }}
+          </VPLink>
+          <div v-else>
+            <div class="namespace">N</div> {{ item.name }}
+          </div>
         </div>
       </div>
       <br />
@@ -14,7 +19,12 @@
       <h2>Functions</h2>
       <div v-for="item in currentItem">
         <div class="item" v-if="item.type === 'function'" @click="whenClick(item.items!)">
-          <div class="function">F</div> {{ item.name }}
+          <VPLink v-if="item.link" :href="item.link">
+            <div class="function">F</div> {{ item.name }}
+          </VPLink>
+          <div v-else>
+            <div class="function">F</div> {{ item.name }}
+          </div>
         </div>
       </div>
       <br />
@@ -24,7 +34,12 @@
       <h2>Enumerations</h2>
       <div v-for="item in currentItem">
         <div class="item" v-if="item.type === 'enum'" @click="whenClick(item.items!)">
-          <div class="enum">E</div> {{ item.name }}
+          <VPLink v-if="item.link" :href="item.link">
+            <div class="enum">E</div> {{ item.name }}
+          </VPLink>
+          <div v-else>
+            <div class="enum">E</div> {{ item.name }}
+          </div>
         </div>
       </div>
       <br />
@@ -34,7 +49,12 @@
       <h2>Classes</h2>
       <div v-for="item in currentItem">
         <div class="item" v-if="item.type === 'class'" @click="whenClick(item.items!)">
-          <div class="class">C</div> {{ item.name }}
+          <VPLink v-if="item.link" :href="item.link">
+            <div class="class">C</div> {{ item.name }}
+          </VPLink>
+          <div v-else>
+            <div class="class">C</div> {{ item.name }}
+          </div>
         </div>
       </div>
       <br />
@@ -44,7 +64,12 @@
       <h2>Interfaces</h2>
       <div v-for="item in currentItem">
         <div class="item" v-if="item.type === 'interface'" @click="whenClick(item.items!)">
-          <div class="interface">I</div> {{ item.name }}
+          <VPLink v-if="item.link" :href="item.link">
+            <div class="interface">I</div> {{ item.name }}
+          </VPLink>
+          <div v-else>
+            <div class="interface">I</div> {{ item.name }}
+          </div>
         </div>
       </div>
       <br />
@@ -54,7 +79,12 @@
       <h2>Variables</h2>
       <div v-for="item in currentItem">
         <div class="item" v-if="item.type === 'variable'" @click="whenClick(item.items!)">
-          <div class="variable">V</div> {{ item.name }}
+          <VPLink v-if="item.link" :href="item.link">
+            <div class="variable">V</div> {{ item.name }}
+          </VPLink>
+          <div v-else>
+            <div class="variable">V</div> {{ item.name }}
+          </div>
         </div>
       </div>
       <br />
@@ -64,7 +94,12 @@
       <h2>Types</h2>
       <div v-for="item in currentItem">
         <div class="item" v-if="item.type === 'type'" @click="whenClick(item.items!)">
-          <div class="type">T</div> {{ item.name }}
+          <VPLink v-if="item.link" :href="item.link">
+            <div class="type">T</div> {{ item.name }}
+          </VPLink>
+          <div v-else>
+            <div class="type">T</div> {{ item.name }}
+          </div>
         </div>
       </div>
     </div>
@@ -73,6 +108,7 @@
 
 <script setup lang="ts">
 import { defineProps, ref } from 'vue'
+import VPLink from './VPLink.vue';
 
 interface Props {
   apis: ApiItem[]
@@ -81,7 +117,8 @@ interface Props {
 interface ApiItem {
   type: 'namespace' | 'function' | 'enum' | 'class' | 'interface' | 'variable' | 'type',
   name: string,
-  items?: ApiItem[]
+  items?: ApiItem[],
+  link?: string
 }
 
 const props = defineProps<Props>()
@@ -177,7 +214,7 @@ function whenClick(item: ApiItem[]) {
   user-select: none;
 }
 
-.VPApiPage .variable {
+.VPApiPage .type {
   border: solid blue 2px;
   border-radius: 5px;
   width: 20px;

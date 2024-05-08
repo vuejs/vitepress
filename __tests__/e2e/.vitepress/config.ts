@@ -64,6 +64,10 @@ const sidebar: DefaultTheme.Config['sidebar'] = {
           link: '/markdown-extensions/foo'
         }
       ]
+    },
+    {
+      text: 'Api Content',
+      link: '/api-content'
     }
   ],
   '/multi-sidebar/': [
