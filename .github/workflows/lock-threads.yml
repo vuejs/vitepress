@@ -2,12 +2,13 @@ name: Lock Threads
 
 on:
   schedule:
-    - cron: 0 0 * * *
+    - cron: 38 4 * * *
   workflow_dispatch:
 
 permissions:
   issues: write
   pull-requests: write
+  discussions: write
 
 concurrency:
   group: lock

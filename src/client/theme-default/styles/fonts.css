@@ -146,12 +146,40 @@ html body {
     U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
-/* Chinese quotes rendering fix. 中英文弯引号共享 Unicode 码位，确保引号使用中文字体渲染 */
 @font-face {
-  font-family: 'Chinese Quotes';
-  src: local('PingFang SC Regular'), local('PingFang SC'), local('SimHei'),
-    local('Source Han Sans SC');
-  unicode-range: U+2018, U+2019, U+201C, U+201D; /* 分别是 ‘’“” */
+  font-family: 'Punctuation SC';
+  font-weight: 400;
+  src: local('PingFang SC Regular'), local('Noto Sans CJK SC'),
+    local('Microsoft YaHei');
+  unicode-range: U+201C, U+201D, U+2018, U+2019, U+2E3A, U+2014, U+2013, U+2026,
+    U+00B7, U+007E, U+002F;
+}
+
+@font-face {
+  font-family: 'Punctuation SC';
+  font-weight: 500;
+  src: local('PingFang SC Medium'), local('Noto Sans CJK SC'),
+    local('Microsoft YaHei');
+  unicode-range: U+201C, U+201D, U+2018, U+2019, U+2E3A, U+2014, U+2013, U+2026,
+    U+00B7, U+007E, U+002F;
+}
+
+@font-face {
+  font-family: 'Punctuation SC';
+  font-weight: 600;
+  src: local('PingFang SC Semibold'), local('Noto Sans CJK SC Bold'),
+    local('Microsoft YaHei Bold');
+  unicode-range: U+201C, U+201D, U+2018, U+2019, U+2E3A, U+2014, U+2013, U+2026,
+    U+00B7, U+007E, U+002F;
+}
+
+@font-face {
+  font-family: 'Punctuation SC';
+  font-weight: 700;
+  src: local('PingFang SC Semibold'), local('Noto Sans CJK SC Bold'),
+    local('Microsoft YaHei Bold');
+  unicode-range: U+201C, U+201D, U+2018, U+2019, U+2E3A, U+2014, U+2013, U+2026,
+    U+00B7, U+007E, U+002F;
 }
 
 /* Generate the subsetted fonts using: `pyftsubset <file>.woff2 --unicodes="<range>" --output-file="inter-<style>-<subset>.woff2" --flavor=woff2` */

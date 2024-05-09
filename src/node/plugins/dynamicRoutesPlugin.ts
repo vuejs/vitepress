@@ -200,8 +200,10 @@ export async function resolveDynamicRoutes(
           'silent'
         )) as RouteModule
         routeModuleCache.set(pathsFile, mod)
-      } catch (e: any) {
-        logger.warn(`${c.yellow(`Failed to load ${pathsFile}:`)}\n${e.stack}`)
+      } catch (err: any) {
+        logger.warn(
+          `${c.yellow(`Failed to load ${pathsFile}:`)}\n${err.message}\n${err.stack}`
+        )
         continue
       }
     }
