@@ -597,6 +597,29 @@ const line3 = 'This is line 3'
 const line4 = 'This is line 4'
 ```
 
+## Code Modal
+
+[//]: # (todo - expand on docs )
+
+````md:modal
+```ts {1}
+// line-numbers is disabled by default
+const line2 = 'This is line 2'
+const line3 = 'This is line 3'
+```
+
+```ts:line-numbers {1}
+// line-numbers is enabled
+const line2 = 'This is line 2'
+const line3 = 'This is line 3'
+```
+
+```ts:line-numbers=2 {1}
+// line-numbers is enabled and start from 2
+const line3 = 'This is line 3'
+const line4 = 'This is line 4'
+```
+````
 ## Import Code Snippets
 
 You can import code snippets from existing files via following syntax:
