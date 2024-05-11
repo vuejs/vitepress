@@ -430,7 +430,8 @@
 }
 
 .vp-doc [class*='language-'] > button.copy,
-.vp-doc [class*='language-'] > button.modal {
+.vp-doc [class*='language-'] > button.modal,
+.vp-doc [class*='language-'] > button.close {
   /*rtl:ignore*/
   direction: ltr;
   position: absolute;
@@ -460,6 +461,11 @@
   background-image: var(--vp-icon-expand);
 }
 
+.vp-doc [class*='language-'] > button.close {
+  top: 64px;
+  background-image: var(--vp-icon-close);
+}
+
 .vp-doc
   [class*='language-']:hover:not(:has(.modal-container:hover))
   > button.copy,
@@ -467,13 +473,18 @@
 .vp-doc
   [class*='language-']:hover:not(:has(.modal-container:hover))
   > button.modal,
-.vp-doc [class*='language-'] > button.modal:focus {
+.vp-doc [class*='language-'] > button.modal:focus,
+.vp-doc
+  [class*='language-']:hover:not(:has(.modal-container:hover))
+  > button.close,
+.vp-doc [class*='language-'] > button.close:focus {
   opacity: 1;
 }
 
 .vp-doc [class*='language-'] > button.copy:hover,
 .vp-doc [class*='language-'] > button.copy.copied,
-.vp-doc [class*='language-'] > button.modal:hover {
+.vp-doc [class*='language-'] > button.modal:hover,
+.vp-doc [class*='language-'] > button.close:hover {
   border-color: var(--vp-code-copy-code-hover-border-color);
   background-color: var(--vp-code-copy-code-hover-bg);
 }

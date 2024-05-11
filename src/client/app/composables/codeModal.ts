@@ -18,6 +18,17 @@ export function useCodeModal() {
         sibling.classList.add('open')
       }
 
+      if (
+        el.matches('div[class*="language-"] div.modal-container button.close')
+      ) {
+        const parent = el.parentElement?.parentElement
+        if (!parent) {
+          return
+        }
+
+        parent.classList.remove('open')
+      }
+
       if (el.matches('div[class*="language-"] > div.modal-container')) {
         el.classList.remove('open')
       }

@@ -23,14 +23,19 @@ export const codeModalPlugin = (
       return rawCode
     }
 
-    const code =
-      `<button title="${options.codeModalButtonTitle}" class="modal"></button>` +
-      '<div class="modal-container">' +
-      fence(...args) +
-      '</div>'
-
     let end = rawCode.lastIndexOf('</div>')
 
-    return rawCode.substring(0, end) + code + '</div>'
+    let innerCode =
+      rawCode.substring(0, end) +
+      `<button title="${options.codeModalButtonTitle}" class="close"></button>` +
+      '</div>'
+
+    const modal =
+      `<button title="${options.codeModalButtonTitle}" class="modal"></button>` +
+      '<div class="modal-container">' +
+      innerCode +
+      '</div>'
+
+    return rawCode.substring(0, end) + modal + '</div>'
   }
 }
