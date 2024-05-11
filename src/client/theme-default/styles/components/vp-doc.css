@@ -379,7 +379,10 @@
     opacity 0.35s;
 }
 
-.vp-doc [class*='language-']:hover .has-focused-lines .line:not(.has-focus) {
+.vp-doc
+  [class*='language-']:hover:not(:has(.modal-container:hover))
+  .has-focused-lines
+  .line:not(.has-focus) {
   filter: blur(0);
   opacity: 1;
 }
