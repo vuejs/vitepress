@@ -599,27 +599,49 @@ const line4 = 'This is line 4'
 
 ## Code Modal
 
-[//]: # (todo - expand on docs )
+You can enable codeModals for each code blocks via config:
+
+```js
+export default {
+  markdown: {
+    codeModal: true
+  }
+}
+```
+
+Please see [`markdown` options](../reference/site-config#markdown) for more details.
+
+You can add `:modal` / `:no-modal` mark in your fenced code blocks to override the value set in config.
+
+
+**Input**
 
 ````md:modal
-```ts {1}
-// line-numbers is disabled by default
-const line2 = 'This is line 2'
-const line3 = 'This is line 3'
-```
-
-```ts:line-numbers {1}
-// line-numbers is enabled
-const line2 = 'This is line 2'
-const line3 = 'This is line 3'
-```
-
-```ts:line-numbers=2 {1}
-// line-numbers is enabled and start from 2
-const line3 = 'This is line 3'
-const line4 = 'This is line 4'
+```js:modal
+export default {
+  data () {
+    return {
+      msg: 'Code with very long lines can often be hard to read in code blocks. Code modals can make seeing the whole content possible.',
+      lorem: 'ipsum',
+    }
+  }
+}
 ```
 ````
+
+**Output**
+
+```js:modal
+export default {
+  data () {
+    return {
+      msg: 'Code with very long lines can often be hard to read in code blocks. Code modals can make seeing the whole content possible.',
+      lorem: 'ipsum',
+    }
+  }
+}
+```
+
 ## Import Code Snippets
 
 You can import code snippets from existing files via following syntax:
