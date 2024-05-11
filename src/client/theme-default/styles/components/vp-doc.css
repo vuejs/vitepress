@@ -457,6 +457,7 @@
 
 .vp-doc [class*='language-'] > button.modal {
   top: 64px;
+  background-image: var(--vp-icon-expand);
 }
 
 .vp-doc
