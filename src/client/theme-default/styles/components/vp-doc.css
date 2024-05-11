@@ -459,9 +459,13 @@
   top: 64px;
 }
 
-.vp-doc [class*='language-']:hover > button.copy,
+.vp-doc
+  [class*='language-']:hover:not(:has(.modal-container:hover))
+  > button.copy,
 .vp-doc [class*='language-'] > button.copy:focus,
-.vp-doc [class*='language-']:hover > button.modal,
+.vp-doc
+  [class*='language-']:hover:not(:has(.modal-container:hover))
+  > button.modal,
 .vp-doc [class*='language-'] > button.modal:focus {
   opacity: 1;
 }
@@ -520,8 +524,11 @@
     opacity 0.4s;
 }
 
-.vp-doc [class*='language-']:hover button.copy + span.lang,
-.vp-doc [class*='language-'] button.copy:focus + span.lang {
+.vp-doc
+  [class*='language-']:hover:not(:has(.modal-container:hover))
+  > button.copy
+  + span.lang,
+.vp-doc [class*='language-'] > button.copy:focus + span.lang {
   opacity: 0;
 }
 

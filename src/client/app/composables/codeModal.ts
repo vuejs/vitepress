@@ -6,6 +6,9 @@ export function useCodeModal() {
       const el = e.target as HTMLElement
 
       if (el.matches('div[class*="language-"] > button.modal')) {
+        //remove focus from button
+        el.blur()
+
         const parent = el.parentElement
         const sibling = el.nextElementSibling
         if (!parent || !sibling) {
