@@ -23,7 +23,6 @@ export default {
     lastmodDateOnly: false
   }
 }
-
 ```
 
 如果在配置中使用 `base`，则应将其追加到 `hostname` 选项中：
@@ -42,7 +41,6 @@ export default {
 在将 sitemap 写入 `sitemap.xml` 文件之前，可以使用 `sitemap.transformItems` 钩子来修改 sitemap。使用 sitemap 调用该钩子，应返回 sitemap 数组。例如：
 
 ```ts
-
 export default {
   sitemap: {
     hostname: 'https://example.com',
