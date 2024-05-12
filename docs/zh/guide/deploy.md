@@ -294,7 +294,7 @@ Cache-Control: max-age=31536000,immutable
 
 ### Nginx
 
-下面是一个 Nginx 服务器块配置示例。此配置包括对基于文本的常见资源的 gzip 压缩、使用适当缓存头为 VitePress 网站静态文件提供服务的规则以及处理 `cleanUrls: true` 的方法。
+下面是一个 Nginx 服务器块配置示例。此配置包括对基于文本的常见资源的 gzip 压缩、使用适当缓存头为 VitePress 站点静态文件提供服务的规则以及处理 `cleanUrls: true` 的方法。
 
 ```nginx
 server {
@@ -328,7 +328,7 @@ server {
 }
 ```
 
-本配置默认已构建的 VitePress 网站位于服务器上的 `/app` 目录中。如果网站文件位于其他位置，请相应调整 `root` 指令。
+本配置默认已构建的 VitePress 站点位于服务器上的 `/app` 目录中。如果站点文件位于其他位置，请相应调整 `root` 指令。
 
 ::: warning 不要默认为 index.html
 try_files 解析不能像其他 Vue 应用那样默认为 index.html。这会导致页面状态处于无效。
