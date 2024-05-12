@@ -294,7 +294,7 @@ Cache-Control: max-age=31536000,immutable
 
 ### Nginx
 
-下面是一个 Nginx 服务器块配置示例。此设置包括对基于文本的常见资源的 gzip 压缩、使用适当缓存头为 VitePress 网站静态文件提供服务的规则以及处理 `cleanUrls: true` 的方法。
+下面是一个 Nginx 服务器块配置示例。此配置包括对基于文本的常见资源的 gzip 压缩、使用适当缓存头为 VitePress 网站静态文件提供服务的规则以及处理 `cleanUrls: true` 的方法。
 
 ```nginx
 server {
@@ -328,4 +328,4 @@ server {
 try_files 解析不能像其他 Vue 应用那样默认为 index.html。这会导致页面状态处于无效。
 :::
 
-更多信息请参见 [nginx 官方文档](https://nginx.org/en/docs/)、这些问题 [#2837](https://github.com/vuejs/vitepress/discussions/2837)、[#3235](https://github.com/vuejs/vitepress/issues/3235)以及 Mehdi Merah 发表的 [博文](https://blog.mehdi.cc/articles/vitepress-cleanurls-on-nginx-environment#readings)。
+更多信息请参见 [nginx 官方文档](https://nginx.org/en/docs/)、这些 GitHub Issue [#2837](https://github.com/vuejs/vitepress/discussions/2837)、[#3235](https://github.com/vuejs/vitepress/issues/3235)以及 Mehdi Merah 发表的[博客](https://blog.mehdi.cc/articles/vitepress-cleanurls-on-nginx-environment#readings)。

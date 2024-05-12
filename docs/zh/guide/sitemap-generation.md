@@ -47,7 +47,7 @@ export default {
   sitemap: {
     hostname: 'https://example.com',
     transformItems: (items) => {
-       // 添加新项目或修改/过滤现有项目
+       // 添加新项目或修改/筛选现有项目
       items.push({
         url: '/extra-page',
         changefreq: 'monthly',
