@@ -290,11 +290,11 @@ Cache-Control: max-age=31536000,immutable
 
 ### Stormkit
 
-你可以按照这些[说明](https://stormkit.io/blog/how-to-deploy-vitepress)将您的 VitePress 项目部署到[Stormkit](https://www.stormkit.io)。
+你可以按照这些[说明](https://stormkit.io/blog/how-to-deploy-vitepress)将你的 VitePress 项目部署到 [Stormkit](https://www.stormkit.io)。
 
 ### Nginx
 
-下面是一个 Nginx 服务器块配置示例。此设置包括对常见文本资产的 gzip 压缩、使用适当缓存头为 VitePress 网站静态文件提供服务的规则以及处理 `cleanUrls: true` 的方法。
+下面是一个 Nginx 服务器块配置示例。此设置包括对基于文本的常见资源的 gzip 压缩、使用适当缓存头为 VitePress 网站静态文件提供服务的规则以及处理 `cleanUrls: true` 的方法。
 
 ```nginx
 server {
@@ -322,10 +322,10 @@ server {
 }
 ```
 
-本配置假定已构建的 VitePress 网站位于服务器上的 `/app` 目录中。如果网站文件位于其他位置，请相应调整 `root` 指令。
+本配置默认已构建的 VitePress 网站位于服务器上的 `/app` 目录中。如果网站文件位于其他位置，请相应调整 `root` 指令。
 
 ::: warning 不要默认为 index.html
-try_files 解析不能像其他 Vue 应用程序那样默认为 index.html。这会导致页面状态无效。
+try_files 解析不能像其他 Vue 应用那样默认为 index.html。这会导致页面状态处于无效。
 :::
 
-更多信息请参见[nginx 官方文档](https://nginx.org/en/docs/)、这些问题 [#2837](https://github.com/vuejs/vitepress/discussions/2837)、[#3235](https://github.com/vuejs/vitepress/issues/3235)以及 Mehdi Merah 发表的[博文](https://blog.mehdi.cc/articles/vitepress-cleanurls-on-nginx-environment#readings)。
+更多信息请参见 [nginx 官方文档](https://nginx.org/en/docs/)、这些问题 [#2837](https://github.com/vuejs/vitepress/discussions/2837)、[#3235](https://github.com/vuejs/vitepress/issues/3235)以及 Mehdi Merah 发表的 [博文](https://blog.mehdi.cc/articles/vitepress-cleanurls-on-nginx-environment#readings)。
