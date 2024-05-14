@@ -30,6 +30,9 @@ Assets placed in `public` will be copied to the root of the output directory as-
 
 Note that you should reference files placed in `public` using root absolute path - for example, `public/icon.png` should always be referenced in source code as `/icon.png`.
 
+The Public Directory can be configured via the [`vite`](../reference/site-config#vite) config option.
+Please refer to the [Vite Documentation](https://vitejs.dev/guide/assets.html#the-public-directory) thereof.
+
 ## Base URL
 
 If your site is deployed to a non-root URL, you will need to set the `base` option in `.vitepress/config.js`. For example, if you plan to deploy your site to `https://foo.github.io/bar/`, then `base` should be set to `'/bar/'` (it should always start and end with a slash).
