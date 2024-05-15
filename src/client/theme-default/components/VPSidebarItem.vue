@@ -151,10 +151,8 @@ const classes = computed(() => [
   transition: background-color 0.25s;
 }
 
-.VPSidebarItem.level-2.is-active > .item > .indicator,
-.VPSidebarItem.level-3.is-active > .item > .indicator,
-.VPSidebarItem.level-4.is-active > .item > .indicator,
-.VPSidebarItem.level-5.is-active > .item > .indicator {
+
+.VPSidebarItem:is(.level-2, .level-3, .level-4, .level-5).is-active > .item > .indicator {
   background-color: var(--vp-c-brand-1);
 }
 
@@ -177,39 +175,15 @@ const classes = computed(() => [
   color: var(--vp-c-text-1);
 }
 
-.VPSidebarItem.level-1 .text,
-.VPSidebarItem.level-2 .text,
-.VPSidebarItem.level-3 .text,
-.VPSidebarItem.level-4 .text,
-.VPSidebarItem.level-5 .text {
+.VPSidebarItem:is(.level-1, .level-2, .level-3, .level-4, .level-5) .text {
   font-weight: 500;
   color: var(--vp-c-text-2);
 }
 
-.VPSidebarItem.level-0.is-active > .item > summary .text,
-.VPSidebarItem.level-1.is-active > .item > summary .text,
-.VPSidebarItem.level-2.is-active > .item > summary .text,
-.VPSidebarItem.level-3.is-active > .item > summary .text,
-.VPSidebarItem.level-4.is-active > .item > summary .text,
-.VPSidebarItem.level-5.is-active > .item > summary .text,
-.VPSidebarItem.level-0.is-active > .item > .link > .text,
-.VPSidebarItem.level-1.is-active > .item > .link > .text,
-.VPSidebarItem.level-2.is-active > .item > .link > .text,
-.VPSidebarItem.level-3.is-active > .item > .link > .text,
-.VPSidebarItem.level-4.is-active > .item > .link > .text,
-.VPSidebarItem.level-5.is-active > .item > .link > .text,
-.VPSidebarItem.level-0 .link:hover >.text,
-.VPSidebarItem.level-1 .link:hover >.text,
-.VPSidebarItem.level-2 .link:hover >.text,
-.VPSidebarItem.level-3 .link:hover >.text,
-.VPSidebarItem.level-4 .link:hover >.text,
-.VPSidebarItem.level-5 .link:hover >.text,
-.VPSidebarItem.level-0 .link:focus >.text,
-.VPSidebarItem.level-1 .link:focus >.text,
-.VPSidebarItem.level-2 .link:focus >.text,
-.VPSidebarItem.level-3 .link:focus >.text,
-.VPSidebarItem.level-4 .link:focus >.text,
-.VPSidebarItem.level-5 .link:focus >.text {
+.VPSidebarItem.is-active:is(.level-0, .level-1, .level-2, .level-3, .level-4, .level-5)  > .item > summary .text,
+.VPSidebarItem.is-active:is(.level-0, .level-1, .level-2, .level-3, .level-4, .level-5)  > .item > .link > .text,
+.VPSidebarItem:is(.level-0, .level-1, .level-2, .level-3, .level-4, .level-5) .link:hover >.text,
+.VPSidebarItem:is(.level-0, .level-1, .level-2, .level-3, .level-4, .level-5) .link:focus >.text {
   color: var(--vp-c-brand-1);
 }
 
@@ -244,11 +218,7 @@ const classes = computed(() => [
   transform: rotate(0);
 }
 
-.VPSidebarItem.level-1 .items,
-.VPSidebarItem.level-2 .items,
-.VPSidebarItem.level-3 .items,
-.VPSidebarItem.level-4 .items,
-.VPSidebarItem.level-5 .items {
+.VPSidebarItem:is(.level-1, .level-2, .level-3, .level-4, .level-5) .items {
   border-left: 1px solid var(--vp-c-divider);
   padding-left: 16px;
 }
