@@ -126,6 +126,7 @@ const classes = computed(() => [
   cursor: pointer;
   display: flex;
   justify-content: space-between;
+  position: relative;
 }
 
 .VPSidebarItem details summary .link {
@@ -151,8 +152,8 @@ const classes = computed(() => [
   transition: background-color 0.25s;
 }
 
-
-.VPSidebarItem:is(.level-2, .level-3, .level-4, .level-5).is-active > .item > .indicator {
+.VPSidebarItem:is(.level-2, .level-3, .level-4, .level-5).is-active > .item > .indicator,
+.VPSidebarItem:is(.level-2, .level-3, .level-4, .level-5).is-active > details > summary .indicator {
   background-color: var(--vp-c-brand-1);
 }
 
