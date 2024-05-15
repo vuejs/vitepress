@@ -60,14 +60,32 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
   return [
     {
       text: 'Introduction',
-      collapsed: false,
+      collapsed: true,
       items: [
-        { text: 'What is VitePress?', link: 'what-is-vitepress' },
+        {
+          text: 'Group heading linked to "What is VitePress?"',
+          link: 'what-is-vitepress',
+          collapsed: true,
+          items: [
+            {
+              text: 'Another group heading linked to "What is VitePress?"',
+              link: 'what-is-vitepress',
+              collapsed: true,
+              items: [
+                {
+                  text: 'What is VitePress?',
+                  link: 'what-is-vitepress'
+                }
+              ]
+            }
+          ]
+        },
         { text: 'Getting Started', link: 'getting-started' },
         { text: 'Routing', link: 'routing' },
         { text: 'Deploy', link: 'deploy' }
       ]
     },
+    { text: 'What is VitePress?', link: 'what-is-vitepress' },
     {
       text: 'Writing',
       collapsed: false,

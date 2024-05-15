@@ -200,12 +200,8 @@ const classes = computed(() => [
   flex-shrink: 0;
 }
 
-.item:hover .caret {
-  color: var(--vp-c-text-2);
-}
-
-.item:hover .caret:hover {
-  color: var(--vp-c-text-1);
+.item summary:hover .caret {
+  color: var(--vp-c-text-1)
 }
 
 .caret-icon {
