@@ -1,4 +1,9 @@
-import type { HeadConfig, PageData, SiteData } from '../../types/shared'
+import type {
+  HeadConfig,
+  PageData,
+  SiteData,
+  DefaultTheme
+} from '../../types/shared'
 
 export type {
   Awaitable,
@@ -13,6 +18,8 @@ export type {
   SSGContext,
   SiteData
 } from '../../types/shared'
+
+export type SidebarItem = DefaultTheme.SidebarItem
 
 export const EXTERNAL_URL_RE = /^(?:[a-z]+:|\/\/)/i
 export const APPEARANCE_KEY = 'vitepress-theme-appearance'
@@ -218,4 +225,48 @@ export function treatAsHtml(filename: string): boolean {
 // https://github.com/sindresorhus/escape-string-regexp/blob/ba9a4473850cb367936417e97f1f2191b7cc67dd/index.js
 export function escapeRegExp(str: string) {
   return str.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&').replace(/-/g, '\\x2d')
+}
+
+/**
+ * Get the `Sidebar` from sidebar option. This method will ensure to get correct
+ * sidebar config from `MultiSideBarConfig` with various path combinations such
+ * as matching `guide/` and `/guide/`. If no matching config was found, it will
+ * return empty array.
+ */
+export function getSidebar(
+  _sidebar: DefaultTheme.Sidebar | undefined,
+  path: string
+): SidebarItem[] {
+  if (Array.isArray(_sidebar)) return addBase(_sidebar)
+  if (_sidebar == null) return []
+
+  path = ensureStartingSlash(path)
+
+  const dir = Object.keys(_sidebar)
+    .sort((a, b) => {
+      return b.split('/').length - a.split('/').length
+    })
+    .find((dir) => {
+      // make sure the multi sidebar key starts with slash too
+      return path.startsWith(ensureStartingSlash(dir))
+    })
+
+  const sidebar = dir ? _sidebar[dir] : []
+  return Array.isArray(sidebar)
+    ? addBase(sidebar)
+    : addBase(sidebar.items, sidebar.base)
+}
+
+function addBase(items: SidebarItem[], _base?: string): SidebarItem[] {
+  return [...items].map((_item) => {
+    const item = { ..._item }
+    const base = item.base || _base
+    if (base && item.link) item.link = base + item.link
+    if (item.items) item.items = addBase(item.items, base)
+    return item
+  })
+}
+
+export function ensureStartingSlash(path: string): string {
+  return /^\//.test(path) ? path : `/${path}`
 }
