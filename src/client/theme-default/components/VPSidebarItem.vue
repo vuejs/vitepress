@@ -10,10 +10,13 @@ const props = defineProps<{
 }>()
 
 const {
+  collapsed,
+  collapsible,
   isLink,
   isActiveLink,
   hasActiveLink,
-  hasChildren
+  hasChildren,
+  handleToggle,
 } = useSidebarControl(computed(() => props.item))
 
 const sectionTag = computed(() => (hasChildren.value ? 'section' : `div`))
@@ -34,14 +37,23 @@ const classes = computed(() => [
   { 'is-active': isActiveLink.value },
   { 'has-active': hasActiveLink.value }
 ])
+
+function onToggle(payload: ToggleEvent): void {
+  handleToggle(payload.newState)
+}
 </script>
 
 <template>
   <component :is="sectionTag" class="VPSidebarItem" :class="classes">
+    <!-- @TODO @toggle TS error blocked by
+      https://github.com/vuejs/core/pull/10938.
+      See also https://github.com/vuejs/core/issues/10928
+    -->
     <details
-      v-if="item.text && item.collapsed != null && hasChildren"
+      v-if="item.text && collapsible && hasChildren"
       class="item"
-      :open="!item.collapsed"
+      :open="!collapsed"
+      @toggle="onToggle"
     >
       <summary>
         <div class="indicator" />
@@ -94,7 +106,7 @@ const classes = computed(() => [
       <component v-else :is="textTag" class="text" v-html="item.text" />
     </div>
 
-    <div v-if="(item.collapsed == null || !item.text) && hasChildren" class="items">
+    <div v-if="(!collapsible || !item.text) && hasChildren" class="items">
       <template v-if="depth < 5">
         <VPSidebarItem
           v-for="i in item.items"
