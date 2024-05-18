@@ -109,6 +109,7 @@ export function resolveHeaders(
 }
 
 export function useActiveAnchor(
+  aside: Ref<HTMLElement>,
   container: Ref<HTMLElement>,
   marker: Ref<HTMLElement>
 ) {
@@ -194,24 +195,19 @@ export function useActiveAnchor(
     }
 
     const activeLink = prevActiveLink
-    const asideContainer =
-      container.value.parentElement?.parentElement?.parentElement
     if (activeLink) {
-      const offsetTop = activeLink.offsetTop + 39
       const rect = activeLink.getBoundingClientRect()
       const isInViewPort = rect.top >= 65 && rect.bottom <= innerHeight
       activeLink.classList.add('active')
       marker.value.style.top = activeLink.offsetTop + 39 + 'px'
       marker.value.style.opacity = '1'
-      if (asideContainer && !isInViewPort) {
-        asideContainer.scrollTop = offsetTop
+      if (!isInViewPort) {
+        activeLink.scrollIntoView({ block: 'center' })
       }
     } else {
       marker.value.style.top = '33px'
       marker.value.style.opacity = '0'
-      if (asideContainer) {
-        asideContainer.scrollTop = 0
-      }
+      aside.value.scrollTop = 0
     }
   }
 }

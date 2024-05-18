@@ -2,12 +2,16 @@
 import { useData } from '../composables/data'
 import VPDocAsideOutline from './VPDocAsideOutline.vue'
 import VPDocAsideCarbonAds from './VPDocAsideCarbonAds.vue'
+import { ref, provide } from 'vue'
 
 const { theme } = useData()
+const aside = ref(null)
+
+provide('aside', aside)
 </script>
 
 <template>
-  <div class="VPDocAside">
+  <div class="VPDocAside" ref="aside">
     <slot name="aside-top" />
 
     <slot name="aside-outline-before" />
