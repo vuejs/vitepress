@@ -1,20 +1,17 @@
 {
   "name": "vitepress",
-  "version": "1.1.4",
+  "version": "1.2.0",
   "description": "Vite & Vue powered static site generator",
   "keywords": [
     "vite",
     "vue",
     "vitepress"
   ],
-  "homepage": "https://github.com/vuejs/vitepress/tree/main/#readme",
+  "homepage": "https://vitepress.dev/",
   "bugs": {
     "url": "https://github.com/vuejs/vitepress/issues"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/vuejs/vitepress.git"
-  },
+  "repository": "github:vuejs/vitepress",
   "license": "MIT",
   "author": "Evan You",
   "type": "module",
@@ -152,7 +149,7 @@
     "conventional-changelog-cli": "^5.0.0",
     "cross-spawn": "^7.0.3",
     "debug": "^4.3.4",
-    "esbuild": "^0.20.2",
+    "esbuild": "^0.21.3",
     "escape-html": "^1.0.3",
     "execa": "^9.1.0",
     "fast-glob": "^3.3.2",
@@ -163,7 +160,7 @@
     "lodash.template": "^4.5.0",
     "lru-cache": "^10.2.2",
     "markdown-it": "^14.1.0",
-    "markdown-it-anchor": "^9.0.0",
+    "markdown-it-anchor": "^9.0.1",
     "markdown-it-attrs": "^4.1.6",
     "markdown-it-container": "^4.0.0",
     "markdown-it-emoji": "^3.0.0",

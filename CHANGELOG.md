@@ -1,3 +1,21 @@
+# [1.2.0](https://github.com/vuejs/vitepress/compare/v1.1.4...v1.2.0) (2024-05-18)
+
+### Bug Fixes
+
+- **build:** show file info on error ([f0debd2](https://github.com/vuejs/vitepress/commit/f0debd20f48ab7eb58cfd142147531509d6c0209))
+- **dev:** match dev and prod routing behavior ([#3837](https://github.com/vuejs/vitepress/issues/3837)) ([b360ac8](https://github.com/vuejs/vitepress/commit/b360ac88df3bfd60e3498cc19066c0c90261ee4f))
+- **markdown:** entities and escapes not working properly ([#3882](https://github.com/vuejs/vitepress/issues/3882)) ([d5dbd70](https://github.com/vuejs/vitepress/commit/d5dbd704ceb215ebf3ce9b23deec6e6c90634f0a))
+- render 404 page completely on client to infer locale from browser path ([#3858](https://github.com/vuejs/vitepress/issues/3858)) ([728cb15](https://github.com/vuejs/vitepress/commit/728cb15677f4f84b33bed6bb2f70f47600ea1057))
+- **style:** prefer YaHei over DengXian ([f0a37b4](https://github.com/vuejs/vitepress/commit/f0a37b4b8445ec914700df054c0897721382e5b1))
+- **theme/regression:** custom font not applying in Chinese docs because of specificity ([fa2f38a](https://github.com/vuejs/vitepress/commit/fa2f38a0c3bd121dcb7e07420566087c19b10f96)), closes [#3864](https://github.com/vuejs/vitepress/issues/3864)
+- **theme:** external link icon not visible for target \_blank links ([d08eeed](https://github.com/vuejs/vitepress/commit/d08eeed89726572f7ea341df59864cc72716751c)), closes [#3327](https://github.com/vuejs/vitepress/issues/3327)
+- **theme:** fix invalid vp-offset in ssr ([9794877](https://github.com/vuejs/vitepress/commit/9794877347140c7b4955d735cd8867c260a5089d))
+
+### Features
+
+- **build/i18n:** support customizing copy code button's tooltip text ([#3854](https://github.com/vuejs/vitepress/issues/3854)) ([ed6ada7](https://github.com/vuejs/vitepress/commit/ed6ada7a688c466920f3e0ef33b7176b8eb01eee))
+- **build:** add localeIndex to md.env ([#3862](https://github.com/vuejs/vitepress/issues/3862)) ([0cbb469](https://github.com/vuejs/vitepress/commit/0cbb469842d74381ad56d44b7975f34c405b78f8))
+
 ## [1.1.4](https://github.com/vuejs/vitepress/compare/v1.1.3...v1.1.4) (2024-04-27)
 
 ### Bug Fixes
