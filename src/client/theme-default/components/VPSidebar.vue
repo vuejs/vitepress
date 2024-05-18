@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useScrollLock } from '@vueuse/core'
 import { inBrowser } from 'vitepress'
-import { ref, watch } from 'vue'
+import { nextTick, onMounted, ref, watch } from 'vue'
 import { useSidebar } from '../composables/sidebar'
 import VPSidebarItem from './VPSidebarItem.vue'
 
@@ -25,6 +25,20 @@ watch(
   },
   { immediate: true, flush: 'post' }
 )
+
+function scrollActiveLinkIntoView() {
+  const activeLink = navEl.value?.querySelector('.is-active')
+  if (!activeLink) return
+  const rect = activeLink.getBoundingClientRect()
+  const isInViewPort = rect.top >= 0 && rect.bottom <= innerHeight
+  if (!isInViewPort) {
+    activeLink.scrollIntoView({ block: 'center' })
+  }
+}
+
+onMounted(() => {
+  nextTick(() => scrollActiveLinkIntoView())
+})
 </script>
 
 <template>
@@ -78,7 +92,7 @@ watch(
   visibility: visible;
   transform: translateX(0);
   transition: opacity 0.25s,
-    transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .dark .VPSidebar {
