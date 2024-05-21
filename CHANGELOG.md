@@ -1,3 +1,11 @@
+## [1.2.1](https://github.com/vuejs/vitepress/compare/v1.2.0...v1.2.1) (2024-05-21)
+
+### Bug Fixes
+
+- **a11y:** make code blocks accessible with keyboard ([#3902](https://github.com/vuejs/vitepress/issues/3902)) ([cb308b9](https://github.com/vuejs/vitepress/commit/cb308b9295e1e661c2c72fa4229b5c7d83278d49))
+- escape title properly in build ([49b1233](https://github.com/vuejs/vitepress/commit/49b1233378436054c07a6ef646d0029096124021))
+- **theme:** remove unnecessary navigation role on nav element ([af4717d](https://github.com/vuejs/vitepress/commit/af4717d6820233a011200d44abba53d0f66bfad3))
+
 # [1.2.0](https://github.com/vuejs/vitepress/compare/v1.1.4...v1.2.0) (2024-05-18)
 
 ### Bug Fixes
