@@ -1,5 +1,6 @@
 import './styles/vars.css'
 import './styles/base.css'
+import './styles/icons.css'
 import './styles/utils.css'
 import './styles/components/custom-block.css'
 import './styles/components/vp-code.css'

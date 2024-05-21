@@ -1,6 +1,6 @@
 import type MarkdownIt from 'markdown-it'
 import type { Options as MiniSearchOptions } from 'minisearch'
-import type { ComputedRef, Ref } from 'vue'
+import type { ComputedRef, Ref, ShallowRef } from 'vue'
 import type { DocSearchProps } from './docsearch.js'
 import type {
   LocalSearchTranslations,
@@ -176,6 +176,7 @@ export namespace DefaultTheme {
     activeMatch?: string
     rel?: string
     target?: string
+    noIcon?: boolean
   }
 
   export interface NavItemChildren {
@@ -371,7 +372,7 @@ export namespace DefaultTheme {
     /**
      * The outline headers of the current page.
      */
-    headers: ShallowRef<MenuItem[]>
+    headers: ShallowRef<any>
 
     /**
      * Whether the current page has a local nav. Local nav is shown when the

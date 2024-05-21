@@ -66,7 +66,11 @@ export function createRouter(
   async function go(href: string = inBrowser ? location.href : '/') {
     href = normalizeHref(href)
     if ((await router.onBeforeRouteChange?.(href)) === false) return
-    updateHistory(href)
+    if (inBrowser && href !== normalizeHref(location.href)) {
+      // save scroll position before changing url
+      history.replaceState({ scrollPosition: window.scrollY }, '')
+      history.pushState({}, '', href)
+    }
     await loadPage(href)
     await router.onAfterRouteChanged?.(href)
   }
@@ -107,7 +111,7 @@ export function createRouter(
             if (actualPathname !== targetLoc.pathname) {
               targetLoc.pathname = actualPathname
               href = actualPathname + targetLoc.search + targetLoc.hash
-              history.replaceState(null, '', href)
+              history.replaceState({}, '', href)
             }
 
             if (targetLoc.hash && !scrollPosition) {
@@ -152,12 +156,21 @@ export function createRouter(
         latestPendingPath = null
         route.path = inBrowser ? pendingPath : withBase(pendingPath)
         route.component = fallbackComponent ? markRaw(fallbackComponent) : null
-        route.data = notFoundPageData
+        const relativePath = inBrowser
+          ? pendingPath
+              .replace(/(^|\/)$/, '$1index')
+              .replace(/(\.html)?$/, '.md')
+              .replace(/^\//, '')
+          : '404.md'
+        route.data = { ...notFoundPageData, relativePath }
       }
     }
   }
 
   if (inBrowser) {
+    if (history.state === null) {
+      history.replaceState({}, '')
+    }
     window.addEventListener(
       'click',
       (e) => {
@@ -180,7 +193,7 @@ export function createRouter(
               : link.href,
             link.baseURI
           )
-          const currentUrl = window.location
+          const currentUrl = new URL(location.href) // copy to keep old data
           // only intercept inbound html links
           if (
             !e.ctrlKey &&
@@ -199,15 +212,19 @@ export function createRouter(
               // scroll between hash anchors in the same page
               // avoid duplicate history entries when the hash is same
               if (hash !== currentUrl.hash) {
-                history.pushState(null, '', hash)
+                history.pushState({}, '', href)
                 // still emit the event so we can listen to it in themes
-                window.dispatchEvent(new Event('hashchange'))
+                window.dispatchEvent(
+                  new HashChangeEvent('hashchange', {
+                    oldURL: currentUrl.href,
+                    newURL: href
+                  })
+                )
               }
               if (hash) {
                 // use smooth scroll when clicking on header anchor links
                 scrollTo(link, hash, link.classList.contains('header-anchor'))
               } else {
-                updateHistory(href)
                 window.scrollTo(0, 0)
               }
             } else {
@@ -220,6 +237,9 @@ export function createRouter(
     )
 
     window.addEventListener('popstate', async (e) => {
+      if (e.state === null) {
+        return
+      }
       await loadPage(
         normalizeHref(location.href),
         (e.state && e.state.scrollPosition) || 0
@@ -298,14 +318,6 @@ function shouldHotReload(payload: PageDataPayload): boolean {
     .replace(/(?:(^|\/)index)?\.html$/, '')
     .slice(siteDataRef.value.base.length - 1)
   return payloadPath === locationPath
-}
-
-function updateHistory(href: string) {
-  if (inBrowser && normalizeHref(href) !== normalizeHref(location.href)) {
-    // save scroll position before changing url
-    history.replaceState({ scrollPosition: window.scrollY }, document.title)
-    history.pushState(null, '', href)
-  }
 }
 
 function normalizeHref(href: string): string {

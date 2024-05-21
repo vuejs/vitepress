@@ -47,17 +47,17 @@
   overflow: hidden;
 }
 
-.icon :deep(svg) {
+.icon :deep([class^='vpi-']) {
   position: absolute;
   top: 3px;
   left: 3px;
   width: 12px;
   height: 12px;
-  fill: var(--vp-c-text-2);
+  color: var(--vp-c-text-2);
 }
 
-.dark .icon :deep(svg) {
-  fill: var(--vp-c-text-1);
+.dark .icon :deep([class^='vpi-']) {
+  color: var(--vp-c-text-1);
   transition: opacity 0.25s !important;
 }
 </style>

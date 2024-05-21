@@ -247,5 +247,6 @@ mjx-container {
 }
 
 mjx-container > svg {
+  display: inline-block;
   margin: auto;
 }

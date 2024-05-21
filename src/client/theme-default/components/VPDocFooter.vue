@@ -3,7 +3,6 @@ import { computed } from 'vue'
 import { useData } from '../composables/data'
 import { useEditLink } from '../composables/edit-link'
 import { usePrevNext } from '../composables/prev-next'
-import VPIconEdit from './icons/VPIconEdit.vue'
 import VPLink from './VPLink.vue'
 import VPDocFooterLastUpdated from './VPDocFooterLastUpdated.vue'
 
@@ -30,7 +29,7 @@ const showFooter = computed(() => {
     <div v-if="hasEditLink || hasLastUpdated" class="edit-info">
       <div v-if="hasEditLink" class="edit-link">
         <VPLink class="edit-link-button" :href="editLink.url" :no-icon="true">
-          <VPIconEdit class="edit-link-icon" aria-label="edit icon"/>
+          <span class="vpi-square-pen edit-link-icon" />
           {{ editLink.text }}
         </VPLink>
       </div>
@@ -40,7 +39,13 @@ const showFooter = computed(() => {
       </div>
     </div>
 
-    <nav v-if="control.prev?.link || control.next?.link" class="prev-next">
+    <nav
+      v-if="control.prev?.link || control.next?.link"
+      class="prev-next"
+      aria-labelledby="doc-footer-aria-label"
+    >
+      <span class="visually-hidden" id="doc-footer-aria-label">Pager</span>
+
       <div class="pager">
         <VPLink v-if="control.prev?.link" class="pager-link prev" :href="control.prev.link">
           <span class="desc" v-html="theme.docFooter?.prev || 'Previous page'"></span>
@@ -92,9 +97,6 @@ const showFooter = computed(() => {
 
 .edit-link-icon {
   margin-right: 8px;
-  width: 14px;
-  height: 14px;
-  fill: currentColor;
 }
 
 .prev-next {

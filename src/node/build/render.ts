@@ -1,13 +1,14 @@
 import { isBooleanAttr } from '@vue/shared'
-import escape from 'escape-html'
 import fs from 'fs-extra'
 import path from 'path'
 import { pathToFileURL } from 'url'
 import { normalizePath, transformWithEsbuild, type Rollup } from 'vite'
+import { version } from '../../../package.json'
 import type { SiteConfig } from '../config'
 import {
   EXTERNAL_URL_RE,
   createTitle,
+  escapeHtml,
   mergeHead,
   notFoundPageData,
   resolveSiteDataByRoute,
@@ -17,7 +18,6 @@ import {
   type PageData,
   type SSGContext
 } from '../shared'
-import { version } from '../../../package.json'
 
 export async function renderPage(
   render: (path: string) => Promise<SSGContext>,
@@ -163,7 +163,7 @@ export async function renderPage(
         ? ''
         : '<meta name="viewport" content="width=device-width,initial-scale=1">'
     }
-    <title>${title}</title>
+    <title>${escapeHtml(title)}</title>
     ${
       isDescriptionOverridden(head)
         ? ''
@@ -180,7 +180,7 @@ export async function renderPage(
     ${await renderHead(head)}
   </head>
   <body>${teleports?.body || ''}
-    <div id="app">${content}</div>
+    <div id="app">${page === '404.md' ? '' : content}</div>
     ${metadataScript.inHead ? '' : metadataScript.html}
     ${inlinedScript}
   </body>
@@ -260,7 +260,7 @@ function renderAttrs(attrs: Record<string, string>): string {
   return Object.keys(attrs)
     .map((key) => {
       if (isBooleanAttr(key)) return ` ${key}`
-      return ` ${key}="${escape(attrs[key] as string)}"`
+      return ` ${key}="${escapeHtml(attrs[key] as string)}"`
     })
     .join('')
 }

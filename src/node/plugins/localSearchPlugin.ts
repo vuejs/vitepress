@@ -7,7 +7,7 @@ import type { Plugin, ViteDevServer } from 'vite'
 import type { SiteConfig } from '../config'
 import { createMarkdownRenderer } from '../markdown/markdown'
 import {
-  resolveSiteDataByRoute,
+  getLocaleForPath,
   slash,
   type DefaultTheme,
   type MarkdownEnv
@@ -83,12 +83,6 @@ export async function localSearchPlugin(
     return index
   }
 
-  function getLocaleForPath(file: string) {
-    const relativePath = slash(path.relative(siteConfig.srcDir, file))
-    const siteData = resolveSiteDataByRoute(siteConfig.site, relativePath)
-    return siteData?.localeIndex ?? 'root'
-  }
-
   let server: ViteDevServer | undefined
 
   function onIndexUpdated() {
@@ -126,7 +120,7 @@ export async function localSearchPlugin(
     const file = path.join(siteConfig.srcDir, page)
     // get file metadata
     const fileId = getDocId(file)
-    const locale = getLocaleForPath(file)
+    const locale = getLocaleForPath(siteConfig.site, page)
     const index = getIndexByLocale(locale)
     // retrieve file and split into "sections"
     const html = await render(file)
@@ -235,8 +229,9 @@ function* splitPageIntoSections(html: string) {
     const anchor = headingResult?.[2] ?? ''
     const content = result[i + 2]
     if (!title || !content) continue
-    const titles = parentTitles.slice(0, level)
+    let titles = parentTitles.slice(0, level)
     titles[level] = title
+    titles = titles.filter(Boolean)
     yield { anchor, titles, text: getSearchableText(content) }
     if (level === 0) {
       parentTitles = [title]

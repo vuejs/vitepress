@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { onClickOutside, onKeyStroke } from '@vueuse/core'
+import { onKeyStroke } from '@vueuse/core'
 import { onContentUpdated } from 'vitepress'
-import { nextTick, ref } from 'vue'
+import { nextTick, ref, watch } from 'vue'
 import { useData } from '../composables/data'
 import { resolveTitle, type MenuItem } from '../composables/outline'
 import VPDocOutlineItem from './VPDocOutlineItem.vue'
-import VPIconChevronRight from './icons/VPIconChevronRight.vue'
 
 const props = defineProps<{
   headers: MenuItem[]
@@ -18,8 +17,18 @@ const vh = ref(0)
 const main = ref<HTMLDivElement>()
 const items = ref<HTMLDivElement>()
 
-onClickOutside(main, () => {
-  open.value = false
+function closeOnClickOutside(e: Event) {
+  if (!main.value?.contains(e.target as Node)) {
+    open.value = false
+  }
+}
+
+watch(open, (value) => {
+  if (value) {
+    document.addEventListener('click', closeOnClickOutside)
+    return
+  }
+  document.removeEventListener('click', closeOnClickOutside)
 })
 
 onKeyStroke('Escape', () => {
@@ -60,8 +69,8 @@ function scrollToTop() {
     ref="main"
   >
     <button @click="toggle" :class="{ open }" v-if="headers.length > 0">
-      {{ resolveTitle(theme) }}
-      <VPIconChevronRight class="icon" />
+      <span class="menu-text">{{ resolveTitle(theme) }}</span>
+      <span class="vpi-chevron-right icon" />
     </button>
     <button @click="scrollToTop" v-else>
       {{ theme.returnToTopLabel || 'Return to top' }}
@@ -111,19 +120,23 @@ function scrollToTop() {
   color: var(--vp-c-text-1);
 }
 
-@media (min-width: 960px) {
-  .VPLocalNavOutlineDropdown button {
-    font-size: 14px;
-  }
-}
-
 .icon {
   display: inline-block;
   vertical-align: middle;
   margin-left: 2px;
-  width: 14px;
-  height: 14px;
-  fill: currentColor;
+  font-size: 14px;
+  transform: rotate(0deg);
+  transition: transform 0.25s;
+}
+
+@media (min-width: 960px) {
+  .VPLocalNavOutlineDropdown button {
+    font-size: 14px;
+  }
+
+  .icon {
+    font-size: 16px;
+  }
 }
 
 .open > .icon {

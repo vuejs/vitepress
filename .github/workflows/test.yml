@@ -23,14 +23,14 @@ jobs:
 
     strategy:
       matrix:
-        node_version: [18, 20, 21]
+        node_version: [18, 20, 22]
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v3
 
       - name: Set node version to ${{ matrix.node_version }}
         uses: actions/setup-node@v4

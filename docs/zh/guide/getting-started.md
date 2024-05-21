@@ -71,8 +71,12 @@ $ npx vitepress init
 $ pnpm vitepress init
 ```
 
+```sh [yarn]
+$ yarn vitepress init
+```
+
 ```sh [bun]
-$ bunx vitepress init
+$ bun vitepress init
 ```
 
 :::
@@ -82,7 +86,7 @@ $ bunx vitepress init
 <<< @/snippets/init.ansi
 
 :::tip Vue 作为 peer dependency
-如果打算使用 Vue 组件或 API 进行自定义，还应该明确地将 `vue` 安装为 peer dependency。
+如果打算使用 Vue 组件或 API 进行自定义，还应该明确地将 `vue` 安装为 dependency。
 :::
 
 ## 文件结构 {#file-structure}
@@ -182,11 +186,15 @@ $ npx vitepress dev docs
 ```
 
 ```sh [pnpm]
-$ pnpm exec vitepress dev docs
+$ pnpm vitepress dev docs
+```
+
+```sh [yarn]
+$ yarn vitepress dev docs
 ```
 
 ```sh [bun]
-$ bunx vitepress dev docs
+$ bun vitepress dev docs
 ```
 
 :::

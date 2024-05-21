@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import type { DefaultTheme } from 'vitepress/theme'
 import { computed } from 'vue'
-import { icons } from '../support/socialIcons'
 
 const props = defineProps<{
   icon: DefaultTheme.SocialLinkIcon
@@ -11,7 +10,7 @@ const props = defineProps<{
 
 const svg = computed(() => {
   if (typeof props.icon === 'object') return props.icon.svg
-  return icons[props.icon]
+  return `<span class="vpi-social-${props.icon}" />`
 })
 </script>
 
@@ -23,8 +22,7 @@ const svg = computed(() => {
     target="_blank"
     rel="noopener"
     v-html="svg"
-  >
-  </a>
+  ></a>
 </template>
 
 <style scoped>
@@ -43,7 +41,8 @@ const svg = computed(() => {
   transition: color 0.25s;
 }
 
-.VPSocialLink > :deep(svg) {
+.VPSocialLink > :deep(svg),
+.VPSocialLink > :deep([class^="vpi-social-"]) {
   width: 20px;
   height: 20px;
   fill: currentColor;
