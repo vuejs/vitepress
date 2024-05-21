@@ -1,3 +1,9 @@
+## [1.2.2](https://github.com/vuejs/vitepress/compare/v1.2.1...v1.2.2) (2024-05-21)
+
+### Bug Fixes
+
+- dont escape ampersand twice in title ([7ea3572](https://github.com/vuejs/vitepress/commit/7ea357256c855ae0a9a142c14bbd5e7d344ef865))
+
 ## [1.2.1](https://github.com/vuejs/vitepress/compare/v1.2.0...v1.2.1) (2024-05-21)
 
 ### Bug Fixes
