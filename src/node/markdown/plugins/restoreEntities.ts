@@ -1,6 +1,7 @@
 import type MarkdownIt from 'markdown-it'
 import type StateCore from 'markdown-it/lib/rules_core/state_core.mjs'
 import type Token from 'markdown-it/lib/token.mjs'
+import { escapeHtml } from '../../shared'
 
 export function restoreEntities(md: MarkdownIt): void {
   md.core.ruler.at('text_join', text_join)
@@ -46,8 +47,4 @@ function getContent(token: Token): string {
     : token.info === 'escape' && token.content === '&'
       ? '&amp;'
       : token.content
-}
-
-function escapeHtml(str: string): string {
-  return str.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 }

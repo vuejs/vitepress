@@ -219,3 +219,14 @@ export function treatAsHtml(filename: string): boolean {
 export function escapeRegExp(str: string) {
   return str.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&').replace(/-/g, '\\x2d')
 }
+
+/**
+ * @internal
+ */
+export function escapeHtml(str: string): string {
+  return str
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/&(?![\w#]+;)/g, '&amp;')
+}
