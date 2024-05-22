@@ -24,7 +24,7 @@ const INDEX_OR_EXT_RE = /(?:(^|\/)index)?\.(?:md|html)$/
 export const inBrowser = typeof document !== 'undefined'
 
 export const notFoundPageData: PageData = {
-  relativePath: '',
+  relativePath: '404.md',
   filePath: '',
   title: '404',
   description: 'Not Found',

@@ -156,7 +156,13 @@ export function createRouter(
         latestPendingPath = null
         route.path = inBrowser ? pendingPath : withBase(pendingPath)
         route.component = fallbackComponent ? markRaw(fallbackComponent) : null
-        route.data = notFoundPageData
+        const relativePath = inBrowser
+          ? pendingPath
+              .replace(/(^|\/)$/, '$1index')
+              .replace(/(\.html)?$/, '.md')
+              .replace(/^\//, '')
+          : '404.md'
+        route.data = { ...notFoundPageData, relativePath }
       }
     }
   }
