@@ -1,20 +1,17 @@
 {
   "name": "vitepress",
-  "version": "1.1.4",
+  "version": "1.2.2",
   "description": "Vite & Vue powered static site generator",
   "keywords": [
     "vite",
     "vue",
     "vitepress"
   ],
-  "homepage": "https://github.com/vuejs/vitepress/tree/main/#readme",
+  "homepage": "https://vitepress.dev/",
   "bugs": {
     "url": "https://github.com/vuejs/vitepress/issues"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/vuejs/vitepress.git"
-  },
+  "repository": "github:vuejs/vitepress",
   "license": "MIT",
   "author": "Evan You",
   "type": "module",
@@ -104,30 +101,30 @@
   "dependencies": {
     "@docsearch/css": "^3.6.0",
     "@docsearch/js": "^3.6.0",
-    "@shikijs/core": "^1.4.0",
-    "@shikijs/transformers": "^1.4.0",
+    "@shikijs/core": "^1.5.2",
+    "@shikijs/transformers": "^1.5.2",
     "@types/markdown-it": "^14.1.1",
     "@vitejs/plugin-vue": "^5.0.4",
-    "@vue/devtools-api": "^7.0.27",
-    "@vue/shared": "^3.4.26",
+    "@vue/devtools-api": "^7.2.0",
+    "@vue/shared": "^3.4.27",
     "@vueuse/core": "^10.9.0",
     "@vueuse/integrations": "^10.9.0",
     "focus-trap": "^7.5.4",
     "mark.js": "8.11.1",
     "minisearch": "^6.3.0",
-    "shiki": "^1.4.0",
+    "shiki": "^1.5.2",
     "vite": "^5.2.11",
-    "vue": "^3.4.26"
+    "vue": "^3.4.27"
   },
   "devDependencies": {
     "@clack/prompts": "^0.7.0",
-    "@mdit-vue/plugin-component": "^2.1.2",
-    "@mdit-vue/plugin-frontmatter": "^2.1.2",
-    "@mdit-vue/plugin-headers": "^2.1.2",
-    "@mdit-vue/plugin-sfc": "^2.1.2",
-    "@mdit-vue/plugin-title": "^2.1.2",
-    "@mdit-vue/plugin-toc": "^2.1.2",
-    "@mdit-vue/shared": "^2.1.2",
+    "@mdit-vue/plugin-component": "^2.1.3",
+    "@mdit-vue/plugin-frontmatter": "^2.1.3",
+    "@mdit-vue/plugin-headers": "^2.1.3",
+    "@mdit-vue/plugin-sfc": "^2.1.3",
+    "@mdit-vue/plugin-title": "^2.1.3",
+    "@mdit-vue/plugin-toc": "^2.1.3",
+    "@mdit-vue/shared": "^2.1.3",
     "@polka/compression": "1.0.0-next.25",
     "@rollup/plugin-alias": "^5.1.0",
     "@rollup/plugin-commonjs": "^25.0.7",
@@ -136,7 +133,6 @@
     "@rollup/plugin-replace": "^5.0.5",
     "@types/cross-spawn": "^6.0.6",
     "@types/debug": "^4.1.12",
-    "@types/escape-html": "^1.0.4",
     "@types/fs-extra": "^11.0.4",
     "@types/lodash.template": "^4.5.3",
     "@types/mark.js": "^8.11.12",
@@ -145,16 +141,15 @@
     "@types/markdown-it-emoji": "^3.0.1",
     "@types/micromatch": "^4.0.7",
     "@types/minimist": "^1.2.5",
-    "@types/node": "^20.12.8",
+    "@types/node": "^20.12.12",
     "@types/postcss-prefix-selector": "^1.16.3",
     "@types/prompts": "^2.4.9",
     "chokidar": "^3.6.0",
-    "conventional-changelog-cli": "^4.1.0",
+    "conventional-changelog-cli": "^5.0.0",
     "cross-spawn": "^7.0.3",
     "debug": "^4.3.4",
-    "esbuild": "^0.20.2",
-    "escape-html": "^1.0.3",
-    "execa": "^8.0.1",
+    "esbuild": "^0.21.3",
+    "execa": "^9.1.0",
     "fast-glob": "^3.3.2",
     "fs-extra": "^11.2.0",
     "get-port": "^7.1.0",
@@ -163,7 +158,7 @@
     "lodash.template": "^4.5.0",
     "lru-cache": "^10.2.2",
     "markdown-it": "^14.1.0",
-    "markdown-it-anchor": "^8.6.7",
+    "markdown-it-anchor": "^9.0.1",
     "markdown-it-attrs": "^4.1.6",
     "markdown-it-container": "^4.0.0",
     "markdown-it-emoji": "^3.0.0",
@@ -175,27 +170,27 @@
     "ora": "^8.0.1",
     "p-map": "^7.0.2",
     "path-to-regexp": "^6.2.2",
-    "picocolors": "^1.0.0",
+    "picocolors": "^1.0.1",
     "pkg-dir": "^8.0.0",
-    "playwright-chromium": "^1.43.1",
+    "playwright-chromium": "^1.44.0",
     "polka": "1.0.0-next.25",
     "postcss-prefix-selector": "^1.16.1",
     "prettier": "^3.2.5",
     "prompts": "^2.4.2",
     "punycode": "^2.3.1",
-    "rimraf": "^5.0.5",
+    "rimraf": "^5.0.7",
     "rollup": "^4.17.2",
     "rollup-plugin-dts": "^6.1.0",
     "rollup-plugin-esbuild": "^6.1.1",
-    "semver": "^7.6.0",
+    "semver": "^7.6.2",
     "simple-git-hooks": "^2.11.1",
     "sirv": "^2.0.4",
     "sitemap": "^7.1.1",
     "sort-package-json": "^2.10.0",
     "supports-color": "^9.4.0",
     "typescript": "^5.4.5",
-    "vitest": "^1.5.3",
-    "vue-tsc": "2.0.14",
+    "vitest": "^1.6.0",
+    "vue-tsc": "^2.0.19",
     "wait-on": "^7.2.0"
   },
   "peerDependencies": {
@@ -210,7 +205,7 @@
       "optional": true
     }
   },
-  "packageManager": "pnpm@9.0.6",
+  "packageManager": "pnpm@9.1.1",
   "pnpm": {
     "peerDependencyRules": {
       "ignoreMissing": [
@@ -223,7 +218,6 @@
       "ora>string-width": "^5"
     },
     "patchedDependencies": {
-      "markdown-it-anchor@8.6.7": "patches/markdown-it-anchor@8.6.7.patch",
       "rollup-plugin-dts@6.1.0": "patches/rollup-plugin-dts@6.1.0.patch"
     }
   }

@@ -3,13 +3,11 @@
 VitePress поставляется с готовой поддержкой генерации файла `sitemap.xml` для вашего сайта. Чтобы включить её, добавьте следующее в файл `.vitepress/config.js`:
 
 ```ts
-import { defineConfig } from 'vitepress'
-
-export default defineConfig({
+export default {
   sitemap: {
     hostname: 'https://example.com'
   }
-})
+}
 ```
 
 Чтобы теги `<lastmod>` присутствовали в вашем файле `sitemap.xml`, вы можете включить опцию [`lastUpdated`](../reference/default-theme-last-updated).
@@ -19,14 +17,23 @@ export default defineConfig({
 Поддержка карты сайта осуществляется с помощью модуля [`sitemap`](https://www.npmjs.com/package/sitemap). Вы можете передать любые поддерживаемые им параметры в опцию `sitemap` в вашем конфигурационном файле. Они будут переданы непосредственно в конструктор `SitemapStream`. Более подробную информацию см. в документации [`sitemap`](https://www.npmjs.com/package/sitemap#options-you-can-pass). Пример:
 
 ```ts
-import { defineConfig } from 'vitepress'
-
-export default defineConfig({
+export default {
   sitemap: {
     hostname: 'https://example.com',
     lastmodDateOnly: false
   }
-})
+}
+```
+
+При использовании параметра `base` в своей конфигурации обязательно добавьте его в адрес `hostname`:
+
+```ts
+export default {
+  base: '/my-site/',
+  sitemap: {
+    hostname: 'https://example.com/my-site/'
+  }
+}
 ```
 
 ## Хук `transformItems` {#transformitems-hook}
@@ -34,9 +41,7 @@ export default defineConfig({
 Вы можете использовать хук `sitemap.transformItems` для изменения элементов карты сайта перед их записью в файл `sitemap.xml`. Этот хук вызывается с массивом элементов sitemap и ожидает возвращения массива элементов sitemap. Пример:
 
 ```ts
-import { defineConfig } from 'vitepress'
-
-export default defineConfig({
+export default {
   sitemap: {
     hostname: 'https://example.com',
     transformItems: (items) => {
@@ -49,5 +54,5 @@ export default defineConfig({
       return items
     }
   }
-})
+}
 ```
