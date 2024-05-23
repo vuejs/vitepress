@@ -31,7 +31,7 @@ export default DefaultTheme
 ```
 :::
 
-The default theme CSS is customizable by overriding root level CSS variables. This example shows how to change the main brand color from the default VitePress indigo to shades of red, using one of the built-in color schemes:
+The default theme CSS is customizable by overriding root level CSS variables. This example shows how to change the site's color scheme from the default VitePress indigo to shades of red, using one of the built-in color schemes:
 
 ::: code-group
 ```css [.vitepress/theme/custom.css]
