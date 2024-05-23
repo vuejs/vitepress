@@ -22,42 +22,52 @@ Before proceeding, make sure to first read [Using a Custom Theme](./custom-theme
 
 To apply custom CSS, you first need to create a custom VitePress theme. Place the following code into `.vitepress/theme/index.js` which imports the default theme and adds an additional CSS file to the bundle:
 
-```js
-// .vitepress/theme/index.js
+::: code-group
+```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme'
 import './custom.css'
 
 export default DefaultTheme
 ```
+:::
 
-The default theme CSS is customizable by overriding root level CSS variables. This example shows how to change the main brand color from VitePress green to a shade of purple:
+The default theme CSS is customizable by overriding root level CSS variables. This example shows how to change the main brand color from the default VitePress indigo to shades of red, using one of the built-in color schemes:
+
+::: code-group
+```css [.vitepress/theme/custom.css]
+/**
+ * Customize default theme styling by overriding CSS variables:
+ * https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css
+ */
+:root {
+  /* Brand color 1: for colored text and links */
+  --vp-c-brand-1: var(--vp-c-red-1);
+  /* Brand color 2: for button hover state, etc. */
+  --vp-c-brand-2: var(--vp-c-red-2);
+  /* Brand color 3: for button backgrounds, etc. */
+  --vp-c-brand-3: var(--vp-c-red-3);
+  /* Brand color soft: for tip boxes etc. 
+     Must have transparency to account for nested boxes. */
+  --vp-c-brand-soft: var(--vp-c-red-soft);
+}
+```
+:::
+
+You can swap out the word `red` in the CSS above for other built-in colours: `gray`, `indigo`, `purple`, `green`, or `yellow`. 
+
+Or you can use your own custom colors:
 
 ```css
-/* .vitepress/theme/custom.css */
+/* Change site color scheme to orange */
 :root {
-  /* The main brand color:
-     Typically used for Hero text, links, "brand" buttons, 
-     search result boxes, and other highlights */
-  --vp-c-brand: #646cff;
-  --vp-c-brand-1: #646cff;
-  --vp-c-brand-2: #747bff;
-
-  /* Lighter variation of brand color:
-     Typically used for the border of brand-colored buttons */
-  --vp-c-brand-light: #747bff;
-  --vp-c-brand-lighter: #9da2fd;
-
-  /* Darker variation of brand color:
-     Typically used for brand button hover state */
-  --vp-c-brand-dark: #373ec3;
-  
-  /* Even darker variation of brand color
-     Typically used for brand button active state */
-  --vp-c-brand-darker: #3030c0;
+   --vp-c-brand-1: orange;
+   --vp-c-brand-2: #ffbf48;
+   --vp-c-brand-3: orange;
+   --vp-c-brand-soft: rgba(250, 215, 151, 0.14);
 }
 ```
 
-See [`vars.css`](https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css) in the default theme for other variables that can be overridden.
+There are many other CSS variables that can be overridden if required. See [`vars.css`](https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css) in the default theme for the full list.
 
 You can also apply any other CSS style rules here. While using CSS variables is good practice to help reduce repetition, plain CSS is also fine.
 
@@ -80,43 +90,37 @@ npm install -D stylus
 
 Then update your `import` statement to refer to the appropriate file extension:
 
-```js
-// .vitepress/theme/index.js
+::: code-group
+```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme'
 import './custom.scss'      // [!code hl]
 
 export default DefaultTheme
 ```
+:::
 
-Here's an example SCSS file that could be used to change the brand colors, automatically creating lighter and darker variations from the base color:
+Here's an example SCSS file that could be used to change the brand colors, automatically creating variations from a single base color:
 
-```scss
-// .vitepress/theme/custom.scss
+::: code-group
+```scss [.vitepress/theme/custom.scss]
+/**
+ * Customize default theme styling by overriding CSS variables:
+ * https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css
+ */
 
-$brand-color: #646cff;
+ $brand-color: #27afd5;
 
-:root {
-  // The main brand color:
-  // Typically used for Hero text, links, "brand" buttons, 
-  // search result boxes, and other highlights
-  --vp-c-brand: #{$brand-color};
-
-  // Lighter variation of brand color
-  // Typically used for the border of brand-colored buttons
-  --vp-c-brand-light: #{lighten($brand-color, 5%)};
-  --vp-c-brand-lighter: #{lighten($brand-color, 10%)};
-
-  // Darker variation of brand color
-  // Typically used for brand button hover state
-  --vp-c-brand-dark: #{darken($brand-color, 10%)};
-
-  // Even darker variation of brand color
-  // Typically used for brand button active state
-  --vp-c-brand-darker: #{darken($brand-color, 20%)};
-
-  // Search result highlights
-  --vp-local-search-highlight-bg: #{lighten($brand-color, 22%)};
-}
+ :root {
+   /* Brand color 1: for colored text and links */
+   --vp-c-brand-1: #{$brand-color};
+   /* Brand color 2: for button hover state, etc. */
+   --vp-c-brand-2: #{lighten($brand-color, 10%)};
+   /* Brand color 3: for button backgrounds, etc. */
+   --vp-c-brand-3: #{$brand-color};
+   /* Brand color soft: for tip boxes etc. 
+      Must have transparency to account for nested boxes. */
+   --vp-c-brand-soft: #{transparentize($brand-color, 0.86)};
+ }
 ```
 
 ::: tip
@@ -131,7 +135,9 @@ When dark mode is enabled, the `<html>` root tag will become `<html class="dark"
 
 ```css
 .dark {
-  --vp-c-brand: orange;
+  --vp-c-brand-1: orange;
+  --vp-c-brand-2: #ffbf48;
+  --vp-c-brand-3: orange;
 }
 .dark body {
   background-color: black;
