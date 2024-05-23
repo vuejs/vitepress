@@ -66,7 +66,7 @@ export default {
 
 The configuration for the nav menu item. More details in [Default Theme: Nav](./default-theme-nav#navigation-links).
 
-```js
+```ts
 export default {
   themeConfig: {
     nav: [
@@ -93,6 +93,7 @@ interface NavItemWithLink {
   activeMatch?: string
   target?: string
   rel?: string
+  noIcon?: boolean
 }
 
 interface NavItemChildren {
@@ -113,7 +114,7 @@ interface NavItemWithChildren {
 
 The configuration for the sidebar menu item. More details in [Default Theme: Sidebar](./default-theme-sidebar).
 
-```js
+```ts
 export default {
   themeConfig: {
     sidebar: [
@@ -134,7 +135,7 @@ export default {
 export type Sidebar = SidebarItem[] | SidebarMulti
 
 export interface SidebarMulti {
-  [path: string]: SidebarItem[]
+  [path: string]: SidebarItem[] | { items: SidebarItem[]; base: string }
 }
 
 export type SidebarItem = {
@@ -161,6 +162,19 @@ export type SidebarItem = {
    * If `false`, group is collapsible but expanded by default
    */
   collapsed?: boolean
+
+  /**
+   * Base path for the children items.
+   */
+  base?: string
+
+  /**
+   * Customize text that appears on the footer of previous/next page.
+   */
+  docFooterText?: string
+
+  rel?: string
+  target?: string
 }
 ```
 
@@ -176,26 +190,33 @@ Setting this value to `false` prevents rendering of aside container.\
 Setting this value to `true` (the default) renders the aside to the right.\
 Setting this value to `left` renders the aside to the left.
 
+If you want to disable it for all viewports, you should use `outline: false` instead.
+
 ## outline
 
-- Type: `number | [number, number] | 'deep' | false`
-- Default: `2`
-- Can be overridden per page via [frontmatter](./frontmatter-config#outline)
+- Type: `Outline | Outline['level'] | false`
+- Level can be overridden per page via [frontmatter](./frontmatter-config#outline)
 
-The levels of header to display in the outline. You can specify a particular level by passing a number, or you can provide a level range by passing a tuple containing the bottom and upper limits. When passing `'deep'` which equals `[2, 6]`, all header levels are shown in the outline except `h1`. Set `false` to hide outline.
+Setting this value to `false` prevents rendering of outline container. Refer this interface for more details:
 
-## outlineTitle
+```ts
+interface Outline {
+  /**
+   * The levels of headings to be displayed in the outline.
+   * Single number means only headings of that level will be displayed.
+   * If a tuple is passed, the first number is the minimum level and the second number is the maximum level.
+   * `'deep'` is same as `[2, 6]`, which means all headings from `<h2>` to `<h6>` will be displayed.
+   *
+   * @default 2
+   */
+  level?: number | [number, number] | 'deep'
 
-- Type: `string`
-- Default: `On this page`
-
-Can be used to customize the title of the right sidebar (on the top of outline links). This is useful when writing documentation in another language.
-
-```js
-export default {
-  themeConfig: {
-    outlineTitle: 'In hac pagina'
-  }
+  /**
+   * The title to be displayed on the outline.
+   *
+   * @default 'On this page'
+   */
+  label?: string
 }
 ```
 
@@ -205,7 +226,7 @@ export default {
 
 You may define this option to show your social account links with icons in nav.
 
-```js
+```ts
 export default {
   themeConfig: {
     socialLinks: [
@@ -239,8 +260,10 @@ type SocialLinkIcon =
   | 'instagram'
   | 'linkedin'
   | 'mastodon'
+  | 'npm'
   | 'slack'
   | 'twitter'
+  | 'x'
   | 'youtube'
   | { svg: string }
 ```
@@ -277,7 +300,7 @@ export interface Footer {
 
 Edit Link lets you display a link to edit the page on Git management services such as GitHub, or GitLab. See [Default Theme: Edit Link](./default-theme-edit-link) for more details.
 
-```js
+```ts
 export default {
   themeConfig: {
     editLink: {
@@ -326,7 +349,7 @@ export interface LastUpdatedOptions {
    * @default
    * { dateStyle: 'short',  timeStyle: 'short' }
    */
-  formatOptions?: Intl.DateTimeFormatOptions
+  formatOptions?: Intl.DateTimeFormatOptions & { forceLocale?: boolean }
 }
 ```
 
@@ -376,7 +399,7 @@ Learn more in [Default Theme: Carbon Ads](./default-theme-carbon-ads)
 
 Can be used to customize text appearing above previous and next links. Helpful if not writing docs in English. Also can be used to disable prev/next links globally. If you want to selectively enable/disable prev/next links, you can use [frontmatter](./default-theme-prev-next-links).
 
-```js
+```ts
 export default {
   themeConfig: {
     docFooter: {
@@ -400,6 +423,20 @@ export interface DocFooter {
 - Default: `Appearance`
 
 Can be used to customize the dark mode switch label. This label is only displayed in the mobile view.
+
+## lightModeSwitchTitle
+
+- Type: `string`
+- Default: `Switch to light theme`
+
+Can be used to customize the light mode switch title that appears on hovering.
+
+## darkModeSwitchTitle
+
+- Type: `string`
+- Default: `Switch to dark theme`
+
+Can be used to customize the dark mode switch title that appears on hovering.
 
 ## sidebarMenuLabel
 

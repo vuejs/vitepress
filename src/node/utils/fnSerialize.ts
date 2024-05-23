@@ -3,6 +3,7 @@ export function serializeFunctions(value: any, key?: string): any {
     return value.map((v) => serializeFunctions(v))
   } else if (typeof value === 'object' && value !== null) {
     return Object.keys(value).reduce((acc, key) => {
+      if (key[0] === '_') return acc
       acc[key] = serializeFunctions(value[key], key)
       return acc
     }, {} as any)
@@ -20,6 +21,7 @@ export function serializeFunctions(value: any, key?: string): any {
   }
 }
 
+/*
 export function deserializeFunctions(value: any): any {
   if (Array.isArray(value)) {
     return value.map(deserializeFunctions)
@@ -34,3 +36,7 @@ export function deserializeFunctions(value: any): any {
     return value
   }
 }
+*/
+
+export const deserializeFunctions =
+  'function deserializeFunctions(r){return Array.isArray(r)?r.map(deserializeFunctions):typeof r=="object"&&r!==null?Object.keys(r).reduce((t,n)=>(t[n]=deserializeFunctions(r[n]),t),{}):typeof r=="string"&&r.startsWith("_vp-fn_")?new Function(`return ${r.slice(7)}`)():r}'

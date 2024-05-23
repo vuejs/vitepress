@@ -1,17 +1,19 @@
 import { createHash } from 'crypto'
 import fs from 'fs-extra'
 import { createRequire } from 'module'
-import ora from 'ora'
+import pMap from 'p-map'
 import path from 'path'
 import { packageDirectorySync } from 'pkg-dir'
 import { rimraf } from 'rimraf'
-import type { OutputAsset, OutputChunk } from 'rollup'
 import { pathToFileURL } from 'url'
-import type { BuildOptions } from 'vite'
+import type { BuildOptions, Rollup } from 'vite'
 import { resolveConfig, type SiteConfig } from '../config'
+import { clearCache } from '../markdownToVue'
 import { slash, type HeadConfig } from '../shared'
 import { deserializeFunctions, serializeFunctions } from '../utils/fnSerialize'
-import { bundle, failMark, okMark } from './bundle'
+import { task } from '../utils/task'
+import { bundle } from './bundle'
+import { generateSitemap } from './generateSitemap'
 import { renderPage } from './render'
 
 export async function build(
@@ -34,19 +36,27 @@ export async function build(
     delete buildOptions.mpa
   }
 
+  if (buildOptions.outDir) {
+    siteConfig.outDir = path.resolve(process.cwd(), buildOptions.outDir)
+    delete buildOptions.outDir
+  }
+
   try {
     const { clientResult, serverResult, pageToHashMap } = await bundle(
       siteConfig,
       buildOptions
     )
 
+    if (process.env.BUNDLE_ONLY) {
+      return
+    }
+
     const entryPath = path.join(siteConfig.tempDir, 'app.js')
-    const { render } = await import(pathToFileURL(entryPath).toString())
+    const { render } = await import(
+      pathToFileURL(entryPath).toString() + '?t=' + Date.now()
+    )
 
-    const spinner = ora({ discardStdin: false })
-    spinner.start('rendering pages...')
-
-    try {
+    await task('rendering pages', async () => {
       const appChunk =
         clientResult &&
         (clientResult.output.find(
@@ -54,13 +64,13 @@ export async function build(
             chunk.type === 'chunk' &&
             chunk.isEntry &&
             chunk.facadeModuleId?.endsWith('.js')
-        ) as OutputChunk)
+        ) as Rollup.OutputChunk)
 
       const cssChunk = (
         siteConfig.mpa ? serverResult : clientResult!
       ).output.find(
         (chunk) => chunk.type === 'asset' && chunk.fileName.endsWith('.css')
-      ) as OutputAsset
+      ) as Rollup.OutputAsset
 
       const assets = (siteConfig.mpa ? serverResult : clientResult!).output
         .filter(
@@ -100,32 +110,24 @@ export async function build(
         }
       }
 
-      await Promise.all(
-        ['404.md', ...siteConfig.pages]
-          .map((page) => siteConfig.rewrites.map[page] || page)
-          .map((page) =>
-            renderPage(
-              render,
-              siteConfig,
-              page,
-              clientResult,
-              appChunk,
-              cssChunk,
-              assets,
-              pageToHashMap,
-              metadataScript,
-              additionalHeadTags
-            )
+      await pMap(
+        ['404.md', ...siteConfig.pages],
+        async (page) => {
+          await renderPage(
+            render,
+            siteConfig,
+            siteConfig.rewrites.map[page] || page,
+            clientResult,
+            appChunk,
+            cssChunk,
+            assets,
+            pageToHashMap,
+            metadataScript,
+            additionalHeadTags
           )
+        },
+        { concurrency: siteConfig.buildConcurrency }
       )
-    } catch (e) {
-      spinner.stopAndPersist({
-        symbol: failMark
-      })
-      throw e
-    }
-    spinner.stopAndPersist({
-      symbol: okMark
     })
 
     // emit page hash map for the case where a user session is open
@@ -139,7 +141,9 @@ export async function build(
     if (!process.env.DEBUG) await rimraf(siteConfig.tempDir)
   }
 
+  await generateSitemap(siteConfig)
   await siteConfig.buildEnd?.(siteConfig)
+  clearCache()
 
   siteConfig.logger.info(
     `build complete in ${((Date.now() - start) / 1000).toFixed(2)}s.`
@@ -181,7 +185,7 @@ function generateMetadataScript(
 
   const metadataContent = `window.__VP_HASH_MAP__=JSON.parse(${hashMapString});${
     siteDataString.includes('_vp-fn_')
-      ? `${deserializeFunctions.toString()};window.__VP_SITE_DATA__=deserializeFunctions(JSON.parse(${siteDataString}));`
+      ? `${deserializeFunctions};window.__VP_SITE_DATA__=deserializeFunctions(JSON.parse(${siteDataString}));`
       : `window.__VP_SITE_DATA__=JSON.parse(${siteDataString});`
   }`
 

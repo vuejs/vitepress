@@ -1,20 +1,23 @@
 <script setup lang="ts">
 import type { DefaultTheme } from 'vitepress/theme'
-import VPIconHeart from './icons/VPIconHeart.vue'
 import VPLink from './VPLink.vue'
 import VPSocialLinks from './VPSocialLinks.vue'
 
-defineProps<{
+interface Props {
   size?: 'small' | 'medium'
   member: DefaultTheme.TeamMember
-}>()
+}
+
+withDefaults(defineProps<Props>(), {
+  size: 'medium'
+})
 </script>
 
 <template>
-  <article class="VPTeamMembersItem" :class="[size ?? 'medium']">
+  <article class="VPTeamMembersItem" :class="[size]">
     <div class="profile">
       <figure class="avatar">
-        <img class="avatar-img" :src="member.avatar" :alt="member.name">
+        <img class="avatar-img" :src="member.avatar" :alt="member.name" />
       </figure>
       <div class="data">
         <h1 class="name">
@@ -24,14 +27,18 @@ defineProps<{
           <span v-if="member.title" class="title">
             {{ member.title }}
           </span>
-          <span v-if="member.title && member.org" class="at">
-            @
-          </span>
-          <VPLink v-if="member.org" class="org" :class="{ link: member.orgLink }" :href="member.orgLink" no-icon>
+          <span v-if="member.title && member.org" class="at"> @ </span>
+          <VPLink
+            v-if="member.org"
+            class="org"
+            :class="{ link: member.orgLink }"
+            :href="member.orgLink"
+            no-icon
+          >
             {{ member.org }}
           </VPLink>
         </p>
-        <p v-if="member.desc" class="desc" v-html="member.desc"/>
+        <p v-if="member.desc" class="desc" v-html="member.desc" />
         <div v-if="member.links" class="links">
           <VPSocialLinks :links="member.links" />
         </div>
@@ -39,7 +46,7 @@ defineProps<{
     </div>
     <div v-if="member.sponsor" class="sp">
       <VPLink class="sp-link" :href="member.sponsor" no-icon>
-        <VPIconHeart class="sp-icon" /> Sponsor
+        <span class="vpi-heart sp-icon" /> {{ member.actionText || 'Sponsor' }}
       </VPLink>
     </div>
   </article>
@@ -155,12 +162,12 @@ defineProps<{
 }
 
 .name {
-  margin:  0;
+  margin: 0;
   font-weight: 600;
 }
 
 .affiliation {
-  margin:  0;
+  margin: 0;
   font-weight: 500;
   color: var(--vp-c-text-2);
 }
@@ -171,7 +178,7 @@ defineProps<{
 }
 
 .org.link:hover {
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-1);
 }
 
 .desc {
@@ -180,7 +187,7 @@ defineProps<{
 
 .desc :deep(a) {
   font-weight: 500;
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-1);
   text-decoration-style: dotted;
   transition: color 0.25s;
 }
@@ -213,8 +220,6 @@ defineProps<{
 
 .sp-icon {
   margin-right: 8px;
-  width: 16px;
-  height: 16px;
-  fill: currentColor;
+  font-size: 16px;
 }
 </style>

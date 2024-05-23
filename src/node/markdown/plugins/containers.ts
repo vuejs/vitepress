@@ -1,20 +1,44 @@
 import type MarkdownIt from 'markdown-it'
-import type { RenderRule } from 'markdown-it/lib/renderer'
-import type Token from 'markdown-it/lib/token'
 import container from 'markdown-it-container'
+import type { RenderRule } from 'markdown-it/lib/renderer.mjs'
+import type Token from 'markdown-it/lib/token.mjs'
 import { nanoid } from 'nanoid'
+import type { MarkdownEnv } from '../../shared'
+
 import {
   extractTitle,
   getAdaptiveThemeMarker,
   type Options
 } from './preWrapper'
 
-export const containerPlugin = (md: MarkdownIt, options: Options) => {
-  md.use(...createContainer('tip', 'TIP', md))
-    .use(...createContainer('info', 'INFO', md))
-    .use(...createContainer('warning', 'WARNING', md))
-    .use(...createContainer('danger', 'DANGER', md))
-    .use(...createContainer('details', 'Details', md))
+export const containerPlugin = (
+  md: MarkdownIt,
+  options: Options,
+  containerOptions?: ContainerOptions
+) => {
+  md.use(...createContainer('tip', containerOptions?.tipLabel || 'TIP', md))
+    .use(...createContainer('info', containerOptions?.infoLabel || 'INFO', md))
+    .use(
+      ...createContainer(
+        'warning',
+        containerOptions?.warningLabel || 'WARNING',
+        md
+      )
+    )
+    .use(
+      ...createContainer(
+        'danger',
+        containerOptions?.dangerLabel || 'DANGER',
+        md
+      )
+    )
+    .use(
+      ...createContainer(
+        'details',
+        containerOptions?.detailsLabel || 'Details',
+        md
+      )
+    )
     // explicitly escape Vue syntax
     .use(container, 'v-pre', {
       render: (tokens: Token[], idx: number) =>
@@ -38,18 +62,18 @@ function createContainer(
     container,
     klass,
     {
-      render(tokens, idx) {
+      render(tokens, idx, _options, env: MarkdownEnv & { references?: any }) {
         const token = tokens[idx]
         const info = token.info.trim().slice(klass.length).trim()
+        const attrs = md.renderer.renderAttrs(token)
         if (token.nesting === 1) {
-          const title = md.renderInline(info || defaultTitle)
-          if (klass === 'details') {
-            return `<details class="${klass} custom-block"><summary>${title}</summary>\n`
-          }
-          return `<div class="${klass} custom-block"><p class="custom-block-title">${title}</p>\n`
-        } else {
-          return klass === 'details' ? `</details>\n` : `</div>\n`
-        }
+          const title = md.renderInline(info || defaultTitle, {
+            references: env.references
+          })
+          if (klass === 'details')
+            return `<details class="${klass} custom-block"${attrs}><summary>${title}</summary>\n`
+          return `<div class="${klass} custom-block"${attrs}><p class="custom-block-title">${title}</p>\n`
+        } else return klass === 'details' ? `</details>\n` : `</div>\n`
       }
     }
   ]
@@ -64,7 +88,7 @@ function createCodeGroup(options: Options): ContainerArgs {
         if (tokens[idx].nesting === 1) {
           const name = nanoid(5)
           let tabs = ''
-          let checked = 'checked="checked"'
+          let checked = 'checked'
 
           for (
             let i = idx + 1;
@@ -74,13 +98,22 @@ function createCodeGroup(options: Options): ContainerArgs {
             );
             ++i
           ) {
-            if (tokens[i].type === 'fence' && tokens[i].tag === 'code') {
-              const title = extractTitle(tokens[i].info)
-              const id = nanoid(7)
-              tabs += `<input type="radio" name="group-${name}" id="tab-${id}" ${checked}><label for="tab-${id}">${title}</label>`
+            const isHtml = tokens[i].type === 'html_block'
 
-              if (checked) {
-                tokens[i].info += ' active'
+            if (
+              (tokens[i].type === 'fence' && tokens[i].tag === 'code') ||
+              isHtml
+            ) {
+              const title = extractTitle(
+                isHtml ? tokens[i].content : tokens[i].info,
+                isHtml
+              )
+
+              if (title) {
+                const id = nanoid(7)
+                tabs += `<input type="radio" name="group-${name}" id="tab-${id}" ${checked}><label for="tab-${id}">${title}</label>`
+
+                if (checked && !isHtml) tokens[i].info += ' active'
                 checked = ''
               }
             }
@@ -94,4 +127,15 @@ function createCodeGroup(options: Options): ContainerArgs {
       }
     }
   ]
+}
+
+export interface ContainerOptions {
+  infoLabel?: string
+  noteLabel?: string
+  tipLabel?: string
+  warningLabel?: string
+  dangerLabel?: string
+  detailsLabel?: string
+  importantLabel?: string
+  cautionLabel?: string
 }

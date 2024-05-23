@@ -12,6 +12,10 @@ You can reference static assets in your markdown files, your `*.vue` components 
 
 Common image, media, and font filetypes are detected and included as assets automatically.
 
+::: tip Linked files are not treated as assets
+PDFs or other documents referenced by links within markdown files are not automatically treated as assets. To make linked files accessible, you must manually place them within the [`public`](#the-public-directory) directory of your project.
+:::
+
 All referenced assets, including those using absolute paths, will be copied to the output directory with a hashed file name in the production build. Never-referenced assets will not be copied. Image assets smaller than 4kb will be base64 inlined - this can be configured via the [`vite`](../reference/site-config#vite) config option.
 
 All **static** path references, including absolute paths, should be based on your working directory structure.
@@ -25,25 +29,6 @@ You can place these files in the `public` directory under the [source directory]
 Assets placed in `public` will be copied to the root of the output directory as-is.
 
 Note that you should reference files placed in `public` using root absolute path - for example, `public/icon.png` should always be referenced in source code as `/icon.png`.
-
-There is one exception to this: if you have an HTML page in `public` and link to it from the main site, the router will yield a 404 by default. To get around this, VitePress provides a `pathname://` protocol which allows you to link to another page in the same domain as if the link is external. Compare these two links:
-
-- [/pure.html](/pure.html)
-- <pathname:///pure.html>
-
-Note that `pathname://` is only supported in Markdown links. Also, `pathname://` will open the link in a new tab by default. You can use `target="_self"` instead to open it in the same tab:
-
-**Input**
-
-```md
-[Link to pure.html](/pure.html){target="_self"}
-
-<!-- there is no need to specify pathname:// if the target is explicitly specified -->
-```
-
-**Output**
-
-[Link to pure.html](/pure.html){target="_self"}
 
 ## Base URL
 

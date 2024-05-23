@@ -11,29 +11,25 @@ import replace from '@rollup/plugin-replace'
 import alias from '@rollup/plugin-alias'
 import dts from 'rollup-plugin-dts'
 
+const ROOT = fileURLToPath(import.meta.url)
+const r = (p: string) => resolve(ROOT, '..', p)
+
 const require = createRequire(import.meta.url)
-const pkg = require('./package.json')
+const pkg = require(r('package.json'))
 
 const DEV = !!process.env.DEV
 const PROD = !DEV
 
-const ROOT = fileURLToPath(import.meta.url)
-const r = (p: string) => resolve(ROOT, '..', p)
-
 const external = [
   ...Object.keys(pkg.dependencies),
+  ...Object.keys(pkg.peerDependencies),
   ...builtinModules.flatMap((m) =>
     m.includes('punycode') ? [] : [m, `node:${m}`]
-  ),
-  r('types/shared.d.ts')
+  )
 ]
 
 const plugins = [
-  alias({
-    entries: {
-      'readable-stream': 'stream'
-    }
-  }),
+  alias({ entries: { 'readable-stream': 'stream' } }),
   replace({
     // polyfill broken browser check from bundled deps
     'navigator.userAgentData': 'undefined',
@@ -42,7 +38,7 @@ const plugins = [
   }),
   commonjs(),
   nodeResolve({ preferBuiltins: false }),
-  esbuild({ target: 'node14' }),
+  esbuild({ target: 'node18' }),
   json()
 ]
 
@@ -62,38 +58,43 @@ const esmBuild: RollupOptions = {
   }
 }
 
-const cjsBuild: RollupOptions = {
-  input: [r('src/node/index.ts'), r('src/node/cli.ts')],
-  output: {
-    format: 'cjs',
-    dir: r('dist/node-cjs'),
-    entryFileNames: `[name].cjs`,
-    chunkFileNames: 'serve-[hash].cjs'
-  },
-  external,
-  plugins,
-  onwarn(warning, warn) {
-    if (warning.code !== 'EVAL') warn(warning)
-  }
+const typesExternal = [
+  ...external,
+  /\/vitepress\/(?!(dist|node_modules)\/).*\.d\.ts$/,
+  'source-map-js',
+  'fast-glob'
+]
+
+const dtsNode = dts({
+  respectExternal: true,
+  tsconfig: r('src/node/tsconfig.json')
+})
+
+const originalResolveId = dtsNode.resolveId
+
+dtsNode.resolveId = async function (source, importer) {
+  const res = await (originalResolveId as Function).call(this, source, importer)
+  if (res?.id) res.id = await fs.realpath(res.id)
+  return res
 }
 
 const nodeTypes: RollupOptions = {
   input: r('src/node/index.ts'),
   output: {
     format: 'esm',
-    file: 'dist/node/index.d.ts'
+    file: r('dist/node/index.d.ts')
   },
-  external,
-  plugins: [dts({ respectExternal: true })]
+  external: typesExternal,
+  plugins: [dtsNode]
 }
 
 const clientTypes: RollupOptions = {
   input: r('dist/client-types/index.d.ts'),
   output: {
     format: 'esm',
-    file: 'dist/client/index.d.ts'
+    file: r('dist/client/index.d.ts')
   },
-  external,
+  external: typesExternal,
   plugins: [
     dts({ respectExternal: true }),
     {
@@ -107,15 +108,4 @@ const clientTypes: RollupOptions = {
   ]
 }
 
-const config = defineConfig([])
-
-config.push(esmBuild)
-
-if (PROD) {
-  config.push(cjsBuild)
-}
-
-config.push(nodeTypes)
-config.push(clientTypes)
-
-export default config
+export default defineConfig([esmBuild, nodeTypes, clientTypes])

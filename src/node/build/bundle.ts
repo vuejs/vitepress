@@ -1,38 +1,46 @@
-import ora from 'ora'
-import path from 'path'
 import fs from 'fs-extra'
+import path from 'path'
+import { fileURLToPath } from 'url'
 import {
   build,
+  normalizePath,
   type BuildOptions,
-  type UserConfig as ViteUserConfig
+  type Rollup,
+  type InlineConfig as ViteInlineConfig
 } from 'vite'
-import type { GetModuleInfo, RollupOutput } from 'rollup'
-import type { SiteConfig } from '../config'
 import { APP_PATH } from '../alias'
+import type { SiteConfig } from '../config'
 import { createVitePressPlugin } from '../plugin'
-import { sanitizeFileName, slash } from '../shared'
+import { escapeRegExp, sanitizeFileName, slash } from '../shared'
+import { task } from '../utils/task'
 import { buildMPAClient } from './buildMPAClient'
-import { fileURLToPath } from 'url'
-import { normalizePath } from 'vite'
 
-export const okMark = '\x1b[32m✓\x1b[0m'
-export const failMark = '\x1b[31m✖\x1b[0m'
-
-// A list of default theme components that should only be loaded on demand.
-const lazyDefaultThemeComponentsRE =
-  /VP(HomeSponsors|DocAsideSponsors|TeamPage|TeamMembers|LocalSearchBox|AlgoliaSearchBox|CarbonAds|DocAsideCarbonAds)/
+// https://github.com/vitejs/vite/blob/d2aa0969ee316000d3b957d7e879f001e85e369e/packages/vite/src/node/plugins/splitVendorChunk.ts#L14
+const CSS_LANGS_RE =
+  /\.(css|less|sass|scss|styl|stylus|pcss|postcss|sss)(?:$|\?)/
 
 const clientDir = normalizePath(
   path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../client')
 )
+
+// these deps are also being used in the client code (outside of the theme)
+// exclude them from the theme chunk so there is no circular dependency
+const excludedModules = [
+  '/@siteData',
+  'node_modules/@vueuse/core/',
+  'node_modules/@vueuse/shared/',
+  'node_modules/vue/',
+  'node_modules/vue-demi/',
+  clientDir
+]
 
 // bundles the VitePress app for both client AND server.
 export async function bundle(
   config: SiteConfig,
   options: BuildOptions
 ): Promise<{
-  clientResult: RollupOutput | null
-  serverResult: RollupOutput
+  clientResult: Rollup.RollupOutput | null
+  serverResult: Rollup.RollupOutput
   pageToHashMap: Record<string, string>
 }> {
   const pageToHashMap = Object.create(null)
@@ -50,10 +58,18 @@ export async function bundle(
     input[slash(alias).replace(/\//g, '_')] = path.resolve(config.srcDir, file)
   })
 
+  const themeEntryRE = new RegExp(
+    `^${escapeRegExp(
+      path.resolve(config.themeDir, 'index.js').replace(/\\/g, '/')
+    ).slice(0, -2)}m?(j|t)s`
+  )
+
   // resolve options to pass to vite
   const { rollupOptions } = options
 
-  const resolveViteConfig = async (ssr: boolean): Promise<ViteUserConfig> => ({
+  const resolveViteConfig = async (
+    ssr: boolean
+  ): Promise<ViteInlineConfig> => ({
     root: config.srcDir,
     cacheDir: config.cacheDir,
     base: config.site.base,
@@ -71,15 +87,16 @@ export async function bundle(
       ...options,
       emptyOutDir: true,
       ssr,
+      ssrEmitAssets: config.mpa,
       // minify with esbuild in MPA mode (for CSS)
       minify: ssr
         ? config.mpa
           ? 'esbuild'
           : false
         : typeof options.minify === 'boolean'
-        ? options.minify
-        : !process.env.DEBUG,
-      outDir: ssr ? config.tempDir : options.outDir || config.outDir,
+          ? options.minify
+          : !process.env.DEBUG,
+      outDir: ssr ? config.tempDir : config.outDir,
       cssCodeSplit: false,
       rollupOptions: {
         ...rollupOptions,
@@ -109,12 +126,6 @@ export async function bundle(
                     : `${config.assetsDir}/chunks/[name].[hash].js`
                 },
                 manualChunks(id, ctx) {
-                  if (lazyDefaultThemeComponentsRE.test(id)) {
-                    return
-                  }
-                  if (id.startsWith(`${clientDir}/theme-default`)) {
-                    return 'theme'
-                  }
                   // move known framework code into a stable chunk so that
                   // custom theme changes do not invalidate hash for all pages
                   if (id.startsWith('\0vite')) {
@@ -135,31 +146,37 @@ export async function bundle(
                   ) {
                     return 'framework'
                   }
+
+                  if (
+                    (id.startsWith(`${clientDir}/theme-default`) ||
+                      !excludedModules.some((i) => id.includes(i))) &&
+                    staticImportedByEntry(
+                      id,
+                      ctx.getModuleInfo,
+                      cacheTheme,
+                      themeEntryRE
+                    )
+                  ) {
+                    return 'theme'
+                  }
                 }
               })
         }
       }
-    }
+    },
+    configFile: config.vite?.configFile
   })
 
-  let clientResult: RollupOutput | null
-  let serverResult: RollupOutput
+  let clientResult!: Rollup.RollupOutput | null
+  let serverResult!: Rollup.RollupOutput
 
-  const spinner = ora({ discardStdin: false })
-  spinner.start('building client + server bundles...')
-  try {
+  await task('building client + server bundles', async () => {
     clientResult = config.mpa
       ? null
-      : ((await build(await resolveViteConfig(false))) as RollupOutput)
-    serverResult = (await build(await resolveViteConfig(true))) as RollupOutput
-  } catch (e) {
-    spinner.stopAndPersist({
-      symbol: failMark
-    })
-    throw e
-  }
-  spinner.stopAndPersist({
-    symbol: okMark
+      : ((await build(await resolveViteConfig(false))) as Rollup.RollupOutput)
+    serverResult = (await build(
+      await resolveViteConfig(true)
+    )) as Rollup.RollupOutput
   })
 
   if (config.mpa) {
@@ -189,14 +206,15 @@ export async function bundle(
 }
 
 const cache = new Map<string, boolean>()
+const cacheTheme = new Map<string, boolean>()
 
 /**
  * Check if a module is statically imported by at least one entry.
  */
-function isEagerChunk(id: string, getModuleInfo: GetModuleInfo) {
+function isEagerChunk(id: string, getModuleInfo: Rollup.GetModuleInfo) {
   if (
     id.includes('node_modules') &&
-    !/\.css($|\\?)/.test(id) &&
+    !CSS_LANGS_RE.test(id) &&
     staticImportedByEntry(id, getModuleInfo, cache)
   ) {
     return true
@@ -205,8 +223,9 @@ function isEagerChunk(id: string, getModuleInfo: GetModuleInfo) {
 
 function staticImportedByEntry(
   id: string,
-  getModuleInfo: GetModuleInfo,
+  getModuleInfo: Rollup.GetModuleInfo,
   cache: Map<string, boolean>,
+  entryRE: RegExp | null = null,
   importStack: string[] = []
 ): boolean {
   if (cache.has(id)) {
@@ -223,7 +242,7 @@ function staticImportedByEntry(
     return false
   }
 
-  if (mod.isEntry) {
+  if (entryRE ? entryRE.test(id) : mod.isEntry) {
     cache.set(id, true)
     return true
   }
@@ -232,6 +251,7 @@ function staticImportedByEntry(
       importer,
       getModuleInfo,
       cache,
+      entryRE,
       importStack.concat(id)
     )
   )

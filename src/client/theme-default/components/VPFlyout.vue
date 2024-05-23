@@ -1,12 +1,10 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { useFlyout } from '../composables/flyout'
-import VPIconChevronDown from './icons/VPIconChevronDown.vue'
-import VPIconMoreHorizontal from './icons/VPIconMoreHorizontal.vue'
 import VPMenu from './VPMenu.vue'
 
 defineProps<{
-  icon?: any
+  icon?: string
   button?: string
   label?: string
   items?: any[]
@@ -38,12 +36,12 @@ function onBlur() {
       @click="open = !open"
     >
       <span v-if="button || icon" class="text">
-        <component v-if="icon" :is="icon" class="option-icon" />
-        {{ button }}
-        <VPIconChevronDown class="text-icon" />
+        <span v-if="icon" :class="[icon, 'option-icon']" />
+        <span v-if="button" v-html="button"></span>
+        <span class="vpi-chevron-down text-icon" />
       </span>
 
-      <VPIconMoreHorizontal v-else class="icon" />
+      <span v-else class="vpi-more-horizontal icon" />
     </button>
 
     <div class="menu">
@@ -60,7 +58,7 @@ function onBlur() {
 }
 
 .VPFlyout:hover {
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-1);
   transition: color 0.25s;
 }
 
@@ -73,17 +71,23 @@ function onBlur() {
 }
 
 .VPFlyout.active .text {
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-1);
 }
 
 .VPFlyout.active:hover .text {
-  color: var(--vp-c-brand-dark);
+  color: var(--vp-c-brand-2);
 }
 
 .VPFlyout:hover .menu,
 .button[aria-expanded="true"] + .menu {
   opacity: 1;
   visibility: visible;
+  transform: translateY(0);
+}
+
+.button[aria-expanded="false"] + .menu {
+  opacity: 0;
+  visibility: hidden;
   transform: translateY(0);
 }
 
@@ -108,22 +112,16 @@ function onBlur() {
 
 .option-icon {
   margin-right: 0px;
-  width: 16px;
-  height: 16px;
-  fill: currentColor;
+  font-size: 16px;
 }
 
 .text-icon {
   margin-left: 4px;
-  width: 14px;
-  height: 14px;
-  fill: currentColor;
+  font-size: 14px;
 }
 
 .icon {
-  width: 20px;
-  height: 20px;
-  fill: currentColor;
+  font-size: 20px;
   transition: fill 0.25s;
 }
 

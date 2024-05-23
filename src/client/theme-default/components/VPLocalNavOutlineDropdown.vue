@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import { onKeyStroke } from '@vueuse/core'
 import { onContentUpdated } from 'vitepress'
-import { nextTick, ref } from 'vue'
+import { nextTick, ref, watch } from 'vue'
 import { useData } from '../composables/data'
 import { resolveTitle, type MenuItem } from '../composables/outline'
 import VPDocOutlineItem from './VPDocOutlineItem.vue'
-import VPIconChevronRight from './icons/VPIconChevronRight.vue'
 
 const props = defineProps<{
   headers: MenuItem[]
@@ -14,7 +14,26 @@ const props = defineProps<{
 const { theme } = useData()
 const open = ref(false)
 const vh = ref(0)
+const main = ref<HTMLDivElement>()
 const items = ref<HTMLDivElement>()
+
+function closeOnClickOutside(e: Event) {
+  if (!main.value?.contains(e.target as Node)) {
+    open.value = false
+  }
+}
+
+watch(open, (value) => {
+  if (value) {
+    document.addEventListener('click', closeOnClickOutside)
+    return
+  }
+  document.removeEventListener('click', closeOnClickOutside)
+})
+
+onKeyStroke('Escape', () => {
+  open.value = false
+})
 
 onContentUpdated(() => {
   open.value = false
@@ -44,24 +63,28 @@ function scrollToTop() {
 </script>
 
 <template>
-  <div class="VPLocalNavOutlineDropdown" :style="{ '--vp-vh': vh + 'px' }">
+  <div
+    class="VPLocalNavOutlineDropdown"
+    :style="{ '--vp-vh': vh + 'px' }"
+    ref="main"
+  >
     <button @click="toggle" :class="{ open }" v-if="headers.length > 0">
-      {{ resolveTitle(theme) }}
-      <VPIconChevronRight class="icon" />
+      <span class="menu-text">{{ resolveTitle(theme) }}</span>
+      <span class="vpi-chevron-right icon" />
     </button>
     <button @click="scrollToTop" v-else>
       {{ theme.returnToTopLabel || 'Return to top' }}
     </button>
     <Transition name="flyout">
-      <div v-if="open"
-        ref="items"
-        class="items"
-        @click="onItemClick"
-      >
-        <a class="top-link" href="#" @click="scrollToTop">
-          {{ theme.returnToTopLabel || 'Return to top' }}
-        </a>
-        <VPDocOutlineItem :headers="headers" />
+      <div v-if="open" ref="items" class="items" @click="onItemClick">
+        <div class="header">
+          <a class="top-link" href="#" @click="scrollToTop">
+            {{ theme.returnToTopLabel || 'Return to top' }}
+          </a>
+        </div>
+        <div class="outline">
+          <VPDocOutlineItem :headers="headers" />
+        </div>
       </div>
     </Transition>
   </div>
@@ -71,6 +94,13 @@ function scrollToTop() {
 .VPLocalNavOutlineDropdown {
   padding: 12px 20px 11px;
 }
+
+@media (min-width: 960px) {
+  .VPLocalNavOutlineDropdown {
+    padding: 12px 36px 11px;
+  }
+}
+
 .VPLocalNavOutlineDropdown button {
   display: block;
   font-size: 12px;
@@ -94,14 +124,19 @@ function scrollToTop() {
   display: inline-block;
   vertical-align: middle;
   margin-left: 2px;
-  width: 14px;
-  height: 14px;
-  fill: currentColor;
+  font-size: 14px;
+  transform: rotate(0deg);
+  transition: transform 0.25s;
 }
 
-:deep(.outline-link) {
-  font-size: 14px;
-  padding: 2px 0;
+@media (min-width: 960px) {
+  .VPLocalNavOutlineDropdown button {
+    font-size: 14px;
+  }
+
+  .icon {
+    font-size: 16px;
+  }
 }
 
 .open > .icon {
@@ -110,34 +145,51 @@ function scrollToTop() {
 
 .items {
   position: absolute;
-  left: 20px;
-  right: 20px;
-  top: 64px;
-  background-color: var(--vp-local-nav-bg-color);
-  padding: 4px 10px 16px;
-  border: 1px solid var(--vp-c-divider);
+  top: 40px;
+  right: 16px;
+  left: 16px;
+  display: grid;
+  gap: 1px;
+  border: 1px solid var(--vp-c-border);
   border-radius: 8px;
+  background-color: var(--vp-c-gutter);
   max-height: calc(var(--vp-vh, 100vh) - 86px);
   overflow: hidden auto;
   box-shadow: var(--vp-shadow-3);
 }
 
+@media (min-width: 960px) {
+  .items {
+    right: auto;
+    left: calc(var(--vp-sidebar-width) + 32px);
+    width: 320px;
+  }
+}
+
+.header {
+  background-color: var(--vp-c-bg-soft);
+}
+
 .top-link {
   display: block;
-  color: var(--vp-c-brand);
-  font-size: 13px;
+  padding: 0 16px;
+  line-height: 48px;
+  font-size: 14px;
   font-weight: 500;
-  padding: 6px 0;
-  margin: 0 13px 10px;
-  border-bottom: 1px solid var(--vp-c-divider);
+  color: var(--vp-c-brand-1);
+}
+
+.outline {
+  padding: 8px 0;
+  background-color: var(--vp-c-bg-soft);
 }
 
 .flyout-enter-active {
-  transition: all .2s ease-out;
+  transition: all 0.2s ease-out;
 }
 
 .flyout-leave-active {
-  transition: all .15s ease-in;
+  transition: all 0.15s ease-in;
 }
 
 .flyout-enter-from,

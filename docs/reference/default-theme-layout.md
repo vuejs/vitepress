@@ -36,3 +36,27 @@ Option `home` will generate templated "Homepage". In this layout, you can set ex
 ## No Layout
 
 If you don't want any layout, you can pass `layout: false` through frontmatter. This option is helpful if you want a fully-customizable landing page (without any sidebar, navbar, or footer by default).
+
+## Custom Layout
+
+You can also use a custom layout:
+
+```md
+---
+layout: foo
+---
+```
+
+This will look for a component named `foo` registered in context. For example, you can register your component globally in `.vitepress/theme/index.ts`:
+
+```ts
+import DefaultTheme from 'vitepress/theme'
+import Foo from './Foo.vue'
+
+export default {
+  extends: DefaultTheme,
+  enhanceApp({ app }) {
+    app.component('foo', Foo)
+  }
+}
+```

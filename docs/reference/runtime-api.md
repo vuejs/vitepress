@@ -38,6 +38,10 @@ interface VitePressData<T = any> {
   isDark: Ref<boolean>
   dir: Ref<string>
   localeIndex: Ref<string>
+  /**
+   * Current location hash
+   */
+  hash: Ref<string>
 }
 
 interface PageData {
@@ -141,7 +145,7 @@ If you are using or demoing components that are not SSR-friendly (for example, c
 </ClientOnly>
 ```
 
-- Related: [SSR Compatibility](/guide/ssr-compat)
+- Related: [SSR Compatibility](../guide/ssr-compat)
 
 ## `$frontmatter` <Badge type="info" text="template global" />
 

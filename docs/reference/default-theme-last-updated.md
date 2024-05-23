@@ -24,4 +24,4 @@ lastUpdated: false
 ---
 ```
 
-Also refer [Default Theme: Last Updated](./default-theme-last-updated#last-updated) for more details. Any truthy value at theme-level will also enable the feature unless explicitly disabled at site or page level.
+Also refer [Default Theme: Last Updated](./default-theme-config#lastupdated) for more details. Any truthy value at theme-level will also enable the feature unless explicitly disabled at site or page level.

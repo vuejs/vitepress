@@ -1,15 +1,16 @@
+import { useMediaQuery } from '@vueuse/core'
+import type { DefaultTheme } from 'vitepress/theme'
 import {
-  type ComputedRef,
-  type Ref,
   computed,
   onMounted,
   onUnmounted,
   ref,
-  watchEffect
+  watch,
+  watchEffect,
+  watchPostEffect,
+  type ComputedRef,
+  type Ref
 } from 'vue'
-import { useMediaQuery } from '@vueuse/core'
-import { useRoute } from 'vitepress'
-import type { DefaultTheme } from 'vitepress/theme'
 import { isActive } from '../../shared'
 import {
   hasActiveLink as containsActiveLink,
@@ -22,23 +23,29 @@ export interface SidebarControl {
   collapsed: Ref<boolean>
   collapsible: ComputedRef<boolean>
   isLink: ComputedRef<boolean>
-  isActiveLink: ComputedRef<boolean>
+  isActiveLink: Ref<boolean>
   hasActiveLink: ComputedRef<boolean>
   hasChildren: ComputedRef<boolean>
   toggle(): void
 }
 
 export function useSidebar() {
-  const route = useRoute()
-  const { theme, frontmatter } = useData()
+  const { frontmatter, page, theme } = useData()
   const is960 = useMediaQuery('(min-width: 960px)')
 
   const isOpen = ref(false)
 
-  const sidebar = computed(() => {
+  const _sidebar = computed(() => {
     const sidebarConfig = theme.value.sidebar
-    const relativePath = route.data.relativePath
+    const relativePath = page.value.relativePath
     return sidebarConfig ? getSidebar(sidebarConfig, relativePath) : []
+  })
+
+  const sidebar = ref(_sidebar.value)
+
+  watch(_sidebar, (next, prev) => {
+    if (JSON.stringify(next) !== JSON.stringify(prev))
+      sidebar.value = _sidebar.value
   })
 
   const hasSidebar = computed(() => {
@@ -130,7 +137,7 @@ export function useCloseSidebarOnEscape(
 export function useSidebarControl(
   item: ComputedRef<DefaultTheme.SidebarItem>
 ): SidebarControl {
-  const { page } = useData()
+  const { page, hash } = useData()
 
   const collapsed = ref(false)
 
@@ -142,9 +149,13 @@ export function useSidebarControl(
     return !!item.value.link
   })
 
-  const isActiveLink = computed(() => {
-    return isActive(page.value.relativePath, item.value.link)
-  })
+  const isActiveLink = ref(false)
+  const updateIsActiveLink = () => {
+    isActiveLink.value = isActive(page.value.relativePath, item.value.link)
+  }
+
+  watch([page, item, hash], updateIsActiveLink)
+  onMounted(updateIsActiveLink)
 
   const hasActiveLink = computed(() => {
     if (isActiveLink.value) {
@@ -164,7 +175,7 @@ export function useSidebarControl(
     collapsed.value = !!(collapsible.value && item.value.collapsed)
   })
 
-  watchEffect(() => {
+  watchPostEffect(() => {
     ;(isActiveLink.value || hasActiveLink.value) && (collapsed.value = false)
   })
 

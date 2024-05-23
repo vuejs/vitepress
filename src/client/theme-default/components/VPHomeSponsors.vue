@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import VPIconHeart from './icons/VPIconHeart.vue'
 import VPButton from './VPButton.vue'
 import VPSponsors from './VPSponsors.vue'
 
@@ -14,20 +13,25 @@ export interface Sponsor {
   img: string
   url: string
 }
-
-defineProps<{
+interface Props {
   message?: string
   actionText?: string
   actionLink?: string
   data: Sponsors[]
-}>()
+}
+
+withDefaults(defineProps<Props>(), {
+  actionText: 'Become a sponsor'
+})
 </script>
 
 <template>
   <section class="VPHomeSponsors">
     <div class="container">
       <div class="header">
-        <div class="love"><VPIconHeart class="icon" /></div>
+        <div class="love">
+          <span class="vpi-heart icon" />
+        </div>
         <h2 v-if="message" class="message">{{ message }}</h2>
       </div>
 
@@ -36,11 +40,7 @@ defineProps<{
       </div>
 
       <div v-if="actionLink" class="action">
-        <VPButton
-          theme="sponsor"
-          :text="actionText ?? 'Become a sponsor'"
-          :href="actionLink"
-        />
+        <VPButton theme="sponsor" :text="actionText" :href="actionLink" />
       </div>
     </div>
   </section>
@@ -49,8 +49,33 @@ defineProps<{
 <style scoped>
 .VPHomeSponsors {
   border-top: 1px solid var(--vp-c-gutter);
-  padding: 88px 24px 96px;
-  background-color: var(--vp-c-bg);
+  padding-top: 88px !important;
+}
+
+.VPHomeSponsors {
+  margin: 96px 0;
+}
+
+@media (min-width: 768px) {
+  .VPHomeSponsors {
+    margin: 128px 0;
+  }
+}
+
+.VPHomeSponsors {
+  padding: 0 24px;
+}
+
+@media (min-width: 768px) {
+  .VPHomeSponsors {
+    padding: 0 48px;
+  }
+}
+
+@media (min-width: 960px) {
+  .VPHomeSponsors {
+    padding: 0 64px;
+  }
 }
 
 .container {
@@ -60,15 +85,13 @@ defineProps<{
 
 .love {
   margin: 0 auto;
-  width: 28px;
-  height: 28px;
+  width: fit-content;
+  font-size: 28px;
   color: var(--vp-c-text-3);
 }
 
 .icon {
-  width: 28px;
-  height: 28px;
-  fill: currentColor;
+  display: inline-block;
 }
 
 .message {

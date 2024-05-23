@@ -7,7 +7,7 @@ export function resolveRewrites(
   userRewrites: UserConfig['rewrites']
 ) {
   const rewriteRules = Object.entries(userRewrites || {}).map(([from, to]) => ({
-    toPath: compile(to, { validate: false }),
+    toPath: compile(`/${to}`, { validate: false }),
     matchUrl: match(from.startsWith('^') ? new RegExp(from) : from)
   }))
 
@@ -18,7 +18,7 @@ export function resolveRewrites(
       for (const { matchUrl, toPath } of rewriteRules) {
         const res = matchUrl(page)
         if (res) {
-          const dest = toPath(res.params)
+          const dest = toPath(res.params).slice(1)
           pageToRewrite[page] = dest
           rewriteToPage[dest] = page
           break

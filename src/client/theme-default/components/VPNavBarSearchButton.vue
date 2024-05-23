@@ -1,29 +1,23 @@
 <script lang="ts" setup>
-defineProps<{
-  placeholder: string
-}>()
+import type { ButtonTranslations } from '../../../../types/local-search'
+import { createSearchTranslate } from '../support/translation'
+
+// Button-Translations
+const defaultTranslations: { button: ButtonTranslations } = {
+  button: {
+    buttonText: 'Search',
+    buttonAriaLabel: 'Search'
+  }
+}
+
+const translate = createSearchTranslate(defaultTranslations)
 </script>
 
 <template>
-  <button type="button" class="DocSearch DocSearch-Button" aria-label="Search">
+  <button type="button" class="DocSearch DocSearch-Button" :aria-label="translate('button.buttonAriaLabel')">
     <span class="DocSearch-Button-Container">
-      <svg
-        class="DocSearch-Search-Icon"
-        width="20"
-        height="20"
-        viewBox="0 0 20 20"
-        aria-label="search icon"
-      >
-        <path
-          d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z"
-          stroke="currentColor"
-          fill="none"
-          fill-rule="evenodd"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </svg>
-      <span class="DocSearch-Button-Placeholder">{{ placeholder }}</span>
+      <span class="vp-icon DocSearch-Search-Icon"></span>
+      <span class="DocSearch-Button-Placeholder">{{ translate('button.buttonText') }}</span>
     </span>
     <span class="DocSearch-Button-Keys">
       <kbd class="DocSearch-Button-Key"></kbd>
@@ -33,12 +27,13 @@ defineProps<{
 </template>
 
 <style>
-.DocSearch {
-  --docsearch-primary-color: var(--vp-c-brand);
+[class*='DocSearch'] {
+  --docsearch-primary-color: var(--vp-c-brand-1);
   --docsearch-highlight-color: var(--docsearch-primary-color);
   --docsearch-text-color: var(--vp-c-text-1);
   --docsearch-muted-color: var(--vp-c-text-2);
   --docsearch-searchbox-shadow: none;
+  --docsearch-searchbox-background: transparent;
   --docsearch-searchbox-focus-background: transparent;
   --docsearch-key-gradient: transparent;
   --docsearch-key-shadow: none;
@@ -46,11 +41,11 @@ defineProps<{
   --docsearch-footer-background: var(--vp-c-bg);
 }
 
-.dark .DocSearch {
+.dark [class*='DocSearch'] {
   --docsearch-modal-shadow: none;
   --docsearch-footer-shadow: none;
   --docsearch-logo-color: var(--vp-c-text-2);
-  --docsearch-hit-background: var(--vp-c-bg-soft-mute);
+  --docsearch-hit-background: var(--vp-c-default-soft);
   --docsearch-hit-color: var(--vp-c-text-2);
   --docsearch-hit-shadow: none;
 }
@@ -76,6 +71,11 @@ defineProps<{
   outline: 5px auto -webkit-focus-ring-color;
 }
 
+.DocSearch-Button-Key--pressed {
+  transform: none;
+  box-shadow: none;
+}
+
 .DocSearch-Button:focus:not(:focus-visible) {
   outline: none !important;
 }
@@ -92,7 +92,7 @@ defineProps<{
   }
 
   .DocSearch-Button:hover {
-    border-color: var(--vp-c-brand);
+    border-color: var(--vp-c-brand-1);
     background: var(--vp-c-bg-alt);
   }
 }
@@ -189,19 +189,25 @@ defineProps<{
 }
 
 .DocSearch-Button .DocSearch-Button-Key:first-child {
-  font-size: 1px;
-  letter-spacing: -12px;
-  color: transparent;
+  font-size: 0 !important;
 }
 
 .DocSearch-Button .DocSearch-Button-Key:first-child:after {
-  content: var(--vp-meta-key);
+  content: 'Ctrl';
   font-size: 12px;
   letter-spacing: normal;
   color: var(--docsearch-muted-color);
 }
 
+.mac .DocSearch-Button .DocSearch-Button-Key:first-child:after {
+  content: '\2318';
+}
+
 .DocSearch-Button .DocSearch-Button-Key:first-child > * {
   display: none;
+}
+
+.DocSearch-Search-Icon {
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' stroke-width='1.6' viewBox='0 0 20 20'%3E%3Cpath fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' d='m14.386 14.386 4.088 4.088-4.088-4.088A7.533 7.533 0 1 1 3.733 3.733a7.533 7.533 0 0 1 10.653 10.653z'/%3E%3C/svg%3E");
 }
 </style>

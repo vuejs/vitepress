@@ -69,12 +69,18 @@ interface HeroAction {
 
   // Destination link of the button.
   link: string
+
+  // Link target attribute.
+  target?: string
+
+  // Link rel attribute.
+  rel?: string
 }
 ```
 
 ### Customizing the name color
 
-VitePress uses the brand color (`--vp-c-brand`) for the `name`. However, you may customize this color by overriding `--vp-home-hero-name-color` variable.
+VitePress uses the brand color (`--vp-c-brand-1`) for the `name`. However, you may customize this color by overriding `--vp-home-hero-name-color` variable.
 
 ```css
 :root {
@@ -131,7 +137,7 @@ interface Feature {
   // Link when clicked on feature component. The link can
   // be both internal or external.
   //
-  // e.g. `guid/reference/default-theme-home-page` or `htttps://example.com`
+  // e.g. `guide/reference/default-theme-home-page` or `https://example.com`
   link?: string
 
   // Link text to be shown inside feature component. Best
@@ -139,6 +145,14 @@ interface Feature {
   //
   // e.g. `Learn more`, `Visit page`, etc.
   linkText?: string
+
+  // Link rel attribute for the `link` option.
+  //
+  // e.g. `external`
+  rel?: string
+
+  // Link target attribute for the `link` option.
+  target?: string
 }
 
 type FeatureIcon =
@@ -152,3 +166,30 @@ type FeatureIcon =
       height: string
     }
 ```
+
+## Markdown Content
+
+You can add additional content to your site's homepage just by adding Markdown below the `---` frontmatter divider.
+
+````md
+---
+layout: home
+
+hero:
+  name: VitePress
+  text: Vite & Vue powered static site generator.
+---
+
+## Getting Started
+
+You can get started using VitePress right away using `npx`!
+
+```sh
+npm init
+npx vitepress init
+```
+````
+
+::: info
+VitePress didn't always auto-style the extra content of the `layout: home` page. To revert to older behavior, you can add `markdownStyles: false` to the frontmatter.
+:::

@@ -10,7 +10,7 @@ Site config is where you can define the global settings of the site. App config 
 
 ### Config Resolution
 
-The config file is always resolved from `<root>/.vitepress/config.[ext]`, where `<root>` is your VitePress [project root](../guide/routing#root-and-source-directory), and `[ext]` is one of the supported file extensions. TypeScript is supported out of the box. Supported extensions include `.js`, `.ts`, `.cjs`, `.mjs`, `.cts`, and `.mts`.
+The config file is always resolved from `<root>/.vitepress/config.[ext]`, where `<root>` is your VitePress [project root](../guide/routing#root-and-source-directory), and `[ext]` is one of the supported file extensions. TypeScript is supported out of the box. Supported extensions include `.js`, `.ts`, `.mjs`, and `.mts`.
 
 It is recommended to use ES modules syntax in config files. The config file should default export an object:
 
@@ -23,6 +23,62 @@ export default {
   ...
 }
 ```
+
+:::details Dynamic (Async) Config
+
+If you need to dynamically generate the config, you can also default export a function. For example:
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default async () => {
+  const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
+
+  return defineConfig({
+    // app level config options
+    lang: 'en-US',
+    title: 'VitePress',
+    description: 'Vite & Vue powered static site generator.',
+
+    // theme level config options
+    themeConfig: {
+      sidebar: [
+        ...posts.map((post) => ({
+          text: post.name,
+          link: `/posts/${post.name}`
+        }))
+      ]
+    }
+  })
+}
+```
+
+You can also use top-level `await`. For example:
+
+```ts
+import { defineConfig } from 'vitepress'
+
+const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
+
+export default defineConfig({
+  // app level config options
+  lang: 'en-US',
+  title: 'VitePress',
+  description: 'Vite & Vue powered static site generator.',
+
+  // theme level config options
+  themeConfig: {
+    sidebar: [
+      ...posts.map((post) => ({
+        text: post.name,
+        link: `/posts/${post.name}`
+      }))
+    ]
+  }
+})
+```
+
+:::
 
 ### Config Intellisense
 
@@ -156,16 +212,55 @@ export default {
 Additional elements to render in the `<head>` tag in the page HTML. The user-added tags are rendered before the closing `head` tag, after VitePress tags.
 
 ```ts
+type HeadConfig =
+  | [string, Record<string, string>]
+  | [string, Record<string, string>, string]
+```
+
+#### Example: Adding a favicon
+
+```ts
+export default {
+  head: [['link', { rel: 'icon', href: '/favicon.ico' }]]
+} // put favicon.ico in public directory, if base is set, use /base/favicon.ico
+
+/* Would render:
+  <link rel="icon" href="/favicon.ico">
+*/
+```
+
+#### Example: Adding Google Fonts
+
+```ts
 export default {
   head: [
     [
       'link',
-      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }
-      // would render:
-      //
-      // <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      { rel: 'preconnect', href: 'https://fonts.googleapis.com' }
     ],
+    [
+      'link',
+      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }
+    ],
+    [
+      'link',
+      { href: 'https://fonts.googleapis.com/css2?family=Roboto&display=swap', rel: 'stylesheet' }
+    ]
+  ]
+}
 
+/* Would render:
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+*/
+```
+
+#### Example: Registering a service worker
+
+```ts
+export default {
+  head: [
     [
       'script',
       { id: 'register-sw' },
@@ -174,24 +269,50 @@ export default {
           navigator.serviceWorker.register('/sw.js')
         }
       })()`
-      // would render:
-      //
-      // <script id="register-sw">
-      // ;(() => {
-      //   if ('serviceWorker' in navigator) {
-      //     navigator.serviceWorker.register('/sw.js')
-      //   }
-      // })()
-      // </script>
     ]
   ]
 }
+
+/* Would render:
+  <script id="register-sw">
+    ;(() => {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js')
+      }
+    })()
+  </script>
+*/
 ```
 
+#### Example: Using Google Analytics
+
 ```ts
-type HeadConfig =
-  | [string, Record<string, string>]
-  | [string, Record<string, string>, string]
+export default {
+  head: [
+    [
+      'script',
+      { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=TAG_ID' }
+    ],
+    [
+      'script',
+      {},
+      `window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'TAG_ID');`
+    ]
+  ]
+}
+
+/* Would render:
+  <script async src="https://www.googletagmanager.com/gtag/js?id=TAG_ID"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'TAG_ID');
+  </script>
+*/
 ```
 
 ### lang
@@ -239,7 +360,7 @@ Enabling this may require additional configuration on your hosting platform. For
 
 - Type: `Record<string, string>`
 
-Defines custom directory <-> URL mappings. See [Routing: Route Rewrites](../guide/routing#route-rewrites) for more details.
+Defines custom directory &lt;-&gt; URL mappings. See [Routing: Route Rewrites](../guide/routing#route-rewrites) for more details.
 
 ```ts
 export default {
@@ -295,7 +416,7 @@ export default {
 - Type: `string`
 - Default: `assets`
 
-The directory for assets files. See also: [assetsDir](https://vitejs.dev/config/build-options.html#build-assetsdir).
+Specify the directory to nest generated assets under. The path should be inside [`outDir`](#outdir) and is resolved relative to it.
 
 ```ts
 export default {
@@ -350,6 +471,13 @@ export default {
 }
 ```
 
+### metaChunk <Badge type="warning" text="experimental" />
+
+- Type: `boolean`
+- Default: `false`
+
+When set to `true`, extract pages metadata to a separate JavaScript chunk instead of inlining it in the initial HTML. This makes each page's HTML payload smaller and makes the pages metadata cacheable, thus reducing server bandwidth when you have many pages in the site.
+
 ### mpa <Badge type="warning" text="experimental" />
 
 - Type: `boolean`
@@ -361,7 +489,7 @@ When set to `true`, the production app will be built in [MPA Mode](../guide/mpa-
 
 ### appearance
 
-- Type: `boolean | 'dark'`
+- Type: `boolean | 'dark' | 'force-dark' | import('@vueuse/core').UseDarkOptions`
 - Default: `true`
 
 Whether to enable dark mode (by adding the `.dark` class to the `<html>` element).
@@ -371,6 +499,8 @@ Whether to enable dark mode (by adding the `.dark` class to the `<html>` element
 - If the option is set to `false`, users will not be able to toggle the theme.
 
 This option injects an inline script that restores users settings from local storage using the `vitepress-theme-appearance` key. This ensures the `.dark` class is applied before the page is rendered to avoid flickering.
+
+`appearance.initialValue` can only be `'dark' | undefined`. Refs or getters are not supported.
 
 ### lastUpdated
 
@@ -387,81 +517,15 @@ When using the default theme, enabling this option will display each page's last
 
 - Type: `MarkdownOption`
 
-Configure Markdown parser options. VitePress uses [Markdown-it](https://github.com/markdown-it/markdown-it) as the parser, and [Shiki](https://shiki.matsu.io/) to highlight language syntax. Inside this option, you may pass various Markdown related options to fit your needs.
+Configure Markdown parser options. VitePress uses [Markdown-it](https://github.com/markdown-it/markdown-it) as the parser, and [Shiki](https://github.com/shikijs/shiki) to highlight language syntax. Inside this option, you may pass various Markdown related options to fit your needs.
 
 ```js
 export default {
-  markdown: {
-    theme: 'material-theme-palenight',
-    lineNumbers: true,
-
-    // adjust how header anchors are generated,
-    // useful for integrating with tools that use different conventions
-    anchor: {
-      slugify(str) {
-        return encodeURIComponent(str)
-      }
-    }
-  }
+  markdown: {...}
 }
 ```
 
-Below are all the options that you can have in this object:
-
-```ts
-interface MarkdownOptions extends MarkdownIt.Options {
-  // Custom theme for syntax highlighting.
-  // You can use an existing theme.
-  // See: https://github.com/shikijs/shiki/blob/main/docs/themes.md#all-themes
-  // Or add your own theme.
-  // See: https://github.com/shikijs/shiki/blob/main/docs/themes.md#loading-theme
-  theme?:
-    | Shiki.IThemeRegistration
-    | { light: Shiki.IThemeRegistration; dark: Shiki.IThemeRegistration }
-
-  // Enable line numbers in code block.
-  lineNumbers?: boolean
-
-  // Add support for your own languages.
-  // https://github.com/shikijs/shiki/blob/main/docs/languages.md#supporting-your-own-languages-with-shiki
-  languages?: Shiki.ILanguageRegistration
-
-  // markdown-it-anchor plugin options.
-  // See: https://github.com/valeriangalliat/markdown-it-anchor#usage
-  anchor?: anchorPlugin.AnchorOptions
-
-  // markdown-it-attrs plugin options.
-  // See: https://github.com/arve0/markdown-it-attrs
-  attrs?: {
-    leftDelimiter?: string
-    rightDelimiter?: string
-    allowedAttributes?: string[]
-    disable?: boolean
-  }
-
-  // specify default language for syntax highlighter
-  defaultHighlightLang?: string
-
-  // @mdit-vue/plugin-frontmatter plugin options.
-  // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-frontmatter#options
-  frontmatter?: FrontmatterPluginOptions
-
-  // @mdit-vue/plugin-headers plugin options.
-  // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-headers#options
-  headers?: HeadersPluginOptions
-
-  // @mdit-vue/plugin-sfc plugin options.
-  // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-sfc#options
-  sfc?: SfcPluginOptions
-
-  // @mdit-vue/plugin-toc plugin options.
-  // See: https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-toc#options
-  toc?: TocPluginOptions
-
-  // Configure the Markdown-it instance.
-  config?: (md: MarkdownIt) => void
-}
-```
+Check the [type declaration and jsdocs](https://github.com/vuejs/vitepress/blob/main/src/node/markdown/markdown.ts) for all the options available.
 
 ### vite
 
@@ -543,7 +607,7 @@ interface SSGContext {
 `transformHead` is a build hook to transform the head before generating each page. It will allow you to add head entries that cannot be statically added to your VitePress config. You only need to return extra entries, they will be merged automatically with the existing ones.
 
 ::: warning
-Don't mutate anything inside the `ctx`.
+Don't mutate anything inside the `context`.
 :::
 
 ```ts
@@ -568,14 +632,52 @@ interface TransformContext {
 }
 ```
 
+Note that this hook is only called when generating the site statically. It is not called during dev. If you need to add dynamic head entries during dev, you can use the [`transformPageData`](#transformpagedata) hook instead:
+
+```ts
+export default {
+  transformPageData(pageData) {
+    pageData.frontmatter.head ??= []
+    pageData.frontmatter.head.push([
+      'meta',
+      {
+        name: 'og:title',
+        content:
+          pageData.frontmatter.layout === 'home'
+            ? `VitePress`
+            : `${pageData.title} | VitePress`
+      }
+    ])
+  }
+}
+```
+
+#### Example: Adding a canonical URL `<link>`
+
+```ts
+export default {
+  transformPageData(pageData) {
+    const canonicalUrl = `https://example.com/${pageData.relativePath}`
+      .replace(/index\.md$/, '')
+      .replace(/\.md$/, '.html')
+
+    pageData.frontmatter.head ??= []
+    pageData.frontmatter.head.push([
+      'link',
+      { rel: 'canonical', href: canonicalUrl }
+    ])
+  }
+}
+```
+
 ### transformHtml
 
-- Type: `(code: string, id: string, ctx: TransformContext) => Awaitable<string | void>`
+- Type: `(code: string, id: string, context: TransformContext) => Awaitable<string | void>`
 
 `transformHtml` is a build hook to transform the content of each page before saving to disk.
 
 ::: warning
-Don't mutate anything inside the `ctx`. Also, modifying the html content may cause hydration problems in runtime.
+Don't mutate anything inside the `context`. Also, modifying the html content may cause hydration problems in runtime.
 :::
 
 ```ts
@@ -588,12 +690,12 @@ export default {
 
 ### transformPageData
 
-- Type: `(pageData: PageData, ctx: TransformPageContext) => Awaitable<Partial<PageData> | { [key: string]: any } | void>`
+- Type: `(pageData: PageData, context: TransformPageContext) => Awaitable<Partial<PageData> | { [key: string]: any } | void>`
 
-`transformPageData` is a hook to transform the `pageData` of each page. You can directly mutate `pageData` or return changed values which will be merged into PageData.
+`transformPageData` is a hook to transform the `pageData` of each page. You can directly mutate `pageData` or return changed values which will be merged into the page data.
 
 ::: warning
-Don't mutate anything inside the `ctx`.
+Don't mutate anything inside the `context` and be careful that this might impact the performance of dev server, especially if you have some network requests or heavy computations (like generating images) in the hook. You can check for `process.env.NODE_ENV === 'production'` for conditional logic.
 :::
 
 ```ts

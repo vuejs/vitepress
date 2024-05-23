@@ -17,9 +17,8 @@ const closeScreen = inject('close-screen') as () => void
     :target="item.target"
     :rel="item.rel"
     @click="closeScreen"
-  >
-    {{ item.text }}
-  </VPLink>
+    v-html="item.text"
+  />
 </template>
 
 <style scoped>
@@ -35,6 +34,6 @@ const closeScreen = inject('close-screen') as () => void
 }
 
 .VPNavScreenMenuLink:hover {
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-1);
 }
 </style>

@@ -1,31 +1,25 @@
 <script setup lang="ts">
+import { useScrollLock } from '@vueuse/core'
+import { inBrowser } from 'vitepress'
 import { ref } from 'vue'
-import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
-import VPNavScreenMenu from './VPNavScreenMenu.vue'
 import VPNavScreenAppearance from './VPNavScreenAppearance.vue'
-import VPNavScreenTranslations from './VPNavScreenTranslations.vue'
+import VPNavScreenMenu from './VPNavScreenMenu.vue'
 import VPNavScreenSocialLinks from './VPNavScreenSocialLinks.vue'
+import VPNavScreenTranslations from './VPNavScreenTranslations.vue'
 
 defineProps<{
   open: boolean
 }>()
 
 const screen = ref<HTMLElement | null>(null)
-
-function lockBodyScroll() {
-  disableBodyScroll(screen.value!, { reserveScrollBarGap: true })
-}
-
-function unlockBodyScroll() {
-  clearAllBodyScrollLocks()
-}
+const isLocked = useScrollLock(inBrowser ? document.body : null)
 </script>
 
 <template>
   <transition
     name="fade"
-    @enter="lockBodyScroll"
-    @after-leave="unlockBodyScroll"
+    @enter="isLocked = true"
+    @after-leave="isLocked = false"
   >
     <div v-if="open" class="VPNavScreen" ref="screen" id="VPNavScreen">
       <div class="container">
