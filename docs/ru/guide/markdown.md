@@ -237,7 +237,7 @@ export default defineConfig({
 
 ```md
 ::: raw
-Заворачивается в <div class="vp-raw">
+Заворачивается в <div class="vp-raw" />
 :::
 ```
 
