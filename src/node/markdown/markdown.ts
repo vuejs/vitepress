@@ -231,6 +231,10 @@ export const createMarkdownRenderer = async (
     )
     .use(lineNumberPlugin, options.lineNumbers)
 
+  md.renderer.rules.table_open = function (tokens, idx, options, env, self) {
+    return '<table tabindex="0">\n'
+  }
+
   if (options.gfmAlerts !== false) {
     md.use(gitHubAlertsPlugin)
   }
