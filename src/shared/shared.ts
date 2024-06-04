@@ -224,7 +224,7 @@ export function escapeRegExp(str: string) {
  * @internal
  */
 export function escapeHtml(str: string): string {
-  return str
+  return `${str}`
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
