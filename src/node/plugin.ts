@@ -87,7 +87,7 @@ export async function createVitePressPlugin(
 
   if (markdown?.math) {
     isCustomElement = (tag) => {
-      if (['mjx-container', 'mjx-assistive-mml'].includes(tag)) {
+      if (tag.startsWith('mjx-')) {
         return true
       }
       return userCustomElementChecker?.(tag) ?? false
