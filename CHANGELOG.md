@@ -1,3 +1,10 @@
+## [1.2.3](https://github.com/vuejs/vitepress/compare/v1.2.2...v1.2.3) (2024-06-04)
+
+### Bug Fixes
+
+- **theme,a11y:** handle overflow on long mathematical equation and make tables focusable ([#3932](https://github.com/vuejs/vitepress/issues/3932)) (closes [#3914](https://github.com/vuejs/vitepress/issues/3914)) ([afc611d](https://github.com/vuejs/vitepress/commit/afc611d399d2780550ae04caa0e73e1c0c69a680))
+- **types:** wrong types generated for markdown-it > mdurl ([48ca76c](https://github.com/vuejs/vitepress/commit/48ca76c523d9b979a678d52447f5ce324799e47f)), closes [#3935](https://github.com/vuejs/vitepress/issues/3935)
+
 ## [1.2.2](https://github.com/vuejs/vitepress/compare/v1.2.1...v1.2.2) (2024-05-21)
 
 ### Bug Fixes
