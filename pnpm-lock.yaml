@@ -7,6 +7,11 @@ settings:
 overrides:
   ora>string-width: ^5
 
+patchedDependencies:
+  '@types/mdurl@2.0.0':
+    hash: ztuyknm7z4pyl4jot5hljjv5bm
+    path: patches/@types__mdurl@2.0.0.patch
+
 importers:
 
   .:
@@ -3709,9 +3714,9 @@ snapshots:
   '@types/markdown-it@14.1.1':
     dependencies:
       '@types/linkify-it': 5.0.0
-      '@types/mdurl': 2.0.0
+      '@types/mdurl': 2.0.0(patch_hash=ztuyknm7z4pyl4jot5hljjv5bm)
 
-  '@types/mdurl@2.0.0': {}
+  '@types/mdurl@2.0.0(patch_hash=ztuyknm7z4pyl4jot5hljjv5bm)': {}
 
   '@types/micromatch@4.0.7':
     dependencies:
