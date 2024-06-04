@@ -2,11 +2,11 @@
 outline: deep
 ---
 
-# Поиск {#search}
+# Buscar {#search}
 
-## Локальный поиск {#local-search}
+## Busqueda local {#local-search}
 
-VitePress поддерживает нечёткий полнотекстовый поиск с использованием внутрибраузерного индекса благодаря [MiniSearch](https://github.com/lucaong/minisearch/). Чтобы включить эту функцию, просто установите значение `'local'` для опции `themeConfig.search.provider` в файле `.vitepress/config.ts`:
+VitePress admite la búsqueda de texto completo utilizando un índice en el navegador gracias a [minisearch](https://github.com/lucaong/minisearch/). Para habilitar esta función, simplemente configure la opción `themeConfig.search.provider` como `'local'` en el archivo `.vitepress/config.ts`:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -20,15 +20,15 @@ export default defineConfig({
 })
 ```
 
-Пример результата:
+Resultado de ejemplo:
 
-![скриншот модального окна поиска](/search.png)
+![captura de pantalla del modo de búsqueda](/search.png)
 
-В качестве альтернативы можно использовать [Algolia DocSearch](#algolia-search) или некоторые плагины сообщества, например <https://www.npmjs.com/package/vitepress-plugin-search> или <https://www.npmjs.com/package/vitepress-plugin-pagefind>.
+Alternativamente, puedes usar [Algolia DocSearch](#algolia-search) ou algunos complementos comunitarios como <https://www.npmjs.com/package/vitepress-plugin-search> o <https://www.npmjs.com/package/vitepress-plugin-pagefind>.
 
 ### i18n {#local-search-i18n}
 
-Пример конфигурации для использования многоязычного поиска:
+Puede utilizar una configuración como esta para utilizar la búsqueda multilingüe:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -39,18 +39,18 @@ export default defineConfig({
       provider: 'local',
       options: {
         locales: {
-          ru: {
+          zh: {
             translations: {
               button: {
-                buttonText: 'Поиск',
-                buttonAriaLabel: 'Поиск'
+                buttonText: '搜索文档',
+                buttonAriaLabel: '搜索文档'
               },
               modal: {
-                noResultsText: 'Нет результатов для',
-                resetButtonTitle: 'Сбросить поиск',
+                noResultsText: '无法找到相关结果',
+                resetButtonTitle: '清除查询条件',
                 footer: {
-                  selectText: 'выбрать',
-                  navigateText: 'перейти'
+                  selectText: '选择',
+                  navigateText: '切换'
                 }
               }
             }
@@ -62,9 +62,9 @@ export default defineConfig({
 })
 ```
 
-### Параметры MiniSearch {#minisearch-options}
+### Opciones MiniSearch {#mini-search-options}
 
-Вы можете настроить MiniSearch следующим образом:
+Puedes configurar MiniSearch de esta manera:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -96,11 +96,11 @@ export default defineConfig({
 })
 ```
 
-Подробнее в [документации MiniSearch](https://lucaong.github.io/minisearch/classes/MiniSearch.MiniSearch.html).
+Obtenga más información en [documentação do MiniSearch](https://lucaong.github.io/minisearch/classes/MiniSearch.MiniSearch.html).
 
-### Пользовательский рендерер содержимого {#custom-content-renderer}
+### Presentador de contenido personalizado {#custom-content-renderer}
 
-Вы можете настроить функцию, используемую для отображения содержимого в формате Markdown перед его индексацией:
+Puedes personalizar la función utilizada para presentar el contenido de rebajas antes de indexarlo:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -116,7 +116,7 @@ export default defineConfig({
          * @param {import('markdown-it')} md
          */
         _render(src, env, md) {
-          // возвращаем html
+          // retorne a string HTML
         }
       }
     }
@@ -124,11 +124,11 @@ export default defineConfig({
 })
 ```
 
-Эта функция будет очищена от данных сайта на стороне клиента, поэтому вы можете использовать в ней API Node.js.
+Esta función se eliminará de los datos del sitio web en el lado del cliente, por lo que podrá utilizar las API de Node.js en ella.
 
-#### Пример: Исключение страниц из поиска {#example-excluding-pages-from-search}
+#### Ejemplo: Excluir páginas de la busqueda {#example-excluding-pages-from-search}
 
-Вы можете исключить страницы из поиска, добавив `search: false` в блок метаданных страницы. Альтернативный вариант:
+Puedes excluir páginas de la busqueda adicionando `search: false` al principio de la página. Alternativamente:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -141,7 +141,7 @@ export default defineConfig({
         _render(src, env, md) {
           const html = md.render(src, env)
           if (env.frontmatter?.search === false) return ''
-          if (env.relativePath.startsWith('some/path')) return ''
+          if (env.relativePath.startsWith('algum/caminho')) return ''
           return html
         }
       }
@@ -150,11 +150,11 @@ export default defineConfig({
 })
 ```
 
-::: warning ПРИМЕЧАНИЕ
-В случае, если предоставляется пользовательская функция `_render`, вам нужно самостоятельно обработать заголовок `search: false`. Кроме того, объект `env` не будет полностью заполнен до вызова `md.render`, поэтому любые проверки необязательных свойств `env`, таких как `frontmatter`, должны быть выполнены после этого.
+::: warning Nota
+En este caso, una función `_render` se proporciona, es necesario manipular el `search: false` desde el frente por su cuenta. Además, el objeto `env` não estará completamente populado antes que `md.render` no estará completamente poblado antes `env`, como `frontmatter`, debe hacerse después de eso.
 :::
 
-#### Пример: Преобразование содержимого - добавление якорей {#example-transforming-content-adding-anchors}
+#### Ejemplo: Transformar contenido - agregar anclajes {#example-transforming-content-adding-anchors}
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -176,9 +176,9 @@ export default defineConfig({
 })
 ```
 
-## Поиск Algolia {#algolia-search}
+## Pesquisa Algolia {#algolia-search}
 
-VitePress поддерживает поиск в вашей документации с помощью [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Обратитесь к руководству по началу работы. В файле `.vitepress/config.ts` вам нужно будет указать, по крайней мере, следующее, чтобы всё работало:
+VitePress admite la búsqueda en su sitio de documentación utilizando [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Consulte su guía de introducción. en tu archivo `.vitepress/config.ts`, Deberá proporcionar al menos lo siguiente para que funcione:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -197,9 +197,9 @@ export default defineConfig({
 })
 ```
 
-### i18n {#algolia-search-i18n}
+### i18n {#algolia-search-i18n} {#algolia-search-i18n}
 
-Пример конфигурации для использования многоязычного поиска:
+Puede utilizar una configuración como esta para utilizar la búsqueda multilingüe:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -213,46 +213,43 @@ export default defineConfig({
         apiKey: '...',
         indexName: '...',
         locales: {
-          ru: {
-            placeholder: 'Поиск в документации',
+          zh: {
+            placeholder: '搜索文档',
             translations: {
               button: {
-                buttonText: 'Поиск',
-                buttonAriaLabel: 'Поиск'
+                buttonText: '搜索文档',
+                buttonAriaLabel: '搜索文档'
               },
               modal: {
                 searchBox: {
-                  resetButtonTitle: 'Сбросить поиск',
-                  resetButtonAriaLabel: 'Сбросить поиск',
-                  cancelButtonText: 'Отменить поиск',
-                  cancelButtonAriaLabel: 'Отменить поиск'
+                  resetButtonTitle: '清除查询条件',
+                  resetButtonAriaLabel: '清除查询条件',
+                  cancelButtonText: '取消',
+                  cancelButtonAriaLabel: '取消'
                 },
                 startScreen: {
-                  recentSearchesTitle: 'История поиска',
-                  noRecentSearchesText: 'Нет истории поиска',
-                  saveRecentSearchButtonTitle: 'Сохранить в истории поиска',
-                  removeRecentSearchButtonTitle: 'Удалить из истории поиска',
-                  favoriteSearchesTitle: 'Избранное',
-                  removeFavoriteSearchButtonTitle: 'Удалить из избранного'
+                  recentSearchesTitle: '搜索历史',
+                  noRecentSearchesText: '没有搜索历史',
+                  saveRecentSearchButtonTitle: '保存至搜索历史',
+                  removeRecentSearchButtonTitle: '从搜索历史中移除',
+                  favoriteSearchesTitle: '收藏',
+                  removeFavoriteSearchButtonTitle: '从收藏中移除'
                 },
                 errorScreen: {
-                  titleText: 'Невозможно получить результаты',
-                  helpText:
-                    'Вам может потребоваться проверить подключение к Интернету'
+                  titleText: '无法获取结果',
+                  helpText: '你可能需要检查你的网络连接'
                 },
                 footer: {
-                  selectText: 'выбрать',
-                  navigateText: 'перейти',
-                  closeText: 'закрыть',
-                  searchByText: 'поставщик поиска'
+                  selectText: '选择',
+                  navigateText: '切换',
+                  closeText: '关闭',
+                  searchByText: '搜索提供者'
                 },
                 noResultsScreen: {
-                  noResultsText: 'Нет результатов для',
-                  suggestedQueryText: 'Вы можете попытаться узнать',
-                  reportMissingResultsText:
-                    'Считаете, что поиск даёт ложные результаты？',
-                  reportMissingResultsLinkText:
-                    'Нажмите на кнопку «Обратная связь»'
+                  noResultsText: '无法找到相关结果',
+                  suggestedQueryText: '你可以尝试查询',
+                  reportMissingResultsText: '你认为该查询应该有结果？',
+                  reportMissingResultsLinkText: '点击反馈'
                 }
               }
             }
@@ -264,11 +261,11 @@ export default defineConfig({
 })
 ```
 
-[Эти параметры](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts) можно переопределить. Чтобы узнать о них больше, обратитесь к официальной документации Algolia.
+[Estas opciones](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts) se pueden superponer. Consulte la documentación oficial de Algolia para obtener más información sobre ellos.
 
-### Конфигурация поискового робота {#crawler-config}
+### Configuración _Crawler_ {#crawler-config}
 
-Вот пример конфигурации, основанной на той, что используется на этом сайте:
+A continuación se muestra un ejemplo de la configuración que utiliza este sitio:
 
 ```ts
 new Crawler({
