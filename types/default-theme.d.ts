@@ -417,14 +417,14 @@ export namespace DefaultTheme {
 
     miniSearch?: {
       /**
-       * @see https://lucaong.github.io/minisearch/modules/_minisearch_.html#options
+       * @see https://lucaong.github.io/minisearch/types/MiniSearch.Options.html
        */
       options?: Pick<
         MiniSearchOptions,
         'extractField' | 'tokenize' | 'processTerm'
       >
       /**
-       * @see https://lucaong.github.io/minisearch/modules/_minisearch_.html#searchoptions-1
+       * @see https://lucaong.github.io/minisearch/types/MiniSearch.SearchOptions.html
        */
       searchOptions?: MiniSearchOptions['searchOptions']
 
