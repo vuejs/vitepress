@@ -13,7 +13,7 @@ export default defineConfig({
     zh: { label: '简体中文', ...zh },
     pt: { label: 'Português', ...pt },
     ru: { label: 'Русский', ...ru },
-    es: { label: 'Español', ...es }.
+    es: { label: 'Español', ...es },
     ko: { label: '한국어', lang: 'ko-KR', link: 'https://vitepress.vuejs.kr/' }
   }
 })
