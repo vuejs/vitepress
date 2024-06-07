@@ -187,7 +187,7 @@ export type SidebarItem = {
 This is typically used to show the "On this page" section, containing links to major headings within the current page.
 
 Setting this value to `false` prevents rendering of aside container.\
-Setting this value to `true` (the default) renders the aside to the right.\
+Setting this value to `true` renders the aside to the right.\
 Setting this value to `left` renders the aside to the left.
 
 If you want to disable it for all viewports, you should use `outline: false` instead.

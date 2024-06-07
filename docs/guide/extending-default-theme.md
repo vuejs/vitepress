@@ -20,7 +20,7 @@ Before proceeding, make sure to first read [Using a Custom Theme](./custom-theme
 
 ## Customizing CSS
 
-To apply custom CSS, you first need to create a custom VitePress theme. Place the following code into `.vitepress/theme/index.js` which imports the default theme and adds an additional CSS file to the bundle:
+To apply custom CSS, you first need to create a custom VitePress theme. Place the following code into `.vitepress/theme/index.js` (or `.ts` if you prefer TypeScript). This imports the default theme and adds an additional CSS file to the bundle:
 
 ::: code-group
 ```js [.vitepress/theme/index.js]
@@ -77,7 +77,7 @@ Just remember to choose colors that work well in both dark and light modes, unle
 
 If you'd like to use SASS, LESS, or Stylus within your theme, first make sure the relevant pre-processor is installed by running the applicable command:
 
-```bash
+```sh
 # .scss and .sass
 npm install -D sass
 

@@ -202,7 +202,7 @@ Note that this might prevent certain tokens from being syntax highlighted proper
 
 VitePress has [built-in support](https://vitejs.dev/guide/features.html#css-pre-processors) for CSS pre-processors: `.scss`, `.sass`, `.less`, `.styl` and `.stylus` files. Simply install the pre-processor itself using the applicable command:
 
-```bash
+```sh
 # .scss and .sass
 npm install -D sass
 
