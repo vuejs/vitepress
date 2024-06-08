@@ -1,4 +1,4 @@
-# Navegacion {#nav}
+# Navegación {#nav}
 
 Refiriéndose a la barra de navegación que se muestra en la parte superior de la página. Contiene el título del sitio, enlaces del menú global, etc.
 
@@ -37,7 +37,7 @@ export default {
 
 También puedes pasar un objeto como logotipo si quieres agregar un atributo. `alt` o personalizarlo según el modo claro/oscuro. Consultar [`themeConfig.logo`](./default-theme-config#logo) para obtener más detalles.
 
-## Links de Navegaion {#navigation-links}
+## Links de Navegación {#navigation-links}
 
 Puedes configurar la opción `themeConfig.nav` para añadir enlaces a tu navegación.
 
@@ -140,7 +140,7 @@ export default {
 
 ### Personalizar los atributos "target" y "rel" de links {#customize-link-s-target-and-rel-attributes}
 
-Por defecto, VitePress determina automaticamente lod atributos `target` y `rel` en función de si existe un enlace externo o no. Pero si quieres, también puedes personalizarlos.
+Por defecto, VitePress determina automáticamente lod atributos `target` y `rel` en función de si existe un enlace externo o no. Pero si quieres, también puedes personalizarlos.
 
 ```js
 export default {
