@@ -1,14 +1,14 @@
 # Configuración del Tema Predeterminado {#default-theme-config}
 
-La configuración del tema te permite personalizar tu tema. puede definir la configuración del tema a travez de la opción `themeConfig` en el archivo de configuración:
+La configuración del tema te permite personalizar tu tema. puedes definir la configuración del tema a través de la opción `themeConfig` en el archivo de configuración:
 
 ```ts
 export default {
   lang: 'pt-BR',
   title: 'VitePress',
-  description: 'Gerador de site estático Vite & Vue.',
+  description: 'Generador de site estático Vite & Vue.',
 
-  // Configurações relacionadas ao tema.
+  // Configuraciones relacionadas con el tema.
   themeConfig: {
     logo: '/logo.svg',
     nav: [...],
@@ -50,12 +50,12 @@ type ThemeableImage =
 
 - Tipo: `string | false`
 
-Puede personalizar este elemento para reemplazar el título del sitio predeterminado (`title` en configuración de la aplicación) en navegación. Cuando se establece como `false`, el título en la navegación quedará deshabilitado. Útil cuando tienes un `logo` que ya contiene el título del sitio.
+Puedes personalizar este elemento para reemplazar el título del sitio predeterminado (`title` en configuración de la aplicación) en navegación. Cuando se establece como `false`, el título en la navegación quedará deshabilitado. Útil cuando tienes un `logo` que ya contiene el título del sitio.
 
 ```ts
 export default {
   themeConfig: {
-    siteTitle: 'Olá Mundo'
+    siteTitle: 'Hola mundo'
   }
 }
 ```
@@ -72,7 +72,7 @@ export default {
     nav: [
       { text: 'Guia', link: '/guide' },
       {
-        text: 'Menu Dropdown',
+        text: 'Menú Dropdown',
         items: [
           { text: 'Item A', link: '/item-1' },
           { text: 'Item B', link: '/item-2' },
@@ -190,7 +190,7 @@ interface Outline {
    * Los niveles de título que se mostrarán en el esquema.
    * Un solo número significa que solo se mostrarán los títulos de ese nivel.
    * Si se pasa una tupla, el primer número es el nivel mínimo y el segundo número es el nivel máximo.
-   * `'deep'` es lo mismo que `[2, 6]`, lo que sifnifica que todos los titulos `<h2>` a `<h6>` serán mostrados.
+   * `'deep'` es lo mismo que `[2, 6]`, lo que significa que todos los titulos `<h2>` a `<h6>` serán mostrados.
    *
    * @default 2
    */
@@ -209,7 +209,7 @@ interface Outline {
 
 - Tipo: `SocialLink[]`
 
-Você pode definir esta opção para mostrar os links de redes sociais com ícones na navegação.
+Puedes configurar esta opción para mostrar enlaces de redes sociales con íconos en la navegación.
 
 ```ts
 export default {
@@ -223,7 +223,7 @@ export default {
           svg: '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Dribbble</title><path d="M12...6.38z"/></svg>'
         },
         link: '...',
-        // También puedes incluir una etiquera personalizada de accesibilidad (opcional pero recomendada):
+        // También puedes incluir una etiqueta personalizada de accesibilidad (opcional pero recomendada):
         ariaLabel: 'cool link'
       }
     ]
