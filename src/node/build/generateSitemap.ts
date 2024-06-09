@@ -1,4 +1,5 @@
 import fs from 'fs-extra'
+import matter from 'gray-matter'
 import path from 'path'
 import {
   SitemapStream,
@@ -21,6 +22,12 @@ export async function generateSitemap(siteConfig: SiteConfig) {
     file = file.replace(/(\.html)?$/, '.md')
     file = siteConfig.rewrites.inv[file] || file
     file = path.join(siteConfig.srcDir, file)
+
+    if (!fs.existsSync(file)) return undefined
+
+    const { data } = matter.read(file)
+    if (data.lastUpdated === false) return undefined
+    if (data.lastUpdated instanceof Date) return +data.lastUpdated
 
     return (await getGitTimestamp(file)) || undefined
   }

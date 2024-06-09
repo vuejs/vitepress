@@ -2,10 +2,10 @@
 import { ref, computed, watchEffect, onMounted } from 'vue'
 import { useData } from '../composables/data'
 
-const { theme, page, frontmatter, lang } = useData()
+const { theme, page, lang } = useData()
 
 const date = computed(
-  () => new Date(frontmatter.value.lastUpdated ?? page.value.lastUpdated)
+  () => new Date(page.value.lastUpdated!)
 )
 const isoDatetime = computed(() => date.value.toISOString())
 const datetime = ref('')
