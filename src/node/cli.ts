@@ -54,7 +54,7 @@ if (!command || command === 'dev') {
   })
 } else if (command === 'init') {
   createLogger().info('', { clear: true })
-  init()
+  init(argv.root)
 } else {
   logVersion()
   if (command === 'build') {
