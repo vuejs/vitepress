@@ -82,8 +82,7 @@ export function initData(route: Route): VitePressData {
       : appearance
         ? useDark({
             storageKey: APPEARANCE_KEY,
-            initialValue: () =>
-              typeof appearance === 'string' ? appearance : 'auto',
+            initialValue: () => (appearance === 'dark' ? 'dark' : 'auto'),
             ...(typeof appearance === 'object' ? appearance : {})
           })
         : ref(false)
