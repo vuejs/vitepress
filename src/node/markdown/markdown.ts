@@ -231,6 +231,10 @@ export const createMarkdownRenderer = async (
     )
     .use(lineNumberPlugin, options.lineNumbers)
 
+  md.renderer.rules.table_open = function (tokens, idx, options, env, self) {
+    return '<table tabindex="0">\n'
+  }
+
   if (options.gfmAlerts !== false) {
     md.use(gitHubAlertsPlugin)
   }
@@ -287,6 +291,13 @@ export const createMarkdownRenderer = async (
       md.use(mathPlugin.default ?? mathPlugin, {
         ...(typeof options.math === 'boolean' ? {} : options.math)
       })
+      const orig = md.renderer.rules.math_block!
+      md.renderer.rules.math_block = (tokens, idx, options, env, self) => {
+        return orig(tokens, idx, options, env, self).replace(
+          /^<mjx-container /,
+          '<mjx-container tabindex="0" '
+        )
+      }
     } catch (error) {
       throw new Error(
         'You need to install `markdown-it-mathjax3` to use math support.'

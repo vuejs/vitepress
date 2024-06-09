@@ -29,6 +29,10 @@ $ pnpm add -D vitepress
 $ yarn add -D vitepress
 ```
 
+```sh [yarn (pnp)]
+$ yarn add -D vitepress vue
+```
+
 ```sh [bun]
 $ bun add -D vitepress
 ```

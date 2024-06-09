@@ -278,12 +278,17 @@ function resolveSiteDataHead(userConfig?: UserConfig): HeadConfig[] {
       { id: 'check-dark-mode' },
       fallbackPreference === 'force-dark'
         ? `document.documentElement.classList.add('dark')`
-        : `;(() => {
-            const preference = localStorage.getItem('${APPEARANCE_KEY}') || '${fallbackPreference}'
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-            if (!preference || preference === 'auto' ? prefersDark : preference === 'dark')
-              document.documentElement.classList.add('dark')
-          })()`
+        : fallbackPreference === 'force-auto'
+          ? `;(() => {
+               if (window.matchMedia('(prefers-color-scheme: dark)').matches)
+                 document.documentElement.classList.add('dark')
+             })()`
+          : `;(() => {
+               const preference = localStorage.getItem('${APPEARANCE_KEY}') || '${fallbackPreference}'
+               const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+               if (!preference || preference === 'auto' ? prefersDark : preference === 'dark')
+                 document.documentElement.classList.add('dark')
+             })()`
     ])
   }
 

@@ -21,7 +21,8 @@ export {
   onContentUpdated,
   defineClientComponent,
   withBase,
-  getScrollOffset
+  getScrollOffset,
+  _escapeHtml
 } from './app/utils'
 
 // components
