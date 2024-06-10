@@ -27,7 +27,9 @@ export const linkPlugin = (
   ) => {
     const token = tokens[idx]
     const hrefIndex = token.attrIndex('href')
-    if (hrefIndex >= 0) {
+    const targetIndex = token.attrIndex('target')
+    const downloadIndex = token.attrIndex('download')
+    if (hrefIndex >= 0 && targetIndex < 0 && downloadIndex < 0) {
       const hrefAttr = token.attrs![hrefIndex]
       const url = hrefAttr[1]
       if (isExternal(url)) {

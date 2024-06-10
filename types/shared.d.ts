@@ -120,6 +120,7 @@ export interface SiteData<ThemeConfig = any> {
     | boolean
     | 'dark'
     | 'force-dark'
+    | 'force-auto'
     | (Omit<UseDarkOptions, 'initialValue'> & { initialValue?: 'dark' })
   themeConfig: ThemeConfig
   scrollOffset:
@@ -200,4 +201,5 @@ export interface MarkdownEnv {
   links?: string[]
   includes?: string[]
   realPath?: string
+  localeIndex?: string
 }

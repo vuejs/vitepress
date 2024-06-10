@@ -28,7 +28,7 @@ export default defineConfig({
 
 ### i18n {#local-search-i18n}
 
-Вы можете использовать подобную конфигурацию для использования многоязычного поиска:
+Пример конфигурации для использования многоязычного поиска:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -199,7 +199,7 @@ export default defineConfig({
 
 ### i18n {#algolia-search-i18n}
 
-Вы можете использовать подобную конфигурацию для использования многоязычного поиска:
+Пример конфигурации для использования многоязычного поиска:
 
 ```ts
 import { defineConfig } from 'vitepress'

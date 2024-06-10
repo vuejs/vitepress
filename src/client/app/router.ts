@@ -187,10 +187,10 @@ export function createRouter(
           (link instanceof SVGElement || !link.download)
         ) {
           const { target } = link
+          const linkHref = link.getAttribute('href')
+          if (linkHref == null) return
           const { href, origin, pathname, hash, search } = new URL(
-            link.href instanceof SVGAnimatedString
-              ? link.href.animVal
-              : link.href,
+            linkHref,
             link.baseURI
           )
           const currentUrl = new URL(location.href) // copy to keep old data
