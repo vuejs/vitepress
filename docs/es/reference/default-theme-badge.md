@@ -60,10 +60,10 @@ El componente `<Badge>` acepta las siguiente propiedades:
 
 ```ts
 interface Props {
-  // Quando `<slot>` é passado, esse valor é ignorado.
+  // Cuando se pasa `<slot>` ese valor es ignorado.
   text?: string
 
-  // O padrão é `tip`.
+  // El valor predeterminado es `tip`.
   type?: 'info' | 'tip' | 'warning' | 'danger'
 }
 ```
