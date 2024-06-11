@@ -105,10 +105,10 @@ To do so, first organize your pages into directories for each desired section:
 │  ├─ index.md
 │  ├─ one.md
 │  └─ two.md
-└─ config/
-   ├─ index.md
-   ├─ three.md
-   └─ four.md
+├─ config/
+│  ├─ index.md
+│  ├─ three.md
+│  └─ four.md
 ```
 
 Then, update your configuration to define your sidebar for each section. This time, you should pass an object instead of an array.
