@@ -1,6 +1,6 @@
 # Pie de página {#footer}
 
-VitePress mostrará un pie de página global  en la parte inferior de la página cuando `themeConfig.footer` está presente.
+VitePress mostrará un pie de página global en la parte inferior de la página cuando `themeConfig.footer` está presente.
 
 ```ts
 export default {

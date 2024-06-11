@@ -42,7 +42,7 @@ El sufijo del título. Es lo mismo que [config.titleTemplate](./site-config#titl
 ```yaml
 ---
 title: VitePress
-titleTemplate: Generador de sitios web estaticos con Vite & Vue
+titleTemplate: Generador de sitios web estáticos con Vite & Vue
 ---
 ```
 

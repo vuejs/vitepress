@@ -24,7 +24,7 @@ Resultado de ejemplo:
 
 ![captura de pantalla del modo de búsqueda](/search.png)
 
-Alternativamente, puedes usar [Algolia DocSearch](#algolia-search) ou algunos complementos comunitarios como <https://www.npmjs.com/package/vitepress-plugin-search> o <https://www.npmjs.com/package/vitepress-plugin-pagefind>.
+Alternativamente, puedes usar [Algolia DocSearch](#algolia-search) o algunos complementos comunitarios como <https://www.npmjs.com/package/vitepress-plugin-search> o <https://www.npmjs.com/package/vitepress-plugin-pagefind>.
 
 ### i18n {#local-search-i18n}
 
@@ -96,7 +96,7 @@ export default defineConfig({
 })
 ```
 
-Obtenga más información en [documentação do MiniSearch](https://lucaong.github.io/minisearch/classes/MiniSearch.MiniSearch.html).
+Obtenga más información en [documentación de MiniSearch](https://lucaong.github.io/minisearch/classes/MiniSearch.MiniSearch.html).
 
 ### Presentador de contenido personalizado {#custom-content-renderer}
 
@@ -116,7 +116,7 @@ export default defineConfig({
          * @param {import('markdown-it')} md
          */
         _render(src, env, md) {
-          // retorne a string HTML
+          // retorne un string HTML
         }
       }
     }
@@ -151,7 +151,7 @@ export default defineConfig({
 ```
 
 ::: warning Nota
-En este caso, una función `_render` se proporciona, es necesario manipular el `search: false` desde el frente por su cuenta. Además, el objeto `env` não estará completamente populado antes que `md.render` no estará completamente poblado antes `env`, como `frontmatter`, debe hacerse después de eso.
+En este caso, una función `_render` se proporciona, es necesario manipular el `search: false` desde el frente por su cuenta. Además, el objeto `env` no estará completamente poblado antes que `md.render` se llama, luego verifica las propiedades opcionales `env`, como `frontmatter`, debe hacerse después de eso.
 :::
 
 #### Ejemplo: Transformar contenido - agregar anclajes {#example-transforming-content-adding-anchors}
@@ -176,7 +176,7 @@ export default defineConfig({
 })
 ```
 
-## Pesquisa Algolia {#algolia-search}
+## Busqueda de Algolia {#algolia-search}
 
 VitePress admite la búsqueda en su sitio de documentación utilizando [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Consulte su guía de introducción. en tu archivo `.vitepress/config.ts`, Deberá proporcionar al menos lo siguiente para que funcione:
 
@@ -199,7 +199,7 @@ export default defineConfig({
 
 ### i18n {#algolia-search-i18n} {#algolia-search-i18n}
 
-Puede utilizar una configuración como esta para utilizar la búsqueda multilingüe:
+Puedes utilizar una configuración como esta para utilizar la búsqueda multilingüe:
 
 ```ts
 import { defineConfig } from 'vitepress'

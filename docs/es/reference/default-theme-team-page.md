@@ -25,7 +25,7 @@ const members = [
 
 # Página de Equipo {#team-page}
 
-Si desea presentar a su equipo, puede utilizar componentes del equipo para crear la página del equipo. Hay dos formas de utilizar estos componentes. Una es incrustarlo en la página del documento y otra es crear una página de equipo completa.
+Si deseas presentar a tu equipo, puedes utilizar componentes del equipo para crear la página del equipo. Hay dos formas de utilizar estos componentes. Una es incrustarlo en la página del documento y otra es crear una página de equipo completa.
 
 ## Mostrar miembros del equipo en una página {#show-team-members-in-a-page}
 
@@ -39,7 +39,7 @@ const members = [
   {
     avatar: 'https://www.github.com/yyx990803.png',
     name: 'Evan You',
-    title: 'Criador',
+    title: 'Creador',
     links: [
       { icon: 'github', link: 'https://github.com/yyx990803' },
       { icon: 'twitter', link: 'https://twitter.com/youyuxi' }

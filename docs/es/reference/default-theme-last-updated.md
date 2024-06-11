@@ -24,4 +24,4 @@ lastUpdated: false
 ---
 ```
 
-Consulte [Tema PErsonalizado: Última Actualización](./default-theme-config#lastupdated) para obtener más. Cualquier valor positivo a nivel de tema también habilitará la funcionalidad a menos que esté explícitamente deshabilitado a nivel de página o sitio.
+Consulte [Tema Personalizado: Última Actualización](./default-theme-config#lastupdated) para obtener más. Cualquier valor positivo a nivel de tema también habilitará la funcionalidad a menos que esté explícitamente deshabilitado a nivel de página o sitio.

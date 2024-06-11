@@ -20,7 +20,7 @@ layout: home
 
 hero:
   name: VitePress
-  text: Generador de sitios web estaticos con Vite & Vue.
+  text: Generador de sitios web estáticos con Vite & Vue.
   tagline: Lorem ipsum...
   image:
     src: /logo.png
@@ -64,7 +64,7 @@ interface HeroAction {
   // Tema de color de botón. Estándar: `brand`.
   theme?: 'brand' | 'alt'
 
-  // Etqueta del botón.
+  // Etiqueta del botón.
   text: string
 
   // Destino del enlace del botón.
@@ -125,7 +125,7 @@ features:
 
 ```ts
 interface Feature {
-  // Muestra el icono en cada cuadro de funcón.
+  // Muestra el icono en cada cuadro de función.
   icon?: FeatureIcon
 
   // Título de la caracteristica.
@@ -137,18 +137,18 @@ interface Feature {
   // Enlace al hacer clic en el componente de funcionalidad
   // El vínculo puede ser interno o externo.
   //
-  // ex. `guide/reference/default-theme-home-page` ou `https://example.com`
+  // ej. `guide/reference/default-theme-home-page` ou `https://example.com`
   link?: string
 
   // Texto del enlace que se mostrará dentro del componente de funcionalidad.
   //  Mejor usado con opción `link`.
   //
-  // ex. `Saiba mais`, `Visitar página`, etc.
+  // ej. `Sepa más`, `Visitar página`, etc.
   linkText?: string
 
   // Atributo rel de enlace para la opción `link`.
   //
-  // ex. `external`
+  // ej. `external`
   rel?: string
 
   // Atributo de destino del enlace para la opción `link`.

@@ -4,7 +4,7 @@ VitePress ofrece varias API integradas para permitir el acceso a los datos de la
 
 Los métodos auxiliares son importaciones globales de `vitepress` y se utilizan a menudo en componentes Vue de temas personalizados. Sin embargo, también se pueden utilizar dentro de páginas `.md` porque los archivos de rebajas se compilan en [Componentes de Archivo Único Vue (SFC)](https://vuejs.org/guide/scaling-up/sfc.html).
 
-Métodos que começam com `use*` indicam que é uma função da [API de Composição Vue 3](https://vuejs.org/guide/introduction.html#composition-api) ("Composable") que só pode ser usada dentro de `setup()` o `<script setup>`.
+Métodos que comienzan con `use*` indican que es una función de [API de Composición Vue 3](https://vuejs.org/guide/introduction.html#composition-api) ("Composable") que solo puede ser utilizada dentro de `setup()` o `<script setup>`.
 
 ## `useData` <Badge type="info" text="composable" />
 
@@ -13,7 +13,7 @@ Retorna datos específicos de la página. El objeto devuelto tiene el siguiente 
 ```ts
 interface VitePressData<T = any> {
   /**
-   * Metadados a nivel del sitio
+   * Metadátos a nivel del sitio
    */
   site: Ref<SiteData<T>>
   /**
@@ -21,7 +21,7 @@ interface VitePressData<T = any> {
    */
   theme: Ref<T>
   /**
-   * Metadados a nível de la página
+   * Metadátos a nível de la página
    */
   page: Ref<PageData>
   /**
@@ -100,7 +100,7 @@ interface Router {
   onBeforeRouteChange?: (to: string) => Awaitable<void | boolean>
   /**
    * Se llama antes de que se cargue el componente de la página (después de que se haya actualizado el estado del historial).
-   * atualizado). Retorne `false` para cancelar a navegação.
+   * atualizado). Retorne `false` para cancelar la navegación.
    */
   onBeforePageLoad?: (to: string) => Awaitable<void | boolean>
   /**

@@ -16,7 +16,7 @@ Recuerde usar la sintaxis de módulos ES en los archivos de configuración. El a
 
 ```ts
 export default {
-  // opciones de configuración a nivel de apllicación
+  // opciones de configuración a nivel de aplicación
   lang: 'pt-BR',
   title: 'VitePress',
   description: 'Generador de site estático Vite & Vue.',
@@ -24,7 +24,7 @@ export default {
 }
 ```
 
-:::detalles de Convifugración Dinámica (Assíncrona)
+:::details Configuración dinámica (Assíncrona)
 
 Si necesitas generar dinamicamente la configuración, también puedes exportar por defecto una función. Por ejemplo:
 
@@ -35,7 +35,7 @@ export default async () => {
   const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
 
   return defineConfig({
-  // opciones de configuración a nivel de apllicación
+  // opciones de configuración a nivel de aplicación
     lang: 'pt-BR',
     title: 'VitePress',
     description: 'Generador de site estático Vite & Vue.',
@@ -133,7 +133,7 @@ export default defineConfigWithTheme<ThemeConfig>({
 
   Puede configurar la instancia subyacente de [Markdown-It](https://github.com/markdown-it/markdown-it) usando la opción [markdown](#markdown) en su configuración VitePress.
 
-## Metadados de Site {#site-metadata}
+## Metadatos de Site {#site-metadata}
 
 ### title
 
@@ -224,7 +224,7 @@ export default {
   cabecera: [['link', { rel: 'icon', href: '/favicon.ico' }]]
 } // coloque favicon.ico en el directorio público, si la base está definida, use /base/favicon.ico
 
-/* Mostraria:
+/* Mostraría:
   <link rel="icon" href="/favicon.ico">
 */
 ```
@@ -249,7 +249,7 @@ export default {
   ]
 }
 
-/* Mostraria:
+/* Mostraría:
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
@@ -273,7 +273,7 @@ export default {
   ]
 }
 
-/* Mostraria:
+/* Mostraría:
   <script id="register-sw">
     ;(() => {
       if ('serviceWorker' in navigator) {
@@ -304,7 +304,7 @@ export default {
   ]
 }
 
-/* Mostraria:
+/* Mostraría:
   <script async src="https://www.googletagmanager.com/gtag/js?id=TAG_ID"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -377,7 +377,7 @@ export default {
 - Tipo: `string`
 - Predeterminado: `.`
 
-El directorio donde se almacenan sus páginas de rebajas, en relación con la raíz del proyecto. vea también [Directorio Raiz y de origen](../guide/routing#root-and-source-directory).
+El directorio donde se almacenan tus páginas de rebajas, en relación con la raíz del proyecto. vea también [Directorio Raiz y de origen](../guide/routing#root-and-source-directory).
 
 ```ts
 export default {
@@ -390,7 +390,7 @@ export default {
 - Tipo: `string`
 - Predeterminado: `undefined`
 
-Un [patrón glob](https://github.com/mrmlnc/fast-glob#pattern-syntax) para hacer coincidir los archivos de rebajas que deben exluirse como conenido de origen.
+Un [patrón glob](https://github.com/mrmlnc/fast-glob#pattern-syntax) para hacer coincidir los archivos de rebajas que deben exluirse como contenido de origen.
 
 ```ts
 export default {
@@ -524,7 +524,7 @@ Consulte la [declaración de tipo y jsdocs](https://github.com/vuejs/vitepress/b
 
 - Tipo: `import('vite').UserConfig`
 
-Pase la [Configuración Vite](https://vitejs.dev/config/) sin procesar al servidor interno / empacotador Vite.
+Pase la [Configuración Vite](https://vitejs.dev/config/) sin procesar al servidor interno / empaquetador Vite.
 
 ```js
 export default {
@@ -553,7 +553,7 @@ export default {
 Los enlaces de compilación VitePress permiten agregar nuevas funciones al su sitio web:
 
 - Sitemap
-- Indexação de Pesquisa
+- Indexación de busqueda  
 - PWA
 - _Teleports_
 
