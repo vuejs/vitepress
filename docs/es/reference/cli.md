@@ -23,7 +23,7 @@ vitepress dev [root]
 | `--base <path>` | Ruta de base pública (por defecto: `/`) (`string`)                        |
 | `--cors`        | Habilitar CORS                                                       |
 | `--strictPort`  | Salir si el puerto especificado ya esta en uso (`boolean`)              |
-| `--force`       | Obligar al optimizador a ignorar el cachey volver a empaquetar (`boolean`) |
+| `--force`       | Obligar al optimizador a ignorar el cache y volver a empaquetar (`boolean`) |
 
 ## `vitepress build`
 
@@ -37,7 +37,7 @@ vitepress build [root]
 
 ### Opciones
 
-| Opcion                         | Descripción                                                                                                         |
+| Opción                         | Descripción                                                                                                         |
 | ------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
 | `--mpa` (experimental)         | Compilar en [Modo MPA](../guide/mpa-mode) Sin hidratación del lado del cliente  (`boolean`)                                    |
 | `--base <path>`                | Ruta de base pública (por defecto: `/`) (`string`)                                                                          |

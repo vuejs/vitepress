@@ -96,7 +96,7 @@ export default {
 
 ## Varias Barras Laterales {#multiple-sidebars}
 
-Puede mostrar una barra lateral diferente según la ruta de la página. Por ejemplo, como se muestra en este sitio, es posible que desee crear secciones separadas de contenido en su documentación, como la página "Guía" y la página "Configuración".
+Puedes mostrar una barra lateral diferente según la ruta de la página. Por ejemplo, como se muestra en este sitio, es posible que desee crear secciones separadas de contenido en su documentación, como la página "Guía" y la página "Configuración".
 
 Para hacer esto, primero organice sus páginas en directorios para cada sección deseada:
 

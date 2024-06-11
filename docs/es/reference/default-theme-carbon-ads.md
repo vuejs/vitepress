@@ -6,8 +6,8 @@ VitePress ha incorporado soporte nativo para [Carbon Ads](https://www.carbonads.
 export default {
   themeConfig: {
     carbonAds: {
-      code: 'seu-código-carbon',
-      placement: 'sua-veiculação-carbon'
+      code: 'tu-código-carbon',
+      placement: 'tu-vinculación-carbon'
     }
   }
 }
