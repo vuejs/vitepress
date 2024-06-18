@@ -56,8 +56,8 @@ importers:
         specifier: ^6.3.0
         version: 6.3.0
       shiki:
-        specifier: ^1.6.2
-        version: 1.6.2
+        specifier: ^1.7.0
+        version: 1.7.0
       vite:
         specifier: ^5.2.12
         version: 5.2.12(@types/node@20.14.1)
@@ -947,6 +947,9 @@ packages:
 
   '@shikijs/core@1.6.2':
     resolution: {integrity: sha512-guW5JeDzZ7uwOjTfCOFZ2VtVXk5tmkMzBYbKGfXsmAH1qYOej49L5jQDcGmwd6/OgvpmWhzO2GNJkQIFnbwLPQ==}
+
+  '@shikijs/core@1.7.0':
+    resolution: {integrity: sha512-O6j27b7dGmJbR3mjwh/aHH8Ld+GQvA0OQsNO43wKWnqbAae3AYXrhFyScHGX8hXZD6vX2ngjzDFkZY5srtIJbQ==}
 
   '@shikijs/transformers@1.6.2':
     resolution: {integrity: sha512-ndqTWyHnxmsLkowhKWTam26opw8hg5a34y6FAUG/Xf6E49n3MM//nenKxXiWpPYkNPl1KZnYXB1k+Ia46wjOZg==}
@@ -2654,6 +2657,9 @@ packages:
   shiki@1.6.2:
     resolution: {integrity: sha512-X3hSm5GzzBd/BmPmGfkueOUADLyBoZo1ojYQXhd+NU2VJn458yt4duaS0rVzC+WtqftSV7mTVvDw+OB9AHi3Eg==}
 
+  shiki@1.7.0:
+    resolution: {integrity: sha512-H5pMn4JA7ayx8H0qOz1k2qANq6mZVCMl1gKLK6kWIrv1s2Ial4EmD4s4jE8QB5Dw03d/oCQUxc24sotuyR5byA==}
+
   side-channel@1.0.6:
     resolution: {integrity: sha512-fDW/EZ6Q9RiO8eFG8Hj+7u/oW+XrPTIChwCOM2+th2A6OblDtYYIpve9m+KvI9Z4C9qSEXlaGR6bTEYHReuglA==}
     engines: {node: '>= 0.4'}
@@ -3643,6 +3649,8 @@ snapshots:
   '@sec-ant/readable-stream@0.4.1': {}
 
   '@shikijs/core@1.6.2': {}
+
+  '@shikijs/core@1.7.0': {}
 
   '@shikijs/transformers@1.6.2':
     dependencies:
@@ -5530,6 +5538,10 @@ snapshots:
   shiki@1.6.2:
     dependencies:
       '@shikijs/core': 1.6.2
+
+  shiki@1.7.0:
+    dependencies:
+      '@shikijs/core': 1.7.0
 
   side-channel@1.0.6:
     dependencies:
