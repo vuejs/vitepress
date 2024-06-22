@@ -30,13 +30,12 @@ export function processIncludes(
       let content = fs.readFileSync(includePath, 'utf-8')
 
       if (region) {
-        const [ regionName ] = region
-        const lines = content.split(/\r?\n/);
+        const [regionName] = region
+        const lines = content.split(/\r?\n/)
         const regionLines = findRegion(lines, regionName.replace('#', ''))
-        content = lines.slice(
-          regionLines?.start || undefined,
-          regionLines?.end || undefined
-        ).join("\n")
+        content = lines
+          .slice(regionLines?.start || undefined, regionLines?.end || undefined)
+          .join('\n')
       }
 
       if (range) {
