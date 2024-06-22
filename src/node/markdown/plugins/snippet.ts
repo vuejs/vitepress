@@ -66,7 +66,7 @@ function testLine(
   )
 }
 
-function findRegion(lines: Array<string>, regionName: string) {
+export function findRegion(lines: Array<string>, regionName: string) {
   const regionRegexps = [
     /^\/\/ ?#?((?:end)?region) ([\w*-]+)$/, // javascript, typescript, java
     /^\/\* ?#((?:end)?region) ([\w*-]+) ?\*\/$/, // css, less, scss
