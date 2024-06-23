@@ -166,7 +166,7 @@
     "micromatch": "^4.0.7",
     "minimist": "^1.2.8",
     "nanoid": "^5.0.7",
-    "npm-run-all": "^4.1.5",
+    "npm-run-all2": "^6.2.0",
     "ora": "^8.0.1",
     "p-map": "^7.0.2",
     "path-to-regexp": "^6.2.2",
