@@ -88,7 +88,7 @@ function onToggle(payload: ToggleEvent): void {
       class="item"
     >
       <div class="indicator" />
-      
+
       <VPLink
         v-if="item.link"
         :tag="linkTag"
