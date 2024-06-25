@@ -45,10 +45,6 @@ function onToggle(payload: ToggleEvent): void {
 
 <template>
   <component :is="sectionTag" class="VPSidebarItem" :class="classes">
-    <!-- @TODO @toggle TS error blocked by
-      https://github.com/vuejs/core/pull/10938.
-      See also https://github.com/vuejs/core/issues/10928
-    -->
     <details
       v-if="item.text && collapsible && hasChildren"
       class="item"
