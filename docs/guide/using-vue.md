@@ -224,7 +224,7 @@ Then you can use the following in Markdown and theme components:
 
 ## Using Teleports
 
-Vitepress currently has SSG support for teleports to body only. For other targets, you can wrap them inside the built-in `<ClientOnly>` component or inject the teleport markup into the correct location in your final page HTML through [`postRender` hook](../reference/site-config#postrender).
+VitePress currently has SSG support for teleports to body only. For other targets, you can wrap them inside the built-in `<ClientOnly>` component or inject the teleport markup into the correct location in your final page HTML through [`postRender` hook](../reference/site-config#postrender).
 
 <ModalDemo />
 
