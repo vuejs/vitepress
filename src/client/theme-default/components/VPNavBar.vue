@@ -255,7 +255,7 @@ watchPostEffect(() => {
   background-color: var(--vp-c-gutter);
 }
 
-@media (min-width: 960px) { 
+@media (min-width: 960px) {
   .VPNavBar:not(.home.top) .divider-line {
     background-color: var(--vp-c-gutter);
   }

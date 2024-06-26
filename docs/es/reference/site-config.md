@@ -553,7 +553,7 @@ export default {
 Los enlaces de compilación VitePress permiten agregar nuevas funciones al su sitio web:
 
 - Sitemap
-- Indexación de busqueda  
+- Indexación de busqueda
 - PWA
 - _Teleports_
 
@@ -640,7 +640,7 @@ Tenga en cuenta que este enlace solo se llama cuando se genera el sitio de forma
   }
   ```
 
-#### Ejemplo: Agregando una URL canónica `<link>` {#example-adding-a-canonical-url-link} 
+#### Ejemplo: Agregando una URL canónica `<link>` {#example-adding-a-canonical-url-link}
 
 ```ts
 export default {
@@ -680,7 +680,7 @@ export default {
 `transformPageData` es un gancho para transformar los datos de cada página. Puedes hacer mutaciones directamente en `pageData` o devolver valores modificados que se fusionarán con los datos de la página.
 
 :::warning
-No mute ningún elemento dentro del `context` y tenga cuidado ya que esto puede afectar el rendimiento del servidor de desarrollo, especialmente si tiene algunas solicitudes de red o cálculos pesados ​​(como generar imágenes) en el gancho. Puede consultar  `process.env.NODE_ENV === 'production'` para ver la lógica condicional.
+No mute ningún elemento dentro del `context` y tenga cuidado ya que esto puede afectar el rendimiento del servidor de desarrollo, especialmente si tiene algunas solicitudes de red o cálculos pesados (como generar imágenes) en el gancho. Puede consultar  `process.env.NODE_ENV === 'production'` para ver la lógica condicional.
 :::
 
 ```ts

@@ -48,7 +48,7 @@ export default {
 }
 ```
 
-Cada `link` debe especificar la ruta al archivo en sí comenzando con `/`.  
+Cada `link` debe especificar la ruta al archivo en sí comenzando con `/`.
 Si agrega una barra al final del enlace, mostrará el `index.md` del directorio correspondiente.
 
 ```js

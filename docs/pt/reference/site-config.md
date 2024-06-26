@@ -640,7 +640,7 @@ Note que este gancho só é chamado ao gerar o site estaticamente. Não é chama
   }
   ```
 
-#### Exemplo: Adicionar URL canônica `<link>` {#example-adding-a-canonical-url-link} 
+#### Exemplo: Adicionar URL canônica `<link>` {#example-adding-a-canonical-url-link}
 
 ```ts
 export default {

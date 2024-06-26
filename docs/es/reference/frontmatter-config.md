@@ -216,6 +216,6 @@ Luego puede personalizar los estilos para esta página específica en el archivo
 
 ```css
 .custom-page-class {
-  /* estilos especificos de la página */
+  /* estilos especificos de la página */
 }
 ```

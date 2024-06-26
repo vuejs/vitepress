@@ -23,8 +23,7 @@ También proporciona recursos de documentación específicos que se enumeran a c
 
 ## Layout de la Página {#page-layout}
 
-La opción `page` se trata como una 'página en blanco'. Markdown aún se procesará y todo [Extensiones Markdown](../guide/markdown) funcionará de la misma manera que el layout `doc`,  
-pero esto no recibirá ningún estilo predeterminado.
+La opción `page` se trata como una 'página en blanco'. Markdown aún se procesará y todo [Extensiones Markdown](../guide/markdown) funcionará de la misma manera que el layout `doc`, pero esto no recibirá ningún estilo predeterminado.
 
 El layout de la página le permitirá diseñar todo sin que el tema de VitePress afecte el marcado. Esto es útil cuando desea crear su propia página personalizada.
 

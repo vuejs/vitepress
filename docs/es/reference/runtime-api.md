@@ -131,7 +131,7 @@ El componente `<Content />` muestra el contenido de markdown renderizado. Útil 
 
 El componente `<ClientOnly />` muestra tu _slot_ solo del lado del cliente.
 
-Debido a que las aplicaciones VitePress se interpretan en el lado del servidor en Node.js cuando generan compilaciones estáticas, cualquier uso de Vue debe seguir los requisitos del código universal. En resumen, asegúrese de acceder solo a las API del navegador/DOM ​​en ganchos `beforeMount` o `mounted`.
+Debido a que las aplicaciones VitePress se interpretan en el lado del servidor en Node.js cuando generan compilaciones estáticas, cualquier uso de Vue debe seguir los requisitos del código universal. En resumen, asegúrese de acceder solo a las API del navegador/DOM en ganchos `beforeMount` o `mounted`.
 
 Si está utilizando o demostrando componentes que no son compatibles con SSR (por ejemplo, contienen directivas personalizadas), puede incluirlos dentro del componente. `ClientOnly`.
 

@@ -317,7 +317,7 @@ server {
 
         # a folder without index.html raises 403 in this setup
         error_page 403 /404.html;
-        
+
         # adjust caching headers
         # files in the assets folder have hashes filenames
         location ~* ^/assets/ {
