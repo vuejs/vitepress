@@ -223,7 +223,7 @@ Então você pode usar o seguinte em Markdown e nos componentes do tema:
 
 ## Usando _Teleports_ {#using-teleports}
 
-Vitepress atualmente oferece suporte a SSG para _teleports_ apenas para o corpo. Para outros alvos, você pode envolvê-los dentro do componente embutido `<ClientOnly>` ou injetar a marcação de _teleport_ na localização correta em sua página final HTML por meio do [gancho `postRender`](../reference/site-config#postrender).
+VitePress atualmente oferece suporte a SSG para _teleports_ apenas para o corpo. Para outros alvos, você pode envolvê-los dentro do componente embutido `<ClientOnly>` ou injetar a marcação de _teleport_ na localização correta em sua página final HTML por meio do [gancho `postRender`](../reference/site-config#postrender).
 
 <ModalDemo />
 

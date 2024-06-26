@@ -15,7 +15,7 @@ Puede habilitar un tema personalizado creando un archivo `.vitepress/theme/index
 └─ package.json
 ```
 
-Vitepress siempre usará el tema personalizado en vez del tema por defecto cuando detecte la precencia de un archivo de entrada de tema. Sin embargo, puede [extender el tema por defecto](./extending-default-theme) para realizar personalizaciones avanzadas sobre el.
+VitePress siempre usará el tema personalizado en vez del tema por defecto cuando detecte la precencia de un archivo de entrada de tema. Sin embargo, puede [extender el tema por defecto](./extending-default-theme) para realizar personalizaciones avanzadas sobre el.
 
 ## Interfaz del Tema {#theme-interface}
 

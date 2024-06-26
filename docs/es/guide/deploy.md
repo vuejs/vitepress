@@ -283,8 +283,8 @@ No active opciones como _Auto Minify_ para código HTML. Eso removera comentario
 
 ### Edgio
 
-Consulte [Crear e Implantar una Aplicación Vitepress en Edgio](https://docs.edg.io/guides/vitepress).
+Consulte [Crear e Implantar una Aplicación VitePress en Edgio](https://docs.edg.io/guides/vitepress).
 
 ### Kinsta Static Site Hosting {#kinsta-static-site-hosting}
 
-Puede implantar su sitio Vitepress em [Kinsta](https://kinsta.com/static-site-hosting/) siguiendo estas [instrucciones](https://kinsta.com/docs/vitepress-static-site-example/).
+Puede implantar su sitio VitePress em [Kinsta](https://kinsta.com/static-site-hosting/) siguiendo estas [instrucciones](https://kinsta.com/docs/vitepress-static-site-example/).

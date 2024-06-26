@@ -286,7 +286,7 @@ Cache-Control: max-age=31536000,immutable
 
 ### Kinsta 静态站点托管 {#kinsta-static-site-hosting}
 
-你可以按照这些[说明](https://kinsta.com/docs/vitepress-static-site-example/) 在 [Kinsta](https://kinsta.com/static-site-hosting/) 上部署 Vitepress 站点。
+你可以按照这些[说明](https://kinsta.com/docs/vitepress-static-site-example/) 在 [Kinsta](https://kinsta.com/static-site-hosting/) 上部署 VitePress 站点。
 
 ### Stormkit
 

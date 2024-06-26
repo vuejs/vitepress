@@ -286,7 +286,7 @@ Cache-Control: max-age=31536000,immutable
 
 ### Хостинг статических файлов Kinsta {#kinsta-static-site-hosting}
 
-Вы можете развернуть свой сайт Vitepress на [Kinsta](https://kinsta.com/static-site-hosting/), следуя этим [инструкциям](https://kinsta.com/docs/vitepress-static-site-example/).
+Вы можете развернуть свой сайт VitePress на [Kinsta](https://kinsta.com/static-site-hosting/), следуя этим [инструкциям](https://kinsta.com/docs/vitepress-static-site-example/).
 
 ### Stormkit
 

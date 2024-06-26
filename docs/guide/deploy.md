@@ -286,7 +286,7 @@ Refer [Creating and Deploying a VitePress App To Edgio](https://docs.edg.io/guid
 
 ### Kinsta Static Site Hosting
 
-You can deploy your Vitepress website on [Kinsta](https://kinsta.com/static-site-hosting/) by following these [instructions](https://kinsta.com/docs/vitepress-static-site-example/).
+You can deploy your VitePress website on [Kinsta](https://kinsta.com/static-site-hosting/) by following these [instructions](https://kinsta.com/docs/vitepress-static-site-example/).
 
 ### Stormkit
 

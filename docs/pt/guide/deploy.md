@@ -288,4 +288,4 @@ Consulte [Criar e Implantar um Aplicativo VitePress no Edgio](https://docs.edg.i
 
 ### Kinsta Static Site Hosting {#kinsta-static-site-hosting}
 
-Você pode implantar seu site Vitepress em [Kinsta](https://kinsta.com/static-site-hosting/) seguindo estas [instruções](https://kinsta.com/docs/vitepress-static-site-example/).
+Você pode implantar seu site VitePress em [Kinsta](https://kinsta.com/static-site-hosting/) seguindo estas [instruções](https://kinsta.com/docs/vitepress-static-site-example/).
