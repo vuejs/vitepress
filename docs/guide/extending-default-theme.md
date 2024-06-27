@@ -4,7 +4,7 @@ outline: deep
 
 # Extending the Default Theme
 
-VitePress' default theme is optimized for documentation, and can be customized. Consult the [Default Theme Config Overview](../reference/default-theme-config) for a comprehensive list of options.
+VitePress' default theme is optimized for documentation, and a number of elements can be customized via `.vitepress/config.[extension]`. Consult the [Default Theme Config Overview](../reference/default-theme-config) for a comprehensive list of options.
 
 However, there are a number of cases where configuration alone won't be enough. For example:
 
@@ -20,25 +20,129 @@ Before proceeding, make sure to first read [Using a Custom Theme](./custom-theme
 
 ## Customizing CSS
 
-The default theme CSS is customizable by overriding root level CSS variables:
+To apply custom CSS, you first need to create a custom VitePress theme. Place the following code into `.vitepress/theme/index.js` (or `.ts` if you prefer TypeScript). This imports the default theme and adds an additional CSS file to the bundle:
 
-```js
-// .vitepress/theme/index.js
+::: code-group
+```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme'
 import './custom.css'
 
 export default DefaultTheme
 ```
+:::
+
+The default theme CSS is customizable by overriding root level CSS variables. This example shows how to change the site's color scheme from the default VitePress indigo to shades of red, using one of the built-in color schemes:
+
+::: code-group
+```css [.vitepress/theme/custom.css]
+/**
+ * Customize default theme styling by overriding CSS variables:
+ * https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css
+ */
+:root {
+  /* Brand color 1: for colored text and links */
+  --vp-c-brand-1: var(--vp-c-red-1);
+  /* Brand color 2: for button hover state, etc. */
+  --vp-c-brand-2: var(--vp-c-red-2);
+  /* Brand color 3: for button backgrounds, etc. */
+  --vp-c-brand-3: var(--vp-c-red-3);
+  /* Brand color soft: for tip boxes etc. 
+     Must have transparency to account for nested boxes. */
+  --vp-c-brand-soft: var(--vp-c-red-soft);
+}
+```
+:::
+
+You can swap out the word `red` in the CSS above for other built-in colours: `gray`, `indigo`, `purple`, `green`, or `yellow`. 
+
+Or you can use your own custom colors:
 
 ```css
-/* .vitepress/theme/custom.css */
+/* Change site color scheme to orange */
 :root {
-  --vp-c-brand-1: #646cff;
-  --vp-c-brand-2: #747bff;
+   --vp-c-brand-1: orange;
+   --vp-c-brand-2: #ffbf48;
+   --vp-c-brand-3: orange;
+   --vp-c-brand-soft: rgba(250, 215, 151, 0.14);
 }
 ```
 
-See [default theme CSS variables](https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css) that can be overridden.
+There are many other CSS variables that can be overridden if required. See [`vars.css`](https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css) in the default theme for the full list.
+
+You can also apply any other CSS style rules here. While using CSS variables is good practice to help reduce repetition, plain CSS is also fine.
+
+Just remember to choose colors that work well in both dark and light modes, unless you disable the dark mode toggle or specify unique colors for both light and dark modes. See [Dark Mode](#dark-mode) below for more.
+
+## Using CSS Pre-Processors
+
+If you'd like to use SASS, LESS, or Stylus within your theme, first make sure the relevant pre-processor is installed by running the applicable command:
+
+```sh
+# .scss and .sass
+npm install -D sass
+
+# .less
+npm install -D less
+
+# .styl and .stylus
+npm install -D stylus
+```
+
+Then update your `import` statement to refer to the appropriate file extension:
+
+::: code-group
+```js [.vitepress/theme/index.js]
+import DefaultTheme from 'vitepress/theme'
+import './custom.scss'      // [!code hl]
+
+export default DefaultTheme
+```
+:::
+
+Here's an example SCSS file that could be used to change the brand colors, automatically creating variations from a single base color:
+
+::: code-group
+```scss [.vitepress/theme/custom.scss]
+/**
+ * Customize default theme styling by overriding CSS variables:
+ * https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css
+ */
+
+ $brand-color: #27afd5;
+
+ :root {
+   /* Brand color 1: for colored text and links */
+   --vp-c-brand-1: #{$brand-color};
+   /* Brand color 2: for button hover state, etc. */
+   --vp-c-brand-2: #{lighten($brand-color, 10%)};
+   /* Brand color 3: for button backgrounds, etc. */
+   --vp-c-brand-3: #{$brand-color};
+   /* Brand color soft: for tip boxes etc. 
+      Must have transparency to account for nested boxes. */
+   --vp-c-brand-soft: #{transparentize($brand-color, 0.86)};
+ }
+```
+
+::: tip
+When SASS variables or functions are used to define a CSS variable, they need to be wrapped in `#{ ... }`. See the SASS documentation [here](https://sass-lang.com/documentation/breaking-changes/css-vars) and [here](https://sass-lang.com/documentation/variables).
+:::
+
+## Dark Mode
+
+To control whether the dark mode toggle is enabled or set to light or dark by default, see the [appearance setting](../reference/site-config#appearance).
+
+When dark mode is enabled, the `<html>` root tag will become `<html class="dark">`. This allows you to apply style overrides based on which setting the user has selected:
+
+```css
+.dark {
+  --vp-c-brand-1: orange;
+  --vp-c-brand-2: #ffbf48;
+  --vp-c-brand-3: orange;
+}
+.dark body {
+  background-color: black;
+}
+```
 
 ## Using Different Fonts
 

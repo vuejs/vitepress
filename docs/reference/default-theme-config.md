@@ -1,6 +1,6 @@
 # Default Theme Config
 
-Theme config lets you customize your theme. You can define theme config via the `themeConfig` option in the config file:
+Theme config lets you customize your theme. You can define theme config via the `themeConfig` option inside [`.vitepress/config.[extension]`](./site-config):
 
 ```ts
 export default {
@@ -17,7 +17,7 @@ export default {
 }
 ```
 
-**The options documented on this page only apply to the default theme.** Different themes expect different theme config. When using a custom theme, the theme config object will be passed to the theme so the theme can define conditional behavior based on it.
+**The options documented on this page only apply to the default theme.** Different themes expect different theme configuration options. When using a custom theme, the theme config object will be passed to the theme so the theme can define conditional behavior based on it.
 
 ## i18nRouting
 
@@ -183,6 +183,8 @@ export type SidebarItem = {
 - Type: `boolean | 'left'`
 - Default: `true`
 - Can be overridden per page via [frontmatter](./frontmatter-config#aside)
+
+This is typically used to show the "On this page" section, containing links to major headings within the current page.
 
 Setting this value to `false` prevents rendering of aside container.\
 Setting this value to `true` renders the aside to the right.\
