@@ -236,7 +236,7 @@ export const createMarkdownRenderer = async (
   }
 
   if (options.gfmAlerts !== false) {
-    md.use(gitHubAlertsPlugin)
+    md.use(gitHubAlertsPlugin, options.container)
   }
 
   // third party plugins

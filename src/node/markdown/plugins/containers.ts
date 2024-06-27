@@ -16,34 +16,27 @@ export const containerPlugin = (
   options: Options,
   containerOptions?: ContainerOptions
 ) => {
-  md.use(...createContainer('tip', containerOptions?.tipLabel || 'TIP', md))
-    .use(...createContainer('info', containerOptions?.infoLabel || 'INFO', md))
-    .use(
-      ...createContainer(
-        'warning',
-        containerOptions?.warningLabel || 'WARNING',
-        md
-      )
-    )
-    .use(
-      ...createContainer(
-        'danger',
-        containerOptions?.dangerLabel || 'DANGER',
-        md
-      )
-    )
-    .use(
-      ...createContainer(
-        'details',
-        containerOptions?.detailsLabel || 'Details',
-        md
-      )
-    )
-    // explicitly escape Vue syntax
-    .use(container, 'v-pre', {
-      render: (tokens: Token[], idx: number) =>
-        tokens[idx].nesting === 1 ? `<div v-pre>\n` : `</div>\n`
-    })
+  const defaultContainers = {
+    tip: containerOptions?.tipLabel ?? 'TIP',
+    info: containerOptions?.infoLabel ?? 'INFO',
+    warning: containerOptions?.warningLabel ?? 'WARNING',
+    danger: containerOptions?.dangerLabel ?? 'DANGER',
+    details: containerOptions?.detailsLabel ?? 'Details'
+  }
+  const containers: Record<string, string> = {
+    ...defaultContainers,
+    ...(containerOptions?.customContainers ?? {})
+  }
+
+  Object.entries(containers).forEach(([key, value]) => {
+    md.use(...createContainer(key, value, md))
+  })
+
+  // explicitly escape Vue syntax
+  md.use(container, 'v-pre', {
+    render: (tokens: Token[], idx: number) =>
+      tokens[idx].nesting === 1 ? `<div v-pre>\n` : `</div>\n`
+  })
     .use(container, 'raw', {
       render: (tokens: Token[], idx: number) =>
         tokens[idx].nesting === 1 ? `<div class="vp-raw">\n` : `</div>\n`
@@ -138,4 +131,5 @@ export interface ContainerOptions {
   detailsLabel?: string
   importantLabel?: string
   cautionLabel?: string
+  customContainers?: Record<string, string>
 }
