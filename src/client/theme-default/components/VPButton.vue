@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import type { DefaultTheme } from 'vitepress/theme'
 import { normalizeLink } from '../support/utils'
 import { EXTERNAL_URL_RE } from '../../shared'
+import VPImage from './VPImage.vue'
 
 interface Props {
   tag?: string
@@ -11,6 +13,8 @@ interface Props {
   href?: string
   target?: string;
   rel?: string;
+  startIcon?: DefaultTheme.ActionIcon;
+  endIcon?: DefaultTheme.ActionIcon;
 }
 const props = withDefaults(defineProps<Props>(), {
   size: 'medium',
@@ -35,13 +39,35 @@ const component = computed(() => {
     :target="props.target ?? (isExternal ? '_blank' : undefined)"
     :rel="props.rel ?? (isExternal ? 'noreferrer' : undefined)"
   >
-    {{ text }}
+    <span class="start-icon" v-if="startIcon">
+      <VPImage
+        v-if="typeof startIcon === 'object'"
+        :image="startIcon"
+        :alt="startIcon.alt"
+        :height="startIcon.height || 32"
+        :width="startIcon.width || 32"
+      />
+      <span v-else-if="startIcon" class="icon" v-html="startIcon"></span>
+    </span>
+    <span>{{ text }}</span>
+    <span class="end-icon" v-if="endIcon">
+      <VPImage
+        v-if="typeof endIcon === 'object'"
+        :image="endIcon"
+        :alt="endIcon.alt"
+        :height="endIcon.height || 32"
+        :width="endIcon.width || 32"
+      />
+      <span v-else-if="endIcon" class="icon" v-html="endIcon"></span>
+    </span>
   </component>
 </template>
 
 <style scoped>
 .VPButton {
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: 1px solid transparent;
   text-align: center;
   font-weight: 600;
@@ -119,5 +145,24 @@ const component = computed(() => {
   border-color: var(--vp-button-sponsor-active-border);
   color: var(--vp-button-sponsor-active-text);
   background-color: var(--vp-button-sponsor-active-bg);
+}
+
+.VPButton:only-child{
+  grid-template-columns: 1fr;
+  grid-gap: 0;
+}
+
+.icon{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.start-icon {
+  margin-right: 8px;
+}
+
+.end-icon {
+  margin-left: 8px;
 }
 </style>
