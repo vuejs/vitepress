@@ -7,6 +7,10 @@ import { search as esSearch } from './es'
 export const shared = defineConfig({
   title: 'VitePress',
 
+  rewrites: {
+    'en/:rest*': ':rest*'
+  },
+
   lastUpdated: true,
   cleanUrls: true,
   metaChunk: true,
