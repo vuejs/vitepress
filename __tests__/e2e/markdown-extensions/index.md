@@ -197,6 +197,22 @@ export default config
 
 <!--@include: ./foo.md{6,}-->
 
+## Markdown At File Region Snippet
+
+<!--@include: ./region-include.md#snippet-->
+
+## Markdown At File Range Region Snippet
+
+<!--@include: ./region-include.md#range-region{3,4}-->
+
+## Markdown At File Range Region Snippet without start
+
+<!--@include: ./region-include.md#range-region{,2}-->
+
+## Markdown At File Range Region Snippet without end
+
+<!--@include: ./region-include.md#range-region{5,}-->
+
 ## Image Lazy Loading
 
 ![vitepress logo](/vitepress.png)

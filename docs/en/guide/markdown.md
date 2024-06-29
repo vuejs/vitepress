@@ -834,6 +834,43 @@ Can be created using `.foorc.json`.
 
 The format of the selected line range can be: `{3,}`, `{,10}`, `{1,10}`
 
+You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/codebasics#_folding) to only include the corresponding part of the code file. You can provide a custom region name after a `#` following the filepath:
+
+**Input**
+
+```md
+# Docs
+
+## Basics
+
+<!--@include: ./parts/basics.md#basic-usage{,2}-->
+<!--@include: ./parts/basics.md#basic-usage{5,}-->
+```
+
+**Part file** (`parts/basics.md`)
+
+```md
+<!-- #region basic-usage -->
+## Usage Line 1
+
+## Usage Line 2
+
+## Usage Line 3
+<!-- #endregion basic-usage -->
+```
+
+**Equivalent code**
+
+```md
+# Docs
+
+## Basics
+
+## Usage Line 1
+
+## Usage Line 3
+```
+
 ::: warning
 Note that this does not throw errors if your file is not present. Hence, when using this feature make sure that the contents are being rendered as expected.
 :::
