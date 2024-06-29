@@ -100,7 +100,8 @@ export default defineConfig({
           { text: 'Home', link: '/' },
           { text: 'Appearance', component: 'CustomAppearance' }
         ]
-      }
+      },
+      { text: 'Appearance', component: 'CustomAppearance' }
     ],
     search: {
       provider: 'local',
