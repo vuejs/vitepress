@@ -14,10 +14,12 @@ const { page } = useData()
 const isChildActive = (navItem: DefaultTheme.NavItem) => {
   if ('link' in navItem) {
     return isActive(
-      page.value.relativePath,
-      navItem.link,
-      !!props.item.activeMatch
+        page.value.relativePath,
+        navItem.link,
+        !!props.item.activeMatch
     )
+  } else if ('component' in navItem) {
+    return false
   } else {
     return navItem.items.some(isChildActive)
   }

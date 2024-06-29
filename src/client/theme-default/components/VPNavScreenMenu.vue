@@ -13,6 +13,7 @@ const { theme } = useData()
         v-if="'link' in item"
         :item="item"
       />
+      <component v-else-if="'component' in item" :is="item.component" v-bind="{ text: item.text }" />
       <VPNavScreenMenuGroup
         v-else
         :text="item.text || ''"

@@ -162,7 +162,12 @@ export namespace DefaultTheme {
 
   // nav -----------------------------------------------------------------------
 
-  export type NavItem = NavItemWithLink | NavItemWithChildren
+  export type NavItem = NavItemComponent | NavItemWithLink | NavItemWithChildren
+
+  export interface NavItemComponent {
+    text: string
+    component: string
+  }
 
   export interface NavItemWithLink {
     text: string
