@@ -851,7 +851,6 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 
 ```md
 <!-- #region basic-usage -->
-
 ## Usage Line 1
 
 ## Usage Line 2
