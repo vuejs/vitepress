@@ -37,6 +37,10 @@ function toggle() {
           <VPNavScreenMenuGroupLink :item="item" />
         </div>
 
+        <div v-else-if="'component' in item" :key="item.component" class="item">
+          <component :is="item.component" v-bind="{ text: item.text }" />
+        </div>
+
         <div v-else class="group">
           <VPNavScreenMenuGroupSection
             :text="item.text"

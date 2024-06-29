@@ -93,6 +93,15 @@ export default defineConfig({
   },
   themeConfig: {
     sidebar,
+    nav: [
+      {
+        text: 'Options',
+        items: [
+          { text: 'Home', link: '/' },
+          { text: 'Appearance', component: 'CustomAppearance' }
+        ]
+      }
+    ],
     search: {
       provider: 'local',
       options: {
