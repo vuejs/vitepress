@@ -163,29 +163,34 @@ Refer [`socialLinks`](./default-theme-config#sociallinks).
 
 ## Custom components
 
-You can include custom components in the navigation bar by using the `component` option. The `component` key should be the Vue component name, and must be registered globally using [Theme.enhanceApp](/guide/custom-theme#theme-interface).
+You can include custom components in the navigation bar by using the `component` option. The `component` key should be the Vue component name, and must be registered globally using [Theme.enhanceApp](../guide/custom-theme#theme-interface).
 
 ```js
 // .vitepress/config.js
 export default {
   themeConfig: {
-    nav: [{
-      text: 'My Menu',
-      items: [{
-        text: 'Menu Entry',
-        component: 'MyCustomComponent'
-      }]
-    }, {
-      text: 'Another Menu Entry',
-      component: 'AnotherCustomComponent'
-    }]
+    nav: [
+      {
+        text: 'My Menu',
+        items: [
+          {
+            text: 'Menu Entry',
+            component: 'MyCustomComponent'
+          }
+        ]
+      },
+      {
+        text: 'Another Menu Entry',
+        component: 'AnotherCustomComponent'
+      }
+    ]
   }
 }
 ```
 
 Then, you need to register the component globally:
 
-```js 
+```js
 // .vitepress/theme/index.js
 import AnotherCustomComponent from './components/AnotherCustomComponent.vue'
 import MyCustomComponent from './components/MyCustomComponent.vue'
@@ -200,6 +205,7 @@ export default {
 ```
 
 Your component will be rendered in the navigation bar. VitePress will provide the `text` and `screenMenu` props to your component:
+
 - `text`: the text configured in the navigation bar item
 - `screenMenu`: a boolean indicating whether the navigation bar is in the screen menu mode
 
