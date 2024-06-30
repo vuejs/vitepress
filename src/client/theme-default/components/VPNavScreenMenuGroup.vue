@@ -10,8 +10,8 @@ const props = defineProps<{
 
 const isOpen = ref(false)
 
-const groupId = computed(() =>
-  `NavScreenGroup-${props.text.replace(' ', '-').toLowerCase()}`
+const groupId = computed(
+  () => `NavScreenGroup-${props.text.replace(' ', '-').toLowerCase()}`
 )
 
 function toggle() {
@@ -38,14 +38,14 @@ function toggle() {
         </div>
 
         <div v-else-if="'component' in item" :key="item.component" class="item">
-          <component :is="item.component" v-bind="{ text: item.text, screenMenu: true }" />
+          <component
+            :is="item.component"
+            v-bind="{ text: item.text, screenMenu: true }"
+          />
         </div>
 
         <div v-else class="group">
-          <VPNavScreenMenuGroupSection
-            :text="item.text"
-            :items="item.items"
-          />
+          <VPNavScreenMenuGroupSection :text="item.text" :items="item.items" />
         </div>
       </template>
     </div>

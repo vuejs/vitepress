@@ -7,11 +7,21 @@ const { theme } = useData()
 </script>
 
 <template>
-  <nav v-if="theme.nav" aria-labelledby="main-nav-aria-label" class="VPNavBarMenu">
-    <span id="main-nav-aria-label" class="visually-hidden">Main Navigation</span>
+  <nav
+    v-if="theme.nav"
+    aria-labelledby="main-nav-aria-label"
+    class="VPNavBarMenu"
+  >
+    <span id="main-nav-aria-label" class="visually-hidden">
+      Main Navigation
+    </span>
     <template v-for="item in theme.nav" :key="item.text">
       <VPNavBarMenuLink v-if="'link' in item" :item="item" />
-      <component v-else-if="'component' in item" :is="item.component" v-bind="{ text: item.text }" />
+      <component
+        v-else-if="'component' in item"
+        :is="item.component"
+        v-bind="{ text: item.text }"
+      />
       <VPNavBarMenuGroup v-else :item="item" />
     </template>
   </nav>
