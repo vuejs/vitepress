@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useScrollLock } from '@vueuse/core'
-import { inBrowser } from 'vitepress'
-import { ref, watch } from 'vue'
+import { inBrowser, useRoute } from 'vitepress'
+import { nextTick, onMounted, ref, watch } from 'vue'
 import { useSidebar } from '../composables/sidebar'
 import VPSidebarItem from './VPSidebarItem.vue'
 
@@ -14,6 +14,7 @@ const props = defineProps<{
 // a11y: focus Nav element when menu has opened
 const navEl = ref<HTMLElement | null>(null)
 const isLocked = useScrollLock(inBrowser ? document.body : null)
+const route = useRoute()
 
 watch(
   [props, navEl],
@@ -25,6 +26,31 @@ watch(
   },
   { immediate: true, flush: 'post' }
 )
+
+function scrollActiveLinkIntoView() {
+  const activeLink = navEl.value?.querySelector('.is-active')
+  if (!activeLink) return
+  const rect = activeLink.getBoundingClientRect()
+  const isInViewPort = rect.top >= 65 && rect.bottom <= innerHeight
+  if (!isInViewPort) {
+    activeLink.scrollIntoView({ block: 'center' })
+  }
+}
+
+function handleScroll() {
+  nextTick(() => scrollActiveLinkIntoView())
+}
+
+
+onMounted(handleScroll)
+watch([props, navEl, route], () => {
+  if (props.open) {
+    isLocked.value = true
+    navEl.value?.focus()
+  } else isLocked.value = false
+
+  handleScroll()
+}, { immediate: true, flush: 'post' })
 </script>
 
 <template>
@@ -78,7 +104,7 @@ watch(
   visibility: visible;
   transform: translateX(0);
   transition: opacity 0.25s,
-    transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .dark .VPSidebar {

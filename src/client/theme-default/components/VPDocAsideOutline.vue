@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onContentUpdated } from 'vitepress'
-import { ref, shallowRef } from 'vue'
+import { inject, ref, type Ref, shallowRef } from 'vue'
 import { useData } from '../composables/data'
 import {
   getHeaders,
@@ -18,10 +18,11 @@ onContentUpdated(() => {
   headers.value = getHeaders(frontmatter.value.outline ?? theme.value.outline)
 })
 
+const aside = inject('aside') as Ref<HTMLElement>
 const container = ref()
 const marker = ref()
 
-useActiveAnchor(container, marker)
+useActiveAnchor(aside, container, marker)
 </script>
 
 <template>
