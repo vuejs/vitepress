@@ -18,6 +18,8 @@ const isChildActive = (navItem: DefaultTheme.NavItem) => {
       navItem.link,
       !!props.item.activeMatch
     )
+  } else if ('component' in navItem) {
+    return false
   } else {
     return navItem.items.some(isChildActive)
   }
@@ -30,11 +32,9 @@ const childrenActive = computed(() => isChildActive(props.item))
   <VPFlyout
     :class="{
       VPNavBarMenuGroup: true,
-      active: isActive(
-        page.relativePath,
-        item.activeMatch,
-        !!item.activeMatch
-      ) || childrenActive
+      active:
+        isActive(page.relativePath, item.activeMatch, !!item.activeMatch) ||
+        childrenActive
     }"
     :button="item.text"
     :items="item.items"
