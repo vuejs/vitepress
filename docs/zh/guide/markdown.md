@@ -840,7 +840,7 @@ Can be created using `.foorc.json`.
 
 ## 数学方程 {#math-equations}
 
-现在这是可选的。要启用它, 需要安装 `markdown-it-mathjax3`，在配置文件中设置`markdown.math` 为 `true`：
+现在这是可选的。要启用它，需要安装 `markdown-it-mathjax3`，在配置文件中设置`markdown.math` 为 `true`：
 
 ```sh
 npm add -D markdown-it-mathjax3
