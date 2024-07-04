@@ -44,7 +44,7 @@ export async function bundle(
   pageToHashMap: Record<string, string>
 }> {
   const pageToHashMap = Object.create(null) as Record<string, string>
-  const clientJSMap = Object.create(null)
+  const clientJSMap = Object.create(null) as Record<string, string>
 
   // define custom rollup input
   // this is a multi-entry build - every page is considered an entry chunk
