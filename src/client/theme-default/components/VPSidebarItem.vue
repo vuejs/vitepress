@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import type { DefaultTheme } from 'vitepress/theme'
+import { computed } from 'vue'
 import { useSidebarControl } from '../composables/sidebar'
 import VPLink from './VPLink.vue'
 
@@ -27,8 +27,8 @@ const textTag = computed(() => {
   return !hasChildren.value
     ? 'p'
     : props.depth + 2 === 7
-    ? 'p'
-    : `h${props.depth + 2}`
+      ? 'p'
+      : `h${props.depth + 2}`
 })
 
 const itemRole = computed(() => (isLink.value ? undefined : 'button'))
