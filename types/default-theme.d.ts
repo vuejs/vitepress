@@ -162,7 +162,12 @@ export namespace DefaultTheme {
 
   // nav -----------------------------------------------------------------------
 
-  export type NavItem = NavItemWithLink | NavItemWithChildren
+  export type NavItem = NavItemComponent | NavItemWithLink | NavItemWithChildren
+
+  export interface NavItemComponent {
+    component: string
+    props?: Record<string, any>
+  }
 
   export interface NavItemWithLink {
     text: string
@@ -186,7 +191,7 @@ export namespace DefaultTheme {
 
   export interface NavItemWithChildren {
     text?: string
-    items: (NavItemChildren | NavItemWithLink)[]
+    items: (NavItemComponent | NavItemChildren | NavItemWithLink)[]
 
     /**
      * `activeMatch` is expected to be a regex string. We can't use actual
