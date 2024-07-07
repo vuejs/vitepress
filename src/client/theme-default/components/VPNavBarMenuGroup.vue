@@ -12,17 +12,17 @@ const props = defineProps<{
 const { page } = useData()
 
 const isChildActive = (navItem: DefaultTheme.NavItem) => {
+  if ('component' in navItem) return false
+
   if ('link' in navItem) {
     return isActive(
       page.value.relativePath,
       navItem.link,
       !!props.item.activeMatch
     )
-  } else if ('component' in navItem) {
-    return false
-  } else {
-    return navItem.items.some(isChildActive)
   }
+
+  return navItem.items.some(isChildActive)
 }
 
 const childrenActive = computed(() => isChildActive(props.item))

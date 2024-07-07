@@ -10,12 +10,12 @@ defineProps<{
 <template>
   <div class="VPMenu">
     <div v-if="items" class="items">
-      <template v-for="item in items" :key="item.text">
+      <template v-for="item in items" :key="JSON.stringify(item)">
         <VPMenuLink v-if="'link' in item" :item="item" />
         <component
           v-else-if="'component' in item"
           :is="item.component"
-          v-bind="{ text: item.text }"
+          v-bind="item.props"
         />
         <VPMenuGroup v-else :text="item.text" :items="item.items" />
       </template>

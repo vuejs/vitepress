@@ -165,8 +165,8 @@ export namespace DefaultTheme {
   export type NavItem = NavItemComponent | NavItemWithLink | NavItemWithChildren
 
   export interface NavItemComponent {
-    text: string
     component: string
+    props?: Record<string, any>
   }
 
   export interface NavItemWithLink {
