@@ -6,6 +6,29 @@ const nav: DefaultTheme.Config['nav'] = [
     link: '/'
   },
   {
+    text: 'API Reference',
+    items: [
+      {
+        text: 'Example',
+        link: '/home.html'
+      },
+      {
+        component: 'ApiPreference',
+        props: {
+          options: ['JavaScript', 'TypeScript', 'Flow'],
+          defaultOption: 'TypeScript'
+        }
+      },
+      {
+        component: 'ApiPreference',
+        props: {
+          options: ['Options', 'Composition'],
+          defaultOption: 'Composition'
+        }
+      }
+    ]
+  },
+  {
     component: 'NavVersion',
     props: {
       versions: [
