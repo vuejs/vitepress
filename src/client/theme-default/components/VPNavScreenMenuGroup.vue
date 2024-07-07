@@ -38,7 +38,7 @@ function toggle() {
         </div>
 
         <div v-else-if="'component' in item" class="item">
-          <component :is="item.component" :v-bind="item.props" screen-menu />
+          <component :is="item.component" v-bind="item.props" screen-menu />
         </div>
 
         <div v-else class="group">
