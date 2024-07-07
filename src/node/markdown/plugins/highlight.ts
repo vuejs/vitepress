@@ -85,7 +85,6 @@ export async function highlight(
     {
       name: 'vitepress:clean-up',
       pre(node) {
-        delete node.properties.tabindex
         delete node.properties.style
       }
     }

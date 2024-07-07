@@ -216,6 +216,6 @@ Then you can customize styles of this specific page in `.vitepress/theme/custom.
 
 ```css
 .custom-page-class {
-  /* page-specific styles */
+  /* page-specific styles */
 }
 ```

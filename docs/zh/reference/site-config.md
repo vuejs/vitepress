@@ -333,7 +333,7 @@ export default {
 - 类型：`string`
 - 默认值： `/`
 
-站点将部署到的 base URL。如果计划在子路径例如 GitHub 页面）下部署站点，则需要设置此项。如果计划将站点部署到 `https://foo.github.io/bar/`，那么应该将 `base` 设置为 `“/bar/”`。它应该始终以 `/` 开头和结尾。
+站点将部署到的 base URL。如果计划在子路径例如 GitHub 页面）下部署站点，则需要设置此项。如果计划将站点部署到 `https://foo.github.io/bar/`，那么应该将 `base` 设置为 `'/bar/'`。它应该始终以 `/` 开头和结尾。
 
 base 会自动添加到其他选项中以 `/` 开头的所有 URL 前面，因此只需指定一次。
 
@@ -487,7 +487,7 @@ export default {
 
 ## 主题 {#theming}
 
-### appearance 
+### appearance
 
 - 类型：`boolean | 'dark' | 'force-dark' | import('@vueuse/core').UseDarkOptions`
 - 默认值： `true`
@@ -559,8 +559,8 @@ export default {
 
 VitePress 构建钩子允许向站点添加新功能和行为：
 
-- Sitemap 
-- Search Indexing 
+- Sitemap
+- Search Indexing
 - PWA
 - Teleport
 
@@ -652,7 +652,7 @@ export default {
 }
 ```
 
-#### 示例：添加 canonical URL `<link>` {#example-adding-a-canonical-url-link} 
+#### 示例：添加 canonical URL `<link>` {#example-adding-a-canonical-url-link}
 
 ```ts
 export default {
@@ -676,7 +676,7 @@ export default {
 
 `transformHtml` 是一个构建钩子，用于在保存到磁盘之前转换每个页面的内容。
 
-::: warning 
+::: warning
 不要改变 `context` 中的任何东西。另外，修改 html 内容可能会导致运行时出现激活问题。
 :::
 

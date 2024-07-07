@@ -33,19 +33,22 @@ const getPackageManger = () => {
   return name.split('/')[0]
 }
 
-export async function init() {
+export async function init(root: string | undefined) {
   intro(bold(cyan('Welcome to VitePress!')))
 
   const options: ScaffoldOptions = await group(
     {
-      root: () =>
-        text({
+      root: async () => {
+        if (root) return root
+
+        return text({
           message: 'Where should VitePress initialize the config?',
           initialValue: './',
           validate(value) {
             // TODO make sure directory is inside
           }
-        }),
+        })
+      },
 
       title: () =>
         text({

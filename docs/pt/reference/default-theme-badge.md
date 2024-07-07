@@ -32,7 +32,7 @@ O código acima é apresentado como:
 
 ## Personalize o Tipo de Cor {#customize-type-color}
 
-Você pode personalizar o estilo dos emblemas sobrepondo variáveis ​​CSS. Os seguintes são os valores padrão:
+Você pode personalizar o estilo dos emblemas sobrepondo variáveis CSS. Os seguintes são os valores padrão:
 
 ```css
 :root {

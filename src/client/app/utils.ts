@@ -13,7 +13,7 @@ import {
   type AsyncComponentLoader
 } from 'vue'
 
-export { inBrowser } from '../shared'
+export { inBrowser, escapeHtml as _escapeHtml } from '../shared'
 
 /**
  * Join two paths by resolving the slash collision.

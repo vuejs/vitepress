@@ -224,7 +224,7 @@ npm install -D stylus
 
 ## 使用 teleport 传递组件内容 {#using-teleports}
 
-Vitepress 目前只有使用 teleport 传送到 body 的 SSG 支持。对于其他地方，可以将它们包裹在内置的 `<ClientOnly>` 组件中，或者通过 [postRender 钩子](../reference/site-config#postrender)将 teleport 标签注入到最终页面 HTML 中的正确位置。
+VitePress 目前只有使用 teleport 传送到 body 的 SSG 支持。对于其他地方，可以将它们包裹在内置的 `<ClientOnly>` 组件中，或者通过 [postRender 钩子](../reference/site-config#postrender)将 teleport 标签注入到最终页面 HTML 中的正确位置。
 
 <ModalDemo />
 

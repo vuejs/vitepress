@@ -1,0 +1,19 @@
+diff --git a/lib/parse.d.mts b/lib/parse.d.mts
+index 2e0d8f2ea00a06c0971a68d34946e797b7f8152d..f61d4dd05c1b181bc6d2d8683153abcd10fe9ab9 100644
+--- a/lib/parse.d.mts
++++ b/lib/parse.d.mts
+@@ -1,4 +1,4 @@
+-declare class Url {
++declare class _Url {
+     protocol: string;
+     slashes: string;
+     auth: string;
+@@ -14,5 +14,7 @@ declare class Url {
+     parseHost(host: string): void;
+ }
+ 
++type Url = _Url;
++
+ export default function parse(url: string | Url, slashesDenoteHost?: boolean): Url;
+-export type { Url };
++export { Url };

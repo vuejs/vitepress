@@ -216,6 +216,6 @@ pageClass: custom-page-class
 
 ```css
 .custom-page-class {
-  /* стили для конкретной страницы */
+  /* стили для конкретной страницы */
 }
 ```

@@ -28,25 +28,32 @@ if (!command || command === 'dev') {
     argv.optimizeDeps = { force: true }
   }
 
-  const createDevServer = async () => {
-    const server = await createServer(root, argv, async () => {
-      if (!restartPromise) {
-        restartPromise = (async () => {
-          await server.close()
-          await createDevServer()
-        })().finally(() => {
-          restartPromise = undefined
-        })
-      }
+  const open = argv.open
+  delete argv.open
 
-      return restartPromise
-    })
+  const createDevServer = async (isRestart = true) => {
+    const server = await createServer(
+      root,
+      !isRestart ? { ...argv, open } : argv,
+      async () => {
+        if (!restartPromise) {
+          restartPromise = (async () => {
+            await server.close()
+            await createDevServer()
+          })().finally(() => {
+            restartPromise = undefined
+          })
+        }
+
+        return restartPromise
+      }
+    )
     await server.listen()
     logVersion(server.config.logger)
     server.printUrls()
     bindShortcuts(server, createDevServer)
   }
-  createDevServer().catch((err) => {
+  createDevServer(false).catch((err) => {
     createLogger().error(
       `${c.red(`failed to start server. error:`)}\n${err.message}\n${err.stack}`
     )
@@ -54,7 +61,7 @@ if (!command || command === 'dev') {
   })
 } else if (command === 'init') {
   createLogger().info('', { clear: true })
-  init()
+  init(argv.root)
 } else {
   logVersion()
   if (command === 'build') {

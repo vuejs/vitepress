@@ -19,6 +19,7 @@ export declare const useLocalNav: () => DefaultTheme.DocLocalNav
 export declare const VPBadge: DefineComponent
 export declare const VPButton: DefineComponent
 export declare const VPDocAsideSponsors: DefineComponent
+export declare const VPHomeContent: DefineComponent
 export declare const VPHomeFeatures: DefineComponent
 export declare const VPHomeHero: DefineComponent
 export declare const VPHomeSponsors: DefineComponent

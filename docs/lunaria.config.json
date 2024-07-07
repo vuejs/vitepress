@@ -6,7 +6,7 @@
   },
   "files": [
     {
-      "location": ".vitepress/config/{en,zh,pt,ru}.ts",
+      "location": ".vitepress/config/{en,zh,pt,ru,es}.ts",
       "pattern": ".vitepress/config/@lang.ts",
       "type": "universal"
     },
@@ -32,6 +32,10 @@
     {
       "label": "Русский",
       "lang": "ru"
+    },
+    {
+      "label": "Español",
+      "lang": "es"
     }
   ],
   "outDir": ".vitepress/dist/_translations",

@@ -216,6 +216,6 @@ Em seguida, você pode personalizar os estilos desta página específica no arqu
 
 ```css
 .custom-page-class {
-  /* estilos específicos da página */
+  /* estilos específicos da página */
 }
 ```

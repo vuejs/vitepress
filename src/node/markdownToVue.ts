@@ -185,8 +185,12 @@ export async function createMarkdownToVueRenderFn(
       filePath: slash(path.relative(srcDir, fileOrig))
     }
 
-    if (includeLastUpdatedData) {
-      pageData.lastUpdated = await getGitTimestamp(fileOrig)
+    if (includeLastUpdatedData && frontmatter.lastUpdated !== false) {
+      if (frontmatter.lastUpdated instanceof Date) {
+        pageData.lastUpdated = +frontmatter.lastUpdated
+      } else {
+        pageData.lastUpdated = await getGitTimestamp(fileOrig)
+      }
     }
 
     if (siteConfig?.transformPageData) {

@@ -65,7 +65,7 @@ describe('Table of Contents', () => {
   test('render toc', async () => {
     const items = page.locator('#table-of-contents + nav ul li')
     const count = await items.count()
-    expect(count).toBe(36)
+    expect(count).toBe(44)
   })
 })
 
@@ -273,6 +273,26 @@ describe('Markdown File Inclusion', () => {
     )
     expect(trim(await p.nth(0).textContent())).toBe('This is a region')
     expect(trim(await p.nth(1).textContent())).toBe('This is after region')
+  })
+
+  test('support markdown region snippet', async () => {
+    const h2 = page.locator('#markdown-at-file-region-snippet + h2')
+    expect(await h2.getAttribute('id')).toBe('region-snippet')
+
+    const line = page.locator('#markdown-at-file-range-region-snippet + h2')
+    expect(await line.getAttribute('id')).toBe('range-region-line-2')
+
+    const lineWithoutStart = page.locator(
+      '#markdown-at-file-range-region-snippet-without-start + h2'
+    )
+    expect(await lineWithoutStart.getAttribute('id')).toBe(
+      'range-region-line-1'
+    )
+
+    const lineWithoutEnd = page.locator(
+      '#markdown-at-file-range-region-snippet-without-end + h2'
+    )
+    expect(await lineWithoutEnd.getAttribute('id')).toBe('range-region-line-3')
   })
 
   test('ignore frontmatter if range is not specified', async () => {
