@@ -28,27 +28,20 @@ if (!command || command === 'dev') {
     argv.optimizeDeps = { force: true }
   }
 
-  const open = argv.open
-  delete argv.open
-
   const createDevServer = async (isRestart = true) => {
-    const server = await createServer(
-      root,
-      !isRestart ? { ...argv, open } : argv,
-      async () => {
-        if (!restartPromise) {
-          restartPromise = (async () => {
-            await server.close()
-            await createDevServer()
-          })().finally(() => {
-            restartPromise = undefined
-          })
-        }
-
-        return restartPromise
+    const server = await createServer(root, argv, async () => {
+      if (!restartPromise) {
+        restartPromise = (async () => {
+          await server.close()
+          await createDevServer()
+        })().finally(() => {
+          restartPromise = undefined
+        })
       }
-    )
-    await server.listen()
+
+      return restartPromise
+    })
+    await server.listen(undefined, isRestart)
     logVersion(server.config.logger)
     server.printUrls()
     bindShortcuts(server, createDevServer)
