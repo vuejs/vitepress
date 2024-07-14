@@ -42,6 +42,29 @@ const nav: DefaultTheme.Config['nav'] = [
         }
       ]
     }
+  },
+  {
+    text: 'Nested',
+    items: [
+      {
+        text: 'Level 1 - 1',
+        items: [
+          {
+            text: 'Level 2 - 1',
+            link: '/nested/level1-1/level2-1'
+          }
+        ]
+      },
+      {
+        text: 'Level 1 - 2',
+        items: [
+          {
+            text: 'Level 2 - 2',
+            link: '/nested/level1-2/level2-2'
+          }
+        ]
+      }
+    ]
   }
 ]
 

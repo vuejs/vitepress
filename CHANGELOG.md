@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/vuejs/vitepress/compare/v1.3.0...v1.3.1) (2024-07-14)
+
+### Bug Fixes
+
+- don't reopen browser on restart when `vite.server.open` is specified ([6263db1](https://github.com/vuejs/vitepress/commit/6263db170a658ea887ef4b2bfe4b5239a820e0d9)), closes [#4040](https://github.com/vuejs/vitepress/issues/4040)
+- **theme/regression:** typo in component props resulting in nested titles not showing in navbar ([01d0d45](https://github.com/vuejs/vitepress/commit/01d0d45292602cbb7de492f0c953ddb239842116)), closes [#4042](https://github.com/vuejs/vitepress/issues/4042)
+
 # [1.3.0](https://github.com/vuejs/vitepress/compare/v1.2.3...v1.3.0) (2024-07-07)
 
 ### Bug Fixes
