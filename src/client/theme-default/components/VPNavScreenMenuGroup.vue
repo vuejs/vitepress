@@ -42,7 +42,7 @@ function toggle() {
         </div>
 
         <div v-else class="group">
-          <VPNavScreenMenuGroupSection :items="item.items" />
+          <VPNavScreenMenuGroupSection :text="item.text" :items="item.items" />
         </div>
       </template>
     </div>
