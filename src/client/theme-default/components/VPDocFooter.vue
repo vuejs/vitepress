@@ -25,7 +25,7 @@ const showFooter = computed(
 </script>
 
 <template>
-  <footer v-if="showFooter" class="VPDocFooter">
+  <footer v-if="showFooter" class="VPDocFooter hidden-print">
     <slot name="doc-footer-before" />
 
     <div v-if="hasEditLink || hasLastUpdated" class="edit-info">

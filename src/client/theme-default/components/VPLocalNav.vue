@@ -46,6 +46,7 @@ const emptyAndNoSidebar = computed(() => {
 const classes = computed(() => {
   return {
     VPLocalNav: true,
+    'hidden-print': true,
     'has-sidebar': hasSidebar.value,
     empty: empty.value,
     fixed: emptyAndNoSidebar.value
