@@ -120,6 +120,15 @@ export namespace DefaultTheme {
     returnToTopLabel?: string
 
     /**
+     * @default false
+     *
+     * Remove extraneous elements when printing, such as
+     * the sidebar, navbar, and footer. It can clean print pages, and focus on
+     * the main content.
+     */
+    removeExtraElementsInPrint?: boolean
+
+    /**
      * Set custom `aria-label` for language menu button.
      *
      * @default 'Change language'
