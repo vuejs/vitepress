@@ -316,8 +316,7 @@ onKeyStroke('ArrowDown', (event) => {
   goRelativeItem(1)
 })
 
-const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0
-if (isMac) {
+if (document.documentElement.classList.contains('mac')) {
   onKeyStroke('n', (event) => {
     if (event.ctrlKey) {
       event.preventDefault()
