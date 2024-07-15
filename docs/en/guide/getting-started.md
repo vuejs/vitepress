@@ -72,7 +72,7 @@ $ npx vitepress init
 ```
 
 ```sh [pnpm]
-$ pnpm dlx vitepress init
+$ pnpx vitepress init
 ```
 
 ```sh [yarn]
