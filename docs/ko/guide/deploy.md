@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-# VitePress 사이트 배포하기
+# VitePress 사이트 배포하기 {#deploy-your-vitepress-site}
 
 다음 가이드는 몇 가지 공유된 가정을 바탕으로 합니다:
 
@@ -19,7 +19,7 @@ outline: deep
   }
   ```
 
-## 로컬에서 빌드하고 테스트하기
+## 로컬에서 빌드하고 테스트하기 {#build-and-test-locally}
 
 1. 이 명령어를 실행하여 문서를 빌드합니다:
 
@@ -47,13 +47,13 @@ outline: deep
 
    이제 `docs:preview` 메소드가 `http://localhost:8080`에서 서버를 시작합니다.
 
-## public 기본 경로 설정하기
+## public 기본 경로 설정하기 {#setting-a-public-base-path}
 
 기본적으로, 사이트가 도메인의 루트 경로(`/`)에서 배포될 것으로 가정합니다. 사이트가 하위 경로, 예를 들어 `https://mywebsite.com/blog/`에서 제공되는 경우, VitePress 구성에서 [`base`](../reference/site-config#base) 옵션을 `'/blog/'`로 설정해야 합니다.
 
 **예:** GitHub(또는 GitLab) 페이지를 사용하여 `user.github.io/repo/`로 배포하는 경우, `base`를 `/repo/`로 설정하세요.
 
-## HTTP 캐시 헤더
+## HTTP 캐시 헤더 {#http-cache-headers}
 
 프로덕션 서버에서 HTTP 헤더를 제어할 수 있다면, 반복 방문 시 성능을 향상시키기 위해 `cache-control` 헤더를 구성할 수 있습니다.
 
@@ -103,7 +103,7 @@ Cache-Control: max-age=31536000,immutable
 
 :::
 
-## 플랫폼 가이드
+## 플랫폼 가이드 {#platform-guides}
 
 ### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render
 
@@ -219,7 +219,7 @@ HTML 코드에 대해 _Auto Minify_와 같은 옵션을 활성화하지 마세�
        - main
    ```
 
-### Azure Static Web Apps
+### Azure 정적 Web 앱 {#azure-static-web-apps}
 
 1. [공식 문서](https://docs.microsoft.com/en-us/azure/static-web-apps/build-configuration)를 따르세요.
 
@@ -229,7 +229,7 @@ HTML 코드에 대해 _Auto Minify_와 같은 옵션을 활성화하지 마세�
    - **`output_location`**: `docs/.vitepress/dist`
    - **`app_build_command`**: `npm run docs:build`
 
-### Firebase
+### Firebase {#firebase}
 
 1. 프로젝트의 루트에 `firebase.json`과 `.firebaserc`를 생성하세요:
 
@@ -284,7 +284,7 @@ HTML 코드에 대해 _Auto Minify_와 같은 옵션을 활성화하지 마세�
 
 [Edgio에 VitePress 앱 생성 및 배포하기](https://docs.edg.io/guides/vitepress)를 참조하세요.
 
-### Kinsta 정적 사이트 호스팅
+### Kinsta 정적 사이트 호스팅 {#kinsta-static-site-hosting}
 
 [Kinsta](https://kinsta.com/static-site-hosting/)에서 VitePress 웹사이트를 배포하는 방법은 [이 지침](https://kinsta.com/docs/vitepress-static-site-example/)을 따르세요.
 

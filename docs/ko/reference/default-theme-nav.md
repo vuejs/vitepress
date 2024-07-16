@@ -1,8 +1,8 @@
-# Nav
+# Nav {#nav}
 
 Nav 페이지 상단에 표시되는 내비게이션 바입니다. 사이트 제목, 전역 메뉴 링크 등을 포함하고 있습니다.
 
-## 사이트 제목 및 로고
+## 사이트 제목 및 로고 {#site-title-and-logo}
 
 기본적으로 nav는 [`config.title`](./site-config#title) 값이 참조하는 사이트 제목을 표시합니다. nav에 표시되는 내용을 변경하고 싶다면 `themeConfig.siteTitle` 옵션에 사용자 정의 텍스트를 정의할 수 있습니다.
 
@@ -37,7 +37,7 @@ export default {
 
 `alt` 속성을 추가하거나 어두운/밝은 모드에 따라 로고를 커스터마이즈하고 싶다면 객체로써 로고를 전달할 수 있습니다. 자세한 내용은 [`themeConfig.logo`](./default-theme-config#logo)를 참조하세요.
 
-## 내비게이션 링크
+## 내비게이션 링크 {#navigation-links}
 
 `themeConfig.nav` 옵션을 정의하여 nav에 링크를 추가할 수 있습니다.
 
@@ -114,7 +114,7 @@ export default {
 }
 ```
 
-### 링크의 "active" 상태 커스터마이징
+### 링크의 "active" 상태 커스터마이징 {#customize-link-s-active-state}
 
 현재 페이지가 일치하는 경로에 있을 때 Nav 메뉴 항목이 강조 표시됩니다. 매치되길 원하는 경로를 커스터마이징하고 싶다면 문자열 값으로 `activeMatch` 속성과 정규식을 정의하세요.
 
@@ -138,7 +138,7 @@ export default {
 `activeMatch`는 정규식 문자열로 예상되지만, 문자열로 정의해야 합니다. 실제 RegExp 객체를 여기서 사용할 수 없는 이유는 빌드 시간 동안 직렬화가 가능하지 않기 때문입니다.
 :::
 
-### 링크의 "target" 및 "rel" 속성 커스터마이즈
+### 링크의 "target" 및 "rel" 속성 커스터마이즈 {#customize-link-s-target-and-rel-attributes}
 
 기본적으로 VitePress는 링크가 외부 링크인지에 따라 `target` 및 `rel` 속성을 자동으로 결정합니다. 하지만 원한다면 이들도 커스터마이징할 수 있습니다.
 
@@ -157,11 +157,11 @@ export default {
 }
 ```
 
-## 소셜 링크
+## 소셜 링크 {#social-links}
 
 [`socialLinks`](./default-theme-config#sociallinks)를 참조하세요.
 
-## 사용자 정의 구성 요소
+## 사용자 정의 구성 요소 {#custom-components}
 
 `component` 옵션을 사용하여 탐색 모음에 사용자 정의 구성 요소를 포함할 수 있습니다. `component` 키는 Vue 구성 요소 이름이어야 하며, [Theme.enhanceApp](../guide/custom-theme#theme-interface)을 사용하여 전역으로 등록해야 합니다.
 

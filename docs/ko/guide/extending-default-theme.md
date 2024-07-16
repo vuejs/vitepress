@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-# 기본 테마 확장하기
+# 기본 테마 확장하기 {#extending-the-default-theme}
 
 VitePress의 기본 테마는 문서화에 최적화되어 있으며, 커스터마이징이 가능합니다. [기본 테마 구성 개요](../reference/default-theme-config)를 참조하여 가능한 옵션의 전체 목록을 확인하세요.
 
@@ -18,7 +18,7 @@ VitePress의 기본 테마는 문서화에 최적화되어 있으며, 커스터�
 진행하기 전에, 사용자 지정 테마가 어떻게 작동하는지 이해하기 위해 [사용자 지정 테마 사용하기](./custom-theme)를 먼저 읽어보세요.
 :::
 
-## CSS 커스터마이징하기
+## CSS 커스터마이징하기 {#customizing-css}
 
 기본 테마의 CSS는 루트 레벨 CSS 변수를 오버라이딩하여 커스터마이즈 할 수 있습니다:
 
@@ -40,7 +40,7 @@ export default DefaultTheme
 
 오버라이딩할 수 있는 [기본 테마 CSS 변수](https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css)를 확인하세요.
 
-## 다른 폰트 사용하기
+## 다른 폰트 사용하기 {#using-different-fonts}
 
 VitePress는 기본 폰트로 [Inter](https://rsms.me/inter/)를 사용하며, 빌드 출력물에 폰트를 포함합니다. 또한, 이 폰트는 프로덕션 환경에서 자동으로 프리로드됩니다. 하지만, 다른 메인 폰트를 사용하고 싶은 경우에는 바람직하지 않을 수 있습니다.
 
@@ -92,7 +92,7 @@ export default {
 }
 ```
 
-## 전역 컴포넌트 등록하기
+## 전역 컴포넌트 등록하기 {#registering-global-components}
 
 ```js
 // .vitepress/theme/index.js
@@ -125,7 +125,7 @@ export default {
 
 Vite를 사용하기 때문에, Vite의 [글로브 임포트 기능](https://vitejs.dev/guide/features.html#glob-import)을 활용하여 컴포넌트 디렉터리를 자동으로 등록할 수도 있습니다.
 
-## 레이아웃 슬롯
+## 레이아웃 슬롯 {#layout-slots}
 
 기본 테마의 `<Layout/>` 컴포넌트는 페이지의 특정 위치에 컨텐츠를 삽입할 수 있도록 몇 개의 슬롯을 제공합니다. 아웃라인 앞에 컴포넌트를 삽입하는 예시입니다:
 
@@ -218,9 +218,9 @@ export default {
   - `nav-screen-content-before`
   - `nav-screen-content-after`
 
-## 뷰 전환 API 사용하기
+## 뷰 전환 API 사용하기 {#using-view-transitions-api}
 
-### 외형 토글 시
+### 외형 토글 시 {#on-appearance-toggle}
 
 기본 테마를 확장하여 색상 모드가 토글될 때 사용자 정의 전환을 제공할 수 있습니다. 예시:
 
@@ -310,11 +310,11 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
 
 뷰 전환에 대한 자세한 정보는 [Chrome 문서](https://developer.chrome.com/docs/web-platform/view-transitions/)를 참고하세요.
 
-### 라우트 변경 시
+### 라우트 변경 시 {#on-route-change}
 
 곧 제공될 예정입니다.
 
-## 내부 컴포넌트 오버라이딩하기
+## 내부 컴포넌트 오버라이딩하기 {#overriding-internal-components}
 
 Vite의 [별칭](https://vitejs.dev/config/shared-options.html#resolve-alias)을 사용하여 기본 테마 컴포넌트를 사용자 지정 컴포넌트로 대체할 수 있습니다:
 

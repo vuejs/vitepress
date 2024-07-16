@@ -2,13 +2,13 @@
 outline: deep
 ---
 
-# 사이트 설정
+# 사이트 설정 {#site-config}
 
 사이트 설정은 사이트의 전역 설정을 정의할 수 있는 곳입니다. 앱 설정 옵션은 사용되는 테마에 상관없이 모든 VitePress 사이트에 적용되는 설정을 정의합니다. 예를 들어, 기본 디렉토리 또는 사이트의 제목 등이 있습니다.
 
-## 개요
+## 개요 {#overview}
 
-### 설정 해석
+### 설정 해석 {#config-resolution}
 
 설정 파일은 항상 `<root>/.vitepress/config.[ext]`에서 해석되며, 여기서 `<root>`는 여러분의 VitePress [프로젝트 루트](../guide/routing#root-and-source-directory), 그리고 `[ext]`는 지원되는 파일 확장명 중 하나입니다. TypeScript는 기본적으로 지원됩니다. 지원되는 확장명에는 `.js`, `.ts`, `.mjs`, 그리고 `.mts`가 포함됩니다.
 
@@ -80,7 +80,7 @@ export default defineConfig({
 
 :::
 
-### 설정 옵션에 대한 인텔리센스
+### 설정 옵션에 대한 인텔리센스 {#config-intellisense}
 
 `defineConfig` 헬퍼를 사용하면 설정 옵션에 대해 TypeScript로 제공되는 인텔리센스를 활용할 수 있습니다. 여러분의 IDE가 지원한다면, JavaScript와 TypeScript 모두에서 작동할 것입니다.
 
@@ -92,7 +92,7 @@ export default defineConfig({
 })
 ```
 
-### 타입이 지정된 테마 설정
+### 타입이 지정된 테마 설정 {#typed-theme-config}
 
 기본적으로, `defineConfig` 헬퍼는 기본 테마에서 테마 설정 유형을 예상합니다:
 
@@ -119,7 +119,7 @@ export default defineConfigWithTheme<ThemeConfig>({
 })
 ```
 
-### Vite, Vue & Markdown 설정
+### Vite, Vue & Markdown 설정 {#vite-vue-markdown-config}
 
 - **Vite**
 
@@ -133,7 +133,7 @@ export default defineConfigWithTheme<ThemeConfig>({
 
   [Markdown-It](https://github.com/markdown-it/markdown-it) 인스턴스를 VitePress 설정에서 [markdown](#markdown) 옵션을 사용하여 구성할 수 있습니다.
 
-## 사이트 메타데이터
+## 사이트 메타데이터 {#site-metadata}
 
 ### title
 
@@ -217,7 +217,7 @@ type HeadConfig =
   | [string, Record<string, string>, string]
 ```
 
-#### 예제: 파비콘 추가
+#### 예제: 파비콘 추가 {#example-adding-a-favicon}
 
 ```ts
 export default {
@@ -229,7 +229,7 @@ export default {
 */
 ```
 
-#### 예제: Google Fonts 추가
+#### 예제: Google Fonts 추가 {#example-adding-google-fonts}
 
 ```ts
 export default {
@@ -256,7 +256,7 @@ export default {
 */
 ```
 
-#### 예제: 서비스 워커 등록
+#### 예제: 서비스 워커 등록 {#example-registering-a-service-worker}
 
 ```ts
 export default {
@@ -284,7 +284,7 @@ export default {
 */
 ```
 
-#### 예제: Google Analytics 사용
+#### 예제: Google Analytics 사용 {#example-using-google-analytics}
 
 ```ts
 export default {
@@ -343,7 +343,7 @@ export default {
 }
 ```
 
-## 라우팅
+## 라우팅 {#routing}
 
 ### cleanUrls
 
@@ -370,7 +370,7 @@ export default {
 }
 ```
 
-## 빌드
+## 빌드 {#build}
 
 ### srcDir
 
@@ -485,7 +485,7 @@ export default {
 
 `true`로 설정하면, 프로덕션 앱이 [MPA 모드](../guide/mpa-mode)로 빌드됩니다. MPA 모드는 기본적으로 0kb의 JavaScript를 제공하지만, 클라이언트 측 탐색을 비활성화하고 상호작용에 대해 명시적인 동의가 필요합니다.
 
-## 테마
+## 테마 {#theming}
 
 ### appearance
 
@@ -513,7 +513,7 @@ Git을 사용하여 각 페이지의 마지막 업데이트 타임스탬프를 �
 
 기본 테마를 사용하는 경우, 이 옵션을 활성화하면 각 페이지의 마지막 업데이트 시간이 표시됩니다. [`themeConfig.lastUpdatedText`](./default-theme-config#lastupdatedtext) 옵션을 통해 텍스트를 사용자 정의할 수 있습니다.
 
-## 사용자 정의
+## 사용자 정의 {#customization}
 
 ### markdown
 
@@ -557,7 +557,7 @@ export default {
 }
 ```
 
-## 빌드 후크
+## 빌드 후크 {#build-hooks}
 
 VitePress 빌드 후크는 웹사이트에 새로운 기능과 동작을 추가할 수 있습니다:
 
@@ -654,7 +654,7 @@ export default {
 }
 ```
 
-#### 예시: 정규 URL `<link>` 추가
+#### 예시: 정규 URL `<link>` 추가 {#example-adding-a-canonical-url-link}
 
 ```ts
 export default {

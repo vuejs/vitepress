@@ -1,12 +1,12 @@
-# Migration from VitePress 0.x
+# Migration from VitePress 0.x {#migration-from-vitepress-0-x}
 
 If you're coming from VitePress 0.x version, there're several breaking changes due to new features and enhancement. Please follow this guide to see how to migrate your app over to the latest VitePress.
 
-## App Config
+## App Config {#app-config}
 
 - The internationalization feature is not yet implemented.
 
-## Theme Config
+## Theme Config {#theme-config}
 
 - `sidebar` option has changed its structure.
   - `children` key is now named `items`.
@@ -17,7 +17,7 @@ If you're coming from VitePress 0.x version, there're several breaking changes d
 - `lastUpdated` option is now split into `config.lastUpdated` and `themeConfig.lastUpdatedText`.
 - `carbonAds.carbon` is changed to `carbonAds.code`.
 
-## Frontmatter Config
+## Frontmatter Config {#frontmatter-config}
 
 - `home: true` option has changed to `layout: home`. Also, many Homepage related settings have been modified to provide additional features. See [Home Page guide](../reference/default-theme-home-page) for details.
 - `footer` option is moved to [`themeConfig.footer`](../reference/default-theme-config#footer).

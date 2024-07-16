@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-# SSR 호환성
+# SSR 호환성 {#ssr-compatibility}
 
 VitePress는 Vue의 서버 사이드 렌더링(SSR) 기능을 사용하여 프로덕션 빌드 중에 Node.js에서 앱을 사전 렌더링합니다. 이는 테마 컴포넌트의 모든 사용자 정의 코드가 SSR 호환성을 준수해야 함을 의미합니다.
 
@@ -18,11 +18,11 @@ SSR 친화적이지 않은 컴포넌트(예: 사용자 정의 지시문이 포�
 </ClientOnly>
 ```
 
-## 가져오기 시 브라우저 API에 접근하는 라이브러리
+## 가져오기 시 브라우저 API에 접근하는 라이브러리 {#libraries-that-access-browser-api-on-import}
 
 일부 컴포넌트나 라이브러리는 **가져오기 시**에 브라우저 API에 접근합니다. 가져오기를 통해 브라우저 환경을 가정하는 코드를 사용하려면 동적으로 이를 가져와야 합니다.
 
-### Mounted 후크에서 가져오기
+### Mounted 후크에서 가져오기 {#importing-in-mounted-hook}
 
 ```vue
 <script setup>
@@ -36,7 +36,7 @@ onMounted(() => {
 </script>
 ```
 
-### 조건부 가져오기
+### 조건부 가져오기 {#conditional-import}
 
 `import.meta.env.SSR` 플래그([Vite env 변수](https://vitejs.dev/guide/env-and-mode.html#env-variables)의 일부)를 사용하여 종속성을 조건부로 가져올 수도 있습니다:
 

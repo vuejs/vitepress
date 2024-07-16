@@ -1,4 +1,4 @@
-# Markdown에서 Vue 사용하기
+# Markdown에서 Vue 사용하기 {#using-vue-in-markdown}
 
 VitePress에서 각 Markdown 파일은 HTML로 컴파일된 다음 [Vue 단일 파일 컴포넌트](https://vuejs.org/guide/scaling-up/sfc.html)로 처리됩니다. 이는 Markdown 내에서 동적 템플릿, Vue 컴포넌트 사용 또는 `<script>` 태그를 추가하여 임의의 페이지 내 Vue 컴포넌트 로직을 사용할 수 있음을 의미합니다.
 
@@ -8,9 +8,9 @@ VitePress가 Vue의 컴파일러를 활용하여 Markdown 콘텐츠의 순수 �
 모든 Vue 사용은 SSR과 호환되어야 합니다. 자세한 내용과 일반적인 해결 방법은 [SSR 호환성](./ssr-compat)을 참조하십시오.
 :::
 
-## 템플릿
+## 템플릿 {#templating}
 
-### 보간(interpolation)
+### 보간(interpolation) {#interpolation}
 
 각 Markdown 파일은 먼저 HTML로 컴파일되고 나서 Vite 프로세스 파이프라인으로 Vue 컴포넌트로 전달됩니다. 이는 텍스트에서 Vue 스타일 보간을 사용할 수 있음을 의미합니다:
 
@@ -24,7 +24,7 @@ VitePress가 Vue의 컴파일러를 활용하여 Markdown 콘텐츠의 순수 �
 
 <div class="language-text"><pre><code>{{ 1 + 1 }}</code></pre></div>
 
-### 지시문
+### 지시문 {#directives}
 
 디자인상 원시 HTML도 마크다운에서 유효하기 때문에 지시문도 동작합니다:
 
@@ -38,7 +38,7 @@ VitePress가 Vue의 컴파일러를 활용하여 Markdown 콘텐츠의 순수 �
 
 <div class="language-text"><pre><code><span v-for="i in 3">{{ i }} </span></code></pre></div>
 
-## `<script>`와 `<style>`
+## `<script>`와 `<style>` {#script-and-style}
 
 Markdown 파일의 최상위 `<script>` 및 `<style>` 태그는 Vue SFC에서와 마찬가지로 작동합니다. `<script setup>`, `<style module>` 등을 포함합니다. 여기서 주된 차이점은 `<template>` 태그가 없다는 것입니다: 다른 모든 최상위 콘텐츠는 Markdown입니다. 또한 모든 태그는 frontmatter **이후에** 위치해야 함을 유의하십시오:
 
@@ -96,11 +96,11 @@ const { page } = useData()
 }
 ```
 
-## 컴포넌트 사용하기
+## 컴포넌트 사용하기 {#using-components}
 
 Markdown 파일 내에서 Vue 컴포넌트를 직접 가져오고 사용할 수 있습니다.
 
-### Markdown에서 가져오기
+### Markdown에서 가져오기 {#importing-in-markdown}
 
 컴포넌트가 몇 페이지에서만 사용되는 경우, 해당되는 곳에서 명시적으로 가져오는 것이 좋습니다. 이를 통해 적절하게 코드를 분할하고 관련 페이지가 표시될 때만 로드할 수 있습니다:
 
@@ -120,7 +120,7 @@ import CustomComponent from '../components/CustomComponent.vue'
 ...
 ```
 
-### 전역적으로 컴포넌트 등록하기
+### 전역적으로 컴포넌트 등록하기 {#registering-components-globally}
 
 컴포넌트가 대부분의 페이지에서 사용될 것인 경우, Vue 앱 인스턴스를 사용자 지정하여 전역적으로 등록할 수 있습니다. 예제는 [기본 테마 확장](./extending-default-theme#registering-global-components) 관련 섹션을 참조하십시오.
 
@@ -128,7 +128,7 @@ import CustomComponent from '../components/CustomComponent.vue'
 커스텀 컴포넌트의 이름이 하이픈을 포함하거나 파스칼케이스(PascalCase)인지 확인하십시오. 그렇지 않으면 인라인 요소로 처리되어 `<p>` 태그 내에 포함되어 하이드레이션 불일치가 발생할 수 있습니다. `<p>`는 내부에 블록 요소를 포함할 수 없기 때문입니다.
 :::
 
-### 헤더에 컴포넌트 사용하기 <ComponentInHeader />
+### 헤더에 컴포넌트 사용하기 <ComponentInHeader /> {#using-components-in-headers}
 
 헤더에서 Vue 컴포넌트를 사용할 수 있지만, 다음 구문 사이의 차이를 유의하십시오:
 
@@ -144,7 +144,7 @@ import CustomComponent from '../components/CustomComponent.vue'
 :::
 
 
-## 이스케이프
+## 이스케이프 {#escaping}
 
 `v-pre` 지시문을 사용하여 `<span>`이나 다른 요소에 Vue 보간을 이스케이프할 수 있습니다:
 
@@ -178,7 +178,7 @@ import CustomComponent from '../components/CustomComponent.vue'
 
 </div>
 
-## 코드 블록에서 이스케이프 해제하기
+## 코드 블록에서 이스케이프 해제하기 {#unescape-in-code-blocks}
 
 기본적으로 모든 fenced 코드 블록은 자동으로 `v-pre`로 둘러싸입니다. 따라서 내부에서 Vue 구문을 처리하지 않습니다. 펜스 내에서 Vue 스타일 보간을 활성화하려면, 예를 들어 `js-vue`처럼 언어에 `-vue` 접미사를 추가할 수 있습니다:
 
@@ -198,7 +198,7 @@ import CustomComponent from '../components/CustomComponent.vue'
 
 이는 일부 토큰이 제대로 구문 강조되지 않을 수 있음을 의미합니다.
 
-## CSS 전처리기 사용하기
+## CSS 전처리기 사용하기 {#using-css-pre-processors}
 
 VitePress는 CSS 전처리기에 대한 [내장 지원](https://vitejs.dev/guide/features.html#css-pre-processors)을 가지고 있습니다: `.scss`, `.sass`, `.less`, `.styl` 및 `.stylus` 파일. 이것들을 위한 Vite 특정 플러그인을 설치할 필요는 없지만, 해당 전처리기 자체는 설치해야 합니다:
 
@@ -222,7 +222,7 @@ npm install -D stylus
 </style>
 ```
 
-## Teleports 사용하기
+## Teleports 사용하기 {#using-teleports}
 
 현재 VitePress는 본문으로만 teleport에 대한 SSG 지원을 가지고 있습니다. 다른 대상을 위해서는, 내장된 `<ClientOnly>` 컴포넌트 내에 감싸거나 텔레포트 마크업을 최종 페이지 HTML의 올바른 위치에 주입할 수 있습니다 [`postRender` 훅](../reference/site-config#postrender)을 통해.
 

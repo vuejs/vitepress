@@ -1,6 +1,6 @@
-# 사용자 정의 테마 사용하기
+# 사용자 정의 테마 사용하기 {#using-a-custom-theme}
 
-## 테마 해결
+## 테마 해결 {#theme-resolving}
 
 `.vitepress/theme/index.js` 또는 `.vitepress/theme/index.ts` 파일(“테마 엔트리 파일”)을 생성하여 사용자 정의 테마를 활성화할 수 있습니다:
 
@@ -17,7 +17,7 @@
 
 VitePress는 테마 엔트리 파일의 존재를 감지하면 기본 테마 대신 항상 사용자 정의 테마를 사용합니다. 하지만 [기본 테마를 확장하여](./extending-default-theme) 그 위에 고급 사용자 정의를 수행할 수 있습니다.
 
-## 테마 인터페이스
+## 테마 인터페이스 {#theme-interface}
 
 VitePress 사용자 정의 테마는 다음 인터페이스를 가진 객체로 정의됩니다:
 
@@ -68,7 +68,7 @@ export default {
 
 레이아웃 컴포넌트 내부에서는 평소처럼 Vite + Vue 3 애플리케이션처럼 작동합니다. 테마도 [SSR-호환성이](./ssr-compat) 있어야 합니다.
 
-## 레이아웃 만들기
+## 레이아웃 만들기 {#building-a-layout}
 
 가장 기본적인 레이아웃 컴포넌트는 [`<Content />`](../reference/runtime-api#content) 컴포넌트를 포함해야 합니다:
 
@@ -152,7 +152,7 @@ const { page, frontmatter } = useData()
 
 테마 컴포넌트에서 사용할 수 있는 모든 것에 대한 [런타임 API 참조](../reference/runtime-api)를 참조하세요. 또한, [빌드할 때 데이터 로딩](./data-loading)을 활용하여 데이터 기반 레이아웃을 생성할 수 있습니다 - 예를 들어, 현재 프로젝트 내 모든 블로그 포스트를 나열하는 페이지 등.
 
-## 사용자 정의 테마 배포하기
+## 사용자 정의 테마 배포하기 {#distributing-a-custom-theme}
 
 사용자 정의 테마를 배포하는 가장 쉬운 방법은 [GitHub에서 템플릿 저장소로 제공하는 것입니다](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-template-repository).
 
@@ -168,7 +168,7 @@ npm 패키지로 테마를 배포하려면 다음 단계를 따르세요:
 
 5. 테마를 소비하는 방법에 대한 명확한 지침을 제공합니다(아래 참조).
 
-## 사용자 정의 테마 소비하기
+## 사용자 정의 테마 소비하기 {#consuming-a-custom-theme}
 
 외부 테마를 소비하려면 사용자 정의 테마 엔트리에서 가져와서 다시 내보냅니다:
 

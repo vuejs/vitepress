@@ -1,6 +1,6 @@
-# 편집 링크
+# 편집 링크 {#edit-link}
 
-## 사이트 레벨 설정
+## 사이트 레벨 설정 {#site-level-config}
 
 편집 링크를 사용하면 GitHub이나 GitLab과 같은 Git 관리 서비스에서 페이지를 편집하는 링크를 표시할 수 있습니다. 활성화하려면, `themeConfig.editLink` 옵션을 설정에 추가하세요.
 
@@ -49,7 +49,7 @@ export default {
 }
 ```
 
-## 프론트매터 설정
+## 프론트매터 설정 {#frontmatter-config}
 
 프론트매터의 `editLink` 옵션을 사용하여 페이지별로 이 기능을 비활성화할 수 있습니다:
 

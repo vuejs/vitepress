@@ -168,7 +168,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
     },
     {
       text: '설정 & API 참조',
-      base: '/reference/',
+      base: '/ko/reference/',
       link: 'site-config'
     }
   ]
@@ -185,7 +185,7 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
         { text: 'CLI', link: 'cli' },
         {
           text: '기본 테마',
-          base: '/reference/default-theme-',
+          base: '/ko/reference/default-theme-',
           items: [
             { text: '개요', link: 'config' },
             { text: '네비게이션', link: 'nav' },

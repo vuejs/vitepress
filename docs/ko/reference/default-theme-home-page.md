@@ -1,4 +1,4 @@
-# 홈페이지
+# 홈페이지 {#home-page}
 
 VitePress 기본 테마는 홈페이지 레이아웃을 제공하며, 이 사이트의 [홈페이지](../)에서도 사용된 것을 볼 수 있습니다. [frontmatter](./frontmatter-config)에 `layout: home`을 지정함으로써 여러분의 페이지에도 이를 사용할 수 있습니다.
 
@@ -10,7 +10,7 @@ layout: home
 
 하지만, 이 옵션만으로는 큰 효과를 보지 못합니다. `hero` 및 `features`와 같은 추가적인 옵션을 설정함으로써 홈페이지에 여러 가지 다른 사전 템플릿 "섹션"을 추가할 수 있습니다.
 
-## Hero 섹션
+## Hero 섹션 {#hero-section}
 
 Hero 섹션은 홈페이지 맨 위에 옵니다. 여기에서 Hero 섹션을 구성하는 방법입니다.
 
@@ -78,7 +78,7 @@ interface HeroAction {
 }
 ```
 
-### 이름 색상 사용자 정의
+### 이름 색상 사용자 정의 {#customizing-the-name-color}
 
 VitePress는 `name`에 대해 브랜드 색상 (`--vp-c-brand-1`)을 사용합니다. 하지만, `--vp-home-hero-name-color` 변수를 오버라이딩함으로써 이 색상을 사용자 정의할 수 있습니다.
 
@@ -97,7 +97,7 @@ VitePress는 `name`에 대해 브랜드 색상 (`--vp-c-brand-1`)을 사용합�
 }
 ```
 
-## 기능 섹션
+## 기능 섹션 {#features-section}
 
 기능 섹션에서는 Hero 섹션 바로 다음에 보여주고 싶은 기능의 수를 제한 없이 나열할 수 있습니다. 구성하려면 frontmatter에 `features` 옵션을 전달합니다.
 
@@ -167,7 +167,7 @@ type FeatureIcon =
     }
 ```
 
-## 마크다운 컨텐츠
+## 마크다운 컨텐츠 {#markdown-content}
 
 `---` frontmatter 구분자 아래에 마크다운을 더함으로써 사이트의 홈페이지에 추가 컨텐츠를 추가할 수 있습니다.
 

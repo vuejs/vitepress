@@ -1,6 +1,6 @@
-# 자산 처리
+# 자산 처리 {#asset-handling}
 
-## 정적 자산 참조하기
+## 정적 자산 참조하기 {#referencing-static-assets}
 
 모든 Markdown 파일은 Vue 컴포넌트로 컴파일되며 [Vite](https://vitejs.dev/guide/assets.html)에 의해 처리됩니다. 상대 URL을 사용하여 어떠한 자산도 참조할 수 **있으며 해야 합니다**:
 
@@ -20,7 +20,7 @@ Markdown 파일 내의 링크로 참조된 PDF 또는 기타 문서는 자동으
 
 모든 **정적** 경로 참조, 절대 경로를 포함하여, 작업 디렉토리 구조를 기반으로 해야 합니다.
 
-## Public 디렉토리
+## Public 디렉토리 {#the-public-directory}
 
 Markdown이나 테마 컴포넌트에서 직접 참조되지 않은 정적 자산을 제공할 필요가 있거나, 특정 파일을 원본 파일명으로 제공하고 싶은 경우가 있을 수 있습니다. 이러한 파일의 예로는 `robots.txt`, 파비콘, PWA 아이콘이 있습니다.
 
@@ -30,7 +30,7 @@ Markdown이나 테마 컴포넌트에서 직접 참조되지 않은 정적 자�
 
 `public`에 배치된 파일을 참조할 때는 루트 절대 경로를 사용해야 한다는 점에 유의하세요 - 예를 들어, `public/icon.png`는 소스 코드에서 항상 `/icon.png`로 참조되어야 합니다.
 
-## 기본 URL
+## 기본 URL {#base-url}
 
 사이트가 루트 URL이 아닌 곳에 배포되는 경우, `.vitepress/config.js`에서 `base` 옵션을 설정해야 합니다. 예를 들어, 사이트를 `https://foo.github.io/bar/`에 배포할 계획이라면, `base`는 `'/bar/'`(항상 슬래시로 시작하고 끝나야 함)로 설정해야 합니다.
 

@@ -1,4 +1,4 @@
-# 카본 광고
+# 카본 광고 {#carbon-ads}
 
 VitePress는 [카본 광고](https://www.carbonads.net/)에 대한 내장된 네이티브 지원을 제공합니다. config에서 카본 광고 자격증명을 정의함으로써, VitePress는 페이지에 광고를 표시합니다.
 

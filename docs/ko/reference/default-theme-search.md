@@ -2,9 +2,9 @@
 outline: deep
 ---
 
-# 검색
+# 검색 {#search}
 
-## 로컬 검색
+## 로컬 검색 {#local-search}
 
 VitePress는 [minisearch](https://github.com/lucaong/minisearch/)를 통해 브라우저 내 인덱스를 사용한 퍼지 전문 검색을 지원합니다. 이 기능을 활성화하려면, `.vitepress/config.ts` 파일 내에서 `themeConfig.search.provider` 옵션을 `'local'`로 설정하면 됩니다:
 
@@ -69,7 +69,7 @@ export default defineConfig({
 })
 ```
 
-### miniSearch 옵션
+### miniSearch 옵션 {#mini-search-options}
 
 다음과 같이 MiniSearch를 구성할 수 있습니다:
 
@@ -105,7 +105,7 @@ export default defineConfig({
 
 [MiniSearch 문서](https://lucaong.github.io/minisearch/classes/MiniSearch.MiniSearch.html)에서 더 많은 정보를 얻을 수 있습니다.
 
-### 사용자 정의 콘텐츠 렌더러
+### 사용자 정의 콘텐츠 렌더러 {#custom-content-renderer}
 
 색인 생성 전에 마크다운 콘텐츠를 렌더링하는 데 사용되는 함수를 커스터마이즈할 수 있습니다:
 
@@ -133,7 +133,7 @@ export default defineConfig({
 
 이 함수는 클라이언트 사이드 사이트 데이터에서 제거될 것이므로, 여기서 Node.js API를 사용할 수 있습니다.
 
-#### 예시: 검색에서 페이지 제외
+#### 예시: 검색에서 페이지 제외 {#example-excluding-pages-from-search}
 
 페이지에서 `search: false`를 프론트매터에 추가하여 검색에서 페이지를 제외할 수 있습니다. 또는 다음과 같이 합니다:
 
@@ -161,7 +161,7 @@ export default defineConfig({
 사용자 정의 `_render` 함수를 제공하는 경우, `search: false` 프론트매터를 직접 처리해야 합니다. 또한, `md.render`가 호출되기 전에는 `env` 객체가 완전히 채워지지 않으므로, `frontmatter`와 같은 선택적 `env` 속성에 대한 검사는 그 이후에 수행해야 합니다.
 :::
 
-#### 예시: 콘텐츠 변환 - 앵커 추가
+#### 예시: 콘텐츠 변환 - 앵커 추가 {#example-transforming-content-adding-anchors}
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -183,7 +183,7 @@ export default defineConfig({
 })
 ```
 
-## Algolia 검색
+## Algolia 검색 {#algolia-search}
 
 VitePress는 [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch)를 사용하여 문서 사이트 검색을 지원합니다. 시작 가이드를 참조하세요. 작동하게 하려면 `.vitepress/config.ts`에서 최소한 다음 정보를 제공해야 합니다:
 
@@ -270,7 +270,7 @@ export default defineConfig({
 
 [이 옵션들](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts)은 덮어쓸 수 있습니다. 공식 Algolia 문서에서 더 많은 정보를 알아보세요.
 
-### 크롤러 구성
+### 크롤러 구성 {#crawler-config}
 
 이 사이트가 사용하는 것을 기반으로 한 예제 구성입니다:
 

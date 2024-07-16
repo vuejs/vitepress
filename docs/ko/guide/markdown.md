@@ -1,12 +1,12 @@
-# 마크다운 확장
+# 마크다운 확장 {#markdown-extensions}
 
 VitePress는 내장된 마크다운 확장을 제공합니다.
 
-## 헤더 앵커
+## 헤더 앵커 {#header-anchors}
 
 헤더에는 자동으로 앵커 링크가 적용됩니다. 앵커의 렌더링은 `markdown.anchor` 옵션을 사용하여 구성할 수 있습니다.
 
-### 사용자 정의 앵커
+### 사용자 정의 앵커 {#custom-anchors}
 
 자동 생성된 것 대신 헤더에 대한 사용자 정의 앵커 태그를 지정하려면, 헤딩에 접미사를 추가하세요:
 
@@ -16,11 +16,11 @@ VitePress는 내장된 마크다운 확장을 제공합니다.
 
 이를 통해 기본값인 `#using-custom-anchors` 대신 `#my-anchor`로 헤딩에 링크할 수 있습니다.
 
-## 링크
+## 링크 {#links}
 
 내부 및 외부 링크는 특별한 처리를 받습니다.
 
-### 내부 링크
+### 내부 링크 {#internal-links}
 
 내부 링크는 SPA 탐색을 위한 라우터 링크로 변환됩니다. 또한, 각 하위 디렉토리에 포함된 모든 `index.md`는 자동으로 `index.html`로 변환되며, 해당 URL은 `/`입니다.
 
@@ -50,18 +50,18 @@ VitePress는 내장된 마크다운 확장을 제공합니다.
 [bar - four](../bar/four.html) <!-- 또는 .html을 추가할 수 있습니다 -->
 ```
 
-### 페이지 접미사
+### 페이지 접미사 {#page-suffix}
 
 기본적으로 페이지와 내부 링크는 `.html` 접미사를 가지고 생성됩니다.
 
-### 외부 링크
+### 외부 링크 {#external-links}
 
 외부 링크는 자동으로 `target="_blank" rel="noreferrer"`를 받습니다:
 
 - [vuejs.org](https://vuejs.org)
 - [GitHub에서 VitePress](https://github.com/vuejs/vitepress)
 
-## 프론트매터
+## 프론트매터 {#frontmatter}
 
 [YAML 프론트매터](https://jekyllrb.com/docs/front-matter/)가 기본적으로 지원됩니다:
 
@@ -76,7 +76,7 @@ lang: en-US
 
 자세한 내용은 [프론트매터](../reference/frontmatter-config)를 참조하세요.
 
-## GitHub 스타일 테이블
+## GitHub 스타일 테이블 {#github-style-tables}
 
 **입력**
 
@@ -96,7 +96,7 @@ lang: en-US
 | 2열은      |   가운데 정렬입니다    |   \$12 |
 | 얼룩말 줄무늬 |   멋져요    |    \$1 |
 
-## 이모지 :tada:
+## Emoji :tada:
 
 **입력**
 
@@ -110,7 +110,7 @@ lang: en-US
 
 [모든 이모지의 목록](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.mjs)이 제공됩니다.
 
-## 목차
+## 목차 {#table-of-contents}
 
 **입력**
 
@@ -124,11 +124,11 @@ lang: en-US
 
 TOC의 렌더링은 `markdown.toc` 옵션을 사용하여 구성할 수 있습니다.
 
-## 사용자 정의 컨테이너
+## 사용자 정의 컨테이너 {#custom-containers}
 
 사용자 정의 컨테이너는 그들의 유형, 제목, 그리고 내용에 의해 정의될 수 있습니다.
 
-### 기본 제목
+### 기본 제목 {#default-title}
 
 **입력**
 
@@ -176,7 +176,7 @@ TOC의 렌더링은 `markdown.toc` 옵션을 사용하여 구성할 수 있습�
 세부 정보 블록입니다.
 :::
 
-### 사용자 정의 제목
+### 사용자 정의 제목 {#custom-title}
 
 컨테이너의 "유형" 바로 뒤에 텍스트를 추가하여 사용자 정의 제목을 설정할 수 있습니다.
 
@@ -263,7 +263,7 @@ VitePress와 스타일 및 라우터 충돌을 방지하기 위해 사용될 수
   })
   ```
 
-## GitHub 스타일 경고
+## GitHub 스타일 경고 {#github-flavored-alerts}
 
 VitePress는 [GitHub 스타일 경고](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts)를 콜아웃으로 렌더링하는 것을 지원합니다. 이것은 [사용자 정의 컨테이너](#custom-containers)와 같은 방식으로 렌더링됩니다.
 
@@ -299,7 +299,7 @@ VitePress는 [GitHub 스타일 경고](https://docs.github.com/en/get-started/wr
 > [!CAUTION]
 > 행동의 부정적인 잠재적 결과입니다.
 
-## 코드 블록 내 구문 강조
+## 코드 블록 내 구문 강조 {#syntax-highlighting-in-code-blocks}
 
 VitePress는 마크다운 코드 블록 내 언어 문법을 색상이 있는 텍스트로 강조하는 데 [Shiki](https://github.com/shikijs/shiki)를 사용합니다. Shiki는 다양한 프로그래밍 언어를 지원합니다. 코드 블록의 시작 백틱에 유효한 언어 별칭을 추가하기만 하면 됩니다:
 
@@ -345,7 +345,7 @@ Shiki의 저장소에서 사용 가능한 [유효한 언어 목록](https://shik
 
 또한 응용 프로그램 구성에서 구문 강조 테마를 사용자 지정할 수 있습니다. 자세한 내용은 [`markdown` 옵션](../reference/site-config#markdown)을 참조하세요.
 
-## 코드 블록에서 라인 강조
+## 코드 블록에서 라인 강조 {#line-highlighting-in-code-blocks}
 
 **입력**
 
@@ -441,7 +441,7 @@ export default {
 }
 ```
 
-## 코드 블록에서 포커싱
+## 코드 블록에서 포커싱 {#focus-in-code-blocks}
 
 `// [!code focus]` 주석을 라인에 추가하면 해당 라인이 포커싱되고 코드의 다른 부분은 흐릿하게 처리됩니다.
 
@@ -473,7 +473,7 @@ export default {
 }
 ```
 
-## 코드 블록 내 컬러 차이점
+## 코드 블록 내 컬러 차이점 {#colored-diffs-in-code-blocks}
 
 `// [!code --]` 또는 `// [!code ++]` 주석을 라인에 추가하면 해당 라인의 차이점을 나타내며, 코드 블록의 색상을 유지합니다.
 
@@ -505,7 +505,7 @@ export default {
 }
 ```
 
-## 코드 블록 내 오류 및 경고
+## 코드 블록 내 오류 및 경고 {#errors-and-warnings-in-code-blocks}
 
 `// [!code warning]` 또는 `// [!code error]` 주석을 라인에 추가하면 해당 색깔에 따라 라인이 색칠됩니다.
 
@@ -537,7 +537,7 @@ export default {
 }
 ```
 
-## 라인 번호
+## 라인 번호 {#line-numbers}
 
 구성을 통해 각 코드 블록에 라인 번호를 활성화할 수 있습니다:
 
@@ -597,7 +597,7 @@ const line3 = 'This is line 3'
 const line4 = 'This is line 4'
 ```
 
-## 코드 스니펫 가져오기
+## 코드 스니펫 가져오기 {#import-code-snippets}
 
 다음 문법을 통해 기존 파일에서 코드 스니펫을 가져올 수 있습니다:
 
@@ -666,7 +666,7 @@ const line4 = 'This is line 4'
 
 이는 파일 확장명에서 소스 언어를 유추할 수 없을 때 유용합니다.
 
-## 코드 그룹
+## 코드 그룹 {#code-groups}
 
 다음과 같이 여러 코드 블록을 그룹화할 수 있습니다:
 
@@ -754,7 +754,7 @@ export default config
 
 :::
 
-## 마크다운 파일 포함
+## 마크다운 파일 포함 {#markdown-file-inclusion}
 
 다른 마크다운 파일에 마크다운 파일을 포함시킬 수 있으며, 중첩도 가능합니다.
 
@@ -875,7 +875,7 @@ VS Code 영역을 사용하여 코드 파일의 해당 부분만 포함할 수�
 파일이 없는 경우 오류를 발생시키지 않으니, 이 기능을 사용할 때는 내용이 예상대로 렌더링되고 있는지 확인해야 합니다.
 :::
 
-## 수식
+## 수식 {#math-equations}
 
 현재 선택 사항입니다. 활성화하려면 `markdown-it-mathjax3`를 설치하고 설정 파일에서 `markdown.math`를 `true`로 설정해야 합니다:
 
@@ -920,7 +920,7 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 | $\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t}  = \vec{\mathbf{0}}$                                                        | $\vec{\mathbf{E}}$의 회전은 $\vec{\mathbf{B}}$의 시간에 따른 변화율에 비례합니다     |
 | $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _wha?_                                                                               |
 
-## 이미지 지연 로딩
+## 이미지 지연 로딩 {#image-lazy-loading}
 
 마크다운을 통해 추가된 각 이미지에 대해 지연 로딩을 활성화하려면 설정 파일에서 `lazyLoading`을 `true`로 설정하세요:
 
@@ -935,7 +935,7 @@ export default {
 }
 ```
 
-## 고급 설정
+## 고급 설정 {#advanced-configuration}
 
 VitePress는 마크다운 렌더링을 위해 [markdown-it](https://github.com/markdown-it/markdown-it)을 사용합니다. 위의 확장 프로그램 대부분은 커스텀 플러그인을 통해 구현됩니다. `.vitepress/config.js`의 `markdown` 옵션을 사용하여 `markdown-it` 인스턴스를 더욱 커스터마이징할 수 있습니다:
 

@@ -2,9 +2,9 @@
 outline: deep
 ---
 
-# CMS에 연결하기
+# CMS에 연결하기 {#connecting-to-a-cms}
 
-## 일반 워크플로우
+## 일반 워크플로우 {#general-workflow}
 
 VitePress를 CMS에 연결하는 것은 주로 [동적 라우트](./routing#dynamic-routes)를 중심으로 진행될 것입니다. 진행하기 전에 이것이 어떻게 작동하는지 이해하는 것이 중요합니다.
 
@@ -51,6 +51,6 @@ VitePress를 CMS에 연결하는 것은 주로 [동적 라우트](./routing#dyna
     <!-- @content -->
     ```
 
-## 통합 가이드
+## 통합 가이드 {#integration-guides}
 
 VitePress와 특정 CMS의 통합에 대한 가이드를 작성한 경우, 아래 "이 페이지 편집" 링크를 사용하여 여기에 제출하세요!

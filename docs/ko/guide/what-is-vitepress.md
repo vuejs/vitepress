@@ -1,4 +1,4 @@
-# VitePress란 무엇인가?
+# VitePress란 무엇인가? {#what-is-vitepress}
 
 VitePress는 빠르고 컨텐츠 중심의 웹사이트를 구축하기 위해 설계된 [정적 사이트 생성기](https://en.wikipedia.org/wiki/Static_site_generator) (SSG)입니다. 간단히 말해, VitePress는 [Markdown](https://en.wikipedia.org/wiki/Markdown)으로 작성된 소스 컨텐츠를 가져와서 테마를 적용하고, 어디에나 쉽게 배포할 수 있는 정적 HTML 페이지를 생성합니다.
 
@@ -8,7 +8,7 @@ VitePress는 빠르고 컨텐츠 중심의 웹사이트를 구축하기 위해 �
 
 </div>
 
-## 사용 사례
+## 사용 사례 {#use-cases}
 
 - **문서화**
 
@@ -22,7 +22,7 @@ VitePress는 빠르고 컨텐츠 중심의 웹사이트를 구축하기 위해 �
 
   공식 [Vue.js 블로그](https://blog.vuejs.org/)는 로컬 콘텐츠를 기반으로 색인 페이지를 생성하는 간단한 블로그입니다.
 
-## 개발자 경험
+## 개발자 경험 {#developer-experience}
 
 VitePress는 Markdown 컨텐츠를 다룰 때 훌륭한 개발자 경험(DX)을 제공하고자 합니다.
 
@@ -32,7 +32,7 @@ VitePress는 Markdown 컨텐츠를 다룰 때 훌륭한 개발자 경험(DX)을 
 
 - **[Vue를 향상된 Markdown:](./using-vue)** 각 Markdown 페이지는 HTML과 100% 문법 호환성을 가진 Vue 템플릿 덕분에 Vue [단일 파일 컴포넌트](https://vuejs.org/guide/scaling-up/sfc.html)입니다. Vue 템플릿 기능이나 가져온 Vue 컴포넌트를 사용하여 정적 콘텐츠에 상호작용성을 삽입할 수 있습니다.
 
-## 성능
+## 성능 {#performance}
 
 전통적인 SSG들과 달리 각 탐색이 전체 페이지 새로고침을 초래하는 것이 아니라, VitePress로 생성된 웹사이트는 초기 방문 시 정적 HTML을 제공하지만, 사이트 내 이후 탐색에 대해서는 [싱글 페이지 애플리케이션](https://en.wikipedia.org/wiki/Single-page_application) (SPA)이 됩니다. 우리의 견해에 따르면, 이 모델은 성능에 있어 최적의 균형을 제공합니다:
 
@@ -48,7 +48,7 @@ VitePress는 Markdown 컨텐츠를 다룰 때 훌륭한 개발자 경험(DX)을 
 
   정적 Markdown 내에 내장된 동적 Vue 파트를 hydrate할 수 있도록 각 Markdown 페이지는 Vue 컴포넌트로 처리되고 JavaScript로 컴파일됩니다. 이것은 비효율적으로 들릴 수 있지만, Vue 컴파일러는 정적 부분과 동적 부분을 분리하여 hydration 비용과 페이로드 크기를 최소화하는 데 충분히 똑똑합니다. 초기 페이지 로드에 대해서, 정적 부분은 JavaScript 페이로드에서 자동으로 제거되고 hydration 동안 건너뛰어집니다.
 
-## VuePress는 어떤가요?
+## VuePress는 어떤가요? {#what-about-vuepress}
 
 VitePress는 VuePress의 영적 후계자입니다. 원래 VuePress는 Vue 2와 webpack에 기반을 두고 있었습니다. Vue 3와 Vite를 기반으로 한 VitePress는 훨씬 더 나은 DX, 더 나은 프로덕션 성능, 더 완성된 기본 테마, 그리고 더욱 유연한 커스터마이징 API를 제공합니다.
 

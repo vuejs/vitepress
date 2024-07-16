@@ -1,4 +1,4 @@
-# MPA 모드 <Badge type="warning" text="실험적" />
+# MPA 모드 <Badge type="warning" text="실험적" /> {#mpa-mode}
 
 MPA(멀티 페이지 애플리케이션) 모드는 `vitepress build --mpa` 명령어를 통해 또는 `mpa: true` 옵션을 통해 설정 파일에서 활성화할 수 있습니다.
 

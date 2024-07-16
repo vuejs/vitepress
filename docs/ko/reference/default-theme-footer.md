@@ -1,4 +1,4 @@
-# 푸터
+# 푸터 {#footer}
 
 VitePress는 `themeConfig.footer`가 존재할 때 페이지 하단에 전역 푸터를 표시합니다.
 
@@ -42,7 +42,7 @@ export default {
 
 푸터는 [사이드바](./default-theme-sidebar)가 보이는 경우에는 표시되지 않습니다.
 
-## 프론트매터 구성
+## 프론트매터 구성 {#frontmatter-config}
 
 이 기능은 프론트매터의 `footer` 옵션을 사용하여 페이지별로 비활성화될 수 있습니다:
 
