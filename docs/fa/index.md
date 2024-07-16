@@ -34,15 +34,12 @@ features:
     details: استفاده مستقیم از syntax و کامپوننت‌های Vue در Markdown، یا ایجاد تم‌های شخصی به کمک Vue
   - icon: 🚀
     title: ارسال سایت های سریع
-    details: بارگذاری اولیه سریع با HTML ایستا، ناوبری سریع پس از بارگیری با مسیریابی سمت مشتری
+    details: بارگذاری اولیه سریع با HTML ایستا، ناوبری سریع پس از بارگیری با مسیریابی سمت کلاینت
 ---
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap");
-* { 
-    /* TODO: remove*/
-    direction: rtl;
-}
+
 :root {
   --vp-font-family-base: "Vazirmatn", 'Inter', ui-sans-serif, system-ui, sans-serif,
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';

@@ -5,9 +5,18 @@ const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
 
 export const fa = defineConfig({
-  lang: 'en-US',
+  lang: 'fa-IR',
   description: 'Vite & Vue powered static site generator.',
   dir: 'rtl',
+  markdown: {
+    container: {
+      tipLabel: 'نکته',
+      warningLabel: 'اخطار',
+      dangerLabel: 'خطر',
+      infoLabel: 'اطلاعات',
+      detailsLabel: 'جزئیات'
+    }
+  },
   themeConfig: {
     nav: nav(),
     sidebar: {
@@ -163,45 +172,41 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
   ]
 }
 
-const search: DefaultTheme.AlgoliaSearchOptions['locales'] = {
+export const search: DefaultTheme.AlgoliaSearchOptions['locales'] = {
   fa: {
-    placeholder: 'Pesquisar documentos',
+    placeholder: 'جستجوی مستندات',
     translations: {
       button: {
-        buttonText: 'Pesquisar',
-        buttonAriaLabel: 'Pesquisar'
+        buttonText: 'جستجو',
+        buttonAriaLabel: 'جستجو'
       },
       modal: {
         searchBox: {
-          resetButtonTitle: 'Limpar pesquisa',
-          resetButtonAriaLabel: 'Limpar pesquisa',
-          cancelButtonText: 'Cancelar',
-          cancelButtonAriaLabel: 'Cancelar'
+          resetButtonTitle: 'آغاز مجدد جستجو',
+          resetButtonAriaLabel: 'آغاز مجدد جستجو',
+          cancelButtonText: 'لغو',
+          cancelButtonAriaLabel: 'لغو'
         },
         startScreen: {
-          recentSearchesTitle: 'Histórico de Pesquisa',
-          noRecentSearchesText: 'Nenhuma pesquisa recente',
-          saveRecentSearchButtonTitle: 'Salvar no histórico de pesquisas',
-          removeRecentSearchButtonTitle: 'Remover do histórico de pesquisas',
-          favoriteSearchesTitle: 'Favoritos',
-          removeFavoriteSearchButtonTitle: 'Remover dos favoritos'
+          recentSearchesTitle: 'جستجو‌های اخیر',
+          noRecentSearchesText: 'تاریخچه جستجویی یافت نشد.',
+          saveRecentSearchButtonTitle: 'ذخیره تاریخچه جستجو',
+          removeRecentSearchButtonTitle: 'حذف تاریخچه جستجو',
+          favoriteSearchesTitle: 'موارد دلخواه',
+          removeFavoriteSearchButtonTitle: 'حذف مورد دلخواه'
         },
         errorScreen: {
-          titleText: 'Não foi possível obter resultados',
-          helpText: 'Verifique a sua conexão de rede'
+          titleText: 'نتیجه‌ای یافت نشد برای',
+          helpText: 'اتصال شبکه خود را بررسی کنید'
         },
         footer: {
-          selectText: 'Selecionar',
-          navigateText: 'Navegar',
-          closeText: 'Fechar',
-          searchByText: 'Pesquisa por'
+          selectText: 'انتخاب',
+          navigateText: 'رفتن',
+          closeText: 'بستن',
+          searchByText: ' جستجو با '
         },
         noResultsScreen: {
-          noResultsText: 'Não foi possível encontrar resultados',
-          suggestedQueryText: 'Você pode tentar uma nova consulta',
-          reportMissingResultsText:
-            'Deveriam haver resultados para essa consulta?',
-          reportMissingResultsLinkText: 'Clique para enviar feedback'
+          noResultsText: 'نتیجه‌ای یافت نشد برای'
         }
       }
     }
