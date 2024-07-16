@@ -7,9 +7,9 @@ const pkg = require('vitepress/package.json')
 export const fa = defineConfig({
   lang: 'en-US',
   description: 'Vite & Vue powered static site generator.',
+  dir: 'rtl',
   themeConfig: {
     nav: nav(),
-
     sidebar: {
       '/fa/guide/': { base: '/fa/guide/', items: sidebarGuide() },
       '/fa/reference/': { base: '/fa/reference/', items: sidebarReference() }
@@ -47,7 +47,8 @@ export const fa = defineConfig({
     sidebarMenuLabel: 'منوی جانبی',
     darkModeSwitchLabel: 'تم تاریک',
     lightModeSwitchTitle: 'رفتن به حالت روشن',
-    darkModeSwitchTitle: 'رفتن به حالت تاریک'
+    darkModeSwitchTitle: 'رفتن به حالت تاریک',
+    siteTitle: 'ویت‌پرس'
   }
 })
 
@@ -96,7 +97,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
       collapsed: false,
       items: [
         { text: 'افزونه‌های Markdown', link: 'markdown' },
-        { text: 'مدیریت Asset', link: 'asset-handling' },
+        { text: 'مدیریت منابع', link: 'asset-handling' },
         { text: 'Frontmatter', link: 'frontmatter' },
         { text: 'استفاده از Vue در Markdown', link: 'using-vue' },
         { text: 'بین‌المللی سازی', link: 'i18n' }
@@ -160,4 +161,49 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
       ]
     }
   ]
+}
+
+const search: DefaultTheme.AlgoliaSearchOptions['locales'] = {
+  fa: {
+    placeholder: 'Pesquisar documentos',
+    translations: {
+      button: {
+        buttonText: 'Pesquisar',
+        buttonAriaLabel: 'Pesquisar'
+      },
+      modal: {
+        searchBox: {
+          resetButtonTitle: 'Limpar pesquisa',
+          resetButtonAriaLabel: 'Limpar pesquisa',
+          cancelButtonText: 'Cancelar',
+          cancelButtonAriaLabel: 'Cancelar'
+        },
+        startScreen: {
+          recentSearchesTitle: 'Histórico de Pesquisa',
+          noRecentSearchesText: 'Nenhuma pesquisa recente',
+          saveRecentSearchButtonTitle: 'Salvar no histórico de pesquisas',
+          removeRecentSearchButtonTitle: 'Remover do histórico de pesquisas',
+          favoriteSearchesTitle: 'Favoritos',
+          removeFavoriteSearchButtonTitle: 'Remover dos favoritos'
+        },
+        errorScreen: {
+          titleText: 'Não foi possível obter resultados',
+          helpText: 'Verifique a sua conexão de rede'
+        },
+        footer: {
+          selectText: 'Selecionar',
+          navigateText: 'Navegar',
+          closeText: 'Fechar',
+          searchByText: 'Pesquisa por'
+        },
+        noResultsScreen: {
+          noResultsText: 'Não foi possível encontrar resultados',
+          suggestedQueryText: 'Você pode tentar uma nova consulta',
+          reportMissingResultsText:
+            'Deveriam haver resultados para essa consulta?',
+          reportMissingResultsLinkText: 'Clique para enviar feedback'
+        }
+      }
+    }
+  }
 }
