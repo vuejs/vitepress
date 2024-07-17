@@ -5,6 +5,7 @@ import { zh } from './zh'
 import { pt } from './pt'
 import { ru } from './ru'
 import { es } from './es'
+import { ko } from './ko'
 
 export default defineConfig({
   ...shared,
@@ -14,6 +15,6 @@ export default defineConfig({
     pt: { label: 'Português', ...pt },
     ru: { label: 'Русский', ...ru },
     es: { label: 'Español', ...es },
-    ko: { label: '한국어', lang: 'ko-KR', link: 'https://vitepress.vuejs.kr/' }
+    ko: { label: '한국어', ...ko }
   }
 })

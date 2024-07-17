@@ -73,7 +73,7 @@ Cache-Control: max-age=31536000,immutable
   cache-control: immutable
 ```
 
-注意：该 `_headers` 文件应放置在 [public 目录](/guide/asset-handling#the-public-directory)中 (在我们的例子中是 `docs/public/_headers`)，以便将其逐字复制到输出目录。
+注意：该 `_headers` 文件应放置在 [public 目录](./asset-handling#the-public-directory)中 (在我们的例子中是 `docs/public/_headers`)，以便将其逐字复制到输出目录。
 
 [Netlify 自定义标头文档](https://docs.netlify.com/routing/headers/)
 

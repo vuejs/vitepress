@@ -160,7 +160,7 @@ export default createContentLoader('posts/*.md', {
 
 查看它在 [Vue.js 博客](https://github.com/vuejs/blog/blob/main/.vitepress/theme/posts.data.ts)中是如何使用的。
 
-`createContentLoader` API 也可以在[构建钩子](/reference/site-config#build-hooks)中使用：
+`createContentLoader` API 也可以在[构建钩子](../reference/site-config#build-hooks)中使用：
 
 ```js
 // .vitepress/config.js
