@@ -198,7 +198,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
 ### GitLab Pages
 
-1. Set `outDir` in VitePress config to `../public`. Configure `base` option to `'/<repository>/'` if you want to deploy to `https://<username>.gitlab.io/<repository>/`.
+1. Set `outDir` in VitePress config to `../public`. Configure `base` option to `'/<repository>/'` if you want to deploy to `https://<username>.gitlab.io/<repository>/`. You don't need `base` if you're deploying to custom domain, user or group pages, or have "Use unique domain" setting enabled in GitLab.
 
 2. Create a file named `.gitlab-ci.yml` in the root of your project with the content below. This will build and deploy your site whenever you make changes to your content:
 
