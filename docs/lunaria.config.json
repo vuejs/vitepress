@@ -36,6 +36,10 @@
     {
       "label": "Español",
       "lang": "es"
+    },
+    {
+      "label": "한국어",
+      "lang": "ko"
     }
   ],
   "outDir": ".vitepress/dist/_translations",
