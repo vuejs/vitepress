@@ -123,7 +123,7 @@ export default {
 } satisfies Theme
 ```
 
-Vite를 사용하기 때문에, Vite의 [글로브 임포트 기능](https://vitejs.dev/guide/features.html#glob-import)을 활용하여 컴포넌트 디렉터리를 자동으로 등록할 수도 있습니다.
+Vite를 사용하기 때문에, Vite의 [글로브 임포트 기능](https://vitejs.dev/ko/guide/features.html#glob-import)을 활용하여 컴포넌트 디렉터리를 자동으로 등록할 수도 있습니다.
 
 ## 레이아웃 슬롯 {#layout-slots}
 

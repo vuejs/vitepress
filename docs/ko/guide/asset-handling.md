@@ -2,7 +2,7 @@
 
 ## 정적 자산 참조하기 {#referencing-static-assets}
 
-모든 Markdown 파일은 Vue 컴포넌트로 컴파일되며 [Vite](https://vitejs.dev/guide/assets.html)에 의해 처리됩니다. 상대 URL을 사용하여 어떠한 자산도 참조할 수 **있으며 해야 합니다**:
+모든 Markdown 파일은 Vue 컴포넌트로 컴파일되며 [Vite](https://vitejs.dev/ko/guide/assets.html)에 의해 처리됩니다. 상대 URL을 사용하여 어떠한 자산도 참조할 수 **있으며 해야 합니다**:
 
 ```md
 ![이미지](./image.png)

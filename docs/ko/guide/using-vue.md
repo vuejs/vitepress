@@ -200,7 +200,7 @@ import CustomComponent from '../components/CustomComponent.vue'
 
 ## CSS 전처리기 사용하기 {#using-css-pre-processors}
 
-VitePress는 CSS 전처리기에 대한 [내장 지원](https://vitejs.dev/guide/features.html#css-pre-processors)을 가지고 있습니다: `.scss`, `.sass`, `.less`, `.styl` 및 `.stylus` 파일. 이것들을 위한 Vite 특정 플러그인을 설치할 필요는 없지만, 해당 전처리기 자체는 설치해야 합니다:
+VitePress는 CSS 전처리기에 대한 [내장 지원](https://vitejs.dev/ko/guide/features.html#css-pre-processors)을 가지고 있습니다: `.scss`, `.sass`, `.less`, `.styl` 및 `.stylus` 파일. 이것들을 위한 Vite 특정 플러그인을 설치할 필요는 없지만, 해당 전처리기 자체는 설치해야 합니다:
 
 ```
 # .scss 및 .sass

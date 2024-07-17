@@ -207,7 +207,7 @@ interface TeamMember {
 
   // 소셜 링크입니다. 예: GitHub, Twitter 등.
   // 여기에 소셜 링크 객체를 전달할 수 있습니다.
-  // 참조: https://vitepress.dev/reference/default-theme-config.html#sociallinks
+  // 참조: https://vitepress.dev/ko/reference/default-theme-config.html#sociallinks
   links?: SocialLink[]
 
   // 회원의 후원 페이지 URL입니다.

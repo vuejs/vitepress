@@ -38,7 +38,7 @@ onMounted(() => {
 
 ### 조건부 가져오기 {#conditional-import}
 
-`import.meta.env.SSR` 플래그([Vite env 변수](https://vitejs.dev/guide/env-and-mode.html#env-variables)의 일부)를 사용하여 종속성을 조건부로 가져올 수도 있습니다:
+`import.meta.env.SSR` 플래그([Vite env 변수](https://vitejs.dev/ko/guide/env-and-mode.html#env-variables)의 일부)를 사용하여 종속성을 조건부로 가져올 수도 있습니다:
 
 ```js
 if (!import.meta.env.SSR) {

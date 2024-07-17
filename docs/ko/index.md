@@ -11,10 +11,10 @@ hero:
   actions:
     - theme: brand
       text: VitePress란 무엇인가?
-      link: /guide/what-is-vitepress
+      link: /ko/guide/what-is-vitepress
     - theme: alt
       text: 빠른 시작
-      link: /guide/getting-started
+      link: /ko/guide/getting-started
     - theme: alt
       text: GitHub
       link: https://github.com/vuejs/vitepress
