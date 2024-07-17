@@ -48,7 +48,7 @@ if (!import.meta.env.SSR) {
 }
 ```
 
-因为 [`Theme.enhanceApp`](/guide/custom-theme#theme-interface) 可以是异步的，所以可以有条件地导入并注册访问浏览器 API 的 Vue 插件：
+因为 [`Theme.enhanceApp`](./custom-theme#theme-interface) 可以是异步的，所以可以有条件地导入并注册访问浏览器 API 的 Vue 插件：
 
 ```js
 // .vitepress/theme/index.js
