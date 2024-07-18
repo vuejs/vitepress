@@ -30,7 +30,7 @@ jobs:
         exclude:
           - node_version: ${{ (github.event.action == 'labeled' || github.event.action == 'ready_for_review') && 18 }}
           - node_version: ${{ (github.event.action == 'labeled' || github.event.action == 'ready_for_review') && 20 }}
-          - node_version: ${{ (!contains(github.event.pull_request.labels.*.name, 'cr-tracked') || contains(github.event.pull_request.labels.*.name, 'spam') || contains(github.event.pull_request.labels.*.name, 'invalid')) && 22 }}
+          - node_version: ${{ (github.event.action == 'labeled' || github.event.action == 'ready_for_review') && (!contains(github.event.pull_request.labels.*.name, 'cr-tracked') || contains(github.event.pull_request.labels.*.name, 'spam') || contains(github.event.pull_request.labels.*.name, 'invalid')) && 22 }}
 
     steps:
       - name: Checkout
