@@ -1,6 +1,6 @@
 # Home Page
 
-VitePress default theme provides a homepage layout, which you can also see used on [the homepage of this site](../). You may use it on any of your pages by specifying `layout: home` in the [frontmatter](./frontmatter-config).
+VitePress' default theme provides a homepage layout, which you can also see used on [the homepage of this site](../). You may use it on any of your pages by specifying `layout: home` in the [frontmatter](./frontmatter-config).
 
 ```yaml
 ---
@@ -8,7 +8,7 @@ layout: home
 ---
 ```
 
-However, this option alone wouldn't do much. You can add several different pre templated "sections" to the homepage by setting additional other options such as `hero` and `features`.
+However, this option alone wouldn't do much. You can add several different pre-made template "sections" to the homepage by setting additional other options such as `hero` and `features`.
 
 ## Hero Section
 
@@ -37,8 +37,8 @@ hero:
 
 ```ts
 interface Hero {
-  // The string shown top of `text`. Comes with brand color
-  // and expected to be short, such as product name.
+  // The string shown top of `text`. Comes with the brand color
+  // and expected to be short, such as a product name.
   name?: string
 
   // The main text for the hero section. This will be defined
@@ -51,7 +51,7 @@ interface Hero {
   // The image is displayed next to the text and tagline area.
   image?: ThemeableImage
 
-  // Action buttons to display in home hero section.
+  // Action buttons to display in the home hero section.
   actions?: HeroAction[]
 }
 
@@ -88,7 +88,7 @@ VitePress uses the brand color (`--vp-c-brand-1`) for the `name`. However, you m
 }
 ```
 
-Also you may customize it further by combining `--vp-home-hero-name-background` to give the `name` gradient color.
+You may also customize it further by combining `--vp-home-hero-name-background` to give the `name` a gradient color.
 
 ```css
 :root {
@@ -99,9 +99,9 @@ Also you may customize it further by combining `--vp-home-hero-name-background` 
 
 ## Features Section
 
-In Features section, you can list any number of features you would like to show right after the Hero section. To configure it, pass `features` option to the frontmatter.
+In the Features section, you can list any number of features you would like to show right after the Hero section. To configure it, pass the `features` option to the frontmatter.
 
-You can provide an icon for each feature, which can be an emoji or any type of image. When the configured icon is an image (svg, png, jpeg...), you must provide the icon with the proper width and height; you can also provide the description, its intrinsic size as well as its variants for dark and light theme when required.
+You can provide an icon for each feature, which can be an emoji or any type of image. When the configured icon is an image (svg, png, jpeg...), you must provide the icon with the proper width and height; you can also provide the description, its intrinsic size, as well as its variants for dark and light themes when required.
 
 ```yaml
 ---
