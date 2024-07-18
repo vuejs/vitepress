@@ -56,4 +56,4 @@ jobs:
 
       - name: Publish preview
         if: matrix.node_version == 22 && github.event_name == 'pull_request' && github.event.action != 'reopened' && !github.event.pull_request.draft && contains(github.event.pull_request.labels.*.name, 'cr-tracked') && !contains(github.event.pull_request.labels.*.name, 'spam') && !contains(github.event.pull_request.labels.*.name, 'invalid')
-        run: pnpx pkg-pr-new publish --compact
+        run: pnpx pkg-pr-new publish --compact --no-template --pnpm
