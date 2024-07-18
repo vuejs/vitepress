@@ -57,7 +57,7 @@ By default, we assume the site is going to be deployed at the root path of a dom
 
 If you have control over the HTTP headers on your production server, you can configure `cache-control` headers to achieve better performance on repeated visits.
 
-The production build uses hashed file names for static assets (JavaScript, CSS and other imported assets not in `public`). If you inspect the production preview using your browser devtools' network tab, you will see files like `app.4f283b18.js`.
+The production build uses hashed file names for static assets (JavaScript, CSS, and other imported assets not in `public`). If you inspect the production preview using your browser developer tools' network tab, you will see files like `app.4f283b18.js`.
 
 This `4f283b18` hash is generated from the content of this file. The same hashed URL is guaranteed to serve the same file content - if the contents change, the URLs change too. This means you can safely use the strongest cache headers for these files. All such files will be placed under `assets/` in the output directory, so you can configure the following header for them:
 
@@ -114,7 +114,7 @@ Set up a new project and change these settings using your dashboard:
 - **Node Version:** `18` (or above)
 
 ::: warning
-Don't enable options like _Auto Minify_ for HTML code. It will remove comments from output which have meaning to Vue. You may see hydration mismatch errors if they get removed.
+Don't enable options like _Auto Minify_ for HTML code. It will remove comments, which have meaning to Vue, from output. You may see hydration mismatch errors if they get removed.
 :::
 
 ### GitHub Pages
@@ -198,7 +198,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
 ### GitLab Pages
 
-1. Set `outDir` in VitePress config to `../public`. Configure `base` option to `'/<repository>/'` if you want to deploy to `https://<username>.gitlab.io/<repository>/`. You don't need `base` if you're deploying to custom domain, user or group pages, or have "Use unique domain" setting enabled in GitLab.
+1. Set `outDir` in VitePress config to `../public`. Configure `base` option to `'/<repository>/'` if you want to deploy to `https://<username>.gitlab.io/<repository>/`. You don't need `base` if you're deploying to a custom domain, user/group pages, or have the "Use unique domain" setting enabled in GitLab.
 
 2. Create a file named `.gitlab-ci.yml` in the root of your project with the content below. This will build and deploy your site whenever you make changes to your content:
 
@@ -270,7 +270,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
 ### Heroku
 
-1. Follow documentation and guide given in [`heroku-buildpack-static`](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-static).
+1. Follow the documentation and guide avaliable at [`heroku-buildpack-static`](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-static).
 
 2. Create a file called `static.json` in the root of your project with the below content:
 
@@ -282,7 +282,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
 ### Edgio
 
-Refer [Creating and Deploying a VitePress App To Edgio](https://docs.edg.io/guides/vitepress).
+Refer to [Creating and Deploying a VitePress App To Edgio](https://docs.edg.io/guides/vitepress).
 
 ### Kinsta Static Site Hosting
 
@@ -294,7 +294,7 @@ You can deploy your VitePress project to [Stormkit](https://www.stormkit.io) by 
 
 ### Nginx
 
-Here is a example of an Nginx server block configuration. This setup includes gzip compression for common text-based assets, rules for serving your VitePress site's static files with proper caching headers as well as handling `cleanUrls: true`.
+Here is an example of an Nginx server block configuration. This setup includes gzip compression for common text-based assets, rules for serving your VitePress site's static files with proper caching headers, as well as handling `cleanUrls: true`.
 
 ```nginx
 server {
