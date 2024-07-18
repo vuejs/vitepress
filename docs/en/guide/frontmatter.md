@@ -2,7 +2,7 @@
 
 ## Usage
 
-VitePress supports YAML frontmatter in all Markdown files, parsing them with [gray-matter](https://github.com/jonschlinkert/gray-matter). The frontmatter must be at the top of the Markdown file (before any elements including `<script>` tags), and must take the form of valid YAML set between triple-dashed lines. Example:
+VitePress supports YAML frontmatter in all Markdown files, parsing them with [gray-matter](https://github.com/jonschlinkert/gray-matter). The frontmatter must be at the top of the Markdown file (before any elements including `<script>` tags) and must take the form of valid YAML set between triple-dashed lines. Example:
 
 ```md
 ---
@@ -32,7 +32,7 @@ editLink: true
 Guide content
 ```
 
-You can also access current page's frontmatter data in `<script setup>` with the [`useData()`](../reference/runtime-api#usedata) helper.
+You can also access the current page's frontmatter data in `<script setup>` with the [`useData()`](../reference/runtime-api#usedata) helper.
 
 ## Alternative Frontmatter Formats
 
