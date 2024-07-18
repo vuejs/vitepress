@@ -1,6 +1,6 @@
 # Migration from VitePress 0.x
 
-If you're coming from VitePress 0.x version, there're several breaking changes due to new features and enhancement. Please follow this guide to see how to migrate your app over to the latest VitePress.
+If you're coming from a VitePress 0.x version, there are several breaking changes due to new features and enhancements. Please follow this guide to see how to migrate your app over to the latest VitePress.
 
 ## App Config
 
@@ -10,14 +10,14 @@ If you're coming from VitePress 0.x version, there're several breaking changes d
 
 - `sidebar` option has changed its structure.
   - `children` key is now named `items`.
-  - Top level item may not contain `link` at the moment. We're planning to bring it back.
+  - Top-level items may not contain `link` at the moment. We're planning to bring it back.
 - `repo`, `repoLabel`, `docsDir`, `docsBranch`, `editLinks`, `editLinkText` are removed in favor of more flexible api.
-  - For adding GitHub link with icon to the nav, use [Social Links](../reference/default-theme-nav#navigation-links) feature.
-  - For adding "Edit this page" feature, use [Edit Link](../reference/default-theme-edit-link) feature.
-- `lastUpdated` option is now split into `config.lastUpdated` and `themeConfig.lastUpdatedText`.
+  - For adding GitHub link(s) with icon(s) to the nav, use the [Social Links](../reference/default-theme-nav#navigation-links) feature.
+  - For adding "Edit this page" feature, use the [Edit Link](../reference/default-theme-edit-link) feature.
+- The `lastUpdated` option is now split into `config.lastUpdated` and `themeConfig.lastUpdatedText`.
 - `carbonAds.carbon` is changed to `carbonAds.code`.
 
 ## Frontmatter Config
 
-- `home: true` option has changed to `layout: home`. Also, many Homepage related settings have been modified to provide additional features. See [Home Page guide](../reference/default-theme-home-page) for details.
-- `footer` option is moved to [`themeConfig.footer`](../reference/default-theme-config#footer).
+- The `home: true` option has changed to `layout: home`. In addition, many Homepage-related settings have been modified to provide additional features. See [Home Page guide](../reference/default-theme-home-page) for details.
+- The `footer` option has moved to [`themeConfig.footer`](../reference/default-theme-config#footer).
