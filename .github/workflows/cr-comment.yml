@@ -16,3 +16,4 @@ jobs:
       - uses: actions-ecosystem/action-add-labels@v1
         with:
           labels: cr-tracked
+          github_token: ${{ secrets.CR_PAT }}
