@@ -27,6 +27,9 @@ jobs:
     strategy:
       matrix:
         node_version: [18, 20, 22]
+        exclude:
+          - node_version: ${{ github.event.action == 'labeled' && 18 }}
+          - node_version: ${{ github.event.action == 'labeled' && 20 }}
 
     steps:
       - name: Checkout
