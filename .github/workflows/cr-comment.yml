@@ -1,0 +1,17 @@
+name: Add continuous release label
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions: {}
+
+jobs:
+  cr_comment:
+    if: github.event.issue.pull_request && (github.event.comment.user.id == github.event.issue.user.id || contains('OWNER,MEMBER,COLLABORATOR', github.event.comment.author_association)) && startsWith(github.event.comment.body, '/publish')
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: cr-tracked

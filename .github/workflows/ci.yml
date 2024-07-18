@@ -1,4 +1,4 @@
-name: Test
+name: CI
 
 env:
   NODE_OPTIONS: --max-old-space-size=6144
@@ -10,8 +10,10 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
-    types: [opened, synchronize, reopened]
+    types: [opened, synchronize, reopened, labeled]
   workflow_dispatch:
+
+permissions: {}
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
@@ -19,6 +21,7 @@ concurrency:
 
 jobs:
   test:
+    if: github.event.action != 'labeled' || github.event.label.name == 'cr-tracked'
     runs-on: ubuntu-latest
 
     strategy:
@@ -46,3 +49,7 @@ jobs:
 
       - name: Check
         run: pnpm check
+
+      - name: Publish preview
+        if: matrix.node_version == 22 && github.event_name == 'pull_request' && github.event.action != 'reopened' && !github.event.pull_request.draft && contains(github.event.pull_request.labels.*.name, 'cr-tracked') && !contains(github.event.pull_request.labels.*.name, 'spam') && !contains(github.event.pull_request.labels.*.name, 'invalid')
+        run: echo publish
