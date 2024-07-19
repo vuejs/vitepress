@@ -443,6 +443,7 @@ function formMarkRegex(terms: Set<string>) {
             :placeholder="buttonText"
             id="localsearch-input"
             aria-labelledby="localsearch-label"
+            autocomplete="off"
             class="search-input"
           />
           <div class="search-actions">
