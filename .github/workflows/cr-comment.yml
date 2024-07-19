@@ -8,7 +8,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  cr_comment:
+  label:
     if: ${{ github.event.issue.pull_request && (github.event.comment.user.id == github.event.issue.user.id || github.event.comment.author_association == 'MEMBER' || github.event.comment.author_association == 'COLLABORATOR') && startsWith(github.event.comment.body, '/publish') }}
     runs-on: ubuntu-latest
 
