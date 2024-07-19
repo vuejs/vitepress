@@ -6,7 +6,7 @@
   },
   "files": [
     {
-      "location": ".vitepress/config/{en,zh,pt,ru,es}.ts",
+      "location": ".vitepress/config/{en,zh,pt,ru,es,ko}.ts",
       "pattern": ".vitepress/config/@lang.ts",
       "type": "universal"
     },
@@ -36,6 +36,10 @@
     {
       "label": "Español",
       "lang": "es"
+    },
+    {
+      "label": "한국어",
+      "lang": "ko"
     }
   ],
   "outDir": ".vitepress/dist/_translations",

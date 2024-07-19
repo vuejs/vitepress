@@ -12,4 +12,7 @@ jobs:
           days-before-close: -1
           stale-issue-label: stale
           stale-pr-label: stale
+          # action has a bug that keeps removing the stale label from stale PRs
+          # it's thinking that the PR is updated when the stale label is added
+          remove-pr-stale-when-updated: false
           operations-per-run: 1000
