@@ -23,7 +23,8 @@ export default {
 
 - 类型：`boolean`
 
-将本地语言更改为 `zh` 会将 URL 从 `/foo`（或 `/en/foo/`）更改为 `/zh/foo`。可以通过将 `themeConfig.i18nRouting` 设置为 `false` 来禁用此行为。
+将本地语言更改为 `zh` 会将 URL 从 `/foo`（或 `/en/foo/`）更改为 `/zh/foo`。可以通过将 `themeConfig.i18nRouting`
+设置为 `false` 来禁用此行为。
 
 ## logo
 
@@ -50,7 +51,8 @@ type ThemeableImage =
 
 - 类型：`string | false`
 
-可以自定义此项以替换导航中的默认站点标题 (应用配置中的 `title`)。当设置为 `false` 时，导航中的标题将被禁用。这在当 `logo` 已经包含站点标题文本时很有用。
+可以自定义此项以替换导航中的默认站点标题 (应用配置中的 `title`)。当设置为 `false` 时，导航中的标题将被禁用。这在当 `logo`
+已经包含站点标题文本时很有用。
 
 ```ts
 export default {
@@ -283,7 +285,8 @@ export interface Footer {
 - 类型：`EditLink`
 - 每个页面可以通过 [frontmatter](./frontmatter-config#editlink) 覆盖
 
-编辑链接可让显示链接以编辑 Git 管理服务 (例如 GitHub 或 GitLab) 上的页面。有关详细信息，请参阅[默认主题：编辑链接](./default-theme-edit-link)。
+编辑链接可让显示链接以编辑 Git 管理服务 (例如 GitHub 或 GitLab)
+上的页面。有关详细信息，请参阅[默认主题：编辑链接](./default-theme-edit-link)。
 
 ```ts
 export default {
@@ -342,7 +345,8 @@ export interface LastUpdatedOptions {
 
 - 类型：`AlgoliaSearch`
 
-支持使用 [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch) 搜索站点文档。在[默认主题：搜索](./default-theme-search) 中了解更多信息。
+支持使用 [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch)
+搜索站点文档。在[默认主题：搜索](./default-theme-search) 中了解更多信息。
 
 ```ts
 export interface AlgoliaSearchOptions extends DocSearchProps {
@@ -422,6 +426,14 @@ export interface DocFooter {
 - 默认值：`Switch to dark theme`
 
 用于自定义悬停时显示的深色模式开关标题。
+
+## removeExtraElementsInPrint
+
+- 类型：`boolean`
+- 默认值：`false`
+
+删除打印页面中的额外元素。当设置为 `true`
+时，打印页面时会删除侧边栏、导航栏和页脚等额外元素。如果要打印文档且并不想包含额外元素，可以将此选项设置为 `true`。
 
 ## sidebarMenuLabel
 
