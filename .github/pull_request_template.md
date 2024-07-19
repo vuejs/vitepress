@@ -13,4 +13,4 @@
 ---
 
 > [!TIP]
-> The author of this PR can publish a _preview release_ by commenting `/publish` in this PR.
+> The author of this PR can publish a _preview release_ by commenting `/publish` below.
