@@ -6,7 +6,7 @@
 
 <!-- e.g. fixes #123 -->
 
-### Additional context
+### Additional Context
 
 <!-- Is there anything you would like the reviewers to focus on? -->
 
