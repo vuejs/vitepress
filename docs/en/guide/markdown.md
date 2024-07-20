@@ -206,6 +206,8 @@ console.log('Hello, VitePress!')
 ```
 :::
 
+To keep the `details` container open during development, add `{open}` at the end of the title.
+
 Also, you may set custom titles globally by adding the following content in site config, helpful if not writing in English:
 
 ```ts
