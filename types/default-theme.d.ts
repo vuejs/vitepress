@@ -334,6 +334,7 @@ export namespace DefaultTheme {
   }
 
   export type SocialLinkIcon =
+    | 'bluesky'
     | 'discord'
     | 'facebook'
     | 'github'
@@ -343,6 +344,7 @@ export namespace DefaultTheme {
     | 'npm'
     | 'slack'
     | 'twitter'
+    | 'website'
     | 'x'
     | 'youtube'
     | { svg: string }

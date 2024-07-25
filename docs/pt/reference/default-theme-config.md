@@ -239,6 +239,7 @@ interface SocialLink {
 }
 
 type SocialLinkIcon =
+  | 'bluesky'
   | 'discord'
   | 'facebook'
   | 'github'
@@ -248,6 +249,7 @@ type SocialLinkIcon =
   | 'npm'
   | 'slack'
   | 'twitter'
+  | 'website'
   | 'x'
   | 'youtube'
   | { svg: string }
