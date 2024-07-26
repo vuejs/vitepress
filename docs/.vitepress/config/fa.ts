@@ -5,13 +5,14 @@ const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
 
 export const fa = defineConfig({
+  title: 'ویت‌پرس',
   lang: 'fa-IR',
   description: 'Vite & Vue powered static site generator.',
   dir: 'rtl',
   markdown: {
     container: {
       tipLabel: 'نکته',
-      warningLabel: 'اخطار',
+      warningLabel: 'هشدار',
       dangerLabel: 'خطر',
       infoLabel: 'اطلاعات',
       detailsLabel: 'جزئیات'
@@ -57,6 +58,14 @@ export const fa = defineConfig({
     darkModeSwitchLabel: 'تم تاریک',
     lightModeSwitchTitle: 'رفتن به حالت روشن',
     darkModeSwitchTitle: 'رفتن به حالت تاریک',
+    notFound: {
+      linkLabel: 'بازگشت به خانه',
+      linkText: 'بازگشت به خانه',
+      title: 'صفحه مورد نظر یافت نشد',
+      code: '۴۰۴',
+      quote:
+        'اما اگر جهت خود را تغییر ندهید و اگر ادامه دهید به دنبال چیزی که دنبال می‌کنید، ممکن است در نهایت به جایی که در حال رفتن به سمتش هستید، برسید.'
+    },
     siteTitle: 'ویت‌پرس'
   }
 })
@@ -152,13 +161,13 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
           text: 'تم پیش‌فرض',
           base: 'fa/reference/default-theme-',
           items: [
-            { text: 'Overview', link: 'config' }, //  TODO: translate
-            { text: 'Nav', link: 'nav' }, //  TODO: translate
-            { text: 'Sidebar', link: 'sidebar' }, //  TODO: translate
+            { text: 'بررسی اجمالی', link: 'config' },
+            { text: 'ناوبری', link: 'nav' },
+            { text: 'نوار کنار صفحه', link: 'sidebar' },
             { text: 'صفحه اصلی', link: 'home-page' },
-            { text: 'فوتر', link: 'footer' },
-            { text: 'Layout', link: 'layout' }, //  TODO: translate
-            { text: 'Badge', link: 'badge' }, //  TODO: translate
+            { text: 'پاورقی', link: 'footer' },
+            { text: 'طرح', link: 'layout' },
+            { text: 'نشان', link: 'badge' },
             { text: 'صفحه تیم', link: 'team-page' },
             { text: 'لینک‌های قبلی / بعدی', link: 'prev-next-links' },
             { text: 'ویرایش لینک', link: 'edit-link' },

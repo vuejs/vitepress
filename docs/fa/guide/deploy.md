@@ -2,13 +2,13 @@
 outline: deep
 ---
 
-# استقرار وب‌سایت VitePress شما
+# استقرار وب‌سایت ویت‌پرس شما
 
 راهنماهای زیر بر اساس برخی فرضیات مشترک است:
 
-- وب‌سایت VitePress در دایرکتوری `docs` پروژه شما قرار دارد.
+- وب‌سایت ویت‌پرس در دایرکتوری `docs` پروژه شما قرار دارد.
 - شما از دایرکتوری خروجی پیش‌فرض ساخته‌شده (`.vitepress/dist`) استفاده می‌کنید.
-- VitePress به‌عنوان یک وابستگی محلی در پروژه شما نصب شده است و شما اسکریپت‌های زیر را در `package.json` پیکربندی کرده‌اید:
+- ویت‌پرس به‌عنوان یک وابستگی محلی در پروژه شما نصب شده است و شما اسکریپت‌های زیر را در `package.json` پیکربندی کرده‌اید:
 
   ```json
   {
@@ -49,7 +49,7 @@ outline: deep
 
 ## تنظیم مسیر پایه عمومی
 
-به‌طور پیش‌فرض، ما فرض می‌کنیم که وب‌سایت در مسیر ریشه دامنه (`/`) انتشار می‌یابد. اگر وب‌سایت شما باید در یک زیرمسیر ارائه شود، مانند `https://mywebsite.com/blog/`، در این صورت باید گزینه [`base`](../reference/site-config#base) را به `'/blog/'` در پیکربندی VitePress تنظیم کنید.
+به‌طور پیش‌فرض، ما فرض می‌کنیم که وب‌سایت در مسیر ریشه دامنه (`/`) انتشار می‌یابد. اگر وب‌سایت شما باید در یک زیرمسیر ارائه شود، مانند `https://mywebsite.com/blog/`، در این صورت باید گزینه [`base`](../reference/site-config#base) را به `'/blog/'` در پیکربندی ویت‌پرس تنظیم کنید.
 
 **مثال:** اگر از صفحات GitHub (یا GitLab) استفاده می‌کنید و به `user.github.io/repo/` انتشار می‌دهید، آنگاه `base` را به `/repo/` تنظیم کنید.
 
@@ -122,9 +122,9 @@ Cache-Control: max-age=31536000,immutable
 1. یک فایل به نام `deploy.yml` در دایرکتوری `.github/workflows` پروژه خود ایجاد کنید با محتوایی مانند زیر:
 
    ```yaml
-   # Sample workflow for building and deploying a VitePress site to GitHub Pages
+   # Sample workflow for building and deploying a ویت‌پرس site to GitHub Pages
    #
-   name: Deploy VitePress site to Pages
+   name: Deploy ویت‌پرس site to Pages
 
    on:
      # Runs on pushes targeting the `main` branch. Change this to `master` if you're
@@ -167,7 +167,7 @@ Cache-Control: max-age=31536000,immutable
            uses: actions/configure-pages@v4
          - name: Install dependencies
            run: npm ci # or pnpm install / yarn install / bun install
-         - name: Build with VitePress
+         - name: Build with ویت‌پرس
            run: npm run docs:build # or pnpm docs:build / yarn docs:build / bun run docs:build
          - name: Upload artifact
            uses: actions/upload-pages-artifact@v3
@@ -189,7 +189,7 @@ Cache-Control: max-age=31536000,immutable
    ```
 
 ::: warning هشدار
-   مطمئن شوید که گزینه `base` در VitePress به‌درستی پیکربندی شده است. برای اطلاعات بیشتر به [تنظیم مسیر پایه عمومی](#setting-a-public-base-path) مراجعه کنید.
+   مطمئن شوید که گزینه `base` در ویت‌پرس به‌درستی پیکربندی شده است. برای اطلاعات بیشتر به [تنظیم مسیر پایه عمومی](#setting-a-public-base-path) مراجعه کنید.
    :::
 
 2. در تنظیمات مخزن خود در زیرمنوی "Build and deployment > Source" در "Github Actions"  را انتخاب کنید.
@@ -198,7 +198,7 @@ Cache-Control: max-age=31536000,immutable
 
 ### صفحات GitLab
 
-1. `outDir` را در پیکربندی VitePress به `../public` تنظیم کنید. گزینه `base` را به `'/<repository>/'` تنظیم کنید اگر می‌خواهید در `https://<username>.gitlab.io/<repository>/` انتشار دهید.
+1. `outDir` را در پیکربندی ویت‌پرس به `../public` تنظیم کنید. گزینه `base` را به `'/<repository>/'` تنظیم کنید اگر می‌خواهید در `https://<username>.gitlab.io/<repository>/` انتشار دهید.
 
 2. یک فایل به نام `.gitlab-ci.yml` در ریشه پروژه خود با محتوای زیر ایجاد کنید. این کار به ساخت و انتشار وب‌سایت شما هر زمانی که تغییری در محتوا ایجاد می‌کنید، می‌پردازد:
 
@@ -282,19 +282,19 @@ Cache-Control: max-age=31536000,immutable
 
 ### Edgio
 
-به [ایجاد و انتشار یک برنامه VitePress در Edgio](https://docs.edg.io/guides/vitepress) مراجعه کنید.
+به [ایجاد و انتشار یک برنامه ویت‌پرس در Edgio](https://docs.edg.io/guides/vitepress) مراجعه کنید.
 
 ### Kinsta Static Site Hosting
 
-شما می‌توانید وب‌سایت VitePress خود را بر روی [Kinsta](https://kinsta.com/static-site-hosting/) با دنبال کردن این [دستورالعمل‌ها](https://kinsta.com/docs/vitepress-static-site-example/) انتشار دهید.
+شما می‌توانید وب‌سایت ویت‌پرس خود را بر روی [Kinsta](https://kinsta.com/static-site-hosting/) با دنبال کردن این [دستورالعمل‌ها](https://kinsta.com/docs/vitepress-static-site-example/) انتشار دهید.
 
 ### Stormkit
 
-شما می‌توانید پروژه VitePress خود را به [Stormkit](https://www.stormkit.io) با دنبال کردن این [دستورالعمل‌ها](https://stormkit.io/blog/how-to-deploy-vitepress) انتشار دهید.
+شما می‌توانید پروژه ویت‌پرس خود را به [Stormkit](https://www.stormkit.io) با دنبال کردن این [دستورالعمل‌ها](https://stormkit.io/blog/how-to-deploy-vitepress) انتشار دهید.
 
 ### Nginx
 
-اینجا یک مثال از پیکربندی بلوک سرور Nginx است. این تنظیم شامل فشرده‌سازی gzip برای فایل‌های متن معمولی، قوانین برای سرویس فایل‌های ایستا سایت VitePress شما با هدرهای مناسب برای حافظه‌نگهداری مناسب است و همچنین مدیریت `cleanUrls: true` می‌کند.
+اینجا یک مثال از پیکربندی بلوک سرور Nginx است. این تنظیم شامل فشرده‌سازی gzip برای فایل‌های متن معمولی، قوانین برای سرویس فایل‌های ایستا سایت ویت‌پرس شما با هدرهای مناسب برای حافظه‌نگهداری مناسب است و همچنین مدیریت `cleanUrls: true` می‌کند.
 
 ```nginx
 server {
@@ -328,7 +328,7 @@ server {
 }
 ```
 
-این پیکربندی فرض می‌کند که سایت VitePress ساخته شده شما در دایرکتوری `/app` در سرور شما قرار دارد. دستورالعمل `root` را از ابزارهای مربوطه استفاده کنید اگر فایل‌های سایت شما در جای دیگری قرار دارد.
+این پیکربندی فرض می‌کند که سایت ویت‌پرس ساخته شده شما در دایرکتوری `/app` در سرور شما قرار دارد. دستورالعمل `root` را از ابزارهای مربوطه استفاده کنید اگر فایل‌های سایت شما در جای دیگری قرار دارد.
 
 ::: warning هشدار
 مسیر تنظیمات try_files نباید به طور پیش‌فرض به index.html مانند برنامه‌های دیگر Vue مشخص شود. این کار باعث وضعیت نامعتبر صفحه می‌شود.

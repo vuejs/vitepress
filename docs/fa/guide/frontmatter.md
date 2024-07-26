@@ -2,11 +2,11 @@
 
 ## استفاده
 
-VitePress پشتیبانی از frontmatter YAML در تمام فایل‌های Markdown را دارد و آن‌ها را با استفاده از [gray-matter](https://github.com/jonschlinkert/gray-matter) تجزیه می‌کند. Frontmatter باید در بالای فایل Markdown قرار داشته باشد (قبل از هر عنصر از جمله برچسب‌های `<script>`) و باید به صورت YAML معتبر واقع در بین خطوط خط کشیده شود. به عنوان مثال:
+ویت‌پرس پشتیبانی از frontmatter YAML در تمام فایل‌های Markdown را دارد و آن‌ها را با استفاده از [gray-matter](https://github.com/jonschlinkert/gray-matter) تجزیه می‌کند. Frontmatter باید در بالای فایل Markdown قرار داشته باشد (قبل از هر عنصر از جمله برچسب‌های `<script>`) و باید به صورت YAML معتبر واقع در بین خطوط خط کشیده شود. به عنوان مثال:
 
 ```md
 ---
-title: مستندات با VitePress
+title: مستندات با ویت‌پرس
 editLink: true
 ---
 ```
@@ -23,7 +23,7 @@ editLink: true
 
 ```md
 ---
-title: مستندات با VitePress
+title: مستندات با ویت‌پرس
 editLink: true
 ---
 
@@ -36,7 +36,7 @@ editLink: true
 
 ## فرمت‌های جایگزین Frontmatter
 
-VitePress همچنین از نحوه نوشتاری frontmatter JSON با استفاده از تکیه‌گاه‌های آغازین و پایانی در آکولاد پشتیبانی می‌کند:
+ویت‌پرس همچنین از نحوه نوشتاری frontmatter JSON با استفاده از تکیه‌گاه‌های آغازین و پایانی در آکولاد پشتیبانی می‌کند:
 
 ```json
 ---
