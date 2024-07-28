@@ -231,8 +231,12 @@ export const createMarkdownRenderer = async (
     )
     .use(lineNumberPlugin, options.lineNumbers)
 
+  const orgi = md.renderer.rules.table_open
   md.renderer.rules.table_open = function (tokens, idx, options, env, self) {
-    return '<table tabindex="0">\n'
+    tokens[idx].attrGet('tabindex') ?? tokens[idx].attrJoin('tabindex', '0')
+    return orgi
+      ? orgi(tokens, idx, options, env, self)
+      : self.renderToken(tokens, idx, options)
   }
 
   if (options.gfmAlerts !== false) {
