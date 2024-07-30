@@ -1,0 +1,33 @@
+name: CR
+
+env:
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, labeled, ready_for_review]
+    paths-ignore:
+      - '.github/**'
+      - '__tests__/**'
+      - 'art/**'
+      - 'docs/**'
+      - '*.md'
+
+permissions: {}
+
+jobs:
+  release:
+    if: ${{ !github.event.pull_request.draft && contains(github.event.pull_request.labels.*.name, 'cr-tracked') && !contains(github.event.pull_request.labels.*.name, 'spam') && !contains(github.event.pull_request.labels.*.name, 'invalid') }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install
+      - run: pnpm build
+      - run: npx pkg-pr-new publish --compact --no-template --pnpm

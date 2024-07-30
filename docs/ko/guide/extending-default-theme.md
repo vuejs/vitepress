@@ -2,25 +2,25 @@
 outline: deep
 ---
 
-# 扩展默认主题 {#extending-the-default-theme}
+# 기본 테마 확장하기 {#extending-the-default-theme}
 
-VitePress 默认的主题已经针对文档进行了优化，并且可以进行自定义。请参考[默认主题配置概览](../reference/default-theme-config)获取完整的选项列表。
+VitePress의 기본 테마는 문서화에 최적화되어 있으며, 커스터마이징이 가능합니다. [기본 테마 구성 개요](../reference/default-theme-config)를 참조하여 가능한 옵션의 전체 목록을 확인하세요.
 
-但是有一些情况仅靠配置是不够的。例如：
+그러나 설정만으로는 충분하지 않은 경우가 여러 번 있을 수 있습니다. 예를 들면:
 
-1. 需要调整 CSS 样式；
-2. 需要修改 Vue 应用实例，例如注册全局组件；
-3. 需要通过 layout 插槽将自定义内容注入到主题中；
+1. CSS 스타일링을 조정해야 할 때;
+2. 전역 컴포넌트 등록과 같이 Vue 앱 인스턴스를 수정해야 할 때;
+3. 레이아웃 슬롯을 통해 테마에 사용자 정의 컨텐츠를 삽입해야 할 때.
 
-这些高级自定义配置将需要使用自定义主题来“拓展”默认主题。
+이러한 고급 커스터마이징은 기본 테마를 "확장하는" 사용자 지정 테마를 사용해야 합니다.
 
-:::tip
-在继续之前，请确保首先阅读[自定义主题](./custom-theme)以了解其工作原理。
+::: tip
+진행하기 전에, 사용자 지정 테마가 어떻게 작동하는지 이해하기 위해 [사용자 지정 테마 사용하기](./custom-theme)를 먼저 읽어보세요.
 :::
 
-## 自定义 CSS {#customizing-css}
+## CSS 커스터마이징하기 {#customizing-css}
 
-可以通过覆盖根级别的 CSS 变量来自定义默认主题的 CSS：
+기본 테마의 CSS는 루트 레벨 CSS 변수를 오버라이딩하여 커스터마이즈 할 수 있습니다:
 
 ```js
 // .vitepress/theme/index.js
@@ -38,13 +38,13 @@ export default DefaultTheme
 }
 ```
 
-查看[默认主题 CSS 变量](https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css)来获取可以被覆盖的变量。
+오버라이딩할 수 있는 [기본 테마 CSS 변수](https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css)를 확인하세요.
 
-## 使用自定义字体 {#using-different-fonts}
+## 다른 폰트 사용하기 {#using-different-fonts}
 
-VitePress 使用 [Inter](https://rsms.me/inter/) 作为默认字体，并且将其包含在生成的输出中。该字体在生产环境中也会自动预加载。但是如果要使用不同的字体，这可能不是很好。
+VitePress는 기본 폰트로 [Inter](https://rsms.me/inter/)를 사용하며, 빌드 출력물에 폰트를 포함합니다. 또한, 이 폰트는 프로덕션 환경에서 자동으로 프리로드됩니다. 하지만, 다른 메인 폰트를 사용하고 싶은 경우에는 바람직하지 않을 수 있습니다.
 
-为了避免在生成后的输出中包含 Inter 字体，请从 `vitepress/theme-without-fonts` 中导入主题：
+빌드 출력물에서 Inter를 포함하지 않으려면, 대신 `vitepress/theme-without-fonts`에서 테마를 임포트하세요:
 
 ```js
 // .vitepress/theme/index.js
@@ -57,22 +57,22 @@ export default DefaultTheme
 ```css
 /* .vitepress/theme/custom.css */
 :root {
-  --vp-font-family-base: /* normal text font */
-  --vp-font-family-mono: /* code font */
+  --vp-font-family-base: /* 일반 텍스트 폰트 */
+  --vp-font-family-mono: /* 코드 폰트 */
 }
 ```
 
 ::: warning
-如果你在使用像是[团队页](../reference/default-theme-team-page)这样的组件，请确保也从 `vitepress/theme-without-fonts` 中导入它们！
+[팀 페이지](../reference/default-theme-team-page)와 같은 선택적 컴포넌트를 사용하는 경우, 이들도 `vitepress/theme-without-fonts`에서 가져와야 합니다!
 :::
 
-如果字体是通过 `@font-face` 引用的本地文件，它将会被作为资源被包含在 `.vitepress/dist/asset` 目录下，并且使用哈希后的文件名。为了预加载这个文件，请使用 [transformHead](../reference/site-config#transformhead) 构建钩子：
+폰트가 `@font-face`를 통해 참조된 로컬 파일이라면, 자산으로 처리되어 해시된 파일명과 함께 `.vitepress/dist/assets` 아래에 포함될 것입니다. 이 파일을 프리로드하려면, [transformHead](../reference/site-config#transformhead) 빌드 훅을 사용하세요:
 
 ```js
 // .vitepress/config.js
 export default {
   transformHead({ assets }) {
-    // 相应地调整正则表达式以匹配字体
+    // 폰트를 매칭하기 위해 정규식을 적절히 조정하세요
     const myFontFile = assets.find(file => /font-name\.\w+\.woff2/)
     if (myFontFile) {
       return [
@@ -92,7 +92,7 @@ export default {
 }
 ```
 
-## 注册全局组件 {#registering-global-components}
+## 전역 컴포넌트 등록하기 {#registering-global-components}
 
 ```js
 // .vitepress/theme/index.js
@@ -102,13 +102,13 @@ import DefaultTheme from 'vitepress/theme'
 export default {
   extends: DefaultTheme,
   enhanceApp({ app }) {
-    // 注册自定义全局组件
+    // 사용자 지정 전역 컴포넌트를 등록하세요
     app.component('MyGlobalComponent' /* ... */)
   }
 }
 ```
 
-如果使用 TypeScript:
+TypeScript를 사용하는 경우:
 ```ts
 // .vitepress/theme/index.ts
 import type { Theme } from 'vitepress'
@@ -117,17 +117,17 @@ import DefaultTheme from 'vitepress/theme'
 export default {
   extends: DefaultTheme,
   enhanceApp({ app }) {
-    // 注册自定义全局组件
+    // 사용자 지정 전역 컴포넌트를 등록하세요
     app.component('MyGlobalComponent' /* ... */)
   }
 } satisfies Theme
 ```
 
-因为我们使用 Vite，还可以利用 Vite 的 [glob 导入功能](https://cn.vitejs.dev/guide/features.html#glob-import)来自动注册一个组件目录。
+Vite를 사용하기 때문에, Vite의 [글로브 임포트 기능](https://vitejs.dev/ko/guide/features.html#glob-import)을 활용하여 컴포넌트 디렉터리를 자동으로 등록할 수도 있습니다.
 
-## 布局插槽 {#layout-slots}
+## 레이아웃 슬롯 {#layout-slots}
 
-默认主题的 `<Layout/>` 组件有一些插槽，能够被用来在页面的特定位置注入内容。下面这个例子展示了将一个组件注入到 outline 之前：
+기본 테마의 `<Layout/>` 컴포넌트는 페이지의 특정 위치에 컨텐츠를 삽입할 수 있도록 몇 개의 슬롯을 제공합니다. 아웃라인 앞에 컴포넌트를 삽입하는 예시입니다:
 
 ```js
 // .vitepress/theme/index.js
@@ -136,7 +136,8 @@ import MyLayout from './MyLayout.vue'
 
 export default {
   extends: DefaultTheme,
-  // 使用注入插槽的包装组件覆盖 Layout
+  // 슬롯을 삽입하는 래퍼 컴포넌트로
+  // Layout을 오버라이드합니다
   Layout: MyLayout
 }
 ```
@@ -152,13 +153,13 @@ const { Layout } = DefaultTheme
 <template>
   <Layout>
     <template #aside-outline-before>
-      My custom sidebar top content
+      나만의 사용자 사이드바 상단 컨텐츠
     </template>
   </Layout>
 </template>
 ```
 
-也可以使用渲染函数。
+렌더 함수를 사용하는 것도 가능합니다.
 
 ```js
 // .vitepress/theme/index.js
@@ -176,9 +177,9 @@ export default {
 }
 ```
 
-默认主题布局的全部可用插槽如下：
+기본 테마 레이아웃에서 사용할 수 있는 전체 슬롯 목록:
 
-- 当 `layout: 'doc'` (默认) 在 frontmatter 中被启用时：
+- 프론트매터를 통해 `layout: 'doc'` (기본값)이 활성화될 때:
   - `doc-top`
   - `doc-bottom`
   - `doc-footer-before`
@@ -192,7 +193,7 @@ export default {
   - `aside-outline-after`
   - `aside-ads-before`
   - `aside-ads-after`
-- 当 `layout: 'home'` 在 frontmatter 中被启用时:
+- 프론트매터를 통해 `layout: 'home'`이 활성화될 때:
   - `home-hero-before`
   - `home-hero-info-before`
   - `home-hero-info`
@@ -202,12 +203,12 @@ export default {
   - `home-hero-after`
   - `home-features-before`
   - `home-features-after`
-- 当 `layout: 'page'` 在 frontmatter 中被启用时:
+- 프론트매터를 통해 `layout: 'page'`가 활성화될 때:
   - `page-top`
   - `page-bottom`
-- 当未找到页面 (404) 时:
+- 찾을 수 없는 (404) 페이지에서:
   - `not-found`
-- 总是启用:
+- 항상:
   - `layout-top`
   - `layout-bottom`
   - `nav-bar-title-before`
@@ -217,11 +218,11 @@ export default {
   - `nav-screen-content-before`
   - `nav-screen-content-after`
 
-## 使用视图过渡 API
+## 뷰 전환 API 사용하기 {#using-view-transitions-api}
 
-### 关于外观切换 {#on-appearance-toggle}
+### 외형 토글 시 {#on-appearance-toggle}
 
-可以扩展默认主题以在切换颜色模式时提供自定义过渡动画。例如：
+기본 테마를 확장하여 색상 모드가 토글될 때 사용자 정의 전환을 제공할 수 있습니다. 예시:
 
 ```vue
 <!-- .vitepress/theme/Layout.vue -->
@@ -298,24 +299,24 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
 </style>
 ```
 
-Result (**warning!**: flashing colors, sudden movements, bright lights):
+결과 (**경고!**: 눈부심, 갑작스러운 움직임, 밝은 빛):
 
 <details>
-<summary>Demo</summary>
+<summary>데모</summary>
 
-![Appearance Toggle Transition Demo](/appearance-toggle-transition.webp)
+![외형 토글 전환 데모](/appearance-toggle-transition.webp)
 
 </details>
 
-有关视图过渡动画的更多详细信息，请参阅 [Chrome 文档](https://developer.chrome.com/docs/web-platform/view-transitions/)。
+뷰 전환에 대한 자세한 정보는 [Chrome 문서](https://developer.chrome.com/docs/web-platform/view-transitions/)를 참고하세요.
 
-### 路由切换时 {#on-route-change}
+### 라우트 변경 시 {#on-route-change}
 
-即将到来。
+곧 제공될 예정입니다.
 
-## 重写内部组件 {#overriding-internal-components}
+## 내부 컴포넌트 오버라이딩하기 {#overriding-internal-components}
 
-可以使用 Vite 的 [aliases](https://vitejs.dev/config/shared-options.html#resolve-alias) 来用自定义组件替换默认主题的组件：
+Vite의 [별칭](https://vitejs.dev/config/shared-options.html#resolve-alias)을 사용하여 기본 테마 컴포넌트를 사용자 지정 컴포넌트로 대체할 수 있습니다:
 
 ```ts
 import { fileURLToPath, URL } from 'node:url'
@@ -337,4 +338,4 @@ export default defineConfig({
 })
 ```
 
-想要了解组件的确切名称请参考我们的[源代码](https://github.com/vuejs/vitepress/tree/main/src/client/theme-default/components)。因为组件是内部的，因此在小版本更迭中，它们名字改动的可能性很小。
+컴포넌트의 정확한 이름을 알고 싶다면 [저희 소스 코드](https://github.com/vuejs/vitepress/tree/main/src/client/theme-default/components)를 참조하세요. 컴포넌트가 내부적으로 사용되기 때문에, 소규모 릴리스 사이에 이름이 업데이트될 수 있습니다.
