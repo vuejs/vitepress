@@ -187,7 +187,7 @@
     "supports-color": "^9.4.0",
     "typescript": "^5.5.3",
     "vitest": "^2.0.2",
-    "vue-tsc": "^2.0.26",
+    "vue-tsc": "^2.0.29",
     "wait-on": "^7.2.0"
   },
   "peerDependencies": {
