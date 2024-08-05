@@ -1,3 +1,10 @@
+## [1.3.2](https://github.com/vuejs/vitepress/compare/v1.3.1...v1.3.2) (2024-08-05)
+
+### Bug Fixes
+
+- multiple cache busting imports causing useData to fail ([2b3e486](https://github.com/vuejs/vitepress/commit/2b3e486ab913ff77707410b9cee3ba6d256ccc95)), closes [#3820](https://github.com/vuejs/vitepress/issues/3820) [#3398](https://github.com/vuejs/vitepress/issues/3398) [#3363](https://github.com/vuejs/vitepress/issues/3363)
+- **theme:** excerpt style in LocalSearchBox ([#4050](https://github.com/vuejs/vitepress/issues/4050)) ([2bc0d39](https://github.com/vuejs/vitepress/commit/2bc0d39d5089841986f0988fc9cfe15533d3a0c6))
+
 ## [1.3.1](https://github.com/vuejs/vitepress/compare/v1.3.0...v1.3.1) (2024-07-14)
 
 ### Bug Fixes
