@@ -105,7 +105,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
       collapsed: false,
       items: [
         {
-          text: '마크다운 확장',
+          text: '마크다운 확장 기능',
           link: 'markdown'
         },
         {
@@ -113,21 +113,21 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
           link: 'asset-handling'
         },
         {
-          text: '프론트마터',
+          text: '전문(Front-matter)',
           link: 'frontmatter'
         },
         {
-          text: '마크다운에서 Vue 사용',
+          text: '마크다운에서 Vue 사용하기',
           link: 'using-vue'
         },
         {
-          text: '국제화',
+          text: 'i18n',
           link: 'i18n'
         }
       ]
     },
     {
-      text: '사용자 정의',
+      text: '커스텀',
       collapsed: false,
       items: [
         {
@@ -167,7 +167,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
       ]
     },
     {
-      text: '설정 & API 참조',
+      text: '구성 & API 레퍼런스',
       base: '/ko/reference/',
       link: 'site-config'
     }
