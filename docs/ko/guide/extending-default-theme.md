@@ -4,23 +4,23 @@ outline: deep
 
 # 기본 테마 확장하기 {#extending-the-default-theme}
 
-VitePress의 기본 테마는 문서화에 최적화되어 있으며, 커스터마이징이 가능합니다. [기본 테마 구성 개요](../reference/default-theme-config)를 참조하여 가능한 옵션의 전체 목록을 확인하세요.
+VitePress의 기본 테마는 문서화에 최적화되어 있으며, 커스텀할 수 있습니다. 포괄적인 옵션 목록은 [기본 테마 구성](../reference/default-theme-config)을 참고하세요.
 
-그러나 설정만으로는 충분하지 않은 경우가 여러 번 있을 수 있습니다. 예를 들면:
+그러나 구성만으로는 충분하지 않을 수 있습니다. 예를 들어:
 
-1. CSS 스타일링을 조정해야 할 때;
-2. 전역 컴포넌트 등록과 같이 Vue 앱 인스턴스를 수정해야 할 때;
-3. 레이아웃 슬롯을 통해 테마에 사용자 정의 컨텐츠를 삽입해야 할 때.
+1. CSS 스타일링을 조정해야 하는 경우.
+2. 전역 컴포넌트를 등록하기 위해 Vue 애플리케이션 인스턴스를 수정해야 하는 경우.
+3. 레이아웃 슬롯을 통해 테마에 커스텀 컨텐츠를 삽입해야 하는 경우.
 
-이러한 고급 커스터마이징은 기본 테마를 "확장하는" 사용자 지정 테마를 사용해야 합니다.
+이러한 고급 커스터마이징은 기본 테마를 "확장"하는 커스텀 테마 사용이 필요 합니다.
 
 ::: tip
-진행하기 전에, 사용자 지정 테마가 어떻게 작동하는지 이해하기 위해 [사용자 지정 테마 사용하기](./custom-theme)를 먼저 읽어보세요.
+진행하기 전에, 커스텀 테마가 어떻게 작동하는지 이해하려면 먼저 [커스텀 테마 사용하기](./custom-theme)를 읽어보세요.
 :::
 
 ## CSS 커스터마이징하기 {#customizing-css}
 
-기본 테마의 CSS는 루트 레벨 CSS 변수를 오버라이딩하여 커스터마이즈 할 수 있습니다:
+기본 테마의 CSS는 루트 레벨의 CSS 변수를 재정의하여 커스터마이징 할 수 있습니다:
 
 ```js
 // .vitepress/theme/index.js
@@ -38,13 +38,13 @@ export default DefaultTheme
 }
 ```
 
-오버라이딩할 수 있는 [기본 테마 CSS 변수](https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css)를 확인하세요.
+재정의할 수 있는 기본 테마 CSS 변수는 [여기](https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css)를 참고하세요.
 
 ## 다른 폰트 사용하기 {#using-different-fonts}
 
-VitePress는 기본 폰트로 [Inter](https://rsms.me/inter/)를 사용하며, 빌드 출력물에 폰트를 포함합니다. 또한, 이 폰트는 프로덕션 환경에서 자동으로 프리로드됩니다. 하지만, 다른 메인 폰트를 사용하고 싶은 경우에는 바람직하지 않을 수 있습니다.
+VitePress는 기본 폰트로 [Inter](https://rsms.me/inter/)를 사용하며, 빌드 결과물에 폰트를 포함시킵니다. 폰트는 프로덕션 환경에서 자동으로 미리 로드되지만, 다른 메인 폰트를 사용하고자 할 경우 이는 바람직하지 않을 수 있습니다.
 
-빌드 출력물에서 Inter를 포함하지 않으려면, 대신 `vitepress/theme-without-fonts`에서 테마를 임포트하세요:
+빌드 결과물에 Inter를 포함시키지 않으려면, `vitepress/theme-without-fonts`에서 테마를 "import" 합니다:
 
 ```js
 // .vitepress/theme/index.js
@@ -63,10 +63,10 @@ export default DefaultTheme
 ```
 
 ::: warning
-[팀 페이지](../reference/default-theme-team-page)와 같은 선택적 컴포넌트를 사용하는 경우, 이들도 `vitepress/theme-without-fonts`에서 가져와야 합니다!
+선택적 컴포넌트인 [팀 페이지](../reference/default-theme-team-page) 등을 사용하는 경우, 반드시 이들도 `vitepress/theme-without-fonts`에서 "import" 해야 합니다!
 :::
 
-폰트가 `@font-face`를 통해 참조된 로컬 파일이라면, 자산으로 처리되어 해시된 파일명과 함께 `.vitepress/dist/assets` 아래에 포함될 것입니다. 이 파일을 프리로드하려면, [transformHead](../reference/site-config#transformhead) 빌드 훅을 사용하세요:
+폰트가 `@font-face`를 통해 참조된 로컬 파일인 경우, 에셋으로 처리되어 해시된 파일 이름으로 `.vitepress/dist/assets`에 포함됩니다. 이 파일을 미리 로드하려면 [transformHead](../reference/site-config#transformhead) 빌드 훅을 사용해야 합니다:
 
 ```js
 // .vitepress/config.js
@@ -102,7 +102,7 @@ import DefaultTheme from 'vitepress/theme'
 export default {
   extends: DefaultTheme,
   enhanceApp({ app }) {
-    // 사용자 지정 전역 컴포넌트를 등록하세요
+    // 커스텀 전역 컴포넌트 등록
     app.component('MyGlobalComponent' /* ... */)
   }
 }
@@ -117,17 +117,17 @@ import DefaultTheme from 'vitepress/theme'
 export default {
   extends: DefaultTheme,
   enhanceApp({ app }) {
-    // 사용자 지정 전역 컴포넌트를 등록하세요
+    // 커스텀 전역 컴포넌트 등록
     app.component('MyGlobalComponent' /* ... */)
   }
 } satisfies Theme
 ```
 
-Vite를 사용하기 때문에, Vite의 [글로브 임포트 기능](https://vitejs.dev/ko/guide/features.html#glob-import)을 활용하여 컴포넌트 디렉터리를 자동으로 등록할 수도 있습니다.
+Vite를 사용하므로, Vite의 [glob import 기능](https://vitejs.dev/guide/features.html#glob-import)을 활용하여 컴포넌트 디렉터리를 자동으로 등록할 수 있습니다.
 
 ## 레이아웃 슬롯 {#layout-slots}
 
-기본 테마의 `<Layout/>` 컴포넌트는 페이지의 특정 위치에 컨텐츠를 삽입할 수 있도록 몇 개의 슬롯을 제공합니다. 아웃라인 앞에 컴포넌트를 삽입하는 예시입니다:
+기본 테마의 `<Layout/>` 컴포넌트는 페이지의 특정 위치에 컨텐츠를 삽입할 수 있는 몇 가지 슬롯을 가지고 있습니다. 다음은 아웃라인 앞에 컴포넌트를 삽입하는 예제입니다:
 
 ```js
 // .vitepress/theme/index.js
@@ -137,7 +137,7 @@ import MyLayout from './MyLayout.vue'
 export default {
   extends: DefaultTheme,
   // 슬롯을 삽입하는 래퍼 컴포넌트로
-  // Layout을 오버라이드합니다
+  // Layout을 재정의합니다
   Layout: MyLayout
 }
 ```
@@ -153,13 +153,13 @@ const { Layout } = DefaultTheme
 <template>
   <Layout>
     <template #aside-outline-before>
-      나만의 사용자 사이드바 상단 컨텐츠
+      My custom sidebar top content
     </template>
   </Layout>
 </template>
 ```
 
-렌더 함수를 사용하는 것도 가능합니다.
+또는 렌더 함수를 사용할 수도 있습니다.
 
 ```js
 // .vitepress/theme/index.js
@@ -177,9 +177,9 @@ export default {
 }
 ```
 
-기본 테마 레이아웃에서 사용할 수 있는 전체 슬롯 목록:
+기본 테마 레이아웃에서 사용할 수 있는 슬롯의 전체 목록:
 
-- 프론트매터를 통해 `layout: 'doc'` (기본값)이 활성화될 때:
+- 전문(front-matter)으로 `layout: 'doc'` (기본값)이 활성화된 경우:
   - `doc-top`
   - `doc-bottom`
   - `doc-footer-before`
@@ -193,7 +193,7 @@ export default {
   - `aside-outline-after`
   - `aside-ads-before`
   - `aside-ads-after`
-- 프론트매터를 통해 `layout: 'home'`이 활성화될 때:
+- 전문으로 `layout: 'home'`이 활성화된 경우:
   - `home-hero-before`
   - `home-hero-info-before`
   - `home-hero-info`
@@ -203,10 +203,10 @@ export default {
   - `home-hero-after`
   - `home-features-before`
   - `home-features-after`
-- 프론트매터를 통해 `layout: 'page'`가 활성화될 때:
+- 전문으로 `layout: 'page'`이 활성화된 경우:
   - `page-top`
   - `page-bottom`
-- 찾을 수 없는 (404) 페이지에서:
+- 페이지를 찾을 수 없음(404)일 때:
   - `not-found`
 - 항상:
   - `layout-top`
@@ -218,11 +218,11 @@ export default {
   - `nav-screen-content-before`
   - `nav-screen-content-after`
 
-## 뷰 전환 API 사용하기 {#using-view-transitions-api}
+## 뷰 트랜지션 API 사용하기 {#using-view-transitions-api}
 
-### 외형 토글 시 {#on-appearance-toggle}
+### 외형 토글 {#on-appearance-toggle}
 
-기본 테마를 확장하여 색상 모드가 토글될 때 사용자 정의 전환을 제공할 수 있습니다. 예시:
+기본 테마를 확장하여 컬러 모드가 전환될 때 커스텀 트랜지션 효과를 제공할 수 있습니다. 예제:
 
 ```vue
 <!-- .vitepress/theme/Layout.vue -->
@@ -299,24 +299,24 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
 </style>
 ```
 
-결과 (**경고!**: 눈부심, 갑작스러운 움직임, 밝은 빛):
+결과 (**광과민성 주의!**: 색상 깜빡임, 갑작스러운 움직임, 밝은 빛):
 
 <details>
 <summary>데모</summary>
 
-![외형 토글 전환 데모](/appearance-toggle-transition.webp)
+![외형 토글 트랜지션 데모](/appearance-toggle-transition.webp)
 
 </details>
 
-뷰 전환에 대한 자세한 정보는 [Chrome 문서](https://developer.chrome.com/docs/web-platform/view-transitions/)를 참고하세요.
+뷰 트랜지션에 대한 자세한 정보는 [크롬 문서](https://developer.chrome.com/docs/web-platform/view-transitions/)를 참고하세요.
 
 ### 라우트 변경 시 {#on-route-change}
 
 곧 제공될 예정입니다.
 
-## 내부 컴포넌트 오버라이딩하기 {#overriding-internal-components}
+## 내부 컴포넌트 재정의하기 {#overriding-internal-components}
 
-Vite의 [별칭](https://vitejs.dev/config/shared-options.html#resolve-alias)을 사용하여 기본 테마 컴포넌트를 사용자 지정 컴포넌트로 대체할 수 있습니다:
+Vite의 [별칭](https://vitejs.dev/config/shared-options.html#resolve-alias)을 사용하여 기본 테마 컴포넌트를 커스텀 컴포넌트로 대체할 수 있습니다:
 
 ```ts
 import { fileURLToPath, URL } from 'node:url'
@@ -338,4 +338,4 @@ export default defineConfig({
 })
 ```
 
-컴포넌트의 정확한 이름을 알고 싶다면 [저희 소스 코드](https://github.com/vuejs/vitepress/tree/main/src/client/theme-default/components)를 참조하세요. 컴포넌트가 내부적으로 사용되기 때문에, 소규모 릴리스 사이에 이름이 업데이트될 수 있습니다.
+컴포넌트의 정확한 이름을 알고 싶다면 [Vitepress 소스 코드](https://github.com/vuejs/vitepress/tree/main/src/client/theme-default/components)를 참고하세요. 컴포넌트는 내부적으로 사용되기 때문에, 마이너 릴리즈 사이에 이름이 변경될 가능성이 있습니다.
