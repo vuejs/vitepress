@@ -53,4 +53,4 @@ VitePress를 CMS에 연결하는 것은 주로 [동적 라우트](./routing#dyna
 
 ## 통합 가이드 {#integration-guides}
 
-VitePress를 특정 CMS와 통합하는 방법에 대한 가이드를 작성한 경우 아래의 "GitHub에서 이 페이지를 편집하세요" 링크를 클릭하여 여기에 제출하세요!
+VitePress를 특정 CMS와 통합하는 방법에 대한 가이드를 작성한 경우 아래의 "이 페이지 편집 제안하기" 링크를 클릭하여 여기에 제출하세요!

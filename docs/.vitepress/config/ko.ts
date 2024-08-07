@@ -18,7 +18,7 @@ export const ko = defineConfig({
 
     editLink: {
       pattern: 'https://github.com/vuejs/vitepress/edit/main/docs/:path',
-      text: 'GitHub에서 이 페이지를 편집하세요'
+      text: '이 페이지 편집 제안하기'
     },
 
     footer: {
@@ -32,7 +32,7 @@ export const ko = defineConfig({
     },
 
     outline: {
-      label: '이 페이지에서'
+      label: '이 페이지 목차',
     },
 
     lastUpdated: {
@@ -131,15 +131,15 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
       collapsed: false,
       items: [
         {
-          text: '맞춤 테마 사용',
+          text: '커스텀 테마 사용하기',
           link: 'custom-theme'
         },
         {
-          text: '기본 테마 확장',
+          text: '기본 테마 확장하기',
           link: 'extending-default-theme'
         },
         {
-          text: '빌드할 때 데이터 로딩',
+          text: '빌드할 때 데이터 로딩하기',
           link: 'data-loading'
         },
         {
@@ -147,7 +147,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
           link: 'ssr-compat'
         },
         {
-          text: 'CMS 연결',
+          text: 'CMS 연결하기',
           link: 'cms'
         }
       ]
