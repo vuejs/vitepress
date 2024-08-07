@@ -32,7 +32,7 @@ export const ko = defineConfig({
     },
 
     outline: {
-      label: '이 페이지 목차',
+      label: '이 페이지 목차'
     },
 
     lastUpdated: {
