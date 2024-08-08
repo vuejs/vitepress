@@ -22,10 +22,17 @@ const showFooter = computed(
     control.value.prev ||
     control.value.next
 )
+
+const classes = computed(() => {
+  return {
+    VPDocFooter: true,
+    'hidden-print': theme.value.removeExtraElementsInPrint
+  }
+})
 </script>
 
 <template>
-  <footer v-if="showFooter" class="VPDocFooter">
+  <footer v-if="showFooter" :class="classes">
     <slot name="doc-footer-before" />
 
     <div v-if="hasEditLink || hasLastUpdated" class="edit-info">
