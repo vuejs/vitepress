@@ -93,6 +93,7 @@ export async function highlight(
   const vueRE = /-vue$/
   const lineNoStartRE = /=(\d*)/
   const lineNoRE = /:(no-)?line-numbers(=\d*)?$/
+  const modalNoRE = /:(no-)?modal(=\d*)?$/
   const mustacheRE = /\{\{.*?\}\}/g
 
   return (str: string, lang: string, attrs: string) => {
@@ -101,6 +102,7 @@ export async function highlight(
       lang
         .replace(lineNoStartRE, '')
         .replace(lineNoRE, '')
+        .replace(modalNoRE, '')
         .replace(vueRE, '')
         .toLowerCase() || defaultLang
 

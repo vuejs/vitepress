@@ -5,3 +5,46 @@
 html:not(.dark) .vp-code span {
   color: var(--shiki-light, inherit);
 }
+
+.vp-code ~ .modal-container:not(.open) {
+  display: none;
+}
+
+.vp-code ~ .modal-container {
+  position: fixed;
+
+  z-index: 100;
+
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(2px);
+}
+
+html:not(.dark) .vp-code ~ .modal-container {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.vp-code ~ .modal-container [class*='language-'] {
+  position: relative;
+  margin: 20px;
+
+  max-width: 90%;
+  width: min-content;
+
+  border-radius: 8px;
+
+  background-color: var(--vp-code-block-bg);
+  box-shadow: var(--vp-shadow-2);
+}
+
+.vp-code ~ .modal-container [class*='language-']:hover span.lang {
+  opacity: 0;
+}
