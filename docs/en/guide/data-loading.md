@@ -2,7 +2,7 @@
 
 VitePress provides a feature called **data loaders** that allows you to load arbitrary data and import it from pages or components. The data loading is executed **only at build time**: the resulting data will be serialized as JSON in the final JavaScript bundle.
 
-Data loaders can be used to fetch remote data, or generate metadata based on local files. For example, you can use data loaders to parse all your local API pages and automatically generate an index of all API entries.
+Data loaders can be used to fetch remote data to or generate metadata based on local files. For example, you can use data loaders to parse all your local API pages and automatically generate an index of all API entries.
 
 ## Basic Usage
 
@@ -82,7 +82,7 @@ export default {
 
 ## `createContentLoader`
 
-When building a content focused site, we often need to create an "archive" or "index" page: a page where we list all available entries in our content collection, for example blog posts or API pages. We **can** implement this directly with the data loader API, but since this is such a common use case, VitePress also provides a `createContentLoader` helper to simplify this:
+When building a content-focused site, we often need to create an "archive" or "index" page: a page where we list all available entries in our content collection, for example, blog posts or API pages. We **can** implement this directly with the data loader API, but since this is such a common use case, VitePress also provides a `createContentLoader` helper to simplify this:
 
 ```js
 // posts.data.js
@@ -91,7 +91,7 @@ import { createContentLoader } from 'vitepress'
 export default createContentLoader('posts/*.md', /* options */)
 ```
 
-The helper takes a glob pattern relative to the [source directory](./routing#source-directory), and returns a `{ watch, load }` data loader object that can be used as the default export in a data loader file. It also implements caching based on file modified timestamps to improve dev performance.
+The helper takes a glob pattern relative to the [source directory](./routing#source-directory), and returns a `{ watch, load }` data loader object that can be used as the default export in a data loader file. It also implements caching based on file modification timestamps to improve dev performance.
 
 Note the loader only works with Markdown files - matched non-Markdown files will be skipped.
 
@@ -113,7 +113,7 @@ interface ContentData {
 }
 ```
 
-By default, only `url` and `frontmatter` are provided. This is because the loaded data will be inlined as JSON in the client bundle, so we need to be cautious about its size. Here's an example using the data to build a minimal blog index page:
+By default, only `url` and `frontmatter` are provided. This is because the loaded data will be inlined as JSON in the client bundle, so we need to be cautious about its size. Here's an example which uses the data to build a minimal blog index page:
 
 ```vue
 <script setup>

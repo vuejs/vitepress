@@ -1,6 +1,6 @@
 # Markdown Extensions
 
-VitePress comes with built in Markdown Extensions.
+VitePress comes with built-in Markdown Extensions.
 
 ## Header Anchors
 
@@ -22,7 +22,7 @@ Both internal and external links get special treatment.
 
 ### Internal Links
 
-Internal links are converted to router link for SPA navigation. Also, every `index.md` contained in each sub-directory will automatically be converted to `index.html`, with corresponding URL `/`.
+Internal links are converted to router links for SPA navigation. Also, every `index.md` contained in each sub-directory will automatically be converted to `index.html`, with the corresponding URL `/`.
 
 For example, given the following directory structure:
 
@@ -178,7 +178,7 @@ This is a details block.
 
 ### Custom Title
 
-You may set custom title by appending the text right after the "type" of the container.
+You may set a custom title by appending the text right after the "type" of the container.
 
 **Input**
 
@@ -206,7 +206,7 @@ console.log('Hello, VitePress!')
 ```
 :::
 
-Also, you may set custom titles globally by adding the following content in site config, helpful if not writing in English:
+Also, you may set custom titles globally by adding the following content to your site config, helpful if not writing in English:
 
 ```ts
 // config.ts
@@ -301,7 +301,7 @@ VitePress also supports [GitHub-flavored alerts](https://docs.github.com/en/get-
 
 ## Syntax Highlighting in Code Blocks
 
-VitePress uses [Shiki](https://github.com/shikijs/shiki) to highlight language syntax in Markdown code blocks, using coloured text. Shiki supports a wide variety of programming languages. All you need to do is append a valid language alias to the beginning backticks for the code block:
+VitePress uses [Shiki](https://github.com/shikijs/shiki) to highlight language syntax in Markdown code blocks, using colored text. Shiki supports a wide variety of programming languages. All you need to do is append a valid language alias to the beginning backticks for the code block:
 
 **Input**
 
@@ -343,7 +343,7 @@ export default {
 
 A [list of valid languages](https://shiki.style/languages) is available on Shiki's repository.
 
-You may also customize syntax highlight theme in app config. Please see [`markdown` options](../reference/site-config#markdown) for more details.
+You may also customize the syntax highlighting theme in the app config. Please see [`markdown` options](../reference/site-config#markdown) for more details.
 
 ## Line Highlighting in Code Blocks
 
@@ -445,7 +445,7 @@ export default {
 
 Adding the `// [!code focus]` comment on a line will focus it and blur the other parts of the code.
 
-Additionally, you can define a number of lines to focus using `// [!code focus:<lines>]`.
+Additionally, you can define a set number of lines to place in focus using `// [!code focus:<lines>]`.
 
 **Input**
 
@@ -475,7 +475,7 @@ export default {
 
 ## Colored Diffs in Code Blocks
 
-Adding the `// [!code --]` or `// [!code ++]` comments on a line will create a diff of that line, while keeping the colors of the codeblock.
+Adding the `// [!code --]` or `// [!code ++]` comments on a line will create a diff of that line while keeping the colors of the code-block.
 
 **Input**
 
@@ -539,7 +539,7 @@ export default {
 
 ## Line Numbers
 
-You can enable line numbers for each code blocks via config:
+You can enable line numbers for all code blocks via config:
 
 ```js
 export default {
@@ -551,7 +551,7 @@ export default {
 
 Please see [`markdown` options](../reference/site-config#markdown) for more details.
 
-You can add `:line-numbers` / `:no-line-numbers` mark in your fenced code blocks to override the value set in config.
+You can add a `:line-numbers` / `:no-line-numbers` mark into your fenced code blocks as needed to override the value set in the config.
 
 You can also customize the starting line number by adding `=` after `:line-numbers`. For example, `:line-numbers=2` means the line numbers in code blocks will start from `2`.
 
@@ -599,7 +599,7 @@ const line4 = 'This is line 4'
 
 ## Import Code Snippets
 
-You can import code snippets from existing files via following syntax:
+You can import code snippets from existing files via the following syntax:
 
 ```md
 <<< @/filepath
@@ -626,7 +626,7 @@ It also supports [line highlighting](#line-highlighting-in-code-blocks):
 <<< @/snippets/snippet.js{2}
 
 ::: tip
-The value of `@` corresponds to the source root. By default it's the VitePress project root, unless `srcDir` is configured. Alternatively, you can also import from relative paths:
+The value of `@` corresponds to the source root. By default, it's the VitePress project root, unless `srcDir` is configured. Alternatively, you can also import from relative paths:
 
 ```md
 <<< ../snippets/snippet.js
@@ -634,7 +634,7 @@ The value of `@` corresponds to the source root. By default it's the VitePress p
 
 :::
 
-You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/codebasics#_folding) to only include the corresponding part of the code file. You can provide a custom region name after a `#` following the filepath:
+You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/codebasics#_folding) to only include the corresponding part of the code file. You can provide a custom region name after a `#` following the base filepath:
 
 **Input**
 
@@ -664,7 +664,7 @@ You can also specify the language inside the braces (`{}`) like this:
 <<< @/snippets/snippet.cs{1,2,4-6 c#:line-numbers}
 ```
 
-This is helpful if source language cannot be inferred from your file extension.
+This is helpful if a source language cannot be inferred from your file extension.
 
 ## Code Groups
 
@@ -964,4 +964,4 @@ export default defineConfig({
 })
 ```
 
-See full list of configurable properties in [Config Reference: App Config](../reference/site-config#markdown).
+You can full list of configurable properties on the [Config Reference: App Config](../reference/site-config#markdown) page.

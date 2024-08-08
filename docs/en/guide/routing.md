@@ -6,7 +6,7 @@ outline: deep
 
 ## File-Based Routing
 
-VitePress uses file-based routing, which means the generated HTML pages are mapped from the directory structure of the source Markdown files. For example, given the following directory structure:
+VitePress uses file-based routing, which means that generated HTML pages are mapped from the directory structure of the source Markdown files. For example, given the following directory structure:
 
 ```
 .
@@ -34,9 +34,9 @@ There are two important concepts in the file structure of a VitePress project: t
 
 ### Project Root
 
-Project root is where VitePress will try to look for the `.vitepress` special directory. The `.vitepress` directory is a reserved location for VitePress' config file, dev server cache, build output, and optional theme customization code.
+Project root is where VitePress will try to look for the `.vitepress` special directory. The `.vitepress` directory is a reserved location for the VitePress config file, dev server cache, build output, and optional theme customization code.
 
-When you run `vitepress dev` or `vitepress build` from the command line, VitePress will use the current working directory as project root. To specify a sub-directory as root, you will need to pass the relative path to the command. For example, if your VitePress project is located in `./docs`, you should run `vitepress dev docs`:
+When you run `vitepress dev` or `vitepress build` from the command line, VitePress will use the current working directory as the project root. To specify a sub-directory as root, you will need to pass the relative path to the command. For example, if your VitePress project is located in `./docs`, you should run `vitepress dev docs`:
 
 ```
 .
@@ -60,9 +60,9 @@ docs/getting-started.md  -->  /getting-started.html
 
 ### Source Directory
 
-Source directory is where your Markdown source files live. By default, it is the same as the project root. However, you can configure it via the [`srcDir`](../reference/site-config#srcdir) config option.
+The Source Directory is where your Markdown source files live. By default, it is the same as the project root. However, you can configure it via the [`srcDir`](../reference/site-config#srcdir) config option.
 
-The `srcDir` option is resolved relative to project root. For example, with `srcDir: 'src'`, your file structure will look like this:
+The `srcDir` option is resolved relative to the project root. For example, with `srcDir: 'src'`, your file structure will look like this:
 
 ```
 .                          # project root
@@ -93,7 +93,7 @@ You can use both absolute and relative paths when linking between pages. Note th
 [Getting Started](./getting-started.html)
 ```
 
-Learn more about linking to assets such images in [Asset Handling](./asset-handling).
+You can learn more about linking to assets such as images in [Asset Handling](./asset-handling).
 
 ### Linking to Non-VitePress Pages
 
@@ -137,7 +137,7 @@ Some servers or hosting platforms (for example Netlify, Vercel, GitHub Pages) pr
 If this feature is available to you, you can then also enable VitePress' own [`cleanUrls`](../reference/site-config#cleanurls) config option so that:
 
 - Inbound links between pages are generated without the `.html` extension.
-- If current path ends with `.html`, the router will perform a client-side redirect to the extension-less path.
+- If the current path ends with `.html`, the router will perform a client-side redirect to the extension-less path.
 
 If, however, you cannot configure your server with such support, you will have to manually resort to the following directory structure:
 
@@ -152,7 +152,7 @@ If, however, you cannot configure your server with such support, you will have t
 
 ## Route Rewrites
 
-You can customize the mapping between the source directory structure and the generated pages. It's useful when you have a complex project structure. For example, let's say you have a monorepo with multiple packages, and would like to place documentations along with the source files like this:
+You can customize the mapping between the source directory structure and the generated pages. It's useful when you have a complex project structure. For example, let's say you have a monorepo with multiple packages, and would like to place documentation files along with the source files like this:
 
 ```
 .
@@ -200,7 +200,7 @@ The rewrite paths are compiled using the `path-to-regexp` package - consult [its
 
 ::: warning Relative Links with Rewrites
 
-When rewrites are enabled, **relative links should be based on the rewritten paths**. For example, in order to create a relative link from `packages/pkg-a/src/pkg-a-code.md` to `packages/pkg-b/src/pkg-b-code.md`, you should use:
+When rewrites are enabled, **relative links should be based on the rewritten paths**. For example, to create a relative link from `packages/pkg-a/src/pkg-a-code.md` to `packages/pkg-b/src/pkg-b-code.md`, you should use:
 
 ```md
 [Link to PKG B](../pkg-b/pkg-b-code)
@@ -347,7 +347,7 @@ console.log(params.value)
 
 ### Rendering Raw Content
 
-Params passed to the page will be serialized in the client JavaScript payload, so you should avoid passing heavy data in params, for example raw Markdown or HTML content fetched from a remote CMS.
+Params passed to the page will be serialized in the client JavaScript payload, so you should avoid passing heavy data in params, for example, raw Markdown or HTML content fetched from a remote CMS.
 
 Instead, you can pass such content to each page using the `content` property on each path object:
 
