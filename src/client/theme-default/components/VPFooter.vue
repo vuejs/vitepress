@@ -44,6 +44,12 @@ const { hasSidebar } = useSidebar()
   }
 }
 
+@media print {
+  .VPFooter {
+    display: none;
+  }
+}
+
 .container {
   margin: 0 auto;
   max-width: var(--vp-layout-max-width);
