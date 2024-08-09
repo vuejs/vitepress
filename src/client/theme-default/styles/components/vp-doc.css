@@ -531,21 +531,35 @@
 
 .vp-doc .VPTeamMembers {
   margin-top: 24px;
+  margin-bottom: 24px;
 }
 
-.vp-doc .VPTeamMembers.small.count-1 .container {
-  margin: 0 !important;
-  max-width: calc((100% - 24px) / 2) !important;
+@media (min-width: 512px) {
+  .VPTeamMembers.small.count-2 .item,
+  .VPTeamMembers.small.count-3 .item {
+    max-width: 100% !important;
+  }
 }
 
-.vp-doc .VPTeamMembers.small.count-2 .container,
-.vp-doc .VPTeamMembers.small.count-3 .container {
-  max-width: 100% !important;
-}
+@media (min-width: 768px) {
+  .vp-doc .VPTeamMembers.small .container,
+  .vp-doc .VPTeamMembers.medium .container {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
 
-.vp-doc .VPTeamMembers.medium.count-1 .container {
-  margin: 0 !important;
-  max-width: calc((100% - 24px) / 2) !important;
+  .vp-doc .VPTeamMembers.small.count-2 .container,
+  .vp-doc .VPTeamMembers.small.count-3 .container {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .vp-doc .VPTeamMembers.small .item {
+    max-width: 100% !important;
+  }
+
+  .vp-doc .VPTeamMembers.small.count-1 .item {
+    max-width: 272px !important;
+  }
 }
 
 /**
