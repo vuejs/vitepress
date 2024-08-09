@@ -180,7 +180,7 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
       text: '레퍼런스',
       items: [
         { text: '사이트 구성', link: 'site-config' },
-        { text: '머리말 구성', link: 'frontmatter-config' },
+        { text: '전문(front-matter) 구성', link: 'frontmatter-config' },
         { text: '런타임 API', link: 'runtime-api' },
         { text: 'CLI', link: 'cli' },
         {
@@ -188,16 +188,16 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
           base: '/ko/reference/default-theme-',
           items: [
             { text: '개요', link: 'config' },
-            { text: '네비게이션', link: 'nav' },
+            { text: '네비게이션 바', link: 'nav' },
             { text: '사이드바', link: 'sidebar' },
             { text: '홈 페이지', link: 'home-page' },
             { text: '푸터', link: 'footer' },
             { text: '레이아웃', link: 'layout' },
-            { text: '배지', link: 'badge' },
+            { text: '배지(badge)', link: 'badge' },
             { text: '팀 페이지', link: 'team-page' },
-            { text: '이전 / 다음 링크', link: 'prev-next-links' },
+            { text: '이전/다음 링크', link: 'prev-next-links' },
             { text: '편집 링크', link: 'edit-link' },
-            { text: '마지막 업데이트 시간', link: 'last-updated' },
+            { text: '마지막 업데이트 날짜', link: 'last-updated' },
             { text: '검색', link: 'search' },
             { text: '카본 광고', link: 'carbon-ads' }
           ]
