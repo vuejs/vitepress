@@ -213,7 +213,7 @@ interface TeamMember {
   // URL for the sponsor page for the member.
   sponsor?: string
 
-  // Text for the sponsor link. Defaults to 'Sponsor'.
+  // Text for the sponsor link. Defaults to 'Sponsor'. NB: actionText prop doesn't works. When i change wording, it still display 'sponsor' word
   actionText?: string
 }
 ```
