@@ -103,6 +103,7 @@ interface Router {
    * atualizado). Retorne `false` para cancelar la navegación.
    */
   onBeforePageLoad?: (to: string) => Awaitable<void | boolean>
+  onAfterPageLoad?: (to: string) => Awaitable<void>
   /**
    * Llamado después del cambio de ruta.
    */
