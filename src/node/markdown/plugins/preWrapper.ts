@@ -26,9 +26,7 @@ export function preWrapperPlugin(md: MarkdownIt, options: Options) {
     if (classAttr != null) {
       classAttr[1] = `${classes}  ${classAttr[1]}`
     } else {
-      const attrs: Array<[string, string]> = [['class', classes]]
-
-      token.attrs = token.attrs ? token.attrs.concat(attrs) : attrs
+      token.attrJoin('class', classes)
     }
 
     const rawCode = fence(...args)
