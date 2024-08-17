@@ -1,3 +1,9 @@
+## [1.3.3](https://github.com/vuejs/vitepress/compare/v1.3.2...v1.3.3) (2024-08-17)
+
+### Miscellaneous
+
+- bump deps ([a20db24](https://github.com/vuejs/vitepress/commit/a20db247822438ac4e0e76bc4a2b4ee2f5d94940))
+
 ## [1.3.2](https://github.com/vuejs/vitepress/compare/v1.3.1...v1.3.2) (2024-08-05)
 
 ### Bug Fixes
