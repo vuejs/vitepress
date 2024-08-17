@@ -6,5 +6,5 @@ export default {
   extends: DefaultTheme,
   enhanceApp({ app }: EnhanceAppContext) {
     app.use(GroupIconComponent)
-  },
+  }
 }
