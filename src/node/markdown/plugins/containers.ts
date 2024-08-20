@@ -111,7 +111,7 @@ function createCodeGroup(options: Options): ContainerArgs {
 
               if (title) {
                 const id = nanoid(7)
-                tabs += `<input type="radio" name="group-${name}" id="tab-${id}" ${checked}><label for="tab-${id}">${title}</label>`
+                tabs += `<input type="radio" name="group-${name}" id="tab-${id}" ${checked}><label data-title="${title}" for="tab-${id}">${title}</label>`
 
                 if (checked && !isHtml) tokens[i].info += ' active'
                 checked = ''
