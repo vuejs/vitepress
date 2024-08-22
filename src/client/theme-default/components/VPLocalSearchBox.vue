@@ -291,11 +291,7 @@ watch(results, (r) => {
 function scrollToSelectedResult() {
   nextTick(() => {
     const selectedEl = document.querySelector('.result.selected')
-    if (selectedEl) {
-      selectedEl.scrollIntoView({
-        block: 'nearest'
-      })
-    }
+    selectedEl?.scrollIntoView({ block: 'nearest' })
   })
 }
 
@@ -785,12 +781,11 @@ function formMarkRegex(terms: Set<string>) {
 }
 
 .excerpt {
-  opacity: 75%;
+  opacity: 50%;
   pointer-events: none;
   max-height: 140px;
   overflow: hidden;
   position: relative;
-  opacity: 0.5;
   margin-top: 4px;
 }
 

@@ -7,7 +7,11 @@ export type Awaitable<T> = T | PromiseLike<T>
 
 export interface PageData {
   relativePath: string
-  filePath: string // differs from relativePath in case of path rewrites
+  /**
+   * differs from relativePath in case of path rewrites
+   * empty string if the page is virtual (e.g. 404 page)
+   */
+  filePath: string
   title: string
   titleTemplate?: string | boolean
   description: string
@@ -116,6 +120,7 @@ export interface SiteData<ThemeConfig = any> {
     | boolean
     | 'dark'
     | 'force-dark'
+    | 'force-auto'
     | (Omit<UseDarkOptions, 'initialValue'> & { initialValue?: 'dark' })
   themeConfig: ThemeConfig
   scrollOffset:
@@ -196,4 +201,5 @@ export interface MarkdownEnv {
   links?: string[]
   includes?: string[]
   realPath?: string
+  localeIndex?: string
 }

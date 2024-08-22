@@ -24,7 +24,7 @@ const INDEX_OR_EXT_RE = /(?:(^|\/)index)?\.(?:md|html)$/
 export const inBrowser = typeof document !== 'undefined'
 
 export const notFoundPageData: PageData = {
-  relativePath: '',
+  relativePath: '404.md',
   filePath: '',
   title: '404',
   description: 'Not Found',
@@ -72,6 +72,20 @@ export function isExternal(path: string): boolean {
   return EXTERNAL_URL_RE.test(path)
 }
 
+export function getLocaleForPath(
+  siteData: SiteData | undefined,
+  relativePath: string
+): string {
+  return (
+    Object.keys(siteData?.locales || {}).find(
+      (key) =>
+        key !== 'root' &&
+        !isExternal(key) &&
+        isActive(relativePath, `/${key}/`, true)
+    ) || 'root'
+  )
+}
+
 /**
  * this merges the locales data to the main data by the route
  */
@@ -79,13 +93,7 @@ export function resolveSiteDataByRoute(
   siteData: SiteData,
   relativePath: string
 ): SiteData {
-  const localeIndex =
-    Object.keys(siteData.locales).find(
-      (key) =>
-        key !== 'root' &&
-        !isExternal(key) &&
-        isActive(relativePath, `/${key}/`, true)
-    ) || 'root'
+  const localeIndex = getLocaleForPath(siteData, relativePath)
 
   return Object.assign({}, siteData, {
     localeIndex,
@@ -210,4 +218,15 @@ export function treatAsHtml(filename: string): boolean {
 // https://github.com/sindresorhus/escape-string-regexp/blob/ba9a4473850cb367936417e97f1f2191b7cc67dd/index.js
 export function escapeRegExp(str: string) {
   return str.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&').replace(/-/g, '\\x2d')
+}
+
+/**
+ * @internal
+ */
+export function escapeHtml(str: string): string {
+  return str
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/&(?![\w#]+;)/g, '&amp;')
 }

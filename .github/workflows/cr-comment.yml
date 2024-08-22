@@ -1,0 +1,18 @@
+name: Add continuous release label
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  label:
+    if: ${{ github.event.issue.pull_request && (github.event.comment.user.id == github.event.issue.user.id || github.event.comment.author_association == 'MEMBER' || github.event.comment.author_association == 'COLLABORATOR') && startsWith(github.event.comment.body, '/publish') }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: gh issue edit ${{ github.event.issue.number }} --add-label cr-tracked --repo ${{ github.repository }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.CR_PAT }}

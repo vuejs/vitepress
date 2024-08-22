@@ -1,5 +1,73 @@
 import { defineConfig, type DefaultTheme } from 'vitepress'
 
+const nav: DefaultTheme.Config['nav'] = [
+  {
+    text: 'Home',
+    link: '/'
+  },
+  {
+    text: 'API Reference',
+    items: [
+      {
+        text: 'Example',
+        link: '/home.html'
+      },
+      {
+        component: 'ApiPreference',
+        props: {
+          options: ['JavaScript', 'TypeScript', 'Flow'],
+          defaultOption: 'TypeScript'
+        }
+      },
+      {
+        component: 'ApiPreference',
+        props: {
+          options: ['Options', 'Composition'],
+          defaultOption: 'Composition'
+        }
+      }
+    ]
+  },
+  {
+    component: 'NavVersion',
+    props: {
+      versions: [
+        {
+          text: 'v1.x',
+          link: '/'
+        },
+        {
+          text: 'v0.x',
+          link: '/v0.x/'
+        }
+      ]
+    }
+  },
+  {
+    text: 'Nested',
+    items: [
+      {
+        text: 'Level 1 - 1',
+        items: [
+          {
+            text: 'Level 2 - 1',
+            link: '/nested/level1-1/level2-1'
+          }
+        ]
+      },
+      {
+        text: 'Level 1 - 2',
+        items: [
+          {
+            text: 'Level 2 - 2',
+            link: '/nested/level1-2/level2-2'
+          }
+        ]
+      }
+    ]
+  }
+]
+
 const sidebar: DefaultTheme.Config['sidebar'] = {
   '/': [
     {
@@ -92,6 +160,7 @@ export default defineConfig({
     }
   },
   themeConfig: {
+    nav,
     sidebar,
     search: {
       provider: 'local',

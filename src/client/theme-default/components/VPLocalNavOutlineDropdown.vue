@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { onClickOutside, onKeyStroke } from '@vueuse/core'
+import { onKeyStroke } from '@vueuse/core'
 import { onContentUpdated } from 'vitepress'
-import { nextTick, ref } from 'vue'
+import { nextTick, ref, watch } from 'vue'
 import { useData } from '../composables/data'
 import { resolveTitle, type MenuItem } from '../composables/outline'
 import VPDocOutlineItem from './VPDocOutlineItem.vue'
@@ -17,8 +17,18 @@ const vh = ref(0)
 const main = ref<HTMLDivElement>()
 const items = ref<HTMLDivElement>()
 
-onClickOutside(main, () => {
-  open.value = false
+function closeOnClickOutside(e: Event) {
+  if (!main.value?.contains(e.target as Node)) {
+    open.value = false
+  }
+}
+
+watch(open, (value) => {
+  if (value) {
+    document.addEventListener('click', closeOnClickOutside)
+    return
+  }
+  document.removeEventListener('click', closeOnClickOutside)
 })
 
 onKeyStroke('Escape', () => {

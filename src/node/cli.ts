@@ -20,42 +20,54 @@ if (root) {
   argv.root = root
 }
 
+let restartPromise: Promise<void> | undefined
+
 if (!command || command === 'dev') {
   if (argv.force) {
     delete argv.force
     argv.optimizeDeps = { force: true }
   }
 
-  const createDevServer = async () => {
+  const createDevServer = async (isRestart = true) => {
     const server = await createServer(root, argv, async () => {
-      await server.close()
-      await createDevServer()
+      if (!restartPromise) {
+        restartPromise = (async () => {
+          await server.close()
+          await createDevServer()
+        })().finally(() => {
+          restartPromise = undefined
+        })
+      }
+
+      return restartPromise
     })
-    await server.listen()
+    await server.listen(undefined, isRestart)
     logVersion(server.config.logger)
     server.printUrls()
     bindShortcuts(server, createDevServer)
   }
-  createDevServer().catch((err) => {
+  createDevServer(false).catch((err) => {
     createLogger().error(
-      `${c.red(`failed to start server. error:`)}\n${err.stack}`
+      `${c.red(`failed to start server. error:`)}\n${err.message}\n${err.stack}`
     )
     process.exit(1)
   })
 } else if (command === 'init') {
   createLogger().info('', { clear: true })
-  init()
+  init(argv.root)
 } else {
   logVersion()
   if (command === 'build') {
     build(root, argv).catch((err) => {
-      createLogger().error(`${c.red(`build error:`)}\n${err.stack}`)
+      createLogger().error(
+        `${c.red(`build error:`)}\n${err.message}\n${err.stack}`
+      )
       process.exit(1)
     })
   } else if (command === 'serve' || command === 'preview') {
     serve(argv).catch((err) => {
       createLogger().error(
-        `${c.red(`failed to start server. error:`)}\n${err.stack}`
+        `${c.red(`failed to start server. error:`)}\n${err.message}\n${err.stack}`
       )
       process.exit(1)
     })

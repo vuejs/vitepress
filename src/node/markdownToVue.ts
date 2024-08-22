@@ -11,11 +11,12 @@ import {
 } from './markdown/markdown'
 import {
   EXTERNAL_URL_RE,
+  getLocaleForPath,
   slash,
+  treatAsHtml,
   type HeadConfig,
   type MarkdownEnv,
-  type PageData,
-  treatAsHtml
+  type PageData
 } from './shared'
 import { getGitTimestamp } from './utils/getGitTimestamp'
 import { processIncludes } from './utils/processIncludes'
@@ -95,13 +96,16 @@ export async function createMarkdownToVueRenderFn(
     let includes: string[] = []
     src = processIncludes(srcDir, src, fileOrig, includes)
 
+    const localeIndex = getLocaleForPath(siteConfig?.site, relativePath)
+
     // reset env before render
     const env: MarkdownEnv = {
       path: file,
       relativePath,
       cleanUrls,
       includes,
-      realPath: fileOrig
+      realPath: fileOrig,
+      localeIndex
     }
     const html = md.render(src, env)
     const {
@@ -181,8 +185,12 @@ export async function createMarkdownToVueRenderFn(
       filePath: slash(path.relative(srcDir, fileOrig))
     }
 
-    if (includeLastUpdatedData) {
-      pageData.lastUpdated = await getGitTimestamp(fileOrig)
+    if (includeLastUpdatedData && frontmatter.lastUpdated !== false) {
+      if (frontmatter.lastUpdated instanceof Date) {
+        pageData.lastUpdated = +frontmatter.lastUpdated
+      } else {
+        pageData.lastUpdated = await getGitTimestamp(fileOrig)
+      }
     }
 
     if (siteConfig?.transformPageData) {

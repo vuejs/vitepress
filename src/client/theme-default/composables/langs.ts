@@ -2,10 +2,7 @@ import { computed } from 'vue'
 import { ensureStartingSlash } from '../support/utils'
 import { useData } from './data'
 
-export function useLangs({
-  removeCurrent = true,
-  correspondingLink = false
-} = {}) {
+export function useLangs({ correspondingLink = false } = {}) {
   const { site, localeIndex, page, theme, hash } = useData()
   const currentLang = computed(() => ({
     label: site.value.locales[localeIndex.value]?.label,
@@ -16,7 +13,7 @@ export function useLangs({
 
   const localeLinks = computed(() =>
     Object.entries(site.value.locales).flatMap(([key, value]) =>
-      removeCurrent && currentLang.value.label === value.label
+      currentLang.value.label === value.label
         ? []
         : {
             text: value.label,

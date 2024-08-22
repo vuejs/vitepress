@@ -1,8 +1,10 @@
 import type MarkdownIt from 'markdown-it'
+import container from 'markdown-it-container'
 import type { RenderRule } from 'markdown-it/lib/renderer.mjs'
 import type Token from 'markdown-it/lib/token.mjs'
-import container from 'markdown-it-container'
 import { nanoid } from 'nanoid'
+import type { MarkdownEnv } from '../../shared'
+
 import {
   extractTitle,
   getAdaptiveThemeMarker,
@@ -60,7 +62,7 @@ function createContainer(
     container,
     klass,
     {
-      render(tokens, idx, _options, env) {
+      render(tokens, idx, _options, env: MarkdownEnv & { references?: any }) {
         const token = tokens[idx]
         const info = token.info.trim().slice(klass.length).trim()
         const attrs = md.renderer.renderAttrs(token)
@@ -86,7 +88,7 @@ function createCodeGroup(options: Options): ContainerArgs {
         if (tokens[idx].nesting === 1) {
           const name = nanoid(5)
           let tabs = ''
-          let checked = 'checked="checked"'
+          let checked = 'checked'
 
           for (
             let i = idx + 1;

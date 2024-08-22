@@ -11,14 +11,14 @@ import replace from '@rollup/plugin-replace'
 import alias from '@rollup/plugin-alias'
 import dts from 'rollup-plugin-dts'
 
+const ROOT = fileURLToPath(import.meta.url)
+const r = (p: string) => resolve(ROOT, '..', p)
+
 const require = createRequire(import.meta.url)
-const pkg = require('./package.json')
+const pkg = require(r('package.json'))
 
 const DEV = !!process.env.DEV
 const PROD = !DEV
-
-const ROOT = fileURLToPath(import.meta.url)
-const r = (p: string) => resolve(ROOT, '..', p)
 
 const external = [
   ...Object.keys(pkg.dependencies),
@@ -29,11 +29,7 @@ const external = [
 ]
 
 const plugins = [
-  alias({
-    entries: {
-      'readable-stream': 'stream'
-    }
-  }),
+  alias({ entries: { 'readable-stream': 'stream' } }),
   replace({
     // polyfill broken browser check from bundled deps
     'navigator.userAgentData': 'undefined',
@@ -69,21 +65,34 @@ const typesExternal = [
   'fast-glob'
 ]
 
+const dtsNode = dts({
+  respectExternal: true,
+  tsconfig: r('src/node/tsconfig.json')
+})
+
+const originalResolveId = dtsNode.resolveId
+
+dtsNode.resolveId = async function (source, importer) {
+  const res = await (originalResolveId as Function).call(this, source, importer)
+  if (res?.id) res.id = await fs.realpath(res.id)
+  return res
+}
+
 const nodeTypes: RollupOptions = {
   input: r('src/node/index.ts'),
   output: {
     format: 'esm',
-    file: 'dist/node/index.d.ts'
+    file: r('dist/node/index.d.ts')
   },
   external: typesExternal,
-  plugins: [dts({ respectExternal: true })]
+  plugins: [dtsNode]
 }
 
 const clientTypes: RollupOptions = {
   input: r('dist/client-types/index.d.ts'),
   output: {
     format: 'esm',
-    file: 'dist/client/index.d.ts'
+    file: r('dist/client/index.d.ts')
   },
   external: typesExternal,
   plugins: [
@@ -99,10 +108,4 @@ const clientTypes: RollupOptions = {
   ]
 }
 
-const config = defineConfig([])
-
-config.push(esmBuild)
-config.push(nodeTypes)
-config.push(clientTypes)
-
-export default config
+export default defineConfig([esmBuild, nodeTypes, clientTypes])

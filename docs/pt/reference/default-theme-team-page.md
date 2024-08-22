@@ -100,7 +100,7 @@ const members = [
 <VPTeamPage>
   <VPTeamPageTitle>
     <template #title>
-      Nosso time 
+      Nosso time
     </template>
     <template #lead>
      O desenvolvimento do VitePress é orientado por uma equipe internacional,

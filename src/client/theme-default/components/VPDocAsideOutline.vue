@@ -25,25 +25,27 @@ useActiveAnchor(container, marker)
 </script>
 
 <template>
-  <div
+  <nav
+    aria-labelledby="doc-outline-aria-label"
     class="VPDocAsideOutline"
     :class="{ 'has-outline': headers.length > 0 }"
     ref="container"
-    role="navigation"
   >
     <div class="content">
       <div class="outline-marker" ref="marker" />
 
-      <div class="outline-title" role="heading" aria-level="2">{{ resolveTitle(theme) }}</div>
+      <div
+        aria-level="2"
+        class="outline-title"
+        id="doc-outline-aria-label"
+        role="heading"
+      >
+        {{ resolveTitle(theme) }}
+      </div>
 
-      <nav aria-labelledby="doc-outline-aria-label">
-        <span class="visually-hidden" id="doc-outline-aria-label">
-          Table of Contents for current page
-        </span>
-        <VPDocOutlineItem :headers="headers" :root="true" />
-      </nav>
+      <VPDocOutlineItem :headers="headers" :root="true" />
     </div>
-  </div>
+  </nav>
 </template>
 
 <style scoped>

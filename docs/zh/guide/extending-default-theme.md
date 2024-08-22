@@ -63,10 +63,10 @@ export default DefaultTheme
 ```
 
 ::: warning
-如果你在使用像是[团队页](/reference/default-theme-team-page)这样的组件，请确保也从 `vitepress/theme-without-fonts` 中导入它们！
+如果你在使用像是[团队页](../reference/default-theme-team-page)这样的组件，请确保也从 `vitepress/theme-without-fonts` 中导入它们！
 :::
 
-如果字体是通过 `@font-face` 引用的本地文件，它将会被作为资源被包含在 `.vitepress/dist/asset` 目录下，并且使用哈希后的文件名。为了预加载这个文件，请使用 [transformHead](/reference/site-config#transformhead) 构建钩子：
+如果字体是通过 `@font-face` 引用的本地文件，它将会被作为资源被包含在 `.vitepress/dist/asset` 目录下，并且使用哈希后的文件名。为了预加载这个文件，请使用 [transformHead](../reference/site-config#transformhead) 构建钩子：
 
 ```js
 // .vitepress/config.js

@@ -14,11 +14,10 @@ import { sfcPlugin, type SfcPluginOptions } from '@mdit-vue/plugin-sfc'
 import { titlePlugin } from '@mdit-vue/plugin-title'
 import { tocPlugin, type TocPluginOptions } from '@mdit-vue/plugin-toc'
 import { slugify } from '@mdit-vue/shared'
-import MarkdownIt from 'markdown-it'
 import type { Options } from 'markdown-it'
+import MarkdownIt from 'markdown-it'
 import anchorPlugin from 'markdown-it-anchor'
 import attrsPlugin from 'markdown-it-attrs'
-// @ts-expect-error: types of markdown-it-emoji are not up-to-date
 import { full as emojiPlugin } from 'markdown-it-emoji'
 import type {
   BuiltinTheme,
@@ -29,14 +28,15 @@ import type {
 } from 'shiki'
 import type { Logger } from 'vite'
 import { containerPlugin, type ContainerOptions } from './plugins/containers'
+import { gitHubAlertsPlugin } from './plugins/githubAlerts'
 import { highlight } from './plugins/highlight'
 import { highlightLinePlugin } from './plugins/highlightLines'
 import { imagePlugin, type Options as ImageOptions } from './plugins/image'
 import { lineNumberPlugin } from './plugins/lineNumbers'
 import { linkPlugin } from './plugins/link'
 import { preWrapperPlugin } from './plugins/preWrapper'
+import { restoreEntities } from './plugins/restoreEntities'
 import { snippetPlugin } from './plugins/snippet'
-import { gitHubAlertsPlugin } from './plugins/githubAlerts'
 
 export type { Header } from '../shared'
 
@@ -111,6 +111,11 @@ export interface MarkdownOptions extends Options {
    * Setup Shiki instance
    */
   shikiSetup?: (shiki: Highlighter) => void | Promise<void>
+  /**
+   * The tooltip text for the copy button in code blocks
+   * @default 'Copy Code'
+   */
+  codeCopyButtonTitle?: string
 
   /* ==================== Markdown It Plugins ==================== */
 
@@ -195,6 +200,7 @@ export const createMarkdownRenderer = async (
   logger: Pick<Logger, 'warn'> = console
 ): Promise<MarkdownRenderer> => {
   const theme = options.theme ?? { light: 'github-light', dark: 'github-dark' }
+  const codeCopyButtonTitle = options.codeCopyButtonTitle || 'Copy Code'
   const hasSingleTheme = typeof theme === 'string' || 'name' in theme
 
   const md = MarkdownIt({
@@ -205,6 +211,7 @@ export const createMarkdownRenderer = async (
   })
 
   md.linkify.set({ fuzzyLink: false })
+  md.use(restoreEntities)
 
   if (options.preConfig) {
     options.preConfig(md)
@@ -213,7 +220,7 @@ export const createMarkdownRenderer = async (
   // custom plugins
   md.use(componentPlugin, { ...options.component })
     .use(highlightLinePlugin)
-    .use(preWrapperPlugin, { hasSingleTheme })
+    .use(preWrapperPlugin, { codeCopyButtonTitle, hasSingleTheme })
     .use(snippetPlugin, srcDir)
     .use(containerPlugin, { hasSingleTheme }, options.container)
     .use(imagePlugin, options.image)
@@ -224,11 +231,15 @@ export const createMarkdownRenderer = async (
     )
     .use(lineNumberPlugin, options.lineNumbers)
 
+  md.renderer.rules.table_open = function (tokens, idx, options, env, self) {
+    return '<table tabindex="0">\n'
+  }
+
   if (options.gfmAlerts !== false) {
     md.use(gitHubAlertsPlugin)
   }
 
-  // 3rd party plugins
+  // third party plugins
   if (!options.attrs?.disable) {
     md.use(attrsPlugin, options.attrs)
   }
@@ -280,6 +291,13 @@ export const createMarkdownRenderer = async (
       md.use(mathPlugin.default ?? mathPlugin, {
         ...(typeof options.math === 'boolean' ? {} : options.math)
       })
+      const orig = md.renderer.rules.math_block!
+      md.renderer.rules.math_block = (tokens, idx, options, env, self) => {
+        return orig(tokens, idx, options, env, self).replace(
+          /^<mjx-container /,
+          '<mjx-container tabindex="0" '
+        )
+      }
     } catch (error) {
       throw new Error(
         'You need to install `markdown-it-mathjax3` to use math support.'

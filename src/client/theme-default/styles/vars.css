@@ -261,13 +261,18 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-  --vp-font-family-base: 'Chinese Quotes', Inter, ui-sans-serif, system-ui,
-    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
-    'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
-    'Noto Color Emoji';
-  --vp-font-family-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+  --vp-font-family-base: 'Inter', ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --vp-font-family-mono: ui-monospace, 'Menlo', 'Monaco', 'Consolas',
     'Liberation Mono', 'Courier New', monospace;
   font-optical-sizing: auto;
+}
+
+:root:where(:lang(zh)) {
+  --vp-font-family-base: 'Punctuation SC', 'Inter', ui-sans-serif, system-ui,
+    'PingFang SC', 'Noto Sans CJK SC', 'Noto Sans SC', 'Heiti SC',
+    'Microsoft YaHei', 'DengXian', sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
 /**
