@@ -174,62 +174,64 @@ export function createRouter(
     window.addEventListener(
       'click',
       (e) => {
-        // temporary fix for docsearch action buttons
-        const button = (e.target as Element).closest('button')
-        if (button) return
-
-        const link = (e.target as Element | SVGElement).closest<
-          HTMLAnchorElement | SVGAElement
-        >('a')
         if (
-          link &&
-          !link.closest('.vp-raw') &&
-          (link instanceof SVGElement || !link.download)
-        ) {
-          const { target } = link
-          const { href, origin, pathname, hash, search } = new URL(
-            link.href instanceof SVGAnimatedString
-              ? link.href.animVal
-              : link.href,
-            link.baseURI
-          )
-          const currentUrl = new URL(location.href) // copy to keep old data
-          // only intercept inbound html links
+          e.defaultPrevented ||
+          !(e.target instanceof Element) ||
+          e.target.closest('button') || // temporary fix for docsearch action buttons
+          e.button !== 0 ||
+          e.ctrlKey ||
+          e.shiftKey ||
+          e.altKey ||
+          e.metaKey
+        )
+          return
+
+        const link = e.target.closest<HTMLAnchorElement | SVGAElement>('a')
+        if (
+          !link ||
+          link.closest('.vp-raw') ||
+          link.hasAttribute('download') ||
+          link.hasAttribute('target')
+        )
+          return
+
+        const linkHref =
+          link.getAttribute('href') ??
+          (link instanceof SVGAElement ? link.getAttribute('xlink:href') : null)
+        if (linkHref == null) return
+
+        const { href, origin, pathname, hash, search } = new URL(
+          linkHref,
+          link.baseURI
+        )
+        const currentUrl = new URL(location.href) // copy to keep old data
+        // only intercept inbound html links
+        if (origin === currentUrl.origin && treatAsHtml(pathname)) {
+          e.preventDefault()
           if (
-            !e.ctrlKey &&
-            !e.shiftKey &&
-            !e.altKey &&
-            !e.metaKey &&
-            !target &&
-            origin === currentUrl.origin &&
-            treatAsHtml(pathname)
+            pathname === currentUrl.pathname &&
+            search === currentUrl.search
           ) {
-            e.preventDefault()
-            if (
-              pathname === currentUrl.pathname &&
-              search === currentUrl.search
-            ) {
-              // scroll between hash anchors in the same page
-              // avoid duplicate history entries when the hash is same
-              if (hash !== currentUrl.hash) {
-                history.pushState({}, '', href)
-                // still emit the event so we can listen to it in themes
-                window.dispatchEvent(
-                  new HashChangeEvent('hashchange', {
-                    oldURL: currentUrl.href,
-                    newURL: href
-                  })
-                )
-              }
-              if (hash) {
-                // use smooth scroll when clicking on header anchor links
-                scrollTo(link, hash, link.classList.contains('header-anchor'))
-              } else {
-                window.scrollTo(0, 0)
-              }
-            } else {
-              go(href)
+            // scroll between hash anchors in the same page
+            // avoid duplicate history entries when the hash is same
+            if (hash !== currentUrl.hash) {
+              history.pushState({}, '', href)
+              // still emit the event so we can listen to it in themes
+              window.dispatchEvent(
+                new HashChangeEvent('hashchange', {
+                  oldURL: currentUrl.href,
+                  newURL: href
+                })
+              )
             }
+            if (hash) {
+              // use smooth scroll when clicking on header anchor links
+              scrollTo(link, hash, link.classList.contains('header-anchor'))
+            } else {
+              window.scrollTo(0, 0)
+            }
+          } else {
+            go(href)
           }
         }
       },

@@ -28,7 +28,7 @@ if (!command || command === 'dev') {
     argv.optimizeDeps = { force: true }
   }
 
-  const createDevServer = async () => {
+  const createDevServer = async (isRestart = true) => {
     const server = await createServer(root, argv, async () => {
       if (!restartPromise) {
         restartPromise = (async () => {
@@ -41,12 +41,12 @@ if (!command || command === 'dev') {
 
       return restartPromise
     })
-    await server.listen()
+    await server.listen(undefined, isRestart)
     logVersion(server.config.logger)
     server.printUrls()
     bindShortcuts(server, createDevServer)
   }
-  createDevServer().catch((err) => {
+  createDevServer(false).catch((err) => {
     createLogger().error(
       `${c.red(`failed to start server. error:`)}\n${err.message}\n${err.stack}`
     )
@@ -54,7 +54,7 @@ if (!command || command === 'dev') {
   })
 } else if (command === 'init') {
   createLogger().info('', { clear: true })
-  init()
+  init(argv.root)
 } else {
   logVersion()
   if (command === 'build') {

@@ -769,7 +769,7 @@ Por exemplo, você pode incluir um arquivo markdown relativo usando isto:
 ```md
 # Documentação
 
-## Conceitos Básicos 
+## Conceitos Básicos
 
 <!--@include: ./parts/basics.md-->
 ```

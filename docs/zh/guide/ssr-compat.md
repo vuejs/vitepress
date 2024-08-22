@@ -8,7 +8,7 @@ outline: deep
 
 [Vue 官方文档的 SSR 部分](https://cn.vuejs.org/guide/scaling-up/ssr.html)提供了更多有关 SSR 是什么，SSR / SSG 之间的关系以及编写 SSR 友好的代码的常见注意事项等信息。原则上只在 Vue 组件的 `beforeMount` 或 `mounted` 钩子中访问浏览器或 DOM API。
 
-## `<ClientOnly>` 
+## `<ClientOnly>`
 
 如果正在使用或演示不支持 SSR 的组件 (例如，包含自定义指令)，则可以将它们包装在内置的 `<ClientOnly>` 组件中：
 
@@ -48,7 +48,7 @@ if (!import.meta.env.SSR) {
 }
 ```
 
-因为 [`Theme.enhanceApp`](/guide/custom-theme#theme-interface) 可以是异步的，所以可以有条件地导入并注册访问浏览器 API 的 Vue 插件：
+因为 [`Theme.enhanceApp`](./custom-theme#theme-interface) 可以是异步的，所以可以有条件地导入并注册访问浏览器 API 的 Vue 插件：
 
 ```js
 // .vitepress/theme/index.js
@@ -80,7 +80,7 @@ export default {
 } satisfies Theme
 ```
 
-### `defineClientComponent` 
+### `defineClientComponent`
 
 VitePress 为导入 Vue 组件提供了一个方便的辅助函数，该组件可以在导入时访问浏览器 API。
 

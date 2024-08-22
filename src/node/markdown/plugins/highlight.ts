@@ -1,7 +1,7 @@
 import { customAlphabet } from 'nanoid'
 import c from 'picocolors'
 import type { ShikiTransformer } from 'shiki'
-import { bundledLanguages, getHighlighter, isSpecialLang } from 'shiki'
+import { bundledLanguages, createHighlighter, isSpecialLang } from 'shiki'
 import {
   transformerCompactLineOptions,
   transformerNotationDiff,
@@ -57,7 +57,7 @@ export async function highlight(
     codeTransformers: userTransformers = []
   } = options
 
-  const highlighter = await getHighlighter({
+  const highlighter = await createHighlighter({
     themes:
       typeof theme === 'object' && 'light' in theme && 'dark' in theme
         ? [theme.light, theme.dark]
@@ -85,7 +85,6 @@ export async function highlight(
     {
       name: 'vitepress:clean-up',
       pre(node) {
-        delete node.properties.tabindex
         delete node.properties.style
       }
     }

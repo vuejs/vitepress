@@ -73,7 +73,7 @@ Cache-Control: max-age=31536000,immutable
   cache-control: immutable
 ```
 
-注意：该 `_headers` 文件应放置在 [public 目录](/guide/asset-handling#the-public-directory)中 (在我们的例子中是 `docs/public/_headers`)，以便将其逐字复制到输出目录。
+注意：该 `_headers` 文件应放置在 [public 目录](./asset-handling#the-public-directory)中 (在我们的例子中是 `docs/public/_headers`)，以便将其逐字复制到输出目录。
 
 [Netlify 自定义标头文档](https://docs.netlify.com/routing/headers/)
 
@@ -286,4 +286,52 @@ Cache-Control: max-age=31536000,immutable
 
 ### Kinsta 静态站点托管 {#kinsta-static-site-hosting}
 
-你可以按照这些[说明](https://kinsta.com/docs/vitepress-static-site-example/) 在 [Kinsta](https://kinsta.com/static-site-hosting/) 上部署 Vitepress 站点。
+你可以按照这些[说明](https://kinsta.com/docs/vitepress-static-site-example/) 在 [Kinsta](https://kinsta.com/static-site-hosting/) 上部署 VitePress 站点。
+
+### Stormkit
+
+你可以按照这些[说明](https://stormkit.io/blog/how-to-deploy-vitepress)将你的 VitePress 项目部署到 [Stormkit](https://www.stormkit.io)。
+
+### Nginx
+
+下面是一个 Nginx 服务器块配置示例。此配置包括对基于文本的常见资源的 gzip 压缩、使用适当缓存头为 VitePress 站点静态文件提供服务的规则以及处理 `cleanUrls: true` 的方法。
+
+```nginx
+server {
+    gzip on;
+    gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+
+    listen 80;
+    server_name _;
+    index index.html;
+
+    location / {
+        # content location
+        root /app;
+
+        # exact matches -> reverse clean urls -> folders -> not found
+        try_files $uri $uri.html $uri/ =404;
+
+        # non existent pages
+        error_page 404 /404.html;
+
+        # a folder without index.html raises 403 in this setup
+        error_page 403 /404.html;
+
+        # adjust caching headers
+        # files in the assets folder have hashes filenames
+        location ~* ^/assets/ {
+            expires 1y;
+            add_header Cache-Control "public, immutable";
+        }
+    }
+}
+```
+
+本配置默认已构建的 VitePress 站点位于服务器上的 `/app` 目录中。如果站点文件位于其他位置，请相应调整 `root` 指令。
+
+::: warning 不要默认为 index.html
+try_files 解析不能像其他 Vue 应用那样默认为 index.html。这会导致页面状态处于无效。
+:::
+
+更多信息请参见 [nginx 官方文档](https://nginx.org/en/docs/)、这些 GitHub Issue [#2837](https://github.com/vuejs/vitepress/discussions/2837)、[#3235](https://github.com/vuejs/vitepress/issues/3235)以及 Mehdi Merah 发表的[博客](https://blog.mehdi.cc/articles/vitepress-cleanurls-on-nginx-environment#readings)。

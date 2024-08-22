@@ -198,7 +198,7 @@ Cache-Control: max-age=31536000,immutable
 
 ### GitLab Pages {#gitlab-pages}
 
-1. Установите `outDir` в конфигурации VitePress на `../public`. Настройте опцию `base` на `'/<репозиторий>/'`, если вы хотите развернуть ваш проект по адресу на `https://<имя пользователя>.gitlab.io/<репозиторий>/`.
+1. Установите значение `../public` для параметра `outDir` в конфигурации VitePress. Настройте опцию `base` на `'/<репозиторий>/'`, если вы хотите развернуть ваш проект по адресу `https://<имя пользователя>.gitlab.io/<репозиторий>/`. Вам не нужна опция `base`, если вы выполняете развёртывание на личном домене, страницах пользователя или группы или если в GitLab включен параметр «Использовать уникальный домен».
 
 2. Создайте файл с именем `.gitlab-ci.yml` в корне вашего проекта с приведённым ниже содержимым. Это позволит создавать и развёртывать ваш сайт каждый раз, когда вы вносите изменения в его содержимое:
 
@@ -286,7 +286,7 @@ Cache-Control: max-age=31536000,immutable
 
 ### Хостинг статических файлов Kinsta {#kinsta-static-site-hosting}
 
-Вы можете развернуть свой сайт Vitepress на [Kinsta](https://kinsta.com/static-site-hosting/), следуя этим [инструкциям](https://kinsta.com/docs/vitepress-static-site-example/).
+Вы можете развернуть свой сайт VitePress на [Kinsta](https://kinsta.com/static-site-hosting/), следуя этим [инструкциям](https://kinsta.com/docs/vitepress-static-site-example/).
 
 ### Stormkit
 

@@ -35,6 +35,13 @@
   font-size: 20px;
 }
 
+.vp-doc h4 {
+  margin: 24px 0 0;
+  letter-spacing: -0.01em;
+  line-height: 24px;
+  font-size: 18px;
+}
+
 .vp-doc .header-anchor {
   position: absolute;
   top: 0;
@@ -98,12 +105,12 @@
   border-left: 2px solid var(--vp-c-divider);
   padding-left: 16px;
   transition: border-color 0.5s;
+  color: var(--vp-c-text-2);
 }
 
 .vp-doc blockquote > p {
   margin: 0;
   font-size: 16px;
-  color: var(--vp-c-text-2);
   transition: color 0.5s;
 }
 
@@ -262,7 +269,8 @@
 
 .vp-doc h1 > code,
 .vp-doc h2 > code,
-.vp-doc h3 > code {
+.vp-doc h3 > code,
+.vp-doc h4 > code {
   font-size: 0.9em;
 }
 
