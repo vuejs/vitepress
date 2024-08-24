@@ -121,7 +121,7 @@ export const staticDataPlugin: Plugin = {
   },
 
   transform(_code, id) {
-    if (server && loaderMatch.test(id)) {
+    if (server && loaderMatch.test(id) && '_importGlobMap' in server) {
       // register this module as a glob importer
       const { watch } = idToLoaderModulesMap[id]!
       if (watch) {
