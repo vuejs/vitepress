@@ -1,3 +1,9 @@
+## [1.3.4](https://github.com/vuejs/vitepress/compare/v1.3.3...v1.3.4) (2024-08-24)
+
+### Bug Fixes
+
+- check if `_importGlobMap` (vite internal) exists before using it ([612d66f](https://github.com/vuejs/vitepress/commit/612d66fbb5162d9905cfb10919ca1761ce8c4680))
+
 ## [1.3.3](https://github.com/vuejs/vitepress/compare/v1.3.2...v1.3.3) (2024-08-17)
 
 ### Miscellaneous
