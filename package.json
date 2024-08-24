@@ -184,7 +184,7 @@
     "sirv": "^2.0.4",
     "sitemap": "^8.0.0",
     "supports-color": "^9.4.0",
-    "tinyglobby": "^0.2.2",
+    "tinyglobby": "^0.2.5",
     "typescript": "^5.5.3",
     "vitest": "^2.0.2",
     "vue-tsc": "^2.0.29",
