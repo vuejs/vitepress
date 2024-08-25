@@ -118,6 +118,7 @@ export function createContentLoader<T = ContentData[]>(
         files = (
           await glob(pattern, {
             ignore: ['**/node_modules/**', '**/dist/**'],
+            expandDirectories: false,
             ...globOptions
           })
         ).sort()

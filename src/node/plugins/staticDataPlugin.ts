@@ -101,7 +101,8 @@ export const staticDataPlugin: Plugin = {
         if (typeof watch === 'string') watch = [watch]
         watchedFiles = (
           await glob(watch, {
-            ignore: ['**/node_modules/**', '**/dist/**']
+            ignore: ['**/node_modules/**', '**/dist/**'],
+            expandDirectories: false
           })
         ).sort()
       }

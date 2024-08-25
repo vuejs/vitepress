@@ -32,7 +32,8 @@ export async function resolvePages(
         '**/node_modules/**',
         '**/dist/**',
         ...(userConfig.srcExclude || [])
-      ]
+      ],
+      expandDirectories: false
     })
   ).sort()
 
