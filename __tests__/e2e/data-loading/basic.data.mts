@@ -7,14 +7,10 @@ export declare const data: Data
 export default defineLoader({
   watch: ['./data/*'],
   async load(files: string[]): Promise<Data> {
-    const foo = fs.readFileSync(
-      files.find((f) => f.endsWith('foo.json'))!,
-      'utf-8'
-    )
-    const bar = fs.readFileSync(
-      files.find((f) => f.endsWith('bar.json'))!,
-      'utf-8'
-    )
-    return [JSON.parse(foo), JSON.parse(bar)]
+    const data: Data = []
+    for (const file of files.sort().filter((file) => file.endsWith('.json'))) {
+      data.push(JSON.parse(fs.readFileSync(file, 'utf-8')))
+    }
+    return data
   }
 })
