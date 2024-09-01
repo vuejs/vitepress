@@ -103,7 +103,6 @@ interface Router {
    * обновлено). Верните `false`, чтобы отменить навигацию.
    */
   onBeforePageLoad?: (to: string) => Awaitable<void | boolean>
-  onAfterPageLoad?: (to: string) => Awaitable<void>
   /**
    * Вызывается после изменения маршрута.
    */

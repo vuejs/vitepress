@@ -107,7 +107,6 @@ interface Router {
    * 탐색을 취소하려면 `false`를 반환.
    */
   onBeforePageLoad?: (to: string) => Awaitable<void | boolean>
-  onAfterPageLoad?: (to: string) => Awaitable<void>
   /**
    * 라우트가 변경된 후 호출.
    */
