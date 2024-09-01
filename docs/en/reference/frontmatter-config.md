@@ -163,7 +163,7 @@ The levels of header in the outline to display for the page. It's same as [confi
 
 ```yaml
 ---
-outline: 2
+outline: [2, 4]
 ---
 ```
 
