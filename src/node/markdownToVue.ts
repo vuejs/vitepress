@@ -57,21 +57,33 @@ export async function createMarkdownToVueRenderFn(
     base,
     siteConfig?.logger
   )
+
   pages = pages.map((p) => slash(p.replace(/\.md$/, '')))
+
+  const dynamicRoutes = new Map(
+    siteConfig?.dynamicRoutes?.routes.map((r) => [
+      r.fullPath,
+      path.join(srcDir, r.route)
+    ]) || []
+  )
+
+  const rewrites = new Map(
+    Object.entries(siteConfig?.rewrites.map || {}).map(([key, value]) => [
+      path.join(srcDir, key),
+      path.join(srcDir, value!)
+    ]) || []
+  )
 
   return async (
     src: string,
     file: string,
     publicDir: string
   ): Promise<MarkdownCompileResult> => {
-    const fileOrig = file
-    const alias =
-      siteConfig?.rewrites.map[file] || // virtual dynamic path file
-      siteConfig?.rewrites.map[file.slice(srcDir.length + 1)]
-    file = alias ? path.join(srcDir, alias) : file
+    const fileOrig = dynamicRoutes.get(file) || file
+    file = rewrites.get(file) || file
     const relativePath = slash(path.relative(srcDir, file))
-    const cacheKey = JSON.stringify({ src, file: fileOrig })
 
+    const cacheKey = JSON.stringify({ src, file: relativePath })
     if (isBuild || options.cache !== false) {
       const cached = cache.get(cacheKey)
       if (cached) {
