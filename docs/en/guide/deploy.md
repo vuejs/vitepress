@@ -62,7 +62,7 @@ The production build uses hashed file names for static assets (JavaScript, CSS a
 This `4f283b18` hash is generated from the content of this file. The same hashed URL is guaranteed to serve the same file content - if the contents change, the URLs change too. This means you can safely use the strongest cache headers for these files. All such files will be placed under `assets/` in the output directory, so you can configure the following header for them:
 
 ```
-Cache-Control: max-age=31536000,immutable
+Cache-Control: max-age=3153600,immutable
 ```
 
 ::: details Example Netlify `_headers` file
