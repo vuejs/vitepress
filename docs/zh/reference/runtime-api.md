@@ -103,6 +103,10 @@ interface Router {
    */
   onBeforePageLoad?: (to: string) => Awaitable<void | boolean>
   /**
+   * 在页面组件加载后（页面组件实际更新前）调用
+   */
+  onAfterPageLoad?: (to: string) => Awaitable<void>
+  /**
    * 在路由更改后调用
    */
   onAfterRouteChanged?: (to: string) => Awaitable<void>

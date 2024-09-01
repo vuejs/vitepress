@@ -150,8 +150,6 @@ function newRouter(): Router {
             url.hash
           return import(/*@vite-ignore*/ path)
         })
-      } else if (import.meta.env.SSR) {
-        pageModule = import(/*@vite-ignore*/ `${pageFilePath}?t=${Date.now()}`)
       } else {
         pageModule = import(/*@vite-ignore*/ pageFilePath)
       }

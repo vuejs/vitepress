@@ -13,7 +13,7 @@ export type MenuItem = Omit<Header, 'slug' | 'children'> & {
   children?: MenuItem[]
 }
 
-export function resolveTitle(theme: DefaultTheme.Config) {
+export function resolveTitle(theme: DefaultTheme.Config): string {
   return (
     (typeof theme.outline === 'object' &&
       !Array.isArray(theme.outline) &&
@@ -23,7 +23,7 @@ export function resolveTitle(theme: DefaultTheme.Config) {
   )
 }
 
-export function getHeaders(range: DefaultTheme.Config['outline']) {
+export function getHeaders(range: DefaultTheme.Config['outline']): MenuItem[] {
   const headers = [
     ...document.querySelectorAll('.VPDoc :where(h1,h2,h3,h4,h5,h6)')
   ]
@@ -80,38 +80,13 @@ export function resolveHeaders(
         ? [2, 6]
         : levelsRange
 
-  headers = headers.filter((h) => h.level >= high && h.level <= low)
-  // clear previous caches
-  resolvedHeaders.length = 0
-  // update global header list for active link rendering
-  for (const { element, link } of headers) {
-    resolvedHeaders.push({ element, link })
-  }
-
-  const ret: MenuItem[] = []
-  outer: for (let i = 0; i < headers.length; i++) {
-    const cur = headers[i]
-    if (i === 0) {
-      ret.push(cur)
-    } else {
-      for (let j = i - 1; j >= 0; j--) {
-        const prev = headers[j]
-        if (prev.level < cur.level) {
-          ;(prev.children || (prev.children = [])).push(cur)
-          continue outer
-        }
-      }
-      ret.push(cur)
-    }
-  }
-
-  return ret
+  return buildTree(headers, high, low)
 }
 
 export function useActiveAnchor(
   container: Ref<HTMLElement>,
   marker: Ref<HTMLElement>
-) {
+): void {
   const { isAsideEnabled } = useAside()
 
   const onScroll = throttleAndDebounce(setActiveLink, 100)
@@ -220,4 +195,39 @@ function getAbsoluteTop(element: HTMLElement): number {
     element = element.offsetParent as HTMLElement
   }
   return offsetTop
+}
+
+function buildTree(data: MenuItem[], min: number, max: number): MenuItem[] {
+  resolvedHeaders.length = 0
+
+  const result: MenuItem[] = []
+  const stack: (MenuItem | { level: number; shouldIgnore: true })[] = []
+
+  data.forEach((item) => {
+    const node = { ...item, children: [] }
+    let parent = stack[stack.length - 1]
+
+    while (parent && parent.level >= node.level) {
+      stack.pop()
+      parent = stack[stack.length - 1]
+    }
+
+    if (
+      node.element.classList.contains('ignore-header') ||
+      (parent && 'shouldIgnore' in parent)
+    ) {
+      stack.push({ level: node.level, shouldIgnore: true })
+      return
+    }
+
+    if (node.level > max || node.level < min) return
+    resolvedHeaders.push({ element: node.element, link: node.link })
+
+    if (parent) parent.children!.push(node)
+    else result.push(node)
+
+    stack.push(node)
+  })
+
+  return result
 }

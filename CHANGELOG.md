@@ -1,3 +1,22 @@
+## [1.3.4](https://github.com/vuejs/vitepress/compare/v1.3.3...v1.3.4) (2024-08-24)
+
+### Bug Fixes
+
+- check if `_importGlobMap` (vite internal) exists before using it ([612d66f](https://github.com/vuejs/vitepress/commit/612d66fbb5162d9905cfb10919ca1761ce8c4680))
+
+## [1.3.3](https://github.com/vuejs/vitepress/compare/v1.3.2...v1.3.3) (2024-08-17)
+
+### Miscellaneous
+
+- bump deps ([a20db24](https://github.com/vuejs/vitepress/commit/a20db247822438ac4e0e76bc4a2b4ee2f5d94940))
+
+## [1.3.2](https://github.com/vuejs/vitepress/compare/v1.3.1...v1.3.2) (2024-08-05)
+
+### Bug Fixes
+
+- multiple cache busting imports causing useData to fail ([2b3e486](https://github.com/vuejs/vitepress/commit/2b3e486ab913ff77707410b9cee3ba6d256ccc95)), closes [#3820](https://github.com/vuejs/vitepress/issues/3820), reverts [#3398](https://github.com/vuejs/vitepress/issues/3398), reopens [#3363](https://github.com/vuejs/vitepress/issues/3363)
+- **theme:** excerpt style in LocalSearchBox ([#4050](https://github.com/vuejs/vitepress/issues/4050)) ([2bc0d39](https://github.com/vuejs/vitepress/commit/2bc0d39d5089841986f0988fc9cfe15533d3a0c6))
+
 ## [1.3.1](https://github.com/vuejs/vitepress/compare/v1.3.0...v1.3.1) (2024-07-14)
 
 ### Bug Fixes
