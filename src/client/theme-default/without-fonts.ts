@@ -19,7 +19,7 @@ export { default as VPHomeContent } from './components/VPHomeContent.vue'
 export { default as VPHomeHero } from './components/VPHomeHero.vue'
 export { default as VPHomeFeatures } from './components/VPHomeFeatures.vue'
 export { default as VPHomeSponsors } from './components/VPHomeSponsors.vue'
-export { default as VPLink } from './components/VPLink.vue';
+export { default as VPLink } from './components/VPLink.vue'
 export { default as VPDocAsideSponsors } from './components/VPDocAsideSponsors.vue'
 export { default as VPSocialLink } from './components/VPSocialLink.vue'
 export { default as VPSocialLinks } from './components/VPSocialLinks.vue'
