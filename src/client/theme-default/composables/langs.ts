@@ -8,16 +8,11 @@ export function useLangs({ correspondingLink = false } = {}) {
     const lang = site.value.locales[localeIndex.value]
     return {
       label: lang?.label,
+      repository: lang?.repository,
       link:
         lang?.link || localeIndex.value === 'root'
           ? '/'
-          : `/${localeIndex.value}/`,
-      repository: lang?.repository
-        ? {
-            link: lang.repository.link,
-            title: lang.repository.title
-          }
-        : undefined
+          : `/${localeIndex.value}/`
     }
   })
 
@@ -27,12 +22,7 @@ export function useLangs({ correspondingLink = false } = {}) {
         ? []
         : {
             text: value.label,
-            repository: value.repository
-              ? {
-                  link: value.repository.link,
-                  title: value.repository.title
-                }
-              : undefined,
+            repository: value.repository,
             link:
               normalizeLink(
                 value.link || (key === 'root' ? '/' : `/${key}/`),

@@ -21,7 +21,7 @@ const { localeLinks, currentLang } = useLangs({ correspondingLink: true })
         <div class="menu-item">
           <p class="title">{{ currentLang.label }}</p>
           <VPSocialLink
-            icon="github"
+            :icon="currentLang.repository.icon ?? 'github'"
             :link="currentLang.repository.link"
             :ariaLabel="currentLang.repository.title"
           />
@@ -33,7 +33,7 @@ const { localeLinks, currentLang } = useLangs({ correspondingLink: true })
         <div v-if="locale.repository" class="menu-item">
           <VPMenuLink :item="locale" />
           <VPSocialLink
-            icon="github"
+            :icon="locale.repository.icon ?? 'github'"
             :link="locale.repository.link"
             :ariaLabel="locale.repository.title"
           />

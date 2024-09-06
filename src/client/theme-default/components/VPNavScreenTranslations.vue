@@ -32,7 +32,7 @@ function toggle() {
       </template>
       <VPSocialLink
         v-if="currentLang.repository"
-        icon="github"
+        :icon="currentLang.repository.icon ?? 'github'"
         :link="currentLang.repository.link"
         :ariaLabel="currentLang.repository.title"
       />
@@ -48,7 +48,7 @@ function toggle() {
         <VPLink class="link" :href="locale.link">{{ locale.text }}</VPLink>
         <VPSocialLink
           v-if="locale.repository"
-          icon="github"
+          :icon="locale.repository.icon ?? 'github'"
           :link="locale.repository.link"
           :ariaLabel="locale.repository.title"
         />

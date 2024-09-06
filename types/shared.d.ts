@@ -159,6 +159,8 @@ export interface LocaleSpecificConfig<ThemeConfig = any> {
   themeConfig?: ThemeConfig
 }
 
+export type RepositoryLinkIcon = 'github' | 'gitlab' | 'bitbucket'
+
 export type LocaleConfig<ThemeConfig = any> = Record<
   string,
   LocaleSpecificConfig<ThemeConfig> & {
@@ -167,6 +169,8 @@ export type LocaleConfig<ThemeConfig = any> = Record<
     repository?: {
       link: string
       title: string
+      /** @default 'github' */
+      icon?: RepositoryLinkIcon
       help?: {
         link: string
         text: string

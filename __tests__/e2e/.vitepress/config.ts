@@ -168,12 +168,23 @@ export default defineConfig({
         title: 'English Repository'
       }
     },
+    es: {
+      label: 'Español',
+      link: 'https://vitepress.dev/es/',
+      repository: {
+        // for testing purposes
+        link: 'https://github.com/vuejs/core',
+        icon: 'gitlab',
+        title: 'Repositorio en Español'
+      }
+    },
     zh: {
       label: '简体中文',
       link: 'https://vitepress.dev/zh/',
       repository: {
         // for testing purposes
         link: 'https://github.com/vitejs/vite',
+        icon: 'bitbucket',
         title: '中文存储库'
       }
     }
