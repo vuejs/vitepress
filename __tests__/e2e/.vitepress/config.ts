@@ -160,7 +160,11 @@ export default defineConfig({
     }
   },
   locales: {
-    root: { label: 'English', repo: 'https://github.com/vuejs/vitepress' },
+    root: {
+      label: 'English',
+      link: 'https://vitepress.dev',
+      repo: 'https://github.com/vuejs/vitepress'
+    },
     zh: {
       label: '简体中文',
       link: 'https://vitepress.dev/zh/',
