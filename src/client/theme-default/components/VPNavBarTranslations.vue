@@ -48,7 +48,6 @@ const { localeLinks, currentLang } = useLangs({ correspondingLink: true })
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: relative;
 }
 
 @media (min-width: 1280px) {
