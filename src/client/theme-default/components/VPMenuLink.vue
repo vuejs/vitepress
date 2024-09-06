@@ -8,10 +8,6 @@ defineProps<{
   item: DefaultTheme.NavItemWithLink
 }>()
 
-defineSlots<{
-  default: () => void
-}>()
-
 const { page } = useData()
 </script>
 
