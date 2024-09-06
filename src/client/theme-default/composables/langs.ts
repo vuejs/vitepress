@@ -12,13 +12,10 @@ export function useLangs({ correspondingLink = false } = {}) {
         lang?.link || localeIndex.value === 'root'
           ? '/'
           : `/${localeIndex.value}/`,
-      repo: lang?.repo
+      repository: lang?.repository
         ? {
-            link: typeof lang.repo === 'string' ? lang.repo : lang.repo.link,
-            title:
-              typeof lang.repo === 'string'
-                ? `${lang.label} repository`
-                : lang.repo.title
+            link: lang.repository.link,
+            title: lang.repository.title
           }
         : undefined
     }
@@ -30,16 +27,10 @@ export function useLangs({ correspondingLink = false } = {}) {
         ? []
         : {
             text: value.label,
-            repo: value.repo
+            repository: value.repository
               ? {
-                  link:
-                    typeof value.repo === 'string'
-                      ? value.repo
-                      : value.repo.link,
-                  title:
-                    typeof value.repo === 'string'
-                      ? `${value.label} repository`
-                      : value.repo.title
+                  link: value.repository.link,
+                  title: value.repository.title
                 }
               : undefined,
             link:

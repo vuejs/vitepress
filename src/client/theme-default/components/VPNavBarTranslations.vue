@@ -17,18 +17,26 @@ const { localeLinks, currentLang } = useLangs({ correspondingLink: true })
     :label="theme.langMenuLabel || 'Change language'"
   >
     <div class="items">
-      <div v-if="currentLang.repo">
+      <div v-if="currentLang.repository">
         <div class="menu-item">
           <p class="title">{{ currentLang.label }}</p>
-          <VPSocialLink icon="github" :link="currentLang.repo.link" :ariaLabel="currentLang.repo.title" />
+          <VPSocialLink
+            icon="github"
+            :link="currentLang.repository.link"
+            :ariaLabel="currentLang.repository.title"
+          />
         </div>
       </div>
       <p v-else class="title">{{ currentLang.label }}</p>
 
       <template v-for="locale in localeLinks" :key="locale.link">
-        <div v-if="locale.repo" class="menu-item">
+        <div v-if="locale.repository" class="menu-item">
           <VPMenuLink :item="locale" />
-          <VPSocialLink icon="github" :link="locale.repo.link" :ariaLabel="locale.repo.title" />
+          <VPSocialLink
+            icon="github"
+            :link="locale.repository.link"
+            :ariaLabel="locale.repository.title"
+          />
         </div>
         <VPMenuLink v-else :item="locale" />
       </template>

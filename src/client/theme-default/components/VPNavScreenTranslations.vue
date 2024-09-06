@@ -6,7 +6,7 @@ import VPSocialLink from "./VPSocialLink.vue";
 
 const { localeLinks, currentLang } = useLangs({ correspondingLink: true })
 const isOpen = ref(false)
-const repo = computed(() => !!currentLang.value.repo || (localeLinks.value.length > 1 && localeLinks.value.some(l => !!l.repo)))
+const repo = computed(() => !!currentLang.value.repository || (localeLinks.value.length > 1 && localeLinks.value.some(l => !!l.repository)))
 
 function toggle() {
   isOpen.value = !isOpen.value
@@ -19,8 +19,8 @@ function toggle() {
     class="VPNavScreenTranslations"
     :class="{ open: isOpen, repo }"
   >
-    <button class="title" :class="{ repo: !!currentLang.repo }" @click="toggle">
-      <span v-if="currentLang.repo" class="repo">
+    <button class="title" :class="{ repo: !!currentLang.repository }" @click="toggle">
+      <span v-if="currentLang.repository" class="repo">
         <span class="vpi-languages icon lang" />
         <span>{{ currentLang.label }}</span>
         <span class="vpi-chevron-down icon chevron" />
@@ -30,13 +30,28 @@ function toggle() {
         <span>{{ currentLang.label }}</span>
         <span class="vpi-chevron-down icon chevron" />
       </template>
-      <VPSocialLink v-if="currentLang.repo" icon="github" :link="currentLang.repo.link" :ariaLabel="currentLang.repo.title" />
+      <VPSocialLink
+        v-if="currentLang.repository"
+        icon="github"
+        :link="currentLang.repository.link"
+        :ariaLabel="currentLang.repository.title"
+      />
     </button>
 
     <ul class="list">
-      <li v-for="locale in localeLinks" :key="locale.link" :class="{ repo: !!locale.repo }" class="item">
+      <li
+        v-for="locale in localeLinks"
+        :key="locale.link"
+        :class="{ repo: !!locale.repository }"
+        class="item"
+      >
         <VPLink class="link" :href="locale.link">{{ locale.text }}</VPLink>
-        <VPSocialLink v-if="locale.repo" icon="github" :link="locale.repo.link" :ariaLabel="locale.repo.title" />
+        <VPSocialLink
+          v-if="locale.repository"
+          icon="github"
+          :link="locale.repository.link"
+          :ariaLabel="locale.repository.title"
+        />
       </li>
     </ul>
   </div>

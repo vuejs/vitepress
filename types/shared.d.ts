@@ -164,12 +164,14 @@ export type LocaleConfig<ThemeConfig = any> = Record<
   LocaleSpecificConfig<ThemeConfig> & {
     label: string
     link?: string
-    repo?:
-      | string
-      | {
-          link: string
-          title: string
-        }
+    repository?: {
+      link: string
+      title: string
+      help?: {
+        link: string
+        text: string
+      }
+    }
   }
 >
 
