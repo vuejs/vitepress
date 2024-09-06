@@ -163,12 +163,18 @@ export default defineConfig({
     root: {
       label: 'English',
       link: 'https://vitepress.dev',
-      repo: 'https://github.com/vuejs/vitepress'
+      repository: {
+        link: 'https://github.com/vuejs/vitepress',
+        title: 'English Repository'
+      }
     },
     zh: {
       label: '简体中文',
       link: 'https://vitepress.dev/zh/',
-      repo: 'https://github.com/vitejs/vite'
+      repository: {
+        link: 'https://github.com/vitejs/vite',
+        title: '中文存储库'
+      }
     }
   },
   themeConfig: {
