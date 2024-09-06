@@ -4,12 +4,9 @@ import VPMenuLink from './VPMenuLink.vue'
 import { useData } from '../composables/data'
 import { useLangs } from '../composables/langs'
 import VPSocialLink from "./VPSocialLink.vue";
-// import { computed } from 'vue'
 
 const { theme } = useData()
 const { localeLinks, currentLang } = useLangs({ correspondingLink: true })
-// for helping translate
-// const repoLink = computed(() => currentLang.value.repo || (localeLinks.value.length > 1 && localeLinks.value.some(l => !!l.repo)))
 </script>
 
 <template>
