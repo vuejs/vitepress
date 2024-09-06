@@ -6,7 +6,7 @@ import VPSocialLink from "./VPSocialLink.vue";
 
 const { localeLinks, currentLang } = useLangs({ correspondingLink: true })
 const isOpen = ref(false)
-const repo = computed(() => !!currentLang.value.repository || (localeLinks.value.length > 1 && localeLinks.value.some(l => !!l.repository)))
+const repo = computed(() => !!currentLang.value.repository || localeLinks.value.some(l => !!l.repository))
 
 function toggle() {
   isOpen.value = !isOpen.value
