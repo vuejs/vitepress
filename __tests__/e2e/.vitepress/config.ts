@@ -172,6 +172,7 @@ export default defineConfig({
       label: '简体中文',
       link: 'https://vitepress.dev/zh/',
       repository: {
+        // for testing purposes
         link: 'https://github.com/vitejs/vite',
         title: '中文存储库'
       }
