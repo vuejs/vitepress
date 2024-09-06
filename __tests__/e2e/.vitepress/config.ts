@@ -159,6 +159,14 @@ export default defineConfig({
       lazyLoading: true
     }
   },
+  locales: {
+    root: { label: 'English', repo: 'https://github.com/vuejs/vitepress' },
+    zh: {
+      label: '简体中文',
+      link: 'https://vitepress.dev/zh/',
+      repo: 'https://github.com/vitejs/vite'
+    }
+  },
   themeConfig: {
     nav,
     sidebar,

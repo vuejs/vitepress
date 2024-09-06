@@ -4,12 +4,25 @@ import { useData } from './data'
 
 export function useLangs({ correspondingLink = false } = {}) {
   const { site, localeIndex, page, theme, hash } = useData()
-  const currentLang = computed(() => ({
-    label: site.value.locales[localeIndex.value]?.label,
-    link:
-      site.value.locales[localeIndex.value]?.link ||
-      (localeIndex.value === 'root' ? '/' : `/${localeIndex.value}/`)
-  }))
+  const currentLang = computed(() => {
+    const lang = site.value.locales[localeIndex.value]
+    return {
+      label: lang?.label,
+      link:
+        lang?.link || localeIndex.value === 'root'
+          ? '/'
+          : `/${localeIndex.value}/`,
+      repo: lang?.repo
+        ? {
+            link: typeof lang.repo === 'string' ? lang.repo : lang.repo.link,
+            title:
+              typeof lang.repo === 'string'
+                ? `${lang.label} repository`
+                : lang.repo.title
+          }
+        : undefined
+    }
+  })
 
   const localeLinks = computed(() =>
     Object.entries(site.value.locales).flatMap(([key, value]) =>
@@ -17,6 +30,18 @@ export function useLangs({ correspondingLink = false } = {}) {
         ? []
         : {
             text: value.label,
+            repo: value.repo
+              ? {
+                  link:
+                    typeof value.repo === 'string'
+                      ? value.repo
+                      : value.repo.link,
+                  title:
+                    typeof value.repo === 'string'
+                      ? `${value.label} repository`
+                      : value.repo.title
+                }
+              : undefined,
             link:
               normalizeLink(
                 value.link || (key === 'root' ? '/' : `/${key}/`),

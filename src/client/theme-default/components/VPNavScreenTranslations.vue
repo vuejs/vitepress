@@ -5,6 +5,8 @@ import VPLink from './VPLink.vue'
 
 const { localeLinks, currentLang } = useLangs({ correspondingLink: true })
 const isOpen = ref(false)
+// for helping translate
+// const repoLink = computed(() => currentLang.value.repo || (localeLinks.value.length > 1 && localeLinks.value.some(l => !!l.repo)))
 
 function toggle() {
   isOpen.value = !isOpen.value

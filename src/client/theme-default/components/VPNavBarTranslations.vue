@@ -3,9 +3,13 @@ import VPFlyout from './VPFlyout.vue'
 import VPMenuLink from './VPMenuLink.vue'
 import { useData } from '../composables/data'
 import { useLangs } from '../composables/langs'
+import VPSocialLink from "./VPSocialLink.vue";
+// import { computed } from 'vue'
 
 const { theme } = useData()
 const { localeLinks, currentLang } = useLangs({ correspondingLink: true })
+// for helping translate
+// const repoLink = computed(() => currentLang.value.repo || (localeLinks.value.length > 1 && localeLinks.value.some(l => !!l.repo)))
 </script>
 
 <template>
@@ -16,10 +20,20 @@ const { localeLinks, currentLang } = useLangs({ correspondingLink: true })
     :label="theme.langMenuLabel || 'Change language'"
   >
     <div class="items">
-      <p class="title">{{ currentLang.label }}</p>
+      <div v-if="currentLang.repo">
+        <div class="menu-item">
+          <p class="title">{{ currentLang.label }}</p>
+          <VPSocialLink icon="github" :link="currentLang.repo.link" :ariaLabel="currentLang.repo.title" />
+        </div>
+      </div>
+      <p v-else class="title">{{ currentLang.label }}</p>
 
       <template v-for="locale in localeLinks" :key="locale.link">
-        <VPMenuLink :item="locale" />
+        <div v-if="locale.repo" class="menu-item">
+          <VPMenuLink :item="locale" />
+          <VPSocialLink icon="github" :link="locale.repo.link" :ariaLabel="locale.repo.title" />
+        </div>
+        <VPMenuLink v-else :item="locale" />
       </template>
     </div>
   </VPFlyout>
@@ -28,6 +42,13 @@ const { localeLinks, currentLang } = useLangs({ correspondingLink: true })
 <style scoped>
 .VPNavBarTranslations {
   display: none;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
 }
 
 @media (min-width: 1280px) {
