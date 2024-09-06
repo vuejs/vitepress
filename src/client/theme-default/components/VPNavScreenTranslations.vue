@@ -65,17 +65,18 @@ function toggle() {
 
 }
 
+.title.repo {
+  width: 100%;
+  justify-content: space-between;
+}
+
+
 .VPNavScreenTranslations .title .vpi-chevron-down {
   transition: transform 0.25s;
   transform: rotate(90deg);
 }
 .VPNavScreenTranslations.open .title .vpi-chevron-down {
   transform: rotate(-90deg);
-}
-
-.title.repo {
-  width: 100%;
-  justify-content: space-between;
 }
 
 .icon {
