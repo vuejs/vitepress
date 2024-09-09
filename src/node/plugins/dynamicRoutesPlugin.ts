@@ -8,7 +8,7 @@ import {
 import fs from 'fs-extra'
 import c from 'picocolors'
 import path from 'path'
-import glob from 'fast-glob'
+import { glob } from 'tinyglobby'
 import { type SiteConfig, type UserConfig } from '../siteConfig'
 import { resolveRewrites } from './rewritesPlugin'
 
@@ -19,7 +19,7 @@ export async function resolvePages(
   userConfig: UserConfig,
   logger: Logger
 ) {
-  // Important: fast-glob doesn't guarantee order of the returned files.
+  // Important: tinyglobby doesn't guarantee order of the returned files.
   // We must sort the pages so the input list to rollup is stable across
   // builds - otherwise different input order could result in different exports
   // order in shared chunks which in turns invalidates the hash of every chunk!
@@ -32,7 +32,8 @@ export async function resolvePages(
         '**/node_modules/**',
         '**/dist/**',
         ...(userConfig.srcExclude || [])
-      ]
+      ],
+      expandDirectories: false
     })
   ).sort()
 

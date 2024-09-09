@@ -18,7 +18,7 @@ export const ko = defineConfig({
 
     editLink: {
       pattern: 'https://github.com/vuejs/vitepress/edit/main/docs/:path',
-      text: 'GitHub에서 이 페이지를 편집하세요'
+      text: '이 페이지 편집 제안하기'
     },
 
     footer: {
@@ -32,7 +32,7 @@ export const ko = defineConfig({
     },
 
     outline: {
-      label: '이 페이지에서'
+      label: '이 페이지 목차'
     },
 
     lastUpdated: {
@@ -105,7 +105,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
       collapsed: false,
       items: [
         {
-          text: '마크다운 확장',
+          text: '마크다운 확장 기능',
           link: 'markdown'
         },
         {
@@ -113,33 +113,33 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
           link: 'asset-handling'
         },
         {
-          text: '프론트마터',
+          text: '전문(Front-matter)',
           link: 'frontmatter'
         },
         {
-          text: '마크다운에서 Vue 사용',
+          text: '마크다운에서 Vue 사용하기',
           link: 'using-vue'
         },
         {
-          text: '국제화',
+          text: 'i18n',
           link: 'i18n'
         }
       ]
     },
     {
-      text: '사용자 정의',
+      text: '커스텀',
       collapsed: false,
       items: [
         {
-          text: '맞춤 테마 사용',
+          text: '커스텀 테마 사용하기',
           link: 'custom-theme'
         },
         {
-          text: '기본 테마 확장',
+          text: '기본 테마 확장하기',
           link: 'extending-default-theme'
         },
         {
-          text: '빌드할 때 데이터 로딩',
+          text: '빌드할 때 데이터 로딩하기',
           link: 'data-loading'
         },
         {
@@ -147,7 +147,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
           link: 'ssr-compat'
         },
         {
-          text: 'CMS 연결',
+          text: 'CMS 연결하기',
           link: 'cms'
         }
       ]
@@ -167,7 +167,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
       ]
     },
     {
-      text: '설정 & API 참조',
+      text: '구성 & API 레퍼런스',
       base: '/ko/reference/',
       link: 'site-config'
     }
@@ -180,7 +180,7 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
       text: '레퍼런스',
       items: [
         { text: '사이트 구성', link: 'site-config' },
-        { text: '머리말 구성', link: 'frontmatter-config' },
+        { text: '전문(front-matter) 구성', link: 'frontmatter-config' },
         { text: '런타임 API', link: 'runtime-api' },
         { text: 'CLI', link: 'cli' },
         {
@@ -188,16 +188,16 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
           base: '/ko/reference/default-theme-',
           items: [
             { text: '개요', link: 'config' },
-            { text: '네비게이션', link: 'nav' },
+            { text: '네비게이션 바', link: 'nav' },
             { text: '사이드바', link: 'sidebar' },
             { text: '홈 페이지', link: 'home-page' },
             { text: '푸터', link: 'footer' },
             { text: '레이아웃', link: 'layout' },
-            { text: '배지', link: 'badge' },
+            { text: '배지(badge)', link: 'badge' },
             { text: '팀 페이지', link: 'team-page' },
-            { text: '이전 / 다음 링크', link: 'prev-next-links' },
+            { text: '이전/다음 링크', link: 'prev-next-links' },
             { text: '편집 링크', link: 'edit-link' },
-            { text: '마지막 업데이트 시간', link: 'last-updated' },
+            { text: '마지막 업데이트 날짜', link: 'last-updated' },
             { text: '검색', link: 'search' },
             { text: '카본 광고', link: 'carbon-ads' }
           ]

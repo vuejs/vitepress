@@ -108,6 +108,10 @@ interface Router {
    */
   onBeforePageLoad?: (to: string) => Awaitable<void | boolean>
   /**
+   * Called after the page component is loaded (before the page component is updated).
+   */
+  onAfterPageLoad?: (to: string) => Awaitable<void>
+  /**
    * Called after the route changes.
    */
   onAfterRouteChanged?: (to: string) => Awaitable<void>

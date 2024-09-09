@@ -161,6 +161,12 @@ aside: false
 
 The levels of header in the outline to display for the page. It's same as [config.themeConfig.outline.level](./default-theme-config#outline), and it overrides the value set in site-level config.
 
+```yaml
+---
+outline: [2, 4]
+---
+```
+
 ### lastUpdated
 
 - Type: `boolean | Date`

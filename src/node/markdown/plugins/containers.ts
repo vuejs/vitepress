@@ -48,7 +48,7 @@ export const containerPlugin = (
       render: (tokens: Token[], idx: number) =>
         tokens[idx].nesting === 1 ? `<div class="vp-raw">\n` : `</div>\n`
     })
-    .use(...createCodeGroup(options))
+    .use(...createCodeGroup(options, md))
 }
 
 type ContainerArgs = [typeof container, string, { render: RenderRule }]
@@ -79,7 +79,7 @@ function createContainer(
   ]
 }
 
-function createCodeGroup(options: Options): ContainerArgs {
+function createCodeGroup(options: Options, md: MarkdownIt): ContainerArgs {
   return [
     container,
     'code-group',
@@ -111,7 +111,7 @@ function createCodeGroup(options: Options): ContainerArgs {
 
               if (title) {
                 const id = nanoid(7)
-                tabs += `<input type="radio" name="group-${name}" id="tab-${id}" ${checked}><label for="tab-${id}">${title}</label>`
+                tabs += `<input type="radio" name="group-${name}" id="tab-${id}" ${checked}><label data-title="${md.utils.escapeHtml(title)}" for="tab-${id}">${title}</label>`
 
                 if (checked && !isHtml) tokens[i].info += ' active'
                 checked = ''
