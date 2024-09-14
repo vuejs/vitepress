@@ -110,7 +110,7 @@ Note: the `vercel.json` file should be placed at the root of your **repository**
 Set up a new project and change these settings using your dashboard:
 
 - **Build Command:** `npm run docs:build`
-- **Output Directory:** `docs/.vitepress/dist`
+- **Output Directory:** `.vitepress/dist`
 - **Node Version:** `18` (or above)
 
 ::: warning
