@@ -36,23 +36,22 @@ const { site, theme, page, frontmatter } = useData()
 ## Results
 
 ### Theme Data
-<pre>{{ theme }}</pre>
+<div class="language-json">
+  <pre>{{ theme }}</pre>  
+</div>
+
 
 ### Page Data
-<pre>{{ page }}</pre>
+<div class="language-json">
+  <pre>{{ page }}</pre>  
+</div>
 
 ### Page Frontmatter
-<pre>{{ frontmatter }}</pre>
+<div class="language-json">
+  <pre>{{ frontmatter }}</pre>  
+</div>
 
 ## More
 
 Check out the documentation for the [full list of runtime APIs](https://vitepress.dev/reference/runtime-api#usedata).
 
-<style scoped>
-pre {
-  width: 100%;
-  overflow: auto;
-  background-color: var(--vp-code-block-bg);
-  padding: 1em;
-}
-</style>
