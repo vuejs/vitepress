@@ -446,6 +446,11 @@
   --vp-custom-block-caution-bg: var(--vp-c-caution-soft);
   --vp-custom-block-caution-code-bg: var(--vp-c-caution-soft);
 
+  --vp-custom-block-success-border: transparent;
+  --vp-custom-block-success-text: var(--vp-c-text-1);
+  --vp-custom-block-success-bg: var(--vp-c-success-soft);
+  --vp-custom-block-success-code-bg: var(--vp-c-success-soft);
+
   --vp-custom-block-details-border: var(--vp-custom-block-info-border);
   --vp-custom-block-details-text: var(--vp-custom-block-info-text);
   --vp-custom-block-details-bg: var(--vp-custom-block-info-bg);
