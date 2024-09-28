@@ -98,8 +98,8 @@
     "*": "prettier --write --ignore-unknown"
   },
   "dependencies": {
-    "@docsearch/css": "^3.6.1",
-    "@docsearch/js": "^3.6.1",
+    "@docsearch/css": "^3.6.2",
+    "@docsearch/js": "^3.6.2",
     "@shikijs/core": "^1.15.2",
     "@shikijs/transformers": "^1.15.2",
     "@types/markdown-it": "^14.1.2",
