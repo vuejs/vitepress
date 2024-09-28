@@ -296,7 +296,7 @@ new Crawler({
             lvl1: '.content h1',
             content: '.content p, .content li',
             lvl0: {
-              selectors: '',
+              selectors: 'section.has-active div h2',
               defaultValue: 'Documentation'
             },
             lvl2: '.content h2',
