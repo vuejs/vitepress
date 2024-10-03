@@ -90,7 +90,7 @@ export async function highlight(
     }
   ]
 
-  const vueRE = /-vue$/
+  const vueRE = /-vue(?=:|$)/
   const lineNoStartRE = /=(\d*)/
   const lineNoRE = /:(no-)?line-numbers(=\d*)?$/
   const mustacheRE = /\{\{.*?\}\}/g
