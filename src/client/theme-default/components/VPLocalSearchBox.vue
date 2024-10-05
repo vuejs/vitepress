@@ -295,25 +295,38 @@ function scrollToSelectedResult() {
   })
 }
 
-onKeyStroke('ArrowUp', (event) => {
-  event.preventDefault()
-  selectedIndex.value--
-  if (selectedIndex.value < 0) {
-    selectedIndex.value = results.value.length - 1
-  }
+function goRelativeItem(offset: number) {
+  const resNum = results.value.length
+  selectedIndex.value = (selectedIndex.value + resNum + (offset % resNum)) % resNum
   disableMouseOver.value = true
   scrollToSelectedResult()
+}
+
+onKeyStroke('ArrowUp', (event) => {
+  event.preventDefault()
+  goRelativeItem(-1)
 })
 
 onKeyStroke('ArrowDown', (event) => {
   event.preventDefault()
-  selectedIndex.value++
-  if (selectedIndex.value >= results.value.length) {
-    selectedIndex.value = 0
-  }
-  disableMouseOver.value = true
-  scrollToSelectedResult()
+  goRelativeItem(1)
 })
+
+if (document.documentElement.classList.contains('mac')) {
+  onKeyStroke('n', (event) => {
+    if (event.ctrlKey) {
+      event.preventDefault()
+      goRelativeItem(1)
+    }
+  })
+
+  onKeyStroke('p', (event) => {
+    if (event.ctrlKey) {
+      event.preventDefault()
+      goRelativeItem(-1)
+    }
+  })
+}
 
 const router = useRouter()
 
@@ -536,8 +549,17 @@ function formMarkRegex(terms: Set<string>) {
             <kbd :aria-label="translate('modal.footer.navigateUpKeyAriaLabel')">
               <span class="vpi-arrow-up navigate-icon" />
             </kbd>
+            <span>/</span>
+            <kbd :aria-label="translate('modal.footer.navigateDownKeyAriaLabel')">
+              <span class="navigate-icon">ctrl-p</span>
+            </kbd>
+            <span>and</span>
             <kbd :aria-label="translate('modal.footer.navigateDownKeyAriaLabel')">
               <span class="vpi-arrow-down navigate-icon" />
+            </kbd>
+            <span>/</span>
+            <kbd :aria-label="translate('modal.footer.navigateDownKeyAriaLabel')">
+              <span class="navigate-icon">ctrl-n</span>
             </kbd>
             {{ translate('modal.footer.navigateText') }}
           </span>
