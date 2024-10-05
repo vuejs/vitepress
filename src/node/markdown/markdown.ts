@@ -37,6 +37,7 @@ import { linkPlugin } from './plugins/link'
 import { preWrapperPlugin } from './plugins/preWrapper'
 import { restoreEntities } from './plugins/restoreEntities'
 import { snippetPlugin } from './plugins/snippet'
+import { codeModalPlugin } from './plugins/codeModal'
 
 export type { Header } from '../shared'
 
@@ -116,6 +117,16 @@ export interface MarkdownOptions extends Options {
    * @default 'Copy Code'
    */
   codeCopyButtonTitle?: string
+  /**
+   * Show an additional button to open a fullscreen modal in code blocks
+   * @default false
+   */
+  codeModal?: boolean
+  /**
+   * The tooltip text for the modal button in code blocks
+   * @default 'Open Modal'
+   */
+  codeModalButtonTitle?: string
 
   /* ==================== Markdown It Plugins ==================== */
 
@@ -201,6 +212,7 @@ export const createMarkdownRenderer = async (
 ): Promise<MarkdownRenderer> => {
   const theme = options.theme ?? { light: 'github-light', dark: 'github-dark' }
   const codeCopyButtonTitle = options.codeCopyButtonTitle || 'Copy Code'
+  const codeModalButtonTitle = options.codeModalButtonTitle || 'Open Modal'
   const hasSingleTheme = typeof theme === 'string' || 'name' in theme
 
   const md = MarkdownIt({
@@ -230,6 +242,7 @@ export const createMarkdownRenderer = async (
       base
     )
     .use(lineNumberPlugin, options.lineNumbers)
+    .use(codeModalPlugin, options.codeModal, { codeModalButtonTitle })
 
   md.renderer.rules.table_open = function (tokens, idx, options, env, self) {
     return '<table tabindex="0">\n'
