@@ -92,10 +92,12 @@ export function useActiveAnchor(
   const onScroll = throttleAndDebounce(setActiveLink, 100)
 
   let prevActiveLink: HTMLAnchorElement | null = null
+  let ignoreScrollOnce: boolean = false
 
   onMounted(() => {
     requestAnimationFrame(setActiveLink)
     window.addEventListener('scroll', onScroll)
+    container.value.addEventListener('click', onClick)
   })
 
   onUpdated(() => {
@@ -105,10 +107,25 @@ export function useActiveAnchor(
 
   onUnmounted(() => {
     window.removeEventListener('scroll', onScroll)
+    container.value.removeEventListener('click', onClick)
   })
+
+  function onClick(e: MouseEvent) {
+    if (!isAsideEnabled.value || !(e.target instanceof HTMLAnchorElement)) {
+      return
+    }
+
+    activateLink(location.hash)
+    ignoreScrollOnce = true
+  }
 
   function setActiveLink() {
     if (!isAsideEnabled.value) {
+      return
+    }
+
+    if (ignoreScrollOnce) {
+      ignoreScrollOnce = false
       return
     }
 
