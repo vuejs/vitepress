@@ -1,5 +1,5 @@
 import siteData from '@siteData'
-import { useDark } from '@vueuse/core'
+import { useDark, usePreferredDark } from '@vueuse/core'
 import {
   computed,
   inject,
@@ -79,13 +79,15 @@ export function initData(route: Route): VitePressData {
   const isDark =
     appearance === 'force-dark'
       ? ref(true)
-      : appearance
-        ? useDark({
-            storageKey: APPEARANCE_KEY,
-            initialValue: () => (appearance === 'dark' ? 'dark' : 'auto'),
-            ...(typeof appearance === 'object' ? appearance : {})
-          })
-        : ref(false)
+      : appearance === 'force-auto'
+        ? usePreferredDark()
+        : appearance
+          ? useDark({
+              storageKey: APPEARANCE_KEY,
+              initialValue: () => (appearance === 'dark' ? 'dark' : 'auto'),
+              ...(typeof appearance === 'object' ? appearance : {})
+            })
+          : ref(false)
 
   const hashRef = ref(inBrowser ? location.hash : '')
 
