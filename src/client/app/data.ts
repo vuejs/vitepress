@@ -80,14 +80,14 @@ export function initData(route: Route): VitePressData {
     appearance === 'force-dark'
       ? ref(true)
       : appearance === 'force-auto'
-      ? usePreferredDark()
-      : appearance
-      ? useDark({
-          storageKey: APPEARANCE_KEY,
-          initialValue: () => (appearance === 'dark' ? 'dark' : 'auto'),
-          ...(typeof appearance === 'object' ? appearance : {})
-        })
-      : ref(false)
+        ? usePreferredDark()
+        : appearance
+          ? useDark({
+              storageKey: APPEARANCE_KEY,
+              initialValue: () => (appearance === 'dark' ? 'dark' : 'auto'),
+              ...(typeof appearance === 'object' ? appearance : {})
+            })
+          : ref(false)
 
   const hashRef = ref(inBrowser ? location.hash : '')
 
