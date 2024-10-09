@@ -334,9 +334,11 @@ export namespace DefaultTheme {
   }
 
   export type SocialLinkIcon =
+    | 'bitbucket'
     | 'discord'
     | 'facebook'
     | 'github'
+    | 'gitlab'
     | 'instagram'
     | 'linkedin'
     | 'mastodon'
