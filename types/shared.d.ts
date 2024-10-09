@@ -129,6 +129,14 @@ export interface SiteData<ThemeConfig = any> {
     | string[]
     | { selector: string | string[]; padding: number }
   locales: LocaleConfig<ThemeConfig>
+  /**
+   * If a page isn't found in the current language, allow switching to another language as a backup.
+   */
+  localesFallback?: boolean
+  /**
+   * Use a custom locale key to be used as a default fallback for all locales. Default is root.
+   */
+  localesDefaultFallback?: string
   localeIndex?: string
   contentProps?: Record<string, any>
   router: {
@@ -161,7 +169,14 @@ export interface LocaleSpecificConfig<ThemeConfig = any> {
 
 export type LocaleConfig<ThemeConfig = any> = Record<
   string,
-  LocaleSpecificConfig<ThemeConfig> & { label: string; link?: string }
+  LocaleSpecificConfig<ThemeConfig> & {
+    label: string
+    link?: string
+    /**
+     * If the requested page isn't found in this language, switch to the same page in the specified language as a backup.
+     */
+    fallback?: string
+  }
 >
 
 // Manually declaring all properties as rollup-plugin-dts
