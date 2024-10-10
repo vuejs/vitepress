@@ -40,6 +40,7 @@ const { hasSidebar } = useSidebar()
 
 @media (min-width: 768px) {
   .VPFooter {
+    width: 100vw;
     padding: 32px;
   }
 }
