@@ -1,6 +1,6 @@
 # Badge
 
-The badge lets you add status to your headers. For example, it could be useful to specify the section's type, or supported version.
+The badge lets you add status to your headers. For example, it could be useful to specify the section's type or supported version.
 
 ## Usage
 
@@ -13,7 +13,7 @@ You may use the `Badge` component which is globally available.
 ### Title <Badge type="danger" text="caution" />
 ```
 
-Code above renders like:
+The above code renders as:
 
 ### Title <Badge type="info" text="default" />
 ### Title <Badge type="tip" text="^1.9.0" />
@@ -22,7 +22,7 @@ Code above renders like:
 
 ## Custom Children
 
-`<Badge>` accept `children`, which will be displayed in the badge.
+`<Badge>` accepts `children`, which will be displayed inside of the badge.
 
 ```html
 ### Title <Badge type="info">custom element</Badge>
@@ -56,7 +56,7 @@ You can customize the style of badges by overriding css variables. The following
 
 ## `<Badge>`
 
-`<Badge>` component accepts following props:
+The `<Badge>` component accepts the following properties:
 
 ```ts
 interface Props {
