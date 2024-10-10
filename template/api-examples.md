@@ -47,3 +47,12 @@ const { site, theme, page, frontmatter } = useData()
 ## More
 
 Check out the documentation for the [full list of runtime APIs](https://vitepress.dev/reference/runtime-api#usedata).
+
+<style scoped>
+pre {
+  width: 100%;
+  overflow: auto;
+  background-color: var(--vp-code-block-bg);
+  padding: 1em;
+}
+</style>
