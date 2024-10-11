@@ -21,6 +21,7 @@ export enum ScaffoldThemeType {
 
 export interface ScaffoldOptions {
   root: string
+  srcDir: string
   title?: string
   description?: string
   theme: ScaffoldThemeType
@@ -47,6 +48,13 @@ export async function init(root: string | undefined) {
           validate(value) {
             // TODO make sure directory is inside
           }
+        })
+      },
+
+      srcDir: async () => {
+        return text({
+          message: 'Where should VitePress look for your markdown files?',
+          initialValue: './'
         })
       },
 
@@ -108,6 +116,7 @@ export async function init(root: string | undefined) {
 
 export function scaffold({
   root = './',
+  srcDir = './',
   title = 'My Awesome Project',
   description = 'A VitePress Site',
   theme,
@@ -115,12 +124,14 @@ export function scaffold({
   injectNpmScripts
 }: ScaffoldOptions): string {
   const resolvedRoot = path.resolve(root)
+  const resolvedSrcDir = path.resolve(root, srcDir)
   const templateDir = path.resolve(
     path.dirname(fileURLToPath(import.meta.url)),
     '../../template'
   )
 
   const data = {
+    srcDir: srcDir === './' ? undefined : JSON.stringify(srcDir), // omit if default
     title: JSON.stringify(title),
     description: JSON.stringify(description),
     useTs,
@@ -139,14 +150,20 @@ export function scaffold({
   const renderFile = (file: string) => {
     const filePath = path.resolve(templateDir, file)
     let targetPath = path.resolve(resolvedRoot, file)
+
     if (useMjs && file === '.vitepress/config.js') {
       targetPath = targetPath.replace(/\.js$/, '.mjs')
     }
     if (useTs) {
       targetPath = targetPath.replace(/\.(m?)js$/, '.$1ts')
     }
-    const src = fs.readFileSync(filePath, 'utf-8')
-    const compiled = template(src)(data)
+    if (file.endsWith('.md')) {
+      targetPath = path.resolve(resolvedSrcDir, file)
+    }
+
+    const content = fs.readFileSync(filePath, 'utf-8')
+    const compiled = template(content)(data)
+
     fs.outputFileSync(targetPath, compiled)
   }
 
