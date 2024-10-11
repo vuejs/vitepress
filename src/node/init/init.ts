@@ -26,6 +26,8 @@ export interface ScaffoldOptions {
   theme: ScaffoldThemeType
   useTs: boolean
   injectNpmScripts: boolean
+  addNpmScriptsPrefix?: boolean
+  npmScriptsPrefix?: string
 }
 
 const getPackageManger = () => {
@@ -36,7 +38,7 @@ const getPackageManger = () => {
 export async function init(root: string | undefined) {
   intro(bold(cyan('Welcome to VitePress!')))
 
-  const options: ScaffoldOptions = await group(
+  const options: ScaffoldOptions = (await group(
     {
       root: async () => {
         if (root) return root
@@ -93,7 +95,25 @@ export async function init(root: string | undefined) {
       injectNpmScripts: () =>
         confirm({
           message: 'Add VitePress npm scripts to package.json?'
+        }),
+
+      addNpmScriptsPrefix: ({ results }) => {
+        if (!results.injectNpmScripts) return Promise.resolve(false)
+
+        return confirm({
+          message: 'Add a prefix for VitePress npm scripts?',
+          initialValue: true
         })
+      },
+
+      npmScriptsPrefix: ({ results }) => {
+        if (!results.addNpmScriptsPrefix) return Promise.resolve('docs')
+
+        return text({
+          message: 'Prefix for VitePress npm scripts:',
+          placeholder: 'docs'
+        })
+      }
     },
     {
       onCancel: () => {
@@ -101,7 +121,7 @@ export async function init(root: string | undefined) {
         process.exit(0)
       }
     }
-  )
+  )) as ScaffoldOptions
 
   outro(scaffold(options))
 }
@@ -112,7 +132,9 @@ export function scaffold({
   description = 'A VitePress Site',
   theme,
   useTs,
-  injectNpmScripts
+  injectNpmScripts,
+  addNpmScriptsPrefix = true,
+  npmScriptsPrefix = 'docs'
 }: ScaffoldOptions): string {
   const resolvedRoot = path.resolve(root)
   const templateDir = path.resolve(
@@ -200,15 +222,18 @@ export function scaffold({
   const tip = tips.length ? yellow([`\n\nTips:`, ...tips].join('\n- ')) : ``
 
   if (injectNpmScripts) {
-    const scripts = {
-      'docs:dev': `vitepress dev${dir}`,
-      'docs:build': `vitepress build${dir}`,
-      'docs:preview': `vitepress preview${dir}`
-    }
+    const scripts: Record<string, string> = {}
+
+    const prefix = addNpmScriptsPrefix ? `${npmScriptsPrefix}:` : ''
+
+    scripts[`${prefix}dev`] = `vitepress dev${dir}`
+    scripts[`${prefix}build`] = `vitepress build${dir}`
+    scripts[`${prefix}preview`] = `vitepress preview${dir}`
+
     Object.assign(userPkg.scripts || (userPkg.scripts = {}), scripts)
     fs.writeFileSync(pkgPath, JSON.stringify(userPkg, null, 2))
     return `Done! Now run ${cyan(
-      `${getPackageManger()} run docs:dev`
+      `${getPackageManger()} run ${prefix}dev`
     )} and start writing.${tip}`
   } else {
     const pm = getPackageManger()
