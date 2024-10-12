@@ -16,6 +16,7 @@ const closeScreen = inject('close-screen') as () => void
     :href="item.link"
     :target="item.target"
     :rel="item.rel"
+    :no-icon="item.noIcon"
     @click="closeScreen"
     v-html="item.text"
   />
