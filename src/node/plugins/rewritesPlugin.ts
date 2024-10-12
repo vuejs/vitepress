@@ -6,22 +6,35 @@ export function resolveRewrites(
   pages: string[],
   userRewrites: UserConfig['rewrites']
 ) {
-  const rewriteRules = Object.entries(userRewrites || {}).map(([from, to]) => ({
-    toPath: compile(`/${to}`, { validate: false }),
-    matchUrl: match(from.startsWith('^') ? new RegExp(from) : from)
-  }))
-
   const pageToRewrite: Record<string, string> = {}
   const rewriteToPage: Record<string, string> = {}
-  if (rewriteRules.length) {
+
+  if (typeof userRewrites === 'function') {
     for (const page of pages) {
-      for (const { matchUrl, toPath } of rewriteRules) {
-        const res = matchUrl(page)
-        if (res) {
-          const dest = toPath(res.params).slice(1)
-          pageToRewrite[page] = dest
-          rewriteToPage[dest] = page
-          break
+      const dest = userRewrites(page)
+      if (dest && dest !== page) {
+        pageToRewrite[page] = dest
+        rewriteToPage[dest] = page
+      }
+    }
+  } else if (typeof userRewrites === 'object') {
+    const rewriteRules = Object.entries(userRewrites || {}).map(
+      ([from, to]) => ({
+        toPath: compile(`/${to}`, { validate: false }),
+        matchUrl: match(from.startsWith('^') ? new RegExp(from) : from)
+      })
+    )
+
+    if (rewriteRules.length) {
+      for (const page of pages) {
+        for (const { matchUrl, toPath } of rewriteRules) {
+          const res = matchUrl(page)
+          if (res) {
+            const dest = toPath(res.params).slice(1)
+            pageToRewrite[page] = dest
+            rewriteToPage[dest] = page
+            break
+          }
         }
       }
     }

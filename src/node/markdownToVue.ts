@@ -63,14 +63,14 @@ export async function createMarkdownToVueRenderFn(
   const dynamicRoutes = new Map(
     siteConfig?.dynamicRoutes?.routes.map((r) => [
       r.fullPath,
-      path.join(srcDir, r.route)
+      slash(path.join(srcDir, r.route))
     ]) || []
   )
 
   const rewrites = new Map(
     Object.entries(siteConfig?.rewrites.map || {}).map(([key, value]) => [
-      path.join(srcDir, key),
-      path.join(srcDir, value!)
+      slash(path.join(srcDir, key)),
+      slash(path.join(srcDir, value!))
     ]) || []
   )
 
