@@ -255,7 +255,7 @@ Wraps in a <div class="vp-raw">
   }
   ```
 
-  It uses [`postcss-prefix-selector`](https://github.com/postcss/postcss-load-config) under the hood. You can pass its options like this:
+  It uses [`postcss-prefix-selector`](https://github.com/RadValentin/postcss-prefix-selector) under the hood. You can pass its options like this:
 
   ```js
   postcssIsolateStyles({

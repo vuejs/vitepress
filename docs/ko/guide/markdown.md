@@ -1,30 +1,30 @@
-# 마크다운 확장 {#markdown-extensions}
+# 마크다운 확장 기능 {#markdown-extensions}
 
-VitePress는 내장된 마크다운 확장을 제공합니다.
+VitePress는 내장된 마크다운 확장 기능을 제공합니다.
 
 ## 헤더 앵커 {#header-anchors}
 
-헤더에는 자동으로 앵커 링크가 적용됩니다. 앵커의 렌더링은 `markdown.anchor` 옵션을 사용하여 구성할 수 있습니다.
+헤더에는 자동으로 앵커 링크가 적용됩니다. 앵커 렌더링은 `markdown.anchor` 옵션을 사용하여 구성할 수 있습니다.
 
-### 사용자 정의 앵커 {#custom-anchors}
+### 커스텀 앵커 {#custom-anchors}
 
-자동 생성된 것 대신 헤더에 대한 사용자 정의 앵커 태그를 지정하려면, 헤딩에 접미사를 추가하세요:
+자동 생성된 앵커 대신 커스텀 앵커 태그를 지정하려면 헤딩에 접미사를 추가하세요:
 
 ```
-# 사용자 정의 앵커 사용 {#my-anchor}
+# Using custom anchors {#my-anchor}
 ```
 
 이를 통해 기본값인 `#using-custom-anchors` 대신 `#my-anchor`로 헤딩에 링크할 수 있습니다.
 
 ## 링크 {#links}
 
-내부 및 외부 링크는 특별한 처리를 받습니다.
+내부 링크와 외부 링크 모두 특별하게 취급됩니다.
 
 ### 내부 링크 {#internal-links}
 
-내부 링크는 SPA 탐색을 위한 라우터 링크로 변환됩니다. 또한, 각 하위 디렉토리에 포함된 모든 `index.md`는 자동으로 `index.html`로 변환되며, 해당 URL은 `/`입니다.
+내부 링크는 SPA 탐색을 위한 라우터 링크로 변환됩니다. 또한 각 하위 디렉터리에 포함된 모든 `index.md`는 자동으로 `index.html`로 변환되며, 해당 URL은 `/`로 설정됩니다.
 
-예를 들어, 다음과 같은 디렉토리 구조가 주어져 있습니다:
+예를 들어, 다음과 같은 디렉터리 구조가 주어진 경우:
 
 ```
 .
@@ -39,12 +39,12 @@ VitePress는 내장된 마크다운 확장을 제공합니다.
    └─ four.md
 ```
 
-그리고 `foo/one.md`에 있다고 하면:
+그리고 현재 `foo/one.md`에 있다고 가정하면:
 
 ```md
-[홈](/) <!-- 사용자를 루트 index.md로 보냅니다 -->
+[Home](/) <!-- 사용자를 루트 index.md로 보냅니다 -->
 [foo](/foo/) <!-- foo 디렉토리의 index.html로 보냅니다 -->
-[foo 헤딩](./#heading) <!-- foo index 파일의 헤딩으로 앵커링합니다 -->
+[foo heading](./#heading) <!-- foo index 파일의 헤딩으로 앵커링합니다 -->
 [bar - three](../bar/three) <!-- 확장자를 생략할 수 있습니다 -->
 [bar - three](../bar/three.md) <!-- .md를 추가할 수 있습니다 -->
 [bar - four](../bar/four.html) <!-- 또는 .html을 추가할 수 있습니다 -->
@@ -52,51 +52,51 @@ VitePress는 내장된 마크다운 확장을 제공합니다.
 
 ### 페이지 접미사 {#page-suffix}
 
-기본적으로 페이지와 내부 링크는 `.html` 접미사를 가지고 생성됩니다.
+페이지와 내부 링크는 기본적으로 `.html` 접미사와 함께 생성됩니다.
 
 ### 외부 링크 {#external-links}
 
-외부 링크는 자동으로 `target="_blank" rel="noreferrer"`를 받습니다:
+외부 링크는 자동으로 `target="_blank" rel="noreferrer"`를 갖습니다.
 
 - [vuejs.org](https://vuejs.org)
-- [GitHub에서 VitePress](https://github.com/vuejs/vitepress)
+- [VitePress on GitHub](https://github.com/vuejs/vitepress)
 
-## 프론트매터 {#frontmatter}
+## 전문 {#frontmatter}
 
-[YAML 프론트매터](https://jekyllrb.com/docs/front-matter/)가 기본적으로 지원됩니다:
+[YAML 전문](https://jekyllrb.com/docs/front-matter/)이 기본적으로 지원됩니다:
 
 ```yaml
 ---
-title: 해커처럼 블로깅하기
+title: Blogging Like a Hacker
 lang: en-US
 ---
 ```
 
-이 데이터는 페이지의 나머지 부분, 모든 사용자 정의 및 테마 구성 요소와 함께 사용할 수 있습니다.
+이 데이터는 페이지의 나머지 부분과 모든 커스텀 및 테마 컴포넌트에서 사용할 수 있습니다.
 
-자세한 내용은 [프론트매터](../reference/frontmatter-config)를 참조하세요.
+자세한 내용은 [전문](../reference/frontmatter-config)을 참고하세요.
 
 ## GitHub 스타일 테이블 {#github-style-tables}
 
 **입력**
 
 ```md
-| 테이블        |      은      |  멋져 |
+| Tables        |      Are      |  Cool |
 | ------------- | :-----------: | ----: |
-| 3열은      | 오른쪽 정렬입니다 | $1600 |
-| 2열은      |   가운데 정렬입니다    |   $12 |
-| 얼룩말 줄무늬 |   멋져요    |    $1 |
+| col 3 is      | right-aligned | $1600 |
+| col 2 is      |   centered    |   $12 |
+| zebra stripes |   are neat    |    $1 |
 ```
 
 **출력**
 
-| 테이블        |      은      |   멋져 |
-| ------------- | :-----------: | -----: |
-| 3열은      | 오른쪽 정렬입니다 | \$1600 |
-| 2열은      |   가운데 정렬입니다    |   \$12 |
-| 얼룩말 줄무늬 |   멋져요    |    \$1 |
+| Tables        |      Are      |  Cool |
+| ------------- | :-----------: | ----: |
+| col 3 is      | right-aligned | $1600 |
+| col 2 is      |   centered    |   $12 |
+| zebra stripes |   are neat    |    $1 |
 
-## Emoji :tada:
+## 이모지 :tada: {#emoji}
 
 **입력**
 
@@ -122,11 +122,11 @@ lang: en-US
 
 [[toc]]
 
-TOC의 렌더링은 `markdown.toc` 옵션을 사용하여 구성할 수 있습니다.
+목차의 렌더링은 `markdown.toc` 옵션을 사용하여 구성할 수 있습니다.
 
-## 사용자 정의 컨테이너 {#custom-containers}
+## 커스텀 컨테이너 {#custom-containers}
 
-사용자 정의 컨테이너는 그들의 유형, 제목, 그리고 내용에 의해 정의될 수 있습니다.
+커스텀 컨테이너는 타입, 제목, 콘텐츠를 정의할 수 있습니다.
 
 ### 기본 제목 {#default-title}
 
@@ -178,7 +178,7 @@ TOC의 렌더링은 `markdown.toc` 옵션을 사용하여 구성할 수 있습�
 
 ### 사용자 정의 제목 {#custom-title}
 
-컨테이너의 "유형" 바로 뒤에 텍스트를 추가하여 사용자 정의 제목을 설정할 수 있습니다.
+컨테이너의 "타입" 바로 뒤에 텍스트를 추가하여 커스텀 제목을 설정할 수 있습니다.
 
 **입력**
 
@@ -206,7 +206,7 @@ console.log('Hello, VitePress!')
 ```
 :::
 
-또한, 사이트 구성에서 다음과 같은 내용을 추가하여 전역적으로 사용자 정의 제목을 설정할 수 있습니다. 영어로 작성하지 않는 경우 유용합니다:
+또는 사이트 구성에 다음을 추가하여 커스텀 제목을 전역적으로 설정할 수 있습니다. 이는 제목을 영어로 작성하지 않을 경우 유용합니다:
 
 ```ts
 // config.ts
@@ -227,7 +227,7 @@ export default defineConfig({
 
 ### `raw`
 
-VitePress와 스타일 및 라우터 충돌을 방지하기 위해 사용될 수 있는 특수 컨테이너입니다. 이는 특히 컴포넌트 라이브러리를 문서화할 때 유용합니다. 더 나은 격리를 위해 [whyframe](https://whyframe.dev/docs/integrations/vitepress)을 확인해보세요.
+이것은 VitePress와 스타일 및 라우터 충돌을 방지하기 위해 사용할 수 있는 특별한 컨테이너입니다. 컴포넌트 라이브러리를 문서화할 때 특히 유용합니다. 더 나은 분리를 위해 [whyframe](https://whyframe.dev/docs/integrations/vitepress)을 참고해 볼 수 있습니다.
 
 **문법**
 
@@ -237,15 +237,15 @@ VitePress와 스타일 및 라우터 충돌을 방지하기 위해 사용될 수
 :::
 ```
 
-`vp-raw` 클래스는 직접 요소에 사용될 수도 있습니다. 현재 스타일 격리는 선택 사항입니다:
+`vp-raw` 클래스는 엘리먼트에 직접 사용할 수도 있습니다. 스타일 분리는 현재 선택 사항입니다:
 
-- 원하는 패키지 관리자로 `postcss`를 설치하세요:
+- 선호하는 패키지 매니저를 사용하여 `postcss`를 설치하세요:
 
   ```sh
   $ npm add -D postcss
   ```
 
-- `docs/postcss.config.mjs`라는 파일을 만들고 이것을 추가하세요:
+- `docs/postcss.config.mjs`라는 파일을 만들고 다음 내용을 추가하세요:
 
   ```js
   import { postcssIsolateStyles } from 'vitepress'
@@ -255,7 +255,7 @@ VitePress와 스타일 및 라우터 충돌을 방지하기 위해 사용될 수
   }
   ```
 
-  이것은 내부적으로 [`postcss-prefix-selector`](https://github.com/postcss/postcss-load-config)를 사용합니다. 이렇게 옵션을 전달할 수 있습니다:
+  이것은 기본적으로 [`postcss-prefix-selector`](https://github.com/RadValentin/postcss-prefix-selector)를 사용합니다. 다음과 같이 옵션을 전달할 수 있습니다:
 
   ```js
   postcssIsolateStyles({
@@ -263,45 +263,45 @@ VitePress와 스타일 및 라우터 충돌을 방지하기 위해 사용될 수
   })
   ```
 
-## GitHub 스타일 경고 {#github-flavored-alerts}
+## GitHub 스타일 알림 {#github-flavored-alerts}
 
-VitePress는 [GitHub 스타일 경고](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts)를 콜아웃으로 렌더링하는 것을 지원합니다. 이것은 [사용자 정의 컨테이너](#custom-containers)와 같은 방식으로 렌더링됩니다.
+VitePress는 [GitHub 스타일 알림](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts)을 콜아웃으로 렌더링하는 것을 지원합니다. 이것은 [커스텀 컨테이너](#custom-containers)와 같은 방식으로 렌더링됩니다.
 
 ```md
 > [!NOTE]
-> 사용자가 훑어보더라도 알아야 할 정보를 강조합니다.
+> 문서를 빠르게 탐색할 때에도 사용자가 놓치지 말아야 할 중요한 정보.
 
 > [!TIP]
-> 사용자가 더 성공할 수 있도록 도움이 되는 선택적 정보입니다.
+> 사용자가 보다 원활하게 목표를 달성하는 데 도움이 되는 정보
 
 > [!IMPORTANT]
-> 사용자가 성공하기 위해 필수적인 중요 정보입니다.
+> 사용자가 목표를 달성하는 데 중요한 정보.
 
 > [!WARNING]
-> 잠재적인 위험으로 인해 즉각적인 사용자의 주의를 요하는 중요한 내용입니다.
+> 위험 가능성 때문에 사용자의 즉각적인 주의가 필요한 중요한 정보.
 
 > [!CAUTION]
-> 행동의 부정적인 잠재적 결과입니다.
+> 실행할 경우 잠재적으로 부정적인 결과를 생성한다는 것을 알리는 정보.
 ```
 
 > [!NOTE]
-> 사용자가 훑어보더라도 알아야 할 정보를 강조합니다.
+> 문서를 빠르게 탐색할 때에도 사용자가 놓치지 말아야 할 중요한 정보.
 
 > [!TIP]
-> 사용자가 더 성공할 수 있도록 도움이 되는 선택적 정보입니다.
+> 사용자가 보다 원활하게 목표를 달성하는 데 도움이 되는 정보
 
 > [!IMPORTANT]
-> 사용자가 성공하기 위해 필수적인 중요 정보입니다.
+> 사용자가 목표를 달성하는 데 중요한 정보.
 
 > [!WARNING]
-> 잠재적인 위험으로 인해 즉각적인 사용자의 주의를 요하는 중요한 내용입니다.
+> 위험 가능성 때문에 사용자의 즉각적인 주의가 필요한 중요한 정보.
 
 > [!CAUTION]
-> 행동의 부정적인 잠재적 결과입니다.
+> 실행할 경우 잠재적으로 부정적인 결과를 생성한다는 것을 알리는 정보.
 
 ## 코드 블록 내 구문 강조 {#syntax-highlighting-in-code-blocks}
 
-VitePress는 마크다운 코드 블록 내 언어 문법을 색상이 있는 텍스트로 강조하는 데 [Shiki](https://github.com/shikijs/shiki)를 사용합니다. Shiki는 다양한 프로그래밍 언어를 지원합니다. 코드 블록의 시작 백틱에 유효한 언어 별칭을 추가하기만 하면 됩니다:
+VitePress는 마크다운 코드 블록 내 언어 문법을 색상이 있는 텍스트로 강조하기 위해 [Shiki](https://github.com/shikijs/shiki)를 사용합니다. Shiki는 다양한 프로그래밍 언어를 지원합니다. 코드 블록의 시작 백틱에 유효한 언어 별칭을 추가하기만 하면 됩니다:
 
 **입력**
 
@@ -341,9 +341,9 @@ export default {
 </ul>
 ```
 
-Shiki의 저장소에서 사용 가능한 [유효한 언어 목록](https://shiki.style/languages)이 제공됩니다.
+Shiki의 리포지터리에서 사용 가능한 [유효한 언어 목록](https://shiki.style/languages)이 제공됩니다.
 
-또한 응용 프로그램 구성에서 구문 강조 테마를 사용자 지정할 수 있습니다. 자세한 내용은 [`markdown` 옵션](../reference/site-config#markdown)을 참조하세요.
+또한 애플리케이션 구성에서 구문 강조 테마를 커스텀 할 수 있습니다. 자세한 내용은 [`markdown` 옵션](../reference/site-config#markdown)을 참고하세요.
 
 ## 코드 블록에서 라인 강조 {#line-highlighting-in-code-blocks}
 
@@ -373,11 +373,11 @@ export default {
 }
 ```
 
-단일 라인 뿐만 아니라 여러 개의 단일 라인, 범위 또는 둘 다를 지정할 수도 있습니다:
+단일 라인 뿐만 아니라 여러 개의 단일 라인, 범위 또는 둘 다 지정할 수도 있습니다:
 
-- 라인 범위: 예를 들어 `{5-8}`, `{3-10}`, `{10-17}`
-- 다수의 단일 라인: 예를 들어 `{4,7,9}`
-- 라인 범위 및 단일 라인: 예를 들어 `{4,7-13,16,23-27,40}`
+- 라인 범위: `{5-8}`, `{3-10}`, `{10-17}`
+- 여러 단일 라인: `{4,7,9}`
+- 라인 범위와 단일 라인: `{4,7-13,16,23-27,40}`
 
 **입력**
 
@@ -413,7 +413,7 @@ export default { // 강조됨
 }
 ```
 
-또한, `// [!code highlight]` 주석을 사용하여 직접 라인에 강조를 추가할 수 있습니다.
+또는 `// [!code highlight]` 주석을 사용하여 직접 라인에 강조를 추가할 수 있습니다.
 
 **입력**
 
@@ -445,7 +445,7 @@ export default {
 
 `// [!code focus]` 주석을 라인에 추가하면 해당 라인이 포커싱되고 코드의 다른 부분은 흐릿하게 처리됩니다.
 
-추가로, `// [!code focus:<lines>]`를 사용하여 포커싱할 라인 수를 정의할 수 있습니다.
+추가로 `// [!code focus:<lines>]`를 사용하여 포커싱할 라인 수를 정의할 수 있습니다.
 
 **입력**
 
@@ -473,7 +473,7 @@ export default {
 }
 ```
 
-## 코드 블록 내 컬러 차이점 {#colored-diffs-in-code-blocks}
+## 코드 블록 내 차이점 색 강조 {#colored-diffs-in-code-blocks}
 
 `// [!code --]` 또는 `// [!code ++]` 주석을 라인에 추가하면 해당 라인의 차이점을 나타내며, 코드 블록의 색상을 유지합니다.
 
@@ -507,7 +507,7 @@ export default {
 
 ## 코드 블록 내 오류 및 경고 {#errors-and-warnings-in-code-blocks}
 
-`// [!code warning]` 또는 `// [!code error]` 주석을 라인에 추가하면 해당 색깔에 따라 라인이 색칠됩니다.
+`// [!code warning]` 또는 `// [!code error]` 주석을 라인에 추가하면 해당 라인이 색칠됩니다.
 
 **입력**
 
@@ -549,11 +549,11 @@ export default {
 }
 ```
 
-자세한 내용은 [`markdown` 옵션](../reference/site-config#markdown)을 참조하세요.
+자세한 내용은 [`markdown` 옵션](../reference/site-config#markdown)을 참고하세요.
 
-또한 울타리 코드 블록에 `:line-numbers` / `:no-line-numbers` 마크를 추가하여 구성에서 설정한 값을 재정의할 수 있습니다.
+구성에서 지정한 값을 무시하려면 펜싱 코드 블록에 `:line-numbers` / `:no-line-numbers` 마크를 추가하면 됩니다.
 
-또한 `:line-numbers` 뒤에 `=`를 추가하여 시작 라인 번호를 사용자 정의할 수 있습니다. 예를 들어, `:
+또한 `=`를 `:line-numbers` 뒤에 추가하여 시작 라인 번호를 커스텀 할 수도 있습니다. 예를 들어 `:line-numbers=2`는 코드 블록의 라인 번호가 `2`부터 시작함을 의미합니다.
 
 **입력**
 
@@ -605,10 +605,10 @@ const line4 = 'This is line 4'
 <<< @/파일경로
 ```
 
-다음과 같이 [라인 하이라이팅](#line-highlighting-in-code-blocks)도 지원합니다:
+다음과 같이 [라인 강조](#line-highlighting-in-code-blocks)도 지원합니다:
 
 ```md
-<<< @/파일경로{하이라이트할 라인}
+<<< @/파일경로{강조 할 라인}
 ```
 
 **입력**
@@ -626,7 +626,7 @@ const line4 = 'This is line 4'
 <<< @/snippets/snippet.js{2}
 
 ::: tip
-'@'의 값은 소스 루트에 해당합니다. 기본값은 VitePress 프로젝트 루트이지만, `srcDir`이 구성되어 있을 경우가 아니면 다릅니다. 상대 경로에서도 가져올 수 있습니다:
+`@`의 값은 소스 루트에 해당합니다. 기본값은 VitePress 프로젝트 루트이지만, `srcDir`이 구성되어 있을 경우에는 다릅니다. 상대 경로에서도 가져올 수도 있습니다:
 
 ```md
 <<< ../snippets/snippet.js
@@ -655,7 +655,7 @@ const line4 = 'This is line 4'
 ```md
 <<< @/snippets/snippet.cs{c#}
 
-<!-- 라인 하이라이팅과 함께: -->
+<!-- 라인 강조와 함께: -->
 
 <<< @/snippets/snippet.cs{1,2,4-6 c#}
 
@@ -756,46 +756,46 @@ export default config
 
 ## 마크다운 파일 포함 {#markdown-file-inclusion}
 
-다른 마크다운 파일에 마크다운 파일을 포함시킬 수 있으며, 중첩도 가능합니다.
+마크다운 파일을 다른 마크다운 파일에 포함시킬 수 있으며, 중첩도 가능합니다.
 
 ::: tip
-마크다운 경로 앞에 '@'을 붙이면 소스 루트로 작용합니다. 기본값은 VitePress 프로젝트 루트이지만, `srcDir`이 구성되어 있을 경우가 아닙니다.
+마크다운 경로 앞에 `@`를 붙일 수도 있으며, 이는 소스 루트로 작동합니다. 기본적으로 이는 VitePress 프로젝트 루트이며, `srcDir`이 구성되지 않은 경우입니다.
 :::
 
-예를 들어, 다음과 같이 상대적인 마크다운 파일을 포함할 수 있습니다:
+다음과 같이 상대적인 마크다운 파일을 포함시킬 수 있습니다:
 
 **입력**
 
 ```md
-# 문서
+# Docs
 
-## 기초
+## Basics
 
 <!--@include: ./parts/basics.md-->
 ```
 
-**부분 파일** (`parts/basics.md`)
+**해당 파일** (`parts/basics.md`)
 
 ```md
-일부 시작하는 방법입니다.
+Some getting started stuff.
 
-### 구성
+### Configuration
 
-`.foorc.json`을 사용하여 생성할 수 있습니다.
+Can be created using `.foorc.json`.
 ```
 
 **동일한 코드**
 
 ```md
-# 문서
+# Docs
 
-## 기초
+## Basics
 
-일부 시작하는 방법입니다.
+Some getting started stuff.
 
-### 구성
+### Configuration
 
-`.foorc.json`을 사용하여 생성할 수 있습니다.
+Can be created using `.foorc.json`.
 ```
 
 라인 범위 선택도 지원합니다:
@@ -803,38 +803,38 @@ export default config
 **입력**
 
 ```md
-# 문서
+# Docs
 
-## 기초
+## Basics
 
 <!--@include: ./parts/basics.md{3,}-->
 ```
 
-**부분 파일** (`parts/basics.md`)
+**해당 파일** (`parts/basics.md`)
 
 ```md
-일부 시작하는 방법입니다.
+Some getting started stuff.
 
-### 구성
+### Configuration
 
-`.foorc.json`을 사용하여 생성할 수 있습니다.
+Can be created using `.foorc.json`.
 ```
 
 **동일한 코드**
 
 ```md
-# 문서
+# Docs
 
-## 기초
+## Basics
 
-### 구성
+### Configuration
 
-`.foorc.json`을 사용하여 생성할 수 있습니다.
+Can be created using `.foorc.json`.
 ```
 
-선택된 라인 범위의 형식은: `{3,}`, `{,10}`, `{1,10}`이 될 수 있습니다.
+선택된 라인 범위의 형식은 `{3,}`, `{,10}`, `{1,10}`이 될 수 있습니다.
 
-VS Code 영역을 사용하여 코드 파일의 해당 부분만 포함할 수도 있습니다. 파일 경로 뒤에 `#`를 붙여 사용자 정의 영역 이름을 제공할 수 있습니다:
+[VS Code 리전](https://code.visualstudio.com/docs/editor/codebasics#_folding)을 사용하여 코드 파일의 해당 부분만 포함할 수도 있습니다. 파일 경로 뒤에 `#`를 붙이고 커스텀 영역 이름을 제공할 수 있습니다:
 
 **입력**
 
@@ -847,7 +847,7 @@ VS Code 영역을 사용하여 코드 파일의 해당 부분만 포함할 수�
 <!--@include: ./parts/basics.md#basic-usage{5,}-->
 ```
 
-**부분 파일** (`parts/basics.md`)
+**해당 파일** (`parts/basics.md`)
 
 ```md
 <!-- #region basic-usage -->
@@ -859,7 +859,7 @@ VS Code 영역을 사용하여 코드 파일의 해당 부분만 포함할 수�
 <!-- #endregion basic-usage -->
 ```
 
-**동등한 코드**
+**동일한 코드**
 
 ```md
 # Docs
@@ -872,12 +872,12 @@ VS Code 영역을 사용하여 코드 파일의 해당 부분만 포함할 수�
 ```
 
 ::: warning
-파일이 없는 경우 오류를 발생시키지 않으니, 이 기능을 사용할 때는 내용이 예상대로 렌더링되고 있는지 확인해야 합니다.
+파일이 존재하지 않더라도 오류가 발생하지 않는다는 점에 유의하십시오. 따라서 이 기능을 사용할 때 내용이 예상대로 렌더링되고 있는지 확인해야 합니다.
 :::
 
 ## 수식 {#math-equations}
 
-현재 선택 사항입니다. 활성화하려면 `markdown-it-mathjax3`를 설치하고 설정 파일에서 `markdown.math`를 `true`로 설정해야 합니다:
+선택 사항입니다. 활성화하려면 `markdown-it-mathjax3`를 설치하고 설정 파일에서 `markdown.math`를 `true`로 설정해야 합니다:
 
 ```sh
 npm add -D markdown-it-mathjax3
@@ -895,8 +895,8 @@ export default {
 **입력**
 
 ```md
-$a \ne 0$일 때, $(ax^2 + bx + c = 0)$의 두 해는
-$$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$입니다
+$a \ne 0$ 일 때, $(ax^2 + bx + c = 0)$의 두 해는 다음과 같습니다:
+$$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
 **맥스웰 방정식:**
 
@@ -922,7 +922,7 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
 ## 이미지 지연 로딩 {#image-lazy-loading}
 
-마크다운을 통해 추가된 각 이미지에 대해 지연 로딩을 활성화하려면 설정 파일에서 `lazyLoading`을 `true`로 설정하세요:
+마크다운을 통해 추가된 각 이미지에 대해 지연 로딩을 활성화하려면 구성 파일에서 `lazyLoading`을 `true`로 설정하세요:
 
 ```js
 export default {
@@ -937,7 +937,7 @@ export default {
 
 ## 고급 설정 {#advanced-configuration}
 
-VitePress는 마크다운 렌더링을 위해 [markdown-it](https://github.com/markdown-it/markdown-it)을 사용합니다. 위의 확장 프로그램 대부분은 커스텀 플러그인을 통해 구현됩니다. `.vitepress/config.js`의 `markdown` 옵션을 사용하여 `markdown-it` 인스턴스를 더욱 커스터마이징할 수 있습니다:
+VitePress는 마크다운 렌더러로 [markdown-it](https://github.com/markdown-it/markdown-it)을 사용합니다. 위의 많은 확장 기능은 커스텀 플러그인을 통해 구현됩니다. `.vitepress/config.js`의 `markdown` 옵션을 사용하여 `markdown-it` 인스턴스를 추가로 커스터마이즈할 수 있습니다:
 
 ```js
 import { defineConfig } from 'vitepress'
@@ -964,4 +964,4 @@ export default defineConfig({
 })
 ```
 
-[설정 참조: 앱 설정](../reference/site-config#markdown)에서 구성 가능한 속성의 전체 목록을 확인할 수 있습니다.
+구성 가능한 프로퍼티의 전체 목록은 [레퍼런스: 앱 구성](../reference/site-config#markdown)에서 확인하세요.

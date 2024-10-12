@@ -402,8 +402,9 @@ export async function createVitePressPlugin(
           config.publicDir
         )
 
+        const relativePath = slash(path.relative(srcDir, file))
         const payload: PageDataPayload = {
-          path: `/${slash(path.relative(srcDir, file))}`,
+          path: `/${siteConfig.rewrites.map[relativePath] || relativePath}`,
           pageData
         }
 

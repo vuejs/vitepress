@@ -16,7 +16,7 @@ import type { MarkdownEnv } from '../../shared'
  * captures: ['/path/to/file.extension', 'extension', '#region', '{meta}', '[title]']
  */
 export const rawPathRegexp =
-  /^(.+?(?:(?:\.([a-z0-9]+))?))(?:(#[\w-]+))?(?: ?(?:{(\d+(?:[,-]\d+)*)? ?(\S+)?}))? ?(?:\[(.+)\])?$/
+  /^(.+?(?:(?:\.([a-z0-9]+))?))(?:(#[\w-]+))?(?: ?(?:{(\d+(?:[,-]\d+)*)? ?(\S+)? ?(\S+)?}))? ?(?:\[(.+)\])?$/
 
 export function rawPathToToken(rawPath: string) {
   const [
@@ -25,12 +25,13 @@ export function rawPathToToken(rawPath: string) {
     region = '',
     lines = '',
     lang = '',
+    attrs = '',
     rawTitle = ''
   ] = (rawPathRegexp.exec(rawPath) || []).slice(1)
 
   const title = rawTitle || filepath.split('/').pop() || ''
 
-  return { filepath, extension, region, lines, lang, title }
+  return { filepath, extension, region, lines, lang, attrs, title }
 }
 
 export function dedent(text: string): string {
@@ -126,7 +127,7 @@ export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
       .replace(/^@/, srcDir)
       .trim()
 
-    const { filepath, extension, region, lines, lang, title } =
+    const { filepath, extension, region, lines, lang, attrs, title } =
       rawPathToToken(rawPath)
 
     state.line = startLine + 1
@@ -134,7 +135,7 @@ export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
     const token = state.push('fence', 'code', 0)
     token.info = `${lang || extension}${lines ? `{${lines}}` : ''}${
       title ? `[${title}]` : ''
-    }`
+    }  ${attrs ?? ''}`
 
     const { realPath, path: _path } = state.env as MarkdownEnv
     const resolvedPath = path.resolve(path.dirname(realPath ?? _path), filepath)

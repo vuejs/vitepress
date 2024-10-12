@@ -1,15 +1,15 @@
 # 배지 {#badge}
 
-배지는 헤더에 상태를 추가할 수 있게 해줍니다. 예를 들어, 섹션의 유형이나 지원되는 버전을 명시하는 것이 유용할 수 있습니다.
+배지는 헤더에 상태를 추가할 수 있게 해줍니다. 예를 들어, 섹션의 타입을 지정하거나 지원되는 버전을 표시하는 데 유용할 수 있습니다.
 
 ## 사용법 {#usage}
 
-글로벌하게 사용 가능한 `Badge` 컴포넌트를 사용할 수 있습니다.
+`Badge` 컴포넌트는 전역으로 사용 가능합니다.
 
 ```html
 ### 제목 <Badge type="info" text="default" />
 ### 제목 <Badge type="tip" text="^1.9.0" />
-### 제목 <Badge type="warning" text="beta" />
+### 제목 <Badge type="warning" text="배타" />
 ### 제목 <Badge type="danger" text="주의" />
 ```
 
@@ -17,22 +17,22 @@
 
 ### 제목 <Badge type="info" text="default" />
 ### 제목 <Badge type="tip" text="^1.9.0" />
-### 제목 <Badge type="warning" text="beta" />
+### 제목 <Badge type="warning" text="배타" />
 ### 제목 <Badge type="danger" text="주의" />
 
-## 사용자 정의 자식 요소 {#custom-children}
+## 커스텀 하위 노드 {#custom-children}
 
-`<Badge>`는 `children`을 받아들이며, 이는 배지 안에 표시됩니다.
+`<Badge>`는 `children`을 받아서 배지 내부에 표시합니다.
 
 ```html
-### 제목 <Badge type="info">사용자 정의 요소</Badge>
+### 제목 <Badge type="info">커스텀 노드</Badge>
 ```
 
-### 제목 <Badge type="info">사용자 정의 요소</Badge>
+### 제목 <Badge type="info">커스텀 노드</Badge>
 
-## 타입 색상 사용자 정의 {#customize-type-color}
+## 타입 색상 커스터마이징 {#customize-type-color}
 
-css 변수를 오버라이딩함으로써 배지의 스타일을 사용자 정의할 수 있습니다. 다음은 기본값입니다:
+배지의 스타일은 CSS 변수를 재정의하여 커스터마이징 할 수 있습니다. 다음은 기본값입니다:
 
 ```css
 :root {
@@ -56,14 +56,14 @@ css 변수를 오버라이딩함으로써 배지의 스타일을 사용자 정�
 
 ## `<Badge>`
 
-`<Badge>` 컴포넌트는 다음의 prop들을 받습니다:
+`<Badge>` 컴포넌트는 다음과 같은 프로퍼티를 사용합니다:
 
 ```ts
 interface Props {
-  // `<slot>`이 전달되면, 이 값은 무시됩니다.
+  // `<slot>`이 전달되면, 이 값은 무시됨.
   text?: string
 
-  // 기본값은 `tip`입니다.
+  // 기본값: `tip`.
   type?: 'info' | 'tip' | 'warning' | 'danger'
 }
 ```

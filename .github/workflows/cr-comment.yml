@@ -13,7 +13,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions-ecosystem/action-add-labels@v1
-        with:
-          labels: cr-tracked
-          github_token: ${{ secrets.CR_PAT }}
+      - run: gh issue edit ${{ github.event.issue.number }} --add-label cr-tracked --repo ${{ github.repository }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.CR_PAT }}

@@ -55,7 +55,7 @@ export default DefaultTheme
 ```
 
 ```css
-/* .vitepress/theme/custom.css */
+/* .vitepress/theme/my-fonts.css */
 :root {
   --vp-font-family-base: /* normal text font */
   --vp-font-family-mono: /* code font */
