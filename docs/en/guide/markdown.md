@@ -187,7 +187,7 @@ You may set custom title by appending the text right after the "type" of the con
 Danger zone, do not proceed
 :::
 
-::: details Click me to view the code
+::: details Click me to toggle the code
 ```js
 console.log('Hello, VitePress!')
 ```
@@ -200,7 +200,7 @@ console.log('Hello, VitePress!')
 Danger zone, do not proceed
 :::
 
-::: details Click me to view the code
+::: details Click me to toggle the code
 ```js
 console.log('Hello, VitePress!')
 ```
@@ -224,6 +224,28 @@ export default defineConfig({
   // ...
 })
 ```
+
+### Additional Attributes
+
+You can add additional attributes to the custom containers. We use [markdown-it-attrs](https://github.com/arve0/markdown-it-attrs) for this feature, and it is supported on almost all markdown elements. For example, you can set the `open` attribute to make the details block open by default:
+
+**Input**
+
+````md
+::: details Click me to toggle the code {open}
+```js
+console.log('Hello, VitePress!')
+```
+:::
+````
+
+**Output**
+
+::: details Click me to toggle the code {open}
+```js
+console.log('Hello, VitePress!')
+```
+:::
 
 ### `raw`
 
