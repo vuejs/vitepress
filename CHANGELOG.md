@@ -1,3 +1,22 @@
+# [1.4.0](https://github.com/vuejs/vitepress/compare/v1.3.4...v1.4.0) (2024-10-07)
+
+### Bug Fixes
+
+- `vueRE` conflicting with `lineNoRE` ([#4247](https://github.com/vuejs/vitepress/issues/4247)) ([2ac64b8](https://github.com/vuejs/vitepress/commit/2ac64b8d4180f2a7c54fda57df7f3a0a52488d62))
+- hmr not updating page data in rewritten paths and file path is wrong in mdit for dynamic routes ([c46e4b7](https://github.com/vuejs/vitepress/commit/c46e4b784ddb9ce3bd1cfcc3de1d1d676535cb5b)), closes [#4172](https://github.com/vuejs/vitepress/issues/4172)
+- remove font synthesis in webfont mode, google fonts now support italic axis in inter ([1628918](https://github.com/vuejs/vitepress/commit/1628918f30b5602b83c51a2a8f4ec5e773cf7445))
+- **theme:** change the order of CSS rules of `VPFlyout` ([#4225](https://github.com/vuejs/vitepress/issues/4225)) ([68150a6](https://github.com/vuejs/vitepress/commit/68150a6f3349c1741ed5683e3010d9ecea02f3a8)), closes [#4224](https://github.com/vuejs/vitepress/issues/4224)
+- **theme:** respect custom tag prop in VPButton component ([#4185](https://github.com/vuejs/vitepress/issues/4185)) ([9c5d348](https://github.com/vuejs/vitepress/commit/9c5d348c034eb6773562c93cad699d287051aa7b))
+
+### Features
+
+- add `data-title` attribute for code group label tag ([#4152](https://github.com/vuejs/vitepress/issues/4152)) ([bc7271d](https://github.com/vuejs/vitepress/commit/bc7271d258047feb8a39c97ebc5e2a16bf899bb5))
+- allow ignoring certain headers and their subtrees completely in outline ([3e11b6a](https://github.com/vuejs/vitepress/commit/3e11b6abf5fbe80c2bc733f590ab57c7b2cc06f2)), closes [#4171](https://github.com/vuejs/vitepress/issues/4171)
+- **client:** add `onAfterPageLoad` hook in router ([#4126](https://github.com/vuejs/vitepress/issues/4126)) ([315c220](https://github.com/vuejs/vitepress/commit/315c22004993f6f1cbdbb59178e46745d8e505a6))
+- support adding extra attributes to snippet imports (useful for twoslash) ([#4100](https://github.com/vuejs/vitepress/issues/4100)) ([e8f7dd1](https://github.com/vuejs/vitepress/commit/e8f7dd16f6139fdfd129b86caff4b6613dd1e887))
+- **theme:** expose theme default VPLink & VPSocialLink(s) component ([#4178](https://github.com/vuejs/vitepress/issues/4178)) ([615e33b](https://github.com/vuejs/vitepress/commit/615e33bb24d5005574af971ffcf1f41d751a855c))
+- trigger `onContentUpdated` on frontmatter-only changes too ([0db269a](https://github.com/vuejs/vitepress/commit/0db269a4c5d90ecf69f0219982cdf8f335e787ce))
+
 ## [1.3.4](https://github.com/vuejs/vitepress/compare/v1.3.3...v1.3.4) (2024-08-24)
 
 ### Bug Fixes

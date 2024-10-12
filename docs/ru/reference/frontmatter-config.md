@@ -161,6 +161,12 @@ aside: false
 
 Уровни заголовков в оглавлении для отображения на странице. Это то же самое, что и [config.themeConfig.outline.level](./default-theme-config#outline), и оно переопределяет значение, установленное в конфигурации сайта.
 
+```yaml
+---
+outline: [2, 4]
+---
+```
+
 ### lastUpdated {#lastupdated}
 
 - Тип: `boolean | Date`
