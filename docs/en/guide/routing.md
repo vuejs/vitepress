@@ -200,7 +200,7 @@ export default {
 }
 ```
 
-The rewrite paths are compiled using the `path-to-regexp` package - consult [its documentation](https://github.com/pillarjs/path-to-regexp/tree/7.x#parameters) for more advanced syntax.
+The rewrite paths are compiled using the `path-to-regexp` package - consult [its documentation](https://github.com/pillarjs/path-to-regexp/tree/6.x#parameters) for more advanced syntax.
 
 `rewrites` can also be a function that receives the original path and returns the new path:
 
