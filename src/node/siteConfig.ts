@@ -162,7 +162,7 @@ export interface UserConfig<ThemeConfig = any>
    *
    * source -> destination
    */
-  rewrites?: Record<string, string>
+  rewrites?: Record<string, string> | ((id: string) => string)
 
   /**
    * @experimental
