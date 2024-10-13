@@ -21,6 +21,8 @@ on:
       - 'art/**'
       - 'docs/**'
       - '*.md'
+    tags-ignore:
+      - '*'
 
 permissions: {}
 
