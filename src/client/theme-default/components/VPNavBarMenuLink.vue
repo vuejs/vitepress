@@ -22,12 +22,13 @@ const { page } = useData()
       )
     }"
     :href="item.link"
+    :noIcon="item.noIcon"
     :target="item.target"
     :rel="item.rel"
-    :no-icon="item.noIcon"
     tabindex="0"
-    v-html="item.text"
-  />
+  >
+    <span v-html="item.text"></span>
+  </VPLink>
 </template>
 
 <style scoped>

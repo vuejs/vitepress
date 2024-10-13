@@ -18,9 +18,9 @@ const { page } = useData()
       :href="item.link"
       :target="item.target"
       :rel="item.rel"
-      :no-icon="item.noIcon"
-      v-html="item.text"
-    />
+    >
+      {{ item.text }}
+    </VPLink>
   </div>
 </template>
 
