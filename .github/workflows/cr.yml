@@ -32,7 +32,7 @@ concurrency:
 
 jobs:
   release:
-    if: ${{ ((github.event_name == 'pull_request' && !github.event.pull_request.draft && contains(github.event.pull_request.labels.*.name, 'cr-tracked') && !contains(github.event.pull_request.labels.*.name, 'spam') && !contains(github.event.pull_request.labels.*.name, 'invalid')) || (github.event_name == 'push')) && github.repository == 'vuejs/vitepress' }}
+    if: ${{ ((github.event_name == 'pull_request' && !github.event.pull_request.draft && contains(github.event.pull_request.labels.*.name, 'cr-tracked') && !contains(github.event.pull_request.labels.*.name, 'spam') && !contains(github.event.pull_request.labels.*.name, 'invalid')) || (github.event_name == 'push' && !startsWith(github.event.head_commit.message, 'release:'))) && github.repository == 'vuejs/vitepress' }}
     runs-on: ubuntu-latest
 
     steps:
