@@ -176,9 +176,15 @@ export async function createMarkdownToVueRenderFn(
         )
         resolved =
           siteConfig?.rewrites.inv[resolved + '.md']?.slice(0, -3) || resolved
+
+        const htmlFileExists = fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`))
+        const checkIfPublicFileExists = fs.existsSync(path.resolve(dir, publicDir, resolved))
+
         if (
           !pages.includes(resolved) &&
-          !fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`)) &&
+          (
+            !htmlFileExists && !checkIfPublicFileExists
+          ) &&
           !shouldIgnoreDeadLink(url)
         ) {
           recordDeadLink(url)
@@ -273,15 +279,14 @@ function injectPageDataCode(tags: string[], data: PageData) {
     tags[existingScriptIndex] = tagSrc.replace(
       scriptRE,
       code +
-        (hasDefaultExport
-          ? ``
-          : `\nexport default {name:${JSON.stringify(data.relativePath)}}`) +
-        `</script>`
+      (hasDefaultExport
+        ? ``
+        : `\nexport default {name:${JSON.stringify(data.relativePath)}}`) +
+      `</script>`
     )
   } else {
     tags.unshift(
-      `<script ${
-        isUsingTS ? 'lang="ts"' : ''
+      `<script ${isUsingTS ? 'lang="ts"' : ''
       }>${code}\nexport default {name:${JSON.stringify(
         data.relativePath
       )}}</script>`
