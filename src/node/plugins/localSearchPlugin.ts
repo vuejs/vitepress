@@ -134,6 +134,9 @@ export async function localSearchPlugin(
       if (!section || !(section.text || section.titles)) break
       const { anchor, text, titles } = section
       const id = anchor ? [fileId, anchor].join('#') : fileId
+      if (index.has(id)) {
+        index.discard(id)
+      }
       index.add({
         id,
         text,
