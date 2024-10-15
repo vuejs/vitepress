@@ -4,12 +4,12 @@ outline: deep
 
 # Extending the Default Theme
 
-VitePress' default theme is optimized for documentation, and can be customized. Consult the [Default Theme Config Overview](../reference/default-theme-config) for a comprehensive list of options.
+VitePress' default theme is optimized for documentation and can be customized. Consult the [Default Theme Config Overview](../reference/default-theme-config) for a comprehensive list of options.
 
 However, there are a number of cases where configuration alone won't be enough. For example:
 
 1. You need to tweak the CSS styling;
-2. You need to modify the Vue app instance, for example to register global components;
+2. You need to modify the Vue app instance, for example, to register global components;
 3. You need to inject custom content into the theme via layout slots.
 
 These advanced customizations will require using a custom theme that "extends" the default theme.
@@ -20,7 +20,7 @@ Before proceeding, make sure to first read [Using a Custom Theme](./custom-theme
 
 ## Customizing CSS
 
-The default theme CSS is customizable by overriding root level CSS variables:
+The default theme CSS is customizable by overriding root-level CSS variables:
 
 ```js
 // .vitepress/theme/index.js
@@ -42,7 +42,7 @@ See [default theme CSS variables](https://github.com/vuejs/vitepress/blob/main/s
 
 ## Using Different Fonts
 
-VitePress uses [Inter](https://rsms.me/inter/) as the default font, and will include the fonts in the build output. The font is also auto preloaded in production. However, this may not be desirable if you want to use a different main font.
+VitePress uses [Inter](https://rsms.me/inter/) as the default font, and will include the fonts in the build output. The font is also automatically preloaded in production. However, this may not be desirable if you want to use a different main font.
 
 To avoid including Inter in the build output, import the theme from `vitepress/theme-without-fonts` instead:
 
@@ -66,7 +66,7 @@ export default DefaultTheme
 If you are using optional components like the [Team Page](../reference/default-theme-team-page) components, make sure to also import them from `vitepress/theme-without-fonts`!
 :::
 
-If your font is a local file referenced via `@font-face`, it will be processed as an asset and included under `.vitepress/dist/assets` with hashed filename. To preload this file, use the [transformHead](../reference/site-config#transformhead) build hook:
+If your font is a local file referenced via `@font-face`, it will be processed as an asset and included under `.vitepress/dist/assets` with a hashed filename. To preload this file, use the [transformHead](../reference/site-config#transformhead) build hook:
 
 ```js
 // .vitepress/config.js
@@ -123,7 +123,7 @@ export default {
 } satisfies Theme
 ```
 
-Since we are using Vite, you can also leverage Vite's [glob import feature](https://vitejs.dev/guide/features.html#glob-import) to auto register a directory of components.
+Since we are using Vite, you can also leverage Vite's [glob import feature](https://vitejs.dev/guide/features.html#glob-import) to auto-register a directory of components.
 
 ## Layout Slots
 
@@ -159,7 +159,7 @@ const { Layout } = DefaultTheme
 </template>
 ```
 
-Or you could use render function as well.
+Or you could use a render function as well.
 
 ```js
 // .vitepress/theme/index.js
@@ -308,7 +308,7 @@ Result (**warning!**: flashing colors, sudden movements, bright lights):
 
 </details>
 
-Refer [Chrome Docs](https://developer.chrome.com/docs/web-platform/view-transitions/) from more details on view transitions.
+Refer [Chrome Docs](https://developer.chrome.com/docs/web-platform/view-transitions/) for more details on view transitions.
 
 ### On Route Change
 
@@ -338,4 +338,4 @@ export default defineConfig({
 })
 ```
 
-To know the exact name of the component refer [our source code](https://github.com/vuejs/vitepress/tree/main/src/client/theme-default/components). Since the components are internal, there is a slight chance their name is updated between minor releases.
+To know the exact name of the component, please refer to [our source code](https://github.com/vuejs/vitepress/tree/main/src/client/theme-default/components). Since these components are internal, there is a slight chance their names may be updated between minor releases.

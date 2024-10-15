@@ -15,7 +15,7 @@ You can enable a custom theme by creating a `.vitepress/theme/index.js` or `.vit
 └─ package.json
 ```
 
-VitePress will always use the custom theme instead of the default theme when it detects presence of a theme entry file. You can, however, [extend the default theme](./extending-default-theme) to perform advanced customizations on top of it.
+VitePress will always use the custom theme instead of the default theme when it detects the presence of a theme entry file. You can, however, [extend the default theme](./extending-default-theme) to perform advanced customizations on top of it.
 
 ## Theme Interface
 
@@ -100,7 +100,7 @@ const { page } = useData()
 </template>
 ```
 
-The [`useData()`](../reference/runtime-api#usedata) helper provides us with all the runtime data we need to conditionally render different layouts. One of the other data we can access is the current page's frontmatter. We can leverage this to allow the end user to control the layout in each page. For example, the user can indicate the page should use a special home page layout with:
+The [`useData()`](../reference/runtime-api#usedata) helper provides us with all the runtime data we need to conditionally render different layouts. One of the other data we can access is the current page's frontmatter. We can leverage this to allow the end user to control the layout of each page. For example, the user can indicate the page should use a special home page layout with:
 
 ```md
 ---
@@ -150,7 +150,7 @@ const { page, frontmatter } = useData()
 </template>
 ```
 
-Consult the [Runtime API Reference](../reference/runtime-api) for everything available in theme components. In addition, you can leverage [Build-Time Data Loading](./data-loading) to generate data-driven layout - for example, a page that lists all blog posts in the current project.
+Consult the [Runtime API Reference](../reference/runtime-api) for everything available in theme components. In addition, you can leverage [Build-Time Data Loading](./data-loading) to generate a data-driven layout - for example, a page that lists all blog posts in the current project.
 
 ## Distributing a Custom Theme
 
@@ -193,7 +193,7 @@ export default {
 }
 ```
 
-If the theme requires special VitePress config, you will need to also extend it in your own config:
+If the theme requires a special VitePress config, you will need to also extend it in your own config:
 
 ```ts
 // .vitepress/config.ts

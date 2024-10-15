@@ -17,19 +17,19 @@ export default {
 }
 ```
 
-**The options documented on this page only apply to the default theme.** Different themes expect different theme config. When using a custom theme, the theme config object will be passed to the theme so the theme can define conditional behavior based on it.
+**The options documented on this page only apply to the default theme.** Different themes expect different theme configurations. When using a custom theme, the theme config object will be passed to the theme so the theme can define conditional behavior based on it.
 
 ## i18nRouting
 
 - Type: `boolean`
 
-Changing locale to say `zh` will change the URL from `/foo` (or `/en/foo/`) to `/zh/foo`. You can disable this behavior by setting `themeConfig.i18nRouting` to `false`.
+Changing the locale to say `zh` will change the URL from `/foo` (or `/en/foo/`) to `/zh/foo`. You can disable this behavior by setting `themeConfig.i18nRouting` to `false`.
 
 ## logo
 
 - Type: `ThemeableImage`
 
-Logo file to display in nav bar, right before the site title. Accepts a path string, or an object to set a different logo for light/dark mode.
+Sets a Logo file to display in the nav bar, right before the site title. Accepts a path string, or an object to set a different logo for light/dark mode.
 
 ```ts
 export default {
@@ -50,7 +50,7 @@ type ThemeableImage =
 
 - Type: `string | false`
 
-You can customize this item to replace the default site title (`title` in app config) in nav. When set to `false`, title in nav will be disabled. Useful when you have `logo` that already contains the site title text.
+You can customize this item to replace the default site title (`title` in app config) in nav. When set to `false`, the title in nav will be disabled. Useful when you have `logo` that already contains the site title text.
 
 ```ts
 export default {
@@ -64,7 +64,7 @@ export default {
 
 - Type: `NavItem`
 
-The configuration for the nav menu item. More details in [Default Theme: Nav](./default-theme-nav#navigation-links).
+The configuration for the nav menu item. More details can be found in the [Default Theme: Nav](./default-theme-nav#navigation-links) article.
 
 ```ts
 export default {
@@ -112,7 +112,7 @@ interface NavItemWithChildren {
 
 - Type: `Sidebar`
 
-The configuration for the sidebar menu item. More details in [Default Theme: Sidebar](./default-theme-sidebar).
+The configuration for the sidebar menu item. More details can be found in the [Default Theme: Sidebar](./default-theme-sidebar) article.
 
 ```ts
 export default {
@@ -195,7 +195,7 @@ If you want to disable it for all viewports, you should use `outline: false` ins
 - Type: `Outline | Outline['level'] | false`
 - Level can be overridden per page via [frontmatter](./frontmatter-config#outline)
 
-Setting this value to `false` prevents rendering of outline container. Refer this interface for more details:
+Setting this value to `false` prevents the rendering of outline containers. Refer to this interface for more details:
 
 ```ts
 interface Outline {
@@ -222,7 +222,7 @@ interface Outline {
 
 - Type: `SocialLink[]`
 
-You may define this option to show your social account links with icons in nav.
+Setting a definition for this config option will show the provided social account links with icons (if included/provided) in nav.
 
 ```ts
 export default {
@@ -355,7 +355,7 @@ export interface LastUpdatedOptions {
 
 - Type: `AlgoliaSearch`
 
-An option to support searching your docs site using [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Learn more in [Default Theme: Search](./default-theme-search)
+A toggleable option to support searching your docs site using [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Learn more on the [Default Theme: Search](./default-theme-search) page.
 
 ```ts
 export interface AlgoliaSearchOptions extends DocSearchProps {
@@ -363,7 +363,7 @@ export interface AlgoliaSearchOptions extends DocSearchProps {
 }
 ```
 
-View full options [here](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts).
+You can view a full list of all options [here](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts).
 
 ## carbonAds {#carbon-ads}
 
@@ -389,7 +389,7 @@ export interface CarbonAdsOptions {
 }
 ```
 
-Learn more in [Default Theme: Carbon Ads](./default-theme-carbon-ads)
+Learn more on the [Default Theme: Carbon Ads](./default-theme-carbon-ads) page.
 
 ## docFooter
 
@@ -427,7 +427,7 @@ Can be used to customize the dark mode switch label. This label is only displaye
 - Type: `string`
 - Default: `Switch to light theme`
 
-Can be used to customize the light mode switch title that appears on hovering.
+Can be used to customize the light mode switch title that appears when hovering over it.
 
 ## darkModeSwitchTitle
 
@@ -455,11 +455,11 @@ Can be used to customize the label of the return to top button. This label is on
 - Type: `string`
 - Default: `Change language`
 
-Can be used to customize the aria-label of the language toggle button in navbar. This is only used if you're using [i18n](../guide/i18n).
+Allows for customization of the aria-label of the language toggle button on the navbar. This is only used if you're using [i18n](../guide/i18n).
 
 ## externalLinkIcon
 
 - Type: `boolean`
 - Default: `false`
 
-Whether to show an external link icon next to external links in markdown.
+Toggles whether to show an external link icon next to external links in markdown.
