@@ -1,4 +1,9 @@
-import { dedent, rawPathToToken } from 'node/markdown/plugins/snippet'
+import {
+  dedent,
+  findRegion,
+  rawPathToToken
+} from 'node/markdown/plugins/snippet'
+import { expect } from 'vitest'
 
 const removeEmptyKeys = <T extends Record<string, unknown>>(obj: T) => {
   return Object.fromEntries(
@@ -97,6 +102,142 @@ describe('node/markdown/plugins/snippet', () => {
   test('rawPathToToken', () => {
     rawPathTokenMap.forEach(([rawPath, token]) => {
       expect(removeEmptyKeys(rawPathToToken(rawPath))).toEqual(token)
+    })
+  })
+
+  describe('findRegion', () => {
+    test('when c# region with matching tag', () => {
+      const lines = `Console.WriteLine("Before region");
+#region hello
+Console.WriteLine("Hello, World!");
+#endregion hello
+Console.WriteLine("After region");`.split('\n')
+      const result = findRegion(lines, 'hello')
+
+      expect(lines.slice(result?.start, result?.end).join('\n')).toBe(
+        'Console.WriteLine("Hello, World!");'
+      )
+    })
+    test('when c# region is not indented with spaces and no matching tag', () => {
+      const lines = `Console.WriteLine("Before region");
+#region hello
+Console.WriteLine("Hello, World!");
+#endregion
+Console.WriteLine("After region");`.split('\n')
+      const result = findRegion(lines, 'hello')
+
+      expect(lines.slice(result?.start, result?.end).join('\n')).toBe(
+        'Console.WriteLine("Hello, World!");'
+      )
+    })
+    test('when c# region is indented with spaces and no matching tag', () => {
+      const lines = `  Console.WriteLine("Before region");
+  #region hello
+  Console.WriteLine("Hello, World!");
+  #endregion hello
+  Console.WriteLine("After region");`.split('\n')
+      const result = findRegion(lines, 'hello')
+
+      expect(lines.slice(result?.start, result?.end).join('\n')).toBe(
+        '  Console.WriteLine("Hello, World!");'
+      )
+    })
+    test('when c# region with matching tag', () => {
+      const lines = `Console.WriteLine("Before region");
+#region hello
+Console.WriteLine("Hello, World!");
+#endregion hello
+Console.WriteLine("After region");`.split('\n')
+      const result = findRegion(lines, 'hello')
+
+      expect(lines.slice(result?.start, result?.end).join('\n')).toBe(
+        'Console.WriteLine("Hello, World!");'
+      )
+    })
+    test('when c# region is not indented with spaces and no matching tag', () => {
+      const lines = `Console.WriteLine("Before region");
+#region hello
+Console.WriteLine("Hello, World!");
+#endregion
+Console.WriteLine("After region");`.split('\n')
+      const result = findRegion(lines, 'hello')
+
+      expect(lines.slice(result?.start, result?.end).join('\n')).toBe(
+        'Console.WriteLine("Hello, World!");'
+      )
+    })
+
+    test('when typescript region has matching tag', () => {
+      const lines = `let regexp: RegExp[] = []
+// #region foo
+let start = -1
+// #endregion foo`.split('\n')
+      const result = findRegion(lines, 'foo')
+
+      expect(lines.slice(result?.start, result?.end).join('\n')).toBe(
+        'let start = -1'
+      )
+    })
+    test('when typescript region is indented with spaces and no matching tag', () => {
+      const lines = `  let regexp: RegExp[] = []
+  // #region foo
+  let start = -1
+  // #endregion`.split('\n')
+      const result = findRegion(lines, 'foo')
+
+      expect(lines.slice(result?.start, result?.end).join('\n')).toBe(
+        '  let start = -1'
+      )
+    })
+
+    test('when css region has matching tag', () => {
+      const lines = `.body-content {
+/* #region foo */
+  padding-left: 15px;
+/* #endregion foo */
+  padding-right: 15px;
+}`.split('\n')
+      const result = findRegion(lines, 'foo')
+
+      expect(lines.slice(result?.start, result?.end).join('\n')).toBe(
+        '  padding-left: 15px;'
+      )
+    })
+    test('when css region is indented with spaces and no matching tag', () => {
+      const lines = `.body-content {
+  /* #region foo */
+  padding-left: 15px;
+  /* #endregion */
+  padding-right: 15px;
+}`.split('\n')
+      const result = findRegion(lines, 'foo')
+
+      expect(lines.slice(result?.start, result?.end).join('\n')).toBe(
+        '  padding-left: 15px;'
+      )
+    })
+
+    test('when html region has matching tag', () => {
+      const lines = `<!-- #region foo -->
+  <h1>Hello world</h1>
+<!-- #endregion foo -->
+  <p>more text</p>`.split('\n')
+      const result = findRegion(lines, 'foo')
+
+      expect(lines.slice(result?.start, result?.end).join('\n')).toBe(
+        '  <h1>Hello world</h1>'
+      )
+    })
+    test('when html region is indented with spaces and no matching tag', () => {
+      const lines = `  <!-- #region foo -->
+  <h1>Hello world</h1>
+  <!-- #endregion foo -->
+  <p>more text</p>`.split('\n')
+      const result = findRegion(lines, 'foo')
+
+      expect(lines.slice(result?.start, result?.end).join('\n')).toBe(
+        '  <h1>Hello world</h1>'
+      )
     })
   })
 })
