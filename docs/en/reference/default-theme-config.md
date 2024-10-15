@@ -436,6 +436,13 @@ Can be used to customize the light mode switch title that appears on hovering.
 
 Can be used to customize the dark mode switch title that appears on hovering.
 
+## removeExtraElementsInPrint
+
+- Type: `boolean`
+- Default: `false`
+
+When set to `true`, it will remove extra elements like the sidebar, navbar, and footer when printing the page. If you want to print your docs and don't want to include the extra elements, you can set this option to `true`.
+
 ## sidebarMenuLabel
 
 - Type: `string`
