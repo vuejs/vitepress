@@ -59,38 +59,42 @@ function testLine(
 ) {
   const [full, tag, name] = regexp.exec(line.trim()) || []
 
-  return (
-    full &&
-    tag &&
-    name === regionName &&
-    tag.match(end ? /^[Ee]nd ?[rR]egion$/ : /^[rR]egion$/)
-  )
+  return full && tag && end
+    ? true
+    : name === regionName &&
+        tag.match(end ? /^[Ee]nd ?[rR]egion$/ : /^[rR]egion$/)
 }
 
 export function findRegion(lines: Array<string>, regionName: string) {
   const regionRegexps = [
-    /^\/\/ ?#?((?:end)?region) ([\w*-]+)$/, // javascript, typescript, java
-    /^\/\* ?#((?:end)?region) ([\w*-]+) ?\*\/$/, // css, less, scss
-    /^#pragma ((?:end)?region) ([\w*-]+)$/, // C, C++
-    /^<!-- #?((?:end)?region) ([\w*-]+) -->$/, // HTML, markdown
-    /^#((?:End )Region) ([\w*-]+)$/, // Visual Basic
-    /^::#((?:end)region) ([\w*-]+)$/, // Bat
-    /^# ?((?:end)?region) ([\w*-]+)$/ // C#, PHP, Powershell, Python, perl & misc
+    [
+      /^[ \t]*\/\/ ?#?(region) ([\w*-]+)$/,
+      /^[ \t]*\/\/ ?#?(endregion) ?([\w*-]*)$/
+    ], // javascript, typescript, java
+    [
+      /^\/\* ?#(region) ([\w*-]+) ?\*\/$/,
+      /^\/\* ?#(endregion) ?([\w*-]*) ?\*\/$/
+    ], // css, less, scss
+    [/^#pragma (region) ([\w*-]+)$/, /^#pragma (endregion) ?([\w*-]*)$/], // C, C++
+    [/^<!-- #?(region) ([\w*-]+) -->$/, /^<!-- #?(endregion) ?([\w*-]*) -->$/], // HTML, markdown
+    [/^[ \t]*#(Region) ([\w*-]+)$/, /^[ \t]*#(End Region) ?([\w*-]*)$/], // Visual Basic
+    [/^::#(region) ([\w*-]+)$/, /^::#(endregion) ?([\w*-]*)$/], // Bat
+    [/^[ \t]*# ?(region) ([\w*-]+)$/, /^[ \t]*# ?(endregion) ?([\w*-]*)$/] // C#, PHP, Powershell, Python, perl & misc
   ]
 
-  let regexp = null
+  let regexp: RegExp[] = []
   let start = -1
 
   for (const [lineId, line] of lines.entries()) {
-    if (regexp === null) {
+    if (regexp.length === 0) {
       for (const reg of regionRegexps) {
-        if (testLine(line, reg, regionName)) {
+        if (testLine(line, reg[0], regionName)) {
           start = lineId + 1
           regexp = reg
           break
         }
       }
-    } else if (testLine(line, regexp, regionName, true)) {
+    } else if (testLine(line, regexp[1], regionName, true)) {
       return { start, end: lineId, regexp }
     }
   }
@@ -181,7 +185,13 @@ export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
         content = dedent(
           lines
             .slice(region.start, region.end)
-            .filter((line) => !region.regexp.test(line.trim()))
+            .filter((line) => {
+              const trimmed = line.trim()
+              return (
+                !region.regexp[0].test(trimmed) &&
+                !region.regexp[1].test(trimmed)
+              )
+            })
             .join('\n')
         )
       }
