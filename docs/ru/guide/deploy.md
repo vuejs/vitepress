@@ -157,6 +157,8 @@ Cache-Control: max-age=31536000,immutable
            with:
              fetch-depth: 0 # Не требуется, если функция lastUpdated не включена
          # - uses: pnpm/action-setup@v3 # Раскомментируйте, если вы используете pnpm
+         #   with:
+         #     version: 9
          # - uses: oven-sh/setup-bun@v1 # Раскомментируйте, если вы используете Bun
          - name: Setup Node
            uses: actions/setup-node@v4
