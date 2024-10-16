@@ -34,7 +34,7 @@ $ yarn add -D vitepress vue
 ```
 
 ```sh [bun]
-$ bun add -D vitepress
+$ bunx add -D vitepress
 ```
 
 :::
