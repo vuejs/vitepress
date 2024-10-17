@@ -281,7 +281,7 @@ function onSearchBarClick(event: PointerEvent) {
 /* Search keyboard selection */
 
 const selectedIndex = ref(-1)
-const disableMouseOver = ref(false)
+const disableMouseOver = ref(true)
 
 watch(results, (r) => {
   selectedIndex.value = r.length ? 0 : -1
@@ -400,6 +400,16 @@ function formMarkRegex(terms: Set<string>) {
     'gi'
   )
 }
+
+function onMouseMove(e: MouseEvent) {
+  if (!disableMouseOver.value) return
+  const el = (e.target as HTMLElement)?.closest<HTMLAnchorElement>('.result')
+  const index = Number.parseInt(el?.dataset.index!)
+  if (index >= 0 && index !== selectedIndex.value) {
+    selectedIndex.value = index
+  }
+  disableMouseOver.value = false
+}
 </script>
 
 <template>
@@ -487,7 +497,7 @@ function formMarkRegex(terms: Set<string>) {
           :role="results?.length ? 'listbox' : undefined"
           :aria-labelledby="results?.length ? 'localsearch-label' : undefined"
           class="results"
-          @mousemove="disableMouseOver = false"
+          @mousemove="onMouseMove"
         >
           <li
             v-for="(p, index) in results"
@@ -506,6 +516,7 @@ function formMarkRegex(terms: Set<string>) {
               @mouseenter="!disableMouseOver && (selectedIndex = index)"
               @focusin="selectedIndex = index"
               @click="$emit('close')"
+              :data-index="index"
             >
               <div>
                 <div class="titles">
