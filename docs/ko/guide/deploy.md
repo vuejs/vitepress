@@ -156,6 +156,8 @@ HTML 코드에 대해 _Auto Minify_ 옵션을 활성화하지 마세요. 이는 
            with:
              fetch-depth: 0 # lastUpdated가 활성화되지 않은 경우 필요하지 않음
          # - uses: pnpm/action-setup@v3 # pnpm을 사용하는 경우 주석 해제
+         #   with:
+         #     version: 9
          # - uses: oven-sh/setup-bun@v1 # Bun을 사용하는 경우 주석 해제
          - name: Setup Node
            uses: actions/setup-node@v4
