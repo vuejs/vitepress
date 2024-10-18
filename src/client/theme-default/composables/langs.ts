@@ -4,12 +4,17 @@ import { useData } from './data'
 
 export function useLangs({ correspondingLink = false } = {}) {
   const { site, localeIndex, page, theme, hash } = useData()
-  const currentLang = computed(() => ({
-    label: site.value.locales[localeIndex.value]?.label,
-    link:
-      site.value.locales[localeIndex.value]?.link ||
-      (localeIndex.value === 'root' ? '/' : `/${localeIndex.value}/`)
-  }))
+  const currentLang = computed(() => {
+    const lang = site.value.locales[localeIndex.value]
+    return {
+      label: lang?.label,
+      repository: lang?.repository,
+      link:
+        lang?.link || localeIndex.value === 'root'
+          ? '/'
+          : `/${localeIndex.value}/`
+    }
+  })
 
   const localeLinks = computed(() =>
     Object.entries(site.value.locales).flatMap(([key, value]) =>
@@ -17,6 +22,7 @@ export function useLangs({ correspondingLink = false } = {}) {
         ? []
         : {
             text: value.label,
+            repository: value.repository,
             link:
               normalizeLink(
                 value.link || (key === 'root' ? '/' : `/${key}/`),
