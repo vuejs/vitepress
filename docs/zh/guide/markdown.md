@@ -245,7 +245,7 @@ Wraps in a <div class="vp-raw">
   $ npm add -D postcss
   ```
 
-- 创建 `docs/.postcssrc.cjs` 文件并将以下内容添加到其中：
+- 创建 `docs/postcss.config.mjs` 文件并将以下内容添加到其中：
 
   ```js
   import { postcssIsolateStyles } from 'vitepress'
