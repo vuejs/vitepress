@@ -229,7 +229,7 @@ export default {
 */
 ```
 
-If you're using [base](./site-config#base), the file will be built to `/your-base-url/favicon.ico`, but the rendered link tag will still point to `/favicon.icon`.
+If you're using [base](./site-config#base), the file will be available at `/your-base-url/favicon.ico`, but the rendered link tag will still point to `/favicon.icon`.
 Currently, you have to handle this manually. Your site config needs to explicitly specify the base url:
 
 ```ts
