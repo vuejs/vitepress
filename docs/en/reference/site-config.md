@@ -229,6 +229,24 @@ export default {
 */
 ```
 
+If you're using [base](./site-config#base), the file will be built to `/your-base-url/favicon.ico`, but the rendered link tag will still point to `/favicon.icon`.
+Currently, you have to handle this manually. Your site config needs to explicitly specify the base url:
+
+```ts
+export default {
+  head: [['link', { rel: 'icon', href: '/your-base-url/favicon.ico' }]]
+}
+```
+
+If, for example, you don't know your base prefix ahead of time (for example, you're passing the `--base` option [during build](./cli#options-1)), one way to access it would be to also pass
+it as an env variable and use it in the config file:
+
+```ts
+export default {
+  head: [['link', { rel: 'icon', href: `${process.env.BASE}/favicon.ico` }]]
+}
+```
+
 #### Example: Adding Google Fonts
 
 ```ts
