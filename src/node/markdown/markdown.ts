@@ -19,13 +19,12 @@ import MarkdownIt from 'markdown-it'
 import anchorPlugin from 'markdown-it-anchor'
 import attrsPlugin from 'markdown-it-attrs'
 import { full as emojiPlugin } from 'markdown-it-emoji'
+import type { BuiltinTheme, Highlighter } from 'shiki'
 import type {
-  BuiltinTheme,
-  Highlighter,
   LanguageInput,
   ShikiTransformer,
   ThemeRegistrationAny
-} from 'shiki'
+} from '@shikijs/types'
 import type { Logger } from 'vite'
 import { containerPlugin, type ContainerOptions } from './plugins/containers'
 import { gitHubAlertsPlugin } from './plugins/githubAlerts'

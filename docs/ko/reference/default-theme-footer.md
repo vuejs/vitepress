@@ -1,13 +1,13 @@
 # 푸터 {#footer}
 
-VitePress는 `themeConfig.footer`가 존재할 때 페이지 하단에 전역 푸터를 표시합니다.
+`themeConfig.footer`가 존재하면 VitePress는 페이지 하단에 전역 푸터를 표시합니다.
 
 ```ts
 export default {
   themeConfig: {
     footer: {
-      message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2019-present Niceplugin'
+      message: 'MIT 라이선스에 따라 릴리즈되었습니다.',
+      copyright: '저작권 © 2019-현재 홍길동'
     }
   }
 }
@@ -23,28 +23,28 @@ export interface Footer {
 }
 ```
 
-위의 구성은 HTML 문자열도 지원합니다. 예를 들어, 푸터 텍스트에 몇 가지 링크를 구성하고 싶다면, 다음과 같이 구성을 조정할 수 있습니다:
+위의 구성은 HTML 문자열도 지원합니다. 예를 들어, 푸터 텍스트에 링크를 포함하고 싶다면, 다음과 같이 구성을 수정하면 됩니다:
 
 ```ts
 export default {
   themeConfig: {
     footer: {
       message: '<a href="https://github.com/vuejs/vitepress/blob/main/LICENSE">MIT 라이선스</a>에 따라 릴리즈되었습니다.',
-      copyright: '저작권 © 2019-현재 <a href="https://github.com/yyx990803">Evan You</a>'
+      copyright: '저작권 © 2019-현재 <a href="https://github.com/niceplugin">홍길동</a>'
     }
   }
 }
 ```
 
 ::: warning
-`message`와 `저작권`에는 `<p>` 요소 안에 렌더링되기 때문에 인라인 요소만 사용할 수 있습니다. 블록 요소를 추가하고 싶다면, 대신 [`layout-bottom`](../guide/extending-default-theme#layout-slots) 슬롯을 사용하는 것을 고려하세요.
+`message`와 `copyright`는 `<p>` 엘리먼트 내부에 렌더링되므로 인라인 엘리먼트만 사용할 수 있습니다. 블록 엘리먼트를 추가하려면 [`layout-bottom`](../guide/extending-default-theme#layout-slots) 슬롯을 사용하는 것이 좋습니다.
 :::
 
-푸터는 [사이드바](./default-theme-sidebar)가 보이는 경우에는 표시되지 않습니다.
+[사이드바](./default-theme-sidebar)가 표시되는 경우 푸터는 표시되지 않습니다.
 
-## 프론트매터 구성 {#frontmatter-config}
+## 전문에서 설정하기 {#frontmatter-config}
 
-이 기능은 프론트매터의 `footer` 옵션을 사용하여 페이지별로 비활성화될 수 있습니다:
+이 기능은 전문의 `footer` 옵션을 사용하여 페이지별로 비활성화 할 수 있습니다.
 
 ```yaml
 ---

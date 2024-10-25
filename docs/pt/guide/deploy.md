@@ -157,6 +157,8 @@ Não ative opções como _Auto Minify_ para código HTML. Isso removerá coment�
            with:
              fetch-depth: 0 # Não necessário se lastUpdated não estiver habilitado
          # - uses: pnpm/action-setup@v3 # Descomente isso se estiver usando pnpm
+         #   with:
+         #     version: 9
          # - uses: oven-sh/setup-bun@v1 # Descomente isso se estiver usando Bun
          - name: Setup Node
            uses: actions/setup-node@v4

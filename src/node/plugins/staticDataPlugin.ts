@@ -6,7 +6,7 @@ import {
 } from 'vite'
 import path, { dirname, resolve } from 'path'
 import { isMatch } from 'micromatch'
-import glob from 'fast-glob'
+import { glob } from 'tinyglobby'
 
 const loaderMatch = /\.data\.m?(j|t)s($|\?)/
 
@@ -98,9 +98,11 @@ export const staticDataPlugin: Plugin = {
       // load the data
       let watchedFiles
       if (watch) {
+        if (typeof watch === 'string') watch = [watch]
         watchedFiles = (
           await glob(watch, {
-            ignore: ['**/node_modules/**', '**/dist/**']
+            ignore: ['**/node_modules/**', '**/dist/**'],
+            expandDirectories: false
           })
         ).sort()
       }
@@ -121,7 +123,7 @@ export const staticDataPlugin: Plugin = {
   },
 
   transform(_code, id) {
-    if (server && loaderMatch.test(id)) {
+    if (server && loaderMatch.test(id) && '_importGlobMap' in server) {
       // register this module as a glob importer
       const { watch } = idToLoaderModulesMap[id]!
       if (watch) {

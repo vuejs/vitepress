@@ -281,7 +281,7 @@ function onSearchBarClick(event: PointerEvent) {
 /* Search keyboard selection */
 
 const selectedIndex = ref(-1)
-const disableMouseOver = ref(false)
+const disableMouseOver = ref(true)
 
 watch(results, (r) => {
   selectedIndex.value = r.length ? 0 : -1
@@ -400,6 +400,16 @@ function formMarkRegex(terms: Set<string>) {
     'gi'
   )
 }
+
+function onMouseMove(e: MouseEvent) {
+  if (!disableMouseOver.value) return
+  const el = (e.target as HTMLElement)?.closest<HTMLAnchorElement>('.result')
+  const index = Number.parseInt(el?.dataset.index!)
+  if (index >= 0 && index !== selectedIndex.value) {
+    selectedIndex.value = index
+  }
+  disableMouseOver.value = false
+}
 </script>
 
 <template>
@@ -440,10 +450,20 @@ function formMarkRegex(terms: Set<string>) {
           <input
             ref="searchInput"
             v-model="filterText"
-            :placeholder="buttonText"
-            id="localsearch-input"
+            :aria-activedescendant="selectedIndex > -1 ? ('localsearch-item-' + selectedIndex) : undefined"
+            aria-autocomplete="both"
+            :aria-controls="results?.length ? 'localsearch-list' : undefined"
             aria-labelledby="localsearch-label"
+            autocapitalize="off"
+            autocomplete="off"
+            autocorrect="off"
             class="search-input"
+            id="localsearch-input"
+            enterkeyhint="go"
+            maxlength="64"
+            :placeholder="buttonText"
+            spellcheck="false"
+            type="search"
           />
           <div class="search-actions">
             <button
@@ -477,13 +497,14 @@ function formMarkRegex(terms: Set<string>) {
           :role="results?.length ? 'listbox' : undefined"
           :aria-labelledby="results?.length ? 'localsearch-label' : undefined"
           class="results"
-          @mousemove="disableMouseOver = false"
+          @mousemove="onMouseMove"
         >
           <li
             v-for="(p, index) in results"
             :key="p.id"
-            role="option"
+            :id="'localsearch-item-' + index"
             :aria-selected="selectedIndex === index ? 'true' : 'false'"
+            role="option"
           >
             <a
               :href="p.id"
@@ -495,6 +516,7 @@ function formMarkRegex(terms: Set<string>) {
               @mouseenter="!disableMouseOver && (selectedIndex = index)"
               @focusin="selectedIndex = index"
               @click="$emit('close')"
+              :data-index="index"
             >
               <div>
                 <div class="titles">

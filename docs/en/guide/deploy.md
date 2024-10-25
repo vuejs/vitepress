@@ -156,7 +156,9 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
            uses: actions/checkout@v4
            with:
              fetch-depth: 0 # Not needed if lastUpdated is not enabled
-         # - uses: pnpm/action-setup@v3 # Uncomment this if you're using pnpm
+         # - uses: pnpm/action-setup@v3 # Uncomment this block if you're using pnpm
+         #   with:
+         #     version: 9 # Not needed if you've set "packageManager" in package.json
          # - uses: oven-sh/setup-bun@v1 # Uncomment this if you're using Bun
          - name: Setup Node
            uses: actions/setup-node@v4

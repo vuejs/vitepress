@@ -78,16 +78,16 @@ function onBlur() {
   color: var(--vp-c-brand-2);
 }
 
+.button[aria-expanded="false"] + .menu {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(0);
+}
+
 .VPFlyout:hover .menu,
 .button[aria-expanded="true"] + .menu {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0);
-}
-
-.button[aria-expanded="false"] + .menu {
-  opacity: 0;
-  visibility: hidden;
   transform: translateY(0);
 }
 

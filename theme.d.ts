@@ -24,6 +24,9 @@ export declare const VPHomeFeatures: DefineComponent
 export declare const VPHomeHero: DefineComponent
 export declare const VPHomeSponsors: DefineComponent
 export declare const VPImage: DefineComponent
+export declare const VPLink: DefineComponent
+export declare const VPSocialLink: DefineComponent
+export declare const VPSocialLinks: DefineComponent
 export declare const VPSponsors: DefineComponent
 export declare const VPTeamMembers: DefineComponent
 export declare const VPTeamPage: DefineComponent

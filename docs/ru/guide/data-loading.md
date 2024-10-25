@@ -175,7 +175,7 @@ export default {
 }
 ```
 
-**Types**
+**Типы**
 
 ```ts
 interface ContentOptions<T = ContentData[]> {
@@ -226,7 +226,7 @@ interface ContentOptions<T = ContentData[]> {
 
 ## Загрузчики типизированных данных {#typed-data-loaders}
 
-При использовании TypeScript вы можете ввести свой загрузчик и экспортировать `data` следующим образом:
+При использовании TypeScript можно ввести свой загрузчик и экспортировать `data` следующим образом:
 
 ```ts
 import { defineLoader } from 'vitepress'
