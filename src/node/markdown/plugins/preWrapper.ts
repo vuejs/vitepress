@@ -47,6 +47,7 @@ function extractLang(info: string) {
     .trim()
     .replace(/=(\d*)/, '')
     .replace(/:(no-)?line-numbers({| |$|=\d*).*/, '')
+    .replace(/:(no-)?modal({| |$|=\d*).*/, '')
     .replace(/(-vue|{| ).*$/, '')
     .replace(/^vue-html$/, 'template')
     .replace(/^ansi$/, '')

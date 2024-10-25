@@ -17,6 +17,7 @@ import { usePrefetch } from './composables/preFetch'
 import { dataSymbol, initData, siteDataRef, useData } from './data'
 import { RouterSymbol, createRouter, scrollTo, type Router } from './router'
 import { inBrowser, pathToFile } from './utils'
+import { useCodeModal } from './composables/codeModal'
 
 function resolveThemeExtends(theme: typeof RawTheme): typeof RawTheme {
   if (theme.extends) {
@@ -57,6 +58,8 @@ const VitePressApp = defineComponent({
     useCopyCode()
     // setup global code groups handler
     useCodeGroups()
+    // setup global code modal handler
+    useCodeModal()
 
     if (Theme.setup) Theme.setup()
     return () => h(Theme.Layout!)
