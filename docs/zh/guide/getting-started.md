@@ -176,7 +176,7 @@ $ yarn docs:dev
 ```
 
 ```sh [bun]
-$ bun run docs:dev
+$ bun -b run docs:dev
 ```
 
 :::
