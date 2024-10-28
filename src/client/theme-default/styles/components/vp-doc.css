@@ -514,6 +514,7 @@
   z-index: 2;
   font-size: 12px;
   font-weight: 500;
+  user-select: none;
   color: var(--vp-code-lang-color);
   transition:
     color 0.4s,
