@@ -161,7 +161,7 @@ debouncedWatch(
 
     // Search
     results.value = index
-      .search(filterTextValue)
+      .search(filterTextValue, searchIndex.value._options.searchOptions)
       .slice(0, 16) as (SearchResult & Result)[]
     enableNoResults.value = true
 
