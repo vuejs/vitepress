@@ -431,7 +431,7 @@ export async function createVitePressPlugin(
         return [
           ...modules,
           ...importers.map((id) => {
-            clearCache(id)
+            clearCache(slash(path.relative(srcDir, id)))
             return server.moduleGraph.getModuleById(id)
           })
         ].filter(Boolean) as ModuleNode[]
