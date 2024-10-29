@@ -16,6 +16,7 @@ import {
   resolveAliases
 } from './alias'
 import { resolvePages, resolveUserConfig, type SiteConfig } from './config'
+import { disposeMdItInstance } from './markdown/markdown'
 import {
   clearCache,
   createMarkdownToVueRenderFn,
@@ -388,6 +389,7 @@ export async function createVitePressPlugin(
           return
         }
 
+        disposeMdItInstance()
         clearCache()
         await recreateServer?.()
         return

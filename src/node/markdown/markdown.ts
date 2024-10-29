@@ -28,7 +28,7 @@ import type {
 import type { Logger } from 'vite'
 import { containerPlugin, type ContainerOptions } from './plugins/containers'
 import { gitHubAlertsPlugin } from './plugins/githubAlerts'
-import { highlight } from './plugins/highlight'
+import { highlight as createHighlighter } from './plugins/highlight'
 import { highlightLinePlugin } from './plugins/highlightLines'
 import { imagePlugin, type Options as ImageOptions } from './plugins/image'
 import { lineNumberPlugin } from './plugins/lineNumbers'
@@ -173,7 +173,7 @@ export interface MarkdownOptions extends Options {
    */
   container?: ContainerOptions
   /**
-   * Math support (experimental)
+   * Math support
    *
    * You need to install `markdown-it-mathjax3` and set `math` to `true` to enable it.
    * You can also pass options to `markdown-it-mathjax3` here.
@@ -192,22 +192,38 @@ export interface MarkdownOptions extends Options {
 
 export type MarkdownRenderer = MarkdownIt
 
-export const createMarkdownRenderer = async (
+let md: MarkdownRenderer | undefined
+let _disposeHighlighter: (() => void) | undefined
+
+export function disposeMdItInstance() {
+  if (md) {
+    md = undefined
+    _disposeHighlighter?.()
+  }
+}
+
+/**
+ * @experimental
+ */
+export async function createMarkdownRenderer(
   srcDir: string,
   options: MarkdownOptions = {},
   base = '/',
   logger: Pick<Logger, 'warn'> = console
-): Promise<MarkdownRenderer> => {
+): Promise<MarkdownRenderer> {
+  if (md) return md
+
   const theme = options.theme ?? { light: 'github-light', dark: 'github-dark' }
   const codeCopyButtonTitle = options.codeCopyButtonTitle || 'Copy Code'
   const hasSingleTheme = typeof theme === 'string' || 'name' in theme
 
-  const md = MarkdownIt({
-    html: true,
-    linkify: true,
-    highlight: options.highlight || (await highlight(theme, options, logger)),
-    ...options
-  })
+  let [highlight, dispose] = options.highlight
+    ? [options.highlight, () => {}]
+    : await createHighlighter(theme, options, logger)
+
+  _disposeHighlighter = dispose
+
+  md = MarkdownIt({ html: true, linkify: true, highlight, ...options })
 
   md.linkify.set({ fuzzyLink: false })
   md.use(restoreEntities)
