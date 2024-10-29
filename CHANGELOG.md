@@ -1,3 +1,14 @@
+## [1.4.2](https://github.com/vuejs/vitepress/compare/v1.4.1...v1.4.2) (2024-10-29)
+
+### Bug Fixes
+
+- cache markdown-it instance and properly dispose shiki on config reload ([#4321](https://github.com/vuejs/vitepress/issues/4321)) ([45968cd](https://github.com/vuejs/vitepress/commit/45968cdc509e04f8e191d28ba7d8d97b08fc578e)) ([acfe97f](https://github.com/vuejs/vitepress/commit/acfe97f60872d251c75c5985ca9841f84392850d))
+- **regression:** hmr not working with markdown includes due to wrong cache key ([615aed5](https://github.com/vuejs/vitepress/commit/615aed5df700ad98f82a74fbc785d290d1c5a018)), closes [#4289](https://github.com/vuejs/vitepress/issues/4289) [#4303](https://github.com/vuejs/vitepress/issues/4303)
+- remove explicit chinese fonts ([#4286](https://github.com/vuejs/vitepress/issues/4286)) ([668e9f7](https://github.com/vuejs/vitepress/commit/668e9f7050f236d571fe2fc2f41e5548d974b503)) ([b893550](https://github.com/vuejs/vitepress/commit/b8935502fbb590449e7d094bdde9c9ae1ac67d0c)), closes [#4286](https://github.com/vuejs/vitepress/issues/4286)
+- **theme/a11y:** don't select search result unless mouse is actually moved ([e638d85](https://github.com/vuejs/vitepress/commit/e638d855cfc8e4e0c9b95c284548ae31233139f5)), closes [#4297](https://github.com/vuejs/vitepress/issues/4297)
+- **theme:** add types for `VPLink`, `VPSocialLink` and `VPSocialLinks` exports ([#4284](https://github.com/vuejs/vitepress/issues/4284)) ([fcae4d5](https://github.com/vuejs/vitepress/commit/fcae4d5554df2130b9a7e5ad8e0cc83eccf88bec))
+- **theme:** don't escape html in `siteTitle` ([#4308](https://github.com/vuejs/vitepress/issues/4308)) ([bd690d6](https://github.com/vuejs/vitepress/commit/bd690d6a9b895f15d5906d245b404f02cfce7489))
+
 ## [1.4.1](https://github.com/vuejs/vitepress/compare/v1.4.0...v1.4.1) (2024-10-13)
 
 ### Bug Fixes
