@@ -387,7 +387,7 @@ export default {
 
 ### srcExclude {#srcexclude}
 
-- Тип: `string`
+- Тип: `string[]`
 - По умолчанию: `undefined`
 
 [Шаблон](https://github.com/mrmlnc/fast-glob#pattern-syntax) для поиска файлов, которые должны быть исключены из исходного содержимого.
