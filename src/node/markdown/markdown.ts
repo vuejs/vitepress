@@ -192,6 +192,18 @@ export interface MarkdownOptions extends Options {
 
 export type MarkdownRenderer = MarkdownIt
 
+/**
+ * Keep a reference to the highlighter to avoid re-creating.
+ *
+ * This highlighter is used in the `createContentLoader` function so every time
+ * this function is called, the highlighter will be re-created. At the end,
+ * Shiki will slow down the build process because it must be a singleton.
+ */
+let highlighter:
+  | ((str: string, lang: string, attrs: string) => string)
+  | null
+  | undefined
+
 export const createMarkdownRenderer = async (
   srcDir: string,
   options: MarkdownOptions = {},
@@ -202,10 +214,15 @@ export const createMarkdownRenderer = async (
   const codeCopyButtonTitle = options.codeCopyButtonTitle || 'Copy Code'
   const hasSingleTheme = typeof theme === 'string' || 'name' in theme
 
+  highlighter =
+    highlighter ||
+    options.highlight ||
+    (await highlight(theme, options, logger))
+
   const md = MarkdownIt({
     html: true,
     linkify: true,
-    highlight: options.highlight || (await highlight(theme, options, logger)),
+    highlight: highlighter,
     ...options
   })
 
