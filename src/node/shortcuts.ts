@@ -1,6 +1,7 @@
 import type { ViteDevServer } from 'vite'
 import c from 'picocolors'
 import { clearCache } from './markdownToVue'
+import { disposeMdItInstance } from './markdown/markdown'
 
 type CreateDevServer = () => Promise<void>
 
@@ -81,6 +82,7 @@ const SHORTCUTS: CLIShortcut[] = [
         clear: true,
         timestamp: true
       })
+      disposeMdItInstance()
       clearCache()
       await server.close()
       await createDevServer()
