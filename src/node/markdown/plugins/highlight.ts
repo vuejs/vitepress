@@ -23,7 +23,7 @@ const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)
  * 2. convert line numbers into line options:
  *    [{ line: number, classes: string[] }]
  */
-const attrsToLines = (attrs: string): TransformerCompactLineOption[] => {
+function attrsToLines(attrs: string): TransformerCompactLineOption[] {
   attrs = attrs.replace(/^(?:\[.*?\])?.*?([\d,-]+).*/, '$1').trim()
   const result: number[] = []
   if (!attrs) {
@@ -51,7 +51,7 @@ export async function highlight(
   theme: ThemeOptions,
   options: MarkdownOptions,
   logger: Pick<Logger, 'warn'> = console
-): Promise<(str: string, lang: string, attrs: string) => string> {
+): Promise<[(str: string, lang: string, attrs: string) => string, () => void]> {
   const {
     defaultHighlightLang: defaultLang = '',
     codeTransformers: userTransformers = []
@@ -95,93 +95,96 @@ export async function highlight(
   const lineNoRE = /:(no-)?line-numbers(=\d*)?$/
   const mustacheRE = /\{\{.*?\}\}/g
 
-  return (str: string, lang: string, attrs: string) => {
-    const vPre = vueRE.test(lang) ? '' : 'v-pre'
-    lang =
-      lang
-        .replace(lineNoStartRE, '')
-        .replace(lineNoRE, '')
-        .replace(vueRE, '')
-        .toLowerCase() || defaultLang
+  return [
+    (str: string, lang: string, attrs: string) => {
+      const vPre = vueRE.test(lang) ? '' : 'v-pre'
+      lang =
+        lang
+          .replace(lineNoStartRE, '')
+          .replace(lineNoRE, '')
+          .replace(vueRE, '')
+          .toLowerCase() || defaultLang
 
-    if (lang) {
-      const langLoaded = highlighter.getLoadedLanguages().includes(lang as any)
-      if (!langLoaded && !isSpecialLang(lang)) {
-        logger.warn(
-          c.yellow(
-            `\nThe language '${lang}' is not loaded, falling back to '${
-              defaultLang || 'txt'
-            }' for syntax highlighting.`
+      if (lang) {
+        const langLoaded = highlighter.getLoadedLanguages().includes(lang)
+        if (!langLoaded && !isSpecialLang(lang)) {
+          logger.warn(
+            c.yellow(
+              `\nThe language '${lang}' is not loaded, falling back to '${
+                defaultLang || 'txt'
+              }' for syntax highlighting.`
+            )
           )
-        )
-        lang = defaultLang
-      }
-    }
-
-    const lineOptions = attrsToLines(attrs)
-    const mustaches = new Map<string, string>()
-
-    const removeMustache = (s: string) => {
-      if (vPre) return s
-      return s.replace(mustacheRE, (match) => {
-        let marker = mustaches.get(match)
-        if (!marker) {
-          marker = nanoid()
-          mustaches.set(match, marker)
+          lang = defaultLang
         }
-        return marker
-      })
-    }
+      }
 
-    const restoreMustache = (s: string) => {
-      mustaches.forEach((marker, match) => {
-        s = s.replaceAll(marker, match)
-      })
-      return s
-    }
+      const lineOptions = attrsToLines(attrs)
+      const mustaches = new Map<string, string>()
 
-    str = removeMustache(str).trimEnd()
-
-    const highlighted = highlighter.codeToHtml(str, {
-      lang,
-      transformers: [
-        ...transformers,
-        transformerCompactLineOptions(lineOptions),
-        {
-          name: 'vitepress:v-pre',
-          pre(node) {
-            if (vPre) node.properties['v-pre'] = ''
+      const removeMustache = (s: string) => {
+        if (vPre) return s
+        return s.replace(mustacheRE, (match) => {
+          let marker = mustaches.get(match)
+          if (!marker) {
+            marker = nanoid()
+            mustaches.set(match, marker)
           }
-        },
-        {
-          name: 'vitepress:empty-line',
-          code(hast) {
-            hast.children.forEach((span) => {
-              if (
-                span.type === 'element' &&
-                span.tagName === 'span' &&
-                Array.isArray(span.properties.class) &&
-                span.properties.class.includes('line') &&
-                span.children.length === 0
-              ) {
-                span.children.push({
-                  type: 'element',
-                  tagName: 'wbr',
-                  properties: {},
-                  children: []
-                })
-              }
-            })
-          }
-        },
-        ...userTransformers
-      ],
-      meta: { __raw: attrs },
-      ...(typeof theme === 'object' && 'light' in theme && 'dark' in theme
-        ? { themes: theme, defaultColor: false }
-        : { theme })
-    })
+          return marker
+        })
+      }
 
-    return restoreMustache(highlighted)
-  }
+      const restoreMustache = (s: string) => {
+        mustaches.forEach((marker, match) => {
+          s = s.replaceAll(marker, match)
+        })
+        return s
+      }
+
+      str = removeMustache(str).trimEnd()
+
+      const highlighted = highlighter.codeToHtml(str, {
+        lang,
+        transformers: [
+          ...transformers,
+          transformerCompactLineOptions(lineOptions),
+          {
+            name: 'vitepress:v-pre',
+            pre(node) {
+              if (vPre) node.properties['v-pre'] = ''
+            }
+          },
+          {
+            name: 'vitepress:empty-line',
+            code(hast) {
+              hast.children.forEach((span) => {
+                if (
+                  span.type === 'element' &&
+                  span.tagName === 'span' &&
+                  Array.isArray(span.properties.class) &&
+                  span.properties.class.includes('line') &&
+                  span.children.length === 0
+                ) {
+                  span.children.push({
+                    type: 'element',
+                    tagName: 'wbr',
+                    properties: {},
+                    children: []
+                  })
+                }
+              })
+            }
+          },
+          ...userTransformers
+        ],
+        meta: { __raw: attrs },
+        ...(typeof theme === 'object' && 'light' in theme && 'dark' in theme
+          ? { themes: theme, defaultColor: false }
+          : { theme })
+      })
+
+      return restoreMustache(highlighted)
+    },
+    highlighter.dispose
+  ]
 }

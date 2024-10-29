@@ -28,7 +28,7 @@ import type {
 import type { Logger } from 'vite'
 import { containerPlugin, type ContainerOptions } from './plugins/containers'
 import { gitHubAlertsPlugin } from './plugins/githubAlerts'
-import { highlight } from './plugins/highlight'
+import { highlight as createHighlighter } from './plugins/highlight'
 import { highlightLinePlugin } from './plugins/highlightLines'
 import { imagePlugin, type Options as ImageOptions } from './plugins/image'
 import { lineNumberPlugin } from './plugins/lineNumbers'
@@ -192,39 +192,35 @@ export interface MarkdownOptions extends Options {
 
 export type MarkdownRenderer = MarkdownIt
 
-/**
- * Keep a reference to the highlighter to avoid re-creating.
- *
- * This highlighter is used in the `createContentLoader` function so every time
- * this function is called, the highlighter will be re-created. At the end,
- * Shiki will slow down the build process because it must be a singleton.
- */
-let highlighter:
-  | ((str: string, lang: string, attrs: string) => string)
-  | null
-  | undefined
+let md: MarkdownRenderer | undefined
+let _disposeHighlighter: (() => void) | undefined
 
-export const createMarkdownRenderer = async (
+export function disposeMdItInstance() {
+  if (md) {
+    md = undefined
+    _disposeHighlighter?.()
+  }
+}
+
+export async function createMarkdownRenderer(
   srcDir: string,
   options: MarkdownOptions = {},
   base = '/',
   logger: Pick<Logger, 'warn'> = console
-): Promise<MarkdownRenderer> => {
+): Promise<MarkdownRenderer> {
+  if (md) return md
+
   const theme = options.theme ?? { light: 'github-light', dark: 'github-dark' }
   const codeCopyButtonTitle = options.codeCopyButtonTitle || 'Copy Code'
   const hasSingleTheme = typeof theme === 'string' || 'name' in theme
 
-  highlighter =
-    highlighter ||
-    options.highlight ||
-    (await highlight(theme, options, logger))
+  let [highlight, dispose] = options.highlight
+    ? [options.highlight, () => {}]
+    : await createHighlighter(theme, options, logger)
 
-  const md = MarkdownIt({
-    html: true,
-    linkify: true,
-    highlight: highlighter,
-    ...options
-  })
+  _disposeHighlighter = dispose
+
+  md = MarkdownIt({ html: true, linkify: true, highlight, ...options })
 
   md.linkify.set({ fuzzyLink: false })
   md.use(restoreEntities)
