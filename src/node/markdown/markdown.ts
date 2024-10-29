@@ -173,7 +173,7 @@ export interface MarkdownOptions extends Options {
    */
   container?: ContainerOptions
   /**
-   * Math support (experimental)
+   * Math support
    *
    * You need to install `markdown-it-mathjax3` and set `math` to `true` to enable it.
    * You can also pass options to `markdown-it-mathjax3` here.
