@@ -202,6 +202,9 @@ export function disposeMdItInstance() {
   }
 }
 
+/**
+ * @experimental
+ */
 export async function createMarkdownRenderer(
   srcDir: string,
   options: MarkdownOptions = {},
