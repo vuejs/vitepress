@@ -1,6 +1,6 @@
 {
   "name": "vitepress",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "Vite & Vue powered static site generator",
   "keywords": [
     "vite",
@@ -185,6 +185,7 @@
     "sirv": "^3.0.0",
     "sitemap": "^8.0.0",
     "supports-color": "^9.4.0",
+    "synckit": "^0.9.2",
     "tinyglobby": "^0.2.10",
     "typescript": "^5.6.3",
     "vitest": "^2.1.4",

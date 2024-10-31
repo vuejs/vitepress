@@ -1,3 +1,9 @@
+## [1.4.3](https://github.com/vuejs/vitepress/compare/v1.4.2...v1.4.3) (2024-10-31)
+
+### Performance Improvements
+
+- lazy load shiki languages ([#4326](https://github.com/vuejs/vitepress/issues/4326)) ([8299778](https://github.com/vuejs/vitepress/commit/829977876a21da4f0af5d27593a2d81eb9af0c33))
+
 ## [1.4.2](https://github.com/vuejs/vitepress/compare/v1.4.1...v1.4.2) (2024-10-29)
 
 ### Bug Fixes
