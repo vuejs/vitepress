@@ -1,7 +1,7 @@
-import { promises as fs } from 'fs'
-import { builtinModules, createRequire } from 'module'
-import { resolve } from 'path'
-import { fileURLToPath } from 'url'
+import * as fs from 'node:fs/promises'
+import { builtinModules, createRequire } from 'node:module'
+import { resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { type RollupOptions, defineConfig } from 'rollup'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
@@ -10,6 +10,7 @@ import json from '@rollup/plugin-json'
 import replace from '@rollup/plugin-replace'
 import alias from '@rollup/plugin-alias'
 import dts from 'rollup-plugin-dts'
+import { globSync } from 'tinyglobby'
 
 const ROOT = fileURLToPath(import.meta.url)
 const r = (p: string) => resolve(ROOT, '..', p)
@@ -43,11 +44,15 @@ const plugins = [
 ]
 
 const esmBuild: RollupOptions = {
-  input: [r('src/node/index.ts'), r('src/node/cli.ts')],
+  input: [
+    r('src/node/index.ts'),
+    r('src/node/cli.ts'),
+    ...globSync(r('src/node/worker_*.ts'))
+  ],
   output: {
     format: 'esm',
     entryFileNames: `[name].js`,
-    chunkFileNames: 'serve-[hash].js',
+    chunkFileNames: 'chunk-[hash].js',
     dir: r('dist/node'),
     sourcemap: DEV
   },
