@@ -1,7 +1,7 @@
 import { customAlphabet } from 'nanoid'
 import c from 'picocolors'
 import type { ShikiTransformer } from 'shiki'
-import { bundledLanguages, createHighlighter, isSpecialLang } from 'shiki'
+import { createHighlighter, isSpecialLang } from 'shiki'
 import {
   transformerCompactLineOptions,
   transformerNotationDiff,
@@ -12,7 +12,12 @@ import {
 } from '@shikijs/transformers'
 import type { Logger } from 'vite'
 import type { MarkdownOptions, ThemeOptions } from '../markdown'
+import { createSyncFn } from 'synckit'
+import { createRequire } from 'node:module'
 
+const require = createRequire(import.meta.url)
+
+const resolveLang = createSyncFn(require.resolve('vitepress/shiki-helpers'))
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)
 
 /**
@@ -62,7 +67,7 @@ export async function highlight(
       typeof theme === 'object' && 'light' in theme && 'dark' in theme
         ? [theme.light, theme.dark]
         : [theme],
-    langs: [...Object.keys(bundledLanguages), ...(options.languages || [])],
+    langs: options.languages || [],
     langAlias: options.languageAlias
   })
 
@@ -108,14 +113,19 @@ export async function highlight(
       if (lang) {
         const langLoaded = highlighter.getLoadedLanguages().includes(lang)
         if (!langLoaded && !isSpecialLang(lang)) {
-          logger.warn(
-            c.yellow(
-              `\nThe language '${lang}' is not loaded, falling back to '${
-                defaultLang || 'txt'
-              }' for syntax highlighting.`
+          const resolvedLang = resolveLang(lang)
+          if (!resolveLang) {
+            logger.warn(
+              c.yellow(
+                `\nThe language '${lang}' is not loaded, falling back to '${
+                  defaultLang || 'txt'
+                }' for syntax highlighting.`
+              )
             )
-          )
-          lang = defaultLang
+            lang = defaultLang
+          } else {
+            highlighter.loadLanguageSync(resolvedLang as any)
+          }
         }
       }
 
