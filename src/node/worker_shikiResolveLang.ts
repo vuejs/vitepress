@@ -3,7 +3,12 @@ import { runAsWorker } from 'synckit'
 
 async function resolveLang(lang: string) {
   return (
-    (bundledLanguages as Record<string, DynamicImportLanguageRegistration>)
+    (
+      bundledLanguages as Record<
+        string,
+        DynamicImportLanguageRegistration | undefined
+      >
+    )
       [lang]?.()
       .then((m) => m.default) || []
   )
