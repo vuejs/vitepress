@@ -36,9 +36,6 @@
     },
     "./vue-demi": {
       "default": "./lib/vue-demi.mjs"
-    },
-    "./shiki-helpers": {
-      "default": "./lib/shiki-helpers.mjs"
     }
   },
   "main": "dist/node/index.js",
@@ -116,7 +113,6 @@
     "mark.js": "8.11.1",
     "minisearch": "^7.1.0",
     "shiki": "^1.22.2",
-    "synckit": "^0.9.2",
     "vite": "^5.4.10",
     "vue": "^3.5.12"
   },
@@ -189,6 +185,7 @@
     "sirv": "^3.0.0",
     "sitemap": "^8.0.0",
     "supports-color": "^9.4.0",
+    "synckit": "^0.9.2",
     "tinyglobby": "^0.2.10",
     "typescript": "^5.6.3",
     "vitest": "^2.1.4",

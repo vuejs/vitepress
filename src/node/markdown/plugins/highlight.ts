@@ -1,7 +1,3 @@
-import { customAlphabet } from 'nanoid'
-import c from 'picocolors'
-import type { ShikiTransformer } from 'shiki'
-import { createHighlighter, isSpecialLang } from 'shiki'
 import {
   transformerCompactLineOptions,
   transformerNotationDiff,
@@ -10,14 +6,21 @@ import {
   transformerNotationHighlight,
   type TransformerCompactLineOption
 } from '@shikijs/transformers'
-import type { Logger } from 'vite'
-import type { MarkdownOptions, ThemeOptions } from '../markdown'
-import { createSyncFn } from 'synckit'
+import { customAlphabet } from 'nanoid'
 import { createRequire } from 'node:module'
+import c from 'picocolors'
+import type { ShikiTransformer } from 'shiki'
+import { createHighlighter, isSpecialLang } from 'shiki'
+import { createSyncFn } from 'synckit'
+import type { Logger } from 'vite'
+import type { ShikiResolveLang } from 'worker_shikiResolveLang'
+import type { MarkdownOptions, ThemeOptions } from '../markdown'
 
 const require = createRequire(import.meta.url)
 
-const resolveLang = createSyncFn(require.resolve('vitepress/shiki-helpers'))
+const resolveLangSync = createSyncFn<ShikiResolveLang>(
+  require.resolve('vitepress/dist/node/worker_shikiResolveLang.js')
+)
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)
 
 /**
@@ -67,7 +70,10 @@ export async function highlight(
       typeof theme === 'object' && 'light' in theme && 'dark' in theme
         ? [theme.light, theme.dark]
         : [theme],
-    langs: options.languages || [],
+    langs: [
+      ...(options.languages || []),
+      ...Object.values(options.languageAlias || {})
+    ],
     langAlias: options.languageAlias
   })
 
@@ -113,8 +119,8 @@ export async function highlight(
       if (lang) {
         const langLoaded = highlighter.getLoadedLanguages().includes(lang)
         if (!langLoaded && !isSpecialLang(lang)) {
-          const resolvedLang = resolveLang(lang)
-          if (!resolveLang) {
+          const resolvedLang = resolveLangSync(lang)
+          if (!resolvedLang) {
             logger.warn(
               c.yellow(
                 `\nThe language '${lang}' is not loaded, falling back to '${
@@ -124,7 +130,7 @@ export async function highlight(
             )
             lang = defaultLang
           } else {
-            highlighter.loadLanguageSync(resolvedLang as any)
+            highlighter.loadLanguageSync(resolvedLang)
           }
         }
       }

@@ -61,9 +61,6 @@ importers:
       shiki:
         specifier: ^1.22.2
         version: 1.22.2
-      synckit:
-        specifier: ^0.9.2
-        version: 0.9.2
       vite:
         specifier: ^5.4.10
         version: 5.4.10(@types/node@22.8.2)
@@ -275,6 +272,9 @@ importers:
       supports-color:
         specifier: ^9.4.0
         version: 9.4.0
+      synckit:
+        specifier: ^0.9.2
+        version: 0.9.2
       tinyglobby:
         specifier: ^0.2.10
         version: 0.2.10
