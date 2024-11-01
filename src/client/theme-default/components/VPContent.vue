@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import NotFound from '../NotFound.vue'
+import Search from '../Search.vue'
 import { useData } from '../composables/data'
 import { useSidebar } from '../composables/sidebar'
 import VPDoc from './VPDoc.vue'
@@ -19,7 +20,8 @@ const { hasSidebar } = useSidebar()
       'is-home': frontmatter.layout === 'home'
     }"
   >
-    <slot name="not-found" v-if="page.isNotFound"><NotFound /></slot>
+    <slot name="search" v-if="page.isSearch"><Search /></slot>
+    <slot name="not-found" v-else-if="page.isNotFound"><NotFound /></slot>
 
     <VPPage v-else-if="frontmatter.layout === 'page'">
       <template #page-top><slot name="page-top" /></template>

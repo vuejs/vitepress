@@ -22,7 +22,9 @@ defineEmits<{
 
 const { y } = useWindowScroll()
 const { hasSidebar } = useSidebar()
-const { frontmatter } = useData()
+const { frontmatter, page } = useData()
+
+const isSearchPage = page.value.isSearch
 
 const classes = ref<Record<string, boolean>>({})
 
@@ -50,7 +52,7 @@ watchPostEffect(() => {
         <div class="content">
           <div class="content-body">
             <slot name="nav-bar-content-before" />
-            <VPNavBarSearch class="search" />
+            <VPNavBarSearch class="search" v-if="!isSearchPage"/>
             <VPNavBarMenu class="menu" />
             <VPNavBarTranslations class="translations" />
             <VPNavBarAppearance class="appearance" />
