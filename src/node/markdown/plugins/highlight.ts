@@ -120,7 +120,7 @@ export async function highlight(
         const langLoaded = highlighter.getLoadedLanguages().includes(lang)
         if (!langLoaded && !isSpecialLang(lang)) {
           const resolvedLang = resolveLangSync(lang)
-          if (!resolvedLang) {
+          if (!resolvedLang.length) {
             logger.warn(
               c.yellow(
                 `\nThe language '${lang}' is not loaded, falling back to '${
