@@ -65,10 +65,6 @@ export async function highlight(
     codeTransformers: userTransformers = []
   } = options
 
-  const usingTwoslash = userTransformers.some(
-    ({ name }) => name === '@shikijs/vitepress-twoslash'
-  )
-
   const highlighter = await createHighlighter({
     themes:
       typeof theme === 'object' && 'light' in theme && 'dark' in theme
@@ -76,12 +72,7 @@ export async function highlight(
         : [theme],
     langs: [
       ...(options.languages || []),
-      ...Object.values(options.languageAlias || {}),
-
-      // patch for twoslash - https://github.com/vuejs/vitepress/issues/4334
-      ...(usingTwoslash
-        ? Object.keys((await import('shiki')).bundledLanguages)
-        : [])
+      ...Object.values(options.languageAlias || {})
     ],
     langAlias: options.languageAlias
   })
@@ -97,6 +88,14 @@ export async function highlight(
       else return false
     }
     return true
+  }
+
+  // patch for twoslash - https://github.com/vuejs/vitepress/issues/4334
+  const internal = highlighter.getInternalContext()
+  const getLanguage = internal.getLanguage
+  internal.getLanguage = (name) => {
+    loadLanguage(name)
+    return getLanguage.call(internal, name)
   }
 
   await options?.shikiSetup?.(highlighter)
