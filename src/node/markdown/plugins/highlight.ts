@@ -9,7 +9,7 @@ import {
 import { customAlphabet } from 'nanoid'
 import { createRequire } from 'node:module'
 import c from 'picocolors'
-import type { ShikiTransformer } from 'shiki'
+import type { LanguageRegistration, ShikiTransformer } from 'shiki'
 import { createHighlighter, isSpecialLang } from 'shiki'
 import { createSyncFn } from 'synckit'
 import type { Logger } from 'vite'
@@ -61,9 +61,13 @@ export async function highlight(
   logger: Pick<Logger, 'warn'> = console
 ): Promise<[(str: string, lang: string, attrs: string) => string, () => void]> {
   const {
-    defaultHighlightLang: defaultLang = '',
+    defaultHighlightLang: defaultLang = 'txt',
     codeTransformers: userTransformers = []
   } = options
+
+  const usingTwoslash = userTransformers.some(
+    ({ name }) => name === '@shikijs/vitepress-twoslash'
+  )
 
   const highlighter = await createHighlighter({
     themes:
@@ -72,10 +76,28 @@ export async function highlight(
         : [theme],
     langs: [
       ...(options.languages || []),
-      ...Object.values(options.languageAlias || {})
+      ...Object.values(options.languageAlias || {}),
+
+      // patch for twoslash - https://github.com/vuejs/vitepress/issues/4334
+      ...(usingTwoslash
+        ? Object.keys((await import('shiki')).bundledLanguages)
+        : [])
     ],
     langAlias: options.languageAlias
   })
+
+  function loadLanguage(name: string | LanguageRegistration) {
+    const lang = typeof name === 'string' ? name : name.name
+    if (
+      !isSpecialLang(lang) &&
+      !highlighter.getLoadedLanguages().includes(lang)
+    ) {
+      const resolvedLang = resolveLangSync(lang)
+      if (resolvedLang.length) highlighter.loadLanguageSync(resolvedLang)
+      else return false
+    }
+    return true
+  }
 
   await options?.shikiSetup?.(highlighter)
 
@@ -116,23 +138,13 @@ export async function highlight(
           .replace(vueRE, '')
           .toLowerCase() || defaultLang
 
-      if (lang) {
-        const langLoaded = highlighter.getLoadedLanguages().includes(lang)
-        if (!langLoaded && !isSpecialLang(lang)) {
-          const resolvedLang = resolveLangSync(lang)
-          if (!resolvedLang.length) {
-            logger.warn(
-              c.yellow(
-                `\nThe language '${lang}' is not loaded, falling back to '${
-                  defaultLang || 'txt'
-                }' for syntax highlighting.`
-              )
-            )
-            lang = defaultLang
-          } else {
-            highlighter.loadLanguageSync(resolvedLang)
-          }
-        }
+      if (!loadLanguage(lang)) {
+        logger.warn(
+          c.yellow(
+            `\nThe language '${lang}' is not loaded, falling back to '${defaultLang}' for syntax highlighting.`
+          )
+        )
+        lang = defaultLang
       }
 
       const lineOptions = attrsToLines(attrs)
