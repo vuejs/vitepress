@@ -1,3 +1,10 @@
+## [1.4.4](https://github.com/vuejs/vitepress/compare/v1.4.3...v1.4.4) (2024-11-03)
+
+### Bug Fixes
+
+- (temporary patch) lang lazy load not working with twoslash ([4dac35f](https://github.com/vuejs/vitepress/commit/4dac35fc9ec3eecb4371befa619626ee4db1ba58))
+- typo in missing language check ([dcb8450](https://github.com/vuejs/vitepress/commit/dcb8450f1166d7731c26a0eb5ec6d931bc283172))
+
 ## [1.4.3](https://github.com/vuejs/vitepress/compare/v1.4.2...v1.4.3) (2024-10-31)
 
 ### Performance Improvements
