@@ -228,6 +228,7 @@ You may define this option to show your social account links with icons in nav.
 export default {
   themeConfig: {
     socialLinks: [
+      // You can add any icon from simple-icons (https://simpleicons.org/):
       { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
       { icon: 'twitter', link: '...' },
       // You can also add custom icons by passing SVG as string:
