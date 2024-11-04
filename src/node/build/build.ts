@@ -122,7 +122,10 @@ export async function build(
             pageToHashMap,
             metadataScript,
             additionalHeadTags
-          )
+          ).catch((e) => {
+            console.error(`An error occured while trying to render ${page}:`)
+            throw e
+          })
         },
         { concurrency: siteConfig.buildConcurrency }
       )
