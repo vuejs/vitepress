@@ -233,24 +233,10 @@ export default {
 
 ```ts
 interface SocialLink {
-  icon: SocialLinkIcon
+  icon: string | { svg: string }
   link: string
   ariaLabel?: string
 }
-
-type SocialLinkIcon =
-  | 'discord'
-  | 'facebook'
-  | 'github'
-  | 'instagram'
-  | 'linkedin'
-  | 'mastodon'
-  | 'npm'
-  | 'slack'
-  | 'twitter'
-  | 'x'
-  | 'youtube'
-  | { svg: string }
 ```
 
 ## footer {#footer}
