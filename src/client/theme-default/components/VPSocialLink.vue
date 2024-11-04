@@ -51,7 +51,7 @@ if (import.meta.env.SSR) {
 }
 
 .VPSocialLink > :deep(svg),
-.VPSocialLink > :deep([class^='vpi-social-']) {
+.VPSocialLink > :deep([class^="vpi-social-"]) {
   width: 20px;
   height: 20px;
   fill: currentColor;
