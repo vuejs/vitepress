@@ -1,11 +1,12 @@
-import { createHash } from 'crypto'
+import { getIconsCSS } from '@iconify/utils'
 import fs from 'fs-extra'
-import { createRequire } from 'module'
+import { createHash } from 'node:crypto'
+import { createRequire } from 'node:module'
+import path from 'node:path'
+import { pathToFileURL } from 'node:url'
 import pMap from 'p-map'
-import path from 'path'
 import { packageDirectorySync } from 'pkg-dir'
 import { rimraf } from 'rimraf'
-import { pathToFileURL } from 'url'
 import type { BuildOptions, Rollup } from 'vite'
 import { resolveConfig, type SiteConfig } from '../config'
 import { clearCache } from '../markdownToVue'
@@ -15,6 +16,8 @@ import { task } from '../utils/task'
 import { bundle } from './bundle'
 import { generateSitemap } from './generateSitemap'
 import { renderPage } from './render'
+
+const require = createRequire(import.meta.url)
 
 export async function build(
   root?: string,
@@ -108,6 +111,8 @@ export async function build(
         }
       }
 
+      const usedIcons = new Set<string>()
+
       await pMap(
         ['404.md', ...siteConfig.pages],
         async (page) => {
@@ -121,11 +126,22 @@ export async function build(
             assets,
             pageToHashMap,
             metadataScript,
-            additionalHeadTags
+            additionalHeadTags,
+            usedIcons
           )
         },
         { concurrency: siteConfig.buildConcurrency }
       )
+
+      const icons = require('@iconify-json/simple-icons/icons.json')
+      const iconsCss = getIconsCSS(icons, Array.from(usedIcons).sort(), {
+        iconSelector: '.vpi-social-{name}',
+        commonSelector: '.vpi-social',
+        varName: 'icon',
+        format: process.env.DEBUG ? 'expanded' : 'compressed'
+      }).replace(/.*?}/, '')
+
+      fs.writeFileSync(path.join(siteConfig.outDir, 'vp-icons.css'), iconsCss)
     })
 
     // emit page hash map for the case where a user session is open

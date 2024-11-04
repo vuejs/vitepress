@@ -1,5 +1,5 @@
 *.md
-*.vue
+# *.vue
 dist
 pnpm-lock.yaml
 cache

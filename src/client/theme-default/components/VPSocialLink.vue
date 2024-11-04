@@ -1,6 +1,7 @@
 <script lang="ts" setup>
+import type { SSGContext } from '../../shared'
 import type { DefaultTheme } from 'vitepress/theme'
-import { computed } from 'vue'
+import { computed, useSSRContext } from 'vue'
 
 const props = defineProps<{
   icon: DefaultTheme.SocialLinkIcon
@@ -10,8 +11,16 @@ const props = defineProps<{
 
 const svg = computed(() => {
   if (typeof props.icon === 'object') return props.icon.svg
-  return `<span class="vpi-social-${props.icon}" />`
+  const style = import.meta.env.DEV
+    ? `style="--icon: url('https://api.iconify.design/simple-icons/${props.icon}.svg')" `
+    : ''
+  return `<span class="vpi-social-${props.icon}" ${style}></span>`
 })
+
+if (import.meta.env.SSR) {
+  typeof props.icon === 'string' &&
+    useSSRContext<SSGContext>()?.vpSocialIcons.add(props.icon)
+}
 </script>
 
 <template>
@@ -42,7 +51,7 @@ const svg = computed(() => {
 }
 
 .VPSocialLink > :deep(svg),
-.VPSocialLink > :deep([class^="vpi-social-"]) {
+.VPSocialLink > :deep([class^='vpi-social-']) {
   width: 20px;
   height: 20px;
   fill: currentColor;
