@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import type { SSGContext } from '../../shared'
 import type { DefaultTheme } from 'vitepress/theme'
 import { computed, useSSRContext } from 'vue'
+import type { SSGContext } from '../../shared'
 
 const props = defineProps<{
   icon: DefaultTheme.SocialLinkIcon
