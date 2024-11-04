@@ -100,6 +100,7 @@
   "dependencies": {
     "@docsearch/css": "^3.6.2",
     "@docsearch/js": "^3.6.2",
+    "@iconify-json/simple-icons": "^1.2.10",
     "@shikijs/core": "^1.22.2",
     "@shikijs/transformers": "^1.22.2",
     "@shikijs/types": "^1.22.2",
@@ -118,6 +119,7 @@
   },
   "devDependencies": {
     "@clack/prompts": "^0.7.0",
+    "@iconify/utils": "^2.1.33",
     "@mdit-vue/plugin-component": "^2.1.3",
     "@mdit-vue/plugin-frontmatter": "^2.1.3",
     "@mdit-vue/plugin-headers": "^2.1.3",
