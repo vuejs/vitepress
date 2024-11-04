@@ -1,3 +1,9 @@
+# [1.5.0](https://github.com/vuejs/vitepress/compare/v1.4.5...v1.5.0) (2024-11-04)
+
+### Features
+
+- on-demand social icons ([#4339](https://github.com/vuejs/vitepress/issues/4339)) ([05f2f0d](https://github.com/vuejs/vitepress/commit/05f2f0d26153ace74b6c023184224d4fada137c2)), closes [#4256](https://github.com/vuejs/vitepress/issues/4256) [#4135](https://github.com/vuejs/vitepress/issues/4135) [#4076](https://github.com/vuejs/vitepress/issues/4076) [#3809](https://github.com/vuejs/vitepress/issues/3809) [#3750](https://github.com/vuejs/vitepress/issues/3750) [#1214](https://github.com/vuejs/vitepress/issues/1214) [#2768](https://github.com/vuejs/vitepress/issues/2768) [#2861](https://github.com/vuejs/vitepress/issues/2861)
+
 ## [1.4.5](https://github.com/vuejs/vitepress/compare/v1.4.4...v1.4.5) (2024-11-03)
 
 ### Bug Fixes
