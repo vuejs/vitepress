@@ -214,6 +214,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
        # - apk add git # Uncomment this if you're using small docker images like alpine and have lastUpdated enabled
        - npm install
        - npm run docs:build
+       - mv docs/.vitepress/dist public # to allow gitlab pages to access the artifact
      artifacts:
        paths:
          - public
