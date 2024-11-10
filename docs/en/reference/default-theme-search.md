@@ -24,7 +24,11 @@ Example result:
 
 ![screenshot of the search modal](/search.png)
 
-Alternatively, you can use [Algolia DocSearch](#algolia-search) or some community plugins like <https://www.npmjs.com/package/vitepress-plugin-search> or <https://www.npmjs.com/package/vitepress-plugin-pagefind>.
+Alternatively, you can use [Algolia DocSearch](#algolia-search) or some community plugins like:
+
+- <https://www.npmjs.com/package/vitepress-plugin-search>
+- <https://www.npmjs.com/package/vitepress-plugin-pagefind>
+- <https://www.npmjs.com/package/@orama/plugin-vitepress>
 
 ### i18n {#local-search-i18n}
 
