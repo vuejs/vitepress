@@ -36,11 +36,7 @@ export const es = defineConfig({
     },
 
     lastUpdated: {
-      text: 'Actualizado en',
-      formatOptions: {
-        dateStyle: 'short',
-        timeStyle: 'medium'
-      }
+      text: 'Actualizado en'
     },
 
     langMenuLabel: 'Cambiar Idioma',
