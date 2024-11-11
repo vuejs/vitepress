@@ -1,6 +1,6 @@
 # Extensiones Markdown {#markdown-extensions}
 
-VitePress viene con Extensiones embutidas.
+VitePress viene con Extensiones integradas.
 
 ## Anchors de Header {#header-anchors}
 
@@ -42,7 +42,7 @@ Por ejemplo, dada la siguiente estructura de directorios:
 Y suponiendo que está en `foo/one.md`:
 
 ```md
-[Página Inicial](/) <!-- lleva al usuario al index.md raiz -->
+[Página Inicial](/) <!-- lleva al usuario al index.md raíz -->
 [foo](/foo/) <!-- lleva al usuario al index.html del directorio foo -->
 [foo heading](./#heading) <!-- ancla al usuario a un header del archivo índice foo -->
 [bar - three](../bar/three) <!-- puede omitir la extensión -->
@@ -81,20 +81,20 @@ Para más detalles, vea [Frontmatter](../reference/frontmatter-config).
 **Entrada**
 
 ```md
-| Tablas        |    Son        | Geniales|
-| ------------- | :-----------: |   ----: |
-| col 3 está    | à direita     |   $1600 |
-| col 2 está    | centralizada  |     $12 |
-| listras       |   são legais  |      $1 |
+| Tablas        |    Son         | Geniales|
+| ------------- | :------------: |   ----: |
+| col 3 está    | justf-derecha  |   $1600 |
+| col 2 está    | centrada       |     $12 |
+| las zebras    | son bonitas    |      $1 |
 ```
 
 **Salida**
 
-| Tablas        |    Son        | Geniales |
-| ------------- | :-----------: |   -----: |
-| col 3 está    | à direita     |   \$1600 |
-| col 2 está    | centralizada  |     \$12 |
-| listras       |   são legais  |      \$1 |
+| Tablas        |    Son         | Geniales|
+| ------------- | :------------: |   ----: |
+| col 3 está    | justf-derecha  |   $1600 |
+| col 2 está    | centrada       |     $12 |
+| las zebras    | son bonitas    |      $1 |
 
 ## Emoji :tada:
 
@@ -207,7 +207,7 @@ console.log('Hola, VitePress!')
 ```
 :::
 
-Además de eso, puede definir títulos personalizados globalmente adicionando el siguiente contenifo en el archivo de configuración del sitio, útil si no estuviera escribiendo en ingles:
+Además de eso, puede definir títulos personalizados globalmente adicionando el siguiente contenido en el archivo de configuración del sitio, útil si no estuviera escribiendo en ingles:
 
 ```ts
 // config.ts
@@ -228,7 +228,7 @@ export default defineConfig({
 
 ### `raw`
 
-Este es un recipiente especial que puee ser usado para evitar conflictos de estilo y enrutador con VitePress. Esto es especialmente útil al documentar bibliotecas de componentes. Puede tambien verificar [whyframe](https://whyframe.dev/docs/integrations/vitepress) para mejor aislamiento.
+Este es un recipiente especial que puede ser usado para evitar conflictos de estilo y enrutador con VitePress. Esto es especialmente útil al documentar bibliotecas de componentes. Puede también verificar [whyframe](https://whyframe.dev/docs/integrations/vitepress) para mejor aislamiento.
 
 **Sintaxis**
 
@@ -260,7 +260,7 @@ La clase `vp-raw` también puede ser usada directamente en elementos. El aislami
 
   ```js
   postcssIsolateStyles({
-    includeFiles: [/vp-doc\.css/] // o padrão é /base\.css/
+    includeFiles: [/vp-doc\.css/] // por defecto a /base\.css/
   })
   ```
 
@@ -270,7 +270,7 @@ VitePress también soporta [alertas en estilo GitHub](https://docs.github.com/en
 
 ```md
 > [!NOTE]
-> Destaca informaciones que los usuarios deben tener en consideración, incluso leyendo rapidamente.
+> Destaca informaciones que los usuarios deben tener en consideración, incluso leyendo rápidamente.
 
 > [!TIP]
 > Informaciones opcionales para ayudar al usuario a tener más éxito.
@@ -286,7 +286,7 @@ VitePress también soporta [alertas en estilo GitHub](https://docs.github.com/en
 ```
 
 > [!NOTE]
-> Destaca informaciones que los usuarios deben tener en consideración, incluso leyendo rapidamente.
+> Destaca informaciones que los usuarios deben tener en consideración, incluso leyendo rápidamente.
 
 > [!TIP]
 > Informaciones opcionales para ayudar al usuario a tener más éxito.
@@ -342,7 +342,7 @@ export default {
 </ul>
 ```
 
-Una [lista de lenguajes válidas](https://shiki.style/languages) está disponible en el repositório Shiki.
+Una [lista de lenguajes válidas](https://shiki.style/languages) está disponible en el repositorio Shiki.
 
 También puede personalizar el tema de destaque de sintaxis en la configuración de la aplicación. Consulte las [opciones `markdown`](../reference/site-config#markdown) para más detalles.
 
@@ -390,7 +390,7 @@ export default { // Destacado
       msg: `Destacado!
       Esta linea no está destacada,
       pero esta y las próximas están.`,
-      motd: 'VitePress es increible',
+      motd: 'VitePress es increíble',
       lorem: 'ipsum'
     }
   }
@@ -407,7 +407,7 @@ export default { // Destacado
       msg: `Destacado!
       Esta linea no está destacada,
       pero esta y las próximas están.`,
-      motd: 'VitePress es increible',
+      motd: 'VitePress es increíble',
       lorem: 'ipsum',
     }
   }
@@ -430,7 +430,7 @@ export default {
 ```
 ````
 
-**Saída**
+**Salida**
 
 ```js
 export default {
@@ -508,7 +508,7 @@ export default {
 
 ## Errores y Avisos en Bloques de Código {#errors-and-warnings-in-code-blocks}
 
-Adicionar los comentarios `// [!code warning]` o `// [!code error]` en una linea coloreará los bloques conforme necesário.
+Adicionar los comentarios `// [!code warning]` o `// [!code error]` en una linea coloreará los bloques conforme necesario.
 
 **Entrada**
 
@@ -628,7 +628,7 @@ También soporta [destaque de linea](#line-highlighting-in-code-blocks):
 
 ::: tip
 
-El valor de `@` corresponde a la raiz del código fuente. Por defecto, es la raiz del proyecto VitePress, a menos que `srcDir` sea configurado. Alternativamente, puede también importar de paths relativos:
+El valor de `@` corresponde a la raíz del código fuente. Por defecto, es la raíz del proyecto VitePress, a menos que `srcDir` sea configurado. Alternativamente, puede también importar de paths relativos:
 
 ```md
 <<< ../snippets/snippet.js
@@ -701,7 +701,7 @@ export default config
 :::
 ````
 
-**Salída**
+**Salida**
 
 ::: code-group
 
@@ -758,10 +758,10 @@ También puede [importar _snippets_ de código](#import-code-snippets) en grupos
 
 ## Inclusión de Archivo Markdown {#markdown-file-inclusion}
 
-Puede incluir un archivo markdown en otro archvo markdown, incluso anidado.
+Puede incluir un archivo markdown en otro archivo markdown, incluso anidado.
 
 ::: tip
-Puede prefijar el path del markdown con `@`, el actuará como la raiz de origen. Por defecto, es la raiz del projecto VitePress, a menos que `srcDir` sea configurado.
+Puede prefijar el path del markdown con `@`, el actuará como la raíz de origen. Por defecto, es la raíz del proyecto VitePress, a menos que `srcDir` sea configurado.
 :::
 
 Por ejemplo, puede incluir un archivo markdown relativo usando esto:
@@ -837,7 +837,7 @@ Puede ser creada usando `.foorc.json`.
 El formato del intervalo de lineas seleccionado puede ser: `{3,}`, `{,10}`, `{1,10}`
 
 ::: warning
-Observe que esto no genera errores si el archivo no está presente. Por lo tanto, al usar este recurso, asegurese de que el contenido está siendo mostrado como se espera.:::
+Observe que esto no genera errores si el archivo no está presente. Por lo tanto, al usar este recurso, asegúrese de que el contenido está siendo mostrado como se espera.:::
 
 ## Ecuaciones Matemáticas {#math-equations}
 
@@ -870,7 +870,7 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 | $\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t}  = \vec{\mathbf{0}}$                                                          | la rotacional de $\vec{\mathbf{E}}$ es proporcional a la tasa de variación de $\vec{\mathbf{B}}$ |
 | $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _hã?_                                                                                     |
 
-**Salída**
+**Salida**
 
 Cuando $a \ne 0$, existen dos soluciones para $(ax^2 + bx + c = 0)$ y ellas son
 $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
@@ -883,7 +883,7 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 | $\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t}  = \vec{\mathbf{0}}$                                                          | la rotacional de $\vec{\mathbf{E}}$ es proporcional a la tasa de variación de $\vec{\mathbf{B}}$ |
 | $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _hã?_                                                                                     |
 
-## _Lazy Loading_ de Imagenes {#image-lazy-loading}
+## _Lazy Loading_ de Imágenes {#image-lazy-loading}
 
 Puede activar la "carga perezosa" para cada imagen adicionada via markdown definiendo `lazyLoading` como `true` en su archivo de configuración:
 
@@ -891,7 +891,7 @@ Puede activar la "carga perezosa" para cada imagen adicionada via markdown defin
 export default {
   markdown: {
     image: {
-      // la carga perezosa de imagenes está desactivada por defecto
+      // la carga perezosa de imágenes está desactivada por defecto
       lazyLoading: true
     }
   }

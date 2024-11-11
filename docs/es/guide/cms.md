@@ -6,9 +6,9 @@ outline: deep
 
 ## Flujo de Trabajo general {#general-workflow}
 
-Conectar VitePress a un CMS girará mayormente en torno a [Rutas dinámicas](./routing#dynamic-routes). Asegurese de entender cómo funcionan antes de proceder.
+Conectar VitePress a un CMS girará mayormente en torno a [Rutas dinámicas](./routing#dynamic-routes). Asegúrese de entender cómo funcionan antes de proceder.
 
-Como cada CMS funcionará de forma diferente, aqui podemos proveer apenas un flujo de trabajo genérico que requiere ser adaptado para cada escenario específico.
+Como cada CMS funcionará de forma diferente, aquí podemos proveer apenas un flujo de trabajo genérico que requiere ser adaptado para cada escenario específico.
 
 1. Si su CMS exige autenticación, cree un archivo `.env` para almacenar los tokens del API y cargarlos como:
 
@@ -51,6 +51,6 @@ Como cada CMS funcionará de forma diferente, aqui podemos proveer apenas un flu
     <!-- @content -->
     ```
 
-## Guias de Integración {#integration-guides}
+## Guías de Integración {#integration-guides}
 
-Se usted escribió una guía sobre cómo integrar VitePress con un CMS específico, por favor use el link "Edite esta página" abajo para enviarlo hacia aqui!
+Se usted escribió una guía sobre cómo integrar VitePress con un CMS específico, por favor use el link "Edite esta página" abajo para enviarlo hacia aquí!

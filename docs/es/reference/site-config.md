@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-# Configuración de site {#site-config}
+# Configuración del sitio {#site-config}
 
 La configuración del site es donde puede configurar los ajustes globales del site. Las opciones de configuración de la aplicación definen las configuraciones que se aplican a todos los sites de VitePress, independientemente del tema que estén utilizando. Por ejemplo, el directorio base o el título del site.
 
@@ -10,7 +10,7 @@ La configuración del site es donde puede configurar los ajustes globales del si
 
 ### Resolución de configuración {#config-resolution}
 
-El archivo de configuración siempre se resuelve desde `<root>/.vitepress/config.[ext]`, donde `<root>` es la [raiz del proyecto](../guide/routing#root-and-source-directory) VitePress y `[ext]` es una de las extensiones de archivo compatibles. TypeScript es compatible desde el primer momento. Las extensiones compatibles incluyen `.js`, `.ts`, `.mjs` y `.mts`.
+El archivo de configuración siempre se resuelve desde `<root>/.vitepress/config.[ext]`, donde `<root>` es la [raíz del proyecto](../guide/routing#root-and-source-directory) VitePress y `[ext]` es una de las extensiones de archivo compatibles. TypeScript es compatible desde el primer momento. Las extensiones compatibles incluyen `.js`, `.ts`, `.mjs` y `.mts`.
 
 Recuerde usar la sintaxis de módulos ES en los archivos de configuración. El archivo de configuración debe exportar por defecto un objeto:
 
@@ -24,7 +24,7 @@ export default {
 }
 ```
 
-:::details Configuración dinámica (Assíncrona)
+:::details Configuración dinámica (Asíncrona)
 
 Si necesitas generar dinamicamente la configuración, también puedes exportar por defecto una función. Por ejemplo:
 
@@ -92,7 +92,7 @@ export default defineConfig({
 })
 ```
 
-### Configuración de Tema Escrito {#typed-theme-config}
+### Configuración del Tipado del Tema {#typed-theme-config}
 
 Por defecto, el auxiliar `defineConfig` espera el tipo de configuración del tema por defecto:
 
@@ -133,7 +133,7 @@ export default defineConfigWithTheme<ThemeConfig>({
 
   Puede configurar la instancia subyacente de [Markdown-It](https://github.com/markdown-it/markdown-it) usando la opción [markdown](#markdown) en su configuración VitePress.
 
-## Metadatos de Site {#site-metadata}
+## Metadatos del Sitio {#site-metadata}
 
 ### title
 
@@ -147,7 +147,7 @@ También se utilizará como sufijo predeterminado para todos los títulos de pá
 
 ```ts
 export default {
-  title: 'Mi increible sitio web'
+  title: 'Mi increíble sitio web'
 }
 ```
 
@@ -155,7 +155,7 @@ export default {
 # Hola
 ```
 
-El título de la página será `Hola | Mi increible sitio web`.
+El título de la página será `Hola | Mi increíble sitio web`.
 
 ### titleTemplate
 
@@ -166,7 +166,7 @@ Le permite personalizar el sufijo del título de cada página o el título compl
 
 ```ts
 export default {
-  title: 'Mi increible sitio web',
+  title: 'Mi increíble sitio web',
   titleTemplate: 'Sufijo Personalizado'
 }
 ```
@@ -185,7 +185,7 @@ export default {
 }
 ```
 
-Aqui, `:title` será reemplazado por el texto que se deduce del primer título `<h1>` de la página. El título del ejemplo de la página anterior será `Hola - Sufijo Personalizado`.
+Aquí, `:title` será reemplazado por el texto que se deduce del primer título `<h1>` de la página. El título del ejemplo de la página anterior será `Hola - Sufijo Personalizado`.
 
 Una opción puede ser definida como `false` para desactivar sufijos del título.
 
@@ -193,7 +193,7 @@ Una opción puede ser definida como `false` para desactivar sufijos del título.
 
 - Tipo: `string`
 - Predeterminado: `Um site VitePress`
-- Puede ser sustituído por página a través de [frontmatter](./frontmatter-config#descrição)
+- Puede ser sustituido por página a través de [frontmatter](./frontmatter-config#descripcion)
 
 Descripción del sitio web. Esto se presentará como una etiqueta. `<meta>` en la página HTML.
 
@@ -209,7 +209,7 @@ export default {
 - Predeterminado: `[]`
 - Se puede agregar por página a través de [frontmatter](./frontmatter-config#head)
 
-Elementos adicionales para agregar a la etiqueta `<head>` de la página HTML. Las etiquetas agregadas por los usuarios son mostradas antes de la etiqueta `head` de cierre, despues de las etiquetas VitePress.
+Elementos adicionales para agregar a la etiqueta `<head>` de la página HTML. Las etiquetas agregadas por los usuarios son mostradas antes de la etiqueta `head` de cierre, después de las etiquetas VitePress.
 
 ```ts
 type HeadConfig =
@@ -343,7 +343,7 @@ export default {
 }
 ```
 
-## Roteamento {#routing}
+## Enrutamiento {#routing}
 
 ### cleanUrls
 
@@ -377,7 +377,7 @@ export default {
 - Tipo: `string`
 - Predeterminado: `.`
 
-El directorio donde se almacenan tus páginas de rebajas, en relación con la raíz del proyecto. vea también [Directorio Raiz y de origen](../guide/routing#root-and-source-directory).
+El directorio donde se almacenan tus páginas de rebajas, en relación con la raíz del proyecto. vea también [Directorio Raíz y de origen](../guide/routing#root-and-source-directory).
 
 ```ts
 export default {
@@ -390,7 +390,7 @@ export default {
 - Tipo: `string`
 - Predeterminado: `undefined`
 
-Un [patrón glob](https://github.com/mrmlnc/fast-glob#pattern-syntax) para hacer coincidir los archivos de rebajas que deben exluirse como contenido de origen.
+Un [patrón glob](https://github.com/mrmlnc/fast-glob#pattern-syntax) para hacer coincidir los archivos de rebajas que deben excluirse como contenido de origen.
 
 ```ts
 export default {
@@ -403,7 +403,7 @@ export default {
 - Tipo: `string`
 - Predeterminado: `./.vitepress/dist`
 
-La ubicación de la salida de compilación para el sitio, en relación con el [raiz del proyecto](../guide/routing#root-and-source-directory).
+La ubicación de la salida de compilación para el sitio, en relación con el [raíz del proyecto](../guide/routing#root-and-source-directory).
 
 ```ts
 export default {
@@ -429,7 +429,7 @@ export default {
 - Tipo: `string`
 - Predeterminado: `./.vitepress/cache`
 
-El directorio para los archivos de caché, en relación con el [raiz del proyecto](../guide/routing#root-and-source-directory). Vea también: [cacheDir](https://vitejs.dev/config/shared-options.html#cachedir).
+El directorio para los archivos de caché, en relación con el [raíz del proyecto](../guide/routing#root-and-source-directory). Vea también: [cacheDir](https://vitejs.dev/config/shared-options.html#cachedir).
 
 ```ts
 export default {
@@ -478,7 +478,7 @@ export default {
 
 Cuando se define como `true`, la aplicación de producción se compilará en [Modo MPA](../guide/mpa-mode). El modo MPA envía 0 kb de JavaScript de forma predeterminada, a expensas de deshabilitar la navegación del lado del cliente y requerir permiso explícito para la interactividad.
 
-## Tematización {#theming}
+## Estilizado {#theming}
 
 ### appearance
 
@@ -553,7 +553,7 @@ export default {
 Los enlaces de compilación VitePress permiten agregar nuevas funciones al su sitio web:
 
 - Sitemap
-- Indexación de busqueda
+- Indexación de búsqueda
 - PWA
 - _Teleports_
 

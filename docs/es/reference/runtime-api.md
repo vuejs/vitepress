@@ -13,7 +13,7 @@ Retorna datos específicos de la página. El objeto devuelto tiene el siguiente 
 ```ts
 interface VitePressData<T = any> {
   /**
-   * Metadátos a nivel del sitio
+   * Metadatos a nivel del sitio
    */
   site: Ref<SiteData<T>>
   /**
@@ -21,7 +21,7 @@ interface VitePressData<T = any> {
    */
   theme: Ref<T>
   /**
-   * Metadátos a nível de la página
+   * Metadatos a nivel de la página
    */
   page: Ref<PageData>
   /**
@@ -87,7 +87,7 @@ Devuelve la instancia del enrutador VitePress para que pueda navegar mediante pr
 ```ts
 interface Router {
   /**
-   * Ruta atual.
+   * Ruta actual.
    */
   route: Route
   /**

@@ -6,7 +6,7 @@ outline: deep
 
 VitePress pre-interpreta la aplicación en Node.js durante la compilación del producción, utilizando las capacidades de Interpretación del lado del servidor (SSR) de Vue. Esto significa que todo el código personalizado en los componentes del tema está sujeto a la compatibilidad SSR.
 
-La [sección SSR en la documentación Vue oficial](https://vuejs.org/guide/scaling-up/ssr.html) proporciona más contexto sobre lo que es SSR, la relación entre SSR / SSG y notas comunes sobre escribir código amigable con SSR. La regla general es acceder apenas APIs deln navegador / DOM en los hooks `beforeMount` o `mounted` de los componentes Vue.
+La [sección SSR en la documentación Vue oficial](https://vuejs.org/guide/scaling-up/ssr.html) proporciona más contexto sobre lo que es SSR, la relación entre SSR / SSG y notas comunes sobre escribir código amigable con SSR. La regla general es acceder apenas APIs del  navegador / DOM en los hooks `beforeMount` o `mounted` de los componentes Vue.
 
 ## `<ClientOnly>`
 
@@ -107,7 +107,7 @@ import { defineClientComponent } from 'vitepress'
 
 const clientCompRef = ref(null)
 const ClientComp = defineClientComponent(
-  () => import('componente-que-acessa-window-na-importacao'),
+  () => import('componente-que-accede-window-en-la-importacion'),
 
   // los argumentos son pasados para h() - https://vuejs.org/api/render-function.html#h
   [

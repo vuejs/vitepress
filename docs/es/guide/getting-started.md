@@ -9,7 +9,7 @@ Puede experimentar VitePress directamente en su navegador en [StackBlitz](https:
 ### Prerrequisitos {#prerequisites}
 
 - [Node.js](https://nodejs.org/) versión 18 o superior.
-- Terminal para acessar VitePress a través de su interfaz de linea de comando (CLI).
+- Terminal para acceder VitePress a través de su interfaz de linea de comando (CLI).
 - Editor de texto con soporte a sintaxis [Markdown](https://en.wikipedia.org/wiki/Markdown).
   - [VSCode](https://code.visualstudio.com/) es recomendado, junto con la [extensión oficial Vue](https://marketplace.visualstudio.com/items?itemName=Vue.volar).
 
@@ -53,7 +53,7 @@ Si usa PNPM, percibirá un aviso de ausencia de `@docsearch/js`. Esto no evita q
 
 ::: tip NOTA
 
-VitePress es un paquete apenas para ESM. No use `require()` para importarlo, y asegurese de que el `package.json` más cercano contiene `"type": "module"`, o cambie la extensión de archivo de sus archivos relevantes como `.vitepress/config.js` a `.mjs`/`.mts`. Consulte la [Guía de resolución de problemas Vite](http://vitejs.dev/guide/troubleshooting.html#this-package-is-esm-only) para más detalles. Además de eso, dentro de contextos de JavaScript asíncronos, puede usar `await import('vitepress')`.
+VitePress es un paquete apenas para ESM. No use `require()` para importarlo, y asegúrese de que el `package.json` más cercano contiene `"type": "module"`, o cambie la extensión de archivo de sus archivos relevantes como `.vitepress/config.js` a `.mjs`/`.mts`. Consulte la [Guía de resolución de problemas Vite](http://vitejs.dev/guide/troubleshooting.html#this-package-is-esm-only) para más detalles. Además de eso, dentro de contextos de JavaScript asíncronos, puede usar `await import('vitepress')`.
 
 :::
 
@@ -86,7 +86,7 @@ Será saludado con algunas preguntas simples:
 <<< @/snippets/init.ansi
 
 ::: tip Vue como Dependencia Correspondiente
-Si tiene la intención de realizar una personalización que usa componentes Vue o APIs, debe instalar explicitamente `vue` como una dependencia correspondiente.
+Si tiene la intención de realizar una personalización que usa componentes Vue o APIs, debe instalar explícitamente `vue` como una dependencia correspondiente.
 :::
 
 ## Estrutura de Archivos {#file-structure}
@@ -106,7 +106,7 @@ Asumiendo la opción de desarrollar el proyecto VitePress en `./docs`, la estruc
 └─ package.json
 ```
 
-El directorio `docs` es considerado la **raiz del proyecto** de su sitio VitePress. El directorio `.vitepress` es un lugar reservado para archivos de configuración VitePress, caché del servidor de desarrollo, resultado del build, y código de personalización de tema opcional.
+El directorio `docs` es considerado la **raíz del proyecto** de su sitio VitePress. El directorio `.vitepress` es un lugar reservado para archivos de configuración VitePress, caché del servidor de desarrollo, resultado del build, y código de personalización de tema opcional.
 
 ::: tip
 Por defecto, VitePress almacena el caché del servidor de desarrollo en `.vitepress/cache`, y el resultado del build de producción en `.vitepress/dist`. Se usa Git, debe adicionarlos a su archivo `.gitignore`. Estas ubicaciones también pueden ser [configuradas](../reference/site-config#outdir).
@@ -114,7 +114,7 @@ Por defecto, VitePress almacena el caché del servidor de desarrollo en `.vitepr
 
 ### El archivo de configuración {#the-config-file}
 
-El archivo de configuración (`.vitepress/config.js`) permite que personalice vários aspectos de su sitio VitePress, con las opciones más básicas siendo el titulo y la descripción del sitio:
+El archivo de configuración (`.vitepress/config.js`) permite que personalice varios aspectos de su sitio VitePress, con las opciones más básicas siendo el titulo y la descripción del sitio:
 
 ```js
 // .vitepress/config.js
@@ -129,15 +129,15 @@ export default {
 }
 ```
 
-Puede también configurar el comportamiento del tema a través de la opción `themeConfig`. Consulte la [Referencia de Configuración](../reference/site-config) para detaller completos sobre todas las opciones de configuración.
+Puede también configurar el comportamiento del tema a través de la opción `themeConfig`. Consulte la [Referencia de Configuración](../reference/site-config) para los detalles completos sobre todas las opciones de configuración.
 
 ### Archivos fuente {#source-files}
 
 Archivos Markdown fuera del directorio `.vitepress` son considerados **archivos fuente**.
 
-VitePress usa **enrutamiento basado en archivos**: cada archivo `.md` es compilado en un archivo `.html` correspondiente con el mismo path. Por ejemplo, `index.md` será compilado en `index.html`, y puede ser visitado en el path raiz `/` del sitio VitePress resultante.
+VitePress usa **enrutamiento basado en archivos**: cada archivo `.md` es compilado en un archivo `.html` correspondiente con el mismo path. Por ejemplo, `index.md` será compilado en `index.html`, y puede ser visitado en el path raíz `/` del sitio VitePress resultante.
 
-VitePress también proporciona la habilidad de generar URLs limpias, retambém fornece a habilidade de gerar URLs limpas, reescribir paths, y generare páginas dinámicamente. Estos serán tratados en la [Guía de Enrutamiento](./routing).
+VitePress también proporciona la habilidad de generar URLs limpias, reescribir paths y generar páginas dinámicamente. Estos serán tratados en la [Guía de Enrutamiento](./routing).
 
 ## Instalado y Funcionando {#up-and-running}
 
@@ -155,7 +155,7 @@ La herramienta debe tener también inyectado los siguientes scripts npm en su `p
 }
 ```
 
-El script `docs:dev` iniciará un servidor de desarrollo local con actualizaciones instantáneas. Ejecutelo con el siguiente comando:
+El script `docs:dev` iniciará un servidor de desarrollo local con actualizaciones instantáneas. Ejecútelo con el siguiente comando:
 
 ::: code-group
 
@@ -199,7 +199,7 @@ $ bun vitepress dev docs
 
 :::
 
-Más usos de la linea de comandos están documaentados en la [Referencia CLI](../reference/cli).
+Más usos de la linea de comandos están documentados en la [Referencia CLI](../reference/cli).
 
 El servidor de desarrollo debe estar corriendo en `http://localhost:5173`. Visite la URL en su navegador para ver su nuevo sitio en acción!
 
@@ -213,4 +213,4 @@ El servidor de desarrollo debe estar corriendo en `http://localhost:5173`. Visit
 
 - Se quiere profundizar la personalización de la apariencia de su sitio, explore tanto [Extienda el Tema por Defecto](./extending-default-theme) como [Construya un Tema Personalizado](./custom-theme).
 
-- Una vez que su documentación tome forma, asegurese de leer la [Guia de Despliegue](./deploy).
+- Una vez que su documentación tome forma, asegúrese de leer la [Guía de Despliegue](./deploy).

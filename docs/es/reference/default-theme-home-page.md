@@ -61,7 +61,7 @@ type ThemeableImage =
   | { light: string; dark: string; alt?: string }
 
 interface HeroAction {
-  // Tema de color de botón. Estándar: `brand`.
+  // Tema de color de botón. Defecto: `brand`.
   theme?: 'brand' | 'alt'
 
   // Etiqueta del botón.
@@ -97,7 +97,7 @@ También puedes personalizarlo aún más combinando  `--vp-home-hero-name-backgr
 }
 ```
 
-## Sección de caracteristicas {#features-section}
+## Sección de características {#features-section}
 
 En la sección de funciones, puede enumerar cualquier cantidad de funciones que desee mostrar inmediatamente después de la sección. _Hero_. Para configurarlo seleccione la opción `features` para el frontmatter.
 
@@ -113,12 +113,12 @@ features:
     details: Lorem ipsum...
   - icon:
       src: /cool-feature-icon.svg
-    title: Otra caracteristica interesante
+    title: Otra característica interesante
     details: Lorem ipsum...
   - icon:
       dark: /dark-feature-icon.svg
       light: /light-feature-icon.svg
-    title: Otra caracteristica interesante
+    title: Otra característica interesante
     details: Lorem ipsum...
 ---
 ```
@@ -128,10 +128,10 @@ interface Feature {
   // Muestra el icono en cada cuadro de función.
   icon?: FeatureIcon
 
-  // Título de la caracteristica.
+  // Título de la característica.
   title: string
 
-  // Detalles de la caracteristicas.
+  // Detalles de la características.
   details: string
 
   // Enlace al hacer clic en el componente de funcionalidad

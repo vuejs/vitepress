@@ -5,7 +5,7 @@ const members = [
   {
     avatar: 'https://github.com/yyx990803.png',
     name: 'Evan You',
-    title: 'Criador',
+    title: 'Creador',
     links: [
       { icon: 'github', link: 'https://github.com/yyx990803' },
       { icon: 'twitter', link: 'https://twitter.com/youyuxi' }
@@ -14,7 +14,7 @@ const members = [
   {
     avatar: 'https://github.com/kiaking.png',
     name: 'Kia King Ishii',
-    title: 'Desenvolvedor',
+    title: 'Desarrollador',
     links: [
       { icon: 'github', link: 'https://github.com/kiaking' },
       { icon: 'twitter', link: 'https://twitter.com/KiaKing85' }
@@ -51,7 +51,7 @@ const members = [
 
 # Nuestro equipo
 
-Saluda a nuestro increible equipo.
+Saluda a nuestro increíble equipo.
 
 <VPTeamMembers size="small" :members="members" />
 ```
@@ -60,7 +60,7 @@ El código anterior mostrará a un miembro del equipo en un elemento similar a u
 
 <VPTeamMembers size="small" :members="members" />
 
-El componente `<VPTeamMembers>` viene en dos tamaños diferentes, pequeño `small` y médio `medium`. Si bien es una cuestión de preferencia, generalmente el tamaño `small` debería encajar mejor cuando se use en la página del documento. Además, puede agregar más propiedades a cada miembro, como agregar el botón "descripción" o "patrocinador". Obtenga más información sobre en [`<VPTeamMembers>`](#vpteammembers).
+El componente `<VPTeamMembers>` viene en dos tamaños diferentes, pequeño `small` y medio `medium`. Si bien es una cuestión de preferencia, generalmente el tamaño `small` debería encajar mejor cuando se use en la página del documento. Además, puede agregar más propiedades a cada miembro, como agregar el botón "descripción" o "patrocinador". Obtenga más información sobre en [`<VPTeamMembers>`](#vpteammembers).
 
 Incrustar miembros del equipo en la página del documento es bueno para equipos pequeños donde tener una página de equipo dedicada completa puede ser demasiado, o introducir miembros parciales como referencia al contexto de la documentación.
 

@@ -45,7 +45,7 @@ Puedes configurar la opción `themeConfig.nav` para añadir enlaces a tu navegac
 export default {
   themeConfig: {
     nav: [
-      { text: 'Guia', link: '/guide' },
+      { text: 'Guía', link: '/guide' },
       { text: 'Configuración', link: '/config' },
       { text: 'Registro de Cambios', link: 'https://github.com/...' }
     ]
@@ -61,7 +61,7 @@ Links de navegación también pueden ser menus _dropdown_. Para hacer eso, estab
 export default {
   themeConfig: {
     nav: [
-      { text: 'Guia', link: '/guide' },
+      { text: 'Guía', link: '/guide' },
       {
         text: 'Menú Dropdown',
         items: [
@@ -83,12 +83,12 @@ También puedes agregar "secciones" a los elementos del menú _dropdown_ pasando
 export default {
   themeConfig: {
     nav: [
-      { text: 'Guia', link: '/guia' },
+      { text: 'Guía', link: '/guide' },
       {
         text: 'Menú Dropdown',
         items: [
           {
-            // Título da seção.
+            // Título para la Sección
             text: 'Título de la sección A',
             items: [
               { text: 'Item A de la sección A', link: '...' },
@@ -103,8 +103,8 @@ export default {
           {
             // También puedes omitir el título
             items: [
-              { text: 'Item A da Seção A', link: '...' },
-              { text: 'Item B da Seção B', link: '...' }
+              { text: 'Item A de la sección A', link: '...' },
+              { text: 'Item B de la sección B', link: '...' }
             ]
           }
         ]
@@ -125,7 +125,7 @@ export default {
       // Este link esta en estado activo cuando
       // el usuario esta en el camino `/config/`.
       {
-        text: 'Guia',
+        text: 'Guía',
         link: '/guide',
         activeMatch: '/config/'
       }
@@ -157,6 +157,6 @@ export default {
 }
 ```
 
-## Links Scociales {#social-links}
+## Links Sociales {#social-links}
 
 Consulte [`socialLinks`](./default-theme-config#sociallinks).

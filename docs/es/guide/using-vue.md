@@ -1,8 +1,8 @@
 # Usando Vue en Markdown {#using-vue-in-markdown}
 
-En VitePress, cada archivo Markdown es compilado para HTML y entonces procesado como un [Componente de Archivo Único de Vue](https://vuejs.org/guide/scaling-up/sfc.html). Esto significa que puede usar cualquier funcionalidad de Vue dentro del Markdown, incluyendo la interpolación dinámica, usar componentes Vue o lógica arbitrária de componentes Vue dentro de la página adicionando una tag `<script>`.
+En VitePress, cada archivo Markdown es compilado para HTML y entonces procesado como un [Componente de Archivo Único de Vue](https://vuejs.org/guide/scaling-up/sfc.html). Esto significa que puede usar cualquier funcionalidad de Vue dentro del Markdown, incluyendo la interpolación dinámica, usar componentes Vue o lógica arbitraria de componentes Vue dentro de la página adicionando una tag `<script>`.
 
-Vale resaltar que VitePress aprovecha el compilador Vue para detectar y optimizar automáticamente las partes puramente estáticas del contenido Markdown. Los contenidos estáticaos son optimizados en nodos de espacio reservado únicos y eliminados de la carga JavaScript de la página para visitas iniciales. Ellos también son ignorados durante la hidratación en el lado del cliente. En resumen, solo paga por las partes dinámicas en cualquier página específica.
+Vale resaltar que VitePress aprovecha el compilador Vue para detectar y optimizar automáticamente las partes puramente estáticas del contenido Markdown. Los contenidos estáticos son optimizados en nodos de espacio reservado únicos y eliminados de la carga JavaScript de la página para visitas iniciales. Ellos también son ignorados durante la hidratación en el lado del cliente. En resumen, solo paga por las partes dinámicas en cualquier página específica.
 
 ::: tip Compatibilidad SSR
 Todo uso de Vue necesita ser compatible con SSR. Consulte [Compatibilidad SSR](./ssr-compat) para detalles y soluciones comunes.
@@ -40,7 +40,7 @@ Las Directivas también funcionan (observe que, por definición, HTML crudo tamb
 
 ## `<script>` e `<style>`
 
-las tags `<script>` e `<style>` en nivel raiz en los archivos Markdown funcionan igualmente como en los componentes de archivo único Vue, incluyendo `<script setup>`, `<style module>`, y etc. La principal diferencia aquí es que no hay una tag `<template>`: todo contenido en nivel raiz es Markdown. Además, observe que todas las tags deben ser colocadas **después** del frontmatter:
+las tags `<script>` e `<style>` en nivel raíz en los archivos Markdown funcionan igualmente como en los componentes de archivo único Vue, incluyendo `<script setup>`, `<style module>`, y etc. La principal diferencia aquí es que no hay una tag `<template>`: todo contenido en nivel raíz es Markdown. Además, observe que todas las tags deben ser colocadas **después** del frontmatter:
 
 ```html
 ---
@@ -68,10 +68,10 @@ El conteo es: {{ count }}
 ```
 
 ::: warning Evite `<style scoped>` en el Markdown
-Cuando es usado en Markdown, `<style scoped>` exige la adición de atributos especiales a cada elemento en la página actual, lo que aumentará significativamente el tamaño de la página. `<style module>` es preferido cuando es necesaria una estilización localizada en una página.
+Cuando es usado en Markdown, `<style scoped>` exige la adición de atributos especiales a cada elemento en la página actual, lo que aumentará significativamente el tamaño de la página. `<style module>` es preferido cuando es necesaria una estilizado localizada en una página.
 :::
 
-También tiene acceso a los APIs de tiempo de ejecución VitePress, como el [auxiliar `useData`](../reference/runtime-api#usedata), que proporciona acceso a los metadados de la página actual:
+También tiene acceso a los APIs de tiempo de ejecución VitePress, como el [auxiliar `useData`](../reference/runtime-api#usedata), que proporciona acceso a los metadatos de la página actual:
 
 **Entrada**
 
@@ -102,7 +102,7 @@ Puede importar y usar componentes Vue directamente en los archivos Markdown.
 
 ### Importando en el Markdown {#importing-in-markdown}
 
-Si un componente es usado apenas por algunas páginas, es recomendable importarlos explicitamente donde son usados. Esto permite que ellos sean divididos adecuadamente y cargados apenas cuando las páginas relevantes son mostradas.
+Si un componente es usado apenas por algunas páginas, es recomendable importarlos explícitamente donde son usados. Esto permite que ellos sean divididos adecuadamente y cargados apenas cuando las páginas relevantes son mostradas.
 
 ```md
 <script setup>
@@ -125,7 +125,7 @@ Este es un archivo .md usando un componente personalizado
 Si un componente fuera usado en la mayoría de las páginas, ellos pueden ser registrados globalmente personalizando la instancia de la aplicación Vue. Consulte la sección relevante en [Extendiendo el Tema por Defecto](./extending-default-theme#registering-global-components) para un ejemplo.
 
 ::: warning IMPORTANT
-Asegurese de que el nombre de un componente personalizado contenga un hífen o esté en PascalCase. Caso contrario, el será tratado como un elemento alineado y envuelto dentro de una tag `<p>`, lo que llevará a una incompatibilidad de hidratación pues `<p>` no permite que elementos de bloque sean colocados dentro de el.
+Asegúrese de que el nombre de un componente personalizado contenga un guion o esté en PascalCase. Caso contrario, el será tratado como un elemento alineado y envuelto dentro de una tag `<p>`, lo que llevará a una incompatibilidad de hidratación pues `<p>` no permite que elementos de bloque sean colocados dentro de el.
 :::
 
 ### Usando Componentes En Headers <ComponenteEnHeader /> {#using-components-in-headers}
@@ -145,25 +145,25 @@ EL HTML de salida es realizado por [Markdown-it](https://github.com/Markdown-it/
 
 ## Escapes {#escaping}
 
-Puede escapar de interpolaciones Vue envolvientdolas en un `<span>` u otros elementos con la directiva `v-pre`:
+Puede escapar de interpolaciones Vue envolviéndolas en un `<span>` u otros elementos con la directiva `v-pre`:
 
 **Entrada**
 
 ```md
-Esto <span v-pre>{{ será exibido como es }}</span>
+Esto <span v-pre>{{ será mostrado como es }}</span>
 ```
 
 **Salida**
 
 <div class="escape-demo">
-  <p>Esto <span v-pre>{{ será exibido como es }}</span></p>
+  <p>Esto <span v-pre>{{ será mostrado como es }}</span></p>
 </div>
 
-Alternativamente, puede envolver todo el paragrafo en un contenedor personalizadon `v-pre`:
+Alternativamente, puede envolver todo el párrafo en un contenedor personalizado `v-pre`:
 
 ```md
 ::: v-pre
-{{ Esto será exibido como es }}
+{{ Esto será mostrado como es }}
 :::
 ```
 
@@ -172,12 +172,12 @@ Alternativamente, puede envolver todo el paragrafo en un contenedor personalizad
 <div class="escape-demo">
 
 ::: v-pre
-{{ Esto será exibido como es }}
+{{ Esto será mostrado como es }}
 :::
 
 </div>
 
-## "Desescape" en bloques de Código {#unescape-in-code-blocks}
+## Evitar escapes en bloques de Código {#unescape-in-code-blocks}
 
 Por defecto, todos los bloques de código cercados son automáticamente envueltos con `v-pre`, entonces ninguna sintaxis Vue será procesada dentro de ellos. Para permitir la interpolación en el estilo Vue dentro de la valla, puede adicionar el lenguaje con el sufijo `-vue`, por ejemplo, `js-vue`:
 
@@ -200,7 +200,7 @@ Observe que esto puede impedir que ciertos tokens sean realzados correctamente.
 
 ## Usando Preprocesadores CSS {#using-css-pre-processors}
 
-VitePress poseé [soporte embutido](https://vitejs.dev/guide/features.html#css-pre-processors) para preprocesadores CSS: archivos `.scss`, `.sass`, `.less`, `.styl` e `.stylus`. No es necesario instalar plugins específicos de Vite para ellos, pero el propio preprocesados correspondiente debe ser instalado:
+VitePress posee [soporte embutido](https://vitejs.dev/guide/features.html#css-pre-processors) para preprocesadores CSS: archivos `.scss`, `.sass`, `.less`, `.styl` e `.stylus`. No es necesario instalar plugins específicos de Vite para ellos, pero el propio preprocesados correspondiente debe ser instalado:
 
 ```
 # .scss e .sass
