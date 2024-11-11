@@ -429,7 +429,7 @@ export default {
 - Tipo: `string`
 - Predeterminado: `./.vitepress/cache`
 
-El directorio para los archivos de caché, en relación con el [raíz del proyecto](../guide/routing#root-and-source-directory). Vea también: [cacheDir](https://vitejs.dev/config/shared-options.html#cachedir).
+El directorio para los archivos de caché, en relación con el [raíz del proyecto](../guide/routing#root-and-source-directory). Vea también: [cacheDir](https://es.vitejs.dev/config/shared-options#cachedir).
 
 ```ts
 export default {
@@ -524,7 +524,7 @@ Consulte la [declaración de tipo y jsdocs](https://github.com/vuejs/vitepress/b
 
 - Tipo: `import('vite').UserConfig`
 
-Pase la [Configuración Vite](https://vitejs.dev/config/) sin procesar al servidor interno / empaquetador Vite.
+Pase la [Configuración Vite](https://es.vite.dev/config/) sin procesar al servidor interno / empaquetador Vite.
 
 ```js
 export default {

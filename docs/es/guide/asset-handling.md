@@ -2,7 +2,7 @@
 
 ## Referenciando Assets Estáticos {#referencing-static-assets}
 
-Todos los archivos Markdown son compilados en componentes Vue y procesados por [Vite](https://vitejs.dev/guide/assets.html). Usted puede **y debe** referenciar cualquier asset usando URLs relativas:
+Todos los archivos Markdown son compilados en componentes Vue y procesados por [Vite](https://es.vite.dev/guide/assets). Usted puede **y debe** referenciar cualquier asset usando URLs relativas:
 
 ```md
 ![Una imagen](./imagen.png)

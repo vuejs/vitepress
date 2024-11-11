@@ -224,7 +224,7 @@ No active opciones como _Auto Minify_ para código HTML. Eso removerá comentari
 
 ### Azure Static Web Apps {#azure-static-web-apps}
 
-1. Siga la [documentación oficial](https://docs.microsoft.com/en-us/azure/static-web-apps/build-configuration).
+1. Siga la [documentación oficial](https://learn.microsoft.com/es-es/azure/static-web-apps/build-configuration).
 
 2. Configure esos valores en su archivo de configuración (y remueva aquellos que no necesita, como `api_location`):
 

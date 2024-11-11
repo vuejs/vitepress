@@ -53,7 +53,7 @@ Si usa PNPM, percibirá un aviso de ausencia de `@docsearch/js`. Esto no evita q
 
 ::: tip NOTA
 
-VitePress es un paquete apenas para ESM. No use `require()` para importarlo, y asegúrese de que el `package.json` más cercano contiene `"type": "module"`, o cambie la extensión de archivo de sus archivos relevantes como `.vitepress/config.js` a `.mjs`/`.mts`. Consulte la [Guía de resolución de problemas Vite](http://vitejs.dev/guide/troubleshooting.html#this-package-is-esm-only) para más detalles. Además de eso, dentro de contextos de JavaScript asíncronos, puede usar `await import('vitepress')`.
+VitePress es un paquete apenas para ESM. No use `require()` para importarlo, y asegúrese de que el `package.json` más cercano contiene `"type": "module"`, o cambie la extensión de archivo de sus archivos relevantes como `.vitepress/config.js` a `.mjs`/`.mts`. Consulte la [Guía de resolución de problemas Vite](https://es.vitejs.dev/guide/troubleshooting#este-paquete-es-solo-esm) para más detalles. Además de eso, dentro de contextos de JavaScript asíncronos, puede usar `await import('vitepress')`.
 
 :::
 
@@ -89,7 +89,7 @@ Será saludado con algunas preguntas simples:
 Si tiene la intención de realizar una personalización que usa componentes Vue o APIs, debe instalar explícitamente `vue` como una dependencia correspondiente.
 :::
 
-## Estrutura de Archivos {#file-structure}
+## Estructura de Archivos {#file-structure}
 
 Se está construyendo un sitio VitePress individual, puede desarrollar su sitio en el directorio actual (`./`). Sin embargo, si está instalando VitePress en un proyecto existente junto con otro código fuente, es recomendado construir el sitio en un directorio anidado (e.g. `./docs`) para que esté separado del resto de su proyecto.
 

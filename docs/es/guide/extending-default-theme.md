@@ -123,7 +123,7 @@ export default {
 } satisfies Theme
 ```
 
-Como estamos usando Vite, puede también aprovechar la [funcionalidad de importación glob](https://vitejs.dev/guide/features.html#glob-import) de Vite para registrar automáticamente un directorio de componentes.
+Como estamos usando Vite, puede también aprovechar la [funcionalidad de importación glob](https://es.vitejs.dev/guide/features#importaciones-glob) de Vite para registrar automáticamente un directorio de componentes.
 
 ## _Slots_ en el Layout {#layout-slots}
 
@@ -307,7 +307,7 @@ Resultado (**atención!**: colores destellantes, movimientos súbitos, luces bri
 
 </details>
 
-Consulte [Chrome Docs](https://developer.chrome.com/docs/web-platform/view-transitions/) para mas detalles sobre _view transitions_.
+Consulte [Chrome Docs](https://developer.chrome.com/docs/web-platform/view-transitions?hl=es-419) para mas detalles sobre _view transitions_.
 
 ### En el Cambio de Ruta {#on-route-change}
 
@@ -315,7 +315,7 @@ En breve.
 
 ## Substituyendo Componentes Internos {#overriding-internal-components}
 
-Puede usar los [aliases](https://vitejs.dev/config/shared-options.html#resolve-alias) Vite para substituir los componentes del tema por defecto por los suyos personalizados:
+Puede usar los [aliases](https://es.vitejs.dev/config/shared-options#resolve-alias) Vite para substituir los componentes del tema por defecto por los suyos personalizados:
 
 ```ts
 import { fileURLToPath, URL } from 'node:url'

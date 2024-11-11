@@ -59,7 +59,7 @@ Páginas y links internos son generados con el sufijo `.html` por defecto.
 Links externos reciben automáticamente `target="_blank" rel="noreferrer"`:
 
 - [vuejs.org](https://vuejs.org)
-- [VitePress no GitHub](https://github.com/vuejs/vitepress)
+- [VitePress en GitHub](https://github.com/vuejs/vitepress)
 
 ## Frontmatter {#frontmatter}
 
@@ -182,7 +182,7 @@ Puede definir un título personalizado adicionando el texto inmediatamente despu
 
 **Entrada**
 
-```md
+````md
 ::: danger STOP
 Zona de peligro, no siga
 :::
@@ -192,8 +192,7 @@ Zona de peligro, no siga
 console.log('Hola, VitePress!')
 ```
 :::
-```
-```
+````
 
 **Salida**
 
@@ -266,7 +265,7 @@ La clase `vp-raw` también puede ser usada directamente en elementos. El aislami
 
 ## Alertas en estilo GitHub {#github-flavored-alerts}
 
-VitePress también soporta [alertas en estilo GitHub](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts) para presentar como un bloque de llamada. Ellos serán presentados de la misma forma que [elementos personalizados](#custom-containers).
+VitePress también soporta [alertas en estilo GitHub](https://docs.github.com/es/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts) para presentar como un bloque de llamada. Ellos serán presentados de la misma forma que [elementos personalizados](#custom-containers).
 
 ```md
 > [!NOTE]
@@ -837,7 +836,8 @@ Puede ser creada usando `.foorc.json`.
 El formato del intervalo de lineas seleccionado puede ser: `{3,}`, `{,10}`, `{1,10}`
 
 ::: warning
-Observe que esto no genera errores si el archivo no está presente. Por lo tanto, al usar este recurso, asegúrese de que el contenido está siendo mostrado como se espera.:::
+Observe que esto no genera errores si el archivo no está presente. Por lo tanto, al usar este recurso, asegúrese de que el contenido está siendo mostrado como se espera.
+:::
 
 ## Ecuaciones Matemáticas {#math-equations}
 
@@ -868,7 +868,8 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
 | $\nabla \cdot \vec{\mathbf{B}}  = 0$                                                                                                                                      | la divergencia de $\vec{\mathbf{B}}$ es cero                                               |
 | $\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t}  = \vec{\mathbf{0}}$                                                          | la rotacional de $\vec{\mathbf{E}}$ es proporcional a la tasa de variación de $\vec{\mathbf{B}}$ |
-| $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _hã?_                                                                                     |
+| $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _que?_                                                                                     |
+```
 
 **Salida**
 
@@ -881,7 +882,7 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
 | $\nabla \cdot \vec{\mathbf{B}}  = 0$                                                                                                                                      | la divergencia de $\vec{\mathbf{B}}$ es cero                                               |
 | $\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t}  = \vec{\mathbf{0}}$                                                          | la rotacional de $\vec{\mathbf{E}}$ es proporcional a la tasa de variación de $\vec{\mathbf{B}}$ |
-| $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _hã?_                                                                                     |
+| $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _que?_                                                                                     |
 
 ## _Lazy Loading_ de Imágenes {#image-lazy-loading}
 

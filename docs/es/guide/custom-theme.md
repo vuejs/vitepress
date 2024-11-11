@@ -154,7 +154,7 @@ Consulte la [Referencia del API en tiempo de Ejecución](../reference/runtime-ap
 
 ## Distribuyendo un Tema Personalizado {#distributing-a-custom-theme}
 
-La manera más fácil de distribuir un tema personalizado es proporcionarlo como un [repositorio de template en GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-template-repository).
+La manera más fácil de distribuir un tema personalizado es proporcionarlo como un [repositorio de template en GitHub](https://docs.github.com/es/repositories/creating-and-managing-repositories/creating-a-template-repository).
 
 Si desea distribuir su tema como un paquete npm, siga estos pasos:
 

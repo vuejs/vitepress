@@ -207,7 +207,7 @@ interface TeamMember {
 
   // Links sociales, por ejemplo, GitHub, Twitter, etc.
   // Puedes pasar un objeto de Links Sociales aquí.
-  // Vea: https://vitepress.dev/reference/default-theme-config.html#sociallinks
+  // Vease: https://vitepress.dev/es/reference/default-theme-config#sociallinks
   links?: SocialLink[]
 
   // URL de la página del patrocinador del miembro.

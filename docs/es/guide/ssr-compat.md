@@ -38,7 +38,7 @@ onMounted(() => {
 
 ### Importación Condicional {#conditional-import}
 
-Puede también importar condicionalmente usando el flag `import.meta.env.SSR` (parte de las [variables de entorno Vite](https://vitejs.dev/guide/env-and-mode.html#env-variables)):
+Puede también importar condicionalmente usando el flag `import.meta.env.SSR` (parte de las [variables de entorno Vite](https://es.vitejs.dev/guide/env-and-mode#variables-de-entorno)):
 
 ```js
 if (!import.meta.env.SSR) {
