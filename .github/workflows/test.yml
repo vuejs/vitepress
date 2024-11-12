@@ -20,11 +20,15 @@ concurrency:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
-
     strategy:
       matrix:
+        os: [ubuntu-latest]
         node_version: [18, 20, 22]
+        include:
+          - os: windows-latest
+            node_version: 22
+
+    runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout
