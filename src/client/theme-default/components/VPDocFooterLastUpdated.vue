@@ -13,20 +13,20 @@ const datetime = ref('')
 // set time on mounted hook to avoid hydration mismatch due to
 // potential differences in timezones of the server and clients
 onMounted(() => {
-  function findBestLocaleMatch(pageLocale: string): string | undefined {
+  function findBestLocaleMatch(pageLocale: string) {
     return navigator.languages.find((userLang) => {
       if (pageLocale === userLang)
-        return pageLocale
+        return true
 
       // Edge browser: case for ca-valencia
       if (pageLocale === 'ca-valencia' && userLang === 'ca-Es-VALENCIA')
-        return pageLocale
+        return true
 
       // add iso-639 support for Latin America
       if (userLang.startsWith('es-') && userLang !== 'es-ES' && pageLocale === 'es-419')
-        return pageLocale
+        return true
 
-      return userLang.startsWith(pageLocale) ? pageLocale : undefined
+      return userLang.startsWith(pageLocale)
     })
   }
   watchEffect(() => {
