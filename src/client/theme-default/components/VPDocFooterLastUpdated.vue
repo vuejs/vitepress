@@ -9,12 +9,14 @@ const date = computed(
 )
 const isoDatetime = computed(() => date.value.toISOString())
 const datetime = ref('')
+const timeRef = ref<HTMLTimeElement>()
 
 // set time on mounted hook to avoid hydration mismatch due to
 // potential differences in timezones of the server and clients
 onMounted(() => {
+  const defaultLocale = Intl.DateTimeFormat().resolvedOptions().locale
   function findBestLocaleMatch(pageLocale: string) {
-    return navigator.languages.find((userLang) => {
+    const lang = navigator.languages.find((userLang) => {
       if (pageLocale === userLang)
         return true
 
@@ -27,7 +29,16 @@ onMounted(() => {
         return true
 
       return userLang.startsWith(pageLocale)
-    })
+    }) ?? defaultLocale
+
+    if (lang !== pageLocale) {
+      timeRef.value?.setAttribute('lang', lang)
+    }
+    else {
+      timeRef.value?.removeAttribute('lang')
+    }
+
+    return lang
   }
   watchEffect(() => {
     datetime.value = new Intl.DateTimeFormat(
@@ -46,7 +57,7 @@ onMounted(() => {
 <template>
   <p class="VPLastUpdated">
     {{ theme.lastUpdated?.text || theme.lastUpdatedText || 'Last updated' }}:
-    <time :datetime="isoDatetime">{{ datetime }}</time>
+    <time ref="timeRef" :datetime="isoDatetime">{{ datetime }}</time>
   </p>
 </template>
 
