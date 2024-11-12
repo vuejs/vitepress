@@ -13,9 +13,27 @@ const datetime = ref('')
 // set time on mounted hook to avoid hydration mismatch due to
 // potential differences in timezones of the server and clients
 onMounted(() => {
+  function findBestLocaleMatch(pageLocale: string): string | undefined {
+    return navigator.languages.find((userLang) => {
+      if (pageLocale === userLang)
+        return pageLocale
+
+      // Edge browser: case for ca-valencia
+      if (pageLocale === 'ca-valencia' && userLang === 'ca-Es-VALENCIA')
+        return pageLocale
+
+      // add iso-639 support for Latin America
+      if (userLang.startsWith('es-') && userLang !== 'es-ES' && pageLocale === 'es-419')
+        return pageLocale
+
+      return userLang.startsWith(pageLocale) ? pageLocale : undefined
+    })
+  }
   watchEffect(() => {
     datetime.value = new Intl.DateTimeFormat(
-      theme.value.lastUpdated?.formatOptions?.forceLocale ? lang.value : undefined,
+      theme.value.lastUpdated?.formatOptions?.forceLocale
+        ? lang.value
+        : findBestLocaleMatch(lang.value),
       theme.value.lastUpdated?.formatOptions ?? {
         dateStyle: 'short',
         timeStyle: 'short'
