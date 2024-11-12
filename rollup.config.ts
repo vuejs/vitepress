@@ -47,7 +47,11 @@ const esmBuild: RollupOptions = {
   input: [
     r('src/node/index.ts'),
     r('src/node/cli.ts'),
-    ...globSync(r('src/node/worker_*.ts'))
+    ...globSync('src/node/worker_*.ts', {
+      cwd: r('.'),
+      onlyFiles: true,
+      expandDirectories: false
+    })
   ],
   output: {
     format: 'esm',
