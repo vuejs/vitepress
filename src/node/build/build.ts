@@ -232,7 +232,7 @@ function generateMetadataScript(
   )
 
   const resolvedMetadataFile = path.join(config.outDir, metadataFile)
-  const metadataFileURL = slash(`${config.site.base}${metadataFile}`)
+  const metadataFileURL = slash(normalizeAssetUrl(config.site, metadataFile))
 
   fs.ensureDirSync(path.dirname(resolvedMetadataFile))
   fs.writeFileSync(resolvedMetadataFile, metadataContent)
