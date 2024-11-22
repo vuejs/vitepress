@@ -198,7 +198,7 @@ editLink: false
 - Тип: `boolean`
 - По умолчанию: `true`
 
-Отображать ли [подвал](./default-theme-footer).
+Отображать ли [нижний колонтитул](./default-theme-footer).
 
 ```yaml
 ---
