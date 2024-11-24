@@ -897,6 +897,40 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 Note that this does not throw errors if your file is not present. Hence, when using this feature make sure that the contents are being rendered as expected.
 :::
 
+You can also specify a title:
+
+**Input**
+
+```md
+# Docs
+
+## Basics
+
+<!--@include: ./parts/basics.md{### Configuration}-->
+```
+
+**Part file** (`parts/basics.md`)
+
+```md
+Some getting started stuff.
+
+### Configuration
+
+Can be created using `.foorc.json`.
+```
+
+**Equivalent code**
+
+```md
+# Docs
+
+## Basics
+
+### Configuration
+
+Can be created using `.foorc.json`.
+```
+
 ## Math Equations
 
 This is currently opt-in. To enable it, you need to install `markdown-it-mathjax3` and set `markdown.math` to `true` in your config file:

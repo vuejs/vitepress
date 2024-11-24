@@ -12,19 +12,21 @@ export function processIncludes(
   includes: string[]
 ): string {
   const includesRE = /<!--\s*@include:\s*(.*?)\s*-->/g
-  const regionRE = /(#[\w-]+)/
+  const regionRE = /[^{#](#[\w-]+)/
   const rangeRE = /\{(\d*),(\d*)\}$/
+  const titleRE = /(\{#+\s?[\w\s]+\})/
 
   return src.replace(includesRE, (m: string, m1: string) => {
     if (!m1.length) return m
 
     const range = m1.match(rangeRE)
     const region = m1.match(regionRE)
+    const title = m1.match(titleRE)
 
-    const hasMeta = !!(region || range)
+    const hasMeta = !!(region || range || title)
 
     if (hasMeta) {
-      const len = (region?.[0].length || 0) + (range?.[0].length || 0)
+      const len = (region?.[0].length || 0) + (range?.[0].length || 0) + (title?.[0].length || 0)
       m1 = m1.slice(0, -len) // remove meta info from the include path
     }
 
@@ -52,6 +54,18 @@ export function processIncludes(
             endLine ? parseInt(endLine, 10) : undefined
           )
           .join('\n')
+      }
+
+      if (title) {
+        const titleName = title[0].slice(1, -1).trim()
+        const lines = content.split(/\r?\n/)
+        const start = lines.findIndex((line) => line === titleName)
+        const end = lines.findIndex((line) => /#+\s?[\w\s]+/.test(line) && line !== titleName)
+        if (end === -1) {
+          content = lines.slice(start).join('\n')
+        } else {
+          content = lines.slice(start, end).join('\n')
+        }
       }
 
       if (!hasMeta && path.extname(includePath) === '.md') {
