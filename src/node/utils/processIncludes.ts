@@ -26,7 +26,10 @@ export function processIncludes(
     const hasMeta = !!(region || range || title)
 
     if (hasMeta) {
-      const len = (region?.[0].length || 0) + (range?.[0].length || 0) + (title?.[0].length || 0)
+      const len =
+        (region?.[0].length || 0) +
+        (range?.[0].length || 0) +
+        (title?.[0].length || 0)
       m1 = m1.slice(0, -len) // remove meta info from the include path
     }
 
@@ -60,7 +63,9 @@ export function processIncludes(
         const titleName = title[0].slice(1, -1).trim()
         const lines = content.split(/\r?\n/)
         const start = lines.findIndex((line) => line === titleName)
-        const end = lines.findIndex((line) => /#+\s?[\w\s]+/.test(line) && line !== titleName)
+        const end = lines.findIndex(
+          (line) => /#+\s?[\w\s]+/.test(line) && line !== titleName
+        )
         if (end === -1) {
           content = lines.slice(start).join('\n')
         } else {
