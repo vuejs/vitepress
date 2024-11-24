@@ -12,7 +12,7 @@ export function processIncludes(
   includes: string[]
 ): string {
   const includesRE = /<!--\s*@include:\s*(.*?)\s*-->/g
-  const regionRE = /[^{#](#[\w-]+)/
+  const regionRE = /(#[\w-]+)/
   const rangeRE = /\{(\d*),(\d*)\}$/
   const titleRE = /(\{#+\s?[\w\s]+\})/
 
@@ -20,8 +20,8 @@ export function processIncludes(
     if (!m1.length) return m
 
     const range = m1.match(rangeRE)
-    const region = m1.match(regionRE)
     const title = m1.match(titleRE)
+    const region = title ? null : m1.match(regionRE)
 
     const hasMeta = !!(region || range || title)
 
@@ -32,6 +32,9 @@ export function processIncludes(
         (title?.[0].length || 0)
       m1 = m1.slice(0, -len) // remove meta info from the include path
     }
+
+    console.log('m1', m1)
+    console.log(region, title)
 
     const atPresent = m1[0] === '@'
 
@@ -63,8 +66,9 @@ export function processIncludes(
         const titleName = title[0].slice(1, -1).trim()
         const lines = content.split(/\r?\n/)
         const start = lines.findIndex((line) => line === titleName)
+        const prefixLength = titleName.replace(/[^#]/g, '').length
         const end = lines.findIndex(
-          (line) => /#+\s?[\w\s]+/.test(line) && line !== titleName
+          (line, index) => line.replace(/[^#]/g, '').length === prefixLength && index > start
         )
         if (end === -1) {
           content = lines.slice(start).join('\n')
