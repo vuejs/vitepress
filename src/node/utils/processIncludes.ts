@@ -68,7 +68,8 @@ export function processIncludes(
         const start = lines.findIndex((line) => line === titleName)
         const prefixLength = titleName.replace(/[^#]/g, '').length
         const end = lines.findIndex(
-          (line, index) => line.replace(/[^#]/g, '').length === prefixLength && index > start
+          (line, index) =>
+            line.replace(/[^#]/g, '').length === prefixLength && index > start
         )
         if (end === -1) {
           content = lines.slice(start).join('\n')
