@@ -33,9 +33,6 @@ export function processIncludes(
       m1 = m1.slice(0, -len) // remove meta info from the include path
     }
 
-    console.log('m1', m1)
-    console.log(region, title)
-
     const atPresent = m1[0] === '@'
 
     try {
