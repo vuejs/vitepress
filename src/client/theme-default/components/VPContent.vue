@@ -18,6 +18,7 @@ const { hasSidebar } = useSidebar()
       'has-sidebar': hasSidebar,
       'is-home': frontmatter.layout === 'home'
     }"
+    role="main"
   >
     <slot name="not-found" v-if="page.isNotFound"><NotFound /></slot>
 
