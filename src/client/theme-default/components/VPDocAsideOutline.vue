@@ -57,6 +57,12 @@ useActiveAnchor(container, marker)
   display: block;
 }
 
+@media print {
+  .VPDocAsideOutline {
+    display: none;
+  }
+}
+
 .content {
   position: relative;
   border-left: 1px solid var(--vp-c-divider);
