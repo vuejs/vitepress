@@ -13,6 +13,7 @@
     "@lunariajs/core": "^0.1.1",
     "markdown-it-mathjax3": "^4.3.2",
     "open-cli": "^8.0.0",
+    "postcss-rtlcss": "^5.5.1",
     "vitepress": "workspace:*"
   }
 }
