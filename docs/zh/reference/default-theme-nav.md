@@ -159,3 +159,57 @@ export default {
 ## 社交链接 {#social-links}
 
 参考 [`socialLinks`](./default-theme-config#sociallinks)。
+
+## 自定义组件
+
+你可以通过使用 `component` 选项在导航栏中包含自定义组件。`component` 键对应的值应为 Vue 组件名，并且必须使用 [Theme.enhanceApp](../guide/custom-theme#theme-interface) 全局注册。
+
+```js
+// .vitepress/config.js
+export default {
+  themeConfig: {
+    nav: [
+      {
+        text: 'My Menu',
+        items: [
+          {
+            component: 'MyCustomComponent',
+            // 可选的 props 传递给组件
+            props: {
+              title: 'My Custom Component'
+            }
+          }
+        ]
+      },
+      {
+        component: 'AnotherCustomComponent'
+      }
+    ]
+  }
+}
+```
+
+然后，你需要全局注册该组件：
+
+```js
+// .vitepress/theme/index.js
+import DefaultTheme from 'vitepress/theme'
+
+import MyCustomComponent from './components/MyCustomComponent.vue'
+import AnotherCustomComponent from './components/AnotherCustomComponent.vue'
+
+/** @type {import('vitepress').Theme} */
+export default {
+  extends: DefaultTheme,
+  enhanceApp({ app }) {
+    app.component('MyCustomComponent', MyCustomComponent)
+    app.component('AnotherCustomComponent', AnotherCustomComponent)
+  }
+}
+```
+
+你的组件将在导航栏中渲染。 VitePress 会向组件提供以下额外的 props：
+
+- `screenMenu`：一个可选的布尔值，指示组件是否在移动导航菜单内
+
+你可以在端到端测试中查看示例 [这里](https://github.com/vuejs/vitepress/tree/main/__tests__/e2e/.vitepress)。

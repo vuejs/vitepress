@@ -1,10 +1,10 @@
-# Nav {#nav}
+# 네비게이션 바 {#nav}
 
-Nav 페이지 상단에 표시되는 내비게이션 바입니다. 사이트 제목, 전역 메뉴 링크 등을 포함하고 있습니다.
+네비게이션 바는 페이지 상단에 표시되며, 사이트 제목, 전역 메뉴 링크 등이 포함됩니다.
 
 ## 사이트 제목 및 로고 {#site-title-and-logo}
 
-기본적으로 nav는 [`config.title`](./site-config#title) 값이 참조하는 사이트 제목을 표시합니다. nav에 표시되는 내용을 변경하고 싶다면 `themeConfig.siteTitle` 옵션에 사용자 정의 텍스트를 정의할 수 있습니다.
+기본적으로 네비게이션 바는 [`config.title`](./site-config#title) 값을 참조하여 사이트 제목을 표시합니다. 여기에 표시되는 내용을 변경하려면 `themeConfig.siteTitle` 옵션에 커스텀 텍스트를 정의합니다.
 
 ```js
 export default {
@@ -14,7 +14,7 @@ export default {
 }
 ```
 
-사이트에 로고가 있다면 이미지 경로를 전달하여 표시할 수 있습니다. 로고를 `public` 디렉터리에 위치시키고, 그 절대 경로를 정의해야 합니다.
+사이트에 로고가 있는 경우, 이미지의 경로를 전달하여 로고를 표시할 수 있습니다. 로고는 `public` 폴더에 배치하고, 이것의 절대 경로를 정의해야 합니다.
 
 ```js
 export default {
@@ -24,7 +24,7 @@ export default {
 }
 ```
 
-로고를 추가하면 사이트 제목과 함께 표시됩니다. 로고만 필요하고 사이트 제목 텍스트를 숨기고 싶다면 `siteTitle` 옵션에 `false`를 설정하세요.
+로고를 추가하면 사이트 제목과 함께 표시됩니다. 로고만 필요하고 사이트 제목 텍스트를 숨기고 싶다면, `siteTitle` 옵션을 `false`로 설정하면 됩니다.
 
 ```js
 export default {
@@ -35,27 +35,27 @@ export default {
 }
 ```
 
-`alt` 속성을 추가하거나 어두운/밝은 모드에 따라 로고를 커스터마이즈하고 싶다면 객체로써 로고를 전달할 수 있습니다. 자세한 내용은 [`themeConfig.logo`](./default-theme-config#logo)를 참조하세요.
+로고에 `alt` 어트리뷰트를 추가하거나 다크/라이트 모드에 따라 커스터마이징 하려면, 로고를 객체 형태로 전달해야 합니다. 자세한 내용은 [`themeConfig.logo`](./default-theme-config#logo)를 참고하세요.
 
-## 내비게이션 링크 {#navigation-links}
+## 네비게이션 바 링크 {#navigation-links}
 
-`themeConfig.nav` 옵션을 정의하여 nav에 링크를 추가할 수 있습니다.
+`themeConfig.nav` 옵션을 정의하여 네비게이션 바에 링크를 추가할 수 있습니다.
 
 ```js
 export default {
   themeConfig: {
     nav: [
       { text: '가이드', link: '/guide' },
-      { text: '설정', link: '/config' },
+      { text: '구성', link: '/config' },
       { text: '변경사항', link: 'https://github.com/...' }
     ]
   }
 }
 ```
 
-`text`는 nav에 표시되는 실제 텍스트이고, `link`는 텍스트를 클릭할 때 이동할 링크입니다. 링크는 실제 파일의 경로를 `.md` 접두어 없이 설정하고 항상 `/`로 시작해야 합니다.
+`text`는 네비게이션 바에 표시되는 실제 텍스트이며, `link`는 텍스트를 클릭했을 때 이동할 링크입니다. 링크의 경로는 `.md` 접미사 없이 실제 파일 경로로 설정하며, 항상 `/`로 시작해야 합니다.
 
-Nav 링크는 드롭다운 메뉴일 수도 있습니다. 이를 위해 링크 옵션에 `items` 키를 설정하세요.
+네비게이션 바 링크는 드롭다운 메뉴가 될 수 있습니다. 이를 위해 `link` 옵션에 `items` 키를 설정합니다.
 
 ```js
 export default {
@@ -75,9 +75,9 @@ export default {
 }
 ```
 
-드롭다운 메뉴 제목(`위 예제에서의 드롭다운 메뉴`)은 드롭다운 대화상자를 열 버튼이 되므로 `link` 속성을 가질 수 없습니다.
+드롭다운 메뉴의 제목(위 예제에서 `드롭다운 메뉴`)은 드롭다운 대화 상자를 여는 버튼이 되므로 `link` 프로퍼티를 가질 수 없습니다.
 
-더 많은 중첩된 항목을 전달하여 드롭다운 메뉴 항목에 "섹션"을 추가할 수도 있습니다.
+드롭다운 메뉴 아이템에 더 많은 중첩된 아이템을 전달하여 "섹션"을 추가할 수도 있습니다.
 
 ```js
 export default {
@@ -116,14 +116,14 @@ export default {
 
 ### 링크의 "active" 상태 커스터마이징 {#customize-link-s-active-state}
 
-현재 페이지가 일치하는 경로에 있을 때 Nav 메뉴 항목이 강조 표시됩니다. 매치되길 원하는 경로를 커스터마이징하고 싶다면 문자열 값으로 `activeMatch` 속성과 정규식을 정의하세요.
+네비게이션 바 메뉴 아이템은 현재 페이지가 매칭되는 경로에 있을 때 강조 표시됩니다. 매칭할 경로를 커스터마이징 하려면 `activeMatch` 프로퍼티에 정규식을 문자열 값으로 정의합니다.
 
 ```js
 export default {
   themeConfig: {
     nav: [
-      // 사용자가 `/config/` 경로에 있을 때
-      // 이 링크는 활성 상태가 됩니다.
+      // `/config/` 경로에 있을 때
+      // 이 링크는 활성화된 상태가 됩니다.
       {
         text: '가이드',
         link: '/guide',
@@ -135,22 +135,22 @@ export default {
 ```
 
 ::: warning
-`activeMatch`는 정규식 문자열로 예상되지만, 문자열로 정의해야 합니다. 실제 RegExp 객체를 여기서 사용할 수 없는 이유는 빌드 시간 동안 직렬화가 가능하지 않기 때문입니다.
+`activeMatch`는 정규식이어야 하지만, 문자열로 정의해야 합니다. 실제 RegExp 객체를 사용할 수 없는 이유는 빌드하는 동안 직렬화할 수 없기 때문입니다.
 :::
 
-### 링크의 "target" 및 "rel" 속성 커스터마이즈 {#customize-link-s-target-and-rel-attributes}
+### 링크의 "target" 및 "rel" 어트리뷰트 커스터마이징 {#customize-link-s-target-and-rel-attributes}
 
-기본적으로 VitePress는 링크가 외부 링크인지에 따라 `target` 및 `rel` 속성을 자동으로 결정합니다. 하지만 원한다면 이들도 커스터마이징할 수 있습니다.
+기본적으로 VitePress는 링크가 외부 링크인지 여부에 따라 `target`과 `rel` 어트리뷰트를 자동으로 결정합니다. 하지만 원한다면 이를 커스터마이징 할 수도 있습니다.
 
 ```js
 export default {
   themeConfig: {
     nav: [
       {
-        text: '상품',
+        text: 'GitHub 쇼핑몰',
         link: 'https://www.thegithubshop.com/',
         target: '_self',
-        rel: 'sponsored'
+        rel: 'sponsored' // https://developers.google.com/search/docs/crawling-indexing/qualify-outbound-links
       }
     ]
   }
@@ -159,11 +159,11 @@ export default {
 
 ## 소셜 링크 {#social-links}
 
-[`socialLinks`](./default-theme-config#sociallinks)를 참조하세요.
+[`socialLinks`](./default-theme-config#sociallinks)를 참고하세요.
 
-## 사용자 정의 구성 요소 {#custom-components}
+## 커스텀 컴포넌트 {#custom-components}
 
-`component` 옵션을 사용하여 탐색 모음에 사용자 정의 구성 요소를 포함할 수 있습니다. `component` 키는 Vue 구성 요소 이름이어야 하며, [Theme.enhanceApp](../guide/custom-theme#theme-interface)을 사용하여 전역으로 등록해야 합니다.
+네비게이션 바에 커스텀 컴포넌트를 포함하려면 `component` 옵션을 사용하세요. `component` 키는 Vue 컴포넌트 이름이어야 하며, [Theme.enhanceApp](../guide/custom-theme#theme-interface)을 사용하여 전역적으로 등록해야 합니다.
 
 ```js
 // .vitepress/config.js
@@ -175,7 +175,7 @@ export default {
         items: [
           {
             component: 'MyCustomComponent',
-            // 구성 요소에 전달할 선택적 props
+            // 컴포넌트에 전달할 선택적 프로퍼티
             props: {
               title: 'My Custom Component'
             }
@@ -190,7 +190,7 @@ export default {
 }
 ```
 
-그런 다음, 구성 요소를 전역으로 등록해야 합니다:
+그런 다음, 컴포넌트를 전역적으로 등록해야 합니다:
 
 ```js
 // .vitepress/theme/index.js
@@ -209,8 +209,8 @@ export default {
 }
 ```
 
-구성 요소가 탐색 모음에 렌더링됩니다. VitePress는 구성 요소에 다음과 같은 추가 props를 제공합니다:
+컴포넌트는 네비게이션 바에 렌더링될 것입니다. VitePress는 컴포넌트에 다음과 같은 추가 프로퍼티를 제공합니다:
 
-- `screenMenu`: 구성 요소가 모바일 탐색 메뉴 내부에 있는지 여부를 나타내는 선택적 boolean 값
+- `screenMenu`: 컴포넌트가 모바일 네비게이션 바 메뉴 내부에 있는지를 나타내는 선택적 boolean 값
 
-예제는 [여기](https://github.com/vuejs/vitepress/tree/main/__tests__/e2e/.vitepress)에서 확인할 수 있습니다.
+e2e 테스트 예제를 [여기](https://github.com/vuejs/vitepress/tree/main/__tests__/e2e/.vitepress)에서 확인할 수 있습니다.

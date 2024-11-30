@@ -1,6 +1,6 @@
-# 홈페이지 {#home-page}
+# 홈 페이지 {#home-page}
 
-VitePress 기본 테마는 홈페이지 레이아웃을 제공하며, 이 사이트의 [홈페이지](../)에서도 사용된 것을 볼 수 있습니다. [frontmatter](./frontmatter-config)에 `layout: home`을 지정함으로써 여러분의 페이지에도 이를 사용할 수 있습니다.
+VitePress 기본 테마는 홈 페이지 레이아웃을 제공합니다. 이것은 이 사이트의 [홈 페이지](../)에도 사용되었습니다. `layout: home`을 [전문](./frontmatter-config)에 지정하여 어느 페이지에서도 이를 사용할 수 있습니다.
 
 ```yaml
 ---
@@ -8,11 +8,11 @@ layout: home
 ---
 ```
 
-하지만, 이 옵션만으로는 큰 효과를 보지 못합니다. `hero` 및 `features`와 같은 추가적인 옵션을 설정함으로써 홈페이지에 여러 가지 다른 사전 템플릿 "섹션"을 추가할 수 있습니다.
+하지만 이 옵션만으로는 많은 것을 할 수 없습니다. 다행히도 `hero` 및 `features`와 같은 추가 옵션을 설정하여 홈 페이지에 다양한 사전 템플릿 "섹션"들을 추가할 수 있습니다.
 
 ## Hero 섹션 {#hero-section}
 
-Hero 섹션은 홈페이지 맨 위에 옵니다. 여기에서 Hero 섹션을 구성하는 방법입니다.
+Hero 섹션은 홈 페이지의 상단에 위치합니다. Hero 섹션을 구성하는 방법은 다음과 같습니다.
 
 ```yaml
 ---
@@ -20,38 +20,38 @@ layout: home
 
 hero:
   name: VitePress
-  text: Vite & Vue로 구동되는 정적 사이트 생성기.
-  tagline: Lorem ipsum...
+  text: Vite & Vue 기반 정적 사이트 생성기
+  tagline: 단 몇 분 만에 마크다운을 우아한 문서로 변환
   image:
     src: /logo.png
     alt: VitePress
   actions:
     - theme: brand
-      text: 시작하기
+      text: VitePress란 무엇인가?
       link: /guide/what-is-vitepress
     - theme: alt
-      text: GitHub에서 보기
+      text: GitHub
       link: https://github.com/vuejs/vitepress
 ---
 ```
 
 ```ts
 interface Hero {
-  // `text` 위에 표시되는 문자열입니다. 브랜드 색상이
-  // 함께 제공되며 제품 이름과 같이 짧을 것으로 예상됩니다.
+  // `text` 위에 브랜드 색상으로 표시되는 문자열.
+  // 제품명 등 간략한 내용을 추천.
   name?: string
 
-  // hero 섹션의 주요 텍스트입니다.
-  // 이는 `h1` 태그로 정의됩니다.
+  // hero 섹션의 본문.
+  // `h1` 태그로 정의됨.
   text: string
 
-  // `text` 아래에 표시되는 태그라인입니다.
+  // `text` 아래에 표시되는 슬로건 문자열.
   tagline?: string
 
-  // 이미지는 텍스트 및 태그라인 영역 옆에 표시됩니다.
+  // `text` 및 `tagline` 옆에 표시되는 이미지.
   image?: ThemeableImage
 
-  // 홈 hero 섹션에 표시할 작업 버튼들입니다.
+  // hero 섹션에 표시할 버튼 리스트.
   actions?: HeroAction[]
 }
 
@@ -61,26 +61,26 @@ type ThemeableImage =
   | { light: string; dark: string; alt?: string }
 
 interface HeroAction {
-  // 버튼의 색상 테마입니다. 기본값은 `brand`입니다.
+  // 버튼의 색상 테마. 기본값: `brand`
   theme?: 'brand' | 'alt'
 
-  // 버튼의 레이블입니다.
+  // 버튼의 레이블.
   text: string
 
-  // 버튼의 목적지 링크입니다.
+  // 버튼의 목적지 링크.
   link: string
 
-  // 링크 타겟 속성입니다.
+  // 링크의 target 어트리뷰트.
   target?: string
 
-  // 링크 rel 속성입니다.
+  // 링크의 rel 어트리뷰트.
   rel?: string
 }
 ```
 
-### 이름 색상 사용자 정의 {#customizing-the-name-color}
+### `name` 색상 커스터마이징 {#customizing-the-name-color}
 
-VitePress는 `name`에 대해 브랜드 색상 (`--vp-c-brand-1`)을 사용합니다. 하지만, `--vp-home-hero-name-color` 변수를 오버라이딩함으로써 이 색상을 사용자 정의할 수 있습니다.
+VitePress는 `name`에 브랜드 색상(`--vp-c-brand-1`)을 사용합니다. 하지만 `--vp-home-hero-name-color` 변수를 재정의하여 이 색상을 커스텀 할 수 있습니다.
 
 ```css
 :root {
@@ -88,7 +88,7 @@ VitePress는 `name`에 대해 브랜드 색상 (`--vp-c-brand-1`)을 사용합�
 }
 ```
 
-또한 `--vp-home-hero-name-background`와 결합하여 `name`에 그라데이션 색상을 부여할 수도 있습니다.
+또한 `--vp-home-hero-name-background` 변수를 정의해 추가적으로 `name`을 그라데이션 색상으로 커스터마이징도 가능합니다.
 
 ```css
 :root {
@@ -97,11 +97,11 @@ VitePress는 `name`에 대해 브랜드 색상 (`--vp-c-brand-1`)을 사용합�
 }
 ```
 
-## 기능 섹션 {#features-section}
+## Features 섹션 {#features-section}
 
-기능 섹션에서는 Hero 섹션 바로 다음에 보여주고 싶은 기능의 수를 제한 없이 나열할 수 있습니다. 구성하려면 frontmatter에 `features` 옵션을 전달합니다.
+Features 섹션에서는 Hero 섹션 바로 아래에 표시할 각 feature를 원하는 만큼 나열할 수 있습니다. 이를 구성하려면 `features` 옵션을 전문에 전달하면 됩니다.
 
-각 기능에 대해 이모지나 이미지 형태의 아이콘을 제공할 수 있습니다. 구성된 아이콘가 이미지(svg, png, jpeg...)인 경우, 적절한 너비와 높이를 가진 아이콘을 제공해야 합니다; 필요한 경우 어두운 테마 및 밝은 테마의 변형뿐만 아니라 설명, 본질적인 크기도 제공할 수 있습니다.
+각 feature에 아이콘을 제공할 수 있으며, 이는 이모지 또는 이미지의 형태일 수 있습니다. 아이콘으로 이미지(svg, png, jpeg 등)를 사용하려면 적절한 너비와 높이를 제공해야 하며, 필요에 따라 설명, 이미지의 고유 크기, 다크 테마와 라이트 테마에 대한 변형 아이콘도 제공할 수 있습니다.
 
 ```yaml
 ---
@@ -109,49 +109,49 @@ layout: home
 
 features:
   - icon: 🛠️
-    title: 항상 간단하고 최소한의
+    title: Simple and minimal, always
     details: Lorem ipsum...
   - icon:
       src: /cool-feature-icon.svg
-    title: 또 다른 멋진 기능
+    title: Another cool feature
     details: Lorem ipsum...
   - icon:
       dark: /dark-feature-icon.svg
       light: /light-feature-icon.svg
-    title: 또 다른 멋진 기능
+    title: Another cool feature
     details: Lorem ipsum...
 ---
 ```
 
 ```ts
 interface Feature {
-  // 각 기능 상자에 아이콘을 표시합니다.
+  // 각 feature 박스에 표시할 아이콘.
   icon?: FeatureIcon
 
-  // 기능의 제목입니다.
+  // feature의 제목.
   title: string
 
-  // 기능의 세부 정보입니다.
+  // feature의 세부 정보.
   details: string
 
-  // 기능 구성 요소에서 클릭 시 링크합니다.
-  // 링크는 내부 또는 외부 모두 가능합니다.
+  // feature 컴포넌트 클릭 시 링크.
+  // 링크는 내부 또는 외부 모두 가능.
   //
   // 예: `guide/reference/default-theme-home-page` 또는 `https://example.com`
   link?: string
 
-  // 기능 구성 요소 내에서 표시될 링크 텍스트입니다.
-  // `link` 옵션과 함께 사용하는 것이 좋습니다.
+  // feature 컴포넌트 내 표시될 링크 텍스트.
+  // `link` 옵션과 함께 사용하는 것을 추천.
   //
-  // 예: `더 알아보기`, `페이지 방문`, 등
+  // 예: `더 알아보기`, `페이지 방문` 등
   linkText?: string
 
-  // `link` 옵션을 위한 링크 rel 속성입니다.
+  // `link` 옵션을 위한 링크 rel 어트리뷰트.
   //
   // 예: `external`
   rel?: string
 
-  // `link` 옵션을 위한 링크 target 속성입니다.
+  // `link` 옵션을 위한 링크 target 어트리뷰트.
   target?: string
 }
 
@@ -169,7 +169,7 @@ type FeatureIcon =
 
 ## 마크다운 컨텐츠 {#markdown-content}
 
-`---` frontmatter 구분자 아래에 마크다운을 더함으로써 사이트의 홈페이지에 추가 컨텐츠를 추가할 수 있습니다.
+홈 페이지 레이아웃에 추가 컨텐츠를 작성하려면 전문 구분선 `---` 아래에 마크다운을 추가하면 됩니다.
 
 ````md
 ---
@@ -177,12 +177,12 @@ layout: home
 
 hero:
   name: VitePress
-  text: Vite & Vue로 구동되는 정적 사이트 생성기.
+  text: Vite & Vue 기반 정적 사이트 생성기
 ---
 
 ## 시작하기
 
-`npx`를 사용하여 바로 VitePress를 사용할 수 있습니다!
+`npx`를 사용하여 VitePress를 바로 시작할 수 있습니다!
 
 ```sh
 npm init
@@ -191,5 +191,5 @@ npx vitepress init
 ````
 
 ::: info
-VitePress는 항상 `layout: home` 페이지의 추가 컨텐츠에 자동 스타일을 적용하지는 않았습니다. 이전 동작으로 되돌리려면, frontmatter에 `markdownStyles: false`를 추가할 수 있습니다.
+`layout: home` 페이지의 추가 컨텐츠에 자동으로 기본 마크다운 스타일이 적용됩니다(영문 원서에서는 반대로 설명함). 스타일을 적용하지 않으려면 전문에 `markdownStyles: false`를 추가하면 됩니다.
 :::

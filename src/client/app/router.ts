@@ -30,6 +30,10 @@ export interface Router {
    */
   onBeforePageLoad?: (to: string) => Awaitable<void | boolean>
   /**
+   * Called after the page component is loaded (before the page component is updated).
+   */
+  onAfterPageLoad?: (to: string) => Awaitable<void>
+  /**
    * Called after the route changes.
    */
   onAfterRouteChanged?: (to: string) => Awaitable<void>
@@ -93,6 +97,8 @@ export function createRouter(
         if (!comp) {
           throw new Error(`Invalid route component: ${comp}`)
         }
+
+        await router.onAfterPageLoad?.(href)
 
         route.path = inBrowser ? pendingPath : withBase(pendingPath)
         route.component = markRaw(comp)

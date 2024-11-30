@@ -387,7 +387,7 @@ export default {
 
 ### srcExclude
 
-- Type: `string`
+- Type: `string[]`
 - Default: `undefined`
 
 A [glob pattern](https://github.com/mrmlnc/fast-glob#pattern-syntax) for matching markdown files that should be excluded as source content.

@@ -233,24 +233,10 @@ export default {
 
 ```ts
 interface SocialLink {
-  icon: SocialLinkIcon
+  icon: string | { svg: string }
   link: string
   ariaLabel?: string
 }
-
-type SocialLinkIcon =
-  | 'discord'
-  | 'facebook'
-  | 'github'
-  | 'instagram'
-  | 'linkedin'
-  | 'mastodon'
-  | 'npm'
-  | 'slack'
-  | 'twitter'
-  | 'x'
-  | 'youtube'
-  | { svg: string }
 ```
 
 ## footer {#footer}
@@ -258,7 +244,7 @@ type SocialLinkIcon =
 - Тип: `Footer`
 - Можно переопределить для каждой страницы с помощью [метаданных](./frontmatter-config#footer)
 
-Настройка подвала. Вы можете разместить в подвале сообщение или текст об авторских правах, однако он будет отображаться только в том случае, если страница не содержит боковой панели. Это объясняется соображениями дизайна.
+Настройка футера. Вы можете разместить в футере сообщение или текст об авторских правах, однако он будет отображаться только в том случае, если страница не содержит боковой панели. Это объясняется соображениями дизайна.
 
 ```ts
 export default {

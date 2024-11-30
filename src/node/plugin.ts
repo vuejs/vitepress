@@ -16,6 +16,7 @@ import {
   resolveAliases
 } from './alias'
 import { resolvePages, resolveUserConfig, type SiteConfig } from './config'
+import { disposeMdItInstance } from './markdown/markdown'
 import {
   clearCache,
   createMarkdownToVueRenderFn,
@@ -388,6 +389,7 @@ export async function createVitePressPlugin(
           return
         }
 
+        disposeMdItInstance()
         clearCache()
         await recreateServer?.()
         return
@@ -402,8 +404,9 @@ export async function createVitePressPlugin(
           config.publicDir
         )
 
+        const relativePath = slash(path.relative(srcDir, file))
         const payload: PageDataPayload = {
-          path: `/${slash(path.relative(srcDir, file))}`,
+          path: `/${siteConfig.rewrites.map[relativePath] || relativePath}`,
           pageData
         }
 
@@ -428,7 +431,7 @@ export async function createVitePressPlugin(
         return [
           ...modules,
           ...importers.map((id) => {
-            clearCache(id)
+            clearCache(slash(path.relative(srcDir, id)))
             return server.moduleGraph.getModuleById(id)
           })
         ].filter(Boolean) as ModuleNode[]

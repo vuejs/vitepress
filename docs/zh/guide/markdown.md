@@ -245,7 +245,7 @@ Wraps in a <div class="vp-raw">
   $ npm add -D postcss
   ```
 
-- 创建 `docs/.postcssrc.cjs` 文件并将以下内容添加到其中：
+- 创建 `docs/postcss.config.mjs` 文件并将以下内容添加到其中：
 
   ```js
   import { postcssIsolateStyles } from 'vitepress'
@@ -891,7 +891,7 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 export default {
   markdown: {
     image: {
-      // 默认禁用图片懒加载
+      // 默认禁用；设置为 true 可为所有图片启用懒加载。
       lazyLoading: true
     }
   }

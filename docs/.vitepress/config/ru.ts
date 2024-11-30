@@ -143,7 +143,7 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
             { text: 'Навигация', link: 'nav' },
             { text: 'Сайдбар', link: 'sidebar' },
             { text: 'Главная страница', link: 'home-page' },
-            { text: 'Подвал', link: 'footer' },
+            { text: 'Футер', link: 'footer' },
             { text: 'Макет', link: 'layout' },
             { text: 'Значки', link: 'badge' },
             { text: 'Страница команды', link: 'team-page' },

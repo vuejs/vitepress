@@ -2,9 +2,13 @@ import minimist from 'minimist'
 import c from 'picocolors'
 import { createLogger } from 'vite'
 import { build, createServer, serve } from '.'
-import { init } from './init/init'
 import { version } from '../../package.json'
+import { init } from './init/init'
 import { bindShortcuts } from './shortcuts'
+
+if (process.env.DEBUG) {
+  Error.stackTraceLimit = Infinity
+}
 
 const argv: any = minimist(process.argv.slice(2))
 

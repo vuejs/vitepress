@@ -333,19 +333,7 @@ export namespace DefaultTheme {
     ariaLabel?: string
   }
 
-  export type SocialLinkIcon =
-    | 'discord'
-    | 'facebook'
-    | 'github'
-    | 'instagram'
-    | 'linkedin'
-    | 'mastodon'
-    | 'npm'
-    | 'slack'
-    | 'twitter'
-    | 'x'
-    | 'youtube'
-    | { svg: string }
+  export type SocialLinkIcon = string | { svg: string }
 
   // footer --------------------------------------------------------------------
 
