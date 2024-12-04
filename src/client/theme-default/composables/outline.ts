@@ -48,6 +48,7 @@ function serializeHeader(h: Element): string {
       if (
         (node as Element).classList.contains('VPBadge') ||
         (node as Element).classList.contains('header-anchor') ||
+        (node as Element).classList.contains('footnote-ref') ||
         (node as Element).classList.contains('ignore-header')
       ) {
         continue
