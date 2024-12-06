@@ -126,6 +126,11 @@ export namespace DefaultTheme {
      */
     langMenuLabel?: string
 
+    /**
+     * @default 'Skip to content'
+     */
+    skipToContentLabel?: string
+
     search?:
       | { provider: 'local'; options?: LocalSearchOptions }
       | { provider: 'algolia'; options: AlgoliaSearchOptions }

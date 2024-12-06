@@ -42,7 +42,8 @@ export const ru = defineConfig({
     darkModeSwitchTitle: 'Переключить на тёмную тему',
     sidebarMenuLabel: 'Меню',
     returnToTopLabel: 'Вернуться к началу',
-    langMenuLabel: 'Изменить язык'
+    langMenuLabel: 'Изменить язык',
+    skipToContentLabel: 'Перейти к содержимому'
   }
 })
 
