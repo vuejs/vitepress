@@ -64,15 +64,16 @@ function createContainer(
     {
       render(tokens, idx, _options, env: MarkdownEnv & { references?: any }) {
         const token = tokens[idx]
-        const info = token.info.trim().slice(klass.length).trim()
-        const attrs = md.renderer.renderAttrs(token)
         if (token.nesting === 1) {
+          token.attrJoin('class', `${klass} custom-block`)
+          const attrs = md.renderer.renderAttrs(token)
+          const info = token.info.trim().slice(klass.length).trim()
           const title = md.renderInline(info || defaultTitle, {
             references: env.references
           })
           if (klass === 'details')
-            return `<details class="${klass} custom-block"${attrs}><summary>${title}</summary>\n`
-          return `<div class="${klass} custom-block"${attrs}><p class="custom-block-title">${title}</p>\n`
+            return `<details ${attrs}><summary>${title}</summary>\n`
+          return `<div ${attrs}><p class="custom-block-title">${title}</p>\n`
         } else return klass === 'details' ? `</details>\n` : `</div>\n`
       }
     }
