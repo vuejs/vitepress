@@ -26,7 +26,7 @@ export interface SidebarControl {
   isActiveLink: Ref<boolean>
   hasActiveLink: ComputedRef<boolean>
   hasChildren: ComputedRef<boolean>
-  toggle(): void
+  handleToggle(newState: string): void
 }
 
 export function useSidebar() {
@@ -176,13 +176,12 @@ export function useSidebarControl(
   })
 
   watchPostEffect(() => {
+    console.log(item.value.text, isActiveLink.value, hasActiveLink.value)
     ;(isActiveLink.value || hasActiveLink.value) && (collapsed.value = false)
   })
 
-  function toggle() {
-    if (collapsible.value) {
-      collapsed.value = !collapsed.value
-    }
+  function handleToggle(newState: string) {
+    collapsed.value = newState === 'closed'
   }
 
   return {
@@ -192,6 +191,6 @@ export function useSidebarControl(
     isActiveLink,
     hasActiveLink,
     hasChildren,
-    toggle
+    handleToggle
   }
 }
