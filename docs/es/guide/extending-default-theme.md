@@ -15,12 +15,12 @@ Sin embargo, hay casos en que apenas la configuración no será suficiente. Por 
 Esas personalizaciones avanzadas exigirán el uso de un tema personalizado que "extiende" el tema por defecto.
 
 ::: tip
-Antes de seguir, asegurese de leer primero [Usando un Tema Personalizado](./custom-theme) para entender como funcionan los temas personalizados.
+Antes de seguir, asegúrese de leer primero [Usando un Tema Personalizado](./custom-theme) para entender como funcionan los temas personalizados.
 :::
 
 ## Personalizando el CSS {#customizing-css}
 
-El CSS del tema por defecto puede ser personalizado substuyendo las variables CSS a nivel de la raiz:
+El CSS del tema por defecto puede ser personalizado substrayendo las variables CSS a nivel de la raíz:
 
 ```js
 // .vitepress/theme/index.js
@@ -38,11 +38,11 @@ export default DefaultTheme
 }
 ```
 
-Vea las [variables CSS del tema por defecto](https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css) que pueden ser substituídas.
+Vea las [variables CSS del tema por defecto](https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css) que pueden ser substituidas.
 
 ## Usando Fuentes Diferentes {#using-different-fonts}
 
-VitePress usa [Inter](https://rsms.me/inter/) como fuente por defecto e incluirá las fuentes en la salida de compilación. La fuente también es pre-cargada automaticamente en producción. Sin embargo, eso puede no ser deseable se quiere usar una fuente principal diferente.
+VitePress usa [Inter](https://rsms.me/inter/) como fuente por defecto e incluirá las fuentes en la salida de compilación. La fuente también es pre-cargada automáticamente en producción. Sin embargo, eso puede no ser deseable se quiere usar una fuente principal diferente.
 
 Para evitar la inclusión de Inter en la salida de compilación, importe el tema de `vitepress/theme-without-fonts`:
 
@@ -63,7 +63,7 @@ export default DefaultTheme
 ```
 
 ::: warning
-Si está usando componentes opcionales como los componentes de la [Página del equipo](../reference/default-theme-team-page), asegurese de también importarlos de `vitepress/theme-without-fonts`!
+Si está usando componentes opcionales como los componentes de la [Página del equipo](../reference/default-theme-team-page), asegúrese de también importarlos de `vitepress/theme-without-fonts`!
 :::
 
 Si su fuente es un archivo local referenciado via `@font-face`, ella será procesada como un asset e incluida en `.vitepress/dist/assets` con un nombre de archivo hash. Para pre-cargar ese archivo, use el hook de construcción [transformHead](../reference/site-config#transformhead):
@@ -123,11 +123,11 @@ export default {
 } satisfies Theme
 ```
 
-Como estamos usando Vite, puede también aprovechar la [funcionalidad de importación glob](https://vitejs.dev/guide/features.html#glob-import) de Vite para registrar automaticamente un directorio de componetes.
+Como estamos usando Vite, puede también aprovechar la [funcionalidad de importación glob](https://es.vitejs.dev/guide/features#importaciones-glob) de Vite para registrar automáticamente un directorio de componentes.
 
 ## _Slots_ en el Layout {#layout-slots}
 
-El componente `<Layout/>` del tema por defecto posee algunos _slots_ que pueden ser usados para inyectar contenido en lugares específicos de la página. Aqui un ejemplo de como inyectar un componente antes del esquema:
+El componente `<Layout/>` del tema por defecto posee algunos _slots_ que pueden ser usados para inyectar contenido en lugares específicos de la página. Aquí un ejemplo de como inyectar un componente antes del esquema:
 
 ```js
 // .vitepress/theme/index.js
@@ -307,7 +307,7 @@ Resultado (**atención!**: colores destellantes, movimientos súbitos, luces bri
 
 </details>
 
-Consulte [Chrome Docs](https://developer.chrome.com/docs/web-platform/view-transitions/) para mas detalles sobre _view transitions_.
+Consulte [Chrome Docs](https://developer.chrome.com/docs/web-platform/view-transitions?hl=es-419) para mas detalles sobre _view transitions_.
 
 ### En el Cambio de Ruta {#on-route-change}
 
@@ -315,7 +315,7 @@ En breve.
 
 ## Substituyendo Componentes Internos {#overriding-internal-components}
 
-Puede usar los [aliases](https://vitejs.dev/config/shared-options.html#resolve-alias) Vite para substituir los componentes del tema por defecto por los suyos personalizados:
+Puede usar los [aliases](https://es.vitejs.dev/config/shared-options#resolve-alias) Vite para substituir los componentes del tema por defecto por los suyos personalizados:
 
 ```ts
 import { fileURLToPath, URL } from 'node:url'

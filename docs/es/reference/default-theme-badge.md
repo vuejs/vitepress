@@ -7,28 +7,28 @@ Los Badge te permite agregar estados a tus encabezados. Por ejemplo, podría res
 Puedes usar el componente `Badge` que está disponible globalmente.
 
 ```html
-### Title <Badge type="info" text="default" />
-### Title <Badge type="tip" text="^1.9.0" />
-### Title <Badge type="warning" text="beta" />
-### Title <Badge type="danger" text="caution" />
+### Titulo <Badge type="info" text="default" />
+### Titulo <Badge type="tip" text="^1.9.0" />
+### Titulo <Badge type="warning" text="beta" />
+### Titulo <Badge type="danger" text="precaución" />
 ```
 
 el código anterior se representa como:
 
-### Title <Badge type="info" text="default" />
-### Title <Badge type="tip" text="^1.9.0" />
-### Title <Badge type="warning" text="beta" />
-### Title <Badge type="danger" text="caution" />
+### Titulo <Badge type="info" text="default" />
+### Titulo <Badge type="tip" text="^1.9.0" />
+### Titulo <Badge type="warning" text="beta" />
+### Titulo <Badge type="danger" text="precaución" />
 
 ## Personalizar hijos {#custom-children}
 
 `<Badge>` acepta `children` (hijos), que se mostrará en el badge.
 
 ```html
-### Title <Badge type="info">custom element</Badge>
+### Titulo <Badge type="info">custom element</Badge>
 ```
 
-### Title <Badge type="info">custom element</Badge>
+### Titulo <Badge type="info">custom element</Badge>
 
 ## Personalizar Tipo de Color {#customize-type-color}
 

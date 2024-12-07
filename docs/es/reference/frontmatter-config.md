@@ -46,7 +46,7 @@ titleTemplate: Generador de sitios web estáticos con Vite & Vue
 ---
 ```
 
-## descripción
+## description
 
 - Tipo: `string`
 
@@ -94,7 +94,7 @@ Las siguientes opciones de frontmatter solo se aplican cuando se usa el tema pre
 Determina el layout de la página.
 
 - `doc` - Aplica estilos de documentación por defecto al contenido markdown.
-- `home` - Layout especial para la "Página Inicial". Puedes agregar opciones extras como `hero` y `features` para crear rapidamente una hermosa página inicial.
+- `home` - Layout especial para la "Página Inicial". Puedes agregar opciones extras como `hero` y `features` para crear rápidamente una hermosa página inicial.
 - `page` - Se comporta de manera similar a `doc`, pero no aplica estilos al contenido. Útil cuando desea crear una página totalmente personalizada.
 
 ```yaml
@@ -216,6 +216,6 @@ Luego puede personalizar los estilos para esta página específica en el archivo
 
 ```css
 .custom-page-class {
-  /* estilos especificos de la página */
+  /* estilos específicos de la página */
 }
 ```

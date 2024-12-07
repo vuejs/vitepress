@@ -1,8 +1,8 @@
-# Carga de Datos en Tiempo de Compilacion {#build-time-data-loading}
+# Carga de Datos en Tiempo de Compilación {#build-time-data-loading}
 
 VitePress proporciona un recurso llamado **cargadores de dato** que permite cargar datos arbitrarios e importarlos desde páginas o componentes. La carga de datos es ejecutada **apenas en el tiempo del build** los datos resultantes serán serializados como JSON en el paquete de JavaScript final.
 
-Los cargadores de datos pueden ser usados para buscar datos remotos o generar metadatos con base en archivos locales. Por ejemplo, puede usar cargadores de datos para procesar todas sus pagínas API locales y generar automáticamente un indice de todas las entradas del API.
+Los cargadores de datos pueden ser usados para buscar datos remotos o generar metadatos con base en archivos locales. Por ejemplo, puede usar cargadores de datos para procesar todas sus páginas API locales y generar automáticamente un indice de todas las entradas del API.
 
 ## Uso Básico {#basic-usage}
 
@@ -38,7 +38,7 @@ Salida:
 }
 ```
 
-Notará que el propio cargados de datos no exporta `data`. Es VitePress llamando el método `load()` entre bastidores y exponiendo implicitamente el resultado por medio de la exportación llamada `data`.
+Notará que el propio cargados de datos no exporta `data`. Es VitePress llamando el método `load()` entre bastidores y exponiendo implícitamente el resultado por medio de la exportación llamada `data`.
 
 Esto funciona incluso si el cargador fuera asíncrono:
 
@@ -55,7 +55,7 @@ export default {
 
 Cuando necesita generar datos con base en archivos locales, debe usar la opción `watch` en el cargador de datos para que los cambios hechos en esos archivos puedan accionar actualizaciones rápidas.
 
-La opción `watch` tabién es conveniente porque puede usar [patrones glob](https://github.com/mrmlnc/fast-glob#pattern-syntax) para corresponder a vários archivos. Los patrones pueden ser relativos al propio archivo del cargador, y la función `load()` recibirá los archivos correspondientes como paths absolutos.
+La opción `watch` también es conveniente porque puede usar [patrones glob](https://github.com/mrmlnc/fast-glob#pattern-syntax) para corresponder a varios archivos. Los patrones pueden ser relativos al propio archivo del cargador, y la función `load()` recibirá los archivos correspondientes como paths absolutos.
 
 El siguiente ejemplo muestra el cargamento de archivos CSV y la transformación de estos en JSON usando [csv-parse](https://github.com/adaltas/node-csv/tree/master/packages/csv-parse/). Como este archivo solo es ejecutado en el tiempo del build, usted no enviará el procesador de CSV para el cliente!
 
@@ -66,7 +66,7 @@ import { parse } from 'csv-parse/sync'
 export default {
   watch: ['./data/*.csv'],
   load(watchedFiles) {
-    // watchedFiles será un array de paths absolutos de los archivos um array de caminhos absolutos dos arquivos correspondientes.
+    // watchedFiles será un array de paths absolutos de los archivos coincidentes
     // generar un array de metadatos de post que puede ser usado para mostrar
     // una lista en el layout del tema
     return watchedFiles.map((file) => {
@@ -81,7 +81,7 @@ export default {
 
 ## `createContentLoader`
 
-Al construir un sitio enfocado en contenido, frecuentemente necesitamos crear una página de "archivo" o "índice": una página donde listamos todas las entradas disponibles en nuestra colección de contenido, por ejemplo, articulos de blog o páginas de API. Nosotros **podemos** implementar esto directamente con el API de cargador de datos, pero como este es un caso de uso tan común, VitePress también proporciona un auxiliar `createContentLoader` para simplificar esto:
+Al construir un sitio enfocado en contenido, frecuentemente necesitamos crear una página de "archivo" o "índice": una página donde listamos todas las entradas disponibles en nuestra colección de contenido, por ejemplo, artículos de blog o páginas de API. Nosotros **podemos** implementar esto directamente con el API de cargador de datos, pero como este es un caso de uso tan común, VitePress también proporciona un auxiliar `createContentLoader` para simplificar esto:
 
 ```js
 // posts.data.js
@@ -90,7 +90,7 @@ import { createContentLoader } from 'vitepress'
 export default createContentLoader('posts/*.md', /* opciones */)
 ```
 
-El auxiliar acepta un patrón glob relativo al [diretório fuente](./routing#source-directory) y retorna un objeto de cargador de datos `{ watch, load }` que puede ser usado como exportación por defecto en un archivo de cargador de datos. El también implementa cache con base en los sellos se datos del archivo para mejorar el desempeño en el desarrollo.
+El auxiliar acepta un patrón glob relativo al [directorio fuente](./routing#source-directory) y retorna un objeto de cargador de datos `{ watch, load }` que puede ser usado como exportación por defecto en un archivo de cargador de datos. El también implementa cache con base en los sellos se datos del archivo para mejorar el desempeño en el desarrollo.
 
 Note que el cargador solo funciona con archivos Markdown - archivos no Markdown encontrados serán ignorados.
 
@@ -112,7 +112,7 @@ interface ContentData {
 }
 ```
 
-Por defecto, apenas `url` y `frontmatter` son proporcionados. Esto ocurre porque los datos cargados serán incorporados como JSON en el paquete del cliente, entonces necesitamos ser cautelosos con su tamaño. Aqui está un ejemplo de cómo usar los datos para construir una página de índice de blog mínima:
+Por defecto, apenas `url` y `frontmatter` son proporcionados. Esto ocurre porque los datos cargados serán incorporados como JSON en el paquete del cliente, entonces necesitamos ser cautelosos con su tamaño. Aquí está un ejemplo de cómo usar los datos para construir una página de índice de blog mínima:
 
 ```vue
 <script setup>
@@ -190,7 +190,7 @@ interface ContentOptions<T = ContentData[]> {
   /**
    * Si `boolean`, debe procesarse e incluir el resumen? (presentado como HTML)
    *
-   * Si `function`, controla como el extracto es extraido del contenido.
+   * Si `function`, controla como el extracto es extraído del contenido.
    *
    * Si `string`, define un separador personalizado usado para extraer el
    * extracto. El separados por defecto es `---` si `excerpt` fuera `true`.
