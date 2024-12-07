@@ -4,6 +4,7 @@ import { search as ptSearch } from './pt'
 import { search as ruSearch } from './ru'
 import { search as esSearch } from './es'
 import { search as koSearch } from './ko'
+import { search as faSearch } from './fa'
 
 export const shared = defineConfig({
   title: 'VitePress',
@@ -67,7 +68,8 @@ export const shared = defineConfig({
           ...ptSearch,
           ...ruSearch,
           ...esSearch,
-          ...koSearch
+          ...koSearch,
+          ...faSearch
         }
       }
     },
