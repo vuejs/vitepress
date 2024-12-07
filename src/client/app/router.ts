@@ -1,7 +1,7 @@
 import type { Component, InjectionKey } from 'vue'
 import { inject, markRaw, nextTick, reactive, readonly } from 'vue'
 import type { Awaitable, PageData, PageDataPayload } from '../shared'
-import { notFoundPageData, treatAsHtml } from '../shared'
+import { notFoundPageData, searchPageData, treatAsHtml } from '../shared'
 import { siteDataRef } from './data'
 import { getScrollOffset, inBrowser, withBase } from './utils'
 
@@ -58,7 +58,8 @@ interface PageModule {
 
 export function createRouter(
   loadPageModule: (path: string) => Awaitable<PageModule | null>,
-  fallbackComponent?: Component
+  fallbackComponent?: Component,
+  searchComponent?: Component
 ): Router {
   const route = reactive(getDefaultRoute())
 
@@ -85,6 +86,14 @@ export function createRouter(
     if ((await router.onBeforePageLoad?.(href)) === false) return
     const targetLoc = new URL(href, fakeHost)
     const pendingPath = (latestPendingPath = targetLoc.pathname)
+
+    if (pendingPath === '/search') {
+      route.path = inBrowser ? pendingPath : withBase(pendingPath)
+      route.component = searchComponent ? markRaw(searchComponent) : null
+      route.data = searchPageData
+      return
+    }
+
     try {
       let page = await loadPageModule(pendingPath)
       if (!page) {
