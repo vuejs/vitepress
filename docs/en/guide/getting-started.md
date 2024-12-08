@@ -80,7 +80,7 @@ $ yarn vitepress init
 ```
 
 ```sh [bun]
-$ bun vitepress init
+$ bunx vitepress init
 ```
 
 :::
@@ -198,7 +198,7 @@ $ yarn vitepress dev docs
 ```
 
 ```sh [bun]
-$ bun vitepress dev docs
+$ bunx vitepress dev docs
 ```
 
 :::
