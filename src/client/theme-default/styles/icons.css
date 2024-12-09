@@ -39,14 +39,17 @@
 }
 .vpi-chevron-down,
 .vpi-arrow-down {
+  /*rtl:ignore*/
   transform: rotate(90deg);
 }
 .vpi-chevron-left,
 .vpi-arrow-left {
+  /*rtl:ignore*/
   transform: rotate(180deg);
 }
 .vpi-chevron-up,
 .vpi-arrow-up {
+  /*rtl:ignore*/
   transform: rotate(-90deg);
 }
 .vpi-square-pen {
