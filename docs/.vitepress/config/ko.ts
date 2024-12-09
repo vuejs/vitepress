@@ -44,7 +44,8 @@ export const ko = defineConfig({
     sidebarMenuLabel: '사이드바 메뉴',
     darkModeSwitchLabel: '다크 모드',
     lightModeSwitchTitle: '라이트 모드로 변경',
-    darkModeSwitchTitle: '다크 모드로 변경'
+    darkModeSwitchTitle: '다크 모드로 변경',
+    skipToContentLabel: '본문으로 건너뛰기'
   }
 })
 
