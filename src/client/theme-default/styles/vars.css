@@ -366,6 +366,23 @@
   --vp-code-tab-active-bar-color: var(--vp-c-brand-1);
 }
 
+:lang(es),
+:lang(pt) {
+  --vp-code-copy-copied-text-content: 'Copiado';
+}
+:lang(fa) {
+  --vp-code-copy-copied-text-content: 'کپی شد';
+}
+:lang(ko) {
+  --vp-code-copy-copied-text-content: '복사됨';
+}
+:lang(ru) {
+  --vp-code-copy-copied-text-content: 'Скопировано';
+}
+:lang(zh) {
+  --vp-code-copy-copied-text-content: '已复制';
+}
+
 /**
  * Component: Button
  * -------------------------------------------------------------------------- */
