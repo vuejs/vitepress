@@ -493,6 +493,7 @@
   border: 1px solid var(--vp-code-copy-code-hover-border-color);
   /*rtl:ignore*/
   border-right: 0;
+  /*rtl:ignore*/
   border-radius: 4px 0 0 4px;
   padding: 0 10px;
   width: fit-content;
