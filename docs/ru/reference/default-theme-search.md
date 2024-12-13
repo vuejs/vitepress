@@ -24,7 +24,11 @@ export default defineConfig({
 
 ![скриншот модального окна поиска](/search.png)
 
-В качестве альтернативы можно использовать [Algolia DocSearch](#algolia-search) или некоторые плагины сообщества, например <https://www.npmjs.com/package/vitepress-plugin-search> или <https://www.npmjs.com/package/vitepress-plugin-pagefind>.
+В качестве альтернативы можно использовать [Algolia DocSearch](#algolia-search) или некоторые плагины сообщества, например:
+
+- <https://www.npmjs.com/package/vitepress-plugin-search>
+- <https://www.npmjs.com/package/vitepress-plugin-pagefind>
+- <https://www.npmjs.com/package/@orama/plugin-vitepress>
 
 ### i18n {#local-search-i18n}
 
