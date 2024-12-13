@@ -4,7 +4,7 @@ outline: deep
 
 # SSR Compatibility
 
-VitePress pre-renders the app in Node.js during the production build, using Vue's Server-Side Rendering (SSR) capabilities. This means all custom code in theme components are subject to SSR Compatibility.
+VitePress pre-renders the app in Node.js during the production build, using Vue's Server-Side Rendering (SSR) capabilities. This means all custom code in theme components is subject to SSR Compatibility.
 
 The [SSR section in official Vue docs](https://vuejs.org/guide/scaling-up/ssr.html) provides more context on what SSR is, the relationship between SSR / SSG, and common notes on writing SSR-friendly code. The rule of thumb is to only access browser / DOM APIs in `beforeMount` or `mounted` hooks of Vue components.
 
