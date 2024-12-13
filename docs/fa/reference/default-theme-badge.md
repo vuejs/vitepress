@@ -23,7 +23,7 @@
 
 ### عنوان <Badge type="danger" text="هشدار" /> {#title-3}
 
-## ارائه دادن محتوای دلخواه{#custom-children}
+## ارائه دادن محتوای دلخواه {#custom-children}
 
 `<Badge>` می‌پذیرد `children` که در برچسب نمایش داده خواهد شد.
 

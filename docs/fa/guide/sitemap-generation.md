@@ -1,4 +1,4 @@
-# جنریت کردن Sitemap{#sitemap-generation}
+# جنریت کردن Sitemap {#sitemap-generation}
 
 ویت‌پرس با پشتیبانی بیرونی برای تولید فایل `sitemap.xml` برای سایت شما ارائه می‌شود. برای فعال‌سازی آن، موارد زیر را به فایل `.vitepress/config.js` خود اضافه کنید:
 
@@ -12,7 +12,7 @@ export default {
 
 برای داشتن تگ‌های `<lastmod>` در فایل `sitemap.xml` خود، می‌توانید گزینه [`lastUpdated`](../reference/default-theme-last-updated) را فعال کنید.
 
-## گزینه‌ها{#options}
+## گزینه‌ها {#options}
 
 پشتیبانی از sitemap توسط ماژول [`sitemap`](https://www.npmjs.com/package/sitemap) ارائه شده است. می‌توانید هر گزینه‌ای که توسط این ماژول پشتیبانی می‌شود را به گزینه `sitemap` در فایل پیکربندی خود منتقل کنید. این گزینه‌ها به طور مستقیم به سازنده `SitemapStream` منتقل می‌شوند. برای جزئیات بیشتر به [مستندات sitemap](https://www.npmjs.com/package/sitemap#options-you-can-pass) مراجعه کنید. مثال:
 
@@ -36,7 +36,7 @@ export default {
 }
 ```
 
-## هوک `transformItems`{#transformitems-hook}
+## هوک `transformItems` {#transformitems-hook}
 
 می‌توانید از هوک `sitemap.transformItems` برای اصلاح موارد sitemap قبل از نوشتن آن‌ها به فایل `sitemap.xml` استفاده کنید. این هوک با یک آرایه از موارد sitemap فراخوانی می‌شود و انتظار دارد که یک آرایه از موارد sitemap بازگردانده شود. مثال:
 

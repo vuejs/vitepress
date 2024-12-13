@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-# استقرار وب‌سایت ویت‌پرس شما{#deploy-your-vitepress-site}
+# استقرار وب‌سایت ویت‌پرس شما {#deploy-your-vitepress-site}
 
 راهنماهای زیر بر اساس برخی فرضیات مشترک است:
 
@@ -47,7 +47,7 @@ outline: deep
 
    حالا اسکریپت `docs:preview` سرور را در `http://localhost:8080` راه‌اندازی خواهد کرد.
 
-## تنظیم مسیر پایه عمومی{#setting-a-public-base-path}
+## تنظیم مسیر پایه عمومی {#setting-a-public-base-path}
 
 به‌طور پیش‌فرض، ما فرض می‌کنیم که وب‌سایت در مسیر ریشه دامنه (`/`) انتشار می‌یابد. اگر وب‌سایت شما باید در یک زیرمسیر ارائه شود، مانند `https://mywebsite.com/blog/`، در این صورت باید گزینه [`base`](../reference/site-config#base) را به `'/blog/'` در پیکربندی ویت‌پرس تنظیم کنید.
 
@@ -196,7 +196,7 @@ Cache-Control: max-age=31536000,immutable
 
 3. تغییرات خود را به شاخه `main` ارسال کنید و منتظر GitHub Actions workflow بمانید. شما باید وب‌سایت خود را در `https://<username>.github.io/[repository]/` یا `https://<custom-domain>/` بسته به تنظیمات خود دیده شده است. وب‌سایت شما به‌طور خودکار در هر بار فشرده‌سازی به شاخه `main` ارسال می‌شود.
 
-### صفحات GitLab{#gitlab-pages}
+### صفحات GitLab {#gitlab-pages}
 
 1. `outDir` را در پیکربندی ویت‌پرس به `../public` تنظیم کنید. گزینه `base` را به `'/<repository>/'` تنظیم کنید اگر می‌خواهید در `https://<username>.gitlab.io/<repository>/` انتشار دهید.
 

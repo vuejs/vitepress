@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-# جستجو{#search}
+# جستجو {#search}
 
 ## جستجوی محلی {#local-search}
 

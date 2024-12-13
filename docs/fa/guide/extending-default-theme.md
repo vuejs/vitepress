@@ -40,7 +40,7 @@ export default DefaultTheme
 
 لیست متغیرهای CSS [تم پیش‌فرض](https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css) که می‌توانند سفارشی‌سازی شوند را ببینید.
 
-## استفاده از فونت‌های مختلف{#using-different-fonts}
+## استفاده از فونت‌های مختلف {#using-different-fonts}
 
 ویت‌پرس از [Inter](https://rsms.me/inter/) به عنوان فونت پیش‌فرض استفاده می‌کند و فونت‌ها را در خروجی ساخته‌شده شامل می‌شود. این فونت همچنین در محصولات خودکار پیش‌بارگذاری می‌شود. با این حال، این ممکن است مطلوب نباشد اگر می‌خواهید از یک فونت اصلی مختلف استفاده کنید.
 
@@ -92,7 +92,7 @@ export default {
 }
 ```
 
-## ثبت مولفه‌های عمومی{#registering-global-components}
+## ثبت مولفه‌های عمومی {#registering-global-components}
 
 ```js
 // .vitepress/theme/index.js

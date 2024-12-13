@@ -1,4 +1,4 @@
-# افزونه‌های Markdown{#markdown-extensions}
+# افزونه‌های Markdown {#markdown-extensions}
 
 ویت‌پرس با افزونه‌های markdown داخلی ارائه شده است.
 
@@ -16,7 +16,7 @@
 
 این به شما امکان می‌دهد که به جای استفاده از به جای استفاده از `#using-custom-anchors`، به هدینگ به عنوان `#my-anchor` لینک دهید.
 
-## لینک‌ها{#links}
+## لینک‌ها {#links}
 
 هم لینک‌های داخلی و هم خارجی با دستورالعمل‌های خاصی ارائه می‌شوند.
 
@@ -54,7 +54,7 @@
 
 صفحات و لینک‌های داخلی به طور پیش‌فرض با پسوند `.html` تولید می‌شوند.
 
-### لینک‌های خارجی{#external-links}
+### لینک‌های خارجی {#external-links}
 
 لینک‌های خروجی به طور خودکار دارای `target="_blank" rel="noreferrer"` هستند:
 
@@ -124,7 +124,7 @@ lang: fa-IR
 
 نحوه پردازش فهرست مطالب با استفاده از گزینه `markdown.toc` قابل پیکربندی است.
 
-## کانتینرهای سفارشی{#custom-containers}
+## کانتینرهای سفارشی {#custom-containers}
 
 کانتینرهای سفارشی می‌توانند توسط انواع، عناوین و محتویات خود تعریف شوند.
 
@@ -397,7 +397,7 @@ const message = 'Hello, World!';
 console.log(message);
 ```
 
-## فکوس در بلاک‌های کد{#focus-in-code-blocks}
+## فکوس در بلاک‌های کد {#focus-in-code-blocks}
 
 افزودن کامنت `// [!code focus]` به یک خط، روی آن فکوس می‌کند و بخش‌های دیگر کد را مات می‌کند.
 
@@ -461,7 +461,7 @@ export default {
 }
 ```
 
-## خطاها و هشدارها در بلاک‌های کد{#errors-and-warnings-in-code-blocks}
+## خطاها و هشدارها در بلاک‌های کد {#errors-and-warnings-in-code-blocks}
 
 افزودن کامنت `// [!code warning]` یا `// [!code error]` به یک خط، آن را مطابق با نوع، رنگ می‌کند.
 
@@ -551,7 +551,7 @@ const line3 = 'این خط ۳ است'
 const line4 = 'این خط ۴ است'
 ```
 
-## وارد کردن Snippet کد{#import-code-snippets}
+## وارد کردن Snippet کد {#import-code-snippets}
 
 می‌توانید snippet های کد را از فایل‌های موجود با استفاده از دستور زیر وارد کنید:
 
@@ -875,7 +875,7 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 | $\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t}  = \vec{\mathbf{0}}$                                                          | curl $\vec{\mathbf{E}}$ نسبت به نرخ تغییر $\vec{\mathbf{B}}$ نسبی است              |
 | $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _چیست؟_                                                                               |
 
-## بارگذاری lazy تصویر{#image-lazy-loading}
+## بارگذاری lazy تصویر {#image-lazy-loading}
 
 می‌توانید بارگذاری تنبلی را برای هر تصویر اضافه شده از طریق Markdown با تنظیم `lazyLoading` به `true` در فایل پیکربندی فعال کنید:
 
