@@ -2,13 +2,13 @@
 outline: deep
 ---
 
-# تنظیمات سایت
+# تنظیمات سایت {#site-config}
 
 تنظیمات سایت جایی است که می‌توانید تنظیمات جهانی سایت را تعریف کنید. گزینه‌های تنظیمات برنامه شامل تنظیماتی است که برای هر سایت ویت‌پرس اعمال می‌شود، صرف نظر از اینکه از چه تمی استفاده می‌کند. برای مثال، دایرکتوری پایه یا عنوان سایت.
 
-## مروری کلی
+## مروری کلی {#overview}
 
-### رفع تنظیمات
+### رفع تنظیمات {#config-resolution}
 
 فایل تنظیمات همیشه از `<root>/.vitepress/config.[ext]` رفع می‌شود، جایی که `<root>` ریشه پروژه ویت‌پرس شما است و `[ext]` یکی از پسوندهای فایل پشتیبانی شده است. تایپ‌اسکریپت به طور پیش‌فرض پشتیبانی می‌شود. پسوندهای پشتیبانی شده شامل `.js`, `.ts`, `.mjs` و `.mts` هستند.
 
@@ -80,7 +80,7 @@ export default defineConfig({
 
 :::
 
-### هوشمندی تنظیمات
+### هوشمندی تنظیمات {#config-intellisense}
 
 استفاده از تابع `defineConfig` هوشمندی تایپ‌اسکریپت را برای گزینه‌های تنظیمات فراهم می‌کند. فرض کنید IDE شما از آن پشتیبانی می‌کند، این باید هم در جاوااسکریپت و هم تایپ‌اسکریپت کار کند.
 
@@ -92,7 +92,7 @@ export default defineConfig({
 })
 ```
 
-### تنظیمات تایپ‌شده تم
+### تنظیمات تایپ‌شده تم{#typed-theme-config}
 
 به طور پیش‌فرض، تابع `defineConfig` انتظار دارد نوع تنظیمات تم از تم پیش‌فرض باشد:
 
@@ -119,7 +119,7 @@ export default defineConfigWithTheme<ThemeConfig>({
 })
 ```
 
-### تنظیمات Vite, Vue و Markdown
+### تنظیمات Vite, Vue و Markdown {#vite-vue-markdown-config}
 
 - **Vite**
 
@@ -133,9 +133,9 @@ export default defineConfigWithTheme<ThemeConfig>({
 
   شما می‌توانید نمونه پایه [Markdown-It](https://github.com/markdown-it/markdown-it) را با استفاده از گزینه [markdown](#markdown) در تنظیمات ویت‌پرس خود پیکربندی کنید.
 
-## متاداده‌های سایت
+## متاداده‌های سایت {#site-metadata}
 
-### عنوان
+### عنوان {#title}
 
 - نوع: `string`
 - پیش‌فرض: `ویت‌پرس`
@@ -157,7 +157,7 @@ export default {
 
 عنوان صفحه خواهد بود `سلام | سایت فوق‌العاده من`.
 
-### قالب عنوان
+### قالب عنوان  {##titletemplate}
 
 - نوع: `string | boolean`
 - می‌تواند به ازای هر صفحه از طریق [frontmatter](./frontmatter-config#titletemplate) جایگزین شود.
@@ -189,7 +189,7 @@ export default {
 
 این گزینه می‌تواند به `false` تنظیم شود تا پسوندهای عنوان غیرفعال شوند.
 
-### توضیحات
+### توضیحات {#description}
 
 - نوع: `string`
 - پیش‌فرض: `یک سایت ویت‌پرس`
@@ -217,7 +217,7 @@ type HeadConfig =
   | [string, Record<string, string>, string]
 ```
 
-#### مثال: اضافه کردن یک فاوآیکن
+#### مثال: اضافه کردن یک favicon {#example-adding-a-favicon}
 
 ```ts
 export default {
@@ -229,7 +229,7 @@ export default {
 */
 ```
 
-#### مثال: اضافه کردن فونت‌های گوگل
+#### مثال: اضافه کردن فونت‌های گوگل {#example-adding-google-fonts}
 
 ```ts
 export default {
@@ -256,7 +256,7 @@ export default {
 */
 ```
 
-#### مثال: ثبت یک سرویس ورکر
+#### مثال: ثبت یک سرویس ورکر {#example-registering-a-service-worker}
 
 ```ts
 export default {
@@ -286,7 +286,7 @@ export default {
 */
 ```
 
-#### مثال: استفاده از گوگل آنالیتیکس
+#### مثال: استفاده از گوگل آنالیتیکس {#example-using-google-analytics}
 
 ```ts
 export default {
@@ -317,7 +317,7 @@ export default {
 */
 ```
 
-### زبان
+### زبان {#lang}
 
 - نوع: `string`
 - پیش‌فرض: `en-US`
@@ -330,7 +330,7 @@ export default {
 }
 ```
 
-### پایه
+### پایه {#base}
 
 - نوع: `string`
 - پیش‌فرض: `/`
@@ -345,9 +345,9 @@ export default {
 }
 ```
 
-## مسیریابی
+## مسیریابی {#routing}
 
-### تمیز کردن URL ها
+### cleanUrls
 
 - نوع: `boolean`
 - پیش‌فرض: `false`
@@ -358,7 +358,7 @@ export default {
 فعال کردن این ممکن است نیاز به پیکربندی اضافی در پلتفرم میزبان شما داشته باشد. برای اینکه کار کند، سرور شما باید بتواند `/foo.html` را زمانی که `/foo` بازدید می‌شود **بدون ریدایرکت** سرو کند.
 :::
 
-### بازنویسی‌ها
+### rewrites
 
 - نوع: `Record<string, string>`
 
@@ -372,7 +372,7 @@ export default {
 }
 ```
 
-## ساخت
+## ساخت {#build}
 
 ### srcDir
 
@@ -473,21 +473,21 @@ export default {
 }
 ```
 
-### metaChunk <Badge type="warning" text="experimental" />
+### metaChunk <Badge type="warning" text="experimental" /> {#metachunk}
 
 - نوع: `boolean`
 - پیش‌فرض: `false`
 
 زمانی که به `true` تنظیم شود، فراداده‌های صفحات را به یک قسمت جداگانه جاوااسکریپت استخراج می‌کند به جای درون‌گذاری آن در HTML اولیه. این کار باعث کاهش بار HTML هر صفحه می‌شود و فراداده‌های صفحات قابل کش شدن می‌شود، که منجر به کاهش پهنای باند سرور می‌شود وقتی که صفحات زیادی در سایت دارید.
 
-### mpa <Badge type="warning" text="experimental" />
+### mpa <Badge type="warning" text="experimental" /> {#mpa}
 
 - نوع: `boolean`
 - پیش‌فرض: `false`
 
 زمانی که به `true` تنظیم شود، اپلیکیشن تولید شده در [حالت MPA](../guide/mpa-mode) ساخته خواهد شد. حالت MPA به طور پیش‌فرض 0 کیلوبایت جاوااسکریپت ارسال می‌کند، به هزینه غیرفعال کردن ناوبری سمت کاربر و نیاز به opt-in صریح برای تعامل.
 
-## تم‌سازی
+## تم‌سازی{#theming}
 
 ### appearance
 
@@ -515,7 +515,7 @@ export default {
 
 وقتی از تم پیش‌فرض استفاده می‌کنید، فعال کردن این گزینه زمان آخرین به‌روزرسانی هر صفحه را نمایش می‌دهد. می‌توانید متن را از طریق گزینه [`themeConfig.lastUpdatedText`](./default-theme-config#lastupdatedtext) سفارشی کنید.
 
-## سفارشی‌سازی
+## سفارشی‌سازی {#customization}
 
 ### markdown
 
@@ -559,7 +559,7 @@ export default {
 }
 ```
 
-## قلاب‌های ساخت
+## قلاب‌های ساخت{#build-hooks}
 
 قلاب‌های ساخت ویت‌پرس به شما امکان اضافه کردن عملکرد و رفتارهای جدید به وب‌سایت خود را می‌دهند:
 
@@ -658,7 +658,7 @@ export default {
 }
 ```
 
-#### مثال: اضافه کردن یک URL قانونی `<link>`
+#### مثال: اضافه کردن یک canonical URL `<link>` {#example-adding-a-canonical-url-link}
 
 ```ts
 export default {

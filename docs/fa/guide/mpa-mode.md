@@ -1,4 +1,4 @@
-# حالت MPA <Badge type="warning" text="آزمایشی" />
+# حالت MPA <Badge type="warning" text="آزمایشی" /> {#mpa-mode}
 
 حالت MPA (برنامه چند صفحه) می‌تواند از طریق خط فرمان با `vitepress build --mpa` فعال شود، یا از طریق تنظیمات با گزینه `mpa: true`.
 

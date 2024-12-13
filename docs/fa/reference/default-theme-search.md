@@ -2,9 +2,9 @@
 outline: deep
 ---
 
-# جستجو
+# جستجو{#search}
 
-## جستجوی محلی
+## جستجوی محلی {#local-search}
 
 ویت‌پرس از جستجوی متن کامل نامتقارن با استفاده از یک فهرست در مرورگر با تشکر از [minisearch](https://github.com/lucaong/minisearch/) پشتیبانی می‌کند. برای فعال‌سازی این ویژگی، کافی است گزینه `themeConfig.search.provider` را به `'local'` در فایل `.vitepress/config.ts` خود تنظیم کنید:
 
@@ -69,7 +69,7 @@ export default defineConfig({
 })
 ```
 
-### گزینه‌های miniSearch
+### گزینه‌های miniSearch {#minisearch-options}
 
 می‌توانید MiniSearch را به این صورت پیکربندی کنید:
 
@@ -105,7 +105,7 @@ export default defineConfig({
 
 برای کسب اطلاعات بیشتر به [اسناد MiniSearch](https://lucaong.github.io/minisearch/classes/MiniSearch.MiniSearch.html) مراجعه کنید.
 
-### سفارشی‌سازی رندر محتوا
+### سفارشی‌سازی رندر محتوا {#custom-content-renderer}
 
 می‌توانید تابع استفاده شده برای رندر محتوای Markdown قبل از فهرست‌بندی آن را سفارشی‌سازی کنید:
 
@@ -133,7 +133,7 @@ export default defineConfig({
 
 این تابع از داده‌های سایت سمت کلاینت پاک خواهد شد، بنابراین شما می‌توانید از API‌های Node.js در آن استفاده کنید.
 
-#### مثال: استثنای صفحات از جستجو
+#### مثال: استثنای صفحات از جستجو {#example-excluding-pages-from-search}
 
 می‌توانید با اضافه کردن `search: false` به frontmatter صفحه، صفحات را از جستجو استثنا دهید. به طور جایگزین:
 
@@ -161,7 +161,7 @@ export default defineConfig({
 در صورت ارائه تابع `_render` سفارشی، باید خودتان بررسی کنید که آیا frontmatter `search: false` را مدیریت می‌کند یا خیر. همچنین، شی env قبل از فراخوانی `md.render` کاملاً پر نمی‌شود، بنابراین هر بررسی‌ای روی ویژگی‌های اختیاری env مانند `frontmatter` باید بعد از آن انجام شود.
 :::
 
-#### مثال: تبدیل محتوا - افزودن لینک‌های صفحه
+#### مثال: تبدیل محتوا - افزودن لینک‌های صفحه {#example-transforming-content-adding-anchors}
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -183,7 +183,7 @@ export default defineConfig({
 })
 ```
 
-## جستجوی Algolia
+## جستجوی Algolia {#algolia-search}
 
 ویت‌پرس از جستجو در سایت مستندات شما با استفاده از [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch) پشتیبانی می‌کند. به راهنمای شروع کار آن‌ها مراجعه کنید. در فایل `.vitepress/config.ts` شما نیاز دارید که حداقل موارد زیر را فراهم کنید تا کار کند:
 
@@ -270,7 +270,7 @@ export default defineConfig({
 
 این [گزینه‌ها](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts) می‌توانند بازنویسی شوند. برای یادگیری بیشتر درباره آن‌ها به اسناد رسمی Algolia مراجعه کنید.
 
-### پیکربندی Crawler
+### پیکربندی Crawler {#crawler-config}
 
 در اینجا یک پیکربندی نمونه بر اساس آنچه که این سایت استفاده می‌کند آمده است:
 

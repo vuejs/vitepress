@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-# استقرار وب‌سایت ویت‌پرس شما
+# استقرار وب‌سایت ویت‌پرس شما{#deploy-your-vitepress-site}
 
 راهنماهای زیر بر اساس برخی فرضیات مشترک است:
 
@@ -19,7 +19,7 @@ outline: deep
   }
   ```
 
-## ساخت و تست محلی
+## ساخت و تست محلی  {#build-and-test-locally}
 
 1. برای ساخت اسناد، این دستور را اجرا کنید:
 
@@ -47,13 +47,13 @@ outline: deep
 
    حالا اسکریپت `docs:preview` سرور را در `http://localhost:8080` راه‌اندازی خواهد کرد.
 
-## تنظیم مسیر پایه عمومی
+## تنظیم مسیر پایه عمومی{#setting-a-public-base-path}
 
 به‌طور پیش‌فرض، ما فرض می‌کنیم که وب‌سایت در مسیر ریشه دامنه (`/`) انتشار می‌یابد. اگر وب‌سایت شما باید در یک زیرمسیر ارائه شود، مانند `https://mywebsite.com/blog/`، در این صورت باید گزینه [`base`](../reference/site-config#base) را به `'/blog/'` در پیکربندی ویت‌پرس تنظیم کنید.
 
 **مثال:** اگر از صفحات GitHub (یا GitLab) استفاده می‌کنید و به `user.github.io/repo/` انتشار می‌دهید، آنگاه `base` را به `/repo/` تنظیم کنید.
 
-## سربرگ‌های حافظه نهان HTTP
+## سربرگ‌های حافظه نهان HTTP {#http-cache-headers}
 
 اگر شما کنترلی بر روی سربرگ‌های HTTP در سرور تولیدی خود دارید، می‌توانید سربرگ‌های `cache-control` را پیکربندی کنید تا بهبود عملکرد در بازدیدهای تکراری داشته باشید.
 
@@ -103,9 +103,9 @@ Cache-Control: max-age=31536000,immutable
 
 :::
 
-## راهنمای‌های پلتفرم
+## راهنمای‌های پلتفرم {#platform-guides}
 
-### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render
+### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render {#netlify-vercel-cloudflare-pages-aws-amplify-render}
 
 یک پروژه جدید راه‌اندازی کرده و این تنظیمات را با استفاده از داشبورد خود تغییر دهید:
 
@@ -117,7 +117,7 @@ Cache-Control: max-age=31536000,immutable
 گزینه‌هایی مانند _Auto Minify_ را برای کد HTML فعال نکنید. این گزینه‌ها ممکن است توضیحاتی را که به Vue معنا دارد، از خروجی حذف کنند. ممکن است خطاهای ناسازگاری را در اجرا ببینید اگر حذف شوند.
 :::
 
-### صفحات GitHub
+### صفحات GitHub {#github-pages}
 
 1. یک فایل به نام `deploy.yml` در دایرکتوری `.github/workflows` پروژه خود ایجاد کنید با محتوایی مانند زیر:
 
@@ -196,7 +196,7 @@ Cache-Control: max-age=31536000,immutable
 
 3. تغییرات خود را به شاخه `main` ارسال کنید و منتظر GitHub Actions workflow بمانید. شما باید وب‌سایت خود را در `https://<username>.github.io/[repository]/` یا `https://<custom-domain>/` بسته به تنظیمات خود دیده شده است. وب‌سایت شما به‌طور خودکار در هر بار فشرده‌سازی به شاخه `main` ارسال می‌شود.
 
-### صفحات GitLab
+### صفحات GitLab{#gitlab-pages}
 
 1. `outDir` را در پیکربندی ویت‌پرس به `../public` تنظیم کنید. گزینه `base` را به `'/<repository>/'` تنظیم کنید اگر می‌خواهید در `https://<username>.gitlab.io/<repository>/` انتشار دهید.
 
@@ -219,7 +219,7 @@ Cache-Control: max-age=31536000,immutable
        - main
    ```
 
-### Azure Static Web Apps
+### Azure Static Web Apps {#azure-static-web-apps}
 
 1. دستورالعمل [رسمی](https://docs.microsoft.com/en-us/azure/static-web-apps/build-configuration) را دنبال کنید.
 
@@ -229,7 +229,7 @@ Cache-Control: max-age=31536000,immutable
    - **`output_location`**: `docs/.vitepress/dist`
    - **`app_build_command`**: `npm run docs:build`
 
-### Firebase
+### Firebase {#firebase}
 
 1. فایل‌های `firebase.json` و `.firebaserc` را در ریشه پروژه خود ایجاد کنید:
 
@@ -260,7 +260,7 @@ Cache-Control: max-age=31536000,immutable
    firebase deploy
    ```
 
-### Surge
+### Surge {#surge}
 
 1. بعد از اجرای `npm run docs:build`، دستور زیر را برای انتشار اجرا کنید:
 
@@ -268,7 +268,7 @@ Cache-Control: max-age=31536000,immutable
    npx surge docs/.vitepress/dist
    ```
 
-### Heroku
+### Heroku {#heroku}
 
 1. دستورالعمل و راهنماها را در [`heroku-buildpack-static`](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-static) دنبال کنید.
 
@@ -280,11 +280,11 @@ Cache-Control: max-age=31536000,immutable
    }
    ```
 
-### Edgio
+### Edgio {#edgio}
 
 به [ایجاد و انتشار یک برنامه ویت‌پرس در Edgio](https://docs.edg.io/guides/vitepress) مراجعه کنید.
 
-### Kinsta Static Site Hosting
+### Kinsta Static Site Hosting {#kinsta-static-site-hosting}
 
 شما می‌توانید وب‌سایت ویت‌پرس خود را بر روی [Kinsta](https://kinsta.com/static-site-hosting/) با دنبال کردن این [دستورالعمل‌ها](https://kinsta.com/docs/vitepress-static-site-example/) انتشار دهید.
 

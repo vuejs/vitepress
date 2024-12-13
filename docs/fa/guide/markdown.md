@@ -1,12 +1,12 @@
-# افزونه‌های Markdown
+# افزونه‌های Markdown{#markdown-extensions}
 
 ویت‌پرس با افزونه‌های markdown داخلی ارائه شده است.
 
-## لینک‌های هدر
+## لینک‌های هدر {#header-anchors}
 
 هدرها به طور خودکار لینک‌های anchor دریافت می‌کنند. نمایش anchor ها با استفاده از گزینه `markdown.anchor` قابل پیکربندی است.
 
-### anchor های سفارشی
+### anchor های سفارشی {#custom-anchors}
 
 برای مشخص کردن تگ anchor سفارشی برای یک هدینگ به جای استفاده از تگ خودکار، یک پسوند به هدینگ اضافه کنید:
 
@@ -16,11 +16,11 @@
 
 این به شما امکان می‌دهد که به جای استفاده از به جای استفاده از `#using-custom-anchors`، به هدینگ به عنوان `#my-anchor` لینک دهید.
 
-## لینک‌ها
+## لینک‌ها{#links}
 
 هم لینک‌های داخلی و هم خارجی با دستورالعمل‌های خاصی ارائه می‌شوند.
 
-### لینک‌های داخلی
+### لینک‌های داخلی {#internal-links}
 
 لینک‌های داخلی به لینک روتر برای ناوبری SPA تبدیل می‌شوند. همچنین، هر `index.md` موجود در هر زیرپوشه به طور خودکار به `index.html` تبدیل می‌شود، با URL متناظر `/`.
 
@@ -50,18 +50,18 @@
 [bar - four](../bar/four.html) <!-- or you can append .html -->
 ```
 
-### پسوند صفحه
+### پسوند صفحه  {#page-suffix}
 
 صفحات و لینک‌های داخلی به طور پیش‌فرض با پسوند `.html` تولید می‌شوند.
 
-### لینک‌های خارجی
+### لینک‌های خارجی{#external-links}
 
 لینک‌های خروجی به طور خودکار دارای `target="_blank" rel="noreferrer"` هستند:
 
 - [vuejs.org](https://vuejs.org)
 - [ویت‌پرس در GitHub](https://github.com/vuejs/vitepress)
 
-## Frontmatter
+## Frontmatter {#frontmatter}
 
 [YAML frontmatter](https://jekyllrb.com/docs/front-matter/) به طور پیش‌فرض پشتیبانی می‌شود:
 
@@ -76,7 +76,7 @@ lang: fa-IR
 
 برای اطلاعات بیشتر، به [Frontmatter](../reference/frontmatter-config) مراجعه کنید.
 
-## جداول مانند Github  
+## جداول مانند Github   {#github-style-tables}
 
 **ورودی**
 
@@ -96,7 +96,7 @@ lang: fa-IR
 | col 2 is      |   centered    |   $12 |
 | zebra stripes |   are neat    |    $1 |
 
-## اموجی :tada:
+## اموجی :tada: {#emoji}
 
 **ورودی**
 
@@ -110,7 +110,7 @@ lang: fa-IR
 
 یک [لیست از همه اموجی ها](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.mjs) در دسترس است.
 
-## فهرست مطالب
+## فهرست مطالب {#table-of-contents}
 
 **ورودی**
 
@@ -124,11 +124,11 @@ lang: fa-IR
 
 نحوه پردازش فهرست مطالب با استفاده از گزینه `markdown.toc` قابل پیکربندی است.
 
-## کانتینرهای سفارشی
+## کانتینرهای سفارشی{#custom-containers}
 
 کانتینرهای سفارشی می‌توانند توسط انواع، عناوین و محتویات خود تعریف شوند.
 
-### عنوان پیش‌فرض
+### عنوان پیش‌فرض {#default-title}
 
 **ورودی**
 
@@ -176,7 +176,7 @@ lang: fa-IR
 این یک بلوک جزئیات است.
 :::
 
-### عنوان سفارشی
+### عنوان سفارشی {#custom-title}
 
 می‌توانید عنوان سفارشی را با اضافه کردن متن به انتهای نوع کانتینر تنظیم کنید.
 
@@ -225,7 +225,7 @@ export default defineConfig({
 })
 ```
 
-### `raw`
+### `raw` {#raw}
 
 این یک کانتینر ویژه است که می‌تواند برای جلوگیری از تداخل استایل و روتر با ویت‌پرس استفاده شود. این به ویژه زمانی مفید است که شما کتابخانه‌های کامپوننت را مستند کنید. می‌توانید همچنین [whyframe](https://whyframe.dev/docs/integrations/vitepress) را برای ایزوله‌تر شدن بیشتر بررسی کنید.
 
@@ -263,7 +263,7 @@ export default defineConfig({
   })
   ```
 
-## هشدارهای GitHub
+## هشدارهای GitHub {#github-flavored-alerts}
 
 ویت‌پرس همچنین [هشدارهای GitHub](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts) را برای نمایش به عنوان تماس‌ها پشتیبانی می‌کند. آن‌ها به همان شکلی که [کانتینرهای سفارشی](#custom-containers) نمایش داده می‌شوند.
 
@@ -299,7 +299,7 @@ export default defineConfig({
 > [!CAUTION]
 > پیامدهای منفی احتمالی یک عمل.
 
-## Syntax Highlighting در بلوک‌های کد
+## Syntax Highlighting در بلوک‌های کد {#syntax-highlighting-in-code-blocks}
 
 ویت‌پرس از [Shiki](https://github.com/shikijs/shiki) برای syntax highlighting زبان در بلوک‌های کد Markdown با استفاده از متن رنگی استفاده می‌کند. Shiki از تنوع وسیعی از زبان‌های برنامه‌نویسی پشتیبانی می‌کند. تنها کافی است که یک نام مستعار زبان معتبر به بکتیک‌ها ابتدایی کد اضافه کنید:
 
@@ -345,7 +345,7 @@ export default {
 
 همچنین می‌توانید تم syntax highlighting را در تنظیمات برنامه سفارشی کنید. لطفاً به [گزینه‌های Markdown](../reference/site-config#markdown) برای جزئیات بیشتر مراجعه کنید.
 
-## برجسته‌سازی خطوط در بلوک‌های کد
+## برجسته‌سازی خطوط در بلوک‌های کد {#line-highlighting-in-code-blocks}
 
 **ورودی**
 
@@ -397,7 +397,7 @@ const message = 'Hello, World!';
 console.log(message);
 ```
 
-## فکوس در بلاک‌های کد
+## فکوس در بلاک‌های کد{#focus-in-code-blocks}
 
 افزودن کامنت `// [!code focus]` به یک خط، روی آن فکوس می‌کند و بخش‌های دیگر کد را مات می‌کند.
 
@@ -429,7 +429,7 @@ export default {
 }
 ```
 
-## تفاوت‌های رنگی در بلاک‌های کد
+## تفاوت‌های رنگی در بلاک‌های کد {#colored-diffs-in-code-blocks}
 
 افزودن کامنت `// [!code --]` یا `// [!code ++]` به یک خط، یک تفاوت را در آن خط ایجاد می‌کند، با حفظ رنگ‌های بلاک کد.
 
@@ -461,7 +461,7 @@ export default {
 }
 ```
 
-## خطاها و هشدارها در بلاک‌های کد
+## خطاها و هشدارها در بلاک‌های کد{#errors-and-warnings-in-code-blocks}
 
 افزودن کامنت `// [!code warning]` یا `// [!code error]` به یک خط، آن را مطابق با نوع، رنگ می‌کند.
 
@@ -493,7 +493,7 @@ export default {
 }
 ```
 
-## شماره‌گذاری خطوط
+## شماره‌گذاری خطوط {#line-numbers}
 
 می‌توانید با استفاده از تنظیمات، شماره‌گذاری خطوط را برای هر بلاک کد فعال کنید:
 
@@ -551,7 +551,7 @@ const line3 = 'این خط ۳ است'
 const line4 = 'این خط ۴ است'
 ```
 
-## وارد کردن Snippet کد
+## وارد کردن Snippet کد{#import-code-snippets}
 
 می‌توانید snippet های کد را از فایل‌های موجود با استفاده از دستور زیر وارد کنید:
 
@@ -621,7 +621,7 @@ const line4 = 'این خط ۴ است'
 این قابلیت مفید است اگر زبان منبع نمی‌تواند از پسوند فایل استنتاج شود.
 
 
-### گروه‌های کد
+### گروه‌های کد {#code-groups}
 
 می‌توانید چندین بلوک کد را به این شکل گروه‌بندی کنید:
 
@@ -707,7 +707,7 @@ export default config
 <<< @/snippets/snippet-with-region.js#snippet{1,2 ts:line-numbers} [قطعه با منطقه]
 :::
 
-## ادغام فایل‌های Markdown
+## ادغام فایل‌های Markdown {#markdown-file-inclusion}
 
 می‌توانید یک فایل Markdown را در یک فایل Markdown دیگر، حتی در صورت وجود تو در تو، وارد کنید.
 
@@ -828,7 +828,7 @@ export default config
 توجه داشته باشید که این اقدام منجر به خطا نمی‌شود اگر فایل شما وجود نداشته باشد. بنابراین، در استفاده از این ویژگی، مطمئن شوید که محتوا به درستی نمایش داده می‌شود.
 :::
 
-## معادلات ریاضی
+## معادلات ریاضی {#math-equations}
 
 در حال حاضر این گزینه اختیاری است. برای فعال‌سازی آن، باید `markdown-it-mathjax3` را نصب کرده و `markdown.math` را در فایل پیکربندی خود به `true` تنظیم کنید:
 
@@ -875,7 +875,7 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 | $\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t}  = \vec{\mathbf{0}}$                                                          | curl $\vec{\mathbf{E}}$ نسبت به نرخ تغییر $\vec{\mathbf{B}}$ نسبی است              |
 | $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _چیست؟_                                                                               |
 
-## بارگذاری تنبلی تصویر
+## بارگذاری lazy تصویر{#image-lazy-loading}
 
 می‌توانید بارگذاری تنبلی را برای هر تصویر اضافه شده از طریق Markdown با تنظیم `lazyLoading` به `true` در فایل پیکربندی فعال کنید:
 
@@ -890,7 +890,7 @@ export default {
 }
 ```
 
-## پیکربندی پیشرفته
+## پیکربندی پیشرفته {#advanced-configuration}
 
 ویت‌پرس از [markdown-it](https://github.com/markdown-it/markdown-it) به عنوان نمایشگر Markdown استفاده می‌کند. اکثر افزونه‌های فوق را با استفاده از افزونه‌های سفارشی پیاده‌سازی کرده‌ایم. می‌توانید نمونه‌ای بیشتر از نمونه `markdown-it` را با استفاده از گزینه `markdown` در `.vitepress/config.js` سفارشی‌سازی کنید:
 

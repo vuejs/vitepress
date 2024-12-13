@@ -1,6 +1,6 @@
 # Frontmatter
 
-## استفاده
+## استفاده {#usage}
 
 ویت‌پرس پشتیبانی از frontmatter YAML در تمام فایل‌های Markdown را دارد و آن‌ها را با استفاده از [gray-matter](https://github.com/jonschlinkert/gray-matter) تجزیه می‌کند. Frontmatter باید در بالای فایل Markdown قرار داشته باشد (قبل از هر عنصر از جمله برچسب‌های `<script>`) و باید به صورت YAML معتبر واقع در بین خطوط خط کشیده شود. به عنوان مثال:
 
@@ -15,7 +15,7 @@ editLink: true
 
 همچنین می‌توانید داده‌های اختصاصی frontmatter خود را تعریف کنید تا در بیانیه‌های پویا Vue در صفحه استفاده شود.
 
-## دسترسی به داده‌های Frontmatter
+## دسترسی به داده‌های Frontmatter {#accessing-frontmatter-data}
 
 داده‌های frontmatter می‌توانند از طریق متغیر global ویژه `$frontmatter` دسترسی داشته باشند:
 
@@ -34,7 +34,7 @@ editLink: true
 
 شما همچنین می‌توانید داده‌های frontmatter صفحه فعلی را در `<script setup>` با استفاده از راهنمای [`useData()`](../reference/runtime-api#usedata) به دست آورید.
 
-## فرمت‌های جایگزین Frontmatter
+## فرمت‌های جایگزین Frontmatter {#alternative-frontmatter-formats}
 
 ویت‌پرس همچنین از نحوه نوشتاری frontmatter JSON با استفاده از تکیه‌گاه‌های آغازین و پایانی در آکولاد پشتیبانی می‌کند:
 

@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-# گسترش تم پیش‌فرض
+# گسترش تم پیش‌فرض {#extending-the-default-theme}
 
 تم پیش‌فرض ویت‌پرس برای مستندات بهینه‌سازی شده است و قابلیت سفارشی‌سازی دارد. برای دریافت لیست جامع گزینه‌ها، به [نمای کلی از تنظیمات تم پیش‌فرض](../reference/default-theme-config) مراجعه کنید.
 
@@ -18,7 +18,7 @@ outline: deep
 قبل از ادامه، ابتدا [استفاده از یک تم سفارشی](./custom-theme) را بخوانید تا نحوه کار تم‌های سفارشی را درک کنید.
 :::
 
-## سفارشی‌سازی CSS
+## سفارشی‌سازی CSS {#customizing-css}
 
 CSS تم پیش‌فرض با نادیده گرفتن متغیرهای CSS سطح ریشه قابل سفارشی‌سازی است:
 
@@ -40,7 +40,7 @@ export default DefaultTheme
 
 لیست متغیرهای CSS [تم پیش‌فرض](https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css) که می‌توانند سفارشی‌سازی شوند را ببینید.
 
-## استفاده از فونت‌های مختلف
+## استفاده از فونت‌های مختلف{#using-different-fonts}
 
 ویت‌پرس از [Inter](https://rsms.me/inter/) به عنوان فونت پیش‌فرض استفاده می‌کند و فونت‌ها را در خروجی ساخته‌شده شامل می‌شود. این فونت همچنین در محصولات خودکار پیش‌بارگذاری می‌شود. با این حال، این ممکن است مطلوب نباشد اگر می‌خواهید از یک فونت اصلی مختلف استفاده کنید.
 
@@ -92,7 +92,7 @@ export default {
 }
 ```
 
-## ثبت مولفه‌های عمومی
+## ثبت مولفه‌های عمومی{#registering-global-components}
 
 ```js
 // .vitepress/theme/index.js
@@ -125,7 +125,7 @@ export default {
 
 از آنجا که از Vite استفاده می‌کنیم، می‌توانید از ویژگی [import glob](https://vitejs.dev/guide/features.html#glob-import) در Vite برای خودکار ثبت یک پوشه از مولفه‌ها استفاده کنید.
 
-## slot ‌های طرح
+## slot ‌های طرح {#layout-slots}
 
 کامپوننت `<Layout/>` تم پیش‌فرض چندین slot دارد که می‌توانید محتوا را در موقعیت‌های مختلف صفحه در آن‌ها درج کنید. در زیر مثالی از درج یک کامپوننت در قبل از طرح داده شده است:
 
@@ -220,9 +220,9 @@ export default {
   - `nav-screen-content-after`
 
 
-## استفاده از API انتقال نمایش
+## استفاده از API انتقال نمایش {#using-view-transitions-api}
 
-### در تغییر ظاهر
+### در تغییر ظاهر {#on-appearance-toggle}
 
 شما می‌توانید تم پیش‌فرض را گسترش دهید تا هنگام تغییر حالت رنگ، یک انتقال سفارشی را فراهم کند. به عنوان مثال:
 
@@ -312,11 +312,11 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
 
 برای جزئیات بیشتر در مورد انتقال‌های نمایش به [اسناد کروم](https://developer.chrome.com/docs/web-platform/view-transitions/) مراجعه کنید.
 
-### در تغییر مسیر
+### در تغییر مسیر {#on-route-change}
 
 به زودی.
 
-## جایگزینی کامپوننت‌های داخلی
+## جایگزینی کامپوننت‌های داخلی {#overriding-internal-components}
 
 شما می‌توانید با استفاده از [alias های Vite](https://vitejs.dev/config/shared-options.html#resolve-alias)، کامپوننت‌های تم پیش‌فرض را با کامپوننت‌های سفارشی خود جایگزین کنید:
 

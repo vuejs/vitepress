@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-# تنظیمات Frontmatter
+# تنظیمات Frontmatter {#frontmatter-config}
 
 Frontmatter امکان پیکربندی بر اساس صفحه را فراهم می‌کند. در هر فایل markdown، شما می‌توانید از تنظیمات frontmatter برای بازنویسی تنظیمات سطح سایت یا تم استفاده کنید. همچنین، تنظیماتی وجود دارند که فقط می‌توانید آن‌ها را در frontmatter تعریف کنید.
 
@@ -82,7 +82,7 @@ type HeadConfig =
   | [string, Record<string, string>, string]
 ```
 
-## فقط برای تم پیش‌فرض
+## فقط برای تم پیش‌فرض {#default-theme-only}
 
 گزینه‌های frontmatter زیر فقط زمانی قابل استفاده هستند که از تم پیش‌فرض استفاده می‌کنید.
 
@@ -103,11 +103,11 @@ layout: doc
 ---
 ```
 
-### hero <Badge type="info" text="فقط برای صفحه اصلی" />
+### hero <Badge type="info" text="فقط برای صفحه اصلی" /> {#hero}
 
 تعیین محتویات بخش hero صفحه اصلی هنگامی که `layout` به `home` تنظیم شده است. جزئیات بیشتر در [تم پیش‌فرض: صفحه اصلی](./default-theme-home-page).
 
-### features <Badge type="info" text="فقط برای صفحه اصلی" />
+### features <Badge type="info" text="فقط برای صفحه اصلی" /> {#features}
 
 تعیین مواردی که در بخش ویژگی‌ها باید نمایش داده شوند هنگامی که `layout` به `home` تنظیم شده است. جزئیات بیشتر در [تم پیش‌فرض: صفحه اصلی](./default-theme-home-page).
 
@@ -220,3 +220,4 @@ pageClass: custom-page-class
 .custom-page-class {
     /* استایل‌های مخصوص صفحه */
 }
+```

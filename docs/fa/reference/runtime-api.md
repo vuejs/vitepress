@@ -1,4 +1,4 @@
-# API زمان اجرا
+# API زمان اجرا {#runtime-api}
 
 ویت‌پرس چندین API داخلی را ارائه می‌دهد تا به شما امکان دسترسی به داده‌های برنامه را بدهد. همچنین، ویت‌پرس با چندین کامپوننت داخلی همراه است که می‌توانید به صورت جهانی از آن‌ها استفاده کنید.
 
@@ -6,7 +6,7 @@
 
 متدهایی که با `use*` آغاز می‌شوند نشان می‌دهند که این یک تابع [API ترکیبی Vue 3](https://vuejs.org/guide/introduction.html#composition-api) ("Composable") است که فقط می‌تواند در `setup()` یا `<script setup>` استفاده شود.
 
-## `useData` <Badge type="info" text="composable" />
+## `useData` <Badge type="info" text="composable" /> {#usedata}
 
 داده‌های خاص به صفحه را برمی‌گرداند. شیء برگشتی این نوع را دارد:
 
@@ -72,7 +72,7 @@ const { theme } = useData()
 </template>
 ```
 
-## `useRoute` <Badge type="info" text="composable" />
+## `useRoute` <Badge type="info" text="composable" /> {#useroute}
 
 شیء مسیر فعلی را با این نوع برمی‌گرداند:
 
@@ -84,7 +84,7 @@ interface Route {
 }
 ```
 
-## `useRouter` <Badge type="info" text="composable" />
+## `useRouter` <Badge type="info" text="composable" /> {#userouter}
 
 نمونه راوتر ویت‌پرس را برمی‌گرداند تا بتوانید به صورت برنامه‌ریزی‌شده به صفحه دیگری ناوبری کنید.
 
@@ -113,13 +113,13 @@ interface Router {
 }
 ```
 
-## `withBase` <Badge type="info" text="helper" />
+## `withBase` <Badge type="info" text="helper" /> {#withbase}
 
 - **نوع**: `(path: string) => string`
 
 پایه [پیکربندی‌شده](./site-config#base) را به یک مسیر URL داده شده اضافه می‌کند. همچنین به [آدرس پایه](../guide/asset-handling#base-url) مراجعه کنید.
 
-## `<Content />` <Badge type="info" text="component" />
+## `<Content />` <Badge type="info" text="component" /> {#content}
 
 کامپوننت `<Content />` محتوای markdown را نمایش می‌دهد. مفید است [هنگام ایجاد تم شخصی شما](../guide/custom-theme).
 
@@ -130,7 +130,7 @@ interface Router {
 </template>
 ```
 
-## `<ClientOnly />` <Badge type="info" text="component" />
+## `<ClientOnly />` <Badge type="info" text="component" /> {#clientonly}
 
 کامپوننت `<ClientOnly />` فقط اسلات خود را در سمت مشتری رندر می‌کند.
 
@@ -146,7 +146,7 @@ interface Router {
 
 - مرتبط: [سازگاری با SSR](../guide/ssr-compat)
 
-## `$frontmatter` <Badge type="info" text="template global" />
+## `$frontmatter` <Badge type="info" text="template global" /> {#frontmatter}
 
 در بیانیه‌های Vue، به صورت مستقیم به [داده‌های frontmatter](../guide/frontmatter) صفحه فعلی دسترسی پیدا کنید.
 
@@ -158,7 +158,7 @@ title: سلام
 # {{ $frontmatter.title }}
 ```
 
-## `$params` <Badge type="info" text="template global" />
+## `$params` <Badge type="info" text="template global" /> {#params}
 
 در بیانیه‌های Vue، به صورت مستقیم به [پارامترهای مسیر دینامیک](../guide/routing#dynamic-routes) صفحه فعلی دسترسی پیدا کنید.
 
