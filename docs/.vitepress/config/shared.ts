@@ -1,10 +1,10 @@
 import { defineConfig } from 'vitepress'
-import { search as zhSearch } from './zh'
+import { search as esSearch } from './es'
+import { search as faSearch } from './fa'
+import { search as koSearch } from './ko'
 import { search as ptSearch } from './pt'
 import { search as ruSearch } from './ru'
-import { search as esSearch } from './es'
-import { search as koSearch } from './ko'
-import { search as faSearch } from './fa'
+import { search as zhSearch } from './zh'
 
 export const shared = defineConfig({
   title: 'VitePress',
@@ -26,7 +26,36 @@ export const shared = defineConfig({
           return code.replace(/\[\!\!code/g, '[!code')
         }
       }
-    ]
+    ],
+    config(md) {
+      // TODO: remove when https://github.com/vuejs/vitepress/issues/4431 is fixed
+      const fence = md.renderer.rules.fence!
+      md.renderer.rules.fence = function (tokens, idx, options, env, self) {
+        const { localeIndex = 'root' } = env
+        const codeCopyButtonTitle = (() => {
+          switch (localeIndex) {
+            case 'es':
+              return 'Copiar código'
+            case 'fa':
+              return 'کپی کد'
+            case 'ko':
+              return '코드 복사'
+            case 'pt':
+              return 'Copiar código'
+            case 'ru':
+              return 'Скопировать код'
+            case 'zh':
+              return '复制代码'
+            default:
+              return 'Copy code'
+          }
+        })()
+        return fence(tokens, idx, options, env, self).replace(
+          '<button title="Copy Code" class="copy"></button>',
+          `<button title="${codeCopyButtonTitle}" class="copy"></button>`
+        )
+      }
+    }
   },
 
   sitemap: {
