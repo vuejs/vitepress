@@ -7,7 +7,7 @@ export default {
   themeConfig: {
     sidebar: [
       {
-        text: 'Guia',
+        text: 'Guía',
         items: [
           { text: 'Introducción', link: '/introduction' },
           { text: 'Iniciando', link: '/getting-started' },
@@ -56,7 +56,7 @@ export default {
   themeConfig: {
     sidebar: [
       {
-        text: 'Guia',
+        text: 'Guía',
         items: [
           // Esto muestra la página `/guide/index.md`.
           { text: 'Introducción', link: '/guide/' }
@@ -122,11 +122,11 @@ export default {
       // está en el directorio `guide`.
       '/guide/': [
         {
-          text: 'Guia',
+          text: 'Guía',
           items: [
             { text: 'Índice', link: '/guide/' },
-            { text: 'Um', link: '/guide/one' },
-            { text: 'Dois', link: '/guide/two' }
+            { text: 'Uno', link: '/guide/one' },
+            { text: 'Dos', link: '/guide/two' }
           ]
         }
       ],
@@ -201,7 +201,7 @@ export interface DocSidebar {
 }
 ```
 
-**Exemplo:**
+**Ejemplo:**
 
 ```vue
 <script setup>

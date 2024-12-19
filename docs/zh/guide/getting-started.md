@@ -89,7 +89,7 @@ $ bun vitepress init
 
 <<< @/snippets/init.ansi
 
-:::tip Vue 作为 peer dependency
+::: tip Vue 作为 peer dependency
 如果打算使用 Vue 组件或 API 进行自定义，还应该明确地将 `vue` 安装为 dependency。
 :::
 
@@ -112,7 +112,7 @@ $ bun vitepress init
 
  `docs` 目录作为 VitePress 站点的项目**根目录**。`.vitepress` 目录是 VitePress 配置文件、开发服务器缓存、构建输出和可选主题自定义代码的位置。
 
-:::tip
+::: tip
 默认情况下，VitePress 将其开发服务器缓存存储在 `.vitepress/cache` 中，并将生产构建输出存储在 `.vitepress/dist` 中。如果使用 Git，应该将它们添加到 `.gitignore` 文件中。也可以手动[配置](../reference/site-config#outdir)这些位置。
 :::
 

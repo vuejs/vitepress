@@ -4,7 +4,7 @@ outline: deep
 
 # Buscar {#search}
 
-## Busqueda local {#local-search}
+## Búsqueda local {#local-search}
 
 VitePress admite la búsqueda de texto completo utilizando un índice en el navegador gracias a [minisearch](https://github.com/lucaong/minisearch/). Para habilitar esta función, simplemente configure la opción `themeConfig.search.provider` como `'local'` en el archivo `.vitepress/config.ts`:
 
@@ -126,9 +126,9 @@ export default defineConfig({
 
 Esta función se eliminará de los datos del sitio web en el lado del cliente, por lo que podrá utilizar las API de Node.js en ella.
 
-#### Ejemplo: Excluir páginas de la busqueda {#example-excluding-pages-from-search}
+#### Ejemplo: Excluir páginas de la búsqueda {#example-excluding-pages-from-search}
 
-Puedes excluir páginas de la busqueda adicionando `search: false` al principio de la página. Alternativamente:
+Puedes excluir páginas de la búsqueda adicionando `search: false` al principio de la página. Alternativamente:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -141,7 +141,7 @@ export default defineConfig({
         _render(src, env, md) {
           const html = md.render(src, env)
           if (env.frontmatter?.search === false) return ''
-          if (env.relativePath.startsWith('algum/caminho')) return ''
+          if (env.relativePath.startsWith('algun/directorio')) return ''
           return html
         }
       }
@@ -176,7 +176,7 @@ export default defineConfig({
 })
 ```
 
-## Busqueda de Algolia {#algolia-search}
+## Búsqueda de Algolia {#algolia-search}
 
 VitePress admite la búsqueda en su sitio de documentación utilizando [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Consulte su guía de introducción. en tu archivo `.vitepress/config.ts`, Deberá proporcionar al menos lo siguiente para que funcione:
 

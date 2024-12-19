@@ -24,7 +24,7 @@ export default {
 }
 ```
 
-:::details Dynamic (Async) Config
+::: details Dynamic (Async) Config
 
 If you need to dynamically generate the config, you can also default export a function. For example:
 

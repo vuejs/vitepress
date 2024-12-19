@@ -36,11 +36,7 @@ export const pt = defineConfig({
     },
 
     lastUpdated: {
-      text: 'Atualizado em',
-      formatOptions: {
-        dateStyle: 'short',
-        timeStyle: 'medium'
-      }
+      text: 'Atualizado em'
     },
 
     langMenuLabel: 'Alterar Idioma',
