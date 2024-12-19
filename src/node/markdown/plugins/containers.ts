@@ -34,6 +34,13 @@ export const containerPlugin = (
     )
     .use(
       ...createContainer(
+        'success',
+        containerOptions?.successLabel || 'SUCCESS',
+        md
+      )
+    )
+    .use(
+      ...createContainer(
         'details',
         containerOptions?.detailsLabel || 'Details',
         md
@@ -138,4 +145,5 @@ export interface ContainerOptions {
   detailsLabel?: string
   importantLabel?: string
   cautionLabel?: string
+  successLabel?: string
 }
