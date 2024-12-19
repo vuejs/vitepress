@@ -19,6 +19,7 @@ export interface PageData {
   frontmatter: Record<string, any>
   params?: Record<string, any>
   isNotFound?: boolean
+  isSearch?: boolean
   lastUpdated?: number
 }
 

@@ -31,7 +31,20 @@ export const notFoundPageData: PageData = {
   headers: [],
   frontmatter: { sidebar: false, layout: 'page' },
   lastUpdated: 0,
-  isNotFound: true
+  isNotFound: true,
+  isSearch: false
+}
+
+export const searchPageData: PageData = {
+  relativePath: 'search.md',
+  filePath: '',
+  title: 'Search',
+  description: 'Search Page',
+  headers: [],
+  frontmatter: { sidebar: false, layout: 'page' },
+  lastUpdated: 0,
+  isNotFound: false,
+  isSearch: true
 }
 
 export function isActive(
