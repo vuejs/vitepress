@@ -22,8 +22,7 @@ Antes de prosseguir, certifique-se de ler primeiro [Usando um Tema Personalizado
 
 O CSS do tema padrão pode ser personalizado substituindo as variáveis CSS no nível raiz:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme'
 import './custom.css'
 
@@ -46,8 +45,7 @@ VitePress usa [Inter](https://rsms.me/inter/) como fonte padrão e incluirá as 
 
 Para evitar a inclusão de Inter na saída de compilação, importe o tema de `vitepress/theme-without-fonts`:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme-without-fonts'
 import './my-fonts.css'
 
@@ -68,8 +66,7 @@ Se estiver usando componentes opcionais como os componentes da [Página da Equip
 
 Se a sua fonte é um arquivo local referenciado via `@font-face`, ela será processada como um ativo e incluída em `.vitepress/dist/assets` com um nome de arquivo hash. Para pré-carregar esse arquivo, use o gancho de construção [transformHead](../reference/site-config#transformhead):
 
-```js
-// .vitepress/config.js
+```js [.vitepress/config.js]
 export default {
   transformHead({ assets }) {
     // ajuste o regex para corresponder à sua fonte
@@ -94,8 +91,7 @@ export default {
 
 ## Registrando Componentes Globais {#registering-global-components}
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme'
 
 /** @type {import('vitepress').Theme} */
@@ -109,8 +105,7 @@ export default {
 ```
 
 Se estiver usando TypeScript:
-```ts
-// .vitepress/theme/index.ts
+```ts [.vitepress/theme/index.ts]
 import type { Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 
@@ -129,8 +124,7 @@ Como estamos usando Vite, você também pode aproveitar a [funcionalidade de imp
 
 O componente `<Layout/>` do tema padrão possui alguns _slots_ que podem ser usados para injetar conteúdo em locais específicos da página. Aqui está um exemplo de como injetar um componente antes do esquema :
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme'
 import MyLayout from './MyLayout.vue'
 
@@ -142,8 +136,7 @@ export default {
 }
 ```
 
-```vue
-<!--.vitepress/theme/MyLayout.vue-->
+```vue [.vitepress/theme/MyLayout.vue]
 <script setup>
 import DefaultTheme from 'vitepress/theme'
 
@@ -161,8 +154,7 @@ const { Layout } = DefaultTheme
 
 Ou você também pode usar a função _render_.
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import { h } from 'vue'
 import DefaultTheme from 'vitepress/theme'
 import MyComponent from './MyComponent.vue'
@@ -223,9 +215,7 @@ Lista completa de _slots_ disponíveis no layout do tema padrão:
 
 Você pode estender o tema padrão para fornecer uma transição personalizada quando o modo de cor é alternado. Um exemplo:
 
-```vue
-<!-- .vitepress/theme/Layout.vue -->
-
+```vue [.vitepress/theme/Layout.vue]
 <script setup lang="ts">
 import { useData } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'

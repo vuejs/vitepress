@@ -50,8 +50,7 @@ if (!import.meta.env.SSR) {
 
 از آنجا که `Theme.enhanceApp` می‌تواند async باشد، می‌توانید به صورت شرطی پلاگین‌های Vue را که دسترسی به API‌های مرورگر را هنگام وارد کردن دارند، وارد و ثبت کنید:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 /** @type {import('vitepress').Theme} */
 export default {
   // ...
@@ -65,8 +64,7 @@ export default {
 ```
 
 اگر از TypeScript استفاده می‌کنید:
-```ts
-// .vitepress/theme/index.ts
+```ts [.vitepress/theme/index.ts]
 import type { Theme } from 'vitepress'
 
 export default {

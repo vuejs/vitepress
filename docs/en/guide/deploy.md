@@ -10,7 +10,7 @@ The following guides are based on some shared assumptions:
 - You are using the default build output directory (`.vitepress/dist`).
 - VitePress is installed as a local dependency in your project, and you have set up the following scripts in your `package.json`:
 
-  ```json
+  ```json [package.json]
   {
     "scripts": {
       "docs:build": "vitepress build docs",
@@ -121,7 +121,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
 1. Create a file named `deploy.yml` inside `.github/workflows` directory of your project with some content like this:
 
-   ```yaml
+   ```yaml [.github/workflows/deploy.yml]
    # Sample workflow for building and deploying a VitePress site to GitHub Pages
    #
    name: Deploy VitePress site to Pages
@@ -204,7 +204,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
 2. Create a file named `.gitlab-ci.yml` in the root of your project with the content below. This will build and deploy your site whenever you make changes to your content:
 
-   ```yaml
+   ```yaml [.gitlab-ci.yml]
    image: node:18
    pages:
      cache:
@@ -237,7 +237,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
    `firebase.json`:
 
-   ```json
+   ```json [firebase.json]
    {
      "hosting": {
        "public": "docs/.vitepress/dist",
@@ -248,7 +248,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
    `.firebaserc`:
 
-   ```json
+   ```json [.firebaserc]
    {
      "projects": {
        "default": "<YOUR_FIREBASE_ID>"
@@ -276,7 +276,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
 2. Create a file called `static.json` in the root of your project with the below content:
 
-   ```json
+   ```json [static.json]
    {
      "root": "docs/.vitepress/dist"
    }

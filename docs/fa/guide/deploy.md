@@ -10,7 +10,7 @@ outline: deep
 - شما از دایرکتوری خروجی پیش‌فرض ساخته‌شده (`.vitepress/dist`) استفاده می‌کنید.
 - ویت‌پرس به‌عنوان یک وابستگی محلی در پروژه شما نصب شده است و شما اسکریپت‌های زیر را در `package.json` پیکربندی کرده‌اید:
 
-  ```json
+  ```json [package.json]
   {
     "scripts": {
       "docs:build": "vitepress build docs",
@@ -121,7 +121,7 @@ Cache-Control: max-age=31536000,immutable
 
 1. یک فایل به نام `deploy.yml` در دایرکتوری `.github/workflows` پروژه خود ایجاد کنید با محتوایی مانند زیر:
 
-   ```yaml
+   ```yaml [.github/workflows/deploy.yml]
    # Sample workflow for building and deploying a ویت‌پرس site to GitHub Pages
    #
    name: Deploy ویت‌پرس site to Pages
@@ -202,7 +202,7 @@ Cache-Control: max-age=31536000,immutable
 
 2. یک فایل به نام `.gitlab-ci.yml` در ریشه پروژه خود با محتوای زیر ایجاد کنید. این کار به ساخت و انتشار وب‌سایت شما هر زمانی که تغییری در محتوا ایجاد می‌کنید، می‌پردازد:
 
-   ```yaml
+   ```yaml [.gitlab-ci.yml]
    image: node:18
    pages:
      cache:
@@ -235,7 +235,7 @@ Cache-Control: max-age=31536000,immutable
 
    `firebase.json`:
 
-   ```json
+   ```json [firebase.json]
    {
      "hosting": {
        "public": "docs/.vitepress/dist",
@@ -246,7 +246,7 @@ Cache-Control: max-age=31536000,immutable
 
    `.firebaserc`:
 
-   ```json
+   ```json [.firebaserc]
    {
      "projects": {
        "default": "<YOUR_FIREBASE_ID>"
@@ -274,7 +274,7 @@ Cache-Control: max-age=31536000,immutable
 
 2. یک فایل به نام `static.json` در ریشه پروژه خود با محتوای زیر ایجاد کنید:
 
-   ```json
+   ```json [static.json]
    {
      "root": "docs/.vitepress/dist"
    }

@@ -50,8 +50,7 @@ if (!import.meta.env.SSR) {
 
 Поскольку [`Theme.enhanceApp`](./custom-theme#theme-interface) может быть асинхронным, вы можете условно импортировать и регистрировать плагины Vue, которые получают доступ к API браузера при импорте:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 /** @type {import('vitepress').Theme} */
 export default {
   // ...
@@ -66,8 +65,7 @@ export default {
 
 Если вы используете TypeScript:
 
-```ts
-// .vitepress/theme/index.ts
+```ts [.vitepress/theme/index.ts]
 import type { Theme } from 'vitepress'
 
 export default {

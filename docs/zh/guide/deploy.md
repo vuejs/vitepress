@@ -10,7 +10,7 @@ outline: deep
 - 你使用的是默认的生成输出目录 （`.vitepress/dist`）。
 - VitePress 作为本地依赖项安装在项目中，并且你已在 `package.json` 中设置以下脚本：
 
-  ```json
+  ```json [package.json]
   {
     "scripts": {
       "docs:build": "vitepress build docs",
@@ -121,7 +121,7 @@ Cache-Control: max-age=31536000,immutable
 
 1. 在项目的 `.github/workflows` 目录中创建一个名为 `deploy.yml` 的文件，其中包含这样的内容：
 
-   ```yaml
+   ```yaml [.github/workflows/deploy.yml]
    # 构建 VitePress 站点并将其部署到 GitHub Pages 的示例工作流程
    #
    name: Deploy VitePress site to Pages
@@ -204,7 +204,7 @@ Cache-Control: max-age=31536000,immutable
 
 2. 在项目的根目录中创建一个名为 `.gitlab-ci.yml` 的文件，其中包含以下内容。每当你更改内容时，这都会构建和部署你的站点：
 
-   ```yaml
+   ```yaml [.gitlab-ci.yml]
    image: node:18
    pages:
      cache:
@@ -237,7 +237,7 @@ Cache-Control: max-age=31536000,immutable
 
    `firebase.json`:
 
-   ```json
+   ```json [firebase.json]
    {
      "hosting": {
        "public": "docs/.vitepress/dist",
@@ -248,7 +248,7 @@ Cache-Control: max-age=31536000,immutable
 
    `.firebaserc`:
 
-   ```json
+   ```json [.firebaserc]
    {
      "projects": {
        "default": "<YOUR_FIREBASE_ID>"
@@ -276,7 +276,7 @@ Cache-Control: max-age=31536000,immutable
 
 2. 使用以下内容在项目的根目录中创建一个名为 `static.json` 的文件：
 
-   ```json
+   ```json [static.json]
    {
      "root": "docs/.vitepress/dist"
    }

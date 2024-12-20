@@ -165,8 +165,7 @@ export default {
 
 Вы можете добавить пользовательские компоненты в панель навигации с помощью опции `component`. Ключ `component` должен быть именем компонента Vue и должен быть зарегистрирован глобально с помощью [Theme.enhanceApp](../guide/custom-theme#theme-interface).
 
-```js
-// .vitepress/config.js
+```js [.vitepress/config.js]
 export default {
   themeConfig: {
     nav: [
@@ -192,8 +191,7 @@ export default {
 
 Затем необходимо зарегистрировать компонент глобально:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme'
 
 import MyCustomComponent from './components/MyCustomComponent.vue'

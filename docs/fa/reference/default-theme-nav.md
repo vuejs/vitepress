@@ -166,8 +166,7 @@ export default {
 
 می‌توانید اجزای سفارشی را در نوار ناوبری با استفاده از گزینه `component` اضافه کنید. کلید `component` باید نام مؤلفه Vue باشد و باید به صورت جهانی با استفاده از [Theme.enhanceApp](../guide/custom-theme#theme-interface) ثبت شود.
 
-```js
-// .vitepress/config.js
+```js [.vitepress/config.js]
 export default {
   themeConfig: {
     nav: [
@@ -193,8 +192,7 @@ export default {
 
 سپس، شما باید مؤلفه را به صورت جهانی ثبت کنید:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme'
 
 import MyCustomComponent from './components/MyCustomComponent.vue'
