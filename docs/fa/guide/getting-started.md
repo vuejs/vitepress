@@ -125,8 +125,7 @@ $ bun vitepress init
 
 فایل پیکربندی (`.vitepress/config.js`) به شما اجازه می‌دهد جنبه‌های مختلف سایت ویت‌پرس خود را سفارشی کنید، با گزینه‌های پایه‌ای مانند عنوان و توضیحات سایت:
 
-```js
-// .vitepress/config.js
+```js [.vitepress/config.js]
 export default {
   // گزینه‌های سطح سایت
   title: 'ویت‌پرس',
@@ -152,7 +151,7 @@ export default {
 
 این ابزار باید اسکریپت‌های npm زیر را به `package.json` شما اضافه کرده باشد اگر اجازه این کار را در طول فرآیند راه‌اندازی داده باشید:
 
-```json
+```json [package.json]
 {
   ...
   "scripts": {

@@ -5,6 +5,7 @@ import { search as koSearch } from './ko'
 import { search as ptSearch } from './pt'
 import { search as ruSearch } from './ru'
 import { search as zhSearch } from './zh'
+import { groupIconMdPlugin,groupIconVitePlugin, localIconLoader } from 'vitepress-plugin-group-icons'
 
 export const shared = defineConfig({
   title: 'VitePress',
@@ -55,6 +56,7 @@ export const shared = defineConfig({
           `<button title="${codeCopyButtonTitle}" class="copy"></button>`
         )
       }
+      md.use(groupIconMdPlugin)
     }
   },
 
@@ -104,5 +106,15 @@ export const shared = defineConfig({
     },
 
     carbonAds: { code: 'CEBDT27Y', placement: 'vuejsorg' }
+  },
+  vite: {
+    plugins: [
+      groupIconVitePlugin({
+        customIcon: {
+          vitepress: localIconLoader(import.meta.url, '../../public/vitepress-logo-mini.svg'),
+          firebase: 'logos:firebase'
+        }
+      })
+    ]
   }
 })

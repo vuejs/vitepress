@@ -22,8 +22,7 @@ Before proceeding, make sure to first read [Using a Custom Theme](./custom-theme
 
 The default theme CSS is customizable by overriding root level CSS variables:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme'
 import './custom.css'
 
@@ -46,8 +45,7 @@ VitePress uses [Inter](https://rsms.me/inter/) as the default font, and will inc
 
 To avoid including Inter in the build output, import the theme from `vitepress/theme-without-fonts` instead:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme-without-fonts'
 import './my-fonts.css'
 
@@ -68,8 +66,7 @@ If you are using optional components like the [Team Page](../reference/default-t
 
 If your font is a local file referenced via `@font-face`, it will be processed as an asset and included under `.vitepress/dist/assets` with hashed filename. To preload this file, use the [transformHead](../reference/site-config#transformhead) build hook:
 
-```js
-// .vitepress/config.js
+```js [.vitepress/config.js]
 export default {
   transformHead({ assets }) {
     // adjust the regex accordingly to match your font
@@ -94,8 +91,7 @@ export default {
 
 ## Registering Global Components
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme'
 
 /** @type {import('vitepress').Theme} */
@@ -109,8 +105,7 @@ export default {
 ```
 
 If you're using TypeScript:
-```ts
-// .vitepress/theme/index.ts
+```ts [.vitepress/theme/index.ts]
 import type { Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 
@@ -129,8 +124,7 @@ Since we are using Vite, you can also leverage Vite's [glob import feature](http
 
 The default theme's `<Layout/>` component has a few slots that can be used to inject content at certain locations of the page. Here's an example of injecting a component into the before outline:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme'
 import MyLayout from './MyLayout.vue'
 
@@ -142,8 +136,7 @@ export default {
 }
 ```
 
-```vue
-<!--.vitepress/theme/MyLayout.vue-->
+```vue [.vitepress/theme/MyLayout.vue]
 <script setup>
 import DefaultTheme from 'vitepress/theme'
 
@@ -161,8 +154,7 @@ const { Layout } = DefaultTheme
 
 Or you could use render function as well.
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import { h } from 'vue'
 import DefaultTheme from 'vitepress/theme'
 import MyComponent from './MyComponent.vue'
@@ -224,9 +216,7 @@ Full list of slots available in the default theme layout:
 
 You can extend the default theme to provide a custom transition when the color mode is toggled. An example:
 
-```vue
-<!-- .vitepress/theme/Layout.vue -->
-
+```vue [.vitepress/theme/Layout.vue]
 <script setup lang="ts">
 import { useData } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
