@@ -22,8 +22,7 @@ outline: deep
 
 CSS تم پیش‌فرض با نادیده گرفتن متغیرهای CSS سطح ریشه قابل سفارشی‌سازی است:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme'
 import './custom.css'
 
@@ -46,8 +45,7 @@ export default DefaultTheme
 
 برای جلوگیری از شامل شدن Inter در خروجی ساخته‌شده، تم را به جای `vitepress/theme-without-fonts` وارد کنید:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme-without-fonts'
 import './my-fonts.css'
 
@@ -68,8 +66,7 @@ export default DefaultTheme
 
 اگر فونت شما یک فایل محلی است که از طریق `@font-face` ارجاع شده است، به عنوان یک دارایی پردازش می‌شود و با نام فایل هشداردار در `.vitepress/dist/assets` شامل می‌شود. برای پیش‌بارگذاری این فایل، از هوک ساخت [transformHead](../reference/site-config#transformhead) استفاده کنید:
 
-```js
-// .vitepress/config.js
+```js [.vitepress/config.js]
 export default {
   transformHead({ assets }) {
     // منظور شده برای همسان سازی font خود، regex مورد نیاز را تنظیم کنید
@@ -94,8 +91,7 @@ export default {
 
 ## ثبت مولفه‌های عمومی {#registering-global-components}
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme'
 
 /** @type {import('vitepress').Theme} */
@@ -109,8 +105,7 @@ export default {
 ```
 
 اگر از TypeScript استفاده می‌کنید:
-```ts
-// .vitepress/theme/index.ts
+```ts [.vitepress/theme/index.ts]
 import type { Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 
@@ -129,8 +124,7 @@ export default {
 
 کامپوننت `<Layout/>` تم پیش‌فرض چندین slot دارد که می‌توانید محتوا را در موقعیت‌های مختلف صفحه در آن‌ها درج کنید. در زیر مثالی از درج یک کامپوننت در قبل از طرح داده شده است:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme'
 import MyLayout from './MyLayout.vue'
 
@@ -141,8 +135,7 @@ export default {
 }
 ```
 
-```vue
-<!--.vitepress/theme/MyLayout.vue-->
+```vue [.vitepress/theme/MyLayout.vue]
 <script setup>
 import DefaultTheme from 'vitepress/theme'
 
@@ -162,8 +155,7 @@ const { Layout } = DefaultTheme
 
 یا می‌توانید از تابع رندر نیز استفاده کنید.
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import { h } from 'vue'
 import DefaultTheme from 'vitepress/theme'
 import MyComponent from './MyComponent.vue'
@@ -226,9 +218,7 @@ export default {
 
 شما می‌توانید تم پیش‌فرض را گسترش دهید تا هنگام تغییر حالت رنگ، یک انتقال سفارشی را فراهم کند. به عنوان مثال:
 
-```vue
-<!-- .vitepress/theme/Layout.vue -->
-
+```vue [.vitepress/theme/Layout.vue]
 <script setup lang="ts">
 import { useData } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'

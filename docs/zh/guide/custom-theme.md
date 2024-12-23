@@ -49,8 +49,7 @@ interface EnhanceAppContext {
 
 主题入口文件需要将主题作为默认导出来导出：
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 
 // 可以直接在主题入口导入 Vue 文件
 // VitePress 已预先配置 @vitejs/plugin-vue
@@ -72,8 +71,7 @@ export default {
 
 最基本的布局组件需要包含一个 [`<Content />`](../reference/runtime-api#content) 组件：
 
-```vue
-<!-- .vitepress/theme/Layout.vue -->
+```vue [.vitepress/theme/Layout.vue]
 <template>
   <h1>Custom Layout!</h1>
 
@@ -172,8 +170,7 @@ const { page, frontmatter } = useData()
 
 要使用外部主题，请导入它并重新导出：
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import Theme from 'awesome-vitepress-theme'
 
 export default Theme
@@ -181,8 +178,7 @@ export default Theme
 
 如果主题需要扩展：
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import Theme from 'awesome-vitepress-theme'
 
 export default {
@@ -195,8 +191,7 @@ export default {
 
 如果主题需要特殊的 VitePress 配置，也需要在配置中扩展：
 
-```ts
-// .vitepress/config.ts
+```ts [.vitepress/config.ts]
 import baseConfig from 'awesome-vitepress-theme/config'
 
 export default {
@@ -207,8 +202,7 @@ export default {
 
 最后，如果主题为其主题配置提供了类型：
 
-```ts
-// .vitepress/config.ts
+```ts [.vitepress/config.ts]
 import baseConfig from 'awesome-vitepress-theme/config'
 import { defineConfigWithTheme } from 'vitepress'
 import type { ThemeConfig } from 'awesome-vitepress-theme'

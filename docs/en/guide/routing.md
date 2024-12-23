@@ -178,8 +178,7 @@ packages/pkg-b/src/bar.md    -->  /pkg-b/bar.html
 
 You can achieve this by configuring the [`rewrites`](../reference/site-config#rewrites) option like this:
 
-```ts
-// .vitepress/config.js
+```ts [.vitepress/config.js]
 export default {
   rewrites: {
     'packages/pkg-a/src/index.md': 'pkg-a/index.md',

@@ -10,7 +10,7 @@ outline: deep
 - 기본 빌드 출력 디렉토리(`.vitepress/dist`)를 사용하고 있다.
 - VitePress는 프로젝트의 로컬 종속성으로 설치되어 있으며, `package.json`에 다음 스크립트가 설정되어 있다:
 
-  ```json
+  ```json [package.json]
   {
     "scripts": {
       "docs:build": "vitepress build docs",
@@ -121,7 +121,7 @@ HTML 코드에 대해 _Auto Minify_ 옵션을 활성화하지 마세요. 이는 
 
 1. 프로젝트의 `.github/workflows` 디렉토리 안에 `deploy.yml`이라는 파일을 만들고 다음과 같은 내용을 추가하세요:
 
-   ```yaml
+   ```yaml [.github/workflows/deploy.yml]
    # VitePress 사이트를 GitHub Pages에 빌드하고 배포하는 샘플 워크플로우
    #
    name: VitePress 사이트를 Pages에 배포
@@ -203,7 +203,7 @@ HTML 코드에 대해 _Auto Minify_ 옵션을 활성화하지 마세요. 이는 
 
 2. 변경 사항을 적용할 때마다 사이트를 빌드하고 배포하도록 하기 위해 프로젝트의 루트에 다음 내용을 가진 `.gitlab-ci.yml` 파일을 생성하세요:
 
-   ```yaml
+   ```yaml [.gitlab-ci.yml]
    image: node:18
    pages:
      cache:
@@ -236,7 +236,7 @@ HTML 코드에 대해 _Auto Minify_ 옵션을 활성화하지 마세요. 이는 
 
    `firebase.json`:
 
-   ```json
+   ```json  [firebase.json]
    {
      "hosting": {
        "public": "docs/.vitepress/dist",
@@ -247,7 +247,7 @@ HTML 코드에 대해 _Auto Minify_ 옵션을 활성화하지 마세요. 이는 
 
    `.firebaserc`:
 
-   ```json
+   ```json [.firebaserc]
    {
      "projects": {
        "default": "<YOUR_FIREBASE_ID>"
@@ -275,7 +275,7 @@ HTML 코드에 대해 _Auto Minify_ 옵션을 활성화하지 마세요. 이는 
 
 2. 프로젝트 루트에 아래 내용을 포함한 `static.json` 파일을 생성하세요:
 
-   ```json
+   ```json [static.json]
    {
      "root": "docs/.vitepress/dist"
    }

@@ -49,8 +49,7 @@ interface EnhanceAppContext {
 
 El archivo de entrada del tema debe exportar el tema como su exportación por defecto:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 
 // Puede importar archivos Vue directamente en el archivo de entrada del tema
 // VitePress ya está preconfigurado con @vitejs/plugin-vue.
@@ -72,8 +71,7 @@ Dentro de su componente de layout, el funciona como una aplicación Vite + Vue 3
 
 El componente de layout más básico necesita un componente [`<Content />`](../reference/runtime-api#content):
 
-```vue
-<!-- .vitepress/theme/Layout.vue -->
+```vue [.vitepress/theme/Layout.vue]
 <template>
   <h1>Layout Personalizado!</h1>
 
@@ -172,8 +170,7 @@ Si desea distribuir su tema como un paquete npm, siga estos pasos:
 
 Para consumir un tema extereno, importelo e reexportelo a partir del archivo de entrada del tema personalizado:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import Theme from 'awesome-vitepress-theme'
 
 export default Theme
@@ -181,8 +178,7 @@ export default Theme
 
 Si el tema necesita ser extendido:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import Theme from 'awesome-vitepress-theme'
 
 export default {

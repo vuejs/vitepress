@@ -22,8 +22,7 @@ VitePress의 기본 테마는 문서화에 최적화되어 있으며, 커스텀�
 
 기본 테마의 CSS는 루트 레벨의 CSS 변수를 재정의하여 커스터마이징 할 수 있습니다:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme'
 import './custom.css'
 
@@ -46,8 +45,7 @@ VitePress는 기본 폰트로 [Inter](https://rsms.me/inter/)를 사용하며, �
 
 빌드 결과물에 Inter를 포함시키지 않으려면, `vitepress/theme-without-fonts`에서 테마를 "import" 합니다:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme-without-fonts'
 import './my-fonts.css'
 
@@ -68,8 +66,7 @@ export default DefaultTheme
 
 폰트가 `@font-face`를 통해 참조된 로컬 파일인 경우, 에셋으로 처리되어 해시된 파일 이름으로 `.vitepress/dist/assets`에 포함됩니다. 이 파일을 미리 로드하려면 [transformHead](../reference/site-config#transformhead) 빌드 훅을 사용해야 합니다:
 
-```js
-// .vitepress/config.js
+```js [.vitepress/config.js]
 export default {
   transformHead({ assets }) {
     // 폰트를 매칭하기 위해 정규식을 적절히 조정하세요
@@ -94,8 +91,7 @@ export default {
 
 ## 전역 컴포넌트 등록하기 {#registering-global-components}
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme'
 
 /** @type {import('vitepress').Theme} */
@@ -109,8 +105,7 @@ export default {
 ```
 
 TypeScript를 사용하는 경우:
-```ts
-// .vitepress/theme/index.ts
+```ts [.vitepress/theme/index.ts]
 import type { Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 
@@ -129,8 +124,7 @@ Vite를 사용하므로, Vite의 [glob import 기능](https://vitejs.dev/guide/f
 
 기본 테마의 `<Layout/>` 컴포넌트는 페이지의 특정 위치에 컨텐츠를 삽입할 수 있는 몇 가지 슬롯을 가지고 있습니다. 다음은 아웃라인 앞에 컴포넌트를 삽입하는 예제입니다:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme'
 import MyLayout from './MyLayout.vue'
 
@@ -142,8 +136,7 @@ export default {
 }
 ```
 
-```vue
-<!--.vitepress/theme/MyLayout.vue-->
+```vue [.vitepress/theme/MyLayout.vue]
 <script setup>
 import DefaultTheme from 'vitepress/theme'
 
@@ -161,8 +154,7 @@ const { Layout } = DefaultTheme
 
 또는 렌더 함수를 사용할 수도 있습니다.
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import { h } from 'vue'
 import DefaultTheme from 'vitepress/theme'
 import MyComponent from './MyComponent.vue'
@@ -224,9 +216,7 @@ export default {
 
 기본 테마를 확장하여 컬러 모드가 전환될 때 커스텀 트랜지션 효과를 제공할 수 있습니다. 예제:
 
-```vue
-<!-- .vitepress/theme/Layout.vue -->
-
+```vue [.vitepress/theme/Layout.vue]
 <script setup lang="ts">
 import { useData } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'

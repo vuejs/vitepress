@@ -120,8 +120,7 @@ By default, VitePress stores its dev server cache in `.vitepress/cache`, and the
 
 The config file (`.vitepress/config.js`) allows you to customize various aspects of your VitePress site, with the most basic options being the title and description of the site:
 
-```js
-// .vitepress/config.js
+```js [.vitepress/config.js]
 export default {
   // site-level options
   title: 'VitePress',
@@ -147,7 +146,7 @@ VitePress also provides the ability to generate clean URLs, rewrite paths, and d
 
 The tool should have also injected the following npm scripts to your `package.json` if you allowed it to do so during the setup process:
 
-```json
+```json [package.json]
 {
   ...
   "scripts": {

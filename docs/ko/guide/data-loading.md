@@ -8,8 +8,7 @@ VitePress는 페이지나 컴포넌트에서 임의의 데이터를 로드하고
 
 데이터 로더 파일은 반드시 `.data.js` 또는 `.data.ts`로 끝나야 합니다. 이 파일은 `load()` 메서드를 가진 객체를 "export default" 해야 합니다:
 
-```js
-// example.data.js
+```js [example.data.js]
 export default {
   load() {
     return {
@@ -84,8 +83,7 @@ export default {
 
 콘텐츠가 많은 사이트를 구축할 때, 종종 "아카이브" 또는 "인덱스" 페이지를 만들어야 합니다. 이 페이지는 콘텐츠 모음에 있는 모든 항목(예: 블로그 게시물, API 페이지)을 나열하는 페이지입니다. 데이터 로더 API를 직접 사용하여 이를 구현할 수 있지만, VitePress는 이러한 일반적인 사용 사례를 간소화하기 위해 `createContentLoader` 헬퍼를 제공합니다:
 
-```js
-// posts.data.js
+```js [posts.data.js]
 import { createContentLoader } from 'vitepress'
 
 export default createContentLoader('posts/*.md', /* options */)
@@ -135,8 +133,7 @@ import { data as posts } from './posts.data.js'
 
 기본 데이터가 모든 요구 사항에 충족하지 않을 수 있습니다. 옵션을 사용하여 데이터를 변환할 수 있습니다:
 
-```js
-// posts.data.js
+```js [posts.data.js]
 import { createContentLoader } from 'vitepress'
 
 export default createContentLoader('posts/*.md', {
@@ -162,8 +159,7 @@ export default createContentLoader('posts/*.md', {
 
 `createContentLoader` API는 [빌드 훅](../reference/site-config#build-hooks) 내에서도 사용할 수 있습니다:
 
-```js
-// .vitepress/config.js
+```js [.vitepress/config.js]
 export default {
   async buildEnd() {
     const posts = await createContentLoader('posts/*.md').load()
