@@ -46,6 +46,7 @@ export async function init(root: string | undefined) {
           initialValue: './',
           validate(value) {
             // TODO make sure directory is inside
+            return undefined
           }
         })
       },
