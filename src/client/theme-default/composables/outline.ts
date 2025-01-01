@@ -1,6 +1,6 @@
 import { getScrollOffset } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
-import { onMounted, onUnmounted, onUpdated, type Ref } from 'vue'
+import { inject, onMounted, onUnmounted, onUpdated, type Ref } from 'vue'
 import type { Header } from '../../shared'
 import { throttleAndDebounce } from '../support/utils'
 import { useAside } from './aside'
@@ -84,6 +84,7 @@ export function useActiveAnchor(
   marker: Ref<HTMLElement>
 ): void {
   const { isAsideEnabled } = useAside()
+  const scrollAside = inject<(position: number) => void>('scroll-aside')
 
   const onScroll = throttleAndDebounce(setActiveLink, 100)
 
@@ -170,9 +171,11 @@ export function useActiveAnchor(
       activeLink.classList.add('active')
       marker.value.style.top = activeLink.offsetTop + 39 + 'px'
       marker.value.style.opacity = '1'
+      scrollAside?.(activeLink.offsetTop + 39)
     } else {
       marker.value.style.top = '33px'
       marker.value.style.opacity = '0'
+      scrollAside?.(33)
     }
   }
 }

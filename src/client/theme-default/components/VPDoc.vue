@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRoute } from 'vitepress'
-import { computed } from 'vue'
+import { computed, nextTick, provide, ref } from 'vue'
 import { useData } from '../composables/data'
 import { useSidebar } from '../composables/sidebar'
 import VPDocAside from './VPDocAside.vue'
@@ -10,10 +10,18 @@ const { theme } = useData()
 
 const route = useRoute()
 const { hasSidebar, hasAside, leftAside } = useSidebar()
+const asideContainerRef = ref<HTMLDivElement | undefined>()
 
 const pageName = computed(() =>
   route.path.replace(/[./]+/g, '_').replace(/_html$/, '')
 )
+
+function scrollAside(position: number) {
+  nextTick(() => {
+    asideContainerRef.value?.scrollTo({ top: position, behavior: 'smooth' })
+  })
+}
+provide('scroll-aside', scrollAside)
 </script>
 
 <template>
@@ -25,7 +33,7 @@ const pageName = computed(() =>
     <div class="container">
       <div v-if="hasAside" class="aside" :class="{'left-aside': leftAside}">
         <div class="aside-curtain" />
-        <div class="aside-container">
+        <div ref="asideContainerRef" class="aside-container">
           <div class="aside-content">
             <VPDocAside>
               <template #aside-top><slot name="aside-top" /></template>
