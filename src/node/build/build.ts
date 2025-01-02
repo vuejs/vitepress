@@ -138,7 +138,8 @@ export async function build(
         iconSelector: '.vpi-social-{name}',
         commonSelector: '.vpi-social',
         varName: 'icon',
-        format: process.env.DEBUG ? 'expanded' : 'compressed'
+        format: process.env.DEBUG ? 'expanded' : 'compressed',
+        mode: 'mask'
       }).replace(/.*?}/, '')
 
       fs.writeFileSync(path.join(siteConfig.outDir, 'vp-icons.css'), iconsCss)
