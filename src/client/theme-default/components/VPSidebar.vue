@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useScrollLock } from '@vueuse/core'
 import { inBrowser } from 'vitepress'
-import { ref, watch } from 'vue'
+import { nextTick, onMounted, ref, watch } from 'vue'
 import { useSidebar } from '../composables/sidebar'
 import VPSidebarGroup from './VPSidebarGroup.vue'
 
@@ -35,6 +35,11 @@ watch(
   },
   { deep: true }
 )
+
+// scroll active link into view
+onMounted(() => {
+  nextTick(() => navEl.value?.querySelector('.is-active')?.scrollIntoView({ block: 'center'}))
+})
 </script>
 
 <template>
