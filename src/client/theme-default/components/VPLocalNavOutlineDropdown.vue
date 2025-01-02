@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { onKeyStroke } from '@vueuse/core'
 import { onContentUpdated } from 'vitepress'
-import { nextTick, ref, watch } from 'vue'
+import { nextTick, ref, watch,onMounted } from 'vue'
 import { useData } from '../composables/data'
 import { resolveTitle, type MenuItem } from '../composables/outline'
 import VPDocOutlineItem from './VPDocOutlineItem.vue'
+import { useSidebar } from '../composables/sidebar'
 
 const props = defineProps<{
   headers: MenuItem[]
@@ -60,6 +61,13 @@ function scrollToTop() {
   open.value = false
   window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
 }
+
+onMounted(()=>{
+  const {hasSidebar} = useSidebar()
+  if(!hasSidebar.value){
+    document.documentElement.style.setProperty("--vp-sidebar-width","0px")
+  }
+})
 </script>
 
 <template>
