@@ -140,7 +140,7 @@ export async function build(
         varName: 'icon',
         format: process.env.DEBUG ? 'expanded' : 'compressed',
         mode: 'mask'
-      }).replace(/.*?}/, '')
+      }).replace(/[^]*?}\n*/, '')
 
       fs.writeFileSync(path.join(siteConfig.outDir, 'vp-icons.css'), iconsCss)
     })
