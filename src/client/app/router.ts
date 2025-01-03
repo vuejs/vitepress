@@ -158,6 +158,10 @@ export function createRouter(
         } catch (e) {}
       }
 
+      if (siteDataRef.value.localesFallback) {
+        await loadFallback()
+      }
+
       if (latestPendingPath === pendingPath) {
         latestPendingPath = null
         route.path = inBrowser ? pendingPath : withBase(pendingPath)
@@ -169,6 +173,77 @@ export function createRouter(
               .replace(/^\//, '')
           : '404.md'
         route.data = { ...notFoundPageData, relativePath }
+      }
+    }
+
+    async function loadFallback() {
+      const locales = siteDataRef.value.locales
+
+      for (const [key, value] of Object.entries(locales)) {
+        if (!value.fallback) continue
+        if (value.fallback === 'root') {
+          throw new Error(
+            `Invalid VitePress Config: A locale (${key}), cannot fall back to (root).`
+          )
+        }
+        if (key === value.fallback) {
+          throw new Error(
+            `Invalid VitePress Config: A locale (${key}), cannot have a fallback to itself.`
+          )
+        }
+        if (!Object.keys(locales).includes(value.fallback)) {
+          throw new Error(
+            `Invalid VitePress Config: A locale (${key}), cannot have a fallback to a non existing locale.`
+          )
+        }
+      }
+
+      // If the length is less than 2, it means there are no alternative locales to fallback to.
+      if (!locales || Object.keys(locales).length < 2) {
+        return
+      }
+
+      const nonRootLocales = Object.fromEntries(
+        Object.entries(locales).filter(([name]) => name !== 'root')
+      )
+
+      const failedLocaleKey =
+        Object.keys(nonRootLocales).find(
+          (lang) =>
+            pendingPath === `/${lang}` || pendingPath.startsWith(`/${lang}/`)
+        ) || 'root'
+
+      if (failedLocaleKey !== 'root') {
+        const fallbackLang =
+          locales[failedLocaleKey].fallback ?? getCustomFallbackLang()
+
+        await loadPage(
+          pendingPath.replace(
+            `/${failedLocaleKey}`,
+            fallbackLang ? `/${fallbackLang}` : ''
+          ),
+          scrollPosition,
+          true
+        )
+      } else {
+        const fallbackPath = getRootLocaleFallbackPath()
+        if (!fallbackPath) return
+        await loadPage(fallbackPath, scrollPosition, true)
+      }
+
+      function getCustomFallbackLang() {
+        const customFallbackLang = siteDataRef.value.localesDefaultFallback
+        if (customFallbackLang && customFallbackLang !== failedLocaleKey) {
+          return customFallbackLang
+        }
+      }
+
+      function getRootLocaleFallbackPath() {
+        const fallbackLang = locales['root'].fallback
+        if (!fallbackLang) return
+        if (pendingPath === '/') return `/${fallbackLang}`
+        const pathDivider = pendingPath.startsWith('/') ? '' : '/'
+        return `/${fallbackLang}${pathDivider}${pendingPath}`
       }
     }
   }
