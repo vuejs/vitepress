@@ -43,6 +43,9 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  page-break-inside: avoid;
+  page-break-after: avoid;
+  page-break-before: avoid;
 }
 
 main {
