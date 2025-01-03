@@ -123,7 +123,7 @@ src/getting-started.md  -->  /getting-started.html
 
 ## 生成简洁的 URL {#generating-clean-url}
 
-:::warning 需要服务器支持
+::: warning 需要服务器支持
 要使 VitePress 提供简洁 URL，需要服务器端支持。
 :::
 

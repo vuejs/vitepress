@@ -4,7 +4,7 @@ outline: deep
 
 # Enrutamiento {#routing}
 
-## Enrutamiento basasdo en Archivos {#file-based-routing}
+## Enrutamiento basado en Archivos {#file-based-routing}
 
 VitePress utiliza enrutamiento basado en archivos, esto significa que las páginas HTML generadas son mapeadas de la estructura de directorios de los archivos Markdown. Por ejemplo, dada la siguiente estructura de directorio:
 
@@ -28,19 +28,19 @@ guide/getting-started.md  -->  /guide/getting-started.html
 
 El HTML resultante puede ser hospedado en cualquier servidor web que pueda servir archivos estáticos.
 
-## Diretório Raiz y fuente {#root-and-source-directory}
+## Directorio Raíz y fuente {#root-and-source-directory}
 
-Existen dos conceptos importantes en la estructura de archivos de un proyecto VitePress: el **directorio raiz** y el **directorio fuente**.
+Existen dos conceptos importantes en la estructura de archivos de un proyecto VitePress: el **directorio raíz** y el **directorio fuente**.
 
-### Directorio Raiz {#project-root}
+### Directorio Raíz {#project-root}
 
-El directorio raiz es donde VitePress busca por el directorio especial `.vitepress`. El directorio `.vitepress` es un lugar reservado para el archivo de configuración de VitePress, el caché del servidor de desarrollo, el resultado de la compilación y el código de personalización del tema opcional.
+El directorio raíz es donde VitePress busca por el directorio especial `.vitepress`. El directorio `.vitepress` es un lugar reservado para el archivo de configuración de VitePress, el caché del servidor de desarrollo, el resultado de la compilación y el código de personalización del tema opcional.
 
-Al ejecutar `vitepress dev` o `vitepress build` en el terminal, VitePress usará el directorio actual como directorio raiz del proyecto. Para especificar un subdirectorio como raiz, es necesario pasar el camino relativo para el comando. Por ejemplo, si el proyecto VitePress estuviera localizado en `./docs`, debe ejecutarse `vitepress dev docs`:
+Al ejecutar `vitepress dev` o `vitepress build` en el terminal, VitePress usará el directorio actual como directorio raíz del proyecto. Para especificar un subdirectorio como raíz, es necesario pasar el camino relativo para el comando. Por ejemplo, si el proyecto VitePress estuviera localizado en `./docs`, debe ejecutarse `vitepress dev docs`:
 
 ```
 .
-├─ docs                    # directorio raiz
+├─ docs                    # directorio raíz
 │  ├─ .vitepress           # directorio de configuración
 │  ├─ getting-started.md
 │  └─ index.md
@@ -51,7 +51,7 @@ Al ejecutar `vitepress dev` o `vitepress build` en el terminal, VitePress usará
 vitepress dev docs
 ```
 
-Esto resultará en el siguiente mapeamento de fuente para HTML:
+Esto resultará en el siguiente mapeo de fuente para HTML:
 
 ```
 docs/index.md            -->  /index.html (accesible como /)
@@ -60,19 +60,19 @@ docs/getting-started.md  -->  /getting-started.html
 
 ### Directorio Fuente {#source-directory}
 
-El directorio fuente es donde sus archivos fuente en Markdown están. Por defecto, es el mismo que el directorio raiz. Sin embargo, puede configurarlo por medio de la opción de configuración [`srcDir`](../reference/site-config#srcdir).
+El directorio fuente es donde sus archivos fuente en Markdown están. Por defecto, es el mismo que el directorio raíz. Sin embargo, puede configurarlo por medio de la opción de configuración [`srcDir`](../reference/site-config#srcdir).
 
-La opción `srcDir` es resuelta en relación al directorio raiz del proyecto. Por ejemplo, con `srcDir: 'src'`, su estructura de archivos quedará así:
+La opción `srcDir` es resuelta en relación al directorio raíz del proyecto. Por ejemplo, con `srcDir: 'src'`, su estructura de archivos quedará así:
 
 ```
-.                          # directorio raiz
+.                          # directorio raíz
 ├─ .vitepress              # directorio de configuración
 └─ src                     # directorio fuente
    ├─ getting-started.md
    └─ index.md
 ```
 
-El mapeamente resultante de la fuente para HTML:
+El mapeado resultante de la fuente para HTML:
 
 ```
 src/index.md            -->  /index.html (accesible como /)
@@ -81,7 +81,7 @@ src/getting-started.md  -->  /getting-started.html
 
 ## Links Entre Páginas {#linking-between-pages}
 
-Puede usar tanto paths absolutos como relativos al vincular páginas. Note que, incluso si ambas extensiones `.md` y `.html` funcionan, funcionem, la práctica recomendada es omitir las extensiones de archivo para que VitePress pueda generar las URLs finales con base en su configuración.
+Puede usar tanto paths absolutos como relativos al vincular páginas. Note que, incluso si ambas extensiones `.md` y `.html` funcionan, la práctica recomendada es omitir las extensiones de archivo para que VitePress pueda generar las URLs finales con base en su configuración.
 
 ```md
 <!-- Hacer -->
@@ -93,7 +93,7 @@ Puede usar tanto paths absolutos como relativos al vincular páginas. Note que, 
 [Getting Started](./getting-started.html)
 ```
 
-Averigue más sobre la vinculación de assets, como imagenes, en [Manipulación de Assets](./asset-handling).
+Averigue más sobre la vinculación de assets, como imágenes, en [Manipulación de Assets](./asset-handling).
 
 ### Vinculación de Páginas No VitePress {#linking-to-non-vitepress-pages}
 
@@ -151,7 +151,7 @@ Sin embargo, si no puede configurar el servidor con ese soporte, será necesario
 ```
 # Reescritura de Ruta {#route-rewrites}
 
-Puede personalizar el mapeamento entre la estructura de directorios fuente y las páginas generadas. Esto es útil cuando tiene una estructura de proyecto compleja. Por ejemplo, digamos que tiene un monorepo con varios paquetes y le gustaría colocar la documentación junto con los archivos fuente de esta forma:
+Puede personalizar el mapeado entre la estructura de directorios fuente y las páginas generadas. Esto es útil cuando tiene una estructura de proyecto compleja. Por ejemplo, digamos que tiene un monorepo con varios paquetes y le gustaría colocar la documentación junto con los archivos fuente de esta forma:
 
 ```
 .
@@ -185,7 +185,7 @@ export default {
 }
 ```
 
-La opción `rewrites` también soporta parametros de ruta dinámicos. En el ejemplo arriba, sería tedioso listar todos los paths si tiene muchos paquetes. Dado que todos ellos tienen la misma estructura de archivo, puede simplificar la configuración así:
+La opción `rewrites` también soporta parámetros de ruta dinámicos. En el ejemplo arriba, sería tedioso listar todos los paths si tiene muchos paquetes. Dado que todos ellos tienen la misma estructura de archivo, puede simplificar la configuración así:
 
 ```ts
 export default {
@@ -208,7 +208,7 @@ Cuando las reescrituras están habilitadas, **links relativos deben ser basados 
 
 ## Rutas Dinámicas {#dynamic-routes}
 
-Puede generar muchas páginas usando un único archivo Markdown y datos dinámicos. Por ejemplo, puede crear un archivo `packages/[pkg].md` que genera una página correspondiente para cáda paquete en un proyecto. Aqui, el segmento `[pkg]` es un **parámetro** de ruta que diferencia cada página de las otras.
+Puede generar muchas páginas usando un único archivo Markdown y datos dinámicos. Por ejemplo, puede crear un archivo `packages/[pkg].md` que genera una página correspondiente para cada paquete en un proyecto. Aqui, el segmento `[pkg]` es un **parámetro** de ruta que diferencia cada página de las otras.
 
 ### Archivo de Carga de Paths {#paths-loader-file}
 

@@ -4,9 +4,9 @@ La configuración del tema te permite personalizar tu tema. puedes definir la co
 
 ```ts
 export default {
-  lang: 'pt-BR',
+  lang: 'es-CO',
   title: 'VitePress',
-  description: 'Generador de site estático Vite & Vue.',
+  description: 'Generador de Sitios Estáticos desarrollado con Vite y Vue.',
 
   // Configuraciones relacionadas con el tema.
   themeConfig: {
@@ -70,7 +70,7 @@ La configuración del elemento del menú de navegación. Más detalles en [Tema 
 export default {
   themeConfig: {
     nav: [
-      { text: 'Guia', link: '/guide' },
+      { text: 'Guía', link: '/guide' },
       {
         text: 'Menú Dropdown',
         items: [
@@ -119,7 +119,7 @@ export default {
   themeConfig: {
     sidebar: [
       {
-        text: 'Guia',
+        text: 'Guía',
         items: [
           { text: 'Introducción', link: '/introduction' },
           { text: 'A partir de', link: '/getting-started' },
@@ -168,7 +168,7 @@ export type SidebarItem = {
 ## aside
 
 - Tipo: `boolean | 'left'`
-- Estandar: `true`
+- Defecto: `true`
 - Puede ser anulado por la página a través de [frontmatter](./frontmatter-config#aside)
 
 Definir este valor como `false` evita que se muestre el elemento lateral.\
@@ -197,7 +197,7 @@ interface Outline {
   level?: number | [number, number] | 'deep'
 
   /**
-   * El titulo que se mostrará en el equema.
+   * El titulo que se mostrará en el esquema.
    *
    * @default 'On this page'
    */
@@ -391,48 +391,48 @@ export interface DocFooter {
 ## darkModeSwitchLabel
 
 - Tipo: `string`
-- Estandar: `Appearance`
+- Defecto: `Appearance`
 
 Se puede utilizar para personalizar la etiqueta del botón del modo oscuro. Esta etiqueta solo se muestra en la vista móvil.
 
 ## lightModeSwitchTitle
 
 - Tipo: `string`
-- Estandar: `Switch to light theme`
+- Defecto: `Switch to light theme`
 
 Se puede utilizar para personalizar el título del botón borrar que aparece al pasar el mouse.
 
 ## darkModeSwitchTitle
 
 - Tipo: `string`
-- Estandar: `Switch to dark theme`
+- Defecto: `Switch to dark theme`
 
 Se puede utilizar para personalizar el título del botón del modo oscuro que aparece al pasar el mouse.
 
 ## sidebarMenuLabel
 
 - Tipo: `string`
-- Estandar: `Menu`
+- Defecto: `Menu`
 
 Se puede utilizar para personalizar la etiqueta del menú de la barra lateral. Esta etiqueta solo se muestra en la vista móvil.
 
 ## returnToTopLabel
 
 - Tipo: `string`
-- Estandar: `Return to top`
+- Defecto: `Return to top`
 
 Se puede utilizar para personalizar la etiqueta del botón Volver al principio. Esta etiqueta solo se muestra en la vista móvil.
 
 ## langMenuLabel
 
 - Tipo: `string`
-- Estandar: `Change language`
+- Defecto: `Change language`
 
 Se puede utilizar para personalizar la etiqueta aria del botón de idioma en la barra de navegación. Esto sólo se usa si estás usando [i18n](../guide/i18n).
 
 ## externalLinkIcon
 
 - Tipo: `boolean`
-- Estandar: `false`
+- Defecto: `false`
 
 Se debe mostrar um ícono de link externo junto a los enlaces externos en markdown.

@@ -31,11 +31,11 @@ Tenga en cuenta que incluso en este mismo layout, la barra lateral seguirá apar
 
 ## Layout de Home {#home-layout}
 
-La opción `home` gerará un modelo de _"Homepage"_. En este layout podrás definir opciones extras, como `hero` y `features`, para personalizar todavá más el contenido. Visite [Tema predeterminado: Página Inicial](./default-theme-home-page)  para obter más detalles.
+La opción `home` gerará un modelo de _"Homepage"_. En este layout podrás definir opciones extras, como `hero` y `features`, para personalizar todavá más el contenido. Visite [Tema predeterminado: Página Inicial](./default-theme-home-page)  para obtener más detalles.
 
 ## Sin Layout {#no-layout}
 
-Si no quieres ningún diseño, puedes pasar `layout: false` a través del frontmatter. Esta opción es útil si deseas una página de destino completamente personalizable (sin barra lateral, barra de navegacón o pie de página por defecto).
+Si no quieres ningún diseño, puedes pasar `layout: false` a través del frontmatter. Esta opción es útil si deseas una página de destino completamente personalizable (sin barra lateral, barra de navegación o pie de página por defecto).
 
 ## Layout Personalizado {#custom-layout}
 

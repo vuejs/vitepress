@@ -6,7 +6,7 @@ Puede habilitar un tema personalizado creando un archivo `.vitepress/theme/index
 
 ```
 .
-├─ docs                # raiz del proyecto
+├─ docs                # raíz del proyecto
 │  ├─ .vitepress
 │  │  ├─ theme
 │  │  │  └─ index.js   # entrada de tema
@@ -15,16 +15,16 @@ Puede habilitar un tema personalizado creando un archivo `.vitepress/theme/index
 └─ package.json
 ```
 
-VitePress siempre usará el tema personalizado en vez del tema por defecto cuando detecte la precencia de un archivo de entrada de tema. Sin embargo, puede [extender el tema por defecto](./extending-default-theme) para realizar personalizaciones avanzadas sobre el.
+VitePress siempre usará el tema personalizado en vez del tema por defecto cuando detecte la presencia de un archivo de entrada de tema. Sin embargo, puede [extender el tema por defecto](./extending-default-theme) para realizar personalizaciones avanzadas sobre el.
 
 ## Interfaz del Tema {#theme-interface}
 
-Un tema personalizado de VitePress es definifo como un objeto con la siguiente interfaz:
+Un tema personalizado de VitePress es definido como un objeto con la siguiente interfaz:
 
 ```ts
 interface Theme {
   /**
-   * Componente raiz de layout para todas las páginas
+   * Componente raíz de layout para todas las páginas
    * @required
    */
   Layout: Component
@@ -64,7 +64,7 @@ export default {
 }
 ```
 
-La exportación por defecto es el único contrato para un tema personalizado, y apenas la propiedad `Layout` es exigida. Tecnicamente, un tema de VitePress puede ser tan simple como un único componente Vue.
+La exportación por defecto es el único contrato para un tema personalizado, y apenas la propiedad `Layout` es exigida. Técnicamente, un tema de VitePress puede ser tan simple como un único componente Vue.
 
 Dentro de su componente de layout, el funciona como una aplicación Vite + Vue 3 normal. Note que el tema también necesita ser [compatible con SSR](./ssr-compat).
 
@@ -77,7 +77,7 @@ El componente de layout más básico necesita un componente [`<Content />`](../r
 <template>
   <h1>Layout Personalizado!</h1>
 
-  <!-- aqui es donde el contenido markdown será presentado -->
+  <!-- aquí es donde el contenido markdown será presentado -->
   <Content />
 </template>
 ```
@@ -100,7 +100,7 @@ const { page } = useData()
 </template>
 ```
 
-El auxiliar [`useData()`](../reference/runtime-api#usedata) proporciona todos los datos en tiempo de ejecución que necesitamos para mostrar layouts diferentes. Uno de los otros datos que podemos accesar es el frontmatter de la página actual. Podemos aprovechar esto para permitir que el usuario final controle el layout en cada página. Por ejemplo, el usuario puede indicar que la página debe usar un layout especial de la pagina inicial con:
+El auxiliar [`useData()`](../reference/runtime-api#usedata) proporciona todos los datos en tiempo de ejecución que necesitamos para mostrar layouts diferentes. Otro de los datos que podemos acceder es al frontmatter de la página actual. Podemos aprovechar esto para permitir que el usuario final controle el layout en cada página. Por ejemplo, el usuario puede indicar que la página debe usar un layout especial de la pagina inicial con:
 
 ```md
 ---
@@ -154,7 +154,7 @@ Consulte la [Referencia del API en tiempo de Ejecución](../reference/runtime-ap
 
 ## Distribuyendo un Tema Personalizado {#distributing-a-custom-theme}
 
-La manera más facil de distribuir un tema personalizado es proporcionarlo como un [repositorio de template en GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-template-repository).
+La manera más fácil de distribuir un tema personalizado es proporcionarlo como un [repositorio de template en GitHub](https://docs.github.com/es/repositories/creating-and-managing-repositories/creating-a-template-repository).
 
 Si desea distribuir su tema como un paquete npm, siga estos pasos:
 
@@ -170,7 +170,7 @@ Si desea distribuir su tema como un paquete npm, siga estos pasos:
 
 ## Consumiendo un Tema Personalizado {#consuming-a-custom-theme}
 
-Para consumir un tema extereno, importelo e reexportelo a partir del archivo de entrada del tema personalizado:
+Para consumir un tema externo, importelo y reexportelo a partir del archivo de entrada del tema personalizado:
 
 ```js
 // .vitepress/theme/index.js

@@ -19,7 +19,7 @@ Puede también definir datos propios del frontmatter personalizados, para ser us
 
 Los datos del frontmatter pueden ser accedidos por medio de la variable global especial `$frontmatter`:
 
-Aqui está un ejemplo de como podría usarlo en su archivo Markdown:
+Aquí está un ejemplo de como podría usarlo en su archivo Markdown:
 
 ```md
 ---
@@ -29,7 +29,7 @@ editLink: true
 
 # {{ $frontmatter.title }}
 
-Contenido de guia
+Contenido de guía
 ```
 
 Puede acceder los datos del frontmatter de la página actual en `<script setup>` con el auxiliar [`useData()`](../reference/runtime-api#usedata).

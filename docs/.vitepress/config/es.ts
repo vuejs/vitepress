@@ -5,8 +5,8 @@ const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
 
 export const es = defineConfig({
-  lang: 'es-CO',
-  description: 'Generador de Sitios Estaticos desarrollado con Vite y Vue.',
+  lang: 'es',
+  description: 'Generador de Sitios Estáticos desarrollado con Vite y Vue.',
 
   themeConfig: {
     nav: nav(),
@@ -36,11 +36,7 @@ export const es = defineConfig({
     },
 
     lastUpdated: {
-      text: 'Actualizado en',
-      formatOptions: {
-        dateStyle: 'short',
-        timeStyle: 'medium'
-      }
+      text: 'Actualizado en'
     },
 
     langMenuLabel: 'Cambiar Idioma',
@@ -56,7 +52,7 @@ export const es = defineConfig({
 function nav(): DefaultTheme.NavItem[] {
   return [
     {
-      text: 'Guia',
+      text: 'Guía',
       link: '/es/guide/what-is-vitepress',
       activeMatch: '/es/guide/'
     },
@@ -105,7 +101,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
       ]
     },
     {
-      text: 'Pesonalización',
+      text: 'Personalización',
       collapsed: false,
       items: [
         { text: 'Usando un tema personalizado', link: 'custom-theme' },
@@ -156,12 +152,12 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
             { text: 'Página Inicial', link: 'home-page' },
             { text: 'Pie de página', link: 'footer' },
             { text: 'Layout', link: 'layout' },
-            { text: 'Distintivo', link: 'badge' },
+            { text: 'Badge', link: 'badge' },
             { text: 'Página del equipo', link: 'team-page' },
             { text: 'Links Anterior / Siguiente', link: 'prev-next-links' },
             { text: 'Editar Link', link: 'edit-link' },
             { text: 'Sello temporal de actualización', link: 'last-updated' },
-            { text: 'Busqueda', link: 'search' },
+            { text: 'Búsqueda', link: 'search' },
             { text: 'Carbon Ads', link: 'carbon-ads' }
           ]
         }
@@ -201,13 +197,13 @@ export const search: DefaultTheme.AlgoliaSearchOptions['locales'] = {
           selectText: 'Seleccionar',
           navigateText: 'Navegar',
           closeText: 'Cerrar',
-          searchByText: 'Busqueda por'
+          searchByText: 'Búsqueda por'
         },
         noResultsScreen: {
           noResultsText: 'No fue posible encontrar resultados',
           suggestedQueryText: 'Puede intentar una nueva búsqueda',
           reportMissingResultsText:
-            'Deberian haber resultados para esa consulta?',
+            'Deberían haber resultados para esa consulta?',
           reportMissingResultsLinkText: 'Click para enviar feedback'
         }
       }
