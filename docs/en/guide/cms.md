@@ -10,7 +10,7 @@ Connecting VitePress to a CMS will largely revolve around [Dynamic Routes](./rou
 
 Since each CMS will work differently, here we can only provide a generic workflow that you will need to adapt to your specific scenario.
 
-1. If your CMS requires authentication, create an `.env` file to store your API tokens and load it so:
+1. If your CMS requires authentication, create a `.env` file to store your API tokens and load it so:
 
     ```js
     // posts/[id].paths.js
@@ -41,7 +41,7 @@ Since each CMS will work differently, here we can only provide a generic workflo
     }
     ```
 
-3. Render the content in the page:
+3. Render the content on the page:
 
     ```md
     # {{ $params.title }}

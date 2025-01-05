@@ -2,7 +2,7 @@
 
 ## `vitepress dev`
 
-Start VitePress dev server using designated directory as root. Defaults to current directory. The `dev` command can also be omitted when running in current directory.
+Starts a VitePress dev server using the designated directory as root. Defaults to current directory. The `dev` command can also be omitted when running in the current directory.
 
 ### Usage
 
@@ -65,7 +65,7 @@ vitepress preview [root]
 
 ## `vitepress init`
 
-Start the [Setup Wizard](../guide/getting-started#setup-wizard) in current directory.
+Starts the [Setup Wizard](../guide/getting-started#setup-wizard) in the current directory.
 
 ### Usage
 

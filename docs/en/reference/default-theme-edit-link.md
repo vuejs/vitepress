@@ -2,7 +2,7 @@
 
 ## Site-Level Config
 
-Edit Link lets you display a link to edit the page on Git management services such as GitHub, or GitLab. To enable it, add `themeConfig.editLink` options to your config.
+The Edit Link option lets you display a link to edit the page on Git management services such as GitHub, or GitLab. To enable it, add the `themeConfig.editLink` option to your config.
 
 ```js
 export default {
@@ -14,9 +14,9 @@ export default {
 }
 ```
 
-The `pattern` option defines the URL structure for the link, and `:path` is going to be replaced with the page path.
+The `pattern` option defines the URL structure for the link, where `:path` will automatically be replaced with the page path.
 
-You can also put a pure function that accepts [`PageData`](./runtime-api#usedata) as the argument and returns the URL string.
+You can also create a pure function that accepts [`PageData`](./runtime-api#usedata) as the argument to return the URL string.
 
 ```js
 export default {
@@ -34,7 +34,7 @@ export default {
 }
 ```
 
-It should not have side-effects nor access anything outside of its scope since it will be serialized and executed in the browser.
+This option should not have side effects nor access anything outside of its scope, as it is serialized and executed in the browser.
 
 By default, this will add the link text "Edit this page" at the bottom of the doc page. You may customize this text by defining the `text` option.
 
@@ -51,7 +51,7 @@ export default {
 
 ## Frontmatter Config
 
-This can be disabled per-page using the `editLink` option on frontmatter:
+This can be disabled on a per-page basis using the `editLink` option on frontmatter:
 
 ```yaml
 ---
