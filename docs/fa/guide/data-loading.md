@@ -8,8 +8,7 @@
 
 یک فایل بارگذار داده باید با `.data.js` یا `.data.ts` پایان یابد. فایل باید یک صادرات پیش‌فرض از یک شی با متد `load()` داشته باشد:
 
-```js
-// example.data.js
+```js [example.data.js]
 export default {
   load() {
     return {
@@ -84,8 +83,7 @@ export default {
 
 وقتی که در حال ساختن یک سایت متمرکز بر محتوا هستیم، اغلب نیاز به ایجاد یک "بایگانی" یا "فهرست" صفحه داریم: یک صفحه که ما همه ورودی‌های موجود در مجموعه محتوای خود را لیست می‌کنیم، به عنوان مثال پست‌های وبلاگ یا صفحات API. ما می‌توانیم این کار را مستقیماً با API بارگذار داده انجام دهیم، اما از آنجا که این یک حالت استفاده رایج است، ویت‌پرس همچنین یک کمک‌کننده به نام `createContentLoader` را فراهم می‌کند تا این فرآیند را ساده‌تر کند:
 
-```js
-// posts.data.js
+```js [posts.data.js]
 import { createContentLoader } from 'vitepress'
 
 export default createContentLoader('posts/*.md', /* گزینه‌ها */)
@@ -137,8 +135,7 @@ import { data as posts } from './posts.data.js'
 
 احتمالاً داده پیش‌فرض به تمام نیازها پاسخ نمی‌دهد - شما می‌توانید با استفاده از گزینه‌ها به تبدیل داده‌ها مشترک شوید:
 
-```js
-// posts.data.js
+```js [posts.data.js]
 import { createContentLoader } from 'vitepress'
 
 export default createContentLoader('posts/*.md', {
@@ -164,8 +161,7 @@ export default createContentLoader('posts/*.md', {
 
 API `createContentLoader` همچنین می‌تواند در داخل [هوک‌های ساخت](../reference/site-config#build-hooks) استفاده شود:
 
-```js
-// .vitepress/config.js
+```js [.vitepress/config.js]
 export default {
   async buildEnd() {
     const posts = await createContentLoader('posts/*.md').load()

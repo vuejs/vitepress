@@ -22,8 +22,7 @@ outline: deep
 
 CSS темы по умолчанию можно настроить, переопределив переменные CSS корневого уровня:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme'
 import './custom.css'
 
@@ -46,8 +45,7 @@ VitePress использует [Inter](https://rsms.me/inter/) в качеств
 
 Чтобы не включать Inter в вывод сборки, импортируйте тему из `vitepress/theme-without-fonts`:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme-without-fonts'
 import './my-fonts.css'
 
@@ -68,8 +66,7 @@ export default DefaultTheme
 
 Если ваш шрифт — это локальный файл, на который ссылаются через `@font-face`, он будет обработан как ресурс и включён в каталог `.vitepress/dist/assets` с хэшированным именем файла. Чтобы предварительно загрузить этот файл, используйте хук сборки [transformHead](../reference/site-config#transformhead):
 
-```js
-// .vitepress/config.js
+```js [.vitepress/config.js]
 export default {
   transformHead({ assets }) {
     // настраиваем regex соответствующим образом, чтобы он соответствовал вашему шрифту
@@ -94,8 +91,7 @@ export default {
 
 ## Регистрация глобальных компонентов {#registering-global-components}
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme'
 
 /** @type {import('vitepress').Theme} */
@@ -110,8 +106,7 @@ export default {
 
 Если вы используете TypeScript:
 
-```ts
-// .vitepress/theme/index.ts
+```ts [.vitepress/theme/index.ts]
 import type { Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 
@@ -130,8 +125,7 @@ export default {
 
 Компонент `<Layout/>` темы по умолчанию имеет несколько слотов, которые можно использовать для вставки содержимого в определённые места страницы. Вот пример внедрения компонента в структуру before:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme'
 import MyLayout from './MyLayout.vue'
 
@@ -143,8 +137,7 @@ export default {
 }
 ```
 
-```vue
-<!--.vitepress/theme/MyLayout.vue-->
+```vue [.vitepress/theme/MyLayout.vue]
 <script setup>
 import DefaultTheme from 'vitepress/theme'
 
@@ -162,8 +155,7 @@ const { Layout } = DefaultTheme
 
 Также можно использовать функцию рендеринга.
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import { h } from 'vue'
 import DefaultTheme from 'vitepress/theme'
 import MyComponent from './MyComponent.vue'
@@ -225,9 +217,7 @@ export default {
 
 Вы можете расширить стандартную тему, чтобы обеспечить пользовательский переход при переключении цветового режима. Пример:
 
-```vue
-<!-- .vitepress/theme/Layout.vue -->
-
+```vue [.vitepress/theme/Layout.vue]
 <script setup lang="ts">
 import { useData } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'

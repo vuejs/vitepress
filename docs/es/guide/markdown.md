@@ -847,8 +847,7 @@ Esto es actualmente opcional. Para activarlo, necesita instalar `markdown-it-mat
 npm add -D markdown-it-mathjax3
 ```
 
-```ts
-// .vitepress/config.ts
+```ts [.vitepress/config.ts]
 export default {
   markdown: {
     math: true

@@ -53,8 +53,7 @@ interface EnhanceAppContext {
 
 فایل ورودی تم باید تم را به عنوان export پیش‌فرض خود export کند:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 
 // شما می‌توانید فایل‌های Vue را مستقیماً در ورودی تم وارد کنید
 // ویت‌پرس با @vitejs/plugin-vue پیش‌تنظیم شده است.
@@ -76,8 +75,7 @@ export پیش‌فرض تنها قراردادی برای یک تم سفارشی
 
 بیشترین لایه‌ی پایه‌ای نیازمند دارای یک کامپوننت `<Content />` است:
 
-```vue
-<!-- .vitepress/theme/Layout.vue -->
+```vue [.vitepress/theme/Layout.vue]
 <template>
   <h1>طرح سفارشی!</h1>
 
@@ -176,8 +174,7 @@ const { page, frontmatter } = useData()
 
 برای مصرف یک تم خارجی، آن را از ورودی تم سفارشی وارد و دوباره export کنید:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import Theme from 'awesome-vitepress-theme'
 
 export default Theme
@@ -185,8 +182,7 @@ export default Theme
 
 اگر تم نیاز به گسترش دارد:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import Theme from 'awesome-vitepress-theme'
 
 export default {
@@ -199,8 +195,7 @@ export default {
 
 اگر تم نیاز به پیکربندی خاص ویت‌پرس دارد، شما همچنین باید آن را در پیکربندی خود گسترش دهید:
 
-```ts
-// .vitepress/config.ts
+```ts [.vitepress/config.ts]
 import baseConfig from 'awesome-vitepress-theme/config'
 
 export default {
@@ -211,8 +206,7 @@ export default {
 
 سرانجام، اگر تم انواع خود را برای پیکربندی تم‌اش ارائه می‌دهد:
 
-```ts
-// .vitepress/config.ts
+```ts [.vitepress/config.ts]
 import baseConfig from 'awesome-vitepress-theme/config'
 import { defineConfigWithTheme } from 'vitepress'
 import type { ThemeConfig } from 'awesome-vitepress-theme'

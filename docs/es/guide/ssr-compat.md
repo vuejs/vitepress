@@ -50,8 +50,7 @@ if (!import.meta.env.SSR) {
 
 Como [`Theme.enhanceApp`](./custom-theme#theme-interface) puede ser asíncrono, puede importar condicionalmente y registrar plugins Vue que acceden APIs del navegador en la importación:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 /** @type {import('vitepress').Theme} */
 export default {
   // ...
@@ -65,8 +64,7 @@ export default {
 ```
 
 Si está usando TypeScript:
-```ts
-// .vitepress/theme/index.ts
+```ts [.vitepress/theme/index.ts]
 import type { Theme } from 'vitepress'
 
 export default {

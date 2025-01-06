@@ -121,8 +121,7 @@ VitePress 프로젝트를 `./docs`에 구축하기로 한 경우, 생성된 파�
 
 구성 파일(`.vitepress/config.js`)을 사용하면 사이트의 제목과 설명과 같은 VitePress 사이트의 다양한 측면을 커스터마이즈할 수 있습니다:
 
-```js
-// .vitepress/config.js
+```js [.vitepress/config.js]
 export default {
   // 사이트 옵션
   title: 'VitePress',
@@ -148,7 +147,7 @@ VitePress는 **파일 기반 라우팅**을 사용합니다: 각 `.md` 파일은
 
 설치 과정에서 허용한 경우, 도구는 다음 npm 스크립트를 `package.json`에 추가했을 것입니다:
 
-```json
+```json [package.json]
 {
   ...
   "scripts": {
