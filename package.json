@@ -114,7 +114,7 @@
     "mark.js": "8.11.1",
     "minisearch": "^7.1.1",
     "shiki": "^1.24.4",
-    "vite": "^5.4.11",
+    "vite": "^6.0.7",
     "vue": "^3.5.13"
   },
   "devDependencies": {
