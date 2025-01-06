@@ -182,7 +182,7 @@ Você pode definir um título personalizado adicionando o texto imediatamente ap
 
 **Entrada**
 
-```md
+````md
 ::: danger STOP
 Zona de perigo, não prossiga
 :::
@@ -192,7 +192,7 @@ Zona de perigo, não prossiga
 console.log('Olá, VitePress!')
 ```
 :::
-```
+````
 
 **Saída**
 
