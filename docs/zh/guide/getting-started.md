@@ -120,8 +120,7 @@ $ bun vitepress init
 
 配置文件 (`.vitepress/config.js`) 让你能够自定义 VitePress 站点的各个方面，最基本的选项是站点的标题和描述：
 
-```js
-// .vitepress/config.js
+```js [.vitepress/config.js]
 export default {
   // 站点级选项
   title: 'VitePress',
@@ -147,7 +146,7 @@ VitePress 还提供了生成简洁 URL、重写路径和动态生成页面的能
 
 该工具还应该将以下 npm 脚本注入到 `package.json` 中：
 
-```json
+```json [package.json]
 {
   ...
   "scripts": {
