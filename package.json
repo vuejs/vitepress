@@ -100,20 +100,20 @@
   "dependencies": {
     "@docsearch/css": "^3.8.2",
     "@docsearch/js": "^3.8.2",
-    "@iconify-json/simple-icons": "^1.2.17",
-    "@shikijs/core": "^1.24.4",
-    "@shikijs/transformers": "^1.24.4",
-    "@shikijs/types": "^1.24.4",
+    "@iconify-json/simple-icons": "^1.2.18",
+    "@shikijs/core": "^1.26.1",
+    "@shikijs/transformers": "^1.26.1",
+    "@shikijs/types": "^1.26.1",
     "@types/markdown-it": "^14.1.2",
     "@vitejs/plugin-vue": "^5.2.1",
     "@vue/devtools-api": "^7.6.8",
     "@vue/shared": "^3.5.13",
-    "@vueuse/core": "^12.2.0",
-    "@vueuse/integrations": "^12.2.0",
+    "@vueuse/core": "^12.3.0",
+    "@vueuse/integrations": "^12.3.0",
     "focus-trap": "^7.6.2",
     "mark.js": "8.11.1",
     "minisearch": "^7.1.1",
-    "shiki": "^1.24.4",
+    "shiki": "^1.26.1",
     "vite": "^5.4.11",
     "vue": "^3.5.13"
   },
@@ -143,7 +143,7 @@
     "@types/markdown-it-emoji": "^3.0.1",
     "@types/micromatch": "^4.0.9",
     "@types/minimist": "^1.2.5",
-    "@types/node": "^22.10.2",
+    "@types/node": "^22.10.5",
     "@types/postcss-prefix-selector": "^1.16.3",
     "@types/prompts": "^2.4.9",
     "chokidar": "^4.0.3",
@@ -179,7 +179,7 @@
     "prompts": "^2.4.2",
     "punycode": "^2.3.1",
     "rimraf": "^6.0.1",
-    "rollup": "^4.29.1",
+    "rollup": "^4.30.0",
     "rollup-plugin-dts": "^6.1.1",
     "rollup-plugin-esbuild": "^6.1.1",
     "semver": "^7.6.3",
@@ -205,7 +205,7 @@
       "optional": true
     }
   },
-  "packageManager": "pnpm@9.15.2",
+  "packageManager": "pnpm@9.15.3",
   "pnpm": {
     "peerDependencyRules": {
       "ignoreMissing": [
