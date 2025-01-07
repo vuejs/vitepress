@@ -109,7 +109,7 @@ Se você deseja vincular a uma página em seu site que não é gerada pelo ViteP
 
 [Link para pure.html](/pure.html){target="_self"}
 
-::: dica Nota
+::: tip Nota
 
 Nos links Markdown, a `base` é automaticamente adicionada à URL. Isso significa que, se você deseja vincular a uma página fora da sua base, será necessário algo como `../../pure.html` no link (resolvido em relação à página atual pelo navegador).
 
