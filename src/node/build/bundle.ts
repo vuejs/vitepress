@@ -101,9 +101,9 @@ export async function bundle(
       rollupOptions: {
         ...rollupOptions,
         input: {
-          ...input,
           // use different entry based on ssr or not
-          app: path.resolve(APP_PATH, ssr ? 'ssr.js' : 'index.js')
+          app: path.resolve(APP_PATH, ssr ? 'ssr.js' : 'index.js'),
+          ...input
         },
         // important so that each page chunk and the index export things for each
         // other

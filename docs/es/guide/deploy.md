@@ -10,7 +10,7 @@ Las siguientes orientaciones están basadas en algunos supuestos:
 - Está usando la directorio por defecto para el build (`.vitepress/dist`).
 - VitePress está instalado como una dependencia local en su proyecto, y usted configuró los siguientes scripts en su `package.json`:
 
-  ```json
+  ```json [package.json]
   {
     "scripts": {
       "docs:build": "vitepress build docs",
@@ -121,7 +121,7 @@ No active opciones como _Auto Minify_ para código HTML. Eso removera comentario
 
 1. Cree un archivo llamado `deploy.yml` dentro del directorio `.github/workflows` do seu projeto com algum conteúdo como este:
 
-   ```yaml
+   ```yaml [.github/workflows/deploy.yml]
    # Ejemplo de flujo de trabajo para compilar e implantar un sitio VitePress en GitHub Pages
    #
    name: Implante el sitio VitePress en Pages
@@ -205,7 +205,7 @@ No active opciones como _Auto Minify_ para código HTML. Eso removera comentario
 
 2. Cree un archivo llamado `.gitlab-ci.yml` en la raiz del proyecto con el contenido abajo. Esto construirá e implantará su sitio siempre que haga alteraciones en el contenido.
 
-   ```yaml
+   ```yaml [.gitlab-ci.yml]
    image: node:18
    pages:
      cache:
@@ -238,7 +238,7 @@ No active opciones como _Auto Minify_ para código HTML. Eso removera comentario
 
    `firebase.json`:
 
-   ```json
+   ```json [firebase.json]
    {
      "hosting": {
        "public": "docs/.vitepress/dist",
@@ -249,7 +249,7 @@ No active opciones como _Auto Minify_ para código HTML. Eso removera comentario
 
    `.firebaserc`:
 
-   ```json
+   ```json [.firebaserc]
    {
      "projects": {
        "default": "<SU_ID_FIREBASE>"
@@ -277,7 +277,7 @@ No active opciones como _Auto Minify_ para código HTML. Eso removera comentario
 
 2. Cree un archivo llamado `static.json` en la raiz de su proyecto con el contenido abajo:
 
-   ```json
+   ```json [static.json]
    {
      "root": "docs/.vitepress/dist"
    }

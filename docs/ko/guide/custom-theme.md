@@ -49,8 +49,7 @@ interface EnhanceAppContext {
 
 테마 엔트리 파일은 테마(Theme 객체)를 "export default" 해야 합니다:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 
 // 테마 엔트리에서 Vue 파일을 직접 "import" 할 수 있습니다.
 // VitePress는 @vitejs/plugin-vue가 사전 구성되어 있습니다.
@@ -72,8 +71,7 @@ export default {
 
 가장 기본적인 레이아웃 컴포넌트는 [`<Content />`](../reference/runtime-api#content) 컴포넌트가 포함되어야 합니다:
 
-```vue
-<!-- .vitepress/theme/Layout.vue -->
+```vue [.vitepress/theme/Layout.vue]
 <template>
   <h1>Custom Layout!</h1>
 
@@ -172,8 +170,7 @@ const { page, frontmatter } = useData()
 
 외부 테마를 사용하려면, 커스텀 테마 엔트리에서 테마를 "import" 후 다시 "export"합니다:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import Theme from 'awesome-vitepress-theme'
 
 export default Theme
@@ -181,8 +178,7 @@ export default Theme
 
 테마를 확장해야 하는 경우:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import Theme from 'awesome-vitepress-theme'
 
 export default {
@@ -195,8 +191,7 @@ export default {
 
 테마가 특별한 VitePress 구성을 요구하는 경우, 해당 구성을 (외부 커스텀 테마를 사용하는 자신의) 구성 파일에서도 확장해야 합니다:
 
-```ts
-// .vitepress/config.ts
+```ts [.vitepress/config.ts]
 import baseConfig from 'awesome-vitepress-theme/config'
 
 export default {
@@ -207,8 +202,7 @@ export default {
 
 마지막으로 테마가 테마 구성에 대한 타입을 제공하는 경우:
 
-```ts
-// .vitepress/config.ts
+```ts [.vitepress/config.ts]
 import baseConfig from 'awesome-vitepress-theme/config'
 import { defineConfigWithTheme } from 'vitepress'
 import type { ThemeConfig } from 'awesome-vitepress-theme'

@@ -182,7 +182,7 @@ Você pode definir um título personalizado adicionando o texto imediatamente ap
 
 **Entrada**
 
-```md
+````md
 ::: danger STOP
 Zona de perigo, não prossiga
 :::
@@ -192,7 +192,7 @@ Zona de perigo, não prossiga
 console.log('Olá, VitePress!')
 ```
 :::
-```
+````
 
 **Saída**
 
@@ -846,8 +846,7 @@ Isso é atualmente opcional. Para ativá-lo, você precisa instalar `markdown-it
 npm add -D markdown-it-mathjax3
 ```
 
-```ts
-// .vitepress/config.ts
+```ts [.vitepress/config.ts]
 export default {
   markdown: {
     math: true
