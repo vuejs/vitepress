@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useWindowScroll } from '@vueuse/core'
-import { ref, watchPostEffect } from 'vue'
+import { ref, watchEffect } from 'vue'
 import { useData } from '../composables/data'
 import { useSidebar } from '../composables/sidebar'
 import VPNavBarAppearance from './VPNavBarAppearance.vue'
@@ -26,7 +26,7 @@ const { frontmatter } = useData()
 
 const classes = ref<Record<string, boolean>>({})
 
-watchPostEffect(() => {
+watchEffect(() => {
   classes.value = {
     'has-sidebar': hasSidebar.value,
     'home': frontmatter.value.layout === 'home',
