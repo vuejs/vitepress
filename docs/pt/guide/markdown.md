@@ -758,7 +758,7 @@ Você também pode [importar _snippets_ de código](#import-code-snippets) em gr
 
 Você pode incluir um arquivo markdown em outro arquivo markdown, mesmo aninhado.
 
-::: dica
+::: tip
 Você também pode prefixar o caminho do markdown com `@`, ele atuará como a raiz de origem. Por padrão, é a raiz do projeto VitePress, a menos que `srcDir` seja configurado.
 :::
 
