@@ -35,7 +35,7 @@ $ bun add -D vitepress
 
 :::
 
-::: detalles recibiendo avisos sobre dependencias ausentes?
+::: details Recibiendo avisos sobre dependencias ausentes?
 Si usa PNPM, percibirá un aviso de ausencia de `@docsearch/js`. Esto no evita que VitePress funcione. Si desea eliminar este aviso, adicione lo siguiente en su `package.json`:
 
 ```json

@@ -123,7 +123,7 @@ Alternativamente, pode-se usar diretamente a sintaxe da tag âncora:
 
 ## Geração de URL Limpa {#generating-clean-url}
 
-::: aviso Suporte do Servidor Necessário
+::: warning Suporte do Servidor Necessário
 Para servir URLs limpas com VitePress, é necessário suporte no lado do servidor.
 :::
 

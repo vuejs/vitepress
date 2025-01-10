@@ -65,7 +65,7 @@ Este hash `4f283b18` es generado a partir del contenido de este archivo. La mism
 Cache-Control: max-age=31536000,immutable
 ```
 
-::: detralles Ejemplo de archivo `_headers` do Netlify
+::: details Ejemplo de archivo `_headers` do Netlify
 
 ```
 /assets/*
@@ -79,7 +79,7 @@ Nota: el archivo `_headers` debe ser colocado en [diretório public](./asset-han
 
 :::
 
-::: detalles de Ejemplo de configuración Vercel em `vercel.json`
+::: details de Ejemplo de configuración Vercel em `vercel.json`
 
 ```json
 {

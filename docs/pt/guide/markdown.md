@@ -625,7 +625,7 @@ Também suporta [destaque de linha](#line-highlighting-in-code-blocks):
 
 <<< @/snippets/snippet.js{2}
 
-::: dica
+::: tip
 O valor de `@` corresponde à raiz do código fonte. Por padrão, é a raiz do projeto VitePress, a menos que `srcDir` seja configurado. Alternativamente, você também pode importar de caminhos relativos:
 
 ```md
@@ -758,7 +758,7 @@ Você também pode [importar _snippets_ de código](#import-code-snippets) em gr
 
 Você pode incluir um arquivo markdown em outro arquivo markdown, mesmo aninhado.
 
-::: dica
+::: tip
 Você também pode prefixar o caminho do markdown com `@`, ele atuará como a raiz de origem. Por padrão, é a raiz do projeto VitePress, a menos que `srcDir` seja configurado.
 :::
 
@@ -834,7 +834,7 @@ Pode ser criada usando `.foorc.json`.
 
 O formato do intervalo de linhas selecionado pode ser: `{3,}`, `{,10}`, `{1,10}`
 
-::: aviso
+::: warning
 Observe que isso não gera erros se o arquivo não estiver presente. Portanto, ao usar esse recurso, certifique-se de que o conteúdo está sendo mostrado como esperado.
 :::
 
