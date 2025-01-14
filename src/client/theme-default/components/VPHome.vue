@@ -10,9 +10,9 @@ const { frontmatter, theme } = useData()
 <template>
   <div 
     class="VPHome" 
-    :class="[
-      theme.externalLinkIcon && 'external-link-icon-enabled'
-    ]">
+    :class="{
+      'external-link-icon-enabled': theme.externalLinkIcon
+    }">
     <slot name="home-hero-before" />
     <VPHomeHero>
       <template #home-hero-info-before><slot name="home-hero-info-before" /></template>
