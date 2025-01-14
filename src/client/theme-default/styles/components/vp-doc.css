@@ -555,7 +555,7 @@
  * -------------------------------------------------------------------------- */
 
 /* prettier-ignore */
-:is(.vp-external-link-icon, .vp-doc a[href*='://'], .vp-doc a[target='_blank']):not(.no-icon)::after {
+:is(.vp-external-link-icon, .vp-doc a[href*='://'], .vp-doc a[target='_blank']):not(:is(.no-icon, svg a, :has(img, svg)))::after {
   display: inline-block;
   margin-top: -1px;
   margin-left: 4px;
@@ -575,7 +575,7 @@
 }
 
 /* prettier-ignore */
-.external-link-icon-enabled :is(.vp-doc a[href*='://'], .vp-doc a[target='_blank'])::after {
+.external-link-icon-enabled :is(.vp-doc a[href*='://'], .vp-doc a[target='_blank']):not(:is(.no-icon, svg a, :has(img, svg)))::after {
   content: '';
   color: currentColor;
 }
