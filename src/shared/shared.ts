@@ -62,7 +62,7 @@ export function isActive(
   return true
 }
 
-function normalize(path: string): string {
+export function normalize(path: string): string {
   return decodeURI(path)
     .replace(HASH_OR_QUERY_RE, '')
     .replace(INDEX_OR_EXT_RE, '$1')
