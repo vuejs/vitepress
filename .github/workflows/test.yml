@@ -1,10 +1,5 @@
 name: Test
 
-env:
-  NODE_OPTIONS: --max-old-space-size=6144
-  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
-  VITEST_SEGFAULT_RETRY: 3
-
 on:
   push:
     branches: [main]
@@ -45,6 +40,8 @@ jobs:
 
       - name: Install deps
         run: pnpm install
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
 
       - name: Install Playwright
         run: pnpm playwright install chromium
