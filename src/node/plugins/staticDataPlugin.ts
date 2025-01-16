@@ -1,12 +1,12 @@
+import { isMatch } from 'micromatch'
+import path, { dirname, resolve } from 'node:path'
+import { glob } from 'tinyglobby'
 import {
   type Plugin,
   type ViteDevServer,
   loadConfigFromFile,
   normalizePath
 } from 'vite'
-import path, { dirname, resolve } from 'path'
-import { isMatch } from 'micromatch'
-import { glob } from 'tinyglobby'
 
 const loaderMatch = /\.data\.m?(j|t)s($|\?)/
 

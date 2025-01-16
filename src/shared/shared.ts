@@ -10,8 +10,8 @@ export type {
   MarkdownEnv,
   PageData,
   PageDataPayload,
-  SSGContext,
-  SiteData
+  SiteData,
+  SSGContext
 } from '../../types/shared'
 
 export const EXTERNAL_URL_RE = /^(?:[a-z]+:|\/\/)/i

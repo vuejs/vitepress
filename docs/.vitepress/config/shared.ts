@@ -1,15 +1,15 @@
 import { defineConfig } from 'vitepress'
+import {
+  groupIconMdPlugin,
+  groupIconVitePlugin,
+  localIconLoader
+} from 'vitepress-plugin-group-icons'
 import { search as esSearch } from './es'
 import { search as faSearch } from './fa'
 import { search as koSearch } from './ko'
 import { search as ptSearch } from './pt'
 import { search as ruSearch } from './ru'
 import { search as zhSearch } from './zh'
-import {
-  groupIconMdPlugin,
-  groupIconVitePlugin,
-  localIconLoader
-} from 'vitepress-plugin-group-icons'
 
 export const shared = defineConfig({
   title: 'VitePress',

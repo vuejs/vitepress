@@ -1,17 +1,17 @@
 import {
+  cancel,
+  confirm,
+  group,
   intro,
   outro,
-  group,
-  text,
   select,
-  cancel,
-  confirm
+  text
 } from '@clack/prompts'
 import fs from 'fs-extra'
-import path from 'path'
-import { cyan, bold, yellow } from 'picocolors'
-import { fileURLToPath } from 'url'
 import template from 'lodash.template'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { bold, cyan, yellow } from 'picocolors'
 
 export enum ScaffoldThemeType {
   Default = 'default theme',

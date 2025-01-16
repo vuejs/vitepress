@@ -31,8 +31,8 @@ export { default as VPTeamPage } from './components/VPTeamPage.vue'
 export { default as VPTeamPageSection } from './components/VPTeamPageSection.vue'
 export { default as VPTeamPageTitle } from './components/VPTeamPageTitle.vue'
 
-export { useSidebar } from './composables/sidebar'
 export { useLocalNav } from './composables/local-nav'
+export { useSidebar } from './composables/sidebar'
 
 const theme: Theme = {
   Layout,

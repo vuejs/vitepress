@@ -1,6 +1,6 @@
 import fs from 'fs-extra'
-import path from 'path'
-import { fileURLToPath } from 'url'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import {
   build,
   normalizePath,
@@ -30,7 +30,6 @@ const excludedModules = [
   'node_modules/@vueuse/core/',
   'node_modules/@vueuse/shared/',
   'node_modules/vue/',
-  'node_modules/vue-demi/',
   clientDir
 ]
 

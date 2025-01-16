@@ -1,6 +1,6 @@
 import { withBase } from 'vitepress'
-import { useData } from '../composables/data'
 import { isExternal, treatAsHtml } from '../../shared'
+import { useData } from '../composables/data'
 
 export function throttleAndDebounce(fn: () => void, delay: number): () => void {
   let timeoutId: NodeJS.Timeout
@@ -17,7 +17,7 @@ export function throttleAndDebounce(fn: () => void, delay: number): () => void {
 }
 
 export function ensureStartingSlash(path: string): string {
-  return /^\//.test(path) ? path : `/${path}`
+  return path.startsWith('/') ? path : `/${path}`
 }
 
 export function normalizeLink(url: string): string {
