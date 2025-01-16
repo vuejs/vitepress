@@ -165,8 +165,7 @@ export default {
 
 네비게이션 바에 커스텀 컴포넌트를 포함하려면 `component` 옵션을 사용하세요. `component` 키는 Vue 컴포넌트 이름이어야 하며, [Theme.enhanceApp](../guide/custom-theme#theme-interface)을 사용하여 전역적으로 등록해야 합니다.
 
-```js
-// .vitepress/config.js
+```js [.vitepress/config.js]
 export default {
   themeConfig: {
     nav: [
@@ -192,8 +191,7 @@ export default {
 
 그런 다음, 컴포넌트를 전역적으로 등록해야 합니다:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme'
 
 import MyCustomComponent from './components/MyCustomComponent.vue'

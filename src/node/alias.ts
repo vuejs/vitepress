@@ -1,6 +1,6 @@
-import { createRequire } from 'module'
-import { resolve, join } from 'path'
-import { fileURLToPath } from 'url'
+import { createRequire } from 'node:module'
+import { join, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import type { Alias, AliasOptions } from 'vite'
 import type { SiteConfig } from './config'
 
@@ -41,10 +41,6 @@ export function resolveAliases(
     {
       find: /^vitepress\/theme$/,
       replacement: join(DIST_CLIENT_PATH, '/theme-default/index.js')
-    },
-    {
-      find: /^vue-demi$/,
-      replacement: require.resolve('vitepress/vue-demi')
     }
   ]
 

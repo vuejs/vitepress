@@ -1,3 +1,7 @@
+import fs from 'fs-extra'
+import path from 'node:path'
+import c from 'picocolors'
+import { glob } from 'tinyglobby'
 import {
   loadConfigFromFile,
   normalizePath,
@@ -5,10 +9,6 @@ import {
   type Plugin,
   type ViteDevServer
 } from 'vite'
-import fs from 'fs-extra'
-import c from 'picocolors'
-import path from 'path'
-import { glob } from 'tinyglobby'
 import { type SiteConfig, type UserConfig } from '../siteConfig'
 import { resolveRewrites } from './rewritesPlugin'
 
@@ -148,7 +148,7 @@ export const dynamicRoutesPlugin = async (
       const mods = config.dynamicRoutes.fileToModulesMap[ctx.file]
       if (mods) {
         // path loader module or deps updated, reset loaded routes
-        if (!/\.md$/.test(ctx.file)) {
+        if (!ctx.file.endsWith('.md')) {
           Object.assign(
             config,
             await resolvePages(config.srcDir, config.userConfig, config.logger)

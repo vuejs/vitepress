@@ -1,6 +1,6 @@
 import type { DefaultTheme } from 'vitepress/theme'
-import { ensureStartingSlash } from './utils'
 import { isActive } from '../../shared'
+import { ensureStartingSlash } from './utils'
 
 export interface SidebarLink {
   text: string

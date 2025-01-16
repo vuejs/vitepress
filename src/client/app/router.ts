@@ -36,6 +36,10 @@ export interface Router {
   /**
    * Called after the route changes.
    */
+  onAfterRouteChange?: (to: string) => Awaitable<void>
+  /**
+   * @deprecated use `onAfterRouteChange` instead
+   */
   onAfterRouteChanged?: (to: string) => Awaitable<void>
 }
 
@@ -76,7 +80,7 @@ export function createRouter(
       history.pushState({}, '', href)
     }
     await loadPage(href)
-    await router.onAfterRouteChanged?.(href)
+    await (router.onAfterRouteChange ?? router.onAfterRouteChanged)?.(href)
   }
 
   let latestPendingPath: string | null = null
@@ -245,14 +249,10 @@ export function createRouter(
     )
 
     window.addEventListener('popstate', async (e) => {
-      if (e.state === null) {
-        return
-      }
-      await loadPage(
-        normalizeHref(location.href),
-        (e.state && e.state.scrollPosition) || 0
-      )
-      router.onAfterRouteChanged?.(location.href)
+      if (e.state === null) return
+      const href = normalizeHref(location.href)
+      await loadPage(href, (e.state && e.state.scrollPosition) || 0)
+      await (router.onAfterRouteChange ?? router.onAfterRouteChanged)?.(href)
     })
 
     window.addEventListener('hashchange', (e) => {

@@ -126,6 +126,11 @@ export namespace DefaultTheme {
      */
     langMenuLabel?: string
 
+    /**
+     * @default 'Skip to content'
+     */
+    skipToContentLabel?: string
+
     search?:
       | { provider: 'local'; options?: LocalSearchOptions }
       | { provider: 'algolia'; options: AlgoliaSearchOptions }
@@ -333,19 +338,7 @@ export namespace DefaultTheme {
     ariaLabel?: string
   }
 
-  export type SocialLinkIcon =
-    | 'discord'
-    | 'facebook'
-    | 'github'
-    | 'instagram'
-    | 'linkedin'
-    | 'mastodon'
-    | 'npm'
-    | 'slack'
-    | 'twitter'
-    | 'x'
-    | 'youtube'
-    | { svg: string }
+  export type SocialLinkIcon = string | { svg: string }
 
   // footer --------------------------------------------------------------------
 

@@ -228,6 +228,7 @@ You may define this option to show your social account links with icons in nav.
 export default {
   themeConfig: {
     socialLinks: [
+      // You can add any icon from simple-icons (https://simpleicons.org/):
       { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
       { icon: 'twitter', link: '...' },
       // You can also add custom icons by passing SVG as string:
@@ -246,24 +247,10 @@ export default {
 
 ```ts
 interface SocialLink {
-  icon: SocialLinkIcon
+  icon: string | { svg: string }
   link: string
   ariaLabel?: string
 }
-
-type SocialLinkIcon =
-  | 'discord'
-  | 'facebook'
-  | 'github'
-  | 'instagram'
-  | 'linkedin'
-  | 'mastodon'
-  | 'npm'
-  | 'slack'
-  | 'twitter'
-  | 'x'
-  | 'youtube'
-  | { svg: string }
 ```
 
 ## footer
@@ -456,6 +443,13 @@ Can be used to customize the label of the return to top button. This label is on
 - Default: `Change language`
 
 Can be used to customize the aria-label of the language toggle button in navbar. This is only used if you're using [i18n](../guide/i18n).
+
+## skipToContentLabel
+
+- Type: `string`
+- Default: `Skip to content`
+
+Can be used to customize the label of the skip to content link. This link is shown when the user is navigating the site using a keyboard.
 
 ## externalLinkIcon
 

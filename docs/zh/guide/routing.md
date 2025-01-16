@@ -176,8 +176,7 @@ packages/pkg-b/src/pkg-b-docs.md  -->  /pkg-b/index.html
 
 可以通过像这样配置 [`rewrites`](../reference/site-config#rewrites) 选项来实现此目的：
 
-```ts
-// .vitepress/config.js
+```ts [.vitepress/config.js]
 export default {
   rewrites: {
     'packages/pkg-a/src/pkg-a-docs.md': 'pkg-a/index.md',

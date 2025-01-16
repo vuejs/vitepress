@@ -174,15 +174,15 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-  --vp-c-text-1: rgba(60, 60, 67);
-  --vp-c-text-2: rgba(60, 60, 67, 0.78);
-  --vp-c-text-3: rgba(60, 60, 67, 0.56);
+  --vp-c-text-1: #3c3c43;
+  --vp-c-text-2: #67676c;
+  --vp-c-text-3: #929295;
 }
 
 .dark {
-  --vp-c-text-1: rgba(255, 255, 245, 0.86);
-  --vp-c-text-2: rgba(235, 235, 245, 0.6);
-  --vp-c-text-3: rgba(235, 235, 245, 0.38);
+  --vp-c-text-1: #dfdfd6;
+  --vp-c-text-2: #98989f;
+  --vp-c-text-3: #6a6a71;
 }
 
 /**
@@ -364,6 +364,23 @@
   --vp-code-tab-hover-text-color: var(--vp-c-text-1);
   --vp-code-tab-active-text-color: var(--vp-c-text-1);
   --vp-code-tab-active-bar-color: var(--vp-c-brand-1);
+}
+
+:lang(es),
+:lang(pt) {
+  --vp-code-copy-copied-text-content: 'Copiado';
+}
+:lang(fa) {
+  --vp-code-copy-copied-text-content: 'کپی شد';
+}
+:lang(ko) {
+  --vp-code-copy-copied-text-content: '복사됨';
+}
+:lang(ru) {
+  --vp-code-copy-copied-text-content: 'Скопировано';
+}
+:lang(zh) {
+  --vp-code-copy-copied-text-content: '已复制';
 }
 
 /**
