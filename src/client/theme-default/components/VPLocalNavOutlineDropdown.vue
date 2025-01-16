@@ -17,6 +17,7 @@ const open = ref(false)
 const vh = ref(0)
 const main = ref<HTMLDivElement>()
 const items = ref<HTMLDivElement>()
+const {hasSidebar} = useSidebar()
 
 function closeOnClickOutside(e: Event) {
   if (!main.value?.contains(e.target as Node)) {
@@ -61,13 +62,6 @@ function scrollToTop() {
   open.value = false
   window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
 }
-
-onMounted(()=>{
-  const {hasSidebar} = useSidebar()
-  if(!hasSidebar.value){
-    document.documentElement.style.setProperty("--vp-sidebar-width","0px")
-  }
-})
 </script>
 
 <template>
@@ -75,6 +69,9 @@ onMounted(()=>{
     class="VPLocalNavOutlineDropdown"
     :style="{ '--vp-vh': vh + 'px' }"
     ref="main"
+    :class="{
+      'has-sidebar': hasSidebar,
+    }"
   >
     <button @click="toggle" :class="{ open }" v-if="headers.length > 0">
       <span class="menu-text">{{ resolveTitle(theme) }}</span>
@@ -171,6 +168,9 @@ onMounted(()=>{
     right: auto;
     left: calc(var(--vp-sidebar-width) + 32px);
     width: 320px;
+  }
+  .VPLocalNavOutlineDropdown:not(.has-sidebar) .items{
+    left:32px;
   }
 }
 
