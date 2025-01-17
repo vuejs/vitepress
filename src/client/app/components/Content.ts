@@ -1,5 +1,5 @@
-import { defineComponent, h, watch } from 'vue'
 import { useData, useRoute } from 'vitepress'
+import { defineComponent, h, watch } from 'vue'
 import { contentUpdatedCallbacks } from '../utils'
 
 const runCbs = () => contentUpdatedCallbacks.forEach((fn) => fn())

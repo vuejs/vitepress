@@ -1,4 +1,8 @@
-import { bundledLanguages, type DynamicImportLanguageRegistration } from 'shiki'
+import {
+  bundledLanguages,
+  type DynamicImportLanguageRegistration,
+  type LanguageRegistration
+} from 'shiki'
 import { runAsWorker } from 'synckit'
 
 async function resolveLang(lang: string) {
@@ -10,7 +14,7 @@ async function resolveLang(lang: string) {
       >
     )
       [lang]?.()
-      .then((m) => m.default) || []
+      .then((m) => m.default) || ([] as LanguageRegistration[])
   )
 }
 

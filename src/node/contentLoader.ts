@@ -1,9 +1,9 @@
 import fs from 'fs-extra'
-import path from 'path'
-import { glob, type GlobOptions } from 'tinyglobby'
-import type { SiteConfig } from './config'
 import matter from 'gray-matter'
+import path from 'node:path'
+import { glob, type GlobOptions } from 'tinyglobby'
 import { normalizePath } from 'vite'
+import type { SiteConfig } from './config'
 import { createMarkdownRenderer } from './markdown/markdown'
 
 export interface ContentOptions<T = ContentData[]> {

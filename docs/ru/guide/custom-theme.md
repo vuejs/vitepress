@@ -49,8 +49,7 @@ interface EnhanceAppContext {
 
 Файл входа темы должен экспортировать тему по умолчанию:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 
 // Вы можете напрямую импортировать файлы Vue в файле входа темы.
 // VitePress предварительно настроен с помощью @vitejs/plugin-vue.
@@ -72,8 +71,7 @@ export default {
 
 Самый базовый компонент макета должен содержать компонент [`<Content />`](../reference/runtime-api#content):
 
-```vue
-<!-- .vitepress/theme/Layout.vue -->
+```vue [.vitepress/theme/Layout.vue]
 <template>
   <h1>Пользовательский макет!</h1>
 
@@ -172,8 +170,7 @@ const { page, frontmatter } = useData()
 
 Чтобы использовать внешнюю тему, импортируйте и реэкспортируйте её из элемента пользовательской темы:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import Theme from 'awesome-vitepress-theme'
 
 export default Theme
@@ -181,8 +178,7 @@ export default Theme
 
 Если тема требует расширения:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import Theme from 'awesome-vitepress-theme'
 
 export default {
@@ -195,8 +191,7 @@ export default {
 
 Если тема требует специальных настроек VitePress, вам нужно будет также расширить их в своем собственном конфиге:
 
-```ts
-// .vitepress/config.ts
+```ts [.vitepress/config.ts]
 import baseConfig from 'awesome-vitepress-theme/config'
 
 export default {
@@ -207,8 +202,7 @@ export default {
 
 Наконец, если тема предоставляет типы для своего конфига темы:
 
-```ts
-// .vitepress/config.ts
+```ts [.vitepress/config.ts]
 import baseConfig from 'awesome-vitepress-theme/config'
 import { defineConfigWithTheme } from 'vitepress'
 import type { ThemeConfig } from 'awesome-vitepress-theme'

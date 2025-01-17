@@ -2,7 +2,7 @@ import type MarkdownIt from 'markdown-it'
 import type { ContainerOptions } from './containers'
 
 const markerRE =
-  /^\[\!(TIP|NOTE|INFO|IMPORTANT|WARNING|CAUTION|DANGER)\]([^\n\r]*)/i
+  /^\[!(TIP|NOTE|INFO|IMPORTANT|WARNING|CAUTION|DANGER)\]([^\n\r]*)/i
 
 export const gitHubAlertsPlugin = (
   md: MarkdownIt,

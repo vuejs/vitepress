@@ -14,17 +14,17 @@ import { sfcPlugin, type SfcPluginOptions } from '@mdit-vue/plugin-sfc'
 import { titlePlugin } from '@mdit-vue/plugin-title'
 import { tocPlugin, type TocPluginOptions } from '@mdit-vue/plugin-toc'
 import { slugify } from '@mdit-vue/shared'
+import type {
+  LanguageInput,
+  ShikiTransformer,
+  ThemeRegistrationAny
+} from '@shikijs/types'
 import type { Options } from 'markdown-it'
 import MarkdownIt from 'markdown-it'
 import anchorPlugin from 'markdown-it-anchor'
 import attrsPlugin from 'markdown-it-attrs'
 import { full as emojiPlugin } from 'markdown-it-emoji'
 import type { BuiltinTheme, Highlighter } from 'shiki'
-import type {
-  LanguageInput,
-  ShikiTransformer,
-  ThemeRegistrationAny
-} from '@shikijs/types'
 import type { Logger } from 'vite'
 import { containerPlugin, type ContainerOptions } from './plugins/containers'
 import { gitHubAlertsPlugin } from './plugins/githubAlerts'

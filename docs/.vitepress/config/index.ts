@@ -6,6 +6,7 @@ import { pt } from './pt'
 import { ru } from './ru'
 import { es } from './es'
 import { ko } from './ko'
+import { fa } from './fa'
 
 export default defineConfig({
   ...shared,
@@ -15,6 +16,7 @@ export default defineConfig({
     pt: { label: 'Português', ...pt },
     ru: { label: 'Русский', ...ru },
     es: { label: 'Español', ...es },
-    ko: { label: '한국어', ...ko }
+    ko: { label: '한국어', ...ko },
+    fa: { label: 'فارسی', ...fa }
   }
 })

@@ -147,6 +147,8 @@ export interface PageDataPayload {
 
 export interface SSGContext extends SSRContext {
   content: string
+  /** @experimental */
+  vpSocialIcons: Set<string>
 }
 
 export interface LocaleSpecificConfig<ThemeConfig = any> {

@@ -352,7 +352,7 @@ export default {
 
 Cuando se establece en `true`, VitePress eliminará el `.html` al final de las URLs. Consulte también [Generar URL Limpia](../guide/routing#generating-clean-url).
 
-::: Alerta de Soporte de Servidor Requerido
+::: warning Soporte de Servidor Requerido
 Habilitar esto puede requerir configurar adicional en su plataforma de alojamiento. Para funcionar, su servidor debe poder servir `/foo.html` cuando visite `/foo` **sin redirección**.
 :::
 

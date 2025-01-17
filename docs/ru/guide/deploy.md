@@ -10,7 +10,7 @@ outline: deep
 - Вы используете выходной каталог сборки по умолчанию (`.vitepress/dist`).
 - VitePress установлен как локальная зависимость в вашем проекте, и вы установили следующие скрипты в вашем `package.json`:
 
-  ```json
+  ```json [package.json]
   {
     "scripts": {
       "docs:build": "vitepress build docs",
@@ -121,7 +121,7 @@ Cache-Control: max-age=31536000,immutable
 
 1. Создайте файл с именем `deploy.yml` в директории `.github/workflows` вашего проекта с примерно таким содержанием:
 
-   ```yaml
+   ```yaml [.github/workflows/deploy.yml]
    # Пример рабочего процесса для создания и развёртывания сайта VitePress на GitHub Pages
    #
    name: Deploy VitePress site to Pages
@@ -204,7 +204,7 @@ Cache-Control: max-age=31536000,immutable
 
 2. Создайте файл с именем `.gitlab-ci.yml` в корне вашего проекта с приведённым ниже содержимым. Это позволит создавать и развёртывать ваш сайт каждый раз, когда вы вносите изменения в его содержимое:
 
-   ```yaml
+   ```yaml [.gitlab-ci.yml]
    image: node:18
    pages:
      cache:
@@ -237,7 +237,7 @@ Cache-Control: max-age=31536000,immutable
 
    `firebase.json`:
 
-   ```json
+   ```json [firebase.json]
    {
      "hosting": {
        "public": "docs/.vitepress/dist",
@@ -248,7 +248,7 @@ Cache-Control: max-age=31536000,immutable
 
    `.firebaserc`:
 
-   ```json
+   ```json [.firebaserc]
    {
      "projects": {
        "default": "<YOUR_FIREBASE_ID>"
@@ -276,7 +276,7 @@ Cache-Control: max-age=31536000,immutable
 
 2. Создайте файл `static.json` в корне вашего проекта со следующим содержимым:
 
-   ```json
+   ```json [static.json]
    {
      "root": "docs/.vitepress/dist"
    }

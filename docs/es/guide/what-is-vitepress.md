@@ -3,6 +3,7 @@
 VitePress es un [Generador de Sitios Estáticos](https://en.wikipedia.org/wiki/Static_site_generator) (SSG) proyectado para crear sitios rápidos y centrados en contenido. En suma, VitePress utiliza su contenido fuente escrito en [Markdown](https://en.wikipedia.org/wiki/Markdown), aplica un tema a el y genera páginas HTML estáticas que pueden ser facilmente implantadas en cualquier lugar.
 
 <div class="tip custom-block" style="padding-top: 8px">
+  
 Quiere apenas experimentar? Valla al [Início Rápido](./getting-started).
 
 </div>

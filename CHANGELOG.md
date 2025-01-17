@@ -1,3 +1,16 @@
+# [1.5.0](https://github.com/vuejs/vitepress/compare/v1.4.5...v1.5.0) (2024-11-04)
+
+### Features
+
+- on-demand social icons ([#4339](https://github.com/vuejs/vitepress/issues/4339)) ([05f2f0d](https://github.com/vuejs/vitepress/commit/05f2f0d26153ace74b6c023184224d4fada137c2)), closes [#4256](https://github.com/vuejs/vitepress/issues/4256) [#4135](https://github.com/vuejs/vitepress/issues/4135) [#4076](https://github.com/vuejs/vitepress/issues/4076) [#3809](https://github.com/vuejs/vitepress/issues/3809) [#3750](https://github.com/vuejs/vitepress/issues/3750) [#1214](https://github.com/vuejs/vitepress/issues/1214) [#2768](https://github.com/vuejs/vitepress/issues/2768) [#2861](https://github.com/vuejs/vitepress/issues/2861)
+
+## [1.4.5](https://github.com/vuejs/vitepress/compare/v1.4.4...v1.4.5) (2024-11-03)
+
+### Bug Fixes
+
+- lang lazy load not working with twoslash ([fc92a77](https://github.com/vuejs/vitepress/commit/fc92a77a5d871b5252bcb82639f5c3551d5c70bb)), closes [#4334](https://github.com/vuejs/vitepress/issues/4334)
+- typo in missing language check ([dcb8450](https://github.com/vuejs/vitepress/commit/dcb8450f1166d7731c26a0eb5ec6d931bc283172))
+
 ## [1.4.3](https://github.com/vuejs/vitepress/compare/v1.4.2...v1.4.3) (2024-10-31)
 
 ### Performance Improvements
