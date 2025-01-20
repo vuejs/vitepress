@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/vuejs/vitepress/compare/v1.6.0...v1.6.1) (2025-01-20)
+
+### Bug Fixes
+
+- **build:** escape `$` in replace pattern in dynamic routes plugin ([e812916](https://github.com/vuejs/vitepress/commit/e8129167c76104d59d31a77b16dff3458e6af5eb)), closes [#4499](https://github.com/vuejs/vitepress/issues/4499)
+- **theme/regression:** broken hero heading at certain viewports ([37dbe89](https://github.com/vuejs/vitepress/commit/37dbe895d4cf813e6eb1289f24c637945eec0d1f))
+
 # [1.6.0](https://github.com/vuejs/vitepress/compare/v1.5.0...v1.6.0) (2025-01-20)
 
 ### Bug Fixes
