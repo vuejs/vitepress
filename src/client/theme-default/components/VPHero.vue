@@ -29,7 +29,7 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
       <div class="main">
         <slot name="home-hero-info-before" />
         <slot name="home-hero-info">
-          <h1>
+          <h1 class="heading">
             <span v-if="name" v-html="name" class="name clip"></span>
             <span v-if="text" v-html="text" class="text"></span>
           </h1>
@@ -125,9 +125,14 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
   }
 }
 
+.heading {
+  display: flex;
+  flex-direction: column;
+}
+
 .name,
 .text {
-  display: inline-block;
+  width: fit-content;
   max-width: 392px;
   letter-spacing: -0.4px;
   line-height: 40px;
