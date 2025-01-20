@@ -132,7 +132,10 @@ export const dynamicRoutesPlugin = async (
         // we use a special injection syntax so the content is rendered as
         // static local content instead of included as runtime data.
         if (content) {
-          baseContent = baseContent.replace(/<!--\s*@content\s*-->/, content)
+          baseContent = baseContent.replace(
+            /<!--\s*@content\s*-->/,
+            content.replace(/\$/g, '$$$')
+          )
         }
 
         // params are injected with special markers and extracted as part of
