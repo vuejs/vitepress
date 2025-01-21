@@ -45,7 +45,7 @@ watchEffect(() => {
   left: 0;
   z-index: var(--vp-z-index-nav);
   width: 100%;
-  pointer-events: none;
+  pointer-events: auto;
   transition: background-color 0.5s;
 }
 
