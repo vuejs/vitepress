@@ -34,7 +34,8 @@ import { LRUCache } from '../support/lru'
 import { createSearchTranslate } from '../support/translation'
 
 const emit = defineEmits<{
-  (e: 'close'): void
+  (e: 'close'): void,
+  (e: 'filter-change', text: string): void
 }>()
 
 const el = shallowRef<HTMLElement>()
@@ -60,6 +61,7 @@ interface Result {
 }
 
 const vitePressData = useData()
+const isSearchPage = vitePressData.page.value.isSearch;
 const { activate } = useFocusTrap(el, {
   immediate: true,
   allowOutsideClick: true,
@@ -135,6 +137,7 @@ const enableNoResults = ref(false)
 
 watch(filterText, () => {
   enableNoResults.value = false
+  emit('filter-change', filterText.value);
 })
 
 const mark = computedAsync(async () => {
@@ -270,6 +273,8 @@ function focusSearchInput(select = true) {
 
 onMounted(() => {
   focusSearchInput()
+  filterText.value = (new URL(window.location.href)).searchParams.get('q') ?? ''
+  emit('filter-change', filterText.value);
 })
 
 function onSearchBarClick(event: PointerEvent) {
@@ -377,7 +382,7 @@ const isLocked = useScrollLock(inBrowser ? document.body : null)
 
 onMounted(() => {
   nextTick(() => {
-    isLocked.value = true
+    isLocked.value = !isSearchPage
     nextTick().then(() => activate())
   })
 })
@@ -413,7 +418,7 @@ function onMouseMove(e: MouseEvent) {
 </script>
 
 <template>
-  <Teleport to="body">
+  <Teleport to="body" :disabled="isSearchPage">
     <div
       ref="el"
       role="button"
@@ -421,7 +426,10 @@ function onMouseMove(e: MouseEvent) {
       aria-expanded="true"
       aria-haspopup="listbox"
       aria-labelledby="localsearch-label"
-      class="VPLocalSearchBox"
+      :class="{
+        'VPLocalSearchBox': true,
+        'overlay': !isSearchPage
+      }"
     >
       <div class="backdrop" @click="$emit('close')" />
 
@@ -569,7 +577,7 @@ function onMouseMove(e: MouseEvent) {
             </kbd>
             {{ translate('modal.footer.selectText') }}
           </span>
-          <span>
+          <span v-if="!isSearchPage">
             <kbd :aria-label="translate('modal.footer.closeKeyAriaLabel')">esc</kbd>
             {{ translate('modal.footer.closeText') }}
           </span>
@@ -580,32 +588,38 @@ function onMouseMove(e: MouseEvent) {
 </template>
 
 <style scoped>
-.VPLocalSearchBox {
+.VPLocalSearchBox.overlay {
   position: fixed;
   z-index: 100;
   inset: 0;
   display: flex;
 }
 
-.backdrop {
+.VPLocalSearchBox.overlay .backdrop {
   position: absolute;
   inset: 0;
   background: var(--vp-backdrop-bg-color);
   transition: opacity 0.5s;
 }
 
+.VPLocalSearchBox.overlay .shell {
+  margin-top: 64px;
+  max-height: min(100vh - 128px, 900px);
+  z-index: unset;
+}
+
 .shell {
   position: relative;
   padding: 12px;
-  margin: 64px auto;
+  margin: 0 auto 64px;
   display: flex;
   flex-direction: column;
   gap: 16px;
   background: var(--vp-local-search-bg);
   width: min(100vw - 60px, 900px);
   height: min-content;
-  max-height: min(100vh - 128px, 900px);
   border-radius: 6px;
+  z-index: 0;
 }
 
 @media (max-width: 767px) {
