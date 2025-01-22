@@ -78,23 +78,22 @@ export function createRouter(
     if (inBrowser) {
       loc = normalizeHref(location.href)
 
-      const { pathname, search, hash } = new URL(href, fakeHost)
+      const { pathname, hash } = new URL(href, fakeHost)
       const currentLoc = new URL(loc, fakeHost)
 
-      if (
-        pathname === currentLoc.pathname &&
-        search === currentLoc.search &&
-        hash !== currentLoc.hash
-      ) {
+      if (pathname === currentLoc.pathname && href !== loc) {
         history.pushState({}, '', href)
-        window.dispatchEvent(
-          new HashChangeEvent('hashchange', {
-            oldURL: currentLoc.href,
-            newURL: href
-          })
-        )
 
-        hash ? scrollTo(hash) : window.scrollTo(0, 0)
+        if (hash !== currentLoc.hash) {
+          window.dispatchEvent(
+            new HashChangeEvent('hashchange', {
+              oldURL: currentLoc.href,
+              newURL: href
+            })
+          )
+
+          hash ? scrollTo(hash) : window.scrollTo(0, 0)
+        }
 
         return
       }
