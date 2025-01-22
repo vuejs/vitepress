@@ -159,7 +159,7 @@ function newRouter(): Router {
 if (inBrowser) {
   createApp().then(({ app, router, data }) => {
     // wait until page component is fetched before mounting
-    router.go().then(() => {
+    router.go(location.href, { initialLoad: true }).then(() => {
       // dynamically update head tags
       useUpdateHead(router.route, data.site)
       app.mount('#app')

@@ -19,7 +19,15 @@ export interface Router {
   /**
    * Navigate to a new URL.
    */
-  go: (to?: string) => Promise<void>
+  go: (
+    to: string,
+    options?: {
+      // @internal
+      initialLoad?: boolean
+      // Whether to smoothly scroll to the target position.
+      smoothScroll?: boolean
+    }
+  ) => Promise<void>
   /**
    * Called before the route changes. Return `false` to cancel the navigation.
    */
@@ -72,36 +80,43 @@ export function createRouter(
   }
 
   async function go(
-    href: string = inBrowser ? location.href : '/',
-    smoothScroll = false
+    href: string,
+    { smoothScroll = false, initialLoad = false } = {}
   ) {
     href = normalizeHref(href)
     const loc = inBrowser ? normalizeHref(location.href) : null
 
     if ((await router.onBeforeRouteChange?.(href)) === false) return
 
-    if (loc !== null && href !== loc) {
+    if (loc !== null) {
       const { pathname, hash } = new URL(href, fakeHost)
       const currentLoc = new URL(loc, fakeHost)
 
-      // save scroll position before changing url
-      history.replaceState({ scrollPosition: window.scrollY }, '')
-      history.pushState({}, '', href)
-
-      if (pathname === currentLoc.pathname) {
-        if (hash !== currentLoc.hash) {
-          window.dispatchEvent(
-            new HashChangeEvent('hashchange', {
-              oldURL: currentLoc.href,
-              newURL: href
-            })
-          )
-
+      if (href === loc) {
+        if (!initialLoad) {
           if (hash) scrollTo(hash, smoothScroll)
           else window.scrollTo(0, 0)
+          return
         }
+      } else {
+        history.replaceState({ scrollPosition: window.scrollY }, '')
+        history.pushState({}, '', href)
 
-        return
+        if (pathname === currentLoc.pathname) {
+          if (hash !== currentLoc.hash) {
+            window.dispatchEvent(
+              new HashChangeEvent('hashchange', {
+                oldURL: currentLoc.href,
+                newURL: href
+              })
+            )
+
+            if (hash) scrollTo(hash, smoothScroll)
+            else window.scrollTo(0, 0)
+          }
+
+          return
+        }
       }
     }
 
@@ -229,7 +244,7 @@ export function createRouter(
         // only intercept inbound html links
         if (origin === currentLoc.origin && treatAsHtml(pathname)) {
           e.preventDefault()
-          go(href, link.classList.contains('header-anchor'))
+          go(href, { smoothScroll: link.classList.contains('header-anchor') })
         }
       },
       { capture: true }
