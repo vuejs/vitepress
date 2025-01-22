@@ -38,8 +38,7 @@ declare module 'vite' {
 
 const themeRE = /\/\.vitepress\/theme\/index\.(m|c)?(j|t)s$/
 const hashRE = /\.([-\w]+)\.js$/
-const staticInjectMarkerRE =
-  /\b(const _hoisted_\d+ = \/\*(?:#|@)__PURE__\*\/\s*createStaticVNode)\("(.*)", (\d+)\)/g
+const staticInjectMarkerRE = /\bcreateStaticVNode\((?:(".*")|('.*')), (\d+)\)/g
 const staticStripRE = /['"`]__VP_STATIC_START__[^]*?__VP_STATIC_END__['"`]/g
 const staticRestoreRE = /__VP_STATIC_(START|END)__/g
 
@@ -325,10 +324,11 @@ export async function createVitePressPlugin(
         // Using a regexp relies on specific output from Vue compiler core,
         // which is a reasonable trade-off considering the massive perf win over
         // a full AST parse.
-        code = code.replace(
-          staticInjectMarkerRE,
-          '$1("__VP_STATIC_START__$2__VP_STATIC_END__", $3)'
-        )
+        code = code.replace(staticInjectMarkerRE, (_, str1, str2, flag) => {
+          const str = str1 || str2
+          const quote = str[0]
+          return `createStaticVNode(${quote}__VP_STATIC_START__${str.slice(1, -1)}__VP_STATIC_END__${quote}, ${flag})`
+        })
         return code
       }
       return null
