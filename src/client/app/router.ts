@@ -71,10 +71,43 @@ export function createRouter(
     go
   }
 
-  async function go(href: string = inBrowser ? location.href : '/') {
+  async function go(
+    href: string = inBrowser ? location.href : '/',
+    cause: Element | null = null
+  ) {
     href = normalizeHref(href)
+    let loc: string | null = null
+
+    if (inBrowser) {
+      loc = normalizeHref(location.href)
+
+      const { pathname, search, hash } = new URL(href, fakeHost)
+      const currentLoc = new URL(loc, fakeHost)
+
+      if (
+        pathname === currentLoc.pathname &&
+        search === currentLoc.search &&
+        hash !== currentLoc.hash
+      ) {
+        history.pushState({}, '', href)
+        window.dispatchEvent(
+          new HashChangeEvent('hashchange', {
+            oldURL: currentLoc.href,
+            newURL: href
+          })
+        )
+        if (hash) {
+          scrollTo(cause, hash, cause?.classList.contains('header-anchor'))
+        } else {
+          window.scrollTo(0, 0)
+        }
+
+        return
+      }
+    }
+
     if ((await router.onBeforeRouteChange?.(href)) === false) return
-    if (inBrowser && href !== normalizeHref(location.href)) {
+    if (loc !== null && href !== loc) {
       // save scroll position before changing url
       history.replaceState({ scrollPosition: window.scrollY }, '')
       history.pushState({}, '', href)
@@ -125,20 +158,10 @@ export function createRouter(
             }
 
             if (targetLoc.hash && !scrollPosition) {
-              let target: HTMLElement | null = null
-              try {
-                target = document.getElementById(
-                  decodeURIComponent(targetLoc.hash).slice(1)
-                )
-              } catch (e) {
-                console.warn(e)
-              }
-              if (target) {
-                scrollTo(target, targetLoc.hash)
-                return
-              }
+              scrollTo(null, targetLoc.hash)
+            } else {
+              window.scrollTo(0, scrollPosition)
             }
-            window.scrollTo(0, scrollPosition)
           })
         }
       }
@@ -210,39 +233,12 @@ export function createRouter(
           (link instanceof SVGAElement ? link.getAttribute('xlink:href') : null)
         if (linkHref == null) return
 
-        const { href, origin, pathname, hash, search } = new URL(
-          linkHref,
-          link.baseURI
-        )
-        const currentUrl = new URL(location.href) // copy to keep old data
+        const { href, origin, pathname } = new URL(linkHref, link.baseURI)
+        const currentLoc = new URL(location.href) // copy to keep old data
         // only intercept inbound html links
-        if (origin === currentUrl.origin && treatAsHtml(pathname)) {
+        if (origin === currentLoc.origin && treatAsHtml(pathname)) {
           e.preventDefault()
-          if (
-            pathname === currentUrl.pathname &&
-            search === currentUrl.search
-          ) {
-            // scroll between hash anchors in the same page
-            // avoid duplicate history entries when the hash is same
-            if (hash !== currentUrl.hash) {
-              history.pushState({}, '', href)
-              // still emit the event so we can listen to it in themes
-              window.dispatchEvent(
-                new HashChangeEvent('hashchange', {
-                  oldURL: currentUrl.href,
-                  newURL: href
-                })
-              )
-            }
-            if (hash) {
-              // use smooth scroll when clicking on header anchor links
-              scrollTo(link, hash, link.classList.contains('header-anchor'))
-            } else {
-              window.scrollTo(0, 0)
-            }
-          } else {
-            go(href)
-          }
+          go(href, link)
         }
       },
       { capture: true }
@@ -277,12 +273,12 @@ export function useRoute(): Route {
   return useRouter().route
 }
 
-export function scrollTo(el: Element, hash: string, smooth = false) {
+export function scrollTo(from: Element | null, hash: string, smooth = false) {
   let target: Element | null = null
 
   try {
-    target = el.classList.contains('header-anchor')
-      ? el
+    target = from?.classList.contains('header-anchor')
+      ? from
       : document.getElementById(decodeURIComponent(hash).slice(1))
   } catch (e) {
     console.warn(e)
