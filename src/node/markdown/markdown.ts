@@ -53,11 +53,11 @@ export interface MarkdownOptions extends Options {
   /**
    * Setup markdown-it instance before applying plugins
    */
-  preConfig?: (md: MarkdownIt) => Promise<void>
+  preConfig?: (md: MarkdownIt) => Awaited<void>
   /**
    * Setup markdown-it instance
    */
-  config?: (md: MarkdownIt) => Promise<void>
+  config?: (md: MarkdownIt) => Awaited<void>
   /**
    * Disable cache (experimental)
    */
