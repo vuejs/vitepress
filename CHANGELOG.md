@@ -1,3 +1,9 @@
+## [1.6.2](https://github.com/vuejs/vitepress/compare/v1.6.1...v1.6.2) (2025-01-22)
+
+### Bug Fixes
+
+- fix static content removal for lean chunks due to Vue 3.5 changes ([#4508](https://github.com/vuejs/vitepress/issues/4508)) ([8214cae](https://github.com/vuejs/vitepress/commit/8214cae21bb16842d8870d5867e974146c51fd61))
+
 ## [1.6.1](https://github.com/vuejs/vitepress/compare/v1.6.0...v1.6.1) (2025-01-20)
 
 ### Bug Fixes

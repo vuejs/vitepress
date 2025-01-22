@@ -119,21 +119,14 @@ function newApp(): App {
 
 function newRouter(): Router {
   let isInitialPageLoad = inBrowser
-  let initialPath: string
 
   return createRouter((path) => {
     let pageFilePath = pathToFile(path)
     let pageModule = null
 
     if (pageFilePath) {
+      // use lean build if this is the initial page load
       if (isInitialPageLoad) {
-        initialPath = pageFilePath
-      }
-
-      // use lean build if this is the initial page load or navigating back
-      // to the initial loaded path (the static vnodes already adopted the
-      // static content on that load so no need to re-fetch the page)
-      if (isInitialPageLoad || initialPath === pageFilePath) {
         pageFilePath = pageFilePath.replace(/\.js$/, '.lean.js')
       }
 
