@@ -71,10 +71,7 @@ export function createRouter(
     go
   }
 
-  async function go(
-    href: string = inBrowser ? location.href : '/',
-    cause: Element | null = null
-  ) {
+  async function go(href: string = inBrowser ? location.href : '/') {
     href = normalizeHref(href)
     let loc: string | null = null
 
@@ -96,11 +93,8 @@ export function createRouter(
             newURL: href
           })
         )
-        if (hash) {
-          scrollTo(cause, hash, cause?.classList.contains('header-anchor'))
-        } else {
-          window.scrollTo(0, 0)
-        }
+
+        hash ? scrollTo(hash) : window.scrollTo(0, 0)
 
         return
       }
@@ -158,7 +152,7 @@ export function createRouter(
             }
 
             if (targetLoc.hash && !scrollPosition) {
-              scrollTo(null, targetLoc.hash)
+              scrollTo(targetLoc.hash)
             } else {
               window.scrollTo(0, scrollPosition)
             }
@@ -238,7 +232,7 @@ export function createRouter(
         // only intercept inbound html links
         if (origin === currentLoc.origin && treatAsHtml(pathname)) {
           e.preventDefault()
-          go(href, link)
+          go(href)
         }
       },
       { capture: true }
@@ -273,13 +267,11 @@ export function useRoute(): Route {
   return useRouter().route
 }
 
-export function scrollTo(from: Element | null, hash: string, smooth = false) {
+export function scrollTo(hash: string) {
   let target: Element | null = null
 
   try {
-    target = from?.classList.contains('header-anchor')
-      ? from
-      : document.getElementById(decodeURIComponent(hash).slice(1))
+    target = document.getElementById(decodeURIComponent(hash).slice(1))
   } catch (e) {
     console.warn(e)
   }
@@ -289,17 +281,22 @@ export function scrollTo(from: Element | null, hash: string, smooth = false) {
       window.getComputedStyle(target).paddingTop,
       10
     )
+
     const targetTop =
       window.scrollY +
       target.getBoundingClientRect().top -
       getScrollOffset() +
       targetPadding
+
     function scrollToTarget() {
       // only smooth scroll if distance is smaller than screen height.
-      if (!smooth || Math.abs(targetTop - window.scrollY) > window.innerHeight)
+      if (Math.abs(targetTop - window.scrollY) > window.innerHeight) {
         window.scrollTo(0, targetTop)
-      else window.scrollTo({ left: 0, top: targetTop, behavior: 'smooth' })
+      } else {
+        window.scrollTo({ left: 0, top: targetTop, behavior: 'smooth' })
+      }
     }
+
     requestAnimationFrame(scrollToTarget)
   }
 }

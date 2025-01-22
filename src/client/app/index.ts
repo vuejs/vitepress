@@ -166,12 +166,7 @@ if (inBrowser) {
 
       // scroll to hash on new tab during dev
       if (import.meta.env.DEV && location.hash) {
-        const target = document.getElementById(
-          decodeURIComponent(location.hash).slice(1)
-        )
-        if (target) {
-          scrollTo(target, location.hash)
-        }
+        scrollTo(location.hash)
       }
     })
   })
