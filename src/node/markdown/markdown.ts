@@ -53,11 +53,11 @@ export interface MarkdownOptions extends Options {
   /**
    * Setup markdown-it instance before applying plugins
    */
-  preConfig?: (md: MarkdownIt) => void
+  preConfig?: (md: MarkdownIt) => Promise<void>
   /**
    * Setup markdown-it instance
    */
-  config?: (md: MarkdownIt) => void
+  config?: (md: MarkdownIt) => Promise<void>
   /**
    * Disable cache (experimental)
    */
@@ -229,7 +229,7 @@ export async function createMarkdownRenderer(
   md.use(restoreEntities)
 
   if (options.preConfig) {
-    options.preConfig(md)
+    await options.preConfig(md)
   }
 
   // custom plugins
@@ -322,7 +322,7 @@ export async function createMarkdownRenderer(
 
   // apply user config
   if (options.config) {
-    options.config(md)
+    await options.config(md)
   }
 
   return md
