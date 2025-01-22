@@ -1,3 +1,9 @@
+## [1.6.3](https://github.com/vuejs/vitepress/compare/v1.6.2...v1.6.3) (2025-01-22)
+
+### Bug Fixes
+
+- docsearch not rendering properly ([3e4120e](https://github.com/vuejs/vitepress/commit/3e4120e94805156bf63587fd633162433dbaf260))
+
 ## [1.6.2](https://github.com/vuejs/vitepress/compare/v1.6.1...v1.6.2) (2025-01-22)
 
 ### Bug Fixes
