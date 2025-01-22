@@ -71,7 +71,10 @@ export function createRouter(
     go
   }
 
-  async function go(href: string = inBrowser ? location.href : '/') {
+  async function go(
+    href: string = inBrowser ? location.href : '/',
+    cause: Element | null = null
+  ) {
     href = normalizeHref(href)
     const loc = inBrowser ? normalizeHref(location.href) : null
 
@@ -94,7 +97,14 @@ export function createRouter(
             })
           )
 
-          hash ? scrollTo(hash) : window.scrollTo(0, 0)
+          if (hash) {
+            scrollTo(
+              hash,
+              cause ? cause.classList.contains('header-anchor') : false
+            )
+          } else {
+            window.scrollTo(0, 0)
+          }
         }
 
         return
@@ -262,7 +272,7 @@ export function useRoute(): Route {
   return useRouter().route
 }
 
-export function scrollTo(hash: string) {
+export function scrollTo(hash: string, smooth = false) {
   let target: Element | null = null
 
   try {
@@ -285,11 +295,9 @@ export function scrollTo(hash: string) {
 
     function scrollToTarget() {
       // only smooth scroll if distance is smaller than screen height.
-      if (Math.abs(targetTop - window.scrollY) > window.innerHeight) {
+      if (!smooth || Math.abs(targetTop - window.scrollY) > window.innerHeight)
         window.scrollTo(0, targetTop)
-      } else {
-        window.scrollTo({ left: 0, top: targetTop, behavior: 'smooth' })
-      }
+      else window.scrollTo({ left: 0, top: targetTop, behavior: 'smooth' })
     }
 
     requestAnimationFrame(scrollToTarget)
