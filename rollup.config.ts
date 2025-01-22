@@ -14,7 +14,6 @@ const require = createRequire(import.meta.url)
 const pkg = require('./package.json')
 
 const DEV = !!process.env.DEV
-const PROD = !DEV
 
 const external = [
   ...Object.keys(pkg.dependencies),
@@ -80,32 +79,16 @@ dtsNode.resolveId = async function (source, importer) {
 
 const nodeTypes: RollupOptions = {
   input: 'src/node/index.ts',
-  output: {
-    format: 'esm',
-    file: 'dist/node/index.d.ts'
-  },
+  output: { format: 'esm', file: 'dist/node/index.d.ts' },
   external: typesExternal,
   plugins: [dtsNode]
 }
 
 const clientTypes: RollupOptions = {
-  input: 'dist/client-types/index.d.ts',
-  output: {
-    format: 'esm',
-    file: 'dist/client/index.d.ts'
-  },
+  input: 'dist/client/index.d.ts',
+  output: { format: 'esm', file: 'dist/client/index.d.ts' },
   external: typesExternal,
-  plugins: [
-    dts({ respectExternal: true }),
-    {
-      name: 'cleanup',
-      async closeBundle() {
-        if (PROD) {
-          await fs.rm('dist/client-types', { recursive: true })
-        }
-      }
-    }
-  ]
+  plugins: [dts({ respectExternal: true })]
 }
 
 export default defineConfig([esmBuild, nodeTypes, clientTypes])
