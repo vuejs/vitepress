@@ -1,4 +1,4 @@
-import { isMatch } from 'micromatch'
+import { isMatch } from 'picomatch'
 import path, { dirname, resolve } from 'node:path'
 import { glob } from 'tinyglobby'
 import {
