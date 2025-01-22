@@ -95,8 +95,8 @@
     "*": "prettier --write --ignore-unknown"
   },
   "dependencies": {
-    "@docsearch/css": "^3.8.3",
-    "@docsearch/js": "^3.8.3",
+    "@docsearch/css": "3.8.2",
+    "@docsearch/js": "3.8.2",
     "@iconify-json/simple-icons": "^1.2.21",
     "@shikijs/core": "^2.1.0",
     "@shikijs/transformers": "^2.1.0",
