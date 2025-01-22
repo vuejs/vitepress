@@ -75,15 +75,20 @@ export function createRouter(
     href = normalizeHref(href)
     let loc: string | null = null
 
+    if ((await router.onBeforeRouteChange?.(href)) === false) return
+
     if (inBrowser) {
       loc = normalizeHref(location.href)
+      if (href === loc) return
 
       const { pathname, hash } = new URL(href, fakeHost)
       const currentLoc = new URL(loc, fakeHost)
 
-      if (pathname === currentLoc.pathname && href !== loc) {
-        history.pushState({}, '', href)
+      // save scroll position before changing url
+      history.replaceState({ scrollPosition: window.scrollY }, '')
+      history.pushState({}, '', href)
 
+      if (pathname === currentLoc.pathname) {
         if (hash !== currentLoc.hash) {
           window.dispatchEvent(
             new HashChangeEvent('hashchange', {
@@ -99,12 +104,6 @@ export function createRouter(
       }
     }
 
-    if ((await router.onBeforeRouteChange?.(href)) === false) return
-    if (loc !== null && href !== loc) {
-      // save scroll position before changing url
-      history.replaceState({ scrollPosition: window.scrollY }, '')
-      history.pushState({}, '', href)
-    }
     await loadPage(href)
     await (router.onAfterRouteChange ?? router.onAfterRouteChanged)?.(href)
   }
