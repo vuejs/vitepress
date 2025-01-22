@@ -1,3 +1,9 @@
+# [2.0.0-alpha.1](https://github.com/vuejs/vitepress/compare/v1.6.2...v2.0.0-alpha.1) (2025-01-22)
+
+## Features
+
+- upgrade vite to v6 ([#4504](https://github.com/vuejs/vitepress/issues/4504)) ([6a2efc3](https://github.com/vuejs/vitepress/commit/6a2efc385c90b088241db05f5263b2f3e1f757cf))
+
 ## [1.6.2](https://github.com/vuejs/vitepress/compare/v1.6.1...v1.6.2) (2025-01-22)
 
 ### Bug Fixes
