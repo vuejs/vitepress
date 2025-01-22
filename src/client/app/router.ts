@@ -97,14 +97,8 @@ export function createRouter(
             })
           )
 
-          if (hash) {
-            scrollTo(
-              hash,
-              cause ? cause.classList.contains('header-anchor') : false
-            )
-          } else {
-            window.scrollTo(0, 0)
-          }
+          if (hash) scrollTo(hash, cause?.classList.contains('header-anchor'))
+          else window.scrollTo(0, 0)
         }
 
         return
@@ -156,11 +150,8 @@ export function createRouter(
               history.replaceState({}, '', href)
             }
 
-            if (targetLoc.hash && !scrollPosition) {
-              scrollTo(targetLoc.hash)
-            } else {
-              window.scrollTo(0, scrollPosition)
-            }
+            if (targetLoc.hash && !scrollPosition) scrollTo(targetLoc.hash)
+            else window.scrollTo(0, scrollPosition)
           })
         }
       }
