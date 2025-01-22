@@ -73,7 +73,7 @@ export function createRouter(
 
   async function go(
     href: string = inBrowser ? location.href : '/',
-    cause: Element | null = null
+    smoothScroll = false
   ) {
     href = normalizeHref(href)
     const loc = inBrowser ? normalizeHref(location.href) : null
@@ -97,7 +97,7 @@ export function createRouter(
             })
           )
 
-          if (hash) scrollTo(hash, cause?.classList.contains('header-anchor'))
+          if (hash) scrollTo(hash, smoothScroll)
           else window.scrollTo(0, 0)
         }
 
@@ -113,20 +113,19 @@ export function createRouter(
 
   async function loadPage(href: string, scrollPosition = 0, isRetry = false) {
     if ((await router.onBeforePageLoad?.(href)) === false) return
+
     const targetLoc = new URL(href, fakeHost)
     const pendingPath = (latestPendingPath = targetLoc.pathname)
+
     try {
       let page = await loadPageModule(pendingPath)
-      if (!page) {
-        throw new Error(`Page not found: ${pendingPath}`)
-      }
+      if (!page) throw new Error(`Page not found: ${pendingPath}`)
+
       if (latestPendingPath === pendingPath) {
         latestPendingPath = null
 
         const { default: comp, __pageData } = page
-        if (!comp) {
-          throw new Error(`Invalid route component: ${comp}`)
-        }
+        if (!comp) throw new Error(`Invalid route component: ${comp}`)
 
         await router.onAfterPageLoad?.(href)
 
@@ -141,9 +140,11 @@ export function createRouter(
             let actualPathname =
               siteDataRef.value.base +
               __pageData.relativePath.replace(/(?:(^|\/)index)?\.md$/, '$1')
+
             if (!siteDataRef.value.cleanUrls && !actualPathname.endsWith('/')) {
               actualPathname += '.html'
             }
+
             if (actualPathname !== targetLoc.pathname) {
               targetLoc.pathname = actualPathname
               href = actualPathname + targetLoc.search + targetLoc.hash
@@ -191,9 +192,7 @@ export function createRouter(
   }
 
   if (inBrowser) {
-    if (history.state === null) {
-      history.replaceState({}, '')
-    }
+    if (history.state === null) history.replaceState({}, '')
     window.addEventListener(
       'click',
       (e) => {
@@ -206,8 +205,9 @@ export function createRouter(
           e.shiftKey ||
           e.altKey ||
           e.metaKey
-        )
+        ) {
           return
+        }
 
         const link = e.target.closest<HTMLAnchorElement | SVGAElement>('a')
         if (
@@ -215,8 +215,9 @@ export function createRouter(
           link.closest('.vp-raw') ||
           link.hasAttribute('download') ||
           link.hasAttribute('target')
-        )
+        ) {
           return
+        }
 
         const linkHref =
           link.getAttribute('href') ??
@@ -228,7 +229,7 @@ export function createRouter(
         // only intercept inbound html links
         if (origin === currentLoc.origin && treatAsHtml(pathname)) {
           e.preventDefault()
-          go(href)
+          go(href, link.classList.contains('header-anchor'))
         }
       },
       { capture: true }
@@ -253,9 +254,7 @@ export function createRouter(
 
 export function useRouter(): Router {
   const router = inject(RouterSymbol)
-  if (!router) {
-    throw new Error('useRouter() is called without provider.')
-  }
+  if (!router) throw new Error('useRouter() is called without provider.')
   return router
 }
 
@@ -300,9 +299,7 @@ function handleHMR(route: Route): void {
   if (import.meta.hot) {
     // hot reload pageData
     import.meta.hot.on('vitepress:pageData', (payload: PageDataPayload) => {
-      if (shouldHotReload(payload)) {
-        route.data = payload.pageData
-      }
+      if (shouldHotReload(payload)) route.data = payload.pageData
     })
   }
 }
@@ -319,9 +316,10 @@ function normalizeHref(href: string): string {
   const url = new URL(href, fakeHost)
   url.pathname = url.pathname.replace(/(^|\/)index(\.html)?$/, '$1')
   // ensure correct deep link so page refresh lands on correct files.
-  if (siteDataRef.value.cleanUrls)
+  if (siteDataRef.value.cleanUrls) {
     url.pathname = url.pathname.replace(/\.html$/, '')
-  else if (!url.pathname.endsWith('/') && !url.pathname.endsWith('.html'))
+  } else if (!url.pathname.endsWith('/') && !url.pathname.endsWith('.html')) {
     url.pathname += '.html'
+  }
   return url.pathname + url.search + url.hash
 }
