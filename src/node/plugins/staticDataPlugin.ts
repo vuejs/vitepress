@@ -124,8 +124,6 @@ export const staticDataPlugin: Plugin = {
   },
 
   hotUpdate(ctx) {
-    if (ctx.type === 'update') return
-
     const file = ctx.file
 
     const modules: EnvironmentModuleNode[] = []
