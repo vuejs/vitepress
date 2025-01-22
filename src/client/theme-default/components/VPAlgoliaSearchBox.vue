@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import docsearch from '@docsearch/js'
-import { useRouter } from 'vitepress'
+import { useRoute, useRouter } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
 import { nextTick, onMounted, watch } from 'vue'
 import { useData } from '../composables/data'
@@ -10,6 +10,7 @@ const props = defineProps<{
 }>()
 
 const router = useRouter()
+const route = useRoute()
 const { site, localeIndex, lang } = useData()
 
 type DocSearchProps = Parameters<typeof docsearch>[0]
@@ -50,7 +51,17 @@ function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
 
     navigator: {
       navigate({ itemUrl }) {
-        router.go(itemUrl)
+        const { pathname: hitPathname } = new URL(
+          window.location.origin + itemUrl
+        )
+
+        // router doesn't handle same-page navigation so we use the native
+        // browser location API for anchor navigation
+        if (route.path === hitPathname) {
+          window.location.assign(window.location.origin + itemUrl)
+        } else {
+          router.go(itemUrl)
+        }
       }
     },
 
@@ -60,6 +71,17 @@ function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
           url: getRelativePath(item.url)
         })
       })
+    },
+
+    hitComponent({ hit, children }) {
+      return {
+        __v: null,
+        type: 'a',
+        ref: undefined,
+        constructor: undefined,
+        key: undefined,
+        props: { href: hit.url, children }
+      }
     }
   }) as DocSearchProps
 

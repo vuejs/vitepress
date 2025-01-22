@@ -197,6 +197,9 @@ importers:
       markdown-it-anchor:
         specifier: ^9.2.0
         version: 9.2.0(@types/markdown-it@14.1.2)(markdown-it@14.1.0)
+      markdown-it-async:
+        specifier: ^2.0.0
+        version: 2.0.0
       markdown-it-attrs:
         specifier: ^4.3.1
         version: 4.3.1(markdown-it@14.1.0)
@@ -275,9 +278,6 @@ importers:
       sitemap:
         specifier: ^8.0.0
         version: 8.0.0
-      synckit:
-        specifier: ^0.9.2
-        version: 0.9.2
       tinyglobby:
         specifier: ^0.2.10
         version: 0.2.10
@@ -700,10 +700,6 @@ packages:
   '@nodelib/fs.walk@1.2.8':
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
-
-  '@pkgr/core@0.1.1':
-    resolution: {integrity: sha512-cq8o4cWH0ibXh9VGi5P20Tu9XF/0fFXl9EUinr9QfTM7a7p0oTA4iJRCQWppXR1Pg8dSM0UCItCkPwsk9qWWYA==}
-    engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
 
   '@polka/compression@1.0.0-next.28':
     resolution: {integrity: sha512-aDmrBhgHJtxE+jy145WfhW9WmTAFmES/dNnn1LAs8UnnkFgBUj4T8I4ScQ9+rOkpDZStvnVP5iqhN3tvt7O1NA==}
@@ -1895,6 +1891,9 @@ packages:
       '@types/markdown-it': '*'
       markdown-it: '*'
 
+  markdown-it-async@2.0.0:
+    resolution: {integrity: sha512-jBthmQR5MwXR9Y8Y0teRoZAenaKQMdjuTfpbNARqMBSRPvyzyXCVduHZHakyyhL3ugIacCobXJrO07t277sIjw==}
+
   markdown-it-attrs@4.3.1:
     resolution: {integrity: sha512-/ko6cba+H6gdZ0DOw7BbNMZtfuJTRp9g/IrGIuz8lYc/EfnmWRpaR3CFPnNbVz0LDvF8Gf1hFGPqrQqq7De0rg==}
     engines: {node: '>=6'}
@@ -2481,10 +2480,6 @@ packages:
   supports-preserve-symlinks-flag@1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
-
-  synckit@0.9.2:
-    resolution: {integrity: sha512-vrozgXDQwYO72vHjUb/HnFbQx1exDjoKzqx23aXEg2a9VIg2TSFZ8FmeZpTjUCFMYw7mpX4BE2SFu8wI7asYsw==}
-    engines: {node: ^14.18.0 || >=16.0.0}
 
   tabbable@6.2.0:
     resolution: {integrity: sha512-Cat63mxsVJlzYvN51JmVXIgNoUokrIaT2zLclCXjRd8boZ0004U4KCs/sToJ75C6sdlByWxpYnb5Boif1VSFew==}
@@ -3161,8 +3156,6 @@ snapshots:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.18.0
-
-  '@pkgr/core@0.1.1': {}
 
   '@polka/compression@1.0.0-next.28': {}
 
@@ -4377,6 +4370,11 @@ snapshots:
       '@types/markdown-it': 14.1.2
       markdown-it: 14.1.0
 
+  markdown-it-async@2.0.0:
+    dependencies:
+      '@types/markdown-it': 14.1.2
+      markdown-it: 14.1.0
+
   markdown-it-attrs@4.3.1(markdown-it@14.1.0):
     dependencies:
       markdown-it: 14.1.0
@@ -4961,11 +4959,6 @@ snapshots:
       copy-anything: 3.0.5
 
   supports-preserve-symlinks-flag@1.0.0: {}
-
-  synckit@0.9.2:
-    dependencies:
-      '@pkgr/core': 0.1.1
-      tslib: 2.8.1
 
   tabbable@6.2.0: {}
 

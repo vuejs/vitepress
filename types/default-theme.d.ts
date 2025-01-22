@@ -6,6 +6,7 @@ import type {
   LocalSearchTranslations,
   PageSplitSection
 } from './local-search.js'
+import type { MarkdownItAsync } from 'markdown-it-async'
 import type { Awaitable, MarkdownEnv, PageData } from './shared.js'
 
 export namespace DefaultTheme {
@@ -451,7 +452,7 @@ export namespace DefaultTheme {
     _render?: (
       src: string,
       env: MarkdownEnv,
-      md: MarkdownIt
+      md: MarkdownItAsync
     ) => Awaitable<string>
   }
 

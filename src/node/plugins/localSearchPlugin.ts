@@ -61,9 +61,10 @@ export async function localSearchPlugin(
     const env: MarkdownEnv = { path: file, relativePath, cleanUrls }
     const md_raw = await fs.promises.readFile(file, 'utf-8')
     const md_src = processIncludes(srcDir, md_raw, file, [])
-    if (options._render) return await options._render(md_src, env, md)
-    else {
-      const html = md.render(md_src, env)
+    if (options._render) {
+      return await options._render(md_src, env, md)
+    } else {
+      const html = await md.renderAsync(md_src, env)
       return env.frontmatter?.search === false ? '' : html
     }
   }

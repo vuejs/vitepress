@@ -119,7 +119,7 @@ export async function createMarkdownToVueRenderFn(
       realPath: fileOrig,
       localeIndex
     }
-    const html = md.render(src, env)
+    const html = await md.renderAsync(src, env)
     const {
       frontmatter = {},
       headers = [],
