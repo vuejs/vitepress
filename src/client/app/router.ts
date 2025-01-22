@@ -72,10 +72,10 @@ export function createRouter(
   }
 
   async function go(href: string = inBrowser ? location.href : '/') {
-    if ((await router.onBeforeRouteChange?.(href)) === false) return
-
     href = normalizeHref(href)
     const loc = inBrowser ? normalizeHref(location.href) : null
+
+    if ((await router.onBeforeRouteChange?.(href)) === false) return
 
     if (loc !== null && href !== loc) {
       const { pathname, hash } = new URL(href, fakeHost)
