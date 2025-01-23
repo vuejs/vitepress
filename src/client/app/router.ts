@@ -93,11 +93,7 @@ export function createRouter(
       const currentLoc = new URL(loc, fakeHost)
 
       if (href === loc) {
-        if (!initialLoad) {
-          if (hash) scrollTo(hash, smoothScroll)
-          else window.scrollTo(0, 0)
-          return
-        }
+        if (!initialLoad) return scrollTo(hash, smoothScroll)
       } else {
         history.replaceState({ scrollPosition: window.scrollY }, '')
         history.pushState({}, '', href)
@@ -111,8 +107,7 @@ export function createRouter(
               })
             )
 
-            if (hash) scrollTo(hash, smoothScroll)
-            else window.scrollTo(0, 0)
+            return scrollTo(hash, smoothScroll)
           }
 
           return
@@ -166,8 +161,7 @@ export function createRouter(
               history.replaceState({}, '', href)
             }
 
-            if (targetLoc.hash && !scrollPosition) scrollTo(targetLoc.hash)
-            else window.scrollTo(0, scrollPosition)
+            return scrollTo(targetLoc.hash, false, scrollPosition)
           })
         }
       }
@@ -277,7 +271,12 @@ export function useRoute(): Route {
   return useRouter().route
 }
 
-export function scrollTo(hash: string, smooth = false) {
+export function scrollTo(hash: string, smooth = false, scrollPosition = 0) {
+  if (!hash || scrollPosition) {
+    window.scrollTo(0, scrollPosition)
+    return
+  }
+
   let target: Element | null = null
 
   try {
