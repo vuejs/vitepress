@@ -1,4 +1,3 @@
-import type MarkdownIt from 'markdown-it'
 import type { Options as MiniSearchOptions } from 'minisearch'
 import type { ComputedRef, Ref, ShallowRef } from 'vue'
 import type { DocSearchProps } from './docsearch.js'
@@ -6,7 +5,6 @@ import type {
   LocalSearchTranslations,
   PageSplitSection
 } from './local-search.js'
-import type { MarkdownItAsync } from 'markdown-it-async'
 import type { Awaitable, MarkdownEnv, PageData } from './shared.js'
 
 export namespace DefaultTheme {
@@ -449,11 +447,7 @@ export namespace DefaultTheme {
      * Allows transformation of content before indexing (node only)
      * Return empty string to skip indexing
      */
-    _render?: (
-      src: string,
-      env: MarkdownEnv,
-      md: MarkdownItAsync
-    ) => Awaitable<string>
+    _render?: (src: string, env: MarkdownEnv, md: any) => Awaitable<string>
   }
 
   // algolia -------------------------------------------------------------------
