@@ -91,10 +91,7 @@ const clientTypes: RollupOptions = {
   },
   external: typesExternal,
   plugins: [
-    dts({
-      respectExternal: true,
-      tsconfig: 'tsconfig.json'
-    }),
+    dts({ respectExternal: true }),
     {
       name: 'cleanup',
       async closeBundle() {

@@ -5,13 +5,9 @@ import path from 'node:path'
 import pMap from 'p-map'
 import type { Plugin, ViteDevServer } from 'vite'
 import type { SiteConfig } from '../config'
+import type { DefaultTheme } from '../defaultTheme'
 import { createMarkdownRenderer } from '../markdown/markdown'
-import {
-  getLocaleForPath,
-  slash,
-  type DefaultTheme,
-  type MarkdownEnv
-} from '../shared'
+import { getLocaleForPath, slash, type MarkdownEnv } from '../shared'
 import { processIncludes } from '../utils/processIncludes'
 
 const debug = _debug('vitepress:local-search')
