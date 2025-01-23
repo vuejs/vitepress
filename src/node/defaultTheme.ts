@@ -1,5 +1,7 @@
 // this file contains node-only types of default theme
 // (functions starting with _ are node-only)
+// in most of the cases these will leak to client too
+// but these can import types from dev deps
 
 import type { MarkdownItAsync } from 'markdown-it-async'
 import type { DefaultTheme } from '../../types/default-theme'
