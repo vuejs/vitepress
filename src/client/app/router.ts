@@ -95,11 +95,15 @@ export function createRouter(
       if (href === loc) {
         if (!initialLoad) return scrollTo(hash, smoothScroll)
       } else {
+        // save scroll position before changing url
         history.replaceState({ scrollPosition: window.scrollY }, '')
         history.pushState({}, '', href)
 
         if (pathname === currentLoc.pathname) {
+          // scroll between hash anchors in the same page
+          // avoid duplicate history entries when the hash is same
           if (hash !== currentLoc.hash) {
+            // still emit the event so we can listen to it in themes
             window.dispatchEvent(
               new HashChangeEvent('hashchange', {
                 oldURL: currentLoc.href,
@@ -238,6 +242,7 @@ export function createRouter(
         // only intercept inbound html links
         if (origin === currentLoc.origin && treatAsHtml(pathname)) {
           e.preventDefault()
+          // use smooth scroll when clicking on header anchor links
           go(href, { smoothScroll: link.classList.contains('header-anchor') })
         }
       },
