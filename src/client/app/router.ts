@@ -84,11 +84,11 @@ export function createRouter(
     { smoothScroll = false, initialLoad = false } = {}
   ) {
     href = normalizeHref(href)
-    const loc = inBrowser ? normalizeHref(location.href) : null
-
     if ((await router.onBeforeRouteChange?.(href)) === false) return
 
-    if (loc !== null) {
+    if (inBrowser) {
+      const loc = normalizeHref(location.href)
+
       const { pathname, hash } = new URL(href, fakeHost)
       const currentLoc = new URL(loc, fakeHost)
 
