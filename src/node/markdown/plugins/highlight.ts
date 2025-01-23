@@ -11,6 +11,7 @@ import type { LanguageRegistration, ShikiTransformer } from 'shiki'
 import { createHighlighter, isSpecialLang } from 'shiki'
 import type { Logger } from 'vite'
 import type { MarkdownOptions, ThemeOptions } from '../markdown'
+import c from 'picocolors'
 
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)
 
@@ -78,15 +79,6 @@ export async function highlight(
     ) {
       await highlighter.loadLanguage(lang as any)
     }
-    return true
-  }
-
-  // patch for twoslash - https://github.com/vuejs/vitepress/issues/4334
-  const internal = highlighter.getInternalContext()
-  const getLanguage = internal.getLanguage
-  internal.getLanguage = (name) => {
-    loadLanguage(name)
-    return getLanguage.call(internal, name)
   }
 
   await options?.shikiSetup?.(highlighter)
@@ -136,7 +128,16 @@ export async function highlight(
           .replace(vueRE, '')
           .toLowerCase() || defaultLang
 
-      await loadLanguage(lang)
+      try {
+        await loadLanguage(lang)
+      } catch {
+        logger.warn(
+          c.yellow(
+            `\nThe language '${lang}' is not loaded, falling back to '${defaultLang}' for syntax highlighting.`
+          )
+        )
+        lang = defaultLang
+      }
 
       const lineOptions = attrsToLines(attrs)
       const mustaches = new Map<string, string>()
