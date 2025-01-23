@@ -7,8 +7,8 @@ import { getScrollOffset, inBrowser, withBase } from './utils'
 
 export interface Route {
   path: string
-  hash?: string
-  query?: string
+  hash: string
+  query: string
   data: PageData
   component: Component | null
 }
@@ -57,6 +57,8 @@ const fakeHost = 'http://a.com'
 
 const getDefaultRoute = (): Route => ({
   path: '/',
+  hash: '',
+  query: '',
   component: null,
   data: notFoundPageData
 })
@@ -108,6 +110,7 @@ export function createRouter(
         route.data = import.meta.env.PROD
           ? markRaw(__pageData)
           : (readonly(__pageData) as PageData)
+        syncRouteQueryAndHash(targetLoc)
 
         if (inBrowser) {
           nextTick(() => {
@@ -160,14 +163,18 @@ export function createRouter(
               .replace(/^\//, '')
           : '404.md'
         route.data = { ...notFoundPageData, relativePath }
+        syncRouteQueryAndHash(targetLoc)
       }
     }
   }
 
-  function syncRouteQueryAndHash() {
-    if (!inBrowser) return
-    route.query = location.search
-    route.hash = decodeURIComponent(location.hash)
+  function syncRouteQueryAndHash(
+    loc: { search: string; hash: string } = inBrowser
+      ? location
+      : { search: '', hash: '' }
+  ) {
+    route.query = loc.search
+    route.hash = decodeURIComponent(loc.hash)
   }
 
   if (inBrowser) {
