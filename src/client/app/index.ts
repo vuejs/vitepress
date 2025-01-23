@@ -159,19 +159,14 @@ function newRouter(): Router {
 if (inBrowser) {
   createApp().then(({ app, router, data }) => {
     // wait until page component is fetched before mounting
-    router.go().then(() => {
+    router.go(location.href, { initialLoad: true }).then(() => {
       // dynamically update head tags
       useUpdateHead(router.route, data.site)
       app.mount('#app')
 
       // scroll to hash on new tab during dev
       if (import.meta.env.DEV && location.hash) {
-        const target = document.getElementById(
-          decodeURIComponent(location.hash).slice(1)
-        )
-        if (target) {
-          scrollTo(target, location.hash)
-        }
+        scrollTo(location.hash)
       }
     })
   })
