@@ -7,6 +7,8 @@ import { getScrollOffset, inBrowser, withBase } from './utils'
 
 export interface Route {
   path: string
+  hash?: string
+  query?: string
   data: PageData
   component: Component | null
 }
@@ -45,10 +47,6 @@ export interface Router {
    * Called after the route changes.
    */
   onAfterRouteChange?: (to: string) => Awaitable<void>
-  /**
-   * @deprecated use `onAfterRouteChange` instead
-   */
-  onAfterRouteChanged?: (to: string) => Awaitable<void>
 }
 
 export const RouterSymbol: InjectionKey<Router> = Symbol()
@@ -80,7 +78,8 @@ export function createRouter(
       href = normalizeHref(href)
       if ((await router.onBeforeRouteChange?.(href)) === false) return
       if (!inBrowser || (await changeRoute(href, options))) await loadPage(href)
-      await (router.onAfterRouteChange ?? router.onAfterRouteChanged)?.(href)
+      syncRouteQueryAndHash()
+      await router.onAfterRouteChange?.(href)
     }
   }
 
@@ -165,6 +164,11 @@ export function createRouter(
     }
   }
 
+  function syncRouteQueryAndHash() {
+    route.query = location.search
+    route.hash = location.hash
+  }
+
   if (inBrowser) {
     if (history.state === null) history.replaceState({}, '')
     window.addEventListener(
@@ -216,11 +220,13 @@ export function createRouter(
       if (e.state === null) return
       const href = normalizeHref(location.href)
       await loadPage(href, (e.state && e.state.scrollPosition) || 0)
-      await (router.onAfterRouteChange ?? router.onAfterRouteChanged)?.(href)
+      syncRouteQueryAndHash()
+      await router.onAfterRouteChange?.(href)
     })
 
     window.addEventListener('hashchange', (e) => {
       e.preventDefault()
+      syncRouteQueryAndHash()
     })
   }
 
