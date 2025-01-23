@@ -76,51 +76,12 @@ export function createRouter(
 
   const router: Router = {
     route,
-    go
-  }
-
-  async function go(
-    href: string,
-    { smoothScroll = false, initialLoad = false } = {}
-  ) {
-    href = normalizeHref(href)
-    if ((await router.onBeforeRouteChange?.(href)) === false) return
-
-    if (inBrowser) {
-      const loc = normalizeHref(location.href)
-
-      const { pathname, hash } = new URL(href, fakeHost)
-      const currentLoc = new URL(loc, fakeHost)
-
-      if (href === loc) {
-        if (!initialLoad) return scrollTo(hash, smoothScroll)
-      } else {
-        // save scroll position before changing url
-        history.replaceState({ scrollPosition: window.scrollY }, '')
-        history.pushState({}, '', href)
-
-        if (pathname === currentLoc.pathname) {
-          // scroll between hash anchors in the same page
-          // avoid duplicate history entries when the hash is same
-          if (hash !== currentLoc.hash) {
-            // still emit the event so we can listen to it in themes
-            window.dispatchEvent(
-              new HashChangeEvent('hashchange', {
-                oldURL: currentLoc.href,
-                newURL: href
-              })
-            )
-
-            return scrollTo(hash, smoothScroll)
-          }
-
-          return
-        }
-      }
+    async go(href, options) {
+      href = normalizeHref(href)
+      if ((await router.onBeforeRouteChange?.(href)) === false) return
+      if (!inBrowser || (await changeRoute(href, options))) await loadPage(href)
+      await (router.onAfterRouteChange ?? router.onAfterRouteChanged)?.(href)
     }
-
-    await loadPage(href)
-    await (router.onAfterRouteChange ?? router.onAfterRouteChanged)?.(href)
   }
 
   let latestPendingPath: string | null = null
@@ -242,8 +203,10 @@ export function createRouter(
         // only intercept inbound html links
         if (origin === currentLoc.origin && treatAsHtml(pathname)) {
           e.preventDefault()
-          // use smooth scroll when clicking on header anchor links
-          go(href, { smoothScroll: link.classList.contains('header-anchor') })
+          router.go(href, {
+            // use smooth scroll when clicking on header anchor links
+            smoothScroll: link.classList.contains('header-anchor')
+          })
         }
       },
       { capture: true }
@@ -341,4 +304,41 @@ function normalizeHref(href: string): string {
     url.pathname += '.html'
   }
   return url.pathname + url.search + url.hash
+}
+
+async function changeRoute(
+  href: string,
+  { smoothScroll = false, initialLoad = false } = {}
+): Promise<boolean> {
+  const loc = normalizeHref(location.href)
+  const { pathname, hash } = new URL(href, fakeHost)
+  const currentLoc = new URL(loc, fakeHost)
+
+  if (href === loc) {
+    if (!initialLoad) {
+      scrollTo(hash, smoothScroll)
+      return false
+    }
+  } else {
+    // save scroll position before changing URL
+    history.replaceState({ scrollPosition: window.scrollY }, '')
+    history.pushState({}, '', href)
+
+    if (pathname === currentLoc.pathname) {
+      // scroll between hash anchors on the same page, avoid duplicate entries
+      if (hash !== currentLoc.hash) {
+        window.dispatchEvent(
+          new HashChangeEvent('hashchange', {
+            oldURL: currentLoc.href,
+            newURL: href
+          })
+        )
+        scrollTo(hash, smoothScroll)
+      }
+
+      return false
+    }
+  }
+
+  return true
 }
