@@ -165,6 +165,7 @@ export function createRouter(
   }
 
   function syncRouteQueryAndHash() {
+    if (!inBrowser) return
     route.query = location.search
     route.hash = location.hash
   }
