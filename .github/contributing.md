@@ -1,50 +1,50 @@
-# VitePress Contributing Guide
+# VitePress コントリビュート・ガイド
 
-Hi! We're really excited that you are interested in contributing to VitePress. Before submitting your contribution, please make sure to take a moment and read through the following guidelines:
+こんにちは！VitePressへのコントリビュートにご興味をお持ちいただき、誠にありがとうございます。コントリビュートの前に、以下のガイドラインを必ずお読みください:
 
-- [Code of Conduct](https://github.com/vuejs/vue/blob/dev/.github/CODE_OF_CONDUCT.md)
-- [Pull Request Guidelines](#pull-request-guidelines)
+- [行動規範](https://github.com/vuejs/vue/blob/dev/.github/CODE_OF_CONDUCT.md)
+- [Pull Request ガイドライン](#pull-request-guidelines)
 
-## Pull Request Guidelines
+## Pull Request ガイドライン
 
-- Checkout a topic branch from the relevant branch, e.g. `main`, and merge back against that branch.
+- 関連するブランチ、例えば`main`からtopic branchをcheckoutし、そのbranchに対してmerge backします。
 
-- If adding a new feature:
+- 新しい機能を追加する場合:
 
-  - Provide a convincing reason to add this feature. Ideally, you should open a suggestion issue first and have it approved before working on it.
+  - この機能を追加する説得力のある理由を提示してください。理想的には、まず提案課題を開き、それを承認してもらってから取り組むべきです。
 
-- If fixing bug:
+- Bugを修正する場合:
 
-  - Provide a detailed description of the bug in the PR. Live demo preferred.
+  - PRにbugの詳細な説明を記入してください。Live demoが望ましいです。
 
-- It's OK to have multiple small commits as you work on the PR - GitHub can automatically squash them before merging.
+- PRの作業中に小さなコミットが複数あってもかまいません。GitHubはmergeする前にそれらを自動的につぶしてくれます。
 
-- Commit messages must follow the [commit message convention](./commit-convention.md) so that changelogs can be automatically generated.
+- コミット・メッセージは[コミット・メッセージ規約](./commit-convention.md)に従わなければならないので、changelogが自動的に生成されます。
 
-## Development Setup
+## 開発準備
 
-You will need [pnpm](https://pnpm.io)
+[pnpm](https://pnpm.io)が必要です。
 
-After cloning the repo, run:
+repoをcloneしたら、実行する:
 
 ```sh
-# install the dependencies of the project
+# プロジェクトの依存関係をインストールする
 $ pnpm install
-# setup git hooks
+# git hookの設定
 $ pnpm simple-git-hooks
 ```
 
-### Setup VitePress Dev Environment
+### VitePress開発環境のセットアップ
 
-The easiest way to start testing out VitePress is to tweak the VitePress docs. You may run `pnpm run docs` to boot up VitePress documentation site locally, with live reloading of the source code.
+VitePressのテストを始める最も簡単な方法は、VitePressのドキュメントを調整することです。`pnpm run docs`を実行すると、VitePressのドキュメント・サイトがlocalで起動し、ソースコードがliveでreloadされます。
 
 ```sh
 $ pnpm run docs
 ```
 
-After executing the above command, visit http://localhost:5173 and try modifying the source code. You'll get live update.
+上記のコマンドを実行した後、http://localhost:5173をクリックし、ソースコードを変更してみてください。live updateが実行されます。
 
-If you don't need docs site up and running, you may start VitePress local dev environment with `pnpm run dev`.
+ドキュメント・サイトを立ち上げる必要がない場合は、`pnpm run dev`でVitePressのlocal開発環境を立ち上げることができます。
 
 ```sh
 $ pnpm run dev
