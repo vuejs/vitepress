@@ -78,6 +78,7 @@ function scrollToTop() {
 .back-to-top-button {
   line-height: 32px;
   font-weight: 500;
+  font-size: 14px;
 }
 
 .outline-marker {
