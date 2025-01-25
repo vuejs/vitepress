@@ -22,6 +22,11 @@ const container = ref()
 const marker = ref()
 
 useActiveAnchor(container, marker)
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+}
+
 </script>
 
 <template>
@@ -44,6 +49,11 @@ useActiveAnchor(container, marker)
       </div>
 
       <VPDocOutlineItem :headers="headers" :root="true" />
+
+      <button @click="scrollToTop">
+        <span>{{ theme.returnToTopLabel || 'Return to top' }}</span>
+      </button>
+
     </div>
   </nav>
 </template>
