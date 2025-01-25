@@ -377,10 +377,3 @@ new Crawler({
   }
 })
 ```
-
-<style>
-img[src="/search.png"] {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-}
-</style>
