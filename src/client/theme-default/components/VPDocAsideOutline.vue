@@ -50,7 +50,7 @@ function scrollToTop() {
 
       <VPDocOutlineItem :headers="headers" :root="true" />
 
-      <button @click="scrollToTop">
+      <button @click="scrollToTop" class="back-to-top-button">
         <span>{{ theme.returnToTopLabel || 'Return to top' }}</span>
       </button>
 
@@ -73,6 +73,10 @@ function scrollToTop() {
   padding-left: 16px;
   font-size: 13px;
   font-weight: 500;
+}
+
+.back-to-top-button {
+  line-height: 32px;
 }
 
 .outline-marker {
