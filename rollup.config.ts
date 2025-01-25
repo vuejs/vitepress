@@ -8,7 +8,6 @@ import { builtinModules, createRequire } from 'node:module'
 import { type RollupOptions, defineConfig } from 'rollup'
 import dts from 'rollup-plugin-dts'
 import esbuild from 'rollup-plugin-esbuild'
-import { globSync } from 'tinyglobby'
 
 const require = createRequire(import.meta.url)
 const pkg = require('./package.json')
@@ -39,11 +38,7 @@ const plugins = [
 ]
 
 const esmBuild: RollupOptions = {
-  input: [
-    'src/node/index.ts',
-    'src/node/cli.ts',
-    ...globSync('src/node/worker_*.ts')
-  ],
+  input: ['src/node/index.ts', 'src/node/cli.ts'],
   output: {
     format: 'esm',
     entryFileNames: `[name].js`,

@@ -144,9 +144,9 @@ export function createContentLoader<T = ContentData[]>(
             normalizePath(path.relative(config.srcDir, file))
               .replace(/(^|\/)index\.md$/, '$1')
               .replace(/\.md$/, config.cleanUrls ? '' : '.html')
-          const html = render ? md.render(src) : undefined
+          const html = render ? await md.renderAsync(src) : undefined
           const renderedExcerpt = renderExcerpt
-            ? excerpt && md.render(excerpt)
+            ? excerpt && (await md.renderAsync(excerpt))
             : undefined
           const data: ContentData = {
             src: includeSrc ? src : undefined,

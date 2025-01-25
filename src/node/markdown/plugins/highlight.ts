@@ -7,20 +7,12 @@ import {
   type TransformerCompactLineOption
 } from '@shikijs/transformers'
 import { customAlphabet } from 'nanoid'
-import { createRequire } from 'node:module'
-import c from 'picocolors'
 import type { LanguageRegistration, ShikiTransformer } from 'shiki'
 import { createHighlighter, isSpecialLang } from 'shiki'
-import { createSyncFn } from 'synckit'
 import type { Logger } from 'vite'
-import type { ShikiResolveLang } from 'worker_shikiResolveLang'
 import type { MarkdownOptions, ThemeOptions } from '../markdown'
+import c from 'picocolors'
 
-const require = createRequire(import.meta.url)
-
-const resolveLangSync = createSyncFn<ShikiResolveLang>(
-  require.resolve('vitepress/dist/node/worker_shikiResolveLang.js')
-)
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)
 
 /**
@@ -59,7 +51,9 @@ export async function highlight(
   theme: ThemeOptions,
   options: MarkdownOptions,
   logger: Pick<Logger, 'warn'> = console
-): Promise<[(str: string, lang: string, attrs: string) => string, () => void]> {
+): Promise<
+  [(str: string, lang: string, attrs: string) => Promise<string>, () => void]
+> {
   const {
     defaultHighlightLang: defaultLang = 'txt',
     codeTransformers: userTransformers = []
@@ -77,25 +71,14 @@ export async function highlight(
     langAlias: options.languageAlias
   })
 
-  function loadLanguage(name: string | LanguageRegistration) {
+  async function loadLanguage(name: string | LanguageRegistration) {
     const lang = typeof name === 'string' ? name : name.name
     if (
       !isSpecialLang(lang) &&
       !highlighter.getLoadedLanguages().includes(lang)
     ) {
-      const resolvedLang = resolveLangSync(lang)
-      if (resolvedLang.length) highlighter.loadLanguageSync(resolvedLang)
-      else return false
+      await highlighter.loadLanguage(lang as any)
     }
-    return true
-  }
-
-  // patch for twoslash - https://github.com/vuejs/vitepress/issues/4334
-  const internal = highlighter.getInternalContext()
-  const getLanguage = internal.getLanguage
-  internal.getLanguage = (name) => {
-    loadLanguage(name)
-    return getLanguage.call(internal, name)
   }
 
   await options?.shikiSetup?.(highlighter)
@@ -136,7 +119,7 @@ export async function highlight(
   const mustacheRE = /\{\{.*?\}\}/g
 
   return [
-    (str: string, lang: string, attrs: string) => {
+    async (str: string, lang: string, attrs: string) => {
       const vPre = vueRE.test(lang) ? '' : 'v-pre'
       lang =
         lang
@@ -145,7 +128,9 @@ export async function highlight(
           .replace(vueRE, '')
           .toLowerCase() || defaultLang
 
-      if (!loadLanguage(lang)) {
+      try {
+        await loadLanguage(lang)
+      } catch {
         logger.warn(
           c.yellow(
             `\nThe language '${lang}' is not loaded, falling back to '${defaultLang}' for syntax highlighting.`
