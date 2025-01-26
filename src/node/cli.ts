@@ -12,6 +12,14 @@ if (process.env.DEBUG) {
 
 const argv: any = minimist(process.argv.slice(2))
 
+Object.keys(argv).forEach((key) => {
+  if (argv[key] === 'true') {
+    argv[key] = true
+  } else if (argv[key] === 'false') {
+    argv[key] = false
+  }
+})
+
 const logVersion = (logger: Logger) => {
   logger.info(`\n  ${c.green(`${c.bold('vitepress')} v${version}`)}\n`, {
     clear: !logger.hasWarned
