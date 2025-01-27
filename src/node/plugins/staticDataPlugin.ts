@@ -70,7 +70,7 @@ export const staticDataPlugin: Plugin = {
       if (existing) {
         ;({ watch, load } = existing)
       } else {
-        // use vite's load config util as a away to load Node.js file with
+        // use vite's load config util as a way to load Node.js file with
         // TS & native ESM support
         const res = await loadConfigFromFile({} as any, id.replace(/\?.*$/, ''))
 
@@ -125,8 +125,8 @@ export const staticDataPlugin: Plugin = {
 
   hotUpdate(ctx) {
     const file = ctx.file
-
     const modules: EnvironmentModuleNode[] = []
+
     // dependency of data loader changed
     // (note the dep array includes the loader file itself)
     if (file in depToLoaderModuleIdMap) {

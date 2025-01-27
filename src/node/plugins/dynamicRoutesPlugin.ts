@@ -3,11 +3,11 @@ import path from 'node:path'
 import c from 'picocolors'
 import { glob } from 'tinyglobby'
 import {
+  EnvironmentModuleNode,
   loadConfigFromFile,
   normalizePath,
   type Logger,
-  type Plugin,
-  type ViteDevServer
+  type Plugin
 } from 'vite'
 import { type SiteConfig, type UserConfig } from '../siteConfig'
 import { resolveRewrites } from './rewritesPlugin'
@@ -96,14 +96,8 @@ export type ResolvedRouteConfig = UserRouteConfig & {
 export const dynamicRoutesPlugin = async (
   config: SiteConfig
 ): Promise<Plugin> => {
-  let server: ViteDevServer
-
   return {
     name: 'vitepress:dynamic-routes',
-
-    configureServer(_server) {
-      server = _server
-    },
 
     resolveId(id) {
       if (!id.endsWith('.md')) return
@@ -139,28 +133,32 @@ export const dynamicRoutesPlugin = async (
         }
 
         // params are injected with special markers and extracted as part of
-        // __pageData in ../markdownTovue.ts
+        // __pageData in ../markdownToVue.ts
         return `__VP_PARAMS_START${JSON.stringify(
           params
         )}__VP_PARAMS_END__${baseContent}`
       }
     },
 
-    async handleHotUpdate(ctx) {
-      routeModuleCache.delete(ctx.file)
-      const mods = config.dynamicRoutes.fileToModulesMap[ctx.file]
+    async hotUpdate(ctx) {
+      const file = ctx.file
+      const modules: EnvironmentModuleNode[] = []
+
+      const mods = config.dynamicRoutes.fileToModulesMap[file]
       if (mods) {
         // path loader module or deps updated, reset loaded routes
-        if (!ctx.file.endsWith('.md')) {
+        if (!file.endsWith('.md')) {
           Object.assign(
             config,
             await resolvePages(config.srcDir, config.userConfig, config.logger)
           )
         }
         for (const id of mods) {
-          ctx.modules.push(server.moduleGraph.getModuleById(id)!)
+          modules.push(this.environment.moduleGraph.getModuleById(id)!)
         }
       }
+
+      return modules.length > 0 ? [...ctx.modules, ...modules] : undefined
     }
   }
 }
