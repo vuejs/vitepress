@@ -20,7 +20,7 @@ import type {
   ThemeRegistrationAny
 } from '@shikijs/types'
 import type { Options } from 'markdown-it'
-import MarkdownIt from 'markdown-it'
+import { MarkdownItAsync } from 'markdown-it-async'
 import anchorPlugin from 'markdown-it-anchor'
 import attrsPlugin from 'markdown-it-attrs'
 import { full as emojiPlugin } from 'markdown-it-emoji'
@@ -53,11 +53,11 @@ export interface MarkdownOptions extends Options {
   /**
    * Setup markdown-it instance before applying plugins
    */
-  preConfig?: (md: MarkdownIt) => Awaited<void>
+  preConfig?: (md: MarkdownItAsync) => Awaited<void>
   /**
    * Setup markdown-it instance
    */
-  config?: (md: MarkdownIt) => Awaited<void>
+  config?: (md: MarkdownItAsync) => Awaited<void>
   /**
    * Disable cache (experimental)
    */
@@ -190,7 +190,7 @@ export interface MarkdownOptions extends Options {
   gfmAlerts?: boolean
 }
 
-export type MarkdownRenderer = MarkdownIt
+export type MarkdownRenderer = MarkdownItAsync
 
 let md: MarkdownRenderer | undefined
 let _disposeHighlighter: (() => void) | undefined
@@ -223,7 +223,7 @@ export async function createMarkdownRenderer(
 
   _disposeHighlighter = dispose
 
-  md = MarkdownIt({ html: true, linkify: true, highlight, ...options })
+  md = new MarkdownItAsync({ html: true, linkify: true, highlight, ...options })
 
   md.linkify.set({ fuzzyLink: false })
   md.use(restoreEntities)

@@ -113,9 +113,9 @@ export default defineConfig({
         /**
          * @param {string} src
          * @param {import('vitepress').MarkdownEnv} env
-         * @param {import('markdown-it')} md
+         * @param {import('markdown-it-async')} md
          */
-        _render(src, env, md) {
+        async _render(src, env, md) {
           // 返回 html 字符串
         }
       }
@@ -138,8 +138,8 @@ export default defineConfig({
     search: {
       provider: 'local',
       options: {
-        _render(src, env, md) {
-          const html = md.render(src, env)
+        async _render(src, env, md) {
+          const html = await md.renderAsync(src, env)
           if (env.frontmatter?.search === false) return ''
           if (env.relativePath.startsWith('some/path')) return ''
           return html
@@ -151,7 +151,7 @@ export default defineConfig({
 ```
 
 ::: warning 注意
-如果提供了自定义的 `_render` 函数，你需要自己处理 `search: false` 的 frontmatter。此外，在调用 `md.render` 之前，`env` 对象不会完全填充，因此对可选 `env` 属性 (如 `frontmatter`) 的任何检查都应该在此之后完成。
+如果提供了自定义的 `_render` 函数，你需要自己处理 `search: false` 的 frontmatter。此外，在调用 `md.renderAsync` 之前，`env` 对象不会完全填充，因此对可选 `env` 属性 (如 `frontmatter`) 的任何检查都应该在此之后完成。
 :::
 
 #### 示例：转换内容——添加锚点 {#example-transforming-content-adding-anchors}
@@ -164,10 +164,10 @@ export default defineConfig({
     search: {
       provider: 'local',
       options: {
-        _render(src, env, md) {
-          const html = md.render(src, env)
+        async _render(src, env, md) {
+          const html = await md.renderAsync(src, env)
           if (env.frontmatter?.title)
-            return md.render(`# ${env.frontmatter.title}`) + html
+            return await md.renderAsync(`# ${env.frontmatter.title}`) + html
           return html
         }
       }
@@ -370,10 +370,3 @@ new Crawler({
   }
 })
 ```
-
-<style>
-img[src="/search.png"] {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-}
-</style>

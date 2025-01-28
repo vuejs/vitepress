@@ -120,9 +120,9 @@ export default defineConfig({
         /**
          * @param {string} src
          * @param {import('vitepress').MarkdownEnv} env
-         * @param {import('markdown-it')} md
+         * @param {import('markdown-it-async')} md
          */
-        _render(src, env, md) {
+        async _render(src, env, md) {
           // بازگشت رشته HTML
         }
       }
@@ -145,8 +145,8 @@ export default defineConfig({
     search: {
       provider: 'local',
       options: {
-        _render(src, env, md) {
-          const html = md.render(src, env)
+        async _render(src, env, md) {
+          const html = await md.renderAsync(src, env)
           if (env.frontmatter?.search === false) return ''
           if (env.relativePath.startsWith('some/path')) return ''
           return html
@@ -158,7 +158,7 @@ export default defineConfig({
 ```
 
 ::: warning توجه
-در صورت ارائه تابع `_render` سفارشی، باید خودتان بررسی کنید که آیا frontmatter `search: false` را مدیریت می‌کند یا خیر. همچنین، شی env قبل از فراخوانی `md.render` کاملاً پر نمی‌شود، بنابراین هر بررسی‌ای روی ویژگی‌های اختیاری env مانند `frontmatter` باید بعد از آن انجام شود.
+در صورت ارائه تابع `_render` سفارشی، باید خودتان بررسی کنید که آیا frontmatter `search: false` را مدیریت می‌کند یا خیر. همچنین، شی env قبل از فراخوانی `md.renderAsync` کاملاً پر نمی‌شود، بنابراین هر بررسی‌ای روی ویژگی‌های اختیاری env مانند `frontmatter` باید بعد از آن انجام شود.
 :::
 
 #### مثال: تبدیل محتوا - افزودن لینک‌های صفحه {#example-transforming-content-adding-anchors}
@@ -171,10 +171,10 @@ export default defineConfig({
     search: {
       provider: 'local',
       options: {
-        _render(src, env, md) {
-          const html = md.render(src, env)
+        async _render(src, env, md) {
+          const html = await md.renderAsync(src, env)
           if (env.frontmatter?.title)
-            return md.render(`# ${env.frontmatter.title}`) + html
+            return await md.renderAsync(`# ${env.frontmatter.title}`) + html
           return html
         }
       }
@@ -377,10 +377,3 @@ new Crawler({
   }
 })
 ```
-
-<style>
-img[src="/search.png"] {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-}
-</style>

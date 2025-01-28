@@ -8,11 +8,7 @@ export { defineLoader, type LoaderModule } from './plugins/staticDataPlugin'
 export * from './postcss/isolateStyles'
 export * from './serve/serve'
 export * from './server'
+export type { DefaultTheme } from './defaultTheme'
 
 // shared types
-export type {
-  DefaultTheme,
-  HeadConfig,
-  Header,
-  SiteData
-} from '../../types/shared'
+export type { HeadConfig, Header, SiteData } from '../../types/shared'
