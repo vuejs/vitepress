@@ -1,21 +1,21 @@
-# Markdown Extensions
+# Markdown拡張機能
 
-## Links
+## リンク
 
-### Internal Links
+### 内部リンク
 
 - [home](/)
-- [markdown-extensions](/markdown-extensions/)
+- [markdown拡張機能](/markdown-extensions/)
 - [heading](./#internal-links)
-- [omit extension](./foo)
-- [.md extension](./foo.md)
-- [.html extension](./foo.html)
+- [省略拡張子](./foo)
+- [.md 拡張機能](./foo.md)
+- [.html 拡張機能](./foo.html)
 
-### External Links
+### 外部リンク
 
 [VitePress on GitHub](https://github.com/vuejs/vitepress)
 
-## GitHub-Style Tables
+## GitHub-Styleテーブル
 
 | Tables        |      Are      |   Cool |
 | ------------- | :-----------: | -----: |
@@ -23,43 +23,43 @@
 | col 2 is      |   centered    |   \$12 |
 | zebra stripes |   are neat    |    \$1 |
 
-## Emoji
+## 絵文字
 
 - :tada:
 - :100:
 
-## Table of Contents
+## 目次
 
 [[toc]]
 
-## Custom Containers
+## カスタム・コンテナ
 
-### Default Title
+### デフォルトのタイトル
 
 ::: info
-This is an info box.
+これは情報ボックスです。
 :::
 
 ::: tip
-This is a tip.
+これはヒントです。
 :::
 
 ::: warning
-This is a warning.
+これは警告です。
 :::
 
 ::: danger
-This is a dangerous warning.
+これは危険な警告です。
 :::
 
 ::: details
-This is a details block.
+これは詳細ブロックです。
 :::
 
-### Custom Title
+### カスタム・タイトル
 
 ::: danger STOP
-Danger zone, do not proceed
+危険ゾーン、進めてはいけません。
 :::
 
 ::: details Click me to view the code
@@ -68,9 +68,9 @@ console.log('Hello, VitePress!')
 ```
 :::
 
-## Line Highlighting in Code Blocks
+## コード・ブロック内の行のハイライト
 
-### Single Line
+### 一つの行
 
 ```js{4}
 export default {
@@ -82,61 +82,61 @@ export default {
 }
 ```
 
-### Multiple single lines, ranges
+### 複数の行、範囲
 
 ```js{1,4,6-8}
 export default {
   data () {
     return {
-      msg: `Highlighted!
-      This line isn't highlighted,
-      but this and the next 2 are.`,
-      motd: 'VitePress is awesome',
+      msg: `ハイライト！
+      この行はハイライトされていない、
+      しかし、この行と次の二行はハイライトされている。`,
+      motd: 'VitePressは素晴らしい',
       lorem: 'ipsum',
     }
   }
 }
 ```
 
-### Comment Highlight
+### コメントのハイライト
 
 ```js
 export default { // [!code focus]
   data() { // [!code hl]
     return {
-      msg: 'Removed' // [!code --]
-      msg: 'Added' // [!code ++]
-      msg: 'Error', // [!code error]
-      msg: 'Warning' // [!code warning]
+      msg: '削除済み' // [!code --]
+      msg: '追加済み' // [!code ++]
+      msg: 'エラー', // [!code error]
+      msg: '警告' // [!code warning]
     }
   }
 }
 ```
 
-## Line Numbers
+## 行番号
 
 ```ts:line-numbers
-const line1 = 'This is line 1'
-const line2 = 'This is line 2'
+const line1 = '一行目です'
+const line2 = '二行目です'
 ```
 
-## Import Code Snippets
+## コード・スニペットのインポート
 
-### Basic Code Snippet
+### 基本的なコード・スニペット
 
 <<< @/markdown-extensions/foo.md
 
-### Specify Region
+### 範囲を指定する
 
 <<< @/markdown-extensions/foo.md#snippet
 
-### With Other Features
+### その他の機能
 
 <<< @/markdown-extensions/foo.md#snippet{1 ts:line-numbers} [snippet with region]
 
-## Code Groups
+## コード・グループ
 
-### Basic Code Group
+### 基本的なコード・グループ
 
 ::: code-group
 
@@ -163,7 +163,7 @@ export default config
 
 :::
 
-### With Other Features
+### その他の機能
 
 ::: code-group
 
@@ -173,46 +173,46 @@ export default config
 
 :::
 
-## Markdown File Inclusion
+## Markdownファイルのインクルード
 
 <!--@include: ./foo.md-->
 
-## Markdown At File Inclusion
+## ファイルのインクルード時のmarkdown
 
 <!--@include: @/markdown-extensions/bar.md-->
 
-## Markdown Nested File Inclusion
+## Markdownのネストされたファイルのインクルード
 
 <!--@include: ./nested-include.md-->
 
-## Markdown File Inclusion with Range
+## 範囲指定によるMarkdownファイルのインクルード
 
 <!--@include: ./foo.md{6,8}-->
 
-## Markdown File Inclusion with Range without Start
+## Markdownファイルのインクルードと開始しない範囲
 
 <!--@include: ./foo.md{,8}-->
 
-## Markdown File Inclusion with Range without End
+## 範囲指定の終端なしのMarkdownファイルのインクルード
 
 <!--@include: ./foo.md{6,}-->
 
-## Markdown At File Region Snippet
+## ファイル領域でのMarkdownスニペット
 
 <!--@include: ./region-include.md#snippet-->
 
-## Markdown At File Range Region Snippet
+## Markdownファイル内の範囲指定スニペット
 
 <!--@include: ./region-include.md#range-region{3,4}-->
 
-## Markdown At File Range Region Snippet without start
+## 開始位置を指定しないファイル範囲のMarkdownスニペット
 
 <!--@include: ./region-include.md#range-region{,2}-->
 
-## Markdown At File Range Region Snippet without end
+## ファイル最後まで範囲指定可能なMarkdownスニペット
 
 <!--@include: ./region-include.md#range-region{5,}-->
 
-## Image Lazy Loading
+## 画像の遅延読み込み
 
 ![vitepress logo](/vitepress.png)
