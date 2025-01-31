@@ -1,13 +1,10 @@
 import fs from 'fs-extra'
-import path from 'path'
-import { glob, type GlobOptions } from 'tinyglobby'
-import type { SiteConfig } from './config'
 import matter from 'gray-matter'
+import path from 'node:path'
+import { glob, type GlobOptions } from 'tinyglobby'
 import { normalizePath } from 'vite'
-import {
-  createMarkdownRenderer,
-  type MarkdownRenderer
-} from './markdown/markdown'
+import type { SiteConfig } from './config'
+import { createMarkdownRenderer } from './markdown/markdown'
 
 export interface ContentOptions<T = ContentData[]> {
   /**
@@ -100,15 +97,7 @@ export function createContentLoader<T = ContentData[]>(
   if (typeof pattern === 'string') pattern = [pattern]
   pattern = pattern.map((p) => normalizePath(path.join(config.srcDir, p)))
 
-  let md: MarkdownRenderer
-
-  const cache = new Map<
-    string,
-    {
-      data: any
-      timestamp: number
-    }
-  >()
+  const cache = new Map<string, { data: any; timestamp: number }>()
 
   return {
     watch: pattern,
@@ -124,14 +113,12 @@ export function createContentLoader<T = ContentData[]>(
         ).sort()
       }
 
-      md =
-        md ||
-        (await createMarkdownRenderer(
-          config.srcDir,
-          config.markdown,
-          config.site.base,
-          config.logger
-        ))
+      const md = await createMarkdownRenderer(
+        config.srcDir,
+        config.markdown,
+        config.site.base,
+        config.logger
+      )
 
       const raw: ContentData[] = []
 
@@ -157,9 +144,9 @@ export function createContentLoader<T = ContentData[]>(
             normalizePath(path.relative(config.srcDir, file))
               .replace(/(^|\/)index\.md$/, '$1')
               .replace(/\.md$/, config.cleanUrls ? '' : '.html')
-          const html = render ? md.render(src) : undefined
+          const html = render ? await md.renderAsync(src) : undefined
           const renderedExcerpt = renderExcerpt
-            ? excerpt && md.render(excerpt)
+            ? excerpt && (await md.renderAsync(excerpt))
             : undefined
           const data: ContentData = {
             src: includeSrc ? src : undefined,

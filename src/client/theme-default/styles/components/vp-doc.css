@@ -493,6 +493,7 @@
   border: 1px solid var(--vp-code-copy-code-hover-border-color);
   /*rtl:ignore*/
   border-right: 0;
+  /*rtl:ignore*/
   border-radius: 4px 0 0 4px;
   padding: 0 10px;
   width: fit-content;
@@ -514,6 +515,7 @@
   z-index: 2;
   font-size: 12px;
   font-weight: 500;
+  user-select: none;
   color: var(--vp-code-lang-color);
   transition:
     color 0.4s,
@@ -553,7 +555,7 @@
  * -------------------------------------------------------------------------- */
 
 /* prettier-ignore */
-:is(.vp-external-link-icon, .vp-doc a[href*='://'], .vp-doc a[target='_blank']):not(.no-icon)::after {
+:is(.vp-external-link-icon, .vp-doc a[href*='://'], .vp-doc a[target='_blank']):not(:is(.no-icon, svg a, :has(img, svg)))::after {
   display: inline-block;
   margin-top: -1px;
   margin-left: 4px;
@@ -565,6 +567,7 @@
   --icon: url("data:image/svg+xml, %3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' %3E%3Cpath d='M0 0h24v24H0V0z' fill='none' /%3E%3Cpath d='M9 5v2h6.59L4 18.59 5.41 20 17 8.41V15h2V5H9z' /%3E%3C/svg%3E");
   -webkit-mask-image: var(--icon);
   mask-image: var(--icon);
+  /*rtl:raw:transform: scaleX(-1);*/
 }
 
 .vp-external-link-icon::after {
@@ -572,7 +575,7 @@
 }
 
 /* prettier-ignore */
-.external-link-icon-enabled :is(.vp-doc a[href*='://'], .vp-doc a[target='_blank'])::after {
+.external-link-icon-enabled :is(.vp-doc a[href*='://'], .vp-doc a[target='_blank']):not(:is(.no-icon, svg a, :has(img, svg)))::after {
   content: '';
   color: currentColor;
 }

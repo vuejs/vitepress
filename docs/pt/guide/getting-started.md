@@ -120,8 +120,7 @@ Por padrão, VitePress armazena o cache do servidor de desenvolvimento em `.vite
 
 O arquivo de configuração (`.vitepress/config.js`) permite que você personalize vários aspectos do seu site VitePress, com as opções mais básicas sendo o título e a descrição do site:
 
-```js
-// .vitepress/config.js
+```js [.vitepress/config.js]
 export default {
   // opções a nível do site
   title: 'VitePress',
@@ -147,7 +146,7 @@ VitePress também fornece a habilidade de gerar URLs limpas, reescrever caminhos
 
 A ferramenta deve ter também injetado os seguintes scripts npm no seu `package.json` se você permitiu isso durante o processo de instalação:
 
-```json
+```json [package.json]
 {
   ...
   "scripts": {

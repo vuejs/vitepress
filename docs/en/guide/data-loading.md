@@ -8,8 +8,7 @@ Data loaders can be used to fetch remote data, or generate metadata based on loc
 
 A data loader file must end with either `.data.js` or `.data.ts`. The file should provide a default export of an object with the `load()` method:
 
-```js
-// example.data.js
+```js [example.data.js]
 export default {
   load() {
     return {
@@ -84,8 +83,7 @@ export default {
 
 When building a content focused site, we often need to create an "archive" or "index" page: a page where we list all available entries in our content collection, for example blog posts or API pages. We **can** implement this directly with the data loader API, but since this is such a common use case, VitePress also provides a `createContentLoader` helper to simplify this:
 
-```js
-// posts.data.js
+```js [posts.data.js]
 import { createContentLoader } from 'vitepress'
 
 export default createContentLoader('posts/*.md', /* options */)
@@ -135,8 +133,7 @@ import { data as posts } from './posts.data.js'
 
 The default data may not suit all needs - you can opt-in to transform the data using options:
 
-```js
-// posts.data.js
+```js [posts.data.js]
 import { createContentLoader } from 'vitepress'
 
 export default createContentLoader('posts/*.md', {
@@ -162,8 +159,7 @@ Check out how it is used in the [Vue.js blog](https://github.com/vuejs/blog/blob
 
 The `createContentLoader` API can also be used inside [build hooks](../reference/site-config#build-hooks):
 
-```js
-// .vitepress/config.js
+```js [.vitepress/config.js]
 export default {
   async buildEnd() {
     const posts = await createContentLoader('posts/*.md').load()

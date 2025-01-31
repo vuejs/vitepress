@@ -1,21 +1,16 @@
-import { promises as fs } from 'fs'
-import { builtinModules, createRequire } from 'module'
-import { resolve } from 'path'
-import { fileURLToPath } from 'url'
-import { type RollupOptions, defineConfig } from 'rollup'
-import { nodeResolve } from '@rollup/plugin-node-resolve'
-import commonjs from '@rollup/plugin-commonjs'
-import esbuild from 'rollup-plugin-esbuild'
-import json from '@rollup/plugin-json'
-import replace from '@rollup/plugin-replace'
 import alias from '@rollup/plugin-alias'
+import commonjs from '@rollup/plugin-commonjs'
+import json from '@rollup/plugin-json'
+import { nodeResolve } from '@rollup/plugin-node-resolve'
+import replace from '@rollup/plugin-replace'
+import * as fs from 'node:fs/promises'
+import { builtinModules, createRequire } from 'node:module'
+import { type RollupOptions, defineConfig } from 'rollup'
 import dts from 'rollup-plugin-dts'
-
-const ROOT = fileURLToPath(import.meta.url)
-const r = (p: string) => resolve(ROOT, '..', p)
+import esbuild from 'rollup-plugin-esbuild'
 
 const require = createRequire(import.meta.url)
-const pkg = require(r('package.json'))
+const pkg = require('./package.json')
 
 const DEV = !!process.env.DEV
 const PROD = !DEV
@@ -43,12 +38,12 @@ const plugins = [
 ]
 
 const esmBuild: RollupOptions = {
-  input: [r('src/node/index.ts'), r('src/node/cli.ts')],
+  input: ['src/node/index.ts', 'src/node/cli.ts'],
   output: {
     format: 'esm',
     entryFileNames: `[name].js`,
-    chunkFileNames: 'serve-[hash].js',
-    dir: r('dist/node'),
+    chunkFileNames: 'chunk-[hash].js',
+    dir: 'dist/node',
     sourcemap: DEV
   },
   external,
@@ -67,7 +62,7 @@ const typesExternal = [
 
 const dtsNode = dts({
   respectExternal: true,
-  tsconfig: r('src/node/tsconfig.json')
+  tsconfig: 'src/node/tsconfig.json'
 })
 
 const originalResolveId = dtsNode.resolveId
@@ -79,20 +74,20 @@ dtsNode.resolveId = async function (source, importer) {
 }
 
 const nodeTypes: RollupOptions = {
-  input: r('src/node/index.ts'),
+  input: 'src/node/index.ts',
   output: {
     format: 'esm',
-    file: r('dist/node/index.d.ts')
+    file: 'dist/node/index.d.ts'
   },
   external: typesExternal,
   plugins: [dtsNode]
 }
 
 const clientTypes: RollupOptions = {
-  input: r('dist/client-types/index.d.ts'),
+  input: 'dist/client-types/index.d.ts',
   output: {
     format: 'esm',
-    file: r('dist/client/index.d.ts')
+    file: 'dist/client/index.d.ts'
   },
   external: typesExternal,
   plugins: [
@@ -101,7 +96,7 @@ const clientTypes: RollupOptions = {
       name: 'cleanup',
       async closeBundle() {
         if (PROD) {
-          await fs.rm(r('dist/client-types'), { recursive: true })
+          await fs.rm('dist/client-types', { recursive: true })
         }
       }
     }

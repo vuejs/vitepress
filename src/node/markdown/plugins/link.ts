@@ -3,7 +3,7 @@
 // 2. normalize internal links to end with `.html`
 
 import type MarkdownIt from 'markdown-it'
-import { URL } from 'url'
+import { URL } from 'node:url'
 import {
   EXTERNAL_URL_RE,
   isExternal,
@@ -92,7 +92,7 @@ export const linkPlugin = (
     }
 
     // ensure leading . for relative paths
-    if (!url.startsWith('/') && !/^\.\//.test(url)) {
+    if (!url.startsWith('/') && !url.startsWith('./')) {
       url = './' + url
     }
 

@@ -1,5 +1,5 @@
-import { copy, remove } from 'fs-extra'
 import { watch } from 'chokidar'
+import { copy, remove } from 'fs-extra'
 import { normalizePath } from 'vite'
 
 function toClientAndNode(method, file) {
@@ -18,14 +18,19 @@ function toDist(file) {
 }
 
 // copy shared files to the client and node directory whenever they change.
-watch('src/shared/**/*.ts')
+watch('src/shared', {
+  ignored: (path, stats) => stats?.isFile() && !path.endsWith('.ts')
+})
   .on('change', (file) => toClientAndNode('copy', file))
   .on('add', (file) => toClientAndNode('copy', file))
   .on('unlink', (file) => toClientAndNode('remove', file))
 
 // copy non ts files, such as an html or css, to the dist directory whenever
 // they change.
-watch('src/client/**/!(*.ts|tsconfig.json)')
+watch('src/client', {
+  ignored: (path, stats) =>
+    stats?.isFile() && (path.endsWith('.ts') || path.endsWith('tsconfig.json'))
+})
   .on('change', (file) => copy(file, toDist(file)))
   .on('add', (file) => copy(file, toDist(file)))
   .on('unlink', (file) => remove(toDist(file)))

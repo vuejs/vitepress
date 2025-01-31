@@ -22,7 +22,7 @@ Both internal and external links get special treatment.
 
 ### Internal Links
 
-Internal links are converted to router link for SPA navigation. Also, every `index.md` contained in each sub-directory will automatically be converted to `index.html`, with corresponding URL `/`.
+Internal links are converted to router links for SPA navigation. Also, every `index.md` contained in each sub-directory will automatically be converted to `index.html`, with corresponding URL `/`.
 
 For example, given the following directory structure:
 
@@ -905,8 +905,7 @@ This is currently opt-in. To enable it, you need to install `markdown-it-mathjax
 npm add -D markdown-it-mathjax3
 ```
 
-```ts
-// .vitepress/config.ts
+```ts [.vitepress/config.ts]
 export default {
   markdown: {
     math: true

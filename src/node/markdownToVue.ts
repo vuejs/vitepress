@@ -2,7 +2,7 @@ import { resolveTitleFromToken } from '@mdit-vue/shared'
 import _debug from 'debug'
 import fs from 'fs-extra'
 import { LRUCache } from 'lru-cache'
-import path from 'path'
+import path from 'node:path'
 import type { SiteConfig } from './config'
 import {
   createMarkdownRenderer,
@@ -119,7 +119,7 @@ export async function createMarkdownToVueRenderFn(
       realPath: fileOrig,
       localeIndex
     }
-    const html = md.render(src, env)
+    const html = await md.renderAsync(src, env)
     const {
       frontmatter = {},
       headers = [],

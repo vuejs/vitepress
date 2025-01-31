@@ -1,12 +1,13 @@
+import { isMatch } from 'picomatch'
+import path, { dirname, resolve } from 'node:path'
+import { glob } from 'tinyglobby'
 import {
+  type EnvironmentModuleNode,
   type Plugin,
   type ViteDevServer,
   loadConfigFromFile,
   normalizePath
 } from 'vite'
-import path, { dirname, resolve } from 'path'
-import { isMatch } from 'micromatch'
-import { glob } from 'tinyglobby'
 
 const loaderMatch = /\.data\.m?(j|t)s($|\?)/
 
@@ -122,44 +123,25 @@ export const staticDataPlugin: Plugin = {
     }
   },
 
-  transform(_code, id) {
-    if (server && loaderMatch.test(id) && '_importGlobMap' in server) {
-      // register this module as a glob importer
-      const { watch } = idToLoaderModulesMap[id]!
-      if (watch) {
-        ;(server as any)._importGlobMap.set(
-          id,
-          [Array.isArray(watch) ? watch : [watch]].map((globs) => {
-            const affirmed: string[] = []
-            const negated: string[] = []
-
-            for (const glob of globs) {
-              ;(glob[0] === '!' ? negated : affirmed).push(glob)
-            }
-            return { affirmed, negated }
-          })
-        )
-      }
-    }
-    return null
-  },
-
-  handleHotUpdate(ctx) {
+  hotUpdate(ctx) {
     const file = ctx.file
 
+    const modules: EnvironmentModuleNode[] = []
     // dependency of data loader changed
     // (note the dep array includes the loader file itself)
     if (file in depToLoaderModuleIdMap) {
       const id = depToLoaderModuleIdMap[file]!
       delete idToLoaderModulesMap[id]
-      ctx.modules.push(server.moduleGraph.getModuleById(id)!)
+      modules.push(this.environment.moduleGraph.getModuleById(id)!)
     }
 
     for (const id in idToLoaderModulesMap) {
       const { watch } = idToLoaderModulesMap[id]!
       if (watch && isMatch(file, watch)) {
-        ctx.modules.push(server.moduleGraph.getModuleById(id)!)
+        modules.push(this.environment.moduleGraph.getModuleById(id)!)
       }
     }
+
+    return modules.length > 0 ? [...ctx.modules, ...modules] : undefined
   }
 }

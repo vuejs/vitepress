@@ -8,8 +8,7 @@ VitePress 提供了**数据加载**的功能，它允许加载任意数据并从
 
 一个用于数据加载的文件必须以 `.data.js` 或 `.data.ts` 结尾。该文件应该提供一个默认导出的对象，该对象具有 `load()` 方法：
 
-```js
-// example.data.js
+```js [example.data.js]
 export default {
   load() {
     return {
@@ -84,8 +83,7 @@ export default {
 
 当构建一个内容为主的站点时，我们经常需要创建一个“归档”或“索引”页面：一个我们可以列出内容中的所有可用条目的页面，例如博客文章或 API 页面。我们**可以**直接使用数据加载 API 实现这一点，但由于这会经常使用，VitePress 还提供了一个 `createContentLoader` 辅助函数来简化这个过程：
 
-```js
-// posts.data.js
+```js [posts.data.js]
 import { createContentLoader } from 'vitepress'
 
 export default createContentLoader('posts/*.md', /* options */)
@@ -135,8 +133,7 @@ import { data as posts } from './posts.data.js'
 
 默认数据可能不适合所有需求——可以选择使用选项转换数据：
 
-```js
-// posts.data.js
+```js [posts.data.js]
 import { createContentLoader } from 'vitepress'
 
 export default createContentLoader('posts/*.md', {
@@ -162,8 +159,7 @@ export default createContentLoader('posts/*.md', {
 
 `createContentLoader` API 也可以在[构建钩子](../reference/site-config#build-hooks)中使用：
 
-```js
-// .vitepress/config.js
+```js [.vitepress/config.js]
 export default {
   async buildEnd() {
     const posts = await createContentLoader('posts/*.md').load()
