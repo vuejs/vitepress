@@ -8,7 +8,7 @@ const { hasSidebar } = useSidebar()
 
 <template>
   <footer
-    v-if="theme.footer && frontmatter.footer !== false && (!hasSidebar || theme.footer.showWithSidebar)"
+    v-if="theme.footer && frontmatter.footer !== false && (!hasSidebar || theme.footer.showWithSidebar || frontmatter.footer)"
     class="VPFooter"
     :class="{ 'has-sidebar': hasSidebar }"
   >
