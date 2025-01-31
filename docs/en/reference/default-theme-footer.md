@@ -20,6 +20,9 @@ export interface Footer {
 
   // The actual copyright text.
   copyright?: string
+
+  // Whether to show the footer when the sidebar is visible.
+  showWithSidebar?: boolean
 }
 ```
 
@@ -40,7 +43,7 @@ export default {
 Only inline elements can be used in `message` and `copyright` as they are rendered inside a `<p>` element. If you want to add block elements, consider using [`layout-bottom`](../guide/extending-default-theme#layout-slots) slot instead.
 :::
 
-Note that footer will not be displayed when the [SideBar](./default-theme-sidebar) is visible.
+By default, the footer will not be displayed when the [SideBar](./default-theme-sidebar) is visible. But you can change this behavior by setting `showWithSidebar` to `true` in the configuration.
 
 ## Frontmatter Config
 
