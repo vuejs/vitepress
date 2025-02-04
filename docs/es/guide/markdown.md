@@ -234,7 +234,7 @@ Este es un recipiente especial que puee ser usado para evitar conflictos de esti
 
 ```md
 ::: raw
-Envuelve en un <div class="vp-raw">
+Envuelve en un `<div class="vp-raw">`
 :::
 ```
 
