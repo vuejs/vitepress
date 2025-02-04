@@ -18,6 +18,7 @@ import {
   type PageData,
   type SSGContext
 } from '../shared'
+import { normalizeAssetUrl } from '../utils/assetsBase'
 
 export async function renderPage(
   render: (path: string) => Promise<SSGContext>,
@@ -72,7 +73,10 @@ export async function renderPage(
   const title: string = createTitle(siteData, pageData)
   const description: string = pageData.description || siteData.description
   const stylesheetLink = cssChunk
-    ? `<link rel="preload stylesheet" href="${siteData.base}${cssChunk.fileName}" as="style">`
+    ? `<link rel="preload stylesheet" href="${normalizeAssetUrl(
+        siteData,
+        cssChunk.fileName
+      )}" as="style">`
     : ''
 
   let preloadLinks =
@@ -104,7 +108,9 @@ export async function renderPage(
       {
         rel,
         // don't add base to external urls
-        href: (EXTERNAL_URL_RE.test(file) ? '' : siteData.base) + file
+        href: EXTERNAL_URL_RE.test(file)
+          ? file
+          : normalizeAssetUrl(siteData, file)
       }
     ])
 
@@ -148,7 +154,10 @@ export async function renderPage(
         inlinedScript = `<script type="module">${matchingChunk.code}</script>`
         fs.removeSync(path.resolve(config.outDir, matchingChunk.fileName))
       } else {
-        inlinedScript = `<script type="module" src="${siteData.base}${matchingChunk.fileName}"></script>`
+        inlinedScript = `<script type="module" src="${normalizeAssetUrl(
+          siteData,
+          matchingChunk.fileName
+        )}"></script>`
       }
     }
   }
@@ -176,7 +185,10 @@ export async function renderPage(
     ${metadataScript.inHead ? metadataScript.html : ''}
     ${
       appChunk
-        ? `<script type="module" src="${siteData.base}${appChunk.fileName}"></script>`
+        ? `<script type="module" src="${normalizeAssetUrl(
+            siteData,
+            appChunk.fileName
+          )}"></script>`
         : ''
     }
     ${await renderHead(head)}

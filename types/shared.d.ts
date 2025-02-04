@@ -109,6 +109,7 @@ export interface Header {
 
 export interface SiteData<ThemeConfig = any> {
   base: string
+  assetsBase: string
   cleanUrls?: boolean
   lang: string
   dir: string
