@@ -69,6 +69,16 @@ export interface UserConfig<ThemeConfig = any>
 
   locales?: LocaleConfig<ThemeConfig>
 
+  /**
+   * If a page isn't found in the current language, allow switching to another language as a backup.
+   */
+  localesFallback?: boolean
+
+  /**
+   * Use a custom locale key to be used as a default fallback for all locales. Default is root.
+   */
+  localesDefaultFallback?: string
+
   router?: {
     prefetchLinks?: boolean
   }
