@@ -184,6 +184,12 @@ watchPostEffect(() => {
   }
 }
 
+@media print {
+  .content {
+    display: none;
+  }
+}
+
 .content-body {
   display: flex;
   justify-content: flex-end;

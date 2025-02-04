@@ -106,4 +106,10 @@ if (carbonOptions) {
 .VPCarbonAds :deep(> div:first-of-type) {
   display: block;
 }
+
+@media print {
+  .VPCarbonAds {
+    display: none;
+  }
+}
 </style>
