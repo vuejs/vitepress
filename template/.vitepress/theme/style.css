@@ -24,7 +24,7 @@
  *
  *   The soft color must be semi transparent alpha channel. This is crucial
  *   because it allows adding multiple "soft" colors on top of each other
- *   to create a accent, such as when having inline code block inside
+ *   to create an accent, such as when having inline code block inside
  *   custom containers.
  *
  * - `default`: The color used purely for subtle indication without any
