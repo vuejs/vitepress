@@ -147,7 +147,7 @@
     "conventional-changelog-cli": "^5.0.0",
     "cross-spawn": "^7.0.6",
     "debug": "^4.4.0",
-    "esbuild": "^0.24.2",
+    "esbuild": "^0.25.0",
     "execa": "^9.5.2",
     "fs-extra": "^11.3.0",
     "get-port": "^7.1.0",
