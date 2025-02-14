@@ -233,7 +233,7 @@ export default defineConfig({
 
 ```md
 ::: raw
-بسته‌بندی در یک <div class="vp-raw">
+بسته‌بندی در یک `<div class="vp-raw">`
 :::
 ```
 

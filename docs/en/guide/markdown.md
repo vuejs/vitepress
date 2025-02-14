@@ -255,7 +255,7 @@ This is a special container that can be used to prevent style and router conflic
 
 ```md
 ::: raw
-Wraps in a <div class="vp-raw">
+Wraps in a `<div class="vp-raw">`
 :::
 ```
 

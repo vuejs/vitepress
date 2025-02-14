@@ -154,6 +154,7 @@ const pageName = computed(() =>
   width: 224px;
   height: 32px;
   background: linear-gradient(transparent, var(--vp-c-bg) 70%);
+  pointer-events: none;
 }
 
 .aside-content {
