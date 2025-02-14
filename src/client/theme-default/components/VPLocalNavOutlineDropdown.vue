@@ -17,8 +17,7 @@ const open = ref(false)
 const vh = ref(0)
 const main = ref<HTMLDivElement>()
 const items = ref<HTMLDivElement>()
-
-const {hasSidebar} = useSidebar()
+const { hasSidebar } = useSidebar()
 
 function closeOnClickOutside(e: Event) {
   if (!main.value?.contains(e.target as Node)) {
@@ -171,8 +170,7 @@ function scrollToTop() {
     left: calc(var(--vp-sidebar-width) + 32px);
     width: 320px;
   }
-
-  .VPLocalNavOutlineDropdown:not(.has-sidebar) .items{
+  .VPLocalNavOutlineDropdown:not(.has-sidebar) .items {
     left:32px;
   }
 }
