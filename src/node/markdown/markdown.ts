@@ -265,8 +265,8 @@ export async function createMarkdownRenderer(
     slugify,
     getTokensText: (tokens) => {
       return tokens
-        .filter((token) => token.type !== 'html_inline')
-        .map((token) => token.content)
+        .filter((t) => !['html_inline', 'emoji'].includes(t.type))
+        .map((t) => t.content)
         .join('')
     },
     permalink: anchorPlugin.permalink.linkInsideHeader({
