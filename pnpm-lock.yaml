@@ -9,10 +9,10 @@ overrides:
 
 patchedDependencies:
   '@types/mdurl@2.0.0':
-    hash: 3460e7d18ce390685cf4b8d8237fb20df9ad952c1336f479995a508a6395bfa4
+    hash: ztuyknm7z4pyl4jot5hljjv5bm
     path: patches/@types__mdurl@2.0.0.patch
   markdown-it-anchor@9.2.0:
-    hash: cdc28e7c329be30688ad192126ba505446611fbe526ad51483e4b1287aa35cf9
+    hash: ivrlfano2jj27ilcyyknwlzzfu
     path: patches/markdown-it-anchor@9.2.0.patch
 
 importers:
@@ -199,7 +199,7 @@ importers:
         version: 14.1.0
       markdown-it-anchor:
         specifier: ^9.2.0
-        version: 9.2.0(patch_hash=cdc28e7c329be30688ad192126ba505446611fbe526ad51483e4b1287aa35cf9)(@types/markdown-it@14.1.2)(markdown-it@14.1.0)
+        version: 9.2.0(patch_hash=ivrlfano2jj27ilcyyknwlzzfu)(@types/markdown-it@14.1.2)(markdown-it@14.1.0)
       markdown-it-async:
         specifier: ^2.0.0
         version: 2.0.0
@@ -3678,13 +3678,13 @@ snapshots:
   '@types/markdown-it@14.1.2':
     dependencies:
       '@types/linkify-it': 5.0.0
-      '@types/mdurl': 2.0.0(patch_hash=3460e7d18ce390685cf4b8d8237fb20df9ad952c1336f479995a508a6395bfa4)
+      '@types/mdurl': 2.0.0(patch_hash=ztuyknm7z4pyl4jot5hljjv5bm)
 
   '@types/mdast@4.0.4':
     dependencies:
       '@types/unist': 3.0.3
 
-  '@types/mdurl@2.0.0(patch_hash=3460e7d18ce390685cf4b8d8237fb20df9ad952c1336f479995a508a6395bfa4)': {}
+  '@types/mdurl@2.0.0(patch_hash=ztuyknm7z4pyl4jot5hljjv5bm)': {}
 
   '@types/minimist@1.2.5': {}
 
@@ -4764,7 +4764,7 @@ snapshots:
 
   mark.js@8.11.1: {}
 
-  markdown-it-anchor@9.2.0(patch_hash=cdc28e7c329be30688ad192126ba505446611fbe526ad51483e4b1287aa35cf9)(@types/markdown-it@14.1.2)(markdown-it@14.1.0):
+  markdown-it-anchor@9.2.0(patch_hash=ivrlfano2jj27ilcyyknwlzzfu)(@types/markdown-it@14.1.2)(markdown-it@14.1.0):
     dependencies:
       '@types/markdown-it': 14.1.2
       markdown-it: 14.1.0
