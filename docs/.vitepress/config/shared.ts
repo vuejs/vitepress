@@ -26,7 +26,7 @@ export const shared = defineConfig({
     math: true,
     // Load these languages ahead of time for embedded code highlighting
     // TODO: remove this when Shiki fixes markdown embedded language loading
-    languages: ['js', 'ts', 'html'],
+    languages: ['js', 'ts', 'html', 'vue-html', 'css', 'yaml', 'sh'],
     codeTransformers: [
       // We use `[!!code` in demo to prevent transformation, here we revert it back.
       {
