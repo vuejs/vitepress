@@ -102,10 +102,10 @@
     "@shikijs/transformers": "^2.3.2",
     "@shikijs/types": "^2.3.2",
     "@vitejs/plugin-vue": "^5.2.1",
-    "@vue/devtools-api": "^7.7.1",
+    "@vue/devtools-api": "^7.7.2",
     "@vue/shared": "^3.5.13",
-    "@vueuse/core": "^12.5.0",
-    "@vueuse/integrations": "^12.5.0",
+    "@vueuse/core": "^12.7.0",
+    "@vueuse/integrations": "^12.7.0",
     "focus-trap": "^7.6.4",
     "mark.js": "8.11.1",
     "minisearch": "^7.1.1",
@@ -139,7 +139,7 @@
     "@types/markdown-it-container": "^2.0.10",
     "@types/markdown-it-emoji": "^3.0.1",
     "@types/minimist": "^1.2.5",
-    "@types/node": "^22.13.1",
+    "@types/node": "^22.13.4",
     "@types/picomatch": "^3.0.2",
     "@types/postcss-prefix-selector": "^1.16.3",
     "@types/prompts": "^2.4.9",
@@ -163,7 +163,7 @@
     "markdown-it-emoji": "^3.0.0",
     "markdown-it-mathjax3": "^4.3.2",
     "minimist": "^1.2.8",
-    "nanoid": "^5.0.9",
+    "nanoid": "^5.1.0",
     "ora": "^8.2.0",
     "p-map": "^7.0.3",
     "path-to-regexp": "^6.3.0",
@@ -173,11 +173,11 @@
     "playwright-chromium": "^1.50.1",
     "polka": "^1.0.0-next.28",
     "postcss-prefix-selector": "^2.1.0",
-    "prettier": "^3.5.0",
+    "prettier": "^3.5.1",
     "prompts": "^2.4.2",
     "punycode": "^2.3.1",
     "rimraf": "^6.0.1",
-    "rollup": "^4.34.6",
+    "rollup": "^4.34.7",
     "rollup-plugin-dts": "^6.1.1",
     "rollup-plugin-esbuild": "^6.2.0",
     "semver": "^7.7.1",
@@ -187,7 +187,7 @@
     "tinyglobby": "^0.2.10",
     "typescript": "^5.7.3",
     "vitest": "^3.0.5",
-    "vue-tsc": "^2.2.0",
+    "vue-tsc": "2.2.0",
     "wait-on": "^8.0.2"
   },
   "peerDependencies": {
@@ -217,6 +217,11 @@
     "patchedDependencies": {
       "@types/mdurl@2.0.0": "patches/@types__mdurl@2.0.0.patch",
       "markdown-it-anchor@9.2.0": "patches/markdown-it-anchor@9.2.0.patch"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "playwright-chromium",
+      "simple-git-hooks"
+    ]
   }
 }

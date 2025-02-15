@@ -2,9 +2,7 @@ import type MarkdownIt from 'markdown-it'
 import container from 'markdown-it-container'
 import type { RenderRule } from 'markdown-it/lib/renderer.mjs'
 import type Token from 'markdown-it/lib/token.mjs'
-import { nanoid } from 'nanoid'
 import type { MarkdownEnv } from '../../shared'
-
 import {
   extractTitle,
   getAdaptiveThemeMarker,
@@ -86,7 +84,6 @@ function createCodeGroup(options: Options, md: MarkdownIt): ContainerArgs {
     {
       render(tokens, idx) {
         if (tokens[idx].nesting === 1) {
-          const name = nanoid(5)
           let tabs = ''
           let checked = 'checked'
 
@@ -110,8 +107,7 @@ function createCodeGroup(options: Options, md: MarkdownIt): ContainerArgs {
               )
 
               if (title) {
-                const id = nanoid(7)
-                tabs += `<input type="radio" name="group-${name}" id="tab-${id}" ${checked}><label data-title="${md.utils.escapeHtml(title)}" for="tab-${id}">${title}</label>`
+                tabs += `<input type="radio" name="group-${idx}" id="tab-${i}" ${checked}><label data-title="${md.utils.escapeHtml(title)}" for="tab-${i}">${title}</label>`
 
                 if (checked && !isHtml) tokens[i].info += ' active'
                 checked = ''
@@ -119,9 +115,7 @@ function createCodeGroup(options: Options, md: MarkdownIt): ContainerArgs {
             }
           }
 
-          return `<div class="vp-code-group${getAdaptiveThemeMarker(
-            options
-          )}"><div class="tabs">${tabs}</div><div class="blocks">\n`
+          return `<div class="vp-code-group${getAdaptiveThemeMarker(options)}"><div class="tabs">${tabs}</div><div class="blocks">\n`
         }
         return `</div></div>\n`
       }
