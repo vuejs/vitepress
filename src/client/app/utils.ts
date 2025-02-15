@@ -1,10 +1,3 @@
-import { siteDataRef } from './data'
-import {
-  inBrowser,
-  EXTERNAL_URL_RE,
-  sanitizeFileName,
-  type Awaitable
-} from '../shared'
 import {
   h,
   onMounted,
@@ -12,8 +5,15 @@ import {
   shallowRef,
   type AsyncComponentLoader
 } from 'vue'
+import {
+  EXTERNAL_URL_RE,
+  inBrowser,
+  sanitizeFileName,
+  type Awaitable
+} from '../shared'
+import { siteDataRef } from './data'
 
-export { inBrowser, escapeHtml as _escapeHtml } from '../shared'
+export { escapeHtml as _escapeHtml, inBrowser } from '../shared'
 
 /**
  * Join two paths by resolving the slash collision.

@@ -120,9 +120,9 @@ export default defineConfig({
         /**
          * @param {string} src
          * @param {import('vitepress').MarkdownEnv} env
-         * @param {import('markdown-it')} md
+         * @param {import('markdown-it-async')} md
          */
-        _render(src, env, md) {
+        async _render(src, env, md) {
           // return html string
         }
       }
@@ -145,8 +145,8 @@ export default defineConfig({
     search: {
       provider: 'local',
       options: {
-        _render(src, env, md) {
-          const html = md.render(src, env)
+        async _render(src, env, md) {
+          const html = await md.renderAsync(src, env)
           if (env.frontmatter?.search === false) return ''
           if (env.relativePath.startsWith('some/path')) return ''
           return html
@@ -158,7 +158,7 @@ export default defineConfig({
 ```
 
 ::: warning 참고
-커스텀 `_render` 함수가 제공된 경우, `search: false` 전문을 직접 처리해야 합니다. 또한, `md.render`가 호출되기 전에 `env` 객체가 완전히 채워지지 않으므로, `frontmatter`와 같은 선택적 `env` 프로퍼티에 대한 검사는 그 이후에 수행해야 합니다.
+커스텀 `_render` 함수가 제공된 경우, `search: false` 전문을 직접 처리해야 합니다. 또한, `md.renderAsync`가 호출되기 전에 `env` 객체가 완전히 채워지지 않으므로, `frontmatter`와 같은 선택적 `env` 프로퍼티에 대한 검사는 그 이후에 수행해야 합니다.
 :::
 
 #### 예제: 콘텐츠 변환 - 앵커 추가 {#example-transforming-content-adding-anchors}
@@ -171,10 +171,10 @@ export default defineConfig({
     search: {
       provider: 'local',
       options: {
-        _render(src, env, md) {
-          const html = md.render(src, env)
+        async _render(src, env, md) {
+          const html = await md.renderAsync(src, env)
           if (env.frontmatter?.title)
-            return md.render(`# ${env.frontmatter.title}`) + html
+            return await md.renderAsync(`# ${env.frontmatter.title}`) + html
           return html
         }
       }
@@ -377,10 +377,3 @@ new Crawler({
   }
 })
 ```
-
-<style>
-img[src="/search.png"] {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-}
-</style>

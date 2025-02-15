@@ -254,3 +254,36 @@ import ComponentInHeader from '../../components/ComponentInHeader.vue'
   padding: 0 20px;
 }
 </style>
+
+## Soporte de IntelliSense en VS Code
+
+<!-- Based on https://github.com/vuejs/language-tools/pull/4321 -->
+
+Vue ofrece soporte para IntelliSense de forma predeterminada mediante el [Plugin oficial de Vue para VS Code](https://marketplace.visualstudio.com/items?itemName=Vue.volar). Sin embargo, para habilitarlo en archivos `.md`, es necesario realizar algunos ajustes en los archivos de configuración.
+
+1. Agrega el patrón `.md` a las opciones `include` y `vueCompilerOptions.vitePressExtensions` en el archivo tsconfig/jsconfig:
+
+::: code-group
+```json [tsconfig.json]
+{
+  "include": [
+    "docs/**/*.ts",
+    "docs/**/*.vue",
+    "docs/**/*.md",
+  ],
+  "vueCompilerOptions": {
+    "vitePressExtensions": [".md"],
+  },
+}
+```
+:::
+
+2. Agrega `markdown` a la opción `vue.server.includeLanguages` en el archivo de configuración de VS Code
+
+::: code-group
+```json [.vscode/settings.json]
+{
+  "vue.server.includeLanguages": ["vue", "markdown"]
+}
+```
+:::

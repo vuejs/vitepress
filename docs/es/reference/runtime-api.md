@@ -106,7 +106,7 @@ interface Router {
   /**
    * Llamado después del cambio de ruta.
    */
-  onAfterRouteChanged?: (to: string) => Awaitable<void>
+  onAfterRouteChange?: (to: string) => Awaitable<void>
 }
 ```
 

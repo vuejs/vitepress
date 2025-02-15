@@ -42,7 +42,8 @@ export const ru = defineConfig({
     darkModeSwitchTitle: 'Переключить на тёмную тему',
     sidebarMenuLabel: 'Меню',
     returnToTopLabel: 'Вернуться к началу',
-    langMenuLabel: 'Изменить язык'
+    langMenuLabel: 'Изменить язык',
+    skipToContentLabel: 'Перейти к содержимому'
   }
 })
 
@@ -143,7 +144,7 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
             { text: 'Навигация', link: 'nav' },
             { text: 'Сайдбар', link: 'sidebar' },
             { text: 'Главная страница', link: 'home-page' },
-            { text: 'Подвал', link: 'footer' },
+            { text: 'Футер', link: 'footer' },
             { text: 'Макет', link: 'layout' },
             { text: 'Значки', link: 'badge' },
             { text: 'Страница команды', link: 'team-page' },

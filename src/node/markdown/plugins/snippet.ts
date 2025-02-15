@@ -1,7 +1,7 @@
 import fs from 'fs-extra'
 import type MarkdownIt from 'markdown-it'
 import type { RuleBlock } from 'markdown-it/lib/parser_block.mjs'
-import path from 'path'
+import path from 'node:path'
 import type { MarkdownEnv } from '../../shared'
 
 /**

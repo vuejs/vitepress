@@ -1,6 +1,6 @@
 import _debug from 'debug'
 import fs from 'fs-extra'
-import path from 'path'
+import path from 'node:path'
 import c from 'picocolors'
 import {
   createLogger,
@@ -10,14 +10,9 @@ import {
   type ConfigEnv
 } from 'vite'
 import { DEFAULT_THEME_PATH } from './alias'
+import type { DefaultTheme } from './defaultTheme'
 import { resolvePages } from './plugins/dynamicRoutesPlugin'
-import {
-  APPEARANCE_KEY,
-  slash,
-  type DefaultTheme,
-  type HeadConfig,
-  type SiteData
-} from './shared'
+import { APPEARANCE_KEY, slash, type HeadConfig, type SiteData } from './shared'
 import type { RawConfigExports, SiteConfig, UserConfig } from './siteConfig'
 
 export { resolvePages } from './plugins/dynamicRoutesPlugin'

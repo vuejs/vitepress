@@ -233,7 +233,7 @@ export default defineConfig({
 
 ```md
 ::: raw
-<div class="vp-raw">로 감쌉니다
+`<div class="vp-raw">`로 감쌉니다
 :::
 ```
 
@@ -883,8 +883,7 @@ Can be created using `.foorc.json`.
 npm add -D markdown-it-mathjax3
 ```
 
-```ts
-// .vitepress/config.ts
+```ts [.vitepress/config.ts]
 export default {
   markdown: {
     math: true

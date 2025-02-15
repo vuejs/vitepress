@@ -187,7 +187,7 @@ lang: ru-RU
 Опасная зона, остановитесь
 :::
 
-::: details Нажмите на меня, чтобы просмотреть код
+::: details Нажмите на меня, чтобы переключить код
 
 ```js
 console.log('Привет, VitePress!')
@@ -202,7 +202,7 @@ console.log('Привет, VitePress!')
 Опасная зона, остановитесь
 :::
 
-::: details Нажмите на меня, чтобы просмотреть код
+::: details Нажмите на меня, чтобы переключить код
 
 ```js
 console.log('Привет, VitePress!')
@@ -229,6 +229,28 @@ export default defineConfig({
 })
 ```
 
+### Дополнительные атрибуты {#additional-attributes}
+
+Вы можете добавить дополнительные атрибуты к пользовательским контейнерам. Мы используем [markdown-it-attrs](https://github.com/arve0/markdown-it-attrs) для этой функции, и она поддерживается почти для всех элементов Markdown. Например, можно установить атрибут `open`, чтобы сделать блок подробностей открытым по умолчанию:
+
+**Разметка**
+
+````md
+::: details Нажмите на меня, чтобы переключить код {open}
+```js
+console.log('Привет, VitePress!')
+```
+:::
+````
+
+**Результат**
+
+::: details Нажмите на меня, чтобы переключить код {open}
+```js
+console.log('Привет, VitePress!')
+```
+:::
+
 ### `raw` {#raw}
 
 Это специальный контейнер, который можно использовать для предотвращения конфликтов стилей и маршрутизаторов с VitePress. Это особенно полезно при документировании библиотек компонентов. Вы также можете посмотреть [whyframe](https://whyframe.dev/docs/integrations/vitepress) для лучшей изоляции.
@@ -237,7 +259,7 @@ export default defineConfig({
 
 ```md
 ::: raw
-Заворачивается в <div class="vp-raw">
+Заворачивается в `<div class="vp-raw">`
 :::
 ```
 
@@ -885,8 +907,7 @@ export default config
 npm add -D markdown-it-mathjax3
 ```
 
-```ts
-// .vitepress/config.ts
+```ts [.vitepress/config.ts]
 export default {
   markdown: {
     math: true

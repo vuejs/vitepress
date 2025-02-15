@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'node:path'
 import c from 'picocolors'
 import {
   mergeConfig,
@@ -16,6 +16,7 @@ import {
   resolveAliases
 } from './alias'
 import { resolvePages, resolveUserConfig, type SiteConfig } from './config'
+import { disposeMdItInstance } from './markdown/markdown'
 import {
   clearCache,
   createMarkdownToVueRenderFn,
@@ -37,8 +38,7 @@ declare module 'vite' {
 
 const themeRE = /\/\.vitepress\/theme\/index\.(m|c)?(j|t)s$/
 const hashRE = /\.([-\w]+)\.js$/
-const staticInjectMarkerRE =
-  /\b(const _hoisted_\d+ = \/\*(?:#|@)__PURE__\*\/\s*createStaticVNode)\("(.*)", (\d+)\)/g
+const staticInjectMarkerRE = /\bcreateStaticVNode\((?:(".*")|('.*')), (\d+)\)/g
 const staticStripRE = /['"`]__VP_STATIC_START__[^]*?__VP_STATIC_END__['"`]/g
 const staticRestoreRE = /__VP_STATIC_(START|END)__/g
 
@@ -75,7 +75,6 @@ export async function createVitePressPlugin(
     site,
     vue: userVuePluginOptions,
     vite: userViteConfig,
-    pages,
     lastUpdated,
     cleanUrls
   } = siteConfig
@@ -131,7 +130,7 @@ export async function createVitePressPlugin(
       markdownToVue = await createMarkdownToVueRenderFn(
         srcDir,
         markdown,
-        pages,
+        siteConfig.pages,
         config.command === 'build',
         config.base,
         lastUpdated,
@@ -324,10 +323,11 @@ export async function createVitePressPlugin(
         // Using a regexp relies on specific output from Vue compiler core,
         // which is a reasonable trade-off considering the massive perf win over
         // a full AST parse.
-        code = code.replace(
-          staticInjectMarkerRE,
-          '$1("__VP_STATIC_START__$2__VP_STATIC_END__", $3)'
-        )
+        code = code.replace(staticInjectMarkerRE, (_, str1, str2, flag) => {
+          const str = str1 || str2
+          const quote = str[0]
+          return `createStaticVNode(${quote}__VP_STATIC_START__${str.slice(1, -1)}__VP_STATIC_END__${quote}, ${flag})`
+        })
         return code
       }
       return null
@@ -388,6 +388,7 @@ export async function createVitePressPlugin(
           return
         }
 
+        disposeMdItInstance()
         clearCache()
         await recreateServer?.()
         return
@@ -429,7 +430,7 @@ export async function createVitePressPlugin(
         return [
           ...modules,
           ...importers.map((id) => {
-            clearCache(id)
+            clearCache(slash(path.relative(srcDir, id)))
             return server.moduleGraph.getModuleById(id)
           })
         ].filter(Boolean) as ModuleNode[]

@@ -2,7 +2,7 @@ import { resolveTitleFromToken } from '@mdit-vue/shared'
 import _debug from 'debug'
 import fs from 'fs-extra'
 import { LRUCache } from 'lru-cache'
-import path from 'path'
+import path from 'node:path'
 import type { SiteConfig } from './config'
 import {
   createMarkdownRenderer,
@@ -63,14 +63,14 @@ export async function createMarkdownToVueRenderFn(
   const dynamicRoutes = new Map(
     siteConfig?.dynamicRoutes?.routes.map((r) => [
       r.fullPath,
-      path.join(srcDir, r.route)
+      slash(path.join(srcDir, r.route))
     ]) || []
   )
 
   const rewrites = new Map(
     Object.entries(siteConfig?.rewrites.map || {}).map(([key, value]) => [
-      path.join(srcDir, key),
-      path.join(srcDir, value!)
+      slash(path.join(srcDir, key)),
+      slash(path.join(srcDir, value!))
     ]) || []
   )
 
@@ -119,7 +119,7 @@ export async function createMarkdownToVueRenderFn(
       realPath: fileOrig,
       localeIndex
     }
-    const html = md.render(src, env)
+    const html = await md.renderAsync(src, env)
     const {
       frontmatter = {},
       headers = [],
