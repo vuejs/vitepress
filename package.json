@@ -187,7 +187,7 @@
     "tinyglobby": "^0.2.10",
     "typescript": "^5.7.3",
     "vitest": "^3.0.5",
-    "vue-tsc": "^2.2.2",
+    "vue-tsc": "2.2.0",
     "wait-on": "^8.0.2"
   },
   "peerDependencies": {
