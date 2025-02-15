@@ -173,5 +173,13 @@ export default defineConfig({
         }
       }
     }
+  },
+  vite: {
+    server: {
+      watch: {
+        usePolling: true,
+        interval: 100
+      }
+    }
   }
 })
