@@ -7,8 +7,8 @@ import {
   type TransformerCompactLineOption
 } from '@shikijs/transformers'
 import { customAlphabet } from 'nanoid'
-import type { LanguageRegistration, ShikiTransformer } from 'shiki'
-import { createHighlighter, isSpecialLang } from 'shiki'
+import type { ShikiTransformer, BundledLanguage } from 'shiki'
+import { createHighlighter, guessEmbeddedLanguages } from 'shiki'
 import type { Logger } from 'vite'
 import type { MarkdownOptions, ThemeOptions } from '../markdown'
 import c from 'picocolors'
@@ -71,16 +71,6 @@ export async function highlight(
     langAlias: options.languageAlias
   })
 
-  async function loadLanguage(name: string | LanguageRegistration) {
-    const lang = typeof name === 'string' ? name : name.name
-    if (
-      !isSpecialLang(lang) &&
-      !highlighter.getLoadedLanguages().includes(lang)
-    ) {
-      await highlighter.loadLanguage(lang as any)
-    }
-  }
-
   await options?.shikiSetup?.(highlighter)
 
   // TODO: remove explicit matchAlgorithm in shiki v3
@@ -129,7 +119,7 @@ export async function highlight(
           .toLowerCase() || defaultLang
 
       try {
-        await loadLanguage(lang)
+        await highlighter.loadLanguage(lang as any)
       } catch {
         logger.warn(
           c.yellow(
@@ -162,6 +152,9 @@ export async function highlight(
       }
 
       str = removeMustache(str).trimEnd()
+
+      const embeddedLang = guessEmbeddedLanguages(str, lang, highlighter)
+      await highlighter.loadLanguage(...(embeddedLang as BundledLanguage[]))
 
       const highlighted = highlighter.codeToHtml(str, {
         lang,
