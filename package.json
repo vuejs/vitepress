@@ -202,7 +202,7 @@
       "optional": true
     }
   },
-  "packageManager": "pnpm@10.4.0",
+  "packageManager": "pnpm@9.15.4",
   "pnpm": {
     "peerDependencyRules": {
       "ignoreMissing": [
