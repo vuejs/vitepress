@@ -1,13 +1,11 @@
 <script lang="ts" setup>
-import { inject, ref, watchPostEffect } from 'vue'
+import { ref, watchPostEffect } from 'vue'
 import { useData } from '../composables/data'
 import VPSwitch from './VPSwitch.vue'
+import { useDark } from '../composables/dark'
 
-const { isDark, theme } = useData()
-
-const toggleAppearance = inject('toggle-appearance', () => {
-  isDark.value = !isDark.value
-})
+const { theme } = useData()
+const { isDark, toggleAppearance } = useDark({ triggerPrint: true });
 
 const switchTitle = ref('')
 
