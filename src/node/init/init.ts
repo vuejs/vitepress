@@ -12,6 +12,7 @@ import template from 'lodash.template'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { bold, cyan, yellow } from 'picocolors'
+import { slash } from '../shared'
 
 export enum ScaffoldThemeType {
   Default = 'default theme',
@@ -20,13 +21,13 @@ export enum ScaffoldThemeType {
 }
 
 export interface ScaffoldOptions {
-  root: string
-  srcDir: string
+  root?: string
+  srcDir?: string
   title?: string
   description?: string
-  theme: ScaffoldThemeType
-  useTs: boolean
-  injectNpmScripts: boolean
+  theme?: ScaffoldThemeType
+  useTs?: boolean
+  injectNpmScripts?: boolean
   addNpmScriptsPrefix?: boolean
   npmScriptsPrefix?: string
 }
@@ -36,10 +37,10 @@ const getPackageManger = () => {
   return name.split('/')[0]
 }
 
-export async function init(root: string | undefined) {
+export async function init(root?: string) {
   intro(bold(cyan('Welcome to VitePress!')))
 
-  const options: ScaffoldOptions = (await group(
+  const options = await group(
     {
       root: async () => {
         if (root) return root
@@ -47,6 +48,7 @@ export async function init(root: string | undefined) {
         return text({
           message: 'Where should VitePress initialize the config?',
           initialValue: './',
+          defaultValue: './',
           validate(value) {
             // TODO make sure directory is inside
             return undefined
@@ -54,73 +56,80 @@ export async function init(root: string | undefined) {
         })
       },
 
-      srcDir: async () => {
+      srcDir: async ({ results }: any) => {
         return text({
           message: 'Where should VitePress look for your markdown files?',
-          initialValue: './'
+          initialValue: results.root,
+          defaultValue: results.root
         })
       },
 
-      title: () =>
-        text({
+      title: async () => {
+        return text({
           message: 'Site title:',
-          placeholder: 'My Awesome Project'
-        }),
+          placeholder: 'My Awesome Project',
+          defaultValue: 'My Awesome Project'
+        })
+      },
 
-      description: () =>
-        text({
+      description: async () => {
+        return text({
           message: 'Site description:',
-          placeholder: 'A VitePress Site'
-        }),
+          placeholder: 'A VitePress Site',
+          defaultValue: 'A VitePress Site'
+        })
+      },
 
-      theme: () =>
-        select({
+      theme: async () => {
+        return select({
           message: 'Theme:',
           options: [
             {
-              // @ts-ignore
               value: ScaffoldThemeType.Default,
               label: 'Default Theme',
               hint: 'Out of the box, good-looking docs'
             },
             {
-              // @ts-ignore
               value: ScaffoldThemeType.DefaultCustom,
               label: 'Default Theme + Customization',
               hint: 'Add custom CSS and layout slots'
             },
             {
-              // @ts-ignore
               value: ScaffoldThemeType.Custom,
               label: 'Custom Theme',
               hint: 'Build your own or use external'
             }
           ]
-        }),
-
-      useTs: () =>
-        confirm({ message: 'Use TypeScript for config and theme files?' }),
-
-      injectNpmScripts: () =>
-        confirm({
-          message: 'Add VitePress npm scripts to package.json?'
-        }),
-
-      addNpmScriptsPrefix: ({ results }) => {
-        if (!results.injectNpmScripts) return Promise.resolve(false)
-
-        return confirm({
-          message: 'Add a prefix for VitePress npm scripts?',
-          initialValue: true
         })
       },
 
-      npmScriptsPrefix: ({ results }) => {
-        if (!results.addNpmScriptsPrefix) return Promise.resolve('docs')
+      useTs: async () => {
+        return confirm({
+          message: 'Use TypeScript for config and theme files?'
+        })
+      },
+
+      injectNpmScripts: async () => {
+        return confirm({
+          message: 'Add VitePress npm scripts to package.json?'
+        })
+      },
+
+      addNpmScriptsPrefix: async ({ results }: any) => {
+        if (!results.injectNpmScripts) return false
+
+        return confirm({
+          message: 'Add a prefix for VitePress npm scripts?'
+        })
+      },
+
+      npmScriptsPrefix: async ({ results }: any) => {
+        if (!results.addNpmScriptsPrefix) return 'docs'
 
         return text({
           message: 'Prefix for VitePress npm scripts:',
-          placeholder: 'docs'
+          placeholder: 'docs',
+          defaultValue: 'docs'
         })
       }
     },
@@ -130,31 +139,35 @@ export async function init(root: string | undefined) {
         process.exit(0)
       }
     }
-  )) as ScaffoldOptions
+  )
 
   outro(scaffold(options))
 }
 
 export function scaffold({
-  root = './',
-  srcDir = './',
+  root: root_ = './',
+  srcDir: srcDir_ = root_,
   title = 'My Awesome Project',
   description = 'A VitePress Site',
-  theme,
-  useTs,
-  injectNpmScripts,
+  theme = ScaffoldThemeType.Default,
+  useTs = true,
+  injectNpmScripts = true,
   addNpmScriptsPrefix = true,
   npmScriptsPrefix = 'docs'
-}: ScaffoldOptions): string {
-  const resolvedRoot = path.resolve(root)
-  const resolvedSrcDir = path.resolve(root, srcDir)
+}: ScaffoldOptions) {
+  const resolvedRoot = path.resolve(root_)
+  const root = path.relative(process.cwd(), resolvedRoot)
+
+  const resolvedSrcDir = path.resolve(srcDir_)
+  const srcDir = path.relative(resolvedRoot, resolvedSrcDir)
+
   const templateDir = path.resolve(
     path.dirname(fileURLToPath(import.meta.url)),
     '../../template'
   )
 
   const data = {
-    srcDir: srcDir === './' ? undefined : JSON.stringify(srcDir), // omit if default
+    srcDir: srcDir ? JSON.stringify(srcDir) : undefined, // omit if default
     title: JSON.stringify(title),
     description: JSON.stringify(description),
     useTs,
@@ -214,34 +227,31 @@ export function scaffold({
     renderFile(file)
   }
 
-  const dir =
-    root === './' ? '' : ` ${root.replace(/^\.\//, '').replace(/[/\\]$/, '')}`
-  const gitignorePrefix = dir ? `${dir}/.vitepress` : '.vitepress'
-
   const tips = []
+
+  const gitignorePrefix = root ? `${slash(root)}/.vitepress` : '.vitepress'
   if (fs.existsSync('.git')) {
     tips.push(
-      `Make sure to add ${cyan(`${gitignorePrefix}/dist`)} and ` +
-        `${cyan(`${gitignorePrefix}/cache`)} to your ` +
-        `${cyan(`.gitignore`)} file.`
+      `Make sure to add ${cyan(`${gitignorePrefix}/dist`)} and ${cyan(`${gitignorePrefix}/cache`)} to your ${cyan(`.gitignore`)} file.`
     )
   }
+
   if (
     theme !== ScaffoldThemeType.Default &&
     !userPkg.dependencies?.['vue'] &&
     !userPkg.devDependencies?.['vue']
   ) {
     tips.push(
-      `Since you've chosen to customize the theme, ` +
-        `you should also explicitly install ${cyan(`vue`)} as a dev dependency.`
+      `Since you've chosen to customize the theme, you should also explicitly install ${cyan(`vue`)} as a dev dependency.`
     )
   }
 
   const tip = tips.length ? yellow([`\n\nTips:`, ...tips].join('\n- ')) : ``
+  const dir = root ? ' ' + root : ''
+  const pm = getPackageManger()
 
   if (injectNpmScripts) {
     const scripts: Record<string, string> = {}
-
     const prefix = addNpmScriptsPrefix ? `${npmScriptsPrefix}:` : ''
 
     scripts[`${prefix}dev`] = `vitepress dev${dir}`
@@ -250,13 +260,9 @@ export function scaffold({
 
     Object.assign(userPkg.scripts || (userPkg.scripts = {}), scripts)
     fs.writeFileSync(pkgPath, JSON.stringify(userPkg, null, 2))
-    return `Done! Now run ${cyan(
-      `${getPackageManger()} run ${prefix}dev`
-    )} and start writing.${tip}`
+
+    return `Done! Now run ${cyan(`${pm} run ${prefix}dev`)} and start writing.${tip}`
   } else {
-    const pm = getPackageManger()
-    return `You're all set! Now run ${cyan(
-      `${pm === 'npm' ? 'npx' : pm} vitepress dev${dir}`
-    )} and start writing.${tip}`
+    return `You're all set! Now run ${cyan(`${pm === 'npm' ? 'npx' : pm} vitepress dev${dir}`)} and start writing.${tip}`
   }
 }
