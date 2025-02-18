@@ -73,22 +73,14 @@ export async function highlight(
 
   await options?.shikiSetup?.(highlighter)
 
-  // TODO: remove explicit matchAlgorithm in shiki v3
   const transformers: ShikiTransformer[] = [
-    transformerNotationDiff({
-      matchAlgorithm: 'v3'
-    }),
+    transformerNotationDiff(),
     transformerNotationFocus({
-      matchAlgorithm: 'v3',
       classActiveLine: 'has-focus',
       classActivePre: 'has-focused-lines'
     }),
-    transformerNotationHighlight({
-      matchAlgorithm: 'v3'
-    }),
-    transformerNotationErrorLevel({
-      matchAlgorithm: 'v3'
-    }),
+    transformerNotationHighlight(),
+    transformerNotationErrorLevel(),
     {
       name: 'vitepress:add-class',
       pre(node) {
