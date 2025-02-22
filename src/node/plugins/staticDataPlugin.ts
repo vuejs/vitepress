@@ -124,6 +124,8 @@ export const staticDataPlugin: Plugin = {
   },
 
   hotUpdate({ file, modules: existingMods }) {
+    if (this.environment.name !== 'client') return
+
     const modules: EnvironmentModuleNode[] = []
 
     // dependency of data loader changed

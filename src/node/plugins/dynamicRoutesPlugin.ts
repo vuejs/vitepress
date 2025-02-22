@@ -141,6 +141,8 @@ export const dynamicRoutesPlugin = async (
     },
 
     async hotUpdate({ file, modules: existingMods }) {
+      if (this.environment.name !== 'client') return
+
       routeModuleCache.delete(file)
       const modules: EnvironmentModuleNode[] = []
 

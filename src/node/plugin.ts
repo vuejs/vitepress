@@ -424,6 +424,8 @@ export async function createVitePressPlugin(
   const hmrFix: Plugin = {
     name: 'vitepress:hmr-fix',
     async hotUpdate({ file, modules }) {
+      if (this.environment.name !== 'client') return
+
       const importers = [...(importerMap[slash(file)] || [])]
       if (importers.length > 0) {
         return [
