@@ -62,7 +62,7 @@ export const siteDataRef: Ref<SiteData> = shallowRef(
 
 // hmr
 if (import.meta.hot) {
-  import.meta.hot.accept('/@siteData', (m) => {
+  import.meta.hot.accept('@siteData', (m) => {
     if (m) {
       siteDataRef.value = m.default
     }
