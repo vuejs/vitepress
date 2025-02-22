@@ -63,10 +63,10 @@ export function processIncludes(
         const titleName = title[0].slice(1, -1).trim()
         const lines = content.split(/\r?\n/)
         const start = lines.findIndex((line) => line === titleName)
-        const prefixLength = titleName.replace(/[^#]/g, '').length
+        const prefixLength = titleName.match(/^#+/)?.[0].length || 0
         const end = lines.findIndex(
           (line, index) =>
-            line.replace(/[^#]/g, '').length === prefixLength && index > start
+            index > start && line.match(/^#+/)?.[0].length === prefixLength
         )
         if (end === -1) {
           content = lines.slice(start).join('\n')
