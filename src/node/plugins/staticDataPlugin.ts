@@ -114,9 +114,7 @@ export const staticDataPlugin: Plugin = {
         idToLoaderModulesMap[id] = { watch, load }
       }
 
-      const result = `export const data = JSON.parse(${JSON.stringify(
-        JSON.stringify(data)
-      )})`
+      const result = `export const data = JSON.parse(${JSON.stringify(JSON.stringify(data))})`
 
       if (_resolve) _resolve(result)
       return result

@@ -372,10 +372,7 @@ export async function createVitePressPlugin(
       if (file === configPath || configDeps.includes(file)) {
         siteConfig.logger.info(
           c.green(
-            `${path.relative(
-              process.cwd(),
-              file
-            )} changed, restarting server...\n`
+            `${path.relative(process.cwd(), file)} changed, restarting server...\n`
           ),
           { clear: true, timestamp: true }
         )
