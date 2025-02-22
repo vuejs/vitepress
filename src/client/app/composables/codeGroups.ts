@@ -14,17 +14,26 @@ export function useCodeGroups() {
 
   if (inBrowser) {
     function syncMultipleCodeGroups(group: HTMLElement) {
-      const selector = group.className.split(' ').filter(Boolean).map((c) => `.${c}`).join('')
-      let checkTabText = group.querySelector('input:checked')?.nextElementSibling?.textContent || ''
+      const selector = group.className
+        .split(' ')
+        .filter(Boolean)
+        .map((c) => `.${c}`)
+        .join('')
+      let checkTabText =
+        group.querySelector('input:checked')?.nextElementSibling?.textContent ||
+        ''
       document.querySelectorAll(selector).forEach((groupEl) => {
         if (group === groupEl) {
           return
         }
         const labels = groupEl.querySelectorAll('label')
         if (!labels.length) return
-        const targetIndex = Array.from(labels).findIndex((label) => label.textContent === checkTabText)
+        const targetIndex = Array.from(labels).findIndex(
+          (label) => label.textContent === checkTabText
+        )
         if (targetIndex < 0) return
-        const input = labels[targetIndex].previousElementSibling as HTMLInputElement
+        const input = labels[targetIndex]
+          .previousElementSibling as HTMLInputElement
         input.checked = true
         const blocks = groupEl.querySelector('.blocks')
         if (!blocks) return
@@ -34,7 +43,6 @@ export function useCodeGroups() {
           child.classList.remove('active')
         })
         blocks.children[targetIndex].classList.add('active')
-        
       })
     }
     window.addEventListener('click', (e) => {
