@@ -123,8 +123,7 @@ export const staticDataPlugin: Plugin = {
     }
   },
 
-  hotUpdate(ctx) {
-    const file = ctx.file
+  hotUpdate({ file, modules: existingMods }) {
     const modules: EnvironmentModuleNode[] = []
 
     // dependency of data loader changed
@@ -142,6 +141,6 @@ export const staticDataPlugin: Plugin = {
       }
     }
 
-    return modules.length > 0 ? [...ctx.modules, ...modules] : undefined
+    return modules.length > 0 ? [...existingMods, ...modules] : undefined
   }
 }

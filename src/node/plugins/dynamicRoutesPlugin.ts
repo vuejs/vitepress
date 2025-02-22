@@ -140,8 +140,7 @@ export const dynamicRoutesPlugin = async (
       }
     },
 
-    async hotUpdate(ctx) {
-      const file = ctx.file
+    async hotUpdate({ file, modules: existingMods }) {
       const modules: EnvironmentModuleNode[] = []
 
       const mods = config.dynamicRoutes.fileToModulesMap[file]
@@ -158,7 +157,7 @@ export const dynamicRoutesPlugin = async (
         }
       }
 
-      return modules.length > 0 ? [...ctx.modules, ...modules] : undefined
+      return modules.length > 0 ? [...existingMods, ...modules] : undefined
     }
   }
 }
