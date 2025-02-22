@@ -134,9 +134,7 @@ export const dynamicRoutesPlugin = async (
 
         // params are injected with special markers and extracted as part of
         // __pageData in ../markdownToVue.ts
-        return `__VP_PARAMS_START${JSON.stringify(
-          params
-        )}__VP_PARAMS_END__${baseContent}`
+        return `__VP_PARAMS_START${JSON.stringify(params)}__VP_PARAMS_END__${baseContent}`
       }
     },
 

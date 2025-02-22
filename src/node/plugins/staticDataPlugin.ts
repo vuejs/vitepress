@@ -1,4 +1,4 @@
-import path, { dirname, resolve } from 'node:path'
+import path from 'node:path'
 import { isMatch } from 'picomatch'
 import { glob } from 'tinyglobby'
 import {
@@ -25,10 +25,12 @@ export function defineLoader(loader: LoaderModule) {
   return loader
 }
 
+// Map from loader module id to its module info
 const idToLoaderModulesMap: Record<string, LoaderModule | undefined> =
   Object.create(null)
 
-const depToLoaderModuleIdMap: Record<string, string> = Object.create(null)
+// Map from dependency file to a set of loader module ids
+const depToLoaderModuleIdsMap: Record<string, Set<string>> = Object.create(null)
 
 // During build, the load hook will be called on the same file twice
 // once for client and once for server build. Not only is this wasteful, it
@@ -62,7 +64,7 @@ export const staticDataPlugin: Plugin = {
         })
       }
 
-      const base = dirname(id)
+      const base = path.dirname(id)
       let watch: LoaderModule['watch']
       let load: LoaderModule['load']
 
@@ -77,7 +79,11 @@ export const staticDataPlugin: Plugin = {
         // record deps for hmr
         if (server && res) {
           for (const dep of res.dependencies) {
-            depToLoaderModuleIdMap[normalizePath(path.resolve(dep))] = id
+            const depPath = normalizePath(path.resolve(dep))
+            if (!depToLoaderModuleIdsMap[depPath]) {
+              depToLoaderModuleIdsMap[depPath] = new Set()
+            }
+            depToLoaderModuleIdsMap[depPath].add(id)
           }
         }
 
@@ -89,7 +95,7 @@ export const staticDataPlugin: Plugin = {
         if (watch) {
           watch = watch.map((p) => {
             return p.startsWith('.')
-              ? normalizePath(resolve(base, p))
+              ? normalizePath(path.resolve(base, p))
               : normalizePath(p)
           })
         }
@@ -97,9 +103,8 @@ export const staticDataPlugin: Plugin = {
       }
 
       // load the data
-      let watchedFiles
+      let watchedFiles: string[] = []
       if (watch) {
-        if (typeof watch === 'string') watch = [watch]
         watchedFiles = (
           await glob(watch, {
             ignore: ['**/node_modules/**', '**/dist/**'],
@@ -107,7 +112,7 @@ export const staticDataPlugin: Plugin = {
           })
         ).sort()
       }
-      const data = await load(watchedFiles || [])
+      const data = await load(watchedFiles)
 
       // record loader module for HMR
       if (server) {
@@ -125,19 +130,29 @@ export const staticDataPlugin: Plugin = {
     if (this.environment.name !== 'client') return
 
     const modules: EnvironmentModuleNode[] = []
+    const normalizedFile = normalizePath(file)
 
-    // dependency of data loader changed
-    // (note the dep array includes the loader file itself)
-    if (file in depToLoaderModuleIdMap) {
-      const id = depToLoaderModuleIdMap[file]!
-      delete idToLoaderModulesMap[id]
-      modules.push(this.environment.moduleGraph.getModuleById(id)!)
+    // Trigger update if a dependency (including transitive ones) changed.
+    if (normalizedFile in depToLoaderModuleIdsMap) {
+      for (const id of Array.from(
+        depToLoaderModuleIdsMap[normalizedFile] || []
+      )) {
+        delete idToLoaderModulesMap[id]
+        const mod = this.environment.moduleGraph.getModuleById(id)
+        if (mod) {
+          modules.push(mod)
+        }
+      }
     }
 
+    // Also check if the file matches any custom watch patterns.
     for (const id in idToLoaderModulesMap) {
-      const { watch } = idToLoaderModulesMap[id]!
-      if (watch && isMatch(file, watch)) {
-        modules.push(this.environment.moduleGraph.getModuleById(id)!)
+      const loader = idToLoaderModulesMap[id]
+      if (loader && loader.watch && isMatch(normalizedFile, loader.watch)) {
+        const mod = this.environment.moduleGraph.getModuleById(id)
+        if (mod && !modules.includes(mod)) {
+          modules.push(mod)
+        }
       }
     }
 
