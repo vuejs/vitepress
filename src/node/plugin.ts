@@ -367,7 +367,7 @@ export async function createVitePressPlugin(
       }
     },
 
-    async hotUpdate(ctx) {
+    async handleHotUpdate(ctx) {
       const { file, read, server } = ctx
       if (file === configPath || configDeps.includes(file)) {
         siteConfig.logger.info(
