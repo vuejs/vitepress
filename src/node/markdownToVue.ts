@@ -31,14 +31,14 @@ export interface MarkdownCompileResult {
   includes: string[]
 }
 
-export function clearCache(file?: string) {
-  if (!file) {
+export function clearCache(id?: string) {
+  if (!id) {
     cache.clear()
     return
   }
 
-  file = JSON.stringify({ file }).slice(1)
-  cache.find((_, key) => key.endsWith(file!) && cache.delete(key))
+  id = JSON.stringify({ id }).slice(1)
+  cache.find((_, key) => key.endsWith(id!) && cache.delete(key))
 }
 
 export async function createMarkdownToVueRenderFn(
@@ -83,7 +83,7 @@ export async function createMarkdownToVueRenderFn(
     file = rewrites.get(file) || file
     const relativePath = slash(path.relative(srcDir, file))
 
-    const cacheKey = JSON.stringify({ src, file: relativePath })
+    const cacheKey = JSON.stringify({ src, file: relativePath, id: fileOrig })
     if (isBuild || options.cache !== false) {
       const cached = cache.get(cacheKey)
       if (cached) {
