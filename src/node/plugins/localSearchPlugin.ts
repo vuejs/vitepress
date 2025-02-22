@@ -198,7 +198,7 @@ export async function localSearchPlugin(
       }
     },
 
-    async handleHotUpdate({ file }) {
+    async hotUpdate({ file }) {
       if (file.endsWith('.md')) {
         await indexFile(file)
         debug('🔍️ Updated', file)

@@ -3,7 +3,6 @@ import c from 'picocolors'
 import {
   mergeConfig,
   searchForWorkspaceRoot,
-  type ModuleNode,
   type Plugin,
   type ResolvedConfig,
   type Rollup,
@@ -424,16 +423,16 @@ export async function createVitePressPlugin(
 
   const hmrFix: Plugin = {
     name: 'vitepress:hmr-fix',
-    async handleHotUpdate({ file, server, modules }) {
+    async hotUpdate({ file, server, modules }) {
       const importers = [...(importerMap[slash(file)] || [])]
       if (importers.length > 0) {
         return [
           ...modules,
           ...importers.map((id) => {
             clearCache(slash(path.relative(srcDir, id)))
-            return server.moduleGraph.getModuleById(id)
+            return this.environment.moduleGraph.getModuleById(id)
           })
-        ].filter(Boolean) as ModuleNode[]
+        ].filter((mod) => mod !== undefined)
       }
     }
   }

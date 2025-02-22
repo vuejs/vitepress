@@ -3,9 +3,9 @@ import path from 'node:path'
 import c from 'picocolors'
 import { glob } from 'tinyglobby'
 import {
-  EnvironmentModuleNode,
   loadConfigFromFile,
   normalizePath,
+  type EnvironmentModuleNode,
   type Logger,
   type Plugin
 } from 'vite'
