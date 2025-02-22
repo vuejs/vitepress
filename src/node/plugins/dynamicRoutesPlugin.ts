@@ -69,6 +69,7 @@ interface UserRouteConfig {
 interface RouteModule {
   path: string
   config: {
+    watch?: string[] | string
     paths:
       | UserRouteConfig[]
       | ((
@@ -76,7 +77,6 @@ interface RouteModule {
         ) => UserRouteConfig[] | Promise<UserRouteConfig[]>)
   }
   dependencies: string[]
-  watch?: string[] | string
 }
 
 const routeModuleCache = new Map<string, RouteModule>()
@@ -260,8 +260,11 @@ export async function resolveDynamicRoutes(
 
     // Process custom watch files if provided.
     let watch: string[] | undefined
-    if (mod.watch) {
-      watch = typeof mod.watch === 'string' ? [mod.watch] : mod.watch
+    if (mod.config.watch) {
+      watch =
+        typeof mod.config.watch === 'string'
+          ? [mod.config.watch]
+          : mod.config.watch
       watch = watch.map((p) =>
         p.startsWith('.')
           ? normalizePath(path.resolve(path.dirname(pathsFile), p))
