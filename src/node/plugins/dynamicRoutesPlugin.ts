@@ -141,6 +141,7 @@ export const dynamicRoutesPlugin = async (
     },
 
     async hotUpdate({ file, modules: existingMods }) {
+      routeModuleCache.delete(file)
       const modules: EnvironmentModuleNode[] = []
 
       const mods = config.dynamicRoutes.fileToModulesMap[file]
