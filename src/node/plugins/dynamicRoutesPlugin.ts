@@ -26,7 +26,7 @@ export async function resolvePages(
   // JavaScript built-in sort() is mandated to be stable as of ES2019 and
   // supported in Node 12+, which is required by Vite.
   const allMarkdownFiles = (
-    await glob(['**.md'], {
+    await glob(['**/*.md'], {
       cwd: srcDir,
       ignore: [
         '**/node_modules/**',
@@ -71,9 +71,12 @@ interface RouteModule {
   config: {
     paths:
       | UserRouteConfig[]
-      | (() => UserRouteConfig[] | Promise<UserRouteConfig[]>)
+      | ((
+          watchedFiles: string[]
+        ) => UserRouteConfig[] | Promise<UserRouteConfig[]>)
   }
   dependencies: string[]
+  watch?: string[] | string
 }
 
 const routeModuleCache = new Map<string, RouteModule>()
@@ -141,20 +144,36 @@ export const dynamicRoutesPlugin = async (
     async hotUpdate({ file, modules: existingMods }) {
       if (this.environment.name !== 'client') return
 
-      routeModuleCache.delete(file)
+      const normalizedFile = normalizePath(file)
+      // Invalidate any cached route modules whose key or dependencies include the changed file.
+      for (const [cacheKey, mod] of routeModuleCache.entries()) {
+        const normalizedCacheKey = normalizePath(cacheKey)
+        if (
+          normalizedCacheKey === normalizedFile ||
+          mod.dependencies.some(
+            (dep) => normalizePath(path.resolve(dep)) === normalizedFile
+          )
+        ) {
+          routeModuleCache.delete(cacheKey)
+        }
+      }
+
       const modules: EnvironmentModuleNode[] = []
 
-      const mods = config.dynamicRoutes.fileToModulesMap[file]
+      const mods = config.dynamicRoutes.fileToModulesMap[normalizedFile]
       if (mods) {
         // path loader module or deps updated, reset loaded routes
-        if (!file.endsWith('.md')) {
+        if (!normalizedFile.endsWith('.md')) {
           Object.assign(
             config,
             await resolvePages(config.srcDir, config.userConfig, config.logger)
           )
         }
         for (const id of mods) {
-          modules.push(this.environment.moduleGraph.getModuleById(id)!)
+          const mod = this.environment.moduleGraph.getModuleById(id)
+          if (mod) {
+            modules.push(mod)
+          }
         }
       }
 
@@ -210,19 +229,7 @@ export async function resolveDynamicRoutes(
       }
     }
 
-    // this array represents the virtual modules affected by this route
-    const matchedModuleIds = (routeFileToModulesMap[
-      normalizePath(path.resolve(srcDir, route))
-    ] = new Set())
-
-    // each dependency (including the loader module itself) also point to the
-    // same array
-    for (const dep of mod.dependencies) {
-      // deps are resolved relative to cwd
-      routeFileToModulesMap[normalizePath(path.resolve(dep))] = matchedModuleIds
-    }
-
-    const loader = mod!.config.paths
+    const loader = mod.config.paths
     if (!loader) {
       logger.warn(
         c.yellow(
@@ -233,9 +240,61 @@ export async function resolveDynamicRoutes(
       continue
     }
 
+    // Create or retrieve the set of virtual module IDs affected by this route.
+    const routeKey = normalizePath(path.resolve(srcDir, route))
+    const matchedModuleIds =
+      routeFileToModulesMap[routeKey] || new Set<string>()
+    routeFileToModulesMap[routeKey] = matchedModuleIds
+
+    // Track loader dependencies (merging sets if shared)
+    for (const dep of mod.dependencies) {
+      const depPath = normalizePath(path.resolve(dep))
+      if (!routeFileToModulesMap[depPath]) {
+        routeFileToModulesMap[depPath] = matchedModuleIds
+      } else {
+        for (const id of matchedModuleIds) {
+          routeFileToModulesMap[depPath].add(id)
+        }
+      }
+    }
+
+    // Process custom watch files if provided.
+    let watch: string[] | undefined
+    if (mod.watch) {
+      watch = typeof mod.watch === 'string' ? [mod.watch] : mod.watch
+      watch = watch.map((p) =>
+        p.startsWith('.')
+          ? normalizePath(path.resolve(path.dirname(pathsFile), p))
+          : normalizePath(p)
+      )
+      for (const watchFile of watch) {
+        if (!routeFileToModulesMap[watchFile]) {
+          routeFileToModulesMap[watchFile] = matchedModuleIds
+        } else {
+          for (const id of matchedModuleIds) {
+            routeFileToModulesMap[watchFile].add(id)
+          }
+        }
+      }
+    }
+
     const resolveRoute = async (): Promise<ResolvedRouteConfig[]> => {
-      const paths = await (typeof loader === 'function' ? loader() : loader)
-      return paths.map((userConfig) => {
+      let pathsData: UserRouteConfig[]
+      if (typeof loader === 'function') {
+        let watchedFiles: string[] = []
+        if (watch) {
+          watchedFiles = (
+            await glob(watch, {
+              ignore: ['**/node_modules/**', '**/dist/**'],
+              expandDirectories: false
+            })
+          ).sort()
+        }
+        pathsData = await loader(watchedFiles)
+      } else {
+        pathsData = loader
+      }
+      return pathsData.map((userConfig) => {
         const resolvedPath = route.replace(
           dynamicRouteRE,
           (_, key) => userConfig.params[key]
