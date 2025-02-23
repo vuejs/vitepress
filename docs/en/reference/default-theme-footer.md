@@ -1,6 +1,6 @@
 # Footer
 
-VitePress will display global footer at the bottom of the page when `themeConfig.footer` is present.
+VitePress will display the global footer at the bottom of the page when `themeConfig.footer` is present.
 
 ```ts
 export default {
@@ -23,7 +23,7 @@ export interface Footer {
 }
 ```
 
-The above configuration also supports HTML strings. So, for example, if you want to configure footer text to have some links, you can adjust the configuration as follows:
+The above configuration also supports HTML strings. For example, if you want to configure the footer text to have some links, you can adjust the configuration as follows:
 
 ```ts
 export default {
@@ -37,7 +37,7 @@ export default {
 ```
 
 ::: warning
-Only inline elements can be used in `message` and `copyright` as they are rendered inside a `<p>` element. If you want to add block elements, consider using [`layout-bottom`](../guide/extending-default-theme#layout-slots) slot instead.
+Only inline elements can be used in `message` and `copyright` as they are rendered inside a `<p>` element. If you want to add block elements, consider using the [`layout-bottom`](../guide/extending-default-theme#layout-slots) slot instead.
 :::
 
 Note that footer will not be displayed when the [SideBar](./default-theme-sidebar) is visible.
