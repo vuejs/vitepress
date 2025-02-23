@@ -14,11 +14,13 @@ import { resolveRewrites } from './rewritesPlugin'
 
 export const dynamicRouteRE = /\[(\w+?)\]/g
 
+let fileToModulesMap: Record<string, Set<string>> = {}
+
 export async function resolvePages(
   srcDir: string,
   userConfig: UserConfig,
   logger: Logger
-) {
+): Promise<Pick<SiteConfig, 'pages' | 'dynamicRoutes' | 'rewrites'>> {
   // Important: tinyglobby doesn't guarantee order of the returned files.
   // We must sort the pages so the input list to rollup is stable across
   // builds - otherwise different input order could result in different exports
@@ -45,19 +47,19 @@ export async function resolvePages(
     ;(dynamicRouteRE.test(file) ? dynamicRouteFiles : pages).push(file)
   })
 
-  const dynamicRoutes = await resolveDynamicRoutes(
-    srcDir,
-    dynamicRouteFiles,
-    logger
-  )
-  pages.push(...dynamicRoutes.routes.map((r) => r.path))
+  const { routes, fileToModulesMap: fileToModulesMap_ } =
+    await resolveDynamicRoutes(srcDir, dynamicRouteFiles, logger)
+
+  pages.push(...routes.map((r) => r.path))
+  fileToModulesMap = fileToModulesMap_
 
   const rewrites = resolveRewrites(pages, userConfig.rewrites)
 
   return {
     pages,
-    dynamicRoutes,
+    dynamicRoutes: { routes },
     rewrites,
+    // @ts-expect-error internal flag to reload resolution cache in ../markdownToVue.ts
     __dirty: true
   }
 }
@@ -96,8 +98,6 @@ export type ResolvedRouteConfig = UserRouteConfig & {
    */
   fullPath: string
 }
-
-const fileToModulesMap: Record<string, Set<string>> = {}
 
 export const dynamicRoutesPlugin = async (
   config: SiteConfig

@@ -47,7 +47,7 @@ let __rewrites = new Map<string, string>()
 
 function getResolutionCache(siteConfig: SiteConfig) {
   // @ts-expect-error internal
-  if (siteConfig.__dirty !== false) {
+  if (siteConfig.__dirty) {
     __pages = siteConfig.pages.map((p) => slash(p.replace(/\.md$/, '')))
 
     __dynamicRoutes = new Map(
