@@ -58,7 +58,7 @@ function getResolutionCache(siteConfig: SiteConfig) {
     )
 
     __rewrites = new Map(
-      Object.entries(siteConfig.rewrites.map || {}).map(([key, value]) => [
+      Object.entries(siteConfig.rewrites.map).map(([key, value]) => [
         slash(path.join(siteConfig.srcDir, key)),
         slash(path.join(siteConfig.srcDir, value!))
       ])
