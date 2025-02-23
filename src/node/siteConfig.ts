@@ -221,9 +221,7 @@ export interface SiteConfig<ThemeConfig = any>
   cacheDir: string
   tempDir: string
   pages: string[]
-  dynamicRoutes: {
-    routes: ResolvedRouteConfig[]
-  }
+  dynamicRoutes: ResolvedRouteConfig[]
   rewrites: {
     map: Record<string, string | undefined>
     inv: Record<string, string | undefined>

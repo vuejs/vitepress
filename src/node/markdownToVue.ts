@@ -51,7 +51,7 @@ function getResolutionCache(siteConfig: SiteConfig) {
     __pages = siteConfig.pages.map((p) => slash(p.replace(/\.md$/, '')))
 
     __dynamicRoutes = new Map(
-      siteConfig.dynamicRoutes.routes.map((r) => [
+      siteConfig.dynamicRoutes.map((r) => [
         r.fullPath,
         slash(path.join(siteConfig.srcDir, r.route))
       ])

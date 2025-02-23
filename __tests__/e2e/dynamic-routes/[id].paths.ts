@@ -1,8 +1,9 @@
+import paths from './paths'
+
 export default {
-  async paths() {
-    return [
-      { params: { id: 'foo' }, content: `# Foo` },
-      { params: { id: 'bar' }, content: `# Bar` }
-    ]
-  }
+  async paths(watchedFiles: string[]) {
+    console.log('watchedFiles', watchedFiles)
+    return paths
+  },
+  watch: ['**/data-loading/**/*.json']
 }

@@ -11,7 +11,7 @@ import fs from 'fs-extra'
 import template from 'lodash.template'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { bold, cyan, yellow } from 'picocolors'
+import c from 'picocolors'
 import { slash } from '../shared'
 
 export enum ScaffoldThemeType {
@@ -38,7 +38,7 @@ const getPackageManger = () => {
 }
 
 export async function init(root?: string) {
-  intro(bold(cyan('Welcome to VitePress!')))
+  intro(c.bold(c.cyan('Welcome to VitePress!')))
 
   const options = await group(
     {
@@ -232,7 +232,7 @@ export function scaffold({
   const gitignorePrefix = root ? `${slash(root)}/.vitepress` : '.vitepress'
   if (fs.existsSync('.git')) {
     tips.push(
-      `Make sure to add ${cyan(`${gitignorePrefix}/dist`)} and ${cyan(`${gitignorePrefix}/cache`)} to your ${cyan(`.gitignore`)} file.`
+      `Make sure to add ${c.cyan(`${gitignorePrefix}/dist`)} and ${c.cyan(`${gitignorePrefix}/cache`)} to your ${c.cyan(`.gitignore`)} file.`
     )
   }
 
@@ -242,11 +242,11 @@ export function scaffold({
     !userPkg.devDependencies?.['vue']
   ) {
     tips.push(
-      `Since you've chosen to customize the theme, you should also explicitly install ${cyan(`vue`)} as a dev dependency.`
+      `Since you've chosen to customize the theme, you should also explicitly install ${c.cyan(`vue`)} as a dev dependency.`
     )
   }
 
-  const tip = tips.length ? yellow([`\n\nTips:`, ...tips].join('\n- ')) : ``
+  const tip = tips.length ? c.yellow([`\n\nTips:`, ...tips].join('\n- ')) : ``
   const dir = root ? ' ' + root : ''
   const pm = getPackageManger()
 
@@ -261,8 +261,8 @@ export function scaffold({
     Object.assign(userPkg.scripts || (userPkg.scripts = {}), scripts)
     fs.writeFileSync(pkgPath, JSON.stringify(userPkg, null, 2))
 
-    return `Done! Now run ${cyan(`${pm} run ${prefix}dev`)} and start writing.${tip}`
+    return `Done! Now run ${c.cyan(`${pm} run ${prefix}dev`)} and start writing.${tip}`
   } else {
-    return `You're all set! Now run ${cyan(`${pm === 'npm' ? 'npx' : pm} vitepress dev${dir}`)} and start writing.${tip}`
+    return `You're all set! Now run ${c.cyan(`${pm === 'npm' ? 'npx' : pm} vitepress dev${dir}`)} and start writing.${tip}`
   }
 }
