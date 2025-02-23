@@ -129,7 +129,6 @@ export async function createVitePressPlugin(
       markdownToVue = await createMarkdownToVueRenderFn(
         srcDir,
         markdown,
-        siteConfig.pages,
         config.command === 'build',
         config.base,
         lastUpdated,

@@ -57,7 +57,8 @@ export async function resolvePages(
   return {
     pages,
     dynamicRoutes,
-    rewrites
+    rewrites,
+    __dirty: true
   }
 }
 
@@ -96,6 +97,8 @@ export type ResolvedRouteConfig = UserRouteConfig & {
   fullPath: string
 }
 
+const fileToModulesMap: Record<string, Set<string>> = {}
+
 export const dynamicRoutesPlugin = async (
   config: SiteConfig
 ): Promise<Plugin> => {
@@ -120,7 +123,7 @@ export const dynamicRoutesPlugin = async (
       if (matched) {
         const { route, params, content } = matched
         const routeFile = normalizePath(path.resolve(config.srcDir, route))
-        config.dynamicRoutes.fileToModulesMap[routeFile].add(id)
+        fileToModulesMap[routeFile].add(id)
 
         let baseContent = fs.readFileSync(routeFile, 'utf-8')
 
@@ -160,7 +163,7 @@ export const dynamicRoutesPlugin = async (
 
       const modules: EnvironmentModuleNode[] = []
 
-      const mods = config.dynamicRoutes.fileToModulesMap[normalizedFile]
+      const mods = fileToModulesMap[normalizedFile]
       if (mods) {
         // path loader module or deps updated, reset loaded routes
         if (!normalizedFile.endsWith('.md')) {
@@ -186,7 +189,7 @@ export async function resolveDynamicRoutes(
   srcDir: string,
   routes: string[],
   logger: Logger
-): Promise<SiteConfig['dynamicRoutes']> {
+) {
   const pendingResolveRoutes: Promise<ResolvedRouteConfig[]>[] = []
   const routeFileToModulesMap: Record<string, Set<string>> = {}
 

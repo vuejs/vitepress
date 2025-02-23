@@ -41,15 +41,48 @@ export function clearCache(id?: string) {
   cache.find((_, key) => key.endsWith(id!) && cache.delete(key))
 }
 
+let __pages: string[] = []
+let __dynamicRoutes = new Map<string, string>()
+let __rewrites = new Map<string, string>()
+
+function getResolutionCache(siteConfig: SiteConfig) {
+  // @ts-expect-error internal
+  if (siteConfig.__dirty !== false) {
+    __pages = siteConfig.pages.map((p) => slash(p.replace(/\.md$/, '')))
+
+    __dynamicRoutes = new Map(
+      siteConfig.dynamicRoutes.routes.map((r) => [
+        r.fullPath,
+        slash(path.join(siteConfig.srcDir, r.route))
+      ])
+    )
+
+    __rewrites = new Map(
+      Object.entries(siteConfig.rewrites.map || {}).map(([key, value]) => [
+        slash(path.join(siteConfig.srcDir, key)),
+        slash(path.join(siteConfig.srcDir, value!))
+      ])
+    )
+
+    // @ts-expect-error internal
+    siteConfig.__dirty = false
+  }
+
+  return {
+    pages: __pages,
+    dynamicRoutes: __dynamicRoutes,
+    rewrites: __rewrites
+  }
+}
+
 export async function createMarkdownToVueRenderFn(
   srcDir: string,
   options: MarkdownOptions = {},
-  pages: string[],
   isBuild = false,
   base = '/',
   includeLastUpdatedData = false,
   cleanUrls = false,
-  siteConfig: SiteConfig | null = null
+  siteConfig: SiteConfig
 ) {
   const md = await createMarkdownRenderer(
     srcDir,
@@ -58,27 +91,13 @@ export async function createMarkdownToVueRenderFn(
     siteConfig?.logger
   )
 
-  pages = pages.map((p) => slash(p.replace(/\.md$/, '')))
-
-  const dynamicRoutes = new Map(
-    siteConfig?.dynamicRoutes?.routes.map((r) => [
-      r.fullPath,
-      slash(path.join(srcDir, r.route))
-    ]) || []
-  )
-
-  const rewrites = new Map(
-    Object.entries(siteConfig?.rewrites.map || {}).map(([key, value]) => [
-      slash(path.join(srcDir, key)),
-      slash(path.join(srcDir, value!))
-    ]) || []
-  )
-
   return async (
     src: string,
     file: string,
     publicDir: string
   ): Promise<MarkdownCompileResult> => {
+    const { pages, dynamicRoutes, rewrites } = getResolutionCache(siteConfig)
+
     const fileOrig = dynamicRoutes.get(file) || file
     file = rewrites.get(file) || file
     const relativePath = slash(path.relative(srcDir, file))
@@ -318,10 +337,7 @@ const inferDescription = (frontmatter: Record<string, any>) => {
   return (head && getHeadMetaContent(head, 'description')) || ''
 }
 
-const getHeadMetaContent = (
-  head: HeadConfig[],
-  name: string
-): string | undefined => {
+const getHeadMetaContent = (head: HeadConfig[], name: string) => {
   if (!head || !head.length) {
     return undefined
   }
