@@ -48,7 +48,7 @@ export default {
 }
 ```
 
-Each `link` should specify the path to the actual file starting with `/`. If you add trailing slash to the end of link, it will show `index.md` of the corresponding directory.
+Each `link` should specify the path to the actual file starting with `/`. If you add a trailing slash to the end of link, it will show the `index.md` of the corresponding directory.
 
 ```js
 export default {
@@ -66,7 +66,7 @@ export default {
 }
 ```
 
-You may further nest the sidebar items up to 6 level deep counting up from the root level. Note that deeper than 6 level of nested items gets ignored and will not be displayed on the sidebar.
+You may further nest the sidebar items up to 6 level deep counting up from the root level. Note that nested items deeper than 6 levels gets ignored and will not be displayed on the sidebar.
 
 ```js
 export default {
@@ -95,7 +95,7 @@ export default {
 
 ## Multiple Sidebars
 
-You may show different sidebar depending on the page path. For example, as shown on this site, you might want to create a separate sections of content in your documentation like "Guide" page and "Config" page.
+You may show different sidebars depending on the page path. For example, as shown on this site, you might want to create a separate section of content in your documentation like a "Guide" page and a "Config" page.
 
 To do so, first organize your pages into directories for each desired section:
 
@@ -149,7 +149,7 @@ export default {
 
 ## Collapsible Sidebar Groups
 
-By adding `collapsed` option to the sidebar group, it shows a toggle button to hide/show each section.
+By adding the `collapsed` option to the sidebar group, it shows a toggle button to hide/show each section.
 
 ```js
 export default {
@@ -165,7 +165,7 @@ export default {
 }
 ```
 
-All sections are "open" by default. If you would like them to be "closed" on initial page load, set `collapsed` option to `true`.
+All sections are "open" by default. If you would like them to be "closed" on initial page load, set the `collapsed` option to `true`.
 
 ```js
 export default {
