@@ -4,7 +4,7 @@ The Nav is the navigation bar displayed on top of the page. It contains the site
 
 ## Site Title and Logo
 
-By default, nav shows the title of the site referencing [`config.title`](./site-config#title) value. If you would like to change what's displayed on nav, you may define custom text in `themeConfig.siteTitle` option.
+By default, nav shows the title of the site referencing the [`config.title`](./site-config#title) value. If you would like to change what's displayed on nav, you may define custom text in `themeConfig.siteTitle` option.
 
 ```js
 export default {
@@ -35,11 +35,11 @@ export default {
 }
 ```
 
-You can also pass an object as logo if you want to add `alt` attribute or customize it based on dark/light mode. Refer [`themeConfig.logo`](./default-theme-config#logo) for details.
+You can also pass an object as logo if you want to add `alt` attribute or customize it based on dark/light mode. Refer to [`themeConfig.logo`](./default-theme-config#logo) for details.
 
 ## Navigation Links
 
-You may define `themeConfig.nav` option to add links to your nav.
+You may define the `themeConfig.nav` option to add links to your nav.
 
 ```js
 export default {
@@ -53,9 +53,9 @@ export default {
 }
 ```
 
-The `text` is the actual text displayed in nav, and the `link` is the link that will be navigated to when the text is clicked. For the link, set path to the actual file without `.md` prefix, and always start with `/`.
+The `text` is the actual text displayed in nav, and the `link` is the link that will be navigated to when the text is clicked. For the link, set path to the actual file without the `.md` suffix, and always start with `/`.
 
-Nav links can also be dropdown menus. To do this, set `items` key on link option.
+Nav links can also be dropdown menus. To do this, set the `items` key on the link option.
 
 ```js
 export default {
@@ -75,9 +75,9 @@ export default {
 }
 ```
 
-Note that dropdown menu title (`Dropdown Menu` in the above example) can not have `link` property since it becomes a button to open dropdown dialog.
+Note that the dropdown menu title (`Dropdown Menu` in the above example) can not have a `link` property since it becomes a button to open dropdown dialog.
 
-You may further add "sections" to the dropdown menu items as well by passing in more nested items.
+You may add further "sections" to the dropdown menu items as well by passing in more nested items.
 
 ```js
 export default {
@@ -116,7 +116,7 @@ export default {
 
 ### Customize link's "active" state
 
-Nav menu items will be highlighted when the current page is under the matching path. if you would like to customize the path to be matched, define `activeMatch` property and regex as a string value.
+Nav menu items will be highlighted when the current page is under the matching path. If you would like to customize the path to be matched, define the `activeMatch` property and regex as a string value.
 
 ```js
 export default {
@@ -135,7 +135,7 @@ export default {
 ```
 
 ::: warning
-`activeMatch` is expected to be a regex string, but you must define it as a string. We can't use actual RegExp object here because it isn't serializable during the build time.
+`activeMatch` is expected to be a regex string, but you must define it as a string. We can't use an actual RegExp object here because it isn't serializable during the build time.
 :::
 
 ### Customize link's "target" and "rel" attributes
@@ -159,7 +159,7 @@ export default {
 
 ## Social Links
 
-Refer [`socialLinks`](./default-theme-config#sociallinks).
+Refer to [`socialLinks`](./default-theme-config#sociallinks).
 
 ## Custom Components
 
@@ -209,6 +209,6 @@ export default {
 
 Your component will be rendered in the navigation bar. VitePress will provide the following additional props to the component:
 
-- `screenMenu`: an optional boolean indicating whether the component is inside mobile navigation menu
+- `screenMenu`: an optional boolean indicating whether the component is inside the mobile navigation menu
 
 You can check an example in the e2e tests [here](https://github.com/vuejs/vitepress/tree/main/__tests__/e2e/.vitepress).
