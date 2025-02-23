@@ -1,6 +1,6 @@
 # Prev Next Links
 
-You can customize the text and link for the previous and next pages (shown at doc footer). This is helpful if you want a different text there than what you have on your sidebar. Additionally, you may find it useful to disable the footer or link to a page that is not included in your sidebar.
+You can customize the text and link for the previous and next pages (shown at the doc footer). This is helpful if you want a different text there than what you have on your sidebar. Additionally, you may find it useful to disable the footer or link to a page that is not included in your sidebar.
 
 ## prev
 
@@ -20,7 +20,7 @@ You can customize the text and link for the previous and next pages (shown at do
     ---
     ```
 
-  - To customize both text and link:
+  - To customize both the text and link:
 
     ```yaml
     ---
@@ -30,7 +30,7 @@ You can customize the text and link for the previous and next pages (shown at do
     ---
     ```
 
-  - To hide previous page:
+  - To hide the previous page:
 
     ```yaml
     ---
