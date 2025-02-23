@@ -25,7 +25,7 @@ You can access frontmatter data via the `$frontmatter` global in Vue expressions
 
 - Type: `string`
 
-Title for the page. It's same as [config.title](./site-config#title), and it overrides the site-level config.
+Title for the page. It is the same as [config.title](./site-config#title), and it overrides the site-level config.
 
 ```yaml
 ---
@@ -37,7 +37,7 @@ title: VitePress
 
 - Type: `string | boolean`
 
-The suffix for the title. It's same as [config.titleTemplate](./site-config#titletemplate), and it overrides the site-level config.
+The suffix for the title. It is the same as [config.titleTemplate](./site-config#titletemplate), and it overrides the site-level config.
 
 ```yaml
 ---
@@ -50,7 +50,7 @@ titleTemplate: Vite & Vue powered static site generator
 
 - Type: `string`
 
-Description for the page. It's same as [config.description](./site-config#description), and it overrides the site-level config.
+Description for the page. It is the same as [config.description](./site-config#description), and it overrides the site-level config.
 
 ```yaml
 ---
@@ -94,8 +94,8 @@ The following frontmatter options are only applicable when using the default the
 Determines the layout of the page.
 
 - `doc` - It applies default documentation styles to the markdown content.
-- `home` - Special layout for "Home Page". You may add extra options such as `hero` and `features` to rapidly create beautiful landing page.
-- `page` - Behave similar to `doc` but it applies no styles to the content. Useful when you want to create a fully custom page.
+- `home` - Special layout for "Home Page". You may add extra options such as `hero` and `features` to rapidly create a beautiful landing page.
+- `page` - Behaves similar to `doc` but it applies no styles to the content. Useful when you want to create a fully custom page.
 
 ```yaml
 ---
@@ -144,7 +144,7 @@ sidebar: false
 
 Defines the location of the aside component in the `doc` layout.
 
-Setting this value to `false` prevents rendering of aside container.\
+Setting this value to `false` prevents rendering of the aside container.\
 Setting this value to `true` renders the aside to the right.\
 Setting this value to `'left'` renders the aside to the left.
 
@@ -159,7 +159,7 @@ aside: false
 - Type: `number | [number, number] | 'deep' | false`
 - Default: `2`
 
-The levels of header in the outline to display for the page. It's same as [config.themeConfig.outline.level](./default-theme-config#outline), and it overrides the value set in site-level config.
+The levels of header in the outline to display for the page. It is the same as [config.themeConfig.outline.level](./default-theme-config#outline), and it overrides the value set in site-level config.
 
 ```yaml
 ---
@@ -218,7 +218,7 @@ pageClass: custom-page-class
 ---
 ```
 
-Then you can customize styles of this specific page in `.vitepress/theme/custom.css` file:
+Then you can customize styles of this specific page in the `.vitepress/theme/custom.css` file:
 
 ```css
 .custom-page-class {
