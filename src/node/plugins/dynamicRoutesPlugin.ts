@@ -172,14 +172,15 @@ export const dynamicRoutesPlugin = async (
         }
       }
 
-      if (modules.size || watchedFileChanged) {
+      if (
+        (modules.size && !normalizedFile.endsWith('.md')) ||
+        watchedFileChanged
+      ) {
         // path loader module or deps updated, reset loaded routes
-        if (!normalizedFile.endsWith('.md') || watchedFileChanged) {
-          Object.assign(
-            config,
-            await resolvePages(config.srcDir, config.userConfig, config.logger)
-          )
-        }
+        Object.assign(
+          config,
+          await resolvePages(config.srcDir, config.userConfig, config.logger)
+        )
       }
 
       return modules.size ? [...existingMods, ...modules] : undefined
