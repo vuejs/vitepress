@@ -95,7 +95,7 @@ export async function createVitePressPlugin(
   // lazy require plugin-vue to respect NODE_ENV in @vue/compiler-x
   const vuePlugin = await import('@vitejs/plugin-vue').then((r) =>
     r.default({
-      include: [/\.vue$/, /\.md$/],
+      include: /\.(?:vue|md)$/,
       ...userVuePluginOptions,
       template: {
         ...userVuePluginOptions?.template,
@@ -195,9 +195,7 @@ export async function createVitePressPlugin(
           }
         }
         data = serializeFunctions(data)
-        return `${deserializeFunctions};export default deserializeFunctions(JSON.parse(${JSON.stringify(
-          JSON.stringify(data)
-        )}))`
+        return `${deserializeFunctions};export default deserializeFunctions(JSON.parse(${JSON.stringify(JSON.stringify(data))}))`
       }
     },
 
@@ -205,6 +203,7 @@ export async function createVitePressPlugin(
       if (id.endsWith('.vue')) {
         return processClientJS(code, id)
       } else if (id.endsWith('.md')) {
+        console.log('transform', id)
         // transform .md files into vueSrc so plugin-vue can handle it
         const { vueSrc, deadLinks, includes } = await markdownToVue(
           code,
@@ -254,9 +253,7 @@ export async function createVitePressPlugin(
         if (themeRE.test(file)) {
           siteConfig.logger.info(
             c.green(
-              `${path.relative(process.cwd(), _file)} ${
-                added ? 'created' : 'deleted'
-              }, restarting server...\n`
+              `${path.relative(process.cwd(), _file)} ${added ? 'created' : 'deleted'}, restarting server...\n`
             ),
             { clear: true, timestamp: true }
           )
@@ -366,8 +363,10 @@ export async function createVitePressPlugin(
       }
     },
 
-    async handleHotUpdate(ctx) {
-      const { file, read, server } = ctx
+    async hotUpdate(ctx) {
+      if (this.environment.name !== 'client') return
+
+      const { file, read } = ctx
       if (file === configPath || configDeps.includes(file)) {
         siteConfig.logger.info(
           c.green(
@@ -392,6 +391,7 @@ export async function createVitePressPlugin(
       // hot reload .md files as .vue files
       if (file.endsWith('.md')) {
         const content = await read()
+        console.log('hotUpdate', file)
         const { pageData, vueSrc } = await markdownToVue(
           content,
           file,
@@ -405,7 +405,7 @@ export async function createVitePressPlugin(
         }
 
         // notify the client to update page data
-        server.ws.send({
+        this.environment.hot.send({
           type: 'custom',
           event: 'vitepress:pageData',
           data: payload
