@@ -1,6 +1,7 @@
 import fs from 'fs-extra'
 import path from 'node:path'
 import c from 'picocolors'
+import { isMatch } from 'picomatch'
 import { glob } from 'tinyglobby'
 import {
   loadConfigFromFile,
@@ -9,12 +10,48 @@ import {
   type Logger,
   type Plugin
 } from 'vite'
+import type { Awaitable } from '../shared'
 import { type SiteConfig, type UserConfig } from '../siteConfig'
+import { ModuleGraph } from '../utils/moduleGraph'
 import { resolveRewrites } from './rewritesPlugin'
 
-export const dynamicRouteRE = /\[(\w+?)\]/g
+interface UserRouteConfig {
+  params: Record<string, string>
+  content?: string
+}
 
-let fileToModulesMap: Record<string, Set<string>> = {}
+export type ResolvedRouteConfig = UserRouteConfig & {
+  /**
+   * the raw route (relative to src root), e.g. foo/[bar].md
+   */
+  route: string
+  /**
+   * the actual path with params resolved (relative to src root), e.g. foo/1.md
+   */
+  path: string
+  /**
+   * absolute fs path
+   */
+  fullPath: string
+}
+
+export interface RouteModule {
+  watch?: string[] | string
+  paths:
+    | UserRouteConfig[]
+    | ((watchedFiles: string[]) => Awaitable<UserRouteConfig[]>)
+}
+
+interface ResolvedRouteModule {
+  watch: string[] | undefined
+  routes: ResolvedRouteConfig[] | undefined
+  loader: RouteModule['paths']
+}
+
+const dynamicRouteRE = /\[(\w+?)\]/g
+
+const routeModuleCache = new Map<string, ResolvedRouteModule>()
+let moduleGraph = new ModuleGraph()
 
 export async function resolvePages(
   srcDir: string,
@@ -47,56 +84,23 @@ export async function resolvePages(
     ;(dynamicRouteRE.test(file) ? dynamicRouteFiles : pages).push(file)
   })
 
-  const { routes, fileToModulesMap: fileToModulesMap_ } =
-    await resolveDynamicRoutes(srcDir, dynamicRouteFiles, logger)
+  const dynamicRoutes = await resolveDynamicRoutes(
+    srcDir,
+    dynamicRouteFiles,
+    logger
+  )
 
-  pages.push(...routes.map((r) => r.path))
-  fileToModulesMap = fileToModulesMap_
+  pages.push(...dynamicRoutes.map((r) => r.path))
 
   const rewrites = resolveRewrites(pages, userConfig.rewrites)
 
   return {
     pages,
-    dynamicRoutes: { routes },
+    dynamicRoutes,
     rewrites,
     // @ts-expect-error internal flag to reload resolution cache in ../markdownToVue.ts
     __dirty: true
   }
-}
-
-interface UserRouteConfig {
-  params: Record<string, string>
-  content?: string
-}
-
-interface RouteModule {
-  path: string
-  config: {
-    watch?: string[] | string
-    paths:
-      | UserRouteConfig[]
-      | ((
-          watchedFiles: string[]
-        ) => UserRouteConfig[] | Promise<UserRouteConfig[]>)
-  }
-  dependencies: string[]
-}
-
-const routeModuleCache = new Map<string, RouteModule>()
-
-export type ResolvedRouteConfig = UserRouteConfig & {
-  /**
-   * the raw route (relative to src root), e.g. foo/[bar].md
-   */
-  route: string
-  /**
-   * the actual path with params resolved (relative to src root), e.g. foo/1.md
-   */
-  path: string
-  /**
-   * absolute fs path
-   */
-  fullPath: string
 }
 
 export const dynamicRoutesPlugin = async (
@@ -110,7 +114,7 @@ export const dynamicRoutesPlugin = async (
       const normalizedId = id.startsWith(config.srcDir)
         ? id
         : normalizePath(path.resolve(config.srcDir, id.replace(/^\//, '')))
-      const matched = config.dynamicRoutes.routes.find(
+      const matched = config.dynamicRoutes.find(
         (r) => r.fullPath === normalizedId
       )
       if (matched) {
@@ -119,11 +123,11 @@ export const dynamicRoutesPlugin = async (
     },
 
     load(id) {
-      const matched = config.dynamicRoutes.routes.find((r) => r.fullPath === id)
+      const matched = config.dynamicRoutes.find((r) => r.fullPath === id)
       if (matched) {
         const { route, params, content } = matched
         const routeFile = normalizePath(path.resolve(config.srcDir, route))
-        fileToModulesMap[routeFile].add(id)
+        moduleGraph.add(id, [routeFile])
 
         let baseContent = fs.readFileSync(routeFile, 'utf-8')
 
@@ -147,51 +151,49 @@ export const dynamicRoutesPlugin = async (
     async hotUpdate({ file, modules: existingMods }) {
       if (this.environment.name !== 'client') return
 
+      const modules = new Set<EnvironmentModuleNode>()
       const normalizedFile = normalizePath(file)
-      // Invalidate any cached route modules whose key or dependencies include the changed file.
-      for (const [cacheKey, mod] of routeModuleCache.entries()) {
-        const normalizedCacheKey = normalizePath(cacheKey)
-        if (
-          normalizedCacheKey === normalizedFile ||
-          mod.dependencies.some(
-            (dep) => normalizePath(path.resolve(dep)) === normalizedFile
-          )
-        ) {
-          routeModuleCache.delete(cacheKey)
+
+      // Trigger update if a module or its dependencies changed.
+      for (const id of moduleGraph.delete(normalizedFile)) {
+        routeModuleCache.delete(id)
+        const mod = this.environment.moduleGraph.getModuleById(id)
+        if (mod) {
+          modules.add(mod)
         }
       }
 
-      const modules: EnvironmentModuleNode[] = []
+      // Also check if the file matches any custom watch patterns.
+      let watchedFileChanged = false
+      for (const [, route] of routeModuleCache) {
+        if (route.watch && isMatch(normalizedFile, route.watch)) {
+          route.routes = undefined
+          watchedFileChanged = true
+        }
+      }
 
-      const mods = fileToModulesMap[normalizedFile]
-      if (mods) {
+      if (modules.size || watchedFileChanged) {
         // path loader module or deps updated, reset loaded routes
-        if (!normalizedFile.endsWith('.md')) {
+        if (!normalizedFile.endsWith('.md') || watchedFileChanged) {
           Object.assign(
             config,
             await resolvePages(config.srcDir, config.userConfig, config.logger)
           )
         }
-        for (const id of mods) {
-          const mod = this.environment.moduleGraph.getModuleById(id)
-          if (mod) {
-            modules.push(mod)
-          }
-        }
       }
 
-      return modules.length > 0 ? [...existingMods, ...modules] : undefined
+      return modules.size ? [...existingMods, ...modules] : undefined
     }
   }
 }
 
-export async function resolveDynamicRoutes(
+async function resolveDynamicRoutes(
   srcDir: string,
   routes: string[],
   logger: Logger
-) {
+): Promise<ResolvedRouteConfig[]> {
   const pendingResolveRoutes: Promise<ResolvedRouteConfig[]>[] = []
-  const routeFileToModulesMap: Record<string, Set<string>> = {}
+  const newModuleGraph = moduleGraph.clone()
 
   for (const route of routes) {
     // locate corresponding route paths file
@@ -214,78 +216,80 @@ export async function resolveDynamicRoutes(
     }
 
     // load the paths loader module
-    let mod = routeModuleCache.get(pathsFile)
-    if (!mod) {
+    let watch: ResolvedRouteModule['watch']
+    let loader: ResolvedRouteModule['loader']
+
+    const existing = routeModuleCache.get(normalizePath(pathsFile))
+    if (existing) {
+      // use cached routes if not invalidated by hmr
+      if (existing.routes) {
+        pendingResolveRoutes.push(Promise.resolve(existing.routes))
+        continue
+      }
+
+      ;({ watch, loader } = existing)
+    } else {
+      let mod
       try {
-        mod = (await loadConfigFromFile(
+        mod = await loadConfigFromFile(
           {} as any,
           pathsFile,
           undefined,
           'silent'
-        )) as RouteModule
-        routeModuleCache.set(pathsFile, mod)
+        )
       } catch (err: any) {
         logger.warn(
           `${c.yellow(`Failed to load ${pathsFile}:`)}\n${err.message}\n${err.stack}`
         )
         continue
       }
-    }
 
-    const loader = mod.config.paths
-    if (!loader) {
-      logger.warn(
-        c.yellow(
-          `Invalid paths file export in ${pathsFile}. ` +
-            `Missing "paths" property from default export.`
+      if (!mod) {
+        logger.warn(
+          c.yellow(
+            `Invalid paths file export in ${pathsFile}. ` +
+              `Missing "default" export.`
+          )
         )
-      )
-      continue
-    }
-
-    // Create or retrieve the set of virtual module IDs affected by this route.
-    const routeKey = normalizePath(path.resolve(srcDir, route))
-    const matchedModuleIds =
-      routeFileToModulesMap[routeKey] || new Set<string>()
-    routeFileToModulesMap[routeKey] = matchedModuleIds
-
-    // Track loader dependencies (merging sets if shared)
-    for (const dep of mod.dependencies) {
-      const depPath = normalizePath(path.resolve(dep))
-      if (!routeFileToModulesMap[depPath]) {
-        routeFileToModulesMap[depPath] = matchedModuleIds
-      } else {
-        for (const id of matchedModuleIds) {
-          routeFileToModulesMap[depPath].add(id)
-        }
+        continue
       }
-    }
 
-    // Process custom watch files if provided.
-    let watch: string[] | undefined
-    if (mod.config.watch) {
+      const routeModule = mod.config as RouteModule
+
+      loader = routeModule.paths
+      if (!loader) {
+        logger.warn(
+          c.yellow(
+            `Invalid paths file export in ${pathsFile}. ` +
+              `Missing "paths" property from default export.`
+          )
+        )
+        continue
+      }
+
       watch =
-        typeof mod.config.watch === 'string'
-          ? [mod.config.watch]
-          : mod.config.watch
-      watch = watch.map((p) =>
-        p.startsWith('.')
-          ? normalizePath(path.resolve(path.dirname(pathsFile), p))
-          : normalizePath(p)
-      )
-      for (const watchFile of watch) {
-        if (!routeFileToModulesMap[watchFile]) {
-          routeFileToModulesMap[watchFile] = matchedModuleIds
-        } else {
-          for (const id of matchedModuleIds) {
-            routeFileToModulesMap[watchFile].add(id)
-          }
-        }
+        typeof routeModule.watch === 'string'
+          ? [routeModule.watch]
+          : routeModule.watch
+      if (watch) {
+        watch = watch.map((p) =>
+          p.startsWith('.')
+            ? normalizePath(path.resolve(path.dirname(pathsFile), p))
+            : normalizePath(p)
+        )
       }
+
+      // record deps for hmr
+      newModuleGraph.add(
+        normalizePath(pathsFile),
+        mod.dependencies.map((f) => normalizePath(path.resolve(f)))
+      )
+      newModuleGraph.add(fullPath, [normalizePath(pathsFile)])
     }
 
     const resolveRoute = async (): Promise<ResolvedRouteConfig[]> => {
       let pathsData: UserRouteConfig[]
+
       if (typeof loader === 'function') {
         let watchedFiles: string[] = []
         if (watch) {
@@ -300,7 +304,8 @@ export async function resolveDynamicRoutes(
       } else {
         pathsData = loader
       }
-      return pathsData.map((userConfig) => {
+
+      const routes = pathsData.map((userConfig) => {
         const resolvedPath = route.replace(
           dynamicRouteRE,
           (_, key) => userConfig.params[key]
@@ -312,12 +317,17 @@ export async function resolveDynamicRoutes(
           ...userConfig
         }
       })
+
+      routeModuleCache.set(normalizePath(pathsFile), { watch, routes, loader })
+
+      return routes
     }
+
     pendingResolveRoutes.push(resolveRoute())
   }
 
-  return {
-    routes: (await Promise.all(pendingResolveRoutes)).flat(),
-    fileToModulesMap: routeFileToModulesMap
-  }
+  const resolvedRoutes = (await Promise.all(pendingResolveRoutes)).flat()
+  moduleGraph = newModuleGraph
+
+  return resolvedRoutes
 }
