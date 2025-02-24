@@ -9,6 +9,7 @@ import {
   type MarkdownOptions,
   type MarkdownRenderer
 } from './markdown/markdown'
+import { getPageDataTransformer } from './plugins/dynamicRoutesPlugin'
 import {
   EXTERNAL_URL_RE,
   getLocaleForPath,
@@ -42,8 +43,9 @@ export function clearCache(id?: string) {
 }
 
 let __pages: string[] = []
-let __dynamicRoutes = new Map<string, string>()
+let __dynamicRoutes = new Map<string, [string, string]>()
 let __rewrites = new Map<string, string>()
+let __ts: number
 
 function getResolutionCache(siteConfig: SiteConfig) {
   // @ts-expect-error internal
@@ -53,7 +55,7 @@ function getResolutionCache(siteConfig: SiteConfig) {
     __dynamicRoutes = new Map(
       siteConfig.dynamicRoutes.map((r) => [
         r.fullPath,
-        slash(path.join(siteConfig.srcDir, r.route))
+        [slash(path.join(siteConfig.srcDir, r.route)), r.loaderPath]
       ])
     )
 
@@ -64,6 +66,8 @@ function getResolutionCache(siteConfig: SiteConfig) {
       ])
     )
 
+    __ts = Date.now()
+
     // @ts-expect-error internal
     siteConfig.__dirty = false
   }
@@ -71,7 +75,8 @@ function getResolutionCache(siteConfig: SiteConfig) {
   return {
     pages: __pages,
     dynamicRoutes: __dynamicRoutes,
-    rewrites: __rewrites
+    rewrites: __rewrites,
+    ts: __ts
   }
 }
 
@@ -96,13 +101,25 @@ export async function createMarkdownToVueRenderFn(
     file: string,
     publicDir: string
   ): Promise<MarkdownCompileResult> => {
-    const { pages, dynamicRoutes, rewrites } = getResolutionCache(siteConfig)
+    const { pages, dynamicRoutes, rewrites, ts } =
+      getResolutionCache(siteConfig)
 
-    const fileOrig = dynamicRoutes.get(file) || file
+    const dynamicRoute = dynamicRoutes.get(file)
+    const fileOrig = dynamicRoute?.[0] || file
+    const transformPageData = [
+      siteConfig?.transformPageData,
+      getPageDataTransformer(dynamicRoute?.[1]!)
+    ].filter((fn) => fn != null)
+
     file = rewrites.get(file) || file
     const relativePath = slash(path.relative(srcDir, file))
 
-    const cacheKey = JSON.stringify({ src, file: relativePath, id: fileOrig })
+    const cacheKey = JSON.stringify({
+      src,
+      ts,
+      file: relativePath,
+      id: fileOrig
+    })
     if (isBuild || options.cache !== false) {
       const cached = cache.get(cacheKey)
       if (cached) {
@@ -224,14 +241,14 @@ export async function createMarkdownToVueRenderFn(
       }
     }
 
-    if (siteConfig?.transformPageData) {
-      const dataToMerge = await siteConfig.transformPageData(pageData, {
-        siteConfig
-      })
-      if (dataToMerge) {
-        pageData = {
-          ...pageData,
-          ...dataToMerge
+    for (const fn of transformPageData) {
+      if (fn) {
+        const dataToMerge = await fn(pageData, { siteConfig })
+        if (dataToMerge) {
+          pageData = {
+            ...pageData,
+            ...dataToMerge
+          }
         }
       }
     }

@@ -50,6 +50,7 @@ interface ResolvedRouteModule {
   watch: string[] | undefined
   routes: ResolvedRouteConfig[] | undefined
   loader: RouteModule['paths']
+  transformPageData?: UserConfig['transformPageData']
 }
 
 const dynamicRouteRE = /\[(\w+?)\]/g
@@ -196,6 +197,12 @@ export const dynamicRoutesPlugin = async (
   }
 }
 
+export function getPageDataTransformer(
+  loaderPath: string
+): UserConfig['transformPageData'] | undefined {
+  return routeModuleCache.get(loaderPath)?.transformPageData
+}
+
 async function resolveDynamicRoutes(
   srcDir: string,
   routes: string[],
@@ -227,6 +234,7 @@ async function resolveDynamicRoutes(
     // load the paths loader module
     let watch: ResolvedRouteModule['watch']
     let loader: ResolvedRouteModule['loader']
+    let extras: Partial<ResolvedRouteModule>
 
     const loaderPath = normalizePath(pathsFile)
     const existing = routeModuleCache.get(loaderPath)
@@ -238,7 +246,7 @@ async function resolveDynamicRoutes(
         continue
       }
 
-      ;({ watch, loader } = existing)
+      ;({ watch, loader, ...extras } = existing)
     } else {
       let mod
       try {
@@ -265,9 +273,9 @@ async function resolveDynamicRoutes(
         continue
       }
 
-      const routeModule = mod.config as RouteModule
+      // @ts-ignore
+      ;({ paths: loader, watch, ...extras } = mod.config)
 
-      loader = routeModule.paths
       if (!loader) {
         logger.warn(
           c.yellow(
@@ -278,10 +286,7 @@ async function resolveDynamicRoutes(
         continue
       }
 
-      watch =
-        typeof routeModule.watch === 'string'
-          ? [routeModule.watch]
-          : routeModule.watch
+      watch = typeof watch === 'string' ? [watch] : watch
       if (watch) {
         watch = watch.map((p) =>
           p.startsWith('.')
@@ -329,7 +334,7 @@ async function resolveDynamicRoutes(
         }
       })
 
-      routeModuleCache.set(loaderPath, { watch, routes, loader })
+      routeModuleCache.set(loaderPath, { ...extras, watch, routes, loader })
 
       return routes
     }
