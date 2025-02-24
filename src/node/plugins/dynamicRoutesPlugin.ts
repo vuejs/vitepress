@@ -44,13 +44,14 @@ export interface RouteModule {
   paths:
     | UserRouteConfig[]
     | ((watchedFiles: string[]) => Awaitable<UserRouteConfig[]>)
+  transformPageData?: UserConfig['transformPageData']
 }
 
 interface ResolvedRouteModule {
   watch: string[] | undefined
   routes: ResolvedRouteConfig[] | undefined
   loader: RouteModule['paths']
-  transformPageData?: UserConfig['transformPageData']
+  transformPageData?: RouteModule['transformPageData']
 }
 
 const dynamicRouteRE = /\[(\w+?)\]/g
@@ -58,6 +59,13 @@ const pathLoaderRE = /\.paths\.m?[jt]s$/
 
 const routeModuleCache = new Map<string, ResolvedRouteModule>()
 let moduleGraph = new ModuleGraph()
+
+/**
+ * Helper for defining routes with type inference
+ */
+export function defineRoutes(loader: RouteModule) {
+  return loader
+}
 
 export async function resolvePages(
   srcDir: string,
