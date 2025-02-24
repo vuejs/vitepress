@@ -1,3 +1,29 @@
+# [2.0.0-alpha.3](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.2...v2.0.0-alpha.3) (2025-02-24)
+
+### Bug Fixes
+
+- **build:** `--minify` not working as documented ([9b5c037](https://github.com/vuejs/vitepress/commit/9b5c0377cd3474447c84b2901801287f3caf3d82)), closes [#4523](https://github.com/vuejs/vitepress/issues/4523)
+- **build:** deterministic code group ids ([#4565](https://github.com/vuejs/vitepress/issues/4565)) ([b930b8d](https://github.com/vuejs/vitepress/commit/b930b8d5310f1691d8d9f009f45b70122e4ce800))
+- **markdown:** include content of all tokens in heading ids ([68dff2a](https://github.com/vuejs/vitepress/commit/68dff2af8547ae70f6622ac826affd76f2f6378e)), closes [#4561](https://github.com/vuejs/vitepress/issues/4561)
+- **client:** set correct oldURL and newURL for hashchange ([#4573](https://github.com/vuejs/vitepress/issues/4573)) ([d1f2afd](https://github.com/vuejs/vitepress/commit/d1f2afdf0fbb022f12cc12295723b3b7c7ef5cb1))
+- **theme:** allow interactions behind scroll shadow ([#4537](https://github.com/vuejs/vitepress/issues/4537)) ([091d584](https://github.com/vuejs/vitepress/commit/091d5840ae15b64e04e8c07fbc0263a2749571bd))
+- **theme:** code block contrast ratio ([#4487](https://github.com/vuejs/vitepress/issues/4487)) ([5dccaee](https://github.com/vuejs/vitepress/commit/5dccaeef055beb109919f8990032975a0d630384))
+- **build:** fix flaky embedded languages highlighting ([#4566](https://github.com/vuejs/vitepress/issues/4566)) ([1969cf4](https://github.com/vuejs/vitepress/commit/1969cf4f3b93ad105595e4e2f8b030b04eb1c975))
+
+### Features
+
+- **cli:** support custom `srcDir` ([#4270](https://github.com/vuejs/vitepress/issues/4270)) ([518c094](https://github.com/vuejs/vitepress/commit/518c0945f159aae679ef710bb48ae3ab3891cc9f))
+- **cli:** support custom npm scripts prefix ([#4271](https://github.com/vuejs/vitepress/issues/4271)) ([e5a0ee8](https://github.com/vuejs/vitepress/commit/e5a0ee8161752a77c5bb9546245a940cb5f28fb8))
+- **build:** dynamic routes plugin overhaul ([#4525](https://github.com/vuejs/vitepress/issues/4525)) ([a62ea6a](https://github.com/vuejs/vitepress/commit/a62ea6a832a33b756642b24ad5d38c248e08b554))
+- **build:** update to shiki v3 ([#4571](https://github.com/vuejs/vitepress/issues/4571)) ([52c2aa1](https://github.com/vuejs/vitepress/commit/52c2aa178d4b3fa98b863cf28f0ccf6d2aabcd93))
+- **build:** use `markdown-it-async`, remove `synckit` ([#4507](https://github.com/vuejs/vitepress/issues/4507)) ([8062235](https://github.com/vuejs/vitepress/commit/80622356f1d648577ee47ee3a44b04bb015ee462))
+
+### BREAKING CHANGES
+
+- markdown-it-async is used instead of markdown-it. If you're using custom content renderer for local search, you'll need to do `await md.renderAsync` instead of `md.render`.
+- Internals are modified a bit to better support vite 6 and handle HMR more correctly. For most users this won't need any change on their side.
+- shiki is upgraded to v3. There shouldn't be any breaking change but if you see any issue, please report it.
+
 ## [2.0.0-alpha.2](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.1...v2.0.0-alpha.2) (2025-01-23)
 
 ### Bug Fixes
