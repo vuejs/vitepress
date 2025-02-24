@@ -9,6 +9,7 @@ import {
   type MarkdownOptions,
   type MarkdownRenderer
 } from './markdown/markdown'
+import { getPageDataTransformer } from './plugins/dynamicRoutesPlugin'
 import {
   EXTERNAL_URL_RE,
   getLocaleForPath,
@@ -31,25 +32,62 @@ export interface MarkdownCompileResult {
   includes: string[]
 }
 
-export function clearCache(file?: string) {
-  if (!file) {
+export function clearCache(id?: string) {
+  if (!id) {
     cache.clear()
     return
   }
 
-  file = JSON.stringify({ file }).slice(1)
-  cache.find((_, key) => key.endsWith(file!) && cache.delete(key))
+  id = JSON.stringify({ id }).slice(1)
+  cache.find((_, key) => key.endsWith(id!) && cache.delete(key))
+}
+
+let __pages: string[] = []
+let __dynamicRoutes = new Map<string, [string, string]>()
+let __rewrites = new Map<string, string>()
+let __ts: number
+
+function getResolutionCache(siteConfig: SiteConfig) {
+  // @ts-expect-error internal
+  if (siteConfig.__dirty) {
+    __pages = siteConfig.pages.map((p) => slash(p.replace(/\.md$/, '')))
+
+    __dynamicRoutes = new Map(
+      siteConfig.dynamicRoutes.map((r) => [
+        r.fullPath,
+        [slash(path.join(siteConfig.srcDir, r.route)), r.loaderPath]
+      ])
+    )
+
+    __rewrites = new Map(
+      Object.entries(siteConfig.rewrites.map).map(([key, value]) => [
+        slash(path.join(siteConfig.srcDir, key)),
+        slash(path.join(siteConfig.srcDir, value!))
+      ])
+    )
+
+    __ts = Date.now()
+
+    // @ts-expect-error internal
+    siteConfig.__dirty = false
+  }
+
+  return {
+    pages: __pages,
+    dynamicRoutes: __dynamicRoutes,
+    rewrites: __rewrites,
+    ts: __ts
+  }
 }
 
 export async function createMarkdownToVueRenderFn(
   srcDir: string,
   options: MarkdownOptions = {},
-  pages: string[],
   isBuild = false,
   base = '/',
   includeLastUpdatedData = false,
   cleanUrls = false,
-  siteConfig: SiteConfig | null = null
+  siteConfig: SiteConfig
 ) {
   const md = await createMarkdownRenderer(
     srcDir,
@@ -58,32 +96,30 @@ export async function createMarkdownToVueRenderFn(
     siteConfig?.logger
   )
 
-  pages = pages.map((p) => slash(p.replace(/\.md$/, '')))
-
-  const dynamicRoutes = new Map(
-    siteConfig?.dynamicRoutes?.routes.map((r) => [
-      r.fullPath,
-      slash(path.join(srcDir, r.route))
-    ]) || []
-  )
-
-  const rewrites = new Map(
-    Object.entries(siteConfig?.rewrites.map || {}).map(([key, value]) => [
-      slash(path.join(srcDir, key)),
-      slash(path.join(srcDir, value!))
-    ]) || []
-  )
-
   return async (
     src: string,
     file: string,
     publicDir: string
   ): Promise<MarkdownCompileResult> => {
-    const fileOrig = dynamicRoutes.get(file) || file
+    const { pages, dynamicRoutes, rewrites, ts } =
+      getResolutionCache(siteConfig)
+
+    const dynamicRoute = dynamicRoutes.get(file)
+    const fileOrig = dynamicRoute?.[0] || file
+    const transformPageData = [
+      siteConfig?.transformPageData,
+      getPageDataTransformer(dynamicRoute?.[1]!)
+    ].filter((fn) => fn != null)
+
     file = rewrites.get(file) || file
     const relativePath = slash(path.relative(srcDir, file))
 
-    const cacheKey = JSON.stringify({ src, file: relativePath })
+    const cacheKey = JSON.stringify({
+      src,
+      ts,
+      file: relativePath,
+      id: fileOrig
+    })
     if (isBuild || options.cache !== false) {
       const cached = cache.get(cacheKey)
       if (cached) {
@@ -205,14 +241,14 @@ export async function createMarkdownToVueRenderFn(
       }
     }
 
-    if (siteConfig?.transformPageData) {
-      const dataToMerge = await siteConfig.transformPageData(pageData, {
-        siteConfig
-      })
-      if (dataToMerge) {
-        pageData = {
-          ...pageData,
-          ...dataToMerge
+    for (const fn of transformPageData) {
+      if (fn) {
+        const dataToMerge = await fn(pageData, { siteConfig })
+        if (dataToMerge) {
+          pageData = {
+            ...pageData,
+            ...dataToMerge
+          }
         }
       }
     }
@@ -318,10 +354,7 @@ const inferDescription = (frontmatter: Record<string, any>) => {
   return (head && getHeadMetaContent(head, 'description')) || ''
 }
 
-const getHeadMetaContent = (
-  head: HeadConfig[],
-  name: string
-): string | undefined => {
+const getHeadMetaContent = (head: HeadConfig[], name: string) => {
   if (!head || !head.length) {
     return undefined
   }
