@@ -152,7 +152,7 @@ export const dynamicRoutesPlugin = async (
     async hotUpdate({ file, modules: existingMods }) {
       if (this.environment.name !== 'client') return
 
-      const modules = new Set<EnvironmentModuleNode>()
+      const modules: EnvironmentModuleNode[] = []
       const normalizedFile = normalizePath(file)
 
       // Trigger update if a module or its dependencies changed.
@@ -160,7 +160,7 @@ export const dynamicRoutesPlugin = async (
         routeModuleCache.delete(id)
         const mod = this.environment.moduleGraph.getModuleById(id)
         if (mod) {
-          modules.add(mod)
+          modules.push(mod)
         }
       }
 
@@ -174,7 +174,7 @@ export const dynamicRoutesPlugin = async (
       }
 
       if (
-        (modules.size && !normalizedFile.endsWith('.md')) ||
+        (modules.length && !normalizedFile.endsWith('.md')) ||
         watchedFileChanged ||
         pathLoaderRE.test(normalizedFile)
       ) {
@@ -185,7 +185,7 @@ export const dynamicRoutesPlugin = async (
         )
       }
 
-      return modules.size ? [...existingMods, ...modules] : undefined
+      return modules.length ? [...existingMods, ...modules] : undefined
     }
   }
 }

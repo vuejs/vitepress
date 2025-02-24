@@ -156,6 +156,6 @@ export const staticDataPlugin: Plugin = {
       }
     }
 
-    return modules.length > 0 ? [...existingMods, ...modules] : undefined
+    return modules.length ? [...existingMods, ...modules] : undefined
   }
 }

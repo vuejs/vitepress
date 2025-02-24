@@ -203,9 +203,8 @@ export async function createVitePressPlugin(
       if (id.endsWith('.vue')) {
         return processClientJS(code, id)
       } else if (id.endsWith('.md')) {
-        console.log('transform', id)
         // transform .md files into vueSrc so plugin-vue can handle it
-        const { vueSrc, deadLinks, includes } = await markdownToVue(
+        const { vueSrc, deadLinks, includes, pageData } = await markdownToVue(
           code,
           id,
           config.publicDir
@@ -215,6 +214,22 @@ export async function createVitePressPlugin(
           includes.forEach((i) => {
             ;(importerMap[slash(i)] ??= new Set()).add(id)
             this.addWatchFile(i)
+          })
+        }
+        if (
+          this.environment.mode === 'dev' &&
+          this.environment.name === 'client'
+        ) {
+          const relativePath = path.posix.relative(srcDir, id)
+          const payload: PageDataPayload = {
+            path: `/${siteConfig.rewrites.map[relativePath] || relativePath}`,
+            pageData
+          }
+          // notify the client to update page data
+          this.environment.hot.send({
+            type: 'custom',
+            event: 'vitepress:pageData',
+            data: payload
           })
         }
         return processClientJS(vueSrc, id)
@@ -363,10 +378,9 @@ export async function createVitePressPlugin(
       }
     },
 
-    async hotUpdate(ctx) {
+    async hotUpdate({ file }) {
       if (this.environment.name !== 'client') return
 
-      const { file, read } = ctx
       if (file === configPath || configDeps.includes(file)) {
         siteConfig.logger.info(
           c.green(
@@ -386,33 +400,6 @@ export async function createVitePressPlugin(
         clearCache()
         await recreateServer?.()
         return
-      }
-
-      // hot reload .md files as .vue files
-      if (file.endsWith('.md')) {
-        const content = await read()
-        console.log('hotUpdate', file)
-        const { pageData, vueSrc } = await markdownToVue(
-          content,
-          file,
-          config.publicDir
-        )
-
-        const relativePath = slash(path.relative(srcDir, file))
-        const payload: PageDataPayload = {
-          path: `/${siteConfig.rewrites.map[relativePath] || relativePath}`,
-          pageData
-        }
-
-        // notify the client to update page data
-        this.environment.hot.send({
-          type: 'custom',
-          event: 'vitepress:pageData',
-          data: payload
-        })
-
-        // overwrite src so vue plugin can handle the HMR
-        ctx.read = () => vueSrc
       }
     }
   }
