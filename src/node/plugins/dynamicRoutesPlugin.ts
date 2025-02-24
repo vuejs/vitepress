@@ -33,6 +33,10 @@ export type ResolvedRouteConfig = UserRouteConfig & {
    * absolute fs path
    */
   fullPath: string
+  /**
+   * the path to the paths loader module
+   */
+  loaderPath: string
 }
 
 export interface RouteModule {
@@ -128,7 +132,9 @@ export const dynamicRoutesPlugin = async (
       if (matched) {
         const { route, params, content } = matched
         const routeFile = normalizePath(path.resolve(config.srcDir, route))
+
         moduleGraph.add(id, [routeFile])
+        moduleGraph.add(routeFile, [matched.loaderPath])
 
         let baseContent = fs.readFileSync(routeFile, 'utf-8')
 
@@ -222,7 +228,9 @@ async function resolveDynamicRoutes(
     let watch: ResolvedRouteModule['watch']
     let loader: ResolvedRouteModule['loader']
 
-    const existing = routeModuleCache.get(normalizePath(pathsFile))
+    const loaderPath = normalizePath(pathsFile)
+    const existing = routeModuleCache.get(loaderPath)
+
     if (existing) {
       // use cached routes if not invalidated by hmr
       if (existing.routes) {
@@ -284,10 +292,9 @@ async function resolveDynamicRoutes(
 
       // record deps for hmr
       newModuleGraph.add(
-        normalizePath(pathsFile),
-        mod.dependencies.map((f) => normalizePath(path.resolve(f)))
+        loaderPath,
+        mod.dependencies.map((p) => normalizePath(path.resolve(p)))
       )
-      newModuleGraph.add(fullPath, [normalizePath(pathsFile)])
     }
 
     const resolveRoute = async (): Promise<ResolvedRouteConfig[]> => {
@@ -317,11 +324,12 @@ async function resolveDynamicRoutes(
           path: resolvedPath,
           fullPath: normalizePath(path.resolve(srcDir, resolvedPath)),
           route,
+          loaderPath,
           ...userConfig
         }
       })
 
-      routeModuleCache.set(normalizePath(pathsFile), { watch, routes, loader })
+      routeModuleCache.set(loaderPath, { watch, routes, loader })
 
       return routes
     }

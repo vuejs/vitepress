@@ -27,7 +27,7 @@ export class ModuleGraph {
 
     // Merge the new dependencies with any that already exist.
     for (const dep of dependencies) {
-      if (!moduleNode.dependencies.has(dep)) {
+      if (!moduleNode.dependencies.has(dep) && dep !== module) {
         moduleNode.dependencies.add(dep)
         // Ensure the dependency exists in the graph.
         if (!this.nodes.has(dep)) {
