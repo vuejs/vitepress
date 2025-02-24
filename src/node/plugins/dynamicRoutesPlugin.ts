@@ -148,7 +148,7 @@ export const dynamicRoutesPlugin = async (
       }
     },
 
-    async hotUpdate({ file, modules: existingMods }) {
+    async hotUpdate({ file, modules: existingMods, type }) {
       if (this.environment.name !== 'client') return
 
       const modules = new Set<EnvironmentModuleNode>()
@@ -174,7 +174,8 @@ export const dynamicRoutesPlugin = async (
 
       if (
         (modules.size && !normalizedFile.endsWith('.md')) ||
-        watchedFileChanged
+        watchedFileChanged ||
+        (type === 'create' && /\.paths\.m?[jt]s$/.test(normalizedFile))
       ) {
         // path loader module or deps updated, reset loaded routes
         Object.assign(
