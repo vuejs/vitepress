@@ -49,6 +49,7 @@ interface ResolvedRouteModule {
 }
 
 const dynamicRouteRE = /\[(\w+?)\]/g
+const pathLoaderRE = /\.paths\.m?[jt]s$/
 
 const routeModuleCache = new Map<string, ResolvedRouteModule>()
 let moduleGraph = new ModuleGraph()
@@ -148,7 +149,7 @@ export const dynamicRoutesPlugin = async (
       }
     },
 
-    async hotUpdate({ file, modules: existingMods, type }) {
+    async hotUpdate({ file, modules: existingMods }) {
       if (this.environment.name !== 'client') return
 
       const modules = new Set<EnvironmentModuleNode>()
@@ -175,7 +176,7 @@ export const dynamicRoutesPlugin = async (
       if (
         (modules.size && !normalizedFile.endsWith('.md')) ||
         watchedFileChanged ||
-        (type === 'create' && /\.paths\.m?[jt]s$/.test(normalizedFile))
+        pathLoaderRE.test(normalizedFile)
       ) {
         // path loader module or deps updated, reset loaded routes
         Object.assign(
