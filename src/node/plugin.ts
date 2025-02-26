@@ -10,6 +10,7 @@ import {
 } from 'vite'
 import {
   APP_PATH,
+  DEFAULT_THEME_PATH,
   DIST_CLIENT_PATH,
   SITE_DATA_REQUEST_PATH,
   resolveAliases
@@ -156,8 +157,11 @@ export async function createVitePressPlugin(
           include: [
             'vue',
             'vitepress > @vue/devtools-api',
-            'vitepress > @vueuse/core'
-          ],
+            'vitepress > @vueuse/core',
+            siteConfig.themeDir === DEFAULT_THEME_PATH
+              ? '@theme/index'
+              : undefined
+          ].filter((d) => d != null),
           exclude: ['@docsearch/js', 'vitepress']
         },
         server: {
