@@ -7,11 +7,11 @@ import {
   type TransformerCompactLineOption
 } from '@shikijs/transformers'
 import { customAlphabet } from 'nanoid'
-import type { ShikiTransformer, BundledLanguage } from 'shiki'
-import { createHighlighter, guessEmbeddedLanguages } from 'shiki'
+import c from 'picocolors'
+import type { BundledLanguage, ShikiTransformer } from 'shiki'
+import { createHighlighter, guessEmbeddedLanguages, isSpecialLang } from 'shiki'
 import type { Logger } from 'vite'
 import type { MarkdownOptions, ThemeOptions } from '../markdown'
-import c from 'picocolors'
 
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)
 
@@ -111,7 +111,13 @@ export async function highlight(
           .toLowerCase() || defaultLang
 
       try {
-        await highlighter.loadLanguage(lang as any)
+        // https://github.com/shikijs/shiki/issues/952
+        if (
+          !isSpecialLang(lang) &&
+          !highlighter.getLoadedLanguages().includes(lang)
+        ) {
+          await highlighter.loadLanguage(lang as any)
+        }
       } catch {
         logger.warn(
           c.yellow(
