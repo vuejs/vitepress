@@ -150,7 +150,7 @@ export const staticDataPlugin: Plugin = {
       const loader = idToLoaderModulesMap[id]
       if (loader && loader.watch && isMatch(normalizedFile, loader.watch)) {
         const mod = this.environment.moduleGraph.getModuleById(id)
-        if (mod && !modules.includes(mod)) {
+        if (mod) {
           modules.push(mod)
         }
       }

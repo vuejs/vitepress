@@ -307,7 +307,8 @@ export async function createVitePressPlugin(
           if (url?.endsWith('.html')) {
             res.statusCode = 200
             res.setHeader('Content-Type', 'text/html')
-            let html = `<!DOCTYPE html>
+            let html = `\
+<!DOCTYPE html>
 <html>
   <head>
     <title></title>

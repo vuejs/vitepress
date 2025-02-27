@@ -187,10 +187,17 @@ export const dynamicRoutesPlugin = async (
 
       // Also check if the file matches any custom watch patterns.
       let watchedFileChanged = false
-      for (const [, route] of routeModuleCache) {
+      for (const [file, route] of routeModuleCache) {
         if (route.watch && isMatch(normalizedFile, route.watch)) {
           route.routes = undefined
           watchedFileChanged = true
+
+          for (const id of moduleGraph.delete(file)) {
+            const mod = this.environment.moduleGraph.getModuleById(id)
+            if (mod) {
+              modules.push(mod)
+            }
+          }
         }
       }
 
