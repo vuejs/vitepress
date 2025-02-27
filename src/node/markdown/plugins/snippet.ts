@@ -51,22 +51,8 @@ export function dedent(text: string): string {
   return text
 }
 
-function testLine(
-  line: string,
-  regexp: RegExp,
-  regionName: string,
-  end: boolean = false
-) {
-  const [full, tag, name] = regexp.exec(line.trim()) || []
-
-  return full && tag && end
-    ? true
-    : name === regionName &&
-        tag.match(end ? /^[Ee]nd ?[rR]egion$/ : /^[rR]egion$/)
-}
-
 export function findRegion(lines: Array<string>, regionName: string) {
-  const regionRegexps = [
+  const regionRegexps: [RegExp, RegExp][] = [
     [
       /^[ \t]*\/\/ ?#?(region) ([\w*-]+)$/,
       /^[ \t]*\/\/ ?#?(endregion) ?([\w*-]*)$/
@@ -82,20 +68,54 @@ export function findRegion(lines: Array<string>, regionName: string) {
     [/^[ \t]*# ?(region) ([\w*-]+)$/, /^[ \t]*# ?(endregion) ?([\w*-]*)$/] // C#, PHP, Powershell, Python, perl & misc
   ]
 
-  let regexp: RegExp[] = []
-  let start = -1
-
-  for (const [lineId, line] of lines.entries()) {
-    if (regexp.length === 0) {
-      for (const reg of regionRegexps) {
-        if (testLine(line, reg[0], regionName)) {
-          start = lineId + 1
-          regexp = reg
-          break
-        }
+  let chosenRegex: [RegExp, RegExp] | null = null
+  let startLine = -1
+  // find the regex pair for a start marker that matches the given region name
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim()
+    for (const [startRegex, endRegex] of regionRegexps) {
+      const startMatch = startRegex.exec(line)
+      if (
+        startMatch &&
+        startMatch[2] === regionName &&
+        /^[rR]egion$/.test(startMatch[1])
+      ) {
+        chosenRegex = [startRegex, endRegex]
+        startLine = i + 1
+        break
       }
-    } else if (testLine(line, regexp[1], regionName, true)) {
-      return { start, end: lineId, regexp }
+    }
+    if (chosenRegex) break
+  }
+  if (!chosenRegex) return null
+
+  const [startRegex, endRegex] = chosenRegex
+  let counter = 1
+  // scan the rest of the lines to find the matching end marker, handling nested markers
+  for (let i = startLine; i < lines.length; i++) {
+    const trimmed = lines[i].trim()
+    // check for an inner start marker for the same region
+    const startMatch = startRegex.exec(trimmed)
+    if (
+      startMatch &&
+      startMatch[2] === regionName &&
+      /^[rR]egion$/.test(startMatch[1])
+    ) {
+      counter++
+      continue
+    }
+    // check for an end marker for the same region
+    const endMatch = endRegex.exec(trimmed)
+    if (
+      endMatch &&
+      // allow empty region name on the end marker as a fallback
+      (endMatch[2] === regionName || endMatch[2] === '') &&
+      /^[Ee]nd ?[rR]egion$/.test(endMatch[1])
+    ) {
+      counter--
+      if (counter === 0) {
+        return { start: startLine, end: i, regexp: chosenRegex }
+      }
     }
   }
 
