@@ -51,47 +51,71 @@ export function dedent(text: string): string {
   return text
 }
 
-function testLine(
-  line: string,
-  regexp: RegExp,
-  regionName: string,
-  end: boolean = false
-) {
-  const [full, tag, name] = regexp.exec(line.trim()) || []
-
-  return (
-    full &&
-    tag &&
-    name === regionName &&
-    tag.match(end ? /^[Ee]nd ?[rR]egion$/ : /^[rR]egion$/)
-  )
-}
-
 export function findRegion(lines: Array<string>, regionName: string) {
-  const regionRegexps = [
-    /^\/\/ ?#?((?:end)?region) ([\w*-]+)$/, // javascript, typescript, java
-    /^\/\* ?#((?:end)?region) ([\w*-]+) ?\*\/$/, // css, less, scss
-    /^#pragma ((?:end)?region) ([\w*-]+)$/, // C, C++
-    /^<!-- #?((?:end)?region) ([\w*-]+) -->$/, // HTML, markdown
-    /^#((?:End )Region) ([\w*-]+)$/, // Visual Basic
-    /^::#((?:end)region) ([\w*-]+)$/, // Bat
-    /^# ?((?:end)?region) ([\w*-]+)$/ // C#, PHP, Powershell, Python, perl & misc
+  const regionRegexps: [RegExp, RegExp][] = [
+    [
+      /^[ \t]*\/\/ ?#?(region) ([\w*-]+)$/,
+      /^[ \t]*\/\/ ?#?(endregion) ?([\w*-]*)$/
+    ], // javascript, typescript, java
+    [
+      /^\/\* ?#(region) ([\w*-]+) ?\*\/$/,
+      /^\/\* ?#(endregion) ?([\w*-]*) ?\*\/$/
+    ], // css, less, scss
+    [/^#pragma (region) ([\w*-]+)$/, /^#pragma (endregion) ?([\w*-]*)$/], // C, C++
+    [/^<!-- #?(region) ([\w*-]+) -->$/, /^<!-- #?(endregion) ?([\w*-]*) -->$/], // HTML, markdown
+    [/^[ \t]*#(Region) ([\w*-]+)$/, /^[ \t]*#(End Region) ?([\w*-]*)$/], // Visual Basic
+    [/^::#(region) ([\w*-]+)$/, /^::#(endregion) ?([\w*-]*)$/], // Bat
+    [/^[ \t]*# ?(region) ([\w*-]+)$/, /^[ \t]*# ?(endregion) ?([\w*-]*)$/] // C#, PHP, Powershell, Python, perl & misc
   ]
 
-  let regexp = null
-  let start = -1
-
-  for (const [lineId, line] of lines.entries()) {
-    if (regexp === null) {
-      for (const reg of regionRegexps) {
-        if (testLine(line, reg, regionName)) {
-          start = lineId + 1
-          regexp = reg
-          break
-        }
+  let chosenRegex: [RegExp, RegExp] | null = null
+  let startLine = -1
+  // find the regex pair for a start marker that matches the given region name
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim()
+    for (const [startRegex, endRegex] of regionRegexps) {
+      const startMatch = startRegex.exec(line)
+      if (
+        startMatch &&
+        startMatch[2] === regionName &&
+        /^[rR]egion$/.test(startMatch[1])
+      ) {
+        chosenRegex = [startRegex, endRegex]
+        startLine = i + 1
+        break
       }
-    } else if (testLine(line, regexp, regionName, true)) {
-      return { start, end: lineId, regexp }
+    }
+    if (chosenRegex) break
+  }
+  if (!chosenRegex) return null
+
+  const [startRegex, endRegex] = chosenRegex
+  let counter = 1
+  // scan the rest of the lines to find the matching end marker, handling nested markers
+  for (let i = startLine; i < lines.length; i++) {
+    const trimmed = lines[i].trim()
+    // check for an inner start marker for the same region
+    const startMatch = startRegex.exec(trimmed)
+    if (
+      startMatch &&
+      startMatch[2] === regionName &&
+      /^[rR]egion$/.test(startMatch[1])
+    ) {
+      counter++
+      continue
+    }
+    // check for an end marker for the same region
+    const endMatch = endRegex.exec(trimmed)
+    if (
+      endMatch &&
+      // allow empty region name on the end marker as a fallback
+      (endMatch[2] === regionName || endMatch[2] === '') &&
+      /^[Ee]nd ?[rR]egion$/.test(endMatch[1])
+    ) {
+      counter--
+      if (counter === 0) {
+        return { start: startLine, end: i, regexp: chosenRegex }
+      }
     }
   }
 
@@ -181,7 +205,13 @@ export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
         content = dedent(
           lines
             .slice(region.start, region.end)
-            .filter((line) => !region.regexp.test(line.trim()))
+            .filter((line) => {
+              const trimmed = line.trim()
+              return (
+                !region.regexp[0].test(trimmed) &&
+                !region.regexp[1].test(trimmed)
+              )
+            })
             .join('\n')
         )
       }
