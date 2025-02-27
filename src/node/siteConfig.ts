@@ -4,6 +4,7 @@ import type { SitemapStreamOptions } from 'sitemap'
 import type { Logger, UserConfig as ViteConfig } from 'vite'
 import type { SitemapItem } from './build/generateSitemap'
 import type { MarkdownOptions } from './markdown/markdown'
+import type { ResolvedRouteConfig } from './plugins/dynamicRoutesPlugin'
 import type {
   Awaitable,
   HeadConfig,
@@ -28,26 +29,6 @@ export interface TransformContext {
   head: HeadConfig[]
   content: string
   assets: string[]
-}
-
-interface UserRouteConfig {
-  params: Record<string, string>
-  content?: string
-}
-
-export type ResolvedRouteConfig = UserRouteConfig & {
-  /**
-   * the raw route (relative to src root), e.g. foo/[bar].md
-   */
-  route: string
-  /**
-   * the actual path with params resolved (relative to src root), e.g. foo/1.md
-   */
-  path: string
-  /**
-   * absolute fs path
-   */
-  fullPath: string
 }
 
 export interface TransformPageContext {
@@ -240,10 +221,7 @@ export interface SiteConfig<ThemeConfig = any>
   cacheDir: string
   tempDir: string
   pages: string[]
-  dynamicRoutes: {
-    routes: ResolvedRouteConfig[]
-    fileToModulesMap: Record<string, Set<string>>
-  }
+  dynamicRoutes: ResolvedRouteConfig[]
   rewrites: {
     map: Record<string, string | undefined>
     inv: Record<string, string | undefined>

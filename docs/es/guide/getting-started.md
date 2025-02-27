@@ -35,7 +35,7 @@ $ bun add -D vitepress
 
 :::
 
-::: detalles recibiendo avisos sobre dependencias ausentes?
+::: details Recibiendo avisos sobre dependencias ausentes?
 Si usa PNPM, percibirá un aviso de ausencia de `@docsearch/js`. Esto no evita que VitePress funcione. Si desea eliminar este aviso, adicione lo siguiente en su `package.json`:
 
 ```json
@@ -116,8 +116,7 @@ Por defecto, VitePress almacena el caché del servidor de desarrollo en `.vitepr
 
 El archivo de configuración (`.vitepress/config.js`) permite que personalice vários aspectos de su sitio VitePress, con las opciones más básicas siendo el titulo y la descripción del sitio:
 
-```js
-// .vitepress/config.js
+```js [.vitepress/config.js]
 export default {
   // opciones a nivel del sitio
   title: 'VitePress',
@@ -143,7 +142,7 @@ VitePress también proporciona la habilidad de generar URLs limpias, retambém f
 
 La herramienta debe tener también inyectado los siguientes scripts npm en su `package.json` si permitió esto durante el proceso de instalación:
 
-```json
+```json [package.json]
 {
   ...
   "scripts": {

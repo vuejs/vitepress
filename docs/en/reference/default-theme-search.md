@@ -124,9 +124,9 @@ export default defineConfig({
         /**
          * @param {string} src
          * @param {import('vitepress').MarkdownEnv} env
-         * @param {import('markdown-it')} md
+         * @param {import('markdown-it-async')} md
          */
-        _render(src, env, md) {
+        async _render(src, env, md) {
           // return html string
         }
       }
@@ -149,8 +149,8 @@ export default defineConfig({
     search: {
       provider: 'local',
       options: {
-        _render(src, env, md) {
-          const html = md.render(src, env)
+        async _render(src, env, md) {
+          const html = await md.renderAsync(src, env)
           if (env.frontmatter?.search === false) return ''
           if (env.relativePath.startsWith('some/path')) return ''
           return html
@@ -162,7 +162,7 @@ export default defineConfig({
 ```
 
 ::: warning Note
-In case a custom `_render` function is provided, you need to handle the `search: false` frontmatter yourself. Also, the `env` object won't be completely populated before `md.render` is called, so any checks on optional `env` properties like `frontmatter` should be done after that.
+In case a custom `_render` function is provided, you need to handle the `search: false` frontmatter yourself. Also, the `env` object won't be completely populated before `md.renderAsync` is called, so any checks on optional `env` properties like `frontmatter` should be done after that.
 :::
 
 #### Example: Transforming content - adding anchors
@@ -175,10 +175,10 @@ export default defineConfig({
     search: {
       provider: 'local',
       options: {
-        _render(src, env, md) {
-          const html = md.render(src, env)
+        async _render(src, env, md) {
+          const html = await md.renderAsync(src, env)
           if (env.frontmatter?.title)
-            return md.render(`# ${env.frontmatter.title}`) + html
+            return await md.renderAsync(`# ${env.frontmatter.title}`) + html
           return html
         }
       }
@@ -381,10 +381,3 @@ new Crawler({
   }
 })
 ```
-
-<style>
-img[src="/search.png"] {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-}
-</style>

@@ -14,17 +14,17 @@ import { sfcPlugin, type SfcPluginOptions } from '@mdit-vue/plugin-sfc'
 import { titlePlugin } from '@mdit-vue/plugin-title'
 import { tocPlugin, type TocPluginOptions } from '@mdit-vue/plugin-toc'
 import { slugify } from '@mdit-vue/shared'
-import type { Options } from 'markdown-it'
-import MarkdownIt from 'markdown-it'
-import anchorPlugin from 'markdown-it-anchor'
-import attrsPlugin from 'markdown-it-attrs'
-import { full as emojiPlugin } from 'markdown-it-emoji'
-import type { BuiltinTheme, Highlighter } from 'shiki'
 import type {
   LanguageInput,
   ShikiTransformer,
   ThemeRegistrationAny
 } from '@shikijs/types'
+import type { Options } from 'markdown-it'
+import { MarkdownItAsync } from 'markdown-it-async'
+import anchorPlugin from 'markdown-it-anchor'
+import attrsPlugin from 'markdown-it-attrs'
+import { full as emojiPlugin } from 'markdown-it-emoji'
+import type { BuiltinLanguage, BuiltinTheme, Highlighter } from 'shiki'
 import type { Logger } from 'vite'
 import { containerPlugin, type ContainerOptions } from './plugins/containers'
 import { gitHubAlertsPlugin } from './plugins/githubAlerts'
@@ -53,11 +53,11 @@ export interface MarkdownOptions extends Options {
   /**
    * Setup markdown-it instance before applying plugins
    */
-  preConfig?: (md: MarkdownIt) => void
+  preConfig?: (md: MarkdownItAsync) => Awaited<void>
   /**
    * Setup markdown-it instance
    */
-  config?: (md: MarkdownIt) => void
+  config?: (md: MarkdownItAsync) => Awaited<void>
   /**
    * Disable cache (experimental)
    */
@@ -81,10 +81,10 @@ export interface MarkdownOptions extends Options {
    */
   theme?: ThemeOptions
   /**
-   * Languages for syntax highlighting.
+   * Custom languages for syntax highlighting or pre-load built-in languages.
    * @see https://shiki.style/languages
    */
-  languages?: LanguageInput[]
+  languages?: (LanguageInput | BuiltinLanguage)[]
   /**
    * Custom language aliases.
    *
@@ -190,7 +190,7 @@ export interface MarkdownOptions extends Options {
   gfmAlerts?: boolean
 }
 
-export type MarkdownRenderer = MarkdownIt
+export type MarkdownRenderer = MarkdownItAsync
 
 let md: MarkdownRenderer | undefined
 let _disposeHighlighter: (() => void) | undefined
@@ -223,13 +223,13 @@ export async function createMarkdownRenderer(
 
   _disposeHighlighter = dispose
 
-  md = MarkdownIt({ html: true, linkify: true, highlight, ...options })
+  md = new MarkdownItAsync({ html: true, linkify: true, highlight, ...options })
 
   md.linkify.set({ fuzzyLink: false })
   md.use(restoreEntities)
 
   if (options.preConfig) {
-    options.preConfig(md)
+    await options.preConfig(md)
   }
 
   // custom plugins
@@ -263,6 +263,12 @@ export async function createMarkdownRenderer(
   // mdit-vue plugins
   md.use(anchorPlugin, {
     slugify,
+    getTokensText: (tokens) => {
+      return tokens
+        .filter((t) => !['html_inline', 'emoji'].includes(t.type))
+        .map((t) => t.content)
+        .join('')
+    },
     permalink: anchorPlugin.permalink.linkInsideHeader({
       symbol: '&ZeroWidthSpace;',
       renderAttrs: (slug, state) => {
@@ -322,7 +328,7 @@ export async function createMarkdownRenderer(
 
   // apply user config
   if (options.config) {
-    options.config(md)
+    await options.config(md)
   }
 
   return md

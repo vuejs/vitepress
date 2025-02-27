@@ -7,7 +7,7 @@ titleTemplate: Генератор статических сайтов на ос�
 hero:
   name: VitePress
   text: Генератор статических сайтов на основе Vite и Vue
-  tagline: Из Markdown в красивую документацию за считанные минуты
+  tagline: Преобразуйте Markdown в красивую документацию за минуты
   actions:
     - theme: brand
       text: Что такое VitePress?
@@ -36,25 +36,3 @@ features:
     title: Быстрый запуск веб-сайтов
     details: Быстрая начальная загрузка с помощью статического HTML, быстрая навигация после загрузки с помощью маршрутизации на стороне клиента.
 ---
-
-<style>
-:root {
-  --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #bd34fe 30%, #41d1ff);
-
-  --vp-home-hero-image-background-image: linear-gradient(-45deg, #bd34fe 50%, #47caff 50%);
-  --vp-home-hero-image-filter: blur(44px);
-}
-
-@media (min-width: 640px) {
-  :root {
-    --vp-home-hero-image-filter: blur(56px);
-  }
-}
-
-@media (min-width: 960px) {
-  :root {
-    --vp-home-hero-image-filter: blur(68px);
-  }
-}
-</style>

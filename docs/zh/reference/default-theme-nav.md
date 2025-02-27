@@ -164,8 +164,7 @@ export default {
 
 你可以通过使用 `component` 选项在导航栏中包含自定义组件。`component` 键对应的值应为 Vue 组件名，并且必须使用 [Theme.enhanceApp](../guide/custom-theme#theme-interface) 全局注册。
 
-```js
-// .vitepress/config.js
+```js [.vitepress/config.js]
 export default {
   themeConfig: {
     nav: [
@@ -191,8 +190,7 @@ export default {
 
 然后，你需要全局注册该组件：
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme'
 
 import MyCustomComponent from './components/MyCustomComponent.vue'
