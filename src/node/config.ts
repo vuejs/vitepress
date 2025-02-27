@@ -130,7 +130,7 @@ export async function resolveConfig(
     userConfig,
     sitemap: userConfig.sitemap,
     buildConcurrency: userConfig.buildConcurrency ?? 64,
-    ...(await resolvePages(srcDir, userConfig, logger))
+    ...(await resolvePages(srcDir, userConfig, logger, true))
   }
 
   // to be shared with content loaders

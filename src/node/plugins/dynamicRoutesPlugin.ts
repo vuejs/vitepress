@@ -70,8 +70,14 @@ export function defineRoutes(loader: RouteModule) {
 export async function resolvePages(
   srcDir: string,
   userConfig: UserConfig,
-  logger: Logger
+  logger: Logger,
+  rebuildCache = false
 ): Promise<Pick<SiteConfig, 'pages' | 'dynamicRoutes' | 'rewrites'>> {
+  if (rebuildCache) {
+    moduleGraph = new ModuleGraph()
+    routeModuleCache.clear()
+  }
+
   // Important: tinyglobby doesn't guarantee order of the returned files.
   // We must sort the pages so the input list to rollup is stable across
   // builds - otherwise different input order could result in different exports
