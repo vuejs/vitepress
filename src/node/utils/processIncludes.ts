@@ -61,17 +61,25 @@ export function processIncludes(
 
       if (title) {
         const titleName = title[0].slice(1, -1).trim()
-        const lines = content.split(/\r?\n/)
+        const lines = content.split(/\r?\n/).map((line) => line.trim())
         const start = lines.findIndex((line) => line === titleName)
-        const prefixLength = titleName.match(/^#+/)?.[0].length || 0
-        const end = lines.findIndex(
-          (line, index) =>
-            index > start && line.match(/^#+/)?.[0].length === prefixLength
-        )
-        if (end === -1) {
-          content = lines.slice(start).join('\n')
+        if (start === -1) {
+          console.log(c.yellow(`\nTitle (${titleName}) not found in ${includePath}`))
+          content = ''
         } else {
-          content = lines.slice(start, end).join('\n')
+          if (lines.slice(start + 1).includes(titleName)) {
+            console.log(c.yellow(`\nMultiple identical titles (${titleName}) found in ${includePath}`))
+          }
+          const prefixLength = titleName.match(/^#+/)?.[0].length || 0
+          const end = lines.findIndex(
+            (line, index) =>
+              index > start && line.match(/^#+/)?.[0].length === prefixLength
+          )
+          if (end === -1) {
+            content = lines.slice(start).join('\n')
+          } else {
+            content = lines.slice(start, end).join('\n')
+          }
         }
       }
 
