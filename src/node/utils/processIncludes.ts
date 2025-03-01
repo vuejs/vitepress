@@ -14,17 +14,22 @@ export function processIncludes(
   const includesRE = /<!--\s*@include:\s*(.*?)\s*-->/g
   const regionRE = /(#[\w-]+)/
   const rangeRE = /\{(\d*),(\d*)\}$/
+  const titleRE = /(\{#+\s?[\w\s]+\})/
 
   return src.replace(includesRE, (m: string, m1: string) => {
     if (!m1.length) return m
 
     const range = m1.match(rangeRE)
-    const region = m1.match(regionRE)
+    const title = m1.match(titleRE)
+    const region = title ? null : m1.match(regionRE)
 
-    const hasMeta = !!(region || range)
+    const hasMeta = !!(region || range || title)
 
     if (hasMeta) {
-      const len = (region?.[0].length || 0) + (range?.[0].length || 0)
+      const len =
+        (region?.[0].length || 0) +
+        (range?.[0].length || 0) +
+        (title?.[0].length || 0)
       m1 = m1.slice(0, -len) // remove meta info from the include path
     }
 
@@ -52,6 +57,30 @@ export function processIncludes(
             endLine ? parseInt(endLine, 10) : undefined
           )
           .join('\n')
+      }
+
+      if (title) {
+        const titleName = title[0].slice(1, -1).trim()
+        const lines = content.split(/\r?\n/).map((line) => line.trim())
+        const start = lines.findIndex((line) => line === titleName)
+        if (start === -1) {
+          console.log(c.yellow(`\nTitle (${titleName}) not found in ${includePath}`))
+          content = ''
+        } else {
+          if (lines.slice(start + 1).includes(titleName)) {
+            console.log(c.yellow(`\nMultiple identical titles (${titleName}) found in ${includePath}`))
+          }
+          const prefixLength = titleName.match(/^#+/)?.[0].length || 0
+          const end = lines.findIndex(
+            (line, index) =>
+              index > start && line.match(/^#+/)?.[0].length === prefixLength
+          )
+          if (end === -1) {
+            content = lines.slice(start).join('\n')
+          } else {
+            content = lines.slice(start, end).join('\n')
+          }
+        }
       }
 
       if (!hasMeta && path.extname(includePath) === '.md') {
