@@ -64,11 +64,17 @@ export function processIncludes(
         const lines = content.split(/\r?\n/).map((line) => line.trim())
         const start = lines.findIndex((line) => line === titleName)
         if (start === -1) {
-          console.log(c.yellow(`\nTitle (${titleName}) not found in ${includePath}`))
+          console.log(
+            c.yellow(`\nTitle (${titleName}) not found in ${includePath}`)
+          )
           content = ''
         } else {
           if (lines.slice(start + 1).includes(titleName)) {
-            console.log(c.yellow(`\nMultiple identical titles (${titleName}) found in ${includePath}`))
+            console.log(
+              c.yellow(
+                `\nMultiple identical titles (${titleName}) found in ${includePath}`
+              )
+            )
           }
           const prefixLength = titleName.match(/^#+/)?.[0].length || 0
           const end = lines.findIndex(
