@@ -1,4 +1,4 @@
-import type MarkdownIt from 'markdown-it'
+import type { MarkdownItAsync } from 'markdown-it-async'
 import container from 'markdown-it-container'
 import type { RenderRule } from 'markdown-it/lib/renderer.mjs'
 import type Token from 'markdown-it/lib/token.mjs'
@@ -10,7 +10,7 @@ import {
 } from './preWrapper'
 
 export const containerPlugin = (
-  md: MarkdownIt,
+  md: MarkdownItAsync,
   options: Options,
   containerOptions?: ContainerOptions
 ) => {
@@ -54,7 +54,7 @@ type ContainerArgs = [typeof container, string, { render: RenderRule }]
 function createContainer(
   klass: string,
   defaultTitle: string,
-  md: MarkdownIt
+  md: MarkdownItAsync
 ): ContainerArgs {
   return [
     container,
@@ -77,7 +77,7 @@ function createContainer(
   ]
 }
 
-function createCodeGroup(options: Options, md: MarkdownIt): ContainerArgs {
+function createCodeGroup(options: Options, md: MarkdownItAsync): ContainerArgs {
   return [
     container,
     'code-group',

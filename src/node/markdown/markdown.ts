@@ -19,9 +19,8 @@ import type {
   ShikiTransformer,
   ThemeRegistrationAny
 } from '@shikijs/types'
-import type { Options } from 'markdown-it'
-import { MarkdownItAsync } from 'markdown-it-async'
 import anchorPlugin from 'markdown-it-anchor'
+import { MarkdownItAsync, type Options } from 'markdown-it-async'
 import attrsPlugin from 'markdown-it-attrs'
 import { full as emojiPlugin } from 'markdown-it-emoji'
 import type { BuiltinLanguage, BuiltinTheme, Highlighter } from 'shiki'

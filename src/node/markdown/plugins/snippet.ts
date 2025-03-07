@@ -1,5 +1,5 @@
 import fs from 'fs-extra'
-import type MarkdownIt from 'markdown-it'
+import type { MarkdownItAsync } from 'markdown-it-async'
 import type { RuleBlock } from 'markdown-it/lib/parser_block.mjs'
 import path from 'node:path'
 import type { MarkdownEnv } from '../../shared'
@@ -51,78 +51,75 @@ export function dedent(text: string): string {
   return text
 }
 
-export function findRegion(lines: Array<string>, regionName: string) {
-  const regionRegexps: [RegExp, RegExp][] = [
-    [
-      /^[ \t]*\/\/ ?#?(region) ([\w*-]+)$/,
-      /^[ \t]*\/\/ ?#?(endregion) ?([\w*-]*)$/
-    ], // javascript, typescript, java
-    [
-      /^\/\* ?#(region) ([\w*-]+) ?\*\/$/,
-      /^\/\* ?#(endregion) ?([\w*-]*) ?\*\/$/
-    ], // css, less, scss
-    [/^#pragma (region) ([\w*-]+)$/, /^#pragma (endregion) ?([\w*-]*)$/], // C, C++
-    [/^<!-- #?(region) ([\w*-]+) -->$/, /^<!-- #?(endregion) ?([\w*-]*) -->$/], // HTML, markdown
-    [/^[ \t]*#(Region) ([\w*-]+)$/, /^[ \t]*#(End Region) ?([\w*-]*)$/], // Visual Basic
-    [/^::#(region) ([\w*-]+)$/, /^::#(endregion) ?([\w*-]*)$/], // Bat
-    [/^[ \t]*# ?(region) ([\w*-]+)$/, /^[ \t]*# ?(endregion) ?([\w*-]*)$/] // C#, PHP, Powershell, Python, perl & misc
-  ]
+const markers = [
+  {
+    start: /^\s*\/\/\s*#?region\b\s*(.*?)\s*$/,
+    end: /^\s*\/\/\s*#?endregion\b\s*(.*?)\s*$/
+  },
+  {
+    start: /^\s*<!--\s*#?region\b\s*(.*?)\s*-->/,
+    end: /^\s*<!--\s*#?endregion\b\s*(.*?)\s*-->/
+  },
+  {
+    start: /^\s*\/\*\s*#region\b\s*(.*?)\s*\*\//,
+    end: /^\s*\/\*\s*#endregion\b\s*(.*?)\s*\*\//
+  },
+  {
+    start: /^\s*#[rR]egion\b\s*(.*?)\s*$/,
+    end: /^\s*#[eE]nd ?[rR]egion\b\s*(.*?)\s*$/
+  },
+  {
+    start: /^\s*#\s*#?region\b\s*(.*?)\s*$/,
+    end: /^\s*#\s*#?endregion\b\s*(.*?)\s*$/
+  },
+  {
+    start: /^\s*(?:--|::|@?REM)\s*#region\b\s*(.*?)\s*$/,
+    end: /^\s*(?:--|::|@?REM)\s*#endregion\b\s*(.*?)\s*$/
+  },
+  {
+    start: /^\s*#pragma\s+region\b\s*(.*?)\s*$/,
+    end: /^\s*#pragma\s+endregion\b\s*(.*?)\s*$/
+  },
+  {
+    start: /^\s*\(\*\s*#region\b\s*(.*?)\s*\*\)/,
+    end: /^\s*\(\*\s*#endregion\b\s*(.*?)\s*\*\)/
+  }
+]
 
-  let chosenRegex: [RegExp, RegExp] | null = null
-  let startLine = -1
+export function findRegion(lines: Array<string>, regionName: string) {
+  let chosen: { re: (typeof markers)[number]; start: number } | null = null
   // find the regex pair for a start marker that matches the given region name
   for (let i = 0; i < lines.length; i++) {
-    const line = lines[i].trim()
-    for (const [startRegex, endRegex] of regionRegexps) {
-      const startMatch = startRegex.exec(line)
-      if (
-        startMatch &&
-        startMatch[2] === regionName &&
-        /^[rR]egion$/.test(startMatch[1])
-      ) {
-        chosenRegex = [startRegex, endRegex]
-        startLine = i + 1
+    for (const re of markers) {
+      if (re.start.exec(lines[i])?.[1] === regionName) {
+        chosen = { re, start: i + 1 }
         break
       }
     }
-    if (chosenRegex) break
+    if (chosen) break
   }
-  if (!chosenRegex) return null
+  if (!chosen) return null
 
-  const [startRegex, endRegex] = chosenRegex
   let counter = 1
   // scan the rest of the lines to find the matching end marker, handling nested markers
-  for (let i = startLine; i < lines.length; i++) {
-    const trimmed = lines[i].trim()
+  for (let i = chosen.start; i < lines.length; i++) {
     // check for an inner start marker for the same region
-    const startMatch = startRegex.exec(trimmed)
-    if (
-      startMatch &&
-      startMatch[2] === regionName &&
-      /^[rR]egion$/.test(startMatch[1])
-    ) {
+    if (chosen.re.start.exec(lines[i])?.[1] === regionName) {
       counter++
       continue
     }
     // check for an end marker for the same region
-    const endMatch = endRegex.exec(trimmed)
-    if (
-      endMatch &&
-      // allow empty region name on the end marker as a fallback
-      (endMatch[2] === regionName || endMatch[2] === '') &&
-      /^[Ee]nd ?[rR]egion$/.test(endMatch[1])
-    ) {
-      counter--
-      if (counter === 0) {
-        return { start: startLine, end: i, regexp: chosenRegex }
-      }
+    const endRegion = chosen.re.end.exec(lines[i])?.[1]
+    // allow empty region name on the end marker as a fallback
+    if (endRegion === regionName || endRegion === '') {
+      if (--counter === 0) return { ...chosen, end: i }
     }
   }
 
   return null
 }
 
-export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
+export const snippetPlugin = (md: MarkdownItAsync, srcDir: string) => {
   const parser: RuleBlock = (state, startLine, endLine, silent) => {
     const CH = '<'.charCodeAt(0)
     const pos = state.bMarks[startLine] + state.tShift[startLine]
@@ -205,13 +202,7 @@ export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
         content = dedent(
           lines
             .slice(region.start, region.end)
-            .filter((line) => {
-              const trimmed = line.trim()
-              return (
-                !region.regexp[0].test(trimmed) &&
-                !region.regexp[1].test(trimmed)
-              )
-            })
+            .filter((l) => !(region.re.start.test(l) || region.re.end.test(l)))
             .join('\n')
         )
       }
