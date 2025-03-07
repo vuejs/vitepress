@@ -43,8 +43,7 @@ describe('static data file support in vite 3', () => {
     `)
   })
 
-  // TODO: make it `.runIf(!process.env.VITE_TEST_BUILD)` -- it currently works, but is skipped to avoid vite's ecosystem-ci from failing (https://github.com/vitejs/vite/pull/16471#issuecomment-2308437187)
-  test.skip('hmr works', async () => {
+  test.runIf(!process.env.VITE_TEST_BUILD)('hmr works', async () => {
     const a = fileURLToPath(new URL('./data/a.json', import.meta.url))
     const b = fileURLToPath(new URL('./data/b.json', import.meta.url))
 

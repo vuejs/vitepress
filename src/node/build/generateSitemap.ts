@@ -1,6 +1,6 @@
 import fs from 'fs-extra'
 import matter from 'gray-matter'
-import path from 'path'
+import path from 'node:path'
 import {
   SitemapStream,
   type EnumChangefreq,

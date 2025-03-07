@@ -109,7 +109,7 @@ interface Router {
   /**
    * 在路由更改后调用
    */
-  onAfterRouteChanged?: (to: string) => Awaitable<void>
+  onAfterRouteChange?: (to: string) => Awaitable<void>
 }
 ```
 

@@ -211,7 +211,6 @@ const { hasSidebar } = useSidebar()
 </script>
 
 <template>
-  <div v-if="hasSidebar">Sólo visible cuando existe la barra lateral
-    </div>
+  <div v-if="hasSidebar">Sólo visible cuando existe la barra lateral</div>
 </template>
 ```
