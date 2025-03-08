@@ -213,6 +213,10 @@ export default config
 
 <!--@include: ./region-include.md#range-region{5,}-->
 
+## Markdown File Inclusion with Header
+
+<!--@include: ./header-include.md#header-1-1-->
+
 ## Image Lazy Loading
 
 ![vitepress logo](/vitepress.png)
