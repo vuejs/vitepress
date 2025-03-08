@@ -274,31 +274,11 @@ export async function createMarkdownRenderer(
         .map((t) => t.content)
         .join('')
     },
-    permalink: (slug, _, state, idx) => {
-      const title =
-        state.tokens[idx + 1]?.children
-          ?.filter((token) => ['text', 'code_inline'].includes(token.type))
-          .reduce((acc, t) => acc + t.content, '')
-          .trim() || ''
-
-      const linkTokens = [
-        Object.assign(new state.Token('text', '', 0), { content: ' ' }),
-        Object.assign(new state.Token('link_open', 'a', 1), {
-          attrs: [
-            ['class', 'header-anchor'],
-            ['href', `#${slug}`],
-            ['aria-label', `Permalink to “${title}”`]
-          ]
-        }),
-        Object.assign(new state.Token('html_inline', '', 0), {
-          content: '&#8203;',
-          meta: { isPermalinkSymbol: true }
-        }),
-        new state.Token('link_close', 'a', -1)
-      ]
-
-      state.tokens[idx + 1].children?.push(...linkTokens)
-    },
+    permalink: anchorPlugin.permalink.linkAfterHeader({
+      assistiveText: (title) => `Permalink to “${title}”`,
+      visuallyHiddenClass: 'visually-hidden',
+      wrapper: ['<div class="header-wrapper">', '</div>']
+    }),
     ...options.anchor
   } as anchorPlugin.AnchorOptions).use(frontmatterPlugin, {
     ...options.frontmatter
