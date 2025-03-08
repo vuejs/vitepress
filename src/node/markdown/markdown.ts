@@ -246,11 +246,12 @@ export async function createMarkdownRenderer(
     )
     .use(lineNumberPlugin, options.lineNumbers)
 
-  const orgi = md.renderer.rules.table_open
+  const tableOpen = md.renderer.rules.table_open
   md.renderer.rules.table_open = function (tokens, idx, options, env, self) {
-    tokens[idx].attrGet('tabindex') ?? tokens[idx].attrJoin('tabindex', '0')
-    return orgi
-      ? orgi(tokens, idx, options, env, self)
+    const token = tokens[idx]
+    if (token.attrIndex('tabindex') < 0) token.attrPush(['tabindex', '0'])
+    return tableOpen
+      ? tableOpen(tokens, idx, options, env, self)
       : self.renderToken(tokens, idx, options)
   }
 
