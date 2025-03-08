@@ -897,6 +897,41 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 Note that this does not throw errors if your file is not present. Hence, when using this feature make sure that the contents are being rendered as expected.
 :::
 
+Instead of VS Code regions, you can also use header anchors to include a specific section of the file. For example, if you have a header in your markdown file like this:
+
+```md
+## My Base Section
+
+Some content here.
+
+### My Sub Section
+
+Some more content here.
+
+## Another Section
+
+Content outside `My Base Section`.
+```
+
+You can include the `My Base Section` section like this:
+
+```md
+## My Extended Section
+<!--@include: ./parts/basics.md#my-base-section-->
+```
+
+**Equivalent code**
+
+```md
+## My Extended Section
+
+Some content here.
+
+### My Sub Section
+
+Some more content here.
+```
+
 ## Math Equations
 
 This is currently opt-in. To enable it, you need to install `markdown-it-mathjax3` and set `markdown.math` to `true` in your config file:
