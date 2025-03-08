@@ -20,6 +20,10 @@
 
 所有**静态**路径引用，包括绝对路径，都应基于你的工作目录的结构。
 
+::: tip 如果你使用了 `srcDir`
+如果你使用了 [`srcDir`](../reference/site-config#srcdir) 配置项，[`public`](#the-public-directory) 目录应放置于 `srcDir` 目录下。
+:::
+
 ## public 目录 {#the-public-directory}
 
 有时可能需要一些静态资源，但这些资源没有直接被 Markdown 或主题组件直接引用，或者你可能想以原始文件名提供某些文件，像 `robots.txt`，favicons 和 PWA 图标这样的文件。
