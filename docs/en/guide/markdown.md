@@ -22,7 +22,7 @@ Both internal and external links get special treatment.
 
 ### Internal Links
 
-Internal links are converted to router link for SPA navigation. Also, every `index.md` contained in each sub-directory will automatically be converted to `index.html`, with corresponding URL `/`.
+Internal links are converted to router links for SPA navigation. Also, every `index.md` contained in each sub-directory will automatically be converted to `index.html`, with corresponding URL `/`.
 
 For example, given the following directory structure:
 
@@ -187,7 +187,7 @@ You may set custom title by appending the text right after the "type" of the con
 Danger zone, do not proceed
 :::
 
-::: details Click me to view the code
+::: details Click me to toggle the code
 ```js
 console.log('Hello, VitePress!')
 ```
@@ -200,7 +200,7 @@ console.log('Hello, VitePress!')
 Danger zone, do not proceed
 :::
 
-::: details Click me to view the code
+::: details Click me to toggle the code
 ```js
 console.log('Hello, VitePress!')
 ```
@@ -225,6 +225,28 @@ export default defineConfig({
 })
 ```
 
+### Additional Attributes
+
+You can add additional attributes to the custom containers. We use [markdown-it-attrs](https://github.com/arve0/markdown-it-attrs) for this feature, and it is supported on almost all markdown elements. For example, you can set the `open` attribute to make the details block open by default:
+
+**Input**
+
+````md
+::: details Click me to toggle the code {open}
+```js
+console.log('Hello, VitePress!')
+```
+:::
+````
+
+**Output**
+
+::: details Click me to toggle the code {open}
+```js
+console.log('Hello, VitePress!')
+```
+:::
+
 ### `raw`
 
 This is a special container that can be used to prevent style and router conflicts with VitePress. This is especially useful when you're documenting component libraries. You might also wanna check out [whyframe](https://whyframe.dev/docs/integrations/vitepress) for better isolation.
@@ -233,7 +255,7 @@ This is a special container that can be used to prevent style and router conflic
 
 ```md
 ::: raw
-Wraps in a <div class="vp-raw">
+Wraps in a `<div class="vp-raw">`
 :::
 ```
 
@@ -255,7 +277,7 @@ Wraps in a <div class="vp-raw">
   }
   ```
 
-  It uses [`postcss-prefix-selector`](https://github.com/postcss/postcss-load-config) under the hood. You can pass its options like this:
+  It uses [`postcss-prefix-selector`](https://github.com/RadValentin/postcss-prefix-selector) under the hood. You can pass its options like this:
 
   ```js
   postcssIsolateStyles({
@@ -883,8 +905,7 @@ This is currently opt-in. To enable it, you need to install `markdown-it-mathjax
 npm add -D markdown-it-mathjax3
 ```
 
-```ts
-// .vitepress/config.ts
+```ts [.vitepress/config.ts]
 export default {
   markdown: {
     math: true

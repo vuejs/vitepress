@@ -123,7 +123,7 @@ import CustomComponent from '../components/CustomComponent.vue'
 Если компонент будет использоваться на большинстве страниц, его можно зарегистрировать глобально, настроив экземпляр приложения Vue. Пример смотрите в соответствующей главе [Расширение темы по умолчанию](./extending-default-theme#registering-global-components).
 
 ::: warning ВАЖНО
-Убедитесь, что имя пользовательского компонента содержит дефис или написано в PascalCase. В противном случае он будет рассматриваться как встроенный элемент и заключен в тег `<p>`, что приведет к несоответствию гидратации, поскольку `<p>` не позволяет размещать внутри него блочные элементы.
+Убедитесь, что имя пользовательского компонента содержит дефис или написано в PascalCase. В противном случае он будет рассматриваться как встроенный элемент и заключен в тег `<p>`, что приведёт к несоответствию гидратации, поскольку `<p>` не позволяет размещать внутри него блочные элементы.
 :::
 
 ### Использование компонентов в заголовках <ComponentInHeader /> {#using-components-in-headers}
@@ -148,13 +148,13 @@ HTML, обёрнутый `<code>`, будет отображаться как е
 **Разметка**
 
 ```md
-Это <span v-pre>{{ будет отображаться как есть}}</span>.
+Это <span v-pre>{{ будет отображаться как есть }}</span>.
 ```
 
 **Результат**
 
 <div class="escape-demo">
-  <p>Это <span v-pre>{{ будет отображаться как есть}}</span></p>
+  <p>Это <span v-pre>{{ будет отображаться как есть }}</span></p>
 </div>
 
 В качестве альтернативы вы можете обернуть весь абзац в пользовательский контейнер `v-pre`:
@@ -175,9 +175,9 @@ HTML, обёрнутый `<code>`, будет отображаться как е
 
 </div>
 
-## Unescape в блоках кода {#unescape-in-code-blocks}
+## Отключение экранирования в блоках кода {#unescape-in-code-blocks}
 
-По умолчанию все изолированные блоки кода автоматически оборачиваются `v-pre`, поэтому внутри них не будет обрабатываться синтаксис Vue. Чтобы включить интерполяцию в стиле Vue внутри фигурных скобок, вы можете добавить к языку суффикс `-vue`, например `js-vue`:
+По умолчанию все изолированные блоки кода автоматически оборачиваются `v-pre`, поэтому внутри них не будет обрабатываться синтаксис Vue. Чтобы включить интерполяцию в стиле Vue внутри фигурных скобок, можно добавить к языку суффикс `-vue`, например `js-vue`:
 
 **Разметка**
 
@@ -199,7 +199,9 @@ HTML, обёрнутый `<code>`, будет отображаться как е
 
 VitePress имеет [встроенную поддержку](https://vitejs.dev/guide/features.html#css-pre-processors) для препроцессоров CSS: файлы `.scss`, `.sass`, `.less`, `.styl` и `.stylus`. Для них не нужно устанавливать специфические для Vite плагины, но сам соответствующий препроцессор должен быть установлен:
 
-```
+::: code-group
+
+```sh [npm]
 # .scss и .sass
 npm install -D sass
 
@@ -210,7 +212,41 @@ npm install -D less
 npm install -D stylus
 ```
 
-Затем вы можете использовать следующее в Markdown и компонентах темы:
+```sh [pnpm]
+# .scss и .sass
+pnpm add -D sass
+
+# .less
+pnpm add -D less
+
+# .styl и .stylus
+pnpm add -D stylus
+```
+
+```sh [yarn]
+# .scss и .sass
+yarn add -D sass
+
+# .less
+yarn add -D less
+
+# .styl и .stylus
+yarn add -D stylus
+```
+
+```sh [bun]
+# .scss и .sass
+bun add -D sass
+
+# .less
+bun add -D less
+
+# .styl и .stylus
+bun add -D stylus
+```
+:::
+
+Затем вы можете использовать соответствующий атрибут `lang` в Markdown и компонентах темы:
 
 ```vue
 <style lang="sass">
@@ -251,3 +287,37 @@ import ComponentInHeader from '../../components/ComponentInHeader.vue'
   padding: 0 20px;
 }
 </style>
+
+
+## Поддержка VS Code IntelliSense
+
+<!-- Based on https://github.com/vuejs/language-tools/pull/4321 -->
+
+Vue предоставляет поддержку IntelliSense из коробки через [официальный плагин Vue для VS Code](https://marketplace.visualstudio.com/items?itemName=Vue.volar). Однако, чтобы включить её для файлов `.md`, вам нужно внести некоторые изменения в файлы конфигурации.
+
+1. Добавьте шаблон `.md` в параметры `include` и `vueCompilerOptions.vitePressExtensions` в файле tsconfig/jsconfig:
+
+::: code-group
+```json [tsconfig.json]
+{
+  "include": [
+    "docs/**/*.ts",
+    "docs/**/*.vue",
+    "docs/**/*.md",
+  ],
+  "vueCompilerOptions": {
+    "vitePressExtensions": [".md"],
+  },
+}
+```
+:::
+
+2. Добавьте `markdown` в параметр `vue.server.includeLanguages` в настройках VS Code:
+
+::: code-group
+```json [.vscode/settings.json]
+{
+  "vue.server.includeLanguages": ["vue", "markdown"]
+}
+```
+:::

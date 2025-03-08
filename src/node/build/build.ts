@@ -1,29 +1,40 @@
-import { createHash } from 'crypto'
+import { getIconsCSS } from '@iconify/utils'
 import fs from 'fs-extra'
-import { createRequire } from 'module'
+import { createHash } from 'node:crypto'
+import { createRequire } from 'node:module'
+import path from 'node:path'
+import { pathToFileURL } from 'node:url'
 import pMap from 'p-map'
-import path from 'path'
 import { packageDirectorySync } from 'pkg-dir'
 import { rimraf } from 'rimraf'
-import { pathToFileURL } from 'url'
 import type { BuildOptions, Rollup } from 'vite'
 import { resolveConfig, type SiteConfig } from '../config'
 import { clearCache } from '../markdownToVue'
-import { slash, type HeadConfig } from '../shared'
+import { slash, type Awaitable, type HeadConfig } from '../shared'
 import { deserializeFunctions, serializeFunctions } from '../utils/fnSerialize'
 import { task } from '../utils/task'
 import { bundle } from './bundle'
 import { generateSitemap } from './generateSitemap'
 import { renderPage } from './render'
 
+const require = createRequire(import.meta.url)
+
 export async function build(
   root?: string,
-  buildOptions: BuildOptions & { base?: string; mpa?: string } = {}
+  buildOptions: BuildOptions & {
+    base?: string
+    mpa?: string
+    onAfterConfigResolve?: (siteConfig: SiteConfig) => Awaitable<void>
+  } = {}
 ) {
   const start = Date.now()
 
   process.env.NODE_ENV = 'production'
   const siteConfig = await resolveConfig(root, 'build', 'production')
+
+  await buildOptions.onAfterConfigResolve?.(siteConfig)
+  delete buildOptions.onAfterConfigResolve
+
   const unlinkVue = linkVue()
 
   if (buildOptions.base) {
@@ -52,9 +63,7 @@ export async function build(
     }
 
     const entryPath = path.join(siteConfig.tempDir, 'app.js')
-    const { render } = await import(
-      pathToFileURL(entryPath).toString() + '?t=' + Date.now()
-    )
+    const { render } = await import(pathToFileURL(entryPath).href)
 
     await task('rendering pages', async () => {
       const appChunk =
@@ -110,6 +119,8 @@ export async function build(
         }
       }
 
+      const usedIcons = new Set<string>()
+
       await pMap(
         ['404.md', ...siteConfig.pages],
         async (page) => {
@@ -123,11 +134,23 @@ export async function build(
             assets,
             pageToHashMap,
             metadataScript,
-            additionalHeadTags
+            additionalHeadTags,
+            usedIcons
           )
         },
         { concurrency: siteConfig.buildConcurrency }
       )
+
+      const icons = require('@iconify-json/simple-icons/icons.json')
+      const iconsCss = getIconsCSS(icons, Array.from(usedIcons).sort(), {
+        iconSelector: '.vpi-social-{name}',
+        commonSelector: '.vpi-social',
+        varName: 'icon',
+        format: process.env.DEBUG ? 'expanded' : 'compressed',
+        mode: 'mask'
+      }).replace(/[^]*?}\n*/, '')
+
+      fs.writeFileSync(path.join(siteConfig.outDir, 'vp-icons.css'), iconsCss)
     })
 
     // emit page hash map for the case where a user session is open

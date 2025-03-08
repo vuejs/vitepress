@@ -161,44 +161,59 @@ src/getting-started.md  -->  /getting-started.html
 ├─ packages
 │  ├─ pkg-a
 │  │  └─ src
-│  │      ├─ pkg-a-code.ts
-│  │      └─ pkg-a-docs.md
+│  │      ├─ foo.md
+│  │      └─ index.md
 │  └─ pkg-b
 │     └─ src
-│         ├─ pkg-b-code.ts
-│         └─ pkg-b-docs.md
+│         ├─ bar.md
+│         └─ index.md
 ```
 
 И вы хотите, чтобы страницы VitePress генерировались следующим образом:
 
 ```
-packages/pkg-a/src/pkg-a-docs.md  -->  /pkg-a/index.html
-packages/pkg-b/src/pkg-b-docs.md  -->  /pkg-b/index.html
+packages/pkg-a/src/index.md  -->  /pkg-a/index.html
+packages/pkg-a/src/foo.md    -->  /pkg-a/foo.html
+packages/pkg-b/src/index.md  -->  /pkg-b/index.html
+packages/pkg-b/src/bar.md    -->  /pkg-b/bar.html
 ```
 
 Этого можно добиться, настроив опцию [`rewrites`](../reference/site-config#rewrites) следующим образом:
 
-```ts
-// .vitepress/config.js
+```ts [.vitepress/config.js]
 export default {
   rewrites: {
-    'packages/pkg-a/src/pkg-a-docs.md': 'pkg-a/index.md',
-    'packages/pkg-b/src/pkg-b-docs.md': 'pkg-b/index.md'
+    'packages/pkg-a/src/index.md': 'pkg-a/index.md',
+    'packages/pkg-a/src/foo.md': 'pkg-a/foo.md',
+    'packages/pkg-b/src/index.md': 'pkg-b/index.md',
+    'packages/pkg-b/src/bar.md': 'pkg-b/bar.md'
   }
 }
 ```
 
-Опция `rewrites` также поддерживает динамические параметры маршрута. В приведенном выше примере, если у вас много пакетов, перечислять все пути было бы скучно. Учитывая, что все они имеют одинаковую структуру файлов, вы можете упростить конфигурацию следующим образом:
+Опция `rewrites` также поддерживает динамические параметры маршрута. В приведённом выше примере, если у вас много пакетов, перечислять все пути было бы скучно. Учитывая, что все они имеют одинаковую структуру файлов, можно упростить конфигурацию следующим образом:
 
 ```ts
 export default {
   rewrites: {
-    'packages/:pkg/src/(.*)': ':pkg/index.md'
+    'packages/:pkg/src/:slug*': ':pkg/:slug*'
   }
 }
 ```
 
 Пути перезаписи компилируются с помощью пакета `path-to-regexp` — обратитесь к [его документации](https://github.com/pillarjs/path-to-regexp#parameters) за более сложным синтаксисом.
+
+Пути перезаписи компилируются с помощью пакета `path-to-regexp` — обратитесь к [его документации](https://github.com/pillarjs/path-to-regexp/tree/6.x#parameters) за более сложным синтаксисом.
+
+`rewrites` также может быть функцией, которая получает исходный путь и возвращает новый:
+
+```ts
+export default {
+  rewrites(id) {
+    return id.replace(/^packages\/([^/]+)\/src\//, '$1/')
+  }
+}
+```
 
 ::: warning Относительные ссылки с переписыванием
 
@@ -345,7 +360,7 @@ console.log(params.value)
 
 ### Рендеринг необработанного содержимого {#rendering-raw-content}
 
-Параметры, передаваемые странице, будут сериализованы в полезной нагрузке клиентского JavaScript, поэтому вам следует избегать передачи в параметрах больших объемов данных, например, необработанного Markdown или HTML-контента, полученного из удаленной CMS.
+Параметры, передаваемые странице, будут сериализованы в полезной нагрузке клиентского JavaScript, поэтому вам следует избегать передачи в параметрах больших объемов данных, например, необработанного Markdown или HTML-контента, полученного из удалённой CMS.
 
 Вместо этого вы можете передавать такое содержимое на каждую страницу с помощью свойства `content` каждого объекта path:
 

@@ -1,11 +1,11 @@
-import type MarkdownIt from 'markdown-it'
+import type { MarkdownItAsync } from 'markdown-it-async'
 
 export interface Options {
   codeCopyButtonTitle: string
   hasSingleTheme: boolean
 }
 
-export function preWrapperPlugin(md: MarkdownIt, options: Options) {
+export function preWrapperPlugin(md: MarkdownItAsync, options: Options) {
   const fence = md.renderer.rules.fence!
   md.renderer.rules.fence = (...args) => {
     const [tokens, idx] = args

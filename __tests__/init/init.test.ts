@@ -1,9 +1,9 @@
 import fs from 'fs-extra'
 import getPort from 'get-port'
 import { nanoid } from 'nanoid'
-import path from 'path'
+import path from 'node:path'
+import { fileURLToPath, URL } from 'node:url'
 import { chromium } from 'playwright-chromium'
-import { fileURLToPath, URL } from 'url'
 import { createServer, scaffold, ScaffoldThemeType } from 'vitepress'
 
 const tempDir = fileURLToPath(new URL('./.temp', import.meta.url))

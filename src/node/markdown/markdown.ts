@@ -14,22 +14,21 @@ import { sfcPlugin, type SfcPluginOptions } from '@mdit-vue/plugin-sfc'
 import { titlePlugin } from '@mdit-vue/plugin-title'
 import { tocPlugin, type TocPluginOptions } from '@mdit-vue/plugin-toc'
 import { slugify } from '@mdit-vue/shared'
-import type { Options } from 'markdown-it'
-import MarkdownIt from 'markdown-it'
-import anchorPlugin from 'markdown-it-anchor'
-import attrsPlugin from 'markdown-it-attrs'
-import { full as emojiPlugin } from 'markdown-it-emoji'
 import type {
-  BuiltinTheme,
-  Highlighter,
   LanguageInput,
   ShikiTransformer,
   ThemeRegistrationAny
-} from 'shiki'
+} from '@shikijs/types'
+import anchorPlugin from 'markdown-it-anchor'
+import { MarkdownItAsync, type Options } from 'markdown-it-async'
+import attrsPlugin from 'markdown-it-attrs'
+import { full as emojiPlugin } from 'markdown-it-emoji'
+import type { BuiltinLanguage, BuiltinTheme, Highlighter } from 'shiki'
 import type { Logger } from 'vite'
+import type { Awaitable } from '../shared'
 import { containerPlugin, type ContainerOptions } from './plugins/containers'
 import { gitHubAlertsPlugin } from './plugins/githubAlerts'
-import { highlight } from './plugins/highlight'
+import { highlight as createHighlighter } from './plugins/highlight'
 import { highlightLinePlugin } from './plugins/highlightLines'
 import { imagePlugin, type Options as ImageOptions } from './plugins/image'
 import { lineNumberPlugin } from './plugins/lineNumbers'
@@ -54,11 +53,11 @@ export interface MarkdownOptions extends Options {
   /**
    * Setup markdown-it instance before applying plugins
    */
-  preConfig?: (md: MarkdownIt) => void
+  preConfig?: (md: MarkdownItAsync) => Awaitable<void>
   /**
    * Setup markdown-it instance
    */
-  config?: (md: MarkdownIt) => void
+  config?: (md: MarkdownItAsync) => Awaitable<void>
   /**
    * Disable cache (experimental)
    */
@@ -82,10 +81,10 @@ export interface MarkdownOptions extends Options {
    */
   theme?: ThemeOptions
   /**
-   * Languages for syntax highlighting.
+   * Custom languages for syntax highlighting or pre-load built-in languages.
    * @see https://shiki.style/languages
    */
-  languages?: LanguageInput[]
+  languages?: (LanguageInput | BuiltinLanguage)[]
   /**
    * Custom language aliases.
    *
@@ -174,7 +173,7 @@ export interface MarkdownOptions extends Options {
    */
   container?: ContainerOptions
   /**
-   * Math support (experimental)
+   * Math support
    *
    * You need to install `markdown-it-mathjax3` and set `math` to `true` to enable it.
    * You can also pass options to `markdown-it-mathjax3` here.
@@ -191,30 +190,46 @@ export interface MarkdownOptions extends Options {
   gfmAlerts?: boolean
 }
 
-export type MarkdownRenderer = MarkdownIt
+export type MarkdownRenderer = MarkdownItAsync
 
-export const createMarkdownRenderer = async (
+let md: MarkdownRenderer | undefined
+let _disposeHighlighter: (() => void) | undefined
+
+export function disposeMdItInstance() {
+  if (md) {
+    md = undefined
+    _disposeHighlighter?.()
+  }
+}
+
+/**
+ * @experimental
+ */
+export async function createMarkdownRenderer(
   srcDir: string,
   options: MarkdownOptions = {},
   base = '/',
   logger: Pick<Logger, 'warn'> = console
-): Promise<MarkdownRenderer> => {
+): Promise<MarkdownRenderer> {
+  if (md) return md
+
   const theme = options.theme ?? { light: 'github-light', dark: 'github-dark' }
   const codeCopyButtonTitle = options.codeCopyButtonTitle || 'Copy Code'
   const hasSingleTheme = typeof theme === 'string' || 'name' in theme
 
-  const md = MarkdownIt({
-    html: true,
-    linkify: true,
-    highlight: options.highlight || (await highlight(theme, options, logger)),
-    ...options
-  })
+  let [highlight, dispose] = options.highlight
+    ? [options.highlight, () => {}]
+    : await createHighlighter(theme, options, logger)
+
+  _disposeHighlighter = dispose
+
+  md = new MarkdownItAsync({ html: true, linkify: true, highlight, ...options })
 
   md.linkify.set({ fuzzyLink: false })
   md.use(restoreEntities)
 
   if (options.preConfig) {
-    options.preConfig(md)
+    await options.preConfig(md)
   }
 
   // custom plugins
@@ -252,22 +267,37 @@ export const createMarkdownRenderer = async (
   // mdit-vue plugins
   md.use(anchorPlugin, {
     slugify,
-    permalink: anchorPlugin.permalink.linkInsideHeader({
-      symbol: '&ZeroWidthSpace;',
-      renderAttrs: (slug, state) => {
-        // Find `heading_open` with the id identical to slug
-        const idx = state.tokens.findIndex((token) => {
-          const attrs = token.attrs
-          const id = attrs?.find((attr) => attr[0] === 'id')
-          return id && slug === id[1]
-        })
-        // Get the actual heading content
-        const title = state.tokens[idx + 1].content
-        return {
-          'aria-label': `Permalink to "${title}"`
-        }
-      }
-    }),
+    getTokensText: (tokens) => {
+      return tokens
+        .filter((t) => !['html_inline', 'emoji'].includes(t.type))
+        .map((t) => t.content)
+        .join('')
+    },
+    permalink: (slug, _, state, idx) => {
+      const title =
+        state.tokens[idx + 1]?.children
+          ?.filter((token) => ['text', 'code_inline'].includes(token.type))
+          .reduce((acc, t) => acc + t.content, '')
+          .trim() || ''
+
+      const linkTokens = [
+        Object.assign(new state.Token('text', '', 0), { content: ' ' }),
+        Object.assign(new state.Token('link_open', 'a', 1), {
+          attrs: [
+            ['class', 'header-anchor'],
+            ['href', `#${slug}`],
+            ['aria-label', `Permalink to “${title}”`]
+          ]
+        }),
+        Object.assign(new state.Token('html_inline', '', 0), {
+          content: '&#8203;',
+          meta: { isPermalinkSymbol: true }
+        }),
+        new state.Token('link_close', 'a', -1)
+      ]
+
+      state.tokens[idx + 1].children?.push(...linkTokens)
+    },
     ...options.anchor
   } as anchorPlugin.AnchorOptions).use(frontmatterPlugin, {
     ...options.frontmatter
@@ -311,7 +341,7 @@ export const createMarkdownRenderer = async (
 
   // apply user config
   if (options.config) {
-    options.config(md)
+    await options.config(md)
   }
 
   return md

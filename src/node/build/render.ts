@@ -1,7 +1,7 @@
 import { isBooleanAttr } from '@vue/shared'
 import fs from 'fs-extra'
-import path from 'path'
-import { pathToFileURL } from 'url'
+import path from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { normalizePath, transformWithEsbuild, type Rollup } from 'vite'
 import { version } from '../../../package.json'
 import type { SiteConfig } from '../config'
@@ -29,14 +29,19 @@ export async function renderPage(
   assets: string[],
   pageToHashMap: Record<string, string>,
   metadataScript: { html: string; inHead: boolean },
-  additionalHeadTags: HeadConfig[]
+  additionalHeadTags: HeadConfig[],
+  usedIcons: Set<string>
 ) {
   const routePath = `/${page.replace(/\.md$/, '')}`
   const siteData = resolveSiteDataByRoute(config.site, routePath)
 
   // render page
   const context = await render(routePath)
-  const { content, teleports } = (await config.postRender?.(context)) ?? context
+  const { content, teleports, vpSocialIcons } =
+    (await config.postRender?.(context)) ?? context
+
+  // add used social icons to the set
+  vpSocialIcons.forEach((icon) => usedIcons.add(icon))
 
   const pageName = sanitizeFileName(page.replace(/\//g, '_'))
   // server build doesn't need hash
@@ -52,11 +57,7 @@ export async function renderPage(
   try {
     // resolve page data so we can render head tags
     const { __pageData } = await import(
-      pathToFileURL(
-        path.join(config.tempDir, pageServerJsFileName)
-      ).toString() +
-        '?t=' +
-        Date.now()
+      pathToFileURL(path.join(config.tempDir, pageServerJsFileName)).href
     )
     pageData = __pageData
   } catch (e) {
@@ -171,6 +172,7 @@ export async function renderPage(
     }
     <meta name="generator" content="VitePress v${version}">
     ${stylesheetLink}
+    <link rel="preload stylesheet" href="${siteData.base}vp-icons.css" as="style">
     ${metadataScript.inHead ? metadataScript.html : ''}
     ${
       appChunk

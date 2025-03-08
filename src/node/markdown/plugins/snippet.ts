@@ -1,7 +1,7 @@
 import fs from 'fs-extra'
-import type MarkdownIt from 'markdown-it'
+import type { MarkdownItAsync } from 'markdown-it-async'
 import type { RuleBlock } from 'markdown-it/lib/parser_block.mjs'
-import path from 'path'
+import path from 'node:path'
 import type { MarkdownEnv } from '../../shared'
 
 /**
@@ -16,7 +16,7 @@ import type { MarkdownEnv } from '../../shared'
  * captures: ['/path/to/file.extension', 'extension', '#region', '{meta}', '[title]']
  */
 export const rawPathRegexp =
-  /^(.+?(?:(?:\.([a-z0-9]+))?))(?:(#[\w-]+))?(?: ?(?:{(\d+(?:[,-]\d+)*)? ?(\S+)?}))? ?(?:\[(.+)\])?$/
+  /^(.+?(?:(?:\.([a-z0-9]+))?))(?:(#[\w-]+))?(?: ?(?:{(\d+(?:[,-]\d+)*)? ?(\S+)? ?(\S+)?}))? ?(?:\[(.+)\])?$/
 
 export function rawPathToToken(rawPath: string) {
   const [
@@ -25,12 +25,13 @@ export function rawPathToToken(rawPath: string) {
     region = '',
     lines = '',
     lang = '',
+    attrs = '',
     rawTitle = ''
   ] = (rawPathRegexp.exec(rawPath) || []).slice(1)
 
   const title = rawTitle || filepath.split('/').pop() || ''
 
-  return { filepath, extension, region, lines, lang, title }
+  return { filepath, extension, region, lines, lang, attrs, title }
 }
 
 export function dedent(text: string): string {
@@ -50,54 +51,75 @@ export function dedent(text: string): string {
   return text
 }
 
-function testLine(
-  line: string,
-  regexp: RegExp,
-  regionName: string,
-  end: boolean = false
-) {
-  const [full, tag, name] = regexp.exec(line.trim()) || []
-
-  return (
-    full &&
-    tag &&
-    name === regionName &&
-    tag.match(end ? /^[Ee]nd ?[rR]egion$/ : /^[rR]egion$/)
-  )
-}
+const markers = [
+  {
+    start: /^\s*\/\/\s*#?region\b\s*(.*?)\s*$/,
+    end: /^\s*\/\/\s*#?endregion\b\s*(.*?)\s*$/
+  },
+  {
+    start: /^\s*<!--\s*#?region\b\s*(.*?)\s*-->/,
+    end: /^\s*<!--\s*#?endregion\b\s*(.*?)\s*-->/
+  },
+  {
+    start: /^\s*\/\*\s*#region\b\s*(.*?)\s*\*\//,
+    end: /^\s*\/\*\s*#endregion\b\s*(.*?)\s*\*\//
+  },
+  {
+    start: /^\s*#[rR]egion\b\s*(.*?)\s*$/,
+    end: /^\s*#[eE]nd ?[rR]egion\b\s*(.*?)\s*$/
+  },
+  {
+    start: /^\s*#\s*#?region\b\s*(.*?)\s*$/,
+    end: /^\s*#\s*#?endregion\b\s*(.*?)\s*$/
+  },
+  {
+    start: /^\s*(?:--|::|@?REM)\s*#region\b\s*(.*?)\s*$/,
+    end: /^\s*(?:--|::|@?REM)\s*#endregion\b\s*(.*?)\s*$/
+  },
+  {
+    start: /^\s*#pragma\s+region\b\s*(.*?)\s*$/,
+    end: /^\s*#pragma\s+endregion\b\s*(.*?)\s*$/
+  },
+  {
+    start: /^\s*\(\*\s*#region\b\s*(.*?)\s*\*\)/,
+    end: /^\s*\(\*\s*#endregion\b\s*(.*?)\s*\*\)/
+  }
+]
 
 export function findRegion(lines: Array<string>, regionName: string) {
-  const regionRegexps = [
-    /^\/\/ ?#?((?:end)?region) ([\w*-]+)$/, // javascript, typescript, java
-    /^\/\* ?#((?:end)?region) ([\w*-]+) ?\*\/$/, // css, less, scss
-    /^#pragma ((?:end)?region) ([\w*-]+)$/, // C, C++
-    /^<!-- #?((?:end)?region) ([\w*-]+) -->$/, // HTML, markdown
-    /^#((?:End )Region) ([\w*-]+)$/, // Visual Basic
-    /^::#((?:end)region) ([\w*-]+)$/, // Bat
-    /^# ?((?:end)?region) ([\w*-]+)$/ // C#, PHP, Powershell, Python, perl & misc
-  ]
-
-  let regexp = null
-  let start = -1
-
-  for (const [lineId, line] of lines.entries()) {
-    if (regexp === null) {
-      for (const reg of regionRegexps) {
-        if (testLine(line, reg, regionName)) {
-          start = lineId + 1
-          regexp = reg
-          break
-        }
+  let chosen: { re: (typeof markers)[number]; start: number } | null = null
+  // find the regex pair for a start marker that matches the given region name
+  for (let i = 0; i < lines.length; i++) {
+    for (const re of markers) {
+      if (re.start.exec(lines[i])?.[1] === regionName) {
+        chosen = { re, start: i + 1 }
+        break
       }
-    } else if (testLine(line, regexp, regionName, true)) {
-      return { start, end: lineId, regexp }
+    }
+    if (chosen) break
+  }
+  if (!chosen) return null
+
+  let counter = 1
+  // scan the rest of the lines to find the matching end marker, handling nested markers
+  for (let i = chosen.start; i < lines.length; i++) {
+    // check for an inner start marker for the same region
+    if (chosen.re.start.exec(lines[i])?.[1] === regionName) {
+      counter++
+      continue
+    }
+    // check for an end marker for the same region
+    const endRegion = chosen.re.end.exec(lines[i])?.[1]
+    // allow empty region name on the end marker as a fallback
+    if (endRegion === regionName || endRegion === '') {
+      if (--counter === 0) return { ...chosen, end: i }
     }
   }
 
   return null
 }
 
-export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
+export const snippetPlugin = (md: MarkdownItAsync, srcDir: string) => {
   const parser: RuleBlock = (state, startLine, endLine, silent) => {
     const CH = '<'.charCodeAt(0)
     const pos = state.bMarks[startLine] + state.tShift[startLine]
@@ -126,7 +148,7 @@ export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
       .replace(/^@/, srcDir)
       .trim()
 
-    const { filepath, extension, region, lines, lang, title } =
+    const { filepath, extension, region, lines, lang, attrs, title } =
       rawPathToToken(rawPath)
 
     state.line = startLine + 1
@@ -134,7 +156,7 @@ export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
     const token = state.push('fence', 'code', 0)
     token.info = `${lang || extension}${lines ? `{${lines}}` : ''}${
       title ? `[${title}]` : ''
-    }`
+    }  ${attrs ?? ''}`
 
     const { realPath, path: _path } = state.env as MarkdownEnv
     const resolvedPath = path.resolve(path.dirname(realPath ?? _path), filepath)
@@ -180,7 +202,7 @@ export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
         content = dedent(
           lines
             .slice(region.start, region.end)
-            .filter((line) => !region.regexp.test(line.trim()))
+            .filter((l) => !(region.re.start.test(l) || region.re.end.test(l)))
             .join('\n')
         )
       }

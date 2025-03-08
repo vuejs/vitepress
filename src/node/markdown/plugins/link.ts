@@ -2,8 +2,8 @@
 // 1. adding target="_blank" to external links
 // 2. normalize internal links to end with `.html`
 
-import type MarkdownIt from 'markdown-it'
-import { URL } from 'url'
+import type { MarkdownItAsync } from 'markdown-it-async'
+import { URL } from 'node:url'
 import {
   EXTERNAL_URL_RE,
   isExternal,
@@ -14,7 +14,7 @@ import {
 const indexRE = /(^|.*\/)index.md(#?.*)$/i
 
 export const linkPlugin = (
-  md: MarkdownIt,
+  md: MarkdownItAsync,
   externalAttrs: Record<string, string>,
   base: string
 ) => {
@@ -92,7 +92,7 @@ export const linkPlugin = (
     }
 
     // ensure leading . for relative paths
-    if (!url.startsWith('/') && !/^\.\//.test(url)) {
+    if (!url.startsWith('/') && !url.startsWith('./')) {
       url = './' + url
     }
 

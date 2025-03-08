@@ -14,12 +14,19 @@ const { page } = useData()
 <template>
   <div class="VPMenuLink">
     <VPLink
-      :class="{ active: isActive(page.relativePath, item.activeMatch || item.link, !!item.activeMatch) }"
+      :class="{
+        active: isActive(
+          page.relativePath,
+          item.activeMatch || item.link,
+          !!item.activeMatch
+        )
+      }"
       :href="item.link"
       :target="item.target"
       :rel="item.rel"
+      :no-icon="item.noIcon"
     >
-      {{ item.text }}
+      <span v-html="item.text"></span>
     </VPLink>
   </div>
 </template>
@@ -40,7 +47,9 @@ const { page } = useData()
   font-weight: 500;
   color: var(--vp-c-text-1);
   white-space: nowrap;
-  transition: background-color 0.25s, color 0.25s;
+  transition:
+    background-color 0.25s,
+    color 0.25s;
 }
 
 .link:hover {
