@@ -57,7 +57,7 @@ export function processIncludes(
             const level = parseInt(token.tag.slice(1))
             for (let i = idx + 1; i < tokens.length; i++) {
               if (parseInt(tokens[i].tag.slice(1)) <= level) {
-                end = tokens[i].map![0] - 1
+                end = tokens[i].map![0]
                 break
               }
             }
