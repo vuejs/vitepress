@@ -4,14 +4,15 @@ import type { MarkdownItAsync } from 'markdown-it-async'
 import path from 'node:path'
 import c from 'picocolors'
 import { findRegion } from '../markdown/plugins/snippet'
-import { slash } from '../shared'
+import { slash, type MarkdownEnv } from '../shared'
 
 export function processIncludes(
   md: MarkdownItAsync,
   srcDir: string,
   src: string,
   file: string,
-  includes: string[]
+  includes: string[],
+  cleanUrls: boolean
 ): string {
   const includesRE = /<!--\s*@include:\s*(.*?)\s*-->/g
   const regionRE = /(#[^\s\{]+)/
@@ -46,7 +47,11 @@ export function processIncludes(
         if (start === undefined) {
           // region not found, it might be a header
           const tokens = md
-            .parse(content, {})
+            .parse(content, {
+              path: includePath,
+              relativePath: slash(path.relative(srcDir, includePath)),
+              cleanUrls
+            } satisfies MarkdownEnv)
             .filter((t) => t.type === 'heading_open' && t.map)
           const idx = tokens.findIndex(
             (t) => t.attrGet('id') === regionName.slice(1)
@@ -84,7 +89,14 @@ export function processIncludes(
 
       includes.push(slash(includePath))
       // recursively process includes in the content
-      return processIncludes(md, srcDir, content, includePath, includes)
+      return processIncludes(
+        md,
+        srcDir,
+        content,
+        includePath,
+        includes,
+        cleanUrls
+      )
 
       //
     } catch (error) {
