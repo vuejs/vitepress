@@ -14,7 +14,7 @@ export function processIncludes(
   includes: string[]
 ): string {
   const includesRE = /<!--\s*@include:\s*(.*?)\s*-->/g
-  const regionRE = /(#\S+)/
+  const regionRE = /(#[^\s\{]+)/
   const rangeRE = /\{(\d*),(\d*)\}$/
 
   return src.replace(includesRE, (m: string, m1: string) => {
