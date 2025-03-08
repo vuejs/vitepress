@@ -275,7 +275,7 @@ export async function createMarkdownRenderer(
         .join('')
     },
     permalink: anchorPlugin.permalink.linkAfterHeader({
-      assistiveText: (title) => `Permalink to “${title}”`,
+      assistiveText: (title) => `Permalink to “${title.trim()}”`,
       visuallyHiddenClass: 'visually-hidden',
       wrapper: ['<div class="header-wrapper">', '</div>']
     }),
