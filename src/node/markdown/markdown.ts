@@ -25,6 +25,7 @@ import attrsPlugin from 'markdown-it-attrs'
 import { full as emojiPlugin } from 'markdown-it-emoji'
 import type { BuiltinLanguage, BuiltinTheme, Highlighter } from 'shiki'
 import type { Logger } from 'vite'
+import type { Awaitable } from '../shared'
 import { containerPlugin, type ContainerOptions } from './plugins/containers'
 import { gitHubAlertsPlugin } from './plugins/githubAlerts'
 import { highlight as createHighlighter } from './plugins/highlight'
@@ -52,11 +53,11 @@ export interface MarkdownOptions extends Options {
   /**
    * Setup markdown-it instance before applying plugins
    */
-  preConfig?: (md: MarkdownItAsync) => Awaited<void>
+  preConfig?: (md: MarkdownItAsync) => Awaitable<void>
   /**
    * Setup markdown-it instance
    */
-  config?: (md: MarkdownItAsync) => Awaited<void>
+  config?: (md: MarkdownItAsync) => Awaitable<void>
   /**
    * Disable cache (experimental)
    */
@@ -245,8 +246,13 @@ export async function createMarkdownRenderer(
     )
     .use(lineNumberPlugin, options.lineNumbers)
 
+  const tableOpen = md.renderer.rules.table_open
   md.renderer.rules.table_open = function (tokens, idx, options, env, self) {
-    return '<table tabindex="0">\n'
+    const token = tokens[idx]
+    if (token.attrIndex('tabindex') < 0) token.attrPush(['tabindex', '0'])
+    return tableOpen
+      ? tableOpen(tokens, idx, options, env, self)
+      : self.renderToken(tokens, idx, options)
   }
 
   if (options.gfmAlerts !== false) {
@@ -268,22 +274,31 @@ export async function createMarkdownRenderer(
         .map((t) => t.content)
         .join('')
     },
-    permalink: anchorPlugin.permalink.linkInsideHeader({
-      symbol: '&ZeroWidthSpace;',
-      renderAttrs: (slug, state) => {
-        // Find `heading_open` with the id identical to slug
-        const idx = state.tokens.findIndex((token) => {
-          const attrs = token.attrs
-          const id = attrs?.find((attr) => attr[0] === 'id')
-          return id && slug === id[1]
-        })
-        // Get the actual heading content
-        const title = state.tokens[idx + 1].content
-        return {
-          'aria-label': `Permalink to "${title}"`
-        }
-      }
-    }),
+    permalink: (slug, _, state, idx) => {
+      const title =
+        state.tokens[idx + 1]?.children
+          ?.filter((token) => ['text', 'code_inline'].includes(token.type))
+          .reduce((acc, t) => acc + t.content, '')
+          .trim() || ''
+
+      const linkTokens = [
+        Object.assign(new state.Token('text', '', 0), { content: ' ' }),
+        Object.assign(new state.Token('link_open', 'a', 1), {
+          attrs: [
+            ['class', 'header-anchor'],
+            ['href', `#${slug}`],
+            ['aria-label', `Permalink to “${title}”`]
+          ]
+        }),
+        Object.assign(new state.Token('html_inline', '', 0), {
+          content: '&#8203;',
+          meta: { isPermalinkSymbol: true }
+        }),
+        new state.Token('link_close', 'a', -1)
+      ]
+
+      state.tokens[idx + 1].children?.push(...linkTokens)
+    },
     ...options.anchor
   } as anchorPlugin.AnchorOptions).use(frontmatterPlugin, {
     ...options.frontmatter
