@@ -1,18 +1,21 @@
 import fs from 'fs-extra'
 import matter from 'gray-matter'
+import type { MarkdownItAsync } from 'markdown-it-async'
 import path from 'node:path'
 import c from 'picocolors'
 import { findRegion } from '../markdown/plugins/snippet'
-import { slash } from '../shared'
+import { slash, type MarkdownEnv } from '../shared'
 
 export function processIncludes(
+  md: MarkdownItAsync,
   srcDir: string,
   src: string,
   file: string,
-  includes: string[]
+  includes: string[],
+  cleanUrls: boolean
 ): string {
   const includesRE = /<!--\s*@include:\s*(.*?)\s*-->/g
-  const regionRE = /(#[\w-]+)/
+  const regionRE = /(#[^\s\{]+)/
   const rangeRE = /\{(\d*),(\d*)\}$/
 
   return src.replace(includesRE, (m: string, m1: string) => {
@@ -39,8 +42,34 @@ export function processIncludes(
       if (region) {
         const [regionName] = region
         const lines = content.split(/\r?\n/)
-        const regionLines = findRegion(lines, regionName.slice(1))
-        content = lines.slice(regionLines?.start, regionLines?.end).join('\n')
+        let { start, end } = findRegion(lines, regionName.slice(1)) ?? {}
+
+        if (start === undefined) {
+          // region not found, it might be a header
+          const tokens = md
+            .parse(content, {
+              path: includePath,
+              relativePath: slash(path.relative(srcDir, includePath)),
+              cleanUrls
+            } satisfies MarkdownEnv)
+            .filter((t) => t.type === 'heading_open' && t.map)
+          const idx = tokens.findIndex(
+            (t) => t.attrGet('id') === regionName.slice(1)
+          )
+          const token = tokens[idx]
+          if (token) {
+            start = token.map![1]
+            const level = parseInt(token.tag.slice(1))
+            for (let i = idx + 1; i < tokens.length; i++) {
+              if (parseInt(tokens[i].tag.slice(1)) <= level) {
+                end = tokens[i].map![0]
+                break
+              }
+            }
+          }
+        }
+
+        content = lines.slice(start, end).join('\n')
       }
 
       if (range) {
@@ -48,8 +77,8 @@ export function processIncludes(
         const lines = content.split(/\r?\n/)
         content = lines
           .slice(
-            startLine ? parseInt(startLine, 10) - 1 : undefined,
-            endLine ? parseInt(endLine, 10) : undefined
+            startLine ? parseInt(startLine) - 1 : undefined,
+            endLine ? parseInt(endLine) : undefined
           )
           .join('\n')
       }
@@ -60,7 +89,14 @@ export function processIncludes(
 
       includes.push(slash(includePath))
       // recursively process includes in the content
-      return processIncludes(srcDir, content, includePath, includes)
+      return processIncludes(
+        md,
+        srcDir,
+        content,
+        includePath,
+        includes,
+        cleanUrls
+      )
 
       //
     } catch (error) {
