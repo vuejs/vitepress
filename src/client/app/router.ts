@@ -325,12 +325,12 @@ async function changeRoute(
   { smoothScroll = false, initialLoad = false } = {}
 ): Promise<boolean> {
   const loc = normalizeHref(location.href)
-  const { pathname, hash } = new URL(href, fakeHost)
-  const currentLoc = new URL(loc, fakeHost)
+  const nextUrl = new URL(href, location.origin)
+  const currentUrl = new URL(loc, location.origin)
 
   if (href === loc) {
     if (!initialLoad) {
-      scrollTo(hash, smoothScroll)
+      scrollTo(nextUrl.hash, smoothScroll)
       return false
     }
   } else {
@@ -338,16 +338,16 @@ async function changeRoute(
     history.replaceState({ scrollPosition: window.scrollY }, '')
     history.pushState({}, '', href)
 
-    if (pathname === currentLoc.pathname) {
+    if (nextUrl.pathname === currentUrl.pathname) {
       // scroll between hash anchors on the same page, avoid duplicate entries
-      if (hash !== currentLoc.hash) {
+      if (nextUrl.hash !== currentUrl.hash) {
         window.dispatchEvent(
           new HashChangeEvent('hashchange', {
-            oldURL: currentLoc.href,
-            newURL: href
+            oldURL: currentUrl.href,
+            newURL: nextUrl.href
           })
         )
-        scrollTo(hash, smoothScroll)
+        scrollTo(nextUrl.hash, smoothScroll)
       }
 
       return false

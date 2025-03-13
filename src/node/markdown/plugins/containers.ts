@@ -1,10 +1,8 @@
-import type MarkdownIt from 'markdown-it'
+import type { MarkdownItAsync } from 'markdown-it-async'
 import container from 'markdown-it-container'
 import type { RenderRule } from 'markdown-it/lib/renderer.mjs'
 import type Token from 'markdown-it/lib/token.mjs'
-import { nanoid } from 'nanoid'
 import type { MarkdownEnv } from '../../shared'
-
 import {
   extractTitle,
   getAdaptiveThemeMarker,
@@ -12,7 +10,7 @@ import {
 } from './preWrapper'
 
 export const containerPlugin = (
-  md: MarkdownIt,
+  md: MarkdownItAsync,
   options: Options,
   containerOptions?: ContainerOptions
 ) => {
@@ -56,7 +54,7 @@ type ContainerArgs = [typeof container, string, { render: RenderRule }]
 function createContainer(
   klass: string,
   defaultTitle: string,
-  md: MarkdownIt
+  md: MarkdownItAsync
 ): ContainerArgs {
   return [
     container,
@@ -64,29 +62,29 @@ function createContainer(
     {
       render(tokens, idx, _options, env: MarkdownEnv & { references?: any }) {
         const token = tokens[idx]
-        const info = token.info.trim().slice(klass.length).trim()
-        const attrs = md.renderer.renderAttrs(token)
         if (token.nesting === 1) {
+          token.attrJoin('class', `${klass} custom-block`)
+          const attrs = md.renderer.renderAttrs(token)
+          const info = token.info.trim().slice(klass.length).trim()
           const title = md.renderInline(info || defaultTitle, {
             references: env.references
           })
           if (klass === 'details')
-            return `<details class="${klass} custom-block"${attrs}><summary>${title}</summary>\n`
-          return `<div class="${klass} custom-block"${attrs}><p class="custom-block-title">${title}</p>\n`
+            return `<details ${attrs}><summary>${title}</summary>\n`
+          return `<div ${attrs}><p class="custom-block-title">${title}</p>\n`
         } else return klass === 'details' ? `</details>\n` : `</div>\n`
       }
     }
   ]
 }
 
-function createCodeGroup(options: Options, md: MarkdownIt): ContainerArgs {
+function createCodeGroup(options: Options, md: MarkdownItAsync): ContainerArgs {
   return [
     container,
     'code-group',
     {
       render(tokens, idx) {
         if (tokens[idx].nesting === 1) {
-          const name = nanoid(5)
           let tabs = ''
           let checked = 'checked'
 
@@ -110,8 +108,7 @@ function createCodeGroup(options: Options, md: MarkdownIt): ContainerArgs {
               )
 
               if (title) {
-                const id = nanoid(7)
-                tabs += `<input type="radio" name="group-${name}" id="tab-${id}" ${checked}><label data-title="${md.utils.escapeHtml(title)}" for="tab-${id}">${title}</label>`
+                tabs += `<input type="radio" name="group-${idx}" id="tab-${i}" ${checked}><label data-title="${md.utils.escapeHtml(title)}" for="tab-${i}">${title}</label>`
 
                 if (checked && !isHtml) tokens[i].info += ' active'
                 checked = ''
@@ -119,9 +116,7 @@ function createCodeGroup(options: Options, md: MarkdownIt): ContainerArgs {
             }
           }
 
-          return `<div class="vp-code-group${getAdaptiveThemeMarker(
-            options
-          )}"><div class="tabs">${tabs}</div><div class="blocks">\n`
+          return `<div class="vp-code-group${getAdaptiveThemeMarker(options)}"><div class="tabs">${tabs}</div><div class="blocks">\n`
         }
         return `</div></div>\n`
       }

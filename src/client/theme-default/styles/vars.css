@@ -340,10 +340,10 @@
   --vp-code-block-bg: var(--vp-c-bg-alt);
   --vp-code-block-divider-color: var(--vp-c-gutter);
 
-  --vp-code-lang-color: var(--vp-c-text-3);
+  --vp-code-lang-color: var(--vp-c-text-2);
 
   --vp-code-line-highlight-color: var(--vp-c-default-soft);
-  --vp-code-line-number-color: var(--vp-c-text-3);
+  --vp-code-line-number-color: var(--vp-c-text-2);
 
   --vp-code-line-diff-add-color: var(--vp-c-success-soft);
   --vp-code-line-diff-add-symbol-color: var(--vp-c-success-1);

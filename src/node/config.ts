@@ -97,20 +97,12 @@ export async function resolveConfig(
     ? userThemeDir
     : DEFAULT_THEME_PATH
 
-  const { pages, dynamicRoutes, rewrites } = await resolvePages(
-    srcDir,
-    userConfig,
-    logger
-  )
-
   const config: SiteConfig = {
     root,
     srcDir,
     assetsDir,
     site,
     themeDir,
-    pages,
-    dynamicRoutes,
     configPath,
     configDeps,
     outDir,
@@ -135,10 +127,10 @@ export async function resolveConfig(
     transformHead: userConfig.transformHead,
     transformHtml: userConfig.transformHtml,
     transformPageData: userConfig.transformPageData,
-    rewrites,
     userConfig,
     sitemap: userConfig.sitemap,
-    buildConcurrency: userConfig.buildConcurrency ?? 64
+    buildConcurrency: userConfig.buildConcurrency ?? 64,
+    ...(await resolvePages(srcDir, userConfig, logger, true))
   }
 
   // to be shared with content loaders
