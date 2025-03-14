@@ -44,22 +44,24 @@ export function resolveAliases(
     }
   ]
 
+  let vuePath = 'vue/dist/vue.esm-bundler.js'
+
   if (!ssr) {
     // Prioritize vue installed in project root and fallback to
     // vue that comes with vitepress itself.
     // Only do this when not running SSR build, since `vue` needs to be
     // externalized during SSR
-    let vuePath
     try {
       vuePath = require.resolve(vueRuntimePath, { paths: [root] })
     } catch (e) {
       vuePath = require.resolve(vueRuntimePath)
     }
-    aliases.push({
-      find: /^vue$/,
-      replacement: vuePath
-    })
   }
+
+  aliases.push({
+    find: /^vue$/,
+    replacement: vuePath
+  })
 
   return aliases
 }
