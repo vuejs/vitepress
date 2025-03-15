@@ -19,7 +19,7 @@ hero:
       text: گیت‌هاب
       link: https://github.com/vuejs/vitepress
   image:
-    src: /vitepress-logo-large.webp
+    src: /vitepress-logo-large.svg
     alt: ویت‌پرس
 
 features:
