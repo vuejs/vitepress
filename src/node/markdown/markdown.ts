@@ -242,7 +242,8 @@ export async function createMarkdownRenderer(
     .use(
       linkPlugin,
       { target: '_blank', rel: 'noreferrer', ...options.externalLinks },
-      base
+      base,
+      options.anchor?.slugify ?? slugify
     )
     .use(lineNumberPlugin, options.lineNumbers)
 
