@@ -127,6 +127,11 @@ export namespace DefaultTheme {
      */
     skipToContentLabel?: string
 
+    /**
+     * @default false
+     */
+    skipTitleUpdate?: boolean
+
     search?:
       | { provider: 'local'; options?: LocalSearchOptions }
       | { provider: 'algolia'; options: AlgoliaSearchOptions }

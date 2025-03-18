@@ -451,6 +451,13 @@ Can be used to customize the aria-label of the language toggle button in navbar.
 
 Can be used to customize the label of the skip to content link. This link is shown when the user is navigating the site using a keyboard.
 
+## skipTitleUpdate
+
+- Type: `boolean`
+- Default: `false`
+
+Can be used to skip the default title update logic so it can be implemented on your own.
+
 ## externalLinkIcon
 
 - Type: `boolean`
