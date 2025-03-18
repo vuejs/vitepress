@@ -55,6 +55,8 @@ export const linkPlugin = (
           normalizeHref(hrefAttr, env)
         } else if (url.startsWith('#')) {
           hrefAttr[1] = decodeURI(hrefAttr[1])
+            .normalize('NFKD')
+            .replace(/[\u0300-\u036F]/g, '')
         }
 
         // append base to internal (non-relative) urls
@@ -72,7 +74,7 @@ export const linkPlugin = (
     const indexMatch = url.match(indexRE)
     if (indexMatch) {
       const [, path, hash] = indexMatch
-      url = path + hash
+      url = path + hash.normalize('NFKD').replace(/[\u0300-\u036F]/g, '')
     } else {
       let cleanUrl = url.replace(/[?#].*$/, '')
       // transform foo.md -> foo[.html]
@@ -88,7 +90,10 @@ export const linkPlugin = (
         cleanUrl += '.html'
       }
       const parsed = new URL(url, 'http://a.com')
-      url = cleanUrl + parsed.search + parsed.hash
+      url =
+        cleanUrl +
+        parsed.search +
+        parsed.hash.normalize('NFKD').replace(/[\u0300-\u036F]/g, '')
     }
 
     // ensure leading . for relative paths
