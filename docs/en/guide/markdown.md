@@ -824,7 +824,7 @@ It also supports selecting a line range:
 
 **Input**
 
-```md
+```md:line-numbers
 # Docs
 
 ## Basics
@@ -834,7 +834,7 @@ It also supports selecting a line range:
 
 **Part file** (`parts/basics.md`)
 
-```md
+```md:line-numbers
 Some getting started stuff.
 
 ### Configuration
@@ -844,7 +844,7 @@ Can be created using `.foorc.json`.
 
 **Equivalent code**
 
-```md
+```md:line-numbers
 # Docs
 
 ## Basics
@@ -860,7 +860,7 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 
 **Input**
 
-```md
+```md:line-numbers
 # Docs
 
 ## Basics
@@ -871,7 +871,7 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 
 **Part file** (`parts/basics.md`)
 
-```md
+```md:line-numbers
 <!-- #region basic-usage -->
 ## Usage Line 1
 
@@ -883,7 +883,7 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 
 **Equivalent code**
 
-```md
+```md:line-numbers
 # Docs
 
 ## Basics
