@@ -7,7 +7,7 @@ import VPNavBar from './VPNavBar.vue'
 import VPNavScreen from './VPNavScreen.vue'
 
 const { isScreenOpen, closeScreen, toggleScreen } = useNav()
-const { frontmatter } = useData()
+const { frontmatter, theme } = useData()
 
 const hasNavbar = computed(() => {
   return frontmatter.value.navbar !== false
@@ -20,10 +20,17 @@ watchEffect(() => {
     document.documentElement.classList.toggle('hide-nav', !hasNavbar.value)
   }
 })
+
+const classes = computed(() => {
+  return {
+    VPNav: true,
+    'hidden-print': theme.value.removeExtraElementsInPrint
+  }
+})
 </script>
 
 <template>
-  <header v-if="hasNavbar" class="VPNav">
+  <header v-if="hasNavbar" :class="classes">
     <VPNavBar :is-screen-open="isScreenOpen" @toggle-screen="toggleScreen">
       <template #nav-bar-title-before><slot name="nav-bar-title-before" /></template>
       <template #nav-bar-title-after><slot name="nav-bar-title-after" /></template>
