@@ -1,4 +1,4 @@
-import { defineConfig } from 'vitepress'
+import { defineConfig, type Plugin } from 'vitepress'
 import {
   groupIconMdPlugin,
   groupIconVitePlugin,
@@ -123,7 +123,10 @@ export const shared = defineConfig({
           firebase: 'logos:firebase'
         }
       }),
-      llmstxt()
+      llmstxt({
+        workDir: 'en',
+        ignoreFiles: ['index.md']
+      }) as Plugin
     ]
   }
 })
