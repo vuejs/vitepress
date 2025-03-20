@@ -4,6 +4,7 @@ import {
   groupIconVitePlugin,
   localIconLoader
 } from 'vitepress-plugin-group-icons'
+import llmstxt from 'vitepress-plugin-llms'
 import { search as esSearch } from './es'
 import { search as faSearch } from './fa'
 import { search as koSearch } from './ko'
@@ -121,7 +122,8 @@ export const shared = defineConfig({
           ),
           firebase: 'logos:firebase'
         }
-      })
+      }),
+      llmstxt()
     ]
   }
 })

@@ -310,6 +310,10 @@ importers:
         version: link:../..
 
   docs:
+    dependencies:
+      vitepress-plugin-llms:
+        specifier: ^0.0.7
+        version: 0.0.7
     devDependencies:
       '@lunariajs/core':
         specifier: ^0.1.1
@@ -1982,6 +1986,10 @@ packages:
     resolution: {integrity: sha512-a54IwgWPaeBCAAsv13YgmALOF1elABB08FxO9i+r4VFk5Vl4pKokRPeX8u5TCgSsPi6ec1otfLjdOpVcgbpshg==}
     hasBin: true
 
+  markdown-title@1.0.2:
+    resolution: {integrity: sha512-MqIQVVkz+uGEHi3TsHx/czcxxCbRIL7sv5K5DnYw/tI+apY54IbPefV/cmgxp6LoJSEx/TqcHdLs/298afG5QQ==}
+    engines: {node: '>=6'}
+
   math-intrinsics@1.1.0:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
     engines: {node: '>= 0.4'}
@@ -2755,6 +2763,9 @@ packages:
 
   vitepress-plugin-group-icons@1.3.6:
     resolution: {integrity: sha512-MzUAuMZ43f51dfBKYowW7yv/A2DxIjtN50d8Dcj31nU9RB6GuYBJ48E/Ze88U0bEn4wlnrjMXFh2j2e0rYmGug==}
+
+  vitepress-plugin-llms@0.0.7:
+    resolution: {integrity: sha512-QJO6yadT6RisxOZE/t92ZAZEnNGL6bwmWXT8knG1ufa3BJbf0rlI4JSjJzc5zxAwzgQmjqjEcnA7xUW8hu15Dg==}
 
   vitest@3.0.8:
     resolution: {integrity: sha512-dfqAsNqRGUc8hB9OVR2P0w8PZPEckti2+5rdZip0WIz9WW0MnImJ8XiR61QhqLa92EQzKP2uPkzenKOAHyEIbA==}
@@ -4554,6 +4565,8 @@ snapshots:
       punycode.js: 2.3.1
       uc.micro: 2.1.0
 
+  markdown-title@1.0.2: {}
+
   math-intrinsics@1.1.0: {}
 
   mathjax-full@3.2.2:
@@ -5294,6 +5307,13 @@ snapshots:
       '@iconify/utils': 2.3.0
     transitivePeerDependencies:
       - supports-color
+
+  vitepress-plugin-llms@0.0.7:
+    dependencies:
+      gray-matter: 4.0.3
+      markdown-title: 1.0.2
+      minimatch: 10.0.1
+      picocolors: 1.1.1
 
   vitest@3.0.8(@types/debug@4.1.12)(@types/node@22.13.9)(jiti@1.21.7)(yaml@2.7.0):
     dependencies:
