@@ -26,41 +26,98 @@ const classes = computed(() => [props.size, `count-${props.members.length}`])
 </template>
 
 <style scoped>
-.VPTeamMembers.small .container {
-  grid-template-columns: repeat(auto-fit, minmax(224px, 1fr));
-}
-
-.VPTeamMembers.small.count-1 .container {
-  max-width: 276px;
-}
-.VPTeamMembers.small.count-2 .container {
-  max-width: calc(276px * 2 + 24px);
-}
-.VPTeamMembers.small.count-3 .container {
-  max-width: calc(276px * 3 + 24px * 2);
-}
-
-.VPTeamMembers.medium .container {
-  grid-template-columns: repeat(auto-fit, minmax(256px, 1fr));
-}
-
-@media (min-width: 375px) {
-  .VPTeamMembers.medium .container {
-    grid-template-columns: repeat(auto-fit, minmax(288px, 1fr));
-  }
-}
-
-.VPTeamMembers.medium.count-1 .container {
-  max-width: 368px;
-}
-.VPTeamMembers.medium.count-2 .container {
-  max-width: calc(368px * 2 + 24px);
-}
-
 .container {
   display: grid;
   gap: 24px;
   margin: 0 auto;
+  width: 100%;
   max-width: 1152px;
+}
+
+.item {
+  width: 100%;
+}
+
+/**
+ * Small size layout.
+ * -------------------------------------------------------------------------- */
+
+@media (min-width: 512px) {
+  .VPTeamMembers.small .container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .VPTeamMembers.small.count-1 .container,
+  .VPTeamMembers.small.count-2 .container {
+    display: flex;
+    justify-content: center;
+  }
+
+  .VPTeamMembers.small.count-1 .item,
+  .VPTeamMembers.small.count-2 .item {
+    max-width: 272px;
+  }
+}
+
+@media (min-width: 768px) {
+  .VPTeamMembers.small .container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 960px) {
+  .VPTeamMembers.small .container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .VPTeamMembers.small.count-3 .container {
+    display: flex;
+    justify-content: center;
+  }
+
+  .VPTeamMembers.small.count-3 .item {
+    max-width: 272px;
+  }
+}
+
+/**
+ * Medium size layout.
+ * -------------------------------------------------------------------------- */
+
+@media (min-width: 512px) and (max-width: 639px) {
+  .VPTeamMembers.medium .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .VPTeamMembers.medium .item {
+    max-width: 368px;
+  }
+}
+
+@media (min-width: 640px) {
+  .VPTeamMembers.medium .container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .VPTeamMembers.medium.count-1 .container,
+  .VPTeamMembers.medium.count-2 .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .VPTeamMembers.medium.count-1 .item,
+  .VPTeamMembers.medium.count-2 .item {
+    max-width: 368px;
+  }
+}
+
+@media (min-width: 960px) {
+  .VPTeamMembers.medium .container {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 </style>
