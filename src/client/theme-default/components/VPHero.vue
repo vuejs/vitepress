@@ -322,6 +322,8 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
   left: 50%;
   max-width: 192px;
   max-height: 192px;
+  height: 100%;
+  aspect-ratio: 1;
   /*rtl:ignore*/
   transform: translate(-50%, -50%);
 }
