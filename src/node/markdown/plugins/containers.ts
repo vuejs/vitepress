@@ -69,9 +69,11 @@ function createContainer(
           const title = md.renderInline(info || defaultTitle, {
             references: env.references
           })
+          const titleClass =
+            'custom-block-title' + (info ? '' : ' custom-block-title-default')
           if (klass === 'details')
             return `<details ${attrs}><summary>${title}</summary>\n`
-          return `<div ${attrs}><p class="custom-block-title">${title}</p>\n`
+          return `<div ${attrs}><p class="${titleClass}">${title}</p>\n`
         } else return klass === 'details' ? `</details>\n` : `</div>\n`
       }
     }
