@@ -5,6 +5,8 @@ import type { Header } from '../../shared'
 import { throttleAndDebounce } from '../support/utils'
 import { useAside } from './aside'
 
+const ignoreRE = /\b(?:VPBadge|header-anchor|footnote-ref|ignore-header)\b/
+
 // cached list of anchor elements from resolveHeaders
 const resolvedHeaders: { element: HTMLHeadElement; link: string }[] = []
 
@@ -45,13 +47,7 @@ function serializeHeader(h: Element): string {
   let ret = ''
   for (const node of h.childNodes) {
     if (node.nodeType === 1) {
-      if (
-        (node as Element).classList.contains('VPBadge') ||
-        (node as Element).classList.contains('header-anchor') ||
-        (node as Element).classList.contains('ignore-header')
-      ) {
-        continue
-      }
+      if (ignoreRE.test((node as Element).className)) continue
       ret += node.textContent
     } else if (node.nodeType === 3) {
       ret += node.textContent

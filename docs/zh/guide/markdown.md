@@ -233,7 +233,7 @@ export default defineConfig({
 
 ```md
 ::: raw
-Wraps in a <div class="vp-raw">
+Wraps in a `<div class="vp-raw">`
 :::
 ```
 
@@ -846,8 +846,7 @@ Can be created using `.foorc.json`.
 npm add -D markdown-it-mathjax3
 ```
 
-```ts
-// .vitepress/config.ts
+```ts [.vitepress/config.ts]
 export default {
   markdown: {
     math: true
@@ -891,7 +890,7 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 export default {
   markdown: {
     image: {
-      // 默认禁用图片懒加载
+      // 默认禁用；设置为 true 可为所有图片启用懒加载。
       lazyLoading: true
     }
   }

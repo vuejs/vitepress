@@ -1,7 +1,7 @@
-import type { ViteDevServer } from 'vite'
 import c from 'picocolors'
-import { clearCache } from './markdownToVue'
+import type { ViteDevServer } from 'vite'
 import { disposeMdItInstance } from './markdown/markdown'
+import { clearCache } from './markdownToVue'
 
 type CreateDevServer = () => Promise<void>
 

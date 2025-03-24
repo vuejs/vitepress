@@ -4,11 +4,15 @@ import VPHomeFeatures from './VPHomeFeatures.vue'
 import VPHomeContent from './VPHomeContent.vue'
 import { useData } from '../composables/data'
 
-const { frontmatter } = useData()
+const { frontmatter, theme } = useData()
 </script>
 
 <template>
-  <div class="VPHome">
+  <div 
+    class="VPHome" 
+    :class="{
+      'external-link-icon-enabled': theme.externalLinkIcon
+    }">
     <slot name="home-hero-before" />
     <VPHomeHero>
       <template #home-hero-info-before><slot name="home-hero-info-before" /></template>

@@ -110,7 +110,7 @@ interface Router {
   /**
    * 라우트가 변경된 후 호출.
    */
-  onAfterRouteChanged?: (to: string) => Awaitable<void>
+  onAfterRouteChange?: (to: string) => Awaitable<void>
 }
 ```
 

@@ -10,7 +10,7 @@ import { rimraf } from 'rimraf'
 import type { BuildOptions, Rollup } from 'vite'
 import { normalizeBaseUrl, resolveConfig, type SiteConfig } from '../config'
 import { clearCache } from '../markdownToVue'
-import { slash, type HeadConfig } from '../shared'
+import { slash, type Awaitable, type HeadConfig } from '../shared'
 import { deserializeFunctions, serializeFunctions } from '../utils/fnSerialize'
 import {
   getDefaultAssetsBase,
@@ -26,12 +26,20 @@ const require = createRequire(import.meta.url)
 
 export async function build(
   root?: string,
-  buildOptions: BuildOptions & { base?: string; mpa?: string } = {}
+  buildOptions: BuildOptions & {
+    base?: string
+    mpa?: string
+    onAfterConfigResolve?: (siteConfig: SiteConfig) => Awaitable<void>
+  } = {}
 ) {
   const start = Date.now()
 
   process.env.NODE_ENV = 'production'
   const siteConfig = await resolveConfig(root, 'build', 'production')
+
+  await buildOptions.onAfterConfigResolve?.(siteConfig)
+  delete buildOptions.onAfterConfigResolve
+
   const unlinkVue = linkVue()
 
   if (buildOptions.base) {
@@ -153,8 +161,9 @@ export async function build(
         iconSelector: '.vpi-social-{name}',
         commonSelector: '.vpi-social',
         varName: 'icon',
-        format: process.env.DEBUG ? 'expanded' : 'compressed'
-      }).replace(/.*?}/, '')
+        format: process.env.DEBUG ? 'expanded' : 'compressed',
+        mode: 'mask'
+      }).replace(/[^]*?}\n*/, '')
 
       fs.writeFileSync(path.join(siteConfig.outDir, 'vp-icons.css'), iconsCss)
     })

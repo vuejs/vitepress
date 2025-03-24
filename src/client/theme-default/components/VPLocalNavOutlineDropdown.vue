@@ -125,7 +125,7 @@ function scrollToTop() {
   vertical-align: middle;
   margin-left: 2px;
   font-size: 14px;
-  transform: rotate(0deg);
+  transform: rotate(0)/*rtl:rotate(180deg)*/;
   transition: transform 0.25s;
 }
 
@@ -140,6 +140,7 @@ function scrollToTop() {
 }
 
 .open > .icon {
+  /*rtl:ignore*/
   transform: rotate(90deg);
 }
 

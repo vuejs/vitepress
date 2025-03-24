@@ -49,8 +49,7 @@ interface EnhanceAppContext {
 
 The theme entry file should export the theme as its default export:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 
 // You can directly import Vue files in the theme entry
 // VitePress is pre-configured with @vitejs/plugin-vue.
@@ -72,8 +71,7 @@ Inside your layout component, it works just like a normal Vite + Vue 3 applicati
 
 The most basic layout component needs to contain a [`<Content />`](../reference/runtime-api#content) component:
 
-```vue
-<!-- .vitepress/theme/Layout.vue -->
+```vue [.vitepress/theme/Layout.vue]
 <template>
   <h1>Custom Layout!</h1>
 
@@ -172,8 +170,7 @@ If you wish to distribute the theme as an npm package, follow these steps:
 
 To consume an external theme, import and re-export it from the custom theme entry:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import Theme from 'awesome-vitepress-theme'
 
 export default Theme
@@ -181,8 +178,7 @@ export default Theme
 
 If the theme needs to be extended:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import Theme from 'awesome-vitepress-theme'
 
 export default {
@@ -195,8 +191,7 @@ export default {
 
 If the theme requires special VitePress config, you will need to also extend it in your own config:
 
-```ts
-// .vitepress/config.ts
+```ts [.vitepress/config.ts]
 import baseConfig from 'awesome-vitepress-theme/config'
 
 export default {
@@ -207,8 +202,7 @@ export default {
 
 Finally, if the theme provides types for its theme config:
 
-```ts
-// .vitepress/config.ts
+```ts [.vitepress/config.ts]
 import baseConfig from 'awesome-vitepress-theme/config'
 import { defineConfigWithTheme } from 'vitepress'
 import type { ThemeConfig } from 'awesome-vitepress-theme'

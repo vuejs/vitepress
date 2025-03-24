@@ -48,7 +48,8 @@ export const es = defineConfig({
     sidebarMenuLabel: 'Menu Lateral',
     darkModeSwitchLabel: 'Tema Oscuro',
     lightModeSwitchTitle: 'Cambiar a modo claro',
-    darkModeSwitchTitle: 'Cambiar a modo oscuro'
+    darkModeSwitchTitle: 'Cambiar a modo oscuro',
+    skipToContentLabel: 'Saltar al contenido'
   }
 })
 

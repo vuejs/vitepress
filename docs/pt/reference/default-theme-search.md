@@ -113,9 +113,9 @@ export default defineConfig({
         /**
          * @param {string} src
          * @param {import('vitepress').MarkdownEnv} env
-         * @param {import('markdown-it')} md
+         * @param {import('markdown-it-async')} md
          */
-        _render(src, env, md) {
+        async _render(src, env, md) {
           // retorne a string HTML
         }
       }
@@ -138,8 +138,8 @@ export default defineConfig({
     search: {
       provider: 'local',
       options: {
-        _render(src, env, md) {
-          const html = md.render(src, env)
+        async _render(src, env, md) {
+          const html = await md.renderAsync(src, env)
           if (env.frontmatter?.search === false) return ''
           if (env.relativePath.startsWith('algum/caminho')) return ''
           return html
@@ -151,7 +151,7 @@ export default defineConfig({
 ```
 
 ::: warning Nota
-No caso uma função `_render` personalizada ser fornecida, você precisa manipular o `search: false` do frontmatter por conta própria. Além disso, o objeto `env` não estará completamente populado antes que `md.render` seja chamado, então verificações em propriedades opcionais `env`, como `frontmatter`, devem ser feitas após isso.
+No caso uma função `_render` personalizada ser fornecida, você precisa manipular o `search: false` do frontmatter por conta própria. Além disso, o objeto `env` não estará completamente populado antes que `md.renderAsync` seja chamado, então verificações em propriedades opcionais `env`, como `frontmatter`, devem ser feitas após isso.
 :::
 
 #### Exemplo: Transformando conteúdo - adicionando âncoras {#example-transforming-content-adding-anchors}
@@ -164,10 +164,10 @@ export default defineConfig({
     search: {
       provider: 'local',
       options: {
-        _render(src, env, md) {
-          const html = md.render(src, env)
+        async _render(src, env, md) {
+          const html = await md.renderAsync(src, env)
           if (env.frontmatter?.title)
-            return md.render(`# ${env.frontmatter.title}`) + html
+            return await md.renderAsync(`# ${env.frontmatter.title}`) + html
           return html
         }
       }
@@ -370,10 +370,3 @@ new Crawler({
   }
 })
 ```
-
-<style>
-img[src="/search.png"] {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-}
-</style>
