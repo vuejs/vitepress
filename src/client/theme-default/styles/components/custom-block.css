@@ -166,6 +166,26 @@
   background-color: var(--vp-custom-block-details-code-bg);
 }
 
+.custom-block.success {
+  border-color: var(--vp-custom-block-success-border);
+  color: var(--vp-custom-block-success-text);
+  background-color: var(--vp-custom-block-success-bg);
+}
+
+.custom-block.success a,
+.custom-block.success code {
+  color: var(--vp-c-brand-1);
+}
+
+.custom-block.success a:hover,
+.custom-block.success a:hover > code {
+  color: var(--vp-c-brand-2);
+}
+
+.custom-block.success code {
+  background-color: var(--vp-custom-block-success-code-bg);
+}
+
 .custom-block-title {
   font-weight: 600;
 }

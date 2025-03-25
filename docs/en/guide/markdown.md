@@ -149,6 +149,10 @@ This is a warning.
 This is a dangerous warning.
 :::
 
+::: success
+This is a success notice.
+:::
+
 ::: details
 This is a details block.
 :::
@@ -170,6 +174,10 @@ This is a warning.
 
 ::: danger
 This is a dangerous warning.
+:::
+
+::: success
+This is a success notice.
 :::
 
 ::: details
@@ -218,6 +226,7 @@ export default defineConfig({
       warningLabel: '警告',
       dangerLabel: '危险',
       infoLabel: '信息',
+      successLabel: '成功',
       detailsLabel: '详细信息'
     }
   }
