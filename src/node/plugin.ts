@@ -366,15 +366,12 @@ export async function createVitePressPlugin(
             pageToHashMap![chunk.name.toLowerCase()] = hash
 
             // inject another chunk with the content stripped
-            bundle[name + '-lean'] = {
-              ...chunk,
+            this.emitFile({
+              type: 'asset',
+              name: name + '-lean',
               fileName: chunk.fileName.replace(/\.js$/, '.lean.js'),
-              preliminaryFileName: chunk.preliminaryFileName.replace(
-                /\.js$/,
-                '.lean.js'
-              ),
-              code: chunk.code.replace(staticStripRE, `""`)
-            }
+              source: chunk.code.replace(staticStripRE, `""`)
+            })
 
             // remove static markers from original code
             chunk.code = chunk.code.replace(staticRestoreRE, '')
