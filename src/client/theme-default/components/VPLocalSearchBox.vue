@@ -526,11 +526,11 @@ function onMouseMove(e: MouseEvent) {
                     :key="index"
                     class="title"
                   >
-                    <span class="text" v-html="t" />
+                    <LocalSearchBoxItem class="text" :content="t" />
                     <span class="vpi-chevron-right local-search-icon" />
                   </span>
                   <span class="title main">
-                    <span class="text" v-html="p.title" />
+                    <LocalSearchBoxItem class="text" :content="p.title" />
                   </span>
                 </div>
 
