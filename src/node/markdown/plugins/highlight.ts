@@ -80,19 +80,7 @@ export async function highlight(
       classActivePre: 'has-focused-lines'
     }),
     transformerNotationHighlight(),
-    transformerNotationErrorLevel(),
-    {
-      name: 'vitepress:add-class',
-      pre(node) {
-        this.addClassToHast(node, 'vp-code')
-      }
-    },
-    {
-      name: 'vitepress:clean-up',
-      pre(node) {
-        delete node.properties.style
-      }
-    }
+    transformerNotationErrorLevel()
   ]
 
   const vueRE = /-vue(?=:|$)/
