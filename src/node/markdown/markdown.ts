@@ -215,7 +215,6 @@ export async function createMarkdownRenderer(
 
   const theme = options.theme ?? { light: 'github-light', dark: 'github-dark' }
   const codeCopyButtonTitle = options.codeCopyButtonTitle || 'Copy Code'
-  const hasSingleTheme = typeof theme === 'string' || 'name' in theme
 
   let [highlight, dispose] = options.highlight
     ? [options.highlight, () => {}]
@@ -237,9 +236,9 @@ export async function createMarkdownRenderer(
   // custom plugins
   md.use(componentPlugin, { ...options.component })
     .use(highlightLinePlugin)
-    .use(preWrapperPlugin, { codeCopyButtonTitle, hasSingleTheme })
+    .use(preWrapperPlugin, { codeCopyButtonTitle })
     .use(snippetPlugin, srcDir)
-    .use(containerPlugin, { hasSingleTheme }, options.container)
+    .use(containerPlugin, options.container)
     .use(imagePlugin, options.image)
     .use(
       linkPlugin,
