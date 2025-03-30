@@ -1,7 +1,10 @@
-import { type DefaultTheme, type UserConfig } from 'vitepress'
-import vitepress from 'vitepress/package.json'
+import { createRequire } from 'module'
+import { defineConfig, type DefaultTheme } from 'vitepress'
 
-export default {
+const require = createRequire(import.meta.url)
+const pkg = require('vitepress/package.json')
+
+export default defineConfig({
   lang: 'es-CO',
   description: 'Generador de Sitios Estaticos desarrollado con Vite y Vue.',
 
@@ -48,7 +51,7 @@ export default {
     darkModeSwitchTitle: 'Cambiar a modo oscuro',
     skipToContentLabel: 'Saltar al contenido'
   }
-} as UserConfig<DefaultTheme.Config>
+})
 
 function nav(): DefaultTheme.NavItem[] {
   return [
@@ -63,7 +66,7 @@ function nav(): DefaultTheme.NavItem[] {
       activeMatch: '/es/reference/'
     },
     {
-      text: vitepress.version,
+      text: pkg.version,
       items: [
         {
           text: 'Registro de cambios',

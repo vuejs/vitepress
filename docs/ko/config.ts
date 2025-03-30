@@ -1,7 +1,10 @@
-import { type DefaultTheme, type UserConfig } from 'vitepress'
-import vitepress from 'vitepress/package.json'
+import { createRequire } from 'module'
+import { defineConfig, type DefaultTheme } from 'vitepress'
 
-export default {
+const require = createRequire(import.meta.url)
+const pkg = require('vitepress/package.json')
+
+export default defineConfig({
   lang: 'ko-KR',
   description: 'Vite 및 Vue 기반 정적 사이트 생성기.',
 
@@ -44,7 +47,7 @@ export default {
     darkModeSwitchTitle: '다크 모드로 변경',
     skipToContentLabel: '본문으로 건너뛰기'
   }
-} as UserConfig<DefaultTheme.Config>
+})
 
 function nav(): DefaultTheme.NavItem[] {
   return [
@@ -59,7 +62,7 @@ function nav(): DefaultTheme.NavItem[] {
       activeMatch: '/ko/reference/'
     },
     {
-      text: vitepress.version,
+      text: pkg.version,
       items: [
         {
           text: '변경 로그',

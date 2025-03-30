@@ -1,7 +1,10 @@
-import { type DefaultTheme, type UserConfig } from 'vitepress'
-import vitepress from 'vitepress/package.json'
+import { createRequire } from 'module'
+import { defineConfig, type DefaultTheme } from 'vitepress'
 
-export default {
+const require = createRequire(import.meta.url)
+const pkg = require('vitepress/package.json')
+
+export default defineConfig({
   lang: 'zh-Hans',
   description: '由 Vite 和 Vue 驱动的静态站点生成器',
 
@@ -55,7 +58,7 @@ export default {
     darkModeSwitchTitle: '切换到深色模式',
     skipToContentLabel: '跳转到内容'
   }
-} as UserConfig<DefaultTheme.Config>
+})
 
 function nav(): DefaultTheme.NavItem[] {
   return [
@@ -70,7 +73,7 @@ function nav(): DefaultTheme.NavItem[] {
       activeMatch: '/zh/reference/'
     },
     {
-      text: vitepress.version,
+      text: pkg.version,
       items: [
         {
           text: '更新日志',

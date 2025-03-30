@@ -1,7 +1,10 @@
-import { type DefaultTheme, type UserConfig } from 'vitepress'
-import vitepress from 'vitepress/package.json'
+import { createRequire } from 'module'
+import { defineConfig, type DefaultTheme } from 'vitepress'
 
-export default {
+const require = createRequire(import.meta.url)
+const pkg = require('vitepress/package.json')
+
+export default defineConfig({
   lang: 'ru-RU',
   description: 'Генератор статических сайтов на основе Vite и Vue.',
 
@@ -42,7 +45,7 @@ export default {
     langMenuLabel: 'Изменить язык',
     skipToContentLabel: 'Перейти к содержимому'
   }
-}
+})
 
 function nav(): DefaultTheme.NavItem[] {
   return [
@@ -57,7 +60,7 @@ function nav(): DefaultTheme.NavItem[] {
       activeMatch: '/ru/reference/'
     },
     {
-      text: vitepress.version,
+      text: pkg.version,
       items: [
         {
           text: 'Изменения',
