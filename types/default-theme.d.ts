@@ -481,6 +481,13 @@ export namespace DefaultTheme {
     quote?: string
 
     /**
+     * Target of the home link.
+     *
+     * @default '/'
+     */
+    link?: string
+
+    /**
      * Set aria label for home link.
      *
      * @default 'go to home'
