@@ -139,6 +139,12 @@ export async function bundle(
                   ) {
                     return 'framework'
                   }
+                  if (/(^|\/)config\.([cm]?js|ts|json)$/.test(id)) {
+                    return 'framework'
+                  }
+                  if (id.endsWith('/vitepress/package.json')) {
+                    return 'framework'
+                  }
 
                   if (
                     (id.startsWith(`${clientDir}/theme-default`) ||
