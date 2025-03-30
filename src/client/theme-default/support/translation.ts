@@ -15,6 +15,7 @@ export function createSearchTranslate(
     const isObject = themeObject && typeof themeObject === 'object'
     const locales =
       (isObject && themeObject.locales?.[localeIndex.value]?.translations) ||
+      (isObject && themeObject?.translations) ||
       null
     const translations = (isObject && themeObject.translations) || null
 

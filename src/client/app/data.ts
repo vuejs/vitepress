@@ -19,6 +19,7 @@ import {
   type SiteData
 } from '../shared'
 import type { Route } from './router'
+import { dirname, stackView } from './utils'
 
 export const dataSymbol: InjectionKey<VitePressData> = Symbol()
 
@@ -69,11 +70,46 @@ if (import.meta.hot) {
   })
 }
 
+// hierarchical config pre-loading
+const extraConfig: Record<string, SiteData> = Object.fromEntries(
+  Object.entries(
+    import.meta.glob('/**/config.([cm]?js|ts|json)', {
+      eager: true
+    })
+  ).map(([path, module]) => [
+    dirname(path),
+    { __module__: path, ...((module as any)?.default ?? module) }
+  ])
+)
+
+function getExtraConfigs(path: string): SiteData[] {
+  if (!path.startsWith('/')) path = `/${path}`
+  const configs: SiteData[] = []
+  const segments = path.split('/').slice(1, -1)
+  while (segments.length) {
+    const key = `/${segments.join('/')}/`
+    if (key in extraConfig) configs.push(extraConfig[key])
+    segments.pop()
+  }
+  // debug info
+  const summaryTitle = `Extra Configs for ${path}:`
+  const summary = configs.map((c, i) => `  ${i + 1}. ${(c as any).__module__}`)
+  summary.push(`  ${summary.length + 1}. .vitepress/config (root)`)
+  console.info(
+    [summaryTitle, ''.padEnd(summaryTitle.length, '='), ...summary].join('\n')
+  )
+  return configs
+}
+
 // per-app data
 export function initData(route: Route): VitePressData {
-  const site = computed(() =>
-    resolveSiteDataByRoute(siteDataRef.value, route.data.relativePath)
-  )
+  const site = computed(() => {
+    const data = resolveSiteDataByRoute(
+      siteDataRef.value,
+      route.data.relativePath
+    )
+    return stackView(...getExtraConfigs(route.data.relativePath), data)
+  })
 
   const appearance = site.value.appearance // fine with reactivity being lost here, config change triggers a restart
   const isDark =
@@ -124,6 +160,8 @@ export function initData(route: Route): VitePressData {
 
 export function useData<T = any>(): VitePressData<T> {
   const data = inject(dataSymbol)
+  ;(window as any).stackView = stackView
+  ;(window as any).data = data
   if (!data) {
     throw new Error('vitepress data not properly injected in app')
   }

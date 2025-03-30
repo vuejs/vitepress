@@ -9,7 +9,6 @@ import { search as faSearch } from './fa'
 import { search as koSearch } from './ko'
 import { search as ptSearch } from './pt'
 import { search as ruSearch } from './ru'
-import { search as zhSearch } from './zh'
 
 export const shared = defineConfig({
   title: 'VitePress',
@@ -99,7 +98,6 @@ export const shared = defineConfig({
         apiKey: '52f578a92b88ad6abde815aae2b0ad7c',
         indexName: 'vitepress',
         locales: {
-          ...zhSearch,
           ...ptSearch,
           ...ruSearch,
           ...esSearch,
