@@ -142,7 +142,7 @@ export async function bundle(
                   if (/(^|\/)config\.([cm]?js|ts|json)$/.test(id)) {
                     return 'framework'
                   }
-                  if (id.endsWith('/vitepress/package.json')) {
+                  if (/(^|\/)vitepress\/package.json$/.test(id)) {
                     return 'framework'
                   }
 
