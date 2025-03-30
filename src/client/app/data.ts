@@ -71,7 +71,7 @@ if (import.meta.hot) {
 }
 
 function debugConfigLayers(path: string, layers: SiteData[]): SiteData[] {
-  // debug info
+  // This helps users to understand which configuration files are active
   if (inBrowser && import.meta.env.DEV) {
     const summaryTitle = `Config Layers for ${path}:`
     const summary = layers.map((c, i, arr) => {
@@ -105,7 +105,6 @@ function getConfigLayers(root: SiteData, path: string): SiteData[] {
 // per-app data
 export function initData(route: Route): VitePressData {
   const site = computed(() => {
-    ;(window as any).siteData = siteDataRef.value
     const path = route.data.relativePath
     const data = resolveSiteDataByRoute(siteDataRef.value, path)
     return stackView(...debugConfigLayers(path, getConfigLayers(data, path)))
