@@ -217,7 +217,6 @@ export interface SiteConfig<ThemeConfig = any>
     | 'transformHtml'
     | 'transformPageData'
     | 'sitemap'
-    | 'additionalConfig'
   > {
   root: string
   srcDir: string
