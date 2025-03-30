@@ -92,12 +92,16 @@ function getExtraConfigs(path: string): SiteData[] {
     segments.pop()
   }
   // debug info
-  const summaryTitle = `Extra Configs for ${path}:`
-  const summary = configs.map((c, i) => `  ${i + 1}. ${(c as any).__module__}`)
-  summary.push(`  ${summary.length + 1}. .vitepress/config (root)`)
-  console.info(
-    [summaryTitle, ''.padEnd(summaryTitle.length, '='), ...summary].join('\n')
-  )
+  if (inBrowser) {
+    const summaryTitle = `Config Layers for ${path}:`
+    const summary = configs.map(
+      (c, i) => `  ${i + 1}. ${(c as any).__module__}`
+    )
+    summary.push(`  ${summary.length + 1}. .vitepress/config (root)`)
+    console.debug(
+      [summaryTitle, ''.padEnd(summaryTitle.length, '='), ...summary].join('\n')
+    )
+  }
   return configs
 }
 
@@ -160,8 +164,6 @@ export function initData(route: Route): VitePressData {
 
 export function useData<T = any>(): VitePressData<T> {
   const data = inject(dataSymbol)
-  ;(window as any).stackView = stackView
-  ;(window as any).data = data
   if (!data) {
     throw new Error('vitepress data not properly injected in app')
   }
