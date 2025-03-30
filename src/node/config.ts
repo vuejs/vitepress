@@ -14,6 +14,11 @@ import type { DefaultTheme } from './defaultTheme'
 import { resolvePages } from './plugins/dynamicRoutesPlugin'
 import { APPEARANCE_KEY, slash, type HeadConfig, type SiteData } from './shared'
 import type { RawConfigExports, SiteConfig, UserConfig } from './siteConfig'
+import type {
+  AdditionalConfigDict,
+  AdditionalConfigEntry
+} from '../../types/shared'
+import { glob } from 'tinyglobby'
 
 export { resolvePages } from './plugins/dynamicRoutesPlugin'
 export * from './siteConfig'
@@ -140,7 +145,65 @@ export async function resolveConfig(
   return config
 }
 
-const supportedConfigExtensions = ['js', 'ts', 'mjs', 'mts']
+export const supportedConfigExtensions = ['js', 'ts', 'mjs', 'mts']
+
+export function isAdditionalConfigFile(path: string) {
+  const filename_to_check = path.split('/').pop() ?? ''
+  for (const filename of supportedConfigExtensions.map((e) => `config.${e}`)) {
+    if (filename_to_check === filename) {
+      return true
+    }
+  }
+  return false
+}
+
+/**
+ * Make sure the path ends with a slash.
+ * If path points to a file, remove the filename component.
+ * @param path
+ * @returns
+ */
+function dirname(path: string) {
+  const segments = path.split('/')
+  segments[segments.length - 1] = ''
+  return segments.join('/')
+}
+
+async function gatherAdditionalConfig(
+  root: string,
+  command: 'serve' | 'build',
+  mode: string
+): Promise<[AdditionalConfigDict, string[][]]> {
+  const pattern = `**/config.{${supportedConfigExtensions.join(',')}}`
+  const candidates = await glob(pattern, {
+    cwd: root,
+    dot: false, // conveniently ignores .vitepress/*
+    ignore: ['**/node_modules/**', '**/.git/**']
+  })
+  const deps: string[][] = []
+  const exports = await Promise.all(
+    candidates.map(async (file) => {
+      const id = '/' + dirname(slash(file))
+      const configExports = await loadConfigFromFile(
+        { command, mode },
+        normalizePath(path.resolve(root, file)),
+        root
+      ).catch(console.error) // Skip additionalConfig file if it fails to load
+      if (!configExports) {
+        debug(`Failed to load additional config from ${file}`)
+        return [id, undefined]
+      }
+      deps.push(
+        configExports.dependencies.map((file) =>
+          normalizePath(path.resolve(file))
+        )
+      )
+      if (mode === 'development') (configExports.config as any).VP_SOURCE = file
+      return [id, configExports.config as AdditionalConfigEntry]
+    })
+  )
+  return [Object.fromEntries(exports.filter(([id, config]) => config)), deps]
+}
 
 export async function resolveUserConfig(
   root: string,
@@ -170,6 +233,16 @@ export async function resolveUserConfig(
       configDeps = configExports.dependencies.map((file) =>
         normalizePath(path.resolve(file))
       )
+      // Auto-generate additional config if user leaves it unspecified
+      if (userConfig.additionalConfig === undefined) {
+        const [additionalConfig, additionalDeps] = await gatherAdditionalConfig(
+          root,
+          command,
+          mode
+        )
+        userConfig.additionalConfig = additionalConfig
+        configDeps = configDeps.concat(...additionalDeps)
+      }
     }
     debug(`loaded config at ${c.yellow(configPath)}`)
   }
@@ -241,7 +314,8 @@ export async function resolveSiteData(
     locales: userConfig.locales || {},
     scrollOffset: userConfig.scrollOffset ?? 134,
     cleanUrls: !!userConfig.cleanUrls,
-    contentProps: userConfig.contentProps
+    contentProps: userConfig.contentProps,
+    additionalConfig: userConfig.additionalConfig
   }
 }
 

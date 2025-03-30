@@ -141,12 +141,6 @@ function tryOffsetSelector(selector: string, padding: number): number {
   return bot + padding
 }
 
-export function dirname(path: string) {
-  const segments = path.split('/')
-  segments[segments.length - 1] = ''
-  return segments.join('/')
-}
-
 const unpackStackView = Symbol('unpackStackView')
 
 function isStackable(obj: any) {

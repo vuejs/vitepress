@@ -19,7 +19,7 @@ import {
   type SiteData
 } from '../shared'
 import type { Route } from './router'
-import { dirname, stackView } from './utils'
+import { stackView } from './utils'
 
 export const dataSymbol: InjectionKey<VitePressData> = Symbol()
 
@@ -70,49 +70,45 @@ if (import.meta.hot) {
   })
 }
 
-// hierarchical config pre-loading
-const extraConfig: Record<string, SiteData> = Object.fromEntries(
-  Object.entries(
-    import.meta.glob('/**/config.([cm]?js|ts|json)', {
-      eager: true
-    })
-  ).map(([path, module]) => [
-    dirname(path),
-    { __module__: path, ...((module as any)?.default ?? module) }
-  ])
-)
-
-function getExtraConfigs(path: string): SiteData[] {
-  if (!path.startsWith('/')) path = `/${path}`
-  const configs: SiteData[] = []
-  const segments = path.split('/').slice(1, -1)
-  while (segments.length) {
-    const key = `/${segments.join('/')}/`
-    if (key in extraConfig) configs.push(extraConfig[key])
-    segments.pop()
-  }
+function debugConfigLayers(path: string, layers: SiteData[]): SiteData[] {
   // debug info
-  if (inBrowser) {
+  if (inBrowser && import.meta.env.DEV) {
     const summaryTitle = `Config Layers for ${path}:`
-    const summary = configs.map(
-      (c, i) => `  ${i + 1}. ${(c as any).__module__}`
-    )
-    summary.push(`  ${summary.length + 1}. .vitepress/config (root)`)
+    const summary = layers.map((c, i, arr) => {
+      const n = i + 1
+      if (n === arr.length) return `${n}. .vitepress/config (root)`
+      return `${n}. ${(c as any)?.VP_SOURCE ?? '(Unknown Source)'}`
+    })
     console.debug(
       [summaryTitle, ''.padEnd(summaryTitle.length, '='), ...summary].join('\n')
     )
   }
-  return configs
+  return layers
+}
+
+function getConfigLayers(root: SiteData, path: string): SiteData[] {
+  if (!path.startsWith('/')) path = `/${path}`
+  const additionalConfig = root.additionalConfig
+  if (additionalConfig === undefined) return [root]
+  else if (typeof additionalConfig === 'function')
+    return [...(additionalConfig(path) as SiteData[]), root]
+  const configs: SiteData[] = []
+  const segments = path.split('/').slice(1, -1)
+  while (segments.length) {
+    const key = `/${segments.join('/')}/`
+    if (key in additionalConfig) configs.push(additionalConfig[key] as SiteData)
+    segments.pop()
+  }
+  return [...configs, root]
 }
 
 // per-app data
 export function initData(route: Route): VitePressData {
   const site = computed(() => {
-    const data = resolveSiteDataByRoute(
-      siteDataRef.value,
-      route.data.relativePath
-    )
-    return stackView(...getExtraConfigs(route.data.relativePath), data)
+    ;(window as any).siteData = siteDataRef.value
+    const path = route.data.relativePath
+    const data = resolveSiteDataByRoute(siteDataRef.value, path)
+    return stackView(...debugConfigLayers(path, getConfigLayers(data, path)))
   })
 
   const appearance = site.value.appearance // fine with reactivity being lost here, config change triggers a restart

@@ -134,6 +134,7 @@ export interface SiteData<ThemeConfig = any> {
   router: {
     prefetchLinks: boolean
   }
+  additionalConfig?: AdditionalConfig<ThemeConfig>
 }
 
 export type HeadConfig =
@@ -160,6 +161,27 @@ export interface LocaleSpecificConfig<ThemeConfig = any> {
   head?: HeadConfig[]
   themeConfig?: ThemeConfig
 }
+
+export interface AdditionalConfigEntry<ThemeConfig = any>
+  extends LocaleSpecificConfig<ThemeConfig> {
+  /**
+   * Source of current config entry, only available in development mode
+   */
+  src?: string
+}
+
+export type AdditionalConfigDict<ThemeConfig = any> = Record<
+  string,
+  AdditionalConfigEntry<ThemeConfig>
+>
+
+export type AdditionalConfigLoader<ThemeConfig = any> = (
+  path: string
+) => AdditionalConfigEntry<ThemeConfig>[]
+
+export type AdditionalConfig<ThemeConfig = any> =
+  | AdditionalConfigDict<ThemeConfig>
+  | AdditionalConfigLoader<ThemeConfig>
 
 export type LocaleConfig<ThemeConfig = any> = Record<
   string,

@@ -14,6 +14,7 @@ import type {
   SSGContext,
   SiteData
 } from './shared'
+import type { AdditionalConfig } from '../../types/shared'
 
 export type RawConfigExports<ThemeConfig = any> =
   | Awaitable<UserConfig<ThemeConfig>>
@@ -187,6 +188,13 @@ export interface UserConfig<ThemeConfig = any>
     pageData: PageData,
     ctx: TransformPageContext
   ) => Awaitable<Partial<PageData> | { [key: string]: any } | void>
+
+  /**
+   * @experimental
+   * Multi-layer configuration overloading.
+   * Auto-resolves to docs/.../config.(ts|js|json) when unspecified.
+   */
+  additionalConfig?: AdditionalConfig
 }
 
 export interface SiteConfig<ThemeConfig = any>
@@ -209,6 +217,7 @@ export interface SiteConfig<ThemeConfig = any>
     | 'transformHtml'
     | 'transformPageData'
     | 'sitemap'
+    | 'additionalConfig'
   > {
   root: string
   srcDir: string
