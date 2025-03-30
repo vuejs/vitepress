@@ -1,16 +1,12 @@
-import { createRequire } from 'module'
-import { defineConfig, type DefaultTheme } from 'vitepress'
+import { type DefaultTheme, type UserConfig } from 'vitepress'
+import vitepress from 'vitepress/package.json'
 
-const require = createRequire(import.meta.url)
-const pkg = require('vitepress/package.json')
-
-export const en = defineConfig({
+export default {
   lang: 'en-US',
   description: 'Vite & Vue powered static site generator.',
 
   themeConfig: {
     nav: nav(),
-
     sidebar: {
       '/guide/': { base: '/guide/', items: sidebarGuide() },
       '/reference/': { base: '/reference/', items: sidebarReference() }
@@ -26,7 +22,7 @@ export const en = defineConfig({
       copyright: 'Copyright © 2019-present Evan You'
     }
   }
-})
+} as UserConfig<DefaultTheme.Config>
 
 function nav(): DefaultTheme.NavItem[] {
   return [
@@ -41,7 +37,7 @@ function nav(): DefaultTheme.NavItem[] {
       activeMatch: '/reference/'
     },
     {
-      text: pkg.version,
+      text: vitepress.version,
       items: [
         {
           text: 'Changelog',

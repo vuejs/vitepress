@@ -1,6 +1,5 @@
 import { type DefaultTheme, type UserConfig } from 'vitepress'
 import vitepress from 'vitepress/package.json'
-import type { DocSearchProps } from '../../types/docsearch'
 
 export default {
   lang: 'zh-Hans',
@@ -165,7 +164,7 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
   ]
 }
 
-function searchOptions(): Partial<DocSearchProps> {
+function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
   return {
     placeholder: '搜索文档',
     translations: {

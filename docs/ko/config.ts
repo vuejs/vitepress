@@ -1,16 +1,13 @@
-import { createRequire } from 'module'
-import { defineConfig, type DefaultTheme } from 'vitepress'
+import { type DefaultTheme, type UserConfig } from 'vitepress'
+import vitepress from 'vitepress/package.json'
 
-const require = createRequire(import.meta.url)
-const pkg = require('vitepress/package.json')
-
-export const ko = defineConfig({
+export default {
   lang: 'ko-KR',
   description: 'Vite 및 Vue 기반 정적 사이트 생성기.',
 
   themeConfig: {
     nav: nav(),
-
+    search: { options: searchOptions() } as DefaultTheme.Config['search'],
     sidebar: {
       '/ko/guide/': { base: '/ko/guide/', items: sidebarGuide() },
       '/ko/reference/': { base: '/ko/reference/', items: sidebarReference() }
@@ -47,7 +44,7 @@ export const ko = defineConfig({
     darkModeSwitchTitle: '다크 모드로 변경',
     skipToContentLabel: '본문으로 건너뛰기'
   }
-})
+} as UserConfig<DefaultTheme.Config>
 
 function nav(): DefaultTheme.NavItem[] {
   return [
@@ -62,7 +59,7 @@ function nav(): DefaultTheme.NavItem[] {
       activeMatch: '/ko/reference/'
     },
     {
-      text: pkg.version,
+      text: vitepress.version,
       items: [
         {
           text: '변경 로그',
@@ -208,8 +205,8 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
   ]
 }
 
-export const search: DefaultTheme.AlgoliaSearchOptions['locales'] = {
-  ko: {
+function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
+  return {
     placeholder: '문서 검색',
     translations: {
       button: {

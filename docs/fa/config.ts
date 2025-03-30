@@ -1,10 +1,7 @@
-import { createRequire } from 'module'
-import { defineConfig, type DefaultTheme } from 'vitepress'
+import { type DefaultTheme, type UserConfig } from 'vitepress'
+import vitepress from 'vitepress/package.json'
 
-const require = createRequire(import.meta.url)
-const pkg = require('vitepress/package.json')
-
-export const fa = defineConfig({
+export default {
   title: 'ویت‌پرس',
   lang: 'fa-IR',
   description: 'Vite & Vue powered static site generator.',
@@ -20,6 +17,7 @@ export const fa = defineConfig({
   },
   themeConfig: {
     nav: nav(),
+    search: { options: searchOptions() } as DefaultTheme.Config['search'],
     sidebar: {
       '/fa/guide/': { base: '/fa/guide/', items: sidebarGuide() },
       '/fa/reference/': { base: '/fa/reference/', items: sidebarReference() }
@@ -68,7 +66,7 @@ export const fa = defineConfig({
     },
     siteTitle: 'ویت‌پرس'
   }
-})
+} as UserConfig<DefaultTheme.Config>
 
 function nav(): DefaultTheme.NavItem[] {
   return [
@@ -83,7 +81,7 @@ function nav(): DefaultTheme.NavItem[] {
       activeMatch: '/reference/'
     },
     {
-      text: pkg.version,
+      text: vitepress.version,
       items: [
         {
           text: 'Changelog',
@@ -181,8 +179,8 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
   ]
 }
 
-export const search: DefaultTheme.AlgoliaSearchOptions['locales'] = {
-  fa: {
+function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
+  return {
     placeholder: 'جستجوی مستندات',
     translations: {
       button: {

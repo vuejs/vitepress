@@ -1,16 +1,13 @@
-import { createRequire } from 'module'
-import { defineConfig, type DefaultTheme } from 'vitepress'
+import { type DefaultTheme, type UserConfig } from 'vitepress'
+import vitepress from 'vitepress/package.json'
 
-const require = createRequire(import.meta.url)
-const pkg = require('vitepress/package.json')
-
-export const es = defineConfig({
+export default {
   lang: 'es-CO',
   description: 'Generador de Sitios Estaticos desarrollado con Vite y Vue.',
 
   themeConfig: {
     nav: nav(),
-
+    search: { options: searchOptions() } as DefaultTheme.Config['search'],
     sidebar: {
       '/es/guide/': { base: '/es/guide/', items: sidebarGuide() },
       '/es/reference/': { base: '/es/reference/', items: sidebarReference() }
@@ -51,7 +48,7 @@ export const es = defineConfig({
     darkModeSwitchTitle: 'Cambiar a modo oscuro',
     skipToContentLabel: 'Saltar al contenido'
   }
-})
+} as UserConfig<DefaultTheme.Config>
 
 function nav(): DefaultTheme.NavItem[] {
   return [
@@ -66,7 +63,7 @@ function nav(): DefaultTheme.NavItem[] {
       activeMatch: '/es/reference/'
     },
     {
-      text: pkg.version,
+      text: vitepress.version,
       items: [
         {
           text: 'Registro de cambios',
@@ -170,8 +167,8 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
   ]
 }
 
-export const search: DefaultTheme.AlgoliaSearchOptions['locales'] = {
-  es: {
+function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
+  return {
     placeholder: 'Buscar documentos',
     translations: {
       button: {
