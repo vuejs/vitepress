@@ -99,6 +99,7 @@ function getConfigLayers(root: SiteData, path: string): SiteData[] {
     if (key in additionalConfig) configs.push(additionalConfig[key] as SiteData)
     segments.pop()
   }
+  if ('/' in additionalConfig) configs.push(additionalConfig['/'] as SiteData)
   return [...configs, root]
 }
 
