@@ -14,7 +14,10 @@ import type {
   SSGContext,
   SiteData
 } from './shared'
-import type { AdditionalConfig } from '../../types/shared'
+import type {
+  AdditionalConfigDict,
+  AdditionalConfigLoader
+} from '../../types/shared'
 
 export type RawConfigExports<ThemeConfig = any> =
   | Awaitable<UserConfig<ThemeConfig>>
@@ -194,7 +197,9 @@ export interface UserConfig<ThemeConfig = any>
    * Multi-layer configuration overloading.
    * Auto-resolves to docs/.../config.(ts|js|json) when unspecified.
    */
-  additionalConfig?: AdditionalConfig
+  additionalConfig?:
+    | AdditionalConfigDict<ThemeConfig>
+    | AdditionalConfigLoader<ThemeConfig>
 }
 
 export interface SiteConfig<ThemeConfig = any>

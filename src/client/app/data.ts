@@ -77,7 +77,7 @@ function debugConfigLayers(path: string, layers: SiteData[]): SiteData[] {
     const summary = layers.map((c, i, arr) => {
       const n = i + 1
       if (n === arr.length) return `${n}. .vitepress/config (root)`
-      return `${n}. ${(c as any)?.VP_SOURCE ?? '(Unknown Source)'}`
+      return `${n}. ${(c as any)?.['[VP_SOURCE]'] ?? '(Unknown Source)'}`
     })
     console.debug(
       [summaryTitle, ''.padEnd(summaryTitle.length, '='), ...summary].join('\n')
