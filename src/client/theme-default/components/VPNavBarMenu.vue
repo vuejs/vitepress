@@ -8,7 +8,7 @@ const { theme } = useData()
 </script>
 
 <template>
-  <ClientOnly :isClientOnly="isClientOnly(theme.nav)">
+  <ClientOnly :is-client-only="isClientOnly(theme.nav)">
     <nav
       v-if="theme.nav"
       aria-labelledby="main-nav-aria-label"
