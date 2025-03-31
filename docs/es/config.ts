@@ -1,16 +1,16 @@
 import { createRequire } from 'module'
-import { defineConfig, type DefaultTheme } from 'vitepress'
+import { defineAdditionalConfig, type DefaultTheme } from 'vitepress'
 
 const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
 
-export default defineConfig({
+export default defineAdditionalConfig({
   lang: 'es-CO',
   description: 'Generador de Sitios Estaticos desarrollado con Vite y Vue.',
 
   themeConfig: {
     nav: nav(),
-    search: { options: searchOptions() } as DefaultTheme.Config['search'],
+    search: { options: searchOptions() },
     sidebar: {
       '/es/guide/': { base: '/es/guide/', items: sidebarGuide() },
       '/es/reference/': { base: '/es/reference/', items: sidebarReference() }

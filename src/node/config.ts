@@ -14,10 +14,7 @@ import type { DefaultTheme } from './defaultTheme'
 import { resolvePages } from './plugins/dynamicRoutesPlugin'
 import { APPEARANCE_KEY, slash, type HeadConfig, type SiteData } from './shared'
 import type { RawConfigExports, SiteConfig, UserConfig } from './siteConfig'
-import type {
-  AdditionalConfigDict,
-  AdditionalConfigEntry
-} from '../../types/shared'
+import type { AdditionalConfig, AdditionalConfigDict } from '../../types/shared'
 import { glob } from 'tinyglobby'
 
 export { resolvePages } from './plugins/dynamicRoutesPlugin'
@@ -44,10 +41,28 @@ export function defineConfig(config: UserConfig<DefaultTheme.Config>) {
 }
 
 /**
+ *  Type additional config helper
+ */
+export function defineAdditionalConfig(
+  config: AdditionalConfig<DefaultTheme.Config>
+) {
+  return config
+}
+
+/**
  * Type config helper for custom theme config
  */
 export function defineConfigWithTheme<ThemeConfig>(
   config: UserConfig<ThemeConfig>
+) {
+  return config
+}
+
+/**
+ *  Type additional config helper
+ */
+export function defineAdditionalConfigWithTheme<ThemeConfig>(
+  config: AdditionalConfig<ThemeConfig>
 ) {
   return config
 }
@@ -198,8 +213,9 @@ async function gatherAdditionalConfig(
           normalizePath(path.resolve(file))
         )
       )
-      if (mode === 'development') (configExports.config as any).VP_SOURCE = file
-      return [id, configExports.config as AdditionalConfigEntry]
+      if (mode === 'development')
+        (configExports.config as any)['[VP_SOURCE]'] = file
+      return [id, configExports.config as AdditionalConfig]
     })
   )
   return [Object.fromEntries(exports.filter(([id, config]) => config)), deps]
