@@ -230,3 +230,14 @@ export function escapeHtml(str: string): string {
     .replace(/"/g, '&quot;')
     .replace(/&(?![\w#]+;)/g, '&amp;')
 }
+
+const CLIENT_ONLY = '[VP_CLIENT_ONLY]'
+
+export function clientOnly<T extends object>(obj: T): T {
+  ;(obj as any)[CLIENT_ONLY] = true
+  return obj
+}
+
+export function isClientOnly<T = any>(obj: T) {
+  return Boolean((obj as any)?.[CLIENT_ONLY])
+}

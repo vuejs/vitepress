@@ -11,7 +11,7 @@ import {
   type ComputedRef,
   type Ref
 } from 'vue'
-import { isActive } from '../../shared'
+import { isActive, isClientOnly } from '../../shared'
 import {
   hasActiveLink as containsActiveLink,
   getSidebar,
@@ -96,6 +96,7 @@ export function useSidebar() {
     hasAside,
     leftAside,
     isSidebarEnabled,
+    isSidebarClientOnly: isClientOnly(theme.value.sidebar),
     open,
     close,
     toggle
