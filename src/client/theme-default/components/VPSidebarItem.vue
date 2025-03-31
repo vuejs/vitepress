@@ -58,26 +58,52 @@ function onCaretClick() {
 <template>
   <ClientOnly :is-client-only="isClientOnly(item)">
     <component :is="sectionTag" class="VPSidebarItem" :class="classes">
-      <div v-if="item.text" class="item" :role="itemRole" v-on="item.items
-          ? { click: onItemInteraction, keydown: onItemInteraction }
-          : {}
-        " :tabindex="item.items && 0">
+      <div
+        v-if="item.text"
+        class="item"
+        :role="itemRole"
+        v-on="
+          item.items
+            ? { click: onItemInteraction, keydown: onItemInteraction }
+            : {}
+        "
+        :tabindex="item.items && 0"
+      >
         <div class="indicator" />
 
-        <VPLink v-if="item.link" :tag="linkTag" class="link" :href="item.link" :rel="item.rel" :target="item.target">
+        <VPLink
+          v-if="item.link"
+          :tag="linkTag"
+          class="link"
+          :href="item.link"
+          :rel="item.rel"
+          :target="item.target"
+        >
           <component :is="textTag" class="text" v-html="item.text" />
         </VPLink>
         <component v-else :is="textTag" class="text" v-html="item.text" />
 
-        <div v-if="item.collapsed != null && item.items && item.items.length" class="caret" role="button"
-          aria-label="toggle section" @click="onCaretClick" @keydown.enter="onCaretClick" tabindex="0">
+        <div
+          v-if="item.collapsed != null && item.items && item.items.length"
+          class="caret"
+          role="button"
+          aria-label="toggle section"
+          @click="onCaretClick"
+          @keydown.enter="onCaretClick"
+          tabindex="0"
+        >
           <span class="vpi-chevron-right caret-icon" />
         </div>
       </div>
 
       <div v-if="item.items && item.items.length" class="items">
         <template v-if="depth < 5">
-          <VPSidebarItem v-for="i in item.items" :key="i.text" :item="i" :depth="depth + 1" />
+          <VPSidebarItem
+            v-for="i in item.items"
+            :key="i.text"
+            :item="i"
+            :depth="depth + 1"
+          />
         </template>
       </div>
     </component>
@@ -99,7 +125,7 @@ function onCaretClick() {
   width: 100%;
 }
 
-.VPSidebarItem.collapsible>.item {
+.VPSidebarItem.collapsible > .item {
   cursor: pointer;
 }
 
@@ -113,10 +139,10 @@ function onCaretClick() {
   transition: background-color 0.25s;
 }
 
-.VPSidebarItem.level-2.is-active>.item>.indicator,
-.VPSidebarItem.level-3.is-active>.item>.indicator,
-.VPSidebarItem.level-4.is-active>.item>.indicator,
-.VPSidebarItem.level-5.is-active>.item>.indicator {
+.VPSidebarItem.level-2.is-active > .item > .indicator,
+.VPSidebarItem.level-3.is-active > .item > .indicator,
+.VPSidebarItem.level-4.is-active > .item > .indicator,
+.VPSidebarItem.level-5.is-active > .item > .indicator {
   background-color: var(--vp-c-brand-1);
 }
 
@@ -148,36 +174,36 @@ function onCaretClick() {
   color: var(--vp-c-text-2);
 }
 
-.VPSidebarItem.level-0.is-link>.item>.link:hover .text,
-.VPSidebarItem.level-1.is-link>.item>.link:hover .text,
-.VPSidebarItem.level-2.is-link>.item>.link:hover .text,
-.VPSidebarItem.level-3.is-link>.item>.link:hover .text,
-.VPSidebarItem.level-4.is-link>.item>.link:hover .text,
-.VPSidebarItem.level-5.is-link>.item>.link:hover .text {
+.VPSidebarItem.level-0.is-link > .item > .link:hover .text,
+.VPSidebarItem.level-1.is-link > .item > .link:hover .text,
+.VPSidebarItem.level-2.is-link > .item > .link:hover .text,
+.VPSidebarItem.level-3.is-link > .item > .link:hover .text,
+.VPSidebarItem.level-4.is-link > .item > .link:hover .text,
+.VPSidebarItem.level-5.is-link > .item > .link:hover .text {
   color: var(--vp-c-brand-1);
 }
 
-.VPSidebarItem.level-0.has-active>.item>.text,
-.VPSidebarItem.level-1.has-active>.item>.text,
-.VPSidebarItem.level-2.has-active>.item>.text,
-.VPSidebarItem.level-3.has-active>.item>.text,
-.VPSidebarItem.level-4.has-active>.item>.text,
-.VPSidebarItem.level-5.has-active>.item>.text,
-.VPSidebarItem.level-0.has-active>.item>.link>.text,
-.VPSidebarItem.level-1.has-active>.item>.link>.text,
-.VPSidebarItem.level-2.has-active>.item>.link>.text,
-.VPSidebarItem.level-3.has-active>.item>.link>.text,
-.VPSidebarItem.level-4.has-active>.item>.link>.text,
-.VPSidebarItem.level-5.has-active>.item>.link>.text {
+.VPSidebarItem.level-0.has-active > .item > .text,
+.VPSidebarItem.level-1.has-active > .item > .text,
+.VPSidebarItem.level-2.has-active > .item > .text,
+.VPSidebarItem.level-3.has-active > .item > .text,
+.VPSidebarItem.level-4.has-active > .item > .text,
+.VPSidebarItem.level-5.has-active > .item > .text,
+.VPSidebarItem.level-0.has-active > .item > .link > .text,
+.VPSidebarItem.level-1.has-active > .item > .link > .text,
+.VPSidebarItem.level-2.has-active > .item > .link > .text,
+.VPSidebarItem.level-3.has-active > .item > .link > .text,
+.VPSidebarItem.level-4.has-active > .item > .link > .text,
+.VPSidebarItem.level-5.has-active > .item > .link > .text {
   color: var(--vp-c-text-1);
 }
 
-.VPSidebarItem.level-0.is-active>.item .link>.text,
-.VPSidebarItem.level-1.is-active>.item .link>.text,
-.VPSidebarItem.level-2.is-active>.item .link>.text,
-.VPSidebarItem.level-3.is-active>.item .link>.text,
-.VPSidebarItem.level-4.is-active>.item .link>.text,
-.VPSidebarItem.level-5.is-active>.item .link>.text {
+.VPSidebarItem.level-0.is-active > .item .link > .text,
+.VPSidebarItem.level-1.is-active > .item .link > .text,
+.VPSidebarItem.level-2.is-active > .item .link > .text,
+.VPSidebarItem.level-3.is-active > .item .link > .text,
+.VPSidebarItem.level-4.is-active > .item .link > .text,
+.VPSidebarItem.level-5.is-active > .item .link > .text {
   color: var(--vp-c-brand-1);
 }
 
@@ -210,9 +236,7 @@ function onCaretClick() {
 }
 
 .VPSidebarItem.collapsed .caret-icon {
-  transform: rotate(0)
-    /*rtl:rotate(180deg)*/
-  ;
+  transform: rotate(0)/*rtl:rotate(180deg)*/;
 }
 
 .VPSidebarItem.level-1 .items,
