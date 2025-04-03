@@ -187,11 +187,12 @@ function dirname(path: string) {
 async function gatherAdditionalConfig(
   root: string,
   command: 'serve' | 'build',
-  mode: string
+  mode: string,
+  srcDir: string = '.'
 ): Promise<[AdditionalConfigDict, string[][]]> {
   const pattern = `**/config.{${supportedConfigExtensions.join(',')}}`
   const candidates = await glob(pattern, {
-    cwd: root,
+    cwd: path.resolve(root, srcDir),
     dot: false, // conveniently ignores .vitepress/*
     ignore: ['**/node_modules/**', '**/.git/**']
   })
@@ -201,7 +202,7 @@ async function gatherAdditionalConfig(
       const id = '/' + dirname(slash(file))
       const configExports = await loadConfigFromFile(
         { command, mode },
-        normalizePath(path.resolve(root, file)),
+        normalizePath(path.resolve(root, srcDir, file)),
         root
       ).catch(console.error) // Skip additionalConfig file if it fails to load
       if (!configExports) {
@@ -214,7 +215,7 @@ async function gatherAdditionalConfig(
         )
       )
       if (mode === 'development')
-        (configExports.config as any)['[VP_SOURCE]'] = file
+        (configExports.config as any)['[VP_SOURCE]'] = '/' + slash(file)
       return [id, configExports.config as AdditionalConfig]
     })
   )
@@ -254,7 +255,8 @@ export async function resolveUserConfig(
         const [additionalConfig, additionalDeps] = await gatherAdditionalConfig(
           root,
           command,
-          mode
+          mode,
+          userConfig.srcDir
         )
         userConfig.additionalConfig = additionalConfig
         configDeps = configDeps.concat(...additionalDeps)
