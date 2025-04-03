@@ -18,7 +18,7 @@ import {
   getSidebarGroups
 } from '../support/sidebar'
 import { useData } from './data'
-import { useDerived } from '../composables/derived'
+import { useIsHomeLayout } from './is-home-layout'
 
 export interface SidebarControl {
   collapsed: Ref<boolean>
@@ -32,7 +32,7 @@ export interface SidebarControl {
 
 export function useSidebar() {
   const { frontmatter, page, theme } = useData()
-  const { isHomeLayout } = useDerived()
+  const { isHomeLayout } = useIsHomeLayout()
   const is960 = useMediaQuery('(min-width: 960px)')
 
   const isOpen = ref(false)

@@ -1,7 +1,7 @@
 import { computed } from 'vue'
 import { useData } from './data'
 
-export function useDerived() {
+export function useIsHomeLayout() {
   const { frontmatter } = useData()
 
   const isHomeLayout = computed(() => {

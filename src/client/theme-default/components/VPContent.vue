@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import NotFound from '../NotFound.vue'
 import { useData } from '../composables/data'
-import { useDerived } from '../composables/derived'
+import { useIsHomeLayout } from '../composables/is-home-layout'
 import { useSidebar } from '../composables/sidebar'
 import VPDoc from './VPDoc.vue'
 import VPHome from './VPHome.vue'
 import VPPage from './VPPage.vue'
 
 const { page, frontmatter } = useData()
-const { isHomeLayout } = useDerived()
+const { isHomeLayout } = useIsHomeLayout()
 const { hasSidebar } = useSidebar()
 </script>
 
