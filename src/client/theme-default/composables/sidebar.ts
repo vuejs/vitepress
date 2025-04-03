@@ -52,7 +52,7 @@ export function useSidebar() {
     return (
       frontmatter.value.sidebar !== false &&
       sidebar.value.length > 0 &&
-      frontmatter.value.layout !== 'home'
+      !frontmatter.value.isHomeLayout
     )
   })
 
@@ -65,7 +65,7 @@ export function useSidebar() {
   })
 
   const hasAside = computed(() => {
-    if (frontmatter.value.layout === 'home') return false
+    if (frontmatter.value.isHomeLayout) return false
     if (frontmatter.value.aside != null) return !!frontmatter.value.aside
     return theme.value.aside !== false
   })

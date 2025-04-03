@@ -29,7 +29,7 @@ const classes = ref<Record<string, boolean>>({})
 watchPostEffect(() => {
   classes.value = {
     'has-sidebar': hasSidebar.value,
-    'home': frontmatter.value.layout === 'home',
+    'home': frontmatter.value.isHomeLayout,
     'top': y.value === 0,
     'screen-open': props.isScreenOpen
   }

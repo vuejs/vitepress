@@ -16,7 +16,7 @@ const { hasSidebar } = useSidebar()
     id="VPContent"
     :class="{
       'has-sidebar': hasSidebar,
-      'is-home': frontmatter.layout === 'home'
+      'is-home': frontmatter.isHomeLayout
     }"
   >
     <slot name="not-found" v-if="page.isNotFound"><NotFound /></slot>
