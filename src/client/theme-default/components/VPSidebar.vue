@@ -4,8 +4,9 @@ import { inBrowser } from 'vitepress'
 import { ref, watch } from 'vue'
 import { useSidebar } from '../composables/sidebar'
 import VPSidebarGroup from './VPSidebarGroup.vue'
+import { isClientOnly } from '../../shared'
 
-const { sidebarGroups, hasSidebar } = useSidebar()
+const { sidebar, sidebarGroups, hasSidebar, isSidebarClientOnly } = useSidebar()
 
 const props = defineProps<{
   open: boolean
@@ -38,27 +39,18 @@ watch(
 </script>
 
 <template>
-  <aside
-    v-if="hasSidebar"
-    class="VPSidebar"
-    :class="{ open }"
-    ref="navEl"
-    @click.stop
-  >
+  <aside v-if="hasSidebar" class="VPSidebar" :class="{ open }" ref="navEl" @click.stop>
     <div class="curtain" />
 
-    <nav
-      class="nav"
-      id="VPSidebarNav"
-      aria-labelledby="sidebar-aria-label"
-      tabindex="-1"
-    >
+    <nav class="nav" id="VPSidebarNav" aria-labelledby="sidebar-aria-label" tabindex="-1">
       <span class="visually-hidden" id="sidebar-aria-label">
         Sidebar Navigation
       </span>
 
       <slot name="sidebar-nav-before" />
-      <VPSidebarGroup :items="sidebarGroups" :key="key" />
+      <ClientOnly :is-client-only="isSidebarClientOnly || isClientOnly(sidebar) || isClientOnly(sidebarGroups)">
+        <VPSidebarGroup :items="sidebarGroups" :key="key" />
+      </ClientOnly>
       <slot name="sidebar-nav-after" />
     </nav>
   </aside>
