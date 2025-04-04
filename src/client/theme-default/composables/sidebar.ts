@@ -18,7 +18,7 @@ import {
   getSidebarGroups
 } from '../support/sidebar'
 import { useData } from './data'
-import { useIsHomeLayout } from './is-home-layout'
+import { useLayout } from './layout'
 
 export interface SidebarControl {
   collapsed: Ref<boolean>
@@ -32,7 +32,7 @@ export interface SidebarControl {
 
 export function useSidebar() {
   const { frontmatter, page, theme } = useData()
-  const { isHomeLayout } = useIsHomeLayout()
+  const { isHome } = useLayout()
   const is960 = useMediaQuery('(min-width: 960px)')
 
   const isOpen = ref(false)
@@ -54,7 +54,7 @@ export function useSidebar() {
     return (
       frontmatter.value.sidebar !== false &&
       sidebar.value.length > 0 &&
-      !isHomeLayout.value
+      !isHome.value
     )
   })
 
@@ -67,7 +67,7 @@ export function useSidebar() {
   })
 
   const hasAside = computed(() => {
-    if (isHomeLayout.value) return false
+    if (isHome.value) return false
     if (frontmatter.value.aside != null) return !!frontmatter.value.aside
     return theme.value.aside !== false
   })
