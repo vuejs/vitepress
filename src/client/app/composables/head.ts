@@ -56,9 +56,11 @@ export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
     const frontmatterHead = (pageData && pageData.frontmatter.head) || []
 
     // update title and description
-    const title = createTitle(siteData, pageData)
-    if (title !== document.title) {
-      document.title = title
+    if (!siteData.themeConfig.skipTitleUpdate) {
+      const title = createTitle(siteData, pageData)
+      if (title !== document.title) {
+        document.title = title
+      }
     }
 
     const description = pageDescription || siteData.description
