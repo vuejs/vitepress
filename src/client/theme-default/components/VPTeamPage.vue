@@ -6,53 +6,42 @@
 
 <style scoped>
 .VPTeamPage {
-  margin: 96px 0;
+  padding: 48px 24px 128px;
 }
 
 @media (min-width: 768px) {
   .VPTeamPage {
-    margin: 128px 0;
-  }
-}
-
-.VPHome :slotted(.VPTeamPageTitle) {
-  border-top: 1px solid var(--vp-c-gutter);
-  padding-top: 88px !important;
-}
-
-:slotted(.VPTeamPageSection + .VPTeamPageSection),
-:slotted(.VPTeamMembers + .VPTeamPageSection) {
-  margin-top: 64px;
-}
-
-:slotted(.VPTeamMembers + .VPTeamMembers) {
-  margin-top: 24px;
-}
-
-@media (min-width: 768px) {
-  :slotted(.VPTeamPageTitle + .VPTeamPageSection) {
-    margin-top: 16px;
-  }
-
-  :slotted(.VPTeamPageSection + .VPTeamPageSection),
-  :slotted(.VPTeamMembers + .VPTeamPageSection) {
-    margin-top: 96px;
-  }
-}
-
-:slotted(.VPTeamMembers) {
-  padding: 0 24px;
-}
-
-@media (min-width: 768px) {
-  :slotted(.VPTeamMembers) {
-    padding: 0 48px;
+    padding: 64px 32px 128px;
   }
 }
 
 @media (min-width: 960px) {
-  :slotted(.VPTeamMembers) {
-    padding: 0 64px;
+  .VPTeamPage {
+    padding: 96px 64px 128px;
+  }
+}
+
+.VPTeamPage :deep(.VPTeamPageSection + .VPTeamPageSection),
+.VPTeamPage :deep(.VPTeamMembers + .VPTeamPageSection) {
+  margin-top: 64px;
+}
+
+.VPTeamPage :deep(.VPTeamPageTitle + .VPTeamMembers) {
+  margin-top: 32px;
+}
+
+.VPTeamPage :deep(.VPTeamMembers + .VPTeamMembers) {
+  margin-top: 24px;
+}
+
+@media (min-width: 768px) {
+  .VPTeamPage :deep(.VPTeamPageTitle + .VPTeamPageSection) {
+    margin-top: 16px;
+  }
+
+  .VPTeamPage :deep(.VPTeamPageSection + .VPTeamPageSection),
+  .VPTeamPage :deep(.VPTeamMembers + .VPTeamPageSection) {
+    margin-top: 96px;
   }
 }
 </style>
