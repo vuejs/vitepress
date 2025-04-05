@@ -1,6 +1,6 @@
 import { useMediaQuery } from '@vueuse/core'
 import { onContentUpdated } from 'vitepress'
-import { computed, ref, shallowRef, watch } from 'vue'
+import { computed, shallowRef } from 'vue'
 import type { MenuItem } from '../../shared'
 import { getSidebar, getSidebarGroups } from '../support/sidebar'
 import { useData } from './data'
@@ -14,17 +14,10 @@ export function useLayout() {
     return !!(frontmatter.value.isHome ?? frontmatter.value.layout === 'home')
   })
 
-  const _sidebar = computed(() => {
+  const sidebar = computed(() => {
     const sidebarConfig = theme.value.sidebar
     const relativePath = page.value.relativePath
     return sidebarConfig ? getSidebar(sidebarConfig, relativePath) : []
-  })
-
-  const sidebar = ref(_sidebar.value)
-
-  watch(_sidebar, (next, prev) => {
-    if (JSON.stringify(next) !== JSON.stringify(prev))
-      sidebar.value = _sidebar.value
   })
 
   const hasSidebar = computed(() => {
