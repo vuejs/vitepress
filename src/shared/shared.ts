@@ -168,18 +168,16 @@ function hasTag(head: HeadConfig[], tag: HeadConfig) {
   )
 }
 
-export function mergeHead(current: HeadConfig[], ...incoming: HeadConfig[][]) {
-  return incoming
-    .filter((el) => Array.isArray(el) && el.length > 0)
+// Merge head tags, overwrite duplicate meta tags in ascending precedence
+export function mergeHead(...heads: HeadConfig[][]) {
+  return heads
+    .filter(Array.isArray)
     .flat(1)
     .reverse()
-    .reduce(
-      (merged, tag) => {
-        if (!hasTag(merged, tag)) merged.push(tag)
-        return merged
-      },
-      [...current]
-    )
+    .reduce((merged, tag) => {
+      if (!hasTag(merged, tag)) merged.push(tag)
+      return merged
+    }, []) as HeadConfig[]
 }
 
 // https://github.com/rollup/rollup/blob/fec513270c6ac350072425cc045db367656c623b/src/utils/sanitizeFileName.ts
