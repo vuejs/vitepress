@@ -18,8 +18,8 @@ defineProps<{
   <VPLink
     class="VPFeature"
     :href="link"
-    :rel="rel"
-    :target="target"
+    :rel
+    :target
     :no-icon="true"
     :tag="link ? 'a' : 'div'"
   >

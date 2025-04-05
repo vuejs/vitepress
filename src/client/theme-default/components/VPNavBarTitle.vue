@@ -34,8 +34,8 @@ const target = computed(() =>
     <a
       class="title"
       :href="link ?? normalizeLink(currentLang.link)"
-      :rel="rel"
-      :target="target"
+      :rel
+      :target
     >
       <slot name="nav-bar-title-before" />
       <VPImage v-if="theme.logo" class="logo" :image="theme.logo" />

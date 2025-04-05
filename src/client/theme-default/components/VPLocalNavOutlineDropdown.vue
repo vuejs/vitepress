@@ -84,7 +84,7 @@ function scrollToTop() {
           </a>
         </div>
         <div class="outline">
-          <VPDocOutlineItem :headers="headers" />
+          <VPDocOutlineItem :headers />
         </div>
       </div>
     </Transition>

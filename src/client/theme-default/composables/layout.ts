@@ -49,12 +49,13 @@ export function useLayout() {
 
   const headers = shallowRef<MenuItem[]>([])
 
-  const hasLocalNav = computed(() => {
-    return headers.value.length > 0
-  })
-
+  // TODO: optimize this
   onContentUpdated(() => {
     headers.value = getHeaders(frontmatter.value.outline ?? theme.value.outline)
+  })
+
+  const hasLocalNav = computed(() => {
+    return headers.value.length > 0
   })
 
   return {

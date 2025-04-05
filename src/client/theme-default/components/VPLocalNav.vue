@@ -1,10 +1,8 @@
 <script lang="ts" setup>
 import { useWindowScroll } from '@vueuse/core'
-import { onContentUpdated } from 'vitepress'
 import { computed, onMounted, ref } from 'vue'
 import { useData } from '../composables/data'
 import { useLayout } from '../composables/layout'
-import { getHeaders } from '../composables/outline'
 import VPLocalNavOutlineDropdown from './VPLocalNavOutlineDropdown.vue'
 
 defineProps<{
@@ -27,10 +25,6 @@ onMounted(() => {
       '--vp-nav-height'
     )
   )
-})
-
-onContentUpdated(() => {
-  headers.value = getHeaders(frontmatter.value.outline ?? theme.value.outline)
 })
 
 const empty = computed(() => {
@@ -70,7 +64,7 @@ const classes = computed(() => {
         </span>
       </button>
 
-      <VPLocalNavOutlineDropdown :headers="headers" :navHeight="navHeight" />
+      <VPLocalNavOutlineDropdown :headers :navHeight />
     </div>
   </div>
 </template>

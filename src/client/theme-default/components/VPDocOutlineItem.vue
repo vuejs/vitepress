@@ -16,7 +16,7 @@ function onClick({ target: el }: Event) {
 <template>
   <ul class="VPDocOutlineItem" :class="root ? 'root' : 'nested'">
     <li v-for="{ children, link, title } in headers">
-      <a class="outline-link" :href="link" @click="onClick" :title="title">
+      <a class="outline-link" :href="link" @click="onClick" :title>
         {{ title }}
       </a>
       <template v-if="children?.length">

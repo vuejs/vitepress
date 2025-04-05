@@ -58,7 +58,7 @@ watch(
       </span>
 
       <slot name="sidebar-nav-before" />
-      <VPSidebarGroup :items="sidebarGroups" :key="key" />
+      <VPSidebarGroup :items="sidebarGroups" :key />
       <slot name="sidebar-nav-after" />
     </nav>
   </aside>
