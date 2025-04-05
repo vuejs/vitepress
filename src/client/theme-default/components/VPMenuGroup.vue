@@ -12,7 +12,7 @@ defineProps<{
     <p v-if="text" class="title">{{ text }}</p>
 
     <template v-for="item in items">
-      <VPMenuLink v-if="'link' in item" :item="item" />
+      <VPMenuLink v-if="'link' in item" :item />
     </template>
   </div>
 </template>

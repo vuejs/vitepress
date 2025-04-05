@@ -1,23 +1,20 @@
 <script setup lang="ts">
 import NotFound from '../NotFound.vue'
 import { useData } from '../composables/data'
-import { useSidebar } from '../composables/sidebar'
+import { useLayout } from '../composables/layout'
 import VPDoc from './VPDoc.vue'
 import VPHome from './VPHome.vue'
 import VPPage from './VPPage.vue'
 
 const { page, frontmatter } = useData()
-const { hasSidebar } = useSidebar()
+const { isHome, hasSidebar } = useLayout()
 </script>
 
 <template>
   <div
     class="VPContent"
     id="VPContent"
-    :class="{
-      'has-sidebar': hasSidebar,
-      'is-home': frontmatter.layout === 'home'
-    }"
+    :class="{ 'has-sidebar': hasSidebar, 'is-home': isHome }"
   >
     <slot name="not-found" v-if="page.isNotFound"><NotFound /></slot>
 
