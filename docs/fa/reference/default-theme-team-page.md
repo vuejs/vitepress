@@ -106,9 +106,7 @@ const members = [
       توسعه ویت‌پرس توسط تیمی بین‌المللی راهنمایی می‌شود، برخی از اعضا که انتخاب کرده‌اند تا در زیر نمایش داده شوند.
     </template>
   </VPTeamPageTitle>
-  <VPTeamMembers
-    :members
-  />
+  <VPTeamMembers :members />
 </VPTeamPage>
 ```
 

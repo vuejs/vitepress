@@ -107,9 +107,7 @@ const members = [
       team, some of whom have chosen to be featured below.
     </template>
   </VPTeamPageTitle>
-  <VPTeamMembers
-    :members
-  />
+  <VPTeamMembers :members />
 </VPTeamPage>
 ```
 
