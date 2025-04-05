@@ -19,7 +19,6 @@ import {
   type SiteData
 } from '../shared'
 import type { Route } from './router'
-import { stackView } from './utils'
 
 export const dataSymbol: InjectionKey<VitePressData> = Symbol()
 
@@ -70,46 +69,11 @@ if (import.meta.hot) {
   })
 }
 
-function debugConfigLayers(path: string, layers: SiteData[]): SiteData[] {
-  // This helps users to understand which configuration files are active
-  if (inBrowser && import.meta.env.DEV) {
-    const summaryTitle = `Config Layers for ${path}:`
-    const summary = layers.map((c, i, arr) => {
-      const n = i + 1
-      if (n === arr.length) return `${n}. .vitepress/config (root)`
-      return `${n}. ${(c as any)?.['[VP_SOURCE]'] ?? '(Unknown Source)'}`
-    })
-    console.debug(
-      [summaryTitle, ''.padEnd(summaryTitle.length, '='), ...summary].join('\n')
-    )
-  }
-  return layers
-}
-
-function getConfigLayers(root: SiteData, path: string): SiteData[] {
-  if (!path.startsWith('/')) path = `/${path}`
-  const additionalConfig = root.additionalConfig
-  if (additionalConfig === undefined) return [root]
-  else if (typeof additionalConfig === 'function')
-    return [...(additionalConfig(path) as SiteData[]), root]
-  const configs: SiteData[] = []
-  const segments = path.split('/').slice(1, -1)
-  while (segments.length) {
-    const key = `/${segments.join('/')}/`
-    if (key in additionalConfig) configs.push(additionalConfig[key] as SiteData)
-    segments.pop()
-  }
-  if ('/' in additionalConfig) configs.push(additionalConfig['/'] as SiteData)
-  return [...configs, root]
-}
-
 // per-app data
 export function initData(route: Route): VitePressData {
-  const site = computed(() => {
-    const path = route.data.relativePath
-    const data = resolveSiteDataByRoute(siteDataRef.value, path)
-    return stackView(...debugConfigLayers(path, getConfigLayers(data, path)))
-  })
+  const site = computed(() =>
+    resolveSiteDataByRoute(siteDataRef.value, route.data.relativePath)
+  )
 
   const appearance = site.value.appearance // fine with reactivity being lost here, config change triggers a restart
   const isDark =

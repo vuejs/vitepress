@@ -12,7 +12,13 @@ import {
 import { DEFAULT_THEME_PATH } from './alias'
 import type { DefaultTheme } from './defaultTheme'
 import { resolvePages } from './plugins/dynamicRoutesPlugin'
-import { APPEARANCE_KEY, slash, type HeadConfig, type SiteData } from './shared'
+import {
+  APPEARANCE_KEY,
+  VP_SOURCE_KEY,
+  slash,
+  type HeadConfig,
+  type SiteData
+} from './shared'
 import type { RawConfigExports, SiteConfig, UserConfig } from './siteConfig'
 import type { AdditionalConfig, AdditionalConfigDict } from '../../types/shared'
 import { glob } from 'tinyglobby'
@@ -215,7 +221,7 @@ async function gatherAdditionalConfig(
         )
       )
       if (mode === 'development')
-        (configExports.config as any)['[VP_SOURCE]'] = '/' + slash(file)
+        (configExports.config as any)[VP_SOURCE_KEY] = '/' + slash(file)
       return [id, configExports.config as AdditionalConfig]
     })
   )

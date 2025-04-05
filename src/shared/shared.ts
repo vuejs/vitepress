@@ -94,22 +94,29 @@ export function resolveSiteDataByRoute(
   relativePath: string
 ): SiteData {
   const localeIndex = getLocaleForPath(siteData, relativePath)
-
-  return Object.assign({}, siteData, {
-    localeIndex,
-    lang: siteData.locales[localeIndex]?.lang ?? siteData.lang,
-    dir: siteData.locales[localeIndex]?.dir ?? siteData.dir,
-    title: siteData.locales[localeIndex]?.title ?? siteData.title,
-    titleTemplate:
-      siteData.locales[localeIndex]?.titleTemplate ?? siteData.titleTemplate,
-    description:
-      siteData.locales[localeIndex]?.description ?? siteData.description,
-    head: mergeHead(siteData.head, siteData.locales[localeIndex]?.head ?? []),
-    themeConfig: {
-      ...siteData.themeConfig,
-      ...siteData.locales[localeIndex]?.themeConfig
-    }
-  })
+  const { label, link, ...localeConfig } = siteData.locales[localeIndex] ?? {}
+  const additionalConfigs = resolveAdditionalConfig(siteData, relativePath)
+  if (inBrowser && (import.meta as any).env?.DEV) {
+    ;(localeConfig as any)[VP_SOURCE_KEY] = `locale config (${localeIndex})`
+    reportConfigLayers(relativePath, [
+      ...additionalConfigs,
+      localeConfig as SiteData,
+      siteData
+    ])
+  }
+  const topLayer = {
+    head: mergeHead(
+      siteData.head ?? [],
+      localeConfig.head ?? [],
+      ...additionalConfigs.map((data) => data?.head ?? []).reverse()
+    )
+  } as SiteData
+  return stackView<SiteData>(
+    topLayer,
+    ...additionalConfigs,
+    localeConfig,
+    siteData
+  )
 }
 
 /**
@@ -161,8 +168,18 @@ function hasTag(head: HeadConfig[], tag: HeadConfig) {
   )
 }
 
-export function mergeHead(prev: HeadConfig[], curr: HeadConfig[]) {
-  return [...prev.filter((tagAttrs) => !hasTag(curr, tagAttrs)), ...curr]
+export function mergeHead(current: HeadConfig[], ...incoming: HeadConfig[][]) {
+  return incoming
+    .filter((el) => Array.isArray(el) && el.length > 0)
+    .flat(1)
+    .reverse()
+    .reduce(
+      (merged, tag) => {
+        if (!hasTag(merged, tag)) merged.push(tag)
+        return merged
+      },
+      [...current]
+    )
 }
 
 // https://github.com/rollup/rollup/blob/fec513270c6ac350072425cc045db367656c623b/src/utils/sanitizeFileName.ts
@@ -229,4 +246,92 @@ export function escapeHtml(str: string): string {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/&(?![\w#]+;)/g, '&amp;')
+}
+
+export function resolveAdditionalConfig(site: SiteData, path: string) {
+  if (!path.startsWith('/')) path = `/${path}`
+  const additionalConfig = site.additionalConfig
+  if (additionalConfig === undefined) return []
+  else if (typeof additionalConfig === 'function')
+    return additionalConfig(path) as SiteData[]
+  const configs: SiteData[] = []
+  const segments = path.split('/').slice(1, -1)
+  while (segments.length) {
+    const key = `/${segments.join('/')}/`
+    if (key in additionalConfig) configs.push(additionalConfig[key] as SiteData)
+    segments.pop()
+  }
+  if ('/' in additionalConfig) configs.push(additionalConfig['/'] as SiteData)
+  return configs
+}
+
+export const VP_SOURCE_KEY = '[VP_SOURCE]'
+
+function reportConfigLayers(path: string, layers: SiteData[]) {
+  // This helps users to understand which configuration files are active
+  const summaryTitle = `Config Layers for ${path}:`
+  const summary = layers.map((c, i, arr) => {
+    const n = i + 1
+    if (n === arr.length) return `${n}. .vitepress/config (root)`
+    return `${n}. ${(c as any)?.[VP_SOURCE_KEY] ?? '(Unknown Source)'}`
+  })
+  console.debug(
+    [summaryTitle, ''.padEnd(summaryTitle.length, '='), ...summary].join('\n')
+  )
+}
+
+/**
+ * Creates a deep, merged view of multiple objects without mutating originals.
+ * Returns a readonly proxy behaving like a merged object of the input objects.
+ * Layers are merged in descending precedence, i.e. earlier layer is on top.
+ */
+export function stackView<T extends object>(...layers: Partial<T>[]): T {
+  layers = layers.filter((layer) => layer !== undefined)
+  if (!isStackable(layers[0])) return layers[0] as T
+  layers = layers.filter(isStackable)
+  if (layers.length <= 1) return layers[0] as T
+  return new Proxy(
+    {},
+    {
+      get(_, key) {
+        return key === UnpackStackView
+          ? layers
+          : stackView(...layers.map((layer) => (layer as any)?.[key]))
+      },
+      set(_, key, value) {
+        throw new Error('StackView is read-only and cannot be mutated.')
+      },
+      has(_, key) {
+        for (const layer of layers) {
+          if (key in layer) return true
+        }
+        return false
+      },
+      ownKeys(_) {
+        const keys = new Set<string>()
+        for (const layer of layers) {
+          for (const key of Object.keys(layer)) {
+            keys.add(key)
+          }
+        }
+        return Array.from(keys)
+      },
+      getOwnPropertyDescriptor(_, key) {
+        for (const layer of layers) {
+          if (key in layer) {
+            return Object.getOwnPropertyDescriptor(layer, key)
+          }
+        }
+      }
+    }
+  ) as T
+}
+
+function isStackable(obj: any) {
+  return typeof obj === 'object' && obj !== null && !Array.isArray(obj)
+}
+
+const UnpackStackView = Symbol('stack-view:unpack')
+stackView.unpack = function <T>(obj: T): T[] | undefined {
+  return (obj as any)?.[UnpackStackView]
 }
