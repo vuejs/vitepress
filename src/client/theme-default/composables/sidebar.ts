@@ -7,31 +7,19 @@ import {
   watch,
   watchEffect,
   watchPostEffect,
-  type ComputedRef,
-  type Ref
+  type ComputedRef
 } from 'vue'
 import { isActive } from '../../shared'
 import { hasActiveLink as containsActiveLink } from '../support/sidebar'
 import { useData } from './data'
 
-export interface SidebarControl {
-  collapsed: Ref<boolean>
-  collapsible: ComputedRef<boolean>
-  isLink: ComputedRef<boolean>
-  isActiveLink: Ref<boolean>
-  hasActiveLink: ComputedRef<boolean>
-  hasChildren: ComputedRef<boolean>
-  toggle(): void
-}
+const isOpen = ref(false)
 
 /**
  * a11y: cache the element that opened the Sidebar (the menu button) then
  * focus that button again when Menu is closed with Escape key.
  */
-export function useCloseSidebarOnEscape(
-  isOpen: Ref<boolean>,
-  close: () => void
-) {
+export function useCloseSidebarOnEscape(close: () => void) {
   let triggerElement: HTMLButtonElement | undefined
 
   watchEffect(() => {
@@ -57,8 +45,6 @@ export function useCloseSidebarOnEscape(
 }
 
 export function useSidebarControl() {
-  const isOpen = ref(false)
-
   function open() {
     isOpen.value = true
   }
@@ -81,7 +67,7 @@ export function useSidebarControl() {
 
 export function useSidebarItemControl(
   item: ComputedRef<DefaultTheme.SidebarItem>
-): SidebarControl {
+) {
   const { page, hash } = useData()
 
   const collapsed = ref(false)

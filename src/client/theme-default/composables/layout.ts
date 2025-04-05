@@ -1,10 +1,13 @@
 import { useMediaQuery } from '@vueuse/core'
-import { onContentUpdated } from 'vitepress'
-import { computed, shallowRef } from 'vue'
-import type { MenuItem } from '../../shared'
+import { onContentUpdated, useRoute } from 'vitepress'
+import { computed, shallowRef, watch } from 'vue'
+import { type MenuItem } from '../../shared'
 import { getSidebar, getSidebarGroups } from '../support/sidebar'
 import { useData } from './data'
 import { getHeaders } from './outline'
+import { useCloseSidebarOnEscape } from './sidebar'
+
+const headers = shallowRef<MenuItem[]>([])
 
 export function useLayout() {
   const { frontmatter, page, theme } = useData()
@@ -47,13 +50,6 @@ export function useLayout() {
       : frontmatter.value.aside === 'left'
   })
 
-  const headers = shallowRef<MenuItem[]>([])
-
-  // TODO: optimize this
-  onContentUpdated(() => {
-    headers.value = getHeaders(frontmatter.value.outline ?? theme.value.outline)
-  })
-
   const hasLocalNav = computed(() => {
     return headers.value.length > 0
   })
@@ -69,4 +65,21 @@ export function useLayout() {
     headers,
     hasLocalNav
   }
+}
+
+interface RegisterWatchersOptions {
+  closeSidebar: () => void
+}
+
+export function registerWatchers({ closeSidebar }: RegisterWatchersOptions) {
+  const { frontmatter, theme } = useData()
+
+  onContentUpdated(() => {
+    headers.value = getHeaders(frontmatter.value.outline ?? theme.value.outline)
+  })
+
+  const route = useRoute()
+  watch(() => route.path, closeSidebar)
+
+  useCloseSidebarOnEscape(closeSidebar)
 }
