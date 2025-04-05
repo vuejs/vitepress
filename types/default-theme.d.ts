@@ -1,5 +1,4 @@
 import type { Options as _MiniSearchOptions } from 'minisearch'
-import type { ComputedRef, Ref, ShallowRef } from 'vue'
 import type { DocSearchProps } from './docsearch.js'
 import type { LocalSearchTranslations } from './local-search.js'
 import type { PageData } from './shared.js'
