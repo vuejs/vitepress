@@ -20,6 +20,10 @@ All referenced assets, including those using absolute paths, will be copied to t
 
 All **static** path references, including absolute paths, should be based on your working directory structure.
 
+::: tip If you use `srcDir`
+If you use [`srcDir`](../reference/site-config#srcdir), [`public`](#the-public-directory) directory should be placed under the `srcDir` directory.
+:::
+
 ## The Public Directory
 
 Sometimes you may need to provide static assets that are not directly referenced in any of your Markdown or theme components, or you may want to serve certain files with the original filename. Examples of such files include `robots.txt`, favicons, and PWA icons.
