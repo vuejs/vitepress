@@ -28,11 +28,10 @@ export function useLayout() {
     )
   })
 
-  const leftAside = computed(() => {
-    if (!hasAside.value) return false
-    return frontmatter.value.aside == null
-      ? theme.value.aside === 'left'
-      : frontmatter.value.aside === 'left'
+  const isSidebarEnabled = computed(() => hasSidebar.value && is960.value)
+
+  const sidebarGroups = computed(() => {
+    return hasSidebar.value ? getSidebarGroups(sidebar.value) : []
   })
 
   const hasAside = computed(() => {
@@ -41,10 +40,11 @@ export function useLayout() {
     return theme.value.aside !== false
   })
 
-  const isSidebarEnabled = computed(() => hasSidebar.value && is960.value)
-
-  const sidebarGroups = computed(() => {
-    return hasSidebar.value ? getSidebarGroups(sidebar.value) : []
+  const leftAside = computed(() => {
+    if (!hasAside.value) return false
+    return frontmatter.value.aside == null
+      ? theme.value.aside === 'left'
+      : frontmatter.value.aside === 'left'
   })
 
   const headers = shallowRef<MenuItem[]>([])
@@ -63,9 +63,9 @@ export function useLayout() {
     sidebar,
     sidebarGroups,
     hasSidebar,
+    isSidebarEnabled,
     hasAside,
     leftAside,
-    isSidebarEnabled,
     headers,
     hasLocalNav
   }
