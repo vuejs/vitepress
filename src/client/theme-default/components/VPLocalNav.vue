@@ -13,8 +13,8 @@ defineEmits<{
   (e: 'open-menu'): void
 }>()
 
-const { theme, frontmatter } = useData()
-const { hasSidebar, headers } = useLayout()
+const { theme } = useData()
+const { isHome, hasSidebar, headers, hasLocalNav } = useLayout()
 const { y } = useWindowScroll()
 
 const navHeight = ref(0)
@@ -27,27 +27,19 @@ onMounted(() => {
   )
 })
 
-const empty = computed(() => {
-  return headers.value.length === 0
-})
-
-const emptyAndNoSidebar = computed(() => {
-  return empty.value && !hasSidebar.value
-})
-
 const classes = computed(() => {
   return {
     VPLocalNav: true,
     'has-sidebar': hasSidebar.value,
-    empty: empty.value,
-    fixed: emptyAndNoSidebar.value
+    empty: !hasLocalNav.value,
+    fixed: !hasLocalNav.value && !hasSidebar.value,
   }
 })
 </script>
 
 <template>
   <div
-    v-if="frontmatter.layout !== 'home' && (!emptyAndNoSidebar || y >= navHeight)"
+    v-if="!isHome && (hasLocalNav || hasSidebar || y >= navHeight)"
     :class="classes"
   >
     <div class="container">
