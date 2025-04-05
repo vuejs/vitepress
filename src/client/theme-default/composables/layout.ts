@@ -1,16 +1,17 @@
 import { useMediaQuery } from '@vueuse/core'
-import { computed, ref, watch } from 'vue'
+import { onContentUpdated } from 'vitepress'
+import { computed, ref, shallowRef, watch } from 'vue'
+import type { MenuItem } from '../../shared'
 import { getSidebar, getSidebarGroups } from '../support/sidebar'
 import { useData } from './data'
+import { getHeaders } from './outline'
 
 export function useLayout() {
   const { frontmatter, page, theme } = useData()
   const is960 = useMediaQuery('(min-width: 960px)')
 
   const isHome = computed(() => {
-    if (frontmatter.value.isHome !== undefined)
-      return Boolean(frontmatter.value.isHome)
-    else return frontmatter.value.layout === 'home'
+    return !!(frontmatter.value.isHome ?? frontmatter.value.layout === 'home')
   })
 
   const _sidebar = computed(() => {
@@ -35,11 +36,10 @@ export function useLayout() {
   })
 
   const leftAside = computed(() => {
-    if (hasAside)
-      return frontmatter.value.aside == null
-        ? theme.value.aside === 'left'
-        : frontmatter.value.aside === 'left'
-    return false
+    if (!hasAside.value) return false
+    return frontmatter.value.aside == null
+      ? theme.value.aside === 'left'
+      : frontmatter.value.aside === 'left'
   })
 
   const hasAside = computed(() => {
@@ -54,6 +54,16 @@ export function useLayout() {
     return hasSidebar.value ? getSidebarGroups(sidebar.value) : []
   })
 
+  const headers = shallowRef<MenuItem[]>([])
+
+  const hasLocalNav = computed(() => {
+    return headers.value.length > 0
+  })
+
+  onContentUpdated(() => {
+    headers.value = getHeaders(frontmatter.value.outline ?? theme.value.outline)
+  })
+
   return {
     isHome,
     sidebar,
@@ -61,6 +71,8 @@ export function useLayout() {
     hasSidebar,
     hasAside,
     leftAside,
-    isSidebarEnabled
+    isSidebarEnabled,
+    headers,
+    hasLocalNav
   }
 }

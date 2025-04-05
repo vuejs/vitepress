@@ -3,9 +3,8 @@ import { useWindowScroll } from '@vueuse/core'
 import { onContentUpdated } from 'vitepress'
 import { computed, onMounted, ref } from 'vue'
 import { useData } from '../composables/data'
-import { useLocalNav } from '../composables/local-nav'
-import { getHeaders } from '../composables/outline'
 import { useLayout } from '../composables/layout'
+import { getHeaders } from '../composables/outline'
 import VPLocalNavOutlineDropdown from './VPLocalNavOutlineDropdown.vue'
 
 defineProps<{
@@ -17,8 +16,7 @@ defineEmits<{
 }>()
 
 const { theme, frontmatter } = useData()
-const { hasSidebar } = useLayout()
-const { headers } = useLocalNav()
+const { hasSidebar, headers } = useLayout()
 const { y } = useWindowScroll()
 
 const navHeight = ref(0)

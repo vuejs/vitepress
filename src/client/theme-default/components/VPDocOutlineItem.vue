@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { MenuItem } from '../composables/outline'
+import type { MenuItem } from '../../shared'
 
 defineProps<{
   headers: MenuItem[]
@@ -16,7 +16,9 @@ function onClick({ target: el }: Event) {
 <template>
   <ul class="VPDocOutlineItem" :class="root ? 'root' : 'nested'">
     <li v-for="{ children, link, title } in headers">
-      <a class="outline-link" :href="link" @click="onClick" :title="title">{{ title }}</a>
+      <a class="outline-link" :href="link" @click="onClick" :title="title">
+        {{ title }}
+      </a>
       <template v-if="children?.length">
         <VPDocOutlineItem :headers="children" />
       </template>

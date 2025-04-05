@@ -180,36 +180,3 @@ export default {
   }
 }
 ```
-
-## `useSidebar` <Badge type="info" text="composable" />
-
-사이드바 관련 데이터를 반환합니다. 반환된 객체는 다음과 같은 타입을 가집니다:
-
-```ts
-export interface DocSidebar {
-  isOpen: Ref<boolean>
-  sidebar: ComputedRef<DefaultTheme.SidebarItem[]>
-  sidebarGroups: ComputedRef<DefaultTheme.SidebarItem[]>
-  hasSidebar: ComputedRef<boolean>
-  hasAside: ComputedRef<boolean>
-  leftAside: ComputedRef<boolean>
-  isSidebarEnabled: ComputedRef<boolean>
-  open: () => void
-  close: () => void
-  toggle: () => void
-}
-```
-
-**예제:**
-
-```vue
-<script setup>
-import { useSidebar } from 'vitepress/theme'
-
-const { hasSidebar } = useSidebar()
-</script>
-
-<template>
-  <div v-if="hasSidebar">사이드바가 있을 때만 보여줍니다</div>
-</template>
-```

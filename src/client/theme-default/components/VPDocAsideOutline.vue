@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { onContentUpdated } from 'vitepress'
 import { ref, shallowRef } from 'vue'
+import type { MenuItem } from '../../shared'
 import { useData } from '../composables/data'
 import {
   getHeaders,
   resolveTitle,
-  useActiveAnchor,
-  type MenuItem
+  useActiveAnchor
 } from '../composables/outline'
 import VPDocOutlineItem from './VPDocOutlineItem.vue'
 

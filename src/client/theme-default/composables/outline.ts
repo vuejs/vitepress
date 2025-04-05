@@ -1,7 +1,7 @@
 import { getScrollOffset } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
 import { onMounted, onUnmounted, onUpdated, type Ref } from 'vue'
-import type { Header } from '../../shared'
+import type { MenuItem } from '../../shared'
 import { throttleAndDebounce } from '../support/utils'
 import { useAside } from './aside'
 
@@ -9,11 +9,6 @@ const ignoreRE = /\b(?:VPBadge|header-anchor|footnote-ref|ignore-header)\b/
 
 // cached list of anchor elements from resolveHeaders
 const resolvedHeaders: { element: HTMLHeadElement; link: string }[] = []
-
-export type MenuItem = Omit<Header, 'slug' | 'children'> & {
-  element: HTMLHeadElement
-  children?: MenuItem[]
-}
 
 export function resolveTitle(theme: DefaultTheme.Config): string {
   return (

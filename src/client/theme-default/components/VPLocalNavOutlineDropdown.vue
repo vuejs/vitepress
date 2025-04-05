@@ -2,8 +2,9 @@
 import { onKeyStroke } from '@vueuse/core'
 import { onContentUpdated } from 'vitepress'
 import { nextTick, ref, watch } from 'vue'
+import type { MenuItem } from '../../shared'
 import { useData } from '../composables/data'
-import { resolveTitle, type MenuItem } from '../composables/outline'
+import { resolveTitle } from '../composables/outline'
 import VPDocOutlineItem from './VPDocOutlineItem.vue'
 
 const props = defineProps<{
@@ -125,7 +126,7 @@ function scrollToTop() {
   vertical-align: middle;
   margin-left: 2px;
   font-size: 14px;
-  transform: rotate(0)/*rtl:rotate(180deg)*/;
+  transform: rotate(0) /*rtl:rotate(180deg)*/;
   transition: transform 0.25s;
 }
 

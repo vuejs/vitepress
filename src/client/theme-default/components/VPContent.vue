@@ -14,10 +14,7 @@ const { isHome, hasSidebar } = useLayout()
   <div
     class="VPContent"
     id="VPContent"
-    :class="{
-      'has-sidebar': hasSidebar,
-      'is-home': isHome
-    }"
+    :class="{ 'has-sidebar': hasSidebar, 'is-home': isHome }"
   >
     <slot name="not-found" v-if="page.isNotFound"><NotFound /></slot>
 

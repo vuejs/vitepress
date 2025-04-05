@@ -273,22 +273,6 @@ export namespace DefaultTheme {
     target?: string
   }
 
-  /**
-   * ReturnType of `useSidebar`
-   */
-  export interface DocSidebar {
-    isOpen: Ref<boolean>
-    sidebar: ComputedRef<SidebarItem[]>
-    sidebarGroups: ComputedRef<SidebarItem[]>
-    hasSidebar: ComputedRef<boolean>
-    hasAside: ComputedRef<boolean>
-    leftAside: ComputedRef<boolean>
-    isSidebarEnabled: ComputedRef<boolean>
-    open: () => void
-    close: () => void
-    toggle: () => void
-  }
-
   // edit link -----------------------------------------------------------------
 
   export interface EditLink {
@@ -355,25 +339,6 @@ export namespace DefaultTheme {
     links?: SocialLink[]
     sponsor?: string
     actionText?: string
-  }
-
-  // local nav -----------------------------------------------------------------
-
-  /**
-   * ReturnType of `useLocalNav`.
-   */
-  export interface DocLocalNav {
-    /**
-     * The outline headers of the current page.
-     */
-    headers: ShallowRef<any>
-
-    /**
-     * Whether the current page has a local nav. Local nav is shown when the
-     * "outline" is present in the page. However, note that the actual
-     * local nav visibility depends on the screen width as well.
-     */
-    hasLocalNav: ComputedRef<boolean>
   }
 
   // outline -------------------------------------------------------------------
