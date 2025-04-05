@@ -161,7 +161,7 @@ Cache-Control: max-age=31536000,immutable
          - name: Setup Node
            uses: actions/setup-node@v4
            with:
-             node-version: 20
+             node-version: 22
              cache: npm # or pnpm / yarn
          - name: Setup Pages
            uses: actions/configure-pages@v4
