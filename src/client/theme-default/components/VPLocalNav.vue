@@ -5,7 +5,7 @@ import { computed, onMounted, ref } from 'vue'
 import { useData } from '../composables/data'
 import { useLocalNav } from '../composables/local-nav'
 import { getHeaders } from '../composables/outline'
-import { useSidebar } from '../composables/sidebar'
+import { useLayout } from '../composables/layout'
 import VPLocalNavOutlineDropdown from './VPLocalNavOutlineDropdown.vue'
 
 defineProps<{
@@ -17,7 +17,7 @@ defineEmits<{
 }>()
 
 const { theme, frontmatter } = useData()
-const { hasSidebar } = useSidebar()
+const { hasSidebar } = useLayout()
 const { headers } = useLocalNav()
 const { y } = useWindowScroll()
 

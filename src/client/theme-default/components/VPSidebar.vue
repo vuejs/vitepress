@@ -2,10 +2,10 @@
 import { useScrollLock } from '@vueuse/core'
 import { inBrowser } from 'vitepress'
 import { ref, watch } from 'vue'
-import { useSidebar } from '../composables/sidebar'
+import { useLayout } from '../composables/layout'
 import VPSidebarGroup from './VPSidebarGroup.vue'
 
-const { sidebarGroups, hasSidebar } = useSidebar()
+const { sidebarGroups, hasSidebar } = useLayout()
 
 const props = defineProps<{
   open: boolean

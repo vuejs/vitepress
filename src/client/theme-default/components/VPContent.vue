@@ -2,14 +2,12 @@
 import NotFound from '../NotFound.vue'
 import { useData } from '../composables/data'
 import { useLayout } from '../composables/layout'
-import { useSidebar } from '../composables/sidebar'
 import VPDoc from './VPDoc.vue'
 import VPHome from './VPHome.vue'
 import VPPage from './VPPage.vue'
 
 const { page, frontmatter } = useData()
-const { isHome } = useLayout()
-const { hasSidebar } = useSidebar()
+const { isHome, hasSidebar } = useLayout()
 </script>
 
 <template>

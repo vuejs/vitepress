@@ -32,7 +32,7 @@ export { default as VPTeamPageSection } from './components/VPTeamPageSection.vue
 export { default as VPTeamPageTitle } from './components/VPTeamPageTitle.vue'
 
 export { useLocalNav } from './composables/local-nav'
-export { useSidebar } from './composables/sidebar'
+export { useLayout } from './composables/layout'
 
 const theme: Theme = {
   Layout,

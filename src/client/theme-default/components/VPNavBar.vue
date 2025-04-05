@@ -2,7 +2,6 @@
 import { useWindowScroll } from '@vueuse/core'
 import { ref, watchPostEffect } from 'vue'
 import { useLayout } from '../composables/layout'
-import { useSidebar } from '../composables/sidebar'
 import VPNavBarAppearance from './VPNavBarAppearance.vue'
 import VPNavBarExtra from './VPNavBarExtra.vue'
 import VPNavBarHamburger from './VPNavBarHamburger.vue'
@@ -21,8 +20,7 @@ defineEmits<{
 }>()
 
 const { y } = useWindowScroll()
-const { hasSidebar } = useSidebar()
-const { isHome } = useLayout()
+const { isHome, hasSidebar } = useLayout()
 
 const classes = ref<Record<string, boolean>>({})
 

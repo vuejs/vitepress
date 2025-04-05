@@ -9,13 +9,13 @@ import VPNav from './components/VPNav.vue'
 import VPSidebar from './components/VPSidebar.vue'
 import VPSkipLink from './components/VPSkipLink.vue'
 import { useData } from './composables/data'
-import { useCloseSidebarOnEscape, useSidebar } from './composables/sidebar'
+import { useCloseSidebarOnEscape, useSidebarControl } from './composables/sidebar'
 
 const {
   isOpen: isSidebarOpen,
   open: openSidebar,
   close: closeSidebar
-} = useSidebar()
+} = useSidebarControl()
 
 const route = useRoute()
 watch(() => route.path, closeSidebar)
