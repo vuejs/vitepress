@@ -168,7 +168,10 @@ function hasTag(head: HeadConfig[], tag: HeadConfig) {
   )
 }
 
-// Merge head tags, overwrite duplicate meta tags in ascending precedence
+/**
+ * Merge head tags ascending precedence
+ * Prior duplicates are skipped in favor of later ones
+ */
 export function mergeHead(...heads: HeadConfig[][]) {
   return heads
     .filter(Array.isArray)
