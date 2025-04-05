@@ -205,8 +205,3 @@ export interface MarkdownEnv {
   realPath?: string
   localeIndex?: string
 }
-
-export type MenuItem = Omit<Header, 'slug' | 'children'> & {
-  element: HTMLHeadElement
-  children?: MenuItem[]
-}

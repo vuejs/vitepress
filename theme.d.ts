@@ -3,7 +3,6 @@
 import type { ComputedRef, DefineComponent, ShallowRef } from 'vue'
 import type { EnhanceAppContext } from './dist/client/index.js'
 import type { DefaultTheme } from './types/default-theme.js'
-import type { MenuItem } from './types/shared.js'
 
 export type { DefaultTheme } from './types/default-theme.js'
 
@@ -28,7 +27,7 @@ export declare const useLayout: () => {
   /**
    * The outline headers of the current page.
    */
-  headers: ShallowRef<MenuItem>
+  headers: ShallowRef<DefaultTheme.OutlineItem[]>
   /**
    * Whether the current page has a local nav. Local nav is shown when the
    * "outline" is present in the page. However, note that the actual

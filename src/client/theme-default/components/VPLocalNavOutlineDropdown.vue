@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { onKeyStroke } from '@vueuse/core'
 import { onContentUpdated } from 'vitepress'
+import type { DefaultTheme } from 'vitepress/theme'
 import { nextTick, ref, watch } from 'vue'
-import type { MenuItem } from '../../shared'
 import { useData } from '../composables/data'
 import { resolveTitle } from '../composables/outline'
 import VPDocOutlineItem from './VPDocOutlineItem.vue'
 
 const props = defineProps<{
-  headers: MenuItem[]
+  headers: DefaultTheme.OutlineItem[]
   navHeight: number
 }>()
 

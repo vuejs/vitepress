@@ -1,13 +1,13 @@
 import { useMediaQuery } from '@vueuse/core'
 import { onContentUpdated, useRoute } from 'vitepress'
+import type { DefaultTheme } from 'vitepress/theme'
 import { computed, shallowRef, watch } from 'vue'
-import { type MenuItem } from '../../shared'
 import { getSidebar, getSidebarGroups } from '../support/sidebar'
 import { useData } from './data'
 import { getHeaders } from './outline'
 import { useCloseSidebarOnEscape } from './sidebar'
 
-const headers = shallowRef<MenuItem[]>([])
+const headers = shallowRef<DefaultTheme.OutlineItem[]>([])
 
 export function useLayout() {
   const { frontmatter, page, theme } = useData()

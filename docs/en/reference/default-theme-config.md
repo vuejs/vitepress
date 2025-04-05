@@ -474,7 +474,7 @@ interface {
   hasAside: ComputedRef<boolean>
   leftAside: ComputedRef<boolean>
 
-  headers: ShallowRef<MenuItem>
+  headers: ShallowRef<DefaultTheme.OutlineItem[]>
   hasLocalNav: ComputedRef<boolean>
 }
 ```

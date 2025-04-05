@@ -8,7 +8,6 @@ export type {
   LocaleConfig,
   LocaleSpecificConfig,
   MarkdownEnv,
-  MenuItem,
   PageData,
   PageDataPayload,
   SiteData,

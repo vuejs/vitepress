@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { MenuItem } from '../../shared'
+import type { DefaultTheme } from 'vitepress/theme'
 
 defineProps<{
-  headers: MenuItem[]
+  headers: DefaultTheme.OutlineItem[]
   root?: boolean
 }>()
 

@@ -1,7 +1,7 @@
 import type { Options as _MiniSearchOptions } from 'minisearch'
 import type { DocSearchProps } from './docsearch.js'
 import type { LocalSearchTranslations } from './local-search.js'
-import type { PageData } from './shared.js'
+import type { Header, PageData } from './shared.js'
 
 export namespace DefaultTheme {
   export interface Config {
@@ -345,6 +345,11 @@ export namespace DefaultTheme {
   export interface Outline {
     level?: number | [number, number] | 'deep'
     label?: string
+  }
+
+  export type OutlineItem = Omit<Header, 'slug' | 'children'> & {
+    element: HTMLHeadElement
+    children?: OutlineItem[]
   }
 
   // local search --------------------------------------------------------------
