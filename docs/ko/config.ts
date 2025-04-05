@@ -1,16 +1,16 @@
 import { createRequire } from 'module'
-import { defineConfig, type DefaultTheme } from 'vitepress'
+import { defineAdditionalConfig, type DefaultTheme } from 'vitepress'
 
 const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
 
-export const ko = defineConfig({
+export default defineAdditionalConfig({
   lang: 'ko-KR',
   description: 'Vite 및 Vue 기반 정적 사이트 생성기.',
 
   themeConfig: {
     nav: nav(),
-
+    search: { options: searchOptions() },
     sidebar: {
       '/ko/guide/': { base: '/ko/guide/', items: sidebarGuide() },
       '/ko/reference/': { base: '/ko/reference/', items: sidebarReference() }
@@ -208,8 +208,8 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
   ]
 }
 
-export const search: DefaultTheme.AlgoliaSearchOptions['locales'] = {
-  ko: {
+function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
+  return {
     placeholder: '문서 검색',
     translations: {
       button: {

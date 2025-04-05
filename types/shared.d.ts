@@ -5,6 +5,14 @@ export type { DefaultTheme } from './default-theme.js'
 
 export type Awaitable<T> = T | PromiseLike<T>
 
+// Beware that this may cause performance issues or infinite loops
+// Use only when absolutely necessary
+export type DeepPartial<T> = T extends object
+  ? {
+      [K in keyof T]?: DeepPartial<T[K]>
+    }
+  : T
+
 export interface PageData {
   relativePath: string
   /**
@@ -134,6 +142,9 @@ export interface SiteData<ThemeConfig = any> {
   router: {
     prefetchLinks: boolean
   }
+  additionalConfig?:
+    | AdditionalConfigDict<ThemeConfig>
+    | AdditionalConfigLoader<ThemeConfig>
 }
 
 export type HeadConfig =
@@ -160,6 +171,19 @@ export interface LocaleSpecificConfig<ThemeConfig = any> {
   head?: HeadConfig[]
   themeConfig?: ThemeConfig
 }
+
+export type AdditionalConfig<ThemeConfig = any> = DeepPartial<
+  LocaleSpecificConfig<ThemeConfig>
+>
+
+export type AdditionalConfigDict<ThemeConfig = any> = Record<
+  string,
+  AdditionalConfig<ThemeConfig>
+>
+
+export type AdditionalConfigLoader<ThemeConfig = any> = (
+  path: string
+) => AdditionalConfig<ThemeConfig>[]
 
 export type LocaleConfig<ThemeConfig = any> = Record<
   string,
