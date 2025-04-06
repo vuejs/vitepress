@@ -178,7 +178,7 @@
     "punycode": "^2.3.1",
     "rimraf": "^6.0.1",
     "rollup": "^4.39.0",
-    "rollup-plugin-dts": "6.2.0",
+    "rollup-plugin-dts": "6.1.1",
     "rollup-plugin-esbuild": "^6.2.1",
     "semver": "^7.7.1",
     "simple-git-hooks": "^2.12.1",
