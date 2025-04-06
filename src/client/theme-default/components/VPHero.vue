@@ -57,7 +57,7 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
         <div class="image-container">
           <div class="image-bg" />
           <slot name="home-hero-image">
-            <VPImage v-if="image" class="image-src" :image="image" />
+            <VPImage v-if="image" class="image-src" :image />
           </slot>
         </div>
       </div>

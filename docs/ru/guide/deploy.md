@@ -111,7 +111,7 @@ Cache-Control: max-age=31536000,immutable
 
 - **Build Command:** `npm run docs:build`
 - **Output Directory:** `docs/.vitepress/dist`
-- **Node Version:** `18` (или выше)
+- **Node Version:** `20` (или выше)
 
 ::: warning ПРЕДУПРЕЖДЕНИЕ
 Не включайте такие опции, как _Auto Minify_ для HTML-кода. Он удалит из вывода комментарии, которые имеют значение для Vue. При их удалении могут возникать ошибки несоответствия гидратации.
@@ -163,7 +163,7 @@ Cache-Control: max-age=31536000,immutable
          - name: Setup Node
            uses: actions/setup-node@v4
            with:
-             node-version: 20
+             node-version: 22
              cache: npm # или pnpm / yarn
          - name: Setup Pages
            uses: actions/configure-pages@v4
