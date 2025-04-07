@@ -1,8 +1,7 @@
 <script lang="ts" setup>
 import { useWindowScroll } from '@vueuse/core'
 import { ref, watchPostEffect } from 'vue'
-import { useData } from '../composables/data'
-import { useSidebar } from '../composables/sidebar'
+import { useLayout } from '../composables/layout'
 import VPNavBarAppearance from './VPNavBarAppearance.vue'
 import VPNavBarExtra from './VPNavBarExtra.vue'
 import VPNavBarHamburger from './VPNavBarHamburger.vue'
@@ -21,15 +20,14 @@ defineEmits<{
 }>()
 
 const { y } = useWindowScroll()
-const { hasSidebar } = useSidebar()
-const { frontmatter } = useData()
+const { isHome, hasSidebar } = useLayout()
 
 const classes = ref<Record<string, boolean>>({})
 
 watchPostEffect(() => {
   classes.value = {
     'has-sidebar': hasSidebar.value,
-    'home': frontmatter.value.layout === 'home',
+    'home': isHome.value,
     'top': y.value === 0,
     'screen-open': props.isScreenOpen
   }

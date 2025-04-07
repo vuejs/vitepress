@@ -457,3 +457,38 @@ Can be used to customize the label of the skip to content link. This link is sho
 - Default: `false`
 
 Whether to show an external link icon next to external links in markdown.
+
+## `useLayout` <Badge type="info" text="composable" />
+
+Returns layout-related data. The returned object has the following type:
+
+```ts
+interface {
+  isHome: ComputedRef<boolean>
+
+  sidebar: ComputedRef<DefaultTheme.SidebarItem[]>
+  sidebarGroups: ComputedRef<DefaultTheme.SidebarItem[]>
+  hasSidebar: ComputedRef<boolean>
+  isSidebarEnabled: ComputedRef<boolean>
+
+  hasAside: ComputedRef<boolean>
+  leftAside: ComputedRef<boolean>
+
+  headers: ShallowRef<DefaultTheme.OutlineItem[]>
+  hasLocalNav: ComputedRef<boolean>
+}
+```
+
+**Example:**
+
+```vue
+<script setup>
+import { useLayout } from 'vitepress/theme'
+
+const { hasSidebar } = useLayout()
+</script>
+
+<template>
+  <div v-if="hasSidebar">Only show when sidebar exists</div>
+</template>
+```

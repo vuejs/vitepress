@@ -111,7 +111,7 @@ Cache-Control: max-age=31536000,immutable
 
 - **构建命令：** `npm run docs:build`
 - **输出目录：** `docs/.vitepress/dist`
-- **node 版本：** `18` (或更高版本)
+- **node 版本：** `20` (或更高版本)
 
 ::: warning
 不要为 HTML 代码启用 _Auto Minify_ 等选项。它将从输出中删除对 Vue 有意义的注释。如果被删除，你可能会看到激活不匹配错误。
@@ -163,7 +163,7 @@ Cache-Control: max-age=31536000,immutable
          - name: Setup Node
            uses: actions/setup-node@v4
            with:
-             node-version: 20
+             node-version: 22
              cache: npm # 或 pnpm / yarn
          - name: Setup Pages
            uses: actions/configure-pages@v4
