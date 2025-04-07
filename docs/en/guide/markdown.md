@@ -255,7 +255,7 @@ This is a special container that can be used to prevent style and router conflic
 
 ```md
 ::: raw
-Wraps in a <div class="vp-raw">
+Wraps in a `<div class="vp-raw">`
 :::
 ```
 
@@ -824,7 +824,7 @@ It also supports selecting a line range:
 
 **Input**
 
-```md
+```md:line-numbers
 # Docs
 
 ## Basics
@@ -834,7 +834,7 @@ It also supports selecting a line range:
 
 **Part file** (`parts/basics.md`)
 
-```md
+```md:line-numbers
 Some getting started stuff.
 
 ### Configuration
@@ -844,7 +844,7 @@ Can be created using `.foorc.json`.
 
 **Equivalent code**
 
-```md
+```md:line-numbers
 # Docs
 
 ## Basics
@@ -860,7 +860,7 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 
 **Input**
 
-```md
+```md:line-numbers
 # Docs
 
 ## Basics
@@ -871,7 +871,7 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 
 **Part file** (`parts/basics.md`)
 
-```md
+```md:line-numbers
 <!-- #region basic-usage -->
 ## Usage Line 1
 
@@ -883,7 +883,7 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 
 **Equivalent code**
 
-```md
+```md:line-numbers
 # Docs
 
 ## Basics
@@ -896,6 +896,53 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 ::: warning
 Note that this does not throw errors if your file is not present. Hence, when using this feature make sure that the contents are being rendered as expected.
 :::
+
+Instead of VS Code regions, you can also use header anchors to include a specific section of the file. For example, if you have a header in your markdown file like this:
+
+```md
+## My Base Section
+
+Some content here.
+
+### My Sub Section
+
+Some more content here.
+
+## Another Section
+
+Content outside `My Base Section`.
+```
+
+You can include the `My Base Section` section like this:
+
+```md
+## My Extended Section
+<!--@include: ./parts/basics.md#my-base-section-->
+```
+
+**Equivalent code**
+
+```md
+## My Extended Section
+
+Some content here.
+
+### My Sub Section
+
+Some more content here.
+```
+
+Here, `my-base-section` is the generated id of the heading element. In case it's not easily guessable, you can open the part file in your browser and click on the heading anchor (`#` symbol left to the heading when hovered) to see the id in the URL bar. Or use browser dev tools to inspect the element. Alternatively, you can also specify the id to the part file like this:
+
+```md
+## My Base Section {#custom-id}
+```
+
+and include it like this:
+
+```md
+<!--@include: ./parts/basics.md#custom-id-->
+```
 
 ## Math Equations
 

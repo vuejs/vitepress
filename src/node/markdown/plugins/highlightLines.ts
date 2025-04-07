@@ -2,11 +2,11 @@
 // Now this plugin is only used to normalize line attrs.
 // The else part of line highlights logic is in './highlight.ts'.
 
-import type MarkdownIt from 'markdown-it'
+import type { MarkdownItAsync } from 'markdown-it-async'
 
 const RE = /{([\d,-]+)}/
 
-export const highlightLinePlugin = (md: MarkdownIt) => {
+export const highlightLinePlugin = (md: MarkdownItAsync) => {
   const fence = md.renderer.rules.fence!
   md.renderer.rules.fence = (...args) => {
     const [tokens, idx] = args

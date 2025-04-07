@@ -233,7 +233,7 @@ export default defineConfig({
 
 ```md
 ::: raw
-<div class="vp-raw">로 감쌉니다
+`<div class="vp-raw">`로 감쌉니다
 :::
 ```
 

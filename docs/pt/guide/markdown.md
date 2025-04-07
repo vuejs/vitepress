@@ -233,7 +233,7 @@ Este é um recipiente especial que pode ser usado para evitar conflitos de estil
 
 ```md
 ::: raw
-Envolve em um <div class="vp-raw">
+Envolve em um `<div class="vp-raw">`
 :::
 ```
 

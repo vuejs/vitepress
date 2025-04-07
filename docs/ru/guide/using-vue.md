@@ -148,13 +148,13 @@ HTML, обёрнутый `<code>`, будет отображаться как е
 **Разметка**
 
 ```md
-Это <span v-pre>{{ будет отображаться как есть}}</span>.
+Это <span v-pre>{{ будет отображаться как есть }}</span>.
 ```
 
 **Результат**
 
 <div class="escape-demo">
-  <p>Это <span v-pre>{{ будет отображаться как есть}}</span></p>
+  <p>Это <span v-pre>{{ будет отображаться как есть }}</span></p>
 </div>
 
 В качестве альтернативы вы можете обернуть весь абзац в пользовательский контейнер `v-pre`:
@@ -175,7 +175,7 @@ HTML, обёрнутый `<code>`, будет отображаться как е
 
 </div>
 
-## Unescape в блоках кода {#unescape-in-code-blocks}
+## Отключение экранирования в блоках кода {#unescape-in-code-blocks}
 
 По умолчанию все изолированные блоки кода автоматически оборачиваются `v-pre`, поэтому внутри них не будет обрабатываться синтаксис Vue. Чтобы включить интерполяцию в стиле Vue внутри фигурных скобок, можно добавить к языку суффикс `-vue`, например `js-vue`:
 
@@ -199,7 +199,9 @@ HTML, обёрнутый `<code>`, будет отображаться как е
 
 VitePress имеет [встроенную поддержку](https://vitejs.dev/guide/features.html#css-pre-processors) для препроцессоров CSS: файлы `.scss`, `.sass`, `.less`, `.styl` и `.stylus`. Для них не нужно устанавливать специфические для Vite плагины, но сам соответствующий препроцессор должен быть установлен:
 
-```
+::: code-group
+
+```sh [npm]
 # .scss и .sass
 npm install -D sass
 
@@ -210,7 +212,41 @@ npm install -D less
 npm install -D stylus
 ```
 
-Затем вы можете использовать следующее в Markdown и компонентах темы:
+```sh [pnpm]
+# .scss и .sass
+pnpm add -D sass
+
+# .less
+pnpm add -D less
+
+# .styl и .stylus
+pnpm add -D stylus
+```
+
+```sh [yarn]
+# .scss и .sass
+yarn add -D sass
+
+# .less
+yarn add -D less
+
+# .styl и .stylus
+yarn add -D stylus
+```
+
+```sh [bun]
+# .scss и .sass
+bun add -D sass
+
+# .less
+bun add -D less
+
+# .styl и .stylus
+bun add -D stylus
+```
+:::
+
+Затем вы можете использовать соответствующий атрибут `lang` в Markdown и компонентах темы:
 
 ```vue
 <style lang="sass">

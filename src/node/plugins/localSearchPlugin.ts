@@ -56,7 +56,7 @@ export async function localSearchPlugin(
     const relativePath = slash(path.relative(srcDir, file))
     const env: MarkdownEnv = { path: file, relativePath, cleanUrls }
     const md_raw = await fs.promises.readFile(file, 'utf-8')
-    const md_src = processIncludes(srcDir, md_raw, file, [])
+    const md_src = processIncludes(md, srcDir, md_raw, file, [], cleanUrls)
     if (options._render) {
       return await options._render(md_src, env, md)
     } else {
@@ -198,7 +198,9 @@ export async function localSearchPlugin(
       }
     },
 
-    async handleHotUpdate({ file }) {
+    async hotUpdate({ file }) {
+      if (this.environment.name !== 'client') return
+
       if (file.endsWith('.md')) {
         await indexFile(file)
         debug('🔍️ Updated', file)

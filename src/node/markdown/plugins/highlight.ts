@@ -7,11 +7,11 @@ import {
   type TransformerCompactLineOption
 } from '@shikijs/transformers'
 import { customAlphabet } from 'nanoid'
-import type { LanguageRegistration, ShikiTransformer } from 'shiki'
-import { createHighlighter, isSpecialLang } from 'shiki'
+import c from 'picocolors'
+import type { BundledLanguage, ShikiTransformer } from 'shiki'
+import { createHighlighter, guessEmbeddedLanguages, isSpecialLang } from 'shiki'
 import type { Logger } from 'vite'
 import type { MarkdownOptions, ThemeOptions } from '../markdown'
-import c from 'picocolors'
 
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)
 
@@ -71,46 +71,16 @@ export async function highlight(
     langAlias: options.languageAlias
   })
 
-  async function loadLanguage(name: string | LanguageRegistration) {
-    const lang = typeof name === 'string' ? name : name.name
-    if (
-      !isSpecialLang(lang) &&
-      !highlighter.getLoadedLanguages().includes(lang)
-    ) {
-      await highlighter.loadLanguage(lang as any)
-    }
-  }
-
   await options?.shikiSetup?.(highlighter)
 
-  // TODO: remove explicit matchAlgorithm in shiki v3
   const transformers: ShikiTransformer[] = [
-    transformerNotationDiff({
-      matchAlgorithm: 'v3'
-    }),
+    transformerNotationDiff(),
     transformerNotationFocus({
-      matchAlgorithm: 'v3',
       classActiveLine: 'has-focus',
       classActivePre: 'has-focused-lines'
     }),
-    transformerNotationHighlight({
-      matchAlgorithm: 'v3'
-    }),
-    transformerNotationErrorLevel({
-      matchAlgorithm: 'v3'
-    }),
-    {
-      name: 'vitepress:add-class',
-      pre(node) {
-        this.addClassToHast(node, 'vp-code')
-      }
-    },
-    {
-      name: 'vitepress:clean-up',
-      pre(node) {
-        delete node.properties.style
-      }
-    }
+    transformerNotationHighlight(),
+    transformerNotationErrorLevel()
   ]
 
   const vueRE = /-vue(?=:|$)/
@@ -129,7 +99,13 @@ export async function highlight(
           .toLowerCase() || defaultLang
 
       try {
-        await loadLanguage(lang)
+        // https://github.com/shikijs/shiki/issues/952
+        if (
+          !isSpecialLang(lang) &&
+          !highlighter.getLoadedLanguages().includes(lang)
+        ) {
+          await highlighter.loadLanguage(lang as any)
+        }
       } catch {
         logger.warn(
           c.yellow(
@@ -162,6 +138,9 @@ export async function highlight(
       }
 
       str = removeMustache(str).trimEnd()
+
+      const embeddedLang = guessEmbeddedLanguages(str, lang, highlighter)
+      await highlighter.loadLanguage(...(embeddedLang as BundledLanguage[]))
 
       const highlighted = highlighter.codeToHtml(str, {
         lang,

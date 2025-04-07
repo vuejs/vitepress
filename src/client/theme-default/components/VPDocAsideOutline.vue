@@ -1,25 +1,16 @@
 <script setup lang="ts">
-import { onContentUpdated } from 'vitepress'
-import { ref, shallowRef } from 'vue'
+import { ref } from 'vue'
 import { useData } from '../composables/data'
-import {
-  getHeaders,
-  resolveTitle,
-  useActiveAnchor,
-  type MenuItem
-} from '../composables/outline'
+import { resolveTitle, useActiveAnchor } from '../composables/outline'
 import VPDocOutlineItem from './VPDocOutlineItem.vue'
+import { useLayout } from '../composables/layout'
 
-const { frontmatter, theme } = useData()
-
-const headers = shallowRef<MenuItem[]>([])
-
-onContentUpdated(() => {
-  headers.value = getHeaders(frontmatter.value.outline ?? theme.value.outline)
-})
+const { theme } = useData()
 
 const container = ref()
 const marker = ref()
+
+const { headers, hasLocalNav } = useLayout()
 
 useActiveAnchor(container, marker)
 
@@ -33,7 +24,7 @@ function scrollToTop() {
   <nav
     aria-labelledby="doc-outline-aria-label"
     class="VPDocAsideOutline"
-    :class="{ 'has-outline': headers.length > 0 }"
+    :class="{ 'has-outline': hasLocalNav }"
     ref="container"
   >
     <div class="content">
@@ -48,7 +39,7 @@ function scrollToTop() {
         {{ resolveTitle(theme) }}
       </div>
 
-      <VPDocOutlineItem :headers="headers" :root="true" />
+      <VPDocOutlineItem :headers :root="true" />
 
       <button @click="scrollToTop" class="back-to-top-button">
         <span>{{ theme.returnToTopLabel || 'Return to top' }}</span>

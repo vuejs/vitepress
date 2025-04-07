@@ -46,7 +46,7 @@ const searchIndexData = shallowRef(localSearchIndex)
 
 // hmr
 if (import.meta.hot) {
-  import.meta.hot.accept('/@localSearchIndex', (m) => {
+  import.meta.hot.accept('@localSearchIndex', (m) => {
     if (m) {
       searchIndexData.value = m.default
     }
