@@ -1,26 +1,21 @@
-import { useMediaQuery } from '@vueuse/core'
-import { onContentUpdated, useRoute } from 'vitepress'
-import type { DefaultTheme } from 'vitepress/theme'
-import { computed, shallowRef, watch } from 'vue'
+import { inBrowser, onContentUpdated, useRoute } from 'vitepress'
+import type { DefaultTheme, useLayout as expected } from 'vitepress/theme'
+import { computed, shallowReadonly, shallowRef, watch } from 'vue'
 import { getSidebar, getSidebarGroups } from '../support/sidebar'
 import { useData } from './data'
 import { getHeaders } from './outline'
 import { useCloseSidebarOnEscape } from './sidebar'
 
 const headers = shallowRef<DefaultTheme.OutlineItem[]>([])
+const sidebar = shallowRef<DefaultTheme.SidebarItem[]>([])
 
-export function useLayout() {
-  const { frontmatter, page, theme } = useData()
-  const is960 = useMediaQuery('(min-width: 960px)')
+const is960 = shallowRef(false)
+
+export function useLayout(): ReturnType<typeof expected> {
+  const { frontmatter, theme } = useData()
 
   const isHome = computed(() => {
     return !!(frontmatter.value.isHome ?? frontmatter.value.layout === 'home')
-  })
-
-  const sidebar = computed(() => {
-    const sidebarConfig = theme.value.sidebar
-    const relativePath = page.value.relativePath
-    return sidebarConfig ? getSidebar(sidebarConfig, relativePath) : []
   })
 
   const hasSidebar = computed(() => {
@@ -56,13 +51,13 @@ export function useLayout() {
 
   return {
     isHome,
-    sidebar,
+    sidebar: shallowReadonly(sidebar),
     sidebarGroups,
     hasSidebar,
     isSidebarEnabled,
     hasAside,
     leftAside,
-    headers,
+    headers: shallowReadonly(headers),
     hasLocalNav
   }
 }
@@ -72,11 +67,35 @@ interface RegisterWatchersOptions {
 }
 
 export function registerWatchers({ closeSidebar }: RegisterWatchersOptions) {
-  const { frontmatter, theme } = useData()
+  const { frontmatter, page, theme } = useData()
+
+  watch(
+    () => [page.value.relativePath, theme.value.sidebar] as const,
+    ([relativePath, sidebarConfig]) => {
+      const newSidebar = sidebarConfig
+        ? getSidebar(sidebarConfig, relativePath)
+        : []
+      if (JSON.stringify(newSidebar) !== JSON.stringify(sidebar.value)) {
+        sidebar.value = newSidebar
+      }
+    },
+    { immediate: true, deep: true, flush: 'sync' }
+  )
 
   onContentUpdated(() => {
     headers.value = getHeaders(frontmatter.value.outline ?? theme.value.outline)
   })
+
+  if (inBrowser) {
+    is960.value = window.innerWidth >= 960
+    window.addEventListener(
+      'resize',
+      () => {
+        is960.value = window.innerWidth >= 960
+      },
+      { passive: true }
+    )
+  }
 
   const route = useRoute()
   watch(() => route.path, closeSidebar)
