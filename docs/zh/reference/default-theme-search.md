@@ -42,17 +42,61 @@ export default defineConfig({
           zh: {
             translations: {
               button: {
-                buttonText: '搜索文档',
-                buttonAriaLabel: '搜索文档'
+                buttonText: '搜索',
+                buttonAriaLabel: '搜索'
               },
               modal: {
-                noResultsText: '无法找到相关结果',
-                resetButtonTitle: '清除查询条件',
+                displayDetails: '显示详细列表',
+                resetButtonTitle: '重置搜索',
+                backButtonTitle: '关闭搜索',
+                noResultsText: '没有结果',
                 footer: {
                   selectText: '选择',
-                  navigateText: '切换'
+                  selectKeyAriaLabel: '输入',
+                  navigateText: '导航',
+                  navigateUpKeyAriaLabel: '上箭头',
+                  navigateDownKeyAriaLabel: '下箭头',
+                  closeText: '关闭',
+                  closeKeyAriaLabel: 'esc'
                 }
               }
+            }
+          } 
+        }
+      }
+    }
+  }
+})
+```
+
+如果你只想翻译默认语言，可以像这样配置：
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'local',
+      options: {
+        translations: {
+          button: {
+            buttonText: '搜索',
+            buttonAriaLabel: '搜索'
+          },
+          modal: {
+            displayDetails: '显示详细列表',
+            resetButtonTitle: '重置搜索',
+            backButtonTitle: '关闭搜索',
+            noResultsText: '没有结果',
+            footer: {
+              selectText: '选择',
+              selectKeyAriaLabel: '输入',
+              navigateText: '导航',
+              navigateUpKeyAriaLabel: '上箭头',
+              navigateDownKeyAriaLabel: '下箭头',
+              closeText: '关闭',
+              closeKeyAriaLabel: 'esc'
             }
           }
         }
