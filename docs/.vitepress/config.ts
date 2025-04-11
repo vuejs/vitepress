@@ -4,6 +4,7 @@ import {
   groupIconVitePlugin,
   localIconLoader
 } from 'vitepress-plugin-group-icons'
+import llmstxt from 'vitepress-plugin-llms'
 
 let buildConcurrency: number
 try {
@@ -128,6 +129,10 @@ export default defineConfig({
           ),
           firebase: 'logos:firebase'
         }
+      }),
+      llmstxt({
+        workDir: 'en',
+        ignoreFiles: ['index.md']
       })
     ]
   }
