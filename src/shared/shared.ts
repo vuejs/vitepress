@@ -230,3 +230,21 @@ export function escapeHtml(str: string): string {
     .replace(/"/g, '&quot;')
     .replace(/&(?![\w#]+;)/g, '&amp;')
 }
+
+const ClientOnlyMarker = Symbol.for('vitepress:client-only')
+
+export function clientOnly<T extends object>(object: T) {
+  ;(object as any)[ClientOnlyMarker] = true
+  return object
+}
+
+export function isClientOnly<T extends object>(object?: T): boolean {
+  return (object as any)?.[ClientOnlyMarker] ?? false
+}
+
+export function propagateClientOnly<T extends object>(src: T, dst: T): T {
+  if (isClientOnly(src)) {
+    clientOnly(dst)
+  }
+  return dst
+}

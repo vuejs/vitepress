@@ -2,6 +2,7 @@
 import type { DefaultTheme } from 'vitepress/theme'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import VPSidebarItem from './VPSidebarItem.vue'
+import { isClientOnly } from '../../shared'
 
 defineProps<{
   items: DefaultTheme.SidebarItem[]
@@ -33,7 +34,9 @@ onBeforeUnmount(() => {
     class="group"
     :class="{ 'no-transition': disableTransition }"
   >
-    <VPSidebarItem :item :depth="0" />
+    <ClientOnly :is-client-only="isClientOnly(item)">
+      <VPSidebarItem :item :depth="0" />
+    </ClientOnly>
   </div>
 </template>
 
