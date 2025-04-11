@@ -7,10 +7,10 @@ export const ClientOnly = defineComponent({
       default: true
     }
   },
-  setup({ isClientOnly }, { slots }) {
+  setup(props, { slots }) {
     // Programmatically determine if this component should be
     // client-only based on the presence of the isClientOnly attribute.
-    if (!isClientOnly) return () => slots.default?.() || null
+    if (!props.isClientOnly) return () => slots.default?.(props) || null
 
     const show = ref(false)
 
