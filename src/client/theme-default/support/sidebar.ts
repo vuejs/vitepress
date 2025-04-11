@@ -1,5 +1,5 @@
 import type { DefaultTheme } from 'vitepress/theme'
-import { isActive } from '../../shared'
+import { isActive, propagateClientOnly } from '../../shared'
 import { ensureStartingSlash } from './utils'
 
 export interface SidebarLink {
@@ -108,12 +108,13 @@ export function hasActiveLink(
       : false
 }
 
-function addBase(items: SidebarItem[], _base?: string): SidebarItem[] {
-  return [...items].map((_item) => {
+function addBase(items: SidebarItem[], _base?: string) {
+  const result = [...items].map((_item) => {
     const item = { ..._item }
     const base = item.base || _base
     if (base && item.link) item.link = base + item.link
     if (item.items) item.items = addBase(item.items, base)
-    return item
+    return propagateClientOnly(item, _item)
   })
+  return propagateClientOnly(items, result)
 }

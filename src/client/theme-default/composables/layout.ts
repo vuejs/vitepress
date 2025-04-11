@@ -6,6 +6,7 @@ import { getSidebar, getSidebarGroups } from '../support/sidebar'
 import { useData } from './data'
 import { getHeaders } from './outline'
 import { useCloseSidebarOnEscape } from './sidebar'
+import { isClientOnly } from '../../shared'
 
 const headers = shallowRef<DefaultTheme.OutlineItem[]>([])
 
@@ -32,6 +33,10 @@ export function useLayout() {
   })
 
   const isSidebarEnabled = computed(() => hasSidebar.value && is960.value)
+
+  const isSidebarClientOnly = computed(
+    () => isClientOnly(theme.value.sidebar) || isClientOnly(sidebar.value)
+  )
 
   const sidebarGroups = computed(() => {
     return hasSidebar.value ? getSidebarGroups(sidebar.value) : []
@@ -60,6 +65,7 @@ export function useLayout() {
     sidebarGroups,
     hasSidebar,
     isSidebarEnabled,
+    isSidebarClientOnly,
     hasAside,
     leftAside,
     headers,

@@ -4,9 +4,8 @@ import { inBrowser } from 'vitepress'
 import { ref, watch } from 'vue'
 import { useLayout } from '../composables/layout'
 import VPSidebarGroup from './VPSidebarGroup.vue'
-import { isClientOnly } from '../../shared'
 
-const { sidebarGroups, hasSidebar } = useLayout()
+const { sidebarGroups, hasSidebar, isSidebarClientOnly } = useLayout()
 
 const props = defineProps<{
   open: boolean
@@ -48,7 +47,7 @@ watch(
       </span>
 
       <slot name="sidebar-nav-before" />
-      <ClientOnly :is-client-only="isSidebarClientOnly || isClientOnly(sidebar) || isClientOnly(sidebarGroups)">
+      <ClientOnly :is-client-only="isSidebarClientOnly">
         <VPSidebarGroup :items="sidebarGroups" :key />
       </ClientOnly>
       <slot name="sidebar-nav-after" />
