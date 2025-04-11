@@ -16,7 +16,7 @@ export default theme
 export declare const useLayout: () => {
   isHome: ComputedRef<boolean>
 
-  sidebar: ComputedRef<DefaultTheme.SidebarItem[]>
+  sidebar: Readonly<ShallowRef<DefaultTheme.SidebarItem[]>>
   sidebarGroups: ComputedRef<DefaultTheme.SidebarItem[]>
   hasSidebar: ComputedRef<boolean>
   isSidebarEnabled: ComputedRef<boolean>
@@ -27,7 +27,7 @@ export declare const useLayout: () => {
   /**
    * The outline headers of the current page.
    */
-  headers: ShallowRef<DefaultTheme.OutlineItem[]>
+  headers: Readonly<ShallowRef<DefaultTheme.OutlineItem[]>>
   /**
    * Whether the current page has a local nav. Local nav is shown when the
    * "outline" is present in the page. However, note that the actual
