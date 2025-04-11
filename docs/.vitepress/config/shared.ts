@@ -1,4 +1,4 @@
-import { defineConfig, type Plugin } from 'vitepress'
+import { defineConfig } from 'vitepress'
 import {
   groupIconMdPlugin,
   groupIconVitePlugin,
@@ -126,7 +126,7 @@ export const shared = defineConfig({
       llmstxt({
         workDir: 'en',
         ignoreFiles: ['index.md']
-      }) as Plugin
+      })
     ]
   }
 })
