@@ -1,10 +1,10 @@
 import { createRequire } from 'module'
-import { defineConfig, type DefaultTheme } from 'vitepress'
+import { defineAdditionalConfig, type DefaultTheme } from 'vitepress'
 
 const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
 
-export const fa = defineConfig({
+export default defineAdditionalConfig({
   title: 'ویت‌پرس',
   lang: 'fa-IR',
   description: 'Vite & Vue powered static site generator.',
@@ -20,6 +20,7 @@ export const fa = defineConfig({
   },
   themeConfig: {
     nav: nav(),
+    search: { options: searchOptions() },
     sidebar: {
       '/fa/guide/': { base: '/fa/guide/', items: sidebarGuide() },
       '/fa/reference/': { base: '/fa/reference/', items: sidebarReference() }
@@ -181,8 +182,8 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
   ]
 }
 
-export const search: DefaultTheme.AlgoliaSearchOptions['locales'] = {
-  fa: {
+function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
+  return {
     placeholder: 'جستجوی مستندات',
     translations: {
       button: {

@@ -5,14 +5,17 @@ import {
   localIconLoader
 } from 'vitepress-plugin-group-icons'
 import llmstxt from 'vitepress-plugin-llms'
-import { search as esSearch } from './es'
-import { search as faSearch } from './fa'
-import { search as koSearch } from './ko'
-import { search as ptSearch } from './pt'
-import { search as ruSearch } from './ru'
-import { search as zhSearch } from './zh'
 
-export const shared = defineConfig({
+let buildConcurrency: number
+try {
+  const { cpus } = await import('os')
+  buildConcurrency = 4 * cpus().length
+} catch {
+  // edge services may not expose os module
+  buildConcurrency = 16
+}
+
+export default defineConfig({
   title: 'VitePress',
 
   rewrites: {
@@ -22,6 +25,7 @@ export const shared = defineConfig({
   lastUpdated: true,
   cleanUrls: true,
   metaChunk: true,
+  buildConcurrency,
 
   markdown: {
     math: true,
@@ -98,27 +102,30 @@ export const shared = defineConfig({
       options: {
         appId: '8J64VVRP8K',
         apiKey: '52f578a92b88ad6abde815aae2b0ad7c',
-        indexName: 'vitepress',
-        locales: {
-          ...zhSearch,
-          ...ptSearch,
-          ...ruSearch,
-          ...esSearch,
-          ...koSearch,
-          ...faSearch
-        }
+        indexName: 'vitepress'
       }
     },
 
     carbonAds: { code: 'CEBDT27Y', placement: 'vuejsorg' }
   },
+
+  locales: {
+    root: { label: 'English' },
+    zh: { label: '简体中文' },
+    pt: { label: 'Português' },
+    ru: { label: 'Русский' },
+    es: { label: 'Español' },
+    ko: { label: '한국어' },
+    fa: { label: 'فارسی' }
+  },
+
   vite: {
     plugins: [
       groupIconVitePlugin({
         customIcon: {
           vitepress: localIconLoader(
             import.meta.url,
-            '../../public/vitepress-logo-mini.svg'
+            '../public/vitepress-logo-mini.svg'
           ),
           firebase: 'logos:firebase'
         }

@@ -1,16 +1,15 @@
 import { createRequire } from 'module'
-import { defineConfig, type DefaultTheme } from 'vitepress'
+import { defineAdditionalConfig, type DefaultTheme } from 'vitepress'
 
 const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
 
-export const en = defineConfig({
+export default defineAdditionalConfig({
   lang: 'en-US',
   description: 'Vite & Vue powered static site generator.',
 
   themeConfig: {
     nav: nav(),
-
     sidebar: {
       '/guide/': { base: '/guide/', items: sidebarGuide() },
       '/reference/': { base: '/reference/', items: sidebarReference() }

@@ -1,16 +1,16 @@
 import { createRequire } from 'module'
-import { defineConfig, type DefaultTheme } from 'vitepress'
+import { defineAdditionalConfig, type DefaultTheme } from 'vitepress'
 
 const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
 
-export const zh = defineConfig({
+export default defineAdditionalConfig({
   lang: 'zh-Hans',
   description: '由 Vite 和 Vue 驱动的静态站点生成器',
 
   themeConfig: {
     nav: nav(),
-
+    search: { options: searchOptions() },
     sidebar: {
       '/zh/guide/': { base: '/zh/guide/', items: sidebarGuide() },
       '/zh/reference/': { base: '/zh/reference/', items: sidebarReference() }
@@ -41,6 +41,13 @@ export const zh = defineConfig({
         dateStyle: 'short',
         timeStyle: 'medium'
       }
+    },
+
+    notFound: {
+      title: '页面未找到',
+      quote: '若你不改变航向，始终凝望远方，你终将抵达前行的彼岸。',
+      linkLabel: '返回首页',
+      linkText: '返回首页'
     },
 
     langMenuLabel: '多语言',
@@ -160,8 +167,8 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
   ]
 }
 
-export const search: DefaultTheme.AlgoliaSearchOptions['locales'] = {
-  zh: {
+function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
+  return {
     placeholder: '搜索文档',
     translations: {
       button: {
