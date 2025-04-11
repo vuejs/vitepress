@@ -1,10 +1,5 @@
-import {
-  h,
-  onMounted,
-  onUnmounted,
-  shallowRef,
-  type AsyncComponentLoader
-} from 'vue'
+import { tryOnUnmounted } from '@vueuse/core'
+import { h, onMounted, shallowRef, type AsyncComponentLoader } from 'vue'
 import {
   EXTERNAL_URL_RE,
   inBrowser,
@@ -81,7 +76,7 @@ export let contentUpdatedCallbacks: (() => any)[] = []
  */
 export function onContentUpdated(fn: () => any) {
   contentUpdatedCallbacks.push(fn)
-  onUnmounted(() => {
+  tryOnUnmounted(() => {
     contentUpdatedCallbacks = contentUpdatedCallbacks.filter((f) => f !== fn)
   })
 }

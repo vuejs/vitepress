@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import '@docsearch/css'
 import { onKeyStroke } from '@vueuse/core'
+import type { DefaultTheme } from 'vitepress/theme'
 import {
   defineAsyncComponent,
   onMounted,
   onUnmounted,
   ref
 } from 'vue'
-import type { DefaultTheme } from '../../shared'
 import { useData } from '../composables/data'
 import VPNavBarSearchButton from './VPNavBarSearchButton.vue'
 

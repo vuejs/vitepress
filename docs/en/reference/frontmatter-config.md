@@ -225,3 +225,16 @@ Then you can customize styles of this specific page in `.vitepress/theme/custom.
   /* page-specific styles */
 }
 ```
+
+### isHome
+
+- Type: `boolean`
+
+The default theme relies on checks like `frontmatter.layout === 'home'` to determine if the current page is the home page.\
+This is useful when you want to force show the home page elements in a custom layout.
+
+```yaml
+---
+isHome: true
+---
+```

@@ -30,7 +30,7 @@ function removeSpaces(str: string) {
       <input
         type="radio"
         :id="option.key"
-        :name="name"
+        :name
         :value="option.value"
         v-model="selected"
       />

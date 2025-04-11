@@ -2,11 +2,11 @@
 import { useScrollLock } from '@vueuse/core'
 import { inBrowser } from 'vitepress'
 import { ref, watch } from 'vue'
-import { useSidebar } from '../composables/sidebar'
+import { useLayout } from '../composables/layout'
 import VPSidebarGroup from './VPSidebarGroup.vue'
 import { isClientOnly } from '../../shared'
 
-const { sidebar, sidebarGroups, hasSidebar, isSidebarClientOnly } = useSidebar()
+const { sidebarGroups, hasSidebar } = useLayout()
 
 const props = defineProps<{
   open: boolean
@@ -49,7 +49,7 @@ watch(
 
       <slot name="sidebar-nav-before" />
       <ClientOnly :is-client-only="isSidebarClientOnly || isClientOnly(sidebar) || isClientOnly(sidebarGroups)">
-        <VPSidebarGroup :items="sidebarGroups" :key="key" />
+        <VPSidebarGroup :items="sidebarGroups" :key />
       </ClientOnly>
       <slot name="sidebar-nav-after" />
     </nav>

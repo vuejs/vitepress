@@ -35,7 +35,7 @@ onBeforeUnmount(() => {
     :class="{ 'no-transition': disableTransition }"
   >
     <ClientOnly :is-client-only="isClientOnly(item)">
-      <VPSidebarItem :item="item" :depth="0" />
+      <VPSidebarItem :item :depth="0" />
     </ClientOnly>
   </div>
 </template>

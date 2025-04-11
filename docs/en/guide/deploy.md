@@ -111,7 +111,7 @@ Set up a new project and change these settings using your dashboard:
 
 - **Build Command:** `npm run docs:build`
 - **Output Directory:** `docs/.vitepress/dist`
-- **Node Version:** `18` (or above)
+- **Node Version:** `20` (or above)
 
 ::: warning
 Don't enable options like _Auto Minify_ for HTML code. It will remove comments from output which have meaning to Vue. You may see hydration mismatch errors if they get removed.
@@ -163,7 +163,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
          - name: Setup Node
            uses: actions/setup-node@v4
            with:
-             node-version: 20
+             node-version: 22
              cache: npm # or pnpm / yarn
          - name: Setup Pages
            uses: actions/configure-pages@v4

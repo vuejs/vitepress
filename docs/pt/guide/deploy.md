@@ -163,7 +163,7 @@ Não ative opções como _Auto Minify_ para código HTML. Isso removerá coment�
          - name: Setup Node
            uses: actions/setup-node@v4
            with:
-             node-version: 20
+             node-version: 22
              cache: npm # ou pnpm / yarn
          - name: Setup Pages
            uses: actions/configure-pages@v4
