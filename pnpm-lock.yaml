@@ -55,6 +55,9 @@ importers:
       focus-trap:
         specifier: ^7.6.4
         version: 7.6.4
+      living-object:
+        specifier: 0.0.3
+        version: 0.0.3
       mark.js:
         specifier: 8.11.1
         version: 8.11.1
@@ -1922,6 +1925,9 @@ packages:
   listr2@8.2.5:
     resolution: {integrity: sha512-iyAZCeyD+c1gPyE9qpFu8af0Y+MRtmKOncdGoA2S5EY8iFq99dmmvkNnHiWo+pj0s7yH7l3KPIgee77tKpXPWQ==}
     engines: {node: '>=18.0.0'}
+
+  living-object@0.0.3:
+    resolution: {integrity: sha512-GBTVXuwoxsU+OF7he9ZbAWh56QhHVtpD5cL+REAq7EFR8rtnkjZIztduJ0hm2rdwRa0XyaGrsNypTqTdrhep6A==}
 
   local-pkg@1.1.1:
     resolution: {integrity: sha512-WunYko2W1NcdfAFpuLUoucsgULmgDBRkdxHxWQ7mK0cQqwPiy8E1enjuRBrhLtZkB5iScJ1XIPdhVEFK8aOLSg==}
@@ -4485,6 +4491,8 @@ snapshots:
       log-update: 6.1.0
       rfdc: 1.4.1
       wrap-ansi: 9.0.0
+
+  living-object@0.0.3: {}
 
   local-pkg@1.1.1:
     dependencies:

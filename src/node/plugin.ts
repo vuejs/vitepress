@@ -28,7 +28,7 @@ import { rewritesPlugin } from './plugins/rewritesPlugin'
 import { staticDataPlugin } from './plugins/staticDataPlugin'
 import { webFontsPlugin } from './plugins/webFontsPlugin'
 import { slash, type PageDataPayload } from './shared'
-import { deserializeFunctions, serializeFunctions } from './utils/fnSerialize'
+import { stringify as serializeSiteData } from 'living-object'
 
 declare module 'vite' {
   interface UserConfig {
@@ -198,8 +198,7 @@ export async function createVitePressPlugin(
             return `export default window.__VP_SITE_DATA__`
           }
         }
-        data = serializeFunctions(data)
-        return `${deserializeFunctions};export default deserializeFunctions(JSON.parse(${JSON.stringify(JSON.stringify(data))}))`
+        return serializeSiteData(data, { target: 'module' })
       }
     },
 
