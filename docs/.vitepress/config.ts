@@ -120,10 +120,11 @@ export default defineConfig({
           firebase: 'logos:firebase'
         }
       }),
-      llmstxt({
-        workDir: 'en',
-        ignoreFiles: ['index.md']
-      })
+      process.env.NODE_ENV === 'production' &&
+        llmstxt({
+          workDir: 'en',
+          ignoreFiles: ['index.md']
+        })
     ]
   }
 })
