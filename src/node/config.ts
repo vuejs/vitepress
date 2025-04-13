@@ -176,18 +176,6 @@ export function isAdditionalConfigFile(path: string) {
   return additionalConfigRE.test(path)
 }
 
-/**
- * Make sure the path ends with a slash.
- * If path points to a file, remove the filename component.
- * @param path
- * @returns
- */
-function dirname(path: string) {
-  const segments = path.split('/')
-  segments[segments.length - 1] = ''
-  return segments.join('/')
-}
-
 async function gatherAdditionalConfig(
   root: string,
   command: 'serve' | 'build',
@@ -208,7 +196,7 @@ async function gatherAdditionalConfig(
 
   const exports = await Promise.all(
     candidates.map(async (file) => {
-      const id = '/' + dirname(slash(file))
+      const id = normalizePath(`/${path.dirname(file)}/`)
 
       const configExports = await loadConfigFromFile(
         { command, mode },
