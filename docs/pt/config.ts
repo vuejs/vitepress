@@ -10,7 +10,9 @@ export default defineAdditionalConfig({
 
   themeConfig: {
     nav: nav(),
+
     search: { options: searchOptions() },
+
     sidebar: {
       '/pt/guide/': { base: '/pt/guide/', items: sidebarGuide() },
       '/pt/reference/': { base: '/pt/reference/', items: sidebarReference() }

@@ -10,6 +10,7 @@ export default defineAdditionalConfig({
 
   themeConfig: {
     nav: nav(),
+
     sidebar: {
       '/guide/': { base: '/guide/', items: sidebarGuide() },
       '/reference/': { base: '/reference/', items: sidebarReference() }

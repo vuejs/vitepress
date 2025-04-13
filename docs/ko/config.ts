@@ -10,7 +10,9 @@ export default defineAdditionalConfig({
 
   themeConfig: {
     nav: nav(),
+
     search: { options: searchOptions() },
+
     sidebar: {
       '/ko/guide/': { base: '/ko/guide/', items: sidebarGuide() },
       '/ko/reference/': { base: '/ko/reference/', items: sidebarReference() }

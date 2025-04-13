@@ -11,7 +11,9 @@ export default defineAdditionalConfig({
 
   themeConfig: {
     nav: nav(),
+
     search: { options: searchOptions() },
+
     sidebar: {
       '/fa/guide/': { base: '/fa/guide/', items: sidebarGuide() },
       '/fa/reference/': { base: '/fa/reference/', items: sidebarReference() }
