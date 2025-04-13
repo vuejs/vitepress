@@ -5,13 +5,18 @@ export type { DefaultTheme } from './default-theme.js'
 
 export type Awaitable<T> = T | PromiseLike<T>
 
-// Beware that this may cause performance issues or infinite loops
-// Use only when absolutely necessary
-export type DeepPartial<T> = T extends object
-  ? {
-      [K in keyof T]?: DeepPartial<T[K]>
-    }
-  : T
+type DeepPartial<T> =
+  T extends Record<string, any>
+    ? T extends
+        | Date
+        | RegExp
+        | Function
+        | ReadonlyMap<any, any>
+        | ReadonlySet<any>
+        | ReadonlyArray<any>
+      ? T
+      : { [P in keyof T]?: DeepPartial<T[P]> }
+    : T
 
 export interface PageData {
   relativePath: string
