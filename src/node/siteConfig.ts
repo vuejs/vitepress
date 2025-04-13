@@ -193,9 +193,12 @@ export interface UserConfig<ThemeConfig = any>
   ) => Awaitable<Partial<PageData> | { [key: string]: any } | void>
 
   /**
-   * @experimental
    * Multi-layer configuration overloading.
-   * Auto-resolves to docs/.../config.(ts|js|json) when unspecified.
+   * Auto-resolves to `docs/.../config.(ts|js|json)` when unspecified.
+   *
+   * Set to `{}` to opt-out.
+   *
+   * @experimental
    */
   additionalConfig?:
     | AdditionalConfigDict<ThemeConfig>
