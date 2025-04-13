@@ -37,6 +37,14 @@ export default defineAdditionalConfig({
       text: 'Обновлено'
     },
 
+    notFound: {
+      title: 'СТРАНИЦА НЕ НАЙДЕНА',
+      quote:
+        'Но если ты не изменишь направление и продолжишь искать, ты можешь оказаться там, куда направляешься.',
+      linkLabel: 'перейти на главную',
+      linkText: 'Отведи меня домой'
+    },
+
     darkModeSwitchLabel: 'Оформление',
     lightModeSwitchTitle: 'Переключить на светлую тему',
     darkModeSwitchTitle: 'Переключить на тёмную тему',

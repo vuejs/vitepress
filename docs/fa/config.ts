@@ -5,19 +5,10 @@ const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
 
 export default defineAdditionalConfig({
-  title: 'ویت‌پرس',
   lang: 'fa-IR',
-  description: 'Vite & Vue powered static site generator.',
+  description: 'ژنراتور استاتیک وب‌سایت با Vite و Vue',
   dir: 'rtl',
-  markdown: {
-    container: {
-      tipLabel: 'نکته',
-      warningLabel: 'هشدار',
-      dangerLabel: 'خطر',
-      infoLabel: 'اطلاعات',
-      detailsLabel: 'جزئیات'
-    }
-  },
+
   themeConfig: {
     nav: nav(),
     search: { options: searchOptions() },
@@ -46,11 +37,15 @@ export default defineAdditionalConfig({
     },
 
     lastUpdated: {
-      text: 'آخرین به‌روزرسانی‌',
-      formatOptions: {
-        dateStyle: 'short',
-        timeStyle: 'medium'
-      }
+      text: 'آخرین به‌روزرسانی‌'
+    },
+
+    notFound: {
+      title: 'صفحه پیدا نشد',
+      quote:
+        'اما اگر جهت خود را تغییر ندهید و همچنان به جستجو ادامه دهید، ممکن است در نهایت به جایی برسید که در حال رفتن به آن هستید.',
+      linkLabel: 'برو به خانه',
+      linkText: 'من را به خانه ببر'
     },
 
     langMenuLabel: 'تغییر زبان',
@@ -59,14 +54,6 @@ export default defineAdditionalConfig({
     darkModeSwitchLabel: 'تم تاریک',
     lightModeSwitchTitle: 'رفتن به حالت روشن',
     darkModeSwitchTitle: 'رفتن به حالت تاریک',
-    notFound: {
-      linkLabel: 'بازگشت به خانه',
-      linkText: 'بازگشت به خانه',
-      title: 'صفحه مورد نظر یافت نشد',
-      code: '۴۰۴',
-      quote:
-        'اما اگر جهت خود را تغییر ندهید و اگر ادامه دهید به دنبال چیزی که دنبال می‌کنید، ممکن است در نهایت به جایی که در حال رفتن به سمتش هستید، برسید.'
-    },
     siteTitle: 'ویت‌پرس'
   }
 })

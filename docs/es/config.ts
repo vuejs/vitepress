@@ -36,11 +36,15 @@ export default defineAdditionalConfig({
     },
 
     lastUpdated: {
-      text: 'Actualizado en',
-      formatOptions: {
-        dateStyle: 'short',
-        timeStyle: 'medium'
-      }
+      text: 'Actualizado en'
+    },
+
+    notFound: {
+      title: 'PÁGINA NO ENCONTRADA',
+      quote:
+        'Pero si no cambias de dirección y sigues buscando, podrías terminar donde te diriges.',
+      linkLabel: 'ir a inicio',
+      linkText: 'Llévame a casa'
     },
 
     langMenuLabel: 'Cambiar Idioma',

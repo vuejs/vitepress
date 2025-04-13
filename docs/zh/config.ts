@@ -36,18 +36,15 @@ export default defineAdditionalConfig({
     },
 
     lastUpdated: {
-      text: '最后更新于',
-      formatOptions: {
-        dateStyle: 'short',
-        timeStyle: 'medium'
-      }
+      text: '最后更新于'
     },
 
     notFound: {
       title: '页面未找到',
-      quote: '若你不改变航向，始终凝望远方，你终将抵达前行的彼岸。',
-      linkLabel: '返回首页',
-      linkText: '返回首页'
+      quote:
+        '但如果你不改变方向，并且继续寻找，你可能最终会到达你所前往的地方。',
+      linkLabel: '前往首页',
+      linkText: '带我回首页'
     },
 
     langMenuLabel: '多语言',
