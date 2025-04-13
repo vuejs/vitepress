@@ -11,7 +11,9 @@ export type {
   PageData,
   PageDataPayload,
   SiteData,
-  SSGContext
+  SSGContext,
+  AdditionalConfig,
+  AdditionalConfigDict
 } from '../../types/shared'
 
 export const EXTERNAL_URL_RE = /^(?:[a-z]+:|\/\/)/i

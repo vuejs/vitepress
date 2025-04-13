@@ -2,6 +2,7 @@ import _debug from 'debug'
 import fs from 'fs-extra'
 import path from 'node:path'
 import c from 'picocolors'
+import { glob } from 'tinyglobby'
 import {
   createLogger,
   loadConfigFromFile,
@@ -16,12 +17,12 @@ import {
   APPEARANCE_KEY,
   VP_SOURCE_KEY,
   slash,
+  type AdditionalConfig,
+  type AdditionalConfigDict,
   type HeadConfig,
   type SiteData
 } from './shared'
 import type { RawConfigExports, SiteConfig, UserConfig } from './siteConfig'
-import type { AdditionalConfig, AdditionalConfigDict } from '../../types/shared'
-import { glob } from 'tinyglobby'
 
 export { resolvePages } from './plugins/dynamicRoutesPlugin'
 export * from './siteConfig'
