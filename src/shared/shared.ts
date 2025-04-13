@@ -97,6 +97,7 @@ export function resolveSiteDataByRoute(
 ): SiteData {
   const localeIndex = getLocaleForPath(siteData, relativePath)
   const { label, link, ...localeConfig } = siteData.locales[localeIndex] ?? {}
+  Object.assign(localeConfig, { localeIndex })
   const additionalConfigs = resolveAdditionalConfig(siteData, relativePath)
   if (inBrowser && (import.meta as any).env?.DEV) {
     ;(localeConfig as any)[VP_SOURCE_KEY] = `locale config (${localeIndex})`
