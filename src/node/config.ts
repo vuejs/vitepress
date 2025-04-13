@@ -19,6 +19,7 @@ import {
   slash,
   type AdditionalConfig,
   type AdditionalConfigDict,
+  type Awaitable,
   type HeadConfig,
   type SiteData
 } from './shared'
@@ -34,42 +35,43 @@ const resolve = (root: string, file: string) =>
 
 export type UserConfigFn<ThemeConfig> = (
   env: ConfigEnv
-) => UserConfig<ThemeConfig> | Promise<UserConfig<ThemeConfig>>
+) => Awaitable<UserConfig<ThemeConfig>>
 export type UserConfigExport<ThemeConfig> =
-  | UserConfig<ThemeConfig>
-  | Promise<UserConfig<ThemeConfig>>
+  | Awaitable<UserConfig<ThemeConfig>>
   | UserConfigFn<ThemeConfig>
 
 /**
  * Type config helper
  */
-export function defineConfig(config: UserConfig<DefaultTheme.Config>) {
+export function defineConfig<ThemeConfig = DefaultTheme.Config>(
+  config: UserConfig<NoInfer<ThemeConfig>>
+) {
   return config
 }
 
+export type AdditionalConfigFn<ThemeConfig> = (
+  env: ConfigEnv
+) => Awaitable<AdditionalConfig<ThemeConfig>>
+export type AdditionalConfigExport<ThemeConfig> =
+  | Awaitable<AdditionalConfig<ThemeConfig>>
+  | AdditionalConfigFn<ThemeConfig>
+
 /**
- *  Type additional config helper
+ *  Type config helper for additional/locale-specific config
  */
-export function defineAdditionalConfig(
-  config: AdditionalConfig<DefaultTheme.Config>
+export function defineAdditionalConfig<ThemeConfig = DefaultTheme.Config>(
+  config: AdditionalConfig<NoInfer<ThemeConfig>>
 ) {
   return config
 }
 
 /**
  * Type config helper for custom theme config
+ *
+ * @deprecated use `defineConfig` instead
  */
 export function defineConfigWithTheme<ThemeConfig>(
   config: UserConfig<ThemeConfig>
-) {
-  return config
-}
-
-/**
- *  Type additional config helper
- */
-export function defineAdditionalConfigWithTheme<ThemeConfig>(
-  config: AdditionalConfig<ThemeConfig>
 ) {
   return config
 }
