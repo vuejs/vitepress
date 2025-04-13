@@ -18,7 +18,6 @@ import {
   VP_SOURCE_KEY,
   slash,
   type AdditionalConfig,
-  type AdditionalConfigDict,
   type Awaitable,
   type HeadConfig,
   type SiteData
@@ -170,15 +169,11 @@ export async function resolveConfig(
 }
 
 const supportedConfigExtensions = ['js', 'ts', 'mjs', 'mts']
+const additionalConfigRE = /(?:^|\/|\\)config\.m?[jt]s$/
+const additionalConfigGlob = `**/config.{js,mjs,ts,mts}`
 
 export function isAdditionalConfigFile(path: string) {
-  const filename_to_check = path.split('/').pop() ?? ''
-  for (const filename of supportedConfigExtensions.map((e) => `config.${e}`)) {
-    if (filename_to_check === filename) {
-      return true
-    }
-  }
-  return false
+  return additionalConfigRE.test(path)
 }
 
 /**
@@ -197,38 +192,50 @@ async function gatherAdditionalConfig(
   root: string,
   command: 'serve' | 'build',
   mode: string,
-  srcDir: string = '.'
-): Promise<[AdditionalConfigDict, string[][]]> {
-  const pattern = `**/config.{${supportedConfigExtensions.join(',')}}`
-  const candidates = await glob(pattern, {
+  srcDir: string = '.',
+  srcExclude: string[] = []
+) {
+  //
+
+  const candidates = await glob(additionalConfigGlob, {
     cwd: path.resolve(root, srcDir),
     dot: false, // conveniently ignores .vitepress/*
-    ignore: ['**/node_modules/**', '**/.git/**']
+    ignore: ['**/node_modules/**', ...srcExclude],
+    expandDirectories: false
   })
+
   const deps: string[][] = []
+
   const exports = await Promise.all(
     candidates.map(async (file) => {
       const id = '/' + dirname(slash(file))
+
       const configExports = await loadConfigFromFile(
         { command, mode },
         normalizePath(path.resolve(root, srcDir, file)),
         root
       ).catch(console.error) // Skip additionalConfig file if it fails to load
+
       if (!configExports) {
         debug(`Failed to load additional config from ${file}`)
-        return [id, undefined]
+        return
       }
+
       deps.push(
         configExports.dependencies.map((file) =>
           normalizePath(path.resolve(file))
         )
       )
-      if (mode === 'development')
-        (configExports.config as any)[VP_SOURCE_KEY] = '/' + slash(file)
-      return [id, configExports.config as AdditionalConfig]
+
+      if (mode === 'development') {
+        ;(configExports.config as any)[VP_SOURCE_KEY] = '/' + slash(file)
+      }
+
+      return [id, configExports.config as AdditionalConfig] as const
     })
   )
-  return [Object.fromEntries(exports.filter(([id, config]) => config)), deps]
+
+  return [Object.fromEntries(exports.filter((e) => e != null)), deps] as const
 }
 
 export async function resolveUserConfig(
@@ -265,7 +272,8 @@ export async function resolveUserConfig(
           root,
           command,
           mode,
-          userConfig.srcDir
+          userConfig.srcDir,
+          userConfig.srcExclude
         )
         userConfig.additionalConfig = additionalConfig
         configDeps = configDeps.concat(...additionalDeps)
