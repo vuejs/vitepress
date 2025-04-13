@@ -174,12 +174,16 @@ export interface LocaleSpecificConfig<ThemeConfig = any> {
   titleTemplate?: string | boolean
   description?: string
   head?: HeadConfig[]
-  themeConfig?: ThemeConfig
+  themeConfig?: DeepPartial<ThemeConfig>
 }
 
-export type AdditionalConfig<ThemeConfig = any> = DeepPartial<
-  LocaleSpecificConfig<ThemeConfig>
+export type LocaleConfig<ThemeConfig = any> = Record<
+  string,
+  LocaleSpecificConfig<ThemeConfig> & { label: string; link?: string }
 >
+
+export type AdditionalConfig<ThemeConfig = any> =
+  LocaleSpecificConfig<ThemeConfig>
 
 export type AdditionalConfigDict<ThemeConfig = any> = Record<
   string,
@@ -190,14 +194,8 @@ export type AdditionalConfigLoader<ThemeConfig = any> = (
   path: string
 ) => AdditionalConfig<ThemeConfig>[]
 
-export type LocaleConfig<ThemeConfig = any> = Record<
-  string,
-  LocaleSpecificConfig<ThemeConfig> & { label: string; link?: string }
->
-
 // Manually declaring all properties as rollup-plugin-dts
 // is unable to merge augmented module declarations
-
 export interface MarkdownEnv {
   /**
    * The raw Markdown content without frontmatter
