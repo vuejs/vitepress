@@ -169,7 +169,7 @@ export async function resolveConfig(
   return config
 }
 
-export const supportedConfigExtensions = ['js', 'ts', 'mjs', 'mts']
+const supportedConfigExtensions = ['js', 'ts', 'mjs', 'mts']
 
 export function isAdditionalConfigFile(path: string) {
   const filename_to_check = path.split('/').pop() ?? ''

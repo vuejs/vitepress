@@ -194,7 +194,7 @@ export interface UserConfig<ThemeConfig = any>
 
   /**
    * Multi-layer configuration overloading.
-   * Auto-resolves to `docs/.../config.(ts|js|json)` when unspecified.
+   * Auto-resolves to `docs/.../config.{js,mjs,ts,mts}` when unspecified.
    *
    * Set to `{}` to opt-out.
    *
