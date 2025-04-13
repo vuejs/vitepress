@@ -6,15 +6,6 @@ import {
 } from 'vitepress-plugin-group-icons'
 import llmstxt from 'vitepress-plugin-llms'
 
-let buildConcurrency: number
-try {
-  const { cpus } = await import('os')
-  buildConcurrency = 4 * cpus().length
-} catch {
-  // edge services may not expose os module
-  buildConcurrency = 16
-}
-
 export default defineConfig({
   title: 'VitePress',
 
@@ -25,7 +16,6 @@ export default defineConfig({
   lastUpdated: true,
   cleanUrls: true,
   metaChunk: true,
-  buildConcurrency,
 
   markdown: {
     math: true,
