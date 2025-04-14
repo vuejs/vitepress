@@ -83,7 +83,7 @@ export function getLocaleForPath(
       (key) =>
         key !== 'root' &&
         !isExternal(key) &&
-        isActive(relativePath, `/${key}/`, true)
+        isActive(relativePath, `^/${key}/`, true)
     ) || 'root'
   )
 }
