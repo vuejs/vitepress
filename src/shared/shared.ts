@@ -291,8 +291,8 @@ function reportConfigLayers(path: string, layers: SiteData[]) {
  */
 export function stackView<T extends object>(...layers: Partial<T>[]): T {
   layers = layers.filter((layer) => layer !== undefined)
-  if (!isStackable(layers[0])) return layers[0] as T
-  layers = layers.filter(isStackable)
+  if (!isObject(layers[0])) return layers[0] as T
+  layers = layers.filter(isObject)
   if (layers.length <= 1) return layers[0] as T
   return new Proxy(
     {},
@@ -331,11 +331,11 @@ export function stackView<T extends object>(...layers: Partial<T>[]): T {
   ) as T
 }
 
-function isStackable(obj: any) {
-  return typeof obj === 'object' && obj !== null && !Array.isArray(obj)
-}
-
 const UnpackStackView = Symbol('stack-view:unpack')
 stackView.unpack = function <T>(obj: T): T[] | undefined {
   return (obj as any)?.[UnpackStackView]
+}
+
+export function isObject(value: unknown): value is Record<string, any> {
+  return Object.prototype.toString.call(value) === '[object Object]'
 }
