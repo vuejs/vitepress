@@ -4,7 +4,8 @@
     "baseUrl": ".",
     "outDir": "../../dist/node",
     "types": ["node"],
-    "sourceMap": true
+    "sourceMap": true,
+    "rootDir": "../.."
   },
   "include": ["."]
 }

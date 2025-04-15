@@ -123,10 +123,10 @@ export const shared = defineConfig({
           firebase: 'logos:firebase'
         }
       }),
-      llmstxt({
-        workDir: 'en',
-        ignoreFiles: ['index.md']
-      })
     ]
+  },
+  llms: {
+    workDir: 'en',
+    ignoreFiles: ['index.md']
   }
 })

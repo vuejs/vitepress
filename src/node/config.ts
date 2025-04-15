@@ -130,7 +130,8 @@ export async function resolveConfig(
     userConfig,
     sitemap: userConfig.sitemap,
     buildConcurrency: userConfig.buildConcurrency ?? 64,
-    ...(await resolvePages(srcDir, userConfig, logger, true))
+    ...(await resolvePages(srcDir, userConfig, logger, true)),
+    llms: userConfig.llms ?? false
   }
 
   // to be shared with content loaders
@@ -241,7 +242,8 @@ export async function resolveSiteData(
     locales: userConfig.locales || {},
     scrollOffset: userConfig.scrollOffset ?? 134,
     cleanUrls: !!userConfig.cleanUrls,
-    contentProps: userConfig.contentProps
+    contentProps: userConfig.contentProps,
+    llms: userConfig.llms ?? false,
   }
 }
 

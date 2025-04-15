@@ -52,18 +52,42 @@ importers:
       '@vueuse/integrations':
         specifier: ^13.1.0
         version: 13.1.0(axios@1.8.4(debug@4.4.0))(focus-trap@7.6.4)(vue@3.5.13(typescript@5.8.3))
+      byte-size:
+        specifier: ^9.0.1
+        version: 9.0.1
       focus-trap:
         specifier: ^7.6.4
         version: 7.6.4
       mark.js:
         specifier: 8.11.1
         version: 8.11.1
+      markdown-title:
+        specifier: ^1.0.2
+        version: 1.0.2
+      millify:
+        specifier: ^6.1.0
+        version: 6.1.0
+      minimatch:
+        specifier: ^10.0.1
+        version: 10.0.1
       minisearch:
         specifier: ^7.1.2
         version: 7.1.2
+      remark:
+        specifier: ^15.0.1
+        version: 15.0.1
+      remark-frontmatter:
+        specifier: ^5.0.0
+        version: 5.0.0
       shiki:
         specifier: ^3.2.2
         version: 3.2.2
+      tokenx:
+        specifier: ^0.4.1
+        version: 0.4.1
+      unist-util-remove:
+        specifier: ^4.0.0
+        version: 4.0.0
       vite:
         specifier: ^6.2.6
         version: 6.2.6(@types/node@22.14.0)(jiti@1.21.7)(yaml@2.7.1)
@@ -116,6 +140,9 @@ importers:
       '@rollup/plugin-replace':
         specifier: ^6.0.2
         version: 6.0.2(rollup@4.39.0)
+      '@types/byte-size':
+        specifier: ^8.1.2
+        version: 8.1.2
       '@types/cross-spawn':
         specifier: ^6.0.6
         version: 6.0.6
@@ -329,9 +356,6 @@ importers:
       vitepress-plugin-group-icons:
         specifier: ^1.4.1
         version: 1.4.1
-      vitepress-plugin-llms:
-        specifier: ^1.1.0
-        version: 1.1.0
 
 packages:
 
@@ -910,6 +934,9 @@ packages:
 
   '@tokenizer/token@0.3.0':
     resolution: {integrity: sha512-OvjF+z51L3ov0OyAU0duzsYuvO01PH7x4t6DJx+guahgTnBHkhJdG7soQeTSFLWN3efnHyibZ4Z8l2EuWwJN3A==}
+
+  '@types/byte-size@8.1.2':
+    resolution: {integrity: sha512-jGyVzYu6avI8yuqQCNTZd65tzI8HZrLjKX9sdMqZrGWVlNChu0rf6p368oVEDCYJe5BMx2Ov04tD1wqtgTwGSA==}
 
   '@types/cross-spawn@6.0.6':
     resolution: {integrity: sha512-fXRhhUkG4H3TQk5dBhQ7m/JDdSNHKwR2BBia62lhwEIq9xGiQKLxd6LymNhn47SjXhsUEPmxi+PKw2OkW4LLjA==}
@@ -2917,9 +2944,6 @@ packages:
   vitepress-plugin-group-icons@1.4.1:
     resolution: {integrity: sha512-4APG5wzUvl2JbZcy6+I7K9DleBJE7W5RCkPu2mDPxzKxI/9pF3GmIACDnIlhyfIpUyfW4eanbyoMuP7tzLpM3Q==}
 
-  vitepress-plugin-llms@1.1.0:
-    resolution: {integrity: sha512-nb7bG/lBDihlcFTzqxRxQIyzeBWQW9F6OwuUWQ7PFUNK5kVbybxXGISU4wvAV8osQmfrD9xNIGJQfuOLj5CzHg==}
-
   vitest@3.1.1:
     resolution: {integrity: sha512-kiZc/IYmKICeBAZr9DQ5rT7/6bD9G7uqQEki4fxazi1jdVl2mWGzedtBs5s6llz59yQhVb7FFY2MbHzHCnT79Q==}
     engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
@@ -3582,6 +3606,8 @@ snapshots:
   '@sindresorhus/merge-streams@4.0.0': {}
 
   '@tokenizer/token@0.3.0': {}
+
+  '@types/byte-size@8.1.2': {}
 
   '@types/cross-spawn@6.0.6':
     dependencies:
@@ -5733,22 +5759,6 @@ snapshots:
       '@iconify-json/vscode-icons': 1.2.19
       '@iconify/utils': 2.3.0
     transitivePeerDependencies:
-      - supports-color
-
-  vitepress-plugin-llms@1.1.0:
-    dependencies:
-      byte-size: 9.0.1
-      gray-matter: 4.0.3
-      markdown-title: 1.0.2
-      millify: 6.1.0
-      minimatch: 10.0.1
-      picocolors: 1.1.1
-      remark: 15.0.1
-      remark-frontmatter: 5.0.0
-      tokenx: 0.4.1
-      unist-util-remove: 4.0.0
-    transitivePeerDependencies:
-      - '@75lb/nature'
       - supports-color
 
   vitest@3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@1.21.7)(yaml@2.7.1):
