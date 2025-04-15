@@ -12,8 +12,8 @@ import type { LinksExtension, LlmstxtSettings, VitePressConfig } from '../types'
  * @returns An object containing the directory and file name.
  */
 export const splitDirAndFile = (filepath: string) => ({
-	dir: path.dirname(filepath),
-	file: path.basename(filepath),
+  dir: path.dirname(filepath),
+  file: path.basename(filepath)
 })
 
 /**
@@ -23,9 +23,9 @@ export const splitDirAndFile = (filepath: string) => ({
  * @returns The filename without the extension.
  */
 export const stripExt = (filepath: string) => {
-	const { dir, file } = splitDirAndFile(filepath)
+  const { dir, file } = splitDirAndFile(filepath)
 
-	return path.join(dir, path.basename(file, path.extname(file)))
+  return path.join(dir, path.basename(file, path.extname(file)))
 }
 
 /**
@@ -35,9 +35,9 @@ export const stripExt = (filepath: string) => {
  * @returns The filename without the extension in POSIX format.
  */
 export const stripExtPosix = (filepath: string) => {
-	const { dir, file } = splitDirAndFile(filepath)
+  const { dir, file } = splitDirAndFile(filepath)
 
-	return path.posix.join(dir, path.basename(file, path.extname(file)))
+  return path.posix.join(dir, path.basename(file, path.extname(file)))
 }
 
 /**
@@ -47,13 +47,13 @@ export const stripExtPosix = (filepath: string) => {
  * @returns The extracted title, or `undefined` if no title is found.
  */
 export function extractTitle(file: GrayMatterFile<Input>): string {
-	const titleFromFrontmatter = file.data?.title || file.data?.titleTemplate
-	let titleFromMarkdown: string | undefined
+  const titleFromFrontmatter = file.data?.title || file.data?.titleTemplate
+  let titleFromMarkdown: string | undefined
 
-	if (!titleFromFrontmatter) {
-		titleFromMarkdown = markdownTitle(file.content)
-	}
-	return titleFromFrontmatter || titleFromMarkdown
+  if (!titleFromFrontmatter) {
+    titleFromMarkdown = markdownTitle(file.content)
+  }
+  return titleFromFrontmatter || titleFromMarkdown
 }
 
 /**
@@ -69,7 +69,7 @@ export function extractTitle(file: GrayMatterFile<Input>): string {
  * ```
  */
 const templateVariable = (key: string) =>
-	new RegExp(`(\\n\\s*\\n)?\\{${key}\\}`, 'gi')
+  new RegExp(`(\\n\\s*\\n)?\\{${key}\\}`, 'gi')
 
 /**
  * Replaces occurrences of a template variable `{variable}` in a given content string with a provided value.
@@ -89,15 +89,15 @@ const templateVariable = (key: string) =>
  * ```
  */
 export function replaceTemplateVariable(
-	content: string,
-	variable: string,
-	value: string | undefined,
-	fallback?: string,
+  content: string,
+  variable: string,
+  value: string | undefined,
+  fallback?: string
 ) {
-	return content.replace(templateVariable(variable), (_, prefix) => {
-		const val = value?.length ? value : fallback?.length ? fallback : ''
-		return val ? `${prefix ? '\n\n' : ''}${val}` : ''
-	})
+  return content.replace(templateVariable(variable), (_, prefix) => {
+    const val = value?.length ? value : fallback?.length ? fallback : ''
+    return val ? `${prefix ? '\n\n' : ''}${val}` : ''
+  })
 }
 
 /**
@@ -116,13 +116,13 @@ export function replaceTemplateVariable(
  * ```
  */
 export const expandTemplate = (
-	template: string,
-	variables: Record<string, string | undefined>,
+  template: string,
+  variables: Record<string, string | undefined>
 ) => {
-	return Object.entries(variables).reduce(
-		(result, [key, value]) => replaceTemplateVariable(result, key, value),
-		template,
-	)
+  return Object.entries(variables).reduce(
+    (result, [key, value]) => replaceTemplateVariable(result, key, value),
+    template
+  )
 }
 
 /**
@@ -134,32 +134,32 @@ export const expandTemplate = (
  * @returns The generated link
  */
 export const generateLink = (
-	path: string,
-	domain?: string,
-	extension?: LinksExtension,
-	cleanUrls?: VitePressConfig['cleanUrls'],
+  path: string,
+  domain?: string,
+  extension?: LinksExtension,
+  cleanUrls?: VitePressConfig['cleanUrls']
 ) =>
-	expandTemplate('{domain}/{path}{extension}', {
-		domain: domain || '',
-		path,
-		extension: cleanUrls ? '' : extension,
-	})
+  expandTemplate('{domain}/{path}{extension}', {
+    domain: domain || '',
+    path,
+    extension: cleanUrls ? '' : extension
+  })
 
 /**
  * Options for generating metadata for markdown files.
  */
 export interface GenerateMetadataOptions {
-	/** Optional domain name to prepend to the URL. */
-	domain?: LlmstxtSettings['domain']
+  /** Optional domain name to prepend to the URL. */
+  domain?: LlmstxtSettings['domain']
 
-	/** Path to the file relative to the content root. */
-	filePath: string
+  /** Path to the file relative to the content root. */
+  filePath: string
 
-	/** The link extension for generated links. */
-	linksExtension?: LinksExtension
+  /** The link extension for generated links. */
+  linksExtension?: LinksExtension
 
-	/** Whether to use clean URLs (without the extension). */
-	cleanUrls?: VitePressConfig['cleanUrls']
+  /** Whether to use clean URLs (without the extension). */
+  cleanUrls?: VitePressConfig['cleanUrls']
 }
 
 /**
@@ -174,24 +174,24 @@ export interface GenerateMetadataOptions {
  * // Returns { url: 'https://example.com/docs/guide.md', description: 'A guide' }
  */
 export function generateMetadata<GrayMatter extends GrayMatterFile<Input>>(
-	sourceFile: GrayMatter,
-	options: GenerateMetadataOptions,
+  sourceFile: GrayMatter,
+  options: GenerateMetadataOptions
 ) {
-	const { domain, filePath, linksExtension, cleanUrls } = options
-	const frontmatterMetadata: Record<string, string> = {}
+  const { domain, filePath, linksExtension, cleanUrls } = options
+  const frontmatterMetadata: Record<string, string> = {}
 
-	frontmatterMetadata.url = generateLink(
-		stripExtPosix(filePath),
-		domain,
-		linksExtension ?? '.md',
-		cleanUrls,
-	)
+  frontmatterMetadata.url = generateLink(
+    stripExtPosix(filePath),
+    domain,
+    linksExtension ?? '.md',
+    cleanUrls
+  )
 
-	if (sourceFile.data?.description?.length) {
-		frontmatterMetadata.description = sourceFile.data?.description
-	}
+  if (sourceFile.data?.description?.length) {
+    frontmatterMetadata.description = sourceFile.data?.description
+  }
 
-	return frontmatterMetadata
+  return frontmatterMetadata
 }
 
 /**
@@ -204,4 +204,4 @@ export function generateMetadata<GrayMatter extends GrayMatterFile<Input>>(
  * @returns A human-readable size string (e.g., "1.2 KB", "500 B").
  */
 export const getHumanReadableSizeOf = (string: string) =>
-	byteSize(new Blob([string]).size).toString()
+  byteSize(new Blob([string]).size).toString()

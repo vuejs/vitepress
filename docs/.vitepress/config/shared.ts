@@ -122,7 +122,7 @@ export const shared = defineConfig({
           ),
           firebase: 'logos:firebase'
         }
-      }),
+      })
     ]
   },
   llms: {

@@ -243,7 +243,7 @@ export async function resolveSiteData(
     scrollOffset: userConfig.scrollOffset ?? 134,
     cleanUrls: !!userConfig.cleanUrls,
     contentProps: userConfig.contentProps,
-    llms: userConfig.llms ?? false,
+    llms: userConfig.llms ?? false
   }
 }
 
