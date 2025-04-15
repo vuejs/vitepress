@@ -70,7 +70,7 @@ If your font is a local file referenced via `@font-face`, it will be processed a
 export default {
   transformHead({ assets }) {
     // adjust the regex accordingly to match your font
-    const myFontFile = assets.find(file => /font-name\.\w+\.woff2/)
+    const myFontFile = assets.find(file => /font-name\.[\w-]+\.woff2/.test(file))
     if (myFontFile) {
       return [
         [

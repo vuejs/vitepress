@@ -70,7 +70,7 @@ export default DefaultTheme
 export default {
   transformHead({ assets }) {
     // منظور شده برای همسان سازی font خود، regex مورد نیاز را تنظیم کنید
-    const myFontFile = assets.find(file => /font-name\.\w+\.woff2/)
+    const myFontFile = assets.find(file => /font-name\.[\w-]+\.woff2/.test(file))
     if (myFontFile) {
       return [
         [

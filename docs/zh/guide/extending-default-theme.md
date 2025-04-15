@@ -70,7 +70,7 @@ export default DefaultTheme
 export default {
   transformHead({ assets }) {
     // 相应地调整正则表达式以匹配字体
-    const myFontFile = assets.find(file => /font-name\.\w+\.woff2/)
+    const myFontFile = assets.find(file => /font-name\.[\w-]+\.woff2/.test(file))
     if (myFontFile) {
       return [
         [
