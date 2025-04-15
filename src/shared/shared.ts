@@ -1,4 +1,9 @@
-import type { HeadConfig, PageData, SiteData } from '../../types/shared'
+import type {
+  AdditionalConfig,
+  HeadConfig,
+  PageData,
+  SiteData
+} from '../../types/shared'
 
 export type {
   Awaitable,
@@ -11,11 +16,17 @@ export type {
   PageData,
   PageDataPayload,
   SiteData,
-  SSGContext
+  SSGContext,
+  AdditionalConfig,
+  AdditionalConfigDict,
+  AdditionalConfigLoader
 } from '../../types/shared'
 
 export const EXTERNAL_URL_RE = /^(?:[a-z]+:|\/\/)/i
 export const APPEARANCE_KEY = 'vitepress-theme-appearance'
+
+export const VP_SOURCE_KEY = '[VP_SOURCE]'
+const UnpackStackView = Symbol('stack-view:unpack')
 
 const HASH_RE = /#.*$/
 const HASH_OR_QUERY_RE = /[?#].*$/
@@ -81,7 +92,7 @@ export function getLocaleForPath(
       (key) =>
         key !== 'root' &&
         !isExternal(key) &&
-        isActive(relativePath, `/${key}/`, true)
+        isActive(relativePath, `^/${key}/`, true)
     ) || 'root'
   )
 }
@@ -94,22 +105,34 @@ export function resolveSiteDataByRoute(
   relativePath: string
 ): SiteData {
   const localeIndex = getLocaleForPath(siteData, relativePath)
+  const { label, link, ...localeConfig } = siteData.locales[localeIndex] ?? {}
+  Object.assign(localeConfig, { localeIndex })
 
-  return Object.assign({}, siteData, {
-    localeIndex,
-    lang: siteData.locales[localeIndex]?.lang ?? siteData.lang,
-    dir: siteData.locales[localeIndex]?.dir ?? siteData.dir,
-    title: siteData.locales[localeIndex]?.title ?? siteData.title,
-    titleTemplate:
-      siteData.locales[localeIndex]?.titleTemplate ?? siteData.titleTemplate,
-    description:
-      siteData.locales[localeIndex]?.description ?? siteData.description,
-    head: mergeHead(siteData.head, siteData.locales[localeIndex]?.head ?? []),
-    themeConfig: {
-      ...siteData.themeConfig,
-      ...siteData.locales[localeIndex]?.themeConfig
-    }
-  })
+  const additionalConfigs = resolveAdditionalConfig(siteData, relativePath)
+
+  if (inBrowser && (import.meta as any).env?.DEV) {
+    ;(localeConfig as any)[VP_SOURCE_KEY] = `locale config (${localeIndex})`
+    reportConfigLayers(relativePath, [
+      ...additionalConfigs,
+      localeConfig,
+      siteData
+    ])
+  }
+
+  const topLayer = {
+    head: mergeHead(
+      siteData.head ?? [],
+      localeConfig.head ?? [],
+      ...additionalConfigs.map((data) => data.head ?? []).reverse()
+    )
+  } as SiteData
+
+  return stackView<SiteData>(
+    topLayer,
+    ...additionalConfigs,
+    localeConfig,
+    siteData
+  )
 }
 
 /**
@@ -151,18 +174,33 @@ function createTitleTemplate(
   return ` | ${template}`
 }
 
-function hasTag(head: HeadConfig[], tag: HeadConfig) {
-  const [tagType, tagAttrs] = tag
-  if (tagType !== 'meta') return false
-  const keyAttr = Object.entries(tagAttrs)[0] // First key
-  if (keyAttr == null) return false
-  return head.some(
-    ([type, attrs]) => type === tagType && attrs[keyAttr[0]] === keyAttr[1]
-  )
-}
+export function mergeHead(...headArrays: HeadConfig[][]): HeadConfig[] {
+  const merged: HeadConfig[] = []
+  const metaKeyMap = new Map<string, number>()
 
-export function mergeHead(prev: HeadConfig[], curr: HeadConfig[]) {
-  return [...prev.filter((tagAttrs) => !hasTag(curr, tagAttrs)), ...curr]
+  for (const current of headArrays) {
+    for (const tag of current) {
+      const [type, attrs] = tag
+      const keyAttr = Object.entries(attrs)[0]
+
+      if (type !== 'meta' || !keyAttr) {
+        merged.push(tag)
+        continue
+      }
+
+      const key = `${keyAttr[0]}=${keyAttr[1]}`
+      const existingIndex = metaKeyMap.get(key)
+
+      if (existingIndex != null) {
+        merged[existingIndex] = tag // replace existing tag
+      } else {
+        metaKeyMap.set(key, merged.length)
+        merged.push(tag)
+      }
+    }
+  }
+
+  return merged
 }
 
 // https://github.com/rollup/rollup/blob/fec513270c6ac350072425cc045db367656c623b/src/utils/sanitizeFileName.ts
@@ -229,4 +267,88 @@ export function escapeHtml(str: string): string {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/&(?![\w#]+;)/g, '&amp;')
+}
+
+function resolveAdditionalConfig(
+  { additionalConfig }: SiteData,
+  path: string
+): AdditionalConfig[] {
+  if (additionalConfig === undefined) return []
+  if (typeof additionalConfig === 'function') return additionalConfig(path)
+
+  const configs: AdditionalConfig[] = []
+  const segments = path.split('/').slice(0, -1) // remove file name
+
+  while (segments.length) {
+    const key = `/${segments.join('/')}/`
+    configs.push(additionalConfig[key])
+    segments.pop()
+  }
+
+  configs.push(additionalConfig['/'])
+  return configs.filter((config) => config !== undefined)
+}
+
+// This helps users to understand which configuration files are active
+function reportConfigLayers(path: string, layers: Partial<SiteData>[]) {
+  const summaryTitle = `Config Layers for ${path}:`
+
+  const summary = layers.map((c, i, arr) => {
+    const n = i + 1
+    if (n === arr.length) return `${n}. .vitepress/config (root)`
+    return `${n}. ${(c as any)?.[VP_SOURCE_KEY] ?? '(Unknown Source)'}`
+  })
+
+  console.debug(
+    [summaryTitle, ''.padEnd(summaryTitle.length, '='), ...summary].join('\n')
+  )
+}
+
+/**
+ * Creates a deep, merged view of multiple objects without mutating originals.
+ * Returns a readonly proxy behaving like a merged object of the input objects.
+ * Layers are merged in descending precedence, i.e. earlier layer is on top.
+ */
+export function stackView<T extends ObjectType>(..._layers: Partial<T>[]): T {
+  const layers = _layers.filter((layer) => isObject(layer))
+  if (layers.length <= 1) return _layers[0] as T
+
+  const allKeys = new Set(layers.flatMap((layer) => Reflect.ownKeys(layer)))
+  const allKeysArray = [...allKeys]
+
+  return new Proxy({} as T, {
+    // TODO: optimize for performance, this is a hot path
+    get(_, prop) {
+      if (prop === UnpackStackView) return layers
+      return stackView(
+        ...layers
+          .map((layer) => layer[prop])
+          .filter((v): v is NonNullable<T[string | symbol]> => v !== undefined)
+      )
+    },
+    set() {
+      throw new Error('StackView is read-only and cannot be mutated.')
+    },
+    has(_, prop) {
+      return allKeys.has(prop)
+    },
+    ownKeys() {
+      return allKeysArray
+    },
+    getOwnPropertyDescriptor(_, prop) {
+      for (const layer of layers) {
+        const descriptor = Object.getOwnPropertyDescriptor(layer, prop)
+        if (descriptor) return descriptor
+      }
+    }
+  })
+}
+
+stackView.unpack = function <T>(obj: T): T[] | undefined {
+  return (obj as any)?.[UnpackStackView]
+}
+
+type ObjectType = Record<PropertyKey, any>
+export function isObject(value: unknown): value is ObjectType {
+  return Object.prototype.toString.call(value) === '[object Object]'
 }
