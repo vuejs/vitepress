@@ -161,29 +161,33 @@ function createTitleTemplate(
   return ` | ${template}`
 }
 
-function hasTag(head: HeadConfig[], tag: HeadConfig) {
-  const [tagType, tagAttrs] = tag
-  if (tagType !== 'meta') return false
-  const keyAttr = Object.entries(tagAttrs)[0] // First key
-  if (keyAttr == null) return false
-  return head.some(
-    ([type, attrs]) => type === tagType && attrs[keyAttr[0]] === keyAttr[1]
-  )
-}
+export function mergeHead(...headArrays: HeadConfig[][]): HeadConfig[] {
+  const merged: HeadConfig[] = []
+  const metaKeyMap = new Map<string, number>()
 
-/**
- * Merge head tags ascending precedence
- * Prior duplicates are skipped in favor of later ones
- */
-export function mergeHead(...heads: HeadConfig[][]) {
-  return heads
-    .filter(Array.isArray)
-    .flat(1)
-    .reverse()
-    .reduce((merged, tag) => {
-      if (!hasTag(merged, tag)) merged.push(tag)
-      return merged
-    }, []) as HeadConfig[]
+  for (const current of headArrays) {
+    for (const tag of current) {
+      const [type, attrs] = tag
+      const keyAttr = Object.entries(attrs)[0]
+
+      if (type !== 'meta' || !keyAttr) {
+        merged.push(tag)
+        continue
+      }
+
+      const key = `${keyAttr[0]}=${keyAttr[1]}`
+      const existingIndex = metaKeyMap.get(key)
+
+      if (existingIndex != null) {
+        merged[existingIndex] = tag // replace existing tag
+      } else {
+        metaKeyMap.set(key, merged.length)
+        merged.push(tag)
+      }
+    }
+  }
+
+  return merged
 }
 
 // https://github.com/rollup/rollup/blob/fec513270c6ac350072425cc045db367656c623b/src/utils/sanitizeFileName.ts
