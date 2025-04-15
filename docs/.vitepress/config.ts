@@ -1,18 +1,18 @@
-import { defineConfig } from 'vitepress'
+import {
+  defineConfig,
+  resolveSiteDataByRoute,
+  type HeadConfig
+} from 'vitepress'
 import {
   groupIconMdPlugin,
   groupIconVitePlugin,
   localIconLoader
 } from 'vitepress-plugin-group-icons'
 import llmstxt from 'vitepress-plugin-llms'
-import { search as esSearch } from './es'
-import { search as faSearch } from './fa'
-import { search as koSearch } from './ko'
-import { search as ptSearch } from './pt'
-import { search as ruSearch } from './ru'
-import { search as zhSearch } from './zh'
 
-export const shared = defineConfig({
+const prod = !!process.env.NETLIFY
+
+export default defineConfig({
   title: 'VitePress',
 
   rewrites: {
@@ -78,8 +78,6 @@ export const shared = defineConfig({
     ['link', { rel: 'icon', type: 'image/png', href: '/vitepress-logo-mini.png' }],
     ['meta', { name: 'theme-color', content: '#5f67ee' }],
     ['meta', { property: 'og:type', content: 'website' }],
-    ['meta', { property: 'og:locale', content: 'en' }],
-    ['meta', { property: 'og:title', content: 'VitePress | Vite & Vue Powered Static Site Generator' }],
     ['meta', { property: 'og:site_name', content: 'VitePress' }],
     ['meta', { property: 'og:image', content: 'https://vitepress.dev/vitepress-og.jpg' }],
     ['meta', { property: 'og:url', content: 'https://vitepress.dev/' }],
@@ -98,35 +96,53 @@ export const shared = defineConfig({
       options: {
         appId: '8J64VVRP8K',
         apiKey: '52f578a92b88ad6abde815aae2b0ad7c',
-        indexName: 'vitepress',
-        locales: {
-          ...zhSearch,
-          ...ptSearch,
-          ...ruSearch,
-          ...esSearch,
-          ...koSearch,
-          ...faSearch
-        }
+        indexName: 'vitepress'
       }
     },
 
     carbonAds: { code: 'CEBDT27Y', placement: 'vuejsorg' }
   },
+
+  locales: {
+    root: { label: 'English' },
+    zh: { label: '简体中文' },
+    pt: { label: 'Português' },
+    ru: { label: 'Русский' },
+    es: { label: 'Español' },
+    ko: { label: '한국어' },
+    fa: { label: 'فارسی' }
+  },
+
   vite: {
     plugins: [
       groupIconVitePlugin({
         customIcon: {
           vitepress: localIconLoader(
             import.meta.url,
-            '../../public/vitepress-logo-mini.svg'
+            '../public/vitepress-logo-mini.svg'
           ),
           firebase: 'logos:firebase'
         }
       }),
-      llmstxt({
-        workDir: 'en',
-        ignoreFiles: ['index.md']
-      })
+      prod &&
+        llmstxt({
+          workDir: 'en',
+          ignoreFiles: ['index.md']
+        })
     ]
-  }
+  },
+
+  transformPageData: prod
+    ? (pageData, ctx) => {
+        const site = resolveSiteDataByRoute(
+          ctx.siteConfig.site,
+          pageData.relativePath
+        )
+        const title = `${pageData.title || site.title} | ${pageData.description || site.description}`
+        ;((pageData.frontmatter.head ??= []) as HeadConfig[]).push(
+          ['meta', { property: 'og:locale', content: site.lang }],
+          ['meta', { property: 'og:title', content: title }]
+        )
+      }
+    : undefined
 })

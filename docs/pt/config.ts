@@ -1,15 +1,17 @@
 import { createRequire } from 'module'
-import { defineConfig, type DefaultTheme } from 'vitepress'
+import { defineAdditionalConfig, type DefaultTheme } from 'vitepress'
 
 const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
 
-export const pt = defineConfig({
+export default defineAdditionalConfig({
   lang: 'pt-BR',
   description: 'Gerador de Site Estático desenvolvido com Vite e Vue.',
 
   themeConfig: {
     nav: nav(),
+
+    search: { options: searchOptions() },
 
     sidebar: {
       '/pt/guide/': { base: '/pt/guide/', items: sidebarGuide() },
@@ -36,11 +38,15 @@ export const pt = defineConfig({
     },
 
     lastUpdated: {
-      text: 'Atualizado em',
-      formatOptions: {
-        dateStyle: 'short',
-        timeStyle: 'medium'
-      }
+      text: 'Atualizado em'
+    },
+
+    notFound: {
+      title: 'PÁGINA NÃO ENCONTRADA',
+      quote:
+        'Mas se você não mudar de direção e continuar procurando, pode acabar onde está indo.',
+      linkLabel: 'ir para a página inicial',
+      linkText: 'Me leve para casa'
     },
 
     langMenuLabel: 'Alterar Idioma',
@@ -167,8 +173,8 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
   ]
 }
 
-export const search: DefaultTheme.AlgoliaSearchOptions['locales'] = {
-  pt: {
+function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
+  return {
     placeholder: 'Pesquisar documentos',
     translations: {
       button: {

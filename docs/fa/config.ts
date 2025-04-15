@@ -1,25 +1,19 @@
 import { createRequire } from 'module'
-import { defineConfig, type DefaultTheme } from 'vitepress'
+import { defineAdditionalConfig, type DefaultTheme } from 'vitepress'
 
 const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
 
-export const fa = defineConfig({
-  title: 'ویت‌پرس',
+export default defineAdditionalConfig({
   lang: 'fa-IR',
-  description: 'Vite & Vue powered static site generator.',
+  description: 'ژنراتور استاتیک وب‌سایت با Vite و Vue',
   dir: 'rtl',
-  markdown: {
-    container: {
-      tipLabel: 'نکته',
-      warningLabel: 'هشدار',
-      dangerLabel: 'خطر',
-      infoLabel: 'اطلاعات',
-      detailsLabel: 'جزئیات'
-    }
-  },
+
   themeConfig: {
     nav: nav(),
+
+    search: { options: searchOptions() },
+
     sidebar: {
       '/fa/guide/': { base: '/fa/guide/', items: sidebarGuide() },
       '/fa/reference/': { base: '/fa/reference/', items: sidebarReference() }
@@ -45,11 +39,15 @@ export const fa = defineConfig({
     },
 
     lastUpdated: {
-      text: 'آخرین به‌روزرسانی‌',
-      formatOptions: {
-        dateStyle: 'short',
-        timeStyle: 'medium'
-      }
+      text: 'آخرین به‌روزرسانی‌'
+    },
+
+    notFound: {
+      title: 'صفحه پیدا نشد',
+      quote:
+        'اما اگر جهت خود را تغییر ندهید و همچنان به جستجو ادامه دهید، ممکن است در نهایت به جایی برسید که در حال رفتن به آن هستید.',
+      linkLabel: 'برو به خانه',
+      linkText: 'من را به خانه ببر'
     },
 
     langMenuLabel: 'تغییر زبان',
@@ -58,14 +56,6 @@ export const fa = defineConfig({
     darkModeSwitchLabel: 'تم تاریک',
     lightModeSwitchTitle: 'رفتن به حالت روشن',
     darkModeSwitchTitle: 'رفتن به حالت تاریک',
-    notFound: {
-      linkLabel: 'بازگشت به خانه',
-      linkText: 'بازگشت به خانه',
-      title: 'صفحه مورد نظر یافت نشد',
-      code: '۴۰۴',
-      quote:
-        'اما اگر جهت خود را تغییر ندهید و اگر ادامه دهید به دنبال چیزی که دنبال می‌کنید، ممکن است در نهایت به جایی که در حال رفتن به سمتش هستید، برسید.'
-    },
     siteTitle: 'ویت‌پرس'
   }
 })
@@ -181,8 +171,8 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
   ]
 }
 
-export const search: DefaultTheme.AlgoliaSearchOptions['locales'] = {
-  fa: {
+function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
+  return {
     placeholder: 'جستجوی مستندات',
     translations: {
       button: {

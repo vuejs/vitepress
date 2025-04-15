@@ -1,9 +1,6 @@
 ---
 layout: home
 
-title: VitePress
-titleTemplate: Vite & Vue Powered Static Site Generator
-
 hero:
   name: VitePress
   text: Vite & Vue Powered Static Site Generator
