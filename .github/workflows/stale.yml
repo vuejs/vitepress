@@ -1,4 +1,9 @@
-name: Close stale issues and PRs
+name: ⛔ Close stale issues and PRs
+
+permissions:
+  issues: write
+  pull-requests: write
+
 on:
   workflow_dispatch:
 
