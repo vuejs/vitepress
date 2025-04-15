@@ -1,10 +1,16 @@
-import { defineConfig } from 'vitepress'
+import {
+  defineConfig,
+  resolveSiteDataByRoute,
+  type HeadConfig
+} from 'vitepress'
 import {
   groupIconMdPlugin,
   groupIconVitePlugin,
   localIconLoader
 } from 'vitepress-plugin-group-icons'
 import llmstxt from 'vitepress-plugin-llms'
+
+const prod = !!process.env.NETLIFY
 
 export default defineConfig({
   title: 'VitePress',
@@ -72,8 +78,6 @@ export default defineConfig({
     ['link', { rel: 'icon', type: 'image/png', href: '/vitepress-logo-mini.png' }],
     ['meta', { name: 'theme-color', content: '#5f67ee' }],
     ['meta', { property: 'og:type', content: 'website' }],
-    ['meta', { property: 'og:locale', content: 'en' }],
-    ['meta', { property: 'og:title', content: 'VitePress | Vite & Vue Powered Static Site Generator' }],
     ['meta', { property: 'og:site_name', content: 'VitePress' }],
     ['meta', { property: 'og:image', content: 'https://vitepress.dev/vitepress-og.jpg' }],
     ['meta', { property: 'og:url', content: 'https://vitepress.dev/' }],
@@ -120,11 +124,25 @@ export default defineConfig({
           firebase: 'logos:firebase'
         }
       }),
-      !!process.env.NETLIFY &&
+      prod &&
         llmstxt({
           workDir: 'en',
           ignoreFiles: ['index.md']
         })
     ]
-  }
+  },
+
+  transformPageData: prod
+    ? (pageData, ctx) => {
+        const site = resolveSiteDataByRoute(
+          ctx.siteConfig.site,
+          pageData.relativePath
+        )
+        const title = `${pageData.title || site.title} | ${pageData.description || site.description}`
+        ;((pageData.frontmatter.head ??= []) as HeadConfig[]).push(
+          ['meta', { property: 'og:locale', content: site.lang }],
+          ['meta', { property: 'og:title', content: title }]
+        )
+      }
+    : undefined
 })

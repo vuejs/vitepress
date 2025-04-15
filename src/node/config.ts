@@ -26,6 +26,7 @@ import {
 import type { RawConfigExports, SiteConfig, UserConfig } from './siteConfig'
 
 export { resolvePages } from './plugins/dynamicRoutesPlugin'
+export { resolveSiteDataByRoute } from './shared'
 export * from './siteConfig'
 
 const debug = _debug('vitepress:config')

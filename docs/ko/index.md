@@ -1,9 +1,6 @@
 ---
 layout: home
 
-title: VitePress
-titleTemplate: Vite & Vue 기반 정적 사이트 생성기
-
 hero:
   name: VitePress
   text: Vite & Vue 기반 정적 사이트 생성기

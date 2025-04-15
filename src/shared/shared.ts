@@ -123,7 +123,7 @@ export function resolveSiteDataByRoute(
     head: mergeHead(
       siteData.head ?? [],
       localeConfig.head ?? [],
-      ...additionalConfigs.map((data) => data?.head ?? []).reverse()
+      ...additionalConfigs.map((data) => data.head ?? []).reverse()
     )
   } as SiteData
 
@@ -317,6 +317,7 @@ export function stackView<T extends ObjectType>(..._layers: Partial<T>[]): T {
   const allKeysArray = [...allKeys]
 
   return new Proxy({} as T, {
+    // TODO: optimize for performance, this is a hot path
     get(_, prop) {
       if (prop === UnpackStackView) return layers
       return stackView(
