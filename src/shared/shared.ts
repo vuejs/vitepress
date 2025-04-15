@@ -1,4 +1,9 @@
-import type { HeadConfig, PageData, SiteData } from '../../types/shared'
+import type {
+  AdditionalConfig,
+  HeadConfig,
+  PageData,
+  SiteData
+} from '../../types/shared'
 
 export type {
   Awaitable,
@@ -13,11 +18,15 @@ export type {
   SiteData,
   SSGContext,
   AdditionalConfig,
-  AdditionalConfigDict
+  AdditionalConfigDict,
+  AdditionalConfigLoader
 } from '../../types/shared'
 
 export const EXTERNAL_URL_RE = /^(?:[a-z]+:|\/\/)/i
 export const APPEARANCE_KEY = 'vitepress-theme-appearance'
+
+export const VP_SOURCE_KEY = '[VP_SOURCE]'
+const UnpackStackView = Symbol('stack-view:unpack')
 
 const HASH_RE = /#.*$/
 const HASH_OR_QUERY_RE = /[?#].*$/
@@ -98,15 +107,18 @@ export function resolveSiteDataByRoute(
   const localeIndex = getLocaleForPath(siteData, relativePath)
   const { label, link, ...localeConfig } = siteData.locales[localeIndex] ?? {}
   Object.assign(localeConfig, { localeIndex })
+
   const additionalConfigs = resolveAdditionalConfig(siteData, relativePath)
+
   if (inBrowser && (import.meta as any).env?.DEV) {
     ;(localeConfig as any)[VP_SOURCE_KEY] = `locale config (${localeIndex})`
     reportConfigLayers(relativePath, [
       ...additionalConfigs,
-      localeConfig as SiteData,
+      localeConfig,
       siteData
     ])
   }
+
   const topLayer = {
     head: mergeHead(
       siteData.head ?? [],
@@ -114,6 +126,7 @@ export function resolveSiteDataByRoute(
       ...additionalConfigs.map((data) => data?.head ?? []).reverse()
     )
   } as SiteData
+
   return stackView<SiteData>(
     topLayer,
     ...additionalConfigs,
@@ -256,33 +269,36 @@ export function escapeHtml(str: string): string {
     .replace(/&(?![\w#]+;)/g, '&amp;')
 }
 
-export function resolveAdditionalConfig(site: SiteData, path: string) {
-  if (!path.startsWith('/')) path = `/${path}`
-  const additionalConfig = site.additionalConfig
+function resolveAdditionalConfig(
+  { additionalConfig }: SiteData,
+  path: string
+): AdditionalConfig[] {
   if (additionalConfig === undefined) return []
-  else if (typeof additionalConfig === 'function')
-    return additionalConfig(path) as SiteData[]
-  const configs: SiteData[] = []
-  const segments = path.split('/').slice(1, -1)
+  if (typeof additionalConfig === 'function') return additionalConfig(path)
+
+  const configs: AdditionalConfig[] = []
+  const segments = path.split('/').slice(0, -1) // remove file name
+
   while (segments.length) {
     const key = `/${segments.join('/')}/`
-    if (key in additionalConfig) configs.push(additionalConfig[key] as SiteData)
+    configs.push(additionalConfig[key])
     segments.pop()
   }
-  if ('/' in additionalConfig) configs.push(additionalConfig['/'] as SiteData)
-  return configs
+
+  configs.push(additionalConfig['/'])
+  return configs.filter((config) => config !== undefined)
 }
 
-export const VP_SOURCE_KEY = '[VP_SOURCE]'
-
-function reportConfigLayers(path: string, layers: SiteData[]) {
-  // This helps users to understand which configuration files are active
+// This helps users to understand which configuration files are active
+function reportConfigLayers(path: string, layers: Partial<SiteData>[]) {
   const summaryTitle = `Config Layers for ${path}:`
+
   const summary = layers.map((c, i, arr) => {
     const n = i + 1
     if (n === arr.length) return `${n}. .vitepress/config (root)`
     return `${n}. ${(c as any)?.[VP_SOURCE_KEY] ?? '(Unknown Source)'}`
   })
+
   console.debug(
     [summaryTitle, ''.padEnd(summaryTitle.length, '='), ...summary].join('\n')
   )
@@ -293,53 +309,45 @@ function reportConfigLayers(path: string, layers: SiteData[]) {
  * Returns a readonly proxy behaving like a merged object of the input objects.
  * Layers are merged in descending precedence, i.e. earlier layer is on top.
  */
-export function stackView<T extends object>(...layers: Partial<T>[]): T {
-  layers = layers.filter((layer) => layer !== undefined)
-  if (!isObject(layers[0])) return layers[0] as T
-  layers = layers.filter(isObject)
-  if (layers.length <= 1) return layers[0] as T
-  return new Proxy(
-    {},
-    {
-      get(_, key) {
-        return key === UnpackStackView
-          ? layers
-          : stackView(...layers.map((layer) => (layer as any)?.[key]))
-      },
-      set(_, key, value) {
-        throw new Error('StackView is read-only and cannot be mutated.')
-      },
-      has(_, key) {
-        for (const layer of layers) {
-          if (key in layer) return true
-        }
-        return false
-      },
-      ownKeys(_) {
-        const keys = new Set<string>()
-        for (const layer of layers) {
-          for (const key of Object.keys(layer)) {
-            keys.add(key)
-          }
-        }
-        return Array.from(keys)
-      },
-      getOwnPropertyDescriptor(_, key) {
-        for (const layer of layers) {
-          if (key in layer) {
-            return Object.getOwnPropertyDescriptor(layer, key)
-          }
-        }
+export function stackView<T extends ObjectType>(..._layers: Partial<T>[]): T {
+  const layers = _layers.filter((layer) => isObject(layer))
+  if (layers.length <= 1) return _layers[0] as T
+
+  const allKeys = new Set(layers.flatMap((layer) => Reflect.ownKeys(layer)))
+  const allKeysArray = [...allKeys]
+
+  return new Proxy({} as T, {
+    get(_, prop) {
+      if (prop === UnpackStackView) return layers
+      return stackView(
+        ...layers
+          .map((layer) => layer[prop])
+          .filter((v): v is NonNullable<T[string | symbol]> => v !== undefined)
+      )
+    },
+    set() {
+      throw new Error('StackView is read-only and cannot be mutated.')
+    },
+    has(_, prop) {
+      return allKeys.has(prop)
+    },
+    ownKeys() {
+      return allKeysArray
+    },
+    getOwnPropertyDescriptor(_, prop) {
+      for (const layer of layers) {
+        const descriptor = Object.getOwnPropertyDescriptor(layer, prop)
+        if (descriptor) return descriptor
       }
     }
-  ) as T
+  })
 }
 
-const UnpackStackView = Symbol('stack-view:unpack')
 stackView.unpack = function <T>(obj: T): T[] | undefined {
   return (obj as any)?.[UnpackStackView]
 }
 
-export function isObject(value: unknown): value is Record<string, any> {
+type ObjectType = Record<PropertyKey, any>
+export function isObject(value: unknown): value is ObjectType {
   return Object.prototype.toString.call(value) === '[object Object]'
 }

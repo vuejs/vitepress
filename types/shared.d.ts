@@ -191,7 +191,7 @@ export type AdditionalConfigDict<ThemeConfig = any> = Record<
 >
 
 export type AdditionalConfigLoader<ThemeConfig = any> = (
-  path: string
+  relativePath: string
 ) => AdditionalConfig<ThemeConfig>[]
 
 // Manually declaring all properties as rollup-plugin-dts

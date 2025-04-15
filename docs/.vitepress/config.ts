@@ -120,7 +120,7 @@ export default defineConfig({
           firebase: 'logos:firebase'
         }
       }),
-      process.env.NODE_ENV === 'production' &&
+      !!process.env.NETLIFY &&
         llmstxt({
           workDir: 'en',
           ignoreFiles: ['index.md']
