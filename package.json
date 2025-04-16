@@ -14,7 +14,7 @@
   "repository": "github:vuejs/vitepress",
   "license": "MIT",
   "author": "Evan You",
-  "funding": "https://github.com/vuejs/vitepress?sponsor",
+  "funding": "https://opencollective.com/vuejs",
   "type": "module",
   "exports": {
     ".": {
