@@ -125,7 +125,7 @@ import CustomComponent from '../components/CustomComponent.vue'
 컴포넌트가 대부분의 페이지에서 사용될 경우, Vue 앱 인스턴스를 커스텀하여 전역적으로 등록할 수 있습니다. [기본 테마 확장](./extending-default-theme#registering-global-components)의 관련 섹션을 예제를 참고하세요.
 
 ::: warning 중요
-커스텀 컴포넌트의 이름에 하이픈이 포함되어 있거나 파스칼케이스(PascalCase)e인지 확인하세요. 그렇지 않으면 인라인 요소로 처리되어 `<p>` 태그 안에 래핑됩니다. `<p>`는 블록 엘리먼트를 내부에 배치할 수 없기 때문에 하이드레이션 불일치가 발생합니다.
+커스텀 컴포넌트의 이름에 하이픈이 포함되어 있거나 파스칼케이스(PascalCase)인지 확인하세요. 그렇지 않으면 인라인 요소로 처리되어 `<p>` 태그 안에 래핑됩니다. `<p>`는 블록 엘리먼트를 내부에 배치할 수 없기 때문에 하이드레이션 불일치가 발생합니다.
 :::
 
 ### 헤더에 <ComponentInHeader /> 컴포넌트 사용하기  {#using-components-in-headers}
