@@ -1,7 +1,6 @@
 name: 🚀 Release
 
-permissions:
-  contents: write
+permissions: {}
 
 on:
   push:
@@ -14,11 +13,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📥 Checkout
-        uses: actions/checkout@v4
-        with:
-          persist-credentials: true
-
       - name: 🔖 Create Release for Tag
         id: release_tag
         uses: yyx990803/release-tag@master
