@@ -15,6 +15,10 @@ import type {
   SiteData
 } from './shared'
 import type { LlmstxtSettings } from './plugins/llmstxt/types'
+import type {
+  AdditionalConfigDict,
+  AdditionalConfigLoader
+} from '../../types/shared'
 
 export type RawConfigExports<ThemeConfig = any> =
   | Awaitable<UserConfig<ThemeConfig>>
@@ -190,6 +194,18 @@ export interface UserConfig<ThemeConfig = any>
     pageData: PageData,
     ctx: TransformPageContext
   ) => Awaitable<Partial<PageData> | { [key: string]: any } | void>
+
+  /**
+   * Multi-layer configuration overloading.
+   * Auto-resolves to `docs/.../config.{js,mjs,ts,mts}` when unspecified.
+   *
+   * Set to `{}` to opt-out.
+   *
+   * @experimental
+   */
+  additionalConfig?:
+    | AdditionalConfigDict<ThemeConfig>
+    | AdditionalConfigLoader<ThemeConfig>
 }
 
 export interface SiteConfig<ThemeConfig = any>

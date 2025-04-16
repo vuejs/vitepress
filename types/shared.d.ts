@@ -6,6 +6,19 @@ export type { DefaultTheme } from './default-theme.js'
 
 export type Awaitable<T> = T | PromiseLike<T>
 
+type DeepPartial<T> =
+  T extends Record<string, any>
+    ? T extends
+        | Date
+        | RegExp
+        | Function
+        | ReadonlyMap<any, any>
+        | ReadonlySet<any>
+        | ReadonlyArray<any>
+      ? T
+      : { [P in keyof T]?: DeepPartial<T[P]> }
+    : T
+
 export interface PageData {
   relativePath: string
   /**
@@ -136,6 +149,9 @@ export interface SiteData<ThemeConfig = any> {
     prefetchLinks: boolean
   }
   llms?: boolean | LlmstxtSettings
+  additionalConfig?:
+    | AdditionalConfigDict<ThemeConfig>
+    | AdditionalConfigLoader<ThemeConfig>
 }
 
 export type HeadConfig =
@@ -160,7 +176,7 @@ export interface LocaleSpecificConfig<ThemeConfig = any> {
   titleTemplate?: string | boolean
   description?: string
   head?: HeadConfig[]
-  themeConfig?: ThemeConfig
+  themeConfig?: DeepPartial<ThemeConfig>
 }
 
 export type LocaleConfig<ThemeConfig = any> = Record<
@@ -168,9 +184,20 @@ export type LocaleConfig<ThemeConfig = any> = Record<
   LocaleSpecificConfig<ThemeConfig> & { label: string; link?: string }
 >
 
+export type AdditionalConfig<ThemeConfig = any> =
+  LocaleSpecificConfig<ThemeConfig>
+
+export type AdditionalConfigDict<ThemeConfig = any> = Record<
+  string,
+  AdditionalConfig<ThemeConfig>
+>
+
+export type AdditionalConfigLoader<ThemeConfig = any> = (
+  relativePath: string
+) => AdditionalConfig<ThemeConfig>[]
+
 // Manually declaring all properties as rollup-plugin-dts
 // is unable to merge augmented module declarations
-
 export interface MarkdownEnv {
   /**
    * The raw Markdown content without frontmatter
