@@ -3,9 +3,7 @@ name: 🔄 CR
 env:
   PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
 
-permissions:
-  contents: read
-  packages: write
+permissions: {}
 
 on:
   pull_request:
@@ -51,7 +49,6 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
-          cache-dependency-path: pnpm-lock.yaml
 
       - name: 📦 Install dependencies
         run: pnpm install --frozen-lockfile
