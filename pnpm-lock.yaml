@@ -56,8 +56,8 @@ importers:
         specifier: ^7.6.4
         version: 7.6.4
       living-object:
-        specifier: 0.0.4
-        version: 0.0.4
+        specifier: 0.0.8
+        version: 0.0.8
       mark.js:
         specifier: 8.11.1
         version: 8.11.1
@@ -1969,8 +1969,8 @@ packages:
     resolution: {integrity: sha512-vsBzcU4oE+v0lj4FhVLzr9dBTv4/fHIa57l+GCwovP8MoFNZJTOhGU8PXd4v2VJCbECAaijBiHntiekFMLvo0g==}
     engines: {node: '>=18.0.0'}
 
-  living-object@0.0.4:
-    resolution: {integrity: sha512-DfiG3Du5t/OlvgVwo5WQWL6Cp2RmLQatOkSeDDk8Z40lSunXoo0op4AqIe1JvBsBuunn4WGs5G7fK03Lowa41A==}
+  living-object@0.0.8:
+    resolution: {integrity: sha512-o4SGS1iyo3H6m/OAbrxty0RFgXNIkx0vojHDGcAk/RjQ+noB0lsK2znmq19BZ+jyOS7P0jj5zywxgVNuKt5/Gg==}
     engines: {node: '>=16.0.0'}
 
   local-pkg@1.1.1:
@@ -4684,7 +4684,7 @@ snapshots:
       rfdc: 1.4.1
       wrap-ansi: 9.0.0
 
-  living-object@0.0.4: {}
+  living-object@0.0.8: {}
 
   local-pkg@1.1.1:
     dependencies:
