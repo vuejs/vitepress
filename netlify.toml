@@ -29,11 +29,6 @@
 
 # llms.txt
 [[redirects]]
-  from = "/*.txt"
-  status = 301
-  to = "/:splat.md"
-
-[[redirects]]
   from = "/llms.md"
   status = 301
   to = "/llms.txt"
