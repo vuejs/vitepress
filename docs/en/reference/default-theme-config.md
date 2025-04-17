@@ -50,7 +50,7 @@ type ThemeableImage =
 
 - Type: `string | false`
 
-You can customize this item to replace the default site title (`title` in app config) in nav. When set to `false`, title in nav will be disabled. Useful when you have `logo` that already contains the site title text.
+You can customize this item to replace the default site title (`title` in app config) in nav. When set to `false`, title in nav will be disabled. Useful when you have a `logo` that already contains the site title text.
 
 ```ts
 export default {
@@ -184,7 +184,7 @@ export type SidebarItem = {
 - Default: `true`
 - Can be overridden per page via [frontmatter](./frontmatter-config#aside)
 
-Setting this value to `false` prevents rendering of aside container.\
+Setting this value to `false` prevents rendering of the aside container.\
 Setting this value to `true` renders the aside to the right.\
 Setting this value to `left` renders the aside to the left.
 
@@ -195,7 +195,7 @@ If you want to disable it for all viewports, you should use `outline: false` ins
 - Type: `Outline | Outline['level'] | false`
 - Level can be overridden per page via [frontmatter](./frontmatter-config#outline)
 
-Setting this value to `false` prevents rendering of outline container. Refer this interface for more details:
+Setting this value to `false` prevents rendering of the outline container. Refer this interface for more details:
 
 ```ts
 interface Outline {
@@ -283,7 +283,7 @@ export interface Footer {
 - Type: `EditLink`
 - Can be overridden per page via [frontmatter](./frontmatter-config#editlink)
 
-Edit Link lets you display a link to edit the page on Git management services such as GitHub, or GitLab. See [Default Theme: Edit Link](./default-theme-edit-link) for more details.
+Edit Link lets you display a link to edit the page on Git management services such as GitHub or GitLab. See [Default Theme: Edit Link](./default-theme-edit-link) for more details.
 
 ```ts
 export default {
