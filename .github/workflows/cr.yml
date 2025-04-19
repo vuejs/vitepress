@@ -7,16 +7,18 @@ on:
   pull_request:
     branches: [main]
     types: [opened, synchronize, labeled, ready_for_review]
-    # paths-ignore:
-    #   - '.github/**'
-    #   - '__tests__/**'
-    #   - 'art/**'
-    #   - 'docs/**'
-    #   - '*.md'
+    paths-ignore:
+      - '.github/**'
+      - '!.github/workflows/cr.yml'
+      - '__tests__/**'
+      - 'art/**'
+      - 'docs/**'
+      - '*.md'
   push:
     branches: [main]
     paths-ignore:
       - '.github/**'
+      - '!.github/workflows/cr.yml'
       - '__tests__/**'
       - 'art/**'
       - 'docs/**'
@@ -44,6 +46,4 @@ jobs:
           cache: pnpm
       - run: pnpm install
       - run: pnpm build
-      - run: cat dist/node/index.d.ts
-      - run: cat dist/client/index.d.ts
       - run: npx pkg-pr-new publish --compact --no-template --pnpm
