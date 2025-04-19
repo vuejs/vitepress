@@ -32,6 +32,7 @@ import { localSearchPlugin } from './plugins/localSearchPlugin'
 import { rewritesPlugin } from './plugins/rewritesPlugin'
 import { staticDataPlugin } from './plugins/staticDataPlugin'
 import { webFontsPlugin } from './plugins/webFontsPlugin'
+import llmstxt from './plugins/llmstxt'
 import { slash, type PageDataPayload } from './shared'
 import { deserializeFunctions, serializeFunctions } from './utils/fnSerialize'
 
@@ -80,6 +81,7 @@ export async function createVitePressPlugin(
     site,
     vue: userVuePluginOptions,
     vite: userViteConfig,
+    llms,
     lastUpdated,
     cleanUrls
   } = siteConfig
@@ -439,6 +441,7 @@ export async function createVitePressPlugin(
     vuePlugin,
     hmrFix,
     webFontsPlugin(siteConfig.useWebFonts),
+    llms ? llmstxt(llms === true ? undefined : llms) : [],
     ...(userViteConfig?.plugins || []),
     await localSearchPlugin(siteConfig),
     staticDataPlugin,

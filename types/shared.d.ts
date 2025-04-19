@@ -1,6 +1,7 @@
 // types shared between server and client
 import type { UseDarkOptions } from '@vueuse/core'
 import type { SSRContext } from 'vue/server-renderer'
+import type { LlmstxtSettings } from '../src/node/plugins/llmstxt/types'
 export type { DefaultTheme } from './default-theme.js'
 
 export type Awaitable<T> = T | PromiseLike<T>
@@ -147,6 +148,7 @@ export interface SiteData<ThemeConfig = any> {
   router: {
     prefetchLinks: boolean
   }
+  llms?: boolean | LlmstxtSettings
   additionalConfig?:
     | AdditionalConfigDict<ThemeConfig>
     | AdditionalConfigLoader<ThemeConfig>
