@@ -65,13 +65,13 @@ const dtsNode = dts({
   tsconfig: 'src/node/tsconfig.json'
 })
 
-// const originalResolveId = dtsNode.resolveId
+const originalResolveId = dtsNode.resolveId
 
-// dtsNode.resolveId = async function (source, importer) {
-//   const res = await (originalResolveId as Function).call(this, source, importer)
-//   if (res?.id) res.id = await fs.realpath(res.id)
-//   return res
-// }
+dtsNode.resolveId = async function (source, importer) {
+  const res = await (originalResolveId as Function).call(this, source, importer)
+  if (res?.id) res.id = await fs.realpath(res.id)
+  return res
+}
 
 const nodeTypes: RollupOptions = {
   input: 'src/node/index.ts',
