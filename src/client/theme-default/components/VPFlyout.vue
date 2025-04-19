@@ -45,7 +45,7 @@ function onBlur() {
     </button>
 
     <div class="menu">
-      <VPMenu :items="items">
+      <VPMenu :items>
         <slot />
       </VPMenu>
     </div>

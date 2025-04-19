@@ -1,3 +1,21 @@
+## [2.0.0-alpha.4](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.3...v2.0.0-alpha.4) (2025-03-09)
+
+### Bug Fixes
+
+- **build/regression:** langAlias not working ([06ae2bf](https://github.com/vuejs/vitepress/commit/06ae2bf3a4ee02351530b0bd055e577ca6509d62)), closes [#4581](https://github.com/vuejs/vitepress/issues/4581)
+- don't hardcode `tabindex` attr in table renderer ([#4082](https://github.com/vuejs/vitepress/issues/4082)) ([aadc517](https://github.com/vuejs/vitepress/commit/aadc517c69fb239bdda99173bbc123ace567484b))
+- hmr not working for watched files in path loaders ([e271695](https://github.com/vuejs/vitepress/commit/e271695d716247455ca620948f814e6c8ca0e3c4)), closes [#4525](https://github.com/vuejs/vitepress/issues/4525)
+- ignore non-text content in permalink generation and fix types of markdown.config ([a8a1800](https://github.com/vuejs/vitepress/commit/a8a1800ae578be88027aa4ec7561ada4d055b888))
+- prevent reload on first server start in fresh installations ([d8a884e](https://github.com/vuejs/vitepress/commit/d8a884ed0f754523765058a70149cdbaf6942341))
+- properly merge classes in custom containers ([#4128](https://github.com/vuejs/vitepress/issues/4128)) ([8aad617](https://github.com/vuejs/vitepress/commit/8aad617446c03d39a65a0b21e9fce43bc484af1e))
+- rebuild dynamic routes cache on server restart ([9f54714](https://github.com/vuejs/vitepress/commit/9f54714e7db69fd4902f1917f927456c71b5a292)), closes [#4525](https://github.com/vuejs/vitepress/issues/4525)
+
+### Features
+
+- allow matching region end in snippets without tag ([#4287](https://github.com/vuejs/vitepress/issues/4287)) ([1a2f81d](https://github.com/vuejs/vitepress/commit/1a2f81de4d6549dd1adf86ae131d1a861158bd2d))
+- improve region regexes for snippet plugin ([1a6684c](https://github.com/vuejs/vitepress/commit/1a6684cf1054d326bc1dd6eeb9fb78b150ac2b2a))
+- support using header anchors in markdown file inclusion ([#4608](https://github.com/vuejs/vitepress/issues/4608)) ([b99d512](https://github.com/vuejs/vitepress/commit/b99d5123c9b2afdc7461089e03476c34d7816faf)), closes [#4375](https://github.com/vuejs/vitepress/issues/4375) [#4382](https://github.com/vuejs/vitepress/issues/4382)
+
 ## [2.0.0-alpha.3](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.2...v2.0.0-alpha.3) (2025-02-24)
 
 ### Bug Fixes

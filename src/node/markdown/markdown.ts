@@ -13,7 +13,7 @@ import {
 import { sfcPlugin, type SfcPluginOptions } from '@mdit-vue/plugin-sfc'
 import { titlePlugin } from '@mdit-vue/plugin-title'
 import { tocPlugin, type TocPluginOptions } from '@mdit-vue/plugin-toc'
-import { slugify } from '@mdit-vue/shared'
+import { slugify as defaultSlugify } from '@mdit-vue/shared'
 import type {
   LanguageInput,
   ShikiTransformer,
@@ -215,7 +215,6 @@ export async function createMarkdownRenderer(
 
   const theme = options.theme ?? { light: 'github-light', dark: 'github-dark' }
   const codeCopyButtonTitle = options.codeCopyButtonTitle || 'Copy Code'
-  const hasSingleTheme = typeof theme === 'string' || 'name' in theme
 
   let [highlight, dispose] = options.highlight
     ? [options.highlight, () => {}]
@@ -232,17 +231,20 @@ export async function createMarkdownRenderer(
     await options.preConfig(md)
   }
 
+  const slugify = options.anchor?.slugify ?? defaultSlugify
+
   // custom plugins
   md.use(componentPlugin, { ...options.component })
     .use(highlightLinePlugin)
-    .use(preWrapperPlugin, { codeCopyButtonTitle, hasSingleTheme })
+    .use(preWrapperPlugin, { codeCopyButtonTitle })
     .use(snippetPlugin, srcDir)
-    .use(containerPlugin, { hasSingleTheme }, options.container)
+    .use(containerPlugin, options.container)
     .use(imagePlugin, options.image)
     .use(
       linkPlugin,
       { target: '_blank', rel: 'noreferrer', ...options.externalLinks },
-      base
+      base,
+      slugify
     )
     .use(lineNumberPlugin, options.lineNumbers)
 
@@ -297,6 +299,7 @@ export async function createMarkdownRenderer(
   } as SfcPluginOptions)
     .use(titlePlugin)
     .use(tocPlugin, {
+      slugify,
       ...options.toc
     } as TocPluginOptions)
 

@@ -181,36 +181,3 @@ export default {
   }
 }
 ```
-
-## `useSidebar` <Badge type="info" text="composable" />
-
-Devuelve datos relacionados con la barra lateral. El objeto devuelto tiene el siguiente tipo:
-
-```ts
-export interface DocSidebar {
-  isOpen: Ref<boolean>
-  sidebar: ComputedRef<DefaultTheme.SidebarItem[]>
-  sidebarGroups: ComputedRef<DefaultTheme.SidebarItem[]>
-  hasSidebar: ComputedRef<boolean>
-  hasAside: ComputedRef<boolean>
-  leftAside: ComputedRef<boolean>
-  isSidebarEnabled: ComputedRef<boolean>
-  open: () => void
-  close: () => void
-  toggle: () => void
-}
-```
-
-**Exemplo:**
-
-```vue
-<script setup>
-import { useSidebar } from 'vitepress/theme'
-
-const { hasSidebar } = useSidebar()
-</script>
-
-<template>
-  <div v-if="hasSidebar">Sólo visible cuando existe la barra lateral</div>
-</template>
-```

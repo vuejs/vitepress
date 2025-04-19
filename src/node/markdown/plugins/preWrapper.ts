@@ -2,7 +2,6 @@ import type { MarkdownItAsync } from 'markdown-it-async'
 
 export interface Options {
   codeCopyButtonTitle: string
-  hasSingleTheme: boolean
 }
 
 export function preWrapperPlugin(md: MarkdownItAsync, options: Options) {
@@ -20,17 +19,13 @@ export function preWrapperPlugin(md: MarkdownItAsync, options: Options) {
     const lang = extractLang(token.info)
 
     return (
-      `<div class="language-${lang}${getAdaptiveThemeMarker(options)}${active}">` +
+      `<div class="language-${lang}${active}">` +
       `<button title="${options.codeCopyButtonTitle}" class="copy"></button>` +
       `<span class="lang">${lang}</span>` +
       fence(...args) +
       '</div>'
     )
   }
-}
-
-export function getAdaptiveThemeMarker(options: Options) {
-  return options.hasSingleTheme ? '' : ' vp-adaptive-theme'
 }
 
 export function extractTitle(info: string, html = false) {

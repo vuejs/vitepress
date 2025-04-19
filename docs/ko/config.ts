@@ -1,15 +1,17 @@
 import { createRequire } from 'module'
-import { defineConfig, type DefaultTheme } from 'vitepress'
+import { defineAdditionalConfig, type DefaultTheme } from 'vitepress'
 
 const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
 
-export const ko = defineConfig({
+export default defineAdditionalConfig({
   lang: 'ko-KR',
   description: 'Vite 및 Vue 기반 정적 사이트 생성기.',
 
   themeConfig: {
     nav: nav(),
+
+    search: { options: searchOptions() },
 
     sidebar: {
       '/ko/guide/': { base: '/ko/guide/', items: sidebarGuide() },
@@ -37,6 +39,14 @@ export const ko = defineConfig({
 
     lastUpdated: {
       text: '업데이트 날짜'
+    },
+
+    notFound: {
+      title: '페이지를 찾을 수 없습니다',
+      quote:
+        '방향을 바꾸지 않고 계속 찾다 보면 결국 당신이 가고 있는 곳에 도달할 수도 있습니다.',
+      linkLabel: '홈으로 가기',
+      linkText: '집으로 데려가줘'
     },
 
     langMenuLabel: '언어 변경',
@@ -208,8 +218,8 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
   ]
 }
 
-export const search: DefaultTheme.AlgoliaSearchOptions['locales'] = {
-  ko: {
+function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
+  return {
     placeholder: '문서 검색',
     translations: {
       button: {
