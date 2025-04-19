@@ -122,7 +122,12 @@ export interface MarkdownOptions extends Options {
    * Options for `markdown-it-anchor`
    * @see https://github.com/valeriangalliat/markdown-it-anchor
    */
-  anchor?: anchorPlugin.AnchorOptions
+  anchor?: Omit<anchorPlugin.AnchorOptions, 'permalink'> & {
+    permalink?:
+      | anchorPlugin.PermalinkGenerator
+      | anchorPlugin.LinkAfterHeaderPermalinkOptions
+      | 'legacy'
+  }
   /**
    * Options for `markdown-it-attrs`
    * @see https://github.com/arve0/markdown-it-attrs
@@ -267,21 +272,90 @@ export async function createMarkdownRenderer(
   }
   md.use(emojiPlugin, { ...options.emoji })
 
+  const { permalink, ...anchorOptions } = options.anchor ?? {}
+
+  const linkAfterHeader = anchorPlugin.permalink.linkAfterHeader({
+    assistiveText: (title) => `Permalink to “${title.trim()}”`,
+    visuallyHiddenClass: 'visually-hidden',
+    ...(typeof permalink === 'object' ? permalink : {})
+  })
+
+  const linkInsideHeader = anchorPlugin.permalink.linkInsideHeader({
+    symbol: '&#8203;'
+  })
+
+  const permalinkV2: anchorPlugin.PermalinkGenerator = (
+    slug,
+    opts,
+    state,
+    idx
+  ) => {
+    state.tokens.splice(
+      idx,
+      0,
+      Object.assign(new state.Token('div_open', 'div', 1), {
+        attrs: [['class', `header-wrapper ${state.tokens[idx].tag}`]],
+        block: true
+      })
+    )
+
+    state.tokens.splice(
+      idx + 4,
+      0,
+      Object.assign(new state.Token('div_close', 'div', -1), {
+        block: true
+      })
+    )
+
+    linkAfterHeader(slug, opts, state, idx + 1)
+  }
+
+  const permalinkV1: anchorPlugin.PermalinkGenerator = (
+    slug,
+    opts,
+    state,
+    idx
+  ) => {
+    const title =
+      state.tokens[idx + 1]?.children
+        ?.reduce(
+          (acc, t) =>
+            t.type === 'text' || t.type === 'code_inline'
+              ? acc + t.content
+              : acc,
+          ''
+        )
+        .trim() || ''
+
+    linkInsideHeader(slug, opts, state, idx)
+
+    state.tokens[idx + 1].children
+      ?.find(
+        (t) =>
+          t.type === 'link_open' &&
+          t
+            .attrGet('class')
+            ?.split(' ')
+            .includes(opts.class || 'header-anchor')
+      )
+      ?.attrPush(['aria-label', `Permalink to “${title}”`])
+  }
+
   // mdit-vue plugins
   md.use(anchorPlugin, {
     slugify,
-    getTokensText: (tokens) => {
-      return tokens
+    getTokensText: (tokens) =>
+      tokens
         .filter((t) => !['html_inline', 'emoji'].includes(t.type))
         .map((t) => t.content)
-        .join('')
-    },
-    permalink: anchorPlugin.permalink.linkAfterHeader({
-      assistiveText: (title) => `Permalink to “${title.trim()}”`,
-      visuallyHiddenClass: 'visually-hidden',
-      wrapper: ['<div class="header-wrapper">', '</div>']
-    }),
-    ...options.anchor
+        .join(''),
+    permalink:
+      typeof permalink === 'function'
+        ? permalink
+        : permalink === 'legacy'
+          ? permalinkV1
+          : permalinkV2,
+    ...anchorOptions
   } as anchorPlugin.AnchorOptions).use(frontmatterPlugin, {
     ...options.frontmatter
   } as FrontmatterPluginOptions)
