@@ -14,6 +14,7 @@ import type {
   SSGContext,
   SiteData
 } from './shared'
+import type { LlmstxtSettings } from './plugins/llmstxt/types'
 import type {
   AdditionalConfigDict,
   AdditionalConfigLoader
@@ -157,6 +158,8 @@ export interface UserConfig<ThemeConfig = any>
     transformItems?: (items: SitemapItem[]) => Awaitable<SitemapItem[]>
   }
 
+  llms?: boolean | LlmstxtSettings
+
   /**
    * Build end hook: called when SSG finish.
    * @param siteConfig The resolved configuration.
@@ -225,6 +228,7 @@ export interface SiteConfig<ThemeConfig = any>
     | 'transformHtml'
     | 'transformPageData'
     | 'sitemap'
+    | 'llms'
   > {
   root: string
   srcDir: string

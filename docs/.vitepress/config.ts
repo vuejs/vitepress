@@ -8,7 +8,6 @@ import {
   groupIconVitePlugin,
   localIconLoader
 } from 'vitepress-plugin-group-icons'
-import llmstxt from 'vitepress-plugin-llms'
 
 const prod = !!process.env.NETLIFY
 
@@ -123,15 +122,15 @@ export default defineConfig({
           ),
           firebase: 'logos:firebase'
         }
-      }),
-      prod &&
-        llmstxt({
-          workDir: 'en',
-          ignoreFiles: ['index.md']
-        })
+      })
     ]
   },
-
+  llms: prod
+    ? {
+        workDir: 'en',
+        ignoreFiles: ['index.md']
+      }
+    : false,
   transformPageData: prod
     ? (pageData, ctx) => {
         const site = resolveSiteDataByRoute(
