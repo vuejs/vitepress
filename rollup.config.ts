@@ -62,16 +62,9 @@ const typesExternal = [
 
 const dtsNode = dts({
   respectExternal: true,
-  tsconfig: 'src/node/tsconfig.json'
+  tsconfig: 'src/node/tsconfig.json',
+  compilerOptions: { preserveSymlinks: false }
 })
-
-const originalResolveId = dtsNode.resolveId
-
-dtsNode.resolveId = async function (source, importer) {
-  const res = await (originalResolveId as Function).call(this, source, importer)
-  if (res?.id) res.id = await fs.realpath(res.id)
-  return res
-}
 
 const nodeTypes: RollupOptions = {
   input: 'src/node/index.ts',
@@ -91,10 +84,7 @@ const clientTypes: RollupOptions = {
   },
   external: typesExternal,
   plugins: [
-    dts({
-      respectExternal: true,
-      compilerOptions: { preserveSymlinks: false }
-    }),
+    dts({ respectExternal: true }),
     {
       name: 'cleanup',
       async closeBundle() {
