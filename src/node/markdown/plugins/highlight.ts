@@ -80,7 +80,13 @@ export async function highlight(
       classActivePre: 'has-focused-lines'
     }),
     transformerNotationHighlight(),
-    transformerNotationErrorLevel()
+    transformerNotationErrorLevel(),
+    {
+      name: 'vitepress:add-dir',
+      pre(node) {
+        node.properties.dir = 'ltr'
+      }
+    }
   ]
 
   const vueRE = /-vue(?=:|$)/
