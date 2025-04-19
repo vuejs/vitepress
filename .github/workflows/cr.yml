@@ -7,12 +7,12 @@ on:
   pull_request:
     branches: [main]
     types: [opened, synchronize, labeled, ready_for_review]
-    paths-ignore:
-      - '.github/**'
-      - '__tests__/**'
-      - 'art/**'
-      - 'docs/**'
-      - '*.md'
+    # paths-ignore:
+    #   - '.github/**'
+    #   - '__tests__/**'
+    #   - 'art/**'
+    #   - 'docs/**'
+    #   - '*.md'
   push:
     branches: [main]
     paths-ignore:
