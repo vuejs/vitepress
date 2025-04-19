@@ -91,7 +91,10 @@ const clientTypes: RollupOptions = {
   },
   external: typesExternal,
   plugins: [
-    dts({ respectExternal: true }),
+    dts({
+      respectExternal: true,
+      compilerOptions: { preserveSymlinks: false }
+    }),
     {
       name: 'cleanup',
       async closeBundle() {
