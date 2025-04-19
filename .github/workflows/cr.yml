@@ -45,4 +45,5 @@ jobs:
       - run: pnpm install
       - run: pnpm build
       - run: cat dist/node/index.d.ts
+      - run: cat dist/client/index.d.ts
       - run: npx pkg-pr-new publish --compact --no-template --pnpm
