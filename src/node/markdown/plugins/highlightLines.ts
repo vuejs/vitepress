@@ -42,7 +42,7 @@ export const highlightLinePlugin = (md: MarkdownItAsync) => {
       }
     }
 
-    token.info += ' ' + lines
+    token.info += ' {' + lines + '}'
     return fence(...args)
   }
 }
