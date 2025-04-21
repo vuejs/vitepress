@@ -3,7 +3,7 @@ import {
   transformerNotationDiff,
   transformerNotationErrorLevel,
   transformerNotationFocus,
-  transformerNotationHighlight,
+  transformerNotationHighlight
 } from '@shikijs/transformers'
 import { customAlphabet } from 'nanoid'
 import c from 'picocolors'
