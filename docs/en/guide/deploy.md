@@ -24,13 +24,13 @@ The following guides are based on some shared assumptions:
 1. Run this command to build the docs:
 
    ```sh
-   $ npm run docs:build
+   npm run docs:build
    ```
 
 2. Once built, preview it locally by running:
 
    ```sh
-   $ npm run docs:preview
+   npm run docs:preview
    ```
 
    The `preview` command will boot up a local static web server that will serve the output directory `.vitepress/dist` at `http://localhost:4173`. You can use this to make sure everything looks good before pushing to production.
@@ -293,6 +293,12 @@ You can deploy your VitePress website on [Kinsta](https://kinsta.com/static-site
 ### Stormkit
 
 You can deploy your VitePress project to [Stormkit](https://www.stormkit.io) by following these [instructions](https://stormkit.io/blog/how-to-deploy-vitepress).
+
+### Azion
+
+[Azion](https://www.azion.com/en/) is a web platform that allows you to deploy your VitePress site globally. It provides a efficient way to host your website with low latency and high availability.
+
+You can follow the [this guide](https://www.azion.com/pt-br/documentacao/produtos/guias/vitepress-typescript-boilerplate/) to set it up.
 
 ### Nginx
 
