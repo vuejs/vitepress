@@ -1,4 +1,4 @@
-# [2.0.0-alpha.5](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.4...v2.0.0-alpha.5) (2025-04-21)
+## [2.0.0-alpha.5](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.4...v2.0.0-alpha.5) (2025-04-21)
 
 ### Bug Fixes
 

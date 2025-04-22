@@ -9,6 +9,13 @@ export default defineAdditionalConfig({
   description: 'ژنراتور استاتیک وب‌سایت با Vite و Vue',
   dir: 'rtl',
 
+  // prettier-ignore
+  head: [
+    ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
+    ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
+    ['link', { href: 'https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap', rel: 'stylesheet' }],
+  ],
+
   themeConfig: {
     nav: nav(),
 
