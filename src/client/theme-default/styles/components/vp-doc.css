@@ -545,6 +545,7 @@
 /* prettier-ignore */
 :is(.vp-external-link-icon, .vp-doc a[href*='://'], .vp-doc a[target='_blank']):not(:is(.no-icon, svg a, :has(img, svg)))::after {
   display: inline-block;
+  content: '';
   margin-top: -1px;
   margin-left: 4px;
   width: 11px;
