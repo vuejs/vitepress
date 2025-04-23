@@ -296,7 +296,7 @@ You can deploy your VitePress project to [Stormkit](https://www.stormkit.io) by 
 
 ### Azion
 
-[Azion](https://www.azion.com/en/) is a web platform that allows you to deploy your VitePress site globally. It provides a efficient way to host your website with low latency and high availability.
+[Azion](https://www.azion.com/en/) is a web platform that allows you to deploy your VitePress site globally. It provides an efficient way to host your website with low latency and high availability.
 
 You can follow [this guide](https://www.azion.com/en/documentation/products/guides/vitepress-typescript-boilerplate/) to set it up.
 
