@@ -121,7 +121,10 @@ export async function bundle(
                 manualChunks(id, ctx) {
                   // move known framework code into a stable chunk so that
                   // custom theme changes do not invalidate hash for all pages
-                  if (id.startsWith('\0vite')) {
+                  if (
+                    id.startsWith('\0vite') ||
+                    ctx.getModuleInfo(id)?.meta['vite:asset']
+                  ) {
                     return 'framework'
                   }
                   if (id.includes('plugin-vue:export-helper')) {
