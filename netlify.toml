@@ -27,26 +27,12 @@
   from = "/guide/"
   to = "/guide/getting-started"
 
-# llms.txt
 [[redirects]]
   from = "/llms.md"
   status = 301
   to = "/llms.txt"
 
 [[redirects]]
-  force = true
-  from = "/llms.txt"
-  status = 200
-  to = "/llms.txt"
-
-[[redirects]]
-  force = true
   from = "/llms-full.md"
-  status = 200
-  to = "/llms-full.txt"
-
-[[redirects]]
-  force = true
-  from = "/llms-full.txt"
-  status = 200
+  status = 301
   to = "/llms-full.txt"
