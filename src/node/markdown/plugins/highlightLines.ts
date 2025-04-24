@@ -1,10 +1,8 @@
 // Modified from https://github.com/egoist/markdown-it-highlight-lines
-// Now this plugin is only used to normalize line attrs.
 // The else part of line highlights logic is in './highlight.ts'.
+// Restore the `{0}` syntax recognized and processed by the markdown-it-attrs plugin
 
 import type { MarkdownItAsync } from 'markdown-it-async'
-
-const RE = /{([\d,-]+)}/
 
 export const highlightLinePlugin = (md: MarkdownItAsync) => {
   const fence = md.renderer.rules.fence!
@@ -12,37 +10,28 @@ export const highlightLinePlugin = (md: MarkdownItAsync) => {
     const [tokens, idx] = args
     const token = tokens[idx]
 
-    // due to use of markdown-it-attrs, the {0} syntax would have been
+    // due to use of markdown-it-attrs, the last `{0}` syntax would have been
     // converted to attrs on the token
+    // e.g.: `js add={1} remove={2}` => `js add={1} remove=`
+    //       `{2}` is stored in token.attrs
     const attr = token.attrs && token.attrs[0]
 
-    let lines = null
+    let removedLines = null
 
     if (!attr) {
-      // markdown-it-attrs maybe disabled
-      const rawInfo = token.info
-
-      if (!rawInfo || !RE.test(rawInfo)) {
-        return fence(...args)
-      }
-
-      const langName = rawInfo.replace(RE, '').trim()
-
-      // ensure the next plugin get the correct lang
-      token.info = langName
-
-      lines = RE.exec(rawInfo)![1]
+      return fence(...args)
     }
 
-    if (!lines) {
-      lines = attr![0]
-
-      if (!lines || !/[\d,-]+/.test(lines)) {
-        return fence(...args)
-      }
+    removedLines = attr[0]
+    if (!removedLines || !/[\d,-]+/.test(removedLines)) {
+      return fence(...args)
     }
 
-    token.info += ' ' + lines
+    // except for case like `js{1}`, no trailing space
+    token.info += token.info.endsWith('=') ? '' : ' '
+    // add the line numbers back to the token
+    token.info += "{" + removedLines + "}"
+
     return fence(...args)
   }
 }
