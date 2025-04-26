@@ -663,6 +663,10 @@ function onMouseMove(e: MouseEvent) {
   width: 100%;
 }
 
+.search-input::-webkit-search-cancel-button {
+  display: none;
+}
+
 @media (max-width: 767px) {
   .search-input {
     padding: 6px 4px;
