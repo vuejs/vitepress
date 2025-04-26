@@ -256,20 +256,21 @@ export async function resolveUserConfig(
       configDeps = configExports.dependencies.map((file) =>
         normalizePath(path.resolve(file))
       )
-      // Auto-generate additional config if user leaves it unspecified
-      if (userConfig.additionalConfig === undefined) {
-        const [additionalConfig, additionalDeps] = await gatherAdditionalConfig(
-          root,
-          command,
-          mode,
-          userConfig.srcDir,
-          userConfig.srcExclude
-        )
-        userConfig.additionalConfig = additionalConfig
-        configDeps = configDeps.concat(...additionalDeps)
-      }
     }
     debug(`loaded config at ${c.yellow(configPath)}`)
+  }
+
+  // Auto-generate additional config if user leaves it unspecified
+  if (userConfig.additionalConfig === undefined) {
+    const [additionalConfig, additionalDeps] = await gatherAdditionalConfig(
+      root,
+      command,
+      mode,
+      userConfig.srcDir,
+      userConfig.srcExclude
+    )
+    userConfig.additionalConfig = additionalConfig
+    configDeps = configDeps.concat(...additionalDeps)
   }
 
   return [await resolveConfigExtends(userConfig), configPath, configDeps]
