@@ -15,7 +15,12 @@ import {
   SITE_DATA_REQUEST_PATH,
   resolveAliases
 } from './alias'
-import { resolvePages, resolveUserConfig, type SiteConfig } from './config'
+import {
+  resolvePages,
+  resolveUserConfig,
+  isAdditionalConfigFile,
+  type SiteConfig
+} from './config'
 import { disposeMdItInstance } from './markdown/markdown'
 import {
   clearCache,
@@ -366,15 +371,12 @@ export async function createVitePressPlugin(
             pageToHashMap![chunk.name.toLowerCase()] = hash
 
             // inject another chunk with the content stripped
-            bundle[name + '-lean'] = {
-              ...chunk,
+            this.emitFile({
+              type: 'asset',
+              name: name + '-lean',
               fileName: chunk.fileName.replace(/\.js$/, '.lean.js'),
-              preliminaryFileName: chunk.preliminaryFileName.replace(
-                /\.js$/,
-                '.lean.js'
-              ),
-              code: chunk.code.replace(staticStripRE, `""`)
-            }
+              source: chunk.code.replace(staticStripRE, `""`)
+            })
 
             // remove static markers from original code
             chunk.code = chunk.code.replace(staticRestoreRE, '')
@@ -386,7 +388,11 @@ export async function createVitePressPlugin(
     async hotUpdate({ file }) {
       if (this.environment.name !== 'client') return
 
-      if (file === configPath || configDeps.includes(file)) {
+      if (
+        file === configPath ||
+        configDeps.includes(file) ||
+        isAdditionalConfigFile(file)
+      ) {
         siteConfig.logger.info(
           c.green(
             `${path.relative(process.cwd(), file)} changed, restarting server...\n`

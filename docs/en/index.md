@@ -1,9 +1,6 @@
 ---
 layout: home
 
-title: VitePress
-titleTemplate: Vite & Vue Powered Static Site Generator
-
 hero:
   name: VitePress
   text: Vite & Vue Powered Static Site Generator
@@ -19,7 +16,7 @@ hero:
       text: GitHub
       link: https://github.com/vuejs/vitepress
   image:
-    src: /vitepress-logo-large.webp
+    src: /vitepress-logo-large.svg
     alt: VitePress
 
 features:

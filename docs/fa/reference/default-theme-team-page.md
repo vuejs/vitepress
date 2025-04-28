@@ -53,12 +53,12 @@ const members = [
 
 با سلام به تیم فوق‌العاده‌ی ما خوش آمدید.
 
-<VPTeamMembers size="small" :members="members" />
+<VPTeamMembers size="small" :members />
 ```
 
 بالا به صورت عنصری با شکل کارتی اعضای تیم را نمایش می‌دهد. باید به شکل زیر نمایش داده شود.
 
-<VPTeamMembers size="small" :members="members" />
+<VPTeamMembers size="small" :members />
 
 کامپوننت `<VPTeamMembers>` دارای دو اندازه مختلف، `small` و `medium` است. معمولاً اندازه `small` برای استفاده در صفحات مستندات مناسب‌تر است. همچنین می‌توانید ویژگی‌های بیشتری برای هر عضو اضافه کنید مانند "توضیحات" یا "دکمه حامی". جهت کسب اطلاعات بیشتر به [`<VPTeamMembers>`](#vpteammembers) مراجعه کنید.
 
@@ -106,9 +106,7 @@ const members = [
       توسعه ویت‌پرس توسط تیمی بین‌المللی راهنمایی می‌شود، برخی از اعضا که انتخاب کرده‌اند تا در زیر نمایش داده شوند.
     </template>
   </VPTeamPageTitle>
-  <VPTeamMembers
-    :members="members"
-  />
+  <VPTeamMembers :members />
 </VPTeamPage>
 ```
 

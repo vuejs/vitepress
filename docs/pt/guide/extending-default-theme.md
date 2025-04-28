@@ -70,7 +70,7 @@ Se a sua fonte é um arquivo local referenciado via `@font-face`, ela será proc
 export default {
   transformHead({ assets }) {
     // ajuste o regex para corresponder à sua fonte
-    const myFontFile = assets.find(file => /font-name\.\w+\.woff2/)
+    const myFontFile = assets.find(file => /font-name\.[\w-]+\.woff2/.test(file))
     if (myFontFile) {
       return [
         [

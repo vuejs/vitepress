@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { onKeyStroke } from '@vueuse/core'
 import { onContentUpdated } from 'vitepress'
+import type { DefaultTheme } from 'vitepress/theme'
 import { nextTick, ref, watch } from 'vue'
 import { useData } from '../composables/data'
-import { resolveTitle, type MenuItem } from '../composables/outline'
+import { resolveTitle } from '../composables/outline'
 import VPDocOutlineItem from './VPDocOutlineItem.vue'
 
 const props = defineProps<{
-  headers: MenuItem[]
+  headers: DefaultTheme.OutlineItem[]
   navHeight: number
 }>()
 
@@ -83,7 +84,7 @@ function scrollToTop() {
           </a>
         </div>
         <div class="outline">
-          <VPDocOutlineItem :headers="headers" />
+          <VPDocOutlineItem :headers />
         </div>
       </div>
     </Transition>
@@ -125,7 +126,7 @@ function scrollToTop() {
   vertical-align: middle;
   margin-left: 2px;
   font-size: 14px;
-  transform: rotate(0)/*rtl:rotate(180deg)*/;
+  transform: rotate(0) /*rtl:rotate(180deg)*/;
   transition: transform 0.25s;
 }
 

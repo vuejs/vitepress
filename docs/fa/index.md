@@ -1,9 +1,6 @@
 ---
 layout: home
 
-title: ویت‌پرس
-titleTemplate: Vite & Vue Powered Static Site Generator
-
 hero:
   name: ویت‌پرس
   text: سازنده سایت‌های ایستا به کمک Vite و Vue
@@ -19,7 +16,7 @@ hero:
       text: گیت‌هاب
       link: https://github.com/vuejs/vitepress
   image:
-    src: /vitepress-logo-large.webp
+    src: /vitepress-logo-large.svg
     alt: ویت‌پرس
 
 features:

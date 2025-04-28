@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { useRoute } from 'vitepress'
-import { computed, provide, useSlots, watch } from 'vue'
+import { computed, provide, useSlots } from 'vue'
 import VPBackdrop from './components/VPBackdrop.vue'
 import VPContent from './components/VPContent.vue'
 import VPFooter from './components/VPFooter.vue'
@@ -9,18 +8,16 @@ import VPNav from './components/VPNav.vue'
 import VPSidebar from './components/VPSidebar.vue'
 import VPSkipLink from './components/VPSkipLink.vue'
 import { useData } from './composables/data'
-import { useCloseSidebarOnEscape, useSidebar } from './composables/sidebar'
+import { registerWatchers } from './composables/layout'
+import { useSidebarControl } from './composables/sidebar'
 
 const {
   isOpen: isSidebarOpen,
   open: openSidebar,
   close: closeSidebar
-} = useSidebar()
+} = useSidebarControl()
 
-const route = useRoute()
-watch(() => route.path, closeSidebar)
-
-useCloseSidebarOnEscape(isSidebarOpen, closeSidebar)
+registerWatchers({ closeSidebar })
 
 const { frontmatter } = useData()
 
@@ -31,7 +28,11 @@ provide('hero-image-slot-exists', heroImageSlotExists)
 </script>
 
 <template>
-  <div v-if="frontmatter.layout !== false" class="Layout" :class="frontmatter.pageClass" >
+  <div
+    v-if="frontmatter.layout !== false"
+    class="Layout"
+    :class="frontmatter.pageClass"
+  >
     <slot name="layout-top" />
     <VPSkipLink />
     <VPBackdrop class="backdrop" :show="isSidebarOpen" @click="closeSidebar" />

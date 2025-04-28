@@ -162,7 +162,7 @@ HTML 코드에 대해 _Auto Minify_ 옵션을 활성화하지 마세요. 이는 
          - name: Setup Node
            uses: actions/setup-node@v4
            with:
-             node-version: 20
+             node-version: 22
              cache: npm # 또는 pnpm / yarn
          - name: Setup Pages
            uses: actions/configure-pages@v4

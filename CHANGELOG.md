@@ -1,3 +1,31 @@
+## [2.0.0-alpha.5](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.4...v2.0.0-alpha.5) (2025-04-21)
+
+### Bug Fixes
+
+- don't remove shiki styles from `pre` and remove unnecessary transformers (#4652) ([db58af5](https://github.com/vuejs/vitepress/commit/db58af5c66e563e7663084057a9853d8f2da984c)), closes [#4652](https://github.com/vuejs/vitepress/issues/4652)
+- normalize url fragments in internal links to correctly resolve to anchors ([#4628](https://github.com/vuejs/vitepress/issues/4628)) ([e25d080](https://github.com/vuejs/vitepress/commit/e25d0805505db2f1116e99d38a488d5cb39ed426)), closes [#4605](https://github.com/vuejs/vitepress/issues/4605)
+- **theme-default:** ensure proper sizing of SVG hero images ([#4639](https://github.com/vuejs/vitepress/issues/4639)) ([7d94481](https://github.com/vuejs/vitepress/commit/7d9448192079e59493aa5c1e86cdf6d6deae8e36))
+
+### Features
+
+- add `isHome` frontmatter option (#4673) ([544cd81](https://github.com/vuejs/vitepress/commit/544cd8125985b9e3af7fee68ea9592d159799e01)), closes [#4673](https://github.com/vuejs/vitepress/issues/4673)
+- add `custom-block-title-default` class when default title is used for containers ([#4643](https://github.com/vuejs/vitepress/issues/4643)) ([63079bf](https://github.com/vuejs/vitepress/commit/63079bff03b15861d174199f7361a2aff84380e0))
+- add `dir=ltr` by default on code block pre elements instead of relying on css ([19faa16](https://github.com/vuejs/vitepress/commit/19faa16169b44f52bedf1401b4a97b2a8ffdeacb))
+- **default-theme:** make VPButton slottable ([#4689](https://github.com/vuejs/vitepress/issues/4689)) ([0b70397](https://github.com/vuejs/vitepress/commit/0b7039719782e85119ad22be5c89ef3d233ffaae))
+- support distributed config files ([#4660](https://github.com/vuejs/vitepress/issues/4660)) ([c5e2e4d](https://github.com/vuejs/vitepress/commit/c5e2e4db818c06f3c1b458753f22fb6ec1609628))
+- **theme:** make "Take me home" button's link customizable ([#4658](https://github.com/vuejs/vitepress/issues/4658)) ([0267dca](https://github.com/vuejs/vitepress/commit/0267dcafa20beea24ef359d24bb1fa99e1ffda49))
+
+### Performance Improvements
+
+- call `module.enableCompileCache()` ([70de34c](https://github.com/vuejs/vitepress/commit/70de34c0387d9668ada3ea9a795f9ebee3535f5b))
+- hoist expensive operations in useLayout ([e5ab067](https://github.com/vuejs/vitepress/commit/e5ab0676a9a8dc607e213eb691439b2e4ee472b7))
+
+### BREAKING CHANGES
+
+- `useLocalNav` and `useSidebar` are removed in favor of `useLayout`. To migrate, just do find and replace. Sidebar controls are no longer exported, but we didn't find any usage on GitHub. If there is demand, we can export respective composables later. `DefaultTheme.DocSidebar` and `DefaultTheme.DocLocalNav` types are also removed.
+- `vp-adaptive-theme` class is no longer added to code blocks when there is single theme. Theme authors supporting single code theme can use `.shiki:not(.shiki-themes)` as selector. Alternatively, it might be better to use the bg/fg variables set on the `.shiki` block to keep things generic.
+- `vp-code` class is no longer added to code blocks. Use `.shiki` or `pre.shiki` or `[class*='language-'] pre` instead. People not customizing their themes are not affected.
+
 ## [2.0.0-alpha.4](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.3...v2.0.0-alpha.4) (2025-03-09)
 
 ### Bug Fixes
