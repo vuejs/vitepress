@@ -407,7 +407,7 @@ La ubicación de la salida de compilación para el sitio, en relación con el [r
 
 ```ts
 export default {
-  outDir: '../public'
+  outDir: './public'
 }
 ```
 
