@@ -202,7 +202,7 @@ Não ative opções como _Auto Minify_ para código HTML. Isso removerá coment�
 
 ### GitLab Pages
 
-1. Defina `outDir` na configuração VitePress como `../public`. Configure a opção `base` para `'/<repository>/'` se você deseja implantar em `https://<username>.gitlab.io/<repository>/`.
+1. Defina `outDir` na configuração VitePress como `./public`. Configure a opção `base` para `'/<repository>/'` se você deseja implantar em `https://<username>.gitlab.io/<repository>/`.
 
 2. Crie um arquivo chamado `.gitlab-ci.yml` na raiz do seu projeto com o conteúdo abaixo. Isso construirá e implantará seu site sempre que você fizer alterações no conteúdo:
 

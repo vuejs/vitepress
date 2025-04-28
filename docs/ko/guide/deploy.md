@@ -199,7 +199,7 @@ HTML 코드에 대해 _Auto Minify_ 옵션을 활성화하지 마세요. 이는 
 
 ### GitLab Pages
 
-1. VitePress 구성에서 `outDir`을 `../public`으로 설정하세요. `https://<username>.gitlab.io/<repository>/`에 배포하려면 `base` 옵션을 `'/<repository>/'`로 구성하세요. 커스텀 도메인, 유저 또는 그룹 페이지에 배포하거나 GitLab에서 "Use unique domain" 설정이 활성화된 경우에는 `base`가 필요하지 않습니다.
+1. VitePress 구성에서 `outDir`을 `./public`으로 설정하세요. `https://<username>.gitlab.io/<repository>/`에 배포하려면 `base` 옵션을 `'/<repository>/'`로 구성하세요. 커스텀 도메인, 유저 또는 그룹 페이지에 배포하거나 GitLab에서 "Use unique domain" 설정이 활성화된 경우에는 `base`가 필요하지 않습니다.
 
 2. 변경 사항을 적용할 때마다 사이트를 빌드하고 배포하도록 하기 위해 프로젝트의 루트에 다음 내용을 가진 `.gitlab-ci.yml` 파일을 생성하세요:
 
