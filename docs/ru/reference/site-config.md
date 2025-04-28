@@ -407,7 +407,7 @@ export default {
 
 ```ts
 export default {
-  outDir: '../public'
+  outDir: './public'
 }
 ```
 

@@ -407,7 +407,7 @@ The build output location for the site, relative to [project root](../guide/rout
 
 ```ts
 export default {
-  outDir: '../public'
+  outDir: './public'
 }
 ```
 
