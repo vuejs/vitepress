@@ -89,7 +89,6 @@ export function useActiveAnchor(
 
   onMounted(() => {
     requestAnimationFrame(setActiveLink)
-
     window.addEventListener('scroll', onScroll)
   })
 
