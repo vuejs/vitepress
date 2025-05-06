@@ -8,6 +8,8 @@ const ignoreRE = /\b(?:VPBadge|header-anchor|footnote-ref|ignore-header)\b/
 
 // cached list of anchor elements from resolveHeaders
 const resolvedHeaders: { element: HTMLHeadElement; link: string }[] = []
+let asideOutlineLinkDomList: NodeListOf<HTMLLIElement> | null = null
+let asideContainerDom: HTMLDivElement | null = null
 
 export function resolveTitle(theme: DefaultTheme.Config): string {
   return (
@@ -87,6 +89,7 @@ export function useActiveAnchor(
 
   onMounted(() => {
     requestAnimationFrame(setActiveLink)
+
     window.addEventListener('scroll', onScroll)
   })
 
@@ -98,6 +101,27 @@ export function useActiveAnchor(
   onUnmounted(() => {
     window.removeEventListener('scroll', onScroll)
   })
+
+  function scrollToActiveLink(i: number) {
+    if (!asideContainerDom) {
+      asideContainerDom = document.querySelector('.aside-container')!
+    }
+    const containerClientHeight = container.value.clientHeight
+    const asideContainerClientHeight = asideContainerDom.clientHeight
+    if (containerClientHeight > asideContainerClientHeight) {
+      if (!asideOutlineLinkDomList) {
+        asideOutlineLinkDomList = document.querySelectorAll(
+          '.VPDocOutlineItem.root .outline-link'
+        )
+      }
+      const height = asideOutlineLinkDomList[i]?.clientHeight
+      if (height) {
+        asideContainerDom.scrollTo({
+          top: i * height
+        })
+      }
+    }
+  }
 
   function setActiveLink() {
     if (!isAsideEnabled.value) {
@@ -137,14 +161,18 @@ export function useActiveAnchor(
     }
 
     // find the last header above the top of viewport
-    let activeLink: string | null = null
-    for (const { link, top } of headers) {
+    let activeIndex: number | null = null
+    for (let i = 0; i < headers.length; i++) {
+      const { top } = headers[i]
       if (top > scrollY + getScrollOffset() + 4) {
         break
       }
-      activeLink = link
+      activeIndex = i
     }
-    activateLink(activeLink)
+    if (activeIndex !== null) {
+      scrollToActiveLink(activeIndex)
+      activateLink(headers[activeIndex].link)
+    }
   }
 
   function activateLink(hash: string | null) {
