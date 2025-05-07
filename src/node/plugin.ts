@@ -353,14 +353,18 @@ export async function createVitePressPlugin(
       return null
     },
 
-    generateBundle(_options, bundle) {
-      if (ssr) {
-        this.emitFile({
-          type: 'asset',
-          fileName: 'package.json',
-          source: '{ "private": true, "type": "module" }'
-        })
-      } else {
+    generateBundle: {
+      order: ssr ? null : 'post',
+      handler(_options, bundle) {
+        if (ssr) {
+          this.emitFile({
+            type: 'asset',
+            fileName: 'package.json',
+            source: '{ "private": true, "type": "module" }'
+          })
+          return
+        }
+
         // client build:
         // for each .md entry chunk, adjust its name to its correct path.
         for (const name in bundle) {
