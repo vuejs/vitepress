@@ -104,46 +104,11 @@ const layoutClasses = computed(() => {
   min-height: 100vh;
 }
 
-@media (min-width: 960px) {
+@media (min-width: 1440px) {
   .Layout.has-sidebar.sidebar-collapsed {
     --vp-sidebar-width: 0px; 
   }
 
-  .Layout.has-sidebar.sidebar-collapsed .VPContent {
-    padding-left: 24px; 
-  }
-  
-  .Layout.has-sidebar.sidebar-collapsed .VPContent :deep(.VPDoc .content-container),
-  .Layout.has-sidebar.sidebar-collapsed .VPContent :deep(.VPDoc .content) { 
-    max-width: 752px ; 
-  }
-
-  .Layout.has-sidebar.sidebar-collapsed .VPContent :deep(.VPDoc .container) {
-    max-width: 992px; 
-  }
-
-  .VPContent,
-  .VPContent :deep(.VPDoc .container),
-  .VPContent :deep(.VPDoc .content-container),
-  .VPContent :deep(.VPDoc .content),
-  .VPLocalNav,
-  .VPNavBar.has-sidebar .title,
-  .VPNavBar.has-sidebar .content,
-  .VPNavBar.has-sidebar .divider {
-    transition: padding-left 0.25s ease, margin-left 0.25s ease, width 0.25s ease, max-width 0.25s ease, transform 0.25s ease, opacity 0.25s ease;
-  }
-
-  
-  .Layout.has-sidebar.sidebar-collapsed .VPLocalNav.has-sidebar {
-    padding-left: 24px; 
-  }
-
-  .Layout.has-sidebar.sidebar-collapsed .VPNavBar.has-sidebar .content {
-    padding-left: var(--vp-nav-padding-x, 32px); 
-  }
-}
-
-@media (min-width: 1440px) {
   .Layout.has-sidebar.sidebar-collapsed .VPContent :deep(.VPDoc .content-container),
   .Layout.has-sidebar.sidebar-collapsed .VPContent :deep(.VPDoc .content) { 
     max-width: 100%;

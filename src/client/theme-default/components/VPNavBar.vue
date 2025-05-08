@@ -35,8 +35,7 @@ watchPostEffect(() => {
     'has-sidebar': hasSidebar.value,
     'home': isHome.value,
     'top': y.value === 0,
-    'screen-open': props.isScreenOpen,
-    'sidebar-effectively-collapsed': isSidebarExpanded.value,
+    'screen-open': props.isScreenOpen
   }
 })
 
@@ -46,13 +45,14 @@ watchPostEffect(() => {
   <div class="VPNavBar" :class="classes">
     <div class="wrapper">
       <div class="container">
-        <div class="title" v-if="isSidebarExpanded">
+        <div class="title"  v-if="isSidebarExpanded||isHome">
           <VPNavBarTitle >
             <template #nav-bar-title-before><slot name="nav-bar-title-before" /></template>
             <template #nav-bar-title-after><slot name="nav-bar-title-after" /></template>
           </VPNavBarTitle>
           <button
-            class="sidebar-toggle-button title-area-toggle"
+            v-if="isSidebarExpanded"
+            class="sidebar-toggle-button"
             @click="toggleSidebarCollapse"
             aria-label="collapse sidebar"
           >
@@ -323,28 +323,5 @@ watchPostEffect(() => {
 
 .sidebar-toggle-button .icon.is-collapsed {
   transform: rotate(180deg);
-}
-
-.title-area-toggle {
-  display: none;
-}
-
-@media (min-width: 960px) {
-  .VPNavBar.has-sidebar .title-area-toggle {
-     display: flex; 
-  }
-
-  .VPNavBar.has-sidebar.sidebar-effectively-collapsed .search-area-toggle {
-    display: flex; 
-  }
-}
-
-.title :deep(.VPNavBarTitle) {
-  flex-shrink: 0;
-}
-
-.content-body {
-  display: flex;
-  align-items:center; 
 }
 </style>

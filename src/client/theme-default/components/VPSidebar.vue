@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useScrollLock } from '@vueuse/core'
 import { inBrowser } from 'vitepress'
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useLayout } from '../composables/layout'
 import VPSidebarGroup from './VPSidebarGroup.vue'
 import { useSidebarControl } from '../composables/sidebar'
@@ -30,6 +30,9 @@ watch(
 
 const key = ref(0)
 
+const showSideBar = computed(()=>hasSidebar.value&&!isCollapsed.value)
+
+
 watch(
   sidebarGroups,
   () => {
@@ -40,10 +43,10 @@ watch(
 </script>
 
 <template>
-  <aside
-    v-if="hasSidebar"
+    <aside
+    v-if="showSideBar"
     class="VPSidebar"
-    :class="{ open, collapsed: isCollapsed }"
+    :class="{ open }"
     ref="navEl"
     @click.stop
   >
@@ -92,11 +95,6 @@ watch(
   transform: translateX(0);
 }
 
-.VPSidebar.collapsed .nav,
-.VPSidebar.collapsed .curtain {
-  display: none;
-}
-
 .dark .VPSidebar {
   box-shadow: var(--vp-shadow-1);
 }
@@ -111,22 +109,6 @@ watch(
     visibility: visible;
     box-shadow: none;
     transform: translateX(0);
-    transition: transform 0.25s ease, width 0.25s ease, padding-left 0.25s ease, padding-right 0.25s ease;
-  }
-
-  .VPSidebar.collapsed {
-    transform: translateX(0);
-    padding-left: 0;
-    padding-right: 0;
-    border-left: none;
-    border-right: none;
-    overflow: hidden;
-    display: none;
-  }
-
-  .VPSidebar.collapsed .nav,
-  .VPSidebar.collapsed .curtain {
-    display: none;
   }
 }
 
@@ -134,12 +116,6 @@ watch(
   .VPSidebar {
     padding-left: max(32px, calc((100% - (var(--vp-layout-max-width) - 64px)) / 2));
     width: calc((100% - (var(--vp-layout-max-width) - 64px)) / 2 + var(--vp-sidebar-width) - 32px);
-  }
-
-  .VPSidebar.collapsed {
-    transform: translateX(0);
-    padding-left: 0;
-    padding-right: 0;
   }
 }
 
