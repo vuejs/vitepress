@@ -8,14 +8,17 @@ import VPNav from './components/VPNav.vue'
 import VPSidebar from './components/VPSidebar.vue'
 import VPSkipLink from './components/VPSkipLink.vue'
 import { useData } from './composables/data'
-import { registerWatchers } from './composables/layout'
+import { registerWatchers, useLayout } from './composables/layout'
 import { useSidebarControl } from './composables/sidebar'
 
 const {
   isOpen: isSidebarOpen,
   open: openSidebar,
-  close: closeSidebar
+  close: closeSidebar,
+  isCollapsed
 } = useSidebarControl()
+
+const { hasSidebar } = useLayout()
 
 registerWatchers({ closeSidebar })
 
@@ -25,13 +28,21 @@ const slots = useSlots()
 const heroImageSlotExists = computed(() => !!slots['home-hero-image'])
 
 provide('hero-image-slot-exists', heroImageSlotExists)
+
+const layoutClasses = computed(() => {
+  return {
+    [String(frontmatter.value.pageClass || '')]: !!frontmatter.value.pageClass,
+    'has-sidebar': hasSidebar.value,
+    'sidebar-collapsed': isCollapsed.value && hasSidebar.value
+  }
+})
 </script>
 
 <template>
   <div
     v-if="frontmatter.layout !== false"
     class="Layout"
-    :class="frontmatter.pageClass"
+    :class="layoutClasses"
   >
     <slot name="layout-top" />
     <VPSkipLink />
@@ -91,5 +102,56 @@ provide('hero-image-slot-exists', heroImageSlotExists)
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+}
+
+@media (min-width: 960px) {
+  .Layout.has-sidebar.sidebar-collapsed {
+    --vp-sidebar-width: 0px; 
+  }
+
+  .Layout.has-sidebar.sidebar-collapsed .VPContent {
+    padding-left: 24px; 
+  }
+  
+  .Layout.has-sidebar.sidebar-collapsed .VPContent :deep(.VPDoc .content-container),
+  .Layout.has-sidebar.sidebar-collapsed .VPContent :deep(.VPDoc .content) { 
+    max-width: 752px ; 
+  }
+
+  .Layout.has-sidebar.sidebar-collapsed .VPContent :deep(.VPDoc .container) {
+    max-width: 992px; 
+  }
+
+  .VPContent,
+  .VPContent :deep(.VPDoc .container),
+  .VPContent :deep(.VPDoc .content-container),
+  .VPContent :deep(.VPDoc .content),
+  .VPLocalNav,
+  .VPNavBar.has-sidebar .title,
+  .VPNavBar.has-sidebar .content,
+  .VPNavBar.has-sidebar .divider {
+    transition: padding-left 0.25s ease, margin-left 0.25s ease, width 0.25s ease, max-width 0.25s ease, transform 0.25s ease, opacity 0.25s ease;
+  }
+
+  
+  .Layout.has-sidebar.sidebar-collapsed .VPLocalNav.has-sidebar {
+    padding-left: 24px; 
+  }
+
+  .Layout.has-sidebar.sidebar-collapsed .VPNavBar.has-sidebar .content {
+    padding-left: var(--vp-nav-padding-x, 32px); 
+  }
+}
+
+@media (min-width: 1440px) {
+  .Layout.has-sidebar.sidebar-collapsed .VPContent :deep(.VPDoc .content-container),
+  .Layout.has-sidebar.sidebar-collapsed .VPContent :deep(.VPDoc .content) { 
+    max-width: 100%;
+  }
+
+  .Layout.has-sidebar.sidebar-collapsed .VPContent :deep(.VPDoc .container) {
+    max-width: 100%;
+    justify-content: space-between;
+  }
 }
 </style>

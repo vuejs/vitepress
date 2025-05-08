@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { useWindowScroll } from '@vueuse/core'
-import { ref, watchPostEffect } from 'vue'
+import { ref, computed, watchPostEffect } from 'vue'
 import { useLayout } from '../composables/layout'
+import { useSidebarControl } from '../composables/sidebar'
 import VPNavBarAppearance from './VPNavBarAppearance.vue'
 import VPNavBarExtra from './VPNavBarExtra.vue'
 import VPNavBarHamburger from './VPNavBarHamburger.vue'
@@ -20,34 +21,56 @@ defineEmits<{
 }>()
 
 const { y } = useWindowScroll()
+const { isCollapsed, toggleCollapse: toggleSidebarCollapse } = useSidebarControl()
 const { isHome, hasSidebar } = useLayout()
 
 const classes = ref<Record<string, boolean>>({})
+
+const isSidebarExpanded = computed(() => {
+  return hasSidebar.value && !isCollapsed.value;
+});
 
 watchPostEffect(() => {
   classes.value = {
     'has-sidebar': hasSidebar.value,
     'home': isHome.value,
     'top': y.value === 0,
-    'screen-open': props.isScreenOpen
+    'screen-open': props.isScreenOpen,
+    'sidebar-effectively-collapsed': isSidebarExpanded.value,
   }
 })
+
 </script>
 
 <template>
   <div class="VPNavBar" :class="classes">
     <div class="wrapper">
       <div class="container">
-        <div class="title">
-          <VPNavBarTitle>
+        <div class="title" v-if="isSidebarExpanded">
+          <VPNavBarTitle >
             <template #nav-bar-title-before><slot name="nav-bar-title-before" /></template>
             <template #nav-bar-title-after><slot name="nav-bar-title-after" /></template>
           </VPNavBarTitle>
+          <button
+            class="sidebar-toggle-button title-area-toggle"
+            @click="toggleSidebarCollapse"
+            aria-label="collapse sidebar"
+          >
+            <span class="vpi-collapse icon" />
+          </button>
         </div>
 
         <div class="content">
           <div class="content-body">
             <slot name="nav-bar-content-before" />
+            <button
+              v-if="!isSidebarExpanded&&!isHome"
+              class="sidebar-toggle-button"
+              @click="toggleSidebarCollapse"
+              aria-label="expand sidebar"
+            >
+              <span class="vpi-collapse icon is-collapsed" />
+            </button>
             <VPNavBarSearch class="search" />
             <VPNavBarMenu class="menu" />
             <VPNavBarTranslations class="translations" />
@@ -140,6 +163,9 @@ watchPostEffect(() => {
   flex-shrink: 0;
   height: calc(var(--vp-nav-height) - 1px);
   transition: background-color 0.5s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 @media (min-width: 960px) {
@@ -268,5 +294,57 @@ watchPostEffect(() => {
   .VPNavBar:not(.has-sidebar):not(.home.top) .divider {
     background-color: var(--vp-c-gutter);
   }
+}
+
+.sidebar-toggle-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px; 
+  height: 36px;
+  color: var(--vp-c-text-2);
+  background-color: transparent;
+  border: none;
+  border-radius: 6px;
+  transition: background-color 0.25s, color 0.25s;
+  pointer-events: auto; 
+}
+
+.sidebar-toggle-button:hover {
+  background-color: var(--vp-c-bg-mute);
+  color: var(--vp-c-text-1);
+}
+
+.sidebar-toggle-button .icon {
+  width: 20px; 
+  height: 20px;
+  transition: transform 0.25s ease;
+}
+
+.sidebar-toggle-button .icon.is-collapsed {
+  transform: rotate(180deg);
+}
+
+.title-area-toggle {
+  display: none;
+}
+
+@media (min-width: 960px) {
+  .VPNavBar.has-sidebar .title-area-toggle {
+     display: flex; 
+  }
+
+  .VPNavBar.has-sidebar.sidebar-effectively-collapsed .search-area-toggle {
+    display: flex; 
+  }
+}
+
+.title :deep(.VPNavBarTitle) {
+  flex-shrink: 0;
+}
+
+.content-body {
+  display: flex;
+  align-items:center; 
 }
 </style>
