@@ -105,10 +105,6 @@ const layoutClasses = computed(() => {
 }
 
 @media (min-width: 1440px) {
-  .Layout.has-sidebar.sidebar-collapsed {
-    --vp-sidebar-width: 0px; 
-  }
-
   .Layout.has-sidebar.sidebar-collapsed .VPContent :deep(.VPDoc .content-container),
   .Layout.has-sidebar.sidebar-collapsed .VPContent :deep(.VPDoc .content) { 
     max-width: 100%;

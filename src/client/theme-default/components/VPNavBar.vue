@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { useWindowScroll } from '@vueuse/core'
-import { ref, computed, watchPostEffect } from 'vue'
+import { useMediaQuery, useWindowScroll } from '@vueuse/core'
+import { ref, watchPostEffect } from 'vue'
 import { useLayout } from '../composables/layout'
 import { useSidebarControl } from '../composables/sidebar'
 import VPNavBarAppearance from './VPNavBarAppearance.vue'
@@ -21,56 +21,46 @@ defineEmits<{
 }>()
 
 const { y } = useWindowScroll()
-const { isCollapsed, toggleCollapse: toggleSidebarCollapse } = useSidebarControl()
+const {isCollapsed, toggleCollapse: toggleSidebarCollapse } = useSidebarControl()
 const { isHome, hasSidebar } = useLayout()
 
 const classes = ref<Record<string, boolean>>({})
-
-const isSidebarExpanded = computed(() => {
-  return hasSidebar.value && !isCollapsed.value;
-});
 
 watchPostEffect(() => {
   classes.value = {
     'has-sidebar': hasSidebar.value,
     'home': isHome.value,
     'top': y.value === 0,
+    'collapsed':isCollapsed.value,
     'screen-open': props.isScreenOpen
   }
 })
-
+const is1440 = useMediaQuery('(min-width: 1440px)')
 </script>
 
 <template>
   <div class="VPNavBar" :class="classes">
     <div class="wrapper">
       <div class="container">
-        <div class="title"  v-if="isSidebarExpanded||isHome">
-          <VPNavBarTitle >
-            <template #nav-bar-title-before><slot name="nav-bar-title-before" /></template>
-            <template #nav-bar-title-after><slot name="nav-bar-title-after" /></template>
-          </VPNavBarTitle>
-          <button
-            v-if="isSidebarExpanded"
-            class="sidebar-toggle-button"
-            @click="toggleSidebarCollapse"
-            aria-label="collapse sidebar"
-          >
-            <span class="vpi-collapse icon" />
-          </button>
+          <div class="title">
+            <VPNavBarTitle >
+              <template #nav-bar-title-before><slot name="nav-bar-title-before" /></template>
+              <template #nav-bar-title-after><slot name="nav-bar-title-after" /></template>
+
+            </VPNavBarTitle>
+            <button
+              v-if="!isHome&&is1440"
+              class="sidebar-toggle-button"
+              @click="toggleSidebarCollapse"
+              aria-label="collapse sidebar"
+            >
+              <span class="vpi-collapse icon" />
+            </button>
         </div>
 
         <div class="content">
           <div class="content-body">
             <slot name="nav-bar-content-before" />
-            <button
-              v-if="!isSidebarExpanded&&!isHome"
-              class="sidebar-toggle-button"
-              @click="toggleSidebarCollapse"
-              aria-label="expand sidebar"
-            >
-              <span class="vpi-collapse icon is-collapsed" />
-            </button>
             <VPNavBarSearch class="search" />
             <VPNavBarMenu class="menu" />
             <VPNavBarTranslations class="translations" />
@@ -115,6 +105,9 @@ watchPostEffect(() => {
   }
 
   .VPNavBar:not(.has-sidebar):not(.home.top) {
+    background-color: var(--vp-nav-bg-color);
+  }
+  .VPNavBar.collapsed {
     background-color: var(--vp-nav-bg-color);
   }
 }
@@ -166,6 +159,14 @@ watchPostEffect(() => {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+.VPNavBar:not(.home):not(.collapsed).has-sidebar .title{
+    border-bottom: 1px solid var(--vp-c-divider);
+    width: calc((100% - (var(--vp-layout-max-width) - 64px)) / 2 + var(--vp-sidebar-width) - 32px - 20px)
+}
+.VPNavBar:not(.home).collapsed .title{
+    background-color: var(--vp-nav-bg-color);
+    border-bottom: 1px solid var(--vp-c-divider);
 }
 
 @media (min-width: 960px) {
