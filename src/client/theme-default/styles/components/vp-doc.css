@@ -317,6 +317,8 @@
   padding: 20px 0;
   background: transparent;
   overflow-x: auto;
+  /*rtl:ignore*/
+  text-align: left;
 }
 
 .vp-doc [class*='language-'] code {

@@ -85,31 +85,12 @@ export async function createVitePressPlugin(
   } = siteConfig
 
   let markdownToVue: Awaited<ReturnType<typeof createMarkdownToVueRenderFn>>
-  const userCustomElementChecker =
-    userVuePluginOptions?.template?.compilerOptions?.isCustomElement
-  let isCustomElement = userCustomElementChecker
-
-  if (markdown?.math) {
-    isCustomElement = (tag) => {
-      if (tag.startsWith('mjx-')) {
-        return true
-      }
-      return userCustomElementChecker?.(tag) ?? false
-    }
-  }
 
   // lazy require plugin-vue to respect NODE_ENV in @vue/compiler-x
   const vuePlugin = await import('@vitejs/plugin-vue').then((r) =>
     r.default({
       include: /\.(?:vue|md)$/,
-      ...userVuePluginOptions,
-      template: {
-        ...userVuePluginOptions?.template,
-        compilerOptions: {
-          ...userVuePluginOptions?.template?.compilerOptions,
-          isCustomElement
-        }
-      }
+      ...userVuePluginOptions
     })
   )
 
@@ -353,14 +334,18 @@ export async function createVitePressPlugin(
       return null
     },
 
-    generateBundle(_options, bundle) {
-      if (ssr) {
-        this.emitFile({
-          type: 'asset',
-          fileName: 'package.json',
-          source: '{ "private": true, "type": "module" }'
-        })
-      } else {
+    generateBundle: {
+      order: ssr ? null : 'post',
+      handler(_options, bundle) {
+        if (ssr) {
+          this.emitFile({
+            type: 'asset',
+            fileName: 'package.json',
+            source: '{ "private": true, "type": "module" }'
+          })
+          return
+        }
+
         // client build:
         // for each .md entry chunk, adjust its name to its correct path.
         for (const name in bundle) {
