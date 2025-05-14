@@ -7,6 +7,7 @@ import { pathToFileURL } from 'node:url'
 import pMap from 'p-map'
 import { packageDirectorySync } from 'pkg-dir'
 import { rimraf } from 'rimraf'
+import * as vite from 'vite'
 import type { BuildOptions, Rollup } from 'vite'
 import { resolveConfig, type SiteConfig } from '../config'
 import { clearCache } from '../markdownToVue'
@@ -28,6 +29,19 @@ export async function build(
   } = {}
 ) {
   const start = Date.now()
+
+  // @ts-ignore only exists for rolldown-vite
+  if (vite.rolldownVersion) {
+    try {
+      await import('oxc-minify')
+    } catch {
+      throw new Error(
+        '`oxc-minify` is not installed.' +
+          ' vitepress requires `oxc-minify` to be installed when rolldown-vite is used.' +
+          ' Please run `npm install oxc-minify`.'
+      )
+    }
+  }
 
   process.env.NODE_ENV = 'production'
   const siteConfig = await resolveConfig(root, 'build', 'production')
