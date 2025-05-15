@@ -165,6 +165,7 @@
     "minimist": "^1.2.8",
     "nanoid": "^5.1.5",
     "ora": "^8.2.0",
+    "oxc-minify": "^0.69.0",
     "p-map": "^7.0.3",
     "path-to-regexp": "^6.3.0",
     "picocolors": "^1.1.1",
@@ -192,6 +193,7 @@
   },
   "peerDependencies": {
     "markdown-it-mathjax3": "^4",
+    "oxc-minify": "^0.69.0",
     "postcss": "^8"
   },
   "peerDependenciesMeta": {
@@ -199,6 +201,9 @@
       "optional": true
     },
     "postcss": {
+      "optional": true
+    },
+    "oxc-minify": {
       "optional": true
     }
   },
