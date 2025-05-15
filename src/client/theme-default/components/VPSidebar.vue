@@ -5,7 +5,7 @@ import { ref, watch } from 'vue'
 import { useLayout } from '../composables/layout'
 import VPSidebarGroup from './VPSidebarGroup.vue'
 
-const { sidebarGroups, hasSidebar } = useLayout()
+const { sidebarGroups, hasSidebar, isSidebarClientOnly } = useLayout()
 
 const props = defineProps<{
   open: boolean
@@ -38,27 +38,18 @@ watch(
 </script>
 
 <template>
-  <aside
-    v-if="hasSidebar"
-    class="VPSidebar"
-    :class="{ open }"
-    ref="navEl"
-    @click.stop
-  >
+  <aside v-if="hasSidebar" class="VPSidebar" :class="{ open }" ref="navEl" @click.stop>
     <div class="curtain" />
 
-    <nav
-      class="nav"
-      id="VPSidebarNav"
-      aria-labelledby="sidebar-aria-label"
-      tabindex="-1"
-    >
+    <nav class="nav" id="VPSidebarNav" aria-labelledby="sidebar-aria-label" tabindex="-1">
       <span class="visually-hidden" id="sidebar-aria-label">
         Sidebar Navigation
       </span>
 
       <slot name="sidebar-nav-before" />
-      <VPSidebarGroup :items="sidebarGroups" :key />
+      <ClientOnly :is-client-only="isSidebarClientOnly">
+        <VPSidebarGroup :items="sidebarGroups" :key />
+      </ClientOnly>
       <slot name="sidebar-nav-after" />
     </nav>
   </aside>
