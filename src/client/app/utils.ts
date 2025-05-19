@@ -1,29 +1,27 @@
-import { siteDataRef } from './data'
+import { tryOnUnmounted } from '@vueuse/core'
+import { h, onMounted, shallowRef, type AsyncComponentLoader } from 'vue'
 import {
-  inBrowser,
   EXTERNAL_URL_RE,
+  inBrowser,
   sanitizeFileName,
   type Awaitable
 } from '../shared'
-import {
-  h,
-  onMounted,
-  onUnmounted,
-  shallowRef,
-  type AsyncComponentLoader
-} from 'vue'
+import { siteDataRef } from './data'
 
-export { inBrowser } from '../shared'
+export { escapeHtml as _escapeHtml, inBrowser } from '../shared'
 
 /**
  * Join two paths by resolving the slash collision.
  */
-export function joinPath(base: string, path: string): string {
+export function joinPath(base: string, path: string) {
   return `${base}${path}`.replace(/\/+/g, '/')
 }
 
+/**
+ * Append base to internal (non-relative) urls
+ */
 export function withBase(path: string) {
-  return EXTERNAL_URL_RE.test(path) || path.startsWith('.')
+  return EXTERNAL_URL_RE.test(path) || !path.startsWith('/')
     ? path
     : joinPath(siteDataRef.value.base, path)
 }
@@ -31,7 +29,7 @@ export function withBase(path: string) {
 /**
  * Converts a url path to the corresponding js chunk filename.
  */
-export function pathToFile(path: string): string {
+export function pathToFile(path: string) {
   let pagePath = path.replace(/\.html$/, '')
   pagePath = decodeURIComponent(pagePath)
   pagePath = pagePath.replace(/\/$/, '/index') // /foo/ -> /foo/index
@@ -57,7 +55,8 @@ export function pathToFile(path: string): string {
           : pagePath.slice(0, -3) + '_index.md'
         pageHash = __VP_HASH_MAP__[pagePath.toLowerCase()]
       }
-      pagePath = `${base}assets/${pagePath}.${pageHash}.js`
+      if (!pageHash) return null
+      pagePath = `${base}${__ASSETS_DIR__}/${pagePath}.${pageHash}.js`
     } else {
       // ssr build uses much simpler name mapping
       pagePath = `./${sanitizeFileName(
@@ -77,7 +76,7 @@ export let contentUpdatedCallbacks: (() => any)[] = []
  */
 export function onContentUpdated(fn: () => any) {
   contentUpdatedCallbacks.push(fn)
-  onUnmounted(() => {
+  tryOnUnmounted(() => {
     contentUpdatedCallbacks = contentUpdatedCallbacks.filter((f) => f !== fn)
   })
 }
@@ -102,4 +101,37 @@ export function defineClientComponent(
       return () => (comp.value ? h(comp.value, ...(args ?? [])) : null)
     }
   }
+}
+
+export function getScrollOffset() {
+  let scrollOffset = siteDataRef.value.scrollOffset
+  let offset = 0
+  let padding = 24
+  if (typeof scrollOffset === 'object' && 'padding' in scrollOffset) {
+    padding = scrollOffset.padding
+    scrollOffset = scrollOffset.selector
+  }
+  if (typeof scrollOffset === 'number') {
+    offset = scrollOffset
+  } else if (typeof scrollOffset === 'string') {
+    offset = tryOffsetSelector(scrollOffset, padding)
+  } else if (Array.isArray(scrollOffset)) {
+    for (const selector of scrollOffset) {
+      const res = tryOffsetSelector(selector, padding)
+      if (res) {
+        offset = res
+        break
+      }
+    }
+  }
+
+  return offset
+}
+
+function tryOffsetSelector(selector: string, padding: number): number {
+  const el = document.querySelector(selector)
+  if (!el) return 0
+  const bot = el.getBoundingClientRect().bottom
+  if (bot < 0) return 0
+  return bot + padding
 }

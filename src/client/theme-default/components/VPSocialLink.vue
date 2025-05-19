@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { DefaultTheme } from 'vitepress/theme'
-import { computed } from 'vue'
-import { icons } from '../support/socialIcons'
+import { computed, nextTick, onMounted, ref, useSSRContext } from 'vue'
+import type { SSGContext } from '../../shared'
 
 const props = defineProps<{
   icon: DefaultTheme.SocialLinkIcon
@@ -9,22 +9,45 @@ const props = defineProps<{
   ariaLabel?: string
 }>()
 
+const el = ref<HTMLAnchorElement>()
+
+onMounted(async () => {
+  await nextTick()
+  const span = el.value?.children[0]
+  if (
+    span instanceof HTMLElement &&
+    span.className.startsWith('vpi-social-') &&
+    (getComputedStyle(span).maskImage ||
+      getComputedStyle(span).webkitMaskImage) === 'none'
+  ) {
+    span.style.setProperty(
+      '--icon',
+      `url('https://api.iconify.design/simple-icons/${props.icon}.svg')`
+    )
+  }
+})
+
 const svg = computed(() => {
   if (typeof props.icon === 'object') return props.icon.svg
-  return icons[props.icon]
+  return `<span class="vpi-social-${props.icon}"></span>`
 })
+
+if (import.meta.env.SSR) {
+  typeof props.icon === 'string' &&
+    useSSRContext<SSGContext>()?.vpSocialIcons.add(props.icon)
+}
 </script>
 
 <template>
   <a
-    class="VPSocialLink"
+    ref="el"
+    class="VPSocialLink no-icon"
     :href="link"
     :aria-label="ariaLabel ?? (typeof icon === 'string' ? icon : '')"
     target="_blank"
     rel="noopener"
     v-html="svg"
-  >
-  </a>
+  ></a>
 </template>
 
 <style scoped>
@@ -43,7 +66,8 @@ const svg = computed(() => {
   transition: color 0.25s;
 }
 
-.VPSocialLink > :deep(svg) {
+.VPSocialLink > :deep(svg),
+.VPSocialLink > :deep([class^="vpi-social-"]) {
   width: 20px;
   height: 20px;
   fill: currentColor;

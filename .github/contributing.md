@@ -30,6 +30,8 @@ After cloning the repo, run:
 ```sh
 # install the dependencies of the project
 $ pnpm install
+# setup git hooks
+$ pnpm simple-git-hooks
 ```
 
 ### Setup VitePress Dev Environment

@@ -9,13 +9,15 @@ export interface Sponsors {
   size?: GridSize
   items: Sponsor[]
 }
-
-const props = defineProps<{
+interface Props {
   mode?: 'normal' | 'aside'
   tier?: string
   size?: GridSize
   data: Sponsors[] | Sponsor[]
-}>()
+}
+const props = withDefaults(defineProps<Props>(), {
+  mode: 'normal'
+})
 
 const sponsors = computed(() => {
   const isSponsors = props.data.some((s) => {
@@ -33,7 +35,7 @@ const sponsors = computed(() => {
 </script>
 
 <template>
-  <div class="VPSponsors vp-sponsor" :class="[mode ?? 'normal']">
+  <div class="VPSponsors vp-sponsor" :class="[mode]">
     <section
       v-for="(sponsor, index) in sponsors"
       :key="index"

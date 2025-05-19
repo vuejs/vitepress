@@ -1,29 +1,23 @@
 <script setup lang="ts">
-import { computed, provide, useSlots, watch } from 'vue'
-import { useRoute } from 'vitepress'
-import { useData } from './composables/data'
-import { useSidebar, useCloseSidebarOnEscape } from './composables/sidebar'
-import VPSkipLink from './components/VPSkipLink.vue'
+import { computed, provide, useSlots } from 'vue'
 import VPBackdrop from './components/VPBackdrop.vue'
-import VPNav from './components/VPNav.vue'
-import VPLocalNav from './components/VPLocalNav.vue'
-import VPSidebar from './components/VPSidebar.vue'
 import VPContent from './components/VPContent.vue'
 import VPFooter from './components/VPFooter.vue'
+import VPLocalNav from './components/VPLocalNav.vue'
+import VPNav from './components/VPNav.vue'
+import VPSidebar from './components/VPSidebar.vue'
+import VPSkipLink from './components/VPSkipLink.vue'
+import { useData } from './composables/data'
+import { registerWatchers } from './composables/layout'
+import { useSidebarControl } from './composables/sidebar'
 
 const {
   isOpen: isSidebarOpen,
   open: openSidebar,
   close: closeSidebar
-} = useSidebar()
+} = useSidebarControl()
 
-const route = useRoute()
-watch(() => route.path, closeSidebar)
-
-useCloseSidebarOnEscape(isSidebarOpen, closeSidebar)
-
-provide('close-sidebar', closeSidebar)
-provide('is-sidebar-open', isSidebarOpen)
+registerWatchers({ closeSidebar })
 
 const { frontmatter } = useData()
 
@@ -34,7 +28,11 @@ provide('hero-image-slot-exists', heroImageSlotExists)
 </script>
 
 <template>
-  <div v-if="frontmatter.layout !== false" class="Layout">
+  <div
+    v-if="frontmatter.layout !== false"
+    class="Layout"
+    :class="frontmatter.pageClass"
+  >
     <slot name="layout-top" />
     <VPSkipLink />
     <VPBackdrop class="backdrop" :show="isSidebarOpen" @click="closeSidebar" />
@@ -56,10 +54,13 @@ provide('hero-image-slot-exists', heroImageSlotExists)
     <VPContent>
       <template #page-top><slot name="page-top" /></template>
       <template #page-bottom><slot name="page-bottom" /></template>
-      
+
       <template #not-found><slot name="not-found" /></template>
       <template #home-hero-before><slot name="home-hero-before" /></template>
+      <template #home-hero-info-before><slot name="home-hero-info-before" /></template>
       <template #home-hero-info><slot name="home-hero-info" /></template>
+      <template #home-hero-info-after><slot name="home-hero-info-after" /></template>
+      <template #home-hero-actions-after><slot name="home-hero-actions-after" /></template>
       <template #home-hero-image><slot name="home-hero-image" /></template>
       <template #home-hero-after><slot name="home-hero-after" /></template>
       <template #home-features-before><slot name="home-features-before" /></template>

@@ -2,7 +2,6 @@
 import type { DefaultTheme } from 'vitepress/theme'
 import VPImage from './VPImage.vue'
 import VPLink from './VPLink.vue'
-import VPIconArrowRight from './icons/VPIconArrowRight.vue'
 
 defineProps<{
   icon?: DefaultTheme.FeatureIcon
@@ -10,18 +9,35 @@ defineProps<{
   details?: string
   link?: string
   linkText?: string
+  rel?: string
+  target?: string
 }>()
 </script>
 
 <template>
-  <VPLink class="VPFeature" :href="link" :no-icon="true">
+  <VPLink
+    class="VPFeature"
+    :href="link"
+    :rel
+    :target
+    :no-icon="true"
+    :tag="link ? 'a' : 'div'"
+  >
     <article class="box">
+      <div v-if="typeof icon === 'object' && icon.wrap" class="icon">
+        <VPImage
+          :image="icon"
+          :alt="icon.alt"
+          :height="icon.height || 48"
+          :width="icon.width || 48"
+        />
+      </div>
       <VPImage
-        v-if="typeof icon === 'object'"
+        v-else-if="typeof icon === 'object'"
         :image="icon"
         :alt="icon.alt"
-        :height="icon.height"
-        :width="icon.width"
+        :height="icon.height || 48"
+        :width="icon.width || 48"
       />
       <div v-else-if="icon" class="icon" v-html="icon"></div>
       <h2 class="title" v-html="title"></h2>
@@ -29,7 +45,7 @@ defineProps<{
 
       <div v-if="linkText" class="link-text">
         <p class="link-text-value">
-          {{ linkText }} <VPIconArrowRight class="link-text-icon" />
+          {{ linkText }} <span class="vpi-arrow-right link-text-icon" />
         </p>
       </div>
     </article>
@@ -47,8 +63,7 @@ defineProps<{
 }
 
 .VPFeature.link:hover {
-  border-color: var(--vp-c-brand);
-  background-color: var(--vp-c-bg-soft-up);
+  border-color: var(--vp-c-brand-1);
 }
 
 .box {
@@ -58,9 +73,7 @@ defineProps<{
   height: 100%;
 }
 
-.VPFeature:deep(.VPImage) {
-  width: 48px;
-  height: 48px;
+.box > :deep(.VPImage) {
   margin-bottom: 20px;
 }
 
@@ -70,7 +83,7 @@ defineProps<{
   align-items: center;
   margin-bottom: 20px;
   border-radius: 6px;
-  background-color: var(--vp-c-bg-soft-down);
+  background-color: var(--vp-c-default-soft);
   width: 48px;
   height: 48px;
   font-size: 24px;
@@ -101,14 +114,10 @@ defineProps<{
   align-items: center;
   font-size: 14px;
   font-weight: 500;
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-1);
 }
 
 .link-text-icon {
-  display: inline-block;
   margin-left: 6px;
-  width: 14px;
-  height: 14px;
-  fill: currentColor;
 }
 </style>

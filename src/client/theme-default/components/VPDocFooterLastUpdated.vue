@@ -4,7 +4,9 @@ import { useData } from '../composables/data'
 
 const { theme, page, lang } = useData()
 
-const date = computed(() => new Date(page.value.lastUpdated!))
+const date = computed(
+  () => new Date(page.value.lastUpdated!)
+)
 const isoDatetime = computed(() => date.value.toISOString())
 const datetime = ref('')
 
@@ -12,14 +14,20 @@ const datetime = ref('')
 // potential differences in timezones of the server and clients
 onMounted(() => {
   watchEffect(() => {
-    datetime.value = date.value.toLocaleString(lang.value)
+    datetime.value = new Intl.DateTimeFormat(
+      theme.value.lastUpdated?.formatOptions?.forceLocale ? lang.value : undefined,
+      theme.value.lastUpdated?.formatOptions ?? {
+        dateStyle: 'short',
+        timeStyle: 'short'
+      }
+    ).format(date.value)
   })
 })
 </script>
 
 <template>
   <p class="VPLastUpdated">
-    {{ theme.lastUpdatedText || 'Last updated' }}:
+    {{ theme.lastUpdated?.text || theme.lastUpdatedText || 'Last updated' }}:
     <time :datetime="isoDatetime">{{ datetime }}</time>
   </p>
 </template>

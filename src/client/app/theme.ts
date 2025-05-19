@@ -1,6 +1,6 @@
-import type { App, Ref, Component } from 'vue'
-import type { Router } from './router'
+import type { App, Component, Ref } from 'vue'
 import type { Awaitable, SiteData } from '../shared'
+import type { Router } from './router'
 
 export interface EnhanceAppContext {
   app: App
@@ -9,7 +9,7 @@ export interface EnhanceAppContext {
 }
 
 export interface Theme {
-  Layout: Component
+  Layout?: Component
   enhanceApp?: (ctx: EnhanceAppContext) => Awaitable<void>
   extends?: Theme
 

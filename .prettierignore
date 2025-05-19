@@ -5,3 +5,5 @@ pnpm-lock.yaml
 cache
 template
 temp
+!CHANGELOG.md
+.temp

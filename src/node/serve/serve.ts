@@ -1,8 +1,8 @@
-import compression from 'compression'
+import compression from '@polka/compression'
 import fs from 'fs-extra'
-import path from 'path'
+import path from 'node:path'
 import polka, { type IOptions } from 'polka'
-import sirv, { type RequestHandler } from 'sirv'
+import sirv from 'sirv'
 import { resolveConfig } from '../config'
 
 function trimChar(str: string, char: string) {
@@ -24,20 +24,21 @@ export interface ServeOptions {
 }
 
 export async function serve(options: ServeOptions = {}) {
-  const port = options.port !== undefined ? options.port : 4173
-  const site = await resolveConfig(options.root, 'serve', 'production')
-  const base = trimChar(options?.base ?? site?.site?.base ?? '', '/')
+  const port = options.port ?? 4173
+  const config = await resolveConfig(options.root, 'serve', 'production')
+  const base = trimChar(options?.base ?? config?.site?.base ?? '', '/')
 
-  const notAnAsset = (pathname: string) => !pathname.includes('/assets/')
-  const notFound = fs.readFileSync(path.resolve(site.outDir, './404.html'))
+  const notAnAsset = (pathname: string) =>
+    !pathname.includes(`/${config.assetsDir}/`)
+  const notFound = fs.readFileSync(path.resolve(config.outDir, './404.html'))
   const onNoMatch: IOptions['onNoMatch'] = (req, res) => {
     res.statusCode = 404
     if (notAnAsset(req.path)) res.write(notFound.toString())
     res.end()
   }
 
-  const compress = compression() as RequestHandler
-  const serve = sirv(site.outDir, {
+  const compress = compression({ brotli: true })
+  const serve = sirv(config.outDir, {
     etag: true,
     maxAge: 31536000,
     immutable: true,
@@ -54,7 +55,7 @@ export async function serve(options: ServeOptions = {}) {
     return polka({ onNoMatch })
       .use(base, compress, serve)
       .listen(port, () => {
-        site.logger.info(
+        config.logger.info(
           `Built site served at http://localhost:${port}/${base}/`
         )
       })
@@ -62,7 +63,7 @@ export async function serve(options: ServeOptions = {}) {
     return polka({ onNoMatch })
       .use(compress, serve)
       .listen(port, () => {
-        site.logger.info(`Built site served at http://localhost:${port}/`)
+        config.logger.info(`Built site served at http://localhost:${port}/`)
       })
   }
 }

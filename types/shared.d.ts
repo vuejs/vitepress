@@ -1,12 +1,30 @@
 // types shared between server and client
+import type { UseDarkOptions } from '@vueuse/core'
 import type { SSRContext } from 'vue/server-renderer'
 export type { DefaultTheme } from './default-theme.js'
 
 export type Awaitable<T> = T | PromiseLike<T>
 
+type DeepPartial<T> =
+  T extends Record<string, any>
+    ? T extends
+        | Date
+        | RegExp
+        | Function
+        | ReadonlyMap<any, any>
+        | ReadonlySet<any>
+        | ReadonlyArray<any>
+      ? T
+      : { [P in keyof T]?: DeepPartial<T[P]> }
+    : T
+
 export interface PageData {
   relativePath: string
-  filePath: string // differs from relativePath in case of path rewrites
+  /**
+   * differs from relativePath in case of path rewrites
+   * empty string if the page is virtual (e.g. 404 page)
+   */
+  filePath: string
   title: string
   titleTemplate?: string | boolean
   description: string
@@ -15,6 +33,62 @@ export interface PageData {
   params?: Record<string, any>
   isNotFound?: boolean
   lastUpdated?: number
+}
+
+/**
+ * SFC block extracted from markdown
+ */
+export interface SfcBlock {
+  /**
+   * The type of the block
+   */
+  type: string
+  /**
+   * The content, including open-tag and close-tag
+   */
+  content: string
+  /**
+   * The content that stripped open-tag and close-tag off
+   */
+  contentStripped: string
+  /**
+   * The open-tag
+   */
+  tagOpen: string
+  /**
+   * The close-tag
+   */
+  tagClose: string
+}
+
+export interface MarkdownSfcBlocks {
+  /**
+   * The `<template>` block
+   */
+  template: SfcBlock | null
+  /**
+   * The common `<script>` block
+   */
+  script: SfcBlock | null
+  /**
+   * The `<script setup>` block
+   */
+  scriptSetup: SfcBlock | null
+  /**
+   * All `<script>` blocks.
+   *
+   * By default, SFC only allows one `<script>` block and one `<script setup>` block.
+   * However, some tools may support different types of `<script>`s, so we keep all of them here.
+   */
+  scripts: SfcBlock[]
+  /**
+   * All `<style>` blocks.
+   */
+  styles: SfcBlock[]
+  /**
+   * All custom blocks.
+   */
+  customBlocks: SfcBlock[]
 }
 
 export interface Header {
@@ -55,11 +129,27 @@ export interface SiteData<ThemeConfig = any> {
   titleTemplate?: string | boolean
   description: string
   head: HeadConfig[]
-  appearance: boolean | 'dark'
+  appearance:
+    | boolean
+    | 'dark'
+    | 'force-dark'
+    | 'force-auto'
+    | (Omit<UseDarkOptions, 'initialValue'> & { initialValue?: 'dark' })
   themeConfig: ThemeConfig
-  scrollOffset: number | string | string[]
+  scrollOffset:
+    | number
+    | string
+    | string[]
+    | { selector: string | string[]; padding: number }
   locales: LocaleConfig<ThemeConfig>
   localeIndex?: string
+  contentProps?: Record<string, any>
+  router: {
+    prefetchLinks: boolean
+  }
+  additionalConfig?:
+    | AdditionalConfigDict<ThemeConfig>
+    | AdditionalConfigLoader<ThemeConfig>
 }
 
 export type HeadConfig =
@@ -73,6 +163,8 @@ export interface PageDataPayload {
 
 export interface SSGContext extends SSRContext {
   content: string
+  /** @experimental */
+  vpSocialIcons: Set<string>
 }
 
 export interface LocaleSpecificConfig<ThemeConfig = any> {
@@ -82,10 +174,61 @@ export interface LocaleSpecificConfig<ThemeConfig = any> {
   titleTemplate?: string | boolean
   description?: string
   head?: HeadConfig[]
-  themeConfig?: ThemeConfig
+  themeConfig?: DeepPartial<ThemeConfig>
 }
 
 export type LocaleConfig<ThemeConfig = any> = Record<
   string,
   LocaleSpecificConfig<ThemeConfig> & { label: string; link?: string }
 >
+
+export type AdditionalConfig<ThemeConfig = any> =
+  LocaleSpecificConfig<ThemeConfig>
+
+export type AdditionalConfigDict<ThemeConfig = any> = Record<
+  string,
+  AdditionalConfig<ThemeConfig>
+>
+
+export type AdditionalConfigLoader<ThemeConfig = any> = (
+  relativePath: string
+) => AdditionalConfig<ThemeConfig>[]
+
+// Manually declaring all properties as rollup-plugin-dts
+// is unable to merge augmented module declarations
+export interface MarkdownEnv {
+  /**
+   * The raw Markdown content without frontmatter
+   */
+  content?: string
+  /**
+   * The excerpt that extracted by `@mdit-vue/plugin-frontmatter`
+   *
+   * - Would be the rendered HTML when `renderExcerpt` is enabled
+   * - Would be the raw Markdown when `renderExcerpt` is disabled
+   */
+  excerpt?: string
+  /**
+   * The frontmatter that extracted by `@mdit-vue/plugin-frontmatter`
+   */
+  frontmatter?: Record<string, unknown>
+  /**
+   * The headers that extracted by `@mdit-vue/plugin-headers`
+   */
+  headers?: Header[]
+  /**
+   * SFC blocks that extracted by `@mdit-vue/plugin-sfc`
+   */
+  sfcBlocks?: MarkdownSfcBlocks
+  /**
+   * The title that extracted by `@mdit-vue/plugin-title`
+   */
+  title?: string
+  path: string
+  relativePath: string
+  cleanUrls: boolean
+  links?: string[]
+  includes?: string[]
+  realPath?: string
+  localeIndex?: string
+}

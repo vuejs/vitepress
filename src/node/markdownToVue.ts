@@ -2,25 +2,28 @@ import { resolveTitleFromToken } from '@mdit-vue/shared'
 import _debug from 'debug'
 import fs from 'fs-extra'
 import { LRUCache } from 'lru-cache'
-import path from 'path'
+import path from 'node:path'
 import type { SiteConfig } from './config'
 import {
   createMarkdownRenderer,
-  type MarkdownEnv,
   type MarkdownOptions,
   type MarkdownRenderer
-} from './markdown'
+} from './markdown/markdown'
+import { getPageDataTransformer } from './plugins/dynamicRoutesPlugin'
 import {
   EXTERNAL_URL_RE,
+  getLocaleForPath,
   slash,
+  treatAsHtml,
   type HeadConfig,
+  type MarkdownEnv,
   type PageData
 } from './shared'
 import { getGitTimestamp } from './utils/getGitTimestamp'
+import { processIncludes } from './utils/processIncludes'
 
 const debug = _debug('vitepress:md')
 const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
-const includesRE = /<!--\s*@include:\s*(.*?)\s*-->/g
 
 export interface MarkdownCompileResult {
   vueSrc: string
@@ -29,20 +32,62 @@ export interface MarkdownCompileResult {
   includes: string[]
 }
 
-export function clearCache() {
-  cache.clear()
+export function clearCache(id?: string) {
+  if (!id) {
+    cache.clear()
+    return
+  }
+
+  id = JSON.stringify({ id }).slice(1)
+  cache.find((_, key) => key.endsWith(id!) && cache.delete(key))
+}
+
+let __pages: string[] = []
+let __dynamicRoutes = new Map<string, [string, string]>()
+let __rewrites = new Map<string, string>()
+let __ts: number
+
+function getResolutionCache(siteConfig: SiteConfig) {
+  // @ts-expect-error internal
+  if (siteConfig.__dirty) {
+    __pages = siteConfig.pages.map((p) => slash(p.replace(/\.md$/, '')))
+
+    __dynamicRoutes = new Map(
+      siteConfig.dynamicRoutes.map((r) => [
+        r.fullPath,
+        [slash(path.join(siteConfig.srcDir, r.route)), r.loaderPath]
+      ])
+    )
+
+    __rewrites = new Map(
+      Object.entries(siteConfig.rewrites.map).map(([key, value]) => [
+        slash(path.join(siteConfig.srcDir, key)),
+        slash(path.join(siteConfig.srcDir, value!))
+      ])
+    )
+
+    __ts = Date.now()
+
+    // @ts-expect-error internal
+    siteConfig.__dirty = false
+  }
+
+  return {
+    pages: __pages,
+    dynamicRoutes: __dynamicRoutes,
+    rewrites: __rewrites,
+    ts: __ts
+  }
 }
 
 export async function createMarkdownToVueRenderFn(
   srcDir: string,
   options: MarkdownOptions = {},
-  pages: string[],
-  userDefines: Record<string, any> | undefined,
   isBuild = false,
   base = '/',
   includeLastUpdatedData = false,
   cleanUrls = false,
-  siteConfig: SiteConfig | null = null
+  siteConfig: SiteConfig
 ) {
   const md = await createMarkdownRenderer(
     srcDir,
@@ -50,26 +95,37 @@ export async function createMarkdownToVueRenderFn(
     base,
     siteConfig?.logger
   )
-  pages = pages.map((p) => slash(p.replace(/\.md$/, '')))
-  const replaceRegex = genReplaceRegexp(userDefines, isBuild)
 
   return async (
     src: string,
     file: string,
     publicDir: string
   ): Promise<MarkdownCompileResult> => {
-    const fileOrig = file
-    const alias =
-      siteConfig?.rewrites.map[file] || // virtual dynamic path file
-      siteConfig?.rewrites.map[file.slice(srcDir.length + 1)]
-    file = alias ? path.join(srcDir, alias) : file
-    const relativePath = slash(path.relative(srcDir, file))
-    const cacheKey = JSON.stringify({ src, file })
+    const { pages, dynamicRoutes, rewrites, ts } =
+      getResolutionCache(siteConfig)
 
-    const cached = cache.get(cacheKey)
-    if (cached) {
-      debug(`[cache hit] ${relativePath}`)
-      return cached
+    const dynamicRoute = dynamicRoutes.get(file)
+    const fileOrig = dynamicRoute?.[0] || file
+    const transformPageData = [
+      siteConfig?.transformPageData,
+      getPageDataTransformer(dynamicRoute?.[1]!)
+    ].filter((fn) => fn != null)
+
+    file = rewrites.get(file) || file
+    const relativePath = slash(path.relative(srcDir, file))
+
+    const cacheKey = JSON.stringify({
+      src,
+      ts,
+      file: relativePath,
+      id: fileOrig
+    })
+    if (isBuild || options.cache !== false) {
+      const cached = cache.get(cacheKey)
+      if (cached) {
+        debug(`[cache hit] ${relativePath}`)
+        return cached
+      }
     }
 
     const start = Date.now()
@@ -86,31 +142,20 @@ export async function createMarkdownToVueRenderFn(
 
     // resolve includes
     let includes: string[] = []
-    src = src.replace(includesRE, (m, m1) => {
-      if (!m1.length) return m
+    src = processIncludes(md, srcDir, src, fileOrig, includes, cleanUrls)
 
-      const atPresent = m1[0] === '@'
-      try {
-        const dir = atPresent ? srcDir : path.dirname(fileOrig)
-        const includePath = path.join(
-          dir,
-          atPresent ? m1.slice(m1.length > 1 && m1[1] === '/' ? 2 : 1) : m1
-        )
-        const content = fs.readFileSync(includePath, 'utf-8')
-        includes.push(slash(includePath))
-        return content
-      } catch (error) {
-        return m // silently ignore error if file is not present
-      }
-    })
+    const localeIndex = getLocaleForPath(siteConfig?.site, relativePath)
 
     // reset env before render
     const env: MarkdownEnv = {
       path: file,
       relativePath,
-      cleanUrls
+      cleanUrls,
+      includes,
+      realPath: fileOrig,
+      localeIndex
     }
-    const html = md.render(src, env)
+    const html = await md.renderAsync(src, env)
     const {
       frontmatter = {},
       headers = [],
@@ -153,7 +198,8 @@ export async function createMarkdownToVueRenderFn(
     if (links) {
       const dir = path.dirname(file)
       for (let url of links) {
-        if (/\.(?!html|md)\w+($|\?)/i.test(url)) continue
+        const { pathname } = new URL(url, 'http://a.com')
+        if (!treatAsHtml(pathname)) continue
 
         url = url.replace(/[?#].*$/, '').replace(/\.(html|md)$/, '')
         if (url.endsWith('/')) url += `index`
@@ -187,18 +233,22 @@ export async function createMarkdownToVueRenderFn(
       filePath: slash(path.relative(srcDir, fileOrig))
     }
 
-    if (includeLastUpdatedData) {
-      pageData.lastUpdated = await getGitTimestamp(fileOrig)
+    if (includeLastUpdatedData && frontmatter.lastUpdated !== false) {
+      if (frontmatter.lastUpdated instanceof Date) {
+        pageData.lastUpdated = +frontmatter.lastUpdated
+      } else {
+        pageData.lastUpdated = await getGitTimestamp(fileOrig)
+      }
     }
 
-    if (siteConfig?.transformPageData) {
-      const dataToMerge = await siteConfig.transformPageData(pageData, {
-        siteConfig
-      })
-      if (dataToMerge) {
-        pageData = {
-          ...pageData,
-          ...dataToMerge
+    for (const fn of transformPageData) {
+      if (fn) {
+        const dataToMerge = await fn(pageData, { siteConfig })
+        if (dataToMerge) {
+          pageData = {
+            ...pageData,
+            ...dataToMerge
+          }
         }
       }
     }
@@ -206,14 +256,9 @@ export async function createMarkdownToVueRenderFn(
     const vueSrc = [
       ...injectPageDataCode(
         sfcBlocks?.scripts.map((item) => item.content) ?? [],
-        pageData,
-        replaceRegex
+        pageData
       ),
-      `<template><div>${replaceConstants(
-        html,
-        replaceRegex,
-        vueTemplateBreaker
-      )}</div></template>`,
+      `<template><div>${html}</div></template>`,
       ...(sfcBlocks?.styles.map((item) => item.content) ?? []),
       ...(sfcBlocks?.customBlocks.map((item) => item.content) ?? [])
     ].join('\n')
@@ -226,7 +271,9 @@ export async function createMarkdownToVueRenderFn(
       deadLinks,
       includes
     }
-    cache.set(cacheKey, result)
+    if (isBuild || options.cache !== false) {
+      cache.set(cacheKey, result)
+    }
     return result
   }
 }
@@ -237,46 +284,10 @@ const scriptSetupRE = /<\s*script[^>]*\bsetup\b[^>]*/
 const scriptClientRE = /<\s*script[^>]*\bclient\b[^>]*/
 const defaultExportRE = /((?:^|\n|;)\s*)export(\s*)default/
 const namedDefaultExportRE = /((?:^|\n|;)\s*)export(.+)as(\s*)default/
-const jsStringBreaker = '\u200b'
-const vueTemplateBreaker = '<wbr>'
 
-function genReplaceRegexp(
-  userDefines: Record<string, any> = {},
-  isBuild: boolean
-): RegExp {
-  // `process.env` need to be handled in both dev and build
-  // @see https://github.com/vitejs/vite/blob/cad27ee8c00bbd5aeeb2be9bfb3eb164c1b77885/packages/vite/src/node/plugins/clientInjections.ts#L57-L64
-  const replacements = ['process.env']
-  if (isBuild) {
-    replacements.push('import.meta', ...Object.keys(userDefines))
-  }
-  return new RegExp(
-    `\\b(${replacements
-      .map((key) => key.replace(/[-[\]/{}()*+?.\\^$|]/g, '\\$&'))
-      .join('|')})`,
-    'g'
-  )
-}
-
-/**
- * To avoid env variables being replaced by vite:
- * - insert `'\u200b'` char into those strings inside js string (page data)
- * - insert `<wbr>` tag into those strings inside html string (vue template)
- *
- * @see https://vitejs.dev/guide/env-and-mode.html#production-replacement
- */
-function replaceConstants(str: string, replaceRegex: RegExp, breaker: string) {
-  return str.replace(replaceRegex, (_) => `${_[0]}${breaker}${_.slice(1)}`)
-}
-
-function injectPageDataCode(
-  tags: string[],
-  data: PageData,
-  replaceRegex: RegExp
-) {
-  const dataJson = JSON.stringify(data)
+function injectPageDataCode(tags: string[], data: PageData) {
   const code = `\nexport const __pageData = JSON.parse(${JSON.stringify(
-    replaceConstants(dataJson, replaceRegex, jsStringBreaker)
+    JSON.stringify(data)
   )})`
 
   const existingScriptIndex = tags.findIndex((tag) => {
@@ -300,14 +311,16 @@ function injectPageDataCode(
       code +
         (hasDefaultExport
           ? ``
-          : `\nexport default {name:'${data.relativePath}'}`) +
+          : `\nexport default {name:${JSON.stringify(data.relativePath)}}`) +
         `</script>`
     )
   } else {
     tags.unshift(
-      `<script ${isUsingTS ? 'lang="ts"' : ''}>${code}\nexport default {name:'${
+      `<script ${
+        isUsingTS ? 'lang="ts"' : ''
+      }>${code}\nexport default {name:${JSON.stringify(
         data.relativePath
-      }'}</script>`
+      )}}</script>`
     )
   }
 
@@ -341,10 +354,7 @@ const inferDescription = (frontmatter: Record<string, any>) => {
   return (head && getHeadMetaContent(head, 'description')) || ''
 }
 
-const getHeadMetaContent = (
-  head: HeadConfig[],
-  name: string
-): string | undefined => {
+const getHeadMetaContent = (head: HeadConfig[], name: string) => {
   if (!head || !head.length) {
     return undefined
   }

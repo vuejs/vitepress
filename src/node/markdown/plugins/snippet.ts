@@ -1,8 +1,38 @@
 import fs from 'fs-extra'
-import path from 'path'
-import type MarkdownIt from 'markdown-it'
-import type { RuleBlock } from 'markdown-it/lib/parser_block'
-import type { MarkdownEnv } from '../env'
+import type { MarkdownItAsync } from 'markdown-it-async'
+import type { RuleBlock } from 'markdown-it/lib/parser_block.mjs'
+import path from 'node:path'
+import type { MarkdownEnv } from '../../shared'
+
+/**
+ * raw path format: "/path/to/file.extension#region {meta} [title]"
+ *    where #region, {meta} and [title] are optional
+ *    meta can be like '1,2,4-6 lang', 'lang' or '1,2,4-6'
+ *    lang can contain special characters like C++, C#, F#, etc.
+ *    path can be relative to the current file or absolute
+ *    file extension is optional
+ *    path can contain spaces and dots
+ *
+ * captures: ['/path/to/file.extension', 'extension', '#region', '{meta}', '[title]']
+ */
+export const rawPathRegexp =
+  /^(.+?(?:(?:\.([a-z0-9]+))?))(?:(#[\w-]+))?(?: ?(?:{(\d+(?:[,-]\d+)*)? ?(\S+)? ?(\S+)?}))? ?(?:\[(.+)\])?$/
+
+export function rawPathToToken(rawPath: string) {
+  const [
+    filepath = '',
+    extension = '',
+    region = '',
+    lines = '',
+    lang = '',
+    attrs = '',
+    rawTitle = ''
+  ] = (rawPathRegexp.exec(rawPath) || []).slice(1)
+
+  const title = rawTitle || filepath.split('/').pop() || ''
+
+  return { filepath, extension, region, lines, lang, attrs, title }
+}
 
 export function dedent(text: string): string {
   const lines = text.split('\n')
@@ -21,54 +51,75 @@ export function dedent(text: string): string {
   return text
 }
 
-function testLine(
-  line: string,
-  regexp: RegExp,
-  regionName: string,
-  end: boolean = false
-) {
-  const [full, tag, name] = regexp.exec(line.trim()) || []
+const markers = [
+  {
+    start: /^\s*\/\/\s*#?region\b\s*(.*?)\s*$/,
+    end: /^\s*\/\/\s*#?endregion\b\s*(.*?)\s*$/
+  },
+  {
+    start: /^\s*<!--\s*#?region\b\s*(.*?)\s*-->/,
+    end: /^\s*<!--\s*#?endregion\b\s*(.*?)\s*-->/
+  },
+  {
+    start: /^\s*\/\*\s*#region\b\s*(.*?)\s*\*\//,
+    end: /^\s*\/\*\s*#endregion\b\s*(.*?)\s*\*\//
+  },
+  {
+    start: /^\s*#[rR]egion\b\s*(.*?)\s*$/,
+    end: /^\s*#[eE]nd ?[rR]egion\b\s*(.*?)\s*$/
+  },
+  {
+    start: /^\s*#\s*#?region\b\s*(.*?)\s*$/,
+    end: /^\s*#\s*#?endregion\b\s*(.*?)\s*$/
+  },
+  {
+    start: /^\s*(?:--|::|@?REM)\s*#region\b\s*(.*?)\s*$/,
+    end: /^\s*(?:--|::|@?REM)\s*#endregion\b\s*(.*?)\s*$/
+  },
+  {
+    start: /^\s*#pragma\s+region\b\s*(.*?)\s*$/,
+    end: /^\s*#pragma\s+endregion\b\s*(.*?)\s*$/
+  },
+  {
+    start: /^\s*\(\*\s*#region\b\s*(.*?)\s*\*\)/,
+    end: /^\s*\(\*\s*#endregion\b\s*(.*?)\s*\*\)/
+  }
+]
 
-  return (
-    full &&
-    tag &&
-    name === regionName &&
-    tag.match(end ? /^[Ee]nd ?[rR]egion$/ : /^[rR]egion$/)
-  )
-}
-
-function findRegion(lines: Array<string>, regionName: string) {
-  const regionRegexps = [
-    /^\/\/ ?#?((?:end)?region) ([\w*-]+)$/, // javascript, typescript, java
-    /^\/\* ?#((?:end)?region) ([\w*-]+) ?\*\/$/, // css, less, scss
-    /^#pragma ((?:end)?region) ([\w*-]+)$/, // C, C++
-    /^<!-- #?((?:end)?region) ([\w*-]+) -->$/, // HTML, markdown
-    /^#((?:End )Region) ([\w*-]+)$/, // Visual Basic
-    /^::#((?:end)region) ([\w*-]+)$/, // Bat
-    /^# ?((?:end)?region) ([\w*-]+)$/ // C#, PHP, Powershell, Python, perl & misc
-  ]
-
-  let regexp = null
-  let start = -1
-
-  for (const [lineId, line] of lines.entries()) {
-    if (regexp === null) {
-      for (const reg of regionRegexps) {
-        if (testLine(line, reg, regionName)) {
-          start = lineId + 1
-          regexp = reg
-          break
-        }
+export function findRegion(lines: Array<string>, regionName: string) {
+  let chosen: { re: (typeof markers)[number]; start: number } | null = null
+  // find the regex pair for a start marker that matches the given region name
+  for (let i = 0; i < lines.length; i++) {
+    for (const re of markers) {
+      if (re.start.exec(lines[i])?.[1] === regionName) {
+        chosen = { re, start: i + 1 }
+        break
       }
-    } else if (testLine(line, regexp, regionName, true)) {
-      return { start, end: lineId, regexp }
+    }
+    if (chosen) break
+  }
+  if (!chosen) return null
+
+  let counter = 1
+  // scan the rest of the lines to find the matching end marker, handling nested markers
+  for (let i = chosen.start; i < lines.length; i++) {
+    // check for an inner start marker for the same region
+    if (chosen.re.start.exec(lines[i])?.[1] === regionName) {
+      counter++
+      continue
+    }
+    // check for an end marker for the same region
+    const endRegion = chosen.re.end.exec(lines[i])?.[1]
+    // allow empty region name on the end marker as a fallback
+    if (endRegion === regionName || endRegion === '') {
+      if (--counter === 0) return { ...chosen, end: i }
     }
   }
 
   return null
 }
 
-export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
+export const snippetPlugin = (md: MarkdownItAsync, srcDir: string) => {
   const parser: RuleBlock = (state, startLine, endLine, silent) => {
     const CH = '<'.charCodeAt(0)
     const pos = state.bMarks[startLine] + state.tShift[startLine]
@@ -91,44 +142,25 @@ export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
     const start = pos + 3
     const end = state.skipSpacesBack(max, pos)
 
-    /**
-     * raw path format: "/path/to/file.extension#region {meta}"
-     *    where #region and {meta} are optional
-     *    and meta can be like '1,2,4-6 lang', 'lang' or '1,2,4-6'
-     *
-     * captures: ['/path/to/file.extension', 'extension', '#region', '{meta}', '[title]']
-     */
-    const rawPathRegexp =
-      /^(.+(?:\.([a-z0-9]+)))(?:(#[\w-]+))?(?: ?(?:{(\d+(?:[,-]\d+)*)? ?(\S+)?}))? ?(?:\[(.+)\])?$/
-
     const rawPath = state.src
       .slice(start, end)
       .trim()
       .replace(/^@/, srcDir)
       .trim()
 
-    const [
-      filepath = '',
-      extension = '',
-      region = '',
-      lines = '',
-      lang = '',
-      rawTitle = ''
-    ] = (rawPathRegexp.exec(rawPath) || []).slice(1)
-
-    const title = rawTitle || filepath.split('/').pop() || ''
+    const { filepath, extension, region, lines, lang, attrs, title } =
+      rawPathToToken(rawPath)
 
     state.line = startLine + 1
 
     const token = state.push('fence', 'code', 0)
     token.info = `${lang || extension}${lines ? `{${lines}}` : ''}${
       title ? `[${title}]` : ''
-    }`
+    }  ${attrs ?? ''}`
 
-    const resolvedPath = path.resolve(
-      path.dirname((state.env as MarkdownEnv).path),
-      filepath
-    )
+    const { realPath, path: _path } = state.env as MarkdownEnv
+    const resolvedPath = path.resolve(path.dirname(realPath ?? _path), filepath)
+
     // @ts-ignore
     token.src = [resolvedPath, region.slice(1)]
     token.markup = '```'
@@ -140,41 +172,43 @@ export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
   const fence = md.renderer.rules.fence!
 
   md.renderer.rules.fence = (...args) => {
-    const [tokens, idx, , { loader }] = args
+    const [tokens, idx, , { includes }] = args
     const token = tokens[idx]
     // @ts-ignore
     const [src, regionName] = token.src ?? []
 
-    if (src) {
-      if (loader) {
-        loader.addDependency(src)
-      }
-      const isAFile = fs.lstatSync(src).isFile()
-      if (fs.existsSync(src) && isAFile) {
-        let content = fs.readFileSync(src, 'utf8')
+    if (!src) return fence(...args)
 
-        if (regionName) {
-          const lines = content.split(/\r?\n/)
-          const region = findRegion(lines, regionName)
+    if (includes) {
+      includes.push(src)
+    }
 
-          if (region) {
-            content = dedent(
-              lines
-                .slice(region.start, region.end)
-                .filter((line: string) => !region.regexp.test(line.trim()))
-                .join('\n')
-            )
-          }
-        }
+    const isAFile = fs.statSync(src).isFile()
+    if (!fs.existsSync(src) || !isAFile) {
+      token.content = isAFile
+        ? `Code snippet path not found: ${src}`
+        : `Invalid code snippet option`
+      token.info = ''
+      return fence(...args)
+    }
 
-        token.content = content
-      } else {
-        token.content = isAFile
-          ? `Code snippet path not found: ${src}`
-          : `Invalid code snippet option`
-        token.info = ''
+    let content = fs.readFileSync(src, 'utf8').replace(/\r\n/g, '\n')
+
+    if (regionName) {
+      const lines = content.split('\n')
+      const region = findRegion(lines, regionName)
+
+      if (region) {
+        content = dedent(
+          lines
+            .slice(region.start, region.end)
+            .filter((l) => !(region.re.start.test(l) || region.re.end.test(l)))
+            .join('\n')
+        )
       }
     }
+
+    token.content = content
     return fence(...args)
   }
 

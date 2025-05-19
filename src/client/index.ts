@@ -1,5 +1,5 @@
 // exports in this file are exposed to themes and md files via 'vitepress'
-// so the user can do `import { useRoute, useSiteData } from 'vitepress'`
+// so the user can do `import { useRoute, useData } from 'vitepress'`
 
 // generic types
 export type { VitePressData } from './app/data'
@@ -12,14 +12,16 @@ export type { EnhanceAppContext, Theme } from './app/theme'
 export type { HeadConfig, Header, PageData, SiteData } from '../../types/shared'
 
 // composables
-export { useData } from './app/data'
+export { dataSymbol, useData } from './app/data'
 export { useRoute, useRouter } from './app/router'
 
 // utilities
 export {
+  _escapeHtml,
+  defineClientComponent,
+  getScrollOffset,
   inBrowser,
   onContentUpdated,
-  defineClientComponent,
   withBase
 } from './app/utils'
 

@@ -1,23 +1,17 @@
+import {
+  transformerCompactLineOptions,
+  transformerNotationDiff,
+  transformerNotationErrorLevel,
+  transformerNotationFocus,
+  transformerNotationHighlight,
+  type TransformerCompactLineOption
+} from '@shikijs/transformers'
 import { customAlphabet } from 'nanoid'
 import c from 'picocolors'
-import {
-  BUNDLED_LANGUAGES,
-  type HtmlRendererOptions,
-  type ILanguageRegistration,
-  type IThemeRegistration
-} from 'shiki'
-import {
-  addClass,
-  createDiffProcessor,
-  createFocusProcessor,
-  createHighlightProcessor,
-  createRangeProcessor,
-  defineProcessor,
-  getHighlighter,
-  type Processor
-} from 'shiki-processor'
+import type { BundledLanguage, ShikiTransformer } from 'shiki'
+import { createHighlighter, guessEmbeddedLanguages, isSpecialLang } from 'shiki'
 import type { Logger } from 'vite'
-import type { ThemeOptions } from '../markdown'
+import type { MarkdownOptions, ThemeOptions } from '../markdown'
 
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)
 
@@ -29,7 +23,7 @@ const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)
  * 2. convert line numbers into line options:
  *    [{ line: number, classes: string[] }]
  */
-const attrsToLines = (attrs: string): HtmlRendererOptions['lineOptions'] => {
+function attrsToLines(attrs: string): TransformerCompactLineOption[] {
   attrs = attrs.replace(/^(?:\[.*?\])?.*?([\d,-]+).*/, '$1').trim()
   const result: number[] = []
   if (!attrs) {
@@ -53,121 +47,149 @@ const attrsToLines = (attrs: string): HtmlRendererOptions['lineOptions'] => {
   }))
 }
 
-const errorLevelProcessor = defineProcessor({
-  name: 'error-level',
-  handler: createRangeProcessor({
-    error: ['highlighted', 'error'],
-    warning: ['highlighted', 'warning']
-  })
-})
-
 export async function highlight(
   theme: ThemeOptions,
-  languages: ILanguageRegistration[] = [],
-  defaultLang: string = '',
+  options: MarkdownOptions,
   logger: Pick<Logger, 'warn'> = console
-): Promise<(str: string, lang: string, attrs: string) => string> {
-  const hasSingleTheme = typeof theme === 'string' || 'name' in theme
-  const getThemeName = (themeValue: IThemeRegistration) =>
-    typeof themeValue === 'string' ? themeValue : themeValue.name
+): Promise<
+  [(str: string, lang: string, attrs: string) => Promise<string>, () => void]
+> {
+  const {
+    defaultHighlightLang: defaultLang = 'txt',
+    codeTransformers: userTransformers = []
+  } = options
 
-  const processors: Processor[] = [
-    createFocusProcessor(),
-    createHighlightProcessor({ hasHighlightClass: 'highlighted' }),
-    createDiffProcessor(),
-    errorLevelProcessor
-  ]
-
-  const highlighter = await getHighlighter({
-    themes: hasSingleTheme ? [theme] : [theme.dark, theme.light],
-    langs: [...BUNDLED_LANGUAGES, ...languages],
-    processors
+  const highlighter = await createHighlighter({
+    themes:
+      typeof theme === 'object' && 'light' in theme && 'dark' in theme
+        ? [theme.light, theme.dark]
+        : [theme],
+    langs: [
+      ...(options.languages || []),
+      ...Object.values(options.languageAlias || {})
+    ],
+    langAlias: options.languageAlias
   })
 
-  const styleRE = /<pre[^>]*(style=".*?")/
-  const preRE = /^<pre(.*?)>/
-  const vueRE = /-vue$/
-  const lineNoRE = /:(no-)?line-numbers$/
+  await options?.shikiSetup?.(highlighter)
+
+  const transformers: ShikiTransformer[] = [
+    transformerNotationDiff(),
+    transformerNotationFocus({
+      classActiveLine: 'has-focus',
+      classActivePre: 'has-focused-lines'
+    }),
+    transformerNotationHighlight(),
+    transformerNotationErrorLevel(),
+    {
+      name: 'vitepress:add-dir',
+      pre(node) {
+        node.properties.dir = 'ltr'
+      }
+    }
+  ]
+
+  const vueRE = /-vue(?=:|$)/
+  const lineNoStartRE = /=(\d*)/
+  const lineNoRE = /:(no-)?line-numbers(=\d*)?$/
   const mustacheRE = /\{\{.*?\}\}/g
 
-  return (str: string, lang: string, attrs: string) => {
-    const vPre = vueRE.test(lang) ? '' : 'v-pre'
-    lang =
-      lang.replace(lineNoRE, '').replace(vueRE, '').toLowerCase() || defaultLang
+  return [
+    async (str: string, lang: string, attrs: string) => {
+      const vPre = vueRE.test(lang) ? '' : 'v-pre'
+      lang =
+        lang
+          .replace(lineNoStartRE, '')
+          .replace(lineNoRE, '')
+          .replace(vueRE, '')
+          .toLowerCase() || defaultLang
 
-    if (lang) {
-      const langLoaded = highlighter.getLoadedLanguages().includes(lang as any)
-      if (!langLoaded && lang !== 'ansi' && lang !== 'txt') {
+      try {
+        // https://github.com/shikijs/shiki/issues/952
+        if (
+          !isSpecialLang(lang) &&
+          !highlighter.getLoadedLanguages().includes(lang)
+        ) {
+          await highlighter.loadLanguage(lang as any)
+        }
+      } catch {
         logger.warn(
           c.yellow(
-            `\nThe language '${lang}' is not loaded, falling back to '${
-              defaultLang || 'txt'
-            }' for syntax highlighting.`
+            `\nThe language '${lang}' is not loaded, falling back to '${defaultLang}' for syntax highlighting.`
           )
         )
         lang = defaultLang
       }
-    }
 
-    const lineOptions = attrsToLines(attrs)
-    const cleanup = (str: string) => {
-      return str
-        .replace(
-          preRE,
-          (_, attributes) =>
-            `<pre ${vPre}${attributes.replace(' tabindex="0"', '')}>`
-        )
-        .replace(styleRE, (_, style) => _.replace(style, ''))
-    }
+      const lineOptions = attrsToLines(attrs)
+      const mustaches = new Map<string, string>()
 
-    const mustaches = new Map<string, string>()
+      const removeMustache = (s: string) => {
+        if (vPre) return s
+        return s.replace(mustacheRE, (match) => {
+          let marker = mustaches.get(match)
+          if (!marker) {
+            marker = nanoid()
+            mustaches.set(match, marker)
+          }
+          return marker
+        })
+      }
 
-    const removeMustache = (s: string) => {
-      if (vPre) return s
-      return s.replace(mustacheRE, (match) => {
-        let marker = mustaches.get(match)
-        if (!marker) {
-          marker = nanoid()
-          mustaches.set(match, marker)
-        }
-        return marker
+      const restoreMustache = (s: string) => {
+        mustaches.forEach((marker, match) => {
+          s = s.replaceAll(marker, match)
+        })
+        return s
+      }
+
+      str = removeMustache(str).trimEnd()
+
+      const embeddedLang = guessEmbeddedLanguages(str, lang, highlighter)
+      await highlighter.loadLanguage(...(embeddedLang as BundledLanguage[]))
+
+      const highlighted = highlighter.codeToHtml(str, {
+        lang,
+        transformers: [
+          ...transformers,
+          transformerCompactLineOptions(lineOptions),
+          {
+            name: 'vitepress:v-pre',
+            pre(node) {
+              if (vPre) node.properties['v-pre'] = ''
+            }
+          },
+          {
+            name: 'vitepress:empty-line',
+            code(hast) {
+              hast.children.forEach((span) => {
+                if (
+                  span.type === 'element' &&
+                  span.tagName === 'span' &&
+                  Array.isArray(span.properties.class) &&
+                  span.properties.class.includes('line') &&
+                  span.children.length === 0
+                ) {
+                  span.children.push({
+                    type: 'element',
+                    tagName: 'wbr',
+                    properties: {},
+                    children: []
+                  })
+                }
+              })
+            }
+          },
+          ...userTransformers
+        ],
+        meta: { __raw: attrs },
+        ...(typeof theme === 'object' && 'light' in theme && 'dark' in theme
+          ? { themes: theme, defaultColor: false }
+          : { theme })
       })
-    }
 
-    const restoreMustache = (s: string) => {
-      mustaches.forEach((marker, match) => {
-        s = s.replaceAll(marker, match)
-      })
-      return s
-    }
-
-    const fillEmptyHighlightedLine = (s: string) => {
-      return s.replace(
-        /(<span class="line highlighted">)(<\/span>)/g,
-        '$1<wbr>$2'
-      )
-    }
-
-    str = removeMustache(str).trim()
-
-    const codeToHtml = (theme: IThemeRegistration) => {
-      const res =
-        lang === 'ansi'
-          ? highlighter.ansiToHtml(str, {
-              lineOptions,
-              theme: getThemeName(theme)
-            })
-          : highlighter.codeToHtml(str, {
-              lang,
-              lineOptions,
-              theme: getThemeName(theme)
-            })
-      return fillEmptyHighlightedLine(cleanup(restoreMustache(res)))
-    }
-
-    if (hasSingleTheme) return codeToHtml(theme)
-    const dark = addClass(codeToHtml(theme.dark), 'vp-code-dark', 'pre')
-    const light = addClass(codeToHtml(theme.light), 'vp-code-light', 'pre')
-    return dark + light
-  }
+      return restoreMustache(highlighted)
+    },
+    highlighter.dispose
+  ]
 }

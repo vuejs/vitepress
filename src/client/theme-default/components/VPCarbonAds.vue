@@ -98,4 +98,12 @@ if (carbonOptions) {
 .VPCarbonAds :deep(.carbon-poweredby:hover) {
   color: var(--vp-carbon-ads-hover-poweredby-color);
 }
+
+.VPCarbonAds :deep(> div) {
+  display: none;
+}
+
+.VPCarbonAds :deep(> div:first-of-type) {
+  display: block;
+}
 </style>

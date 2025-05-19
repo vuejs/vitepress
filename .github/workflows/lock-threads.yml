@@ -2,22 +2,25 @@ name: Lock Threads
 
 on:
   schedule:
-    - cron: 0 0 * * *
+    - cron: 38 4 * * *
   workflow_dispatch:
 
 permissions:
   issues: write
   pull-requests: write
+  discussions: write
 
 concurrency:
   group: lock
 
 jobs:
   action:
+    if: github.repository == 'vuejs/vitepress'
     runs-on: ubuntu-latest
     steps:
-      - uses: dessant/lock-threads@v4
+      - uses: dessant/lock-threads@v5
         with:
           issue-inactive-days: 7
           pr-inactive-days: 7
           exclude-any-issue-labels: 'keep-open'
+          exclude-any-pr-labels: 'keep-open'

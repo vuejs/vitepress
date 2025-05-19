@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import VPIconPlus from './icons/VPIconPlus.vue'
 import VPNavScreenMenuGroupLink from './VPNavScreenMenuGroupLink.vue'
 import VPNavScreenMenuGroupSection from './VPNavScreenMenuGroupSection.vue'
 
@@ -11,8 +10,8 @@ const props = defineProps<{
 
 const isOpen = ref(false)
 
-const groupId = computed(() =>
-  `NavScreenGroup-${props.text.replace(' ', '-').toLowerCase()}`
+const groupId = computed(
+  () => `NavScreenGroup-${props.text.replace(' ', '-').toLowerCase()}`
 )
 
 function toggle() {
@@ -28,21 +27,22 @@ function toggle() {
       :aria-expanded="isOpen"
       @click="toggle"
     >
-      <span class="button-text">{{ text }}</span>
-      <VPIconPlus class="button-icon" />
+      <span class="button-text" v-html="text"></span>
+      <span class="vpi-plus button-icon" />
     </button>
 
     <div :id="groupId" class="items">
-      <template v-for="item in items" :key="item.text">
-        <div v-if="'link' in item" :key="item.text" class="item">
-          <VPNavScreenMenuGroupLink :item="item" />
+      <template v-for="item in items" :key="JSON.stringify(item)">
+        <div v-if="'link' in item" class="item">
+          <VPNavScreenMenuGroupLink :item />
+        </div>
+
+        <div v-else-if="'component' in item" class="item">
+          <component :is="item.component" v-bind="item.props" screen-menu />
         </div>
 
         <div v-else class="group">
-          <VPNavScreenMenuGroupSection
-            :text="item.text"
-            :items="item.items"
-          />
+          <VPNavScreenMenuGroupSection :text="item.text" :items="item.items" />
         </div>
       </template>
     </div>
@@ -72,7 +72,7 @@ function toggle() {
 
 .VPNavScreenMenuGroup.open .button {
   padding-bottom: 6px;
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-1);
 }
 
 .VPNavScreenMenuGroup.open .button-icon {
@@ -94,14 +94,11 @@ function toggle() {
 }
 
 .button:hover {
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-1);
 }
 
 .button-icon {
-  width: 14px;
-  height: 14px;
-  fill: var(--vp-c-text-2);
-  transition: fill 0.5s, transform 0.25s;
+  transition: transform 0.25s;
 }
 
 .group:first-child {

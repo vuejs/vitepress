@@ -1,34 +1,40 @@
 <script lang="ts" setup>
-import { ref, watchPostEffect } from 'vue'
-import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
-import { useSidebar } from '../composables/sidebar'
-import VPSidebarItem from './VPSidebarItem.vue'
+import { useScrollLock } from '@vueuse/core'
+import { inBrowser } from 'vitepress'
+import { ref, watch } from 'vue'
+import { useLayout } from '../composables/layout'
+import VPSidebarGroup from './VPSidebarGroup.vue'
 
-const { sidebarGroups, hasSidebar } = useSidebar()
+const { sidebarGroups, hasSidebar } = useLayout()
 
 const props = defineProps<{
   open: boolean
 }>()
 
 // a11y: focus Nav element when menu has opened
-let navEl = ref<HTMLElement | null>(null)
+const navEl = ref<HTMLElement | null>(null)
+const isLocked = useScrollLock(inBrowser ? document.body : null)
 
-function lockBodyScroll() {
-  disableBodyScroll(navEl.value!, { reserveScrollBarGap: true })
-}
+watch(
+  [props, navEl],
+  () => {
+    if (props.open) {
+      isLocked.value = true
+      navEl.value?.focus()
+    } else isLocked.value = false
+  },
+  { immediate: true, flush: 'post' }
+)
 
-function unlockBodyScroll() {
-  clearAllBodyScrollLocks()
-}
+const key = ref(0)
 
-watchPostEffect(async () => {
-  if (props.open) {
-    lockBodyScroll()
-    navEl.value?.focus()
-  } else {
-    unlockBodyScroll()
-  }
-})
+watch(
+  sidebarGroups,
+  () => {
+    key.value += 1
+  },
+  { deep: true }
+)
 </script>
 
 <template>
@@ -41,17 +47,18 @@ watchPostEffect(async () => {
   >
     <div class="curtain" />
 
-    <nav class="nav" id="VPSidebarNav" aria-labelledby="sidebar-aria-label" tabindex="-1">
+    <nav
+      class="nav"
+      id="VPSidebarNav"
+      aria-labelledby="sidebar-aria-label"
+      tabindex="-1"
+    >
       <span class="visually-hidden" id="sidebar-aria-label">
         Sidebar Navigation
       </span>
 
       <slot name="sidebar-nav-before" />
-
-      <div v-for="item in sidebarGroups" :key="item.text" class="group">
-        <VPSidebarItem :item="item" :depth="0" />
-      </div>
-
+      <VPSidebarGroup :items="sidebarGroups" :key />
       <slot name="sidebar-nav-after" />
     </nav>
   </aside>
@@ -82,7 +89,7 @@ watchPostEffect(async () => {
   visibility: visible;
   transform: translateX(0);
   transition: opacity 0.25s,
-              transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .dark .VPSidebar {
@@ -91,9 +98,7 @@ watchPostEffect(async () => {
 
 @media (min-width: 960px) {
   .VPSidebar {
-    z-index: 1;
     padding-top: var(--vp-nav-height);
-    padding-bottom: 128px;
     width: var(--vp-sidebar-width);
     max-width: 100%;
     background-color: var(--vp-sidebar-bg-color);
@@ -127,17 +132,5 @@ watchPostEffect(async () => {
 
 .nav {
   outline: 0;
-}
-
-.group + .group {
-  border-top: 1px solid var(--vp-c-divider);
-  padding-top: 10px;
-}
-
-@media (min-width: 960px) {
-  .group {
-    padding-top: 10px;
-    width: calc(var(--vp-sidebar-width) - 64px);
-  }
 }
 </style>

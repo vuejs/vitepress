@@ -1,7 +1,7 @@
 ---
 title: Multiple Levels Outline
 editLink: true
-outline: 'deep'
+outline: deep
 ---
 
 # h1 - 1

@@ -1,227 +1,148 @@
-import { createRequire } from 'module'
-import { defineConfig } from 'vitepress'
+import {
+  defineConfig,
+  resolveSiteDataByRoute,
+  type HeadConfig
+} from 'vitepress'
+import {
+  groupIconMdPlugin,
+  groupIconVitePlugin,
+  localIconLoader
+} from 'vitepress-plugin-group-icons'
+import llmstxt from 'vitepress-plugin-llms'
 
-const require = createRequire(import.meta.url)
-const pkg = require('vitepress/package.json')
+const prod = !!process.env.NETLIFY
 
 export default defineConfig({
-  lang: 'en-US',
   title: 'VitePress',
-  description: 'Vite & Vue powered static site generator.',
+
+  rewrites: {
+    'en/:rest*': ':rest*'
+  },
 
   lastUpdated: true,
   cleanUrls: true,
+  metaChunk: true,
 
-  head: [
-    ['meta', { name: 'theme-color', content: '#3c8772' }],
-    [
-      'script',
+  markdown: {
+    math: true,
+    codeTransformers: [
+      // We use `[!!code` in demo to prevent transformation, here we revert it back.
       {
-        src: 'https://cdn.usefathom.com/script.js',
-        'data-site': 'AZBRSFGG',
-        'data-spa': 'auto',
-        defer: ''
+        postprocess(code) {
+          return code.replace(/\[\!\!code/g, '[!code')
+        }
       }
-    ]
+    ],
+    config(md) {
+      // TODO: remove when https://github.com/vuejs/vitepress/issues/4431 is fixed
+      const fence = md.renderer.rules.fence!
+      md.renderer.rules.fence = function (tokens, idx, options, env, self) {
+        const { localeIndex = 'root' } = env
+        const codeCopyButtonTitle = (() => {
+          switch (localeIndex) {
+            case 'es':
+              return 'Copiar código'
+            case 'fa':
+              return 'کپی کد'
+            case 'ko':
+              return '코드 복사'
+            case 'pt':
+              return 'Copiar código'
+            case 'ru':
+              return 'Скопировать код'
+            case 'zh':
+              return '复制代码'
+            default:
+              return 'Copy code'
+          }
+        })()
+        return fence(tokens, idx, options, env, self).replace(
+          '<button title="Copy Code" class="copy"></button>',
+          `<button title="${codeCopyButtonTitle}" class="copy"></button>`
+        )
+      }
+      md.use(groupIconMdPlugin)
+    }
+  },
+
+  sitemap: {
+    hostname: 'https://vitepress.dev',
+    transformItems(items) {
+      return items.filter((item) => !item.url.includes('migration'))
+    }
+  },
+
+  /* prettier-ignore */
+  head: [
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/vitepress-logo-mini.svg' }],
+    ['link', { rel: 'icon', type: 'image/png', href: '/vitepress-logo-mini.png' }],
+    ['meta', { name: 'theme-color', content: '#5f67ee' }],
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:site_name', content: 'VitePress' }],
+    ['meta', { property: 'og:image', content: 'https://vitepress.dev/vitepress-og.jpg' }],
+    ['meta', { property: 'og:url', content: 'https://vitepress.dev/' }],
+    ['script', { src: 'https://cdn.usefathom.com/script.js', 'data-site': 'AZBRSFGG', 'data-spa': 'auto', defer: '' }]
   ],
 
   themeConfig: {
-    nav: nav(),
-
-    sidebar: {
-      '/guide/': sidebarGuide(),
-      '/reference/': sidebarReference()
-    },
-
-    editLink: {
-      pattern: 'https://github.com/vuejs/vitepress/edit/main/docs/:path',
-      text: 'Edit this page on GitHub'
-    },
+    logo: { src: '/vitepress-logo-mini.svg', width: 24, height: 24 },
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
     ],
 
-    footer: {
-      message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2019-present Evan You'
-    },
-
     search: {
       provider: 'algolia',
       options: {
         appId: '8J64VVRP8K',
-        apiKey: 'a18e2f4cc5665f6602c5631fd868adfd',
+        apiKey: '52f578a92b88ad6abde815aae2b0ad7c',
         indexName: 'vitepress'
       }
     },
 
-    carbonAds: {
-      code: 'CEBDT27Y',
-      placement: 'vuejsorg'
-    }
-  }
+    carbonAds: { code: 'CEBDT27Y', placement: 'vuejsorg' }
+  },
+
+  locales: {
+    root: { label: 'English' },
+    zh: { label: '简体中文' },
+    pt: { label: 'Português' },
+    ru: { label: 'Русский' },
+    es: { label: 'Español' },
+    ko: { label: '한국어' },
+    fa: { label: 'فارسی' }
+  },
+
+  vite: {
+    plugins: [
+      groupIconVitePlugin({
+        customIcon: {
+          vitepress: localIconLoader(
+            import.meta.url,
+            '../public/vitepress-logo-mini.svg'
+          ),
+          firebase: 'logos:firebase'
+        }
+      }),
+      prod &&
+        llmstxt({
+          workDir: 'en',
+          ignoreFiles: ['index.md']
+        })
+    ]
+  },
+
+  transformPageData: prod
+    ? (pageData, ctx) => {
+        const site = resolveSiteDataByRoute(
+          ctx.siteConfig.site,
+          pageData.relativePath
+        )
+        const title = `${pageData.title || site.title} | ${pageData.description || site.description}`
+        ;((pageData.frontmatter.head ??= []) as HeadConfig[]).push(
+          ['meta', { property: 'og:locale', content: site.lang }],
+          ['meta', { property: 'og:title', content: title }]
+        )
+      }
+    : undefined
 })
-
-function nav() {
-  return [
-    { text: 'Guide', link: '/guide/what-is-vitepress', activeMatch: '/guide/' },
-    {
-      text: 'Reference',
-      link: '/reference/site-config',
-      activeMatch: '/reference/'
-    },
-    {
-      text: pkg.version,
-      items: [
-        {
-          text: 'Changelog',
-          link: 'https://github.com/vuejs/vitepress/blob/main/CHANGELOG.md'
-        },
-        {
-          text: 'Contributing',
-          link: 'https://github.com/vuejs/vitepress/blob/main/.github/contributing.md'
-        }
-      ]
-    }
-  ]
-}
-
-function sidebarGuide() {
-  return [
-    {
-      text: 'Introduction',
-      collapsed: false,
-      items: [
-        { text: 'What is VitePress?', link: '/guide/what-is-vitepress' },
-        { text: 'Getting Started', link: '/guide/getting-started' },
-        { text: 'Routing', link: '/guide/routing' },
-        { text: 'Deploy', link: '/guide/deploy' }
-      ]
-    },
-    {
-      text: 'Writing',
-      collapsed: false,
-      items: [
-        { text: 'Markdown Extensions', link: '/guide/markdown' },
-        { text: 'Asset Handling', link: '/guide/asset-handling' },
-        { text: 'Frontmatter', link: '/guide/frontmatter' },
-        { text: 'Using Vue in Markdown', link: '/guide/using-vue' },
-        { text: 'Internationalization', link: '/guide/i18n' }
-      ]
-    },
-    {
-      text: 'Customization',
-      collapsed: false,
-      items: [
-        { text: 'Using a Custom Theme', link: '/guide/custom-theme' },
-        {
-          text: 'Extending the Default Theme',
-          link: '/guide/extending-default-theme'
-        },
-        { text: 'Build-Time Data Loading', link: '/guide/data-loading' },
-        { text: 'SSR Compatibility', link: '/guide/ssr-compat' },
-        { text: 'Connecting to a CMS', link: '/guide/cms' }
-      ]
-    },
-    {
-      text: 'Experimental',
-      collapsed: false,
-      items: [
-        {
-          text: 'MPA Mode',
-          link: '/guide/mpa-mode'
-        }
-      ]
-    },
-    // {
-    //   text: 'Migrations',
-    //   collapsed: false,
-    //   items: [
-    //     {
-    //       text: 'Migration from VuePress',
-    //       link: '/guide/migration-from-vuepress'
-    //     },
-    //     {
-    //       text: 'Migration from VitePress 0.x',
-    //       link: '/guide/migration-from-vitepress-0'
-    //     }
-    //   ]
-    // },
-    {
-      text: 'Config & API Reference',
-      link: '/reference/site-config'
-    }
-  ]
-}
-
-function sidebarReference() {
-  return [
-    {
-      text: 'Reference',
-      items: [
-        { text: 'Site Config', link: '/reference/site-config' },
-        { text: 'Frontmatter Config', link: '/reference/frontmatter-config' },
-        { text: 'Runtime API', link: '/reference/runtime-api' },
-        { text: 'CLI', link: '/reference/cli' },
-        {
-          text: 'Default Theme',
-          items: [
-            {
-              text: 'Overview',
-              link: '/reference/default-theme-config'
-            },
-            {
-              text: 'Nav',
-              link: '/reference/default-theme-nav'
-            },
-            {
-              text: 'Sidebar',
-              link: '/reference/default-theme-sidebar'
-            },
-            {
-              text: 'Home Page',
-              link: '/reference/default-theme-home-page'
-            },
-            {
-              text: 'Footer',
-              link: '/reference/default-theme-footer'
-            },
-            {
-              text: 'Layout',
-              link: '/reference/default-theme-layout'
-            },
-            {
-              text: 'Badge',
-              link: '/reference/default-theme-badge'
-            },
-            {
-              text: 'Team Page',
-              link: '/reference/default-theme-team-page'
-            },
-            {
-              text: 'Prev / Next Links',
-              link: '/reference/default-theme-prev-next-links'
-            },
-            {
-              text: 'Edit Link',
-              link: '/reference/default-theme-edit-link'
-            },
-            {
-              text: 'Last Updated Timestamp',
-              link: '/reference/default-theme-last-updated'
-            },
-            {
-              text: 'Search',
-              link: '/reference/default-theme-search'
-            },
-            {
-              text: 'Carbon Ads',
-              link: '/reference/default-theme-carbon-ads'
-            }
-          ]
-        }
-      ]
-    }
-  ]
-}

@@ -1,22 +1,20 @@
 <script setup lang="ts">
-import { useData } from '../composables/data'
-import { useSidebar } from '../composables/sidebar'
-import VPPage from './VPPage.vue'
-import VPHome from './VPHome.vue'
-import VPDoc from './VPDoc.vue'
 import NotFound from '../NotFound.vue'
+import { useData } from '../composables/data'
+import { useLayout } from '../composables/layout'
+import VPDoc from './VPDoc.vue'
+import VPHome from './VPHome.vue'
+import VPPage from './VPPage.vue'
 
 const { page, frontmatter } = useData()
-const { hasSidebar } = useSidebar()
+const { hasSidebar } = useLayout()
 </script>
 
 <template>
   <div
     class="VPContent"
     id="VPContent"
-    :class="{
-      'has-sidebar': hasSidebar,
-    }"
+    :class="{ 'has-sidebar': hasSidebar }"
   >
     <slot name="not-found" v-if="page.isNotFound"><NotFound /></slot>
 
@@ -27,12 +25,20 @@ const { hasSidebar } = useSidebar()
 
     <VPHome v-else-if="frontmatter.layout === 'home'">
       <template #home-hero-before><slot name="home-hero-before" /></template>
+      <template #home-hero-info-before><slot name="home-hero-info-before" /></template>
       <template #home-hero-info><slot name="home-hero-info" /></template>
+      <template #home-hero-info-after><slot name="home-hero-info-after" /></template>
+      <template #home-hero-actions-after><slot name="home-hero-actions-after" /></template>
       <template #home-hero-image><slot name="home-hero-image" /></template>
       <template #home-hero-after><slot name="home-hero-after" /></template>
       <template #home-features-before><slot name="home-features-before" /></template>
       <template #home-features-after><slot name="home-features-after" /></template>
     </VPHome>
+
+    <component
+      v-else-if="frontmatter.layout && frontmatter.layout !== 'doc'"
+      :is="frontmatter.layout"
+    />
 
     <VPDoc v-else>
       <template #doc-top><slot name="doc-top" /></template>

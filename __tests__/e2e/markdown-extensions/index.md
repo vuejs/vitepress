@@ -180,3 +180,43 @@ export default config
 ## Markdown At File Inclusion
 
 <!--@include: @/markdown-extensions/bar.md-->
+
+## Markdown Nested File Inclusion
+
+<!--@include: ./nested-include.md-->
+
+## Markdown File Inclusion with Range
+
+<!--@include: ./foo.md{6,8}-->
+
+## Markdown File Inclusion with Range without Start
+
+<!--@include: ./foo.md{,8}-->
+
+## Markdown File Inclusion with Range without End
+
+<!--@include: ./foo.md{6,}-->
+
+## Markdown At File Region Snippet
+
+<!--@include: ./region-include.md#snippet-->
+
+## Markdown At File Range Region Snippet
+
+<!--@include: ./region-include.md#range-region{3,4}-->
+
+## Markdown At File Range Region Snippet without start
+
+<!--@include: ./region-include.md#range-region{,2}-->
+
+## Markdown At File Range Region Snippet without end
+
+<!--@include: ./region-include.md#range-region{5,}-->
+
+## Markdown File Inclusion with Header
+
+<!--@include: ./header-include.md#header-1-1-->
+
+## Image Lazy Loading
+
+![vitepress logo](/vitepress.png)

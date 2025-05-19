@@ -19,8 +19,15 @@ const hasExtraContent = computed(
 </script>
 
 <template>
-  <VPFlyout v-if="hasExtraContent" class="VPNavBarExtra" label="extra navigation">
-    <div v-if="localeLinks.length && currentLang.label" class="group translations">
+  <VPFlyout
+    v-if="hasExtraContent"
+    class="VPNavBarExtra"
+    label="extra navigation"
+  >
+    <div
+      v-if="localeLinks.length && currentLang.label"
+      class="group translations"
+    >
       <p class="trans-title">{{ currentLang.label }}</p>
 
       <template v-for="locale in localeLinks" :key="locale.link">
@@ -28,7 +35,14 @@ const hasExtraContent = computed(
       </template>
     </div>
 
-    <div v-if="site.appearance" class="group">
+    <div
+      v-if="
+        site.appearance &&
+        site.appearance !== 'force-dark' &&
+        site.appearance !== 'force-auto'
+      "
+      class="group"
+    >
       <div class="item appearance">
         <p class="label">
           {{ theme.darkModeSwitchLabel || 'Appearance' }}

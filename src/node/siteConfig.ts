@@ -1,15 +1,23 @@
-import {
-  type Awaitable,
-  type HeadConfig,
-  type LocaleConfig,
-  type LocaleSpecificConfig,
-  type PageData,
-  type SiteData,
-  type SSGContext
-} from './shared'
-import type { MarkdownOptions } from './markdown'
 import type { Options as VuePluginOptions } from '@vitejs/plugin-vue'
-import { type Logger, type UserConfig as ViteConfig } from 'vite'
+import type { UseDarkOptions } from '@vueuse/core'
+import type { SitemapStreamOptions } from 'sitemap'
+import type { Logger, UserConfig as ViteConfig } from 'vite'
+import type { SitemapItem } from './build/generateSitemap'
+import type { MarkdownOptions } from './markdown/markdown'
+import type { ResolvedRouteConfig } from './plugins/dynamicRoutesPlugin'
+import type {
+  Awaitable,
+  HeadConfig,
+  LocaleConfig,
+  LocaleSpecificConfig,
+  PageData,
+  SSGContext,
+  SiteData
+} from './shared'
+import type {
+  AdditionalConfigDict,
+  AdditionalConfigLoader
+} from '../../types/shared'
 
 export type RawConfigExports<ThemeConfig = any> =
   | Awaitable<UserConfig<ThemeConfig>>
@@ -27,26 +35,6 @@ export interface TransformContext {
   assets: string[]
 }
 
-interface UserRouteConfig {
-  params: Record<string, string>
-  content?: string
-}
-
-export type ResolvedRouteConfig = UserRouteConfig & {
-  /**
-   * the raw route (relative to src root), e.g. foo/[bar].md
-   */
-  route: string
-  /**
-   * the actual path with params resolved (relative to src root), e.g. foo/1.md
-   */
-  path: string
-  /**
-   * absolute fs path
-   */
-  fullPath: string
-}
-
 export interface TransformPageContext {
   siteConfig: SiteConfig
 }
@@ -59,14 +47,25 @@ export interface UserConfig<ThemeConfig = any>
   srcDir?: string
   srcExclude?: string[]
   outDir?: string
+  assetsDir?: string
   cacheDir?: string
 
   shouldPreload?: (link: string, page: string) => boolean
 
   locales?: LocaleConfig<ThemeConfig>
 
-  appearance?: boolean | 'dark'
+  router?: {
+    prefetchLinks?: boolean
+  }
+
+  appearance?:
+    | boolean
+    | 'dark'
+    | 'force-dark'
+    | 'force-auto'
+    | (Omit<UseDarkOptions, 'initialValue'> & { initialValue?: 'dark' })
   lastUpdated?: boolean
+  contentProps?: Record<string, any>
 
   /**
    * MarkdownIt options
@@ -79,7 +78,7 @@ export interface UserConfig<ThemeConfig = any>
   /**
    * Vite config
    */
-  vite?: ViteConfig
+  vite?: ViteConfig & { configFile?: string | false }
 
   /**
    * Configure the scroll offset when the theme has a sticky header.
@@ -89,13 +88,23 @@ export interface UserConfig<ThemeConfig = any>
    * selector if a selector fails to match, or the matched element is not
    * currently visible in viewport.
    */
-  scrollOffset?: number | string | string[]
+  scrollOffset?:
+    | number
+    | string
+    | string[]
+    | { selector: string | string[]; padding: number }
 
   /**
    * Enable MPA / zero-JS mode.
    * @experimental
    */
   mpa?: boolean
+
+  /**
+   * Extracts metadata to a separate chunk.
+   * @experimental
+   */
+  metaChunk?: boolean
 
   /**
    * Don't fail builds due to dead links.
@@ -125,11 +134,28 @@ export interface UserConfig<ThemeConfig = any>
   useWebFonts?: boolean
 
   /**
+   * This option allows you to configure the concurrency of the build.
+   * A lower number will reduce the memory usage but will increase the build time.
+   *
+   * @experimental
+   * @default 64
+   */
+  buildConcurrency?: number
+
+  /**
    * @experimental
    *
    * source -> destination
    */
-  rewrites?: Record<string, string>
+  rewrites?: Record<string, string> | ((id: string) => string)
+
+  /**
+   * @experimental
+   */
+  sitemap?: SitemapStreamOptions & {
+    hostname: string
+    transformItems?: (items: SitemapItem[]) => Awaitable<SitemapItem[]>
+  }
 
   /**
    * Build end hook: called when SSG finish.
@@ -165,6 +191,18 @@ export interface UserConfig<ThemeConfig = any>
     pageData: PageData,
     ctx: TransformPageContext
   ) => Awaitable<Partial<PageData> | { [key: string]: any } | void>
+
+  /**
+   * Multi-layer configuration overloading.
+   * Auto-resolves to `docs/.../config.{js,mjs,ts,mts}` when unspecified.
+   *
+   * Set to `{}` to opt-out.
+   *
+   * @experimental
+   */
+  additionalConfig?:
+    | AdditionalConfigDict<ThemeConfig>
+    | AdditionalConfigLoader<ThemeConfig>
 }
 
 export interface SiteConfig<ThemeConfig = any>
@@ -174,7 +212,9 @@ export interface SiteConfig<ThemeConfig = any>
     | 'vue'
     | 'vite'
     | 'shouldPreload'
+    | 'router'
     | 'mpa'
+    | 'metaChunk'
     | 'lastUpdated'
     | 'ignoreDeadLinks'
     | 'cleanUrls'
@@ -184,6 +224,7 @@ export interface SiteConfig<ThemeConfig = any>
     | 'transformHead'
     | 'transformHtml'
     | 'transformPageData'
+    | 'sitemap'
   > {
   root: string
   srcDir: string
@@ -192,17 +233,16 @@ export interface SiteConfig<ThemeConfig = any>
   configDeps: string[]
   themeDir: string
   outDir: string
+  assetsDir: string
   cacheDir: string
   tempDir: string
   pages: string[]
-  dynamicRoutes: {
-    routes: ResolvedRouteConfig[]
-    fileToModulesMap: Record<string, Set<string>>
-  }
+  dynamicRoutes: ResolvedRouteConfig[]
   rewrites: {
     map: Record<string, string | undefined>
     inv: Record<string, string | undefined>
   }
   logger: Logger
   userConfig: UserConfig
+  buildConcurrency: number
 }

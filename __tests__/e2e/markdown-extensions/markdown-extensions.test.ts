@@ -5,6 +5,8 @@ const getClassList = async (locator: Locator) => {
   return className?.split(' ').filter(Boolean) ?? []
 }
 
+const trim = (str?: string | null) => str?.replace(/\u200B/g, '').trim()
+
 beforeEach(async () => {
   await goto('/markdown-extensions/')
 })
@@ -62,8 +64,61 @@ describe('Emoji', () => {
 describe('Table of Contents', () => {
   test('render toc', async () => {
     const items = page.locator('#table-of-contents + nav ul li')
-    const count = await items.count()
-    expect(count).toBe(24)
+    expect(
+      await items.evaluateAll((elements) =>
+        elements.map((el) => el.childNodes[0].textContent)
+      )
+    ).toMatchInlineSnapshot(`
+      [
+        "Links",
+        "Internal Links",
+        "External Links",
+        "GitHub-Style Tables",
+        "Emoji",
+        "Table of Contents",
+        "Custom Containers",
+        "Default Title",
+        "Custom Title",
+        "Line Highlighting in Code Blocks",
+        "Single Line",
+        "Multiple single lines, ranges",
+        "Comment Highlight",
+        "Line Numbers",
+        "Import Code Snippets",
+        "Basic Code Snippet",
+        "Specify Region",
+        "With Other Features",
+        "Code Groups",
+        "Basic Code Group",
+        "With Other Features",
+        "Markdown File Inclusion",
+        "Region",
+        "Markdown At File Inclusion",
+        "Markdown Nested File Inclusion",
+        "Region",
+        "After Foo",
+        "Sub sub",
+        "Sub sub sub",
+        "Markdown File Inclusion with Range",
+        "Region",
+        "Markdown File Inclusion with Range without Start",
+        "Region",
+        "Markdown File Inclusion with Range without End",
+        "Region",
+        "Markdown At File Region Snippet",
+        "Region Snippet",
+        "Markdown At File Range Region Snippet",
+        "Range Region Line 2",
+        "Markdown At File Range Region Snippet without start",
+        "Range Region Line 1",
+        "Markdown At File Range Region Snippet without end",
+        "Range Region Line 3",
+        "Markdown File Inclusion with Header",
+        "header 1.1.1",
+        "header 1.1.2",
+        "Image Lazy Loading",
+      ]
+    `)
   })
 })
 
@@ -161,7 +216,7 @@ describe('Line Numbers', () => {
 describe('Import Code Snippets', () => {
   test('basic', async () => {
     const lines = page.locator('#basic-code-snippet + div code > span')
-    expect(await lines.count()).toBe(7)
+    expect(await lines.count()).toBe(11)
   })
 
   test('specify region', async () => {
@@ -214,7 +269,7 @@ describe('Code Groups', () => {
 
     // blocks
     const blocks = div.locator('.blocks > div')
-    expect(await blocks.nth(0).locator('code > span').count()).toBe(7)
+    expect(await blocks.nth(0).locator('code > span').count()).toBe(11)
     expect(await getClassList(blocks.nth(1))).toContain('line-numbers-mode')
     expect(await getClassList(blocks.nth(1))).toContain('language-ts')
     expect(await blocks.nth(1).locator('code > span').count()).toBe(3)
@@ -229,8 +284,79 @@ describe('Markdown File Inclusion', () => {
     const h1 = page.locator('#markdown-file-inclusion + h1')
     expect(await h1.getAttribute('id')).toBe('foo')
   })
+
   test('render markdown using @', async () => {
     const h1 = page.locator('#markdown-at-file-inclusion + h1')
     expect(await h1.getAttribute('id')).toBe('bar')
+  })
+
+  test('render markdown using nested inclusion', async () => {
+    const h1 = page.locator('#markdown-nested-file-inclusion + h1')
+    expect(await h1.getAttribute('id')).toBe('foo-1')
+  })
+
+  test('render markdown using nested inclusion inside sub folder', async () => {
+    const h1 = page.locator('#after-foo + h1')
+    expect(await h1.getAttribute('id')).toBe('inside-sub-folder')
+    const h2 = page.locator('#after-foo + h1 + h2')
+    expect(await h2.getAttribute('id')).toBe('sub-sub')
+    const h3 = page.locator('#after-foo + h1 + h2 + h3')
+    expect(await h3.getAttribute('id')).toBe('sub-sub-sub')
+  })
+
+  test('support selecting range', async () => {
+    const h2 = page.locator('#markdown-file-inclusion-with-range + h2')
+    expect(trim(await h2.textContent())).toBe('Region')
+
+    const p = page.locator('#markdown-file-inclusion-with-range + h2 + p')
+    expect(trim(await p.textContent())).toBe('This is a region')
+  })
+
+  test('support selecting range without specifying start', async () => {
+    const p = page.locator(
+      '#markdown-file-inclusion-with-range-without-start ~ p'
+    )
+    expect(trim(await p.nth(0).textContent())).toBe('This is before region')
+    expect(trim(await p.nth(1).textContent())).toBe('This is a region')
+  })
+
+  test('support selecting range without specifying end', async () => {
+    const p = page.locator(
+      '#markdown-file-inclusion-with-range-without-end ~ p'
+    )
+    expect(trim(await p.nth(0).textContent())).toBe('This is a region')
+    expect(trim(await p.nth(1).textContent())).toBe('This is after region')
+  })
+
+  test('support markdown region snippet', async () => {
+    const h2 = page.locator('#markdown-at-file-region-snippet + h2')
+    expect(await h2.getAttribute('id')).toBe('region-snippet')
+
+    const line = page.locator('#markdown-at-file-range-region-snippet + h2')
+    expect(await line.getAttribute('id')).toBe('range-region-line-2')
+
+    const lineWithoutStart = page.locator(
+      '#markdown-at-file-range-region-snippet-without-start + h2'
+    )
+    expect(await lineWithoutStart.getAttribute('id')).toBe(
+      'range-region-line-1'
+    )
+
+    const lineWithoutEnd = page.locator(
+      '#markdown-at-file-range-region-snippet-without-end + h2'
+    )
+    expect(await lineWithoutEnd.getAttribute('id')).toBe('range-region-line-3')
+  })
+
+  test('ignore frontmatter if range is not specified', async () => {
+    const p = page.locator('.vp-doc')
+    expect(await p.textContent()).not.toContain('title')
+  })
+})
+
+describe('Image Lazy Loading', () => {
+  test('render loading="lazy" in the <img> tag', async () => {
+    const img = page.locator('#image-lazy-loading + p img')
+    expect(await img.getAttribute('loading')).toBe('lazy')
   })
 })

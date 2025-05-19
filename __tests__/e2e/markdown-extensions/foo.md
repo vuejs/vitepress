@@ -1,7 +1,11 @@
 # Foo
 
+This is before region
+
 <!-- #region snippet -->
 ## Region
 
-this is region
+This is a region
 <!-- #endregion snippet -->
+
+This is after region

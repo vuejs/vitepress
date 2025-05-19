@@ -12,9 +12,9 @@ defineProps<{
     <VPSocialLink
       v-for="{ link, icon, ariaLabel } in links"
       :key="link"
-      :icon="icon"
-      :link="link"
-      :ariaLabel="ariaLabel"
+      :icon
+      :link
+      :ariaLabel
     />
   </div>
 </template>

@@ -2,7 +2,7 @@
   "compilerOptions": {
     "module": "esnext",
     "target": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "esModuleInterop": true,
     "strict": true,
     "skipLibCheck": true,
@@ -12,5 +12,12 @@
     "jsx": "preserve",
     "lib": ["esnext", "dom", "dom.iterable"]
   },
-  "exclude": ["**/node_modules/**", "**/dist/**", "template"]
+  "exclude": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "template",
+    "bin",
+    "docs/snippets",
+    "scripts"
+  ]
 }

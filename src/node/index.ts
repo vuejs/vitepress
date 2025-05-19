@@ -1,17 +1,19 @@
-export * from './config'
-export * from './server'
-export * from './markdown'
+export { loadEnv, type Plugin } from 'vite'
 export * from './build/build'
-export * from './serve/serve'
-export * from './init/init'
+export * from './config'
 export * from './contentLoader'
+export * from './init/init'
+export * from './markdown/markdown'
 export { defineLoader, type LoaderModule } from './plugins/staticDataPlugin'
-export { loadEnv } from 'vite'
+export {
+  defineRoutes,
+  type ResolvedRouteConfig,
+  type RouteModule
+} from './plugins/dynamicRoutesPlugin'
+export * from './postcss/isolateStyles'
+export * from './serve/serve'
+export * from './server'
+export type { DefaultTheme } from './defaultTheme'
 
 // shared types
-export type {
-  SiteData,
-  HeadConfig,
-  Header,
-  DefaultTheme
-} from '../../types/shared'
+export type { HeadConfig, Header, SiteData } from '../../types/shared'

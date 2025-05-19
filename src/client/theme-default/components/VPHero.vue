@@ -8,6 +8,8 @@ export interface HeroAction {
   theme?: 'brand' | 'alt'
   text: string
   link: string
+  target?: string
+  rel?: string
 }
 
 defineProps<{
@@ -25,13 +27,15 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
   <div class="VPHero" :class="{ 'has-image': image || heroImageSlotExists }">
     <div class="container">
       <div class="main">
+        <slot name="home-hero-info-before" />
         <slot name="home-hero-info">
-          <h1 v-if="name" class="name">
-            <span class="clip">{{ name }}</span>
+          <h1 class="heading">
+            <span v-if="name" v-html="name" class="name clip"></span>
+            <span v-if="text" v-html="text" class="text"></span>
           </h1>
-          <p v-if="text" class="text">{{ text }}</p>
-          <p v-if="tagline" class="tagline">{{ tagline }}</p>
+          <p v-if="tagline" v-html="tagline" class="tagline"></p>
         </slot>
+        <slot name="home-hero-info-after" />
 
         <div v-if="actions" class="actions">
           <div v-for="action in actions" :key="action.link" class="action">
@@ -41,16 +45,19 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
               :theme="action.theme"
               :text="action.text"
               :href="action.link"
+              :target="action.target"
+              :rel="action.rel"
             />
           </div>
         </div>
+        <slot name="home-hero-actions-after" />
       </div>
 
       <div v-if="image || heroImageSlotExists" class="image">
         <div class="image-container">
           <div class="image-bg" />
           <slot name="home-hero-image">
-            <VPImage v-if="image" class="image-src" :image="image" />
+            <VPImage v-if="image" class="image-src" :image />
           </slot>
         </div>
       </div>
@@ -118,8 +125,14 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
   }
 }
 
+.heading {
+  display: flex;
+  flex-direction: column;
+}
+
 .name,
 .text {
+  width: fit-content;
   max-width: 392px;
   letter-spacing: -0.4px;
   line-height: 40px;
@@ -309,6 +322,9 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
   left: 50%;
   max-width: 192px;
   max-height: 192px;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
   /*rtl:ignore*/
   transform: translate(-50%, -50%);
 }
