@@ -12,7 +12,7 @@
 
 - **مستندسازی**
 
-  ویت‌پرس با یک تم پیش‌فرض طراحی شده برای مستندات فنی ارائه می‌شود. این صفحه‌ای که اکنون در حال خواندن آن هستید و همچنین مستندات [Vite](https://vitejs.dev/)، [Rollup](https://rollupjs.org/)، [Pinia](https://pinia.vuejs.org/)، [VueUse](https://vueuse.org/)، [Vitest](https://vitest.dev/)، [D3](https://d3js.org/)، [UnoCSS](https://unocss.dev/)، [Iconify](https://iconify.design/) و [بسیاری دیگر](https://www.vuetelescope.com/explore?framework.slug=vitepress) با استفاده از ویت‌پرس ساخته شده‌اند.
+  ویت‌پرس با یک تم پیش‌فرض طراحی شده برای مستندات فنی ارائه می‌شود. این صفحه‌ای که اکنون در حال خواندن آن هستید و همچنین مستندات [Vite](https://vitejs.dev/)، [Rollup](https://rollupjs.org/)، [Pinia](https://pinia.vuejs.org/)، [VueUse](https://vueuse.org/)، [Vitest](https://vitest.dev/)، [D3](https://d3js.org/)، [UnoCSS](https://unocss.dev/)، [Iconify](https://iconify.design/) و [بسیاری دیگر](https://github.com/search?q=/"vitepress":+/+language:json&type=code) با استفاده از ویت‌پرس ساخته شده‌اند.
 
   [مستندات رسمی Vue.js](https://vuejs.org/) نیز بر پایه ویت‌پرس ساخته شده است، اما از یک تم سفارشی که بین چندین ترجمه مشترک است استفاده می‌کند.
 
