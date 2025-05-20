@@ -107,6 +107,7 @@
     "@vueuse/core": "^13.1.0",
     "@vueuse/integrations": "^13.1.0",
     "focus-trap": "^7.6.4",
+    "living-object": "0.0.8",
     "mark.js": "8.11.1",
     "minisearch": "^7.1.2",
     "shiki": "^3.4.0",
