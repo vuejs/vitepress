@@ -343,6 +343,25 @@ export default {
 }
 ```
 
+### assetsBase
+
+- Type: `string`
+- Default: `/assets/`
+
+The base URL the site assets will be deployed at. You will need to set this if you plan to deploy your site assets to CDN. It is similar to `publicPath` in other module bundler.
+
+The `assetsBase` is configured to `${base}assets/` by default. It should always start with a slash or a valid protocol, and always end with a slash.
+
+::: warning
+This option only takes effect in production mode.
+:::
+
+```ts
+export default {
+  assetsBase: 'https://cdn.example.com/assets/bar/'
+}
+```
+
 ## Routing
 
 ### cleanUrls
