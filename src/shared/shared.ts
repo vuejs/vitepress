@@ -274,7 +274,8 @@ function resolveAdditionalConfig(
   path: string
 ): AdditionalConfig[] {
   if (additionalConfig === undefined) return []
-  if (typeof additionalConfig === 'function') return additionalConfig(path)
+  if (typeof additionalConfig === 'function')
+    return additionalConfig(path) ?? []
 
   const configs: AdditionalConfig[] = []
   const segments = path.split('/').slice(0, -1) // remove file name
