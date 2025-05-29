@@ -343,6 +343,7 @@ export async function resolveSiteData(
 
 function resolveSiteDataHead(userConfig?: UserConfig): HeadConfig[] {
   const head = userConfig?.head ?? []
+  if (userConfig?.mpa) return head
 
   // add inline script to apply dark mode, if user enables the feature.
   // this is required to prevent "flash" on initial page load.
