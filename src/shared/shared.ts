@@ -25,7 +25,11 @@ export type {
 export const EXTERNAL_URL_RE = /^(?:[a-z]+:|\/\/)/i
 export const APPEARANCE_KEY = 'vitepress-theme-appearance'
 
-export const VP_SOURCE_KEY = '[VP_SOURCE]'
+// Global symbols will be preserved by living-object.
+export const VP_CONFIG_SOURCE = Symbol.for('VP:ConfigSource')
+export const VP_CLIENT_ONLY = Symbol.for('VP:ClientOnly')
+// Private symbols are distinct in each runtime environment.
+// This should only be used internally.
 const UnpackStackView = Symbol('stack-view:unpack')
 
 const HASH_RE = /#.*$/
@@ -111,7 +115,7 @@ export function resolveSiteDataByRoute(
   const additionalConfigs = resolveAdditionalConfig(siteData, relativePath)
 
   if (inBrowser && (import.meta as any).env?.DEV) {
-    ;(localeConfig as any)[VP_SOURCE_KEY] = `locale config (${localeIndex})`
+    ;(localeConfig as any)[VP_CONFIG_SOURCE] = `locale config (${localeIndex})`
     reportConfigLayers(relativePath, [
       ...additionalConfigs,
       localeConfig,
@@ -297,7 +301,7 @@ function reportConfigLayers(path: string, layers: Partial<SiteData>[]) {
   const summary = layers.map((c, i, arr) => {
     const n = i + 1
     if (n === arr.length) return `${n}. .vitepress/config (root)`
-    return `${n}. ${(c as any)?.[VP_SOURCE_KEY] ?? '(Unknown Source)'}`
+    return `${n}. ${(c as any)?.[VP_CONFIG_SOURCE] ?? '(Unknown Source)'}`
   })
 
   console.debug(
@@ -352,4 +356,20 @@ stackView.unpack = function <T>(obj: T): T[] | undefined {
 type ObjectType = Record<PropertyKey, any>
 export function isObject(value: unknown): value is ObjectType {
   return Object.prototype.toString.call(value) === '[object Object]'
+}
+
+export function clientOnly<T extends object>(object: T) {
+  ;(object as any)[VP_CLIENT_ONLY] = true
+  return object
+}
+
+export function isClientOnly<T extends object>(object?: T): boolean {
+  return (object as any)?.[VP_CLIENT_ONLY] ?? false
+}
+
+export function propagateClientOnly<T extends object>(src: T, dst: T): T {
+  if (isClientOnly(src)) {
+    clientOnly(dst)
+  }
+  return dst
 }

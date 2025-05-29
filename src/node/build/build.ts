@@ -12,11 +12,11 @@ import type { BuildOptions, Rollup } from 'vite'
 import { resolveConfig, type SiteConfig } from '../config'
 import { clearCache } from '../markdownToVue'
 import { slash, type Awaitable, type HeadConfig } from '../shared'
-import { deserializeFunctions, serializeFunctions } from '../utils/fnSerialize'
 import { task } from '../utils/task'
 import { bundle } from './bundle'
 import { generateSitemap } from './generateSitemap'
 import { renderPage } from './render'
+import LivingObject from 'living-object'
 
 const require = createRequire(import.meta.url)
 
@@ -216,15 +216,11 @@ function generateMetadataScript(
   // It's also embedded as a string and JSON.parsed from the client because
   // it's faster than embedding as JS object literal.
   const hashMapString = JSON.stringify(JSON.stringify(pageToHashMap))
-  const siteDataString = JSON.stringify(
-    JSON.stringify(serializeFunctions({ ...config.site, head: [] }))
-  )
+  const siteDataString = new LivingObject({ ...config.site, head: [] })
+    .compile()
+    .complete((root) => `window.__VP_SITE_DATA__=${root}`)
 
-  const metadataContent = `window.__VP_HASH_MAP__=JSON.parse(${hashMapString});${
-    siteDataString.includes('_vp-fn_')
-      ? `${deserializeFunctions};window.__VP_SITE_DATA__=deserializeFunctions(JSON.parse(${siteDataString}));`
-      : `window.__VP_SITE_DATA__=JSON.parse(${siteDataString});`
-  }`
+  const metadataContent = `{window.__VP_HASH_MAP__=JSON.parse(${hashMapString});${siteDataString};}`
 
   if (!config.metaChunk) {
     return { html: `<script>${metadataContent}</script>`, inHead: false }

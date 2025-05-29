@@ -15,7 +15,7 @@ import type { DefaultTheme } from './defaultTheme'
 import { resolvePages } from './plugins/dynamicRoutesPlugin'
 import {
   APPEARANCE_KEY,
-  VP_SOURCE_KEY,
+  VP_CONFIG_SOURCE,
   isObject,
   slash,
   type AdditionalConfig,
@@ -28,6 +28,7 @@ import type { RawConfigExports, SiteConfig, UserConfig } from './siteConfig'
 export { resolvePages } from './plugins/dynamicRoutesPlugin'
 export { resolveSiteDataByRoute } from './shared'
 export * from './siteConfig'
+export { clientOnly, isClientOnly } from './shared'
 
 const debug = _debug('vitepress:config')
 
@@ -218,7 +219,7 @@ async function gatherAdditionalConfig(
       )
 
       if (mode === 'development') {
-        ;(configExports.config as any)[VP_SOURCE_KEY] = '/' + slash(file)
+        ;(configExports.config as any)[VP_CONFIG_SOURCE] = '/' + slash(file)
       }
 
       return [id, configExports.config as AdditionalConfig] as const

@@ -20,6 +20,7 @@ export declare const useLayout: () => {
   sidebarGroups: ComputedRef<DefaultTheme.SidebarItem[]>
   hasSidebar: ComputedRef<boolean>
   isSidebarEnabled: ComputedRef<boolean>
+  isSidebarClientOnly: ComputedRef<boolean>
 
   hasAside: ComputedRef<boolean>
   leftAside: ComputedRef<boolean>
