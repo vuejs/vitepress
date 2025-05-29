@@ -1,20 +1,23 @@
 <script setup lang="ts">
 import NotFound from '../NotFound.vue'
 import { useData } from '../composables/data'
-import { useLayout } from '../composables/layout'
+import { useLayout, } from '../composables/layout'
+import {useSidebarControl} from '../composables/sidebar'
 import VPDoc from './VPDoc.vue'
 import VPHome from './VPHome.vue'
 import VPPage from './VPPage.vue'
 
 const { page, frontmatter } = useData()
 const { isHome, hasSidebar } = useLayout()
+const {isCollapsed} = useSidebarControl()
 </script>
 
 <template>
   <div
     class="VPContent"
     id="VPContent"
-    :class="{ 'has-sidebar': hasSidebar, 'is-home': isHome }"
+    :class="{ 'has-sidebar': hasSidebar, 'is-home': isHome ,'collapsed':isCollapsed
+    }"
   >
     <slot name="not-found" v-if="page.isNotFound"><NotFound /></slot>
 
@@ -90,6 +93,9 @@ const { isHome, hasSidebar } = useLayout()
   .VPContent.has-sidebar {
     padding-right: calc((100vw - var(--vp-layout-max-width)) / 2);
     padding-left: calc((100vw - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));
+  }
+  .VPContent.has-sidebar.collapsed {
+    padding-left: calc(100vw - var(--vp-layout-max-width)) / 2 ;
   }
 }
 </style>
