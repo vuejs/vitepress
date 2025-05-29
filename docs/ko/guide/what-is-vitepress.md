@@ -12,7 +12,7 @@ VitePress는 빠르고 컨텐츠 중심의 웹사이트를 구축하기 위해 �
 
 - **문서화**
 
-  VitePress는 기술 문서를 위해 설계된 기본 테마가 함께 제공됩니다. 지금 읽고 있는 이 페이지와 [Vite](https://vitejs.dev/), [Rollup](https://rollupjs.org/), [Pinia](https://pinia.vuejs.org/), [VueUse](https://vueuse.org/), [Vitest](https://vitest.dev/), [D3](https://d3js.org/), [UnoCSS](https://unocss.dev/), [Iconify](https://iconify.design/) 및 [다양한 프로젝트](https://www.vuetelescope.com/explore?framework.slug=vitepress) 문서는  모두 이 테마를 기반으로 합니다.
+  VitePress는 기술 문서를 위해 설계된 기본 테마가 함께 제공됩니다. 지금 읽고 있는 이 페이지와 [Vite](https://vitejs.dev/), [Rollup](https://rollupjs.org/), [Pinia](https://pinia.vuejs.org/), [VueUse](https://vueuse.org/), [Vitest](https://vitest.dev/), [D3](https://d3js.org/), [UnoCSS](https://unocss.dev/), [Iconify](https://iconify.design/) 및 [다양한 프로젝트](https://github.com/search?q=/"vitepress":+/+language:json&type=code) 문서는  모두 이 테마를 기반으로 합니다.
 
   [Vue.js 공식 문서](https://vuejs.org/)도 VitePress 기반으로 되어 있으며, 여러 번역본에 걸쳐 공유되는 커스텀 테마를 사용합니다.
 
