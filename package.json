@@ -217,7 +217,8 @@
       ]
     },
     "overrides": {
-      "ora>string-width": "^5"
+      "ora>string-width": "^5",
+      "vite": "npm:rolldown-vite@latest"
     },
     "patchedDependencies": {
       "@types/mdurl@2.0.0": "patches/@types__mdurl@2.0.0.patch",
