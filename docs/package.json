@@ -13,9 +13,9 @@
     "@lunariajs/core": "^0.1.1",
     "markdown-it-mathjax3": "^4.3.2",
     "open-cli": "^8.0.0",
-    "postcss-rtlcss": "^5.7.0",
+    "postcss-rtlcss": "^5.7.1",
     "vitepress": "workspace:*",
-    "vitepress-plugin-group-icons": "^1.5.2",
-    "vitepress-plugin-llms": "^1.1.3"
+    "vitepress-plugin-group-icons": "^1.5.5",
+    "vitepress-plugin-llms": "^1.3.4"
   }
 }
