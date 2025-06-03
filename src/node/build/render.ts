@@ -229,9 +229,9 @@ function resolvePageImports(
   ) as Rollup.OutputChunk
   return [
     ...appChunk.imports,
-    ...appChunk.dynamicImports,
-    ...pageChunk.imports,
-    ...pageChunk.dynamicImports
+    // ...appChunk.dynamicImports,
+    ...pageChunk.imports
+    // ...pageChunk.dynamicImports
   ]
 }
 
