@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-import { useWindowScroll } from '@vueuse/core'
+import { useMediaQuery, useWindowScroll } from '@vueuse/core'
 import { ref, watchPostEffect } from 'vue'
 import { useLayout } from '../composables/layout'
+import { useSidebarControl } from '../composables/sidebar'
 import VPNavBarAppearance from './VPNavBarAppearance.vue'
 import VPNavBarExtra from './VPNavBarExtra.vue'
 import VPNavBarHamburger from './VPNavBarHamburger.vue'
@@ -20,6 +21,7 @@ defineEmits<{
 }>()
 
 const { y } = useWindowScroll()
+const {isCollapsed, toggleCollapse: toggleSidebarCollapse } = useSidebarControl()
 const { isHome, hasSidebar } = useLayout()
 
 const classes = ref<Record<string, boolean>>({})
@@ -29,20 +31,31 @@ watchPostEffect(() => {
     'has-sidebar': hasSidebar.value,
     'home': isHome.value,
     'top': y.value === 0,
+    'collapsed':isCollapsed.value,
     'screen-open': props.isScreenOpen
   }
 })
+const is1440 = useMediaQuery('(min-width: 1440px)')
 </script>
 
 <template>
   <div class="VPNavBar" :class="classes">
     <div class="wrapper">
       <div class="container">
-        <div class="title">
-          <VPNavBarTitle>
-            <template #nav-bar-title-before><slot name="nav-bar-title-before" /></template>
-            <template #nav-bar-title-after><slot name="nav-bar-title-after" /></template>
-          </VPNavBarTitle>
+          <div class="title">
+            <VPNavBarTitle >
+              <template #nav-bar-title-before><slot name="nav-bar-title-before" /></template>
+              <template #nav-bar-title-after><slot name="nav-bar-title-after" /></template>
+
+            </VPNavBarTitle>
+            <button
+              v-if="!isHome&&is1440"
+              class="sidebar-toggle-button"
+              @click="toggleSidebarCollapse"
+              aria-label="collapse sidebar"
+            >
+              <span class="vpi-collapse icon" />
+            </button>
         </div>
 
         <div class="content">
@@ -94,6 +107,9 @@ watchPostEffect(() => {
   .VPNavBar:not(.has-sidebar):not(.home.top) {
     background-color: var(--vp-nav-bg-color);
   }
+  .VPNavBar.collapsed {
+    background-color: var(--vp-nav-bg-color);
+  }
 }
 
 .wrapper {
@@ -140,6 +156,17 @@ watchPostEffect(() => {
   flex-shrink: 0;
   height: calc(var(--vp-nav-height) - 1px);
   transition: background-color 0.5s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.VPNavBar:not(.home):not(.collapsed).has-sidebar .title{
+    border-bottom: 1px solid var(--vp-c-divider);
+    width: calc((100% - (var(--vp-layout-max-width) - 64px)) / 2 + var(--vp-sidebar-width) - 32px - 20px)
+}
+.VPNavBar:not(.home).collapsed .title{
+    background-color: var(--vp-nav-bg-color);
+    border-bottom: 1px solid var(--vp-c-divider);
 }
 
 @media (min-width: 960px) {
@@ -268,5 +295,34 @@ watchPostEffect(() => {
   .VPNavBar:not(.has-sidebar):not(.home.top) .divider {
     background-color: var(--vp-c-gutter);
   }
+}
+
+.sidebar-toggle-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px; 
+  height: 36px;
+  color: var(--vp-c-text-2);
+  background-color: transparent;
+  border: none;
+  border-radius: 6px;
+  transition: background-color 0.25s, color 0.25s;
+  pointer-events: auto; 
+}
+
+.sidebar-toggle-button:hover {
+  background-color: var(--vp-c-bg-mute);
+  color: var(--vp-c-text-1);
+}
+
+.sidebar-toggle-button .icon {
+  width: 20px; 
+  height: 20px;
+  transition: transform 0.25s ease;
+}
+
+.sidebar-toggle-button .icon.is-collapsed {
+  transform: rotate(180deg);
 }
 </style>
