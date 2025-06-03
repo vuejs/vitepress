@@ -16,22 +16,6 @@
 </template>
 
 <style scoped>
-.VPTeamPageSection {
-  padding: 0 32px;
-}
-
-@media (min-width: 768px) {
-  .VPTeamPageSection {
-    padding: 0 48px;
-  }
-}
-
-@media (min-width: 960px) {
-  .VPTeamPageSection {
-    padding: 0 64px;
-  }
-}
-
 .title {
   position: relative;
   margin: 0 auto;
@@ -67,11 +51,10 @@
   text-align: center;
   line-height: 24px;
   font-size: 16px;
-  font-weight: 500;
   color: var(--vp-c-text-2);
 }
 
 .members {
-  padding-top: 40px;
+  padding-top: 24px;
 }
 </style>
