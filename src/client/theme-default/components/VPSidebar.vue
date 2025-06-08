@@ -111,8 +111,8 @@ watch(
 
 @media (min-width: 1440px) {
   .VPSidebar {
-    padding-left: max(32px, calc((100% - (var(--vp-layout-max-width) - 64px)) / 2));
-    width: calc((100% - (var(--vp-layout-max-width) - 64px)) / 2 + var(--vp-sidebar-width) - 32px);
+    padding-left: max(32px, calc((100vw - (var(--vp-layout-max-width) - 64px)) / 2));
+    width: calc((100vw - (var(--vp-layout-max-width) - 64px)) / 2 + var(--vp-sidebar-width) - 32px);
   }
 }
 
