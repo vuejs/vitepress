@@ -2,7 +2,7 @@
 
 The update time of the last content will be displayed in the lower right corner of the page. To enable it, add `lastUpdated` options to your config.
 
-::: tip
+::: info
 VitePress displays the "last updated" time using the timestamp of the most recent Git commit for each file. To enable this, the Markdown file must be committed to Git.
 
 Internally, VitePress runs `git log -1 --pretty="%ai"` on each file to retrieve its timestamp. If all pages show the same update time, it's likely due to shallow cloning (common in CI environments), which limits Git history.
