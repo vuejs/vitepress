@@ -3,7 +3,7 @@
 The update time of the last content will be displayed in the lower right corner of the page. To enable it, add `lastUpdated` options to your config.
 
 ::: tip
-You need to commit the markdown file to see the updated time.
+To display the last updated time, at least one Git commit is required, as we retrieve the most recent Git commit timestamp by default. Additionally, if all file update times consistently match the latest project commit (rather than reflecting actual file modifications), please verify whether your file history is incomplete (e.g., due to using Git's shallow clone mode).
 :::
 
 ## Site-Level Config
