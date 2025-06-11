@@ -53,7 +53,7 @@ onMounted(() => {
 
   const handleSearchHotKey = (event: KeyboardEvent) => {
     if (
-      (event.key.toLowerCase() === 'k' && (event.metaKey || event.ctrlKey)) ||
+      (event.key?.toLowerCase() === 'k' && (event.metaKey || event.ctrlKey)) ||
       (!isEditingContent(event) && event.key === '/')
     ) {
       event.preventDefault()

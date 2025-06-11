@@ -34,6 +34,7 @@ const debug = _debug('vitepress:config')
 const resolve = (root: string, file: string) =>
   normalizePath(path.resolve(root, `.vitepress`, file))
 
+export type { ConfigEnv }
 export type UserConfigFn<ThemeConfig> = (
   env: ConfigEnv
 ) => Awaitable<UserConfig<ThemeConfig>>
@@ -256,20 +257,21 @@ export async function resolveUserConfig(
       configDeps = configExports.dependencies.map((file) =>
         normalizePath(path.resolve(file))
       )
-      // Auto-generate additional config if user leaves it unspecified
-      if (userConfig.additionalConfig === undefined) {
-        const [additionalConfig, additionalDeps] = await gatherAdditionalConfig(
-          root,
-          command,
-          mode,
-          userConfig.srcDir,
-          userConfig.srcExclude
-        )
-        userConfig.additionalConfig = additionalConfig
-        configDeps = configDeps.concat(...additionalDeps)
-      }
     }
     debug(`loaded config at ${c.yellow(configPath)}`)
+  }
+
+  // Auto-generate additional config if user leaves it unspecified
+  if (userConfig.additionalConfig === undefined) {
+    const [additionalConfig, additionalDeps] = await gatherAdditionalConfig(
+      root,
+      command,
+      mode,
+      userConfig.srcDir,
+      userConfig.srcExclude
+    )
+    userConfig.additionalConfig = additionalConfig
+    configDeps = configDeps.concat(...additionalDeps)
   }
 
   return [await resolveConfigExtends(userConfig), configPath, configDeps]
@@ -342,6 +344,7 @@ export async function resolveSiteData(
 
 function resolveSiteDataHead(userConfig?: UserConfig): HeadConfig[] {
   const head = userConfig?.head ?? []
+  if (userConfig?.mpa) return head
 
   // add inline script to apply dark mode, if user enables the feature.
   // this is required to prevent "flash" on initial page load.

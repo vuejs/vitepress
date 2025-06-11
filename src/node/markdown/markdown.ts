@@ -329,12 +329,17 @@ export async function createMarkdownRenderer(
       md.use(mathPlugin.default ?? mathPlugin, {
         ...(typeof options.math === 'boolean' ? {} : options.math)
       })
-      const orig = md.renderer.rules.math_block!
-      md.renderer.rules.math_block = (tokens, idx, options, env, self) => {
-        return orig(tokens, idx, options, env, self).replace(
-          /^<mjx-container /,
-          '<mjx-container tabindex="0" '
-        )
+      const origMathInline = md.renderer.rules.math_inline!
+      md.renderer.rules.math_inline = function (...args) {
+        return origMathInline
+          .apply(this, args)
+          .replace(/^<mjx-container /, '<mjx-container v-pre ')
+      }
+      const origMathBlock = md.renderer.rules.math_block!
+      md.renderer.rules.math_block = function (...args) {
+        return origMathBlock
+          .apply(this, args)
+          .replace(/^<mjx-container /, '<mjx-container v-pre tabindex="0" ')
       }
     } catch (error) {
       throw new Error(
