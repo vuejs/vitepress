@@ -98,12 +98,9 @@ export async function bundle(
           app: path.resolve(APP_PATH, ssr ? 'ssr.js' : 'index.js'),
           ...input
         },
-        // @ts-ignore skip setting it for rolldown-vite since it doesn't support `preserveEntrySignatures` yet
-        ...(vite.rolldownVersion
-          ? undefined
-          : // important so that each page chunk and the index export things for each
-            // other
-            { preserveEntrySignatures: 'allow-extension' }),
+        // important so that each page chunk and the index export things for each
+        // other
+        preserveEntrySignatures: 'allow-extension',
         output: {
           sanitizeFileName,
           ...rollupOptions?.output,
