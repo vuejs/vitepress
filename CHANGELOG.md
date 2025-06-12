@@ -1,3 +1,25 @@
+# [2.0.0-alpha.6](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.5...v2.0.0-alpha.6) (2025-06-12)
+
+### Bug Fixes
+
+- allow AdditionalConfigLoader to return void ([906a44a](https://github.com/vuejs/vitepress/commit/906a44a3ad488a46804757326af95cfb8cac6b75))
+- **build:** avoiding creating separate chunks for vite public assets ([21f24b9](https://github.com/vuejs/vitepress/commit/21f24b9994ea4807ac7e0be38408e9aaa3abe8a9))
+- **build:** emit lean chunks after vite has done processing ([26cb685](https://github.com/vuejs/vitepress/commit/26cb685adf54f07fe3e9fd7bfd49a0ff79956923)), closes [#4737](https://github.com/vuejs/vitepress/issues/4737)
+- **client:** properly skip removed lines when copying code blocks ([c128baf](https://github.com/vuejs/vitepress/commit/c128baf0c41d5113c1b876f691e0185201b1f500))
+- disable appearance scripts in zero-js mode ([e7f9d05](https://github.com/vuejs/vitepress/commit/e7f9d05c3e2ef4f4c1db3b2c17e586f0fc26a6f6)), closes [#4766](https://github.com/vuejs/vitepress/issues/4766)
+- don't preload dynamic imports ([801648a](https://github.com/vuejs/vitepress/commit/801648a4c9d91e7f96302932ac9247d5bdd64ef7)), closes [#4770](https://github.com/vuejs/vitepress/issues/4770)
+- gather additional config files even if root .vitepress/config is not present ([26f178c](https://github.com/vuejs/vitepress/commit/26f178cfaa330a017bb69b1ec6bd482d63a100a9))
+- set `preserveEntrySignatures` for rolldown-vite ([#4784](https://github.com/vuejs/vitepress/issues/4784)) ([4351bc0](https://github.com/vuejs/vitepress/commit/4351bc0b831277401e08b350d7d7c0ab9ea0c9ed))
+- skip fields not supported by rolldown for rolldown-vite ([#4747](https://github.com/vuejs/vitepress/issues/4747)) ([4e3fce4](https://github.com/vuejs/vitepress/commit/4e3fce40c9bab261f3c5e31833475c3e2c6ba0cf))
+- **theme/regression:** code blocks not aligned properly in rtl layouts ([a643347](https://github.com/vuejs/vitepress/commit/a64334753079a5b874a482508d9ee255d2a0ea38))
+- **theme:** hide native search input cancel button ([#4723](https://github.com/vuejs/vitepress/issues/4723)) ([2c4944f](https://github.com/vuejs/vitepress/commit/2c4944f06ccf46fcf58fb18a1819fd167c9533cc))
+- **theme:** prevent error in handleSearchHotKey method ([#4782](https://github.com/vuejs/vitepress/issues/4782)) ([21fcecc](https://github.com/vuejs/vitepress/commit/21fcecce0581d0c461bc15e03429f61ff444a655))
+- use v-pre for mathjax instead of isCustomElement ([c9b8928](https://github.com/vuejs/vitepress/commit/c9b89282f3573998cfc4103bbddbd73d2529cb66))
+
+### Features
+
+- use `oxc-minify` instead of `transformWithEsbuild` when rolldown-vite is used ([#4748](https://github.com/vuejs/vitepress/issues/4748)) ([7c1dc48](https://github.com/vuejs/vitepress/commit/7c1dc48b2fd08e128f7bbe26690fb6534dfb4b95))
+
 ## [2.0.0-alpha.5](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.4...v2.0.0-alpha.5) (2025-04-21)
 
 ### Bug Fixes
