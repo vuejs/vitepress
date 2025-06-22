@@ -128,7 +128,7 @@ export async function resolveConfig(
     ? userThemeDir
     : DEFAULT_THEME_PATH
 
-  const config: SiteConfig = {
+  const config: Omit<SiteConfig, 'pages' | 'dynamicRoutes' | 'rewrites'> = {
     root,
     srcDir,
     assetsDir,
@@ -160,15 +160,17 @@ export async function resolveConfig(
     transformPageData: userConfig.transformPageData,
     userConfig,
     sitemap: userConfig.sitemap,
-    buildConcurrency: userConfig.buildConcurrency ?? 64,
-    ...(await resolvePages(srcDir, userConfig, logger, true))
+    buildConcurrency: userConfig.buildConcurrency ?? 64
   }
 
   // to be shared with content loaders
   // @ts-ignore
   global.VITEPRESS_CONFIG = config
 
-  return config
+  // resolve pages after setting global, so that path loaders can access it
+  Object.assign(config, await resolvePages(srcDir, userConfig, logger, true))
+
+  return config as SiteConfig
 }
 
 const supportedConfigExtensions = ['js', 'ts', 'mjs', 'mts']
