@@ -4,7 +4,6 @@ import path from 'node:path'
 import { normalizePath } from 'vite'
 import type { SiteConfig } from './config'
 import { createMarkdownRenderer } from './markdown/markdown'
-import type { LoaderModule } from './plugins/staticDataPlugin'
 import type { Awaitable } from './shared'
 import { glob, normalizeGlob, type GlobOptions } from './utils/glob'
 
@@ -76,7 +75,7 @@ export function createContentLoader<T = ContentData[]>(
    */
   watch: string | string[],
   options: ContentOptions<T> = {}
-): LoaderModule<T> {
+) {
   const config: SiteConfig = (global as any).VITEPRESS_CONFIG
   if (!config) {
     throw new Error(
