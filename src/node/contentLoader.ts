@@ -6,7 +6,7 @@ import type { SiteConfig } from './config'
 import { createMarkdownRenderer } from './markdown/markdown'
 import type { LoaderModule } from './plugins/staticDataPlugin'
 import type { Awaitable } from './shared'
-import { glob, normalizeWatchPatterns, type GlobOptions } from './utils/glob'
+import { glob, normalizeGlob, type GlobOptions } from './utils/glob'
 
 export interface ContentOptions<T = ContentData[]> {
   /**
@@ -87,7 +87,7 @@ export function createContentLoader<T = ContentData[]>(
 
   const cache = new Map<string, { data: any; timestamp: number }>()
 
-  watch = normalizeWatchPatterns(watch, config.srcDir)
+  watch = normalizeGlob(watch, config.srcDir)
 
   return {
     watch,

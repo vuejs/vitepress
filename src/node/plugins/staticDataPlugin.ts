@@ -8,7 +8,7 @@ import {
   type ViteDevServer
 } from 'vite'
 import type { Awaitable } from '../shared'
-import { glob, normalizeWatchPatterns, type GlobOptions } from '../utils/glob'
+import { glob, normalizeGlob, type GlobOptions } from '../utils/glob'
 
 const loaderMatch = /\.data\.m?(j|t)s($|\?)/
 
@@ -91,7 +91,7 @@ export const staticDataPlugin: Plugin = {
         }
 
         const loaderModule = res?.config as LoaderModule
-        watch = normalizeWatchPatterns(loaderModule.watch, base)
+        watch = normalizeGlob(loaderModule.watch, base)
         load = loaderModule.load
         options = loaderModule.options || {}
       }

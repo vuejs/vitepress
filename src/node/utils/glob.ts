@@ -9,7 +9,7 @@ export interface GlobOptions {
   debug?: boolean
 }
 
-export function normalizeWatchPatterns(
+export function normalizeGlob(
   patterns: string[] | string | undefined,
   base: string
 ): string[] {

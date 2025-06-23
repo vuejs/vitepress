@@ -11,7 +11,7 @@ import {
 } from 'vite'
 import type { Awaitable } from '../shared'
 import { type SiteConfig, type UserConfig } from '../siteConfig'
-import { glob, normalizeWatchPatterns, type GlobOptions } from '../utils/glob'
+import { glob, normalizeGlob, type GlobOptions } from '../utils/glob'
 import { ModuleGraph } from '../utils/moduleGraph'
 import { resolveRewrites } from './rewritesPlugin'
 
@@ -282,10 +282,7 @@ async function resolveDynamicRoutes(
       }
 
       const loaderModule = mod.config as RouteModule
-      watch = normalizeWatchPatterns(
-        loaderModule.watch,
-        path.dirname(pathsFile)
-      )
+      watch = normalizeGlob(loaderModule.watch, path.dirname(pathsFile))
       loader = loaderModule.paths
       transformPageData = loaderModule.transformPageData
       options = loaderModule.options || {}
