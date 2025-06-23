@@ -211,7 +211,7 @@ export async function localSearchPlugin(
 }
 
 const headingRegex = /<h(\d*).*?>(.*?<a.*? href="#.*?".*?>.*?<\/a>)<\/h\1>/gi
-const headingContentRegex = /(.*?)<a.*? href="#(.*?)".*?>.*?<\/a>/i
+const headingContentRegex = /(.*)<a.*? href="#(.*?)".*?>.*?<\/a>/i
 
 /**
  * Splits HTML into sections based on headings
