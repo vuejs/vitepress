@@ -8,11 +8,7 @@ import {
   type ViteDevServer
 } from 'vite'
 import type { Awaitable } from '../shared'
-import {
-  getWatchedFiles,
-  normalizeWatchPatterns,
-  type GlobOptions
-} from '../utils/glob'
+import { glob, normalizeWatchPatterns, type GlobOptions } from '../utils/glob'
 
 const loaderMatch = /\.data\.m?(j|t)s($|\?)/
 
@@ -101,7 +97,7 @@ export const staticDataPlugin: Plugin = {
       }
 
       // load the data
-      const watchedFiles = await getWatchedFiles(watch, options.globOptions)
+      const watchedFiles = await glob(watch, options.globOptions)
       const data = await load(watchedFiles)
 
       // record loader module for HMR

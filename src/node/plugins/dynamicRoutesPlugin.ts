@@ -11,11 +11,7 @@ import {
 } from 'vite'
 import type { Awaitable } from '../shared'
 import { type SiteConfig, type UserConfig } from '../siteConfig'
-import {
-  getWatchedFiles,
-  normalizeWatchPatterns,
-  type GlobOptions
-} from '../utils/glob'
+import { glob, normalizeWatchPatterns, type GlobOptions } from '../utils/glob'
 import { ModuleGraph } from '../utils/moduleGraph'
 import { resolveRewrites } from './rewritesPlugin'
 
@@ -84,7 +80,7 @@ export async function resolvePages(
     routeModuleCache.clear()
   }
 
-  const allMarkdownFiles = await getWatchedFiles(['**/*.md'], {
+  const allMarkdownFiles = await glob(['**/*.md'], {
     cwd: srcDir,
     ignore: userConfig.srcExclude
   })
@@ -315,7 +311,7 @@ async function resolveDynamicRoutes(
       let pathsData: UserRouteConfig[]
 
       if (typeof loader === 'function') {
-        const watchedFiles = await getWatchedFiles(watch, options.globOptions)
+        const watchedFiles = await glob(watch, options.globOptions)
         pathsData = await loader(watchedFiles)
       } else {
         pathsData = loader

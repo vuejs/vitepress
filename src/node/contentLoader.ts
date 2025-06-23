@@ -6,11 +6,7 @@ import type { SiteConfig } from './config'
 import { createMarkdownRenderer } from './markdown/markdown'
 import type { LoaderModule } from './plugins/staticDataPlugin'
 import type { Awaitable } from './shared'
-import {
-  getWatchedFiles,
-  normalizeWatchPatterns,
-  type GlobOptions
-} from './utils/glob'
+import { glob, normalizeWatchPatterns, type GlobOptions } from './utils/glob'
 
 export interface ContentOptions<T = ContentData[]> {
   /**
@@ -99,7 +95,7 @@ export function createContentLoader<T = ContentData[]>(
 
     async load(files?: string[]) {
       // the loader is being called directly, do a fresh glob
-      if (!files) files = await getWatchedFiles(watch, options.globOptions)
+      if (!files) files = await glob(watch, options.globOptions)
 
       const md = await createMarkdownRenderer(
         config.srcDir,

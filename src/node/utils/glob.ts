@@ -1,5 +1,5 @@
 import path from 'node:path'
-import { glob } from 'tinyglobby'
+import { glob as _glob } from 'tinyglobby'
 import { normalizePath } from 'vite'
 
 export interface GlobOptions {
@@ -20,13 +20,13 @@ export function normalizeWatchPatterns(
   )
 }
 
-export async function getWatchedFiles(
+export async function glob(
   patterns: string[] | undefined,
   options?: GlobOptions
 ): Promise<string[]> {
   if (!patterns?.length) return []
   return (
-    await glob(patterns, {
+    await _glob(patterns, {
       ignore: ['**/node_modules/**', '**/dist/**', ...(options?.ignore || [])],
       expandDirectories: false,
       ...options
