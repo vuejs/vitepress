@@ -1,10 +1,16 @@
 import fs from 'fs-extra'
 import matter from 'gray-matter'
 import path from 'node:path'
-import { glob, type GlobOptions } from 'tinyglobby'
 import { normalizePath } from 'vite'
 import type { SiteConfig } from './config'
 import { createMarkdownRenderer } from './markdown/markdown'
+import type { LoaderModule } from './plugins/staticDataPlugin'
+import type { Awaitable } from './shared'
+import {
+  getWatchedFiles,
+  normalizeWatchPatterns,
+  type GlobOptions
+} from './utils/glob'
 
 export interface ContentOptions<T = ContentData[]> {
   /**
@@ -48,12 +54,10 @@ export interface ContentOptions<T = ContentData[]> {
    * Transform the data. Note the data will be inlined as JSON in the client
    * bundle if imported from components or markdown files.
    */
-  transform?: (data: ContentData[]) => T | Promise<T>
+  transform?: (data: ContentData[]) => Awaitable<T>
 
   /**
-   * Options to pass to `tinyglobby`.
-   * You'll need to manually specify `node_modules` and `dist` in
-   * `globOptions.ignore` if you've overridden it.
+   * Options to pass to `tinyglobby` and `picomatch` for globbing.
    */
   globOptions?: GlobOptions
 }
@@ -74,18 +78,9 @@ export function createContentLoader<T = ContentData[]>(
   /**
    * files to glob / watch - relative to srcDir
    */
-  pattern: string | string[],
-  {
-    includeSrc,
-    render,
-    excerpt: renderExcerpt,
-    transform,
-    globOptions
-  }: ContentOptions<T> = {}
-): {
-  watch: string | string[]
-  load: () => Promise<T>
-} {
+  watch: string | string[],
+  options: ContentOptions<T> = {}
+): LoaderModule<T> {
   const config: SiteConfig = (global as any).VITEPRESS_CONFIG
   if (!config) {
     throw new Error(
@@ -94,24 +89,17 @@ export function createContentLoader<T = ContentData[]>(
     )
   }
 
-  if (typeof pattern === 'string') pattern = [pattern]
-  pattern = pattern.map((p) => normalizePath(path.join(config.srcDir, p)))
-
   const cache = new Map<string, { data: any; timestamp: number }>()
 
+  watch = normalizeWatchPatterns(watch, config.srcDir)
+
   return {
-    watch: pattern,
+    watch,
+    options: { globOptions: options.globOptions },
+
     async load(files?: string[]) {
-      if (!files) {
-        // the loader is being called directly, do a fresh glob
-        files = (
-          await glob(pattern, {
-            ignore: ['**/node_modules/**', '**/dist/**'],
-            expandDirectories: false,
-            ...globOptions
-          })
-        ).sort()
-      }
+      // the loader is being called directly, do a fresh glob
+      if (!files) files = await getWatchedFiles(watch, options.globOptions)
 
       const md = await createMarkdownRenderer(
         config.srcDir,
@@ -123,43 +111,51 @@ export function createContentLoader<T = ContentData[]>(
       const raw: ContentData[] = []
 
       for (const file of files) {
-        if (!file.endsWith('.md')) {
-          continue
-        }
+        if (!file.endsWith('.md')) continue
+
         const timestamp = fs.statSync(file).mtimeMs
         const cached = cache.get(file)
+
         if (cached && timestamp === cached.timestamp) {
           raw.push(cached.data)
         } else {
+          //
+
           const src = fs.readFileSync(file, 'utf-8')
+
+          const renderExcerpt = options.excerpt
           const { data: frontmatter, excerpt } = matter(
             src,
-            // @ts-expect-error gray-matter types are wrong
             typeof renderExcerpt === 'string'
               ? { excerpt_separator: renderExcerpt }
-              : { excerpt: renderExcerpt }
+              : { excerpt: renderExcerpt as any } // gray-matter types are wrong
           )
+
           const url =
             '/' +
             normalizePath(path.relative(config.srcDir, file))
               .replace(/(^|\/)index\.md$/, '$1')
               .replace(/\.md$/, config.cleanUrls ? '' : '.html')
-          const html = render ? await md.renderAsync(src) : undefined
+
+          const html = options.render ? await md.renderAsync(src) : undefined
           const renderedExcerpt = renderExcerpt
             ? excerpt && (await md.renderAsync(excerpt))
             : undefined
+
           const data: ContentData = {
-            src: includeSrc ? src : undefined,
+            src: options.includeSrc ? src : undefined,
             html,
             frontmatter,
             excerpt: renderedExcerpt,
             url
           }
+
           cache.set(file, { data, timestamp })
           raw.push(data)
         }
       }
-      return (transform ? transform(raw) : raw) as any
+
+      return options.transform?.(raw) ?? (raw as T)
     }
   }
 }
