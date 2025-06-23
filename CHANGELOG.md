@@ -2248,7 +2248,6 @@ This version uses Vue 3.2.0.
 ### BREAKING CHANGES
 
 - Some config options have changed.
-
   - `vueOptions` renamed to `vue`
   - `alias` option has been removed. Use `vite.resovle.alias` instead.
 
@@ -2266,7 +2265,6 @@ This version uses Vue 3.2.0.
 ### BREAKING CHANGES
 
 - The following methods are removed.
-
   - `useSiteData`
   - `useSiteDataByRoute`
   - `usePageData`
