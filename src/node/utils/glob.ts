@@ -27,9 +27,9 @@ export async function glob(
   if (!patterns?.length) return []
   return (
     await _glob(patterns, {
-      ignore: ['**/node_modules/**', '**/dist/**', ...(options?.ignore || [])],
       expandDirectories: false,
-      ...options
+      ...options,
+      ignore: ['**/node_modules/**', '**/dist/**', ...(options?.ignore || [])]
     })
   ).sort()
 }
