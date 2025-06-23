@@ -2,7 +2,6 @@ import _debug from 'debug'
 import fs from 'fs-extra'
 import path from 'node:path'
 import c from 'picocolors'
-import { glob } from 'tinyglobby'
 import {
   createLogger,
   loadConfigFromFile,
@@ -24,6 +23,7 @@ import {
   type SiteData
 } from './shared'
 import type { RawConfigExports, SiteConfig, UserConfig } from './siteConfig'
+import { glob } from './utils/glob'
 
 export { resolvePages } from './plugins/dynamicRoutesPlugin'
 export { resolveSiteDataByRoute } from './shared'
@@ -190,11 +190,9 @@ async function gatherAdditionalConfig(
 ) {
   //
 
-  const candidates = await glob(additionalConfigGlob, {
+  const candidates = await glob([additionalConfigGlob], {
     cwd: path.resolve(root, srcDir),
-    dot: false, // conveniently ignores .vitepress/*
-    ignore: ['**/node_modules/**', ...srcExclude],
-    expandDirectories: false
+    ignore: srcExclude
   })
 
   const deps: string[][] = []
