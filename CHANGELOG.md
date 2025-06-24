@@ -1,3 +1,25 @@
+# [2.0.0-alpha.7](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.6...v2.0.0-alpha.7) (2025-06-24)
+
+### Bug Fixes
+
+- **local-search:** parse headings with non-anchor `a` tags as titles properly ([#4809](https://github.com/vuejs/vitepress/issues/4809)) ([5359903](https://github.com/vuejs/vitepress/commit/53599039a01af6d8e17a6a6e9cea5c222cc5948c))
+- resolve pages after setting global vitepress config ([56ba65e](https://github.com/vuejs/vitepress/commit/56ba65e1301454df88f9a3856fa1a70dc052d314)), closes [#4803](https://github.com/vuejs/vitepress/issues/4803)
+
+### Features
+
+- **router:** add `replace` option to `useRouter` for history management ([#4788](https://github.com/vuejs/vitepress/issues/4788)) ([23541b4](https://github.com/vuejs/vitepress/commit/23541b4f83726cdac09ffcaf9141bba871cda690)), closes [#4787](https://github.com/vuejs/vitepress/issues/4787)
+- consistent glob options across content, data, and path loaders ([#4808](https://github.com/vuejs/vitepress/issues/4808)) ([7619521](https://github.com/vuejs/vitepress/commit/76195212596cd54095240246b7e78075ac3cbc27)), closes [#4807](https://github.com/vuejs/vitepress/issues/4807)
+- bump to vite 7 ([2ecd607](https://github.com/vuejs/vitepress/commit/2ecd607af15222eeddf0b888a72d0f913f5a3cd2))
+
+### Performance Improvements
+
+- render pages in contentLoader asynchronously ([36148a0](https://github.com/vuejs/vitepress/commit/36148a0bcf3a73d1fe3f0c5f33337b679f700053))
+
+### BREAKING CHANGES
+
+- Only `cwd`, `ignore`, `dot` and `debug` are supported in `globOptions` of `createContentLoader`. If you want to pass other options, you still can but you might need to suppress type errors.
+- Uses vite 7. See [vite migration guide](https://vite.dev/guide/migration.html) for more info. For most of the users no change is required. VitePress should work same as earlier, except for maybe some type mismatches if you're using third-party plugins. You can suppress them using `@ts-expect-error` or `as any` and report the issues at respective repositories.
+
 # [2.0.0-alpha.6](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.5...v2.0.0-alpha.6) (2025-06-12)
 
 ### Bug Fixes
