@@ -1,6 +1,7 @@
 import fs from 'fs-extra'
 import matter from 'gray-matter'
 import path from 'node:path'
+import pMap from 'p-map'
 import { normalizePath } from 'vite'
 import type { SiteConfig } from './config'
 import { createMarkdownRenderer } from './markdown/markdown'
@@ -103,18 +104,15 @@ export function createContentLoader<T = ContentData[]>(
         config.logger
       )
 
-      const raw: ContentData[] = []
+      const raw = await pMap(
+        files,
+        async (file) => {
+          if (!file.endsWith('.md')) return null
 
-      for (const file of files) {
-        if (!file.endsWith('.md')) continue
+          const timestamp = fs.statSync(file).mtimeMs
+          const cached = cache.get(file)
 
-        const timestamp = fs.statSync(file).mtimeMs
-        const cached = cache.get(file)
-
-        if (cached && timestamp === cached.timestamp) {
-          raw.push(cached.data)
-        } else {
-          //
+          if (cached && timestamp === cached.timestamp) return cached.data
 
           const src = fs.readFileSync(file, 'utf-8')
 
@@ -146,11 +144,13 @@ export function createContentLoader<T = ContentData[]>(
           }
 
           cache.set(file, { data, timestamp })
-          raw.push(data)
-        }
-      }
+          return data
+        },
+        { concurrency: config.buildConcurrency }
+      )
 
-      return options.transform?.(raw) ?? (raw as T)
+      const filtered = raw.filter((i) => i !== null)
+      return options.transform?.(filtered) ?? (filtered as T)
     }
   }
 }
