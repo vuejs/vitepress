@@ -1,3 +1,4 @@
+import * as cheerio from 'cheerio'
 import {
   defineConfig,
   resolveSiteDataByRoute,
@@ -9,8 +10,15 @@ import {
   localIconLoader
 } from 'vitepress-plugin-group-icons'
 import llmstxt from 'vitepress-plugin-llms'
+import fs from 'node:fs'
+import path from 'node:path'
 
 const prod = !!process.env.NETLIFY
+
+const headers: [string, string][] = [
+  ['/assets/*', 'Cache-Control: max-age=31536000, immutable'],
+  ['/_translations/*', 'X-Robots-Tag: noindex']
+]
 
 export default defineConfig({
   title: 'VitePress',
@@ -166,5 +174,71 @@ export default defineConfig({
           ['meta', { property: 'og:title', content: title }]
         )
       }
+    : undefined,
+
+  transformHtml: prod
+    ? (code, id, ctx) => {
+        if (id.endsWith('/404.html')) return
+
+        // TODO: provide this as manifest
+
+        const $ = cheerio.load(code)
+        const { links } = $.extract({
+          links: [
+            {
+              selector: 'link:is([rel*=preload],[rel*=preconnect])',
+              value: (el) => el.attribs
+            }
+          ]
+        })
+        const toPreload: HeadConfig[] = links.map((link) => ['link', link])
+
+        id = id
+          .slice(ctx.siteConfig.outDir.length)
+          .replace(/(^|\/)index(?:\.html)?$/, '$1')
+        if (ctx.siteConfig.cleanUrls) {
+          id = id.replace(/\.html$/, '')
+        }
+
+        headers.push([
+          id,
+          'Link: ' + toPreload.map((link) => toLinkHeader(link)).join(', ')
+        ])
+      }
+    : undefined,
+
+  buildEnd: prod
+    ? (siteConfig) => {
+        const _headers =
+          headers
+            .sort(
+              (a, b) =>
+                b[0].length - a[0].length ||
+                a[0].localeCompare(b[0]) ||
+                a[1].localeCompare(b[1])
+            )
+            .map(([id, header]) => `${id}\n\t${header}`)
+            .join('\n\n') + '\n'
+
+        fs.writeFileSync(
+          path.join(siteConfig.outDir, '_headers'),
+          _headers,
+          'utf-8'
+        )
+      }
     : undefined
 })
+
+function toLinkHeader([_, { href, ...attributes }]: HeadConfig): string {
+  const attributeParts = [`<${encodeURI(href)}>`]
+
+  for (const [key, value] of Object.entries(attributes)) {
+    if (value === '') {
+      attributeParts.push(key)
+    } else {
+      attributeParts.push(`${key}="${value}"`)
+    }
+  }
+
+  return attributeParts.join('; ')
+}

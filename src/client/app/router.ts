@@ -1,7 +1,7 @@
 import type { Component, InjectionKey } from 'vue'
 import { inject, markRaw, nextTick, reactive, readonly } from 'vue'
 import type { Awaitable, PageData, PageDataPayload } from '../shared'
-import { notFoundPageData, treatAsHtml } from '../shared'
+import { notFoundPageData, treatAsHtml, normalize } from '../shared'
 import { siteDataRef } from './data'
 import { getScrollOffset, inBrowser, withBase } from './utils'
 
@@ -303,16 +303,16 @@ function handleHMR(route: Route): void {
 }
 
 function shouldHotReload(payload: PageDataPayload): boolean {
-  const payloadPath = payload.path.replace(/(?:(^|\/)index)?\.md$/, '$1')
-  const locationPath = location.pathname
-    .replace(/(?:(^|\/)index)?\.html$/, '')
-    .slice(siteDataRef.value.base.length - 1)
+  const payloadPath = normalize(payload.path)
+  const locationPath = normalize(location.pathname).slice(
+    siteDataRef.value.base.length - 1
+  )
   return payloadPath === locationPath
 }
 
 function normalizeHref(href: string): string {
   const url = new URL(href, fakeHost)
-  url.pathname = url.pathname.replace(/(^|\/)index(\.html)?$/, '$1')
+  url.pathname = url.pathname.replace(/(^|\/)index(?:\.html)?$/, '$1')
   // ensure correct deep link so page refresh lands on correct files.
   if (siteDataRef.value.cleanUrls) {
     url.pathname = url.pathname.replace(/\.html$/, '')
