@@ -109,7 +109,7 @@ export async function build(
         clientResult.output.some(
           (chunk) =>
             chunk.type === 'chunk' &&
-            chunk.name === 'theme' &&
+            (vite.rolldownVersion || chunk.name === 'theme') && // FIXME: remove when rolldown-vite supports manualChunks
             chunk.moduleIds.some((id) => id.includes('client/theme-default'))
         )
 
@@ -117,7 +117,7 @@ export async function build(
 
       if (isDefaultTheme) {
         const fontURL = assets.find((file) =>
-          /inter-roman-latin\.\w+\.woff2/.test(file)
+          /inter-roman-latin\.[\w-]+\.woff2/.test(file)
         )
         if (fontURL) {
           additionalHeadTags.push([
