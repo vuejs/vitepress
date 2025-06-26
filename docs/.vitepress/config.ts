@@ -218,23 +218,29 @@ export default defineConfig({
       id,
       'Link: ' + toPreload.map((link) => toLinkHeader(link)).join(', ')
     ])
+
+    return code.replace(/(<\w+)/g, '$1\n') // FIXME: hacky line splitting
   },
 
   buildEnd: (siteConfig) => {
-    const _headers =
-      headers
-        .sort(
-          (a, b) =>
-            b[0].length - a[0].length ||
-            a[0].localeCompare(b[0]) ||
-            a[1].localeCompare(b[1])
-        )
-        .map(([id, header]) => `${id}\n\t${header}`)
-        .join('\n\n') + '\n'
+    headers.sort(
+      (a, b) =>
+        b[0].length - a[0].length ||
+        a[0].localeCompare(b[0]) ||
+        a[1].localeCompare(b[1])
+    )
+
+    fs.mkdirSync(path.join(siteConfig.outDir, '.vite'), { recursive: true })
+
+    fs.writeFileSync(
+      path.join(siteConfig.outDir, '.vite/headers.json'),
+      JSON.stringify(headers, null, 2),
+      'utf-8'
+    )
 
     fs.writeFileSync(
       path.join(siteConfig.outDir, '_headers'),
-      _headers,
+      headers.map(([id, header]) => `${id}\n\t${header}`).join('\n\n') + '\n',
       'utf-8'
     )
   }
