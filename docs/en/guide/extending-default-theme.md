@@ -319,7 +319,7 @@ export default defineConfig({
         {
           find: /^.*\/VPNavBar\.vue$/,
           replacement: fileURLToPath(
-            new URL('./components/CustomNavBar.vue', import.meta.url)
+            new URL('./theme/components/CustomNavBar.vue', import.meta.url)
           )
         }
       ]
