@@ -105,7 +105,7 @@ Cache-Control: max-age=31536000,immutable
 
 ## 플랫폼 가이드 {#platform-guides}
 
-### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render
+### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render / EdgeOne
 
 새 프로젝트를 설정하고 대시보드를 사용하여 다음 설정을 변경하세요:
 
@@ -336,3 +336,9 @@ try_files는 다른 Vue 애플리케이션처럼 index.html을 기본값으로 �
 :::
 
 추가 정보는 [공식 nginx 문서](https://nginx.org/en/docs/), 이슈 [#2837](https://github.com/vuejs/vitepress/discussions/2837), [#3235](https://github.com/vuejs/vitepress/issues/3235) 및 Mehdi Merah의 [블로그 포스트](https://blog.mehdi.cc/articles/vitepress-cleanurls-on-nginx-environment#readings)에서 확인할 수 있습니다.
+
+### EdgeOne
+
+EdgeOne Pages는 이제 VitePress [배포 템플릿](https://edgeone.ai/pages/templates/vitepress-template)을 제공하여 VitePress 프로젝트를 원클릭으로 배포할 수 있습니다.
+
+더 유연한 배포 옵션을 원하시면 [문서](https://edgeone.ai/document/173005620251889664?product=edgedeveloperplatform)를 참조하시고, `edgeone.json` 파일을 편집하여 구성하십시오.

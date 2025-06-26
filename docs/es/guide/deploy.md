@@ -105,7 +105,7 @@ Nota: el archivo `vercel.json` debe ser colocado en la raiz de su **repositório
 
 ## Guias de Plataforma {#platform-guides}
 
-### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render
+### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render / EdgeOne
 
 Configure un nuevo proyecto y altere estas configuraciones usando su panel:
 
@@ -290,3 +290,9 @@ Consulte [Crear e Implantar una Aplicación VitePress en Edgio](https://docs.edg
 ### Kinsta Static Site Hosting {#kinsta-static-site-hosting}
 
 Puede implantar su sitio VitePress em [Kinsta](https://kinsta.com/static-site-hosting/) siguiendo estas [instrucciones](https://kinsta.com/docs/vitepress-static-site-example/).
+
+### EdgeOne
+
+EdgeOne Pages ya ofrece una [plantilla de despliegue](https://edgeone.ai/pages/templates/vitepress-template) de VitePress, permitiendo el despliegue con un solo clic de sus proyectos VitePress.
+
+Para opciones de despliegue más flexibles, consulte la [documentación](https://edgeone.ai/document/173005620251889664?product=edgedeveloperplatform) y configúrelas editando el archivo `edgeone.json`.
