@@ -1,11 +1,13 @@
 <script lang="ts" setup>
-import { useScrollLock } from '@vueuse/core'
+import { useEventListener, useScrollLock } from '@vueuse/core'
 import { inBrowser } from 'vitepress'
 import { ref, watch } from 'vue'
 import { useLayout } from '../composables/layout'
 import VPSidebarGroup from './VPSidebarGroup.vue'
+import { useSidebarControl } from '../composables/sidebar'
 
-const { sidebarGroups, hasSidebar } = useLayout()
+const { isHome,sidebarGroups } = useLayout()
+const { isCollapsed } = useSidebarControl()
 
 const props = defineProps<{
   open: boolean
@@ -28,6 +30,7 @@ watch(
 
 const key = ref(0)
 
+
 watch(
   sidebarGroups,
   () => {
@@ -35,15 +38,25 @@ watch(
   },
   { deep: true }
 )
+
+useEventListener(document,'mousemove',(e)=>{
+  if(isHome.value) return
+  if(e.clientX<5){
+    navEl.value?.classList.add('expanded')
+  }else if(e.target instanceof Node &&!navEl.value?.contains(e.target)&&e.pageX>272){
+    navEl.value?.classList.remove('expanded')
+  }
+})
+
 </script>
 
 <template>
-  <aside
-    v-if="hasSidebar"
+    <aside
     class="VPSidebar"
-    :class="{ open }"
+    :class="{ open ,collapsed:isCollapsed}"
     ref="navEl"
     @click.stop
+    v-if="!isHome"
   >
     <div class="curtain" />
 
@@ -84,12 +97,26 @@ watch(
   overscroll-behavior: contain;
 }
 
+.collapsed{
+  transform: translateX(-100%);
+  opacity: 0 !important;
+  transition: opacity 0.25s, transform 0.25s ease;
+  overscroll-behavior: contain;
+}
+.expanded{
+  transform: translateX(0);
+  opacity: 1 !important;
+  transition: opacity 0.25s, transform 0.25s ease;
+  overscroll-behavior: contain;
+  width: calc(100vw - 64px);
+  max-width: 320px;
+  z-index: var(--vp-z-index-sidebar) !important;
+}
+
 .VPSidebar.open {
   opacity: 1;
   visibility: visible;
   transform: translateX(0);
-  transition: opacity 0.25s,
-    transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .dark .VPSidebar {
