@@ -80,7 +80,7 @@ interface HeroAction {
 
 ### Customizing the name color
 
-VitePress uses the brand color (`--vp-c-brand-1`) for the `name`. However, you may customize this color by overriding `--vp-home-hero-name-color` variable.
+VitePress uses the brand color (`--vp-c-brand-1`) for the `name`. However, you may customize this color by overriding the `--vp-home-hero-name-color` variable.
 
 ```css
 :root {
@@ -88,7 +88,7 @@ VitePress uses the brand color (`--vp-c-brand-1`) for the `name`. However, you m
 }
 ```
 
-Also you may customize it further by combining `--vp-home-hero-name-background` to give the `name` gradient color.
+You may also customize it further by combining it with `--vp-home-hero-name-background` to give the `name` a gradient color.
 
 ```css
 :root {
@@ -99,9 +99,9 @@ Also you may customize it further by combining `--vp-home-hero-name-background` 
 
 ## Features Section
 
-In Features section, you can list any number of features you would like to show right after the Hero section. To configure it, pass `features` option to the frontmatter.
+In the Features section, you can list any number of features you would like to show right after the Hero section. To configure it, pass `features` option to the frontmatter.
 
-You can provide an icon for each feature, which can be an emoji or any type of image. When the configured icon is an image (svg, png, jpeg...), you must provide the icon with the proper width and height; you can also provide the description, its intrinsic size as well as its variants for dark and light theme when required.
+You can provide an icon for each feature, which can be an emoji or any type of image. When the configured icon is an image (svg, png, jpeg...), you must provide the icon with the proper width and height; you can also provide the description, its intrinsic size, as well as its variants for dark and light theme when required.
 
 ```yaml
 ---

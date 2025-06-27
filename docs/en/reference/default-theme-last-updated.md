@@ -1,6 +1,6 @@
 # Last Updated
 
-The update time of the last content will be displayed in the lower right corner of the page. To enable it, add `lastUpdated` options to your config.
+The last updated time of the content will be displayed in the lower right corner of the page. To enable it, add the `lastUpdated` option to your config.
 
 ::: info
 VitePress displays the "last updated" time using the timestamp of the most recent Git commit for each file. To enable this, the Markdown file must be committed to Git.
@@ -43,4 +43,4 @@ lastUpdated: false
 ---
 ```
 
-Also refer [Default Theme: Last Updated](./default-theme-config#lastupdated) for more details. Any truthy value at theme-level will also enable the feature unless explicitly disabled at site or page level.
+Also refer to [Default Theme: Last Updated](./default-theme-config#lastupdated) for more details. Any truthy value at theme-level will also enable the feature unless explicitly disabled at site or page level.
