@@ -109,6 +109,7 @@ export async function build(
         clientResult.output.some(
           (chunk) =>
             chunk.type === 'chunk' &&
+            // @ts-ignore only exists for rolldown-vite
             (vite.rolldownVersion || chunk.name === 'theme') && // FIXME: remove when rolldown-vite supports manualChunks
             chunk.moduleIds.some((id) => id.includes('client/theme-default'))
         )
