@@ -112,7 +112,8 @@ function addBase(items: SidebarItem[], _base?: string): SidebarItem[] {
   return [...items].map((_item) => {
     const item = { ..._item }
     const base = item.base || _base
-    if (base && item.link) item.link = base + item.link
+    if (base && item.link)
+      item.link = base + item.link.replace(/^\//, base.endsWith('/') ? '' : '/')
     if (item.items) item.items = addBase(item.items, base)
     return item
   })
