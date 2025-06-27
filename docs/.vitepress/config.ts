@@ -203,9 +203,16 @@ export default defineConfig({
         }
       ]
     })
-    const toPreload: HeadConfig[] = [...m.links, ...m.scripts].map((link) => {
-      return ['link', link]
-    })
+    const toPreload: HeadConfig[] = [
+      ...m.links,
+      ...m.scripts,
+      { rel: 'preload', as: 'image', href: '/vitepress-logo-mini.svg' },
+      ctx.pageData.frontmatter.layout === 'home'
+        ? { rel: 'preload', as: 'image', href: '/vitepress-logo-large.svg' }
+        : undefined
+    ]
+      .filter((x) => x !== undefined)
+      .map((link) => ['link', link])
 
     id = id
       .slice(ctx.siteConfig.outDir.length)
