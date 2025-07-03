@@ -16,7 +16,9 @@ export function normalizeGlob(
   if (!patterns) return []
   if (typeof patterns === 'string') patterns = [patterns]
   return patterns.map((p) =>
-    p.startsWith('.') ? normalizePath(path.resolve(base, p)) : normalizePath(p)
+    p[0] === '!'
+      ? '!' + normalizePath(path.resolve(base, p.slice(1)))
+      : normalizePath(path.resolve(base, p))
   )
 }
 
