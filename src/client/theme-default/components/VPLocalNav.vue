@@ -30,6 +30,7 @@ onMounted(() => {
 const classes = computed(() => {
   return {
     VPLocalNav: true,
+    'hidden-print': theme.value.removeExtraElementsInPrint,
     'has-sidebar': hasSidebar.value,
     empty: !hasLocalNav.value,
     fixed: !hasLocalNav.value && !hasSidebar.value,
