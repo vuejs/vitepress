@@ -2,7 +2,6 @@ import {
   postcssIsolateStyles,
   splitSelectorPseudo
 } from 'node/postcss/isolateStyles'
-import { describe, it, expect } from 'vitest'
 
 // helper to run plugin transform on selector
 function apply(
@@ -14,7 +13,7 @@ function apply(
     root: { source: { input: { file: 'foo/base.css' } } }
   })
   const rule = { selectors: [selector] }
-  Rule(rule as any, { result: {} } as any)
+  Rule(rule, { result: {} })
   return rule.selectors[0]
 }
 
