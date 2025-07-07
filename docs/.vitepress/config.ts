@@ -1,3 +1,6 @@
+import * as cheerio from 'cheerio'
+import fs from 'node:fs'
+import path from 'node:path'
 import {
   defineConfig,
   resolveSiteDataByRoute,
@@ -11,6 +14,11 @@ import {
 import llmstxt from 'vitepress-plugin-llms'
 
 const prod = !!process.env.NETLIFY
+
+const headers: [string, string][] = [
+  ['/assets/*', 'Cache-Control: max-age=31536000, immutable'],
+  ['/_translations/*', 'X-Robots-Tag: noindex']
+]
 
 export default defineConfig({
   title: 'VitePress',
@@ -117,9 +125,9 @@ export default defineConfig({
         apiKey: '52f578a92b88ad6abde815aae2b0ad7c',
         indexName: 'vitepress'
       }
-    },
+    }
 
-    carbonAds: { code: 'CEBDT27Y', placement: 'vuejsorg' }
+    // carbonAds: { code: 'CEBDT27Y', placement: 'vuejsorg' } // TODO: temporarily disabled
   },
 
   locales: {
@@ -166,5 +174,95 @@ export default defineConfig({
           ['meta', { property: 'og:title', content: title }]
         )
       }
-    : undefined
+    : undefined,
+
+  // TODO: add only on prod
+  transformHtml: (code, id, ctx) => {
+    if (id.endsWith('/404.html')) return
+
+    // TODO: provide this as manifest
+
+    const $ = cheerio.load(code)
+    const m = $.extract({
+      links: [
+        {
+          selector: 'link:is([rel*=preload],[rel*=preconnect])',
+          value: (el) => el.attribs
+        }
+      ],
+      scripts: [
+        {
+          selector: 'script[type=module]',
+          value: (el) => {
+            const src = el.attribs.src
+            if (src && !src.startsWith('http')) {
+              return { href: src, rel: 'modulepreload' }
+            }
+            return null
+          }
+        }
+      ]
+    })
+    const toPreload: HeadConfig[] = [
+      ...m.links,
+      ...m.scripts,
+      { rel: 'preload', as: 'image', href: '/vitepress-logo-mini.svg' },
+      ctx.pageData.frontmatter.layout === 'home'
+        ? { rel: 'preload', as: 'image', href: '/vitepress-logo-large.svg' }
+        : undefined
+    ]
+      .filter((x) => x !== undefined)
+      .map((link) => ['link', link])
+
+    id = id
+      .slice(ctx.siteConfig.outDir.length)
+      .replace(/(^|\/)index(?:\.html)?$/, '$1')
+    if (ctx.siteConfig.cleanUrls) {
+      id = id.replace(/\.html$/, '')
+    }
+
+    headers.push([
+      id,
+      'Link: ' + toPreload.map((link) => toLinkHeader(link)).join(', ')
+    ])
+
+    return code.replace(/(<\w+)/g, '$1\n') // FIXME: hacky line splitting
+  },
+
+  buildEnd: (siteConfig) => {
+    headers.sort(
+      (a, b) =>
+        b[0].length - a[0].length ||
+        a[0].localeCompare(b[0]) ||
+        a[1].localeCompare(b[1])
+    )
+
+    fs.mkdirSync(path.join(siteConfig.outDir, '.vite'), { recursive: true })
+
+    fs.writeFileSync(
+      path.join(siteConfig.outDir, '.vite/headers.json'),
+      JSON.stringify(headers, null, 2),
+      'utf-8'
+    )
+
+    fs.writeFileSync(
+      path.join(siteConfig.outDir, '_headers'),
+      headers.map(([id, header]) => `${id}\n\t${header}`).join('\n\n') + '\n',
+      'utf-8'
+    )
+  }
 })
+
+function toLinkHeader([_, { href, ...attributes }]: HeadConfig): string {
+  const attributeParts = [`<${encodeURI(href)}>`]
+
+  for (const [key, value] of Object.entries(attributes)) {
+    if (value === '') {
+      attributeParts.push(key)
+    } else {
+      attributeParts.push(`${key}="${value}"`)
+    }
+  }
+
+  return attributeParts.join('; ')
+}

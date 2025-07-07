@@ -6,18 +6,6 @@
   publish = "docs/.vitepress/dist"
   command = "pnpm docs:build && pnpm docs:lunaria:build"
 
-[[headers]]
-  for = "/assets/*"
-  [headers.values]
-    cache-control = '''
-    max-age=31536000,
-    immutable'''
-
-[[headers]]
-  for = "/_translations/*"
-  [headers.values]
-    x-robots-tag = "noindex"
-
 [[redirects]]
   from = "https://vitepress.vuejs.org/*"
   to = "https://vitepress.dev/:splat"
