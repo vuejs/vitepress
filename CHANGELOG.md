@@ -1,4 +1,4 @@
-# [2.0.0-alpha.8](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.7...v2.0.0-alpha.8) (2025-07-08)
+## [2.0.0-alpha.8](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.7...v2.0.0-alpha.8) (2025-07-08)
 
 ### Bug Fixes
 
@@ -7,7 +7,7 @@
 - font preload not being generated in rolldown-vite ([ed387e8](https://github.com/vuejs/vitepress/commit/ed387e89d42a08c15a9f45c9c5e11c6750245490))
 - **theme:** remove extra slash when concatenating base with sidebar links ([c8fc80e](https://github.com/vuejs/vitepress/commit/c8fc80e438fffd98feaf7c72263bc3077792c4a2))
 
-# [2.0.0-alpha.7](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.6...v2.0.0-alpha.7) (2025-06-24)
+## [2.0.0-alpha.7](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.6...v2.0.0-alpha.7) (2025-06-24)
 
 ### Bug Fixes
 
@@ -29,7 +29,7 @@
 - Only `cwd`, `ignore`, `dot` and `debug` are supported in `globOptions` of `createContentLoader`. If you want to pass other options, you still can but you might need to suppress type errors.
 - Uses vite 7. See [vite migration guide](https://vite.dev/guide/migration.html) for more info. For most of the users no change is required. VitePress should work same as earlier, except for maybe some type mismatches if you're using third-party plugins. You can suppress them using `@ts-expect-error` or `as any` and report the issues at respective repositories.
 
-# [2.0.0-alpha.6](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.5...v2.0.0-alpha.6) (2025-06-12)
+## [2.0.0-alpha.6](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.5...v2.0.0-alpha.6) (2025-06-12)
 
 ### Bug Fixes
 
