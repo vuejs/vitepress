@@ -1,7 +1,9 @@
-name: CR
+name: 🔄 CR
 
 env:
   PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+
+permissions: {}
 
 on:
   pull_request:
@@ -26,8 +28,6 @@ on:
     tags-ignore:
       - '*'
 
-permissions: {}
-
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number }}
   cancel-in-progress: true
@@ -38,12 +38,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v3
-      - uses: actions/setup-node@v4
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: 📦 Setup pnpm
+        uses: pnpm/action-setup@v3
+
+      - name: 🛠️ Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: pnpm
-      - run: pnpm install
-      - run: pnpm build
-      - run: npx pkg-pr-new publish --compact --no-template --pnpm
+
+      - name: 📦 Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: 🛠️ Build
+        run: pnpm build
+
+      - name: 🚀 Publish Package
+        run: npx pkg-pr-new publish --compact --no-template --pnpm
