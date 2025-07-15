@@ -175,7 +175,7 @@ export interface AskAiScreenTranslations {
   aggregatedToolCallText?: string
 }
 
-export type DocSearchAskAi = {
+export interface DocSearchAskAi {
   /**
    * The index name to use for the ask AI feature. Your assistant will search this index for relevant documents.
    * If not provided, the index name will be used.
