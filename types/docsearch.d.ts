@@ -8,6 +8,8 @@ export interface DocSearchProps {
   initialQuery?: string
   insights?: boolean
   translations?: DocSearchTranslations
+  askAi?: DocSearchAskAi | string
+  theme?: 'dark' | 'light'
 }
 
 export interface SearchOptions {
@@ -101,25 +103,33 @@ export interface ModalTranslations extends ScreenStateTranslations {
 export interface ScreenStateTranslations {
   errorScreen?: ErrorScreenTranslations
   startScreen?: StartScreenTranslations
+  resultsScreen?: ResultsScreenTranslations
   noResultsScreen?: NoResultsScreenTranslations
+  askAiScreen?: AskAiScreenTranslations
 }
 
 export interface SearchBoxTranslations {
-  resetButtonTitle?: string
-  resetButtonAriaLabel?: string
-  cancelButtonText?: string
-  cancelButtonAriaLabel?: string
+  clearButtonTitle?: string
+  clearButtonAriaLabel?: string
+  closeButtonText?: string
+  closeButtonAriaLabel?: string
+  placeholderText?: string
+  placeholderTextAskAi?: string
+  placeholderTextAskAiStreaming?: string
+  backToKeywordSearchButtonText?: string
+  backToKeywordSearchButtonAriaLabel?: string
 }
 
 export interface FooterTranslations {
   selectText?: string
+  submitQuestionText?: string
   selectKeyAriaLabel?: string
   navigateText?: string
   navigateUpKeyAriaLabel?: string
   navigateDownKeyAriaLabel?: string
   closeText?: string
   closeKeyAriaLabel?: string
-  searchByText?: string
+  poweredByText?: string
 }
 
 export interface ErrorScreenTranslations {
@@ -134,6 +144,12 @@ export interface StartScreenTranslations {
   removeRecentSearchButtonTitle?: string
   favoriteSearchesTitle?: string
   removeFavoriteSearchButtonTitle?: string
+  recentConversationsTitle?: string
+  removeRecentConversationButtonTitle?: string
+}
+
+export interface ResultsScreenTranslations {
+  askAiPlaceholder?: string
 }
 
 export interface NoResultsScreenTranslations {
@@ -141,4 +157,42 @@ export interface NoResultsScreenTranslations {
   suggestedQueryText?: string
   reportMissingResultsText?: string
   reportMissingResultsLinkText?: string
+}
+
+export interface AskAiScreenTranslations {
+  disclaimerText?: string
+  relatedSourcesText?: string
+  thinkingText?: string
+  copyButtonText?: string
+  copyButtonCopiedText?: string
+  copyButtonTitle?: string
+  likeButtonTitle?: string
+  dislikeButtonTitle?: string
+  thanksForFeedbackText?: string
+  preToolCallText?: string
+  duringToolCallText?: string
+  afterToolCallText?: string
+  aggregatedToolCallText?: string
+}
+
+export type DocSearchAskAi = {
+  /**
+   * The index name to use for the ask AI feature. Your assistant will search this index for relevant documents.
+   * If not provided, the index name will be used.
+   */
+  indexName?: string
+  /**
+   * The API key to use for the ask AI feature. Your assistant will use this API key to search the index.
+   * If not provided, the API key will be used.
+   */
+  apiKey?: string
+  /**
+   * The app ID to use for the ask AI feature. Your assistant will use this app ID to search the index.
+   * If not provided, the app ID will be used.
+   */
+  appId?: string
+  /**
+   * The assistant ID to use for the ask AI feature.
+   */
+  assistantId: string | null
 }

@@ -95,8 +95,8 @@
     "*": "prettier --experimental-cli --ignore-unknown --write"
   },
   "dependencies": {
-    "@docsearch/css": "^3.9.0",
-    "@docsearch/js": "^3.9.0",
+    "@docsearch/css": "beta",
+    "@docsearch/js": "beta",
     "@iconify-json/simple-icons": "^1.2.42",
     "@shikijs/core": "^3.7.0",
     "@shikijs/transformers": "^3.7.0",
