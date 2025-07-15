@@ -21,10 +21,10 @@ importers:
   .:
     dependencies:
       '@docsearch/css':
-        specifier: beta
+        specifier: ^4.0.0-beta
         version: 4.0.0-beta.1
       '@docsearch/js':
-        specifier: beta
+        specifier: ^4.0.0-beta
         version: 4.0.0-beta.1(@algolia/client-search@5.31.0)(zod@3.25.75)
       '@iconify-json/simple-icons':
         specifier: ^1.2.42
