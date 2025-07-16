@@ -21,6 +21,19 @@ You can access frontmatter data via the `$frontmatter` global in Vue expressions
 {{ $frontmatter.title }}
 ```
 
+However, avoid using a Vue expression in this manner inside Markdown headings:
+
+```md
+---
+title: Docs with VitePress
+editLink: true
+---
+
+# {{ $frontmatter.title }}
+```
+
+The heading's anchor and accessibility attributes, as well as search index contents, are produced **before** Vue evaluates the expression, which will result in the string `frontmatter-title` being used in those places instead of the actual title.
+
 ## title
 
 - Type: `string`
