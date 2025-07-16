@@ -67,6 +67,13 @@ const translate = createSearchTranslate(defaultTranslations)
   transition: border-color 0.25s;
 }
 
+.DocSearch-Close {
+  background: var(--docsearch-modal-background);
+  border-radius: 5px !important;
+  border: 0.5px solid var(--vp-c-brand-soft);
+  color: var(--vp-c-brand);
+}
+
 .DocSearch-Button:hover {
   background: transparent;
 }
