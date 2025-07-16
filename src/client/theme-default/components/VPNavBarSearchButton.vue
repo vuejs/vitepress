@@ -30,15 +30,19 @@ const translate = createSearchTranslate(defaultTranslations)
 [class*='DocSearch'] {
   --docsearch-primary-color: var(--vp-c-brand-1);
   --docsearch-highlight-color: var(--docsearch-primary-color);
+  --docsearch-hit-highlight-color: var(--vp-c-brand-soft);
   --docsearch-text-color: var(--vp-c-text-1);
+  --docsearch-secondary-text-color: var(--vp-c-text-2);
   --docsearch-muted-color: var(--vp-c-text-2);
   --docsearch-searchbox-shadow: none;
   --docsearch-searchbox-background: transparent;
+  --docsearch-background-color: var(--vp-c-bg-soft);
   --docsearch-searchbox-focus-background: transparent;
   --docsearch-key-gradient: transparent;
   --docsearch-key-shadow: none;
   --docsearch-modal-background: var(--vp-c-bg-soft);
   --docsearch-footer-background: var(--vp-c-bg);
+  --docsearch-key-background: var(--vp-c-bg-soft);
 }
 
 .dark [class*='DocSearch'] {
@@ -47,6 +51,7 @@ const translate = createSearchTranslate(defaultTranslations)
   --docsearch-logo-color: var(--vp-c-text-2);
   --docsearch-hit-background: var(--vp-c-default-soft);
   --docsearch-hit-color: var(--vp-c-text-2);
+  --docsearch-key-background: var(--vp-c-bg-soft);
   --docsearch-hit-shadow: none;
 }
 
@@ -166,7 +171,7 @@ const translate = createSearchTranslate(defaultTranslations)
   /*rtl:begin:ignore*/
   border-right: none;
   border-radius: 4px 0 0 4px;
-  padding-left: 6px;
+  padding-left: 4px;
   /*rtl:end:ignore*/
   min-width: 0;
   width: auto;
@@ -183,8 +188,9 @@ const translate = createSearchTranslate(defaultTranslations)
   border-right: 1px solid var(--vp-c-divider);
   border-left: none;
   border-radius: 0 4px 4px 0;
-  padding-left: 2px;
-  padding-right: 6px;
+  padding-left: 4px;
+  padding-right: 4px;
+  color: var(--docsearch-muted-color);
   /*rtl:end:ignore*/
 }
 
@@ -195,8 +201,16 @@ const translate = createSearchTranslate(defaultTranslations)
 .DocSearch-Button .DocSearch-Button-Key:first-child:after {
   content: 'Ctrl';
   font-size: 12px;
+  padding-right: 4px;
   letter-spacing: normal;
   color: var(--docsearch-muted-color);
+}
+
+.DocSearch-Commands-Key {
+  color: var(--vp-c-text-2);
+  padding: 4px;
+  border-radius: 4px;
+  border: 1px solid var(--vp-c-divider);
 }
 
 .mac .DocSearch-Button .DocSearch-Button-Key:first-child:after {

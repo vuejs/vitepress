@@ -179,8 +179,13 @@ const provider = __ALGOLIA__ ? 'algolia' : __VP_LOCAL_SEARCH__ ? 'local' : ''
   border-top: 1px solid var(--vp-c-divider);
 }
 
+.DocSearch-Divider {
+  border-left: 1px solid var(--vp-c-divider);
+}
+
 .DocSearch-Form {
   background-color: var(--vp-c-white);
+  border-bottom: 1px solid var(--vp-c-divider);
 }
 
 .dark .DocSearch-Form {
