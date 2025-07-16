@@ -228,10 +228,16 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
       },
       modal: {
         searchBox: {
-          resetButtonTitle: '검색 지우기',
-          resetButtonAriaLabel: '검색 지우기',
-          cancelButtonText: '취소',
-          cancelButtonAriaLabel: '취소'
+          clearButtonTitle: '검색 지우기',
+          clearButtonAriaLabel: '검색 지우기',
+          closeButtonText: '닫기',
+          closeButtonAriaLabel: '닫기',
+          placeholderText: '문서 검색',
+          placeholderTextAskAi: 'AI에게 물어보기: ',
+          placeholderTextAskAiStreaming: '답변 작성 중...',
+          searchInputLabel: '검색',
+          backToKeywordSearchButtonText: '키워드 검색으로 돌아가기',
+          backToKeywordSearchButtonAriaLabel: '키워드 검색으로 돌아가기'
         },
         startScreen: {
           recentSearchesTitle: '검색 기록',
@@ -239,23 +245,50 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
           saveRecentSearchButtonTitle: '검색 기록에 저장',
           removeRecentSearchButtonTitle: '검색 기록에서 삭제',
           favoriteSearchesTitle: '즐겨찾기',
-          removeFavoriteSearchButtonTitle: '즐겨찾기에서 삭제'
+          removeFavoriteSearchButtonTitle: '즐겨찾기에서 삭제',
+          recentConversationsTitle: '최근 대화',
+          removeRecentConversationButtonTitle: '대화를 기록에서 삭제'
         },
         errorScreen: {
           titleText: '결과를 가져올 수 없습니다',
           helpText: '네트워크 연결을 확인하세요'
         },
-        footer: {
-          selectText: '선택',
-          navigateText: '탐색',
-          closeText: '닫기',
-          searchByText: '검색 기준'
-        },
         noResultsScreen: {
           noResultsText: '결과를 찾을 수 없습니다',
-          suggestedQueryText: '새로운 검색을 시도할 수 있습니다',
-          reportMissingResultsText: '해당 검색어에 대한 결과가 있어야 합니까?',
-          reportMissingResultsLinkText: '피드백 보내기 클릭'
+          suggestedQueryText: '다른 검색어를 시도해 보세요',
+          reportMissingResultsText: '결과가 있어야 한다고 생각하나요?',
+          reportMissingResultsLinkText: '피드백 보내기'
+        },
+        resultsScreen: {
+          askAiPlaceholder: 'AI에게 물어보기: '
+        },
+        askAiScreen: {
+          disclaimerText:
+            'AI가 생성한 답변으로 오류가 있을 수 있습니다. 반드시 확인하세요.',
+          relatedSourcesText: '관련 소스',
+          thinkingText: '생각 중...',
+          copyButtonText: '복사',
+          copyButtonCopiedText: '복사됨!',
+          copyButtonTitle: '복사',
+          likeButtonTitle: '좋아요',
+          dislikeButtonTitle: '싫어요',
+          thanksForFeedbackText: '피드백 감사합니다!',
+          preToolCallText: '검색 중...',
+          duringToolCallText: '검색 중 ',
+          afterToolCallText: '검색 완료',
+          aggregatedToolCallText: '검색 완료'
+        },
+        footer: {
+          selectText: '선택',
+          submitQuestionText: '질문 보내기',
+          selectKeyAriaLabel: 'Enter 키',
+          navigateText: '탐색',
+          navigateUpKeyAriaLabel: '위쪽 화살표',
+          navigateDownKeyAriaLabel: '아래쪽 화살표',
+          closeText: '닫기',
+          backToSearchText: '검색으로 돌아가기',
+          closeKeyAriaLabel: 'Esc 키',
+          poweredByText: '제공: '
         }
       }
     }

@@ -115,6 +115,7 @@ export interface SearchBoxTranslations {
   closeButtonAriaLabel?: string
   placeholderText?: string
   placeholderTextAskAi?: string
+  searchInputLabel?: string
   placeholderTextAskAiStreaming?: string
   backToKeywordSearchButtonText?: string
   backToKeywordSearchButtonAriaLabel?: string
@@ -126,6 +127,7 @@ export interface FooterTranslations {
   selectKeyAriaLabel?: string
   navigateText?: string
   navigateUpKeyAriaLabel?: string
+  backToSearchText?: string
   navigateDownKeyAriaLabel?: string
   closeText?: string
   closeKeyAriaLabel?: string

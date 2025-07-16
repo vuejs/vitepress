@@ -188,31 +188,67 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
       },
       modal: {
         searchBox: {
-          resetButtonTitle: 'آغاز مجدد جستجو',
-          resetButtonAriaLabel: 'آغاز مجدد جستجو',
-          cancelButtonText: 'لغو',
-          cancelButtonAriaLabel: 'لغو'
+          clearButtonTitle: 'پاک کردن جستجو',
+          clearButtonAriaLabel: 'پاک کردن جستجو',
+          closeButtonText: 'بستن',
+          closeButtonAriaLabel: 'بستن',
+          placeholderText: 'جستجوی مستندات',
+          placeholderTextAskAi: 'از هوش مصنوعی بپرسید: ',
+          placeholderTextAskAiStreaming: 'در حال پاسخ...',
+          searchInputLabel: 'جستجو',
+          backToKeywordSearchButtonText: 'بازگشت به جستجوی کلیدواژه',
+          backToKeywordSearchButtonAriaLabel: 'بازگشت به جستجوی کلیدواژه'
         },
         startScreen: {
-          recentSearchesTitle: 'جستجو‌های اخیر',
-          noRecentSearchesText: 'تاریخچه جستجویی یافت نشد.',
-          saveRecentSearchButtonTitle: 'ذخیره تاریخچه جستجو',
-          removeRecentSearchButtonTitle: 'حذف تاریخچه جستجو',
-          favoriteSearchesTitle: 'موارد دلخواه',
-          removeFavoriteSearchButtonTitle: 'حذف مورد دلخواه'
+          recentSearchesTitle: 'جستجوهای اخیر',
+          noRecentSearchesText: 'هیچ جستجوی اخیر',
+          saveRecentSearchButtonTitle: 'ذخیره در تاریخچه جستجو',
+          removeRecentSearchButtonTitle: 'حذف از تاریخچه جستجو',
+          favoriteSearchesTitle: 'علاقه‌مندی‌ها',
+          removeFavoriteSearchButtonTitle: 'حذف از علاقه‌مندی‌ها',
+          recentConversationsTitle: 'گفتگوهای اخیر',
+          removeRecentConversationButtonTitle: 'حذف این گفتگو از تاریخچه'
         },
         errorScreen: {
-          titleText: 'نتیجه‌ای یافت نشد برای',
+          titleText: 'عدم امکان دریافت نتایج',
           helpText: 'اتصال شبکه خود را بررسی کنید'
+        },
+        noResultsScreen: {
+          noResultsText: 'هیچ نتیجه‌ای یافت نشد',
+          suggestedQueryText: 'می‌توانید جستجوی دیگری امتحان کنید',
+          reportMissingResultsText: 'فکر می‌کنید باید نتیجه‌ای نمایش داده شود؟',
+          reportMissingResultsLinkText: 'برای ارسال بازخورد کلیک کنید'
+        },
+        resultsScreen: {
+          askAiPlaceholder: 'از هوش مصنوعی بپرسید: '
+        },
+        askAiScreen: {
+          disclaimerText:
+            'پاسخ‌ها توسط هوش مصنوعی تولید می‌شوند و ممکن است خطا داشته باشند. لطفاً بررسی کنید.',
+          relatedSourcesText: 'منابع مرتبط',
+          thinkingText: 'در حال پردازش...',
+          copyButtonText: 'کپی',
+          copyButtonCopiedText: 'کپی شد!',
+          copyButtonTitle: 'کپی',
+          likeButtonTitle: 'پسندیدم',
+          dislikeButtonTitle: 'نپسندیدم',
+          thanksForFeedbackText: 'از بازخورد شما سپاسگزاریم!',
+          preToolCallText: 'در حال جستجو...',
+          duringToolCallText: 'در حال جستجو برای ',
+          afterToolCallText: 'جستجو انجام شد',
+          aggregatedToolCallText: 'جستجو انجام شد'
         },
         footer: {
           selectText: 'انتخاب',
-          navigateText: 'رفتن',
+          submitQuestionText: 'ارسال پرسش',
+          selectKeyAriaLabel: 'کلید Enter',
+          navigateText: 'حرکت',
+          navigateUpKeyAriaLabel: 'کلید جهت بالا',
+          navigateDownKeyAriaLabel: 'کلید جهت پایین',
           closeText: 'بستن',
-          searchByText: ' جستجو با '
-        },
-        noResultsScreen: {
-          noResultsText: 'نتیجه‌ای یافت نشد برای'
+          backToSearchText: 'بازگشت به جستجو',
+          closeKeyAriaLabel: 'کلید Escape',
+          poweredByText: 'جستجو توسط'
         }
       }
     }

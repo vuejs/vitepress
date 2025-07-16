@@ -183,35 +183,69 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
       },
       modal: {
         searchBox: {
-          resetButtonTitle: 'Limpar pesquisa',
-          resetButtonAriaLabel: 'Limpar pesquisa',
-          cancelButtonText: 'Cancelar',
-          cancelButtonAriaLabel: 'Cancelar'
+          clearButtonTitle: 'Limpar pesquisa',
+          clearButtonAriaLabel: 'Limpar pesquisa',
+          closeButtonText: 'Fechar',
+          closeButtonAriaLabel: 'Fechar',
+          placeholderText: 'Pesquisar documentos',
+          placeholderTextAskAi: 'Pergunte à IA: ',
+          placeholderTextAskAiStreaming: 'Respondendo...',
+          searchInputLabel: 'Pesquisar',
+          backToKeywordSearchButtonText: 'Voltar à pesquisa por palavras-chave',
+          backToKeywordSearchButtonAriaLabel:
+            'Voltar à pesquisa por palavras-chave'
         },
         startScreen: {
-          recentSearchesTitle: 'Histórico de Pesquisa',
+          recentSearchesTitle: 'Histórico de pesquisa',
           noRecentSearchesText: 'Nenhuma pesquisa recente',
           saveRecentSearchButtonTitle: 'Salvar no histórico de pesquisas',
           removeRecentSearchButtonTitle: 'Remover do histórico de pesquisas',
           favoriteSearchesTitle: 'Favoritos',
-          removeFavoriteSearchButtonTitle: 'Remover dos favoritos'
+          removeFavoriteSearchButtonTitle: 'Remover dos favoritos',
+          recentConversationsTitle: 'Conversas recentes',
+          removeRecentConversationButtonTitle:
+            'Remover esta conversa do histórico'
         },
         errorScreen: {
           titleText: 'Não foi possível obter resultados',
-          helpText: 'Verifique a sua conexão de rede'
+          helpText: 'Verifique sua conexão de rede'
+        },
+        noResultsScreen: {
+          noResultsText: 'Nenhum resultado encontrado',
+          suggestedQueryText: 'Você pode tentar uma nova consulta',
+          reportMissingResultsText: 'Acha que deveria haver resultados?',
+          reportMissingResultsLinkText: 'Clique para enviar feedback'
+        },
+        resultsScreen: {
+          askAiPlaceholder: 'Pergunte à IA: '
+        },
+        askAiScreen: {
+          disclaimerText:
+            'As respostas são geradas por IA e podem conter erros. Verifique as respostas.',
+          relatedSourcesText: 'Fontes relacionadas',
+          thinkingText: 'Pensando...',
+          copyButtonText: 'Copiar',
+          copyButtonCopiedText: 'Copiado!',
+          copyButtonTitle: 'Copiar',
+          likeButtonTitle: 'Curtir',
+          dislikeButtonTitle: 'Não curtir',
+          thanksForFeedbackText: 'Obrigado pelo feedback!',
+          preToolCallText: 'Pesquisando...',
+          duringToolCallText: 'Pesquisando ',
+          afterToolCallText: 'Pesquisa concluída',
+          aggregatedToolCallText: 'Pesquisa concluída'
         },
         footer: {
           selectText: 'Selecionar',
+          submitQuestionText: 'Enviar pergunta',
+          selectKeyAriaLabel: 'Tecla Enter',
           navigateText: 'Navegar',
+          navigateUpKeyAriaLabel: 'Seta para cima',
+          navigateDownKeyAriaLabel: 'Seta para baixo',
           closeText: 'Fechar',
-          searchByText: 'Pesquisa por'
-        },
-        noResultsScreen: {
-          noResultsText: 'Não foi possível encontrar resultados',
-          suggestedQueryText: 'Você pode tentar uma nova consulta',
-          reportMissingResultsText:
-            'Deveriam haver resultados para essa consulta?',
-          reportMissingResultsLinkText: 'Clique para enviar feedback'
+          backToSearchText: 'Voltar à pesquisa',
+          closeKeyAriaLabel: 'Tecla Escape',
+          poweredByText: 'Pesquisa por'
         }
       }
     }
