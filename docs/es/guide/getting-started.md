@@ -68,15 +68,15 @@ $ npx vitepress init
 ```
 
 ```sh [pnpm]
-$ pnpm vitepress init
+$ pnpm dlx vitepress init
 ```
 
 ```sh [yarn]
-$ yarn vitepress init
+$ yarn dlx vitepress init
 ```
 
 ```sh [bun]
-$ bun vitepress init
+$ bunx vitepress init
 ```
 
 :::
@@ -185,15 +185,15 @@ $ npx vitepress dev docs
 ```
 
 ```sh [pnpm]
-$ pnpm vitepress dev docs
+$ pnpm dlx vitepress dev docs
 ```
 
 ```sh [yarn]
-$ yarn vitepress dev docs
+$ yarn dlx vitepress dev docs
 ```
 
 ```sh [bun]
-$ bun vitepress dev docs
+$ bunx vitepress dev docs
 ```
 
 :::
