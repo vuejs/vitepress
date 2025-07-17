@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sidebar Test</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+
+      .sidebar {
+        width: 300px;
+        border: 1px solid #ddd;
+        padding: 20px;
+      }
+
+      details {
+        margin: 10px 0;
+      }
+
+      summary {
+        cursor: pointer;
+        padding: 5px;
+        background-color: #f5f5f5;
+      }
+
+      .nested {
+        margin-left: 20px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Details/Summary Pattern Test</h1>
+    <div class="sidebar">
+      <details open>
+        <summary>Getting Started</summary>
+        <div class="nested">
+          <details>
+            <summary>Installation</summary>
+            <div class="nested">
+              <p>npm install vitepress</p>
+            </div>
+          </details>
+          <details>
+            <summary>Configuration</summary>
+            <div class="nested">
+              <p>Create .vitepress/config.js</p>
+            </div>
+          </details>
+        </div>
+      </details>
+
+      <details>
+        <summary>API Reference</summary>
+        <div class="nested">
+          <details>
+            <summary>Components</summary>
+            <div class="nested">
+              <p>VPSidebarItem</p>
+              <p>VPSidebarGroup</p>
+            </div>
+          </details>
+        </div>
+      </details>
+    </div>
+
+    <h2>Benefits of Details/Summary Pattern:</h2>
+    <ul>
+      <li>✅ Native browser support</li>
+      <li>✅ Built-in accessibility</li>
+      <li>✅ Keyboard navigation</li>
+      <li>✅ Screen reader support</li>
+      <li>✅ No JavaScript required</li>
+      <li>✅ Semantic HTML</li>
+    </ul>
+  </body>
+</html>

@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Caret for All Heading Levels</title>
+    <style>
+      :root {
+        --vp-c-text-1: #213547;
+        --vp-c-text-2: #476582;
+        --vp-c-text-3: #8b949e;
+        --vp-c-divider: #e2e8f0;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        margin: 20px;
+        background: #f8f9fa;
+      }
+
+      .VPSidebarItem {
+        margin: 8px 0;
+        border: 1px solid var(--vp-c-divider);
+        border-radius: 4px;
+        padding: 8px;
+        background: white;
+      }
+
+      .item {
+        position: relative;
+        display: flex;
+        width: 100%;
+        align-items: center;
+      }
+
+      .text {
+        flex-grow: 1;
+        padding: 4px 0;
+        line-height: 24px;
+        font-size: 14px;
+        transition: color 0.25s;
+      }
+
+      .VPSidebarItem.level-0 .text {
+        font-weight: 700;
+        color: var(--vp-c-text-1);
+      }
+
+      .VPSidebarItem.level-1 .text {
+        font-weight: 500;
+        color: var(--vp-c-text-2);
+      }
+
+      /* CSS-only caret for collapsible items */
+      .VPSidebarItem details > summary.item {
+        position: relative;
+        cursor: pointer;
+      }
+
+      .VPSidebarItem details > summary.item::after {
+        content: '';
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 0;
+        height: 0;
+        border-left: 5px solid var(--vp-c-text-3);
+        border-top: 3px solid transparent;
+        border-bottom: 3px solid transparent;
+        transition: all 0.25s;
+        z-index: 1;
+      }
+
+      /* Rotate caret when details is open */
+      .VPSidebarItem details[open] > summary.item::after {
+        transform: translateY(-50%) rotate(90deg);
+        border-left-color: var(--vp-c-text-2);
+      }
+
+      /* Hover effect for caret */
+      .VPSidebarItem details > summary.item:hover::after {
+        border-left-color: var(--vp-c-text-1);
+      }
+
+      /* Ensure caret appears for all heading levels */
+      .VPSidebarItem details > summary.item h2,
+      .VPSidebarItem details > summary.item h3,
+      .VPSidebarItem details > summary.item h4,
+      .VPSidebarItem details > summary.item h5,
+      .VPSidebarItem details > summary.item h6,
+      .VPSidebarItem details > summary.item p {
+        margin: 0;
+        padding-right: 32px;
+        /* Make space for the caret */
+      }
+
+      /* Hide native details marker */
+      .VPSidebarItem details > summary {
+        list-style: none;
+      }
+
+      .VPSidebarItem details > summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .items {
+        margin-left: 16px;
+        margin-top: 8px;
+        padding-left: 16px;
+        border-left: 1px solid var(--vp-c-divider);
+      }
+
+      .label {
+        display: block;
+        font-size: 12px;
+        color: var(--vp-c-text-3);
+        margin-bottom: 4px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Test: Caret for All Heading Levels</h1>
+    <p>
+      This tests that the CSS caret appears for all heading levels (h2, h3, h4,
+      etc.) in VitePress sidebar items.
+    </p>
+
+    <div class="VPSidebarItem level-0">
+      <small class="label">Depth 0 → h2 element</small>
+      <details>
+        <summary class="item">
+          <h2 class="text">Level 0 Item (h2)</h2>
+        </summary>
+        <div class="items">
+          <p>Child content here</p>
+        </div>
+      </details>
+    </div>
+
+    <div class="VPSidebarItem level-1">
+      <small class="label">Depth 1 → h3 element</small>
+      <details>
+        <summary class="item">
+          <h3 class="text">Level 1 Item (h3)</h3>
+        </summary>
+        <div class="items">
+          <p>Child content here</p>
+        </div>
+      </details>
+    </div>
+
+    <div class="VPSidebarItem level-2">
+      <small class="label">Depth 2 → h4 element</small>
+      <details>
+        <summary class="item">
+          <h4 class="text">Level 2 Item (h4)</h4>
+        </summary>
+        <div class="items">
+          <p>Child content here</p>
+        </div>
+      </details>
+    </div>
+
+    <div class="VPSidebarItem level-3">
+      <small class="label">Depth 3 → h5 element</small>
+      <details>
+        <summary class="item">
+          <h5 class="text">Level 3 Item (h5)</h5>
+        </summary>
+        <div class="items">
+          <p>Child content here</p>
+        </div>
+      </details>
+    </div>
+
+    <div class="VPSidebarItem level-4">
+      <small class="label">Depth 4 → h6 element</small>
+      <details>
+        <summary class="item">
+          <h6 class="text">Level 4 Item (h6)</h6>
+        </summary>
+        <div class="items">
+          <p>Child content here</p>
+        </div>
+      </details>
+    </div>
+
+    <div class="VPSidebarItem level-5">
+      <small class="label">Depth 5+ → p element</small>
+      <details>
+        <summary class="item">
+          <p class="text">Level 5+ Item (p)</p>
+        </summary>
+        <div class="items">
+          <p>Child content here</p>
+        </div>
+      </details>
+    </div>
+
+    <h2>Key Changes Made:</h2>
+    <ul>
+      <li>
+        ✅ Added <code>z-index: 1</code> to ensure caret appears above other
+        elements
+      </li>
+      <li>✅ Added <code>cursor: pointer</code> to summary.item</li>
+      <li>
+        ✅ Added <code>padding-right: 32px</code> to all heading levels to make
+        space for caret
+      </li>
+      <li>✅ Added <code>margin: 0</code> to reset default heading margins</li>
+      <li>
+        ✅ Caret should now appear consistently for h2, h3, h4, h5, h6, and p
+        elements
+      </li>
+    </ul>
+
+    <h2>VitePress Depth Logic:</h2>
+    <pre><code>const textTag = computed(() => {
+  return !hasChildren.value
+    ? 'p'                           // Simple links use p
+    : props.depth + 2 === 7
+      ? 'p'                         // Max depth uses p
+      : `h${props.depth + 2}`       // Others use h2, h3, h4, h5, h6
+})</code></pre>
+
+    <p>
+      <strong>Expected result:</strong> All items above should show a triangular
+      caret on the right side that rotates when clicked.
+    </p>
+  </body>
+</html>
