@@ -176,7 +176,6 @@ export function useSidebarControl(
   })
 
   watchPostEffect(() => {
-    console.log(item.value.text, isActiveLink.value, hasActiveLink.value)
     ;(isActiveLink.value || hasActiveLink.value) && (collapsed.value = false)
   })
 
