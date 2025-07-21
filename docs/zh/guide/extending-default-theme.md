@@ -289,7 +289,7 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
 </style>
 ```
 
-Result (**warning!**: flashing colors, sudden movements, bright lights):
+结果（**注意！**：画面闪烁、快速闪现、强光刺激）:
 
 <details>
 <summary>Demo</summary>
