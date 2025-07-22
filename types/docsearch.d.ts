@@ -197,4 +197,10 @@ export interface DocSearchAskAi {
    * The assistant ID to use for the ask AI feature.
    */
   assistantId: string | null
+  /**
+   * The search parameters to use for the ask AI feature.
+   */
+  searchParameters?: {
+    facetFilters?: SearchOptions['facetFilters']
+  }
 }

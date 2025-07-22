@@ -94,7 +94,7 @@ const translate = createSearchTranslate(defaultTranslations)
 
 @media (min-width: 768px) {
   .DocSearch-Button {
-    justify-content: flex-start;
+    justify-content: space-between;
     border: 1px solid transparent;
     border-radius: 8px;
     padding: 0 10px 0 12px;
@@ -173,12 +173,11 @@ const translate = createSearchTranslate(defaultTranslations)
 
 .DocSearch-Button .DocSearch-Button-Key {
   display: block;
-  margin: 2px 0 0 0;
   border: 1px solid var(--vp-c-divider);
   /*rtl:begin:ignore*/
   border-right: none;
   border-radius: 4px 0 0 4px;
-  padding-left: 4px;
+  padding: 0 1px;
   /*rtl:end:ignore*/
   min-width: 0;
   width: auto;
@@ -195,38 +194,28 @@ const translate = createSearchTranslate(defaultTranslations)
   border-right: 1px solid var(--vp-c-divider);
   border-left: none;
   border-radius: 0 4px 4px 0;
-  padding-left: 4px;
-  padding-right: 4px;
   color: var(--docsearch-muted-color);
   /*rtl:end:ignore*/
+}
+
+.DocSearch-Button-Key svg {
+    color: var(--docsearch-muted-color);
 }
 
 .DocSearch-Button .DocSearch-Button-Key:first-child {
   font-size: 0 !important;
 }
 
-.DocSearch-Button .DocSearch-Button-Key:first-child:after {
-  content: 'Ctrl';
-  font-size: 12px;
-  padding-right: 4px;
-  letter-spacing: normal;
-  color: var(--docsearch-muted-color);
-}
 
 .DocSearch-Commands-Key {
   color: var(--vp-c-text-2);
   padding: 4px;
   border-radius: 4px;
+  line-height: 19px;
   border: 1px solid var(--vp-c-divider);
 }
 
-.mac .DocSearch-Button .DocSearch-Button-Key:first-child:after {
-  content: '\2318';
-}
 
-.DocSearch-Button .DocSearch-Button-Key:first-child > * {
-  display: none;
-}
 
 .DocSearch-Search-Icon {
   --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' stroke-width='1.6' viewBox='0 0 20 20'%3E%3Cpath fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' d='m14.386 14.386 4.088 4.088-4.088-4.088A7.533 7.533 0 1 1 3.733 3.733a7.533 7.533 0 0 1 10.653 10.653z'/%3E%3C/svg%3E");
