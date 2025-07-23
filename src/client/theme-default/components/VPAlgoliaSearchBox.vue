@@ -32,34 +32,33 @@ async function update() {
     `lang:${lang.value}`
   ]
 
-  // Rebuild the askAi prop as an object
+  // Rebuild the askAi prop as an object:
+  // If the askAi prop is a string, treat it as the assistantId and use
+  // the default indexName, apiKey and appId from the main options.
+  // If the askAi prop is an object, spread its explicit values.
   const askAiProp = (options as DefaultTheme.AlgoliaSearchOptions & {
-    askAi?: any
+    askAi?: DefaultTheme.AlgoliaSearchOptions['askAi']
   }).askAi
+  const isAskAiString = typeof askAiProp === 'string'
 
   const askAi = askAiProp
     ? {
-        // If askAi prop is a string, treat it as the assistantId and use
-        // the default indexName, apiKey and appId from the main options.
-        // If it's an object, spread its explicit values.
-        indexName:
-          typeof askAiProp === 'string'
-            ? (options as DefaultTheme.AlgoliaSearchOptions).indexName
-            : askAiProp.indexName,
-        apiKey:
-          typeof askAiProp === 'string'
-            ? (options as DefaultTheme.AlgoliaSearchOptions).apiKey
-            : askAiProp.apiKey,
-        appId:
-          typeof askAiProp === 'string'
-            ? (options as DefaultTheme.AlgoliaSearchOptions).appId
-            : askAiProp.appId,
-        assistantId:
-          typeof askAiProp === 'string' ? askAiProp : askAiProp.assistantId,
-        // Re-use the merged facetFilters from the search parameters so that
-        // Ask AI uses the same language filtering as the regular search.
-        searchParameters: facetFilters.length ? { facetFilters } : undefined
-      }
+      indexName:
+        isAskAiString
+          ? (options as DefaultTheme.AlgoliaSearchOptions).indexName
+          : askAiProp.indexName,
+      apiKey:
+        isAskAiString
+          ? (options as DefaultTheme.AlgoliaSearchOptions).apiKey
+          : askAiProp.apiKey,
+      appId: isAskAiString
+        ? (options as DefaultTheme.AlgoliaSearchOptions).appId
+        : askAiProp.appId,
+      assistantId: isAskAiString ? askAiProp : askAiProp.assistantId,
+      // Re-use the merged facetFilters from the search parameters so that
+      // Ask AI uses the same language filtering as the regular search.
+      searchParameters: facetFilters.length ? { facetFilters } : undefined
+    }
     : undefined
 
   initialize({
