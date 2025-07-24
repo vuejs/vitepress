@@ -41,14 +41,14 @@ async function update() {
 
   const askAi = askAiProp
     ? {
-      indexName: isAskAiString ? options.indexName : askAiProp.indexName,
-      apiKey: isAskAiString ? options.apiKey : askAiProp.apiKey,
-      appId: isAskAiString ? options.appId : askAiProp.appId,
-      assistantId: isAskAiString ? askAiProp : askAiProp.assistantId,
-      // Re-use the merged facetFilters from the search parameters so that
-      // Ask AI uses the same language filtering as the regular search.
-      searchParameters: facetFilters.length ? { facetFilters } : undefined
-    }
+        indexName: isAskAiString ? options.indexName : askAiProp.indexName,
+        apiKey: isAskAiString ? options.apiKey : askAiProp.apiKey,
+        appId: isAskAiString ? options.appId : askAiProp.appId,
+        assistantId: isAskAiString ? askAiProp : askAiProp.assistantId,
+        // Re-use the merged facetFilters from the search parameters so that
+        // Ask AI uses the same language filtering as the regular search.
+        searchParameters: facetFilters.length ? { facetFilters } : undefined
+      }
     : undefined
 
   initialize({
@@ -66,7 +66,10 @@ function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
     {},
     DefaultTheme.AlgoliaSearchOptions,
     // patch the types to allow for the navigator and transformItems props
-    Partial<DocSearchProps> & { navigator: { navigate: (itemUrl: any) => void }, transformItems: (items: any[]) => any[] }
+    Partial<DocSearchProps> & {
+      navigator: { navigate: (itemUrl: any) => void }
+      transformItems: (items: any[]) => any[]
+    }
   >({}, userOptions, {
     container: '#docsearch',
 
