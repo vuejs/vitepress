@@ -21,10 +21,10 @@ importers:
   .:
     dependencies:
       '@docsearch/css':
-        specifier: beta
+        specifier: ^4.0.0-beta
         version: 4.0.0-beta.5
       '@docsearch/js':
-        specifier: beta
+        specifier: ^4.0.0-beta
         version: 4.0.0-beta.5
       '@iconify-json/simple-icons':
         specifier: ^1.2.42
