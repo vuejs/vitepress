@@ -12,8 +12,6 @@ const props = defineProps<{
 const router = useRouter()
 const { site, localeIndex, lang } = useData()
 
-type DocSearchProps = Parameters<typeof docsearch>[0]
-
 onMounted(update)
 watch(localeIndex, update)
 
@@ -62,31 +60,23 @@ async function update() {
 }
 
 function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
-  const options = Object.assign<
-    {},
-    DefaultTheme.AlgoliaSearchOptions,
-    // patch the types to allow for the navigator and transformItems props
-    Partial<DocSearchProps> & {
-      navigator: { navigate: (itemUrl: any) => void }
-      transformItems: (items: any[]) => any[]
-    }
-  >({}, userOptions, {
+  const options = Object.assign({}, userOptions, {
     container: '#docsearch',
 
     navigator: {
-      navigate({ itemUrl }) {
-        router.go(itemUrl)
+      navigate(item: { itemUrl: string }) {
+        router.go(item.itemUrl)
       }
     },
 
-    transformItems(items) {
+    transformItems(items: { url: string }[]) {
       return items.map((item) => {
         return Object.assign({}, item, {
           url: getRelativePath(item.url)
         })
       })
     }
-  }) as DocSearchProps
+  })
 
   docsearch(options)
 }
