@@ -65,7 +65,8 @@ function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
   const options = Object.assign<
     {},
     DefaultTheme.AlgoliaSearchOptions,
-    Partial<DocSearchProps>
+    // patch the types to allow for the navigator and transformItems props
+    Partial<DocSearchProps> & { navigator: { navigate: (itemUrl: any) => void }, transformItems: (items: any[]) => any[] }
   >({}, userOptions, {
     container: '#docsearch',
 
