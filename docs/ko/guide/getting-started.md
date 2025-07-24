@@ -40,22 +40,6 @@ $ bun add -D vitepress
 
 :::
 
-::: details "missing peer deps" 경고가 표시되나요?
-PNPM을 사용하는 경우 `@docsearch/js`에 대한 "missing peer deps" 경고가 표시됩니다. 이는 VitePress가 작동하는 것을 방해하지 않습니다. 이 경고를 억제하려면 `package.json`에 다음을 추가합니다:
-
-```json
-"pnpm": {
-  "peerDependencyRules": {
-    "ignoreMissing": [
-      "@algolia/client-search",
-      "search-insights"
-    ]
-  }
-}
-```
-
-:::
-
 ::: tip 참고
 
 VitePress는 ESM 전용 패키지입니다. `require()`를 사용하여 가져오지 마시고, `package.json`에 `"type": "module"`이 포함되어 있는지 확인하거나, 관련 파일(예: `.vitepress/config.js`)의 확장자를 `.mjs`/`.mts`로 변경하세요. 자세한 내용은 [Vite 문제 해결 가이드](http://vitejs.dev/ko/guide/troubleshooting.html#this-package-is-esm-only)를 참고하세요. 또한, 비동기 CJS 컨텍스트에서는 `await import('vitepress')`를 사용할 수 있습니다.

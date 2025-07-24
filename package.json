@@ -95,23 +95,23 @@
     "*": "prettier --experimental-cli --ignore-unknown --write"
   },
   "dependencies": {
-    "@docsearch/css": "^4.0.0-beta",
-    "@docsearch/js": "^4.0.0-beta",
-    "@iconify-json/simple-icons": "^1.2.42",
-    "@shikijs/core": "^3.7.0",
-    "@shikijs/transformers": "^3.7.0",
-    "@shikijs/types": "^3.7.0",
+    "@docsearch/css": "^4.0.0-beta.5",
+    "@docsearch/js": "^4.0.0-beta.5",
+    "@iconify-json/simple-icons": "^1.2.44",
+    "@shikijs/core": "^3.8.1",
+    "@shikijs/transformers": "^3.8.1",
+    "@shikijs/types": "^3.8.1",
     "@vitejs/plugin-vue": "^6.0.0",
     "@vue/devtools-api": "^7.7.7",
-    "@vue/shared": "^3.5.17",
+    "@vue/shared": "^3.5.18",
     "@vueuse/core": "^13.5.0",
     "@vueuse/integrations": "^13.5.0",
     "focus-trap": "^7.6.5",
     "mark.js": "8.11.1",
     "minisearch": "^7.1.2",
-    "shiki": "^3.7.0",
-    "vite": "^7.0.3",
-    "vue": "^3.5.17"
+    "shiki": "^3.8.1",
+    "vite": "^7.0.6",
+    "vue": "^3.5.18"
   },
   "devDependencies": {
     "@clack/prompts": "^1.0.0-alpha.1",
@@ -139,15 +139,15 @@
     "@types/markdown-it-container": "^2.0.10",
     "@types/markdown-it-emoji": "^3.0.1",
     "@types/minimist": "^1.2.5",
-    "@types/node": "^24.0.10",
-    "@types/picomatch": "^4.0.0",
+    "@types/node": "^24.1.0",
+    "@types/picomatch": "^4.0.1",
     "@types/postcss-prefix-selector": "^1.16.3",
     "@types/prompts": "^2.4.9",
     "chokidar": "^4.0.3",
     "conventional-changelog-cli": "^5.0.0",
     "cross-spawn": "^7.0.6",
     "debug": "^4.4.1",
-    "esbuild": "^0.25.6",
+    "esbuild": "^0.25.8",
     "execa": "^9.6.0",
     "fs-extra": "^11.3.0",
     "get-port": "^7.1.0",
@@ -165,20 +165,21 @@
     "minimist": "^1.2.8",
     "nanoid": "^5.1.5",
     "ora": "^8.2.0",
-    "oxc-minify": "^0.75.1",
+    "oxc-minify": "^0.78.0",
     "p-map": "^7.0.3",
+    "package-directory": "^8.1.0",
     "path-to-regexp": "^6.3.0",
     "picocolors": "^1.1.1",
-    "picomatch": "^4.0.2",
-    "package-directory": "^8.1.0",
-    "playwright-chromium": "^1.53.2",
+    "picomatch": "^4.0.3",
+    "playwright-chromium": "^1.54.1",
     "polka": "^1.0.0-next.28",
+    "postcss": "^8.5.6",
     "postcss-prefix-selector": "^2.1.1",
     "prettier": "^3.6.2",
     "prompts": "^2.4.2",
     "punycode": "^2.3.1",
     "rimraf": "^6.0.1",
-    "rollup": "^4.44.2",
+    "rollup": "^4.45.1",
     "rollup-plugin-dts": "6.1.1",
     "rollup-plugin-esbuild": "^6.2.1",
     "semver": "^7.7.2",
@@ -187,13 +188,13 @@
     "sitemap": "^8.0.0",
     "tinyglobby": "^0.2.14",
     "typescript": "^5.8.3",
-    "vitest": "^4.0.0-beta.2",
-    "vue-tsc": "^3.0.1",
-    "wait-on": "^8.0.3"
+    "vitest": "^4.0.0-beta.4",
+    "vue-tsc": "^3.0.4",
+    "wait-on": "^8.0.4"
   },
   "peerDependencies": {
     "markdown-it-mathjax3": "^4",
-    "oxc-minify": "^0.75.1",
+    "oxc-minify": "^0.78.0",
     "postcss": "^8"
   },
   "peerDependenciesMeta": {
@@ -207,15 +208,8 @@
       "optional": true
     }
   },
-  "packageManager": "pnpm@10.12.4",
+  "packageManager": "pnpm@10.13.1",
   "pnpm": {
-    "peerDependencyRules": {
-      "ignoreMissing": [
-        "@algolia/client-search",
-        "search-insights",
-        "postcss"
-      ]
-    },
     "overrides": {
       "ora>string-width": "^5",
       "vite": "npm:rolldown-vite@latest"

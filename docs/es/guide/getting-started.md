@@ -35,22 +35,6 @@ $ bun add -D vitepress
 
 :::
 
-::: details Recibiendo avisos sobre dependencias ausentes?
-Si usa PNPM, percibirá un aviso de ausencia de `@docsearch/js`. Esto no evita que VitePress funcione. Si desea eliminar este aviso, adicione lo siguiente en su `package.json`:
-
-```json
-"pnpm": {
-  "peerDependencyRules": {
-    "ignoreMissing": [
-      "@algolia/client-search",
-      "search-insights"
-    ]
-  }
-}
-```
-
-:::
-
 ::: tip NOTA
 
 VitePress es un paquete apenas para ESM. No use `require()` para importarlo, y asegurese de que el `package.json` más cercano contiene `"type": "module"`, o cambie la extensión de archivo de sus archivos relevantes como `.vitepress/config.js` a `.mjs`/`.mts`. Consulte la [Guía de resolución de problemas Vite](http://vitejs.dev/guide/troubleshooting.html#this-package-is-esm-only) para más detalles. Además de eso, dentro de contextos de JavaScript asíncronos, puede usar `await import('vitepress')`.

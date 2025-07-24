@@ -16,6 +16,6 @@
     "postcss-rtlcss": "^5.7.1",
     "vitepress": "workspace:*",
     "vitepress-plugin-group-icons": "^1.6.1",
-    "vitepress-plugin-llms": "^1.7.0"
+    "vitepress-plugin-llms": "^1.7.1"
   }
 }
