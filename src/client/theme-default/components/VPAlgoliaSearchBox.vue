@@ -36,24 +36,14 @@ async function update() {
   // If the askAi prop is a string, treat it as the assistantId and use
   // the default indexName, apiKey and appId from the main options.
   // If the askAi prop is an object, spread its explicit values.
-  const askAiProp = (options as DefaultTheme.AlgoliaSearchOptions & {
-    askAi?: DefaultTheme.AlgoliaSearchOptions['askAi']
-  }).askAi
+  const askAiProp = options.askAi
   const isAskAiString = typeof askAiProp === 'string'
 
   const askAi = askAiProp
     ? {
-      indexName:
-        isAskAiString
-          ? (options as DefaultTheme.AlgoliaSearchOptions).indexName
-          : askAiProp.indexName,
-      apiKey:
-        isAskAiString
-          ? (options as DefaultTheme.AlgoliaSearchOptions).apiKey
-          : askAiProp.apiKey,
-      appId: isAskAiString
-        ? (options as DefaultTheme.AlgoliaSearchOptions).appId
-        : askAiProp.appId,
+      indexName: isAskAiString ? options.indexName : askAiProp.indexName,
+      apiKey: isAskAiString ? options.apiKey : askAiProp.apiKey,
+      appId: isAskAiString ? options.appId : askAiProp.appId,
       assistantId: isAskAiString ? askAiProp : askAiProp.assistantId,
       // Re-use the merged facetFilters from the search parameters so that
       // Ask AI uses the same language filtering as the regular search.
