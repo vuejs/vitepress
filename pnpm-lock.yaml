@@ -62,6 +62,9 @@ importers:
       minisearch:
         specifier: ^7.1.2
         version: 7.1.2
+      pnpm:
+        specifier: ^10.13.1
+        version: 10.13.1
       shiki:
         specifier: ^3.7.0
         version: 3.7.0
@@ -2636,6 +2639,11 @@ packages:
   playwright-core@1.53.2:
     resolution: {integrity: sha512-ox/OytMy+2w1jcYEYlOo1Hhp8hZkLCximMTUTMBXjGUA1KoFfiSZ+DU+3a739jsPY0yoKH2TFy9S2fsJas8yAw==}
     engines: {node: '>=18'}
+    hasBin: true
+
+  pnpm@10.13.1:
+    resolution: {integrity: sha512-N+vxpcejDV+r4MXfRO6NpMllygxa89urKMOhaBtwolYhjQXIHJwNz3Z+9rhVHrW5YAQrntQwDFkkIzY3fgHPrQ==}
+    engines: {node: '>=18.12'}
     hasBin: true
 
   polka@1.0.0-next.28:
@@ -5617,6 +5625,8 @@ snapshots:
       playwright-core: 1.53.2
 
   playwright-core@1.53.2: {}
+
+  pnpm@10.13.1: {}
 
   polka@1.0.0-next.28:
     dependencies:

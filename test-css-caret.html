@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS-Only Caret Test</title>
+    <style>
+      :root {
+        --vp-c-text-1: #213547;
+        --vp-c-text-2: #476582;
+        --vp-c-text-3: #8b949e;
+      }
+
+      .VPSidebarItem {
+        margin: 8px 0;
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+          Cantarell, sans-serif;
+      }
+
+      .item {
+        position: relative;
+        display: flex;
+        width: 100%;
+        padding: 4px 0;
+        align-items: center;
+      }
+
+      .text {
+        flex-grow: 1;
+        font-size: 14px;
+        color: var(--vp-c-text-1);
+        font-weight: 500;
+      }
+
+      /* CSS-only caret for collapsible items */
+      .VPSidebarItem details > summary.item {
+        position: relative;
+        cursor: pointer;
+      }
+
+      .VPSidebarItem details > summary.item::after {
+        content: '';
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 0;
+        height: 0;
+        border-left: 5px solid var(--vp-c-text-3);
+        border-top: 3px solid transparent;
+        border-bottom: 3px solid transparent;
+        transition: all 0.25s;
+      }
+
+      /* Rotate caret when details is open */
+      .VPSidebarItem details[open] > summary.item::after {
+        transform: translateY(-50%) rotate(90deg);
+        border-left-color: var(--vp-c-text-2);
+      }
+
+      /* Hover effect for caret */
+      .VPSidebarItem details > summary.item:hover::after {
+        border-left-color: var(--vp-c-text-1);
+      }
+
+      /* Hide native details marker */
+      .VPSidebarItem details > summary {
+        list-style: none;
+      }
+
+      .VPSidebarItem details > summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .items {
+        margin-left: 16px;
+        margin-top: 4px;
+      }
+
+      .child-item {
+        padding: 2px 0;
+        color: var(--vp-c-text-2);
+        font-size: 13px;
+      }
+
+      .child-item:hover {
+        color: var(--vp-c-text-1);
+      }
+
+      /* Simple link item (no caret) */
+      .simple-link {
+        color: var(--vp-c-text-2);
+        text-decoration: none;
+      }
+
+      .simple-link:hover {
+        color: var(--vp-c-text-1);
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>CSS-Only Caret Test</h1>
+    <p>
+      This demonstrates the pure CSS caret implementation for VitePress sidebar
+      items.
+    </p>
+
+    <div class="VPSidebarItem">
+      <details>
+        <summary class="item">
+          <span class="text">Introduction</span>
+        </summary>
+        <div class="items">
+          <div class="child-item">
+            <a href="#" class="simple-link">What is VitePress?</a>
+          </div>
+          <div class="child-item">
+            <a href="#" class="simple-link">Getting Started</a>
+          </div>
+          <div class="child-item">
+            <a href="#" class="simple-link">Routing</a>
+          </div>
+          <div class="child-item">
+            <a href="#" class="simple-link">Deploy</a>
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <div class="VPSidebarItem">
+      <details>
+        <summary class="item">
+          <span class="text">Writing</span>
+        </summary>
+        <div class="items">
+          <div class="child-item">
+            <a href="#" class="simple-link">Markdown Extensions</a>
+          </div>
+          <div class="child-item">
+            <a href="#" class="simple-link">Asset Handling</a>
+          </div>
+          <div class="child-item">
+            <a href="#" class="simple-link">Frontmatter</a>
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <div class="VPSidebarItem">
+      <div class="item">
+        <a href="#" class="simple-link">
+          <span class="text">Simple Link (No Caret)</span>
+        </a>
+      </div>
+    </div>
+
+    <p><strong>Features:</strong></p>
+    <ul>
+      <li>✅ CSS-only caret (no JavaScript needed)</li>
+      <li>✅ Caret positioned on the right side</li>
+      <li>✅ Smooth rotation animation when opened/closed</li>
+      <li>✅ Hover color changes</li>
+      <li>✅ No caret for simple links</li>
+      <li>✅ Native details/summary accessibility</li>
+    </ul>
+  </body>
+</html>

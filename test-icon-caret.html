@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Icon Caret</title>
+    <style>
+      :root {
+        --vp-c-text-1: #213547;
+        --vp-c-text-2: #476582;
+        --vp-c-text-3: #8b949e;
+        --vp-c-divider: #e2e8f0;
+        --vp-c-brand-1: #3451b2;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        margin: 20px;
+        background: #f8f9fa;
+      }
+
+      .test-section {
+        background: white;
+        border: 1px solid var(--vp-c-divider);
+        border-radius: 8px;
+        padding: 20px;
+        margin: 20px 0;
+      }
+
+      .VPSidebarItem {
+        margin: 8px 0;
+      }
+
+      .VPSidebarItem.level-0 {
+        padding-bottom: 24px;
+      }
+
+      .VPSidebarItem.collapsed.level-0,
+      .VPSidebarItem.level-0:not([open]) {
+        padding-bottom: 10px;
+      }
+
+      .item {
+        position: relative;
+        display: flex;
+        width: 100%;
+        align-items: center;
+        padding: 4px 0;
+      }
+
+      .VPSidebarItem details > summary.item {
+        cursor: pointer;
+      }
+
+      .indicator {
+        position: absolute;
+        top: 6px;
+        bottom: 6px;
+        left: -17px;
+        width: 2px;
+        border-radius: 2px;
+        transition: background-color 0.25s;
+      }
+
+      .text {
+        flex-grow: 1;
+        font-size: 14px;
+        line-height: 24px;
+        transition: color 0.25s;
+      }
+
+      .VPSidebarItem.level-0 .text {
+        font-weight: 700;
+        color: var(--vp-c-text-1);
+      }
+
+      .VPSidebarItem.level-1 .text {
+        font-weight: 500;
+        color: var(--vp-c-text-2);
+      }
+
+      /* CSS-only icon caret for collapsible items */
+      .caret {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: -7px;
+        width: 32px;
+        height: 32px;
+        color: var(--vp-c-text-3);
+        transition: color 0.25s;
+        flex-shrink: 0;
+      }
+
+      .item:hover .caret {
+        color: var(--vp-c-text-2);
+      }
+
+      .caret-icon {
+        font-size: 18px;
+        /*rtl:ignore*/
+        transform: rotate(90deg);
+        transition: transform 0.25s;
+      }
+
+      /* Rotate icon when details is open */
+      .VPSidebarItem details[open] .caret-icon {
+        transform: rotate(0deg) /*rtl:rotate(0deg)*/;
+      }
+
+      /* Remove old triangle styles */
+      .VPSidebarItem details > summary.item {
+        cursor: pointer;
+      }
+
+      /* Remove padding-right since we're using icon now */
+      .VPSidebarItem details > summary.item h2,
+      .VPSidebarItem details > summary.item h3,
+      .VPSidebarItem details > summary.item h4,
+      .VPSidebarItem details > summary.item h5,
+      .VPSidebarItem details > summary.item h6,
+      .VPSidebarItem details > summary.item p {
+        margin: 0;
+      }
+
+      /* Hide native details marker */
+      .VPSidebarItem details > summary {
+        list-style: none;
+      }
+
+      .VPSidebarItem details > summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .items {
+        margin-left: 16px;
+        margin-top: 8px;
+        padding-left: 16px;
+        border-left: 1px solid var(--vp-c-divider);
+      }
+
+      .link {
+        color: var(--vp-c-text-2);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        flex-grow: 1;
+      }
+
+      .link:hover {
+        color: var(--vp-c-brand-1);
+      }
+
+      /* VitePress icon font */
+      .vpi-chevron-right::before {
+        content: '›';
+        font-size: 18px;
+        font-weight: bold;
+        display: inline-block;
+        line-height: 1;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>✅ Icon Caret Test</h1>
+
+    <div class="test-section">
+      <h2>VitePress Sidebar with Icon Caret</h2>
+      <p>
+        This demonstrates the restored icon caret that rotates with CSS
+        transitions.
+      </p>
+
+      <div style="margin: 20px 0">
+        <!-- Item WITH children = details/summary with icon -->
+        <div class="VPSidebarItem level-0">
+          <details>
+            <summary class="item">
+              <div class="indicator"></div>
+              <h2 class="text">Introduction (has children)</h2>
+              <div class="caret">
+                <span class="vpi-chevron-right caret-icon"></span>
+              </div>
+            </summary>
+            <div class="items">
+              <div class="VPSidebarItem level-1">
+                <div class="item">
+                  <div class="indicator"></div>
+                  <a href="#" class="link">
+                    <span class="text">What is VitePress?</span>
+                  </a>
+                </div>
+              </div>
+              <div class="VPSidebarItem level-1">
+                <div class="item">
+                  <div class="indicator"></div>
+                  <a href="#" class="link">
+                    <span class="text">Getting Started</span>
+                  </a>
+                </div>
+              </div>
+              <div class="VPSidebarItem level-1">
+                <div class="item">
+                  <div class="indicator"></div>
+                  <a href="#" class="link">
+                    <span class="text">Routing</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </details>
+        </div>
+
+        <!-- Item WITHOUT children = div/div with NO icon -->
+        <div class="VPSidebarItem level-0">
+          <div class="item">
+            <div class="indicator"></div>
+            <a href="#" class="link">
+              <h2 class="text">Simple Link (no children)</h2>
+            </a>
+          </div>
+        </div>
+
+        <!-- Another item WITH children -->
+        <div class="VPSidebarItem level-0">
+          <details>
+            <summary class="item">
+              <div class="indicator"></div>
+              <h2 class="text">Writing (has children)</h2>
+              <div class="caret">
+                <span class="vpi-chevron-right caret-icon"></span>
+              </div>
+            </summary>
+            <div class="items">
+              <div class="VPSidebarItem level-1">
+                <div class="item">
+                  <div class="indicator"></div>
+                  <a href="#" class="link">
+                    <span class="text">Markdown Extensions</span>
+                  </a>
+                </div>
+              </div>
+              <div class="VPSidebarItem level-1">
+                <div class="item">
+                  <div class="indicator"></div>
+                  <a href="#" class="link">
+                    <span class="text">Asset Handling</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </details>
+        </div>
+      </div>
+    </div>
+
+    <div class="test-section">
+      <h2>Key Features:</h2>
+      <ul>
+        <li>
+          ✅ <strong>Icon caret:</strong> Uses
+          <code>vpi-chevron-right</code> icon instead of CSS triangle
+        </li>
+        <li>
+          ✅ <strong>Correct rotation:</strong> Default 90° (pointing down),
+          opens to 0° (pointing right)
+        </li>
+        <li>
+          ✅ <strong>No JavaScript:</strong> Pure CSS rotation with
+          <code>transform: rotate()</code>
+        </li>
+        <li>
+          ✅ <strong>Smooth transitions:</strong> CSS transitions for rotation
+          and color changes
+        </li>
+        <li>✅ <strong>Hover effects:</strong> Icon color changes on hover</li>
+        <li>
+          ✅ <strong>Conditional rendering:</strong> Only items with children
+          show the caret
+        </li>
+        <li>
+          ✅ <strong>Accessibility:</strong> Native details/summary keyboard
+          navigation
+        </li>
+      </ul>
+    </div>
+
+    <div class="test-section">
+      <h2>Updated Implementation:</h2>
+      <pre><code>&lt;!-- Items WITH children --&gt;
+&lt;details class="VPSidebarItem"&gt;
+  &lt;summary class="item"&gt;
+    &lt;span class="text"&gt;Section Title&lt;/span&gt;
+    &lt;div class="caret"&gt;
+      &lt;span class="vpi-chevron-right caret-icon"&gt;&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/summary&gt;
+  &lt;div class="items"&gt;...&lt;/div&gt;
+&lt;/details&gt;
+
+&lt;!-- Items WITHOUT children --&gt;
+&lt;div class="VPSidebarItem"&gt;
+  &lt;div class="item"&gt;
+    &lt;span class="text"&gt;Simple Link&lt;/span&gt;
+    &lt;!-- No caret --&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <div class="test-section">
+      <h2>Icon Rotation Behavior:</h2>
+      <p>
+        <strong>Default state (closed):</strong> Icon rotated 90° (pointing down
+        like ∨)
+      </p>
+      <p>
+        <strong>Open state:</strong> Icon rotated 0° (pointing right like >)
+      </p>
+      <p>
+        This matches the expected behavior where the caret points down when
+        collapsed and right when expanded.
+      </p>
+    </div>
+
+    <p>
+      <strong>Try it:</strong> Click on the sections with carets to see the
+      smooth rotation animation!
+    </p>
+  </body>
+</html>

@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Details/Summary Caret Test</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .demo-sidebar {
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 20px;
+        background: #f8fafc;
+      }
+
+      .item {
+        position: relative;
+        display: flex;
+        width: 100%;
+        align-items: center;
+        padding: 8px 0;
+      }
+
+      .text {
+        flex-grow: 1;
+        padding: 4px 0;
+        line-height: 24px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #374151;
+      }
+
+      .caret {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: -7px;
+        width: 32px;
+        height: 32px;
+        color: #9ca3af;
+        cursor: pointer;
+        transition: color 0.25s;
+        flex-shrink: 0;
+      }
+
+      .item:hover .caret {
+        color: #6b7280;
+      }
+
+      .caret-icon {
+        font-size: 18px;
+        transform: rotate(0deg);
+        transition: transform 0.25s;
+      }
+
+      /* When details is open, rotate the caret */
+      details[open] .caret-icon {
+        transform: rotate(90deg);
+      }
+
+      /* Hide native details marker */
+      details > summary {
+        list-style: none;
+      }
+
+      details > summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .items {
+        border-left: 1px solid #e5e7eb;
+        padding-left: 16px;
+        margin-left: 16px;
+      }
+
+      /* Show items only when details is open */
+      details[open] .items {
+        display: block;
+      }
+
+      details:not([open]) .items {
+        display: none;
+      }
+
+      details > summary.item {
+        cursor: pointer;
+      }
+
+      details > summary.item:hover {
+        background-color: #f1f5f9;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>VitePress Details/Summary Caret Test</h1>
+
+    <div class="demo-sidebar">
+      <h2>Sidebar with Details/Summary Pattern</h2>
+
+      <!-- Non-collapsible item -->
+      <div class="item">
+        <div class="text">🏠 Home</div>
+      </div>
+
+      <!-- Collapsible item with children -->
+      <details>
+        <summary class="item">
+          <div class="text">📚 Guide</div>
+          <div class="caret">
+            <span class="caret-icon">▶</span>
+          </div>
+        </summary>
+        <div class="items">
+          <div class="item">
+            <div class="text">📖 Getting Started</div>
+          </div>
+          <div class="item">
+            <div class="text">⚙️ Configuration</div>
+          </div>
+
+          <!-- Nested collapsible -->
+          <details>
+            <summary class="item">
+              <div class="text">🔧 Advanced</div>
+              <div class="caret">
+                <span class="caret-icon">▶</span>
+              </div>
+            </summary>
+            <div class="items">
+              <div class="item">
+                <div class="text">🛠️ Customization</div>
+              </div>
+              <div class="item">
+                <div class="text">🔌 Plugins</div>
+              </div>
+            </div>
+          </details>
+        </div>
+      </details>
+
+      <!-- Another collapsible item -->
+      <details>
+        <summary class="item">
+          <div class="text">📖 Reference</div>
+          <div class="caret">
+            <span class="caret-icon">▶</span>
+          </div>
+        </summary>
+        <div class="items">
+          <div class="item">
+            <div class="text">📋 API</div>
+          </div>
+          <div class="item">
+            <div class="text">🎨 Theming</div>
+          </div>
+        </div>
+      </details>
+
+      <!-- Non-collapsible item -->
+      <div class="item">
+        <div class="text">❓ FAQ</div>
+      </div>
+    </div>
+
+    <div
+      style="
+        margin-top: 30px;
+        padding: 20px;
+        background: #f0f9ff;
+        border-radius: 8px;
+      "
+    >
+      <h3>✨ Features Demonstrated:</h3>
+      <ul>
+        <li>
+          🔄 <strong>CSS-only caret rotation</strong> - No JavaScript needed!
+        </li>
+        <li>
+          🎯 <strong>Native details/summary</strong> - Better accessibility
+        </li>
+        <li>
+          ⌨️ <strong>Keyboard navigation</strong> - Tab and Enter work out of
+          the box
+        </li>
+        <li>
+          🔗 <strong>Nested collapsible sections</strong> - Supports multiple
+          levels
+        </li>
+        <li>🎨 <strong>Smooth transitions</strong> - Caret rotates smoothly</li>
+        <li>📱 <strong>Mobile friendly</strong> - Works on all devices</li>
+      </ul>
+    </div>
+  </body>
+</html>

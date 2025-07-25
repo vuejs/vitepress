@@ -15,11 +15,10 @@ const {
   isLink,
   isActiveLink,
   hasActiveLink,
-  hasChildren,
-  toggle
+  hasChildren
 } = useSidebarItemControl(computed(() => props.item))
 
-const sectionTag = computed(() => (hasChildren.value ? 'section' : `div`))
+// Remove sectionTag - we'll use conditional rendering instead
 
 const linkTag = computed(() => (isLink.value ? 'a' : 'div'))
 
@@ -41,70 +40,63 @@ const classes = computed(() => [
   { 'is-active': isActiveLink.value },
   { 'has-active': hasActiveLink.value }
 ])
-
-function onItemInteraction(e: MouseEvent | Event) {
-  if ('key' in e && e.key !== 'Enter') {
-    return
-  }
-  !props.item.link && toggle()
-}
-
-function onCaretClick() {
-  props.item.link && toggle()
-}
 </script>
 
 <template>
-  <component :is="sectionTag" class="VPSidebarItem" :class="classes">
-    <div
-      v-if="item.text"
-      class="item"
-      :role="itemRole"
-      v-on="
-        item.items
-          ? { click: onItemInteraction, keydown: onItemInteraction }
-          : {}
-      "
-      :tabindex="item.items && 0"
-    >
+  <!-- Items WITH children use details/summary -->
+  <details v-if="hasChildren" class="VPSidebarItem" :class="classes" :open="!collapsed">
+    <summary class="item" :role="itemRole">
       <div class="indicator" />
 
       <VPLink
-        v-if="item.link"
+        v-if="props.item.link"
         :tag="linkTag"
         class="link"
-        :href="item.link"
-        :rel="item.rel"
-        :target="item.target"
+        :href="props.item.link"
+        :rel="props.item.rel"
+        :target="props.item.target"
       >
-        <component :is="textTag" class="text" v-html="item.text" />
+        <component :is="textTag" class="text" v-html="props.item.text" />
       </VPLink>
-      <component v-else :is="textTag" class="text" v-html="item.text" />
-
-      <div
-        v-if="item.collapsed != null && item.items && item.items.length"
-        class="caret"
-        role="button"
-        aria-label="toggle section"
-        @click="onCaretClick"
-        @keydown.enter="onCaretClick"
-        tabindex="0"
-      >
+      <component v-else :is="textTag" class="text" v-html="props.item.text" />
+      
+      <!-- CSS-only caret icon -->
+      <div class="caret">
         <span class="vpi-chevron-right caret-icon" />
       </div>
-    </div>
+    </summary>
 
-    <div v-if="item.items && item.items.length" class="items">
-      <template v-if="depth < 5">
+    <!-- Children items -->
+    <div v-if="props.item.items && props.item.items.length" class="items">
+      <template v-if="props.depth < 5">
         <VPSidebarItem
-          v-for="i in item.items"
+          v-for="i in props.item.items"
           :key="i.text"
           :item="i"
-          :depth="depth + 1"
+          :depth="props.depth + 1"
         />
       </template>
     </div>
-  </component>
+  </details>
+
+  <!-- Items WITHOUT children use div -->
+  <div v-else class="VPSidebarItem" :class="classes">
+    <div class="item" :role="itemRole">
+      <div class="indicator" />
+
+      <VPLink
+        v-if="props.item.link"
+        :tag="linkTag"
+        class="link"
+        :href="props.item.link"
+        :rel="props.item.rel"
+        :target="props.item.target"
+      >
+        <component :is="textTag" class="text" v-html="props.item.text" />
+      </VPLink>
+      <component v-else :is="textTag" class="text" v-html="props.item.text" />
+    </div>
+  </div>
 </template>
 
 <style scoped>
@@ -112,7 +104,8 @@ function onCaretClick() {
   padding-bottom: 24px;
 }
 
-.VPSidebarItem.collapsed.level-0 {
+.VPSidebarItem.collapsed.level-0,
+.VPSidebarItem.level-0:not([open]) {
   padding-bottom: 10px;
 }
 
@@ -123,6 +116,10 @@ function onCaretClick() {
 }
 
 .VPSidebarItem.collapsible > .item {
+  cursor: pointer;
+}
+
+.VPSidebarItem details > summary.item {
   cursor: pointer;
 }
 
@@ -204,6 +201,7 @@ function onCaretClick() {
   color: var(--vp-c-brand-1);
 }
 
+/* CSS-only icon caret for collapsible items */
 .caret {
   display: flex;
   justify-content: center;
@@ -212,17 +210,12 @@ function onCaretClick() {
   width: 32px;
   height: 32px;
   color: var(--vp-c-text-3);
-  cursor: pointer;
   transition: color 0.25s;
   flex-shrink: 0;
 }
 
 .item:hover .caret {
   color: var(--vp-c-text-2);
-}
-
-.item:hover .caret:hover {
-  color: var(--vp-c-text-1);
 }
 
 .caret-icon {
@@ -232,8 +225,42 @@ function onCaretClick() {
   transition: transform 0.25s;
 }
 
-.VPSidebarItem.collapsed .caret-icon {
-  transform: rotate(0)/*rtl:rotate(180deg)*/;
+/* Rotate icon when details is open */
+.VPSidebarItem details[open] .caret-icon {
+  transform: rotate(0deg)/*rtl:rotate(0deg)*/;
+}
+
+/* Remove old triangle styles */
+.VPSidebarItem details > summary.item {
+  cursor: pointer;
+}
+
+/* Remove padding-right since we're using icon now */
+.VPSidebarItem details > summary.item h2,
+.VPSidebarItem details > summary.item h3,
+.VPSidebarItem details > summary.item h4,
+.VPSidebarItem details > summary.item h5,
+.VPSidebarItem details > summary.item h6,
+.VPSidebarItem details > summary.item p {
+  margin: 0;
+}
+
+/* Hide native details marker */
+.VPSidebarItem details > summary {
+  list-style: none;
+}
+
+.VPSidebarItem details > summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Show items only when details is open */
+.VPSidebarItem details[open] .items {
+  display: block;
+}
+
+.VPSidebarItem details:not([open]) .items {
+  display: none;
 }
 
 .VPSidebarItem.level-1 .items,
@@ -243,9 +270,5 @@ function onCaretClick() {
 .VPSidebarItem.level-5 .items {
   border-left: 1px solid var(--vp-c-divider);
   padding-left: 16px;
-}
-
-.VPSidebarItem.collapsed .items {
-  display: none;
 }
 </style>

@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Debug Sidebar Logic</title>
+    <style>
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        margin: 20px;
+        background: #f5f5f5;
+      }
+
+      .debug-section {
+        background: white;
+        padding: 20px;
+        margin: 10px 0;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+      }
+
+      .correct {
+        border-left: 4px solid #4caf50;
+      }
+
+      .incorrect {
+        border-left: 4px solid #f44336;
+      }
+
+      /* VitePress sidebar styles */
+      .VPSidebarItem {
+        margin: 8px 0;
+      }
+
+      .item {
+        position: relative;
+        display: flex;
+        align-items: center;
+        padding: 4px 0;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .text {
+        flex-grow: 1;
+        color: #213547;
+      }
+
+      /* CSS-only caret for collapsible items */
+      .VPSidebarItem details > summary.item {
+        position: relative;
+        cursor: pointer;
+      }
+
+      .VPSidebarItem details > summary.item::after {
+        content: '';
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 0;
+        height: 0;
+        border-left: 5px solid #8b949e;
+        border-top: 3px solid transparent;
+        border-bottom: 3px solid transparent;
+        transition: all 0.25s;
+      }
+
+      .VPSidebarItem details[open] > summary.item::after {
+        transform: translateY(-50%) rotate(90deg);
+        border-left-color: #476582;
+      }
+
+      .VPSidebarItem details > summary {
+        list-style: none;
+      }
+
+      .VPSidebarItem details > summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .items {
+        margin-left: 16px;
+        margin-top: 4px;
+      }
+
+      .child-item {
+        padding: 2px 0;
+        font-size: 13px;
+        color: #476582;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Debug: VitePress Sidebar Logic</h1>
+
+    <div class="debug-section correct">
+      <h2>✅ CORRECT: Item with children should use &lt;details&gt;</h2>
+      <p>
+        <strong>hasChildren = true</strong> → should render as
+        <code>&lt;details&gt;</code>
+      </p>
+
+      <div class="VPSidebarItem">
+        <details>
+          <summary class="item">
+            <span class="text">Introduction (has children)</span>
+          </summary>
+          <div class="items">
+            <div class="child-item">What is VitePress?</div>
+            <div class="child-item">Getting Started</div>
+            <div class="child-item">Routing</div>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <div class="debug-section correct">
+      <h2>✅ CORRECT: Item without children should use &lt;div&gt;</h2>
+      <p>
+        <strong>hasChildren = false</strong> → should render as
+        <code>&lt;div&gt;</code>
+      </p>
+
+      <div class="VPSidebarItem">
+        <div class="item">
+          <span class="text">Simple Link (no children)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="debug-section incorrect">
+      <h2>❌ INCORRECT: If this is what you're seeing...</h2>
+      <p>
+        <strong>hasChildren = false</strong> → but wrongly renders as
+        <code>&lt;details&gt;</code>
+      </p>
+
+      <div class="VPSidebarItem">
+        <details>
+          <summary class="item">
+            <span class="text">Simple Link (should NOT be details)</span>
+          </summary>
+          <!-- No children, but still wrapped in details -->
+        </details>
+      </div>
+    </div>
+
+    <div class="debug-section incorrect">
+      <h2>❌ INCORRECT: If this is what you're seeing...</h2>
+      <p>
+        <strong>hasChildren = true</strong> → but wrongly renders as
+        <code>&lt;div&gt;</code>
+      </p>
+
+      <div class="VPSidebarItem">
+        <div class="item">
+          <span class="text">Introduction (should be details but isn't)</span>
+        </div>
+        <div class="items">
+          <div class="child-item">What is VitePress?</div>
+          <div class="child-item">Getting Started</div>
+          <div class="child-item">Routing</div>
+        </div>
+      </div>
+    </div>
+
+    <h2>Current Logic in VPSidebarItem.vue:</h2>
+    <pre><code>const sectionTag = computed(() => (hasChildren.value ? 'details' : 'div'))
+
+&lt;template&gt;
+  &lt;component :is="sectionTag" class="VPSidebarItem" :class="classes" :open="!collapsed"&gt;
+    &lt;!-- Non-collapsible items (no children) - use regular div --&gt;
+    &lt;div
+      v-if="props.item.text && !hasChildren"
+      class="item"
+    &gt;
+      &lt;!-- content --&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Collapsible items (has children) - use summary --&gt;
+    &lt;summary
+      v-else-if="props.item.text && hasChildren"
+      class="item"
+    &gt;
+      &lt;!-- content --&gt;
+    &lt;/summary&gt;
+  &lt;/component&gt;
+&lt;/template&gt;</code></pre>
+
+    <p><strong>Expected behavior:</strong></p>
+    <ul>
+      <li>
+        Items with children:
+        <code>&lt;details&gt;&lt;summary&gt;</code> (collapsible with caret)
+      </li>
+      <li>
+        Items without children: <code>&lt;div&gt;&lt;div&gt;</code> (simple
+        link, no caret)
+      </li>
+    </ul>
+  </body>
+</html>

@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Corrected Details/Summary Pattern</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background: #f9fafb;
+      }
+
+      .demo-sidebar {
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 20px;
+        background: white;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .item {
+        position: relative;
+        display: flex;
+        width: 100%;
+        align-items: center;
+        padding: 8px 0;
+        border-radius: 4px;
+      }
+
+      .text {
+        flex-grow: 1;
+        padding: 4px 8px;
+        line-height: 24px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #374151;
+      }
+
+      .link {
+        color: #3b82f6;
+        text-decoration: none;
+        flex-grow: 1;
+      }
+
+      .link:hover {
+        color: #1d4ed8;
+        text-decoration: underline;
+      }
+
+      .caret {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 4px;
+        width: 24px;
+        height: 24px;
+        color: #9ca3af;
+        cursor: pointer;
+        transition: color 0.25s;
+        flex-shrink: 0;
+      }
+
+      .item:hover .caret {
+        color: #6b7280;
+      }
+
+      .caret-icon {
+        font-size: 14px;
+        transform: rotate(0deg);
+        transition: transform 0.25s;
+      }
+
+      /* When details is open, rotate the caret */
+      details[open] .caret-icon {
+        transform: rotate(90deg);
+      }
+
+      /* Hide native details marker */
+      details > summary {
+        list-style: none;
+      }
+
+      details > summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .items {
+        border-left: 1px solid #e5e7eb;
+        padding-left: 16px;
+        margin-left: 16px;
+      }
+
+      /* Show items only when details is open */
+      details[open] .items {
+        display: block;
+      }
+
+      details:not([open]) .items {
+        display: none;
+      }
+
+      details > summary.item {
+        cursor: pointer;
+      }
+
+      details > summary.item:hover {
+        background-color: #f8fafc;
+      }
+
+      /* Regular divs for non-collapsible items */
+      div.item:hover {
+        background-color: #f8fafc;
+      }
+
+      .section-title {
+        font-size: 18px;
+        font-weight: 600;
+        margin: 20px 0 10px 0;
+        color: #1f2937;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>🎯 Corrected Details/Summary Pattern</h1>
+
+    <div class="demo-sidebar">
+      <h2>Proper Implementation</h2>
+
+      <div class="section-title">❌ Before (Wrong Logic)</div>
+      <p style="color: #ef4444; font-size: 14px">
+        All items were wrapped in details/summary regardless of having children
+      </p>
+
+      <div class="section-title">✅ After (Correct Logic)</div>
+
+      <!-- 1. Simple link items - NO details/summary wrapper -->
+      <div class="item">
+        <a href="#" class="link">
+          <div class="text">🏠 Home (simple link)</div>
+        </a>
+      </div>
+
+      <div class="item">
+        <a href="#" class="link">
+          <div class="text">📄 About (simple link)</div>
+        </a>
+      </div>
+
+      <!-- 2. Section with children - YES details/summary wrapper -->
+      <details>
+        <summary class="item">
+          <div class="text">📚 Guide (has children)</div>
+          <div class="caret">
+            <span class="caret-icon">▶</span>
+          </div>
+        </summary>
+        <div class="items">
+          <!-- Child items are simple links -->
+          <div class="item">
+            <a href="#" class="link">
+              <div class="text">📖 Getting Started</div>
+            </a>
+          </div>
+          <div class="item">
+            <a href="#" class="link">
+              <div class="text">⚙️ Configuration</div>
+            </a>
+          </div>
+
+          <!-- Nested section with children -->
+          <details>
+            <summary class="item">
+              <div class="text">🔧 Advanced (has children)</div>
+              <div class="caret">
+                <span class="caret-icon">▶</span>
+              </div>
+            </summary>
+            <div class="items">
+              <div class="item">
+                <a href="#" class="link">
+                  <div class="text">🛠️ Customization</div>
+                </a>
+              </div>
+              <div class="item">
+                <a href="#" class="link">
+                  <div class="text">🔌 Plugins</div>
+                </a>
+              </div>
+            </div>
+          </details>
+        </div>
+      </details>
+
+      <!-- 3. Another section with children -->
+      <details>
+        <summary class="item">
+          <div class="text">📖 API Reference (has children)</div>
+          <div class="caret">
+            <span class="caret-icon">▶</span>
+          </div>
+        </summary>
+        <div class="items">
+          <div class="item">
+            <a href="#" class="link">
+              <div class="text">📋 Components</div>
+            </a>
+          </div>
+          <div class="item">
+            <a href="#" class="link">
+              <div class="text">🎨 Theme Config</div>
+            </a>
+          </div>
+        </div>
+      </details>
+
+      <!-- 4. Another simple link -->
+      <div class="item">
+        <a href="#" class="link">
+          <div class="text">❓ FAQ (simple link)</div>
+        </a>
+      </div>
+    </div>
+
+    <div
+      style="
+        margin-top: 30px;
+        padding: 20px;
+        background: #f0f9ff;
+        border-radius: 8px;
+      "
+    >
+      <h3>🎯 Correct Logic:</h3>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px">
+        <div>
+          <h4>🚫 Items WITHOUT Children:</h4>
+          <ul style="color: #059669">
+            <li>✅ Use regular <code>&lt;div&gt;</code> wrapper</li>
+            <li>
+              ✅ No <code>&lt;details&gt;</code> or <code>&lt;summary&gt;</code>
+            </li>
+            <li>✅ No caret icon</li>
+            <li>✅ Direct links work normally</li>
+          </ul>
+        </div>
+        <div>
+          <h4>✅ Items WITH Children:</h4>
+          <ul style="color: #dc2626">
+            <li>✅ Use <code>&lt;details&gt;</code> wrapper</li>
+            <li>✅ Use <code>&lt;summary&gt;</code> for the item</li>
+            <li>✅ Show caret icon</li>
+            <li>✅ Collapsible behavior</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
