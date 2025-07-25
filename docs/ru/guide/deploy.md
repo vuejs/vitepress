@@ -105,7 +105,7 @@ Cache-Control: max-age=31536000,immutable
 
 ## Руководства по платформам {#platform-guides}
 
-### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render {#netlify-vercel-cloudflare-pages-aws-amplify-render}
+### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render /EdgeOne {#netlify-vercel-cloudflare-pages-aws-amplify-render-edgeone} / 
 
 Создайте новый проект и измените эти настройки с помощью панели управления:
 
@@ -337,3 +337,9 @@ server {
 :::
 
 Дополнительную информацию можно найти в официальной документации [Nginx](https://nginx.org/ru/docs/), а также в следующих обсуждениях: [#2837](https://github.com/vuejs/vitepress/discussions/2837), [#3235](https://github.com/vuejs/vitepress/issues/3235), а также в [блоге Mehdi Merah](https://blog.mehdi.cc/articles/vitepress-cleanurls-on-nginx-environment#readings).
+
+### EdgeOne
+
+EdgeOne Pages теперь предлагает [шаблон развертывания](https://edgeone.ai/pages/templates/vitepress-template) VitePress, позволяющий развертывать ваши проекты VitePress одним кликом.
+
+Для более гибких вариантов развертывания, пожалуйста, обратитесь к [документации](https://edgeone.ai/document/173005620251889664?product=edgedeveloperplatform) и настройте их, отредактировав файл `edgeone.json`.
