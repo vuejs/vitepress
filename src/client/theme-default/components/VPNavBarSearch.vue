@@ -2,12 +2,7 @@
 import '@docsearch/css'
 import { onKeyStroke } from '@vueuse/core'
 import type { DefaultTheme } from 'vitepress/theme'
-import {
-  defineAsyncComponent,
-  onMounted,
-  onUnmounted,
-  ref
-} from 'vue'
+import { defineAsyncComponent, onMounted, onUnmounted, ref } from 'vue'
 import { useData } from '../composables/data'
 import VPNavBarSearchButton from './VPNavBarSearchButton.vue'
 
@@ -173,22 +168,5 @@ const provider = __ALGOLIA__ ? 'algolia' : __VP_LOCAL_SEARCH__ ? 'local' : ''
   .VPNavBarSearch {
     padding-left: 32px;
   }
-}
-
-.dark .DocSearch-Footer {
-  border-top: 1px solid var(--vp-c-divider);
-}
-
-.DocSearch-Form {
-  border: 1px solid var(--vp-c-brand-1);
-  background-color: var(--vp-c-white);
-}
-
-.dark .DocSearch-Form {
-  background-color: var(--vp-c-default-soft);
-}
-
-.DocSearch-Screen-Icon > svg {
-  margin: auto;
 }
 </style>

@@ -377,3 +377,20 @@ new Crawler({
   }
 })
 ```
+
+### Algolia Ask AI 지원 {#ask-ai}
+
+**Ask AI** 기능을 사용하려면 `askAi` 옵션을 추가하세요:
+
+```ts
+options: {
+  appId: '...',
+  apiKey: '...',
+  indexName: '...',
+  askAi: { assistantId: 'XXXYYY' }
+}
+```
+
+::: warning 참고
+Ask AI를 사용하지 않으려면 `askAi` 옵션을 생략하면 됩니다.
+:::

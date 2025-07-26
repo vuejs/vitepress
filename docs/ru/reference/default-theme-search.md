@@ -384,3 +384,20 @@ new Crawler({
   }
 })
 ```
+
+### Поддержка Algolia Ask AI {#ask-ai}
+
+Чтобы включить **Ask AI**, добавьте параметр `askAi`:
+
+```ts
+options: {
+  appId: '...',
+  apiKey: '...',
+  indexName: '...',
+  askAi: { assistantId: 'XXXYYY' }
+}
+```
+
+::: warning Примечание
+Если нужна только поисковая строка, просто опустите `askAi`.
+:::

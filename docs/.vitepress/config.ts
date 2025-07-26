@@ -115,7 +115,8 @@ export default defineConfig({
       options: {
         appId: '8J64VVRP8K',
         apiKey: '52f578a92b88ad6abde815aae2b0ad7c',
-        indexName: 'vitepress'
+        indexName: 'vitepress',
+        askAi: 'YaVSonfX5bS8'
       }
     },
 
