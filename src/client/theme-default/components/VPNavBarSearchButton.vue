@@ -78,11 +78,12 @@ const translate = createSearchTranslate(defaultTranslations)
 }
 
 .DocSearch-Button {
-  width: auto;
-  border: 2px solid var(--docsearch-searchbox-background);
-  border-radius: 8px;
   --docsearch-muted-color: var(--docsearch-text-color);
   --docsearch-searchbox-background: transparent;
+  width: auto;
+  padding: 2px 12px;
+  border: none;
+  border-radius: 8px;
 }
 
 .DocSearch-Search-Icon {
