@@ -2,6 +2,7 @@ import path from 'node:path'
 import c from 'picocolors'
 import {
   mergeConfig,
+  normalizePath,
   searchForWorkspaceRoot,
   type Plugin,
   type ResolvedConfig,
@@ -16,9 +17,9 @@ import {
   resolveAliases
 } from './alias'
 import {
+  isAdditionalConfigFile,
   resolvePages,
   resolveUserConfig,
-  isAdditionalConfigFile,
   type SiteConfig
 } from './config'
 import { disposeMdItInstance } from './markdown/markdown'
@@ -42,6 +43,8 @@ declare module 'vite' {
 }
 
 const themeRE = /\/\.vitepress\/theme\/index\.(m|c)?(j|t)s$/
+const docsearchRE = /\/@docsearch\/css\/dist\/style.css(?:$|\?)/
+
 const hashRE = /\.([-\w]+)\.js$/
 const staticInjectMarkerRE = /\bcreateStaticVNode\((?:(".*")|('.*')), (\d+)\)/g
 const staticStripRE = /['"`]__VP_STATIC_START__[^]*?__VP_STATIC_END__['"`]/g
@@ -190,9 +193,13 @@ export async function createVitePressPlugin(
     },
 
     async transform(code, id) {
+      if (docsearchRE.test(normalizePath(id))) {
+        return code.replaceAll('[data-theme=dark]', '.dark')
+      }
       if (id.endsWith('.vue')) {
         return processClientJS(code, id)
-      } else if (id.endsWith('.md')) {
+      }
+      if (id.endsWith('.md')) {
         // transform .md files into vueSrc so plugin-vue can handle it
         const { vueSrc, deadLinks, includes, pageData } = await markdownToVue(
           code,
