@@ -124,12 +124,12 @@ const translate = createSearchTranslate(defaultTranslations)
 }
 
 .DocSearch-Button-Keys:after {
+  /*rtl:ignore*/
+  direction: ltr;
   content: 'Ctrl K';
 }
 
 .mac .DocSearch-Button-Keys:after {
-  /*rtl:ignore*/
-  direction: ltr;
   content: '\2318  K';
 }
 </style>
