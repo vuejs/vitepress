@@ -59,11 +59,6 @@ const translate = createSearchTranslate(defaultTranslations)
   --docsearch-modal-shadow: none;
 }
 
-.DocSearch-Button-Key--pressed {
-  box-shadow: none !important;
-  transform: none !important;
-}
-
 .DocSearch-Clear {
   padding: 0 8px;
 }
