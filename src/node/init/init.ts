@@ -49,7 +49,7 @@ export async function init(root?: string) {
           message: 'Where should VitePress initialize the config?',
           initialValue: './',
           defaultValue: './',
-          validate(value) {
+          validate() {
             // TODO make sure directory is inside
             return undefined
           }
