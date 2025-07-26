@@ -9,7 +9,6 @@ export interface DocSearchProps {
   insights?: boolean
   translations?: DocSearchTranslations
   askAi?: DocSearchAskAi | string
-  theme?: 'dark' | 'light'
 }
 
 export interface SearchOptions {
