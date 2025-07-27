@@ -188,7 +188,7 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
           closeButtonText: 'Закрыть',
           closeButtonAriaLabel: 'Закрыть',
           placeholderText: 'Поиск в документации',
-          placeholderTextAskAi: 'Спросите у ИИ: ',
+          placeholderTextAskAi: 'Задайте вопрос ИИ: ',
           placeholderTextAskAiStreaming: 'Формируется ответ...',
           searchInputLabel: 'Поиск',
           backToKeywordSearchButtonText:
@@ -203,8 +203,8 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
           removeRecentSearchButtonTitle: 'Удалить из истории поиска',
           favoriteSearchesTitle: 'Избранное',
           removeFavoriteSearchButtonTitle: 'Удалить из избранного',
-          recentConversationsTitle: 'Недавние беседы',
-          removeRecentConversationButtonTitle: 'Удалить эту беседу из истории'
+          recentConversationsTitle: 'Недавние диалоги',
+          removeRecentConversationButtonTitle: 'Удалить этот диалог из истории'
         },
         errorScreen: {
           titleText: 'Невозможно получить результаты',
@@ -214,16 +214,16 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
           noResultsText: 'Ничего не найдено',
           suggestedQueryText: 'Попробуйте изменить запрос',
           reportMissingResultsText: 'Считаете, что результаты должны быть?',
-          reportMissingResultsLinkText: 'Сообщить об этом'
+          reportMissingResultsLinkText: 'Сообщите об этом'
         },
         resultsScreen: {
-          askAiPlaceholder: 'Спросите у ИИ: '
+          askAiPlaceholder: 'Задайте вопрос ИИ: '
         },
         askAiScreen: {
           disclaimerText:
             'Ответы генерируются ИИ и могут содержать ошибки. Проверяйте информацию.',
           relatedSourcesText: 'Связанные источники',
-          thinkingText: 'Обработка...',
+          thinkingText: 'Думаю...',
           copyButtonText: 'Копировать',
           copyButtonCopiedText: 'Скопировано!',
           copyButtonTitle: 'Копировать',
