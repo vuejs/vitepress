@@ -33,6 +33,8 @@ const translate = createSearchTranslate(defaultTranslations)
 
 <style>
 [class*='DocSearch'] {
+  --docsearch-actions-height: auto;
+  --docsearch-actions-width: auto;
   --docsearch-background-color: var(--vp-c-bg-soft);
   --docsearch-container-background: var(--vp-backdrop-bg-color);
   --docsearch-focus-color: var(--vp-c-brand-1);
@@ -75,6 +77,11 @@ const translate = createSearchTranslate(defaultTranslations)
 
 .DocSearch-Logo [class^='cls-'] {
   fill: currentColor;
+}
+
+.DocSearch-Title {
+  font-size: revert;
+  line-height: revert;
 }
 
 .DocSearch-Button {
