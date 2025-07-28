@@ -79,6 +79,10 @@ const translate = createSearchTranslate(defaultTranslations)
   fill: currentColor;
 }
 
+.DocSearch-SearchBar + .DocSearch-Footer {
+  border-top-color: transparent;
+}
+
 .DocSearch-Title {
   font-size: revert;
   line-height: revert;
