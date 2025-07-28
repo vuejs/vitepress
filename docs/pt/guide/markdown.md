@@ -255,7 +255,7 @@ A classe `vp-raw` também pode ser usada diretamente em elementos. O isolamento 
   }
   ```
 
-  Ele utiliza [`postcss-prefix-selector`](https://github.com/postcss/postcss-load-config) internamente. Você pode passar opções assim:
+  Ele utiliza [`postcss-prefix-selector`](https://github.com/RadValentin/postcss-prefix-selector) internamente. Você pode passar opções assim:
 
   ```js
   postcssIsolateStyles({

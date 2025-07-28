@@ -281,7 +281,7 @@ console.log('Привет, VitePress!')
   }
   ```
 
-  Он использует [`postcss-prefix-selector`](https://github.com/postcss/postcss-load-config) под капотом. Вы можете передать ему параметры следующим образом:
+  Он использует [`postcss-prefix-selector`](https://github.com/RadValentin/postcss-prefix-selector) под капотом. Вы можете передать ему параметры следующим образом:
 
   ```js
   postcssIsolateStyles({
