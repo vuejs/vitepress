@@ -187,6 +187,27 @@ export default defineConfig({
 })
 ```
 
+### Custom Local Search Box Item Component
+
+If you want to customize the search result items in the local search page, you can override the `LocalSearchBoxItem` component similarly:
+
+```js
+// .vitepress/theme/index.js
+import DefaultTheme from 'vitepress/theme';
+import CustomLocalSearchBoxItem from './components/CustomLocalSearchBoxItem.vue';
+
+export default {
+  extends: DefaultTheme,
+  enhanceApp({ app }) {
+    app.component('LocalSearchBoxItem', CustomLocalSearchBoxItem);
+  }
+};
+```
+
+#### Creating a Custom `LocalSearchBoxItem`
+
+To create your own `LocalSearchBoxItem`, define a Vue component that accepts a `content` prop and renders it inside a chosen HTML tag, such as a `<span>`. This allows you to control how search results are displayed while keeping the default functionality.
+
 ## Algolia Search
 
 VitePress supports searching your docs site using [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Refer their getting started guide. In your `.vitepress/config.ts` you'll need to provide at least the following to make it work:
