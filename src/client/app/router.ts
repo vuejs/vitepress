@@ -159,10 +159,10 @@ export function createRouter(
         route.path = inBrowser ? pendingPath : withBase(pendingPath)
         route.component = fallbackComponent ? markRaw(fallbackComponent) : null
         const relativePath = inBrowser
-          ? pendingPath
+          ? route.path
               .replace(/(^|\/)$/, '$1index')
               .replace(/(\.html)?$/, '.md')
-              .replace(/^\//, '')
+              .slice(siteDataRef.value.base.length)
           : '404.md'
         route.data = { ...notFoundPageData, relativePath }
         syncRouteQueryAndHash(targetLoc)
