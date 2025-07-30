@@ -4,13 +4,13 @@ outline: deep
 
 # Compatibilidad SSR {#ssr-compatibility}
 
-VitePress pre-interpreta la aplicación en Node.js durante la compilación del producción, utilizando las capacidades de Interpretación del lado del servidor (SSR) de Vue. Esto significa que todo el código personalizado en los componentes del tema está sujeto a la compatibilidad SSR.
+VitePress pre-renderiza la aplicación en Node.js durante la compilación de producción, utilizando las capacidades de Renderizado del Lado del Servidor (SSR) de Vue. Esto significa que todo el código personalizado en los componentes del tema está sujeto a la Compatibilidad con SSR.
 
-La [sección SSR en la documentación Vue oficial](https://vuejs.org/guide/scaling-up/ssr.html) proporciona más contexto sobre lo que es SSR, la relación entre SSR / SSG y notas comunes sobre escribir código amigable con SSR. La regla general es acceder apenas APIs deln navegador / DOM en los hooks `beforeMount` o `mounted` de los componentes Vue.
+La [sección SSR en la documentación Vue oficial](https://vuejs.org/guide/scaling-up/ssr.html) proporciona más contexto sobre lo que es SSR, la relación entre SSR / SSG y notas comunes sobre escribir código amigable para SSR. La regla general es acceder a las APIs del navegador / DOM solo en los hooks `beforeMount` o `mounted` de los componentes de Vue.
 
 ## `<ClientOnly>`
 
-Se está usando o demostrando componentes que no son compatibles con SSR (por ejemplo, contienen directivas personalizadas), puede envolverlos en el componente embutido `<ClientOnly>`:
+Si está usando o demostrando componentes que no son compatibles con SSR (por ejemplo, contienen directivas personalizadas), puede envolverlos en el componente incorporado `<ClientOnly>`:
 
 ```md
 <ClientOnly>
@@ -20,7 +20,7 @@ Se está usando o demostrando componentes que no son compatibles con SSR (por ej
 
 ## Bibliotecas que Acceden el API del Navegador en la Importación {#libraries-that-access-browser-api-on-import}
 
-Algunos componentes o bibliotecas acceden APIs del navegador **en la Importación**. Para usar código que asume un ambiente de navegador en la importación, necesita importarlo dinámicamente.
+Algunos componentes o librerías acceden a las APIs del navegador **al momento de ser importados**. Para usar código que asume un entorno de navegador en la importación, necesita importarlos dinámicamente.
 
 ### Importando en el Hook `mounted` {#importing-in-mounted-hook}
 
@@ -29,7 +29,7 @@ Algunos componentes o bibliotecas acceden APIs del navegador **en la Importació
 import { onMounted } from 'vue'
 
 onMounted(() => {
-  import('./lib-que-accede-window-en-la-importacion').then((module) => {
+  import('./lib-que-accede-a-window-en-la-importacion').then((module) => {
     // usar código
   })
 })
@@ -38,17 +38,17 @@ onMounted(() => {
 
 ### Importación Condicional {#conditional-import}
 
-Puede también importar condicionalmente usando el flag `import.meta.env.SSR` (parte de las [variables de entorno Vite](https://vitejs.dev/guide/env-and-mode.html#env-variables)):
+También puede importar una dependencia condicionalmente utilizando la bandera `import.meta.env.SSR` (que forma parte de las [variables de entorno Vite](https://vitejs.dev/guide/env-and-mode.html#env-variables)):
 
 ```js
 if (!import.meta.env.SSR) {
-  import('./lib-que-accede-window-en-la-importacion').then((module) => {
+  import('./lib-que-accede-a-window-en-la-importacion').then((module) => {
     // usar código
   })
 }
 ```
 
-Como [`Theme.enhanceApp`](./custom-theme#theme-interface) puede ser asíncrono, puede importar condicionalmente y registrar plugins Vue que acceden APIs del navegador en la importación:
+Dado que [`Theme.enhanceApp`](./custom-theme#theme-interface) puede ser asíncrono, puede importar y registrar condicionalmente plugins de Vue que accedan a las APIs del navegador al ser importados:
 
 ```js [.vitepress/theme/index.js]
 /** @type {import('vitepress').Theme} */
@@ -56,7 +56,7 @@ export default {
   // ...
   async enhanceApp({ app }) {
     if (!import.meta.env.SSR) {
-      const plugin = await import('plugin-que-accede-window-en-la-importacion')
+      const plugin = await import('plugin-que-accede-a-window-en-la-importacion')
       app.use(plugin.default)
     }
   }
@@ -71,7 +71,7 @@ export default {
   // ...
   async enhanceApp({ app }) {
     if (!import.meta.env.SSR) {
-      const plugin = await import('plugin-que-accede-window-en-la-importacion')
+      const plugin = await import('plugin-que-accede-a-window-en-la-importacion')
       app.use(plugin.default)
     }
   }
@@ -80,14 +80,14 @@ export default {
 
 ### `defineClientComponent`
 
-VitePress proporciona un auxiliar de conveniencia para importar componentes Vue que acceden APIs del navegador en la importación.
+VitePress proporciona un auxiliar de conveniencia (helper) para importar componentes Vue que acceden a las APIs del navegador al ser importados.
 
 ```vue
 <script setup>
 import { defineClientComponent } from 'vitepress'
 
 const ClientComp = defineClientComponent(() => {
-  return import('componente-que-accede-window-en-la-importacion')
+  return import('componente-que-accede-a-window-en-la-importacion')
 })
 </script>
 
@@ -96,7 +96,7 @@ const ClientComp = defineClientComponent(() => {
 </template>
 ```
 
-Puede también pasar propiedades/hijos/_slots_ para el componente objetivo:
+Puede pasar propiedades/hijos/_slots_ al componente objetivo:
 
 ```vue
 <script setup>
@@ -105,9 +105,9 @@ import { defineClientComponent } from 'vitepress'
 
 const clientCompRef = ref(null)
 const ClientComp = defineClientComponent(
-  () => import('componente-que-acessa-window-na-importacao'),
+  () => import('componente-que-accede-a-window-en-la-importacion'),
 
-  // los argumentos son pasados para h() - https://vuejs.org/api/render-function.html#h
+  // los argumentos se pasan a h() - https://vuejs.org/api/render-function.html#h
   [
     {
       ref: clientCompRef
