@@ -6,7 +6,7 @@ outline: deep
 
 ## Local Search
 
-VitePress supports fuzzy full-text search using a in-browser index thanks to [minisearch](https://github.com/lucaong/minisearch/). To enable this feature, simply set the `themeConfig.search.provider` option to `'local'` in your `.vitepress/config.ts` file:
+VitePress supports fuzzy full-text search using an in-browser index thanks to [minisearch](https://github.com/lucaong/minisearch/). To enable this feature, simply set the `themeConfig.search.provider` option to `'local'` in your `.vitepress/config.ts` file:
 
 ```ts
 import { defineConfig } from 'vitepress'
