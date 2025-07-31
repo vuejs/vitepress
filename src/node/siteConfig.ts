@@ -114,7 +114,7 @@ export interface UserConfig<ThemeConfig = any>
   ignoreDeadLinks?:
     | boolean
     | 'localhostLinks'
-    | (string | RegExp | ((link: string) => boolean))[]
+    | (string | RegExp | ((link: string, source: string) => boolean))[]
 
   /**
    * Don't force `.html` on URLs.

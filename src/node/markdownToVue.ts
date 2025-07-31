@@ -189,7 +189,7 @@ export async function createMarkdownToVueRenderFn(
           return ignore.test(url)
         }
         if (typeof ignore === 'function') {
-          return ignore(url)
+          return ignore(url, fileOrig)
         }
         return false
       })
