@@ -439,7 +439,7 @@ export default {
 
 ### ignoreDeadLinks
 
-- Tipo: `boolean | 'localhostLinks' | (string | RegExp | ((link: string) => boolean))[]`
+- Tipo: `boolean | 'localhostLinks' | (string | RegExp | ((link: string, source: string) => boolean))[]`
 - Predeterminado: `false`
 
 Cuando se establece en `true`, VitePress no dejará de compilarse debido a links rotos.

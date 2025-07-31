@@ -439,7 +439,7 @@ export default {
 
 ### ignoreDeadLinks
 
-- 类型：`boolean | 'localhostLinks' | (string | RegExp | ((link: string) => boolean))[]`
+- 类型：`boolean | 'localhostLinks' | (string | RegExp | ((link: string, source: string) => boolean))[]`
 - 默认值： `false`
 
 当设置为 `true` 时，VitePress 不会因为死链而导致构建失败。

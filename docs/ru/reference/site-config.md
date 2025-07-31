@@ -439,7 +439,7 @@ export default {
 
 ### ignoreDeadLinks {#ignoredeadlinks}
 
-- Тип: `boolean | 'localhostLinks' | (string | RegExp | ((link: string) => boolean))[]`
+- Тип: `boolean | 'localhostLinks' | (string | RegExp | ((link: string, source: string) => boolean))[]`
 - По умолчанию: `false`
 
 Если установлено значение `true`, VitePress не будет завершать сборку из-за неработающих ссылок.

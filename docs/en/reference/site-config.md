@@ -439,7 +439,7 @@ export default {
 
 ### ignoreDeadLinks
 
-- Type: `boolean | 'localhostLinks' | (string | RegExp | ((link: string) => boolean))[]`
+- Type: `boolean | 'localhostLinks' | (string | RegExp | ((link: string, source: string) => boolean))[]`
 - Default: `false`
 
 When set to `true`, VitePress will not fail builds due to dead links.
