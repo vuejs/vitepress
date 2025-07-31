@@ -195,7 +195,8 @@ export async function createMarkdownToVueRenderFn(
       })
     }
 
-    if (links) {
+    const { ignoreDeadLinks = true } = siteConfig
+    if (links && ignoreDeadLinks !== true) {
       const dir = path.dirname(file)
       for (let url of links) {
         const { pathname } = new URL(url, 'http://a.com')
