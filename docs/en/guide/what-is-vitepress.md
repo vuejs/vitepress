@@ -18,7 +18,7 @@ Just want to try it out? Skip to the [Quickstart](./getting-started).
 
 - **Blogs, Portfolios, and Marketing Sites**
 
-  VitePress supports [fully customized themes](./custom-theme), with the developer experience of a standard Vite + Vue application. Being built on Vite also means you can directly leverage Vite plugins from its rich ecosystem. In addition, VitePress provides flexible APIs to [load data](./data-loading) (local or remote) and [dynamically generate routes](./routing#dynamic-routes). You can use it to build almost anything as long as the data can be determined at build time.
+  VitePress supports [fully customized themes](./custom-theme), with the developer experience of a standard Vite + Vue application. Being built on Vite also means you can directly leverage Vite plugins from its rich ecosystem. Additionally, VitePress provides flexible APIs to [load data](./data-loading) (local or remote) and [dynamically generate routes](./routing#dynamic-routes). You can use it to build almost anything as long as the data can be determined at build time.
 
   The official [Vue.js blog](https://blog.vuejs.org/) is a simple blog that generates its index page based on local content.
 
