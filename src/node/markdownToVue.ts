@@ -189,13 +189,13 @@ export async function createMarkdownToVueRenderFn(
           return ignore.test(url)
         }
         if (typeof ignore === 'function') {
-          return ignore(url)
+          return ignore(url, fileOrig)
         }
         return false
       })
     }
 
-    if (links) {
+    if (links && siteConfig?.ignoreDeadLinks !== true) {
       const dir = path.dirname(file)
       for (let url of links) {
         const { pathname } = new URL(url, 'http://a.com')
