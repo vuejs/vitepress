@@ -4,7 +4,7 @@ VitePress es un [Generador de Sitios Estáticos](https://en.wikipedia.org/wiki/S
 
 <div class="tip custom-block" style="padding-top: 8px">
   
-¿Quieres probarlo? Ve directo al [Início Rápido](./getting-started).
+¿Quieres probarlo? Ve directo al [Inicio Rápido](./getting-started).
 
 </div>
 
@@ -18,9 +18,9 @@ VitePress es un [Generador de Sitios Estáticos](https://en.wikipedia.org/wiki/S
 
 - **Blogs, Portfolios y sitios de Marketing**
 
-  VitePress soporta [temas completamente personalizables](./custom-theme), con la experiencia de desarrollado de una aplicación estándar de Vite + Vue. Al estar construido sobre Vite, también puedes aprovechar directamente los plugins de su rico ecosistema. Adicionalmente, VitePress proporciona APIs flexibles para [cargar datos](./data-loading) (locales o remotos) y [generar rutas dinámicamente](./routing#dynamic-routes). Puedes usarlo para construir practicamente cualquier cosa siempre y cuando los datos puedan ser determinados en el momento de la construcción.
+  VitePress soporta [temas completamente personalizables](./custom-theme), con la experiencia de desarrollo de una aplicación estándar de Vite + Vue. Al estar construido sobre Vite, también puedes aprovechar directamente los plugins de su rico ecosistema. Adicionalmente, VitePress proporciona APIs flexibles para [cargar datos](./data-loading) (locales o remotos) y [generar rutas dinámicamente](./routing#dynamic-routes). Puedes usarlo para construir prácticamente cualquier cosa, siempre y cuando los datos puedan ser determinados en el momento de la construcción.
 
-  El [blog oficial Vue.js](https://blog.vuejs.org/) es un blog simple que genera su página inicial basándose en contenido local.
+  El [blog oficial Vue.js](https://blog.vuejs.org/) es un blog simple que genera su página de inicio basándose en contenido local.
 
 ## Experiencia de Desarrollador {#developer-experience}
 
@@ -38,11 +38,11 @@ A diferencia de muchos SSG tradicionales donde cada navegación resulta en una r
 
 - **Carga Inicial Rápida**
 
-  La visita inicial a cualquier página será servida con el HTML estático pre-renderizado para una velocidad de carga rápida y SEO óptimo. La página entonces carga un paquete JavaScript que transforma la página en una SPA de Vue (a este proceso se le llama "hidratación"). A diferencia de las suposiciones comunes de que la hidratación de las SPA es lenta, este proceso es en realidad extremadamente rápido gracias al rendimiento puro y las optimizaciones del compilador de Vue 3. En [PageSpeed Insights](https://pagespeed.web.dev/report?url=https%3A%2F%2Fvitepress.dev%2F), los sitios típicos VitePress alcanzan puntuaciones de desempeño casi perfectas, incluso en dispositivos móbiles de gama baja con una red lenta.
+  La visita inicial a cualquier página será servida con el HTML estático pre-renderizado para una velocidad de carga rápida y SEO óptimo. La página entonces carga un paquete JavaScript que transforma la página en una SPA de Vue (a este proceso se le llama "hidratación"). Contrario a las suposiciones comunes de que la hidratación de las SPA es lenta, este proceso es en realidad extremadamente rápido gracias al rendimiento puro y las optimizaciones del compilador de Vue 3. En [PageSpeed Insights](https://pagespeed.web.dev/report?url=https%3A%2F%2Fvitepress.dev%2F), los sitios típicos VitePress alcanzan puntuaciones de desempeño casi perfectas, incluso en dispositivos móbiles de gama baja con una red lenta.
 
 - **Navegación Rápida pos-carga**
 
-  Más importante aún, el modelo SPA conduce a una mejor experiencia de usuario **después** de la carga inicial. Las navegaciones posteriores dentro del sitio ya no causarán una recarga completa de la página. En vez de eso, el contenido de la página a la que se accede será buscado y actualizado dinámicamente. VitePress también pre-carga automáticamente fragmentos de las páginas para los enlaces que están dentro del viewport. En la mayoría de los casos, la navegación pos-carga se sentirá instantánea.
+  Más importante aún, el modelo SPA conduce a una mejor experiencia de usuario **después** de la carga inicial. Las navegaciones posteriores dentro del sitio ya no causarán una recarga completa de la página. En vez de eso, el contenido de la página a la que se accede se buscará y actualizará dinámicamente. VitePress también pre-carga automáticamente fragmentos de las páginas para los enlaces que están dentro del viewport. En la mayoría de los casos, la navegación pos-carga se sentirá instantánea.
 
 - **Interactividad Sin Penalización**
 
