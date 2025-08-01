@@ -45,7 +45,7 @@ if (import.meta.env.SSR) {
     :href="link"
     :aria-label="ariaLabel ?? (typeof icon === 'string' ? icon : '')"
     target="_blank"
-    rel="noopener"
+    rel="me noopener"
     v-html="svg"
   ></a>
 </template>
