@@ -10,6 +10,7 @@ import {
 import fs from 'fs-extra'
 import template from 'lodash.template'
 import path from 'node:path'
+import process from 'node:process'
 import { fileURLToPath } from 'node:url'
 import c from 'picocolors'
 import { slash } from '../shared'
@@ -49,9 +50,24 @@ export async function init(root?: string) {
           message: 'Where should VitePress initialize the config?',
           initialValue: './',
           defaultValue: './',
-          validate() {
-            // TODO make sure directory is inside
-            return undefined
+          validate(value) {
+            const cwd = slash(process.cwd())
+            const dir = slash(value as string)
+
+            const cwdRE = new RegExp(
+              `^${dir.endsWith('/') ? `${cwd}/` : cwd}`,
+              'u'
+            )
+            // If give absolute path, use that path instead
+            const absolutePath =
+              (process.platform === 'win32' && /^[A-Z]:/i.test(dir)) ||
+              /^\//.test(dir)
+                ? dir
+                : path.join(cwd, dir)
+
+            return !cwdRE.test(absolutePath)
+              ? 'Please init your config inside this directory.'
+              : undefined
           }
         })
       },
