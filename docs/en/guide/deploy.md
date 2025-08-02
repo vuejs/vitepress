@@ -105,7 +105,7 @@ Note: the `vercel.json` file should be placed at the root of your **repository**
 
 ## Platform Guides
 
-### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render
+### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render / EdgeOne
 
 Set up a new project and change these settings using your dashboard:
 
@@ -337,3 +337,9 @@ The try_files resolution must not default to index.html like in other Vue applic
 :::
 
 Further information can be found in the [official nginx documentation](https://nginx.org/en/docs/), in these issues [#2837](https://github.com/vuejs/vitepress/discussions/2837), [#3235](https://github.com/vuejs/vitepress/issues/3235) as well as in this [blog post](https://blog.mehdi.cc/articles/vitepress-cleanurls-on-nginx-environment#readings) by Mehdi Merah.
+
+### EdgeOne
+
+EdgeOne Pages now offers a VitePress [deployment template](https://edgeone.ai/pages/templates/vitepress-template), enabling one-click deployment of your VitePress projects.
+
+For more flexible deployment options, please refer to the [documentation](https://edgeone.ai/document/173005620251889664?product=edgedeveloperplatform) and configure them by editing the `edgeone.json` file.
