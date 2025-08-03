@@ -2,12 +2,13 @@
 import type { DefaultTheme } from 'vitepress/theme'
 import { inject } from 'vue'
 import VPLink from './VPLink.vue'
+import { navInjectionKey } from '../composables/nav';
 
 defineProps<{
   item: DefaultTheme.NavItemWithLink
 }>()
 
-const closeScreen = inject('close-screen') as () => void
+const { closeScreen } = inject(navInjectionKey)!
 </script>
 
 <template>

@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { type Ref, inject } from 'vue'
+import { inject } from 'vue'
 import type { DefaultTheme } from 'vitepress/theme'
 import VPButton from './VPButton.vue'
 import VPImage from './VPImage.vue'
+import { layoutInfoInjectionKey } from '../composables/layout'
 
 export interface HeroAction {
   theme?: 'brand' | 'alt'
@@ -20,7 +21,7 @@ defineProps<{
   actions?: HeroAction[]
 }>()
 
-const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
+const { heroImageSlotExists } = inject(layoutInfoInjectionKey)!
 </script>
 
 <template>

@@ -1,6 +1,7 @@
 import { inBrowser, onContentUpdated, useRoute } from 'vitepress'
 import type { DefaultTheme, useLayout as expected } from 'vitepress/theme'
 import { computed, shallowReadonly, shallowRef, watch } from 'vue'
+import type { ComputedRef, InjectionKey } from 'vue'
 import { getSidebar, getSidebarGroups } from '../support/sidebar'
 import { useData } from './data'
 import { getHeaders } from './outline'
@@ -102,3 +103,10 @@ export function registerWatchers({ closeSidebar }: RegisterWatchersOptions) {
 
   useCloseSidebarOnEscape(closeSidebar)
 }
+
+export interface LayoutInfo {
+  heroImageSlotExists: ComputedRef<boolean>
+}
+
+export const layoutInfoInjectionKey: InjectionKey<LayoutInfo> =
+  Symbol('layoutInfo')

@@ -1,5 +1,6 @@
 import { useRoute } from 'vitepress'
 import { ref, watch } from 'vue'
+import type { InjectionKey } from 'vue'
 
 export function useNav() {
   const isScreenOpen = ref(false)
@@ -35,3 +36,9 @@ export function useNav() {
     toggleScreen
   }
 }
+
+export interface NavExposedMethods {
+  closeScreen: () => void
+}
+
+export const navInjectionKey: InjectionKey<NavExposedMethods> = Symbol('nav')
