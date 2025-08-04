@@ -28,7 +28,7 @@ VitePress busca ofrecer una excelente Experiencia de Desarrollador (DX) al traba
 
 - **[Con tecnología Vite:](https://vitejs.dev/)** inicio instantáneo del servidor, con los cambios reflejados al instante (<100ms) sin recargar la página.
 
-- **[Extensiones Markdown Integradas:](./markdown)** Frontmatter, tablas, destaque de sintaxis... tu decides. Específicamente, VitePress proporciona muchos recursos para trabajar con bloques de código, tornándolo ideal para documentación altamente técnica.
+- **[Extensiones Markdown Integradas:](./markdown)** Frontmatter, tablas, destaque de sintaxis... tú decides. Específicamente, VitePress proporciona muchos recursos para trabajar con bloques de código, tornándolo ideal para documentación altamente técnica.
 
 - **[Markdown Mejorado con Vue:](./using-vue)** cada página Markdown es también un [Componente de Archivo único](https://vuejs.org/guide/scaling-up/sfc.html) de Vue, gracias a la compatibilidad del 100% de la sintaxis de las plantillas de Vue con HTML.  Puedes incrustar interactividad en su contenido estático usando las funciones de plantillas de Vue o componentes de Vue importados.
 
@@ -38,7 +38,7 @@ A diferencia de muchos SSG tradicionales donde cada navegación resulta en una r
 
 - **Carga Inicial Rápida**
 
-  La visita inicial a cualquier página será servida con el HTML estático pre-renderizado para una velocidad de carga rápida y SEO óptimo. La página entonces carga un paquete JavaScript que transforma la página en una SPA de Vue (a este proceso se le llama "hidratación"). Contrario a las suposiciones comunes de que la hidratación de las SPA es lenta, este proceso es en realidad extremadamente rápido gracias al rendimiento puro y las optimizaciones del compilador de Vue 3. En [PageSpeed Insights](https://pagespeed.web.dev/report?url=https%3A%2F%2Fvitepress.dev%2F), los sitios típicos VitePress alcanzan puntuaciones de desempeño casi perfectas, incluso en dispositivos móbiles de gama baja con una red lenta.
+  La visita inicial a cualquier página será servida con el HTML estático pre-renderizado para una velocidad de carga rápida y SEO óptimo. La página entonces carga un paquete JavaScript que transforma la página en una SPA de Vue (a este proceso se le llama "hidratación"). A diferencia de la creencia popular de que la hidratación de una SPA es lenta, este proceso es de hecho extremadamente rápido gracias al rendimiento nativo y a las optimizaciones del compilador de Vue 3. En [PageSpeed Insights](https://pagespeed.web.dev/report?url=https%3A%2F%2Fvitepress.dev%2F), los sitios típicos VitePress alcanzan puntuaciones de desempeño casi perfectas, incluso en dispositivos móbiles de gama baja con una red lenta.
 
 - **Navegación Rápida pos-carga**
 
