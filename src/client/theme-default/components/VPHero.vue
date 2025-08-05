@@ -57,7 +57,7 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
         <div class="image-container">
           <div class="image-bg" />
           <slot name="home-hero-image">
-            <VPImage v-if="image" class="image-src" :image="image" />
+            <VPImage v-if="image" class="image-src" :image />
           </slot>
         </div>
       </div>
@@ -322,6 +322,9 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
   left: 50%;
   max-width: 192px;
   max-height: 192px;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
   /*rtl:ignore*/
   transform: translate(-50%, -50%);
 }

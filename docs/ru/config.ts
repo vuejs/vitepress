@@ -1,15 +1,17 @@
 import { createRequire } from 'module'
-import { defineConfig, type DefaultTheme } from 'vitepress'
+import { defineAdditionalConfig, type DefaultTheme } from 'vitepress'
 
 const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
 
-export const ru = defineConfig({
+export default defineAdditionalConfig({
   lang: 'ru-RU',
   description: 'Генератор статических сайтов на основе Vite и Vue.',
 
   themeConfig: {
     nav: nav(),
+
+    search: { options: searchOptions() },
 
     sidebar: {
       '/ru/guide/': { base: '/ru/guide/', items: sidebarGuide() },
@@ -35,6 +37,14 @@ export const ru = defineConfig({
 
     lastUpdated: {
       text: 'Обновлено'
+    },
+
+    notFound: {
+      title: 'СТРАНИЦА НЕ НАЙДЕНА',
+      quote:
+        'Но если ты не изменишь направление и продолжишь искать, ты можешь оказаться там, куда направляешься.',
+      linkLabel: 'перейти на главную',
+      linkText: 'Отведи меня домой'
     },
 
     darkModeSwitchLabel: 'Оформление',
@@ -163,8 +173,8 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
   ]
 }
 
-export const search: DefaultTheme.AlgoliaSearchOptions['locales'] = {
-  ru: {
+function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
+  return {
     placeholder: 'Поиск в документации',
     translations: {
       button: {
@@ -173,10 +183,18 @@ export const search: DefaultTheme.AlgoliaSearchOptions['locales'] = {
       },
       modal: {
         searchBox: {
-          resetButtonTitle: 'Сбросить поиск',
-          resetButtonAriaLabel: 'Сбросить поиск',
-          cancelButtonText: 'Отменить поиск',
-          cancelButtonAriaLabel: 'Отменить поиск'
+          clearButtonTitle: 'Очистить поиск',
+          clearButtonAriaLabel: 'Очистить поиск',
+          closeButtonText: 'Закрыть',
+          closeButtonAriaLabel: 'Закрыть',
+          placeholderText: 'Поиск в документации',
+          placeholderTextAskAi: 'Задайте вопрос ИИ: ',
+          placeholderTextAskAiStreaming: 'Формируется ответ...',
+          searchInputLabel: 'Поиск',
+          backToKeywordSearchButtonText:
+            'Вернуться к поиску по ключевым словам',
+          backToKeywordSearchButtonAriaLabel:
+            'Вернуться к поиску по ключевым словам'
         },
         startScreen: {
           recentSearchesTitle: 'История поиска',
@@ -184,24 +202,50 @@ export const search: DefaultTheme.AlgoliaSearchOptions['locales'] = {
           saveRecentSearchButtonTitle: 'Сохранить в истории поиска',
           removeRecentSearchButtonTitle: 'Удалить из истории поиска',
           favoriteSearchesTitle: 'Избранное',
-          removeFavoriteSearchButtonTitle: 'Удалить из избранного'
+          removeFavoriteSearchButtonTitle: 'Удалить из избранного',
+          recentConversationsTitle: 'Недавние диалоги',
+          removeRecentConversationButtonTitle: 'Удалить этот диалог из истории'
         },
         errorScreen: {
           titleText: 'Невозможно получить результаты',
-          helpText: 'Вам может потребоваться проверить подключение к Интернету'
+          helpText: 'Проверьте подключение к Интернету'
+        },
+        noResultsScreen: {
+          noResultsText: 'Ничего не найдено',
+          suggestedQueryText: 'Попробуйте изменить запрос',
+          reportMissingResultsText: 'Считаете, что результаты должны быть?',
+          reportMissingResultsLinkText: 'Сообщите об этом'
+        },
+        resultsScreen: {
+          askAiPlaceholder: 'Задайте вопрос ИИ: '
+        },
+        askAiScreen: {
+          disclaimerText:
+            'Ответы генерируются ИИ и могут содержать ошибки. Проверяйте информацию.',
+          relatedSourcesText: 'Связанные источники',
+          thinkingText: 'Думаю...',
+          copyButtonText: 'Копировать',
+          copyButtonCopiedText: 'Скопировано!',
+          copyButtonTitle: 'Копировать',
+          likeButtonTitle: 'Нравится',
+          dislikeButtonTitle: 'Не нравится',
+          thanksForFeedbackText: 'Спасибо за отзыв!',
+          preToolCallText: 'Поиск...',
+          duringToolCallText: 'Поиск ',
+          afterToolCallText: 'Поиск завершён',
+          aggregatedToolCallText: 'Поиск завершён'
         },
         footer: {
           selectText: 'выбрать',
+          submitQuestionText: 'Отправить вопрос',
+          selectKeyAriaLabel: 'Клавиша Enter',
           navigateText: 'перейти',
+          navigateUpKeyAriaLabel: 'Стрелка вверх',
+          navigateDownKeyAriaLabel: 'Стрелка вниз',
           closeText: 'закрыть',
-          searchByText: 'поставщик поиска'
-        },
-        noResultsScreen: {
-          noResultsText: 'Нет результатов для',
-          suggestedQueryText: 'Вы можете попытаться узнать',
-          reportMissingResultsText:
-            'Считаете, что поиск даёт ложные результаты？',
-          reportMissingResultsLinkText: 'Нажмите на кнопку «Обратная связь»'
+          backToSearchText: 'Вернуться к поиску',
+          closeKeyAriaLabel: 'Клавиша Esc',
+          poweredByText: 'поиск от'
         }
       }
     }

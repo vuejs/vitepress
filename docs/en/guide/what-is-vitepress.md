@@ -12,7 +12,7 @@ Just want to try it out? Skip to the [Quickstart](./getting-started).
 
 - **Documentation**
 
-  VitePress ships with a default theme designed for technical documentation. It powers this page you are reading right now, along with the documentation for [Vite](https://vitejs.dev/), [Rollup](https://rollupjs.org/), [Pinia](https://pinia.vuejs.org/), [VueUse](https://vueuse.org/), [Vitest](https://vitest.dev/), [D3](https://d3js.org/), [UnoCSS](https://unocss.dev/), [Iconify](https://iconify.design/) and [many more](https://www.vuetelescope.com/explore?framework.slug=vitepress).
+  VitePress ships with a default theme designed for technical documentation. It powers this page you are reading right now, along with the documentation for [Vite](https://vitejs.dev/), [Rollup](https://rollupjs.org/), [Pinia](https://pinia.vuejs.org/), [VueUse](https://vueuse.org/), [Vitest](https://vitest.dev/), [D3](https://d3js.org/), [UnoCSS](https://unocss.dev/), [Iconify](https://iconify.design/) and [many more](https://github.com/search?q=/"vitepress":+/+language:json&type=code).
 
   The [official Vue.js documentation](https://vuejs.org/) is also based on VitePress, but uses a custom theme shared between multiple translations.
 

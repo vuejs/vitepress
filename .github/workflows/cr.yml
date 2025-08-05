@@ -9,6 +9,7 @@ on:
     types: [opened, synchronize, labeled, ready_for_review]
     paths-ignore:
       - '.github/**'
+      - '!.github/workflows/cr.yml'
       - '__tests__/**'
       - 'art/**'
       - 'docs/**'
@@ -17,6 +18,7 @@ on:
     branches: [main]
     paths-ignore:
       - '.github/**'
+      - '!.github/workflows/cr.yml'
       - '__tests__/**'
       - 'art/**'
       - 'docs/**'

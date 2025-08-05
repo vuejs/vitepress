@@ -255,7 +255,7 @@ export default defineConfig({
   }
   ```
 
-  این از [`postcss-prefix-selector`](https://github.com/postcss/postcss-load-config) استفاده می‌کند. می‌توانید گزینه‌های آن را به این صورت پاس بدهید:
+  این از [`postcss-prefix-selector`](https://github.com/RadValentin/postcss-prefix-selector) استفاده می‌کند. می‌توانید گزینه‌های آن را به این صورت پاس بدهید:
 
   ```js
   postcssIsolateStyles({

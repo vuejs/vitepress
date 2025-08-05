@@ -212,9 +212,7 @@ export default defineConfig({
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
-  themeConfig:
-
- {
+  themeConfig: {
     search: {
       provider: 'algolia',
       options: {
@@ -223,40 +221,40 @@ export default defineConfig({
         indexName: '...',
         locales: {
           zh: {
-            placeholder: 'جستجو در مستندات',
+            placeholder: '搜索文档',
             translations: {
               button: {
-                buttonText: 'جستجو در مستندات',
-                buttonAriaLabel: 'جستجو در مستندات'
+                buttonText: '搜索文档',
+                buttonAriaLabel: '搜索文档'
               },
               modal: {
                 searchBox: {
-                  resetButtonTitle: 'پاک کردن شرایط جستجو',
-                  resetButtonAriaLabel: 'پاک کردن شرایط جستجو',
-                  cancelButtonText: 'لغو',
-                  cancelButtonAriaLabel: 'لغو'
+                  resetButtonTitle: '清除搜索条件',
+                  resetButtonAriaLabel: '清除搜索条件',
+                  cancelButtonText: '取消',
+                  cancelButtonAriaLabel: '取消'
                 },
                 startScreen: {
-                  recentSearchesTitle: 'تاریخچه جستجو',
-                  noRecentSearchesText: 'هیچ تاریخچه جستجویی وجود ندارد',
-                  saveRecentSearchButtonTitle: 'ذخیره در تاریخچه جستجو',
-                  removeRecentSearchButtonTitle: 'حذف از تاریخچه جستجو'
+                  recentSearchesTitle: '最近搜索',
+                  noRecentSearchesText: '没有最近搜索',
+                  saveRecentSearchButtonTitle: '保存到最近搜索',
+                  removeRecentSearchButtonTitle: '从最近搜索中删除'
                 },
                 errorScreen: {
-                  titleText: 'نمایش نتایج امکان‌پذیر نیست',
-                  helpText: 'شما ممکن است نیاز به بررسی اتصال اینترنت خود داشته باشید'
+                  titleText: '无法显示结果',
+                  helpText: '您可能需要检查您的互联网连接'
                 },
                 footer: {
-                  selectText: 'انتخاب',
-                  navigateText: 'جابجایی',
-                  closeText: 'بستن',
-                  searchByText: 'جستجو توسط'
+                  selectText: '选择',
+                  navigateText: '导航',
+                  closeText: '关闭',
+                  searchByText: '搜索由'
                 },
                 noResultsScreen: {
-                  noResultsText: 'نتیجه‌ای پیدا نشد',
-                  suggestedQueryText: 'می‌توانید امتحان کنید',
-                  reportMissingResultsText: 'فکر می‌کنید باید نتایجی وجود داشته باشد؟',
-                  reportMissingResultsLinkText: 'برای بازخورد کلیک کنید'
+                  noResultsText: '没有找到结果',
+                  suggestedQueryText: '您可以尝试',
+                  reportMissingResultsText: '您认为应该有结果吗？',
+                  reportMissingResultsLinkText: '点击这里报告'
                 }
               }
             }
@@ -377,3 +375,22 @@ new Crawler({
   }
 })
 ```
+
+### پشتیبانی Algolia Ask AI {#ask-ai}
+
+برای فعال‌سازی **Ask AI** کافی است گزینه `askAi` را اضافه کنید:
+
+```ts
+options: {
+  appId: '...',
+  apiKey: '...',
+  indexName: '...',
+  askAi: {
+    assistantId: 'XXXYYY'
+  }
+}
+```
+
+::: warning نکته
+اگر فقط به جستجوی کلمات کلیدی نیاز دارید، `askAi` را اضافه نکنید.
+:::

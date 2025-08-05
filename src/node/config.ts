@@ -12,10 +12,21 @@ import {
 import { DEFAULT_THEME_PATH } from './alias'
 import type { DefaultTheme } from './defaultTheme'
 import { resolvePages } from './plugins/dynamicRoutesPlugin'
-import { APPEARANCE_KEY, slash, type HeadConfig, type SiteData } from './shared'
+import {
+  APPEARANCE_KEY,
+  VP_SOURCE_KEY,
+  isObject,
+  slash,
+  type AdditionalConfig,
+  type Awaitable,
+  type HeadConfig,
+  type SiteData
+} from './shared'
 import type { RawConfigExports, SiteConfig, UserConfig } from './siteConfig'
+import { glob } from './utils/glob'
 
 export { resolvePages } from './plugins/dynamicRoutesPlugin'
+export { resolveSiteDataByRoute } from './shared'
 export * from './siteConfig'
 
 const debug = _debug('vitepress:config')
@@ -23,23 +34,43 @@ const debug = _debug('vitepress:config')
 const resolve = (root: string, file: string) =>
   normalizePath(path.resolve(root, `.vitepress`, file))
 
+export type { ConfigEnv }
 export type UserConfigFn<ThemeConfig> = (
   env: ConfigEnv
-) => UserConfig<ThemeConfig> | Promise<UserConfig<ThemeConfig>>
+) => Awaitable<UserConfig<ThemeConfig>>
 export type UserConfigExport<ThemeConfig> =
-  | UserConfig<ThemeConfig>
-  | Promise<UserConfig<ThemeConfig>>
+  | Awaitable<UserConfig<ThemeConfig>>
   | UserConfigFn<ThemeConfig>
 
 /**
  * Type config helper
  */
-export function defineConfig(config: UserConfig<DefaultTheme.Config>) {
+export function defineConfig<ThemeConfig = DefaultTheme.Config>(
+  config: UserConfig<NoInfer<ThemeConfig>>
+) {
+  return config
+}
+
+export type AdditionalConfigFn<ThemeConfig> = (
+  env: ConfigEnv
+) => Awaitable<AdditionalConfig<ThemeConfig>>
+export type AdditionalConfigExport<ThemeConfig> =
+  | Awaitable<AdditionalConfig<ThemeConfig>>
+  | AdditionalConfigFn<ThemeConfig>
+
+/**
+ *  Type config helper for additional/locale-specific config
+ */
+export function defineAdditionalConfig<ThemeConfig = DefaultTheme.Config>(
+  config: AdditionalConfig<NoInfer<ThemeConfig>>
+) {
   return config
 }
 
 /**
  * Type config helper for custom theme config
+ *
+ * @deprecated use `defineConfig` instead
  */
 export function defineConfigWithTheme<ThemeConfig>(
   config: UserConfig<ThemeConfig>
@@ -97,7 +128,7 @@ export async function resolveConfig(
     ? userThemeDir
     : DEFAULT_THEME_PATH
 
-  const config: SiteConfig = {
+  const config: Omit<SiteConfig, 'pages' | 'dynamicRoutes' | 'rewrites'> = {
     root,
     srcDir,
     assetsDir,
@@ -129,18 +160,74 @@ export async function resolveConfig(
     transformPageData: userConfig.transformPageData,
     userConfig,
     sitemap: userConfig.sitemap,
-    buildConcurrency: userConfig.buildConcurrency ?? 64,
-    ...(await resolvePages(srcDir, userConfig, logger, true))
+    buildConcurrency: userConfig.buildConcurrency ?? 64
   }
 
   // to be shared with content loaders
   // @ts-ignore
   global.VITEPRESS_CONFIG = config
 
-  return config
+  // resolve pages after setting global, so that path loaders can access it
+  Object.assign(config, await resolvePages(srcDir, userConfig, logger, true))
+
+  return config as SiteConfig
 }
 
 const supportedConfigExtensions = ['js', 'ts', 'mjs', 'mts']
+const additionalConfigRE = /(?:^|\/|\\)config\.m?[jt]s$/
+const additionalConfigGlob = `**/config.{js,mjs,ts,mts}`
+
+export function isAdditionalConfigFile(path: string) {
+  return additionalConfigRE.test(path)
+}
+
+async function gatherAdditionalConfig(
+  root: string,
+  command: 'serve' | 'build',
+  mode: string,
+  srcDir: string = '.',
+  srcExclude: string[] = []
+) {
+  //
+
+  const candidates = await glob([additionalConfigGlob], {
+    cwd: path.resolve(root, srcDir),
+    ignore: srcExclude
+  })
+
+  const deps: string[][] = []
+
+  const exports = await Promise.all(
+    candidates.map(async (file) => {
+      const id = normalizePath(`/${path.dirname(file)}/`)
+
+      const configExports = await loadConfigFromFile(
+        { command, mode },
+        normalizePath(path.resolve(root, srcDir, file)),
+        root
+      ).catch(console.error) // Skip additionalConfig file if it fails to load
+
+      if (!configExports) {
+        debug(`Failed to load additional config from ${file}`)
+        return
+      }
+
+      deps.push(
+        configExports.dependencies.map((file) =>
+          normalizePath(path.resolve(file))
+        )
+      )
+
+      if (mode === 'development') {
+        ;(configExports.config as any)[VP_SOURCE_KEY] = '/' + slash(file)
+      }
+
+      return [id, configExports.config as AdditionalConfig] as const
+    })
+  )
+
+  return [Object.fromEntries(exports.filter((e) => e != null)), deps] as const
+}
 
 export async function resolveUserConfig(
   root: string,
@@ -172,6 +259,19 @@ export async function resolveUserConfig(
       )
     }
     debug(`loaded config at ${c.yellow(configPath)}`)
+  }
+
+  // Auto-generate additional config if user leaves it unspecified
+  if (userConfig.additionalConfig === undefined) {
+    const [additionalConfig, additionalDeps] = await gatherAdditionalConfig(
+      root,
+      command,
+      mode,
+      userConfig.srcDir,
+      userConfig.srcExclude
+    )
+    userConfig.additionalConfig = additionalConfig
+    configDeps = configDeps.concat(...additionalDeps)
   }
 
   return [await resolveConfigExtends(userConfig), configPath, configDeps]
@@ -213,10 +313,6 @@ export function mergeConfig(a: UserConfig, b: UserConfig, isRoot = true) {
   return merged
 }
 
-function isObject(value: unknown): value is Record<string, any> {
-  return Object.prototype.toString.call(value) === '[object Object]'
-}
-
 export async function resolveSiteData(
   root: string,
   userConfig?: UserConfig,
@@ -241,12 +337,14 @@ export async function resolveSiteData(
     locales: userConfig.locales || {},
     scrollOffset: userConfig.scrollOffset ?? 134,
     cleanUrls: !!userConfig.cleanUrls,
-    contentProps: userConfig.contentProps
+    contentProps: userConfig.contentProps,
+    additionalConfig: userConfig.additionalConfig
   }
 }
 
 function resolveSiteDataHead(userConfig?: UserConfig): HeadConfig[] {
   const head = userConfig?.head ?? []
+  if (userConfig?.mpa) return head
 
   // add inline script to apply dark mode, if user enables the feature.
   // this is required to prevent "flash" on initial page load.

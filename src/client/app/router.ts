@@ -28,6 +28,8 @@ export interface Router {
       initialLoad?: boolean
       // Whether to smoothly scroll to the target position.
       smoothScroll?: boolean
+      // Whether to replace the current history entry.
+      replace?: boolean
     }
   ) => Promise<void>
   /**
@@ -157,10 +159,10 @@ export function createRouter(
         route.path = inBrowser ? pendingPath : withBase(pendingPath)
         route.component = fallbackComponent ? markRaw(fallbackComponent) : null
         const relativePath = inBrowser
-          ? pendingPath
+          ? route.path
               .replace(/(^|\/)$/, '$1index')
               .replace(/(\.html)?$/, '.md')
-              .replace(/^\//, '')
+              .slice(siteDataRef.value.base.length)
           : '404.md'
         route.data = { ...notFoundPageData, relativePath }
         syncRouteQueryAndHash(targetLoc)
@@ -322,7 +324,7 @@ function normalizeHref(href: string): string {
 
 async function changeRoute(
   href: string,
-  { smoothScroll = false, initialLoad = false } = {}
+  { smoothScroll = false, initialLoad = false, replace = false } = {}
 ): Promise<boolean> {
   const loc = normalizeHref(location.href)
   const nextUrl = new URL(href, location.origin)
@@ -334,9 +336,13 @@ async function changeRoute(
       return false
     }
   } else {
-    // save scroll position before changing URL
-    history.replaceState({ scrollPosition: window.scrollY }, '')
-    history.pushState({}, '', href)
+    if (replace) {
+      history.replaceState({}, '', href)
+    } else {
+      // save scroll position before changing URL
+      history.replaceState({ scrollPosition: window.scrollY }, '')
+      history.pushState({}, '', href)
+    }
 
     if (nextUrl.pathname === currentUrl.pathname) {
       // scroll between hash anchors on the same page, avoid duplicate entries

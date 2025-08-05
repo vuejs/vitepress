@@ -441,7 +441,7 @@ export default {
 
 ### ignoreDeadLinks
 
-- نوع: `boolean | 'localhostLinks' | (string | RegExp | ((link: string) => boolean))[]`
+- نوع: `boolean | 'localhostLinks' | (string | RegExp | ((link: string, source: string) => boolean))[]`
 - پیش‌فرض: `false`
 
 زمانی که به `true` تنظیم شود، ویت‌پرس به دلیل لینک‌های مرده ساخت‌ها را شکست نخواهد داد.

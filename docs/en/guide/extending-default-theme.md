@@ -70,7 +70,7 @@ If your font is a local file referenced via `@font-face`, it will be processed a
 export default {
   transformHead({ assets }) {
     // adjust the regex accordingly to match your font
-    const myFontFile = assets.find(file => /font-name\.\w+\.woff2/)
+    const myFontFile = assets.find(file => /font-name\.[\w-]+\.woff2/.test(file))
     if (myFontFile) {
       return [
         [
@@ -252,6 +252,7 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
     {
       duration: 300,
       easing: 'ease-in',
+      fill: 'forwards',
       pseudoElement: `::view-transition-${isDark.value ? 'old' : 'new'}(root)`
     }
   )
@@ -319,7 +320,7 @@ export default defineConfig({
         {
           find: /^.*\/VPNavBar\.vue$/,
           replacement: fileURLToPath(
-            new URL('./components/CustomNavBar.vue', import.meta.url)
+            new URL('./theme/components/CustomNavBar.vue', import.meta.url)
           )
         }
       ]

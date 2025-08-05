@@ -256,7 +256,7 @@ La clase `vp-raw` también puede ser usada directamente en elementos. El aislami
   }
   ```
 
-  El utiliza [`postcss-prefix-selector`](https://github.com/postcss/postcss-load-config) internamente. Puede pasar opciones así:
+  El utiliza [`postcss-prefix-selector`](https://github.com/RadValentin/postcss-prefix-selector) internamente. Puede pasar opciones así:
 
   ```js
   postcssIsolateStyles({

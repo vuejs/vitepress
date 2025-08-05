@@ -1,6 +1,6 @@
 {
   "name": "vitepress",
-  "version": "2.0.0-alpha.4",
+  "version": "2.0.0-alpha.9",
   "description": "Vite & Vue powered static site generator",
   "keywords": [
     "vite",
@@ -82,8 +82,8 @@
     "docs:preview": "pnpm -F=docs preview",
     "docs:lunaria:build": "pnpm -F=docs lunaria:build",
     "docs:lunaria:open": "pnpm -F=docs lunaria:open",
-    "format": "prettier --check --write .",
-    "format:fail": "prettier --check .",
+    "format": "prettier --experimental-cli --write .",
+    "format:fail": "prettier --experimental-cli --check .",
     "check": "pnpm format:fail && pnpm build && pnpm test",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "release": "node scripts/release.js"
@@ -92,42 +92,42 @@
     "pre-commit": "pnpm lint-staged"
   },
   "lint-staged": {
-    "*": "prettier --write --ignore-unknown"
+    "*": "prettier --experimental-cli --ignore-unknown --write"
   },
   "dependencies": {
-    "@docsearch/css": "^3.9.0",
-    "@docsearch/js": "^3.9.0",
-    "@iconify-json/simple-icons": "^1.2.27",
-    "@shikijs/core": "^3.1.0",
-    "@shikijs/transformers": "^3.1.0",
-    "@shikijs/types": "^3.1.0",
-    "@vitejs/plugin-vue": "^5.2.1",
-    "@vue/devtools-api": "^7.7.2",
-    "@vue/shared": "^3.5.13",
-    "@vueuse/core": "^12.8.2",
-    "@vueuse/integrations": "^12.8.2",
-    "focus-trap": "^7.6.4",
+    "@docsearch/css": "^4.0.0-beta.5",
+    "@docsearch/js": "^4.0.0-beta.5",
+    "@iconify-json/simple-icons": "^1.2.44",
+    "@shikijs/core": "^3.8.1",
+    "@shikijs/transformers": "^3.8.1",
+    "@shikijs/types": "^3.8.1",
+    "@vitejs/plugin-vue": "^6.0.0",
+    "@vue/devtools-api": "^7.7.7",
+    "@vue/shared": "^3.5.18",
+    "@vueuse/core": "^13.5.0",
+    "@vueuse/integrations": "^13.5.0",
+    "focus-trap": "^7.6.5",
     "mark.js": "8.11.1",
     "minisearch": "^7.1.2",
-    "shiki": "^3.1.0",
-    "vite": "^6.2.1",
-    "vue": "^3.5.13"
+    "shiki": "^3.8.1",
+    "vite": "^7.0.6",
+    "vue": "^3.5.18"
   },
   "devDependencies": {
-    "@clack/prompts": "^0.10.0",
+    "@clack/prompts": "^1.0.0-alpha.1",
     "@iconify/utils": "^2.3.0",
-    "@mdit-vue/plugin-component": "^2.1.3",
-    "@mdit-vue/plugin-frontmatter": "^2.1.3",
-    "@mdit-vue/plugin-headers": "^2.1.3",
-    "@mdit-vue/plugin-sfc": "^2.1.3",
-    "@mdit-vue/plugin-title": "^2.1.3",
-    "@mdit-vue/plugin-toc": "^2.1.3",
-    "@mdit-vue/shared": "^2.1.3",
+    "@mdit-vue/plugin-component": "^2.1.4",
+    "@mdit-vue/plugin-frontmatter": "^2.1.4",
+    "@mdit-vue/plugin-headers": "^2.1.4",
+    "@mdit-vue/plugin-sfc": "^2.1.4",
+    "@mdit-vue/plugin-title": "^2.1.4",
+    "@mdit-vue/plugin-toc": "^2.1.4",
+    "@mdit-vue/shared": "^2.1.4",
     "@polka/compression": "^1.0.0-next.28",
     "@rollup/plugin-alias": "^5.1.1",
-    "@rollup/plugin-commonjs": "^28.0.3",
+    "@rollup/plugin-commonjs": "^28.0.6",
     "@rollup/plugin-json": "^6.1.0",
-    "@rollup/plugin-node-resolve": "^16.0.0",
+    "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-replace": "^6.0.2",
     "@types/cross-spawn": "^6.0.6",
     "@types/debug": "^4.1.12",
@@ -139,22 +139,22 @@
     "@types/markdown-it-container": "^2.0.10",
     "@types/markdown-it-emoji": "^3.0.1",
     "@types/minimist": "^1.2.5",
-    "@types/node": "^22.13.9",
-    "@types/picomatch": "^3.0.2",
+    "@types/node": "^24.1.0",
+    "@types/picomatch": "^4.0.1",
     "@types/postcss-prefix-selector": "^1.16.3",
     "@types/prompts": "^2.4.9",
     "chokidar": "^4.0.3",
     "conventional-changelog-cli": "^5.0.0",
     "cross-spawn": "^7.0.6",
-    "debug": "^4.4.0",
-    "esbuild": "^0.25.0",
-    "execa": "^9.5.2",
+    "debug": "^4.4.1",
+    "esbuild": "^0.25.8",
+    "execa": "^9.6.0",
     "fs-extra": "^11.3.0",
     "get-port": "^7.1.0",
     "gray-matter": "^4.0.3",
-    "lint-staged": "^15.4.3",
+    "lint-staged": "^16.1.2",
     "lodash.template": "^4.5.0",
-    "lru-cache": "^11.0.2",
+    "lru-cache": "^11.1.0",
     "markdown-it": "^14.1.0",
     "markdown-it-anchor": "^9.2.0",
     "markdown-it-async": "^2.2.0",
@@ -163,35 +163,38 @@
     "markdown-it-emoji": "^3.0.0",
     "markdown-it-mathjax3": "^4.3.2",
     "minimist": "^1.2.8",
-    "nanoid": "^5.1.3",
+    "nanoid": "^5.1.5",
     "ora": "^8.2.0",
+    "oxc-minify": "^0.78.0",
     "p-map": "^7.0.3",
+    "package-directory": "^8.1.0",
     "path-to-regexp": "^6.3.0",
     "picocolors": "^1.1.1",
-    "picomatch": "^4.0.2",
-    "pkg-dir": "^8.0.0",
-    "playwright-chromium": "^1.51.0",
+    "picomatch": "^4.0.3",
+    "playwright-chromium": "^1.54.1",
     "polka": "^1.0.0-next.28",
-    "postcss-prefix-selector": "^2.1.0",
-    "prettier": "^3.5.3",
+    "postcss": "^8.5.6",
+    "postcss-prefix-selector": "^2.1.1",
+    "prettier": "^3.6.2",
     "prompts": "^2.4.2",
     "punycode": "^2.3.1",
     "rimraf": "^6.0.1",
-    "rollup": "^4.34.9",
-    "rollup-plugin-dts": "^6.1.1",
+    "rollup": "^4.45.1",
+    "rollup-plugin-dts": "6.1.1",
     "rollup-plugin-esbuild": "^6.2.1",
-    "semver": "^7.7.1",
-    "simple-git-hooks": "^2.11.1",
+    "semver": "^7.7.2",
+    "simple-git-hooks": "^2.13.0",
     "sirv": "^3.0.1",
     "sitemap": "^8.0.0",
-    "tinyglobby": "^0.2.12",
-    "typescript": "^5.8.2",
-    "vitest": "^3.0.8",
-    "vue-tsc": "^2.2.8",
-    "wait-on": "^8.0.2"
+    "tinyglobby": "^0.2.14",
+    "typescript": "^5.8.3",
+    "vitest": "^4.0.0-beta.4",
+    "vue-tsc": "^3.0.4",
+    "wait-on": "^8.0.4"
   },
   "peerDependencies": {
     "markdown-it-mathjax3": "^4",
+    "oxc-minify": "^0.78.0",
     "postcss": "^8"
   },
   "peerDependenciesMeta": {
@@ -200,28 +203,21 @@
     },
     "postcss": {
       "optional": true
+    },
+    "oxc-minify": {
+      "optional": true
     }
   },
-  "packageManager": "pnpm@9.15.4",
+  "packageManager": "pnpm@10.13.1",
   "pnpm": {
-    "peerDependencyRules": {
-      "ignoreMissing": [
-        "@algolia/client-search",
-        "search-insights",
-        "postcss"
-      ]
-    },
     "overrides": {
-      "ora>string-width": "^5"
+      "ora>string-width": "^5",
+      "vite": "npm:rolldown-vite@latest"
     },
     "patchedDependencies": {
       "@types/mdurl@2.0.0": "patches/@types__mdurl@2.0.0.patch",
       "markdown-it-anchor@9.2.0": "patches/markdown-it-anchor@9.2.0.patch"
     },
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "playwright-chromium",
-      "simple-git-hooks"
-    ]
+    "neverBuiltDependencies": []
   }
 }

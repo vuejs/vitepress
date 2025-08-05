@@ -1,3 +1,99 @@
+## [2.0.0-alpha.9](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.8...v2.0.0-alpha.9) (2025-07-26)
+
+### Bug Fixes
+
+- **md:** pass container option to gitHubAlertsPlugin ([#4848](https://github.com/vuejs/vitepress/issues/4848)) ([52f0eaa](https://github.com/vuejs/vitepress/commit/52f0eaa0849344aa45efbf7258a6287597e55a9a))
+- **theme:** remove duplicate text in sponsors grid ([3c51b22](https://github.com/vuejs/vitepress/commit/3c51b22ac98a12f193081d23799cb9f3f2ecf682)), closes [#4854](https://github.com/vuejs/vitepress/issues/4854)
+
+### Features
+
+- **search:** upgrade search to DocSearch v4-beta ([#4843](https://github.com/vuejs/vitepress/issues/4843)) ([ac61abe](https://github.com/vuejs/vitepress/commit/ac61abe7d7be5ef8b6939f18192896538eba1b8c))
+
+### BREAKING CHANGES
+
+- **search:** Uses DocSearch v4 beta. No change is required if you're not customizing the styles of navbar search button or modal. DocSearch AI features are in private beta, you can apply for them at https://forms.gle/iyfb5pC2CiiwszUKA
+
+## [2.0.0-alpha.8](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.7...v2.0.0-alpha.8) (2025-07-08)
+
+### Bug Fixes
+
+- adjust glob logic to always resolve glob relative to base ([5d41785](https://github.com/vuejs/vitepress/commit/5d41785ff7b016b08f587f1ef3318fc18d58f6ab)), closes [#4822](https://github.com/vuejs/vitepress/issues/4822)
+- **build:** ignore escaped `:` when splitting selector in `postcssIsolateStyles` ([#4830](https://github.com/vuejs/vitepress/issues/4830)) ([a629b03](https://github.com/vuejs/vitepress/commit/a629b03f0ee8a29d73a18481399d7de1c992faf2))
+- font preload not being generated in rolldown-vite ([ed387e8](https://github.com/vuejs/vitepress/commit/ed387e89d42a08c15a9f45c9c5e11c6750245490))
+- **theme:** remove extra slash when concatenating base with sidebar links ([c8fc80e](https://github.com/vuejs/vitepress/commit/c8fc80e438fffd98feaf7c72263bc3077792c4a2))
+
+## [2.0.0-alpha.7](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.6...v2.0.0-alpha.7) (2025-06-24)
+
+### Bug Fixes
+
+- **local-search:** parse headings with non-anchor `a` tags as titles properly ([#4809](https://github.com/vuejs/vitepress/issues/4809)) ([5359903](https://github.com/vuejs/vitepress/commit/53599039a01af6d8e17a6a6e9cea5c222cc5948c))
+- resolve pages after setting global vitepress config ([56ba65e](https://github.com/vuejs/vitepress/commit/56ba65e1301454df88f9a3856fa1a70dc052d314)), closes [#4803](https://github.com/vuejs/vitepress/issues/4803)
+
+### Features
+
+- **router:** add `replace` option to `useRouter` for history management ([#4788](https://github.com/vuejs/vitepress/issues/4788)) ([23541b4](https://github.com/vuejs/vitepress/commit/23541b4f83726cdac09ffcaf9141bba871cda690)), closes [#4787](https://github.com/vuejs/vitepress/issues/4787)
+- consistent glob options across content, data, and path loaders ([#4808](https://github.com/vuejs/vitepress/issues/4808)) ([7619521](https://github.com/vuejs/vitepress/commit/76195212596cd54095240246b7e78075ac3cbc27)), closes [#4807](https://github.com/vuejs/vitepress/issues/4807)
+- bump to vite 7 ([2ecd607](https://github.com/vuejs/vitepress/commit/2ecd607af15222eeddf0b888a72d0f913f5a3cd2))
+
+### Performance Improvements
+
+- render pages in contentLoader asynchronously ([36148a0](https://github.com/vuejs/vitepress/commit/36148a0bcf3a73d1fe3f0c5f33337b679f700053))
+
+### BREAKING CHANGES
+
+- Only `cwd`, `ignore`, `dot` and `debug` are supported in `globOptions` of `createContentLoader`. If you want to pass other options, you still can but you might need to suppress type errors.
+- Uses vite 7. See [vite migration guide](https://vite.dev/guide/migration.html) for more info. For most of the users no change is required. VitePress should work same as earlier, except for maybe some type mismatches if you're using third-party plugins. You can suppress them using `@ts-expect-error` or `as any` and report the issues at respective repositories.
+
+## [2.0.0-alpha.6](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.5...v2.0.0-alpha.6) (2025-06-12)
+
+### Bug Fixes
+
+- allow AdditionalConfigLoader to return void ([906a44a](https://github.com/vuejs/vitepress/commit/906a44a3ad488a46804757326af95cfb8cac6b75))
+- **build:** avoiding creating separate chunks for vite public assets ([21f24b9](https://github.com/vuejs/vitepress/commit/21f24b9994ea4807ac7e0be38408e9aaa3abe8a9))
+- **build:** emit lean chunks after vite has done processing ([26cb685](https://github.com/vuejs/vitepress/commit/26cb685adf54f07fe3e9fd7bfd49a0ff79956923)), closes [#4737](https://github.com/vuejs/vitepress/issues/4737)
+- **client:** properly skip removed lines when copying code blocks ([c128baf](https://github.com/vuejs/vitepress/commit/c128baf0c41d5113c1b876f691e0185201b1f500))
+- disable appearance scripts in zero-js mode ([e7f9d05](https://github.com/vuejs/vitepress/commit/e7f9d05c3e2ef4f4c1db3b2c17e586f0fc26a6f6)), closes [#4766](https://github.com/vuejs/vitepress/issues/4766)
+- don't preload dynamic imports ([801648a](https://github.com/vuejs/vitepress/commit/801648a4c9d91e7f96302932ac9247d5bdd64ef7)), closes [#4770](https://github.com/vuejs/vitepress/issues/4770)
+- gather additional config files even if root .vitepress/config is not present ([26f178c](https://github.com/vuejs/vitepress/commit/26f178cfaa330a017bb69b1ec6bd482d63a100a9))
+- set `preserveEntrySignatures` for rolldown-vite ([#4784](https://github.com/vuejs/vitepress/issues/4784)) ([4351bc0](https://github.com/vuejs/vitepress/commit/4351bc0b831277401e08b350d7d7c0ab9ea0c9ed))
+- skip fields not supported by rolldown for rolldown-vite ([#4747](https://github.com/vuejs/vitepress/issues/4747)) ([4e3fce4](https://github.com/vuejs/vitepress/commit/4e3fce40c9bab261f3c5e31833475c3e2c6ba0cf))
+- **theme/regression:** code blocks not aligned properly in rtl layouts ([a643347](https://github.com/vuejs/vitepress/commit/a64334753079a5b874a482508d9ee255d2a0ea38))
+- **theme:** hide native search input cancel button ([#4723](https://github.com/vuejs/vitepress/issues/4723)) ([2c4944f](https://github.com/vuejs/vitepress/commit/2c4944f06ccf46fcf58fb18a1819fd167c9533cc))
+- **theme:** prevent error in handleSearchHotKey method ([#4782](https://github.com/vuejs/vitepress/issues/4782)) ([21fcecc](https://github.com/vuejs/vitepress/commit/21fcecce0581d0c461bc15e03429f61ff444a655))
+- use v-pre for mathjax instead of isCustomElement ([c9b8928](https://github.com/vuejs/vitepress/commit/c9b89282f3573998cfc4103bbddbd73d2529cb66))
+
+### Features
+
+- use `oxc-minify` instead of `transformWithEsbuild` when rolldown-vite is used ([#4748](https://github.com/vuejs/vitepress/issues/4748)) ([7c1dc48](https://github.com/vuejs/vitepress/commit/7c1dc48b2fd08e128f7bbe26690fb6534dfb4b95))
+
+## [2.0.0-alpha.5](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.4...v2.0.0-alpha.5) (2025-04-21)
+
+### Bug Fixes
+
+- don't remove shiki styles from `pre` and remove unnecessary transformers (#4652) ([db58af5](https://github.com/vuejs/vitepress/commit/db58af5c66e563e7663084057a9853d8f2da984c)), closes [#4652](https://github.com/vuejs/vitepress/issues/4652)
+- normalize url fragments in internal links to correctly resolve to anchors ([#4628](https://github.com/vuejs/vitepress/issues/4628)) ([e25d080](https://github.com/vuejs/vitepress/commit/e25d0805505db2f1116e99d38a488d5cb39ed426)), closes [#4605](https://github.com/vuejs/vitepress/issues/4605)
+- **theme-default:** ensure proper sizing of SVG hero images ([#4639](https://github.com/vuejs/vitepress/issues/4639)) ([7d94481](https://github.com/vuejs/vitepress/commit/7d9448192079e59493aa5c1e86cdf6d6deae8e36))
+
+### Features
+
+- add `isHome` frontmatter option (#4673) ([544cd81](https://github.com/vuejs/vitepress/commit/544cd8125985b9e3af7fee68ea9592d159799e01)), closes [#4673](https://github.com/vuejs/vitepress/issues/4673)
+- add `custom-block-title-default` class when default title is used for containers ([#4643](https://github.com/vuejs/vitepress/issues/4643)) ([63079bf](https://github.com/vuejs/vitepress/commit/63079bff03b15861d174199f7361a2aff84380e0))
+- add `dir=ltr` by default on code block pre elements instead of relying on css ([19faa16](https://github.com/vuejs/vitepress/commit/19faa16169b44f52bedf1401b4a97b2a8ffdeacb))
+- **default-theme:** make VPButton slottable ([#4689](https://github.com/vuejs/vitepress/issues/4689)) ([0b70397](https://github.com/vuejs/vitepress/commit/0b7039719782e85119ad22be5c89ef3d233ffaae))
+- support distributed config files ([#4660](https://github.com/vuejs/vitepress/issues/4660)) ([c5e2e4d](https://github.com/vuejs/vitepress/commit/c5e2e4db818c06f3c1b458753f22fb6ec1609628))
+- **theme:** make "Take me home" button's link customizable ([#4658](https://github.com/vuejs/vitepress/issues/4658)) ([0267dca](https://github.com/vuejs/vitepress/commit/0267dcafa20beea24ef359d24bb1fa99e1ffda49))
+
+### Performance Improvements
+
+- call `module.enableCompileCache()` ([70de34c](https://github.com/vuejs/vitepress/commit/70de34c0387d9668ada3ea9a795f9ebee3535f5b))
+- hoist expensive operations in useLayout ([e5ab067](https://github.com/vuejs/vitepress/commit/e5ab0676a9a8dc607e213eb691439b2e4ee472b7))
+
+### BREAKING CHANGES
+
+- `useLocalNav` and `useSidebar` are removed in favor of `useLayout`. To migrate, just do find and replace. Sidebar controls are no longer exported, but we didn't find any usage on GitHub. If there is demand, we can export respective composables later. `DefaultTheme.DocSidebar` and `DefaultTheme.DocLocalNav` types are also removed.
+- `vp-adaptive-theme` class is no longer added to code blocks when there is single theme. Theme authors supporting single code theme can use `.shiki:not(.shiki-themes)` as selector. Alternatively, it might be better to use the bg/fg variables set on the `.shiki` block to keep things generic.
+- `vp-code` class is no longer added to code blocks. Use `.shiki` or `pre.shiki` or `[class*='language-'] pre` instead. People not customizing their themes are not affected.
+
 ## [2.0.0-alpha.4](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.3...v2.0.0-alpha.4) (2025-03-09)
 
 ### Bug Fixes
@@ -2198,7 +2294,6 @@ This version uses Vue 3.2.0.
 ### BREAKING CHANGES
 
 - Some config options have changed.
-
   - `vueOptions` renamed to `vue`
   - `alias` option has been removed. Use `vite.resovle.alias` instead.
 
@@ -2216,7 +2311,6 @@ This version uses Vue 3.2.0.
 ### BREAKING CHANGES
 
 - The following methods are removed.
-
   - `useSiteData`
   - `useSiteDataByRoute`
   - `usePageData`

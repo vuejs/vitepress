@@ -1,6 +1,6 @@
 # VitePress 📝💨
 
-[![test](https://github.com/vuejs/vitepress/workflows/Test/badge.svg)](https://github.com/vuejs/vitepress/actions)
+[![test](https://github.com/vuejs/vitepress/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/vuejs/vitepress/actions/workflows/test.yml)
 [![npm](https://img.shields.io/npm/v/vitepress)](https://www.npmjs.com/package/vitepress)
 [![nightly releases](https://img.shields.io/badge/nightly-releases-orange)](https://nightly.akryum.dev/vuejs/vitepress)
 [![chat](https://img.shields.io/badge/chat-discord-blue?logo=discord)](https://chat.vuejs.org)

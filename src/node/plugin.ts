@@ -2,6 +2,7 @@ import path from 'node:path'
 import c from 'picocolors'
 import {
   mergeConfig,
+  normalizePath,
   searchForWorkspaceRoot,
   type Plugin,
   type ResolvedConfig,
@@ -15,7 +16,12 @@ import {
   SITE_DATA_REQUEST_PATH,
   resolveAliases
 } from './alias'
-import { resolvePages, resolveUserConfig, type SiteConfig } from './config'
+import {
+  isAdditionalConfigFile,
+  resolvePages,
+  resolveUserConfig,
+  type SiteConfig
+} from './config'
 import { disposeMdItInstance } from './markdown/markdown'
 import {
   clearCache,
@@ -37,6 +43,8 @@ declare module 'vite' {
 }
 
 const themeRE = /\/\.vitepress\/theme\/index\.(m|c)?(j|t)s$/
+const docsearchRE = /\/@docsearch\/css\/dist\/style.css(?:$|\?)/
+
 const hashRE = /\.([-\w]+)\.js$/
 const staticInjectMarkerRE = /\bcreateStaticVNode\((?:(".*")|('.*')), (\d+)\)/g
 const staticStripRE = /['"`]__VP_STATIC_START__[^]*?__VP_STATIC_END__['"`]/g
@@ -80,31 +88,12 @@ export async function createVitePressPlugin(
   } = siteConfig
 
   let markdownToVue: Awaited<ReturnType<typeof createMarkdownToVueRenderFn>>
-  const userCustomElementChecker =
-    userVuePluginOptions?.template?.compilerOptions?.isCustomElement
-  let isCustomElement = userCustomElementChecker
-
-  if (markdown?.math) {
-    isCustomElement = (tag) => {
-      if (tag.startsWith('mjx-')) {
-        return true
-      }
-      return userCustomElementChecker?.(tag) ?? false
-    }
-  }
 
   // lazy require plugin-vue to respect NODE_ENV in @vue/compiler-x
   const vuePlugin = await import('@vitejs/plugin-vue').then((r) =>
     r.default({
       include: /\.(?:vue|md)$/,
-      ...userVuePluginOptions,
-      template: {
-        ...userVuePluginOptions?.template,
-        compilerOptions: {
-          ...userVuePluginOptions?.template?.compilerOptions,
-          isCustomElement
-        }
-      }
+      ...userVuePluginOptions
     })
   )
 
@@ -204,9 +193,13 @@ export async function createVitePressPlugin(
     },
 
     async transform(code, id) {
+      if (docsearchRE.test(normalizePath(id))) {
+        return code.replaceAll('[data-theme=dark]', '.dark')
+      }
       if (id.endsWith('.vue')) {
         return processClientJS(code, id)
-      } else if (id.endsWith('.md')) {
+      }
+      if (id.endsWith('.md')) {
         // transform .md files into vueSrc so plugin-vue can handle it
         const { vueSrc, deadLinks, includes, pageData } = await markdownToVue(
           code,
@@ -348,14 +341,18 @@ export async function createVitePressPlugin(
       return null
     },
 
-    generateBundle(_options, bundle) {
-      if (ssr) {
-        this.emitFile({
-          type: 'asset',
-          fileName: 'package.json',
-          source: '{ "private": true, "type": "module" }'
-        })
-      } else {
+    generateBundle: {
+      order: ssr ? null : 'post',
+      handler(_options, bundle) {
+        if (ssr) {
+          this.emitFile({
+            type: 'asset',
+            fileName: 'package.json',
+            source: '{ "private": true, "type": "module" }'
+          })
+          return
+        }
+
         // client build:
         // for each .md entry chunk, adjust its name to its correct path.
         for (const name in bundle) {
@@ -366,15 +363,12 @@ export async function createVitePressPlugin(
             pageToHashMap![chunk.name.toLowerCase()] = hash
 
             // inject another chunk with the content stripped
-            bundle[name + '-lean'] = {
-              ...chunk,
+            this.emitFile({
+              type: 'asset',
+              name: name + '-lean',
               fileName: chunk.fileName.replace(/\.js$/, '.lean.js'),
-              preliminaryFileName: chunk.preliminaryFileName.replace(
-                /\.js$/,
-                '.lean.js'
-              ),
-              code: chunk.code.replace(staticStripRE, `""`)
-            }
+              source: chunk.code.replace(staticStripRE, `""`)
+            })
 
             // remove static markers from original code
             chunk.code = chunk.code.replace(staticRestoreRE, '')
@@ -386,7 +380,11 @@ export async function createVitePressPlugin(
     async hotUpdate({ file }) {
       if (this.environment.name !== 'client') return
 
-      if (file === configPath || configDeps.includes(file)) {
+      if (
+        file === configPath ||
+        configDeps.includes(file) ||
+        isAdditionalConfigFile(file)
+      ) {
         siteConfig.logger.info(
           c.green(
             `${path.relative(process.cwd(), file)} changed, restarting server...\n`

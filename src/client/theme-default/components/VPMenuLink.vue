@@ -1,11 +1,11 @@
-<script lang="ts" setup>
+<script lang="ts" setup generic="T extends DefaultTheme.NavItemWithLink">
 import type { DefaultTheme } from 'vitepress/theme'
 import { useData } from '../composables/data'
 import { isActive } from '../../shared'
 import VPLink from './VPLink.vue'
 
 defineProps<{
-  item: DefaultTheme.NavItemWithLink
+  item: T
 }>()
 
 const { page } = useData()

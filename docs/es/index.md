@@ -1,9 +1,6 @@
 ---
 layout: home
 
-title: VitePress
-titleTemplate: Generador de Sitios Estáticos desarrollado con Vite y Vue
-
 hero:
   name: VitePress
   text: Generador de Sitios Estáticos Vite y Vue

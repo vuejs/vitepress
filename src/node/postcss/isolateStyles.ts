@@ -7,9 +7,15 @@ export function postcssIsolateStyles(
     prefix: ':not(:where(.vp-raw, .vp-raw *))',
     includeFiles: [/base\.css/],
     transform(prefix, _selector) {
-      const [selector, pseudo = ''] = _selector.split(/(:\S*)$/)
+      // split selector from its pseudo part if the trailing colon is not escaped
+      const [selector, pseudo] = splitSelectorPseudo(_selector)
       return selector + prefix + pseudo
     },
     ...options
   })
+}
+
+export function splitSelectorPseudo(selector: string): [string, string] {
+  const [base, pseudo = ''] = selector.split(/(?<!\\)(:\S*)$/)
+  return [base, pseudo]
 }

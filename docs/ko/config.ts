@@ -1,15 +1,17 @@
 import { createRequire } from 'module'
-import { defineConfig, type DefaultTheme } from 'vitepress'
+import { defineAdditionalConfig, type DefaultTheme } from 'vitepress'
 
 const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
 
-export const ko = defineConfig({
+export default defineAdditionalConfig({
   lang: 'ko-KR',
   description: 'Vite 및 Vue 기반 정적 사이트 생성기.',
 
   themeConfig: {
     nav: nav(),
+
+    search: { options: searchOptions() },
 
     sidebar: {
       '/ko/guide/': { base: '/ko/guide/', items: sidebarGuide() },
@@ -37,6 +39,14 @@ export const ko = defineConfig({
 
     lastUpdated: {
       text: '업데이트 날짜'
+    },
+
+    notFound: {
+      title: '페이지를 찾을 수 없습니다',
+      quote:
+        '방향을 바꾸지 않고 계속 찾다 보면 결국 당신이 가고 있는 곳에 도달할 수도 있습니다.',
+      linkLabel: '홈으로 가기',
+      linkText: '집으로 데려가줘'
     },
 
     langMenuLabel: '언어 변경',
@@ -208,8 +218,8 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
   ]
 }
 
-export const search: DefaultTheme.AlgoliaSearchOptions['locales'] = {
-  ko: {
+function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
+  return {
     placeholder: '문서 검색',
     translations: {
       button: {
@@ -218,10 +228,16 @@ export const search: DefaultTheme.AlgoliaSearchOptions['locales'] = {
       },
       modal: {
         searchBox: {
-          resetButtonTitle: '검색 지우기',
-          resetButtonAriaLabel: '검색 지우기',
-          cancelButtonText: '취소',
-          cancelButtonAriaLabel: '취소'
+          clearButtonTitle: '검색 지우기',
+          clearButtonAriaLabel: '검색 지우기',
+          closeButtonText: '닫기',
+          closeButtonAriaLabel: '닫기',
+          placeholderText: '문서 검색',
+          placeholderTextAskAi: 'AI에게 물어보기: ',
+          placeholderTextAskAiStreaming: '답변 작성 중...',
+          searchInputLabel: '검색',
+          backToKeywordSearchButtonText: '키워드 검색으로 돌아가기',
+          backToKeywordSearchButtonAriaLabel: '키워드 검색으로 돌아가기'
         },
         startScreen: {
           recentSearchesTitle: '검색 기록',
@@ -229,23 +245,50 @@ export const search: DefaultTheme.AlgoliaSearchOptions['locales'] = {
           saveRecentSearchButtonTitle: '검색 기록에 저장',
           removeRecentSearchButtonTitle: '검색 기록에서 삭제',
           favoriteSearchesTitle: '즐겨찾기',
-          removeFavoriteSearchButtonTitle: '즐겨찾기에서 삭제'
+          removeFavoriteSearchButtonTitle: '즐겨찾기에서 삭제',
+          recentConversationsTitle: '최근 대화',
+          removeRecentConversationButtonTitle: '대화를 기록에서 삭제'
         },
         errorScreen: {
           titleText: '결과를 가져올 수 없습니다',
           helpText: '네트워크 연결을 확인하세요'
         },
-        footer: {
-          selectText: '선택',
-          navigateText: '탐색',
-          closeText: '닫기',
-          searchByText: '검색 기준'
-        },
         noResultsScreen: {
           noResultsText: '결과를 찾을 수 없습니다',
-          suggestedQueryText: '새로운 검색을 시도할 수 있습니다',
-          reportMissingResultsText: '해당 검색어에 대한 결과가 있어야 합니까?',
-          reportMissingResultsLinkText: '피드백 보내기 클릭'
+          suggestedQueryText: '다른 검색어를 시도해 보세요',
+          reportMissingResultsText: '결과가 있어야 한다고 생각하나요?',
+          reportMissingResultsLinkText: '피드백 보내기'
+        },
+        resultsScreen: {
+          askAiPlaceholder: 'AI에게 물어보기: '
+        },
+        askAiScreen: {
+          disclaimerText:
+            'AI가 생성한 답변으로 오류가 있을 수 있습니다. 반드시 확인하세요.',
+          relatedSourcesText: '관련 소스',
+          thinkingText: '생각 중...',
+          copyButtonText: '복사',
+          copyButtonCopiedText: '복사됨!',
+          copyButtonTitle: '복사',
+          likeButtonTitle: '좋아요',
+          dislikeButtonTitle: '싫어요',
+          thanksForFeedbackText: '피드백 감사합니다!',
+          preToolCallText: '검색 중...',
+          duringToolCallText: '검색 중 ',
+          afterToolCallText: '검색 완료',
+          aggregatedToolCallText: '검색 완료'
+        },
+        footer: {
+          selectText: '선택',
+          submitQuestionText: '질문 보내기',
+          selectKeyAriaLabel: 'Enter 키',
+          navigateText: '탐색',
+          navigateUpKeyAriaLabel: '위쪽 화살표',
+          navigateDownKeyAriaLabel: '아래쪽 화살표',
+          closeText: '닫기',
+          backToSearchText: '검색으로 돌아가기',
+          closeKeyAriaLabel: 'Esc 키',
+          poweredByText: '제공: '
         }
       }
     }

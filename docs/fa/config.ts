@@ -1,25 +1,26 @@
 import { createRequire } from 'module'
-import { defineConfig, type DefaultTheme } from 'vitepress'
+import { defineAdditionalConfig, type DefaultTheme } from 'vitepress'
 
 const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
 
-export const fa = defineConfig({
-  title: 'ویت‌پرس',
+export default defineAdditionalConfig({
   lang: 'fa-IR',
-  description: 'Vite & Vue powered static site generator.',
+  description: 'ژنراتور استاتیک وب‌سایت با Vite و Vue',
   dir: 'rtl',
-  markdown: {
-    container: {
-      tipLabel: 'نکته',
-      warningLabel: 'هشدار',
-      dangerLabel: 'خطر',
-      infoLabel: 'اطلاعات',
-      detailsLabel: 'جزئیات'
-    }
-  },
+
+  // prettier-ignore
+  head: [
+    ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
+    ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
+    ['link', { href: 'https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap', rel: 'stylesheet' }],
+  ],
+
   themeConfig: {
     nav: nav(),
+
+    search: { options: searchOptions() },
+
     sidebar: {
       '/fa/guide/': { base: '/fa/guide/', items: sidebarGuide() },
       '/fa/reference/': { base: '/fa/reference/', items: sidebarReference() }
@@ -45,11 +46,15 @@ export const fa = defineConfig({
     },
 
     lastUpdated: {
-      text: 'آخرین به‌روزرسانی‌',
-      formatOptions: {
-        dateStyle: 'short',
-        timeStyle: 'medium'
-      }
+      text: 'آخرین به‌روزرسانی‌'
+    },
+
+    notFound: {
+      title: 'صفحه پیدا نشد',
+      quote:
+        'اما اگر جهت خود را تغییر ندهید و همچنان به جستجو ادامه دهید، ممکن است در نهایت به جایی برسید که در حال رفتن به آن هستید.',
+      linkLabel: 'برو به خانه',
+      linkText: 'من را به خانه ببر'
     },
 
     langMenuLabel: 'تغییر زبان',
@@ -58,14 +63,6 @@ export const fa = defineConfig({
     darkModeSwitchLabel: 'تم تاریک',
     lightModeSwitchTitle: 'رفتن به حالت روشن',
     darkModeSwitchTitle: 'رفتن به حالت تاریک',
-    notFound: {
-      linkLabel: 'بازگشت به خانه',
-      linkText: 'بازگشت به خانه',
-      title: 'صفحه مورد نظر یافت نشد',
-      code: '۴۰۴',
-      quote:
-        'اما اگر جهت خود را تغییر ندهید و اگر ادامه دهید به دنبال چیزی که دنبال می‌کنید، ممکن است در نهایت به جایی که در حال رفتن به سمتش هستید، برسید.'
-    },
     siteTitle: 'ویت‌پرس'
   }
 })
@@ -181,8 +178,8 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
   ]
 }
 
-export const search: DefaultTheme.AlgoliaSearchOptions['locales'] = {
-  fa: {
+function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
+  return {
     placeholder: 'جستجوی مستندات',
     translations: {
       button: {
@@ -191,31 +188,67 @@ export const search: DefaultTheme.AlgoliaSearchOptions['locales'] = {
       },
       modal: {
         searchBox: {
-          resetButtonTitle: 'آغاز مجدد جستجو',
-          resetButtonAriaLabel: 'آغاز مجدد جستجو',
-          cancelButtonText: 'لغو',
-          cancelButtonAriaLabel: 'لغو'
+          clearButtonTitle: 'پاک کردن جستجو',
+          clearButtonAriaLabel: 'پاک کردن جستجو',
+          closeButtonText: 'بستن',
+          closeButtonAriaLabel: 'بستن',
+          placeholderText: 'جستجوی مستندات',
+          placeholderTextAskAi: 'از هوش مصنوعی بپرسید: ',
+          placeholderTextAskAiStreaming: 'در حال پاسخ...',
+          searchInputLabel: 'جستجو',
+          backToKeywordSearchButtonText: 'بازگشت به جستجوی کلیدواژه',
+          backToKeywordSearchButtonAriaLabel: 'بازگشت به جستجوی کلیدواژه'
         },
         startScreen: {
-          recentSearchesTitle: 'جستجو‌های اخیر',
-          noRecentSearchesText: 'تاریخچه جستجویی یافت نشد.',
-          saveRecentSearchButtonTitle: 'ذخیره تاریخچه جستجو',
-          removeRecentSearchButtonTitle: 'حذف تاریخچه جستجو',
-          favoriteSearchesTitle: 'موارد دلخواه',
-          removeFavoriteSearchButtonTitle: 'حذف مورد دلخواه'
+          recentSearchesTitle: 'جستجوهای اخیر',
+          noRecentSearchesText: 'هیچ جستجوی اخیر',
+          saveRecentSearchButtonTitle: 'ذخیره در تاریخچه جستجو',
+          removeRecentSearchButtonTitle: 'حذف از تاریخچه جستجو',
+          favoriteSearchesTitle: 'علاقه‌مندی‌ها',
+          removeFavoriteSearchButtonTitle: 'حذف از علاقه‌مندی‌ها',
+          recentConversationsTitle: 'گفتگوهای اخیر',
+          removeRecentConversationButtonTitle: 'حذف این گفتگو از تاریخچه'
         },
         errorScreen: {
-          titleText: 'نتیجه‌ای یافت نشد برای',
+          titleText: 'عدم امکان دریافت نتایج',
           helpText: 'اتصال شبکه خود را بررسی کنید'
+        },
+        noResultsScreen: {
+          noResultsText: 'هیچ نتیجه‌ای یافت نشد',
+          suggestedQueryText: 'می‌توانید جستجوی دیگری امتحان کنید',
+          reportMissingResultsText: 'فکر می‌کنید باید نتیجه‌ای نمایش داده شود؟',
+          reportMissingResultsLinkText: 'برای ارسال بازخورد کلیک کنید'
+        },
+        resultsScreen: {
+          askAiPlaceholder: 'از هوش مصنوعی بپرسید: '
+        },
+        askAiScreen: {
+          disclaimerText:
+            'پاسخ‌ها توسط هوش مصنوعی تولید می‌شوند و ممکن است خطا داشته باشند. لطفاً بررسی کنید.',
+          relatedSourcesText: 'منابع مرتبط',
+          thinkingText: 'در حال پردازش...',
+          copyButtonText: 'کپی',
+          copyButtonCopiedText: 'کپی شد!',
+          copyButtonTitle: 'کپی',
+          likeButtonTitle: 'پسندیدم',
+          dislikeButtonTitle: 'نپسندیدم',
+          thanksForFeedbackText: 'از بازخورد شما سپاسگزاریم!',
+          preToolCallText: 'در حال جستجو...',
+          duringToolCallText: 'در حال جستجو برای ',
+          afterToolCallText: 'جستجو انجام شد',
+          aggregatedToolCallText: 'جستجو انجام شد'
         },
         footer: {
           selectText: 'انتخاب',
-          navigateText: 'رفتن',
+          submitQuestionText: 'ارسال پرسش',
+          selectKeyAriaLabel: 'کلید Enter',
+          navigateText: 'حرکت',
+          navigateUpKeyAriaLabel: 'کلید جهت بالا',
+          navigateDownKeyAriaLabel: 'کلید جهت پایین',
           closeText: 'بستن',
-          searchByText: ' جستجو با '
-        },
-        noResultsScreen: {
-          noResultsText: 'نتیجه‌ای یافت نشد برای'
+          backToSearchText: 'بازگشت به جستجو',
+          closeKeyAriaLabel: 'کلید Escape',
+          poweredByText: 'جستجو توسط'
         }
       }
     }

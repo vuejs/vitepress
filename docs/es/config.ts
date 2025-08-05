@@ -1,15 +1,17 @@
 import { createRequire } from 'module'
-import { defineConfig, type DefaultTheme } from 'vitepress'
+import { defineAdditionalConfig, type DefaultTheme } from 'vitepress'
 
 const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
 
-export const es = defineConfig({
+export default defineAdditionalConfig({
   lang: 'es-CO',
   description: 'Generador de Sitios Estaticos desarrollado con Vite y Vue.',
 
   themeConfig: {
     nav: nav(),
+
+    search: { options: searchOptions() },
 
     sidebar: {
       '/es/guide/': { base: '/es/guide/', items: sidebarGuide() },
@@ -36,11 +38,15 @@ export const es = defineConfig({
     },
 
     lastUpdated: {
-      text: 'Actualizado en',
-      formatOptions: {
-        dateStyle: 'short',
-        timeStyle: 'medium'
-      }
+      text: 'Actualizado en'
+    },
+
+    notFound: {
+      title: 'PÁGINA NO ENCONTRADA',
+      quote:
+        'Pero si no cambias de dirección y sigues buscando, podrías terminar donde te diriges.',
+      linkLabel: 'ir a inicio',
+      linkText: 'Llévame a casa'
     },
 
     langMenuLabel: 'Cambiar Idioma',
@@ -170,8 +176,8 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
   ]
 }
 
-export const search: DefaultTheme.AlgoliaSearchOptions['locales'] = {
-  es: {
+function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
+  return {
     placeholder: 'Buscar documentos',
     translations: {
       button: {
@@ -180,10 +186,17 @@ export const search: DefaultTheme.AlgoliaSearchOptions['locales'] = {
       },
       modal: {
         searchBox: {
-          resetButtonTitle: 'Limpiar búsqueda',
-          resetButtonAriaLabel: 'Limpiar búsqueda',
-          cancelButtonText: 'Cancelar',
-          cancelButtonAriaLabel: 'Cancelar'
+          clearButtonTitle: 'Limpiar búsqueda',
+          clearButtonAriaLabel: 'Limpiar búsqueda',
+          closeButtonText: 'Cerrar',
+          closeButtonAriaLabel: 'Cerrar',
+          placeholderText: undefined,
+          placeholderTextAskAi: undefined,
+          placeholderTextAskAiStreaming: 'Respondiendo...',
+          backToKeywordSearchButtonText:
+            'Volver a la búsqueda por palabras clave',
+          backToKeywordSearchButtonAriaLabel:
+            'Volver a la búsqueda por palabras clave'
         },
         startScreen: {
           recentSearchesTitle: 'Historial de búsqueda',
@@ -191,24 +204,52 @@ export const search: DefaultTheme.AlgoliaSearchOptions['locales'] = {
           saveRecentSearchButtonTitle: 'Guardar en el historial de búsqueda',
           removeRecentSearchButtonTitle: 'Borrar del historial de búsqueda',
           favoriteSearchesTitle: 'Favoritos',
-          removeFavoriteSearchButtonTitle: 'Borrar de favoritos'
+          removeFavoriteSearchButtonTitle: 'Borrar de favoritos',
+          recentConversationsTitle: 'Conversaciones recientes',
+          removeRecentConversationButtonTitle:
+            'Eliminar esta conversación del historial'
         },
         errorScreen: {
           titleText: 'No fue posible obtener resultados',
           helpText: 'Verifique su conexión de red'
         },
-        footer: {
-          selectText: 'Seleccionar',
-          navigateText: 'Navegar',
-          closeText: 'Cerrar',
-          searchByText: 'Busqueda por'
-        },
         noResultsScreen: {
           noResultsText: 'No fue posible encontrar resultados',
           suggestedQueryText: 'Puede intentar una nueva búsqueda',
           reportMissingResultsText:
-            'Deberian haber resultados para esa consulta?',
+            '¿Deberían haber resultados para esta consulta?',
           reportMissingResultsLinkText: 'Click para enviar feedback'
+        },
+        resultsScreen: {
+          askAiPlaceholder: 'Preguntar a la IA: '
+        },
+        askAiScreen: {
+          disclaimerText:
+            'Las respuestas son generadas por IA y pueden contener errores. Verifica las respuestas.',
+          relatedSourcesText: 'Fuentes relacionadas',
+          thinkingText: 'Pensando...',
+          copyButtonText: 'Copiar',
+          copyButtonCopiedText: '¡Copiado!',
+          copyButtonTitle: 'Copiar',
+          likeButtonTitle: 'Me gusta',
+          dislikeButtonTitle: 'No me gusta',
+          thanksForFeedbackText: '¡Gracias por tu opinión!',
+          preToolCallText: 'Buscando...',
+          duringToolCallText: 'Buscando ',
+          afterToolCallText: 'Búsqueda de',
+          aggregatedToolCallText: 'Búsqueda de'
+        },
+        footer: {
+          selectText: 'Seleccionar',
+          submitQuestionText: 'Enviar pregunta',
+          selectKeyAriaLabel: 'Tecla Enter',
+          navigateText: 'Navegar',
+          navigateUpKeyAriaLabel: 'Flecha arriba',
+          navigateDownKeyAriaLabel: 'Flecha abajo',
+          closeText: 'Cerrar',
+          backToSearchText: 'Volver a la búsqueda',
+          closeKeyAriaLabel: 'Tecla Escape',
+          poweredByText: 'Búsqueda por'
         }
       }
     }

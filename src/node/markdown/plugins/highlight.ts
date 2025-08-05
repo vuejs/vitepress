@@ -82,15 +82,9 @@ export async function highlight(
     transformerNotationHighlight(),
     transformerNotationErrorLevel(),
     {
-      name: 'vitepress:add-class',
+      name: 'vitepress:add-dir',
       pre(node) {
-        this.addClassToHast(node, 'vp-code')
-      }
-    },
-    {
-      name: 'vitepress:clean-up',
-      pre(node) {
-        delete node.properties.style
+        node.properties.dir = 'ltr'
       }
     }
   ]

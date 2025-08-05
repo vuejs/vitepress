@@ -215,7 +215,6 @@ export async function createMarkdownRenderer(
 
   const theme = options.theme ?? { light: 'github-light', dark: 'github-dark' }
   const codeCopyButtonTitle = options.codeCopyButtonTitle || 'Copy Code'
-  const hasSingleTheme = typeof theme === 'string' || 'name' in theme
 
   let [highlight, dispose] = options.highlight
     ? [options.highlight, () => {}]
@@ -237,9 +236,9 @@ export async function createMarkdownRenderer(
   // custom plugins
   md.use(componentPlugin, { ...options.component })
     .use(highlightLinePlugin)
-    .use(preWrapperPlugin, { codeCopyButtonTitle, hasSingleTheme })
+    .use(preWrapperPlugin, { codeCopyButtonTitle })
     .use(snippetPlugin, srcDir)
-    .use(containerPlugin, { hasSingleTheme }, options.container)
+    .use(containerPlugin, options.container)
     .use(imagePlugin, options.image)
     .use(
       linkPlugin,
@@ -259,7 +258,7 @@ export async function createMarkdownRenderer(
   }
 
   if (options.gfmAlerts !== false) {
-    md.use(gitHubAlertsPlugin)
+    md.use(gitHubAlertsPlugin, options.container)
   }
 
   // third party plugins
@@ -330,12 +329,17 @@ export async function createMarkdownRenderer(
       md.use(mathPlugin.default ?? mathPlugin, {
         ...(typeof options.math === 'boolean' ? {} : options.math)
       })
-      const orig = md.renderer.rules.math_block!
-      md.renderer.rules.math_block = (tokens, idx, options, env, self) => {
-        return orig(tokens, idx, options, env, self).replace(
-          /^<mjx-container /,
-          '<mjx-container tabindex="0" '
-        )
+      const origMathInline = md.renderer.rules.math_inline!
+      md.renderer.rules.math_inline = function (...args) {
+        return origMathInline
+          .apply(this, args)
+          .replace(/^<mjx-container /, '<mjx-container v-pre ')
+      }
+      const origMathBlock = md.renderer.rules.math_block!
+      md.renderer.rules.math_block = function (...args) {
+        return origMathBlock
+          .apply(this, args)
+          .replace(/^<mjx-container /, '<mjx-container v-pre tabindex="0" ')
       }
     } catch (error) {
       throw new Error(

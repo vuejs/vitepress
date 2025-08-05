@@ -1,8 +1,7 @@
 import fs from 'fs-extra'
 import path from 'node:path'
 import c from 'picocolors'
-import { isMatch } from 'picomatch'
-import { glob } from 'tinyglobby'
+import pm from 'picomatch'
 import {
   loadConfigFromFile,
   normalizePath,
@@ -12,6 +11,7 @@ import {
 } from 'vite'
 import type { Awaitable } from '../shared'
 import { type SiteConfig, type UserConfig } from '../siteConfig'
+import { glob, normalizeGlob, type GlobOptions } from '../utils/glob'
 import { ModuleGraph } from '../utils/moduleGraph'
 import { resolveRewrites } from './rewritesPlugin'
 
@@ -45,13 +45,15 @@ export interface RouteModule {
     | UserRouteConfig[]
     | ((watchedFiles: string[]) => Awaitable<UserRouteConfig[]>)
   transformPageData?: UserConfig['transformPageData']
+  options?: { globOptions?: GlobOptions }
 }
 
 interface ResolvedRouteModule {
-  watch: string[] | undefined
-  routes: ResolvedRouteConfig[] | undefined
+  watch: string[]
+  routes?: ResolvedRouteConfig[]
   loader: RouteModule['paths']
   transformPageData?: RouteModule['transformPageData']
+  options: NonNullable<RouteModule['options']>
 }
 
 const dynamicRouteRE = /\[(\w+?)\]/g
@@ -63,7 +65,7 @@ let moduleGraph = new ModuleGraph()
 /**
  * Helper for defining routes with type inference
  */
-export function defineRoutes(loader: RouteModule) {
+export function defineRoutes(loader: RouteModule): RouteModule {
   return loader
 }
 
@@ -78,23 +80,10 @@ export async function resolvePages(
     routeModuleCache.clear()
   }
 
-  // Important: tinyglobby doesn't guarantee order of the returned files.
-  // We must sort the pages so the input list to rollup is stable across
-  // builds - otherwise different input order could result in different exports
-  // order in shared chunks which in turns invalidates the hash of every chunk!
-  // JavaScript built-in sort() is mandated to be stable as of ES2019 and
-  // supported in Node 12+, which is required by Vite.
-  const allMarkdownFiles = (
-    await glob(['**/*.md'], {
-      cwd: srcDir,
-      ignore: [
-        '**/node_modules/**',
-        '**/dist/**',
-        ...(userConfig.srcExclude || [])
-      ],
-      expandDirectories: false
-    })
-  ).sort()
+  const allMarkdownFiles = await glob(['**/*.md'], {
+    cwd: srcDir,
+    ignore: userConfig.srcExclude
+  })
 
   const pages: string[] = []
   const dynamicRouteFiles: string[] = []
@@ -137,9 +126,7 @@ export const dynamicRoutesPlugin = async (
       const matched = config.dynamicRoutes.find(
         (r) => r.fullPath === normalizedId
       )
-      if (matched) {
-        return normalizedId
-      }
+      if (matched) return normalizedId
     },
 
     load(id) {
@@ -180,23 +167,22 @@ export const dynamicRoutesPlugin = async (
       for (const id of moduleGraph.delete(normalizedFile)) {
         routeModuleCache.delete(id)
         const mod = this.environment.moduleGraph.getModuleById(id)
-        if (mod) {
-          modules.push(mod)
-        }
+        if (mod) modules.push(mod)
       }
 
       // Also check if the file matches any custom watch patterns.
       let watchedFileChanged = false
       for (const [file, route] of routeModuleCache) {
-        if (route.watch && isMatch(normalizedFile, route.watch)) {
+        if (
+          route.watch?.length &&
+          pm(route.watch, route.options.globOptions)(normalizedFile)
+        ) {
           route.routes = undefined
           watchedFileChanged = true
 
           for (const id of moduleGraph.delete(file)) {
             const mod = this.environment.moduleGraph.getModuleById(id)
-            if (mod) {
-              modules.push(mod)
-            }
+            if (mod) modules.push(mod)
           }
         }
       }
@@ -255,7 +241,8 @@ async function resolveDynamicRoutes(
     // load the paths loader module
     let watch: ResolvedRouteModule['watch']
     let loader: ResolvedRouteModule['loader']
-    let extras: Partial<ResolvedRouteModule>
+    let transformPageData: ResolvedRouteModule['transformPageData']
+    let options: ResolvedRouteModule['options']
 
     const loaderPath = normalizePath(pathsFile)
     const existing = routeModuleCache.get(loaderPath)
@@ -267,7 +254,7 @@ async function resolveDynamicRoutes(
         continue
       }
 
-      ;({ watch, loader, ...extras } = existing)
+      ;({ watch, loader, transformPageData, options } = existing)
     } else {
       let mod
       try {
@@ -294,8 +281,11 @@ async function resolveDynamicRoutes(
         continue
       }
 
-      // @ts-ignore
-      ;({ paths: loader, watch, ...extras } = mod.config)
+      const loaderModule = mod.config as RouteModule
+      watch = normalizeGlob(loaderModule.watch, path.dirname(pathsFile))
+      loader = loaderModule.paths
+      transformPageData = loaderModule.transformPageData
+      options = loaderModule.options || {}
 
       if (!loader) {
         logger.warn(
@@ -305,15 +295,6 @@ async function resolveDynamicRoutes(
           )
         )
         continue
-      }
-
-      watch = typeof watch === 'string' ? [watch] : watch
-      if (watch) {
-        watch = watch.map((p) =>
-          p.startsWith('.')
-            ? normalizePath(path.resolve(path.dirname(pathsFile), p))
-            : normalizePath(p)
-        )
       }
 
       // record deps for hmr
@@ -327,15 +308,7 @@ async function resolveDynamicRoutes(
       let pathsData: UserRouteConfig[]
 
       if (typeof loader === 'function') {
-        let watchedFiles: string[] = []
-        if (watch) {
-          watchedFiles = (
-            await glob(watch, {
-              ignore: ['**/node_modules/**', '**/dist/**'],
-              expandDirectories: false
-            })
-          ).sort()
-        }
+        const watchedFiles = await glob(watch, options.globOptions)
         pathsData = await loader(watchedFiles)
       } else {
         pathsData = loader
@@ -355,7 +328,8 @@ async function resolveDynamicRoutes(
         }
       })
 
-      routeModuleCache.set(loaderPath, { ...extras, watch, routes, loader })
+      const mod = { watch, routes, loader, transformPageData, options }
+      routeModuleCache.set(loaderPath, mod)
 
       return routes
     }
