@@ -334,36 +334,36 @@ export async function createVitePressPlugin(
       return null
     },
 
-    generateBundle(_options, bundle) {
-      if (ssr) {
-        this.emitFile({
-          type: 'asset',
-          fileName: 'package.json',
-          source: '{ "private": true, "type": "module" }'
-        })
-      } else {
-        // client build:
-        // for each .md entry chunk, adjust its name to its correct path.
-        for (const name in bundle) {
-          const chunk = bundle[name]
-          if (isPageChunk(chunk)) {
-            // record page -> hash relations
-            const hash = chunk.fileName.match(hashRE)![1]
-            pageToHashMap![chunk.name.toLowerCase()] = hash
+    generateBundle: {
+      order: ssr ? null : 'post',
+      handler(_options, bundle) {
+        if (ssr) {
+          this.emitFile({
+            type: 'asset',
+            fileName: 'package.json',
+            source: '{ "private": true, "type": "module" }'
+          })
+        } else {
+          // client build:
+          // for each .md entry chunk, adjust its name to its correct path.
+          for (const name in bundle) {
+            const chunk = bundle[name]
+            if (isPageChunk(chunk)) {
+              // record page -> hash relations
+              const hash = chunk.fileName.match(hashRE)![1]
+              pageToHashMap![chunk.name.toLowerCase()] = hash
 
-            // inject another chunk with the content stripped
-            bundle[name + '-lean'] = {
-              ...chunk,
-              fileName: chunk.fileName.replace(/\.js$/, '.lean.js'),
-              preliminaryFileName: chunk.preliminaryFileName.replace(
-                /\.js$/,
-                '.lean.js'
-              ),
-              code: chunk.code.replace(staticStripRE, `""`)
+              // inject another chunk with the content stripped
+              this.emitFile({
+                type: 'asset',
+                name: name + '-lean',
+                fileName: chunk.fileName.replace(/\.js$/, '.lean.js'),
+                source: chunk.code.replace(staticStripRE, `""`)
+              })
+
+              // remove static markers from original code
+              chunk.code = chunk.code.replace(staticRestoreRE, '')
             }
-
-            // remove static markers from original code
-            chunk.code = chunk.code.replace(staticRestoreRE, '')
           }
         }
       }
