@@ -1,7 +1,13 @@
 import { inBrowser, onContentUpdated, useRoute } from 'vitepress'
 import type { DefaultTheme, useLayout as expected } from 'vitepress/theme'
-import { computed, shallowReadonly, shallowRef, watch } from 'vue'
-import type { ComputedRef, InjectionKey } from 'vue'
+import {
+  computed,
+  shallowReadonly,
+  shallowRef,
+  watch,
+  type ComputedRef,
+  type InjectionKey
+} from 'vue'
 import { getSidebar, getSidebarGroups } from '../support/sidebar'
 import { useData } from './data'
 import { getHeaders } from './outline'
@@ -109,4 +115,4 @@ export interface LayoutInfo {
 }
 
 export const layoutInfoInjectionKey: InjectionKey<LayoutInfo> =
-  Symbol('layoutInfo')
+  Symbol('layout-info')

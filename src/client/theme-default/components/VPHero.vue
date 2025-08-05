@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { inject } from 'vue'
 import type { DefaultTheme } from 'vitepress/theme'
+import { inject } from 'vue'
+import { layoutInfoInjectionKey } from '../composables/layout'
 import VPButton from './VPButton.vue'
 import VPImage from './VPImage.vue'
-import { layoutInfoInjectionKey } from '../composables/layout'
 
 export interface HeroAction {
   theme?: 'brand' | 'alt'

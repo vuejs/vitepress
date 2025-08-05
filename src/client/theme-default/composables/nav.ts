@@ -1,6 +1,5 @@
 import { useRoute } from 'vitepress'
-import { ref, watch } from 'vue'
-import type { InjectionKey } from 'vue'
+import { ref, watch, type InjectionKey } from 'vue'
 
 export function useNav() {
   const isScreenOpen = ref(false)

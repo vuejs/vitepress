@@ -12,6 +12,7 @@ const { frontmatter } = useData()
 const hasNavbar = computed(() => {
   return frontmatter.value.navbar !== false
 })
+
 provide(navInjectionKey, { closeScreen })
 
 watchEffect(() => {

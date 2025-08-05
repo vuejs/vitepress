@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import type { DefaultTheme } from 'vitepress/theme'
 import { inject } from 'vue'
+import { navInjectionKey } from '../composables/nav'
 import VPLink from './VPLink.vue'
-import { navInjectionKey } from '../composables/nav';
 
 defineProps<{
   item: DefaultTheme.NavItemWithLink
