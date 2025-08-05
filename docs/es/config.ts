@@ -6,7 +6,7 @@ const pkg = require('vitepress/package.json')
 
 export default defineAdditionalConfig({
   lang: 'es-CO',
-  description: 'Generador de Sitios Estaticos desarrollado con Vite y Vue.',
+  description: 'Generador de Sitios Estáticos desarrollado con Vite y Vue.',
 
   themeConfig: {
     nav: nav(),
@@ -38,7 +38,7 @@ export default defineAdditionalConfig({
     },
 
     lastUpdated: {
-      text: 'Actualizado en'
+      text: 'Actualizado el'
     },
 
     notFound: {
@@ -46,7 +46,7 @@ export default defineAdditionalConfig({
       quote:
         'Pero si no cambias de dirección y sigues buscando, podrías terminar donde te diriges.',
       linkLabel: 'ir a inicio',
-      linkText: 'Llévame a casa'
+      linkText: 'Llévame a inicio'
     },
 
     langMenuLabel: 'Cambiar Idioma',
@@ -62,7 +62,7 @@ export default defineAdditionalConfig({
 function nav(): DefaultTheme.NavItem[] {
   return [
     {
-      text: 'Guia',
+      text: 'Guía',
       link: '/es/guide/what-is-vitepress',
       activeMatch: '/es/guide/'
     },
@@ -93,7 +93,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
       text: 'Introducción',
       collapsed: false,
       items: [
-        { text: 'Qué es VitePress？', link: 'what-is-vitepress' },
+        { text: '¿Qué es VitePress？', link: 'what-is-vitepress' },
         { text: 'Iniciando', link: 'getting-started' },
         { text: 'Enrutamiento', link: 'routing' },
         { text: 'Despliegue', link: 'deploy' }
@@ -136,7 +136,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
       ]
     },
     {
-      text: 'Configuración y Referencia del API',
+      text: 'Configuración y Referencia de la API',
       base: '/es/reference/',
       link: 'site-config'
     }
@@ -167,7 +167,7 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
             { text: 'Links Anterior / Siguiente', link: 'prev-next-links' },
             { text: 'Editar Link', link: 'edit-link' },
             { text: 'Sello temporal de actualización', link: 'last-updated' },
-            { text: 'Busqueda', link: 'search' },
+            { text: 'Búsqueda', link: 'search' },
             { text: 'Carbon Ads', link: 'carbon-ads' }
           ]
         }
