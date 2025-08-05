@@ -50,10 +50,11 @@ if (!command || command === 'dev') {
     logVersion(server.config.logger)
     server.printUrls()
     bindShortcuts(server, createDevServer)
-    // @ts-ignore Not available in normal Vite 
-    if (!isRestart && vite.rolldownVersion) {
-      createLogger().error(
-      `${c.red(`Vitepress v1 is not compatible with \`rolldown-vite\`.`)}\n${c.red(`Use Vitepress v2 instead.`)}`
+    if (!isRestart && (vite as any).rolldownVersion) {
+      server.config.logger.error(
+        c.red(
+          '\nVitePress v1 is not compatible with `rolldown-vite`. Use VitePress v2 instead.'
+        )
       )
     }
   }
