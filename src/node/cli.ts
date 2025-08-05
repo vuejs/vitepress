@@ -1,5 +1,6 @@
 import minimist from 'minimist'
 import c from 'picocolors'
+import * as vite from 'vite'
 import { createLogger, type Logger } from 'vite'
 import { build, createServer, serve } from '.'
 import { version } from '../../package.json'
@@ -49,6 +50,13 @@ if (!command || command === 'dev') {
     logVersion(server.config.logger)
     server.printUrls()
     bindShortcuts(server, createDevServer)
+    if (!isRestart && (vite as any).rolldownVersion) {
+      server.config.logger.error(
+        c.red(
+          '\nVitePress v1 is not compatible with `rolldown-vite`. Use VitePress v2 instead.'
+        )
+      )
+    }
   }
   createDevServer(false).catch((err) => {
     createLogger().error(
