@@ -1,3 +1,5 @@
+## [1.6.4](https://github.com/vuejs/vitepress/compare/v1.6.3...v1.6.4) (2025-08-05)
+
 ## [1.6.3](https://github.com/vuejs/vitepress/compare/v1.6.2...v1.6.3) (2025-01-22)
 
 ### Bug Fixes
