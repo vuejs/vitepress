@@ -1,3 +1,19 @@
 packages:
   - docs
   - __tests__/*
+
+onlyBuiltDependencies:
+  - esbuild
+  - playwright-chromium
+  - simple-git-hooks
+
+overrides:
+  ora>string-width: ^5
+  vite: npm:rolldown-vite@latest
+
+patchedDependencies:
+  '@types/mdurl@2.0.0': patches/@types__mdurl@2.0.0.patch
+  markdown-it-anchor@9.2.0: patches/markdown-it-anchor@9.2.0.patch
+
+autoInstallPeers: false
+shellEmulator: true
