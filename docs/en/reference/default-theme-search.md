@@ -6,7 +6,7 @@ outline: deep
 
 ## Local Search
 
-VitePress supports fuzzy full-text search using an in-browser index thanks to [minisearch](https://github.com/lucaong/minisearch/). To enable this feature, simply set the `themeConfig.search.provider` option to `'local'` in your `.vitepress/config.ts` file:
+VitePress supports fuzzy full-text search using the [minisearch](https://github.com/lucaong/minisearch/) in-browser index. To enable this feature, simply set the `themeConfig.search.provider` option to `'local'` in your `.vitepress/config.ts` file:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -24,7 +24,7 @@ Example result:
 
 ![screenshot of the search modal](/search.png)
 
-Alternatively, you can use [Algolia DocSearch](#algolia-search) or some community plugins like:
+Alternatively, you can use [Algolia DocSearch](#algolia-search) or community plugins like:
 
 - <https://www.npmjs.com/package/vitepress-plugin-search>
 - <https://www.npmjs.com/package/vitepress-plugin-pagefind>
@@ -32,7 +32,7 @@ Alternatively, you can use [Algolia DocSearch](#algolia-search) or some communit
 
 ### i18n {#local-search-i18n}
 
-You can use a config like this to use multilingual search:
+You can use a configuration like this to enable multilingual search:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -135,7 +135,7 @@ export default defineConfig({
 })
 ```
 
-This function will be stripped from client-side site data, so you can use Node.js APIs in it.
+This function will be stripped from client-side site data, so you can use server-side APIs in it.
 
 #### Example: Excluding pages from search
 
@@ -189,7 +189,7 @@ export default defineConfig({
 
 ## Algolia Search
 
-VitePress supports searching your docs site using [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Refer their getting started guide. In your `.vitepress/config.ts` you'll need to provide at least the following to make it work:
+VitePress supports searching your docs site using [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Refer to their getting started guide. In your `.vitepress/config.ts`, you'll need to provide at least the following to make it work:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -210,7 +210,7 @@ export default defineConfig({
 
 ### i18n {#algolia-search-i18n}
 
-You can use a config like this to use multilingual search:
+You can use a configuration like this to enable multilingual search:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -303,7 +303,7 @@ export default defineConfig({
 })
 ```
 
-[These options](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts) can be overridden. Refer official Algolia docs to learn more about them.
+[These options](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts) can be overridden. Refer to the official Algolia docs to learn more about them.
 
 ### Algolia Ask AI Support {#ask-ai}
 
@@ -337,7 +337,7 @@ export default defineConfig({
 ```
 
 ::: warning Note
-If want to default to keyword search and do not want to use Ask AI, just omit the `askAi` property
+If you want to default to keyword search and not use Ask AI, just omit the `askAi` property
 :::
 
 The translations for the Ask AI UI live under `options.translations.modal.askAiScreen` and `options.translations.resultsScreen` — see the [type definitions](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts) for all keys.
