@@ -54,10 +54,7 @@ export async function init(root?: string) {
             const cwd = slash(process.cwd())
             const dir = slash(value as string)
 
-            const cwdRE = new RegExp(
-              `^${dir.endsWith('/') ? `${cwd}/` : cwd}`,
-              'u'
-            )
+            const cwdRE = new RegExp(`^${cwd}`, 'u')
             // If give absolute path, use that path instead
             const absolutePath =
               (process.platform === 'win32' && /^[A-Z]:/i.test(dir)) ||
