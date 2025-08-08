@@ -95,7 +95,10 @@ export function createContentLoader<T = ContentData[]>(
 
     async load(files?: string[]) {
       // the loader is being called directly, do a fresh glob
-      files = files ?? (await glob(watch, options.globOptions))
+      files ??= await glob(watch, {
+        absolute: true,
+        ...options.globOptions
+      })
 
       const md = await createMarkdownRenderer(
         config.srcDir,

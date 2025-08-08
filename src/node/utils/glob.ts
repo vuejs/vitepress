@@ -3,6 +3,7 @@ import { glob as _glob } from 'tinyglobby'
 import { normalizePath } from 'vite'
 
 export interface GlobOptions {
+  absolute?: boolean
   cwd?: string
   ignore?: string | string[]
   dot?: boolean

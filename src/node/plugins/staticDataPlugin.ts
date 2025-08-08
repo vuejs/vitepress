@@ -97,7 +97,10 @@ export const staticDataPlugin: Plugin = {
       }
 
       // load the data
-      const watchedFiles = await glob(watch, options.globOptions)
+      const watchedFiles = await glob(watch, {
+        absolute: true,
+        ...options.globOptions
+      })
       const data = await load(watchedFiles)
 
       // record loader module for HMR
