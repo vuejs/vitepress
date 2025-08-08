@@ -1,20 +1,8 @@
 lockfileVersion: '9.0'
 
 settings:
-  autoInstallPeers: false
+  autoInstallPeers: true
   excludeLinksFromLockfile: false
-
-overrides:
-  ora>string-width: ^5
-  vite: npm:rolldown-vite@latest
-
-patchedDependencies:
-  '@types/mdurl@2.0.0':
-    hash: 3460e7d18ce390685cf4b8d8237fb20df9ad952c1336f479995a508a6395bfa4
-    path: patches/@types__mdurl@2.0.0.patch
-  markdown-it-anchor@9.2.0:
-    hash: cdc28e7c329be30688ad192126ba505446611fbe526ad51483e4b1287aa35cf9
-    path: patches/markdown-it-anchor@9.2.0.patch
 
 importers:
 
@@ -40,7 +28,7 @@ importers:
         version: 3.8.1
       '@vitejs/plugin-vue':
         specifier: ^6.0.0
-        version: 6.0.0(rolldown-vite@7.0.10(@types/node@24.1.0)(esbuild@0.25.8)(jiti@1.21.7)(yaml@2.8.0))(vue@3.5.18(typescript@5.8.3))
+        version: 6.0.0(vite@7.1.1(@types/node@24.1.0)(jiti@1.21.7)(lightningcss@1.30.1)(yaml@2.8.0))(vue@3.5.18(typescript@5.8.3))
       '@vue/devtools-api':
         specifier: ^7.7.7
         version: 7.7.7
@@ -66,8 +54,8 @@ importers:
         specifier: ^3.8.1
         version: 3.8.1
       vite:
-        specifier: npm:rolldown-vite@latest
-        version: rolldown-vite@7.0.10(@types/node@24.1.0)(esbuild@0.25.8)(jiti@1.21.7)(yaml@2.8.0)
+        specifier: ^7.0.6
+        version: 7.1.1(@types/node@24.1.0)(jiti@1.21.7)(lightningcss@1.30.1)(yaml@2.8.0)
       vue:
         specifier: ^3.5.18
         version: 3.5.18(typescript@5.8.3)
@@ -200,7 +188,7 @@ importers:
         version: 14.1.0
       markdown-it-anchor:
         specifier: ^9.2.0
-        version: 9.2.0(patch_hash=cdc28e7c329be30688ad192126ba505446611fbe526ad51483e4b1287aa35cf9)(@types/markdown-it@14.1.2)(markdown-it@14.1.0)
+        version: 9.2.0(@types/markdown-it@14.1.2)(markdown-it@14.1.0)
       markdown-it-async:
         specifier: ^2.2.0
         version: 2.2.0
@@ -335,7 +323,7 @@ importers:
         version: link:..
       vitepress-plugin-group-icons:
         specifier: ^1.6.1
-        version: 1.6.1(@types/node@24.1.0)(esbuild@0.25.8)(jiti@1.21.7)(markdown-it@14.1.0)(yaml@2.8.0)
+        version: 1.6.1(markdown-it@14.1.0)(vite@7.1.1(@types/node@24.1.0)(jiti@1.21.7)(lightningcss@1.30.1)(yaml@2.8.0))
       vitepress-plugin-llms:
         specifier: ^1.7.1
         version: 1.7.1
@@ -3089,10 +3077,51 @@ packages:
     engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
     hasBin: true
 
+  vite@7.1.1:
+    resolution: {integrity: sha512-yJ+Mp7OyV+4S+afWo+QyoL9jFWD11QFH0i5i7JypnfTcA1rmgxCbiA8WwAICDEtZ1Z1hzrVhN8R8rGTqkTY8ZQ==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    hasBin: true
+    peerDependencies:
+      '@types/node': ^20.19.0 || >=22.12.0
+      jiti: '>=1.21.0'
+      less: ^4.0.0
+      lightningcss: ^1.21.0
+      sass: ^1.70.0
+      sass-embedded: ^1.70.0
+      stylus: '>=0.54.8'
+      sugarss: ^5.0.0
+      terser: ^5.16.0
+      tsx: ^4.8.1
+      yaml: ^2.4.2
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+      jiti:
+        optional: true
+      less:
+        optional: true
+      lightningcss:
+        optional: true
+      sass:
+        optional: true
+      sass-embedded:
+        optional: true
+      stylus:
+        optional: true
+      sugarss:
+        optional: true
+      terser:
+        optional: true
+      tsx:
+        optional: true
+      yaml:
+        optional: true
+
   vitepress-plugin-group-icons@1.6.1:
     resolution: {integrity: sha512-eoFlFAhAy/yTZDbaIgA/nMbjVYXkf8pz8rr75MN2VCw7yH60I3cw6bW5EuwddAeafZtBqbo8OsEGU7TIWFiAjg==}
     peerDependencies:
       markdown-it: '>=14'
+      vite: '>=3'
 
   vitepress-plugin-llms@1.7.1:
     resolution: {integrity: sha512-RF5hl2vGxKhbcGirLLUhIlnWNSaoscPKBVnKaGxrKzj76i+mI+HBvfi/DF7a1u2L05LAnf7KSBkEVsMexczsAg==}
@@ -3834,13 +3863,13 @@ snapshots:
   '@types/markdown-it@14.1.2':
     dependencies:
       '@types/linkify-it': 5.0.0
-      '@types/mdurl': 2.0.0(patch_hash=3460e7d18ce390685cf4b8d8237fb20df9ad952c1336f479995a508a6395bfa4)
+      '@types/mdurl': 2.0.0
 
   '@types/mdast@4.0.4':
     dependencies:
       '@types/unist': 3.0.3
 
-  '@types/mdurl@2.0.0(patch_hash=3460e7d18ce390685cf4b8d8237fb20df9ad952c1336f479995a508a6395bfa4)': {}
+  '@types/mdurl@2.0.0': {}
 
   '@types/minimist@1.2.5': {}
 
@@ -3881,10 +3910,10 @@ snapshots:
 
   '@ungap/structured-clone@1.3.0': {}
 
-  '@vitejs/plugin-vue@6.0.0(rolldown-vite@7.0.10(@types/node@24.1.0)(esbuild@0.25.8)(jiti@1.21.7)(yaml@2.8.0))(vue@3.5.18(typescript@5.8.3))':
+  '@vitejs/plugin-vue@6.0.0(vite@7.1.1(@types/node@24.1.0)(jiti@1.21.7)(lightningcss@1.30.1)(yaml@2.8.0))(vue@3.5.18(typescript@5.8.3))':
     dependencies:
       '@rolldown/pluginutils': 1.0.0-beta.19
-      vite: rolldown-vite@7.0.10(@types/node@24.1.0)(esbuild@0.25.8)(jiti@1.21.7)(yaml@2.8.0)
+      vite: 7.1.1(@types/node@24.1.0)(jiti@1.21.7)(lightningcss@1.30.1)(yaml@2.8.0)
       vue: 3.5.18(typescript@5.8.3)
 
   '@vitest/expect@4.0.0-beta.4':
@@ -4938,7 +4967,7 @@ snapshots:
 
   mark.js@8.11.1: {}
 
-  markdown-it-anchor@9.2.0(patch_hash=cdc28e7c329be30688ad192126ba505446611fbe526ad51483e4b1287aa35cf9)(@types/markdown-it@14.1.2)(markdown-it@14.1.0):
+  markdown-it-anchor@9.2.0(@types/markdown-it@14.1.2)(markdown-it@14.1.0):
     dependencies:
       '@types/markdown-it': 14.1.2
       markdown-it: 14.1.0
@@ -5305,7 +5334,7 @@ snapshots:
       is-unicode-supported: 2.1.0
       log-symbols: 6.0.0
       stdin-discarder: 0.2.2
-      string-width: 5.1.2
+      string-width: 7.2.0
       strip-ansi: 7.1.0
 
   oxc-minify@0.78.0:
@@ -5973,26 +6002,30 @@ snapshots:
       - tsx
       - yaml
 
-  vitepress-plugin-group-icons@1.6.1(@types/node@24.1.0)(esbuild@0.25.8)(jiti@1.21.7)(markdown-it@14.1.0)(yaml@2.8.0):
+  vite@7.1.1(@types/node@24.1.0)(jiti@1.21.7)(lightningcss@1.30.1)(yaml@2.8.0):
+    dependencies:
+      esbuild: 0.25.8
+      fdir: 6.4.6(picomatch@4.0.3)
+      picomatch: 4.0.3
+      postcss: 8.5.6
+      rollup: 4.45.1
+      tinyglobby: 0.2.14
+    optionalDependencies:
+      '@types/node': 24.1.0
+      fsevents: 2.3.3
+      jiti: 1.21.7
+      lightningcss: 1.30.1
+      yaml: 2.8.0
+
+  vitepress-plugin-group-icons@1.6.1(markdown-it@14.1.0)(vite@7.1.1(@types/node@24.1.0)(jiti@1.21.7)(lightningcss@1.30.1)(yaml@2.8.0)):
     dependencies:
       '@iconify-json/logos': 1.2.5
       '@iconify-json/vscode-icons': 1.2.23
       '@iconify/utils': 2.3.0
       markdown-it: 14.1.0
-      vite: rolldown-vite@7.0.10(@types/node@24.1.0)(esbuild@0.25.8)(jiti@1.21.7)(yaml@2.8.0)
+      vite: 7.1.1(@types/node@24.1.0)(jiti@1.21.7)(lightningcss@1.30.1)(yaml@2.8.0)
     transitivePeerDependencies:
-      - '@types/node'
-      - esbuild
-      - jiti
-      - less
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
       - supports-color
-      - terser
-      - tsx
-      - yaml
 
   vitepress-plugin-llms@1.7.1:
     dependencies:

@@ -3,7 +3,7 @@ import container from 'markdown-it-container'
 import type { RenderRule } from 'markdown-it/lib/renderer.mjs'
 import type Token from 'markdown-it/lib/token.mjs'
 import type { MarkdownEnv } from '../../shared'
-import { extractTitle } from './preWrapper'
+import { extractTitle, extractCodeGroupKey } from './preWrapper'
 
 export const containerPlugin = (
   md: MarkdownItAsync,
@@ -64,6 +64,12 @@ function createCodeGroup(md: MarkdownItAsync): ContainerArgs {
     {
       render(tokens, idx) {
         if (tokens[idx].nesting === 1) {
+          // Extract the key from the code-group container info
+          const groupKey = extractCodeGroupKey(tokens[idx].info)
+          const groupKeyAttr = groupKey
+            ? ` data-group-key="${md.utils.escapeHtml(groupKey)}"`
+            : ''
+
           let tabs = ''
           let checked = 'checked'
 
@@ -87,7 +93,12 @@ function createCodeGroup(md: MarkdownItAsync): ContainerArgs {
               )
 
               if (title) {
-                tabs += `<input type="radio" name="group-${idx}" id="tab-${i}" ${checked}><label data-title="${md.utils.escapeHtml(title)}" for="tab-${i}">${title}</label>`
+                // Use the group key for all tabs in this group
+                const keyAttr = groupKey
+                  ? ` data-key="${md.utils.escapeHtml(groupKey)}"`
+                  : ''
+
+                tabs += `<input type="radio" name="group-${idx}" id="tab-${i}" ${checked}><label data-title="${md.utils.escapeHtml(title)}"${keyAttr} for="tab-${i}">${title}</label>`
 
                 if (checked && !isHtml) tokens[i].info += ' active'
                 checked = ''
@@ -95,7 +106,7 @@ function createCodeGroup(md: MarkdownItAsync): ContainerArgs {
             }
           }
 
-          return `<div class="vp-code-group"><div class="tabs">${tabs}</div><div class="blocks">\n`
+          return `<div class="vp-code-group"${groupKeyAttr}><div class="tabs">${tabs}</div><div class="blocks">\n`
         }
         return `</div></div>\n`
       }

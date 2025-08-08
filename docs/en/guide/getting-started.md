@@ -144,7 +144,7 @@ The tool should have also injected the following npm scripts to your `package.js
 
 The `docs:dev` script will start a local dev server with instant hot updates. Run it with the following command:
 
-::: code-group
+::: code-group  :package-manager
 
 ```sh [npm]
 $ npm run docs:dev
