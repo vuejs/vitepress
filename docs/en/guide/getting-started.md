@@ -15,7 +15,7 @@ You can try VitePress directly in your browser on [StackBlitz](https://vitepress
 
 VitePress can be used on its own, or be installed into an existing project. In both cases, you can install it with:
 
-::: code-group
+::: code-group :package-manager
 
 ```sh [npm]
 $ npm add -D vitepress
@@ -49,7 +49,7 @@ VitePress is an ESM-only package. Don't use `require()` to import it, and make s
 
 VitePress ships with a command line setup wizard that will help you scaffold a basic project. After installation, start the wizard by running:
 
-::: code-group
+::: code-group :package-manager
 
 ```sh [npm]
 $ npx vitepress init
@@ -144,7 +144,7 @@ The tool should have also injected the following npm scripts to your `package.js
 
 The `docs:dev` script will start a local dev server with instant hot updates. Run it with the following command:
 
-::: code-group  :package-manager
+::: code-group :package-manager
 
 ```sh [npm]
 $ npm run docs:dev
@@ -166,7 +166,7 @@ $ bun run docs:dev
 
 Instead of npm scripts, you can also invoke VitePress directly with:
 
-::: code-group
+::: code-group :package-manager
 
 ```sh [npm]
 $ npx vitepress dev docs
