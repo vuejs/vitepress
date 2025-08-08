@@ -6,7 +6,7 @@ export default defineRoutes({
     // console.log('watchedFiles', watchedFiles)
     return paths
   },
-  watch: ['**/data-loading/**/*.json'],
+  watch: ['../data-loading/**/*.json'],
   async transformPageData(pageData) {
     // console.log('transformPageData', pageData.filePath)
     pageData.title += ' - transformed'

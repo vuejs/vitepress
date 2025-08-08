@@ -308,7 +308,10 @@ async function resolveDynamicRoutes(
       let pathsData: UserRouteConfig[]
 
       if (typeof loader === 'function') {
-        const watchedFiles = await glob(watch, options.globOptions)
+        const watchedFiles = await glob(watch, {
+          absolute: true,
+          ...options.globOptions
+        })
         pathsData = await loader(watchedFiles)
       } else {
         pathsData = loader
