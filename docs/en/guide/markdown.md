@@ -776,6 +776,82 @@ You can also [import snippets](#import-code-snippets) in code groups:
 
 :::
 
+### Code Group Synchronization
+
+Code groups can be synchronized across the page using a key. When you click on a tab in one code group, all other code groups with the same key will automatically switch to the corresponding tab. The selected tab is also reflected in the URL as a query parameter.
+
+**Input**
+
+````md
+::: code-group :package-manager
+
+```bash [npm]
+npm install vitepress
+```
+
+```bash [yarn]
+yarn add vitepress
+```
+
+```bash [pnpm]
+pnpm add vitepress
+```
+
+:::
+
+::: code-group :package-manager
+
+```bash [npm]
+npm run dev
+```
+
+```bash [yarn]
+yarn dev
+```
+
+```bash [pnpm]
+pnpm dev
+```
+
+:::
+````
+
+**Output**
+
+::: code-group :package-manager
+
+```bash [npm]
+npm install vitepress
+```
+
+```bash [yarn]
+yarn add vitepress
+```
+
+```bash [pnpm]
+pnpm add vitepress
+```
+
+:::
+
+::: code-group :package-manager
+
+```bash [npm]
+npm run dev
+```
+
+```bash [yarn]
+yarn dev
+```
+
+```bash [pnpm]
+pnpm dev
+```
+
+:::
+
+When you select a tab (e.g., "pnpm"), both code groups will switch to show the pnpm version, and the URL will update to include `?package-manager=pnpm`. This makes it easy to share links that preserve the user's tab selection.
+
 ## Markdown File Inclusion
 
 You can include a markdown file in another markdown file, even nested.

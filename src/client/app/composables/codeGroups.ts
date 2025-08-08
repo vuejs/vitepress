@@ -87,6 +87,11 @@ function activateTab(group: HTMLElement, input: HTMLInputElement): boolean {
   const blocks = group.querySelector('.blocks')
   if (!blocks) return false
 
+  // Update radio input checked state
+  inputs.forEach((radioInput, i) => {
+    radioInput.checked = i === index
+  })
+
   // Remove active class from all blocks and add to the target block
   Array.from(blocks.children).forEach((child, i) => {
     child.classList.toggle('active', i === index)
