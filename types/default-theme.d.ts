@@ -324,6 +324,7 @@ export namespace DefaultTheme {
   export interface Footer {
     message?: string
     copyright?: string
+    showWithSidebar?: boolean
   }
 
   // team ----------------------------------------------------------------------
