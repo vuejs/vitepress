@@ -37,6 +37,13 @@ export function extractTitle(info: string, html = false) {
   return info.match(/\[(.*)\]/)?.[1] || extractLang(info) || 'txt'
 }
 
+export function extractCodeGroupKey(info: string) {
+  // Extract key from code-group container info like ":package-manager", ":framework" etc.
+  const trimmedInfo = info.trim().replace(/^code-group\s*/, '')
+  const match = trimmedInfo.match(/^:([a-zA-Z0-9_-]+)/)
+  return match ? match[1] : null
+}
+
 function extractLang(info: string) {
   return info
     .trim()
