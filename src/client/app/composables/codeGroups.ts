@@ -1,6 +1,5 @@
 import { inBrowser, onContentUpdated } from 'vitepress'
 
-const SCROLL_OPTIONS: ScrollIntoViewOptions = { block: 'nearest' }
 const codeGroupCache = new Map<string, HTMLElement[]>()
 
 export function useCodeGroups() {
@@ -38,7 +37,6 @@ export function useCodeGroups() {
         const label = group?.querySelector(`label[for="${el.id}"]`)
         if (!label) return
 
-        // Activate the clicked tab
         if (!activateTab(group, el)) return
 
         label.scrollIntoView({ block: 'nearest' })
@@ -48,10 +46,7 @@ export function useCodeGroups() {
         const tabTitle = label.getAttribute('data-title')?.toLowerCase()
 
         if (groupKey && tabTitle) {
-          // Synchronize all other code groups with the same key
           syncCodeGroupsByKeyAndValue(groupKey, tabTitle, group)
-
-          // Update URL query parameter with key=value format
           updateUrl(groupKey, tabTitle)
         }
       }
@@ -158,12 +153,5 @@ function handleQueryParamNavigation() {
         matches.push(group)
       }
     }
-  }
-
-  // Scroll to the first matching group
-  if (matches.length > 0) {
-    const firstMatchGroup = matches[0]
-    const firstLabel = firstMatchGroup.querySelector('label[data-title]')
-    firstLabel?.scrollIntoView(SCROLL_OPTIONS)
   }
 }
