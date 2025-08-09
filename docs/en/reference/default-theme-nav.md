@@ -161,6 +161,27 @@ export default {
 
 Refer [`socialLinks`](./default-theme-config#sociallinks).
 
+## Custom Text Item Component
+
+If you want to use the default theme but modify only the text of the items, you can override the `SidebarTextItem` inside the `enhanceApp` function. For example:
+
+```js
+// .vitepress/theme/index.js
+import DefaultTheme from 'vitepress/theme';
+import CustomSidebarTextItem from './components/CustomSidebarTextItem.vue';
+
+export default {
+  extends: DefaultTheme,
+  enhanceApp({ app }) {
+    app.component('SidebarTextItem', CustomSidebarTextItem);
+  }
+};
+```
+
+### Creating a Custom `SidebarTextItem`
+
+To create your own `SidebarTextItem`, define a Vue component that accepts a `content` prop and renders it inside a chosen HTML tag. This allows you to fully customize how the text appears while maintaining compatibility with the default theme.
+
 ## Custom Components
 
 You can include custom components in the navigation bar by using the `component` option. The `component` key should be the Vue component name, and must be registered globally using [Theme.enhanceApp](../guide/custom-theme#theme-interface).
