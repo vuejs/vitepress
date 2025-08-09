@@ -142,15 +142,13 @@ function handleQueryParamNavigation() {
   const urlParams = new URLSearchParams(window.location.search)
   if (urlParams.size === 0) return
 
-  const matches: HTMLElement[] = []
-
   for (const [groupKey, tabValue] of urlParams.entries()) {
     const groups = getCodeGroupsByKey(groupKey)
 
     for (const group of groups) {
       const input = findTabByTitle(group, tabValue)
-      if (input && activateTab(group, input)) {
-        matches.push(group)
+      if (input) {
+        activateTab(group, input)
       }
     }
   }
