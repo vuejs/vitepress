@@ -274,16 +274,7 @@ export async function createVitePressPlugin(
         }
 
         // update pages, dynamicRoutes and rewrites on md file creation / deletion
-        if (file.endsWith('.md')) {
-          Object.assign(
-            siteConfig,
-            await resolvePages(
-              siteConfig.srcDir,
-              siteConfig.userConfig,
-              siteConfig.logger
-            )
-          )
-        }
+        if (file.endsWith('.md')) await resolvePages(siteConfig)
 
         if (!added && importerMap[file]) {
           delete importerMap[file]
