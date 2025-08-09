@@ -1,10 +1,9 @@
 import {
-  transformerCompactLineOptions,
+  transformerMetaHighlight,
   transformerNotationDiff,
   transformerNotationErrorLevel,
   transformerNotationFocus,
   transformerNotationHighlight,
-  type TransformerCompactLineOption
 } from '@shikijs/transformers'
 import { customAlphabet } from 'nanoid'
 import c from 'picocolors'
@@ -14,38 +13,6 @@ import type { Logger } from 'vite'
 import type { MarkdownOptions, ThemeOptions } from '../markdown'
 
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)
-
-/**
- * 2 steps:
- *
- * 1. convert attrs into line numbers:
- *    {4,7-13,16,23-27,40} -> [4,7,8,9,10,11,12,13,16,23,24,25,26,27,40]
- * 2. convert line numbers into line options:
- *    [{ line: number, classes: string[] }]
- */
-function attrsToLines(attrs: string): TransformerCompactLineOption[] {
-  attrs = attrs.replace(/^(?:\[.*?\])?.*?([\d,-]+).*/, '$1').trim()
-  const result: number[] = []
-  if (!attrs) {
-    return []
-  }
-  attrs
-    .split(',')
-    .map((v) => v.split('-').map((v) => parseInt(v, 10)))
-    .forEach(([start, end]) => {
-      if (start && end) {
-        result.push(
-          ...Array.from({ length: end - start + 1 }, (_, i) => start + i)
-        )
-      } else {
-        result.push(start)
-      }
-    })
-  return result.map((v) => ({
-    line: v,
-    classes: ['highlighted']
-  }))
-}
 
 export async function highlight(
   theme: ThemeOptions,
@@ -74,6 +41,7 @@ export async function highlight(
   await options?.shikiSetup?.(highlighter)
 
   const transformers: ShikiTransformer[] = [
+    transformerMetaHighlight(),
     transformerNotationDiff(),
     transformerNotationFocus({
       classActiveLine: 'has-focus',
@@ -121,7 +89,6 @@ export async function highlight(
         lang = defaultLang
       }
 
-      const lineOptions = attrsToLines(attrs)
       const mustaches = new Map<string, string>()
 
       const removeMustache = (s: string) => {
@@ -152,7 +119,6 @@ export async function highlight(
         lang,
         transformers: [
           ...transformers,
-          transformerCompactLineOptions(lineOptions),
           {
             name: 'vitepress:v-pre',
             pre(node) {
