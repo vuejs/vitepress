@@ -5,6 +5,7 @@ import pm from 'picomatch'
 import {
   loadConfigFromFile,
   normalizePath,
+  type EnvironmentModuleGraph,
   type EnvironmentModuleNode,
   type Logger,
   type Plugin
@@ -130,6 +131,7 @@ export const dynamicRoutesPlugin = async (
 ): Promise<Plugin> => {
   return {
     name: 'vitepress:dynamic-routes',
+    enforce: 'pre',
 
     resolveId(id) {
       if (!id.endsWith('.md')) return
@@ -177,11 +179,7 @@ export const dynamicRoutesPlugin = async (
       const normalizedFile = normalizePath(file)
 
       // Trigger update if a module or its dependencies changed.
-      for (const id of moduleGraph.delete(normalizedFile)) {
-        routeModuleCache.delete(id)
-        const mod = this.environment.moduleGraph.getModuleById(id)
-        if (mod) modules.push(mod)
-      }
+      modules.push(...getModules(normalizedFile, this.environment.moduleGraph))
 
       // Also check if the file matches any custom watch patterns.
       let watchedFileChanged = false
@@ -192,11 +190,7 @@ export const dynamicRoutesPlugin = async (
         ) {
           route.routes = undefined
           watchedFileChanged = true
-
-          for (const id of moduleGraph.delete(file)) {
-            const mod = this.environment.moduleGraph.getModuleById(id)
-            if (mod) modules.push(mod)
-          }
+          modules.push(...getModules(file, this.environment.moduleGraph, false))
         }
       }
 
@@ -354,4 +348,17 @@ async function resolveDynamicRoutes(
   moduleGraph = newModuleGraph
 
   return resolvedRoutes
+}
+
+function getModules(
+  id: string,
+  envModuleGraph: EnvironmentModuleGraph,
+  deleteFromRouteModuleCache = true
+) {
+  const modules: EnvironmentModuleNode[] = []
+  for (const file of moduleGraph.delete(id)) {
+    deleteFromRouteModuleCache && routeModuleCache.delete(file)
+    modules.push(...(envModuleGraph.getModulesByFile(file)?.values() ?? []))
+  }
+  return modules
 }
