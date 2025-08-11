@@ -1,3 +1,22 @@
+## [2.0.0-alpha.10](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.9...v2.0.0-alpha.10) (2025-08-11)
+
+### Bug Fixes
+
+- **client:** base not stripped from relativePath in 404 pages ([b840877](https://github.com/vuejs/vitepress/commit/b840877aa83a5a24ffc1222e8a5a3dbf3e5105e8)), closes [#4850](https://github.com/vuejs/vitepress/issues/4850)
+- hmr of style blocks in dynamic routes ([#4903](https://github.com/vuejs/vitepress/issues/4903)) ([3d0fafb](https://github.com/vuejs/vitepress/commit/3d0fafba545f4b5028cf43d86027dd44dab14421))
+- make paths in `watchedFiles` absolute as mentioned in the docs ([318c14f](https://github.com/vuejs/vitepress/commit/318c14fa7c9fb949d74b7d9fae416e917766cf05))
+- module graph causing unnecessary route regeneration on every update ([fc267ae](https://github.com/vuejs/vitepress/commit/fc267ae6b787e163d41666e090089821377ead43))
+- preserve externally added dynamic routes and pages ([fc267ae](https://github.com/vuejs/vitepress/commit/fc267ae6b787e163d41666e090089821377ead43))
+- **search:** input placeholder being cut off in smaller viewports ([162c6a6](https://github.com/vuejs/vitepress/commit/162c6a69bf56945daa20d126aa034c59ee0c8a2e))
+- **search:** style tweaks for when searches are empty ([8b23217](https://github.com/vuejs/vitepress/commit/8b232171cc321bd3dc86b4357622815269f0b6f4))
+- **types:** externalize markdown-it types ([5bf835b](https://github.com/vuejs/vitepress/commit/5bf835b5074e9567852d552bfb5115c6456026e8))
+- **types:** pass generics deeply to user config ([777e2ca](https://github.com/vuejs/vitepress/commit/777e2caaacd93ce41b046f6c9d5ba80cc43ba37c))
+
+### Features
+
+- add source param to the deadlink check fn ([#4870](https://github.com/vuejs/vitepress/issues/4870)) ([8c027c2](https://github.com/vuejs/vitepress/commit/8c027c2a7c443074fd0d4890f7736b444f9254aa))
+- **theme:** add `rel="me"` to social links by default ([#4873](https://github.com/vuejs/vitepress/issues/4873)) ([34886c6](https://github.com/vuejs/vitepress/commit/34886c667d1305a79d64c957f8c52931ea122f47))
+
 ## [2.0.0-alpha.9](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.8...v2.0.0-alpha.9) (2025-07-26)
 
 ### Bug Fixes
