@@ -131,6 +131,7 @@ export const dynamicRoutesPlugin = async (
 ): Promise<Plugin> => {
   return {
     name: 'vitepress:dynamic-routes',
+    enforce: 'pre',
 
     resolveId(id) {
       if (!id.endsWith('.md')) return
