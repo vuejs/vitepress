@@ -21,14 +21,14 @@ importers:
   .:
     dependencies:
       '@docsearch/css':
-        specifier: ^4.0.0-beta.5
-        version: 4.0.0-beta.5
+        specifier: ^4.0.0-beta.6
+        version: 4.0.0-beta.6
       '@docsearch/js':
-        specifier: ^4.0.0-beta.5
-        version: 4.0.0-beta.5
+        specifier: ^4.0.0-beta.6
+        version: 4.0.0-beta.6
       '@iconify-json/simple-icons':
-        specifier: ^1.2.46
-        version: 1.2.46
+        specifier: ^1.2.47
+        version: 1.2.47
       '@shikijs/core':
         specifier: ^3.9.2
         version: 3.9.2
@@ -82,26 +82,26 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
       '@mdit-vue/plugin-component':
-        specifier: ^2.1.4
-        version: 2.1.4
+        specifier: ^3.0.0
+        version: 3.0.0
       '@mdit-vue/plugin-frontmatter':
-        specifier: ^2.1.4
-        version: 2.1.4
+        specifier: ^3.0.0
+        version: 3.0.0
       '@mdit-vue/plugin-headers':
-        specifier: ^2.1.4
-        version: 2.1.4
+        specifier: ^3.0.0
+        version: 3.0.0
       '@mdit-vue/plugin-sfc':
-        specifier: ^2.1.4
-        version: 2.1.4
+        specifier: ^3.0.0
+        version: 3.0.0
       '@mdit-vue/plugin-title':
-        specifier: ^2.1.4
-        version: 2.1.4
+        specifier: ^3.0.0
+        version: 3.0.0
       '@mdit-vue/plugin-toc':
-        specifier: ^2.1.4
-        version: 2.1.4
+        specifier: ^3.0.0
+        version: 3.0.0
       '@mdit-vue/shared':
-        specifier: ^2.1.4
-        version: 2.1.4
+        specifier: ^3.0.0
+        version: 3.0.0
       '@polka/compression':
         specifier: ^1.0.0-next.28
         version: 1.0.0-next.28
@@ -390,11 +390,11 @@ packages:
       conventional-commits-parser:
         optional: true
 
-  '@docsearch/css@4.0.0-beta.5':
-    resolution: {integrity: sha512-bZy+gIXRZch0KNPC7MLoj4wkEcNVeEHBXOKJtonoJ2EaLw2vbO1PLGIXxtPgW7Ab7TvI0StkrmGuEQqE2q/1QA==}
+  '@docsearch/css@4.0.0-beta.6':
+    resolution: {integrity: sha512-LmUwTbRnj6CJV8RW2FysHEm238X2sC2QjL1AKcKVdstuZ12r85o9PdOgNZgRMUCIgJuZteyMeBGBZo258DH70g==}
 
-  '@docsearch/js@4.0.0-beta.5':
-    resolution: {integrity: sha512-FEtkwdblZDrTkd0mYwmfR94Vo/jgkXVIbS6vD2FcKazK/L5RmgNb7KAUDUWW11V/fIcS5XHvHprIxEnoB9gllQ==}
+  '@docsearch/js@4.0.0-beta.6':
+    resolution: {integrity: sha512-paUB2D7JryaacNS3HJRc6PvsbZu9x07ZhL1c8p3OSeP/tyJN0jzdG4Wsd6Z8Me563kEM5VTVSrDi/kaUpwWosA==}
 
   '@emnapi/core@1.4.5':
     resolution: {integrity: sha512-XsLw1dEOpkSX/WucdqUhPWP7hDxSvZiY+fsUC14h+FtQ2Ifni4znbBt8punRX+Uj2JG/uDb8nEHVKvrVlvdZ5Q==}
@@ -571,14 +571,14 @@ packages:
     resolution: {integrity: sha512-e5+YUKENATs1JgYHMzTr2MW/NDcXGfYFAuOQU8gJgF/kEh4EqKgfGrfLI67bMD4tbhZVlkigz/9YYwWcbOFthg==}
     engines: {node: '>=10.13.0'}
 
-  '@iconify-json/logos@1.2.5':
-    resolution: {integrity: sha512-WR8+9kFwx1tIR+hWpKYC+rpVkAuzHyaVxZRfhGGIjqCfgbodK7rS4+OZhktdKtZKKcdmhpLZKvlmRm4IA4dKRg==}
+  '@iconify-json/logos@1.2.9':
+    resolution: {integrity: sha512-G6VCdFnwZcrT6Eveq3m43oJfLw/CX8plwFcE+2jgv3fiGB64pTmnU7Yd1MNZ/eA+/Re2iEDhuCfSNOWTHwwK8w==}
 
-  '@iconify-json/simple-icons@1.2.46':
-    resolution: {integrity: sha512-MJfKQDhOMQD5Fc8PcTtCdFX0oBf/nKVfp69ScdEKIXW0JXELX5V2Ld45EsjShi8aJ6DNhdDtSDZvKuDnkDiKnw==}
+  '@iconify-json/simple-icons@1.2.47':
+    resolution: {integrity: sha512-wa/2O7G4sBmwSEWWLh5C+HeY00lVOoWYRKJOYQtk7lAbQrHUReD1ijiGOyTynV1YavxtNueL1CBA1UZmYJfOrQ==}
 
-  '@iconify-json/vscode-icons@1.2.24':
-    resolution: {integrity: sha512-iWWsflaDjX8l9JM9m5OrUtC49fuLveoXud7tVobRRyrDpI5ixdM9yfH20dC9R8aW+qpfPFPi6oC3n1noPsp8gA==}
+  '@iconify-json/vscode-icons@1.2.29':
+    resolution: {integrity: sha512-ByqO3YPYs0n7hakQ/ZUXltJQnYibeOv41H1AdciOs7Pmba5/OsKKK1/oOjcBmvXrYuENO+IvIzORYkl6sFXgqA==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -612,29 +612,37 @@ packages:
     engines: {node: '>=18.17.0'}
     hasBin: true
 
-  '@mdit-vue/plugin-component@2.1.4':
-    resolution: {integrity: sha512-fiLbwcaE6gZE4c8Mkdkc4X38ltXh/EdnuPE1hepFT2dLiW6I4X8ho2Wq7nhYuT8RmV4OKlCFENwCuXlKcpV/sw==}
+  '@mdit-vue/plugin-component@3.0.0':
+    resolution: {integrity: sha512-en9BdVKJyuo2Wuo0tGVq+nqXRoLLZ/9nK59+o3oXtWe6C/Hry9L3VleqSnnlUdLwjCaqAO466nxNwwXhixFJpA==}
+    engines: {node: '>=20.0.0'}
 
-  '@mdit-vue/plugin-frontmatter@2.1.4':
-    resolution: {integrity: sha512-mOlavV176njnozIf0UZGFYymmQ2LK5S1rjrbJ1uGz4Df59tu0DQntdE7YZXqmJJA9MiSx7ViCTUQCNPKg7R8Ow==}
+  '@mdit-vue/plugin-frontmatter@3.0.0':
+    resolution: {integrity: sha512-1IYxd4Rz7RNZAysugdG9snvosQQzquHHjhiHgSRd3ltPmHkAnaILKiSbrbnaoREl2GWE4sR0X/tD5AIQkUcQNg==}
+    engines: {node: '>=20.0.0'}
 
-  '@mdit-vue/plugin-headers@2.1.4':
-    resolution: {integrity: sha512-tyZwGZu2mYkNSqigFP1CK3aZYxuYwrqcrIh8ljd8tfD1UDPJkAbQeayq62U572po2IuWVB1BqIG8JIXp5POOTA==}
+  '@mdit-vue/plugin-headers@3.0.0':
+    resolution: {integrity: sha512-6ZG1uont09p4LKa+zUexOGLLL9KmNRWg9wRMyu+Vze5JqGFwWQIKarBMoJUSyF7N53D1Llj+QPsfNgR1vclXpQ==}
+    engines: {node: '>=20.0.0'}
 
-  '@mdit-vue/plugin-sfc@2.1.4':
-    resolution: {integrity: sha512-oqAlMulkz280xUJIkormzp6Ps0x5WULZrwRivylWJWDEyVAFCj5VgR3Dx6CP2jdgyuPXwW3+gh2Kzw+Xe+kEIQ==}
+  '@mdit-vue/plugin-sfc@3.0.0':
+    resolution: {integrity: sha512-nJc0/5OYtfrSpP6oUSInjSWKsrReif+mBmnGTVGkzzs5OzRZlmtPWfXqjO6+YauCMX/f6GkP6kCAVLnfLLV5kw==}
+    engines: {node: '>=20.0.0'}
 
-  '@mdit-vue/plugin-title@2.1.4':
-    resolution: {integrity: sha512-uuF24gJvvLVIWG/VBtCDRqMndfd5JzOXoBoHPdKKLk3PA4P84dsB0u0NnnBUEl/YBOumdCotasn7OfFMmco9uQ==}
+  '@mdit-vue/plugin-title@3.0.0':
+    resolution: {integrity: sha512-FSIktCh4X7Sz7SX6/BXZDXqIsjxcxxOO3d56fJhoqUvbCWkVo52ihyKkj6d9ynFIM/IbPCxiIV94H1l4TBErXA==}
+    engines: {node: '>=20.0.0'}
 
-  '@mdit-vue/plugin-toc@2.1.4':
-    resolution: {integrity: sha512-vvOU7u6aNmvPwKXzmoHion1sv4zChBp20LDpSHlRlXc3btLwdYIA0DR+UiO5YeyLUAO0XSHQKBpsIWi57K9/3w==}
+  '@mdit-vue/plugin-toc@3.0.0':
+    resolution: {integrity: sha512-TEsvFcOCfYhvLHfgOKZq74JFIKMohZ/ucuLpvhK6USHJCrgcunAw+Yr+VTtxQgCeKReIKWaGD3ReKcscgjrKjA==}
+    engines: {node: '>=20.0.0'}
 
-  '@mdit-vue/shared@2.1.4':
-    resolution: {integrity: sha512-Axd8g2iKQTMuHcPXZH5JY3hbSMeLyoeu0ftdgMrjuPzHpJnWiPSAnA0dAx5NQFQqZkXHhyIrAssLSrOWjFmPKg==}
+  '@mdit-vue/shared@3.0.0':
+    resolution: {integrity: sha512-3GPwO4wBk4lR4BSDjjJk54OtuGoGeCK8iqLH+8wPiz5684oeZrBsrvNTjBhNGBoaPMjXNk/Y+zAI4K3GLytrUg==}
+    engines: {node: '>=20.0.0'}
 
-  '@mdit-vue/types@2.1.4':
-    resolution: {integrity: sha512-QiGNZslz+zXUs2X8D11UQhB4KAMZ0DZghvYxa7+1B+VMLcDtz//XHpWbcuexjzE3kBXSxIUTPH3eSQCa0puZHA==}
+  '@mdit-vue/types@3.0.0':
+    resolution: {integrity: sha512-9j5fpTpMdyD9swZwbJZJHPyAS58WzTYpIUUFYzfBJViDL6drQTj7jnMbfGPtApSoKrsV5VJ4ClVctJnm+0TpkQ==}
+    engines: {node: '>=20.0.0'}
 
   '@napi-rs/wasm-runtime@1.0.3':
     resolution: {integrity: sha512-rZxtMsLwjdXkMUGC3WwsPwLNVqVqnTJT6MNIB6e+5fhMcSCPP0AOsNWuMQ5mdCq6HNjs/ZeWAEchpqeprqBD2Q==}
@@ -3271,9 +3279,9 @@ snapshots:
       conventional-commits-filter: 5.0.0
       conventional-commits-parser: 6.2.0
 
-  '@docsearch/css@4.0.0-beta.5': {}
+  '@docsearch/css@4.0.0-beta.6': {}
 
-  '@docsearch/js@4.0.0-beta.5': {}
+  '@docsearch/js@4.0.0-beta.6': {}
 
   '@emnapi/core@1.4.5':
     dependencies:
@@ -3377,15 +3385,15 @@ snapshots:
 
   '@hutson/parse-repository-url@5.0.0': {}
 
-  '@iconify-json/logos@1.2.5':
+  '@iconify-json/logos@1.2.9':
     dependencies:
       '@iconify/types': 2.0.0
 
-  '@iconify-json/simple-icons@1.2.46':
+  '@iconify-json/simple-icons@1.2.47':
     dependencies:
       '@iconify/types': 2.0.0
 
-  '@iconify-json/vscode-icons@1.2.24':
+  '@iconify-json/vscode-icons@1.2.29':
     dependencies:
       '@iconify/types': 2.0.0
 
@@ -3444,52 +3452,52 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@mdit-vue/plugin-component@2.1.4':
+  '@mdit-vue/plugin-component@3.0.0':
     dependencies:
       '@types/markdown-it': 14.1.2
       markdown-it: 14.1.0
 
-  '@mdit-vue/plugin-frontmatter@2.1.4':
+  '@mdit-vue/plugin-frontmatter@3.0.0':
     dependencies:
-      '@mdit-vue/types': 2.1.4
+      '@mdit-vue/types': 3.0.0
       '@types/markdown-it': 14.1.2
       gray-matter: 4.0.3
       markdown-it: 14.1.0
 
-  '@mdit-vue/plugin-headers@2.1.4':
+  '@mdit-vue/plugin-headers@3.0.0':
     dependencies:
-      '@mdit-vue/shared': 2.1.4
-      '@mdit-vue/types': 2.1.4
+      '@mdit-vue/shared': 3.0.0
+      '@mdit-vue/types': 3.0.0
       '@types/markdown-it': 14.1.2
       markdown-it: 14.1.0
 
-  '@mdit-vue/plugin-sfc@2.1.4':
+  '@mdit-vue/plugin-sfc@3.0.0':
     dependencies:
-      '@mdit-vue/types': 2.1.4
+      '@mdit-vue/types': 3.0.0
       '@types/markdown-it': 14.1.2
       markdown-it: 14.1.0
 
-  '@mdit-vue/plugin-title@2.1.4':
+  '@mdit-vue/plugin-title@3.0.0':
     dependencies:
-      '@mdit-vue/shared': 2.1.4
-      '@mdit-vue/types': 2.1.4
+      '@mdit-vue/shared': 3.0.0
+      '@mdit-vue/types': 3.0.0
       '@types/markdown-it': 14.1.2
       markdown-it: 14.1.0
 
-  '@mdit-vue/plugin-toc@2.1.4':
+  '@mdit-vue/plugin-toc@3.0.0':
     dependencies:
-      '@mdit-vue/shared': 2.1.4
-      '@mdit-vue/types': 2.1.4
+      '@mdit-vue/shared': 3.0.0
+      '@mdit-vue/types': 3.0.0
       '@types/markdown-it': 14.1.2
       markdown-it: 14.1.0
 
-  '@mdit-vue/shared@2.1.4':
+  '@mdit-vue/shared@3.0.0':
     dependencies:
-      '@mdit-vue/types': 2.1.4
+      '@mdit-vue/types': 3.0.0
       '@types/markdown-it': 14.1.2
       markdown-it: 14.1.0
 
-  '@mdit-vue/types@2.1.4': {}
+  '@mdit-vue/types@3.0.0': {}
 
   '@napi-rs/wasm-runtime@1.0.3':
     dependencies:
@@ -5982,8 +5990,8 @@ snapshots:
 
   vitepress-plugin-group-icons@1.6.2(@types/node@24.2.1)(esbuild@0.25.8)(jiti@1.21.7)(markdown-it@14.1.0)(yaml@2.8.1):
     dependencies:
-      '@iconify-json/logos': 1.2.5
-      '@iconify-json/vscode-icons': 1.2.24
+      '@iconify-json/logos': 1.2.9
+      '@iconify-json/vscode-icons': 1.2.29
       '@iconify/utils': 3.0.0
       markdown-it: 14.1.0
       vite: rolldown-vite@7.1.0(@types/node@24.2.1)(esbuild@0.25.8)(jiti@1.21.7)(yaml@2.8.1)
