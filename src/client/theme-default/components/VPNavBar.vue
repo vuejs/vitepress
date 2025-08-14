@@ -170,15 +170,21 @@ watchPostEffect(() => {
   .VPNavBar.has-sidebar .content {
     position: relative;
     z-index: 1;
-    padding-right: 32px;
     padding-left: var(--vp-sidebar-width);
+  }
+
+  .VPNavBar.has-sidebar .content-body {
+    padding-right: 32px;
   }
 }
 
 @media (min-width: 1440px) {
   .VPNavBar.has-sidebar .content {
-    padding-right: calc((100vw - var(--vp-layout-max-width)) / 2 + 32px);
     padding-left: calc((100vw - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));
+  }
+
+  .VPNavBar.has-sidebar .content-body {
+    padding-right: calc((100vw - var(--vp-layout-max-width)) / 2 + 32px);
   }
 }
 
