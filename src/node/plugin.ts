@@ -4,6 +4,7 @@ import {
   mergeConfig,
   normalizePath,
   searchForWorkspaceRoot,
+  type EnvironmentModuleNode,
   type Plugin,
   type ResolvedConfig,
   type Rollup,
@@ -400,19 +401,22 @@ export async function createVitePressPlugin(
 
   const hmrFix: Plugin = {
     name: 'vitepress:hmr-fix',
-    async hotUpdate({ file, modules }) {
+    async hotUpdate({ file, modules: existingMods }) {
       if (this.environment.name !== 'client') return
+      const modules: EnvironmentModuleNode[] = []
 
-      const importers = [...(importerMap[slash(file)] || [])]
-      if (importers.length > 0) {
-        return [
-          ...modules,
-          ...importers.map((id) => {
-            clearCache(id)
-            return this.environment.moduleGraph.getModuleById(id)
-          })
-        ].filter((mod) => mod !== undefined)
+      if (file.endsWith('.md')) {
+        const mod = this.environment.moduleGraph.getModuleById(file)
+        mod && modules.push(mod)
       }
+
+      importerMap[slash(file)]?.forEach((importer) => {
+        clearCache(importer)
+        const mod = this.environment.moduleGraph.getModuleById(importer)
+        mod && modules.push(mod)
+      })
+
+      return modules.length ? [...existingMods, ...modules] : undefined
     }
   }
 
