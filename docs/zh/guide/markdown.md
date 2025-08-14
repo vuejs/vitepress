@@ -255,11 +255,11 @@ Wraps in a `<div class="vp-raw">`
   }
   ```
 
-  它在底层使用 [`postcss-prefix-selector`](https://github.com/RadValentin/postcss-prefix-selector)。你可以像这样传递它的选项：
+  你可以像这样传递它的选项：
 
   ```js
   postcssIsolateStyles({
-    includeFiles: [/vp-doc\.css/] // 默认为 /base\.css/
+    includeFiles: [/custom\.css/] // 默认为 [/vp-doc\.css/, /base\.css/]
   })
   ```
 

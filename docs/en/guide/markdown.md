@@ -277,11 +277,11 @@ Wraps in a `<div class="vp-raw">`
   }
   ```
 
-  It uses [`postcss-prefix-selector`](https://github.com/RadValentin/postcss-prefix-selector) under the hood. You can pass its options like this:
+  You can pass its options like this:
 
   ```js
   postcssIsolateStyles({
-    includeFiles: [/vp-doc\.css/] // defaults to /base\.css/
+    includeFiles: [/custom\.css/] // defaults to [/vp-doc\.css/, /base\.css/]
   })
   ```
 

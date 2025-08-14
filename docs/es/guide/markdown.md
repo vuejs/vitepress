@@ -256,11 +256,11 @@ La clase `vp-raw` también puede ser usada directamente en elementos. El aislami
   }
   ```
 
-  El utiliza [`postcss-prefix-selector`](https://github.com/RadValentin/postcss-prefix-selector) internamente. Puede pasar opciones así:
+  Puede pasar opciones así:
 
   ```js
   postcssIsolateStyles({
-    includeFiles: [/vp-doc\.css/] // o padrão é /base\.css/
+    includeFiles: [/custom\.css/] // o padrão é [/vp-doc\.css/, /base\.css/]
   })
   ```
 

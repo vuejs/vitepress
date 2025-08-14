@@ -255,11 +255,11 @@ export default defineConfig({
   }
   ```
 
-  این از [`postcss-prefix-selector`](https://github.com/RadValentin/postcss-prefix-selector) استفاده می‌کند. می‌توانید گزینه‌های آن را به این صورت پاس بدهید:
+  می‌توانید گزینه‌های آن را به این صورت پاس بدهید:
 
   ```js
   postcssIsolateStyles({
-    includeFiles: [/vp-doc\.css/] // به طور پیش‌فرض /base\.css/
+    includeFiles: [/custom\.css/] // به طور پیش‌فرض [/vp-doc\.css/, /base\.css/]
   })
   ```
 
