@@ -1,3 +1,10 @@
+## [2.0.0-alpha.11](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.10...v2.0.0-alpha.11) (2025-08-14)
+
+### Bug Fixes
+
+- hmr working only once for markdown files ([8d8a5ac](https://github.com/vuejs/vitepress/commit/8d8a5ac281f090cd097bece792d9dd3ef00e5545)), closes [#4909](https://github.com/vuejs/vitepress/issues/4909)
+- html entities encoded twice in toc plugin ([8abbe29](https://github.com/vuejs/vitepress/commit/8abbe298d545de17d34a9bc1eb72af4c5a4b41b8)), closes [#4908](https://github.com/vuejs/vitepress/issues/4908)
+
 ## [2.0.0-alpha.10](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.9...v2.0.0-alpha.10) (2025-08-11)
 
 ### Bug Fixes
