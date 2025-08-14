@@ -320,7 +320,11 @@ export async function createMarkdownRenderer(
     .use(titlePlugin)
     .use(tocPlugin, {
       slugify,
-      ...options.toc
+      ...options.toc,
+      format: (s) => {
+        const title = s.replaceAll('&amp;', '&') // encoded twice because of restoreEntities
+        return options.toc?.format?.(title) ?? title
+      }
     } as TocPluginOptions)
 
   if (options.math) {
