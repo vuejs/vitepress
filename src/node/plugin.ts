@@ -201,6 +201,7 @@ export async function createVitePressPlugin(
         return processClientJS(code, id)
       }
       if (id.endsWith('.md')) {
+        const relativePath = path.posix.relative(srcDir, id)
         // transform .md files into vueSrc so plugin-vue can handle it
         const { vueSrc, deadLinks, includes, pageData } = await markdownToVue(
           code,
@@ -210,7 +211,7 @@ export async function createVitePressPlugin(
         allDeadLinks.push(...deadLinks)
         if (includes.length) {
           includes.forEach((i) => {
-            ;(importerMap[slash(i)] ??= new Set()).add(id)
+            ;(importerMap[slash(i)] ??= new Set()).add(relativePath)
             this.addWatchFile(i)
           })
         }
@@ -218,7 +219,6 @@ export async function createVitePressPlugin(
           this.environment.mode === 'dev' &&
           this.environment.name === 'client'
         ) {
-          const relativePath = path.posix.relative(srcDir, id)
           const payload: PageDataPayload = {
             path: `/${siteConfig.rewrites.map[relativePath] || relativePath}`,
             pageData
@@ -260,13 +260,13 @@ export async function createVitePressPlugin(
         configDeps.forEach((file) => server.watcher.add(file))
       }
 
-      const onFileAddDelete = async (added: boolean, _file: string) => {
-        const file = slash(_file)
+      const onFileAddDelete = async (added: boolean, file: string) => {
+        const relativePath = path.posix.relative(srcDir, file)
         // restart server on theme file creation / deletion
-        if (themeRE.test(file)) {
+        if (themeRE.test(relativePath)) {
           siteConfig.logger.info(
             c.green(
-              `${path.relative(process.cwd(), _file)} ${added ? 'created' : 'deleted'}, restarting server...\n`
+              `${relativePath} ${added ? 'created' : 'deleted'}, restarting server...\n`
             ),
             { clear: true, timestamp: true }
           )
@@ -275,10 +275,10 @@ export async function createVitePressPlugin(
         }
 
         // update pages, dynamicRoutes and rewrites on md file creation / deletion
-        if (file.endsWith('.md')) await resolvePages(siteConfig)
+        if (relativePath.endsWith('.md')) await resolvePages(siteConfig)
 
-        if (!added && importerMap[file]) {
-          delete importerMap[file]
+        if (!added && importerMap[relativePath]) {
+          delete importerMap[relativePath]
         }
       }
       server.watcher
@@ -410,9 +410,11 @@ export async function createVitePressPlugin(
         mod && modules.push(mod)
       }
 
-      importerMap[slash(file)]?.forEach((importer) => {
-        clearCache(importer)
-        const mod = this.environment.moduleGraph.getModuleById(importer)
+      importerMap[slash(file)]?.forEach((relativePath) => {
+        clearCache(relativePath)
+        const mod = this.environment.moduleGraph.getModuleById(
+          path.posix.join(srcDir, relativePath)
+        )
         mod && modules.push(mod)
       })
 
