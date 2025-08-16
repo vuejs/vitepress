@@ -7,14 +7,14 @@ import VPHome from './VPHome.vue'
 import VPPage from './VPPage.vue'
 
 const { page, frontmatter } = useData()
-const { isHome, hasSidebar } = useLayout()
+const { hasSidebar } = useLayout()
 </script>
 
 <template>
   <div
     class="VPContent"
     id="VPContent"
-    :class="{ 'has-sidebar': hasSidebar, 'is-home': isHome }"
+    :class="{ 'has-sidebar': hasSidebar }"
   >
     <slot name="not-found" v-if="page.isNotFound"><NotFound /></slot>
 
@@ -66,13 +66,14 @@ const { isHome, hasSidebar } = useLayout()
   width: 100%;
 }
 
-.VPContent.is-home {
-  width: 100%;
-  max-width: 100%;
-}
-
 .VPContent.has-sidebar {
   margin: 0;
+}
+
+@media (min-width: 768px) {
+  .VPContent {
+    width: 100vw;
+  }
 }
 
 @media (min-width: 960px) {
