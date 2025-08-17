@@ -60,8 +60,22 @@ export function isActive(
     return new RegExp(matchPath).test(currentPath)
   }
 
-  if (normalize(matchPath) !== currentPath) {
-    return false
+  const normalizedMatchPath = normalize(matchPath)
+
+  if (normalizedMatchPath !== currentPath) {
+    const currentPathParts = currentPath.split('/')
+    // handle versioned clients and plugins
+    if (
+      currentPathParts.length > 3 &&
+      (currentPathParts[2] === 'plugins' || currentPathParts[2] === 'clients')
+    ) {
+      currentPath = currentPathParts.slice(0, 4).join('/')
+      if (normalizedMatchPath !== currentPath) {
+        return false
+      }
+    } else {
+      return false
+    }
   }
 
   const hashMatch = matchPath.match(HASH_RE)

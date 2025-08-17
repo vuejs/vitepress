@@ -1,5 +1,5 @@
 {
-  "name": "vitepress",
+  "name": "@hey-api/vitepress",
   "version": "2.0.0-alpha.11",
   "description": "Vite & Vue powered static site generator",
   "keywords": [
