@@ -18,13 +18,7 @@ import {
   SITE_DATA_REQUEST_PATH,
   resolveAliases
 } from './alias'
-import {
-  isAdditionalConfigFile,
-  resolvePages,
-  resolveUserConfig,
-  type SiteConfig
-} from './config'
-import { disposeMdItInstance } from './markdown/markdown'
+import { isAdditionalConfigFile, resolvePages, type SiteConfig } from './config'
 import {
   clearCache,
   createMarkdownToVueRenderFn,
@@ -76,7 +70,7 @@ export async function createVitePressPlugin(
   ssr = false,
   pageToHashMap?: Record<string, string>,
   clientJSMap?: Record<string, string>,
-  recreateServer?: () => Promise<void>
+  restartServer?: () => Promise<void>
 ) {
   const {
     srcDir,
@@ -354,18 +348,6 @@ export async function createVitePressPlugin(
       if (this.environment.name !== 'client') return
       const relativePath = path.posix.relative(srcDir, file)
 
-      if (themeRE.test(relativePath) && type !== 'update') {
-        siteConfig.themeDir =
-          type === 'create' ? path.posix.dirname(file) : DEFAULT_THEME_PATH
-        siteConfig.logger.info(c.green('page reload ') + c.dim(relativePath), {
-          clear: true,
-          timestamp: true
-        })
-        this.environment.moduleGraph.invalidateAll()
-        this.environment.hot.send({ type: 'full-reload' })
-        return []
-      }
-
       // update pages, dynamicRoutes and rewrites on md file creation / deletion
       if (file.endsWith('.md') && type !== 'update') {
         await resolvePages(siteConfig)
@@ -387,17 +369,19 @@ export async function createVitePressPlugin(
           { clear: true, timestamp: true }
         )
 
-        try {
-          await resolveUserConfig(siteConfig.root, 'serve', 'development')
-        } catch (err: any) {
-          siteConfig.logger.error(err)
-          return
-        }
+        return restartServer?.()
+      }
 
-        disposeMdItInstance()
-        clearCache()
-        await recreateServer?.()
-        return
+      if (themeRE.test(relativePath) && type !== 'update') {
+        siteConfig.themeDir =
+          type === 'create' ? path.posix.dirname(file) : DEFAULT_THEME_PATH
+        siteConfig.logger.info(c.green('page reload ') + c.dim(relativePath), {
+          clear: true,
+          timestamp: true
+        })
+        this.environment.moduleGraph.invalidateAll()
+        this.environment.hot.send({ type: 'full-reload' })
+        return []
       }
     }
   }
