@@ -1,3 +1,24 @@
+## [2.0.0-alpha.12](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.11...v2.0.0-alpha.12) (2025-08-20)
+
+### Bug Fixes
+
+- **hmr:** don't load config twice on server restart ([d1a8061](https://github.com/vuejs/vitepress/commit/d1a8061eb438c730ccc62ce2d7158dbe89cc5292))
+- **hmr:** no need for server restart on theme change ([d3a1567](https://github.com/vuejs/vitepress/commit/d3a15673bd0846c7837bcc4ff5a2e3239a02f1f9))
+- **hmr:** hmr not working for snippet imports in dynamic routes ([914467e](https://github.com/vuejs/vitepress/commit/914467e17fb759a9722951a3fd7568eb3bc4d4e6))
+- **theme:** fix local nav alignment and increase touch area ([43b36c0](https://github.com/vuejs/vitepress/commit/43b36c0c19c2b4696f8c38fdaf4318786ea7ae8e))
+- **theme:** nav background doesn't extend fully and gap after sidebar with non-overlay scrollbars ([7df3052](https://github.com/vuejs/vitepress/commit/7df30525121a28a46cc6c802f3155ccff8effaca)), closes [#4653](https://github.com/vuejs/vitepress/issues/4653)
+- **theme:** use clipboard-check instead of clipboard-copy for code copied icon ([1c8815d](https://github.com/vuejs/vitepress/commit/1c8815d53ed2d56b07938260df6566f1514f4bfc))
+
+### Features
+
+- add markdown-it-cjk-friendly ([9fc8462](https://github.com/vuejs/vitepress/commit/9fc8462726ccf1cdb78b6171c9f1f5964e79ca22)), closes [#3762](https://github.com/vuejs/vitepress/issues/3762) [#4752](https://github.com/vuejs/vitepress/issues/4752)
+- make postcssIsolateStyles idempotent ([0944777](https://github.com/vuejs/vitepress/commit/094477789328b80cff45cd973efa16b6a4db0a27))
+
+### BREAKING CHANGES
+
+- [markdown-it-cjk-friendly](https://www.npmjs.com/package/markdown-it-cjk-friendly) is enabled by default. This intentionally deviates from the official commonmark spec for the benefit of CJK users. **For most users, no change is required.** If you were using hacks to patch `scanDelims`, you can remove those. To disable the plugin, set `markdown: { cjkFriendly: false }` in your vitepress config.
+- `includeFiles` option in `postcssIsolateStyles` now defaults to `[/vp-doc\.css/, /base\.css/]`. You can remove explicit `includeFiles` if you were using it just to run it on `vp-doc.css`. To revert back to older behavior pass `includeFiles: [/base\.css/]`. The underlying implementation is changed and `transform` and `exclude` options are no longer supported. Use `postcss-prefix-selector` directly if you've advanced use cases.
+
 ## [2.0.0-alpha.11](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.10...v2.0.0-alpha.11) (2025-08-14)
 
 ### Bug Fixes
