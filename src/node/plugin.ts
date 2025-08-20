@@ -14,6 +14,7 @@ import {
   APP_PATH,
   DEFAULT_THEME_PATH,
   DIST_CLIENT_PATH,
+  SITE_DATA_ID,
   SITE_DATA_REQUEST_PATH,
   resolveAliases
 } from './alias'
@@ -43,7 +44,8 @@ declare module 'vite' {
   }
 }
 
-const themeRE = /\/\.vitepress\/theme\/index\.(m|c)?(j|t)s$/
+const themeRE = /(?:^|\/)\.vitepress\/theme\/index\.(m|c)?(j|t)s$/
+const startsWithThemeRE = /^@theme(?:\/|$)/
 const docsearchRE = /\/@docsearch\/css\/dist\/style.css(?:$|\?)/
 
 const hashRE = /\.([-\w]+)\.js$/
@@ -131,7 +133,7 @@ export async function createVitePressPlugin(
     config() {
       const baseConfig: UserConfig = {
         resolve: {
-          alias: resolveAliases(siteConfig, ssr)
+          alias: resolveAliases(siteConfig.root, ssr)
         },
         define: {
           __VP_LOCAL_SEARCH__: site.themeConfig?.search?.provider === 'local',
@@ -147,10 +149,7 @@ export async function createVitePressPlugin(
           include: [
             'vue',
             'vitepress > @vue/devtools-api',
-            'vitepress > @vueuse/core',
-            siteConfig.themeDir === DEFAULT_THEME_PATH
-              ? '@theme/index'
-              : undefined
+            'vitepress > @vueuse/core'
           ].filter((d) => d != null),
           exclude: ['@docsearch/js', 'vitepress']
         },
@@ -170,9 +169,16 @@ export async function createVitePressPlugin(
         : baseConfig
     },
 
-    resolveId(id) {
-      if (id === SITE_DATA_REQUEST_PATH) {
+    resolveId(id, importer, resolveOptions) {
+      if (id === SITE_DATA_ID) {
         return SITE_DATA_REQUEST_PATH
+      }
+      if (startsWithThemeRE.test(id)) {
+        return this.resolve(
+          siteConfig.themeDir + id.slice(6),
+          importer,
+          Object.assign({ skipSelf: true }, resolveOptions)
+        )
       }
     },
 
@@ -260,31 +266,6 @@ export async function createVitePressPlugin(
         configDeps.forEach((file) => server.watcher.add(file))
       }
 
-      const onFileAddDelete = async (added: boolean, file: string) => {
-        const relativePath = path.posix.relative(srcDir, file)
-        // restart server on theme file creation / deletion
-        if (themeRE.test(relativePath)) {
-          siteConfig.logger.info(
-            c.green(
-              `${relativePath} ${added ? 'created' : 'deleted'}, restarting server...\n`
-            ),
-            { clear: true, timestamp: true }
-          )
-
-          await recreateServer?.()
-        }
-
-        // update pages, dynamicRoutes and rewrites on md file creation / deletion
-        if (relativePath.endsWith('.md')) await resolvePages(siteConfig)
-
-        if (!added && importerMap[relativePath]) {
-          delete importerMap[relativePath]
-        }
-      }
-      server.watcher
-        .on('add', onFileAddDelete.bind(null, true))
-        .on('unlink', onFileAddDelete.bind(null, false))
-
       // serve our index.html after vite history fallback
       return () => {
         server.middlewares.use(async (req, res, next) => {
@@ -369,8 +350,30 @@ export async function createVitePressPlugin(
       }
     },
 
-    async hotUpdate({ file }) {
+    async hotUpdate({ file, type }) {
       if (this.environment.name !== 'client') return
+      const relativePath = path.posix.relative(srcDir, file)
+
+      if (themeRE.test(relativePath) && type !== 'update') {
+        siteConfig.themeDir =
+          type === 'create' ? path.posix.dirname(file) : DEFAULT_THEME_PATH
+        siteConfig.logger.info(c.green('page reload ') + c.dim(relativePath), {
+          clear: true,
+          timestamp: true
+        })
+        this.environment.moduleGraph.invalidateAll()
+        this.environment.hot.send({ type: 'full-reload' })
+        return []
+      }
+
+      // update pages, dynamicRoutes and rewrites on md file creation / deletion
+      if (file.endsWith('.md') && type !== 'update') {
+        await resolvePages(siteConfig)
+      }
+
+      if (type === 'delete') {
+        delete importerMap[relativePath]
+      }
 
       if (
         file === configPath ||

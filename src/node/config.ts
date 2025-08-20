@@ -233,7 +233,7 @@ export async function resolveUserConfig(
   root: string,
   command: 'serve' | 'build',
   mode: string
-): Promise<[UserConfig, string | undefined, string[]]> {
+): Promise<[UserConfig, configPath: string | undefined, configDeps: string[]]> {
   // load user config
   const configPath = supportedConfigExtensions
     .flatMap((ext) => [
