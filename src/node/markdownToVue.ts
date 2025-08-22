@@ -162,7 +162,7 @@ export async function createMarkdownToVueRenderFn(
     // validate data.links
     const deadLinks: MarkdownCompileResult['deadLinks'] = []
     const recordDeadLink = (url: string) => {
-      deadLinks.push({ url, file: path.relative(srcDir, fileOrig) })
+      deadLinks.push({ url, file: fileOrig })
     }
 
     function shouldIgnoreDeadLink(url: string) {
