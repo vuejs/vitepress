@@ -41,6 +41,10 @@ export function resolveAliases(
     {
       find: /^vitepress\/theme$/,
       replacement: join(DIST_CLIENT_PATH, '/theme-default/index.js')
+    },
+    {
+      find: /^vitepress\/theme\/v2$/,
+      replacement: join(DIST_CLIENT_PATH, '/theme-default-v2/index.js')
     }
   ]
 

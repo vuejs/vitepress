@@ -1,4 +1,4 @@
-import Theme from 'vitepress/theme'
+import Theme from 'vitepress/theme/v2'
 import 'virtual:group-icons.css'
 import './styles.css'
 
