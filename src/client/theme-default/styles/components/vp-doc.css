@@ -226,7 +226,7 @@
 }
 
 .vp-doc .custom-block div[class*='language-'] {
-  margin: 8px 0;
+  margin: 8px 0 !important;
   border-radius: 8px;
 }
 
