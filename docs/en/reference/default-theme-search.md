@@ -303,7 +303,7 @@ export default defineConfig({
 })
 ```
 
-[These options](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts) can be overridden. Refer official Algolia docs to learn more about them.
+[These options](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts) can be overridden. Refer to the official Algolia docs to learn more about them.
 
 ### Algolia Ask AI Support {#ask-ai}
 
