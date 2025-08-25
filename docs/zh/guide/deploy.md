@@ -105,7 +105,7 @@ Cache-Control: max-age=31536000,immutable
 
 ## 各平台部署指南 {#platform-guides}
 
-### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render
+### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render / EdgeOne
 
 使用仪表板创建新项目并更改这些设置：
 
@@ -337,3 +337,9 @@ try_files 解析不能像其他 Vue 应用那样默认为 index.html。这会导
 :::
 
 更多信息请参见 [nginx 官方文档](https://nginx.org/en/docs/)、这些 GitHub Issue [#2837](https://github.com/vuejs/vitepress/discussions/2837)、[#3235](https://github.com/vuejs/vitepress/issues/3235)以及 Mehdi Merah 发表的[博客](https://blog.mehdi.cc/articles/vitepress-cleanurls-on-nginx-environment#readings)。
+
+### EdgeOne
+
+EdgeOne Pages 现已上线 VitePress [部署模板](https://console.cloud.tencent.com/edgeone/pages/new?template=vitepress-template&from=within)，可以一键部署 VitePress 项目。
+
+若在部署中需要更灵活的方案，请查阅[说明文档](https://edgeone.cloud.tencent.com/pages/document/173003746437443584)，并通过编辑 `edgeone.json` 文件来灵活配置。
