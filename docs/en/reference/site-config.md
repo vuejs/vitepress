@@ -4,7 +4,7 @@ outline: deep
 
 # Site Config
 
-Site config is where you can define the global settings of the site. App config options define settings that apply to every VitePress site, regardless of what theme it is using. For example, the base directory or the title of the site.
+Site config is where you can define the global settings of the site. App config options define settings that apply to every VitePress site, regardless of what theme it is using, such as the base directory or the site title.
 
 ## Overview
 
@@ -12,7 +12,7 @@ Site config is where you can define the global settings of the site. App config 
 
 The config file is always resolved from `<root>/.vitepress/config.[ext]`, where `<root>` is your VitePress [project root](../guide/routing#root-and-source-directory), and `[ext]` is one of the supported file extensions. TypeScript is supported out of the box. Supported extensions include `.js`, `.ts`, `.mjs`, and `.mts`.
 
-It is recommended to use ES modules syntax in config files. The config file should default export an object:
+It is recommended to use ES module syntax in config files. The config file should default export an object:
 
 ```ts
 export default {
@@ -123,7 +123,7 @@ export default defineConfigWithTheme<ThemeConfig>({
 
 - **Vite**
 
-  You can configure the underlying Vite instance using the [vite](#vite) option in your VitePress config. No need to create a separate Vite config file.
+  You can configure the underlying Vite instance using the [vite](#vite) option in your VitePress config, without needing a separate Vite config file.
 
 - **Vue**
 
@@ -141,7 +141,7 @@ export default defineConfigWithTheme<ThemeConfig>({
 - Default: `VitePress`
 - Can be overridden per page via [frontmatter](./frontmatter-config#title)
 
-Title for the site. When using the default theme, this will be displayed in the nav bar.
+Title for the site. When using the default theme, this will be displayed in the navigation bar.
 
 It will also be used as the default suffix for all individual page titles, unless [`titleTemplate`](#titletemplate) is defined. An individual page's final title will be the text content of its first `<h1>` header, combined with the global `title` as the suffix. For example with the following config and page content:
 
@@ -527,13 +527,13 @@ export default {
 }
 ```
 
-Check the [type declaration and jsdocs](https://github.com/vuejs/vitepress/blob/main/src/node/markdown/markdown.ts) for all the options available.
+Check the [type declarations and JSDoc](https://github.com/vuejs/vitepress/blob/main/src/node/markdown/markdown.ts) for all the options available.
 
 ### vite
 
 - Type: `import('vite').UserConfig`
 
-Pass raw [Vite Config](https://vitejs.dev/config/) to internal Vite dev server / bundler.
+Pass raw [Vite config](https://vitejs.dev/config/) to internal Vite dev server / bundler.
 
 ```js
 export default {
@@ -606,7 +606,7 @@ interface SSGContext {
 
 - Type: `(context: TransformContext) => Awaitable<HeadConfig[]>`
 
-`transformHead` is a build hook to transform the head before generating each page. It will allow you to add head entries that cannot be statically added to your VitePress config. You only need to return extra entries, they will be merged automatically with the existing ones.
+`transformHead` is a build hook to transform the head before generating each page. It will allow you to add head entries that cannot be statically added to your VitePress config. You only need to return extra entries; they will be merged automatically with the existing ones.
 
 ::: warning
 Don't mutate anything inside the `context`.
