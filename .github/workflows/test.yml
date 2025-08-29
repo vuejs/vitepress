@@ -1,4 +1,4 @@
-name: Test
+name: 🧪 Test
 
 on:
   push:
@@ -26,25 +26,27 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Checkout
+      - name: 📥 Checkout
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
-      - name: Install pnpm
+      - name: 📦 Install pnpm
         uses: pnpm/action-setup@v3
 
-      - name: Set node version to ${{ matrix.node_version }}
+      - name: 🛠️ Set node version to ${{ matrix.node_version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node_version }}
           cache: pnpm
 
-      - name: Install deps
+      - name: 📦 Install dependencies
         run: pnpm install
         env:
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
 
-      - name: Install Playwright
+      - name: 🎭 Install Playwright
         run: pnpm playwright install chromium
 
-      - name: Check
+      - name: ✅ Check
         run: pnpm check
