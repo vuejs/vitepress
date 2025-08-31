@@ -5,7 +5,6 @@ const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
 
 export default defineAdditionalConfig({
-  lang: 'pt-BR',
   description: 'Gerador de Site Estático desenvolvido com Vite e Vue.',
 
   themeConfig: {
