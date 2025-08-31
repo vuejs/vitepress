@@ -24,7 +24,7 @@ export default {
 }
 ```
 
-:::details Configuração Dinâmica (Assíncrona)
+::: details Configuração Dinâmica (Assíncrona)
 
 Se você precisar gerar dinamicamente a configuração, também pode exportar por padrão uma função. Por exemplo:
 
@@ -594,7 +594,7 @@ export default {
 
 `transformHead` é um gancho de compilação para transformar o cabeçalho antes de gerar cada página. Isso permite adicionar entradas no cabeçalho que não podem ser adicionadas estaticamente à configuração VitePress. Você só precisa retornar entradas extras, que serão mescladas automaticamente com as existentes.
 
-:::warning
+::: warning
 Não faça mutações em qualquer item dentro de `context`.
 :::
 
@@ -662,7 +662,7 @@ export default {
 - Tipo: `(code: string, id: string, context: TransformContext) => Awaitable<string | void>`
 `transformHtml` é um gancho de compilação para transformar o conteúdo de cada página antes de salvá-lo no disco.
 
-:::warning
+::: warning
 Não faça mutações em qualquer item dentro de `context`. Além disso, modificar o conteúdo HTML pode causar problemas de hidratação em tempo de execução.
 :::
 
@@ -679,7 +679,7 @@ export default {
 
 `transformPageData` é um gancho para transformar os dados de cada página. Você pode fazer mutações diretamente em `pageData` ou retornar valores alterados que serão mesclados nos dados da página.
 
-:::warning
+::: warning
 Não faça mutações em qualquer item dentro de `context` e tenha cuidado pois isso pode impactar no desempenho do servidor de desenvolvimento, especialmente se você tiver algumas solicitações de rede ou computações pesadas (como gerar imagens) no gancho. Você pode verificar `process.env.NODE_ENV === 'production'` para lógica condicional.
 :::
 
