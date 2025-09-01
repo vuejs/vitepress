@@ -49,9 +49,22 @@ export async function init(root?: string) {
           message: 'Where should VitePress initialize the config?',
           initialValue: './',
           defaultValue: './',
-          validate() {
-            // TODO make sure directory is inside
-            return undefined
+          validate(value) {
+            const cwd = slash(process.cwd())
+            const dir = slash(value as string)
+
+            const cwdRE = new RegExp(`^${cwd}`, 'u')
+            // If give absolute path, (C: in Windows and / in POSIX like),
+            // use that path instead
+            const absolutePath =
+              (process.platform === 'win32' && /^[A-Z]:/i.test(dir)) ||
+              /^\//.test(dir)
+                ? dir
+                : path.join(cwd, dir)
+
+            return !cwdRE.test(absolutePath)
+              ? 'Please init your config inside this directory.'
+              : undefined
           }
         })
       },
