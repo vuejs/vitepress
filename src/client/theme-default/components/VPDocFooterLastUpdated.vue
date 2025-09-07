@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useNavigatorLanguage } from '@vueuse/core'
-import { computed, onMounted, ref, useTemplateRef, watchEffect } from 'vue'
+import { computed, onMounted, shallowRef, useTemplateRef, watchEffect } from 'vue'
 import { useData } from '../composables/data'
 
 const { theme, page, lang: pageLang } = useData()
@@ -10,7 +10,7 @@ const timeRef = useTemplateRef('timeRef')
 
 const date = computed(() => new Date(page.value.lastUpdated!))
 const isoDatetime = computed(() => date.value.toISOString())
-const datetime = ref('')
+const datetime = shallowRef('')
 
 // set time on mounted hook to avoid hydration mismatch due to
 // potential differences in timezones of the server and clients
