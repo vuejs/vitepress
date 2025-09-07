@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, computed, watchEffect, onMounted, useTemplateRef } from 'vue'
-import { useData } from '../composables/data'
 import { useNavigatorLanguage } from '@vueuse/core'
+import { computed, onMounted, ref, useTemplateRef, watchEffect } from 'vue'
+import { useData } from '../composables/data'
 
 const { theme, page, lang: pageLang } = useData()
 const { language: browserLang } = useNavigatorLanguage()
