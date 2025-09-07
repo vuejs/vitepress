@@ -3,14 +3,12 @@ import { ref, computed, watchEffect, onMounted, useTemplateRef } from 'vue'
 import { useData } from '../composables/data'
 import { useNavigatorLanguage } from '@vueuse/core'
 
-const { theme, page, lang } = useData()
-const { language } = useNavigatorLanguage()
+const { theme, page, lang: pageLang } = useData()
+const { language: browserLang } = useNavigatorLanguage()
 
 const timeRef = useTemplateRef('timeRef')
 
-const date = computed(
-  () => new Date(page.value.lastUpdated!)
-)
+const date = computed(() => new Date(page.value.lastUpdated!))
 const isoDatetime = computed(() => date.value.toISOString())
 const datetime = ref('')
 
@@ -18,18 +16,21 @@ const datetime = ref('')
 // potential differences in timezones of the server and clients
 onMounted(() => {
   watchEffect(() => {
-    const browserLang = theme.value.lastUpdated?.formatOptions?.forceLocale ? lang.value : language.value
+    const lang = theme.value.lastUpdated?.formatOptions?.forceLocale
+      ? pageLang.value
+      : browserLang.value
+
     datetime.value = new Intl.DateTimeFormat(
-      browserLang,
+      lang,
       theme.value.lastUpdated?.formatOptions ?? {
         dateStyle: 'medium',
         timeStyle: 'medium'
       }
     ).format(date.value)
-    if (browserLang && lang.value !== browserLang) {
-      timeRef.value?.setAttribute('lang', browserLang)
-    }
-    else {
+
+    if (lang && pageLang.value !== lang) {
+      timeRef.value?.setAttribute('lang', lang)
+    } else {
       timeRef.value?.removeAttribute('lang')
     }
   })
