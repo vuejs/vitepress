@@ -10,9 +10,11 @@ const backToTop = ref()
 watch(() => route.path, () => backToTop.value.focus())
 
 function focusOnTargetAnchor({ target }: Event) {
-  const el = document.getElementById(
+  const targetEl = document.getElementById(
     decodeURIComponent((target as HTMLAnchorElement).hash).slice(1)
   )
+
+  const el = targetEl?.querySelector<HTMLAnchorElement>('main h1[id][tabindex="-1"]') ?? targetEl
 
   if (el) {
     const removeTabIndex = () => {
