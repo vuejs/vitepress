@@ -17,13 +17,15 @@ function focusOnTargetAnchor({ target }: Event) {
   const el = targetEl?.querySelector<HTMLAnchorElement>('main h1[id][tabindex="-1"]') ?? targetEl
 
   if (el) {
-    const removeTabIndex = () => {
-      el.removeAttribute('tabindex')
-      el.removeEventListener('blur', removeTabIndex)
-    }
+    if (!el.hasAttribute('tabindex')) {
+      const removeTabIndex = () => {
+        el.removeAttribute('tabindex')
+        el.removeEventListener('blur', removeTabIndex)
+      }
 
-    el.setAttribute('tabindex', '-1')
-    el.addEventListener('blur', removeTabIndex)
+      el.setAttribute('tabindex', '-1')
+      el.addEventListener('blur', removeTabIndex)
+    }
     el.focus()
     window.scrollTo(0, 0)
   }
@@ -43,6 +45,7 @@ function focusOnTargetAnchor({ target }: Event) {
 
 <style scoped>
 .VPSkipLink {
+  position: fixed;
   top: 8px;
   left: 8px;
   padding: 8px 16px;
