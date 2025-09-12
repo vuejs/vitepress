@@ -1,6 +1,6 @@
 # Home Page
 
-VitePress default theme provides a homepage layout, which you can also see used on [the homepage of this site](../). You may use it on any of your pages by specifying `layout: home` in the [frontmatter](./frontmatter-config).
+VitePress's default theme provides a homepage layout, which looks like [this site's homepage](../). You can use it on any of your pages by specifying `layout: home` in the [frontmatter](./frontmatter-config).
 
 ```yaml
 ---
@@ -8,11 +8,11 @@ layout: home
 ---
 ```
 
-However, this option alone wouldn't do much. You can add several different pre templated "sections" to the homepage by setting additional other options such as `hero` and `features`.
+On its own, the option doesn't change much—you instead need to specify slots using the frontmatter that then get applied to the page.
 
 ## Hero Section
 
-The Hero section comes at the top of the homepage. Here's how you can configure the Hero section.
+The hero section is rendered at the top of the homepage:
 
 ```yaml
 ---
@@ -37,21 +37,21 @@ hero:
 
 ```ts
 interface Hero {
-  // The string shown top of `text`. Comes with brand color
-  // and expected to be short, such as product name.
+  // The string shown on top of `text`. Rendered with brand color
+  // and expected to be short, such as the product name.
   name?: string
 
   // The main text for the hero section. This will be defined
-  // as `h1` tag.
+  // as an `h1` tag.
   text: string
 
   // Tagline displayed below `text`.
   tagline?: string
 
-  // The image is displayed next to the text and tagline area.
+  // Image displayed next to the text and tagline.
   image?: ThemeableImage
 
-  // Action buttons to display in home hero section.
+  // Action buttons to display below text and image.
   actions?: HeroAction[]
 }
 
@@ -64,10 +64,10 @@ interface HeroAction {
   // Color theme of the button. Defaults to `brand`.
   theme?: 'brand' | 'alt'
 
-  // Label of the button.
+  // Button label.
   text: string
 
-  // Destination link of the button.
+  // Destination link for the button.
   link: string
 
   // Link target attribute.
@@ -80,7 +80,7 @@ interface HeroAction {
 
 ### Customizing the name color
 
-VitePress uses the brand color (`--vp-c-brand-1`) for the `name`. However, you may customize this color by overriding `--vp-home-hero-name-color` variable.
+By default, VitePress uses the brand color (`--vp-c-brand-1`) for the `name`. This can be customized by overriding `--vp-home-hero-name-color`.
 
 ```css
 :root {
@@ -88,7 +88,7 @@ VitePress uses the brand color (`--vp-c-brand-1`) for the `name`. However, you m
 }
 ```
 
-Also you may customize it further by combining `--vp-home-hero-name-background` to give the `name` gradient color.
+You can also customize the name further by combining it with `--vp-home-hero-name-background` for a gradient.
 
 ```css
 :root {
@@ -99,9 +99,9 @@ Also you may customize it further by combining `--vp-home-hero-name-background` 
 
 ## Features Section
 
-In Features section, you can list any number of features you would like to show right after the Hero section. To configure it, pass `features` option to the frontmatter.
+In the features section, you can list any number of feature cards you want shown under the hero section. To enable it, pass the `features` option to the frontmatter.
 
-You can provide an icon for each feature, which can be an emoji or any type of image. When the configured icon is an image (svg, png, jpeg...), you must provide the icon with the proper width and height; you can also provide the description, its intrinsic size as well as its variants for dark and light theme when required.
+You can provide an emoji or image icon for each feature. When the configured icon is an image (svg, png, jpeg, etc), you must provide the icon with a proper width and height. You can also provide a description, its intrinsic size, as well as variants for dark and light mode.
 
 ```yaml
 ---
@@ -169,7 +169,7 @@ type FeatureIcon =
 
 ## Markdown Content
 
-You can add additional content to your site's homepage just by adding Markdown below the `---` frontmatter divider.
+You can add additional content to your site's homepage by adding Markdown below the `---` frontmatter divider.
 
 ````md
 ---
@@ -191,5 +191,5 @@ npx vitepress init
 ````
 
 ::: info
-VitePress didn't always auto-style the extra content of the `layout: home` page. To revert to older behavior, you can add `markdownStyles: false` to the frontmatter.
+VitePress didn't always automatically style additional homepage content. To revert to the previously-used behavior, add `markdownStyles: false` to the frontmatter.
 :::
