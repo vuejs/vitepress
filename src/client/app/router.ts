@@ -54,7 +54,7 @@ export interface Router {
 export const RouterSymbol: InjectionKey<Router> = Symbol()
 
 // we are just using URL to parse the pathname and hash - the base doesn't
-// matter and is only passed to support same-host hrefs.
+// matter and is only passed to support same-host hrefs
 const fakeHost = 'http://a.com'
 
 const getDefaultRoute = (): Route => ({
@@ -278,7 +278,7 @@ export function scrollTo(hash: string, smooth = false, scrollPosition = 0) {
     targetPadding
 
   const scrollToTarget = () => {
-    // only smooth scroll if distance is smaller than screen height.
+    // only smooth scroll if distance is smaller than screen height
     if (!smooth || Math.abs(targetTop - window.scrollY) > window.innerHeight)
       window.scrollTo(0, targetTop)
     else window.scrollTo({ left: 0, top: targetTop, behavior: 'smooth' })
@@ -325,7 +325,7 @@ function shouldHotReload(payload: PageDataPayload): boolean {
 function normalizeHref(href: string): string {
   const url = new URL(href, fakeHost)
   url.pathname = url.pathname.replace(/(^|\/)index(\.html)?$/, '$1')
-  // ensure correct deep link so page refresh lands on correct files.
+  // ensure correct deep link so page refresh lands on correct files
   if (siteDataRef.value.cleanUrls) {
     url.pathname = url.pathname.replace(/\.html$/, '')
   } else if (!url.pathname.endsWith('/') && !url.pathname.endsWith('.html')) {
