@@ -290,15 +290,16 @@ export function scrollTo(hash: string, smooth = false, scrollPosition = 0) {
     // target is not focusable, make it temporarily focusable
     const tabindex = target.getAttribute('tabindex')
     target.setAttribute('tabindex', '-1')
-    target.addEventListener(
-      'blur',
-      () => {
-        if (tabindex == null) target.removeAttribute('tabindex')
-        else target.setAttribute('tabindex', tabindex)
-      },
-      { once: true }
-    )
+
+    const restoreTabindex = () => {
+      if (tabindex == null) target.removeAttribute('tabindex')
+      else target.setAttribute('tabindex', tabindex)
+      target.removeEventListener('blur', restoreTabindex)
+    }
+    target.addEventListener('blur', restoreTabindex)
+
     target.focus({ preventScroll: true })
+    if (document.activeElement !== target) restoreTabindex()
   }
 
   requestAnimationFrame(scrollToTarget)
