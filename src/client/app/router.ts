@@ -293,8 +293,8 @@ export function scrollTo(hash: string, smooth = false, scrollPosition = 0) {
     target.addEventListener(
       'blur',
       () => {
-        if (tabindex !== null) target.setAttribute('tabindex', tabindex)
-        else target.removeAttribute('tabindex')
+        if (tabindex == null) target.removeAttribute('tabindex')
+        else target.setAttribute('tabindex', tabindex)
       },
       { once: true }
     )
