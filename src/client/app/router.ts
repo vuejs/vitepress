@@ -261,35 +261,45 @@ export function scrollTo(hash: string, smooth = false, scrollPosition = 0) {
     return
   }
 
-  let target: Element | null = null
-
+  let target: HTMLElement | null = null
   try {
     target = document.getElementById(decodeURIComponent(hash).slice(1))
   } catch (e) {
     console.warn(e)
   }
+  if (!target) return
 
-  if (target) {
-    const targetPadding = parseInt(
-      window.getComputedStyle(target).paddingTop,
-      10
+  const targetPadding = parseInt(window.getComputedStyle(target).paddingTop, 10)
+
+  const targetTop =
+    window.scrollY +
+    target.getBoundingClientRect().top -
+    getScrollOffset() +
+    targetPadding
+
+  const scrollToTarget = () => {
+    // only smooth scroll if distance is smaller than screen height.
+    if (!smooth || Math.abs(targetTop - window.scrollY) > window.innerHeight)
+      window.scrollTo(0, targetTop)
+    else window.scrollTo({ left: 0, top: targetTop, behavior: 'smooth' })
+
+    // focus the target element for better accessibility
+    target.focus({ preventScroll: true })
+    if (document.activeElement === target) return
+
+    // target is not focusable, make it temporarily focusable
+    target.setAttribute('tabindex', '-1')
+    target.addEventListener(
+      'blur',
+      () => {
+        target.removeAttribute('tabindex')
+      },
+      { once: true }
     )
-
-    const targetTop =
-      window.scrollY +
-      target.getBoundingClientRect().top -
-      getScrollOffset() +
-      targetPadding
-
-    function scrollToTarget() {
-      // only smooth scroll if distance is smaller than screen height.
-      if (!smooth || Math.abs(targetTop - window.scrollY) > window.innerHeight)
-        window.scrollTo(0, targetTop)
-      else window.scrollTo({ left: 0, top: targetTop, behavior: 'smooth' })
-    }
-
-    requestAnimationFrame(scrollToTarget)
+    target.focus({ preventScroll: true })
   }
+
+  requestAnimationFrame(scrollToTarget)
 }
 
 function handleHMR(route: Route): void {
