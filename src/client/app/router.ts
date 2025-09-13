@@ -269,19 +269,21 @@ export function scrollTo(hash: string, smooth = false, scrollPosition = 0) {
   }
   if (!target) return
 
-  const targetPadding = parseInt(window.getComputedStyle(target).paddingTop, 10)
-
   const targetTop =
     window.scrollY +
-    target.getBoundingClientRect().top -
-    getScrollOffset() +
-    targetPadding
+      target.getBoundingClientRect().top -
+      getScrollOffset() +
+      Number.parseInt(window.getComputedStyle(target).paddingTop, 10) || 0
+
+  const behavior = window.matchMedia('(prefers-reduced-motion)').matches
+    ? 'instant'
+    : // only smooth scroll if distance is smaller than screen height
+      smooth && Math.abs(targetTop - window.scrollY) <= window.innerHeight
+      ? 'smooth'
+      : 'auto'
 
   const scrollToTarget = () => {
-    // only smooth scroll if distance is smaller than screen height
-    if (!smooth || Math.abs(targetTop - window.scrollY) > window.innerHeight)
-      window.scrollTo(0, targetTop)
-    else window.scrollTo({ left: 0, top: targetTop, behavior: 'smooth' })
+    window.scrollTo({ left: 0, top: targetTop, behavior })
 
     // focus the target element for better accessibility
     target.focus({ preventScroll: true })
