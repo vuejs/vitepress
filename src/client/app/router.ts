@@ -288,11 +288,13 @@ export function scrollTo(hash: string, smooth = false, scrollPosition = 0) {
     if (document.activeElement === target) return
 
     // target is not focusable, make it temporarily focusable
+    const tabindex = target.getAttribute('tabindex')
     target.setAttribute('tabindex', '-1')
     target.addEventListener(
       'blur',
       () => {
-        target.removeAttribute('tabindex')
+        if (tabindex !== null) target.setAttribute('tabindex', tabindex)
+        else target.removeAttribute('tabindex')
       },
       { once: true }
     )
