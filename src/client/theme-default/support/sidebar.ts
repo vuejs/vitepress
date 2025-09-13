@@ -27,11 +27,18 @@ export function getSidebar(
 
   const dir = Object.keys(_sidebar)
     .sort((a, b) => {
+      // longer dir link has higher priority
       return b.split('/').length - a.split('/').length
     })
     .find((dir) => {
+      const dirWithStartingSlash = ensureStartingSlash(dir)
       // make sure the multi sidebar key starts with slash too
-      return path.startsWith(ensureStartingSlash(dir))
+      if (path.startsWith(dirWithStartingSlash)) {
+        // "/" match everything and it has lowest priority
+        if (dirWithStartingSlash === '/') return true
+        const remains = path.replace(dirWithStartingSlash, '')
+        if (remains.startsWith('/') || remains === '') return true
+      }
     })
 
   const sidebar = dir ? _sidebar[dir] : []
