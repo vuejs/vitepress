@@ -287,8 +287,12 @@ export function scrollTo(hash: string, smooth = false, scrollPosition = 0) {
 
     // focus the target element for better accessibility
     target.focus({ preventScroll: true })
+
+    // return if focus worked
     if (document.activeElement === target) return
 
+    // element has tabindex already, likely not focusable
+    // because of some other reason, bail out
     if (target.hasAttribute('tabindex')) return
 
     const restoreTabindex = () => {
@@ -296,10 +300,14 @@ export function scrollTo(hash: string, smooth = false, scrollPosition = 0) {
       target.removeEventListener('blur', restoreTabindex)
     }
 
+    // temporarily make the target element focusable
     target.setAttribute('tabindex', '-1')
     target.addEventListener('blur', restoreTabindex)
 
+    // try to focus again
     target.focus({ preventScroll: true })
+
+    // remove tabindex and event listener if focus still not worked
     if (document.activeElement !== target) restoreTabindex()
   }
 
