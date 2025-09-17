@@ -18,19 +18,19 @@ VitePress puede ser usado solo, o ser instalado en un proyecto ya existente. En 
 ::: code-group
 
 ```sh [npm]
-$ npm add -D vitepress
+$ npm add -D vitepress@next
 ```
 
 ```sh [pnpm]
-$ pnpm add -D vitepress
+$ pnpm add -D vitepress@next
 ```
 
 ```sh [yarn]
-$ yarn add -D vitepress
+$ yarn add -D vitepress@next
 ```
 
 ```sh [bun]
-$ bun add -D vitepress
+$ bun add -D vitepress@next
 ```
 
 :::

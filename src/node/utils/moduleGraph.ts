@@ -54,6 +54,8 @@ export class ModuleGraph {
    */
   delete(module: string): Set<string> {
     const deleted = new Set<string>()
+    if (!this.nodes.has(module)) return deleted
+
     const stack: string[] = [module]
 
     // Traverse the reverse dependency graph (using dependents).

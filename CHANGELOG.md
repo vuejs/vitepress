@@ -1,3 +1,50 @@
+## [2.0.0-alpha.12](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.11...v2.0.0-alpha.12) (2025-08-20)
+
+### Bug Fixes
+
+- **hmr:** don't load config twice on server restart ([d1a8061](https://github.com/vuejs/vitepress/commit/d1a8061eb438c730ccc62ce2d7158dbe89cc5292))
+- **hmr:** no need for server restart on theme change ([d3a1567](https://github.com/vuejs/vitepress/commit/d3a15673bd0846c7837bcc4ff5a2e3239a02f1f9))
+- **hmr:** hmr not working for snippet imports in dynamic routes ([914467e](https://github.com/vuejs/vitepress/commit/914467e17fb759a9722951a3fd7568eb3bc4d4e6))
+- **theme:** fix local nav alignment and increase touch area ([43b36c0](https://github.com/vuejs/vitepress/commit/43b36c0c19c2b4696f8c38fdaf4318786ea7ae8e))
+- **theme:** nav background doesn't extend fully and gap after sidebar with non-overlay scrollbars ([7df3052](https://github.com/vuejs/vitepress/commit/7df30525121a28a46cc6c802f3155ccff8effaca)), closes [#4653](https://github.com/vuejs/vitepress/issues/4653)
+- **theme:** use clipboard-check instead of clipboard-copy for code copied icon ([1c8815d](https://github.com/vuejs/vitepress/commit/1c8815d53ed2d56b07938260df6566f1514f4bfc))
+
+### Features
+
+- add markdown-it-cjk-friendly ([9fc8462](https://github.com/vuejs/vitepress/commit/9fc8462726ccf1cdb78b6171c9f1f5964e79ca22)), closes [#3762](https://github.com/vuejs/vitepress/issues/3762) [#4752](https://github.com/vuejs/vitepress/issues/4752)
+- make postcssIsolateStyles idempotent ([0944777](https://github.com/vuejs/vitepress/commit/094477789328b80cff45cd973efa16b6a4db0a27))
+
+### BREAKING CHANGES
+
+- [markdown-it-cjk-friendly](https://www.npmjs.com/package/markdown-it-cjk-friendly) is enabled by default. This intentionally deviates from the official commonmark spec for the benefit of CJK users. **For most users, no change is required.** If you were using hacks to patch `scanDelims`, you can remove those. To disable the plugin, set `markdown: { cjkFriendly: false }` in your vitepress config.
+- `includeFiles` option in `postcssIsolateStyles` now defaults to `[/vp-doc\.css/, /base\.css/]`. You can remove explicit `includeFiles` if you were using it just to run it on `vp-doc.css`. To revert back to older behavior pass `includeFiles: [/base\.css/]`. The underlying implementation is changed and `transform` and `exclude` options are no longer supported. Use `postcss-prefix-selector` directly if you've advanced use cases.
+
+## [2.0.0-alpha.11](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.10...v2.0.0-alpha.11) (2025-08-14)
+
+### Bug Fixes
+
+- hmr working only once for markdown files ([8d8a5ac](https://github.com/vuejs/vitepress/commit/8d8a5ac281f090cd097bece792d9dd3ef00e5545)), closes [#4909](https://github.com/vuejs/vitepress/issues/4909)
+- html entities encoded twice in toc plugin ([8abbe29](https://github.com/vuejs/vitepress/commit/8abbe298d545de17d34a9bc1eb72af4c5a4b41b8)), closes [#4908](https://github.com/vuejs/vitepress/issues/4908)
+
+## [2.0.0-alpha.10](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.9...v2.0.0-alpha.10) (2025-08-11)
+
+### Bug Fixes
+
+- **client:** base not stripped from relativePath in 404 pages ([b840877](https://github.com/vuejs/vitepress/commit/b840877aa83a5a24ffc1222e8a5a3dbf3e5105e8)), closes [#4850](https://github.com/vuejs/vitepress/issues/4850)
+- hmr of style blocks in dynamic routes ([#4903](https://github.com/vuejs/vitepress/issues/4903)) ([3d0fafb](https://github.com/vuejs/vitepress/commit/3d0fafba545f4b5028cf43d86027dd44dab14421))
+- make paths in `watchedFiles` absolute as mentioned in the docs ([318c14f](https://github.com/vuejs/vitepress/commit/318c14fa7c9fb949d74b7d9fae416e917766cf05))
+- module graph causing unnecessary route regeneration on every update ([fc267ae](https://github.com/vuejs/vitepress/commit/fc267ae6b787e163d41666e090089821377ead43))
+- preserve externally added dynamic routes and pages ([fc267ae](https://github.com/vuejs/vitepress/commit/fc267ae6b787e163d41666e090089821377ead43))
+- **search:** input placeholder being cut off in smaller viewports ([162c6a6](https://github.com/vuejs/vitepress/commit/162c6a69bf56945daa20d126aa034c59ee0c8a2e))
+- **search:** style tweaks for when searches are empty ([8b23217](https://github.com/vuejs/vitepress/commit/8b232171cc321bd3dc86b4357622815269f0b6f4))
+- **types:** externalize markdown-it types ([5bf835b](https://github.com/vuejs/vitepress/commit/5bf835b5074e9567852d552bfb5115c6456026e8))
+- **types:** pass generics deeply to user config ([777e2ca](https://github.com/vuejs/vitepress/commit/777e2caaacd93ce41b046f6c9d5ba80cc43ba37c))
+
+### Features
+
+- add source param to the deadlink check fn ([#4870](https://github.com/vuejs/vitepress/issues/4870)) ([8c027c2](https://github.com/vuejs/vitepress/commit/8c027c2a7c443074fd0d4890f7736b444f9254aa))
+- **theme:** add `rel="me"` to social links by default ([#4873](https://github.com/vuejs/vitepress/issues/4873)) ([34886c6](https://github.com/vuejs/vitepress/commit/34886c667d1305a79d64c957f8c52931ea122f47))
+
 ## [2.0.0-alpha.9](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.8...v2.0.0-alpha.9) (2025-07-26)
 
 ### Bug Fixes

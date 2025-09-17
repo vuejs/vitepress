@@ -168,7 +168,7 @@ export async function resolveConfig(
   global.VITEPRESS_CONFIG = config
 
   // resolve pages after setting global, so that path loaders can access it
-  Object.assign(config, await resolvePages(srcDir, userConfig, logger, true))
+  await resolvePages(config, true)
 
   return config as SiteConfig
 }
@@ -233,7 +233,7 @@ export async function resolveUserConfig(
   root: string,
   command: 'serve' | 'build',
   mode: string
-): Promise<[UserConfig, string | undefined, string[]]> {
+): Promise<[UserConfig, configPath: string | undefined, configDeps: string[]]> {
   // load user config
   const configPath = supportedConfigExtensions
     .flatMap((ext) => [

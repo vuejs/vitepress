@@ -4,6 +4,7 @@ import {
   mergeConfig,
   normalizePath,
   searchForWorkspaceRoot,
+  type EnvironmentModuleNode,
   type Plugin,
   type ResolvedConfig,
   type Rollup,
@@ -13,16 +14,11 @@ import {
   APP_PATH,
   DEFAULT_THEME_PATH,
   DIST_CLIENT_PATH,
+  SITE_DATA_ID,
   SITE_DATA_REQUEST_PATH,
   resolveAliases
 } from './alias'
-import {
-  isAdditionalConfigFile,
-  resolvePages,
-  resolveUserConfig,
-  type SiteConfig
-} from './config'
-import { disposeMdItInstance } from './markdown/markdown'
+import { isAdditionalConfigFile, resolvePages, type SiteConfig } from './config'
 import {
   clearCache,
   createMarkdownToVueRenderFn,
@@ -42,7 +38,8 @@ declare module 'vite' {
   }
 }
 
-const themeRE = /\/\.vitepress\/theme\/index\.(m|c)?(j|t)s$/
+const themeRE = /(?:^|\/)\.vitepress\/theme\/index\.(m|c)?(j|t)s$/
+const startsWithThemeRE = /^@theme(?:\/|$)/
 const docsearchRE = /\/@docsearch\/css\/dist\/style.css(?:$|\?)/
 
 const hashRE = /\.([-\w]+)\.js$/
@@ -73,7 +70,7 @@ export async function createVitePressPlugin(
   ssr = false,
   pageToHashMap?: Record<string, string>,
   clientJSMap?: Record<string, string>,
-  recreateServer?: () => Promise<void>
+  restartServer?: () => Promise<void>
 ) {
   const {
     srcDir,
@@ -130,7 +127,7 @@ export async function createVitePressPlugin(
     config() {
       const baseConfig: UserConfig = {
         resolve: {
-          alias: resolveAliases(siteConfig, ssr)
+          alias: resolveAliases(siteConfig.root, ssr)
         },
         define: {
           __VP_LOCAL_SEARCH__: site.themeConfig?.search?.provider === 'local',
@@ -146,10 +143,7 @@ export async function createVitePressPlugin(
           include: [
             'vue',
             'vitepress > @vue/devtools-api',
-            'vitepress > @vueuse/core',
-            siteConfig.themeDir === DEFAULT_THEME_PATH
-              ? '@theme/index'
-              : undefined
+            'vitepress > @vueuse/core'
           ].filter((d) => d != null),
           exclude: ['@docsearch/js', 'vitepress']
         },
@@ -169,9 +163,16 @@ export async function createVitePressPlugin(
         : baseConfig
     },
 
-    resolveId(id) {
-      if (id === SITE_DATA_REQUEST_PATH) {
+    resolveId(id, importer, resolveOptions) {
+      if (id === SITE_DATA_ID) {
         return SITE_DATA_REQUEST_PATH
+      }
+      if (startsWithThemeRE.test(id)) {
+        return this.resolve(
+          siteConfig.themeDir + id.slice(6),
+          importer,
+          Object.assign({ skipSelf: true }, resolveOptions)
+        )
       }
     },
 
@@ -200,6 +201,7 @@ export async function createVitePressPlugin(
         return processClientJS(code, id)
       }
       if (id.endsWith('.md')) {
+        const relativePath = path.posix.relative(srcDir, id)
         // transform .md files into vueSrc so plugin-vue can handle it
         const { vueSrc, deadLinks, includes, pageData } = await markdownToVue(
           code,
@@ -209,7 +211,7 @@ export async function createVitePressPlugin(
         allDeadLinks.push(...deadLinks)
         if (includes.length) {
           includes.forEach((i) => {
-            ;(importerMap[slash(i)] ??= new Set()).add(id)
+            ;(importerMap[slash(i)] ??= new Set()).add(relativePath)
             this.addWatchFile(i)
           })
         }
@@ -217,7 +219,6 @@ export async function createVitePressPlugin(
           this.environment.mode === 'dev' &&
           this.environment.name === 'client'
         ) {
-          const relativePath = path.posix.relative(srcDir, id)
           const payload: PageDataPayload = {
             path: `/${siteConfig.rewrites.map[relativePath] || relativePath}`,
             pageData
@@ -258,40 +259,6 @@ export async function createVitePressPlugin(
         server.watcher.add(configPath)
         configDeps.forEach((file) => server.watcher.add(file))
       }
-
-      const onFileAddDelete = async (added: boolean, _file: string) => {
-        const file = slash(_file)
-        // restart server on theme file creation / deletion
-        if (themeRE.test(file)) {
-          siteConfig.logger.info(
-            c.green(
-              `${path.relative(process.cwd(), _file)} ${added ? 'created' : 'deleted'}, restarting server...\n`
-            ),
-            { clear: true, timestamp: true }
-          )
-
-          await recreateServer?.()
-        }
-
-        // update pages, dynamicRoutes and rewrites on md file creation / deletion
-        if (file.endsWith('.md')) {
-          Object.assign(
-            siteConfig,
-            await resolvePages(
-              siteConfig.srcDir,
-              siteConfig.userConfig,
-              siteConfig.logger
-            )
-          )
-        }
-
-        if (!added && importerMap[file]) {
-          delete importerMap[file]
-        }
-      }
-      server.watcher
-        .on('add', onFileAddDelete.bind(null, true))
-        .on('unlink', onFileAddDelete.bind(null, false))
 
       // serve our index.html after vite history fallback
       return () => {
@@ -377,8 +344,18 @@ export async function createVitePressPlugin(
       }
     },
 
-    async hotUpdate({ file }) {
+    async hotUpdate({ file, type }) {
       if (this.environment.name !== 'client') return
+      const relativePath = path.posix.relative(srcDir, file)
+
+      // update pages, dynamicRoutes and rewrites on md file creation / deletion
+      if (file.endsWith('.md') && type !== 'update') {
+        await resolvePages(siteConfig)
+      }
+
+      if (type === 'delete') {
+        delete importerMap[relativePath]
+      }
 
       if (
         file === configPath ||
@@ -392,36 +369,43 @@ export async function createVitePressPlugin(
           { clear: true, timestamp: true }
         )
 
-        try {
-          await resolveUserConfig(siteConfig.root, 'serve', 'development')
-        } catch (err: any) {
-          siteConfig.logger.error(err)
-          return
-        }
+        return restartServer?.()
+      }
 
-        disposeMdItInstance()
-        clearCache()
-        await recreateServer?.()
-        return
+      if (themeRE.test(relativePath) && type !== 'update') {
+        siteConfig.themeDir =
+          type === 'create' ? path.posix.dirname(file) : DEFAULT_THEME_PATH
+        siteConfig.logger.info(c.green('page reload ') + c.dim(relativePath), {
+          clear: true,
+          timestamp: true
+        })
+        this.environment.moduleGraph.invalidateAll()
+        this.environment.hot.send({ type: 'full-reload' })
+        return []
       }
     }
   }
 
   const hmrFix: Plugin = {
     name: 'vitepress:hmr-fix',
-    async hotUpdate({ file, modules }) {
+    async hotUpdate({ file, modules: existingMods }) {
       if (this.environment.name !== 'client') return
+      const modules: EnvironmentModuleNode[] = []
 
-      const importers = [...(importerMap[slash(file)] || [])]
-      if (importers.length > 0) {
-        return [
-          ...modules,
-          ...importers.map((id) => {
-            clearCache(id)
-            return this.environment.moduleGraph.getModuleById(id)
-          })
-        ].filter((mod) => mod !== undefined)
+      if (file.endsWith('.md')) {
+        const mod = this.environment.moduleGraph.getModuleById(file)
+        mod && modules.push(mod)
       }
+
+      importerMap[slash(file)]?.forEach((relativePath) => {
+        clearCache(relativePath)
+        const mod = this.environment.moduleGraph.getModuleById(
+          path.posix.join(srcDir, relativePath)
+        )
+        mod && modules.push(mod)
+      })
+
+      return modules.length ? [...existingMods, ...modules] : undefined
     }
   }
 

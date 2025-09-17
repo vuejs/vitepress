@@ -78,7 +78,7 @@ function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
     }
   })
 
-  docsearch(options)
+  docsearch(options as any)
 }
 
 function getRelativePath(url: string) {

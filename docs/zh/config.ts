@@ -5,7 +5,6 @@ const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
 
 export default defineAdditionalConfig({
-  lang: 'zh-Hans',
   description: '由 Vite 和 Vue 驱动的静态站点生成器',
 
   themeConfig: {
@@ -25,7 +24,7 @@ export default defineAdditionalConfig({
 
     footer: {
       message: '基于 MIT 许可发布',
-      copyright: `版权所有 © 2019-${new Date().getFullYear()} 尤雨溪`
+      copyright: '版权所有 © 2019-至今 尤雨溪'
     },
 
     docFooter: {

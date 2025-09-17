@@ -5,7 +5,6 @@ const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
 
 export default defineAdditionalConfig({
-  lang: 'es-CO',
   description: 'Generador de Sitios Estáticos desarrollado con Vite y Vue.',
 
   themeConfig: {
@@ -25,7 +24,7 @@ export default defineAdditionalConfig({
 
     footer: {
       message: 'Liberado bajo la licencia MIT',
-      copyright: `Derechos reservados © 2019-${new Date().getFullYear()} Evan You`
+      copyright: 'Todos los derechos reservados © 2019-PRESENTE Evan You'
     },
 
     docFooter: {

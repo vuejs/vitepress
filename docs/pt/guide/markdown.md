@@ -255,11 +255,11 @@ A classe `vp-raw` também pode ser usada diretamente em elementos. O isolamento 
   }
   ```
 
-  Ele utiliza [`postcss-prefix-selector`](https://github.com/RadValentin/postcss-prefix-selector) internamente. Você pode passar opções assim:
+  Você pode passar opções assim:
 
   ```js
   postcssIsolateStyles({
-    includeFiles: [/vp-doc\.css/] // o padrão é /base\.css/
+    includeFiles: [/custom\.css/] // o padrão é [/vp-doc\.css/, /base\.css/]
   })
   ```
 

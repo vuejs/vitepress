@@ -32,14 +32,14 @@ export interface MarkdownCompileResult {
   includes: string[]
 }
 
-export function clearCache(id?: string) {
-  if (!id) {
+export function clearCache(relativePath?: string) {
+  if (!relativePath) {
     cache.clear()
     return
   }
 
-  id = JSON.stringify({ id }).slice(1)
-  cache.find((_, key) => key.endsWith(id!) && cache.delete(key))
+  relativePath = JSON.stringify({ relativePath }).slice(1)
+  cache.find((_, key) => key.endsWith(relativePath!) && cache.delete(key))
 }
 
 let __pages: string[] = []
@@ -114,12 +114,7 @@ export async function createMarkdownToVueRenderFn(
     file = rewrites.get(file) || file
     const relativePath = slash(path.relative(srcDir, file))
 
-    const cacheKey = JSON.stringify({
-      src,
-      ts,
-      file: relativePath,
-      id: fileOrig
-    })
+    const cacheKey = JSON.stringify({ src, ts, relativePath })
     if (isBuild || options.cache !== false) {
       const cached = cache.get(cacheKey)
       if (cached) {
@@ -167,7 +162,7 @@ export async function createMarkdownToVueRenderFn(
     // validate data.links
     const deadLinks: MarkdownCompileResult['deadLinks'] = []
     const recordDeadLink = (url: string) => {
-      deadLinks.push({ url, file: path.relative(srcDir, fileOrig) })
+      deadLinks.push({ url, file: fileOrig })
     }
 
     function shouldIgnoreDeadLink(url: string) {

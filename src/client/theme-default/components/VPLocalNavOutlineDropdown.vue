@@ -92,16 +92,6 @@ function scrollToTop() {
 </template>
 
 <style scoped>
-.VPLocalNavOutlineDropdown {
-  padding: 12px 20px 11px;
-}
-
-@media (min-width: 960px) {
-  .VPLocalNavOutlineDropdown {
-    padding: 12px 36px 11px;
-  }
-}
-
 .VPLocalNavOutlineDropdown button {
   display: block;
   font-size: 12px;

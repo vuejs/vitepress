@@ -5,6 +5,7 @@ import pm from 'picomatch'
 import {
   loadConfigFromFile,
   normalizePath,
+  type EnvironmentModuleGraph,
   type EnvironmentModuleNode,
   type Logger,
   type Plugin
@@ -61,6 +62,7 @@ const pathLoaderRE = /\.paths\.m?[jt]s$/
 
 const routeModuleCache = new Map<string, ResolvedRouteModule>()
 let moduleGraph = new ModuleGraph()
+let discoveredPages = new Set<string>()
 
 /**
  * Helper for defining routes with type inference
@@ -69,20 +71,21 @@ export function defineRoutes(loader: RouteModule): RouteModule {
   return loader
 }
 
+type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
+
 export async function resolvePages(
-  srcDir: string,
-  userConfig: UserConfig,
-  logger: Logger,
+  siteConfig: Optional<SiteConfig, 'pages' | 'dynamicRoutes' | 'rewrites'>,
   rebuildCache = false
-): Promise<Pick<SiteConfig, 'pages' | 'dynamicRoutes' | 'rewrites'>> {
+): Promise<void> {
   if (rebuildCache) {
     moduleGraph = new ModuleGraph()
     routeModuleCache.clear()
+    discoveredPages.clear()
   }
 
   const allMarkdownFiles = await glob(['**/*.md'], {
-    cwd: srcDir,
-    ignore: userConfig.srcExclude
+    cwd: siteConfig.srcDir,
+    ignore: siteConfig.userConfig.srcExclude
   })
 
   const pages: string[] = []
@@ -94,22 +97,33 @@ export async function resolvePages(
   })
 
   const dynamicRoutes = await resolveDynamicRoutes(
-    srcDir,
+    siteConfig.srcDir,
     dynamicRouteFiles,
-    logger
+    siteConfig.logger
   )
-
   pages.push(...dynamicRoutes.map((r) => r.path))
 
-  const rewrites = resolveRewrites(pages, userConfig.rewrites)
+  const externalDynamicRoutes =
+    siteConfig.dynamicRoutes?.filter((r) => !discoveredPages.has(r.path)) || []
+  const externalPages =
+    siteConfig.pages?.filter((p) => !discoveredPages.has(p)) || []
 
-  return {
-    pages,
-    dynamicRoutes,
+  const finalDynamicRoutes = [...dynamicRoutes, ...externalDynamicRoutes].sort(
+    (a, b) => a.path.localeCompare(b.path)
+  )
+  const finalPages = [...pages, ...externalPages].sort()
+
+  const rewrites = resolveRewrites(pages, siteConfig.userConfig.rewrites)
+
+  Object.assign(siteConfig, {
+    pages: finalPages,
+    dynamicRoutes: finalDynamicRoutes,
     rewrites,
     // @ts-expect-error internal flag to reload resolution cache in ../markdownToVue.ts
     __dirty: true
-  }
+  } satisfies Partial<SiteConfig>)
+
+  discoveredPages = new Set(pages)
 }
 
 export const dynamicRoutesPlugin = async (
@@ -117,6 +131,7 @@ export const dynamicRoutesPlugin = async (
 ): Promise<Plugin> => {
   return {
     name: 'vitepress:dynamic-routes',
+    enforce: 'pre',
 
     resolveId(id) {
       if (!id.endsWith('.md')) return
@@ -164,11 +179,7 @@ export const dynamicRoutesPlugin = async (
       const normalizedFile = normalizePath(file)
 
       // Trigger update if a module or its dependencies changed.
-      for (const id of moduleGraph.delete(normalizedFile)) {
-        routeModuleCache.delete(id)
-        const mod = this.environment.moduleGraph.getModuleById(id)
-        if (mod) modules.push(mod)
-      }
+      modules.push(...getModules(normalizedFile, this.environment.moduleGraph))
 
       // Also check if the file matches any custom watch patterns.
       let watchedFileChanged = false
@@ -179,11 +190,7 @@ export const dynamicRoutesPlugin = async (
         ) {
           route.routes = undefined
           watchedFileChanged = true
-
-          for (const id of moduleGraph.delete(file)) {
-            const mod = this.environment.moduleGraph.getModuleById(id)
-            if (mod) modules.push(mod)
-          }
+          modules.push(...getModules(file, this.environment.moduleGraph, false))
         }
       }
 
@@ -193,10 +200,7 @@ export const dynamicRoutesPlugin = async (
         pathLoaderRE.test(normalizedFile)
       ) {
         // path loader module or deps updated, reset loaded routes
-        Object.assign(
-          config,
-          await resolvePages(config.srcDir, config.userConfig, config.logger)
-        )
+        await resolvePages(config)
       }
 
       return modules.length ? [...existingMods, ...modules] : undefined
@@ -344,4 +348,17 @@ async function resolveDynamicRoutes(
   moduleGraph = newModuleGraph
 
   return resolvedRoutes
+}
+
+function getModules(
+  id: string,
+  envModuleGraph: EnvironmentModuleGraph,
+  deleteFromRouteModuleCache = true
+) {
+  const modules: EnvironmentModuleNode[] = []
+  for (const file of moduleGraph.delete(id)) {
+    deleteFromRouteModuleCache && routeModuleCache.delete(file)
+    modules.push(...(envModuleGraph.getModulesByFile(file)?.values() ?? []))
+  }
+  return modules
 }

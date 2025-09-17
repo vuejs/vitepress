@@ -9,11 +9,14 @@ defineProps<{
 }>()
 
 const { page } = useData()
+
+defineOptions({ inheritAttrs: false })
 </script>
 
 <template>
   <div class="VPMenuLink">
     <VPLink
+      v-bind="$attrs"
       :class="{
         active: isActive(
           page.relativePath,
@@ -46,6 +49,7 @@ const { page } = useData()
   font-size: 14px;
   font-weight: 500;
   color: var(--vp-c-text-1);
+  text-align: left;
   white-space: nowrap;
   transition:
     background-color 0.25s,
