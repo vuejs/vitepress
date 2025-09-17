@@ -4,7 +4,7 @@ outline: deep
 
 # Frontmatter Config
 
-Frontmatter enables page based configuration. In every markdown file, you can use frontmatter config to override site-level or theme-level config options. Also, there are config options which you can only define in frontmatter.
+Frontmatter enables page based configuration. In every Markdown file, you can use frontmatter configu to override site-level or theme-level configuration options. There are also config options which are frontmatter-exclusive.
 
 Example usage:
 
@@ -62,7 +62,7 @@ description: VitePress
 
 - Type: `HeadConfig[]`
 
-Specify extra head tags to be injected for the current page. Will be appended after head tags injected by site-level config.
+Specify extra head tags to be injected for the current page. Will be appended after the head tags injected by site-level config.
 
 ```yaml
 ---
@@ -94,8 +94,8 @@ The following frontmatter options are only applicable when using the default the
 Determines the layout of the page.
 
 - `doc` - It applies default documentation styles to the markdown content.
-- `home` - Special layout for "Home Page". You may add extra options such as `hero` and `features` to rapidly create beautiful landing page.
-- `page` - Behave similar to `doc` but it applies no styles to the content. Useful when you want to create a fully custom page.
+- `home` - Special layout for the home page. You can add extra options such as `hero` and `features` to create a beautiful landing page rapidly.
+- `page` - Behaves similar to `doc`, but it applies no styles to the content. Useful when you want to create a fully custom page.
 
 ```yaml
 ---
@@ -105,18 +105,18 @@ layout: doc
 
 ### hero <Badge type="info" text="home page only" />
 
-Defines contents of home hero section when `layout` is set to `home`. More details in [Default Theme: Home Page](./default-theme-home-page).
+Defines the contents of home hero section when the `layout` is set to `home`. More details in [Default Theme: Home Page](./default-theme-home-page).
 
 ### features <Badge type="info" text="home page only" />
 
-Defines items to display in features section when `layout` is set to `home`. More details in [Default Theme: Home Page](./default-theme-home-page).
+Defines the items to display in the features section when the `layout` is set to `home`. More details in [Default Theme: Home Page](./default-theme-home-page).
 
 ### navbar
 
 - Type: `boolean`
 - Default: `true`
 
-Whether to display [navbar](./default-theme-nav).
+Whether to display the [navbar](./default-theme-nav).
 
 ```yaml
 ---
@@ -129,11 +129,24 @@ navbar: false
 - Type: `boolean`
 - Default: `true`
 
-Whether to display [sidebar](./default-theme-sidebar).
+Whether to display the [sidebar](./default-theme-sidebar).
 
 ```yaml
 ---
 sidebar: false
+---
+```
+
+### footer
+
+- Type: `boolean`
+- Default: `true`
+
+Whether to display the [footer](./default-theme-footer).
+
+```yaml
+---
+footer: false
 ---
 ```
 
@@ -172,7 +185,7 @@ outline: [2, 4]
 - Type: `boolean | Date`
 - Default: `true`
 
-Whether to display [last updated](./default-theme-last-updated) text in the footer of the current page. If a datetime is specified, it will be displayed instead of the last git modified timestamp.
+Whether to display [last updated](./default-theme-last-updated) text in the footer of the current page. If a datetime is specified, it will be displayed instead of the last Git modified timestamp.
 
 ```yaml
 ---
@@ -185,7 +198,7 @@ lastUpdated: false
 - Type: `boolean`
 - Default: `true`
 
-Whether to display [edit link](./default-theme-edit-link) in the footer of the current page.
+Whether to display an [edit link](./default-theme-edit-link) in the footer of the current page.
 
 ```yaml
 ---
@@ -193,24 +206,11 @@ editLink: false
 ---
 ```
 
-### footer
-
-- Type: `boolean`
-- Default: `true`
-
-Whether to display [footer](./default-theme-footer).
-
-```yaml
----
-footer: false
----
-```
-
 ### pageClass
 
 - Type: `string`
 
-Add extra class name to a specific page.
+Add extra CSS classes to a specific page.
 
 ```yaml
 ---
@@ -218,7 +218,7 @@ pageClass: custom-page-class
 ---
 ```
 
-Then you can customize styles of this specific page in `.vitepress/theme/custom.css` file:
+You can then customize styles of that specific page in `.vitepress/theme/custom.css`:
 
 ```css
 .custom-page-class {
