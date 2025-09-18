@@ -294,6 +294,10 @@ You can deploy your VitePress website on [Kinsta](https://kinsta.com/static-site
 
 You can deploy your VitePress project to [Stormkit](https://www.stormkit.io) by following these [instructions](https://stormkit.io/blog/how-to-deploy-vitepress).
 
+### CloudRay
+
+You can deploy your VitePress project with [CloudRay](https://cloudray.io/) by following these [instructions](https://cloudray.io/articles/how-to-deploy-vitepress-site).
+
 ### Nginx
 
 Here is a example of an Nginx server block configuration. This setup includes gzip compression for common text-based assets, rules for serving your VitePress site's static files with proper caching headers as well as handling `cleanUrls: true`.
