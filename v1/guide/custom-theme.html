@@ -6,14 +6,14 @@
     <title>Using a Custom Theme | VitePress</title>
     <meta name="description" content="Vite & Vue powered static site generator.">
     <meta name="generator" content="VitePress v1.6.4">
-    <link rel="preload stylesheet" href="/vitepress/v1/assets/style.r97mPQ8e.css" as="style">
+    <link rel="preload stylesheet" href="/vitepress/v1/assets/style.wBANWwE3.css" as="style">
     <link rel="preload stylesheet" href="/vitepress/v1/vp-icons.css" as="style">
-    <script type="module" src="/vitepress/v1/assets/chunks/metadata.4cea8b4a.js"></script>
-    <script type="module" src="/vitepress/v1/assets/app.Cg9g4zik.js"></script>
+    <script type="module" src="/vitepress/v1/assets/chunks/metadata.1b805bca.js"></script>
+    <script type="module" src="/vitepress/v1/assets/app.ObmQnk_B.js"></script>
     <link rel="preload" href="/vitepress/v1/assets/inter-roman-latin.Di8DUHzh.woff2" as="font" type="font/woff2" crossorigin="">
-    <link rel="modulepreload" href="/vitepress/v1/assets/chunks/theme.CMF8FyTT.js">
+    <link rel="modulepreload" href="/vitepress/v1/assets/chunks/theme.COmgkQ2m.js">
     <link rel="modulepreload" href="/vitepress/v1/assets/chunks/framework.C1C4sYC0.js">
-    <link rel="modulepreload" href="/vitepress/v1/assets/guide_custom-theme.md.C6oUX_7j.lean.js">
+    <link rel="modulepreload" href="/vitepress/v1/assets/guide_custom-theme.md.CmrBTsl6.lean.js">
     <link rel="icon" type="image/svg+xml" href="/vitepress-logo-mini.svg">
     <link rel="icon" type="image/png" href="/vitepress-logo-mini.png">
     <meta name="theme-color" content="#5f67ee">
@@ -80,10 +80,10 @@
 <span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">template</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&gt;</span></span>
 <span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">  &lt;</span><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">h1</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&gt;Custom Layout!&lt;/</span><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">h1</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&gt;</span></span>
 <span class="line"></span>
-<span class="line highlighted"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">  &lt;</span><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">div</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> v-if</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">=</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">page.isNotFound</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&gt;</span></span>
+<span class="line highlighted"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">  &lt;</span><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">div</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> v-if</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">=</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;page.isNotFound&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&gt;</span></span>
 <span class="line highlighted"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    Custom 404 page!</span></span>
 <span class="line highlighted"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">  &lt;/</span><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">div</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&gt;</span></span>
-<span class="line highlighted"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">  &lt;</span><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">Content</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> v-else</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> /&gt;</span></span>
+<span class="line highlighted"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">  &lt;</span><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">Content</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> v-else</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> /&gt;</span></span>
 <span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;/</span><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">template</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&gt;</span></span></code></pre></div><p>The <a href="./../reference/runtime-api#usedata"><code>useData()</code></a> helper provides us with all the runtime data we need to conditionally render different layouts. One of the other data we can access is the current page&#39;s frontmatter. We can leverage this to allow the end user to control the layout in each page. For example, the user can indicate the page should use a special home page layout with:</p><div class="language-md vp-adaptive-theme"><button title="Copy code" class="copy"></button><span class="lang">md</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#005CC5;--shiki-light-font-weight:bold;--shiki-dark:#79B8FF;--shiki-dark-font-weight:bold;">---</span></span>
 <span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">layout: home</span></span>
 <span class="line"><span style="--shiki-light:#005CC5;--shiki-light-font-weight:bold;--shiki-dark:#79B8FF;--shiki-dark-font-weight:bold;">---</span></span></code></pre></div><p>And we can adjust our theme to handle this:</p><div class="language-vue vp-adaptive-theme"><button title="Copy code" class="copy"></button><span class="lang">vue</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">script</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> setup</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&gt;</span></span>
