@@ -3,7 +3,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { slash } from '../shared'
 
-let cache = new Map<string, number>()
+const cache = new Map<string, number>()
 
 const RS = 0x1e
 const NUL = 0x00
