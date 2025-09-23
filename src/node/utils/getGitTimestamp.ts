@@ -1,8 +1,10 @@
 import { spawn, sync } from 'cross-spawn'
+import _debug from 'debug'
 import fs from 'node:fs'
 import path from 'node:path'
 import { slash } from '../shared'
 
+const debug = _debug('vitepress:git')
 const cache = new Map<string, number>()
 
 const RS = 0x1e
@@ -91,8 +93,10 @@ export async function cacheAllGitTimestamps(
 
 export async function getGitTimestamp(file: string): Promise<number> {
   const cached = cache.get(file)
-  // most likely will never be stale except for recently added files in dev
   if (cached) return cached
+
+  // most likely will never happen except for recently added files in dev
+  debug(`[cache miss] ${file}`)
 
   if (!fs.existsSync(file)) return 0
 
