@@ -136,6 +136,11 @@ export async function build(
 
       const usedIcons = new Set<string>()
 
+      // Memory management: track processed pages for periodic cleanup
+      let processedCount = 0
+      const totalPages = ['404.md', ...siteConfig.pages].length
+      const cleanupInterval = 50
+
       await pMap(
         ['404.md', ...siteConfig.pages],
         async (page) => {
@@ -152,8 +157,22 @@ export async function build(
             additionalHeadTags,
             usedIcons
           )
+
+          // Memory management: periodic cache clearing and garbage collection
+          processedCount++
+          if (processedCount % cleanupInterval === 0) {
+            siteConfig.logger.info(
+              `Processed ${processedCount}/${totalPages} pages, clearing cache to manage memory...`
+            )
+            clearCache()
+
+            // Optional garbage collection hint
+            if (global.gc) {
+              global.gc()
+            }
+          }
         },
-        { concurrency: siteConfig.buildConcurrency }
+        { concurrency: Math.min(10, siteConfig.buildConcurrency || 10) }
       )
 
       const icons = require('@iconify-json/simple-icons/icons.json')
