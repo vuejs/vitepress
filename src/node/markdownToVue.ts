@@ -23,7 +23,109 @@ import { getGitTimestamp } from './utils/getGitTimestamp'
 import { processIncludes } from './utils/processIncludes'
 
 const debug = _debug('vitepress:md')
-const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
+
+interface MemoryAwareCache<K extends {}, V extends {}> {
+  cache: LRUCache<K, V>
+  adjustCacheSize: () => void
+  getCurrentSize: () => number
+  getMaxSize: () => number
+  recreateCache: (newMax: number) => void
+}
+
+function createMemoryAwareLRUCache<K extends {}, V extends {}>(
+  initialMax = 1024
+): MemoryAwareCache<K, V> {
+  let currentMax = initialMax
+  let cache = new LRUCache<K, V>({ max: currentMax })
+  let lastMemoryCheck = 0
+
+  function recreateCache(newMax: number) {
+    // Since max is read-only, we need to create a new cache with reduced size
+    const oldEntries: Array<[K, V]> = []
+    const entriesToKeep = Math.min(newMax, cache.size)
+
+    // Extract most recent entries from old cache
+    let entriesCollected = 0
+    for (const entry of cache.rentries()) {
+      if (entriesCollected >= entriesToKeep) break
+      const [key, value] = entry as [K, V]
+      oldEntries.push([key, value])
+      entriesCollected++
+    }
+
+    // Create new cache with new max size
+    cache = new LRUCache<K, V>({ max: newMax })
+    currentMax = newMax
+
+    // Restore entries to new cache (in reverse order to maintain recency)
+    for (let i = oldEntries.length - 1; i >= 0; i--) {
+      const [key, value] = oldEntries[i]
+      cache.set(key, value)
+    }
+  }
+
+  function adjustCacheSize() {
+    const now = Date.now()
+    // Only check memory every 100ms to avoid performance overhead
+    if (now - lastMemoryCheck < 100) return
+    lastMemoryCheck = now
+
+    try {
+      const memUsage = process.memoryUsage()
+      const heapUsedMB = memUsage.heapUsed / 1024 / 1024
+      const heapTotalMB = memUsage.heapTotal / 1024 / 1024
+      const memoryPressure = heapUsedMB / heapTotalMB
+
+      // If using >75% of heap, reduce cache size aggressively
+      if (memoryPressure > 0.75) {
+        const newMax = Math.max(64, Math.floor(currentMax * 0.5))
+        if (newMax < currentMax) {
+          debug(
+            `[memory] High pressure (${(memoryPressure * 100).toFixed(1)}%), reducing cache from ${currentMax} to ${newMax}`
+          )
+          recreateCache(newMax)
+        }
+      }
+      // If using >60% of heap, reduce cache moderately
+      else if (memoryPressure > 0.6) {
+        const newMax = Math.max(128, Math.floor(currentMax * 0.7))
+        if (newMax < currentMax) {
+          debug(
+            `[memory] Medium pressure (${(memoryPressure * 100).toFixed(1)}%), reducing cache from ${currentMax} to ${newMax}`
+          )
+          recreateCache(newMax)
+        }
+      }
+      // If memory pressure is low and cache is small, allow it to grow back
+      else if (memoryPressure < 0.4 && currentMax < initialMax) {
+        const newMax = Math.min(initialMax, Math.floor(currentMax * 1.2))
+        if (newMax > currentMax) {
+          debug(
+            `[memory] Low pressure (${(memoryPressure * 100).toFixed(1)}%), increasing cache from ${currentMax} to ${newMax}`
+          )
+          recreateCache(newMax)
+        }
+      }
+    } catch (error) {
+      // Silently handle any memory monitoring errors
+      debug(`[memory] Error monitoring memory: ${error}`)
+    }
+  }
+
+  return {
+    cache,
+    adjustCacheSize,
+    getCurrentSize: () => cache.size,
+    getMaxSize: () => currentMax,
+    recreateCache
+  }
+}
+
+const memoryAwareCache = createMemoryAwareLRUCache<
+  string,
+  MarkdownCompileResult
+>(1024)
+const getCache = () => memoryAwareCache.cache
 
 export interface MarkdownCompileResult {
   vueSrc: string
@@ -33,13 +135,27 @@ export interface MarkdownCompileResult {
 }
 
 export function clearCache(relativePath?: string) {
+  const cache = getCache()
   if (!relativePath) {
     cache.clear()
+    debug(`[cache] Cleared all cache entries`)
     return
   }
 
   relativePath = JSON.stringify({ relativePath }).slice(1)
+  const sizeBefore = cache.size
   cache.find((_, key) => key.endsWith(relativePath!) && cache.delete(key))
+  const sizeAfter = cache.size
+  debug(`[cache] Cleared ${sizeBefore - sizeAfter} entries for ${relativePath}`)
+}
+
+// Export memory statistics for debugging/monitoring
+export function getCacheStats() {
+  return {
+    size: memoryAwareCache.getCurrentSize(),
+    maxSize: memoryAwareCache.getMaxSize(),
+    memoryUsage: process.memoryUsage()
+  }
 }
 
 let __pages: string[] = []
@@ -116,6 +232,10 @@ export async function createMarkdownToVueRenderFn(
 
     const cacheKey = JSON.stringify({ src, ts, relativePath })
     if (isBuild || options.cache !== false) {
+      // Check memory pressure before cache access
+      memoryAwareCache.adjustCacheSize()
+
+      const cache = getCache()
       const cached = cache.get(cacheKey)
       if (cached) {
         debug(`[cache hit] ${relativePath}`)
@@ -267,7 +387,18 @@ export async function createMarkdownToVueRenderFn(
       includes
     }
     if (isBuild || options.cache !== false) {
+      // Check memory pressure before caching result
+      memoryAwareCache.adjustCacheSize()
+
+      const cache = getCache()
       cache.set(cacheKey, result)
+
+      // Log cache statistics periodically for debugging
+      if (debug.enabled && cache.size % 100 === 0) {
+        debug(
+          `[cache] Size: ${memoryAwareCache.getCurrentSize()}/${memoryAwareCache.getMaxSize()}, Memory: ${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)}MB`
+        )
+      }
     }
     return result
   }

@@ -10,7 +10,7 @@ import { rimraf } from 'rimraf'
 import * as vite from 'vite'
 import type { BuildOptions, Rollup } from 'vite'
 import { resolveConfig, type SiteConfig } from '../config'
-import { clearCache } from '../markdownToVue'
+import { clearCache, getCacheStats } from '../markdownToVue'
 import { slash, type Awaitable, type HeadConfig } from '../shared'
 import { deserializeFunctions, serializeFunctions } from '../utils/fnSerialize'
 import { task } from '../utils/task'
@@ -181,6 +181,14 @@ export async function build(
 
   await generateSitemap(siteConfig)
   await siteConfig.buildEnd?.(siteConfig)
+
+  // Log final memory and cache stats
+  const cacheStats = getCacheStats()
+  const memUsageMB = Math.round(cacheStats.memoryUsage.heapUsed / 1024 / 1024)
+  siteConfig.logger.info(
+    `memory usage: ${memUsageMB}MB, cache: ${cacheStats.size}/${cacheStats.maxSize} entries`
+  )
+
   clearCache()
 
   siteConfig.logger.info(
