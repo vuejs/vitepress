@@ -52,9 +52,7 @@ describe('static data file support in vite 3', () => {
       await page.waitForFunction(
         () =>
           document.querySelector('pre#basic')?.textContent ===
-          JSON.stringify([{ a: false }, { b: true }], null, 2),
-        undefined,
-        { timeout: 3000 }
+          JSON.stringify([{ a: false }, { b: true }], null, 2)
       )
     } finally {
       await fs.writeFile(a, JSON.stringify({ a: true }, null, 2) + '\n')
@@ -67,9 +65,7 @@ describe('static data file support in vite 3', () => {
       await page.waitForFunction(
         () =>
           document.querySelector('pre#basic')?.textContent ===
-          JSON.stringify([{ a: true }], null, 2),
-        undefined,
-        { timeout: 3000 }
+          JSON.stringify([{ a: true }], null, 2)
       )
       err = false
     } finally {
@@ -83,9 +79,7 @@ describe('static data file support in vite 3', () => {
       await page.waitForFunction(
         () =>
           document.querySelector('pre#basic')?.textContent ===
-          JSON.stringify([{ a: true }, { b: false }], null, 2),
-        undefined,
-        { timeout: 3000 }
+          JSON.stringify([{ a: true }, { b: false }], null, 2)
       )
     } finally {
       await fs.writeFile(b, JSON.stringify({ b: true }, null, 2) + '\n')
