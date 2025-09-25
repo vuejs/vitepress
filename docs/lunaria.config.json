@@ -44,6 +44,10 @@
     {
       "label": "فارسی",
       "lang": "fa"
+    },
+    {
+      "label": "Українська",
+      "lang": "uk"
     }
   ],
   "outDir": ".vitepress/dist/_translations",

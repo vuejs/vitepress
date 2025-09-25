@@ -130,7 +130,8 @@ export default defineConfig({
     ru: { label: 'Русский', lang: 'ru-RU', dir: 'ltr' },
     es: { label: 'Español', lang: 'es', dir: 'ltr' },
     ko: { label: '한국어', lang: 'ko-KR', dir: 'ltr' },
-    fa: { label: 'فارسی', lang: 'fa-IR', dir: 'rtl' }
+    fa: { label: 'فارسی', lang: 'fa-IR', dir: 'rtl' },
+    uk: { label: 'Українська', lang: 'uk-UA', dir: 'ltr' }
   },
 
   vite: {
