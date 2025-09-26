@@ -1,14 +1,21 @@
 <script lang="ts" setup>
 import type { DefaultTheme } from 'vitepress/theme'
+import { computed } from 'vue'
 import { useData } from '../composables/data'
 import { isActive } from '../../shared'
 import VPLink from './VPLink.vue'
 
-defineProps<{
+const props = defineProps<{
   item: DefaultTheme.NavItemWithLink
 }>()
 
 const { page } = useData()
+
+const href = computed(() =>
+  typeof props.item.link === 'function'
+    ? props.item.link(page.value)
+    : props.item.link
+)
 </script>
 
 <template>
@@ -17,11 +24,11 @@ const { page } = useData()
       VPNavBarMenuLink: true,
       active: isActive(
         page.relativePath,
-        item.activeMatch || item.link,
+        item.activeMatch || href,
         !!item.activeMatch
       )
     }"
-    :href="item.link"
+    :href
     :target="item.target"
     :rel="item.rel"
     :no-icon="item.noIcon"
