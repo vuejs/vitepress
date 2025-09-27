@@ -55,6 +55,8 @@ export default {
 
 `text` es el texto que se muestra en la navegación, y el `link` es el link al que será navegando cuando se hace click en el texto. Para el enlace, establezca la ruta al archivo sin el prefijo `.md` y siempre comenzar por `/`.
 
+El `link` también puede ser una función que acepte [`PageData`](./runtime-api#usedata) como argumento y devuelva la ruta.
+
 Links de navegación también pueden ser menus _dropdown_. Para hacer eso, establezca la clave de `items` en la opción del link.
 
 ```js
