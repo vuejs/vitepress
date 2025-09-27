@@ -2,6 +2,7 @@ import type { MarkdownItAsync } from 'markdown-it-async'
 
 export interface Options {
   codeCopyButtonTitle: string
+  languageLabel?: Record<string, string>
 }
 
 export function preWrapperPlugin(md: MarkdownItAsync, options: Options) {
@@ -17,11 +18,12 @@ export function preWrapperPlugin(md: MarkdownItAsync, options: Options) {
     token.info = token.info.replace(/ active$/, '').replace(/ active /, ' ')
 
     const lang = extractLang(token.info)
+    const langLabel = getLangLabel(lang, options.languageLabel)
 
     return (
       `<div class="language-${lang}${active}">` +
       `<button title="${options.codeCopyButtonTitle}" class="copy"></button>` +
-      `<span class="lang">${lang}</span>` +
+      `<span class="lang">${langLabel}</span>` +
       fence(...args) +
       '</div>'
     )
@@ -45,4 +47,12 @@ function extractLang(info: string) {
     .replace(/(-vue|{| ).*$/, '')
     .replace(/^vue-html$/, 'template')
     .replace(/^ansi$/, '')
+}
+
+function getLangLabel(lang: string, languageLabel?: Record<string, string>): string {
+  if (languageLabel && languageLabel[lang]) {
+    return languageLabel[lang]
+  }
+
+  return lang.replace(/_/g, ' ')
 }
