@@ -343,7 +343,7 @@ export default {
 
 在 Shiki 的代码仓库中，可以找到[合法的编程语言列表](https://shiki.style/languages)。
 
-还可以全局配置中自定义语法高亮主题。有关详细信息，参见 [`markdown` 选项](../reference/site-config#markdown)得到更多信息。
+还可以在全局配置中自定义语法高亮主题、配置语言别名和自定义语言标签。有关详细信息，参见 [`markdown` 选项](../reference/site-config#markdown)得到更多信息。
 
 ## 在代码块中实现行高亮 {#line-highlighting-in-code-blocks}
 
