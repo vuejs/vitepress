@@ -88,11 +88,24 @@ export interface MarkdownOptions extends Options {
   languages?: (LanguageInput | BuiltinLanguage)[]
   /**
    * Custom language aliases.
+   * Maps custom language names to existing languages for syntax highlighting.
+   * Language identifiers with underscores will automatically display with spaces.
+   * Alias lookup is case-insensitive.
    *
-   * @example { 'my-lang': 'js' }
+   * @example { 'my_lang': 'python' } 
+   * 
+   * ```My_Lang uses Python highlighting, displays "My Lang"
+   *
    * @see https://shiki.style/guide/load-lang#custom-language-aliases
    */
   languageAlias?: Record<string, string>
+  /**
+   * Custom language labels for display.
+   * Overrides the default language label shown in code blocks.
+   *
+   * @example { 'vue': 'Vue SFC' }
+   */
+  languageLabel?: Record<string, string>
   /**
    * Show line numbers in code blocks
    * @default false
@@ -249,7 +262,10 @@ export async function createMarkdownRenderer(
   // custom plugins
   md.use(componentPlugin, { ...options.component })
     .use(highlightLinePlugin)
-    .use(preWrapperPlugin, { codeCopyButtonTitle })
+    .use(preWrapperPlugin, {
+      codeCopyButtonTitle,
+      languageLabel: options.languageLabel
+    })
     .use(snippetPlugin, srcDir)
     .use(containerPlugin, options.container)
     .use(imagePlugin, options.image)
