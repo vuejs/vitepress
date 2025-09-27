@@ -195,6 +195,11 @@ export interface MarkdownOptions extends Options {
    * @default true
    * @see https://github.com/tats-u/markdown-cjk-friendly
    */
+  cjkFriendlyEmphasis?: boolean
+  /**
+   * @see cjkFriendlyEmphasis
+   * @deprecated use `cjkFriendly` instead
+   */
   cjkFriendly?: boolean
 }
 
@@ -360,7 +365,7 @@ export async function createMarkdownRenderer(
     }
   }
 
-  if (options.cjkFriendly !== false) {
+  if (options.cjkFriendlyEmphasis !== false && options.cjkFriendly !== false) {
     md.use(mditCjkFriendly)
   }
 
