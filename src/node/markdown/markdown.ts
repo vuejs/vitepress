@@ -87,14 +87,25 @@ export interface MarkdownOptions extends Options {
    */
   languages?: (LanguageInput | BuiltinLanguage)[]
   /**
-   * Custom language aliases.
-   * Maps custom language names to existing languages for syntax highlighting.
-   * Language identifiers with underscores will automatically display with spaces.
-   * Alias lookup is case-insensitive.
+   * Custom language aliases for syntax highlighting.
+   * Maps custom language names to existing languages.
+   * Alias lookup is case-insensitive and underscores in language names are displayed as spaces.
    *
-   * @example { 'my_lang': 'python' } 
-   * 
-   * ```My_Lang uses Python highlighting, displays "My Lang"
+   * @example
+   *
+   * Maps `my_lang` to use Python syntax highlighting.
+   * ```js
+   * { 'my_lang': 'python' }
+   * ```
+   *
+   * Usage in markdown:
+   * ````md
+   * ```My_Lang
+   * # This will be highlighted as Python code
+   * # and will show "My Lang" as the language label
+   * print("Hello, World!")
+   * ```
+   * ````
    *
    * @see https://shiki.style/guide/load-lang#custom-language-aliases
    */

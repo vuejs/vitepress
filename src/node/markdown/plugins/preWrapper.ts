@@ -18,7 +18,7 @@ export function preWrapperPlugin(md: MarkdownItAsync, options: Options) {
     token.info = token.info.replace(/ active$/, '').replace(/ active /, ' ')
 
     const lang = extractLang(token.info)
-    const langLabel = getLangLabel(lang, options.languageLabel)
+    const langLabel = options.languageLabel?.[lang] || lang.replace(/_/g, ' ')
 
     return (
       `<div class="language-${lang}${active}">` +
@@ -47,12 +47,4 @@ function extractLang(info: string) {
     .replace(/(-vue|{| ).*$/, '')
     .replace(/^vue-html$/, 'template')
     .replace(/^ansi$/, '')
-}
-
-function getLangLabel(lang: string, languageLabel?: Record<string, string>): string {
-  if (languageLabel && languageLabel[lang]) {
-    return languageLabel[lang]
-  }
-
-  return lang.replace(/_/g, ' ')
 }
