@@ -2,6 +2,7 @@ import { spawn, sync } from 'cross-spawn'
 import _debug from 'debug'
 import fs from 'node:fs'
 import path from 'node:path'
+import { Transform, type TransformCallback } from 'node:stream'
 import { slash } from '../shared'
 
 const debug = _debug('vitepress:git')
@@ -9,6 +10,98 @@ const cache = new Map<string, number>()
 
 const RS = 0x1e
 const NUL = 0x00
+const LF = 0x0a
+
+interface GitLogRecord {
+  ts: number
+  files: string[]
+}
+
+type State = 'READ_TS' | 'READ_FILE'
+
+class GitLogParser extends Transform {
+  #state: State = 'READ_TS'
+  #tsBytes: number[] = []
+  #fileBytes: number[] = []
+  #files: string[] = []
+
+  constructor() {
+    super({ readableObjectMode: true })
+  }
+
+  override _transform(
+    chunk: Buffer,
+    _enc: BufferEncoding,
+    cb: TransformCallback
+  ): void {
+    try {
+      for (let i = 0; i < chunk.length; i++) {
+        const b = chunk[i] === LF ? NUL : chunk[i] // treat LF as NUL
+
+        switch (this.#state) {
+          case 'READ_TS': {
+            if (b === RS) {
+              // ignore
+            } else if (b === NUL) {
+              this.#state = 'READ_FILE'
+            } else {
+              this.#tsBytes.push(b)
+            }
+            break
+          }
+
+          case 'READ_FILE': {
+            if (b === RS) {
+              this.#emitRecord()
+            } else if (b === NUL) {
+              if (this.#fileBytes.length > 0) {
+                this.#files.push(Buffer.from(this.#fileBytes).toString('utf8'))
+                this.#fileBytes.length = 0
+              }
+            } else {
+              this.#fileBytes.push(b)
+            }
+            break
+          }
+        }
+      }
+
+      cb()
+    } catch (err) {
+      cb(err as Error)
+    }
+  }
+
+  override _flush(cb: TransformCallback): void {
+    try {
+      if (this.#state === 'READ_FILE') {
+        if (this.#fileBytes.length > 0) {
+          throw new Error('GitLogParser: unexpected EOF while reading filename')
+        } else {
+          this.#emitRecord()
+        }
+      }
+
+      cb()
+    } catch (err) {
+      cb(err as Error)
+    }
+  }
+
+  #emitRecord(): void {
+    const ts = Buffer.from(this.#tsBytes).toString('utf8')
+    const rec: GitLogRecord = {
+      ts: Number.parseInt(ts, 10) * 1000,
+      files: this.#files.slice()
+    }
+    if (rec.ts > 0 && rec.files.length > 0) this.push(rec)
+
+    this.#tsBytes.length = 0
+    this.#fileBytes.length = 0
+    this.#files.length = 0
+    this.#state = 'READ_TS'
+  }
+}
 
 export async function cacheAllGitTimestamps(
   root: string,
@@ -28,64 +121,19 @@ export async function cacheAllGitTimestamps(
   ]
 
   return new Promise((resolve, reject) => {
-    const out = new Map<string, number>()
+    cache.clear()
     const child = spawn('git', args, { cwd: root })
 
-    let buf = Buffer.alloc(0)
-    child.stdout.on('data', (chunk: Buffer<ArrayBuffer>) => {
-      buf = buf.length ? Buffer.concat([buf, chunk]) : chunk
-
-      let scanFrom = 0
-      let ts = 0
-
-      while (true) {
-        if (ts === 0) {
-          const rs = buf.indexOf(RS, scanFrom)
-          if (rs === -1) break
-          scanFrom = rs + 1
-
-          const nul = buf.indexOf(NUL, scanFrom)
-          if (nul === -1) break
-          scanFrom = nul + 2 // skip LF after NUL
-
-          const tsSec = buf.toString('utf8', rs + 1, nul)
-          ts = Number.parseInt(tsSec, 10) * 1000
+    child.stdout
+      .pipe(new GitLogParser())
+      .on('data', (rec: GitLogRecord) => {
+        for (const file of rec.files) {
+          const slashed = slash(path.resolve(gitRoot, file))
+          if (!cache.has(slashed)) cache.set(slashed, rec.ts)
         }
-
-        let nextNul
-        while (true) {
-          nextNul = buf.indexOf(NUL, scanFrom)
-          if (nextNul === -1) break
-
-          // double NUL, move to next record
-          if (nextNul === scanFrom) {
-            scanFrom += 1
-            ts = 0
-            break
-          }
-
-          const file = buf.toString('utf8', scanFrom, nextNul)
-          if (file && !out.has(file)) out.set(file, ts)
-          scanFrom = nextNul + 1
-        }
-
-        if (nextNul === -1) break
-      }
-
-      if (scanFrom > 0) buf = buf.subarray(scanFrom)
-    })
-
-    child.on('close', async () => {
-      cache.clear()
-
-      for (const [file, ts] of out) {
-        const abs = path.resolve(gitRoot, file)
-        if (fs.existsSync(abs)) cache.set(slash(abs), ts)
-      }
-
-      out.clear()
-      resolve()
-    })
+      })
+      .on('error', reject)
+      .on('end', resolve)
 
     child.on('error', reject)
   })
@@ -103,7 +151,7 @@ export async function getGitTimestamp(file: string): Promise<number> {
   return new Promise((resolve, reject) => {
     const child = spawn(
       'git',
-      ['log', '-1', '--pretty=%at', path.basename(file)],
+      ['log', '-1', '--pretty=%at', '--', path.basename(file)],
       { cwd: path.dirname(file) }
     )
 
