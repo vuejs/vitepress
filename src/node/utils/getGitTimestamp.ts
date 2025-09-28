@@ -94,7 +94,7 @@ class GitLogParser extends Transform {
       ts: Number.parseInt(ts, 10) * 1000,
       files: this.#files.slice()
     }
-    if (rec.files.length > 0) this.push(rec)
+    if (rec.ts > 0 && rec.files.length > 0) this.push(rec)
 
     this.#tsBytes.length = 0
     this.#fileBytes.length = 0
