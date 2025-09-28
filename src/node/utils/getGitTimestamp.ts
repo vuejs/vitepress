@@ -127,10 +127,12 @@ export async function cacheAllGitTimestamps(
     child.stdout
       .pipe(new GitLogParser())
       .on('data', (rec: GitLogRecord) => {
-        for (let i = 0; i < rec.files.length; i++) {
-          const file = rec.files[i]
+        for (const file of rec.files) {
           const abs = path.resolve(gitRoot, file)
-          if (fs.existsSync(abs)) cache.set(slash(abs), rec.ts)
+          const slashed = slash(abs)
+          if (!cache.has(slashed) && fs.existsSync(abs)) {
+            cache.set(slashed, rec.ts)
+          }
         }
       })
       .on('error', reject)
