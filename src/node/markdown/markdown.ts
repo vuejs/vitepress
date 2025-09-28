@@ -113,6 +113,7 @@ export interface MarkdownOptions extends Options {
   /**
    * Custom language labels for display.
    * Overrides the default language label shown in code blocks.
+   * Keys are case-insensitive.
    *
    * @example { 'vue': 'Vue SFC' }
    */

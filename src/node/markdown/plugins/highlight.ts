@@ -68,14 +68,12 @@ export async function highlight(
       ...(options.languages || []),
       ...Object.values(options.languageAlias || {})
     ],
-    langAlias: options.languageAlias
-      ? Object.fromEntries(
-          Object.entries(options.languageAlias).map(([key, value]) => [
-            key.toLowerCase(),
-            value
-          ])
-        )
-      : undefined
+    langAlias: Object.fromEntries(
+      Object.entries(options.languageAlias || {}).map(([k, v]) => [
+        k.toLowerCase(),
+        v
+      ])
+    )
   })
 
   await options?.shikiSetup?.(highlighter)

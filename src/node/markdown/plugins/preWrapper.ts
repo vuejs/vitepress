@@ -6,6 +6,13 @@ export interface Options {
 }
 
 export function preWrapperPlugin(md: MarkdownItAsync, options: Options) {
+  const languageLabel = Object.fromEntries(
+    Object.entries(options.languageLabel || {}).map(([k, v]) => [
+      k.toLowerCase(),
+      v
+    ])
+  )
+
   const fence = md.renderer.rules.fence!
   md.renderer.rules.fence = (...args) => {
     const [tokens, idx] = args
@@ -18,7 +25,8 @@ export function preWrapperPlugin(md: MarkdownItAsync, options: Options) {
     token.info = token.info.replace(/ active$/, '').replace(/ active /, ' ')
 
     const lang = extractLang(token.info)
-    const langLabel = options.languageLabel?.[lang] || lang.replace(/_/g, ' ')
+    const langLabel =
+      languageLabel[lang.toLowerCase()] || lang.replace(/_/g, ' ')
 
     return (
       `<div class="language-${lang}${active}">` +
