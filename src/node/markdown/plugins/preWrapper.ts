@@ -2,9 +2,15 @@ import type { MarkdownItAsync } from 'markdown-it-async'
 
 export interface Options {
   codeCopyButtonTitle: string
+  languageLabel?: Record<string, string>
 }
 
 export function preWrapperPlugin(md: MarkdownItAsync, options: Options) {
+  const langLabel = Object.fromEntries(
+    Object.entries(options.languageLabel || {}) //
+      .map(([k, v]) => [k.toLowerCase(), v])
+  )
+
   const fence = md.renderer.rules.fence!
   md.renderer.rules.fence = (...args) => {
     const [tokens, idx] = args
@@ -17,11 +23,12 @@ export function preWrapperPlugin(md: MarkdownItAsync, options: Options) {
     token.info = token.info.replace(/ active$/, '').replace(/ active /, ' ')
 
     const lang = extractLang(token.info)
+    const label = langLabel[lang.toLowerCase()] || lang.replace(/_/g, ' ')
 
     return (
       `<div class="language-${lang}${active}">` +
       `<button title="${options.codeCopyButtonTitle}" class="copy"></button>` +
-      `<span class="lang">${lang}</span>` +
+      `<span class="lang">${label}</span>` +
       fence(...args) +
       '</div>'
     )
