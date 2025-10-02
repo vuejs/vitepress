@@ -156,25 +156,49 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
            uses: actions/checkout@v4
            with:
              fetch-depth: 0 # Not needed if lastUpdated is not enabled
-         # - uses: pnpm/action-setup@v3 # Uncomment this block if you're using pnpm
-         #   with:
-         #     version: 9 # Not needed if you've set "packageManager" in package.json
-         # - uses: oven-sh/setup-bun@v1 # Uncomment this if you're using Bun
+        # Uncomment below if you're using pnpm
+        # - uses: pnpm/action-setup@v3
+        #   name: Install pnpm
+        #   with:
+        #     version: 8
+        #     run_install: false
+
+        # - name: Get pnpm store directory
+        #   shell: bash
+        #   run: |
+        #     echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+        # - uses: actions/cache@v3
+        #   name: Setup pnpm cache
+        #   with:
+        #     path: ${{ env.STORE_PATH }}
+        #     key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+        #     restore-keys: |
+        #       ${{ runner.os }}-pnpm-store-
+
+        # Uncomment this if you're using Bun
+        # - uses: oven-sh/setup-bun@v2
          - name: Setup Node
            uses: actions/setup-node@v4
            with:
              node-version: 22
              cache: npm # or pnpm / yarn
          - name: Setup Pages
-           uses: actions/configure-pages@v4
+           uses: actions/configure-pages@v5
          - name: Install dependencies
            run: npm ci # or pnpm install / yarn install / bun install
          - name: Build with VitePress
-           run: npm run docs:build # or pnpm docs:build / yarn docs:build / bun run docs:build
+           run: |
+             npm run docs:build # or pnpm docs:build / yarn docs:build / bun run docs:build
+             # if your project root not `.`, like `docs`, you should use `touch docs/.vitepress/dist/.nojekyll`
+             # see https://vitepress.dev/guide/getting-started#file-structure
+             touch .vitepress/dist/.nojekyll
          - name: Upload artifact
            uses: actions/upload-pages-artifact@v3
            with:
-             path: docs/.vitepress/dist
+             # if your project root not `.`, like `docs`, you should use `touch .vitepress/dist`
+             # see https://vitepress.dev/guide/getting-started#file-structure
+             path: .vitepress/dist
 
      # Deployment job
      deploy:
