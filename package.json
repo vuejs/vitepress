@@ -210,6 +210,3 @@
   },
   "packageManager": "pnpm@10.14.0"
 }
-"scripts": {
-  "deploy": "vitepress build && cd .vitepress/dist && git init && git add . && git commit -m 'deploy' && git branch -M gh-pages && git remote add origin https://github.com/juddzone181/vitepress.git && git push -f origin gh-pages"
-}
