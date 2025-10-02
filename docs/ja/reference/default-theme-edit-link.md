@@ -1,60 +1,60 @@
-# Edit Link
+# 編集リンク
 
-## Site-Level Config
+## サイトレベルの設定
 
-Edit Link lets you display a link to edit the page on Git management services such as GitHub, or GitLab. To enable it, add `themeConfig.editLink` options to your config.
+編集リンクは、GitHub や GitLab などの Git 管理サービスでそのページを編集できるリンクを表示します。有効化するには、設定に `themeConfig.editLink` オプションを追加します。
 
-```js
-export default {
-  themeConfig: {
-    editLink: {
-      pattern: 'https://github.com/vuejs/vitepress/edit/main/docs/:path'
-    }
-  }
-}
-```
+ ```js
+ export default {
+   themeConfig: {
+     editLink: {
+       pattern: 'https://github.com/vuejs/vitepress/edit/main/docs/:path'
+     }
+   }
+ }
+ ```
 
-The `pattern` option defines the URL structure for the link, and `:path` is going to be replaced with the page path.
+`pattern` オプションはリンクの URL 構造を定義します。`:path` はページパスに置き換えられます。
 
-You can also put a pure function that accepts [`PageData`](./runtime-api#usedata) as the argument and returns the URL string.
+また、引数に [`PageData`](./runtime-api#usedata) を受け取り、URL 文字列を返す純粋関数を指定することもできます。
 
-```js
-export default {
-  themeConfig: {
-    editLink: {
-      pattern: ({ filePath }) => {
-        if (filePath.startsWith('packages/')) {
-          return `https://github.com/acme/monorepo/edit/main/${filePath}`
-        } else {
-          return `https://github.com/acme/monorepo/edit/main/docs/${filePath}`
-        }
-      }
-    }
-  }
-}
-```
+ ```js
+ export default {
+   themeConfig: {
+     editLink: {
+       pattern: ({ filePath }) => {
+         if (filePath.startsWith('packages/')) {
+           return `https://github.com/acme/monorepo/edit/main/${filePath}`
+         } else {
+           return `https://github.com/acme/monorepo/edit/main/docs/${filePath}`
+         }
+       }
+     }
+   }
+ }
+ ```
 
-It should not have side-effects nor access anything outside of its scope since it will be serialized and executed in the browser.
+この関数はブラウザでシリアライズされ実行されるため、副作用を持たず、スコープ外のものへアクセスしないでください。
 
-By default, this will add the link text "Edit this page" at the bottom of the doc page. You may customize this text by defining the `text` option.
+既定では、ドキュメント下部に「Edit this page」というリンクテキストが表示されます。`text` オプションでこの文言をカスタマイズできます。
 
-```js
-export default {
-  themeConfig: {
-    editLink: {
-      pattern: 'https://github.com/vuejs/vitepress/edit/main/docs/:path',
-      text: 'Edit this page on GitHub'
-    }
-  }
-}
-```
+ ```js
+ export default {
+   themeConfig: {
+     editLink: {
+       pattern: 'https://github.com/vuejs/vitepress/edit/main/docs/:path',
+       text: 'GitHub でこのページを編集'
+     }
+   }
+ }
+ ```
 
-## Frontmatter Config
+## フロントマターでの設定
 
-This can be disabled per-page using the `editLink` option on frontmatter:
+ページごとに無効化するには、フロントマターで `editLink` オプションを使用します。
 
-```yaml
----
-editLink: false
----
-```
+ ```yaml
+ ---
+ editLink: false
+ ---
+ ```

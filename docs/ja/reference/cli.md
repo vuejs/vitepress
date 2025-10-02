@@ -1,73 +1,73 @@
-# Command Line Interface
+# コマンドラインインターフェイス
 
 ## `vitepress dev`
 
-Start VitePress dev server using designated directory as root. Defaults to current directory. The `dev` command can also be omitted when running in current directory.
+指定したディレクトリをルートとして VitePress の開発サーバーを起動します。既定はカレントディレクトリです。カレントディレクトリで実行する場合、`dev` コマンドは省略できます。
 
-### Usage
+### 使い方
 
-```sh
-# start in current directory, omitting `dev`
-vitepress
+ ```sh
+ # カレントディレクトリで起動（`dev` を省略）
+ vitepress
 
-# start in sub directory
-vitepress dev [root]
-```
+ # サブディレクトリで起動
+ vitepress dev [root]
+ ```
 
-### Options
+### オプション
 
-| Option          | Description                                                       |
-| --------------- | ----------------------------------------------------------------- |
-| `--open [path]` | Open browser on startup (`boolean \| string`)                     |
-| `--port <port>` | Specify port (`number`)                                           |
-| `--base <path>` | Public base path (default: `/`) (`string`)                        |
-| `--cors`        | Enable CORS                                                       |
-| `--strictPort`  | Exit if specified port is already in use (`boolean`)              |
-| `--force`       | Force the optimizer to ignore the cache and re-bundle (`boolean`) |
+| オプション         | 説明                                                                 |
+| ------------------ | -------------------------------------------------------------------- |
+| `--open [path]`    | 起動時にブラウザを開く（`boolean \| string`）                        |
+| `--port <port>`    | ポート番号を指定（`number`）                                         |
+| `--base <path>`    | 公開時のベースパス（既定: `/`）（`string`）                          |
+| `--cors`           | CORS を有効化                                                         |
+| `--strictPort`     | 指定ポートが使用中なら終了（`boolean`）                               |
+| `--force`          | 最適化時にキャッシュを無視して再バンドル（`boolean`）                |
 
 ## `vitepress build`
 
-Build the VitePress site for production.
+本番用に VitePress サイトをビルドします。
 
-### Usage
+### 使い方
 
-```sh
-vitepress build [root]
-```
+ ```sh
+ vitepress build [root]
+ ```
 
-### Options
+### オプション
 
-| Option                         | Description                                                                                                         |
-| ------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
-| `--mpa` (experimental)         | Build in [MPA mode](../guide/mpa-mode) without client-side hydration (`boolean`)                                    |
-| `--base <path>`                | Public base path (default: `/`) (`string`)                                                                          |
-| `--target <target>`            | Transpile target (default: `"modules"`) (`string`)                                                                  |
-| `--outDir <dir>`               | Output directory relative to **cwd** (default: `<root>/.vitepress/dist`) (`string`)                                 |
-| `--assetsInlineLimit <number>` | Static asset base64 inline threshold in bytes (default: `4096`) (`number`)                                          |
+| オプション                      | 説明                                                                                               |
+| ----------------------------- | -------------------------------------------------------------------------------------------------- |
+| `--mpa`（実験的）              | クライアント側ハイドレーションなしの [MPA モード](../guide/mpa-mode) でビルド（`boolean`）           |
+| `--base <path>`               | 公開時のベースパス（既定: `/`）（`string`）                                                          |
+| `--target <target>`           | トランスパイルターゲット（既定: `"modules"`）（`string`）                                            |
+| `--outDir <dir>`              | 出力先ディレクトリ（**cwd** からの相対）（既定: `<root>/.vitepress/dist`）（`string`）               |
+| `--assetsInlineLimit <number>`| 静的アセットを base64 インライン化する閾値（バイト）（既定: `4096`）（`number`）                     |
 
 ## `vitepress preview`
 
-Locally preview the production build.
+本番ビルドをローカルでプレビューします。
 
-### Usage
+### 使い方
 
-```sh
-vitepress preview [root]
-```
+ ```sh
+ vitepress preview [root]
+ ```
 
-### Options
+### オプション
 
-| Option          | Description                                |
-| --------------- | ------------------------------------------ |
-| `--base <path>` | Public base path (default: `/`) (`string`) |
-| `--port <port>` | Specify port (`number`)                    |
+| オプション         | 説明                                      |
+| ------------------ | ----------------------------------------- |
+| `--base <path>`    | 公開時のベースパス（既定: `/`）（`string`） |
+| `--port <port>`    | ポート番号を指定（`number`）               |
 
 ## `vitepress init`
 
-Start the [Setup Wizard](../guide/getting-started#setup-wizard) in current directory.
+カレントディレクトリで [セットアップウィザード](../guide/getting-started#setup-wizard) を起動します。
 
-### Usage
+### 使い方
 
-```sh
-vitepress init
-```
+ ```sh
+ vitepress init
+ ```

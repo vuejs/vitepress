@@ -1,10 +1,10 @@
-# Nav
+# ナビゲーション
 
-The Nav is the navigation bar displayed on top of the page. It contains the site title, global menu links, etc.
+ナビはページ上部に表示されるナビゲーションバーです。サイトタイトル、グローバルメニューリンクなどを含みます。
 
-## Site Title and Logo
+## サイトタイトルとロゴ
 
-By default, nav shows the title of the site referencing [`config.title`](./site-config#title) value. If you would like to change what's displayed on nav, you may define custom text in `themeConfig.siteTitle` option.
+既定では、ナビには [`config.title`](./site-config#title) の値が表示されます。ナビに表示する文字列を変更したい場合は、`themeConfig.siteTitle` にカスタム文字列を指定します。
 
 ```js
 export default {
@@ -14,7 +14,7 @@ export default {
 }
 ```
 
-If you have a logo for your site, you can display it by passing in the path to the image. You should place the logo within `public` directly, and define the absolute path to it.
+サイトのロゴがある場合は、画像へのパスを渡すと表示できます。ロゴは `public` 直下に配置し、絶対パスで指定してください。
 
 ```js
 export default {
@@ -24,7 +24,7 @@ export default {
 }
 ```
 
-When adding a logo, it gets displayed along with the site title. If your logo is all you need and if you would like to hide the site title text, set `false` to the `siteTitle` option.
+ロゴを追加すると、サイトタイトルと並んで表示されます。ロゴだけを表示したい場合は、`siteTitle` を `false` に設定してタイトル文字列を非表示にできます。
 
 ```js
 export default {
@@ -35,11 +35,11 @@ export default {
 }
 ```
 
-You can also pass an object as logo if you want to add `alt` attribute or customize it based on dark/light mode. Refer [`themeConfig.logo`](./default-theme-config#logo) for details.
+ダーク／ライトモードでロゴを切り替えたり、`alt` 属性を付けたい場合は、ロゴにオブジェクトを渡すこともできます。詳細は [`themeConfig.logo`](./default-theme-config#logo) を参照してください。
 
-## Navigation Links
+## ナビゲーションリンク
 
-You may define `themeConfig.nav` option to add links to your nav.
+`themeConfig.nav` オプションでナビにリンクを追加できます。
 
 ```js
 export default {
@@ -53,11 +53,11 @@ export default {
 }
 ```
 
-The `text` is the actual text displayed in nav, and the `link` is the link that will be navigated to when the text is clicked. For the link, set path to the actual file without `.md` prefix, and always start with `/`.
+`text` はナビに表示される文字列、`link` はクリック時に遷移するリンクです。内部リンクは `.md` 拡張子を付けず、必ず `/` で始めるようにしてください。
 
-The `link` can also be a function that accepts [`PageData`](./runtime-api#usedata) as the argument and returns the path.
+`link` には、[`PageData`](./runtime-api#usedata) を受け取ってパスを返す関数を指定することもできます。
 
-Nav links can also be dropdown menus. To do this, set `items` key on link option.
+ナビリンクはドロップダウンメニューにもできます。リンクオプションに `items` を設定してください。
 
 ```js
 export default {
@@ -77,9 +77,9 @@ export default {
 }
 ```
 
-Note that dropdown menu title (`Dropdown Menu` in the above example) can not have `link` property since it becomes a button to open dropdown dialog.
+なお、ドロップダウンのタイトル（上の例の `Dropdown Menu`）には `link` は設定できません。ドロップダウンを開くボタンになるためです。
 
-You may further add "sections" to the dropdown menu items as well by passing in more nested items.
+さらに、ドロップダウン内を「セクション」に分けることもできます（入れ子の `items` を使います）。
 
 ```js
 export default {
@@ -90,7 +90,7 @@ export default {
         text: 'Dropdown Menu',
         items: [
           {
-            // Title for the section.
+            // セクションのタイトル
             text: 'Section A Title',
             items: [
               { text: 'Section A Item A', link: '...' },
@@ -103,7 +103,7 @@ export default {
         text: 'Dropdown Menu',
         items: [
           {
-            // You may also omit the title.
+            // タイトルは省略することも可能
             items: [
               { text: 'Section A Item A', link: '...' },
               { text: 'Section B Item B', link: '...' }
@@ -116,16 +116,15 @@ export default {
 }
 ```
 
-### Customize link's "active" state
+### リンクの「アクティブ」状態をカスタマイズ
 
-Nav menu items will be highlighted when the current page is under the matching path. if you would like to customize the path to be matched, define `activeMatch` property and regex as a string value.
+現在のページが特定のパス配下にあるとき、該当するナビ項目がハイライトされます。一致させるパスをカスタマイズしたい場合は、`activeMatch` に **正規表現文字列** を指定します。
 
 ```js
 export default {
   themeConfig: {
     nav: [
-      // This link gets active state when the user is
-      // on `/config/` path.
+      // ユーザーが `/config/` 配下にいるときにアクティブになる
       {
         text: 'Guide',
         link: '/guide',
@@ -137,12 +136,12 @@ export default {
 ```
 
 ::: warning
-`activeMatch` is expected to be a regex string, but you must define it as a string. We can't use actual RegExp object here because it isn't serializable during the build time.
+`activeMatch` は正規表現 **オブジェクト** ではなく、**文字列** で指定してください。ビルド時のシリアライズの都合で `RegExp` は使用できません。
 :::
 
-### Customize link's "target" and "rel" attributes
+### リンクの `target` と `rel` をカスタマイズ
 
-By default, VitePress automatically determines `target` and `rel` attributes based on whether the link is an external link. But if you want, you can customize them too.
+既定では、リンクが外部かどうかに応じて VitePress が `target` と `rel` を自動設定します。必要であれば明示的に指定することもできます。
 
 ```js
 export default {
@@ -159,13 +158,13 @@ export default {
 }
 ```
 
-## Social Links
+## ソーシャルリンク
 
-Refer [`socialLinks`](./default-theme-config#sociallinks).
+[`socialLinks`](./default-theme-config#sociallinks) を参照してください。
 
-## Custom Components
+## カスタムコンポーネント
 
-You can include custom components in the navigation bar by using the `component` option. The `component` key should be the Vue component name, and must be registered globally using [Theme.enhanceApp](../guide/custom-theme#theme-interface).
+`component` オプションを使って、ナビゲーションバーにカスタムコンポーネントを配置できます。`component` には Vue コンポーネント名を指定し、[Theme.enhanceApp](../guide/custom-theme#theme-interface) で **グローバル登録** しておく必要があります。
 
 ```js [.vitepress/config.js]
 export default {
@@ -176,7 +175,7 @@ export default {
         items: [
           {
             component: 'MyCustomComponent',
-            // Optional props to pass to the component
+            // コンポーネントに渡す任意の props
             props: {
               title: 'My Custom Component'
             }
@@ -191,7 +190,7 @@ export default {
 }
 ```
 
-Then, you need to register the component globally:
+次に、コンポーネントをグローバル登録します。
 
 ```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme'
@@ -209,8 +208,8 @@ export default {
 }
 ```
 
-Your component will be rendered in the navigation bar. VitePress will provide the following additional props to the component:
+コンポーネントはナビゲーションバー内にレンダリングされます。VitePress は次の追加 props をコンポーネントに提供します。
 
-- `screenMenu`: an optional boolean indicating whether the component is inside mobile navigation menu
+- `screenMenu`: モバイルのナビメニュー内にあるかどうかを示す任意の boolean
 
-You can check an example in the e2e tests [here](https://github.com/vuejs/vitepress/tree/main/__tests__/e2e/.vitepress).
+e2e テスト内の例は[こちら](https://github.com/vuejs/vitepress/tree/main/__tests__/e2e/.vitepress)を参照してください。

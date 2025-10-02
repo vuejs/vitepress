@@ -1,69 +1,69 @@
-# Badge
+# バッジ
 
-The badge lets you add status to your headers. For example, it could be useful to specify the section's type, or supported version.
+バッジを使うと、見出しにステータスを追加できます。たとえば、そのセクションの種類や対応バージョンを示すのに便利です。
 
-## Usage
+## 使い方
 
-You may use the `Badge` component which is globally available.
+グローバルに利用可能な `Badge` コンポーネントを使用します。
 
-```html
+ ```html
+ ### Title <Badge type="info" text="default" />
+ ### Title <Badge type="tip" text="^1.9.0" />
+ ### Title <Badge type="warning" text="beta" />
+ ### Title <Badge type="danger" text="caution" />
+ ```
+
+上記のコードは次のように表示されます：
+
 ### Title <Badge type="info" text="default" />
 ### Title <Badge type="tip" text="^1.9.0" />
 ### Title <Badge type="warning" text="beta" />
 ### Title <Badge type="danger" text="caution" />
-```
 
-Code above renders like:
+## 子要素のカスタマイズ
 
-### Title <Badge type="info" text="default" />
-### Title <Badge type="tip" text="^1.9.0" />
-### Title <Badge type="warning" text="beta" />
-### Title <Badge type="danger" text="caution" />
+`<Badge>` は子要素（`children`）を受け取り、バッジ内に表示できます。
 
-## Custom Children
-
-`<Badge>` accept `children`, which will be displayed in the badge.
-
-```html
-### Title <Badge type="info">custom element</Badge>
-```
+ ```html
+ ### Title <Badge type="info">custom element</Badge>
+ ```
 
 ### Title <Badge type="info">custom element</Badge>
 
-## Customize Type Color
+## 種類ごとの色をカスタマイズ
 
-You can customize the style of badges by overriding css variables. The following are the default values:
+CSS 変数を上書きすることで、バッジのスタイルをカスタマイズできます。以下はデフォルト値です：
 
-```css
-:root {
-  --vp-badge-info-border: transparent;
-  --vp-badge-info-text: var(--vp-c-text-2);
-  --vp-badge-info-bg: var(--vp-c-default-soft);
+ ```css
+ :root {
+   --vp-badge-info-border: transparent;
+   --vp-badge-info-text: var(--vp-c-text-2);
+   --vp-badge-info-bg: var(--vp-c-default-soft);
 
-  --vp-badge-tip-border: transparent;
-  --vp-badge-tip-text: var(--vp-c-brand-1);
-  --vp-badge-tip-bg: var(--vp-c-brand-soft);
+   --vp-badge-tip-border: transparent;
+   --vp-badge-tip-text: var(--vp-c-brand-1);
+   --vp-badge-tip-bg: var(--vp-c-brand-soft);
 
-  --vp-badge-warning-border: transparent;
-  --vp-badge-warning-text: var(--vp-c-warning-1);
-  --vp-badge-warning-bg: var(--vp-c-warning-soft);
+   --vp-badge-warning-border: transparent;
+   --vp-badge-warning-text: var(--vp-c-warning-1);
+   --vp-badge-warning-bg: var(--vp-c-warning-soft);
 
-  --vp-badge-danger-border: transparent;
-  --vp-badge-danger-text: var(--vp-c-danger-1);
-  --vp-badge-danger-bg: var(--vp-c-danger-soft);
-}
-```
+   --vp-badge-danger-border: transparent;
+   --vp-badge-danger-text: var(--vp-c-danger-1);
+   --vp-badge-danger-bg: var(--vp-c-danger-soft);
+ }
+ ```
 
 ## `<Badge>`
 
-`<Badge>` component accepts following props:
+`<Badge>` コンポーネントは次の props を受け取ります。
 
-```ts
-interface Props {
-  // When `<slot>` is passed, this value gets ignored.
-  text?: string
+ ```ts
+ interface Props {
+   // `<slot>` が渡された場合、この値は無視されます。
+   text?: string
 
-  // Defaults to `tip`.
-  type?: 'info' | 'tip' | 'warning' | 'danger'
-}
-```
+   // 既定値は `tip`。
+   type?: 'info' | 'tip' | 'warning' | 'danger'
+ }
+ ```

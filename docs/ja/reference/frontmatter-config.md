@@ -2,11 +2,11 @@
 outline: deep
 ---
 
-# Frontmatter Config
+# フロントマター設定
 
-Frontmatter enables page based configuration. In every markdown file, you can use frontmatter config to override site-level or theme-level config options. Also, there are config options which you can only define in frontmatter.
+フロントマターはページ単位の設定を可能にします。各 Markdown ファイルで、サイト全体やテーマレベルの設定を上書きできます。フロントマターでしか定義できない項目もあります。
 
-Example usage:
+使用例:
 
 ```md
 ---
@@ -15,7 +15,7 @@ editLink: true
 ---
 ```
 
-You can access frontmatter data via the `$frontmatter` global in Vue expressions:
+Vue の式内では、グローバル `$frontmatter` を介してフロントマターデータにアクセスできます。
 
 ```md
 {{ $frontmatter.title }}
@@ -23,9 +23,9 @@ You can access frontmatter data via the `$frontmatter` global in Vue expressions
 
 ## title
 
-- Type: `string`
+- 型: `string`
 
-Title for the page. It's same as [config.title](./site-config#title), and it overrides the site-level config.
+ページのタイトルです。[config.title](./site-config#title) と同じ意味で、サイトレベルの設定を上書きします。
 
 ```yaml
 ---
@@ -35,9 +35,9 @@ title: VitePress
 
 ## titleTemplate
 
-- Type: `string | boolean`
+- 型: `string | boolean`
 
-The suffix for the title. It's same as [config.titleTemplate](./site-config#titletemplate), and it overrides the site-level config.
+タイトルのサフィックスです。[config.titleTemplate](./site-config#titletemplate) と同じ意味で、サイトレベルの設定を上書きします。
 
 ```yaml
 ---
@@ -48,9 +48,9 @@ titleTemplate: Vite & Vue powered static site generator
 
 ## description
 
-- Type: `string`
+- 型: `string`
 
-Description for the page. It's same as [config.description](./site-config#description), and it overrides the site-level config.
+ページの説明です。[config.description](./site-config#description) と同じ意味で、サイトレベルの設定を上書きします。
 
 ```yaml
 ---
@@ -60,9 +60,9 @@ description: VitePress
 
 ## head
 
-- Type: `HeadConfig[]`
+- 型: `HeadConfig[]`
 
-Specify extra head tags to be injected for the current page. Will be appended after head tags injected by site-level config.
+現在のページに追加で挿入する `<head>` タグを指定します。サイトレベル設定で挿入されたタグの後に追加されます。
 
 ```yaml
 ---
@@ -82,20 +82,20 @@ type HeadConfig =
   | [string, Record<string, string>, string]
 ```
 
-## Default Theme Only
+## デフォルトテーマ専用
 
-The following frontmatter options are only applicable when using the default theme.
+以下のフロントマター項目は、デフォルトテーマ使用時にのみ適用されます。
 
 ### layout
 
-- Type: `doc | home | page`
-- Default: `doc`
+- 型: `doc | home | page`
+- 既定値: `doc`
 
-Determines the layout of the page.
+ページのレイアウトを決めます。
 
-- `doc` - It applies default documentation styles to the markdown content.
-- `home` - Special layout for "Home Page". You may add extra options such as `hero` and `features` to rapidly create beautiful landing page.
-- `page` - Behave similar to `doc` but it applies no styles to the content. Useful when you want to create a fully custom page.
+- `doc` — Markdown コンテンツにドキュメント向けの既定スタイルを適用します。
+- `home` — 「ホームページ」用の特別なレイアウト。`hero` や `features` を追加指定して、ランディングページを素早く構築できます。
+- `page` — `doc` と似ていますが、コンテンツにスタイルを適用しません。完全にカスタムなページを作りたい場合に便利です。
 
 ```yaml
 ---
@@ -103,20 +103,20 @@ layout: doc
 ---
 ```
 
-### hero <Badge type="info" text="home page only" />
+### hero <Badge type="info" text="home ページ専用" />
 
-Defines contents of home hero section when `layout` is set to `home`. More details in [Default Theme: Home Page](./default-theme-home-page).
+`layout: home` のときのヒーローセクションの内容を定義します。詳しくは [デフォルトテーマ: ホームページ](./default-theme-home-page) を参照。
 
-### features <Badge type="info" text="home page only" />
+### features <Badge type="info" text="home ページ専用" />
 
-Defines items to display in features section when `layout` is set to `home`. More details in [Default Theme: Home Page](./default-theme-home-page).
+`layout: home` のときのフィーチャーセクションに表示する項目を定義します。詳しくは [デフォルトテーマ: ホームページ](./default-theme-home-page) を参照。
 
 ### navbar
 
-- Type: `boolean`
-- Default: `true`
+- 型: `boolean`
+- 既定値: `true`
 
-Whether to display [navbar](./default-theme-nav).
+[ナビゲーションバー](./default-theme-nav) を表示するかどうか。
 
 ```yaml
 ---
@@ -126,10 +126,10 @@ navbar: false
 
 ### sidebar
 
-- Type: `boolean`
-- Default: `true`
+- 型: `boolean`
+- 既定値: `true`
 
-Whether to display [sidebar](./default-theme-sidebar).
+[サイドバー](./default-theme-sidebar) を表示するかどうか。
 
 ```yaml
 ---
@@ -139,14 +139,14 @@ sidebar: false
 
 ### aside
 
-- Type: `boolean | 'left'`
-- Default: `true`
+- 型: `boolean | 'left'`
+- 既定値: `true`
 
-Defines the location of the aside component in the `doc` layout.
+`doc` レイアウトでの aside コンポーネントの位置を定義します。
 
-Setting this value to `false` prevents rendering of aside container.\
-Setting this value to `true` renders the aside to the right.\
-Setting this value to `'left'` renders the aside to the left.
+この値を `false` にすると aside コンテナを表示しません。\
+`true` にすると右側に表示します。\
+`'left'` にすると左側に表示します。
 
 ```yaml
 ---
@@ -156,10 +156,10 @@ aside: false
 
 ### outline
 
-- Type: `number | [number, number] | 'deep' | false`
-- Default: `2`
+- 型: `number | [number, number] | 'deep' | false`
+- 既定値: `2`
 
-The levels of header in the outline to display for the page. It's same as [config.themeConfig.outline.level](./default-theme-config#outline), and it overrides the value set in site-level config.
+ページのアウトラインに表示する見出しレベルです。[config.themeConfig.outline.level](./default-theme-config#outline) と同じ意味で、サイトレベルの設定を上書きします。
 
 ```yaml
 ---
@@ -169,10 +169,10 @@ outline: [2, 4]
 
 ### lastUpdated
 
-- Type: `boolean | Date`
-- Default: `true`
+- 型: `boolean | Date`
+- 既定値: `true`
 
-Whether to display [last updated](./default-theme-last-updated) text in the footer of the current page. If a datetime is specified, it will be displayed instead of the last git modified timestamp.
+現在のページのフッターに[最終更新](./default-theme-last-updated)を表示するかどうか。日時を指定した場合は、その日時が Git の最終更新時刻の代わりに表示されます。
 
 ```yaml
 ---
@@ -182,10 +182,10 @@ lastUpdated: false
 
 ### editLink
 
-- Type: `boolean`
-- Default: `true`
+- 型: `boolean`
+- 既定値: `true`
 
-Whether to display [edit link](./default-theme-edit-link) in the footer of the current page.
+現在のページのフッターに[編集リンク](./default-theme-edit-link)を表示するかどうか。
 
 ```yaml
 ---
@@ -195,10 +195,10 @@ editLink: false
 
 ### footer
 
-- Type: `boolean`
-- Default: `true`
+- 型: `boolean`
+- 既定値: `true`
 
-Whether to display [footer](./default-theme-footer).
+[フッター](./default-theme-footer) を表示するかどうか。
 
 ```yaml
 ---
@@ -208,9 +208,9 @@ footer: false
 
 ### pageClass
 
-- Type: `string`
+- 型: `string`
 
-Add extra class name to a specific page.
+特定のページに追加のクラス名を付与します。
 
 ```yaml
 ---
@@ -218,20 +218,20 @@ pageClass: custom-page-class
 ---
 ```
 
-Then you can customize styles of this specific page in `.vitepress/theme/custom.css` file:
+その後、`.vitepress/theme/custom.css` でこのページ専用のスタイルを記述できます。
 
 ```css
 .custom-page-class {
-  /* page-specific styles */
+  /* ページ固有のスタイル */
 }
 ```
 
 ### isHome
 
-- Type: `boolean`
+- 型: `boolean`
 
-The default theme relies on checks like `frontmatter.layout === 'home'` to determine if the current page is the home page.\
-This is useful when you want to force show the home page elements in a custom layout.
+デフォルトテーマは通常、`frontmatter.layout === 'home'` のチェックに基づいてホームページかどうかを判断します。\
+カスタムレイアウトでホームページ用の要素を強制的に表示したい場合に便利です。
 
 ```yaml
 ---

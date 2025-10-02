@@ -2,21 +2,21 @@
 outline: deep
 ---
 
-# Site Config
+# サイト設定
 
-Site config is where you can define the global settings of the site. App config options define settings that apply to every VitePress site, regardless of what theme it is using. For example, the base directory or the title of the site.
+サイト設定では、サイト全体のグローバル設定を定義します。アプリ設定オプションは、使用するテーマに関係なく、すべての VitePress サイトに適用されます。たとえば、ベースディレクトリやサイトのタイトルなどです。
 
-## Overview
+## 概要
 
-### Config Resolution
+### 設定ファイルの解決
 
-The config file is always resolved from `<root>/.vitepress/config.[ext]`, where `<root>` is your VitePress [project root](../guide/routing#root-and-source-directory), and `[ext]` is one of the supported file extensions. TypeScript is supported out of the box. Supported extensions include `.js`, `.ts`, `.mjs`, and `.mts`.
+設定ファイルは常に `<root>/.vitepress/config.[ext]` から解決されます。`<root>` は VitePress の[プロジェクトルート](../guide/routing#root-and-source-directory)で、`[ext]` にはサポートされる拡張子が入ります。TypeScript はそのまま使えます。サポートされる拡張子は `.js`、`.ts`、`.mjs`、`.mts` です。
 
-It is recommended to use ES modules syntax in config files. The config file should default export an object:
+設定ファイルでは ES Modules 構文の使用を推奨します。設定オブジェクトをデフォルトエクスポートしてください。
 
 ```ts
 export default {
-  // app level config options
+  // アプリレベルの設定
   lang: 'en-US',
   title: 'VitePress',
   description: 'Vite & Vue powered static site generator.',
@@ -24,9 +24,9 @@ export default {
 }
 ```
 
-::: details Dynamic (Async) Config
+::: details 動的（非同期）設定
 
-If you need to dynamically generate the config, you can also default export a function. For example:
+設定を動的に生成する必要がある場合は、関数をデフォルトエクスポートすることもできます。例:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -35,12 +35,12 @@ export default async () => {
   const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
 
   return defineConfig({
-    // app level config options
+    // アプリレベル設定
     lang: 'en-US',
     title: 'VitePress',
     description: 'Vite & Vue powered static site generator.',
 
-    // theme level config options
+    // テーマレベル設定
     themeConfig: {
       sidebar: [
         ...posts.map((post) => ({
@@ -53,7 +53,7 @@ export default async () => {
 }
 ```
 
-You can also use top-level `await`. For example:
+トップレベル `await` も使用できます。例:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -61,12 +61,12 @@ import { defineConfig } from 'vitepress'
 const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
 
 export default defineConfig({
-  // app level config options
+  // アプリレベル設定
   lang: 'en-US',
   title: 'VitePress',
   description: 'Vite & Vue powered static site generator.',
 
-  // theme level config options
+  // テーマレベル設定
   themeConfig: {
     sidebar: [
       ...posts.map((post) => ({
@@ -80,9 +80,9 @@ export default defineConfig({
 
 :::
 
-### Config Intellisense
+### 設定のインテリセンス
 
-Using the `defineConfig` helper will provide TypeScript-powered intellisense for config options. Assuming your IDE supports it, this should work in both JavaScript and TypeScript.
+`defineConfig` ヘルパーを使うと、TypeScript による補完が効きます。対応 IDE であれば、JavaScript と TypeScript のどちらでも動作します。
 
 ```js
 import { defineConfig } from 'vitepress'
@@ -92,21 +92,21 @@ export default defineConfig({
 })
 ```
 
-### Typed Theme Config
+### 型付きのテーマ設定
 
-By default, `defineConfig` helper expects the theme config type from default theme:
+デフォルトでは、`defineConfig` はデフォルトテーマのテーマ設定型を想定します。
 
 ```ts
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
   themeConfig: {
-    // Type is `DefaultTheme.Config`
+    // 型は `DefaultTheme.Config`
   }
 })
 ```
 
-If you use a custom theme and want type checks for the theme config, you'll need to use `defineConfigWithTheme` instead, and pass the config type for your custom theme via a generic argument:
+カスタムテーマを使用しており、そのテーマ設定に型チェックを効かせたい場合は、代わりに `defineConfigWithTheme` を使い、ジェネリクスでカスタムテーマの設定型を渡してください。
 
 ```ts
 import { defineConfigWithTheme } from 'vitepress'
@@ -114,36 +114,36 @@ import type { ThemeConfig } from 'your-theme'
 
 export default defineConfigWithTheme<ThemeConfig>({
   themeConfig: {
-    // Type is `ThemeConfig`
+    // 型は `ThemeConfig`
   }
 })
 ```
 
-### Vite, Vue & Markdown Config
+### Vite・Vue・Markdown の設定
 
 - **Vite**
 
-  You can configure the underlying Vite instance using the [vite](#vite) option in your VitePress config. No need to create a separate Vite config file.
+  Vite の設定は VitePress 設定の [vite](#vite) オプションで行えます。別途 Vite の設定ファイルを作る必要はありません。
 
 - **Vue**
 
-  VitePress already includes the official Vue plugin for Vite ([@vitejs/plugin-vue](https://github.com/vitejs/vite-plugin-vue)). You can configure its options using the [vue](#vue) option in your VitePress config.
+  VitePress には公式の Vue プラグイン（[@vitejs/plugin-vue](https://github.com/vitejs/vite-plugin-vue)）が同梱されています。オプションは VitePress 設定の [vue](#vue) から指定できます。
 
 - **Markdown**
 
-  You can configure the underlying [Markdown-It](https://github.com/markdown-it/markdown-it) instance using the [markdown](#markdown) option in your VitePress config.
+  既定の [Markdown-It](https://github.com/markdown-it/markdown-it) インスタンスは、VitePress 設定の [markdown](#markdown) オプションでカスタマイズできます。
 
-## Site Metadata
+## サイトメタデータ
 
 ### title
 
-- Type: `string`
-- Default: `VitePress`
-- Can be overridden per page via [frontmatter](./frontmatter-config#title)
+- 型: `string`
+- 既定値: `VitePress`
+- ページ単位での上書き: [frontmatter](./frontmatter-config#title)
 
-Title for the site. When using the default theme, this will be displayed in the nav bar.
+サイトのタイトル。デフォルトテーマではナビバーに表示されます。
 
-It will also be used as the default suffix for all individual page titles, unless [`titleTemplate`](#titletemplate) is defined. An individual page's final title will be the text content of its first `<h1>` header, combined with the global `title` as the suffix. For example with the following config and page content:
+[`titleTemplate`](#titletemplate) を定義していない場合、個々のページタイトルの既定のサフィックスとしても使われます。各ページの最終タイトルは、そのページの最初の `<h1>` 見出しのテキストに、グローバルの `title` をサフィックスとして結合したものになります。次の設定とページ内容の例:
 
 ```ts
 export default {
@@ -155,14 +155,14 @@ export default {
 # Hello
 ```
 
-The title of the page will be `Hello | My Awesome Site`.
+このページのタイトルは `Hello | My Awesome Site` になります。
 
 ### titleTemplate
 
-- Type: `string | boolean`
-- Can be overridden per page via [frontmatter](./frontmatter-config#titletemplate)
+- 型: `string | boolean`
+- ページ単位での上書き: [frontmatter](./frontmatter-config#titletemplate)
 
-Allows customizing each page's title suffix or the entire title. For example:
+各ページタイトルのサフィックス、またはタイトル全体のカスタマイズができます。例:
 
 ```ts
 export default {
@@ -175,9 +175,9 @@ export default {
 # Hello
 ```
 
-The title of the page will be `Hello | Custom Suffix`.
+このページのタイトルは `Hello | Custom Suffix` になります。
 
-To completely customize how the title should be rendered, you can use the `:title` symbol in `titleTemplate`:
+タイトルの描画方法を完全にカスタマイズするには、`titleTemplate` 内で `:title` シンボルを使います。
 
 ```ts
 export default {
@@ -185,17 +185,17 @@ export default {
 }
 ```
 
-Here `:title` will be replaced with the text inferred from the page's first `<h1>` header. The title of the previous example page will be `Hello - Custom Suffix`.
+ここで `:title` はページ先頭の `<h1>` から推論されたテキストに置き換えられます。先ほどの例では `Hello - Custom Suffix` になります。
 
-The option can be set to `false` to disable title suffixes.
+`false` を設定するとタイトルのサフィックスを無効にできます。
 
 ### description
 
-- Type: `string`
-- Default: `A VitePress site`
-- Can be overridden per page via [frontmatter](./frontmatter-config#description)
+- 型: `string`
+- 既定値: `A VitePress site`
+- ページ単位での上書き: [frontmatter](./frontmatter-config#description)
 
-Description for the site. This will render as a `<meta>` tag in the page HTML.
+サイトの説明。ページの HTML に `<meta>` タグとして出力されます。
 
 ```ts
 export default {
@@ -205,11 +205,11 @@ export default {
 
 ### head
 
-- Type: `HeadConfig[]`
-- Default: `[]`
-- Can be appended per page via [frontmatter](./frontmatter-config#head)
+- 型: `HeadConfig[]`
+- 既定値: `[]`
+- ページ単位での追加: [frontmatter](./frontmatter-config#head)
 
-Additional elements to render in the `<head>` tag in the page HTML. The user-added tags are rendered before the closing `head` tag, after VitePress tags.
+ページ HTML の `<head>` に追加で出力する要素。ユーザーが追加したタグは、VitePress のタグの後、`</head>` の直前にレンダリングされます。
 
 ```ts
 type HeadConfig =
@@ -217,19 +217,19 @@ type HeadConfig =
   | [string, Record<string, string>, string]
 ```
 
-#### Example: Adding a favicon
+#### 例: favicon を追加
 
 ```ts
 export default {
   head: [['link', { rel: 'icon', href: '/favicon.ico' }]]
-} // put favicon.ico in public directory, if base is set, use /base/favicon.ico
+} // favicon.ico は public に配置。base を設定している場合は /base/favicon.ico を利用
 
-/* Would render:
+/* 出力結果:
   <link rel="icon" href="/favicon.ico">
 */
 ```
 
-#### Example: Adding Google Fonts
+#### 例: Google Fonts を追加
 
 ```ts
 export default {
@@ -249,14 +249,14 @@ export default {
   ]
 }
 
-/* Would render:
+/* 出力結果:
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 */
 ```
 
-#### Example: Registering a service worker
+#### 例: Service Worker を登録
 
 ```ts
 export default {
@@ -273,7 +273,7 @@ export default {
   ]
 }
 
-/* Would render:
+/* 出力結果:
   <script id="register-sw">
     ;(() => {
       if ('serviceWorker' in navigator) {
@@ -284,7 +284,7 @@ export default {
 */
 ```
 
-#### Example: Using Google Analytics
+#### 例: Google Analytics を使用
 
 ```ts
 export default {
@@ -304,7 +304,7 @@ export default {
   ]
 }
 
-/* Would render:
+/* 出力結果:
   <script async src="https://www.googletagmanager.com/gtag/js?id=TAG_ID"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -317,10 +317,10 @@ export default {
 
 ### lang
 
-- Type: `string`
-- Default: `en-US`
+- 型: `string`
+- 既定値: `en-US`
 
-The lang attribute for the site. This will render as a `<html lang="en-US">` tag in the page HTML.
+サイトの言語属性。ページ HTML の `<html lang="en-US">` として出力されます。
 
 ```ts
 export default {
@@ -330,12 +330,12 @@ export default {
 
 ### base
 
-- Type: `string`
-- Default: `/`
+- 型: `string`
+- 既定値: `/`
 
-The base URL the site will be deployed at. You will need to set this if you plan to deploy your site under a sub path, for example, GitHub pages. If you plan to deploy your site to `https://foo.github.io/bar/`, then you should set base to `'/bar/'`. It should always start and end with a slash.
+サイトをデプロイするベース URL。GitHub Pages などサブパス配下にデプロイする場合に設定が必要です。たとえば `https://foo.github.io/bar/` にデプロイする場合、`base` は `'/bar/'` にします。先頭と末尾は必ずスラッシュにしてください。
 
-The base is automatically prepended to all the URLs that start with / in other options, so you only need to specify it once.
+`/` で始まる他のオプション内の URL には、この `base` が自動的に付与されます。1 回設定すれば十分です。
 
 ```ts
 export default {
@@ -343,24 +343,24 @@ export default {
 }
 ```
 
-## Routing
+## ルーティング
 
 ### cleanUrls
 
-- Type: `boolean`
-- Default: `false`
+- 型: `boolean`
+- 既定値: `false`
 
-When set to `true`, VitePress will remove the trailing `.html` from URLs. Also see [Generating Clean URL](../guide/routing#generating-clean-url).
+`true` にすると、URL の末尾の `.html` を削除します。あわせて [クリーン URL の生成](../guide/routing#generating-clean-url) も参照してください。
 
-::: warning Server Support Required
-Enabling this may require additional configuration on your hosting platform. For it to work, your server must be able to serve `/foo.html` when visiting `/foo` **without a redirect**.
+::: warning サーバ設定が必要
+ホスティング環境によっては追加の設定が必要です。`/foo` へのアクセス時に **リダイレクトなしで** `/foo.html` を返せるサーバ設定が必要です。
 :::
 
 ### rewrites
 
-- Type: `Record<string, string>`
+- 型: `Record<string, string>`
 
-Defines custom directory &lt;-&gt; URL mappings. See [Routing: Route Rewrites](../guide/routing#route-rewrites) for more details.
+ディレクトリと URL のカスタム対応を定義します。詳しくは [ルーティング: ルートのリライト](../guide/routing#route-rewrites) を参照。
 
 ```ts
 export default {
@@ -370,14 +370,14 @@ export default {
 }
 ```
 
-## Build
+## ビルド
 
 ### srcDir
 
-- Type: `string`
-- Default: `.`
+- 型: `string`
+- 既定値: `.`
 
-The directory where your markdown pages are stored, relative to project root. Also see [Root and Source Directory](../guide/routing#root-and-source-directory).
+Markdown ページを置くディレクトリ（プロジェクトルートからの相対パス）。[ルートとソースディレクトリ](../guide/routing#root-and-source-directory) も参照。
 
 ```ts
 export default {
@@ -387,10 +387,10 @@ export default {
 
 ### srcExclude
 
-- Type: `string[]`
-- Default: `undefined`
+- 型: `string[]`
+- 既定値: `undefined`
 
-A [glob pattern](https://github.com/mrmlnc/fast-glob#pattern-syntax) for matching markdown files that should be excluded as source content.
+ソースとして除外したい Markdown ファイルにマッチする [glob パターン](https://github.com/mrmlnc/fast-glob#pattern-syntax)。
 
 ```ts
 export default {
@@ -400,10 +400,10 @@ export default {
 
 ### outDir
 
-- Type: `string`
-- Default: `./.vitepress/dist`
+- 型: `string`
+- 既定値: `./.vitepress/dist`
 
-The build output location for the site, relative to [project root](../guide/routing#root-and-source-directory).
+ビルド出力先（[プロジェクトルート](../guide/routing#root-and-source-directory) からの相対パス）。
 
 ```ts
 export default {
@@ -413,10 +413,10 @@ export default {
 
 ### assetsDir
 
-- Type: `string`
-- Default: `assets`
+- 型: `string`
+- 既定値: `assets`
 
-Specify the directory to nest generated assets under. The path should be inside [`outDir`](#outdir) and is resolved relative to it.
+生成されるアセットを配置するサブディレクトリ名。パスは [`outDir`](#outdir) の内部で、相対解決されます。
 
 ```ts
 export default {
@@ -426,10 +426,10 @@ export default {
 
 ### cacheDir
 
-- Type: `string`
-- Default: `./.vitepress/cache`
+- 型: `string`
+- 既定値: `./.vitepress/cache`
 
-The directory for cache files, relative to [project root](../guide/routing#root-and-source-directory). See also: [cacheDir](https://vitejs.dev/config/shared-options.html#cachedir).
+キャッシュファイル用ディレクトリ（[プロジェクトルート](../guide/routing#root-and-source-directory) からの相対パス）。参考: [cacheDir](https://vitejs.dev/config/shared-options.html#cachedir)
 
 ```ts
 export default {
@@ -439,12 +439,12 @@ export default {
 
 ### ignoreDeadLinks
 
-- Type: `boolean | 'localhostLinks' | (string | RegExp | ((link: string, source: string) => boolean))[]`
-- Default: `false`
+- 型: `boolean | 'localhostLinks' | (string | RegExp | ((link: string, source: string) => boolean))[]`
+- 既定値: `false`
 
-When set to `true`, VitePress will not fail builds due to dead links.
+`true` にすると、デッドリンクがあってもビルド失敗にしません。
 
-When set to `'localhostLinks'`, the build will fail on dead links, but won't check `localhost` links.
+`'localhostLinks'` にすると、`localhost` へのリンクはチェック対象外にしつつ、その他のデッドリンクではビルドを失敗させます。
 
 ```ts
 export default {
@@ -452,18 +452,18 @@ export default {
 }
 ```
 
-It can also be an array of exact url string, regex patterns, or custom filter functions.
+正確な URL 文字列、正規表現、カスタムフィルタ関数の配列として指定することもできます。
 
 ```ts
 export default {
   ignoreDeadLinks: [
-    // ignore exact url "/playground"
+    // 正確に "/playground" を無視
     '/playground',
-    // ignore all localhost links
+    // すべての localhost リンクを無視
     /^https?:\/\/localhost/,
-    // ignore all links include "/repl/""
+    // パスに "/repl/" を含むリンクを無視
     /\/repl\//,
-    // custom function, ignore all links include "ignore"
+    // カスタム関数: "ignore" を含むリンクを無視
     (url) => {
       return url.toLowerCase().includes('ignore')
     }
@@ -473,53 +473,53 @@ export default {
 
 ### metaChunk <Badge type="warning" text="experimental" />
 
-- Type: `boolean`
-- Default: `false`
+- 型: `boolean`
+- 既定値: `false`
 
-When set to `true`, extract pages metadata to a separate JavaScript chunk instead of inlining it in the initial HTML. This makes each page's HTML payload smaller and makes the pages metadata cacheable, thus reducing server bandwidth when you have many pages in the site.
+`true` にすると、各ページのメタデータを初期 HTML にインラインせず、別の JavaScript チャンクに抽出します。これにより各ページの HTML ペイロードが小さくなり、メタデータをキャッシュ可能にすることで、多数のページがあるサイトでサーバ帯域を削減できます。
 
 ### mpa <Badge type="warning" text="experimental" />
 
-- Type: `boolean`
-- Default: `false`
+- 型: `boolean`
+- 既定値: `false`
 
-When set to `true`, the production app will be built in [MPA Mode](../guide/mpa-mode). MPA mode ships 0kb JavaScript by default, at the cost of disabling client-side navigation and requires explicit opt-in for interactivity.
+`true` にすると、本番アプリは [MPA モード](../guide/mpa-mode) でビルドされます。MPA モードは既定でクライアント JavaScript を 0kb で配信する代わりに、クライアントサイドのナビゲーションを無効にし、相互作用には明示的な opt-in が必要です。
 
-## Theming
+## テーマ関連
 
 ### appearance
 
-- Type: `boolean | 'dark' | 'force-dark' | 'force-auto' | import('@vueuse/core').UseDarkOptions`
-- Default: `true`
+- 型: `boolean | 'dark' | 'force-dark' | 'force-auto' | import('@vueuse/core').UseDarkOptions`
+- 既定値: `true`
 
-Whether to enable dark mode (by adding the `.dark` class to the `<html>` element).
+ダークモードを有効にするか（`<html>` に `.dark` クラスを付与）。
 
-- If the option is set to `true`, the default theme will be determined by the user's preferred color scheme.
-- If the option is set to `dark`, the theme will be dark by default, unless the user manually toggles it.
-- If the option is set to `false`, users will not be able to toggle the theme.
-- If the option is set to `'force-dark'`, the theme will always be dark and users will not be able to toggle it.
-- If the option is set to `'force-auto'`, the theme will always be determined by the user's preferred color scheme and users will not be able to toggle it.
+- `true` の場合、ユーザーの環境設定に従います。
+- `dark` の場合、ユーザーが切り替えない限りダークを既定にします。
+- `false` の場合、ユーザーはテーマを切り替えできません。
+- `'force-dark'` の場合、常にダークで固定（切替不可）。
+- `'force-auto'` の場合、常にユーザーの環境設定に従い（切替不可）。
 
-This option injects an inline script that restores users settings from local storage using the `vitepress-theme-appearance` key. This ensures the `.dark` class is applied before the page is rendered to avoid flickering.
+このオプションは、ローカルストレージの `vitepress-theme-appearance` から設定を復元するインラインスクリプトを挿入します。これにより、ページ描画前に `.dark` クラスを適用してフリッカを防ぎます。
 
-`appearance.initialValue` can only be `'dark' | undefined`. Refs or getters are not supported.
+`appearance.initialValue` は `'dark' | undefined` のみサポート。Ref や getter は使えません。
 
 ### lastUpdated
 
-- Type: `boolean`
-- Default: `false`
+- 型: `boolean`
+- 既定値: `false`
 
-Whether to get the last updated timestamp for each page using Git. The timestamp will be included in each page's page data, accessible via [`useData`](./runtime-api#usedata).
+Git を使って各ページの最終更新時刻を取得します。タイムスタンプは各ページのデータに含まれ、[`useData`](./runtime-api#usedata) から参照できます。
 
-When using the default theme, enabling this option will display each page's last updated time. You can customize the text via [`themeConfig.lastUpdatedText`](./default-theme-config#lastupdatedtext) option.
+デフォルトテーマ使用時にこのオプションを有効にすると、各ページの最終更新時刻が表示されます。テキストは [`themeConfig.lastUpdatedText`](./default-theme-config#lastupdatedtext) でカスタマイズ可能です。
 
-## Customization
+## カスタマイズ
 
 ### markdown
 
-- Type: `MarkdownOption`
+- 型: `MarkdownOption`
 
-Configure Markdown parser options. VitePress uses [Markdown-it](https://github.com/markdown-it/markdown-it) as the parser, and [Shiki](https://github.com/shikijs/shiki) to highlight language syntax. Inside this option, you may pass various Markdown related options to fit your needs.
+Markdown パーサの設定。VitePress はパーサに [Markdown-it](https://github.com/markdown-it/markdown-it)、構文ハイライトに [Shiki](https://github.com/shikijs/shiki) を使用しています。必要に応じて Markdown 関連の各種オプションを指定できます。
 
 ```js
 export default {
@@ -527,50 +527,50 @@ export default {
 }
 ```
 
-Check the [type declaration and jsdocs](https://github.com/vuejs/vitepress/blob/main/src/node/markdown/markdown.ts) for all the options available.
+利用可能なオプションは [型定義と JSDoc](https://github.com/vuejs/vitepress/blob/main/src/node/markdown/markdown.ts) を参照してください。
 
 ### vite
 
-- Type: `import('vite').UserConfig`
+- 型: `import('vite').UserConfig`
 
-Pass raw [Vite Config](https://vitejs.dev/config/) to internal Vite dev server / bundler.
+内部の Vite 開発サーバ／バンドラへ生の [Vite Config](https://vitejs.dev/config/) を渡します。
 
 ```js
 export default {
   vite: {
-    // Vite config options
+    // Vite の設定
   }
 }
 ```
 
 ### vue
 
-- Type: `import('@vitejs/plugin-vue').Options`
+- 型: `import('@vitejs/plugin-vue').Options`
 
-Pass raw [`@vitejs/plugin-vue` options](https://github.com/vitejs/vite-plugin-vue/tree/main/packages/plugin-vue#options) to the internal plugin instance.
+内部の `@vitejs/plugin-vue` インスタンスへオプションをそのまま渡します。
 
 ```js
 export default {
   vue: {
-    // @vitejs/plugin-vue options
+    // @vitejs/plugin-vue のオプション
   }
 }
 ```
 
-## Build Hooks
+## ビルドフック
 
-VitePress build hooks allow you to add new functionality and behaviors to your website:
+VitePress のビルドフックを使うと、サイトに機能や振る舞いを追加できます。
 
-- Sitemap
-- Search Indexing
+- サイトマップ
+- 検索インデックス
 - PWA
-- Teleports
+- Teleport
 
 ### buildEnd
 
-- Type: `(siteConfig: SiteConfig) => Awaitable<void>`
+- 型: `(siteConfig: SiteConfig) => Awaitable<void>`
 
-`buildEnd` is a build CLI hook, it will run after build (SSG) finish but before VitePress CLI process exits.
+`buildEnd` はビルド CLI フックです。ビルド（SSG）が完了した後、VitePress CLI プロセスが終了する前に実行されます。
 
 ```ts
 export default {
@@ -582,9 +582,9 @@ export default {
 
 ### postRender
 
-- Type: `(context: SSGContext) => Awaitable<SSGContext | void>`
+- 型: `(context: SSGContext) => Awaitable<SSGContext | void>`
 
-`postRender` is a build hook, called when SSG rendering is done. It will allow you to handle the teleports content during SSG.
+`postRender` は SSG のレンダリング完了時に呼ばれるビルドフックです。SSG 中の teleport コンテンツの処理に利用できます。
 
 ```ts
 export default {
@@ -604,12 +604,12 @@ interface SSGContext {
 
 ### transformHead
 
-- Type: `(context: TransformContext) => Awaitable<HeadConfig[]>`
+- 型: `(context: TransformContext) => Awaitable<HeadConfig[]>`
 
-`transformHead` is a build hook to transform the head before generating each page. It will allow you to add head entries that cannot be statically added to your VitePress config. You only need to return extra entries, they will be merged automatically with the existing ones.
+`transformHead` は、各ページを生成する前に head を変換するためのビルドフックです。設定ファイルでは静的に追加できない head 要素を追加できます。追加分のみ返せば、既存のものと自動でマージされます。
 
 ::: warning
-Don't mutate anything inside the `context`.
+`context` 内の値は変更しないでください。
 :::
 
 ```ts
@@ -622,8 +622,8 @@ export default {
 
 ```ts
 interface TransformContext {
-  page: string // e.g. index.md (relative to srcDir)
-  assets: string[] // all non-js/css assets as fully resolved public URL
+  page: string // 例: index.md（srcDir からの相対）
+  assets: string[] // 解決済みの公開 URL（非 js/css アセット）
   siteConfig: SiteConfig
   siteData: SiteData
   pageData: PageData
@@ -634,7 +634,7 @@ interface TransformContext {
 }
 ```
 
-Note that this hook is only called when generating the site statically. It is not called during dev. If you need to add dynamic head entries during dev, you can use the [`transformPageData`](#transformpagedata) hook instead:
+このフックは静的サイト生成時のみ呼ばれ、開発中には呼ばれません。開発中に動的な head 要素を追加したい場合は、代わりに [`transformPageData`](#transformpagedata) を使用できます。
 
 ```ts
 export default {
@@ -654,7 +654,7 @@ export default {
 }
 ```
 
-#### Example: Adding a canonical URL `<link>`
+#### 例: 正規 URL の `<link>` を追加
 
 ```ts
 export default {
@@ -674,12 +674,12 @@ export default {
 
 ### transformHtml
 
-- Type: `(code: string, id: string, context: TransformContext) => Awaitable<string | void>`
+- 型: `(code: string, id: string, context: TransformContext) => Awaitable<string | void>`
 
-`transformHtml` is a build hook to transform the content of each page before saving to disk.
+`transformHtml` は、各ページの内容をディスクへ保存する前に変換するためのビルドフックです。
 
 ::: warning
-Don't mutate anything inside the `context`. Also, modifying the html content may cause hydration problems in runtime.
+`context` 内の値は変更しないでください。また、HTML を変更すると実行時のハイドレーション問題を引き起こす可能性があります。
 :::
 
 ```ts
@@ -692,12 +692,12 @@ export default {
 
 ### transformPageData
 
-- Type: `(pageData: PageData, context: TransformPageContext) => Awaitable<Partial<PageData> | { [key: string]: any } | void>`
+- 型: `(pageData: PageData, context: TransformPageContext) => Awaitable<Partial<PageData> | { [key: string]: any } | void>`
 
-`transformPageData` is a hook to transform the `pageData` of each page. You can directly mutate `pageData` or return changed values which will be merged into the page data.
+`transformPageData` は各ページの `pageData` を変換するためのフックです。`pageData` を直接変更するか、変更値を返してマージさせることができます。
 
 ::: warning
-Don't mutate anything inside the `context` and be careful that this might impact the performance of dev server, especially if you have some network requests or heavy computations (like generating images) in the hook. You can check for `process.env.NODE_ENV === 'production'` for conditional logic.
+`context` 内の値は変更しないでください。ネットワークリクエストや重い計算（画像生成など）を行うと開発サーバのパフォーマンスに影響します。`process.env.NODE_ENV === 'production'` を用いた条件分岐を検討してください。
 :::
 
 ```ts
@@ -706,7 +706,7 @@ export default {
     pageData.contributors = await getPageContributors(pageData.relativePath)
   }
 
-  // or return data to be merged
+  // あるいはマージ用の値を返す
   async transformPageData(pageData, { siteConfig }) {
     return {
       contributors: await getPageContributors(pageData.relativePath)

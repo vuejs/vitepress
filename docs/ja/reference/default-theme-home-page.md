@@ -1,6 +1,6 @@
-# Home Page
+# ホームページ
 
-VitePress default theme provides a homepage layout, which you can also see used on [the homepage of this site](../). You may use it on any of your pages by specifying `layout: home` in the [frontmatter](./frontmatter-config).
+VitePress のデフォルトテーマにはホームページ用レイアウトが用意されています（[このサイトのトップページ](../) でも使われています）。[フロントマター](./frontmatter-config) に `layout: home` を指定すれば、任意のページで利用できます。
 
 ```yaml
 ---
@@ -8,11 +8,11 @@ layout: home
 ---
 ```
 
-However, this option alone wouldn't do much. You can add several different pre templated "sections" to the homepage by setting additional other options such as `hero` and `features`.
+ただし、この指定だけでは多くのことは起きません。`hero` や `features` などの追加オプションを設定して、ホームページにあらかじめ用意された複数の「セクション」を配置できます。
 
-## Hero Section
+## ヒーローセクション
 
-The Hero section comes at the top of the homepage. Here's how you can configure the Hero section.
+ヒーローセクションはホームページの最上部に表示されます。設定例は次のとおりです。
 
 ```yaml
 ---
@@ -21,37 +21,36 @@ layout: home
 hero:
   name: VitePress
   text: Vite & Vue powered static site generator.
-  tagline: Lorem ipsum...
+  tagline: 概要テキスト...
   image:
     src: /logo.png
     alt: VitePress
   actions:
     - theme: brand
-      text: Get Started
+      text: はじめる
       link: /guide/what-is-vitepress
     - theme: alt
-      text: View on GitHub
+      text: GitHub で見る
       link: https://github.com/vuejs/vitepress
 ---
 ```
 
 ```ts
 interface Hero {
-  // The string shown top of `text`. Comes with brand color
-  // and expected to be short, such as product name.
+  // `text` の上に表示される短い文字列。ブランドカラーで表示。
+  // 製品名のような短い文言を想定。
   name?: string
 
-  // The main text for the hero section. This will be defined
-  // as `h1` tag.
+  // ヒーローセクションのメインテキスト。`h1` として出力。
   text: string
 
-  // Tagline displayed below `text`.
+  // `text` の下に表示されるタグライン。
   tagline?: string
 
-  // The image is displayed next to the text and tagline area.
+  // テキストとタグラインの横に表示する画像。
   image?: ThemeableImage
 
-  // Action buttons to display in home hero section.
+  // ヒーローに表示するアクションボタン。
   actions?: HeroAction[]
 }
 
@@ -61,26 +60,26 @@ type ThemeableImage =
   | { light: string; dark: string; alt?: string }
 
 interface HeroAction {
-  // Color theme of the button. Defaults to `brand`.
+  // ボタンのカラーテーマ。既定は `brand`。
   theme?: 'brand' | 'alt'
 
-  // Label of the button.
+  // ボタンのラベル。
   text: string
 
-  // Destination link of the button.
+  // ボタンのリンク先。
   link: string
 
-  // Link target attribute.
+  // a 要素の target 属性。
   target?: string
 
-  // Link rel attribute.
+  // a 要素の rel 属性。
   rel?: string
 }
 ```
 
-### Customizing the name color
+### name の色をカスタマイズする
 
-VitePress uses the brand color (`--vp-c-brand-1`) for the `name`. However, you may customize this color by overriding `--vp-home-hero-name-color` variable.
+`name` にはブランドカラー（`--vp-c-brand-1`）が使われますが、`--vp-home-hero-name-color` 変数を上書きして色を変更できます。
 
 ```css
 :root {
@@ -88,7 +87,7 @@ VitePress uses the brand color (`--vp-c-brand-1`) for the `name`. However, you m
 }
 ```
 
-Also you may customize it further by combining `--vp-home-hero-name-background` to give the `name` gradient color.
+さらに、`--vp-home-hero-name-background` を組み合わせると、`name` にグラデーションを適用できます。
 
 ```css
 :root {
@@ -97,11 +96,11 @@ Also you may customize it further by combining `--vp-home-hero-name-background` 
 }
 ```
 
-## Features Section
+## フィーチャーセクション
 
-In Features section, you can list any number of features you would like to show right after the Hero section. To configure it, pass `features` option to the frontmatter.
+フィーチャーセクションでは、ヒーロー直下に任意の数の機能説明を並べられます。フロントマターに `features` オプションを指定して設定します。
 
-You can provide an icon for each feature, which can be an emoji or any type of image. When the configured icon is an image (svg, png, jpeg...), you must provide the icon with the proper width and height; you can also provide the description, its intrinsic size as well as its variants for dark and light theme when required.
+各フィーチャーにはアイコン（絵文字または画像）を指定できます。アイコンが画像（svg, png, jpeg など）の場合は、**適切な幅・高さ** を指定してください。必要に応じて説明テキストや実サイズ、ライト／ダーク用の差し替えも指定できます。
 
 ```yaml
 ---
@@ -109,49 +108,48 @@ layout: home
 
 features:
   - icon: 🛠️
-    title: Simple and minimal, always
-    details: Lorem ipsum...
+    title: いつでもシンプル＆ミニマル
+    details: 概要テキスト...
   - icon:
       src: /cool-feature-icon.svg
-    title: Another cool feature
-    details: Lorem ipsum...
+    title: もうひとつの便利機能
+    details: 概要テキスト...
   - icon:
       dark: /dark-feature-icon.svg
       light: /light-feature-icon.svg
-    title: Another cool feature
-    details: Lorem ipsum...
+    title: さらに別の機能
+    details: 概要テキスト...
 ---
 ```
 
 ```ts
 interface Feature {
-  // Show icon on each feature box.
+  // 各フィーチャーボックスに表示するアイコン。
   icon?: FeatureIcon
 
-  // Title of the feature.
+  // フィーチャーのタイトル。
   title: string
 
-  // Details of the feature.
+  // フィーチャーの詳細説明。
   details: string
 
-  // Link when clicked on feature component. The link can
-  // be both internal or external.
+  // フィーチャーをクリックしたときのリンク（内部・外部どちらも可）。
   //
-  // e.g. `guide/reference/default-theme-home-page` or `https://example.com`
+  // 例: `guide/reference/default-theme-home-page` や `https://example.com`
   link?: string
 
-  // Link text to be shown inside feature component. Best
-  // used with `link` option.
+  // フィーチャー内に表示するリンクテキスト。
+  // `link` と併用するのが最適。
   //
-  // e.g. `Learn more`, `Visit page`, etc.
+  // 例: `Learn more`, `Visit page` など
   linkText?: string
 
-  // Link rel attribute for the `link` option.
+  // `link` 用の rel 属性。
   //
-  // e.g. `external`
+  // 例: `external`
   rel?: string
 
-  // Link target attribute for the `link` option.
+  // `link` 用の target 属性。
   target?: string
 }
 
@@ -167,9 +165,9 @@ type FeatureIcon =
     }
 ```
 
-## Markdown Content
+## Markdown コンテンツ
 
-You can add additional content to your site's homepage just by adding Markdown below the `---` frontmatter divider.
+`---` で区切るフロントマターの下に Markdown を書くだけで、ホームページに追加コンテンツを表示できます。
 
 ````md
 ---
@@ -180,16 +178,11 @@ hero:
   text: Vite & Vue powered static site generator.
 ---
 
-## Getting Started
+## はじめに
 
-You can get started using VitePress right away using `npx`!
+`npx` を使えば、すぐに VitePress を始められます！
 
 ```sh
 npm init
 npx vitepress init
 ```
-````
-
-::: info
-VitePress didn't always auto-style the extra content of the `layout: home` page. To revert to older behavior, you can add `markdownStyles: false` to the frontmatter.
-:::

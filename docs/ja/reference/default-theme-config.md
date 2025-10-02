@@ -1,494 +1,494 @@
-# Default Theme Config
+# デフォルトテーマの設定
 
-Theme config lets you customize your theme. You can define theme config via the `themeConfig` option in the config file:
+テーマ設定では、テーマのカスタマイズができます。設定ファイルの `themeConfig` オプションで定義します。
 
-```ts
-export default {
-  lang: 'en-US',
-  title: 'VitePress',
-  description: 'Vite & Vue powered static site generator.',
+ ```ts
+ export default {
+   lang: 'en-US',
+   title: 'VitePress',
+   description: 'Vite & Vue powered static site generator.',
 
-  // Theme related configurations.
-  themeConfig: {
-    logo: '/logo.svg',
-    nav: [...],
-    sidebar: { ... }
-  }
-}
-```
+   // テーマ関連の設定
+   themeConfig: {
+     logo: '/logo.svg',
+     nav: [...],
+     sidebar: { ... }
+   }
+ }
+ ```
 
-**The options documented on this page only apply to the default theme.** Different themes expect different theme config. When using a custom theme, the theme config object will be passed to the theme so the theme can define conditional behavior based on it.
+**このページで説明するオプションは、デフォルトテーマにのみ適用されます。** テーマによって期待する設定は異なります。カスタムテーマを使用する場合、ここで定義したテーマ設定オブジェクトはテーマへ渡され、テーマ側がそれに基づいて条件付きの挙動を定義できます。
 
 ## i18nRouting
 
-- Type: `boolean`
+- 型: `boolean`
 
-Changing locale to say `zh` will change the URL from `/foo` (or `/en/foo/`) to `/zh/foo`. You can disable this behavior by setting `themeConfig.i18nRouting` to `false`.
+ロケールを `zh` のように切り替えると、URL は `/foo`（または `/en/foo/`）から `/zh/foo` に変わります。`themeConfig.i18nRouting` を `false` に設定すると、この挙動を無効化できます。
 
 ## logo
 
-- Type: `ThemeableImage`
+- 型: `ThemeableImage`
 
-Logo file to display in nav bar, right before the site title. Accepts a path string, or an object to set a different logo for light/dark mode.
+サイトタイトルの直前に、ナビゲーションバーに表示されるロゴ。パス文字列、またはライト／ダークモードで異なるロゴを設定するオブジェクトを受け取ります。
 
-```ts
-export default {
-  themeConfig: {
-    logo: '/logo.svg'
-  }
-}
-```
+ ```ts
+ export default {
+   themeConfig: {
+     logo: '/logo.svg'
+   }
+ }
+ ```
 
-```ts
-type ThemeableImage =
-  | string
-  | { src: string; alt?: string }
-  | { light: string; dark: string; alt?: string }
-```
+ ```ts
+ type ThemeableImage =
+   | string
+   | { src: string; alt?: string }
+   | { light: string; dark: string; alt?: string }
+ ```
 
 ## siteTitle
 
-- Type: `string | false`
+- 型: `string | false`
 
-You can customize this item to replace the default site title (`title` in app config) in nav. When set to `false`, title in nav will be disabled. Useful when you have `logo` that already contains the site title text.
+ナビゲーション内の既定サイトタイトル（アプリ設定の `title`）を置き換えます。`false` の場合、ナビのタイトルを非表示にします。ロゴ自体にサイト名が含まれている場合に便利です。
 
-```ts
-export default {
-  themeConfig: {
-    siteTitle: 'Hello World'
-  }
-}
-```
+ ```ts
+ export default {
+   themeConfig: {
+     siteTitle: 'Hello World'
+   }
+ }
+ ```
 
 ## nav
 
-- Type: `NavItem`
+- 型: `NavItem`
 
-The configuration for the nav menu item. More details in [Default Theme: Nav](./default-theme-nav#navigation-links).
+ナビゲーションメニューの設定。[デフォルトテーマ: ナビ](./default-theme-nav#navigation-links) を参照してください。
 
-```ts
-export default {
-  themeConfig: {
-    nav: [
-      { text: 'Guide', link: '/guide' },
-      {
-        text: 'Dropdown Menu',
-        items: [
-          { text: 'Item A', link: '/item-1' },
-          { text: 'Item B', link: '/item-2' },
-          { text: 'Item C', link: '/item-3' }
-        ]
-      }
-    ]
-  }
-}
-```
+ ```ts
+ export default {
+   themeConfig: {
+     nav: [
+       { text: 'Guide', link: '/guide' },
+       {
+         text: 'Dropdown Menu',
+         items: [
+           { text: 'Item A', link: '/item-1' },
+           { text: 'Item B', link: '/item-2' },
+           { text: 'Item C', link: '/item-3' }
+         ]
+       }
+     ]
+   }
+ }
+ ```
 
-```ts
-type NavItem = NavItemWithLink | NavItemWithChildren
+ ```ts
+ type NavItem = NavItemWithLink | NavItemWithChildren
 
-interface NavItemWithLink {
-  text: string
-  link: string | ((payload: PageData) => string)
-  activeMatch?: string
-  target?: string
-  rel?: string
-  noIcon?: boolean
-}
+ interface NavItemWithLink {
+   text: string
+   link: string | ((payload: PageData) => string)
+   activeMatch?: string
+   target?: string
+   rel?: string
+   noIcon?: boolean
+ }
 
-interface NavItemChildren {
-  text?: string
-  items: NavItemWithLink[]
-}
+ interface NavItemChildren {
+   text?: string
+   items: NavItemWithLink[]
+ }
 
-interface NavItemWithChildren {
-  text?: string
-  items: (NavItemChildren | NavItemWithLink)[]
-  activeMatch?: string
-}
-```
+ interface NavItemWithChildren {
+   text?: string
+   items: (NavItemChildren | NavItemWithLink)[]
+   activeMatch?: string
+ }
+ ```
 
 ## sidebar
 
-- Type: `Sidebar`
+- 型: `Sidebar`
 
-The configuration for the sidebar menu item. More details in [Default Theme: Sidebar](./default-theme-sidebar).
+サイドバーメニューの設定。[デフォルトテーマ: サイドバー](./default-theme-sidebar) を参照してください。
 
-```ts
-export default {
-  themeConfig: {
-    sidebar: [
-      {
-        text: 'Guide',
-        items: [
-          { text: 'Introduction', link: '/introduction' },
-          { text: 'Getting Started', link: '/getting-started' },
-          ...
-        ]
-      }
-    ]
-  }
-}
-```
+ ```ts
+ export default {
+   themeConfig: {
+     sidebar: [
+       {
+         text: 'Guide',
+         items: [
+           { text: 'Introduction', link: '/introduction' },
+           { text: 'Getting Started', link: '/getting-started' },
+           ...
+         ]
+       }
+     ]
+   }
+ }
+ ```
 
-```ts
-export type Sidebar = SidebarItem[] | SidebarMulti
+ ```ts
+ export type Sidebar = SidebarItem[] | SidebarMulti
 
-export interface SidebarMulti {
-  [path: string]: SidebarItem[] | { items: SidebarItem[]; base: string }
-}
+ export interface SidebarMulti {
+   [path: string]: SidebarItem[] | { items: SidebarItem[]; base: string }
+ }
 
-export type SidebarItem = {
-  /**
-   * The text label of the item.
-   */
-  text?: string
+ export type SidebarItem = {
+   /**
+    * 項目のテキストラベル
+    */
+   text?: string
 
-  /**
-   * The link of the item.
-   */
-  link?: string
+   /**
+    * 項目のリンク
+    */
+   link?: string
 
-  /**
-   * The children of the item.
-   */
-  items?: SidebarItem[]
+   /**
+    * 子項目
+    */
+   items?: SidebarItem[]
 
-  /**
-   * If not specified, group is not collapsible.
-   *
-   * If `true`, group is collapsible and collapsed by default
-   *
-   * If `false`, group is collapsible but expanded by default
-   */
-  collapsed?: boolean
+   /**
+    * 指定しない場合、グループは折りたたみ不可。
+    *
+    * `true` なら折りたたみ可能でデフォルト折りたたみ
+    *
+    * `false` なら折りたたみ可能だがデフォルト展開
+    */
+   collapsed?: boolean
 
-  /**
-   * Base path for the children items.
-   */
-  base?: string
+   /**
+    * 子項目のベースパス
+    */
+   base?: string
 
-  /**
-   * Customize text that appears on the footer of previous/next page.
-   */
-  docFooterText?: string
+   /**
+    * 前／次リンクのフッターに表示するテキストをカスタマイズ
+    */
+   docFooterText?: string
 
-  rel?: string
-  target?: string
-}
-```
+   rel?: string
+   target?: string
+ }
+ ```
 
 ## aside
 
-- Type: `boolean | 'left'`
-- Default: `true`
-- Can be overridden per page via [frontmatter](./frontmatter-config#aside)
+- 型: `boolean | 'left'`
+- 既定値: `true`
+- ページごとに [frontmatter](./frontmatter-config#aside) で上書き可能
 
-Setting this value to `false` prevents rendering of aside container.\
-Setting this value to `true` renders the aside to the right.\
-Setting this value to `left` renders the aside to the left.
+`false` でサイドコンテナの描画を無効化。\
+`true` で右側に表示。\
+`left` で左側に表示。
 
-If you want to disable it for all viewports, you should use `outline: false` instead.
+すべてのビューポートで無効にしたい場合は、代わりに `outline: false` を使用してください。
 
 ## outline
 
-- Type: `Outline | Outline['level'] | false`
-- Level can be overridden per page via [frontmatter](./frontmatter-config#outline)
+- 型: `Outline | Outline['level'] | false`
+- レベルはページごとに [frontmatter](./frontmatter-config#outline) で上書き可能
 
-Setting this value to `false` prevents rendering of outline container. Refer this interface for more details:
+`false` でアウトラインコンテナの描画を無効化。詳細は以下を参照：
 
-```ts
-interface Outline {
-  /**
-   * The levels of headings to be displayed in the outline.
-   * Single number means only headings of that level will be displayed.
-   * If a tuple is passed, the first number is the minimum level and the second number is the maximum level.
-   * `'deep'` is same as `[2, 6]`, which means all headings from `<h2>` to `<h6>` will be displayed.
-   *
-   * @default 2
-   */
-  level?: number | [number, number] | 'deep'
+ ```ts
+ interface Outline {
+   /**
+    * アウトラインに表示する見出しレベル
+    * 単一の数値なら、そのレベルのみ表示
+    * タプルなら最小レベルと最大レベル
+    * `'deep'` は `[2, 6]` と同じ（`<h2>` 〜 `<h6>` を表示）
+    *
+    * @default 2
+    */
+   level?: number | [number, number] | 'deep'
 
-  /**
-   * The title to be displayed on the outline.
-   *
-   * @default 'On this page'
-   */
-  label?: string
-}
-```
+   /**
+    * アウトラインに表示するタイトル
+    *
+    * @default 'On this page'
+    */
+   label?: string
+ }
+ ```
 
 ## socialLinks
 
-- Type: `SocialLink[]`
+- 型: `SocialLink[]`
 
-You may define this option to show your social account links with icons in nav.
+ナビゲーションにアイコン付きのソーシャルリンクを表示します。
 
-```ts
-export default {
-  themeConfig: {
-    socialLinks: [
-      // You can add any icon from simple-icons (https://simpleicons.org/):
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
-      { icon: 'twitter', link: '...' },
-      // You can also add custom icons by passing SVG as string:
-      {
-        icon: {
-          svg: '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Dribbble</title><path d="M12...6.38z"/></svg>'
-        },
-        link: '...',
-        // You can include a custom label for accessibility too (optional but recommended):
-        ariaLabel: 'cool link'
-      }
-    ]
-  }
-}
-```
+ ```ts
+ export default {
+   themeConfig: {
+     socialLinks: [
+       // simple-icons (https://simpleicons.org/) の任意のアイコンを指定可能
+       { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
+       { icon: 'twitter', link: '...' },
+       // SVG 文字列を渡してカスタムアイコンも可
+       {
+         icon: {
+           svg: '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Dribbble</title><path d="M12...6.38z"/></svg>'
+         },
+         link: '...',
+         // アクセシビリティ向けにカスタムラベルも指定可（推奨）
+         ariaLabel: 'cool link'
+       }
+     ]
+   }
+ }
+ ```
 
-```ts
-interface SocialLink {
-  icon: string | { svg: string }
-  link: string
-  ariaLabel?: string
-}
-```
+ ```ts
+ interface SocialLink {
+   icon: string | { svg: string }
+   link: string
+   ariaLabel?: string
+ }
+ ```
 
 ## footer
 
-- Type: `Footer`
-- Can be overridden per page via [frontmatter](./frontmatter-config#footer)
+- 型: `Footer`
+- ページごとに [frontmatter](./frontmatter-config#footer) で上書き可能
 
-Footer configuration. You can add a message or copyright text on the footer, however, it will only be displayed when the page doesn't contain a sidebar. This is due to design concerns.
+フッター設定。メッセージや著作権表示を追加できますが、ページにサイドバーがある場合はデザイン上表示されません。
 
-```ts
-export default {
-  themeConfig: {
-    footer: {
-      message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2019-present Evan You'
-    }
-  }
-}
-```
+ ```ts
+ export default {
+   themeConfig: {
+     footer: {
+       message: 'Released under the MIT License.',
+       copyright: 'Copyright © 2019-present Evan You'
+     }
+   }
+ }
+ ```
 
-```ts
-export interface Footer {
-  message?: string
-  copyright?: string
-}
-```
+ ```ts
+ export interface Footer {
+   message?: string
+   copyright?: string
+ }
+ ```
 
 ## editLink
 
-- Type: `EditLink`
-- Can be overridden per page via [frontmatter](./frontmatter-config#editlink)
+- 型: `EditLink`
+- ページごとに [frontmatter](./frontmatter-config#editlink) で上書き可能
 
-Edit Link lets you display a link to edit the page on Git management services such as GitHub, or GitLab. See [Default Theme: Edit Link](./default-theme-edit-link) for more details.
+「このページを編集」リンクを表示します（GitHub/GitLab など）。詳細は [デフォルトテーマ: 編集リンク](./default-theme-edit-link) を参照。
 
-```ts
-export default {
-  themeConfig: {
-    editLink: {
-      pattern: 'https://github.com/vuejs/vitepress/edit/main/docs/:path',
-      text: 'Edit this page on GitHub'
-    }
-  }
-}
-```
+ ```ts
+ export default {
+   themeConfig: {
+     editLink: {
+       pattern: 'https://github.com/vuejs/vitepress/edit/main/docs/:path',
+       text: 'Edit this page on GitHub'
+     }
+   }
+ }
+ ```
 
-```ts
-export interface EditLink {
-  pattern: string
-  text?: string
-}
-```
+ ```ts
+ export interface EditLink {
+   pattern: string
+   text?: string
+ }
+ ```
 
 ## lastUpdated
 
-- Type: `LastUpdatedOptions`
+- 型: `LastUpdatedOptions`
 
-Allows customization for the last updated text and date format.
+最終更新の文言と日付フォーマットをカスタマイズします。
 
-```ts
-export default {
-  themeConfig: {
-    lastUpdated: {
-      text: 'Updated at',
-      formatOptions: {
-        dateStyle: 'full',
-        timeStyle: 'medium'
-      }
-    }
-  }
-}
-```
+ ```ts
+ export default {
+   themeConfig: {
+     lastUpdated: {
+       text: 'Updated at',
+       formatOptions: {
+         dateStyle: 'full',
+         timeStyle: 'medium'
+       }
+     }
+   }
+ }
+ ```
 
-```ts
-export interface LastUpdatedOptions {
-  /**
-   * @default 'Last updated'
-   */
-  text?: string
+ ```ts
+ export interface LastUpdatedOptions {
+   /**
+    * @default 'Last updated'
+    */
+   text?: string
 
-  /**
-   * @default
-   * { dateStyle: 'short',  timeStyle: 'short' }
-   */
-  formatOptions?: Intl.DateTimeFormatOptions & { forceLocale?: boolean }
-}
-```
+   /**
+    * @default
+    * { dateStyle: 'short',  timeStyle: 'short' }
+    */
+   formatOptions?: Intl.DateTimeFormatOptions & { forceLocale?: boolean }
+ }
+ ```
 
 ## algolia
 
-- Type: `AlgoliaSearch`
+- 型: `AlgoliaSearch`
 
-An option to support searching your docs site using [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Learn more in [Default Theme: Search](./default-theme-search)
+[Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch) によるサイト内検索の設定。[デフォルトテーマ: 検索](./default-theme-search) を参照。
 
-```ts
-export interface AlgoliaSearchOptions extends DocSearchProps {
-  locales?: Record<string, Partial<DocSearchProps>>
-}
-```
+ ```ts
+ export interface AlgoliaSearchOptions extends DocSearchProps {
+   locales?: Record<string, Partial<DocSearchProps>>
+ }
+ ```
 
-View full options [here](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts).
+完全なオプションは[こちら](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts)。
 
 ## carbonAds {#carbon-ads}
 
-- Type: `CarbonAdsOptions`
+- 型: `CarbonAdsOptions`
 
-An option to display [Carbon Ads](https://www.carbonads.net/).
+[Carbon Ads](https://www.carbonads.net/) を表示します。
 
-```ts
-export default {
-  themeConfig: {
-    carbonAds: {
-      code: 'your-carbon-code',
-      placement: 'your-carbon-placement'
-    }
-  }
-}
-```
+ ```ts
+ export default {
+   themeConfig: {
+     carbonAds: {
+       code: 'your-carbon-code',
+       placement: 'your-carbon-placement'
+     }
+   }
+ }
+ ```
 
-```ts
-export interface CarbonAdsOptions {
-  code: string
-  placement: string
-}
-```
+ ```ts
+ export interface CarbonAdsOptions {
+   code: string
+   placement: string
+ }
+ ```
 
-Learn more in [Default Theme: Carbon Ads](./default-theme-carbon-ads)
+詳細は [デフォルトテーマ: Carbon Ads](./default-theme-carbon-ads) を参照。
 
 ## docFooter
 
-- Type: `DocFooter`
+- 型: `DocFooter`
 
-Can be used to customize text appearing above previous and next links. Helpful if not writing docs in English. Also can be used to disable prev/next links globally. If you want to selectively enable/disable prev/next links, you can use [frontmatter](./default-theme-prev-next-links).
+前／次リンクの上に表示される文言をカスタマイズします。英語以外のドキュメントで便利。前／次リンク自体をグローバルに無効化することも可能。ページごとに切り替えたい場合は [frontmatter](./default-theme-prev-next-links) を使用します。
 
-```ts
-export default {
-  themeConfig: {
-    docFooter: {
-      prev: 'Pagina prior',
-      next: 'Proxima pagina'
-    }
-  }
-}
-```
+ ```ts
+ export default {
+   themeConfig: {
+     docFooter: {
+       prev: 'Pagina prior',
+       next: 'Proxima pagina'
+     }
+   }
+ }
+ ```
 
-```ts
-export interface DocFooter {
-  prev?: string | false
-  next?: string | false
-}
-```
+ ```ts
+ export interface DocFooter {
+   prev?: string | false
+   next?: string | false
+ }
+ ```
 
 ## darkModeSwitchLabel
 
-- Type: `string`
-- Default: `Appearance`
+- 型: `string`
+- 既定値: `Appearance`
 
-Can be used to customize the dark mode switch label. This label is only displayed in the mobile view.
+ダークモード切替スイッチのラベル（モバイル表示のみ）をカスタマイズします。
 
 ## lightModeSwitchTitle
 
-- Type: `string`
-- Default: `Switch to light theme`
+- 型: `string`
+- 既定値: `Switch to light theme`
 
-Can be used to customize the light mode switch title that appears on hovering.
+ホバー時に表示されるライトモード切替のタイトルをカスタマイズします。
 
 ## darkModeSwitchTitle
 
-- Type: `string`
-- Default: `Switch to dark theme`
+- 型: `string`
+- 既定値: `Switch to dark theme`
 
-Can be used to customize the dark mode switch title that appears on hovering.
+ホバー時に表示されるダークモード切替のタイトルをカスタマイズします。
 
 ## sidebarMenuLabel
 
-- Type: `string`
-- Default: `Menu`
+- 型: `string`
+- 既定値: `Menu`
 
-Can be used to customize the sidebar menu label. This label is only displayed in the mobile view.
+サイドバーメニューのラベル（モバイル表示のみ）をカスタマイズします。
 
 ## returnToTopLabel
 
-- Type: `string`
-- Default: `Return to top`
+- 型: `string`
+- 既定値: `Return to top`
 
-Can be used to customize the label of the return to top button. This label is only displayed in the mobile view.
+トップに戻るボタンのラベル（モバイル表示のみ）をカスタマイズします。
 
 ## langMenuLabel
 
-- Type: `string`
-- Default: `Change language`
+- 型: `string`
+- 既定値: `Change language`
 
-Can be used to customize the aria-label of the language toggle button in navbar. This is only used if you're using [i18n](../guide/i18n).
+ナビバーの言語切替ボタンの aria-label をカスタマイズします。[i18n](../guide/i18n) を使う場合に有効です。
 
 ## skipToContentLabel
 
-- Type: `string`
-- Default: `Skip to content`
+- 型: `string`
+- 既定値: `Skip to content`
 
-Can be used to customize the label of the skip to content link. This link is shown when the user is navigating the site using a keyboard.
+コンテンツへスキップリンクのラベルをカスタマイズします。キーボード操作時に表示されます。
 
 ## externalLinkIcon
 
-- Type: `boolean`
-- Default: `false`
+- 型: `boolean`
+- 既定値: `false`
 
-Whether to show an external link icon next to external links in markdown.
+Markdown 内の外部リンクの横に外部リンクアイコンを表示するかどうか。
 
 ## `useLayout` <Badge type="info" text="composable" />
 
-Returns layout-related data. The returned object has the following type:
+レイアウト関連のデータを返します。返り値の型は次のとおりです。
 
-```ts
-interface {
-  isHome: ComputedRef<boolean>
+ ```ts
+ interface {
+   isHome: ComputedRef<boolean>
 
-  sidebar: Readonly<ShallowRef<DefaultTheme.SidebarItem[]>>
-  sidebarGroups: ComputedRef<DefaultTheme.SidebarItem[]>
-  hasSidebar: ComputedRef<boolean>
-  isSidebarEnabled: ComputedRef<boolean>
+   sidebar: Readonly<ShallowRef<DefaultTheme.SidebarItem[]>>
+   sidebarGroups: ComputedRef<DefaultTheme.SidebarItem[]>
+   hasSidebar: ComputedRef<boolean>
+   isSidebarEnabled: ComputedRef<boolean>
 
-  hasAside: ComputedRef<boolean>
-  leftAside: ComputedRef<boolean>
+   hasAside: ComputedRef<boolean>
+   leftAside: ComputedRef<boolean>
 
-  headers: Readonly<ShallowRef<DefaultTheme.OutlineItem[]>>
-  hasLocalNav: ComputedRef<boolean>
-}
-```
+   headers: Readonly<ShallowRef<DefaultTheme.OutlineItem[]>>
+   hasLocalNav: ComputedRef<boolean>
+ }
+ ```
 
-**Example:**
+**例:**
 
-```vue
-<script setup>
-import { useLayout } from 'vitepress/theme'
+ ```vue
+ <script setup>
+ import { useLayout } from 'vitepress/theme'
 
-const { hasSidebar } = useLayout()
-</script>
+ const { hasSidebar } = useLayout()
+ </script>
 
-<template>
-  <div v-if="hasSidebar">Only show when sidebar exists</div>
-</template>
-```
+ <template>
+   <div v-if="hasSidebar">サイドバーがあるときだけ表示</div>
+ </template>
+ ```

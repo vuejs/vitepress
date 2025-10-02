@@ -1,18 +1,18 @@
-# Prev Next Links
+# 前／次リンク
 
-You can customize the text and link for the previous and next pages (shown at doc footer). This is helpful if you want a different text there than what you have on your sidebar. Additionally, you may find it useful to disable the footer or link to a page that is not included in your sidebar.
+ドキュメントのフッターに表示される「前のページ」「次のページ」のテキストとリンクをカスタマイズできます。サイドバーに表示しているタイトルとは別の文言を使いたい場合や、フッターを無効化したり、サイドバーに含まれていないページへリンクしたい場合に便利です。
 
 ## prev
 
-- Type: `string | false | { text?: string; link?: string }`
+- 型: `string | false | { text?: string; link?: string }`
 
-- Details:
+- 詳細:
 
-  Specifies the text/link to show on the link to the previous page. If you don't set this in frontmatter, the text/link will be inferred from the sidebar config.
+  前のページへのリンクに表示するテキスト／リンクを指定します。フロントマターで設定しない場合は、サイドバー設定から自動推測されます。
 
-- Examples:
+- 例:
 
-  - To customize only the text:
+  - テキストだけをカスタマイズ:
 
     ```yaml
     ---
@@ -20,7 +20,7 @@ You can customize the text and link for the previous and next pages (shown at do
     ---
     ```
 
-  - To customize both text and link:
+  - テキストとリンクの両方をカスタマイズ:
 
     ```yaml
     ---
@@ -30,7 +30,7 @@ You can customize the text and link for the previous and next pages (shown at do
     ---
     ```
 
-  - To hide previous page:
+  - 前のページを非表示にする:
 
     ```yaml
     ---
@@ -40,4 +40,4 @@ You can customize the text and link for the previous and next pages (shown at do
 
 ## next
 
-Same as `prev` but for the next page.
+`prev` と同様ですが、次のページ用の設定です。

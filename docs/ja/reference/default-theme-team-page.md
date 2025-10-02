@@ -23,13 +23,13 @@ const members = [
 ]
 </script>
 
-# Team Page
+# チームページ
 
-If you would like to introduce your team, you may use Team components to construct the Team Page. There are two ways of using these components. One is to embed it in doc page, and another is to create a full Team Page.
+チームを紹介したい場合は、Team コンポーネント群を使ってチームページを構成できます。使い方は 2 通りあり、ドキュメントページに埋め込む方法と、専用のチームページを作成する方法があります。
 
-## Show team members in a page
+## ページ内にメンバー一覧を表示する
 
-You may use `<VPTeamMembers>` component exposed from `vitepress/theme` to display a list of team members on any page.
+任意のページでチームメンバーの一覧を表示するには、`vitepress/theme` からエクスポートされている `<VPTeamMembers>` コンポーネントを使用します。
 
 ```html
 <script setup>
@@ -49,28 +49,28 @@ const members = [
 ]
 </script>
 
-# Our Team
+# 私たちのチーム
 
-Say hello to our awesome team.
+私たちの素晴らしいチームを紹介します。
 
 <VPTeamMembers size="small" :members />
 ```
 
-The above will display a team member in card looking element. It should display something similar to below.
+上記のように、カード風の要素でメンバーが表示されます。下図のような見た目になります。
 
 <VPTeamMembers size="small" :members />
 
-`<VPTeamMembers>` component comes in 2 different sizes, `small` and `medium`. While it boils down to your preference, usually `small` size should fit better when used in doc page. Also, you may add more properties to each member such as adding "description" or "sponsor" button. Learn more about it in [`<VPTeamMembers>`](#vpteammembers).
+`<VPTeamMembers>` コンポーネントには `small` と `medium` の 2 種類のサイズがあります。好みによりますが、ドキュメントページ内で使う場合は `small` が馴染みやすいことが多いでしょう。各メンバーに「説明文」や「スポンサー」ボタンなど、追加のプロパティを付けることもできます。詳細は [`<VPTeamMembers>`](#vpteammembers) を参照してください。
 
-Embedding team members in doc page is good for small size team where having dedicated full team page might be too much, or introducing partial members as a reference to documentation context.
+小規模なチームで専用ページまでは不要な場合や、文脈上の参考として一部のメンバーのみを紹介したい場合は、ドキュメントページへ埋め込む方法が適しています。
 
-If you have large number of members, or simply would like to have more space to show team members, consider [creating a full team page](#create-a-full-team-page).
+メンバーが多い場合や、より広いスペースで紹介したい場合は、[専用のチームページを作成する](#専用のチームページを作成する) ことを検討してください。
 
-## Create a full Team Page
+## 専用のチームページを作成する
 
-Instead of adding team members to doc page, you may also create a full Team Page, similar to how you can create a custom [Home Page](./default-theme-home-page).
+ドキュメントページにメンバーを追加する代わりに、カスタムの [ホームページ](./default-theme-home-page) と同様、専用のチームページを作成することもできます。
 
-To create a team page, first, create a new md file. The file name doesn't matter, but here lets call it `team.md`. In this file, set frontmatter option `layout: page`, and then you may compose your page structure using `TeamPage` components.
+まず新しい md ファイルを作成します。ファイル名は任意ですが、ここでは `team.md` とします。このファイルでフロントマターに `layout: page` を設定し、その後 `TeamPage` コンポーネント群を使ってページを構成します。
 
 ```html
 ---
@@ -100,28 +100,28 @@ const members = [
 <VPTeamPage>
   <VPTeamPageTitle>
     <template #title>
-      Our Team
+      私たちのチーム
     </template>
     <template #lead>
-      The development of VitePress is guided by an international
-      team, some of whom have chosen to be featured below.
+      VitePress の開発は国際的なチームによって主導されています。
+      その一部を以下に紹介します。
     </template>
   </VPTeamPageTitle>
   <VPTeamMembers :members />
 </VPTeamPage>
 ```
 
-When creating a full team page, remember to wrap all components with `<VPTeamPage>` component. This component will ensure all nested team related components get the proper layout structure like spacings.
+専用のチームページを作る際は、必ずすべてのチーム関連コンポーネントを `<VPTeamPage>` でラップしてください。レイアウトや余白などが適切に適用されます。
 
-`<VPPageTitle>` component adds the page title section. The title being `<h1>` heading. Use `#title` and `#lead` slot to document about your team.
+`<VPPageTitle>` はページタイトルのセクションを追加します。タイトルは `<h1>` 見出しになります。`#title` と `#lead` スロットでチームについて説明を書きましょう。
 
-`<VPMembers>` works as same as when used in a doc page. It will display list of members.
+`<VPMembers>` はドキュメントページで使う場合と同様に、メンバー一覧を表示します。
 
-### Add sections to divide team members
+### セクションを追加してメンバーを分ける
 
-You may add "sections" to the team page. For example, you may have different types of team members such as Core Team Members and Community Partners. You can divide these members into sections to better explain the roles of each group.
+チームページに「セクション」を追加できます。たとえば、コアメンバーとコミュニティパートナーなど、役割ごとにメンバーを分けて説明しやすくできます。
 
-To do so, add `<VPTeamPageSection>` component to the `team.md` file we created previously.
+そのためには、先ほど作成した `team.md` に `<VPTeamPageSection>` コンポーネントを追加します。
 
 ```html
 ---
@@ -141,12 +141,12 @@ const partners = [...]
 
 <VPTeamPage>
   <VPTeamPageTitle>
-    <template #title>Our Team</template>
+    <template #title>私たちのチーム</template>
     <template #lead>...</template>
   </VPTeamPageTitle>
   <VPTeamMembers size="medium" :members="coreMembers" />
   <VPTeamPageSection>
-    <template #title>Partners</template>
+    <template #title>パートナー</template>
     <template #lead>...</template>
     <template #members>
       <VPTeamMembers size="small" :members="partners" />
@@ -155,13 +155,13 @@ const partners = [...]
 </VPTeamPage>
 ```
 
-The `<VPTeamPageSection>` component can have `#title` and `#lead` slot similar to `VPTeamPageTitle` component, and also `#members` slot for displaying team members.
+`<VPTeamPageSection>` は `VPTeamPageTitle` と同様に `#title` と `#lead` のスロットを持ち、さらにメンバー表示用の `#members` スロットを備えます。
 
-Remember to put in `<VPTeamMembers>` component within `#members` slot.
+`#members` スロット内に `<VPTeamMembers>` を配置するのを忘れないでください。
 
 ## `<VPTeamMembers>`
 
-The `<VPTeamMembers>` component displays a given list of members.
+`<VPTeamMembers>` コンポーネントは、与えられたメンバー配列を表示します。
 
 ```html
 <VPTeamMembers
@@ -176,63 +176,62 @@ The `<VPTeamMembers>` component displays a given list of members.
 
 ```ts
 interface Props {
-  // Size of each members. Defaults to `medium`.
+  // 各メンバーカードのサイズ。既定は `medium`。
   size?: 'small' | 'medium'
 
-  // List of members to display.
+  // 表示するメンバー一覧。
   members: TeamMember[]
 }
 
 interface TeamMember {
-  // Avatar image for the member.
+  // メンバーのアバター画像
   avatar: string
 
-  // Name of the member.
+  // メンバー名
   name: string
 
-  // Title to be shown below member's name.
-  // e.g. Developer, Software Engineer, etc.
+  // 名前の下に表示する肩書き（例: Developer, Software Engineer など）
   title?: string
 
-  // Organization that the member belongs.
+  // 所属組織名
   org?: string
 
-  // URL for the organization.
+  // 所属組織への URL
   orgLink?: string
 
-  // Description for the member.
+  // メンバーの説明
   desc?: string
 
-  // Social links. e.g. GitHub, Twitter, etc. You may pass in
-  // the Social Links object here.
-  // See: https://vitepress.dev/reference/default-theme-config.html#sociallinks
+  // ソーシャルリンク（例: GitHub, Twitter など）
+  // Social Links オブジェクトを渡せます。
+  // 参照: https://vitepress.dev/reference/default-theme-config.html#sociallinks
   links?: SocialLink[]
 
-  // URL for the sponsor page for the member.
+  // メンバーのスポンサー用 URL
   sponsor?: string
 
-  // Text for the sponsor link. Defaults to 'Sponsor'.
+  // スポンサーボタンのテキスト。既定は 'Sponsor'
   actionText?: string
 }
 ```
 
 ## `<VPTeamPage>`
 
-The root component when creating a full team page. It only accepts a single slot. It will style all passed in team related components.
+専用のチームページを作成する際のルートコンポーネントです。単一のスロットのみを受け取り、渡されたチーム関連コンポーネント全体に適切なスタイルを適用します。
 
 ## `<VPTeamPageTitle>`
 
-Adds "title" section of the page. Best use at the very beginning under `<VPTeamPage>`. It accepts `#title` and `#lead` slot.
+ページの「タイトル」セクションを追加します。`<VPTeamPage>` の直下に置くのが最適です。`#title` と `#lead` のスロットを受け取ります。
 
 ```html
 <VPTeamPage>
   <VPTeamPageTitle>
     <template #title>
-      Our Team
+      私たちのチーム
     </template>
     <template #lead>
-      The development of VitePress is guided by an international
-      team, some of whom have chosen to be featured below.
+      VitePress の開発は国際的なチームによって主導されています。
+      その一部を以下に紹介します。
     </template>
   </VPTeamPageTitle>
 </VPTeamPage>
@@ -240,13 +239,13 @@ Adds "title" section of the page. Best use at the very beginning under `<VPTeamP
 
 ## `<VPTeamPageSection>`
 
-Creates a "section" with in team page. It accepts `#title`, `#lead`, and `#members` slot. You may add as many sections as you like inside `<VPTeamPage>`.
+チームページ内に「セクション」を作成します。`#title`、`#lead`、`#members` の各スロットを受け取ります。`<VPTeamPage>` の中に必要な数だけ追加できます。
 
 ```html
 <VPTeamPage>
   ...
   <VPTeamPageSection>
-    <template #title>Partners</template>
+    <template #title>パートナー</template>
     <template #lead>Lorem ipsum...</template>
     <template #members>
       <VPTeamMembers :members="data" />

@@ -1,35 +1,35 @@
-# Runtime API
+# ランタイム API
 
-VitePress offers several built-in APIs to let you access app data. VitePress also comes with a few built-in components that can be used globally.
+VitePress には、アプリのデータへアクセスするための組み込み API がいくつか用意されています。さらに、グローバルに使用できる組み込みコンポーネントも提供されています。
 
-The helper methods are globally importable from `vitepress` and are typically used in custom theme Vue components. However, they are also usable inside `.md` pages because markdown files are compiled into Vue [Single-File Components](https://vuejs.org/guide/scaling-up/sfc.html).
+ヘルパーメソッドは `vitepress` からグローバルインポートでき、主にカスタムテーマの Vue コンポーネントで使われます。Markdown ファイルは Vue の [Single File Component](https://vuejs.org/guide/scaling-up/sfc.html) にコンパイルされるため、`.md` ファイル内でも使用できます。
 
-Methods that start with `use*` indicates that it is a [Vue 3 Composition API](https://vuejs.org/guide/introduction.html#composition-api) function ("Composable") that can only be used inside `setup()` or `<script setup>`.
+`use*` で始まるメソッドは [Vue 3 Composition API](https://vuejs.org/guide/introduction.html#composition-api) の関数（Composable）で、`setup()` または `<script setup>` の中でのみ使用できます。
 
 ## `useData` <Badge type="info" text="composable" />
 
-Returns page-specific data. The returned object has the following type:
+ページ固有のデータを返します。戻り値の型は次のとおりです。
 
 ```ts
 interface VitePressData<T = any> {
   /**
-   * Site-level metadata
+   * サイト全体のメタデータ
    */
   site: Ref<SiteData<T>>
   /**
-   * themeConfig from .vitepress/config.js
+   * .vitepress/config.js の themeConfig
    */
   theme: Ref<T>
   /**
-   * Page-level metadata
+   * ページ単位のメタデータ
    */
   page: Ref<PageData>
   /**
-   * Page frontmatter
+   * ページのフロントマター
    */
   frontmatter: Ref<PageData['frontmatter']>
   /**
-   * Dynamic route params
+   * 動的ルートのパラメータ
    */
   params: Ref<PageData['params']>
   title: Ref<string>
@@ -39,7 +39,7 @@ interface VitePressData<T = any> {
   dir: Ref<string>
   localeIndex: Ref<string>
   /**
-   * Current location hash
+   * 現在の location hash
    */
   hash: Ref<string>
 }
@@ -58,7 +58,7 @@ interface PageData {
 }
 ```
 
-**Example:**
+**使用例:**
 
 ```vue
 <script setup>
@@ -74,7 +74,7 @@ const { theme } = useData()
 
 ## `useRoute` <Badge type="info" text="composable" />
 
-Returns the current route object with the following type:
+現在のルートオブジェクトを返します。型は次のとおりです。
 
 ```ts
 interface Route {
@@ -86,33 +86,33 @@ interface Route {
 
 ## `useRouter` <Badge type="info" text="composable" />
 
-Returns the VitePress router instance so you can programmatically navigate to another page.
+VitePress のルーターインスタンスを返し、プログラムで別ページへ遷移できます。
 
 ```ts
 interface Router {
   /**
-   * Current route.
+   * 現在のルート
    */
   route: Route
   /**
-   * Navigate to a new URL.
+   * 新しい URL へ遷移
    */
   go: (to?: string) => Promise<void>
   /**
-   * Called before the route changes. Return `false` to cancel the navigation.
+   * ルートが変わる前に呼ばれる。`false` を返すと遷移をキャンセル
    */
   onBeforeRouteChange?: (to: string) => Awaitable<void | boolean>
   /**
-   * Called before the page component is loaded (after the history state is updated).
-   * Return `false` to cancel the navigation.
+   * ページコンポーネントが読み込まれる前（履歴が更新された後）に呼ばれる。
+   * `false` を返すと遷移をキャンセル
    */
   onBeforePageLoad?: (to: string) => Awaitable<void | boolean>
   /**
-   * Called after the page component is loaded (before the page component is updated).
+   * ページコンポーネントが読み込まれた後（更新前）に呼ばれる
    */
   onAfterPageLoad?: (to: string) => Awaitable<void>
   /**
-   * Called after the route changes.
+   * ルートが変わった後に呼ばれる
    */
   onAfterRouteChange?: (to: string) => Awaitable<void>
 }
@@ -120,13 +120,13 @@ interface Router {
 
 ## `withBase` <Badge type="info" text="helper" />
 
-- **Type**: `(path: string) => string`
+- **型**: `(path: string) => string`
 
-Appends the configured [`base`](./site-config#base) to a given URL path. Also see [Base URL](../guide/asset-handling#base-url).
+設定された [`base`](./site-config#base) を指定の URL パスに付与します。[Base URL](../guide/asset-handling#base-url) も参照。
 
 ## `<Content />` <Badge type="info" text="component" />
 
-The `<Content />` component displays the rendered markdown contents. Useful [when creating your own theme](../guide/custom-theme).
+レンダリング済みの Markdown コンテンツを表示します。［独自テーマの作成時］(../guide/custom-theme) に便利です。
 
 ```vue
 <template>
@@ -137,11 +137,11 @@ The `<Content />` component displays the rendered markdown contents. Useful [whe
 
 ## `<ClientOnly />` <Badge type="info" text="component" />
 
-The `<ClientOnly />` component renders its slot only at client side.
+スロット内容をクライアント側でのみレンダリングします。
 
-Because VitePress applications are server-rendered in Node.js when generating static builds, any Vue usage must conform to the universal code requirements. In short, make sure to only access Browser / DOM APIs in beforeMount or mounted hooks.
+VitePress アプリは静的ビルド時に Node.js 上でサーバーレンダリングされるため、Vue の使用はユニバーサルコードの要件に従う必要があります。要するに、ブラウザ／DOM API へのアクセスは beforeMount / mounted フック内に限定してください。
 
-If you are using or demoing components that are not SSR-friendly (for example, contain custom directives), you can wrap them inside the `ClientOnly` component.
+SSR 非対応（例: カスタムディレクティブを含む）なコンポーネントを使用・デモする場合は、`ClientOnly` でラップできます。
 
 ```vue-html
 <ClientOnly>
@@ -149,11 +149,11 @@ If you are using or demoing components that are not SSR-friendly (for example, c
 </ClientOnly>
 ```
 
-- Related: [SSR Compatibility](../guide/ssr-compat)
+- 関連: [SSR 互換性](../guide/ssr-compat)
 
 ## `$frontmatter` <Badge type="info" text="template global" />
 
-Directly access current page's [frontmatter](../guide/frontmatter) data in Vue expressions.
+Vue の式内で現在ページの [フロントマター](../guide/frontmatter) に直接アクセスします。
 
 ```md
 ---
@@ -165,7 +165,7 @@ title: Hello
 
 ## `$params` <Badge type="info" text="template global" />
 
-Directly access current page's [dynamic route params](../guide/routing#dynamic-routes) in Vue expressions.
+Vue の式内で現在ページの [動的ルートのパラメータ](../guide/routing#dynamic-routes) に直接アクセスします。
 
 ```md
 - package name: {{ $params.pkg }}

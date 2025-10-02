@@ -2,11 +2,11 @@
 outline: deep
 ---
 
-# Search
+# 検索
 
-## Local Search
+## ローカル検索
 
-VitePress supports fuzzy full-text search using an in-browser index thanks to [minisearch](https://github.com/lucaong/minisearch/). To enable this feature, simply set the `themeConfig.search.provider` option to `'local'` in your `.vitepress/config.ts` file:
+VitePress は、[minisearch](https://github.com/lucaong/minisearch/) によるブラウザ内インデックスを使った曖昧一致の全文検索をサポートします。有効化するには、`.vitepress/config.ts` で `themeConfig.search.provider` を `'local'` に設定します。
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -20,11 +20,11 @@ export default defineConfig({
 })
 ```
 
-Example result:
+表示例:
 
 ![screenshot of the search modal](/search.png)
 
-Alternatively, you can use [Algolia DocSearch](#algolia-search) or some community plugins like:
+代わりに [Algolia DocSearch](#algolia-search) や、次のコミュニティ製プラグインを使うこともできます。
 
 - <https://www.npmjs.com/package/vitepress-plugin-search>
 - <https://www.npmjs.com/package/vitepress-plugin-pagefind>
@@ -32,7 +32,7 @@ Alternatively, you can use [Algolia DocSearch](#algolia-search) or some communit
 
 ### i18n {#local-search-i18n}
 
-You can use a config like this to use multilingual search:
+多言語検索を行う設定例です。
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -43,7 +43,7 @@ export default defineConfig({
       provider: 'local',
       options: {
         locales: {
-          zh: { // make this `root` if you want to translate the default locale
+          zh: { // 既定ロケールの文言も翻訳したい場合はこれを `root` に
             translations: {
               button: {
                 buttonText: '搜索',
@@ -73,9 +73,9 @@ export default defineConfig({
 })
 ```
 
-### miniSearch options
+### miniSearch のオプション
 
-You can configure MiniSearch like this:
+MiniSearch の設定例です。
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -107,11 +107,11 @@ export default defineConfig({
 })
 ```
 
-Learn more in [MiniSearch docs](https://lucaong.github.io/minisearch/classes/MiniSearch.MiniSearch.html).
+詳しくは [MiniSearch のドキュメント](https://lucaong.github.io/minisearch/classes/MiniSearch.MiniSearch.html) を参照してください。
 
-### Custom content renderer
+### コンテンツレンダラーのカスタマイズ
 
-You can customize the function used to render the markdown content before indexing it:
+インデックス前に Markdown コンテンツをレンダリングする関数をカスタマイズできます。
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -127,7 +127,7 @@ export default defineConfig({
          * @param {import('markdown-it-async')} md
          */
         async _render(src, env, md) {
-          // return html string
+          // HTML 文字列を返す
         }
       }
     }
@@ -135,11 +135,11 @@ export default defineConfig({
 })
 ```
 
-This function will be stripped from client-side site data, so you can use Node.js APIs in it.
+この関数はクライアント側のサイトデータからは除外されるため、Node.js の API を使用できます。
 
-#### Example: Excluding pages from search
+#### 例: 検索対象からページを除外する
 
-You can exclude pages from search by adding `search: false` to the frontmatter of the page. Alternatively:
+フロントマターに `search: false` を追加すると、そのページを検索対象から除外できます。あるいは次のようにもできます。
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -161,11 +161,11 @@ export default defineConfig({
 })
 ```
 
-::: warning Note
-In case a custom `_render` function is provided, you need to handle the `search: false` frontmatter yourself. Also, the `env` object won't be completely populated before `md.renderAsync` is called, so any checks on optional `env` properties like `frontmatter` should be done after that.
+::: warning 注意
+カスタムの `_render` 関数を提供する場合、`search: false` の処理は自分で行う必要があります。また、`env` は `md.renderAsync` の呼び出し前には完全ではないため、`frontmatter` などの任意プロパティのチェックはその後に行ってください。
 :::
 
-#### Example: Transforming content - adding anchors
+#### 例: コンテンツの変換 — 見出しアンカーを追加
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -187,9 +187,9 @@ export default defineConfig({
 })
 ```
 
-## Algolia Search
+## Algolia 検索
 
-VitePress supports searching your docs site using [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Refer their getting started guide. In your `.vitepress/config.ts` you'll need to provide at least the following to make it work:
+VitePress は [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch) によるサイト検索をサポートします。導入は公式のガイドを参照してください。`.vitepress/config.ts` では最低限次の設定が必要です。
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -210,7 +210,7 @@ export default defineConfig({
 
 ### i18n {#algolia-search-i18n}
 
-You can use a config like this to use multilingual search:
+多言語検索の設定例です。
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -303,11 +303,11 @@ export default defineConfig({
 })
 ```
 
-[These options](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts) can be overridden. Refer official Algolia docs to learn more about them.
+[これらのオプション](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts) は上書きできます。詳細は Algolia の公式ドキュメントを参照してください。
 
-### Algolia Ask AI Support {#ask-ai}
+### Algolia Ask AI のサポート {#ask-ai}
 
-If you would like to include **Ask AI**, pass the `askAi` option (or any of the partial fields) inside `options`:
+**Ask AI** を有効にするには、`options` 内に `askAi` オプション（またはその一部）を指定します。
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -321,11 +321,11 @@ export default defineConfig({
         apiKey: '...',
         indexName: '...',
         // askAi: "YOUR-ASSISTANT-ID"
-        // OR
+        // または
         askAi: {
-          // at minimum you must provide the assistantId you received from Algolia
+          // 少なくとも Algolia から受け取った assistantId を指定
           assistantId: 'XXXYYY',
-          // optional overrides – if omitted, the top-level appId/apiKey/indexName values are reused
+          // 任意の上書き — 省略時は上位の appId/apiKey/indexName を再利用
           // apiKey: '...',
           // appId: '...',
           // indexName: '...'
@@ -336,15 +336,15 @@ export default defineConfig({
 })
 ```
 
-::: warning Note
-If want to default to keyword search and do not want to use Ask AI, just omit the `askAi` property
+::: warning 注意
+キーワード検索を既定にして Ask AI を使わない場合は、`askAi` を指定しないでください。
 :::
 
-The translations for the Ask AI UI live under `options.translations.modal.askAiScreen` and `options.translations.resultsScreen` — see the [type definitions](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts) for all keys.
+Ask AI UI の翻訳は `options.translations.modal.askAiScreen` と `options.translations.resultsScreen` にあります。すべてのキーは[型定義](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts)を参照してください。
 
-### Crawler Config
+### クローラー設定
 
-Here is an example config based on what this site uses:
+このサイトで使用している設定を元にした例です。
 
 ```ts
 new Crawler({

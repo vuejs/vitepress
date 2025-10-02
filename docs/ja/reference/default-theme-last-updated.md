@@ -1,13 +1,13 @@
-# Last Updated
+# 最終更新日時
 
-The update time of the last content will be displayed in the lower right corner of the page. To enable it, add `lastUpdated` options to your config.
+ページ右下に、コンテンツの最終更新時刻を表示できます。有効化するには、設定に `lastUpdated` オプションを追加します。
 
 ::: info
-VitePress displays the "last updated" time using the timestamp of the most recent Git commit for each file. To enable this, the Markdown file must be committed to Git.
+VitePress は各ファイルの **直近の Git コミットのタイムスタンプ** を用いて「最終更新」を表示します。これを有効にするには、対象の Markdown ファイルが Git にコミットされている必要があります。
 
-Internally, VitePress runs `git log -1 --pretty="%ai"` on each file to retrieve its timestamp. If all pages show the same update time, it's likely due to shallow cloning (common in CI environments), which limits Git history.
+内部的には、各ファイルに対して `git log -1 --pretty="%ai"` を実行してタイムスタンプを取得します。すべてのページで同じ更新時刻が表示される場合、（CI 環境でよくある）**浅いクローン（shallow clone）** により Git の履歴が取得できていない可能性があります。
 
-To fix this in **GitHub Actions**, use the following in your workflow:
+**GitHub Actions** での修正例は次のとおりです。
 
 ```yaml{4}
 - name: Checkout
@@ -16,16 +16,16 @@ To fix this in **GitHub Actions**, use the following in your workflow:
     fetch-depth: 0
 ```
 
-Other CI/CD platforms have similar settings.
+他の CI/CD プラットフォームでも同様の設定が用意されています。
 
-If such options aren't available, you can prepend the `docs:build` command in your `package.json` with a manual fetch:
+もしそのようなオプションが使えない場合は、`package.json` のビルドスクリプトで手動フェッチを前置してください。
 
 ```json
 "docs:build": "git fetch --unshallow && vitepress build docs"
 ```
 :::
 
-## Site-Level Config
+## サイトレベルの設定
 
 ```js
 export default {
@@ -33,9 +33,9 @@ export default {
 }
 ```
 
-## Frontmatter Config
+## フロントマターでの設定
 
-This can be disabled per-page using the `lastUpdated` option on frontmatter:
+ページ単位で無効化するには、フロントマターで `lastUpdated` を指定します。
 
 ```yaml
 ---
@@ -43,4 +43,4 @@ lastUpdated: false
 ---
 ```
 
-Also refer [Default Theme: Last Updated](./default-theme-config#lastupdated) for more details. Any truthy value at theme-level will also enable the feature unless explicitly disabled at site or page level.
+より詳しくは [デフォルトテーマ: 最終更新](./default-theme-config#lastupdated) を参照してください。テーマレベルで truthy な値を設定すると、サイトまたはページで明示的に無効化しない限り、この機能は有効になります。

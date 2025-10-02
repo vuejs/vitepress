@@ -1,6 +1,6 @@
-# Footer
+# フッター
 
-VitePress will display global footer at the bottom of the page when `themeConfig.footer` is present.
+`themeConfig.footer` を設定すると、ページ下部にグローバルフッターが表示されます。
 
 ```ts
 export default {
@@ -15,15 +15,15 @@ export default {
 
 ```ts
 export interface Footer {
-  // The message shown right before copyright.
+  // 著作権表示の直前に表示されるメッセージ
   message?: string
 
-  // The actual copyright text.
+  // 実際の著作権表記
   copyright?: string
 }
 ```
 
-The above configuration also supports HTML strings. So, for example, if you want to configure footer text to have some links, you can adjust the configuration as follows:
+上記の設定は HTML 文字列にも対応しています。たとえば、フッター内のテキストにリンクを含めたい場合は、次のように設定できます。
 
 ```ts
 export default {
@@ -37,14 +37,16 @@ export default {
 ```
 
 ::: warning
-Only inline elements can be used in `message` and `copyright` as they are rendered inside a `<p>` element. If you want to add block elements, consider using [`layout-bottom`](../guide/extending-default-theme#layout-slots) slot instead.
+`message` と `copyright` は `<p>` 要素内にレンダリングされるため、
+使用できるのはインライン要素のみです。ブロック要素を追加したい場合は、
+[`layout-bottom`](../guide/extending-default-theme#layout-slots) スロットの利用を検討してください。
 :::
 
-Note that footer will not be displayed when the [SideBar](./default-theme-sidebar) is visible.
+なお、[SideBar](./default-theme-sidebar) が表示されている場合はフッターは表示されません。
 
-## Frontmatter Config
+## フロントマターでの設定
 
-This can be disabled per-page using the `footer` option on frontmatter:
+ページ単位で無効化するには、フロントマターの `footer` オプションを使用します。
 
 ```yaml
 ---

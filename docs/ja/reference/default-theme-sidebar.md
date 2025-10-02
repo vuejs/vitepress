@@ -1,6 +1,6 @@
-# Sidebar
+# サイドバー
 
-The sidebar is the main navigation block for your documentation. You can configure the sidebar menu in [`themeConfig.sidebar`](./default-theme-config#sidebar).
+サイドバーはドキュメントの主要なナビゲーションブロックです。[`themeConfig.sidebar`](./default-theme-config#sidebar) でメニューを設定できます。
 
 ```js
 export default {
@@ -19,9 +19,9 @@ export default {
 }
 ```
 
-## The Basics
+## 基本
 
-The simplest form of the sidebar menu is passing in a single array of links. The first level item defines the "section" for the sidebar. It should contain `text`, which is the title of the section, and `items` which are the actual navigation links.
+最もシンプルな構成は、リンクの配列を 1 つ渡す方法です。第 1 階層のアイテムがサイドバーの「セクション」を表します。各セクションは `text`（セクションのタイトル）と、実際のナビゲーションリンクである `items` を持ちます。
 
 ```js
 export default {
@@ -48,7 +48,7 @@ export default {
 }
 ```
 
-Each `link` should specify the path to the actual file starting with `/`. If you add trailing slash to the end of link, it will show `index.md` of the corresponding directory.
+各 `link` は `/` で始まる実ファイルへのパスを指定します。リンクの末尾を `/` で終わらせると、対応するディレクトリの `index.md` が表示されます。
 
 ```js
 export default {
@@ -57,7 +57,7 @@ export default {
       {
         text: 'Guide',
         items: [
-          // This shows `/guide/index.md` page.
+          // `/guide/index.md` を表示
           { text: 'Introduction', link: '/guide/' }
         ]
       }
@@ -66,7 +66,7 @@ export default {
 }
 ```
 
-You may further nest the sidebar items up to 6 level deep counting up from the root level. Note that deeper than 6 level of nested items gets ignored and will not be displayed on the sidebar.
+サイドバーのアイテムは、ルートから数えて最大 6 階層まで入れ子にできます。7 階層以上は無視され、表示されません。
 
 ```js
 export default {
@@ -93,11 +93,11 @@ export default {
 }
 ```
 
-## Multiple Sidebars
+## 複数のサイドバー
 
-You may show different sidebar depending on the page path. For example, as shown on this site, you might want to create a separate sections of content in your documentation like "Guide" page and "Config" page.
+ページのパスに応じて異なるサイドバーを表示できます。たとえば、このサイトのように「Guide」セクションと「Config」セクションでナビゲーションを分けたい場合に便利です。
 
-To do so, first organize your pages into directories for each desired section:
+まず、対象のセクションごとにディレクトリを分けてページを配置します。
 
 ```
 .
@@ -111,14 +111,13 @@ To do so, first organize your pages into directories for each desired section:
    └─ four.md
 ```
 
-Then, update your configuration to define your sidebar for each section. This time, you should pass an object instead of an array.
+次に、各セクション用のサイドバーを設定します。この場合、配列ではなくオブジェクトを渡します。
 
 ```js
 export default {
   themeConfig: {
     sidebar: {
-      // This sidebar gets displayed when a user
-      // is on `guide` directory.
+      // ユーザーが `guide` ディレクトリ配下にいるときに表示
       '/guide/': [
         {
           text: 'Guide',
@@ -130,8 +129,7 @@ export default {
         }
       ],
 
-      // This sidebar gets displayed when a user
-      // is on `config` directory.
+      // ユーザーが `config` ディレクトリ配下にいるときに表示
       '/config/': [
         {
           text: 'Config',
@@ -147,9 +145,9 @@ export default {
 }
 ```
 
-## Collapsible Sidebar Groups
+## 折りたたみ可能なサイドバーグループ
 
-By adding `collapsed` option to the sidebar group, it shows a toggle button to hide/show each section.
+サイドバーグループに `collapsed` オプションを追加すると、各セクションの開閉トグルが表示されます。
 
 ```js
 export default {
@@ -165,7 +163,7 @@ export default {
 }
 ```
 
-All sections are "open" by default. If you would like them to be "closed" on initial page load, set `collapsed` option to `true`.
+既定ではすべてのセクションが「開いた」状態です。初回表示時に「閉じた」状態にしたい場合は、`collapsed` を `true` に設定します。
 
 ```js
 export default {
