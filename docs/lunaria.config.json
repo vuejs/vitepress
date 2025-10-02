@@ -44,6 +44,10 @@
     {
       "label": "فارسی",
       "lang": "fa"
+    },
+    {
+      "label": "日本語",
+      "lang": "ja"
     }
   ],
   "outDir": ".vitepress/dist/_translations",

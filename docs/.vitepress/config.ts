@@ -52,6 +52,8 @@ export default defineConfig({
               return 'Скопировать код'
             case 'zh':
               return '复制代码'
+            case 'ja':
+              return 'コードをコピー'
             default:
               return 'Copy code'
           }
@@ -130,7 +132,8 @@ export default defineConfig({
     ru: { label: 'Русский', lang: 'ru-RU', dir: 'ltr' },
     es: { label: 'Español', lang: 'es', dir: 'ltr' },
     ko: { label: '한국어', lang: 'ko-KR', dir: 'ltr' },
-    fa: { label: 'فارسی', lang: 'fa-IR', dir: 'rtl' }
+    fa: { label: 'فارسی', lang: 'fa-IR', dir: 'rtl' },
+    ja: { label: '日本語', lang: 'ja', dir: 'ltr' }
   },
 
   vite: {
