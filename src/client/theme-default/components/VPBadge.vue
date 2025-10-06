@@ -24,6 +24,7 @@ withDefaults(defineProps<Props>(), {
   line-height: 22px;
   font-size: 12px;
   font-weight: 500;
+  white-space: nowrap;
   transform: translateY(-2px);
 }
 

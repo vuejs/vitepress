@@ -83,7 +83,6 @@ function getResolutionCache(siteConfig: SiteConfig) {
 export async function createMarkdownToVueRenderFn(
   srcDir: string,
   options: MarkdownOptions = {},
-  isBuild = false,
   base = '/',
   includeLastUpdatedData = false,
   cleanUrls = false,
@@ -115,7 +114,7 @@ export async function createMarkdownToVueRenderFn(
     const relativePath = slash(path.relative(srcDir, file))
 
     const cacheKey = JSON.stringify({ src, ts, relativePath })
-    if (isBuild || options.cache !== false) {
+    if (options.cache !== false) {
       const cached = cache.get(cacheKey)
       if (cached) {
         debug(`[cache hit] ${relativePath}`)
@@ -177,15 +176,9 @@ export async function createMarkdownToVueRenderFn(
       }
 
       return siteConfig.ignoreDeadLinks.some((ignore) => {
-        if (typeof ignore === 'string') {
-          return url === ignore
-        }
-        if (ignore instanceof RegExp) {
-          return ignore.test(url)
-        }
-        if (typeof ignore === 'function') {
-          return ignore(url, fileOrig)
-        }
+        if (typeof ignore === 'string') return url === ignore
+        if (ignore instanceof RegExp) return ignore.test(url)
+        if (typeof ignore === 'function') return ignore(url, fileOrig)
         return false
       })
     }
@@ -198,6 +191,7 @@ export async function createMarkdownToVueRenderFn(
 
         url = url.replace(/[?#].*$/, '').replace(/\.(html|md)$/, '')
         if (url.endsWith('/')) url += `index`
+
         let resolved = decodeURIComponent(
           slash(
             url.startsWith('/')
@@ -207,6 +201,7 @@ export async function createMarkdownToVueRenderFn(
         )
         resolved =
           siteConfig?.rewrites.inv[resolved + '.md']?.slice(0, -3) || resolved
+
         if (
           !pages.includes(resolved) &&
           !fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`)) &&
@@ -239,12 +234,7 @@ export async function createMarkdownToVueRenderFn(
     for (const fn of transformPageData) {
       if (fn) {
         const dataToMerge = await fn(pageData, { siteConfig })
-        if (dataToMerge) {
-          pageData = {
-            ...pageData,
-            ...dataToMerge
-          }
-        }
+        if (dataToMerge) pageData = { ...pageData, ...dataToMerge }
       }
     }
 
@@ -260,15 +250,8 @@ export async function createMarkdownToVueRenderFn(
 
     debug(`[render] ${file} in ${Date.now() - start}ms.`)
 
-    const result = {
-      vueSrc,
-      pageData,
-      deadLinks,
-      includes
-    }
-    if (isBuild || options.cache !== false) {
-      cache.set(cacheKey, result)
-    }
+    const result = { vueSrc, pageData, deadLinks, includes }
+    if (options.cache !== false) cache.set(cacheKey, result)
     return result
   }
 }

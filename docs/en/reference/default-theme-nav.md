@@ -55,7 +55,7 @@ export default {
 
 The `text` will be the text displayed in nav, and the `link` is where the text will send you. Always start links with `/` and omit the `.md` suffix when linking to pages.
 
-Nav links can also be dropdown menus. To do this, set the `items` key on the given link option.
+Nav links can also be dropdown menus. To do this, set the `items` key on the given link option. The `link` can also be a function that accepts [`PageData`](./runtime-api#usedata) as the argument and returns the path. 
 
 ```js
 export default {

@@ -31,6 +31,7 @@ import { staticDataPlugin } from './plugins/staticDataPlugin'
 import { webFontsPlugin } from './plugins/webFontsPlugin'
 import { slash, type PageDataPayload } from './shared'
 import { deserializeFunctions, serializeFunctions } from './utils/fnSerialize'
+import { cacheAllGitTimestamps } from './utils/getGitTimestamp'
 
 declare module 'vite' {
   interface UserConfig {
@@ -113,10 +114,11 @@ export async function createVitePressPlugin(
 
     async configResolved(resolvedConfig) {
       config = resolvedConfig
+      // pre-resolve git timestamps
+      if (lastUpdated) await cacheAllGitTimestamps(srcDir)
       markdownToVue = await createMarkdownToVueRenderFn(
         srcDir,
         markdown,
-        config.command === 'build',
         config.base,
         lastUpdated,
         cleanUrls,

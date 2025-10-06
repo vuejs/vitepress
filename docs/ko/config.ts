@@ -74,6 +74,10 @@ function nav(): DefaultTheme.NavItem[] {
       text: pkg.version,
       items: [
         {
+          text: '1.6.4',
+          link: 'https://vuejs.github.io/vitepress/v1/ko/'
+        },
+        {
           text: '변경 로그',
           link: 'https://github.com/vuejs/vitepress/blob/main/CHANGELOG.md'
         },
