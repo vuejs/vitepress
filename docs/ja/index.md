@@ -8,10 +8,10 @@ hero:
   actions:
     - theme: brand
       text: VitePress とは？
-      link: /guide/what-is-vitepress
+      link: /ja/guide/what-is-vitepress
     - theme: alt
       text: クイックスタート
-      link: /guide/getting-started
+      link: /ja/guide/getting-started
     - theme: alt
       text: GitHub
       link: https://github.com/vuejs/vitepress
