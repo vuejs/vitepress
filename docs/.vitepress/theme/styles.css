@@ -41,3 +41,13 @@ img[src='/search.png'] {
   width: 100%;
   aspect-ratio: 1 / 1;
 }
+
+body[style*='overflow: hidden'] {
+  padding-right: var(--scrollbar-width, 0px);
+}
+
+@supports (scrollbar-gutter: stable) {
+  html {
+    scrollbar-gutter: stable;
+  }
+}
