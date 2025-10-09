@@ -1,12 +1,12 @@
-# はじめに
+# はじめに {#getting-started}
 
-## オンラインで試す
+## オンラインで試す {#try-it-online}
 
 [VitePress](https://vitepress.new) をブラウザ上で直接試すことができます。
 
-## インストール
+## インストール {#installation}
 
-### 前提条件
+### 前提条件 {#prerequisites}
 
 - [Node.js](https://nodejs.org/) バージョン 18 以上
 - VitePress をコマンドラインインターフェース (CLI) で操作するためのターミナル
@@ -39,7 +39,7 @@ $ bun add -D vitepress@next
 VitePress は ESM 専用パッケージです。`require()` を使ってインポートせず、最も近い `package.json` に `"type": "module"` を含めるか、`.vitepress/config.js` を `.mjs` / `.mts` に変更してください。詳しくは [Vite のトラブルシューティングガイド](http://vitejs.dev/guide/troubleshooting.html#this-package-is-esm-only) を参照してください。また、非同期 CJS コンテキスト内では `await import('vitepress')` を使用できます。
 :::
 
-### セットアップウィザード
+### セットアップウィザード {#setup-wizard}
 
 VitePress にはコマンドラインのセットアップウィザードが付属しており、基本的なプロジェクトを簡単に作成できます。インストール後、以下のコマンドでウィザードを起動します。
 
@@ -71,7 +71,7 @@ $ bun vitepress init
 Vue コンポーネントや API を使ったカスタマイズを行う場合は、明示的に `vue` を依存関係としてインストールしてください。
 :::
 
-## ファイル構成
+## ファイル構成 {#file-structure}
 
 スタンドアロンの VitePress サイトを構築する場合は、現在のディレクトリ (`./`) にサイトを作成できます。しかし、既存プロジェクトに VitePress を追加する場合は、他のソースコードと分離するために `./docs` などのサブディレクトリに作成することをおすすめします。
 
@@ -94,7 +94,7 @@ Vue コンポーネントや API を使ったカスタマイズを行う場合�
 デフォルトでは開発サーバーのキャッシュは `.vitepress/cache` に、本番ビルド出力は `.vitepress/dist` に保存されます。Git を使用している場合は `.gitignore` に追加してください。これらの場所は [設定](../reference/site-config#outdir) で変更可能です。
 :::
 
-### 設定ファイル
+### 設定ファイル {#the-config-file}
 
 設定ファイル (`.vitepress/config.js`) では、VitePress サイトのさまざまな動作をカスタマイズできます。最も基本的なオプションはサイトのタイトルと説明です。
 
@@ -112,7 +112,7 @@ export default {
 
 テーマの動作は `themeConfig` オプションで設定できます。利用可能なすべての設定オプションは [Config Reference](../reference/site-config) を参照してください。
 
-### ソースファイル
+### ソースファイル {#source-files}
 
 `.vitepress` ディレクトリ外の Markdown ファイルは **ソースファイル** とみなされます。
 
@@ -120,7 +120,7 @@ VitePress は **ファイルベースのルーティング** を採用してい�
 
 VitePress にはクリーン URL の生成、パスの書き換え、動的なページ生成といった機能もあります。これらは [ルーティングガイド](./routing) で解説します。
 
-## 実行してみる
+## 実行してみる {#up-and-running}
 
 セットアッププロセスで許可した場合、以下の npm スクリプトが `package.json` に追加されています。
 
@@ -184,7 +184,7 @@ $ bun vitepress dev docs
 
 開発サーバーは `http://localhost:5173` で動作します。ブラウザでこの URL にアクセスすると、新しいサイトが確認できます。
 
-## 次のステップ
+## 次のステップ {#what-s-next}
 
 - Markdown ファイルがどのように HTML にマッピングされるかを理解するには、[ルーティングガイド](./routing) を読みましょう。
 

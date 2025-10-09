@@ -1,12 +1,12 @@
-# Markdown 拡張
+# Markdown 拡張 {#markdown-extensions}
 
 VitePress には組み込みの Markdown 拡張機能が用意されています。
 
-## 見出しアンカー
+## 見出しアンカー {#header-anchors}
 
 見出しには自動的にアンカーリンクが付与されます。アンカーのレンダリングは `markdown.anchor` オプションで設定できます。
 
-### カスタムアンカー
+### カスタムアンカー {#custom-anchors}
 
 自動生成ではなく任意のアンカーを指定したい場合は、見出しの末尾にサフィックスを追加します。
 
@@ -16,11 +16,11 @@ VitePress には組み込みの Markdown 拡張機能が用意されています
 
 これにより、デフォルトの `#using-custom-anchors` ではなく `#my-anchor` でその見出しにリンクできます。
 
-## リンク
+## リンク {#links}
 
 内部リンクと外部リンクは特別に処理されます。
 
-### 内部リンク
+### 内部リンク {#internal-links}
 
 内部リンクは SPA ナビゲーションのためにルーターリンクへ変換されます。また、各サブディレクトリにある `index.md` は自動的に `index.html` に変換され、URL は対応する `/` になります。
 
@@ -50,18 +50,18 @@ VitePress には組み込みの Markdown 拡張機能が用意されています
  [bar - four](../bar/four.html) <!-- .html を付けても OK -->
  ```
 
-### ページサフィックス
+### ページサフィックス {#page-suffix}
 
 ページと内部リンクはデフォルトで `.html` サフィックス付きで生成されます。
 
-### 外部リンク
+### 外部リンク {#external-links}
 
 外部リンクには自動的に `target="_blank" rel="noreferrer"` が付与されます。
 
 - [vuejs.org](https://vuejs.org)
 - [VitePress on GitHub](https://github.com/vuejs/vitepress)
 
-## フロントマター
+## フロントマター {#frontmatter}
 
 [YAML フロントマター](https://jekyllrb.com/docs/front-matter/) をそのままサポートしています。
 
@@ -74,7 +74,7 @@ VitePress には組み込みの Markdown 拡張機能が用意されています
 
 このデータはページ内や、カスタム／テーマコンポーネントからも利用できます。詳しくは [Frontmatter](../reference/frontmatter-config) を参照してください。
 
-## GitHub 風テーブル
+## GitHub 風テーブル {#github-style-tables}
 
 **入力**
 
@@ -94,7 +94,7 @@ VitePress には組み込みの Markdown 拡張機能が用意されています
 | 2列目は  |  中央  |    \$12 |
 | シマ模様 | neatです |     \$1 |
 
-## 絵文字 :tada:
+## 絵文字 :tada: {#emoji}
 
 **入力**
 
@@ -108,7 +108,7 @@ VitePress には組み込みの Markdown 拡張機能が用意されています
 
 すべての絵文字の [一覧はこちら](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.mjs)。
 
-## 目次 
+## 目次 {#table-of-contents}
 
 **入力**
 
@@ -122,11 +122,11 @@ VitePress には組み込みの Markdown 拡張機能が用意されています
 
 TOC のレンダリングは `markdown.toc` オプションで設定できます。
 
-## カスタムコンテナ
+## カスタムコンテナ {#custom-containers}
 
 タイプ、タイトル、内容を指定してカスタムコンテナを定義できます。
 
-### デフォルトタイトル
+### デフォルトタイトル {#default-title}
 
 **入力**
 
@@ -174,7 +174,7 @@ TOC のレンダリングは `markdown.toc` オプションで設定できます
 これは詳細ブロックです。
 :::
 
-### カスタムタイトル
+### カスタムタイトル {#custom-title}
 
 コンテナの「タイプ」の直後に文字列を追加することで、タイトルをカスタマイズできます。
 
@@ -223,7 +223,7 @@ TOC のレンダリングは `markdown.toc` オプションで設定できます
  })
  ```
 
-### 追加属性
+### 追加属性 {#additional-attributes}
 
 カスタムコンテナには追加の属性を付与できます。この機能には [markdown-it-attrs](https://github.com/arve0/markdown-it-attrs) を使用しており、ほぼすべての Markdown 要素でサポートされます。たとえば `open` 属性を付けると、details ブロックをデフォルトで開いた状態にできます。
 
@@ -283,7 +283,7 @@ TOC のレンダリングは `markdown.toc` オプションで設定できます
   })
   ```
 
-## GitHub 形式のアラート
+## GitHub 形式のアラート {#github-flavored-alerts}
 
 VitePress は [GitHub 形式のアラート](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts) をコールアウトとしてレンダリングできます。表示は [カスタムコンテナ](#custom-containers) と同様です。
 
@@ -327,7 +327,7 @@ VitePress は [GitHub 形式のアラート](https://docs.github.com/en/get-star
  > 行動による望ましくない結果の可能性です。
 
 
-## コードブロックのシンタックスハイライト
+## コードブロックのシンタックスハイライト {#syntax-highlighting-in-code-blocks}
 
 VitePress は [Shiki](https://github.com/shikijs/shiki) を使って、Markdown のコードブロックに色付きのシンタックスハイライトを適用します。Shiki は多くのプログラミング言語をサポートしています。コードブロックの先頭のバッククォートに有効な言語エイリアスを付けるだけで利用できます。
 
@@ -371,7 +371,7 @@ VitePress は [Shiki](https://github.com/shikijs/shiki) を使って、Markdown 
 
 また、シンタックスハイライトのテーマ変更、言語エイリアスの設定、言語ラベルのカスタマイズなどはアプリ設定の [`markdown` オプション](../reference/site-config#markdown) で行えます。
 
-## コードブロックの行ハイライト
+## コードブロックの行ハイライト {#line-highlighting-in-code-blocks}
 
 **入力**
 
@@ -468,7 +468,7 @@ VitePress は [Shiki](https://github.com/shikijs/shiki) を使って、Markdown 
  }
  ```
 
-## コードブロックでのフォーカス
+## コードブロックでのフォーカス {#focus-in-code-blocks}
 
 `// [!code focus]` コメントを行に付けると、その行にフォーカスし、他の部分がぼかされます。
 
@@ -500,7 +500,7 @@ export default {
 }
 ```
 
-## コードブロックのカラー差分表示
+## コードブロックのカラー差分表示 {#colored-diffs-in-code-blocks}
 
 `// [!code --]` または `// [!code ++]` コメントを行に付けると、その行に差分（削除/追加）スタイルを適用できます。コードブロックの色付けは維持されます。
 
@@ -532,7 +532,7 @@ export default {
 }
 ```
 
-## コードブロック内のエラー/警告表示
+## コードブロック内のエラー/警告表示 {#errors-and-warnings-in-code-blocks}
 
 行に `// [!code warning]` または `// [!code error]` コメントを付けると、その行が対応する色で表示されます。
 
@@ -564,7 +564,7 @@ export default {
 }
 ```
 
-# 行番号（Line Numbers）
+## 行番号 {#line-numbers}
 
 設定で、各コードブロックに行番号を表示できます：
 
@@ -624,7 +624,7 @@ export default {
  const line4 = 'This is line 4'
  ```
 
-## コードスニペットのインポート
+## コードスニペットのインポート {#import-code-snippets}
 
 既存ファイルから、次の構文でコードスニペットをインポートできます：
 
@@ -692,7 +692,7 @@ export default {
 
 これは、ファイル拡張子からソース言語を推論できない場合に有用です。
 
-## コードグループ
+## コードグループ {#code-groups}
 
 複数のコードブロックを、次のようにグループ化できます。
 
@@ -781,7 +781,7 @@ export default {
 
 :::
 
-## Markdown ファイルのインクルード
+## Markdown ファイルのインクルード {#markdown-file-inclusion}
 
 ある Markdown ファイルの中に、別の Markdown ファイルを取り込めます（入れ子も可能）。
 
@@ -949,7 +949,7 @@ VS Code のリージョンの代わりに、ヘッダーアンカーを使って
  <!--@include: ./parts/basics.md#custom-id-->
  ```
 
-## 数式
+## 数式 {#math-equations}
 
 この機能はオプトインです。利用するには `markdown-it-mathjax3` をインストールし、設定ファイルで `markdown.math` を `true` に設定します。
 
@@ -993,7 +993,7 @@ VS Code のリージョンの代わりに、ヘッダーアンカーを使って
  | $\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t}  = \vec{\mathbf{0}}$                                                         | 電場 $\vec{\mathbf{E}}$ の回転は、磁束密度 $\vec{\mathbf{B}}$ の時間変化に比例              |
  | $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _え？_                                                                                      |
 
-## 画像の遅延読み込み
+## 画像の遅延読み込み {#image-lazy-loading}
 
 Markdown で追加した各画像に対して遅延読み込みを有効化するには、設定ファイルで `lazyLoading` を `true` にします：
 
@@ -1008,7 +1008,7 @@ Markdown で追加した各画像に対して遅延読み込みを有効化す�
  }
  ```
 
-## 高度な設定
+## 高度な設定 {#advanced-configuration}
 
 VitePress は Markdown レンダラーとして [markdown-it](https://github.com/markdown-it/markdown-it) を使用しています。上記の多くの拡張はカスタムプラグインとして実装されています。`.vitepress/config.js` の `markdown` オプションを使って、`markdown-it` のインスタンスをさらにカスタマイズできます。
 

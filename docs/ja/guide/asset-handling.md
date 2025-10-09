@@ -1,6 +1,6 @@
-# アセットの取り扱い
+# アセットの取り扱い {#asset-handling}
 
-## 静的アセットの参照
+## 静的アセットの参照 {#referencing-static-assets}
 
 すべての Markdown ファイルは Vue コンポーネントにコンパイルされ、[Vite](https://vitejs.dev/guide/assets.html) によって処理されます。Markdown 内では、相対 URL を使ってアセットを参照することが **推奨されます**。
 
@@ -20,7 +20,7 @@ Markdown ファイル内のリンクで参照された PDF やその他のドキ
 
 すべての **静的な** パス参照（絶対パスを含む）は、作業ディレクトリの構造を基準にする必要があります。
 
-## Public ディレクトリ
+## Public ディレクトリ {#the-public-directory}
 
 Markdown やテーマコンポーネントで直接参照されない静的アセットを提供する必要がある場合や、特定のファイルをオリジナルのファイル名のまま提供したい場合があります。  
 例えば `robots.txt`、favicon、PWA 用アイコンなどです。
@@ -31,7 +31,7 @@ Markdown やテーマコンポーネントで直接参照されない静的ア�
 
 なお、`public` 内のファイルはルート絶対パスで参照する必要があります。例えば `public/icon.png` は常に `/icon.png` として参照しなければなりません。
 
-## ベース URL
+## ベース URL {#base-url}
 
 サイトをルート以外の URL にデプロイする場合、`.vitepress/config.js` で `base` オプションを設定する必要があります。  
 例えば `https://foo.github.io/bar/` にデプロイする場合、`base` は `'/bar/'` と設定します（必ずスラッシュで開始・終了する必要があります）。

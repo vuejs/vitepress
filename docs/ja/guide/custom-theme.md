@@ -1,6 +1,6 @@
-# カスタムテーマを使う
+# カスタムテーマを使う {#using-a-custom-theme}
 
-## テーマの解決
+## テーマの解決 {#theme-resolving}
 
 カスタムテーマを有効にするには、`.vitepress/theme/index.js` または `.vitepress/theme/index.ts` ファイル（「テーマエントリファイル」）を作成します。
 
@@ -17,7 +17,7 @@
 
 VitePress はテーマエントリファイルを検出すると、常にデフォルトテーマではなくカスタムテーマを使用します。ただし、[デフォルトテーマを拡張](./extending-default-theme) してその上で高度なカスタマイズを行うことも可能です。
 
-## テーマインターフェース
+## テーマインターフェース {#theme-interface}
 
 VitePress のカスタムテーマは次のインターフェースを持つオブジェクトとして定義されます。
 
@@ -67,7 +67,7 @@ enhanceApp({ app, router, siteData }) {
 
 レイアウトコンポーネントの内部は通常の Vite + Vue 3 アプリケーションと同じように動作します。なお、テーマは [SSR 対応](./ssr-compat) である必要があります。
 
-## レイアウトの構築
+## レイアウトの構築 {#building-a-layout}
 
 最も基本的なレイアウトコンポーネントには [`<Content />`](../reference/runtime-api#content) コンポーネントを含める必要があります。
 
@@ -150,7 +150,7 @@ const { page, frontmatter } = useData()
 
 利用可能なすべての機能は [Runtime API リファレンス](../reference/runtime-api) を参照してください。さらに [ビルド時データ読み込み](./data-loading) を活用すれば、ブログ記事一覧ページのようなデータ駆動型のレイアウトも実現できます。
 
-## カスタムテーマの配布
+## カスタムテーマの配布 {#distributing-a-custom-theme}
 
 最も簡単な配布方法は [GitHub のテンプレートリポジトリ](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-template-repository) として提供することです。
 
@@ -162,7 +162,8 @@ npm パッケージとして配布する場合は、次の手順を踏みます�
 4. 設定ファイルやフロントマターを通じて、テーマ設定オプションを文書化する。
 5. テーマの利用方法を明確に説明する（以下を参照）。
 
-## カスタムテーマの利用
+## カスタムテーマの利用 {#consuming-a-custom-theme}
+
 
 外部テーマを利用するには、カスタムテーマエントリからインポートして再エクスポートします。
 

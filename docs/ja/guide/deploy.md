@@ -2,7 +2,8 @@
 outline: deep
 ---
 
-# VitePress サイトをデプロイする
+# VitePress サイトをデプロイする {#deploy-your-vitepress-site}
+
 
 以下のガイドは、次の前提に基づいています。
 
@@ -19,7 +20,8 @@ outline: deep
  }
 ```
 
-## ローカルでビルドしてテストする
+## ローカルでビルドしてテストする {#build-and-test-locally}
+
 
 1. 次のコマンドでドキュメントをビルドします。
 
@@ -47,13 +49,15 @@ outline: deep
 
     これで `docs:preview` は `http://localhost:8080` でサーバーを起動します。
 
-## 公開ベースパスの設定
+## 公開ベースパスの設定 {#setting-a-public-base-path}
+
 
 デフォルトでは、サイトはドメインのルートパス（`/`）にデプロイされることを想定しています。サイトをサブパス、例：`https://mywebsite.com/blog/` で配信する場合は、VitePress の設定で [`base`](../reference/site-config#base) オプションを `'/blog/'` に設定してください。
 
 **例:** GitHub（または GitLab）Pages に `user.github.io/repo/` としてデプロイするなら、`base` を `/repo/` に設定します。
 
-## HTTP キャッシュヘッダー
+## HTTP キャッシュヘッダー {#http-cache-headers}
+
 
 本番サーバーの HTTP ヘッダーを制御できる場合は、`cache-control` ヘッダーを設定して、再訪時のパフォーマンスを向上させましょう。
 
@@ -103,9 +107,10 @@ Cache-Control: max-age=31536000,immutable
 
 :::
 
-## プラットフォーム別ガイド
+## プラットフォーム別ガイド {#platform-guides}
 
-### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render
+
+### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render {#netlify-vercel-cloudflare-pages-aws-amplify-render}
 
 新しいプロジェクトを作成し、ダッシュボードで次の設定に変更します。
 
@@ -117,7 +122,7 @@ Cache-Control: max-age=31536000,immutable
 HTML の _Auto Minify_ のようなオプションを有効にしないでください。Vue にとって意味のあるコメントが出力から削除され、削除されるとハイドレーションの不整合エラーが発生する可能性があります。
 :::
 
-### GitHub Pages
+### GitHub Pages {#github-pages}
 
 1. プロジェクトの `.github/workflows` ディレクトリに `deploy.yml` を作成し、以下の内容を記述します。
 
@@ -198,7 +203,7 @@ HTML の _Auto Minify_ のようなオプションを有効にしないでくだ
 
 3. 変更を `main` ブランチにプッシュし、GitHub Actions の完了を待ちます。設定に応じて、サイトは `https://<username>.github.io/[repository]/` または `https://<custom-domain>/` にデプロイされます。以後、`main` へのプッシュごとに自動デプロイされます。
 
-### GitLab Pages
+### GitLab Pages {#gitlab-pages}
 
 1. VitePress の設定で `outDir` を `../public` に設定します。`https://<username>.gitlab.io/<repository>/` にデプロイする場合は `base` を `'/<repository>/'` に設定します。カスタムドメイン、ユーザー／グループページ、または GitLab の「Use unique domain」を有効にしている場合は `base` は不要です。
 
@@ -221,7 +226,7 @@ HTML の _Auto Minify_ のようなオプションを有効にしないでくだ
         - main
    ```
 
-### Azure Static Web Apps
+### Azure Static Web Apps {#azure-static-web-apps}
 
 1. [公式ドキュメント](https://docs.microsoft.com/en-us/azure/static-web-apps/build-configuration) に従います。
 
@@ -231,7 +236,7 @@ HTML の _Auto Minify_ のようなオプションを有効にしないでくだ
    - **`output_location`**: `docs/.vitepress/dist`
    - **`app_build_command`**: `npm run docs:build`
 
-### Firebase
+### Firebase {#firebase}
 
 1. プロジェクトのルートに `firebase.json` と `.firebaserc` を作成します。
 
@@ -262,7 +267,7 @@ HTML の _Auto Minify_ のようなオプションを有効にしないでくだ
     firebase deploy
    ```
 
-### Surge
+### Surge {#surge}
 
 1. `npm run docs:build` の後、次のコマンドでデプロイします。
 
@@ -270,7 +275,7 @@ HTML の _Auto Minify_ のようなオプションを有効にしないでくだ
     npx surge docs/.vitepress/dist
    ```
 
-### Heroku
+### Heroku {#heroku}
 
 1. [`heroku-buildpack-static`](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-static) のドキュメントとガイドに従います。
 
@@ -282,23 +287,23 @@ HTML の _Auto Minify_ のようなオプションを有効にしないでくだ
     }
    ```
 
-### Edgio
+### Edgio {#edgio}
 
 [Creating and Deploying a VitePress App To Edgio](https://docs.edg.io/guides/vitepress) を参照してください。
 
-### Kinsta Static Site Hosting
+### Kinsta Static Site Hosting {#kinsta-static-site-hosting}
 
 [VitePress](https://kinsta.com/static-site-hosting/) を [こちらの手順](https://kinsta.com/docs/vitepress-static-site-example/) に従ってデプロイできます。
 
-### Stormkit
+### Stormkit {#stormkit}
 
 [VitePress プロジェクトを Stormkit にデプロイ](https://stormkit.io/blog/how-to-deploy-vitepress) する手順を参照してください。
 
-### CloudRay
+### CloudRay {#cloudray}
 
 [CloudRay](https://cloudray.io/) でのデプロイ方法は [こちらの手順](https://cloudray.io/articles/how-to-deploy-vitepress-site) を参照してください。
 
-### Nginx
+### Nginx {#nginx}
 
 以下は Nginx サーバーブロックの設定例です。一般的なテキスト系アセットの gzip 圧縮、VitePress サイトの静的ファイル配信における適切なキャッシュヘッダー、そして `cleanUrls: true` のハンドリングを含みます。
 

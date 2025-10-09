@@ -2,9 +2,9 @@
 outline: deep
 ---
 
-# CMS との接続
+# CMS との接続 {#connecting-to-a-cms}
 
-## 全体のワークフロー
+## 全体のワークフロー {#general-workflow}
 
 VitePress を CMS と接続する際は、主に [動的ルーティング](./routing#dynamic-routes) を中心に考えることになります。先にその仕組みを理解しておいてください。
 
@@ -51,6 +51,6 @@ CMS ごとに動作が異なるため、ここでは各自の環境に合わせ�
     <!-- @content -->
     ```
 
-## 連携ガイドの募集
+## 連携ガイドの募集 {#integration-guides}
 
 特定の CMS と VitePress の連携ガイドを書かれた方は、下部の「Edit this page」リンクからぜひ投稿してください！

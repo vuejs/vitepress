@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-# デフォルトテーマの拡張
+# デフォルトテーマの拡張 {#extending-the-default-theme}
 
 VitePress のデフォルトテーマはドキュメント向けに最適化されており、カスタマイズ可能です。利用できるオプションの一覧は [デフォルトテーマの概要](../reference/default-theme-config) を参照してください。
 
@@ -18,7 +18,7 @@ VitePress のデフォルトテーマはドキュメント向けに最適化さ�
 先に [カスタムテーマの使用](./custom-theme) を読み、カスタムテーマの仕組みを理解してから進めてください。
 :::
 
-## CSS のカスタマイズ
+## CSS のカスタマイズ {#customizing-css}
 
 デフォルトテーマの CSS は、ルートレベルの CSS 変数をオーバーライドすることでカスタマイズできます。
 
@@ -39,7 +39,7 @@ export default DefaultTheme
 
 上書き可能な [デフォルトテーマの CSS 変数](https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css) を参照してください。
 
-## フォントを変更する
+## フォントを変更する {#using-different-fonts}
 
 VitePress はデフォルトフォントとして [Inter](https://rsms.me/inter/) を使用し、ビルド出力にフォントを含めます。プロダクションでは自動でプリロードもされます。しかし、別のメインフォントを使いたい場合には望ましくないことがあります。
 
@@ -89,7 +89,7 @@ export default {
 }
 ```
 
-## グローバルコンポーネントの登録
+## グローバルコンポーネントの登録 {#registering-global-components}
 
 ```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme'
@@ -121,7 +121,7 @@ export default {
 
 Vite を使っているため、Vite の [glob import 機能](https://vitejs.dev/guide/features.html#glob-import) を利用してディレクトリ内のコンポーネントを自動登録することもできます。
 
-## レイアウトスロット
+## レイアウトスロット {#layout-slots}
 
 デフォルトテーマの `<Layout/>` コンポーネントには、ページ内の特定の位置にコンテンツを挿入するためのスロットがいくつか用意されています。以下は、アウトラインの前にコンポーネントを挿入する例です。
 
@@ -212,7 +212,7 @@ export default {
 
 ## View Transitions API の利用
 
-### 外観切り替え時（ライト/ダーク）
+### 外観切り替え時（ライト/ダーク） {#on-appearance-toggle}
 
 カラーモード切り替え時にカスタムトランジションを提供するよう、デフォルトテーマを拡張できます。例:
 
@@ -301,11 +301,11 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
 
 詳細は [Chrome Docs](https://developer.chrome.com/docs/web-platform/view-transitions/) を参照してください。
 
-### ルート遷移時
+### ルート遷移時 {#on-route-change}
 
 近日公開。
 
-## 内部コンポーネントの置き換え
+## 内部コンポーネントの置き換え {#overriding-internal-components}
 
 Vite の [エイリアス](https://vitejs.dev/config/shared-options.html#resolve-alias) を使って、デフォルトテーマのコンポーネントを独自のものに置き換えられます。
 

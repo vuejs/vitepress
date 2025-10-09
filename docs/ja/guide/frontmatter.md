@@ -1,6 +1,6 @@
-# フロントマター
+# フロントマター {#frontmatter}
 
-## 使い方
+## 使い方 {#usage}
 
 VitePress はすべての Markdown ファイルで YAML フロントマターをサポートしており、[gray-matter](https://github.com/jonschlinkert/gray-matter) で解析します。フロントマターは Markdown ファイルの先頭（`<script>` タグを含むあらゆる要素より前）に配置し、三本のハイフンで囲まれた **有効な YAML** 形式で記述します。例:
 
@@ -15,7 +15,7 @@ VitePress はすべての Markdown ファイルで YAML フロントマターを
 
 また、独自のカスタムフロントマターデータを定義し、ページ上の動的な Vue 式で利用することもできます。
 
-## フロントマターデータへのアクセス
+## フロントマターデータへのアクセス {#accessing-frontmatter-data}
 
 フロントマターデータは特別なグローバル変数 `$frontmatter` で参照できます。
 
@@ -34,7 +34,7 @@ Markdown ファイル内での使用例:
 
 [`useData()`](../reference/runtime-api#usedata) ヘルパーを使えば、`<script setup>` 内からも現在のページのフロントマターデータにアクセスできます。
 
-## 代替フロントマター形式
+## 代替フロントマター形式 {#alternative-frontmatter-formats}
 
 VitePress は JSON フロントマター構文もサポートしています。中括弧で開始・終了する形式です。
 

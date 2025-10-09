@@ -2,13 +2,13 @@
 outline: deep
 ---
 
-# SSR 互換性
+# SSR 互換性 {#ssr-compatibility}
 
 VitePress は本番ビルド時に、Node.js 上で Vue のサーバーサイドレンダリング（SSR）機能を使ってアプリを事前レンダリングします。つまり、テーマコンポーネント内のすべてのカスタムコードは SSR 互換性の対象になります。
 
 [公式 Vue ドキュメントの SSR セクション](https://vuejs.org/guide/scaling-up/ssr.html)では、SSR とは何か、SSR と SSG の関係、そして SSR に優しいコードを書く際の一般的な注意点が解説されています。経験則としては、**ブラウザ / DOM API へのアクセスは Vue コンポーネントの `beforeMount` または `mounted` フック内に限定** するのが安全です。
 
-## `<ClientOnly>`
+## `<ClientOnly>` {#clientonly}
 
 SSR に適さないコンポーネント（例：カスタムディレクティブを含むなど）を使用・デモする場合は、組み込みの `<ClientOnly>` コンポーネントでラップできます。
 
@@ -18,11 +18,11 @@ SSR に適さないコンポーネント（例：カスタムディレクティ�
  </ClientOnly>
  ```
 
-## インポート時に Browser API にアクセスするライブラリ
+## インポート時に Browser API にアクセスするライブラリ {#libraries-that-access-browser-api-on-import}
 
 一部のコンポーネントやライブラリは **インポート時に** ブラウザ API にアクセスします。インポート時にブラウザ環境を前提とするコードを使うには、動的インポートが必要です。
 
-### mounted フック内でのインポート
+### mounted フック内でのインポート {#importing-in-mounted-hook}
 
  ```vue
  <script setup>
@@ -36,7 +36,7 @@ SSR に適さないコンポーネント（例：カスタムディレクティ�
  </script>
  ```
 
-### 条件付きインポート
+### 条件付きインポート {#conditional-import}
 
 [`import.meta.env.SSR`](https://vitejs.dev/guide/env-and-mode.html#env-variables) フラグ（Vite の環境変数の一部）を使って、依存関係を条件付きでインポートすることもできます。
 
