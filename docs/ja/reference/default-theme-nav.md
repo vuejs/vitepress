@@ -1,8 +1,8 @@
-# ナビゲーション
+# ナビゲーション {#nav}
 
 ナビはページ上部に表示されるナビゲーションバーです。サイトタイトル、グローバルメニューリンクなどを含みます。
 
-## サイトタイトルとロゴ
+## サイトタイトルとロゴ {#site-title-and-logo}
 
 既定では、ナビには [`config.title`](./site-config#title) の値が表示されます。ナビに表示する文字列を変更したい場合は、`themeConfig.siteTitle` にカスタム文字列を指定します。
 
@@ -37,7 +37,7 @@ export default {
 
 ダーク／ライトモードでロゴを切り替えたり、`alt` 属性を付けたい場合は、ロゴにオブジェクトを渡すこともできます。詳細は [`themeConfig.logo`](./default-theme-config#logo) を参照してください。
 
-## ナビゲーションリンク
+## ナビゲーションリンク {#navigation-links}
 
 `themeConfig.nav` オプションでナビにリンクを追加できます。
 
@@ -116,7 +116,7 @@ export default {
 }
 ```
 
-### リンクの「アクティブ」状態をカスタマイズ
+### リンクの「アクティブ」状態をカスタマイズ {#customize-link-s-active-state}
 
 現在のページが特定のパス配下にあるとき、該当するナビ項目がハイライトされます。一致させるパスをカスタマイズしたい場合は、`activeMatch` に **正規表現文字列** を指定します。
 
@@ -139,7 +139,7 @@ export default {
 `activeMatch` は正規表現 **オブジェクト** ではなく、**文字列** で指定してください。ビルド時のシリアライズの都合で `RegExp` は使用できません。
 :::
 
-### リンクの `target` と `rel` をカスタマイズ
+### リンクの `target` と `rel` をカスタマイズ {#customize-link-s-target-and-rel-attributes}
 
 既定では、リンクが外部かどうかに応じて VitePress が `target` と `rel` を自動設定します。必要であれば明示的に指定することもできます。
 
@@ -158,11 +158,11 @@ export default {
 }
 ```
 
-## ソーシャルリンク
+## ソーシャルリン� {#social-links}
 
 [`socialLinks`](./default-theme-config#sociallinks) を参照してください。
 
-## カスタムコンポーネント
+## カスタムコンポーネント {#custom-components}
 
 `component` オプションを使って、ナビゲーションバーにカスタムコンポーネントを配置できます。`component` には Vue コンポーネント名を指定し、[Theme.enhanceApp](../guide/custom-theme#theme-interface) で **グローバル登録** しておく必要があります。
 

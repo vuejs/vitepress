@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-# フロントマター設定
+# フロントマター設定 {#frontmatter-config}
 
 フロントマターはページ単位の設定を可能にします。各 Markdown ファイルで、サイト全体やテーマレベルの設定を上書きできます。フロントマターでしか定義できない項目もあります。
 
@@ -82,7 +82,7 @@ type HeadConfig =
   | [string, Record<string, string>, string]
 ```
 
-## デフォルトテーマ専用
+## デフォルトテーマ専用 {#default-theme-only}
 
 以下のフロントマター項目は、デフォルトテーマ使用時にのみ適用されます。
 

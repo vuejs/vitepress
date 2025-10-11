@@ -1,4 +1,4 @@
-# Carbon 広告
+# Carbon 広告 {#carbon-ads}
 
 VitePress は [Carbon Ads](https://www.carbonads.net/) をネイティブにサポートしています。設定で Carbon Ads の認証情報を定義すると、ページ上に広告が表示されます。
 

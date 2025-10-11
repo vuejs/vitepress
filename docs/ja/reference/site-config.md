@@ -2,13 +2,13 @@
 outline: deep
 ---
 
-# サイト設定
+# サイト設定 {#site-config}
 
 サイト設定では、サイト全体のグローバル設定を定義します。アプリ設定オプションは、使用するテーマに関係なく、すべての VitePress サイトに適用されます。たとえば、ベースディレクトリやサイトのタイトルなどです。
 
-## 概要
+## 概要 {#overview}
 
-### 設定ファイルの解決
+### 設定ファイルの解決 {#config-resolution}
 
 設定ファイルは常に `<root>/.vitepress/config.[ext]` から解決されます。`<root>` は VitePress の[プロジェクトルート](../guide/routing#root-and-source-directory)で、`[ext]` にはサポートされる拡張子が入ります。TypeScript はそのまま使えます。サポートされる拡張子は `.js`、`.ts`、`.mjs`、`.mts` です。
 
@@ -80,7 +80,7 @@ export default defineConfig({
 
 :::
 
-### 設定のインテリセンス
+### 設定のインテリセンス {#config-intellisense}
 
 `defineConfig` ヘルパーを使うと、TypeScript による補完が効きます。対応 IDE であれば、JavaScript と TypeScript のどちらでも動作します。
 
@@ -92,7 +92,7 @@ export default defineConfig({
 })
 ```
 
-### 型付きのテーマ設定
+### 型付きのテーマ設定 {#typed-theme-config}
 
 デフォルトでは、`defineConfig` はデフォルトテーマのテーマ設定型を想定します。
 
@@ -119,7 +119,7 @@ export default defineConfigWithTheme<ThemeConfig>({
 })
 ```
 
-### Vite・Vue・Markdown の設定
+### Vite・Vue・Markdown の設定 {#vite-vue-markdown-config}
 
 - **Vite**
 
@@ -133,7 +133,7 @@ export default defineConfigWithTheme<ThemeConfig>({
 
   既定の [Markdown-It](https://github.com/markdown-it/markdown-it) インスタンスは、VitePress 設定の [markdown](#markdown) オプションでカスタマイズできます。
 
-## サイトメタデータ
+## サイトメタデータ {#site-metadata}
 
 ### title
 
@@ -217,7 +217,7 @@ type HeadConfig =
   | [string, Record<string, string>, string]
 ```
 
-#### 例: favicon を追加
+#### 例: favicon を追加 {#example-adding-a-favicon}
 
 ```ts
 export default {
@@ -229,7 +229,7 @@ export default {
 */
 ```
 
-#### 例: Google Fonts を追加
+#### 例: Google Fonts を追加 {#example-adding-google-fonts}
 
 ```ts
 export default {
@@ -256,7 +256,7 @@ export default {
 */
 ```
 
-#### 例: Service Worker を登録
+#### 例: Service Worker を登録 {#example-registering-a-service-worker}
 
 ```ts
 export default {
@@ -284,7 +284,7 @@ export default {
 */
 ```
 
-#### 例: Google Analytics を使用
+#### 例: Google Analytics を使用 {#example-using-google-analytics}
 
 ```ts
 export default {
@@ -343,7 +343,7 @@ export default {
 }
 ```
 
-## ルーティング
+## ルーティング {#routing}
 
 ### cleanUrls
 
@@ -370,7 +370,7 @@ export default {
 }
 ```
 
-## ビルド
+## ビルド {#build}
 
 ### srcDir
 
@@ -485,7 +485,7 @@ export default {
 
 `true` にすると、本番アプリは [MPA モード](../guide/mpa-mode) でビルドされます。MPA モードは既定でクライアント JavaScript を 0kb で配信する代わりに、クライアントサイドのナビゲーションを無効にし、相互作用には明示的な opt-in が必要です。
 
-## テーマ関連
+## テーマ関連 {#theming}
 
 ### appearance
 
@@ -513,7 +513,7 @@ Git を使って各ページの最終更新時刻を取得します。タイム�
 
 デフォルトテーマ使用時にこのオプションを有効にすると、各ページの最終更新時刻が表示されます。テキストは [`themeConfig.lastUpdatedText`](./default-theme-config#lastupdatedtext) でカスタマイズ可能です。
 
-## カスタマイズ
+## カスタマイズ {#customization}
 
 ### markdown
 
@@ -557,7 +557,7 @@ export default {
 }
 ```
 
-## ビルドフック
+## ビルドフック {#build-hooks}
 
 VitePress のビルドフックを使うと、サイトに機能や振る舞いを追加できます。
 
@@ -654,7 +654,7 @@ export default {
 }
 ```
 
-#### 例: 正規 URL の `<link>` を追加
+#### 例: 正規 URL の `<link>` を追加 {#example-adding-a-canonical-url-link}
 
 ```ts
 export default {

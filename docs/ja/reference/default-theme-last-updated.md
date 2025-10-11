@@ -1,4 +1,4 @@
-# 最終更新日時
+# 最終更新日時 {#last-updated}
 
 ページ右下に、コンテンツの最終更新時刻を表示できます。有効化するには、設定に `lastUpdated` オプションを追加します。
 
@@ -25,7 +25,7 @@ VitePress は各ファイルの **直近の Git コミットのタイムスタ�
 ```
 :::
 
-## サイトレベルの設定
+## サイトレベルの設定 {#site-level-config}
 
 ```js
 export default {
@@ -33,7 +33,7 @@ export default {
 }
 ```
 
-## フロントマターでの設定
+## フロントマターでの設定 {#frontmatter-config}
 
 ページ単位で無効化するには、フロントマターで `lastUpdated` を指定します。
 

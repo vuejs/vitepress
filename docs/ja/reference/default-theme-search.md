@@ -2,9 +2,9 @@
 outline: deep
 ---
 
-# 検索
+# 検索 {#search}
 
-## ローカル検索
+## ローカル検索 {#local-search}
 
 VitePress は、[minisearch](https://github.com/lucaong/minisearch/) によるブラウザ内インデックスを使った曖昧一致の全文検索をサポートします。有効化するには、`.vitepress/config.ts` で `themeConfig.search.provider` を `'local'` に設定します。
 
@@ -73,7 +73,7 @@ export default defineConfig({
 })
 ```
 
-### miniSearch のオプション
+### miniSearch のオプション {#mini-search-options}
 
 MiniSearch の設定例です。
 
@@ -109,7 +109,7 @@ export default defineConfig({
 
 詳しくは [MiniSearch のドキュメント](https://lucaong.github.io/minisearch/classes/MiniSearch.MiniSearch.html) を参照してください。
 
-### コンテンツレンダラーのカスタマイズ
+### コンテンツレンダラーのカスタマイズ {#custom-content-renderer}
 
 インデックス前に Markdown コンテンツをレンダリングする関数をカスタマイズできます。
 
@@ -137,7 +137,7 @@ export default defineConfig({
 
 この関数はクライアント側のサイトデータからは除外されるため、Node.js の API を使用できます。
 
-#### 例: 検索対象からページを除外する
+#### 例: 検索対象からページを除外する {#example-excluding-pages-from-search}
 
 フロントマターに `search: false` を追加すると、そのページを検索対象から除外できます。あるいは次のようにもできます。
 
@@ -165,7 +165,7 @@ export default defineConfig({
 カスタムの `_render` 関数を提供する場合、`search: false` の処理は自分で行う必要があります。また、`env` は `md.renderAsync` の呼び出し前には完全ではないため、`frontmatter` などの任意プロパティのチェックはその後に行ってください。
 :::
 
-#### 例: コンテンツの変換 — 見出しアンカーを追加
+#### 例: コンテンツの変換 — 見出しアンカーを追加 {#example-transforming-content-adding-anchors}
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -187,7 +187,7 @@ export default defineConfig({
 })
 ```
 
-## Algolia 検索
+## Algolia 検索 {#algolia-search}
 
 VitePress は [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch) によるサイト検索をサポートします。導入は公式のガイドを参照してください。`.vitepress/config.ts` では最低限次の設定が必要です。
 
@@ -342,7 +342,7 @@ export default defineConfig({
 
 Ask AI UI の翻訳は `options.translations.modal.askAiScreen` と `options.translations.resultsScreen` にあります。すべてのキーは[型定義](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts)を参照してください。
 
-### クローラー設定
+### クローラー設定 {#crawler-config}
 
 このサイトで使用している設定を元にした例です。
 

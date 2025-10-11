@@ -1,4 +1,4 @@
-# フッター
+# フッター {#footer}
 
 `themeConfig.footer` を設定すると、ページ下部にグローバルフッターが表示されます。
 
@@ -44,7 +44,7 @@ export default {
 
 なお、[SideBar](./default-theme-sidebar) が表示されている場合はフッターは表示されません。
 
-## フロントマターでの設定
+## フロントマターでの設定 {#frontmatter-config}
 
 ページ単位で無効化するには、フロントマターの `footer` オプションを使用します。
 
