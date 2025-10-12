@@ -1,4 +1,4 @@
-name: Add continuous release label
+name: 🔖 Add continuous release label
 
 on:
   issue_comment:

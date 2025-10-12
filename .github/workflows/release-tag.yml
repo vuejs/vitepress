@@ -1,4 +1,6 @@
-name: Release
+name: 🚀 Release
+
+permissions: {}
 
 on:
   push:
@@ -11,15 +13,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Create Release for Tag
+      - name: 🔖 Create Release for Tag
         id: release_tag
         uses: yyx990803/release-tag@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
-          body: |
-            Please refer to [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md) for details.
+          body: Please refer to [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md) for details.
