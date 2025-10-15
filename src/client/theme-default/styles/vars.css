@@ -270,13 +270,17 @@
   font-optical-sizing: auto;
 }
 
+/* :root and [lang] have the same specificity.
+   [lang] covers the case of e.g. <div lang="zh-CN"> in a non-Chinese page.
+*/
 [lang]:where(:lang(zh)) {
   --vp-font-family-base:
     'Inter4zh', -apple-system, BlinkMacSystemFont, sans-serif,
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
-[lang]:where(:lang(ja), :lang(ko)) {
+/* Korean compatibility is unverified, so application of custom Inter to Korean is pending. */
+[lang]:where(:lang(ja)) {
   --vp-font-family-base:
     'Inter4CJK', -apple-system, BlinkMacSystemFont, sans-serif,
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
