@@ -270,6 +270,18 @@
   font-optical-sizing: auto;
 }
 
+[lang]:where(:lang(zh)) {
+  --vp-font-family-base:
+    'Inter4zh', -apple-system, BlinkMacSystemFont, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+[lang]:where(:lang(ja), :lang(ko)) {
+  --vp-font-family-base:
+    'Inter4CJK', -apple-system, BlinkMacSystemFont, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
 /**
  * Shadows
  * -------------------------------------------------------------------------- */
