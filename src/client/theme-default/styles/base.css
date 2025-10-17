@@ -237,9 +237,7 @@ p {
   overflow-wrap: break-word;
 }
 
-:lang(ja),
-:lang(zh),
-:lang(ko) {
+:where(:lang(zh), :lang(ja), :lang(ko)) {
   text-autospace: normal;
   line-break: strict;
 }
