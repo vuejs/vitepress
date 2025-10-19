@@ -238,7 +238,6 @@ p {
 }
 
 :where(:lang(zh), :lang(ja), :lang(ko)) {
-  text-autospace: normal;
   line-break: strict;
 }
 
