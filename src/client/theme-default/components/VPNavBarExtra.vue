@@ -31,7 +31,7 @@ const hasExtraContent = computed(
       <p class="trans-title">{{ currentLang.label }}</p>
 
       <template v-for="locale in localeLinks" :key="locale.link">
-        <VPMenuLink :item="locale" />
+        <VPMenuLink :item="locale" :lang="locale.lang" :dir="locale.dir" />
       </template>
     </div>
 

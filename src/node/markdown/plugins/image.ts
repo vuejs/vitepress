@@ -1,6 +1,6 @@
 // markdown-it plugin for normalizing image source
 
-import type MarkdownIt from 'markdown-it'
+import type { MarkdownItAsync } from 'markdown-it-async'
 import { EXTERNAL_URL_RE } from '../../shared'
 
 export interface Options {
@@ -11,7 +11,10 @@ export interface Options {
   lazyLoading?: boolean
 }
 
-export const imagePlugin = (md: MarkdownIt, { lazyLoading }: Options = {}) => {
+export const imagePlugin = (
+  md: MarkdownItAsync,
+  { lazyLoading }: Options = {}
+) => {
   const imageRule = md.renderer.rules.image!
   md.renderer.rules.image = (tokens, idx, options, env, self) => {
     const token = tokens[idx]

@@ -22,7 +22,7 @@ Both internal and external links get special treatment.
 
 ### Internal Links
 
-Internal links are converted to router link for SPA navigation. Also, every `index.md` contained in each sub-directory will automatically be converted to `index.html`, with corresponding URL `/`.
+Internal links are converted to router links for SPA navigation. Also, every `index.md` contained in each sub-directory will automatically be converted to `index.html`, with corresponding URL `/`.
 
 For example, given the following directory structure:
 
@@ -187,7 +187,7 @@ You may set custom title by appending the text right after the "type" of the con
 Danger zone, do not proceed
 :::
 
-::: details Click me to view the code
+::: details Click me to toggle the code
 ```js
 console.log('Hello, VitePress!')
 ```
@@ -200,7 +200,7 @@ console.log('Hello, VitePress!')
 Danger zone, do not proceed
 :::
 
-::: details Click me to view the code
+::: details Click me to toggle the code
 ```js
 console.log('Hello, VitePress!')
 ```
@@ -225,6 +225,28 @@ export default defineConfig({
 })
 ```
 
+### Additional Attributes
+
+You can add additional attributes to the custom containers. We use [markdown-it-attrs](https://github.com/arve0/markdown-it-attrs) for this feature, and it is supported on almost all markdown elements. For example, you can set the `open` attribute to make the details block open by default:
+
+**Input**
+
+````md
+::: details Click me to toggle the code {open}
+```js
+console.log('Hello, VitePress!')
+```
+:::
+````
+
+**Output**
+
+::: details Click me to toggle the code {open}
+```js
+console.log('Hello, VitePress!')
+```
+:::
+
 ### `raw`
 
 This is a special container that can be used to prevent style and router conflicts with VitePress. This is especially useful when you're documenting component libraries. You might also wanna check out [whyframe](https://whyframe.dev/docs/integrations/vitepress) for better isolation.
@@ -233,7 +255,7 @@ This is a special container that can be used to prevent style and router conflic
 
 ```md
 ::: raw
-Wraps in a <div class="vp-raw">
+Wraps in a `<div class="vp-raw">`
 :::
 ```
 
@@ -255,11 +277,11 @@ Wraps in a <div class="vp-raw">
   }
   ```
 
-  It uses [`postcss-prefix-selector`](https://github.com/RadValentin/postcss-prefix-selector) under the hood. You can pass its options like this:
+  You can pass its options like this:
 
   ```js
   postcssIsolateStyles({
-    includeFiles: [/vp-doc\.css/] // defaults to /base\.css/
+    includeFiles: [/custom\.css/] // defaults to [/vp-doc\.css/, /base\.css/]
   })
   ```
 
@@ -343,7 +365,7 @@ export default {
 
 A [list of valid languages](https://shiki.style/languages) is available on Shiki's repository.
 
-You may also customize syntax highlight theme in app config. Please see [`markdown` options](../reference/site-config#markdown) for more details.
+You may also customize syntax highlight theme, configure language aliases, and set custom language labels in app config. Please see [`markdown` options](../reference/site-config#markdown) for more details.
 
 ## Line Highlighting in Code Blocks
 
@@ -759,7 +781,7 @@ You can also [import snippets](#import-code-snippets) in code groups:
 You can include a markdown file in another markdown file, even nested.
 
 ::: tip
-You can also prefix the markdown path with `@`, it will act as the source root. By default, it's the VitePress project root, unless `srcDir` is configured.
+You can also prefix the markdown path with `@`, and it will act as the source root. By default, the source root is the VitePress project root, unless `srcDir` is configured.
 :::
 
 For example, you can include a relative markdown file using this:
@@ -802,7 +824,7 @@ It also supports selecting a line range:
 
 **Input**
 
-```md
+```md:line-numbers
 # Docs
 
 ## Basics
@@ -812,7 +834,7 @@ It also supports selecting a line range:
 
 **Part file** (`parts/basics.md`)
 
-```md
+```md:line-numbers
 Some getting started stuff.
 
 ### Configuration
@@ -822,7 +844,7 @@ Can be created using `.foorc.json`.
 
 **Equivalent code**
 
-```md
+```md:line-numbers
 # Docs
 
 ## Basics
@@ -838,7 +860,7 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 
 **Input**
 
-```md
+```md:line-numbers
 # Docs
 
 ## Basics
@@ -849,7 +871,7 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 
 **Part file** (`parts/basics.md`)
 
-```md
+```md:line-numbers
 <!-- #region basic-usage -->
 ## Usage Line 1
 
@@ -861,7 +883,7 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 
 **Equivalent code**
 
-```md
+```md:line-numbers
 # Docs
 
 ## Basics
@@ -875,6 +897,53 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 Note that this does not throw errors if your file is not present. Hence, when using this feature make sure that the contents are being rendered as expected.
 :::
 
+Instead of VS Code regions, you can also use header anchors to include a specific section of the file. For example, if you have a header in your markdown file like this:
+
+```md
+## My Base Section
+
+Some content here.
+
+### My Sub Section
+
+Some more content here.
+
+## Another Section
+
+Content outside `My Base Section`.
+```
+
+You can include the `My Base Section` section like this:
+
+```md
+## My Extended Section
+<!--@include: ./parts/basics.md#my-base-section-->
+```
+
+**Equivalent code**
+
+```md
+## My Extended Section
+
+Some content here.
+
+### My Sub Section
+
+Some more content here.
+```
+
+Here, `my-base-section` is the generated id of the heading element. In case it's not easily guessable, you can open the part file in your browser and click on the heading anchor (`#` symbol left to the heading when hovered) to see the id in the URL bar. Or use browser dev tools to inspect the element. Alternatively, you can also specify the id to the part file like this:
+
+```md
+## My Base Section {#custom-id}
+```
+
+and include it like this:
+
+```md
+<!--@include: ./parts/basics.md#custom-id-->
+```
+
 ## Math Equations
 
 This is currently opt-in. To enable it, you need to install `markdown-it-mathjax3` and set `markdown.math` to `true` in your config file:
@@ -883,8 +952,7 @@ This is currently opt-in. To enable it, you need to install `markdown-it-mathjax
 npm add -D markdown-it-mathjax3
 ```
 
-```ts
-// .vitepress/config.ts
+```ts [.vitepress/config.ts]
 export default {
   markdown: {
     math: true

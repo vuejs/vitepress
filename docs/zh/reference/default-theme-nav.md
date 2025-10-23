@@ -55,6 +55,8 @@ export default {
 
 `text` 是 nav 中显示的实际文本，而 `link` 是单击文本时将导航到的链接。对于链接，将路径设置为不带 `.md` 后缀的实际文件，并且始终以 `/` 开头。
 
+`link` 也可以是一个函数，它接受 [`PageData`](./runtime-api#usedata) 作为参数并返回路径。
+
 导航链接也可以是下拉菜单。为此，请替换 `link` 选项，设置 `items` 数组。
 
 ```js
@@ -159,3 +161,55 @@ export default {
 ## 社交链接 {#social-links}
 
 参考 [`socialLinks`](./default-theme-config#sociallinks)。
+
+## 自定义组件
+
+你可以通过使用 `component` 选项在导航栏中包含自定义组件。`component` 键对应的值应为 Vue 组件名，并且必须使用 [Theme.enhanceApp](../guide/custom-theme#theme-interface) 全局注册。
+
+```js [.vitepress/config.js]
+export default {
+  themeConfig: {
+    nav: [
+      {
+        text: 'My Menu',
+        items: [
+          {
+            component: 'MyCustomComponent',
+            // 可选的 props 传递给组件
+            props: {
+              title: 'My Custom Component'
+            }
+          }
+        ]
+      },
+      {
+        component: 'AnotherCustomComponent'
+      }
+    ]
+  }
+}
+```
+
+然后，你需要全局注册该组件：
+
+```js [.vitepress/theme/index.js]
+import DefaultTheme from 'vitepress/theme'
+
+import MyCustomComponent from './components/MyCustomComponent.vue'
+import AnotherCustomComponent from './components/AnotherCustomComponent.vue'
+
+/** @type {import('vitepress').Theme} */
+export default {
+  extends: DefaultTheme,
+  enhanceApp({ app }) {
+    app.component('MyCustomComponent', MyCustomComponent)
+    app.component('AnotherCustomComponent', AnotherCustomComponent)
+  }
+}
+```
+
+你的组件将在导航栏中渲染。 VitePress 会向组件提供以下额外的 props：
+
+- `screenMenu`：一个可选的布尔值，指示组件是否在移动导航菜单内
+
+你可以在端到端测试中查看示例 [这里](https://github.com/vuejs/vitepress/tree/main/__tests__/e2e/.vitepress)。

@@ -103,14 +103,18 @@ interface Router {
    */
   onBeforeRouteChange?: (to: string) => Awaitable<void | boolean>
   /**
-   * Called before the page component is loaded (after the history state is
-   * updated). Return `false` to cancel the navigation.
+   * Called before the page component is loaded (after the history state is updated).
+   * Return `false` to cancel the navigation.
    */
   onBeforePageLoad?: (to: string) => Awaitable<void | boolean>
   /**
+   * Called after the page component is loaded (before the page component is updated).
+   */
+  onAfterPageLoad?: (to: string) => Awaitable<void>
+  /**
    * Called after the route changes.
    */
-  onAfterRouteChanged?: (to: string) => Awaitable<void>
+  onAfterRouteChange?: (to: string) => Awaitable<void>
 }
 ```
 

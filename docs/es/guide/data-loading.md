@@ -8,8 +8,7 @@ Los cargadores de datos pueden ser usados para buscar datos remotos o generar me
 
 Un archivo de cargados de datos debe terminar con `.data.js` o `.data.ts`. El archivo debe proporcionar una exportación por defecto de un objeto con el método `load()`:
 
-```js
-// example.data.js
+```js [example.data.js]
 export default {
   load() {
     return {
@@ -83,8 +82,7 @@ export default {
 
 Al construir un sitio enfocado en contenido, frecuentemente necesitamos crear una página de "archivo" o "índice": una página donde listamos todas las entradas disponibles en nuestra colección de contenido, por ejemplo, articulos de blog o páginas de API. Nosotros **podemos** implementar esto directamente con el API de cargador de datos, pero como este es un caso de uso tan común, VitePress también proporciona un auxiliar `createContentLoader` para simplificar esto:
 
-```js
-// posts.data.js
+```js [posts.data.js]
 import { createContentLoader } from 'vitepress'
 
 export default createContentLoader('posts/*.md', /* opciones */)
@@ -134,8 +132,7 @@ import { data as posts } from './posts.data.js'
 
 Los datos por defecto pueden no atender todas las necesidades - puede optar por transformar los datos usando opciones:
 
-```js
-// posts.data.js
+```js [posts.data.js]
 import { createContentLoader } from 'vitepress'
 
 export default createContentLoader('posts/*.md', {
@@ -161,8 +158,7 @@ Vea cómo es usado en el [blog Vue.js](https://github.com/vuejs/blog/blob/main/.
 
 El API `createContentLoader` también puede ser usada dentro de los [build hooks](../reference/site-config#build-hooks):
 
-```js
-// .vitepress/config.js
+```js [.vitepress/config.js]
 export default {
   async buildEnd() {
     const posts = await createContentLoader('posts/*.md').load()

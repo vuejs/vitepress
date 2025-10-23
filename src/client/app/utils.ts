@@ -1,19 +1,14 @@
-import { siteDataRef } from './data'
+import { tryOnUnmounted } from '@vueuse/core'
+import { h, onMounted, shallowRef, type AsyncComponentLoader } from 'vue'
 import {
-  inBrowser,
   EXTERNAL_URL_RE,
+  inBrowser,
   sanitizeFileName,
   type Awaitable
 } from '../shared'
-import {
-  h,
-  onMounted,
-  onUnmounted,
-  shallowRef,
-  type AsyncComponentLoader
-} from 'vue'
+import { siteDataRef } from './data'
 
-export { inBrowser, escapeHtml as _escapeHtml } from '../shared'
+export { escapeHtml as _escapeHtml, inBrowser } from '../shared'
 
 /**
  * Join two paths by resolving the slash collision.
@@ -81,7 +76,7 @@ export let contentUpdatedCallbacks: (() => any)[] = []
  */
 export function onContentUpdated(fn: () => any) {
   contentUpdatedCallbacks.push(fn)
-  onUnmounted(() => {
+  tryOnUnmounted(() => {
     contentUpdatedCallbacks = contentUpdatedCallbacks.filter((f) => f !== fn)
   })
 }

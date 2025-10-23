@@ -19,39 +19,19 @@ VitePress는 단독으로 사용하거나 기존 프로젝트에 설치할 수 �
 ::: code-group
 
 ```sh [npm]
-$ npm add -D vitepress
+$ npm add -D vitepress@next
 ```
 
 ```sh [pnpm]
-$ pnpm add -D vitepress
+$ pnpm add -D vitepress@next
 ```
 
 ```sh [yarn]
-$ yarn add -D vitepress
-```
-
-```sh [yarn (pnp)]
-$ yarn add -D vitepress vue
+$ yarn add -D vitepress@next vue
 ```
 
 ```sh [bun]
-$ bun add -D vitepress
-```
-
-:::
-
-::: details "missing peer deps" 경고가 표시되나요?
-PNPM을 사용하는 경우 `@docsearch/js`에 대한 "missing peer deps" 경고가 표시됩니다. 이는 VitePress가 작동하는 것을 방해하지 않습니다. 이 경고를 억제하려면 `package.json`에 다음을 추가합니다:
-
-```json
-"pnpm": {
-  "peerDependencyRules": {
-    "ignoreMissing": [
-      "@algolia/client-search",
-      "search-insights"
-    ]
-  }
-}
+$ bun add -D vitepress@next
 ```
 
 :::
@@ -121,8 +101,7 @@ VitePress 프로젝트를 `./docs`에 구축하기로 한 경우, 생성된 파�
 
 구성 파일(`.vitepress/config.js`)을 사용하면 사이트의 제목과 설명과 같은 VitePress 사이트의 다양한 측면을 커스터마이즈할 수 있습니다:
 
-```js
-// .vitepress/config.js
+```js [.vitepress/config.js]
 export default {
   // 사이트 옵션
   title: 'VitePress',
@@ -148,7 +127,7 @@ VitePress는 **파일 기반 라우팅**을 사용합니다: 각 `.md` 파일은
 
 설치 과정에서 허용한 경우, 도구는 다음 npm 스크립트를 `package.json`에 추가했을 것입니다:
 
-```json
+```json [package.json]
 {
   ...
   "scripts": {

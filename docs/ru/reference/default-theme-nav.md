@@ -55,6 +55,8 @@ export default {
 
 `text` — это текст, отображаемый в навигации, а `link` — это ссылка, на которую будет осуществлён переход при нажатии на текст. Для ссылки задайте путь к фактическому файлу без префикса `.md` и всегда начинайте с `/`.
 
+`link` также может быть функцией, которая принимает [`PageData`](./runtime-api#usedata) в качестве аргумента и возвращает путь.
+
 Навигационные ссылки также могут быть выпадающими меню. Для этого установите ключ `items` вместо ключа `link`:
 
 ```js
@@ -165,8 +167,7 @@ export default {
 
 Вы можете добавить пользовательские компоненты в панель навигации с помощью опции `component`. Ключ `component` должен быть именем компонента Vue и должен быть зарегистрирован глобально с помощью [Theme.enhanceApp](../guide/custom-theme#theme-interface).
 
-```js
-// .vitepress/config.js
+```js [.vitepress/config.js]
 export default {
   themeConfig: {
     nav: [
@@ -192,8 +193,7 @@ export default {
 
 Затем необходимо зарегистрировать компонент глобально:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme'
 
 import MyCustomComponent from './components/MyCustomComponent.vue'

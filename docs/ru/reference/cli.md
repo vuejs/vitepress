@@ -43,7 +43,6 @@ vitepress build [root]
 | `--base <path>`                | Публичный базовый путь (по умолчанию: `/`) (`string`)                                                                               |
 | `--target <target>`            | Транспилировать цель (по умолчанию: `"modules"`) (`string`)                                                                         |
 | `--outDir <dir>`               | Выходной каталог относительно **cwd** (по умолчанию: `<root>/.vitepress/dist`) (`string`)                                           |
-| `--minify [minifier]`          | Включить/выключить минификацию или задать используемый минификатор (по умолчанию: `"esbuild"`) (`boolean \| "terser" \| "esbuild"`) |
 | `--assetsInlineLimit <number>` | Статический встроенный порог ресурса base64 в байтах (по умолчанию: `4096`) (`number`)                                              |
 
 ## `vitepress preview` {#vitepress-preview}

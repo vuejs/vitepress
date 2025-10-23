@@ -43,7 +43,6 @@ vitepress build [root]
 | `--base <path>`                | public base URL (默认值: `/`)  (`string`)                                                            |
 | `--target <target>`            | 转译目标 (默认值：`"modules"`) (`string`)                                                        |
 | `--outDir <dir>`               | 输出目录 (默认值：`.vitepress/dist`) (`string`)                                                  |
-| `--minify [minifier]`          | 启用/禁用压缩，或指定要使用的压缩程序 (默认值：`"esbuild"`) (`boolean \| "terser" \| "esbuild"`) |
 | `--assetsInlineLimit <number>` | 静态资源 base64 内联阈值（以字节为单位）(默认值：`4096`) (`number`)                             |
 
 ## `vitepress preview`

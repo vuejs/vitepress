@@ -53,12 +53,12 @@ const members = [
 
 Say hello to our awesome team.
 
-<VPTeamMembers size="small" :members="members" />
+<VPTeamMembers size="small" :members />
 ```
 
 以上将在卡片外观元素中显示团队成员。它应该显示类似于下面的内容。
 
-<VPTeamMembers size="small" :members="members" />
+<VPTeamMembers size="small" :members />
 
 `<VPTeamMembers>` 组件有 2 种不同的尺寸，`small` 和 `medium`。虽然它取决于你的偏好，但通常尺寸在文档页面中使用时 `small` 应该更适合。此外，你可以为每个成员添加更多属性，例如添加“描述”或“赞助”按钮。在 [`<VPTeamMembers>`](#vpteammembers) 中了解更多信息。
 
@@ -107,9 +107,7 @@ const members = [
       team, some of whom have chosen to be featured below.
     </template>
   </VPTeamPageTitle>
-  <VPTeamMembers
-    :members="members"
-  />
+  <VPTeamMembers :members />
 </VPTeamPage>
 ```
 

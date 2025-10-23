@@ -161,6 +161,12 @@ aside: false
 
 The levels of header in the outline to display for the page. It's same as [config.themeConfig.outline.level](./default-theme-config#outline), and it overrides the value set in site-level config.
 
+```yaml
+---
+outline: [2, 4]
+---
+```
+
 ### lastUpdated
 
 - Type: `boolean | Date`
@@ -218,4 +224,17 @@ Then you can customize styles of this specific page in `.vitepress/theme/custom.
 .custom-page-class {
   /* page-specific styles */
 }
+```
+
+### isHome
+
+- Type: `boolean`
+
+The default theme relies on checks like `frontmatter.layout === 'home'` to determine if the current page is the home page.\
+This is useful when you want to force show the home page elements in a custom layout.
+
+```yaml
+---
+isHome: true
+---
 ```

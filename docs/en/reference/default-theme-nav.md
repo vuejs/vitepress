@@ -55,6 +55,8 @@ export default {
 
 The `text` is the actual text displayed in nav, and the `link` is the link that will be navigated to when the text is clicked. For the link, set path to the actual file without `.md` prefix, and always start with `/`.
 
+The `link` can also be a function that accepts [`PageData`](./runtime-api#usedata) as the argument and returns the path.
+
 Nav links can also be dropdown menus. To do this, set `items` key on link option.
 
 ```js
@@ -165,8 +167,7 @@ Refer [`socialLinks`](./default-theme-config#sociallinks).
 
 You can include custom components in the navigation bar by using the `component` option. The `component` key should be the Vue component name, and must be registered globally using [Theme.enhanceApp](../guide/custom-theme#theme-interface).
 
-```js
-// .vitepress/config.js
+```js [.vitepress/config.js]
 export default {
   themeConfig: {
     nav: [
@@ -192,8 +193,7 @@ export default {
 
 Then, you need to register the component globally:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme'
 
 import MyCustomComponent from './components/MyCustomComponent.vue'

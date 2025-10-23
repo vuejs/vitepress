@@ -89,7 +89,7 @@ type NavItem = NavItemWithLink | NavItemWithChildren
 
 interface NavItemWithLink {
   text: string
-  link: string
+  link: string | ((payload: PageData) => string)
   activeMatch?: string
   target?: string
   rel?: string
@@ -246,24 +246,10 @@ export default {
 
 ```ts
 interface SocialLink {
-  icon: SocialLinkIcon
+  icon: string | { svg: string }
   link: string
   ariaLabel?: string
 }
-
-type SocialLinkIcon =
-  | 'discord'
-  | 'facebook'
-  | 'github'
-  | 'instagram'
-  | 'linkedin'
-  | 'mastodon'
-  | 'npm'
-  | 'slack'
-  | 'twitter'
-  | 'x'
-  | 'youtube'
-  | { svg: string }
 ```
 
 ## footer

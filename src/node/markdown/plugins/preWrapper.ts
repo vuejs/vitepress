@@ -1,11 +1,16 @@
-import type MarkdownIt from 'markdown-it'
+import type { MarkdownItAsync } from 'markdown-it-async'
 
 export interface Options {
   codeCopyButtonTitle: string
-  hasSingleTheme: boolean
+  languageLabel?: Record<string, string>
 }
 
-export function preWrapperPlugin(md: MarkdownIt, options: Options) {
+export function preWrapperPlugin(md: MarkdownItAsync, options: Options) {
+  const langLabel = Object.fromEntries(
+    Object.entries(options.languageLabel || {}) //
+      .map(([k, v]) => [k.toLowerCase(), v])
+  )
+
   const fence = md.renderer.rules.fence!
   md.renderer.rules.fence = (...args) => {
     const [tokens, idx] = args
@@ -18,19 +23,16 @@ export function preWrapperPlugin(md: MarkdownIt, options: Options) {
     token.info = token.info.replace(/ active$/, '').replace(/ active /, ' ')
 
     const lang = extractLang(token.info)
+    const label = langLabel[lang.toLowerCase()] || lang.replace(/_/g, ' ')
 
     return (
-      `<div class="language-${lang}${getAdaptiveThemeMarker(options)}${active}">` +
+      `<div class="language-${lang}${active}">` +
       `<button title="${options.codeCopyButtonTitle}" class="copy"></button>` +
-      `<span class="lang">${lang}</span>` +
+      `<span class="lang">${label}</span>` +
       fence(...args) +
       '</div>'
     )
   }
-}
-
-export function getAdaptiveThemeMarker(options: Options) {
-  return options.hasSingleTheme ? '' : ' vp-adaptive-theme'
 }
 
 export function extractTitle(info: string, html = false) {

@@ -1,5 +1,5 @@
 import siteData from '@siteData'
-import { useDark } from '@vueuse/core'
+import { useDark, usePreferredDark } from '@vueuse/core'
 import {
   computed,
   inject,
@@ -57,17 +57,8 @@ export interface VitePressData<T = any> {
 
 // site data is a singleton
 export const siteDataRef: Ref<SiteData> = shallowRef(
-  (import.meta.env.PROD ? siteData : readonly(siteData)) as SiteData
+  readonly(siteData) as SiteData
 )
-
-// hmr
-if (import.meta.hot) {
-  import.meta.hot.accept('/@siteData', (m) => {
-    if (m) {
-      siteDataRef.value = m.default
-    }
-  })
-}
 
 // per-app data
 export function initData(route: Route): VitePressData {
@@ -79,13 +70,15 @@ export function initData(route: Route): VitePressData {
   const isDark =
     appearance === 'force-dark'
       ? ref(true)
-      : appearance
-        ? useDark({
-            storageKey: APPEARANCE_KEY,
-            initialValue: () => (appearance === 'dark' ? 'dark' : 'auto'),
-            ...(typeof appearance === 'object' ? appearance : {})
-          })
-        : ref(false)
+      : appearance === 'force-auto'
+        ? usePreferredDark()
+        : appearance
+          ? useDark({
+              storageKey: APPEARANCE_KEY,
+              initialValue: () => (appearance === 'dark' ? 'dark' : 'auto'),
+              ...(typeof appearance === 'object' ? appearance : {})
+            })
+          : ref(false)
 
   const hashRef = ref(inBrowser ? location.hash : '')
 

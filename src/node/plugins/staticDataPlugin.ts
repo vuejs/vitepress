@@ -1,33 +1,40 @@
+import path from 'node:path'
+import pm from 'picomatch'
 import {
-  type Plugin,
-  type ViteDevServer,
   loadConfigFromFile,
-  normalizePath
+  normalizePath,
+  type EnvironmentModuleNode,
+  type Plugin,
+  type ViteDevServer
 } from 'vite'
-import path, { dirname, resolve } from 'path'
-import { isMatch } from 'micromatch'
-import glob from 'fast-glob'
+import type { Awaitable } from '../shared'
+import { glob, normalizeGlob, type GlobOptions } from '../utils/glob'
 
 const loaderMatch = /\.data\.m?(j|t)s($|\?)/
 
 let server: ViteDevServer
 
-export interface LoaderModule {
+export interface LoaderModule<T = any> {
   watch?: string[] | string
-  load: (watchedFiles: string[]) => any
+  load: (watchedFiles: string[]) => Awaitable<T>
+  options?: { globOptions?: GlobOptions }
 }
 
 /**
  * Helper for defining loaders with type inference
  */
-export function defineLoader(loader: LoaderModule) {
+export function defineLoader<T>(loader: LoaderModule<T>): LoaderModule<T> {
   return loader
 }
 
-const idToLoaderModulesMap: Record<string, LoaderModule | undefined> =
-  Object.create(null)
+// Map from loader module id to its module info
+const idToLoaderModulesMap: Record<
+  string,
+  (Required<Omit<LoaderModule, 'watch'>> & { watch: string[] }) | undefined
+> = Object.create(null)
 
-const depToLoaderModuleIdMap: Record<string, string> = Object.create(null)
+// Map from dependency file to a set of loader module ids
+const depToLoaderModuleIdsMap: Record<string, Set<string>> = Object.create(null)
 
 // During build, the load hook will be called on the same file twice
 // once for client and once for server build. Not only is this wasteful, it
@@ -53,111 +60,88 @@ export const staticDataPlugin: Plugin = {
     if (loaderMatch.test(id)) {
       let _resolve: ((res: any) => void) | undefined
       if (isBuild) {
-        if (idToPendingPromiseMap[id]) {
-          return idToPendingPromiseMap[id]
-        }
+        if (idToPendingPromiseMap[id]) return idToPendingPromiseMap[id]
         idToPendingPromiseMap[id] = new Promise((r) => {
           _resolve = r
         })
       }
 
-      const base = dirname(id)
+      const base = path.dirname(id)
       let watch: LoaderModule['watch']
       let load: LoaderModule['load']
+      let options: LoaderModule['options']
 
       const existing = idToLoaderModulesMap[id]
       if (existing) {
-        ;({ watch, load } = existing)
+        ;({ watch, load, options } = existing)
       } else {
-        // use vite's load config util as a away to load Node.js file with
+        // use vite's load config util as a way to load Node.js file with
         // TS & native ESM support
         const res = await loadConfigFromFile({} as any, id.replace(/\?.*$/, ''))
 
         // record deps for hmr
         if (server && res) {
           for (const dep of res.dependencies) {
-            depToLoaderModuleIdMap[normalizePath(path.resolve(dep))] = id
+            const depPath = normalizePath(path.resolve(dep))
+            if (!depToLoaderModuleIdsMap[depPath]) {
+              depToLoaderModuleIdsMap[depPath] = new Set()
+            }
+            depToLoaderModuleIdsMap[depPath].add(id)
           }
         }
 
         const loaderModule = res?.config as LoaderModule
-        watch =
-          typeof loaderModule.watch === 'string'
-            ? [loaderModule.watch]
-            : loaderModule.watch
-        if (watch) {
-          watch = watch.map((p) => {
-            return p.startsWith('.')
-              ? normalizePath(resolve(base, p))
-              : normalizePath(p)
-          })
-        }
+        watch = normalizeGlob(loaderModule.watch, base)
         load = loaderModule.load
+        options = loaderModule.options || {}
       }
 
       // load the data
-      let watchedFiles
-      if (watch) {
-        watchedFiles = (
-          await glob(watch, {
-            ignore: ['**/node_modules/**', '**/dist/**']
-          })
-        ).sort()
-      }
-      const data = await load(watchedFiles || [])
+      const watchedFiles = await glob(watch, {
+        absolute: true,
+        ...options.globOptions
+      })
+      const data = await load(watchedFiles)
 
       // record loader module for HMR
-      if (server) {
-        idToLoaderModulesMap[id] = { watch, load }
-      }
+      if (server) idToLoaderModulesMap[id] = { watch, load, options }
 
-      const result = `export const data = JSON.parse(${JSON.stringify(
-        JSON.stringify(data)
-      )})`
+      const result = `export const data = JSON.parse(${JSON.stringify(JSON.stringify(data))})`
 
       if (_resolve) _resolve(result)
       return result
     }
   },
 
-  transform(_code, id) {
-    if (server && loaderMatch.test(id) && '_importGlobMap' in server) {
-      // register this module as a glob importer
-      const { watch } = idToLoaderModulesMap[id]!
-      if (watch) {
-        ;(server as any)._importGlobMap.set(
-          id,
-          [Array.isArray(watch) ? watch : [watch]].map((globs) => {
-            const affirmed: string[] = []
-            const negated: string[] = []
+  hotUpdate({ file, modules: existingMods }) {
+    if (this.environment.name !== 'client') return
 
-            for (const glob of globs) {
-              ;(glob[0] === '!' ? negated : affirmed).push(glob)
-            }
-            return { affirmed, negated }
-          })
-        )
+    const modules: EnvironmentModuleNode[] = []
+    const normalizedFile = normalizePath(file)
+
+    // Trigger update if a dependency (including transitive ones) changed.
+    if (normalizedFile in depToLoaderModuleIdsMap) {
+      for (const id of Array.from(
+        depToLoaderModuleIdsMap[normalizedFile] || []
+      )) {
+        delete idToLoaderModulesMap[id]
+        const mod = this.environment.moduleGraph.getModuleById(id)
+        if (mod) modules.push(mod)
       }
     }
-    return null
-  },
 
-  handleHotUpdate(ctx) {
-    const file = ctx.file
-
-    // dependency of data loader changed
-    // (note the dep array includes the loader file itself)
-    if (file in depToLoaderModuleIdMap) {
-      const id = depToLoaderModuleIdMap[file]!
-      delete idToLoaderModulesMap[id]
-      ctx.modules.push(server.moduleGraph.getModuleById(id)!)
-    }
-
+    // Also check if the file matches any custom watch patterns.
     for (const id in idToLoaderModulesMap) {
-      const { watch } = idToLoaderModulesMap[id]!
-      if (watch && isMatch(file, watch)) {
-        ctx.modules.push(server.moduleGraph.getModuleById(id)!)
+      const loader = idToLoaderModulesMap[id]
+      if (
+        loader?.watch?.length &&
+        pm(loader.watch, loader.options.globOptions)(normalizedFile)
+      ) {
+        const mod = this.environment.moduleGraph.getModuleById(id)
+        if (mod) modules.push(mod)
       }
     }
+
+    return modules.length ? [...existingMods, ...modules] : undefined
   }
 }

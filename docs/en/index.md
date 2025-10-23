@@ -1,9 +1,6 @@
 ---
 layout: home
 
-title: VitePress
-titleTemplate: Vite & Vue Powered Static Site Generator
-
 hero:
   name: VitePress
   text: Vite & Vue Powered Static Site Generator
@@ -11,7 +8,7 @@ hero:
   actions:
     - theme: brand
       text: What is VitePress?
-      link: /guide/what-is-vitepress
+      link: ./guide/what-is-vitepress
       startIcon: 
         src: /vitepress-logo-mini.svg
         width: 18
@@ -19,14 +16,14 @@ hero:
       endIcon: 
     - theme: alt
       text: Quickstart
-      link: /guide/getting-started
+      link: ./guide/getting-started
     - theme: alt
       text: GitHub
       link: https://github.com/vuejs/vitepress
       startIcon: <span class="vpi-social-github" />
       endIcon: <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="m16.172 11l-5.364-5.364l1.414-1.414L20 12l-7.778 7.778l-1.414-1.414L16.172 13H4v-2z"/></svg>
   image:
-    src: /vitepress-logo-large.webp
+    src: /vitepress-logo-large.svg
     alt: VitePress
 
 features:
@@ -43,25 +40,3 @@ features:
     title: Ship Fast Sites
     details: Fast initial load with static HTML, fast post-load navigation with client-side routing.
 ---
-
-<style>
-:root {
-  --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #bd34fe 30%, #41d1ff);
-
-  --vp-home-hero-image-background-image: linear-gradient(-45deg, #bd34fe 50%, #47caff 50%);
-  --vp-home-hero-image-filter: blur(44px);
-}
-
-@media (min-width: 640px) {
-  :root {
-    --vp-home-hero-image-filter: blur(56px);
-  }
-}
-
-@media (min-width: 960px) {
-  :root {
-    --vp-home-hero-image-filter: blur(68px);
-  }
-}
-</style>

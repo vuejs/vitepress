@@ -233,7 +233,7 @@ export default defineConfig({
 
 ```md
 ::: raw
-<div class="vp-raw">로 감쌉니다
+`<div class="vp-raw">`로 감쌉니다
 :::
 ```
 
@@ -255,11 +255,11 @@ export default defineConfig({
   }
   ```
 
-  이것은 기본적으로 [`postcss-prefix-selector`](https://github.com/RadValentin/postcss-prefix-selector)를 사용합니다. 다음과 같이 옵션을 전달할 수 있습니다:
+  다음과 같이 옵션을 전달할 수 있습니다:
 
   ```js
   postcssIsolateStyles({
-    includeFiles: [/vp-doc\.css/] // 기본값은 /base\.css/
+    includeFiles: [/custom\.css/] // 기본값은 [/vp-doc\.css/, /base\.css/]
   })
   ```
 
@@ -883,8 +883,7 @@ Can be created using `.foorc.json`.
 npm add -D markdown-it-mathjax3
 ```
 
-```ts
-// .vitepress/config.ts
+```ts [.vitepress/config.ts]
 export default {
   markdown: {
     math: true

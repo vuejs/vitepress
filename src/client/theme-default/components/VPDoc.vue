@@ -2,14 +2,14 @@
 import { useRoute } from 'vitepress'
 import { computed } from 'vue'
 import { useData } from '../composables/data'
-import { useSidebar } from '../composables/sidebar'
+import { useLayout } from '../composables/layout'
 import VPDocAside from './VPDocAside.vue'
 import VPDocFooter from './VPDocFooter.vue'
 
 const { theme } = useData()
 
 const route = useRoute()
-const { hasSidebar, hasAside, leftAside } = useSidebar()
+const { hasSidebar, hasAside, leftAside } = useLayout()
 
 const pageName = computed(() =>
   route.path.replace(/[./]+/g, '_').replace(/_html$/, '')
@@ -154,6 +154,7 @@ const pageName = computed(() =>
   width: 224px;
   height: 32px;
   background: linear-gradient(transparent, var(--vp-c-bg) 70%);
+  pointer-events: none;
 }
 
 .aside-content {

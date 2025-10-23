@@ -12,17 +12,17 @@ export type { EnhanceAppContext, Theme } from './app/theme'
 export type { HeadConfig, Header, PageData, SiteData } from '../../types/shared'
 
 // composables
-export { useData, dataSymbol } from './app/data'
+export { dataSymbol, useData } from './app/data'
 export { useRoute, useRouter } from './app/router'
 
 // utilities
 export {
+  _escapeHtml,
+  defineClientComponent,
+  getScrollOffset,
   inBrowser,
   onContentUpdated,
-  defineClientComponent,
-  withBase,
-  getScrollOffset,
-  _escapeHtml
+  withBase
 } from './app/utils'
 
 // components

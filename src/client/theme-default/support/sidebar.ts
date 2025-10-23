@@ -1,6 +1,6 @@
 import type { DefaultTheme } from 'vitepress/theme'
-import { ensureStartingSlash } from './utils'
 import { isActive } from '../../shared'
+import { ensureStartingSlash } from './utils'
 
 export interface SidebarLink {
   text: string
@@ -112,7 +112,8 @@ function addBase(items: SidebarItem[], _base?: string): SidebarItem[] {
   return [...items].map((_item) => {
     const item = { ..._item }
     const base = item.base || _base
-    if (base && item.link) item.link = base + item.link
+    if (base && item.link)
+      item.link = base + item.link.replace(/^\//, base.endsWith('/') ? '' : '/')
     if (item.items) item.items = addBase(item.items, base)
     return item
   })

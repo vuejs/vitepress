@@ -1,13 +1,12 @@
 import fs from 'fs-extra'
-import path from 'path'
-import glob from 'fast-glob'
-import type { SiteConfig } from './config'
 import matter from 'gray-matter'
+import path from 'node:path'
+import pMap from 'p-map'
 import { normalizePath } from 'vite'
-import {
-  createMarkdownRenderer,
-  type MarkdownRenderer
-} from './markdown/markdown'
+import type { SiteConfig } from './config'
+import { createMarkdownRenderer } from './markdown/markdown'
+import type { Awaitable } from './shared'
+import { glob, normalizeGlob, type GlobOptions } from './utils/glob'
 
 export interface ContentOptions<T = ContentData[]> {
   /**
@@ -51,14 +50,12 @@ export interface ContentOptions<T = ContentData[]> {
    * Transform the data. Note the data will be inlined as JSON in the client
    * bundle if imported from components or markdown files.
    */
-  transform?: (data: ContentData[]) => T | Promise<T>
+  transform?: (data: ContentData[]) => Awaitable<T>
 
   /**
-   * Options to pass to `fast-glob`.
-   * You'll need to manually specify `node_modules` and `dist` in
-   * `globOptions.ignore` if you've overridden it.
+   * Options to pass to `tinyglobby` and `picomatch` for globbing.
    */
-  globOptions?: glob.Options
+  globOptions?: GlobOptions
 }
 
 export interface ContentData {
@@ -77,18 +74,9 @@ export function createContentLoader<T = ContentData[]>(
   /**
    * files to glob / watch - relative to srcDir
    */
-  pattern: string | string[],
-  {
-    includeSrc,
-    render,
-    excerpt: renderExcerpt,
-    transform,
-    globOptions
-  }: ContentOptions<T> = {}
-): {
-  watch: string | string[]
-  load: () => Promise<T>
-} {
+  watch: string | string[],
+  options: ContentOptions<T> = {}
+) {
   const config: SiteConfig = (global as any).VITEPRESS_CONFIG
   if (!config) {
     throw new Error(
@@ -97,81 +85,75 @@ export function createContentLoader<T = ContentData[]>(
     )
   }
 
-  if (typeof pattern === 'string') pattern = [pattern]
-  pattern = pattern.map((p) => normalizePath(path.join(config.srcDir, p)))
+  const cache = new Map<string, { data: any; timestamp: number }>()
 
-  let md: MarkdownRenderer
-
-  const cache = new Map<
-    string,
-    {
-      data: any
-      timestamp: number
-    }
-  >()
+  watch = normalizeGlob(watch, config.srcDir)
 
   return {
-    watch: pattern,
+    watch,
+    options: { globOptions: options.globOptions },
+
     async load(files?: string[]) {
-      if (!files) {
-        // the loader is being called directly, do a fresh glob
-        files = (
-          await glob(pattern, {
-            ignore: ['**/node_modules/**', '**/dist/**'],
-            ...globOptions
-          })
-        ).sort()
-      }
+      // the loader is being called directly, do a fresh glob
+      files ??= await glob(watch, {
+        absolute: true,
+        ...options.globOptions
+      })
 
-      md =
-        md ||
-        (await createMarkdownRenderer(
-          config.srcDir,
-          config.markdown,
-          config.site.base,
-          config.logger
-        ))
+      const md = await createMarkdownRenderer(
+        config.srcDir,
+        config.markdown,
+        config.site.base,
+        config.logger
+      )
 
-      const raw: ContentData[] = []
+      const raw = await pMap(
+        files,
+        async (file) => {
+          if (!file.endsWith('.md')) return null
 
-      for (const file of files) {
-        if (!file.endsWith('.md')) {
-          continue
-        }
-        const timestamp = fs.statSync(file).mtimeMs
-        const cached = cache.get(file)
-        if (cached && timestamp === cached.timestamp) {
-          raw.push(cached.data)
-        } else {
+          const timestamp = fs.statSync(file).mtimeMs
+          const cached = cache.get(file)
+
+          if (cached && timestamp === cached.timestamp) return cached.data
+
           const src = fs.readFileSync(file, 'utf-8')
+
+          const renderExcerpt = options.excerpt
           const { data: frontmatter, excerpt } = matter(
             src,
-            // @ts-expect-error gray-matter types are wrong
             typeof renderExcerpt === 'string'
               ? { excerpt_separator: renderExcerpt }
-              : { excerpt: renderExcerpt }
+              : { excerpt: renderExcerpt as any } // gray-matter types are wrong
           )
+
           const url =
             '/' +
             normalizePath(path.relative(config.srcDir, file))
               .replace(/(^|\/)index\.md$/, '$1')
               .replace(/\.md$/, config.cleanUrls ? '' : '.html')
-          const html = render ? md.render(src) : undefined
+
+          const html = options.render ? await md.renderAsync(src) : undefined
           const renderedExcerpt = renderExcerpt
-            ? excerpt && md.render(excerpt)
+            ? excerpt && (await md.renderAsync(excerpt))
             : undefined
+
           const data: ContentData = {
-            src: includeSrc ? src : undefined,
+            src: options.includeSrc ? src : undefined,
             html,
             frontmatter,
             excerpt: renderedExcerpt,
             url
           }
+
           cache.set(file, { data, timestamp })
-          raw.push(data)
-        }
-      }
-      return (transform ? transform(raw) : raw) as any
+          return data
+        },
+        { concurrency: config.buildConcurrency }
+      )
+
+      const filtered = raw.filter((i) => i !== null)
+      return options.transform?.(filtered) ?? (filtered as T)
     }
   }
 }

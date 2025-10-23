@@ -156,32 +156,35 @@ You can customize the mapping between the source directory structure and the gen
 
 ```
 .
-├─ packages
-│  ├─ pkg-a
-│  │  └─ src
-│  │      ├─ pkg-a-code.ts
-│  │      └─ pkg-a-docs.md
-│  └─ pkg-b
-│     └─ src
-│         ├─ pkg-b-code.ts
-│         └─ pkg-b-docs.md
+└─ packages
+   ├─ pkg-a
+   │  └─ src
+   │     ├─ foo.md
+   │     └─ index.md
+   └─ pkg-b
+      └─ src
+         ├─ bar.md
+         └─ index.md
 ```
 
 And you want the VitePress pages to be generated like this:
 
 ```
-packages/pkg-a/src/pkg-a-docs.md  -->  /pkg-a/index.html
-packages/pkg-b/src/pkg-b-docs.md  -->  /pkg-b/index.html
+packages/pkg-a/src/index.md  -->  /pkg-a/index.html
+packages/pkg-a/src/foo.md    -->  /pkg-a/foo.html
+packages/pkg-b/src/index.md  -->  /pkg-b/index.html
+packages/pkg-b/src/bar.md    -->  /pkg-b/bar.html
 ```
 
 You can achieve this by configuring the [`rewrites`](../reference/site-config#rewrites) option like this:
 
-```ts
-// .vitepress/config.js
+```ts [.vitepress/config.js]
 export default {
   rewrites: {
-    'packages/pkg-a/src/pkg-a-docs.md': 'pkg-a/index.md',
-    'packages/pkg-b/src/pkg-b-docs.md': 'pkg-b/index.md'
+    'packages/pkg-a/src/index.md': 'pkg-a/index.md',
+    'packages/pkg-a/src/foo.md': 'pkg-a/foo.md',
+    'packages/pkg-b/src/index.md': 'pkg-b/index.md',
+    'packages/pkg-b/src/bar.md': 'pkg-b/bar.md'
   }
 }
 ```
@@ -191,12 +194,22 @@ The `rewrites` option also supports dynamic route parameters. In the above examp
 ```ts
 export default {
   rewrites: {
-    'packages/:pkg/src/(.*)': ':pkg/index.md'
+    'packages/:pkg/src/:slug*': ':pkg/:slug*'
   }
 }
 ```
 
-The rewrite paths are compiled using the `path-to-regexp` package - consult [its documentation](https://github.com/pillarjs/path-to-regexp#parameters) for more advanced syntax.
+The rewrite paths are compiled using the `path-to-regexp` package - consult [its documentation](https://github.com/pillarjs/path-to-regexp/tree/6.x#parameters) for more advanced syntax.
+
+`rewrites` can also be a function that receives the original path and returns the new path:
+
+```ts
+export default {
+  rewrites(id) {
+    return id.replace(/^packages\/([^/]+)\/src\//, '$1/')
+  }
+}
+```
 
 ::: warning Relative Links with Rewrites
 
@@ -322,6 +335,46 @@ export default {
   }
 }
 ```
+
+### Watching Template and Data Files
+
+When generating page content from templates or external data sources, you can use the watch option to automatically rebuild pages when those files change during development:
+
+```js
+// posts/[slug].paths.js
+import fs from 'node:fs'
+import { renderTemplate } from './templates/renderer.js'
+
+export default {
+  // Watch for changes to template files and data sources
+  watch: [
+    './templates/**/*.njk',     // Template files
+    '../data/**/*.json'         // Data files
+  ],
+
+  paths(watchedFiles) {
+    // watchedFiles will be an array of absolute paths of the matched files
+    // Read data files to generate routes
+    const dataFiles = watchedFiles.filter(file => file.endsWith('.json'))
+
+    return dataFiles.map(file => {
+      const data = JSON.parse(fs.readFileSync(file, 'utf-8'))
+
+      return {
+        params: { slug: data.slug },
+        content: renderTemplate(data)  // Use template to generate content
+      }
+    })
+  }
+}
+```
+
+The `watch` option works the same way as in [data loaders](./data-loading#data-from-local-files):
+
+- Accepts [glob patterns](https://github.com/mrmlnc/fast-glob#pattern-syntax) to match files
+- Patterns are relative to the `.paths.js` file itself
+- Changes to watched files trigger page regeneration and HMR during development
+- In production builds, all pages are generated once regardless of watch configuration
 
 ### Accessing Params in Page
 

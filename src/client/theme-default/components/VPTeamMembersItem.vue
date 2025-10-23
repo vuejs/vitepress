@@ -40,7 +40,7 @@ withDefaults(defineProps<Props>(), {
         </p>
         <p v-if="member.desc" class="desc" v-html="member.desc" />
         <div v-if="member.links" class="links">
-          <VPSocialLinks :links="member.links" />
+          <VPSocialLinks :links="member.links" :me="false" />
         </div>
       </div>
     </div>

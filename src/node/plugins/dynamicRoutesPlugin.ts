@@ -1,81 +1,25 @@
+import fs from 'fs-extra'
+import path from 'node:path'
+import c from 'picocolors'
+import pm from 'picomatch'
 import {
   loadConfigFromFile,
   normalizePath,
+  type EnvironmentModuleGraph,
+  type EnvironmentModuleNode,
   type Logger,
-  type Plugin,
-  type ViteDevServer
+  type Plugin
 } from 'vite'
-import fs from 'fs-extra'
-import c from 'picocolors'
-import path from 'path'
-import glob from 'fast-glob'
+import type { Awaitable } from '../shared'
 import { type SiteConfig, type UserConfig } from '../siteConfig'
+import { glob, normalizeGlob, type GlobOptions } from '../utils/glob'
+import { ModuleGraph } from '../utils/moduleGraph'
 import { resolveRewrites } from './rewritesPlugin'
-
-export const dynamicRouteRE = /\[(\w+?)\]/g
-
-export async function resolvePages(
-  srcDir: string,
-  userConfig: UserConfig,
-  logger: Logger
-) {
-  // Important: fast-glob doesn't guarantee order of the returned files.
-  // We must sort the pages so the input list to rollup is stable across
-  // builds - otherwise different input order could result in different exports
-  // order in shared chunks which in turns invalidates the hash of every chunk!
-  // JavaScript built-in sort() is mandated to be stable as of ES2019 and
-  // supported in Node 12+, which is required by Vite.
-  const allMarkdownFiles = (
-    await glob(['**.md'], {
-      cwd: srcDir,
-      ignore: [
-        '**/node_modules/**',
-        '**/dist/**',
-        ...(userConfig.srcExclude || [])
-      ]
-    })
-  ).sort()
-
-  const pages: string[] = []
-  const dynamicRouteFiles: string[] = []
-
-  allMarkdownFiles.forEach((file) => {
-    dynamicRouteRE.lastIndex = 0
-    ;(dynamicRouteRE.test(file) ? dynamicRouteFiles : pages).push(file)
-  })
-
-  const dynamicRoutes = await resolveDynamicRoutes(
-    srcDir,
-    dynamicRouteFiles,
-    logger
-  )
-  pages.push(...dynamicRoutes.routes.map((r) => r.path))
-
-  const rewrites = resolveRewrites(pages, userConfig.rewrites)
-
-  return {
-    pages,
-    dynamicRoutes,
-    rewrites
-  }
-}
 
 interface UserRouteConfig {
   params: Record<string, string>
   content?: string
 }
-
-interface RouteModule {
-  path: string
-  config: {
-    paths:
-      | UserRouteConfig[]
-      | (() => UserRouteConfig[] | Promise<UserRouteConfig[]>)
-  }
-  dependencies: string[]
-}
-
-const routeModuleCache = new Map<string, RouteModule>()
 
 export type ResolvedRouteConfig = UserRouteConfig & {
   /**
@@ -90,39 +34,124 @@ export type ResolvedRouteConfig = UserRouteConfig & {
    * absolute fs path
    */
   fullPath: string
+  /**
+   * the path to the paths loader module
+   */
+  loaderPath: string
+}
+
+export interface RouteModule {
+  watch?: string[] | string
+  paths:
+    | UserRouteConfig[]
+    | ((watchedFiles: string[]) => Awaitable<UserRouteConfig[]>)
+  transformPageData?: UserConfig['transformPageData']
+  options?: { globOptions?: GlobOptions }
+}
+
+interface ResolvedRouteModule {
+  watch: string[]
+  routes?: ResolvedRouteConfig[]
+  loader: RouteModule['paths']
+  transformPageData?: RouteModule['transformPageData']
+  options: NonNullable<RouteModule['options']>
+}
+
+const dynamicRouteRE = /\[(\w+?)\]/g
+const pathLoaderRE = /\.paths\.m?[jt]s$/
+
+const routeModuleCache = new Map<string, ResolvedRouteModule>()
+let moduleGraph = new ModuleGraph()
+let discoveredPages = new Set<string>()
+
+/**
+ * Helper for defining routes with type inference
+ */
+export function defineRoutes(loader: RouteModule): RouteModule {
+  return loader
+}
+
+type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
+
+export async function resolvePages(
+  siteConfig: Optional<SiteConfig, 'pages' | 'dynamicRoutes' | 'rewrites'>,
+  rebuildCache = false
+): Promise<void> {
+  if (rebuildCache) {
+    moduleGraph = new ModuleGraph()
+    routeModuleCache.clear()
+    discoveredPages.clear()
+  }
+
+  const allMarkdownFiles = await glob(['**/*.md'], {
+    cwd: siteConfig.srcDir,
+    ignore: siteConfig.userConfig.srcExclude
+  })
+
+  const pages: string[] = []
+  const dynamicRouteFiles: string[] = []
+
+  allMarkdownFiles.forEach((file) => {
+    dynamicRouteRE.lastIndex = 0
+    ;(dynamicRouteRE.test(file) ? dynamicRouteFiles : pages).push(file)
+  })
+
+  const dynamicRoutes = await resolveDynamicRoutes(
+    siteConfig.srcDir,
+    dynamicRouteFiles,
+    siteConfig.logger
+  )
+  pages.push(...dynamicRoutes.map((r) => r.path))
+
+  const externalDynamicRoutes =
+    siteConfig.dynamicRoutes?.filter((r) => !discoveredPages.has(r.path)) || []
+  const externalPages =
+    siteConfig.pages?.filter((p) => !discoveredPages.has(p)) || []
+
+  const finalDynamicRoutes = [...dynamicRoutes, ...externalDynamicRoutes].sort(
+    (a, b) => a.path.localeCompare(b.path)
+  )
+  const finalPages = [...pages, ...externalPages].sort()
+
+  const rewrites = resolveRewrites(pages, siteConfig.userConfig.rewrites)
+
+  Object.assign(siteConfig, {
+    pages: finalPages,
+    dynamicRoutes: finalDynamicRoutes,
+    rewrites,
+    // @ts-expect-error internal flag to reload resolution cache in ../markdownToVue.ts
+    __dirty: true
+  } satisfies Partial<SiteConfig>)
+
+  discoveredPages = new Set(pages)
 }
 
 export const dynamicRoutesPlugin = async (
   config: SiteConfig
 ): Promise<Plugin> => {
-  let server: ViteDevServer
-
   return {
     name: 'vitepress:dynamic-routes',
-
-    configureServer(_server) {
-      server = _server
-    },
+    enforce: 'pre',
 
     resolveId(id) {
       if (!id.endsWith('.md')) return
       const normalizedId = id.startsWith(config.srcDir)
         ? id
         : normalizePath(path.resolve(config.srcDir, id.replace(/^\//, '')))
-      const matched = config.dynamicRoutes.routes.find(
+      const matched = config.dynamicRoutes.find(
         (r) => r.fullPath === normalizedId
       )
-      if (matched) {
-        return normalizedId
-      }
+      if (matched) return normalizedId
     },
 
     load(id) {
-      const matched = config.dynamicRoutes.routes.find((r) => r.fullPath === id)
+      const matched = config.dynamicRoutes.find((r) => r.fullPath === id)
       if (matched) {
         const { route, params, content } = matched
         const routeFile = normalizePath(path.resolve(config.srcDir, route))
-        config.dynamicRoutes.fileToModulesMap[routeFile].add(id)
+
+        moduleGraph.add(id, [routeFile])
+        moduleGraph.add(routeFile, [matched.loaderPath])
 
         let baseContent = fs.readFileSync(routeFile, 'utf-8')
 
@@ -131,43 +160,67 @@ export const dynamicRoutesPlugin = async (
         // we use a special injection syntax so the content is rendered as
         // static local content instead of included as runtime data.
         if (content) {
-          baseContent = baseContent.replace(/<!--\s*@content\s*-->/, content)
+          baseContent = baseContent.replace(
+            /<!--\s*@content\s*-->/,
+            content.replace(/\$/g, '$$$')
+          )
         }
 
         // params are injected with special markers and extracted as part of
-        // __pageData in ../markdownTovue.ts
-        return `__VP_PARAMS_START${JSON.stringify(
-          params
-        )}__VP_PARAMS_END__${baseContent}`
+        // __pageData in ../markdownToVue.ts
+        return `__VP_PARAMS_START${JSON.stringify(params)}__VP_PARAMS_END__${baseContent}`
       }
     },
 
-    async handleHotUpdate(ctx) {
-      routeModuleCache.delete(ctx.file)
-      const mods = config.dynamicRoutes.fileToModulesMap[ctx.file]
-      if (mods) {
-        // path loader module or deps updated, reset loaded routes
-        if (!/\.md$/.test(ctx.file)) {
-          Object.assign(
-            config,
-            await resolvePages(config.srcDir, config.userConfig, config.logger)
-          )
-        }
-        for (const id of mods) {
-          ctx.modules.push(server.moduleGraph.getModuleById(id)!)
+    async hotUpdate({ file, modules: existingMods }) {
+      if (this.environment.name !== 'client') return
+
+      const modules: EnvironmentModuleNode[] = []
+      const normalizedFile = normalizePath(file)
+
+      // Trigger update if a module or its dependencies changed.
+      modules.push(...getModules(normalizedFile, this.environment.moduleGraph))
+
+      // Also check if the file matches any custom watch patterns.
+      let watchedFileChanged = false
+      for (const [file, route] of routeModuleCache) {
+        if (
+          route.watch?.length &&
+          pm(route.watch, route.options.globOptions)(normalizedFile)
+        ) {
+          route.routes = undefined
+          watchedFileChanged = true
+          modules.push(...getModules(file, this.environment.moduleGraph, false))
         }
       }
+
+      if (
+        (modules.length && !normalizedFile.endsWith('.md')) ||
+        watchedFileChanged ||
+        pathLoaderRE.test(normalizedFile)
+      ) {
+        // path loader module or deps updated, reset loaded routes
+        await resolvePages(config)
+      }
+
+      return modules.length ? [...existingMods, ...modules] : undefined
     }
   }
 }
 
-export async function resolveDynamicRoutes(
+export function getPageDataTransformer(
+  loaderPath: string
+): UserConfig['transformPageData'] | undefined {
+  return routeModuleCache.get(loaderPath)?.transformPageData
+}
+
+async function resolveDynamicRoutes(
   srcDir: string,
   routes: string[],
   logger: Logger
-): Promise<SiteConfig['dynamicRoutes']> {
+): Promise<ResolvedRouteConfig[]> {
   const pendingResolveRoutes: Promise<ResolvedRouteConfig[]>[] = []
-  const routeFileToModulesMap: Record<string, Set<string>> = {}
+  const newModuleGraph = moduleGraph.clone()
 
   for (const route of routes) {
     // locate corresponding route paths file
@@ -190,50 +243,85 @@ export async function resolveDynamicRoutes(
     }
 
     // load the paths loader module
-    let mod = routeModuleCache.get(pathsFile)
-    if (!mod) {
+    let watch: ResolvedRouteModule['watch']
+    let loader: ResolvedRouteModule['loader']
+    let transformPageData: ResolvedRouteModule['transformPageData']
+    let options: ResolvedRouteModule['options']
+
+    const loaderPath = normalizePath(pathsFile)
+    const existing = routeModuleCache.get(loaderPath)
+
+    if (existing) {
+      // use cached routes if not invalidated by hmr
+      if (existing.routes) {
+        pendingResolveRoutes.push(Promise.resolve(existing.routes))
+        continue
+      }
+
+      ;({ watch, loader, transformPageData, options } = existing)
+    } else {
+      let mod
       try {
-        mod = (await loadConfigFromFile(
+        mod = await loadConfigFromFile(
           {} as any,
           pathsFile,
           undefined,
           'silent'
-        )) as RouteModule
-        routeModuleCache.set(pathsFile, mod)
+        )
       } catch (err: any) {
         logger.warn(
           `${c.yellow(`Failed to load ${pathsFile}:`)}\n${err.message}\n${err.stack}`
         )
         continue
       }
-    }
 
-    // this array represents the virtual modules affected by this route
-    const matchedModuleIds = (routeFileToModulesMap[
-      normalizePath(path.resolve(srcDir, route))
-    ] = new Set())
-
-    // each dependency (including the loader module itself) also point to the
-    // same array
-    for (const dep of mod.dependencies) {
-      // deps are resolved relative to cwd
-      routeFileToModulesMap[normalizePath(path.resolve(dep))] = matchedModuleIds
-    }
-
-    const loader = mod!.config.paths
-    if (!loader) {
-      logger.warn(
-        c.yellow(
-          `Invalid paths file export in ${pathsFile}. ` +
-            `Missing "paths" property from default export.`
+      if (!mod) {
+        logger.warn(
+          c.yellow(
+            `Invalid paths file export in ${pathsFile}. ` +
+              `Missing "default" export.`
+          )
         )
+        continue
+      }
+
+      const loaderModule = mod.config as RouteModule
+      watch = normalizeGlob(loaderModule.watch, path.dirname(pathsFile))
+      loader = loaderModule.paths
+      transformPageData = loaderModule.transformPageData
+      options = loaderModule.options || {}
+
+      if (!loader) {
+        logger.warn(
+          c.yellow(
+            `Invalid paths file export in ${pathsFile}. ` +
+              `Missing "paths" property from default export.`
+          )
+        )
+        continue
+      }
+
+      // record deps for hmr
+      newModuleGraph.add(
+        loaderPath,
+        mod.dependencies.map((p) => normalizePath(path.resolve(p)))
       )
-      continue
     }
 
     const resolveRoute = async (): Promise<ResolvedRouteConfig[]> => {
-      const paths = await (typeof loader === 'function' ? loader() : loader)
-      return paths.map((userConfig) => {
+      let pathsData: UserRouteConfig[]
+
+      if (typeof loader === 'function') {
+        const watchedFiles = await glob(watch, {
+          absolute: true,
+          ...options.globOptions
+        })
+        pathsData = await loader(watchedFiles)
+      } else {
+        pathsData = loader
+      }
+
+      const routes = pathsData.map((userConfig) => {
         const resolvedPath = route.replace(
           dynamicRouteRE,
           (_, key) => userConfig.params[key]
@@ -242,15 +330,35 @@ export async function resolveDynamicRoutes(
           path: resolvedPath,
           fullPath: normalizePath(path.resolve(srcDir, resolvedPath)),
           route,
+          loaderPath,
           ...userConfig
         }
       })
+
+      const mod = { watch, routes, loader, transformPageData, options }
+      routeModuleCache.set(loaderPath, mod)
+
+      return routes
     }
+
     pendingResolveRoutes.push(resolveRoute())
   }
 
-  return {
-    routes: (await Promise.all(pendingResolveRoutes)).flat(),
-    fileToModulesMap: routeFileToModulesMap
+  const resolvedRoutes = (await Promise.all(pendingResolveRoutes)).flat()
+  moduleGraph = newModuleGraph
+
+  return resolvedRoutes
+}
+
+function getModules(
+  id: string,
+  envModuleGraph: EnvironmentModuleGraph,
+  deleteFromRouteModuleCache = true
+) {
+  const modules: EnvironmentModuleNode[] = []
+  for (const file of moduleGraph.delete(id)) {
+    deleteFromRouteModuleCache && routeModuleCache.delete(file)
+    modules.push(...(envModuleGraph.getModulesByFile(file)?.values() ?? []))
   }
+  return modules
 }
