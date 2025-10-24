@@ -163,7 +163,7 @@ No active opciones como _Auto Minify_ para código HTML. Eso removera comentario
          - name: Setup Node
            uses: actions/setup-node@v4
            with:
-             node-version: 20
+             node-version: 22
              cache: npm # o pnpm / yarn
          - name: Setup Pages
            uses: actions/configure-pages@v4

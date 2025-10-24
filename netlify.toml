@@ -26,3 +26,13 @@
 [[redirects]]
   from = "/guide/"
   to = "/guide/getting-started"
+
+[[redirects]]
+  from = "/llms.md"
+  status = 301
+  to = "/llms.txt"
+
+[[redirects]]
+  from = "/llms-full.md"
+  status = 301
+  to = "/llms-full.txt"

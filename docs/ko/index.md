@@ -1,9 +1,6 @@
 ---
 layout: home
 
-title: VitePress
-titleTemplate: Vite & Vue 기반 정적 사이트 생성기
-
 hero:
   name: VitePress
   text: Vite & Vue 기반 정적 사이트 생성기
@@ -11,10 +8,10 @@ hero:
   actions:
     - theme: brand
       text: VitePress란 무엇인가?
-      link: /ko/guide/what-is-vitepress
+      link: ./guide/what-is-vitepress
     - theme: alt
       text: 빠른 시작
-      link: /ko/guide/getting-started
+      link: ./guide/getting-started
     - theme: alt
       text: GitHub
       link: https://github.com/vuejs/vitepress

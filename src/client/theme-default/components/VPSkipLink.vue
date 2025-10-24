@@ -8,39 +8,18 @@ const route = useRoute()
 const backToTop = ref()
 
 watch(() => route.path, () => backToTop.value.focus())
-
-function focusOnTargetAnchor({ target }: Event) {
-  const el = document.getElementById(
-    decodeURIComponent((target as HTMLAnchorElement).hash).slice(1)
-  )
-
-  if (el) {
-    const removeTabIndex = () => {
-      el.removeAttribute('tabindex')
-      el.removeEventListener('blur', removeTabIndex)
-    }
-
-    el.setAttribute('tabindex', '-1')
-    el.addEventListener('blur', removeTabIndex)
-    el.focus()
-    window.scrollTo(0, 0)
-  }
-}
 </script>
 
 <template>
   <span ref="backToTop" tabindex="-1" />
-  <a
-    href="#VPContent"
-    class="VPSkipLink visually-hidden"
-    @click="focusOnTargetAnchor"
-  >
+  <a href="#VPContent" class="VPSkipLink visually-hidden">
     {{ theme.skipToContentLabel || 'Skip to content' }}
   </a>
 </template>
 
 <style scoped>
 .VPSkipLink {
+  position: fixed;
   top: 8px;
   left: 8px;
   padding: 8px 16px;

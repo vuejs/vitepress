@@ -10,7 +10,7 @@ outline: deep
 
 ### Разрешение конфигурации {#config-resolution}
 
-Файл конфигурации всегда разрешается из `<root>/.vitepress/config.[ext]`, где `<root>` — это корень вашего [проекта](../guide/routing#root-and-source-directory) VitePress, а `[ext]` — одно из поддерживаемых расширений файла. TypeScript поддерживается из коробки. Поддерживаемые расширения включают `.js`, `.ts`, `.mjs` и `.mts`.
+Конфигурация всегда считывается из файла `<root>/.vitepress/config.[ext]`, где `<root>` — это корень вашего [проекта](../guide/routing#root-and-source-directory) VitePress, а `[ext]` — одно из поддерживаемых расширений файла. TypeScript поддерживается из коробки. Поддерживаемые расширения включают `.js`, `.ts`, `.mjs` и `.mts`.
 
 В файлах конфигурации рекомендуется использовать синтаксис ES-модулей. Файл конфигурации должен по умолчанию экспортировать объект:
 
@@ -24,7 +24,7 @@ export default {
 }
 ```
 
-:::details Динамическая (асинхронная) конфигурация
+::: details Динамическая (асинхронная) конфигурация
 
 Если вам нужно генерировать конфигурацию динамически, вы также можете экспортировать функцию по умолчанию. Например:
 
@@ -458,7 +458,7 @@ export default {
 
 ### ignoreDeadLinks {#ignoredeadlinks}
 
-- Тип: `boolean | 'localhostLinks' | (string | RegExp | ((link: string) => boolean))[]`
+- Тип: `boolean | 'localhostLinks' | (string | RegExp | ((link: string, source: string) => boolean))[]`
 - По умолчанию: `false`
 
 Если установлено значение `true`, VitePress не будет завершать сборку из-за неработающих ссылок.

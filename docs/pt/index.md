@@ -1,9 +1,6 @@
 ---
 layout: home
 
-title: VitePress
-titleTemplate: Gerador de Site Estático desenvolvido com Vite & Vue
-
 hero:
   name: VitePress
   text: Gerador de Site Estático Vite & Vue
@@ -11,10 +8,10 @@ hero:
   actions:
     - theme: brand
       text: O que é VitePress?
-      link: /pt/guide/what-is-vitepress
+      link: ./guide/what-is-vitepress
     - theme: alt
       text: Iniciar
-      link: /pt/guide/getting-started
+      link: ./guide/getting-started
     - theme: alt
       text: GitHub
       link: https://github.com/vuejs/vitepress

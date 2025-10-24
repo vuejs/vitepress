@@ -59,16 +59,18 @@ export async function highlight(
     codeTransformers: userTransformers = []
   } = options
 
+  const langAlias = Object.fromEntries(
+    Object.entries(options.languageAlias || {}) //
+      .map(([k, v]) => [k.toLowerCase(), v])
+  )
+
   const highlighter = await createHighlighter({
     themes:
       typeof theme === 'object' && 'light' in theme && 'dark' in theme
         ? [theme.light, theme.dark]
         : [theme],
-    langs: [
-      ...(options.languages || []),
-      ...Object.values(options.languageAlias || {})
-    ],
-    langAlias: options.languageAlias
+    langs: [...(options.languages || []), ...Object.values(langAlias)],
+    langAlias
   })
 
   await options?.shikiSetup?.(highlighter)
@@ -82,15 +84,9 @@ export async function highlight(
     transformerNotationHighlight(),
     transformerNotationErrorLevel(),
     {
-      name: 'vitepress:add-class',
+      name: 'vitepress:add-dir',
       pre(node) {
-        this.addClassToHast(node, 'vp-code')
-      }
-    },
-    {
-      name: 'vitepress:clean-up',
-      pre(node) {
-        delete node.properties.style
+        node.properties.dir = 'ltr'
       }
     }
   ]

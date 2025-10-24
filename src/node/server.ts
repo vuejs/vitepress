@@ -1,25 +1,24 @@
 import { createServer as createViteServer, type ServerOptions } from 'vite'
-import { normalizeBaseUrl, resolveConfig } from './config'
+import { normalizeBaseUrl, resolveConfig, type SiteConfig } from './config'
 import { createVitePressPlugin } from './plugin'
 
 export async function createServer(
-  root: string = process.cwd(),
+  root: string = process.cwd(), // for backwards compatibility
   serverOptions: ServerOptions & { base?: string } = {},
-  recreateServer?: () => Promise<void>
+  restartServer?: () => Promise<void>,
+  config?: SiteConfig // new code should pass config directly
 ) {
-  const config = await resolveConfig(root)
+  config ??= await resolveConfig(root)
 
-  if (serverOptions.base) {
-    config.site.base = normalizeBaseUrl(serverOptions.base)
-    delete serverOptions.base
-  }
+  const { base, ...server } = serverOptions
+  config.site.base = base ? normalizeBaseUrl(base) : config.site.base
 
   return createViteServer({
     root: config.srcDir,
     base: config.site.base,
     cacheDir: config.cacheDir,
-    plugins: await createVitePressPlugin(config, false, {}, {}, recreateServer),
-    server: serverOptions,
+    plugins: await createVitePressPlugin(config, false, {}, {}, restartServer),
+    server,
     customLogger: config.logger,
     configFile: config.vite?.configFile
   })

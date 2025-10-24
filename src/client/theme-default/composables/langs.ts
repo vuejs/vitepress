@@ -25,7 +25,9 @@ export function useLangs({ correspondingLink = false } = {}) {
                   currentLang.value.link.length - 1
                 ),
                 !site.value.cleanUrls
-              ) + hash.value
+              ) + hash.value,
+            lang: value.lang,
+            dir: value.dir
           }
     )
   )

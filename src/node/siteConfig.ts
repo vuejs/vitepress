@@ -14,14 +14,18 @@ import type {
   SSGContext,
   SiteData
 } from './shared'
+import type {
+  AdditionalConfigDict,
+  AdditionalConfigLoader
+} from '../../types/shared'
 
 export type RawConfigExports<ThemeConfig = any> =
   | Awaitable<UserConfig<ThemeConfig>>
   | (() => Awaitable<UserConfig<ThemeConfig>>)
 
-export interface TransformContext {
+export interface TransformContext<ThemeConfig = any> {
   page: string
-  siteConfig: SiteConfig
+  siteConfig: SiteConfig<ThemeConfig>
   siteData: SiteData
   pageData: PageData
   title: string
@@ -31,8 +35,8 @@ export interface TransformContext {
   assets: string[]
 }
 
-export interface TransformPageContext {
-  siteConfig: SiteConfig
+export interface TransformPageContext<ThemeConfig = any> {
+  siteConfig: SiteConfig<ThemeConfig>
 }
 
 export interface UserConfig<ThemeConfig = any>
@@ -111,7 +115,7 @@ export interface UserConfig<ThemeConfig = any>
   ignoreDeadLinks?:
     | boolean
     | 'localhostLinks'
-    | (string | RegExp | ((link: string) => boolean))[]
+    | (string | RegExp | ((link: string, source: string) => boolean))[]
 
   /**
    * Don't force `.html` on URLs.
@@ -158,7 +162,7 @@ export interface UserConfig<ThemeConfig = any>
    * Build end hook: called when SSG finish.
    * @param siteConfig The resolved configuration.
    */
-  buildEnd?: (siteConfig: SiteConfig) => Awaitable<void>
+  buildEnd?: (siteConfig: SiteConfig<ThemeConfig>) => Awaitable<void>
 
   /**
    * Render end hook: called when SSR rendering is done.
@@ -170,7 +174,9 @@ export interface UserConfig<ThemeConfig = any>
    *
    * This build hook will allow you to modify the head adding new entries that cannot be statically added.
    */
-  transformHead?: (context: TransformContext) => Awaitable<HeadConfig[] | void>
+  transformHead?: (
+    ctx: TransformContext<ThemeConfig>
+  ) => Awaitable<HeadConfig[] | void>
 
   /**
    * HTML transform hook: runs before writing HTML to dist.
@@ -178,7 +184,7 @@ export interface UserConfig<ThemeConfig = any>
   transformHtml?: (
     code: string,
     id: string,
-    ctx: TransformContext
+    ctx: TransformContext<ThemeConfig>
   ) => Awaitable<string | void>
 
   /**
@@ -186,13 +192,25 @@ export interface UserConfig<ThemeConfig = any>
    */
   transformPageData?: (
     pageData: PageData,
-    ctx: TransformPageContext
+    ctx: TransformPageContext<ThemeConfig>
   ) => Awaitable<Partial<PageData> | { [key: string]: any } | void>
+
+  /**
+   * Multi-layer configuration overloading.
+   * Auto-resolves to `docs/.../config.{js,mjs,ts,mts}` when unspecified.
+   *
+   * Set to `{}` to opt-out.
+   *
+   * @experimental
+   */
+  additionalConfig?:
+    | AdditionalConfigDict<ThemeConfig>
+    | AdditionalConfigLoader<ThemeConfig>
 }
 
 export interface SiteConfig<ThemeConfig = any>
   extends Pick<
-    UserConfig,
+    UserConfig<ThemeConfig>,
     | 'markdown'
     | 'vue'
     | 'vite'
@@ -228,6 +246,6 @@ export interface SiteConfig<ThemeConfig = any>
     inv: Record<string, string | undefined>
   }
   logger: Logger
-  userConfig: UserConfig
+  userConfig: UserConfig<ThemeConfig>
   buildConcurrency: number
 }

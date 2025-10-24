@@ -30,7 +30,7 @@ export async function localSearchPlugin(
       name: 'vitepress:local-search',
       resolveId(id) {
         if (id.startsWith(LOCAL_SEARCH_INDEX_ID)) {
-          return `/${id}`
+          return LOCAL_SEARCH_INDEX_REQUEST_PATH
         }
       },
       load(id) {
@@ -183,7 +183,7 @@ export async function localSearchPlugin(
           records.push(
             `${JSON.stringify(
               locale
-            )}: () => import('@localSearchIndex${locale}')`
+            )}: () => import('${LOCAL_SEARCH_INDEX_ID}${locale}')`
           )
         }
         return `export default {${records.join(',')}}`
@@ -211,7 +211,7 @@ export async function localSearchPlugin(
 }
 
 const headingRegex = /<h(\d*).*?>(.*?<a.*? href="#.*?".*?>.*?<\/a>)<\/h\1>/gi
-const headingContentRegex = /(.*?)<a.*? href="#(.*?)".*?>.*?<\/a>/i
+const headingContentRegex = /(.*)<a.*? href="#(.*?)".*?>.*?<\/a>/i
 
 /**
  * Splits HTML into sections based on headings

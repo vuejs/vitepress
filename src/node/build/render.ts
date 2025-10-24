@@ -2,6 +2,7 @@ import { isBooleanAttr } from '@vue/shared'
 import fs from 'fs-extra'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
+import * as vite from 'vite'
 import { normalizePath, transformWithEsbuild, type Rollup } from 'vite'
 import { version } from '../../../package.json'
 import type { SiteConfig } from '../config'
@@ -34,7 +35,7 @@ export async function renderPage(
   usedIcons: Set<string>
 ) {
   const routePath = `/${page.replace(/\.md$/, '')}`
-  const siteData = resolveSiteDataByRoute(config.site, routePath)
+  const siteData = resolveSiteDataByRoute(config.site, page)
 
   // render page
   const context = await render(routePath)
@@ -240,9 +241,9 @@ function resolvePageImports(
   ) as Rollup.OutputChunk
   return [
     ...appChunk.imports,
-    ...appChunk.dynamicImports,
-    ...pageChunk.imports,
-    ...pageChunk.dynamicImports
+    // ...appChunk.dynamicImports,
+    ...pageChunk.imports
+    // ...pageChunk.dynamicImports
   ]
 }
 
@@ -255,11 +256,7 @@ async function renderHead(head: HeadConfig[]): Promise<string> {
           tag === 'script' &&
           (attrs.type === undefined || attrs.type.includes('javascript'))
         ) {
-          innerHTML = (
-            await transformWithEsbuild(innerHTML, 'inline-script.js', {
-              minify: true
-            })
-          ).code.trim()
+          innerHTML = await minifyScript(innerHTML, 'inline-script.js')
         }
         return `${openTag}${innerHTML}</${tag}>`
       } else {
@@ -277,6 +274,17 @@ function renderAttrs(attrs: Record<string, string>): string {
       return ` ${key}="${escapeHtml(attrs[key] as string)}"`
     })
     .join('')
+}
+
+async function minifyScript(code: string, filename: string): Promise<string> {
+  // @ts-ignore use oxc-minify when rolldown-vite is used
+  if (vite.rolldownVersion) {
+    const oxcMinify = await import('oxc-minify')
+    return oxcMinify.minify(filename, code).code.trim()
+  }
+  return (
+    await transformWithEsbuild(code, filename, { minify: true })
+  ).code.trim()
 }
 
 function filterOutHeadDescription(head: HeadConfig[] = []) {

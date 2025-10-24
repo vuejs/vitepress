@@ -7,6 +7,7 @@ const props = defineProps<{
   icon: DefaultTheme.SocialLinkIcon
   link: string
   ariaLabel?: string
+  me: boolean
 }>()
 
 const el = ref<HTMLAnchorElement>()
@@ -45,7 +46,7 @@ if (import.meta.env.SSR) {
     :href="link"
     :aria-label="ariaLabel ?? (typeof icon === 'string' ? icon : '')"
     target="_blank"
-    rel="noopener"
+    :rel="me ? 'me noopener' : 'noopener'"
     v-html="svg"
   ></a>
 </template>

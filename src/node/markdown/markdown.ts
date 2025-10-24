@@ -22,6 +22,7 @@ import type {
 import anchorPlugin from 'markdown-it-anchor'
 import { MarkdownItAsync, type Options } from 'markdown-it-async'
 import attrsPlugin from 'markdown-it-attrs'
+import mditCjkFriendly from 'markdown-it-cjk-friendly'
 import { full as emojiPlugin } from 'markdown-it-emoji'
 import type { BuiltinLanguage, BuiltinTheme, Highlighter } from 'shiki'
 import type { Logger } from 'vite'
@@ -86,12 +87,37 @@ export interface MarkdownOptions extends Options {
    */
   languages?: (LanguageInput | BuiltinLanguage)[]
   /**
-   * Custom language aliases.
+   * Custom language aliases for syntax highlighting.
+   * Maps custom language names to existing languages.
+   * Alias lookup is case-insensitive and underscores in language names are displayed as spaces.
    *
-   * @example { 'my-lang': 'js' }
+   * @example
+   *
+   * Maps `my_lang` to use Python syntax highlighting.
+   * ```js
+   * { 'my_lang': 'python' }
+   * ```
+   *
+   * Usage in markdown:
+   * ````md
+   * ```My_Lang
+   * # This will be highlighted as Python code
+   * # and will show "My Lang" as the language label
+   * print("Hello, World!")
+   * ```
+   * ````
+   *
    * @see https://shiki.style/guide/load-lang#custom-language-aliases
    */
   languageAlias?: Record<string, string>
+  /**
+   * Custom language labels for display.
+   * Overrides the default language label shown in code blocks.
+   * Keys are case-insensitive.
+   *
+   * @example { 'vue': 'Vue SFC' }
+   */
+  languageLabel?: Record<string, string>
   /**
    * Show line numbers in code blocks
    * @default false
@@ -188,6 +214,18 @@ export interface MarkdownOptions extends Options {
    * @see https://vitepress.dev/guide/markdown#github-flavored-alerts
    */
   gfmAlerts?: boolean
+  /**
+   * Allows disabling the CJK-friendly plugin.
+   * This plugin adds support for emphasis marks (**bold**) in Japanese, Chinese, and Korean text.
+   * @default true
+   * @see https://github.com/tats-u/markdown-cjk-friendly
+   */
+  cjkFriendlyEmphasis?: boolean
+  /**
+   * @see cjkFriendlyEmphasis
+   * @deprecated use `cjkFriendly` instead
+   */
+  cjkFriendly?: boolean
 }
 
 export type MarkdownRenderer = MarkdownItAsync
@@ -215,7 +253,6 @@ export async function createMarkdownRenderer(
 
   const theme = options.theme ?? { light: 'github-light', dark: 'github-dark' }
   const codeCopyButtonTitle = options.codeCopyButtonTitle || 'Copy Code'
-  const hasSingleTheme = typeof theme === 'string' || 'name' in theme
 
   let [highlight, dispose] = options.highlight
     ? [options.highlight, () => {}]
@@ -237,9 +274,12 @@ export async function createMarkdownRenderer(
   // custom plugins
   md.use(componentPlugin, { ...options.component })
     .use(highlightLinePlugin)
-    .use(preWrapperPlugin, { codeCopyButtonTitle, hasSingleTheme })
+    .use(preWrapperPlugin, {
+      codeCopyButtonTitle,
+      languageLabel: options.languageLabel
+    })
     .use(snippetPlugin, srcDir)
-    .use(containerPlugin, { hasSingleTheme }, options.container)
+    .use(containerPlugin, options.container)
     .use(imagePlugin, options.image)
     .use(
       linkPlugin,
@@ -259,7 +299,7 @@ export async function createMarkdownRenderer(
   }
 
   if (options.gfmAlerts !== false) {
-    md.use(gitHubAlertsPlugin)
+    md.use(gitHubAlertsPlugin, options.container)
   }
 
   // third party plugins
@@ -321,7 +361,11 @@ export async function createMarkdownRenderer(
     .use(titlePlugin)
     .use(tocPlugin, {
       slugify,
-      ...options.toc
+      ...options.toc,
+      format: (s) => {
+        const title = s.replaceAll('&amp;', '&') // encoded twice because of restoreEntities
+        return options.toc?.format?.(title) ?? title
+      }
     } as TocPluginOptions)
 
   if (options.math) {
@@ -330,18 +374,27 @@ export async function createMarkdownRenderer(
       md.use(mathPlugin.default ?? mathPlugin, {
         ...(typeof options.math === 'boolean' ? {} : options.math)
       })
-      const orig = md.renderer.rules.math_block!
-      md.renderer.rules.math_block = (tokens, idx, options, env, self) => {
-        return orig(tokens, idx, options, env, self).replace(
-          /^<mjx-container /,
-          '<mjx-container tabindex="0" '
-        )
+      const origMathInline = md.renderer.rules.math_inline!
+      md.renderer.rules.math_inline = function (...args) {
+        return origMathInline
+          .apply(this, args)
+          .replace(/^<mjx-container /, '<mjx-container v-pre ')
+      }
+      const origMathBlock = md.renderer.rules.math_block!
+      md.renderer.rules.math_block = function (...args) {
+        return origMathBlock
+          .apply(this, args)
+          .replace(/^<mjx-container /, '<mjx-container v-pre tabindex="0" ')
       }
     } catch (error) {
       throw new Error(
         'You need to install `markdown-it-mathjax3` to use math support.'
       )
     }
+  }
+
+  if (options.cjkFriendlyEmphasis !== false && options.cjkFriendly !== false) {
+    md.use(mditCjkFriendly)
   }
 
   // apply user config

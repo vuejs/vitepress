@@ -226,7 +226,7 @@
 }
 
 .vp-doc .custom-block div[class*='language-'] {
-  margin: 8px 0;
+  margin: 8px 0 !important;
   border-radius: 8px;
 }
 
@@ -305,21 +305,9 @@
 
 .vp-doc [class*='language-'] pre,
 .vp-doc [class*='language-'] code {
-  /*rtl:ignore*/
-  direction: ltr;
-  /*rtl:ignore*/
-  text-align: left;
-  white-space: pre;
-  word-spacing: normal;
-  word-break: normal;
-  word-wrap: normal;
   -moz-tab-size: 4;
   -o-tab-size: 4;
   tab-size: 4;
-  -webkit-hyphens: none;
-  -moz-hyphens: none;
-  -ms-hyphens: none;
-  hyphens: none;
 }
 
 .vp-doc [class*='language-'] pre {
@@ -329,6 +317,8 @@
   padding: 20px 0;
   background: transparent;
   overflow-x: auto;
+  /*rtl:ignore*/
+  text-align: left;
 }
 
 .vp-doc [class*='language-'] code {

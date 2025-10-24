@@ -1,11 +1,10 @@
 import { createRequire } from 'module'
-import { defineConfig, type DefaultTheme } from 'vitepress'
+import { defineAdditionalConfig, type DefaultTheme } from 'vitepress'
 
 const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
 
-export const en = defineConfig({
-  lang: 'en-US',
+export default defineAdditionalConfig({
   description: 'Vite & Vue powered static site generator.',
 
   themeConfig: {
@@ -43,6 +42,10 @@ function nav(): DefaultTheme.NavItem[] {
     {
       text: pkg.version,
       items: [
+        {
+          text: '1.6.4',
+          link: 'https://vuejs.github.io/vitepress/v1/'
+        },
         {
           text: 'Changelog',
           link: 'https://github.com/vuejs/vitepress/blob/main/CHANGELOG.md'

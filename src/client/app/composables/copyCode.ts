@@ -1,5 +1,8 @@
 import { inBrowser } from 'vitepress'
 
+const shellRE = /language-(shellscript|shell|bash|sh|zsh)/
+const ignoredNodes = ['.vp-copy-ignore', '.diff.remove'].join(', ')
+
 export function useCopyCode() {
   if (inBrowser) {
     const timeoutIdMap: WeakMap<HTMLElement, NodeJS.Timeout> = new WeakMap()
@@ -7,22 +10,19 @@ export function useCopyCode() {
       const el = e.target as HTMLElement
       if (el.matches('div[class*="language-"] > button.copy')) {
         const parent = el.parentElement
-        const sibling = el.nextElementSibling?.nextElementSibling
+        const sibling = el.nextElementSibling?.nextElementSibling // <pre> tag
         if (!parent || !sibling) {
           return
         }
 
-        const isShell = /language-(shellscript|shell|bash|sh|zsh)/.test(
-          parent.className
-        )
-
-        const ignoredNodes = ['.vp-copy-ignore', '.diff.remove']
+        const isShell = shellRE.test(parent.className)
 
         // Clone the node and remove the ignored nodes
         const clone = sibling.cloneNode(true) as HTMLElement
-        clone
-          .querySelectorAll(ignoredNodes.join(','))
-          .forEach((node) => node.remove())
+        clone.querySelectorAll(ignoredNodes).forEach((node) => node.remove())
+        // remove extra newlines left after removing ignored nodes (affecting textContent because it is inside `<pre>`)
+        // doesn't affect the newlines already in the code because they are rendered as `\n<span class="line"></span>`
+        clone.innerHTML = clone.innerHTML.replace(/\n+/g, '\n')
 
         let text = clone.textContent || ''
 

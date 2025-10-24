@@ -24,7 +24,7 @@ export default {
 }
 ```
 
-:::details 异步的动态配置
+::: details 异步的动态配置
 
 如果需要动态生成配置，也可以默认导出一个函数，例如：
 
@@ -458,7 +458,7 @@ export default {
 
 ### ignoreDeadLinks
 
-- 类型：`boolean | 'localhostLinks' | (string | RegExp | ((link: string) => boolean))[]`
+- 类型：`boolean | 'localhostLinks' | (string | RegExp | ((link: string, source: string) => boolean))[]`
 - 默认值： `false`
 
 当设置为 `true` 时，VitePress 不会因为死链而导致构建失败。
