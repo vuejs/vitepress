@@ -18,39 +18,19 @@ VitePress pode ser usado sozinho, ou ser instalado em um projeto já existente. 
 ::: code-group
 
 ```sh [npm]
-$ npm add -D vitepress
+$ npm add -D vitepress@next
 ```
 
 ```sh [pnpm]
-$ pnpm add -D vitepress
+$ pnpm add -D vitepress@next
 ```
 
 ```sh [yarn]
-$ yarn add -D vitepress
-```
-
-```sh [yarn (pnp)]
-$ yarn add -D vitepress vue
+$ yarn add -D vitepress@next vue
 ```
 
 ```sh [bun]
-$ bun add -D vitepress
-```
-
-:::
-
-::: details Está recebendo avisos sobre dependências correspondentes ausentes?
-Se usar PNPM, você perceberá um aviso de ausência de `@docsearch/js`. Isso não evita que o VitePress funcione. Se você deseja suprimir este aviso, adicione o seguinte no seu `package.json`:
-
-```json
-"pnpm": {
-  "peerDependencyRules": {
-    "ignoreMissing": [
-      "@algolia/client-search",
-      "search-insights"
-    ]
-  }
-}
+$ bun add -D vitepress@next
 ```
 
 :::

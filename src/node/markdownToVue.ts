@@ -32,14 +32,14 @@ export interface MarkdownCompileResult {
   includes: string[]
 }
 
-export function clearCache(id?: string) {
-  if (!id) {
+export function clearCache(relativePath?: string) {
+  if (!relativePath) {
     cache.clear()
     return
   }
 
-  id = JSON.stringify({ id }).slice(1)
-  cache.find((_, key) => key.endsWith(id!) && cache.delete(key))
+  relativePath = JSON.stringify({ relativePath }).slice(1)
+  cache.find((_, key) => key.endsWith(relativePath!) && cache.delete(key))
 }
 
 let __pages: string[] = []
@@ -83,7 +83,6 @@ function getResolutionCache(siteConfig: SiteConfig) {
 export async function createMarkdownToVueRenderFn(
   srcDir: string,
   options: MarkdownOptions = {},
-  isBuild = false,
   base = '/',
   includeLastUpdatedData = false,
   cleanUrls = false,
@@ -114,13 +113,8 @@ export async function createMarkdownToVueRenderFn(
     file = rewrites.get(file) || file
     const relativePath = slash(path.relative(srcDir, file))
 
-    const cacheKey = JSON.stringify({
-      src,
-      ts,
-      file: relativePath,
-      id: fileOrig
-    })
-    if (isBuild || options.cache !== false) {
+    const cacheKey = JSON.stringify({ src, ts, relativePath })
+    if (options.cache !== false) {
       const cached = cache.get(cacheKey)
       if (cached) {
         debug(`[cache hit] ${relativePath}`)
@@ -167,7 +161,7 @@ export async function createMarkdownToVueRenderFn(
     // validate data.links
     const deadLinks: MarkdownCompileResult['deadLinks'] = []
     const recordDeadLink = (url: string) => {
-      deadLinks.push({ url, file: path.relative(srcDir, fileOrig) })
+      deadLinks.push({ url, file: fileOrig })
     }
 
     function shouldIgnoreDeadLink(url: string) {
@@ -182,20 +176,14 @@ export async function createMarkdownToVueRenderFn(
       }
 
       return siteConfig.ignoreDeadLinks.some((ignore) => {
-        if (typeof ignore === 'string') {
-          return url === ignore
-        }
-        if (ignore instanceof RegExp) {
-          return ignore.test(url)
-        }
-        if (typeof ignore === 'function') {
-          return ignore(url)
-        }
+        if (typeof ignore === 'string') return url === ignore
+        if (ignore instanceof RegExp) return ignore.test(url)
+        if (typeof ignore === 'function') return ignore(url, fileOrig)
         return false
       })
     }
 
-    if (links) {
+    if (links && siteConfig?.ignoreDeadLinks !== true) {
       const dir = path.dirname(file)
       for (let url of links) {
         const { pathname } = new URL(url, 'http://a.com')
@@ -203,6 +191,7 @@ export async function createMarkdownToVueRenderFn(
 
         url = url.replace(/[?#].*$/, '').replace(/\.(html|md)$/, '')
         if (url.endsWith('/')) url += `index`
+
         let resolved = decodeURIComponent(
           slash(
             url.startsWith('/')
@@ -212,6 +201,7 @@ export async function createMarkdownToVueRenderFn(
         )
         resolved =
           siteConfig?.rewrites.inv[resolved + '.md']?.slice(0, -3) || resolved
+
         if (
           !pages.includes(resolved) &&
           !fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`)) &&
@@ -244,12 +234,7 @@ export async function createMarkdownToVueRenderFn(
     for (const fn of transformPageData) {
       if (fn) {
         const dataToMerge = await fn(pageData, { siteConfig })
-        if (dataToMerge) {
-          pageData = {
-            ...pageData,
-            ...dataToMerge
-          }
-        }
+        if (dataToMerge) pageData = { ...pageData, ...dataToMerge }
       }
     }
 
@@ -265,15 +250,8 @@ export async function createMarkdownToVueRenderFn(
 
     debug(`[render] ${file} in ${Date.now() - start}ms.`)
 
-    const result = {
-      vueSrc,
-      pageData,
-      deadLinks,
-      includes
-    }
-    if (isBuild || options.cache !== false) {
-      cache.set(cacheKey, result)
-    }
+    const result = { vueSrc, pageData, deadLinks, includes }
+    if (options.cache !== false) cache.set(cacheKey, result)
     return result
   }
 }

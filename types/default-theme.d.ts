@@ -171,7 +171,7 @@ export namespace DefaultTheme {
 
   export interface NavItemWithLink {
     text: string
-    link: string
+    link: string | ((payload: PageData) => string)
     items?: never
 
     /**

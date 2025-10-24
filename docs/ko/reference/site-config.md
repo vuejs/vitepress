@@ -439,7 +439,7 @@ export default {
 
 ### ignoreDeadLinks
 
-- 타입: `boolean | 'localhostLinks' | (string | RegExp | ((link: string) => boolean))[]`
+- 타입: `boolean | 'localhostLinks' | (string | RegExp | ((link: string, source: string) => boolean))[]`
 - 기본값: `false`
 
 `true`로 설정하면, 빌드 시 죽은 링크로 인해 실패하지 않습니다.

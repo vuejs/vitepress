@@ -128,7 +128,7 @@ Si un componente fuera usado en la mayoría de las páginas, ellos pueden ser re
 Asegurese de que el nombre de un componente personalizado contenga un hífen o esté en PascalCase. Caso contrario, el será tratado como un elemento alineado y envuelto dentro de una tag `<p>`, lo que llevará a una incompatibilidad de hidratación pues `<p>` no permite que elementos de bloque sean colocados dentro de el.
 :::
 
-### Usando Componentes En Headers <ComponenteEnHeader /> {#using-components-in-headers}
+### Usando Componentes En Headers <ComponentInHeader /> {#using-components-in-headers}
 
 Puede usar componentes Vue en los headers, pero observe la diferencia entre las siguientes sintaxis:
 

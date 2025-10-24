@@ -2,9 +2,12 @@
 import type { DefaultTheme } from 'vitepress/theme'
 import VPSocialLink from './VPSocialLink.vue'
 
-defineProps<{
+withDefaults(defineProps<{
   links: DefaultTheme.SocialLink[]
-}>()
+  me?: boolean
+}>(), {
+  me: true
+})
 </script>
 
 <template>
@@ -15,6 +18,7 @@ defineProps<{
       :icon
       :link
       :ariaLabel
+      :me
     />
   </div>
 </template>

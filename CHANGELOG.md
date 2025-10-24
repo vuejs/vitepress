@@ -1,3 +1,118 @@
+## [2.0.0-alpha.12](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.11...v2.0.0-alpha.12) (2025-08-20)
+
+### Bug Fixes
+
+- **hmr:** don't load config twice on server restart ([d1a8061](https://github.com/vuejs/vitepress/commit/d1a8061eb438c730ccc62ce2d7158dbe89cc5292))
+- **hmr:** no need for server restart on theme change ([d3a1567](https://github.com/vuejs/vitepress/commit/d3a15673bd0846c7837bcc4ff5a2e3239a02f1f9))
+- **hmr:** hmr not working for snippet imports in dynamic routes ([914467e](https://github.com/vuejs/vitepress/commit/914467e17fb759a9722951a3fd7568eb3bc4d4e6))
+- **theme:** fix local nav alignment and increase touch area ([43b36c0](https://github.com/vuejs/vitepress/commit/43b36c0c19c2b4696f8c38fdaf4318786ea7ae8e))
+- **theme:** nav background doesn't extend fully and gap after sidebar with non-overlay scrollbars ([7df3052](https://github.com/vuejs/vitepress/commit/7df30525121a28a46cc6c802f3155ccff8effaca)), closes [#4653](https://github.com/vuejs/vitepress/issues/4653)
+- **theme:** use clipboard-check instead of clipboard-copy for code copied icon ([1c8815d](https://github.com/vuejs/vitepress/commit/1c8815d53ed2d56b07938260df6566f1514f4bfc))
+
+### Features
+
+- add markdown-it-cjk-friendly ([9fc8462](https://github.com/vuejs/vitepress/commit/9fc8462726ccf1cdb78b6171c9f1f5964e79ca22)), closes [#3762](https://github.com/vuejs/vitepress/issues/3762) [#4752](https://github.com/vuejs/vitepress/issues/4752)
+- make postcssIsolateStyles idempotent ([0944777](https://github.com/vuejs/vitepress/commit/094477789328b80cff45cd973efa16b6a4db0a27))
+
+### BREAKING CHANGES
+
+- [markdown-it-cjk-friendly](https://www.npmjs.com/package/markdown-it-cjk-friendly) is enabled by default. This intentionally deviates from the official commonmark spec for the benefit of CJK users. **For most users, no change is required.** If you were using hacks to patch `scanDelims`, you can remove those. To disable the plugin, set `markdown: { cjkFriendly: false }` in your vitepress config.
+- `includeFiles` option in `postcssIsolateStyles` now defaults to `[/vp-doc\.css/, /base\.css/]`. You can remove explicit `includeFiles` if you were using it just to run it on `vp-doc.css`. To revert back to older behavior pass `includeFiles: [/base\.css/]`. The underlying implementation is changed and `transform` and `exclude` options are no longer supported. Use `postcss-prefix-selector` directly if you've advanced use cases.
+
+## [2.0.0-alpha.11](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.10...v2.0.0-alpha.11) (2025-08-14)
+
+### Bug Fixes
+
+- hmr working only once for markdown files ([8d8a5ac](https://github.com/vuejs/vitepress/commit/8d8a5ac281f090cd097bece792d9dd3ef00e5545)), closes [#4909](https://github.com/vuejs/vitepress/issues/4909)
+- html entities encoded twice in toc plugin ([8abbe29](https://github.com/vuejs/vitepress/commit/8abbe298d545de17d34a9bc1eb72af4c5a4b41b8)), closes [#4908](https://github.com/vuejs/vitepress/issues/4908)
+
+## [2.0.0-alpha.10](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.9...v2.0.0-alpha.10) (2025-08-11)
+
+### Bug Fixes
+
+- **client:** base not stripped from relativePath in 404 pages ([b840877](https://github.com/vuejs/vitepress/commit/b840877aa83a5a24ffc1222e8a5a3dbf3e5105e8)), closes [#4850](https://github.com/vuejs/vitepress/issues/4850)
+- hmr of style blocks in dynamic routes ([#4903](https://github.com/vuejs/vitepress/issues/4903)) ([3d0fafb](https://github.com/vuejs/vitepress/commit/3d0fafba545f4b5028cf43d86027dd44dab14421))
+- make paths in `watchedFiles` absolute as mentioned in the docs ([318c14f](https://github.com/vuejs/vitepress/commit/318c14fa7c9fb949d74b7d9fae416e917766cf05))
+- module graph causing unnecessary route regeneration on every update ([fc267ae](https://github.com/vuejs/vitepress/commit/fc267ae6b787e163d41666e090089821377ead43))
+- preserve externally added dynamic routes and pages ([fc267ae](https://github.com/vuejs/vitepress/commit/fc267ae6b787e163d41666e090089821377ead43))
+- **search:** input placeholder being cut off in smaller viewports ([162c6a6](https://github.com/vuejs/vitepress/commit/162c6a69bf56945daa20d126aa034c59ee0c8a2e))
+- **search:** style tweaks for when searches are empty ([8b23217](https://github.com/vuejs/vitepress/commit/8b232171cc321bd3dc86b4357622815269f0b6f4))
+- **types:** externalize markdown-it types ([5bf835b](https://github.com/vuejs/vitepress/commit/5bf835b5074e9567852d552bfb5115c6456026e8))
+- **types:** pass generics deeply to user config ([777e2ca](https://github.com/vuejs/vitepress/commit/777e2caaacd93ce41b046f6c9d5ba80cc43ba37c))
+
+### Features
+
+- add source param to the deadlink check fn ([#4870](https://github.com/vuejs/vitepress/issues/4870)) ([8c027c2](https://github.com/vuejs/vitepress/commit/8c027c2a7c443074fd0d4890f7736b444f9254aa))
+- **theme:** add `rel="me"` to social links by default ([#4873](https://github.com/vuejs/vitepress/issues/4873)) ([34886c6](https://github.com/vuejs/vitepress/commit/34886c667d1305a79d64c957f8c52931ea122f47))
+
+## [2.0.0-alpha.9](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.8...v2.0.0-alpha.9) (2025-07-26)
+
+### Bug Fixes
+
+- **md:** pass container option to gitHubAlertsPlugin ([#4848](https://github.com/vuejs/vitepress/issues/4848)) ([52f0eaa](https://github.com/vuejs/vitepress/commit/52f0eaa0849344aa45efbf7258a6287597e55a9a))
+- **theme:** remove duplicate text in sponsors grid ([3c51b22](https://github.com/vuejs/vitepress/commit/3c51b22ac98a12f193081d23799cb9f3f2ecf682)), closes [#4854](https://github.com/vuejs/vitepress/issues/4854)
+
+### Features
+
+- **search:** upgrade search to DocSearch v4-beta ([#4843](https://github.com/vuejs/vitepress/issues/4843)) ([ac61abe](https://github.com/vuejs/vitepress/commit/ac61abe7d7be5ef8b6939f18192896538eba1b8c))
+
+### BREAKING CHANGES
+
+- **search:** Uses DocSearch v4 beta. No change is required if you're not customizing the styles of navbar search button or modal. DocSearch AI features are in private beta, you can apply for them at https://forms.gle/iyfb5pC2CiiwszUKA
+
+## [2.0.0-alpha.8](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.7...v2.0.0-alpha.8) (2025-07-08)
+
+### Bug Fixes
+
+- adjust glob logic to always resolve glob relative to base ([5d41785](https://github.com/vuejs/vitepress/commit/5d41785ff7b016b08f587f1ef3318fc18d58f6ab)), closes [#4822](https://github.com/vuejs/vitepress/issues/4822)
+- **build:** ignore escaped `:` when splitting selector in `postcssIsolateStyles` ([#4830](https://github.com/vuejs/vitepress/issues/4830)) ([a629b03](https://github.com/vuejs/vitepress/commit/a629b03f0ee8a29d73a18481399d7de1c992faf2))
+- font preload not being generated in rolldown-vite ([ed387e8](https://github.com/vuejs/vitepress/commit/ed387e89d42a08c15a9f45c9c5e11c6750245490))
+- **theme:** remove extra slash when concatenating base with sidebar links ([c8fc80e](https://github.com/vuejs/vitepress/commit/c8fc80e438fffd98feaf7c72263bc3077792c4a2))
+
+## [2.0.0-alpha.7](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.6...v2.0.0-alpha.7) (2025-06-24)
+
+### Bug Fixes
+
+- **local-search:** parse headings with non-anchor `a` tags as titles properly ([#4809](https://github.com/vuejs/vitepress/issues/4809)) ([5359903](https://github.com/vuejs/vitepress/commit/53599039a01af6d8e17a6a6e9cea5c222cc5948c))
+- resolve pages after setting global vitepress config ([56ba65e](https://github.com/vuejs/vitepress/commit/56ba65e1301454df88f9a3856fa1a70dc052d314)), closes [#4803](https://github.com/vuejs/vitepress/issues/4803)
+
+### Features
+
+- **router:** add `replace` option to `useRouter` for history management ([#4788](https://github.com/vuejs/vitepress/issues/4788)) ([23541b4](https://github.com/vuejs/vitepress/commit/23541b4f83726cdac09ffcaf9141bba871cda690)), closes [#4787](https://github.com/vuejs/vitepress/issues/4787)
+- consistent glob options across content, data, and path loaders ([#4808](https://github.com/vuejs/vitepress/issues/4808)) ([7619521](https://github.com/vuejs/vitepress/commit/76195212596cd54095240246b7e78075ac3cbc27)), closes [#4807](https://github.com/vuejs/vitepress/issues/4807)
+- bump to vite 7 ([2ecd607](https://github.com/vuejs/vitepress/commit/2ecd607af15222eeddf0b888a72d0f913f5a3cd2))
+
+### Performance Improvements
+
+- render pages in contentLoader asynchronously ([36148a0](https://github.com/vuejs/vitepress/commit/36148a0bcf3a73d1fe3f0c5f33337b679f700053))
+
+### BREAKING CHANGES
+
+- Only `cwd`, `ignore`, `dot` and `debug` are supported in `globOptions` of `createContentLoader`. If you want to pass other options, you still can but you might need to suppress type errors.
+- Uses vite 7. See [vite migration guide](https://vite.dev/guide/migration.html) for more info. For most of the users no change is required. VitePress should work same as earlier, except for maybe some type mismatches if you're using third-party plugins. You can suppress them using `@ts-expect-error` or `as any` and report the issues at respective repositories.
+
+## [2.0.0-alpha.6](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.5...v2.0.0-alpha.6) (2025-06-12)
+
+### Bug Fixes
+
+- allow AdditionalConfigLoader to return void ([906a44a](https://github.com/vuejs/vitepress/commit/906a44a3ad488a46804757326af95cfb8cac6b75))
+- **build:** avoiding creating separate chunks for vite public assets ([21f24b9](https://github.com/vuejs/vitepress/commit/21f24b9994ea4807ac7e0be38408e9aaa3abe8a9))
+- **build:** emit lean chunks after vite has done processing ([26cb685](https://github.com/vuejs/vitepress/commit/26cb685adf54f07fe3e9fd7bfd49a0ff79956923)), closes [#4737](https://github.com/vuejs/vitepress/issues/4737)
+- **client:** properly skip removed lines when copying code blocks ([c128baf](https://github.com/vuejs/vitepress/commit/c128baf0c41d5113c1b876f691e0185201b1f500))
+- disable appearance scripts in zero-js mode ([e7f9d05](https://github.com/vuejs/vitepress/commit/e7f9d05c3e2ef4f4c1db3b2c17e586f0fc26a6f6)), closes [#4766](https://github.com/vuejs/vitepress/issues/4766)
+- don't preload dynamic imports ([801648a](https://github.com/vuejs/vitepress/commit/801648a4c9d91e7f96302932ac9247d5bdd64ef7)), closes [#4770](https://github.com/vuejs/vitepress/issues/4770)
+- gather additional config files even if root .vitepress/config is not present ([26f178c](https://github.com/vuejs/vitepress/commit/26f178cfaa330a017bb69b1ec6bd482d63a100a9))
+- set `preserveEntrySignatures` for rolldown-vite ([#4784](https://github.com/vuejs/vitepress/issues/4784)) ([4351bc0](https://github.com/vuejs/vitepress/commit/4351bc0b831277401e08b350d7d7c0ab9ea0c9ed))
+- skip fields not supported by rolldown for rolldown-vite ([#4747](https://github.com/vuejs/vitepress/issues/4747)) ([4e3fce4](https://github.com/vuejs/vitepress/commit/4e3fce40c9bab261f3c5e31833475c3e2c6ba0cf))
+- **theme/regression:** code blocks not aligned properly in rtl layouts ([a643347](https://github.com/vuejs/vitepress/commit/a64334753079a5b874a482508d9ee255d2a0ea38))
+- **theme:** hide native search input cancel button ([#4723](https://github.com/vuejs/vitepress/issues/4723)) ([2c4944f](https://github.com/vuejs/vitepress/commit/2c4944f06ccf46fcf58fb18a1819fd167c9533cc))
+- **theme:** prevent error in handleSearchHotKey method ([#4782](https://github.com/vuejs/vitepress/issues/4782)) ([21fcecc](https://github.com/vuejs/vitepress/commit/21fcecce0581d0c461bc15e03429f61ff444a655))
+- use v-pre for mathjax instead of isCustomElement ([c9b8928](https://github.com/vuejs/vitepress/commit/c9b89282f3573998cfc4103bbddbd73d2529cb66))
+
+### Features
+
+- use `oxc-minify` instead of `transformWithEsbuild` when rolldown-vite is used ([#4748](https://github.com/vuejs/vitepress/issues/4748)) ([7c1dc48](https://github.com/vuejs/vitepress/commit/7c1dc48b2fd08e128f7bbe26690fb6534dfb4b95))
+
 ## [2.0.0-alpha.5](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.4...v2.0.0-alpha.5) (2025-04-21)
 
 ### Bug Fixes
@@ -2226,7 +2341,6 @@ This version uses Vue 3.2.0.
 ### BREAKING CHANGES
 
 - Some config options have changed.
-
   - `vueOptions` renamed to `vue`
   - `alias` option has been removed. Use `vite.resovle.alias` instead.
 
@@ -2244,7 +2358,6 @@ This version uses Vue 3.2.0.
 ### BREAKING CHANGES
 
 - The following methods are removed.
-
   - `useSiteData`
   - `useSiteDataByRoute`
   - `usePageData`

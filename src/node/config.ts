@@ -2,7 +2,6 @@ import _debug from 'debug'
 import fs from 'fs-extra'
 import path from 'node:path'
 import c from 'picocolors'
-import { glob } from 'tinyglobby'
 import {
   createLogger,
   loadConfigFromFile,
@@ -24,6 +23,7 @@ import {
   type SiteData
 } from './shared'
 import type { RawConfigExports, SiteConfig, UserConfig } from './siteConfig'
+import { glob } from './utils/glob'
 
 export { resolvePages } from './plugins/dynamicRoutesPlugin'
 export { resolveSiteDataByRoute } from './shared'
@@ -34,6 +34,7 @@ const debug = _debug('vitepress:config')
 const resolve = (root: string, file: string) =>
   normalizePath(path.resolve(root, `.vitepress`, file))
 
+export type { ConfigEnv }
 export type UserConfigFn<ThemeConfig> = (
   env: ConfigEnv
 ) => Awaitable<UserConfig<ThemeConfig>>
@@ -127,7 +128,7 @@ export async function resolveConfig(
     ? userThemeDir
     : DEFAULT_THEME_PATH
 
-  const config: SiteConfig = {
+  const config: Omit<SiteConfig, 'pages' | 'dynamicRoutes' | 'rewrites'> = {
     root,
     srcDir,
     assetsDir,
@@ -159,15 +160,17 @@ export async function resolveConfig(
     transformPageData: userConfig.transformPageData,
     userConfig,
     sitemap: userConfig.sitemap,
-    buildConcurrency: userConfig.buildConcurrency ?? 64,
-    ...(await resolvePages(srcDir, userConfig, logger, true))
+    buildConcurrency: userConfig.buildConcurrency ?? 64
   }
 
   // to be shared with content loaders
   // @ts-ignore
   global.VITEPRESS_CONFIG = config
 
-  return config
+  // resolve pages after setting global, so that path loaders can access it
+  await resolvePages(config, true)
+
+  return config as SiteConfig
 }
 
 const supportedConfigExtensions = ['js', 'ts', 'mjs', 'mts']
@@ -187,11 +190,9 @@ async function gatherAdditionalConfig(
 ) {
   //
 
-  const candidates = await glob(additionalConfigGlob, {
+  const candidates = await glob([additionalConfigGlob], {
     cwd: path.resolve(root, srcDir),
-    dot: false, // conveniently ignores .vitepress/*
-    ignore: ['**/node_modules/**', ...srcExclude],
-    expandDirectories: false
+    ignore: srcExclude
   })
 
   const deps: string[][] = []
@@ -232,7 +233,7 @@ export async function resolveUserConfig(
   root: string,
   command: 'serve' | 'build',
   mode: string
-): Promise<[UserConfig, string | undefined, string[]]> {
+): Promise<[UserConfig, configPath: string | undefined, configDeps: string[]]> {
   // load user config
   const configPath = supportedConfigExtensions
     .flatMap((ext) => [
@@ -256,20 +257,21 @@ export async function resolveUserConfig(
       configDeps = configExports.dependencies.map((file) =>
         normalizePath(path.resolve(file))
       )
-      // Auto-generate additional config if user leaves it unspecified
-      if (userConfig.additionalConfig === undefined) {
-        const [additionalConfig, additionalDeps] = await gatherAdditionalConfig(
-          root,
-          command,
-          mode,
-          userConfig.srcDir,
-          userConfig.srcExclude
-        )
-        userConfig.additionalConfig = additionalConfig
-        configDeps = configDeps.concat(...additionalDeps)
-      }
     }
     debug(`loaded config at ${c.yellow(configPath)}`)
+  }
+
+  // Auto-generate additional config if user leaves it unspecified
+  if (userConfig.additionalConfig === undefined) {
+    const [additionalConfig, additionalDeps] = await gatherAdditionalConfig(
+      root,
+      command,
+      mode,
+      userConfig.srcDir,
+      userConfig.srcExclude
+    )
+    userConfig.additionalConfig = additionalConfig
+    configDeps = configDeps.concat(...additionalDeps)
   }
 
   return [await resolveConfigExtends(userConfig), configPath, configDeps]
@@ -342,6 +344,7 @@ export async function resolveSiteData(
 
 function resolveSiteDataHead(userConfig?: UserConfig): HeadConfig[] {
   const head = userConfig?.head ?? []
+  if (userConfig?.mpa) return head
 
   // add inline script to apply dark mode, if user enables the feature.
   // this is required to prevent "flash" on initial page load.

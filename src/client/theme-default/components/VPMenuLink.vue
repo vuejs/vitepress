@@ -1,27 +1,37 @@
-<script lang="ts" setup>
+<script lang="ts" setup generic="T extends DefaultTheme.NavItemWithLink">
 import type { DefaultTheme } from 'vitepress/theme'
+import { computed } from 'vue'
 import { useData } from '../composables/data'
 import { isActive } from '../../shared'
 import VPLink from './VPLink.vue'
 
-defineProps<{
-  item: DefaultTheme.NavItemWithLink
+const props = defineProps<{
+  item: T
 }>()
 
 const { page } = useData()
+
+const href = computed(() =>
+  typeof props.item.link === 'function'
+    ? props.item.link(page.value)
+    : props.item.link
+)
+
+defineOptions({ inheritAttrs: false })
 </script>
 
 <template>
   <div class="VPMenuLink">
     <VPLink
+      v-bind="$attrs"
       :class="{
         active: isActive(
           page.relativePath,
-          item.activeMatch || item.link,
+          item.activeMatch || href,
           !!item.activeMatch
         )
       }"
-      :href="item.link"
+      :href
       :target="item.target"
       :rel="item.rel"
       :no-icon="item.noIcon"
@@ -46,6 +56,7 @@ const { page } = useData()
   font-size: 14px;
   font-weight: 500;
   color: var(--vp-c-text-1);
+  text-align: left;
   white-space: nowrap;
   transition:
     background-color 0.25s,

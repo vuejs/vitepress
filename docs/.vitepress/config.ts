@@ -52,6 +52,8 @@ export default defineConfig({
               return 'Скопировать код'
             case 'zh':
               return '复制代码'
+            case 'ja':
+              return 'コードをコピー'
             default:
               return 'Copy code'
           }
@@ -72,16 +74,35 @@ export default defineConfig({
     }
   },
 
-  /* prettier-ignore */
   head: [
-    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/vitepress-logo-mini.svg' }],
-    ['link', { rel: 'icon', type: 'image/png', href: '/vitepress-logo-mini.png' }],
+    [
+      'link',
+      { rel: 'icon', type: 'image/svg+xml', href: '/vitepress-logo-mini.svg' }
+    ],
+    [
+      'link',
+      { rel: 'icon', type: 'image/png', href: '/vitepress-logo-mini.png' }
+    ],
     ['meta', { name: 'theme-color', content: '#5f67ee' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:site_name', content: 'VitePress' }],
-    ['meta', { property: 'og:image', content: 'https://vitepress.dev/vitepress-og.jpg' }],
+    [
+      'meta',
+      {
+        property: 'og:image',
+        content: 'https://vitepress.dev/vitepress-og.jpg'
+      }
+    ],
     ['meta', { property: 'og:url', content: 'https://vitepress.dev/' }],
-    ['script', { src: 'https://cdn.usefathom.com/script.js', 'data-site': 'AZBRSFGG', 'data-spa': 'auto', defer: '' }]
+    [
+      'script',
+      {
+        src: 'https://cdn.usefathom.com/script.js',
+        'data-site': 'AZBRSFGG',
+        'data-spa': 'auto',
+        defer: ''
+      }
+    ]
   ],
 
   themeConfig: {
@@ -96,7 +117,8 @@ export default defineConfig({
       options: {
         appId: '8J64VVRP8K',
         apiKey: '52f578a92b88ad6abde815aae2b0ad7c',
-        indexName: 'vitepress'
+        indexName: 'vitepress',
+        askAi: 'YaVSonfX5bS8'
       }
     },
 
@@ -104,13 +126,14 @@ export default defineConfig({
   },
 
   locales: {
-    root: { label: 'English' },
-    zh: { label: '简体中文' },
-    pt: { label: 'Português' },
-    ru: { label: 'Русский' },
-    es: { label: 'Español' },
-    ko: { label: '한국어' },
-    fa: { label: 'فارسی' }
+    root: { label: 'English', lang: 'en-US', dir: 'ltr' },
+    zh: { label: '简体中文', lang: 'zh-Hans', dir: 'ltr' },
+    pt: { label: 'Português', lang: 'pt-BR', dir: 'ltr' },
+    ru: { label: 'Русский', lang: 'ru-RU', dir: 'ltr' },
+    es: { label: 'Español', lang: 'es', dir: 'ltr' },
+    ko: { label: '한국어', lang: 'ko-KR', dir: 'ltr' },
+    fa: { label: 'فارسی', lang: 'fa-IR', dir: 'rtl' },
+    ja: { label: '日本語', lang: 'ja', dir: 'ltr' }
   },
 
   vite: {
@@ -129,7 +152,10 @@ export default defineConfig({
           workDir: 'en',
           ignoreFiles: ['index.md']
         })
-    ]
+    ],
+    experimental: {
+      enableNativePlugin: true
+    }
   },
 
   transformPageData: prod

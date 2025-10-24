@@ -277,11 +277,11 @@ Wraps in a `<div class="vp-raw">`
   }
   ```
 
-  It uses [`postcss-prefix-selector`](https://github.com/RadValentin/postcss-prefix-selector) under the hood. You can pass its options like this:
+  You can pass its options like this:
 
   ```js
   postcssIsolateStyles({
-    includeFiles: [/vp-doc\.css/] // defaults to /base\.css/
+    includeFiles: [/custom\.css/] // defaults to [/vp-doc\.css/, /base\.css/]
   })
   ```
 
@@ -365,7 +365,7 @@ export default {
 
 A [list of valid languages](https://shiki.style/languages) is available on Shiki's repository.
 
-You may also customize syntax highlight theme in app config. Please see [`markdown` options](../reference/site-config#markdown) for more details.
+You may also customize syntax highlight theme, configure language aliases, and set custom language labels in app config. Please see [`markdown` options](../reference/site-config#markdown) for more details.
 
 ## Line Highlighting in Code Blocks
 
@@ -781,7 +781,7 @@ You can also [import snippets](#import-code-snippets) in code groups:
 You can include a markdown file in another markdown file, even nested.
 
 ::: tip
-You can also prefix the markdown path with `@`, it will act as the source root. By default, it's the VitePress project root, unless `srcDir` is configured.
+You can also prefix the markdown path with `@`, and it will act as the source root. By default, the source root is the VitePress project root, unless `srcDir` is configured.
 :::
 
 For example, you can include a relative markdown file using this:

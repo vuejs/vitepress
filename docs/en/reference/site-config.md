@@ -24,7 +24,7 @@ export default {
 }
 ```
 
-:::details Dynamic (Async) Config
+::: details Dynamic (Async) Config
 
 If you need to dynamically generate the config, you can also default export a function. For example:
 
@@ -439,7 +439,7 @@ export default {
 
 ### ignoreDeadLinks
 
-- Type: `boolean | 'localhostLinks' | (string | RegExp | ((link: string) => boolean))[]`
+- Type: `boolean | 'localhostLinks' | (string | RegExp | ((link: string, source: string) => boolean))[]`
 - Default: `false`
 
 When set to `true`, VitePress will not fail builds due to dead links.

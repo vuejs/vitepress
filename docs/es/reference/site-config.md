@@ -24,7 +24,7 @@ export default {
 }
 ```
 
-:::details Configuración dinámica (Assíncrona)
+::: details Configuración dinámica (Assíncrona)
 
 Si necesitas generar dinamicamente la configuración, también puedes exportar por defecto una función. Por ejemplo:
 
@@ -439,7 +439,7 @@ export default {
 
 ### ignoreDeadLinks
 
-- Tipo: `boolean | 'localhostLinks' | (string | RegExp | ((link: string) => boolean))[]`
+- Tipo: `boolean | 'localhostLinks' | (string | RegExp | ((link: string, source: string) => boolean))[]`
 - Predeterminado: `false`
 
 Cuando se establece en `true`, VitePress no dejará de compilarse debido a links rotos.
@@ -594,7 +594,7 @@ export default {
 
 `transformHead` es un enlace de compilación para transformar el encabezado antes de generar cada página. Esto le permite agregar entradas de encabezado que no se pueden agregar estáticamente a la configuración de VitePress. Sólo necesita devolver entradas adicionales, que se fusionarán automáticamente con las existentes.
 
-:::warning
+::: warning
 No mutes ningún elemento dentro `context`.
 :::
 
@@ -662,7 +662,7 @@ export default {
 - Tipo: `(code: string, id: string, context: TransformContext) => Awaitable<string | void>`
 `transformHtml` es un gancho de compilación para transformar el contenido de cada página antes de guardarla en el disco.
 
-:::warning
+::: warning
 No mute ningún elemento dentro del `context`. Además, modificar el contenido HTML puede provocar problemas de hidratación en tiempo de ejecución.
 :::
 
@@ -679,7 +679,7 @@ export default {
 
 `transformPageData` es un gancho para transformar los datos de cada página. Puedes hacer mutaciones directamente en `pageData` o devolver valores modificados que se fusionarán con los datos de la página.
 
-:::warning
+::: warning
 No mute ningún elemento dentro del `context` y tenga cuidado ya que esto puede afectar el rendimiento del servidor de desarrollo, especialmente si tiene algunas solicitudes de red o cálculos pesados (como generar imágenes) en el gancho. Puede consultar  `process.env.NODE_ENV === 'production'` para ver la lógica condicional.
 :::
 

@@ -5,8 +5,7 @@ const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
 
 export default defineAdditionalConfig({
-  lang: 'es-CO',
-  description: 'Generador de Sitios Estaticos desarrollado con Vite y Vue.',
+  description: 'Generador de Sitios Estáticos desarrollado con Vite y Vue.',
 
   themeConfig: {
     nav: nav(),
@@ -25,7 +24,7 @@ export default defineAdditionalConfig({
 
     footer: {
       message: 'Liberado bajo la licencia MIT',
-      copyright: `Derechos reservados © 2019-${new Date().getFullYear()} Evan You`
+      copyright: 'Todos los derechos reservados © 2019-PRESENTE Evan You'
     },
 
     docFooter: {
@@ -38,7 +37,7 @@ export default defineAdditionalConfig({
     },
 
     lastUpdated: {
-      text: 'Actualizado en'
+      text: 'Actualizado el'
     },
 
     notFound: {
@@ -46,7 +45,7 @@ export default defineAdditionalConfig({
       quote:
         'Pero si no cambias de dirección y sigues buscando, podrías terminar donde te diriges.',
       linkLabel: 'ir a inicio',
-      linkText: 'Llévame a casa'
+      linkText: 'Llévame a inicio'
     },
 
     langMenuLabel: 'Cambiar Idioma',
@@ -62,7 +61,7 @@ export default defineAdditionalConfig({
 function nav(): DefaultTheme.NavItem[] {
   return [
     {
-      text: 'Guia',
+      text: 'Guía',
       link: '/es/guide/what-is-vitepress',
       activeMatch: '/es/guide/'
     },
@@ -74,6 +73,10 @@ function nav(): DefaultTheme.NavItem[] {
     {
       text: pkg.version,
       items: [
+        {
+          text: '1.6.4',
+          link: 'https://vuejs.github.io/vitepress/v1/es/'
+        },
         {
           text: 'Registro de cambios',
           link: 'https://github.com/vuejs/vitepress/blob/main/CHANGELOG.md'
@@ -93,7 +96,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
       text: 'Introducción',
       collapsed: false,
       items: [
-        { text: 'Qué es VitePress？', link: 'what-is-vitepress' },
+        { text: '¿Qué es VitePress？', link: 'what-is-vitepress' },
         { text: 'Iniciando', link: 'getting-started' },
         { text: 'Enrutamiento', link: 'routing' },
         { text: 'Despliegue', link: 'deploy' }
@@ -136,7 +139,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
       ]
     },
     {
-      text: 'Configuración y Referencia del API',
+      text: 'Configuración y Referencia de la API',
       base: '/es/reference/',
       link: 'site-config'
     }
@@ -167,7 +170,7 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
             { text: 'Links Anterior / Siguiente', link: 'prev-next-links' },
             { text: 'Editar Link', link: 'edit-link' },
             { text: 'Sello temporal de actualización', link: 'last-updated' },
-            { text: 'Busqueda', link: 'search' },
+            { text: 'Búsqueda', link: 'search' },
             { text: 'Carbon Ads', link: 'carbon-ads' }
           ]
         }
@@ -186,10 +189,17 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
       },
       modal: {
         searchBox: {
-          resetButtonTitle: 'Limpiar búsqueda',
-          resetButtonAriaLabel: 'Limpiar búsqueda',
-          cancelButtonText: 'Cancelar',
-          cancelButtonAriaLabel: 'Cancelar'
+          clearButtonTitle: 'Limpiar búsqueda',
+          clearButtonAriaLabel: 'Limpiar búsqueda',
+          closeButtonText: 'Cerrar',
+          closeButtonAriaLabel: 'Cerrar',
+          placeholderText: undefined,
+          placeholderTextAskAi: undefined,
+          placeholderTextAskAiStreaming: 'Respondiendo...',
+          backToKeywordSearchButtonText:
+            'Volver a la búsqueda por palabras clave',
+          backToKeywordSearchButtonAriaLabel:
+            'Volver a la búsqueda por palabras clave'
         },
         startScreen: {
           recentSearchesTitle: 'Historial de búsqueda',
@@ -197,24 +207,52 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
           saveRecentSearchButtonTitle: 'Guardar en el historial de búsqueda',
           removeRecentSearchButtonTitle: 'Borrar del historial de búsqueda',
           favoriteSearchesTitle: 'Favoritos',
-          removeFavoriteSearchButtonTitle: 'Borrar de favoritos'
+          removeFavoriteSearchButtonTitle: 'Borrar de favoritos',
+          recentConversationsTitle: 'Conversaciones recientes',
+          removeRecentConversationButtonTitle:
+            'Eliminar esta conversación del historial'
         },
         errorScreen: {
           titleText: 'No fue posible obtener resultados',
           helpText: 'Verifique su conexión de red'
         },
-        footer: {
-          selectText: 'Seleccionar',
-          navigateText: 'Navegar',
-          closeText: 'Cerrar',
-          searchByText: 'Busqueda por'
-        },
         noResultsScreen: {
           noResultsText: 'No fue posible encontrar resultados',
           suggestedQueryText: 'Puede intentar una nueva búsqueda',
           reportMissingResultsText:
-            'Deberian haber resultados para esa consulta?',
+            '¿Deberían haber resultados para esta consulta?',
           reportMissingResultsLinkText: 'Click para enviar feedback'
+        },
+        resultsScreen: {
+          askAiPlaceholder: 'Preguntar a la IA: '
+        },
+        askAiScreen: {
+          disclaimerText:
+            'Las respuestas son generadas por IA y pueden contener errores. Verifica las respuestas.',
+          relatedSourcesText: 'Fuentes relacionadas',
+          thinkingText: 'Pensando...',
+          copyButtonText: 'Copiar',
+          copyButtonCopiedText: '¡Copiado!',
+          copyButtonTitle: 'Copiar',
+          likeButtonTitle: 'Me gusta',
+          dislikeButtonTitle: 'No me gusta',
+          thanksForFeedbackText: '¡Gracias por tu opinión!',
+          preToolCallText: 'Buscando...',
+          duringToolCallText: 'Buscando ',
+          afterToolCallText: 'Búsqueda de',
+          aggregatedToolCallText: 'Búsqueda de'
+        },
+        footer: {
+          selectText: 'Seleccionar',
+          submitQuestionText: 'Enviar pregunta',
+          selectKeyAriaLabel: 'Tecla Enter',
+          navigateText: 'Navegar',
+          navigateUpKeyAriaLabel: 'Flecha arriba',
+          navigateDownKeyAriaLabel: 'Flecha abajo',
+          closeText: 'Cerrar',
+          backToSearchText: 'Volver a la búsqueda',
+          closeKeyAriaLabel: 'Tecla Escape',
+          poweredByText: 'Búsqueda por'
         }
       }
     }
