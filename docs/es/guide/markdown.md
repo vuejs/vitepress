@@ -756,6 +756,102 @@ También puede [importar _snippets_ de código](#import-code-snippets) en grupos
 
 :::
 
+<!-- TODO: Translate to Spanish -->
+### Named Code Groups
+
+You can name code groups to synchronize tab selections across multiple groups. When you have multiple code groups with the same name on a page, selecting a tab in one will automatically select the corresponding tab in all other groups with the same name.
+
+**Input**
+
+````md
+::: code-group group-name=package-managers
+
+```bash [npm]
+npm install vitepress
+```
+
+```bash [pnpm]
+pnpm add vitepress
+```
+
+```bash [yarn]
+yarn add vitepress
+```
+
+:::
+
+<!-- Later in the same page: -->
+
+::: code-group group-name=package-managers
+
+```bash [npm]
+npm run docs
+```
+
+```bash [pnpm]
+pnpm run docs
+```
+
+```bash [yarn]
+yarn docs
+```
+
+:::
+````
+
+When you click on a tab (e.g., "pnpm") in one group, all other groups with `group-name=package-managers` will automatically switch to the same tab.
+
+**Output**
+
+::: code-group group-name=package-managers
+
+```bash [npm]
+npm install vitepress
+```
+
+```bash [pnpm]
+pnpm add vitepress
+```
+
+```bash [yarn]
+yarn add vitepress
+```
+
+:::
+
+::: code-group group-name=package-managers
+
+```bash [npm]
+npm run docs
+```
+
+```bash [pnpm]
+pnpm run docs
+```
+
+```bash [yarn]
+yarn docs
+```
+
+:::
+
+::: tip
+Try clicking different tabs above! Notice how both code groups switch together because they share the same `group-name`.
+:::
+
+The `group-name` parameter accepts only alphanumeric characters, hyphens, and underscores. No whitespace is allowed.
+
+Valid examples:
+- `group-name=installs`
+- `group-name=install-methods`
+- `group-name=install_methods`
+- `group-name=installMethods`
+
+::: tip
+This feature is especially useful in documentation where you show the same tool (like package managers or programming languages) in multiple places, providing a consistent experience for users.
+:::
+<!-- END TODO: Translate to Spanish -->
+
 ## Inclusión de Archivo Markdown {#markdown-file-inclusion}
 
 Puede incluir un archivo markdown en otro archvo markdown, incluso anidado.
