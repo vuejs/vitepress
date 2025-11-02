@@ -836,14 +836,14 @@ yarn docs
 :::
 
 ::: tip
-Try clicking different tabs above! Notice how both code groups switch together because they share the same `group-name`.
+Try clicking different tabs above! Notice how both code groups switch together because they share the same `name`.
 :::
 
 ::: info
-Your tab selection is automatically saved to localStorage. When you return to the page, your preferred tab for each group-name will be automatically selected.
+Your tab selection is automatically saved to localStorage. When you return to the page, your preferred tab for each name will be automatically selected.
 :::
 
-The `group-name` parameter accepts only alphanumeric characters, hyphens, and underscores. No whitespace is allowed.
+The `name` parameter accepts only alphanumeric characters, hyphens, and underscores. No whitespace is allowed.
 
 Valid examples:
 - `name=installs`
