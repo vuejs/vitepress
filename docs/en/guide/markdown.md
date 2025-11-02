@@ -838,6 +838,26 @@ yarn add vitepress
 
 :::
 
+::: code-group group-name=package-managers
+
+```bash [npm]
+npm run docs
+```
+
+```bash [pnpm]
+pnpm run docs
+```
+
+```bash [yarn]
+yarn docs
+```
+
+:::
+
+::: tip
+Try clicking different tabs above! Notice how both code groups switch together because they share the same `group-name`.
+:::
+
 The `group-name` parameter accepts only alphanumeric characters, hyphens, and underscores. No whitespace is allowed.
 
 Valid examples:
