@@ -64,6 +64,23 @@ function createCodeGroup(md: MarkdownItAsync): ContainerArgs {
     {
       render(tokens, idx) {
         if (tokens[idx].nesting === 1) {
+          const token = tokens[idx]
+          const info = token.info.trim()
+
+          // Extract group-name parameter
+          const groupNameMatch = info.match(/group-name=(\S+)/)
+          let groupName = groupNameMatch ? groupNameMatch[1] : null
+
+          // Validate: only allow alphanumeric, hyphens, and underscores
+          if (groupName && !/^[a-zA-Z0-9_-]+$/.test(groupName)) {
+            groupName = null
+          }
+
+          // Build data attribute
+          const groupNameAttr = groupName
+            ? ` data-group-name="${md.utils.escapeHtml(groupName)}"`
+            : ''
+
           let tabs = ''
           let checked = 'checked'
 
@@ -95,7 +112,7 @@ function createCodeGroup(md: MarkdownItAsync): ContainerArgs {
             }
           }
 
-          return `<div class="vp-code-group"><div class="tabs">${tabs}</div><div class="blocks">\n`
+          return `<div class="vp-code-group"${groupNameAttr}><div class="tabs">${tabs}</div><div class="blocks">\n`
         }
         return `</div></div>\n`
       }

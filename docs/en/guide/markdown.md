@@ -776,6 +776,60 @@ You can also [import snippets](#import-code-snippets) in code groups:
 
 :::
 
+### Named Code Groups
+
+You can optionally name code groups using the `group-name` parameter. This can be useful for semantic identification and potential future features like syncing tab selections across groups.
+
+**Input**
+
+````md
+::: code-group group-name=package-managers
+
+```bash [npm]
+npm install vitepress
+```
+
+```bash [pnpm]
+pnpm add vitepress
+```
+
+```bash [yarn]
+yarn add vitepress
+```
+
+:::
+````
+
+**Output**
+
+::: code-group group-name=package-managers
+
+```bash [npm]
+npm install vitepress
+```
+
+```bash [pnpm]
+pnpm add vitepress
+```
+
+```bash [yarn]
+yarn add vitepress
+```
+
+:::
+
+The `group-name` parameter accepts only alphanumeric characters, hyphens, and underscores. No whitespace is allowed.
+
+Valid examples:
+- `group-name=installs`
+- `group-name=install-methods`
+- `group-name=install_methods`
+- `group-name=installMethods`
+
+::: tip
+Named code groups add a `data-group-name` attribute to the generated HTML, which can be useful for custom styling or scripting.
+:::
+
 ## Markdown File Inclusion
 
 You can include a markdown file in another markdown file, even nested.

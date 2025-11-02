@@ -173,6 +173,62 @@ export default config
 
 :::
 
+### Group Name Basic
+
+::: code-group group-name=installs
+
+```bash [npm]
+npm install vitepress
+```
+
+```bash [pnpm]
+pnpm add vitepress
+```
+
+:::
+
+### Group Name with Hyphens and Underscores
+
+::: code-group group-name=install_methods-v2
+
+```bash [npm]
+npm install vitepress@next
+```
+
+```bash [pnpm]
+pnpm add vitepress@next
+```
+
+:::
+
+### Group Name with Spaces (Should be Rejected)
+
+::: code-group group-name="install methods"
+
+```bash [npm]
+npm install vitepress
+```
+
+```bash [yarn]
+yarn add vitepress
+```
+
+:::
+
+### Group Name with Invalid Characters (Should be Rejected)
+
+::: code-group group-name=install@methods!
+
+```bash [npm]
+npm install vitepress
+```
+
+```bash [pnpm]
+pnpm add vitepress
+```
+
+:::
+
 ## Markdown File Inclusion
 
 <!--@include: ./foo.md-->
