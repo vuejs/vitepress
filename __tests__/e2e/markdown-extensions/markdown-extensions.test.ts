@@ -301,6 +301,11 @@ describe('Code Groups', () => {
   })
 
   test('group-name synchronization across groups', async () => {
+    // Clear localStorage to ensure clean test state
+    await page.evaluate(() => localStorage.clear())
+    await page.reload()
+    await page.waitForSelector('#group-name-basic + div')
+
     const div1 = page.locator('#group-name-basic + div')
     const div2 = page.locator(
       '#group-name-second-instance-same-name-for-sync-test + div'
