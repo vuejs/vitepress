@@ -92,6 +92,7 @@ describe('Table of Contents', () => {
         "Basic Code Group",
         "With Other Features",
         "Group Name Basic",
+        "Group Name Second Instance (Same Name for Sync Test)",
         "Group Name with Hyphens and Underscores",
         "Group Name with Spaces (Should be Rejected)",
         "Group Name with Invalid Characters (Should be Rejected)",
@@ -297,6 +298,47 @@ describe('Code Groups', () => {
     await labels.nth(1).click()
     const blocks = div.locator('.blocks > div')
     expect(await getClassList(blocks.nth(1))).toContain('active')
+  })
+
+  test('group-name synchronization across groups', async () => {
+    const div1 = page.locator('#group-name-basic + div')
+    const div2 = page.locator(
+      '#group-name-second-instance-same-name-for-sync-test + div'
+    )
+
+    // Both groups should have the same group-name
+    expect(await div1.getAttribute('data-group-name')).toBe('installs')
+    expect(await div2.getAttribute('data-group-name')).toBe('installs')
+
+    // Initially, both should have first tab active
+    expect(await getClassList(div1.locator('.blocks > div').nth(0))).toContain(
+      'active'
+    )
+    expect(await getClassList(div2.locator('.blocks > div').nth(0))).toContain(
+      'active'
+    )
+
+    // Click second tab in first group
+    await div1.locator('.tabs > label').nth(1).click()
+
+    // Both groups should now have second tab active (synced)
+    expect(await getClassList(div1.locator('.blocks > div').nth(1))).toContain(
+      'active'
+    )
+    expect(await getClassList(div2.locator('.blocks > div').nth(1))).toContain(
+      'active'
+    )
+
+    // Click first tab in second group
+    await div2.locator('.tabs > label').nth(0).click()
+
+    // Both groups should now have first tab active again (synced back)
+    expect(await getClassList(div1.locator('.blocks > div').nth(0))).toContain(
+      'active'
+    )
+    expect(await getClassList(div2.locator('.blocks > div').nth(0))).toContain(
+      'active'
+    )
   })
 
   test('group-name with hyphens and underscores', async () => {

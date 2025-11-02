@@ -24,6 +24,7 @@ export function useCodeGroups() {
         const i = Array.from(group.querySelectorAll('input')).indexOf(el)
         if (i < 0) return
 
+        // Update current group
         const blocks = group.querySelector('.blocks')
         if (!blocks) return
 
@@ -40,7 +41,44 @@ export function useCodeGroups() {
 
         const label = group?.querySelector(`label[for="${el.id}"]`)
         label?.scrollIntoView({ block: 'nearest' })
+
+        // Sync other groups with same group-name
+        const groupName = group.getAttribute('data-group-name')
+        if (groupName) {
+          syncTabsInOtherGroups(groupName, i, group as HTMLElement)
+        }
       }
     })
   }
+}
+
+function syncTabsInOtherGroups(
+  groupName: string,
+  tabIndex: number,
+  currentGroup: HTMLElement
+) {
+  // Find all code groups with the same group-name
+  const groups = document.querySelectorAll(
+    `.vp-code-group[data-group-name="${groupName}"]`
+  )
+
+  groups.forEach((g) => {
+    // Skip the current group that was clicked
+    if (g === currentGroup) return
+
+    const inputs = g.querySelectorAll('input')
+    const blocks = g.querySelector('.blocks')
+    if (!blocks || !inputs[tabIndex]) return
+
+    // Update radio input
+    inputs[tabIndex].checked = true
+
+    // Update active block
+    const currentActive = blocks.querySelector('.active')
+    const newActive = blocks.children[tabIndex]
+    if (currentActive && newActive && currentActive !== newActive) {
+      currentActive.classList.remove('active')
+      newActive.classList.add('active')
+    }
+  })
 }

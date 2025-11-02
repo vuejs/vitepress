@@ -778,7 +778,7 @@ You can also [import snippets](#import-code-snippets) in code groups:
 
 ### Named Code Groups
 
-You can optionally name code groups using the `group-name` parameter. This can be useful for semantic identification and potential future features like syncing tab selections across groups.
+You can name code groups to synchronize tab selections across multiple groups. When you have multiple code groups with the same name on a page, selecting a tab in one will automatically select the corresponding tab in all other groups with the same name.
 
 **Input**
 
@@ -798,7 +798,27 @@ yarn add vitepress
 ```
 
 :::
+
+Later in the same page:
+
+::: code-group group-name=package-managers
+
+```bash [npm]
+npm run docs
+```
+
+```bash [pnpm]
+pnpm run docs
+```
+
+```bash [yarn]
+yarn docs
+```
+
+:::
 ````
+
+When you click on a tab (e.g., "pnpm") in one group, all other groups with `group-name=package-managers` will automatically switch to the same tab.
 
 **Output**
 
@@ -827,7 +847,7 @@ Valid examples:
 - `group-name=installMethods`
 
 ::: tip
-Named code groups add a `data-group-name` attribute to the generated HTML, which can be useful for custom styling or scripting.
+This feature is especially useful in documentation where you show the same tool (like package managers or programming languages) in multiple places, providing a consistent experience for users.
 :::
 
 ## Markdown File Inclusion

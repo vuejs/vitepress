@@ -187,6 +187,20 @@ pnpm add vitepress
 
 :::
 
+### Group Name Second Instance (Same Name for Sync Test)
+
+::: code-group group-name=installs
+
+```bash [npm]
+npm run docs
+```
+
+```bash [pnpm]
+pnpm run docs
+```
+
+:::
+
 ### Group Name with Hyphens and Underscores
 
 ::: code-group group-name=install_methods-v2

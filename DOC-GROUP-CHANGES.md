@@ -2,9 +2,13 @@
 
 ## Overview
 
-Add support for named code groups via the `group-name` parameter in the code-group container syntax. This allows developers to semantically identify and potentially sync code groups across a documentation site.
+Add support for named code groups via the `group-name` parameter in the code-group container syntax. This allows **synchronization of tab selections across multiple code groups** with the same name on a page.
 
 ## Feature Specification
+
+### Purpose
+
+When multiple code groups share the same `group-name`, selecting a tab in one group automatically selects the corresponding tab in all other groups with the same name. This is useful for documentation that shows the same tool (e.g., package managers) in multiple contexts.
 
 ### Markdown Syntax
 
@@ -117,16 +121,49 @@ function createCodeGroup(md: MarkdownItAsync): ContainerArgs {
 - No TypeScript interface changes needed (HTML data attributes are dynamic)
 - Document the new attribute in JSDoc comments if applicable
 
-### 3. Client-Side Changes (Optional for Future Enhancement)
+### 3. Client-Side Changes
 
 #### File: `/src/client/app/composables/codeGroups.ts`
 
-**Current scope:** No immediate changes required for basic implementation
+**Changes Required:**
+- Add tab synchronization logic when a tab is clicked
+- Find all code groups with the same `data-group-name` attribute
+- Update their selected tabs to match the clicked tab
+- Ensure proper DOM updates for both radio inputs and active blocks
 
-**Future enhancement possibilities:**
-- Sync tab selection across code groups with the same `group-name`
-- Store selection preference in localStorage per group name
-- Emit events for cross-component synchronization
+**Implementation:**
+```typescript
+function syncTabsInOtherGroups(
+  groupName: string,
+  tabIndex: number,
+  currentGroup: HTMLElement
+) {
+  // Find all code groups with the same group-name
+  const groups = document.querySelectorAll(
+    `.vp-code-group[data-group-name="${groupName}"]`
+  )
+
+  groups.forEach((g) => {
+    // Skip the current group that was clicked
+    if (g === currentGroup) return
+
+    const inputs = g.querySelectorAll('input')
+    const blocks = g.querySelector('.blocks')
+    if (!blocks || !inputs[tabIndex]) return
+
+    // Update radio input
+    inputs[tabIndex].checked = true
+
+    // Update active block
+    const currentActive = blocks.querySelector('.active')
+    const newActive = blocks.children[tabIndex]
+    if (currentActive && newActive && currentActive !== newActive) {
+      currentActive.classList.remove('active')
+      newActive.classList.add('active')
+    }
+  })
+}
+```
 
 ### 4. Styling Changes
 
