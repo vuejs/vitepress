@@ -780,7 +780,7 @@ yarn add vitepress
 
 :::
 
-<!-- Later in the same page: -->
+<!-- Later in the same domain: -->
 
 ::: code-group group-name=package-managers
 
