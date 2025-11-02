@@ -757,7 +757,7 @@ export default config
 <!-- TODO: Translate to Chinese -->
 ### Named Code Groups
 
-You can name code groups to synchronize tab selections across multiple groups. When you have multiple code groups with the same name on a page, selecting a tab in one will automatically select the corresponding tab in all other groups with the same name.
+You can name code groups to synchronize tab selections across multiple groups. When you have multiple code groups with the same name, selecting a tab in one will automatically select the corresponding tab in all other groups with the same name.
 
 **Input**
 
