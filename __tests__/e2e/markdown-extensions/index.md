@@ -175,7 +175,7 @@ export default config
 
 ### Group Name Basic
 
-::: code-group group-name=installs
+::: code-group name=installs
 
 ```bash [npm]
 npm install vitepress
@@ -189,7 +189,7 @@ pnpm add vitepress
 
 ### Group Name Second Instance (Same Name for Sync Test)
 
-::: code-group group-name=installs
+::: code-group name=installs
 
 ```bash [npm]
 npm run docs
@@ -203,7 +203,7 @@ pnpm run docs
 
 ### Group Name with Hyphens and Underscores
 
-::: code-group group-name=install_methods-v2
+::: code-group name=install_methods-v2
 
 ```bash [npm]
 npm install vitepress@next
@@ -217,7 +217,7 @@ pnpm add vitepress@next
 
 ### Group Name with Spaces (Should be Rejected)
 
-::: code-group group-name="install methods"
+::: code-group name="install methods"
 
 ```bash [npm]
 npm install vitepress
@@ -231,7 +231,7 @@ yarn add vitepress
 
 ### Group Name with Invalid Characters (Should be Rejected)
 
-::: code-group group-name=install@methods!
+::: code-group name=install@methods!
 
 ```bash [npm]
 npm install vitepress

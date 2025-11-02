@@ -67,18 +67,18 @@ function createCodeGroup(md: MarkdownItAsync): ContainerArgs {
           const token = tokens[idx]
           const info = token.info.trim()
 
-          // Extract group-name parameter
-          const groupNameMatch = info.match(/group-name=(\S+)/)
-          let groupName = groupNameMatch ? groupNameMatch[1] : null
+          // Extract name parameter
+          const nameMatch = info.match(/name=(\S+)/)
+          let name = nameMatch ? nameMatch[1] : null
 
           // Validate: only allow alphanumeric, hyphens, and underscores
-          if (groupName && !/^[a-zA-Z0-9_-]+$/.test(groupName)) {
-            groupName = null
+          if (name && !/^[a-zA-Z0-9_-]+$/.test(name)) {
+            name = null
           }
 
           // Build data attribute
-          const groupNameAttr = groupName
-            ? ` data-group-name="${md.utils.escapeHtml(groupName)}"`
+          const nameAttr = name
+            ? ` data-group-name="${md.utils.escapeHtml(name)}"`
             : ''
 
           let tabs = ''
@@ -112,7 +112,7 @@ function createCodeGroup(md: MarkdownItAsync): ContainerArgs {
             }
           }
 
-          return `<div class="vp-code-group"${groupNameAttr}><div class="tabs">${tabs}</div><div class="blocks">\n`
+          return `<div class="vp-code-group"${nameAttr}><div class="tabs">${tabs}</div><div class="blocks">\n`
         }
         return `</div></div>\n`
       }

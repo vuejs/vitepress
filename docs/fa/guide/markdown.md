@@ -715,7 +715,7 @@ You can name code groups to synchronize tab selections across multiple groups. W
 **Input**
 
 ````md
-::: code-group group-name=package-managers
+::: code-group name=package-managers
 
 ```bash [npm]
 npm install vitepress
@@ -733,7 +733,7 @@ yarn add vitepress
 
 <!-- Later in the same domain: -->
 
-::: code-group group-name=package-managers
+::: code-group name=package-managers
 
 ```bash [npm]
 npm run docs
@@ -750,11 +750,11 @@ yarn docs
 :::
 ````
 
-When you click on a tab (e.g., "pnpm") in one group, all other groups with `group-name=package-managers` will automatically switch to the same tab.
+When you click on a tab (e.g., "pnpm") in one group, all other groups with `name=package-managers` will automatically switch to the same tab.
 
 **Output**
 
-::: code-group group-name=package-managers
+::: code-group name=package-managers
 
 ```bash [npm]
 npm install vitepress
@@ -770,7 +770,7 @@ yarn add vitepress
 
 :::
 
-::: code-group group-name=package-managers
+::: code-group name=package-managers
 
 ```bash [npm]
 npm run docs
@@ -797,10 +797,10 @@ Your tab selection is automatically saved to localStorage. When you return to th
 The `group-name` parameter accepts only alphanumeric characters, hyphens, and underscores. No whitespace is allowed.
 
 Valid examples:
-- `group-name=installs`
-- `group-name=install-methods`
-- `group-name=install_methods`
-- `group-name=installMethods`
+- `name=installs`
+- `name=install-methods`
+- `name=install_methods`
+- `name=installMethods`
 
 ::: tip
 This feature is especially useful in documentation where you show the same tool (like package managers or programming languages) in multiple places, providing a consistent experience for users.
