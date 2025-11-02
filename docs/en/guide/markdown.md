@@ -799,7 +799,7 @@ yarn add vitepress
 
 :::
 
-Later in the same page:
+<!-- Later in the same page: -->
 
 ::: code-group group-name=package-managers
 
