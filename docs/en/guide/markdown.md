@@ -619,6 +619,24 @@ const line3 = 'This is line 3'
 const line4 = 'This is line 4'
 ```
 
+## Title Bar
+
+You can add a title bar to your code blocks by adding `[title]` in the fenced code block:
+
+**Input**
+
+````md
+```js [main.js]
+console.log('Hello, VitePress!')
+```
+````
+
+**Output**
+
+```js [main.js]
+console.log('Hello, VitePress!')
+```
+
 ## Import Code Snippets
 
 You can import code snippets from existing files via following syntax:

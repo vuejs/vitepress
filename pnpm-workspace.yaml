@@ -14,6 +14,7 @@ overrides:
 patchedDependencies:
   '@types/mdurl@2.0.0': patches/@types__mdurl@2.0.0.patch
   markdown-it-anchor@9.2.0: patches/markdown-it-anchor@9.2.0.patch
+  vitepress-plugin-group-icons: patches/vitepress-plugin-group-icons.patch
 
 autoInstallPeers: false
 shellEmulator: true

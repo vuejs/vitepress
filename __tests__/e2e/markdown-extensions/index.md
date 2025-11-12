@@ -120,6 +120,12 @@ const line1 = 'This is line 1'
 const line2 = 'This is line 2'
 ```
 
+## Title Bar
+
+```js [main.js]
+console.log('Hello, VitePress!')
+```
+
 ## Import Code Snippets
 
 ### Basic Code Snippet

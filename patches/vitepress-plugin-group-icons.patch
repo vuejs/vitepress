@@ -1,0 +1,23 @@
+diff --git a/dist/index.js b/dist/index.js
+index d607382406f19def4a6a6472c6143ff56f1db205..ed525461280b730d40be93291d17fa05477eb24b 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -101,7 +101,7 @@ function groupIconMdPlugin(md, options) {
+ 		});
+ 	};
+ 	const fenceRule = md.renderer.rules.fence;
+-	if (fenceRule) md.renderer.rules.fence = (...args) => {
++	if (false) md.renderer.rules.fence = (...args) => {
+ 		const [tokens, idx] = args;
+ 		const token = tokens[idx];
+ 		let isOnCodeGroup = false;
+@@ -133,7 +133,8 @@ function groupIconMdPlugin(md, options) {
+ async function generateCSS(labels, options) {
+ 	const baseCSS = `
+ .vp-code-block-title [data-title]::before,
+-.vp-code-group [data-title]::before {
++.vp-code-group [data-title]::before,
++.vp-doc [class*='language-'] [data-title]::before {
+   display: inline-block;
+   width: 1em;
+   height: 1em;

@@ -84,6 +84,7 @@ describe('Table of Contents', () => {
         "Multiple single lines, ranges",
         "Comment Highlight",
         "Line Numbers",
+        "Title Bar",
         "Import Code Snippets",
         "Basic Code Snippet",
         "Specify Region",
@@ -210,6 +211,16 @@ describe('Line Numbers', () => {
     expect(await getClassList(div)).toContain('line-numbers-mode')
     const lines = div.locator('.line-numbers-wrapper > span')
     expect(await lines.count()).toBe(2)
+  })
+})
+
+describe('Title bar', () => {
+  test('render title bar', async () => {
+    const div = page.locator('#title-bar + div')
+    const titleBar = div.locator('.title-bar')
+    expect(titleBar).toBeTruthy()
+    const titleText = titleBar.locator('.title-text')
+    expect(await titleText.textContent()).toBe('main.js')
   })
 })
 
