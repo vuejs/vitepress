@@ -11,7 +11,7 @@ VitePress 通过每个文件最近一次 Git 提交的时间戳显示"最后更�
 
 ```yaml{4}
 - name: Checkout
-  uses: actions/checkout@v4
+  uses: actions/checkout@v5
   with:
     fetch-depth: 0
 ```

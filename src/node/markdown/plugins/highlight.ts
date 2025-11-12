@@ -95,20 +95,16 @@ export async function highlight(
     }
   ]
 
-  const vueRE = /-vue(?=:|$)/
-  const lineNoStartRE = /=(\d*)/
-  const lineNoRE = /:(no-)?line-numbers(=\d*)?$/
-  const mustacheRE = /\{\{.*?\}\}/g
+  // keep in sync with ./preWrapper.ts#extractLang
+  const langRE = /^[a-zA-Z0-9-_]+/
+  const vueRE = /-vue$/
 
   return [
     async (str: string, lang: string, attrs: string) => {
-      const vPre = vueRE.test(lang) ? '' : 'v-pre'
-      lang =
-        lang
-          .replace(lineNoStartRE, '')
-          .replace(lineNoRE, '')
-          .replace(vueRE, '')
-          .toLowerCase() || defaultLang
+      lang = langRE.exec(lang)?.[0].toLowerCase() || defaultLang
+
+      const vPre = !vueRE.test(lang)
+      if (!vPre) lang = lang.slice(0, -4)
 
       try {
         // https://github.com/shikijs/shiki/issues/952
@@ -131,7 +127,7 @@ export async function highlight(
 
       const removeMustache = (s: string) => {
         if (vPre) return s
-        return s.replace(mustacheRE, (match) => {
+        return s.replace(/\{\{.*?\}\}/g, (match) => {
           let marker = mustaches.get(match)
           if (!marker) {
             marker = nanoid()
