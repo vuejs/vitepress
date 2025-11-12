@@ -308,20 +308,20 @@ server {
     index index.html;
 
     location / {
-        # content location
+        # 内容位置
         root /app;
 
-        # exact matches -> reverse clean urls -> folders -> not found
+        # 完全匹配 -> 反向清理 url -> 文件夹 -> 没有发现    
         try_files $uri $uri.html $uri/ =404;
 
-        # non existent pages
+        # 不存在的页面
         error_page 404 /404.html;
 
-        # a folder without index.html raises 403 in this setup
+        # 在此设置中，如果文件夹没有 index.html，就会引发 403 错误
         error_page 403 /404.html;
 
-        # adjust caching headers
-        # files in the assets folder have hashes filenames
+        # 调整缓存标头
+        # assets 文件夹中的文件都有哈希文件名
         location ~* ^/assets/ {
             expires 1y;
             add_header Cache-Control "public, immutable";
