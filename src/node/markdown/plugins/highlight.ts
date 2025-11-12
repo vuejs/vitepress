@@ -11,6 +11,7 @@ import c from 'picocolors'
 import type { BundledLanguage, ShikiTransformer } from 'shiki'
 import { createHighlighter, guessEmbeddedLanguages, isSpecialLang } from 'shiki'
 import type { Logger } from 'vite'
+import { isShell } from '../../shared'
 import type { MarkdownOptions, ThemeOptions } from '../markdown'
 
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)
@@ -45,6 +46,40 @@ function attrsToLines(attrs: string): TransformerCompactLineOption[] {
     line: v,
     classes: ['highlighted']
   }))
+}
+
+/**
+ * Prevents the leading '$' symbol etc from being selectable/copyable. Also
+ * normalizes its syntax so there's no leading spaces, and only a single
+ * trailing space.
+ *
+ * NOTE: Any changes to this function may also need to update
+ * `src/client/app/composables/copyCode.ts`
+ */
+function transformerDisableShellSymbolSelect(): ShikiTransformer {
+  return {
+    name: 'vitepress:disable-shell-symbol-select',
+    tokens(tokensByLine) {
+      if (!isShell(this.options.lang)) return
+
+      for (const tokens of tokensByLine) {
+        if (tokens.length < 2) continue
+
+        // The first token should only be a symbol token
+        const firstTokenText = tokens[0].content.trim()
+        if (firstTokenText !== '$' && firstTokenText !== '>') continue
+
+        // The second token must have a leading space (separates the symbol)
+        if (tokens[1].content[0] !== ' ') continue
+
+        tokens[0].content = firstTokenText + ' '
+        tokens[0].htmlStyle ??= {}
+        tokens[0].htmlStyle['user-select'] = 'none'
+        tokens[0].htmlStyle['-webkit-user-select'] = 'none'
+        tokens[1].content = tokens[1].content.slice(1)
+      }
+    }
+  }
 }
 
 export async function highlight(
@@ -83,6 +118,7 @@ export async function highlight(
     }),
     transformerNotationHighlight(),
     transformerNotationErrorLevel(),
+    transformerDisableShellSymbolSelect(),
     {
       name: 'vitepress:add-dir',
       pre(node) {
