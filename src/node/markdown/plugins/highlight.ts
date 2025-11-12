@@ -76,7 +76,7 @@ function transformerDisableShellSymbolSelect(): ShikiTransformer {
         tokens[0].htmlStyle ??= {}
         tokens[0].htmlStyle['user-select'] = 'none'
         tokens[0].htmlStyle['-webkit-user-select'] = 'none'
-        tokens[1].content = tokens[1].content.trimStart()
+        tokens[1].content = tokens[1].content.slice(1)
       }
     }
   }
