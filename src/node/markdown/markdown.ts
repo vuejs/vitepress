@@ -30,7 +30,6 @@ import type { Awaitable } from '../shared'
 import { containerPlugin, type ContainerOptions } from './plugins/containers'
 import { gitHubAlertsPlugin } from './plugins/githubAlerts'
 import { highlight as createHighlighter } from './plugins/highlight'
-import { highlightLinePlugin } from './plugins/highlightLines'
 import { imagePlugin, type Options as ImageOptions } from './plugins/image'
 import { lineNumberPlugin } from './plugins/lineNumbers'
 import { linkPlugin } from './plugins/link'
@@ -271,7 +270,6 @@ export async function createMarkdownRenderer(
 
   // custom plugins
   componentPlugin(md, options.component)
-  highlightLinePlugin(md)
   preWrapperPlugin(md, {
     codeCopyButtonTitle,
     languageLabel: options.languageLabel

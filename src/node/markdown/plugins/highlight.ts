@@ -100,8 +100,16 @@ export async function highlight(
   const vueRE = /-vue$/
 
   return [
-    async (str: string, lang: string, attrs: string) => {
-      lang = langRE.exec(lang)?.[0].toLowerCase() || defaultLang
+    async (str, lang, attrs) => {
+      const match = langRE.exec(lang)
+      if (match) {
+        const orig = lang
+        lang = match[0].toLowerCase()
+        attrs = orig.slice(lang.length).replace(/(?<!=)\{/g, ' {') + ' ' + attrs
+        attrs = attrs.trim().replace(/\s+/g, ' ')
+      }
+
+      lang ||= defaultLang
 
       const vPre = !vueRE.test(lang)
       if (!vPre) lang = lang.slice(0, -4)

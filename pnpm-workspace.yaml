@@ -17,5 +17,6 @@ patchedDependencies:
   '@types/markdown-it-attrs': patches/@types__markdown-it-attrs.patch
   '@types/mdurl@2.0.0': patches/@types__mdurl@2.0.0.patch
   markdown-it-anchor@9.2.0: patches/markdown-it-anchor@9.2.0.patch
+  markdown-it-attrs@4.3.1: patches/markdown-it-attrs@4.3.1.patch
 
 shellEmulator: true
