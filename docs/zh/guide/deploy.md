@@ -153,17 +153,17 @@ Cache-Control: max-age=31536000,immutable
        runs-on: ubuntu-latest
        steps:
          - name: Checkout
-           uses: actions/checkout@v4
+           uses: actions/checkout@v5
            with:
              fetch-depth: 0 # 如果未启用 lastUpdated，则不需要
-         # - uses: pnpm/action-setup@v3 # 如果使用 pnpm，请取消此区域注释
+         # - uses: pnpm/action-setup@v4 # 如果使用 pnpm，请取消此区域注释
          #   with:
          #     version: 9
          # - uses: oven-sh/setup-bun@v1 # 如果使用 Bun，请取消注释
          - name: Setup Node
-           uses: actions/setup-node@v4
+           uses: actions/setup-node@v6
            with:
-             node-version: 22
+             node-version: 24
              cache: npm # 或 pnpm / yarn
          - name: Setup Pages
            uses: actions/configure-pages@v4
