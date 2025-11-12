@@ -44,7 +44,7 @@ export const highlightLinePlugin = (md: MarkdownItAsync) => {
 
     token.info += '{' + lines + '}'
     // ensure there is a space between the lang and the line numbers
-    token.info = token.info.replace(/(?<![=])\{/g, " {")
+    token.info = token.info.replace(/(?<!=)\{/g, ' {')
     return fence(...args)
   }
 }
