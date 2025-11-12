@@ -83,6 +83,12 @@ const showFooter = computed(
   margin-top: 64px;
 }
 
+@media print {
+  .VPDocFooter {
+    display: none;
+  }
+}
+
 .edit-info {
   padding-bottom: 18px;
 }
