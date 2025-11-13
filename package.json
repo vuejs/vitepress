@@ -1,6 +1,6 @@
 {
   "name": "vitepress",
-  "version": "2.0.0-alpha.12",
+  "version": "2.0.0-alpha.13",
   "description": "Vite & Vue powered static site generator",
   "keywords": [
     "vite",
