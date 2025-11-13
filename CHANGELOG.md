@@ -1,4 +1,4 @@
-# [2.0.0-alpha.13](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.12...v2.0.0-alpha.13) (2025-11-13)
+## [2.0.0-alpha.13](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.12...v2.0.0-alpha.13) (2025-11-13)
 
 ### Bug Fixes
 
