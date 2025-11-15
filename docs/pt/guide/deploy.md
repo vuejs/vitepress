@@ -153,17 +153,17 @@ Não ative opções como _Auto Minify_ para código HTML. Isso removerá coment�
        runs-on: ubuntu-latest
        steps:
          - name: Checkout
-           uses: actions/checkout@v4
+           uses: actions/checkout@v5
            with:
              fetch-depth: 0 # Não necessário se lastUpdated não estiver habilitado
-         # - uses: pnpm/action-setup@v3 # Descomente isso se estiver usando pnpm
+         # - uses: pnpm/action-setup@v4 # Descomente isso se estiver usando pnpm
          #   with:
          #     version: 9
          # - uses: oven-sh/setup-bun@v1 # Descomente isso se estiver usando Bun
          - name: Setup Node
-           uses: actions/setup-node@v4
+           uses: actions/setup-node@v6
            with:
-             node-version: 22
+             node-version: 24
              cache: npm # ou pnpm / yarn
          - name: Setup Pages
            uses: actions/configure-pages@v4

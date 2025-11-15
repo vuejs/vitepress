@@ -27,10 +27,19 @@ export function useCodeGroups() {
   if (import.meta.env.DEV) {
     onContentUpdated(() => {
       document.querySelectorAll('.vp-code-group > .blocks').forEach((el) => {
+        const group = el.closest('.vp-code-group')
+        const groupName = group?.getAttribute('data-group-name')
+
+        // Don't reset if user has a saved preference
+        if (groupName && getStoredTabIndex(groupName) !== null) {
+          return // Keep user's preference
+        }
+
+        // Only reset groups without saved preferences
         Array.from(el.children).forEach((child) => {
           child.classList.remove('active')
         })
-        el.children[0].classList.add('active')
+        activate(el.children[0])
       })
     })
   }
@@ -92,7 +101,7 @@ export function useCodeGroups() {
         if (!next || current === next) return
 
         current.classList.remove('active')
-        next.classList.add('active')
+        activate(next)
 
         const label = group?.querySelector(`label[for="${el.id}"]`)
         label?.scrollIntoView({ block: 'nearest' })
@@ -137,4 +146,11 @@ function syncTabsInOtherGroups(
       newActive.classList.add('active')
     }
   })
+}
+
+function activate(el: Element): void {
+  el.classList.add('active')
+  window.dispatchEvent(
+    new CustomEvent('vitepress:codeGroupTabActivate', { detail: el })
+  )
 }

@@ -1,6 +1,6 @@
 import { inBrowser } from 'vitepress'
+import { isShell } from '../../shared'
 
-const shellRE = /language-(shellscript|shell|bash|sh|zsh)/
 const ignoredNodes = ['.vp-copy-ignore', '.diff.remove'].join(', ')
 
 export function useCopyCode() {
@@ -15,8 +15,6 @@ export function useCopyCode() {
           return
         }
 
-        const isShell = shellRE.test(parent.className)
-
         // Clone the node and remove the ignored nodes
         const clone = sibling.cloneNode(true) as HTMLElement
         clone.querySelectorAll(ignoredNodes).forEach((node) => node.remove())
@@ -26,7 +24,10 @@ export function useCopyCode() {
 
         let text = clone.textContent || ''
 
-        if (isShell) {
+        // NOTE: Any changes to this the code here may also need to update
+        // `transformerDisableShellSymbolSelect` in `src/node/markdown/plugins/highlight.ts`
+        const lang = /language-(\w+)/.exec(parent.className)?.[1] || ''
+        if (isShell(lang)) {
           text = text.replace(/^ *(\$|>) /gm, '').trim()
         }
 
