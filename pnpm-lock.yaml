@@ -61,7 +61,7 @@ importers:
         version: 14.0.0(vue@3.5.24(typescript@5.9.3))
       '@vueuse/integrations':
         specifier: ^14.0.0
-        version: 14.0.0(axios@1.13.2(debug@4.4.3))(focus-trap@7.6.6)(vue@3.5.24(typescript@5.9.3))
+        version: 14.0.0(axios@1.13.2)(focus-trap@7.6.6)(vue@3.5.24(typescript@5.9.3))
       focus-trap:
         specifier: ^7.6.6
         version: 7.6.6
@@ -129,9 +129,6 @@ importers:
       '@types/cross-spawn':
         specifier: ^6.0.6
         version: 6.0.6
-      '@types/debug':
-        specifier: ^4.1.12
-        version: 4.1.12
       '@types/fs-extra':
         specifier: ^11.0.4
         version: 11.0.4
@@ -171,9 +168,6 @@ importers:
       cross-spawn:
         specifier: ^7.0.6
         version: 7.0.6
-      debug:
-        specifier: ^4.4.3
-        version: 4.4.3
       esbuild:
         specifier: ^0.25.0
         version: 0.25.12
@@ -228,6 +222,9 @@ importers:
       nanoid:
         specifier: ^5.1.6
         version: 5.1.6
+      obug:
+        specifier: ^2.0.0
+        version: 2.0.0(ms@2.1.3)
       ora:
         specifier: ^9.0.0
         version: 9.0.0
@@ -308,7 +305,7 @@ importers:
         version: 3.1.3(typescript@5.9.3)
       wait-on:
         specifier: ^9.0.3
-        version: 9.0.3(debug@4.4.3)
+        version: 9.0.3
 
   __tests__/e2e:
     devDependencies:
@@ -2462,6 +2459,14 @@ packages:
   nth-check@2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
 
+  obug@2.0.0:
+    resolution: {integrity: sha512-dpSQuPXoKUjulinHmXjZV1YIRhOLEqBl1J6PYi9mRQR2dYcSK+OULRr+GuT1vufk2f40mtIOqmSL/aTikjmq5Q==}
+    peerDependencies:
+      ms: ^2.0.0
+    peerDependenciesMeta:
+      ms:
+        optional: true
+
   onetime@7.0.0:
     resolution: {integrity: sha512-VXJjc87FScF88uafS3JllDgvAm+c/Slfz06lorj2uAY34rlUu0Nt+v8wreiImcrgAjjIHp1rXpTDlLOGw29WwQ==}
     engines: {node: '>=18'}
@@ -4086,13 +4091,13 @@ snapshots:
       '@vueuse/shared': 14.0.0(vue@3.5.24(typescript@5.9.3))
       vue: 3.5.24(typescript@5.9.3)
 
-  '@vueuse/integrations@14.0.0(axios@1.13.2(debug@4.4.3))(focus-trap@7.6.6)(vue@3.5.24(typescript@5.9.3))':
+  '@vueuse/integrations@14.0.0(axios@1.13.2)(focus-trap@7.6.6)(vue@3.5.24(typescript@5.9.3))':
     dependencies:
       '@vueuse/core': 14.0.0(vue@3.5.24(typescript@5.9.3))
       '@vueuse/shared': 14.0.0(vue@3.5.24(typescript@5.9.3))
       vue: 3.5.24(typescript@5.9.3)
     optionalDependencies:
-      axios: 1.13.2(debug@4.4.3)
+      axios: 1.13.2
       focus-trap: 7.6.6
 
   '@vueuse/metadata@14.0.0': {}
@@ -4143,9 +4148,9 @@ snapshots:
 
   asynckit@0.4.0: {}
 
-  axios@1.13.2(debug@4.4.3):
+  axios@1.13.2:
     dependencies:
-      follow-redirects: 1.15.11(debug@4.4.3)
+      follow-redirects: 1.15.11
       form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -4586,9 +4591,7 @@ snapshots:
     dependencies:
       tabbable: 6.3.0
 
-  follow-redirects@1.15.11(debug@4.4.3):
-    optionalDependencies:
-      debug: 4.4.3
+  follow-redirects@1.15.11: {}
 
   foreground-child@3.3.1:
     dependencies:
@@ -5314,6 +5317,10 @@ snapshots:
   nth-check@2.1.1:
     dependencies:
       boolbase: 1.0.0
+
+  obug@2.0.0(ms@2.1.3):
+    optionalDependencies:
+      ms: 2.1.3
 
   onetime@7.0.0:
     dependencies:
@@ -6126,9 +6133,9 @@ snapshots:
     optionalDependencies:
       typescript: 5.9.3
 
-  wait-on@9.0.3(debug@4.4.3):
+  wait-on@9.0.3:
     dependencies:
-      axios: 1.13.2(debug@4.4.3)
+      axios: 1.13.2
       joi: 18.0.1
       lodash: 4.17.21
       minimist: 1.2.8
