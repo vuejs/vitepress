@@ -12,7 +12,7 @@ VitePress — это [Генератор статических сайтов](ht
 
 - **Документация**
 
-  VitePress поставляется с темой по умолчанию, предназначенной для технической документации. Именно она обеспечивает работу этой страницы, которую вы сейчас читаете, а также документации для [Vite](https://vite-docs.ru/), [Rollup](https://rollupjs.org/), [Pinia](https://pinia-ru.netlify.app), [VueUse](https://vueuse.org/), [Vitest](https://vitest.dev/), [D3](https://d3js.org/), [UnoCSS](https://unocss.dev/), [Iconify](https://iconify.design/) и [многих других](https://github.com/search?q=/"vitepress":+/+language:json&type=code).
+  VitePress поставляется с темой по умолчанию, предназначенной для технической документации. Именно она обеспечивает работу этой страницы, которую вы сейчас читаете, а также документации для [Vite](https://vite-docs.ru/), [Rollup](https://rollupjs.org/), [Pinia](https://pinia-ru.netlify.app), [VueUse](https://vueuse.org/), [Vitest](https://vitest.dev/), [D3](https://d3js.org/), [UnoCSS](https://unocss.dev/), [Iconify](https://iconify.design/) и [многих других](https://github.com/search?q=/%22vitepress%22:+/+path:/(?:package%7Cdeno)%5C.jsonc?$/+NOT+is:fork+NOT+is:archived&type=code).
 
   [Официальная документация Vue.js](https://vuejs.org/) также основана на VitePress, но использует кастомную тему, общую для нескольких переводов.
 
