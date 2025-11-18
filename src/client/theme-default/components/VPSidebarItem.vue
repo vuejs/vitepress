@@ -232,7 +232,7 @@ function onCaretClick() {
 }
 
 .VPSidebarItem.collapsed .caret-icon {
-  transform: rotate(0)/*rtl:rotate(180deg)*/;
+  scale: calc(1 * var(--vp-direction-multiplier)) 1; /* Flip in RTL */
 }
 
 .VPSidebarItem.level-1 .items,
