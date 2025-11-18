@@ -1,11 +1,11 @@
 import { spawn, sync } from 'cross-spawn'
-import _debug from 'debug'
+import { createDebug } from 'obug'
 import fs from 'node:fs'
 import path from 'node:path'
 import { Transform, type TransformCallback } from 'node:stream'
 import { slash } from '../shared'
 
-const debug = _debug('vitepress:git')
+const debug = createDebug('vitepress:git')
 const cache = new Map<string, number>()
 
 const RS = 0x1e
