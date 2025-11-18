@@ -44,8 +44,8 @@
 
 .vp-doc .header-anchor {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset-block-start: 0;
+  inset-inline-start: 0;
   margin-inline-start: -0.87em;
   font-weight: 500;
   user-select: none;
@@ -84,7 +84,7 @@
 }
 
 .vp-doc h2 .header-anchor {
-  top: 24px;
+  inset-block-start: 24px;
 }
 
 /**
@@ -358,7 +358,7 @@
 
 .vp-doc [class*='language-'] code .diff::before {
   position: absolute;
-  left: 10px;
+  inset-inline-start: 10px;
 }
 
 .vp-doc [class*='language-'] .has-focused-lines .line:not(.has-focus) {

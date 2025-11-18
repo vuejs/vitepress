@@ -136,7 +136,7 @@ function scrollToTop() {
 
 .items {
   position: absolute;
-  top: 40px;
+  inset-block-start: 40px;
   inset-inline: 16px;
   display: grid;
   gap: 1px;
@@ -150,8 +150,8 @@ function scrollToTop() {
 
 @media (min-width: 960px) {
   .items {
-    right: auto;
-    left: calc(var(--vp-sidebar-width) + 32px);
+    inset-inline-end: auto;
+    inset-inline-start: calc(var(--vp-sidebar-width) + 32px);
     width: 320px;
   }
 }

@@ -42,8 +42,8 @@
 
 .title-line {
   position: absolute;
-  top: 16px;
-  left: 0;
+  inset-block-start: 16px;
+  inset-inline-start: 0;
   width: 100%;
   height: 1px;
   background-color: var(--vp-c-divider);

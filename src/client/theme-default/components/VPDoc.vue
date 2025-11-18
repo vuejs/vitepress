@@ -134,7 +134,7 @@ const pageName = computed(() =>
 
 .aside-container {
   position: fixed;
-  top: 0;
+  inset-block-start: 0;
   padding-block-start: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + var(--vp-doc-top-height, 0px) + 48px);
   width: 224px;
   height: 100vh;
@@ -149,7 +149,7 @@ const pageName = computed(() =>
 
 .aside-curtain {
   position: fixed;
-  bottom: 0;
+  inset-block-end: 0;
   z-index: 10;
   width: 224px;
   height: 32px;

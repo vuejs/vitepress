@@ -145,8 +145,8 @@ watchPostEffect(() => {
 @media (min-width: 960px) {
   .VPNavBar.has-sidebar .title {
     position: absolute;
-    top: 0;
-    left: 0;
+    inset-block-start: 0;
+    inset-inline-start: 0;
     z-index: 2;
     padding: 0 32px;
     width: var(--vp-sidebar-width);

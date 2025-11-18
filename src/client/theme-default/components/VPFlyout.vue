@@ -128,8 +128,8 @@ function onBlur() {
 
 .menu {
   position: absolute;
-  top: calc(var(--vp-nav-height) / 2 + 20px);
-  right: 0;
+  inset-block-start: calc(var(--vp-nav-height) / 2 + 20px);
+  inset-inline-end: 0;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.25s, visibility 0.25s, transform 0.25s;

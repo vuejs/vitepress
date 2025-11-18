@@ -67,9 +67,9 @@ watch(
 <style scoped>
 .VPSidebar {
   position: fixed;
-  top: var(--vp-layout-top-height, 0px);
-  bottom: 0;
-  left: 0;
+  inset-block-start: var(--vp-layout-top-height, 0px);
+  inset-block-end: 0;
+  inset-inline-start: 0;
   z-index: var(--vp-z-index-sidebar);
   padding: 32px 32px 96px;
   width: calc(100vw - 64px);
@@ -119,8 +119,8 @@ watch(
 @media (min-width: 960px) {
   .curtain {
     position: sticky;
-    top: calc(var(--vp-nav-height) * -1);
-    left: 0;
+    inset-block-start: calc(var(--vp-nav-height) * -1);
+    inset-inline-start: 0;
     z-index: 1;
     margin-block-start: calc(var(--vp-nav-height) * -1);
     margin-inline-end: -32px;

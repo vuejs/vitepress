@@ -50,11 +50,11 @@ function removeSpaces(str: string) {
 }
 
 .VPApiPreference:first-child {
-  margin-top: 0;
+  margin-block-start: 0;
 }
 
 .VPApiPreference:last-child {
-  margin-bottom: 0;
+  margin-block-end: 0;
 }
 
 .VPApiPreference.screen-menu {

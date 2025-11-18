@@ -42,9 +42,9 @@
 
 .vp-code-group .tabs label::after {
   position: absolute;
-  right: 8px;
-  bottom: -1px;
-  left: 8px;
+  inset-inline-end: 8px;
+  inset-block-end: -1px;
+  inset-inline-start: 8px;
   z-index: 1;
   height: 2px;
   border-radius: 2px;

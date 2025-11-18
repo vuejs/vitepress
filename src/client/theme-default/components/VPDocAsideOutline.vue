@@ -58,8 +58,8 @@ useActiveAnchor(container, marker)
 
 .outline-marker {
   position: absolute;
-  top: 32px;
-  left: -1px;
+  inset-block-start: 32px;
+  inset-inline-start: -1px;
   z-index: 0;
   opacity: 0;
   width: 2px;
@@ -67,7 +67,7 @@ useActiveAnchor(container, marker)
   height: 18px;
   background-color: var(--vp-c-brand-1);
   transition:
-    top 0.25s cubic-bezier(0, 1, 0.5, 1),
+    inset-block-start 0.25s cubic-bezier(0, 1, 0.5, 1),
     background-color 0.5s,
     opacity 0.25s;
 }

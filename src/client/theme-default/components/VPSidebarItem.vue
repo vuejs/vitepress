@@ -128,9 +128,9 @@ function onCaretClick() {
 
 .indicator {
   position: absolute;
-  top: 6px;
-  bottom: 6px;
-  left: -17px;
+  inset-block-start: 6px;
+  inset-block-end: 6px;
+  inset-inline-start: -17px;
   width: 2px;
   border-radius: 2px;
   transition: background-color 0.25s;
@@ -232,7 +232,11 @@ function onCaretClick() {
 }
 
 .VPSidebarItem.collapsed .caret-icon {
-  scale: calc(1 * var(--vp-direction-multiplier)) 1; /* Flip in RTL */
+  transform: rotate(0);
+}
+
+[dir="rtl"] .VPSidebarItem.collapsed .caret-icon {
+  transform: rotate(180deg);
 }
 
 .VPSidebarItem.level-1 .items,
