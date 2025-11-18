@@ -165,7 +165,7 @@
     "minimist": "^1.2.8",
     "nanoid": "^5.1.6",
     "ora": "^9.0.0",
-    "oxc-minify": "^0.97.0",
+    "oxc-minify": "^0.98.0",
     "p-map": "^7.0.4",
     "package-directory": "^8.1.0",
     "path-to-regexp": "^6.3.0",
