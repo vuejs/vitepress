@@ -131,7 +131,8 @@ function scrollToTop() {
 }
 
 .open > .icon {
-  transform: rotate(calc(90deg * var(--vp-direction-multiplier)));
+  /*rtl:ignore*/
+  transform: rotate(90deg);
 }
 
 .items {

@@ -227,15 +227,18 @@ function onCaretClick() {
 
 .caret-icon {
   font-size: 18px;
-  transform: rotate(calc(90deg * var(--vp-direction-multiplier)));
+  /*rtl:ignore*/
+  transform: rotate(90deg);
   transition: transform 0.25s;
 }
 
 .VPSidebarItem.collapsed .caret-icon {
+  /*rtl:ignore*/
   transform: rotate(0);
 }
 
 [dir="rtl"] .VPSidebarItem.collapsed .caret-icon {
+  /*rtl:ignore*/
   transform: rotate(180deg);
 }
 
