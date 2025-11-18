@@ -48,8 +48,8 @@ const showModal = ref(false)
 }
 
 .model-footer {
-  margin-top: 8px;
-  text-align: right;
+  margin-block-start: 8px;
+  text-align: end;
 }
 
 .modal-button {

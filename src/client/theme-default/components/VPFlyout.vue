@@ -112,12 +112,12 @@ function onBlur() {
 }
 
 .option-icon {
-  margin-right: 0px;
+  margin-inline-end: 0px;
   font-size: 16px;
 }
 
 .text-icon {
-  margin-left: 4px;
+  margin-inline-start: 4px;
   font-size: 14px;
 }
 

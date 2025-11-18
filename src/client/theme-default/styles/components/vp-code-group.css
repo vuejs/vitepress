@@ -1,12 +1,11 @@
 .vp-code-group {
-  margin-top: 16px;
+  margin-block-start: 16px;
 }
 
 .vp-code-group .tabs {
   position: relative;
   display: flex;
-  margin-right: -24px;
-  margin-left: -24px;
+  margin-inline: -24px;
   padding: 0 12px;
   background-color: var(--vp-code-tab-bg);
   overflow-x: auto;
@@ -16,8 +15,7 @@
 
 @media (min-width: 640px) {
   .vp-code-group .tabs {
-    margin-right: 0;
-    margin-left: 0;
+    margin-inline: 0;
     border-radius: 8px 8px 0 0;
   }
 }
@@ -31,7 +29,7 @@
 .vp-code-group .tabs label {
   position: relative;
   display: inline-block;
-  border-bottom: 1px solid transparent;
+  border-block-end: 1px solid transparent;
   padding: 0 12px;
   line-height: 48px;
   font-size: 14px;
@@ -70,9 +68,9 @@
 .vp-code-group div[class*='language-'],
 .vp-block {
   display: none;
-  margin-top: 0 !important;
-  border-top-left-radius: 0 !important;
-  border-top-right-radius: 0 !important;
+  margin-block-start: 0 !important;
+  border-start-start-radius: 0 !important;
+  border-start-end-radius: 0 !important;
 }
 
 .vp-code-group div[class*='language-'].active,

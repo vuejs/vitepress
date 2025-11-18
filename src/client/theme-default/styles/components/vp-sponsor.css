@@ -12,7 +12,7 @@
 }
 
 .vp-sponsor-section + .vp-sponsor-section {
-  margin-top: 4px;
+  margin-block-start: 4px;
 }
 
 .vp-sponsor-tier {
@@ -37,7 +37,7 @@
 }
 
 .vp-sponsor-grid + .vp-sponsor-tier {
-  margin-top: 4px;
+  margin-block-start: 4px;
 }
 
 .vp-sponsor-grid {

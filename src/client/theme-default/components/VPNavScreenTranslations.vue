@@ -61,11 +61,11 @@ function toggle() {
 }
 
 .icon.lang {
-  margin-right: 8px;
+  margin-inline-end: 8px;
 }
 
 .icon.chevron {
-  margin-left: 4px;
+  margin-inline-start: 4px;
 }
 
 .list {

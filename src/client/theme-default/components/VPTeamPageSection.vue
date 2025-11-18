@@ -63,7 +63,7 @@
 .lead {
   margin: 0 auto;
   max-width: 480px;
-  padding-top: 12px;
+  padding-block-start: 12px;
   text-align: center;
   line-height: 24px;
   font-size: 16px;
@@ -72,6 +72,6 @@
 }
 
 .members {
-  padding-top: 40px;
+  padding-block-start: 40px;
 }
 </style>

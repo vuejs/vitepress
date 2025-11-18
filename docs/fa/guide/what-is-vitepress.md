@@ -2,7 +2,7 @@
 
 ویت‌پرس یک [تولید کننده سایت ایستا](https://en.wikipedia.org/wiki/Static_site_generator) (SSG) است که برای ساخت وب‌سایت‌های سریع و محتوا محور طراحی شده است. به طور خلاصه، ویت‌پرس محتوای منبع شما که به زبان [Markdown](https://en.wikipedia.org/wiki/Markdown) نوشته شده است را گرفته، یک تم بر روی آن اعمال می‌کند و صفحات HTML ایستا تولید می‌کند که به راحتی در هر جایی قابل استقرار هستند.
 
-<div class="tip custom-block" style="padding-top: 8px">
+<div class="tip custom-block" style="padding-block-start: 8px">
 
 فقط می‌خواهید آن را امتحان کنید؟ به [شروع سریع](./getting-started) بروید.
 

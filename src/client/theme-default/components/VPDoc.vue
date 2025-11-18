@@ -121,21 +121,21 @@ const pageName = computed(() =>
   display: none;
   order: 2;
   flex-grow: 1;
-  padding-left: 32px;
+  padding-inline-start: 32px;
   width: 100%;
   max-width: 256px;
 }
 
 .left-aside {
   order: 1;
-  padding-left: unset;
-  padding-right: 32px;
+  padding-inline-start: unset;
+  padding-inline-end: 32px;
 }
 
 .aside-container {
   position: fixed;
   top: 0;
-  padding-top: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + var(--vp-doc-top-height, 0px) + 48px);
+  padding-block-start: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + var(--vp-doc-top-height, 0px) + 48px);
   width: 224px;
   height: 100vh;
   overflow-x: hidden;
@@ -161,7 +161,7 @@ const pageName = computed(() =>
   display: flex;
   flex-direction: column;
   min-height: calc(100vh - (var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 48px));
-  padding-bottom: 32px;
+  padding-block-end: 32px;
 }
 
 .content {

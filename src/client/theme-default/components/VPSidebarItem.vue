@@ -109,11 +109,11 @@ function onCaretClick() {
 
 <style scoped>
 .VPSidebarItem.level-0 {
-  padding-bottom: 24px;
+  padding-block-end: 24px;
 }
 
 .VPSidebarItem.collapsed.level-0 {
-  padding-bottom: 10px;
+  padding-block-end: 10px;
 }
 
 .item {
@@ -208,7 +208,7 @@ function onCaretClick() {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: -7px;
+  margin-inline-end: -7px;
   width: 32px;
   height: 32px;
   color: var(--vp-c-text-3);
@@ -227,8 +227,7 @@ function onCaretClick() {
 
 .caret-icon {
   font-size: 18px;
-  /*rtl:ignore*/
-  transform: rotate(90deg);
+  transform: rotate(calc(90deg * var(--vp-direction-multiplier)));
   transition: transform 0.25s;
 }
 
@@ -241,8 +240,8 @@ function onCaretClick() {
 .VPSidebarItem.level-3 .items,
 .VPSidebarItem.level-4 .items,
 .VPSidebarItem.level-5 .items {
-  border-left: 1px solid var(--vp-c-divider);
-  padding-left: 16px;
+  border-inline-start: 1px solid var(--vp-c-divider);
+  padding-inline-start: 16px;
 }
 
 .VPSidebarItem.collapsed .items {

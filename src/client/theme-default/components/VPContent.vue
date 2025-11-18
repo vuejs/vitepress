@@ -77,19 +77,19 @@ const { isHome, hasSidebar } = useLayout()
 
 @media (min-width: 960px) {
   .VPContent {
-    padding-top: var(--vp-nav-height);
+    padding-block-start: var(--vp-nav-height);
   }
 
   .VPContent.has-sidebar {
     margin: var(--vp-layout-top-height, 0px) 0 0;
-    padding-left: var(--vp-sidebar-width);
+    padding-inline-start: var(--vp-sidebar-width);
   }
 }
 
 @media (min-width: 1440px) {
   .VPContent.has-sidebar {
-    padding-right: calc((100% - var(--vp-layout-max-width)) / 2);
-    padding-left: calc((100% - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));
+    padding-inline-end: calc((100% - var(--vp-layout-max-width)) / 2);
+    padding-inline-start: calc((100% - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));
   }
 }
 </style>

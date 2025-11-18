@@ -79,7 +79,7 @@ watchPostEffect(() => {
 .VPNavBar.screen-open {
   transition: none;
   background-color: var(--vp-nav-bg-color);
-  border-bottom: 1px solid var(--vp-c-divider);
+  border-block-end: 1px solid var(--vp-c-divider);
 }
 
 .VPNavBar:not(.home) {
@@ -157,7 +157,7 @@ watchPostEffect(() => {
 
 @media (min-width: 1440px) {
   .VPNavBar.has-sidebar .title {
-    padding-left: max(32px, calc((100% - (var(--vp-layout-max-width) - 64px)) / 2));
+    padding-inline-start: max(32px, calc((100% - (var(--vp-layout-max-width) - 64px)) / 2));
     width: calc((100% - (var(--vp-layout-max-width) - 64px)) / 2 + var(--vp-sidebar-width) - 32px);
   }
 }
@@ -170,15 +170,15 @@ watchPostEffect(() => {
   .VPNavBar.has-sidebar .content {
     position: relative;
     z-index: 1;
-    padding-left: var(--vp-sidebar-width);
-    padding-right: 32px;
+    padding-inline-start: var(--vp-sidebar-width);
+    padding-inline-end: 32px;
   }
 }
 
 @media (min-width: 1440px) {
   .VPNavBar.has-sidebar .content {
-    padding-left: calc((100% - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));
-    padding-right: calc((100% - var(--vp-layout-max-width)) / 2 + 32px);
+    padding-inline-start: calc((100% - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));
+    padding-inline-end: calc((100% - var(--vp-layout-max-width)) / 2 + 32px);
   }
 }
 
@@ -187,8 +187,8 @@ watchPostEffect(() => {
   justify-content: flex-end;
   align-items: center;
   height: var(--vp-nav-height);
-  margin-right: -100vw;
-  padding-right: 100vw;
+  margin-inline-end: -100vw;
+  padding-inline-end: 100vw;
   transition: background-color 0.5s;
 }
 
@@ -214,8 +214,8 @@ watchPostEffect(() => {
 .menu + .social-links::before,
 .translations + .appearance::before,
 .appearance + .social-links::before {
-  margin-right: 8px;
-  margin-left: 8px;
+  margin-inline-end: 8px;
+  margin-inline-start: 8px;
   width: 1px;
   height: 24px;
   background-color: var(--vp-c-divider);
@@ -224,15 +224,15 @@ watchPostEffect(() => {
 
 .menu + .appearance::before,
 .translations + .appearance::before {
-  margin-right: 16px;
+  margin-inline-end: 16px;
 }
 
 .appearance + .social-links::before {
-  margin-left: 16px;
+  margin-inline-start: 16px;
 }
 
 .social-links {
-  margin-right: -8px;
+  margin-inline-end: -8px;
 }
 
 .divider {
@@ -242,13 +242,13 @@ watchPostEffect(() => {
 
 @media (min-width: 960px) {
   .VPNavBar.has-sidebar .divider {
-    padding-left: var(--vp-sidebar-width);
+    padding-inline-start: var(--vp-sidebar-width);
   }
 }
 
 @media (min-width: 1440px) {
   .VPNavBar.has-sidebar .divider {
-    padding-left: calc((100% - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));
+    padding-inline-start: calc((100% - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));
   }
 }
 

@@ -64,7 +64,7 @@ const hasExtraContent = computed(
 <style scoped>
 .VPNavBarExtra {
   display: none;
-  margin-right: -12px;
+  margin-inline-end: -12px;
 }
 
 @media (min-width: 768px) {
@@ -99,7 +99,7 @@ const hasExtraContent = computed(
 }
 
 .appearance-action {
-  margin-right: -2px;
+  margin-inline-end: -2px;
 }
 
 .social-links-list {

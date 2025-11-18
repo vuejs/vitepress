@@ -21,8 +21,8 @@
 
 .vp-doc h2 {
   margin: 48px 0 16px;
-  border-top: 1px solid var(--vp-c-divider);
-  padding-top: 24px;
+  border-block-start: 1px solid var(--vp-c-divider);
+  padding-block-start: 24px;
   letter-spacing: -0.02em;
   line-height: 32px;
   font-size: 24px;
@@ -46,7 +46,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  margin-left: -0.87em;
+  margin-inline-start: -0.87em;
   font-weight: 500;
   user-select: none;
   opacity: 0;
@@ -102,8 +102,8 @@
 
 .vp-doc blockquote {
   margin: 16px 0;
-  border-left: 2px solid var(--vp-c-divider);
-  padding-left: 16px;
+  border-inline-start: 2px solid var(--vp-c-divider);
+  padding-inline-start: 16px;
   transition: border-color 0.5s;
   color: var(--vp-c-text-2);
 }
@@ -138,7 +138,7 @@
 
 .vp-doc ul,
 .vp-doc ol {
-  padding-left: 1.25rem;
+  padding-inline-start: 1.25rem;
   margin: 16px 0;
 }
 
@@ -151,7 +151,7 @@
 }
 
 .vp-doc li + li {
-  margin-top: 8px;
+  margin-block-start: 8px;
 }
 
 .vp-doc li > ol,
@@ -172,7 +172,7 @@
 
 .vp-doc tr {
   background-color: var(--vp-c-bg);
-  border-top: 1px solid var(--vp-c-divider);
+  border-block-start: 1px solid var(--vp-c-divider);
   transition: background-color 0.5s;
 }
 
@@ -187,7 +187,7 @@
 }
 
 .vp-doc th {
-  text-align: left;
+  text-align: start;
   font-size: 14px;
   font-weight: 600;
   color: var(--vp-c-text-2);
@@ -205,7 +205,7 @@
 .vp-doc hr {
   margin: 16px 0;
   border: none;
-  border-top: 1px solid var(--vp-c-divider);
+  border-block-start: 1px solid var(--vp-c-divider);
 }
 
 /**
@@ -300,7 +300,7 @@
 .vp-doc div[class*='language-'] + div[class*='language-'],
 .vp-doc div[class$='-api'] + div[class*='language-'],
 .vp-doc div[class*='language-'] + div[class$='-api'] > div[class*='language-'] {
-  margin-top: -8px;
+  margin-block-start: -8px;
 }
 
 .vp-doc [class*='language-'] pre,
@@ -318,7 +318,7 @@
   background: transparent;
   overflow-x: auto;
   /*rtl:ignore*/
-  text-align: left;
+  text-align: start;
 }
 
 .vp-doc [class*='language-'] code {
@@ -402,8 +402,7 @@
 }
 
 .vp-doc div[class*='language-'].line-numbers-mode {
-  /*rtl:ignore*/
-  padding-left: 32px;
+  padding-inline-start: 32px;
 }
 
 .vp-doc .line-numbers-wrapper {
@@ -413,9 +412,8 @@
   /*rtl:ignore*/
   left: 0;
   z-index: 3;
-  /*rtl:ignore*/
-  border-right: 1px solid var(--vp-code-block-divider-color);
-  padding-top: 20px;
+  border-inline-end: 1px solid var(--vp-code-block-divider-color);
+  padding-block-start: 20px;
   width: 32px;
   text-align: center;
   font-family: var(--vp-font-family-mono);
@@ -481,8 +479,7 @@
   justify-content: center;
   align-items: center;
   border: 1px solid var(--vp-code-copy-code-hover-border-color);
-  /*rtl:ignore*/
-  border-right: 0;
+  border-inline-end: 0;
   /*rtl:ignore*/
   border-radius: 4px 0 0 4px;
   padding: 0 10px;
@@ -522,7 +519,7 @@
  * -------------------------------------------------------------------------- */
 
 .vp-doc .VPTeamMembers {
-  margin-top: 24px;
+  margin-block-start: 24px;
 }
 
 .vp-doc .VPTeamMembers.small.count-1 .container {
@@ -547,8 +544,8 @@
 /* prettier-ignore */
 :is(.vp-external-link-icon, .vp-doc a[href*='://'], .vp-doc a[target='_blank']):not(:is(.no-icon, svg a, :has(img, svg)))::after {
   display: inline-block;
-  margin-top: -1px;
-  margin-left: 4px;
+  margin-block-start: -1px;
+  margin-inline-start: 4px;
   width: 11px;
   height: 11px;
   background: currentColor;

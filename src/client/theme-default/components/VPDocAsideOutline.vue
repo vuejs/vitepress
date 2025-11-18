@@ -50,8 +50,8 @@ useActiveAnchor(container, marker)
 
 .content {
   position: relative;
-  border-left: 1px solid var(--vp-c-divider);
-  padding-left: 16px;
+  border-inline-start: 1px solid var(--vp-c-divider);
+  padding-inline-start: 16px;
   font-size: 13px;
   font-weight: 500;
 }
