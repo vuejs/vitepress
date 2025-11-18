@@ -16,7 +16,10 @@
 @media (min-width: 640px) {
   .vp-code-group .tabs {
     margin-inline: 0;
-    border-radius: 8px 8px 0 0;
+    border-start-start-radius: 8px;
+    border-start-end-radius: 8px;
+    border-end-end-radius: 0;
+    border-end-start-radius: 0;
   }
 }
 

@@ -97,7 +97,8 @@ watchPostEffect(() => {
 }
 
 .wrapper {
-  padding: 0 8px 0 24px;
+  padding-block: 0;
+  padding-inline: 24px 8px;
 }
 
 @media (min-width: 768px) {

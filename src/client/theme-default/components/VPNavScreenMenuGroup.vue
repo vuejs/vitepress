@@ -76,14 +76,16 @@ function toggle() {
 }
 
 .VPNavScreenMenuGroup.open .button-icon {
-  transform: rotate(calc(45deg * var(--vp-direction-multiplier)));
+  /*rtl:ignore*/
+  transform: rotate(45deg)
 }
 
 .button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 4px 11px 0;
+  padding-block: 12px 11px;
+  padding-inline: 0 4px;
   width: 100%;
   line-height: 24px;
   font-size: 14px;

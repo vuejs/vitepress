@@ -69,7 +69,8 @@ function toggle() {
 }
 
 .list {
-  padding: 4px 0 0 24px;
+  padding-block: 4px 0;
+  padding-inline: 24px 0;
 }
 
 .link {

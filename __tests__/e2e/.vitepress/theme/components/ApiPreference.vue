@@ -58,7 +58,8 @@ function removeSpaces(str: string) {
 }
 
 .VPApiPreference.screen-menu {
-  margin: 12px 0 0 12px;
+  margin-block: 12px 0;
+  margin-inline: 12px 0;
 }
 
 .VPApiPreference input[type='radio'] {

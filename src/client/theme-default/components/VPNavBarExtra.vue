@@ -80,7 +80,8 @@ const hasExtraContent = computed(
 }
 
 .trans-title {
-  padding: 0 24px 0 12px;
+  padding-block: 0;
+  padding-inline: 12px 24px;
   line-height: 32px;
   font-size: 14px;
   font-weight: 700;

@@ -79,7 +79,8 @@ watch(
   box-shadow: var(--vp-c-shadow-3);
   overflow-x: hidden;
   overflow-y: auto;
-  transform: translateX(-100%);
+  /*rtl:ignore*/
+  transform: translateX(calc(-100% * var(--vp-direction-multiplier)));
   transition: opacity 0.5s, transform 0.25s ease;
   overscroll-behavior: contain;
 }
