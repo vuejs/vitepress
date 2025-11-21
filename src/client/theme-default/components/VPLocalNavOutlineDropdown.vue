@@ -116,6 +116,7 @@ function scrollToTop() {
   vertical-align: middle;
   margin-inline-start: 2px;
   font-size: 14px;
+  /*rtl:ignore*/
   scale: calc(1 * var(--vp-direction-multiplier)) 1; /* Flip in RTL */
   transition: scale 0.25s;
 }
