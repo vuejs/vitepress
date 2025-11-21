@@ -160,7 +160,6 @@
     "gray-matter": "^4.0.3",
     "lint-staged": "^16.2.6",
     "lodash.template": "^4.5.0",
-    "micromatch": "^4.0.8",
     "lru-cache": "^11.2.2",
     "minimist": "^1.2.8",
     "nanoid": "^5.1.6",
