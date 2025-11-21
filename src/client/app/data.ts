@@ -57,17 +57,8 @@ export interface VitePressData<T = any> {
 
 // site data is a singleton
 export const siteDataRef: Ref<SiteData> = shallowRef(
-  (import.meta.env.PROD ? siteData : readonly(siteData)) as SiteData
+  readonly(siteData) as SiteData
 )
-
-// hmr
-if (import.meta.hot) {
-  import.meta.hot.accept('/@siteData', (m) => {
-    if (m) {
-      siteDataRef.value = m.default
-    }
-  })
-}
 
 // per-app data
 export function initData(route: Route): VitePressData {

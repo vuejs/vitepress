@@ -53,12 +53,12 @@ const members = [
 
 Say hello to our awesome team.
 
-<VPTeamMembers size="small" :members="members" />
+<VPTeamMembers size="small" :members />
 ```
 
 위 코드는 카드 형태의 엘리먼트로 팀 구성원을 표시합니다. 아래와 비슷한 형태로 표시됩니다.
 
-<VPTeamMembers size="small" :members="members" />
+<VPTeamMembers size="small" :members />
 
 `<VPTeamMembers>` 컴포넌트는 `small`과 `medium` 두 가지 크기로 제공됩니다. 개인의 선호도에 따라 선택할 수 있지만, 일반적으로 `small` 사이즈가 문서 페이지에 더 적합합니다. 또한, 각 구성원에 "설명"이나 "후원" 버튼과 같은 프로퍼티를 추가할 수도 있습니다. 자세한 내용은 [`<VPTeamMembers>`](#vpteammembers)에서 확인할 수 있습니다.
 
@@ -107,9 +107,7 @@ const members = [
       team, some of whom have chosen to be featured below.
     </template>
   </VPTeamPageTitle>
-  <VPTeamMembers
-    :members="members"
-  />
+  <VPTeamMembers :members />
 </VPTeamPage>
 ```
 

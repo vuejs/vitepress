@@ -114,7 +114,7 @@ interface Router {
   /**
    * Called after the route changes.
    */
-  onAfterRouteChanged?: (to: string) => Awaitable<void>
+  onAfterRouteChange?: (to: string) => Awaitable<void>
 }
 ```
 

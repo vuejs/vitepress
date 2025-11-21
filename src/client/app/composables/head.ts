@@ -1,9 +1,9 @@
 import { watchEffect, type Ref } from 'vue'
 import {
-  type HeadConfig,
-  type SiteData,
   createTitle,
-  mergeHead
+  mergeHead,
+  type HeadConfig,
+  type SiteData
 } from '../../shared'
 import type { Route } from '../router'
 
@@ -87,7 +87,7 @@ function createHeadElement([tag, attrs, innerHTML]: HeadConfig) {
   if (innerHTML) {
     el.innerHTML = innerHTML
   }
-  if (tag === 'script' && !attrs.async) {
+  if (tag === 'script' && attrs.async == null) {
     // async is true by default for dynamically created scripts
     ;(el as HTMLScriptElement).async = false
   }

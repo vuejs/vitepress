@@ -1,9 +1,6 @@
 ---
 layout: home
 
-title: VitePress
-titleTemplate: 由 Vite 和 Vue 驱动的静态站点生成器
-
 hero:
   name: VitePress
   text: 由 Vite 和 Vue 驱动的静态站点生成器
@@ -11,15 +8,15 @@ hero:
   actions:
     - theme: brand
       text: 什么是 VitePress?
-      link: /zh/guide/what-is-vitepress
+      link: ./guide/what-is-vitepress
     - theme: alt
       text: 快速开始
-      link: /zh/guide/getting-started
+      link: ./guide/getting-started
     - theme: alt
       text: GitHub
       link: https://github.com/vuejs/vitepress
   image:
-      src: /vitepress-logo-large.webp
+      src: /vitepress-logo-large.svg
       alt: VitePress
 
 features:
@@ -36,24 +33,3 @@ features:
     title: 速度真的很快！
     details: 采用静态 HTML 实现快速的页面初次加载，使用客户端路由实现快速的页面切换导航。
 ---
-<style>
-:root {
-  --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #bd34fe 30%, #41d1ff);
-
-  --vp-home-hero-image-background-image: linear-gradient(-45deg, #bd34fe 50%, #47caff 50%);
-  --vp-home-hero-image-filter: blur(44px);
-}
-
-@media (min-width: 640px) {
-  :root {
-    --vp-home-hero-image-filter: blur(56px);
-  }
-}
-
-@media (min-width: 960px) {
-  :root {
-    --vp-home-hero-image-filter: blur(68px);
-  }
-}
-</style>

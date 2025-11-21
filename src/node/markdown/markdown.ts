@@ -13,23 +13,23 @@ import {
 import { sfcPlugin, type SfcPluginOptions } from '@mdit-vue/plugin-sfc'
 import { titlePlugin } from '@mdit-vue/plugin-title'
 import { tocPlugin, type TocPluginOptions } from '@mdit-vue/plugin-toc'
-import { slugify } from '@mdit-vue/shared'
-import type { Options } from 'markdown-it'
-import MarkdownIt from 'markdown-it'
-import anchorPlugin from 'markdown-it-anchor'
-import attrsPlugin from 'markdown-it-attrs'
-import { full as emojiPlugin } from 'markdown-it-emoji'
-import type { BuiltinTheme, Highlighter } from 'shiki'
+import { slugify as defaultSlugify } from '@mdit-vue/shared'
 import type {
   LanguageInput,
   ShikiTransformer,
   ThemeRegistrationAny
 } from '@shikijs/types'
+import anchorPlugin from 'markdown-it-anchor'
+import { MarkdownItAsync, type MarkdownItAsyncOptions } from 'markdown-it-async'
+import attrsPlugin, { type MarkdownItAttrsOptions } from 'markdown-it-attrs'
+import mditCjkFriendly from 'markdown-it-cjk-friendly'
+import { full as emojiPlugin } from 'markdown-it-emoji'
+import type { BuiltinLanguage, BuiltinTheme, Highlighter } from 'shiki'
 import type { Logger } from 'vite'
+import type { Awaitable } from '../shared'
 import { containerPlugin, type ContainerOptions } from './plugins/containers'
 import { gitHubAlertsPlugin } from './plugins/githubAlerts'
-import { highlight } from './plugins/highlight'
-import { highlightLinePlugin } from './plugins/highlightLines'
+import { highlight as createHighlighter } from './plugins/highlight'
 import { imagePlugin, type Options as ImageOptions } from './plugins/image'
 import { lineNumberPlugin } from './plugins/lineNumbers'
 import { linkPlugin } from './plugins/link'
@@ -47,17 +47,17 @@ export type ThemeOptions =
       dark: ThemeRegistrationAny | BuiltinTheme
     }
 
-export interface MarkdownOptions extends Options {
+export interface MarkdownOptions extends MarkdownItAsyncOptions {
   /* ==================== General Options ==================== */
 
   /**
    * Setup markdown-it instance before applying plugins
    */
-  preConfig?: (md: MarkdownIt) => void
+  preConfig?: (md: MarkdownItAsync) => Awaitable<void>
   /**
    * Setup markdown-it instance
    */
-  config?: (md: MarkdownIt) => void
+  config?: (md: MarkdownItAsync) => Awaitable<void>
   /**
    * Disable cache (experimental)
    */
@@ -81,17 +81,42 @@ export interface MarkdownOptions extends Options {
    */
   theme?: ThemeOptions
   /**
-   * Languages for syntax highlighting.
+   * Custom languages for syntax highlighting or pre-load built-in languages.
    * @see https://shiki.style/languages
    */
-  languages?: LanguageInput[]
+  languages?: (LanguageInput | BuiltinLanguage)[]
   /**
-   * Custom language aliases.
+   * Custom language aliases for syntax highlighting.
+   * Maps custom language names to existing languages.
+   * Alias lookup is case-insensitive and underscores in language names are displayed as spaces.
    *
-   * @example { 'my-lang': 'js' }
+   * @example
+   *
+   * Maps `my_lang` to use Python syntax highlighting.
+   * ```js
+   * { 'my_lang': 'python' }
+   * ```
+   *
+   * Usage in markdown:
+   * ````md
+   * ```My_Lang
+   * # This will be highlighted as Python code
+   * # and will show "My Lang" as the language label
+   * print("Hello, World!")
+   * ```
+   * ````
+   *
    * @see https://shiki.style/guide/load-lang#custom-language-aliases
    */
   languageAlias?: Record<string, string>
+  /**
+   * Custom language labels for display.
+   * Overrides the default language label shown in code blocks.
+   * Keys are case-insensitive.
+   *
+   * @example { 'vue': 'Vue SFC' }
+   */
+  languageLabel?: Record<string, string>
   /**
    * Show line numbers in code blocks
    * @default false
@@ -127,12 +152,7 @@ export interface MarkdownOptions extends Options {
    * Options for `markdown-it-attrs`
    * @see https://github.com/arve0/markdown-it-attrs
    */
-  attrs?: {
-    leftDelimiter?: string
-    rightDelimiter?: string
-    allowedAttributes?: Array<string | RegExp>
-    disable?: boolean
-  }
+  attrs?: MarkdownItAttrsOptions & { disable?: boolean }
   /**
    * Options for `markdown-it-emoji`
    * @see https://github.com/markdown-it/markdown-it-emoji
@@ -173,7 +193,7 @@ export interface MarkdownOptions extends Options {
    */
   container?: ContainerOptions
   /**
-   * Math support (experimental)
+   * Math support
    *
    * You need to install `markdown-it-mathjax3` and set `math` to `true` to enable it.
    * You can also pass options to `markdown-it-mathjax3` here.
@@ -188,125 +208,192 @@ export interface MarkdownOptions extends Options {
    * @see https://vitepress.dev/guide/markdown#github-flavored-alerts
    */
   gfmAlerts?: boolean
+  /**
+   * Allows disabling the CJK-friendly plugin.
+   * This plugin adds support for emphasis marks (**bold**) in Japanese, Chinese, and Korean text.
+   * @default true
+   * @see https://github.com/tats-u/markdown-cjk-friendly
+   */
+  cjkFriendlyEmphasis?: boolean
+  /**
+   * @see cjkFriendlyEmphasis
+   * @deprecated use `cjkFriendly` instead
+   */
+  cjkFriendly?: boolean
 }
 
-export type MarkdownRenderer = MarkdownIt
+export type MarkdownRenderer = MarkdownItAsync
 
-export const createMarkdownRenderer = async (
+// highlight is marked as any to avoid type conflicts with plugins expecting
+// regular markdown-it which has sync highlight function. Such plugins will fail
+// if they access highlight directly but currently none of the ones we use do that.
+let md: (MarkdownRenderer & { options: { highlight?: any } }) | undefined
+let _disposeHighlighter: (() => void) | undefined
+
+export function disposeMdItInstance() {
+  if (md) {
+    md = undefined
+    _disposeHighlighter?.()
+  }
+}
+
+/**
+ * @experimental
+ */
+export async function createMarkdownRenderer(
   srcDir: string,
   options: MarkdownOptions = {},
   base = '/',
   logger: Pick<Logger, 'warn'> = console
-): Promise<MarkdownRenderer> => {
+): Promise<MarkdownRenderer> {
+  if (md) return md
+
   const theme = options.theme ?? { light: 'github-light', dark: 'github-dark' }
   const codeCopyButtonTitle = options.codeCopyButtonTitle || 'Copy Code'
-  const hasSingleTheme = typeof theme === 'string' || 'name' in theme
 
-  const md = MarkdownIt({
-    html: true,
-    linkify: true,
-    highlight: options.highlight || (await highlight(theme, options, logger)),
-    ...options
-  })
+  let [highlight, dispose] = options.highlight
+    ? [options.highlight, () => {}]
+    : await createHighlighter(theme, options, logger)
+
+  _disposeHighlighter = dispose
+
+  md = new MarkdownItAsync({ html: true, linkify: true, highlight, ...options })
 
   md.linkify.set({ fuzzyLink: false })
-  md.use(restoreEntities)
+  restoreEntities(md)
 
   if (options.preConfig) {
-    options.preConfig(md)
+    await options.preConfig(md)
   }
 
-  // custom plugins
-  md.use(componentPlugin, { ...options.component })
-    .use(highlightLinePlugin)
-    .use(preWrapperPlugin, { codeCopyButtonTitle, hasSingleTheme })
-    .use(snippetPlugin, srcDir)
-    .use(containerPlugin, { hasSingleTheme }, options.container)
-    .use(imagePlugin, options.image)
-    .use(
-      linkPlugin,
-      { target: '_blank', rel: 'noreferrer', ...options.externalLinks },
-      base
-    )
-    .use(lineNumberPlugin, options.lineNumbers)
+  const slugify = options.anchor?.slugify ?? defaultSlugify
 
+  // custom plugins
+  componentPlugin(md, options.component)
+  preWrapperPlugin(md, {
+    codeCopyButtonTitle,
+    languageLabel: options.languageLabel
+  })
+  snippetPlugin(md, srcDir)
+  containerPlugin(md, options.container)
+  imagePlugin(md, options.image)
+  linkPlugin(
+    md,
+    { target: '_blank', rel: 'noreferrer', ...options.externalLinks },
+    base,
+    slugify
+  )
+  lineNumberPlugin(md, options.lineNumbers)
+
+  const tableOpen = md.renderer.rules.table_open
   md.renderer.rules.table_open = function (tokens, idx, options, env, self) {
-    return '<table tabindex="0">\n'
+    const token = tokens[idx]
+    if (token.attrIndex('tabindex') < 0) token.attrPush(['tabindex', '0'])
+    return tableOpen
+      ? tableOpen(tokens, idx, options, env, self)
+      : self.renderToken(tokens, idx, options)
   }
 
   if (options.gfmAlerts !== false) {
-    md.use(gitHubAlertsPlugin)
+    gitHubAlertsPlugin(md, options.container)
   }
 
   // third party plugins
   if (!options.attrs?.disable) {
-    md.use(attrsPlugin, options.attrs)
+    attrsPlugin(md, options.attrs)
   }
-  md.use(emojiPlugin, { ...options.emoji })
+  emojiPlugin(md, options.emoji)
 
   // mdit-vue plugins
-  md.use(anchorPlugin, {
+  anchorPlugin(md, {
     slugify,
-    permalink: anchorPlugin.permalink.linkInsideHeader({
-      symbol: '&ZeroWidthSpace;',
-      renderAttrs: (slug, state) => {
-        // Find `heading_open` with the id identical to slug
-        const idx = state.tokens.findIndex((token) => {
-          const attrs = token.attrs
-          const id = attrs?.find((attr) => attr[0] === 'id')
-          return id && slug === id[1]
-        })
-        // Get the actual heading content
-        const title = state.tokens[idx + 1].content
-        return {
-          'aria-label': `Permalink to "${title}"`
-        }
-      }
-    }),
+    getTokensText: (tokens) => {
+      return tokens
+        .filter((t) => !['html_inline', 'emoji'].includes(t.type))
+        .map((t) => t.content)
+        .join('')
+    },
+    permalink: (slug, _, state, idx) => {
+      const title =
+        state.tokens[idx + 1]?.children
+          ?.filter((token) => ['text', 'code_inline'].includes(token.type))
+          .reduce((acc, t) => acc + t.content, '')
+          .trim() || ''
+
+      const linkTokens = [
+        Object.assign(new state.Token('text', '', 0), { content: ' ' }),
+        Object.assign(new state.Token('link_open', 'a', 1), {
+          attrs: [
+            ['class', 'header-anchor'],
+            ['href', `#${slug}`],
+            ['aria-label', `Permalink to “${title}”`]
+          ]
+        }),
+        Object.assign(new state.Token('html_inline', '', 0), {
+          content: '&#8203;',
+          meta: { isPermalinkSymbol: true }
+        }),
+        new state.Token('link_close', 'a', -1)
+      ]
+
+      state.tokens[idx + 1].children?.push(...linkTokens)
+    },
     ...options.anchor
-  } as anchorPlugin.AnchorOptions).use(frontmatterPlugin, {
-    ...options.frontmatter
-  } as FrontmatterPluginOptions)
+  })
+
+  frontmatterPlugin(md, options.frontmatter)
 
   if (options.headers) {
-    md.use(headersPlugin, {
+    headersPlugin(md, {
       level: [2, 3, 4, 5, 6],
       slugify,
       ...(typeof options.headers === 'boolean' ? undefined : options.headers)
-    } as HeadersPluginOptions)
+    })
   }
 
-  md.use(sfcPlugin, {
-    ...options.sfc
-  } as SfcPluginOptions)
-    .use(titlePlugin)
-    .use(tocPlugin, {
-      ...options.toc
-    } as TocPluginOptions)
+  sfcPlugin(md, options.sfc)
+  titlePlugin(md)
+  tocPlugin(md, {
+    slugify,
+    ...options.toc,
+    format: (s) => {
+      const title = s.replaceAll('&amp;', '&') // encoded twice because of restoreEntities
+      return options.toc?.format?.(title) ?? title
+    }
+  })
 
   if (options.math) {
     try {
       const mathPlugin = await import('markdown-it-mathjax3')
-      md.use(mathPlugin.default ?? mathPlugin, {
+      ;(mathPlugin.default ?? mathPlugin)(md, {
         ...(typeof options.math === 'boolean' ? {} : options.math)
       })
-      const orig = md.renderer.rules.math_block!
-      md.renderer.rules.math_block = (tokens, idx, options, env, self) => {
-        return orig(tokens, idx, options, env, self).replace(
-          /^<mjx-container /,
-          '<mjx-container tabindex="0" '
-        )
+      const origMathInline = md.renderer.rules.math_inline!
+      md.renderer.rules.math_inline = function (...args) {
+        return origMathInline
+          .apply(this, args)
+          .replace(/^<mjx-container /, '<mjx-container v-pre ')
+      }
+      const origMathBlock = md.renderer.rules.math_block!
+      md.renderer.rules.math_block = function (...args) {
+        return origMathBlock
+          .apply(this, args)
+          .replace(/^<mjx-container /, '<mjx-container v-pre tabindex="0" ')
       }
     } catch (error) {
       throw new Error(
-        'You need to install `markdown-it-mathjax3` to use math support.'
+        'You need to install `markdown-it-mathjax3@^4` to use math support.'
       )
     }
   }
 
+  if (options.cjkFriendlyEmphasis !== false && options.cjkFriendly !== false) {
+    mditCjkFriendly(md)
+  }
+
   // apply user config
   if (options.config) {
-    options.config(md)
+    await options.config(md)
   }
 
   return md

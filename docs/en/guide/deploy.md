@@ -10,7 +10,7 @@ The following guides are based on some shared assumptions:
 - You are using the default build output directory (`.vitepress/dist`).
 - VitePress is installed as a local dependency in your project, and you have set up the following scripts in your `package.json`:
 
-  ```json
+  ```json [package.json]
   {
     "scripts": {
       "docs:build": "vitepress build docs",
@@ -111,7 +111,7 @@ Set up a new project and change these settings using your dashboard:
 
 - **Build Command:** `npm run docs:build`
 - **Output Directory:** `docs/.vitepress/dist`
-- **Node Version:** `18` (or above)
+- **Node Version:** `20` (or above)
 
 ::: warning
 Don't enable options like _Auto Minify_ for HTML code. It will remove comments from output which have meaning to Vue. You may see hydration mismatch errors if they get removed.
@@ -121,7 +121,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
 1. Create a file named `deploy.yml` inside `.github/workflows` directory of your project with some content like this:
 
-   ```yaml
+   ```yaml [.github/workflows/deploy.yml]
    # Sample workflow for building and deploying a VitePress site to GitHub Pages
    #
    name: Deploy VitePress site to Pages
@@ -153,15 +153,17 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
        runs-on: ubuntu-latest
        steps:
          - name: Checkout
-           uses: actions/checkout@v4
+           uses: actions/checkout@v5
            with:
              fetch-depth: 0 # Not needed if lastUpdated is not enabled
-         # - uses: pnpm/action-setup@v3 # Uncomment this if you're using pnpm
+         # - uses: pnpm/action-setup@v4 # Uncomment this block if you're using pnpm
+         #   with:
+         #     version: 9 # Not needed if you've set "packageManager" in package.json
          # - uses: oven-sh/setup-bun@v1 # Uncomment this if you're using Bun
          - name: Setup Node
-           uses: actions/setup-node@v4
+           uses: actions/setup-node@v6
            with:
-             node-version: 20
+             node-version: 24
              cache: npm # or pnpm / yarn
          - name: Setup Pages
            uses: actions/configure-pages@v4
@@ -202,7 +204,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
 2. Create a file named `.gitlab-ci.yml` in the root of your project with the content below. This will build and deploy your site whenever you make changes to your content:
 
-   ```yaml
+   ```yaml [.gitlab-ci.yml]
    image: node:18
    pages:
      cache:
@@ -235,7 +237,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
    `firebase.json`:
 
-   ```json
+   ```json [firebase.json]
    {
      "hosting": {
        "public": "docs/.vitepress/dist",
@@ -246,7 +248,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
    `.firebaserc`:
 
-   ```json
+   ```json [.firebaserc]
    {
      "projects": {
        "default": "<YOUR_FIREBASE_ID>"
@@ -274,7 +276,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
 2. Create a file called `static.json` in the root of your project with the below content:
 
-   ```json
+   ```json [static.json]
    {
      "root": "docs/.vitepress/dist"
    }
@@ -291,6 +293,10 @@ You can deploy your VitePress website on [Kinsta](https://kinsta.com/static-site
 ### Stormkit
 
 You can deploy your VitePress project to [Stormkit](https://www.stormkit.io) by following these [instructions](https://stormkit.io/blog/how-to-deploy-vitepress).
+
+### CloudRay
+
+You can deploy your VitePress project with [CloudRay](https://cloudray.io/) by following these [instructions](https://cloudray.io/articles/how-to-deploy-vitepress-site).
 
 ### Nginx
 

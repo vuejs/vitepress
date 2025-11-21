@@ -10,7 +10,7 @@ outline: deep
 - Вы используете выходной каталог сборки по умолчанию (`.vitepress/dist`).
 - VitePress установлен как локальная зависимость в вашем проекте, и вы установили следующие скрипты в вашем `package.json`:
 
-  ```json
+  ```json [package.json]
   {
     "scripts": {
       "docs:build": "vitepress build docs",
@@ -111,7 +111,7 @@ Cache-Control: max-age=31536000,immutable
 
 - **Build Command:** `npm run docs:build`
 - **Output Directory:** `docs/.vitepress/dist`
-- **Node Version:** `18` (или выше)
+- **Node Version:** `20` (или выше)
 
 ::: warning ПРЕДУПРЕЖДЕНИЕ
 Не включайте такие опции, как _Auto Minify_ для HTML-кода. Он удалит из вывода комментарии, которые имеют значение для Vue. При их удалении могут возникать ошибки несоответствия гидратации.
@@ -121,7 +121,7 @@ Cache-Control: max-age=31536000,immutable
 
 1. Создайте файл с именем `deploy.yml` в директории `.github/workflows` вашего проекта с примерно таким содержанием:
 
-   ```yaml
+   ```yaml [.github/workflows/deploy.yml]
    # Пример рабочего процесса для создания и развёртывания сайта VitePress на GitHub Pages
    #
    name: Deploy VitePress site to Pages
@@ -153,15 +153,17 @@ Cache-Control: max-age=31536000,immutable
        runs-on: ubuntu-latest
        steps:
          - name: Checkout
-           uses: actions/checkout@v4
+           uses: actions/checkout@v5
            with:
              fetch-depth: 0 # Не требуется, если функция lastUpdated не включена
-         # - uses: pnpm/action-setup@v3 # Раскомментируйте, если вы используете pnpm
+         # - uses: pnpm/action-setup@v4 # Раскомментируйте, если вы используете pnpm
+         #   with:
+         #     version: 9
          # - uses: oven-sh/setup-bun@v1 # Раскомментируйте, если вы используете Bun
          - name: Setup Node
-           uses: actions/setup-node@v4
+           uses: actions/setup-node@v6
            with:
-             node-version: 20
+             node-version: 24
              cache: npm # или pnpm / yarn
          - name: Setup Pages
            uses: actions/configure-pages@v4
@@ -202,7 +204,7 @@ Cache-Control: max-age=31536000,immutable
 
 2. Создайте файл с именем `.gitlab-ci.yml` в корне вашего проекта с приведённым ниже содержимым. Это позволит создавать и развёртывать ваш сайт каждый раз, когда вы вносите изменения в его содержимое:
 
-   ```yaml
+   ```yaml [.gitlab-ci.yml]
    image: node:18
    pages:
      cache:
@@ -235,7 +237,7 @@ Cache-Control: max-age=31536000,immutable
 
    `firebase.json`:
 
-   ```json
+   ```json [firebase.json]
    {
      "hosting": {
        "public": "docs/.vitepress/dist",
@@ -246,7 +248,7 @@ Cache-Control: max-age=31536000,immutable
 
    `.firebaserc`:
 
-   ```json
+   ```json [.firebaserc]
    {
      "projects": {
        "default": "<YOUR_FIREBASE_ID>"
@@ -274,7 +276,7 @@ Cache-Control: max-age=31536000,immutable
 
 2. Создайте файл `static.json` в корне вашего проекта со следующим содержимым:
 
-   ```json
+   ```json [static.json]
    {
      "root": "docs/.vitepress/dist"
    }

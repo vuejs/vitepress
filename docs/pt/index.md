@@ -1,9 +1,6 @@
 ---
 layout: home
 
-title: VitePress
-titleTemplate: Gerador de Site Estático desenvolvido com Vite & Vue
-
 hero:
   name: VitePress
   text: Gerador de Site Estático Vite & Vue
@@ -11,15 +8,15 @@ hero:
   actions:
     - theme: brand
       text: O que é VitePress?
-      link: /pt/guide/what-is-vitepress
+      link: ./guide/what-is-vitepress
     - theme: alt
       text: Iniciar
-      link: /pt/guide/getting-started
+      link: ./guide/getting-started
     - theme: alt
       text: GitHub
       link: https://github.com/vuejs/vitepress
   image:
-    src: /vitepress-logo-large.webp
+    src: /vitepress-logo-large.svg
     alt: VitePress
 
 features:
@@ -36,25 +33,3 @@ features:
     title: Entregue Sites Rápidos
     details: Carregamento inicial rápido com HTML estático, navegação rápida com roteamento no lado do cliente.
 ---
-
-<style>
-:root {
-  --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #bd34fe 30%, #41d1ff);
-
-  --vp-home-hero-image-background-image: linear-gradient(-45deg, #bd34fe 50%, #47caff 50%);
-  --vp-home-hero-image-filter: blur(44px);
-}
-
-@media (min-width: 640px) {
-  :root {
-    --vp-home-hero-image-filter: blur(56px);
-  }
-}
-
-@media (min-width: 960px) {
-  :root {
-    --vp-home-hero-image-filter: blur(68px);
-  }
-}
-</style>

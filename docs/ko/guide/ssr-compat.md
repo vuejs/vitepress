@@ -50,8 +50,7 @@ if (!import.meta.env.SSR) {
 
 [`Theme.enhanceApp`](./custom-theme#theme-interface)은 비동기로 사용할 수 있기 때문에, "import" 시 브라우저 API에 접근하는 Vue 플러그인을 조건부로 "import"하고 등록할 수 있습니다:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 /** @type {import('vitepress').Theme} */
 export default {
   // ...
@@ -65,8 +64,7 @@ export default {
 ```
 
 TypeScript를 사용하는 경우:
-```ts
-// .vitepress/theme/index.ts
+```ts [.vitepress/theme/index.ts]
 import type { Theme } from 'vitepress'
 
 export default {

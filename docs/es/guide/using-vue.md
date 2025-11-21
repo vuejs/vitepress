@@ -128,7 +128,7 @@ Si un componente fuera usado en la mayoría de las páginas, ellos pueden ser re
 Asegurese de que el nombre de un componente personalizado contenga un hífen o esté en PascalCase. Caso contrario, el será tratado como un elemento alineado y envuelto dentro de una tag `<p>`, lo que llevará a una incompatibilidad de hidratación pues `<p>` no permite que elementos de bloque sean colocados dentro de el.
 :::
 
-### Usando Componentes En Headers <ComponenteEnHeader /> {#using-components-in-headers}
+### Usando Componentes En Headers <ComponentInHeader /> {#using-components-in-headers}
 
 Puede usar componentes Vue en los headers, pero observe la diferencia entre las siguientes sintaxis:
 
@@ -254,3 +254,36 @@ import ComponentInHeader from '../../components/ComponentInHeader.vue'
   padding: 0 20px;
 }
 </style>
+
+## Soporte de IntelliSense en VS Code
+
+<!-- Based on https://github.com/vuejs/language-tools/pull/4321 -->
+
+Vue ofrece soporte para IntelliSense de forma predeterminada mediante el [Plugin oficial de Vue para VS Code](https://marketplace.visualstudio.com/items?itemName=Vue.volar). Sin embargo, para habilitarlo en archivos `.md`, es necesario realizar algunos ajustes en los archivos de configuración.
+
+1. Agrega el patrón `.md` a las opciones `include` y `vueCompilerOptions.vitePressExtensions` en el archivo tsconfig/jsconfig:
+
+::: code-group
+```json [tsconfig.json]
+{
+  "include": [
+    "docs/**/*.ts",
+    "docs/**/*.vue",
+    "docs/**/*.md",
+  ],
+  "vueCompilerOptions": {
+    "vitePressExtensions": [".md"],
+  },
+}
+```
+:::
+
+2. Agrega `markdown` a la opción `vue.server.includeLanguages` en el archivo de configuración de VS Code
+
+::: code-group
+```json [.vscode/settings.json]
+{
+  "vue.server.includeLanguages": ["vue", "markdown"]
+}
+```
+:::

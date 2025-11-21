@@ -178,36 +178,3 @@ export default {
   }
 }
 ```
-
-## `useSidebar` <Badge type="info" text="композабл" /> {#usesidebar}
-
-Возвращает данные, связанные с сайдбаром. Возвращаемый объект имеет следующий тип:
-
-```ts
-export interface DocSidebar {
-  isOpen: Ref<boolean>
-  sidebar: ComputedRef<DefaultTheme.SidebarItem[]>
-  sidebarGroups: ComputedRef<DefaultTheme.SidebarItem[]>
-  hasSidebar: ComputedRef<boolean>
-  hasAside: ComputedRef<boolean>
-  leftAside: ComputedRef<boolean>
-  isSidebarEnabled: ComputedRef<boolean>
-  open: () => void
-  close: () => void
-  toggle: () => void
-}
-```
-
-**Пример:**
-
-```vue
-<script setup>
-import { useSidebar } from 'vitepress/theme'
-
-const { hasSidebar } = useSidebar()
-</script>
-
-<template>
-  <div v-if="hasSidebar">Показывать только при наличии сайдбара</div>
-</template>
-```

@@ -43,8 +43,7 @@ describe('static data file support in vite 3', () => {
     `)
   })
 
-  // TODO: make it `.runIf(!process.env.VITE_TEST_BUILD)` -- it currently works, but is skipped to avoid vite's ecosystem-ci from failing (https://github.com/vitejs/vite/pull/16471#issuecomment-2308437187)
-  test.skip('hmr works', async () => {
+  test.runIf(!process.env.VITE_TEST_BUILD)('hmr works', async () => {
     const a = fileURLToPath(new URL('./data/a.json', import.meta.url))
     const b = fileURLToPath(new URL('./data/b.json', import.meta.url))
 
@@ -53,9 +52,7 @@ describe('static data file support in vite 3', () => {
       await page.waitForFunction(
         () =>
           document.querySelector('pre#basic')?.textContent ===
-          JSON.stringify([{ a: false }, { b: true }], null, 2),
-        undefined,
-        { timeout: 3000 }
+          JSON.stringify([{ a: false }, { b: true }], null, 2)
       )
     } finally {
       await fs.writeFile(a, JSON.stringify({ a: true }, null, 2) + '\n')
@@ -68,9 +65,7 @@ describe('static data file support in vite 3', () => {
       await page.waitForFunction(
         () =>
           document.querySelector('pre#basic')?.textContent ===
-          JSON.stringify([{ a: true }], null, 2),
-        undefined,
-        { timeout: 3000 }
+          JSON.stringify([{ a: true }], null, 2)
       )
       err = false
     } finally {
@@ -84,9 +79,7 @@ describe('static data file support in vite 3', () => {
       await page.waitForFunction(
         () =>
           document.querySelector('pre#basic')?.textContent ===
-          JSON.stringify([{ a: true }, { b: false }], null, 2),
-        undefined,
-        { timeout: 3000 }
+          JSON.stringify([{ a: true }, { b: false }], null, 2)
       )
     } finally {
       await fs.writeFile(b, JSON.stringify({ b: true }, null, 2) + '\n')

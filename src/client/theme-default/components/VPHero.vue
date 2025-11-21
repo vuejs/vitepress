@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { type Ref, inject } from 'vue'
 import type { DefaultTheme } from 'vitepress/theme'
+import { inject } from 'vue'
+import { layoutInfoInjectionKey } from '../composables/layout'
 import VPButton from './VPButton.vue'
 import VPImage from './VPImage.vue'
 
@@ -20,7 +21,7 @@ defineProps<{
   actions?: HeroAction[]
 }>()
 
-const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
+const { heroImageSlotExists } = inject(layoutInfoInjectionKey)!
 </script>
 
 <template>
@@ -29,10 +30,10 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
       <div class="main">
         <slot name="home-hero-info-before" />
         <slot name="home-hero-info">
-          <h1 v-if="name" class="name">
-            <span v-html="name" class="clip"></span>
+          <h1 class="heading">
+            <span v-if="name" v-html="name" class="name clip"></span>
+            <span v-if="text" v-html="text" class="text"></span>
           </h1>
-          <p v-if="text" v-html="text" class="text"></p>
           <p v-if="tagline" v-html="tagline" class="tagline"></p>
         </slot>
         <slot name="home-hero-info-after" />
@@ -57,7 +58,7 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
         <div class="image-container">
           <div class="image-bg" />
           <slot name="home-hero-image">
-            <VPImage v-if="image" class="image-src" :image="image" />
+            <VPImage v-if="image" class="image-src" :image />
           </slot>
         </div>
       </div>
@@ -125,8 +126,14 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
   }
 }
 
+.heading {
+  display: flex;
+  flex-direction: column;
+}
+
 .name,
 .text {
+  width: fit-content;
   max-width: 392px;
   letter-spacing: -0.4px;
   line-height: 40px;
@@ -316,6 +323,9 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
   left: 50%;
   max-width: 192px;
   max-height: 192px;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
   /*rtl:ignore*/
   transform: translate(-50%, -50%);
 }

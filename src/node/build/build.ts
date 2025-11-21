@@ -1,29 +1,54 @@
-import { createHash } from 'crypto'
+import { getIconsCSS } from '@iconify/utils'
 import fs from 'fs-extra'
-import { createRequire } from 'module'
+import { createHash } from 'node:crypto'
+import { createRequire } from 'node:module'
+import path from 'node:path'
+import { pathToFileURL } from 'node:url'
 import pMap from 'p-map'
-import path from 'path'
-import { packageDirectorySync } from 'pkg-dir'
+import { packageDirectorySync } from 'package-directory'
 import { rimraf } from 'rimraf'
-import { pathToFileURL } from 'url'
+import * as vite from 'vite'
 import type { BuildOptions, Rollup } from 'vite'
 import { resolveConfig, type SiteConfig } from '../config'
 import { clearCache } from '../markdownToVue'
-import { slash, type HeadConfig } from '../shared'
+import { slash, type Awaitable, type HeadConfig } from '../shared'
 import { deserializeFunctions, serializeFunctions } from '../utils/fnSerialize'
 import { task } from '../utils/task'
 import { bundle } from './bundle'
 import { generateSitemap } from './generateSitemap'
 import { renderPage } from './render'
 
+const require = createRequire(import.meta.url)
+
 export async function build(
   root?: string,
-  buildOptions: BuildOptions & { base?: string; mpa?: string } = {}
+  buildOptions: BuildOptions & {
+    base?: string
+    mpa?: string
+    onAfterConfigResolve?: (siteConfig: SiteConfig) => Awaitable<void>
+  } = {}
 ) {
   const start = Date.now()
 
+  // @ts-ignore only exists for rolldown-vite
+  if (vite.rolldownVersion) {
+    try {
+      await import('oxc-minify')
+    } catch {
+      throw new Error(
+        '`oxc-minify` is not installed.' +
+          ' vitepress requires `oxc-minify` to be installed when rolldown-vite is used.' +
+          ' Please run `npm install oxc-minify`.'
+      )
+    }
+  }
+
   process.env.NODE_ENV = 'production'
   const siteConfig = await resolveConfig(root, 'build', 'production')
+
+  await buildOptions.onAfterConfigResolve?.(siteConfig)
+  delete buildOptions.onAfterConfigResolve
+
   const unlinkVue = linkVue()
 
   if (buildOptions.base) {
@@ -84,7 +109,8 @@ export async function build(
         clientResult.output.some(
           (chunk) =>
             chunk.type === 'chunk' &&
-            chunk.name === 'theme' &&
+            // @ts-ignore only exists for rolldown-vite
+            (vite.rolldownVersion || chunk.name === 'theme') && // FIXME: remove when rolldown-vite supports manualChunks
             chunk.moduleIds.some((id) => id.includes('client/theme-default'))
         )
 
@@ -92,7 +118,7 @@ export async function build(
 
       if (isDefaultTheme) {
         const fontURL = assets.find((file) =>
-          /inter-roman-latin\.\w+\.woff2/.test(file)
+          /inter-roman-latin\.[\w-]+\.woff2/.test(file)
         )
         if (fontURL) {
           additionalHeadTags.push([
@@ -108,6 +134,8 @@ export async function build(
         }
       }
 
+      const usedIcons = new Set<string>()
+
       await pMap(
         ['404.md', ...siteConfig.pages],
         async (page) => {
@@ -121,11 +149,23 @@ export async function build(
             assets,
             pageToHashMap,
             metadataScript,
-            additionalHeadTags
+            additionalHeadTags,
+            usedIcons
           )
         },
         { concurrency: siteConfig.buildConcurrency }
       )
+
+      const icons = require('@iconify-json/simple-icons/icons.json')
+      const iconsCss = getIconsCSS(icons, Array.from(usedIcons).sort(), {
+        iconSelector: '.vpi-social-{name}',
+        commonSelector: '.vpi-social',
+        varName: 'icon',
+        format: process.env.DEBUG ? 'expanded' : 'compressed',
+        mode: 'mask'
+      }).replace(/[^]*?}\n*/, '')
+
+      fs.writeFileSync(path.join(siteConfig.outDir, 'vp-icons.css'), iconsCss)
     })
 
     // emit page hash map for the case where a user session is open
