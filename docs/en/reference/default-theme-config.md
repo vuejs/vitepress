@@ -1,6 +1,6 @@
 # Default Theme Config
 
-Theme config lets you customize your theme. You can define theme config via the `themeConfig` option in the config file:
+The theme config lets you customize your theme. You can define it using the `themeConfig` option in the config file:
 
 ```ts
 export default {
@@ -8,7 +8,7 @@ export default {
   title: 'VitePress',
   description: 'Vite & Vue powered static site generator.',
 
-  // Theme related configurations.
+  // Theme related configuration.
   themeConfig: {
     logo: '/logo.svg',
     nav: [...],
@@ -17,19 +17,19 @@ export default {
 }
 ```
 
-**The options documented on this page only apply to the default theme.** Different themes expect different theme config. When using a custom theme, the theme config object will be passed to the theme so the theme can define conditional behavior based on it.
+**The options documented on this page only apply to the default theme.** Different themes will expect different theme options. When using a custom theme, the theme config object will be passed to the theme directly, so the theme can define conditional behavior based on it.
 
 ## i18nRouting
 
 - Type: `boolean`
 
-Changing locale to say `zh` will change the URL from `/foo` (or `/en/foo/`) to `/zh/foo`. You can disable this behavior by setting `themeConfig.i18nRouting` to `false`.
+Changing the locale to `zh` will change the URL from `/foo` (or `/en/foo/`) to `/zh/foo`. You can disable this behavior by setting `themeConfig.i18nRouting` to `false`.
 
 ## logo
 
 - Type: `ThemeableImage`
 
-Logo file to display in nav bar, right before the site title. Accepts a path string, or an object to set a different logo for light/dark mode.
+This is the logo file to display in the navigation bar, before the site title. It accepts a path string or an object to set a different logo for light/dark mode.
 
 ```ts
 export default {
@@ -50,7 +50,7 @@ type ThemeableImage =
 
 - Type: `string | false`
 
-You can customize this item to replace the default site title (`title` in app config) in nav. When set to `false`, title in nav will be disabled. Useful when you have `logo` that already contains the site title text.
+You can customize this item to replace the default site title (`title` in app config) in nav. When set to `false`, the navigation title will be disabled. This option is useful when you have a `logo` that already contains the site title text.
 
 ```ts
 export default {
@@ -64,7 +64,7 @@ export default {
 
 - Type: `NavItem`
 
-The configuration for the nav menu item. More details in [Default Theme: Nav](./default-theme-nav#navigation-links).
+The configuration for navigation menu items. More details in [Default Theme: Nav](./default-theme-nav#navigation-links).
 
 ```ts
 export default {
@@ -112,7 +112,7 @@ interface NavItemWithChildren {
 
 - Type: `Sidebar`
 
-The configuration for the sidebar menu item. More details in [Default Theme: Sidebar](./default-theme-sidebar).
+The configuration for sidebar menu items. More details in [Default Theme: Sidebar](./default-theme-sidebar).
 
 ```ts
 export default {
@@ -195,7 +195,7 @@ If you want to disable it for all viewports, you should use `outline: false` ins
 - Type: `Outline | Outline['level'] | false`
 - Level can be overridden per page via [frontmatter](./frontmatter-config#outline)
 
-Setting this value to `false` prevents rendering of outline container. Refer this interface for more details:
+Setting this value to `false` prevents rendering of outline container. Refer to this interface for more details:
 
 ```ts
 interface Outline {
@@ -222,7 +222,7 @@ interface Outline {
 
 - Type: `SocialLink[]`
 
-You may define this option to show your social account links with icons in nav.
+You can define this option to show social account links with icons in the navigation bar.
 
 ```ts
 export default {
@@ -256,9 +256,9 @@ interface SocialLink {
 ## footer
 
 - Type: `Footer`
-- Can be overridden per page via [frontmatter](./frontmatter-config#footer)
+- Can be overridden per page using [frontmatter](./frontmatter-config#footer)
 
-Footer configuration. You can add a message or copyright text on the footer, however, it will only be displayed when the page doesn't contain a sidebar. This is due to design concerns.
+You can add a message and/or copyright text on the footer using this option. However, it will only be displayed when the page doesn't contain a sidebar, due to design concerns.
 
 ```ts
 export default {
@@ -283,7 +283,7 @@ export interface Footer {
 - Type: `EditLink`
 - Can be overridden per page via [frontmatter](./frontmatter-config#editlink)
 
-Edit Link lets you display a link to edit the page on Git management services such as GitHub, or GitLab. See [Default Theme: Edit Link](./default-theme-edit-link) for more details.
+You can display a link to edit each documentation page at the bottom of the page. See [Default Theme: Edit Link](./default-theme-edit-link) for more details.
 
 ```ts
 export default {
@@ -342,7 +342,7 @@ export interface LastUpdatedOptions {
 
 - Type: `AlgoliaSearch`
 
-An option to support searching your docs site using [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Learn more in [Default Theme: Search](./default-theme-search)
+An option to support searching your site with [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Learn more in [Default Theme: Search](./default-theme-search)
 
 ```ts
 export interface AlgoliaSearchOptions extends DocSearchProps {
@@ -382,7 +382,7 @@ Learn more in [Default Theme: Carbon Ads](./default-theme-carbon-ads)
 
 - Type: `DocFooter`
 
-Can be used to customize text appearing above previous and next links. Helpful if not writing docs in English. Also can be used to disable prev/next links globally. If you want to selectively enable/disable prev/next links, you can use [frontmatter](./default-theme-prev-next-links).
+Can be used to customize text appearing above previous and next links. Helpful if not writing docs in English. Also can be used to disable prev/next links globally. If you want to selectively enable/disable previous/next links per-page, you can use [frontmatter](./default-theme-prev-next-links).
 
 ```ts
 export default {
@@ -407,35 +407,35 @@ export interface DocFooter {
 - Type: `string`
 - Default: `Appearance`
 
-Can be used to customize the dark mode switch label. This label is only displayed in the mobile view.
+Can be used to customize the dark mode switch label. This label is only displayed on mobile.
 
 ## lightModeSwitchTitle
 
 - Type: `string`
 - Default: `Switch to light theme`
 
-Can be used to customize the light mode switch title that appears on hovering.
+Can be used to customize the light mode switch title that appears on hover.
 
 ## darkModeSwitchTitle
 
 - Type: `string`
 - Default: `Switch to dark theme`
 
-Can be used to customize the dark mode switch title that appears on hovering.
+Can be used to customize the dark mode switch title that appears on hover.
 
 ## sidebarMenuLabel
 
 - Type: `string`
 - Default: `Menu`
 
-Can be used to customize the sidebar menu label. This label is only displayed in the mobile view.
+Can be used to customize the sidebar menu label. This label is only displayed on mobile.
 
 ## returnToTopLabel
 
 - Type: `string`
 - Default: `Return to top`
 
-Can be used to customize the label of the return to top button. This label is only displayed in the mobile view.
+Can be used to customize the label of the return to top button. This label is only displayed on mobile.
 
 ## langMenuLabel
 
@@ -456,7 +456,7 @@ Can be used to customize the label of the skip to content link. This link is sho
 - Type: `boolean`
 - Default: `false`
 
-Whether to show an external link icon next to external links in markdown.
+Whether to show an external link icon next to external links in Markdown.
 
 ## `useLayout` <Badge type="info" text="composable" />
 
