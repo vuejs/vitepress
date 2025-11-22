@@ -1,3 +1,9 @@
+# [2.0.0-alpha.15](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.14...v2.0.0-alpha.15) (2025-11-22)
+
+### Bug Fixes
+
+- **theme:** navbar overflowing on mobile devices ([06f0e1a](https://github.com/vuejs/vitepress/commit/06f0e1a5c92e36d86fd2e037c335af04d75384e7)), closes [#5039](https://github.com/vuejs/vitepress/issues/5039)
+
 ## [2.0.0-alpha.14](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.13...v2.0.0-alpha.14) (2025-11-21)
 
 ### Bug Fixes
