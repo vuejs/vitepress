@@ -91,6 +91,11 @@ describe('Table of Contents', () => {
         "Code Groups",
         "Basic Code Group",
         "With Other Features",
+        "Group Name Basic",
+        "Group Name Second Instance (Same Name for Sync Test)",
+        "Group Name with Hyphens and Underscores",
+        "Group Name with Spaces (Should be Rejected)",
+        "Group Name with Invalid Characters (Should be Rejected)",
         "Markdown File Inclusion",
         "Region",
         "Markdown At File Inclusion",
@@ -276,6 +281,91 @@ describe('Code Groups', () => {
     expect(
       await getClassList(blocks.nth(1).locator('code > span').nth(0))
     ).toContain('highlighted')
+  })
+
+  test('group-name basic', async () => {
+    const div = page.locator('#group-name-basic + div')
+
+    // Verify data attribute exists
+    const groupName = await div.getAttribute('data-group-name')
+    expect(groupName).toBe('installs')
+
+    // Verify tabs still work
+    const labels = div.locator('.tabs > label')
+    expect(await labels.count()).toBe(2)
+
+    // Verify clicking still switches tabs
+    await labels.nth(1).click()
+    const blocks = div.locator('.blocks > div')
+    expect(await getClassList(blocks.nth(1))).toContain('active')
+  })
+
+  test('group-name synchronization across groups', async () => {
+    // Clear localStorage to ensure clean test state
+    await page.evaluate(() => localStorage.clear())
+    await page.reload()
+    await page.waitForSelector('#group-name-basic + div')
+
+    const div1 = page.locator('#group-name-basic + div')
+    const div2 = page.locator(
+      '#group-name-second-instance-same-name-for-sync-test + div'
+    )
+
+    // Both groups should have the same group-name
+    expect(await div1.getAttribute('data-group-name')).toBe('installs')
+    expect(await div2.getAttribute('data-group-name')).toBe('installs')
+
+    // Initially, both should have first tab active
+    expect(await getClassList(div1.locator('.blocks > div').nth(0))).toContain(
+      'active'
+    )
+    expect(await getClassList(div2.locator('.blocks > div').nth(0))).toContain(
+      'active'
+    )
+
+    // Click second tab in first group
+    await div1.locator('.tabs > label').nth(1).click()
+
+    // Both groups should now have second tab active (synced)
+    expect(await getClassList(div1.locator('.blocks > div').nth(1))).toContain(
+      'active'
+    )
+    expect(await getClassList(div2.locator('.blocks > div').nth(1))).toContain(
+      'active'
+    )
+
+    // Click first tab in second group
+    await div2.locator('.tabs > label').nth(0).click()
+
+    // Both groups should now have first tab active again (synced back)
+    expect(await getClassList(div1.locator('.blocks > div').nth(0))).toContain(
+      'active'
+    )
+    expect(await getClassList(div2.locator('.blocks > div').nth(0))).toContain(
+      'active'
+    )
+  })
+
+  test('group-name with hyphens and underscores', async () => {
+    const div = page.locator('#group-name-with-hyphens-and-underscores + div')
+    const groupName = await div.getAttribute('data-group-name')
+    expect(groupName).toBe('install_methods-v2')
+  })
+
+  test('group-name with spaces should be rejected', async () => {
+    const div = page.locator('#group-name-with-spaces-should-be-rejected + div')
+    const groupName = await div.getAttribute('data-group-name')
+    // Quoted names with spaces should be rejected
+    expect(groupName).toBeNull()
+  })
+
+  test('group-name with invalid characters should be rejected', async () => {
+    const div = page.locator(
+      '#group-name-with-invalid-characters-should-be-rejected + div'
+    )
+    const groupName = await div.getAttribute('data-group-name')
+    // Should be rejected due to invalid characters
+    expect(groupName).toBeNull()
   })
 })
 
