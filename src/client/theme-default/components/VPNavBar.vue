@@ -215,8 +215,7 @@ watchPostEffect(() => {
 .menu + .social-links::before,
 .translations + .appearance::before,
 .appearance + .social-links::before {
-  margin-inline-end: 8px;
-  margin-inline-start: 8px;
+  margin-inline: 8px;
   width: 1px;
   height: 24px;
   background-color: var(--vp-c-divider);

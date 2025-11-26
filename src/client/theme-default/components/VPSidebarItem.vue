@@ -128,8 +128,7 @@ function onCaretClick() {
 
 .indicator {
   position: absolute;
-  inset-block-start: 6px;
-  inset-block-end: 6px;
+  inset-block: 6px;
   inset-inline-start: -17px;
   width: 2px;
   border-radius: 2px;

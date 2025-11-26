@@ -124,8 +124,7 @@ watch(
     inset-inline-start: 0;
     z-index: 1;
     margin-block-start: calc(var(--vp-nav-height) * -1);
-    margin-inline-end: -32px;
-    margin-inline-start: -32px;
+    margin-inline: -32px;
     height: var(--vp-nav-height);
     background-color: var(--vp-sidebar-bg-color);
   }
