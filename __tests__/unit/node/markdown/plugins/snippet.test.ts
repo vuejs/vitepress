@@ -208,16 +208,16 @@ describe('node/markdown/plugins/snippet', () => {
       const lines = [
         '.body-content {',
         '/* #region foo */',
-        '  padding-left: 15px;',
+        '  padding-inline-start: 15px;',
         '/* #endregion foo */',
-        '  padding-right: 15px;',
+        '  padding-inline-end: 15px;',
         '}'
       ]
       const result = findRegion(lines, 'foo')
       expect(result).not.toBeNull()
       if (result) {
         expect(lines.slice(result.start, result.end).join('\n')).toBe(
-          '  padding-left: 15px;'
+          '  padding-inline-start: 15px;'
         )
       }
     })
