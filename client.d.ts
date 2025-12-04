@@ -3,3 +3,12 @@
 /// <reference types="vite/client" />
 
 export * from './dist/client/index.js'
+
+declare global {
+  interface WindowEventMap {
+    'vitepress:codeGroupTabActivate': Event & {
+      /** code block element that was activated */
+      detail: Element
+    }
+  }
+}

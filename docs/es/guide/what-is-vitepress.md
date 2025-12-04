@@ -12,7 +12,7 @@ VitePress es un [Generador de Sitios Estáticos](https://en.wikipedia.org/wiki/S
 
 - **Documentación**
 
-  VitePress incluye un tema por defecto diseñado para documentación técnica. Este tema es el que se utiliza en la página que estás leyendo ahora, así como en la documentación de [Vite](https://vitejs.dev/), [Rollup](https://rollupjs.org/), [Pinia](https://pinia.vuejs.org/), [VueUse](https://vueuse.org/), [Vitest](https://vitest.dev/), [D3](https://d3js.org/), [UnoCSS](https://unocss.dev/), [Iconify](https://iconify.design/) y [muchos otros](https://github.com/search?q=/"vitepress":+/+language:json&type=code).
+  VitePress incluye un tema por defecto diseñado para documentación técnica. Este tema es el que se utiliza en la página que estás leyendo ahora, así como en la documentación de [Vite](https://vitejs.dev/), [Rollup](https://rollupjs.org/), [Pinia](https://pinia.vuejs.org/), [VueUse](https://vueuse.org/), [Vitest](https://vitest.dev/), [D3](https://d3js.org/), [UnoCSS](https://unocss.dev/), [Iconify](https://iconify.design/) y [muchos otros](https://github.com/search?q=/%22vitepress%22:+/+path:/(?:package%7Cdeno)%5C.jsonc?$/+NOT+is:fork+NOT+is:archived&type=code).
 
   La [documentación oficial Vue.js](https://vuejs.org/) también está basada en VitePress, pero utiliza un tema personalizado compartido entre varias traducciones.
 

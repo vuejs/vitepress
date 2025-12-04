@@ -11,7 +11,7 @@ To fix this in **GitHub Actions**, use the following in your workflow:
 
 ```yaml{4}
 - name: Checkout
-  uses: actions/checkout@v4
+  uses: actions/checkout@v5
   with:
     fetch-depth: 0
 ```

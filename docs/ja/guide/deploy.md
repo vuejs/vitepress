@@ -158,17 +158,17 @@ HTML の _Auto Minify_ のようなオプションを有効にしないでくだ
         runs-on: ubuntu-latest
         steps:
           - name: Checkout
-            uses: actions/checkout@v4
+            uses: actions/checkout@v5
             with:
               fetch-depth: 0 # Not needed if lastUpdated is not enabled
-          # - uses: pnpm/action-setup@v3 # Uncomment this block if you're using pnpm
+          # - uses: pnpm/action-setup@v4 # Uncomment this block if you're using pnpm
           #   with:
           #     version: 9 # Not needed if you've set "packageManager" in package.json
           # - uses: oven-sh/setup-bun@v1 # Uncomment this if you're using Bun
           - name: Setup Node
-            uses: actions/setup-node@v4
+            uses: actions/setup-node@v6
             with:
-              node-version: 22
+              node-version: 24
               cache: npm # or pnpm / yarn
           - name: Setup Pages
             uses: actions/configure-pages@v4

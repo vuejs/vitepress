@@ -1,0 +1,14 @@
+diff --git a/patterns.js b/patterns.js
+index e56a3b785df29e726194f2b30e86bb19a78ef902..e1f6211b92cbb2bbbe2a3c317dd9e5f1f41ab8d1 100644
+--- a/patterns.js
++++ b/patterns.js
+@@ -28,7 +28,8 @@ module.exports = options => {
+         {
+           shift: 0,
+           block: true,
+-          info: utils.hasDelimiters('end', options)
++          info: utils.hasDelimiters('end', options),
++          markup: (str) => !/^[`~]{3,}$/.test(str)
+         }
+       ],
+       transform: (tokens, i) => {

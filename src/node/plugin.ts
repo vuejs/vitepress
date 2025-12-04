@@ -221,6 +221,7 @@ export async function createVitePressPlugin(
           this.environment.mode === 'dev' &&
           this.environment.name === 'client'
         ) {
+          logDeadLinks(deadLinks, siteConfig.logger, true)
           const payload: PageDataPayload = {
             path: `/${siteConfig.rewrites.map[relativePath] || relativePath}`,
             pageData
@@ -238,15 +239,7 @@ export async function createVitePressPlugin(
 
     renderStart() {
       if (allDeadLinks.length > 0) {
-        allDeadLinks.forEach(({ url, file }, i) => {
-          siteConfig.logger.warn(
-            c.yellow(
-              `${i === 0 ? '\n\n' : ''}(!) Found dead link ${c.cyan(
-                url
-              )} in file ${c.white(c.dim(file))}`
-            )
-          )
-        })
+        logDeadLinks(allDeadLinks, siteConfig.logger)
         siteConfig.logger.info(
           c.cyan(
             '\nIf this is expected, you can disable this check via config. Refer: https://vitepress.dev/reference/site-config#ignoredeadlinks\n'
@@ -422,4 +415,23 @@ export async function createVitePressPlugin(
     staticDataPlugin,
     await dynamicRoutesPlugin(siteConfig)
   ]
+}
+
+function logDeadLinks(
+  deadLinks: MarkdownCompileResult['deadLinks'],
+  logger: SiteConfig['logger'],
+  devMode = false
+) {
+  const logged = new Set<string>()
+  deadLinks.forEach(({ url, file }, i) => {
+    const key = `${file}:::${url}`
+    if (logged.has(key)) return
+    logged.add(key)
+    const prefix = '\n'.repeat(i === 0 ? (devMode ? 1 : 2) : 0)
+    logger.warn(
+      c.yellow(
+        `${prefix}(!) Found dead link ${c.cyan(url)} in file ${c.white(c.dim(file))}`
+      )
+    )
+  })
 }
