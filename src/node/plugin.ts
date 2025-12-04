@@ -54,14 +54,11 @@ const staticRestoreRE = /__VP_STATIC_(START|END)__/g
 const scriptClientRE = /<script\b[^>]*client\b[^>]*>([^]*?)<\/script>/
 
 const isPageChunk = (
-  chunk: Rolldown.OutputAsset | Rolldown.OutputChunk
+  chunk: Rolldown.OutputAsset | Rolldown.OutputChunk | Rolldown.RenderedChunk
 ): chunk is Rolldown.OutputChunk & { facadeModuleId: string } =>
-  !!(
-    chunk.type === 'chunk' &&
-    chunk.isEntry &&
-    chunk.facadeModuleId &&
-    chunk.facadeModuleId.endsWith('.md')
-  )
+  chunk.type === 'chunk' &&
+  chunk.isEntry &&
+  !!chunk.facadeModuleId?.endsWith('.md')
 
 const cleanUrl = (url: string): string =>
   url.replace(/#.*$/s, '').replace(/\?.*$/s, '')
@@ -286,7 +283,7 @@ export async function createVitePressPlugin(
     },
 
     renderChunk(code, chunk) {
-      if (!ssr && isPageChunk(chunk as Rolldown.OutputChunk)) {
+      if (!ssr && isPageChunk(chunk)) {
         // For each page chunk, inject marker for start/end of static strings.
         // we do this here because in generateBundle the chunks would have been
         // minified and we won't be able to safely locate the strings.

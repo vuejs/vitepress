@@ -66,42 +66,52 @@ export async function build(
     const { render } = await import(pathToFileURL(entryPath).href)
 
     await task('rendering pages', async () => {
-      const appChunk =
-        clientResult &&
-        clientResult.output.find(
+      // ----
+
+      const clientOutput: (Rolldown.OutputChunk | Rolldown.OutputAsset)[] =
+        clientResult?.output || []
+
+      const appChunk = clientOutput //
+        .find(
           (chunk): chunk is Rolldown.OutputChunk =>
             chunk.type === 'chunk' &&
             chunk.isEntry &&
             !!chunk.facadeModuleId?.endsWith('.js')
         )
 
-      const cssChunk = (
-        siteConfig.mpa ? serverResult : clientResult!
-      ).output.find(
-        (chunk): chunk is Rolldown.OutputAsset =>
-          chunk.type === 'asset' && chunk.fileName.endsWith('.css')
-      )
-
-      const assets = (siteConfig.mpa ? serverResult : clientResult!).output
-        .filter(
-          (chunk) => chunk.type === 'asset' && !chunk.fileName.endsWith('.css')
-        )
-        .map((asset) => siteConfig.site.base + asset.fileName)
-
-      // default theme special handling: inject font preload
-      // custom themes will need to use `transformHead` to inject this
-      const additionalHeadTags: HeadConfig[] = []
-      const isDefaultTheme =
-        clientResult &&
-        clientResult.output.some(
-          (chunk) =>
+      const isDefaultTheme = clientOutput //
+        .some(
+          (chunk): chunk is Rolldown.OutputChunk =>
             chunk.type === 'chunk' &&
             chunk.name === 'theme' &&
             chunk.moduleIds.some((id) => id.includes('client/theme-default'))
         )
 
+      // ----
+
+      const resultOutput: (Rolldown.OutputChunk | Rolldown.OutputAsset)[] =
+        (siteConfig.mpa ? serverResult : clientResult)?.output || []
+
+      const cssChunk = resultOutput //
+        .find(
+          (chunk): chunk is Rolldown.OutputAsset =>
+            chunk.type === 'asset' && chunk.fileName.endsWith('.css')
+        )
+
+      const assets = resultOutput //
+        .filter(
+          (chunk): chunk is Rolldown.OutputAsset =>
+            chunk.type === 'asset' && !chunk.fileName.endsWith('.css')
+        )
+        .map((asset) => siteConfig.site.base + asset.fileName)
+
+      // ----
+
+      const additionalHeadTags: HeadConfig[] = []
       const metadataScript = generateMetadataScript(pageToHashMap, siteConfig)
 
+      // default theme special handling: inject font preload
+      // custom themes will need to use `transformHead` to inject this
       if (isDefaultTheme) {
         const fontURL = assets.find((file) =>
           /inter-roman-latin\.[\w-]+\.woff2/.test(file)

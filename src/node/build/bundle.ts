@@ -165,18 +165,17 @@ export async function bundle(
     configFile: config.vite?.configFile
   })
 
-  let clientResult!: Rolldown.RolldownOutput | null
+  let clientResult: Rolldown.RolldownOutput | null = null
   let serverResult!: Rolldown.RolldownOutput
 
   await task('building client + server bundles', async () => {
-    clientResult = config.mpa
-      ? null
-      : ((await build(
-          await resolveViteConfig(false)
-        )) as Rolldown.RolldownOutput)
-    serverResult = (await build(
-      await resolveViteConfig(true)
-    )) as Rolldown.RolldownOutput
+    if (!config.mpa) {
+      clientResult = //
+        (await build(await resolveViteConfig(false))) as Rolldown.RolldownOutput
+    }
+
+    serverResult = //
+      (await build(await resolveViteConfig(true))) as Rolldown.RolldownOutput
   })
 
   if (config.mpa) {
