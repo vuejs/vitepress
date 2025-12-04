@@ -7,7 +7,7 @@ import {
   type EnvironmentModuleNode,
   type Plugin,
   type ResolvedConfig,
-  type Rollup,
+  type Rolldown,
   type UserConfig
 } from 'vite'
 import {
@@ -54,8 +54,8 @@ const staticRestoreRE = /__VP_STATIC_(START|END)__/g
 const scriptClientRE = /<script\b[^>]*client\b[^>]*>([^]*?)<\/script>/
 
 const isPageChunk = (
-  chunk: Rollup.OutputAsset | Rollup.OutputChunk
-): chunk is Rollup.OutputChunk & { facadeModuleId: string } =>
+  chunk: Rolldown.OutputAsset | Rolldown.OutputChunk
+): chunk is Rolldown.OutputChunk & { facadeModuleId: string } =>
   !!(
     chunk.type === 'chunk' &&
     chunk.isEntry &&
@@ -286,7 +286,7 @@ export async function createVitePressPlugin(
     },
 
     renderChunk(code, chunk) {
-      if (!ssr && isPageChunk(chunk as Rollup.OutputChunk)) {
+      if (!ssr && isPageChunk(chunk as Rolldown.OutputChunk)) {
         // For each page chunk, inject marker for start/end of static strings.
         // we do this here because in generateBundle the chunks would have been
         // minified and we won't be able to safely locate the strings.

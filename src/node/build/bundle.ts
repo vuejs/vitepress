@@ -1,12 +1,11 @@
 import fs from 'fs-extra'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import * as vite from 'vite'
 import {
   build,
   normalizePath,
   type BuildOptions,
-  type Rollup,
+  type Rolldown,
   type InlineConfig as ViteInlineConfig
 } from 'vite'
 import { APP_PATH } from '../alias'
@@ -39,14 +38,14 @@ export async function bundle(
   config: SiteConfig,
   options: BuildOptions
 ): Promise<{
-  clientResult: Rollup.RollupOutput | null
-  serverResult: Rollup.RollupOutput
+  clientResult: Rolldown.RolldownOutput | null
+  serverResult: Rolldown.RolldownOutput
   pageToHashMap: Record<string, string>
 }> {
   const pageToHashMap = Object.create(null) as Record<string, string>
   const clientJSMap = Object.create(null) as Record<string, string>
 
-  // define custom rollup input
+  // define custom rolldown input
   // this is a multi-entry build - every page is considered an entry chunk
   // the loading is done via filename conversion rules so that the
   // metadata doesn't need to be included in the main chunk.
@@ -65,7 +64,7 @@ export async function bundle(
   )
 
   // resolve options to pass to vite
-  const { rollupOptions } = options
+  const { rolldownOptions } = options
 
   const resolveViteConfig = async (
     ssr: boolean
@@ -91,8 +90,8 @@ export async function bundle(
       minify: ssr ? !!config.mpa : (options.minify ?? !process.env.DEBUG),
       outDir: ssr ? config.tempDir : config.outDir,
       cssCodeSplit: false,
-      rollupOptions: {
-        ...rollupOptions,
+      rolldownOptions: {
+        ...rolldownOptions,
         input: {
           // use different entry based on ssr or not
           app: path.resolve(APP_PATH, ssr ? 'ssr.js' : 'index.js'),
@@ -103,7 +102,7 @@ export async function bundle(
         preserveEntrySignatures: 'allow-extension',
         output: {
           sanitizeFileName,
-          ...rollupOptions?.output,
+          ...rolldownOptions?.output,
           assetFileNames: `${config.assetsDir}/[name].[hash].[ext]`,
           ...(ssr
             ? {
@@ -118,52 +117,47 @@ export async function bundle(
                     ? `${config.assetsDir}/chunks/ui-custom.[hash].js`
                     : `${config.assetsDir}/chunks/[name].[hash].js`
                 },
-                // @ts-ignore skip setting it for rolldown-vite since it doesn't support `manualChunks`
-                ...(vite.rolldownVersion
-                  ? undefined
-                  : {
-                      manualChunks(
-                        id: string,
-                        ctx: Pick<Rollup.PluginContext, 'getModuleInfo'>
-                      ) {
-                        // move known framework code into a stable chunk so that
-                        // custom theme changes do not invalidate hash for all pages
-                        if (
-                          id.startsWith('\0vite') ||
-                          ctx.getModuleInfo(id)?.meta['vite:asset']
-                        ) {
-                          return 'framework'
-                        }
-                        if (id.includes('plugin-vue:export-helper')) {
-                          return 'framework'
-                        }
-                        if (
-                          id.includes(`${clientDir}/app`) &&
-                          id !== `${clientDir}/app/index.js`
-                        ) {
-                          return 'framework'
-                        }
-                        if (
-                          isEagerChunk(id, ctx.getModuleInfo) &&
-                          /@vue\/(runtime|shared|reactivity)/.test(id)
-                        ) {
-                          return 'framework'
-                        }
+                manualChunks(
+                  id: string,
+                  ctx: Pick<Rolldown.PluginContext, 'getModuleInfo'>
+                ) {
+                  // move known framework code into a stable chunk so that
+                  // custom theme changes do not invalidate hash for all pages
+                  if (
+                    id.startsWith('\0vite') ||
+                    ctx.getModuleInfo(id)?.meta['vite:asset'] // FIXME: no longer works
+                  ) {
+                    return 'framework'
+                  }
+                  if (id.includes('plugin-vue:export-helper')) {
+                    return 'framework'
+                  }
+                  if (
+                    id.includes(`${clientDir}/app`) &&
+                    id !== `${clientDir}/app/index.js`
+                  ) {
+                    return 'framework'
+                  }
+                  if (
+                    isEagerChunk(id, ctx.getModuleInfo) &&
+                    /@vue\/(runtime|shared|reactivity)/.test(id)
+                  ) {
+                    return 'framework'
+                  }
 
-                        if (
-                          (id.startsWith(`${clientDir}/theme-default`) ||
-                            !excludedModules.some((i) => id.includes(i))) &&
-                          staticImportedByEntry(
-                            id,
-                            ctx.getModuleInfo,
-                            cacheTheme,
-                            themeEntryRE
-                          )
-                        ) {
-                          return 'theme'
-                        }
-                      }
-                    })
+                  if (
+                    (id.startsWith(`${clientDir}/theme-default`) ||
+                      !excludedModules.some((i) => id.includes(i))) &&
+                    staticImportedByEntry(
+                      id,
+                      ctx.getModuleInfo,
+                      cacheTheme,
+                      themeEntryRE
+                    )
+                  ) {
+                    return 'theme'
+                  }
+                }
               })
         }
       }
@@ -171,16 +165,18 @@ export async function bundle(
     configFile: config.vite?.configFile
   })
 
-  let clientResult!: Rollup.RollupOutput | null
-  let serverResult!: Rollup.RollupOutput
+  let clientResult!: Rolldown.RolldownOutput | null
+  let serverResult!: Rolldown.RolldownOutput
 
   await task('building client + server bundles', async () => {
     clientResult = config.mpa
       ? null
-      : ((await build(await resolveViteConfig(false))) as Rollup.RollupOutput)
+      : ((await build(
+          await resolveViteConfig(false)
+        )) as Rolldown.RolldownOutput)
     serverResult = (await build(
       await resolveViteConfig(true)
-    )) as Rollup.RollupOutput
+    )) as Rolldown.RolldownOutput
   })
 
   if (config.mpa) {
@@ -223,7 +219,7 @@ const cacheTheme = new Map<string, boolean>()
 /**
  * Check if a module is statically imported by at least one entry.
  */
-function isEagerChunk(id: string, getModuleInfo: Rollup.GetModuleInfo) {
+function isEagerChunk(id: string, getModuleInfo: Rolldown.GetModuleInfo) {
   if (
     id.includes('node_modules') &&
     !CSS_LANGS_RE.test(id) &&
@@ -235,7 +231,7 @@ function isEagerChunk(id: string, getModuleInfo: Rollup.GetModuleInfo) {
 
 function staticImportedByEntry(
   id: string,
-  getModuleInfo: Rollup.GetModuleInfo,
+  getModuleInfo: Rolldown.GetModuleInfo,
   cache: Map<string, boolean>,
   entryRE: RegExp | null = null,
   importStack: string[] = []
