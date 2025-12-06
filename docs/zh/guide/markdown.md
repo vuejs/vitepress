@@ -842,9 +842,22 @@ Can be created using `.foorc.json`.
 
 现在这是可选的。要启用它，需要安装 `markdown-it-mathjax3`，在配置文件中设置`markdown.math` 为 `true`：
 
-```sh
-npm add -D markdown-it-mathjax3^4
+::: code-group
+
+```sh [npm]
+$ npm add -D markdown-it-mathjax3@^4
 ```
+
+```sh [pnpm]
+$ pnpm add -D markdown-it-mathjax3@^4
+```
+
+:::
+
+::: tip NOTE
+Use `markdown-it-mathjax3@^4` instead of the latest version.  
+Newer releases introduce breaking changes that are not compatible with VitePress.
+:::
 
 ```ts [.vitepress/config.ts]
 export default {

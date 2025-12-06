@@ -832,9 +832,22 @@ export default config
 
 در حال حاضر این گزینه اختیاری است. برای فعال‌سازی آن، باید `markdown-it-mathjax3` را نصب کرده و `markdown.math` را در فایل پیکربندی خود به `true` تنظیم کنید:
 
-```sh
-npm add -D markdown-it-mathjax3^4
+::: code-group
+
+```sh [npm]
+$ npm add -D markdown-it-mathjax3@^4
 ```
+
+```sh [pnpm]
+$ pnpm add -D markdown-it-mathjax3@^4
+```
+
+:::
+
+::: tip NOTE
+Use `markdown-it-mathjax3@^4` instead of the latest version.  
+Newer releases introduce breaking changes that are not compatible with VitePress.
+:::
 
 ```ts [.vitepress/config.ts]
 export default {

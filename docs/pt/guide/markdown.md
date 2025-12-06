@@ -842,9 +842,22 @@ Observe que isso não gera erros se o arquivo não estiver presente. Portanto, a
 
 Isso é atualmente opcional. Para ativá-lo, você precisa instalar `markdown-it-mathjax3` e definir `markdown.math` como `true` no seu arquivo de configuração:
 
-```sh
-npm add -D markdown-it-mathjax3^4
+::: code-group
+
+```sh [npm]
+$ npm add -D markdown-it-mathjax3@^4
 ```
+
+```sh [pnpm]
+$ pnpm add -D markdown-it-mathjax3@^4
+```
+
+:::
+
+::: tip NOTE
+Use `markdown-it-mathjax3@^4` instead of the latest version.  
+Newer releases introduce breaking changes that are not compatible with VitePress.
+:::
 
 ```ts [.vitepress/config.ts]
 export default {
