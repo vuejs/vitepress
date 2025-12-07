@@ -879,22 +879,9 @@ Can be created using `.foorc.json`.
 
 선택 사항입니다. 활성화하려면 `markdown-it-mathjax3`를 설치하고 설정 파일에서 `markdown.math`를 `true`로 설정해야 합니다:
 
-::: code-group
-
-```sh [npm]
-$ npm add -D markdown-it-mathjax3@^4
+```sh
+npm add -D markdown-it-mathjax3@^4
 ```
-
-```sh [pnpm]
-$ pnpm add -D markdown-it-mathjax3@^4
-```
-
-:::
-
-::: tip NOTE
-Use `markdown-it-mathjax3@^4` instead of the latest version.  
-Newer releases introduce breaking changes that are not compatible with VitePress.
-:::
 
 ```ts [.vitepress/config.ts]
 export default {

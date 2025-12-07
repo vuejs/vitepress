@@ -948,22 +948,9 @@ and include it like this:
 
 This is currently opt-in. To enable it, you need to install `markdown-it-mathjax3` and set `markdown.math` to `true` in your config file:
 
-::: code-group
-
-```sh [npm]
-$ npm add -D markdown-it-mathjax3@^4
+```sh
+npm add -D markdown-it-mathjax3@^4
 ```
-
-```sh [pnpm]
-$ pnpm add -D markdown-it-mathjax3@^4
-```
-
-:::
-
-::: tip NOTE
-Use `markdown-it-mathjax3@^4` instead of the latest version.  
-Newer releases introduce breaking changes that are not compatible with VitePress.
-:::
 
 ```ts [.vitepress/config.ts]
 export default {
