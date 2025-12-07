@@ -953,9 +953,9 @@ VS Code のリージョンの代わりに、ヘッダーアンカーを使って
 
 この機能はオプトインです。利用するには `markdown-it-mathjax3` をインストールし、設定ファイルで `markdown.math` を `true` に設定します。
 
- ```sh
- npm add -D markdown-it-mathjax3^4
- ```
+```sh
+npm add -D markdown-it-mathjax3@^4
+```
 
  ```ts [.vitepress/config.ts]
  export default {

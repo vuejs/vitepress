@@ -843,7 +843,7 @@ Can be created using `.foorc.json`.
 现在这是可选的。要启用它，需要安装 `markdown-it-mathjax3`，在配置文件中设置`markdown.math` 为 `true`：
 
 ```sh
-npm add -D markdown-it-mathjax3^4
+npm add -D markdown-it-mathjax3@^4
 ```
 
 ```ts [.vitepress/config.ts]

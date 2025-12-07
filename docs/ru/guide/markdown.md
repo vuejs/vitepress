@@ -951,7 +951,7 @@ export default config
 В настоящее время эта фича предоставляется по желанию. Чтобы включить её, вам нужно установить `markdown-it-mathjax3` и установить значение `true` для опции `markdown.math` в вашем файле конфигурации:
 
 ```sh
-npm add -D markdown-it-mathjax3^4
+npm add -D markdown-it-mathjax3@^4
 ```
 
 ```ts [.vitepress/config.ts]
