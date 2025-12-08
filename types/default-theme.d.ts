@@ -225,6 +225,22 @@ export namespace DefaultTheme {
         wrap?: boolean
       }
 
+  export type ActionIcon =
+    | string
+    | {
+        src: string
+        alt?: string
+        width?: string
+        height?: string
+      }
+    | {
+        light: string
+        dark: string
+        alt?: string
+        width?: string
+        height?: string
+      }
+
   // sidebar -------------------------------------------------------------------
 
   export type Sidebar = SidebarItem[] | SidebarMulti
