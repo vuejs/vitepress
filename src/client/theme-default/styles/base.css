@@ -237,6 +237,10 @@ p {
   overflow-wrap: break-word;
 }
 
+:where(:lang(zh), :lang(ja), :lang(ko)) {
+  line-break: strict;
+}
+
 vite-error-overlay {
   z-index: 9999;
 }
