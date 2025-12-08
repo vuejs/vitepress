@@ -11,7 +11,7 @@ onlyBuiltDependencies:
 
 overrides:
   ora>string-width: ^5
-  vite: npm:rolldown-vite@latest
+  vite: ^8.0.0-0
 
 patchedDependencies:
   '@types/markdown-it-attrs': patches/@types__markdown-it-attrs.patch

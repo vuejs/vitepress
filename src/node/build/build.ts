@@ -7,8 +7,7 @@ import { pathToFileURL } from 'node:url'
 import pMap from 'p-map'
 import { packageDirectorySync } from 'package-directory'
 import { rimraf } from 'rimraf'
-import * as vite from 'vite'
-import type { BuildOptions, Rollup } from 'vite'
+import type { BuildOptions, Rolldown } from 'vite'
 import { resolveConfig, type SiteConfig } from '../config'
 import { clearCache } from '../markdownToVue'
 import { slash, type Awaitable, type HeadConfig } from '../shared'
@@ -29,19 +28,6 @@ export async function build(
   } = {}
 ) {
   const start = Date.now()
-
-  // @ts-ignore only exists for rolldown-vite
-  if (vite.rolldownVersion) {
-    try {
-      await import('oxc-minify')
-    } catch {
-      throw new Error(
-        '`oxc-minify` is not installed.' +
-          ' vitepress requires `oxc-minify` to be installed when rolldown-vite is used.' +
-          ' Please run `npm install oxc-minify`.'
-      )
-    }
-  }
 
   process.env.NODE_ENV = 'production'
   const siteConfig = await resolveConfig(root, 'build', 'production')
@@ -80,42 +66,52 @@ export async function build(
     const { render } = await import(pathToFileURL(entryPath).href)
 
     await task('rendering pages', async () => {
-      const appChunk =
-        clientResult &&
-        (clientResult.output.find(
-          (chunk) =>
+      // ----
+
+      const clientOutput: (Rolldown.OutputChunk | Rolldown.OutputAsset)[] =
+        clientResult?.output || []
+
+      const appChunk = clientOutput //
+        .find(
+          (chunk): chunk is Rolldown.OutputChunk =>
             chunk.type === 'chunk' &&
             chunk.isEntry &&
-            chunk.facadeModuleId?.endsWith('.js')
-        ) as Rollup.OutputChunk)
-
-      const cssChunk = (
-        siteConfig.mpa ? serverResult : clientResult!
-      ).output.find(
-        (chunk) => chunk.type === 'asset' && chunk.fileName.endsWith('.css')
-      ) as Rollup.OutputAsset
-
-      const assets = (siteConfig.mpa ? serverResult : clientResult!).output
-        .filter(
-          (chunk) => chunk.type === 'asset' && !chunk.fileName.endsWith('.css')
+            !!chunk.facadeModuleId?.endsWith('.js')
         )
-        .map((asset) => siteConfig.site.base + asset.fileName)
 
-      // default theme special handling: inject font preload
-      // custom themes will need to use `transformHead` to inject this
-      const additionalHeadTags: HeadConfig[] = []
-      const isDefaultTheme =
-        clientResult &&
-        clientResult.output.some(
-          (chunk) =>
+      const isDefaultTheme = clientOutput //
+        .some(
+          (chunk): chunk is Rolldown.OutputChunk =>
             chunk.type === 'chunk' &&
-            // @ts-ignore only exists for rolldown-vite
-            (vite.rolldownVersion || chunk.name === 'theme') && // FIXME: remove when rolldown-vite supports manualChunks
+            chunk.name === 'theme' &&
             chunk.moduleIds.some((id) => id.includes('client/theme-default'))
         )
 
+      // ----
+
+      const resultOutput: (Rolldown.OutputChunk | Rolldown.OutputAsset)[] =
+        (siteConfig.mpa ? serverResult : clientResult)?.output || []
+
+      const cssChunk = resultOutput //
+        .find(
+          (chunk): chunk is Rolldown.OutputAsset =>
+            chunk.type === 'asset' && chunk.fileName.endsWith('.css')
+        )
+
+      const assets = resultOutput //
+        .filter(
+          (chunk): chunk is Rolldown.OutputAsset =>
+            chunk.type === 'asset' && !chunk.fileName.endsWith('.css')
+        )
+        .map((asset) => siteConfig.site.base + asset.fileName)
+
+      // ----
+
+      const additionalHeadTags: HeadConfig[] = []
       const metadataScript = generateMetadataScript(pageToHashMap, siteConfig)
 
+      // default theme special handling: inject font preload
+      // custom themes will need to use `transformHead` to inject this
       if (isDefaultTheme) {
         const fontURL = assets.find((file) =>
           /inter-roman-latin\.[\w-]+\.woff2/.test(file)
