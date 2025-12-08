@@ -25,11 +25,11 @@ const members = [
 
 # Team Page
 
-If you would like to introduce your team, you may use Team components to construct the Team Page. There are two ways of using these components. One is to embed it in doc page, and another is to create a full Team Page.
+If you would like to introduce your team, you can use Team components to construct the Team Page. There are two ways of using these components: to embed it in doc page, and to create a full Team page.
 
 ## Show team members in a page
 
-You may use `<VPTeamMembers>` component exposed from `vitepress/theme` to display a list of team members on any page.
+You can use the `<VPTeamMembers>` component exposed from `vitepress/theme` to display a list of team members on any page.
 
 ```html
 <script setup>
@@ -56,21 +56,21 @@ Say hello to our awesome team.
 <VPTeamMembers size="small" :members />
 ```
 
-The above will display a team member in card looking element. It should display something similar to below.
+The above will display each team member in a card element, similar to this:
 
 <VPTeamMembers size="small" :members />
 
-`<VPTeamMembers>` component comes in 2 different sizes, `small` and `medium`. While it boils down to your preference, usually `small` size should fit better when used in doc page. Also, you may add more properties to each member such as adding "description" or "sponsor" button. Learn more about it in [`<VPTeamMembers>`](#vpteammembers).
+You can also add more properties to each member, such as a description or a sponsor button. Learn more about this in [`<VPTeamMembers>`](#vpteammembers).
 
-Embedding team members in doc page is good for small size team where having dedicated full team page might be too much, or introducing partial members as a reference to documentation context.
+The `<VPTeamMembers>` component comes in 2 different sizes, `small` and `medium`. While it's ultimately up to personal preference, the `small` size usually fits better when used in doc pages.
 
-If you have large number of members, or simply would like to have more space to show team members, consider [creating a full team page](#create-a-full-team-page).
+Embedding team members in a doc page is good for a small size team where having a dedicated full team page might be too much, or introducing partial members as a reference to documentation context. If you have large number of members, or simply want more space to show team members, consider [creating a full Team page](#create-a-full-team-page).
 
-## Create a full Team Page
+## Create a full Team page
 
-Instead of adding team members to doc page, you may also create a full Team Page, similar to how you can create a custom [Home Page](./default-theme-home-page).
+Instead of adding team members to doc page, you may also create a full Team page, similar to how you can create a custom [Home page](./default-theme-home-page).
 
-To create a team page, first, create a new md file. The file name doesn't matter, but here lets call it `team.md`. In this file, set frontmatter option `layout: page`, and then you may compose your page structure using `TeamPage` components.
+To create a team page, first create a new Markdown file. In this file, set the layout option in frontmatter to `page`, and use `TeamPage` components to compose your page structure.
 
 ```html
 ---
@@ -111,17 +111,17 @@ const members = [
 </VPTeamPage>
 ```
 
-When creating a full team page, remember to wrap all components with `<VPTeamPage>` component. This component will ensure all nested team related components get the proper layout structure like spacings.
+When creating a full team page, remember to wrap all components with the `<VPTeamPage>` component. This component will ensure all nested team related components get the proper layout structure and spacing.
 
-`<VPPageTitle>` component adds the page title section. The title being `<h1>` heading. Use `#title` and `#lead` slot to document about your team.
+The `<VPPageTitle>` component adds the page title section as an `<h1>` heading. Use the `#title` and `#lead` slots to provide information about your team.
 
-`<VPMembers>` works as same as when used in a doc page. It will display list of members.
+`<VPMembers>` works the same as when used in a doc page; it will simply display a list of members in cards.
 
 ### Add sections to divide team members
 
-You may add "sections" to the team page. For example, you may have different types of team members such as Core Team Members and Community Partners. You can divide these members into sections to better explain the roles of each group.
+You can add sections to the team page for separating team members into roles or categories. For example, you could have a Core Team Members section and a Community Partners section.
 
-To do so, add `<VPTeamPageSection>` component to the `team.md` file we created previously.
+To do this, add the `<VPTeamPageSection>` component to the Markdown file we created previously.
 
 ```html
 ---
@@ -155,9 +155,9 @@ const partners = [...]
 </VPTeamPage>
 ```
 
-The `<VPTeamPageSection>` component can have `#title` and `#lead` slot similar to `VPTeamPageTitle` component, and also `#members` slot for displaying team members.
+The `<VPTeamPageSection>` component has the `#title` and `#lead` slots from the `VPTeamPageTitle` component, and also a `#members` slot for displaying team members.
 
-Remember to put in `<VPTeamMembers>` component within `#members` slot.
+Remember to put a `<VPTeamMembers>` component within the `#members` slot.
 
 ## `<VPTeamMembers>`
 
@@ -176,7 +176,7 @@ The `<VPTeamMembers>` component displays a given list of members.
 
 ```ts
 interface Props {
-  // Size of each members. Defaults to `medium`.
+  // Size of each member. Defaults to `medium`.
   size?: 'small' | 'medium'
 
   // List of members to display.
@@ -218,11 +218,11 @@ interface TeamMember {
 
 ## `<VPTeamPage>`
 
-The root component when creating a full team page. It only accepts a single slot. It will style all passed in team related components.
+The root component when creating a full team page. It only accepts a single slot. It will style all team related components passed in.
 
 ## `<VPTeamPageTitle>`
 
-Adds "title" section of the page. Best use at the very beginning under `<VPTeamPage>`. It accepts `#title` and `#lead` slot.
+Adds a "title" section to the page. Best used at the very beginning under `<VPTeamPage>`. It accepts `#title` and `#lead` slots.
 
 ```html
 <VPTeamPage>
@@ -240,7 +240,7 @@ Adds "title" section of the page. Best use at the very beginning under `<VPTeamP
 
 ## `<VPTeamPageSection>`
 
-Creates a "section" with in team page. It accepts `#title`, `#lead`, and `#members` slot. You may add as many sections as you like inside `<VPTeamPage>`.
+Creates a section within the team page. It accepts `#title`, `#lead`, and `#members` slots. You can add as many sections as you like inside `<VPTeamPage>`.
 
 ```html
 <VPTeamPage>
