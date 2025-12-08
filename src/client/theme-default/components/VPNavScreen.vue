@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useScrollLock } from '@vueuse/core'
+import { useCssVar, useScrollLock, useWindowScroll } from '@vueuse/core'
 import { inBrowser } from 'vitepress'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import VPNavScreenAppearance from './VPNavScreenAppearance.vue'
 import VPNavScreenMenu from './VPNavScreenMenu.vue'
 import VPNavScreenSocialLinks from './VPNavScreenSocialLinks.vue'
@@ -13,6 +13,26 @@ defineProps<{
 
 const screen = ref<HTMLElement | null>(null)
 const isLocked = useScrollLock(inBrowser ? document.body : null)
+
+const { y } = useWindowScroll()
+const navHeightVar = inBrowser
+  ? useCssVar('--vp-nav-height', document.documentElement)
+  : ref('0')
+const layoutTopHeightVar = inBrowser
+  ? useCssVar('--vp-layout-top-height', document.documentElement)
+  : ref('0')
+
+const screenTop = computed(() => {
+  if (!inBrowser) {
+    return '0px'
+  }
+
+  const navHeight = Number.parseFloat(navHeightVar.value || '0')
+  const layoutTopHeight = Number.parseFloat(layoutTopHeightVar.value || '0')
+  const remainingNav = Math.max(navHeight - y.value, 0)
+
+  return `${layoutTopHeight + remainingNav}px`
+})
 </script>
 
 <template>
@@ -21,7 +41,13 @@ const isLocked = useScrollLock(inBrowser ? document.body : null)
     @enter="isLocked = true"
     @after-leave="isLocked = false"
   >
-    <div v-if="open" class="VPNavScreen" ref="screen" id="VPNavScreen">
+    <div
+      v-if="open"
+      class="VPNavScreen"
+      ref="screen"
+      id="VPNavScreen"
+      :style="{ top: screenTop }"
+    >
       <div class="container">
         <slot name="nav-screen-content-before" />
         <VPNavScreenMenu class="menu" />
