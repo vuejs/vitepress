@@ -27,7 +27,8 @@ const { site, theme } = useData()
   justify-content: space-between;
   align-items: center;
   border-radius: 8px;
-  padding: 12px 14px 12px 16px;
+  padding-block: 12px;
+  padding-inline: 16px 14px;
   background-color: var(--vp-c-bg-soft);
 }
 

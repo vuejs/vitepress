@@ -812,7 +812,7 @@ function onMouseMove(e: MouseEvent) {
   max-height: 140px;
   overflow: hidden;
   position: relative;
-  margin-top: 4px;
+  margin-block-start: 4px;
 }
 
 .result.selected .excerpt {
@@ -842,8 +842,8 @@ function onMouseMove(e: MouseEvent) {
 
 .excerpt-gradient-bottom {
   position: absolute;
-  bottom: -1px;
-  left: 0;
+  inset-block-end: -1px;
+  inset-inline-start: 0;
   width: 100%;
   height: 8px;
   background: linear-gradient(transparent, var(--vp-local-search-result-bg));
@@ -852,8 +852,8 @@ function onMouseMove(e: MouseEvent) {
 
 .excerpt-gradient-top {
   position: absolute;
-  top: -1px;
-  left: 0;
+  inset-block-start: -1px;
+  inset-inline-start: 0;
   width: 100%;
   height: 8px;
   background: linear-gradient(var(--vp-local-search-result-bg), transparent);

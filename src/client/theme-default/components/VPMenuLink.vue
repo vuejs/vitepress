@@ -44,7 +44,7 @@ defineOptions({ inheritAttrs: false })
 <style scoped>
 .VPMenuGroup + .VPMenuLink {
   margin: 12px -12px 0;
-  border-top: 1px solid var(--vp-c-divider);
+  border-block-start: 1px solid var(--vp-c-divider);
   padding: 12px 12px 0;
 }
 
@@ -56,7 +56,7 @@ defineOptions({ inheritAttrs: false })
   font-size: 14px;
   font-weight: 500;
   color: var(--vp-c-text-1);
-  text-align: left;
+  text-align: start;
   white-space: nowrap;
   transition:
     background-color 0.25s,
