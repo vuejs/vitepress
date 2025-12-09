@@ -188,8 +188,6 @@ watchPostEffect(() => {
   justify-content: flex-end;
   align-items: center;
   height: var(--vp-nav-height);
-  margin-inline-end: -100vw;
-  padding-inline-end: 100vw;
   transition: background-color 0.5s;
 }
 
@@ -201,6 +199,11 @@ watchPostEffect(() => {
 
   .VPNavBar:not(.has-sidebar):not(.home.top) .content-body {
     background-color: transparent;
+  }
+
+  .content-body {
+    margin-inline-end: -100vw;
+    padding-inline-end: 100vw;
   }
 }
 
