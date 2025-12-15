@@ -47,7 +47,6 @@ watchEffect(() => {
   width: 100%;
   pointer-events: none;
   transition: background-color 0.5s;
-  overflow-x: clip;
 }
 
 @media (min-width: 960px) {
