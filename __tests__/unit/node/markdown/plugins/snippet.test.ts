@@ -1,7 +1,8 @@
 import {
   dedent,
   findRegions,
-  rawPathToToken
+  rawPathToToken,
+  stripRegionMarkers
 } from 'node/markdown/plugins/snippet'
 import { expect } from 'vitest'
 
@@ -405,6 +406,75 @@ describe('node/markdown/plugins/snippet', () => {
         ].join('\n')
         expect(extracted).toBe(expected)
       }
+    })
+
+    it('handles region names with hyphens and special characters', () => {
+      const lines = [
+        '// #region complex-name_123',
+        'const x = 1;',
+        '// #endregion complex-name_123'
+      ]
+      const result = findRegions(lines, 'complex-name_123')
+      expect(result).toHaveLength(1)
+      if (result) {
+        const extracted = result
+          .flatMap((r) =>
+            lines
+              .slice(r.start, r.end)
+              .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
+          )
+          .join('\n')
+        expect(extracted).toBe('const x = 1;')
+      }
+    })
+  })
+
+  describe('stripRegionMarkers', () => {
+    it('removes #region and #endregion lines', () => {
+      const src = [
+        '// #region A',
+        '// #region B',
+        'console.log("Hello, World!");',
+        '// #endregion B',
+        '// #endregion A'
+      ]
+      expect(stripRegionMarkers(src)).toBe('console.log("Hello, World!");')
+    })
+
+    it('removes region markers for various syntaxes', () => {
+      const src = [
+        '<!-- #region html -->',
+        '<div>hi</div>',
+        '<!-- #endregion html -->',
+        '/* #region css */',
+        'body {}',
+        '/* #endregion css */',
+        '#pragma region cpp',
+        'int main(){}',
+        '#pragma endregion cpp',
+        '::#region bat',
+        'ECHO ON',
+        'REM #endregion bat'
+      ]
+      const out = stripRegionMarkers(src)
+      expect(out).not.toContain('#region')
+      expect(out).not.toContain('#endregion')
+      expect(out).toContain('<div>hi</div>')
+      expect(out).toContain('body {}')
+      expect(out).toContain('int main(){}')
+      expect(out).toContain('ECHO ON')
+    })
+
+    it('removes markers even if indented or with extra spaces', () => {
+      const src = [
+        '   //   #region   spaced  ',
+        '\t/* #region */',
+        'code();',
+        '   // #endregion spaced',
+        '/*    #endregion   */'
+      ]
+      const out = stripRegionMarkers(src)
+      expect(out.trim()).toBe('code();')
     })
   })
 })

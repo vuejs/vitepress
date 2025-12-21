@@ -71,9 +71,13 @@ export function processIncludes(
           }
         }
 
-        content = regions
-          .flatMap((region) => lines.slice(region.start, region.end))
-          .join('\n')
+        if (regions.length > 0) {
+          content = regions
+            .flatMap((region) => lines.slice(region.start, region.end))
+            .join('\n')
+        } else {
+          content = `No region or heading #${region} found in path: ${includePath}`
+        }
       }
 
       if (range) {

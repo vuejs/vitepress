@@ -126,6 +126,17 @@ export function findRegions(lines: string[], regionName: string) {
   return returned
 }
 
+export function stripRegionMarkers(lines: string[]): string {
+  return lines
+    .filter((l) => {
+      for (const m of markers) {
+        if (m.start.test(l) || m.end.test(l)) return false
+      }
+      return true
+    })
+    .join('\n')
+}
+
 export const snippetPlugin = (md: MarkdownItAsync, srcDir: string) => {
   const parser: RuleBlock = (state, startLine, endLine, silent) => {
     const CH = '<'.charCodeAt(0)
@@ -182,7 +193,7 @@ export const snippetPlugin = (md: MarkdownItAsync, srcDir: string) => {
     const [tokens, idx, , { includes }] = args
     const token = tokens[idx]
     // @ts-ignore
-    const [src, regionName] = token.src ?? []
+    const [src, region] = token.src ?? []
 
     if (!src) return fence(...args)
 
@@ -204,21 +215,27 @@ export const snippetPlugin = (md: MarkdownItAsync, srcDir: string) => {
 
     let content = fs.readFileSync(src, 'utf8').replace(/\r\n/g, '\n')
 
-    if (regionName) {
+    if (region) {
       const lines = content.split('\n')
-      const regions = findRegions(lines, regionName)
+      const regions = findRegions(lines, region)
 
       if (regions.length > 0) {
         content = dedent(
-          regions
-            .flatMap((r) =>
+          stripRegionMarkers(
+            regions.flatMap((r) =>
               lines
                 .slice(r.start, r.end)
                 .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
             )
-            .join('\n')
+          )
         )
+      } else {
+        token.content = `No region #${region} found in path: ${src}`
+        token.info = ''
+        return fence(...args)
       }
+    } else {
+      content = stripRegionMarkers(content.split('\n'))
     }
 
     token.content = content
