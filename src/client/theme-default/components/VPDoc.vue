@@ -121,15 +121,15 @@ const pageName = computed(() =>
   display: none;
   order: 2;
   flex-grow: 1;
-  padding-left: 32px;
+  padding-inline-start: 32px;
   width: 100%;
   max-width: 256px;
 }
 
 .left-aside {
   order: 1;
-  padding-left: unset;
-  padding-right: 32px;
+  padding-inline-start: unset;
+  padding-inline-end: 32px;
 }
 
 .aside-container {

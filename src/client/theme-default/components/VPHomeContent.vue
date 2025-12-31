@@ -39,8 +39,8 @@ const { width: vw } = useWindowSize({
 
 .vp-doc :deep(.VPHomeSponsors),
 .vp-doc :deep(.VPTeamPage) {
-  margin-left: var(--vp-offset, calc(50% - 50vw));
-  margin-right: var(--vp-offset, calc(50% - 50vw));
+  margin-inline-start: var(--vp-offset, calc(50% - 50vw));
+  margin-inline-end: var(--vp-offset, calc(50% - 50vw));
 }
 
 .vp-doc :deep(.VPHomeSponsors h2) {

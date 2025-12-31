@@ -70,7 +70,7 @@ const target = computed(() =>
 }
 
 :deep(.logo) {
-  margin-right: 8px;
+  margin-inline-end: 8px;
   height: var(--vp-nav-logo-height);
 }
 </style>

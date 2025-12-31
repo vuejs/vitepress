@@ -73,6 +73,6 @@ defineProps<{
 }
 
 .VPMenu :deep(.action) {
-  padding-left: 24px;
+  padding-inline-start: 24px;
 }
 </style>

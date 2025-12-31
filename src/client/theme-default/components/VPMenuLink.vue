@@ -56,7 +56,7 @@ defineOptions({ inheritAttrs: false })
   font-size: 14px;
   font-weight: 500;
   color: var(--vp-c-text-1);
-  text-align: left;
+  text-align: start;
   white-space: nowrap;
   transition:
     background-color 0.25s,

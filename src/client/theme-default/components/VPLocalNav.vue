@@ -84,7 +84,7 @@ const classes = computed(() => {
   }
 
   .VPLocalNav.has-sidebar {
-    padding-left: var(--vp-sidebar-width);
+    padding-inline-start: var(--vp-sidebar-width);
   }
 
   .VPLocalNav.empty {
@@ -126,7 +126,7 @@ const classes = computed(() => {
 }
 
 .menu-icon {
-  margin-right: 8px;
+  margin-inline-end: 8px;
   font-size: 14px;
 }
 

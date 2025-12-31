@@ -111,7 +111,7 @@ const { heroImageSlotExists } = inject(layoutInfoInjectionKey)!
 
 @media (min-width: 960px) {
   .VPHero.has-image .container {
-    text-align: left;
+    text-align: start;
   }
 }
 
