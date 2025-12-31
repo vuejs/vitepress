@@ -65,6 +65,11 @@
   background-color: var(--vp-code-tab-active-bar-color);
 }
 
+.vp-code-block-title [data-title]::before,
+.vp-code-group [data-title]::before {
+  margin-inline-end: 0.5em;
+}
+
 .vp-code-group div[class*='language-'],
 .vp-block {
   display: none;
