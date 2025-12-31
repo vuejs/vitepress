@@ -236,7 +236,7 @@ function onCaretClick() {
 }
 
 :where([dir="rtl"]) .VPSidebarItem.collapsed .caret-icon {
-  transform: rotate(180deg);
+  transform: scaleX(-1);
 }
 
 .VPSidebarItem.level-1 .items,

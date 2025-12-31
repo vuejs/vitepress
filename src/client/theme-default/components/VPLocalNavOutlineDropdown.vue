@@ -121,7 +121,7 @@ function scrollToTop() {
 }
 
 :where([dir="rtl"]) .icon {
-  transform: rotate(180deg);
+  transform: scaleX(-1);
 }
 
 @media (min-width: 960px) {

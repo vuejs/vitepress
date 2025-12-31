@@ -251,5 +251,5 @@ mjx-container > svg {
 }
 
 :where([dir='rtl']) .vp-icon-directional {
-  transform: rotate(180deg);
+  transform: scaleX(-1);
 }
