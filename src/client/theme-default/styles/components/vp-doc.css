@@ -248,6 +248,8 @@
 .vp-doc :not(pre, h1, h2, h3, h4, h5, h6) > code {
   font-size: var(--vp-code-font-size);
   color: var(--vp-code-color);
+  direction: ltr;
+  unicode-bidi: isolate;
 }
 
 .vp-doc :not(pre) > code {
