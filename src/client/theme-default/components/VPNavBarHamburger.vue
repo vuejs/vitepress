@@ -48,6 +48,10 @@ defineEmits<{
   overflow: hidden;
 }
 
+:where([dir="rtl"]) .container {
+  transform: scaleX(-1);
+}
+
 .VPNavBarHamburger:hover .top    { top: 0; inset-inline-start: 0; transform: translateX(4px); }
 .VPNavBarHamburger:hover .middle { top: 6px; inset-inline-start: 0; transform: translateX(0); }
 .VPNavBarHamburger:hover .bottom { top: 12px; inset-inline-start: 0; transform: translateX(8px); }
