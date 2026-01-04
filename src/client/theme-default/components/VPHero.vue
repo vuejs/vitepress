@@ -24,7 +24,7 @@ defineProps<{
 const { heroImageSlotExists } = inject(
   layoutInfoInjectionKey,
   { heroImageSlotExists: computed(() => false) }
-);
+)
 </script>
 
 <template>
