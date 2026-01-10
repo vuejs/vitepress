@@ -30,7 +30,7 @@ $ yarn add -D vitepress@next vue
 ```
 
 ```sh [bun]
-$ bun add -D vitepress@next
+$ bun add -D vitepress@next vue
 ```
 
 :::
