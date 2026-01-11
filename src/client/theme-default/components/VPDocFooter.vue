@@ -80,11 +80,11 @@ const showFooter = computed(
 
 <style scoped>
 .VPDocFooter {
-  margin-top: 64px;
+  margin-block-start: 64px;
 }
 
 .edit-info {
-  padding-bottom: 18px;
+  padding-block-end: 18px;
 }
 
 @media (min-width: 640px) {
@@ -92,7 +92,7 @@ const showFooter = computed(
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 14px;
+    padding-block-end: 14px;
   }
 }
 
@@ -112,12 +112,12 @@ const showFooter = computed(
 }
 
 .edit-link-icon {
-  margin-right: 8px;
+  margin-inline-end: 8px;
 }
 
 .prev-next {
-  border-top: 1px solid var(--vp-c-divider);
-  padding-top: 24px;
+  border-block-start: 1px solid var(--vp-c-divider);
+  padding-block-start: 24px;
   display: grid;
   grid-row-gap: 8px;
 }
@@ -144,8 +144,8 @@ const showFooter = computed(
 }
 
 .pager-link.next {
-  margin-left: auto;
-  text-align: right;
+  margin-inline-start: auto;
+  text-align: end;
 }
 
 .desc {

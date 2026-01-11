@@ -68,7 +68,7 @@ withDefaults(defineProps<Props>(), {
 }
 
 .VPTeamMembersItem.small .data {
-  padding-top: 20px;
+  padding-block-start: 20px;
 }
 
 .VPTeamMembersItem.small .avatar {
@@ -82,13 +82,13 @@ withDefaults(defineProps<Props>(), {
 }
 
 .VPTeamMembersItem.small .affiliation {
-  padding-top: 4px;
+  padding-block-start: 4px;
   line-height: 20px;
   font-size: 14px;
 }
 
 .VPTeamMembersItem.small .desc {
-  padding-top: 12px;
+  padding-block-start: 12px;
   line-height: 20px;
   font-size: 14px;
 }
@@ -103,7 +103,7 @@ withDefaults(defineProps<Props>(), {
 }
 
 .VPTeamMembersItem.medium .data {
-  padding-top: 24px;
+  padding-block-start: 24px;
   text-align: center;
 }
 
@@ -119,12 +119,12 @@ withDefaults(defineProps<Props>(), {
 }
 
 .VPTeamMembersItem.medium .affiliation {
-  padding-top: 4px;
+  padding-block-start: 4px;
   font-size: 16px;
 }
 
 .VPTeamMembersItem.medium .desc {
-  padding-top: 16px;
+  padding-block-start: 16px;
   max-width: 288px;
   font-size: 16px;
 }
@@ -153,10 +153,7 @@ withDefaults(defineProps<Props>(), {
 
 .avatar-img {
   position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  inset: 0;
   border-radius: 50%;
   object-fit: cover;
 }
@@ -219,7 +216,7 @@ withDefaults(defineProps<Props>(), {
 }
 
 .sp-icon {
-  margin-right: 8px;
+  margin-inline-end: 8px;
   font-size: 16px;
 }
 </style>

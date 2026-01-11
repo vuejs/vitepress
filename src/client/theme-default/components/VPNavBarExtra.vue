@@ -64,7 +64,7 @@ const hasExtraContent = computed(
 <style scoped>
 .VPNavBarExtra {
   display: none;
-  margin-right: -12px;
+  margin-inline-end: -12px;
 }
 
 @media (min-width: 768px) {
@@ -80,7 +80,8 @@ const hasExtraContent = computed(
 }
 
 .trans-title {
-  padding: 0 24px 0 12px;
+  padding-block: 0;
+  padding-inline: 12px 24px;
   line-height: 32px;
   font-size: 14px;
   font-weight: 700;
@@ -99,7 +100,7 @@ const hasExtraContent = computed(
 }
 
 .appearance-action {
-  margin-right: -2px;
+  margin-inline-end: -2px;
 }
 
 .social-links-list {

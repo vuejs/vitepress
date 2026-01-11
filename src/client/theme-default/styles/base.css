@@ -249,3 +249,11 @@ mjx-container > svg {
   display: inline-block;
   margin: auto;
 }
+
+:root {
+  --vp-direction-multiplier: 1; /* 1 for LTR, -1 for RTL */
+}
+
+[dir='rtl'] {
+  --vp-direction-multiplier: -1;
+}

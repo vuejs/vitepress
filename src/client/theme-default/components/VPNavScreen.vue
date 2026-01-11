@@ -37,12 +37,7 @@ const isLocked = useScrollLock(inBrowser ? document.body : null)
 <style scoped>
 .VPNavScreen {
   position: fixed;
-  top: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px));
-  /*rtl:ignore*/
-  right: 0;
-  bottom: 0;
-  /*rtl:ignore*/
-  left: 0;
+  inset: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px)) 0 0;
   padding: 0 32px;
   width: 100%;
   background-color: var(--vp-nav-screen-bg-color);
@@ -86,14 +81,14 @@ const isLocked = useScrollLock(inBrowser ? document.body : null)
 .menu + .translations,
 .menu + .appearance,
 .translations + .appearance {
-  margin-top: 24px;
+  margin-block-start: 24px;
 }
 
 .menu + .social-links {
-  margin-top: 16px;
+  margin-block-start: 16px;
 }
 
 .appearance + .social-links {
-  margin-top: 16px;
+  margin-block-start: 16px;
 }
 </style>
