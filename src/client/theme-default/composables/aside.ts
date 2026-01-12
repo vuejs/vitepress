@@ -5,14 +5,14 @@ import { useLayout } from './layout'
 export function useAside() {
   const { hasSidebar } = useLayout()
   const is960 = useMediaQuery('(min-width: 960px)')
-  const is1280 = useMediaQuery('(min-width: 1280px)')
+  const is1200 = useMediaQuery('(min-width: 1200px)')
 
   const isAsideEnabled = computed(() => {
-    if (!is1280.value && !is960.value) {
+    if (!is1200.value && !is960.value) {
       return false
     }
 
-    return hasSidebar.value ? is1280.value : is960.value
+    return hasSidebar.value ? is1200.value : is960.value
   })
 
   return {

@@ -30,7 +30,7 @@ const { localeLinks, currentLang } = useLangs({ correspondingLink: true })
   display: none;
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 1200px) {
   .VPNavBarTranslations {
     display: flex;
     align-items: center;

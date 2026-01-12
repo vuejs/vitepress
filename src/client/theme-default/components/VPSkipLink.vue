@@ -40,7 +40,7 @@ watch(() => route.path, () => backToTop.value.focus())
   clip-path: none;
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 1200px) {
   .VPSkipLink {
     top: 14px;
     left: 16px;

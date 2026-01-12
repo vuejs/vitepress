@@ -73,7 +73,7 @@ const hasExtraContent = computed(
   }
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 1200px) {
   .VPNavBarExtra {
     display: none;
   }
