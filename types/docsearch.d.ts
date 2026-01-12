@@ -1,7 +1,10 @@
 export interface DocSearchProps {
-  appId: string
-  apiKey: string
-  indexName: string
+  /**
+   * Keyword search (optional when using Ask AI side panel only).
+   */
+  appId?: string
+  apiKey?: string
+  indexName?: string
   placeholder?: string
   searchParameters?: SearchOptions
   disableUserPersonalization?: boolean
@@ -9,6 +12,15 @@ export interface DocSearchProps {
   insights?: boolean
   translations?: DocSearchTranslations
   askAi?: DocSearchAskAi | string
+  /**
+   * Ask AI side panel integration mode.
+   *
+   * @default 'auto'
+   * - 'auto': infer hybrid vs sidePanel-only from provided config
+   * - 'sidePanel': force sidePanel-only even if keyword search is configured
+   * - 'hybrid': force hybrid (error if keyword search is not configured)
+   */
+  mode?: 'auto' | 'sidePanel' | 'hybrid'
 }
 
 export interface SearchOptions {
@@ -199,7 +211,57 @@ export interface DocSearchAskAi {
   /**
    * The search parameters to use for the ask AI feature.
    */
-  searchParameters?: {
-    facetFilters?: SearchOptions['facetFilters']
+  searchParameters?: Pick<
+    SearchOptions,
+    | 'facetFilters'
+    | 'filters'
+    | 'attributesToRetrieve'
+    | 'restrictSearchableAttributes'
+    | 'distinct'
+  >
+  /**
+   * Enables/disables showing suggested questions on Ask AI's new conversation screen.
+   */
+  suggestedQuestions?: boolean
+  /**
+   * Ask AI side panel configuration.
+   */
+  sidePanel?: boolean | SidePanelConfig
+}
+
+/**
+ * Sidepanel configuration (flat, mirrors @docsearch/sidepanel-js API).
+ * @see https://docsearch.algolia.com/docs/sidepanel/api-reference
+ */
+export interface SidePanelConfig {
+  /**
+   * Default: 'floating'
+   */
+  variant?: 'floating' | 'inline'
+  /**
+   * Default: 'right'
+   */
+  side?: 'right' | 'left'
+  /**
+   * Default: '360px'
+   */
+  width?: number | string
+  /**
+   * Default: '580px'
+   */
+  expandedWidth?: number | string
+  /**
+   * Enables displaying suggested questions on new conversation screen.
+   */
+  suggestedQuestions?: boolean
+  /**
+   * Default: {'Ctrl/Cmd+I': true}
+   */
+  keyboardShortcuts?: {
+    'Ctrl/Cmd+I'?: boolean
   }
+  /**
+   * Default: 'light'
+   */
+  theme?: 'light' | 'dark'
 }

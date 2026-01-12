@@ -1,9 +1,12 @@
 <script lang="ts" setup>
 import '@docsearch/css'
+import '@docsearch/css/dist/sidepanel.css'
 import { onKeyStroke } from '@vueuse/core'
 import type { DefaultTheme } from 'vitepress/theme'
-import { defineAsyncComponent, onMounted, onUnmounted, ref } from 'vue'
+import { computed, defineAsyncComponent, onMounted, onUnmounted, ref } from 'vue'
 import { useData } from '../composables/data'
+import { hasKeywordSearch, resolveDocSearchMode } from '../support/docsearch'
+import VPNavBarAskAiButton from './VPNavBarAskAiButton.vue'
 import VPNavBarSearchButton from './VPNavBarSearchButton.vue'
 
 const VPLocalSearchBox = __VP_LOCAL_SEARCH__
@@ -14,7 +17,39 @@ const VPAlgoliaSearchBox = __ALGOLIA__
   ? defineAsyncComponent(() => import('./VPAlgoliaSearchBox.vue'))
   : () => null
 
-const { theme } = useData()
+const { theme, localeIndex } = useData()
+
+const algoliaOptions = computed(() => {
+  const base =
+    ((theme.value.search?.options as DefaultTheme.AlgoliaSearchOptions) ??
+      theme.value.algolia) ||
+    ({} as DefaultTheme.AlgoliaSearchOptions)
+  return {
+    ...base,
+    ...base.locales?.[localeIndex.value]
+  } as DefaultTheme.AlgoliaSearchOptions
+})
+
+const resolvedAlgoliaMode = computed(() => resolveDocSearchMode(algoliaOptions.value))
+const showKeywordSearchButton = computed(
+  () =>
+    resolvedAlgoliaMode.value !== 'sidePanel' &&
+    hasKeywordSearch(algoliaOptions.value)
+)
+
+const askAiSidePanelConfig = computed(() => {
+  const askAi = algoliaOptions.value.askAi
+  if (!askAi || typeof askAi === 'string') return null
+  if (!askAi.sidePanel) return null
+  return askAi.sidePanel === true ? ({} as NonNullable<typeof askAi.sidePanel>) : askAi.sidePanel
+})
+
+const askAiShortcutEnabled = computed(() => {
+  const cfg: any = askAiSidePanelConfig.value
+  return cfg?.keyboardShortcuts?.['Ctrl/Cmd+I'] !== false
+})
+
+let isProgrammaticOpen = false
 
 // to avoid loading the docsearch js upfront (which is more than 1/3 of the
 // payload), we delay initializing it until the user has actually clicked or
@@ -25,15 +60,22 @@ const actuallyLoaded = ref(false)
 const preconnect = () => {
   const id = 'VPAlgoliaPreconnect'
 
+  if (document.getElementById(id)) return
+
+  const appId =
+    algoliaOptions.value.appId ||
+    (typeof algoliaOptions.value.askAi === 'object'
+      ? algoliaOptions.value.askAi?.appId
+      : undefined)
+
+  if (!appId) return
+
   const rIC = window.requestIdleCallback || setTimeout
   rIC(() => {
     const preconnect = document.createElement('link')
     preconnect.id = id
     preconnect.rel = 'preconnect'
-    preconnect.href = `https://${
-      ((theme.value.search?.options as DefaultTheme.AlgoliaSearchOptions) ??
-        theme.value.algolia)!.appId
-    }-dsn.algolia.net`
+    preconnect.href = `https://${appId}-dsn.algolia.net`
     preconnect.crossOrigin = ''
     document.head.appendChild(preconnect)
   })
@@ -47,13 +89,31 @@ onMounted(() => {
   preconnect()
 
   const handleSearchHotKey = (event: KeyboardEvent) => {
+    if (isProgrammaticOpen) return
+
+    const key = event.key?.toLowerCase()
+
     if (
-      (event.key?.toLowerCase() === 'k' && (event.metaKey || event.ctrlKey)) ||
-      (!isEditingContent(event) && event.key === '/')
+      showKeywordSearchButton.value &&
+      ((key === 'k' && (event.metaKey || event.ctrlKey)) ||
+        (!isEditingContent(event) && event.key === '/'))
     ) {
       event.preventDefault()
-      load()
       remove()
+      loadAndOpen('search')
+      return
+    }
+
+    if (
+      askAiSidePanelConfig.value &&
+      askAiShortcutEnabled.value &&
+      key === 'i' &&
+      (event.metaKey || event.ctrlKey) &&
+      !isEditingContent(event)
+    ) {
+      event.preventDefault()
+      remove()
+      loadAndOpen('askAi')
     }
   }
 
@@ -66,26 +126,60 @@ onMounted(() => {
   onUnmounted(remove)
 })
 
-function load() {
-  if (!loaded.value) {
-    loaded.value = true
-    setTimeout(poll, 16)
-  }
+type OpenTarget = 'search' | 'askAi'
+
+function programmaticOpen(target: OpenTarget) {
+  isProgrammaticOpen = true
+  open(target)
+  queueMicrotask(() => {
+    isProgrammaticOpen = false
+  })
 }
 
-function poll() {
-  // programmatically open the search box after initialize
+function loadAndOpen(target: OpenTarget) {
+  if (!loaded.value) {
+    loaded.value = true
+    setTimeout(() => pollOpen(target, 0), 16)
+    return
+  }
+  programmaticOpen(target)
+}
+
+function open(target: OpenTarget) {
   const e = new Event('keydown') as any
 
-  e.key = 'k'
+  e.key = target === 'search' ? 'k' : 'i'
   e.metaKey = true
+  e.ctrlKey = true
 
   window.dispatchEvent(e)
+}
+
+function pollOpen(target: OpenTarget, tries: number) {
+  // For askAi, first wait until sidepanel-js has rendered its button
+  if (target === 'askAi') {
+    const sidepanelReady = document.querySelector(
+      '#docsearch-sidepanel .DocSearchSidepanel-Button, #docsearch-sidepanel [class*="Sidepanel"]'
+    )
+    if (!sidepanelReady) {
+      if (tries < 120) {
+        setTimeout(() => pollOpen(target, tries + 1), 16)
+      }
+      return
+    }
+  }
+
+  programmaticOpen(target)
 
   setTimeout(() => {
-    if (!document.querySelector('.DocSearch-Modal')) {
-      poll()
-    }
+    const opened =
+      target === 'search'
+        ? Boolean(document.querySelector('.DocSearch-Modal'))
+        : Boolean(document.querySelector('[class*="Sidepanel"][class*="open"], [class*="Sidepanel"][class*="visible"]'))
+
+    if (opened) return
+    if (tries >= 120) return
+    pollOpen(target, tries + 1)
   }, 16)
 }
 
@@ -145,8 +239,20 @@ const provider = __ALGOLIA__ ? 'algolia' : __VP_LOCAL_SEARCH__ ? 'local' : ''
       />
 
       <div v-if="!actuallyLoaded" id="docsearch">
-        <VPNavBarSearchButton @click="load" />
+        <VPNavBarSearchButton
+          v-if="showKeywordSearchButton"
+          @click="loadAndOpen('search')"
+        />
       </div>
+
+      <!-- Ask AI button (always visible when configured) -->
+      <VPNavBarAskAiButton
+        v-if="askAiSidePanelConfig"
+        @click="loadAndOpen('askAi')"
+      />
+
+      <!-- Sidepanel-js renders the panel into this container -->
+      <div id="docsearch-sidepanel" />
     </template>
   </div>
 </template>
@@ -155,6 +261,7 @@ const provider = __ALGOLIA__ ? 'algolia' : __VP_LOCAL_SEARCH__ ? 'local' : ''
 .VPNavBarSearch {
   display: flex;
   align-items: center;
+  gap: 8px;
 }
 
 @media (min-width: 768px) {

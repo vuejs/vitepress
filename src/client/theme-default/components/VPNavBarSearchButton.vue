@@ -105,8 +105,8 @@ const translate = createSearchTranslate(defaultTranslations)
 
 @media (min-width: 768px) {
   .DocSearch-Button {
-    --docsearch-muted-color: var(--docsearch-secondary-text-color);
-    --docsearch-searchbox-background: var(--vp-c-bg-alt);
+    background-color: var(--vp-c-bg-alt);
+    color: var(--docsearch-secondary-text-color);
   }
 
   .DocSearch-Search-Icon {

@@ -342,6 +342,72 @@ If want to default to keyword search and do not want to use Ask AI, just omit th
 
 The translations for the Ask AI UI live under `options.translations.modal.askAiScreen` and `options.translations.resultsScreen` — see the [type definitions](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts) for all keys.
 
+### Ask AI Side Panel {#ask-ai-side-panel}
+
+DocSearch v4.4+ supports an optional **Ask AI side panel**. When enabled, it can be opened with **Ctrl/Cmd+I** (this keyboard shortcut is always enabled and cannot be customized). The [Sidepanel API Reference](https://docsearch.algolia.com/docs/sidepanel/api-reference) contains the full list of options.
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'algolia',
+      options: {
+        appId: '...',
+        apiKey: '...',
+        indexName: '...',
+        askAi: {
+          assistantId: 'XXXYYY',
+          sidePanel: {
+            // Flat config – mirrors @docsearch/sidepanel-js API
+            variant: 'floating', // or 'inline'
+            side: 'right',
+            width: '360px',
+            expandedWidth: '580px',
+            suggestedQuestions: true
+          }
+        }
+      }
+    }
+  }
+})
+```
+
+### Mode (auto / sidePanel / hybrid) {#ask-ai-mode}
+
+You can optionally control how VitePress integrates keyword search and Ask AI:
+
+- `mode: 'auto'` (default): infer `hybrid` when keyword search is configured, otherwise `sidePanel` when Ask AI is configured.
+- `mode: 'sidePanel'`: force side panel only.
+- `mode: 'hybrid'`: force hybrid (requires keyword search configuration).
+
+### Ask AI only (no keyword search) {#ask-ai-only}
+
+If you want to use **Ask AI side panel only**, you can omit top-level keyword search config and provide credentials under `askAi`:
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'algolia',
+      options: {
+        mode: 'sidePanel',
+        askAi: {
+          assistantId: 'XXXYYY',
+          appId: '...',
+          apiKey: '...',
+          indexName: '...',
+          sidePanel: true
+        }
+      }
+    }
+  }
+})
+```
+
 ### Crawler Config
 
 Here is an example config based on what this site uses:
