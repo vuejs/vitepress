@@ -1,4 +1,4 @@
-import _debug from 'debug'
+import { createDebug } from 'obug'
 import fs from 'fs-extra'
 import path from 'node:path'
 import c from 'picocolors'
@@ -30,7 +30,7 @@ export { resolvePages } from './plugins/dynamicRoutesPlugin'
 export { resolveSiteDataByRoute } from './shared'
 export * from './siteConfig'
 
-const debug = _debug('vitepress:config')
+const debug = createDebug('vitepress:config')
 
 const resolve = (root: string, file: string) =>
   normalizePath(path.resolve(root, `.vitepress`, file))

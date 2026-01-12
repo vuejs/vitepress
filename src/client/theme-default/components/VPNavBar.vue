@@ -171,20 +171,14 @@ watchPostEffect(() => {
     position: relative;
     z-index: 1;
     padding-left: var(--vp-sidebar-width);
-  }
-
-  .VPNavBar.has-sidebar .content-body {
     padding-right: 32px;
   }
 }
 
 @media (min-width: 1440px) {
   .VPNavBar.has-sidebar .content {
-    padding-left: calc((100vw - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));
-  }
-
-  .VPNavBar.has-sidebar .content-body {
-    padding-right: calc((100vw - var(--vp-layout-max-width)) / 2 + 32px);
+    padding-left: calc((100% - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));
+    padding-right: calc((100% - var(--vp-layout-max-width)) / 2 + 32px);
   }
 }
 
@@ -204,6 +198,11 @@ watchPostEffect(() => {
 
   .VPNavBar:not(.has-sidebar):not(.home.top) .content-body {
     background-color: transparent;
+  }
+
+  .content-body {
+    margin-right: -100vw;
+    padding-right: 100vw;
   }
 }
 
@@ -252,7 +251,7 @@ watchPostEffect(() => {
 
 @media (min-width: 1440px) {
   .VPNavBar.has-sidebar .divider {
-    padding-left: calc((100vw - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));
+    padding-left: calc((100% - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));
   }
 }
 
