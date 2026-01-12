@@ -143,6 +143,11 @@ const { heroImageSlotExists } = inject(
   font-size: 32px;
   font-weight: 700;
   white-space: pre-wrap;
+
+  &:lang(ja) {
+    font-feature-settings: 'palt';
+    word-break: auto-phrase;
+  }
 }
 
 .VPHero.has-image .name,
