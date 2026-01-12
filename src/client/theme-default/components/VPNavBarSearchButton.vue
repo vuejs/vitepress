@@ -79,6 +79,14 @@ const translate = createSearchTranslate(defaultTranslations)
   fill: currentColor;
 }
 
+.DocSearch-Logo svg {
+  margin-inline-start: 8px;
+}
+
+.DocSearch-Label {
+  margin-inline-start: 8px;
+}
+
 .DocSearch-SearchBar + .DocSearch-Footer {
   border-top-color: transparent;
 }

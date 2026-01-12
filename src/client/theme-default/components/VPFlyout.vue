@@ -112,12 +112,12 @@ function onBlur() {
 }
 
 .option-icon {
-  margin-right: 0px;
+  margin-inline-end: 0px;
   font-size: 16px;
 }
 
 .text-icon {
-  margin-left: 4px;
+  margin-inline-start: 4px;
   font-size: 14px;
 }
 
@@ -129,7 +129,7 @@ function onBlur() {
 .menu {
   position: absolute;
   top: calc(var(--vp-nav-height) / 2 + 20px);
-  right: 0;
+  inset-inline-end: 0;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.25s, visibility 0.25s, transform 0.25s;

@@ -249,3 +249,7 @@ mjx-container > svg {
   display: inline-block;
   margin: auto;
 }
+
+:where([dir='rtl']) .vp-icon-directional {
+  transform: scaleX(-1);
+}

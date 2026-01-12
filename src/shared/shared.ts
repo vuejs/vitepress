@@ -61,7 +61,15 @@ export function isActive(
   }
 
   if (normalize(matchPath) !== currentPath) {
-    return false
+    // If strict match fails, try adding leading slash to matchPath
+    // This handles cases where config paths are relative (missing leading slash)
+    // but currentPath is absolute.
+    const absoluteMatchPath = normalize(
+      matchPath.startsWith('/') ? matchPath : '/' + matchPath
+    )
+    if (absoluteMatchPath !== currentPath) {
+      return false
+    }
   }
 
   const hashMatch = matchPath.match(HASH_RE)
@@ -73,10 +81,14 @@ export function isActive(
   return true
 }
 
+const INVISIBLE_CHARS_RE = /[\u200B\u200E\u200F\u202A-\u202E]/g
+
 export function normalize(path: string): string {
   return decodeURI(path)
     .replace(HASH_OR_QUERY_RE, '')
     .replace(INDEX_OR_EXT_RE, '$1')
+    .replace(INVISIBLE_CHARS_RE, '')
+    .normalize()
 }
 
 export function isExternal(path: string): boolean {

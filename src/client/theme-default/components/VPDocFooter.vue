@@ -112,7 +112,7 @@ const showFooter = computed(
 }
 
 .edit-link-icon {
-  margin-right: 8px;
+  margin-inline-end: 8px;
 }
 
 .prev-next {
@@ -144,8 +144,8 @@ const showFooter = computed(
 }
 
 .pager-link.next {
-  margin-left: auto;
-  text-align: right;
+  margin-inline-start: auto;
+  text-align: end;
 }
 
 .desc {

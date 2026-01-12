@@ -61,15 +61,16 @@ function toggle() {
 }
 
 .icon.lang {
-  margin-right: 8px;
+  margin-inline-end: 8px;
 }
 
 .icon.chevron {
-  margin-left: 4px;
+  margin-inline-start: 4px;
 }
 
 .list {
   padding: 4px 0 0 24px;
+  padding-inline-start: 24px;
 }
 
 .link {

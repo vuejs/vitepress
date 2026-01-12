@@ -45,7 +45,7 @@
 .vpi-chevron-left,
 .vpi-arrow-left {
   /*rtl:ignore*/
-  transform: rotate(180deg);
+  transform: scaleX(-1);
 }
 .vpi-chevron-up,
 .vpi-arrow-up {

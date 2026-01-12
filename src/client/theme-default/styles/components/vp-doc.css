@@ -45,8 +45,8 @@
 .vp-doc .header-anchor {
   position: absolute;
   top: 0;
-  left: 0;
-  margin-left: -0.87em;
+  inset-inline-start: 0;
+  margin-inline-start: -0.87em;
   font-weight: 500;
   user-select: none;
   opacity: 0;
@@ -102,8 +102,8 @@
 
 .vp-doc blockquote {
   margin: 16px 0;
-  border-left: 2px solid var(--vp-c-divider);
-  padding-left: 16px;
+  border-inline-start: 2px solid var(--vp-c-divider);
+  padding-inline-start: 16px;
   transition: border-color 0.5s;
   color: var(--vp-c-text-2);
 }
@@ -138,7 +138,7 @@
 
 .vp-doc ul,
 .vp-doc ol {
-  padding-left: 1.25rem;
+  padding-inline-start: 1.25rem;
   margin: 16px 0;
 }
 
@@ -187,7 +187,7 @@
 }
 
 .vp-doc th {
-  text-align: left;
+  text-align: start;
   font-size: 14px;
   font-weight: 600;
   color: var(--vp-c-text-2);
@@ -248,6 +248,8 @@
 .vp-doc :not(pre, h1, h2, h3, h4, h5, h6) > code {
   font-size: var(--vp-code-font-size);
   color: var(--vp-code-color);
+  direction: ltr;
+  unicode-bidi: isolate;
 }
 
 .vp-doc :not(pre) > code {
@@ -359,7 +361,7 @@
 
 .vp-doc [class*='language-'] code .diff::before {
   position: absolute;
-  left: 10px;
+  inset-inline-start: 10px;
 }
 
 .vp-doc [class*='language-'] .has-focused-lines .line:not(.has-focus) {
@@ -548,7 +550,7 @@
 :is(.vp-external-link-icon, .vp-doc a[href*='://'], .vp-doc a[target='_blank']):not(:is(.no-icon, svg a, :has(img, svg)))::after {
   display: inline-block;
   margin-top: -1px;
-  margin-left: 4px;
+  margin-inline-start: 4px;
   width: 11px;
   height: 11px;
   background: currentColor;
@@ -558,6 +560,11 @@
   -webkit-mask-image: var(--icon);
   mask-image: var(--icon);
   /*rtl:raw:transform: scaleX(-1);*/
+}
+
+:where([dir='rtl']) :is(.vp-external-link-icon, .vp-doc a[href*='://'], .vp-doc a[target='_blank']):not(:is(.no-icon, svg a, :has(img, svg)))::after
+{
+  transform: scaleX(-1);
 }
 
 .vp-external-link-icon::after {

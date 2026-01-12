@@ -40,7 +40,7 @@ onMounted(() => {
 <template>
   <p class="VPLastUpdated">
     {{ theme.lastUpdated?.text || theme.lastUpdatedText || 'Last updated' }}:
-    <time ref="timeRef" :datetime="isoDatetime">{{ datetime }}</time>
+    <time dir="auto" ref="timeRef" :datetime="isoDatetime">{{ datetime }}</time>
   </p>
 </template>
 
@@ -58,5 +58,9 @@ onMounted(() => {
     font-size: 14px;
     font-weight: 500;
   }
+}
+
+time {
+  unicode-bidi: isolate;
 }
 </style>

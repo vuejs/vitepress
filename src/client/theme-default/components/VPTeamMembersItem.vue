@@ -154,9 +154,9 @@ withDefaults(defineProps<Props>(), {
 .avatar-img {
   position: absolute;
   top: 0;
-  right: 0;
+  inset-inline-end: 0;
   bottom: 0;
-  left: 0;
+  inset-inline-start: 0;
   border-radius: 50%;
   object-fit: cover;
 }
@@ -219,7 +219,7 @@ withDefaults(defineProps<Props>(), {
 }
 
 .sp-icon {
-  margin-right: 8px;
+  margin-inline-end: 8px;
   font-size: 16px;
 }
 </style>

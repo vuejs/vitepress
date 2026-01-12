@@ -50,7 +50,7 @@
 .icon :deep([class^='vpi-']) {
   position: absolute;
   top: 3px;
-  left: 3px;
+  inset-inline-start: 3px;
   width: 12px;
   height: 12px;
   color: var(--vp-c-text-2);

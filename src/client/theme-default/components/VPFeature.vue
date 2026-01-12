@@ -45,7 +45,7 @@ defineProps<{
 
       <div v-if="linkText" class="link-text">
         <p class="link-text-value">
-          {{ linkText }} <span class="vpi-arrow-right link-text-icon" />
+          {{ linkText }} <span class="vpi-arrow-right link-text-icon vp-icon-directional" />
         </p>
       </div>
     </article>
@@ -118,6 +118,6 @@ defineProps<{
 }
 
 .link-text-icon {
-  margin-left: 6px;
+  margin-inline-start: 6px;
 }
 </style>

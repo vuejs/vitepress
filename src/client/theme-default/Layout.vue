@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, provide, useSlots } from 'vue'
+import { computed, provide, useSlots, watchEffect } from 'vue'
 import VPBackdrop from './components/VPBackdrop.vue'
 import VPContent from './components/VPContent.vue'
 import VPFooter from './components/VPFooter.vue'
@@ -17,14 +17,21 @@ const {
   close: closeSidebar
 } = useSidebarControl()
 
-registerWatchers({ closeSidebar })
-
 const { frontmatter } = useData()
+const data = useData()
+
+registerWatchers({ closeSidebar })
 
 const slots = useSlots()
 const heroImageSlotExists = computed(() => !!slots['home-hero-image'])
 
 provide(layoutInfoInjectionKey, { heroImageSlotExists })
+
+watchEffect(() => {
+  if (typeof window !== 'undefined') {
+    document.documentElement.dir = data.site.value.dir
+  }
+})
 </script>
 
 <template>

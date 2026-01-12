@@ -17,7 +17,7 @@ withDefaults(defineProps<Props>(), {
 <style>
 .VPBadge {
   display: inline-block;
-  margin-left: 2px;
+  margin-inline-start: 2px;
   border: 1px solid transparent;
   border-radius: 12px;
   padding: 0 10px;
