@@ -1,6 +1,5 @@
 import type { DefaultTheme } from 'vitepress/theme'
 
-export type ResolvedDocSearchMode = 'keyword' | 'hybrid' | 'sidePanel'
 export type FacetFilter = string | string[]
 
 export interface ValidatedCredentials {
@@ -25,22 +24,6 @@ export function hasAskAi(
   if (!askAi) return false
   if (typeof askAi === 'string') return askAi.length > 0
   return Boolean(askAi.assistantId)
-}
-
-export function resolveDocSearchMode(
-  options: Pick<
-    DefaultTheme.AlgoliaSearchOptions,
-    'mode' | 'appId' | 'apiKey' | 'indexName' | 'askAi'
-  >
-): ResolvedDocSearchMode {
-  if (options.mode === 'sidePanel') return 'sidePanel'
-  if (options.mode === 'hybrid') return 'hybrid'
-
-  // auto (default)
-  const keyword = hasKeywordSearch(options)
-  const askAiEnabled = hasAskAi(options.askAi)
-  if (askAiEnabled) return keyword ? 'hybrid' : 'sidePanel'
-  return 'keyword'
 }
 
 /**

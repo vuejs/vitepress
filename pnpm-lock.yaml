@@ -27,14 +27,14 @@ importers:
   .:
     dependencies:
       '@docsearch/css':
-        specifier: ^4.5.0-beta.0
-        version: 4.5.0-beta.0
+        specifier: ^4.5.0-beta.2
+        version: 4.5.0-beta.2
       '@docsearch/js':
-        specifier: ^4.5.0-beta.0
-        version: 4.5.0-beta.0
+        specifier: ^4.5.0-beta.2
+        version: 4.5.0-beta.2
       '@docsearch/sidepanel-js':
-        specifier: ^4.5.0-beta.0
-        version: 4.5.0-beta.0
+        specifier: ^4.5.0-beta.2
+        version: 4.5.0-beta.2
       '@iconify-json/simple-icons':
         specifier: ^1.2.59
         version: 1.2.59
@@ -399,14 +399,14 @@ packages:
       conventional-commits-parser:
         optional: true
 
-  '@docsearch/css@4.5.0-beta.0':
-    resolution: {integrity: sha512-qVJpvv5Qtfiire7TNFdzi+SQ27EjL+qXu5/EMUFSogJeP7K3PruH1OefTjEPygTp6r020hhfG2rLDXcsrVveNw==}
+  '@docsearch/css@4.5.0-beta.2':
+    resolution: {integrity: sha512-ChNiH493EnFiYEy8ntrjcGHG9eYDSNa8VJy3dvSom3A9YPmXBC40aoX7yHUfjFxO3Ue5ZNXhTxuhC5uyWgSUww==}
 
-  '@docsearch/js@4.5.0-beta.0':
-    resolution: {integrity: sha512-Z7PZIm00WgOpdhwsRAZ8w6pUJdF/YGGAtKzORS+vz7Z/v63anc/75TH3uxDfnEow8kbqJY8heN/ij86BQQ7yzw==}
+  '@docsearch/js@4.5.0-beta.2':
+    resolution: {integrity: sha512-hAt/P7K5eiYW65Xo/4xbDXjLtGgqXEg2y4knz6CUfCcc9m5KnNoi0o1s4lOyP6kehatv3SAiEHoCNGEa+sIqdA==}
 
-  '@docsearch/sidepanel-js@4.5.0-beta.0':
-    resolution: {integrity: sha512-Bh9ZX6+BJvneO1q7lXwpK05vLGeZC4qNxsRgQHwfKCWY0YDKmk0T2qSPt5gVs4i7TMC8G9DbSFMfaFrYqLJR7Q==}
+  '@docsearch/sidepanel-js@4.5.0-beta.2':
+    resolution: {integrity: sha512-HGh0tGlnq5RFowvunjLrQmOgBm5vlFPGfoCbZ6d1xQazepc6yCquBcZn5BTyK+f5D6vzjl0dK4plHX1hmMKVLA==}
 
   '@emnapi/core@1.7.1':
     resolution: {integrity: sha512-o1uhUASyo921r2XtHYOHy7gdkGLge8ghBEQHMWmyJFoXlpU58kIrhhN3w26lpQb6dspetweapMn2CSNwQ8I4wg==}
@@ -3254,11 +3254,11 @@ snapshots:
       conventional-commits-filter: 5.0.0
       conventional-commits-parser: 6.2.1
 
-  '@docsearch/css@4.5.0-beta.0': {}
+  '@docsearch/css@4.5.0-beta.2': {}
 
-  '@docsearch/js@4.5.0-beta.0': {}
+  '@docsearch/js@4.5.0-beta.2': {}
 
-  '@docsearch/sidepanel-js@4.5.0-beta.0': {}
+  '@docsearch/sidepanel-js@4.5.0-beta.2': {}
 
   '@emnapi/core@1.7.1':
     dependencies:

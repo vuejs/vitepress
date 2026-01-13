@@ -3,7 +3,6 @@ import {
   hasAskAi,
   hasKeywordSearch,
   mergeLangFacetFilters,
-  resolveDocSearchMode,
   validateCredentials
 } from 'client/theme-default/support/docsearch'
 
@@ -38,66 +37,6 @@ describe('client/theme-default/support/docsearch', () => {
       expect(
         mergeLangFacetFilters([['lang:fr', 'tag:foo'], 'bar'], 'en')
       ).toEqual([['tag:foo'], 'bar', 'lang:en'])
-    })
-  })
-
-  describe('resolveDocSearchMode', () => {
-    test('defaults to keyword when only keyword search is configured', () => {
-      expect(
-        resolveDocSearchMode({
-          appId: 'app',
-          apiKey: 'key',
-          indexName: 'index',
-          askAi: undefined,
-          mode: undefined
-        })
-      ).toBe('keyword')
-    })
-
-    test('infers hybrid when keyword search + askAi are configured', () => {
-      expect(
-        resolveDocSearchMode({
-          appId: 'app',
-          apiKey: 'key',
-          indexName: 'index',
-          askAi: { assistantId: 'assistant' } as any,
-          mode: 'auto'
-        })
-      ).toBe('hybrid')
-    })
-
-    test('infers sidePanel when only askAi is configured', () => {
-      expect(
-        resolveDocSearchMode({
-          appId: undefined,
-          apiKey: undefined,
-          indexName: undefined,
-          askAi: { assistantId: 'assistant' } as any,
-          mode: undefined
-        })
-      ).toBe('sidePanel')
-    })
-
-    test('respects explicit mode overrides', () => {
-      expect(
-        resolveDocSearchMode({
-          appId: 'app',
-          apiKey: 'key',
-          indexName: 'index',
-          askAi: { assistantId: 'assistant' } as any,
-          mode: 'sidePanel'
-        })
-      ).toBe('sidePanel')
-
-      expect(
-        resolveDocSearchMode({
-          appId: undefined,
-          apiKey: undefined,
-          indexName: undefined,
-          askAi: { assistantId: 'assistant' } as any,
-          mode: 'hybrid'
-        })
-      ).toBe('hybrid')
     })
   })
 

@@ -1,32 +1,67 @@
 <script setup lang="ts">
-import docsearch from '@docsearch/js'
-import sidepanel from '@docsearch/sidepanel-js'
+import docsearch, { type DocSearchInstance, type DocSearchProps } from '@docsearch/js'
+import sidepanel, { type SidepanelInstance, type SidepanelProps } from '@docsearch/sidepanel-js'
 import { useRouter } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
 import { nextTick, onMounted, onUnmounted, watch } from 'vue'
 import { useData } from '../composables/data'
 import {
   buildAskAiConfig,
-  hasKeywordSearch,
   mergeLangFacetFilters,
-  resolveDocSearchMode,
   validateCredentials
 } from '../support/docsearch'
 
 const props = defineProps<{
   algolia: DefaultTheme.AlgoliaSearchOptions
+  openRequest?: { target: 'search' | 'askAi' | 'toggleAskAi'; nonce: number } | null
 }>()
 
 const router = useRouter()
 const { site, localeIndex, lang } = useData()
 
 let cleanup: (() => void) | undefined
+let docsearchInstance: DocSearchInstance | undefined
+let sidepanelInstance: SidepanelInstance | undefined
+let openOnReady: 'search' | 'askAi' | null = null
 
 onMounted(update)
 watch(localeIndex, update)
 onUnmounted(() => {
   cleanup?.()
 })
+
+watch(
+  () => props.openRequest?.nonce,
+  () => {
+    const req = props.openRequest
+    if (!req) return
+    if (req.target === 'search') {
+      if (docsearchInstance?.isReady) {
+        docsearchInstance.open()
+      } else {
+        openOnReady = 'search'
+      }
+    } else if (req.target === 'toggleAskAi') {
+      if (sidepanelInstance?.isOpen) {
+        sidepanelInstance.close()
+      } else {
+        sidepanelInstance?.open()
+      }
+    } else {
+      // askAi - open sidepanel or fallback to docsearch modal
+      if (sidepanelInstance?.isReady) {
+        sidepanelInstance.open()
+      } else if (sidepanelInstance) {
+        openOnReady = 'askAi'
+      } else if (docsearchInstance?.isReady) {
+        docsearchInstance.openAskAi()
+      } else {
+        openOnReady = 'askAi'
+      }
+    }
+  },
+  { immediate: true }
+)
 
 async function update() {
   await nextTick()
@@ -43,29 +78,11 @@ async function update() {
     ? buildAskAiConfig(options.askAi, options, lang.value)
     : undefined
 
-  const resolvedMode = resolveDocSearchMode({
-    mode: options.mode,
-    appId: options.appId,
-    apiKey: options.apiKey,
-    indexName: options.indexName,
-    askAi: askAi as any
-  })
-
-  const keywordConfigured = hasKeywordSearch(options)
-
-  // For sidePanel mode, credentials can come from askAi config
   const effectiveCredentials = validateCredentials({
     appId: options.appId || (askAi && typeof askAi === 'object' ? askAi.appId : undefined),
     apiKey: options.apiKey || (askAi && typeof askAi === 'object' ? askAi.apiKey : undefined),
     indexName: options.indexName || (askAi && typeof askAi === 'object' ? askAi.indexName : undefined)
   })
-
-  if (resolvedMode === 'hybrid' && !keywordConfigured) {
-    console.warn(
-      '[vitepress] Algolia search mode is set to "hybrid" but keyword search is not configured (missing appId/apiKey/indexName).'
-    )
-    return
-  }
 
   if (!effectiveCredentials.valid) {
     console.warn(
@@ -73,10 +90,6 @@ async function update() {
     )
     return
   }
-
-  // Clean up any previous initialization (locale switch etc)
-  cleanup?.()
-  cleanup = undefined
 
   initialize({
     ...options,
@@ -87,20 +100,37 @@ async function update() {
       ...options.searchParameters,
       facetFilters
     },
-    askAi: askAi as any
+    askAi: askAi as DocSearchProps["askAi"]
   })
 }
 
 function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
-  // Ensure containers exist and start clean
-  const searchContainer = document.querySelector('#docsearch')
-  const sidePanelContainer = document.querySelector('#docsearch-sidepanel')
-  if (searchContainer) (searchContainer as HTMLElement).innerHTML = ''
-  if (sidePanelContainer) (sidePanelContainer as HTMLElement).innerHTML = ''
+  // Always tear down previous instances first (e.g. on locale changes)
+  cleanup?.()
+
+  const askAi = userOptions.askAi
+  const sidePanelConfig = askAi && typeof askAi === 'object' ? askAi.sidePanel : undefined
+
+  if (askAi && typeof askAi === 'object' && sidePanelConfig) {
+    const { keyboardShortcuts, ...restConfig } = sidePanelConfig !== true ? sidePanelConfig : {} as SidepanelProps
+    sidepanelInstance = sidepanel({
+      container: '#docsearch-sidepanel',
+      indexName: askAi.indexName ?? userOptions.indexName,
+      appId: askAi.appId ?? userOptions.appId,
+      apiKey: askAi.apiKey ?? userOptions.apiKey,
+      assistantId: askAi.assistantId,
+      onReady: () => {
+        if (openOnReady === 'askAi') {
+          openOnReady = null
+          setTimeout(() => { sidepanelInstance?.open() }, 0)
+        }
+      },
+      ...restConfig,
+    } as SidepanelProps)
+  }
 
   const options = Object.assign({}, userOptions, {
     container: '#docsearch',
-
     navigator: {
       navigate(item: { itemUrl: string }) {
         router.go(item.itemUrl)
@@ -113,34 +143,38 @@ function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
           url: getRelativePath(item.url)
         })
       })
+    },
+
+    // When sidepanel is enabled, intercept Ask AI events to open it instead (hybrid mode)
+    ...(sidepanelInstance && {
+      interceptAskAiEvent: (initialMessage: { query: string; messageId?: string; suggestedQuestionId?: string }) => {
+        docsearchInstance?.close()
+        setTimeout(() => sidepanelInstance?.open(initialMessage), 0)
+        return true
+      }
+    }),
+
+    onReady: () => {
+      if (openOnReady === 'search') {
+        openOnReady = null
+        setTimeout(() => docsearchInstance?.open(), 0)
+      } else if (openOnReady === 'askAi' && !sidepanelInstance) {
+        // No sidepanel configured, use docsearch modal for askAi
+        openOnReady = null
+        console.log('openAskAi', docsearchInstance)
+        setTimeout(() => docsearchInstance?.openAskAi(), 0)
+      }
     }
   })
 
-  docsearch(options as any)
-
-  // Side panel init (mirrors the demo-js example)
-  // @see https://docsearch.algolia.com/docs/sidepanel/api-reference
-  const askAi = userOptions.askAi
-  const sidePanelConfig =
-    askAi && typeof askAi === 'object' ? askAi.sidePanel : undefined
-
-  if (askAi && typeof askAi === 'object' && sidePanelConfig) {
-    const { keyboardShortcuts, ...restConfig } = sidePanelConfig !== true ? sidePanelConfig : {}
-    sidepanel({
-      container: '#docsearch-sidepanel',
-      indexName: askAi.indexName ?? userOptions.indexName,
-      appId: askAi.appId ?? userOptions.appId,
-      apiKey: askAi.apiKey ?? userOptions.apiKey,
-      assistantId: askAi.assistantId,
-      ...restConfig
-      // keyboardShortcuts removed - always use default Cmd+I / Ctrl+I
-    } as any)
-  }
+  docsearchInstance = docsearch(options as DocSearchProps)
 
   cleanup = () => {
-    // best-effort cleanup: remove rendered markup
-    if (searchContainer) (searchContainer as HTMLElement).innerHTML = ''
-    if (sidePanelContainer) (sidePanelContainer as HTMLElement).innerHTML = ''
+    docsearchInstance?.destroy()
+    sidepanelInstance?.destroy()
+    docsearchInstance = undefined
+    sidepanelInstance = undefined
+    openOnReady = null
   }
 }
 

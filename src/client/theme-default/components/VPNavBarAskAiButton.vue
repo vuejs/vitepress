@@ -1,17 +1,7 @@
-<script lang="ts" setup></script>
-
 <template>
-  <button
-    type="button"
-    aria-label="Ask AI"
-    class="DocSearch DocSearch-Button VPNavBarAskAiButton"
-  >
+  <button type="button" aria-label="Ask AI" class="DocSearch DocSearch-Button VPNavBarAskAiButton">
     <span class="DocSearch-Button-Container">
-      <span class="DocSearch-Button-Placeholder">Ask AI</span>
-    </span>
-    <span class="DocSearch-Button-Keys">
-      <kbd class="DocSearch-Button-Key"></kbd>
-      <kbd class="DocSearch-Button-Key"></kbd>
+      <span class="vpi-sparkles DocSearch-Search-Icon"></span>
     </span>
   </button>
 </template>
@@ -58,5 +48,17 @@
 .DocSearch-SidepanelButton {
   display: none !important;
 }
-</style>
 
+.VPNavBarAskAiButton {
+  transition: all 0.25s;
+}
+
+
+.VPNavBarAskAiButton:hover {
+  background: var(--docsearch-primary-color);
+}
+
+.VPNavBarAskAiButton:hover .DocSearch-Search-Icon {
+  background-color: var(--vp-c-white);
+}
+</style>

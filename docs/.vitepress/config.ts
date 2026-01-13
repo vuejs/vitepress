@@ -121,7 +121,9 @@ export default defineConfig({
         askAi: {
           assistantId: 'YaVSonfX5bS8',
           sidePanel: {
-            pushSelector: '.Layout'
+            button: {
+              variant: 'inline'
+            }
           }
         }
       }

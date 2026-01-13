@@ -24,10 +24,7 @@ const translate = createSearchTranslate(defaultTranslations)
       <span class="vpi-search DocSearch-Search-Icon"></span>
       <span class="DocSearch-Button-Placeholder">{{ translate('button.buttonText') }}</span>
     </span>
-    <span class="DocSearch-Button-Keys">
-      <kbd class="DocSearch-Button-Key"></kbd>
-      <kbd class="DocSearch-Button-Key"></kbd>
-    </span>
+    <span class="DocSearch-Button-Keys"/>
   </button>
 </template>
 
@@ -40,7 +37,7 @@ const translate = createSearchTranslate(defaultTranslations)
   --docsearch-focus-color: var(--vp-c-brand-1);
   --docsearch-footer-background: var(--vp-c-bg);
   --docsearch-highlight-color: var(--vp-c-brand-1);
-  --docsearch-hit-background: var(--vp-c-default-soft);
+  --docsearch-hit-background: var(--vp-c-bg);
   --docsearch-hit-color: var(--vp-c-text-1);
   --docsearch-hit-highlight-color: var(--vp-c-brand-soft);
   --docsearch-icon-color: var(--vp-c-text-2);
@@ -92,7 +89,7 @@ const translate = createSearchTranslate(defaultTranslations)
   --docsearch-muted-color: var(--docsearch-text-color);
   --docsearch-searchbox-background: transparent;
   width: auto;
-  padding: 2px 12px;
+  padding: 0px 8px;
   border: none;
   border-radius: 8px;
 }
