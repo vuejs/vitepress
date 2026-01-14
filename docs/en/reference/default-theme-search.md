@@ -189,7 +189,7 @@ export default defineConfig({
 
 ## Algolia Search
 
-VitePress supports searching your docs site using [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Refer their getting started guide. In your `.vitepress/config.ts` you'll need to provide at least the following to make it work:
+VitePress supports searching your docs site using [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Refer to their getting started guide. In your `.vitepress/config.ts` you'll need to provide at least the following to make it work:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -337,14 +337,14 @@ export default defineConfig({
 ```
 
 ::: warning Note
-If want to default to keyword search and do not want to use Ask AI, just omit the `askAi` property
+If you want to default to keyword search and do not want to use Ask AI, omit the `askAi` property.
 :::
 
-The translations for the Ask AI UI live under `options.translations.modal.askAiScreen` and `options.translations.resultsScreen` — see the [type definitions](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts) for all keys.
+The translations for Ask AI inside the **modal** live under `options.translations.modal.askAiScreen` and `options.translations.modal.resultsScreen` — see the [type definitions](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts) for all keys.
 
 ### Ask AI Side Panel {#ask-ai-side-panel}
 
-DocSearch v4.4+ supports an optional **Ask AI side panel**. When enabled, it can be opened with **Ctrl/Cmd+I** (this keyboard shortcut is always enabled and cannot be customized). The [Sidepanel API Reference](https://docsearch.algolia.com/docs/sidepanel/api-reference) contains the full list of options.
+DocSearch v4.5+ supports an optional **Ask AI side panel**. When enabled, it can be opened with **Ctrl/Cmd+I** by default. The [Sidepanel API Reference](https://docsearch.algolia.com/docs/sidepanel/api-reference) contains the full list of options.
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -374,13 +374,45 @@ export default defineConfig({
 })
 ```
 
-### Mode (auto / sidePanel / hybrid) {#ask-ai-mode}
+If you need to disable the keyboard shortcut, use the sidepanel `keyboardShortcuts` option:
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'algolia',
+      options: {
+        appId: '...',
+        apiKey: '...',
+        indexName: '...',
+        askAi: {
+          assistantId: 'XXXYYY',
+          sidePanel: {
+            keyboardShortcuts: {
+              'Ctrl/Cmd+I': false
+            }
+          }
+        }
+      }
+    }
+  }
+})
+```
+
+#### Side panel i18n
+
+Side panel translations are configured under `options.askAi.sidePanel` (for example `options.askAi.sidePanel.panel.translations`). Refer to the [type definitions](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts) for the full shape.
+
+### Mode (auto / sidePanel / hybrid / modal) {#ask-ai-mode}
 
 You can optionally control how VitePress integrates keyword search and Ask AI:
 
-- `mode: 'auto'` (default): infer `hybrid` when keyword search is configured, otherwise `sidePanel` when Ask AI is configured.
-- `mode: 'sidePanel'`: force side panel only.
-- `mode: 'hybrid'`: force hybrid (requires keyword search configuration).
+- `mode: 'auto'` (default): infer `hybrid` when keyword search is configured, otherwise `sidePanel` when Ask AI side panel is configured.
+- `mode: 'sidePanel'`: force side panel only (hides the keyword search button).
+- `mode: 'hybrid'`: enable keyword search modal + Ask AI side panel (requires keyword search configuration).
+- `mode: 'modal'`: keep Ask AI inside the DocSearch modal (even if you configured the side panel).
 
 ### Ask AI only (no keyword search) {#ask-ai-only}
 
