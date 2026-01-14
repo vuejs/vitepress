@@ -307,7 +307,105 @@ options: {
 Si prefieres solo la búsqueda por palabra clave y no la Ask AI, simplemente omite `askAi`.
 :::
 
-[Estas opciones](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts) se pueden superponer. Consulte la documentación oficial de Algolia para obtener más información sobre ellos.
+Las traducciones para Ask AI dentro del **modal** se encuentran en `options.translations.modal.askAiScreen` y `options.translations.modal.resultsScreen` — consulta las [definiciones de tipos](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts) para todas las claves.
+
+### Panel lateral de Ask AI {#ask-ai-side-panel}
+
+DocSearch v4.5+ admite un **panel lateral de Ask AI** opcional. Cuando está habilitado, se puede abrir con **Ctrl/Cmd+I** por defecto. La [Referencia de API del Panel Lateral](https://docsearch.algolia.com/docs/sidepanel/api-reference) contiene la lista completa de opciones.
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'algolia',
+      options: {
+        appId: '...',
+        apiKey: '...',
+        indexName: '...',
+        askAi: {
+          assistantId: 'XXXYYY',
+          sidePanel: {
+            // Configuración plana – refleja la API de @docsearch/sidepanel-js
+            variant: 'floating', // o 'inline'
+            side: 'right',
+            width: '360px',
+            expandedWidth: '580px',
+            suggestedQuestions: true
+          }
+        }
+      }
+    }
+  }
+})
+```
+
+Si necesitas deshabilitar el atajo de teclado, usa la opción `keyboardShortcuts` del panel lateral:
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'algolia',
+      options: {
+        appId: '...',
+        apiKey: '...',
+        indexName: '...',
+        askAi: {
+          assistantId: 'XXXYYY',
+          sidePanel: {
+            keyboardShortcuts: {
+              'Ctrl/Cmd+I': false
+            }
+          }
+        }
+      }
+    }
+  }
+})
+```
+
+#### i18n del panel lateral
+
+Las traducciones del panel lateral se configuran bajo `options.askAi.sidePanel` (por ejemplo `options.askAi.sidePanel.panel.translations`). Consulta las [definiciones de tipos](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts) para la estructura completa.
+
+### Modo (auto / sidePanel / hybrid / modal) {#ask-ai-mode}
+
+Puedes controlar opcionalmente cómo VitePress integra la búsqueda por palabra clave y Ask AI:
+
+- `mode: 'auto'` (por defecto): infiere `hybrid` cuando la búsqueda por palabra clave está configurada, de lo contrario `sidePanel` cuando el panel lateral de Ask AI está configurado.
+- `mode: 'sidePanel'`: fuerza solo el panel lateral (oculta el botón de búsqueda por palabra clave).
+- `mode: 'hybrid'`: habilita el modal de búsqueda por palabra clave + panel lateral de Ask AI (requiere configuración de búsqueda por palabra clave).
+- `mode: 'modal'`: mantiene Ask AI dentro del modal de DocSearch (incluso si configuraste el panel lateral).
+
+### Solo Ask AI (sin búsqueda por palabra clave) {#ask-ai-only}
+
+Si quieres usar **solo el panel lateral de Ask AI**, puedes omitir la configuración de búsqueda por palabra clave de nivel superior y proporcionar las credenciales bajo `askAi`:
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'algolia',
+      options: {
+        mode: 'sidePanel',
+        askAi: {
+          assistantId: 'XXXYYY',
+          appId: '...',
+          apiKey: '...',
+          indexName: '...',
+          sidePanel: true
+        }
+      }
+    }
+  }
+})
+```
 
 ### Configuración _Crawler_ {#crawler-config}
 

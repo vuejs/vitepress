@@ -340,7 +340,105 @@ export default defineConfig({
 Если вы хотите использовать обычный поиск по ключевым словам без Ask AI, просто не указывайте свойство `askAi`
 :::
 
-Переводы для интерфейса Ask AI находятся в `options.translations.modal.askAiScreen` и `options.translations.resultsScreen` — полный список ключей смотрите в [типах](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts).
+Переводы для Ask AI внутри **модального окна** находятся в `options.translations.modal.askAiScreen` и `options.translations.modal.resultsScreen` — полный список ключей смотрите в [типах](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts).
+
+### Боковая панель Ask AI {#ask-ai-side-panel}
+
+DocSearch v4.5+ поддерживает опциональную **боковую панель Ask AI**. Когда она включена, её можно открыть с помощью **Ctrl/Cmd+I** по умолчанию. [Справочник API боковой панели](https://docsearch.algolia.com/docs/sidepanel/api-reference) содержит полный список опций.
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'algolia',
+      options: {
+        appId: '...',
+        apiKey: '...',
+        indexName: '...',
+        askAi: {
+          assistantId: 'XXXYYY',
+          sidePanel: {
+            // Плоская конфигурация – отражает API @docsearch/sidepanel-js
+            variant: 'floating', // или 'inline'
+            side: 'right',
+            width: '360px',
+            expandedWidth: '580px',
+            suggestedQuestions: true
+          }
+        }
+      }
+    }
+  }
+})
+```
+
+Если вам нужно отключить сочетание клавиш, используйте опцию `keyboardShortcuts` боковой панели:
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'algolia',
+      options: {
+        appId: '...',
+        apiKey: '...',
+        indexName: '...',
+        askAi: {
+          assistantId: 'XXXYYY',
+          sidePanel: {
+            keyboardShortcuts: {
+              'Ctrl/Cmd+I': false
+            }
+          }
+        }
+      }
+    }
+  }
+})
+```
+
+#### i18n боковой панели
+
+Переводы боковой панели настраиваются в `options.askAi.sidePanel` (например, `options.askAi.sidePanel.panel.translations`). Полную структуру смотрите в [типах](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts).
+
+### Режим (auto / sidePanel / hybrid / modal) {#ask-ai-mode}
+
+Вы можете опционально контролировать, как VitePress интегрирует поиск по ключевым словам и Ask AI:
+
+- `mode: 'auto'` (по умолчанию): выводит `hybrid`, когда настроен поиск по ключевым словам, иначе `sidePanel`, когда настроена боковая панель Ask AI.
+- `mode: 'sidePanel'`: принудительно использовать только боковую панель (скрывает кнопку поиска по ключевым словам).
+- `mode: 'hybrid'`: включает модальное окно поиска по ключевым словам + боковую панель Ask AI (требует настройки поиска по ключевым словам).
+- `mode: 'modal'`: сохраняет Ask AI внутри модального окна DocSearch (даже если вы настроили боковую панель).
+
+### Только Ask AI (без поиска по ключевым словам) {#ask-ai-only}
+
+Если вы хотите использовать **только боковую панель Ask AI**, вы можете опустить конфигурацию поиска по ключевым словам верхнего уровня и предоставить учётные данные в `askAi`:
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'algolia',
+      options: {
+        mode: 'sidePanel',
+        askAi: {
+          assistantId: 'XXXYYY',
+          appId: '...',
+          apiKey: '...',
+          indexName: '...',
+          sidePanel: true
+        }
+      }
+    }
+  }
+})
+```
 
 ### Конфигурация поискового робота {#crawler-config}
 

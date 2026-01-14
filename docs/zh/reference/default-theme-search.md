@@ -306,7 +306,105 @@ options: {
 若仅需关键词搜索，可省略 `askAi`。
 :::
 
-[这些选项](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts)可以被覆盖。请参阅 Algolia 官方文档以了解更多信息。
+**模态框**中 Ask AI 的翻译位于 `options.translations.modal.askAiScreen` 和 `options.translations.modal.resultsScreen` — 查看[类型定义](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts)了解所有键。
+
+### Ask AI 侧边栏 {#ask-ai-side-panel}
+
+DocSearch v4.5+ 支持可选的 **Ask AI 侧边栏**。启用后，默认可通过 **Ctrl/Cmd+I** 打开。完整的选项列表请参阅[侧边栏 API 参考](https://docsearch.algolia.com/docs/sidepanel/api-reference)。
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'algolia',
+      options: {
+        appId: '...',
+        apiKey: '...',
+        indexName: '...',
+        askAi: {
+          assistantId: 'XXXYYY',
+          sidePanel: {
+            // 扁平配置 – 镜像 @docsearch/sidepanel-js API
+            variant: 'floating', // 或 'inline'
+            side: 'right',
+            width: '360px',
+            expandedWidth: '580px',
+            suggestedQuestions: true
+          }
+        }
+      }
+    }
+  }
+})
+```
+
+如果需要禁用键盘快捷键，请使用侧边栏的 `keyboardShortcuts` 选项：
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'algolia',
+      options: {
+        appId: '...',
+        apiKey: '...',
+        indexName: '...',
+        askAi: {
+          assistantId: 'XXXYYY',
+          sidePanel: {
+            keyboardShortcuts: {
+              'Ctrl/Cmd+I': false
+            }
+          }
+        }
+      }
+    }
+  }
+})
+```
+
+#### 侧边栏 i18n
+
+侧边栏翻译配置在 `options.askAi.sidePanel` 下（例如 `options.askAi.sidePanel.panel.translations`）。完整的结构请参考[类型定义](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts)。
+
+### 模式 (auto / sidePanel / hybrid / modal) {#ask-ai-mode}
+
+你可以选择性地控制 VitePress 如何集成关键词搜索和 Ask AI：
+
+- `mode: 'auto'`（默认）：当配置了关键词搜索时推断为 `hybrid`，否则当配置了 Ask AI 侧边栏时推断为 `sidePanel`。
+- `mode: 'sidePanel'`：强制仅使用侧边栏（隐藏关键词搜索按钮）。
+- `mode: 'hybrid'`：启用关键词搜索模态框 + Ask AI 侧边栏（需要关键词搜索配置）。
+- `mode: 'modal'`：将 Ask AI 保留在 DocSearch 模态框内（即使你配置了侧边栏）。
+
+### 仅 Ask AI（无关键词搜索） {#ask-ai-only}
+
+如果你想**仅使用 Ask AI 侧边栏**，可以省略顶级关键词搜索配置，并在 `askAi` 下提供凭据：
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'algolia',
+      options: {
+        mode: 'sidePanel',
+        askAi: {
+          assistantId: 'XXXYYY',
+          appId: '...',
+          apiKey: '...',
+          indexName: '...',
+          sidePanel: true
+        }
+      }
+    }
+  }
+})
+```
 
 ### 爬虫配置 {#crawler-config}
 

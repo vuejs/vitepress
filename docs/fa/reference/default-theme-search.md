@@ -394,3 +394,103 @@ options: {
 ::: warning نکته
 اگر فقط به جستجوی کلمات کلیدی نیاز دارید، `askAi` را اضافه نکنید.
 :::
+
+ترجمه‌های Ask AI درون **مودال** در `options.translations.modal.askAiScreen` و `options.translations.modal.resultsScreen` قرار دارند — برای تمام کلیدها به [تعاریف نوع](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts) مراجعه کنید.
+
+### پنل کناری Ask AI {#ask-ai-side-panel}
+
+DocSearch v4.5+ از **پنل کناری Ask AI** اختیاری پشتیبانی می‌کند. وقتی فعال باشد، به طور پیش‌فرض می‌توان آن را با **Ctrl/Cmd+I** باز کرد. [مرجع API پنل کناری](https://docsearch.algolia.com/docs/sidepanel/api-reference) شامل لیست کامل گزینه‌ها است.
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'algolia',
+      options: {
+        appId: '...',
+        apiKey: '...',
+        indexName: '...',
+        askAi: {
+          assistantId: 'XXXYYY',
+          sidePanel: {
+            // پیکربندی تخت – آینه API @docsearch/sidepanel-js
+            variant: 'floating', // یا 'inline'
+            side: 'right',
+            width: '360px',
+            expandedWidth: '580px',
+            suggestedQuestions: true
+          }
+        }
+      }
+    }
+  }
+})
+```
+
+اگر نیاز به غیرفعال کردن میانبر صفحه‌کلید دارید، از گزینه `keyboardShortcuts` پنل کناری استفاده کنید:
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'algolia',
+      options: {
+        appId: '...',
+        apiKey: '...',
+        indexName: '...',
+        askAi: {
+          assistantId: 'XXXYYY',
+          sidePanel: {
+            keyboardShortcuts: {
+              'Ctrl/Cmd+I': false
+            }
+          }
+        }
+      }
+    }
+  }
+})
+```
+
+#### i18n پنل کناری
+
+ترجمه‌های پنل کناری در `options.askAi.sidePanel` پیکربندی می‌شوند (مثلاً `options.askAi.sidePanel.panel.translations`). برای ساختار کامل به [تعاریف نوع](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts) مراجعه کنید.
+
+### حالت (auto / sidePanel / hybrid / modal) {#ask-ai-mode}
+
+می‌توانید به صورت اختیاری نحوه ادغام جستجوی کلمات کلیدی و Ask AI در VitePress را کنترل کنید:
+
+- `mode: 'auto'` (پیش‌فرض): وقتی جستجوی کلمات کلیدی پیکربندی شده باشد `hybrid` را استنباط می‌کند، در غیر این صورت وقتی پنل کناری Ask AI پیکربندی شده باشد `sidePanel` را استنباط می‌کند.
+- `mode: 'sidePanel'`: فقط پنل کناری را اعمال می‌کند (دکمه جستجوی کلمات کلیدی را پنهان می‌کند).
+- `mode: 'hybrid'`: مودال جستجوی کلمات کلیدی + پنل کناری Ask AI را فعال می‌کند (نیاز به پیکربندی جستجوی کلمات کلیدی دارد).
+- `mode: 'modal'`: Ask AI را درون مودال DocSearch نگه می‌دارد (حتی اگر پنل کناری را پیکربندی کرده باشید).
+
+### فقط Ask AI (بدون جستجوی کلمات کلیدی) {#ask-ai-only}
+
+اگر می‌خواهید **فقط پنل کناری Ask AI** را استفاده کنید، می‌توانید پیکربندی جستجوی کلمات کلیدی سطح بالا را حذف کرده و اعتبارنامه‌ها را در `askAi` ارائه دهید:
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'algolia',
+      options: {
+        mode: 'sidePanel',
+        askAi: {
+          assistantId: 'XXXYYY',
+          appId: '...',
+          apiKey: '...',
+          indexName: '...',
+          sidePanel: true
+        }
+      }
+    }
+  }
+})
+```

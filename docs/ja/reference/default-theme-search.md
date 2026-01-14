@@ -340,7 +340,105 @@ export default defineConfig({
 キーワード検索を既定にして Ask AI を使わない場合は、`askAi` を指定しないでください。
 :::
 
-Ask AI UI の翻訳は `options.translations.modal.askAiScreen` と `options.translations.resultsScreen` にあります。すべてのキーは[型定義](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts)を参照してください。
+**モーダル**内の Ask AI の翻訳は `options.translations.modal.askAiScreen` と `options.translations.modal.resultsScreen` にあります。すべてのキーは[型定義](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts)を参照してください。
+
+### Ask AI サイドパネル {#ask-ai-side-panel}
+
+DocSearch v4.5+ はオプションの **Ask AI サイドパネル**をサポートしています。有効にすると、デフォルトで **Ctrl/Cmd+I** で開くことができます。[サイドパネル API リファレンス](https://docsearch.algolia.com/docs/sidepanel/api-reference)にオプションの完全なリストがあります。
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'algolia',
+      options: {
+        appId: '...',
+        apiKey: '...',
+        indexName: '...',
+        askAi: {
+          assistantId: 'XXXYYY',
+          sidePanel: {
+            // フラット設定 – @docsearch/sidepanel-js API をミラー
+            variant: 'floating', // または 'inline'
+            side: 'right',
+            width: '360px',
+            expandedWidth: '580px',
+            suggestedQuestions: true
+          }
+        }
+      }
+    }
+  }
+})
+```
+
+キーボードショートカットを無効にする必要がある場合は、サイドパネルの `keyboardShortcuts` オプションを使用してください：
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'algolia',
+      options: {
+        appId: '...',
+        apiKey: '...',
+        indexName: '...',
+        askAi: {
+          assistantId: 'XXXYYY',
+          sidePanel: {
+            keyboardShortcuts: {
+              'Ctrl/Cmd+I': false
+            }
+          }
+        }
+      }
+    }
+  }
+})
+```
+
+#### サイドパネルの i18n
+
+サイドパネルの翻訳は `options.askAi.sidePanel` の下で設定されます（例：`options.askAi.sidePanel.panel.translations`）。完全な構造については[型定義](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts)を参照してください。
+
+### モード (auto / sidePanel / hybrid / modal) {#ask-ai-mode}
+
+VitePress がキーワード検索と Ask AI を統合する方法をオプションで制御できます：
+
+- `mode: 'auto'`（デフォルト）：キーワード検索が設定されている場合は `hybrid` を推論し、それ以外の場合は Ask AI サイドパネルが設定されている場合は `sidePanel` を推論します。
+- `mode: 'sidePanel'`：サイドパネルのみを強制（キーワード検索ボタンを非表示）。
+- `mode: 'hybrid'`：キーワード検索モーダル + Ask AI サイドパネルを有効化（キーワード検索設定が必要）。
+- `mode: 'modal'`：Ask AI を DocSearch モーダル内に保持（サイドパネルを設定した場合でも）。
+
+### Ask AI のみ（キーワード検索なし） {#ask-ai-only}
+
+**Ask AI サイドパネルのみ**を使用する場合は、トップレベルのキーワード検索設定を省略し、`askAi` の下に認証情報を提供できます：
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'algolia',
+      options: {
+        mode: 'sidePanel',
+        askAi: {
+          assistantId: 'XXXYYY',
+          appId: '...',
+          apiKey: '...',
+          indexName: '...',
+          sidePanel: true
+        }
+      }
+    }
+  }
+})
+```
 
 ### クローラー設定 {#crawler-config}
 

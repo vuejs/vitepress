@@ -394,3 +394,103 @@ options: {
 ::: warning 참고
 Ask AI를 사용하지 않으려면 `askAi` 옵션을 생략하면 됩니다.
 :::
+
+**모달** 내부의 Ask AI 번역은 `options.translations.modal.askAiScreen`과 `options.translations.modal.resultsScreen`에 있습니다. 모든 키는 [타입 정의](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts)를 참조하세요.
+
+### Ask AI 사이드 패널 {#ask-ai-side-panel}
+
+DocSearch v4.5+는 선택적 **Ask AI 사이드 패널**을 지원합니다. 활성화되면 기본적으로 **Ctrl/Cmd+I**로 열 수 있습니다. [사이드 패널 API 참조](https://docsearch.algolia.com/docs/sidepanel/api-reference)에 전체 옵션 목록이 있습니다.
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'algolia',
+      options: {
+        appId: '...',
+        apiKey: '...',
+        indexName: '...',
+        askAi: {
+          assistantId: 'XXXYYY',
+          sidePanel: {
+            // 플랫 설정 – @docsearch/sidepanel-js API 반영
+            variant: 'floating', // 또는 'inline'
+            side: 'right',
+            width: '360px',
+            expandedWidth: '580px',
+            suggestedQuestions: true
+          }
+        }
+      }
+    }
+  }
+})
+```
+
+키보드 단축키를 비활성화해야 하는 경우 사이드 패널의 `keyboardShortcuts` 옵션을 사용하세요:
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'algolia',
+      options: {
+        appId: '...',
+        apiKey: '...',
+        indexName: '...',
+        askAi: {
+          assistantId: 'XXXYYY',
+          sidePanel: {
+            keyboardShortcuts: {
+              'Ctrl/Cmd+I': false
+            }
+          }
+        }
+      }
+    }
+  }
+})
+```
+
+#### 사이드 패널 i18n
+
+사이드 패널 번역은 `options.askAi.sidePanel` 아래에서 구성됩니다 (예: `options.askAi.sidePanel.panel.translations`). 전체 구조는 [타입 정의](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts)를 참조하세요.
+
+### 모드 (auto / sidePanel / hybrid / modal) {#ask-ai-mode}
+
+VitePress가 키워드 검색과 Ask AI를 통합하는 방식을 선택적으로 제어할 수 있습니다:
+
+- `mode: 'auto'` (기본값): 키워드 검색이 구성된 경우 `hybrid`를 추론하고, 그렇지 않으면 Ask AI 사이드 패널이 구성된 경우 `sidePanel`을 추론합니다.
+- `mode: 'sidePanel'`: 사이드 패널만 강제 (키워드 검색 버튼 숨김).
+- `mode: 'hybrid'`: 키워드 검색 모달 + Ask AI 사이드 패널 활성화 (키워드 검색 구성 필요).
+- `mode: 'modal'`: Ask AI를 DocSearch 모달 내부에 유지 (사이드 패널을 구성한 경우에도).
+
+### Ask AI만 (키워드 검색 없음) {#ask-ai-only}
+
+**Ask AI 사이드 패널만** 사용하려면 최상위 키워드 검색 구성을 생략하고 `askAi` 아래에 자격 증명을 제공할 수 있습니다:
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'algolia',
+      options: {
+        mode: 'sidePanel',
+        askAi: {
+          assistantId: 'XXXYYY',
+          appId: '...',
+          apiKey: '...',
+          indexName: '...',
+          sidePanel: true
+        }
+      }
+    }
+  }
+})
+```
