@@ -415,12 +415,14 @@ export default defineConfig({
         askAi: {
           assistantId: 'XXXYYY',
           sidePanel: {
-            // پیکربندی تخت – آینه API @docsearch/sidepanel-js
-            variant: 'floating', // یا 'inline'
-            side: 'right',
-            width: '360px',
-            expandedWidth: '580px',
-            suggestedQuestions: true
+            // آینه API @docsearch/sidepanel-js SidepanelProps
+            panel: {
+              variant: 'floating', // یا 'inline'
+              side: 'right',
+              width: '360px',
+              expandedWidth: '580px',
+              suggestedQuestions: true
+            }
           }
         }
       }
@@ -458,7 +460,7 @@ export default defineConfig({
 
 #### i18n پنل کناری
 
-ترجمه‌های پنل کناری در `options.askAi.sidePanel` پیکربندی می‌شوند (مثلاً `options.askAi.sidePanel.panel.translations`). برای ساختار کامل به [تعاریف نوع](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts) مراجعه کنید.
+ترجمه‌های پنل کناری در `options.askAi.sidePanel.panel.translations` پیکربندی می‌شوند. برای ساختار کامل به [تعاریف نوع](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts) مراجعه کنید.
 
 ### حالت (auto / sidePanel / hybrid / modal) {#ask-ai-mode}
 

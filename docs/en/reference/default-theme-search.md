@@ -360,12 +360,13 @@ export default defineConfig({
         askAi: {
           assistantId: 'XXXYYY',
           sidePanel: {
-            // Flat config – mirrors @docsearch/sidepanel-js API
-            variant: 'floating', // or 'inline'
-            side: 'right',
-            width: '360px',
-            expandedWidth: '580px',
-            suggestedQuestions: true
+            panel: {
+              variant: 'floating', // or 'inline'
+              side: 'right',
+              width: '360px',
+              expandedWidth: '580px',
+              suggestedQuestions: true
+            }
           }
         }
       }
@@ -374,7 +375,7 @@ export default defineConfig({
 })
 ```
 
-If you need to disable the keyboard shortcut, use the sidepanel `keyboardShortcuts` option:
+If you need to disable the keyboard shortcut, use the `keyboardShortcuts` option at the sidepanel root level:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -403,9 +404,9 @@ export default defineConfig({
 
 #### Side panel i18n
 
-Side panel translations are configured under `options.askAi.sidePanel` (for example `options.askAi.sidePanel.panel.translations`). Refer to the [type definitions](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts) for the full shape.
+Side panel translations are configured under `options.askAi.sidePanel.panel.translations`. Refer to the [type definitions](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts) for the full shape.
 
-### Mode (auto / sidePanel / hybrid / modal) {#ask-ai-mode}
+#### Mode (auto / sidePanel / hybrid / modal) {#ask-ai-mode}
 
 You can optionally control how VitePress integrates keyword search and Ask AI:
 
@@ -414,7 +415,7 @@ You can optionally control how VitePress integrates keyword search and Ask AI:
 - `mode: 'hybrid'`: enable keyword search modal + Ask AI side panel (requires keyword search configuration).
 - `mode: 'modal'`: keep Ask AI inside the DocSearch modal (even if you configured the side panel).
 
-### Ask AI only (no keyword search) {#ask-ai-only}
+#### Ask AI only (no keyword search) {#ask-ai-only}
 
 If you want to use **Ask AI side panel only**, you can omit top-level keyword search config and provide credentials under `askAi`:
 

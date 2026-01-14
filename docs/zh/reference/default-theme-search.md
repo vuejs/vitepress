@@ -326,12 +326,14 @@ export default defineConfig({
         askAi: {
           assistantId: 'XXXYYY',
           sidePanel: {
-            // 扁平配置 – 镜像 @docsearch/sidepanel-js API
-            variant: 'floating', // 或 'inline'
-            side: 'right',
-            width: '360px',
-            expandedWidth: '580px',
-            suggestedQuestions: true
+            // 镜像 @docsearch/sidepanel-js SidepanelProps API
+            panel: {
+              variant: 'floating', // 或 'inline'
+              side: 'right',
+              width: '360px',
+              expandedWidth: '580px',
+              suggestedQuestions: true
+            }
           }
         }
       }
@@ -369,7 +371,7 @@ export default defineConfig({
 
 #### 侧边栏 i18n
 
-侧边栏翻译配置在 `options.askAi.sidePanel` 下（例如 `options.askAi.sidePanel.panel.translations`）。完整的结构请参考[类型定义](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts)。
+侧边栏翻译配置在 `options.askAi.sidePanel.panel.translations` 下。完整的结构请参考[类型定义](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts)。
 
 ### 模式 (auto / sidePanel / hybrid / modal) {#ask-ai-mode}
 

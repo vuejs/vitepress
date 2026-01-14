@@ -415,12 +415,14 @@ export default defineConfig({
         askAi: {
           assistantId: 'XXXYYY',
           sidePanel: {
-            // 플랫 설정 – @docsearch/sidepanel-js API 반영
-            variant: 'floating', // 또는 'inline'
-            side: 'right',
-            width: '360px',
-            expandedWidth: '580px',
-            suggestedQuestions: true
+            // @docsearch/sidepanel-js SidepanelProps API 반영
+            panel: {
+              variant: 'floating', // 또는 'inline'
+              side: 'right',
+              width: '360px',
+              expandedWidth: '580px',
+              suggestedQuestions: true
+            }
           }
         }
       }
@@ -458,7 +460,7 @@ export default defineConfig({
 
 #### 사이드 패널 i18n
 
-사이드 패널 번역은 `options.askAi.sidePanel` 아래에서 구성됩니다 (예: `options.askAi.sidePanel.panel.translations`). 전체 구조는 [타입 정의](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts)를 참조하세요.
+사이드 패널 번역은 `options.askAi.sidePanel.panel.translations` 아래에서 구성됩니다. 전체 구조는 [타입 정의](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts)를 참조하세요.
 
 ### 모드 (auto / sidePanel / hybrid / modal) {#ask-ai-mode}
 

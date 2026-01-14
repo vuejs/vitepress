@@ -408,12 +408,14 @@ export default defineConfig({
         askAi: {
           assistantId: 'XXXYYY',
           sidePanel: {
-            // Configuração plana – espelha a API do @docsearch/sidepanel-js
-            variant: 'floating', // ou 'inline'
-            side: 'right',
-            width: '360px',
-            expandedWidth: '580px',
-            suggestedQuestions: true
+            // Espelha a API do @docsearch/sidepanel-js SidepanelProps
+            panel: {
+              variant: 'floating', // ou 'inline'
+              side: 'right',
+              width: '360px',
+              expandedWidth: '580px',
+              suggestedQuestions: true
+            }
           }
         }
       }
@@ -451,7 +453,7 @@ export default defineConfig({
 
 #### i18n do painel lateral
 
-As traduções do painel lateral são configuradas em `options.askAi.sidePanel` (por exemplo `options.askAi.sidePanel.panel.translations`). Consulte as [definições de tipos](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts) para a estrutura completa.
+As traduções do painel lateral são configuradas em `options.askAi.sidePanel.panel.translations`. Consulte as [definições de tipos](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts) para a estrutura completa.
 
 ### Modo (auto / sidePanel / hybrid / modal) {#ask-ai-mode}
 
