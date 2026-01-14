@@ -1,4 +1,7 @@
 import { inBrowser } from 'vitepress'
+import { isShell } from '../../shared'
+
+const ignoredNodes = ['.vp-copy-ignore', '.diff.remove'].join(', ')
 
 export function useCopyCode() {
   if (inBrowser) {
@@ -7,26 +10,24 @@ export function useCopyCode() {
       const el = e.target as HTMLElement
       if (el.matches('div[class*="language-"] > button.copy')) {
         const parent = el.parentElement
-        const sibling = el.nextElementSibling?.nextElementSibling
+        const sibling = el.nextElementSibling?.nextElementSibling // <pre> tag
         if (!parent || !sibling) {
           return
         }
 
-        const isShell = /language-(shellscript|shell|bash|sh|zsh)/.test(
-          parent.className
-        )
-
-        const ignoredNodes = ['.vp-copy-ignore', '.diff.remove']
-
         // Clone the node and remove the ignored nodes
         const clone = sibling.cloneNode(true) as HTMLElement
-        clone
-          .querySelectorAll(ignoredNodes.join(','))
-          .forEach((node) => node.remove())
+        clone.querySelectorAll(ignoredNodes).forEach((node) => node.remove())
+        // remove extra newlines left after removing ignored nodes (affecting textContent because it is inside `<pre>`)
+        // doesn't affect the newlines already in the code because they are rendered as `\n<span class="line"></span>`
+        clone.innerHTML = clone.innerHTML.replace(/\n+/g, '\n')
 
         let text = clone.textContent || ''
 
-        if (isShell) {
+        // NOTE: Any changes to this the code here may also need to update
+        // `transformerDisableShellSymbolSelect` in `src/node/markdown/plugins/highlight.ts`
+        const lang = /language-(\w+)/.exec(parent.className)?.[1] || ''
+        if (isShell(lang)) {
           text = text.replace(/^ *(\$|>) /gm, '').trim()
         }
 

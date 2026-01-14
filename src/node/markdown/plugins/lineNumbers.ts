@@ -12,14 +12,14 @@ export const lineNumberPlugin = (md: MarkdownItAsync, enable = false) => {
     const info = tokens[idx].info
 
     if (
-      (!enable && !/:line-numbers($| |=)/.test(info)) ||
-      (enable && /:no-line-numbers($| )/.test(info))
+      (!enable && !/:line-numbers\b/.test(info)) ||
+      (enable && /:no-line-numbers\b/.test(info))
     ) {
       return rawCode
     }
 
     let startLineNumber = 1
-    const matchStartLineNumber = info.match(/=(\d*)/)
+    const matchStartLineNumber = info.match(/=(\d+)/)
     if (matchStartLineNumber && matchStartLineNumber[1]) {
       startLineNumber = parseInt(matchStartLineNumber[1])
     }

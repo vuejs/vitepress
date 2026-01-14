@@ -336,6 +336,46 @@ export default {
 }
 ```
 
+### Watching Template and Data Files
+
+When generating page content from templates or external data sources, you can use the watch option to automatically rebuild pages when those files change during development:
+
+```js
+// posts/[slug].paths.js
+import fs from 'node:fs'
+import { renderTemplate } from './templates/renderer.js'
+
+export default {
+  // Watch for changes to template files and data sources
+  watch: [
+    './templates/**/*.njk',     // Template files
+    '../data/**/*.json'         // Data files
+  ],
+
+  paths(watchedFiles) {
+    // watchedFiles will be an array of absolute paths of the matched files
+    // Read data files to generate routes
+    const dataFiles = watchedFiles.filter(file => file.endsWith('.json'))
+
+    return dataFiles.map(file => {
+      const data = JSON.parse(fs.readFileSync(file, 'utf-8'))
+
+      return {
+        params: { slug: data.slug },
+        content: renderTemplate(data)  // Use template to generate content
+      }
+    })
+  }
+}
+```
+
+The `watch` option works the same way as in [data loaders](./data-loading#data-from-local-files):
+
+- Accepts [glob patterns](https://github.com/mrmlnc/fast-glob#pattern-syntax) to match files
+- Patterns are relative to the `.paths.js` file itself
+- Changes to watched files trigger page regeneration and HMR during development
+- In production builds, all pages are generated once regardless of watch configuration
+
 ### Accessing Params in Page
 
 You can use the params to pass additional data to each page. The Markdown route file can access the current page params in Vue expressions via the `$params` global property:

@@ -32,7 +32,7 @@ const classes = computed(() => {
     VPLocalNav: true,
     'has-sidebar': hasSidebar.value,
     empty: !hasLocalNav.value,
-    fixed: !hasLocalNav.value && !hasSidebar.value,
+    fixed: !hasLocalNav.value && !hasSidebar.value
   }
 })
 </script>
@@ -98,12 +98,6 @@ const classes = computed(() => {
   }
 }
 
-@media (min-width: 1440px) {
-  .VPLocalNav.has-sidebar {
-    padding-left: calc((100vw - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));
-  }
-}
-
 .container {
   display: flex;
   justify-content: space-between;
@@ -113,7 +107,6 @@ const classes = computed(() => {
 .menu {
   display: flex;
   align-items: center;
-  padding: 12px 24px 11px;
   line-height: 24px;
   font-size: 12px;
   font-weight: 500;
@@ -124,12 +117,6 @@ const classes = computed(() => {
 .menu:hover {
   color: var(--vp-c-text-1);
   transition: color 0.25s;
-}
-
-@media (min-width: 768px) {
-  .menu {
-    padding: 0 32px;
-  }
 }
 
 @media (min-width: 960px) {
@@ -143,12 +130,14 @@ const classes = computed(() => {
   font-size: 14px;
 }
 
-.VPOutlineDropdown {
+.menu,
+:deep(.VPLocalNavOutlineDropdown > button) {
   padding: 12px 24px 11px;
 }
 
 @media (min-width: 768px) {
-  .VPOutlineDropdown {
+  .menu,
+  :deep(.VPLocalNavOutlineDropdown > button) {
     padding: 12px 32px 11px;
   }
 }

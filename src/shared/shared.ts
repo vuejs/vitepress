@@ -274,7 +274,8 @@ function resolveAdditionalConfig(
   path: string
 ): AdditionalConfig[] {
   if (additionalConfig === undefined) return []
-  if (typeof additionalConfig === 'function') return additionalConfig(path)
+  if (typeof additionalConfig === 'function')
+    return additionalConfig(path) ?? []
 
   const configs: AdditionalConfig[] = []
   const segments = path.split('/').slice(0, -1) // remove file name
@@ -351,4 +352,9 @@ stackView.unpack = function <T>(obj: T): T[] | undefined {
 type ObjectType = Record<PropertyKey, any>
 export function isObject(value: unknown): value is ObjectType {
   return Object.prototype.toString.call(value) === '[object Object]'
+}
+
+const shellLangs = ['shellscript', 'shell', 'bash', 'sh', 'zsh']
+export function isShell(lang: string): boolean {
+  return shellLangs.includes(lang)
 }

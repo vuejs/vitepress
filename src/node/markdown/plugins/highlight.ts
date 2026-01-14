@@ -1,50 +1,52 @@
 import {
-  transformerCompactLineOptions,
+  transformerMetaHighlight,
   transformerNotationDiff,
   transformerNotationErrorLevel,
   transformerNotationFocus,
-  transformerNotationHighlight,
-  type TransformerCompactLineOption
+  transformerNotationHighlight
 } from '@shikijs/transformers'
 import { customAlphabet } from 'nanoid'
 import c from 'picocolors'
 import type { BundledLanguage, ShikiTransformer } from 'shiki'
 import { createHighlighter, guessEmbeddedLanguages, isSpecialLang } from 'shiki'
 import type { Logger } from 'vite'
+import { isShell } from '../../shared'
 import type { MarkdownOptions, ThemeOptions } from '../markdown'
 
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)
 
 /**
- * 2 steps:
+ * Prevents the leading '$' symbol etc from being selectable/copyable. Also
+ * normalizes its syntax so there's no leading spaces, and only a single
+ * trailing space.
  *
- * 1. convert attrs into line numbers:
- *    {4,7-13,16,23-27,40} -> [4,7,8,9,10,11,12,13,16,23,24,25,26,27,40]
- * 2. convert line numbers into line options:
- *    [{ line: number, classes: string[] }]
+ * NOTE: Any changes to this function may also need to update
+ * `src/client/app/composables/copyCode.ts`
  */
-function attrsToLines(attrs: string): TransformerCompactLineOption[] {
-  attrs = attrs.replace(/^(?:\[.*?\])?.*?([\d,-]+).*/, '$1').trim()
-  const result: number[] = []
-  if (!attrs) {
-    return []
-  }
-  attrs
-    .split(',')
-    .map((v) => v.split('-').map((v) => parseInt(v, 10)))
-    .forEach(([start, end]) => {
-      if (start && end) {
-        result.push(
-          ...Array.from({ length: end - start + 1 }, (_, i) => start + i)
-        )
-      } else {
-        result.push(start)
+function transformerDisableShellSymbolSelect(): ShikiTransformer {
+  return {
+    name: 'vitepress:disable-shell-symbol-select',
+    tokens(tokensByLine) {
+      if (!isShell(this.options.lang)) return
+
+      for (const tokens of tokensByLine) {
+        if (tokens.length < 2) continue
+
+        // The first token should only be a symbol token
+        const firstTokenText = tokens[0].content.trim()
+        if (firstTokenText !== '$' && firstTokenText !== '>') continue
+
+        // The second token must have a leading space (separates the symbol)
+        if (tokens[1].content[0] !== ' ') continue
+
+        tokens[0].content = firstTokenText + ' '
+        tokens[0].htmlStyle ??= {}
+        tokens[0].htmlStyle['user-select'] = 'none'
+        tokens[0].htmlStyle['-webkit-user-select'] = 'none'
+        tokens[1].content = tokens[1].content.slice(1)
       }
-    })
-  return result.map((v) => ({
-    line: v,
-    classes: ['highlighted']
-  }))
+    }
+  }
 }
 
 export async function highlight(
@@ -59,21 +61,24 @@ export async function highlight(
     codeTransformers: userTransformers = []
   } = options
 
+  const langAlias = Object.fromEntries(
+    Object.entries(options.languageAlias || {}) //
+      .map(([k, v]) => [k.toLowerCase(), v])
+  )
+
   const highlighter = await createHighlighter({
     themes:
       typeof theme === 'object' && 'light' in theme && 'dark' in theme
         ? [theme.light, theme.dark]
         : [theme],
-    langs: [
-      ...(options.languages || []),
-      ...Object.values(options.languageAlias || {})
-    ],
-    langAlias: options.languageAlias
+    langs: [...(options.languages || []), ...Object.values(langAlias)],
+    langAlias
   })
 
   await options?.shikiSetup?.(highlighter)
 
   const transformers: ShikiTransformer[] = [
+    transformerMetaHighlight(),
     transformerNotationDiff(),
     transformerNotationFocus({
       classActiveLine: 'has-focus',
@@ -81,6 +86,7 @@ export async function highlight(
     }),
     transformerNotationHighlight(),
     transformerNotationErrorLevel(),
+    transformerDisableShellSymbolSelect(),
     {
       name: 'vitepress:add-dir',
       pre(node) {
@@ -89,20 +95,24 @@ export async function highlight(
     }
   ]
 
-  const vueRE = /-vue(?=:|$)/
-  const lineNoStartRE = /=(\d*)/
-  const lineNoRE = /:(no-)?line-numbers(=\d*)?$/
-  const mustacheRE = /\{\{.*?\}\}/g
+  // keep in sync with ./preWrapper.ts#extractLang
+  const langRE = /^[a-zA-Z0-9-_]+/
+  const vueRE = /-vue$/
 
   return [
-    async (str: string, lang: string, attrs: string) => {
-      const vPre = vueRE.test(lang) ? '' : 'v-pre'
-      lang =
-        lang
-          .replace(lineNoStartRE, '')
-          .replace(lineNoRE, '')
-          .replace(vueRE, '')
-          .toLowerCase() || defaultLang
+    async (str, lang, attrs) => {
+      const match = langRE.exec(lang)
+      if (match) {
+        const orig = lang
+        lang = match[0].toLowerCase()
+        attrs = orig.slice(lang.length).replace(/(?<!=)\{/g, ' {') + ' ' + attrs
+        attrs = attrs.trim().replace(/\s+/g, ' ')
+      }
+
+      lang ||= defaultLang
+
+      const vPre = !vueRE.test(lang)
+      if (!vPre) lang = lang.slice(0, -4)
 
       try {
         // https://github.com/shikijs/shiki/issues/952
@@ -121,12 +131,11 @@ export async function highlight(
         lang = defaultLang
       }
 
-      const lineOptions = attrsToLines(attrs)
       const mustaches = new Map<string, string>()
 
       const removeMustache = (s: string) => {
         if (vPre) return s
-        return s.replace(mustacheRE, (match) => {
+        return s.replace(/\{\{.*?\}\}/g, (match) => {
           let marker = mustaches.get(match)
           if (!marker) {
             marker = nanoid()
@@ -152,7 +161,6 @@ export async function highlight(
         lang,
         transformers: [
           ...transformers,
-          transformerCompactLineOptions(lineOptions),
           {
             name: 'vitepress:v-pre',
             pre(node) {

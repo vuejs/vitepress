@@ -1,6 +1,7 @@
 import fs from 'fs-extra'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import * as vite from 'vite'
 import {
   build,
   normalizePath,
@@ -87,7 +88,6 @@ export async function bundle(
       emptyOutDir: true,
       ssr,
       ssrEmitAssets: config.mpa,
-      // minify with esbuild in MPA mode (for CSS)
       minify: ssr ? !!config.mpa : (options.minify ?? !process.env.DEBUG),
       outDir: ssr ? config.tempDir : config.outDir,
       cssCodeSplit: false,
@@ -118,44 +118,52 @@ export async function bundle(
                     ? `${config.assetsDir}/chunks/ui-custom.[hash].js`
                     : `${config.assetsDir}/chunks/[name].[hash].js`
                 },
-                manualChunks(id, ctx) {
-                  // move known framework code into a stable chunk so that
-                  // custom theme changes do not invalidate hash for all pages
-                  if (
-                    id.startsWith('\0vite') ||
-                    ctx.getModuleInfo(id)?.meta['vite:asset']
-                  ) {
-                    return 'framework'
-                  }
-                  if (id.includes('plugin-vue:export-helper')) {
-                    return 'framework'
-                  }
-                  if (
-                    id.includes(`${clientDir}/app`) &&
-                    id !== `${clientDir}/app/index.js`
-                  ) {
-                    return 'framework'
-                  }
-                  if (
-                    isEagerChunk(id, ctx.getModuleInfo) &&
-                    /@vue\/(runtime|shared|reactivity)/.test(id)
-                  ) {
-                    return 'framework'
-                  }
+                // @ts-ignore skip setting it for rolldown-vite since it doesn't support `manualChunks`
+                ...(vite.rolldownVersion
+                  ? undefined
+                  : {
+                      manualChunks(
+                        id: string,
+                        ctx: Pick<Rollup.PluginContext, 'getModuleInfo'>
+                      ) {
+                        // move known framework code into a stable chunk so that
+                        // custom theme changes do not invalidate hash for all pages
+                        if (
+                          id.startsWith('\0vite') ||
+                          ctx.getModuleInfo(id)?.meta['vite:asset']
+                        ) {
+                          return 'framework'
+                        }
+                        if (id.includes('plugin-vue:export-helper')) {
+                          return 'framework'
+                        }
+                        if (
+                          id.includes(`${clientDir}/app`) &&
+                          id !== `${clientDir}/app/index.js`
+                        ) {
+                          return 'framework'
+                        }
+                        if (
+                          isEagerChunk(id, ctx.getModuleInfo) &&
+                          /@vue\/(runtime|shared|reactivity)/.test(id)
+                        ) {
+                          return 'framework'
+                        }
 
-                  if (
-                    (id.startsWith(`${clientDir}/theme-default`) ||
-                      !excludedModules.some((i) => id.includes(i))) &&
-                    staticImportedByEntry(
-                      id,
-                      ctx.getModuleInfo,
-                      cacheTheme,
-                      themeEntryRE
-                    )
-                  ) {
-                    return 'theme'
-                  }
-                }
+                        if (
+                          (id.startsWith(`${clientDir}/theme-default`) ||
+                            !excludedModules.some((i) => id.includes(i))) &&
+                          staticImportedByEntry(
+                            id,
+                            ctx.getModuleInfo,
+                            cacheTheme,
+                            themeEntryRE
+                          )
+                        ) {
+                          return 'theme'
+                        }
+                      }
+                    })
               })
         }
       }

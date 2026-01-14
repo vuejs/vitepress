@@ -43,7 +43,6 @@ vitepress build [root]
 | `--base <path>`                | Caminho base público (padrão: `/`) (`string`)                                                                          |
 | `--target <target>`            | Transpila o alvo (padrão: `"modules"`) (`string`)                                                                  |
 | `--outDir <dir>`               | Diretório de saída relativo ao **cwd** (padrão: `<root>/.vitepress/dist`) (`string`)                                 |
-| `--minify [minifier]`          | Habilita/desabilita minificação, ou especifica um minificador para usar (padrão: `"esbuild"`) (`boolean \| "terser" \| "esbuild"`) |
 | `--assetsInlineLimit <number>` | Limite em bytes para alinhar ativos em  base64 (padrão: `4096`) (`number`)                                          |
 
 ## `vitepress preview`

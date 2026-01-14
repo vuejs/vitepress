@@ -8,7 +8,7 @@ import VPNav from './components/VPNav.vue'
 import VPSidebar from './components/VPSidebar.vue'
 import VPSkipLink from './components/VPSkipLink.vue'
 import { useData } from './composables/data'
-import { registerWatchers } from './composables/layout'
+import { layoutInfoInjectionKey, registerWatchers } from './composables/layout'
 import { useSidebarControl } from './composables/sidebar'
 
 const {
@@ -24,7 +24,7 @@ const { frontmatter } = useData()
 const slots = useSlots()
 const heroImageSlotExists = computed(() => !!slots['home-hero-image'])
 
-provide('hero-image-slot-exists', heroImageSlotExists)
+provide(layoutInfoInjectionKey, { heroImageSlotExists })
 </script>
 
 <template>

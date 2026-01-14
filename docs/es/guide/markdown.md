@@ -256,11 +256,11 @@ La clase `vp-raw` también puede ser usada directamente en elementos. El aislami
   }
   ```
 
-  El utiliza [`postcss-prefix-selector`](https://github.com/postcss/postcss-load-config) internamente. Puede pasar opciones así:
+  Puede pasar opciones así:
 
   ```js
   postcssIsolateStyles({
-    includeFiles: [/vp-doc\.css/] // o padrão é /base\.css/
+    includeFiles: [/custom\.css/] // o padrão é [/vp-doc\.css/, /base\.css/]
   })
   ```
 
@@ -844,7 +844,7 @@ Observe que esto no genera errores si el archivo no está presente. Por lo tanto
 Esto es actualmente opcional. Para activarlo, necesita instalar `markdown-it-mathjax3` y definir `markdown.math` como `true` en su archivo de configuración:
 
 ```sh
-npm add -D markdown-it-mathjax3
+npm add -D markdown-it-mathjax3@^4
 ```
 
 ```ts [.vitepress/config.ts]
