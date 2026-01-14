@@ -1,6 +1,6 @@
 <template>
-  <button type="button" aria-label="Ask AI" class="DocSearch DocSearch-Button VPNavBarAskAiButton">
-    <span class="DocSearch-Button-Container">
+  <button type="button" aria-label="Ask AI" class="VPNavBarAskAiButton DocSearch VPDocSearch-Button ">
+    <span class="VPDocSearch-Button-Container">
       <span class="vpi-sparkles DocSearch-Search-Icon"></span>
     </span>
   </button>
@@ -51,6 +51,7 @@
 
 .VPNavBarAskAiButton {
   transition: all 0.25s;
+  width: 36px !important;
 }
 
 

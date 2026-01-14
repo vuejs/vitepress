@@ -148,8 +148,69 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
 }
 
 function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
+  const modalAskAiTranslations = {
+    disclaimerText:
+      'AI が生成した回答には誤りが含まれる可能性があります。必ずご確認ください。',
+    relatedSourcesText: '関連ソース',
+    thinkingText: '考え中...',
+    copyButtonText: 'コピー',
+    copyButtonCopiedText: 'コピーしました！',
+    copyButtonTitle: 'コピー',
+    likeButtonTitle: 'いいね',
+    dislikeButtonTitle: 'よくない',
+    thanksForFeedbackText: 'フィードバックありがとうございます！',
+    preToolCallText: '検索中...',
+    duringToolCallText: '検索中 ',
+    afterToolCallText: '検索完了'
+  }
+
   return {
     placeholder: 'ドキュメントを検索',
+    askAi: {
+      sidePanel: {
+        panel: {
+          translations: {
+            header: {
+              title: 'AI アシスタント',
+              conversationHistoryTitle: '会話履歴',
+              newConversationText: '新しい会話',
+              viewConversationHistoryText: '履歴を表示'
+            },
+            promptForm: {
+              promptPlaceholderText: '質問してください...',
+              promptAnsweringText: '回答中...',
+              promptAskAnotherQuestionText: '別の質問をする...',
+              promptDisclaimerText: modalAskAiTranslations.disclaimerText,
+              promptLabelText: 'あなたの質問',
+              promptAriaLabelText: '質問入力フィールド'
+            },
+            conversationScreen: {
+              conversationDisclaimer: modalAskAiTranslations.disclaimerText,
+              reasoningText: '推論中...',
+              thinkingText: modalAskAiTranslations.thinkingText,
+              relatedSourcesText: modalAskAiTranslations.relatedSourcesText,
+              stoppedStreamingText: '応答が停止されました',
+              copyButtonText: modalAskAiTranslations.copyButtonText,
+              copyButtonCopiedText: modalAskAiTranslations.copyButtonCopiedText,
+              likeButtonTitle: modalAskAiTranslations.likeButtonTitle,
+              dislikeButtonTitle: modalAskAiTranslations.dislikeButtonTitle,
+              thanksForFeedbackText:
+                modalAskAiTranslations.thanksForFeedbackText,
+              preToolCallText: modalAskAiTranslations.preToolCallText,
+              searchingText: modalAskAiTranslations.duringToolCallText,
+              toolCallResultText: modalAskAiTranslations.afterToolCallText
+            },
+            newConversationScreen: {
+              titleText: 'AI アシスタント',
+              introductionText: '今日は何をお手伝いできますか？'
+            },
+            logo: {
+              poweredByText: '提供'
+            }
+          }
+        }
+      }
+    },
     translations: {
       button: {
         buttonText: '検索',
@@ -191,22 +252,7 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
         resultsScreen: {
           askAiPlaceholder: 'AI に質問: '
         },
-        askAiScreen: {
-          disclaimerText:
-            'AI が生成した回答には誤りが含まれる可能性があります。必ずご確認ください。',
-          relatedSourcesText: '関連ソース',
-          thinkingText: '考え中...',
-          copyButtonText: 'コピー',
-          copyButtonCopiedText: 'コピーしました！',
-          copyButtonTitle: 'コピー',
-          likeButtonTitle: 'いいね',
-          dislikeButtonTitle: 'よくない',
-          thanksForFeedbackText: 'フィードバックありがとうございます！',
-          preToolCallText: '検索中...',
-          duringToolCallText: '検索中 ',
-          afterToolCallText: '検索完了',
-          aggregatedToolCallText: '検索完了'
-        },
+        askAiScreen: modalAskAiTranslations,
         footer: {
           selectText: '選択',
           submitQuestionText: '質問を送信',

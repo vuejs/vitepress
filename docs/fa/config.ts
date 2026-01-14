@@ -181,8 +181,69 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
 }
 
 function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
+  const modalAskAiTranslations = {
+    disclaimerText:
+      'پاسخ‌ها توسط هوش مصنوعی تولید می‌شوند و ممکن است خطا داشته باشند. لطفاً بررسی کنید.',
+    relatedSourcesText: 'منابع مرتبط',
+    thinkingText: 'در حال پردازش...',
+    copyButtonText: 'کپی',
+    copyButtonCopiedText: 'کپی شد!',
+    copyButtonTitle: 'کپی',
+    likeButtonTitle: 'پسندیدم',
+    dislikeButtonTitle: 'نپسندیدم',
+    thanksForFeedbackText: 'از بازخورد شما سپاسگزاریم!',
+    preToolCallText: 'در حال جستجو...',
+    duringToolCallText: 'در حال جستجو برای ',
+    afterToolCallText: 'جستجو انجام شد'
+  }
+
   return {
     placeholder: 'جستجوی مستندات',
+    askAi: {
+      sidePanel: {
+        panel: {
+          translations: {
+            header: {
+              title: 'دستیار هوش مصنوعی',
+              conversationHistoryTitle: 'تاریخچه گفتگوها',
+              newConversationText: 'گفتگوی جدید',
+              viewConversationHistoryText: 'مشاهده تاریخچه'
+            },
+            promptForm: {
+              promptPlaceholderText: 'سوالی بپرسید...',
+              promptAnsweringText: 'در حال پاسخ...',
+              promptAskAnotherQuestionText: 'سوال دیگری بپرسید...',
+              promptDisclaimerText: modalAskAiTranslations.disclaimerText,
+              promptLabelText: 'سوال شما',
+              promptAriaLabelText: 'فیلد ورودی سوال'
+            },
+            conversationScreen: {
+              conversationDisclaimer: modalAskAiTranslations.disclaimerText,
+              reasoningText: 'در حال استدلال...',
+              thinkingText: modalAskAiTranslations.thinkingText,
+              relatedSourcesText: modalAskAiTranslations.relatedSourcesText,
+              stoppedStreamingText: 'پاسخ متوقف شد',
+              copyButtonText: modalAskAiTranslations.copyButtonText,
+              copyButtonCopiedText: modalAskAiTranslations.copyButtonCopiedText,
+              likeButtonTitle: modalAskAiTranslations.likeButtonTitle,
+              dislikeButtonTitle: modalAskAiTranslations.dislikeButtonTitle,
+              thanksForFeedbackText:
+                modalAskAiTranslations.thanksForFeedbackText,
+              preToolCallText: modalAskAiTranslations.preToolCallText,
+              searchingText: modalAskAiTranslations.duringToolCallText,
+              toolCallResultText: modalAskAiTranslations.afterToolCallText
+            },
+            newConversationScreen: {
+              titleText: 'دستیار هوش مصنوعی',
+              introductionText: 'امروز چگونه می‌توانم کمکتان کنم؟'
+            },
+            logo: {
+              poweredByText: 'توسعه یافته توسط'
+            }
+          }
+        }
+      }
+    },
     translations: {
       button: {
         buttonText: 'جستجو',
@@ -224,22 +285,7 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
         resultsScreen: {
           askAiPlaceholder: 'از هوش مصنوعی بپرسید: '
         },
-        askAiScreen: {
-          disclaimerText:
-            'پاسخ‌ها توسط هوش مصنوعی تولید می‌شوند و ممکن است خطا داشته باشند. لطفاً بررسی کنید.',
-          relatedSourcesText: 'منابع مرتبط',
-          thinkingText: 'در حال پردازش...',
-          copyButtonText: 'کپی',
-          copyButtonCopiedText: 'کپی شد!',
-          copyButtonTitle: 'کپی',
-          likeButtonTitle: 'پسندیدم',
-          dislikeButtonTitle: 'نپسندیدم',
-          thanksForFeedbackText: 'از بازخورد شما سپاسگزاریم!',
-          preToolCallText: 'در حال جستجو...',
-          duringToolCallText: 'در حال جستجو برای ',
-          afterToolCallText: 'جستجو انجام شد',
-          aggregatedToolCallText: 'جستجو انجام شد'
-        },
+        askAiScreen: modalAskAiTranslations,
         footer: {
           selectText: 'انتخاب',
           submitQuestionText: 'ارسال پرسش',

@@ -5,7 +5,7 @@ import { onKeyStroke } from '@vueuse/core'
 import type { DefaultTheme } from 'vitepress/theme'
 import { computed, defineAsyncComponent, onMounted, onUnmounted, ref } from 'vue'
 import { useData } from '../composables/data'
-import { hasKeywordSearch } from '../support/docsearch'
+import { resolveMode } from '../support/docsearch'
 import VPNavBarAskAiButton from './VPNavBarAskAiButton.vue'
 import VPNavBarSearchButton from './VPNavBarSearchButton.vue'
 
@@ -30,12 +30,14 @@ const algoliaOptions = computed(() => {
   } as DefaultTheme.AlgoliaSearchOptions
 })
 
+const resolvedMode = computed(() => resolveMode(algoliaOptions.value))
+
 const showKeywordSearchButton = computed(
-  () =>
-    hasKeywordSearch(algoliaOptions.value)
+  () => resolvedMode.value.showKeywordSearch
 )
 
 const askAiSidePanelConfig = computed(() => {
+  if (!resolvedMode.value.useSidePanel) return null
   const askAi = algoliaOptions.value.askAi
   if (!askAi || typeof askAi === 'string') return null
   if (!askAi.sidePanel) return null
@@ -179,16 +181,11 @@ const provider = __ALGOLIA__ ? 'algolia' : __VP_LOCAL_SEARCH__ ? 'local' : ''
     </template>
 
     <template v-else-if="provider === 'algolia'">
-      <VPAlgoliaSearchBox v-if="loaded" :algolia="theme.search?.options ?? theme.algolia" :open-request="openRequest"
-        @vue:beforeMount="actuallyLoaded = true" />
-
-      <div v-if="!actuallyLoaded">
-        <VPNavBarSearchButton v-if="showKeywordSearchButton" @click="loadAndOpen('search')" />
-      </div>
-
+      <VPNavBarSearchButton v-if="showKeywordSearchButton" @click="loadAndOpen('search')" />
       <VPNavBarAskAiButton v-if="askAiSidePanelConfig"
         @click="actuallyLoaded ? loadAndOpen('toggleAskAi') : loadAndOpen('askAi')" />
-      <div id="docsearch-sidepanel" />
+      <VPAlgoliaSearchBox v-if="loaded" :algolia="theme.search?.options ?? theme.algolia" :open-request="openRequest"
+        @vue:beforeMount="actuallyLoaded = true" />
     </template>
   </div>
 </template>

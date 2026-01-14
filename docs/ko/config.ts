@@ -222,8 +222,69 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
 }
 
 function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
+  const modalAskAiTranslations = {
+    disclaimerText:
+      'AI가 생성한 답변으로 오류가 있을 수 있습니다. 반드시 확인하세요.',
+    relatedSourcesText: '관련 소스',
+    thinkingText: '생각 중...',
+    copyButtonText: '복사',
+    copyButtonCopiedText: '복사됨!',
+    copyButtonTitle: '복사',
+    likeButtonTitle: '좋아요',
+    dislikeButtonTitle: '싫어요',
+    thanksForFeedbackText: '피드백 감사합니다!',
+    preToolCallText: '검색 중...',
+    duringToolCallText: '검색 중 ',
+    afterToolCallText: '검색 완료'
+  }
+
   return {
     placeholder: '문서 검색',
+    askAi: {
+      sidePanel: {
+        panel: {
+          translations: {
+            header: {
+              title: 'AI 어시스턴트',
+              conversationHistoryTitle: '대화 기록',
+              newConversationText: '새 대화',
+              viewConversationHistoryText: '기록 보기'
+            },
+            promptForm: {
+              promptPlaceholderText: '질문하세요...',
+              promptAnsweringText: '답변 작성 중...',
+              promptAskAnotherQuestionText: '다른 질문하기...',
+              promptDisclaimerText: modalAskAiTranslations.disclaimerText,
+              promptLabelText: '질문',
+              promptAriaLabelText: '질문 입력 필드'
+            },
+            conversationScreen: {
+              conversationDisclaimer: modalAskAiTranslations.disclaimerText,
+              reasoningText: '추론 중...',
+              thinkingText: modalAskAiTranslations.thinkingText,
+              relatedSourcesText: modalAskAiTranslations.relatedSourcesText,
+              stoppedStreamingText: '답변 중지됨',
+              copyButtonText: modalAskAiTranslations.copyButtonText,
+              copyButtonCopiedText: modalAskAiTranslations.copyButtonCopiedText,
+              likeButtonTitle: modalAskAiTranslations.likeButtonTitle,
+              dislikeButtonTitle: modalAskAiTranslations.dislikeButtonTitle,
+              thanksForFeedbackText:
+                modalAskAiTranslations.thanksForFeedbackText,
+              preToolCallText: modalAskAiTranslations.preToolCallText,
+              searchingText: modalAskAiTranslations.duringToolCallText,
+              toolCallResultText: modalAskAiTranslations.afterToolCallText
+            },
+            newConversationScreen: {
+              titleText: 'AI 어시스턴트',
+              introductionText: '오늘 무엇을 도와드릴까요?'
+            },
+            logo: {
+              poweredByText: '제공'
+            }
+          }
+        }
+      }
+    },
     translations: {
       button: {
         buttonText: '검색',
@@ -265,22 +326,7 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
         resultsScreen: {
           askAiPlaceholder: 'AI에게 물어보기: '
         },
-        askAiScreen: {
-          disclaimerText:
-            'AI가 생성한 답변으로 오류가 있을 수 있습니다. 반드시 확인하세요.',
-          relatedSourcesText: '관련 소스',
-          thinkingText: '생각 중...',
-          copyButtonText: '복사',
-          copyButtonCopiedText: '복사됨!',
-          copyButtonTitle: '복사',
-          likeButtonTitle: '좋아요',
-          dislikeButtonTitle: '싫어요',
-          thanksForFeedbackText: '피드백 감사합니다!',
-          preToolCallText: '검색 중...',
-          duringToolCallText: '검색 중 ',
-          afterToolCallText: '검색 완료',
-          aggregatedToolCallText: '검색 완료'
-        },
+        askAiScreen: modalAskAiTranslations,
         footer: {
           selectText: '선택',
           submitQuestionText: '질문 보내기',

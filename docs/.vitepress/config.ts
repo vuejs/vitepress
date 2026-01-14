@@ -118,13 +118,10 @@ export default defineConfig({
         appId: '8J64VVRP8K',
         apiKey: '52f578a92b88ad6abde815aae2b0ad7c',
         indexName: 'vitepress',
+        mode: 'modal',
         askAi: {
           assistantId: 'YaVSonfX5bS8',
-          sidePanel: {
-            button: {
-              variant: 'inline'
-            }
-          }
+          sidePanel: true
         }
       }
     },

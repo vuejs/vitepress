@@ -14,17 +14,13 @@ const translate = createSearchTranslate(defaultTranslations)
 </script>
 
 <template>
-  <button
-    type="button"
-    :aria-label="translate('button.buttonAriaLabel')"
-    aria-keyshortcuts="/ control+k meta+k"
-    class="DocSearch DocSearch-Button"
-  >
-    <span class="DocSearch-Button-Container">
+  <button type="button" :aria-label="translate('button.buttonAriaLabel')" aria-keyshortcuts="/ control+k meta+k"
+    class="DocSearch VPDocSearch-Button VPNavBarSearchButton">
+    <span class="VPDocSearch-Button-Container">
       <span class="vpi-search DocSearch-Search-Icon"></span>
-      <span class="DocSearch-Button-Placeholder">{{ translate('button.buttonText') }}</span>
+      <span class="VPDocSearch-Button-Placeholder">{{ translate('button.buttonText') }}</span>
     </span>
-    <span class="DocSearch-Button-Keys"/>
+    <span class="VPDocSearch-Button-Keys" />
   </button>
 </template>
 
@@ -76,7 +72,7 @@ const translate = createSearchTranslate(defaultTranslations)
   fill: currentColor;
 }
 
-.DocSearch-SearchBar + .DocSearch-Footer {
+.DocSearch-SearchBar+.DocSearch-Footer {
   border-top-color: transparent;
 }
 
@@ -86,12 +82,28 @@ const translate = createSearchTranslate(defaultTranslations)
 }
 
 .DocSearch-Button {
+  display: none;
+}
+
+.VPDocSearch-Button {
   --docsearch-muted-color: var(--docsearch-text-color);
   --docsearch-searchbox-background: transparent;
+  padding: 4px 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: 36px;
   width: auto;
-  padding: 0px 8px;
   border: none;
   border-radius: 8px;
+}
+
+.VPDocSearch-Button-Container {
+  display: inline-flex;
+  height: 100%;
+  gap: 6px;
+  align-items: center;
 }
 
 .DocSearch-Search-Icon {
@@ -100,23 +112,8 @@ const translate = createSearchTranslate(defaultTranslations)
   height: 20px;
 }
 
-@media (min-width: 768px) {
-  .DocSearch-Button {
-    background-color: var(--vp-c-bg-alt);
-    color: var(--docsearch-secondary-text-color);
-  }
 
-  .DocSearch-Search-Icon {
-    width: 15px;
-    height: 15px;
-  }
-
-  .DocSearch-Button-Placeholder {
-    font-size: 13px;
-  }
-}
-
-.DocSearch-Button-Keys {
+.VPDocSearch-Button-Keys {
   min-width: auto;
   margin: 0;
   padding: 4px 6px;
@@ -126,19 +123,45 @@ const translate = createSearchTranslate(defaultTranslations)
   font-size: 12px;
   line-height: 1;
   color: var(--docsearch-key-color);
-}
-
-.DocSearch-Button-Keys > * {
   display: none;
 }
 
-.DocSearch-Button-Keys:after {
+.VPDocSearch-Button-Placeholder {
+  display: none;
+}
+
+.VPDocSearch-Button-Keys>* {
+  display: none;
+}
+
+.VPDocSearch-Button-Keys:after {
   /*rtl:ignore*/
   direction: ltr;
   content: 'Ctrl K';
 }
 
-.mac .DocSearch-Button-Keys:after {
+.mac .VPDocSearch-Button-Keys:after {
   content: '\2318  K';
+}
+
+@media (min-width: 768px) {
+  .VPDocSearch-Button {
+    background-color: var(--vp-c-bg-alt);
+    color: var(--docsearch-secondary-text-color);
+  }
+
+  .DocSearch-Search-Icon {
+    width: 15px;
+    height: 15px;
+  }
+
+  .VPDocSearch-Button-Placeholder {
+    font-size: 13px;
+    display: block;
+  }
+
+  .VPDocSearch-Button-Keys {
+    display: block;
+  }
 }
 </style>

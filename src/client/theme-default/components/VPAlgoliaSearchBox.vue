@@ -8,8 +8,10 @@ import { useData } from '../composables/data'
 import {
   buildAskAiConfig,
   mergeLangFacetFilters,
+  resolveMode,
   validateCredentials
 } from '../support/docsearch'
+import type { DocSearchAskAi } from '../../../../types/docsearch'
 
 const props = defineProps<{
   algolia: DefaultTheme.AlgoliaSearchOptions
@@ -100,7 +102,7 @@ async function update() {
       ...options.searchParameters,
       facetFilters
     },
-    askAi: askAi as DocSearchProps["askAi"]
+    askAi: askAi as DocSearchAskAi
   })
 }
 
@@ -108,12 +110,14 @@ function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
   // Always tear down previous instances first (e.g. on locale changes)
   cleanup?.()
 
+  const { useSidePanel, mode } = resolveMode(userOptions)
   const askAi = userOptions.askAi
   const sidePanelConfig = askAi && typeof askAi === 'object' ? askAi.sidePanel : undefined
 
-  if (askAi && typeof askAi === 'object' && sidePanelConfig) {
+  if (useSidePanel && askAi && typeof askAi === 'object' && sidePanelConfig) {
     const { keyboardShortcuts, ...restConfig } = sidePanelConfig !== true ? sidePanelConfig : {} as SidepanelProps
     sidepanelInstance = sidepanel({
+      ...restConfig,
       container: '#docsearch-sidepanel',
       indexName: askAi.indexName ?? userOptions.indexName,
       appId: askAi.appId ?? userOptions.appId,
@@ -125,7 +129,6 @@ function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
           setTimeout(() => { sidepanelInstance?.open() }, 0)
         }
       },
-      ...restConfig,
     } as SidepanelProps)
   }
 
@@ -145,8 +148,8 @@ function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
       })
     },
 
-    // When sidepanel is enabled, intercept Ask AI events to open it instead (hybrid mode)
-    ...(sidepanelInstance && {
+    // When sidepanel is enabled (and not in modal mode), intercept Ask AI events to open it instead (hybrid mode)
+    ...(useSidePanel && sidepanelInstance && mode !== 'modal' && {
       interceptAskAiEvent: (initialMessage: { query: string; messageId?: string; suggestedQuestionId?: string }) => {
         docsearchInstance?.close()
         setTimeout(() => sidepanelInstance?.open(initialMessage), 0)
@@ -186,4 +189,5 @@ function getRelativePath(url: string) {
 
 <template>
   <div id="docsearch" />
+  <div id="docsearch-sidepanel" />
 </template>

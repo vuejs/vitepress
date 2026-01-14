@@ -177,8 +177,69 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
 }
 
 function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
+  const modalAskAiTranslations = {
+    disclaimerText:
+      'As respostas são geradas por IA e podem conter erros. Verifique as respostas.',
+    relatedSourcesText: 'Fontes relacionadas',
+    thinkingText: 'Pensando...',
+    copyButtonText: 'Copiar',
+    copyButtonCopiedText: 'Copiado!',
+    copyButtonTitle: 'Copiar',
+    likeButtonTitle: 'Curtir',
+    dislikeButtonTitle: 'Não curtir',
+    thanksForFeedbackText: 'Obrigado pelo feedback!',
+    preToolCallText: 'Pesquisando...',
+    duringToolCallText: 'Pesquisando ',
+    afterToolCallText: 'Pesquisa concluída'
+  }
+
   return {
     placeholder: 'Pesquisar documentos',
+    askAi: {
+      sidePanel: {
+        panel: {
+          translations: {
+            header: {
+              title: 'Assistente de IA',
+              conversationHistoryTitle: 'Histórico de conversas',
+              newConversationText: 'Nova conversa',
+              viewConversationHistoryText: 'Ver histórico'
+            },
+            promptForm: {
+              promptPlaceholderText: 'Pergunte algo...',
+              promptAnsweringText: 'Respondendo...',
+              promptAskAnotherQuestionText: 'Fazer outra pergunta...',
+              promptDisclaimerText: modalAskAiTranslations.disclaimerText,
+              promptLabelText: 'Sua pergunta',
+              promptAriaLabelText: 'Campo de entrada de pergunta'
+            },
+            conversationScreen: {
+              conversationDisclaimer: modalAskAiTranslations.disclaimerText,
+              reasoningText: 'Raciocinando...',
+              thinkingText: modalAskAiTranslations.thinkingText,
+              relatedSourcesText: modalAskAiTranslations.relatedSourcesText,
+              stoppedStreamingText: 'Resposta interrompida',
+              copyButtonText: modalAskAiTranslations.copyButtonText,
+              copyButtonCopiedText: modalAskAiTranslations.copyButtonCopiedText,
+              likeButtonTitle: modalAskAiTranslations.likeButtonTitle,
+              dislikeButtonTitle: modalAskAiTranslations.dislikeButtonTitle,
+              thanksForFeedbackText:
+                modalAskAiTranslations.thanksForFeedbackText,
+              preToolCallText: modalAskAiTranslations.preToolCallText,
+              searchingText: modalAskAiTranslations.duringToolCallText,
+              toolCallResultText: modalAskAiTranslations.afterToolCallText
+            },
+            newConversationScreen: {
+              titleText: 'Assistente de IA',
+              introductionText: 'Como posso ajudá-lo hoje?'
+            },
+            logo: {
+              poweredByText: 'Desenvolvido por'
+            }
+          }
+        }
+      }
+    },
     translations: {
       button: {
         buttonText: 'Pesquisar',
@@ -222,22 +283,7 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
         resultsScreen: {
           askAiPlaceholder: 'Pergunte à IA: '
         },
-        askAiScreen: {
-          disclaimerText:
-            'As respostas são geradas por IA e podem conter erros. Verifique as respostas.',
-          relatedSourcesText: 'Fontes relacionadas',
-          thinkingText: 'Pensando...',
-          copyButtonText: 'Copiar',
-          copyButtonCopiedText: 'Copiado!',
-          copyButtonTitle: 'Copiar',
-          likeButtonTitle: 'Curtir',
-          dislikeButtonTitle: 'Não curtir',
-          thanksForFeedbackText: 'Obrigado pelo feedback!',
-          preToolCallText: 'Pesquisando...',
-          duringToolCallText: 'Pesquisando ',
-          afterToolCallText: 'Pesquisa concluída',
-          aggregatedToolCallText: 'Pesquisa concluída'
-        },
+        askAiScreen: modalAskAiTranslations,
         footer: {
           selectText: 'Selecionar',
           submitQuestionText: 'Enviar pergunta',

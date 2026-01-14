@@ -1,12 +1,82 @@
 import type { DefaultTheme } from 'vitepress/theme'
 
-export type FacetFilter = string | string[]
+export type FacetFilter = string | string[] | FacetFilter[]
 
 export interface ValidatedCredentials {
   valid: boolean
   appId?: string
   apiKey?: string
   indexName?: string
+}
+
+export type DocSearchMode = 'auto' | 'sidePanel' | 'hybrid' | 'modal'
+
+export interface ResolvedMode {
+  mode: DocSearchMode
+  showKeywordSearch: boolean
+  useSidePanel: boolean
+}
+
+/**
+ * Resolves the effective mode based on config and available features.
+ *
+ * - 'auto': infer hybrid vs sidePanel-only from provided config
+ * - 'sidePanel': force sidePanel-only even if keyword search is configured
+ * - 'hybrid': force hybrid (error if keyword search is not configured)
+ * - 'modal': force modal even if sidePanel is configured
+ */
+export function resolveMode(
+  options: Pick<
+    DefaultTheme.AlgoliaSearchOptions,
+    'appId' | 'apiKey' | 'indexName' | 'askAi' | 'mode'
+  >
+): ResolvedMode {
+  const mode = options.mode ?? 'auto'
+  const hasKeyword = hasKeywordSearch(options)
+  const askAi = options.askAi
+  const hasSidePanelConfig = Boolean(
+    askAi && typeof askAi === 'object' && askAi.sidePanel
+  )
+
+  switch (mode) {
+    case 'sidePanel':
+      // Force sidePanel-only - hide keyword search
+      return {
+        mode,
+        showKeywordSearch: false,
+        useSidePanel: true
+      }
+
+    case 'hybrid':
+      // Force hybrid - keyword search must be configured
+      if (!hasKeyword) {
+        console.error(
+          '[vitepress] mode: "hybrid" requires keyword search credentials (appId, apiKey, indexName).'
+        )
+      }
+      return {
+        mode,
+        showKeywordSearch: hasKeyword,
+        useSidePanel: true
+      }
+
+    case 'modal':
+      // Force modal - don't use sidepanel for askai, even if configured
+      return {
+        mode,
+        showKeywordSearch: hasKeyword,
+        useSidePanel: true
+      }
+
+    case 'auto':
+    default:
+      // Auto-detect based on config
+      return {
+        mode: 'auto',
+        showKeywordSearch: hasKeyword,
+        useSidePanel: hasSidePanelConfig
+      }
+  }
 }
 
 export function hasKeywordSearch(
@@ -44,7 +114,9 @@ export function mergeLangFacetFilters(
     .map((filter) => {
       if (Array.isArray(filter)) {
         // Handle nested arrays (OR conditions)
-        return filter.filter((f) => !f.startsWith('lang:'))
+        return filter.filter(
+          (f) => typeof f === 'string' && !f.startsWith('lang:')
+        )
       }
       return filter
     })
@@ -101,7 +173,10 @@ export function buildAskAiConfig(
   const askAiFacetFiltersSource =
     askAiSearchParameters?.facetFilters ??
     options.searchParameters?.facetFilters
-  const askAiFacetFilters = mergeLangFacetFilters(askAiFacetFiltersSource, lang)
+  const askAiFacetFilters = mergeLangFacetFilters(
+    askAiFacetFiltersSource as FacetFilter | FacetFilter[] | undefined,
+    lang
+  )
 
   const mergedAskAiSearchParameters = {
     ...askAiSearchParameters,
