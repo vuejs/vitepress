@@ -14,7 +14,7 @@ VitePress 默认的主题已经针对文档进行了优化，并且可以进行�
 
 这些高级自定义配置将需要使用自定义主题来“拓展”默认主题。
 
-:::tip
+::: tip
 在继续之前，请确保首先阅读[自定义主题](./custom-theme)以了解其工作原理。
 :::
 
@@ -55,8 +55,8 @@ export default DefaultTheme
 ```css
 /* .vitepress/theme/my-fonts.css */
 :root {
-  --vp-font-family-base: /* normal text font */
-  --vp-font-family-mono: /* code font */
+  --vp-font-family-base: /* 普通文本字体 */
+  --vp-font-family-mono: /* 代码字体 */
 }
 ```
 

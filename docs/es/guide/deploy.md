@@ -153,17 +153,17 @@ No active opciones como _Auto Minify_ para código HTML. Eso removera comentario
        runs-on: ubuntu-latest
        steps:
          - name: Checkout
-           uses: actions/checkout@v4
+           uses: actions/checkout@v5
            with:
              fetch-depth: 0 # No necesario se lastUpdated no estuviera habilitado
-         # - uses: pnpm/action-setup@v3 # Desconecte eso si estuviera usando pnpm
+         # - uses: pnpm/action-setup@v4 # Desconecte eso si estuviera usando pnpm
          #   with:
          #     version: 9
          # - uses: oven-sh/setup-bun@v1 # Desconecte eso se estuviera usando Bun
          - name: Setup Node
-           uses: actions/setup-node@v4
+           uses: actions/setup-node@v6
            with:
-             node-version: 22
+             node-version: 24
              cache: npm # o pnpm / yarn
          - name: Setup Pages
            uses: actions/configure-pages@v4

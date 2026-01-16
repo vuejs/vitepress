@@ -1,4 +1,4 @@
-import _debug from 'debug'
+import { createDebug } from 'obug'
 import fs from 'fs-extra'
 import path from 'node:path'
 import c from 'picocolors'
@@ -29,7 +29,7 @@ export { resolvePages } from './plugins/dynamicRoutesPlugin'
 export { resolveSiteDataByRoute } from './shared'
 export * from './siteConfig'
 
-const debug = _debug('vitepress:config')
+const debug = createDebug('vitepress:config')
 
 const resolve = (root: string, file: string) =>
   normalizePath(path.resolve(root, `.vitepress`, file))
@@ -233,7 +233,7 @@ export async function resolveUserConfig(
   root: string,
   command: 'serve' | 'build',
   mode: string
-): Promise<[UserConfig, string | undefined, string[]]> {
+): Promise<[UserConfig, configPath: string | undefined, configDeps: string[]]> {
   // load user config
   const configPath = supportedConfigExtensions
     .flatMap((ext) => [

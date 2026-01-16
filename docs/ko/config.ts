@@ -5,7 +5,6 @@ const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
 
 export default defineAdditionalConfig({
-  lang: 'ko-KR',
   description: 'Vite 및 Vue 기반 정적 사이트 생성기.',
 
   themeConfig: {
@@ -74,6 +73,10 @@ function nav(): DefaultTheme.NavItem[] {
     {
       text: pkg.version,
       items: [
+        {
+          text: '1.6.4',
+          link: 'https://vuejs.github.io/vitepress/v1/ko/'
+        },
         {
           text: '변경 로그',
           link: 'https://github.com/vuejs/vitepress/blob/main/CHANGELOG.md'

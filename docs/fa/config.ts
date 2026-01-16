@@ -5,9 +5,7 @@ const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
 
 export default defineAdditionalConfig({
-  lang: 'fa-IR',
   description: 'ژنراتور استاتیک وب‌سایت با Vite و Vue',
-  dir: 'rtl',
 
   // prettier-ignore
   head: [
@@ -82,6 +80,10 @@ function nav(): DefaultTheme.NavItem[] {
     {
       text: pkg.version,
       items: [
+        {
+          text: '1.6.4',
+          link: 'https://vuejs.github.io/vitepress/v1/fa/'
+        },
         {
           text: 'Changelog',
           link: 'https://github.com/vuejs/vitepress/blob/main/CHANGELOG.md'

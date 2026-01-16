@@ -12,7 +12,7 @@ Just want to try it out? Skip to the [Quickstart](./getting-started).
 
 - **Documentation**
 
-  VitePress ships with a default theme designed for technical documentation. It powers this page you are reading right now, along with the documentation for [Vite](https://vitejs.dev/), [Rollup](https://rollupjs.org/), [Pinia](https://pinia.vuejs.org/), [VueUse](https://vueuse.org/), [Vitest](https://vitest.dev/), [D3](https://d3js.org/), [UnoCSS](https://unocss.dev/), [Iconify](https://iconify.design/) and [many more](https://github.com/search?q=/"vitepress":+/+language:json&type=code).
+  VitePress ships with a default theme designed for technical documentation. It powers this page you are reading right now, along with the documentation for [Vite](https://vitejs.dev/), [Rollup](https://rollupjs.org/), [Pinia](https://pinia.vuejs.org/), [VueUse](https://vueuse.org/), [Vitest](https://vitest.dev/), [D3](https://d3js.org/), [UnoCSS](https://unocss.dev/), [Iconify](https://iconify.design/) and [many more](https://github.com/search?q=/%22vitepress%22:+/+path:/(?:package%7Cdeno)%5C.jsonc?$/+NOT+is:fork+NOT+is:archived&type=code).
 
   The [official Vue.js documentation](https://vuejs.org/) is also based on VitePress, but uses a custom theme shared between multiple translations.
 
@@ -50,8 +50,8 @@ Unlike many traditional SSGs where each navigation results in a full page reload
 
 ## What About VuePress?
 
-VitePress is the spiritual successor of VuePress. The original VuePress was based on Vue 2 and webpack. With Vue 3 and Vite under the hood, VitePress provides significantly better DX, better production performance, a more polished default theme, and a more flexible customization API.
+VitePress is the spiritual successor of VuePress 1. The original VuePress 1 was based on Vue 2 and webpack. With Vue 3 and Vite under the hood, VitePress provides significantly better DX, better production performance, a more polished default theme, and a more flexible customization API.
 
-The API difference between VitePress and VuePress mostly lies in theming and customization. If you are using VuePress 1 with the default theme, it should be relatively straightforward to migrate to VitePress.
+The API difference between VitePress and VuePress 1 mostly lies in theming and customization. If you are using VuePress 1 with the default theme, it should be relatively straightforward to migrate to VitePress.
 
-There has also been effort invested into VuePress 2, which also supports Vue 3 and Vite with more compatibility with VuePress 1. However, maintaining two SSGs in parallel isn't sustainable, so the Vue team has decided to focus on VitePress as the main recommended SSG in the long run.
+Maintaining two SSGs in parallel isn't sustainable, so the Vue team has decided to focus on VitePress as the main recommended SSG in the long run. Now VuePress 1 has been deprecated, and VuePress 2 has been handed over to the VuePress community team for further development and maintenance.

@@ -1,3 +1,82 @@
+## [2.0.0-alpha.15](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.14...v2.0.0-alpha.15) (2025-11-22)
+
+### Bug Fixes
+
+- **theme:** navbar overflowing on mobile devices ([06f0e1a](https://github.com/vuejs/vitepress/commit/06f0e1a5c92e36d86fd2e037c335af04d75384e7)), closes [#5039](https://github.com/vuejs/vitepress/issues/5039)
+
+## [2.0.0-alpha.14](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.13...v2.0.0-alpha.14) (2025-11-21)
+
+### Bug Fixes
+
+- log dead links in dev mode too ([179ee62](https://github.com/vuejs/vitepress/commit/179ee621d99b3c14e2e098e3b786465cbeaeab9a)), closes [#4419](https://github.com/vuejs/vitepress/issues/4419)
+- **theme:** sidebar alignment when scrollbar is there on page ([0ee7158](https://github.com/vuejs/vitepress/commit/0ee71588de2b1691b1a9287aa1daa729197fd3ca)), closes [#5027](https://github.com/vuejs/vitepress/issues/5027)
+
+### Features
+
+- **client:** emit `vitepress:codeGroupTabActivate` custom event when a code group tab is activated ([dfb02a4](https://github.com/vuejs/vitepress/commit/dfb02a479f19afbee9e292b15c3c2beef271e57f)), closes [#5023](https://github.com/vuejs/vitepress/issues/5023)
+
+## [2.0.0-alpha.13](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.12...v2.0.0-alpha.13) (2025-11-13)
+
+### Bug Fixes
+
+- **client,a11y:** improve focus handling and scrolling behavior in router ([#4943](https://github.com/vuejs/vitepress/issues/4943)) ([d46107f](https://github.com/vuejs/vitepress/commit/d46107fa254d662d297b1362aa0d3b898ef96e2c))
+- disable markdown-it-attrs for fenced code blocks ([0899618](https://github.com/vuejs/vitepress/commit/089961855653f862b71747e8179ef2647e06d626))
+- git log parsing when there are empty commits in history ([#4965](https://github.com/vuejs/vitepress/issues/4965)) ([612c458](https://github.com/vuejs/vitepress/commit/612c45895df79a0c0e87ca040564bfe88ce04f62))
+- print full path in dead links check ([2b77fb3](https://github.com/vuejs/vitepress/commit/2b77fb3a72058129edbaddd3c6f0f6ee24f983d5)), closes [#4919](https://github.com/vuejs/vitepress/issues/4919)
+- rename `markdown.cjkFriendly` to `markdown.cjkFriendlyEmphasis` ([bce0b53](https://github.com/vuejs/vitepress/commit/bce0b53659fa3a57b2ed8431a0861939dadd118a)), closes [#4952](https://github.com/vuejs/vitepress/issues/4952)
+- respect markdown.cache = false on build too ([6d7422f](https://github.com/vuejs/vitepress/commit/6d7422f8fa321c641b1d5be3fa0c382400a2b78f))
+- simplify lang extraction logic; use markdown-it plugins in type-safe manner; bump deps ([4e548f5](https://github.com/vuejs/vitepress/commit/4e548f542469a366f327cdef1530bdb1a31542ad))
+- **theme:** add lang and dir attributes to language picker ([f0b29d7](https://github.com/vuejs/vitepress/commit/f0b29d7ef32a33f61c355d19561176411ede4b48))
+- **theme:** adjust margin of code blocks inside containers ([82fac5d](https://github.com/vuejs/vitepress/commit/82fac5d22c9e2b28d18dafcd458741a4b4d7a86b)), closes [#4921](https://github.com/vuejs/vitepress/issues/4921)
+- **theme:** avoid use of `:where` in selector list for now ([c2eaccd](https://github.com/vuejs/vitepress/commit/c2eaccd0d2109a6c64cee9fe615e48daaf4eda0e)), closes [#4923](https://github.com/vuejs/vitepress/issues/4923)
+- **theme:** disable whitespace wrapping for VPBadge ([#4968](https://github.com/vuejs/vitepress/issues/4968)) ([113d230](https://github.com/vuejs/vitepress/commit/113d2304784586028d9733036ccb585374731397))
+- **theme:** use nav height css var for curtain top in sidebar ([#4993](https://github.com/vuejs/vitepress/issues/4993)) ([be260fd](https://github.com/vuejs/vitepress/commit/be260fda6efc1d6c4b56219d7a17a19ab7a4ba76))
+
+### Features
+
+- export cacheAllGitTimestamps and getGitTimestamp ([31d87e2](https://github.com/vuejs/vitepress/commit/31d87e27387ebdceb22c047cc5f821761276d5f7))
+- **i18n,a11y:** change last update logic ([#4935](https://github.com/vuejs/vitepress/issues/4935)) ([187bf25](https://github.com/vuejs/vitepress/commit/187bf250e6496554fca0b070a5aba55484f7fc0b))
+- **markdown:** support custom display-name for fenced code blocks ([#4960](https://github.com/vuejs/vitepress/issues/4960)) ([3d61619](https://github.com/vuejs/vitepress/commit/3d61619ec0f0458c7ae04e7954b72a8e2ff399c0))
+- prevent `$` symbol selection in shell code ([#5025](https://github.com/vuejs/vitepress/issues/5025)) ([bf2715e](https://github.com/vuejs/vitepress/commit/bf2715ed67f290726fc6d4c85c203ca8f74cc907))
+- **theme:** allow passing functions for nav links ([#4963](https://github.com/vuejs/vitepress/issues/4963)) ([34cfa91](https://github.com/vuejs/vitepress/commit/34cfa91b6f14d8adfaa2d3c9f3eb6ad8b889ef1c))
+
+### Performance Improvements
+
+- make a single git call for timestamps instead of calling it for each file ([#4958](https://github.com/vuejs/vitepress/issues/4958)) ([6dfcdd3](https://github.com/vuejs/vitepress/commit/6dfcdd3fe8dc73e7b4ad7783df9530dedac1f6bd))
+
+### BREAKING CHANGES
+
+- `markdown-it-attrs` is disabled for fenced code blocks. For most users no change is required. If you want to add classes to code blocks, do it using shiki transformers instead.
+- Rename `cjkFriendly` to `cjkFriendlyEmphasis` in your vitepress config. Most people should be unaffected unless they want to disable the CJK emphasis behavior added v2.0.0-alpha.12.
+
+## [2.0.0-alpha.12](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.11...v2.0.0-alpha.12) (2025-08-20)
+
+### Bug Fixes
+
+- **hmr:** don't load config twice on server restart ([d1a8061](https://github.com/vuejs/vitepress/commit/d1a8061eb438c730ccc62ce2d7158dbe89cc5292))
+- **hmr:** no need for server restart on theme change ([d3a1567](https://github.com/vuejs/vitepress/commit/d3a15673bd0846c7837bcc4ff5a2e3239a02f1f9))
+- **hmr:** hmr not working for snippet imports in dynamic routes ([914467e](https://github.com/vuejs/vitepress/commit/914467e17fb759a9722951a3fd7568eb3bc4d4e6))
+- **theme:** fix local nav alignment and increase touch area ([43b36c0](https://github.com/vuejs/vitepress/commit/43b36c0c19c2b4696f8c38fdaf4318786ea7ae8e))
+- **theme:** nav background doesn't extend fully and gap after sidebar with non-overlay scrollbars ([7df3052](https://github.com/vuejs/vitepress/commit/7df30525121a28a46cc6c802f3155ccff8effaca)), closes [#4653](https://github.com/vuejs/vitepress/issues/4653)
+- **theme:** use clipboard-check instead of clipboard-copy for code copied icon ([1c8815d](https://github.com/vuejs/vitepress/commit/1c8815d53ed2d56b07938260df6566f1514f4bfc))
+
+### Features
+
+- add markdown-it-cjk-friendly ([9fc8462](https://github.com/vuejs/vitepress/commit/9fc8462726ccf1cdb78b6171c9f1f5964e79ca22)), closes [#3762](https://github.com/vuejs/vitepress/issues/3762) [#4752](https://github.com/vuejs/vitepress/issues/4752)
+- make postcssIsolateStyles idempotent ([0944777](https://github.com/vuejs/vitepress/commit/094477789328b80cff45cd973efa16b6a4db0a27))
+
+### BREAKING CHANGES
+
+- [markdown-it-cjk-friendly](https://www.npmjs.com/package/markdown-it-cjk-friendly) is enabled by default. This intentionally deviates from the official commonmark spec for the benefit of CJK users. **For most users, no change is required.** If you were using hacks to patch `scanDelims`, you can remove those. To disable the plugin, set `markdown: { cjkFriendly: false }` in your vitepress config.
+- `includeFiles` option in `postcssIsolateStyles` now defaults to `[/vp-doc\.css/, /base\.css/]`. You can remove explicit `includeFiles` if you were using it just to run it on `vp-doc.css`. To revert back to older behavior pass `includeFiles: [/base\.css/]`. The underlying implementation is changed and `transform` and `exclude` options are no longer supported. Use `postcss-prefix-selector` directly if you've advanced use cases.
+
+## [2.0.0-alpha.11](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.10...v2.0.0-alpha.11) (2025-08-14)
+
+### Bug Fixes
+
+- hmr working only once for markdown files ([8d8a5ac](https://github.com/vuejs/vitepress/commit/8d8a5ac281f090cd097bece792d9dd3ef00e5545)), closes [#4909](https://github.com/vuejs/vitepress/issues/4909)
+- html entities encoded twice in toc plugin ([8abbe29](https://github.com/vuejs/vitepress/commit/8abbe298d545de17d34a9bc1eb72af4c5a4b41b8)), closes [#4908](https://github.com/vuejs/vitepress/issues/4908)
+
 ## [2.0.0-alpha.10](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.9...v2.0.0-alpha.10) (2025-08-11)
 
 ### Bug Fixes
