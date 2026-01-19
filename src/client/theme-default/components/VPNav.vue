@@ -52,6 +52,7 @@ watchEffect(() => {
 @media (min-width: 960px) {
   .VPNav {
     position: fixed;
+    overflow-x: scroll;
   }
 }
 </style>
