@@ -2,8 +2,7 @@ import { isBooleanAttr } from '@vue/shared'
 import fs from 'fs-extra'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
-import * as vite from 'vite'
-import { normalizePath, transformWithEsbuild, type Rollup } from 'vite'
+import { minifySync, normalizePath, type Rolldown } from 'vite'
 import { version } from '../../../package.json'
 import type { SiteConfig } from '../config'
 import {
@@ -24,9 +23,9 @@ export async function renderPage(
   render: (path: string) => Promise<SSGContext>,
   config: SiteConfig,
   page: string, // foo.md
-  result: Rollup.RollupOutput | null,
-  appChunk: Rollup.OutputChunk | null,
-  cssChunk: Rollup.OutputAsset | null,
+  result: Rolldown.RolldownOutput | null | undefined,
+  appChunk: Rolldown.OutputChunk | null | undefined,
+  cssChunk: Rolldown.OutputAsset | null | undefined,
   assets: string[],
   pageToHashMap: Record<string, string>,
   metadataScript: { html: string; inHead: boolean },
@@ -140,10 +139,10 @@ export async function renderPage(
   let inlinedScript = ''
   if (config.mpa && result) {
     const matchingChunk = result.output.find(
-      (chunk) =>
+      (chunk): chunk is Rolldown.OutputChunk =>
         chunk.type === 'chunk' &&
         chunk.facadeModuleId === slash(path.join(config.srcDir, page))
-    ) as Rollup.OutputChunk
+    )
     if (matchingChunk) {
       if (!matchingChunk.code.includes('import')) {
         inlinedScript = `<script type="module">${matchingChunk.code}</script>`
@@ -208,8 +207,8 @@ export async function renderPage(
 function resolvePageImports(
   config: SiteConfig,
   page: string,
-  result: Rollup.RollupOutput,
-  appChunk: Rollup.OutputChunk
+  result: Rolldown.RolldownOutput,
+  appChunk: Rolldown.OutputChunk
 ) {
   page = config.rewrites.inv[page] || page
   // find the page's js chunk and inject script tags for its imports so that
@@ -225,12 +224,13 @@ function resolvePageImports(
   }
   srcPath = normalizePath(srcPath)
   const pageChunk = result.output.find(
-    (chunk) => chunk.type === 'chunk' && chunk.facadeModuleId === srcPath
-  ) as Rollup.OutputChunk
+    (chunk): chunk is Rolldown.OutputChunk =>
+      chunk.type === 'chunk' && chunk.facadeModuleId === srcPath
+  )
   return [
     ...appChunk.imports,
     // ...appChunk.dynamicImports,
-    ...pageChunk.imports
+    ...(pageChunk?.imports || [])
     // ...pageChunk.dynamicImports
   ]
 }
@@ -244,7 +244,7 @@ async function renderHead(head: HeadConfig[]): Promise<string> {
           tag === 'script' &&
           (attrs.type === undefined || attrs.type.includes('javascript'))
         ) {
-          innerHTML = await minifyScript(innerHTML, 'inline-script.js')
+          innerHTML = minifySync('inline-script.js', innerHTML).code
         }
         return `${openTag}${innerHTML}</${tag}>`
       } else {
@@ -262,17 +262,6 @@ function renderAttrs(attrs: Record<string, string>): string {
       return ` ${key}="${escapeHtml(attrs[key] as string)}"`
     })
     .join('')
-}
-
-async function minifyScript(code: string, filename: string): Promise<string> {
-  // @ts-ignore use oxc-minify when rolldown-vite is used
-  if (vite.rolldownVersion) {
-    const oxcMinify = await import('oxc-minify')
-    return (await oxcMinify.minify(filename, code)).code.trim()
-  }
-  return (
-    await transformWithEsbuild(code, filename, { minify: true })
-  ).code.trim()
 }
 
 function filterOutHeadDescription(head: HeadConfig[] = []) {
