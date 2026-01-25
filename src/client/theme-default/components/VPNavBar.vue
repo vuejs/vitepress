@@ -183,7 +183,8 @@ watchPostEffect(() => {
 }
 
 .content-body {
-  display: flex;
+  display: grid;
+  grid-auto-flow: column;
   justify-content: flex-end;
   align-items: center;
   height: var(--vp-nav-height);
