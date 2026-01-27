@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import docsearch, { type DocSearchInstance, type DocSearchProps } from '@docsearch/js'
-import sidepanel, { type SidepanelInstance, type SidepanelProps } from '@docsearch/sidepanel-js'
+import type { DocSearchInstance, DocSearchProps } from '@docsearch/js'
+import type { SidepanelInstance, SidepanelProps } from '@docsearch/sidepanel-js'
 import { useRouter } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
 import { nextTick, onMounted, onUnmounted, watch } from 'vue'
@@ -25,6 +25,9 @@ let cleanup: (() => void) | undefined
 let docsearchInstance: DocSearchInstance | undefined
 let sidepanelInstance: SidepanelInstance | undefined
 let openOnReady: 'search' | 'askAi' | null = null
+let initializeCount = 0
+let docsearchLoader: Promise<typeof import('@docsearch/js')> | undefined
+let sidepanelLoader: Promise<typeof import('@docsearch/sidepanel-js')> | undefined
 
 onMounted(update)
 watch(localeIndex, update)
@@ -93,7 +96,7 @@ async function update() {
     return
   }
 
-  initialize({
+  await initialize({
     ...options,
     appId: effectiveCredentials.appId,
     apiKey: effectiveCredentials.apiKey,
@@ -106,7 +109,9 @@ async function update() {
   })
 }
 
-function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
+async function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
+  const currentInitialize = ++initializeCount
+
   // Always tear down previous instances first (e.g. on locale changes)
   cleanup?.()
 
@@ -114,8 +119,13 @@ function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
   const askAi = userOptions.askAi
   const sidePanelConfig = askAi && typeof askAi === 'object' ? askAi.sidePanel : undefined
 
+  const { default: docsearch } = await loadDocsearch()
+  if (currentInitialize !== initializeCount) return
+
   if (useSidePanel && askAi && typeof askAi === 'object' && sidePanelConfig) {
     const { keyboardShortcuts, ...restConfig } = sidePanelConfig !== true ? sidePanelConfig : {} as SidepanelProps
+    const { default: sidepanel } = await loadSidepanel()
+    if (currentInitialize !== initializeCount) return
     sidepanelInstance = sidepanel({
       ...restConfig,
       container: '#docsearch-sidepanel',
@@ -179,6 +189,20 @@ function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
     sidepanelInstance = undefined
     openOnReady = null
   }
+}
+
+function loadDocsearch() {
+  if (!docsearchLoader) {
+    docsearchLoader = import('@docsearch/js')
+  }
+  return docsearchLoader
+}
+
+function loadSidepanel() {
+  if (!sidepanelLoader) {
+    sidepanelLoader = import('@docsearch/sidepanel-js')
+  }
+  return sidepanelLoader
 }
 
 function getRelativePath(url: string) {
