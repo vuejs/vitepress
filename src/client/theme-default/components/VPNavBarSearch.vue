@@ -2,9 +2,13 @@
 import '@docsearch/css'
 import { onKeyStroke } from '@vueuse/core'
 import type { DefaultTheme } from 'vitepress/theme'
-import { defineAsyncComponent, onMounted, onUnmounted, ref } from 'vue'
+import { defineAsyncComponent, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useData } from '../composables/data'
 import VPNavBarSearchButton from './VPNavBarSearchButton.vue'
+
+defineProps<{
+  iconOnly?: boolean
+}>()
 
 const VPLocalSearchBox = __VP_LOCAL_SEARCH__
   ? defineAsyncComponent(() => import('./VPLocalSearchBox.vue'))
@@ -21,6 +25,7 @@ const { theme } = useData()
 // hit the hotkey to invoke it.
 const loaded = ref(false)
 const actuallyLoaded = ref(false)
+const pendingSearch = ref(false)
 
 const preconnect = () => {
   const id = 'VPAlgoliaPreconnect'
@@ -66,6 +71,14 @@ onMounted(() => {
   onUnmounted(remove)
 })
 
+function triggerAlgoliaSearch() {
+  const e = new KeyboardEvent('keydown', {
+    key: 'k',
+    metaKey: true,
+  })
+  window.dispatchEvent(e)
+}
+
 function load() {
   if (!loaded.value) {
     loaded.value = true
@@ -75,12 +88,7 @@ function load() {
 
 function poll() {
   // programmatically open the search box after initialize
-  const e = new Event('keydown') as any
-
-  e.key = 'k'
-  e.metaKey = true
-
-  window.dispatchEvent(e)
+  triggerAlgoliaSearch()
 
   setTimeout(() => {
     if (!document.querySelector('.DocSearch-Modal')) {
@@ -122,17 +130,39 @@ if (__VP_LOCAL_SEARCH__) {
 }
 
 const provider = __ALGOLIA__ ? 'algolia' : __VP_LOCAL_SEARCH__ ? 'local' : ''
+
+watch(actuallyLoaded, (value) => {
+  if (value && pendingSearch.value) {
+    pendingSearch.value = false
+    poll()
+  }
+})
+
+function openSearch() {
+  if (__VP_LOCAL_SEARCH__) {
+    showSearch.value = true
+  } else if (__ALGOLIA__) {
+    if (actuallyLoaded.value) {
+      triggerAlgoliaSearch()
+    } else {
+      pendingSearch.value = true
+      loaded.value = true
+    }
+  }
+}
+
+defineExpose({ openSearch })
 </script>
 
 <template>
-  <div class="VPNavBarSearch">
+  <div class="VPNavBarSearch" :class="{ 'icon-only': iconOnly }">
     <template v-if="provider === 'local'">
       <VPLocalSearchBox
         v-if="showSearch"
         @close="showSearch = false"
       />
 
-      <div id="local-search">
+      <div v-if="!iconOnly" id="local-search">
         <VPNavBarSearchButton @click="showSearch = true" />
       </div>
     </template>
@@ -144,7 +174,7 @@ const provider = __ALGOLIA__ ? 'algolia' : __VP_LOCAL_SEARCH__ ? 'local' : ''
         @vue:beforeMount="actuallyLoaded = true"
       />
 
-      <div v-if="!actuallyLoaded" id="docsearch">
+      <div v-if="!actuallyLoaded && !iconOnly" id="docsearch">
         <VPNavBarSearchButton @click="load" />
       </div>
     </template>
@@ -168,5 +198,14 @@ const provider = __ALGOLIA__ ? 'algolia' : __VP_LOCAL_SEARCH__ ? 'local' : ''
   .VPNavBarSearch {
     padding-left: 32px;
   }
+}
+
+.VPNavBarSearch.icon-only {
+  flex-grow: 0;
+  padding-left: 0;
+}
+
+.VPNavBarSearch.icon-only #docsearch {
+  display: none;
 }
 </style>

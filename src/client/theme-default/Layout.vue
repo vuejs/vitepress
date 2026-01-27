@@ -9,13 +9,15 @@ import VPSidebar from './components/VPSidebar.vue'
 import VPSkipLink from './components/VPSkipLink.vue'
 import { useData } from './composables/data'
 import { layoutInfoInjectionKey, registerWatchers } from './composables/layout'
-import { useSidebarControl } from './composables/sidebar'
+import { useSidebarControl, useSidebarCollapse } from './composables/sidebar'
 
 const {
   isOpen: isSidebarOpen,
   open: openSidebar,
   close: closeSidebar
 } = useSidebarControl()
+
+const { isCollapsed: isSidebarCollapsed } = useSidebarCollapse()
 
 registerWatchers({ closeSidebar })
 
@@ -31,7 +33,7 @@ provide(layoutInfoInjectionKey, { heroImageSlotExists })
   <div
     v-if="frontmatter.layout !== false"
     class="Layout"
-    :class="frontmatter.pageClass"
+    :class="[frontmatter.pageClass, { 'sidebar-collapsed': isSidebarCollapsed }]"
   >
     <slot name="layout-top" />
     <VPSkipLink />
