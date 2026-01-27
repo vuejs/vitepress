@@ -45,6 +45,7 @@
 
 
 /* Hide sidepanel-js's default button - we provide our own */
+/* hides floating button, inline button is already hidden through VPAlgoliaSearchBox */
 .DocSearch-SidepanelButton {
   display: none !important;
 }

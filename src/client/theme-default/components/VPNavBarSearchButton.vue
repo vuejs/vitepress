@@ -87,10 +87,6 @@ const translate = createSearchTranslate(defaultTranslations)
   line-height: revert;
 }
 
-.DocSearch-Button {
-  display: none;
-}
-
 .VPDocSearch-Button {
   --docsearch-muted-color: var(--docsearch-text-color);
   --docsearch-searchbox-background: transparent;

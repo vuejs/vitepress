@@ -128,7 +128,7 @@ async function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
     if (currentInitialize !== initializeCount) return
     sidepanelInstance = sidepanel({
       ...restConfig,
-      container: '#docsearch-sidepanel',
+      container: '#vp-docsearch-sidepanel',
       indexName: askAi.indexName ?? userOptions.indexName,
       appId: askAi.appId ?? userOptions.appId,
       apiKey: askAi.apiKey ?? userOptions.apiKey,
@@ -143,7 +143,7 @@ async function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
   }
 
   const options = Object.assign({}, userOptions, {
-    container: '#docsearch',
+    container: '#vp-docsearch',
     navigator: {
       navigate(item: { itemUrl: string }) {
         router.go(item.itemUrl)
@@ -212,6 +212,13 @@ function getRelativePath(url: string) {
 </script>
 
 <template>
-  <div id="docsearch" />
-  <div id="docsearch-sidepanel" />
+  <div id="vp-docsearch" />
+  <div id="vp-docsearch-sidepanel" />
 </template>
+
+<style scoped>
+#vp-docsearch,
+#vp-docsearch-sidepanel {
+  display: none;
+}
+</style>
