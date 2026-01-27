@@ -206,12 +206,6 @@ const { isHome, hasSidebar } = useLayout()
   }
 }
 
-@media (max-width: 767px) {
-  .content-body {
-    column-gap: 0.5rem;
-  }
-}
-
 .menu + .translations::before,
 .menu + .appearance::before,
 .menu + .social-links::before,
