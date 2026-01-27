@@ -15,7 +15,10 @@ import type { DocSearchAskAi } from '../../../../types/docsearch'
 
 const props = defineProps<{
   algolia: DefaultTheme.AlgoliaSearchOptions
-  openRequest?: { target: 'search' | 'askAi' | 'toggleAskAi'; nonce: number } | null
+  openRequest?: {
+    target: 'search' | 'askAi' | 'toggleAskAi'
+    nonce: number
+  } | null
 }>()
 
 const router = useRouter()
@@ -70,18 +73,10 @@ watch(
 
 async function update() {
   await nextTick()
-  const options = {
-    ...props.algolia,
-    ...props.algolia.locales?.[localeIndex.value]
-  }
-  const facetFilters = mergeLangFacetFilters(
-    options.searchParameters?.facetFilters,
-    lang.value
-  ) as string | string[]
 
-  const askAi = options.askAi
-    ? buildAskAiConfig(options.askAi, options, lang.value)
-    : undefined
+  const options = { ...props.algolia, ...props.algolia.locales?.[localeIndex.value] }
+  const facetFilters = mergeLangFacetFilters(options.searchParameters?.facetFilters, lang.value)
+  const askAi = options.askAi ? buildAskAiConfig(options.askAi, options, lang.value) : undefined
 
   const effectiveCredentials = validateCredentials({
     appId: options.appId || (askAi && typeof askAi === 'object' ? askAi.appId : undefined),
@@ -90,9 +85,7 @@ async function update() {
   })
 
   if (!effectiveCredentials.valid) {
-    console.warn(
-      '[vitepress] Algolia search cannot be initialized: missing appId/apiKey/indexName.'
-    )
+    console.warn('[vitepress] Algolia search cannot be initialized: missing appId/apiKey/indexName.')
     return
   }
 
@@ -123,7 +116,7 @@ async function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
   if (currentInitialize !== initializeCount) return
 
   if (useSidePanel && askAi && typeof askAi === 'object' && sidePanelConfig) {
-    const { keyboardShortcuts, ...restConfig } = sidePanelConfig !== true ? sidePanelConfig : {} as SidepanelProps
+    const { keyboardShortcuts, ...restConfig } = sidePanelConfig !== true ? sidePanelConfig : {}
     const { default: sidepanel } = await loadSidepanel()
     if (currentInitialize !== initializeCount) return
     sidepanelInstance = sidepanel({
@@ -139,40 +132,31 @@ async function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
       onReady: () => {
         if (openOnReady === 'askAi') {
           openOnReady = null
-          setTimeout(() => { sidepanelInstance?.open() }, 0)
+          setTimeout(() => sidepanelInstance?.open(), 0)
         }
-      },
+      }
     } as SidepanelProps)
   }
 
-  const options = Object.assign({}, userOptions, {
+  const options = {
+    ...userOptions,
     container: '#vp-docsearch',
     navigator: {
       navigate(item: { itemUrl: string }) {
         router.go(item.itemUrl)
       }
     },
-
-    transformItems(items: { url: string }[]) {
-      return items.map((item) => {
-        return Object.assign({}, item, {
-          url: getRelativePath(item.url)
-        })
-      })
-    },
-
+    transformItems: (items) => items.map((item) => ({ ...item, url: getRelativePath(item.url) })),
     // When sidepanel is enabled (and not in modal mode), intercept Ask AI events to open it instead (hybrid mode)
     ...(useSidePanel && sidepanelInstance && mode !== 'modal' && {
-      interceptAskAiEvent: (initialMessage: { query: string; messageId?: string; suggestedQuestionId?: string }) => {
+      interceptAskAiEvent: (initialMessage) => {
         setTimeout(() => sidepanelInstance?.open(initialMessage), 0)
         return true
       }
     }),
-
     onOpen: () => {
       sidepanelInstance?.close()
     },
-
     onReady: () => {
       if (openOnReady === 'search') {
         openOnReady = null
@@ -184,7 +168,7 @@ async function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
         setTimeout(() => docsearchInstance?.openAskAi(), 0)
       }
     }
-  } as DocSearchProps)
+  } as DocSearchProps
 
   docsearchInstance = docsearch(options)
 
