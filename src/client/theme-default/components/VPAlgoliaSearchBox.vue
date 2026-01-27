@@ -133,6 +133,9 @@ async function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
       appId: askAi.appId ?? userOptions.appId,
       apiKey: askAi.apiKey ?? userOptions.apiKey,
       assistantId: askAi.assistantId,
+      onOpen: () => {
+        docsearchInstance?.close()
+      },
       onReady: () => {
         if (openOnReady === 'askAi') {
           openOnReady = null
@@ -161,11 +164,14 @@ async function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
     // When sidepanel is enabled (and not in modal mode), intercept Ask AI events to open it instead (hybrid mode)
     ...(useSidePanel && sidepanelInstance && mode !== 'modal' && {
       interceptAskAiEvent: (initialMessage: { query: string; messageId?: string; suggestedQuestionId?: string }) => {
-        docsearchInstance?.close()
         setTimeout(() => sidepanelInstance?.open(initialMessage), 0)
         return true
       }
     }),
+
+    onOpen: () => {
+      sidepanelInstance?.close()
+    },
 
     onReady: () => {
       if (openOnReady === 'search') {
@@ -178,9 +184,9 @@ async function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
         setTimeout(() => docsearchInstance?.openAskAi(), 0)
       }
     }
-  })
+  } as DocSearchProps)
 
-  docsearchInstance = docsearch(options as DocSearchProps)
+  docsearchInstance = docsearch(options)
 
   cleanup = () => {
     docsearchInstance?.destroy()
