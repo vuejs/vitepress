@@ -15,7 +15,7 @@
     "open-cli": "^8.0.0",
     "postcss-rtlcss": "^5.7.1",
     "vitepress": "workspace:*",
-    "vitepress-plugin-group-icons": "^1.6.5",
-    "vitepress-plugin-llms": "^1.9.3"
+    "vitepress-plugin-group-icons": "^1.7.1",
+    "vitepress-plugin-llms": "^1.10.0"
   }
 }

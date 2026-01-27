@@ -177,8 +177,69 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
 }
 
 function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
+  const modalAskAiTranslations = {
+    disclaimerText:
+      'Ответы генерируются ИИ и могут содержать ошибки. Проверяйте информацию.',
+    relatedSourcesText: 'Связанные источники',
+    thinkingText: 'Думаю...',
+    copyButtonText: 'Копировать',
+    copyButtonCopiedText: 'Скопировано!',
+    copyButtonTitle: 'Копировать',
+    likeButtonTitle: 'Нравится',
+    dislikeButtonTitle: 'Не нравится',
+    thanksForFeedbackText: 'Спасибо за отзыв!',
+    preToolCallText: 'Поиск...',
+    duringToolCallText: 'Поиск ',
+    afterToolCallText: 'Поиск завершён'
+  }
+
   return {
     placeholder: 'Поиск в документации',
+    askAi: {
+      sidePanel: {
+        panel: {
+          translations: {
+            header: {
+              title: 'ИИ-ассистент',
+              conversationHistoryTitle: 'История диалогов',
+              newConversationText: 'Новый диалог',
+              viewConversationHistoryText: 'Просмотр истории'
+            },
+            promptForm: {
+              promptPlaceholderText: 'Задайте вопрос...',
+              promptAnsweringText: 'Формируется ответ...',
+              promptAskAnotherQuestionText: 'Задать ещё вопрос...',
+              promptDisclaimerText: modalAskAiTranslations.disclaimerText,
+              promptLabelText: 'Ваш вопрос',
+              promptAriaLabelText: 'Поле ввода вопроса'
+            },
+            conversationScreen: {
+              conversationDisclaimer: modalAskAiTranslations.disclaimerText,
+              reasoningText: 'Рассуждение...',
+              thinkingText: modalAskAiTranslations.thinkingText,
+              relatedSourcesText: modalAskAiTranslations.relatedSourcesText,
+              stoppedStreamingText: 'Ответ остановлен',
+              copyButtonText: modalAskAiTranslations.copyButtonText,
+              copyButtonCopiedText: modalAskAiTranslations.copyButtonCopiedText,
+              likeButtonTitle: modalAskAiTranslations.likeButtonTitle,
+              dislikeButtonTitle: modalAskAiTranslations.dislikeButtonTitle,
+              thanksForFeedbackText:
+                modalAskAiTranslations.thanksForFeedbackText,
+              preToolCallText: modalAskAiTranslations.preToolCallText,
+              searchingText: modalAskAiTranslations.duringToolCallText,
+              toolCallResultText: modalAskAiTranslations.afterToolCallText
+            },
+            newConversationScreen: {
+              titleText: 'ИИ-ассистент',
+              introductionText: 'Чем могу помочь сегодня?'
+            },
+            logo: {
+              poweredByText: 'Разработано'
+            }
+          }
+        }
+      }
+    },
     translations: {
       button: {
         buttonText: 'Поиск',
@@ -222,22 +283,7 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
         resultsScreen: {
           askAiPlaceholder: 'Задайте вопрос ИИ: '
         },
-        askAiScreen: {
-          disclaimerText:
-            'Ответы генерируются ИИ и могут содержать ошибки. Проверяйте информацию.',
-          relatedSourcesText: 'Связанные источники',
-          thinkingText: 'Думаю...',
-          copyButtonText: 'Копировать',
-          copyButtonCopiedText: 'Скопировано!',
-          copyButtonTitle: 'Копировать',
-          likeButtonTitle: 'Нравится',
-          dislikeButtonTitle: 'Не нравится',
-          thanksForFeedbackText: 'Спасибо за отзыв!',
-          preToolCallText: 'Поиск...',
-          duringToolCallText: 'Поиск ',
-          afterToolCallText: 'Поиск завершён',
-          aggregatedToolCallText: 'Поиск завершён'
-        },
+        askAiScreen: modalAskAiTranslations,
         footer: {
           selectText: 'выбрать',
           submitQuestionText: 'Отправить вопрос',

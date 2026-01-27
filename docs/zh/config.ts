@@ -170,8 +170,68 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
 }
 
 function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
+  const modalAskAiTranslations = {
+    disclaimerText: '答案由 AI 生成，可能不准确，请自行验证。',
+    relatedSourcesText: '相关来源',
+    thinkingText: '思考中...',
+    copyButtonText: '复制',
+    copyButtonCopiedText: '已复制！',
+    copyButtonTitle: '复制',
+    likeButtonTitle: '赞',
+    dislikeButtonTitle: '踩',
+    thanksForFeedbackText: '感谢你的反馈！',
+    preToolCallText: '搜索中...',
+    duringToolCallText: '搜索 ',
+    afterToolCallText: '已搜索'
+  }
+
   return {
     placeholder: '搜索文档',
+    askAi: {
+      sidePanel: {
+        panel: {
+          translations: {
+            header: {
+              title: 'AI 助手',
+              conversationHistoryTitle: '对话历史',
+              newConversationText: '新对话',
+              viewConversationHistoryText: '查看历史'
+            },
+            promptForm: {
+              promptPlaceholderText: '提问...',
+              promptAnsweringText: '回答中...',
+              promptAskAnotherQuestionText: '继续提问...',
+              promptDisclaimerText: modalAskAiTranslations.disclaimerText,
+              promptLabelText: '你的问题',
+              promptAriaLabelText: '问题输入框'
+            },
+            conversationScreen: {
+              conversationDisclaimer: modalAskAiTranslations.disclaimerText,
+              reasoningText: '推理中...',
+              thinkingText: modalAskAiTranslations.thinkingText,
+              relatedSourcesText: modalAskAiTranslations.relatedSourcesText,
+              stoppedStreamingText: '已停止',
+              copyButtonText: modalAskAiTranslations.copyButtonText,
+              copyButtonCopiedText: modalAskAiTranslations.copyButtonCopiedText,
+              likeButtonTitle: modalAskAiTranslations.likeButtonTitle,
+              dislikeButtonTitle: modalAskAiTranslations.dislikeButtonTitle,
+              thanksForFeedbackText:
+                modalAskAiTranslations.thanksForFeedbackText,
+              preToolCallText: modalAskAiTranslations.preToolCallText,
+              searchingText: modalAskAiTranslations.duringToolCallText,
+              toolCallResultText: modalAskAiTranslations.afterToolCallText
+            },
+            newConversationScreen: {
+              titleText: 'AI 助手',
+              introductionText: '今天我能为你做些什么？'
+            },
+            logo: {
+              poweredByText: '由'
+            }
+          }
+        }
+      }
+    },
     translations: {
       button: {
         buttonText: '搜索文档',
@@ -213,21 +273,7 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
         resultsScreen: {
           askAiPlaceholder: '向 AI 提问： '
         },
-        askAiScreen: {
-          disclaimerText: '答案由 AI 生成，可能不准确，请自行验证。',
-          relatedSourcesText: '相关来源',
-          thinkingText: '思考中...',
-          copyButtonText: '复制',
-          copyButtonCopiedText: '已复制！',
-          copyButtonTitle: '复制',
-          likeButtonTitle: '赞',
-          dislikeButtonTitle: '踩',
-          thanksForFeedbackText: '感谢你的反馈！',
-          preToolCallText: '搜索中...',
-          duringToolCallText: '搜索 ',
-          afterToolCallText: '已搜索',
-          aggregatedToolCallText: '已搜索'
-        },
+        askAiScreen: modalAskAiTranslations,
         footer: {
           selectText: '选择',
           submitQuestionText: '提交问题',
