@@ -11,7 +11,6 @@ import {
   resolveMode,
   validateCredentials
 } from '../support/docsearch'
-import type { DocSearchAskAi } from '../../../../types/docsearch'
 
 const props = defineProps<{
   algolia: DefaultTheme.AlgoliaSearchOptions
@@ -94,11 +93,8 @@ async function update() {
     appId: effectiveCredentials.appId,
     apiKey: effectiveCredentials.apiKey,
     indexName: effectiveCredentials.indexName,
-    searchParameters: {
-      ...options.searchParameters,
-      facetFilters
-    },
-    askAi: askAi as DocSearchAskAi
+    searchParameters: { ...options.searchParameters, facetFilters },
+    askAi
   })
 }
 
@@ -142,7 +138,7 @@ async function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
     ...userOptions,
     container: '#vp-docsearch',
     navigator: {
-      navigate(item: { itemUrl: string }) {
+      navigate(item) {
         router.go(item.itemUrl)
       }
     },

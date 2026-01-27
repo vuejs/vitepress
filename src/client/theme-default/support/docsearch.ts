@@ -1,4 +1,5 @@
 import type { DefaultTheme } from 'vitepress/theme'
+import type { DocSearchAskAi } from '../../../../types/docsearch'
 
 export type FacetFilter = string | string[] | FacetFilter[]
 
@@ -159,7 +160,7 @@ export function buildAskAiConfig(
   askAiProp: NonNullable<DefaultTheme.AlgoliaSearchOptions['askAi']>,
   options: DefaultTheme.AlgoliaSearchOptions,
   lang: string
-) {
+): DocSearchAskAi {
   const isAskAiString = typeof askAiProp === 'string'
 
   const askAiSearchParameters =
