@@ -216,7 +216,7 @@ describe('Line Numbers', () => {
 describe('Import Code Snippets', () => {
   test('basic', async () => {
     const lines = page.locator('#basic-code-snippet + div code > span')
-    expect(await lines.count()).toBe(9)
+    expect(await lines.count()).toBe(11)
   })
 
   test('specify region', async () => {
@@ -269,7 +269,7 @@ describe('Code Groups', () => {
 
     // blocks
     const blocks = div.locator('.blocks > div')
-    expect(await blocks.nth(0).locator('code > span').count()).toBe(9)
+    expect(await blocks.nth(0).locator('code > span').count()).toBe(11)
     expect(await getClassList(blocks.nth(1))).toContain('line-numbers-mode')
     expect(await getClassList(blocks.nth(1))).toContain('language-ts')
     expect(await blocks.nth(1).locator('code > span').count()).toBe(3)

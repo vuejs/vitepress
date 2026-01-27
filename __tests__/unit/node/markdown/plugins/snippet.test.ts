@@ -2,7 +2,7 @@ import {
   dedent,
   findRegions,
   rawPathToToken,
-  stripRegionMarkers
+  stripMarkers
 } from 'node/markdown/plugins/snippet'
 import { expect } from 'vitest'
 
@@ -438,7 +438,18 @@ describe('node/markdown/plugins/snippet', () => {
         '// #endregion B',
         '// #endregion A'
       ]
-      expect(stripRegionMarkers(src)).toBe('console.log("Hello, World!");')
+      expect(stripMarkers(src, true)).toBe('console.log("Hello, World!");')
+    })
+
+    it('does not remove any marker if stripRegionMarkers is false', () => {
+      const src = [
+        '// #region A',
+        '// #region B',
+        'console.log("Hello, World!");',
+        '// #endregion B',
+        '// #endregion A'
+      ]
+      expect(stripMarkers(src, false)).toBe(src.join('\n'))
     })
 
     it('removes region markers for various syntaxes', () => {
@@ -456,7 +467,7 @@ describe('node/markdown/plugins/snippet', () => {
         'ECHO ON',
         'REM #endregion bat'
       ]
-      const out = stripRegionMarkers(src)
+      const out = stripMarkers(src, true)
       expect(out).not.toContain('#region')
       expect(out).not.toContain('#endregion')
       expect(out).toContain('<div>hi</div>')
@@ -473,7 +484,7 @@ describe('node/markdown/plugins/snippet', () => {
         '   // #endregion spaced',
         '/*    #endregion   */'
       ]
-      const out = stripRegionMarkers(src)
+      const out = stripMarkers(src, true)
       expect(out.trim()).toBe('code();')
     })
   })
