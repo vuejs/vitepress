@@ -2,6 +2,7 @@
 import { useWindowScroll } from '@vueuse/core'
 import { ref, watchPostEffect } from 'vue'
 import { useLayout } from '../composables/layout'
+import { useSidebarCollapse } from '../composables/sidebar'
 import VPNavBarAppearance from './VPNavBarAppearance.vue'
 import VPNavBarExtra from './VPNavBarExtra.vue'
 import VPNavBarHamburger from './VPNavBarHamburger.vue'
@@ -21,17 +22,29 @@ defineEmits<{
 
 const { y } = useWindowScroll()
 const { isHome, hasSidebar } = useLayout()
+const { isCollapsed, expand } = useSidebarCollapse()
+
+const searchRef = ref<InstanceType<typeof VPNavBarSearch> | null>(null)
 
 const classes = ref<Record<string, boolean>>({})
 
 watchPostEffect(() => {
   classes.value = {
     'has-sidebar': hasSidebar.value,
+    'sidebar-collapsed': isCollapsed.value,
     'home': isHome.value,
     'top': y.value === 0,
     'screen-open': props.isScreenOpen
   }
 })
+
+function handleExpand() {
+  expand()
+}
+
+function handleCapsuleSearch() {
+  searchRef.value?.openSearch()
+}
 </script>
 
 <template>
@@ -43,12 +56,31 @@ watchPostEffect(() => {
             <template #nav-bar-title-before><slot name="nav-bar-title-before" /></template>
             <template #nav-bar-title-after><slot name="nav-bar-title-after" /></template>
           </VPNavBarTitle>
+          <div v-if="hasSidebar && isCollapsed" class="expand-capsule">
+            <button
+              class="capsule-btn expand-btn"
+              @click="handleExpand"
+              aria-label="Expand sidebar"
+              title="Expand sidebar"
+            >
+              <span class="vpi-sidebar-expand capsule-icon" />
+            </button>
+            <div class="capsule-divider" />
+            <button
+              class="capsule-btn search-btn"
+              @click="handleCapsuleSearch"
+              aria-label="Search"
+              title="Search"
+            >
+              <span class="vpi-search capsule-icon" />
+            </button>
+          </div>
         </div>
 
         <div class="content">
           <div class="content-body">
             <slot name="nav-bar-content-before" />
-            <VPNavBarSearch class="search" />
+            <VPNavBarSearch ref="searchRef" :icon-only="hasSidebar && isCollapsed" class="search" />
             <VPNavBarMenu class="menu" />
             <VPNavBarTranslations class="translations" />
             <VPNavBarAppearance class="appearance" />
@@ -140,6 +172,8 @@ watchPostEffect(() => {
   flex-shrink: 0;
   height: calc(var(--vp-nav-height) - 1px);
   transition: background-color 0.5s;
+  display: flex;
+  align-items: center;
 }
 
 @media (min-width: 960px) {
@@ -152,6 +186,16 @@ watchPostEffect(() => {
     width: var(--vp-sidebar-width);
     height: var(--vp-nav-height);
     background-color: transparent;
+    transition: width 0.3s ease, padding 0.3s ease;
+  }
+
+  .VPNavBar.has-sidebar.sidebar-collapsed .title {
+    padding-left: 24px;
+    width: auto;
+  }
+
+  .VPNavBar.has-sidebar.sidebar-collapsed .title :deep(.VPNavBarTitle) {
+    display: none;
   }
 }
 
@@ -159,6 +203,15 @@ watchPostEffect(() => {
   .VPNavBar.has-sidebar .title {
     padding-left: max(32px, calc((100% - (var(--vp-layout-max-width) - 64px)) / 2));
     width: calc((100% - (var(--vp-layout-max-width) - 64px)) / 2 + var(--vp-sidebar-width) - 32px);
+  }
+
+  .VPNavBar.has-sidebar.sidebar-collapsed .title {
+    padding-left: 24px;
+    width: auto;
+  }
+
+  .VPNavBar.has-sidebar.sidebar-collapsed .title :deep(.VPNavBarTitle) {
+    display: none;
   }
 }
 
@@ -172,6 +225,12 @@ watchPostEffect(() => {
     z-index: 1;
     padding-left: var(--vp-sidebar-width);
     padding-right: 32px;
+    transition: padding-left 0.3s ease;
+  }
+
+  .VPNavBar.has-sidebar.sidebar-collapsed .content {
+    padding-left: 0;
+    background-color: var(--vp-nav-bg-color);
   }
 }
 
@@ -179,6 +238,11 @@ watchPostEffect(() => {
   .VPNavBar.has-sidebar .content {
     padding-left: calc((100% - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));
     padding-right: calc((100% - var(--vp-layout-max-width)) / 2 + 32px);
+  }
+
+  .VPNavBar.has-sidebar.sidebar-collapsed .content {
+    padding-left: 0;
+    background-color: var(--vp-nav-bg-color);
   }
 }
 
@@ -203,6 +267,11 @@ watchPostEffect(() => {
   .content-body {
     margin-right: -100vw;
     padding-right: 100vw;
+  }
+
+  .VPNavBar.has-sidebar.sidebar-collapsed .content-body {
+    margin-left: -32px;
+    padding-left: 32px;
   }
 }
 
@@ -238,6 +307,55 @@ watchPostEffect(() => {
   margin-right: -8px;
 }
 
+/* Sidebar expand capsule - only show on desktop */
+.expand-capsule {
+  display: none;
+}
+
+@media (min-width: 960px) {
+  .expand-capsule {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--vp-c-divider);
+    border-radius: 20px;
+    background: var(--vp-c-bg);
+    padding: 4px;
+    margin-left: 12px;
+    gap: 2px;
+    box-shadow: var(--vp-shadow-1);
+  }
+
+  .capsule-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--vp-c-text-2);
+    cursor: pointer;
+    transition: color 0.25s, background-color 0.25s;
+  }
+
+  .capsule-btn:hover {
+    color: var(--vp-c-text-1);
+    background: var(--vp-c-default-soft);
+  }
+
+  .capsule-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .capsule-divider {
+    width: 1px;
+    height: 16px;
+    background: var(--vp-c-divider);
+  }
+}
+
 .divider {
   width: 100%;
   height: 1px;
@@ -246,12 +364,25 @@ watchPostEffect(() => {
 @media (min-width: 960px) {
   .VPNavBar.has-sidebar .divider {
     padding-left: var(--vp-sidebar-width);
+    transition: padding-left 0.3s ease;
+  }
+
+  .VPNavBar.has-sidebar.sidebar-collapsed .divider {
+    padding-left: 0;
+  }
+
+  .VPNavBar.has-sidebar.sidebar-collapsed .divider-line {
+    background-color: var(--vp-c-gutter);
   }
 }
 
 @media (min-width: 1440px) {
   .VPNavBar.has-sidebar .divider {
-    padding-left: calc((100% - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));
+    padding-left: calc((100% - (var(--vp-layout-max-width) - 64px)) / 2 + var(--vp-sidebar-width) - 32px);
+  }
+
+  .VPNavBar.has-sidebar.sidebar-collapsed .divider {
+    padding-left: 0;
   }
 }
 

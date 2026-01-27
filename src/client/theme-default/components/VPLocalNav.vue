@@ -3,6 +3,7 @@ import { useWindowScroll } from '@vueuse/core'
 import { computed, onMounted, ref } from 'vue'
 import { useData } from '../composables/data'
 import { useLayout } from '../composables/layout'
+import { useSidebarCollapse } from '../composables/sidebar'
 import VPLocalNavOutlineDropdown from './VPLocalNavOutlineDropdown.vue'
 
 defineProps<{
@@ -15,6 +16,7 @@ defineEmits<{
 
 const { theme } = useData()
 const { isHome, hasSidebar, headers, hasLocalNav } = useLayout()
+const { isCollapsed } = useSidebarCollapse()
 const { y } = useWindowScroll()
 
 const navHeight = ref(0)
@@ -31,6 +33,7 @@ const classes = computed(() => {
   return {
     VPLocalNav: true,
     'has-sidebar': hasSidebar.value,
+    'sidebar-collapsed': isCollapsed.value,
     empty: !hasLocalNav.value,
     fixed: !hasLocalNav.value && !hasSidebar.value
   }
@@ -85,6 +88,11 @@ const classes = computed(() => {
 
   .VPLocalNav.has-sidebar {
     padding-left: var(--vp-sidebar-width);
+    transition: padding-left 0.3s ease;
+  }
+
+  .VPLocalNav.has-sidebar.sidebar-collapsed {
+    padding-left: 0;
   }
 
   .VPLocalNav.empty {

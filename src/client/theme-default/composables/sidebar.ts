@@ -14,6 +14,7 @@ import { hasActiveLink as containsActiveLink } from '../support/sidebar'
 import { useData } from './data'
 
 const isOpen = ref(false)
+const isCollapsed = ref(false)
 
 /**
  * a11y: cache the element that opened the Sidebar (the menu button) then
@@ -62,6 +63,27 @@ export function useSidebarControl() {
     open,
     close,
     toggle
+  }
+}
+
+export function useSidebarCollapse() {
+  function collapse() {
+    isCollapsed.value = true
+  }
+
+  function expand() {
+    isCollapsed.value = false
+  }
+
+  function toggleCollapse() {
+    isCollapsed.value = !isCollapsed.value
+  }
+
+  return {
+    isCollapsed,
+    collapse,
+    expand,
+    toggleCollapse
   }
 }
 

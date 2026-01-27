@@ -3,9 +3,11 @@ import { useScrollLock } from '@vueuse/core'
 import { inBrowser } from 'vitepress'
 import { ref, watch } from 'vue'
 import { useLayout } from '../composables/layout'
+import { useSidebarCollapse } from '../composables/sidebar'
 import VPSidebarGroup from './VPSidebarGroup.vue'
 
 const { sidebarGroups, hasSidebar } = useLayout()
+const { isCollapsed } = useSidebarCollapse()
 
 const props = defineProps<{
   open: boolean
@@ -41,7 +43,7 @@ watch(
   <aside
     v-if="hasSidebar"
     class="VPSidebar"
-    :class="{ open }"
+    :class="{ open, collapsed: isCollapsed }"
     ref="navEl"
     @click.stop
   >
@@ -80,7 +82,7 @@ watch(
   overflow-x: hidden;
   overflow-y: auto;
   transform: translateX(-100%);
-  transition: opacity 0.5s, transform 0.25s ease;
+  transition: opacity 0.5s, transform 0.25s ease, width 0.3s ease;
   overscroll-behavior: contain;
 }
 
@@ -106,6 +108,13 @@ watch(
     visibility: visible;
     box-shadow: none;
     transform: translateX(0);
+  }
+
+  .VPSidebar.collapsed {
+    transform: translateX(calc(-1 * var(--vp-sidebar-width)));
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
   }
 }
 
