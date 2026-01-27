@@ -14,11 +14,17 @@ const translate = createSearchTranslate(defaultTranslations)
 </script>
 
 <template>
-  <button type="button" :aria-label="translate('button.buttonAriaLabel')" aria-keyshortcuts="/ control+k meta+k"
-    class="DocSearch VPDocSearch-Button VPNavBarSearchButton">
+  <button
+    type="button"
+    :aria-label="translate('button.buttonAriaLabel')"
+    aria-keyshortcuts="/ control+k meta+k"
+    class="DocSearch VPDocSearch-Button VPNavBarSearchButton"
+  >
     <span class="VPDocSearch-Button-Container">
       <span class="vpi-search DocSearch-Search-Icon"></span>
-      <span class="VPDocSearch-Button-Placeholder">{{ translate('button.buttonText') }}</span>
+      <span class="VPDocSearch-Button-Placeholder">
+        {{ translate('button.buttonText') }}
+      </span>
     </span>
     <span class="VPDocSearch-Button-Keys" />
   </button>
@@ -72,7 +78,7 @@ const translate = createSearchTranslate(defaultTranslations)
   fill: currentColor;
 }
 
-.DocSearch-SearchBar+.DocSearch-Footer {
+.DocSearch-SearchBar + .DocSearch-Footer {
   border-top-color: transparent;
 }
 
@@ -112,7 +118,6 @@ const translate = createSearchTranslate(defaultTranslations)
   height: 20px;
 }
 
-
 .VPDocSearch-Button-Keys {
   min-width: auto;
   margin: 0;
@@ -130,7 +135,7 @@ const translate = createSearchTranslate(defaultTranslations)
   display: none;
 }
 
-.VPDocSearch-Button-Keys>* {
+.VPDocSearch-Button-Keys > * {
   display: none;
 }
 
