@@ -131,7 +131,9 @@ function newRouter(): Router {
       }
 
       if (import.meta.env.DEV) {
-        pageModule = import(/*@vite-ignore*/ pageFilePath).catch(() => {
+        pageModule = import(/*@vite-ignore*/ pageFilePath).catch((e) => {
+          // page load could fail for other reasons, don't swallow
+          console.error(e)
           // try with/without trailing slash
           // in prod this is handled in src/client/app/utils.ts#pathToFile
           const url = new URL(pageFilePath!, 'http://a.com')

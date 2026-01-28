@@ -2,6 +2,7 @@
 import type { DefaultTheme } from 'vitepress/theme'
 import { computed, inject } from 'vue'
 import { useData } from '../composables/data'
+import { isActive } from '../../shared'
 import { navInjectionKey } from '../composables/nav'
 import VPLink from './VPLink.vue'
 
@@ -17,12 +18,20 @@ const href = computed(() =>
     : props.item.link
 )
 
+const isActiveLink = computed(() =>
+  isActive(
+    page.value.relativePath,
+    props.item.activeMatch || href.value,
+    !!props.item.activeMatch
+  )
+)
+
 const { closeScreen } = inject(navInjectionKey)!
 </script>
 
 <template>
   <VPLink
-    class="VPNavScreenMenuGroupLink"
+    :class="{ VPNavScreenMenuGroupLink: true, active: isActiveLink }"
     :href
     :target="item.target"
     :rel="item.rel"
@@ -45,6 +54,10 @@ const { closeScreen } = inject(navInjectionKey)!
 }
 
 .VPNavScreenMenuGroupLink:hover {
+  color: var(--vp-c-brand-1);
+}
+
+.VPNavScreenMenuGroupLink.active {
   color: var(--vp-c-brand-1);
 }
 </style>
