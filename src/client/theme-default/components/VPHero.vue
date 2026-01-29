@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { DefaultTheme } from 'vitepress/theme'
-import { inject } from 'vue'
+import { computed, inject } from 'vue'
 import { layoutInfoInjectionKey } from '../composables/layout'
 import VPButton from './VPButton.vue'
 import VPImage from './VPImage.vue'
@@ -21,7 +21,10 @@ defineProps<{
   actions?: HeroAction[]
 }>()
 
-const { heroImageSlotExists } = inject(layoutInfoInjectionKey)!
+const { heroImageSlotExists } = inject(
+  layoutInfoInjectionKey,
+  { heroImageSlotExists: computed(() => false) }
+)
 </script>
 
 <template>

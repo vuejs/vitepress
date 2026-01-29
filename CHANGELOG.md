@@ -1,3 +1,20 @@
+## [2.0.0-alpha.15](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.14...v2.0.0-alpha.15) (2025-11-22)
+
+### Bug Fixes
+
+- **theme:** navbar overflowing on mobile devices ([06f0e1a](https://github.com/vuejs/vitepress/commit/06f0e1a5c92e36d86fd2e037c335af04d75384e7)), closes [#5039](https://github.com/vuejs/vitepress/issues/5039)
+
+## [2.0.0-alpha.14](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.13...v2.0.0-alpha.14) (2025-11-21)
+
+### Bug Fixes
+
+- log dead links in dev mode too ([179ee62](https://github.com/vuejs/vitepress/commit/179ee621d99b3c14e2e098e3b786465cbeaeab9a)), closes [#4419](https://github.com/vuejs/vitepress/issues/4419)
+- **theme:** sidebar alignment when scrollbar is there on page ([0ee7158](https://github.com/vuejs/vitepress/commit/0ee71588de2b1691b1a9287aa1daa729197fd3ca)), closes [#5027](https://github.com/vuejs/vitepress/issues/5027)
+
+### Features
+
+- **client:** emit `vitepress:codeGroupTabActivate` custom event when a code group tab is activated ([dfb02a4](https://github.com/vuejs/vitepress/commit/dfb02a479f19afbee9e292b15c3c2beef271e57f)), closes [#5023](https://github.com/vuejs/vitepress/issues/5023)
+
 ## [2.0.0-alpha.13](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.12...v2.0.0-alpha.13) (2025-11-13)
 
 ### Bug Fixes
