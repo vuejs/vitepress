@@ -29,6 +29,7 @@ export default defineConfig({
 - <https://www.npmjs.com/package/vitepress-plugin-search>
 - <https://www.npmjs.com/package/vitepress-plugin-pagefind>
 - <https://www.npmjs.com/package/@orama/plugin-vitepress>
+- <https://www.npmjs.com/package/vitepress-plugin-typesense>
 
 ### i18n {#local-search-i18n}
 
@@ -43,25 +44,25 @@ export default defineConfig({
       provider: 'local',
       options: {
         locales: {
-          ru: { // используйте ключ `root`, если хотите перевести локаль по умолчанию
+          ru: { // используйте `root`, если хотите перевести локаль по умолчанию
             translations: {
               button: {
                 buttonText: 'Поиск',
                 buttonAriaLabel: 'Поиск'
               },
               modal: {
-                displayDetails: 'Отобразить подробный список',
+                displayDetails: 'Показать подробный список',
                 resetButtonTitle: 'Сбросить поиск',
                 backButtonTitle: 'Закрыть поиск',
-                noResultsText: 'Нет результатов по запросу',
+                noResultsText: 'Нет результатов',
                 footer: {
-                  selectText: 'выбрать',
-                  selectKeyAriaLabel: 'выбрать',
-                  navigateText: 'перейти',
-                  navigateUpKeyAriaLabel: 'стрелка вверх',
-                  navigateDownKeyAriaLabel: 'стрелка вниз',
-                  closeText: 'закрыть',
-                  closeKeyAriaLabel: 'esc'
+                  selectText: 'Выбрать',
+                  selectKeyAriaLabel: 'Enter',
+                  navigateText: 'Навигация',
+                  navigateUpKeyAriaLabel: 'Стрелка вверх',
+                  navigateDownKeyAriaLabel: 'Стрелка вниз',
+                  closeText: 'Закрыть',
+                  closeKeyAriaLabel: 'Esc'
                 }
               }
             }
@@ -127,7 +128,7 @@ export default defineConfig({
          * @param {import('markdown-it-async')} md
          */
         async _render(src, env, md) {
-          // возвращаем html
+          // вернуть строку HTML
         }
       }
     }
@@ -236,12 +237,12 @@ export default defineConfig({
         appId: '...',
         apiKey: '...',
         indexName: '...',
-        // askAi: "ID-ВАШЕГО-АССИСТЕНТА"
+        // askAi: "ВАШ-ID-АССИСТЕНТА"
         // ИЛИ
         askAi: {
-          // минимум вы должны указать assistantId, полученный от Algolia
+          // как минимум нужно указать assistantId, полученный от Algolia
           assistantId: 'XXXYYY',
-          // опциональные переопределения – если не указаны, используются значения appId/apiKey/indexName верхнего уровня
+          // необязательные переопределения — если их нет, используются значения appId/apiKey/indexName верхнего уровня
           // apiKey: '...',
           // appId: '...',
           // indexName: '...'

@@ -39,18 +39,25 @@ export default defineConfig({
       provider: 'local',
       options: {
         locales: {
-          zh: {
+          pt: { // torne isto `root` se quiser traduzir a localidade padrão
             translations: {
               button: {
-                buttonText: '搜索文档',
-                buttonAriaLabel: '搜索文档'
+                buttonText: 'Pesquisar',
+                buttonAriaLabel: 'Pesquisar'
               },
               modal: {
-                noResultsText: '无法找到相关结果',
-                resetButtonTitle: '清除查询条件',
+                displayDetails: 'Mostrar lista detalhada',
+                resetButtonTitle: 'Redefinir pesquisa',
+                backButtonTitle: 'Fechar pesquisa',
+                noResultsText: 'Nenhum resultado',
                 footer: {
-                  selectText: '选择',
-                  navigateText: '切换'
+                  selectText: 'Selecionar',
+                  selectKeyAriaLabel: 'Enter',
+                  navigateText: 'Navegar',
+                  navigateUpKeyAriaLabel: 'Seta para cima',
+                  navigateDownKeyAriaLabel: 'Seta para baixo',
+                  closeText: 'Fechar',
+                  closeKeyAriaLabel: 'Esc'
                 }
               }
             }
@@ -62,7 +69,7 @@ export default defineConfig({
 })
 ```
 
-### Opções MiniSearch {#mini-search-options}
+### Opções MiniSearch {#minisearch-options}
 
 Você pode configurar o MiniSearch assim:
 
@@ -116,7 +123,7 @@ export default defineConfig({
          * @param {import('markdown-it-async')} md
          */
         async _render(src, env, md) {
-          // retorne a string HTML
+          // retorna uma string HTML
         }
       }
     }
@@ -141,7 +148,7 @@ export default defineConfig({
         async _render(src, env, md) {
           const html = await md.renderAsync(src, env)
           if (env.frontmatter?.search === false) return ''
-          if (env.relativePath.startsWith('algum/caminho')) return ''
+          if (env.relativePath.startsWith('some/path')) return ''
           return html
         }
       }
@@ -197,7 +204,7 @@ export default defineConfig({
 })
 ```
 
-### i18n {#algolia-search-i18n} {#algolia-search-i18n}
+### i18n {#algolia-search-i18n}
 
 Você pode usar uma configuração como esta para usar a pesquisa multilínguas:
 
@@ -215,12 +222,30 @@ Consulte a [documentação oficial da Algolia](https://docsearch.algolia.com/doc
 Se quiser incluir o **Ask AI**, adicione `askAi` em `options`:
 
 ```ts
-options: {
-  appId: '...',
-  apiKey: '...',
-  indexName: '...',
-  askAi: { assistantId: 'XXXYYY' }
-}
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'algolia',
+      options: {
+        appId: '...',
+        apiKey: '...',
+        indexName: '...',
+        // askAi: "SEU-ID-DO-ASSISTENTE"
+        // OU
+        askAi: {
+          // no mínimo, você deve fornecer o assistantId recebido da Algolia
+          assistantId: 'XXXYYY',
+          // substituições opcionais — se omitidas, os valores appId/apiKey/indexName de nível superior são reutilizados
+          // apiKey: '...',
+          // appId: '...',
+          // indexName: '...'
+        }
+      }
+    }
+  }
+})
 ```
 
 ::: warning Nota

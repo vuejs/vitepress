@@ -39,25 +39,25 @@ export default defineConfig({
       provider: 'local',
       options: {
         locales: {
-          zh: { // اگر می‌خواهید زبان پیش‌فرض را ترجمه کنید، این را به `root` تغییر دهید
+          fa: { // اگر می خواهید زبان پیش فرض را ترجمه کنید، این را `root` قرار دهید
             translations: {
               button: {
                 buttonText: 'جستجو',
                 buttonAriaLabel: 'جستجو'
               },
               modal: {
-                displayDetails: 'نمایش جزئیات',
+                displayDetails: 'نمایش فهرست کامل',
                 resetButtonTitle: 'بازنشانی جستجو',
                 backButtonTitle: 'بستن جستجو',
-                noResultsText: 'نتیجه‌ای یافت نشد',
+                noResultsText: 'نتیجه ای یافت نشد',
                 footer: {
                   selectText: 'انتخاب',
-                  selectKeyAriaLabel: 'ورود',
+                  selectKeyAriaLabel: 'Enter',
                   navigateText: 'پیمایش',
-                  navigateUpKeyAriaLabel: 'کلید بالا',
-                  navigateDownKeyAriaLabel: 'کلید پایین',
+                  navigateUpKeyAriaLabel: 'فلش بالا',
+                  navigateDownKeyAriaLabel: 'فلش پایین',
                   closeText: 'بستن',
-                  closeKeyAriaLabel: 'esc'
+                  closeKeyAriaLabel: 'Esc'
                 }
               }
             }
@@ -123,7 +123,7 @@ export default defineConfig({
          * @param {import('markdown-it-async')} md
          */
         async _render(src, env, md) {
-          // بازگشت رشته HTML
+          // رشته HTML را برمی گرداند
         }
       }
     }
@@ -222,14 +222,30 @@ export default defineConfig({
 برای فعال‌سازی **Ask AI** کافی است گزینه `askAi` را اضافه کنید:
 
 ```ts
-options: {
-  appId: '...',
-  apiKey: '...',
-  indexName: '...',
-  askAi: {
-    assistantId: 'XXXYYY'
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'algolia',
+      options: {
+        appId: '...',
+        apiKey: '...',
+        indexName: '...',
+        // askAi: "شناسه-دستیار-شما"
+        // یا
+        askAi: {
+          // حداقل باید assistantId دریافت شده از Algolia را ارائه کنید
+          assistantId: 'XXXYYY',
+          // بازنویسی های اختیاری — اگر حذف شوند، مقادیر appId/apiKey/indexName سطح بالا دوباره استفاده می شوند
+          // apiKey: '...',
+          // appId: '...',
+          // indexName: '...'
+        }
+      }
+    }
   }
-}
+})
 ```
 
 ::: warning نکته

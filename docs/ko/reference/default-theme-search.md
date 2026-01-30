@@ -39,7 +39,7 @@ export default defineConfig({
       provider: 'local',
       options: {
         locales: {
-          ko: { // 기본 로케일을 번역하려면 이것을 `root`로 만드십시오.
+          ko: { // 기본 로케일을 번역하려면 `root`로 설정하세요
             translations: {
               button: {
                 buttonText: '검색',
@@ -47,17 +47,17 @@ export default defineConfig({
               },
               modal: {
                 displayDetails: '상세 목록 표시',
-                resetButtonTitle: '검색 지우기',
+                resetButtonTitle: '검색 재설정',
                 backButtonTitle: '검색 닫기',
-                noResultsText: '결과를 찾을 수 없습니다',
+                noResultsText: '결과가 없습니다',
                 footer: {
                   selectText: '선택',
-                  selectKeyAriaLabel: '선택하기',
-                  navigateText: '탐색',
-                  navigateUpKeyAriaLabel: '위로',
-                  navigateDownKeyAriaLabel: '아래로',
+                  selectKeyAriaLabel: 'Enter',
+                  navigateText: '이동',
+                  navigateUpKeyAriaLabel: '위쪽 화살표',
+                  navigateDownKeyAriaLabel: '아래쪽 화살표',
                   closeText: '닫기',
-                  closeKeyAriaLabel: 'esc'
+                  closeKeyAriaLabel: 'Esc'
                 }
               }
             }
@@ -69,7 +69,7 @@ export default defineConfig({
 })
 ```
 
-### MiniSearch 옵션 {#mini-search-options}
+### MiniSearch 옵션 {#minisearch-options}
 
 MiniSearch를 다음과 같이 구성할 수 있습니다:
 
@@ -123,7 +123,7 @@ export default defineConfig({
          * @param {import('markdown-it-async')} md
          */
         async _render(src, env, md) {
-          // return html string
+          // HTML 문자열을 반환
         }
       }
     }
@@ -222,12 +222,30 @@ export default defineConfig({
 **Ask AI** 기능을 사용하려면 `askAi` 옵션을 추가하세요:
 
 ```ts
-options: {
-  appId: '...',
-  apiKey: '...',
-  indexName: '...',
-  askAi: { assistantId: 'XXXYYY' }
-}
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'algolia',
+      options: {
+        appId: '...',
+        apiKey: '...',
+        indexName: '...',
+        // askAi: "내-어시스턴트-ID"
+        // 또는
+        askAi: {
+          // 최소한 Algolia에서 받은 assistantId를 제공해야 합니다
+          assistantId: 'XXXYYY',
+          // 선택적 재정의 — 생략하면 상위 appId/apiKey/indexName 값이 재사용됩니다
+          // apiKey: '...',
+          // appId: '...',
+          // indexName: '...'
+        }
+      }
+    }
+  }
+})
 ```
 
 ::: warning 참고

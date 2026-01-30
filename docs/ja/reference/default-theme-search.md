@@ -29,6 +29,7 @@ export default defineConfig({
 - <https://www.npmjs.com/package/vitepress-plugin-search>
 - <https://www.npmjs.com/package/vitepress-plugin-pagefind>
 - <https://www.npmjs.com/package/@orama/plugin-vitepress>
+- <https://www.npmjs.com/package/vitepress-plugin-typesense>
 
 ### i18n {#local-search-i18n}
 
@@ -43,25 +44,25 @@ export default defineConfig({
       provider: 'local',
       options: {
         locales: {
-          zh: { // 既定ロケールの文言も翻訳したい場合はこれを `root` に
+          ja: { // 既定ロケールを翻訳する場合は `root` にしてください
             translations: {
               button: {
-                buttonText: '搜索',
-                buttonAriaLabel: '搜索'
+                buttonText: '検索',
+                buttonAriaLabel: '検索'
               },
               modal: {
-                displayDetails: '显示详细列表',
-                resetButtonTitle: '重置搜索',
-                backButtonTitle: '关闭搜索',
-                noResultsText: '没有结果',
+                displayDetails: '詳細一覧を表示',
+                resetButtonTitle: '検索をリセット',
+                backButtonTitle: '検索を閉じる',
+                noResultsText: '結果が見つかりません',
                 footer: {
-                  selectText: '选择',
-                  selectKeyAriaLabel: '输入',
-                  navigateText: '导航',
-                  navigateUpKeyAriaLabel: '上箭头',
-                  navigateDownKeyAriaLabel: '下箭头',
-                  closeText: '关闭',
-                  closeKeyAriaLabel: 'esc'
+                  selectText: '選択',
+                  selectKeyAriaLabel: 'Enter',
+                  navigateText: '移動',
+                  navigateUpKeyAriaLabel: '上矢印',
+                  navigateDownKeyAriaLabel: '下矢印',
+                  closeText: '閉じる',
+                  closeKeyAriaLabel: 'Esc'
                 }
               }
             }
@@ -73,7 +74,7 @@ export default defineConfig({
 })
 ```
 
-### miniSearch のオプション {#mini-search-options}
+### miniSearch のオプション {#minisearch-options}
 
 MiniSearch の設定例です。
 
@@ -236,12 +237,12 @@ export default defineConfig({
         appId: '...',
         apiKey: '...',
         indexName: '...',
-        // askAi: "YOUR-ASSISTANT-ID"
+        // askAi: "あなたのアシスタントID"
         // または
         askAi: {
-          // 少なくとも Algolia から受け取った assistantId を指定
+          // 最低限、Algolia から受け取った assistantId を指定する必要があります
           assistantId: 'XXXYYY',
-          // 任意の上書き — 省略時は上位の appId/apiKey/indexName を再利用
+          // 任意の上書き — 省略した場合は上位の appId/apiKey/indexName を再利用
           // apiKey: '...',
           // appId: '...',
           // indexName: '...'

@@ -39,18 +39,25 @@ export default defineConfig({
       provider: 'local',
       options: {
         locales: {
-          zh: {
+          zh: { // 如果你想翻译默认语言，请将此处设为 `root`
             translations: {
               button: {
-                buttonText: '搜索文档',
-                buttonAriaLabel: '搜索文档'
+                buttonText: '搜索',
+                buttonAriaLabel: '搜索'
               },
               modal: {
-                noResultsText: '无法找到相关结果',
-                resetButtonTitle: '清除查询条件',
+                displayDetails: '显示详细列表',
+                resetButtonTitle: '重置搜索',
+                backButtonTitle: '关闭搜索',
+                noResultsText: '没有结果',
                 footer: {
                   selectText: '选择',
-                  navigateText: '切换'
+                  selectKeyAriaLabel: '输入',
+                  navigateText: '导航',
+                  navigateUpKeyAriaLabel: '上箭头',
+                  navigateDownKeyAriaLabel: '下箭头',
+                  closeText: '关闭',
+                  closeKeyAriaLabel: 'Esc'
                 }
               }
             }
@@ -62,7 +69,7 @@ export default defineConfig({
 })
 ```
 
-### MiniSearch 配置项 {#mini-search-options}
+### MiniSearch 配置项 {#minisearch-options}
 
 你可以像这样配置 MiniSearch ：
 
@@ -116,7 +123,7 @@ export default defineConfig({
          * @param {import('markdown-it-async')} md
          */
         async _render(src, env, md) {
-          // 返回 html 字符串
+          // 返回 HTML 字符串
         }
       }
     }
@@ -215,14 +222,30 @@ export default defineConfig({
 如果需要启用 **Ask AI**，只需在 `options` 中添加 `askAi`：
 
 ```ts
-options: {
-  appId: '...',
-  apiKey: '...',
-  indexName: '...',
-  askAi: {
-    assistantId: 'XXXYYY'
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'algolia',
+      options: {
+        appId: '...',
+        apiKey: '...',
+        indexName: '...',
+        // askAi: "你的助手ID"
+        // 或
+        askAi: {
+          // 至少需要提供从 Algolia 获取的 assistantId
+          assistantId: 'XXXYYY',
+          // 可选覆盖 — 若省略，将复用顶层 appId/apiKey/indexName 的值
+          // apiKey: '...',
+          // appId: '...',
+          // indexName: '...'
+        }
+      }
+    }
   }
-}
+})
 ```
 
 ::: warning 提示
