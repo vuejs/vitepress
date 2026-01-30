@@ -153,17 +153,17 @@ Cache-Control: max-age=31536000,immutable
        runs-on: ubuntu-latest
        steps:
          - name: Checkout
-           uses: actions/checkout@v4
+           uses: actions/checkout@v5
            with:
              fetch-depth: 0 # 如果未启用 lastUpdated，则不需要
-         # - uses: pnpm/action-setup@v3 # 如果使用 pnpm，请取消此区域注释
+         # - uses: pnpm/action-setup@v4 # 如果使用 pnpm，请取消此区域注释
          #   with:
          #     version: 9
          # - uses: oven-sh/setup-bun@v1 # 如果使用 Bun，请取消注释
          - name: Setup Node
-           uses: actions/setup-node@v4
+           uses: actions/setup-node@v6
            with:
-             node-version: 22
+             node-version: 24
              cache: npm # 或 pnpm / yarn
          - name: Setup Pages
            uses: actions/configure-pages@v4
@@ -308,20 +308,20 @@ server {
     index index.html;
 
     location / {
-        # content location
+        # 内容位置
         root /app;
 
-        # exact matches -> reverse clean urls -> folders -> not found
+        # 完全匹配 -> 反向清理 url -> 文件夹 -> 没有发现    
         try_files $uri $uri.html $uri/ =404;
 
-        # non existent pages
+        # 不存在的页面
         error_page 404 /404.html;
 
-        # a folder without index.html raises 403 in this setup
+        # 在此设置中，如果文件夹没有 index.html，就会引发 403 错误
         error_page 403 /404.html;
 
-        # adjust caching headers
-        # files in the assets folder have hashes filenames
+        # 调整缓存标头
+        # assets 文件夹中的文件都有哈希文件名
         location ~* ^/assets/ {
             expires 1y;
             add_header Cache-Control "public, immutable";

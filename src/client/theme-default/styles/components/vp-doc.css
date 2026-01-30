@@ -235,9 +235,19 @@
   background-color: transparent;
 }
 
+.vp-doc .custom-block .vp-code-group,
+.vp-doc .custom-block [class*='vp-code-block'] {
+  margin-top: 8px;
+}
+
 .vp-doc .custom-block .vp-code-group .tabs {
   margin: 0;
   border-radius: 8px 8px 0 0;
+}
+
+.vp-doc .custom-block .vp-code-group div[class*='language-'],
+.vp-doc .custom-block [class*='vp-code-block'] div[class*='language-'] {
+  margin-top: 0 !important;
 }
 
 /**

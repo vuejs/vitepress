@@ -2,6 +2,8 @@ packages:
   - docs
   - __tests__/*
 
+autoInstallPeers: false
+
 onlyBuiltDependencies:
   - esbuild
   - playwright-chromium
@@ -12,9 +14,10 @@ overrides:
   vite: npm:rolldown-vite@latest
 
 patchedDependencies:
+  '@types/markdown-it-attrs': patches/@types__markdown-it-attrs.patch
   '@types/mdurl@2.0.0': patches/@types__mdurl@2.0.0.patch
   markdown-it-anchor@9.2.0: patches/markdown-it-anchor@9.2.0.patch
+  markdown-it-attrs@4.3.1: patches/markdown-it-attrs@4.3.1.patch
   vitepress-plugin-group-icons: patches/vitepress-plugin-group-icons.patch
 
-autoInstallPeers: false
 shellEmulator: true

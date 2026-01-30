@@ -63,14 +63,14 @@ export function extractTitle(info: string, options?: ExtractTitleOptions) {
   )
 }
 
-function extractLang(info: string) {
-  return info
-    .trim()
-    .replace(/=(\d*)/, '')
-    .replace(/:(no-)?line-numbers({| |$|=\d*).*/, '')
-    .replace(/(-vue|{| ).*$/, '')
-    .replace(/^vue-html$/, 'template')
-    .replace(/^ansi$/, '')
+function extractLang(info: string): string {
+  return (
+    /^[a-zA-Z0-9-_]+/
+      .exec(info)?.[0]
+      .replace(/-vue$/, '') // remove -vue suffix
+      .replace(/^vue-html$/, 'template')
+      .replace(/^ansi$/, '') || ''
+  )
 }
 
 /**
