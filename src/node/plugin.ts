@@ -41,7 +41,7 @@ declare module 'vite' {
 
 const themeRE = /(?:^|\/)\.vitepress\/theme\/index\.(m|c)?(j|t)s$/
 const startsWithThemeRE = /^@theme(?:\/|$)/
-const docsearchRE = /\/@docsearch\/css\/dist\/style.css(?:$|\?)/
+const docsearchRE = /\/docsearch\.css(?:$|\?)/
 
 const hashRE = /\.([-\w]+)\.js$/
 const staticInjectMarkerRE = /\bcreateStaticVNode\((?:(".*")|('.*')), (\d+)\)/g

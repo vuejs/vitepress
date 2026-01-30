@@ -177,69 +177,7 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
 }
 
 function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
-  const modalAskAiTranslations = {
-    disclaimerText:
-      'Ответы генерируются ИИ и могут содержать ошибки. Проверяйте информацию.',
-    relatedSourcesText: 'Связанные источники',
-    thinkingText: 'Думаю...',
-    copyButtonText: 'Копировать',
-    copyButtonCopiedText: 'Скопировано!',
-    copyButtonTitle: 'Копировать',
-    likeButtonTitle: 'Нравится',
-    dislikeButtonTitle: 'Не нравится',
-    thanksForFeedbackText: 'Спасибо за отзыв!',
-    preToolCallText: 'Поиск...',
-    duringToolCallText: 'Поиск ',
-    afterToolCallText: 'Поиск завершён'
-  }
-
   return {
-    placeholder: 'Поиск в документации',
-    askAi: {
-      sidePanel: {
-        panel: {
-          translations: {
-            header: {
-              title: 'ИИ-ассистент',
-              conversationHistoryTitle: 'История диалогов',
-              newConversationText: 'Новый диалог',
-              viewConversationHistoryText: 'Просмотр истории'
-            },
-            promptForm: {
-              promptPlaceholderText: 'Задайте вопрос...',
-              promptAnsweringText: 'Формируется ответ...',
-              promptAskAnotherQuestionText: 'Задать ещё вопрос...',
-              promptDisclaimerText: modalAskAiTranslations.disclaimerText,
-              promptLabelText: 'Ваш вопрос',
-              promptAriaLabelText: 'Поле ввода вопроса'
-            },
-            conversationScreen: {
-              conversationDisclaimer: modalAskAiTranslations.disclaimerText,
-              reasoningText: 'Рассуждение...',
-              thinkingText: modalAskAiTranslations.thinkingText,
-              relatedSourcesText: modalAskAiTranslations.relatedSourcesText,
-              stoppedStreamingText: 'Ответ остановлен',
-              copyButtonText: modalAskAiTranslations.copyButtonText,
-              copyButtonCopiedText: modalAskAiTranslations.copyButtonCopiedText,
-              likeButtonTitle: modalAskAiTranslations.likeButtonTitle,
-              dislikeButtonTitle: modalAskAiTranslations.dislikeButtonTitle,
-              thanksForFeedbackText:
-                modalAskAiTranslations.thanksForFeedbackText,
-              preToolCallText: modalAskAiTranslations.preToolCallText,
-              searchingText: modalAskAiTranslations.duringToolCallText,
-              toolCallResultText: modalAskAiTranslations.afterToolCallText
-            },
-            newConversationScreen: {
-              titleText: 'ИИ-ассистент',
-              introductionText: 'Чем могу помочь сегодня?'
-            },
-            logo: {
-              poweredByText: 'Разработано'
-            }
-          }
-        }
-      }
-    },
     translations: {
       button: {
         buttonText: 'Поиск',
@@ -247,54 +185,141 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
       },
       modal: {
         searchBox: {
-          clearButtonTitle: 'Очистить поиск',
-          clearButtonAriaLabel: 'Очистить поиск',
+          clearButtonTitle: 'Очистить',
+          clearButtonAriaLabel: 'Очистить запрос',
           closeButtonText: 'Закрыть',
           closeButtonAriaLabel: 'Закрыть',
-          placeholderText: 'Поиск в документации',
-          placeholderTextAskAi: 'Задайте вопрос ИИ: ',
-          placeholderTextAskAiStreaming: 'Формируется ответ...',
+          placeholderText: 'Поиск по документации или задайте вопрос Ask AI',
+          placeholderTextAskAi: 'Задайте другой вопрос...',
+          placeholderTextAskAiStreaming: 'Отвечаю...',
           searchInputLabel: 'Поиск',
-          backToKeywordSearchButtonText:
-            'Вернуться к поиску по ключевым словам',
+          backToKeywordSearchButtonText: 'Назад к поиску по ключевым словам',
           backToKeywordSearchButtonAriaLabel:
-            'Вернуться к поиску по ключевым словам'
+            'Назад к поиску по ключевым словам',
+          newConversationPlaceholder: 'Задайте вопрос',
+          conversationHistoryTitle: 'Моя история разговоров',
+          startNewConversationText: 'Начать новый разговор',
+          viewConversationHistoryText: 'История разговоров',
+          threadDepthErrorPlaceholder: 'Достигнут лимит разговора'
         },
-        startScreen: {
-          recentSearchesTitle: 'История поиска',
-          noRecentSearchesText: 'Нет истории поиска',
-          saveRecentSearchButtonTitle: 'Сохранить в истории поиска',
-          removeRecentSearchButtonTitle: 'Удалить из истории поиска',
-          favoriteSearchesTitle: 'Избранное',
-          removeFavoriteSearchButtonTitle: 'Удалить из избранного',
-          recentConversationsTitle: 'Недавние диалоги',
-          removeRecentConversationButtonTitle: 'Удалить этот диалог из истории'
+        newConversation: {
+          newConversationTitle: 'Чем могу помочь сегодня?',
+          newConversationDescription:
+            'Я ищу по вашей документации, чтобы быстро помочь найти руководства по настройке, детали функций и советы по устранению неполадок.'
         },
-        errorScreen: {
-          titleText: 'Невозможно получить результаты',
-          helpText: 'Проверьте подключение к Интернету'
-        },
-        noResultsScreen: {
-          noResultsText: 'Ничего не найдено',
-          suggestedQueryText: 'Попробуйте изменить запрос',
-          reportMissingResultsText: 'Считаете, что результаты должны быть?',
-          reportMissingResultsLinkText: 'Сообщите об этом'
-        },
-        resultsScreen: {
-          askAiPlaceholder: 'Задайте вопрос ИИ: '
-        },
-        askAiScreen: modalAskAiTranslations,
         footer: {
-          selectText: 'выбрать',
+          selectText: 'Выбрать',
           submitQuestionText: 'Отправить вопрос',
           selectKeyAriaLabel: 'Клавиша Enter',
-          navigateText: 'перейти',
+          navigateText: 'Навигация',
           navigateUpKeyAriaLabel: 'Стрелка вверх',
           navigateDownKeyAriaLabel: 'Стрелка вниз',
-          closeText: 'закрыть',
-          backToSearchText: 'Вернуться к поиску',
-          closeKeyAriaLabel: 'Клавиша Esc',
-          poweredByText: 'поиск от'
+          closeText: 'Закрыть',
+          backToSearchText: 'Назад к поиску',
+          closeKeyAriaLabel: 'Клавиша Escape',
+          poweredByText: 'При поддержке'
+        },
+        errorScreen: {
+          titleText: 'Не удалось получить результаты',
+          helpText: 'Возможно, стоит проверить подключение к сети.'
+        },
+        startScreen: {
+          recentSearchesTitle: 'Недавние',
+          noRecentSearchesText: 'Нет недавних поисков',
+          saveRecentSearchButtonTitle: 'Сохранить этот поиск',
+          removeRecentSearchButtonTitle: 'Удалить этот поиск из истории',
+          favoriteSearchesTitle: 'Избранное',
+          removeFavoriteSearchButtonTitle: 'Удалить этот поиск из избранного',
+          recentConversationsTitle: 'Недавние разговоры',
+          removeRecentConversationButtonTitle:
+            'Удалить этот разговор из истории'
+        },
+        noResultsScreen: {
+          noResultsText: 'Не найдено результатов для',
+          suggestedQueryText: 'Попробуйте поискать',
+          reportMissingResultsText:
+            'Считаете, что по этому запросу должны быть результаты?',
+          reportMissingResultsLinkText: 'Сообщите нам.'
+        },
+        resultsScreen: {
+          askAiPlaceholder: 'Спросить ИИ: ',
+          noResultsAskAiPlaceholder:
+            'Не нашли в документации? Попросите Ask AI помочь: '
+        },
+        askAiScreen: {
+          disclaimerText:
+            'Ответы генерируются ИИ и могут содержать ошибки. Проверьте их.',
+          relatedSourcesText: 'Связанные источники',
+          thinkingText: 'Думаю...',
+          copyButtonText: 'Копировать',
+          copyButtonCopiedText: 'Скопировано!',
+          copyButtonTitle: 'Копировать',
+          likeButtonTitle: 'Нравится',
+          dislikeButtonTitle: 'Не нравится',
+          thanksForFeedbackText: 'Спасибо за отзыв!',
+          preToolCallText: 'Ищу...',
+          duringToolCallText: 'Ищу...',
+          afterToolCallText: 'Искал',
+          stoppedStreamingText: 'Вы остановили этот ответ',
+          errorTitleText: 'Ошибка чата',
+          threadDepthExceededMessage:
+            'Этот разговор закрыт, чтобы сохранить точность ответов.',
+          startNewConversationButtonText: 'Начать новый разговор'
+        }
+      }
+    },
+    askAi: {
+      sidePanel: {
+        button: {
+          translations: {
+            buttonText: 'Спросить ИИ',
+            buttonAriaLabel: 'Спросить ИИ'
+          }
+        },
+        panel: {
+          translations: {
+            header: {
+              title: 'Спросить ИИ',
+              conversationHistoryTitle: 'Моя история разговоров',
+              newConversationText: 'Начать новый разговор',
+              viewConversationHistoryText: 'История разговоров'
+            },
+            promptForm: {
+              promptPlaceholderText: 'Задайте вопрос',
+              promptAnsweringText: 'Отвечаю...',
+              promptAskAnotherQuestionText: 'Задайте другой вопрос',
+              promptDisclaimerText:
+                'Ответы генерируются ИИ и могут содержать ошибки.',
+              promptLabelText:
+                'Нажмите Enter, чтобы отправить, или Shift+Enter для новой строки.',
+              promptAriaLabelText: 'Ввод запроса'
+            },
+            conversationScreen: {
+              preToolCallText: 'Ищу...',
+              searchingText: 'Ищу...',
+              toolCallResultText: 'Искал',
+              conversationDisclaimer:
+                'Ответы генерируются ИИ и могут содержать ошибки. Проверьте их.',
+              reasoningText: 'Рассуждаю...',
+              thinkingText: 'Думаю...',
+              relatedSourcesText: 'Связанные источники',
+              stoppedStreamingText: 'Вы остановили этот ответ',
+              copyButtonText: 'Копировать',
+              copyButtonCopiedText: 'Скопировано!',
+              likeButtonTitle: 'Нравится',
+              dislikeButtonTitle: 'Не нравится',
+              thanksForFeedbackText: 'Спасибо за отзыв!',
+              errorTitleText: 'Ошибка чата'
+            },
+            newConversationScreen: {
+              titleText: 'Чем могу помочь сегодня?',
+              introductionText:
+                'Я ищу по вашей документации, чтобы быстро помочь найти руководства по настройке, детали функций и советы по устранению неполадок.'
+            },
+            logo: {
+              poweredByText: 'При поддержке'
+            }
+          }
         }
       }
     }

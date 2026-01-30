@@ -1,11 +1,10 @@
 <script lang="ts" setup>
-import '@docsearch/css'
-import '@docsearch/css/dist/sidepanel.css'
 import { onKeyStroke } from '@vueuse/core'
 import type { DefaultTheme } from 'vitepress/theme'
-import { computed, defineAsyncComponent, onMounted, onUnmounted, ref } from 'vue'
+import { computed, defineAsyncComponent, onMounted, ref } from 'vue'
 import { useData } from '../composables/data'
-import { resolveMode } from '../support/docsearch'
+import { resolveMode, resolveOptionsForLanguage } from '../support/docsearch'
+import { smartComputed } from '../support/reactivity'
 import VPNavBarAskAiButton from './VPNavBarAskAiButton.vue'
 import VPNavBarSearchButton from './VPNavBarSearchButton.vue'
 
@@ -17,36 +16,31 @@ const VPAlgoliaSearchBox = __ALGOLIA__
   ? defineAsyncComponent(() => import('./VPAlgoliaSearchBox.vue'))
   : () => null
 
-const { theme, localeIndex } = useData()
+const { theme, localeIndex, lang } = useData()
+const provider = __ALGOLIA__ ? 'algolia' : __VP_LOCAL_SEARCH__ ? 'local' : ''
 
-const algoliaOptions = computed(() => {
-  const base =
-    ((theme.value.search?.options as DefaultTheme.AlgoliaSearchOptions) ??
-      theme.value.algolia) ||
-    ({} as DefaultTheme.AlgoliaSearchOptions)
-  return {
-    ...base,
-    ...base.locales?.[localeIndex.value]
-  } as DefaultTheme.AlgoliaSearchOptions
+// #region Algolia Search
+
+const algoliaOptions = smartComputed<DefaultTheme.AlgoliaSearchOptions>(() => {
+  return resolveOptionsForLanguage(
+    theme.value.search?.options || {},
+    localeIndex.value,
+    lang.value
+  )
 })
 
 const resolvedMode = computed(() => resolveMode(algoliaOptions.value))
-
-const showKeywordSearchButton = computed(
-  () => resolvedMode.value.showKeywordSearch
-)
 
 const askAiSidePanelConfig = computed(() => {
   if (!resolvedMode.value.useSidePanel) return null
   const askAi = algoliaOptions.value.askAi
   if (!askAi || typeof askAi === 'string') return null
   if (!askAi.sidePanel) return null
-  return askAi.sidePanel === true ? ({} as NonNullable<typeof askAi.sidePanel>) : askAi.sidePanel
+  return askAi.sidePanel === true ? {} : askAi.sidePanel
 })
 
 const askAiShortcutEnabled = computed(() => {
-  const cfg: any = askAiSidePanelConfig.value
-  return cfg?.keyboardShortcuts?.['Ctrl/Cmd+I'] !== false
+  return askAiSidePanelConfig.value?.keyboardShortcuts?.['Ctrl/Cmd+I'] !== false
 })
 
 type OpenTarget = 'search' | 'askAi' | 'toggleAskAi'
@@ -60,9 +54,10 @@ let openNonce = 0
 const loaded = ref(false)
 const actuallyLoaded = ref(false)
 
-const preconnect = () => {
-  const id = 'VPAlgoliaPreconnect'
+onMounted(() => {
+  if (!__ALGOLIA__) return
 
+  const id = 'VPAlgoliaPreconnect'
   if (document.getElementById(id)) return
 
   const appId =
@@ -82,48 +77,37 @@ const preconnect = () => {
     preconnect.crossOrigin = ''
     document.head.appendChild(preconnect)
   })
-}
+})
 
-onMounted(() => {
-  if (!__ALGOLIA__) {
-    return
-  }
-
-  preconnect()
-
-  const handleSearchHotKey = (event: KeyboardEvent) => {
-    const key = event.key?.toLowerCase()
-
+if (__ALGOLIA__) {
+  onKeyStroke('k', (event) => {
     if (
-      showKeywordSearchButton.value &&
-      ((key === 'k' && (event.metaKey || event.ctrlKey)) ||
-        (!isEditingContent(event) && event.key === '/'))
+      resolvedMode.value.showKeywordSearch &&
+      (event.ctrlKey || event.metaKey)
     ) {
       event.preventDefault()
       loadAndOpen('search')
-      return
     }
+  })
 
+  onKeyStroke('i', (event) => {
     if (
       askAiSidePanelConfig.value &&
       askAiShortcutEnabled.value &&
-      key === 'i' &&
-      (event.metaKey || event.ctrlKey) &&
-      !isEditingContent(event)
+      (event.ctrlKey || event.metaKey)
     ) {
       event.preventDefault()
       loadAndOpen('askAi')
     }
-  }
+  })
 
-  const remove = () => {
-    window.removeEventListener('keydown', handleSearchHotKey)
-  }
-
-  window.addEventListener('keydown', handleSearchHotKey)
-
-  onUnmounted(remove)
-})
+  onKeyStroke('/', (event) => {
+    if (resolvedMode.value.showKeywordSearch && !isEditingContent(event)) {
+      event.preventDefault()
+      loadAndOpen('search')
+    }
+  })
+}
 
 function loadAndOpen(target: OpenTarget) {
   if (!loaded.value) {
@@ -135,19 +119,9 @@ function loadAndOpen(target: OpenTarget) {
   openRequest.value = { target, nonce: ++openNonce }
 }
 
-function isEditingContent(event: KeyboardEvent): boolean {
-  const element = event.target as HTMLElement
-  const tagName = element.tagName
+// #endregion
 
-  return (
-    element.isContentEditable ||
-    tagName === 'INPUT' ||
-    tagName === 'SELECT' ||
-    tagName === 'TEXTAREA'
-  )
-}
-
-// Local search
+// #region Local Search
 
 const showSearch = ref(false)
 
@@ -167,30 +141,58 @@ if (__VP_LOCAL_SEARCH__) {
   })
 }
 
-const provider = __ALGOLIA__ ? 'algolia' : __VP_LOCAL_SEARCH__ ? 'local' : ''
+// #endregion
+
+function isEditingContent(event: KeyboardEvent): boolean {
+  const element = event.target as HTMLElement
+  const tagName = element.tagName
+
+  return (
+    element.isContentEditable ||
+    tagName === 'INPUT' ||
+    tagName === 'SELECT' ||
+    tagName === 'TEXTAREA'
+  )
+}
 </script>
 
 <template>
   <div class="VPNavBarSearch">
-    <template v-if="provider === 'local'">
-      <VPLocalSearchBox v-if="showSearch" @close="showSearch = false" />
-
-      <div id="local-search">
-        <VPNavBarSearchButton @click="showSearch = true" />
-      </div>
+    <template v-if="provider === 'algolia'">
+      <VPNavBarSearchButton
+        v-if="resolvedMode.showKeywordSearch"
+        :text="algoliaOptions.translations?.button?.buttonText || 'Search'"
+        :label="algoliaOptions.translations?.button?.buttonAriaLabel || 'Search'"
+        @click="loadAndOpen('search')"
+      />
+      <VPNavBarAskAiButton
+        v-if="askAiSidePanelConfig"
+        :text="askAiSidePanelConfig.button?.translations?.buttonText || 'Ask AI'"
+        :label="askAiSidePanelConfig.button?.translations?.buttonAriaLabel || 'Ask AI'"
+        @click="actuallyLoaded ? loadAndOpen('toggleAskAi') : loadAndOpen('askAi')"
+      />
+      <VPAlgoliaSearchBox
+        v-if="loaded"
+        :algolia-options
+        :open-request
+        @vue:beforeMount="actuallyLoaded = true"
+      />
     </template>
-
-    <template v-else-if="provider === 'algolia'">
-      <VPNavBarSearchButton v-if="showKeywordSearchButton" @click="loadAndOpen('search')" />
-      <VPNavBarAskAiButton v-if="askAiSidePanelConfig"
-        @click="actuallyLoaded ? loadAndOpen('toggleAskAi') : loadAndOpen('askAi')" />
-      <VPAlgoliaSearchBox v-if="loaded" :algolia="theme.search?.options ?? theme.algolia" :open-request="openRequest"
-        @vue:beforeMount="actuallyLoaded = true" />
+    <template v-else-if="provider === 'local'">
+      <VPNavBarSearchButton
+        :text="algoliaOptions.translations?.button?.buttonText || 'Search'"
+        :label="algoliaOptions.translations?.button?.buttonAriaLabel || 'Search'"
+        @click="showSearch = true"
+      />
+      <VPLocalSearchBox
+        v-if="showSearch"
+        @close="showSearch = false"
+      />
     </template>
   </div>
 </template>
 
-<style>
+<style scoped>
 .VPNavBarSearch {
   display: flex;
   align-items: center;

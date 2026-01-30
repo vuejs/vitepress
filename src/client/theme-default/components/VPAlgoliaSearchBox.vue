@@ -1,19 +1,17 @@
 <script setup lang="ts">
 import type { DocSearchInstance, DocSearchProps } from '@docsearch/js'
 import type { SidepanelInstance, SidepanelProps } from '@docsearch/sidepanel-js'
-import { useRouter } from 'vitepress'
+import { inBrowser, useRouter } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
-import { nextTick, onMounted, onUnmounted, watch } from 'vue'
+import { nextTick, onUnmounted, watch } from 'vue'
+import type { DocSearchAskAi } from '../../../../types/docsearch'
 import { useData } from '../composables/data'
-import {
-  buildAskAiConfig,
-  mergeLangFacetFilters,
-  resolveMode,
-  validateCredentials
-} from '../support/docsearch'
+import { resolveMode, validateCredentials } from '../support/docsearch'
+
+import '../styles/docsearch.css'
 
 const props = defineProps<{
-  algolia: DefaultTheme.AlgoliaSearchOptions
+  algoliaOptions: DefaultTheme.AlgoliaSearchOptions
   openRequest?: {
     target: 'search' | 'askAi' | 'toggleAskAi'
     nonce: number
@@ -21,21 +19,21 @@ const props = defineProps<{
 }>()
 
 const router = useRouter()
-const { site, localeIndex, lang } = useData()
+const { site } = useData()
 
-let cleanup: (() => void) | undefined
+let cleanup = () => {}
 let docsearchInstance: DocSearchInstance | undefined
 let sidepanelInstance: SidepanelInstance | undefined
 let openOnReady: 'search' | 'askAi' | null = null
 let initializeCount = 0
 let docsearchLoader: Promise<typeof import('@docsearch/js')> | undefined
 let sidepanelLoader: Promise<typeof import('@docsearch/sidepanel-js')> | undefined
+let lastFocusedElement: HTMLElement | null = null
+let skipEventDocsearch = false
+let skipEventSidepanel = false
 
-onMounted(update)
-watch(localeIndex, update)
-onUnmounted(() => {
-  cleanup?.()
-})
+watch(() => props.algoliaOptions, update, { immediate: true })
+onUnmounted(cleanup)
 
 watch(
   () => props.openRequest?.nonce,
@@ -44,7 +42,7 @@ watch(
     if (!req) return
     if (req.target === 'search') {
       if (docsearchInstance?.isReady) {
-        docsearchInstance.open()
+        onBeforeOpen('docsearch', () => docsearchInstance?.open())
       } else {
         openOnReady = 'search'
       }
@@ -52,16 +50,16 @@ watch(
       if (sidepanelInstance?.isOpen) {
         sidepanelInstance.close()
       } else {
-        sidepanelInstance?.open()
+        onBeforeOpen('sidepanel', () => sidepanelInstance?.open())
       }
     } else {
       // askAi - open sidepanel or fallback to docsearch modal
       if (sidepanelInstance?.isReady) {
-        sidepanelInstance.open()
+        onBeforeOpen('sidepanel', () => sidepanelInstance?.open())
       } else if (sidepanelInstance) {
         openOnReady = 'askAi'
       } else if (docsearchInstance?.isReady) {
-        docsearchInstance.openAskAi()
+        onBeforeOpen('docsearch', () => docsearchInstance?.openAskAi())
       } else {
         openOnReady = 'askAi'
       }
@@ -70,66 +68,59 @@ watch(
   { immediate: true }
 )
 
-async function update() {
+async function update(options: DefaultTheme.AlgoliaSearchOptions) {
+  if (!inBrowser) return
   await nextTick()
 
-  const options = { ...props.algolia, ...props.algolia.locales?.[localeIndex.value] }
-  const facetFilters = mergeLangFacetFilters(options.searchParameters?.facetFilters, lang.value)
-  const askAi = options.askAi ? buildAskAiConfig(options.askAi, options, lang.value) : undefined
+  const askAi = options.askAi as DocSearchAskAi | undefined
 
-  const effectiveCredentials = validateCredentials({
-    appId: options.appId || (askAi && typeof askAi === 'object' ? askAi.appId : undefined),
-    apiKey: options.apiKey || (askAi && typeof askAi === 'object' ? askAi.apiKey : undefined),
-    indexName: options.indexName || (askAi && typeof askAi === 'object' ? askAi.indexName : undefined)
+  const { valid, ...credentials } = validateCredentials({
+    appId: options.appId ?? askAi?.appId,
+    apiKey: options.apiKey ?? askAi?.apiKey,
+    indexName: options.indexName ?? askAi?.indexName
   })
 
-  if (!effectiveCredentials.valid) {
+  if (!valid) {
     console.warn('[vitepress] Algolia search cannot be initialized: missing appId/apiKey/indexName.')
     return
   }
 
-  await initialize({
-    ...options,
-    appId: effectiveCredentials.appId,
-    apiKey: effectiveCredentials.apiKey,
-    indexName: effectiveCredentials.indexName,
-    searchParameters: { ...options.searchParameters, facetFilters },
-    askAi
-  })
+  await initialize({ ...options, ...credentials })
 }
 
 async function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
   const currentInitialize = ++initializeCount
 
   // Always tear down previous instances first (e.g. on locale changes)
-  cleanup?.()
+  cleanup()
 
   const { useSidePanel, mode } = resolveMode(userOptions)
-  const askAi = userOptions.askAi
-  const sidePanelConfig = askAi && typeof askAi === 'object' ? askAi.sidePanel : undefined
+  const askAi = userOptions.askAi as DocSearchAskAi | undefined
 
   const { default: docsearch } = await loadDocsearch()
   if (currentInitialize !== initializeCount) return
 
-  if (useSidePanel && askAi && typeof askAi === 'object' && sidePanelConfig) {
-    const { keyboardShortcuts, ...restConfig } = sidePanelConfig !== true ? sidePanelConfig : {}
+  if (useSidePanel && askAi?.sidePanel) {
     const { default: sidepanel } = await loadSidepanel()
     if (currentInitialize !== initializeCount) return
+
     sidepanelInstance = sidepanel({
-      ...restConfig,
+      ...(askAi.sidePanel === true ? {} : askAi.sidePanel),
       container: '#vp-docsearch-sidepanel',
       indexName: askAi.indexName ?? userOptions.indexName,
       appId: askAi.appId ?? userOptions.appId,
       apiKey: askAi.apiKey ?? userOptions.apiKey,
       assistantId: askAi.assistantId,
-      onOpen: () => {
-        docsearchInstance?.close()
-      },
+      onOpen: focusInput,
+      onClose: onClose.bind(null, 'sidepanel'),
       onReady: () => {
         if (openOnReady === 'askAi') {
           openOnReady = null
-          setTimeout(() => sidepanelInstance?.open(), 0)
+          onBeforeOpen('sidepanel', () => sidepanelInstance?.open())
         }
+      },
+      keyboardShortcuts: {
+        'Ctrl/Cmd+I': false
       }
     } as SidepanelProps)
   }
@@ -146,23 +137,25 @@ async function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
     // When sidepanel is enabled (and not in modal mode), intercept Ask AI events to open it instead (hybrid mode)
     ...(useSidePanel && sidepanelInstance && mode !== 'modal' && {
       interceptAskAiEvent: (initialMessage) => {
-        setTimeout(() => sidepanelInstance?.open(initialMessage), 0)
+        onBeforeOpen('sidepanel', () => sidepanelInstance?.open(initialMessage))
         return true
       }
     }),
-    onOpen: () => {
-      sidepanelInstance?.close()
-    },
+    onOpen: focusInput,
+    onClose: onClose.bind(null, 'docsearch'),
     onReady: () => {
       if (openOnReady === 'search') {
         openOnReady = null
-        setTimeout(() => docsearchInstance?.open(), 0)
+        onBeforeOpen('docsearch', () => docsearchInstance?.open())
       } else if (openOnReady === 'askAi' && !sidepanelInstance) {
         // No sidepanel configured, use docsearch modal for askAi
         openOnReady = null
-        console.log('openAskAi', docsearchInstance)
-        setTimeout(() => docsearchInstance?.openAskAi(), 0)
+        onBeforeOpen('docsearch', () => docsearchInstance?.openAskAi())
       }
+    },
+    keyboardShortcuts: {
+      '/': false,
+      'Ctrl/Cmd+K': false
     }
   } as DocSearchProps
 
@@ -174,6 +167,57 @@ async function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
     docsearchInstance = undefined
     sidepanelInstance = undefined
     openOnReady = null
+    lastFocusedElement = null
+  }
+}
+
+function focusInput() {
+  requestAnimationFrame(() => {
+    const input =
+      document.querySelector<HTMLInputElement>('#docsearch-input') ||
+      document.querySelector<HTMLInputElement>('#docsearch-sidepanel textarea')
+    input?.focus()
+  })
+}
+
+function onBeforeOpen(target: 'docsearch' | 'sidepanel', cb: () => void) {
+  if (target === 'docsearch') {
+    if (sidepanelInstance?.isOpen) {
+      skipEventSidepanel = true
+      sidepanelInstance.close()
+    } else if (!docsearchInstance?.isOpen) {
+      if (document.activeElement instanceof HTMLElement) {
+        lastFocusedElement = document.activeElement
+      }
+    }
+  } else if (target === 'sidepanel') {
+    if (docsearchInstance?.isOpen) {
+      skipEventDocsearch = true
+      docsearchInstance.close()
+    } else if (!sidepanelInstance?.isOpen) {
+      if (document.activeElement instanceof HTMLElement) {
+        lastFocusedElement = document.activeElement
+      }
+    }
+  }
+  setTimeout(cb, 0)
+}
+
+function onClose(target: 'docsearch' | 'sidepanel') {
+  if (target === 'docsearch') {
+    if (skipEventDocsearch) {
+      skipEventDocsearch = false
+      return
+    }
+  } else if (target === 'sidepanel') {
+    if (skipEventSidepanel) {
+      skipEventSidepanel = false
+      return
+    }
+  }
+  if (lastFocusedElement) {
+    lastFocusedElement.focus()
+    lastFocusedElement = null
   }
 }
 
@@ -201,10 +245,3 @@ function getRelativePath(url: string) {
   <div id="vp-docsearch" />
   <div id="vp-docsearch-sidepanel" />
 </template>
-
-<style scoped>
-#vp-docsearch,
-#vp-docsearch-sidepanel {
-  display: none;
-}
-</style>

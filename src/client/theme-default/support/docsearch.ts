@@ -1,5 +1,6 @@
 import type { DefaultTheme } from 'vitepress/theme'
 import type { DocSearchAskAi } from '../../../../types/docsearch'
+import { isObject } from '../../shared'
 
 export type FacetFilter = string | string[] | FacetFilter[]
 
@@ -197,5 +198,56 @@ export function buildAskAiConfig(
     result.searchParameters = mergedAskAiSearchParameters
   }
 
+  return result
+}
+
+/**
+ * Resolves Algolia search options for the given language,
+ * merging in locale-specific overrides and language facet filters.
+ */
+export function resolveOptionsForLanguage(
+  options: DefaultTheme.AlgoliaSearchOptions,
+  localeIndex: string,
+  lang: string
+): DefaultTheme.AlgoliaSearchOptions {
+  options = deepMerge(options, options.locales?.[localeIndex] || {})
+
+  const facetFilters = mergeLangFacetFilters(
+    options.searchParameters?.facetFilters,
+    lang
+  )
+  const askAi = options.askAi
+    ? buildAskAiConfig(options.askAi, options, lang)
+    : undefined
+
+  return {
+    ...options,
+    searchParameters: { ...options.searchParameters, facetFilters },
+    askAi
+  }
+}
+
+function deepMerge<T>(target: T, source: Partial<T>): T {
+  const result = { ...target } as any
+
+  for (const key in source) {
+    const value = source[key]
+    if (value === undefined) continue
+
+    // special case: replace entirely
+    if (key === 'searchParameters') {
+      result[key] = value
+      continue
+    }
+
+    // deep-merge only plain objects; arrays are replaced entirely
+    if (isObject(value) && isObject(result[key])) {
+      result[key] = deepMerge(result[key], value)
+    } else {
+      result[key] = value
+    }
+  }
+
+  delete result.locales
   return result
 }
