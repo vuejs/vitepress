@@ -339,6 +339,8 @@
   --vp-code-block-color: var(--vp-c-text-2);
   --vp-code-block-bg: var(--vp-c-bg-alt);
   --vp-code-block-divider-color: var(--vp-c-gutter);
+  --vp-code-block-title-color: var(--vp-c-text-2);
+  --vp-code-block-title-bg: var(--vp-code-block-bg);
 
   --vp-code-lang-color: var(--vp-c-text-2);
 

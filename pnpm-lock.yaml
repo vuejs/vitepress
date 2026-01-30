@@ -21,6 +21,9 @@ patchedDependencies:
   markdown-it-attrs@4.3.1:
     hash: 12883b753541724964b5246a739df34c4b76db10415bbb63c35dce408cfe977e
     path: patches/markdown-it-attrs@4.3.1.patch
+  vitepress-plugin-group-icons:
+    hash: 771e35a6827c2547da230d52d3b7032b1d1d75926162c95384f77e5528659991
+    path: patches/vitepress-plugin-group-icons.patch
 
 importers:
 
@@ -341,7 +344,7 @@ importers:
         version: link:..
       vitepress-plugin-group-icons:
         specifier: ^1.6.5
-        version: 1.6.5(@types/node@24.10.1)(esbuild@0.25.12)(jiti@1.21.7)(yaml@2.8.1)
+        version: 1.6.5(patch_hash=771e35a6827c2547da230d52d3b7032b1d1d75926162c95384f77e5528659991)(@types/node@24.10.1)(esbuild@0.25.12)(jiti@1.21.7)(yaml@2.8.1)
       vitepress-plugin-llms:
         specifier: ^1.9.3
         version: 1.9.3
@@ -5893,7 +5896,7 @@ snapshots:
       - tsx
       - yaml
 
-  vitepress-plugin-group-icons@1.6.5(@types/node@24.10.1)(esbuild@0.25.12)(jiti@1.21.7)(yaml@2.8.1):
+  vitepress-plugin-group-icons@1.6.5(patch_hash=771e35a6827c2547da230d52d3b7032b1d1d75926162c95384f77e5528659991)(@types/node@24.10.1)(esbuild@0.25.12)(jiti@1.21.7)(yaml@2.8.1):
     dependencies:
       '@iconify-json/logos': 1.2.10
       '@iconify-json/vscode-icons': 1.2.35
