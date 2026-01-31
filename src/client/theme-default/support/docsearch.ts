@@ -67,7 +67,7 @@ export function resolveMode(
       return {
         mode,
         showKeywordSearch: hasKeyword,
-        useSidePanel: true
+        useSidePanel: false
       }
 
     case 'auto':

@@ -94,7 +94,7 @@ async function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
   // Always tear down previous instances first (e.g. on locale changes)
   cleanup()
 
-  const { useSidePanel, mode } = resolveMode(userOptions)
+  const { useSidePanel } = resolveMode(userOptions)
   const askAi = userOptions.askAi as DocSearchAskAi | undefined
 
   const { default: docsearch } = await loadDocsearch()
@@ -134,8 +134,8 @@ async function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
       }
     },
     transformItems: (items) => items.map((item) => ({ ...item, url: getRelativePath(item.url) })),
-    // When sidepanel is enabled (and not in modal mode), intercept Ask AI events to open it instead (hybrid mode)
-    ...(useSidePanel && sidepanelInstance && mode !== 'modal' && {
+    // When sidepanel is enabled, intercept Ask AI events to open it instead (hybrid mode)
+    ...(useSidePanel && sidepanelInstance && {
       interceptAskAiEvent: (initialMessage) => {
         onBeforeOpen('sidepanel', () => sidepanelInstance?.open(initialMessage))
         return true
