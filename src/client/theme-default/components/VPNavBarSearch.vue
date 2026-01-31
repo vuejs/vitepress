@@ -162,13 +162,13 @@ function isEditingContent(event: KeyboardEvent): boolean {
       <VPNavBarSearchButton
         v-if="resolvedMode.showKeywordSearch"
         :text="algoliaOptions.translations?.button?.buttonText || 'Search'"
-        :label="algoliaOptions.translations?.button?.buttonAriaLabel || 'Search'"
+        :aria-keyshortcuts="'/ control+k meta+k'"
         @click="loadAndOpen('search')"
       />
       <VPNavBarAskAiButton
         v-if="askAiSidePanelConfig"
-        :text="askAiSidePanelConfig.button?.translations?.buttonText || 'Ask AI'"
-        :label="askAiSidePanelConfig.button?.translations?.buttonAriaLabel || 'Ask AI'"
+        :aria-label="askAiSidePanelConfig.button?.translations?.buttonAriaLabel || 'Ask AI'"
+        :aria-keyshortcuts="askAiShortcutEnabled ? 'control+i meta+i' : undefined"
         @click="actuallyLoaded ? loadAndOpen('toggleAskAi') : loadAndOpen('askAi')"
       />
       <VPAlgoliaSearchBox
@@ -181,7 +181,7 @@ function isEditingContent(event: KeyboardEvent): boolean {
     <template v-else-if="provider === 'local'">
       <VPNavBarSearchButton
         :text="algoliaOptions.translations?.button?.buttonText || 'Search'"
-        :label="algoliaOptions.translations?.button?.buttonAriaLabel || 'Search'"
+        :aria-keyshortcuts="'/ control+k meta+k'"
         @click="showSearch = true"
       />
       <VPLocalSearchBox
@@ -196,13 +196,13 @@ function isEditingContent(event: KeyboardEvent): boolean {
 .VPNavBarSearch {
   display: flex;
   align-items: center;
-  gap: 8px;
 }
 
 @media (min-width: 768px) {
   .VPNavBarSearch {
     flex-grow: 1;
     padding-left: 24px;
+    gap: 8px;
   }
 }
 
