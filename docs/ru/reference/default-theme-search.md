@@ -29,6 +29,7 @@ export default defineConfig({
 - <https://www.npmjs.com/package/vitepress-plugin-search>
 - <https://www.npmjs.com/package/vitepress-plugin-pagefind>
 - <https://www.npmjs.com/package/@orama/plugin-vitepress>
+- <https://www.npmjs.com/package/vitepress-plugin-typesense>
 
 ### i18n {#local-search-i18n}
 
@@ -43,25 +44,25 @@ export default defineConfig({
       provider: 'local',
       options: {
         locales: {
-          ru: { // используйте ключ `root`, если хотите перевести локаль по умолчанию
+          ru: { // используйте `root`, если хотите перевести локаль по умолчанию
             translations: {
               button: {
                 buttonText: 'Поиск',
                 buttonAriaLabel: 'Поиск'
               },
               modal: {
-                displayDetails: 'Отобразить подробный список',
+                displayDetails: 'Показать подробный список',
                 resetButtonTitle: 'Сбросить поиск',
                 backButtonTitle: 'Закрыть поиск',
-                noResultsText: 'Нет результатов по запросу',
+                noResultsText: 'Нет результатов',
                 footer: {
-                  selectText: 'выбрать',
-                  selectKeyAriaLabel: 'выбрать',
-                  navigateText: 'перейти',
-                  navigateUpKeyAriaLabel: 'стрелка вверх',
-                  navigateDownKeyAriaLabel: 'стрелка вниз',
-                  closeText: 'закрыть',
-                  closeKeyAriaLabel: 'esc'
+                  selectText: 'Выбрать',
+                  selectKeyAriaLabel: 'Enter',
+                  navigateText: 'Навигация',
+                  navigateUpKeyAriaLabel: 'Стрелка вверх',
+                  navigateDownKeyAriaLabel: 'Стрелка вниз',
+                  closeText: 'Закрыть',
+                  closeKeyAriaLabel: 'Esc'
                 }
               }
             }
@@ -127,7 +128,7 @@ export default defineConfig({
          * @param {import('markdown-it-async')} md
          */
         async _render(src, env, md) {
-          // возвращаем html
+          // вернуть строку HTML
         }
       }
     }
@@ -212,98 +213,14 @@ export default defineConfig({
 
 Пример конфигурации для использования многоязычного поиска:
 
-```ts
-import { defineConfig } from 'vitepress'
+<details>
+<summary>Нажмите, чтобы развернуть</summary>
 
-export default defineConfig({
-  themeConfig: {
-    search: {
-      provider: 'algolia',
-      options: {
-        appId: '...',
-        apiKey: '...',
-        indexName: '...',
-        locales: {
-          ru: {
-            placeholder: 'Поиск в документации',
-            translations: {
-              button: {
-                buttonText: 'Поиск',
-                buttonAriaLabel: 'Поиск'
-              },
-              modal: {
-                searchBox: {
-                  clearButtonTitle: 'Очистить поиск',
-                  clearButtonAriaLabel: 'Очистить поиск',
-                  closeButtonText: 'Закрыть',
-                  closeButtonAriaLabel: 'Закрыть',
-                  placeholderText: 'Поиск в документации',
-                  placeholderTextAskAi: 'Задайте вопрос ИИ:',
-                  placeholderTextAskAiStreaming: 'Формируется ответ...',
-                  searchInputLabel: 'Поиск',
-                  backToKeywordSearchButtonText: 'Вернуться к поиску по ключевым словам',
-                  backToKeywordSearchButtonAriaLabel: 'Вернуться к поиску по ключевым словам'
-                },
-                startScreen: {
-                  recentSearchesTitle: 'История поиска',
-                  noRecentSearchesText: 'Нет истории поиска',
-                  saveRecentSearchButtonTitle: 'Сохранить в истории поиска',
-                  removeRecentSearchButtonTitle: 'Удалить из истории поиска',
-                  favoriteSearchesTitle: 'Избранное',
-                  removeFavoriteSearchButtonTitle: 'Удалить из избранного',
-                  recentConversationsTitle: 'Последние диалоги',
-                  removeRecentConversationButtonTitle: 'Удалить диалог из истории'
-                },
-                errorScreen: {
-                  titleText: 'Невозможно получить результаты',
-                  helpText: 'Проверьте подключение к Интернету'
-                },
-                noResultsScreen: {
-                  noResultsText: 'Ничего не найдено',
-                  suggestedQueryText: 'Попробуйте изменить запрос',
-                  reportMissingResultsText: 'Считаете, что результаты должны быть?',
-                  reportMissingResultsLinkText: 'Сообщите об этом'
-                },
-                resultsScreen: {
-                  askAiPlaceholder: 'Задайте вопрос ИИ: '
-                },
-                askAiScreen: {
-                  disclaimerText: 'Ответ сгенерирован ИИ и может быть неточным. Пожалуйста, проверьте информацию самостоятельно.',
-                  relatedSourcesText: 'Связанные источники',
-                  thinkingText: 'Думаю...',
-                  copyButtonText: 'Копировать',
-                  copyButtonCopiedText: 'Скопировано!',
-                  copyButtonTitle: 'Копировать',
-                  likeButtonTitle: 'Нравится',
-                  dislikeButtonTitle: 'Не нравится',
-                  thanksForFeedbackText: 'Спасибо за ваш отзыв!',
-                  preToolCallText: 'Идёт поиск...',
-                  duringToolCallText: 'Поиск ',
-                  afterToolCallText: 'Поиск выполнен'
-                },
-                footer: {
-                  selectText: 'выбрать',
-                  submitQuestionText: 'Отправить вопрос',
-                  selectKeyAriaLabel: 'Клавиша Enter',
-                  navigateText: 'перейти',
-                  navigateUpKeyAriaLabel: 'Стрелка вверх',
-                  navigateDownKeyAriaLabel: 'Стрелка вниз',
-                  closeText: 'закрыть',
-                  backToSearchText: 'Вернуться к поиску',
-                  closeKeyAriaLabel: 'Клавиша Esc',
-                  poweredByText: 'поиск от'
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-})
-```
+<<< @/snippets/algolia-i18n.ts
 
-[Эти параметры](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts) можно переопределить. Чтобы узнать о них больше, обратитесь к официальной документации Algolia.
+</details>
+
+Подробности см. в [официальной документации Algolia](https://docsearch.algolia.com/docs/api#translations). Чтобы быстрее начать, можно также скопировать переводы, используемые на этом сайте, из [нашего репозитория GitHub](https://github.com/search?q=repo:vuejs/vitepress+%22function+searchOptions%22&type=code).
 
 ### Поддержка Ask AI в Algolia {#ask-ai}
 
@@ -320,12 +237,12 @@ export default defineConfig({
         appId: '...',
         apiKey: '...',
         indexName: '...',
-        // askAi: "ID-ВАШЕГО-АССИСТЕНТА"
+        // askAi: "ВАШ-ID-АССИСТЕНТА"
         // ИЛИ
         askAi: {
-          // минимум вы должны указать assistantId, полученный от Algolia
+          // как минимум нужно указать assistantId, полученный от Algolia
           assistantId: 'XXXYYY',
-          // опциональные переопределения – если не указаны, используются значения appId/apiKey/indexName верхнего уровня
+          // необязательные переопределения — если их нет, используются значения appId/apiKey/indexName верхнего уровня
           // apiKey: '...',
           // appId: '...',
           // indexName: '...'
@@ -340,112 +257,104 @@ export default defineConfig({
 Если вы хотите использовать обычный поиск по ключевым словам без Ask AI, просто не указывайте свойство `askAi`
 :::
 
-Переводы для интерфейса Ask AI находятся в `options.translations.modal.askAiScreen` и `options.translations.resultsScreen` — полный список ключей смотрите в [типах](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts).
+### Боковая панель Ask AI {#ask-ai-side-panel}
+
+DocSearch v4.5+ поддерживает опциональную **боковую панель Ask AI**. Когда она включена, её можно открыть с помощью **Ctrl/Cmd+I** по умолчанию. [Справочник API боковой панели](https://docsearch.algolia.com/docs/sidepanel/api-reference) содержит полный список опций.
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'algolia',
+      options: {
+        appId: '...',
+        apiKey: '...',
+        indexName: '...',
+        askAi: {
+          assistantId: 'XXXYYY',
+          sidePanel: {
+            // Отражает API @docsearch/sidepanel-js SidepanelProps
+            panel: {
+              variant: 'floating', // или 'inline'
+              side: 'right',
+              width: '360px',
+              expandedWidth: '580px',
+              suggestedQuestions: true
+            }
+          }
+        }
+      }
+    }
+  }
+})
+```
+
+Если вам нужно отключить сочетание клавиш, используйте опцию `keyboardShortcuts` боковой панели:
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'algolia',
+      options: {
+        appId: '...',
+        apiKey: '...',
+        indexName: '...',
+        askAi: {
+          assistantId: 'XXXYYY',
+          sidePanel: {
+            keyboardShortcuts: {
+              'Ctrl/Cmd+I': false
+            }
+          }
+        }
+      }
+    }
+  }
+})
+```
+
+#### Режим (auto / sidePanel / hybrid / modal) {#ask-ai-mode}
+
+Вы можете опционально контролировать, как VitePress интегрирует поиск по ключевым словам и Ask AI:
+
+- `mode: 'auto'` (по умолчанию): выводит `hybrid`, когда настроен поиск по ключевым словам, иначе `sidePanel`, когда настроена боковая панель Ask AI.
+- `mode: 'sidePanel'`: принудительно использовать только боковую панель (скрывает кнопку поиска по ключевым словам).
+- `mode: 'hybrid'`: включает модальное окно поиска по ключевым словам + боковую панель Ask AI (требует настройки поиска по ключевым словам).
+- `mode: 'modal'`: сохраняет Ask AI внутри модального окна DocSearch (даже если вы настроили боковую панель).
+
+#### Только Ask AI (без поиска по ключевым словам) {#ask-ai-only}
+
+Если вы хотите использовать **только боковую панель Ask AI**, вы можете опустить конфигурацию поиска по ключевым словам верхнего уровня и предоставить учётные данные в `askAi`:
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'algolia',
+      options: {
+        mode: 'sidePanel',
+        askAi: {
+          assistantId: 'XXXYYY',
+          appId: '...',
+          apiKey: '...',
+          indexName: '...',
+          sidePanel: true
+        }
+      }
+    }
+  }
+})
+```
 
 ### Конфигурация поискового робота {#crawler-config}
 
 Вот пример конфигурации, основанной на той, что используется на этом сайте:
 
-```ts
-new Crawler({
-  appId: '...',
-  apiKey: '...',
-  rateLimit: 8,
-  startUrls: ['https://vitepress.dev/'],
-  renderJavaScript: false,
-  sitemaps: [],
-  exclusionPatterns: [],
-  ignoreCanonicalTo: false,
-  discoveryPatterns: ['https://vitepress.dev/**'],
-  schedule: 'at 05:10 on Saturday',
-  actions: [
-    {
-      indexName: 'vitepress',
-      pathsToMatch: ['https://vitepress.dev/**'],
-      recordExtractor: ({ $, helpers }) => {
-        return helpers.docsearch({
-          recordProps: {
-            lvl1: '.content h1',
-            content: '.content p, .content li',
-            lvl0: {
-              selectors: 'section.has-active div h2',
-              defaultValue: 'Documentation'
-            },
-            lvl2: '.content h2',
-            lvl3: '.content h3',
-            lvl4: '.content h4',
-            lvl5: '.content h5'
-          },
-          indexHeadings: true
-        })
-      }
-    }
-  ],
-  initialIndexSettings: {
-    vitepress: {
-      attributesForFaceting: ['type', 'lang'],
-      attributesToRetrieve: ['hierarchy', 'content', 'anchor', 'url'],
-      attributesToHighlight: ['hierarchy', 'hierarchy_camel', 'content'],
-      attributesToSnippet: ['content:10'],
-      camelCaseAttributes: ['hierarchy', 'hierarchy_radio', 'content'],
-      searchableAttributes: [
-        'unordered(hierarchy_radio_camel.lvl0)',
-        'unordered(hierarchy_radio.lvl0)',
-        'unordered(hierarchy_radio_camel.lvl1)',
-        'unordered(hierarchy_radio.lvl1)',
-        'unordered(hierarchy_radio_camel.lvl2)',
-        'unordered(hierarchy_radio.lvl2)',
-        'unordered(hierarchy_radio_camel.lvl3)',
-        'unordered(hierarchy_radio.lvl3)',
-        'unordered(hierarchy_radio_camel.lvl4)',
-        'unordered(hierarchy_radio.lvl4)',
-        'unordered(hierarchy_radio_camel.lvl5)',
-        'unordered(hierarchy_radio.lvl5)',
-        'unordered(hierarchy_radio_camel.lvl6)',
-        'unordered(hierarchy_radio.lvl6)',
-        'unordered(hierarchy_camel.lvl0)',
-        'unordered(hierarchy.lvl0)',
-        'unordered(hierarchy_camel.lvl1)',
-        'unordered(hierarchy.lvl1)',
-        'unordered(hierarchy_camel.lvl2)',
-        'unordered(hierarchy.lvl2)',
-        'unordered(hierarchy_camel.lvl3)',
-        'unordered(hierarchy.lvl3)',
-        'unordered(hierarchy_camel.lvl4)',
-        'unordered(hierarchy.lvl4)',
-        'unordered(hierarchy_camel.lvl5)',
-        'unordered(hierarchy.lvl5)',
-        'unordered(hierarchy_camel.lvl6)',
-        'unordered(hierarchy.lvl6)',
-        'content'
-      ],
-      distinct: true,
-      attributeForDistinct: 'url',
-      customRanking: [
-        'desc(weight.pageRank)',
-        'desc(weight.level)',
-        'asc(weight.position)'
-      ],
-      ranking: [
-        'words',
-        'filters',
-        'typo',
-        'attribute',
-        'proximity',
-        'exact',
-        'custom'
-      ],
-      highlightPreTag: '<span class="algolia-docsearch-suggestion--highlight">',
-      highlightPostTag: '</span>',
-      minWordSizefor1Typo: 3,
-      minWordSizefor2Typos: 7,
-      allowTyposOnNumericTokens: false,
-      minProximity: 1,
-      ignorePlurals: true,
-      advancedSyntax: true,
-      attributeCriteriaComputedByMinProximity: true,
-      removeWordsIfNoResults: 'allOptional'
-    }
-  }
-})
-```
+<<< @/snippets/algolia-crawler.js

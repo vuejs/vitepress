@@ -178,65 +178,35 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
 
 function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
   return {
-    placeholder: 'Pesquisar documentos',
     translations: {
       button: {
-        buttonText: 'Pesquisar',
-        buttonAriaLabel: 'Pesquisar'
+        buttonText: 'Buscar',
+        buttonAriaLabel: 'Buscar'
       },
       modal: {
         searchBox: {
-          clearButtonTitle: 'Limpar pesquisa',
-          clearButtonAriaLabel: 'Limpar pesquisa',
+          clearButtonTitle: 'Limpar',
+          clearButtonAriaLabel: 'Limpar a consulta',
           closeButtonText: 'Fechar',
           closeButtonAriaLabel: 'Fechar',
-          placeholderText: 'Pesquisar documentos',
-          placeholderTextAskAi: 'Pergunte à IA: ',
+          placeholderText: 'Buscar na documentação ou perguntar ao Ask AI',
+          placeholderTextAskAi: 'Faça outra pergunta...',
           placeholderTextAskAiStreaming: 'Respondendo...',
-          searchInputLabel: 'Pesquisar',
-          backToKeywordSearchButtonText: 'Voltar à pesquisa por palavras-chave',
+          searchInputLabel: 'Buscar',
+          backToKeywordSearchButtonText:
+            'Voltar para a busca por palavra-chave',
           backToKeywordSearchButtonAriaLabel:
-            'Voltar à pesquisa por palavras-chave'
+            'Voltar para a busca por palavra-chave',
+          newConversationPlaceholder: 'Faça uma pergunta',
+          conversationHistoryTitle: 'Meu histórico de conversas',
+          startNewConversationText: 'Iniciar uma nova conversa',
+          viewConversationHistoryText: 'Histórico de conversas',
+          threadDepthErrorPlaceholder: 'Limite de conversa atingido'
         },
-        startScreen: {
-          recentSearchesTitle: 'Histórico de pesquisa',
-          noRecentSearchesText: 'Nenhuma pesquisa recente',
-          saveRecentSearchButtonTitle: 'Salvar no histórico de pesquisas',
-          removeRecentSearchButtonTitle: 'Remover do histórico de pesquisas',
-          favoriteSearchesTitle: 'Favoritos',
-          removeFavoriteSearchButtonTitle: 'Remover dos favoritos',
-          recentConversationsTitle: 'Conversas recentes',
-          removeRecentConversationButtonTitle:
-            'Remover esta conversa do histórico'
-        },
-        errorScreen: {
-          titleText: 'Não foi possível obter resultados',
-          helpText: 'Verifique sua conexão de rede'
-        },
-        noResultsScreen: {
-          noResultsText: 'Nenhum resultado encontrado',
-          suggestedQueryText: 'Você pode tentar uma nova consulta',
-          reportMissingResultsText: 'Acha que deveria haver resultados?',
-          reportMissingResultsLinkText: 'Clique para enviar feedback'
-        },
-        resultsScreen: {
-          askAiPlaceholder: 'Pergunte à IA: '
-        },
-        askAiScreen: {
-          disclaimerText:
-            'As respostas são geradas por IA e podem conter erros. Verifique as respostas.',
-          relatedSourcesText: 'Fontes relacionadas',
-          thinkingText: 'Pensando...',
-          copyButtonText: 'Copiar',
-          copyButtonCopiedText: 'Copiado!',
-          copyButtonTitle: 'Copiar',
-          likeButtonTitle: 'Curtir',
-          dislikeButtonTitle: 'Não curtir',
-          thanksForFeedbackText: 'Obrigado pelo feedback!',
-          preToolCallText: 'Pesquisando...',
-          duringToolCallText: 'Pesquisando ',
-          afterToolCallText: 'Pesquisa concluída',
-          aggregatedToolCallText: 'Pesquisa concluída'
+        newConversation: {
+          newConversationTitle: 'Como posso ajudar hoje?',
+          newConversationDescription:
+            'Eu busco na sua documentação para ajudar a encontrar guias de configuração, detalhes de funcionalidades e dicas de solução de problemas rapidamente.'
         },
         footer: {
           selectText: 'Selecionar',
@@ -246,9 +216,112 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
           navigateUpKeyAriaLabel: 'Seta para cima',
           navigateDownKeyAriaLabel: 'Seta para baixo',
           closeText: 'Fechar',
-          backToSearchText: 'Voltar à pesquisa',
+          backToSearchText: 'Voltar à busca',
           closeKeyAriaLabel: 'Tecla Escape',
-          poweredByText: 'Pesquisa por'
+          poweredByText: 'Com tecnologia de'
+        },
+        errorScreen: {
+          titleText: 'Não foi possível obter resultados',
+          helpText: 'Talvez você queira verificar sua conexão de rede.'
+        },
+        startScreen: {
+          recentSearchesTitle: 'Recentes',
+          noRecentSearchesText: 'Nenhuma pesquisa recente',
+          saveRecentSearchButtonTitle: 'Salvar esta pesquisa',
+          removeRecentSearchButtonTitle: 'Remover esta pesquisa do histórico',
+          favoriteSearchesTitle: 'Favoritos',
+          removeFavoriteSearchButtonTitle:
+            'Remover esta pesquisa dos favoritos',
+          recentConversationsTitle: 'Conversas recentes',
+          removeRecentConversationButtonTitle:
+            'Remover esta conversa do histórico'
+        },
+        noResultsScreen: {
+          noResultsText: 'Nenhum resultado encontrado para',
+          suggestedQueryText: 'Tente pesquisar por',
+          reportMissingResultsText:
+            'Acha que esta consulta deveria retornar resultados?',
+          reportMissingResultsLinkText: 'Avise-nos.'
+        },
+        resultsScreen: {
+          askAiPlaceholder: 'Perguntar à IA: ',
+          noResultsAskAiPlaceholder:
+            'Não encontrou nos documentos? Peça ajuda ao Ask AI: '
+        },
+        askAiScreen: {
+          disclaimerText:
+            'As respostas são geradas por IA e podem conter erros. Verifique.',
+          relatedSourcesText: 'Fontes relacionadas',
+          thinkingText: 'Pensando...',
+          copyButtonText: 'Copiar',
+          copyButtonCopiedText: 'Copiado!',
+          copyButtonTitle: 'Copiar',
+          likeButtonTitle: 'Curtir',
+          dislikeButtonTitle: 'Não curtir',
+          thanksForFeedbackText: 'Obrigado pelo seu feedback!',
+          preToolCallText: 'Buscando...',
+          duringToolCallText: 'Buscando...',
+          afterToolCallText: 'Pesquisado',
+          stoppedStreamingText: 'Você interrompeu esta resposta',
+          errorTitleText: 'Erro no chat',
+          threadDepthExceededMessage:
+            'Esta conversa foi encerrada para manter respostas precisas.',
+          startNewConversationButtonText: 'Iniciar uma nova conversa'
+        }
+      }
+    },
+    askAi: {
+      sidePanel: {
+        button: {
+          translations: {
+            buttonText: 'Perguntar à IA',
+            buttonAriaLabel: 'Perguntar à IA'
+          }
+        },
+        panel: {
+          translations: {
+            header: {
+              title: 'Perguntar à IA',
+              conversationHistoryTitle: 'Meu histórico de conversas',
+              newConversationText: 'Iniciar uma nova conversa',
+              viewConversationHistoryText: 'Histórico de conversas'
+            },
+            promptForm: {
+              promptPlaceholderText: 'Faça uma pergunta',
+              promptAnsweringText: 'Respondendo...',
+              promptAskAnotherQuestionText: 'Faça outra pergunta',
+              promptDisclaimerText:
+                'As respostas são geradas por IA e podem conter erros.',
+              promptLabelText:
+                'Pressione Enter para enviar ou Shift+Enter para nova linha.',
+              promptAriaLabelText: 'Entrada do prompt'
+            },
+            conversationScreen: {
+              preToolCallText: 'Buscando...',
+              searchingText: 'Buscando...',
+              toolCallResultText: 'Pesquisado',
+              conversationDisclaimer:
+                'As respostas são geradas por IA e podem conter erros. Verifique.',
+              reasoningText: 'Raciocinando...',
+              thinkingText: 'Pensando...',
+              relatedSourcesText: 'Fontes relacionadas',
+              stoppedStreamingText: 'Você interrompeu esta resposta',
+              copyButtonText: 'Copiar',
+              copyButtonCopiedText: 'Copiado!',
+              likeButtonTitle: 'Curtir',
+              dislikeButtonTitle: 'Não curtir',
+              thanksForFeedbackText: 'Obrigado pelo seu feedback!',
+              errorTitleText: 'Erro no chat'
+            },
+            newConversationScreen: {
+              titleText: 'Como posso ajudar hoje?',
+              introductionText:
+                'Eu busco na sua documentação para ajudar a encontrar guias de configuração, detalhes de funcionalidades e dicas de solução de problemas rapidamente.'
+            },
+            logo: {
+              poweredByText: 'Com tecnologia de'
+            }
+          }
         }
       }
     }

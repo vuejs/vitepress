@@ -39,7 +39,7 @@ export default defineConfig({
       provider: 'local',
       options: {
         locales: {
-          ko: { // 기본 로케일을 번역하려면 이것을 `root`로 만드십시오.
+          ko: { // 기본 로케일을 번역하려면 `root`로 설정하세요
             translations: {
               button: {
                 buttonText: '검색',
@@ -47,17 +47,17 @@ export default defineConfig({
               },
               modal: {
                 displayDetails: '상세 목록 표시',
-                resetButtonTitle: '검색 지우기',
+                resetButtonTitle: '검색 재설정',
                 backButtonTitle: '검색 닫기',
-                noResultsText: '결과를 찾을 수 없습니다',
+                noResultsText: '결과가 없습니다',
                 footer: {
                   selectText: '선택',
-                  selectKeyAriaLabel: '선택하기',
-                  navigateText: '탐색',
-                  navigateUpKeyAriaLabel: '위로',
-                  navigateDownKeyAriaLabel: '아래로',
+                  selectKeyAriaLabel: 'Enter',
+                  navigateText: '이동',
+                  navigateUpKeyAriaLabel: '위쪽 화살표',
+                  navigateDownKeyAriaLabel: '아래쪽 화살표',
                   closeText: '닫기',
-                  closeKeyAriaLabel: 'esc'
+                  closeKeyAriaLabel: 'Esc'
                 }
               }
             }
@@ -69,7 +69,7 @@ export default defineConfig({
 })
 ```
 
-### MiniSearch 옵션 {#mini-search-options}
+### MiniSearch 옵션 {#minisearch-options}
 
 MiniSearch를 다음과 같이 구성할 수 있습니다:
 
@@ -123,7 +123,7 @@ export default defineConfig({
          * @param {import('markdown-it-async')} md
          */
         async _render(src, env, md) {
-          // return html string
+          // HTML 문자열을 반환
         }
       }
     }
@@ -208,6 +208,19 @@ export default defineConfig({
 
 다국어 검색을 사용하려면 다음과 같이 구성해야 합니다:
 
+<details>
+<summary>클릭하여 펼치기</summary>
+
+<<< @/snippets/algolia-i18n.ts
+
+</details>
+
+자세한 내용은 [공식 Algolia 문서](https://docsearch.algolia.com/docs/api#translations)를 참고하세요. 빠르게 시작하려면 이 사이트에서 사용하는 번역을 [GitHub 저장소](https://github.com/search?q=repo:vuejs/vitepress+%22function+searchOptions%22&type=code)에서 복사할 수도 있습니다.
+
+### Algolia Ask AI 지원 {#ask-ai}
+
+**Ask AI** 기능을 사용하려면 `askAi` 옵션을 추가하세요:
+
 ```ts
 import { defineConfig } from 'vitepress'
 
@@ -219,46 +232,51 @@ export default defineConfig({
         appId: '...',
         apiKey: '...',
         indexName: '...',
-        locales: {
-          ko: {
-            placeholder: '문서 검색',
-            translations: {
-              button: {
-                buttonText: '검색',
-                buttonAriaLabel: '검색'
-              },
-              modal: {
-                searchBox: {
-                  resetButtonTitle: '검색 지우기',
-                  resetButtonAriaLabel: '검색 지우기',
-                  cancelButtonText: '취소',
-                  cancelButtonAriaLabel: '취소'
-                },
-                startScreen: {
-                  recentSearchesTitle: '검색 기록',
-                  noRecentSearchesText: '최근 검색 없음',
-                  saveRecentSearchButtonTitle: '검색 기록에 저장',
-                  removeRecentSearchButtonTitle: '검색 기록에서 삭제',
-                  favoriteSearchesTitle: '즐겨찾기',
-                  removeFavoriteSearchButtonTitle: '즐겨찾기에서 삭제'
-                },
-                errorScreen: {
-                  titleText: '결과를 가져올 수 없습니다',
-                  helpText: '네트워크 연결을 확인하세요'
-                },
-                footer: {
-                  selectText: '선택',
-                  navigateText: '탐색',
-                  closeText: '닫기',
-                  searchByText: '검색 기준'
-                },
-                noResultsScreen: {
-                  noResultsText: '결과를 찾을 수 없습니다',
-                  suggestedQueryText: '새로운 검색을 시도할 수 있습니다',
-                  reportMissingResultsText: '해당 검색어에 대한 결과가 있어야 합니까?',
-                  reportMissingResultsLinkText: '피드백 보내기 클릭'
-                }
-              }
+        // askAi: "내-어시스턴트-ID"
+        // 또는
+        askAi: {
+          // 최소한 Algolia에서 받은 assistantId를 제공해야 합니다
+          assistantId: 'XXXYYY',
+          // 선택적 재정의 — 생략하면 상위 appId/apiKey/indexName 값이 재사용됩니다
+          // apiKey: '...',
+          // appId: '...',
+          // indexName: '...'
+        }
+      }
+    }
+  }
+})
+```
+
+::: warning 참고
+Ask AI를 사용하지 않으려면 `askAi` 옵션을 생략하면 됩니다.
+:::
+
+### Ask AI 사이드 패널 {#ask-ai-side-panel}
+
+DocSearch v4.5+는 선택적 **Ask AI 사이드 패널**을 지원합니다. 활성화되면 기본적으로 **Ctrl/Cmd+I**로 열 수 있습니다. [사이드 패널 API 참조](https://docsearch.algolia.com/docs/sidepanel/api-reference)에 전체 옵션 목록이 있습니다.
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'algolia',
+      options: {
+        appId: '...',
+        apiKey: '...',
+        indexName: '...',
+        askAi: {
+          assistantId: 'XXXYYY',
+          sidePanel: {
+            // @docsearch/sidepanel-js SidepanelProps API 반영
+            panel: {
+              variant: 'floating', // 또는 'inline'
+              side: 'right',
+              width: '360px',
+              expandedWidth: '580px',
+              suggestedQuestions: true
             }
           }
         }
@@ -268,129 +286,70 @@ export default defineConfig({
 })
 ```
 
-[이 옵션들](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts)은 재작성 할 수 있습니다. 이에 대해 자세히 알고 싶다면 Algolia 공식 문서를 참고하세요.
-
-### 크롤러 구성 {#crawler-config}
-
-이 사이트에서 사용하는 예제 구성을 소개합니다:
+키보드 단축키를 비활성화해야 하는 경우 사이드 패널의 `keyboardShortcuts` 옵션을 사용하세요:
 
 ```ts
-new Crawler({
-  appId: '...',
-  apiKey: '...',
-  rateLimit: 8,
-  startUrls: ['https://vitepress.dev/'],
-  renderJavaScript: false,
-  sitemaps: [],
-  exclusionPatterns: [],
-  ignoreCanonicalTo: false,
-  discoveryPatterns: ['https://vitepress.dev/**'],
-  schedule: 'at 05:10 on Saturday',
-  actions: [
-    {
-      indexName: 'vitepress',
-      pathsToMatch: ['https://vitepress.dev/**'],
-      recordExtractor: ({ $, helpers }) => {
-        return helpers.docsearch({
-          recordProps: {
-            lvl1: '.content h1',
-            content: '.content p, .content li',
-            lvl0: {
-              selectors: 'section.has-active div h2',
-              defaultValue: 'Documentation'
-            },
-            lvl2: '.content h2',
-            lvl3: '.content h3',
-            lvl4: '.content h4',
-            lvl5: '.content h5'
-          },
-          indexHeadings: true
-        })
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'algolia',
+      options: {
+        appId: '...',
+        apiKey: '...',
+        indexName: '...',
+        askAi: {
+          assistantId: 'XXXYYY',
+          sidePanel: {
+            keyboardShortcuts: {
+              'Ctrl/Cmd+I': false
+            }
+          }
+        }
       }
-    }
-  ],
-  initialIndexSettings: {
-    vitepress: {
-      attributesForFaceting: ['type', 'lang'],
-      attributesToRetrieve: ['hierarchy', 'content', 'anchor', 'url'],
-      attributesToHighlight: ['hierarchy', 'hierarchy_camel', 'content'],
-      attributesToSnippet: ['content:10'],
-      camelCaseAttributes: ['hierarchy', 'hierarchy_radio', 'content'],
-      searchableAttributes: [
-        'unordered(hierarchy_radio_camel.lvl0)',
-        'unordered(hierarchy_radio.lvl0)',
-        'unordered(hierarchy_radio_camel.lvl1)',
-        'unordered(hierarchy_radio.lvl1)',
-        'unordered(hierarchy_radio_camel.lvl2)',
-        'unordered(hierarchy_radio.lvl2)',
-        'unordered(hierarchy_radio_camel.lvl3)',
-        'unordered(hierarchy_radio.lvl3)',
-        'unordered(hierarchy_radio_camel.lvl4)',
-        'unordered(hierarchy_radio.lvl4)',
-        'unordered(hierarchy_radio_camel.lvl5)',
-        'unordered(hierarchy_radio.lvl5)',
-        'unordered(hierarchy_radio_camel.lvl6)',
-        'unordered(hierarchy_radio.lvl6)',
-        'unordered(hierarchy_camel.lvl0)',
-        'unordered(hierarchy.lvl0)',
-        'unordered(hierarchy_camel.lvl1)',
-        'unordered(hierarchy.lvl1)',
-        'unordered(hierarchy_camel.lvl2)',
-        'unordered(hierarchy.lvl2)',
-        'unordered(hierarchy_camel.lvl3)',
-        'unordered(hierarchy.lvl3)',
-        'unordered(hierarchy_camel.lvl4)',
-        'unordered(hierarchy.lvl4)',
-        'unordered(hierarchy_camel.lvl5)',
-        'unordered(hierarchy.lvl5)',
-        'unordered(hierarchy_camel.lvl6)',
-        'unordered(hierarchy.lvl6)',
-        'content'
-      ],
-      distinct: true,
-      attributeForDistinct: 'url',
-      customRanking: [
-        'desc(weight.pageRank)',
-        'desc(weight.level)',
-        'asc(weight.position)'
-      ],
-      ranking: [
-        'words',
-        'filters',
-        'typo',
-        'attribute',
-        'proximity',
-        'exact',
-        'custom'
-      ],
-      highlightPreTag: '<span class="algolia-docsearch-suggestion--highlight">',
-      highlightPostTag: '</span>',
-      minWordSizefor1Typo: 3,
-      minWordSizefor2Typos: 7,
-      allowTyposOnNumericTokens: false,
-      minProximity: 1,
-      ignorePlurals: true,
-      advancedSyntax: true,
-      attributeCriteriaComputedByMinProximity: true,
-      removeWordsIfNoResults: 'allOptional'
     }
   }
 })
 ```
 
-### Algolia Ask AI 지원 {#ask-ai}
+#### 모드 (auto / sidePanel / hybrid / modal) {#ask-ai-mode}
 
-**Ask AI** 기능을 사용하려면 `askAi` 옵션을 추가하세요:
+VitePress가 키워드 검색과 Ask AI를 통합하는 방식을 선택적으로 제어할 수 있습니다:
+
+- `mode: 'auto'` (기본값): 키워드 검색이 구성된 경우 `hybrid`를 추론하고, 그렇지 않으면 Ask AI 사이드 패널이 구성된 경우 `sidePanel`을 추론합니다.
+- `mode: 'sidePanel'`: 사이드 패널만 강제 (키워드 검색 버튼 숨김).
+- `mode: 'hybrid'`: 키워드 검색 모달 + Ask AI 사이드 패널 활성화 (키워드 검색 구성 필요).
+- `mode: 'modal'`: Ask AI를 DocSearch 모달 내부에 유지 (사이드 패널을 구성한 경우에도).
+
+#### Ask AI만 (키워드 검색 없음) {#ask-ai-only}
+
+**Ask AI 사이드 패널만** 사용하려면 최상위 키워드 검색 구성을 생략하고 `askAi` 아래에 자격 증명을 제공할 수 있습니다:
 
 ```ts
-options: {
-  appId: '...',
-  apiKey: '...',
-  indexName: '...',
-  askAi: { assistantId: 'XXXYYY' }
-}
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'algolia',
+      options: {
+        mode: 'sidePanel',
+        askAi: {
+          assistantId: 'XXXYYY',
+          appId: '...',
+          apiKey: '...',
+          indexName: '...',
+          sidePanel: true
+        }
+      }
+    }
+  }
+})
 ```
 
-::: warning 참고
-Ask AI를 사용하지 않으려면 `askAi` 옵션을 생략하면 됩니다.
-:::
+### 크롤러 구성 {#crawler-config}
+
+이 사이트에서 사용하는 예제 구성을 소개합니다:
+
+<<< @/snippets/algolia-crawler.js
