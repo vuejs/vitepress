@@ -162,6 +162,7 @@ function isEditingContent(event: KeyboardEvent): boolean {
       <VPNavBarSearchButton
         v-if="resolvedMode.showKeywordSearch"
         :text="algoliaOptions.translations?.button?.buttonText || 'Search'"
+        :aria-label="algoliaOptions.translations?.button?.buttonAriaLabel || 'Search'"
         :aria-keyshortcuts="'/ control+k meta+k'"
         @click="loadAndOpen('search')"
       />
@@ -181,6 +182,7 @@ function isEditingContent(event: KeyboardEvent): boolean {
     <template v-else-if="provider === 'local'">
       <VPNavBarSearchButton
         :text="algoliaOptions.translations?.button?.buttonText || 'Search'"
+        :aria-label="algoliaOptions.translations?.button?.buttonAriaLabel || 'Search'"
         :aria-keyshortcuts="'/ control+k meta+k'"
         @click="showSearch = true"
       />
@@ -200,9 +202,9 @@ function isEditingContent(event: KeyboardEvent): boolean {
 
 @media (min-width: 768px) {
   .VPNavBarSearch {
+    gap: 8px;
     flex-grow: 1;
     padding-left: 24px;
-    gap: 8px;
   }
 }
 
