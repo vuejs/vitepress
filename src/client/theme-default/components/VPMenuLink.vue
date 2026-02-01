@@ -7,6 +7,7 @@ import VPLink from './VPLink.vue'
 
 const props = defineProps<{
   item: T
+  rel?: string
 }>()
 
 const { page } = useData()
@@ -33,7 +34,7 @@ defineOptions({ inheritAttrs: false })
       }"
       :href
       :target="item.target"
-      :rel="item.rel"
+      :rel="props.rel ?? item.rel"
       :no-icon="item.noIcon"
     >
       <span v-html="item.text"></span>
