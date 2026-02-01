@@ -282,7 +282,7 @@
 /* Korean compatibility is unverified, so application of custom Inter to Korean is pending. */
 [lang]:where(:lang(ja)) {
   --vp-font-family-base:
-    'Inter4CJK', -apple-system, BlinkMacSystemFont, sans-serif,
+    'Inter4ja', -apple-system, BlinkMacSystemFont, sans-serif,
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 

@@ -164,7 +164,7 @@ zh only: U+007E, U+002F
 */
 
 @font-face {
-  font-family: Inter4CJK;
+  font-family: Inter4ja;
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
@@ -174,7 +174,7 @@ zh only: U+007E, U+002F
 }
 
 @font-face {
-  font-family: Inter4CJK;
+  font-family: Inter4ja;
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
@@ -183,7 +183,7 @@ zh only: U+007E, U+002F
 }
 
 @font-face {
-  font-family: Inter4CJK;
+  font-family: Inter4ja;
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
@@ -192,7 +192,7 @@ zh only: U+007E, U+002F
 }
 
 @font-face {
-  font-family: Inter4CJK;
+  font-family: Inter4ja;
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
@@ -202,7 +202,7 @@ zh only: U+007E, U+002F
 }
 
 @font-face {
-  font-family: Inter4CJK;
+  font-family: Inter4ja;
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
@@ -214,7 +214,7 @@ zh only: U+007E, U+002F
 }
 
 @font-face {
-  font-family: Inter4CJK;
+  font-family: Inter4ja;
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
@@ -226,7 +226,7 @@ zh only: U+007E, U+002F
 
 /* Exclude some ambiguous CJK characters. */
 @font-face {
-  font-family: Inter4CJK;
+  font-family: Inter4ja;
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
@@ -239,7 +239,7 @@ zh only: U+007E, U+002F
 }
 
 @font-face {
-  font-family: Inter4CJK;
+  font-family: Inter4ja;
   font-style: italic;
   font-weight: 100 900;
   font-display: swap;
@@ -249,7 +249,7 @@ zh only: U+007E, U+002F
 }
 
 @font-face {
-  font-family: Inter4CJK;
+  font-family: Inter4ja;
   font-style: italic;
   font-weight: 100 900;
   font-display: swap;
@@ -258,7 +258,7 @@ zh only: U+007E, U+002F
 }
 
 @font-face {
-  font-family: Inter4CJK;
+  font-family: Inter4ja;
   font-style: italic;
   font-weight: 100 900;
   font-display: swap;
@@ -267,7 +267,7 @@ zh only: U+007E, U+002F
 }
 
 @font-face {
-  font-family: Inter4CJK;
+  font-family: Inter4ja;
   font-style: italic;
   font-weight: 100 900;
   font-display: swap;
@@ -277,7 +277,7 @@ zh only: U+007E, U+002F
 }
 
 @font-face {
-  font-family: Inter4CJK;
+  font-family: Inter4ja;
   font-style: italic;
   font-weight: 100 900;
   font-display: swap;
@@ -289,7 +289,7 @@ zh only: U+007E, U+002F
 }
 
 @font-face {
-  font-family: Inter4CJK;
+  font-family: Inter4ja;
   font-style: italic;
   font-weight: 100 900;
   font-display: swap;
@@ -301,7 +301,7 @@ zh only: U+007E, U+002F
 
 /* Exclude some ambiguous CJK characters. */
 @font-face {
-  font-family: Inter4CJK;
+  font-family: Inter4ja;
   font-style: italic;
   font-weight: 100 900;
   font-display: swap;
