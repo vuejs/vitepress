@@ -386,7 +386,7 @@
   --vp-code-copy-copied-text-content: '已复制';
 }
 :lang(ja) {
-  --vp-code-copy-copied-text-content: 'コピー済';
+  --vp-code-copy-copied-text-content: 'コピー完了';
 }
 
 /**
