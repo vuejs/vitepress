@@ -6,6 +6,9 @@ import { defineAsyncComponent, onMounted, onUnmounted, ref } from 'vue'
 import { useData } from '../composables/data'
 import VPNavBarSearchButton from './VPNavBarSearchButton.vue'
 
+// --- Static import for Moss (eager loading) ---
+import VPMossSearchBox from './VPMossSearchBox.vue'
+
 const VPLocalSearchBox = __VP_LOCAL_SEARCH__
   ? defineAsyncComponent(() => import('./VPLocalSearchBox.vue'))
   : () => null
@@ -121,7 +124,28 @@ if (__VP_LOCAL_SEARCH__) {
   })
 }
 
-const provider = __ALGOLIA__ ? 'algolia' : __VP_LOCAL_SEARCH__ ? 'local' : ''
+// --- Moss Search ---
+if (__MOSS__) {
+  const handleOpenMoss = () => {
+    showSearch.value = true
+  }
+
+  onKeyStroke('k', (event) => {
+    if (event.ctrlKey || event.metaKey) {
+      event.preventDefault()
+      handleOpenMoss()
+    }
+  })
+
+  onKeyStroke('/', (event) => {
+    if (!isEditingContent(event)) {
+      event.preventDefault()
+      handleOpenMoss()
+    }
+  })
+}
+
+const provider = __ALGOLIA__ ? 'algolia' : __VP_LOCAL_SEARCH__ ? 'local' : __MOSS__ ? 'moss' : ''
 </script>
 
 <template>
@@ -146,6 +170,16 @@ const provider = __ALGOLIA__ ? 'algolia' : __VP_LOCAL_SEARCH__ ? 'local' : ''
 
       <div v-if="!actuallyLoaded" id="docsearch">
         <VPNavBarSearchButton @click="load" />
+      </div>
+    </template>
+
+    <template v-else-if="provider === 'moss'">
+      <VPMossSearchBox
+        :open="showSearch"
+        @close="showSearch = false"
+      />
+      <div id="moss-search">
+        <VPNavBarSearchButton @click="showSearch = true" />
       </div>
     </template>
   </div>

@@ -26,6 +26,7 @@ import {
 } from './markdownToVue'
 import { dynamicRoutesPlugin } from './plugins/dynamicRoutesPlugin'
 import { localSearchPlugin } from './plugins/localSearchPlugin'
+import { mossIndexerPlugin } from './plugins/mossIndexerPlugin'
 import { rewritesPlugin } from './plugins/rewritesPlugin'
 import { staticDataPlugin } from './plugins/staticDataPlugin'
 import { webFontsPlugin } from './plugins/webFontsPlugin'
@@ -136,6 +137,7 @@ export async function createVitePressPlugin(
           __ALGOLIA__:
             site.themeConfig?.search?.provider === 'algolia' ||
             !!site.themeConfig?.algolia, // legacy
+          __MOSS__: site.themeConfig?.search?.provider === 'moss',
           __CARBON__: !!site.themeConfig?.carbonAds,
           __ASSETS_DIR__: JSON.stringify(siteConfig.assetsDir),
           __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: !!process.env.DEBUG
@@ -412,6 +414,7 @@ export async function createVitePressPlugin(
     webFontsPlugin(siteConfig.useWebFonts),
     ...(userViteConfig?.plugins || []),
     await localSearchPlugin(siteConfig),
+    await mossIndexerPlugin(siteConfig),
     staticDataPlugin,
     await dynamicRoutesPlugin(siteConfig)
   ]

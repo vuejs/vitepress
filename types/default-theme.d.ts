@@ -129,6 +129,7 @@ export namespace DefaultTheme {
     search?:
       | { provider: 'local'; options?: LocalSearchOptions }
       | { provider: 'algolia'; options: AlgoliaSearchOptions }
+      | { provider: 'moss'; options: MossSearchOptions }
 
     /**
      * @deprecated Use `search` instead.
@@ -403,6 +404,44 @@ export namespace DefaultTheme {
    */
   export interface AlgoliaSearchOptions extends DocSearchProps {
     locales?: Record<string, Partial<DocSearchProps>>
+  }
+
+  // moss ----------------------------------------------------------------------
+
+  /**
+   * Moss search options for on-device semantic search
+   */
+  export interface MossSearchOptions {
+    /**
+     * Your Moss project ID
+     */
+    projectId: string
+
+    /**
+     * Your Moss project key
+     */
+    projectKey: string
+
+    /**
+     * The name of the index to use
+     */
+    indexName: string
+
+    /**
+     * Maximum number of search results to return
+     * @default 8
+     */
+    topk?: number
+
+    /**
+     * A subset of options for different locales.
+     */
+    locales?: Record<string, Partial<Omit<MossSearchOptions, 'locales'>>>
+
+    /**
+     * Text translations for the search UI.
+     */
+    translations?: Record<string, any>
   }
 
   // carbon ads ----------------------------------------------------------------

@@ -98,6 +98,7 @@
     "@docsearch/css": "^4.3.2",
     "@docsearch/js": "^4.3.2",
     "@iconify-json/simple-icons": "^1.2.59",
+    "@inferedge/moss": "1.0.0-beta.4",
     "@shikijs/core": "^3.15.0",
     "@shikijs/transformers": "^3.15.0",
     "@shikijs/types": "^3.15.0",
@@ -115,6 +116,8 @@
     "vue": "^3.5.24"
   },
   "devDependencies": {
+    "@moss-tools/md-indexer": "1.0.0-beta.2",
+    "dotenv": "^16.4.5",
     "@clack/prompts": "^1.0.0-alpha.6",
     "@iconify/utils": "^3.0.2",
     "@mdit-vue/plugin-component": "^3.0.2",
