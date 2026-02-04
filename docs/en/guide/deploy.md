@@ -270,6 +270,10 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
    npx surge docs/.vitepress/dist
    ```
 
+### Hostinger
+
+You can deploy your VitePress project with [Hostinger](https://www.hostinger.com/web-apps-hosting) by following these [instructions](https://www.hostinger.com/support/how-to-deploy-a-nodejs-website-in-hostinger/). While configuring build settings, choose VitePress as the framework and adjust the root directory to `./docs`.
+
 ### Heroku
 
 1. Follow documentation and guide given in [`heroku-buildpack-static`](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-static).
