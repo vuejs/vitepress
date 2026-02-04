@@ -31,8 +31,8 @@ export default defineConfig({
       {
         postprocess(code) {
           return code
-            .replace(/\[\!\!code/g, '[!code')
-            .replace('@@include', '@include')
+            .replaceAll('[!!code', '[!code')
+            .replaceAll('@@include', '@include')
         }
       }
     ],
