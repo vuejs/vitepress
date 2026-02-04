@@ -105,7 +105,7 @@ Cache-Control: max-age=31536000,immutable
 
 ## راهنمای‌های پلتفرم {#platform-guides}
 
-### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render {#netlify-vercel-cloudflare-pages-aws-amplify-render}
+### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render / EdgeOne {#netlify-vercel-cloudflare-pages-aws-amplify-render-edgeone}
 
 یک پروژه جدید راه‌اندازی کرده و این تنظیمات را با استفاده از داشبورد خود تغییر دهید:
 
@@ -335,3 +335,9 @@ server {
 :::
 
 اطلاعات بیشتر را در [مستندات رسمی nginx](https://nginx.org/en/docs/)، در این مسائل [#2837](https://github.com/vuejs/vitepress/discussions/2837)، [#3235](https://github.com/vuejs/vitepress/issues/3235) و همچنین در این [پست وبلاگ](https://blog.mehdi.cc/articles/vitepress-cleanurls-on-nginx-environment#readings) از Mehdi Merah پیدا کنید.
+
+### EdgeOne
+
+EdgeOne Pages اکنون یک [قالب استقرار](https://edgeone.ai/pages/templates/vitepress-template) VitePress ارائه می‌دهد که استقرار پروژه‌های VitePress شما را تنها با یک کلیک ممکن می‌سازد.
+
+برای گزینه‌های استقرار انعطاف‌پذیرتر، لطفاً به [مستندات](https://edgeone.ai/document/173005620251889664?product=edgedeveloperplatform) مراجعه کرده و با ویرایش فایل `edgeone.json`، آنها را پیکربندی کنید.
