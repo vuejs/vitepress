@@ -793,7 +793,7 @@ For example, you can include a relative markdown file using this:
 
 ## Basics
 
-<!--@include: ./parts/basics.md-->
+<!--@@include: ./parts/basics.md-->
 ```
 
 **Part file** (`parts/basics.md`)
@@ -829,7 +829,7 @@ It also supports selecting a line range:
 
 ## Basics
 
-<!--@include: ./parts/basics.md{3,}-->
+<!--@@include: ./parts/basics.md{3,}-->
 ```
 
 **Part file** (`parts/basics.md`)
@@ -865,8 +865,8 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 
 ## Basics
 
-<!--@include: ./parts/basics.md#basic-usage{,2}-->
-<!--@include: ./parts/basics.md#basic-usage{5,}-->
+<!--@@include: ./parts/basics.md#basic-usage{,2}-->
+<!--@@include: ./parts/basics.md#basic-usage{5,}-->
 ```
 
 **Part file** (`parts/basics.md`)
@@ -917,7 +917,7 @@ You can include the `My Base Section` section like this:
 
 ```md
 ## My Extended Section
-<!--@include: ./parts/basics.md#my-base-section-->
+<!--@@include: ./parts/basics.md#my-base-section-->
 ```
 
 **Equivalent code**
@@ -941,7 +941,7 @@ Here, `my-base-section` is the generated id of the heading element. In case it's
 and include it like this:
 
 ```md
-<!--@include: ./parts/basics.md#custom-id-->
+<!--@@include: ./parts/basics.md#custom-id-->
 ```
 
 ## Math Equations
