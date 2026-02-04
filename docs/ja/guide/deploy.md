@@ -4,7 +4,6 @@ outline: deep
 
 # VitePress サイトをデプロイする {#deploy-your-vitepress-site}
 
-
 以下のガイドは、次の前提に基づいています。
 
 - VitePress のサイトはプロジェクトの `docs` ディレクトリ内にある。
@@ -12,16 +11,15 @@ outline: deep
 - VitePress はプロジェクトのローカル依存としてインストールされており、`package.json` に次のスクリプトが設定されている。
 
 ```json [package.json]
- {
-   "scripts": {
-     "docs:build": "vitepress build docs",
-     "docs:preview": "vitepress preview docs"
-   }
- }
+{
+  "scripts": {
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  }
+}
 ```
 
 ## ローカルでビルドしてテストする {#build-and-test-locally}
-
 
 1. 次のコマンドでドキュメントをビルドします。
 
@@ -35,29 +33,27 @@ outline: deep
     $ npm run docs:preview
    ```
 
-    `preview` コマンドはローカルの静的 Web サーバーを起動し、出力ディレクトリ `.vitepress/dist` を `http://localhost:4173` で配信します。プロダクションへプッシュする前に見た目を確認できます。
+   `preview` コマンドはローカルの静的 Web サーバーを起動し、出力ディレクトリ `.vitepress/dist` を `http://localhost:4173` で配信します。プロダクションへプッシュする前に見た目を確認できます。
 
 3. `--port` 引数でサーバーのポートを設定できます。
 
    ```json
-    {
-      "scripts": {
-        "docs:preview": "vitepress preview docs --port 8080"
-      }
-    }
+   {
+     "scripts": {
+       "docs:preview": "vitepress preview docs --port 8080"
+     }
+   }
    ```
 
-    これで `docs:preview` は `http://localhost:8080` でサーバーを起動します。
+   これで `docs:preview` は `http://localhost:8080` でサーバーを起動します。
 
 ## 公開ベースパスの設定 {#setting-a-public-base-path}
-
 
 デフォルトでは、サイトはドメインのルートパス（`/`）にデプロイされることを想定しています。サイトをサブパス、例：`https://mywebsite.com/blog/` で配信する場合は、VitePress の設定で [`base`](../reference/site-config#base) オプションを `'/blog/'` に設定してください。
 
 **例:** GitHub（または GitLab）Pages に `user.github.io/repo/` としてデプロイするなら、`base` を `/repo/` に設定します。
 
 ## HTTP キャッシュヘッダー {#http-cache-headers}
-
 
 本番サーバーの HTTP ヘッダーを制御できる場合は、`cache-control` ヘッダーを設定して、再訪時のパフォーマンスを向上させましょう。
 
@@ -86,19 +82,19 @@ Cache-Control: max-age=31536000,immutable
 ::: details `vercel.json` による Vercel 設定例
 
 ```json
- {
-   "headers": [
-     {
-       "source": "/assets/(.*)",
-       "headers": [
-         {
-           "key": "Cache-Control",
-           "value": "max-age=31536000, immutable"
-         }
-       ]
-     }
-   ]
- }
+{
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "max-age=31536000, immutable"
+        }
+      ]
+    }
+  ]
+}
 ```
 
 注：`vercel.json` は **リポジトリのルート** に配置してください。
@@ -108,7 +104,6 @@ Cache-Control: max-age=31536000,immutable
 :::
 
 ## プラットフォーム別ガイド {#platform-guides}
-
 
 ### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render {#netlify-vercel-cloudflare-pages-aws-amplify-render}
 
@@ -127,77 +122,77 @@ HTML の _Auto Minify_ のようなオプションを有効にしないでくだ
 1. プロジェクトの `.github/workflows` ディレクトリに `deploy.yml` を作成し、以下の内容を記述します。
 
    ```yaml [.github/workflows/deploy.yml]
-    # Sample workflow for building and deploying a VitePress site to GitHub Pages
-    #
-    name: Deploy VitePress site to Pages
+   # Sample workflow for building and deploying a VitePress site to GitHub Pages
+   #
+   name: Deploy VitePress site to Pages
 
-    on:
-      # Runs on pushes targeting the `main` branch. Change this to `master` if you're
-      # using the `master` branch as the default branch.
-      push:
-        branches: [main]
+   on:
+     # Runs on pushes targeting the `main` branch. Change this to `master` if you're
+     # using the `master` branch as the default branch.
+     push:
+       branches: [main]
 
-      # Allows you to run this workflow manually from the Actions tab
-      workflow_dispatch:
+     # Allows you to run this workflow manually from the Actions tab
+     workflow_dispatch:
 
-    # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
+   # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+   permissions:
+     contents: read
+     pages: write
+     id-token: write
 
-    # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-    # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
-    concurrency:
-      group: pages
-      cancel-in-progress: false
+   # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+   # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+   concurrency:
+     group: pages
+     cancel-in-progress: false
 
-    jobs:
-      # Build job
-      build:
-        runs-on: ubuntu-latest
-        steps:
-          - name: Checkout
-            uses: actions/checkout@v5
-            with:
-              fetch-depth: 0 # Not needed if lastUpdated is not enabled
-          # - uses: pnpm/action-setup@v4 # Uncomment this block if you're using pnpm
-          #   with:
-          #     version: 9 # Not needed if you've set "packageManager" in package.json
-          # - uses: oven-sh/setup-bun@v1 # Uncomment this if you're using Bun
-          - name: Setup Node
-            uses: actions/setup-node@v6
-            with:
-              node-version: 24
-              cache: npm # or pnpm / yarn
-          - name: Setup Pages
-            uses: actions/configure-pages@v4
-          - name: Install dependencies
-            run: npm ci # or pnpm install / yarn install / bun install
-          - name: Build with VitePress
-            run: npm run docs:build # or pnpm docs:build / yarn docs:build / bun run docs:build
-          - name: Upload artifact
-            uses: actions/upload-pages-artifact@v3
-            with:
-              path: docs/.vitepress/dist
+   jobs:
+     # Build job
+     build:
+       runs-on: ubuntu-latest
+       steps:
+         - name: Checkout
+           uses: actions/checkout@v5
+           with:
+             fetch-depth: 0 # Not needed if lastUpdated is not enabled
+         # - uses: pnpm/action-setup@v4 # Uncomment this block if you're using pnpm
+         #   with:
+         #     version: 9 # Not needed if you've set "packageManager" in package.json
+         # - uses: oven-sh/setup-bun@v1 # Uncomment this if you're using Bun
+         - name: Setup Node
+           uses: actions/setup-node@v6
+           with:
+             node-version: 24
+             cache: npm # or pnpm / yarn
+         - name: Setup Pages
+           uses: actions/configure-pages@v4
+         - name: Install dependencies
+           run: npm ci # or pnpm install / yarn install / bun install
+         - name: Build with VitePress
+           run: npm run docs:build # or pnpm docs:build / yarn docs:build / bun run docs:build
+         - name: Upload artifact
+           uses: actions/upload-pages-artifact@v3
+           with:
+             path: docs/.vitepress/dist
 
-      # Deployment job
-      deploy:
-        environment:
-          name: github-pages
-          url: ${{ steps.deployment.outputs.page_url }}
-        needs: build
-        runs-on: ubuntu-latest
-        name: Deploy
-        steps:
-          - name: Deploy to GitHub Pages
-            id: deployment
-            uses: actions/deploy-pages@v4
+     # Deployment job
+     deploy:
+       environment:
+         name: github-pages
+         url: ${{ steps.deployment.outputs.page_url }}
+       needs: build
+       runs-on: ubuntu-latest
+       name: Deploy
+       steps:
+         - name: Deploy to GitHub Pages
+           id: deployment
+           uses: actions/deploy-pages@v4
    ```
 
-    ::: warning
-    VitePress の `base` オプションが正しく設定されていることを確認してください。詳細は [公開ベースパスの設定](#公開ベースパスの設定) を参照してください。
-    :::
+   ::: warning
+   VitePress の `base` オプションが正しく設定されていることを確認してください。詳細は [公開ベースパスの設定](#公開ベースパスの設定) を参照してください。
+   :::
 
 2. リポジトリ設定の「Pages」メニューで、「Build and deployment > Source」を「GitHub Actions」に設定します。
 
@@ -210,20 +205,20 @@ HTML の _Auto Minify_ のようなオプションを有効にしないでくだ
 2. プロジェクトのルートに `.gitlab-ci.yml` を作成して、以下を追加します。これにより、コンテンツを更新するたびにサイトがビルド・デプロイされます。
 
    ```yaml [.gitlab-ci.yml]
-    image: node:18
-    pages:
-      cache:
-        paths:
-          - node_modules/
-      script:
-        # - apk add git # Uncomment this if you're using small docker images like alpine and have lastUpdated enabled
-        - npm install
-        - npm run docs:build
-      artifacts:
-        paths:
-          - public
-      only:
-        - main
+   image: node:18
+   pages:
+     cache:
+       paths:
+         - node_modules/
+     script:
+       # - apk add git # Uncomment this if you're using small docker images like alpine and have lastUpdated enabled
+       - npm install
+       - npm run docs:build
+     artifacts:
+       paths:
+         - public
+     only:
+       - main
    ```
 
 ### Azure Static Web Apps {#azure-static-web-apps}
@@ -231,7 +226,6 @@ HTML の _Auto Minify_ のようなオプションを有効にしないでくだ
 1. [公式ドキュメント](https://docs.microsoft.com/en-us/azure/static-web-apps/build-configuration) に従います。
 
 2. 設定ファイルで次の値を指定します（`api_location` のように不要なものは削除）。
-
    - **`app_location`**: `/`
    - **`output_location`**: `docs/.vitepress/dist`
    - **`app_build_command`**: `npm run docs:build`
@@ -243,22 +237,22 @@ HTML の _Auto Minify_ のようなオプションを有効にしないでくだ
    `firebase.json`:
 
    ```json [firebase.json]
-    {
-      "hosting": {
-        "public": "docs/.vitepress/dist",
-        "ignore": []
-      }
-    }
+   {
+     "hosting": {
+       "public": "docs/.vitepress/dist",
+       "ignore": []
+     }
+   }
    ```
 
    `.firebaserc`:
 
    ```json [.firebaserc]
-    {
-      "projects": {
-        "default": "<YOUR_FIREBASE_ID>"
-      }
-    }
+   {
+     "projects": {
+       "default": "<YOUR_FIREBASE_ID>"
+     }
+   }
    ```
 
 2. `npm run docs:build` の後、次のコマンドでデプロイします。
@@ -282,9 +276,9 @@ HTML の _Auto Minify_ のようなオプションを有効にしないでくだ
 2. プロジェクトのルートに `static.json` を作成し、以下を記述します。
 
    ```json [static.json]
-    {
-      "root": "docs/.vitepress/dist"
-    }
+   {
+     "root": "docs/.vitepress/dist"
+   }
    ```
 
 ### Edgio {#edgio}

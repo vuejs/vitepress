@@ -179,7 +179,7 @@ export default defineConfig({
         async _render(src, env, md) {
           const html = await md.renderAsync(src, env)
           if (env.frontmatter?.title)
-            return await md.renderAsync(`# ${env.frontmatter.title}`) + html
+            return (await md.renderAsync(`# ${env.frontmatter.title}`)) + html
           return html
         }
       }

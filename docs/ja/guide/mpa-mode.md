@@ -8,15 +8,15 @@ MPA モードでは、既定で **あらゆるページが JavaScript を含ま�
 
 また、「既定で JS なし」ということは、実質的に Vue をサーバーサイドのテンプレート言語としてのみ使うことを意味します。ブラウザ側ではイベントハンドラがアタッチされないため、インタラクティブ性はありません。クライアントサイドの JavaScript を読み込むには、特別な `<script client>` タグを使用します：
 
- ```html
- <script client>
- document.querySelector('h1').addEventListener('click', () => {
-   console.log('client side JavaScript!')
- })
- </script>
+```md
+<script client>
+document.querySelector('h1').addEventListener('click', () => {
+  console.log('client side JavaScript!')
+})
+</script>
 
- # Hello
- ```
+# Hello
+```
 
 `<script client>` は VitePress 固有の機能であり、Vue の機能ではありません。`.md` と `.vue` の両方で動作しますが、**MPA モード時のみ** 有効です。テーマコンポーネント内のクライアントスクリプトはひとつにバンドルされ、特定ページ専用のクライアントスクリプトはそのページごとに分割されます。
 
