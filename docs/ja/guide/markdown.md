@@ -794,7 +794,7 @@ Markdown パスの先頭に `@` を付けることもでき、その場合はソ
 
 ## 基本
 
-<!--@include: ./parts/basics.md-->
+<!--@@include: ./parts/basics.md-->
 ```
 
 **パートファイル**（`parts/basics.md`）
@@ -830,7 +830,7 @@ Markdown パスの先頭に `@` を付けることもでき、その場合はソ
 
 ## 基本
 
-<!--@include: ./parts/basics.md{3,}-->
+<!--@@include: ./parts/basics.md{3,}-->
 ```
 
 **パートファイル**（`parts/basics.md`）
@@ -866,8 +866,8 @@ Markdown パスの先頭に `@` を付けることもでき、その場合はソ
 
 ## 基本
 
-<!--@include: ./parts/basics.md#basic-usage{,2}-->
-<!--@include: ./parts/basics.md#basic-usage{5,}-->
+<!--@@include: ./parts/basics.md#basic-usage{,2}-->
+<!--@@include: ./parts/basics.md#basic-usage{5,}-->
 ```
 
 **パートファイル**（`parts/basics.md`）
@@ -919,7 +919,7 @@ VS Code のリージョンの代わりに、ヘッダーアンカーを使って
 ```md
 ## 拡張セクション
 
-<!--@include: ./parts/basics.md#my-base-section-->
+<!--@@include: ./parts/basics.md#my-base-section-->
 ```
 
 **等価なコード**
@@ -943,7 +943,7 @@ VS Code のリージョンの代わりに、ヘッダーアンカーを使って
 そして次のように取り込みます：
 
 ```md
-<!--@include: ./parts/basics.md#custom-id-->
+<!--@@include: ./parts/basics.md#custom-id-->
 ```
 
 ## 数式 {#math-equations}
