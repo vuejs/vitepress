@@ -17,8 +17,8 @@ const isChildActive = (navItem: DefaultTheme.NavItem) => {
   if ('link' in navItem) {
     return isActive(
       page.value.relativePath,
-      typeof navItem.link === "function" ? navItem.link(page.value) : navItem.link,
-      !!props.item.activeMatch
+      navItem.activeMatch ? navItem.activeMatch : (typeof navItem.link === "function" ? navItem.link(page.value) : navItem.link),
+      !!navItem.activeMatch
     )
   }
 
