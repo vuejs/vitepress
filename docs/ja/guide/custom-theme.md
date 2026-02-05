@@ -23,43 +23,42 @@ VitePress のカスタムテーマは次のインターフェースを持つオ�
 
 ```ts
 interface Theme {
-/**
-  * すべてのページに適用されるルートレイアウトコンポーネント
-  * @required
-  */
-Layout: Component
-/**
-  * Vue アプリインスタンスを拡張
-  * @optional
-  */
-enhanceApp?: (ctx: EnhanceAppContext) => Awaitable<void>
-/**
-  * 別のテーマを拡張し、そのテーマの `enhanceApp` を先に実行
-  * @optional
-  */
-extends?: Theme
+  /**
+   * すべてのページに適用されるルートレイアウトコンポーネント
+   * @required
+   */
+  Layout: Component
+  /**
+   * Vue アプリインスタンスを拡張
+   * @optional
+   */
+  enhanceApp?: (ctx: EnhanceAppContext) => Awaitable<void>
+  /**
+   * 別のテーマを拡張し、そのテーマの `enhanceApp` を先に実行
+   * @optional
+   */
+  extends?: Theme
 }
 
 interface EnhanceAppContext {
-app: App // Vue アプリインスタンス
-router: Router // VitePress のルーターインスタンス
-siteData: Ref<SiteData> // サイト全体のメタデータ
+  app: App // Vue アプリインスタンス
+  router: Router // VitePress のルーターインスタンス
+  siteData: Ref<SiteData> // サイト全体のメタデータ
 }
 ```
 
 テーマエントリファイルでは、このテーマをデフォルトエクスポートとして公開します。
 
 ```js [.vitepress/theme/index.js]
-
 // テーマエントリでは Vue ファイルを直接インポートできます
 // VitePress は @vitejs/plugin-vue をあらかじめ設定済みです
 import Layout from './Layout.vue'
 
 export default {
-Layout,
-enhanceApp({ app, router, siteData }) {
-  // ...
-}
+  Layout,
+  enhanceApp({ app, router, siteData }) {
+    // ...
+  }
 }
 ```
 
@@ -73,10 +72,10 @@ enhanceApp({ app, router, siteData }) {
 
 ```vue [.vitepress/theme/Layout.vue]
 <template>
-<h1>Custom Layout!</h1>
+  <h1>Custom Layout!</h1>
 
-<!-- この部分に markdown コンテンツが描画されます -->
-<Content />
+  <!-- この部分に markdown コンテンツが描画されます -->
+  <Content />
 </template>
 ```
 
@@ -100,11 +99,11 @@ const { page } = useData()
 
 [`useData()`](../reference/runtime-api#usedata) ヘルパーを使うと、条件によってレイアウトを切り替えるために必要なすべてのランタイムデータを取得できます。アクセスできるデータのひとつにフロントマターがあります。これを利用すると、ページごとにレイアウトを制御できます。例えば、ユーザーが特別なホームページレイアウトを使いたい場合は以下のように記述します。
 
- ```md
+```md
 ---
 layout: home
 ---
- ```
+```
 
 テーマ側を次のように調整します。
 
@@ -164,7 +163,6 @@ npm パッケージとして配布する場合は、次の手順を踏みます�
 
 ## カスタムテーマの利用 {#consuming-a-custom-theme}
 
-
 外部テーマを利用するには、カスタムテーマエントリからインポートして再エクスポートします。
 
 ```js [.vitepress/theme/index.js]
@@ -179,10 +177,10 @@ export default Theme
 import Theme from 'awesome-vitepress-theme'
 
 export default {
-extends: Theme,
-enhanceApp(ctx) {
-  // ...
-}
+  extends: Theme,
+  enhanceApp(ctx) {
+    // ...
+  }
 }
 ```
 
@@ -192,8 +190,8 @@ enhanceApp(ctx) {
 import baseConfig from 'awesome-vitepress-theme/config'
 
 export default {
-// 必要に応じてテーマの基本設定を拡張
-extends: baseConfig
+  // 必要に応じてテーマの基本設定を拡張
+  extends: baseConfig
 }
 ```
 
@@ -205,9 +203,9 @@ import { defineConfigWithTheme } from 'vitepress'
 import type { ThemeConfig } from 'awesome-vitepress-theme'
 
 export default defineConfigWithTheme<ThemeConfig>({
-extends: baseConfig,
-themeConfig: {
-  // 型は `ThemeConfig`
-}
+  extends: baseConfig,
+  themeConfig: {
+    // 型は `ThemeConfig`
+  }
 })
 ```

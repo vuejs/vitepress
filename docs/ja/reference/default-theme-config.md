@@ -2,20 +2,20 @@
 
 テーマ設定では、テーマのカスタマイズができます。設定ファイルの `themeConfig` オプションで定義します。
 
- ```ts
- export default {
-   lang: 'en-US',
-   title: 'VitePress',
-   description: 'Vite & Vue powered static site generator.',
+```ts
+export default {
+  lang: 'en-US',
+  title: 'VitePress',
+  description: 'Vite & Vue powered static site generator.',
 
-   // テーマ関連の設定
-   themeConfig: {
-     logo: '/logo.svg',
-     nav: [...],
-     sidebar: { ... }
-   }
- }
- ```
+  // テーマ関連の設定
+  themeConfig: {
+    logo: '/logo.svg',
+    nav: [...],
+    sidebar: { ... }
+  }
+}
+```
 
 **このページで説明するオプションは、デフォルトテーマにのみ適用されます。** テーマによって期待する設定は異なります。カスタムテーマを使用する場合、ここで定義したテーマ設定オブジェクトはテーマへ渡され、テーマ側がそれに基づいて条件付きの挙動を定義できます。
 
@@ -31,20 +31,20 @@
 
 サイトタイトルの直前に、ナビゲーションバーに表示されるロゴ。パス文字列、またはライト／ダークモードで異なるロゴを設定するオブジェクトを受け取ります。
 
- ```ts
- export default {
-   themeConfig: {
-     logo: '/logo.svg'
-   }
- }
- ```
+```ts
+export default {
+  themeConfig: {
+    logo: '/logo.svg'
+  }
+}
+```
 
- ```ts
- type ThemeableImage =
-   | string
-   | { src: string; alt?: string }
-   | { light: string; dark: string; alt?: string }
- ```
+```ts
+type ThemeableImage =
+  | string
+  | { src: string; alt?: string }
+  | { light: string; dark: string; alt?: string }
+```
 
 ## siteTitle
 
@@ -52,13 +52,13 @@
 
 ナビゲーション内の既定サイトタイトル（アプリ設定の `title`）を置き換えます。`false` の場合、ナビのタイトルを非表示にします。ロゴ自体にサイト名が含まれている場合に便利です。
 
- ```ts
- export default {
-   themeConfig: {
-     siteTitle: 'Hello World'
-   }
- }
- ```
+```ts
+export default {
+  themeConfig: {
+    siteTitle: 'Hello World'
+  }
+}
+```
 
 ## nav
 
@@ -66,47 +66,47 @@
 
 ナビゲーションメニューの設定。[デフォルトテーマ: ナビ](./default-theme-nav#navigation-links) を参照してください。
 
- ```ts
- export default {
-   themeConfig: {
-     nav: [
-       { text: 'Guide', link: '/guide' },
-       {
-         text: 'Dropdown Menu',
-         items: [
-           { text: 'Item A', link: '/item-1' },
-           { text: 'Item B', link: '/item-2' },
-           { text: 'Item C', link: '/item-3' }
-         ]
-       }
-     ]
-   }
- }
- ```
+```ts
+export default {
+  themeConfig: {
+    nav: [
+      { text: 'Guide', link: '/guide' },
+      {
+        text: 'Dropdown Menu',
+        items: [
+          { text: 'Item A', link: '/item-1' },
+          { text: 'Item B', link: '/item-2' },
+          { text: 'Item C', link: '/item-3' }
+        ]
+      }
+    ]
+  }
+}
+```
 
- ```ts
- type NavItem = NavItemWithLink | NavItemWithChildren
+```ts
+type NavItem = NavItemWithLink | NavItemWithChildren
 
- interface NavItemWithLink {
-   text: string
-   link: string | ((payload: PageData) => string)
-   activeMatch?: string
-   target?: string
-   rel?: string
-   noIcon?: boolean
- }
+interface NavItemWithLink {
+  text: string
+  link: string | ((payload: PageData) => string)
+  activeMatch?: string
+  target?: string
+  rel?: string
+  noIcon?: boolean
+}
 
- interface NavItemChildren {
-   text?: string
-   items: NavItemWithLink[]
- }
+interface NavItemChildren {
+  text?: string
+  items: NavItemWithLink[]
+}
 
- interface NavItemWithChildren {
-   text?: string
-   items: (NavItemChildren | NavItemWithLink)[]
-   activeMatch?: string
- }
- ```
+interface NavItemWithChildren {
+  text?: string
+  items: (NavItemChildren | NavItemWithLink)[]
+  activeMatch?: string
+}
+```
 
 ## sidebar
 
@@ -114,69 +114,69 @@
 
 サイドバーメニューの設定。[デフォルトテーマ: サイドバー](./default-theme-sidebar) を参照してください。
 
- ```ts
- export default {
-   themeConfig: {
-     sidebar: [
-       {
-         text: 'Guide',
-         items: [
-           { text: 'Introduction', link: '/introduction' },
-           { text: 'Getting Started', link: '/getting-started' },
-           ...
-         ]
-       }
-     ]
-   }
- }
- ```
+```ts
+export default {
+  themeConfig: {
+    sidebar: [
+      {
+        text: 'Guide',
+        items: [
+          { text: 'Introduction', link: '/introduction' },
+          { text: 'Getting Started', link: '/getting-started' },
+          ...
+        ]
+      }
+    ]
+  }
+}
+```
 
- ```ts
- export type Sidebar = SidebarItem[] | SidebarMulti
+```ts
+export type Sidebar = SidebarItem[] | SidebarMulti
 
- export interface SidebarMulti {
-   [path: string]: SidebarItem[] | { items: SidebarItem[]; base: string }
- }
+export interface SidebarMulti {
+  [path: string]: SidebarItem[] | { items: SidebarItem[]; base: string }
+}
 
- export type SidebarItem = {
-   /**
-    * 項目のテキストラベル
-    */
-   text?: string
+export type SidebarItem = {
+  /**
+   * 項目のテキストラベル
+   */
+  text?: string
 
-   /**
-    * 項目のリンク
-    */
-   link?: string
+  /**
+   * 項目のリンク
+   */
+  link?: string
 
-   /**
-    * 子項目
-    */
-   items?: SidebarItem[]
+  /**
+   * 子項目
+   */
+  items?: SidebarItem[]
 
-   /**
-    * 指定しない場合、グループは折りたたみ不可。
-    *
-    * `true` なら折りたたみ可能でデフォルト折りたたみ
-    *
-    * `false` なら折りたたみ可能だがデフォルト展開
-    */
-   collapsed?: boolean
+  /**
+   * 指定しない場合、グループは折りたたみ不可。
+   *
+   * `true` なら折りたたみ可能でデフォルト折りたたみ
+   *
+   * `false` なら折りたたみ可能だがデフォルト展開
+   */
+  collapsed?: boolean
 
-   /**
-    * 子項目のベースパス
-    */
-   base?: string
+  /**
+   * 子項目のベースパス
+   */
+  base?: string
 
-   /**
-    * 前／次リンクのフッターに表示するテキストをカスタマイズ
-    */
-   docFooterText?: string
+  /**
+   * 前／次リンクのフッターに表示するテキストをカスタマイズ
+   */
+  docFooterText?: string
 
-   rel?: string
-   target?: string
- }
- ```
+  rel?: string
+  target?: string
+}
+```
 
 ## aside
 
@@ -197,26 +197,26 @@
 
 `false` でアウトラインコンテナの描画を無効化。詳細は以下を参照：
 
- ```ts
- interface Outline {
-   /**
-    * アウトラインに表示する見出しレベル
-    * 単一の数値なら、そのレベルのみ表示
-    * タプルなら最小レベルと最大レベル
-    * `'deep'` は `[2, 6]` と同じ（`<h2>` 〜 `<h6>` を表示）
-    *
-    * @default 2
-    */
-   level?: number | [number, number] | 'deep'
+```ts
+interface Outline {
+  /**
+   * アウトラインに表示する見出しレベル
+   * 単一の数値なら、そのレベルのみ表示
+   * タプルなら最小レベルと最大レベル
+   * `'deep'` は `[2, 6]` と同じ（`<h2>` 〜 `<h6>` を表示）
+   *
+   * @default 2
+   */
+  level?: number | [number, number] | 'deep'
 
-   /**
-    * アウトラインに表示するタイトル
-    *
-    * @default 'On this page'
-    */
-   label?: string
- }
- ```
+  /**
+   * アウトラインに表示するタイトル
+   *
+   * @default 'On this page'
+   */
+  label?: string
+}
+```
 
 ## socialLinks
 
@@ -224,34 +224,34 @@
 
 ナビゲーションにアイコン付きのソーシャルリンクを表示します。
 
- ```ts
- export default {
-   themeConfig: {
-     socialLinks: [
-       // simple-icons (https://simpleicons.org/) の任意のアイコンを指定可能
-       { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
-       { icon: 'twitter', link: '...' },
-       // SVG 文字列を渡してカスタムアイコンも可
-       {
-         icon: {
-           svg: '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Dribbble</title><path d="M12...6.38z"/></svg>'
-         },
-         link: '...',
-         // アクセシビリティ向けにカスタムラベルも指定可（推奨）
-         ariaLabel: 'cool link'
-       }
-     ]
-   }
- }
- ```
+```ts
+export default {
+  themeConfig: {
+    socialLinks: [
+      // simple-icons (https://simpleicons.org/) の任意のアイコンを指定可能
+      { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
+      { icon: 'twitter', link: '...' },
+      // SVG 文字列を渡してカスタムアイコンも可
+      {
+        icon: {
+          svg: '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Dribbble</title><path d="M12...6.38z"/></svg>'
+        },
+        link: '...',
+        // アクセシビリティ向けにカスタムラベルも指定可（推奨）
+        ariaLabel: 'cool link'
+      }
+    ]
+  }
+}
+```
 
- ```ts
- interface SocialLink {
-   icon: string | { svg: string }
-   link: string
-   ariaLabel?: string
- }
- ```
+```ts
+interface SocialLink {
+  icon: string | { svg: string }
+  link: string
+  ariaLabel?: string
+}
+```
 
 ## footer
 
@@ -260,23 +260,23 @@
 
 フッター設定。メッセージや著作権表示を追加できますが、ページにサイドバーがある場合はデザイン上表示されません。
 
- ```ts
- export default {
-   themeConfig: {
-     footer: {
-       message: 'Released under the MIT License.',
-       copyright: 'Copyright © 2019-present Evan You'
-     }
-   }
- }
- ```
+```ts
+export default {
+  themeConfig: {
+    footer: {
+      message: 'Released under the MIT License.',
+      copyright: 'Copyright © 2019-present Evan You'
+    }
+  }
+}
+```
 
- ```ts
- export interface Footer {
-   message?: string
-   copyright?: string
- }
- ```
+```ts
+export interface Footer {
+  message?: string
+  copyright?: string
+}
+```
 
 ## editLink
 
@@ -285,23 +285,23 @@
 
 「このページを編集」リンクを表示します（GitHub/GitLab など）。詳細は [デフォルトテーマ: 編集リンク](./default-theme-edit-link) を参照。
 
- ```ts
- export default {
-   themeConfig: {
-     editLink: {
-       pattern: 'https://github.com/vuejs/vitepress/edit/main/docs/:path',
-       text: 'Edit this page on GitHub'
-     }
-   }
- }
- ```
+```ts
+export default {
+  themeConfig: {
+    editLink: {
+      pattern: 'https://github.com/vuejs/vitepress/edit/main/docs/:path',
+      text: 'Edit this page on GitHub'
+    }
+  }
+}
+```
 
- ```ts
- export interface EditLink {
-   pattern: string
-   text?: string
- }
- ```
+```ts
+export interface EditLink {
+  pattern: string
+  text?: string
+}
+```
 
 ## lastUpdated
 
@@ -309,34 +309,34 @@
 
 最終更新の文言と日付フォーマットをカスタマイズします。
 
- ```ts
- export default {
-   themeConfig: {
-     lastUpdated: {
-       text: 'Updated at',
-       formatOptions: {
-         dateStyle: 'full',
-         timeStyle: 'medium'
-       }
-     }
-   }
- }
- ```
+```ts
+export default {
+  themeConfig: {
+    lastUpdated: {
+      text: 'Updated at',
+      formatOptions: {
+        dateStyle: 'full',
+        timeStyle: 'medium'
+      }
+    }
+  }
+}
+```
 
- ```ts
- export interface LastUpdatedOptions {
-   /**
-    * @default 'Last updated'
-    */
-   text?: string
+```ts
+export interface LastUpdatedOptions {
+  /**
+   * @default 'Last updated'
+   */
+  text?: string
 
-   /**
-    * @default
-    * { dateStyle: 'short',  timeStyle: 'short' }
-    */
-   formatOptions?: Intl.DateTimeFormatOptions & { forceLocale?: boolean }
- }
- ```
+  /**
+   * @default
+   * { dateStyle: 'short',  timeStyle: 'short' }
+   */
+  formatOptions?: Intl.DateTimeFormatOptions & { forceLocale?: boolean }
+}
+```
 
 ## algolia
 
@@ -344,11 +344,11 @@
 
 [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch) によるサイト内検索の設定。[デフォルトテーマ: 検索](./default-theme-search) を参照。
 
- ```ts
- export interface AlgoliaSearchOptions extends DocSearchProps {
-   locales?: Record<string, Partial<DocSearchProps>>
- }
- ```
+```ts
+export interface AlgoliaSearchOptions extends DocSearchProps {
+  locales?: Record<string, Partial<DocSearchProps>>
+}
+```
 
 完全なオプションは[こちら](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts)。
 
@@ -358,23 +358,23 @@
 
 [Carbon Ads](https://www.carbonads.net/) を表示します。
 
- ```ts
- export default {
-   themeConfig: {
-     carbonAds: {
-       code: 'your-carbon-code',
-       placement: 'your-carbon-placement'
-     }
-   }
- }
- ```
+```ts
+export default {
+  themeConfig: {
+    carbonAds: {
+      code: 'your-carbon-code',
+      placement: 'your-carbon-placement'
+    }
+  }
+}
+```
 
- ```ts
- export interface CarbonAdsOptions {
-   code: string
-   placement: string
- }
- ```
+```ts
+export interface CarbonAdsOptions {
+  code: string
+  placement: string
+}
+```
 
 詳細は [デフォルトテーマ: Carbon Ads](./default-theme-carbon-ads) を参照。
 
@@ -384,23 +384,23 @@
 
 前／次リンクの上に表示される文言をカスタマイズします。英語以外のドキュメントで便利。前／次リンク自体をグローバルに無効化することも可能。ページごとに切り替えたい場合は [frontmatter](./default-theme-prev-next-links) を使用します。
 
- ```ts
- export default {
-   themeConfig: {
-     docFooter: {
-       prev: 'Pagina prior',
-       next: 'Proxima pagina'
-     }
-   }
- }
- ```
+```ts
+export default {
+  themeConfig: {
+    docFooter: {
+      prev: 'Pagina prior',
+      next: 'Proxima pagina'
+    }
+  }
+}
+```
 
- ```ts
- export interface DocFooter {
-   prev?: string | false
-   next?: string | false
- }
- ```
+```ts
+export interface DocFooter {
+  prev?: string | false
+  next?: string | false
+}
+```
 
 ## darkModeSwitchLabel
 
@@ -462,33 +462,33 @@ Markdown 内の外部リンクの横に外部リンクアイコンを表示す�
 
 レイアウト関連のデータを返します。返り値の型は次のとおりです。
 
- ```ts
- interface {
-   isHome: ComputedRef<boolean>
+```ts
+interface {
+  isHome: ComputedRef<boolean>
 
-   sidebar: Readonly<ShallowRef<DefaultTheme.SidebarItem[]>>
-   sidebarGroups: ComputedRef<DefaultTheme.SidebarItem[]>
-   hasSidebar: ComputedRef<boolean>
-   isSidebarEnabled: ComputedRef<boolean>
+  sidebar: Readonly<ShallowRef<DefaultTheme.SidebarItem[]>>
+  sidebarGroups: ComputedRef<DefaultTheme.SidebarItem[]>
+  hasSidebar: ComputedRef<boolean>
+  isSidebarEnabled: ComputedRef<boolean>
 
-   hasAside: ComputedRef<boolean>
-   leftAside: ComputedRef<boolean>
+  hasAside: ComputedRef<boolean>
+  leftAside: ComputedRef<boolean>
 
-   headers: Readonly<ShallowRef<DefaultTheme.OutlineItem[]>>
-   hasLocalNav: ComputedRef<boolean>
- }
- ```
+  headers: Readonly<ShallowRef<DefaultTheme.OutlineItem[]>>
+  hasLocalNav: ComputedRef<boolean>
+}
+```
 
 **例:**
 
- ```vue
- <script setup>
- import { useLayout } from 'vitepress/theme'
+```vue
+<script setup>
+import { useLayout } from 'vitepress/theme'
 
- const { hasSidebar } = useLayout()
- </script>
+const { hasSidebar } = useLayout()
+</script>
 
- <template>
-   <div v-if="hasSidebar">サイドバーがあるときだけ表示</div>
- </template>
- ```
+<template>
+  <div v-if="hasSidebar">サイドバーがあるときだけ表示</div>
+</template>
+```

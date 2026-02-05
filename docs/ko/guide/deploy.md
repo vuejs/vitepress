@@ -105,13 +105,13 @@ Cache-Control: max-age=31536000,immutable
 
 ## 플랫폼 가이드 {#platform-guides}
 
-### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render
+### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render {#generic}
 
 새 프로젝트를 설정하고 대시보드를 사용하여 다음 설정을 변경하세요:
 
 - **빌드 명령어:** `npm run docs:build`
 - **출력 디렉토리:** `docs/.vitepress/dist`
-- **노드 버전:** `18` (또는 그 이상)
+- **노드 버전:** `20` (또는 그 이상)
 
 ::: warning
 HTML 코드에 대해 _Auto Minify_ 옵션을 활성화하지 마세요. 이는 Vue에 의미가 있는 주석을 출력에서 제거할 것입니다. 제거되면 하이드레이션 불일치 오류가 발생할 수 있습니다.
@@ -220,7 +220,7 @@ HTML 코드에 대해 _Auto Minify_ 옵션을 활성화하지 마세요. 이는 
        - main
    ```
 
-### Azure 정적 Web 앱 {#azure-static-web-apps}
+### Azure
 
 1. [공식 문서](https://docs.microsoft.com/en-us/azure/static-web-apps/build-configuration)를 따르세요.
 
@@ -230,7 +230,11 @@ HTML 코드에 대해 _Auto Minify_ 옵션을 활성화하지 마세요. 이는 
    - **`output_location`**: `docs/.vitepress/dist`
    - **`app_build_command`**: `npm run docs:build`
 
-### Firebase {#firebase}
+### CloudRay
+
+[CloudRay](https://cloudray.io/)로 VitePress 프로젝트를 배포하려면 이 [지침](https://cloudray.io/articles/how-to-deploy-vitepress-site)을 따르세요.
+
+### Firebase
 
 1. 프로젝트 루트에 `firebase.json`과 `.firebaserc`를 생성하세요:
 
@@ -261,14 +265,6 @@ HTML 코드에 대해 _Auto Minify_ 옵션을 활성화하지 마세요. 이는 
    firebase deploy
    ```
 
-### Surge
-
-1. `npm run docs:build`를 실행한 후, 배포하기 위해 이 명령어를 실행하세요:
-
-   ```sh
-   npx surge docs/.vitepress/dist
-   ```
-
 ### Heroku
 
 1. [`heroku-buildpack-static`](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-static)에 제공된 문서와 가이드를 따르세요.
@@ -281,17 +277,25 @@ HTML 코드에 대해 _Auto Minify_ 옵션을 활성화하지 마세요. 이는 
    }
    ```
 
-### Edgio
+### Hostinger
 
-[Edgio에 VitePress 앱 생성 및 배포하기](https://docs.edg.io/guides/vitepress)를 참고하세요.
+[Hostinger](https://www.hostinger.com/web-apps-hosting)로 VitePress 프로젝트를 배포하려면 이 [지침](https://www.hostinger.com/support/how-to-deploy-a-nodejs-website-in-hostinger/)을 따르세요. 빌드 설정을 구성할 때 프레임워크로 VitePress를 선택하고 루트 디렉터리를 `./docs`로 조정하세요.
 
-### Kinsta 정적 사이트 호스팅 {#kinsta-static-site-hosting}
+### Kinsta
 
 [VitePress](https://kinsta.com/static-site-hosting/) 웹사이트를 [Kinsta](https://kinsta.com/static-site-hosting/)에 배포하려면 이 [지침](https://kinsta.com/docs/vitepress-static-site-example/)을 따르세요.
 
 ### Stormkit
 
 [VitePress](https://stormkit.io) 프로젝트를 [Stormkit](https://www.stormkit.io)에 배포하려면 이 [지침](https://stormkit.io/blog/how-to-deploy-vitepress)을 따르세요.
+
+### Surge
+
+1. `npm run docs:build`를 실행한 후, 배포하기 위해 이 명령어를 실행하세요:
+
+   ```sh
+   npx surge docs/.vitepress/dist
+   ```
 
 ### Nginx
 

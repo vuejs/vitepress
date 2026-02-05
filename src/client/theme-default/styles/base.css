@@ -44,6 +44,8 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-autospace: normal;
+    text-spacing-trim: normal;
   }
 
   main {

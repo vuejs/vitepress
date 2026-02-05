@@ -10,9 +10,9 @@ VitePress には組み込みの Markdown 拡張機能が用意されています
 
 自動生成ではなく任意のアンカーを指定したい場合は、見出しの末尾にサフィックスを追加します。
 
- ```md
- # カスタムアンカーを使う {#my-anchor}
- ```
+```md
+# カスタムアンカーを使う {#my-anchor}
+```
 
 これにより、デフォルトの `#using-custom-anchors` ではなく `#my-anchor` でその見出しにリンクできます。
 
@@ -26,29 +26,29 @@ VitePress には組み込みの Markdown 拡張機能が用意されています
 
 次のようなディレクトリ構成があるとします。
 
- ```
- .
- ├─ index.md
- ├─ foo
- │  ├─ index.md
- │  ├─ one.md
- │  └─ two.md
- └─ bar
-    ├─ index.md
-    ├─ three.md
-    └─ four.md
- ```
+```
+.
+├─ index.md
+├─ foo
+│  ├─ index.md
+│  ├─ one.md
+│  └─ two.md
+└─ bar
+   ├─ index.md
+   ├─ three.md
+   └─ four.md
+```
 
 そして、現在編集中のファイルが `foo/one.md` の場合:
 
- ```md
- [Home](/) <!-- ルートの index.md に移動 -->
- [foo](/foo/) <!-- ディレクトリ foo の index.html に移動 -->
- [foo の見出し](./#heading) <!-- foo の index ファイル内の見出しへアンカー -->
- [bar - three](../bar/three) <!-- 拡張子は省略可能 -->
- [bar - three](../bar/three.md) <!-- .md を付けても OK -->
- [bar - four](../bar/four.html) <!-- .html を付けても OK -->
- ```
+```md
+[Home](/) <!-- ルートの index.md に移動 -->
+[foo](/foo/) <!-- ディレクトリ foo の index.html に移動 -->
+[foo の見出し](./#heading) <!-- foo の index ファイル内の見出しへアンカー -->
+[bar - three](../bar/three) <!-- 拡張子は省略可能 -->
+[bar - three](../bar/three.md) <!-- .md を付けても OK -->
+[bar - four](../bar/four.html) <!-- .html を付けても OK -->
+```
 
 ### ページサフィックス {#page-suffix}
 
@@ -65,12 +65,12 @@ VitePress には組み込みの Markdown 拡張機能が用意されています
 
 [YAML フロントマター](https://jekyllrb.com/docs/front-matter/) をそのままサポートしています。
 
- ```yaml
- ---
- title: ハッカーのようにブログを書く
- lang: ja-JP
- ---
- ```
+```yaml
+---
+title: ハッカーのようにブログを書く
+lang: ja-JP
+---
+```
 
 このデータはページ内や、カスタム／テーマコンポーネントからも利用できます。詳しくは [Frontmatter](../reference/frontmatter-config) を参照してください。
 
@@ -78,29 +78,29 @@ VitePress には組み込みの Markdown 拡張機能が用意されています
 
 **入力**
 
- ```md
- | テーブル       |   は        |  クール |
- | -------------- | :---------: | ------: |
- | 3列目は        | 右寄せ      |  $1600 |
- | 2列目は        |   中央      |    $12 |
- | シマ模様       |  neat です  |     $1 |
- ```
+```md
+| テーブル |    は     | クール |
+| -------- | :-------: | -----: |
+| 3列目は  |  右寄せ   |  $1600 |
+| 2列目は  |   中央    |    $12 |
+| シマ模様 | neat です |     $1 |
+```
 
 **出力**
 
-| テーブル |   は   |  クール |
-| -------- | :----: | ------: |
-| 3列目は  | 右寄せ |  \$1600 |
-| 2列目は  |  中央  |    \$12 |
-| シマ模様 | neatです |     \$1 |
+| テーブル |    は    | クール |
+| -------- | :------: | -----: |
+| 3列目は  |  右寄せ  | \$1600 |
+| 2列目は  |   中央   |   \$12 |
+| シマ模様 | neatです |    \$1 |
 
 ## 絵文字 :tada: {#emoji}
 
 **入力**
 
- ```
- :tada: :100:
- ```
+```
+:tada: :100:
+```
 
 **出力**
 
@@ -112,9 +112,9 @@ VitePress には組み込みの Markdown 拡張機能が用意されています
 
 **入力**
 
- ```
- [[toc]]
- ```
+```
+[[toc]]
+```
 
 **出力**
 
@@ -130,27 +130,27 @@ TOC のレンダリングは `markdown.toc` オプションで設定できます
 
 **入力**
 
- ```md
- ::: info
- これは情報ボックスです。
- :::
+```md
+::: info
+これは情報ボックスです。
+:::
 
- ::: tip
- これはヒントです。
- :::
+::: tip
+これはヒントです。
+:::
 
- ::: warning
- これは警告です。
- :::
+::: warning
+これは警告です。
+:::
 
- ::: danger
- これは危険の警告です。
- :::
+::: danger
+これは危険の警告です。
+:::
 
- ::: details
- これは詳細ブロックです。
- :::
- ```
+::: details
+これは詳細ブロックです。
+:::
+```
 
 **出力**
 
@@ -180,17 +180,17 @@ TOC のレンダリングは `markdown.toc` オプションで設定できます
 
 **入力**
 
- ````md
- ::: danger 停止
- 危険地帯。先に進まないでください。
- :::
+````md
+::: danger 停止
+危険地帯。先に進まないでください。
+:::
 
- ::: details クリックしてコードを表示/非表示
- ```js
- console.log('こんにちは、VitePress!')
- ```
- :::
- ````
+::: details クリックしてコードを表示/非表示
+```js
+console.log('こんにちは、VitePress!')
+```
+:::
+````
 
 **出力**
 
@@ -199,29 +199,29 @@ TOC のレンダリングは `markdown.toc` オプションで設定できます
 :::
 
 ::: details クリックしてコードを表示/非表示
- ```js
- console.log('こんにちは、VitePress!')
- ```
+```js
+console.log('こんにちは、VitePress!')
+```
 :::
 
 また、英語以外で執筆する場合などは、サイト設定に以下を追加してタイトル文字列をグローバルに上書きできます。
 
- ```ts
- // config.ts
- export default defineConfig({
-   // ...
-   markdown: {
-     container: {
-       tipLabel: 'ヒント',
-       warningLabel: '警告',
-       dangerLabel: '危険',
-       infoLabel: '情報',
-       detailsLabel: '詳細'
-     }
-   }
- // ...
- })
- ```
+```ts
+// config.ts
+export default defineConfig({
+  // ...
+  markdown: {
+    container: {
+      tipLabel: 'ヒント',
+      warningLabel: '警告',
+      dangerLabel: '危険',
+      infoLabel: '情報',
+      detailsLabel: '詳細'
+    }
+  }
+  // ...
+})
+```
 
 ### 追加属性 {#additional-attributes}
 
@@ -229,20 +229,20 @@ TOC のレンダリングは `markdown.toc` オプションで設定できます
 
 **入力**
 
- ````md
- ::: details クリックしてコードを表示/非表示 {open}
- ```js
- console.log('こんにちは、VitePress!')
- ```
- :::
- ````
+````md
+::: details クリックしてコードを表示/非表示 {open}
+```js
+console.log('こんにちは、VitePress!')
+```
+:::
+````
 
 **出力**
 
 ::: details クリックしてコードを表示/非表示 {open}
- ```js
- console.log('こんにちは、VitePress!')
- ```
+```js
+console.log('こんにちは、VitePress!')
+```
 :::
 
 ### `raw`
@@ -251,11 +251,11 @@ TOC のレンダリングは `markdown.toc` オプションで設定できます
 
 **構文**
 
- ```md
- ::: raw
- Wraps in a `<div class="vp-raw">`
- :::
- ```
+```md
+::: raw
+Wraps in a `<div class="vp-raw">`
+:::
+```
 
 `vp-raw` クラスは要素に直接付与することも可能です。スタイルの分離は現在オプトインです。
 
@@ -289,43 +289,39 @@ VitePress は [GitHub 形式のアラート](https://docs.github.com/en/get-star
 
 **入力**
 
+```md
+> [!NOTE]
+> 流し読みでも目に留めてほしい情報を強調します。
 
- ```md
- > [!NOTE]
- > 流し読みでも目に留めてほしい情報を強調します。
+> [!TIP]
+> 成功の手助けとなる任意の情報です。
 
- > [!TIP]
- > 成功の手助けとなる任意の情報です。
+> [!IMPORTANT]
+> 成功に必須の重要情報です。
 
- > [!IMPORTANT]
- > 成功に必須の重要情報です。
+> [!WARNING]
+> 危険性があるため即時の注意が必要な重要情報です。
 
- > [!WARNING]
- > 危険性があるため即時の注意が必要な重要情報です。
-
- > [!CAUTION]
- > 行動による望ましくない結果の可能性です。
-
+> [!CAUTION]
+> 行動による望ましくない結果の可能性です。
 ```
 
 **出力**
 
+> [!NOTE]
+> 流し読みでも目に留めてほしい情報を強調します。
 
- > [!NOTE]
- > 流し読みでも目に留めてほしい情報を強調します。
+> [!TIP]
+> 成功の手助けとなる任意の情報です。
 
- > [!TIP]
- > 成功の手助けとなる任意の情報です。
+> [!IMPORTANT]
+> 成功に必須の重要情報です。
 
- > [!IMPORTANT]
- > 成功に必須の重要情報です。
+> [!WARNING]
+> 危険性があるため即時の注意が必要な重要情報です。
 
- > [!WARNING]
- > 危険性があるため即時の注意が必要な重要情報です。
-
- > [!CAUTION]
- > 行動による望ましくない結果の可能性です。
-
+> [!CAUTION]
+> 行動による望ましくない結果の可能性です。
 
 ## コードブロックのシンタックスハイライト {#syntax-highlighting-in-code-blocks}
 
@@ -333,39 +329,41 @@ VitePress は [Shiki](https://github.com/shikijs/shiki) を使って、Markdown 
 
 **入力**
 
- ````
-  ```js
-  export default {
-    name: 'MyComponent',
-    // ...
-  }
-  ```
+````md
+```js
+export default {
+  name: 'MyComponent',
+  // ...
+}
+```
 ````
-  ````
-  ```html
- <ul>
-   <li v-for="todo in todos" :key="todo.id">
-     {{ todo.text }}
-   </li>
- </ul>
- ```
- ````
+
+````md
+```html
+<ul>
+  <li v-for="todo in todos" :key="todo.id">
+    {{ todo.text }}
+  </li>
+</ul>
+```
+````
 
 **出力**
 
-  ```js
-  export default {
-    name: 'MyComponent',
-    // ...
-  }
-  ```
-  ```html
- <ul>
-   <li v-for="todo in todos" :key="todo.id">
-     {{ todo.text }}
-   </li>
- </ul>
- ```
+```js
+export default {
+  name: 'MyComponent',
+  // ...
+}
+```
+
+```html
+<ul>
+  <li v-for="todo in todos" :key="todo.id">
+    {{ todo.text }}
+  </li>
+</ul>
+```
 
 有効な言語の [一覧](https://shiki.style/languages) は Shiki のリポジトリで確認できます。
 
@@ -375,29 +373,29 @@ VitePress は [Shiki](https://github.com/shikijs/shiki) を使って、Markdown 
 
 **入力**
 
- ````
-  ```js{4}
-  export default {
-    data () {
-      return {
-        msg: 'ハイライト！'
-      }
+````md
+```js{4}
+export default {
+  data() {
+    return {
+      msg: 'ハイライト！'
     }
   }
-  ```
- ````
+}
+```
+````
 
 **出力**
 
-  ```js{4}
-  export default {
-    data () {
-      return {
-        msg: 'ハイライト！'
-      }
+```js{4}
+export default {
+  data() {
+    return {
+      msg: 'ハイライト！'
     }
   }
-  ```
+}
+```
 
 単一行だけでなく、複数の単一行や範囲、あるいはその組み合わせも指定できます:
 
@@ -407,66 +405,65 @@ VitePress は [Shiki](https://github.com/shikijs/shiki) を使って、Markdown 
 
 **入力**
 
- ````
- ```js{1,4,6-8}
- export default { // Highlighted
-   data () {
-     return {
-       msg: `Highlighted!
-       This line isn't highlighted,
-       but this and the next 2 are.`,
-       motd: 'VitePress is awesome',
-       lorem: 'ipsum'
-     }
-   }
- }
- ```
- ````
+````md
+```js{1,4,6-8}
+export default { // Highlighted
+  data() {
+    return {
+      msg: `Highlighted!
+      This line isn't highlighted,
+      but this and the next 2 are.`,
+      motd: 'VitePress is awesome',
+      lorem: 'ipsum'
+    }
+  }
+}
+```
+````
 
 **出力**
 
-
- ```js{1,4,6-8}
- export default { // Highlighted
-   data () {
-     return {
-       msg: `Highlighted!
-       This line isn't highlighted,
-       but this and the next 2 are.`,
-       motd: 'VitePress is awesome',
-       lorem: 'ipsum'
-     }
-   }
- }
- ```
+```js{1,4,6-8}
+export default { // Highlighted
+  data() {
+    return {
+      msg: `Highlighted!
+      This line isn't highlighted,
+      but this and the next 2 are.`,
+      motd: 'VitePress is awesome',
+      lorem: 'ipsum'
+    }
+  }
+}
+```
 
 代替案として、`// [!code highlight]` コメントを使って行内を直接ハイライトできます。
 
 **入力**
 
- ```
- ```js
- export default {
-   data () {
-     return {
-       msg: 'ハイライト！' // [!code highlight]
-     }
-   }
- }
- ```
+````md
+```js
+export default {
+  data() {
+    return {
+      msg: 'ハイライト！' // [!code highlight]
+    }
+  }
+}
+```
+````
 
 **出力**
 
-
- ```js
- export default {
-   data () {
-     return {
-       msg: 'ハイライト！' // [!code highlight]
-     }
-   }
- }
- ```
+```js
+export default {
+  data() {
+    return {
+      msg: 'ハイライト！' // [!code highlight]
+    }
+  }
+}
+```
 
 ## コードブロックでのフォーカス {#focus-in-code-blocks}
 
@@ -476,17 +473,17 @@ VitePress は [Shiki](https://github.com/shikijs/shiki) を使って、Markdown 
 
 **入力**
 
- ````
- ```js
- export default {
-   data () {
-     return {
-       msg: 'フォーカス！' // [!!code focus]
-     }
-   }
- }
- ```
- ````
+````md
+```js
+export default {
+  data() {
+    return {
+      msg: 'フォーカス！' // [!!code focus]
+    }
+  }
+}
+```
+````
 
 **出力**
 
@@ -506,24 +503,24 @@ export default {
 
 **入力**
 
- ````
- ```js
- export default {
-   data () {
-     return {
-       msg: 'Removed' // [!!code --]
-       msg: 'Added' // [!!code ++]
-     }
-   }
- }
- ```
- ````
+````md
+```js
+export default {
+  data() {
+    return {
+      msg: 'Removed' // [!!code --]
+      msg: 'Added' // [!!code ++]
+    }
+  }
+}
+```
+````
 
 **出力**
 
 ```js
 export default {
-  data () {
+  data() {
     return {
       msg: 'Removed' // [!code --]
       msg: 'Added' // [!code ++]
@@ -538,18 +535,18 @@ export default {
 
 **入力**
 
- ````
- ```js
- export default {
-   data () {
-     return {
-       msg: 'Error', // [!!code error]
-       msg: 'Warning' // [!!code warning]
-     }
-   }
- }
- ```
- ````
+````md
+```js
+export default {
+  data() {
+    return {
+      msg: 'Error', // [!!code error]
+      msg: 'Warning' // [!!code warning]
+    }
+  }
+}
+```
+````
 
 **出力**
 
@@ -568,13 +565,13 @@ export default {
 
 設定で、各コードブロックに行番号を表示できます：
 
- ```js
- export default {
-   markdown: {
-     lineNumbers: true
-   }
- }
- ```
+```js
+export default {
+  markdown: {
+    lineNumbers: true
+  }
+}
+```
 
 詳しくは [`markdown` オプション](../reference/site-config#markdown) を参照してください。
 
@@ -584,65 +581,65 @@ export default {
 
 **入力**
 
- ````
- ```ts {1}
- // 既定では line-numbers は無効
- const line2 = 'This is line 2'
- const line3 = 'This is line 3'
- ```
+````md
+```ts {1}
+// 既定では line-numbers は無効
+const line2 = 'This is line 2'
+const line3 = 'This is line 3'
+```
 
- ```ts:line-numbers {1}
- // line-numbers が有効
- const line2 = 'This is line 2'
- const line3 = 'This is line 3'
- ```
+```ts:line-numbers {1}
+// line-numbers が有効
+const line2 = 'This is line 2'
+const line3 = 'This is line 3'
+```
 
- ```ts:line-numbers=2 {1}
- // line-numbers が有効で、2 から開始
- const line3 = 'This is line 3'
- const line4 = 'This is line 4'
- ```
- ````
+```ts:line-numbers=2 {1}
+// line-numbers が有効で、2 から開始
+const line3 = 'This is line 3'
+const line4 = 'This is line 4'
+```
+````
 
 **出力**
 
- ```ts {1}
- // 既定では line-numbers は無効
- const line2 = 'This is line 2'
- const line3 = 'This is line 3'
- ```
+```ts {1}
+// 既定では line-numbers は無効
+const line2 = 'This is line 2'
+const line3 = 'This is line 3'
+```
 
- ```ts:line-numbers {1}
- // line-numbers が有効
- const line2 = 'This is line 2'
- const line3 = 'This is line 3'
- ```
+```ts:line-numbers {1}
+// line-numbers が有効
+const line2 = 'This is line 2'
+const line3 = 'This is line 3'
+```
 
- ```ts:line-numbers=2 {1}
- // line-numbers が有効で、2 から開始
- const line3 = 'This is line 3'
- const line4 = 'This is line 4'
- ```
+```ts:line-numbers=2 {1}
+// line-numbers が有効で、2 から開始
+const line3 = 'This is line 3'
+const line4 = 'This is line 4'
+```
 
 ## コードスニペットのインポート {#import-code-snippets}
 
 既存ファイルから、次の構文でコードスニペットをインポートできます：
 
- ```md
- <<< @/filepath
- ```
+```md
+<<< @/filepath
+```
 
 また、[行のハイライト](#line-highlighting-in-code-blocks)にも対応しています：
 
- ```md
- <<< @/filepath{highlightLines}
- ```
+```md
+<<< @/filepath{highlightLines}
+```
 
 **入力**
 
- ```md
- <<< @/snippets/snippet.js{2}
- ```
+```md
+<<< @/snippets/snippet.js{2}
+```
 
 **コードファイル**
 
@@ -655,18 +652,18 @@ export default {
 ::: tip
 `@` の値はソースルートを表します。既定では VitePress プロジェクトのルートですが、`srcDir` を設定している場合はその値になります。代替として、相対パスからのインポートも可能です：
 
- ```md
- <<< ../snippets/snippet.js
- ```
+```md
+<<< ../snippets/snippet.js
+```
 :::
 
 また、[VS Code のリージョン](https://code.visualstudio.com/docs/editor/codebasics#_folding)を利用して、コードファイルの該当部分のみを取り込むことができます。ファイルパスの後ろに `#` を付けてカスタムリージョン名を指定します：
 
 **入力**
 
- ```md
- <<< @/snippets/snippet-with-region.js#snippet{1}
- ```
+```md
+<<< @/snippets/snippet-with-region.js#snippet{1}
+```
 
 **コードファイル**
 
@@ -678,17 +675,17 @@ export default {
 
 中括弧（`{}`）の中で言語を指定することもできます：
 
- ```md
- <<< @/snippets/snippet.cs{c#}
+```md
+<<< @/snippets/snippet.cs{c#}
 
- <!-- 行のハイライト付き: -->
+<!-- 行のハイライト付き: -->
 
- <<< @/snippets/snippet.cs{1,2,4-6 c#}
+<<< @/snippets/snippet.cs{1,2,4-6 c#}
 
- <!-- 行番号付き: -->
+<!-- 行番号付き: -->
 
- <<< @/snippets/snippet.cs{1,2,4-6 c#:line-numbers}
- ```
+<<< @/snippets/snippet.cs{1,2,4-6 c#:line-numbers}
+```
 
 これは、ファイル拡張子からソース言語を推論できない場合に有用です。
 
@@ -698,78 +695,77 @@ export default {
 
 **入力**
 
- ````md
- ::: code-group
+````md
+::: code-group
 
- ```js [config.js]
- /**
-  * @type {import('vitepress').UserConfig}
-  */
- const config = {
-   // ...
- }
+```js [config.js]
+/**
+ * @type {import('vitepress').UserConfig}
+ */
+const config = {
+  // ...
+}
 
- export default config
- ```
+export default config
+```
 
- ```ts [config.ts]
- import type { UserConfig } from 'vitepress'
+```ts [config.ts]
+import type { UserConfig } from 'vitepress'
 
- const config: UserConfig = {
-   // ...
- }
+const config: UserConfig = {
+  // ...
+}
 
- export default config
- ```
+export default config
+```
 
- :::
- ````
+:::
+````
 
 **出力**
 
+::: code-group
 
- ::: code-group
+```js [config.js]
+/**
+ * @type {import('vitepress').UserConfig}
+ */
+const config = {
+  // ...
+}
 
- ```js [config.js]
- /**
-  * @type {import('vitepress').UserConfig}
-  */
- const config = {
-   // ...
- }
+export default config
+```
 
- export default config
- ```
+```ts [config.ts]
+import type { UserConfig } from 'vitepress'
 
- ```ts [config.ts]
- import type { UserConfig } from 'vitepress'
+const config: UserConfig = {
+  // ...
+}
 
- const config: UserConfig = {
-   // ...
- }
+export default config
+```
 
- export default config
- ```
-
- :::
+:::
 
 コードグループ内でも [スニペットのインポート](#import-code-snippets) が可能です：
 
 **入力**
 
- ```md
- ::: code-group
+```md
+::: code-group
 
- <!-- 既定ではファイル名がタイトルとして使われます -->
+<!-- 既定ではファイル名がタイトルとして使われます -->
 
- <<< @/snippets/snippet.js
+<<< @/snippets/snippet.js
 
- <!-- カスタムタイトルも指定できます -->
+<!-- カスタムタイトルも指定できます -->
 
- <<< @/snippets/snippet-with-region.js#snippet{1,2 ts:line-numbers} [リージョン付きスニペット]
+<<< @/snippets/snippet-with-region.js#snippet{1,2 ts:line-numbers} [リージョン付きスニペット]
 
- :::
- ```
+:::
+```
 
 **出力**
 
@@ -793,71 +789,71 @@ Markdown パスの先頭に `@` を付けることもでき、その場合はソ
 
 **入力**
 
- ```md
- # ドキュメント
+```md
+# ドキュメント
 
- ## 基本
+## 基本
 
- <!--@include: ./parts/basics.md-->
- ```
+<!--@@include: ./parts/basics.md-->
+```
 
 **パートファイル**（`parts/basics.md`）
 
- ```md
- はじめに知っておきたいこと。
+```md
+はじめに知っておきたいこと。
 
- ### 設定
+### 設定
 
- `.foorc.json` を使用して作成できます。
- ```
+`.foorc.json` を使用して作成できます。
+```
 
 **等価なコード**
 
- ```md
- # ドキュメント
+```md
+# ドキュメント
 
- ## 基本
+## 基本
 
- はじめに知っておきたいこと。
+はじめに知っておきたいこと。
 
- ### 設定
+### 設定
 
- `.foorc.json` を使用して作成できます。
- ```
+`.foorc.json` を使用して作成できます。
+```
 
 行範囲の選択にも対応しています。
 
 **入力**
 
- ```md:line-numbers
- # ドキュメント
+```md:line-numbers
+# ドキュメント
 
- ## 基本
+## 基本
 
- <!--@include: ./parts/basics.md{3,}-->
- ```
+<!--@@include: ./parts/basics.md{3,}-->
+```
 
 **パートファイル**（`parts/basics.md`）
 
- ```md:line-numbers
- はじめに知っておきたいこと。
+```md:line-numbers
+はじめに知っておきたいこと。
 
- ### 設定
+### 設定
 
- `.foorc.json` を使って作成できます。
- ```
+`.foorc.json` を使って作成できます。
+```
 
 **等価なコード**
 
- ```md:line-numbers
- # ドキュメント
+```md:line-numbers
+# ドキュメント
 
- ## 基本
+## 基本
 
- ### 設定
+### 設定
 
- `.foorc.json` を使って作成できます。
- ```
+`.foorc.json` を使って作成できます。
+```
 
 選択できる行範囲の書式は、`{3,}`、`{,10}`、`{1,10}` のいずれかです。
 
@@ -865,38 +861,38 @@ Markdown パスの先頭に `@` を付けることもでき、その場合はソ
 
 **入力**
 
- ```md:line-numbers
- # ドキュメント
+```md:line-numbers
+# ドキュメント
 
- ## 基本
+## 基本
 
- <!--@include: ./parts/basics.md#basic-usage{,2}-->
- <!--@include: ./parts/basics.md#basic-usage{5,}-->
- ```
+<!--@@include: ./parts/basics.md#basic-usage{,2}-->
+<!--@@include: ./parts/basics.md#basic-usage{5,}-->
+```
 
 **パートファイル**（`parts/basics.md`）
 
- ```md:line-numbers
- <!-- #region basic-usage -->
- ## 使用例 1
+```md:line-numbers
+<!-- #region basic-usage -->
+## 使用例 1
 
- ## 使用例 2
+## 使用例 2
 
- ## 使用例 3
- <!-- #endregion basic-usage -->
- ```
+## 使用例 3
+<!-- #endregion basic-usage -->
+```
 
 **等価なコード**
 
- ```md:line-numbers
- # ドキュメント
+```md:line-numbers
+# ドキュメント
 
- ## 基本
+## 基本
 
- ## 使用例 1
+## 使用例 1
 
- ## 使用例 3
- ```
+## 使用例 3
+```
 
 ::: warning
 ファイルが存在しない場合でもエラーは発生しません。したがって、この機能を使う際は、期待どおりに内容がレンダリングされているか必ず確認してください。
@@ -904,50 +900,51 @@ Markdown パスの先頭に `@` を付けることもでき、その場合はソ
 
 VS Code のリージョンの代わりに、ヘッダーアンカーを使ってファイル内の特定セクションだけを取り込むこともできます。たとえば、Markdown ファイルに次のようなヘッダーがある場合：
 
- ```md
- ## ベースのセクション
+```md
+## ベースのセクション
 
- ここに本文。
+ここに本文。
 
- ### サブセクション
+### サブセクション
 
- ここに本文（サブ）。
+ここに本文（サブ）。
 
- ## 別のセクション
+## 別のセクション
 
- `ベースのセクション` の外側の内容。
- ```
+`ベースのセクション` の外側の内容。
+```
 
 `ベースのセクション` を次のように取り込めます：
 
- ```md
- ## 拡張セクション
- <!--@include: ./parts/basics.md#my-base-section-->
- ```
+```md
+## 拡張セクション
+
+<!--@@include: ./parts/basics.md#my-base-section-->
+```
 
 **等価なコード**
 
- ```md
- ## 拡張セクション
+```md
+## 拡張セクション
 
- ここに本文。
+ここに本文。
 
- ### サブセクション
+### サブセクション
 
- ここに本文（サブ）。
- ```
+ここに本文（サブ）。
+```
 
 ここで `my-base-section` は見出し要素から生成される ID です。推測しづらい場合は、パートファイルをブラウザで開いて見出しのアンカー（ホバー時に見出しの左に表示される `#` 記号）をクリックし、URL バーで ID を確認してください。あるいはブラウザの開発者ツールで要素を検査して確認できます。別案として、パートファイル側で明示的に ID を指定できます：
 
- ```md
- ## ベースのセクション {#custom-id}
- ```
+```md
+## ベースのセクション {#custom-id}
+```
 
 そして次のように取り込みます：
 
- ```md
- <!--@include: ./parts/basics.md#custom-id-->
- ```
+```md
+<!--@@include: ./parts/basics.md#custom-id-->
+```
 
 ## 数式 {#math-equations}
 
@@ -957,84 +954,84 @@ VS Code のリージョンの代わりに、ヘッダーアンカーを使って
 npm add -D markdown-it-mathjax3@^4
 ```
 
- ```ts [.vitepress/config.ts]
- export default {
-   markdown: {
-     math: true
-   }
- }
- ```
+```ts [.vitepress/config.ts]
+export default {
+  markdown: {
+    math: true
+  }
+}
+```
 
 **入力**
 
- ```md
- もし $a \ne 0$ のとき、$(ax^2 + bx + c = 0)$ の解は 2 つ存在し、次式で与えられます
- $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
+```md
+もし $a \ne 0$ のとき、$(ax^2 + bx + c = 0)$ の解は 2 つ存在し、次式で与えられます
+$$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
- **マクスウェル方程式:**
+**マクスウェル方程式:**
 
- | 方程式                                                                                                                                                                   | 説明                                                                                       |
- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
- | $\nabla \cdot \vec{\mathbf{B}}  = 0$                                                                                                                                     | 磁束密度 $\vec{\mathbf{B}}$ の発散は 0                                                     |
- | $\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t}  = \vec{\mathbf{0}}$                                                         | 電場 $\vec{\mathbf{E}}$ の回転は、磁束密度 $\vec{\mathbf{B}}$ の時間変化に比例              |
- | $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _え？_                                                                                      |
- ```
+| 方程式                                                                                                                                                                    | 説明                                                                           |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| $\nabla \cdot \vec{\mathbf{B}}  = 0$                                                                                                                                      | 磁束密度 $\vec{\mathbf{B}}$ の発散は 0                                         |
+| $\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t}  = \vec{\mathbf{0}}$                                                          | 電場 $\vec{\mathbf{E}}$ の回転は、磁束密度 $\vec{\mathbf{B}}$ の時間変化に比例 |
+| $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _え？_                                                                         |
+```
 
 **出力**
 
- もし $a \ne 0$ のとき、$(ax^2 + bx + c = 0)$ の解は 2 つ存在し、次式で与えられます
- $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
+もし $a \ne 0$ のとき、$(ax^2 + bx + c = 0)$ の解は 2 つ存在し、次式で与えられます
+$$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
- **マクスウェル方程式:**
+**マクスウェル方程式:**
 
- | 方程式                                                                                                                                                                   | 説明                                                                                       |
- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
- | $\nabla \cdot \vec{\mathbf{B}}  = 0$                                                                                                                                     | 磁束密度 $\vec{\mathbf{B}}$ の発散は 0                                                     |
- | $\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t}  = \vec{\mathbf{0}}$                                                         | 電場 $\vec{\mathbf{E}}$ の回転は、磁束密度 $\vec{\mathbf{B}}$ の時間変化に比例              |
- | $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _え？_                                                                                      |
+| 方程式                                                                                                                                                                    | 説明                                                                           |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| $\nabla \cdot \vec{\mathbf{B}}  = 0$                                                                                                                                      | 磁束密度 $\vec{\mathbf{B}}$ の発散は 0                                         |
+| $\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t}  = \vec{\mathbf{0}}$                                                          | 電場 $\vec{\mathbf{E}}$ の回転は、磁束密度 $\vec{\mathbf{B}}$ の時間変化に比例 |
+| $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _え？_                                                                         |
 
 ## 画像の遅延読み込み {#image-lazy-loading}
 
 Markdown で追加した各画像に対して遅延読み込みを有効化するには、設定ファイルで `lazyLoading` を `true` にします：
 
- ```js
- export default {
-   markdown: {
-     image: {
-       // 既定では画像の遅延読み込みは無効
-       lazyLoading: true
-     }
-   }
- }
- ```
+```js
+export default {
+  markdown: {
+    image: {
+      // 既定では画像の遅延読み込みは無効
+      lazyLoading: true
+    }
+  }
+}
+```
 
 ## 高度な設定 {#advanced-configuration}
 
 VitePress は Markdown レンダラーとして [markdown-it](https://github.com/markdown-it/markdown-it) を使用しています。上記の多くの拡張はカスタムプラグインとして実装されています。`.vitepress/config.js` の `markdown` オプションを使って、`markdown-it` のインスタンスをさらにカスタマイズできます。
 
- ```js
- import { defineConfig } from 'vitepress'
- import markdownItAnchor from 'markdown-it-anchor'
- import markdownItFoo from 'markdown-it-foo'
+```js
+import { defineConfig } from 'vitepress'
+import markdownItAnchor from 'markdown-it-anchor'
+import markdownItFoo from 'markdown-it-foo'
 
- export default defineConfig({
-   markdown: {
-     // markdown-it-anchor のオプション
-     // https://github.com/valeriangalliat/markdown-it-anchor#usage
-     anchor: {
-       permalink: markdownItAnchor.permalink.headerLink()
-     },
+export default defineConfig({
+  markdown: {
+    // markdown-it-anchor のオプション
+    // https://github.com/valeriangalliat/markdown-it-anchor#usage
+    anchor: {
+      permalink: markdownItAnchor.permalink.headerLink()
+    },
 
-     // @mdit-vue/plugin-toc のオプション
-     // https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-toc#options
-     toc: { level: [1, 2] },
+    // @mdit-vue/plugin-toc のオプション
+    // https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-toc#options
+    toc: { level: [1, 2] },
 
-     config: (md) => {
-       // markdown-it のプラグインをもっと使えます！
-       md.use(markdownItFoo)
-     }
-   }
- })
- ```
+    config: (md) => {
+      // markdown-it のプラグインをもっと使えます！
+      md.use(markdownItFoo)
+    }
+  }
+})
+```
 
 設定可能なプロパティの完全な一覧は、[設定リファレンス: アプリ設定](../reference/site-config#markdown) を参照してください。

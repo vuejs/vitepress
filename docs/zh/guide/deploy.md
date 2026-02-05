@@ -105,7 +105,7 @@ Cache-Control: max-age=31536000,immutable
 
 ## 各平台部署指南 {#platform-guides}
 
-### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render
+### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render {#generic}
 
 使用仪表板创建新项目并更改这些设置：
 
@@ -200,7 +200,7 @@ Cache-Control: max-age=31536000,immutable
 
 ### GitLab Pages
 
-1. 如果你想部署到 `https://<username> .gitlab.io/<repository> /`，将 VitePress 配置中的 `outDir` 设置为 `../public`。将 `base` 选项配置为 `'/<repository>/'`。
+1. 如果你想部署到 `https://<username> .gitlab.io/<repository> /`，将 VitePress 配置中的 `outDir` 设置为 `../public`。将 `base` 选项配置为 `'/<repository>/'`。如果你部署到自定义域名、用户或组织页面，或在 GitLab 中启用了“Use unique domain”设置，则不需要 `base`。
 
 2. 在项目的根目录中创建一个名为 `.gitlab-ci.yml` 的文件，其中包含以下内容。每当你更改内容时，这都会构建和部署你的站点：
 
@@ -221,7 +221,7 @@ Cache-Control: max-age=31536000,immutable
        - main
    ```
 
-### Azure 静态 web 应用 {#azure-static-web-apps}
+### Azure
 
 1. 参考[官方文档](https://docs.microsoft.com/en-us/azure/static-web-apps/build-configuration)。
 
@@ -231,7 +231,11 @@ Cache-Control: max-age=31536000,immutable
    - **`output_location`**: `docs/.vitepress/dist`
    - **`app_build_command`**: `npm run docs:build`
 
-### Firebase {#firebase}
+### CloudRay
+
+你可以按照这些[说明](https://cloudray.io/articles/how-to-deploy-vitepress-site)使用 [CloudRay](https://cloudray.io/) 部署你的 VitePress 项目。
+
+### Firebase
 
 1. 在项目的根目录下创建 `firebase.json` 和 `.firebaserc`：
 
@@ -262,14 +266,6 @@ Cache-Control: max-age=31536000,immutable
    firebase deploy
    ```
 
-### Surge
-
-1. 运行 `npm run docs:build` 后，运行此命令进行部署：
-
-   ```sh
-   npx surge docs/.vitepress/dist
-   ```
-
 ### Heroku
 
 1. 参考 [`heroku-buildpack-static`](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-static) 中给出的文档和指南。
@@ -282,17 +278,25 @@ Cache-Control: max-age=31536000,immutable
    }
    ```
 
-### Edgio
+### Hostinger
 
-请参阅[创建并部署 VitePress 应用程序到 Edgio](https://docs.edg.io/guides/vitepress)。
+你可以按照这些[说明](https://www.hostinger.com/support/how-to-deploy-a-nodejs-website-in-hostinger/)使用 [Hostinger](https://www.hostinger.com/web-apps-hosting) 部署你的 VitePress 项目。在配置构建设置时，选择 VitePress 作为框架，并将根目录调整为 `./docs`。
 
-### Kinsta 静态站点托管 {#kinsta-static-site-hosting}
+### Kinsta
 
 你可以按照这些[说明](https://kinsta.com/docs/vitepress-static-site-example/) 在 [Kinsta](https://kinsta.com/static-site-hosting/) 上部署 VitePress 站点。
 
 ### Stormkit
 
 你可以按照这些[说明](https://stormkit.io/blog/how-to-deploy-vitepress)将你的 VitePress 项目部署到 [Stormkit](https://www.stormkit.io)。
+
+### Surge
+
+1. 运行 `npm run docs:build` 后，运行此命令进行部署：
+
+   ```sh
+   npx surge docs/.vitepress/dist
+   ```
 
 ### Nginx
 

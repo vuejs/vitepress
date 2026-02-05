@@ -1,6 +1,6 @@
-import fs from 'fs-extra'
 import matter from 'gray-matter'
 import type { MarkdownItAsync } from 'markdown-it-async'
+import fs from 'node:fs'
 import path from 'node:path'
 import { findRegions } from '../markdown/plugins/snippet'
 import { slash, type MarkdownEnv } from '../shared'
