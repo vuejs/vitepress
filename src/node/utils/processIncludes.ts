@@ -2,7 +2,6 @@ import fs from 'fs-extra'
 import matter from 'gray-matter'
 import type { MarkdownItAsync } from 'markdown-it-async'
 import path from 'node:path'
-import c from 'picocolors'
 import { findRegions } from '../markdown/plugins/snippet'
 import { slash, type MarkdownEnv } from '../shared'
 
@@ -33,84 +32,78 @@ export function processIncludes(
 
     const atPresent = m1[0] === '@'
 
-    try {
-      const includePath = atPresent
-        ? path.join(srcDir, m1.slice(m1[1] === '/' ? 2 : 1))
-        : path.join(path.dirname(file), m1)
-      let content = fs.readFileSync(includePath, 'utf-8')
+    const includePath = atPresent
+      ? path.join(srcDir, m1.slice(m1[1] === '/' ? 2 : 1))
+      : path.join(path.dirname(file), m1)
 
-      if (region) {
-        const [regionName] = region
-        const lines = content.split(/\r?\n/)
-        let regions = findRegions(lines, regionName.slice(1))
+    let content = fs.readFileSync(includePath, 'utf-8')
 
-        if (regions.length === 0) {
-          // region not found, it might be a header
-          const tokens = md
-            .parse(content, {
-              path: includePath,
-              relativePath: slash(path.relative(srcDir, includePath)),
-              cleanUrls
-            } satisfies MarkdownEnv)
-            .filter((t) => t.type === 'heading_open' && t.map)
-          const idx = tokens.findIndex(
-            (t) => t.attrGet('id') === regionName.slice(1)
-          )
-          const token = tokens[idx]
-          if (token) {
-            const start = token.map![1]
-            const level = parseInt(token.tag.slice(1))
-            let end = undefined
-            for (let i = idx + 1; i < tokens.length; i++) {
-              if (parseInt(tokens[i].tag.slice(1)) <= level) {
-                end = tokens[i].map![0]
-                break
-              }
+    if (region) {
+      const [regionName] = region
+      const lines = content.split(/\r?\n/)
+      let regions = findRegions(lines, regionName.slice(1))
+
+      if (regions.length === 0) {
+        // region not found, it might be a header
+        const tokens = md
+          .parse(content, {
+            path: includePath,
+            relativePath: slash(path.relative(srcDir, includePath)),
+            cleanUrls
+          } satisfies MarkdownEnv)
+          .filter((t) => t.type === 'heading_open' && t.map)
+        const idx = tokens.findIndex(
+          (t) => t.attrGet('id') === regionName.slice(1)
+        )
+        const token = tokens[idx]
+        if (token) {
+          const start = token.map![1]
+          const level = parseInt(token.tag.slice(1))
+          let end = undefined
+          for (let i = idx + 1; i < tokens.length; i++) {
+            if (parseInt(tokens[i].tag.slice(1)) <= level) {
+              end = tokens[i].map![0]
+              break
             }
-            regions.push({ start, end } as any)
           }
-        }
-
-        if (regions.length > 0) {
-          content = regions
-            .flatMap((region) => lines.slice(region.start, region.end))
-            .join('\n')
-        } else {
-          content = `No region or heading #${region} found in path: ${includePath}`
+          regions.push({ start, end } as any)
         }
       }
 
-      if (range) {
-        const [, startLine, endLine] = range
-        const lines = content.split(/\r?\n/)
-        content = lines
-          .slice(
-            startLine ? parseInt(startLine) - 1 : undefined,
-            endLine ? parseInt(endLine) : undefined
-          )
+      if (regions.length > 0) {
+        content = regions
+          .flatMap((region) => lines.slice(region.start, region.end))
           .join('\n')
+      } else {
+        content = `No region or heading #${region} found in path: ${includePath}`
       }
-
-      if (!hasMeta && path.extname(includePath) === '.md') {
-        content = matter(content).content
-      }
-
-      includes.push(slash(includePath))
-      // recursively process includes in the content
-      return processIncludes(
-        md,
-        srcDir,
-        content,
-        includePath,
-        includes,
-        cleanUrls
-      )
-    } catch (error) {
-      if (process.env.DEBUG) {
-        process.stderr.write(c.yellow(`Include file not found: ${m1}\n`))
-      }
-
-      return m // silently ignore error if file is not present
     }
+
+    if (range) {
+      const [, startLine, endLine] = range
+      const lines = content.split(/\r?\n/)
+      content = lines
+        .slice(
+          startLine ? parseInt(startLine) - 1 : undefined,
+          endLine ? parseInt(endLine) : undefined
+        )
+        .join('\n')
+    }
+
+    if (!hasMeta && path.extname(includePath) === '.md') {
+      content = matter(content).content
+    }
+
+    includes.push(slash(includePath))
+
+    // recursively process includes in the content
+    return processIncludes(
+      md,
+      srcDir,
+      content,
+      includePath,
+      includes,
+      cleanUrls
+    )
   })
 }
