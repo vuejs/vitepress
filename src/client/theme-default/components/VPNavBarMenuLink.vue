@@ -16,18 +16,19 @@ const href = computed(() =>
     ? props.item.link(page.value)
     : props.item.link
 )
+
+const isActiveLink = computed(() =>
+  isActive(
+    page.value.relativePath,
+    props.item.activeMatch || href.value,
+    !!props.item.activeMatch
+  )
+)
 </script>
 
 <template>
   <VPLink
-    :class="{
-      VPNavBarMenuLink: true,
-      active: isActive(
-        page.relativePath,
-        item.activeMatch || href,
-        !!item.activeMatch
-      )
-    }"
+    :class="{ VPNavBarMenuLink: true, active: isActiveLink }"
     :href
     :target="item.target"
     :rel="item.rel"
