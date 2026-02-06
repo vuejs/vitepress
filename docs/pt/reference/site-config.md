@@ -343,6 +343,25 @@ export default {
 }
 ```
 
+### assetsBase
+
+- Tipo: `string`
+- Padrão: `/assets/`
+
+A URL base onde os recursos do site serão implantados. Você precisará configurar isto se planeja implantar os recursos do seu site em uma CDN. É semelhante a `publicPath` em outros empacotadores de módulos.
+
+O `assetsBase` é configurado como `${base}assets/` por padrão. Deve sempre começar com uma barra ou um protocolo válido, e sempre terminar com uma barra.
+
+::: warning
+Esta opção só tem efeito no modo de produção.
+:::
+
+```ts
+export default {
+  assetsBase: 'https://cdn.example.com/assets/bar/'
+}
+```
+
 ## Roteamento {#routing}
 
 ### cleanUrls

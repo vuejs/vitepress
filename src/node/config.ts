@@ -23,6 +23,7 @@ import {
   type SiteData
 } from './shared'
 import type { RawConfigExports, SiteConfig, UserConfig } from './siteConfig'
+import { getDefaultAssetsBase, normalizeAssetsBase } from './utils/assetsBase'
 import { glob } from './utils/glob'
 
 export { resolvePages } from './plugins/dynamicRoutesPlugin'
@@ -98,7 +99,7 @@ export async function resolveConfig(
       prefix: '[vitepress]',
       allowClearScreen: userConfig.vite?.clearScreen
     })
-  const site = await resolveSiteData(root, userConfig)
+  const site = await resolveSiteData(root, userConfig, command, mode)
   const srcDir = normalizePath(path.resolve(root, userConfig.srcDir || '.'))
   const assetsDir = userConfig.assetsDir
     ? slash(userConfig.assetsDir).replace(/^\.?\/|\/$/g, '')
@@ -321,13 +322,20 @@ export async function resolveSiteData(
 ): Promise<SiteData> {
   userConfig = userConfig || (await resolveUserConfig(root, command, mode))[0]
 
+  const base = userConfig.base ? normalizeBaseUrl(userConfig.base) : '/'
+  const assetsBase =
+    mode === 'production' && userConfig.assetsBase
+      ? normalizeAssetsBase(userConfig.assetsBase)
+      : getDefaultAssetsBase(base)
+
   return {
     lang: userConfig.lang || 'en-US',
     dir: userConfig.dir || 'ltr',
     title: userConfig.title || 'VitePress',
     titleTemplate: userConfig.titleTemplate,
     description: userConfig.description || 'A VitePress site',
-    base: userConfig.base ? userConfig.base.replace(/([^/])$/, '$1/') : '/',
+    base,
+    assetsBase,
     head: resolveSiteDataHead(userConfig),
     router: {
       prefetchLinks: userConfig.router?.prefetchLinks ?? true
@@ -384,4 +392,8 @@ function resolveSiteDataHead(userConfig?: UserConfig): HeadConfig[] {
   ])
 
   return head
+}
+
+export function normalizeBaseUrl(baseUrl: string) {
+  return baseUrl.replace(/^([^/])/, '/$1').replace(/([^/])$/, '$1/')
 }
