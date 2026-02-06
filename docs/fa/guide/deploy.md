@@ -105,13 +105,13 @@ Cache-Control: max-age=31536000,immutable
 
 ## راهنمای‌های پلتفرم {#platform-guides}
 
-### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render {#netlify-vercel-cloudflare-pages-aws-amplify-render}
+### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render {#generic}
 
 یک پروژه جدید راه‌اندازی کرده و این تنظیمات را با استفاده از داشبورد خود تغییر دهید:
 
 - **دستور ساخت:** `npm run docs:build`
 - **دایرکتوری خروجی:** `docs/.vitepress/dist`
-- **نسخه Node:** `18` (یا بالاتر)
+- **نسخه Node:** `20` (یا بالاتر)
 
 ::: warning هشدار
 گزینه‌هایی مانند _Auto Minify_ را برای کد HTML فعال نکنید. این گزینه‌ها ممکن است توضیحاتی را که به Vue معنا دارد، از خروجی حذف کنند. ممکن است خطاهای ناسازگاری را در اجرا ببینید اگر حذف شوند.
@@ -198,7 +198,7 @@ Cache-Control: max-age=31536000,immutable
 
 ### صفحات GitLab {#gitlab-pages}
 
-1. `outDir` را در پیکربندی ویت‌پرس به `../public` تنظیم کنید. گزینه `base` را به `'/<repository>/'` تنظیم کنید اگر می‌خواهید در `https://<username>.gitlab.io/<repository>/` انتشار دهید.
+1. `outDir` را در پیکربندی ویت‌پرس به `../public` تنظیم کنید. گزینه `base` را به `'/<repository>/'` تنظیم کنید اگر می‌خواهید در `https://<username>.gitlab.io/<repository>/` انتشار دهید. اگر روی دامنه سفارشی، صفحات کاربر یا گروه منتشر می‌کنید یا تنظیمات "Use unique domain" در GitLab فعال است، نیازی به `base` ندارید.
 
 2. یک فایل به نام `.gitlab-ci.yml` در ریشه پروژه خود با محتوای زیر ایجاد کنید. این کار به ساخت و انتشار وب‌سایت شما هر زمانی که تغییری در محتوا ایجاد می‌کنید، می‌پردازد:
 
@@ -219,7 +219,7 @@ Cache-Control: max-age=31536000,immutable
        - main
    ```
 
-### Azure Static Web Apps {#azure-static-web-apps}
+### Azure
 
 1. دستورالعمل [رسمی](https://docs.microsoft.com/en-us/azure/static-web-apps/build-configuration) را دنبال کنید.
 
@@ -229,7 +229,11 @@ Cache-Control: max-age=31536000,immutable
    - **`output_location`**: `docs/.vitepress/dist`
    - **`app_build_command`**: `npm run docs:build`
 
-### Firebase {#firebase}
+### CloudRay
+
+می‌توانید پروژه ویت‌پرس خود را با [CloudRay](https://cloudray.io/) با دنبال کردن این [دستورالعمل‌ها](https://cloudray.io/articles/how-to-deploy-vitepress-site) منتشر کنید.
+
+### Firebase
 
 1. فایل‌های `firebase.json` و `.firebaserc` را در ریشه پروژه خود ایجاد کنید:
 
@@ -260,15 +264,7 @@ Cache-Control: max-age=31536000,immutable
    firebase deploy
    ```
 
-### Surge {#surge}
-
-1. بعد از اجرای `npm run docs:build`، دستور زیر را برای انتشار اجرا کنید:
-
-   ```sh
-   npx surge docs/.vitepress/dist
-   ```
-
-### Heroku {#heroku}
+### Heroku
 
 1. دستورالعمل و راهنماها را در [`heroku-buildpack-static`](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-static) دنبال کنید.
 
@@ -280,17 +276,25 @@ Cache-Control: max-age=31536000,immutable
    }
    ```
 
-### Edgio {#edgio}
+### Hostinger
 
-به [ایجاد و انتشار یک برنامه ویت‌پرس در Edgio](https://docs.edg.io/guides/vitepress) مراجعه کنید.
+می‌توانید پروژه ویت‌پرس خود را با [Hostinger](https://www.hostinger.com/web-apps-hosting) با دنبال کردن این [دستورالعمل‌ها](https://www.hostinger.com/support/how-to-deploy-a-nodejs-website-in-hostinger/) منتشر کنید. هنگام پیکربندی تنظیمات ساخت، VitePress را به عنوان فریم‌ورک انتخاب کنید و ریشه دایرکتوری را به `./docs` تنظیم کنید.
 
-### Kinsta Static Site Hosting {#kinsta-static-site-hosting}
+### Kinsta
 
 شما می‌توانید وب‌سایت ویت‌پرس خود را بر روی [Kinsta](https://kinsta.com/static-site-hosting/) با دنبال کردن این [دستورالعمل‌ها](https://kinsta.com/docs/vitepress-static-site-example/) انتشار دهید.
 
 ### Stormkit
 
 شما می‌توانید پروژه ویت‌پرس خود را به [Stormkit](https://www.stormkit.io) با دنبال کردن این [دستورالعمل‌ها](https://stormkit.io/blog/how-to-deploy-vitepress) انتشار دهید.
+
+### Surge
+
+1. بعد از اجرای `npm run docs:build`، دستور زیر را برای انتشار اجرا کنید:
+
+   ```sh
+   npx surge docs/.vitepress/dist
+   ```
 
 ### Nginx
 

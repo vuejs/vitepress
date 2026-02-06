@@ -559,7 +559,9 @@ async function initMoss() {
   status.value = 'initializing'
   initPromise = (async () => {
     try {
-      const { MossClient } = await import('@inferedge/moss')
+      const { MossClient } = await import(
+        /* @vite-ignore */ '@inferedge/moss'
+      )
       const client = new MossClient((options.value as any).projectId, (options.value as any).projectKey)
       const indexName = (options.value as any).indexName
 

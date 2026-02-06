@@ -132,11 +132,6 @@ export namespace DefaultTheme {
       | { provider: 'moss'; options: MossSearchOptions }
 
     /**
-     * @deprecated Use `search` instead.
-     */
-    algolia?: AlgoliaSearchOptions
-
-    /**
      * The carbon ads options. Leave it undefined to disable the ads feature.
      */
     carbonAds?: CarbonAdsOptions
@@ -403,6 +398,11 @@ export namespace DefaultTheme {
    * `@docsearch/react/dist/esm/DocSearch.d.ts`
    */
   export interface AlgoliaSearchOptions extends DocSearchProps {
+    /**
+     * Locale-specific overrides for Algolia search options.
+     * These options will be deeply merged with the root options,
+     * except for `searchParameters`, which is fully replaced.
+     */
     locales?: Record<string, Partial<DocSearchProps>>
   }
 
@@ -432,6 +432,12 @@ export namespace DefaultTheme {
      * @default 8
      */
     topk?: number
+
+  /**
+   * Maximum number of matches to include per document
+   * @default 2
+   */
+  MaxMatchPerPage?: number
 
     /**
      * A subset of options for different locales.

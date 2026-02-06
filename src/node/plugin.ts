@@ -42,7 +42,7 @@ declare module 'vite' {
 
 const themeRE = /(?:^|\/)\.vitepress\/theme\/index\.(m|c)?(j|t)s$/
 const startsWithThemeRE = /^@theme(?:\/|$)/
-const docsearchRE = /\/@docsearch\/css\/dist\/style.css(?:$|\?)/
+const docsearchRE = /\/docsearch\.css(?:$|\?)/
 
 const hashRE = /\.([-\w]+)\.js$/
 const staticInjectMarkerRE = /\bcreateStaticVNode\((?:(".*")|('.*')), (\d+)\)/g
@@ -149,7 +149,7 @@ export async function createVitePressPlugin(
             'vitepress > @vue/devtools-api',
             'vitepress > @vueuse/core'
           ].filter((d) => d != null),
-          exclude: ['@docsearch/js', 'vitepress']
+          exclude: ['@docsearch/js', '@docsearch/sidepanel-js', 'vitepress']
         },
         server: {
           fs: {

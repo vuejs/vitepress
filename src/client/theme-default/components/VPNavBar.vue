@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { useWindowScroll } from '@vueuse/core'
-import { ref, watchPostEffect } from 'vue'
 import { useLayout } from '../composables/layout'
 import VPNavBarAppearance from './VPNavBarAppearance.vue'
 import VPNavBarExtra from './VPNavBarExtra.vue'
@@ -21,21 +20,18 @@ defineEmits<{
 
 const { y } = useWindowScroll()
 const { isHome, hasSidebar } = useLayout()
-
-const classes = ref<Record<string, boolean>>({})
-
-watchPostEffect(() => {
-  classes.value = {
-    'has-sidebar': hasSidebar.value,
-    'home': isHome.value,
-    'top': y.value === 0,
-    'screen-open': props.isScreenOpen
-  }
-})
 </script>
 
 <template>
-  <div class="VPNavBar" :class="classes">
+  <div
+    class="VPNavBar"
+    :class="{
+      'has-sidebar': hasSidebar,
+      'home': isHome,
+      'top': y === 0,
+      'screen-open': isScreenOpen
+    }"
+  >
     <div class="wrapper">
       <div class="container">
         <div class="title">
@@ -55,7 +51,11 @@ watchPostEffect(() => {
             <VPNavBarSocialLinks class="social-links" />
             <VPNavBarExtra class="extra" />
             <slot name="nav-bar-content-after" />
-            <VPNavBarHamburger class="hamburger" :active="isScreenOpen" @click="$emit('toggle-screen')" />
+            <VPNavBarHamburger
+              class="hamburger"
+              :active="isScreenOpen"
+              @click="$emit('toggle-screen')"
+            />
           </div>
         </div>
       </div>
@@ -203,12 +203,6 @@ watchPostEffect(() => {
   .content-body {
     margin-right: -100vw;
     padding-right: 100vw;
-  }
-}
-
-@media (max-width: 767px) {
-  .content-body {
-    column-gap: 0.5rem;
   }
 }
 

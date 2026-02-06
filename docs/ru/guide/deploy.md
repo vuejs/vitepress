@@ -105,7 +105,7 @@ Cache-Control: max-age=31536000,immutable
 
 ## Руководства по платформам {#platform-guides}
 
-### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render {#netlify-vercel-cloudflare-pages-aws-amplify-render}
+### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render {#generic}
 
 Создайте новый проект и измените эти настройки с помощью панели управления:
 
@@ -117,7 +117,7 @@ Cache-Control: max-age=31536000,immutable
 Не включайте такие опции, как _Auto Minify_ для HTML-кода. Он удалит из вывода комментарии, которые имеют значение для Vue. При их удалении могут возникать ошибки несоответствия гидратации.
 :::
 
-### GitHub Pages {#github-pages}
+### GitHub Pages
 
 1. Создайте файл с именем `deploy.yml` в директории `.github/workflows` вашего проекта с примерно таким содержанием:
 
@@ -198,7 +198,7 @@ Cache-Control: max-age=31536000,immutable
 
 3. Внесите свои изменения в ветку `main` и дождитесь завершения процесса GitHub Actions. Вы должны увидеть, что ваш сайт развёрнут по адресу `https://<username>.github.io/[repository]/` или `https://<custom-domain>/` в зависимости от ваших настроек. Ваш сайт будет автоматически разворачиваться при каждом внесении изменений в ветке `main`.
 
-### GitLab Pages {#gitlab-pages}
+### GitLab Pages
 
 1. Установите значение `../public` для параметра `outDir` в конфигурации VitePress. Настройте опцию `base` на `'/<репозиторий>/'`, если вы хотите развернуть ваш проект по адресу `https://<имя пользователя>.gitlab.io/<репозиторий>/`. Вам не нужна опция `base`, если вы выполняете развёртывание на личном домене, страницах пользователя или группы, или если в GitLab включен параметр «Использовать уникальный домен».
 
@@ -221,7 +221,7 @@ Cache-Control: max-age=31536000,immutable
        - main
    ```
 
-### Статические веб-приложения Azure {#azure-static-web-apps}
+### Azure
 
 1. Следуйте [официальной документации](https://docs.microsoft.com/ru-ru/azure/static-web-apps/build-configuration).
 
@@ -231,7 +231,11 @@ Cache-Control: max-age=31536000,immutable
    - **`output_location`**: `docs/.vitepress/dist`
    - **`app_build_command`**: `npm run docs:build`
 
-### Firebase {#firebase}
+### CloudRay
+
+Вы можете развернуть свой проект VitePress с [CloudRay](https://cloudray.io/), следуя этим [инструкциям](https://cloudray.io/articles/how-to-deploy-vitepress-site).
+
+### Firebase
 
 1. Создайте `firebase.json` и `.firebaserc` в корне вашего проекта:
 
@@ -262,15 +266,7 @@ Cache-Control: max-age=31536000,immutable
    firebase deploy
    ```
 
-### Surge {#surge}
-
-1. После запуска `npm run docs:build` выполните эту команду для развёртывания:
-
-   ```sh
-   npx surge docs/.vitepress/dist
-   ```
-
-### Heroku {#heroku}
+### Heroku
 
 1. Следуйте документации и руководству, приведённому в [`heroku-buildpack-static`](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-static).
 
@@ -282,17 +278,25 @@ Cache-Control: max-age=31536000,immutable
    }
    ```
 
-### Edgio {#edgio}
+### Hostinger
 
-См. [Создание и развёртывание приложения VitePress в Edgio](https://docs.edg.io/applications/v6/sites_frameworks/getting_started/vitepress).
+Вы можете развернуть свой проект VitePress на [Hostinger](https://www.hostinger.com/web-apps-hosting), следуя этим [инструкциям](https://www.hostinger.com/support/how-to-deploy-a-nodejs-website-in-hostinger/). При настройке параметров сборки выберите VitePress в качестве фреймворка и укажите корневой каталог `./docs`.
 
-### Хостинг статических файлов Kinsta {#kinsta-static-site-hosting}
+### Kinsta
 
 Вы можете развернуть свой сайт VitePress на [Kinsta](https://kinsta.com/static-site-hosting/), следуя этим [инструкциям](https://kinsta.com/docs/vitepress-static-site-example/).
 
 ### Stormkit
 
 Вы можете развернуть свой проект VitePress на [Stormkit](https://www.stormkit.io), следуя следующим [инструкциям](https://stormkit.io/blog/how-to-deploy-vitepress).
+
+### Surge
+
+1. После запуска `npm run docs:build` выполните эту команду для развёртывания:
+
+   ```sh
+   npx surge docs/.vitepress/dist
+   ```
 
 ### Nginx
 
