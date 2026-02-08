@@ -1,13 +1,10 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
     "outDir": "../../dist/client",
-    "declaration": true,
-    "declarationDir": "../../dist/client-types",
-    "types": ["../../client.d.ts", "@types/node"],
+    "types": ["../../client.d.ts"],
     "paths": {
-      "vitepress": ["index.ts"],
+      "vitepress": ["./index.ts"],
       "vitepress/theme": ["../../theme.d.ts"]
     }
   },

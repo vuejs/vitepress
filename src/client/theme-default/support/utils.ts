@@ -3,7 +3,7 @@ import { isExternal, treatAsHtml } from '../../shared'
 import { useData } from '../composables/data'
 
 export function throttleAndDebounce(fn: () => void, delay: number): () => void {
-  let timeoutId: NodeJS.Timeout
+  let timeoutId: number
   let called = false
 
   return () => {

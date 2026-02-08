@@ -1,10 +1,8 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
     "outDir": "../../dist/node",
-    "types": ["node"],
-    "sourceMap": true
+    "types": ["node"]
   },
   "include": ["."]
 }
