@@ -138,7 +138,9 @@ function newRouter(): Router {
           // in prod this is handled in src/client/app/utils.ts#pathToFile
           const url = new URL(pageFilePath!, 'http://a.com')
           const path =
-            (url.pathname.endsWith('/index.md')
+            // vite-ignore is added here because of https://github.com/rolldown/rolldown/issues/8248
+            // remove once fixed upstream
+            /*@vite-ignore*/ (url.pathname.endsWith('/index.md')
               ? url.pathname.slice(0, -9) + '.md'
               : url.pathname.slice(0, -3) + '/index.md') +
             url.search +

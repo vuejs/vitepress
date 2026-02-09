@@ -7,8 +7,9 @@ export const webFontsPlugin = (enabled = false): Plugin => ({
   name: 'vitepress:webfonts',
   enforce: 'pre',
 
-  transform(code, id) {
-    if (/[\\/]fonts\.s?css/.test(id)) {
+  transform: {
+    filter: { id: /\/fonts\.s?css(?:$|\?)/ },
+    handler(code) {
       if (enabled) {
         return code.match(webfontMarkerRE)?.[1]
       } else {
