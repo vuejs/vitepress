@@ -16,10 +16,9 @@ concurrency:
 jobs:
   test:
     strategy:
-      fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        node_version: [20, 22, 24, latest]
+        node_version: [22, 24, latest]
         include:
           - os: windows-latest
             node_version: 24
