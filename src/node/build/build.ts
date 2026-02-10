@@ -29,8 +29,11 @@ export async function build(
 ) {
   const start = Date.now()
 
-  // @ts-ignore only exists for rolldown-vite
-  if (vite.rolldownVersion) {
+  if (
+    !vite.version.startsWith('8.') &&
+    // @ts-ignore only exists for rolldown-vite
+    vite.rolldownVersion
+  ) {
     try {
       await import('oxc-minify')
     } catch {
