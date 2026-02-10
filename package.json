@@ -174,7 +174,7 @@
     "tinyglobby": "^0.2.15",
     "tsdown": "^0.20.3",
     "typescript": "^5.9.3",
-    "vitest": "4.0.0-beta.4",
+    "vitest": "^4.1.0-beta.3",
     "vue-sfc-transformer": "^0.1.17",
     "vue-tsc": "^3.2.4",
     "wait-on": "^9.0.3"
