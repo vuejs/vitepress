@@ -51,8 +51,8 @@
     "lib"
   ],
   "scripts": {
-    "dev": "DEV=1 node --watch-path=./src scripts/build.js",
-    "build": "node scripts/build.js",
+    "dev": "tsdown --watch",
+    "build": "tsdown",
     "test": "pnpm --aggregate-output --reporter=append-only '/^test:(type|unit|e2e|init)$/'",
     "test:type": "tsc -p src/node --noEmit && vue-tsc -p src/client --noEmit",
     "test:unit": "vitest run -r __tests__/unit",
@@ -130,7 +130,6 @@
     "@types/node": "^25.2.2",
     "@types/picomatch": "^4.0.2",
     "@types/prompts": "^2.4.9",
-    "chokidar": "^5.0.0",
     "conventional-changelog": "^7.1.1",
     "conventional-changelog-angular": "^8.1.0",
     "cross-spawn": "^7.0.6",
