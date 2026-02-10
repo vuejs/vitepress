@@ -10,11 +10,12 @@ onlyBuiltDependencies:
   - simple-git-hooks
 
 overrides:
-  ora>string-width: ^5
+  esbuild: latest
+  rolldown: latest
   vite: npm:rolldown-vite@latest
 
 patchedDependencies:
-  '@types/markdown-it-attrs': patches/@types__markdown-it-attrs.patch
+  '@types/markdown-it-attrs@4.1.3': patches/@types__markdown-it-attrs@4.1.3.patch
   '@types/mdurl@2.0.0': patches/@types__mdurl@2.0.0.patch
   markdown-it-anchor@9.2.0: patches/markdown-it-anchor@9.2.0.patch
   markdown-it-attrs@4.3.1: patches/markdown-it-attrs@4.3.1.patch

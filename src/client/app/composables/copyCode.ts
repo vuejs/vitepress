@@ -5,7 +5,7 @@ const ignoredNodes = ['.vp-copy-ignore', '.diff.remove'].join(', ')
 
 export function useCopyCode() {
   if (inBrowser) {
-    const timeoutIdMap: WeakMap<HTMLElement, NodeJS.Timeout> = new WeakMap()
+    const timeoutIdMap: WeakMap<HTMLElement, number> = new WeakMap()
     window.addEventListener('click', (e) => {
       const el = e.target as HTMLElement
       if (el.matches('div[class*="language-"] > button.copy')) {

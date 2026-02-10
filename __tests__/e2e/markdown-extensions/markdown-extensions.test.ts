@@ -123,15 +123,17 @@ describe('Table of Contents', () => {
 })
 
 describe('Custom Containers', () => {
-  enum CustomBlocks {
-    Info = 'INFO',
-    Tip = 'TIP',
-    Warning = 'WARNING',
-    Danger = 'DANGER',
-    Details = 'Details'
-  }
+  const CustomBlocks = {
+    Info: 'INFO',
+    Tip: 'TIP',
+    Warning: 'WARNING',
+    Danger: 'DANGER',
+    Details: 'Details'
+  } as const
 
-  const classnameMap = {
+  type CustomBlock = (typeof CustomBlocks)[keyof typeof CustomBlocks]
+
+  const classnameMap: Record<CustomBlock, string> = {
     [CustomBlocks.Info]: 'info',
     [CustomBlocks.Tip]: 'tip',
     [CustomBlocks.Warning]: 'warning',
@@ -139,7 +141,7 @@ describe('Custom Containers', () => {
     [CustomBlocks.Details]: 'details'
   }
 
-  const getTitleText = (locator: Locator, type: CustomBlocks) => {
+  const getTitleText = (locator: Locator, type: CustomBlock) => {
     if (type === CustomBlocks.Details) {
       return locator.locator('summary').textContent()
     } else {
@@ -152,7 +154,7 @@ describe('Custom Containers', () => {
     for (const [index, type] of Object.values(CustomBlocks).entries()) {
       const block = blocks.nth(index)
       const classList = await getClassList(block)
-      expect(classList).contain(classnameMap[type as CustomBlocks])
+      expect(classList).contain(classnameMap[type])
       expect(await getTitleText(block, type)).toBe(type)
     }
   })

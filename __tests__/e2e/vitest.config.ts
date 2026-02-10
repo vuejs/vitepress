@@ -9,6 +9,9 @@ export default defineConfig({
     testTimeout: timeout,
     hookTimeout: timeout,
     teardownTimeout: timeout,
-    globals: true
+    globals: true,
+    experimental: {
+      viteModuleRunner: false
+    }
   }
 })
