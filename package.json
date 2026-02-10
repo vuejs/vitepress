@@ -51,9 +51,10 @@
     "lib"
   ],
   "scripts": {
+    "dev": "DEV=1 node --watch-path=./src scripts/build.js",
     "build": "node scripts/build.js",
     "test": "pnpm --aggregate-output --reporter=append-only '/^test:(type|unit|e2e|init)$/'",
-    "test:type": "vue-tsc -p src/client --noEmit && tsc -p src/node --noEmit",
+    "test:type": "tsc -p src/node --noEmit && vue-tsc -p src/client --noEmit",
     "test:unit": "vitest run -r __tests__/unit",
     "test:unit:watch": "vitest -r __tests__/unit",
     "test:e2e": "pnpm test:e2e-dev && pnpm test:e2e-build",
