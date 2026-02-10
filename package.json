@@ -51,8 +51,7 @@
     "lib"
   ],
   "scripts": {
-    "dev": "tsdown --watch",
-    "build": "tsdown",
+    "build": "node scripts/build.js",
     "test": "pnpm --aggregate-output --reporter=append-only '/^test:(type|unit|e2e|init)$/'",
     "test:type": "vue-tsc -p src/client --noEmit && tsc -p src/node --noEmit",
     "test:unit": "vitest run -r __tests__/unit",
@@ -134,6 +133,7 @@
     "conventional-changelog": "^7.1.1",
     "conventional-changelog-angular": "^8.1.0",
     "cross-spawn": "^7.0.6",
+    "esbuild": "^0.27.3",
     "execa": "^9.6.1",
     "fs-extra": "^11.3.3",
     "get-port": "^7.1.0",
@@ -150,6 +150,7 @@
     "markdown-it-emoji": "^3.0.0",
     "markdown-it-mathjax3": "^4.3.2",
     "minimist": "^1.2.8",
+    "mkdist": "^2.4.1",
     "nanoid": "^5.1.6",
     "obug": "^2.1.1",
     "ora": "^9.3.0",
@@ -174,6 +175,7 @@
     "tsdown": "^0.20.3",
     "typescript": "^5.9.3",
     "vitest": "4.0.0-beta.4",
+    "vue-sfc-transformer": "^0.1.17",
     "vue-tsc": "^3.2.4",
     "wait-on": "^9.0.3"
   },

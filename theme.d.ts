@@ -36,22 +36,21 @@ export declare const useLayout: () => {
   hasLocalNav: ComputedRef<boolean>
 }
 
-// TODO: add props for these
-export declare const VPBadge: DefineComponent
-export declare const VPButton: DefineComponent
-export declare const VPDocAsideSponsors: DefineComponent
-export declare const VPFeatures: DefineComponent
-export declare const VPHomeContent: DefineComponent
-export declare const VPHomeFeatures: DefineComponent
-export declare const VPHomeHero: DefineComponent
-export declare const VPHomeSponsors: DefineComponent
-export declare const VPImage: DefineComponent
-export declare const VPLink: DefineComponent
-export declare const VPNavBarSearch: DefineComponent
-export declare const VPSocialLink: DefineComponent
-export declare const VPSocialLinks: DefineComponent
-export declare const VPSponsors: DefineComponent
-export declare const VPTeamMembers: DefineComponent
-export declare const VPTeamPage: DefineComponent
-export declare const VPTeamPageSection: DefineComponent
-export declare const VPTeamPageTitle: DefineComponent
+export declare const VPBadge: typeof import('./dist/client/theme-default/components/VPBadge.vue').default
+export declare const VPButton: typeof import('./dist/client/theme-default/components/VPButton.vue').default
+export declare const VPDocAsideSponsors: typeof import('./dist/client/theme-default/components/VPDocAsideSponsors.vue').default
+export declare const VPFeatures: typeof import('./dist/client/theme-default/components/VPFeatures.vue').default
+export declare const VPHomeContent: typeof import('./dist/client/theme-default/components/VPHomeContent.vue').default
+export declare const VPHomeFeatures: typeof import('./dist/client/theme-default/components/VPHomeFeatures.vue').default
+export declare const VPHomeHero: typeof import('./dist/client/theme-default/components/VPHomeHero.vue').default
+export declare const VPHomeSponsors: typeof import('./dist/client/theme-default/components/VPHomeSponsors.vue').default
+export declare const VPImage: typeof import('./dist/client/theme-default/components/VPImage.vue').default
+export declare const VPLink: typeof import('./dist/client/theme-default/components/VPLink.vue').default
+export declare const VPNavBarSearch: typeof import('./dist/client/theme-default/components/VPNavBarSearch.vue').default
+export declare const VPSocialLink: typeof import('./dist/client/theme-default/components/VPSocialLink.vue').default
+export declare const VPSocialLinks: typeof import('./dist/client/theme-default/components/VPSocialLinks.vue').default
+export declare const VPSponsors: typeof import('./dist/client/theme-default/components/VPSponsors.vue').default
+export declare const VPTeamMembers: typeof import('./dist/client/theme-default/components/VPTeamMembers.vue').default
+export declare const VPTeamPage: typeof import('./dist/client/theme-default/components/VPTeamPage.vue').default
+export declare const VPTeamPageSection: typeof import('./dist/client/theme-default/components/VPTeamPageSection.vue').default
+export declare const VPTeamPageTitle: typeof import('./dist/client/theme-default/components/VPTeamPageTitle.vue').default
