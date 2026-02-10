@@ -12,6 +12,11 @@ const typesExternal = [
   /^markdown-it(?:$|\/)/
 ]
 
+await Promise.all([
+  fs.copyFile('src/shared/shared.ts', 'src/node/shared.ts'),
+  fs.copyFile('src/shared/shared.ts', 'src/client/shared.ts')
+])
+
 await build({
   checks: { eval: false, pluginTimings: false },
   config: false,
