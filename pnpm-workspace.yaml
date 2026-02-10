@@ -10,6 +10,7 @@ onlyBuiltDependencies:
   - simple-git-hooks
 
 overrides:
+  esbuild: latest
   rolldown: latest
   vite: npm:rolldown-vite@latest
 
