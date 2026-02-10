@@ -77,6 +77,7 @@ async function buildClientDist(): Promise<void> {
     ext: 'js',
     format: 'esm',
     pattern: '**/*.{vue,ts,css,woff2}',
+    postcss: { cssnano: false },
     srcDir: SRC_CLIENT
   })
 
