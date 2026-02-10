@@ -1,17 +1,17 @@
 import type { Plugin } from 'vite'
 
 const webfontMarkerRE =
-  /\/(?:\*!?|\/) *webfont-marker-begin *(?:\*\/|\n|\r|\n\r|\r\n)([^]*?)\/(?:\*!?|\/) *webfont-marker-end *(?:\*\/|\n|\r|\n\r|\r\n|$)/
+  /\/[\/*]!?\s*webfont-marker-begin(?:\s*\*\/)?([^]*?)\/[\/*]!?\s*webfont-marker-end(?:\s*\*\/)?/
 
 export const webFontsPlugin = (enabled = false): Plugin => ({
   name: 'vitepress:webfonts',
   enforce: 'pre',
 
   transform: {
-    filter: { id: /\/fonts\.s?css(?:$|\?)/ },
+    filter: { id: /[\\/]fonts\.s?css(?:$|\?)/ },
     handler(code) {
       if (enabled) {
-        return code.match(webfontMarkerRE)?.[1]
+        return code.match(webfontMarkerRE)?.[1].trim()
       } else {
         return code.replace(webfontMarkerRE, '')
       }
