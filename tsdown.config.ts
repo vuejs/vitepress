@@ -1,7 +1,6 @@
 import { mkdist } from 'mkdist'
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import process from 'node:process'
 import { glob } from 'tinyglobby'
 import { defineConfig } from 'tsdown'
 
@@ -97,7 +96,7 @@ async function buildClientDist(): Promise<void> {
 }
 
 async function ensureSymlinks(isDev: boolean): Promise<void> {
-  const type = process.platform === 'win32' ? 'junction' : 'dir'
+  const isWin = process.platform === 'win32'
 
   await Promise.all([
     fs.rm(CLIENT_SHARED, { force: true }),
@@ -106,8 +105,8 @@ async function ensureSymlinks(isDev: boolean): Promise<void> {
   ])
 
   await Promise.all([
-    fs.symlink(SHARED_SHARED, CLIENT_SHARED, type),
-    fs.symlink(SHARED_SHARED, NODE_SHARED, type),
-    isDev && fs.symlink(SRC_CLIENT, DIST_CLIENT, type)
+    fs[isWin ? 'link' : 'symlink'](SHARED_SHARED, CLIENT_SHARED),
+    fs[isWin ? 'link' : 'symlink'](SHARED_SHARED, NODE_SHARED),
+    isDev && fs.symlink(SRC_CLIENT, DIST_CLIENT, 'junction')
   ])
 }
