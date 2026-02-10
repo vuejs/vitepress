@@ -33,7 +33,15 @@ export default defineConfig((options) => {
     hooks: {
       'build:prepare': async () => {
         await ensureSymlinks(isDev)
-        !isDev && (await buildClientDist())
+        if (!isDev) {
+          await buildClientDist()
+          console.log('Client build complete.')
+        }
+      },
+      'build:done': async () => {
+        if (!isDev) {
+          console.log('Node build complete.')
+        }
       }
     },
     inlineOnly: false,
@@ -42,9 +50,6 @@ export default defineConfig((options) => {
     nodeProtocol: true,
     outDir: 'dist/node',
     platform: 'node',
-    sourcemap: isDev,
-    target: 'node20',
-    tsconfig: 'src/node/tsconfig.json',
     plugins: [
       isDev && {
         name: 'custom:dev-replace',
@@ -57,7 +62,10 @@ export default defineConfig((options) => {
             )
         }
       }
-    ]
+    ],
+    sourcemap: isDev,
+    target: 'node20',
+    tsconfig: 'src/node/tsconfig.json'
   }
 })
 
@@ -86,8 +94,6 @@ async function buildClientDist(): Promise<void> {
 
   const dVueFiles = await glob('dist/client/**/*.d.vue.ts')
   await Promise.all(dVueFiles.map((file) => fs.rm(file)))
-
-  console.log('Client build complete.')
 }
 
 async function ensureSymlinks(isDev: boolean): Promise<void> {
