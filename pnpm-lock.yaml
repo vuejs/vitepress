@@ -58,13 +58,13 @@ importers:
         specifier: ^8.0.6
         version: 8.0.6
       '@vue/shared':
-        specifier: ^3.5.27
+        specifier: ^3.5.28
         version: 3.5.28
       '@vueuse/core':
-        specifier: ^14.2.0
+        specifier: ^14.2.1
         version: 14.2.1(vue@3.5.28(typescript@5.9.3))
       '@vueuse/integrations':
-        specifier: ^14.2.0
+        specifier: ^14.2.1
         version: 14.2.1(axios@1.13.5)(focus-trap@8.0.0)(vue@3.5.28(typescript@5.9.3))
       focus-trap:
         specifier: ^8.0.0
@@ -82,7 +82,7 @@ importers:
         specifier: npm:rolldown-vite@latest
         version: rolldown-vite@7.3.1(@types/node@25.2.2)(esbuild@0.27.3)(jiti@1.21.7)(yaml@2.8.2)
       vue:
-        specifier: ^3.5.27
+        specifier: ^3.5.28
         version: 3.5.28(typescript@5.9.3)
     devDependencies:
       '@clack/prompts':

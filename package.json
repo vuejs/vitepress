@@ -98,15 +98,15 @@
     "@types/markdown-it": "^14.1.2",
     "@vitejs/plugin-vue": "^6.0.4",
     "@vue/devtools-api": "^8.0.6",
-    "@vue/shared": "^3.5.27",
-    "@vueuse/core": "^14.2.0",
-    "@vueuse/integrations": "^14.2.0",
+    "@vue/shared": "^3.5.28",
+    "@vueuse/core": "^14.2.1",
+    "@vueuse/integrations": "^14.2.1",
     "focus-trap": "^8.0.0",
     "mark.js": "8.11.1",
     "minisearch": "^7.2.0",
     "shiki": "^3.22.0",
     "vite": "^7.3.1",
-    "vue": "^3.5.27"
+    "vue": "^3.5.28"
   },
   "devDependencies": {
     "@clack/prompts": "^1.0.0",
@@ -195,5 +195,5 @@
       "optional": true
     }
   },
-  "packageManager": "pnpm@10.29.1"
+  "packageManager": "pnpm@10.29.2"
 }
