@@ -6,7 +6,8 @@ import { Transform, type TransformCallback } from 'node:stream'
 import { slash } from '../shared'
 
 const debug = createDebug('vitepress:git')
-const cache = new Map<string, number>()
+const lastUpdatedCache = new Map<string, number>()
+const createdCache = new Map<string, number>()
 
 const RS = 0x1e
 const NUL = 0x00
@@ -103,7 +104,7 @@ class GitLogParser extends Transform {
   }
 }
 
-export async function cacheAllGitTimestamps(
+export async function cacheAllGitLastUpdatedTimestamps(
   root: string,
   pathspec: string[] = ['*.md']
 ): Promise<void> {
@@ -121,7 +122,7 @@ export async function cacheAllGitTimestamps(
   ]
 
   return new Promise((resolve, reject) => {
-    cache.clear()
+    lastUpdatedCache.clear()
     const child = spawn('git', args, { cwd: root })
 
     child.stdout
@@ -129,7 +130,8 @@ export async function cacheAllGitTimestamps(
       .on('data', (rec: GitLogRecord) => {
         for (const file of rec.files) {
           const slashed = slash(path.resolve(gitRoot, file))
-          if (!cache.has(slashed)) cache.set(slashed, rec.ts)
+          if (!lastUpdatedCache.has(slashed))
+            lastUpdatedCache.set(slashed, rec.ts)
         }
       })
       .on('error', reject)
@@ -139,8 +141,10 @@ export async function cacheAllGitTimestamps(
   })
 }
 
-export async function getGitTimestamp(file: string): Promise<number> {
-  const cached = cache.get(file)
+export async function getGitLastUpdatedTimestamp(
+  file: string
+): Promise<number> {
+  const cached = lastUpdatedCache.get(file)
   if (cached) return cached
 
   // most likely will never happen except for recently added files in dev
@@ -162,7 +166,84 @@ export async function getGitTimestamp(file: string): Promise<number> {
       const ts = Number.parseInt(output.trim(), 10) * 1000
       if (!(ts > 0)) return resolve(0)
 
-      cache.set(file, ts)
+      lastUpdatedCache.set(file, ts)
+      resolve(ts)
+    })
+
+    child.on('error', reject)
+  })
+}
+
+export async function cacheAllGitCreatedTimestamps(
+  root: string,
+  pathspec: string[] = ['*.md']
+): Promise<void> {
+  const cp = sync('git', ['rev-parse', '--show-toplevel'], { cwd: root })
+  if (cp.error) throw cp.error
+  const gitRoot = cp.stdout.toString('utf8').trim()
+
+  const args = [
+    'log',
+    '--pretty=format:%x1e%at%x00', // RS + epoch + NUL
+    '--name-only',
+    '--follow',
+    '--reverse',
+    '-z',
+    '--',
+    ...pathspec
+  ]
+
+  return new Promise((resolve, reject) => {
+    createdCache.clear()
+    const child = spawn('git', args, { cwd: root })
+
+    child.stdout
+      .pipe(new GitLogParser())
+      .on('data', (rec: GitLogRecord) => {
+        for (const file of rec.files) {
+          const slashed = slash(path.resolve(gitRoot, file))
+          if (!createdCache.has(slashed)) createdCache.set(slashed, rec.ts)
+        }
+      })
+      .on('error', reject)
+      .on('end', resolve)
+
+    child.on('error', reject)
+  })
+}
+
+export async function getGitCreatedTimestamp(file: string): Promise<number> {
+  const cached = createdCache.get(file)
+  if (cached) return cached
+
+  // most likely will never happen except for recently added files in dev
+  debug(`[cache miss] ${file}`)
+
+  if (!fs.existsSync(file)) return 0
+
+  return new Promise((resolve, reject) => {
+    const child = spawn(
+      'git',
+      [
+        'log',
+        '-1',
+        '--pretty=%at',
+        '--follow',
+        '--reverse',
+        '--',
+        path.basename(file)
+      ],
+      { cwd: path.dirname(file) }
+    )
+
+    let output = ''
+    child.stdout.on('data', (d) => (output += String(d)))
+
+    child.on('close', () => {
+      const ts = Number.parseInt(output.trim(), 10) * 1000
+      if (!(ts > 0)) return resolve(0)
+
+      createdCache.set(file, ts)
       resolve(ts)
     })
 
