@@ -4,7 +4,7 @@ import { onContentUpdated } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
 import { nextTick, ref, watch } from 'vue'
 import { useData } from '../composables/data'
-import { resolveTitle } from '../composables/outline'
+import { resolveTitle, useFloatActiveAnchor } from '../composables/outline'
 import VPDocOutlineItem from './VPDocOutlineItem.vue'
 
 const props = defineProps<{
@@ -17,6 +17,7 @@ const open = ref(false)
 const vh = ref(0)
 const main = ref<HTMLDivElement>()
 const items = ref<HTMLDivElement>()
+const marker = ref<HTMLDivElement>()
 
 function closeOnClickOutside(e: Event) {
   if (!main.value?.contains(e.target as Node)) {
@@ -61,6 +62,8 @@ function scrollToTop() {
   open.value = false
   window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
 }
+
+useFloatActiveAnchor(items, marker, open)
 </script>
 
 <template>
@@ -83,6 +86,7 @@ function scrollToTop() {
             {{ theme.returnToTopLabel || 'Return to top' }}
           </a>
         </div>
+        <div class="outline-marker" ref="marker" />
         <div class="outline">
           <VPDocOutlineItem :headers />
         </div>
@@ -171,9 +175,29 @@ function scrollToTop() {
   color: var(--vp-c-brand-1);
 }
 
+.outline-marker {
+  position: absolute;
+  left: 1px;
+  z-index: 1;
+  opacity: 0;
+  width: 2px;
+  border-radius: 2px;
+  height: 18px;
+  background-color: var(--vp-c-brand-1);
+  transition:
+    top 0.25s cubic-bezier(0, 1, 0.5, 1),
+    background-color 0.5s,
+    opacity 0.25s;
+}
+
 .outline {
   padding: 8px 0;
   background-color: var(--vp-c-bg-soft);
+}
+
+.outline-link.active {
+  color: var(--vp-c-brand-1);
+  font-weight: 600;
 }
 
 .flyout-enter-active {
