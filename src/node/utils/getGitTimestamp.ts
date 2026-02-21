@@ -174,50 +174,9 @@ export async function getGitLastUpdatedTimestamp(
   })
 }
 
-export async function cacheAllGitCreatedTimestamps(
-  root: string,
-  pathspec: string[] = ['*.md']
-): Promise<void> {
-  const cp = sync('git', ['rev-parse', '--show-toplevel'], { cwd: root })
-  if (cp.error) throw cp.error
-  const gitRoot = cp.stdout.toString('utf8').trim()
-
-  const args = [
-    'log',
-    '--pretty=format:%x1e%at%x00', // RS + epoch + NUL
-    '--name-only',
-    '--follow',
-    '--reverse',
-    '-z',
-    '--',
-    ...pathspec
-  ]
-
-  return new Promise((resolve, reject) => {
-    createdCache.clear()
-    const child = spawn('git', args, { cwd: root })
-
-    child.stdout
-      .pipe(new GitLogParser())
-      .on('data', (rec: GitLogRecord) => {
-        for (const file of rec.files) {
-          const slashed = slash(path.resolve(gitRoot, file))
-          if (!createdCache.has(slashed)) createdCache.set(slashed, rec.ts)
-        }
-      })
-      .on('error', reject)
-      .on('end', resolve)
-
-    child.on('error', reject)
-  })
-}
-
 export async function getGitCreatedTimestamp(file: string): Promise<number> {
   const cached = createdCache.get(file)
   if (cached) return cached
-
-  // most likely will never happen except for recently added files in dev
-  debug(`[cache miss] ${file}`)
 
   if (!fs.existsSync(file)) return 0
 
@@ -229,7 +188,7 @@ export async function getGitCreatedTimestamp(file: string): Promise<number> {
         '-1',
         '--pretty=%at',
         '--follow',
-        '--reverse',
+        '--diff-filter=A',
         '--',
         path.basename(file)
       ],

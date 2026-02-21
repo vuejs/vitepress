@@ -31,10 +31,7 @@ import { staticDataPlugin } from './plugins/staticDataPlugin'
 import { webFontsPlugin } from './plugins/webFontsPlugin'
 import { slash, type PageDataPayload } from './shared'
 import { deserializeFunctions, serializeFunctions } from './utils/fnSerialize'
-import {
-  cacheAllGitLastUpdatedTimestamps,
-  cacheAllGitCreatedTimestamps
-} from './utils/getGitTimestamp'
+import { cacheAllGitLastUpdatedTimestamps } from './utils/getGitTimestamp'
 
 declare module 'vite' {
   interface UserConfig {
@@ -120,7 +117,6 @@ export async function createVitePressPlugin(
       config = resolvedConfig
       // pre-resolve git timestamps
       if (lastUpdated) await cacheAllGitLastUpdatedTimestamps(srcDir)
-      if (created) await cacheAllGitCreatedTimestamps(srcDir)
       markdownToVue = await createMarkdownToVueRenderFn(
         srcDir,
         markdown,
