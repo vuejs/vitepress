@@ -40,6 +40,10 @@ export default defineAdditionalConfig({
       text: '最后更新于'
     },
 
+    created: {
+      text: '创建于'
+    },
+
     notFound: {
       title: '页面未找到',
       quote:
