@@ -281,11 +281,11 @@ console.log('Привет, VitePress!')
   }
   ```
 
-  Он использует [`postcss-prefix-selector`](https://github.com/postcss/postcss-load-config) под капотом. Вы можете передать ему параметры следующим образом:
+  Вы можете передать ему параметры следующим образом:
 
   ```js
   postcssIsolateStyles({
-    includeFiles: [/vp-doc\.css/] // по умолчанию /base\.css/
+    includeFiles: [/custom\.css/] // по умолчанию [/vp-doc\.css/, /base\.css/]
   })
   ```
 
@@ -795,7 +795,7 @@ export default config
 
 ## Основы
 
-<!--@include: ./parts/basics.md-->
+<!--@@include: ./parts/basics.md-->
 ```
 
 **Файл части** (`parts/basics.md`)
@@ -831,7 +831,7 @@ export default config
 
 ## Основы
 
-<!--@include: ./parts/basics.md{3,}-->
+<!--@@include: ./parts/basics.md{3,}-->
 ```
 
 **Файл части** (`parts/basics.md`)
@@ -867,8 +867,8 @@ export default config
 
 ## Основы
 
-<!--@include: ./parts/basics.md#basic-usage{,2}-->
-<!--@include: ./parts/basics.md#basic-usage{5,}-->
+<!--@@include: ./parts/basics.md#basic-usage{,2}-->
+<!--@@include: ./parts/basics.md#basic-usage{5,}-->
 ```
 
 **Часть файла** (`parts/basics.md`)
@@ -919,7 +919,7 @@ export default config
 
 ```md
 ## Мой дополнительный раздел
-<!--@include: ./parts/basics.md#мои-основнои-раздел-->
+<!--@@include: ./parts/basics.md#мои-основнои-раздел-->
 ```
 
 **Соответствующий код**
@@ -943,7 +943,7 @@ export default config
 и включить его следующим образом:
 
 ```md
-<!--@include: ./parts/basics.md#custom-id-->
+<!--@@include: ./parts/basics.md#custom-id-->
 ```
 
 ## Математические уравнения {#math-equations}
@@ -951,7 +951,7 @@ export default config
 В настоящее время эта фича предоставляется по желанию. Чтобы включить её, вам нужно установить `markdown-it-mathjax3` и установить значение `true` для опции `markdown.math` в вашем файле конфигурации:
 
 ```sh
-npm add -D markdown-it-mathjax3
+npm add -D markdown-it-mathjax3@^4
 ```
 
 ```ts [.vitepress/config.ts]

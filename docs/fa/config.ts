@@ -5,9 +5,7 @@ const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
 
 export default defineAdditionalConfig({
-  lang: 'fa-IR',
   description: 'ژنراتور استاتیک وب‌سایت با Vite و Vue',
-  dir: 'rtl',
 
   // prettier-ignore
   head: [
@@ -82,6 +80,10 @@ function nav(): DefaultTheme.NavItem[] {
     {
       text: pkg.version,
       items: [
+        {
+          text: '1.6.4',
+          link: 'https://vuejs.github.io/vitepress/v1/fa/'
+        },
         {
           text: 'Changelog',
           link: 'https://github.com/vuejs/vitepress/blob/main/CHANGELOG.md'
@@ -180,7 +182,6 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
 
 function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
   return {
-    placeholder: 'جستجوی مستندات',
     translations: {
       button: {
         buttonText: 'جستجو',
@@ -188,31 +189,139 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
       },
       modal: {
         searchBox: {
-          resetButtonTitle: 'آغاز مجدد جستجو',
-          resetButtonAriaLabel: 'آغاز مجدد جستجو',
-          cancelButtonText: 'لغو',
-          cancelButtonAriaLabel: 'لغو'
+          clearButtonTitle: 'پاک کردن',
+          clearButtonAriaLabel: 'پاک کردن عبارت جستجو',
+          closeButtonText: 'بستن',
+          closeButtonAriaLabel: 'بستن',
+          placeholderText: 'در مستندات جستجو کنید یا از Ask AI بپرسید',
+          placeholderTextAskAi: 'سؤال دیگری بپرسید...',
+          placeholderTextAskAiStreaming: 'در حال پاسخ گویی...',
+          searchInputLabel: 'جستجو',
+          backToKeywordSearchButtonText: 'بازگشت به جستجوی کلیدواژه',
+          backToKeywordSearchButtonAriaLabel: 'بازگشت به جستجوی کلیدواژه',
+          newConversationPlaceholder: 'یک سؤال بپرسید',
+          conversationHistoryTitle: 'تاریخچه گفت وگوی من',
+          startNewConversationText: 'شروع گفت وگوی جدید',
+          viewConversationHistoryText: 'تاریخچه گفت وگو',
+          threadDepthErrorPlaceholder: 'محدودیت گفت وگو رسید'
         },
-        startScreen: {
-          recentSearchesTitle: 'جستجو‌های اخیر',
-          noRecentSearchesText: 'تاریخچه جستجویی یافت نشد.',
-          saveRecentSearchButtonTitle: 'ذخیره تاریخچه جستجو',
-          removeRecentSearchButtonTitle: 'حذف تاریخچه جستجو',
-          favoriteSearchesTitle: 'موارد دلخواه',
-          removeFavoriteSearchButtonTitle: 'حذف مورد دلخواه'
-        },
-        errorScreen: {
-          titleText: 'نتیجه‌ای یافت نشد برای',
-          helpText: 'اتصال شبکه خود را بررسی کنید'
+        newConversation: {
+          newConversationTitle: 'امروز چگونه می توانم کمک کنم؟',
+          newConversationDescription:
+            'در مستندات شما جستجو می کنم تا سریع راهنماهای راه اندازی، جزئیات ویژگی ها و نکات رفع اشکال را پیدا کنم.'
         },
         footer: {
           selectText: 'انتخاب',
-          navigateText: 'رفتن',
+          submitQuestionText: 'ارسال سؤال',
+          selectKeyAriaLabel: 'کلید Enter',
+          navigateText: 'پیمایش',
+          navigateUpKeyAriaLabel: 'پیکان بالا',
+          navigateDownKeyAriaLabel: 'پیکان پایین',
           closeText: 'بستن',
-          searchByText: ' جستجو با '
+          backToSearchText: 'بازگشت به جستجو',
+          closeKeyAriaLabel: 'کلید Escape',
+          poweredByText: 'قدرت گرفته از'
+        },
+        errorScreen: {
+          titleText: 'امکان دریافت نتایج وجود ندارد',
+          helpText: 'ممکن است لازم باشد اتصال شبکه را بررسی کنید.'
+        },
+        startScreen: {
+          recentSearchesTitle: 'اخیر',
+          noRecentSearchesText: 'جستجوی اخیر وجود ندارد',
+          saveRecentSearchButtonTitle: 'ذخیره این جستجو',
+          removeRecentSearchButtonTitle: 'حذف این جستجو از تاریخچه',
+          favoriteSearchesTitle: 'علاقه مندی ها',
+          removeFavoriteSearchButtonTitle: 'حذف این جستجو از علاقه مندی ها',
+          recentConversationsTitle: 'گفت وگوهای اخیر',
+          removeRecentConversationButtonTitle: 'حذف این گفت وگو از تاریخچه'
         },
         noResultsScreen: {
-          noResultsText: 'نتیجه‌ای یافت نشد برای'
+          noResultsText: 'هیچ نتیجه ای برای',
+          suggestedQueryText: 'سعی کنید جستجو کنید',
+          reportMissingResultsText:
+            'فکر می کنید این جستجو باید نتیجه داشته باشد؟',
+          reportMissingResultsLinkText: 'به ما اطلاع دهید.'
+        },
+        resultsScreen: {
+          askAiPlaceholder: 'از هوش مصنوعی بپرسید: ',
+          noResultsAskAiPlaceholder:
+            'در مستندات پیدا نکردید؟ از Ask AI کمک بگیرید: '
+        },
+        askAiScreen: {
+          disclaimerText:
+            'پاسخ ها توسط هوش مصنوعی تولید می شوند و ممکن است اشتباه باشند. بررسی کنید.',
+          relatedSourcesText: 'منابع مرتبط',
+          thinkingText: 'در حال فکر کردن...',
+          copyButtonText: 'کپی',
+          copyButtonCopiedText: 'کپی شد!',
+          copyButtonTitle: 'کپی',
+          likeButtonTitle: 'پسندیدم',
+          dislikeButtonTitle: 'نپسندیدم',
+          thanksForFeedbackText: 'از بازخورد شما متشکریم!',
+          preToolCallText: 'در حال جستجو...',
+          duringToolCallText: 'در حال جستجو...',
+          afterToolCallText: 'جستجو برای',
+          stoppedStreamingText: 'شما این پاسخ را متوقف کردید',
+          errorTitleText: 'خطای گفتگو',
+          threadDepthExceededMessage:
+            'برای حفظ دقت پاسخ ها، این گفت وگو بسته شد.',
+          startNewConversationButtonText: 'شروع گفت وگوی جدید'
+        }
+      }
+    },
+    askAi: {
+      sidePanel: {
+        button: {
+          translations: {
+            buttonText: 'از هوش مصنوعی بپرسید',
+            buttonAriaLabel: 'از هوش مصنوعی بپرسید'
+          }
+        },
+        panel: {
+          translations: {
+            header: {
+              title: 'از هوش مصنوعی بپرسید',
+              conversationHistoryTitle: 'تاریخچه گفت وگوی من',
+              newConversationText: 'شروع گفت وگوی جدید',
+              viewConversationHistoryText: 'تاریخچه گفت وگو'
+            },
+            promptForm: {
+              promptPlaceholderText: 'یک سؤال بپرسید',
+              promptAnsweringText: 'در حال پاسخ گویی...',
+              promptAskAnotherQuestionText: 'سؤال دیگری بپرسید',
+              promptDisclaimerText:
+                'پاسخ ها توسط هوش مصنوعی تولید می شوند و ممکن است اشتباه باشند.',
+              promptLabelText:
+                'برای ارسال Enter را بزنید، یا برای خط جدید Shift+Enter.',
+              promptAriaLabelText: 'ورودی پرسش'
+            },
+            conversationScreen: {
+              preToolCallText: 'در حال جستجو...',
+              searchingText: 'در حال جستجو...',
+              toolCallResultText: 'جستجو برای',
+              conversationDisclaimer:
+                'پاسخ ها توسط هوش مصنوعی تولید می شوند و ممکن است اشتباه باشند. بررسی کنید.',
+              reasoningText: 'در حال استدلال...',
+              thinkingText: 'در حال فکر کردن...',
+              relatedSourcesText: 'منابع مرتبط',
+              stoppedStreamingText: 'شما این پاسخ را متوقف کردید',
+              copyButtonText: 'کپی',
+              copyButtonCopiedText: 'کپی شد!',
+              likeButtonTitle: 'پسندیدم',
+              dislikeButtonTitle: 'نپسندیدم',
+              thanksForFeedbackText: 'از بازخورد شما متشکریم!',
+              errorTitleText: 'خطای گفتگو'
+            },
+            newConversationScreen: {
+              titleText: 'امروز چگونه می توانم کمک کنم؟',
+              introductionText:
+                'در مستندات شما جستجو می کنم تا سریع راهنماهای راه اندازی، جزئیات ویژگی ها و نکات رفع اشکال را پیدا کنم.'
+            },
+            logo: {
+              poweredByText: 'قدرت گرفته از'
+            }
+          }
         }
       }
     }

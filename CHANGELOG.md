@@ -1,4 +1,142 @@
-# [2.0.0-alpha.7](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.6...v2.0.0-alpha.7) (2025-06-24)
+## [2.0.0-alpha.16](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.15...v2.0.0-alpha.16) (2026-01-31)
+
+### Bug Fixes
+
+- always log error when failed to fetch page ([66cf64e](https://github.com/vuejs/vitepress/commit/66cf64e6d127dd8473e582d11e1133acda6c3bc8))
+- **theme:** add fallback for `heroImageSlotExists` ([#5076](https://github.com/vuejs/vitepress/issues/5076)) ([f119b18](https://github.com/vuejs/vitepress/commit/f119b18e39b545f39e29358913fe9ed1fd69bc55))
+- **theme:** align badges in h1 and h2 ([#5087](https://github.com/vuejs/vitepress/issues/5087)) (closes [#5063](https://github.com/vuejs/vitepress/issues/5063)) ([b200865](https://github.com/vuejs/vitepress/commit/b2008654ffaf0d8f8c425e88592e9ed2f8791506))
+- **theme:** highlight active link in mobile nav menu ([#5086](https://github.com/vuejs/vitepress/issues/5086)) (closes [#5068](https://github.com/vuejs/vitepress/issues/5068), closes [#5074](https://github.com/vuejs/vitepress/issues/5074)) ([923aa90](https://github.com/vuejs/vitepress/commit/923aa902523739bfb9d77aed376ebc73c32eeb33))
+- **theme:** overflow clip is buggy on safari ([8ed6ea0](https://github.com/vuejs/vitepress/commit/8ed6ea048cb49256e3302de2de0edfbe635afd32)), closes [#5050](https://github.com/vuejs/vitepress/issues/5050) [#5039](https://github.com/vuejs/vitepress/issues/5039) [#5027](https://github.com/vuejs/vitepress/issues/5027)
+- **theme:** remove margin between code groups and blocks in markdown containers ([a28e171](https://github.com/vuejs/vitepress/commit/a28e171604605713a221d0eb2bbdce211930d94f)), closes [#5099](https://github.com/vuejs/vitepress/issues/5099)
+
+### Features
+
+- **theme:** upgrade DocSearch to 4.5 with sidepanel ([#5092](https://github.com/vuejs/vitepress/issues/5092)) ([0d646a6](https://github.com/vuejs/vitepress/commit/0d646a66cd44e97adef516a6a36e03365f179906))
+- **theme:** use `@layer __vitepress_base` to wrap the styles in base.css ([#4905](https://github.com/vuejs/vitepress/issues/4905)) ([f8d8c0d](https://github.com/vuejs/vitepress/commit/f8d8c0d712fba4728c750e1f44c5ba9596979ba1))
+
+## [2.0.0-alpha.15](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.14...v2.0.0-alpha.15) (2025-11-22)
+
+### Bug Fixes
+
+- **theme:** navbar overflowing on mobile devices ([06f0e1a](https://github.com/vuejs/vitepress/commit/06f0e1a5c92e36d86fd2e037c335af04d75384e7)), closes [#5039](https://github.com/vuejs/vitepress/issues/5039)
+
+## [2.0.0-alpha.14](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.13...v2.0.0-alpha.14) (2025-11-21)
+
+### Bug Fixes
+
+- log dead links in dev mode too ([179ee62](https://github.com/vuejs/vitepress/commit/179ee621d99b3c14e2e098e3b786465cbeaeab9a)), closes [#4419](https://github.com/vuejs/vitepress/issues/4419)
+- **theme:** sidebar alignment when scrollbar is there on page ([0ee7158](https://github.com/vuejs/vitepress/commit/0ee71588de2b1691b1a9287aa1daa729197fd3ca)), closes [#5027](https://github.com/vuejs/vitepress/issues/5027)
+
+### Features
+
+- **client:** emit `vitepress:codeGroupTabActivate` custom event when a code group tab is activated ([dfb02a4](https://github.com/vuejs/vitepress/commit/dfb02a479f19afbee9e292b15c3c2beef271e57f)), closes [#5023](https://github.com/vuejs/vitepress/issues/5023)
+
+## [2.0.0-alpha.13](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.12...v2.0.0-alpha.13) (2025-11-13)
+
+### Bug Fixes
+
+- **client,a11y:** improve focus handling and scrolling behavior in router ([#4943](https://github.com/vuejs/vitepress/issues/4943)) ([d46107f](https://github.com/vuejs/vitepress/commit/d46107fa254d662d297b1362aa0d3b898ef96e2c))
+- disable markdown-it-attrs for fenced code blocks ([0899618](https://github.com/vuejs/vitepress/commit/089961855653f862b71747e8179ef2647e06d626))
+- git log parsing when there are empty commits in history ([#4965](https://github.com/vuejs/vitepress/issues/4965)) ([612c458](https://github.com/vuejs/vitepress/commit/612c45895df79a0c0e87ca040564bfe88ce04f62))
+- print full path in dead links check ([2b77fb3](https://github.com/vuejs/vitepress/commit/2b77fb3a72058129edbaddd3c6f0f6ee24f983d5)), closes [#4919](https://github.com/vuejs/vitepress/issues/4919)
+- rename `markdown.cjkFriendly` to `markdown.cjkFriendlyEmphasis` ([bce0b53](https://github.com/vuejs/vitepress/commit/bce0b53659fa3a57b2ed8431a0861939dadd118a)), closes [#4952](https://github.com/vuejs/vitepress/issues/4952)
+- respect markdown.cache = false on build too ([6d7422f](https://github.com/vuejs/vitepress/commit/6d7422f8fa321c641b1d5be3fa0c382400a2b78f))
+- simplify lang extraction logic; use markdown-it plugins in type-safe manner; bump deps ([4e548f5](https://github.com/vuejs/vitepress/commit/4e548f542469a366f327cdef1530bdb1a31542ad))
+- **theme:** add lang and dir attributes to language picker ([f0b29d7](https://github.com/vuejs/vitepress/commit/f0b29d7ef32a33f61c355d19561176411ede4b48))
+- **theme:** adjust margin of code blocks inside containers ([82fac5d](https://github.com/vuejs/vitepress/commit/82fac5d22c9e2b28d18dafcd458741a4b4d7a86b)), closes [#4921](https://github.com/vuejs/vitepress/issues/4921)
+- **theme:** avoid use of `:where` in selector list for now ([c2eaccd](https://github.com/vuejs/vitepress/commit/c2eaccd0d2109a6c64cee9fe615e48daaf4eda0e)), closes [#4923](https://github.com/vuejs/vitepress/issues/4923)
+- **theme:** disable whitespace wrapping for VPBadge ([#4968](https://github.com/vuejs/vitepress/issues/4968)) ([113d230](https://github.com/vuejs/vitepress/commit/113d2304784586028d9733036ccb585374731397))
+- **theme:** use nav height css var for curtain top in sidebar ([#4993](https://github.com/vuejs/vitepress/issues/4993)) ([be260fd](https://github.com/vuejs/vitepress/commit/be260fda6efc1d6c4b56219d7a17a19ab7a4ba76))
+
+### Features
+
+- export cacheAllGitTimestamps and getGitTimestamp ([31d87e2](https://github.com/vuejs/vitepress/commit/31d87e27387ebdceb22c047cc5f821761276d5f7))
+- **i18n,a11y:** change last update logic ([#4935](https://github.com/vuejs/vitepress/issues/4935)) ([187bf25](https://github.com/vuejs/vitepress/commit/187bf250e6496554fca0b070a5aba55484f7fc0b))
+- **markdown:** support custom display-name for fenced code blocks ([#4960](https://github.com/vuejs/vitepress/issues/4960)) ([3d61619](https://github.com/vuejs/vitepress/commit/3d61619ec0f0458c7ae04e7954b72a8e2ff399c0))
+- prevent `$` symbol selection in shell code ([#5025](https://github.com/vuejs/vitepress/issues/5025)) ([bf2715e](https://github.com/vuejs/vitepress/commit/bf2715ed67f290726fc6d4c85c203ca8f74cc907))
+- **theme:** allow passing functions for nav links ([#4963](https://github.com/vuejs/vitepress/issues/4963)) ([34cfa91](https://github.com/vuejs/vitepress/commit/34cfa91b6f14d8adfaa2d3c9f3eb6ad8b889ef1c))
+
+### Performance Improvements
+
+- make a single git call for timestamps instead of calling it for each file ([#4958](https://github.com/vuejs/vitepress/issues/4958)) ([6dfcdd3](https://github.com/vuejs/vitepress/commit/6dfcdd3fe8dc73e7b4ad7783df9530dedac1f6bd))
+
+### BREAKING CHANGES
+
+- `markdown-it-attrs` is disabled for fenced code blocks. For most users no change is required. If you want to add classes to code blocks, do it using shiki transformers instead.
+- Rename `cjkFriendly` to `cjkFriendlyEmphasis` in your vitepress config. Most people should be unaffected unless they want to disable the CJK emphasis behavior added v2.0.0-alpha.12.
+
+## [2.0.0-alpha.12](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.11...v2.0.0-alpha.12) (2025-08-20)
+
+### Bug Fixes
+
+- **hmr:** don't load config twice on server restart ([d1a8061](https://github.com/vuejs/vitepress/commit/d1a8061eb438c730ccc62ce2d7158dbe89cc5292))
+- **hmr:** no need for server restart on theme change ([d3a1567](https://github.com/vuejs/vitepress/commit/d3a15673bd0846c7837bcc4ff5a2e3239a02f1f9))
+- **hmr:** hmr not working for snippet imports in dynamic routes ([914467e](https://github.com/vuejs/vitepress/commit/914467e17fb759a9722951a3fd7568eb3bc4d4e6))
+- **theme:** fix local nav alignment and increase touch area ([43b36c0](https://github.com/vuejs/vitepress/commit/43b36c0c19c2b4696f8c38fdaf4318786ea7ae8e))
+- **theme:** nav background doesn't extend fully and gap after sidebar with non-overlay scrollbars ([7df3052](https://github.com/vuejs/vitepress/commit/7df30525121a28a46cc6c802f3155ccff8effaca)), closes [#4653](https://github.com/vuejs/vitepress/issues/4653)
+- **theme:** use clipboard-check instead of clipboard-copy for code copied icon ([1c8815d](https://github.com/vuejs/vitepress/commit/1c8815d53ed2d56b07938260df6566f1514f4bfc))
+
+### Features
+
+- add markdown-it-cjk-friendly ([9fc8462](https://github.com/vuejs/vitepress/commit/9fc8462726ccf1cdb78b6171c9f1f5964e79ca22)), closes [#3762](https://github.com/vuejs/vitepress/issues/3762) [#4752](https://github.com/vuejs/vitepress/issues/4752)
+- make postcssIsolateStyles idempotent ([0944777](https://github.com/vuejs/vitepress/commit/094477789328b80cff45cd973efa16b6a4db0a27))
+
+### BREAKING CHANGES
+
+- [markdown-it-cjk-friendly](https://www.npmjs.com/package/markdown-it-cjk-friendly) is enabled by default. This intentionally deviates from the official commonmark spec for the benefit of CJK users. **For most users, no change is required.** If you were using hacks to patch `scanDelims`, you can remove those. To disable the plugin, set `markdown: { cjkFriendly: false }` in your vitepress config.
+- `includeFiles` option in `postcssIsolateStyles` now defaults to `[/vp-doc\.css/, /base\.css/]`. You can remove explicit `includeFiles` if you were using it just to run it on `vp-doc.css`. To revert back to older behavior pass `includeFiles: [/base\.css/]`. The underlying implementation is changed and `transform` and `exclude` options are no longer supported. Use `postcss-prefix-selector` directly if you've advanced use cases.
+
+## [2.0.0-alpha.11](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.10...v2.0.0-alpha.11) (2025-08-14)
+
+### Bug Fixes
+
+- hmr working only once for markdown files ([8d8a5ac](https://github.com/vuejs/vitepress/commit/8d8a5ac281f090cd097bece792d9dd3ef00e5545)), closes [#4909](https://github.com/vuejs/vitepress/issues/4909)
+- html entities encoded twice in toc plugin ([8abbe29](https://github.com/vuejs/vitepress/commit/8abbe298d545de17d34a9bc1eb72af4c5a4b41b8)), closes [#4908](https://github.com/vuejs/vitepress/issues/4908)
+
+## [2.0.0-alpha.10](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.9...v2.0.0-alpha.10) (2025-08-11)
+
+### Bug Fixes
+
+- **client:** base not stripped from relativePath in 404 pages ([b840877](https://github.com/vuejs/vitepress/commit/b840877aa83a5a24ffc1222e8a5a3dbf3e5105e8)), closes [#4850](https://github.com/vuejs/vitepress/issues/4850)
+- hmr of style blocks in dynamic routes ([#4903](https://github.com/vuejs/vitepress/issues/4903)) ([3d0fafb](https://github.com/vuejs/vitepress/commit/3d0fafba545f4b5028cf43d86027dd44dab14421))
+- make paths in `watchedFiles` absolute as mentioned in the docs ([318c14f](https://github.com/vuejs/vitepress/commit/318c14fa7c9fb949d74b7d9fae416e917766cf05))
+- module graph causing unnecessary route regeneration on every update ([fc267ae](https://github.com/vuejs/vitepress/commit/fc267ae6b787e163d41666e090089821377ead43))
+- preserve externally added dynamic routes and pages ([fc267ae](https://github.com/vuejs/vitepress/commit/fc267ae6b787e163d41666e090089821377ead43))
+- **search:** input placeholder being cut off in smaller viewports ([162c6a6](https://github.com/vuejs/vitepress/commit/162c6a69bf56945daa20d126aa034c59ee0c8a2e))
+- **search:** style tweaks for when searches are empty ([8b23217](https://github.com/vuejs/vitepress/commit/8b232171cc321bd3dc86b4357622815269f0b6f4))
+- **types:** externalize markdown-it types ([5bf835b](https://github.com/vuejs/vitepress/commit/5bf835b5074e9567852d552bfb5115c6456026e8))
+- **types:** pass generics deeply to user config ([777e2ca](https://github.com/vuejs/vitepress/commit/777e2caaacd93ce41b046f6c9d5ba80cc43ba37c))
+
+### Features
+
+- add source param to the deadlink check fn ([#4870](https://github.com/vuejs/vitepress/issues/4870)) ([8c027c2](https://github.com/vuejs/vitepress/commit/8c027c2a7c443074fd0d4890f7736b444f9254aa))
+- **theme:** add `rel="me"` to social links by default ([#4873](https://github.com/vuejs/vitepress/issues/4873)) ([34886c6](https://github.com/vuejs/vitepress/commit/34886c667d1305a79d64c957f8c52931ea122f47))
+
+## [2.0.0-alpha.9](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.8...v2.0.0-alpha.9) (2025-07-26)
+
+### Bug Fixes
+
+- **md:** pass container option to gitHubAlertsPlugin ([#4848](https://github.com/vuejs/vitepress/issues/4848)) ([52f0eaa](https://github.com/vuejs/vitepress/commit/52f0eaa0849344aa45efbf7258a6287597e55a9a))
+- **theme:** remove duplicate text in sponsors grid ([3c51b22](https://github.com/vuejs/vitepress/commit/3c51b22ac98a12f193081d23799cb9f3f2ecf682)), closes [#4854](https://github.com/vuejs/vitepress/issues/4854)
+
+### Features
+
+- **search:** upgrade search to DocSearch v4-beta ([#4843](https://github.com/vuejs/vitepress/issues/4843)) ([ac61abe](https://github.com/vuejs/vitepress/commit/ac61abe7d7be5ef8b6939f18192896538eba1b8c))
+
+### BREAKING CHANGES
+
+- **search:** Uses DocSearch v4 beta. No change is required if you're not customizing the styles of navbar search button or modal. DocSearch AI features are in private beta, you can apply for them at https://forms.gle/iyfb5pC2CiiwszUKA
+
+## [2.0.0-alpha.8](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.7...v2.0.0-alpha.8) (2025-07-08)
+
+### Bug Fixes
+
+- adjust glob logic to always resolve glob relative to base ([5d41785](https://github.com/vuejs/vitepress/commit/5d41785ff7b016b08f587f1ef3318fc18d58f6ab)), closes [#4822](https://github.com/vuejs/vitepress/issues/4822)
+- **build:** ignore escaped `:` when splitting selector in `postcssIsolateStyles` ([#4830](https://github.com/vuejs/vitepress/issues/4830)) ([a629b03](https://github.com/vuejs/vitepress/commit/a629b03f0ee8a29d73a18481399d7de1c992faf2))
+- font preload not being generated in rolldown-vite ([ed387e8](https://github.com/vuejs/vitepress/commit/ed387e89d42a08c15a9f45c9c5e11c6750245490))
+- **theme:** remove extra slash when concatenating base with sidebar links ([c8fc80e](https://github.com/vuejs/vitepress/commit/c8fc80e438fffd98feaf7c72263bc3077792c4a2))
+
+## [2.0.0-alpha.7](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.6...v2.0.0-alpha.7) (2025-06-24)
 
 ### Bug Fixes
 
@@ -20,7 +158,7 @@
 - Only `cwd`, `ignore`, `dot` and `debug` are supported in `globOptions` of `createContentLoader`. If you want to pass other options, you still can but you might need to suppress type errors.
 - Uses vite 7. See [vite migration guide](https://vite.dev/guide/migration.html) for more info. For most of the users no change is required. VitePress should work same as earlier, except for maybe some type mismatches if you're using third-party plugins. You can suppress them using `@ts-expect-error` or `as any` and report the issues at respective repositories.
 
-# [2.0.0-alpha.6](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.5...v2.0.0-alpha.6) (2025-06-12)
+## [2.0.0-alpha.6](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.5...v2.0.0-alpha.6) (2025-06-12)
 
 ### Bug Fixes
 

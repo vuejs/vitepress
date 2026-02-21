@@ -23,7 +23,9 @@ export function getHeaders(
   range: DefaultTheme.Config['outline']
 ): DefaultTheme.OutlineItem[] {
   const headers = [
-    ...document.querySelectorAll('.VPDoc :where(h1,h2,h3,h4,h5,h6)')
+    ...document.querySelectorAll(
+      '.VPDoc h1, .VPDoc h2, .VPDoc h3, .VPDoc h4, .VPDoc h5, .VPDoc h6'
+    )
   ]
     .filter((el) => el.id && el.hasChildNodes())
     .map((el) => {

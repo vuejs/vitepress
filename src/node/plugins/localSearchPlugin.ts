@@ -1,4 +1,4 @@
-import _debug from 'debug'
+import { createDebug } from 'obug'
 import fs from 'fs-extra'
 import MiniSearch from 'minisearch'
 import path from 'node:path'
@@ -10,7 +10,7 @@ import { createMarkdownRenderer } from '../markdown/markdown'
 import { getLocaleForPath, slash, type MarkdownEnv } from '../shared'
 import { processIncludes } from '../utils/processIncludes'
 
-const debug = _debug('vitepress:local-search')
+const debug = createDebug('vitepress:local-search')
 
 const LOCAL_SEARCH_INDEX_ID = '@localSearchIndex'
 const LOCAL_SEARCH_INDEX_REQUEST_PATH = '/' + LOCAL_SEARCH_INDEX_ID
@@ -30,7 +30,7 @@ export async function localSearchPlugin(
       name: 'vitepress:local-search',
       resolveId(id) {
         if (id.startsWith(LOCAL_SEARCH_INDEX_ID)) {
-          return `/${id}`
+          return LOCAL_SEARCH_INDEX_REQUEST_PATH
         }
       },
       load(id) {
@@ -183,7 +183,7 @@ export async function localSearchPlugin(
           records.push(
             `${JSON.stringify(
               locale
-            )}: () => import('@localSearchIndex${locale}')`
+            )}: () => import('${LOCAL_SEARCH_INDEX_ID}${locale}')`
           )
         }
         return `export default {${records.join(',')}}`

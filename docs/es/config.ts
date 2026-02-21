@@ -5,8 +5,7 @@ const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
 
 export default defineAdditionalConfig({
-  lang: 'es-CO',
-  description: 'Generador de Sitios Estaticos desarrollado con Vite y Vue.',
+  description: 'Generador de Sitios Estáticos desarrollado con Vite y Vue.',
 
   themeConfig: {
     nav: nav(),
@@ -25,7 +24,7 @@ export default defineAdditionalConfig({
 
     footer: {
       message: 'Liberado bajo la licencia MIT',
-      copyright: `Derechos reservados © 2019-${new Date().getFullYear()} Evan You`
+      copyright: 'Todos los derechos reservados © 2019-PRESENTE Evan You'
     },
 
     docFooter: {
@@ -38,7 +37,7 @@ export default defineAdditionalConfig({
     },
 
     lastUpdated: {
-      text: 'Actualizado en'
+      text: 'Actualizado el'
     },
 
     notFound: {
@@ -46,7 +45,7 @@ export default defineAdditionalConfig({
       quote:
         'Pero si no cambias de dirección y sigues buscando, podrías terminar donde te diriges.',
       linkLabel: 'ir a inicio',
-      linkText: 'Llévame a casa'
+      linkText: 'Llévame a inicio'
     },
 
     langMenuLabel: 'Cambiar Idioma',
@@ -62,7 +61,7 @@ export default defineAdditionalConfig({
 function nav(): DefaultTheme.NavItem[] {
   return [
     {
-      text: 'Guia',
+      text: 'Guía',
       link: '/es/guide/what-is-vitepress',
       activeMatch: '/es/guide/'
     },
@@ -74,6 +73,10 @@ function nav(): DefaultTheme.NavItem[] {
     {
       text: pkg.version,
       items: [
+        {
+          text: '1.6.4',
+          link: 'https://vuejs.github.io/vitepress/v1/es/'
+        },
         {
           text: 'Registro de cambios',
           link: 'https://github.com/vuejs/vitepress/blob/main/CHANGELOG.md'
@@ -93,7 +96,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
       text: 'Introducción',
       collapsed: false,
       items: [
-        { text: 'Qué es VitePress？', link: 'what-is-vitepress' },
+        { text: '¿Qué es VitePress？', link: 'what-is-vitepress' },
         { text: 'Iniciando', link: 'getting-started' },
         { text: 'Enrutamiento', link: 'routing' },
         { text: 'Despliegue', link: 'deploy' }
@@ -136,7 +139,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
       ]
     },
     {
-      text: 'Configuración y Referencia del API',
+      text: 'Configuración y Referencia de la API',
       base: '/es/reference/',
       link: 'site-config'
     }
@@ -167,7 +170,7 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
             { text: 'Links Anterior / Siguiente', link: 'prev-next-links' },
             { text: 'Editar Link', link: 'edit-link' },
             { text: 'Sello temporal de actualización', link: 'last-updated' },
-            { text: 'Busqueda', link: 'search' },
+            { text: 'Búsqueda', link: 'search' },
             { text: 'Carbon Ads', link: 'carbon-ads' }
           ]
         }
@@ -178,7 +181,6 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
 
 function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
   return {
-    placeholder: 'Buscar documentos',
     translations: {
       button: {
         buttonText: 'Buscar',
@@ -186,35 +188,143 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
       },
       modal: {
         searchBox: {
-          resetButtonTitle: 'Limpiar búsqueda',
-          resetButtonAriaLabel: 'Limpiar búsqueda',
-          cancelButtonText: 'Cancelar',
-          cancelButtonAriaLabel: 'Cancelar'
+          clearButtonTitle: 'Limpiar',
+          clearButtonAriaLabel: 'Borrar la consulta',
+          closeButtonText: 'Cerrar',
+          closeButtonAriaLabel: 'Cerrar',
+          placeholderText: 'Buscar en la documentación o preguntar a Ask AI',
+          placeholderTextAskAi: 'Haz otra pregunta...',
+          placeholderTextAskAiStreaming: 'Respondiendo...',
+          searchInputLabel: 'Buscar',
+          backToKeywordSearchButtonText:
+            'Volver a la búsqueda por palabras clave',
+          backToKeywordSearchButtonAriaLabel:
+            'Volver a la búsqueda por palabras clave',
+          newConversationPlaceholder: 'Haz una pregunta',
+          conversationHistoryTitle: 'Mi historial de conversaciones',
+          startNewConversationText: 'Iniciar una nueva conversación',
+          viewConversationHistoryText: 'Historial de conversaciones',
+          threadDepthErrorPlaceholder: 'Se alcanzó el límite de conversación'
         },
-        startScreen: {
-          recentSearchesTitle: 'Historial de búsqueda',
-          noRecentSearchesText: 'Ninguna búsqueda reciente',
-          saveRecentSearchButtonTitle: 'Guardar en el historial de búsqueda',
-          removeRecentSearchButtonTitle: 'Borrar del historial de búsqueda',
-          favoriteSearchesTitle: 'Favoritos',
-          removeFavoriteSearchButtonTitle: 'Borrar de favoritos'
-        },
-        errorScreen: {
-          titleText: 'No fue posible obtener resultados',
-          helpText: 'Verifique su conexión de red'
+        newConversation: {
+          newConversationTitle: '¿Cómo puedo ayudarte hoy?',
+          newConversationDescription:
+            'Busco en tu documentación para ayudarte a encontrar guías de configuración, detalles de funciones y consejos de solución de problemas rápidamente.'
         },
         footer: {
           selectText: 'Seleccionar',
+          submitQuestionText: 'Enviar pregunta',
+          selectKeyAriaLabel: 'Tecla Enter',
           navigateText: 'Navegar',
+          navigateUpKeyAriaLabel: 'Flecha arriba',
+          navigateDownKeyAriaLabel: 'Flecha abajo',
           closeText: 'Cerrar',
-          searchByText: 'Busqueda por'
+          backToSearchText: 'Volver a la búsqueda',
+          closeKeyAriaLabel: 'Tecla Escape',
+          poweredByText: 'Con la tecnología de'
+        },
+        errorScreen: {
+          titleText: 'No se pueden obtener resultados',
+          helpText: 'Puede que quieras comprobar tu conexión de red.'
+        },
+        startScreen: {
+          recentSearchesTitle: 'Recientes',
+          noRecentSearchesText: 'No hay búsquedas recientes',
+          saveRecentSearchButtonTitle: 'Guardar esta búsqueda',
+          removeRecentSearchButtonTitle: 'Eliminar esta búsqueda del historial',
+          favoriteSearchesTitle: 'Favoritos',
+          removeFavoriteSearchButtonTitle:
+            'Eliminar esta búsqueda de favoritos',
+          recentConversationsTitle: 'Conversaciones recientes',
+          removeRecentConversationButtonTitle:
+            'Eliminar esta conversación del historial'
         },
         noResultsScreen: {
-          noResultsText: 'No fue posible encontrar resultados',
-          suggestedQueryText: 'Puede intentar una nueva búsqueda',
+          noResultsText: 'No se encontraron resultados para',
+          suggestedQueryText: 'Intenta buscar',
           reportMissingResultsText:
-            'Deberian haber resultados para esa consulta?',
-          reportMissingResultsLinkText: 'Click para enviar feedback'
+            '¿Crees que esta consulta debería devolver resultados?',
+          reportMissingResultsLinkText: 'Avísanos.'
+        },
+        resultsScreen: {
+          askAiPlaceholder: 'Preguntar a la IA: ',
+          noResultsAskAiPlaceholder:
+            '¿No lo encontraste en la documentación? Pide ayuda a Ask AI: '
+        },
+        askAiScreen: {
+          disclaimerText:
+            'Las respuestas se generan con IA y pueden contener errores. Verifícalas.',
+          relatedSourcesText: 'Fuentes relacionadas',
+          thinkingText: 'Pensando...',
+          copyButtonText: 'Copiar',
+          copyButtonCopiedText: '¡Copiado!',
+          copyButtonTitle: 'Copiar',
+          likeButtonTitle: 'Me gusta',
+          dislikeButtonTitle: 'No me gusta',
+          thanksForFeedbackText: '¡Gracias por tu comentario!',
+          preToolCallText: 'Buscando...',
+          duringToolCallText: 'Buscando...',
+          afterToolCallText: 'Buscado',
+          stoppedStreamingText: 'Has detenido esta respuesta',
+          errorTitleText: 'Error de chat',
+          threadDepthExceededMessage:
+            'Esta conversación se ha cerrado para mantener respuestas precisas.',
+          startNewConversationButtonText: 'Iniciar una nueva conversación'
+        }
+      }
+    },
+    askAi: {
+      sidePanel: {
+        button: {
+          translations: {
+            buttonText: 'Preguntar a la IA',
+            buttonAriaLabel: 'Preguntar a la IA'
+          }
+        },
+        panel: {
+          translations: {
+            header: {
+              title: 'Preguntar a la IA',
+              conversationHistoryTitle: 'Mi historial de conversaciones',
+              newConversationText: 'Iniciar una nueva conversación',
+              viewConversationHistoryText: 'Historial de conversaciones'
+            },
+            promptForm: {
+              promptPlaceholderText: 'Haz una pregunta',
+              promptAnsweringText: 'Respondiendo...',
+              promptAskAnotherQuestionText: 'Haz otra pregunta',
+              promptDisclaimerText:
+                'Las respuestas se generan con IA y pueden contener errores.',
+              promptLabelText:
+                'Pulsa Enter para enviar, o Shift+Enter para una nueva línea.',
+              promptAriaLabelText: 'Entrada de prompt'
+            },
+            conversationScreen: {
+              preToolCallText: 'Buscando...',
+              searchingText: 'Buscando...',
+              toolCallResultText: 'Buscado',
+              conversationDisclaimer:
+                'Las respuestas se generan con IA y pueden contener errores. Verifícalas.',
+              reasoningText: 'Razonando...',
+              thinkingText: 'Pensando...',
+              relatedSourcesText: 'Fuentes relacionadas',
+              stoppedStreamingText: 'Has detenido esta respuesta',
+              copyButtonText: 'Copiar',
+              copyButtonCopiedText: '¡Copiado!',
+              likeButtonTitle: 'Me gusta',
+              dislikeButtonTitle: 'No me gusta',
+              thanksForFeedbackText: '¡Gracias por tu comentario!',
+              errorTitleText: 'Error de chat'
+            },
+            newConversationScreen: {
+              titleText: '¿Cómo puedo ayudarte hoy?',
+              introductionText:
+                'Busco en tu documentación para ayudarte a encontrar guías de configuración, detalles de funciones y consejos de solución de problemas rápidamente.'
+            },
+            logo: {
+              poweredByText: 'Con la tecnología de'
+            }
+          }
         }
       }
     }

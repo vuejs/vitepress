@@ -105,7 +105,7 @@ Note: the `vercel.json` file should be placed at the root of your **repository**
 
 ## Platform Guides
 
-### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render
+### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render {#generic}
 
 Set up a new project and change these settings using your dashboard:
 
@@ -153,17 +153,17 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
        runs-on: ubuntu-latest
        steps:
          - name: Checkout
-           uses: actions/checkout@v4
+           uses: actions/checkout@v5
            with:
              fetch-depth: 0 # Not needed if lastUpdated is not enabled
-         # - uses: pnpm/action-setup@v3 # Uncomment this block if you're using pnpm
+         # - uses: pnpm/action-setup@v4 # Uncomment this block if you're using pnpm
          #   with:
          #     version: 9 # Not needed if you've set "packageManager" in package.json
          # - uses: oven-sh/setup-bun@v1 # Uncomment this if you're using Bun
          - name: Setup Node
-           uses: actions/setup-node@v4
+           uses: actions/setup-node@v6
            with:
-             node-version: 22
+             node-version: 24
              cache: npm # or pnpm / yarn
          - name: Setup Pages
            uses: actions/configure-pages@v4
@@ -221,7 +221,9 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
        - main
    ```
 
-### Azure Static Web Apps
+<!-- keep headings sorted alphabetically, leave nginx at the end -->
+
+### Azure
 
 1. Follow the [official documentation](https://docs.microsoft.com/en-us/azure/static-web-apps/build-configuration).
 
@@ -230,6 +232,10 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
    - **`app_location`**: `/`
    - **`output_location`**: `docs/.vitepress/dist`
    - **`app_build_command`**: `npm run docs:build`
+
+### CloudRay
+
+You can deploy your VitePress project with [CloudRay](https://cloudray.io/) by following these [instructions](https://cloudray.io/articles/how-to-deploy-vitepress-site).
 
 ### Firebase
 
@@ -262,14 +268,6 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
    firebase deploy
    ```
 
-### Surge
-
-1. After running `npm run docs:build`, run this command to deploy:
-
-   ```sh
-   npx surge docs/.vitepress/dist
-   ```
-
 ### Heroku
 
 1. Follow documentation and guide given in [`heroku-buildpack-static`](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-static).
@@ -282,17 +280,25 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
    }
    ```
 
-### Edgio
+### Hostinger
 
-Refer [Creating and Deploying a VitePress App To Edgio](https://docs.edg.io/guides/vitepress).
+You can deploy your VitePress project with [Hostinger](https://www.hostinger.com/web-apps-hosting) by following these [instructions](https://www.hostinger.com/support/how-to-deploy-a-nodejs-website-in-hostinger/). While configuring build settings, choose VitePress as the framework and adjust the root directory to `./docs`.
 
-### Kinsta Static Site Hosting
+### Kinsta
 
 You can deploy your VitePress website on [Kinsta](https://kinsta.com/static-site-hosting/) by following these [instructions](https://kinsta.com/docs/vitepress-static-site-example/).
 
 ### Stormkit
 
 You can deploy your VitePress project to [Stormkit](https://www.stormkit.io) by following these [instructions](https://stormkit.io/blog/how-to-deploy-vitepress).
+
+### Surge
+
+1. After running `npm run docs:build`, run this command to deploy:
+
+   ```sh
+   npx surge docs/.vitepress/dist
+   ```
 
 ### Nginx
 

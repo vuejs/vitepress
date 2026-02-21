@@ -268,7 +268,7 @@ async function minifyScript(code: string, filename: string): Promise<string> {
   // @ts-ignore use oxc-minify when rolldown-vite is used
   if (vite.rolldownVersion) {
     const oxcMinify = await import('oxc-minify')
-    return oxcMinify.minify(filename, code).code.trim()
+    return (await oxcMinify.minify(filename, code)).code.trim()
   }
   return (
     await transformWithEsbuild(code, filename, { minify: true })

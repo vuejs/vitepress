@@ -39,25 +39,25 @@ export default defineConfig({
       provider: 'local',
       options: {
         locales: {
-          zh: { // اگر می‌خواهید زبان پیش‌فرض را ترجمه کنید، این را به `root` تغییر دهید
+          fa: { // اگر می خواهید زبان پیش فرض را ترجمه کنید، این را `root` قرار دهید
             translations: {
               button: {
                 buttonText: 'جستجو',
                 buttonAriaLabel: 'جستجو'
               },
               modal: {
-                displayDetails: 'نمایش جزئیات',
+                displayDetails: 'نمایش فهرست کامل',
                 resetButtonTitle: 'بازنشانی جستجو',
                 backButtonTitle: 'بستن جستجو',
-                noResultsText: 'نتیجه‌ای یافت نشد',
+                noResultsText: 'نتیجه ای یافت نشد',
                 footer: {
                   selectText: 'انتخاب',
-                  selectKeyAriaLabel: 'ورود',
+                  selectKeyAriaLabel: 'Enter',
                   navigateText: 'پیمایش',
-                  navigateUpKeyAriaLabel: 'کلید بالا',
-                  navigateDownKeyAriaLabel: 'کلید پایین',
+                  navigateUpKeyAriaLabel: 'فلش بالا',
+                  navigateDownKeyAriaLabel: 'فلش پایین',
                   closeText: 'بستن',
-                  closeKeyAriaLabel: 'esc'
+                  closeKeyAriaLabel: 'Esc'
                 }
               }
             }
@@ -123,7 +123,7 @@ export default defineConfig({
          * @param {import('markdown-it-async')} md
          */
         async _render(src, env, md) {
-          // بازگشت رشته HTML
+          // رشته HTML را برمی گرداند
         }
       }
     }
@@ -174,7 +174,7 @@ export default defineConfig({
         async _render(src, env, md) {
           const html = await md.renderAsync(src, env)
           if (env.frontmatter?.title)
-            return await md.renderAsync(`# ${env.frontmatter.title}`) + html
+            return (await md.renderAsync(`# ${env.frontmatter.title}`)) + html
           return html
         }
       }
@@ -208,57 +208,75 @@ export default defineConfig({
 
 می‌توانید با استفاده از تنظیماتی مانند این برای جستجوی چندزبانه استفاده کنید:
 
+<details>
+<summary>برای باز کردن کلیک کنید</summary>
+
+<<< @/snippets/algolia-i18n.ts
+
+</details>
+
+برای اطلاعات بیشتر به [مستندات رسمی Algolia](https://docsearch.algolia.com/docs/api#translations) مراجعه کنید. برای شروع سریع‌تر، می‌توانید ترجمه‌های استفاده‌شده در این سایت را از [مخزن GitHub ما](https://github.com/search?q=repo:vuejs/vitepress+%22function+searchOptions%22&type=code) کپی کنید.
+
+### پشتیبانی Algolia Ask AI {#ask-ai}
+
+برای فعال‌سازی **Ask AI** کافی است گزینه `askAi` را اضافه کنید:
+
 ```ts
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
-  themeConfig:
-
- {
+  themeConfig: {
     search: {
       provider: 'algolia',
       options: {
         appId: '...',
         apiKey: '...',
         indexName: '...',
-        locales: {
-          zh: {
-            placeholder: 'جستجو در مستندات',
-            translations: {
-              button: {
-                buttonText: 'جستجو در مستندات',
-                buttonAriaLabel: 'جستجو در مستندات'
-              },
-              modal: {
-                searchBox: {
-                  resetButtonTitle: 'پاک کردن شرایط جستجو',
-                  resetButtonAriaLabel: 'پاک کردن شرایط جستجو',
-                  cancelButtonText: 'لغو',
-                  cancelButtonAriaLabel: 'لغو'
-                },
-                startScreen: {
-                  recentSearchesTitle: 'تاریخچه جستجو',
-                  noRecentSearchesText: 'هیچ تاریخچه جستجویی وجود ندارد',
-                  saveRecentSearchButtonTitle: 'ذخیره در تاریخچه جستجو',
-                  removeRecentSearchButtonTitle: 'حذف از تاریخچه جستجو'
-                },
-                errorScreen: {
-                  titleText: 'نمایش نتایج امکان‌پذیر نیست',
-                  helpText: 'شما ممکن است نیاز به بررسی اتصال اینترنت خود داشته باشید'
-                },
-                footer: {
-                  selectText: 'انتخاب',
-                  navigateText: 'جابجایی',
-                  closeText: 'بستن',
-                  searchByText: 'جستجو توسط'
-                },
-                noResultsScreen: {
-                  noResultsText: 'نتیجه‌ای پیدا نشد',
-                  suggestedQueryText: 'می‌توانید امتحان کنید',
-                  reportMissingResultsText: 'فکر می‌کنید باید نتایجی وجود داشته باشد؟',
-                  reportMissingResultsLinkText: 'برای بازخورد کلیک کنید'
-                }
-              }
+        // askAi: "شناسه-دستیار-شما"
+        // یا
+        askAi: {
+          // حداقل باید assistantId دریافت شده از Algolia را ارائه کنید
+          assistantId: 'XXXYYY',
+          // بازنویسی های اختیاری — اگر حذف شوند، مقادیر appId/apiKey/indexName سطح بالا دوباره استفاده می شوند
+          // apiKey: '...',
+          // appId: '...',
+          // indexName: '...'
+        }
+      }
+    }
+  }
+})
+```
+
+::: warning نکته
+اگر فقط به جستجوی کلمات کلیدی نیاز دارید، `askAi` را اضافه نکنید.
+:::
+
+### پنل کناری Ask AI {#ask-ai-side-panel}
+
+DocSearch v4.5+ از **پنل کناری Ask AI** اختیاری پشتیبانی می‌کند. وقتی فعال باشد، به طور پیش‌فرض می‌توان آن را با **Ctrl/Cmd+I** باز کرد. [مرجع API پنل کناری](https://docsearch.algolia.com/docs/sidepanel/api-reference) شامل لیست کامل گزینه‌ها است.
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'algolia',
+      options: {
+        appId: '...',
+        apiKey: '...',
+        indexName: '...',
+        askAi: {
+          assistantId: 'XXXYYY',
+          sidePanel: {
+            // آینه API @docsearch/sidepanel-js SidepanelProps
+            panel: {
+              variant: 'floating', // یا 'inline'
+              side: 'right',
+              width: '360px',
+              expandedWidth: '580px',
+              suggestedQuestions: true
             }
           }
         }
@@ -268,112 +286,70 @@ export default defineConfig({
 })
 ```
 
-این [گزینه‌ها](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts) می‌توانند بازنویسی شوند. برای یادگیری بیشتر درباره آن‌ها به اسناد رسمی Algolia مراجعه کنید.
+اگر نیاز به غیرفعال کردن میانبر صفحه‌کلید دارید، از گزینه `keyboardShortcuts` پنل کناری استفاده کنید:
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'algolia',
+      options: {
+        appId: '...',
+        apiKey: '...',
+        indexName: '...',
+        askAi: {
+          assistantId: 'XXXYYY',
+          sidePanel: {
+            keyboardShortcuts: {
+              'Ctrl/Cmd+I': false
+            }
+          }
+        }
+      }
+    }
+  }
+})
+```
+
+#### حالت (auto / sidePanel / hybrid / modal) {#ask-ai-mode}
+
+می‌توانید به صورت اختیاری نحوه ادغام جستجوی کلمات کلیدی و Ask AI در VitePress را کنترل کنید:
+
+- `mode: 'auto'` (پیش‌فرض): وقتی جستجوی کلمات کلیدی پیکربندی شده باشد `hybrid` را استنباط می‌کند، در غیر این صورت وقتی پنل کناری Ask AI پیکربندی شده باشد `sidePanel` را استنباط می‌کند.
+- `mode: 'sidePanel'`: فقط پنل کناری را اعمال می‌کند (دکمه جستجوی کلمات کلیدی را پنهان می‌کند).
+- `mode: 'hybrid'`: مودال جستجوی کلمات کلیدی + پنل کناری Ask AI را فعال می‌کند (نیاز به پیکربندی جستجوی کلمات کلیدی دارد).
+- `mode: 'modal'`: Ask AI را درون مودال DocSearch نگه می‌دارد (حتی اگر پنل کناری را پیکربندی کرده باشید).
+
+#### فقط Ask AI (بدون جستجوی کلمات کلیدی) {#ask-ai-only}
+
+اگر می‌خواهید **فقط پنل کناری Ask AI** را استفاده کنید، می‌توانید پیکربندی جستجوی کلمات کلیدی سطح بالا را حذف کرده و اعتبارنامه‌ها را در `askAi` ارائه دهید:
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    search: {
+      provider: 'algolia',
+      options: {
+        mode: 'sidePanel',
+        askAi: {
+          assistantId: 'XXXYYY',
+          appId: '...',
+          apiKey: '...',
+          indexName: '...',
+          sidePanel: true
+        }
+      }
+    }
+  }
+})
+```
 
 ### پیکربندی Crawler {#crawler-config}
 
 در اینجا یک پیکربندی نمونه بر اساس آنچه که این سایت استفاده می‌کند آمده است:
 
-```ts
-new Crawler({
-  appId: '...',
-  apiKey: '...',
-  rateLimit: 8,
-  startUrls: ['https://vitepress.dev/'],
-  renderJavaScript: false,
-  sitemaps: [],
-  exclusionPatterns: [],
-  ignoreCanonicalTo: false,
-  discoveryPatterns: ['https://vitepress.dev/**'],
-  schedule: 'at 05:10 on Saturday',
-  actions: [
-    {
-      indexName: 'vitepress',
-      pathsToMatch: ['https://vitepress.dev/**'],
-      recordExtractor: ({ $, helpers }) => {
-        return helpers.docsearch({
-          recordProps: {
-            lvl1: '.content h1',
-            content: '.content p, .content li',
-            lvl0: {
-              selectors: '',
-              defaultValue: 'Documentation'
-            },
-            lvl2: '.content h2',
-            lvl3: '.content h3',
-            lvl4: '.content h4',
-            lvl5: '.content h5'
-          },
-          indexHeadings: true
-        })
-      }
-    }
-  ],
-  initialIndexSettings: {
-    vitepress: {
-      attributesForFaceting: ['type', 'lang'],
-      attributesToRetrieve: ['hierarchy', 'content', 'anchor', 'url'],
-      attributesToHighlight: ['hierarchy', 'hierarchy_camel', 'content'],
-      attributesToSnippet: ['content:10'],
-      camelCaseAttributes: ['hierarchy', 'hierarchy_radio', 'content'],
-      searchableAttributes: [
-        'unordered(hierarchy_radio_camel.lvl0)',
-        'unordered(hierarchy_radio.lvl0)',
-        'unordered(hierarchy_radio_camel.lvl1)',
-        'unordered(hierarchy_radio.lvl1)',
-        'unordered(hierarchy_radio_camel.lvl2)',
-        'unordered(hierarchy_radio.lvl2)',
-        'unordered(hierarchy_radio_camel.lvl3)',
-        'unordered(hierarchy_radio.lvl3)',
-        'unordered(hierarchy_radio_camel.lvl4)',
-        'unordered(hierarchy_radio.lvl4)',
-        'unordered(hierarchy_radio_camel.lvl5)',
-        'unordered(hierarchy_radio.lvl5)',
-        'unordered(hierarchy_radio_camel.lvl6)',
-        'unordered(hierarchy_radio.lvl6)',
-        'unordered(hierarchy_camel.lvl0)',
-        'unordered(hierarchy.lvl0)',
-        'unordered(hierarchy_camel.lvl1)',
-        'unordered(hierarchy.lvl1)',
-        'unordered(hierarchy_camel.lvl2)',
-        'unordered(hierarchy.lvl2)',
-        'unordered(hierarchy_camel.lvl3)',
-        'unordered(hierarchy.lvl3)',
-        'unordered(hierarchy_camel.lvl4)',
-        'unordered(hierarchy.lvl4)',
-        'unordered(hierarchy_camel.lvl5)',
-        'unordered(hierarchy.lvl5)',
-        'unordered(hierarchy_camel.lvl6)',
-        'unordered(hierarchy.lvl6)',
-        'content'
-      ],
-      distinct: true,
-      attributeForDistinct: 'url',
-      customRanking: [
-        'desc(weight.pageRank)',
-        'desc(weight.level)',
-        'asc(weight.position)'
-      ],
-      ranking: [
-        'words',
-        'filters',
-        'typo',
-        'attribute',
-        'proximity',
-        'exact',
-        'custom'
-      ],
-      highlightPreTag: '<span class="algolia-docsearch-suggestion--highlight">',
-      highlightPostTag: '</span>',
-      minWordSizefor1Typo: 3,
-      minWordSizefor2Typos: 7,
-      allowTyposOnNumericTokens: false,
-      minProximity: 1,
-      ignorePlurals: true,
-      advancedSyntax: true,
-      attributeCriteriaComputedByMinProximity: true,
-      removeWordsIfNoResults: 'allOptional'
-    }
-  }
-})
-```
+<<< @/snippets/algolia-crawler.js

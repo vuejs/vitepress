@@ -55,6 +55,8 @@ export default {
 
 `text` 是 nav 中显示的实际文本，而 `link` 是单击文本时将导航到的链接。对于链接，将路径设置为不带 `.md` 后缀的实际文件，并且始终以 `/` 开头。
 
+`link` 也可以是一个函数，它接受 [`PageData`](./runtime-api#usedata) 作为参数并返回路径。
+
 导航链接也可以是下拉菜单。为此，请替换 `link` 选项，设置 `items` 数组。
 
 ```js

@@ -255,11 +255,11 @@ export default defineConfig({
   }
   ```
 
-  این از [`postcss-prefix-selector`](https://github.com/postcss/postcss-load-config) استفاده می‌کند. می‌توانید گزینه‌های آن را به این صورت پاس بدهید:
+  می‌توانید گزینه‌های آن را به این صورت پاس بدهید:
 
   ```js
   postcssIsolateStyles({
-    includeFiles: [/vp-doc\.css/] // به طور پیش‌فرض /base\.css/
+    includeFiles: [/custom\.css/] // به طور پیش‌فرض [/vp-doc\.css/, /base\.css/]
   })
   ```
 
@@ -724,7 +724,7 @@ export default config
 
 ## مبانی
 
-<!--@include: ./parts/basics.md-->
+<!--@@include: ./parts/basics.md-->
 ```
 
 **قسمت فایل** (`parts/basics.md`)
@@ -760,7 +760,7 @@ export default config
 
 ## مبانی
 
-<!--@include: ./parts/basics.md{3,}-->
+<!--@@include: ./parts/basics.md{3,}-->
 ```
 
 **قسمت فایل** (`parts/basics.md`)
@@ -796,8 +796,8 @@ export default config
 
 ## مبانی
 
-<!--@include: ./parts/basics.md#basic-usage{,2}-->
-<!--@include: ./parts/basics.md#basic-usage{5,}-->
+<!--@@include: ./parts/basics.md#basic-usage{,2}-->
+<!--@@include: ./parts/basics.md#basic-usage{5,}-->
 ```
 
 **قسمت فایل** (`parts/basics.md`)
@@ -833,7 +833,7 @@ export default config
 در حال حاضر این گزینه اختیاری است. برای فعال‌سازی آن، باید `markdown-it-mathjax3` را نصب کرده و `markdown.math` را در فایل پیکربندی خود به `true` تنظیم کنید:
 
 ```sh
-npm add -D markdown-it-mathjax3
+npm add -D markdown-it-mathjax3@^4
 ```
 
 ```ts [.vitepress/config.ts]

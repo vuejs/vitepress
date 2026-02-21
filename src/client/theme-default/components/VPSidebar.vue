@@ -119,7 +119,7 @@ watch(
 @media (min-width: 960px) {
   .curtain {
     position: sticky;
-    top: -64px;
+    top: calc(var(--vp-nav-height) * -1);
     left: 0;
     z-index: 1;
     margin-top: calc(var(--vp-nav-height) * -1);

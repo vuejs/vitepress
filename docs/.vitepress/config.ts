@@ -26,10 +26,13 @@ export default defineConfig({
   markdown: {
     math: true,
     codeTransformers: [
-      // We use `[!!code` in demo to prevent transformation, here we revert it back.
+      // We use `[!!code` and `@@include` in demo to prevent transformation,
+      // here we revert it back.
       {
         postprocess(code) {
-          return code.replace(/\[\!\!code/g, '[!code')
+          return code
+            .replaceAll('[!!code', '[!code')
+            .replaceAll('@@include', '@include')
         }
       }
     ],
@@ -52,6 +55,8 @@ export default defineConfig({
               return 'Скопировать код'
             case 'zh':
               return '复制代码'
+            case 'ja':
+              return 'コードをコピー'
             default:
               return 'Copy code'
           }
@@ -115,7 +120,11 @@ export default defineConfig({
       options: {
         appId: '8J64VVRP8K',
         apiKey: '52f578a92b88ad6abde815aae2b0ad7c',
-        indexName: 'vitepress'
+        indexName: 'vitepress',
+        askAi: {
+          assistantId: 'YaVSonfX5bS8',
+          sidePanel: true
+        }
       }
     },
 
@@ -123,13 +132,14 @@ export default defineConfig({
   },
 
   locales: {
-    root: { label: 'English' },
-    zh: { label: '简体中文' },
-    pt: { label: 'Português' },
-    ru: { label: 'Русский' },
-    es: { label: 'Español' },
-    ko: { label: '한국어' },
-    fa: { label: 'فارسی' }
+    root: { label: 'English', lang: 'en-US', dir: 'ltr' },
+    zh: { label: '简体中文', lang: 'zh-Hans', dir: 'ltr' },
+    pt: { label: 'Português', lang: 'pt-BR', dir: 'ltr' },
+    ru: { label: 'Русский', lang: 'ru-RU', dir: 'ltr' },
+    es: { label: 'Español', lang: 'es', dir: 'ltr' },
+    ko: { label: '한국어', lang: 'ko-KR', dir: 'ltr' },
+    fa: { label: 'فارسی', lang: 'fa-IR', dir: 'rtl' },
+    ja: { label: '日本語', lang: 'ja', dir: 'ltr' }
   },
 
   vite: {

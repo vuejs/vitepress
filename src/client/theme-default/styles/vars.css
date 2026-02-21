@@ -385,6 +385,9 @@
 :lang(zh) {
   --vp-code-copy-copied-text-content: '已复制';
 }
+:lang(ja) {
+  --vp-code-copy-copied-text-content: 'コピー完了';
+}
 
 /**
  * Component: Button
