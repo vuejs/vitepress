@@ -1,3 +1,19 @@
+## [2.0.0-alpha.16](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.15...v2.0.0-alpha.16) (2026-01-31)
+
+### Bug Fixes
+
+- always log error when failed to fetch page ([66cf64e](https://github.com/vuejs/vitepress/commit/66cf64e6d127dd8473e582d11e1133acda6c3bc8))
+- **theme:** add fallback for `heroImageSlotExists` ([#5076](https://github.com/vuejs/vitepress/issues/5076)) ([f119b18](https://github.com/vuejs/vitepress/commit/f119b18e39b545f39e29358913fe9ed1fd69bc55))
+- **theme:** align badges in h1 and h2 ([#5087](https://github.com/vuejs/vitepress/issues/5087)) (closes [#5063](https://github.com/vuejs/vitepress/issues/5063)) ([b200865](https://github.com/vuejs/vitepress/commit/b2008654ffaf0d8f8c425e88592e9ed2f8791506))
+- **theme:** highlight active link in mobile nav menu ([#5086](https://github.com/vuejs/vitepress/issues/5086)) (closes [#5068](https://github.com/vuejs/vitepress/issues/5068), closes [#5074](https://github.com/vuejs/vitepress/issues/5074)) ([923aa90](https://github.com/vuejs/vitepress/commit/923aa902523739bfb9d77aed376ebc73c32eeb33))
+- **theme:** overflow clip is buggy on safari ([8ed6ea0](https://github.com/vuejs/vitepress/commit/8ed6ea048cb49256e3302de2de0edfbe635afd32)), closes [#5050](https://github.com/vuejs/vitepress/issues/5050) [#5039](https://github.com/vuejs/vitepress/issues/5039) [#5027](https://github.com/vuejs/vitepress/issues/5027)
+- **theme:** remove margin between code groups and blocks in markdown containers ([a28e171](https://github.com/vuejs/vitepress/commit/a28e171604605713a221d0eb2bbdce211930d94f)), closes [#5099](https://github.com/vuejs/vitepress/issues/5099)
+
+### Features
+
+- **theme:** upgrade DocSearch to 4.5 with sidepanel ([#5092](https://github.com/vuejs/vitepress/issues/5092)) ([0d646a6](https://github.com/vuejs/vitepress/commit/0d646a66cd44e97adef516a6a36e03365f179906))
+- **theme:** use `@layer __vitepress_base` to wrap the styles in base.css ([#4905](https://github.com/vuejs/vitepress/issues/4905)) ([f8d8c0d](https://github.com/vuejs/vitepress/commit/f8d8c0d712fba4728c750e1f44c5ba9596979ba1))
+
 ## [2.0.0-alpha.15](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.14...v2.0.0-alpha.15) (2025-11-22)
 
 ### Bug Fixes
