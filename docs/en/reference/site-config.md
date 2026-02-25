@@ -478,6 +478,8 @@ export default {
 
 When set to `true`, extract pages metadata to a separate JavaScript chunk instead of inlining it in the initial HTML. This makes each page's HTML payload smaller and makes the pages metadata cacheable, thus reducing server bandwidth when you have many pages in the site.
 
+By default, metadata is output in the page's HTML source. Some search engines crawl the source code to find link-like strings and may recognize the .md links within the metadata JSON content, which are inaccessible. This interferes with search results, potentially leading to numerous 404 errors reported in search consoles. To avoid this, enable this option to output the metadata in a separate JS file instead of embedding it within the page's HTML source.
+
 ### mpa <Badge type="warning" text="experimental" />
 
 - Type: `boolean`
