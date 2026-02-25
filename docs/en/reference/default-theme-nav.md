@@ -1,6 +1,6 @@
 # Nav
 
-The Nav is the navigation bar displayed on top of the page. It contains the site title, global menu links, etc.
+The Nav is the navigation bar displayed on top of the page. It contains the site title, global menu links, and the theme slider.
 
 ## Site Title and Logo
 
@@ -24,7 +24,7 @@ export default {
 }
 ```
 
-When adding a logo, it gets displayed along with the site title. If your logo is all you need and if you would like to hide the site title text, set `false` to the `siteTitle` option.
+When adding a logo, it gets displayed along with the site title. If your logo is all you need and if you would like to hide the site title text, set `siteTitle` to `false`.
 
 ```js
 export default {
@@ -35,11 +35,11 @@ export default {
 }
 ```
 
-You can also pass an object as logo if you want to add `alt` attribute or customize it based on dark/light mode. Refer [`themeConfig.logo`](./default-theme-config#logo) for details.
+You can also pass an object as a logo if you want to add an `alt` attribute or customize it based on dark/light mode. Refer to [`themeConfig.logo`](./default-theme-config#logo) for more details.
 
 ## Navigation Links
 
-You may define `themeConfig.nav` option to add links to your nav.
+You can define the `themeConfig.nav` option to add links to your navigation bar.
 
 ```js
 export default {
@@ -53,11 +53,9 @@ export default {
 }
 ```
 
-The `text` is the actual text displayed in nav, and the `link` is the link that will be navigated to when the text is clicked. For the link, set path to the actual file without `.md` prefix, and always start with `/`.
+The `text` will be the text displayed in nav, and the `link` is where the text will send you. Always start links with `/` and omit the `.md` suffix when linking to pages.
 
-The `link` can also be a function that accepts [`PageData`](./runtime-api#usedata) as the argument and returns the path.
-
-Nav links can also be dropdown menus. To do this, set `items` key on link option.
+Nav links can also be dropdown menus. To do this, set the `items` key on the given link option. The `link` can also be a function that accepts [`PageData`](./runtime-api#usedata) as the argument and returns the path. 
 
 ```js
 export default {
@@ -77,9 +75,9 @@ export default {
 }
 ```
 
-Note that dropdown menu title (`Dropdown Menu` in the above example) can not have `link` property since it becomes a button to open dropdown dialog.
+Note that the dropdown menu title (`Dropdown Menu` in the above example) can not have `link` property, since it becomes a button to open the dropdown dialog.
 
-You may further add "sections" to the dropdown menu items as well by passing in more nested items.
+You can add "sections" to the dropdown menu items as well by passing in more nested items.
 
 ```js
 export default {
@@ -103,7 +101,7 @@ export default {
         text: 'Dropdown Menu',
         items: [
           {
-            // You may also omit the title.
+            // You can also omit the title.
             items: [
               { text: 'Section A Item A', link: '...' },
               { text: 'Section B Item B', link: '...' }
@@ -118,7 +116,7 @@ export default {
 
 ### Customize link's "active" state
 
-Nav menu items will be highlighted when the current page is under the matching path. if you would like to customize the path to be matched, define `activeMatch` property and regex as a string value.
+Navigation menu items will be highlighted when the current page is under the matching path. if you would like to customize the path to be matched, define the `activeMatch` property as a regular expression string.
 
 ```js
 export default {
@@ -137,12 +135,12 @@ export default {
 ```
 
 ::: warning
-`activeMatch` is expected to be a regex string, but you must define it as a string. We can't use actual RegExp object here because it isn't serializable during the build time.
+`activeMatch` is expected to be a regular expression, but you must define it as a string. We can't use an actual RegExp object here because it cannot be serialized during the build time.
 :::
 
-### Customize link's "target" and "rel" attributes
+### Customize the link's "target" and "rel" attributes
 
-By default, VitePress automatically determines `target` and `rel` attributes based on whether the link is an external link. But if you want, you can customize them too.
+By default, VitePress tries to automatically determine the `target` and `rel` attributes based on whether the link is external or not. You can override this behavior by passing the options in directly.
 
 ```js
 export default {
@@ -161,7 +159,7 @@ export default {
 
 ## Social Links
 
-Refer [`socialLinks`](./default-theme-config#sociallinks).
+Refer to [`socialLinks`](./default-theme-config#sociallinks).
 
 ## Custom Components
 
@@ -211,6 +209,6 @@ export default {
 
 Your component will be rendered in the navigation bar. VitePress will provide the following additional props to the component:
 
-- `screenMenu`: an optional boolean indicating whether the component is inside mobile navigation menu
+- `screenMenu`: an optional boolean indicating whether the component is inside the mobile navigation menu
 
 You can check an example in the e2e tests [here](https://github.com/vuejs/vitepress/tree/main/__tests__/e2e/.vitepress).

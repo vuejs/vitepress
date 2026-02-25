@@ -1,6 +1,6 @@
 # Last Updated
 
-The update time of the last content will be displayed in the lower right corner of the page. To enable it, add `lastUpdated` options to your config.
+You can show the last time content was updated in the lower right corner of the page. To enable it, add the `lastUpdated` options to your config.
 
 ::: info
 VitePress displays the "last updated" time using the timestamp of the most recent Git commit for each file. To enable this, the Markdown file must be committed to Git.
@@ -18,7 +18,7 @@ To fix this in **GitHub Actions**, use the following in your workflow:
 
 Other CI/CD platforms have similar settings.
 
-If such options aren't available, you can prepend the `docs:build` command in your `package.json` with a manual fetch:
+If these options aren't available, you can prepend the `docs:build` command in your `package.json` with a manual fetch:
 
 ```json
 "docs:build": "git fetch --unshallow && vitepress build docs"
@@ -35,7 +35,7 @@ export default {
 
 ## Frontmatter Config
 
-This can be disabled per-page using the `lastUpdated` option on frontmatter:
+This can be disabled per-page using the `lastUpdated` option in each individual page's frontmatter:
 
 ```yaml
 ---
@@ -43,4 +43,4 @@ lastUpdated: false
 ---
 ```
 
-Also refer [Default Theme: Last Updated](./default-theme-config#lastupdated) for more details. Any truthy value at theme-level will also enable the feature unless explicitly disabled at site or page level.
+Also refer to [Default Theme: Last Updated](./default-theme-config#lastupdated) for more details. Any truthy value at the theme-level will also enable the feature unless explicitly disabled at the site or page level.
