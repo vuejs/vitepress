@@ -6,9 +6,13 @@ import { useData } from '../composables/data'
 const { theme, page, lang: pageLang } = useData()
 const { language: browserLang } = useNavigatorLanguage()
 
+const props = defineProps<{
+  isCreated?: boolean
+}>()
+
 const timeRef = useTemplateRef('timeRef')
 
-const date = computed(() => new Date(page.value.lastUpdated!))
+const date = computed(() => new Date(props.isCreated ? page.value.created! : page.value.lastUpdated!))
 const isoDatetime = computed(() => date.value.toISOString())
 const datetime = shallowRef('')
 
@@ -16,13 +20,17 @@ const datetime = shallowRef('')
 // potential differences in timezones of the server and clients
 onMounted(() => {
   watchEffect(() => {
-    const lang = theme.value.lastUpdated?.formatOptions?.forceLocale
+    const formatOptions = props.isCreated
+      ? theme.value.created?.formatOptions
+      : theme.value.lastUpdated?.formatOptions
+
+    const lang = formatOptions?.forceLocale
       ? pageLang.value
       : browserLang.value
 
     datetime.value = new Intl.DateTimeFormat(
       lang,
-      theme.value.lastUpdated?.formatOptions ?? {
+      formatOptions ?? {
         dateStyle: 'medium',
         timeStyle: 'medium'
       }
@@ -38,14 +46,18 @@ onMounted(() => {
 </script>
 
 <template>
-  <p class="VPLastUpdated">
-    {{ theme.lastUpdated?.text || theme.lastUpdatedText || 'Last updated' }}:
-    <time ref="timeRef" :datetime="isoDatetime">{{ datetime }}</time>
-  </p>
+  <tr v-if="isCreated" class="VPCreated">
+    <td>{{ theme.created?.text || 'Created' }}:</td>
+    <td><time ref="timeRef" :datetime="isoDatetime">{{ datetime }}</time></td>
+  </tr>
+  <tr v-else class="VPLastUpdated">
+    <td>{{ theme.lastUpdated?.text || theme.lastUpdatedText || 'Last updated' }}:</td>
+    <td><time ref="timeRef" :datetime="isoDatetime">{{ datetime }}</time></td>
+  </tr>
 </template>
 
 <style scoped>
-.VPLastUpdated {
+.VPLastUpdated, .VPCreated {
   line-height: 24px;
   font-size: 14px;
   font-weight: 500;
@@ -53,10 +65,19 @@ onMounted(() => {
 }
 
 @media (min-width: 640px) {
-  .VPLastUpdated {
+  .VPLastUpdated, .VPCreated {
     line-height: 32px;
     font-size: 14px;
     font-weight: 500;
   }
+}
+
+td {
+  padding: 0;
+}
+
+td:first-child {
+  padding-right: 4px;
+  text-align: right;
 }
 </style>

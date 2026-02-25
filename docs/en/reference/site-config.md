@@ -513,6 +513,15 @@ Whether to get the last updated timestamp for each page using Git. The timestamp
 
 When using the default theme, enabling this option will display each page's last updated time. You can customize the text via [`themeConfig.lastUpdatedText`](./default-theme-config#lastupdatedtext) option.
 
+### created
+
+- Type: `boolean`
+- Default: `false`
+
+Whether to get the created timestamp for each page using Git. The timestamp will be included in each page's page data, accessible via [`useData`](./runtime-api#usedata).
+
+When using the default theme, enabling this option will display each page's created time. You can customize the text via [`themeConfig.created.text`](./default-theme-config#created) option.
+
 ## Customization
 
 ### markdown

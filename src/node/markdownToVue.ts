@@ -19,7 +19,10 @@ import {
   type MarkdownEnv,
   type PageData
 } from './shared'
-import { getGitTimestamp } from './utils/getGitTimestamp'
+import {
+  getGitLastUpdatedTimestamp,
+  getGitCreatedTimestamp
+} from './utils/getGitTimestamp'
 import { processIncludes } from './utils/processIncludes'
 
 const debug = createDebug('vitepress:md')
@@ -85,6 +88,7 @@ export async function createMarkdownToVueRenderFn(
   options: MarkdownOptions = {},
   base = '/',
   includeLastUpdatedData = false,
+  includeCreatedData = false,
   cleanUrls = false,
   siteConfig: SiteConfig
 ) {
@@ -227,7 +231,15 @@ export async function createMarkdownToVueRenderFn(
       if (frontmatter.lastUpdated instanceof Date) {
         pageData.lastUpdated = +frontmatter.lastUpdated
       } else {
-        pageData.lastUpdated = await getGitTimestamp(fileOrig)
+        pageData.lastUpdated = await getGitLastUpdatedTimestamp(fileOrig)
+      }
+    }
+
+    if (includeCreatedData && frontmatter.created !== false) {
+      if (frontmatter.created instanceof Date) {
+        pageData.created = +frontmatter.created
+      } else {
+        pageData.created = await getGitCreatedTimestamp(fileOrig)
       }
     }
 
