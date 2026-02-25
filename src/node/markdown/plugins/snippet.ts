@@ -126,23 +126,23 @@ export function findRegions(lines: string[], regionName: string) {
   return returned
 }
 
-export function stripMarkers(lines: string[], stripMarkers: boolean): string {
-  if (!stripMarkers) return lines.join('\n')
-  return lines
-    .filter((l) => {
-      for (const m of markers) {
-        if (m.start.test(l) || m.end.test(l)) return false
-      }
-      return true
-    })
-    .join('\n')
-}
-
 export const snippetPlugin = (
   md: MarkdownItAsync,
   srcDir: string,
   stripMarkersFromSnippets = false
 ) => {
+  function stripMarkers(lines: string[]): string {
+    if (!stripMarkersFromSnippets) return lines.join('\n')
+    return lines
+      .filter((l) => {
+        for (const m of markers) {
+          if (m.start.test(l) || m.end.test(l)) return false
+        }
+        return true
+      })
+      .join('\n')
+  }
+
   const parser: RuleBlock = (state, startLine, endLine, silent) => {
     const CH = '<'.charCodeAt(0)
     const pos = state.bMarks[startLine] + state.tShift[startLine]
@@ -231,8 +231,7 @@ export const snippetPlugin = (
               lines
                 .slice(r.start, r.end)
                 .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
-            ),
-            stripMarkersFromSnippets
+            )
           )
         )
       } else {
@@ -241,7 +240,7 @@ export const snippetPlugin = (
         return fence(...args)
       }
     } else {
-      content = stripMarkers(content.split('\n'), stripMarkersFromSnippets)
+      content = stripMarkers(content.split('\n'))
     }
 
     token.content = content

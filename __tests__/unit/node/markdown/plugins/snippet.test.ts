@@ -1,8 +1,7 @@
 import {
   dedent,
   findRegions,
-  rawPathToToken,
-  stripMarkers
+  rawPathToToken
 } from 'node/markdown/plugins/snippet'
 import { expect } from 'vitest'
 
@@ -426,66 +425,6 @@ describe('node/markdown/plugins/snippet', () => {
           .join('\n')
         expect(extracted).toBe('const x = 1;')
       }
-    })
-  })
-
-  describe('stripRegionMarkers', () => {
-    it('removes #region and #endregion lines', () => {
-      const src = [
-        '// #region A',
-        '// #region B',
-        'console.log("Hello, World!");',
-        '// #endregion B',
-        '// #endregion A'
-      ]
-      expect(stripMarkers(src, true)).toBe('console.log("Hello, World!");')
-    })
-
-    it('does not remove any marker if stripRegionMarkers is false', () => {
-      const src = [
-        '// #region A',
-        '// #region B',
-        'console.log("Hello, World!");',
-        '// #endregion B',
-        '// #endregion A'
-      ]
-      expect(stripMarkers(src, false)).toBe(src.join('\n'))
-    })
-
-    it('removes region markers for various syntaxes', () => {
-      const src = [
-        '<!-- #region html -->',
-        '<div>hi</div>',
-        '<!-- #endregion html -->',
-        '/* #region css */',
-        'body {}',
-        '/* #endregion css */',
-        '#pragma region cpp',
-        'int main(){}',
-        '#pragma endregion cpp',
-        '::#region bat',
-        'ECHO ON',
-        'REM #endregion bat'
-      ]
-      const out = stripMarkers(src, true)
-      expect(out).not.toContain('#region')
-      expect(out).not.toContain('#endregion')
-      expect(out).toContain('<div>hi</div>')
-      expect(out).toContain('body {}')
-      expect(out).toContain('int main(){}')
-      expect(out).toContain('ECHO ON')
-    })
-
-    it('removes markers even if indented or with extra spaces', () => {
-      const src = [
-        '   //   #region   spaced  ',
-        '\t/* #region */',
-        'code();',
-        '   // #endregion spaced',
-        '/*    #endregion   */'
-      ]
-      const out = stripMarkers(src, true)
-      expect(out.trim()).toBe('code();')
     })
   })
 })
