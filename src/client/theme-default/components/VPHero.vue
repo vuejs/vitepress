@@ -143,6 +143,13 @@ const { heroImageSlotExists } = inject(
   font-size: 32px;
   font-weight: 700;
   white-space: pre-wrap;
+
+  &:lang(ja) {
+    font-feature-settings: 'palt';
+    word-break: auto-phrase;
+    /* Should we apply `line-break: strict` to the other headings and body text or other languages (Chinese and Korean) as well in ../styles/base.css? */
+    line-break: strict;
+  }
 }
 
 .VPHero.has-image .name,
