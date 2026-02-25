@@ -26,7 +26,7 @@ import mditCjkFriendly from 'markdown-it-cjk-friendly'
 import { full as emojiPlugin } from 'markdown-it-emoji'
 import type { BuiltinLanguage, BuiltinTheme, Highlighter } from 'shiki'
 import type { Logger } from 'vite'
-import type { Awaitable } from '../shared'
+import type { Awaitable, ExternalLinkAttrValue } from '../shared'
 import { containerPlugin, type ContainerOptions } from './plugins/containers'
 import { gitHubAlertsPlugin } from './plugins/githubAlerts'
 import { highlight as createHighlighter } from './plugins/highlight'
@@ -62,7 +62,7 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    * Disable cache (experimental)
    */
   cache?: boolean
-  externalLinks?: Record<string, string>
+  externalLinks?: Record<string, string | ExternalLinkAttrValue>
 
   /* ==================== Syntax Highlighting ==================== */
 
@@ -279,7 +279,11 @@ export async function createMarkdownRenderer(
   imagePlugin(md, options.image)
   linkPlugin(
     md,
-    { target: '_blank', rel: 'noreferrer', ...options.externalLinks },
+    {
+      target: '_blank',
+      rel: { value: 'noreferrer', join: true },
+      ...options.externalLinks
+    },
     base,
     slugify
   )
