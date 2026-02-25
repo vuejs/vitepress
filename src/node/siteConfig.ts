@@ -45,6 +45,7 @@ export interface UserConfig<
   extends?: RawConfigExports<ThemeConfig>
 
   base?: string
+  assetsBase?: string
   srcDir?: string
   srcExclude?: string[]
   outDir?: string

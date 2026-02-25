@@ -1,5 +1,5 @@
 import { createServer as createViteServer, type ServerOptions } from 'vite'
-import { resolveConfig, type SiteConfig } from './config'
+import { normalizeBaseUrl, resolveConfig, type SiteConfig } from './config'
 import { createVitePressPlugin } from './plugin'
 
 export async function createServer(
@@ -11,7 +11,7 @@ export async function createServer(
   config ??= await resolveConfig(root)
 
   const { base, ...server } = serverOptions
-  config.site.base = base ?? config.site.base
+  config.site.base = base ? normalizeBaseUrl(base) : config.site.base
 
   return createViteServer({
     root: config.srcDir,
