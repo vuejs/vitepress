@@ -4,6 +4,7 @@
 [![npm](https://img.shields.io/npm/v/vitepress/next)](https://www.npmjs.com/package/vitepress/v/next)
 [![nightly releases](https://img.shields.io/badge/nightly-releases-orange)](https://nightly.akryum.dev/vuejs/vitepress)
 [![chat](https://img.shields.io/badge/chat-discord-blue?logo=discord)](https://chat.vuejs.org)
+[![Gurubase](https://img.shields.io/badge/Gurubase-Ask%20VitePress%20Guru-006BFF)](https://gurubase.io/g/vitepress)
 
 ---
 
