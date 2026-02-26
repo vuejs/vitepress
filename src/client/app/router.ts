@@ -269,11 +269,11 @@ export function scrollTo(hash: string, smooth = false, scrollPosition = 0) {
   }
   if (!target) return
 
-  const targetTop =
+  const targetTop ={
     window.scrollY +
       target.getBoundingClientRect().top -
       getScrollOffset() +
-      Number.parseInt(window.getComputedStyle(target).paddingTop, 10) || 0
+      Number.parseInt(window.getComputedStyle(target).paddingTop, 10) }|| 0
 
   const behavior = window.matchMedia('(prefers-reduced-motion)').matches
     ? 'instant'
