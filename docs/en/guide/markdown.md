@@ -776,6 +776,102 @@ You can also [import snippets](#import-code-snippets) in code groups:
 
 :::
 
+### Named Code Groups
+
+You can name code groups to synchronize tab selections across multiple groups. When you have multiple code groups with the same name, selecting a tab in one will automatically select the corresponding tab in all other groups with the same name.
+
+**Input**
+
+````md
+::: code-group name=package-managers
+
+```bash [npm]
+npm install vitepress
+```
+
+```bash [pnpm]
+pnpm add vitepress
+```
+
+```bash [yarn]
+yarn add vitepress
+```
+
+:::
+
+<!-- Later in the same domain: -->
+
+::: code-group name=package-managers
+
+```bash [npm]
+npm run docs
+```
+
+```bash [pnpm]
+pnpm run docs
+```
+
+```bash [yarn]
+yarn docs
+```
+
+:::
+````
+
+When you click on a tab (e.g., "pnpm") in one group, all other groups with `name=package-managers` will automatically switch to the same tab.
+
+**Output**
+
+::: code-group name=package-managers
+
+```bash [npm]
+npm install vitepress
+```
+
+```bash [pnpm]
+pnpm add vitepress
+```
+
+```bash [yarn]
+yarn add vitepress
+```
+
+:::
+
+::: code-group name=package-managers
+
+```bash [npm]
+npm run docs
+```
+
+```bash [pnpm]
+pnpm run docs
+```
+
+```bash [yarn]
+yarn docs
+```
+
+:::
+
+Try clicking different tabs above! Notice how both code groups switch together because they share the same `name`.
+
+::: info
+Your tab selection is automatically saved to localStorage. When you return to the page, your preferred tab for each name will be automatically selected.
+:::
+
+The `name` parameter accepts only alphanumeric characters, hyphens, and underscores. No whitespace is allowed.
+
+Valid examples:
+- `name=installs`
+- `name=install-methods`
+- `name=install_methods`
+- `name=installMethods`
+
+::: tip
+This feature is especially useful in documentation where you show the same tool (like package managers or programming languages) in multiple places, providing a consistent experience for users.
+:::
+
 ## Markdown File Inclusion
 
 You can include a markdown file in another markdown file, even nested.
