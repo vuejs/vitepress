@@ -13,6 +13,11 @@ const marker = ref()
 const { headers, hasLocalNav } = useLayout()
 
 useActiveAnchor(container, marker)
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+}
+
 </script>
 
 <template>
@@ -35,6 +40,11 @@ useActiveAnchor(container, marker)
       </div>
 
       <VPDocOutlineItem :headers :root="true" />
+
+      <button @click="scrollToTop" class="back-to-top-button">
+        <span>{{ theme.returnToTopLabel || 'Return to top' }}</span>
+      </button>
+
     </div>
   </nav>
 </template>
@@ -54,6 +64,12 @@ useActiveAnchor(container, marker)
   padding-left: 16px;
   font-size: 13px;
   font-weight: 500;
+}
+
+.back-to-top-button {
+  line-height: 32px;
+  font-weight: 500;
+  font-size: 14px;
 }
 
 .outline-marker {
