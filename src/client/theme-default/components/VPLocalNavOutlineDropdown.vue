@@ -6,6 +6,7 @@ import { nextTick, ref, watch } from 'vue'
 import { useData } from '../composables/data'
 import { resolveTitle } from '../composables/outline'
 import VPDocOutlineItem from './VPDocOutlineItem.vue'
+import { useSidebar } from '../composables/sidebar'
 
 const props = defineProps<{
   headers: DefaultTheme.OutlineItem[]
@@ -17,6 +18,7 @@ const open = ref(false)
 const vh = ref(0)
 const main = ref<HTMLDivElement>()
 const items = ref<HTMLDivElement>()
+const { hasSidebar } = useSidebar()
 
 function closeOnClickOutside(e: Event) {
   if (!main.value?.contains(e.target as Node)) {
@@ -68,6 +70,9 @@ function scrollToTop() {
     class="VPLocalNavOutlineDropdown"
     :style="{ '--vp-vh': vh + 'px' }"
     ref="main"
+    :class="{
+      'has-sidebar': hasSidebar,
+    }"
   >
     <button @click="toggle" :class="{ open }" v-if="headers.length > 0">
       <span class="menu-text">{{ resolveTitle(theme) }}</span>
@@ -155,6 +160,9 @@ function scrollToTop() {
     right: auto;
     left: calc(var(--vp-sidebar-width) + 32px);
     width: 320px;
+  }
+  .VPLocalNavOutlineDropdown:not(.has-sidebar) .items {
+    left:32px;
   }
 }
 
