@@ -265,8 +265,12 @@ function renderAttrs(attrs: Record<string, string>): string {
 }
 
 async function minifyScript(code: string, filename: string): Promise<string> {
-  // @ts-ignore use oxc-minify when rolldown-vite is used
-  if (vite.rolldownVersion) {
+  if (vite.version.startsWith('8.')) {
+    // @ts-ignore minify is available in vite 8
+    const minify = vite.minify
+    return (await minify(filename, code)).code.trim()
+    // @ts-ignore use oxc-minify when rolldown-vite is used
+  } else if (vite.rolldownVersion) {
     const oxcMinify = await import('oxc-minify')
     return (await oxcMinify.minify(filename, code)).code.trim()
   }
