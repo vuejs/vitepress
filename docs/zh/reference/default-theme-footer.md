@@ -20,6 +20,9 @@ export interface Footer {
 
   // 实际的版权文本
   copyright?: string
+
+  // 是否在侧边栏可见时显示页脚
+  showWithSidebar?: boolean
 }
 ```
 
@@ -40,7 +43,7 @@ export default {
 只有内联元素可以在 `message` 和 `copyright` 中使用，因为它们渲染在 `<p>` 元素中。如果想添加块元素，请考虑使用 [`layout-bottom`](../guide/extending-default-theme#layout-slots) 插槽。
 :::
 
-请注意，当[侧边栏](./default-theme-sidebar)可见时，不会显示页脚。
+默认情况下，当[侧边栏](./default-theme-sidebar)可见时，不会显示页脚。但可以通过在配置中设置 `showWithSidebar` 来更改此行为。
 
 ## frontmatter 配置 {#frontmatter-config}
 
