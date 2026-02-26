@@ -1,10 +1,14 @@
 .custom-block {
   border: 1px solid transparent;
   border-radius: 8px;
-  padding: 16px 16px 8px;
+  padding: 8px 16px;
   line-height: 24px;
   font-size: var(--vp-custom-block-font-size);
   color: var(--vp-c-text-2);
+}
+
+.custom-block:has(.custom-block-title) {
+  padding-top: 16px;
 }
 
 .custom-block.info {
