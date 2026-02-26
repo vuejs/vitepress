@@ -204,10 +204,10 @@ Finally, if the theme provides types for its theme config:
 
 ```ts [.vitepress/config.ts]
 import baseConfig from 'awesome-vitepress-theme/config'
-import { defineConfigWithTheme } from 'vitepress'
+import { defineConfig } from 'vitepress'
 import type { ThemeConfig } from 'awesome-vitepress-theme'
 
-export default defineConfigWithTheme<ThemeConfig>({
+export default defineConfig<ThemeConfig>({
   extends: baseConfig,
   themeConfig: {
     // Type is `ThemeConfig`
