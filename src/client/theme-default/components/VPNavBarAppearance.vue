@@ -10,6 +10,7 @@ const { site } = useData()
     v-if="
       site.appearance &&
       site.appearance !== 'force-dark' &&
+      site.appearance !== 'force-light' &&
       site.appearance !== 'force-auto'
     "
     class="VPNavBarAppearance"

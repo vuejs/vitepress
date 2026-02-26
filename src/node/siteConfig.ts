@@ -63,6 +63,7 @@ export interface UserConfig<
     | boolean
     | 'dark'
     | 'force-dark'
+    | 'force-light'
     | 'force-auto'
     | (Omit<UseDarkOptions, 'initialValue'> & { initialValue?: 'dark' })
   lastUpdated?: boolean
