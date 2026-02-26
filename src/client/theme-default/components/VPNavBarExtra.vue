@@ -45,6 +45,7 @@ const hasExtraContent = computed(
       v-if="
         site.appearance &&
         site.appearance !== 'force-dark' &&
+        site.appearance !== 'force-light' &&
         site.appearance !== 'force-auto'
       "
       class="group"
