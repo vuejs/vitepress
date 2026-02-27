@@ -1,6 +1,6 @@
 import {
   dedent,
-  findRegion,
+  findRegions,
   rawPathToToken
 } from 'node/markdown/plugins/snippet'
 import { expect } from 'vitest'
@@ -39,6 +39,7 @@ const rawPathTokenMap: [string, Partial<{ filepath: string, extension: string, t
   ['./path/to/file#region {1,2,4-6 c#}', { filepath: './path/to/file', title: 'file', region: '#region', lines: '1,2,4-6', lang: 'c#' }],
   ['/path to/file {1,2,4-6 c#} [title]', { filepath: '/path to/file', title: 'title', lines: '1,2,4-6', lang: 'c#' }],
   ['./path to/file#region {1,2,4-6 c#} [title]', { filepath: './path to/file', title: 'title', region: '#region', lines: '1,2,4-6', lang: 'c#' }],
+  ['./path/to/file {C++}', { filepath: './path/to/file', title: 'file', lang: 'C++' }],
 ]
 
 describe('node/markdown/plugins/snippet', () => {
@@ -97,6 +98,10 @@ describe('node/markdown/plugins/snippet', () => {
         };"
       `)
     })
+
+    test('empty string remains empty', () => {
+      expect(dedent('')).toBe('')
+    })
   })
 
   describe('rawPathToToken', () => {
@@ -106,9 +111,14 @@ describe('node/markdown/plugins/snippet', () => {
   })
 
   describe('findRegion', () => {
-    it('returns null when no region markers are present', () => {
-      const lines = ['function foo() {', '  console.log("hello");', '}']
-      expect(findRegion(lines, 'foo')).toBeNull()
+    it('returns empty array when no region markers are present', () => {
+      const lines = [
+        'function foo() {',
+        '  console.log("hello");',
+        '  return "foo";',
+        '}'
+      ]
+      expect(findRegions(lines, 'foo')).toHaveLength(0)
     })
 
     it('ignores non-matching region names', () => {
@@ -117,24 +127,24 @@ describe('node/markdown/plugins/snippet', () => {
         'some code here',
         '// #endregion regionA'
       ]
-      expect(findRegion(lines, 'regionC')).toBeNull()
+      expect(findRegions(lines, 'regionC')).toHaveLength(0)
     })
 
-    it('returns null if a region start marker exists without a matching end marker', () => {
+    it('returns empty array if a region start marker exists without a matching end marker', () => {
       const lines = [
         '// #region missingEnd',
         'console.log("inside region");',
         'console.log("still inside");'
       ]
-      expect(findRegion(lines, 'missingEnd')).toBeNull()
+      expect(findRegions(lines, 'missingEnd')).toHaveLength(0)
     })
 
-    it('returns null if an end marker exists without a preceding start marker', () => {
+    it('returns empty array if an end marker exists without a preceding start marker', () => {
       const lines = [
         '// #endregion ghostRegion',
         'console.log("stray end marker");'
       ]
-      expect(findRegion(lines, 'ghostRegion')).toBeNull()
+      expect(findRegions(lines, 'ghostRegion')).toHaveLength(0)
     })
 
     it('detects C#/JavaScript style region markers with matching tags', () => {
@@ -145,12 +155,18 @@ describe('node/markdown/plugins/snippet', () => {
         '#endregion hello',
         'Console.WriteLine("After region");'
       ]
-      const result = findRegion(lines, 'hello')
-      expect(result).not.toBeNull()
+      const result = findRegions(lines, 'hello')
+      expect(result).toHaveLength(1)
       if (result) {
-        expect(lines.slice(result.start, result.end).join('\n')).toBe(
-          'Console.WriteLine("Hello, World!");'
-        )
+        expect(
+          result
+            .flatMap((r) =>
+              lines
+                .slice(r.start, r.end)
+                .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
+            )
+            .join('\n')
+        ).toBe('Console.WriteLine("Hello, World!");')
       }
     })
 
@@ -162,12 +178,18 @@ describe('node/markdown/plugins/snippet', () => {
         '#endregion',
         'Console.WriteLine("After region");'
       ]
-      const result = findRegion(lines, 'hello')
-      expect(result).not.toBeNull()
+      const result = findRegions(lines, 'hello')
+      expect(result).toHaveLength(1)
       if (result) {
-        expect(lines.slice(result.start, result.end).join('\n')).toBe(
-          'Console.WriteLine("Hello, World!");'
-        )
+        expect(
+          result
+            .flatMap((r) =>
+              lines
+                .slice(r.start, r.end)
+                .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
+            )
+            .join('\n')
+        ).toBe('Console.WriteLine("Hello, World!");')
       }
     })
 
@@ -179,124 +201,182 @@ describe('node/markdown/plugins/snippet', () => {
         '  #endregion hello',
         '  Console.WriteLine("After region");'
       ]
-      const result = findRegion(lines, 'hello')
-      expect(result).not.toBeNull()
+      const result = findRegions(lines, 'hello')
+      expect(result).toHaveLength(1)
       if (result) {
-        expect(lines.slice(result.start, result.end).join('\n')).toBe(
-          '  Console.WriteLine("Hello, World!");'
-        )
+        expect(
+          result
+            .flatMap((r) =>
+              lines
+                .slice(r.start, r.end)
+                .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
+            )
+            .join('\n')
+        ).toBe('  Console.WriteLine("Hello, World!");')
       }
     })
 
     it('detects TypeScript style region markers', () => {
       const lines = [
         'let regexp: RegExp[] = [];',
-        '// #region foo',
+        '// #region hello',
         'let start = -1;',
-        '// #endregion foo'
+        '// #endregion hello'
       ]
-      const result = findRegion(lines, 'foo')
-      expect(result).not.toBeNull()
+      const result = findRegions(lines, 'hello')
+      expect(result).toHaveLength(1)
       if (result) {
-        expect(lines.slice(result.start, result.end).join('\n')).toBe(
-          'let start = -1;'
-        )
+        expect(
+          result
+            .flatMap((r) =>
+              lines
+                .slice(r.start, r.end)
+                .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
+            )
+            .join('\n')
+        ).toBe('let start = -1;')
       }
     })
 
     it('detects CSS style region markers', () => {
       const lines = [
         '.body-content {',
-        '/* #region foo */',
+        '/* #region hello */',
         '  padding-left: 15px;',
-        '/* #endregion foo */',
+        '/* #endregion hello */',
         '  padding-right: 15px;',
         '}'
       ]
-      const result = findRegion(lines, 'foo')
-      expect(result).not.toBeNull()
+      const result = findRegions(lines, 'hello')
+      expect(result).toHaveLength(1)
       if (result) {
-        expect(lines.slice(result.start, result.end).join('\n')).toBe(
-          '  padding-left: 15px;'
-        )
+        expect(
+          result
+            .flatMap((r) =>
+              lines
+                .slice(r.start, r.end)
+                .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
+            )
+            .join('\n')
+        ).toBe('  padding-left: 15px;')
       }
     })
 
     it('detects HTML style region markers', () => {
       const lines = [
         '<div>Some content</div>',
-        '<!-- #region foo -->',
+        '<!-- #region hello -->',
         '  <h1>Hello world</h1>',
-        '<!-- #endregion foo -->',
+        '<!-- #endregion hello -->',
         '<div>Other content</div>'
       ]
-      const result = findRegion(lines, 'foo')
-      expect(result).not.toBeNull()
+      const result = findRegions(lines, 'hello')
+      expect(result).toHaveLength(1)
       if (result) {
-        expect(lines.slice(result.start, result.end).join('\n')).toBe(
-          '  <h1>Hello world</h1>'
-        )
+        expect(
+          result
+            .flatMap((r) =>
+              lines
+                .slice(r.start, r.end)
+                .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
+            )
+            .join('\n')
+        ).toBe('  <h1>Hello world</h1>')
       }
     })
 
     it('detects Visual Basic style region markers (with case-insensitive "End")', () => {
       const lines = [
         'Console.WriteLine("VB")',
-        '#Region VBRegion',
+        '#Region hello',
         '  Console.WriteLine("Inside region")',
-        '#End Region VBRegion',
+        '#End Region hello',
         'Console.WriteLine("Done")'
       ]
-      const result = findRegion(lines, 'VBRegion')
-      expect(result).not.toBeNull()
+      const result = findRegions(lines, 'hello')
+      expect(result).toHaveLength(1)
       if (result) {
-        expect(lines.slice(result.start, result.end).join('\n')).toBe(
-          '  Console.WriteLine("Inside region")'
-        )
+        expect(
+          result
+            .flatMap((r) =>
+              lines
+                .slice(r.start, r.end)
+                .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
+            )
+            .join('\n')
+        ).toBe('  Console.WriteLine("Inside region")')
       }
     })
 
     it('detects Bat style region markers', () => {
-      const lines = ['::#region foo', 'echo off', '::#endregion foo']
-      const result = findRegion(lines, 'foo')
-      expect(result).not.toBeNull()
+      const lines = ['::#region hello', '@ECHO OFF', 'REM #endregion hello']
+      const result = findRegions(lines, 'hello')
+      expect(result).toHaveLength(1)
       if (result) {
-        expect(lines.slice(result.start, result.end).join('\n')).toBe(
-          'echo off'
-        )
+        expect(
+          result
+            .flatMap((r) =>
+              lines
+                .slice(r.start, r.end)
+                .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
+            )
+            .join('\n')
+        ).toBe('@ECHO OFF')
       }
     })
 
     it('detects C/C++ style region markers using #pragma', () => {
       const lines = [
-        '#pragma region foo',
+        '#pragma region hello',
         'int a = 1;',
-        '#pragma endregion foo'
+        '#pragma endregion hello'
       ]
-      const result = findRegion(lines, 'foo')
-      expect(result).not.toBeNull()
+      const result = findRegions(lines, 'hello')
+      expect(result).toHaveLength(1)
       if (result) {
-        expect(lines.slice(result.start, result.end).join('\n')).toBe(
-          'int a = 1;'
-        )
+        expect(
+          result
+            .flatMap((r) =>
+              lines
+                .slice(r.start, r.end)
+                .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
+            )
+            .join('\n')
+        ).toBe('int a = 1;')
       }
     })
 
-    it('returns the first complete region when multiple regions exist', () => {
+    it('returns all regions with the same name when multiple exist', () => {
       const lines = [
-        '// #region foo',
+        '// #region hello',
         'first region content',
-        '// #endregion foo',
-        '// #region foo',
+        '// #endregion hello',
+        'between regions content',
+        '// #region hello',
         'second region content',
-        '// #endregion foo'
+        '// #endregion',
+        'between regions content',
+        '// #region hello',
+        'third region content',
+        '// #endregion hello',
+        'below regions content'
       ]
-      const result = findRegion(lines, 'foo')
-      expect(result).not.toBeNull()
+      const result = findRegions(lines, 'hello')
+      expect(result).toHaveLength(3)
       if (result) {
-        expect(lines.slice(result.start, result.end).join('\n')).toBe(
-          'first region content'
-        )
+        const extracted = result
+          .flatMap((r) =>
+            lines
+              .slice(r.start, r.end)
+              .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
+          )
+          .join('\n')
+        const expected = [
+          'first region content',
+          'second region content',
+          'third region content'
+        ].join('\n')
+        expect(extracted).toBe(expected)
       }
     })
 
@@ -309,17 +389,41 @@ describe('node/markdown/plugins/snippet', () => {
         '// #endregion bar',
         '// #endregion foo'
       ]
-      const result = findRegion(lines, 'foo')
-      expect(result).not.toBeNull()
+      const result = findRegions(lines, 'foo')
+      expect(result).toHaveLength(1)
       if (result) {
-        const extracted = lines.slice(result.start, result.end).join('\n')
+        const extracted = result
+          .flatMap((r) =>
+            lines
+              .slice(r.start, r.end)
+              .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
+          )
+          .join('\n')
         const expected = [
           "console.log('line before nested');",
-          '// #region bar',
-          "console.log('nested content');",
-          '// #endregion bar'
+          "console.log('nested content');"
         ].join('\n')
         expect(extracted).toBe(expected)
+      }
+    })
+
+    it('handles region names with hyphens and special characters', () => {
+      const lines = [
+        '// #region complex-name_123',
+        'const x = 1;',
+        '// #endregion complex-name_123'
+      ]
+      const result = findRegions(lines, 'complex-name_123')
+      expect(result).toHaveLength(1)
+      if (result) {
+        const extracted = result
+          .flatMap((r) =>
+            lines
+              .slice(r.start, r.end)
+              .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
+          )
+          .join('\n')
+        expect(extracted).toBe('const x = 1;')
       }
     })
   })
