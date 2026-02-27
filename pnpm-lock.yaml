@@ -200,19 +200,19 @@ importers:
         version: 11.2.5
       markdown-it:
         specifier: ^14.1.0
-        version: 14.1.0
+        version: 14.1.1
       markdown-it-anchor:
         specifier: ^9.2.0
-        version: 9.2.0(patch_hash=cdc28e7c329be30688ad192126ba505446611fbe526ad51483e4b1287aa35cf9)(@types/markdown-it@14.1.2)(markdown-it@14.1.0)
+        version: 9.2.0(patch_hash=cdc28e7c329be30688ad192126ba505446611fbe526ad51483e4b1287aa35cf9)(@types/markdown-it@14.1.2)(markdown-it@14.1.1)
       markdown-it-async:
         specifier: ^2.2.0
         version: 2.2.0
       markdown-it-attrs:
         specifier: ^4.3.1
-        version: 4.3.1(patch_hash=12883b753541724964b5246a739df34c4b76db10415bbb63c35dce408cfe977e)(markdown-it@14.1.0)
+        version: 4.3.1(patch_hash=12883b753541724964b5246a739df34c4b76db10415bbb63c35dce408cfe977e)(markdown-it@14.1.1)
       markdown-it-cjk-friendly:
         specifier: ^2.0.1
-        version: 2.0.1(@types/markdown-it@14.1.2)(markdown-it@14.1.0)
+        version: 2.0.1(@types/markdown-it@14.1.2)(markdown-it@14.1.1)
       markdown-it-container:
         specifier: ^4.0.0
         version: 4.0.0
@@ -2201,6 +2201,10 @@ packages:
     resolution: {integrity: sha512-a54IwgWPaeBCAAsv13YgmALOF1elABB08FxO9i+r4VFk5Vl4pKokRPeX8u5TCgSsPi6ec1otfLjdOpVcgbpshg==}
     hasBin: true
 
+  markdown-it@14.1.1:
+    resolution: {integrity: sha512-BuU2qnTti9YKgK5N+IeMubp14ZUKUUw7yeJbkjtosvHiP0AZ5c8IAgEMk79D0eC8F23r4Ac/q8cAIFdm2FtyoA==}
+    hasBin: true
+
   markdown-title@1.0.2:
     resolution: {integrity: sha512-MqIQVVkz+uGEHi3TsHx/czcxxCbRIL7sv5K5DnYw/tI+apY54IbPefV/cmgxp6LoJSEx/TqcHdLs/298afG5QQ==}
     engines: {node: '>=6'}
@@ -3390,47 +3394,47 @@ snapshots:
   '@mdit-vue/plugin-component@3.0.2':
     dependencies:
       '@types/markdown-it': 14.1.2
-      markdown-it: 14.1.0
+      markdown-it: 14.1.1
 
   '@mdit-vue/plugin-frontmatter@3.0.2':
     dependencies:
       '@mdit-vue/types': 3.0.2
       '@types/markdown-it': 14.1.2
       gray-matter: 4.0.3
-      markdown-it: 14.1.0
+      markdown-it: 14.1.1
 
   '@mdit-vue/plugin-headers@3.0.2':
     dependencies:
       '@mdit-vue/shared': 3.0.2
       '@mdit-vue/types': 3.0.2
       '@types/markdown-it': 14.1.2
-      markdown-it: 14.1.0
+      markdown-it: 14.1.1
 
   '@mdit-vue/plugin-sfc@3.0.2':
     dependencies:
       '@mdit-vue/types': 3.0.2
       '@types/markdown-it': 14.1.2
-      markdown-it: 14.1.0
+      markdown-it: 14.1.1
 
   '@mdit-vue/plugin-title@3.0.2':
     dependencies:
       '@mdit-vue/shared': 3.0.2
       '@mdit-vue/types': 3.0.2
       '@types/markdown-it': 14.1.2
-      markdown-it: 14.1.0
+      markdown-it: 14.1.1
 
   '@mdit-vue/plugin-toc@3.0.2':
     dependencies:
       '@mdit-vue/shared': 3.0.2
       '@mdit-vue/types': 3.0.2
       '@types/markdown-it': 14.1.2
-      markdown-it: 14.1.0
+      markdown-it: 14.1.1
 
   '@mdit-vue/shared@3.0.2':
     dependencies:
       '@mdit-vue/types': 3.0.2
       '@types/markdown-it': 14.1.2
-      markdown-it: 14.1.0
+      markdown-it: 14.1.1
 
   '@mdit-vue/types@3.0.2': {}
 
@@ -4791,24 +4795,24 @@ snapshots:
 
   mark.js@8.11.1: {}
 
-  markdown-it-anchor@9.2.0(patch_hash=cdc28e7c329be30688ad192126ba505446611fbe526ad51483e4b1287aa35cf9)(@types/markdown-it@14.1.2)(markdown-it@14.1.0):
+  markdown-it-anchor@9.2.0(patch_hash=cdc28e7c329be30688ad192126ba505446611fbe526ad51483e4b1287aa35cf9)(@types/markdown-it@14.1.2)(markdown-it@14.1.1):
     dependencies:
       '@types/markdown-it': 14.1.2
-      markdown-it: 14.1.0
+      markdown-it: 14.1.1
 
   markdown-it-async@2.2.0:
     dependencies:
       '@types/markdown-it': 14.1.2
-      markdown-it: 14.1.0
+      markdown-it: 14.1.1
 
-  markdown-it-attrs@4.3.1(patch_hash=12883b753541724964b5246a739df34c4b76db10415bbb63c35dce408cfe977e)(markdown-it@14.1.0):
+  markdown-it-attrs@4.3.1(patch_hash=12883b753541724964b5246a739df34c4b76db10415bbb63c35dce408cfe977e)(markdown-it@14.1.1):
     dependencies:
-      markdown-it: 14.1.0
+      markdown-it: 14.1.1
 
-  markdown-it-cjk-friendly@2.0.1(@types/markdown-it@14.1.2)(markdown-it@14.1.0):
+  markdown-it-cjk-friendly@2.0.1(@types/markdown-it@14.1.2)(markdown-it@14.1.1):
     dependencies:
       get-east-asian-width: 1.4.0
-      markdown-it: 14.1.0
+      markdown-it: 14.1.1
     optionalDependencies:
       '@types/markdown-it': 14.1.2
 
@@ -4824,6 +4828,15 @@ snapshots:
       - encoding
 
   markdown-it@14.1.0:
+    dependencies:
+      argparse: 2.0.1
+      entities: 4.5.0
+      linkify-it: 5.0.0
+      mdurl: 2.0.0
+      punycode.js: 2.3.1
+      uc.micro: 2.1.0
+
+  markdown-it@14.1.1:
     dependencies:
       argparse: 2.0.1
       entities: 4.5.0

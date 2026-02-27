@@ -18,6 +18,14 @@ const href = computed(() =>
     : props.item.link
 )
 
+const isActiveLink = computed(() =>
+  isActive(
+    page.value.relativePath,
+    props.item.activeMatch || href.value,
+    !!props.item.activeMatch
+  )
+)
+
 defineOptions({ inheritAttrs: false })
 </script>
 
@@ -25,13 +33,7 @@ defineOptions({ inheritAttrs: false })
   <div class="VPMenuLink">
     <VPLink
       v-bind="$attrs"
-      :class="{
-        active: isActive(
-          page.relativePath,
-          item.activeMatch || href,
-          !!item.activeMatch
-        )
-      }"
+      :class="{ active: isActiveLink }"
       :href
       :target="item.target"
       :rel="props.rel ?? item.rel"
