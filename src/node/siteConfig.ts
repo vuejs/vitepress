@@ -5,6 +5,7 @@ import type { Logger, UserConfig as ViteConfig } from 'vite'
 import type { SitemapItem } from './build/generateSitemap'
 import type { MarkdownOptions } from './markdown/markdown'
 import type { ResolvedRouteConfig } from './plugins/dynamicRoutesPlugin'
+import type { VitePressPlugin } from './plugin-api'
 import type {
   Awaitable,
   HeadConfig,
@@ -206,6 +207,12 @@ export interface UserConfig<
   additionalConfig?:
     | AdditionalConfigDict<ThemeConfig>
     | AdditionalConfigLoader<ThemeConfig>
+
+  /**
+   * VitePress plugins to extend functionality
+   * @experimental
+   */
+  plugins?: VitePressPlugin<ThemeConfig>[]
 }
 
 export interface SiteConfig<ThemeConfig = any> extends Pick<
@@ -227,6 +234,7 @@ export interface SiteConfig<ThemeConfig = any> extends Pick<
   | 'transformHtml'
   | 'transformPageData'
   | 'sitemap'
+  | 'plugins'
 > {
   root: string
   srcDir: string

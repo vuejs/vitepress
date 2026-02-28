@@ -158,6 +158,7 @@ export async function resolveConfig(
     transformHead: userConfig.transformHead,
     transformHtml: userConfig.transformHtml,
     transformPageData: userConfig.transformPageData,
+    plugins: userConfig.plugins,
     userConfig,
     sitemap: userConfig.sitemap,
     buildConcurrency: userConfig.buildConcurrency ?? 64

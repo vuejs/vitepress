@@ -15,6 +15,15 @@ export * from './postcss/isolateStyles'
 export * from './serve/serve'
 export * from './server'
 export * from './utils/getGitTimestamp'
+export {
+  definePlugin,
+  type VitePressPlugin,
+  type PageDataTransformContext,
+  type MarkdownTransformContext,
+  type VueTransformContext,
+  type HeadTransformContext,
+  type HtmlTransformContext
+} from './plugin-api'
 
 // shared types
 export type { HeadConfig, Header, SiteData } from '../../types/shared'
