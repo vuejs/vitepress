@@ -123,7 +123,7 @@ src/getting-started.md  -->  /getting-started.html
 
 :::
 
-## Создание чистого URL-адреса {#generating-clean-url}
+## Создание чистых URL-адресов {#generating-clean-urls}
 
 ::: warning Требуется поддержка сервера
 Для обслуживания чистых URL-адресов с помощью VitePress требуется поддержка на стороне сервера.

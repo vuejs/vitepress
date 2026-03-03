@@ -121,7 +121,7 @@ Alternativamente, puede usarse directamente la sintaxis de tag anchor:
 
 :::
 
-## Generación de URL Limpia {#generating-clean-url}
+## Generación de URLs limpias {#generating-clean-urls}
 
 ::: warning Soporte del Servidor Necesario
 Para servir URLs limpias con VitePress, es necesario soporte en el lado del servidor.
