@@ -121,7 +121,7 @@ Alternatively, you can directly use the anchor tag syntax:
 
 :::
 
-## Generating Clean URL
+## Generating Clean URLs
 
 ::: warning Server Support Required
 To serve clean URLs with VitePress, server-side support is required.
