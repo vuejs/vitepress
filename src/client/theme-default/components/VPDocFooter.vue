@@ -4,7 +4,7 @@ import { useData } from '../composables/data'
 import { useEditLink } from '../composables/edit-link'
 import { usePrevNext } from '../composables/prev-next'
 import VPLink from './VPLink.vue'
-import VPDocFooterLastUpdated from './VPDocFooterLastUpdated.vue'
+import VPDocFooterTimestamp from './VPDocFooterTimestamp.vue'
 
 const { theme, page, frontmatter } = useData()
 
@@ -15,10 +15,12 @@ const hasEditLink = computed(
   () => theme.value.editLink && frontmatter.value.editLink !== false
 )
 const hasLastUpdated = computed(() => page.value.lastUpdated)
+const hasCreated = computed(() => page.value.created)
 const showFooter = computed(
   () =>
     hasEditLink.value ||
     hasLastUpdated.value ||
+    hasCreated.value ||
     control.value.prev ||
     control.value.next
 )
@@ -28,7 +30,7 @@ const showFooter = computed(
   <footer v-if="showFooter" class="VPDocFooter">
     <slot name="doc-footer-before" />
 
-    <div v-if="hasEditLink || hasLastUpdated" class="edit-info">
+    <div v-if="hasEditLink || hasLastUpdated || hasCreated" class="edit-info">
       <div v-if="hasEditLink" class="edit-link">
         <VPLink class="edit-link-button" :href="editLink.url" :no-icon="true">
           <span class="vpi-square-pen edit-link-icon" />
@@ -36,9 +38,12 @@ const showFooter = computed(
         </VPLink>
       </div>
 
-      <div v-if="hasLastUpdated" class="last-updated">
-        <VPDocFooterLastUpdated />
-      </div>
+      <table v-if="hasLastUpdated || hasCreated" class="VPTimestamps">
+        <tbody>
+          <VPDocFooterTimestamp :is-created="true" v-if="hasCreated" />
+          <VPDocFooterTimestamp :is-created="false" v-if="hasLastUpdated" />
+        </tbody>
+      </table>
     </div>
 
     <nav
@@ -94,6 +99,10 @@ const showFooter = computed(
     align-items: center;
     padding-bottom: 14px;
   }
+}
+
+.edit-link {
+  align-self: flex-end;
 }
 
 .edit-link-button {
