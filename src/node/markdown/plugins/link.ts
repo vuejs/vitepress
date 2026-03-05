@@ -8,14 +8,15 @@ import {
   EXTERNAL_URL_RE,
   isExternal,
   treatAsHtml,
-  type MarkdownEnv
+  type MarkdownEnv,
+  type ExternalLinkAttrValue
 } from '../../shared'
 
 const indexRE = /(^|.*\/)index.md(#?.*)$/i
 
 export const linkPlugin = (
   md: MarkdownItAsync,
-  externalAttrs: Record<string, string>,
+  externalAttrs: Record<string, string | ExternalLinkAttrValue>,
   base: string,
   slugify: (str: string) => string
 ) => {
@@ -38,7 +39,15 @@ export const linkPlugin = (
       const url = hrefAttr[1]
       if (isExternal(url)) {
         Object.entries(externalAttrs).forEach(([key, val]) => {
-          token.attrSet(key, val)
+          if (typeof val === 'string') {
+            token.attrSet(key, val)
+          } else {
+            if (val.join) {
+              token.attrJoin(key, val.value)
+            } else {
+              token.attrSet(key, val.value)
+            }
+          }
         })
         // catch localhost links as dead link
         if (url.replace(EXTERNAL_URL_RE, '').startsWith('//localhost:')) {
