@@ -2,9 +2,9 @@
 
 VitePress offers several built-in APIs to let you access app data. VitePress also comes with a few built-in components that can be used globally.
 
-The helper methods are globally importable from `vitepress` and are typically used in custom theme Vue components. However, they are also usable inside `.md` pages because markdown files are compiled into Vue [Single-File Components](https://vuejs.org/guide/scaling-up/sfc.html).
+The helper methods are globally importable from `vitepress` and are typically used in custom Vue theme components. However, they are also usable inside `.md` pages because Markdown files are compiled into Vue [Single-File Components](https://vuejs.org/guide/scaling-up/sfc.html).
 
-Methods that start with `use*` indicates that it is a [Vue 3 Composition API](https://vuejs.org/guide/introduction.html#composition-api) function ("Composable") that can only be used inside `setup()` or `<script setup>`.
+Methods that start with `use*` indicates that it is a [Vue 3 Composition API](https://vuejs.org/guide/introduction.html#composition-api) composable function that can only be used inside `setup()` or `<script setup>`.
 
 ## `useData` <Badge type="info" text="composable" />
 
@@ -139,9 +139,9 @@ The `<Content />` component displays the rendered markdown contents. Useful [whe
 
 The `<ClientOnly />` component renders its slot only at client side.
 
-Because VitePress applications are server-rendered in Node.js when generating static builds, any Vue usage must conform to the universal code requirements. In short, make sure to only access Browser / DOM APIs in beforeMount or mounted hooks.
+Because VitePress applications are server-rendered in Node.js when generating static builds, any Vue usage must conform to the universal code requirements. In short, make sure to only access Browser and DOM APIs in the `beforeMount` or `mounted` hooks.
 
-If you are using or demoing components that are not SSR-friendly (for example, contain custom directives), you can wrap them inside the `ClientOnly` component.
+If you are using or demoing components that are not SSR-friendly (for example, contain custom directives), you can wrap them in the `ClientOnly` component.
 
 ```vue-html
 <ClientOnly>
