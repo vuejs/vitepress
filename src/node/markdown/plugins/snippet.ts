@@ -86,40 +86,63 @@ const markers = [
   }
 ]
 
-export function findRegion(lines: Array<string>, regionName: string) {
-  let chosen: { re: (typeof markers)[number]; start: number } | null = null
-  // find the regex pair for a start marker that matches the given region name
-  for (let i = 0; i < lines.length; i++) {
-    for (const re of markers) {
-      if (re.start.exec(lines[i])?.[1] === regionName) {
-        chosen = { re, start: i + 1 }
-        break
+export function findRegions(lines: string[], regionName: string) {
+  const returned: {
+    re: (typeof markers)[number]
+    start: number
+    end: number
+  }[] = []
+
+  for (const re of markers) {
+    let nestedCounter = 0
+    let start: number | null = null
+
+    for (let i = 0; i < lines.length; i++) {
+      // find region start
+      const startMatch = re.start.exec(lines[i])
+      if (startMatch?.[1] === regionName) {
+        if (nestedCounter === 0) start = i + 1
+        nestedCounter++
+        continue
+      }
+
+      if (nestedCounter === 0) continue
+
+      // find region end
+      const endMatch = re.end.exec(lines[i])
+      if (endMatch?.[1] === regionName || endMatch?.[1] === '') {
+        nestedCounter--
+        // if all nested regions ended
+        if (nestedCounter === 0 && start != null) {
+          returned.push({ re, start, end: i })
+          start = null
+        }
       }
     }
-    if (chosen) break
-  }
-  if (!chosen) return null
 
-  let counter = 1
-  // scan the rest of the lines to find the matching end marker, handling nested markers
-  for (let i = chosen.start; i < lines.length; i++) {
-    // check for an inner start marker for the same region
-    if (chosen.re.start.exec(lines[i])?.[1] === regionName) {
-      counter++
-      continue
-    }
-    // check for an end marker for the same region
-    const endRegion = chosen.re.end.exec(lines[i])?.[1]
-    // allow empty region name on the end marker as a fallback
-    if (endRegion === regionName || endRegion === '') {
-      if (--counter === 0) return { ...chosen, end: i }
-    }
+    if (returned.length > 0) break
   }
 
-  return null
+  return returned
 }
 
-export const snippetPlugin = (md: MarkdownItAsync, srcDir: string) => {
+export const snippetPlugin = (
+  md: MarkdownItAsync,
+  srcDir: string,
+  stripMarkersFromSnippets = false
+) => {
+  function stripMarkers(lines: string[]): string {
+    if (!stripMarkersFromSnippets) return lines.join('\n')
+    return lines
+      .filter((l) => {
+        for (const m of markers) {
+          if (m.start.test(l) || m.end.test(l)) return false
+        }
+        return true
+      })
+      .join('\n')
+  }
+
   const parser: RuleBlock = (state, startLine, endLine, silent) => {
     const CH = '<'.charCodeAt(0)
     const pos = state.bMarks[startLine] + state.tShift[startLine]
@@ -175,7 +198,7 @@ export const snippetPlugin = (md: MarkdownItAsync, srcDir: string) => {
     const [tokens, idx, , { includes }] = args
     const token = tokens[idx]
     // @ts-ignore
-    const [src, regionName] = token.src ?? []
+    const [src, region] = token.src ?? []
 
     if (!src) return fence(...args)
 
@@ -183,29 +206,41 @@ export const snippetPlugin = (md: MarkdownItAsync, srcDir: string) => {
       includes.push(src)
     }
 
-    const isAFile = fs.statSync(src).isFile()
-    if (!fs.existsSync(src) || !isAFile) {
-      token.content = isAFile
-        ? `Code snippet path not found: ${src}`
-        : `Invalid code snippet option`
+    if (!fs.existsSync(src)) {
+      token.content = `Code snippet path not found: ${src}`
+      token.info = ''
+      return fence(...args)
+    }
+
+    if (!fs.statSync(src).isFile()) {
+      token.content = `Invalid code snippet option`
       token.info = ''
       return fence(...args)
     }
 
     let content = fs.readFileSync(src, 'utf8').replace(/\r\n/g, '\n')
 
-    if (regionName) {
+    if (region) {
       const lines = content.split('\n')
-      const region = findRegion(lines, regionName)
+      const regions = findRegions(lines, region)
 
-      if (region) {
+      if (regions.length > 0) {
         content = dedent(
-          lines
-            .slice(region.start, region.end)
-            .filter((l) => !(region.re.start.test(l) || region.re.end.test(l)))
-            .join('\n')
+          stripMarkers(
+            regions.flatMap((r) =>
+              lines
+                .slice(r.start, r.end)
+                .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
+            )
+          )
         )
+      } else {
+        token.content = `No region #${region} found in path: ${src}`
+        token.info = ''
+        return fence(...args)
       }
+    } else {
+      content = stripMarkers(content.split('\n'))
     }
 
     token.content = content
