@@ -8,7 +8,7 @@
 
 ### 前提条件 {#prerequisites}
 
-- [Node.js](https://nodejs.org/) バージョン 18 以上
+- [Node.js](https://nodejs.org/) バージョン 20 以上
 - VitePress をコマンドラインインターフェース (CLI) で操作するためのターミナル
 - [Markdown](https://en.wikipedia.org/wiki/Markdown) 構文に対応したテキストエディタ
   - 推奨: [VSCode](https://code.visualstudio.com/) と [公式 Vue 拡張](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
