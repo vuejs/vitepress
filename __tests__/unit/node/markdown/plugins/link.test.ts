@@ -1,6 +1,5 @@
 import { MarkdownItAsync } from 'markdown-it-async'
-import { describe, expect, test } from 'vitest'
-import { linkPlugin } from '../../../../../src/node/markdown/plugins/link'
+import { linkPlugin } from 'node/markdown/plugins/link'
 
 describe('node/markdown/plugins/link', () => {
   const slugify = (str: string) => str.toLowerCase().replace(/\s+/g, '-')
