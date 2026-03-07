@@ -147,8 +147,6 @@ const { heroImageSlotExists } = inject(
   &:lang(ja) {
     font-feature-settings: 'palt';
     word-break: auto-phrase;
-    /* Should we apply `line-break: strict` to the other headings and body text or other languages (Chinese and Korean) as well in ../styles/base.css? */
-    line-break: strict;
   }
 }
 
