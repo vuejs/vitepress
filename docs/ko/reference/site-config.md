@@ -343,6 +343,25 @@ export default {
 }
 ```
 
+### assetsBase
+
+- 타입: `string`
+- 기본값: `/assets/`
+
+사이트 에셋이 배포될 기본 URL입니다. 사이트 에셋을 CDN에 배포할 계획이라면 이 값을 설정해야 합니다. 이는 다른 모듈 번들러의 `publicPath`와 유사합니다.
+
+`assetsBase`는 기본적으로 `${base}assets/`로 구성됩니다. 항상 슬래시로 시작하거나 유효한 프로토콜로 시작해야 하며, 항상 슬래시로 끝나야 합니다.
+
+::: warning
+이 옵션은 프로덕션 모드에서만 적용됩니다.
+:::
+
+```ts
+export default {
+  assetsBase: 'https://cdn.example.com/assets/bar/'
+}
+```
+
 ## 라우팅 {#routing}
 
 ### cleanUrls

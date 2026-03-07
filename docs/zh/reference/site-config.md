@@ -343,6 +343,25 @@ export default {
 }
 ```
 
+### assetsBase
+
+- 类型: `string`
+- 默认值: `/assets/`
+
+站点资源将被部署的 base URL。如果您计划将站点资源部署到 CDN，则需要设置此项。它类似于其他模块打包器中的 `publicPath`。
+
+`assetsBase` 默认配置为 `${base}assets/`。它应该始终以斜杠或有效协议开头，并始终以斜杠结尾。
+
+::: warning
+此选项仅在生产模式下生效。
+:::
+
+```ts
+export default {
+  assetsBase: 'https://cdn.example.com/assets/bar/'
+}
+```
+
 ## 路由 {#routing}
 
 ### cleanUrls
