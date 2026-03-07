@@ -112,13 +112,16 @@ export const linkPlugin = (
 
     const decoded = decodeURI(str)
 
-    // Preserve text fragments (https://developer.mozilla.org/en-US/docs/Web/URI/Reference/Fragment/Text_fragments)
-    // e.g. #:~:text=foo so browser-native highlighting keeps working.
-    if (decoded.startsWith('#:~:')) {
-      return encodeURI(decoded)
-    }
+    // preserve text fragments (https://developer.mozilla.org/en-US/docs/Web/URI/Reference/Fragment/Text_fragments)
+    // e.g. #:~:text=foo and #id:~:text=foo so browser-native highlighting
+    // keeps working, while still normalizing the heading fragment prefix.
+    const [prefix, suffix] = decoded.split(':~:', 2)
+    const normalizedPrefix =
+      prefix === '#' ? '#' : '#' + slugify(prefix.slice(1))
 
-    return encodeURI('#' + slugify(decoded.slice(1)))
+    return encodeURI(
+      `${normalizedPrefix}${suffix ? ':~:' + encodeURI(suffix) : ''}`
+    )
   }
 
   function pushLink(link: string, env: MarkdownEnv) {

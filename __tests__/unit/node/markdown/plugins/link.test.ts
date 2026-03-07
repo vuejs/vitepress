@@ -14,7 +14,22 @@ describe('node/markdown/plugins/link', () => {
     )
 
     expect(html).toContain(
-      'href="/resources/server/user.html#:~:text=58*,time authentication token"'
+      'href="/resources/server/user.html#:~:text=58*,time%20authentication%20token"'
+    )
+  })
+
+  // https://web.dev/articles/text-fragments#mixing_element_and_text_fragments
+  test('preserves mixed element and text-fragment hashes', async () => {
+    const md = new MarkdownItAsync()
+    linkPlugin(md, {}, '/', slugify)
+
+    const html = await md.renderAsync(
+      '[Section text](/guide/getting-started#Hello%20World:~:text=Hello%20World)',
+      { cleanUrls: false }
+    )
+
+    expect(html).toContain(
+      'href="/guide/getting-started.html#hello-world:~:text=Hello%20World"'
     )
   })
 
