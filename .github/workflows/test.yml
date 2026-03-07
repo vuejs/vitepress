@@ -18,22 +18,22 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node_version: [20, 22, latest]
+        node_version: [20, 22, 24, latest]
         include:
           - os: windows-latest
-            node_version: 22
+            node_version: 24
 
     runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v3
+        uses: pnpm/action-setup@v4
 
       - name: Set node version to ${{ matrix.node_version }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node_version }}
           cache: pnpm

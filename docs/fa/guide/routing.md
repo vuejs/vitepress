@@ -121,7 +121,7 @@ src/getting-started.md  -->  /getting-started.html
 
 :::
 
-## تولید URL‌های تمیز {#generating-clean-url}
+## تولید URLهای تمیز {#generating-clean-urls}
 
 ::: warning نیازمندی پشتیبانی سرور
 

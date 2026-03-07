@@ -45,7 +45,7 @@ interface PageData {
   titleTemplate?: string | boolean
   description: string
   relativePath: string
-  filePath: string,
+  filePath: string
   headers: Header[]
   frontmatter: Record<string, any>
   params?: Record<string, any>

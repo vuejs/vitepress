@@ -70,7 +70,9 @@ export default DefaultTheme
 export default {
   transformHead({ assets }) {
     // 使うフォントに合わせて正規表現を調整
-    const myFontFile = assets.find(file => /font-name\.[\w-]+\.woff2/.test(file))
+    const myFontFile = assets.find((file) =>
+      /font-name\.[\w-]+\.woff2/.test(file)
+    )
     if (myFontFile) {
       return [
         [

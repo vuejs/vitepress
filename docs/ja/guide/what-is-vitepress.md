@@ -12,7 +12,7 @@ VitePress は、高速でコンテンツ中心の Web サイトを構築する�
 
 - **ドキュメント**
 
-  VitePress には技術ドキュメント向けに設計されたデフォルトテーマが同梱されています。今あなたが読んでいるこのページのほか、[Vite](https://vitejs.dev/)、[Rollup](https://rollupjs.org/)、[Pinia](https://pinia.vuejs.org/)、[VueUse](https://vueuse.org/)、[Vitest](https://vitest.dev/)、[D3](https://d3js.org/)、[UnoCSS](https://unocss.dev/)、[Iconify](https://iconify.design/) など、[まだまだたくさん](https://github.com/search?q=/"vitepress":+/+language:json&type=code)のドキュメントサイトで使われています。
+  VitePress には技術ドキュメント向けに設計されたデフォルトテーマが同梱されています。今あなたが読んでいるこのページのほか、[Vite](https://vitejs.dev/)、[Rollup](https://rollupjs.org/)、[Pinia](https://pinia.vuejs.org/)、[VueUse](https://vueuse.org/)、[Vitest](https://vitest.dev/)、[D3](https://d3js.org/)、[UnoCSS](https://unocss.dev/)、[Iconify](https://iconify.design/) など、[まだまだたくさん](https://github.com/search?q=/%22vitepress%22:+/+path:/(?:package%7Cdeno)%5C.jsonc?$/+NOT+is:fork+NOT+is:archived&type=code)のドキュメントサイトで使われています。
 
   [公式の Vue.js ドキュメント](https://vuejs.org/) も VitePress をベースにしています（複数言語で共有されるカスタムテーマを使用）。
 

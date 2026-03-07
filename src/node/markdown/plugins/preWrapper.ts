@@ -44,12 +44,12 @@ export function extractTitle(info: string, html = false) {
   return info.match(/\[(.*)\]/)?.[1] || extractLang(info) || 'txt'
 }
 
-function extractLang(info: string) {
-  return info
-    .trim()
-    .replace(/=(\d*)/, '')
-    .replace(/:(no-)?line-numbers({| |$|=\d*).*/, '')
-    .replace(/(-vue|{| ).*$/, '')
-    .replace(/^vue-html$/, 'template')
-    .replace(/^ansi$/, '')
+function extractLang(info: string): string {
+  return (
+    /^[a-zA-Z0-9-_]+/
+      .exec(info)?.[0]
+      .replace(/-vue$/, '') // remove -vue suffix
+      .replace(/^vue-html$/, 'template')
+      .replace(/^ansi$/, '') || ''
+  )
 }

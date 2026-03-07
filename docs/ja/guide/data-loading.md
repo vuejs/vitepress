@@ -10,11 +10,11 @@ VitePress には **データローダー (data loaders)** という機能があ�
 
 ```js [example.data.js]
 export default {
-load() {
-  return {
-    hello: 'world'
+  load() {
+    return {
+      hello: 'world'
+    }
   }
-}
 }
 ```
 
@@ -179,7 +179,6 @@ interface ContentOptions<T = ContentData[]> {
 
 ## 型付きデータローダー {#typed-data-loaders}
 
-
 TypeScript を使用する場合は、ローダーと `data` エクスポートを型付けできます。
 
 ```ts
@@ -201,7 +200,6 @@ export default defineLoader({
 ```
 
 ## 設定情報の取得 {#configuration}
-
 
 ローダー内で設定情報を取得するには次のようにします。
 

@@ -11,7 +11,7 @@ VitePress は各ファイルの **直近の Git コミットのタイムスタ�
 
 ```yaml{4}
 - name: Checkout
-  uses: actions/checkout@v4
+  uses: actions/checkout@v5
   with:
     fetch-depth: 0
 ```

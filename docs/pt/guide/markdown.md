@@ -771,7 +771,7 @@ Por exemplo, você pode incluir um arquivo markdown relativo usando isto:
 
 ## Conceitos Básicos
 
-<!--@include: ./parts/basics.md-->
+<!--@@include: ./parts/basics.md-->
 ```
 
 **Arquivo da Parte** (`parts/basics.md`)
@@ -807,7 +807,7 @@ Também suporta a seleção de um intervalo de linhas:
 
 ## Conceitos Básicos
 
-<!--@include: ./parts/basics.md{3,}-->
+<!--@@include: ./parts/basics.md{3,}-->
 ```
 
 **Arquivo da Parte** (`parts/basics.md`)
@@ -843,7 +843,7 @@ Observe que isso não gera erros se o arquivo não estiver presente. Portanto, a
 Isso é atualmente opcional. Para ativá-lo, você precisa instalar `markdown-it-mathjax3` e definir `markdown.math` como `true` no seu arquivo de configuração:
 
 ```sh
-npm add -D markdown-it-mathjax3
+npm add -D markdown-it-mathjax3@^4
 ```
 
 ```ts [.vitepress/config.ts]

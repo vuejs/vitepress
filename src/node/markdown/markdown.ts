@@ -20,8 +20,8 @@ import type {
   ThemeRegistrationAny
 } from '@shikijs/types'
 import anchorPlugin from 'markdown-it-anchor'
-import { MarkdownItAsync, type Options } from 'markdown-it-async'
-import attrsPlugin from 'markdown-it-attrs'
+import { MarkdownItAsync, type MarkdownItAsyncOptions } from 'markdown-it-async'
+import attrsPlugin, { type MarkdownItAttrsOptions } from 'markdown-it-attrs'
 import mditCjkFriendly from 'markdown-it-cjk-friendly'
 import { full as emojiPlugin } from 'markdown-it-emoji'
 import type { BuiltinLanguage, BuiltinTheme, Highlighter } from 'shiki'
@@ -30,7 +30,6 @@ import type { Awaitable } from '../shared'
 import { containerPlugin, type ContainerOptions } from './plugins/containers'
 import { gitHubAlertsPlugin } from './plugins/githubAlerts'
 import { highlight as createHighlighter } from './plugins/highlight'
-import { highlightLinePlugin } from './plugins/highlightLines'
 import { imagePlugin, type Options as ImageOptions } from './plugins/image'
 import { lineNumberPlugin } from './plugins/lineNumbers'
 import { linkPlugin } from './plugins/link'
@@ -48,7 +47,7 @@ export type ThemeOptions =
       dark: ThemeRegistrationAny | BuiltinTheme
     }
 
-export interface MarkdownOptions extends Options {
+export interface MarkdownOptions extends MarkdownItAsyncOptions {
   /* ==================== General Options ==================== */
 
   /**
@@ -153,12 +152,7 @@ export interface MarkdownOptions extends Options {
    * Options for `markdown-it-attrs`
    * @see https://github.com/arve0/markdown-it-attrs
    */
-  attrs?: {
-    leftDelimiter?: string
-    rightDelimiter?: string
-    allowedAttributes?: Array<string | RegExp>
-    disable?: boolean
-  }
+  attrs?: MarkdownItAttrsOptions & { disable?: boolean }
   /**
    * Options for `markdown-it-emoji`
    * @see https://github.com/markdown-it/markdown-it-emoji
@@ -230,7 +224,10 @@ export interface MarkdownOptions extends Options {
 
 export type MarkdownRenderer = MarkdownItAsync
 
-let md: MarkdownRenderer | undefined
+// highlight is marked as any to avoid type conflicts with plugins expecting
+// regular markdown-it which has sync highlight function. Such plugins will fail
+// if they access highlight directly but currently none of the ones we use do that.
+let md: (MarkdownRenderer & { options: { highlight?: any } }) | undefined
 let _disposeHighlighter: (() => void) | undefined
 
 export function disposeMdItInstance() {
@@ -263,7 +260,7 @@ export async function createMarkdownRenderer(
   md = new MarkdownItAsync({ html: true, linkify: true, highlight, ...options })
 
   md.linkify.set({ fuzzyLink: false })
-  md.use(restoreEntities)
+  restoreEntities(md)
 
   if (options.preConfig) {
     await options.preConfig(md)
@@ -272,22 +269,21 @@ export async function createMarkdownRenderer(
   const slugify = options.anchor?.slugify ?? defaultSlugify
 
   // custom plugins
-  md.use(componentPlugin, { ...options.component })
-    .use(highlightLinePlugin)
-    .use(preWrapperPlugin, {
-      codeCopyButtonTitle,
-      languageLabel: options.languageLabel
-    })
-    .use(snippetPlugin, srcDir)
-    .use(containerPlugin, options.container)
-    .use(imagePlugin, options.image)
-    .use(
-      linkPlugin,
-      { target: '_blank', rel: 'noreferrer', ...options.externalLinks },
-      base,
-      slugify
-    )
-    .use(lineNumberPlugin, options.lineNumbers)
+  componentPlugin(md, options.component)
+  preWrapperPlugin(md, {
+    codeCopyButtonTitle,
+    languageLabel: options.languageLabel
+  })
+  snippetPlugin(md, srcDir)
+  containerPlugin(md, options.container)
+  imagePlugin(md, options.image)
+  linkPlugin(
+    md,
+    { target: '_blank', rel: 'noreferrer', ...options.externalLinks },
+    base,
+    slugify
+  )
+  lineNumberPlugin(md, options.lineNumbers)
 
   const tableOpen = md.renderer.rules.table_open
   md.renderer.rules.table_open = function (tokens, idx, options, env, self) {
@@ -299,17 +295,17 @@ export async function createMarkdownRenderer(
   }
 
   if (options.gfmAlerts !== false) {
-    md.use(gitHubAlertsPlugin, options.container)
+    gitHubAlertsPlugin(md, options.container)
   }
 
   // third party plugins
   if (!options.attrs?.disable) {
-    md.use(attrsPlugin, options.attrs)
+    attrsPlugin(md, options.attrs)
   }
-  md.use(emojiPlugin, { ...options.emoji })
+  emojiPlugin(md, options.emoji)
 
   // mdit-vue plugins
-  md.use(anchorPlugin, {
+  anchorPlugin(md, {
     slugify,
     getTokensText: (tokens) => {
       return tokens
@@ -343,35 +339,33 @@ export async function createMarkdownRenderer(
       state.tokens[idx + 1].children?.push(...linkTokens)
     },
     ...options.anchor
-  } as anchorPlugin.AnchorOptions).use(frontmatterPlugin, {
-    ...options.frontmatter
-  } as FrontmatterPluginOptions)
+  })
+
+  frontmatterPlugin(md, options.frontmatter)
 
   if (options.headers) {
-    md.use(headersPlugin, {
+    headersPlugin(md, {
       level: [2, 3, 4, 5, 6],
       slugify,
       ...(typeof options.headers === 'boolean' ? undefined : options.headers)
-    } as HeadersPluginOptions)
+    })
   }
 
-  md.use(sfcPlugin, {
-    ...options.sfc
-  } as SfcPluginOptions)
-    .use(titlePlugin)
-    .use(tocPlugin, {
-      slugify,
-      ...options.toc,
-      format: (s) => {
-        const title = s.replaceAll('&amp;', '&') // encoded twice because of restoreEntities
-        return options.toc?.format?.(title) ?? title
-      }
-    } as TocPluginOptions)
+  sfcPlugin(md, options.sfc)
+  titlePlugin(md)
+  tocPlugin(md, {
+    slugify,
+    ...options.toc,
+    format: (s) => {
+      const title = s.replaceAll('&amp;', '&') // encoded twice because of restoreEntities
+      return options.toc?.format?.(title) ?? title
+    }
+  })
 
   if (options.math) {
     try {
       const mathPlugin = await import('markdown-it-mathjax3')
-      md.use(mathPlugin.default ?? mathPlugin, {
+      ;(mathPlugin.default ?? mathPlugin)(md, {
         ...(typeof options.math === 'boolean' ? {} : options.math)
       })
       const origMathInline = md.renderer.rules.math_inline!
@@ -388,13 +382,13 @@ export async function createMarkdownRenderer(
       }
     } catch (error) {
       throw new Error(
-        'You need to install `markdown-it-mathjax3` to use math support.'
+        'You need to install `markdown-it-mathjax3@^4` to use math support.'
       )
     }
   }
 
   if (options.cjkFriendlyEmphasis !== false && options.cjkFriendly !== false) {
-    md.use(mditCjkFriendly)
+    mditCjkFriendly(md)
   }
 
   // apply user config

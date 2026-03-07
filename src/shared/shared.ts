@@ -353,3 +353,8 @@ type ObjectType = Record<PropertyKey, any>
 export function isObject(value: unknown): value is ObjectType {
   return Object.prototype.toString.call(value) === '[object Object]'
 }
+
+const shellLangs = ['shellscript', 'shell', 'bash', 'sh', 'zsh']
+export function isShell(lang: string): boolean {
+  return shellLangs.includes(lang)
+}

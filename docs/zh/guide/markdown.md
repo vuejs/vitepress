@@ -771,7 +771,7 @@ export default config
 
 ## Basics
 
-<!--@include: ./parts/basics.md-->
+<!--@@include: ./parts/basics.md-->
 ```
 
 **Part file** (`parts/basics.md`)
@@ -807,7 +807,7 @@ Can be created using `.foorc.json`.
 
 ## Basics
 
-<!--@include: ./parts/basics.md{3,}-->
+<!--@@include: ./parts/basics.md{3,}-->
 ```
 
 **Part file** (`parts/basics.md`)
@@ -843,7 +843,7 @@ Can be created using `.foorc.json`.
 现在这是可选的。要启用它，需要安装 `markdown-it-mathjax3`，在配置文件中设置`markdown.math` 为 `true`：
 
 ```sh
-npm add -D markdown-it-mathjax3
+npm add -D markdown-it-mathjax3@^4
 ```
 
 ```ts [.vitepress/config.ts]

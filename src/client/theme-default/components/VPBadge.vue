@@ -39,15 +39,14 @@ withDefaults(defineProps<Props>(), {
   display: none;
 }
 
-.vp-doc h1 > .VPBadge {
-  margin-top: 4px;
-  vertical-align: top;
+.vp-doc h1 > .VPBadge,
+.vp-doc h2 > .VPBadge {
+  margin: 0 0 0 2px;
+  vertical-align: middle;
 }
 
 .vp-doc h2 > .VPBadge {
-  margin-top: 3px;
   padding: 0 8px;
-  vertical-align: top;
 }
 
 .vp-doc h3 > .VPBadge {

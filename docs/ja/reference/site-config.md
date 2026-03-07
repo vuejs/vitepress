@@ -350,7 +350,7 @@ export default {
 - 型: `boolean`
 - 既定値: `false`
 
-`true` にすると、URL の末尾の `.html` を削除します。あわせて [クリーン URL の生成](../guide/routing#generating-clean-url) も参照してください。
+`true` にすると、URL の末尾の `.html` を削除します。あわせて [クリーン URL の生成](../guide/routing#generating-clean-urls) も参照してください。
 
 ::: warning サーバ設定が必要
 ホスティング環境によっては追加の設定が必要です。`/foo` へのアクセス時に **リダイレクトなしで** `/foo.html` を返せるサーバ設定が必要です。

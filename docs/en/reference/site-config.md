@@ -333,7 +333,7 @@ export default {
 - Type: `string`
 - Default: `/`
 
-The base URL the site will be deployed at. You will need to set this if you plan to deploy your site under a sub path, for example, GitHub pages. If you plan to deploy your site to `https://foo.github.io/bar/`, then you should set base to `'/bar/'`. It should always start and end with a slash.
+The base URL the site will be deployed at. You will need to set this if you plan to deploy your site under a sub path, for example, GitHub pages. If you plan to deploy your site to `https://foo.github.io/bar/`, then you should set base to `'/bar/'`. It should always start and end with a slash. Relative bases are not supported.
 
 The base is automatically prepended to all the URLs that start with / in other options, so you only need to specify it once.
 
@@ -350,7 +350,7 @@ export default {
 - Type: `boolean`
 - Default: `false`
 
-When set to `true`, VitePress will remove the trailing `.html` from URLs. Also see [Generating Clean URL](../guide/routing#generating-clean-url).
+When set to `true`, VitePress will remove the trailing `.html` from URLs. Also see [Generating Clean URLs](../guide/routing#generating-clean-urls).
 
 ::: warning Server Support Required
 Enabling this may require additional configuration on your hosting platform. For it to work, your server must be able to serve `/foo.html` when visiting `/foo` **without a redirect**.

@@ -4,7 +4,7 @@ describe('local search', () => {
   })
 
   test('exclude content from search results', async () => {
-    await page.locator('#local-search button').click()
+    await page.locator('.VPNavBarSearchButton').click()
 
     const input = await page.waitForSelector('input#localsearch-input')
     await input.type('local')
