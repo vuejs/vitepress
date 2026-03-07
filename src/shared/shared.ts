@@ -28,8 +28,7 @@ export const APPEARANCE_KEY = 'vitepress-theme-appearance'
 export const VP_SOURCE_KEY = '[VP_SOURCE]'
 const UnpackStackView = Symbol('stack-view:unpack')
 
-const HASH_RE = /#.*$/
-const TEXT_FRAGMENT_RE = /:~:text=.*$/
+const HASH_RE = /#.*?(?=:~:|$)/
 const HASH_OR_QUERY_RE = /[?#].*$/
 const INDEX_OR_EXT_RE = /(?:(^|\/)index)?\.(?:md|html)$/
 
@@ -68,9 +67,7 @@ export function isActive(
   const hashMatch = matchPath.match(HASH_RE)
 
   if (hashMatch) {
-    const currentHash = inBrowser ? location.hash : ''
-    const expectedHash = hashMatch[0].replace(TEXT_FRAGMENT_RE, '')
-    return currentHash === expectedHash
+    return (inBrowser ? location.hash : '') === hashMatch[0]
   }
 
   return true
