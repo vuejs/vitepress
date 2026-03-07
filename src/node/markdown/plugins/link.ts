@@ -108,7 +108,17 @@ export const linkPlugin = (
   }
 
   function normalizeHash(str: string) {
-    return str ? encodeURI('#' + slugify(decodeURI(str).slice(1))) : ''
+    if (!str) return ''
+
+    const decoded = decodeURI(str)
+
+    // Preserve text fragments (https://developer.mozilla.org/en-US/docs/Web/URI/Reference/Fragment/Text_fragments)
+    // e.g. #:~:text=foo so browser-native highlighting keeps working.
+    if (decoded.startsWith('#:~:')) {
+      return encodeURI(decoded)
+    }
+
+    return encodeURI('#' + slugify(decoded.slice(1)))
   }
 
   function pushLink(link: string, env: MarkdownEnv) {
