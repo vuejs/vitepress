@@ -35,7 +35,8 @@ export const linkPlugin = (
       token.attrGet('class') !== 'header-anchor' // header anchors are already normalized
     ) {
       const hrefAttr = token.attrs![hrefIndex]
-      const url = hrefAttr[1]
+      let [url, frag] = hrefAttr[1].split(':~:', 2)
+      hrefAttr[1] = url
       if (isExternal(url)) {
         Object.entries(externalAttrs).forEach(([key, val]) => {
           token.attrSet(key, val)
@@ -65,6 +66,9 @@ export const linkPlugin = (
         if (hrefAttr[1].startsWith('/')) {
           hrefAttr[1] = `${base}${hrefAttr[1]}`.replace(/\/+/g, '/')
         }
+      }
+      if (frag) {
+        hrefAttr[1] += (hrefAttr[1].includes('#') ? '' : '#') + ':~:' + frag
       }
     }
     return self.renderToken(tokens, idx, options)
@@ -108,20 +112,7 @@ export const linkPlugin = (
   }
 
   function normalizeHash(str: string) {
-    if (!str) return ''
-
-    const decoded = decodeURI(str)
-
-    // preserve text fragments (https://developer.mozilla.org/en-US/docs/Web/URI/Reference/Fragment/Text_fragments)
-    // e.g. #:~:text=foo and #id:~:text=foo so browser-native highlighting
-    // keeps working, while still normalizing the heading fragment prefix.
-    const [prefix, suffix] = decoded.split(':~:', 2)
-    const normalizedPrefix =
-      prefix === '#' ? '#' : '#' + slugify(prefix.slice(1))
-
-    return encodeURI(
-      `${normalizedPrefix}${suffix ? ':~:' + encodeURI(suffix) : ''}`
-    )
+    return str ? encodeURI('#' + slugify(decodeURI(str).slice(1))) : ''
   }
 
   function pushLink(link: string, env: MarkdownEnv) {

@@ -37,4 +37,15 @@ describe('node/markdown/plugins/link', () => {
 
     expect(html).toContain('href="/guide/getting-started.html#hello-world"')
   })
+
+  test('does not break encoding for text-fragments', async () => {
+    const html = await md.renderAsync(
+      '[Section](/foo?title=Cat&oldid=916388819#:~:text=Claws-,Like%20almost,the%20Felidae%2C,-cats)',
+      { cleanUrls: false }
+    )
+
+    expect(html).toContain(
+      'href="/foo.html?title=Cat&amp;oldid=916388819#:~:text=Claws-,Like%20almost,the%20Felidae%2C,-cats"'
+    )
+  })
 })
