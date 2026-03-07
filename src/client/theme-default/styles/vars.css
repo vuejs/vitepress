@@ -273,16 +273,10 @@
 /* :root and [lang] have the same specificity.
    [lang] covers the case of e.g. <div lang="zh-CN"> in a non-Chinese page.
 */
-[lang]:where(:lang(zh)) {
+/* Korean compatibility is unverified, so application of custom Inter to Korean is pending. */
+[lang]:where(:lang(zh, ja)) {
   --vp-font-family-base:
     'Inter4zh', -apple-system, BlinkMacSystemFont, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-}
-
-/* Korean compatibility is unverified, so application of custom Inter to Korean is pending. */
-[lang]:where(:lang(ja)) {
-  --vp-font-family-base:
-    'Inter4ja', -apple-system, BlinkMacSystemFont, sans-serif,
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
