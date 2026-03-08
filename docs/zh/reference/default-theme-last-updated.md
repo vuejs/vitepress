@@ -1,6 +1,6 @@
 # 最后更新于 {#last-updated}
 
-最近一条内容的更新时间会显示在页面右下角。要启用它，请将 `lastUpdated` 选项添加到配置中。
+最近一条内容的更新时间默认显示在页面左下角，如果[editLink](./default-theme-edit-link) 为true，则会显示在页面右下角。要启用它，请将 `lastUpdated` 选项添加到配置中。
 
 ::: tip
 VitePress 通过每个文件最近一次 Git 提交的时间戳显示"最后更新"时间，因此你必须提交 markdown 文件才能看到最后更新时间。
@@ -17,7 +17,7 @@ VitePress 通过每个文件最近一次 Git 提交的时间戳显示"最后更�
 ```
 
 其他 CI/CD 平台也有类似设置。
-
+  
 若上述选项不可用，可在 `package.json` 中的 `docs:build` 命令后手动添加获取操作：
 
 ```json
