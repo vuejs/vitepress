@@ -28,6 +28,12 @@ export const containerPlugin = (
 
 type ContainerArgs = [typeof container, string, { render: RenderRule }]
 
+function attrPop(token: Token, name: string) {
+  const idx = token.attrIndex(name)
+  if (idx < 0) return null
+  return token.attrs!.splice(idx, 1)[0][1]
+}
+
 function createContainer(
   klass: string,
   defaultTitle: string,
@@ -41,7 +47,9 @@ function createContainer(
         const token = tokens[idx]
         if (token.nesting === 1) {
           token.attrJoin('class', `${klass} custom-block`)
+          const skipTitle = attrPop(token, 'no-title') === ''
           const attrs = md.renderer.renderAttrs(token)
+          if (skipTitle && klass !== 'details') return `<div ${attrs}>\n`
           const info = token.info.trim().slice(klass.length).trim()
           const title = md.renderInline(info || defaultTitle, {
             references: env.references
