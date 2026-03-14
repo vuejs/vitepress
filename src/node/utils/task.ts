@@ -1,10 +1,11 @@
+import process from 'node:process'
 import ora from 'ora'
 
 export const okMark = '\x1b[32m✓\x1b[0m'
 export const failMark = '\x1b[31m✗\x1b[0m'
 
 export async function task(taskName: string, task: () => Promise<void>) {
-  const spinner = ora({ discardStdin: false })
+  const spinner = ora({ discardStdin: false, isEnabled: !!process.stdin.isTTY })
   spinner.start(taskName + '...')
 
   try {
