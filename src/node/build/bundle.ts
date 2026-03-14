@@ -12,7 +12,12 @@ import {
 import { APP_PATH } from '../alias'
 import type { SiteConfig } from '../config'
 import { createVitePressPlugin } from '../plugin'
-import { escapeRegExp, sanitizeFileName, slash } from '../shared'
+import {
+  escapeRegExp,
+  canonicalize,
+  hashKeys,
+  sanitizeFileName
+} from '../shared'
 import { task } from '../utils/task'
 import { buildMPAClient } from './buildMPAClient'
 
@@ -41,9 +46,10 @@ export async function bundle(
 ): Promise<{
   clientResult: Rollup.RollupOutput | null
   serverResult: Rollup.RollupOutput
-  pageToHashMap: Record<string, string>
+  hashmap: Record<string, string>
 }> {
-  const pageToHashMap = Object.create(null) as Record<string, string>
+  const assetKeyToHashMap = Object.create(null) as Record<string, string>
+  const assetKeyToLookupKeyMap = Object.create(null) as Record<string, string>
   const clientJSMap = Object.create(null) as Record<string, string>
 
   // define custom rollup input
@@ -51,11 +57,22 @@ export async function bundle(
   // the loading is done via filename conversion rules so that the
   // metadata doesn't need to be included in the main chunk.
   const input: Record<string, string> = {}
+  const assetKeys = new Set<string>()
+  const lookupKeys = new Set<string>()
   config.pages.forEach((file) => {
     // page filename conversion
-    // foo/bar.md -> foo_bar.md
+    // 'foo/bar.md' -> hash('foo/bar.md') -> xxxxx
     const alias = config.rewrites.map[file] || file
-    input[slash(alias).replace(/\//g, '_')] = path.resolve(config.srcDir, file)
+    const canonical = canonicalize(alias, config.caseSensitive)
+    const { assetKey, lookupKey } = hashKeys(canonical)
+    if (assetKeys.has(assetKey) || lookupKeys.has(lookupKey))
+      throw new Error(
+        `Hash collision detected for page ${file} (assetKey: ${assetKey}, lookupKey: ${lookupKey}). Consider enabling caseSensitive option or changing the file name.`
+      )
+    assetKeys.add(assetKey)
+    lookupKeys.add(lookupKey)
+    assetKeyToLookupKeyMap[assetKey] = lookupKey
+    input[assetKey] = path.resolve(config.srcDir, file)
   })
 
   const themeEntryRE = new RegExp(
@@ -77,7 +94,7 @@ export async function bundle(
     plugins: await createVitePressPlugin(
       config,
       ssr,
-      pageToHashMap,
+      assetKeyToHashMap,
       clientJSMap
     ),
     ssr: {
@@ -206,15 +223,22 @@ export async function bundle(
     }
   }
 
-  // sort pageToHashMap to ensure stable output
-  const sortedPageToHashMap = Object.create(null) as Record<string, string>
-  Object.keys(pageToHashMap)
-    .sort()
-    .forEach((key) => {
-      sortedPageToHashMap[key] = pageToHashMap[key]
+  // sorted hashmap to ensure stable output
+  const hashmap = Object.create(null) as Record<string, string>
+  // Sorting by private asset key could reveal extra information for hash
+  // collision attack, so we sort by page hash instead, which is public information.
+  Object.entries(assetKeyToHashMap)
+    .sort((a, b) => a[1].localeCompare(b[1]))
+    .forEach(([assetKey, hash]) => {
+      if (assetKey in assetKeyToLookupKeyMap) {
+        const lookupKey = assetKeyToLookupKeyMap[assetKey]
+        hashmap[lookupKey] = hash
+      } else {
+        throw new Error(`Cannot find lookupKey for assetKey ${assetKey}`)
+      }
     })
 
-  return { clientResult, serverResult, pageToHashMap: sortedPageToHashMap }
+  return { clientResult, serverResult, hashmap }
 }
 
 const cache = new Map<string, boolean>()

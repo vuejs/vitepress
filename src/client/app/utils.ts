@@ -3,8 +3,8 @@ import { h, onMounted, shallowRef, type AsyncComponentLoader } from 'vue'
 import {
   EXTERNAL_URL_RE,
   inBrowser,
-  sanitizeFileName,
-  type Awaitable
+  type Awaitable,
+  resolveChunkKeys
 } from '../shared'
 import { siteDataRef } from './data'
 
@@ -26,46 +26,22 @@ export function withBase(path: string) {
     : joinPath(siteDataRef.value.base, path)
 }
 
-/**
- * Converts a url path to the corresponding js chunk filename.
- */
-export function pathToFile(path: string) {
-  let pagePath = path.replace(/\.html$/, '')
-  pagePath = decodeURIComponent(pagePath)
-  pagePath = pagePath.replace(/\/$/, '/index') // /foo/ -> /foo/index
-  if (import.meta.env.DEV) {
-    // always force re-fetch content in dev
-    pagePath += `.md?t=${Date.now()}`
-  } else {
-    // in production, each .md file is built into a .md.js file following
-    // the path conversion scheme.
-    // /foo/bar.html -> ./foo_bar.md
-    if (inBrowser) {
-      const base = import.meta.env.BASE_URL
-      pagePath =
-        sanitizeFileName(
-          pagePath.slice(base.length).replace(/\//g, '_') || 'index'
-        ) + '.md'
-      // client production build needs to account for page hash, which is
-      // injected directly in the page's html
-      let pageHash = __VP_HASH_MAP__[pagePath.toLowerCase()]
-      if (!pageHash) {
-        pagePath = pagePath.endsWith('_index.md')
-          ? pagePath.slice(0, -9) + '.md'
-          : pagePath.slice(0, -3) + '_index.md'
-        pageHash = __VP_HASH_MAP__[pagePath.toLowerCase()]
-      }
-      if (!pageHash) return null
-      pagePath = `${base}${__ASSETS_DIR__}/${pagePath}.${pageHash}.js`
+export function pathToFile(path: string, suffix: string = '.js') {
+  if (inBrowser) {
+    if (import.meta.env.DEV) {
+      // In dev server, always force re-fetch content
+      path = path.replace(/\/$/, '/index').replace(/\.html$/i, '')
+      return `${path}.md?t=${Date.now()}`
     } else {
-      // ssr build uses much simpler name mapping
-      pagePath = `./${sanitizeFileName(
-        pagePath.slice(1).replace(/\//g, '_')
-      )}.md.js`
+      // in production, each .md file is built into [assetKey].[hash].js
+      const base = import.meta.env.BASE_URL
+      const { assetKey, hash } = resolveChunkKeys(path.slice(base.length), true)
+      return `${base}${__ASSETS_DIR__}/${assetKey}.${hash}${suffix}`
     }
+  } else {
+    const { assetKey } = resolveChunkKeys(path, true)
+    return `./${assetKey}${suffix}`
   }
-
-  return pagePath
 }
 
 export let contentUpdatedCallbacks: (() => any)[] = []

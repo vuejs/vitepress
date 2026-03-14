@@ -66,7 +66,7 @@ export async function build(
   }
 
   try {
-    const { clientResult, serverResult, pageToHashMap } = await bundle(
+    const { clientResult, serverResult, hashmap } = await bundle(
       siteConfig,
       buildOptions
     )
@@ -74,6 +74,9 @@ export async function build(
     if (process.env.BUNDLE_ONLY) {
       return
     }
+
+    // Expose the hash map for SSR `resolveChunkKeys()` to lookup chunk file
+    ;(globalThis as any).__VP_HASH_MAP__ = hashmap
 
     const entryPath = path.join(siteConfig.tempDir, 'app.js')
     const { render } = await import(pathToFileURL(entryPath).href)
@@ -113,7 +116,7 @@ export async function build(
             chunk.moduleIds.some((id) => id.includes('client/theme-default'))
         )
 
-      const metadataScript = generateMetadataScript(pageToHashMap, siteConfig)
+      const metadataScript = generateMetadataScript(hashmap, siteConfig)
 
       if (isDefaultTheme) {
         const fontURL = assets.find((file) =>
@@ -146,7 +149,7 @@ export async function build(
             appChunk,
             cssChunk,
             assets,
-            pageToHashMap,
+            hashmap,
             metadataScript,
             additionalHeadTags,
             usedIcons
@@ -169,10 +172,7 @@ export async function build(
 
     // emit page hash map for the case where a user session is open
     // when the site got redeployed (which invalidates current hash map)
-    fs.writeJSONSync(
-      path.join(siteConfig.outDir, 'hashmap.json'),
-      pageToHashMap
-    )
+    fs.writeJSONSync(path.join(siteConfig.outDir, 'hashmap.json'), hashmap)
   } finally {
     unlinkVue()
     if (!process.env.DEBUG) {
@@ -210,7 +210,7 @@ function linkVue() {
 }
 
 function generateMetadataScript(
-  pageToHashMap: Record<string, string>,
+  hashmap: Record<string, string>,
   config: SiteConfig
 ) {
   if (config.mpa) {
@@ -221,7 +221,7 @@ function generateMetadataScript(
   // so that it doesn't alter the main chunk's hash on every build.
   // It's also embedded as a string and JSON.parsed from the client because
   // it's faster than embedding as JS object literal.
-  const hashMapString = JSON.stringify(JSON.stringify(pageToHashMap))
+  const hashMapString = JSON.stringify(JSON.stringify(hashmap))
   const siteDataString = JSON.stringify(
     JSON.stringify(serializeFunctions({ ...config.site, head: [] }))
   )
@@ -235,7 +235,6 @@ function generateMetadataScript(
   if (!config.metaChunk) {
     return { html: `<script>${metadataContent}</script>`, inHead: false }
   }
-
   const metadataFile = path.join(
     config.assetsDir,
     'chunks',
