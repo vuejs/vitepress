@@ -73,6 +73,8 @@ export namespace DefaultTheme {
 
     lastUpdated?: LastUpdatedOptions
 
+    created?: CreatedOptions
+
     /**
      * Set custom prev/next labels.
      */
@@ -424,6 +426,26 @@ export namespace DefaultTheme {
 
     /**
      * Set options for last updated time formatting.
+     * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat#using_options
+     *
+     * @default
+     * { dateStyle: 'short', timeStyle: 'short' }
+     */
+    formatOptions?: Intl.DateTimeFormatOptions & { forceLocale?: boolean }
+  }
+
+  // created --------------------------------------------------------------
+
+  export interface CreatedOptions {
+    /**
+     * Set custom created text.
+     *
+     * @default 'Created'
+     */
+    text?: string
+
+    /**
+     * Set options for created time formatting.
      * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat#using_options
      *
      * @default

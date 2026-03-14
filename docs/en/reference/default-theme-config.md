@@ -338,6 +338,46 @@ export interface LastUpdatedOptions {
 }
 ```
 
+## created
+
+- Type: `CreatedOptions`
+
+Allows customization for the created text and date format.
+
+```ts
+export default {
+  themeConfig: {
+    created: {
+      text: 'Created at',
+      formatOptions: {
+        dateStyle: 'full',
+        timeStyle: 'medium'
+      }
+    }
+  }
+}
+```
+
+```ts
+export interface CreatedOptions {
+    /**
+     * Set custom created text.
+     *
+     * @default 'Created'
+     */
+    text?: string
+
+    /**
+     * Set options for created time formatting.
+     * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat#using_options
+     *
+     * @default
+     * { dateStyle: 'short', timeStyle: 'short' }
+     */
+    formatOptions?: Intl.DateTimeFormatOptions & { forceLocale?: boolean }
+  }
+```
+
 ## algolia
 
 - Type: `AlgoliaSearch`
