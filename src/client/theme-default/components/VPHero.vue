@@ -11,6 +11,8 @@ export interface HeroAction {
   link: string
   target?: string
   rel?: string
+  startIcon?: DefaultTheme.ActionIcon
+  endIcon?: DefaultTheme.ActionIcon
 }
 
 defineProps<{
@@ -51,6 +53,8 @@ const { heroImageSlotExists } = inject(
               :href="action.link"
               :target="action.target"
               :rel="action.rel"
+              :start-icon="action.startIcon"
+              :end-icon="action.endIcon"
             />
           </div>
         </div>
