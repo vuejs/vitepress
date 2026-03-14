@@ -65,8 +65,11 @@ export function usePrefetch() {
           const { pathname } = link
           if (!hasFetched.has(pathname)) {
             hasFetched.add(pathname)
-            const pageChunkPath = pathToFile(pathname)
-            if (pageChunkPath) doFetch(pageChunkPath)
+            try {
+              doFetch(pathToFile(pathname))
+            } catch (e) {
+              // Silently fail prefetch errors.
+            }
           }
         }
       })

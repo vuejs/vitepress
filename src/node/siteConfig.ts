@@ -46,6 +46,7 @@ export interface UserConfig<
 
   base?: string
   srcDir?: string
+  caseSensitive?: boolean
   srcExclude?: string[]
   outDir?: string
   assetsDir?: string
@@ -230,6 +231,7 @@ export interface SiteConfig<ThemeConfig = any> extends Pick<
 > {
   root: string
   srcDir: string
+  caseSensitive: boolean
   site: SiteData<ThemeConfig>
   configPath: string | undefined
   configDeps: string[]

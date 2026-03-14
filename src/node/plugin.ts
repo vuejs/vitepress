@@ -68,7 +68,7 @@ const cleanUrl = (url: string): string => url.replace(/[?#].*$/s, '')
 export async function createVitePressPlugin(
   siteConfig: SiteConfig,
   ssr = false,
-  pageToHashMap?: Record<string, string>,
+  assetKeyToHashMap?: Record<string, string>,
   clientJSMap?: Record<string, string>,
   restartServer?: () => Promise<void>
 ) {
@@ -321,7 +321,7 @@ export async function createVitePressPlugin(
           if (isPageChunk(chunk)) {
             // record page -> hash relations
             const hash = chunk.fileName.match(hashRE)![1]
-            pageToHashMap![chunk.name.toLowerCase()] = hash
+            assetKeyToHashMap![chunk.name] = hash
 
             // inject another chunk with the content stripped
             this.emitFile({

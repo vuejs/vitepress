@@ -100,6 +100,7 @@
     "@docsearch/js": "^4.5.3",
     "@docsearch/sidepanel-js": "^4.5.3",
     "@iconify-json/simple-icons": "^1.2.69",
+    "@noble/hashes": "^2.0.1",
     "@shikijs/core": "^3.22.0",
     "@shikijs/transformers": "^3.22.0",
     "@shikijs/types": "^3.22.0",

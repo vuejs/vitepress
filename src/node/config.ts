@@ -131,6 +131,7 @@ export async function resolveConfig(
   const config: Omit<SiteConfig, 'pages' | 'dynamicRoutes' | 'rewrites'> = {
     root,
     srcDir,
+    caseSensitive: userConfig.caseSensitive ?? false,
     assetsDir,
     site,
     themeDir,
