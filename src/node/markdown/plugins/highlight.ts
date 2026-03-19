@@ -194,7 +194,20 @@ export async function highlight(
         ...(typeof theme === 'object' && 'light' in theme && 'dark' in theme
           ? { themes: theme, defaultColor: false }
           : { theme }),
-        colorReplacements: options.colorReplacements
+        colorReplacements: {
+          'github-light': {
+            '#959da5': '#6f7178',
+            '#28a745': '#1e821a',
+            '#e36209': '#c94410',
+            '#d73a49': '#d13342',
+            '#22863a': '#208133',
+            '#6a737d': '#6d717e'
+          },
+          'github-dark': {
+            '#6a737d': '#75828d'
+          },
+          ...options.colorReplacements
+        }
       })
 
       return restoreMustache(highlighted)
