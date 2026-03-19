@@ -42,6 +42,7 @@ const { heroImageSlotExists } = inject(
         <slot name="home-hero-info-after" />
 
         <div v-if="actions" class="actions">
+          <slot name="home-hero-actions-before-actions" />
           <div v-for="action in actions" :key="action.link" class="action">
             <VPButton
               tag="a"
