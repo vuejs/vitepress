@@ -27,4 +27,4 @@
 [32m◇[39m  [1mPrefix for VitePress npm scripts:[0m
 [90m│[39m  docs[0m
 [90m│[39m
-[90m└[39m  Done! Now run [36mpnpm run docs:dev[39m and start writing.
+[90m└[39m  [1mDone! Now run [36mpnpm run docs:dev[39m and start writing.[0m
