@@ -193,7 +193,8 @@ export async function highlight(
         meta: { __raw: attrs },
         ...(typeof theme === 'object' && 'light' in theme && 'dark' in theme
           ? { themes: theme, defaultColor: false }
-          : { theme })
+          : { theme }),
+        colorReplacements: options.colorReplacements
       })
 
       return restoreMustache(highlighted)
