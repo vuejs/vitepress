@@ -196,15 +196,15 @@ export async function highlight(
           : { theme }),
         colorReplacements: {
           'github-light': {
-            '#959da5': '#6f7178',
-            '#28a745': '#1e821a',
-            '#e36209': '#c94410',
-            '#d73a49': '#d13342',
-            '#22863a': '#208133',
-            '#6a737d': '#6d717e'
+            '#959da5': '#6c676f',
+            '#28a745': '#0e790b',
+            '#e36209': '#c13617',
+            '#d73a49': '#c62739',
+            '#22863a': '#11782a',
+            '#6a737d': '#62687b'
           },
           'github-dark': {
-            '#6a737d': '#75828d'
+            '#6a737d': '#818e99'
           },
           ...options.colorReplacements
         }
