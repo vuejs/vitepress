@@ -13,12 +13,30 @@ import {
   mergeHead,
   notFoundPageData,
   resolveSiteDataByRoute,
-  sanitizeFileName,
+  resolveChunkKeys,
   slash,
   type HeadConfig,
-  type PageData,
   type SSGContext
 } from '../shared'
+
+async function loadPageData(
+  config: SiteConfig,
+  page: string,
+  hashmap: Record<string, string>
+) {
+  try {
+    const keys = resolveChunkKeys(page, config.caseSensitive, hashmap)
+    // server build doesn't need hash
+    const ssrChunkPath = keys.assetKey + '.js'
+    // resolve page data so we can render head tags
+    const src = pathToFileURL(path.join(config.tempDir, ssrChunkPath)).href
+    const { __pageData: pageData } = await import(src)
+    return { pageData, keys }
+  } catch (e) {
+    if (page === '404.md') return { pageData: notFoundPageData, keys: null }
+    else throw e
+  }
+}
 
 export async function renderPage(
   render: (path: string) => Promise<SSGContext>,
@@ -28,7 +46,7 @@ export async function renderPage(
   appChunk: Rollup.OutputChunk | null,
   cssChunk: Rollup.OutputAsset | null,
   assets: string[],
-  pageToHashMap: Record<string, string>,
+  hashmap: Record<string, string>,
   metadataScript: { html: string; inHead: boolean },
   additionalHeadTags: HeadConfig[],
   usedIcons: Set<string>
@@ -44,31 +62,8 @@ export async function renderPage(
   // add used social icons to the set
   vpSocialIcons.forEach((icon) => usedIcons.add(icon))
 
-  const pageName = sanitizeFileName(page.replace(/\//g, '_'))
-  // server build doesn't need hash
-  const pageServerJsFileName = pageName + '.js'
-  // for any initial page load, we only need the lean version of the page js
-  // since the static content is already on the page!
-  const pageHash = pageToHashMap[pageName.toLowerCase()]
-  const pageClientJsFileName = `${config.assetsDir}/${pageName}.${pageHash}.lean.js`
-
-  let pageData: PageData
-  let hasCustom404 = true
-
-  try {
-    // resolve page data so we can render head tags
-    const { __pageData } = await import(
-      pathToFileURL(path.join(config.tempDir, pageServerJsFileName)).href
-    )
-    pageData = __pageData
-  } catch (e) {
-    if (page === '404.md') {
-      hasCustom404 = false
-      pageData = notFoundPageData
-    } else {
-      throw e
-    }
-  }
+  const { pageData, keys } = await loadPageData(config, page, hashmap)
+  const isDefault404 = keys === null
 
   const title: string = createTitle(siteData, pageData)
   const description: string = pageData.description || siteData.description
@@ -77,7 +72,7 @@ export async function renderPage(
     : ''
 
   let preloadLinks =
-    config.mpa || (!hasCustom404 && page === '404.md')
+    config.mpa || isDefault404
       ? []
       : result && appChunk
         ? [
@@ -86,7 +81,9 @@ export async function renderPage(
               // for them as well so we fetch everything as early as possible
               // without having to wait for entry chunks to parse
               ...resolvePageImports(config, page, result, appChunk),
-              pageClientJsFileName
+              // for any initial page load, we only need the lean version of the page js
+              // since the static content is already on the page!
+              `${config.assetsDir}/${keys.assetKey}.${keys.hash}.lean.js`
             ])
           ]
         : []

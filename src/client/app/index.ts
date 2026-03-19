@@ -121,22 +121,18 @@ function newRouter(): Router {
   let isInitialPageLoad = inBrowser
 
   return createRouter((path) => {
-    let pageFilePath = pathToFile(path)
-    let pageModule = null
-
-    if (pageFilePath) {
+    try {
       // use lean build if this is the initial page load
-      if (isInitialPageLoad) {
-        pageFilePath = pageFilePath.replace(/\.js$/, '.lean.js')
-      }
-
+      const chunkPath = pathToFile(path, isInitialPageLoad ? '.lean.js' : '.js')
+      // Client build always use lean build
+      if (inBrowser) isInitialPageLoad = false
       if (import.meta.env.DEV) {
-        pageModule = import(/*@vite-ignore*/ pageFilePath).catch((e) => {
+        return import(/*@vite-ignore*/ chunkPath).catch((e) => {
           // page load could fail for other reasons, don't swallow
           console.error(e)
           // try with/without trailing slash
           // in prod this is handled in src/client/app/utils.ts#pathToFile
-          const url = new URL(pageFilePath!, 'http://a.com')
+          const url = new URL(chunkPath!, 'http://a.com')
           const path =
             (url.pathname.endsWith('/index.md')
               ? url.pathname.slice(0, -9) + '.md'
@@ -146,15 +142,14 @@ function newRouter(): Router {
           return import(/*@vite-ignore*/ path)
         })
       } else {
-        pageModule = import(/*@vite-ignore*/ pageFilePath)
+        return import(/*@vite-ignore*/ chunkPath)
       }
+    } catch (e) {
+      // let 404 page load failure fall through
+      if (!/\/404(\.md|\.html|\/)?$/i.test(path))
+        console.error(`Failed to load page module for ${path}:`, e)
+      return null
     }
-
-    if (inBrowser) {
-      isInitialPageLoad = false
-    }
-
-    return pageModule
   }, Theme.NotFound)
 }
 

@@ -4,6 +4,7 @@ import type {
   PageData,
   SiteData
 } from '../../types/shared'
+import { sha256 } from '@noble/hashes/sha2.js'
 
 export type {
   Awaitable,
@@ -223,6 +224,93 @@ export function sanitizeFileName(name: string): string {
 
 export function slash(p: string): string {
   return p.replace(/\\/g, '/')
+}
+
+export function canonicalize(
+  path: string,
+  caseSensitive: boolean = false
+): string {
+  const normalizedPath = slash(path).replace(/\.(html|md)$/i, '')
+  const segments = normalizedPath.split('/')
+  const stack: string[] = []
+  for (const segment of segments.filter((s) => s && s !== '.')) {
+    if (segment === '..') {
+      if (stack.length && stack[stack.length - 1] !== '..') stack.pop()
+      else stack.push('..')
+    } else {
+      stack.push(segment)
+    }
+  }
+  const canonical = stack.join('/')
+  return caseSensitive ? canonical : canonical.toLowerCase()
+}
+
+/**
+ * Create one-way mappings:
+ *
+ *   Canonical Path    ->      assetKey        ->          lookupKey
+ *   (Maybe Private)        (Server Files)            (Shared with Client)
+ *
+ * -------------------------------------------------------------------------
+ * Client must know the canonical path in order to resolve the valid chunk.
+ * In case the site contains unlisted private pages or assets, client cannot
+ * reverse map from lookupKey to assetKey or path name, avoiding unintentional
+ * content leaks.
+ * @param uid canonical path of the page, e.g. /foo/bar[.md|.html]
+ */
+export function hashKeys(uid: string): {
+  lookupKey: string
+  assetKey: string
+} {
+  // ensure leading slash for consistent hashing
+  const input = new TextEncoder().encode(uid)
+  const assetHash = sha256(input)
+  const assetKey = [...assetHash.slice(0, 8)]
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('')
+  const lookupBuffer = sha256(assetHash)
+  const lookupKey = [...lookupBuffer.slice(0, 8)]
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('')
+  return { lookupKey, assetKey }
+}
+
+declare const __VP_HASH_MAP__: Record<string, string>
+
+export class ChunkNotFoundError extends Error {
+  constructor(
+    public readonly path: string,
+    public readonly attempted: string[]
+  ) {
+    super(
+      [
+        `Cannot resolve chunk for ${JSON.stringify(path)}. Attempted:`,
+        ...(attempted || ['(no candidates)'])
+      ].join('\n - ')
+    )
+  }
+}
+
+export function resolveChunkKeys(
+  path: string,
+  caseSensitive: boolean = false,
+  hashmap: Record<string, string> = __VP_HASH_MAP__
+) {
+  const isDir = path === '' || path.endsWith('/')
+  if (isDir) path += 'index' // /foo/ -> /foo/index
+  const normalized = canonicalize(path, caseSensitive)
+  const candidates = [normalized]
+  // Attempt /foo/index if /foo doesn't exist
+  if (!isDir) candidates.push(normalized + '/index')
+  const attempted: string[] = []
+  for (const candidate of candidates) {
+    attempted.push(candidate)
+    const { lookupKey, assetKey } = hashKeys(candidate)
+    // ssr build uses much simpler name mapping
+    if (lookupKey in hashmap)
+      return { assetKey, lookupKey, hash: hashmap[lookupKey] }
+  }
+  throw new ChunkNotFoundError(path, attempted)
 }
 
 const KNOWN_EXTENSIONS = new Set()
