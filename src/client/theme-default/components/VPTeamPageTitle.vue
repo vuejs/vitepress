@@ -11,20 +11,7 @@
 
 <style scoped>
 .VPTeamPageTitle {
-  padding: 48px 32px;
   text-align: center;
-}
-
-@media (min-width: 768px) {
-  .VPTeamPageTitle {
-    padding: 64px 48px 48px;
-  }
-}
-
-@media (min-width: 960px) {
-  .VPTeamPageTitle {
-    padding: 80px 64px 48px;
-  }
 }
 
 .title {
