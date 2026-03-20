@@ -189,6 +189,8 @@ Lista completa de _slots_ disponibles en el layout del tema por defecto:
   - `home-hero-before`
   - `home-hero-info-before`
   - `home-hero-info`
+  - `home-hero-info-after`
+  - `home-hero-actions-before-actions`
   - `home-hero-actions-after`
   - `home-hero-image`
   - `home-hero-after`
