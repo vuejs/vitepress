@@ -27,3 +27,4 @@ export {
 
 // components
 export { Content } from './app/components/Content'
+export { ClientOnly } from './app/components/ClientOnly'
