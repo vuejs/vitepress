@@ -1,54 +1,79 @@
 <script lang="ts" setup>
 import { inject, ref, watchPostEffect } from 'vue'
 import { useData } from '../composables/data'
-import VPSwitch from './VPSwitch.vue'
+import type { AppearanceMode } from 'vitepress'
 
-const { isDark, theme } = useData()
+const { theme, appearanceMode } = useData()
+
+const modes: AppearanceMode[] = ['auto', 'light', 'dark']
 
 const toggleAppearance = inject('toggle-appearance', () => {
-  isDark.value = !isDark.value
+  const current = modes.indexOf(appearanceMode.value)
+  appearanceMode.value = modes[(current + 1) % 3]
 })
 
 const switchTitle = ref('')
 
 watchPostEffect(() => {
-  switchTitle.value = isDark.value
-    ? theme.value.lightModeSwitchTitle || 'Switch to light theme'
-    : theme.value.darkModeSwitchTitle || 'Switch to dark theme'
+  const nextMode = modes[(modes.indexOf(appearanceMode.value) + 1) % 3]
+  const titles: Record<AppearanceMode, string> = {
+    auto: theme.value.autoModeSwitchTitle || 'Switch to system theme',
+    light: theme.value.lightModeSwitchTitle || 'Switch to light theme',
+    dark: theme.value.darkModeSwitchTitle || 'Switch to dark theme'
+  }
+  switchTitle.value = titles[nextMode]
 })
 </script>
 
 <template>
-  <VPSwitch
+  <button
     :title="switchTitle"
     class="VPSwitchAppearance"
-    :aria-checked="isDark"
+    :class="`mode-${appearanceMode}`"
+    :aria-label="switchTitle"
     @click="toggleAppearance"
   >
     <span class="vpi-sun sun" />
     <span class="vpi-moon moon" />
-  </VPSwitch>
+    <span class="vpi-system system" />
+  </button>
 </template>
 
 <style scoped>
-.sun {
+.VPSwitchAppearance {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 36px;
+  color: var(--vp-c-text-2);
+  transition: color 0.5s;
+  cursor: pointer;
+}
+
+.VPSwitchAppearance:hover {
+  color: var(--vp-c-text-1);
+}
+
+.sun,
+.moon,
+.system {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.mode-light .sun {
   opacity: 1;
 }
 
-.moon {
-  opacity: 0;
-}
-
-.dark .sun {
-  opacity: 0;
-}
-
-.dark .moon {
+.mode-dark .moon {
   opacity: 1;
 }
 
-.dark .VPSwitchAppearance :deep(.check) {
-  /*rtl:ignore*/
-  transform: translateX(18px);
+.mode-auto .system {
+  opacity: 1;
 }
 </style>
