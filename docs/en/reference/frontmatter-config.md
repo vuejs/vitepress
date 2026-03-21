@@ -180,6 +180,19 @@ lastUpdated: false
 ---
 ```
 
+### created
+
+- Type: `boolean | Date`
+- Default: `true`
+
+Whether to display [created](./default-theme-created) text in the footer of the current page. If a datetime is specified, it will be displayed instead of the first git commit timestamp.
+
+```yaml
+---
+created: false
+---
+```
+
 ### editLink
 
 - Type: `boolean`

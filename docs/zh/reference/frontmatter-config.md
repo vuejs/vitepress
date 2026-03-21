@@ -174,6 +174,19 @@ lastUpdated: false
 ---
 ```
 
+### created
+
+- 类型：`boolean | Date`
+- 默认值：`true`
+
+是否在当前页面的页脚中显示[创建时间](./default-theme-created)的文本。如果指定了日期时间，则会显示该日期时间而不是初次 git 提交的时间戳。
+
+```yaml
+---
+created: false
+---
+```
+
 ### editLink
 
 - 类型：`boolean`
