@@ -56,6 +56,18 @@ This is a dangerous warning.
 This is a details block.
 :::
 
+::: note
+This is a note.
+:::
+
+::: important
+This is an important note.
+:::
+
+::: caution
+This is a caution note.
+:::
+
 ### Custom Title
 
 ::: danger STOP
