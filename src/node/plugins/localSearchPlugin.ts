@@ -56,12 +56,23 @@ export async function localSearchPlugin(
     const env: MarkdownEnv = { path: file, relativePath, cleanUrls }
     const md_raw = await fs.promises.readFile(file, 'utf-8')
     const md_src = processIncludes(md, srcDir, md_raw, file, [], cleanUrls)
+    let html: string
+
     if (options._render) {
-      return await options._render(md_src, env, md)
+      html = await options._render(md_src, env, md)
     } else {
-      const html = await md.renderAsync(md_src, env)
-      return env.frontmatter?.search === false ? '' : html
+      html = await md.renderAsync(md_src, env)
+
+      if (env.frontmatter?.search === false) {
+        return ''
+      }
     }
+
+    if (env.frontmatter) {
+      html = resolveFrontmatterExpressions(html, env.frontmatter)
+    }
+
+    return html
   }
 
   const indexByLocales = new Map<string, MiniSearch<IndexObject>>()
@@ -247,4 +258,23 @@ function getSearchableText(content: string) {
 
 function clearHtmlTags(str: string) {
   return str.replace(/<[^>]*>/g, '')
+}
+
+function resolveFrontmatterExpressions(
+  html: string,
+  frontmatter: Record<string, any>
+): string {
+  return html.replace(
+    /\{\{\s*\$frontmatter\.(\S+?)\s*\}\}/g,
+    (match, key: string) => {
+      const value = key
+        .split('.')
+        .reduce(
+          (object, key) => (object != null ? object[key] : undefined),
+          frontmatter
+        )
+
+      return value != null ? String(value) : match
+    }
+  )
 }
