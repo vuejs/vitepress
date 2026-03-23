@@ -15,13 +15,7 @@ export const containerPlugin = (
     .use(...createContainer('danger', options?.dangerLabel || 'DANGER', md))
     .use(...createContainer('details', options?.detailsLabel || 'Details', md))
     .use(...createContainer('note', options?.noteLabel || 'NOTE', md))
-    .use(
-      ...createContainer(
-        'important',
-        options?.importantLabel || 'IMPORTANT',
-        md
-      )
-    )
+    .use(...createContainer('important', options?.importantLabel || 'IMPORTANT', md))
     .use(...createContainer('caution', options?.cautionLabel || 'CAUTION', md))
     // explicitly escape Vue syntax
     .use(container, 'v-pre', {
