@@ -1,3 +1,52 @@
+## [2.0.0-alpha.17](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.16...v2.0.0-alpha.17) (2026-03-19)
+
+### Bug Fixes
+
+- **build:** `processIncludes` no longer swallows errors ([fb21fdf](https://github.com/vuejs/vitepress/commit/fb21fdf6759b7c88ac98456820b75286936fbf87))
+- **build:** deterministic local search indexing and non-blocking initial scan (closes [#4081](https://github.com/vuejs/vitepress/issues/4081)) ([fc0f203](https://github.com/vuejs/vitepress/commit/fc0f203f0ac451ec039850b920f0684c1695d161))
+- **client:** await `clipboard.writeText` so that fallback works in non-secure contexts ([#5119](https://github.com/vuejs/vitepress/issues/5119)) ([b544df8](https://github.com/vuejs/vitepress/commit/b544df802d256aef10d4da94631967b0fcab68d2))
+- disable brotli compression in preview server ([ca1e875](https://github.com/vuejs/vitepress/commit/ca1e87512924acdd8d39ca0f530a424ad933b701))
+- **theme:** add `rel="alternate"` and `hreflang` to links in language menu ([#5108](https://github.com/vuejs/vitepress/issues/5108)) ([f09593b](https://github.com/vuejs/vitepress/commit/f09593b073e42fa9d8de1e744a9f2a0e5c8170fc))
+- **theme:** add margin to images in vp-doc (closes [#5136](https://github.com/vuejs/vitepress/issues/5136)) ([896e49a](https://github.com/vuejs/vitepress/commit/896e49a777bb983de2cbef82c1c295db2dba3dbe))
+- **theme:** close sidebar on resize (closes [#5145](https://github.com/vuejs/vitepress/issues/5145)) ([17696c3](https://github.com/vuejs/vitepress/commit/17696c358b88335c4f6bb516bbcdf774aaf7deee))
+- **theme:** disable text autospace in `<pre>` (closes [#5115](https://github.com/vuejs/vitepress/issues/5115)) ([21a5fb6](https://github.com/vuejs/vitepress/commit/21a5fb6a96549564fcf698d0e7256181eac3919b))
+- **theme:** enable `line-break: strict` for `<li>` too ([f811d58](https://github.com/vuejs/vitepress/commit/f811d581a164fa330b17cdb85270effa39bdb3fd))
+- **theme:** keep pnum,tnum features in Inter ([f1bef95](https://github.com/vuejs/vitepress/commit/f1bef95eee453bb18cc160741a11513678015cd6)), closes [#5096](https://github.com/vuejs/vitepress/issues/5096)
+- **theme:** navbar menu group is incorrectly highlighted ([#5113](https://github.com/vuejs/vitepress/issues/5113)) ([b28667b](https://github.com/vuejs/vitepress/commit/b28667b6b03d50c4be0d509ec5e7d780f29f8042))
+- **theme:** strip system-ui from font-family-base ([#4988](https://github.com/vuejs/vitepress/issues/4988)) ([8096eac](https://github.com/vuejs/vitepress/commit/8096eaca4f1d9eef00101e42f7159da1e12ca3de))
+
+### Features
+
+- **theme:** add `home-hero-actions-before-actions` slot ([#5151](https://github.com/vuejs/vitepress/issues/5151)) ([74a73d8](https://github.com/vuejs/vitepress/commit/74a73d869ca61f2c64f9dcbd9912a0461e8d4bfe))
+- support text-fragments ([#5140](https://github.com/vuejs/vitepress/issues/5140)) ([44e2675](https://github.com/vuejs/vitepress/commit/44e2675889588b54dea771a0c82e2db64739364c))
+- **theme:** add Japanese translation for "copied" label ([#5106](https://github.com/vuejs/vitepress/issues/5106)) ([a01bba0](https://github.com/vuejs/vitepress/commit/a01bba0cad70bb089918adab105f0a5b5ff85918))
+- **theme:** enable text-autospace and text-spacing-trim (closes [#4996](https://github.com/vuejs/vitepress/issues/4996)) ([d7effff](https://github.com/vuejs/vitepress/commit/d7effffdbb9ea6bdeda31e26dea0f1ed32ddd51e))
+- **theme:** support specifying list of details in home page features (closes [#5101](https://github.com/vuejs/vitepress/issues/5101)) ([3146ce4](https://github.com/vuejs/vitepress/commit/3146ce48ed3ad684ddfbf1194de3a2200082eb92))
+
+### BREAKING CHANGES
+
+The previous `<!-- @include: ./path/to/file -->` syntax silently ignored errors when files did not exist. This behavior was originally intended as an escape hatch while documenting includes, but better solutions now exist using Shiki transformers.
+
+For most users, no code changes are required. If you now see errors, it means your includes are broken and were previously not being reported.
+
+Users who intentionally reference non-existent files or want to document includes without resolving them can configure `markdown.codeTransformers` with a `postprocess` hook. See `docs/.vitepress/config.ts` in this repo for an example.
+
+## [2.0.0-alpha.16](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.15...v2.0.0-alpha.16) (2026-01-31)
+
+### Bug Fixes
+
+- always log error when failed to fetch page ([66cf64e](https://github.com/vuejs/vitepress/commit/66cf64e6d127dd8473e582d11e1133acda6c3bc8))
+- **theme:** add fallback for `heroImageSlotExists` ([#5076](https://github.com/vuejs/vitepress/issues/5076)) ([f119b18](https://github.com/vuejs/vitepress/commit/f119b18e39b545f39e29358913fe9ed1fd69bc55))
+- **theme:** align badges in h1 and h2 ([#5087](https://github.com/vuejs/vitepress/issues/5087)) (closes [#5063](https://github.com/vuejs/vitepress/issues/5063)) ([b200865](https://github.com/vuejs/vitepress/commit/b2008654ffaf0d8f8c425e88592e9ed2f8791506))
+- **theme:** highlight active link in mobile nav menu ([#5086](https://github.com/vuejs/vitepress/issues/5086)) (closes [#5068](https://github.com/vuejs/vitepress/issues/5068), closes [#5074](https://github.com/vuejs/vitepress/issues/5074)) ([923aa90](https://github.com/vuejs/vitepress/commit/923aa902523739bfb9d77aed376ebc73c32eeb33))
+- **theme:** overflow clip is buggy on safari ([8ed6ea0](https://github.com/vuejs/vitepress/commit/8ed6ea048cb49256e3302de2de0edfbe635afd32)), closes [#5050](https://github.com/vuejs/vitepress/issues/5050) [#5039](https://github.com/vuejs/vitepress/issues/5039) [#5027](https://github.com/vuejs/vitepress/issues/5027)
+- **theme:** remove margin between code groups and blocks in markdown containers ([a28e171](https://github.com/vuejs/vitepress/commit/a28e171604605713a221d0eb2bbdce211930d94f)), closes [#5099](https://github.com/vuejs/vitepress/issues/5099)
+
+### Features
+
+- **theme:** upgrade DocSearch to 4.5 with sidepanel ([#5092](https://github.com/vuejs/vitepress/issues/5092)) ([0d646a6](https://github.com/vuejs/vitepress/commit/0d646a66cd44e97adef516a6a36e03365f179906))
+- **theme:** use `@layer __vitepress_base` to wrap the styles in base.css ([#4905](https://github.com/vuejs/vitepress/issues/4905)) ([f8d8c0d](https://github.com/vuejs/vitepress/commit/f8d8c0d712fba4728c750e1f44c5ba9596979ba1))
+
 ## [2.0.0-alpha.15](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.14...v2.0.0-alpha.15) (2025-11-22)
 
 ### Bug Fixes

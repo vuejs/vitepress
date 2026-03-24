@@ -12,44 +12,44 @@ CMS ごとに動作が異なるため、ここでは各自の環境に合わせ�
 
 1. CMS が認証を必要とする場合は、API トークンを格納するための `.env` を作成し、次のように読み込みます。
 
-    ```js
-    // posts/[id].paths.js
-    import { loadEnv } from 'vitepress'
+   ```js
+   // posts/[id].paths.js
+   import { loadEnv } from 'vitepress'
 
-    const env = loadEnv('', process.cwd())
-    ```
+   const env = loadEnv('', process.cwd())
+   ```
 
 2. CMS から必要なデータを取得し、適切なパスデータの形式に整形します。
 
-    ```js
-    export default {
-      async paths() {
-        // 必要に応じて各 CMS のクライアントライブラリを使用
-        const data = await (await fetch('https://my-cms-api', {
-          headers: {
-            // 必要ならトークン
-          }
-        })).json()
+   ```js
+   export default {
+     async paths() {
+       // 必要に応じて各 CMS のクライアントライブラリを使用
+       const data = await (await fetch('https://my-cms-api', {
+         headers: {
+           // 必要ならトークン
+         }
+       })).json()
 
-        return data.map(entry => {
-          return {
-            params: { id: entry.id, /* title, authors, date など */ },
-            content: entry.content
-          }
-        })
-      }
-    }
-    ```
+       return data.map((entry) => {
+         return {
+           params: { id: entry.id, /* title, authors, date など */ },
+           content: entry.content
+         }
+       })
+     }
+   }
+   ```
 
 3. ページ内でコンテンツをレンダリングします。
 
-    ```md
-    # {{ $params.title }}
+   ```md
+   # {{ $params.title }}
 
-    - {{ $params.date }} に {{ $params.author }} が作成
+   - {{ $params.date }} に {{ $params.author }} が作成
 
-    <!-- @content -->
-    ```
+   <!-- @content -->
+   ```
 
 ## 連携ガイドの募集 {#integration-guides}
 

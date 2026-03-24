@@ -154,6 +154,7 @@ withDefaults(defineProps<Props>(), {
 .avatar-img {
   position: absolute;
   inset: 0;
+  margin: 0;
   border-radius: 50%;
   object-fit: cover;
 }

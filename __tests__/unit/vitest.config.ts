@@ -12,6 +12,7 @@ export default defineConfig({
       { find: '@siteData', replacement: resolve(dir, './shims.ts') },
       { find: 'client', replacement: resolve(dir, '../../src/client') },
       { find: 'node', replacement: resolve(dir, '../../src/node') },
+      { find: 'shared', replacement: resolve(dir, '../../src/shared') },
       {
         find: /^vitepress$/,
         replacement: resolve(dir, '../../src/client/index.js')

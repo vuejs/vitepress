@@ -8,7 +8,7 @@
 
 ### Требования {#prerequisites}
 
-- [Node.js](https://nodejs.org/) версии 18 или выше.
+- [Node.js](https://nodejs.org/) версии 20 или выше.
 - Терминал для доступа к VitePress через интерфейс командной строки (CLI).
 - Текстовый редактор с поддержкой синтаксиса [Markdown](https://ru.wikipedia.org/wiki/Markdown).
   - Рекомендуется использовать [VSCode](https://code.visualstudio.com/), а также [официальное расширение Vue](https://marketplace.visualstudio.com/items?itemName=Vue.volar).

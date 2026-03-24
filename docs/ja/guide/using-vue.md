@@ -16,9 +16,9 @@ Vue の使用は SSR 互換である必要があります。詳細と一般的�
 
 **入力**
 
- ```md
- {{ 1 + 1 }}
- ```
+```md
+{{ 1 + 1 }}
+```
 
 **出力**
 
@@ -30,9 +30,9 @@ Vue の使用は SSR 互換である必要があります。詳細と一般的�
 
 **入力**
 
- ```html
- <span v-for="i in 3">{{ i }}</span>
- ```
+```html
+<span v-for="i in 3">{{ i }}</span>
+```
 
 **出力**
 
@@ -42,30 +42,30 @@ Vue の使用は SSR 互換である必要があります。詳細と一般的�
 
 Markdown ファイルのルート直下に置く `<script>` と `<style>` タグは、Vue の SFC と同様に動作します（`<script setup>` や `<style module>` などを含む）。大きな違いは `<template>` タグが無い点で、その他のルート直下のコンテンツは Markdown になることです。すべてのタグはフロントマターの**後**に配置してください。
 
- ```html
- ---
- hello: world
- ---
+```md
+---
+hello: world
+---
 
- <script setup>
- import { ref } from 'vue'
+<script setup>
+import { ref } from 'vue'
 
- const count = ref(0)
- </script>
+const count = ref(0)
+</script>
 
- ## Markdown コンテンツ
+## Markdown コンテンツ
 
- 現在の値: {{ count }}
+現在の値: {{ count }}
 
- <button :class="$style.button" @click="count++">Increment</button>
+<button :class="$style.button" @click="count++">Increment</button>
 
- <style module>
- .button {
-   color: red;
-   font-weight: bold;
- }
- </style>
- ```
+<style module>
+.button {
+  color: red;
+  font-weight: bold;
+}
+</style>
+```
 
 ::: warning Markdown での `<style scoped>` は避ける
 Markdown で `<style scoped>` を使うと、そのページ内のすべての要素に特殊な属性を付与する必要があり、ページサイズが大きく膨らみます。ページ単位でローカルスコープが必要な場合は `<style module>` を推奨します。
@@ -75,26 +75,26 @@ VitePress のランタイム API（例：現在ページのメタデータにア
 
 **入力**
 
- ```html
- <script setup>
- import { useData } from 'vitepress'
+```md
+<script setup>
+import { useData } from 'vitepress'
 
- const { page } = useData()
- </script>
+const { page } = useData()
+</script>
 
- <pre>{{ page }}</pre>
- ```
+<pre>{{ page }}</pre>
+```
 
 **出力**
 
- ```json
- {
-   "path": "/using-vue.html",
-   "title": "Using Vue in Markdown",
-   "frontmatter": {},
-   ...
- }
- ```
+```json
+{
+  "path": "/using-vue.html",
+  "title": "Using Vue in Markdown",
+  "frontmatter": {},
+  ...
+}
+```
 
 ## コンポーネントの利用 {#using-components}
 
@@ -104,21 +104,21 @@ Markdown ファイルで、Vue コンポーネントを直接インポートし�
 
 特定のページでしか使わないコンポーネントは、そのページで明示的にインポートするのがおすすめです。これにより適切にコード分割され、該当ページでのみ読み込まれます。
 
- ```md
- <script setup>
- import CustomComponent from '../components/CustomComponent.vue'
- </script>
+```md
+<script setup>
+import CustomComponent from '../components/CustomComponent.vue'
+</script>
 
- # ドキュメント
+# ドキュメント
 
- これはカスタムコンポーネントを使う .md です
+これはカスタムコンポーネントを使う .md です
 
- <CustomComponent />
+<CustomComponent />
 
- ## 続き
+## 続き
 
- ...
- ```
+...
+```
 
 ### グローバル登録 {#registering-components-globally}
 
@@ -132,10 +132,10 @@ Markdown ファイルで、Vue コンポーネントを直接インポートし�
 
 見出し内で Vue コンポーネントを使うこともできますが、次の書き方の違いに注意してください。
 
-| Markdown                                                | 出力 HTML                                   | 解析される見出し |
-| ------------------------------------------------------- | ------------------------------------------- | --------------- |
-| <pre v-pre><code> # text &lt;Tag/&gt; </code></pre>     | `<h1>text <Tag/></h1>`                      | `text`          |
-| <pre v-pre><code> # text \`&lt;Tag/&gt;\` </code></pre> | `<h1>text <code>&lt;Tag/&gt;</code></h1>`   | `text <Tag/>`   |
+| Markdown                                                | 出力 HTML                                 | 解析される見出し |
+| ------------------------------------------------------- | ----------------------------------------- | ---------------- |
+| <pre v-pre><code> # text &lt;Tag/&gt; </code></pre>     | `<h1>text <Tag/></h1>`                    | `text`           |
+| <pre v-pre><code> # text \`&lt;Tag/&gt;\` </code></pre> | `<h1>text <code>&lt;Tag/&gt;</code></h1>` | `text <Tag/>`    |
 
 `<code>` に包まれた HTML はそのまま表示されます。包まれて**いない** HTML だけが Vue によってパースされます。
 
@@ -149,9 +149,9 @@ Markdown ファイルで、Vue コンポーネントを直接インポートし�
 
 **入力**
 
- ```md
- This <span v-pre>{{ will be displayed as-is }}</span>
- ```
+```md
+This <span v-pre>{{ will be displayed as-is }}</span>
+```
 
 **出力**
 
@@ -161,19 +161,19 @@ Markdown ファイルで、Vue コンポーネントを直接インポートし�
 
 段落全体を `v-pre` のカスタムコンテナで囲む方法もあります。
 
- ```md
- ::: v-pre
- {{ This will be displayed as-is }}
- :::
- ```
+```md
+::: v-pre
+{{ This will be displayed as-is }}
+:::
+```
 
 **出力**
 
  <div class="escape-demo">
 
- ::: v-pre
- {{ This will be displayed as-is }}
- :::
+::: v-pre
+{{ This will be displayed as-is }}
+:::
 
  </div>
 
@@ -183,17 +183,17 @@ Markdown ファイルで、Vue コンポーネントを直接インポートし�
 
 **入力**
 
- ````md
- ```js-vue
- Hello {{ 1 + 1 }}
- ```
- ````
+````md
+```js-vue
+Hello {{ 1 + 1 }}
+```
+````
 
 **出力**
 
- ```js-vue
- Hello {{ 1 + 1 }}
- ```
+```js-vue
+Hello {{ 1 + 1 }}
+```
 
 この方法では、一部のトークンが正しくシンタックスハイライトされない場合があります。
 
@@ -201,25 +201,25 @@ Markdown ファイルで、Vue コンポーネントを直接インポートし�
 
 VitePress は CSS プリプロセッサ（`.scss`、`.sass`、`.less`、`.styl`、`.stylus`）を[標準サポート](https://vitejs.dev/guide/features.html#css-pre-processors)しています。Vite 固有のプラグインは不要ですが、各プリプロセッサ本体のインストールは必要です。
 
- ```
- # .scss / .sass
- npm install -D sass
+```
+# .scss / .sass
+npm install -D sass
 
- # .less
- npm install -D less
+# .less
+npm install -D less
 
- # .styl / .stylus
- npm install -D stylus
- ```
+# .styl / .stylus
+npm install -D stylus
+```
 
 その後、Markdown やテーマコンポーネントで次のように使えます。
 
- ```vue
- <style lang="sass">
- .title
-   font-size: 20px
- </style>
- ```
+```vue
+<style lang="sass">
+.title
+  font-size: 20px
+</style>
+```
 
 ## Teleport の利用 {#using-teleports}
 
@@ -231,15 +231,15 @@ VitePress は CSS プリプロセッサ（`.scss`、`.sass`、`.less`、`.styl`�
 <<< @/components/ModalDemo.vue
 :::
 
- ```md
- <ClientOnly>
-   <Teleport to="#modal">
-     <div>
-       // ...
-     </div>
-   </Teleport>
- </ClientOnly>
- ```
+```md
+<ClientOnly>
+  <Teleport to="#modal">
+    <div>
+      // ...
+    </div>
+  </Teleport>
+</ClientOnly>
+```
 
 <script setup>
 import ModalDemo from '../../components/ModalDemo.vue'
@@ -262,27 +262,27 @@ Vue は [Vue - Official VS Code plugin](https://marketplace.visualstudio.com/ite
 
 1. tsconfig/jsconfig の `include` と `vueCompilerOptions.vitePressExtensions` に `.md` パターンを追加します。
 
- ::: code-group
- ```json [tsconfig.json]
- {
-   "include": [
-     "docs/**/*.ts",
-     "docs/**/*.vue",
-     "docs/**/*.md",
-   ],
-   "vueCompilerOptions": {
-     "vitePressExtensions": [".md"],
-   },
- }
- ```
- :::
+::: code-group
+```json [tsconfig.json]
+{
+  "include": [
+    "docs/**/*.ts",
+    "docs/**/*.vue",
+    "docs/**/*.md"
+  ],
+  "vueCompilerOptions": {
+    "vitePressExtensions": [".md"]
+  }
+}
+```
+:::
 
 2. VS Code の設定で、`vue.server.includeLanguages` に `markdown` を追加します。
 
- ::: code-group
- ```json [.vscode/settings.json]
- {
-   "vue.server.includeLanguages": ["vue", "markdown"]
- }
- ```
- :::
+::: code-group
+```json [.vscode/settings.json]
+{
+  "vue.server.includeLanguages": ["vue", "markdown"]
+}
+```
+:::

@@ -92,6 +92,7 @@
  * -------------------------------------------------------------------------- */
 
 .vp-doc p,
+.vp-doc img,
 .vp-doc summary {
   margin: 16px 0;
 }
@@ -235,12 +236,22 @@
   background-color: transparent;
 }
 
+.vp-doc .custom-block .vp-code-group,
+.vp-doc .custom-block [class*='vp-code-block'] {
+  margin-top: 8px;
+}
+
 .vp-doc .custom-block .vp-code-group .tabs {
   margin: 0;
   border-start-start-radius: 8px;
   border-start-end-radius: 8px;
   border-end-end-radius: 0;
   border-end-start-radius: 0;
+}
+
+.vp-doc .custom-block .vp-code-group div[class*='language-'],
+.vp-doc .custom-block [class*='vp-code-block'] div[class*='language-'] {
+  margin-top: 0 !important;
 }
 
 /**

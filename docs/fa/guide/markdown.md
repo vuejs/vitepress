@@ -724,7 +724,7 @@ export default config
 
 ## مبانی
 
-<!--@include: ./parts/basics.md-->
+<!--@@include: ./parts/basics.md-->
 ```
 
 **قسمت فایل** (`parts/basics.md`)
@@ -760,7 +760,7 @@ export default config
 
 ## مبانی
 
-<!--@include: ./parts/basics.md{3,}-->
+<!--@@include: ./parts/basics.md{3,}-->
 ```
 
 **قسمت فایل** (`parts/basics.md`)
@@ -796,8 +796,8 @@ export default config
 
 ## مبانی
 
-<!--@include: ./parts/basics.md#basic-usage{,2}-->
-<!--@include: ./parts/basics.md#basic-usage{5,}-->
+<!--@@include: ./parts/basics.md#basic-usage{,2}-->
+<!--@@include: ./parts/basics.md#basic-usage{5,}-->
 ```
 
 **قسمت فایل** (`parts/basics.md`)
