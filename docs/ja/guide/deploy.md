@@ -205,7 +205,7 @@ HTML の _Auto Minify_ のようなオプションを有効にしないでくだ
 2. プロジェクトのルートに `.gitlab-ci.yml` を作成して、以下を追加します。これにより、コンテンツを更新するたびにサイトがビルド・デプロイされます。
 
    ```yaml [.gitlab-ci.yml]
-   image: node:18
+   image: node:24
    pages:
      cache:
        paths:

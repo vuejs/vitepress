@@ -35,7 +35,8 @@ export const linkPlugin = (
       token.attrGet('class') !== 'header-anchor' // header anchors are already normalized
     ) {
       const hrefAttr = token.attrs![hrefIndex]
-      const url = hrefAttr[1]
+      let [url, frag] = hrefAttr[1].split(':~:', 2)
+      hrefAttr[1] = url
       if (isExternal(url)) {
         Object.entries(externalAttrs).forEach(([key, val]) => {
           token.attrSet(key, val)
@@ -65,6 +66,9 @@ export const linkPlugin = (
         if (hrefAttr[1].startsWith('/')) {
           hrefAttr[1] = `${base}${hrefAttr[1]}`.replace(/\/+/g, '/')
         }
+      }
+      if (frag) {
+        hrefAttr[1] += (hrefAttr[1].includes('#') ? '' : '#') + ':~:' + frag
       }
     }
     return self.renderToken(tokens, idx, options)

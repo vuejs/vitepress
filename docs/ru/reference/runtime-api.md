@@ -17,7 +17,7 @@ interface VitePressData<T = any> {
    */
   site: Ref<SiteData<T>>
   /**
-   * themeConfig from .vitepress/config.js
+   * themeConfig из .vitepress/config.js
    */
   theme: Ref<T>
   /**
@@ -38,6 +38,10 @@ interface VitePressData<T = any> {
   isDark: Ref<boolean>
   dir: Ref<string>
   localeIndex: Ref<string>
+  /**
+   * Текущий хеш адреса
+   */
+  hash: Ref<string>
 }
 
 interface PageData {
@@ -103,6 +107,10 @@ interface Router {
    * обновлено). Верните `false`, чтобы отменить навигацию.
    */
   onBeforePageLoad?: (to: string) => Awaitable<void | boolean>
+  /**
+   * Вызывается после загрузки компонента страницы (перед обновлением компонента страницы).
+   */
+  onAfterPageLoad?: (to: string) => Awaitable<void>
   /**
    * Вызывается после изменения маршрута.
    */

@@ -205,7 +205,7 @@ Cache-Control: max-age=31536000,immutable
 2. 在项目的根目录中创建一个名为 `.gitlab-ci.yml` 的文件，其中包含以下内容。每当你更改内容时，这都会构建和部署你的站点：
 
    ```yaml [.gitlab-ci.yml]
-   image: node:18
+   image: node:24
    pages:
      cache:
        paths:

@@ -63,8 +63,7 @@ const isPageChunk = (
     chunk.facadeModuleId.endsWith('.md')
   )
 
-const cleanUrl = (url: string): string =>
-  url.replace(/#.*$/s, '').replace(/\?.*$/s, '')
+const cleanUrl = (url: string): string => url.replace(/[?#].*$/s, '')
 
 export async function createVitePressPlugin(
   siteConfig: SiteConfig,

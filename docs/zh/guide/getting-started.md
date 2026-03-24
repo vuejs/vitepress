@@ -8,7 +8,7 @@
 
 ### 前置准备 {#prerequisites}
 
-- [Node.js](https://nodejs.org/) 18 及以上版本。
+- [Node.js](https://nodejs.org/) 20 及以上版本。
 - 通过命令行界面 (CLI) 访问 VitePress 的终端。
 - 支持 [Markdown](https://en.wikipedia.org/wiki/Markdown) 语法的编辑器。
   - 推荐 [VSCode](https://code.visualstudio.com/) 及其[官方 Vue 扩展](https://marketplace.visualstudio.com/items?itemName=Vue.volar)。

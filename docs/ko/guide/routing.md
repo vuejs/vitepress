@@ -121,7 +121,7 @@ VitePress로 생성되지 않은 페이지에 연결하려면 전체 URL(새 탭
 
 :::
 
-## 간결한 URL 생성 {#generating-clean-url}
+## 간결한 URL 생성 {#generating-clean-urls}
 
 ::: warning 서버 지원 필요
 VitePress가 간결한 URL을 제공하려면 서버 측 지원이 필요합니다.

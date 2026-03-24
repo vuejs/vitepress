@@ -205,7 +205,7 @@ Não ative opções como _Auto Minify_ para código HTML. Isso removerá coment�
 2. Crie um arquivo chamado `.gitlab-ci.yml` na raiz do seu projeto com o conteúdo abaixo. Isso construirá e implantará seu site sempre que você fizer alterações no conteúdo:
 
    ```yaml [.gitlab-ci.yml]
-   image: node:18
+   image: node:24
    pages:
      cache:
        paths:

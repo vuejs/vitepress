@@ -121,6 +121,7 @@
   kbd,
   samp {
     font-family: var(--vp-font-family-mono);
+    text-autospace: no-autospace;
   }
 
   img,

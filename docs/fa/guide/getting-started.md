@@ -8,7 +8,7 @@
 
 ### پیش‌نیازها {#prerequisites}
 
-- [Node.js](https://nodejs.org/) نسخه 18 یا بالاتر.
+- [Node.js](https://nodejs.org/) نسخه 20 یا بالاتر.
 - ترمینال برای دسترسی به ویت‌پرس از طریق رابط خط فرمان (CLI).
 - ویرایشگر متنی با پشتیبانی از [Markdown](https://en.wikipedia.org/wiki/Markdown).
   - [VSCode](https://code.visualstudio.com/) به همراه [افزونه رسمی Vue](https://marketplace.visualstudio.com/items?itemName=Vue.volar).
