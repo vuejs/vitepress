@@ -397,5 +397,51 @@ describe('node/markdown/plugins/snippet', () => {
         .join('\n')
       expect(extracted).toBe('const x = 1;')
     })
+
+    it('detects JSON-style region markers with double slash and without trailing comma', () => {
+      const lines = [
+        '{',
+        '  "// #region hello": "",',
+        '  "key": true,',
+        '  "// #endregion hello": ""',
+        '}'
+      ]
+      const result = findRegions(lines, 'hello')
+      expect(result).toHaveLength(1)
+      expect(
+        result
+          .flatMap((r) =>
+            lines
+              .slice(r.start, r.end)
+              .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
+          )
+          .join('\n')
+      ).toBe('  "key": true,')
+    })
+
+    it('detects multiple JSON-style regions with the same name', () => {
+      const lines = [
+        '{',
+        '  "// #region hello": "",',
+        '  "one": true,',
+        '  "// #endregion hello": "",',
+        '  "two": false,',
+        '  "/// #region hello": "",',
+        '  "three": true,',
+        '  "//// #endregion hello": "",',
+        '}'
+      ]
+      const result = findRegions(lines, 'hello')
+      expect(result).toHaveLength(2)
+      const extracted = result
+        .flatMap((r) =>
+          lines
+            .slice(r.start, r.end)
+            .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
+        )
+        .join('\n')
+      const expected = ['  "one": true,', '  "three": true,'].join('\n')
+      expect(extracted).toBe(expected)
+    })
   })
 })
