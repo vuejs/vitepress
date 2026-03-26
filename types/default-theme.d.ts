@@ -105,6 +105,11 @@ export namespace DefaultTheme {
     darkModeSwitchTitle?: string
 
     /**
+     * @default 'Switch to system theme'
+     */
+    autoModeSwitchTitle?: string
+
+    /**
      * @default 'Menu'
      */
     sidebarMenuLabel?: string
