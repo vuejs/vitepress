@@ -11,6 +11,7 @@ import {
 import llmstxt from 'vitepress-plugin-llms'
 
 const prod = !!process.env.NETLIFY
+const siteUrl = 'https://vitepress.dev'
 
 export default defineConfig({
   title: 'VitePress',
@@ -71,41 +72,21 @@ export default defineConfig({
   },
 
   sitemap: {
-    hostname: 'https://vitepress.dev',
+    hostname: siteUrl,
     transformItems(items) {
       return items.filter((item) => !item.url.includes('migration'))
     }
   },
 
+  // prettier-ignore
   head: [
-    [
-      'link',
-      { rel: 'icon', type: 'image/svg+xml', href: '/vitepress-logo-mini.svg' }
-    ],
-    [
-      'link',
-      { rel: 'icon', type: 'image/png', href: '/vitepress-logo-mini.png' }
-    ],
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/vitepress-logo-mini.svg' }],
+    ['link', { rel: 'icon', type: 'image/png', href: '/vitepress-logo-mini.png' }],
     ['meta', { name: 'theme-color', content: '#5f67ee' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:site_name', content: 'VitePress' }],
-    [
-      'meta',
-      {
-        property: 'og:image',
-        content: 'https://vitepress.dev/vitepress-og.jpg'
-      }
-    ],
-    ['meta', { property: 'og:url', content: 'https://vitepress.dev/' }],
-    [
-      'script',
-      {
-        src: 'https://cdn.usefathom.com/script.js',
-        'data-site': 'AZBRSFGG',
-        'data-spa': 'auto',
-        defer: ''
-      }
-    ]
+    ['meta', { property: 'og:image', content: new URL('/vitepress-og.jpg', siteUrl).href }],
+    ['script', { src: 'https://cdn.usefathom.com/script.js', 'data-site': 'AZBRSFGG', 'data-spa': 'auto', defer: '' }]
   ],
 
   themeConfig: {
@@ -153,28 +134,25 @@ export default defineConfig({
           firebase: 'logos:firebase'
         }
       }),
-      prod &&
-        llmstxt({
-          workDir: 'en',
-          ignoreFiles: ['index.md']
-        })
+      prod && llmstxt({ workDir: 'en', ignoreFiles: ['index.md'] })
     ],
     experimental: {
       enableNativePlugin: true
     }
   },
 
-  transformPageData: prod
-    ? (pageData, ctx) => {
-        const site = resolveSiteDataByRoute(
-          ctx.siteConfig.site,
-          pageData.relativePath
-        )
-        const title = `${pageData.title || site.title} | ${pageData.description || site.description}`
-        ;((pageData.frontmatter.head ??= []) as HeadConfig[]).push(
-          ['meta', { property: 'og:locale', content: site.lang }],
-          ['meta', { property: 'og:title', content: title }]
-        )
-      }
-    : undefined
+  // prettier-ignore
+  transformPageData: prod ? (pageData, ctx) => {
+    const url = new URL(pageData.relativePath.replace(/(?:(^|\/)index)?\.md$/, '$1'), siteUrl).href
+    const site = resolveSiteDataByRoute(ctx.siteConfig.site, pageData.relativePath)
+    const title = `${pageData.title || site.title} | VitePress`
+    const description = pageData.description || site.description
+
+    ;((pageData.frontmatter.head ??= []) as HeadConfig[]).push(
+      ['meta', { property: 'og:url', content: url }],
+      ['meta', { property: 'og:locale', content: site.lang }],
+      ['meta', { property: 'og:title', content: title }],
+      ['meta', { property: 'og:description', content: description }]
+    )
+  } : undefined
 })
