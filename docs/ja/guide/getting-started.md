@@ -1,3 +1,7 @@
+---
+description: VitePressのインストール、セットアップ、開発サーバーの起動方法を学びましょう。
+---
+
 # はじめに {#getting-started}
 
 ## オンラインで試す {#try-it-online}

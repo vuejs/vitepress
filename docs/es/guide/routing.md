@@ -1,4 +1,5 @@
 ---
+description: Comprende el enrutamiento basado en archivos de VitePress, rutas dinámicas, URLs limpias y reescritura de rutas.
 outline: deep
 ---
 

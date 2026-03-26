@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: 動的ルートとデータローダーを使い、VitePressをヘッドレスCMSと連携する方法。
 ---
 
 # CMS との接続 {#connecting-to-a-cms}

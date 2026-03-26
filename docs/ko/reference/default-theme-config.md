@@ -1,3 +1,7 @@
+---
+description: VitePress 기본 테마에서 사용할 수 있는 모든 구성 옵션의 레퍼런스입니다.
+---
+
 # 기본 테마 구성 {#default-theme-config}
 
 테마 구성은 테마를 커스텀 할 수 있게 해줍니다. 구성 파일에서 `themeConfig` 옵션을 통해 테마 구성을 정의할 수 있습니다:

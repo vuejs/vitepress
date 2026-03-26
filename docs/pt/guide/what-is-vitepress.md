@@ -1,3 +1,7 @@
+---
+description: VitePress é um gerador de sites estáticos projetado para criar sites rápidos e centrados em conteúdo, alimentado por Vite e Vue.
+---
+
 # O que é VitePress? {#what-is-vitepress}
 
 O VitePress é um [Gerador de Site Estático](https://en.wikipedia.org/wiki/Static_site_generator) (SSG) projetado para criar sites rápidos e centrados em conteúdo. Em suma, VitePress utiliza seu conteúdo-fonte escrito em [Markdown](https://en.wikipedia.org/wiki/Markdown), aplica um tema a ele e gera páginas HTML estáticas que podem ser facilmente implantadas em qualquer lugar.

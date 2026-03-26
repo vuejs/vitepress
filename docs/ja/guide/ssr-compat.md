@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: VitePressのテーマコンポーネントやカスタムコードをサーバーサイドレンダリング（SSR）に対応させる方法。
 ---
 
 # SSR 互換性 {#ssr-compatibility}

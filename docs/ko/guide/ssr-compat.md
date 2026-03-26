@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: VitePress 테마 컴포넌트와 커스텀 코드가 서버 사이드 렌더링과 호환되도록 하세요.
 ---
 
 # SSR 호환성 {#ssr-compatibility}

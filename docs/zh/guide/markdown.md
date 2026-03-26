@@ -1,3 +1,7 @@
+---
+description: VitePress 内置的 Markdown 扩展，包括自定义容器、代码块语法高亮、行高亮、代码组等功能。
+---
+
 # Markdown 扩展 {#markdown-extensions}
 
 VitePress 带有内置的 Markdown 扩展。

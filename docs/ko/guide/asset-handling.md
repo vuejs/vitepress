@@ -1,3 +1,7 @@
+---
+description: VitePress에서 이미지, 미디어, 글꼴 등 정적 에셋을 참조하고 처리하는 방법을 알아보세요.
+---
+
 # 에셋 핸들링 {#asset-handling}
 
 ## 정적 에셋 참조하기 {#referencing-static-assets}

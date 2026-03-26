@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: 通过自定义 CSS、组件、布局和插槽来定制和扩展 VitePress 默认主题。
 ---
 
 # 扩展默认主题 {#extending-the-default-theme}

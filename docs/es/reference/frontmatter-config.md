@@ -1,4 +1,5 @@
 ---
+description: Referencia de todas las opciones de configuración de frontmatter disponibles para páginas Markdown de VitePress.
 outline: deep
 ---
 

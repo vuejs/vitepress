@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: VitePressのMarkdownページで利用可能なすべてのフロントマター設定オプションのリファレンス。
 ---
 
 # フロントマター設定 {#frontmatter-config}

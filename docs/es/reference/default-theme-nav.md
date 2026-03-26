@@ -1,3 +1,7 @@
+---
+description: Configura la barra de navegación en el tema predeterminado de VitePress, incluyendo el título del sitio, el logotipo y los enlaces del menú.
+---
+
 # Navegación {#nav}
 
 Refiriéndose a la barra de navegación que se muestra en la parte superior de la página. Contiene el título del sitio, enlaces del menú global, etc.

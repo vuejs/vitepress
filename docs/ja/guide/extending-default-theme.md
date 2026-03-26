@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: VitePressデフォルトテーマをカスタムCSS、コンポーネント、レイアウト、スロットで拡張・カスタマイズする方法。
 ---
 
 # デフォルトテーマの拡張 {#extending-the-default-theme}

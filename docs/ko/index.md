@@ -1,4 +1,5 @@
 ---
+description: VitePress는 마크다운에서 아름다운 문서 사이트를 만들 수 있는 Vite 및 Vue 기반 정적 사이트 생성기입니다.
 layout: home
 
 hero:

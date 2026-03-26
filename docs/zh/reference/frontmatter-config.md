@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: VitePress Markdown 页面所有可用 frontmatter 配置选项的参考。
 ---
 
 # frontmatter 配置 {#frontmatter-config}

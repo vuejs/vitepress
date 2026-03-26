@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: Deploy your VitePress site to popular platforms like Netlify, Vercel, GitHub Pages, and more.
 ---
 
 # Deploy Your VitePress Site

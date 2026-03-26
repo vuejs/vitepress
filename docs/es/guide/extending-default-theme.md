@@ -1,4 +1,5 @@
 ---
+description: Personaliza y extiende el tema predeterminado de VitePress con CSS personalizado, componentes, layouts y slots.
 outline: deep
 ---
 

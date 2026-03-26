@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: VitePress 사이트에 로컬 또는 Algolia 기반 검색을 설정하세요.
 ---
 
 # 검색 {#search}

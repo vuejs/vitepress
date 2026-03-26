@@ -1,3 +1,7 @@
+---
+description: Reference of VitePress runtime APIs including composables, helper functions, and built-in components.
+---
+
 # Runtime API
 
 VitePress offers several built-in APIs to let you access app data. VitePress also comes with a few built-in components that can be used globally.

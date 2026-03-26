@@ -1,3 +1,7 @@
+---
+description: VitePressページ下部に表示されるグローバルフッターの設定方法。
+---
+
 # フッター {#footer}
 
 `themeConfig.footer` を設定すると、ページ下部にグローバルフッターが表示されます。

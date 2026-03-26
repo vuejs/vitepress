@@ -1,3 +1,7 @@
+---
+description: VitePressのMarkdownファイル内でVueコンポーネントや動的テンプレート機能を直接使用する方法。
+---
+
 # MarkdownでVueを使う {#using-vue-in-markdown}
 
 VitePress では、各 Markdown ファイルはまず HTML にコンパイルされ、その後 [Vue の単一ファイルコンポーネント（SFC）](https://vuejs.org/guide/scaling-up/sfc.html) として処理されます。つまり、Markdown 内で Vue のあらゆる機能が使えます。動的テンプレート、Vue コンポーネントの利用、`<script>` タグを追加してページ内ロジックを書くことも可能です。

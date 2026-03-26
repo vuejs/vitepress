@@ -1,3 +1,7 @@
+---
+description: Integra Carbon Ads en tu sitio VitePress usando el soporte integrado del tema predeterminado.
+---
+
 # Carbon Ads {#carbon-ads}
 
 VitePress ha incorporado soporte nativo para [Carbon Ads](https://www.carbonads.net/). Al definir las credenciales de Carbon Ads en la configuración, VitePress mostrará anuncios en la página.

@@ -1,4 +1,5 @@
 ---
+description: Referencia completa de las opciones de configuración del sitio VitePress, incluyendo ajustes a nivel de aplicación, temas y opciones de compilación.
 outline: deep
 ---
 

@@ -1,3 +1,7 @@
+---
+description: VitePress組み込みのMarkdown拡張機能。カスタムコンテナ、コードブロックのシンタックスハイライト、行ハイライト、コードグループなど。
+---
+
 # Markdown 拡張 {#markdown-extensions}
 
 VitePress には組み込みの Markdown 拡張機能が用意されています。

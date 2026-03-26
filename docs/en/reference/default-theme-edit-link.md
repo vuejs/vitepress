@@ -1,3 +1,7 @@
+---
+description: Display an edit link on doc pages to let users suggest changes on GitHub or GitLab.
+---
+
 # Edit Link
 
 ## Site-Level Config

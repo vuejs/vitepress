@@ -1,4 +1,5 @@
 ---
+description: Conecta VitePress a un CMS headless usando rutas dinámicas y cargadores de datos.
 outline: deep
 ---
 

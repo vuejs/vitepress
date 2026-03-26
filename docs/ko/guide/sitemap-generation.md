@@ -1,3 +1,7 @@
+---
+description: VitePress 사이트의 sitemap.xml 파일을 생성하여 검색 엔진 검색 가능성을 향상시키세요.
+---
+
 # 사이트맵 생성 {#sitemap-generation}
 
 VitePress는 사이트의 `sitemap.xml` 파일 생성을 지원합니다. 이를 활성화하려면 `.vitepress/config.js`에 다음을 추가하십시오:

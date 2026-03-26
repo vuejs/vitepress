@@ -1,3 +1,7 @@
+---
+description: Aprende cómo referenciar y manejar recursos estáticos como imágenes, medios y fuentes en VitePress.
+---
+
 # Manejo de Assets {#asset-handling}
 
 ## Referenciando Assets Estáticos {#referencing-static-assets}
