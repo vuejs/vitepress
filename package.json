@@ -58,7 +58,7 @@
     "dev:node": "DEV=true pnpm build:node -w",
     "dev:shared": "node scripts/copyShared",
     "dev:watch": "node scripts/watchAndCopy",
-    "build": "pnpm build:prepare && pnpm build:client && pnpm build:node",
+    "build": "pnpm build:prepare && pnpm build:client && pnpm build:node && node scripts/webTypes.js",
     "build:prepare": "pnpm clean && node scripts/copyShared",
     "build:client": "vue-tsc --noEmit -p src/client && tsc -p src/client && node scripts/copyClient",
     "build:node": "tsc -p src/node --noEmit && rollup --config rollup.config.ts --configPlugin esbuild",
@@ -209,5 +209,6 @@
       "optional": true
     }
   },
-  "packageManager": "pnpm@10.32.1"
+  "packageManager": "pnpm@10.32.1",
+  "web-types": "./dist/web-types.json"
 }
