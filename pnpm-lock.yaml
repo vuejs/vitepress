@@ -11,7 +11,7 @@ overrides:
 patchedDependencies:
   '@types/markdown-it-attrs':
     hash: ef05082c7886d283042ddf9103f1408fc36fd8665ef278c82b3da0659441dfb6
-    path: patches/@types__markdown-it-attrs.patch
+    path: patches/@types__markdown-it-attrs@4.1.3.patch
   '@types/mdurl@2.0.0':
     hash: 3460e7d18ce390685cf4b8d8237fb20df9ad952c1336f479995a508a6395bfa4
     path: patches/@types__mdurl@2.0.0.patch
@@ -340,8 +340,8 @@ importers:
         specifier: workspace:*
         version: link:..
       vitepress-plugin-group-icons:
-        specifier: ^1.7.2
-        version: 1.7.2(@types/node@25.5.0)(esbuild@0.27.4)(jiti@1.21.7)(yaml@2.8.3)
+        specifier: 1.7.1
+        version: 1.7.1(@types/node@25.5.0)(esbuild@0.27.4)(jiti@1.21.7)(yaml@2.8.3)
       vitepress-plugin-llms:
         specifier: ^1.12.0
         version: 1.12.0
@@ -1231,8 +1231,8 @@ packages:
   '@vitest/pretty-format@4.0.0-beta.4':
     resolution: {integrity: sha512-BW9Y/t5tGLFi1DgNzs9R4EDqh3MVGiPFBTPGZLK+Y7jBUOFINmLTYTVz1iDnSFLwTOpHxAQfERyOmcu429OQog==}
 
-  '@vitest/pretty-format@4.1.1':
-    resolution: {integrity: sha512-GM+TEQN5WhOygr1lp7skeVjdLPqqWMHsfzXrcHAqZJi/lIVh63H0kaRCY8MDhNWikx19zBUK8ceaLB7X5AH9NQ==}
+  '@vitest/pretty-format@4.1.2':
+    resolution: {integrity: sha512-dwQga8aejqeuB+TvXCMzSQemvV9hNEtDDpgUKDzOmNQayl2OG241PSWeJwKRH3CiC+sESrmoFd49rfnq7T4RnA==}
 
   '@vitest/runner@4.0.0-beta.4':
     resolution: {integrity: sha512-27ptMzYl0dNvN6o1jmKDsEX0gR3IwulSgPwJVvoKSQntUFUqMeQh0jbNtdZj60li49Rxbh/rdSE25D/7ABJAJg==}
@@ -3030,8 +3030,8 @@ packages:
     engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
     hasBin: true
 
-  vitepress-plugin-group-icons@1.7.2:
-    resolution: {integrity: sha512-aGfsaM/0Qvm7nFlaVr+w6h8u+KFuxixj12h3I4N8zrg4NILpg/MXpzpG2r3V3S06DX3wpAtOv/7hp+DsmhzmWw==}
+  vitepress-plugin-group-icons@1.7.1:
+    resolution: {integrity: sha512-3ZPcIqwHNBg1btrOOSecOqv8yJxHdu3W2ugxE5LusclDF005LAm60URMEmBQrkgl4JvM32AqJirqghK6lGIk8g==}
 
   vitepress-plugin-llms@1.12.0:
     resolution: {integrity: sha512-zuzL7a8UJuGl46le5cAy/QxKMGlpSylcsLjDDn6BYPc1u+eP3nzoQk9ne9XFBqrE7exoJlIYJELVN8HMgYlFKQ==}
@@ -3847,7 +3847,7 @@ snapshots:
     dependencies:
       tinyrainbow: 2.0.0
 
-  '@vitest/pretty-format@4.1.1':
+  '@vitest/pretty-format@4.1.2':
     dependencies:
       tinyrainbow: 3.1.0
 
@@ -5762,7 +5762,7 @@ snapshots:
       - tsx
       - yaml
 
-  vitepress-plugin-group-icons@1.7.2(@types/node@25.5.0)(esbuild@0.27.4)(jiti@1.21.7)(yaml@2.8.3):
+  vitepress-plugin-group-icons@1.7.1(@types/node@25.5.0)(esbuild@0.27.4)(jiti@1.21.7)(yaml@2.8.3):
     dependencies:
       '@iconify-json/logos': 1.2.10
       '@iconify-json/vscode-icons': 1.2.45
@@ -5805,7 +5805,7 @@ snapshots:
       '@types/chai': 5.2.3
       '@vitest/expect': 4.0.0-beta.4
       '@vitest/mocker': 4.0.0-beta.4(rolldown-vite@7.3.1(@types/node@25.5.0)(esbuild@0.27.4)(jiti@1.21.7)(yaml@2.8.3))
-      '@vitest/pretty-format': 4.1.1
+      '@vitest/pretty-format': 4.1.2
       '@vitest/runner': 4.0.0-beta.4
       '@vitest/snapshot': 4.0.0-beta.4
       '@vitest/spy': 4.0.0-beta.4
