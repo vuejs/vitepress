@@ -51,7 +51,7 @@ function toggle() {
 
 <style scoped>
 .VPNavScreenMenuGroup {
-  border-bottom: 1px solid var(--vp-c-divider);
+  border-block-end: 1px solid var(--vp-c-divider);
   height: 48px;
   overflow: hidden;
   transition: border-color 0.5s;
@@ -66,12 +66,12 @@ function toggle() {
 }
 
 .VPNavScreenMenuGroup.open {
-  padding-bottom: 10px;
+  padding-block-end: 10px;
   height: auto;
 }
 
 .VPNavScreenMenuGroup.open .button {
-  padding-bottom: 6px;
+  padding-block-end: 6px;
   color: var(--vp-c-brand-1);
 }
 
@@ -84,7 +84,8 @@ function toggle() {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 4px 11px 0;
+  padding-block: 12px 11px;
+  padding-inline: 0 4px;
   width: 100%;
   line-height: 24px;
   font-size: 14px;
@@ -102,11 +103,11 @@ function toggle() {
 }
 
 .group:first-child {
-  padding-top: 0px;
+  padding-block-start: 0px;
 }
 
 .group + .group,
 .group + .item {
-  padding-top: 4px;
+  padding-block-start: 4px;
 }
 </style>
