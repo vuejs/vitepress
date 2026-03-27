@@ -59,6 +59,7 @@ interface PageData {
   params?: Record<string, any>
   isNotFound?: boolean
   lastUpdated?: number
+  created?: number
 }
 ```
 
