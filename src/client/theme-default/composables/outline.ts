@@ -1,6 +1,6 @@
 import { getScrollOffset } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
-import { onMounted, onUnmounted, onUpdated, type Ref } from 'vue'
+import { onMounted, onUnmounted, onUpdated, type Ref, watch } from 'vue'
 import { throttleAndDebounce } from '../support/utils'
 import { useAside } from './aside'
 
@@ -77,32 +77,24 @@ export function resolveHeaders(
   return buildTree(headers, high, low)
 }
 
-export function useActiveAnchor(
-  container: Ref<HTMLElement>,
-  marker: Ref<HTMLElement>
-): void {
-  const { isAsideEnabled } = useAside()
-
-  const onScroll = throttleAndDebounce(setActiveLink, 100)
-
+function useBaseActiveAnchor(
+  container: Ref<HTMLElement | undefined>,
+  marker: Ref<HTMLElement | undefined>,
+  isEnabled: Ref<boolean>,
+  options: {
+    topOffset: number;
+    defaultTop: string;
+    onEnable?: () => void;
+  },
+  prevActiveLinkRef?: { current: HTMLAnchorElement | null }
+): {
+  setActiveLink: () => void;
+  activateLink: (hash: string | null) => void;
+} {
   let prevActiveLink: HTMLAnchorElement | null = null
 
-  onMounted(() => {
-    requestAnimationFrame(setActiveLink)
-    window.addEventListener('scroll', onScroll)
-  })
-
-  onUpdated(() => {
-    // sidebar update means a route change
-    activateLink(location.hash)
-  })
-
-  onUnmounted(() => {
-    window.removeEventListener('scroll', onScroll)
-  })
-
   function setActiveLink() {
-    if (!isAsideEnabled.value) {
+    if (!isEnabled.value || !container.value || !marker.value) {
       return
     }
 
@@ -150,29 +142,118 @@ export function useActiveAnchor(
   }
 
   function activateLink(hash: string | null) {
+    if (!container.value || !marker.value) {
+      return
+    }
+
     if (prevActiveLink) {
       prevActiveLink.classList.remove('active')
     }
 
     if (hash == null) {
       prevActiveLink = null
+      marker.value.style.top = options.defaultTop
+      marker.value.style.opacity = '0'
     } else {
       prevActiveLink = container.value.querySelector(
         `a[href="${decodeURIComponent(hash)}"]`
       )
+
+      if (prevActiveLink) {
+        prevActiveLink.classList.add('active')
+        marker.value.style.top = prevActiveLink.offsetTop + options.topOffset + 'px'
+        marker.value.style.opacity = '1'
+      } else {
+        marker.value.style.opacity = '0'
+      }
     }
 
-    const activeLink = prevActiveLink
-
-    if (activeLink) {
-      activeLink.classList.add('active')
-      marker.value.style.top = activeLink.offsetTop + 39 + 'px'
-      marker.value.style.opacity = '1'
-    } else {
-      marker.value.style.top = '33px'
-      marker.value.style.opacity = '0'
+    // Update external ref if provided
+    if (prevActiveLinkRef) {
+      prevActiveLinkRef.current = prevActiveLink
     }
   }
+
+  return {
+    setActiveLink,
+    activateLink
+  }
+}
+
+export function useActiveAnchor(
+  container: Ref<HTMLElement>,
+  marker: Ref<HTMLElement>
+): void {
+  const { isAsideEnabled } = useAside()
+
+  const { setActiveLink, activateLink } = useBaseActiveAnchor(
+    container,
+    marker,
+    isAsideEnabled,
+    {
+      topOffset: 39,
+      defaultTop: '33px'
+    }
+  )
+
+  const onScroll = throttleAndDebounce(setActiveLink, 100)
+
+  onMounted(() => {
+    requestAnimationFrame(setActiveLink)
+    window.addEventListener('scroll', onScroll)
+  })
+
+  onUpdated(() => {
+    // sidebar update means a route change
+    activateLink(location.hash)
+  })
+
+  onUnmounted(() => {
+    window.removeEventListener('scroll', onScroll)
+  })
+}
+
+export function useFloatActiveAnchor(
+  container: Ref<HTMLElement | undefined>,
+  marker: Ref<HTMLElement | undefined>,
+  isEnabled: Ref<boolean>
+): void {
+  // Use a ref to track prevActiveLink so it can be shared between scopes
+  const prevActiveLinkRef = { current: null as HTMLAnchorElement | null }
+
+  const { setActiveLink, activateLink } = useBaseActiveAnchor(
+    container,
+    marker,
+    isEnabled,
+    {
+      topOffset: 6,
+      defaultTop: '57px'
+    },
+    prevActiveLinkRef
+  )
+
+  const onScroll = throttleAndDebounce(setActiveLink, 100)
+
+  watch(isEnabled, (newValue, oldValue) => {
+    if (newValue && !oldValue) {
+      requestAnimationFrame(() => {
+        setActiveLink()
+        if (prevActiveLinkRef.current && container.value) {
+          container.value.scrollTop = prevActiveLinkRef.current.offsetTop - 8
+        }
+      })
+      window.addEventListener('scroll', onScroll)
+    } else if (!newValue && oldValue) {
+      window.removeEventListener('scroll', onScroll)
+    }
+
+  })
+  onUpdated(() => {
+    // Update active link on content update
+    if (isEnabled.value) {
+      activateLink(location.hash)
+    }
+  })
 }
 
 function getAbsoluteTop(element: HTMLElement): number {
