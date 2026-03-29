@@ -33,6 +33,7 @@ const hasExtraContent = computed(
       <template v-for="locale in localeLinks" :key="locale.link">
         <VPMenuLink
           :item="locale"
+          :external="false"
           :lang="locale.lang"
           :hreflang="locale.lang"
           rel="alternate"
