@@ -306,6 +306,10 @@
   .vp-doc li div[class*='language-'] {
     border-radius: 8px 0 0 8px;
   }
+
+  .vp-doc [class*='language-'] code {
+    padding-right: 64px;
+  }
 }
 
 .vp-doc div[class*='language-'] + div[class*='language-'],
