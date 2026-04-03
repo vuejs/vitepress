@@ -53,6 +53,7 @@ const showFooter = computed(
           v-if="control.prev?.link"
           class="pager-link prev"
           :href="control.prev.link"
+          :target="control.prev.target"
         >
           <span
             class="desc"
@@ -66,6 +67,7 @@ const showFooter = computed(
           v-if="control.next?.link"
           class="pager-link next"
           :href="control.next.link"
+          :target="control.next.target"
         >
           <span
             class="desc"
