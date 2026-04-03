@@ -34,8 +34,15 @@ defineProps<{
 }
 
 kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 12px;
   font-family: inherit;
   font-weight: 500;
+  line-height: 1;
+  text-align: center;
+  vertical-align: middle;
 }
 
 @media (min-width: 768px) {
