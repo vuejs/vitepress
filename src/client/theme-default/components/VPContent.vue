@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { resolveComponent } from 'vue'
 import NotFound from '../NotFound.vue'
 import { useData } from '../composables/data'
 import { useLayout } from '../composables/layout'
@@ -8,6 +9,13 @@ import VPPage from './VPPage.vue'
 
 const { page, frontmatter } = useData()
 const { isHome, hasSidebar } = useLayout()
+
+function resolveLayout(name: string) {
+  const component = resolveComponent(name)
+  // resolveComponent returns the component if registered,
+  // or the name string if not found
+  return typeof component === 'string' ? null : component
+}
 </script>
 
 <template>
@@ -18,44 +26,53 @@ const { isHome, hasSidebar } = useLayout()
   >
     <slot name="not-found" v-if="page.isNotFound"><NotFound /></slot>
 
-    <VPPage v-else-if="frontmatter.layout === 'page'">
-      <template #page-top><slot name="page-top" /></template>
-      <template #page-bottom><slot name="page-bottom" /></template>
-    </VPPage>
+    <template v-else-if="frontmatter.layout === 'page'">
+      <component v-if="resolveLayout('page')" :is="resolveLayout('page')!" />
+      <VPPage v-else>
+        <template #page-top><slot name="page-top" /></template>
+        <template #page-bottom><slot name="page-bottom" /></template>
+      </VPPage>
+    </template>
 
-    <VPHome v-else-if="frontmatter.layout === 'home'">
-      <template #home-hero-before><slot name="home-hero-before" /></template>
-      <template #home-hero-info-before><slot name="home-hero-info-before" /></template>
-      <template #home-hero-info><slot name="home-hero-info" /></template>
-      <template #home-hero-info-after><slot name="home-hero-info-after" /></template>
-      <template #home-hero-actions-after><slot name="home-hero-actions-after" /></template>
-      <template #home-hero-actions-before-actions><slot name="home-hero-actions-before-actions" /></template>
-      <template #home-hero-image><slot name="home-hero-image" /></template>
-      <template #home-hero-after><slot name="home-hero-after" /></template>
-      <template #home-features-before><slot name="home-features-before" /></template>
-      <template #home-features-after><slot name="home-features-after" /></template>
-    </VPHome>
+    <template v-else-if="frontmatter.layout === 'home'">
+      <component v-if="resolveLayout('home')" :is="resolveLayout('home')!" />
+      <VPHome v-else>
+        <template #home-hero-before><slot name="home-hero-before" /></template>
+        <template #home-hero-info-before><slot name="home-hero-info-before" /></template>
+        <template #home-hero-info><slot name="home-hero-info" /></template>
+        <template #home-hero-info-after><slot name="home-hero-info-after" /></template>
+        <template #home-hero-actions-after><slot name="home-hero-actions-after" /></template>
+        <template #home-hero-actions-before-actions><slot name="home-hero-actions-before-actions" /></template>
+        <template #home-hero-image><slot name="home-hero-image" /></template>
+        <template #home-hero-after><slot name="home-hero-after" /></template>
+        <template #home-features-before><slot name="home-features-before" /></template>
+        <template #home-features-after><slot name="home-features-after" /></template>
+      </VPHome>
+    </template>
+
+    <template v-else-if="frontmatter.layout === 'doc' || !frontmatter.layout">
+      <component v-if="resolveLayout('doc')" :is="resolveLayout('doc')!" />
+      <VPDoc v-else>
+        <template #doc-top><slot name="doc-top" /></template>
+        <template #doc-bottom><slot name="doc-bottom" /></template>
+
+        <template #doc-footer-before><slot name="doc-footer-before" /></template>
+        <template #doc-before><slot name="doc-before" /></template>
+        <template #doc-after><slot name="doc-after" /></template>
+
+        <template #aside-top><slot name="aside-top" /></template>
+        <template #aside-outline-before><slot name="aside-outline-before" /></template>
+        <template #aside-outline-after><slot name="aside-outline-after" /></template>
+        <template #aside-ads-before><slot name="aside-ads-before" /></template>
+        <template #aside-ads-after><slot name="aside-ads-after" /></template>
+        <template #aside-bottom><slot name="aside-bottom" /></template>
+      </VPDoc>
+    </template>
 
     <component
-      v-else-if="frontmatter.layout && frontmatter.layout !== 'doc'"
+      v-else
       :is="frontmatter.layout"
     />
-
-    <VPDoc v-else>
-      <template #doc-top><slot name="doc-top" /></template>
-      <template #doc-bottom><slot name="doc-bottom" /></template>
-
-      <template #doc-footer-before><slot name="doc-footer-before" /></template>
-      <template #doc-before><slot name="doc-before" /></template>
-      <template #doc-after><slot name="doc-after" /></template>
-
-      <template #aside-top><slot name="aside-top" /></template>
-      <template #aside-outline-before><slot name="aside-outline-before" /></template>
-      <template #aside-outline-after><slot name="aside-outline-after" /></template>
-      <template #aside-ads-before><slot name="aside-ads-before" /></template>
-      <template #aside-ads-after><slot name="aside-ads-after" /></template>
-      <template #aside-bottom><slot name="aside-bottom" /></template>
-    </VPDoc>
   </div>
 </template>
 
