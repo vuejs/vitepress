@@ -47,6 +47,9 @@ const hashRE = /\.([-\w]+)\.js$/
 const staticInjectMarkerRE = /\bcreateStaticVNode\((?:(".*")|('.*')), (\d+)\)/g
 const staticStripRE = /['"`]__VP_STATIC_START__[^]*?__VP_STATIC_END__['"`]/g
 const staticRestoreRE = /__VP_STATIC_(START|END)__/g
+const templateRE = /<template(?=\s|>)/i
+const vaporTemplateRE = /<template\b[^>]*\bvapor\b/i
+const scriptBlockRE = /<script\b/i
 
 // matches client-side js blocks in MPA mode.
 // in the future we may add different execution strategies like visible or
@@ -84,13 +87,16 @@ export async function createVitePressPlugin(
     cleanUrls
   } = siteConfig
 
+  const { vdomInterop, ...vuePluginOptions } = userVuePluginOptions ?? {}
+  const isVaporMode = !!vuePluginOptions.script?.vapor
+  const useVdomInterop = !!vdomInterop
   let markdownToVue: Awaited<ReturnType<typeof createMarkdownToVueRenderFn>>
 
   // lazy require plugin-vue to respect NODE_ENV in @vue/compiler-x
   const vuePlugin = await import('@vitejs/plugin-vue').then((r) =>
     r.default({
       include: /\.(?:vue|md)$/,
-      ...userVuePluginOptions
+      ...vuePluginOptions
     })
   )
 
@@ -137,7 +143,9 @@ export async function createVitePressPlugin(
             !!site.themeConfig?.algolia, // legacy
           __CARBON__: !!site.themeConfig?.carbonAds,
           __ASSETS_DIR__: JSON.stringify(siteConfig.assetsDir),
-          __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: !!process.env.DEBUG
+          __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: !!process.env.DEBUG,
+          __VAPOR__: isVaporMode,
+          __VAPOR_VDOM_INTEROP__: useVdomInterop
         },
         optimizeDeps: {
           // force include vue to avoid duplicated copies when linked + optimized
@@ -199,6 +207,9 @@ export async function createVitePressPlugin(
         return code.replaceAll('[data-theme=dark]', '.dark')
       }
       if (id.endsWith('.vue')) {
+        if (isVaporMode) {
+          code = injectVaporTemplateForTemplateOnlySfc(code)
+        }
         return processClientJS(code, id)
       }
       if (id.endsWith('.md')) {
@@ -414,6 +425,14 @@ export async function createVitePressPlugin(
     staticDataPlugin,
     await dynamicRoutesPlugin(siteConfig)
   ]
+}
+
+function injectVaporTemplateForTemplateOnlySfc(code: string) {
+  if (scriptBlockRE.test(code) || vaporTemplateRE.test(code)) {
+    return code
+  }
+
+  return code.replace(templateRE, '<template vapor')
 }
 
 function logDeadLinks(

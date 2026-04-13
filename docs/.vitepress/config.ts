@@ -150,6 +150,14 @@ export default defineConfig({
       enableNativePlugin: true
     }
   },
+  vue: {
+    // allow VDOM and Vapor components to be used together
+    vdomInterop: true,
+    script: {
+      // force enable Vapor Mode
+      vapor: true
+    }
+  },
 
   // prettier-ignore
   transformPageData: prod ? (pageData, ctx) => {

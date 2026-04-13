@@ -3,13 +3,18 @@ import type { DocSearchInstance, DocSearchProps } from '@docsearch/js'
 import type { SidepanelInstance, SidepanelProps } from '@docsearch/sidepanel-js'
 import { inBrowser, useRouter } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
-import { nextTick, onUnmounted, watch } from 'vue'
+import { nextTick, onBeforeMount, onUnmounted, watch } from 'vue'
 import type { DocSearchAskAi } from '../../../../types/docsearch'
 import { useData } from '../composables/data'
 import { resolveMode, validateCredentials } from '../support/docsearch'
 
 import '../styles/docsearch.css'
-
+const emit = defineEmits<{
+  (e: 'beforeMount'): void
+}>()
+onBeforeMount(()=>{
+  emit('beforeMount')
+})
 const props = defineProps<{
   algoliaOptions: DefaultTheme.AlgoliaSearchOptions
   openRequest?: {
