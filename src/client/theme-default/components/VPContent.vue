@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { resolveComponent } from 'vue'
+import { resolveDynamicComponent } from 'vue'
 import NotFound from '../NotFound.vue'
 import { useData } from '../composables/data'
 import { useLayout } from '../composables/layout'
@@ -10,9 +10,8 @@ import VPPage from './VPPage.vue'
 const { page, frontmatter } = useData()
 const { isHome, hasSidebar } = useLayout()
 
-function resolveLayout(name: string) {
-  const component = resolveComponent(name)
-  return typeof component === 'string' ? null : component
+function isRegistered(component: string): boolean {
+  return typeof resolveDynamicComponent(component) !== 'string'
 }
 </script>
 
@@ -24,12 +23,12 @@ function resolveLayout(name: string) {
   >
     <slot name="not-found" v-if="page.isNotFound"><NotFound /></slot>
 
-    <VPPage v-else-if="frontmatter.layout === 'page' && !resolveLayout('page')">
+    <VPPage v-else-if="frontmatter.layout === 'page' && !isRegistered('page')">
       <template #page-top><slot name="page-top" /></template>
       <template #page-bottom><slot name="page-bottom" /></template>
     </VPPage>
 
-    <VPHome v-else-if="frontmatter.layout === 'home' && !resolveLayout('home')">
+    <VPHome v-else-if="frontmatter.layout === 'home' && !isRegistered('home')">
       <template #home-hero-before><slot name="home-hero-before" /></template>
       <template #home-hero-info-before><slot name="home-hero-info-before" /></template>
       <template #home-hero-info><slot name="home-hero-info" /></template>
@@ -42,7 +41,7 @@ function resolveLayout(name: string) {
       <template #home-features-after><slot name="home-features-after" /></template>
     </VPHome>
 
-    <VPDoc v-else-if="(!frontmatter.layout || frontmatter.layout === 'doc') && !resolveLayout('doc')">
+    <VPDoc v-else-if="(!frontmatter.layout || frontmatter.layout === 'doc') && !isRegistered('doc')">
       <template #doc-top><slot name="doc-top" /></template>
       <template #doc-bottom><slot name="doc-bottom" /></template>
 
