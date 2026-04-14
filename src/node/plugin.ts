@@ -289,7 +289,9 @@ export async function createVitePressPlugin(
     },
 
     renderChunk(code, chunk) {
-      if (!ssr && isPageChunk(chunk as Rollup.OutputChunk)) {
+      // This is a VDOM-only optimization: Vapor uses template() strings that
+      // are needed during hydration and should not be stripped this way.
+      if (!ssr && !isVaporMode && isPageChunk(chunk as Rollup.OutputChunk)) {
         // For each page chunk, inject marker for start/end of static strings.
         // we do this here because in generateBundle the chunks would have been
         // minified and we won't be able to safely locate the strings.
