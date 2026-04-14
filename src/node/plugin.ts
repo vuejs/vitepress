@@ -47,9 +47,6 @@ const hashRE = /\.([-\w]+)\.js$/
 const staticInjectMarkerRE = /\bcreateStaticVNode\((?:(".*")|('.*')), (\d+)\)/g
 const staticStripRE = /['"`]__VP_STATIC_START__[^]*?__VP_STATIC_END__['"`]/g
 const staticRestoreRE = /__VP_STATIC_(START|END)__/g
-const templateRE = /<template(?=\s|>)/i
-const vaporTemplateRE = /<template\b[^>]*\bvapor\b/i
-const scriptBlockRE = /<script\b/i
 
 // matches client-side js blocks in MPA mode.
 // in the future we may add different execution strategies like visible or
@@ -88,7 +85,7 @@ export async function createVitePressPlugin(
   } = siteConfig
 
   const { vdomInterop, ...vuePluginOptions } = userVuePluginOptions ?? {}
-  const isVaporMode = !!vuePluginOptions.script?.vapor
+  const isVaporMode = !!vuePluginOptions.features?.vapor
   const useVdomInterop = !!vdomInterop
   let markdownToVue: Awaited<ReturnType<typeof createMarkdownToVueRenderFn>>
 
@@ -207,9 +204,6 @@ export async function createVitePressPlugin(
         return code.replaceAll('[data-theme=dark]', '.dark')
       }
       if (id.endsWith('.vue')) {
-        if (isVaporMode) {
-          code = injectVaporTemplateForTemplateOnlySfc(code)
-        }
         return processClientJS(code, id)
       }
       if (id.endsWith('.md')) {
@@ -425,14 +419,6 @@ export async function createVitePressPlugin(
     staticDataPlugin,
     await dynamicRoutesPlugin(siteConfig)
   ]
-}
-
-function injectVaporTemplateForTemplateOnlySfc(code: string) {
-  if (scriptBlockRE.test(code) || vaporTemplateRE.test(code)) {
-    return code
-  }
-
-  return code.replace(templateRE, '<template vapor')
 }
 
 function logDeadLinks(

@@ -104,7 +104,7 @@
     "@shikijs/transformers": "^4.0.2",
     "@shikijs/types": "^4.0.2",
     "@types/markdown-it": "^14.1.2",
-    "@vitejs/plugin-vue": "^6.0.6",
+    "@vitejs/plugin-vue": "https://pkg.pr.new/@vitejs/plugin-vue@766",
     "@vue/devtools-api": "^8.1.1",
     "@vue/shared": "^3.5.31",
     "@vueuse/core": "^14.2.1",

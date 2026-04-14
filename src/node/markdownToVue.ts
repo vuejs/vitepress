@@ -242,7 +242,7 @@ export async function createMarkdownToVueRenderFn(
       ...injectPageDataCode(
         sfcBlocks?.scripts.map((item) => item.content) ?? [],
         pageData,
-        siteConfig.vue?.script?.vapor
+        siteConfig.vue?.features?.vapor
       ),
       `<template><div>${html}</div></template>`,
       ...(sfcBlocks?.styles.map((item) => item.content) ?? []),
@@ -261,19 +261,13 @@ const scriptRE = /<\/script>/
 const scriptLangTsRE = /<\s*script[^>]*\blang=['"]ts['"][^>]*/
 const scriptSetupRE = /<\s*script[^>]*\bsetup\b[^>]*/
 const scriptClientRE = /<\s*script[^>]*\bclient\b[^>]*/
-const scriptVaporRE = /<\s*script[^>]*\bvapor\b[^>]*/
 const defaultExportRE = /((?:^|\n|;)\s*)export(\s*)default/
 const namedDefaultExportRE = /((?:^|\n|;)\s*)export(.+)as(\s*)default/
-const defineOptionsRE = /\bdefineOptions\s*\(/
 
 function injectPageDataCode(tags: string[], data: PageData, vapor?: boolean) {
   const code = `\nexport const __pageData = JSON.parse(${JSON.stringify(
     JSON.stringify(data)
   )})`
-
-  if (vapor) {
-    return injectVaporPageDataCode(tags, data, code)
-  }
 
   const existingScriptIndex = tags.findIndex((tag) => {
     return (
@@ -284,6 +278,9 @@ function injectPageDataCode(tags: string[], data: PageData, vapor?: boolean) {
   })
 
   const isUsingTS = tags.findIndex((tag) => scriptLangTsRE.test(tag)) > -1
+  const defaultExportCode = `\nexport default {name:${JSON.stringify(
+    data.relativePath
+  )}${vapor ? `,__vapor:true` : ``}}`
 
   if (existingScriptIndex > -1) {
     const tagSrc = tags[existingScriptIndex]
@@ -293,79 +290,17 @@ function injectPageDataCode(tags: string[], data: PageData, vapor?: boolean) {
       defaultExportRE.test(tagSrc) || namedDefaultExportRE.test(tagSrc)
     tags[existingScriptIndex] = tagSrc.replace(
       scriptRE,
-      code +
-        (hasDefaultExport
-          ? ``
-          : `\nexport default {name:${JSON.stringify(data.relativePath)}}`) +
-        `</script>`
+      code + (hasDefaultExport ? `` : defaultExportCode) + `</script>`
     )
   } else {
     tags.unshift(
       `<script ${
         isUsingTS ? 'lang="ts"' : ''
-      }>${code}\nexport default {name:${JSON.stringify(
-        data.relativePath
-      )}}</script>`
+      }>${code}${defaultExportCode}</script>`
     )
   }
 
   return tags
-}
-
-function injectVaporPageDataCode(tags: string[], data: PageData, code: string) {
-  const isUsingTS = tags.findIndex((tag) => scriptLangTsRE.test(tag)) > -1
-  const existingScriptIndex = tags.findIndex((tag) => {
-    return (
-      scriptRE.test(tag) &&
-      !scriptSetupRE.test(tag) &&
-      !scriptClientRE.test(tag)
-    )
-  })
-
-  if (existingScriptIndex > -1) {
-    tags[existingScriptIndex] = tags[existingScriptIndex].replace(
-      scriptRE,
-      `${code}</script>`
-    )
-  } else {
-    tags.unshift(`<script ${isUsingTS ? 'lang="ts"' : ''}>${code}</script>`)
-  }
-
-  const scriptSetupIndex = tags.findIndex((tag) => {
-    return (
-      scriptRE.test(tag) && scriptSetupRE.test(tag) && !scriptClientRE.test(tag)
-    )
-  })
-
-  const optionsCode = `\ndefineOptions({ name: ${JSON.stringify(
-    data.relativePath
-  )} })`
-
-  if (scriptSetupIndex > -1) {
-    let tag = ensureVaporScriptSetup(tags[scriptSetupIndex])
-    if (!defineOptionsRE.test(tag)) {
-      tag = tag.replace(scriptRE, `${optionsCode}\n</script>`)
-    }
-    tags[scriptSetupIndex] = tag
-  } else {
-    tags.splice(
-      existingScriptIndex > -1 ? existingScriptIndex + 1 : 1,
-      0,
-      `<script setup ${isUsingTS ? 'lang="ts" ' : ''}vapor>${optionsCode}\n</script>`
-    )
-  }
-
-  return tags
-}
-
-function ensureVaporScriptSetup(tag: string) {
-  if (scriptVaporRE.test(tag)) {
-    return tag
-  }
-
-  return tag.replace(/<\s*script\b([^>]*)>/, (open) =>
-    open.replace(/>$/, ' vapor>')
-  )
 }
 
 const inferTitle = (

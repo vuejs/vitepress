@@ -153,7 +153,7 @@ export default defineConfig({
   vue: {
     // allow VDOM and Vapor components to be used together
     vdomInterop: true,
-    script: {
+    features: {
       // force enable Vapor Mode
       vapor: true
     }
