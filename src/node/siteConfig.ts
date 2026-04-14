@@ -25,7 +25,7 @@ export type RawConfigExports<ThemeConfig = any> =
 
 export interface VitePressVuePluginOptions extends VuePluginOptions {
   /**
-   * Install Vue's VDOM interop plugin for mixed VDOM and Vapor components.
+   * Install Vue's Vapor interop plugin for mixed VDOM and Vapor components.
    */
   vaporInterop?: boolean
 }
