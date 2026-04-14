@@ -1,4 +1,4 @@
-<script lang="ts" setup vapor>
+<script lang="ts" setup>
 import {useSlots} from 'vue'
 const slots = useSlots()
 </script>
