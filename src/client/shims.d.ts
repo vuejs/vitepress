@@ -5,7 +5,7 @@ declare const __CARBON__: boolean
 declare const __VUE_PROD_DEVTOOLS__: boolean
 declare const __ASSETS_DIR__: string
 declare const __VAPOR__: boolean
-declare const __VAPOR_VDOM_INTEROP__: boolean
+declare const __VAPOR_INTEROP__: boolean
 
 declare module '*.vue' {
   import type { DefineComponent } from 'vue'

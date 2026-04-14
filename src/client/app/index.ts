@@ -158,7 +158,7 @@ function newApp(): App {
     : import.meta.env.PROD
       ? createSSRApp(VitePressApp)
       : createClientApp(VitePressApp)
-  if (__VAPOR_VDOM_INTEROP__) {
+  if (__VAPOR_INTEROP__) {
     app.use(vaporInteropPlugin)
   }
   return app

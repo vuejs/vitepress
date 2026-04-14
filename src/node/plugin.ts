@@ -84,9 +84,8 @@ export async function createVitePressPlugin(
     cleanUrls
   } = siteConfig
 
-  const { vdomInterop, ...vuePluginOptions } = userVuePluginOptions ?? {}
+  const { vaporInterop, ...vuePluginOptions } = userVuePluginOptions ?? {}
   const isVaporMode = !!vuePluginOptions.features?.vapor
-  const useVdomInterop = !!vdomInterop
   let markdownToVue: Awaited<ReturnType<typeof createMarkdownToVueRenderFn>>
 
   // lazy require plugin-vue to respect NODE_ENV in @vue/compiler-x
@@ -142,7 +141,7 @@ export async function createVitePressPlugin(
           __ASSETS_DIR__: JSON.stringify(siteConfig.assetsDir),
           __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: !!process.env.DEBUG,
           __VAPOR__: isVaporMode,
-          __VAPOR_VDOM_INTEROP__: useVdomInterop
+          __VAPOR_INTEROP__: !!vaporInterop
         },
         optimizeDeps: {
           // force include vue to avoid duplicated copies when linked + optimized

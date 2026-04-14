@@ -27,7 +27,7 @@ export interface VitePressVuePluginOptions extends VuePluginOptions {
   /**
    * Install Vue's VDOM interop plugin for mixed VDOM and Vapor components.
    */
-  vdomInterop?: boolean
+  vaporInterop?: boolean
 }
 
 export interface TransformContext<ThemeConfig = any> {

@@ -151,10 +151,12 @@ export default defineConfig({
     }
   },
   vue: {
-    // allow VDOM and Vapor components to be used together
-    vdomInterop: true,
+    // This enables interop between the VDOM and Vapor components.
+    vaporInterop: true,
     features: {
-      // force enable Vapor Mode
+      // Force `.vue` and `.md` files to be compiled as Vapor components.
+      // Only `.vue` files using `<script setup>` are supported.
+      // Non-`<script setup>` components require `vaporInterop: true`.
       vapor: true
     }
   },
