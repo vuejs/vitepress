@@ -23,6 +23,13 @@ export type RawConfigExports<ThemeConfig = any> =
   | Awaitable<UserConfig<ThemeConfig>>
   | (() => Awaitable<UserConfig<ThemeConfig>>)
 
+export interface VitePressVuePluginOptions extends VuePluginOptions {
+  /**
+   * Install Vue's Vapor interop plugin for mixed VDOM and Vapor components.
+   */
+  vaporInterop?: boolean
+}
+
 export interface TransformContext<ThemeConfig = any> {
   page: string
   siteConfig: SiteConfig<ThemeConfig>
@@ -75,7 +82,7 @@ export interface UserConfig<
   /**
    * Options to pass on to `@vitejs/plugin-vue`
    */
-  vue?: VuePluginOptions
+  vue?: VitePressVuePluginOptions
   /**
    * Vite config
    */

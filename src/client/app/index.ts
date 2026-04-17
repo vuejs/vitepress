@@ -1,12 +1,18 @@
 import RawTheme from '@theme/index'
 import {
   createApp as createClientApp,
+  createComponent,
   createSSRApp,
+  createVaporApp,
+  createVaporSSRApp,
   defineComponent,
+  defineVaporComponent,
   h,
   onMounted,
+  vaporInteropPlugin,
   watchEffect,
-  type App
+  type App,
+  type VaporComponent
 } from 'vue'
 import { ClientOnly } from './components/ClientOnly'
 import { Content } from './components/Content'
@@ -34,34 +40,63 @@ function resolveThemeExtends(theme: typeof RawTheme): typeof RawTheme {
 }
 
 const Theme = resolveThemeExtends(RawTheme)
+const inVaporMode = !import.meta.env.SSR && __VAPOR__
 
-const VitePressApp = defineComponent({
-  name: 'VitePressApp',
-  setup() {
-    const { site, lang, dir } = useData()
+const VitePressApp = inVaporMode
+  ? defineVaporComponent({
+      name: 'VitePressApp',
+      setup() {
+        const { site, lang, dir } = useData()
 
-    // change the language on the HTML element based on the current lang
-    onMounted(() => {
-      watchEffect(() => {
-        document.documentElement.lang = lang.value
-        document.documentElement.dir = dir.value
-      })
+        // change the language on the HTML element based on the current lang
+        onMounted(() => {
+          watchEffect(() => {
+            document.documentElement.lang = lang.value
+            document.documentElement.dir = dir.value
+          })
+        })
+
+        if (import.meta.env.PROD && site.value.router.prefetchLinks) {
+          // in prod mode, enable intersectionObserver based pre-fetch
+          usePrefetch()
+        }
+
+        // setup global copy code handler
+        useCopyCode()
+        // setup global code groups handler
+        useCodeGroups()
+
+        if (Theme.setup) Theme.setup()
+        return createComponent(Theme.Layout! as VaporComponent)
+      }
     })
+  : defineComponent({
+      name: 'VitePressApp',
+      setup() {
+        const { site, lang, dir } = useData()
 
-    if (import.meta.env.PROD && site.value.router.prefetchLinks) {
-      // in prod mode, enable intersectionObserver based pre-fetch
-      usePrefetch()
-    }
+        // change the language on the HTML element based on the current lang
+        onMounted(() => {
+          watchEffect(() => {
+            document.documentElement.lang = lang.value
+            document.documentElement.dir = dir.value
+          })
+        })
 
-    // setup global copy code handler
-    useCopyCode()
-    // setup global code groups handler
-    useCodeGroups()
+        if (import.meta.env.PROD && site.value.router.prefetchLinks) {
+          // in prod mode, enable intersectionObserver based pre-fetch
+          usePrefetch()
+        }
 
-    if (Theme.setup) Theme.setup()
-    return () => h(Theme.Layout!)
-  }
-})
+        // setup global copy code handler
+        useCopyCode()
+        // setup global code groups handler
+        useCodeGroups()
+
+        if (Theme.setup) Theme.setup()
+        return () => h(Theme.Layout!)
+      }
+    })
 
 export async function createApp() {
   ;(globalThis as any).__VITEPRESS__ = true
@@ -112,9 +147,21 @@ export async function createApp() {
 }
 
 function newApp(): App {
-  return import.meta.env.PROD
-    ? createSSRApp(VitePressApp)
-    : createClientApp(VitePressApp)
+  if (import.meta.env.SSR) {
+    return createSSRApp(VitePressApp)
+  }
+
+  const app = inVaporMode
+    ? import.meta.env.PROD
+      ? createVaporSSRApp(VitePressApp as VaporComponent)
+      : createVaporApp(VitePressApp as VaporComponent)
+    : import.meta.env.PROD
+      ? createSSRApp(VitePressApp)
+      : createClientApp(VitePressApp)
+  if (__VAPOR_INTEROP__) {
+    app.use(vaporInteropPlugin)
+  }
+  return app
 }
 
 function newRouter(): Router {

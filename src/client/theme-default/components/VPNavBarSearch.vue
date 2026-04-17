@@ -1,19 +1,31 @@
 <script lang="ts" setup>
 import { onKeyStroke } from '@vueuse/core'
 import type { DefaultTheme } from 'vitepress/theme'
-import { computed, defineAsyncComponent, onMounted, ref } from 'vue'
+import {
+  computed,
+  defineAsyncComponent,
+  defineVaporAsyncComponent,
+  onMounted,
+  ref
+} from 'vue'
 import { useData } from '../composables/data'
 import { resolveMode, resolveOptionsForLanguage } from '../support/docsearch'
 import { smartComputed } from '../support/reactivity'
 import VPNavBarAskAiButton from './VPNavBarAskAiButton.vue'
 import VPNavBarSearchButton from './VPNavBarSearchButton.vue'
 
+const inVaporMode = !import.meta.env.SSR && __VAPOR__
+
 const VPLocalSearchBox = __VP_LOCAL_SEARCH__
-  ? defineAsyncComponent(() => import('./VPLocalSearchBox.vue'))
+  ? inVaporMode
+    ? defineVaporAsyncComponent(() => import('./VPLocalSearchBox.vue') as any)
+    : defineAsyncComponent(() => import('./VPLocalSearchBox.vue'))
   : () => null
 
 const VPAlgoliaSearchBox = __ALGOLIA__
-  ? defineAsyncComponent(() => import('./VPAlgoliaSearchBox.vue'))
+  ? inVaporMode
+    ? defineVaporAsyncComponent(() => import('./VPAlgoliaSearchBox.vue') as any)
+    : defineAsyncComponent(() => import('./VPAlgoliaSearchBox.vue'))
   : () => null
 
 const { theme, localeIndex, lang } = useData()
@@ -176,7 +188,7 @@ function isEditingContent(event: KeyboardEvent): boolean {
         v-if="loaded"
         :algolia-options
         :open-request
-        @vue:beforeMount="actuallyLoaded = true"
+        @beforeMount="actuallyLoaded = true"
       />
     </template>
     <template v-else-if="provider === 'local'">

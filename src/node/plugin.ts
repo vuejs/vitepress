@@ -84,13 +84,15 @@ export async function createVitePressPlugin(
     cleanUrls
   } = siteConfig
 
+  const { vaporInterop, ...vuePluginOptions } = userVuePluginOptions ?? {}
+  const isVaporMode = !!vuePluginOptions.features?.vapor
   let markdownToVue: Awaited<ReturnType<typeof createMarkdownToVueRenderFn>>
 
   // lazy require plugin-vue to respect NODE_ENV in @vue/compiler-x
   const vuePlugin = await import('@vitejs/plugin-vue').then((r) =>
     r.default({
       include: /\.(?:vue|md)$/,
-      ...userVuePluginOptions
+      ...vuePluginOptions
     })
   )
 
@@ -137,7 +139,9 @@ export async function createVitePressPlugin(
             !!site.themeConfig?.algolia, // legacy
           __CARBON__: !!site.themeConfig?.carbonAds,
           __ASSETS_DIR__: JSON.stringify(siteConfig.assetsDir),
-          __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: !!process.env.DEBUG
+          __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: !!process.env.DEBUG,
+          __VAPOR__: isVaporMode,
+          __VAPOR_INTEROP__: !!vaporInterop
         },
         optimizeDeps: {
           // force include vue to avoid duplicated copies when linked + optimized
@@ -285,7 +289,9 @@ export async function createVitePressPlugin(
     },
 
     renderChunk(code, chunk) {
-      if (!ssr && isPageChunk(chunk as Rollup.OutputChunk)) {
+      // This is a VDOM-only optimization: Vapor uses template() strings that
+      // are needed during hydration and should not be stripped this way.
+      if (!ssr && !isVaporMode && isPageChunk(chunk as Rollup.OutputChunk)) {
         // For each page chunk, inject marker for start/end of static strings.
         // we do this here because in generateBundle the chunks would have been
         // minified and we won't be able to safely locate the strings.

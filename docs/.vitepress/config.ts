@@ -150,6 +150,16 @@ export default defineConfig({
       enableNativePlugin: true
     }
   },
+  vue: {
+    // This enables interop between the VDOM and Vapor components.
+    vaporInterop: true,
+    features: {
+      // Force `.vue` and `.md` files to be compiled as Vapor components.
+      // Only `.vue` files using `<script setup>` are supported.
+      // Non-`<script setup>` components require `vaporInterop: true`.
+      vapor: true
+    }
+  },
 
   // prettier-ignore
   transformPageData: prod ? (pageData, ctx) => {

@@ -241,7 +241,8 @@ export async function createMarkdownToVueRenderFn(
     const vueSrc = [
       ...injectPageDataCode(
         sfcBlocks?.scripts.map((item) => item.content) ?? [],
-        pageData
+        pageData,
+        siteConfig.vue?.features?.vapor
       ),
       `<template><div>${html}</div></template>`,
       ...(sfcBlocks?.styles.map((item) => item.content) ?? []),
@@ -263,7 +264,7 @@ const scriptClientRE = /<\s*script[^>]*\bclient\b[^>]*/
 const defaultExportRE = /((?:^|\n|;)\s*)export(\s*)default/
 const namedDefaultExportRE = /((?:^|\n|;)\s*)export(.+)as(\s*)default/
 
-function injectPageDataCode(tags: string[], data: PageData) {
+function injectPageDataCode(tags: string[], data: PageData, vapor?: boolean) {
   const code = `\nexport const __pageData = JSON.parse(${JSON.stringify(
     JSON.stringify(data)
   )})`
@@ -277,6 +278,9 @@ function injectPageDataCode(tags: string[], data: PageData) {
   })
 
   const isUsingTS = tags.findIndex((tag) => scriptLangTsRE.test(tag)) > -1
+  const defaultExportCode = `\nexport default {name:${JSON.stringify(
+    data.relativePath
+  )}${vapor ? `,__vapor:true` : ``}}`
 
   if (existingScriptIndex > -1) {
     const tagSrc = tags[existingScriptIndex]
@@ -286,19 +290,13 @@ function injectPageDataCode(tags: string[], data: PageData) {
       defaultExportRE.test(tagSrc) || namedDefaultExportRE.test(tagSrc)
     tags[existingScriptIndex] = tagSrc.replace(
       scriptRE,
-      code +
-        (hasDefaultExport
-          ? ``
-          : `\nexport default {name:${JSON.stringify(data.relativePath)}}`) +
-        `</script>`
+      code + (hasDefaultExport ? `` : defaultExportCode) + `</script>`
     )
   } else {
     tags.unshift(
       `<script ${
         isUsingTS ? 'lang="ts"' : ''
-      }>${code}\nexport default {name:${JSON.stringify(
-        data.relativePath
-      )}}</script>`
+      }>${code}${defaultExportCode}</script>`
     )
   }
 
