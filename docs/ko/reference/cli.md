@@ -1,3 +1,7 @@
+---
+description: dev, build, preview 및 init을 포함한 VitePress CLI 명령어 레퍼런스입니다.
+---
+
 # 명령 줄 인터페이스 {#command-line-interface}
 
 ## `vitepress dev`

@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: 앱 수준 설정, 테마 및 빌드 옵션을 포함한 VitePress 사이트 구성 옵션의 전체 레퍼런스입니다.
 ---
 
 # 사이트 구성 {#site-config}

@@ -1,3 +1,7 @@
+---
+description: Get up and running with VitePress. Learn how to install, scaffold, and start developing your documentation site.
+---
+
 # Getting Started
 
 ## Try It Online

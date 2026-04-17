@@ -1,3 +1,7 @@
+---
+description: 配置 VitePress 默认主题的主页布局，包括 hero 区域、功能特性和自定义内容。
+---
+
 # 主页 {#home-page}
 
 VitePress 默认主题提供了一个首页布局，也可以在[此站点首页](../)看到。可以通过 [frontmatter](./frontmatter-config) 指定 `layout: home` 在任何页面上使用它

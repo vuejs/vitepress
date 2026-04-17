@@ -1,3 +1,7 @@
+---
+description: VitePress built-in Markdown extensions including custom containers, code blocks with syntax highlighting, line highlighting, code groups, and more.
+---
+
 # Markdown Extensions
 
 VitePress comes with built in Markdown Extensions.

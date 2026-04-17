@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: Referência completa das opções de configuração do site VitePress, incluindo configurações de aplicação, tema e compilação.
 ---
 
 # Configuração do Site {#site-config}

@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: استقرار سایت ویت‌پرس خود بر روی پلتفرم‌های محبوب مانند Netlify، Vercel، GitHub Pages و سایر سرویس‌ها.
 ---
 
 # استقرار وب‌سایت ویت‌پرس شما {#deploy-your-vitepress-site}

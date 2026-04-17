@@ -1,3 +1,7 @@
+---
+description: VitePressで画像、メディア、フォントなどの静的アセットを参照・管理する方法を解説します。
+---
+
 # アセットの取り扱い {#asset-handling}
 
 ## 静的アセットの参照 {#referencing-static-assets}

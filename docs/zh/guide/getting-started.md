@@ -1,3 +1,7 @@
+---
+description: 快速上手 VitePress。了解如何安装、创建项目结构并开始开发你的文档站点。
+---
+
 # 快速开始 {#getting-started}
 
 ## 在线尝试 {#try-it-online}

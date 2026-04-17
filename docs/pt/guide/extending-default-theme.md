@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: Personalize e estenda o tema padrão do VitePress com CSS, componentes, layouts e slots customizados.
 ---
 
 # Estendendo o Tema Padrão {#extending-the-default-theme}

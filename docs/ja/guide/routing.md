@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: VitePressのファイルベースルーティング、動的ルート、クリーンURL、パスのリライトについて解説します。
 ---
 
 # ルーティング {#routing}

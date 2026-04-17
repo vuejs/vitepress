@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: VitePress 마크다운 페이지에서 사용할 수 있는 모든 전문(frontmatter) 구성 옵션의 레퍼런스입니다.
 ---
 
 # 전문 구성 {#frontmatter-config}

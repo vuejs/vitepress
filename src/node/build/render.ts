@@ -169,7 +169,7 @@ export async function renderPage(
     ${
       isDescriptionOverridden(head)
         ? ''
-        : `<meta name="description" content="${description}">`
+        : `<meta name="description" content="${escapeHtml(description)}">`
     }
     <meta name="generator" content="VitePress v${version}">
     ${stylesheetLink}

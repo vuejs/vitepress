@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: 将 VitePress 站点部署到 Netlify、Vercel、GitHub Pages 等主流平台。
 ---
 
 # 部署 VitePress 站点 {#deploy-your-vitepress-site}

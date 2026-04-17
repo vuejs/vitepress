@@ -1,3 +1,7 @@
+---
+description: Reference of VitePress CLI commands including dev, build, preview, and init.
+---
+
 # Command Line Interface
 
 ## `vitepress dev`

@@ -1,3 +1,7 @@
+---
+description: VitePress는 Vite와 Vue로 구동되는 빠르고 콘텐츠 중심의 웹사이트를 구축하기 위해 설계된 정적 사이트 생성기입니다.
+---
+
 # VitePress란 무엇인가? {#what-is-vitepress}
 
 VitePress는 빠르고 컨텐츠 중심의 웹사이트를 구축하기 위해 설계된 [정적 사이트 생성기](https://en.wikipedia.org/wiki/Static_site_generator) (SSG)입니다. 다시말해 VitePress는 [마크다운](https://en.wikipedia.org/wiki/Markdown)으로 작성된 소스 컨텐츠를 가져와서 테마를 적용하고, 어디에나 쉽게 배포할 수 있는 정적 HTML 페이지를 생성합니다.

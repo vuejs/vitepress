@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: Set up local or Algolia-powered search for your VitePress site.
 ---
 
 # Search

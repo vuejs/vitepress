@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: VitePressのサイト設定オプションの完全なリファレンス。アプリレベルの設定、テーマ、ビルドオプションを含みます。
 ---
 
 # サイト設定 {#site-config}

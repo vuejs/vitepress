@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: Conecte o VitePress a um CMS headless usando rotas dinâmicas e carregadores de dados.
 ---
 
 # Conectando a um CMS {#connecting-to-a-cms}

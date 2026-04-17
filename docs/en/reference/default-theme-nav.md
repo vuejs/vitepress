@@ -1,3 +1,7 @@
+---
+description: Configure the navigation bar in the VitePress default theme including site title, logo, and menu links.
+---
+
 # Nav
 
 The Nav is the navigation bar displayed on top of the page. It contains the site title, global menu links, etc.

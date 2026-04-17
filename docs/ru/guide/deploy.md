@@ -1,4 +1,5 @@
 ---
+description: Разверните свой сайт VitePress на популярных платформах, таких как Netlify, Vercel, GitHub Pages и других.
 outline: deep
 ---
 

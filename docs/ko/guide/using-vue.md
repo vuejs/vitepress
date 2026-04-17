@@ -1,3 +1,7 @@
+---
+description: VitePress의 마크다운 파일 내에서 직접 Vue 컴포넌트와 동적 템플릿 기능을 사용하세요.
+---
+
 # 마크다운에서 Vue 사용하기 {#using-vue-in-markdown}
 
 VitePress에서는 각 마크다운 파일이 HTML로 컴파일된 후 [Vue 단일 파일 컴포넌트](https://vuejs.org/guide/scaling-up/sfc.html)로 처리됩니다. 이는 마크다운 내에서 Vue 컴포넌트를 사용하거나 동적 템플릿을 사용하거나 `<script>` 태그를 추가하여 임의의 페이지 내 Vue 컴포넌트 로직을 사용할 수 있다는 것을 의미합니다.

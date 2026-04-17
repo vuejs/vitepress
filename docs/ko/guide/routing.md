@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: VitePress의 파일 기반 라우팅, 동적 라우트, 클린 URL 및 경로 재작성을 이해하세요.
 ---
 
 # 라우팅 {#routing}

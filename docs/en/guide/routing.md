@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: Understand VitePress file-based routing, dynamic routes, clean URLs, and path rewrites.
 ---
 
 # Routing

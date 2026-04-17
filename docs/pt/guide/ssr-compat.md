@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: Garanta que os componentes do tema e o código personalizado do VitePress sejam compatíveis com renderização no lado do servidor.
 ---
 
 # Compatibilidade SSR {#ssr-compatibility}

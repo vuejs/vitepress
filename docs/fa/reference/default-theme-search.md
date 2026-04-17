@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: راه‌اندازی جستجوی محلی یا مبتنی بر Algolia برای سایت ویت‌پرس شما.
 ---
 
 # جستجو {#search}

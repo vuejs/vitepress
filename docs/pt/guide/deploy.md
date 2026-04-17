@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: Implante seu site VitePress em plataformas populares como Netlify, Vercel, GitHub Pages e mais.
 ---
 
 # Implante seu Site VitePress {#deploy-your-vitepress-site}

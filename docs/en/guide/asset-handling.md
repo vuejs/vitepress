@@ -1,3 +1,7 @@
+---
+description: Learn how to reference and handle static assets such as images, media, and fonts in VitePress.
+---
+
 # Asset Handling
 
 ## Referencing Static Assets

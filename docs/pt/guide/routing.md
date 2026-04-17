@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: Entenda o roteamento baseado em arquivos do VitePress, rotas dinâmicas, URLs limpas e reescritas de caminho.
 ---
 
 # Roteamento {#routing}

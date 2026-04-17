@@ -1,3 +1,7 @@
+---
+description: 사용자가 GitHub 또는 GitLab에서 변경 사항을 제안할 수 있도록 문서 페이지에 편집 링크를 표시하세요.
+---
+
 # 편집 링크 {#edit-link}
 
 ## 사이트 단계에서 설정하기 {#site-level-config}

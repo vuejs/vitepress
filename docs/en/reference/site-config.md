@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: Complete reference of VitePress site configuration options including app-level settings, theming, and build options.
 ---
 
 # Site Config

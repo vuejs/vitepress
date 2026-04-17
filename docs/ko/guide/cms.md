@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: 동적 라우트와 데이터 로더를 사용하여 VitePress를 헤드리스 CMS에 연결하세요.
 ---
 
 # CMS에 연결하기 {#connecting-to-a-cms}

@@ -1,3 +1,7 @@
+---
+description: Comece a usar o VitePress. Aprenda a instalar, criar a estrutura e desenvolver seu site de documentação.
+---
+
 # Iniciando {#getting-started}
 
 ## Experimente Online {#try-it-online}

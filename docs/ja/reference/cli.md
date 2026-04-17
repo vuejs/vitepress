@@ -1,3 +1,7 @@
+---
+description: VitePress CLIコマンドのリファレンス。dev、build、preview、initコマンドの使い方。
+---
+
 # コマンドラインインターフェイス {#command-line-interface}
 
 ## `vitepress dev`

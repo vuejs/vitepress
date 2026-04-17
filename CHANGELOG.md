@@ -25,9 +25,9 @@
 
 ### BREAKING CHANGES
 
-The previous `<!-- @include: ./path/to/file -->` syntax silently ignored errors when files did not exist. This behavior was originally intended as an escape hatch while documenting includes, but better solutions now exist using Shiki transformers.
+Previously, the `<!-- @include: ./path/to/file -->` syntax silently ignored errors when files did not exist. This behavior was originally intended as an escape hatch while documenting includes, but better solutions now exist using Shiki transformers.
 
-For most users, no code changes are required. If you now see errors, it means your includes are broken and were previously not being reported.
+For most users, no code changes are required. If you now see errors, it means your includes are broken and were earlier not being reported.
 
 Users who intentionally reference non-existent files or want to document includes without resolving them can configure `markdown.codeTransformers` with a `postprocess` hook. See `docs/.vitepress/config.ts` in this repo for an example.
 

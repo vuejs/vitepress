@@ -1,3 +1,7 @@
+---
+description: Comienza a trabajar con VitePress. Aprende cómo instalar, crear la estructura y comenzar a desarrollar tu sitio de documentación.
+---
+
 # Iniciando {#getting-started}
 
 ## Experimente Online {#try-it-online}

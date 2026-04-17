@@ -1,3 +1,6 @@
+---
+description: VitePress를 시작하세요. 문서 사이트를 설치하고, 스캐폴딩하고, 개발을 시작하는 방법을 알아보세요.
+---
 
 # 시작하기 {#getting-started}
 

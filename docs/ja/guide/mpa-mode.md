@@ -1,3 +1,7 @@
+---
+description: VitePressのMPA（マルチページアプリケーション）モードを有効にし、JavaScriptゼロのページで初期パフォーマンスを向上させる方法。
+---
+
 # MPA モード <Badge type="warning" text="experimental" /> {#mpa-mode}
 
 MPA（Multi-Page Application）モードは、コマンドラインの `vitepress build --mpa`、または設定で `mpa: true` を指定することで有効化できます。

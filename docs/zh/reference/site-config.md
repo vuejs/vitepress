@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: VitePress 站点配置选项的完整参考，包括应用级设置、主题和构建选项。
 ---
 
 # 站点配置 {#site-config}

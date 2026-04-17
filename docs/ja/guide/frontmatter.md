@@ -1,3 +1,7 @@
+---
+description: VitePressのMarkdownファイルでYAMLフロントマターを使い、ページ単位のメタデータや動作を制御する方法。
+---
+
 # フロントマター {#frontmatter}
 
 ## 使い方 {#usage}

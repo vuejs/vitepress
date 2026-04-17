@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: Customize and extend the VitePress default theme with custom CSS, components, layouts, and slots.
 ---
 
 # Extending the Default Theme

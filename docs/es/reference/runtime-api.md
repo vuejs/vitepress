@@ -1,3 +1,7 @@
+---
+description: Referencia de las APIs en tiempo de ejecución de VitePress, incluyendo composables, funciones auxiliares y componentes integrados.
+---
+
 # API en Tiempo de Ejecución {#runtime-api}
 
 VitePress ofrece varias API integradas para permitir el acceso a los datos de la aplicación. VitePress también viene con algunos componentes integrados que se pueden utilizar globalmente.

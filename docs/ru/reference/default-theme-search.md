@@ -1,4 +1,5 @@
 ---
+description: Настройте локальный поиск или поиск на базе Algolia для вашего сайта VitePress.
 outline: deep
 ---
 

@@ -1,3 +1,7 @@
+---
+description: 기본 테마의 내장 지원을 사용하여 VitePress 사이트에 Carbon Ads를 통합하세요.
+---
+
 # 카본 광고 {#carbon-ads}
 
 VitePress는 [카본 광고](https://www.carbonads.net/)에 대한 기본적인 지원을 제공합니다. 구성에서 카본 광고 자격 증명을 정의하면 VitePress는 페이지에 광고를 표시합니다.

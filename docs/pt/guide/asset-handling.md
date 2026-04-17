@@ -1,3 +1,7 @@
+---
+description: Aprenda a referenciar e manipular ativos estáticos como imagens, mídia e fontes no VitePress.
+---
+
 # Manipulação de Ativos {#asset-handling}
 
 ## Referenciando Ativos Estáticos {#referencing-static-assets}
