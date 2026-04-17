@@ -45,15 +45,7 @@ export interface Router {
   onAfterRouteChange?: (to: string) => Awaitable<void>
 }
 
-export interface PageLoadOptions {
-  scrollPosition?: number
-  initialLoad?: boolean
-}
-
-export type LoadPage = (
-  href: string,
-  options?: PageLoadOptions
-) => Promise<void>
+export type LoadPage = (href: string) => Promise<void>
 
 export type SyncRouteQueryAndHash = (loc?: {
   search: string
@@ -109,43 +101,58 @@ export function scrollTo(hash: string, scrollPosition = 0): void {
     window.scrollTo(0, scrollPosition)
     return
   }
+  const target = findHashTarget(hash)
+  if (!target) return
+  requestAnimationFrame(() => {
+    target.scrollIntoView({ block: 'start' })
+    focusOnTarget(target)
+  })
+}
 
-  let target: HTMLElement | null = null
+/**
+ * Focus the element referenced by `hash` for screen-reader accessibility,
+ * without performing a scroll. Intended for the Navigation API strategy,
+ * which relies on the browser's built-in scrolling and just needs us to
+ * move focus after the page has rendered.
+ */
+export function focusHashTarget(hash: string): void {
+  const target = findHashTarget(hash)
+  if (!target) return
+  requestAnimationFrame(() => focusOnTarget(target))
+}
+
+function findHashTarget(hash: string): HTMLElement | null {
+  if (!hash) return null
   try {
-    target = document.getElementById(decodeURIComponent(hash).slice(1))
+    return document.getElementById(decodeURIComponent(hash).slice(1))
   } catch (e) {
     console.warn(e)
+    return null
   }
-  if (!target) return
+}
 
-  const scrollToTarget = () => {
-    target.scrollIntoView({ block: 'start' })
+function focusOnTarget(target: HTMLElement): void {
+  // focus the target element for better accessibility
+  target.focus({ preventScroll: true })
 
-    // focus the target element for better accessibility
-    target.focus({ preventScroll: true })
+  // return if focus worked
+  if (document.activeElement === target) return
 
-    // return if focus worked
-    if (document.activeElement === target) return
+  // element has tabindex already, likely not focusable for another reason
+  if (target.hasAttribute('tabindex')) return
 
-    // element has tabindex already, likely not focusable
-    // because of some other reason, bail out
-    if (target.hasAttribute('tabindex')) return
-
-    const restoreTabindex = () => {
-      target.removeAttribute('tabindex')
-      target.removeEventListener('blur', restoreTabindex)
-    }
-
-    // temporarily make the target element focusable
-    target.setAttribute('tabindex', '-1')
-    target.addEventListener('blur', restoreTabindex)
-
-    // try to focus again
-    target.focus({ preventScroll: true })
-
-    // remove tabindex and event listener if focus still not worked
-    if (document.activeElement !== target) restoreTabindex()
+  const restoreTabindex = () => {
+    target.removeAttribute('tabindex')
+    target.removeEventListener('blur', restoreTabindex)
   }
 
-  requestAnimationFrame(scrollToTarget)
+  // temporarily make the target element focusable
+  target.setAttribute('tabindex', '-1')
+  target.addEventListener('blur', restoreTabindex)
+
+  // try to focus again
+  target.focus({ preventScroll: true })
+
+  // remove tabindex and event listener if focus still not worked
+  if (document.activeElement !== target) restoreTabindex()
 }

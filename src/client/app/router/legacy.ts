@@ -1,3 +1,4 @@
+import { nextTick } from 'vue'
 import { treatAsHtml } from '../../shared'
 import { inBrowser } from '../utils'
 import {
@@ -27,7 +28,13 @@ export const createLegacyRouterStrategy: RouterStrategyFactory = (ctx) => {
       !inBrowser ||
       (await changeRoute(href, { ...options, hasTextFragment: textFrag }))
     ) {
-      await loadPage(href, { initialLoad: !!options?.initialLoad })
+      await loadPage(href)
+      if (inBrowser && !options?.initialLoad) {
+        // wait for Vue to render the new component before scrolling so the
+        // hash target (if any) is in the DOM
+        await nextTick()
+        scrollTo(new URL(href, fakeHost).hash)
+      }
     }
     if (textFrag) {
       // this will create a new history entry, but that's almost unavoidable
@@ -85,7 +92,9 @@ export const createLegacyRouterStrategy: RouterStrategyFactory = (ctx) => {
     window.addEventListener('popstate', async (e) => {
       if (e.state === null) return
       const href = normalizeHref(location.href)
-      await loadPage(href, { scrollPosition: e.state.scrollPosition || 0 })
+      await loadPage(href)
+      await nextTick()
+      scrollTo(new URL(href, fakeHost).hash, e.state.scrollPosition || 0)
       syncRouteQueryAndHash()
       await router.onAfterRouteChange?.(href)
     })

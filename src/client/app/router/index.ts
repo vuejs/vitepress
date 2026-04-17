@@ -12,7 +12,7 @@ import {
 import {
   fakeHost,
   scrollTo,
-  type PageLoadOptions,
+  type LoadPage,
   type Route,
   type Router,
   type RouterStrategy,
@@ -54,9 +54,8 @@ export function createRouter(
 
   // Forward reference: strategies receive `loadPage` at setup time but call
   // it only after setup returns, by which point `loadPageImpl` is bound.
-  let loadPageImpl: (href: string, options?: PageLoadOptions) => Promise<void>
-  const loadPage = (href: string, options?: PageLoadOptions) =>
-    loadPageImpl(href, options)
+  let loadPageImpl: LoadPage
+  const loadPage: LoadPage = (href) => loadPageImpl(href)
 
   // `go` is populated once the strategy is built; until then we use a stub so
   // the router object is usable for `router.route` / hook assignment.
@@ -79,11 +78,7 @@ export function createRouter(
 
   async function loadPageInternal(
     href: string,
-    {
-      scrollPosition = 0,
-      isRetry = false,
-      initialLoad = false
-    }: PageLoadOptions & { isRetry?: boolean } = {}
+    { isRetry = false }: { isRetry?: boolean } = {}
   ): Promise<void> {
     if ((await router.onBeforePageLoad?.(href)) === false) return
 
@@ -124,8 +119,6 @@ export function createRouter(
               href = actualPathname + targetLoc.search + targetLoc.hash
               strategy.replaceUrl(href)
             }
-
-            if (!initialLoad) scrollTo(targetLoc.hash, scrollPosition)
           })
         }
       }
@@ -144,11 +137,7 @@ export function createRouter(
         try {
           const res = await fetch(siteDataRef.value.base + 'hashmap.json')
           ;(window as any).__VP_HASH_MAP__ = await res.json()
-          await loadPageInternal(href, {
-            scrollPosition,
-            isRetry: true,
-            initialLoad
-          })
+          await loadPageInternal(href, { isRetry: true })
           return
         } catch (e) {}
       }

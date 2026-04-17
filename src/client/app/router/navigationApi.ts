@@ -1,6 +1,8 @@
+import { nextTick } from 'vue'
 import { treatAsHtml } from '../../shared'
 import {
   fakeHost,
+  focusHashTarget,
   hasTextFragment,
   normalizeHref,
   scrollTo,
@@ -25,6 +27,12 @@ export function hasNavigationApi(): boolean {
 /**
  * Navigation API based router strategy. Requires a browser environment where
  * {@link hasNavigationApi} returns true.
+ *
+ * We rely on the browser's built-in post-commit scroll (to the URL fragment
+ * on push/replace, or to the restored position on traverse) and only keep
+ * focus handling manual, so screen readers still land on the target heading.
+ * To make sure the browser scrolls into a rendered DOM we await `nextTick()`
+ * inside the intercept handler before resolving.
  */
 export const createNavigationApiRouterStrategy: RouterStrategyFactory = (
   ctx
@@ -44,7 +52,7 @@ export const createNavigationApiRouterStrategy: RouterStrategyFactory = (
       // Initial load: the document is already at this URL; just render the
       // page component without going through the Navigation API.
       if ((await router.onBeforeRouteChange?.(href)) === false) return
-      await loadPage(href, { initialLoad: true })
+      await loadPage(href)
       if (textFrag) location.hash = hash
       syncRouteQueryAndHash()
       await router.onAfterRouteChange?.(href)
@@ -57,6 +65,8 @@ export const createNavigationApiRouterStrategy: RouterStrategyFactory = (
 
     const currentHref = normalizeHref(location.href)
     if (href === currentHref) {
+      // No navigation needed; the browser won't scroll on its own, so we
+      // scroll + focus explicitly.
       if (!textFrag) scrollTo(new URL(href, fakeHost).hash)
       syncRouteQueryAndHash()
       await router.onAfterRouteChange?.(href)
@@ -111,27 +121,10 @@ export const createNavigationApiRouterStrategy: RouterStrategyFactory = (
     const fromGo = !!event.info?.__vpFromGo
     const isTraverse = event.navigationType === 'traverse'
 
-    let scrollPosition = 0
-    if (isTraverse) {
-      const state = event.destination.getState() as
-        | { scrollPosition?: number }
-        | undefined
-      scrollPosition = state?.scrollPosition || 0
-    } else {
-      // Persist current scroll position on the outgoing entry so that
-      // back/forward traversals can restore it.
-      try {
-        navigation.updateCurrentEntry({
-          state: {
-            ...(navigation.currentEntry?.getState() || {}),
-            scrollPosition: window.scrollY
-          }
-        })
-      } catch {}
-    }
-
     event.intercept({
-      scroll: 'manual',
+      // Scroll is left on browser default: push/replace scrolls to the URL
+      // fragment (or top), traverse restores the previously-committed scroll
+      // position. Focus is kept manual so our hash-target focus logic wins.
       focusReset: 'manual',
       async handler() {
         if (!fromGo) {
@@ -141,10 +134,20 @@ export const createNavigationApiRouterStrategy: RouterStrategyFactory = (
         }
 
         if (event.hashChange) {
-          if (!textFrag) scrollTo(rawHash)
+          // Same document, no render needed.
+          if (!textFrag) focusHashTarget(rawHash)
         } else {
-          await loadPage(href, { scrollPosition })
-          if (textFrag) location.hash = rawHash
+          await loadPage(href)
+          // Ensure Vue has applied the new component to the DOM so the
+          // browser's post-handler scroll lands on the right element.
+          await nextTick()
+          if (textFrag) {
+            location.hash = rawHash
+          } else if (!isTraverse && rawHash) {
+            // Focus the hash target for a11y; the browser will handle the
+            // scroll once the handler resolves.
+            focusHashTarget(rawHash)
+          }
         }
 
         syncRouteQueryAndHash()
