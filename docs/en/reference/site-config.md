@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: Complete reference of VitePress site configuration options including app-level settings, theming, and build options.
 ---
 
 # Site Config
@@ -350,7 +351,7 @@ export default {
 - Type: `boolean`
 - Default: `false`
 
-When set to `true`, VitePress will remove the trailing `.html` from URLs. Also see [Generating Clean URL](../guide/routing#generating-clean-url).
+When set to `true`, VitePress will remove the trailing `.html` from URLs. Also see [Generating Clean URLs](../guide/routing#generating-clean-urls).
 
 ::: warning Server Support Required
 Enabling this may require additional configuration on your hosting platform. For it to work, your server must be able to serve `/foo.html` when visiting `/foo` **without a redirect**.

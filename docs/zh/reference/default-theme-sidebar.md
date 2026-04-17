@@ -1,3 +1,7 @@
+---
+description: 配置 VitePress 默认主题的侧边栏导航，包括分组、可折叠部分和多侧边栏。
+---
+
 # 侧边栏 {#sidebar}
 
 侧边栏是文档的主要导航块。可以在 [`themeConfig.sidebar`](./default-theme-config#sidebar) 中配置侧边栏菜单。

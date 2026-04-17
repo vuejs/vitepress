@@ -1,3 +1,7 @@
+---
+description: Enable MPA (Multi-Page Application) mode in VitePress for zero-JavaScript pages with better initial performance.
+---
+
 # MPA Mode <Badge type="warning" text="experimental" />
 
 MPA (Multi-Page Application) mode can be enabled via the command line via `vitepress build --mpa`, or via config through the `mpa: true` option.

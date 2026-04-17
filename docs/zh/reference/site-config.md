@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: VitePress 站点配置选项的完整参考，包括应用级设置、主题和构建选项。
 ---
 
 # 站点配置 {#site-config}
@@ -350,7 +351,7 @@ export default {
 - 类型：`boolean`
 - 默认值： `false`
 
-当设置为 `true` 时，VitePress 将从 URL 中删除 `.html` 后缀。另请参阅[生成简洁的 URL](../guide/routing#generating-clean-url)。
+当设置为 `true` 时，VitePress 将从 URL 中删除 `.html` 后缀。另请参阅[生成简洁的 URL](../guide/routing#generating-clean-urls)。
 
 ::: warning 需要服务器支持
 要启用此功能，可能需要在托管平台上进行额外配置。要使其正常工作，服务器必须能够在**不重定向的情况下**访问 `/foo` 时提供 `/foo.html`。

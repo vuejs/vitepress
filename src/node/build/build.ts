@@ -6,7 +6,6 @@ import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import pMap from 'p-map'
 import { packageDirectorySync } from 'package-directory'
-import { rimraf } from 'rimraf'
 import * as vite from 'vite'
 import type { BuildOptions, Rollup } from 'vite'
 import { resolveConfig, type SiteConfig } from '../config'
@@ -176,7 +175,13 @@ export async function build(
     )
   } finally {
     unlinkVue()
-    if (!process.env.DEBUG) await rimraf(siteConfig.tempDir)
+    if (!process.env.DEBUG) {
+      fs.rmSync(siteConfig.tempDir, {
+        recursive: true,
+        force: true,
+        maxRetries: 10
+      })
+    }
   }
 
   await generateSitemap(siteConfig)

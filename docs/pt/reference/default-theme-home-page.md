@@ -1,3 +1,7 @@
+---
+description: Configure o layout da página inicial do tema padrão do VitePress com seções hero, funcionalidades e conteúdo personalizado.
+---
+
 # Página Inicial {#home-page}
 
 O tema padrão VitePress fornece um layout de página inicial, que você também pode ver em uso [na página inicial deste site](../). Você pode usá-lo em qualquer uma de suas páginas especificando `layout: home` em [frontmatter](./frontmatter-config).

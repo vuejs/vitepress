@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: Referência completa das opções de configuração do site VitePress, incluindo configurações de aplicação, tema e compilação.
 ---
 
 # Configuração do Site {#site-config}
@@ -350,7 +351,7 @@ export default {
 - Tipo: `boolean`
 - Padrão: `false`
 
-Quando definido como `true`, VitePress removerá o `.html` no final dos URLs. Veja também [Gerando URL Limpa](../guide/routing#generating-clean-url).
+Quando definido como `true`, VitePress removerá o `.html` no final dos URLs. Veja também [Geração de URLs Limpas](../guide/routing#generating-clean-urls).
 
 ::: warning Suporte do Servidor Necessário
 Ativar isso pode exigir configurações adicionais em sua plataforma de hospedagem. Para funcionar, seu servidor deve ser capaz de servir `/foo.html` ao visitar `/foo` **sem redirecionamento**.

@@ -1,4 +1,5 @@
 ---
+description: Comprende el enrutamiento basado en archivos de VitePress, rutas dinámicas, URLs limpias y reescritura de rutas.
 outline: deep
 ---
 
@@ -121,7 +122,7 @@ Alternativamente, puede usarse directamente la sintaxis de tag anchor:
 
 :::
 
-## Generación de URL Limpia {#generating-clean-url}
+## Generación de URLs Limpias {#generating-clean-urls}
 
 ::: warning Soporte del Servidor Necesario
 Para servir URLs limpias con VitePress, es necesario soporte en el lado del servidor.

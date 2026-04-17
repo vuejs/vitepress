@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: Reference of all available frontmatter configuration options for VitePress Markdown pages.
 ---
 
 # Frontmatter Config

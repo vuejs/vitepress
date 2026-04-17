@@ -1,3 +1,7 @@
+---
+description: Crie e use um tema personalizado no VitePress para controlar totalmente a aparência do seu site.
+---
+
 # Usando um Tema Personalizado {#using-a-custom-theme}
 
 ## Resolução de Tema {#theme-resolving}

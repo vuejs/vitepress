@@ -1,3 +1,6 @@
+---
+description: VitePress를 시작하세요. 문서 사이트를 설치하고, 스캐폴딩하고, 개발을 시작하는 방법을 알아보세요.
+---
 
 # 시작하기 {#getting-started}
 
@@ -9,7 +12,7 @@
 
 ### 사전 준비 사항 {#prerequisites}
 
-- [Node.js](https://nodejs.org/) 버전 18 이상.
+- [Node.js](https://nodejs.org/) 버전 20 이상.
 - VitePress를 명령줄 인터페이스(CLI)를 통해 접근하기 위한 터미널.
 - [마크다운](https://en.wikipedia.org/wiki/Markdown) 문법 지원이 있는 텍스트 에디터.
   - [VSCode](https://code.visualstudio.com/)와 [공식 Vue 확장 프로그램](https://marketplace.visualstudio.com/items?itemName=Vue.volar) 사용을 권장합니다.

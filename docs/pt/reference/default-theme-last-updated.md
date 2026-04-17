@@ -1,3 +1,7 @@
+---
+description: Exiba o timestamp da última atualização nas páginas do VitePress com base no histórico de commits do Git.
+---
+
 # Última Atualização {#last-updated}
 
 O tempo em que o conteúdo foi atualizado pela última vez será mostrado no canto inferior direito da página. Para habilitar, adicione a opção `lastUpdated` na sua configuração.

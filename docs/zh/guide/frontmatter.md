@@ -1,3 +1,7 @@
+---
+description: 了解如何在 VitePress Markdown 文件中使用 YAML frontmatter 来控制页面级别的元数据和行为。
+---
+
 # frontmatter
 
 ## 用法 {#usage}

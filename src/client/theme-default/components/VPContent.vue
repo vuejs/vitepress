@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { resolveDynamicComponent } from 'vue'
 import NotFound from '../NotFound.vue'
 import { useData } from '../composables/data'
 import { useLayout } from '../composables/layout'
@@ -8,6 +9,10 @@ import VPPage from './VPPage.vue'
 
 const { page, frontmatter } = useData()
 const { isHome, hasSidebar } = useLayout()
+
+function isRegistered(component: string): boolean {
+  return typeof resolveDynamicComponent(component) !== 'string'
+}
 </script>
 
 <template>
@@ -18,29 +23,25 @@ const { isHome, hasSidebar } = useLayout()
   >
     <slot name="not-found" v-if="page.isNotFound"><NotFound /></slot>
 
-    <VPPage v-else-if="frontmatter.layout === 'page'">
+    <VPPage v-else-if="frontmatter.layout === 'page' && !isRegistered('page')">
       <template #page-top><slot name="page-top" /></template>
       <template #page-bottom><slot name="page-bottom" /></template>
     </VPPage>
 
-    <VPHome v-else-if="frontmatter.layout === 'home'">
+    <VPHome v-else-if="frontmatter.layout === 'home' && !isRegistered('home')">
       <template #home-hero-before><slot name="home-hero-before" /></template>
       <template #home-hero-info-before><slot name="home-hero-info-before" /></template>
       <template #home-hero-info><slot name="home-hero-info" /></template>
       <template #home-hero-info-after><slot name="home-hero-info-after" /></template>
       <template #home-hero-actions-after><slot name="home-hero-actions-after" /></template>
+      <template #home-hero-actions-before-actions><slot name="home-hero-actions-before-actions" /></template>
       <template #home-hero-image><slot name="home-hero-image" /></template>
       <template #home-hero-after><slot name="home-hero-after" /></template>
       <template #home-features-before><slot name="home-features-before" /></template>
       <template #home-features-after><slot name="home-features-after" /></template>
     </VPHome>
 
-    <component
-      v-else-if="frontmatter.layout && frontmatter.layout !== 'doc'"
-      :is="frontmatter.layout"
-    />
-
-    <VPDoc v-else>
+    <VPDoc v-else-if="(!frontmatter.layout || frontmatter.layout === 'doc') && !isRegistered('doc')">
       <template #doc-top><slot name="doc-top" /></template>
       <template #doc-bottom><slot name="doc-bottom" /></template>
 
@@ -55,6 +56,8 @@ const { isHome, hasSidebar } = useLayout()
       <template #aside-ads-after><slot name="aside-ads-after" /></template>
       <template #aside-bottom><slot name="aside-bottom" /></template>
     </VPDoc>
+
+    <component v-else :is="frontmatter.layout || 'doc'" />
   </div>
 </template>
 

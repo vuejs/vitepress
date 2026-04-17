@@ -1,4 +1,5 @@
 ---
+description: Asegura que los componentes del tema y el código personalizado de VitePress sean compatibles con el renderizado del lado del servidor.
 outline: deep
 ---
 

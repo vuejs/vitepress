@@ -1,3 +1,7 @@
+---
+description: مرجع دستورات CLI ویت‌پرس شامل dev، build، preview و init.
+---
+
 # رابط خط فرمان {#command-line-interface}
 
 ## `vitepress dev` {#vitepress-dev}

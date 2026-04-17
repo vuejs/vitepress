@@ -1,3 +1,7 @@
+---
+description: Comece a usar o VitePress. Aprenda a instalar, criar a estrutura e desenvolver seu site de documentação.
+---
+
 # Iniciando {#getting-started}
 
 ## Experimente Online {#try-it-online}
@@ -8,7 +12,7 @@ Você pode experimentar VitePress diretamente no seu navegador em [StackBlitz](h
 
 ### Pré-requisitos {#prerequisites}
 
-- [Node.js](https://nodejs.org/) na versão 18 ou superior.
+- [Node.js](https://nodejs.org/) na versão 20 ou superior.
 - Terminal para acessar VitePress através da sua interface de linha de comando (CLI).
 - Editor de texto com suporte a sintaxe [Markdown](https://en.wikipedia.org/wiki/Markdown).
   - [VSCode](https://code.visualstudio.com/) é recomendado, junto com a [extensão oficial Vue](https://marketplace.visualstudio.com/items?itemName=Vue.volar).

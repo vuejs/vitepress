@@ -1,3 +1,7 @@
+---
+description: افزونه‌های داخلی Markdown در ویت‌پرس شامل کانتینرهای سفارشی، بلوک‌های کد با هایلایت، گروه‌های کد و موارد دیگر.
+---
+
 # افزونه‌های Markdown {#markdown-extensions}
 
 ویت‌پرس با افزونه‌های markdown داخلی ارائه شده است.
@@ -724,7 +728,7 @@ export default config
 
 ## مبانی
 
-<!--@include: ./parts/basics.md-->
+<!--@@include: ./parts/basics.md-->
 ```
 
 **قسمت فایل** (`parts/basics.md`)
@@ -760,7 +764,7 @@ export default config
 
 ## مبانی
 
-<!--@include: ./parts/basics.md{3,}-->
+<!--@@include: ./parts/basics.md{3,}-->
 ```
 
 **قسمت فایل** (`parts/basics.md`)
@@ -796,8 +800,8 @@ export default config
 
 ## مبانی
 
-<!--@include: ./parts/basics.md#basic-usage{,2}-->
-<!--@include: ./parts/basics.md#basic-usage{5,}-->
+<!--@@include: ./parts/basics.md#basic-usage{,2}-->
+<!--@@include: ./parts/basics.md#basic-usage{5,}-->
 ```
 
 **قسمت فایل** (`parts/basics.md`)

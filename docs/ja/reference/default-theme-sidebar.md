@@ -1,3 +1,7 @@
+---
+description: VitePressデフォルトテーマのサイドバーナビゲーションをグループ、折りたたみセクション、複数サイドバーで設定する方法。
+---
+
 # サイドバー {#sidebar}
 
 サイドバーはドキュメントの主要なナビゲーションブロックです。[`themeConfig.sidebar`](./default-theme-config#sidebar) でメニューを設定できます。

@@ -1,3 +1,7 @@
+---
+description: Extensiones Markdown integradas en VitePress, incluyendo contenedores personalizados, bloques de código con resaltado de sintaxis, resaltado de líneas, grupos de código y más.
+---
+
 # Extensiones Markdown {#markdown-extensions}
 
 VitePress viene con Extensiones embutidas.
@@ -773,7 +777,7 @@ Por ejemplo, puede incluir un archivo markdown relativo usando esto:
 
 ## Conceptos Básicos
 
-<!--@include: ./parts/basics.md-->
+<!--@@include: ./parts/basics.md-->
 ```
 
 **Archivo de Parte** (`parts/basics.md`)
@@ -809,7 +813,7 @@ También soporta la selección de un intervalo de lineas:
 
 ## Conceptos Básicos
 
-<!--@include: ./parts/basics.md{3,}-->
+<!--@@include: ./parts/basics.md{3,}-->
 ```
 
 **Archivo de Parte** (`parts/basics.md`)

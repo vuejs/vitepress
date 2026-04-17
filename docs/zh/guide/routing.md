@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: 了解 VitePress 基于文件的路由系统、动态路由、简洁 URL 和路径重写。
 ---
 
 # 路由 {#routing}
@@ -121,7 +122,7 @@ src/getting-started.md  -->  /getting-started.html
 
 :::
 
-## 生成简洁的 URL {#generating-clean-url}
+## 生成简洁的 URL {#generating-clean-urls}
 
 ::: warning 需要服务器支持
 要使 VitePress 提供简洁 URL，需要服务器端支持。

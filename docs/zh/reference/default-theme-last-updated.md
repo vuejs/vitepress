@@ -1,3 +1,7 @@
+---
+description: 基于 Git 提交历史在 VitePress 页面上显示最后更新时间。
+---
+
 # 最后更新于 {#last-updated}
 
 最近一条内容的更新时间会显示在页面右下角。要启用它，请将 `lastUpdated` 选项添加到配置中。

@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: Personalize e estenda o tema padrão do VitePress com CSS, componentes, layouts e slots customizados.
 ---
 
 # Estendendo o Tema Padrão {#extending-the-default-theme}
@@ -189,6 +190,8 @@ Lista completa de _slots_ disponíveis no layout do tema padrão:
   - `home-hero-before`
   - `home-hero-info-before`
   - `home-hero-info`
+  - `home-hero-info-after`
+  - `home-hero-actions-before-actions`
   - `home-hero-actions-after`
   - `home-hero-image`
   - `home-hero-after`

@@ -1,3 +1,7 @@
+---
+description: Reference of all configuration options available for the VitePress default theme.
+---
+
 # Default Theme Config
 
 Theme config lets you customize your theme. You can define theme config via the `themeConfig` option in the config file:
