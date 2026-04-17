@@ -14,10 +14,15 @@ import {
  * Feature-detect the Navigation API. We gate on `sourceElement` since that
  * property is newer than `intercept()` itself — its presence gives us a
  * sufficiently complete implementation to replace the legacy listeners.
+ *
+ * Setting `window.__VP_USE_LEGACY_ROUTER__ = true` before the app boots
+ * forces the legacy strategy; this is used by the e2e suite to run the
+ * same tests against both router implementations.
  */
 export function hasNavigationApi(): boolean {
+  if (typeof window === 'undefined') return false
+  if ((window as any).__VP_USE_LEGACY_ROUTER__) return false
   return (
-    typeof window !== 'undefined' &&
     'navigation' in window &&
     typeof NavigateEvent !== 'undefined' &&
     'sourceElement' in NavigateEvent.prototype
