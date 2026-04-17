@@ -281,7 +281,7 @@ Wraps in a `<div class="vp-raw">`
   }
   ```
 
-  You can pass its options like this:
+  You can pass its options as follows:
 
   ```js
   postcssIsolateStyles({
@@ -676,7 +676,7 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 
 <<< @/snippets/snippet-with-region.js#snippet{1}
 
-You can also specify the language inside the braces (`{}`) like this:
+You can also specify the language inside the braces (`{}`) using the following format:
 
 ```md
 <<< @/snippets/snippet.cs{c#}
@@ -694,7 +694,7 @@ This is helpful if source language cannot be inferred from your file extension.
 
 ## Code Groups
 
-You can group multiple code blocks like this:
+You can group multiple code blocks in the following way:
 
 **Input**
 
@@ -788,7 +788,7 @@ You can include a markdown file in another markdown file, even nested.
 You can also prefix the markdown path with `@`, and it will act as the source root. By default, the source root is the VitePress project root, unless `srcDir` is configured.
 :::
 
-For example, you can include a relative markdown file using this:
+For example, you can include a relative markdown file as follows:
 
 **Input**
 
@@ -901,7 +901,7 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 Note that this does not throw errors if your file is not present. Hence, when using this feature make sure that the contents are being rendered as expected.
 :::
 
-Instead of VS Code regions, you can also use header anchors to include a specific section of the file. For example, if you have a header in your markdown file like this:
+Instead of VS Code regions, you can also use header anchors to include a specific section of the file. For example, consider a Markdown file with the following headers:
 
 ```md
 ## My Base Section
@@ -917,7 +917,7 @@ Some more content here.
 Content outside `My Base Section`.
 ```
 
-You can include the `My Base Section` section like this:
+You can include the `My Base Section` section as follows:
 
 ```md
 ## My Extended Section
@@ -936,13 +936,13 @@ Some content here.
 Some more content here.
 ```
 
-Here, `my-base-section` is the generated id of the heading element. In case it's not easily guessable, you can open the part file in your browser and click on the heading anchor (`#` symbol left to the heading when hovered) to see the id in the URL bar. Or use browser dev tools to inspect the element. Alternatively, you can also specify the id to the part file like this:
+Here, `my-base-section` is the generated id of the heading element. In case it's not easily guessable, you can open the part file in your browser and click on the heading anchor (`#` symbol left to the heading when hovered) to see the id in the URL bar. Or use browser dev tools to inspect the element. Alternatively, you can define a custom ID in the part file:
 
 ```md
 ## My Base Section {#custom-id}
 ```
 
-and include it like this:
+and include it using:
 
 ```md
 <!--@@include: ./parts/basics.md#custom-id-->
