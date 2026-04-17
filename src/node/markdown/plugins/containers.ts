@@ -83,7 +83,7 @@ function createCodeGroup(md: MarkdownItAsync): ContainerArgs {
             ) {
               const title = extractTitle(
                 isHtml ? tokens[i].content : tokens[i].info,
-                isHtml
+                { html: isHtml, fallbackToLang: true }
               )
 
               if (title) {
