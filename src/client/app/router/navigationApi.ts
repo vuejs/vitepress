@@ -112,13 +112,33 @@ export const createNavigationApiRouterStrategy: RouterStrategyFactory = (
 
     const rawHash = destUrl.hash
     const textFrag = hasTextFragment(rawHash)
-
-    // Text-fragment hash navigations rely on the browser's native
-    // fragment-directive handling; skip interception.
-    if (event.hashChange && textFrag) return
-
     const href = normalizeHref(event.destination.url)
     const fromGo = !!event.info?.__vpFromGo
+
+    if (event.hashChange) {
+      // Text-fragment navigations need the browser's native fragment
+      // directive processing; intercepting here would bypass it.
+      if (textFrag) return
+      // Same-document hash navigation: let the browser update the URL and
+      // scroll to the fragment. We still intercept with a minimal handler
+      // so the route-change hooks fire (consistent with the legacy path)
+      // and we move focus to the target for a11y.
+      event.intercept({
+        focusReset: 'manual',
+        async handler() {
+          if (!fromGo) {
+            if ((await router.onBeforeRouteChange?.(href)) === false) {
+              throw new Error('Route change cancelled')
+            }
+          }
+          syncRouteQueryAndHash()
+          focusHashTarget(rawHash)
+          await router.onAfterRouteChange?.(href)
+        }
+      })
+      return
+    }
+
     const isTraverse = event.navigationType === 'traverse'
 
     event.intercept({
@@ -133,21 +153,16 @@ export const createNavigationApiRouterStrategy: RouterStrategyFactory = (
           }
         }
 
-        if (event.hashChange) {
-          // Same document, no render needed.
-          if (!textFrag) focusHashTarget(rawHash)
-        } else {
-          await loadPage(href)
-          // Ensure Vue has applied the new component to the DOM so the
-          // browser's post-handler scroll lands on the right element.
-          await nextTick()
-          if (textFrag) {
-            location.hash = rawHash
-          } else if (!isTraverse && rawHash) {
-            // Focus the hash target for a11y; the browser will handle the
-            // scroll once the handler resolves.
-            focusHashTarget(rawHash)
-          }
+        await loadPage(href)
+        // Ensure Vue has applied the new component to the DOM so the
+        // browser's post-handler scroll lands on the right element.
+        await nextTick()
+        if (textFrag) {
+          location.hash = rawHash
+        } else if (!isTraverse && rawHash) {
+          // Focus the hash target for a11y; the browser will handle the
+          // scroll once the handler resolves.
+          focusHashTarget(rawHash)
         }
 
         syncRouteQueryAndHash()
@@ -156,9 +171,9 @@ export const createNavigationApiRouterStrategy: RouterStrategyFactory = (
     })
   })
 
-  // Fragment-directive navigations skip interception above and fall back to
-  // native browser handling, so keep a hashchange listener to sync
-  // route.hash / route.query in that path.
+  // Text-fragment hash navigations are not intercepted above, so rely on
+  // the browser's native `hashchange` event to keep `route.hash` /
+  // `route.query` in sync.
   window.addEventListener('hashchange', (e) => {
     e.preventDefault()
     syncRouteQueryAndHash()
