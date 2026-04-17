@@ -1,0 +1,196 @@
+import { nextTick } from 'vue'
+import { treatAsHtml } from '../../shared'
+import {
+  fakeHost,
+  focusHashTarget,
+  hasTextFragment,
+  normalizeHref,
+  scrollTo,
+  type GoOptions,
+  type RouterStrategyFactory
+} from './shared'
+
+/**
+ * Feature-detect the Navigation API. We gate on `sourceElement` since that
+ * property is newer than `intercept()` itself — its presence gives us a
+ * sufficiently complete implementation to replace the legacy listeners.
+ *
+ * Setting `window.__VP_USE_LEGACY_ROUTER__ = true` before the app boots
+ * forces the legacy strategy; this is used by the e2e suite to run the
+ * same tests against both router implementations.
+ */
+export function hasNavigationApi(): boolean {
+  if (typeof window === 'undefined') return false
+  if ((window as any).__VP_USE_LEGACY_ROUTER__) return false
+  return (
+    'navigation' in window &&
+    typeof NavigateEvent !== 'undefined' &&
+    'sourceElement' in NavigateEvent.prototype
+  )
+}
+
+/**
+ * Navigation API based router strategy. Requires a browser environment where
+ * {@link hasNavigationApi} returns true.
+ *
+ * We rely on the browser's built-in post-commit scroll (to the URL fragment
+ * on push/replace, or to the restored position on traverse) and only keep
+ * focus handling manual, so screen readers still land on the target heading.
+ * To make sure the browser scrolls into a rendered DOM we await `nextTick()`
+ * inside the intercept handler before resolving.
+ */
+export const createNavigationApiRouterStrategy: RouterStrategyFactory = (
+  ctx
+) => {
+  const { router, loadPage, syncRouteQueryAndHash } = ctx
+
+  // Guard against re-entering the navigate listener for our own same-document
+  // URL fix-up via history.replaceState inside loadPage.
+  let skipInternalNavigate = false
+
+  async function go(href: string, options?: GoOptions): Promise<void> {
+    const { hash } = new URL(href, fakeHost)
+    const textFrag = hasTextFragment(hash)
+    href = normalizeHref(href)
+
+    if (options?.initialLoad) {
+      // Initial load: the document is already at this URL; just render the
+      // page component without going through the Navigation API.
+      if ((await router.onBeforeRouteChange?.(href)) === false) return
+      await loadPage(href)
+      if (textFrag) location.hash = hash
+      syncRouteQueryAndHash()
+      await router.onAfterRouteChange?.(href)
+      return
+    }
+
+    // Run the before-route-change hook here so we can cancel synchronously
+    // before committing the URL via navigation.navigate().
+    if ((await router.onBeforeRouteChange?.(href)) === false) return
+
+    const currentHref = normalizeHref(location.href)
+    if (href === currentHref) {
+      // No navigation needed; the browser won't scroll on its own, so we
+      // scroll + focus explicitly.
+      if (!textFrag) scrollTo(new URL(href, fakeHost).hash)
+      syncRouteQueryAndHash()
+      await router.onAfterRouteChange?.(href)
+      return
+    }
+
+    try {
+      await navigation.navigate(href, {
+        history: options?.replace ? 'replace' : 'push',
+        info: { __vpFromGo: true }
+      }).finished
+    } catch {
+      // navigation was cancelled or errored; listener / navigateerror
+      // handles any observable side effects.
+    }
+  }
+
+  navigation.addEventListener('navigate', (event) => {
+    if (skipInternalNavigate) return
+    if (!event.canIntercept) return
+    if (event.downloadRequest != null) return
+    if (event.formData) return
+
+    const src = event.sourceElement
+    // Mirror the legacy click-handler filters when the navigation was
+    // element-initiated (e.g. link click). Programmatic navigations have a
+    // null sourceElement and are always considered eligible. `download` is
+    // handled by `event.downloadRequest` above.
+    if (src) {
+      if (src.closest('.vp-raw')) return
+      // covers docsearch action buttons and button-wrapped link content
+      if (src.closest('button') || src.querySelector('button')) return
+      if (
+        (src instanceof HTMLAnchorElement || src instanceof SVGAElement) &&
+        src.hasAttribute('target')
+      ) {
+        return
+      }
+    }
+
+    const destUrl = new URL(event.destination.url)
+    if (destUrl.origin !== location.origin) return
+    if (!treatAsHtml(destUrl.pathname)) return
+
+    const rawHash = destUrl.hash
+    const textFrag = hasTextFragment(rawHash)
+    const href = normalizeHref(event.destination.url)
+    const fromGo = !!event.info?.__vpFromGo
+
+    if (event.hashChange) {
+      // Text-fragment navigations need the browser's native fragment
+      // directive processing; intercepting here would bypass it.
+      if (textFrag) return
+      // Same-document hash navigation: let the browser update the URL and
+      // scroll to the fragment. We still intercept with a minimal handler
+      // so the route-change hooks fire (consistent with the legacy path)
+      // and we move focus to the target for a11y.
+      event.intercept({
+        focusReset: 'manual',
+        async handler() {
+          if (!fromGo) {
+            if ((await router.onBeforeRouteChange?.(href)) === false) {
+              throw new Error('Route change cancelled')
+            }
+          }
+          syncRouteQueryAndHash()
+          focusHashTarget(rawHash)
+          await router.onAfterRouteChange?.(href)
+        }
+      })
+      return
+    }
+
+    const isTraverse = event.navigationType === 'traverse'
+
+    event.intercept({
+      // Scroll is left on browser default: push/replace scrolls to the URL
+      // fragment (or top), traverse restores the previously-committed scroll
+      // position. Focus is kept manual so our hash-target focus logic wins.
+      focusReset: 'manual',
+      async handler() {
+        if (!fromGo) {
+          if ((await router.onBeforeRouteChange?.(href)) === false) {
+            throw new Error('Route change cancelled')
+          }
+        }
+
+        await loadPage(href)
+        // Ensure Vue has applied the new component to the DOM so the
+        // browser's post-handler scroll lands on the right element.
+        await nextTick()
+        if (textFrag) {
+          location.hash = rawHash
+        } else if (!isTraverse && rawHash) {
+          // Focus the hash target for a11y; the browser will handle the
+          // scroll once the handler resolves.
+          focusHashTarget(rawHash)
+        }
+
+        syncRouteQueryAndHash()
+        await router.onAfterRouteChange?.(href)
+      }
+    })
+  })
+
+  // Text-fragment hash navigations are not intercepted above, so rely on
+  // the browser's native `hashchange` event to keep `route.hash` /
+  // `route.query` in sync.
+  window.addEventListener('hashchange', (e) => {
+    e.preventDefault()
+    syncRouteQueryAndHash()
+  })
+
+  return {
+    go,
+    replaceUrl(href) {
+      skipInternalNavigate = true
+      history.replaceState({}, '', href)
+      skipInternalNavigate = false
+    }
+  }
+}
