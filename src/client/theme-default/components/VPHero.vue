@@ -72,7 +72,7 @@ const { heroImageSlotExists } = inject(
 
 <style scoped>
 .VPHero {
-  margin-top: calc((var(--vp-nav-height) + var(--vp-layout-top-height, 0px)) * -1);
+  margin-block-start: calc((var(--vp-nav-height) + var(--vp-layout-top-height, 0px)) * -1);
   padding: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 48px) 24px 48px;
 }
 
@@ -115,7 +115,7 @@ const { heroImageSlotExists } = inject(
 
 @media (min-width: 960px) {
   .VPHero.has-image .container {
-    text-align: left;
+    text-align: start;
   }
 }
 
@@ -190,7 +190,7 @@ const { heroImageSlotExists } = inject(
 }
 
 .tagline {
-  padding-top: 8px;
+  padding-block-start: 8px;
   max-width: 392px;
   line-height: 28px;
   font-size: 18px;
@@ -205,7 +205,7 @@ const { heroImageSlotExists } = inject(
 
 @media (min-width: 640px) {
   .tagline {
-    padding-top: 12px;
+    padding-block-start: 12px;
     max-width: 576px;
     line-height: 32px;
     font-size: 20px;
@@ -227,7 +227,7 @@ const { heroImageSlotExists } = inject(
   display: flex;
   flex-wrap: wrap;
   margin: -6px;
-  padding-top: 24px;
+  padding-block-start: 24px;
 }
 
 .VPHero.has-image .actions {
@@ -236,7 +236,7 @@ const { heroImageSlotExists } = inject(
 
 @media (min-width: 640px) {
   .actions {
-    padding-top: 32px;
+    padding-block-start: 32px;
   }
 }
 

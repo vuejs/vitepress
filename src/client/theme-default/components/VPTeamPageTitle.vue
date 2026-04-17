@@ -45,7 +45,7 @@
 .lead {
   margin: 0 auto;
   max-width: 512px;
-  padding-top: 12px;
+  padding-block-start: 12px;
   line-height: 24px;
   font-size: 16px;
   font-weight: 500;

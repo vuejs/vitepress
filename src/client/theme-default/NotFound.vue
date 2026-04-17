@@ -50,7 +50,7 @@ const { currentLang } = useLangs()
 }
 
 .title {
-  padding-top: 12px;
+  padding-block-start: 12px;
   letter-spacing: 2px;
   line-height: 20px;
   font-size: 20px;
@@ -73,7 +73,7 @@ const { currentLang } = useLangs()
 }
 
 .action {
-  padding-top: 20px;
+  padding-block-start: 20px;
 }
 
 .link {

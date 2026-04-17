@@ -68,8 +68,8 @@ const classes = computed(() => {
   /*rtl:ignore*/
   left: 0;
   z-index: var(--vp-z-index-local-nav);
-  border-bottom: 1px solid var(--vp-c-gutter);
-  padding-top: var(--vp-layout-top-height, 0px);
+  border-block-end: 1px solid var(--vp-c-gutter);
+  padding-block-start: var(--vp-layout-top-height, 0px);
   width: 100%;
   background-color: var(--vp-local-nav-bg-color);
 }
@@ -84,7 +84,7 @@ const classes = computed(() => {
   }
 
   .VPLocalNav.has-sidebar {
-    padding-left: var(--vp-sidebar-width);
+    padding-inline-start: var(--vp-sidebar-width);
   }
 
   .VPLocalNav.empty {
@@ -126,7 +126,7 @@ const classes = computed(() => {
 }
 
 .menu-icon {
-  margin-right: 8px;
+  margin-inline-end: 8px;
   font-size: 14px;
 }
 
