@@ -93,14 +93,15 @@ export const createNavigationApiRouterStrategy: RouterStrategyFactory = (
     const src = event.sourceElement
     // Mirror the legacy click-handler filters when the navigation was
     // element-initiated (e.g. link click). Programmatic navigations have a
-    // null sourceElement and are always considered eligible.
+    // null sourceElement and are always considered eligible. `download` is
+    // handled by `event.downloadRequest` above.
     if (src) {
       if (src.closest('.vp-raw')) return
       // covers docsearch action buttons and button-wrapped link content
       if (src.closest('button') || src.querySelector('button')) return
       if (
         (src instanceof HTMLAnchorElement || src instanceof SVGAElement) &&
-        (src.hasAttribute('download') || src.hasAttribute('target'))
+        src.hasAttribute('target')
       ) {
         return
       }
