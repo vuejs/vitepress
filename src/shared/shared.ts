@@ -42,6 +42,7 @@ export const notFoundPageData: PageData = {
   headers: [],
   frontmatter: { sidebar: false, layout: 'page' },
   lastUpdated: 0,
+  created: 0,
   isNotFound: true
 }
 

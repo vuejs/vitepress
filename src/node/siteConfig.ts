@@ -66,6 +66,7 @@ export interface UserConfig<
     | 'force-auto'
     | (Omit<UseDarkOptions, 'initialValue'> & { initialValue?: 'dark' })
   lastUpdated?: boolean
+  created?: boolean
   contentProps?: Record<string, any>
 
   /**
@@ -204,6 +205,7 @@ export interface SiteConfig<ThemeConfig = any> extends Pick<
   | 'mpa'
   | 'metaChunk'
   | 'lastUpdated'
+  | 'created'
   | 'ignoreDeadLinks'
   | 'cleanUrls'
   | 'useWebFonts'

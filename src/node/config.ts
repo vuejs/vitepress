@@ -143,6 +143,7 @@ export async function resolveConfig(
     markdown: userConfig.markdown,
     lastUpdated:
       userConfig.lastUpdated ?? !!userConfig.themeConfig?.lastUpdated,
+    created: userConfig.created ?? !!userConfig.themeConfig?.created,
     vue: userConfig.vue,
     vite: userConfig.vite,
     shouldPreload: userConfig.shouldPreload,
