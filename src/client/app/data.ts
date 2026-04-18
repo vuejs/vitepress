@@ -1,5 +1,5 @@
 import siteData from '@siteData'
-import { useDark, usePreferredDark } from '@vueuse/core'
+import { usePreferredDark } from '@vueuse/core'
 import {
   computed,
   inject,
@@ -7,8 +7,10 @@ import {
   ref,
   shallowRef,
   watch,
+  watchEffect,
   type InjectionKey,
-  type Ref
+  type Ref,
+  type WritableComputedRef
 } from 'vue'
 import {
   APPEARANCE_KEY,
@@ -19,6 +21,8 @@ import {
   type SiteData
 } from '../shared'
 import type { Route } from './router'
+
+export type AppearanceMode = 'auto' | 'light' | 'dark'
 
 export const dataSymbol: InjectionKey<VitePressData> = Symbol()
 
@@ -50,6 +54,10 @@ export interface VitePressData<T = any> {
   localeIndex: Ref<string>
   isDark: Ref<boolean>
   /**
+   * The current appearance mode: 'auto' (follow system), 'light', or 'dark'
+   */
+  appearanceMode: Ref<AppearanceMode>
+  /**
    * Current location hash
    */
   hash: Ref<string>
@@ -67,18 +75,49 @@ export function initData(route: Route): VitePressData {
   )
 
   const appearance = site.value.appearance // fine with reactivity being lost here, config change triggers a restart
-  const isDark =
-    appearance === 'force-dark'
-      ? ref(true)
-      : appearance === 'force-auto'
-        ? usePreferredDark()
-        : appearance
-          ? useDark({
-              storageKey: APPEARANCE_KEY,
-              initialValue: () => (appearance === 'dark' ? 'dark' : 'auto'),
-              ...(typeof appearance === 'object' ? appearance : {})
-            })
-          : ref(false)
+  const prefersDark = appearance ? usePreferredDark() : ref(false)
+
+  let isDark: Ref<boolean>
+  let appearanceMode: Ref<AppearanceMode>
+
+  if (appearance === 'force-dark') {
+    isDark = ref(true)
+    appearanceMode = ref('dark')
+  } else if (appearance === 'force-auto') {
+    isDark = prefersDark
+    appearanceMode = ref('auto')
+  } else if (appearance) {
+    const defaultMode: AppearanceMode = appearance === 'dark' ? 'dark' : 'auto'
+
+    appearanceMode = ref<AppearanceMode>(
+      inBrowser
+        ? (localStorage.getItem(APPEARANCE_KEY) as AppearanceMode) ||
+            defaultMode
+        : defaultMode
+    )
+
+    isDark = computed({
+      get: () => {
+        if (appearanceMode.value === 'auto') return prefersDark.value
+        return appearanceMode.value === 'dark'
+      },
+      set: (v: boolean) => {
+        appearanceMode.value = v ? 'dark' : 'light'
+      }
+    }) as WritableComputedRef<boolean>
+
+    if (inBrowser) {
+      watchEffect(() => {
+        document.documentElement.classList.toggle('dark', isDark.value)
+      })
+      watch(appearanceMode, (val) => {
+        localStorage.setItem(APPEARANCE_KEY, val)
+      })
+    }
+  } else {
+    isDark = ref(false)
+    appearanceMode = ref('light')
+  }
 
   const hashRef = ref(inBrowser ? location.hash : '')
 
@@ -109,6 +148,7 @@ export function initData(route: Route): VitePressData {
       () => route.data.description || site.value.description
     ),
     isDark,
+    appearanceMode,
     hash: computed(() => hashRef.value)
   }
 }
