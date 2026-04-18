@@ -147,6 +147,11 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    * @default 'Copy Code'
    */
   codeCopyButtonTitle?: string
+  /**
+   * Remove all #region markers when including snippets
+   * @default false
+   */
+  stripMarkersFromSnippets?: boolean
 
   /* ==================== Markdown It Plugins ==================== */
 
@@ -281,7 +286,7 @@ export async function createMarkdownRenderer(
     codeCopyButtonTitle,
     languageLabel: options.languageLabel
   })
-  snippetPlugin(md, srcDir)
+  snippetPlugin(md, srcDir, options.stripMarkersFromSnippets)
   containerPlugin(md, options.container)
   imagePlugin(md, options.image)
   linkPlugin(
