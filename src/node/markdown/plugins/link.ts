@@ -30,8 +30,6 @@ export const linkPlugin = (
     const hrefIndex = token.attrIndex('href')
     if (
       hrefIndex >= 0 &&
-      token.attrIndex('target') < 0 &&
-      token.attrIndex('download') < 0 &&
       token.attrGet('class') !== 'header-anchor' // header anchors are already normalized
     ) {
       const hrefAttr = token.attrs![hrefIndex]
@@ -54,6 +52,9 @@ export const linkPlugin = (
           !url.startsWith('#') &&
           // skip mail/custom protocol links
           protocol.startsWith('http') &&
+          // skip links with target/download attribute as they are meant to be opened/downloaded as-is
+          token.attrIndex('target') < 0 &&
+          token.attrIndex('download') < 0 &&
           // skip links to files (other than html/md)
           treatAsHtml(pathname)
         ) {
