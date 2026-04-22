@@ -41,6 +41,35 @@ const label: string = 'Hello'
       </div></template>"
     `)
   })
+
+  test('marks existing markdown default export as vapor when vue.features.vapor is enabled', async () => {
+    const render = await createRenderFn()
+
+    const { vueSrc } = await render(
+      `<script>
+export default {
+  components: {}
+}
+</script>
+
+# Hello`,
+      `${process.cwd()}/tutorial/index.md`,
+      ''
+    )
+
+    expect(vueSrc).toMatchInlineSnapshot(`
+      "<script>
+      const __VP_VAPOR_DEFAULT_EXPORT__ = {
+        components: {}
+      }
+
+      export const __pageData = JSON.parse("{\\"title\\":\\"Hello\\",\\"description\\":\\"\\",\\"frontmatter\\":{},\\"headers\\":[],\\"relativePath\\":\\"tutorial/index.md\\",\\"filePath\\":\\"tutorial/index.md\\"}")
+      __VP_VAPOR_DEFAULT_EXPORT__.__vapor = true
+      export default __VP_VAPOR_DEFAULT_EXPORT__</script>
+      <template><div><h1 id="hello" tabindex="-1">Hello <a class="header-anchor" href="#hello" aria-label="Permalink to “Hello”">&#8203;</a></h1>
+      </div></template>"
+    `)
+  })
 })
 
 function createRenderFn() {

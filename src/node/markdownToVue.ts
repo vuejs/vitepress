@@ -263,6 +263,8 @@ const scriptSetupRE = /<\s*script[^>]*\bsetup\b[^>]*/
 const scriptClientRE = /<\s*script[^>]*\bclient\b[^>]*/
 const defaultExportRE = /((?:^|\n|;)\s*)export(\s*)default/
 const namedDefaultExportRE = /((?:^|\n|;)\s*)export(.+)as(\s*)default/
+const namedDefaultExportNameRE =
+  /(?:^|\n|;)\s*export\s*\{\s*([A-Za-z_$][\w$]*)\s+as\s+default\s*\}/
 
 function injectPageDataCode(tags: string[], data: PageData, vapor?: boolean) {
   const code = `\nexport const __pageData = JSON.parse(${JSON.stringify(
@@ -288,10 +290,31 @@ function injectPageDataCode(tags: string[], data: PageData, vapor?: boolean) {
     // if it doesn't have export default it will error out on build
     const hasDefaultExport =
       defaultExportRE.test(tagSrc) || namedDefaultExportRE.test(tagSrc)
-    tags[existingScriptIndex] = tagSrc.replace(
-      scriptRE,
-      code + (hasDefaultExport ? `` : defaultExportCode) + `</script>`
-    )
+    if (vapor && defaultExportRE.test(tagSrc)) {
+      const defaultExportVar = `__VP_VAPOR_DEFAULT_EXPORT__`
+      tags[existingScriptIndex] = tagSrc
+        .replace(defaultExportRE, `$1const ${defaultExportVar} =`)
+        .replace(
+          scriptRE,
+          `${code}
+${defaultExportVar}.__vapor = true
+export default ${defaultExportVar}</script>`
+        )
+    } else {
+      const namedDefaultMatch = vapor
+        ? tagSrc.match(namedDefaultExportNameRE)
+        : null
+      tags[existingScriptIndex] = tagSrc.replace(
+        scriptRE,
+        code +
+          (namedDefaultMatch
+            ? `\n${namedDefaultMatch[1]}.__vapor = true`
+            : hasDefaultExport
+              ? ``
+              : defaultExportCode) +
+          `</script>`
+      )
+    }
   } else {
     tags.unshift(
       `<script ${
