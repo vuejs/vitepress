@@ -1,4 +1,3 @@
-import { getScrollOffset } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
 import { onMounted, onUnmounted, onUpdated, type Ref } from 'vue'
 import { throttleAndDebounce } from '../support/utils'
@@ -115,7 +114,9 @@ export function useActiveAnchor(
     const headers = resolvedHeaders
       .map(({ element, link }) => ({
         link,
-        top: getAbsoluteTop(element)
+        top: getAbsoluteTop(element),
+        scrollMarginTop:
+          Number.parseFloat(getComputedStyle(element).scrollMarginTop) || 0
       }))
       .filter(({ top }) => !Number.isNaN(top))
       .sort((a, b) => a.top - b.top)
@@ -140,8 +141,8 @@ export function useActiveAnchor(
 
     // find the last header above the top of viewport
     let activeLink: string | null = null
-    for (const { link, top } of headers) {
-      if (top > scrollY + getScrollOffset() + 4) {
+    for (const { link, top, scrollMarginTop } of headers) {
+      if (top > scrollY + scrollMarginTop + 4) {
         break
       }
       activeLink = link
