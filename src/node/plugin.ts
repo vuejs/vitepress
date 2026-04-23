@@ -47,6 +47,8 @@ const hashRE = /\.([-\w]+)\.js$/
 const staticInjectMarkerRE = /\bcreateStaticVNode\((?:(".*")|('.*')), (\d+)\)/g
 const staticStripRE = /['"`]__VP_STATIC_START__[^]*?__VP_STATIC_END__['"`]/g
 const staticRestoreRE = /__VP_STATIC_(START|END)__/g
+const vaporStaticTemplateInjectMarkerRE =
+  /\b(_?template)\((?:(".*")|('.*')),\s*(true|false),\s*true\)/g
 
 // matches client-side js blocks in MPA mode.
 // in the future we may add different execution strategies like visible or
@@ -289,20 +291,31 @@ export async function createVitePressPlugin(
     },
 
     renderChunk(code, chunk) {
-      // This is a VDOM-only optimization: Vapor uses template() strings that
-      // are needed during hydration and should not be stripped this way.
-      if (!ssr && !isVaporMode && isPageChunk(chunk as Rollup.OutputChunk)) {
-        // For each page chunk, inject marker for start/end of static strings.
-        // we do this here because in generateBundle the chunks would have been
-        // minified and we won't be able to safely locate the strings.
-        // Using a regexp relies on specific output from Vue compiler core,
-        // which is a reasonable trade-off considering the massive perf win over
-        // a full AST parse.
-        code = code.replace(staticInjectMarkerRE, (_, str1, str2, flag) => {
-          const str = str1 || str2
-          const quote = str[0]
-          return `createStaticVNode(${quote}__VP_STATIC_START__${str.slice(1, -1)}__VP_STATIC_END__${quote}, ${flag})`
-        })
+      if (!ssr && isPageChunk(chunk as Rollup.OutputChunk)) {
+        if (isVaporMode) {
+          // Unlike the VDOM path below, only compiler-marked pure-static
+          // template() calls are strip-safe for Vapor hydration.
+          code = code.replace(
+            vaporStaticTemplateInjectMarkerRE,
+            (_, helper, str1, str2, root) => {
+              const str = str1 || str2
+              const quote = str[0]
+              return `${helper}(${quote}__VP_STATIC_START__${str.slice(1, -1)}__VP_STATIC_END__${quote}, ${root}, true)`
+            }
+          )
+        } else {
+          // For each page chunk, inject marker for start/end of static strings.
+          // we do this here because in generateBundle the chunks would have been
+          // minified and we won't be able to safely locate the strings.
+          // Using a regexp relies on specific output from Vue compiler core,
+          // which is a reasonable trade-off considering the massive perf win over
+          // a full AST parse.
+          code = code.replace(staticInjectMarkerRE, (_, str1, str2, flag) => {
+            const str = str1 || str2
+            const quote = str[0]
+            return `createStaticVNode(${quote}__VP_STATIC_START__${str.slice(1, -1)}__VP_STATIC_END__${quote}, ${flag})`
+          })
+        }
         return code
       }
       return null

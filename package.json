@@ -114,7 +114,7 @@
     "minisearch": "^7.2.0",
     "shiki": "^4.0.2",
     "vite": "^7.3.1",
-    "vue": "https://pkg.pr.new/vue@19a870d"
+    "vue": "https://pkg.pr.new/vue@d5cb21e"
   },
   "devDependencies": {
     "@clack/prompts": "^1.2.0",
