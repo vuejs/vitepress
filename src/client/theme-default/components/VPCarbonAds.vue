@@ -22,7 +22,7 @@ function init() {
     const params = new URLSearchParams({
       serve: carbonOptions.code,
       placement: carbonOptions.placement,
-      format: carbonOptions.format || 'classic',
+      format: carbonOptions?.format || 'classic',
     })
     const s = document.createElement('script')
     s.id = '_carbonads_js'
