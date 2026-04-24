@@ -368,6 +368,7 @@ export default {
     carbonAds: {
       code: 'your-carbon-code',
       placement: 'your-carbon-placement'
+      format: 'classic'
     }
   }
 }
@@ -377,6 +378,7 @@ export default {
 export interface CarbonAdsOptions {
   code: string
   placement: string
+  format?: 'classic' | 'responsive' | 'cover'
 }
 ```
 
