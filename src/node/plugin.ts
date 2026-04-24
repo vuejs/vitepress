@@ -67,6 +67,36 @@ const isPageChunk = (
 
 const cleanUrl = (url: string): string => url.replace(/[?#].*$/s, '')
 
+const isMarkdownModule = (id: string): boolean =>
+  cleanUrl(normalizePath(id)).endsWith('.md')
+
+function injectStaticMarkers(code: string, isVaporMode: boolean): string {
+  if (isVaporMode) {
+    // Only compiler-marked pure-static template() calls are strip-safe for
+    // Vapor hydration.
+    return code.replace(
+      vaporStaticTemplateInjectMarkerRE,
+      (_, helper, str1, str2, root) => {
+        const str = str1 || str2
+        const quote = str[0]
+        return `${helper}(${quote}__VP_STATIC_START__${str.slice(1, -1)}__VP_STATIC_END__${quote}, ${root}, true)`
+      }
+    )
+  }
+
+  // For markdown-owned compiled modules, inject marker for start/end of static strings.
+  // we do this here because in generateBundle the chunks would have been
+  // minified and we won't be able to safely locate the strings.
+  // Using a regexp relies on specific output from Vue compiler core,
+  // which is a reasonable trade-off considering the massive perf win over
+  // a full AST parse.
+  return code.replace(staticInjectMarkerRE, (_, str1, str2, flag) => {
+    const str = str1 || str2
+    const quote = str[0]
+    return `createStaticVNode(${quote}__VP_STATIC_START__${str.slice(1, -1)}__VP_STATIC_END__${quote}, ${flag})`
+  })
+}
+
 export async function createVitePressPlugin(
   siteConfig: SiteConfig,
   ssr = false,
@@ -290,37 +320,6 @@ export async function createVitePressPlugin(
       }
     },
 
-    renderChunk(code, chunk) {
-      if (!ssr && isPageChunk(chunk as Rollup.OutputChunk)) {
-        if (isVaporMode) {
-          // Unlike the VDOM path below, only compiler-marked pure-static
-          // template() calls are strip-safe for Vapor hydration.
-          code = code.replace(
-            vaporStaticTemplateInjectMarkerRE,
-            (_, helper, str1, str2, root) => {
-              const str = str1 || str2
-              const quote = str[0]
-              return `${helper}(${quote}__VP_STATIC_START__${str.slice(1, -1)}__VP_STATIC_END__${quote}, ${root}, true)`
-            }
-          )
-        } else {
-          // For each page chunk, inject marker for start/end of static strings.
-          // we do this here because in generateBundle the chunks would have been
-          // minified and we won't be able to safely locate the strings.
-          // Using a regexp relies on specific output from Vue compiler core,
-          // which is a reasonable trade-off considering the massive perf win over
-          // a full AST parse.
-          code = code.replace(staticInjectMarkerRE, (_, str1, str2, flag) => {
-            const str = str1 || str2
-            const quote = str[0]
-            return `createStaticVNode(${quote}__VP_STATIC_START__${str.slice(1, -1)}__VP_STATIC_END__${quote}, ${flag})`
-          })
-        }
-        return code
-      }
-      return null
-    },
-
     generateBundle: {
       order: ssr ? null : 'post',
       handler(_options, bundle) {
@@ -399,6 +398,20 @@ export async function createVitePressPlugin(
     }
   }
 
+  const staticMarkersPlugin: Plugin = {
+    name: 'vitepress:static-markers',
+    apply: 'build',
+    transform(code, id) {
+      if (ssr || !isMarkdownModule(id)) return null
+
+      // Mark only the compiled .md module before bundling. A page chunk can
+      // also contain imported components that are not rendered during SSR, so
+      // stripping the whole chunk would remove HTML they need for later mount.
+      const transformed = injectStaticMarkers(code, isVaporMode)
+      return transformed === code ? null : transformed
+    }
+  }
+
   const hmrFix: Plugin = {
     name: 'vitepress:hmr-fix',
     async hotUpdate({ file, modules: existingMods }) {
@@ -426,6 +439,7 @@ export async function createVitePressPlugin(
     vitePressPlugin,
     rewritesPlugin(siteConfig),
     vuePlugin,
+    staticMarkersPlugin,
     hmrFix,
     webFontsPlugin(siteConfig.useWebFonts),
     ...(userViteConfig?.plugins || []),
