@@ -144,7 +144,7 @@ export default defineConfigWithTheme<ThemeConfig>({
 
 站点的标题。使用默认主题时，这将显示在导航栏中。
 
-它还将用作所有单独页面标题的默认后缀，除非定义了 [`titleTemplate`](#titletemplate)。单个页面的最终标题将是其第一个 `<h1>` 标题的文本内容加上的全局 `title`。例如使用以下配置和页面内容：
+它还将用作所有单独页面标题的默认后缀，除非定义了 [`titleTemplate`](#titletemplate)。单个页面的最终标题将是其第一个 `<h1>` 标题的文本内容加上全局 `title`。例如使用以下配置和页面内容：
 
 ```ts
 export default {
@@ -156,7 +156,7 @@ export default {
 # Hello
 ```
 
-页面标题就是 `Hello | My Awesome Site`.
+页面标题就是 `Hello | My Awesome Site`。
 
 ### titleTemplate
 
@@ -176,7 +176,7 @@ export default {
 # Hello
 ```
 
-页面标题就是 `Hello | Custom Suffix`.
+页面标题就是 `Hello | Custom Suffix`。
 
 要完全自定义标题的呈现方式，可以在 `titleTemplate` 中使用 `:title` 标识符：
 
