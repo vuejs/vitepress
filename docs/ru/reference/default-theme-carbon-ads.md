@@ -11,7 +11,8 @@ export default {
   themeConfig: {
     carbonAds: {
       code: 'код-рекламы',
-      placement: 'место-размещения-рекламы'
+      placement: 'место-размещения-рекламы',
+      format: 'classic'
     }
   }
 }
@@ -19,8 +20,10 @@ export default {
 
 Эти значения используются для вызова сценария Carbon CDN, как показано ниже:
 
+Параметр `format` поддерживает значения `classic`, `responsive` и `cover`.
+
 ```js
-;`//cdn.carbonads.com/carbon.js?serve=${code}&placement=${placement}`
+`//cdn.carbonads.com/carbon.js?serve=${code}&placement=${placement}&format=${format}`
 ```
 
 Чтобы узнать больше о настройке Carbon Ads, посетите [веб-сайт Carbon Ads](https://www.carbonads.net/).

@@ -9,9 +9,9 @@ description: 基于 Git 提交历史在 VitePress 页面上显示最后更新时
 ::: tip
 VitePress 通过每个文件最近一次 Git 提交的时间戳显示"最后更新"时间，因此你必须提交 markdown 文件才能看到最后更新时间。
 
-具体实现上，VitePress 会对每个文件执行`git log -1 --pretty="%ai"`命令以获取时间戳。若所有页面显示相同的更新时间，可能是由于浅克隆（常见于 CI 环境）导致 Git 历史记录受限所致。
+具体实现上，VitePress 会对每个文件执行 `git log -1 --pretty="%ai"` 命令以获取时间戳。若所有页面显示相同的更新时间，可能是由于浅克隆（常见于 CI 环境）导致 Git 历史记录受限所致。
 
-在 **GitHub Actions** 中修复此问题，请在工作流中添加以下配置：
+要在 **GitHub Actions** 中修复此问题，请在工作流中添加以下配置：
 
 ```yaml{4}
 - name: Checkout
