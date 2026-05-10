@@ -2,9 +2,9 @@ import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { createRequire } from 'node:module'
+import { execFileSync } from 'node:child_process'
 import c from 'picocolors'
 import prompts from 'prompts'
-import { execa } from 'execa'
 import semver from 'semver'
 
 const { version: currentVersion } = createRequire(import.meta.url)(
@@ -19,7 +19,7 @@ const tags = ['latest', 'next']
 const dir = fileURLToPath(new URL('.', import.meta.url))
 const inc = (i) => _inc(currentVersion, i)
 const run = (bin, args, opts = {}) =>
-  execa(bin, args, { stdio: 'inherit', ...opts })
+ execFileSync(bin, args, { stdio: 'inherit', ...opts })
 const step = (msg) => console.log(c.cyan(msg))
 
 async function main() {
