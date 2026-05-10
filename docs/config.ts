@@ -93,7 +93,8 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
         },
         { text: 'Build-Time Data Loading', link: 'data-loading' },
         { text: 'SSR Compatibility', link: 'ssr-compat' },
-        { text: 'Connecting to a CMS', link: 'cms' }
+        { text: 'Connecting to a CMS', link: 'cms' },
+        { text: 'Environment Variables', link: 'environment-variables' } 
       ]
     },
     {
