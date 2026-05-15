@@ -110,7 +110,7 @@ layout: doc
 
 ### features <Badge type="info" text="home page only" />
 
-定义当`layout` 设置为 `home` 时要在 features 部分中显示的项目。更多详细信息：[默认主题：主页](./default-theme-home-page)。
+定义当 `layout` 设置为 `home` 时要在 features 部分中显示的项目。更多详细信息：[默认主题：主页](./default-theme-home-page)。
 
 ### navbar
 
@@ -130,7 +130,7 @@ navbar: false
 - 类型：`boolean`
 - 默认值：`true`
 
-是否显示 [侧边栏](./default-theme-sidebar).
+是否显示 [侧边栏](./default-theme-sidebar)。
 
 ```yaml
 ---

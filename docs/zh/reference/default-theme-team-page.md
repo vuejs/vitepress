@@ -117,9 +117,9 @@ const members = [
 
 创建完整的团队页面时，请记住用 `<VPTeamPage>` 组件包装所有团队相关组件，以获得正确的布局结构，如间距。
 
-`<VPPageTitle>` 组件添加页面标题部分。标题是 `<h1>` 标题。使用 `#title` 和 `#lead` 插槽来介绍你的团队。
+`<VPTeamPageTitle>` 组件添加页面标题部分。标题是 `<h1>` 标题。使用 `#title` 和 `#lead` 插槽来介绍你的团队。
 
-`<VPMembers>` 和在 doc 页面中使用时一样。它将显示成员列表。
+`<VPTeamMembers>` 和在 doc 页面中使用时一样。它将显示成员列表。
 
 ### 添加 section 以划分团队成员 {#add-sections-to-divide-team-members}
 
@@ -243,7 +243,7 @@ interface TeamMember {
 
 ## `<VPTeamPageSection>`
 
-在团队页面中创建一个“section”。它接受 `#title`、`#lead` 和 `#members` 插槽。你可以在 `<VPTeamPage>` 中添加任意数量的section。
+在团队页面中创建一个“section”。它接受 `#title`、`#lead` 和 `#members` 插槽。你可以在 `<VPTeamPage>` 中添加任意数量的 section。
 
 ```html
 <VPTeamPage>

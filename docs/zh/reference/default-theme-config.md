@@ -273,7 +273,7 @@ export interface Footer {
 - 类型：`EditLink`
 - 每个页面可以通过 [frontmatter](./frontmatter-config#editlink) 覆盖
 
-编辑链接可让显示链接以编辑 Git 管理服务 (例如 GitHub 或 GitLab) 上的页面。有关详细信息，请参阅[默认主题：编辑链接](./default-theme-edit-link)。
+编辑链接允许显示一个链接，用于在 Git 管理服务 (例如 GitHub 或 GitLab) 上编辑页面。有关详细信息，请参阅[默认主题：编辑链接](./default-theme-edit-link)。
 
 ```ts
 export default {
@@ -353,16 +353,20 @@ export default {
   themeConfig: {
     carbonAds: {
       code: 'your-carbon-code',
-      placement: 'your-carbon-placement'
+      placement: 'your-carbon-placement',
+      format: 'classic'
     }
   }
 }
 ```
 
+`format` 选项支持 `classic`、`responsive` 和 `cover`。
+
 ```ts
 export interface CarbonAdsOptions {
   code: string
   placement: string
+  format?: 'classic' | 'responsive' | 'cover'
 }
 ```
 

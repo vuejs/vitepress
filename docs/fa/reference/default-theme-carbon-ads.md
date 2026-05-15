@@ -11,7 +11,8 @@ export default {
   themeConfig: {
     carbonAds: {
       code: 'your-carbon-code',
-      placement: 'your-carbon-placement'
+      placement: 'your-carbon-placement',
+      format: 'classic'
     }
   }
 }
@@ -19,8 +20,10 @@ export default {
 
 این مقادیر برای فراخوانی اسکریپت CDN Carbon به شکل زیر استفاده می‌شوند.
 
+گزینه `format` از مقادیر `classic`، `responsive` و `cover` پشتیبانی می‌کند.
+
 ```js
-`//cdn.carbonads.com/carbon.js?serve=${code}&placement=${placement}`
+`//cdn.carbonads.com/carbon.js?serve=${code}&placement=${placement}&format=${format}`
 ```
 
 برای یادگیری بیشتر درباره پیکربندی تبلیغات Carbon، لطفاً به [وب‌سایت Carbon Ads](https://www.carbonads.net/) مراجعه کنید.

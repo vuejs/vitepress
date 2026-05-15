@@ -11,7 +11,8 @@ export default {
   themeConfig: {
     carbonAds: {
       code: 'your-carbon-code',
-      placement: 'your-carbon-placement'
+      placement: 'your-carbon-placement',
+      format: 'classic'
     }
   }
 }
@@ -19,8 +20,10 @@ export default {
 
 이 값들은 아래와 같이 카본 CDN 스크립트를 호출하는 데 사용됩니다.
 
+`format` 옵션에는 `classic`, `responsive`, `cover`를 사용할 수 있습니다.
+
 ```js
-`//cdn.carbonads.com/carbon.js?serve=${code}&placement=${placement}`
+`//cdn.carbonads.com/carbon.js?serve=${code}&placement=${placement}&format=${format}`
 ```
 
 카본 광고 구성에 대해 더 알고 싶다면 [카본 광고 웹사이트](https://www.carbonads.net/)를 방문하세요.

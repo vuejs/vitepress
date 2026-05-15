@@ -410,6 +410,7 @@ export namespace DefaultTheme {
   export interface CarbonAdsOptions {
     code: string
     placement: string
+    format?: 'classic' | 'responsive' | 'cover'
   }
 
   // last updated --------------------------------------------------------------
