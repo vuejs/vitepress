@@ -1,12 +1,7 @@
-import type MarkdownIt from 'markdown-it'
-import type { Options as MiniSearchOptions } from 'minisearch'
-import type { ComputedRef, Ref, ShallowRef } from 'vue'
+import type { Options as _MiniSearchOptions } from 'minisearch'
 import type { DocSearchProps } from './docsearch.js'
-import type {
-  LocalSearchTranslations,
-  PageSplitSection
-} from './local-search.js'
-import type { Awaitable, MarkdownEnv, PageData } from './shared.js'
+import type { LocalSearchTranslations } from './local-search.js'
+import type { Header, PageData } from './shared.js'
 
 export namespace DefaultTheme {
   export interface Config {
@@ -136,11 +131,6 @@ export namespace DefaultTheme {
       | { provider: 'algolia'; options: AlgoliaSearchOptions }
 
     /**
-     * @deprecated Use `search` instead.
-     */
-    algolia?: AlgoliaSearchOptions
-
-    /**
      * The carbon ads options. Leave it undefined to disable the ads feature.
      */
     carbonAds?: CarbonAdsOptions
@@ -176,7 +166,7 @@ export namespace DefaultTheme {
 
   export interface NavItemWithLink {
     text: string
-    link: string
+    link: string | ((payload: PageData) => string)
     items?: never
 
     /**
@@ -277,22 +267,6 @@ export namespace DefaultTheme {
     target?: string
   }
 
-  /**
-   * ReturnType of `useSidebar`
-   */
-  export interface DocSidebar {
-    isOpen: Ref<boolean>
-    sidebar: ComputedRef<SidebarItem[]>
-    sidebarGroups: ComputedRef<SidebarItem[]>
-    hasSidebar: ComputedRef<boolean>
-    hasAside: ComputedRef<boolean>
-    leftAside: ComputedRef<boolean>
-    isSidebarEnabled: ComputedRef<boolean>
-    open: () => void
-    close: () => void
-    toggle: () => void
-  }
-
   // edit link -----------------------------------------------------------------
 
   export interface EditLink {
@@ -361,30 +335,16 @@ export namespace DefaultTheme {
     actionText?: string
   }
 
-  // local nav -----------------------------------------------------------------
-
-  /**
-   * ReturnType of `useLocalNav`.
-   */
-  export interface DocLocalNav {
-    /**
-     * The outline headers of the current page.
-     */
-    headers: ShallowRef<any>
-
-    /**
-     * Whether the current page has a local nav. Local nav is shown when the
-     * "outline" is present in the page. However, note that the actual
-     * local nav visibility depends on the screen width as well.
-     */
-    hasLocalNav: ComputedRef<boolean>
-  }
-
   // outline -------------------------------------------------------------------
 
   export interface Outline {
     level?: number | [number, number] | 'deep'
     label?: string
+  }
+
+  export type OutlineItem = Omit<Header, 'slug' | 'children'> & {
+    element: HTMLHeadElement
+    children?: OutlineItem[]
   }
 
   // local search --------------------------------------------------------------
@@ -413,46 +373,21 @@ export namespace DefaultTheme {
     translations?: LocalSearchTranslations
     locales?: Record<string, Partial<Omit<LocalSearchOptions, 'locales'>>>
 
-    miniSearch?: {
-      /**
-       * @see https://lucaong.github.io/minisearch/types/MiniSearch.Options.html
-       */
-      options?: Pick<
-        MiniSearchOptions,
-        'extractField' | 'tokenize' | 'processTerm'
-      >
-      /**
-       * @see https://lucaong.github.io/minisearch/types/MiniSearch.SearchOptions.html
-       */
-      searchOptions?: MiniSearchOptions['searchOptions']
+    miniSearch?: MiniSearchOptions
+  }
 
-      /**
-       * Overrides the default regex based page splitter.
-       * Supports async generator, making it possible to run in true parallel
-       * (when used along with `node:child_process` or `worker_threads`)
-       * ---
-       * This should be especially useful for scalability reasons.
-       * ---
-       * @param {string} path - absolute path to the markdown source file
-       * @param {string} html - document page rendered as html
-       */
-      _splitIntoSections?: (
-        path: string,
-        html: string
-      ) =>
-        | AsyncGenerator<PageSplitSection>
-        | Generator<PageSplitSection>
-        | Awaitable<PageSplitSection[]>
-    }
+  interface MiniSearchOptions {
     /**
-     * Allows transformation of content before indexing (node only)
-     * Return empty string to skip indexing
+     * @see https://lucaong.github.io/minisearch/types/MiniSearch.Options.html
      */
-    _render?: (
-      src: string,
-      env: MarkdownEnv,
-      md: MarkdownIt
-    ) => Awaitable<string>
+    options?: Pick<
+      _MiniSearchOptions,
+      'extractField' | 'tokenize' | 'processTerm'
+    >
+    /**
+     * @see https://lucaong.github.io/minisearch/types/MiniSearch.SearchOptions.html
+     */
+    searchOptions?: _MiniSearchOptions['searchOptions']
   }
 
   // algolia -------------------------------------------------------------------
@@ -462,6 +397,11 @@ export namespace DefaultTheme {
    * `@docsearch/react/dist/esm/DocSearch.d.ts`
    */
   export interface AlgoliaSearchOptions extends DocSearchProps {
+    /**
+     * Locale-specific overrides for Algolia search options.
+     * These options will be deeply merged with the root options,
+     * except for `searchParameters`, which is fully replaced.
+     */
     locales?: Record<string, Partial<DocSearchProps>>
   }
 
@@ -470,6 +410,7 @@ export namespace DefaultTheme {
   export interface CarbonAdsOptions {
     code: string
     placement: string
+    format?: 'classic' | 'responsive' | 'cover'
   }
 
   // last updated --------------------------------------------------------------
@@ -508,6 +449,13 @@ export namespace DefaultTheme {
      * @default "But if you don't change your direction, and if you keep looking, you may end up where you are heading."
      */
     quote?: string
+
+    /**
+     * Target of the home link.
+     *
+     * @default '/'
+     */
+    link?: string
 
     /**
      * Set aria label for home link.

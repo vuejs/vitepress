@@ -8,7 +8,6 @@ import { builtinModules, createRequire } from 'node:module'
 import { type RollupOptions, defineConfig } from 'rollup'
 import dts from 'rollup-plugin-dts'
 import esbuild from 'rollup-plugin-esbuild'
-import { globSync } from 'tinyglobby'
 
 const require = createRequire(import.meta.url)
 const pkg = require('./package.json')
@@ -34,16 +33,12 @@ const plugins = [
   }),
   commonjs(),
   nodeResolve({ preferBuiltins: false }),
-  esbuild({ target: 'node18' }),
+  esbuild({ target: 'node20' }),
   json()
 ]
 
 const esmBuild: RollupOptions = {
-  input: [
-    'src/node/index.ts',
-    'src/node/cli.ts',
-    ...globSync('src/node/worker_*.ts')
-  ],
+  input: ['src/node/index.ts', 'src/node/cli.ts'],
   output: {
     format: 'esm',
     entryFileNames: `[name].js`,
@@ -60,23 +55,15 @@ const esmBuild: RollupOptions = {
 
 const typesExternal = [
   ...external,
-  /\/vitepress\/(?!(dist|node_modules)\/).*\.d\.ts$/,
-  'source-map-js',
-  'fast-glob'
+  /\/vitepress\/(?!(dist|node_modules|vitepress)\/).*\.d\.ts$/,
+  /^markdown-it(?:\/|$)/
 ]
 
 const dtsNode = dts({
   respectExternal: true,
-  tsconfig: 'src/node/tsconfig.json'
+  tsconfig: 'src/node/tsconfig.json',
+  compilerOptions: { preserveSymlinks: false }
 })
-
-const originalResolveId = dtsNode.resolveId
-
-dtsNode.resolveId = async function (source, importer) {
-  const res = await (originalResolveId as Function).call(this, source, importer)
-  if (res?.id) res.id = await fs.realpath(res.id)
-  return res
-}
 
 const nodeTypes: RollupOptions = {
   input: 'src/node/index.ts',

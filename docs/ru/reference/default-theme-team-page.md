@@ -1,3 +1,7 @@
+---
+description: Создавайте страницы команды с профилями участников, используя встроенные компоненты VitePress.
+---
+
 <script setup>
 import { VPTeamMembers } from 'vitepress/theme'
 
@@ -51,12 +55,12 @@ const members = [
 
 # Поприветствуйте нашу замечательную команду
 
-<VPTeamMembers size="small" :members="members" />
+<VPTeamMembers size="small" :members />
 ```
 
 Вышеуказанное отобразит члена команды в виде карточки. Должно отобразиться что-то похожее на то, что показано ниже.
 
-<VPTeamMembers size="small" :members="members" />
+<VPTeamMembers size="small" :members />
 
 Компонент `<VPTeamMembers>` поставляется в двух различных размерах, `small` и `medium`. Хотя это зависит от ваших предпочтений, обычно размер `small` лучше подходит для использования на странице с макетом `doc`. Кроме того, вы можете добавить дополнительные свойства для карточки члена команды, например, добавить «описание» или кнопку «спонсировать». Подробнее об этом в секции [`<VPTeamMembers>`](#vpteammembers).
 
@@ -104,7 +108,7 @@ layout: page
       которой представлены ниже.
     </template>
   </VPTeamPageTitle>
-  <VPTeamMembers :members="members" />
+  <VPTeamMembers :members />
 </VPTeamPage>
 ```
 

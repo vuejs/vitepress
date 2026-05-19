@@ -2,7 +2,6 @@ import { createRequire } from 'node:module'
 import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import type { Alias, AliasOptions } from 'vite'
-import type { SiteConfig } from './config'
 
 const require = createRequire(import.meta.url)
 const PKG_ROOT = resolve(fileURLToPath(import.meta.url), '../..')
@@ -20,20 +19,8 @@ export const SITE_DATA_REQUEST_PATH = '/' + SITE_DATA_ID
 
 const vueRuntimePath = 'vue/dist/vue.runtime.esm-bundler.js'
 
-export function resolveAliases(
-  { root, themeDir }: SiteConfig,
-  ssr: boolean
-): AliasOptions {
-  const paths: Record<string, string> = {
-    '@theme': themeDir,
-    [SITE_DATA_ID]: SITE_DATA_REQUEST_PATH
-  }
-
+export function resolveAliases(root: string, ssr: boolean): AliasOptions {
   const aliases: Alias[] = [
-    ...Object.keys(paths).map((p) => ({
-      find: p,
-      replacement: paths[p]
-    })),
     {
       find: /^vitepress$/,
       replacement: join(DIST_CLIENT_PATH, '/index.js')

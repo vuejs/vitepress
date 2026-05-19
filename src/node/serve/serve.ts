@@ -37,7 +37,7 @@ export async function serve(options: ServeOptions = {}) {
     res.end()
   }
 
-  const compress = compression({ brotli: true })
+  const compress = compression()
   const serve = sirv(config.outDir, {
     etag: true,
     maxAge: 31536000,

@@ -40,7 +40,7 @@ withDefaults(defineProps<Props>(), {
         </p>
         <p v-if="member.desc" class="desc" v-html="member.desc" />
         <div v-if="member.links" class="links">
-          <VPSocialLinks :links="member.links" />
+          <VPSocialLinks :links="member.links" :me="false" />
         </div>
       </div>
     </div>
@@ -153,10 +153,8 @@ withDefaults(defineProps<Props>(), {
 
 .avatar-img {
   position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  inset: 0;
+  margin: 0;
   border-radius: 50%;
   object-fit: cover;
 }

@@ -1,3 +1,7 @@
+---
+description: dev, build, preview 및 init을 포함한 VitePress CLI 명령어 레퍼런스입니다.
+---
+
 # 명령 줄 인터페이스 {#command-line-interface}
 
 ## `vitepress dev`
@@ -43,7 +47,6 @@ vitepress build [root]
 | `--base <path>`               | Public 기본 경로 (기본값: `/`) (`string`)                                                              |
 | `--target <target>`           | 트랜스파일 대상 (기본값: `"modules"`) (`string`)                                                      |
 | `--outDir <dir>`              | **cwd** 기준 출력 디렉터리 (기본값: `<root>/.vitepress/dist`) (`string`)                               |
-| `--minify [minifier]`         | minify 활성화/비활성화 또는 사용할 minify 도구 지정 (기본값: `"esbuild"`) (`boolean \| "terser" \| "esbuild"`) |
 | `--assetsInlineLimit <number>`| 바이트 단위의 정적 에셋 base64 인라인 임계값 (기본값: `4096`) (`number`)                                       |
 
 ## `vitepress preview`

@@ -1,3 +1,7 @@
+---
+description: 그룹, 접을 수 있는 섹션 및 다중 사이드바를 사용하여 VitePress 기본 테마의 사이드바 네비게이션을 구성하세요.
+---
+
 # 사이드바 {#sidebar}
 
 사이드바는 문서의 기본 탐색 블록입니다. [`themeConfig.sidebar`](./default-theme-config#sidebar)에서 사이드바 메뉴를 구성할 수 있습니다.
@@ -179,37 +183,4 @@ export default {
     ]
   }
 }
-```
-
-## `useSidebar` <Badge type="info" text="composable" />
-
-사이드바 관련 데이터를 반환합니다. 반환된 객체는 다음과 같은 타입을 가집니다:
-
-```ts
-export interface DocSidebar {
-  isOpen: Ref<boolean>
-  sidebar: ComputedRef<DefaultTheme.SidebarItem[]>
-  sidebarGroups: ComputedRef<DefaultTheme.SidebarItem[]>
-  hasSidebar: ComputedRef<boolean>
-  hasAside: ComputedRef<boolean>
-  leftAside: ComputedRef<boolean>
-  isSidebarEnabled: ComputedRef<boolean>
-  open: () => void
-  close: () => void
-  toggle: () => void
-}
-```
-
-**예제:**
-
-```vue
-<script setup>
-import { useSidebar } from 'vitepress/theme'
-
-const { hasSidebar } = useSidebar()
-</script>
-
-<template>
-  <div v-if="hasSidebar">사이드바가 있을 때만 보여줍니다</div>
-</template>
 ```

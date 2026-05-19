@@ -1,3 +1,7 @@
+---
+description: ویت‌پرس یک تولیدکننده سایت ایستا برای ساخت وب‌سایت‌های سریع و محتوا محور با قدرت Vite و Vue است.
+---
+
 # ویت‌پرس چیست؟ {#what-is-vitepress}
 
 ویت‌پرس یک [تولید کننده سایت ایستا](https://en.wikipedia.org/wiki/Static_site_generator) (SSG) است که برای ساخت وب‌سایت‌های سریع و محتوا محور طراحی شده است. به طور خلاصه، ویت‌پرس محتوای منبع شما که به زبان [Markdown](https://en.wikipedia.org/wiki/Markdown) نوشته شده است را گرفته، یک تم بر روی آن اعمال می‌کند و صفحات HTML ایستا تولید می‌کند که به راحتی در هر جایی قابل استقرار هستند.
@@ -12,7 +16,7 @@
 
 - **مستندسازی**
 
-  ویت‌پرس با یک تم پیش‌فرض طراحی شده برای مستندات فنی ارائه می‌شود. این صفحه‌ای که اکنون در حال خواندن آن هستید و همچنین مستندات [Vite](https://vitejs.dev/)، [Rollup](https://rollupjs.org/)، [Pinia](https://pinia.vuejs.org/)، [VueUse](https://vueuse.org/)، [Vitest](https://vitest.dev/)، [D3](https://d3js.org/)، [UnoCSS](https://unocss.dev/)، [Iconify](https://iconify.design/) و [بسیاری دیگر](https://www.vuetelescope.com/explore?framework.slug=vitepress) با استفاده از ویت‌پرس ساخته شده‌اند.
+  ویت‌پرس با یک تم پیش‌فرض طراحی شده برای مستندات فنی ارائه می‌شود. این صفحه‌ای که اکنون در حال خواندن آن هستید و همچنین مستندات [Vite](https://vitejs.dev/)، [Rollup](https://rollupjs.org/)، [Pinia](https://pinia.vuejs.org/)، [VueUse](https://vueuse.org/)، [Vitest](https://vitest.dev/)، [D3](https://d3js.org/)، [UnoCSS](https://unocss.dev/)، [Iconify](https://iconify.design/) و [بسیاری دیگر](https://github.com/search?q=/%22vitepress%22:+/+path:/(?:package%7Cdeno)%5C.jsonc?$/+NOT+is:fork+NOT+is:archived&type=code) با استفاده از ویت‌پرس ساخته شده‌اند.
 
   [مستندات رسمی Vue.js](https://vuejs.org/) نیز بر پایه ویت‌پرس ساخته شده است، اما از یک تم سفارشی که بین چندین ترجمه مشترک است استفاده می‌کند.
 

@@ -2,7 +2,7 @@
 import localSearchIndex from '@localSearchIndex'
 import {
   computedAsync,
-  debouncedWatch,
+  watchDebounced,
   onKeyStroke,
   useEventListener,
   useLocalStorage,
@@ -26,7 +26,7 @@ import {
   watchEffect,
   type Ref
 } from 'vue'
-import type { ModalTranslations } from '../../../../types/local-search'
+import type { LocalSearchTranslations } from '../../../../types/local-search'
 import { pathToFile } from '../../app/utils'
 import { escapeRegExp } from '../../shared'
 import { useData } from '../composables/data'
@@ -46,7 +46,7 @@ const searchIndexData = shallowRef(localSearchIndex)
 
 // hmr
 if (import.meta.hot) {
-  import.meta.hot.accept('/@localSearchIndex', (m) => {
+  import.meta.hot.accept('@localSearchIndex', (m) => {
     if (m) {
       searchIndexData.value = m.default
     }
@@ -113,16 +113,6 @@ const disableDetailedView = computed(() => {
   )
 })
 
-const buttonText = computed(() => {
-  const options = theme.value.search?.options ?? theme.value.algolia
-
-  return (
-    options?.locales?.[localeIndex.value]?.translations?.button?.buttonText ||
-    options?.translations?.button?.buttonText ||
-    'Search'
-  )
-})
-
 watchEffect(() => {
   if (disableDetailedView.value) {
     showDetailedList.value = false
@@ -144,7 +134,7 @@ const mark = computedAsync(async () => {
 
 const cache = new LRUCache<string, Map<string, string>>(16) // 16 files
 
-debouncedWatch(
+watchDebounced(
   () => [searchIndex.value, filterText.value, showDetailedList.value] as const,
   async ([index, filterTextValue, showDetailedListValue], old, onCleanup) => {
     if (old?.[0] !== index) {
@@ -339,8 +329,12 @@ onKeyStroke('Escape', () => {
   emit('close')
 })
 
-// Translations
-const defaultTranslations: { modal: ModalTranslations } = {
+/* Translations */
+
+const defaultTranslations: LocalSearchTranslations = {
+  button: {
+    buttonText: 'Search'
+  },
   modal: {
     displayDetails: 'Display detailed list',
     resetButtonTitle: 'Reset search',
@@ -360,7 +354,7 @@ const defaultTranslations: { modal: ModalTranslations } = {
 
 const translate = createSearchTranslate(defaultTranslations)
 
-// Back
+/* Back */
 
 onMounted(() => {
   // Prevents going to previous site
@@ -373,6 +367,7 @@ useEventListener('popstate', (event) => {
 })
 
 /** Lock body */
+
 const isLocked = useScrollLock(inBrowser ? document.body : null)
 
 onMounted(() => {
@@ -432,7 +427,7 @@ function onMouseMove(e: MouseEvent) {
           @submit.prevent=""
         >
           <label
-            :title="buttonText"
+            :title="translate('button.buttonText')"
             id="localsearch-label"
             for="localsearch-input"
           >
@@ -461,7 +456,7 @@ function onMouseMove(e: MouseEvent) {
             id="localsearch-input"
             enterkeyhint="go"
             maxlength="64"
-            :placeholder="buttonText"
+            :placeholder="translate('button.buttonText')"
             spellcheck="false"
             type="search"
           />
@@ -661,6 +656,10 @@ function onMouseMove(e: MouseEvent) {
   padding: 6px 12px;
   font-size: inherit;
   width: 100%;
+}
+
+.search-input::-webkit-search-cancel-button {
+  display: none;
 }
 
 @media (max-width: 767px) {

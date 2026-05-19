@@ -9,6 +9,7 @@ import {
   type NewsItem
 } from 'sitemap'
 import type { SiteConfig } from '../config'
+import { slash } from '../shared'
 import { getGitTimestamp } from '../utils/getGitTimestamp'
 import { task } from '../utils/task'
 
@@ -29,7 +30,7 @@ export async function generateSitemap(siteConfig: SiteConfig) {
     if (data.lastUpdated === false) return undefined
     if (data.lastUpdated instanceof Date) return +data.lastUpdated
 
-    return (await getGitTimestamp(file)) || undefined
+    return (await getGitTimestamp(slash(file))) || undefined
   }
 
   await task('generating sitemap', async () => {

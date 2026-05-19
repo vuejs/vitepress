@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: آشنایی با مسیریابی مبتنی بر فایل، مسیرهای پویا، URLهای تمیز و بازنویسی مسیر در ویت‌پرس.
 ---
 
 # مسیریابی {#routing}
@@ -121,7 +122,7 @@ src/getting-started.md  -->  /getting-started.html
 
 :::
 
-## تولید URL‌های تمیز {#generating-clean-url}
+## تولید URLهای تمیز {#generating-clean-urls}
 
 ::: warning نیازمندی پشتیبانی سرور
 

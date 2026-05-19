@@ -1,106 +1,84 @@
 import {
-  transformerCompactLineOptions,
+  transformerMetaHighlight,
   transformerNotationDiff,
   transformerNotationErrorLevel,
   transformerNotationFocus,
-  transformerNotationHighlight,
-  type TransformerCompactLineOption
+  transformerNotationHighlight
 } from '@shikijs/transformers'
 import { customAlphabet } from 'nanoid'
-import { createRequire } from 'node:module'
 import c from 'picocolors'
-import type { LanguageRegistration, ShikiTransformer } from 'shiki'
-import { createHighlighter, isSpecialLang } from 'shiki'
-import { createSyncFn } from 'synckit'
+import type { BundledLanguage, ShikiTransformer } from 'shiki'
+import { createHighlighter, guessEmbeddedLanguages, isSpecialLang } from 'shiki'
 import type { Logger } from 'vite'
-import type { ShikiResolveLang } from 'worker_shikiResolveLang'
+import { isShell } from '../../shared'
 import type { MarkdownOptions, ThemeOptions } from '../markdown'
 
-const require = createRequire(import.meta.url)
-
-const resolveLangSync = createSyncFn<ShikiResolveLang>(
-  require.resolve('vitepress/dist/node/worker_shikiResolveLang.js')
-)
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)
 
 /**
- * 2 steps:
+ * Prevents the leading '$' symbol etc from being selectable/copyable. Also
+ * normalizes its syntax so there's no leading spaces, and only a single
+ * trailing space.
  *
- * 1. convert attrs into line numbers:
- *    {4,7-13,16,23-27,40} -> [4,7,8,9,10,11,12,13,16,23,24,25,26,27,40]
- * 2. convert line numbers into line options:
- *    [{ line: number, classes: string[] }]
+ * NOTE: Any changes to this function may also need to update
+ * `src/client/app/composables/copyCode.ts`
  */
-function attrsToLines(attrs: string): TransformerCompactLineOption[] {
-  attrs = attrs.replace(/^(?:\[.*?\])?.*?([\d,-]+).*/, '$1').trim()
-  const result: number[] = []
-  if (!attrs) {
-    return []
-  }
-  attrs
-    .split(',')
-    .map((v) => v.split('-').map((v) => parseInt(v, 10)))
-    .forEach(([start, end]) => {
-      if (start && end) {
-        result.push(
-          ...Array.from({ length: end - start + 1 }, (_, i) => start + i)
-        )
-      } else {
-        result.push(start)
+function transformerDisableShellSymbolSelect(): ShikiTransformer {
+  return {
+    name: 'vitepress:disable-shell-symbol-select',
+    tokens(tokensByLine) {
+      if (!isShell(this.options.lang)) return
+
+      for (const tokens of tokensByLine) {
+        if (tokens.length < 2) continue
+
+        // The first token should only be a symbol token
+        const firstTokenText = tokens[0].content.trim()
+        if (firstTokenText !== '$' && firstTokenText !== '>') continue
+
+        // The second token must have a leading space (separates the symbol)
+        if (tokens[1].content[0] !== ' ') continue
+
+        tokens[0].content = firstTokenText + ' '
+        tokens[0].htmlStyle ??= {}
+        tokens[0].htmlStyle['user-select'] = 'none'
+        tokens[0].htmlStyle['-webkit-user-select'] = 'none'
+        tokens[1].content = tokens[1].content.slice(1)
       }
-    })
-  return result.map((v) => ({
-    line: v,
-    classes: ['highlighted']
-  }))
+    }
+  }
 }
 
 export async function highlight(
   theme: ThemeOptions,
   options: MarkdownOptions,
   logger: Pick<Logger, 'warn'> = console
-): Promise<[(str: string, lang: string, attrs: string) => string, () => void]> {
+): Promise<
+  [(str: string, lang: string, attrs: string) => Promise<string>, () => void]
+> {
   const {
     defaultHighlightLang: defaultLang = 'txt',
     codeTransformers: userTransformers = []
   } = options
+
+  const langAlias = Object.fromEntries(
+    Object.entries(options.languageAlias || {}) //
+      .map(([k, v]) => [k.toLowerCase(), v])
+  )
 
   const highlighter = await createHighlighter({
     themes:
       typeof theme === 'object' && 'light' in theme && 'dark' in theme
         ? [theme.light, theme.dark]
         : [theme],
-    langs: [
-      ...(options.languages || []),
-      ...Object.values(options.languageAlias || {})
-    ],
-    langAlias: options.languageAlias
+    langs: [...(options.languages || []), ...Object.values(langAlias)],
+    langAlias
   })
-
-  function loadLanguage(name: string | LanguageRegistration) {
-    const lang = typeof name === 'string' ? name : name.name
-    if (
-      !isSpecialLang(lang) &&
-      !highlighter.getLoadedLanguages().includes(lang)
-    ) {
-      const resolvedLang = resolveLangSync(lang)
-      if (resolvedLang.length) highlighter.loadLanguageSync(resolvedLang)
-      else return false
-    }
-    return true
-  }
-
-  // patch for twoslash - https://github.com/vuejs/vitepress/issues/4334
-  const internal = highlighter.getInternalContext()
-  const getLanguage = internal.getLanguage
-  internal.getLanguage = (name) => {
-    loadLanguage(name)
-    return getLanguage.call(internal, name)
-  }
 
   await options?.shikiSetup?.(highlighter)
 
   const transformers: ShikiTransformer[] = [
+    transformerMetaHighlight(),
     transformerNotationDiff(),
     transformerNotationFocus({
       classActiveLine: 'has-focus',
@@ -108,36 +86,43 @@ export async function highlight(
     }),
     transformerNotationHighlight(),
     transformerNotationErrorLevel(),
+    transformerDisableShellSymbolSelect(),
     {
-      name: 'vitepress:add-class',
+      name: 'vitepress:add-dir',
       pre(node) {
-        this.addClassToHast(node, 'vp-code')
-      }
-    },
-    {
-      name: 'vitepress:clean-up',
-      pre(node) {
-        delete node.properties.style
+        node.properties.dir = 'ltr'
       }
     }
   ]
 
-  const vueRE = /-vue(?=:|$)/
-  const lineNoStartRE = /=(\d*)/
-  const lineNoRE = /:(no-)?line-numbers(=\d*)?$/
-  const mustacheRE = /\{\{.*?\}\}/g
+  // keep in sync with ./preWrapper.ts#extractLang
+  const langRE = /^[a-zA-Z0-9-_]+/
+  const vueRE = /-vue$/
 
   return [
-    (str: string, lang: string, attrs: string) => {
-      const vPre = vueRE.test(lang) ? '' : 'v-pre'
-      lang =
-        lang
-          .replace(lineNoStartRE, '')
-          .replace(lineNoRE, '')
-          .replace(vueRE, '')
-          .toLowerCase() || defaultLang
+    async (str, lang, attrs) => {
+      const match = langRE.exec(lang)
+      if (match) {
+        const orig = lang
+        lang = match[0].toLowerCase()
+        attrs = orig.slice(lang.length).replace(/(?<!=)\{/g, ' {') + ' ' + attrs
+        attrs = attrs.trim().replace(/\s+/g, ' ')
+      }
 
-      if (!loadLanguage(lang)) {
+      lang ||= defaultLang
+
+      const vPre = !vueRE.test(lang)
+      if (!vPre) lang = lang.slice(0, -4)
+
+      try {
+        // https://github.com/shikijs/shiki/issues/952
+        if (
+          !isSpecialLang(lang) &&
+          !highlighter.getLoadedLanguages().includes(lang)
+        ) {
+          await highlighter.loadLanguage(lang as any)
+        }
+      } catch {
         logger.warn(
           c.yellow(
             `\nThe language '${lang}' is not loaded, falling back to '${defaultLang}' for syntax highlighting.`
@@ -146,12 +131,11 @@ export async function highlight(
         lang = defaultLang
       }
 
-      const lineOptions = attrsToLines(attrs)
       const mustaches = new Map<string, string>()
 
       const removeMustache = (s: string) => {
         if (vPre) return s
-        return s.replace(mustacheRE, (match) => {
+        return s.replace(/\{\{.*?\}\}/g, (match) => {
           let marker = mustaches.get(match)
           if (!marker) {
             marker = nanoid()
@@ -170,11 +154,13 @@ export async function highlight(
 
       str = removeMustache(str).trimEnd()
 
+      const embeddedLang = guessEmbeddedLanguages(str, lang, highlighter)
+      await highlighter.loadLanguage(...(embeddedLang as BundledLanguage[]))
+
       const highlighted = highlighter.codeToHtml(str, {
         lang,
         transformers: [
           ...transformers,
-          transformerCompactLineOptions(lineOptions),
           {
             name: 'vitepress:v-pre',
             pre(node) {
@@ -207,7 +193,29 @@ export async function highlight(
         meta: { __raw: attrs },
         ...(typeof theme === 'object' && 'light' in theme && 'dark' in theme
           ? { themes: theme, defaultColor: false }
-          : { theme })
+          : { theme }),
+        colorReplacements: {
+          'github-light': {
+            '#959da5': '#6c676f',
+            '#28a745': '#0e790b',
+            '#b08800': '#846312',
+            '#e36209': '#c13617',
+            '#3192aa': '#05728b',
+            '#d73a49': '#c62739',
+            '#22863a': '#11782a',
+            '#6a737d': '#62687b',
+            '#1b7c83': '#06747a',
+            '#0366d6': '#0663d0',
+            '#cb2431': '#c82430'
+          },
+          'github-dark': {
+            '#586069': '#5b93a3',
+            '#6a737d': '#818e99',
+            '#ea4a5a': '#ef5564',
+            '#2188ff': '#268bf9'
+          },
+          ...options.colorReplacements
+        }
       })
 
       return restoreMustache(highlighted)

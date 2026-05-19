@@ -1,26 +1,38 @@
 <script setup lang="ts">
-import { ref, computed, watchEffect, onMounted } from 'vue'
+import { useNavigatorLanguage } from '@vueuse/core'
+import { computed, onMounted, shallowRef, useTemplateRef, watchEffect } from 'vue'
 import { useData } from '../composables/data'
 
-const { theme, page, lang } = useData()
+const { theme, page, lang: pageLang } = useData()
+const { language: browserLang } = useNavigatorLanguage()
 
-const date = computed(
-  () => new Date(page.value.lastUpdated!)
-)
+const timeRef = useTemplateRef('timeRef')
+
+const date = computed(() => new Date(page.value.lastUpdated!))
 const isoDatetime = computed(() => date.value.toISOString())
-const datetime = ref('')
+const datetime = shallowRef('')
 
 // set time on mounted hook to avoid hydration mismatch due to
 // potential differences in timezones of the server and clients
 onMounted(() => {
   watchEffect(() => {
+    const lang = theme.value.lastUpdated?.formatOptions?.forceLocale
+      ? pageLang.value
+      : browserLang.value
+
     datetime.value = new Intl.DateTimeFormat(
-      theme.value.lastUpdated?.formatOptions?.forceLocale ? lang.value : undefined,
+      lang,
       theme.value.lastUpdated?.formatOptions ?? {
-        dateStyle: 'short',
-        timeStyle: 'short'
+        dateStyle: 'medium',
+        timeStyle: 'medium'
       }
     ).format(date.value)
+
+    if (lang && pageLang.value !== lang) {
+      timeRef.value?.setAttribute('lang', lang)
+    } else {
+      timeRef.value?.removeAttribute('lang')
+    }
   })
 })
 </script>
@@ -28,7 +40,7 @@ onMounted(() => {
 <template>
   <p class="VPLastUpdated">
     {{ theme.lastUpdated?.text || theme.lastUpdatedText || 'Last updated' }}:
-    <time :datetime="isoDatetime">{{ datetime }}</time>
+    <time ref="timeRef" :datetime="isoDatetime">{{ datetime }}</time>
   </p>
 </template>
 

@@ -6,8 +6,8 @@
   },
   "files": [
     {
-      "location": ".vitepress/config/{en,zh,pt,ru,es,ko,fa}.ts",
-      "pattern": ".vitepress/config/@lang.ts",
+      "location": "**/config.ts",
+      "pattern": "@lang/@path",
       "type": "universal"
     },
     {
@@ -44,6 +44,10 @@
     {
       "label": "فارسی",
       "lang": "fa"
+    },
+    {
+      "label": "日本語",
+      "lang": "ja"
     }
   ],
   "outDir": ".vitepress/dist/_translations",

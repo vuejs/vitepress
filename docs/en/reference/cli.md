@@ -1,3 +1,7 @@
+---
+description: Reference of VitePress CLI commands including dev, build, preview, and init.
+---
+
 # Command Line Interface
 
 ## `vitepress dev`
@@ -43,7 +47,6 @@ vitepress build [root]
 | `--base <path>`                | Public base path (default: `/`) (`string`)                                                                          |
 | `--target <target>`            | Transpile target (default: `"modules"`) (`string`)                                                                  |
 | `--outDir <dir>`               | Output directory relative to **cwd** (default: `<root>/.vitepress/dist`) (`string`)                                 |
-| `--minify [minifier]`          | Enable/disable minification, or specify minifier to use (default: `"esbuild"`) (`boolean \| "terser" \| "esbuild"`) |
 | `--assetsInlineLimit <number>` | Static asset base64 inline threshold in bytes (default: `4096`) (`number`)                                          |
 
 ## `vitepress preview`

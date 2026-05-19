@@ -21,8 +21,7 @@ export const setupDevtools = (
       componentStateTypes: [COMPONENT_STATE_TYPE]
     },
     (api) => {
-      // TODO: remove any
-      api.on.inspectComponent((payload: any) => {
+      api.on.inspectComponent((payload) => {
         payload.instanceData.state.push({
           type: COMPONENT_STATE_TYPE,
           key: 'route',

@@ -1,3 +1,7 @@
+---
+description: پیکربندی نوار کناری ناوبری در تم پیش‌فرض ویت‌پرس با گروه‌ها، بخش‌های جمع‌شونده و چند نوار کناری.
+---
+
 # نوار کناری {#sidebar}
 
 نوار کناری بلوک اصلی ناوبری برای مستندات شما است. شما می‌توانید منوی نوار کناری را در [`themeConfig.sidebar`](./default-theme-config#sidebar) پیکربندی کنید.
@@ -177,39 +181,4 @@ export default {
     ]
   }
 }
-```
-
-## `useSidebar` <Badge type="info" text="composable" /> {#usesidebar}
-
-داده‌های مربوط به نوار کناری را برمی‌گرداند. شیء برگردانده شده دارای نوع‌های زیر است:
-
-```ts
-export interface DocSidebar {
-  isOpen: Ref<boolean>
-  sidebar: ComputedRef<DefaultTheme.SidebarItem[]>
-  sidebarGroups: ComputedRef<DefaultTheme.SidebarItem[]>
-  hasSidebar: ComputedRef<boolean>
-  hasAside: ComputedRef<boolean>
-  leftAside: ComputedRef<boolean>
-  isSidebarEnabled: ComputedRef<boolean>
-  open: () => void
-  close: () => void
-  toggle: () => void
-}
-```
-
-**مثال:**
-
-```vue
-<script setup>
-import { useSidebar } from 'vitepress/theme'
-
-const { hasSidebar } = useSidebar()
-</script>
-
-<template>
-  <div v-if="hasSidebar">فقط ن
-
-مایش داده شود زمانی که نوار کناری وجود دارد</div>
-</template>
 ```

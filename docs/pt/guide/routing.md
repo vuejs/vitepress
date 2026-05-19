@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: Entenda o roteamento baseado em arquivos do VitePress, rotas dinâmicas, URLs limpas e reescritas de caminho.
 ---
 
 # Roteamento {#routing}
@@ -121,7 +122,7 @@ Alternativamente, pode-se usar diretamente a sintaxe da tag âncora:
 
 :::
 
-## Geração de URL Limpa {#generating-clean-url}
+## Geração de URLs Limpas {#generating-clean-urls}
 
 ::: warning Suporte do Servidor Necessário
 Para servir URLs limpas com VitePress, é necessário suporte no lado do servidor.

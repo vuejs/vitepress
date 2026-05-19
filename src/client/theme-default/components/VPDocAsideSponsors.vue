@@ -12,6 +12,6 @@ defineProps<{
 
 <template>
   <div class="VPDocAsideSponsors">
-    <VPSponsors mode="aside" :tier="tier" :size="size" :data="data" />
+    <VPSponsors mode="aside" :tier :size :data />
   </div>
 </template>

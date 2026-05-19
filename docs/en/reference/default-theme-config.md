@@ -1,3 +1,7 @@
+---
+description: Reference of all configuration options available for the VitePress default theme.
+---
+
 # Default Theme Config
 
 Theme config lets you customize your theme. You can define theme config via the `themeConfig` option in the config file:
@@ -89,7 +93,7 @@ type NavItem = NavItemWithLink | NavItemWithChildren
 
 interface NavItemWithLink {
   text: string
-  link: string
+  link: string | ((payload: PageData) => string)
   activeMatch?: string
   target?: string
   rel?: string
@@ -364,6 +368,7 @@ export default {
     carbonAds: {
       code: 'your-carbon-code',
       placement: 'your-carbon-placement'
+      format: 'classic'
     }
   }
 }
@@ -373,6 +378,7 @@ export default {
 export interface CarbonAdsOptions {
   code: string
   placement: string
+  format?: 'classic' | 'responsive' | 'cover'
 }
 ```
 
@@ -457,3 +463,38 @@ Can be used to customize the label of the skip to content link. This link is sho
 - Default: `false`
 
 Whether to show an external link icon next to external links in markdown.
+
+## `useLayout` <Badge type="info" text="composable" />
+
+Returns layout-related data. The returned object has the following type:
+
+```ts
+interface {
+  isHome: ComputedRef<boolean>
+
+  sidebar: Readonly<ShallowRef<DefaultTheme.SidebarItem[]>>
+  sidebarGroups: ComputedRef<DefaultTheme.SidebarItem[]>
+  hasSidebar: ComputedRef<boolean>
+  isSidebarEnabled: ComputedRef<boolean>
+
+  hasAside: ComputedRef<boolean>
+  leftAside: ComputedRef<boolean>
+
+  headers: Readonly<ShallowRef<DefaultTheme.OutlineItem[]>>
+  hasLocalNav: ComputedRef<boolean>
+}
+```
+
+**Example:**
+
+```vue
+<script setup>
+import { useLayout } from 'vitepress/theme'
+
+const { hasSidebar } = useLayout()
+</script>
+
+<template>
+  <div v-if="hasSidebar">Only show when sidebar exists</div>
+</template>
+```

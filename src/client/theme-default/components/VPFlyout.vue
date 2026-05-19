@@ -1,4 +1,5 @@
-<script lang="ts" setup>
+<script lang="ts" setup generic="T extends DefaultTheme.NavItem">
+import type { DefaultTheme } from 'vitepress/theme'
 import { ref } from 'vue'
 import { useFlyout } from '../composables/flyout'
 import VPMenu from './VPMenu.vue'
@@ -7,7 +8,7 @@ defineProps<{
   icon?: string
   button?: string
   label?: string
-  items?: any[]
+  items?: T[]
 }>()
 
 const open = ref(false)
@@ -45,7 +46,7 @@ function onBlur() {
     </button>
 
     <div class="menu">
-      <VPMenu :items="items">
+      <VPMenu :items>
         <slot />
       </VPMenu>
     </div>

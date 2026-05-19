@@ -1,3 +1,7 @@
+---
+description: Comienza a trabajar con VitePress. Aprende cómo instalar, crear la estructura y comenzar a desarrollar tu sitio de documentación.
+---
+
 # Iniciando {#getting-started}
 
 ## Experimente Online {#try-it-online}
@@ -8,7 +12,7 @@ Puede experimentar VitePress directamente en su navegador en [StackBlitz](https:
 
 ### Prerrequisitos {#prerequisites}
 
-- [Node.js](https://nodejs.org/) versión 18 o superior.
+- [Node.js](https://nodejs.org/) versión 20 o superior.
 - Terminal para acessar VitePress a través de su interfaz de linea de comando (CLI).
 - Editor de texto con soporte a sintaxis [Markdown](https://en.wikipedia.org/wiki/Markdown).
   - [VSCode](https://code.visualstudio.com/) es recomendado, junto con la [extensión oficial Vue](https://marketplace.visualstudio.com/items?itemName=Vue.volar).
@@ -18,35 +22,19 @@ VitePress puede ser usado solo, o ser instalado en un proyecto ya existente. En 
 ::: code-group
 
 ```sh [npm]
-$ npm add -D vitepress
+$ npm add -D vitepress@next
 ```
 
 ```sh [pnpm]
-$ pnpm add -D vitepress
+$ pnpm add -D vitepress@next
 ```
 
 ```sh [yarn]
-$ yarn add -D vitepress
+$ yarn add -D vitepress@next
 ```
 
 ```sh [bun]
-$ bun add -D vitepress
-```
-
-:::
-
-::: details Recibiendo avisos sobre dependencias ausentes?
-Si usa PNPM, percibirá un aviso de ausencia de `@docsearch/js`. Esto no evita que VitePress funcione. Si desea eliminar este aviso, adicione lo siguiente en su `package.json`:
-
-```json
-"pnpm": {
-  "peerDependencyRules": {
-    "ignoreMissing": [
-      "@algolia/client-search",
-      "search-insights"
-    ]
-  }
-}
+$ bun add -D vitepress@next
 ```
 
 :::

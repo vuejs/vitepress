@@ -1,3 +1,7 @@
+---
+description: VitePress 内置的 Markdown 扩展，包括自定义容器、代码块语法高亮、行高亮、代码组等功能。
+---
+
 # Markdown 扩展 {#markdown-extensions}
 
 VitePress 带有内置的 Markdown 扩展。
@@ -233,7 +237,7 @@ export default defineConfig({
 
 ```md
 ::: raw
-Wraps in a <div class="vp-raw">
+Wraps in a `<div class="vp-raw">`
 :::
 ```
 
@@ -255,11 +259,11 @@ Wraps in a <div class="vp-raw">
   }
   ```
 
-  它在底层使用 [`postcss-prefix-selector`](https://github.com/postcss/postcss-load-config)。你可以像这样传递它的选项：
+  你可以像这样传递它的选项：
 
   ```js
   postcssIsolateStyles({
-    includeFiles: [/vp-doc\.css/] // 默认为 /base\.css/
+    includeFiles: [/custom\.css/] // 默认为 [/vp-doc\.css/, /base\.css/]
   })
   ```
 
@@ -343,7 +347,7 @@ export default {
 
 在 Shiki 的代码仓库中，可以找到[合法的编程语言列表](https://shiki.style/languages)。
 
-还可以全局配置中自定义语法高亮主题。有关详细信息，参见 [`markdown` 选项](../reference/site-config#markdown)得到更多信息。
+还可以在全局配置中自定义语法高亮主题、配置语言别名和自定义语言标签。有关详细信息，参见 [`markdown` 选项](../reference/site-config#markdown)得到更多信息。
 
 ## 在代码块中实现行高亮 {#line-highlighting-in-code-blocks}
 
@@ -771,7 +775,7 @@ export default config
 
 ## Basics
 
-<!--@include: ./parts/basics.md-->
+<!--@@include: ./parts/basics.md-->
 ```
 
 **Part file** (`parts/basics.md`)
@@ -807,7 +811,7 @@ Can be created using `.foorc.json`.
 
 ## Basics
 
-<!--@include: ./parts/basics.md{3,}-->
+<!--@@include: ./parts/basics.md{3,}-->
 ```
 
 **Part file** (`parts/basics.md`)
@@ -843,7 +847,7 @@ Can be created using `.foorc.json`.
 现在这是可选的。要启用它，需要安装 `markdown-it-mathjax3`，在配置文件中设置`markdown.math` 为 `true`：
 
 ```sh
-npm add -D markdown-it-mathjax3
+npm add -D markdown-it-mathjax3@^4
 ```
 
 ```ts [.vitepress/config.ts]

@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: 确保 VitePress 主题组件和自定义代码兼容服务端渲染 (SSR)。
 ---
 
 # SSR 兼容性 {#ssr-compatibility}

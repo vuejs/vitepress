@@ -1,16 +1,30 @@
-[0;90m┌[0m  [0;36;1mWelcome to VitePress![0m[0m
-[0;90m│[0m[0m
-[0;32m◇[0m  Where should VitePress initialize the config?[0m
-[0;90m│[0m  [0;2m./docs[0m[0m
-[0;90m│[0m[0m
-[0;32m◇[0m  Site title:[0m
-[0;90m│[0m  [0;2mMy Awesome Project[0m[0m
-[0;90m│[0m[0m
-[0;32m◇[0m  Site description:[0m
-[0;90m│[0m  [0;2mA VitePress Site[0m[0m
-[0;90m│[0m[0m
-[0;36m◆[0m  Theme:[0m
-[0;36m│[0m  [0;32m●[0m Default Theme [0;2m(Out of the box, good-looking docs)[0m[0m
-[0;36m│[0m  [0;2m○[0m [0;2mDefault Theme + Customization[0m[0m
-[0;36m│[0m  [0;2m○[0m [0;2mCustom Theme[0m[0m
-[0;36m└[0m
+[90m┌[39m  [1m[36mWelcome to VitePress![0m
+[90m│[39m
+[32m◇[39m  [1mWhere should VitePress initialize the config?[0m
+[90m│[39m  ./docs[0m
+[90m│[39m
+[32m◇[39m  [1mWhere should VitePress look for your markdown files?[0m
+[90m│[39m  ./docs[0m
+[90m│[39m
+[32m◇[39m  [1mSite title:[0m
+[90m│[39m  My Awesome Project[0m
+[90m│[39m
+[32m◇[39m  [1mSite description:[0m
+[90m│[39m  A VitePress Site[0m
+[90m│[39m
+[32m◇[39m  [1mTheme:[0m
+[90m│[39m  Default Theme[0m
+[90m│[39m
+[32m◇[39m  [1mUse TypeScript for config and theme files?[0m
+[90m│[39m  Yes[0m
+[90m│[39m
+[32m◇[39m  [1mAdd VitePress npm scripts to package.json?[0m
+[90m│[39m  Yes[0m
+[90m│[39m
+[32m◇[39m  [1mAdd a prefix for VitePress npm scripts?[0m
+[90m│[39m  Yes[0m
+[90m│[39m
+[32m◇[39m  [1mPrefix for VitePress npm scripts:[0m
+[90m│[39m  docs[0m
+[90m│[39m
+[90m└[39m  [1mDone! Now run [36mpnpm run docs:dev[39m and start writing.[0m

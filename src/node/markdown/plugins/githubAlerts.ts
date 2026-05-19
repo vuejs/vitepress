@@ -1,11 +1,11 @@
-import type MarkdownIt from 'markdown-it'
+import type { MarkdownItAsync } from 'markdown-it-async'
 import type { ContainerOptions } from './containers'
 
 const markerRE =
   /^\[!(TIP|NOTE|INFO|IMPORTANT|WARNING|CAUTION|DANGER)\]([^\n\r]*)/i
 
 export const gitHubAlertsPlugin = (
-  md: MarkdownIt,
+  md: MarkdownItAsync,
   options?: ContainerOptions
 ) => {
   const titleMark = {

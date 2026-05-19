@@ -6,6 +6,10 @@ title: VitePress
 hero:
   name: VitePress
   text: Vite & Vue Powered Static Site Generator
+  image:
+    src: /vitepress-logo.svg
+    alt: VitePress
+
   actions:
     - theme: brand
       text: Examples

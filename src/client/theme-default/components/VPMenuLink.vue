@@ -1,29 +1,42 @@
-<script lang="ts" setup>
+<script lang="ts" setup generic="T extends DefaultTheme.NavItemWithLink">
 import type { DefaultTheme } from 'vitepress/theme'
+import { computed } from 'vue'
 import { useData } from '../composables/data'
 import { isActive } from '../../shared'
 import VPLink from './VPLink.vue'
 
-defineProps<{
-  item: DefaultTheme.NavItemWithLink
+const props = defineProps<{
+  item: T
+  rel?: string
 }>()
 
 const { page } = useData()
+
+const href = computed(() =>
+  typeof props.item.link === 'function'
+    ? props.item.link(page.value)
+    : props.item.link
+)
+
+const isActiveLink = computed(() =>
+  isActive(
+    page.value.relativePath,
+    props.item.activeMatch || href.value,
+    !!props.item.activeMatch
+  )
+)
+
+defineOptions({ inheritAttrs: false })
 </script>
 
 <template>
   <div class="VPMenuLink">
     <VPLink
-      :class="{
-        active: isActive(
-          page.relativePath,
-          item.activeMatch || item.link,
-          !!item.activeMatch
-        )
-      }"
-      :href="item.link"
+      v-bind="$attrs"
+      :class="{ active: isActiveLink }"
+      :href
       :target="item.target"
-      :rel="item.rel"
+      :rel="props.rel ?? item.rel"
       :no-icon="item.noIcon"
     >
       <span v-html="item.text"></span>
@@ -46,6 +59,7 @@ const { page } = useData()
   font-size: 14px;
   font-weight: 500;
   color: var(--vp-c-text-1);
+  text-align: left;
   white-space: nowrap;
   transition:
     background-color 0.25s,

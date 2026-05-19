@@ -1,3 +1,7 @@
+---
+description: Referencia de los comandos CLI de VitePress, incluyendo dev, build, preview e init.
+---
+
 # Intefaz de Linea de Comando {#command-line-interface}
 
 ## `vitepress dev`
@@ -43,7 +47,6 @@ vitepress build [root]
 | `--base <path>`                | Ruta de base pública (por defecto: `/`) (`string`)                                                                          |
 | `--target <target>`            | Transpilar objetivo (por defecto: `"modules"`) (`string`)                                                                  |
 | `--outDir <dir>`               | Directorio de salida relativo a **cwd** (por defecto: `<root>/.vitepress/dist`) (`string`)                                 |
-| `--minify [minifier]`          | Habilitar/desabilitar la minificación, o especifica un minero para usar (por defecto: `"esbuild"`) (`boolean \| "terser" \| "esbuild"`) |
 | `--assetsInlineLimit <number>` | Limitar los bytes para alinear los activos en base 64 (por defecto: `4096`) (`number`)                                      |
 
 ## `vitepress preview`

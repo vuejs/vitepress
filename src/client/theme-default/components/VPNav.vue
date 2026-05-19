@@ -2,7 +2,7 @@
 import { inBrowser } from 'vitepress'
 import { computed, provide, watchEffect } from 'vue'
 import { useData } from '../composables/data'
-import { useNav } from '../composables/nav'
+import { navInjectionKey, useNav } from '../composables/nav'
 import VPNavBar from './VPNavBar.vue'
 import VPNavScreen from './VPNavScreen.vue'
 
@@ -13,7 +13,7 @@ const hasNavbar = computed(() => {
   return frontmatter.value.navbar !== false
 })
 
-provide('close-screen', closeScreen)
+provide(navInjectionKey, { closeScreen })
 
 watchEffect(() => {
   if (inBrowser) {

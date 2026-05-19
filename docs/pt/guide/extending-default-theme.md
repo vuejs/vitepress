@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: Personalize e estenda o tema padrão do VitePress com CSS, componentes, layouts e slots customizados.
 ---
 
 # Estendendo o Tema Padrão {#extending-the-default-theme}
@@ -70,7 +71,7 @@ Se a sua fonte é um arquivo local referenciado via `@font-face`, ela será proc
 export default {
   transformHead({ assets }) {
     // ajuste o regex para corresponder à sua fonte
-    const myFontFile = assets.find(file => /font-name\.\w+\.woff2/)
+    const myFontFile = assets.find(file => /font-name\.[\w-]+\.woff2/.test(file))
     if (myFontFile) {
       return [
         [
@@ -189,6 +190,8 @@ Lista completa de _slots_ disponíveis no layout do tema padrão:
   - `home-hero-before`
   - `home-hero-info-before`
   - `home-hero-info`
+  - `home-hero-info-after`
+  - `home-hero-actions-before-actions`
   - `home-hero-actions-after`
   - `home-hero-image`
   - `home-hero-after`
@@ -251,6 +254,7 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
     {
       duration: 300,
       easing: 'ease-in',
+      fill: 'forwards',
       pseudoElement: `::view-transition-${isDark.value ? 'old' : 'new'}(root)`
     }
   )

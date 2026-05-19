@@ -5,8 +5,8 @@ import { createRequire } from 'node:module'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import pMap from 'p-map'
-import { packageDirectorySync } from 'pkg-dir'
-import { rimraf } from 'rimraf'
+import { packageDirectorySync } from 'package-directory'
+import * as vite from 'vite'
 import type { BuildOptions, Rollup } from 'vite'
 import { resolveConfig, type SiteConfig } from '../config'
 import { clearCache } from '../markdownToVue'
@@ -28,6 +28,19 @@ export async function build(
   } = {}
 ) {
   const start = Date.now()
+
+  // @ts-ignore only exists for rolldown-vite
+  if (vite.rolldownVersion) {
+    try {
+      await import('oxc-minify')
+    } catch {
+      throw new Error(
+        '`oxc-minify` is not installed.' +
+          ' vitepress requires `oxc-minify` to be installed when rolldown-vite is used.' +
+          ' Please run `npm install oxc-minify`.'
+      )
+    }
+  }
 
   process.env.NODE_ENV = 'production'
   const siteConfig = await resolveConfig(root, 'build', 'production')
@@ -95,7 +108,8 @@ export async function build(
         clientResult.output.some(
           (chunk) =>
             chunk.type === 'chunk' &&
-            chunk.name === 'theme' &&
+            // @ts-ignore only exists for rolldown-vite
+            (vite.rolldownVersion || chunk.name === 'theme') && // FIXME: remove when rolldown-vite supports manualChunks
             chunk.moduleIds.some((id) => id.includes('client/theme-default'))
         )
 
@@ -103,7 +117,7 @@ export async function build(
 
       if (isDefaultTheme) {
         const fontURL = assets.find((file) =>
-          /inter-roman-latin\.\w+\.woff2/.test(file)
+          /inter-roman-latin\.[\w-]+\.woff2/.test(file)
         )
         if (fontURL) {
           additionalHeadTags.push([
@@ -161,7 +175,13 @@ export async function build(
     )
   } finally {
     unlinkVue()
-    if (!process.env.DEBUG) await rimraf(siteConfig.tempDir)
+    if (!process.env.DEBUG) {
+      fs.rmSync(siteConfig.tempDir, {
+        recursive: true,
+        force: true,
+        maxRetries: 10
+      })
+    }
   }
 
   await generateSitemap(siteConfig)

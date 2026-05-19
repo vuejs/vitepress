@@ -1,3 +1,7 @@
+---
+description: Extensões Markdown integradas do VitePress, incluindo containers personalizados, blocos de código com destaque de sintaxe, grupos de código e mais.
+---
+
 # Extensões Markdown {#markdown-extensions}
 
 VitePress vem com Extensões Markdown embutidas.
@@ -233,7 +237,7 @@ Este é um recipiente especial que pode ser usado para evitar conflitos de estil
 
 ```md
 ::: raw
-Envolve em um <div class="vp-raw">
+Envolve em um `<div class="vp-raw">`
 :::
 ```
 
@@ -255,11 +259,11 @@ A classe `vp-raw` também pode ser usada diretamente em elementos. O isolamento 
   }
   ```
 
-  Ele utiliza [`postcss-prefix-selector`](https://github.com/postcss/postcss-load-config) internamente. Você pode passar opções assim:
+  Você pode passar opções assim:
 
   ```js
   postcssIsolateStyles({
-    includeFiles: [/vp-doc\.css/] // o padrão é /base\.css/
+    includeFiles: [/custom\.css/] // o padrão é [/vp-doc\.css/, /base\.css/]
   })
   ```
 
@@ -771,7 +775,7 @@ Por exemplo, você pode incluir um arquivo markdown relativo usando isto:
 
 ## Conceitos Básicos
 
-<!--@include: ./parts/basics.md-->
+<!--@@include: ./parts/basics.md-->
 ```
 
 **Arquivo da Parte** (`parts/basics.md`)
@@ -807,7 +811,7 @@ Também suporta a seleção de um intervalo de linhas:
 
 ## Conceitos Básicos
 
-<!--@include: ./parts/basics.md{3,}-->
+<!--@@include: ./parts/basics.md{3,}-->
 ```
 
 **Arquivo da Parte** (`parts/basics.md`)
@@ -843,7 +847,7 @@ Observe que isso não gera erros se o arquivo não estiver presente. Portanto, a
 Isso é atualmente opcional. Para ativá-lo, você precisa instalar `markdown-it-mathjax3` e definir `markdown.math` como `true` no seu arquivo de configuração:
 
 ```sh
-npm add -D markdown-it-mathjax3
+npm add -D markdown-it-mathjax3@^4
 ```
 
 ```ts [.vitepress/config.ts]

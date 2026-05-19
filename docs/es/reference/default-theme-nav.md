@@ -1,3 +1,7 @@
+---
+description: Configura la barra de navegación en el tema predeterminado de VitePress, incluyendo el título del sitio, el logotipo y los enlaces del menú.
+---
+
 # Navegación {#nav}
 
 Refiriéndose a la barra de navegación que se muestra en la parte superior de la página. Contiene el título del sitio, enlaces del menú global, etc.
@@ -54,6 +58,8 @@ export default {
 ```
 
 `text` es el texto que se muestra en la navegación, y el `link` es el link al que será navegando cuando se hace click en el texto. Para el enlace, establezca la ruta al archivo sin el prefijo `.md` y siempre comenzar por `/`.
+
+El `link` también puede ser una función que acepte [`PageData`](./runtime-api#usedata) como argumento y devuelva la ruta.
 
 Links de navegación también pueden ser menus _dropdown_. Para hacer eso, establezca la clave de `items` en la opción del link.
 

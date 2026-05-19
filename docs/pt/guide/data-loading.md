@@ -1,3 +1,7 @@
+---
+description: Carregue dados arbitrários em tempo de compilação com os carregadores de dados do VitePress e importe-os em páginas ou componentes.
+---
+
 # Carregamento de Dados em Tempo de Compilação {#build-time-data-loading}
 
 VitePress fornece um recurso chamado **carregadores de dado** que permite carregar dados arbitrários e importá-los de páginas ou de componentes. O carregamento de dados é executado **apenas no tempo da construção**: os dados resultantes serão serializados como JSON no pacote JavaScript final.

@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: Referência completa das opções de configuração do site VitePress, incluindo configurações de aplicação, tema e compilação.
 ---
 
 # Configuração do Site {#site-config}
@@ -24,7 +25,7 @@ export default {
 }
 ```
 
-:::details Configuração Dinâmica (Assíncrona)
+::: details Configuração Dinâmica (Assíncrona)
 
 Se você precisar gerar dinamicamente a configuração, também pode exportar por padrão uma função. Por exemplo:
 
@@ -350,7 +351,7 @@ export default {
 - Tipo: `boolean`
 - Padrão: `false`
 
-Quando definido como `true`, VitePress removerá o `.html` no final dos URLs. Veja também [Gerando URL Limpa](../guide/routing#generating-clean-url).
+Quando definido como `true`, VitePress removerá o `.html` no final dos URLs. Veja também [Geração de URLs Limpas](../guide/routing#generating-clean-urls).
 
 ::: warning Suporte do Servidor Necessário
 Ativar isso pode exigir configurações adicionais em sua plataforma de hospedagem. Para funcionar, seu servidor deve ser capaz de servir `/foo.html` ao visitar `/foo` **sem redirecionamento**.
@@ -439,7 +440,7 @@ export default {
 
 ### ignoreDeadLinks
 
-- Tipo: `boolean | 'localhostLinks' | (string | RegExp | ((link: string) => boolean))[]`
+- Tipo: `boolean | 'localhostLinks' | (string | RegExp | ((link: string, source: string) => boolean))[]`
 - Padrão: `false`
 
 Quando definido como `true`, VitePress não falhará na compilação devido a links quebrados.
@@ -594,7 +595,7 @@ export default {
 
 `transformHead` é um gancho de compilação para transformar o cabeçalho antes de gerar cada página. Isso permite adicionar entradas no cabeçalho que não podem ser adicionadas estaticamente à configuração VitePress. Você só precisa retornar entradas extras, que serão mescladas automaticamente com as existentes.
 
-:::warning
+::: warning
 Não faça mutações em qualquer item dentro de `context`.
 :::
 
@@ -662,7 +663,7 @@ export default {
 - Tipo: `(code: string, id: string, context: TransformContext) => Awaitable<string | void>`
 `transformHtml` é um gancho de compilação para transformar o conteúdo de cada página antes de salvá-lo no disco.
 
-:::warning
+::: warning
 Não faça mutações em qualquer item dentro de `context`. Além disso, modificar o conteúdo HTML pode causar problemas de hidratação em tempo de execução.
 :::
 
@@ -679,7 +680,7 @@ export default {
 
 `transformPageData` é um gancho para transformar os dados de cada página. Você pode fazer mutações diretamente em `pageData` ou retornar valores alterados que serão mesclados nos dados da página.
 
-:::warning
+::: warning
 Não faça mutações em qualquer item dentro de `context` e tenha cuidado pois isso pode impactar no desempenho do servidor de desenvolvimento, especialmente se você tiver algumas solicitações de rede ou computações pesadas (como gerar imagens) no gancho. Você pode verificar `process.env.NODE_ENV === 'production'` para lógica condicional.
 :::
 

@@ -1,3 +1,7 @@
+---
+description: 커스텀 컨테이너, 구문 강조 코드 블록, 라인 하이라이팅, 코드 그룹 등 VitePress 내장 마크다운 확장 기능을 소개합니다.
+---
+
 # 마크다운 확장 기능 {#markdown-extensions}
 
 VitePress는 내장된 마크다운 확장 기능을 제공합니다.
@@ -233,7 +237,7 @@ export default defineConfig({
 
 ```md
 ::: raw
-<div class="vp-raw">로 감쌉니다
+`<div class="vp-raw">`로 감쌉니다
 :::
 ```
 
@@ -255,11 +259,11 @@ export default defineConfig({
   }
   ```
 
-  이것은 기본적으로 [`postcss-prefix-selector`](https://github.com/RadValentin/postcss-prefix-selector)를 사용합니다. 다음과 같이 옵션을 전달할 수 있습니다:
+  다음과 같이 옵션을 전달할 수 있습니다:
 
   ```js
   postcssIsolateStyles({
-    includeFiles: [/vp-doc\.css/] // 기본값은 /base\.css/
+    includeFiles: [/custom\.css/] // 기본값은 [/vp-doc\.css/, /base\.css/]
   })
   ```
 
@@ -771,7 +775,7 @@ export default config
 
 ## Basics
 
-<!--@include: ./parts/basics.md-->
+<!--@@include: ./parts/basics.md-->
 ```
 
 **해당 파일** (`parts/basics.md`)
@@ -807,7 +811,7 @@ Can be created using `.foorc.json`.
 
 ## Basics
 
-<!--@include: ./parts/basics.md{3,}-->
+<!--@@include: ./parts/basics.md{3,}-->
 ```
 
 **해당 파일** (`parts/basics.md`)
@@ -843,8 +847,8 @@ Can be created using `.foorc.json`.
 
 ## Basics
 
-<!--@include: ./parts/basics.md#basic-usage{,2}-->
-<!--@include: ./parts/basics.md#basic-usage{5,}-->
+<!--@@include: ./parts/basics.md#basic-usage{,2}-->
+<!--@@include: ./parts/basics.md#basic-usage{5,}-->
 ```
 
 **해당 파일** (`parts/basics.md`)
@@ -880,7 +884,7 @@ Can be created using `.foorc.json`.
 선택 사항입니다. 활성화하려면 `markdown-it-mathjax3`를 설치하고 설정 파일에서 `markdown.math`를 `true`로 설정해야 합니다:
 
 ```sh
-npm add -D markdown-it-mathjax3
+npm add -D markdown-it-mathjax3@^4
 ```
 
 ```ts [.vitepress/config.ts]

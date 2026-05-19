@@ -1,3 +1,7 @@
+---
+description: Usa componentes Vue y funciones de plantillas dinámicas directamente dentro de archivos Markdown en VitePress.
+---
+
 # Usando Vue en Markdown {#using-vue-in-markdown}
 
 En VitePress, cada archivo Markdown es compilado para HTML y entonces procesado como un [Componente de Archivo Único de Vue](https://vuejs.org/guide/scaling-up/sfc.html). Esto significa que puede usar cualquier funcionalidad de Vue dentro del Markdown, incluyendo la interpolación dinámica, usar componentes Vue o lógica arbitrária de componentes Vue dentro de la página adicionando una tag `<script>`.
@@ -128,7 +132,7 @@ Si un componente fuera usado en la mayoría de las páginas, ellos pueden ser re
 Asegurese de que el nombre de un componente personalizado contenga un hífen o esté en PascalCase. Caso contrario, el será tratado como un elemento alineado y envuelto dentro de una tag `<p>`, lo que llevará a una incompatibilidad de hidratación pues `<p>` no permite que elementos de bloque sean colocados dentro de el.
 :::
 
-### Usando Componentes En Headers <ComponenteEnHeader /> {#using-components-in-headers}
+### Usando Componentes En Headers <ComponentInHeader /> {#using-components-in-headers}
 
 Puede usar componentes Vue en los headers, pero observe la diferencia entre las siguientes sintaxis:
 

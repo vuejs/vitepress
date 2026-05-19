@@ -64,8 +64,61 @@ describe('Emoji', () => {
 describe('Table of Contents', () => {
   test('render toc', async () => {
     const items = page.locator('#table-of-contents + nav ul li')
-    const count = await items.count()
-    expect(count).toBe(44)
+    expect(
+      await items.evaluateAll((elements) =>
+        elements.map((el) => el.childNodes[0].textContent)
+      )
+    ).toMatchInlineSnapshot(`
+      [
+        "Links",
+        "Internal Links",
+        "External Links",
+        "GitHub-Style Tables",
+        "Emoji",
+        "Table of Contents",
+        "Custom Containers",
+        "Default Title",
+        "Custom Title",
+        "Line Highlighting in Code Blocks",
+        "Single Line",
+        "Multiple single lines, ranges",
+        "Comment Highlight",
+        "Line Numbers",
+        "Import Code Snippets",
+        "Basic Code Snippet",
+        "Specify Region",
+        "With Other Features",
+        "Code Groups",
+        "Basic Code Group",
+        "With Other Features",
+        "Markdown File Inclusion",
+        "Region",
+        "Markdown At File Inclusion",
+        "Markdown Nested File Inclusion",
+        "Region",
+        "After Foo",
+        "Sub sub",
+        "Sub sub sub",
+        "Markdown File Inclusion with Range",
+        "Region",
+        "Markdown File Inclusion with Range without Start",
+        "Region",
+        "Markdown File Inclusion with Range without End",
+        "Region",
+        "Markdown At File Region Snippet",
+        "Region Snippet",
+        "Markdown At File Range Region Snippet",
+        "Range Region Line 2",
+        "Markdown At File Range Region Snippet without start",
+        "Range Region Line 1",
+        "Markdown At File Range Region Snippet without end",
+        "Range Region Line 3",
+        "Markdown File Inclusion with Header",
+        "header 1.1.1",
+        "header 1.1.2",
+        "Image Lazy Loading",
+      ]
+    `)
   })
 })
 

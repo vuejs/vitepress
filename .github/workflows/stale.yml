@@ -1,12 +1,14 @@
 name: Close stale issues and PRs
 on:
+  schedule:
+    - cron: '0 12 1,15 * *'
   workflow_dispatch:
 
 jobs:
   stale:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/stale@v9
+      - uses: actions/stale@v10
         with:
           days-before-stale: 30
           days-before-close: -1

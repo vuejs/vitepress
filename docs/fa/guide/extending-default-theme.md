@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: سفارشی‌سازی و گسترش تم پیش‌فرض ویت‌پرس با CSS سفارشی، کامپوننت‌ها، طرح‌بندی‌ها و اسلات‌ها.
 ---
 
 # گسترش تم پیش‌فرض {#extending-the-default-theme}
@@ -70,7 +71,7 @@ export default DefaultTheme
 export default {
   transformHead({ assets }) {
     // منظور شده برای همسان سازی font خود، regex مورد نیاز را تنظیم کنید
-    const myFontFile = assets.find(file => /font-name\.\w+\.woff2/)
+    const myFontFile = assets.find(file => /font-name\.[\w-]+\.woff2/.test(file))
     if (myFontFile) {
       return [
         [
@@ -191,6 +192,7 @@ export default {
   - `home-hero-info-before`
   - `home-hero-info`
   - `home-hero-info-after`
+  - `home-hero-actions-before-actions`
   - `home-hero-actions-after`
   - `home-hero-image`
   - `home-hero-after`
@@ -254,6 +256,7 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
     {
       duration: 300,
       easing: 'ease-in',
+      fill: 'forwards',
       pseudoElement: `::view-transition-${isDark.value ? 'old' : 'new'}(root)`
     }
   )

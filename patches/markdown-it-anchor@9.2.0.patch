@@ -1,0 +1,17 @@
+diff --git a/types/index.d.ts b/types/index.d.ts
+index 40c25c0be1add8b0fc2c51489c25a423dbc49d2c..807bc1b0e434d660c6a298b1dee1c87935bfac86 100644
+--- a/types/index.d.ts
++++ b/types/index.d.ts
+@@ -1,10 +1,8 @@
+ import MarkdownIt from 'markdown-it';
+-import { default as MarkdownItToken } from 'markdown-it/lib/token.mjs';
+-import { default as MarkdownItState} from 'markdown-it/lib/rules_core/state_core.mjs';
++import { default as Token } from 'markdown-it/lib/token.mjs';
++import { default as State } from 'markdown-it/lib/rules_core/state_core.mjs';
+ 
+ declare namespace anchor {
+-  export type Token = MarkdownItToken
+-  export type State = MarkdownItState
+   export type RenderHref = (slug: string, state: State) => string;
+   export type RenderAttrs = (slug: string, state: State) => Record<string, string | number>;
+ 

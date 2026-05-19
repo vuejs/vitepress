@@ -1,4 +1,5 @@
 ---
+description: Изучите файловую маршрутизацию VitePress, динамические маршруты, чистые URL-адреса и перезапись путей.
 outline: deep
 ---
 
@@ -85,12 +86,10 @@ src/getting-started.md  -->  /getting-started.html
 
 ```md
 <!-- Будут работать -->
-
 [Первые шаги](./getting-started)
 [Первые шаги](../guide/getting-started)
 
 <!-- Не будут работать -->
-
 [Первые шаги](./getting-started.md)
 [Первые шаги](./getting-started.html)
 ```
@@ -123,7 +122,7 @@ src/getting-started.md  -->  /getting-started.html
 
 :::
 
-## Создание чистого URL-адреса {#generating-clean-url}
+## Создание чистых URL-адресов {#generating-clean-urls}
 
 ::: warning Требуется поддержка сервера
 Для обслуживания чистых URL-адресов с помощью VitePress требуется поддержка на стороне сервера.
@@ -201,8 +200,6 @@ export default {
 }
 ```
 
-Пути перезаписи компилируются с помощью пакета `path-to-regexp` — обратитесь к [его документации](https://github.com/pillarjs/path-to-regexp#parameters) за более сложным синтаксисом.
-
 Пути перезаписи компилируются с помощью пакета `path-to-regexp` — обратитесь к [его документации](https://github.com/pillarjs/path-to-regexp/tree/6.x#parameters) за более сложным синтаксисом.
 
 `rewrites` также может быть функцией, которая получает исходный путь и возвращает новый:
@@ -222,7 +219,6 @@ export default {
 ```md
 [Ссылка на PKG B](../pkg-b/pkg-b-code)
 ```
-
 :::
 
 ## Динамические маршруты {#dynamic-routes}
@@ -248,7 +244,10 @@ export default {
 // packages/[pkg].paths.js
 export default {
   paths() {
-    return [{ params: { pkg: 'foo' } }, { params: { pkg: 'bar' } }]
+    return [
+      { params: { pkg: 'foo' }},
+      { params: { pkg: 'bar' }}
+    ]
   }
 }
 ```
@@ -261,6 +260,30 @@ export default {
    ├─ foo.html
    └─ bar.html
 ```
+
+### Типобезопасный загрузчик с `defineRoutes` {#type-safe-loader-with-defineroutes}
+
+Если вы используете TypeScript, вы можете обернуть загрузчик функцией `defineRoutes` из `vitepress`, чтобы получить подсказки типов для хуков маршрутов, таких как `paths`, `watch` и `transformPageData`:
+
+```ts
+// packages/[pkg].paths.ts
+import { defineRoutes } from 'vitepress'
+
+export default defineRoutes({
+  watch: ['../data/**/*.json'],
+  async paths() {
+    return [
+      { params: { pkg: 'foo' } },
+      { params: { pkg: 'bar' } }
+    ]
+  },
+  async transformPageData(pageData) {
+    pageData.title = `${pageData.title} · Packages`
+  }
+})
+```
+
+`defineRoutes` является необязательной, но рекомендуется при создании файлов `.paths.ts`.
 
 ### Несколько параметров {#multiple-params}
 
@@ -310,9 +333,11 @@ import fs from 'fs'
 
 export default {
   paths() {
-    return fs.readdirSync('packages').map((pkg) => {
-      return { params: { pkg } }
-    })
+    return fs
+      .readdirSync('packages')
+      .map((pkg) => {
+        return { params: { pkg }}
+      })
   }
 }
 ```
@@ -335,6 +360,46 @@ export default {
   }
 }
 ```
+
+### Отслеживание файлов шаблонов и данных {#watching-template-and-data-files}
+
+При создании содержимого страниц на основе шаблонов или внешних источников данных вы можете использовать опцию `watch` для автоматической пересборки страниц при изменении этих файлов в процессе разработки:
+
+```js
+// posts/[slug].paths.js
+import fs from 'node:fs'
+import { renderTemplate } from './templates/renderer.js'
+
+export default {
+  // Отслеживание изменений в файлах шаблонов и источниках данных
+  watch: [
+    './templates/**/*.njk',     // Файлы шаблонов
+    '../data/**/*.json'         // Файлы данных
+  ],
+
+  paths(watchedFiles) {
+    // watchedFiles будет массивом абсолютных путей найденных файлов
+    // Чтение файлов данных для генерации маршрутов
+    const dataFiles = watchedFiles.filter(file => file.endsWith('.json'))
+
+    return dataFiles.map(file => {
+      const data = JSON.parse(fs.readFileSync(file, 'utf-8'))
+
+      return {
+        params: { slug: data.slug },
+        content: renderTemplate(data)  // Использование шаблона для генерации контента
+      }
+    })
+  }
+}
+```
+
+Опция `watch` работает так же, как и в [загрузчиках данных](./data-loading#data-from-local-files):
+
+- Принимает [glob-шаблоны](https://github.com/mrmlnc/fast-glob#pattern-syntax) для сопоставления файлов
+- Шаблоны указываются относительно самого файла `.paths.js`
+- Изменения в отслеживаемых файлах вызывают перегенерацию страниц и HMR во время разработки
+- В продакшен-сборках все страницы генерируются один раз, независимо от конфигурации `watch`
 
 ### Доступ к параметрам на странице {#accessing-params-in-page}
 

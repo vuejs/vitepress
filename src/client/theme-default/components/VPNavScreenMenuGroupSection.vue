@@ -11,11 +11,7 @@ defineProps<{
 <template>
   <div class="VPNavScreenMenuGroupSection">
     <p v-if="text" class="title">{{ text }}</p>
-    <VPNavScreenMenuGroupLink
-      v-for="item in items"
-      :key="item.text"
-      :item="item"
-    />
+    <VPNavScreenMenuGroupLink v-for="item in items" :key="item.text" :item />
   </div>
 </template>
 

@@ -1,3 +1,7 @@
+---
+description: Referência das APIs de tempo de execução do VitePress, incluindo composables, funções auxiliares e componentes integrados.
+---
+
 # API em Tempo de Execução {#runtime-api}
 
 VitePress oferece várias APIs embutidas para permitir o acesso aos dados da aplicação. VitePress vem também com alguns componentes embutidos que podem ser usados globalmente.
@@ -45,7 +49,7 @@ interface PageData {
   titleTemplate?: string | boolean
   description: string
   relativePath: string
-  filePath: string,
+  filePath: string
   headers: Header[]
   frontmatter: Record<string, any>
   params?: Record<string, any>

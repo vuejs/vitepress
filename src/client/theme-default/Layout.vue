@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { useRoute } from 'vitepress'
-import { computed, provide, useSlots, watch } from 'vue'
+import { computed, provide, useSlots } from 'vue'
 import VPBackdrop from './components/VPBackdrop.vue'
 import VPContent from './components/VPContent.vue'
 import VPFooter from './components/VPFooter.vue'
@@ -9,29 +8,31 @@ import VPNav from './components/VPNav.vue'
 import VPSidebar from './components/VPSidebar.vue'
 import VPSkipLink from './components/VPSkipLink.vue'
 import { useData } from './composables/data'
-import { useCloseSidebarOnEscape, useSidebar } from './composables/sidebar'
+import { layoutInfoInjectionKey, registerWatchers } from './composables/layout'
+import { useSidebarControl } from './composables/sidebar'
 
 const {
   isOpen: isSidebarOpen,
   open: openSidebar,
   close: closeSidebar
-} = useSidebar()
+} = useSidebarControl()
 
-const route = useRoute()
-watch(() => route.path, closeSidebar)
-
-useCloseSidebarOnEscape(isSidebarOpen, closeSidebar)
+registerWatchers({ closeSidebar })
 
 const { frontmatter } = useData()
 
 const slots = useSlots()
 const heroImageSlotExists = computed(() => !!slots['home-hero-image'])
 
-provide('hero-image-slot-exists', heroImageSlotExists)
+provide(layoutInfoInjectionKey, { heroImageSlotExists })
 </script>
 
 <template>
-  <div v-if="frontmatter.layout !== false" class="Layout" :class="frontmatter.pageClass" >
+  <div
+    v-if="frontmatter.layout !== false"
+    class="Layout"
+    :class="frontmatter.pageClass"
+  >
     <slot name="layout-top" />
     <VPSkipLink />
     <VPBackdrop class="backdrop" :show="isSidebarOpen" @click="closeSidebar" />
@@ -60,6 +61,7 @@ provide('hero-image-slot-exists', heroImageSlotExists)
       <template #home-hero-info><slot name="home-hero-info" /></template>
       <template #home-hero-info-after><slot name="home-hero-info-after" /></template>
       <template #home-hero-actions-after><slot name="home-hero-actions-after" /></template>
+      <template #home-hero-actions-before-actions><slot name="home-hero-actions-before-actions" /></template>
       <template #home-hero-image><slot name="home-hero-image" /></template>
       <template #home-hero-after><slot name="home-hero-after" /></template>
       <template #home-features-before><slot name="home-features-before" /></template>

@@ -1,0 +1,23 @@
+diff --git a/index.d.ts b/index.d.ts
+index 41d4a858c6ece5a61a2088733cf8b333b45603d8..2cb19bcd8fc76ae82ebe87af742916e17f49334b 100644
+--- a/index.d.ts
++++ b/index.d.ts
+@@ -1,3 +1,15 @@
+-import MarkdownIt = require("markdown-it");
+-declare function attrs(md: MarkdownIt): void;
+-export = attrs;
++import type MarkdownIt from 'markdown-it'
++
++export interface MarkdownItAttrsOptions {
++  /** left delimiter, default is `{`(left curly bracket) */
++  leftDelimiter?: string
++  /** right delimiter, default is `}`(right curly bracket) */
++  rightDelimiter?: string
++  /** rule of allowed attribute, empty means no limit */
++  allowedAttributes?: (string | RegExp)[]
++}
++
++export default function attrsPlugin(
++  md: MarkdownIt,
++  options?: MarkdownItAttrsOptions
++): void
