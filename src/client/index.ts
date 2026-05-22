@@ -19,7 +19,6 @@ export { useRoute, useRouter } from './app/router'
 export {
   _escapeHtml,
   defineClientComponent,
-  getScrollOffset,
   inBrowser,
   onContentUpdated,
   withBase

@@ -39,8 +39,9 @@ export interface TransformPageContext<ThemeConfig = any> {
   siteConfig: SiteConfig<ThemeConfig>
 }
 
-export interface UserConfig<ThemeConfig = any>
-  extends LocaleSpecificConfig<ThemeConfig> {
+export interface UserConfig<
+  ThemeConfig = any
+> extends LocaleSpecificConfig<ThemeConfig> {
   extends?: RawConfigExports<ThemeConfig>
 
   base?: string
@@ -79,20 +80,6 @@ export interface UserConfig<ThemeConfig = any>
    * Vite config
    */
   vite?: ViteConfig & { configFile?: string | false }
-
-  /**
-   * Configure the scroll offset when the theme has a sticky header.
-   * Can be a number or a selector element to get the offset from.
-   * Can also be an array of selectors in case some elements will be
-   * invisible due to responsive layout. VitePress will fallback to the next
-   * selector if a selector fails to match, or the matched element is not
-   * currently visible in viewport.
-   */
-  scrollOffset?:
-    | number
-    | string
-    | string[]
-    | { selector: string | string[]; padding: number }
 
   /**
    * Enable MPA / zero-JS mode.
@@ -207,27 +194,26 @@ export interface UserConfig<ThemeConfig = any>
     | AdditionalConfigLoader<ThemeConfig>
 }
 
-export interface SiteConfig<ThemeConfig = any>
-  extends Pick<
-    UserConfig<ThemeConfig>,
-    | 'markdown'
-    | 'vue'
-    | 'vite'
-    | 'shouldPreload'
-    | 'router'
-    | 'mpa'
-    | 'metaChunk'
-    | 'lastUpdated'
-    | 'ignoreDeadLinks'
-    | 'cleanUrls'
-    | 'useWebFonts'
-    | 'postRender'
-    | 'buildEnd'
-    | 'transformHead'
-    | 'transformHtml'
-    | 'transformPageData'
-    | 'sitemap'
-  > {
+export interface SiteConfig<ThemeConfig = any> extends Pick<
+  UserConfig<ThemeConfig>,
+  | 'markdown'
+  | 'vue'
+  | 'vite'
+  | 'shouldPreload'
+  | 'router'
+  | 'mpa'
+  | 'metaChunk'
+  | 'lastUpdated'
+  | 'ignoreDeadLinks'
+  | 'cleanUrls'
+  | 'useWebFonts'
+  | 'postRender'
+  | 'buildEnd'
+  | 'transformHead'
+  | 'transformHtml'
+  | 'transformPageData'
+  | 'sitemap'
+> {
   root: string
   srcDir: string
   site: SiteData<ThemeConfig>

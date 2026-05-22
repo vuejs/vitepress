@@ -1,3 +1,7 @@
+---
+description: VitePress 마크다운 파일에서 YAML 전문(frontmatter)을 사용하여 페이지 수준의 메타데이터와 동작을 제어하는 방법을 알아보세요.
+---
+
 # 전문 {#frontmatter}
 
 ## 사용법 {#usage}

@@ -1,3 +1,7 @@
+---
+description: Crie páginas de equipe com perfis de membros usando os componentes integrados de equipe do VitePress.
+---
+
 <script setup>
 import { VPTeamMembers } from 'vitepress/theme'
 

@@ -1,3 +1,7 @@
+---
+description: VitePress 기본 테마에서 doc, page, home 레이아웃 중 선택하세요.
+---
+
 # 레이아웃 {#layout}
 
 페이지의 [전문](./frontmatter-config)에 `layout` 옵션을 설정하여 페이지 레이아웃을 선택할 수 있습니다. `doc`, `page`, `home` 세 가지 레이아웃 옵션이 있습니다. 아무것도 지정하지 않으면 `doc` 페이지로 처리됩니다.

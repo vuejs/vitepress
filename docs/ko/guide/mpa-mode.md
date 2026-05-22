@@ -1,3 +1,7 @@
+---
+description: VitePress에서 MPA(다중 페이지 애플리케이션) 모드를 활성화하여 JavaScript 없는 페이지로 더 나은 초기 성능을 얻으세요.
+---
+
 # MPA 모드 <Badge type="warning" text="실험적" /> {#mpa-mode}
 
 MPA (다중 페이지 애플리케이션) 모드는 명령줄에서 `vitepress build --mpa`를 통해 활성화할 수 있으며, 구성 파일에서 `mpa: true` 옵션을 통해서도 활성화할 수 있습니다.

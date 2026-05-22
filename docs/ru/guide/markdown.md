@@ -1,3 +1,7 @@
+---
+description: Встроенные расширения Markdown в VitePress, включая пользовательские контейнеры, блоки кода с подсветкой синтаксиса, выделение строк, группы кода и многое другое.
+---
+
 # Расширения Markdown {#markdown-extensions}
 
 VitePress поставляется со встроенными расширениями Markdown.
@@ -795,7 +799,7 @@ export default config
 
 ## Основы
 
-<!--@include: ./parts/basics.md-->
+<!--@@include: ./parts/basics.md-->
 ```
 
 **Файл части** (`parts/basics.md`)
@@ -831,7 +835,7 @@ export default config
 
 ## Основы
 
-<!--@include: ./parts/basics.md{3,}-->
+<!--@@include: ./parts/basics.md{3,}-->
 ```
 
 **Файл части** (`parts/basics.md`)
@@ -867,8 +871,8 @@ export default config
 
 ## Основы
 
-<!--@include: ./parts/basics.md#basic-usage{,2}-->
-<!--@include: ./parts/basics.md#basic-usage{5,}-->
+<!--@@include: ./parts/basics.md#basic-usage{,2}-->
+<!--@@include: ./parts/basics.md#basic-usage{5,}-->
 ```
 
 **Часть файла** (`parts/basics.md`)
@@ -919,7 +923,7 @@ export default config
 
 ```md
 ## Мой дополнительный раздел
-<!--@include: ./parts/basics.md#мои-основнои-раздел-->
+<!--@@include: ./parts/basics.md#мои-основнои-раздел-->
 ```
 
 **Соответствующий код**
@@ -943,7 +947,7 @@ export default config
 и включить его следующим образом:
 
 ```md
-<!--@include: ./parts/basics.md#custom-id-->
+<!--@@include: ./parts/basics.md#custom-id-->
 ```
 
 ## Математические уравнения {#math-equations}

@@ -41,7 +41,7 @@ declare module 'vite' {
 
 const themeRE = /(?:^|\/)\.vitepress\/theme\/index\.(m|c)?(j|t)s$/
 const startsWithThemeRE = /^@theme(?:\/|$)/
-const docsearchRE = /\/@docsearch\/css\/dist\/style.css(?:$|\?)/
+const docsearchRE = /\/docsearch\.css(?:$|\?)/
 
 const hashRE = /\.([-\w]+)\.js$/
 const staticInjectMarkerRE = /\bcreateStaticVNode\((?:(".*")|('.*')), (\d+)\)/g
@@ -63,8 +63,7 @@ const isPageChunk = (
     chunk.facadeModuleId.endsWith('.md')
   )
 
-const cleanUrl = (url: string): string =>
-  url.replace(/#.*$/s, '').replace(/\?.*$/s, '')
+const cleanUrl = (url: string): string => url.replace(/[?#].*$/s, '')
 
 export async function createVitePressPlugin(
   siteConfig: SiteConfig,
@@ -147,7 +146,7 @@ export async function createVitePressPlugin(
             'vitepress > @vue/devtools-api',
             'vitepress > @vueuse/core'
           ].filter((d) => d != null),
-          exclude: ['@docsearch/js', 'vitepress']
+          exclude: ['@docsearch/js', '@docsearch/sidepanel-js', 'vitepress']
         },
         server: {
           fs: {

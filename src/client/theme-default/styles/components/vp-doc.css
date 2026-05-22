@@ -11,6 +11,9 @@
   position: relative;
   font-weight: 600;
   outline: none;
+  scroll-margin-top: calc(
+    var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 24px
+  );
 }
 
 .vp-doc h1 {
@@ -92,6 +95,7 @@
  * -------------------------------------------------------------------------- */
 
 .vp-doc p,
+.vp-doc img,
 .vp-doc summary {
   margin: 16px 0;
 }

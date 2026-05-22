@@ -1,3 +1,7 @@
+---
+description: 为 VitePress 站点生成 sitemap.xml 文件，提升搜索引擎的可发现性。
+---
+
 # 生成 sitemap {#sitemap-generation}
 
 VitePress 提供开箱即用的配置，为站点生成 `sitemap.xml` 文件。要启用它，请将以下内容添加到 `.vitepress/config.js` 中：

@@ -1,3 +1,7 @@
+---
+description: VitePress CLI 命令参考，包括 dev、build、preview 和 init 命令。
+---
+
 # 命令行接口 {#command-line-interface}
 
 ## `vitepress dev`
@@ -35,7 +39,7 @@ vitepress dev [root]
 vitepress build [root]
 ```
 
-### 选项\
+### 选项
 
 | 选项                           | 说明                                                                                              |
 | ------------------------------ | ------------------------------------------------------------------------------------------------- |

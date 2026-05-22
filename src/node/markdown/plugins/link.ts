@@ -30,12 +30,11 @@ export const linkPlugin = (
     const hrefIndex = token.attrIndex('href')
     if (
       hrefIndex >= 0 &&
-      token.attrIndex('target') < 0 &&
-      token.attrIndex('download') < 0 &&
       token.attrGet('class') !== 'header-anchor' // header anchors are already normalized
     ) {
       const hrefAttr = token.attrs![hrefIndex]
-      const url = hrefAttr[1]
+      let [url, frag] = hrefAttr[1].split(':~:', 2)
+      hrefAttr[1] = url
       if (isExternal(url)) {
         Object.entries(externalAttrs).forEach(([key, val]) => {
           token.attrSet(key, val)
@@ -53,6 +52,9 @@ export const linkPlugin = (
           !url.startsWith('#') &&
           // skip mail/custom protocol links
           protocol.startsWith('http') &&
+          // skip links with target/download attribute as they are meant to be opened/downloaded as-is
+          token.attrIndex('target') < 0 &&
+          token.attrIndex('download') < 0 &&
           // skip links to files (other than html/md)
           treatAsHtml(pathname)
         ) {
@@ -65,6 +67,9 @@ export const linkPlugin = (
         if (hrefAttr[1].startsWith('/')) {
           hrefAttr[1] = `${base}${hrefAttr[1]}`.replace(/\/+/g, '/')
         }
+      }
+      if (frag) {
+        hrefAttr[1] += (hrefAttr[1].includes('#') ? '' : '#') + ':~:' + frag
       }
     }
     return self.renderToken(tokens, idx, options)

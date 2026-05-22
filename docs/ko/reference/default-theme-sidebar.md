@@ -1,3 +1,7 @@
+---
+description: 그룹, 접을 수 있는 섹션 및 다중 사이드바를 사용하여 VitePress 기본 테마의 사이드바 네비게이션을 구성하세요.
+---
+
 # 사이드바 {#sidebar}
 
 사이드바는 문서의 기본 탐색 블록입니다. [`themeConfig.sidebar`](./default-theme-config#sidebar)에서 사이드바 메뉴를 구성할 수 있습니다.

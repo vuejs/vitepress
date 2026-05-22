@@ -1,3 +1,7 @@
+---
+description: VitePress組み込みのチームコンポーネントを使い、メンバープロフィール付きのチームページを作成する方法。
+---
+
 <script setup>
 import { VPTeamMembers } from 'vitepress/theme'
 

@@ -1,3 +1,7 @@
+---
+description: Create and use a custom theme in VitePress to fully control the look and feel of your site.
+---
+
 # Using a Custom Theme
 
 ## Theme Resolving

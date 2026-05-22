@@ -1,4 +1,5 @@
 ---
+description: Настройте и расширьте тему VitePress по умолчанию с помощью пользовательских CSS, компонентов, макетов и слотов.
 outline: deep
 ---
 
@@ -191,6 +192,7 @@ export default {
   - `home-hero-info-before`
   - `home-hero-info`
   - `home-hero-info-after`
+  - `home-hero-actions-before-actions`
   - `home-hero-actions-after`
   - `home-hero-image`
   - `home-hero-after`

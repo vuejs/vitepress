@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: سفارشی‌سازی و گسترش تم پیش‌فرض ویت‌پرس با CSS سفارشی، کامپوننت‌ها، طرح‌بندی‌ها و اسلات‌ها.
 ---
 
 # گسترش تم پیش‌فرض {#extending-the-default-theme}
@@ -191,6 +192,7 @@ export default {
   - `home-hero-info-before`
   - `home-hero-info`
   - `home-hero-info-after`
+  - `home-hero-actions-before-actions`
   - `home-hero-actions-after`
   - `home-hero-image`
   - `home-hero-after`

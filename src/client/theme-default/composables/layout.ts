@@ -107,6 +107,7 @@ export function registerWatchers({ closeSidebar }: RegisterWatchersOptions) {
   const route = useRoute()
   watch(() => route.path, closeSidebar)
 
+  watch(is960, closeSidebar)
   useCloseSidebarOnEscape(closeSidebar)
 }
 

@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: Ensure your VitePress theme components and custom code are compatible with server-side rendering.
 ---
 
 # SSR Compatibility

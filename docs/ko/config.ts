@@ -223,7 +223,6 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
 
 function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
   return {
-    placeholder: '문서 검색',
     translations: {
       button: {
         buttonText: '검색',
@@ -231,44 +230,67 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
       },
       modal: {
         searchBox: {
-          clearButtonTitle: '검색 지우기',
-          clearButtonAriaLabel: '검색 지우기',
+          clearButtonTitle: '지우기',
+          clearButtonAriaLabel: '검색어 지우기',
           closeButtonText: '닫기',
           closeButtonAriaLabel: '닫기',
-          placeholderText: '문서 검색',
-          placeholderTextAskAi: 'AI에게 물어보기: ',
-          placeholderTextAskAiStreaming: '답변 작성 중...',
+          placeholderText: '문서를 검색하거나 Ask AI에 질문',
+          placeholderTextAskAi: '다른 질문하기...',
+          placeholderTextAskAiStreaming: '답변 중...',
           searchInputLabel: '검색',
           backToKeywordSearchButtonText: '키워드 검색으로 돌아가기',
-          backToKeywordSearchButtonAriaLabel: '키워드 검색으로 돌아가기'
+          backToKeywordSearchButtonAriaLabel: '키워드 검색으로 돌아가기',
+          newConversationPlaceholder: '질문하기',
+          conversationHistoryTitle: '내 대화 기록',
+          startNewConversationText: '새 대화 시작',
+          viewConversationHistoryText: '대화 기록',
+          threadDepthErrorPlaceholder: '대화 한도에 도달했습니다'
         },
-        startScreen: {
-          recentSearchesTitle: '검색 기록',
-          noRecentSearchesText: '최근 검색 없음',
-          saveRecentSearchButtonTitle: '검색 기록에 저장',
-          removeRecentSearchButtonTitle: '검색 기록에서 삭제',
-          favoriteSearchesTitle: '즐겨찾기',
-          removeFavoriteSearchButtonTitle: '즐겨찾기에서 삭제',
-          recentConversationsTitle: '최근 대화',
-          removeRecentConversationButtonTitle: '대화를 기록에서 삭제'
+        newConversation: {
+          newConversationTitle: '오늘 무엇을 도와드릴까요?',
+          newConversationDescription:
+            '문서를 검색해 설정 가이드, 기능 설명, 문제 해결 팁을 빠르게 찾아드립니다.'
+        },
+        footer: {
+          selectText: '선택',
+          submitQuestionText: '질문 제출',
+          selectKeyAriaLabel: 'Enter 키',
+          navigateText: '이동',
+          navigateUpKeyAriaLabel: '위 화살표',
+          navigateDownKeyAriaLabel: '아래 화살표',
+          closeText: '닫기',
+          backToSearchText: '검색으로 돌아가기',
+          closeKeyAriaLabel: 'Escape 키',
+          poweredByText: '제공'
         },
         errorScreen: {
-          titleText: '결과를 가져올 수 없습니다',
-          helpText: '네트워크 연결을 확인하세요'
+          titleText: '결과를 불러올 수 없습니다',
+          helpText: '네트워크 연결을 확인해 주세요.'
+        },
+        startScreen: {
+          recentSearchesTitle: '최근',
+          noRecentSearchesText: '최근 검색이 없습니다',
+          saveRecentSearchButtonTitle: '이 검색 저장',
+          removeRecentSearchButtonTitle: '기록에서 이 검색 제거',
+          favoriteSearchesTitle: '즐겨찾기',
+          removeFavoriteSearchButtonTitle: '즐겨찾기에서 이 검색 제거',
+          recentConversationsTitle: '최근 대화',
+          removeRecentConversationButtonTitle: '기록에서 이 대화 제거'
         },
         noResultsScreen: {
-          noResultsText: '결과를 찾을 수 없습니다',
-          suggestedQueryText: '다른 검색어를 시도해 보세요',
-          reportMissingResultsText: '결과가 있어야 한다고 생각하나요?',
-          reportMissingResultsLinkText: '피드백 보내기'
+          noResultsText: '다음에 대한 결과를 찾을 수 없습니다',
+          suggestedQueryText: '다음을 검색해 보세요',
+          reportMissingResultsText: '이 검색은 결과가 있어야 하나요?',
+          reportMissingResultsLinkText: '알려주세요.'
         },
         resultsScreen: {
-          askAiPlaceholder: 'AI에게 물어보기: '
+          askAiPlaceholder: 'AI에게 묻기: ',
+          noResultsAskAiPlaceholder: '문서에서 찾지 못했나요? Ask AI에 문의: '
         },
         askAiScreen: {
           disclaimerText:
-            'AI가 생성한 답변으로 오류가 있을 수 있습니다. 반드시 확인하세요.',
-          relatedSourcesText: '관련 소스',
+            '답변은 AI가 생성하며 오류가 있을 수 있습니다. 확인해 주세요.',
+          relatedSourcesText: '관련 출처',
           thinkingText: '생각 중...',
           copyButtonText: '복사',
           copyButtonCopiedText: '복사됨!',
@@ -277,21 +299,67 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
           dislikeButtonTitle: '싫어요',
           thanksForFeedbackText: '피드백 감사합니다!',
           preToolCallText: '검색 중...',
-          duringToolCallText: '검색 중 ',
-          afterToolCallText: '검색 완료',
-          aggregatedToolCallText: '검색 완료'
+          duringToolCallText: '검색 중...',
+          afterToolCallText: '검색함',
+          stoppedStreamingText: '이 응답을 중지했습니다',
+          errorTitleText: '채팅 오류',
+          threadDepthExceededMessage:
+            '정확성을 유지하기 위해 이 대화는 종료되었습니다.',
+          startNewConversationButtonText: '새 대화 시작'
+        }
+      }
+    },
+    askAi: {
+      sidePanel: {
+        button: {
+          translations: {
+            buttonText: 'AI에게 묻기',
+            buttonAriaLabel: 'AI에게 묻기'
+          }
         },
-        footer: {
-          selectText: '선택',
-          submitQuestionText: '질문 보내기',
-          selectKeyAriaLabel: 'Enter 키',
-          navigateText: '탐색',
-          navigateUpKeyAriaLabel: '위쪽 화살표',
-          navigateDownKeyAriaLabel: '아래쪽 화살표',
-          closeText: '닫기',
-          backToSearchText: '검색으로 돌아가기',
-          closeKeyAriaLabel: 'Esc 키',
-          poweredByText: '제공: '
+        panel: {
+          translations: {
+            header: {
+              title: 'AI에게 묻기',
+              conversationHistoryTitle: '내 대화 기록',
+              newConversationText: '새 대화 시작',
+              viewConversationHistoryText: '대화 기록'
+            },
+            promptForm: {
+              promptPlaceholderText: '질문하기',
+              promptAnsweringText: '답변 중...',
+              promptAskAnotherQuestionText: '다른 질문하기',
+              promptDisclaimerText:
+                '답변은 AI가 생성하며 오류가 있을 수 있습니다.',
+              promptLabelText: 'Enter로 전송, Shift+Enter로 줄바꿈.',
+              promptAriaLabelText: '프롬프트 입력'
+            },
+            conversationScreen: {
+              preToolCallText: '검색 중...',
+              searchingText: '검색 중...',
+              toolCallResultText: '검색함',
+              conversationDisclaimer:
+                '답변은 AI가 생성하며 오류가 있을 수 있습니다. 확인해 주세요.',
+              reasoningText: '추론 중...',
+              thinkingText: '생각 중...',
+              relatedSourcesText: '관련 출처',
+              stoppedStreamingText: '이 응답을 중지했습니다',
+              copyButtonText: '복사',
+              copyButtonCopiedText: '복사됨!',
+              likeButtonTitle: '좋아요',
+              dislikeButtonTitle: '싫어요',
+              thanksForFeedbackText: '피드백 감사합니다!',
+              errorTitleText: '채팅 오류'
+            },
+            newConversationScreen: {
+              titleText: '오늘 무엇을 도와드릴까요?',
+              introductionText:
+                '문서를 검색해 설정 가이드, 기능 설명, 문제 해결 팁을 빠르게 찾아드립니다.'
+            },
+            logo: {
+              poweredByText: '제공'
+            }
+          }
         }
       }
     }

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useScrollLock } from '@vueuse/core'
 import { inBrowser } from 'vitepress'
-import { ref } from 'vue'
 import VPNavScreenAppearance from './VPNavScreenAppearance.vue'
 import VPNavScreenMenu from './VPNavScreenMenu.vue'
 import VPNavScreenSocialLinks from './VPNavScreenSocialLinks.vue'
@@ -11,7 +10,6 @@ defineProps<{
   open: boolean
 }>()
 
-const screen = ref<HTMLElement | null>(null)
 const isLocked = useScrollLock(inBrowser ? document.body : null)
 </script>
 
@@ -21,7 +19,7 @@ const isLocked = useScrollLock(inBrowser ? document.body : null)
     @enter="isLocked = true"
     @after-leave="isLocked = false"
   >
-    <div v-if="open" class="VPNavScreen" ref="screen" id="VPNavScreen">
+    <div v-if="open" class="VPNavScreen" id="VPNavScreen">
       <div class="container">
         <slot name="nav-screen-content-before" />
         <VPNavScreenMenu class="menu" />

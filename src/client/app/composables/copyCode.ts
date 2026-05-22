@@ -48,7 +48,7 @@ export function useCopyCode() {
 
 async function copyToClipboard(text: string) {
   try {
-    return navigator.clipboard.writeText(text)
+    await navigator.clipboard.writeText(text)
   } catch {
     const element = document.createElement('textarea')
     const previouslyFocusedElement = document.activeElement

@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: Understand VitePress file-based routing, dynamic routes, clean URLs, and path rewrites.
 ---
 
 # Routing
@@ -121,7 +122,7 @@ Alternatively, you can directly use the anchor tag syntax:
 
 :::
 
-## Generating Clean URL
+## Generating Clean URLs
 
 ::: warning Server Support Required
 To serve clean URLs with VitePress, server-side support is required.
@@ -259,6 +260,30 @@ The generated HTML pages will be:
    ├─ foo.html
    └─ bar.html
 ```
+
+### Type-safe loader with `defineRoutes`
+
+If you are using TypeScript, you can wrap the loader with `defineRoutes` from `vitepress` to get type hints for route hooks such as `paths`, `watch`, and `transformPageData`:
+
+```ts
+// packages/[pkg].paths.ts
+import { defineRoutes } from 'vitepress'
+
+export default defineRoutes({
+  watch: ['../data/**/*.json'],
+  async paths() {
+    return [
+      { params: { pkg: 'foo' } },
+      { params: { pkg: 'bar' } }
+    ]
+  },
+  async transformPageData(pageData) {
+    pageData.title = `${pageData.title} · Packages`
+  }
+})
+```
+
+`defineRoutes` is optional, but recommended when authoring `.paths.ts` files.
 
 ### Multiple Params
 

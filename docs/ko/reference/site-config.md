@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: 앱 수준 설정, 테마 및 빌드 옵션을 포함한 VitePress 사이트 구성 옵션의 전체 레퍼런스입니다.
 ---
 
 # 사이트 구성 {#site-config}
@@ -350,7 +351,7 @@ export default {
 - 타입: `boolean`
 - 기본값: `false`
 
-`true`로 설정하면 VitePress는 URL에서 `.html`을 제거합니다. [간결한 URL 생성](../guide/routing#generating-clean-url)을 참고하세요.
+`true`로 설정하면 VitePress는 URL에서 `.html`을 제거합니다. [간결한 URL 생성](../guide/routing#generating-clean-urls)을 참고하세요.
 
 ::: warning 서버 지원 필요
 이를 활성화하려면 호스팅 플랫폼에서 추가 구성이 필요할 수 있습니다. 서버가 `/foo`를 방문할 때 **리디렉션 없이** `/foo.html`을 제공할 수 있어야 합니다.

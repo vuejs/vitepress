@@ -1,3 +1,7 @@
+---
+description: VitePress 内置的 Markdown 扩展，包括自定义容器、代码块语法高亮、行高亮、代码组等功能。
+---
+
 # Markdown 扩展 {#markdown-extensions}
 
 VitePress 带有内置的 Markdown 扩展。
@@ -771,7 +775,7 @@ export default config
 
 ## Basics
 
-<!--@include: ./parts/basics.md-->
+<!--@@include: ./parts/basics.md-->
 ```
 
 **Part file** (`parts/basics.md`)
@@ -807,7 +811,7 @@ Can be created using `.foorc.json`.
 
 ## Basics
 
-<!--@include: ./parts/basics.md{3,}-->
+<!--@@include: ./parts/basics.md{3,}-->
 ```
 
 **Part file** (`parts/basics.md`)

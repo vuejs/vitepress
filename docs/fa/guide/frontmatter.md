@@ -1,3 +1,7 @@
+---
+description: نحوه استفاده از frontmatter YAML در فایل‌های Markdown ویت‌پرس برای کنترل متاداده و رفتار صفحه.
+---
+
 # Frontmatter
 
 ## استفاده {#usage}

@@ -41,8 +41,10 @@ defineProps<{
       />
       <div v-else-if="icon" class="icon" v-html="icon"></div>
       <h2 class="title" v-html="title"></h2>
-      <p v-if="details" class="details" v-html="details"></p>
-
+      <ul v-if="Array.isArray(details)" class="details">
+        <li v-for="item in details" :key="item" v-html="item"></li>
+      </ul>
+      <p v-else-if="details" class="details" v-html="details"></p>
       <div v-if="linkText" class="link-text">
         <p class="link-text-value">
           {{ linkText }} <span class="vpi-arrow-right link-text-icon" />
@@ -103,6 +105,11 @@ defineProps<{
   font-size: 14px;
   font-weight: 500;
   color: var(--vp-c-text-2);
+}
+
+ul.details {
+  list-style-type: disc;
+  padding-left: 14px;
 }
 
 .link-text {

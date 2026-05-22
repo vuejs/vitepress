@@ -1,4 +1,5 @@
 ---
+description: VitePress es un generador de sitios estáticos impulsado por Vite y Vue que te permite crear hermosos sitios de documentación a partir de Markdown.
 layout: home
 
 hero:

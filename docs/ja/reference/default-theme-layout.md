@@ -1,3 +1,7 @@
+---
+description: VitePressデフォルトテーマのdoc、page、homeレイアウトの選択と使い方。
+---
+
 # レイアウト {#layout}
 
 ページの [フロントマター](./frontmatter-config) の `layout` オプションでページのレイアウトを選択できます。利用可能なレイアウトは `doc`、`page`、`home` の 3 種類です。何も指定しない場合は `doc` として扱われます。

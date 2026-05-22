@@ -1,3 +1,7 @@
+---
+description: Справочник по всем параметрам конфигурации, доступным для темы VitePress по умолчанию.
+---
+
 # Настройка темы по умолчанию {#default-theme-config}
 
 Конфигурация темы позволяет настроить её под себя. Вы можете настроить тему с помощью опции `themeConfig` в файле конфигурации:
@@ -363,16 +367,20 @@ export default {
   themeConfig: {
     carbonAds: {
       code: 'код-рекламы',
-      placement: 'место-размещения-рекламы'
+      placement: 'место-размещения-рекламы',
+      format: 'classic'
     }
   }
 }
 ```
 
+Параметр `format` поддерживает значения `classic`, `responsive` и `cover`.
+
 ```ts
 export interface CarbonAdsOptions {
   code: string
   placement: string
+  format?: 'classic' | 'responsive' | 'cover'
 }
 ```
 

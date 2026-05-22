@@ -28,7 +28,10 @@ function toggle() {
         <VPLink
           class="link"
           :href="locale.link"
+          :external="false"
           :lang="locale.lang"
+          :hreflang="locale.lang"
+          rel="alternate"
           :dir="locale.dir"
         >
           {{ locale.text }}

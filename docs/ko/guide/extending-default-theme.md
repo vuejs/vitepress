@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: 커스텀 CSS, 컴포넌트, 레이아웃 및 슬롯을 사용하여 VitePress 기본 테마를 커스터마이징하고 확장하세요.
 ---
 
 # 기본 테마 확장하기 {#extending-the-default-theme}
@@ -190,6 +191,7 @@ export default {
   - `home-hero-info-before`
   - `home-hero-info`
   - `home-hero-info-after`
+  - `home-hero-actions-before-actions`
   - `home-hero-actions-after`
   - `home-hero-image`
   - `home-hero-after`

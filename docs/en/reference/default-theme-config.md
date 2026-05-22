@@ -1,3 +1,7 @@
+---
+description: Reference of all configuration options available for the VitePress default theme.
+---
+
 # Default Theme Config
 
 Theme config lets you customize your theme. You can define theme config via the `themeConfig` option in the config file:
@@ -364,6 +368,7 @@ export default {
     carbonAds: {
       code: 'your-carbon-code',
       placement: 'your-carbon-placement'
+      format: 'classic'
     }
   }
 }
@@ -373,6 +378,7 @@ export default {
 export interface CarbonAdsOptions {
   code: string
   placement: string
+  format?: 'classic' | 'responsive' | 'cover'
 }
 ```
 

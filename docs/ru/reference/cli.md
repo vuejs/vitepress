@@ -1,3 +1,7 @@
+---
+description: Справочник по командам CLI VitePress, включая dev, build, preview и init.
+---
+
 # Интерфейс командной строки {#command-line-interface}
 
 ## `vitepress dev` {#vitepress-dev}

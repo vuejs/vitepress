@@ -19,9 +19,14 @@ let isInitialized = false
 function init() {
   if (!isInitialized) {
     isInitialized = true
+    const params = new URLSearchParams({
+      serve: carbonOptions.code,
+      placement: carbonOptions.placement,
+      format: carbonOptions?.format || 'classic',
+    })
     const s = document.createElement('script')
     s.id = '_carbonads_js'
-    s.src = `//cdn.carbonads.com/carbon.js?serve=${carbonOptions.code}&placement=${carbonOptions.placement}`
+    s.src = `//cdn.carbonads.com/carbon.js?${params.toString()}`
     s.async = true
     container.value.appendChild(s)
   }

@@ -149,7 +149,6 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
 
 function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
   return {
-    placeholder: 'ドキュメントを検索',
     translations: {
       button: {
         buttonText: '検索',
@@ -157,67 +156,138 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
       },
       modal: {
         searchBox: {
-          clearButtonTitle: '検索をクリア',
-          clearButtonAriaLabel: '検索をクリア',
+          clearButtonTitle: 'クリア',
+          clearButtonAriaLabel: 'クエリをクリア',
           closeButtonText: '閉じる',
           closeButtonAriaLabel: '閉じる',
-          placeholderText: 'ドキュメントを検索',
-          placeholderTextAskAi: 'AI に質問: ',
-          placeholderTextAskAiStreaming: '回答を作成中...',
+          placeholderText: 'ドキュメントを検索するか Ask AI に質問',
+          placeholderTextAskAi: '別の質問をする...',
+          placeholderTextAskAiStreaming: '回答中...',
           searchInputLabel: '検索',
           backToKeywordSearchButtonText: 'キーワード検索に戻る',
-          backToKeywordSearchButtonAriaLabel: 'キーワード検索に戻る'
+          backToKeywordSearchButtonAriaLabel: 'キーワード検索に戻る',
+          newConversationPlaceholder: '質問する',
+          conversationHistoryTitle: '自分の会話履歴',
+          startNewConversationText: '新しい会話を開始',
+          viewConversationHistoryText: '会話履歴',
+          threadDepthErrorPlaceholder: '会話上限に達しました'
         },
-        startScreen: {
-          recentSearchesTitle: '検索履歴',
-          noRecentSearchesText: '最近の検索はありません',
-          saveRecentSearchButtonTitle: '検索履歴に保存',
-          removeRecentSearchButtonTitle: '検索履歴から削除',
-          favoriteSearchesTitle: 'お気に入り',
-          removeFavoriteSearchButtonTitle: 'お気に入りから削除',
-          recentConversationsTitle: '最近の会話',
-          removeRecentConversationButtonTitle: '会話履歴から削除'
-        },
-        errorScreen: {
-          titleText: '結果を取得できません',
-          helpText: 'ネットワーク接続を確認してください'
-        },
-        noResultsScreen: {
-          noResultsText: '結果が見つかりません',
-          suggestedQueryText: '別の検索語を試してください',
-          reportMissingResultsText: '結果があるはずだと思いますか？',
-          reportMissingResultsLinkText: 'フィードバックを送る'
-        },
-        resultsScreen: {
-          askAiPlaceholder: 'AI に質問: '
-        },
-        askAiScreen: {
-          disclaimerText:
-            'AI が生成した回答には誤りが含まれる可能性があります。必ずご確認ください。',
-          relatedSourcesText: '関連ソース',
-          thinkingText: '考え中...',
-          copyButtonText: 'コピー',
-          copyButtonCopiedText: 'コピーしました！',
-          copyButtonTitle: 'コピー',
-          likeButtonTitle: 'いいね',
-          dislikeButtonTitle: 'よくない',
-          thanksForFeedbackText: 'フィードバックありがとうございます！',
-          preToolCallText: '検索中...',
-          duringToolCallText: '検索中 ',
-          afterToolCallText: '検索完了',
-          aggregatedToolCallText: '検索完了'
+        newConversation: {
+          newConversationTitle: '今日はどのようにお手伝いできますか？',
+          newConversationDescription:
+            'ドキュメントを検索して、設定ガイド、機能の詳細、トラブルシューティングのヒントをすばやく見つけるお手伝いをします。'
         },
         footer: {
           selectText: '選択',
           submitQuestionText: '質問を送信',
           selectKeyAriaLabel: 'Enter キー',
           navigateText: '移動',
-          navigateUpKeyAriaLabel: '上矢印キー',
-          navigateDownKeyAriaLabel: '下矢印キー',
+          navigateUpKeyAriaLabel: '上矢印',
+          navigateDownKeyAriaLabel: '下矢印',
           closeText: '閉じる',
           backToSearchText: '検索に戻る',
-          closeKeyAriaLabel: 'Esc キー',
-          poweredByText: '提供: '
+          closeKeyAriaLabel: 'Escape キー',
+          poweredByText: '提供'
+        },
+        errorScreen: {
+          titleText: '結果を取得できませんでした',
+          helpText: 'ネットワーク接続を確認してください。'
+        },
+        startScreen: {
+          recentSearchesTitle: '最近',
+          noRecentSearchesText: '最近の検索はありません',
+          saveRecentSearchButtonTitle: 'この検索を保存',
+          removeRecentSearchButtonTitle: '履歴からこの検索を削除',
+          favoriteSearchesTitle: 'お気に入り',
+          removeFavoriteSearchButtonTitle: 'お気に入りからこの検索を削除',
+          recentConversationsTitle: '最近の会話',
+          removeRecentConversationButtonTitle: '履歴からこの会話を削除'
+        },
+        noResultsScreen: {
+          noResultsText: '次の検索結果はありません',
+          suggestedQueryText: '次を検索してみてください',
+          reportMissingResultsText:
+            'この検索には結果があるべきだと思いますか？',
+          reportMissingResultsLinkText: 'お知らせください。'
+        },
+        resultsScreen: {
+          askAiPlaceholder: 'AI に質問：',
+          noResultsAskAiPlaceholder:
+            'ドキュメントに見つかりませんでしたか？ Ask AI に相談：'
+        },
+        askAiScreen: {
+          disclaimerText:
+            '回答は AI により生成され、誤りが含まれる場合があります。内容をご確認ください。',
+          relatedSourcesText: '関連ソース',
+          thinkingText: '考え中...',
+          copyButtonText: 'コピー',
+          copyButtonCopiedText: 'コピーしました！',
+          copyButtonTitle: 'コピー',
+          likeButtonTitle: 'いいね',
+          dislikeButtonTitle: 'よくないね',
+          thanksForFeedbackText: 'フィードバックありがとうございます！',
+          preToolCallText: '検索中...',
+          duringToolCallText: '検索中...',
+          afterToolCallText: '検索しました',
+          stoppedStreamingText: 'この応答を停止しました',
+          errorTitleText: 'チャットエラー',
+          threadDepthExceededMessage:
+            '回答の正確性を保つため、この会話は終了しました。',
+          startNewConversationButtonText: '新しい会話を開始'
+        }
+      }
+    },
+    askAi: {
+      sidePanel: {
+        button: {
+          translations: {
+            buttonText: 'AI に質問',
+            buttonAriaLabel: 'AI に質問'
+          }
+        },
+        panel: {
+          translations: {
+            header: {
+              title: 'AI に質問',
+              conversationHistoryTitle: '自分の会話履歴',
+              newConversationText: '新しい会話を開始',
+              viewConversationHistoryText: '会話履歴'
+            },
+            promptForm: {
+              promptPlaceholderText: '質問する',
+              promptAnsweringText: '回答中...',
+              promptAskAnotherQuestionText: '別の質問をする',
+              promptDisclaimerText:
+                '回答は AI により生成され、誤りが含まれる場合があります。',
+              promptLabelText: 'Enterで送信、Shift+Enterで改行。',
+              promptAriaLabelText: 'プロンプト入力'
+            },
+            conversationScreen: {
+              preToolCallText: '検索中...',
+              searchingText: '検索中...',
+              toolCallResultText: '検索しました',
+              conversationDisclaimer:
+                '回答は AI により生成され、誤りが含まれる場合があります。内容をご確認ください。',
+              reasoningText: '推論中...',
+              thinkingText: '考え中...',
+              relatedSourcesText: '関連ソース',
+              stoppedStreamingText: 'この応答を停止しました',
+              copyButtonText: 'コピー',
+              copyButtonCopiedText: 'コピーしました！',
+              likeButtonTitle: 'いいね',
+              dislikeButtonTitle: 'よくないね',
+              thanksForFeedbackText: 'フィードバックありがとうございます！',
+              errorTitleText: 'チャットエラー'
+            },
+            newConversationScreen: {
+              titleText: '今日はどのようにお手伝いできますか？',
+              introductionText:
+                'ドキュメントを検索して、設定ガイド、機能の詳細、トラブルシューティングのヒントをすばやく見つけるお手伝いをします。'
+            },
+            logo: {
+              poweredByText: '提供'
+            }
+          }
         }
       }
     }

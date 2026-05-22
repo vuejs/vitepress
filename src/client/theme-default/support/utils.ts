@@ -20,6 +20,18 @@ export function ensureStartingSlash(path: string): string {
   return path.startsWith('/') ? path : `/${path}`
 }
 
+export function isLinkExternal(
+  href?: string,
+  target?: string,
+  external?: boolean
+): boolean {
+  if (external !== undefined) {
+    return external
+  }
+
+  return (!!href && isExternal(href)) || target === '_blank'
+}
+
 export function normalizeLink(url: string): string {
   const { pathname, search, hash, protocol } = new URL(url, 'http://a.com')
 

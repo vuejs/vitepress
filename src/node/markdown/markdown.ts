@@ -15,6 +15,7 @@ import { titlePlugin } from '@mdit-vue/plugin-title'
 import { tocPlugin, type TocPluginOptions } from '@mdit-vue/plugin-toc'
 import { slugify as defaultSlugify } from '@mdit-vue/shared'
 import type {
+  CodeToHastOptions,
   LanguageInput,
   ShikiTransformer,
   ThemeRegistrationAny
@@ -131,6 +132,12 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    * @see https://shiki.style/guide/transformers
    */
   codeTransformers?: ShikiTransformer[]
+  /**
+   * Color replacements applied during syntax highlighting.
+   * Accepts either a flat color map or per-theme replacements.
+   * @see https://shiki.style/guide/theme-colors#color-replacements
+   */
+  colorReplacements?: CodeToHastOptions['colorReplacements']
   /**
    * Setup Shiki instance
    */

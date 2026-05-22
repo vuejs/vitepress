@@ -193,7 +193,29 @@ export async function highlight(
         meta: { __raw: attrs },
         ...(typeof theme === 'object' && 'light' in theme && 'dark' in theme
           ? { themes: theme, defaultColor: false }
-          : { theme })
+          : { theme }),
+        colorReplacements: {
+          'github-light': {
+            '#959da5': '#6c676f',
+            '#28a745': '#0e790b',
+            '#b08800': '#846312',
+            '#e36209': '#c13617',
+            '#3192aa': '#05728b',
+            '#d73a49': '#c62739',
+            '#22863a': '#11782a',
+            '#6a737d': '#62687b',
+            '#1b7c83': '#06747a',
+            '#0366d6': '#0663d0',
+            '#cb2431': '#c82430'
+          },
+          'github-dark': {
+            '#586069': '#5b93a3',
+            '#6a737d': '#818e99',
+            '#ea4a5a': '#ef5564',
+            '#2188ff': '#268bf9'
+          },
+          ...options.colorReplacements
+        }
       })
 
       return restoreMustache(highlighted)

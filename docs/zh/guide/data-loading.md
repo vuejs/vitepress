@@ -1,3 +1,7 @@
+---
+description: 使用 VitePress 数据加载器在构建时加载任意数据，并在页面或组件中导入使用。
+---
+
 # 构建时数据加载 {#build-time-data-loading}
 
 VitePress 提供了**数据加载**的功能，它允许加载任意数据并从页面或组件中导入它。数据加载**只在构建时**执行：最终的数据将被序列化为 JavaScript 包中的 JSON。

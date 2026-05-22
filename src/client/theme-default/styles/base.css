@@ -44,6 +44,8 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-autospace: normal;
+    text-spacing-trim: normal;
   }
 
   main {
@@ -119,6 +121,7 @@
   kbd,
   samp {
     font-family: var(--vp-font-family-mono);
+    text-autospace: no-autospace;
   }
 
   img,
@@ -236,6 +239,22 @@
   li,
   p {
     overflow-wrap: break-word;
+  }
+
+  sub,
+  sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+  }
+
+  sub {
+    bottom: -0.25em;
+  }
+
+  sup {
+    top: -0.5em;
   }
 
   vite-error-overlay {

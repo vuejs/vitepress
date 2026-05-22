@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: اطمینان از سازگاری کامپوننت‌های تم و کد سفارشی ویت‌پرس با رندرینگ سمت سرور (SSR).
 ---
 
 # تطابق SSR {#ssr-compatibility}
