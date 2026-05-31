@@ -289,9 +289,13 @@ async function resolveConfigExtends(
 }
 
 export function mergeConfig(a: UserConfig, b: UserConfig, isRoot = true) {
+  return mergeObjectConfig(a, b, isRoot)
+}
+
+function mergeObjectConfig<T extends object>(a: T, b: T, isRoot = true): T {
   const merged: Record<string, any> = { ...a }
   for (const key in b) {
-    const value = b[key as keyof UserConfig]
+    const value = b[key as keyof T] as any
     if (value == null) {
       continue
     }
@@ -303,14 +307,39 @@ export function mergeConfig(a: UserConfig, b: UserConfig, isRoot = true) {
     if (isObject(existing) && isObject(value)) {
       if (isRoot && key === 'vite') {
         merged[key] = mergeViteConfig(existing, value)
+      } else if (key === 'markdown') {
+        merged[key] = mergeMarkdownConfig(existing, value)
       } else {
-        merged[key] = mergeConfig(existing, value, false)
+        merged[key] = mergeObjectConfig(existing, value, false)
       }
       continue
     }
     merged[key] = value
   }
+  return merged as T
+}
+
+function mergeMarkdownConfig(
+  a: NonNullable<UserConfig['markdown']>,
+  b: NonNullable<UserConfig['markdown']>
+) {
+  const merged = mergeObjectConfig(a, b, false)
+  merged.preConfig = mergeConfigHooks(a.preConfig, b.preConfig)
+  merged.config = mergeConfigHooks(a.config, b.config)
   return merged
+}
+
+function mergeConfigHooks<T extends (...args: any[]) => Awaitable<void>>(
+  a: T | undefined,
+  b: T | undefined
+): T | undefined {
+  if (!a) return b
+  if (!b) return a
+
+  return (async (...args: Parameters<T>) => {
+    await a(...args)
+    await b(...args)
+  }) as unknown as T
 }
 
 export async function resolveSiteData(
