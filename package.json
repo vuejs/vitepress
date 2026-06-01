@@ -191,7 +191,7 @@
     "sitemap": "^9.0.1",
     "tinyglobby": "^0.2.16",
     "typescript": "^6.0.3",
-    "vitest": "4.0.0-beta.4",
+    "vitest": "4.1.0",
     "vue-tsc": "^3.2.6",
     "wait-on": "^9.0.5"
   },
