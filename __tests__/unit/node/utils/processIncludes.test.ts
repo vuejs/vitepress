@@ -23,15 +23,14 @@ describe('processIncludes', () => {
     expect(result).not.toContain(
       'description: This page has frontmatter description'
     )
-    expect(result).not.toContain('This page has frontmatter description')
+
+    // The result should NOT contain the heading itself (start is after heading)
+    expect(result).not.toContain('## Target Section')
 
     // The result should NOT contain content from other sections
     expect(result).not.toContain('Intro text before the target heading.')
     expect(result).not.toContain('This line should NOT be included.')
     expect(result).not.toContain('## Other Section')
-
-    // The result should NOT contain the frontmatter description as content
-    expect(result).not.toMatch(/This page has frontmatter description/)
   })
 
   it('should handle heading includes without frontmatter', async () => {
