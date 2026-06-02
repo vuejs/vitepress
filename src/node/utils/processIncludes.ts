@@ -45,8 +45,14 @@ export function processIncludes(
 
       if (start === undefined) {
         // region not found, it might be a header
+        // Strip frontmatter before parsing to get correct line numbers
+        const { content: contentWithoutFrontmatter } = matter(content)
+        const frontmatterLines =
+          content.split('\n').length -
+          contentWithoutFrontmatter.split('\n').length
+
         const tokens = md
-          .parse(content, {
+          .parse(contentWithoutFrontmatter, {
             path: includePath,
             relativePath: slash(path.relative(srcDir, includePath)),
             cleanUrls
@@ -57,13 +63,18 @@ export function processIncludes(
         )
         const token = tokens[idx]
         if (token) {
-          start = token.map![1]
+          // Adjust line numbers to account for stripped frontmatter
+          start = token.map![0] + frontmatterLines
           const level = parseInt(token.tag.slice(1))
           for (let i = idx + 1; i < tokens.length; i++) {
             if (parseInt(tokens[i].tag.slice(1)) <= level) {
-              end = tokens[i].map![0]
+              end = tokens[i].map![0] + frontmatterLines
               break
             }
+          }
+          // If no end found, include rest of content
+          if (end === undefined) {
+            end = lines.length
           }
         }
       }
