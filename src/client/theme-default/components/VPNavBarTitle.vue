@@ -53,7 +53,7 @@ const target = computed(() =>
   border-bottom: 1px solid transparent;
   width: 100%;
   height: var(--vp-nav-height);
-  font-size: 16px;
+  font-size: var(--vp-custom-block-font-size-medium);
   font-weight: 600;
   color: var(--vp-c-text-1);
   transition: opacity 0.25s;

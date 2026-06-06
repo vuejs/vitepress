@@ -18,8 +18,8 @@
 
 .vp-doc h1 {
   letter-spacing: -0.02em;
-  line-height: 40px;
-  font-size: 28px;
+  line-height: 1.5;
+  font-size: var(--vp-custom-block-font-size-3xlarge);
 }
 
 .vp-doc h2 {
@@ -27,22 +27,22 @@
   border-top: 1px solid var(--vp-c-divider);
   padding-top: 24px;
   letter-spacing: -0.02em;
-  line-height: 32px;
-  font-size: 24px;
+  line-height: 1.3;
+  font-size: var(--vp-custom-block-font-size-xxlarge);
 }
 
 .vp-doc h3 {
   margin: 32px 0 0;
   letter-spacing: -0.01em;
-  line-height: 28px;
-  font-size: 20px;
+  line-height: 1.4;
+  font-size: var(--vp-custom-block-font-size-xlarge);
 }
 
 .vp-doc h4 {
   margin: 24px 0 0;
   letter-spacing: -0.01em;
-  line-height: 24px;
-  font-size: 18px;
+  line-height: 1.3;
+  font-size: var(--vp-custom-block-font-size-large);
 }
 
 .vp-doc .header-anchor {
@@ -81,8 +81,8 @@
 @media (min-width: 768px) {
   .vp-doc h1 {
     letter-spacing: -0.02em;
-    line-height: 40px;
-    font-size: 32px;
+    line-height: 1.25;
+    font-size: var(--vp-custom-block-font-size-4xlarge);
   }
 }
 
@@ -114,7 +114,7 @@
 
 .vp-doc blockquote > p {
   margin: 0;
-  font-size: 16px;
+  font-size: var(--vp-custom-block-font-size-medium);
   transition: color 0.5s;
 }
 
@@ -192,14 +192,14 @@
 
 .vp-doc th {
   text-align: left;
-  font-size: 14px;
+  font-size: var(--vp-custom-block-font-size);
   font-weight: 600;
   color: var(--vp-c-text-2);
   background-color: var(--vp-c-bg-soft);
 }
 
 .vp-doc td {
-  font-size: 14px;
+  font-size: var(--vp-custom-block-font-size);
 }
 
 /**
@@ -503,7 +503,7 @@
   width: fit-content;
   height: 40px;
   text-align: center;
-  font-size: 12px;
+  font-size: var(--vp-custom-block-font-size-small);
   font-weight: 500;
   color: var(--vp-code-copy-code-active-text);
   background-color: var(--vp-code-copy-code-hover-bg);
@@ -517,7 +517,7 @@
   /*rtl:ignore*/
   right: 8px;
   z-index: 2;
-  font-size: 12px;
+  font-size: var(--vp-custom-block-font-size-small);
   font-weight: 500;
   user-select: none;
   color: var(--vp-code-lang-color);

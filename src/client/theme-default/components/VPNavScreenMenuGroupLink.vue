@@ -46,8 +46,8 @@ const { closeScreen } = inject(navInjectionKey)!
 .VPNavScreenMenuGroupLink {
   display: block;
   margin-left: 12px;
-  line-height: 32px;
-  font-size: 14px;
+  line-height: 2.3;
+  font-size: var(--vp-custom-block-font-size);
   font-weight: 400;
   color: var(--vp-c-text-1);
   transition: color 0.25s;

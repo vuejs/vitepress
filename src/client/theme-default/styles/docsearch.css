@@ -52,7 +52,7 @@
 
 .DocSearch-AskAiScreen-RelatedSources-Title {
   padding-bottom: 0;
-  font-size: 12px;
+  font-size: var(--vp-custom-block-font-size-small);
 }
 
 .DocSearch-Clear {

@@ -88,21 +88,19 @@ defineProps<{
   background-color: var(--vp-c-default-soft);
   width: 48px;
   height: 48px;
-  font-size: 24px;
+  font-size: var(--vp-custom-block-font-size-xxlarge);
   transition: background-color 0.25s;
 }
 
 .title {
-  line-height: 24px;
-  font-size: 16px;
+  font-size: var(--vp-custom-block-font-size-medium);
   font-weight: 600;
 }
 
 .details {
   flex-grow: 1;
   padding-top: 8px;
-  line-height: 24px;
-  font-size: 14px;
+  font-size: var(--vp-custom-block-font-size);
   font-weight: 500;
   color: var(--vp-c-text-2);
 }
@@ -119,7 +117,7 @@ ul.details {
 .link-text-value {
   display: flex;
   align-items: center;
-  font-size: 14px;
+  font-size: var(--vp-custom-block-font-size);
   font-weight: 500;
   color: var(--vp-c-brand-1);
 }

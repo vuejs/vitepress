@@ -105,24 +105,24 @@ function onBlur() {
   display: flex;
   align-items: center;
   line-height: var(--vp-nav-height);
-  font-size: 14px;
+  font-size: var(--vp-custom-block-font-size);
   font-weight: 500;
   color: var(--vp-c-text-1);
   transition: color 0.25s;
 }
 
 .option-icon {
-  margin-right: 0px;
-  font-size: 16px;
+  margin-right: 0;
+  font-size: var(--vp-custom-block-font-size-medium);
 }
 
 .text-icon {
   margin-left: 4px;
-  font-size: 14px;
+  font-size: var(--vp-custom-block-font-size);
 }
 
 .icon {
-  font-size: 20px;
+  font-size: var(--vp-custom-block-font-size-xlarge);
   transition: fill 0.25s;
 }
 

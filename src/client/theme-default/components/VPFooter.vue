@@ -52,8 +52,8 @@ const { hasSidebar } = useLayout()
 
 .message,
 .copyright {
-  line-height: 24px;
-  font-size: 14px;
+  line-height: 1.7;
+  font-size: var(--vp-custom-block-font-size);
   font-weight: 500;
   color: var(--vp-c-text-2);
 }

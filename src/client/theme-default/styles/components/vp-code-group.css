@@ -33,8 +33,8 @@
   display: inline-block;
   border-bottom: 1px solid transparent;
   padding: 0 12px;
-  line-height: 48px;
-  font-size: 14px;
+  line-height: 3;
+  font-size: var(--vp-custom-block-font-size);
   font-weight: 500;
   color: var(--vp-code-tab-text-color);
   white-space: nowrap;

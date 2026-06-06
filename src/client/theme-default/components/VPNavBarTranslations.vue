@@ -46,8 +46,8 @@ const { localeLinks, currentLang } = useLangs({ correspondingLink: true })
 
 .title {
   padding: 0 24px 0 12px;
-  line-height: 32px;
-  font-size: 14px;
+  line-height: 2.3;
+  font-size: var(--vp-custom-block-font-size);
   font-weight: 700;
   color: var(--vp-c-text-1);
 }

@@ -54,8 +54,8 @@
   display: inline-block;
   padding: 0 24px;
   letter-spacing: 0;
-  line-height: 32px;
-  font-size: 20px;
+  line-height: 1.6;
+  font-size: var(--vp-custom-block-font-size-xlarge);
   font-weight: 500;
   background-color: var(--vp-c-bg);
 }
@@ -65,8 +65,7 @@
   max-width: 480px;
   padding-top: 12px;
   text-align: center;
-  line-height: 24px;
-  font-size: 16px;
+  font-size: var(--vp-custom-block-font-size-medium);
   font-weight: 500;
   color: var(--vp-c-text-2);
 }

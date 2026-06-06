@@ -52,7 +52,7 @@ useActiveAnchor(container, marker)
   position: relative;
   border-left: 1px solid var(--vp-c-divider);
   padding-left: 16px;
-  font-size: 13px;
+  font-size: var(--vp-custom-block-code-font-size);
   font-weight: 500;
 }
 
@@ -73,8 +73,8 @@ useActiveAnchor(container, marker)
 }
 
 .outline-title {
-  line-height: 32px;
-  font-size: 14px;
+  line-height: 2.3;
+  font-size: var(--vp-custom-block-font-size);
   font-weight: 600;
 }
 </style>

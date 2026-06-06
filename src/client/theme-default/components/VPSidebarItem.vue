@@ -152,8 +152,8 @@ function onCaretClick() {
 .text {
   flex-grow: 1;
   padding: 4px 0;
-  line-height: 24px;
-  font-size: 14px;
+  line-height: 1.7;
+  font-size: var(--vp-custom-block-font-size);
   transition: color 0.25s;
 }
 
@@ -226,7 +226,7 @@ function onCaretClick() {
 }
 
 .caret-icon {
-  font-size: 18px;
+  font-size: var(--vp-custom-block-font-size-large);
   /*rtl:ignore*/
   transform: rotate(90deg);
   transition: transform 0.25s;

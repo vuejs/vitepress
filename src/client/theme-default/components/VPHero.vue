@@ -140,8 +140,7 @@ const { heroImageSlotExists } = inject(
   width: fit-content;
   max-width: 392px;
   letter-spacing: -0.4px;
-  line-height: 40px;
-  font-size: 32px;
+  font-size: var(--vp-custom-block-font-size-4xlarge);
   font-weight: 700;
   white-space: pre-wrap;
 
@@ -171,16 +170,14 @@ const { heroImageSlotExists } = inject(
   .name,
   .text {
     max-width: 576px;
-    line-height: 56px;
-    font-size: 48px;
+    font-size: var(--vp-custom-block-font-size-6xlarge);
   }
 }
 
 @media (min-width: 960px) {
   .name,
   .text {
-    line-height: 64px;
-    font-size: 56px;
+    font-size: var(--vp-custom-block-font-size-7xlarge);
   }
 
   .VPHero.has-image .name,
@@ -192,8 +189,7 @@ const { heroImageSlotExists } = inject(
 .tagline {
   padding-top: 8px;
   max-width: 392px;
-  line-height: 28px;
-  font-size: 18px;
+  font-size: var(--vp-custom-block-font-size-large);
   font-weight: 500;
   white-space: pre-wrap;
   color: var(--vp-c-text-2);
@@ -207,15 +203,14 @@ const { heroImageSlotExists } = inject(
   .tagline {
     padding-top: 12px;
     max-width: 576px;
-    line-height: 32px;
-    font-size: 20px;
+    line-height: 1.6;
+    font-size: var(--vp-custom-block-font-size-xlarge);
   }
 }
 
 @media (min-width: 960px) {
   .tagline {
-    line-height: 36px;
-    font-size: 24px;
+    font-size: var(--vp-custom-block-font-size-xxlarge);
   }
 
   .VPHero.has-image .tagline {

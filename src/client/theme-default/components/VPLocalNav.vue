@@ -107,8 +107,8 @@ const classes = computed(() => {
 .menu {
   display: flex;
   align-items: center;
-  line-height: 24px;
-  font-size: 12px;
+  line-height: 2;
+  font-size: var(--vp-custom-block-font-size-small);
   font-weight: 500;
   color: var(--vp-c-text-2);
   transition: color 0.5s;
@@ -127,7 +127,7 @@ const classes = computed(() => {
 
 .menu-icon {
   margin-right: 8px;
-  font-size: 14px;
+  font-size: var(--vp-custom-block-font-size);
 }
 
 .menu,

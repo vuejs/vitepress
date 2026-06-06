@@ -21,8 +21,8 @@ withDefaults(defineProps<Props>(), {
   border: 1px solid transparent;
   border-radius: 12px;
   padding: 0 10px;
-  line-height: 22px;
-  font-size: 12px;
+  line-height: 1.8;
+  font-size: var(--vp-custom-block-font-size-small);
   font-weight: 500;
   white-space: nowrap;
   transform: translateY(-2px);
@@ -30,8 +30,8 @@ withDefaults(defineProps<Props>(), {
 
 .VPBadge.small {
   padding: 0 6px;
-  line-height: 18px;
-  font-size: 10px;
+  line-height: 1.8;
+  font-size: var(--vp-custom-block-font-size-xsmall);
   transform: translateY(-8px);
 }
 

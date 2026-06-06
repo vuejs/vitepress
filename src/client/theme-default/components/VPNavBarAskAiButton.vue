@@ -10,7 +10,7 @@
   align-items: center;
   height: var(--vp-nav-height);
   padding: 8px 14px;
-  font-size: 20px;
+  font-size: var(--vp-custom-block-font-size-xlarge);
 }
 
 @media (min-width: 768px) {
@@ -20,7 +20,7 @@
     transition: color 0.3s ease;
     background-color: var(--vp-c-bg-alt);
     border-radius: 8px;
-    font-size: 15px;
+    font-size: var(--vp-custom-block-font-size);
     color: var(--vp-c-text-2);
   }
 

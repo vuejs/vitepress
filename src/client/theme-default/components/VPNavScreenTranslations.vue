@@ -54,13 +54,13 @@ function toggle() {
 .title {
   display: flex;
   align-items: center;
-  font-size: 14px;
+  font-size: var(--vp-custom-block-font-size);
   font-weight: 500;
   color: var(--vp-c-text-1);
 }
 
 .icon {
-  font-size: 16px;
+  font-size: var(--vp-custom-block-font-size-medium);
 }
 
 .icon.lang {
@@ -76,8 +76,8 @@ function toggle() {
 }
 
 .link {
-  line-height: 32px;
-  font-size: 13px;
+  line-height: 2.5;
+  font-size: var(--vp-custom-block-code-font-size);
   color: var(--vp-c-text-1);
 }
 </style>

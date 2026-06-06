@@ -86,7 +86,7 @@ withDefaults(defineProps<Props>(), {
 .love {
   margin: 0 auto;
   width: fit-content;
-  font-size: 28px;
+  font-size: var(--vp-custom-block-font-size-3xlarge);
   color: var(--vp-c-text-3);
 }
 
@@ -99,8 +99,7 @@ withDefaults(defineProps<Props>(), {
   padding-top: 10px;
   max-width: 320px;
   text-align: center;
-  line-height: 24px;
-  font-size: 16px;
+  font-size: var(--vp-custom-block-font-size-medium);
   font-weight: 500;
   color: var(--vp-c-text-2);
 }

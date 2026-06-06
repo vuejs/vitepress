@@ -32,8 +32,8 @@ const { site, theme } = useData()
 }
 
 .text {
-  line-height: 24px;
-  font-size: 12px;
+  line-height: 2;
+  font-size: var(--vp-custom-block-font-size-small);
   font-weight: 500;
   color: var(--vp-c-text-2);
 }
