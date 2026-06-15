@@ -679,7 +679,7 @@ function onMouseMove(e: MouseEvent) {
   }
 }
 
-@media (min-width: 769px) {
+@media (min-width: 768px) {
   .search-actions.before {
     display: none;
   }
