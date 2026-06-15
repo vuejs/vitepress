@@ -141,8 +141,7 @@ function scrollToTop() {
 .items {
   position: absolute;
   top: 40px;
-  inset-inline-end: 16px;
-  inset-inline-start: 16px;
+  inset-inline: 16px;
   display: grid;
   gap: 1px;
   border: 1px solid var(--vp-c-border);
