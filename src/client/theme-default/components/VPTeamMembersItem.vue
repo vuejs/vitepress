@@ -153,10 +153,7 @@ withDefaults(defineProps<Props>(), {
 
 .avatar-img {
   position: absolute;
-  top: 0;
-  inset-inline-end: 0;
-  bottom: 0;
-  inset-inline-start: 0;
+  inset: 0;
   border-radius: 50%;
   object-fit: cover;
 }
