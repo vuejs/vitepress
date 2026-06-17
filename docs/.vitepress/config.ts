@@ -23,7 +23,8 @@ const localeToOgLocaleMap: Record<string, string> = {
   es: 'es_ES',
   ko: 'ko_KR',
   fa: 'fa_IR',
-  ja: 'ja_JP'
+  ja: 'ja_JP',
+  id: 'id_ID'
 }
 
 export default defineConfig({
@@ -71,6 +72,8 @@ export default defineConfig({
               return '复制代码'
             case 'ja':
               return 'コードをコピー'
+            case 'id':
+              return 'Salin kode'
             default:
               return 'Copy code'
           }
@@ -130,7 +133,8 @@ export default defineConfig({
     es: { label: 'Español', lang: 'es', dir: 'ltr' },
     ko: { label: '한국어', lang: 'ko-KR', dir: 'ltr' },
     fa: { label: 'فارسی', lang: 'fa-IR', dir: 'rtl' },
-    ja: { label: '日本語', lang: 'ja', dir: 'ltr' }
+    ja: { label: '日本語', lang: 'ja', dir: 'ltr' },
+    id: { label: 'Bahasa Indonesia', lang: 'id-ID', dir: 'ltr' }
   },
 
   vite: {
