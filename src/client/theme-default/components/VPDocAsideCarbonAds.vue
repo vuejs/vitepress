@@ -1,13 +1,17 @@
 <script setup lang="ts">
-import { defineAsyncComponent } from 'vue'
+import { defineAsyncComponent, defineVaporAsyncComponent } from 'vue'
 import type { DefaultTheme } from 'vitepress/theme'
 
 defineProps<{
   carbonAds: DefaultTheme.CarbonAdsOptions
 }>()
 
+const inVaporMode = !import.meta.env.SSR && __VAPOR__
+
 const VPCarbonAds = __CARBON__
-  ? defineAsyncComponent(() => import('./VPCarbonAds.vue'))
+  ? inVaporMode
+    ? defineVaporAsyncComponent(() => import('./VPCarbonAds.vue') as any)
+    : defineAsyncComponent(() => import('./VPCarbonAds.vue'))
   : () => null
 </script>
 
