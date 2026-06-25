@@ -16,27 +16,27 @@
 }
 
 .VPHome :slotted(.VPTeamPageTitle) {
-  border-top: 1px solid var(--vp-c-gutter);
-  padding-top: 88px !important;
+  border-block-start: 1px solid var(--vp-c-gutter);
+  padding-block-start: 88px !important;
 }
 
 :slotted(.VPTeamPageSection + .VPTeamPageSection),
 :slotted(.VPTeamMembers + .VPTeamPageSection) {
-  margin-top: 64px;
+  margin-block-start: 64px;
 }
 
 :slotted(.VPTeamMembers + .VPTeamMembers) {
-  margin-top: 24px;
+  margin-block-start: 24px;
 }
 
 @media (min-width: 768px) {
   :slotted(.VPTeamPageTitle + .VPTeamPageSection) {
-    margin-top: 16px;
+    margin-block-start: 16px;
   }
 
   :slotted(.VPTeamPageSection + .VPTeamPageSection),
   :slotted(.VPTeamMembers + .VPTeamPageSection) {
-    margin-top: 96px;
+    margin-block-start: 96px;
   }
 }
 

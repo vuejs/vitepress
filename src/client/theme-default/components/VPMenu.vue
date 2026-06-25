@@ -45,16 +45,16 @@ defineProps<{
 }
 
 .VPMenu :deep(.group + .group) {
-  border-top: 1px solid var(--vp-c-divider);
+  border-block-start: 1px solid var(--vp-c-divider);
   padding: 11px 12px 12px;
 }
 
 .VPMenu :deep(.group:last-child) {
-  padding-bottom: 0;
+  padding-block-end: 0;
 }
 
 .VPMenu :deep(.group + .item) {
-  border-top: 1px solid var(--vp-c-divider);
+  border-block-start: 1px solid var(--vp-c-divider);
   padding: 11px 16px 0;
 }
 
@@ -73,6 +73,6 @@ defineProps<{
 }
 
 .VPMenu :deep(.action) {
-  padding-left: 24px;
+  padding-inline-start: 24px;
 }
 </style>

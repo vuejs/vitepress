@@ -39,12 +39,11 @@ const { width: vw } = useWindowSize({
 
 .vp-doc :deep(.VPHomeSponsors),
 .vp-doc :deep(.VPTeamPage) {
-  margin-left: var(--vp-offset, calc(50% - 50vw));
-  margin-right: var(--vp-offset, calc(50% - 50vw));
+  margin-inline: var(--vp-offset, calc(50% - 50vw));
 }
 
 .vp-doc :deep(.VPHomeSponsors h2) {
-  border-top: none;
+  border-block-start: none;
   letter-spacing: normal;
 }
 

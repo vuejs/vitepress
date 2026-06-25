@@ -50,7 +50,7 @@ const target = computed(() =>
 .title {
   display: flex;
   align-items: center;
-  border-bottom: 1px solid transparent;
+  border-block-end: 1px solid transparent;
   width: 100%;
   height: var(--vp-nav-height);
   font-size: 16px;
@@ -70,7 +70,7 @@ const target = computed(() =>
 }
 
 :deep(.logo) {
-  margin-right: 8px;
+  margin-inline-end: 8px;
   height: var(--vp-nav-logo-height);
 }
 </style>

@@ -50,15 +50,16 @@ function removeSpaces(str: string) {
 }
 
 .VPApiPreference:first-child {
-  margin-top: 0;
+  margin-block-start: 0;
 }
 
 .VPApiPreference:last-child {
-  margin-bottom: 0;
+  margin-block-end: 0;
 }
 
 .VPApiPreference.screen-menu {
-  margin: 12px 0 0 12px;
+  margin-block: 12px 0;
+  margin-inline: 12px 0;
 }
 
 .VPApiPreference input[type='radio'] {
