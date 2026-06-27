@@ -19,6 +19,20 @@ export const linkPlugin = (
   base: string,
   slugify: (str: string) => string
 ) => {
+  md.core.ruler.after('inline', 'vitepress_link_lines', (state) => {
+    for (const token of state.tokens) {
+      if (token.type !== 'inline' || !token.children || !token.map) continue
+
+      const line = token.map[0] + 1
+      for (const child of token.children) {
+        if (child.type === 'link_open') {
+          child.meta ??= {}
+          child.meta.vpLine = line
+        }
+      }
+    }
+  })
+
   md.renderer.rules.link_open = (
     tokens,
     idx,
@@ -41,7 +55,7 @@ export const linkPlugin = (
         })
         // catch localhost links as dead link
         if (url.replace(EXTERNAL_URL_RE, '').startsWith('//localhost:')) {
-          pushLink(url, env)
+          pushLink(url, env, token.meta?.vpLine)
         }
         hrefAttr[1] = url
       } else {
@@ -58,7 +72,7 @@ export const linkPlugin = (
           // skip links to files (other than html/md)
           treatAsHtml(pathname)
         ) {
-          normalizeHref(hrefAttr, env)
+          normalizeHref(hrefAttr, env, token.meta?.vpLine)
         } else if (url.startsWith('#')) {
           hrefAttr[1] = decodeURI(normalizeHash(hrefAttr[1]))
         }
@@ -75,7 +89,11 @@ export const linkPlugin = (
     return self.renderToken(tokens, idx, options)
   }
 
-  function normalizeHref(hrefAttr: [string, string], env: MarkdownEnv) {
+  function normalizeHref(
+    hrefAttr: [string, string],
+    env: MarkdownEnv,
+    line?: number
+  ) {
     let url = hrefAttr[1]
 
     const indexMatch = url.match(indexRE)
@@ -106,7 +124,7 @@ export const linkPlugin = (
     }
 
     // export it for existence check
-    pushLink(url.replace(/\.html$/, ''), env)
+    pushLink(url.replace(/\.html$/, ''), env, line)
 
     // markdown-it encodes the uri
     hrefAttr[1] = decodeURI(url)
@@ -116,8 +134,12 @@ export const linkPlugin = (
     return str ? encodeURI('#' + slugify(decodeURI(str).slice(1))) : ''
   }
 
-  function pushLink(link: string, env: MarkdownEnv) {
+  function pushLink(link: string, env: MarkdownEnv, line?: number) {
     const links = env.links || (env.links = [])
     links.push(link)
+    if (line != null) {
+      const linkLines = env.linkLines || (env.linkLines = [])
+      linkLines[links.length - 1] = line
+    }
   }
 }
