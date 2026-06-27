@@ -561,6 +561,8 @@ export default {
 
 Check the [type declaration and jsdocs](https://github.com/vuejs/vitepress/blob/main/src/node/markdown/markdown.ts) for all the options available.
 
+Set `markdown.headers` to `true` or pass [`@mdit-vue/plugin-headers`](https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-headers) options to collect headings into [`useData().page.headers`](./runtime-api#usedata). This option is disabled by default.
+
 ### vite
 
 - Type: `import('vite').UserConfig`
