@@ -1,9 +1,12 @@
 import { computed } from 'vue'
+import type { DefaultTheme } from 'vitepress/theme'
+import type { VitePressData } from '../../app/data'
 import { ensureStartingSlash } from '../support/utils'
 import { useData } from './data'
 
 export function useLangs({ correspondingLink = false } = {}) {
-  const { site, localeIndex, page, theme, hash } = useData()
+  const data = useData()
+  const { site, localeIndex } = data
   const currentLang = computed(() => ({
     label: site.value.locales[localeIndex.value]?.label,
     link:
@@ -17,15 +20,13 @@ export function useLangs({ correspondingLink = false } = {}) {
         ? []
         : {
             text: value.label,
-            link:
-              normalizeLink(
-                value.link || (key === 'root' ? '/' : `/${key}/`),
-                theme.value.i18nRouting !== false && correspondingLink,
-                page.value.relativePath.slice(
-                  currentLang.value.link.length - 1
-                ),
-                !site.value.cleanUrls
-              ) + hash.value,
+            link: resolveLocaleLink(
+              data,
+              key,
+              value.link || (key === 'root' ? '/' : `/${key}/`),
+              currentLang.value.link,
+              correspondingLink
+            ),
             lang: value.lang,
             dir: value.dir
           }
@@ -33,6 +34,30 @@ export function useLangs({ correspondingLink = false } = {}) {
   )
 
   return { localeLinks, currentLang }
+}
+
+export function resolveLocaleLink(
+  data: VitePressData<DefaultTheme.Config>,
+  targetLocale: string,
+  targetLink: string,
+  currentLink: string,
+  correspondingLink: boolean
+) {
+  const { site, page, theme, hash } = data
+  const i18nRouting = theme.value.i18nRouting
+
+  if (correspondingLink && typeof i18nRouting === 'function') {
+    return i18nRouting(data, hash.value, targetLocale)
+  }
+
+  return (
+    normalizeLink(
+      targetLink,
+      i18nRouting !== false && correspondingLink,
+      page.value.relativePath.slice(currentLink.length - 1),
+      !site.value.cleanUrls
+    ) + hash.value
+  )
 }
 
 function normalizeLink(
