@@ -2,7 +2,7 @@
 // so the user can do `import { useRoute, useData } from 'vitepress'`
 
 // generic types
-export type { VitePressData } from './app/data'
+export type { AppearanceMode, VitePressData } from './app/data'
 export type { Route, Router } from './app/router'
 
 // theme types
