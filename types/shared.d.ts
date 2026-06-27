@@ -143,13 +143,11 @@ export interface SiteData<ThemeConfig = any> {
     prefetchLinks: boolean
   }
   additionalConfig?:
-    | AdditionalConfigDict<ThemeConfig>
-    | AdditionalConfigLoader<ThemeConfig>
+    AdditionalConfigDict<ThemeConfig> | AdditionalConfigLoader<ThemeConfig>
 }
 
 export type HeadConfig =
-  | [string, Record<string, string>]
-  | [string, Record<string, string>, string]
+  [string, Record<string, string>] | [string, Record<string, string>, string]
 
 export interface PageDataPayload {
   path: string

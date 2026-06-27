@@ -190,8 +190,7 @@ export interface UserConfig<
    * @experimental
    */
   additionalConfig?:
-    | AdditionalConfigDict<ThemeConfig>
-    | AdditionalConfigLoader<ThemeConfig>
+    AdditionalConfigDict<ThemeConfig> | AdditionalConfigLoader<ThemeConfig>
 }
 
 export interface SiteConfig<ThemeConfig = any> extends Pick<

@@ -41,8 +41,7 @@ export type UserConfigFn<ThemeConfig> = (
   env: ConfigEnv
 ) => Awaitable<UserConfig<ThemeConfig>>
 export type UserConfigExport<ThemeConfig> =
-  | Awaitable<UserConfig<ThemeConfig>>
-  | UserConfigFn<ThemeConfig>
+  Awaitable<UserConfig<ThemeConfig>> | UserConfigFn<ThemeConfig>
 
 /**
  * Type config helper
@@ -57,8 +56,7 @@ export type AdditionalConfigFn<ThemeConfig> = (
   env: ConfigEnv
 ) => Awaitable<AdditionalConfig<ThemeConfig>>
 export type AdditionalConfigExport<ThemeConfig> =
-  | Awaitable<AdditionalConfig<ThemeConfig>>
-  | AdditionalConfigFn<ThemeConfig>
+  Awaitable<AdditionalConfig<ThemeConfig>> | AdditionalConfigFn<ThemeConfig>
 
 /**
  *  Type config helper for additional/locale-specific config
