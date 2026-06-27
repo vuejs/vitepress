@@ -1036,4 +1036,23 @@ export default defineConfig({
 })
 ```
 
+### CJK Emphasis Compatibility
+
+CommonMark's default emphasis (bold/italic) delimiter flanking rules are optimized for space-delimited languages. In CJK (Chinese, Japanese, Korean) layouts where spaces are not typically used, formatting like `**「bold」**` or `**（bold）**` (with adjacent CJK punctuation) may fail to render correctly.
+
+To resolve this, use CJK-friendly plugins such as [`markdown-it-cjk-friendly`](https://github.com/tats-u/markdown-cjk-friendly):
+
+```js
+// .vitepress/config.js
+import markdownItCjkFriendly from 'markdown-it-cjk-friendly'
+
+export default {
+  markdown: {
+    config: (md) => {
+      md.use(markdownItCjkFriendly)
+    }
+  }
+}
+```
+
 See full list of configurable properties in [Config Reference: App Config](../reference/site-config#markdown).

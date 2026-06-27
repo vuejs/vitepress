@@ -928,4 +928,23 @@ export default defineConfig({
 })
 ```
 
+### CJK 强调语法兼容性 (粗体/斜体)
+
+CommonMark 规范中关于强调 (粗体/斜体) 定界符的判定规则，主要是为英文等以空格分隔单词的语言所设计。在中日韩 (CJK) 等不使用空格分隔的排版中，当粗体或斜体紧邻 CJK 标点符号时（例如 `**「粗体」**` 或 `**（粗体）**`），默认会解析失败并直接显示原始符号。
+
+若要解决此问题，可以使用 CJK 友好的 markdown-it 插件，例如 [`markdown-it-cjk-friendly`](https://github.com/tats-u/markdown-cjk-friendly)：
+
+```js
+// .vitepress/config.js
+import markdownItCjkFriendly from 'markdown-it-cjk-friendly'
+
+export default {
+  markdown: {
+    config: (md) => {
+      md.use(markdownItCjkFriendly)
+    }
+  }
+}
+```
+
 请查看[配置参考：站点配置](../reference/site-config#markdown)来获取完整的可配置属性列表。

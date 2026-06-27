@@ -1036,6 +1036,24 @@ export default defineConfig({
     }
   }
 })
+
+### CJK 強調構文の互換性 (太字/斜体)
+
+CommonMark 仕様における強調 (太字/斜体) のデリミタ判定規則は、スペースで区切られる英語などの言語向けに最適化されています。スペースを使用しない日本語、中国語、韓国語 (CJK) などのレイアウトでは、太字や斜体が CJK の句読点（例えば `**「太字」**` や `**（太字）**`）と隣接している場合、デフォルトでは正しくレンダリングされず、記号のまま表示されます。
+
+この問題を解決するには、[`markdown-it-cjk-friendly`](https://github.com/tats-u/markdown-cjk-friendly) などの CJK フレンドリーなプラグインを使用します:
+
+```js
+// .vitepress/config.js
+import markdownItCjkFriendly from 'markdown-it-cjk-friendly'
+
+export default {
+  markdown: {
+    config: (md) => {
+      md.use(markdownItCjkFriendly)
+    }
+  }
+}
 ```
 
 設定可能なプロパティの完全な一覧は、[設定リファレンス: アプリ設定](../reference/site-config#markdown) を参照してください。

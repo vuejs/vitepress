@@ -967,4 +967,23 @@ export default defineConfig({
 })
 ```
 
+### CJK 강조 구문 호환성 (굵게/기울임)
+
+CommonMark 사양에서 강조 (굵게/기울임) 구분자 판정 규칙은 공백으로 구분되는 영어 등의 언어에 최적화되어 있습니다. 공백을 사용하지 않는 한국어, 중국어, 일본어 (CJK) 레이아웃에서는 CJK 문장 부호(예: `**「굵게」**` 또는 `**（굵게）**`)와 인접한 경우, 기본적으로 올바르게 렌더링되지 않고 기호 그대로 표시됩니다.
+
+이 문제를 해결하려면 [`markdown-it-cjk-friendly`](https://github.com/tats-u/markdown-cjk-friendly) 와 같은 CJK 친화적인 플러그인을 사용할 수 있습니다:
+
+```js
+// .vitepress/config.js
+import markdownItCjkFriendly from 'markdown-it-cjk-friendly'
+
+export default {
+  markdown: {
+    config: (md) => {
+      md.use(markdownItCjkFriendly)
+    }
+  }
+}
+```
+
 구성 가능한 프로퍼티의 전체 목록은 [레퍼런스: 앱 구성](../reference/site-config#markdown)에서 확인하세요.
