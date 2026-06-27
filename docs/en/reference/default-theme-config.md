@@ -25,9 +25,27 @@ export default {
 
 ## i18nRouting
 
-- Type: `boolean`
+- Type: `boolean | ((data: VitePressData<DefaultTheme.Config>, hash: string, targetLocale: string) => string)`
 
 Changing locale to say `zh` will change the URL from `/foo` (or `/en/foo/`) to `/zh/foo`. You can disable this behavior by setting `themeConfig.i18nRouting` to `false`.
+
+Set `themeConfig.i18nRouting` to a function to customize the locale link. The function receives the current VitePress data, the current hash, and the target locale key, and returns the target link.
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    i18nRouting(data, hash, targetLocale) {
+      const target = data.site.value.locales[targetLocale]
+      const targetLink =
+        target.link || (targetLocale === 'root' ? '/' : `/${targetLocale}/`)
+
+      return `${targetLink}${data.page.value.relativePath.replace(/\.md$/, '')}${hash}`
+    }
+  }
+})
+```
 
 ## logo
 

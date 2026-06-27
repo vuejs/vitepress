@@ -16,6 +16,7 @@ export type {
   PageData,
   PageDataPayload,
   SiteData,
+  VitePressData,
   SSGContext,
   AdditionalConfig,
   AdditionalConfigDict,
