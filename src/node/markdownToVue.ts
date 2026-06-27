@@ -110,10 +110,16 @@ export async function createMarkdownToVueRenderFn(
       getPageDataTransformer(dynamicRoute?.[1]!)
     ].filter((fn) => fn != null)
 
+    const originalRelativePath = slash(path.relative(srcDir, file))
+
     file = rewrites.get(file) || file
     const relativePath = slash(path.relative(srcDir, file))
 
-    const cacheKey = JSON.stringify({ src, ts, relativePath })
+    const cacheKey = JSON.stringify({
+      src,
+      ts,
+      relativePath: originalRelativePath
+    })
     if (options.cache !== false) {
       const cached = cache.get(cacheKey)
       if (cached) {
