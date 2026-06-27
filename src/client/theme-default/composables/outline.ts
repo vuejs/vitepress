@@ -201,8 +201,7 @@ function buildTree(
 
   const result: DefaultTheme.OutlineItem[] = []
   const stack: (
-    | DefaultTheme.OutlineItem
-    | { level: number; shouldIgnore: true }
+    DefaultTheme.OutlineItem | { level: number; shouldIgnore: true }
   )[] = []
 
   data.forEach((item) => {
