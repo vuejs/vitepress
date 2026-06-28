@@ -103,6 +103,38 @@ describe('client/theme-default/support/sidebar', () => {
         )
       })
     })
+
+    test('applies base only to internal links', () => {
+      expect(
+        getSidebar(
+          {
+            '/en/': {
+              base: '/en/',
+              items: [
+                {
+                  text: 'Guide',
+                  items: [
+                    { text: 'Intro', link: 'intro' },
+                    { text: 'Root', link: '/root' },
+                    { text: 'External', link: 'https://example.com/' }
+                  ]
+                }
+              ]
+            }
+          },
+          '/en/intro'
+        )
+      ).toStrictEqual([
+        {
+          text: 'Guide',
+          items: [
+            { text: 'Intro', link: '/en/intro' },
+            { text: 'Root', link: '/en/root' },
+            { text: 'External', link: 'https://example.com/' }
+          ]
+        }
+      ])
+    })
   })
 
   describe('hasActiveLink', () => {
