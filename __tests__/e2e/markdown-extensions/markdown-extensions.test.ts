@@ -167,26 +167,35 @@ describe('Custom Containers', () => {
 })
 
 describe('Line Highlighting in Code Blocks', () => {
-  test('hidden copy button does not block code text', async () => {
+  test('copy button does not overlap mobile code text', async () => {
     await page.setViewportSize({ width: 390, height: 844 })
     await goto('/markdown-extensions/')
 
     const block = page.locator('#single-line + div')
     const button = block.locator('> button.copy')
+    const firstLine = block.locator('code > span').first()
     await block.scrollIntoViewIfNeeded()
     const buttonBox = await button.boundingBox()
+    const firstLineBox = await firstLine.boundingBox()
     expect(buttonBox).toBeTruthy()
-
-    const isCopyButtonAtPoint = await page.evaluate(
-      ({ x, y }) =>
-        document.elementFromPoint(x, y)?.matches('button.copy') ?? false,
-      {
-        x: buttonBox!.x + buttonBox!.width / 2,
-        y: buttonBox!.y + buttonBox!.height / 2
-      }
+    expect(firstLineBox).toBeTruthy()
+    expect(buttonBox!.y + buttonBox!.height).toBeLessThanOrEqual(
+      firstLineBox!.y
     )
 
-    expect(isCopyButtonAtPoint).toBe(false)
+    await block.hover()
+    await page.waitForFunction(
+      (el) => getComputedStyle(el).opacity === '1',
+      await button.elementHandle()
+    )
+
+    const hoveredButtonBox = await button.boundingBox()
+    const hoveredFirstLineBox = await firstLine.boundingBox()
+    expect(hoveredButtonBox).toBeTruthy()
+    expect(hoveredFirstLineBox).toBeTruthy()
+    expect(hoveredButtonBox!.y + hoveredButtonBox!.height).toBeLessThanOrEqual(
+      hoveredFirstLineBox!.y
+    )
 
     await page.setViewportSize({ width: 1280, height: 720 })
     await goto('/markdown-extensions/')

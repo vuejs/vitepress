@@ -473,6 +473,16 @@
   pointer-events: auto;
 }
 
+@media (max-width: 639px) {
+  .vp-doc [class*='language-'] pre {
+    padding-top: 64px;
+  }
+
+  .vp-doc div[class*='language-'].line-numbers-mode .line-numbers-wrapper {
+    padding-top: 64px;
+  }
+}
+
 .vp-doc [class*='language-'] > button.copy:hover,
 .vp-doc [class*='language-'] > button.copy.copied {
   border-color: var(--vp-code-copy-code-hover-border-color);
