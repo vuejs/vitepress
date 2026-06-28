@@ -67,6 +67,63 @@ describe('node/markdownToVue', () => {
     })
   })
 
+  test('selects included heading sections after frontmatter', async () => {
+    root = await mkdtemp(path.join(tmpdir(), 'vitepress-include-'))
+
+    const file = path.join(root, 'index.md')
+    const source = path.join(root, 'source.md')
+    await writeFile(
+      source,
+      [
+        '---',
+        'description: Source description',
+        '---',
+        '# Intro',
+        '',
+        'intro text',
+        '',
+        '## Shared',
+        '',
+        'shared before target',
+        '',
+        '## Target',
+        '',
+        'target text',
+        '',
+        '### Child',
+        '',
+        'child text',
+        '',
+        '## Shared',
+        '',
+        'shared after target',
+        ''
+      ].join('\n')
+    )
+    const src = '<!--@include: ./source.md#target-->'
+    await writeFile(file, src)
+
+    const siteConfig = await resolveConfig(root, 'build', 'production')
+    const render = await createMarkdownToVueRenderFn(
+      siteConfig.srcDir,
+      { cache: false },
+      '/',
+      false,
+      false,
+      siteConfig
+    )
+
+    const result = await render(src, file, 'public')
+
+    expect(result.vueSrc).toContain('<p>target text</p>')
+    expect(result.vueSrc).toContain('<h3 id="child"')
+    expect(result.vueSrc).toContain('<p>child text</p>')
+    expect(result.vueSrc).not.toContain('Source description')
+    expect(result.vueSrc).not.toContain('intro text')
+    expect(result.vueSrc).not.toContain('shared before target')
+    expect(result.vueSrc).not.toContain('shared after target')
+  })
+
   test('applies rewrites with mismatched Windows drive letter case', async () => {
     root = await mkdtemp(path.join(tmpdir(), 'vitepress-rewrite-'))
 
