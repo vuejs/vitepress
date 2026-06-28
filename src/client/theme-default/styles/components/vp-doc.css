@@ -474,12 +474,47 @@
 }
 
 @media (max-width: 639px) {
-  .vp-doc [class*='language-'] pre {
-    padding-top: 64px;
+  .vp-doc div[class*='language-'] {
+    margin-top: 64px;
+    overflow: visible;
   }
 
-  .vp-doc div[class*='language-'].line-numbers-mode .line-numbers-wrapper {
-    padding-top: 64px;
+  .vp-doc div[class*='language-'] + div[class*='language-'],
+  .vp-doc div[class$='-api'] + div[class*='language-'],
+  .vp-doc
+    div[class*='language-']
+    + div[class$='-api']
+    > div[class*='language-'] {
+    margin-top: 64px;
+  }
+
+  .vp-doc .custom-block div[class*='language-'] {
+    margin-top: 64px !important;
+  }
+
+  .vp-doc [class*='language-'] > button.copy {
+    top: -48px;
+    /*rtl:ignore*/
+    right: 0;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .vp-doc .vp-code-group {
+    margin-top: 64px;
+  }
+
+  .vp-doc .custom-block .vp-code-group,
+  .vp-doc .custom-block [class*='vp-code-block'] {
+    margin-top: 64px;
+  }
+
+  .vp-doc .vp-code-group div[class*='language-'] {
+    margin-top: 0 !important;
+  }
+
+  .vp-doc .vp-code-group [class*='language-'] > button.copy {
+    top: -112px;
   }
 }
 
