@@ -124,6 +124,18 @@ interface Router {
 }
 ```
 
+Assign route-change handlers on the router instance:
+
+```ts
+const router = useRouter()
+
+router.onBeforeRouteChange = (to) => {
+  console.log('navigating to', to)
+}
+```
+
+For custom themes, the same router is available from [`enhanceApp`](../guide/custom-theme#theme-interface).
+
 ## `withBase` <Badge type="info" text="helper" />
 
 - **Type**: `(path: string) => string`
