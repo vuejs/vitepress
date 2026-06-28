@@ -167,6 +167,45 @@ describe('Custom Containers', () => {
 })
 
 describe('Line Highlighting in Code Blocks', () => {
+  test('hidden copy button does not block code text', async () => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await goto('/markdown-extensions/')
+
+    const block = page.locator('#single-line + div')
+    const button = block.locator('> button.copy')
+    await block.scrollIntoViewIfNeeded()
+    const buttonBox = await button.boundingBox()
+    expect(buttonBox).toBeTruthy()
+
+    const isCopyButtonAtPoint = await page.evaluate(
+      ({ x, y }) =>
+        document.elementFromPoint(x, y)?.matches('button.copy') ?? false,
+      {
+        x: buttonBox!.x + buttonBox!.width / 2,
+        y: buttonBox!.y + buttonBox!.height / 2
+      }
+    )
+
+    expect(isCopyButtonAtPoint).toBe(false)
+
+    await page.setViewportSize({ width: 1280, height: 720 })
+    await goto('/markdown-extensions/')
+    const desktopBlock = page.locator('#single-line + div')
+    const desktopButton = desktopBlock.locator('> button.copy')
+
+    await desktopBlock.hover()
+    await page.waitForFunction(
+      (el) => getComputedStyle(el).opacity === '1',
+      await desktopButton.elementHandle()
+    )
+    expect(
+      await desktopButton.evaluate((el) => getComputedStyle(el).opacity)
+    ).toBe('1')
+    expect(
+      await desktopButton.evaluate((el) => getComputedStyle(el).pointerEvents)
+    ).toBe('auto')
+  })
+
   test('single line', async () => {
     const classList = await getClassList(
       page.locator('#single-line + div code > span').nth(3)
