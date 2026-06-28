@@ -9,9 +9,18 @@ describe('local search', () => {
     const input = await page.waitForSelector('input#localsearch-input')
     await input.type('local')
 
-    await page.waitForSelector('ul#localsearch-list', { state: 'visible' })
-
     const searchResults = page.locator('#localsearch-list')
+    await page.waitForFunction(() => {
+      const options = [
+        ...document.querySelectorAll('#localsearch-list li[role=option]')
+      ]
+
+      return (
+        options.length === 1 &&
+        options[0].textContent?.includes('Local search included')
+      )
+    })
+
     expect(await searchResults.locator('li[role=option]').count()).toBe(1)
 
     expect(
