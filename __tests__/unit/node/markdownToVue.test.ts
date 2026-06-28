@@ -66,4 +66,37 @@ describe('node/markdownToVue', () => {
       line: 8
     })
   })
+
+  test('applies rewrites with mismatched Windows drive letter case', async () => {
+    root = await mkdtemp(path.join(tmpdir(), 'vitepress-rewrite-'))
+
+    const file = path.join(root, 'index.md')
+    await writeFile(file, '# Home\n')
+
+    const siteConfig = await resolveConfig(root, 'build', 'production')
+    siteConfig.srcDir = 'c:/site/docs'
+    siteConfig.pages = ['en/index.md']
+    siteConfig.rewrites = {
+      map: { 'en/index.md': 'index.md' },
+      inv: { 'index.md': 'en/index.md' }
+    }
+    ;(siteConfig as any).__dirty = true
+
+    const render = await createMarkdownToVueRenderFn(
+      siteConfig.srcDir,
+      { cache: false },
+      '/',
+      false,
+      false,
+      siteConfig
+    )
+
+    const result = await render(
+      '# Home\n',
+      'C:/site/docs/en/index.md',
+      'public'
+    )
+
+    expect(result.pageData.relativePath).toBe('index.md')
+  })
 })
