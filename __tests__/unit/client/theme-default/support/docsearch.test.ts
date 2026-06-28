@@ -193,6 +193,56 @@ describe('client/theme-default/support/docsearch', () => {
       )
       expect(result.searchParameters?.facetFilters).toEqual(['lang:en'])
     })
+
+    test('preserves Agent Studio search parameters by index', () => {
+      const result = buildAskAiConfig(
+        {
+          assistantId: 'assistant123',
+          agentStudio: true,
+          searchParameters: {
+            index: {
+              distinct: false
+            }
+          }
+        } as any,
+        {
+          appId: 'app',
+          apiKey: 'key',
+          indexName: 'index',
+          searchParameters: {
+            facetFilters: ['tag:docs']
+          }
+        } as any,
+        'en'
+      )
+
+      expect(result.searchParameters).toEqual({
+        index: {
+          distinct: false
+        }
+      })
+      expect(result.searchParameters).not.toHaveProperty('facetFilters')
+    })
+
+    test('does not add legacy facet filters to Agent Studio config', () => {
+      const result = buildAskAiConfig(
+        {
+          assistantId: 'assistant123',
+          agentStudio: true
+        } as any,
+        {
+          appId: 'app',
+          apiKey: 'key',
+          indexName: 'index',
+          searchParameters: {
+            facetFilters: ['tag:docs']
+          }
+        } as any,
+        'en'
+      )
+
+      expect(result.searchParameters).toBeUndefined()
+    })
   })
 
   describe('buildSidePanelProps', () => {

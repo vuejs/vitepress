@@ -176,10 +176,8 @@ export function buildAskAiConfig(
     !isAskAiString && askAiProp.searchParameters
       ? { ...askAiProp.searchParameters }
       : undefined
+  const isAgentStudio = !isAskAiString && askAiProp.agentStudio === true
 
-  // If Ask AI defines its own facetFilters, merge lang filtering into those.
-  // Otherwise, reuse the keyword search facetFilters so Ask AI follows the
-  // same language filtering behavior by default.
   const askAiFacetFiltersSource =
     askAiSearchParameters?.facetFilters ??
     options.searchParameters?.facetFilters
@@ -188,10 +186,12 @@ export function buildAskAiConfig(
     lang
   )
 
-  const mergedAskAiSearchParameters = {
-    ...askAiSearchParameters,
-    facetFilters: askAiFacetFilters.length ? askAiFacetFilters : undefined
-  }
+  const mergedAskAiSearchParameters = isAgentStudio
+    ? askAiSearchParameters
+    : {
+        ...askAiSearchParameters,
+        facetFilters: askAiFacetFilters.length ? askAiFacetFilters : undefined
+      }
 
   const result: Record<string, any> = {
     ...(isAskAiString ? {} : askAiProp),
@@ -202,7 +202,10 @@ export function buildAskAiConfig(
   }
 
   // Keep `searchParameters` undefined unless it has at least one key.
-  if (Object.values(mergedAskAiSearchParameters).some((v) => v != null)) {
+  if (
+    mergedAskAiSearchParameters &&
+    Object.values(mergedAskAiSearchParameters).some((v) => v != null)
+  ) {
     result.searchParameters = mergedAskAiSearchParameters
   }
 
