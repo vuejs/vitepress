@@ -116,7 +116,10 @@ export async function localSearchPlugin(
     const file = path.join(siteConfig.srcDir, page)
     // get file metadata
     const fileId = getDocId(file)
-    const locale = getLocaleForPath(siteConfig.site, page)
+    const locale = getLocaleForPath(
+      siteConfig.site,
+      siteConfig.rewrites.map[page] || page
+    )
     const index = getIndexByLocale(locale)
     // retrieve file and split into "sections"
     const html = await render(file)
