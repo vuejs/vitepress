@@ -1,3 +1,4 @@
+import type { SidepanelProps } from '@docsearch/sidepanel-js'
 import type { DefaultTheme } from 'vitepress/theme'
 import type { DocSearchAskAi } from '../../../../types/docsearch'
 import { isObject } from '../../shared'
@@ -17,6 +18,13 @@ export interface ResolvedMode {
   mode: DocSearchMode
   showKeywordSearch: boolean
   useSidePanel: boolean
+}
+
+export type ResolvedSidePanelProps = SidepanelProps & {
+  agentStudio?: boolean
+  searchParameters?: DocSearchAskAi['searchParameters']
+  suggestedQuestions?: boolean
+  useStagingEnv?: boolean
 }
 
 /**
@@ -196,6 +204,44 @@ export function buildAskAiConfig(
   // Keep `searchParameters` undefined unless it has at least one key.
   if (Object.values(mergedAskAiSearchParameters).some((v) => v != null)) {
     result.searchParameters = mergedAskAiSearchParameters
+  }
+
+  return result
+}
+
+/**
+ * Builds the DocSearch side panel config from the resolved Ask AI options.
+ */
+export function buildSidePanelProps(
+  askAi: DocSearchAskAi,
+  options: DefaultTheme.AlgoliaSearchOptions
+): ResolvedSidePanelProps {
+  const sidePanelOptions =
+    askAi.sidePanel && askAi.sidePanel !== true ? askAi.sidePanel : {}
+
+  const result: ResolvedSidePanelProps = {
+    ...sidePanelOptions,
+    container: '#vp-docsearch-sidepanel',
+    indexName: (askAi.indexName ?? options.indexName)!,
+    appId: (askAi.appId ?? options.appId)!,
+    apiKey: (askAi.apiKey ?? options.apiKey)!,
+    assistantId: askAi.assistantId!
+  }
+
+  if (askAi.agentStudio !== undefined) {
+    result.agentStudio = askAi.agentStudio
+  }
+
+  if (askAi.searchParameters !== undefined) {
+    result.searchParameters = askAi.searchParameters
+  }
+
+  if (askAi.suggestedQuestions !== undefined) {
+    result.suggestedQuestions = askAi.suggestedQuestions
+  }
+
+  if (askAi.useStagingEnv !== undefined) {
+    result.useStagingEnv = askAi.useStagingEnv
   }
 
   return result

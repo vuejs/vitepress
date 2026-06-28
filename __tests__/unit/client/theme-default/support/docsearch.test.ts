@@ -1,5 +1,6 @@
 import {
   buildAskAiConfig,
+  buildSidePanelProps,
   hasAskAi,
   hasKeywordSearch,
   mergeLangFacetFilters,
@@ -191,6 +192,61 @@ describe('client/theme-default/support/docsearch', () => {
         'en'
       )
       expect(result.searchParameters?.facetFilters).toEqual(['lang:en'])
+    })
+  })
+
+  describe('buildSidePanelProps', () => {
+    test('passes resolved Ask AI options to the side panel', () => {
+      const result = buildSidePanelProps(
+        {
+          assistantId: 'assistant123',
+          agentStudio: true,
+          searchParameters: {
+            index: {
+              facetFilters: ['lang:en']
+            }
+          },
+          suggestedQuestions: true,
+          useStagingEnv: true,
+          sidePanel: {
+            button: {
+              variant: 'inline'
+            },
+            panel: {
+              width: 420,
+              suggestedQuestions: true
+            }
+          }
+        } as any,
+        {
+          appId: 'app',
+          apiKey: 'key',
+          indexName: 'index'
+        } as any
+      )
+
+      expect(result).toEqual({
+        container: '#vp-docsearch-sidepanel',
+        appId: 'app',
+        apiKey: 'key',
+        indexName: 'index',
+        assistantId: 'assistant123',
+        agentStudio: true,
+        searchParameters: {
+          index: {
+            facetFilters: ['lang:en']
+          }
+        },
+        suggestedQuestions: true,
+        useStagingEnv: true,
+        button: {
+          variant: 'inline'
+        },
+        panel: {
+          width: 420,
+          suggestedQuestions: true
+        }
+      })
     })
   })
 })
