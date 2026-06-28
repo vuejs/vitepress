@@ -119,14 +119,9 @@ const showFooter = computed(
   border-top: 1px solid var(--vp-c-divider);
   padding-top: 24px;
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   grid-row-gap: 8px;
-}
-
-@media (min-width: 640px) {
-  .prev-next {
-    grid-template-columns: repeat(2, 1fr);
-    grid-column-gap: 16px;
-  }
+  grid-column-gap: 16px;
 }
 
 .pager-link {

@@ -122,6 +122,36 @@ describe('Table of Contents', () => {
   })
 })
 
+describe('Doc Footer', () => {
+  test('render prev and next links side by side on narrow screens', async () => {
+    await page.setViewportSize({ width: 390, height: 800 })
+    await goto('/markdown-extensions/')
+
+    const nav = page.locator('.VPDocFooter .prev-next')
+    await nav.scrollIntoViewIfNeeded()
+
+    const boxes = await nav.evaluate((element) => {
+      const prev = element
+        .querySelector('.pager-link.prev')
+        ?.getBoundingClientRect()
+      const next = element
+        .querySelector('.pager-link.next')
+        ?.getBoundingClientRect()
+
+      return prev && next
+        ? {
+            prev: { x: prev.x, y: prev.y, width: prev.width },
+            next: { x: next.x, y: next.y }
+          }
+        : null
+    })
+
+    expect(boxes).toBeTruthy()
+    expect(Math.abs(boxes!.prev.y - boxes!.next.y)).toBeLessThan(2)
+    expect(boxes!.next.x).toBeGreaterThan(boxes!.prev.x + boxes!.prev.width)
+  })
+})
+
 describe('Custom Containers', () => {
   enum CustomBlocks {
     Info = 'INFO',
