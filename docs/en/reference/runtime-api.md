@@ -62,6 +62,8 @@ interface PageData {
 }
 ```
 
+`page.headers` is populated only when [`markdown.headers`](./site-config#markdown) is enabled. Without that option, it remains an empty array. The default theme outline reads rendered headings from the page content, so it can still appear when `page.headers` is empty.
+
 **Example:**
 
 ```vue

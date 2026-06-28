@@ -28,7 +28,7 @@ const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
 export interface MarkdownCompileResult {
   vueSrc: string
   pageData: PageData
-  deadLinks: { url: string; file: string }[]
+  deadLinks: { url: string; file: string; line?: number }[]
   includes: string[]
 }
 
@@ -151,17 +151,24 @@ export async function createMarkdownToVueRenderFn(
     }
     const html = await md.renderAsync(src, env)
     const {
+      content,
       frontmatter = {},
       headers = [],
+      linkLines = [],
       links = [],
       sfcBlocks,
       title = ''
     } = env
+    const contentLineOffset = countLineBreaks(
+      content && src.endsWith(content) ? src.slice(0, -content.length) : ''
+    )
 
     // validate data.links
     const deadLinks: MarkdownCompileResult['deadLinks'] = []
-    const recordDeadLink = (url: string) => {
-      deadLinks.push({ url, file: fileOrig })
+    const recordDeadLink = (url: string, line?: number) => {
+      deadLinks.push(
+        line == null ? { url, file: fileOrig } : { url, file: fileOrig, line }
+      )
     }
 
     function shouldIgnoreDeadLink(url: string) {
@@ -185,7 +192,12 @@ export async function createMarkdownToVueRenderFn(
 
     if (links && siteConfig?.ignoreDeadLinks !== true) {
       const dir = path.dirname(file)
-      for (let url of links) {
+      for (const [index, rawUrl] of links.entries()) {
+        let url = rawUrl
+        const line =
+          linkLines[index] == null
+            ? undefined
+            : linkLines[index] + contentLineOffset
         const { pathname } = new URL(url, 'http://a.com')
         if (!treatAsHtml(pathname)) continue
 
@@ -207,7 +219,7 @@ export async function createMarkdownToVueRenderFn(
           !fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`)) &&
           !shouldIgnoreDeadLink(url)
         ) {
-          recordDeadLink(url)
+          recordDeadLink(url, line)
         }
       }
     }
@@ -330,6 +342,10 @@ const inferDescription = (frontmatter: Record<string, any>) => {
   }
 
   return (head && getHeadMetaContent(head, 'description')) || ''
+}
+
+function countLineBreaks(str: string) {
+  return str.match(/\r?\n/g)?.length ?? 0
 }
 
 const getHeadMetaContent = (head: HeadConfig[], name: string) => {

@@ -285,7 +285,7 @@ function scrollToSelectedResult() {
   })
 }
 
-onKeyStroke('ArrowUp', (event) => {
+function selectPreviousResult(event: KeyboardEvent) {
   event.preventDefault()
   selectedIndex.value--
   if (selectedIndex.value < 0) {
@@ -293,9 +293,9 @@ onKeyStroke('ArrowUp', (event) => {
   }
   disableMouseOver.value = true
   scrollToSelectedResult()
-})
+}
 
-onKeyStroke('ArrowDown', (event) => {
+function selectNextResult(event: KeyboardEvent) {
   event.preventDefault()
   selectedIndex.value++
   if (selectedIndex.value >= results.value.length) {
@@ -303,6 +303,32 @@ onKeyStroke('ArrowDown', (event) => {
   }
   disableMouseOver.value = true
   scrollToSelectedResult()
+}
+
+function isMacCtrlShortcut(event: KeyboardEvent) {
+  return (
+    event.ctrlKey &&
+    !event.altKey &&
+    !event.metaKey &&
+    !event.shiftKey &&
+    document.documentElement.classList.contains('mac')
+  )
+}
+
+onKeyStroke('ArrowUp', selectPreviousResult)
+
+onKeyStroke('ArrowDown', selectNextResult)
+
+onKeyStroke(['p', 'P'], (event) => {
+  if (isMacCtrlShortcut(event)) {
+    selectPreviousResult(event)
+  }
+})
+
+onKeyStroke(['n', 'N'], (event) => {
+  if (isMacCtrlShortcut(event)) {
+    selectNextResult(event)
+  }
 })
 
 const router = useRouter()

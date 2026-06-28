@@ -1,5 +1,6 @@
 // types shared between server and client
 import type { UseDarkOptions } from '@vueuse/core'
+import type { Ref } from 'vue'
 import type { SSRContext } from 'vue/server-renderer'
 export type { DefaultTheme } from './default-theme.js'
 
@@ -143,13 +144,44 @@ export interface SiteData<ThemeConfig = any> {
     prefetchLinks: boolean
   }
   additionalConfig?:
-    | AdditionalConfigDict<ThemeConfig>
-    | AdditionalConfigLoader<ThemeConfig>
+    AdditionalConfigDict<ThemeConfig> | AdditionalConfigLoader<ThemeConfig>
+}
+
+export interface VitePressData<T = any> {
+  /**
+   * Site-level metadata
+   */
+  site: Ref<SiteData<T>>
+  /**
+   * themeConfig from .vitepress/config.js
+   */
+  theme: Ref<T>
+  /**
+   * Page-level metadata
+   */
+  page: Ref<PageData>
+  /**
+   * page frontmatter data
+   */
+  frontmatter: Ref<PageData['frontmatter']>
+  /**
+   * dynamic route params
+   */
+  params: Ref<PageData['params']>
+  title: Ref<string>
+  description: Ref<string>
+  lang: Ref<string>
+  dir: Ref<string>
+  localeIndex: Ref<string>
+  isDark: Ref<boolean>
+  /**
+   * Current location hash
+   */
+  hash: Ref<string>
 }
 
 export type HeadConfig =
-  | [string, Record<string, string>]
-  | [string, Record<string, string>, string]
+  [string, Record<string, string>] | [string, Record<string, string>, string]
 
 export interface PageDataPayload {
   path: string
@@ -223,6 +255,7 @@ export interface MarkdownEnv {
   relativePath: string
   cleanUrls: boolean
   links?: string[]
+  linkLines?: number[]
   includes?: string[]
   realPath?: string
   localeIndex?: string

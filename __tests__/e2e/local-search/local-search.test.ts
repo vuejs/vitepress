@@ -51,4 +51,46 @@ describe('local search', () => {
       await page.setViewportSize({ width: 1280, height: 720 })
     }
   })
+
+  test('navigate results with macOS Ctrl shortcuts', async () => {
+    await page.evaluate(() => document.documentElement.classList.add('mac'))
+    await page.locator('.VPNavBarSearchButton').click()
+
+    const input = await page.waitForSelector('input#localsearch-input')
+    await input.type('lorem')
+
+    await page.waitForFunction(() => {
+      return (
+        document.querySelectorAll('#localsearch-list li[role=option]').length >
+        1
+      )
+    })
+
+    expect(await input.getAttribute('aria-activedescendant')).toBe(
+      'localsearch-item-0'
+    )
+
+    await pressMacCtrl('n')
+    expect(await input.getAttribute('aria-activedescendant')).toBe(
+      'localsearch-item-1'
+    )
+
+    await pressMacCtrl('p')
+    expect(await input.getAttribute('aria-activedescendant')).toBe(
+      'localsearch-item-0'
+    )
+  })
 })
+
+function pressMacCtrl(key: string) {
+  return page.evaluate((key) => {
+    window.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        key,
+        ctrlKey: true,
+        bubbles: true,
+        cancelable: true
+      })
+    )
+  }, key)
+}
