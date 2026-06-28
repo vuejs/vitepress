@@ -253,6 +253,7 @@ export default {
       // You can add any icon from simple-icons (https://simpleicons.org/):
       { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
       { icon: 'twitter', link: '...' },
+      { icon: 'discord', link: '/community', target: '_self' },
       // You can also add custom icons by passing SVG as string:
       {
         icon: {
@@ -272,6 +273,7 @@ interface SocialLink {
   icon: string | { svg: string }
   link: string
   ariaLabel?: string
+  target?: string
 }
 ```
 

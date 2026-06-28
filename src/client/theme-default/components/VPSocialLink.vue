@@ -7,6 +7,7 @@ const props = defineProps<{
   icon: DefaultTheme.SocialLinkIcon
   link: string
   ariaLabel?: string
+  target?: string
   me: boolean
 }>()
 
@@ -45,7 +46,7 @@ if (import.meta.env.SSR) {
     class="VPSocialLink no-icon"
     :href="link"
     :aria-label="ariaLabel ?? (typeof icon === 'string' ? icon : '')"
-    target="_blank"
+    :target="target ?? '_blank'"
     :rel="me ? 'me noopener' : 'noopener'"
     v-html="svg"
   ></a>
